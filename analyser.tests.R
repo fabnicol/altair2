@@ -1,3 +1,5 @@
+library(plyr)
+
 analyser.tests <- function ()
 {
   attach(Bdp.ldp, warn.conflicts=FALSE)

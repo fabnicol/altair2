@@ -1,0 +1,27 @@
+
+# --------  Pour tester la cohérence de la fusion   ----------  #
+
+Bdp.ldp<-merge(Bdp.ldp, Matricule.categorie, by=c("Nom"), all=TRUE)
+ Matricule.categorie <- selectionner.cle.matricule(Matricule.categorie, Bdp.ldp)
+
+# 
+# # Fusion étroite
+
+ Base1 <- merge(Matricule.categorie, Bdp.ldp)
+
+# 
+# # Fusion  large
+
+ Base2 <- merge(Matricule.categorie, Bdp.ldp, all=TRUE)
+
+##
+#  Test de cohérence sur la fusion
+##
+# 
+# # Matricules différents
+
+ matricules.divergents <- setdiff(levels(as.factor(Base2$Matricule)), levels(as.factor(Base1$Matricule)))
+ 
+# # Base correspondante
+
+ Base3 <- Base2[!as.character(Base2$Matricule) %in% levels(as.factor(Base1$Matricule)),]
