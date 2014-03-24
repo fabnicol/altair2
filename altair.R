@@ -2,6 +2,7 @@ library(compiler)
 enableJIT(3)
 
 # générer.codes
+# générer.bases
 # générer.distributions
 # générer.tests 
 # chemin.dossier
@@ -19,6 +20,18 @@ enableJIT(3)
 # matricule.categorie
 # code.prime
 # matricule.avantage
+# code.traitement
+# code.prime.ou.contractuel
+# code.autres
+# code.vacation
+
+
+# libellés des modalités de la variable catégorielle du fichier code.prime qui classe les codes en quelques groupes
+
+code.traitement <- "TRAITEMENT"
+code.prime.ou.contractuel <- "INDEMNITAIRE.OU.CONTRACTUEL"
+code.autres <- "AUTRES"
+code.vacation <- "VACATION"
 
 ##---------------------------------------------------------------------------------------------------------------------
 #  Chemins et variables globales du programme
@@ -30,6 +43,7 @@ enableJIT(3)
 générer.codes <- TRUE
 générer.distributions <- TRUE
 générer.tests <- TRUE
+générer.bases <- FALSE
 
 chemin.dossier <- "G:/Equipe NICOL/2013/SIERG/GESTION/2-Travail/OBSERVATIONS/ANALYSES/RH"
 matricule.categorie <- "LISTES DES PERSONNES REMUNEREES EN 2012 PAR CATEGORIE ET STATUT.csv"     
@@ -157,7 +171,12 @@ if (générer.tests == TRUE)
       personnels.prime.informatique,
       ldp.fonctionnaires.et.vacations,
       matricules.nontit.et.vacations,
-      Bdp.ldp.vacations)
+      Bdp.ldp.vacations,
+      violation.plancher.indiciaire.ifts,
+      RI.et.vacations,
+      vacations.concernées,
+      traitement.et.vacations,
+      ifts.et.non.tit)
   }
 
 

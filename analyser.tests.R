@@ -32,21 +32,23 @@ analyser.tests <- function ()
   
   # Vacations et statut de fonctionnaire
   
-  ldp.fonctionnaires.et.vacations <- Bdp.ldp[ Statut %in% c("TITULAIRE", "STAGIAIRE") & est.code.de.type("VACATIONS"), colonnes.sélectionnées]
+  ldp.fonctionnaires.et.vacations <- Bdp.ldp[ Statut %in% c("TITULAIRE", "STAGIAIRE") & est.code.de.type(code.vacation), colonnes.sélectionnées]
   
   nombre.de.ldp.fonctionnaires.et.vacations <- nrow(ldp.fonctionnaires.et.vacations)
   
   # Vacations et régime indemnitaire
   
-  Bdp.ldp.vacations <- Bdp.ldp[est.code.de.type("VACATIONS"), colonnes.sélectionnées]
+  Bdp.ldp.vacations <- Bdp.ldp[est.code.de.type(code.vacation), colonnes.sélectionnées]
   
   matricules.nontit.et.vacations <- unique(Bdp.ldp.vacations[ ! Bdp.ldp.vacations$Statut %in% c("TITULAIRE", "STAGIAIRE"), "Matricule"])
   
   vacations.concernées <- Bdp.ldp.vacations[Matricule %in% matricules.nontit.et.vacations, ]
   
-  RI.et.vacations <- Bdp.ldp[ Matricule %in% matricules.nontit.et.vacations & est.code.de.type("INDEMNITAIRE.OU.CONTRACTUEL"), colonnes.sélectionnées]
+  RI.et.vacations <- Bdp.ldp[ Matricule %in% matricules.nontit.et.vacations & est.code.de.type(code.prime.ou.contractuel), colonnes.sélectionnées]
   
-  traitement.et.vacations <- Bdp.ldp[ Matricule %in% matricules.nontit.et.vacations & est.code.de.type("TRAITEMENT"), colonnes.sélectionnées]
+  # Vacations et indiciaire
+  
+  traitement.et.vacations <- Bdp.ldp[ Matricule %in% matricules.nontit.et.vacations & est.code.de.type(code.traitement), colonnes.sélectionnées]
   
   nombre.de.ldp.RI.et.vacations <- nrow(RI.et.vacations)
   nombre.de.ldp.traitement.et.vacations <- nrow(traitement.et.vacations)
@@ -59,7 +61,7 @@ analyser.tests <- function ()
   
   sélection.matricules <- intersect(!duplicated(Bdp.ldp[ Indice < 350, c("Matricule")]), !duplicated( Bdp.ldp[ filtre.ifts, c("Matricule")]))
   
-  Bdp.ldp[Matricule %in% sélection.matricules & Code %in% codes.ifts & (Indice < 350 ), colonnes.sélectionnées]
+  violation.plancher.indiciaire.ifts <- Bdp.ldp[Matricule %in% sélection.matricules & Code %in% codes.ifts & (Indice < 350 ), colonnes.sélectionnées]
   
   rm(sélection.matricules)
   

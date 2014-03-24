@@ -5,9 +5,9 @@ analyser.distributions <- function ()
   
   Bdp.ldp <- mutate(Bdp.ldp,
                     
-                    montant.traitement.indiciaire = Montant*(est.code.de.type("TRAITEMENT")),
-                    montant.primes = Montant*(est.code.de.type("INDEMNITAIRE.OU.CONTRACTUEL")),
-                    montant.autres.rémunérations = Montant*(est.code.de.type("AUTRES")))
+                    montant.traitement.indiciaire = Montant*(est.code.de.type(code.traitement)),
+                    montant.primes = Montant*(est.code.de.type(code.prime.ou.contractuel)),
+                    montant.autres.rémunérations = Montant*(est.code.de.type(code.autres)))
   
   
   Analyse.rémunérations <- ddply(Bdp.ldp,
