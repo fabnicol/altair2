@@ -3,17 +3,20 @@
 #  Fonctions auxiliaires
 ##
 
+
+
+scan.prime <- function(texte)
+{
+  unique(Bdp.ldp[grep(paste0(".*(", texte,").*"), Bdp.ldp$Libellé, ignore.case=TRUE), c("Matricule", "Libellé", "Libellé")])
+}
+
+
 # Trouve le numéro de la ligne à laquelle se situe la liste des noms de variables
 # en recherchant soit le mot "Matricule" soit une expression du type "Code..."
 # Il faudra déduire ce "skip" du read.csv2 pour récupérer proprement les noms de variable
 
 # Pour cela on scanne les 25 premières lignes de la table une première fois
 
-
-scan.prime <- function(texte)
-{
-	unique(Bdp.ldp[grep(paste0(".*(", texte,").*"), Bdp.ldp$Libellé, ignore.case=TRUE), c("Matricule", "Libellé", "Libellé")])
-}
 
 trouver.valeur.skip <-  function(chemin.table) 
   max(
