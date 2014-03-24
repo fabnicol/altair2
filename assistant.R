@@ -1,5 +1,26 @@
 require(qtbase)
 
+# chemin.dossier
+# début.période.sous.revue
+# fin.période.sous.revue
+# champ.détection.1
+# champ.détection.2
+# étiquette.matricule
+# étiquette.montant
+# étiquette.totalgeneral
+# seuil.troncature
+# date.format
+# nbi
+# nom.de.fichier.de.paie
+# matricule.categorie
+# code.prime
+# matricule.avantage
+# code.traitement
+# code.prime.ou.contractuel
+# code.autres
+# code.vacation
+
+
 ## Caractéristiques globales ##  
 
 wizard <- Qt$QWizard()
@@ -253,18 +274,18 @@ info.etiquettes.4 <- c(
 "Générer les bases de codes et libellés",
 "Générer l'analyse des distributions de rémunération",
 "Générer l'analyse des variations de rémunération",
-"Générer l'analyse des incompatibilités",
+"Générer l'analyse des tests statutaires",
 "Générer les bases .csv des résultats statistiques",
 "Exporter et fusionner les bases bases xhl au format csv")
 
 boutons <- c(
-  générerCodes  <-  Qt$QCheckBox(),
-  générerDist   <-  Qt$QCheckBox(),
-  générerVar    <-  Qt$QCheckBox(),
-  générerIncomp <-  Qt$QCheckBox(),
-  générerStats  <-  Qt$QCheckBox(),
-  exporterBases <-  Qt$QCheckBox())
-  
+  générer.codes.case          <-  Qt$QCheckBox(),
+  générer.distributions.case  <-  Qt$QCheckBox(),
+  générer.variations.case     <-  Qt$QCheckBox(),
+  générer.tests.case          <-  Qt$QCheckBox(),
+  générer.bases.case          <-  Qt$QCheckBox(),
+  exporter.csv.case           <-  Qt$QCheckBox())
+
 mapply(function(x,y)  { info.out.layout$addRow(x, y) ;  y$setChecked(TRUE) }, info.etiquettes.4, boutons)
 
 chemin.dossier.bases <- "chemin du dossier des bases"
