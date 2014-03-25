@@ -16,7 +16,11 @@ dépendances
  L'ensemble du logiciel est écrit en langage R, avec notamment pour dépendances 
  internes les paquets suivants :
   
-    plyr
-    compiler
+    plyr et ses propres dépendances (Rcpp...)
     qtbase
+    
+ Les paquets système suivants sont requis :
+    cmake
+    gcc/g++ et suite de compilation
+    Qt4.8 (y compris smoke)
 
