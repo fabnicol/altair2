@@ -31,7 +31,7 @@ sélectionner.csv <- function(x)
 wizard <- Qt$QWizard()
 wizard$setWindowTitle("Analyse des Lignes de Traitement, Attributions Indemnitaires et autres Rémunérations (ALTAIR)")
 wizard$setWizardStyle(Qt$QWizard$MacStyle)
-wizard$setPixmap(Qt$QWizard$BackgroundPixmap, Qt$QPixmap("/home/fab/altair.png"))
+wizard$setPixmap(Qt$QWizard$BackgroundPixmap, Qt$QPixmap("altair.png"))
 wizard$setGeometry(600,400,650,300)
 
 wizard$setButtonText(Qt$QWizard$BackButton, "Page précédente")
@@ -115,7 +115,7 @@ formulaire <- mapply(créer.lignes, info.étiquettes, objets, commentaires.champ
 
 
 info_page <- Qt$QWizardPage(wizard)
-info_page$setTitle("Champs à définir")
+info_page$setTitle("Définitions")
 info_page$setLayout(info.form.layout)
 wizard$addPage(info_page)
 
@@ -181,7 +181,7 @@ wizard$addPage(periode_page)
 ## Troisième page  ##
 
 base_page <- Qt$QWizardPage(wizard)
-base_page$setTitle("Importation des données")
+base_page$setTitle("Importer")
 
 base_page$setLayout(base_layout <- Qt$QGridLayout())
 
