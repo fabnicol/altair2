@@ -1,4 +1,3 @@
-#----------------------------------------------------------------------------------------------------------------------
 ##
 #  Fonctions auxiliaires
 ##
@@ -41,38 +40,28 @@ selectionner.cle.matricule.mois <-  function(Base1, Base2)
          select=c(champ.detection.1,champ.detection.2,
                   setdiff(names(Base1),names(Base2))))
 
-
-chemin <-  function(fichier) 
-  file.path(chemin.dossier, fichier)
-
 read.csv.skip <- function(x) 
-  {
-    chem <- chemin(x)
-    read.csv2(chem, skip=trouver.valeur.skip(chem), fileEncoding="UTF-8")
-  }
+{
+  chem <- chemin(x)
+  read.csv2(chem, skip=trouver.valeur.skip(chem), fileEncoding="UTF-8")
+}
+
 
 sauv.base.univarié <- function(x)  write.csv2(x, paste0(chemin(deparse(substitute(x))), ".csv"), row.names=FALSE, fileEncoding = "UTF-8")
 
 sauv.base <- function(...) 
-  {
-    tmp <- as.list(match.call()) 
-    tmp[1] <- NULL
-    lapply(tmp, sauv.base.univarié)
-    return(0)
-  }
+{
+  tmp <- as.list(match.call()) 
+  tmp[1] <- NULL
+  lapply(tmp, sauv.base.univarié)
+  return(0)
+}
 
 # Utiliser une assignation globale 
 # car la fonction anonyme ne comporte que de variables locales
 
-Read.csv <- function(vect.chemin) 
-{
-  Read.csv.result <- data.frame(NULL)
-  Vectorize(function(x) Read.csv.result <<- rbind(Read.csv.result, read.csv.skip(x)))(vect.chemin)
-  Read.csv.result
-}
+Read.csv <- function(vect.chemin)   do.call(rbind, lapply(vect.chemin, read.csv.skip)
 
 pretty.print <- function(x) cat(gsub(".", " ",deparse(substitute(x)), fixed=TRUE), "   ", x,"\n")
 
 est.code.de.type <- function(x) Bdp.ldp$Code %in% Code.prime[Code.prime$Type.rémunération == x, "Code"]
-
-#-----------------------------------------------------------------------------------------------------------------
