@@ -24,8 +24,6 @@ enableJIT(3)
 # code.prime.ou.contractuel
 # code.autres
 # code.vacation
-
-
 # libellés des modalités de la variable catégorielle du fichier code.prime qui classe les codes en quelques groupes
 
 code.traitement <- "TRAITEMENT"
@@ -45,7 +43,7 @@ générer.distributions <- TRUE
 générer.tests <- TRUE
 générer.bases <- FALSE
 
-dossier.travail <- "G:/Equipe NICOL/2013/SIERG/GESTION/2-Travail/OBSERVATIONS/ANALYSES/RH"
+dossier.travail <- "~/Dev/Altair"
 matricule.categorie <- "LISTES DES PERSONNES REMUNEREES EN 2012 PAR CATEGORIE ET STATUT.csv"     
 code.prime          <- "LISTE DES RUBRIQUES DE TRAITEMENT UTILISEES EN 2012.csv"
 #matricule.avantage  <- "LISTE DES AGENTS AYANT BENEFICIE D'AVANTAGE EN NATURE EN 2012.csv"
@@ -72,8 +70,9 @@ champ.détection.2<-"Matricule"
 # On peut lire jusqu'à 10 fichiers csv qui seront générés au format
 #  "chemin dossier + paies-Bulletins de paye-j.csv"
 
-ldp <- paste0(nom.de.fichier.de.paie,début.période.sous.revue:fin.période.sous.revue,".csv")
-ldp <- paste0("paies-Lignes de paye-",1:10,".csv")
+vérifier.intégrité(nom.de.fichier.de.paie, début.période.sous.revue:fin.période.sous.revue)
+
+ldp <- paste0(nom.de.fichier.de.paie, début.période.sous.revue:fin.période.sous.revue, ".csv")
 
 # Bulletins de paie
 
@@ -85,7 +84,7 @@ colonnes.sélectionnées <- c("Matricule", "Statut", "Code", "Mois", "Libellé",
 
 options(width=120, warn=-1)
 
-source(chemin("bibliotheque.fonctions.paie.R"), encoding="UTF-8")
+source("bibliotheque.fonctions.paie.altair.R", encoding="UTF-8")
 
 # Programme principal
 ##
@@ -97,13 +96,10 @@ ldp <- ldp[file.exists(chemin(ldp))]
 nbi <- nbi[file.exists(chemin(nbi))]
 bdp <- bdp[file.exists(chemin(bdp))]
 
+vérifier.intégrité(ldp, nbi, bdp, code.prime)
+
 Ldp <- Read.csv(ldp)
 codes.NBI <- Read.csv(nbi)
-
-# Equivaut à :
-# ldp1 <- read.csv2(chemin.ldp1,  blank.lines.skip=TRUE, skip=1)
-# ...
-# ldp <- rbind(ldp1,ldp2,...)
 
 # Bulletin de paie
 
@@ -114,13 +110,17 @@ Code.prime          <- read.csv.skip(code.prime)
 #Matricule.avantage  <- read.csv.skip(matricule.avantage)
 
 #suppression des colonnes Nom Prénom redondantes
-
 #Matricule.avantage  <- selectionner.cle.matricule(Matricule.avantage, Matricule.categorie) 
+
+vérifier.intégrité(Bdp, Ldp, codes.NBI, Code.prime)
+
 Bdp                 <- selectionner.cle.matricule.mois(Bdp, Ldp)
 
 #fusion matricule | avantage | catégorie par Matricule
 
 Bdp.ldp <- merge(Bdp, Ldp)
+
+vérifier.intégrité(Bdp.ldp)
 
 #génération du fichier des codes et libellés en privilégiant le Code
 
@@ -139,7 +139,7 @@ if (générer.codes == TRUE)
   sauv.base(Codes.fonct)
   sauv.base(Codes)
   
-  q("no", 0, FALSE)
+  stop("no", 0, FALSE)
 }
 
 if (générer.distributions == TRUE)  
@@ -187,11 +187,11 @@ if (générer.variations == TRUE)
     if (générer.bases == TRUE)  
     {
       sauv.base(Total,
-        Stats.Analyse.rémunérations.personnels.plus.de.2.ans
-        Stats.Analyse.rémunérations.personnels.moins.de.2.ans
-        Analyse.rémunérations
+        Stats.Analyse.rémunérations.personnels.plus.de.2.ans,
+        Stats.Analyse.rémunérations.personnels.moins.de.2.ans,
+        Analyse.rémunérations,
         Analyse.rémunérations.filtrée)
     }
- }
+  }
 
 
