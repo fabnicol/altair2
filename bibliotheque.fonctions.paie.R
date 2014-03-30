@@ -48,10 +48,10 @@ chemin <-  function(fichier)
 read.csv.skip <- function(x) 
   {
     chem <- chemin(x)
-    read.csv2(chem, skip=trouver.valeur.skip(chem))
+    read.csv2(chem, skip=trouver.valeur.skip(chem), fileEncoding="UTF-8")
   }
 
-sauv.base.univarié <- function(x)  write.csv2(x, paste0(chemin(deparse(substitute(x))), ".csv"), row.names=FALSE)
+sauv.base.univarié <- function(x)  write.csv2(x, paste0(chemin(deparse(substitute(x))), ".csv"), row.names=FALSE, fileEncoding = "UTF-8")
 
 sauv.base <- function(...) 
   {
