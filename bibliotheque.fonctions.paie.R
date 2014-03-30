@@ -2,7 +2,8 @@
 #  Fonctions auxiliaires
 ##
 
-
+chemin <-  function(fichier) 
+  file.path(chemin.dossier, fichier)
 
 scan.prime <- function(texte)
 {
@@ -47,20 +48,20 @@ read.csv.skip <- function(x)
 }
 
 
-sauv.base.univarié <- function(x)  write.csv2(x, paste0(chemin(deparse(substitute(x))), ".csv"), row.names=FALSE, fileEncoding = "UTF-8")
+sauv.base<- function(x)  write.csv2(x, paste0(chemin(deparse(substitue(x)), ".csv"), row.names=FALSE, fileEncoding = "UTF-8")
 
-sauv.base <- function(...) 
+sauv.bases <- function(...) 
 {
   tmp <- as.list(match.call()) 
   tmp[1] <- NULL
-  lapply(tmp, sauv.base.univarié)
+  lapply(tmp, sauv.base)
   return(0)
 }
 
 # Utiliser une assignation globale 
 # car la fonction anonyme ne comporte que de variables locales
 
-Read.csv <- function(vect.chemin)   do.call(rbind, lapply(vect.chemin, read.csv.skip)
+Read.csv <- function(vect.chemin)   do.call(rbind, lapply(vect.chemin, read.csv.skip))
 
 pretty.print <- function(x) cat(gsub(".", " ",deparse(substitute(x)), fixed=TRUE), "   ", x,"\n")
 
