@@ -1,5 +1,10 @@
+installer.paquets(assertthat, plyr, rigoureusement = TRUE)
+
 library(compiler)
+library(assertthat)
 enableJIT(3)
+
+
 
 ##---------------------------------------------------------------------------------------------------------------------
 

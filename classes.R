@@ -4,6 +4,7 @@ altair.générateur <- setRefClass(
   contains ="Coeur",
   fields=list(
     Base                      = "data.frame",
+    bulletins.de.paie         = "data.frame",
     champ.détection.1         = "character",
     champ.détection.2         = "character",
     code.autre                = "character",
@@ -30,6 +31,7 @@ altair.générateur <- setRefClass(
     générer.codes             = "logical",
     générer.distributions     = "logical",
     générer.tests             = "logical",
+    lignes.de.paie            = "data.frame", 
     matricule.avantage        = "character",
     matricule.categorie       = "character",
     nom.de.fichier.nbi        = "character",
@@ -40,7 +42,7 @@ altair.générateur <- setRefClass(
   
   methods=list(
     initialize = function(
-      Base                    = data.frame(NULL),
+      bulletins               = data.frame(NULL),
       champ1                  = "Matricule",
       champ2                  = "Mois",
       autre                   = "AUTRES",
@@ -72,6 +74,7 @@ altair.générateur <- setRefClass(
       codage                  =  TRUE,
       distributions           =  TRUE,
       tests                   =  TRUE,
+      lignes                  =  data.frame(NULL),
       fichier.avantages       =  "avantages.csv",
       fichier.categories      =  "catégories.csv",
       fichier.nbi             =  "paies-NBI-1",
@@ -82,6 +85,7 @@ altair.générateur <- setRefClass(
     {
       "Assigne les champs paramètres des fonctions de traitement statistique"
       
+      bulletins.de.paie         <<-    bulletins
       champ.détection.1         <<-    champ1
       champ.détection.2         <<-    champ2
       code.autre                <<-    autre
@@ -93,7 +97,7 @@ altair.générateur <- setRefClass(
       colonnes.sélectionnées    <<-    colonnes
       date.format               <<-    date
       début.période.sous.revue  <<-    début
-      décoder.xhl                   <<-    décoder
+      décoder.xhl               <<-    décoder
       dossier.travail           <<-    dossier
       dossier.bases             <<-    dossier.bases
       dossier.stats             <<     dossier.stats
@@ -108,6 +112,7 @@ altair.générateur <- setRefClass(
       générer.codes             <<-    codage
       générer.distributions     <<-    distributions
       générer.tests             <<-    tests
+      lignes.de.paie            <<-    ifelse(length(lignes) == 0
       matricule.avantage        <<-    avantage
       matricule.categorie       <<-    categorie
       nom.de.fichier.nbi        <<-    fichier.nbi
@@ -171,12 +176,11 @@ altair.générateur <- setRefClass(
 
 coeur <- setRefClass(
   "Coeur",
-   fields=list(
-     
-     
-     ),
+   fields=list(base,
+               vecteur),
   
   methods=list(
+    initialize(base = data.frame(NULL), vecteur = rep())
     vérifier.intégrité = function(..., poursuivre=FALSE) 
     {
       "vérifier.intégrité:  ..., poursuivre=FALSE  ->  IO(console|exec)
@@ -276,7 +280,3 @@ coeur <- setRefClass(
   
   return(TRUE)
 }
-
-
-# ldp <- paste0(nom.de.fichier.de.paie, début.période.sous.revue:fin.période.sous.revue, ".csv")
-# bdp <- paste0(nom.de.fichier.de.paie, ".csv")

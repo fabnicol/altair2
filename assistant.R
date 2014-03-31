@@ -261,13 +261,7 @@ info.etiquettes.4 <- c(
 "Générer les bases .csv des résultats statistiques",
 "Exporter et fusionner les bases bases xhl au format csv")
 
-boutons.générer <- c(
-  générer.codes.case          <-  Qt$QCheckBox(),
-  générer.distributions.case  <-  Qt$QCheckBox(),
-  générer.variations.case     <-  Qt$QCheckBox(),
-  générer.tests.case          <-  Qt$QCheckBox(),
-  générer.bases.case          <-  Qt$QCheckBox(),
-  exporter.csv.case           <-  Qt$QCheckBox())
+boutons.générer <- rep(Qt$QCheckBox(), 6)
 
 mapply(function(x,y)  { info.out.layout$addRow(x, y) ;  y$setChecked(TRUE) }, info.etiquettes.4, boutons.générer)
 
@@ -308,8 +302,8 @@ objets <- c(
   altair$date.format,
   altair$début.période.sous.revue,
   altair$fin.période.sous.revue,
-  "ldp0",
-  "bdp",
+  altair$bulletins.de.paie,
+  altair$lignes.de.paie,
   altair$nom.de.fichier.primes,
   altair$matricule.avantage,
   altair$matricule.categorie,

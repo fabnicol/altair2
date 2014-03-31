@@ -18,3 +18,41 @@ chemin <-  function(fichier)
 
 pretty.print <- function(x) cat(gsub(".", " ",deparse(substitute(x)), fixed=TRUE), "   ", x,"\n")
 
+installer.paquet <- function(paquet, rigoureusement = FALSE) 
+  {
+   if (missing(paquet))  return(NA_character_)
+   Paquet <- deparse(paquet)
+   if (length(find.package(Paquet, quiet=TRUE)) == 0)
+   {
+       install.packages(Paquet)
+       if (length(find.package(Paquet, quiet=TRUE)) !=0 )
+       {
+         message(Paquet, " a été installé.")
+         return(invisible(1))
+       }
+       else
+       {
+         message(Paquet, " n'a pas été installé.")
+         if (rigoureusement == TRUE) 
+         {
+           message("Arrêt: le paquet ", Paquet, " n'a pas pu être installé.")
+           stop("Fin")
+         }
+         return(invisible(0))
+       }
+   }
+   else
+     message(Paquet, " est déjà installé.")
+   return(invisible(0))
+  }
+
+installer.paquets <- function(..., rigoureusement = FALSE) 
+  {
+    tmp <- as.list(match.call()) 
+    tmp[1] <- NULL
+    if (!missing(rigoureusement)) tmp[length(tmp)] <- NULL
+    if (length(tmp) == 0) return(0)
+    
+    invisible(do.call(sum, lapply(tmp, function(x) installer.paquet(x, rigoureusement))))
+  }
+
