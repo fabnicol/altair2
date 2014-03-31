@@ -26,6 +26,12 @@ sélectionner.csv <- function(x)
    })
 }
 
+
+source("bibliotheque.fonctions.paie.altair.R", encoding="UTF-8")
+source("classes.R", encoding="UTF-8")
+
+altair <- altair.générateur$new()
+
 ## Caractéristiques globales ##  
 
 wizard <- Qt$QWizard()
@@ -44,8 +50,8 @@ annee.courante <- as.numeric(substr(Sys.Date(), 0, 4))
 ## Première page ##
 
 info.étiquettes <- c(
-"champ de detection 1",
-"champ de detection 2",
+"champ de détection 1",
+"champ de détection 2",
 "champ du matricule",
 "champ du montant",
 "champ du total",
@@ -57,16 +63,16 @@ info.étiquettes <- c(
 
 
 valeurs.par.défaut <- c(
-"Matricule",
-"Code",
-"Matricule",
-"Montant",
-"Total",
-"TRAITEMENT",
-"NBI",
-"INDEMNITAIRE.OU.CONTRACTUEL",
-"VACATIONS",
-"AUTRES")
+altair$champ.détection.1,
+altair$étiquette.code,
+altair$étiquette.matricule,
+altair$étiquette.montant,
+altair$étiquette.totalgénéral,
+altair$code.traitement,
+altair$code.nbi,
+altair$code.prime.ou.contractuel,
+altair$code.vacation,
+altair$code.autre)
 
 
 commentaires.champs.noms <- c(
@@ -82,17 +88,6 @@ commentaires.champs.noms <- c(
   "libellé de classification d'un code de type Autres rémunérations")
 
 
-objets <- c(
-  "champ.detection.1",
-  "champ.detection.2",
-  "etiquette.matricule",
-  "etiquette.montant",
-  "étiquette.totalgeneral",
-  "code.traitement",
-  "code.nbi",
-  "code.prime.ou.contractuel",
-  "code.vacation",
-  "code.autres")
 
 info.form.layout <- Qt$QFormLayout()
 
@@ -100,7 +95,7 @@ chemin.dossier.étiquette <- "chemin du dossier de travail"
 
 info.form.layout$addRow(chemin.dossier.étiquette, dossier.travail.bouton <<- Qt$QPushButton("..."))
 
-créer.lignes <- function(x, y, z, t)  {
+créer.lignes <- function(x, z, t)  {
                                    line.edit <- Qt$QLineEdit()
                                    line.edit$setToolTip(z)
                                    line.edit$setText(t)
@@ -110,8 +105,7 @@ créer.lignes <- function(x, y, z, t)  {
                                    return(line.edit)
                                 }
 
-formulaire <- mapply(créer.lignes, info.étiquettes, objets, commentaires.champs.noms, valeurs.par.défaut)
-
+formulaire <- mapply(créer.lignes, info.étiquettes, commentaires.champs.noms, valeurs.par.défaut)
 
 
 info_page <- Qt$QWizardPage(wizard)
@@ -135,16 +129,13 @@ valeurs.par.défaut.2 <- c(
 "100",
 "%d-%m-%y")
 
-objets.2 <- c("seuil.troncature",
-                 "date.format")
-
 commentaires.champs.noms.2 <- c(
   "Nombre de jours minimum qui devront être enregistrés en base de paie, au cours de la première et la dernière année de travail\npour pouvoir être pris en compte dans les statistiques relatives à ces deux années.",
 "Utiliser %d pour jour,\n %m pour mois, %y pour année. La convention française est la valeur par défaut.")  
 
 info.form.layout <- Qt$QFormLayout()
 
-formulaire.2 <-  mapply(créer.lignes, info.étiquettes.2, objets.2, commentaires.champs.noms.2, valeurs.par.défaut.2)
+formulaire.2 <-  mapply(créer.lignes, info.étiquettes.2, commentaires.champs.noms.2, valeurs.par.défaut.2)
 
 layout <- Qt$QFormLayout()
 
@@ -162,8 +153,6 @@ fin.période.sous.revue$setToolTip("Donner le dernier exercice sous revue")
 
 layout$addRow("Période sous revue : premier exercice", début.période.sous.revue)
 layout$addRow("Période sous revue : dernier exercice", fin.période.sous.revue)
-
-objets.2 <- c(objets.2, "début.période.sous.revue", "fin.période.sous.revue")
 
 formulaire.2 <- c(formulaire.2, début.période.sous.revue, fin.période.sous.revue)
 
@@ -253,12 +242,6 @@ qconnect(button_box, "accepted",
 
 qconnect(parseXml, "clicked", function() { base.form.gbox$setEnabled(!parseXml$checked)})
 
-objets.3 <- c("ldp0",
-              "bdp",
-              "code.prime",
-              "matricule.avantage",
-              "matricule.categorie")
-
 ## Quatrième page  ##
 
 actions_page <- Qt$QWizardPage(wizard)
@@ -307,19 +290,38 @@ actions_page$setLayout(actions_layout)
 
 wizard$addPage(actions_page)
 
-objets.4 <-  c("générer.codes",
-              "générer.distributions",
-              "générer.variations",
-              "générer.tests",
-              "générer.bases",
-              "exporter.csv",
-              "dossier.travail",
-              "dossier.bases",
-              "dossier.stats")
-
 
 ############################## Intéraction avec l'environnement et le source  #############################################
 
+objets <- c(
+  altair$champ.detection.1,
+  altair$champ.detection.2,
+  altair$étiquette.matricule,
+  altair$étiquette.montant,
+  altair$étiquette.totalgeneral,
+  altair$code.traitement,
+  altair$code.nbi,
+  altair$code.prime.ou.contractuel,
+  altair$code.vacation,
+  altair$code.autres,
+  altair$seuil.troncature,
+  altair$date.format,
+  altair$début.période.sous.revue,
+  altair$fin.période.sous.revue,
+  "ldp0",
+  "bdp",
+  altair$nom.de.fichier.primes,
+  altair$matricule.avantage,
+  altair$matricule.categorie,
+  altair$générer.codes,
+  altair$générer.distributions,
+  altair$générer.variations,
+  altair$générer.tests,
+  altair$générer.bases,
+  altair$décoder.xhl,
+  altair$dossier.travail,
+  altair$dossier.bases,
+  altair$dossier.stats)
 
 wizard$setFocus()
 wizard$raise()
@@ -331,10 +333,7 @@ if(response)
   # il faut actualiser les variables (objets) avec la saisie dynamique dans l'assistant  (formulaires, boutions...)
   
   mapply(function(x, y) assign(x, y$text, envir = .GlobalEnv), 
-                        c(objets,
-                          objets.2,
-                          objets.3,
-                          objets.4),
+                          objets,
                         c(formulaire,
                           formulaire.2,
                           boutons.bases,

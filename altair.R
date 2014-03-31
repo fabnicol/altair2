@@ -1,96 +1,12 @@
 library(compiler)
 enableJIT(3)
 
-# générer.codes
-# générer.bases
-# générer.distributions
-# générer.tests 
-# dossier.travail
-# début.période.sous.revue
-# fin.période.sous.revue
-# champ.détection.1
-# champ.détection.2
-# étiquette.matricule
-# étiquette.montant
-# étiquette.totalgeneral
-# seuil.troncature
-# date.format
-# nbi
-# nom.de.fichier.de.paie
-# matricule.categorie
-# code.prime
-# matricule.avantage
-# code.traitement
-# code.prime.ou.contractuel
-# code.autres
-# code.vacation
-# libellés des modalités de la variable catégorielle du fichier code.prime qui classe les codes en quelques groupes
-
-code.traitement <- "TRAITEMENT"
-code.prime.ou.contractuel <- "INDEMNITAIRE.OU.CONTRACTUEL"
-code.autres <- "AUTRES"
-code.vacation <- "VACATION"
-
 ##---------------------------------------------------------------------------------------------------------------------
-#  Chemins et variables globales du programme
-##
-
-# Cette section pourra être modifiée en entrée dans d'autres contextes
-# Matricule, Codes, Avantages en nature
-
-générer.codes <- TRUE
-générer.distributions <- TRUE
-générer.tests <- TRUE
-générer.bases <- FALSE
-
-dossier.travail <- "~/Dev/Altair"
-matricule.categorie <- "LISTES DES PERSONNES REMUNEREES EN 2012 PAR CATEGORIE ET STATUT.csv"     
-code.prime          <- "LISTE DES RUBRIQUES DE TRAITEMENT UTILISEES EN 2012.csv"
-#matricule.avantage  <- "LISTE DES AGENTS AYANT BENEFICIE D'AVANTAGE EN NATURE EN 2012.csv"
-
-début.période.sous.revue <- 2008
-fin.période.sous.revue   <- 2013
-étiquette.matricule <- "Matricule"
-étiquette.totalgeneral <- "TOTAL GENERAL"
-étiquette.montant <- "Net.a.Payer"
-seuil.troncature <- 99
-nbi <- "paies-NBI-1"
-
-# Le format est jour/mois/année avec deux chiffres-séparateur-deux chiffres-séparateur-4 chiffres.
-#Le séparateur peut être changé en un autre en modifiant le "/" dans fate.format
-
-date.format <- "%d/%m/%Y"
-
-nom.de.fichier.de.paie <- "paies-Bulletins de paye-1"
-
-champ.détection.1<-étiquette.matricule
-champ.détection.2<-"Matricule"
-
-# Lignes de paie
-# On peut lire jusqu'à 10 fichiers csv qui seront générés au format
-#  "chemin dossier + paies-Bulletins de paye-j.csv"
-
-vérifier.intégrité(nom.de.fichier.de.paie, début.période.sous.revue:fin.période.sous.revue)
-
-ldp <- paste0(nom.de.fichier.de.paie, début.période.sous.revue:fin.période.sous.revue, ".csv")
-
-# Bulletins de paie
-
-bdp <- paste0(nom.de.fichier.de.paie, ".csv")
-
-colonnes.sélectionnées <- c("Matricule", "Statut", "Code", "Mois", "Libellé", "Montant")
-
-##---------------------------------------------------------------------------------------------------------------------
-
-options(width=120, warn=-1)
-
-source("bibliotheque.fonctions.paie.altair.R", encoding="UTF-8")
 
 # Programme principal
 ##
-#  Bases
-##
-# Lignes de paie
+
+options(width=120, warn=-1)
 
 ldp <- ldp[file.exists(chemin(ldp))]
 nbi <- nbi[file.exists(chemin(nbi))]
