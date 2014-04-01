@@ -166,12 +166,6 @@ altair.générateur <- setRefClass(
     )
   )
 
-coeur <- setRefClass(
-  "Coeur",
-  fields=list(base,
-              vecteur),
-  methods=list(f=function(...) { message("OK")}))
-
 
 noyau <- setRefClass(
   "Noyau",
