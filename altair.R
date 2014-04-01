@@ -3,11 +3,11 @@
 
 library(compiler)
 enableJIT(3)
-
+options(width=120, warn=-1)
 source("bibliothèque.altair.R")
 installer.paquets(assertthat, plyr, rigoureusement = TRUE)
-
 library(assertthat)
+source("classes.R")
 
 ## ------------------------------------------------------ ##
 
@@ -15,57 +15,21 @@ library(assertthat)
 #  Programme principal
 ##
 
-options(width=120, warn=-1)
-
-ldp <- ldp[file.exists(chemin(ldp))]
-nbi <- nbi[file.exists(chemin(nbi))]
-bdp <- bdp[file.exists(chemin(bdp))]
-
-vérifier.intégrité(ldp, nbi, bdp, code.prime)
-
-Ldp <- Read.csv(ldp)
-codes.NBI <- Read.csv(nbi)
-
-# Bulletin de paie
-
-Bdp <- read.csv.skip(bdp)
-
-#Matricule.categorie <- read.csv.skip(matricule.categorie)
-Code.prime          <- read.csv.skip(code.prime)
-#Matricule.avantage  <- read.csv.skip(matricule.avantage)
-
-#suppression des colonnes Nom Prénom redondantes
-#Matricule.avantage  <- selectionner.cle.matricule(Matricule.avantage, Matricule.categorie) 
-
-vérifier.intégrité(Bdp, Ldp, codes.NBI, Code.prime)
-
-Bdp                 <- selectionner.cle.matricule.mois(Bdp, Ldp)
-
-#fusion matricule | avantage | catégorie par Matricule
-
-Bdp.ldp <- merge(Bdp, Ldp)
-
-vérifier.intégrité(Bdp.ldp)
-
 #génération du fichier des codes et libellés en privilégiant le Code
 
 if (générer.codes == TRUE) 
-{
-  Codes.NT  <- Bdp.ldp[ ! Bdp.ldp$Statut %in% c("TITULAIRE", "STAGIAIRE"), c("Code", "Libellé")]
-  Codes.NT <- Codes[!duplicated(Codes.NT),]
-  Codes.fonct  <- Bdp.ldp[ Bdp.ldp$Statut %in% c("TITULAIRE", "STAGIAIRE"), c("Code", "Libellé")]
-  Codes.fonct  <- Codes[!duplicated(Codes.fonct),]
-  Codes <- rbind(Code.NT, Codes.fonct)
+  {
+    Codes.NT     <<- Base[ ! Base$Statut %in% c("TITULAIRE", "STAGIAIRE"), c("Code", "Libellé")]
+    Codes.NT     <<- Codes.NT[ ! duplicated(Codes.NT),]
+    Codes.fonct  <<- Base[ Bdp.ldp$Statut %in% c("TITULAIRE", "STAGIAIRE"), c("Code", "Libellé")]
+    Codes.fonct  <<- Codes.fonct[!duplicated(Codes.fonct),]
+    Codes.NBI    <<- NBI[ ,"NBI"]  
+    Codes.NBI    <<- Codes.NBI[!duplicated(Codes.NBI),]
+    Codes        <<- rbind(Code.NT, Codes.fonct)
+    
+    sauv.base(Codes.NT, Codes.fonct, Codes.NBI, Codes)
   
-  Codes.NBI <- NBI[ ,"NBI"]  
-  Codes.NBI <- Codes.NBI[!duplicated(Codes.NBI),]
-  
-  sauv.base(Codes.NT)
-  sauv.base(Codes.fonct)
-  sauv.base(Codes)
-  
-  stop("no", 0, FALSE)
-}
+  }
 
 if (générer.distributions == TRUE)  
   {
@@ -79,7 +43,6 @@ if (générer.distributions == TRUE)
                 Bdp.ldp,
                 masses)
     }
-      
   }
 
 ##
