@@ -4,7 +4,7 @@ altair.générateur <- setRefClass(
   contains ="Coeur",
   fields=list(
     Base                      = "data.frame",
-    bulletins.de.paie         = "data.frame",
+    Bulletins                 = "data.frame",
     champ.détection.1         = "character",
     champ.détection.2         = "character",
     code.autre                = "character",
@@ -17,7 +17,6 @@ altair.générateur <- setRefClass(
     date.format               = "character",
     début.période.sous.revue  = "numeric",
     décoder.xhl               = "logical",
-    dossier.travail           = "character",
     dossier.bases             = "character",
     dossier.stats             = "character",
     étiquette.code            = "character",
@@ -31,12 +30,17 @@ altair.générateur <- setRefClass(
     générer.codes             = "logical",
     générer.distributions     = "logical",
     générer.tests             = "logical",
-    lignes.de.paie            = "data.frame", 
-    matricule.avantage        = "character",
-    matricule.categorie       = "character",
+    Lignes                    = "data.frame", 
+    Avantages                 = "data.frame",
+    Catégories                = "data.frame",
+    NBI                       = "data.frame",
+    nom.de.fichier.avantages  = "character",
+    nom.de.fichier.base       = "character",
+    nom.de.fichier.bulletins  = "character",
+    nom.de.fichier.catégories = "character",
+    nom.de.fichier.codes      = "character",
+    nom.de.fichier.lignes     = "character",
     nom.de.fichier.nbi        = "character",
-    nom.de.fichier.paie       = "character",
-    nom.de.fichier.primes     = "character",
     seuil.troncature          = "numeric"
     ),
   
@@ -50,7 +54,7 @@ altair.générateur <- setRefClass(
       prime                   = "INDEMNITAIRE.OU.CONTRACTUEL",
       traitement              = "TRAITEMENT",
       vacation                = "VACATION",
-      Codes                   = data.frame(NULL),
+      codes                   = data.frame(NULL),
       colonnes                = c("Matricule",
                                   "Statut",
                                   "Code",
@@ -60,7 +64,6 @@ altair.générateur <- setRefClass(
       date                    = "%d/%m/%Y",
       début                   =  2008,
       décoder                 = FALSE,
-      dossier                 = "Altair",
       dossier.bases           = "Altair/bases",
       dossier.stats           = "Altair/stats",
       code                    = "Code",
@@ -74,12 +77,17 @@ altair.générateur <- setRefClass(
       codage                  =  TRUE,
       distributions           =  TRUE,
       tests                   =  TRUE,
-      lignes                  =  data.frame(NULL),
-      fichier.avantages       =  "avantages.csv",
-      fichier.categories      =  "catégories.csv",
-      fichier.nbi             =  "paies-NBI-1",
-      fichier.paie            =  "paies-Bulletins de paye-1",
-      fichier.primes          =  "codes.csv",
+      lignes                  = data.frame(NULL), 
+      avantages               = data.frame(NULL), 
+      catégories              = data.frame(NULL), 
+      NBI                     = data.frame(NULL), 
+      nom.avantages           = "avantages.csv",
+      nom.base                = "base.csv",
+      nom.bulletins           = "Bulletins de paye-1",
+      nom.catégories          = "catégories.csv",
+      nom.codes               = "codes.csv",
+      nom.lignes              = "Lignes de paye", 
+      nom.nbi                 = "paies-NBI-1",
       seuil                   =  100
       )
     {
@@ -98,11 +106,10 @@ altair.générateur <- setRefClass(
       date.format               <<-    date
       début.période.sous.revue  <<-    début
       décoder.xhl               <<-    décoder
-      dossier.travail           <<-    dossier
       dossier.bases             <<-    dossier.bases
-      dossier.stats             <<     dossier.stats
+      dossier.stats             <<-    dossier.stats
       étiquette.code            <<-    codage
-      étiquette.libellé         <<-    libellé,
+      étiquette.libellé         <<-    libellé
       étiquette.matricule       <<-    matricule
       étiquette.montant         <<-    montant
       étiquette.totalgénéral    <<-    totalgénéral 
@@ -112,7 +119,8 @@ altair.générateur <- setRefClass(
       générer.codes             <<-    codage
       générer.distributions     <<-    distributions
       générer.tests             <<-    tests
-      lignes.de.paie            <<-    ifelse(length(lignes) == 0
+      lignes.de.paie            <<-    ifelse(length(lignes) == 0,
+                                              paste0(chemin(fichier.paie),)
       matricule.avantage        <<-    avantage
       matricule.categorie       <<-    categorie
       nom.de.fichier.nbi        <<-    fichier.nbi
@@ -173,6 +181,12 @@ altair.générateur <- setRefClass(
     )
   )
 
+coeur <- setRefClass(
+  "Coeur",
+  fields=list(base,
+              vecteur),
+  methods=list(f=function(...) { message("OK")}))
+
 
 coeur <- setRefClass(
   "Coeur",
@@ -180,7 +194,7 @@ coeur <- setRefClass(
                vecteur),
   
   methods=list(
-    initialize(base = data.frame(NULL), vecteur = rep())
+    #initialize(base = data.frame(NULL), vecteur = rep())
     vérifier.intégrité = function(..., poursuivre=FALSE) 
     {
       "vérifier.intégrité:  ..., poursuivre=FALSE  ->  IO(console|exec)

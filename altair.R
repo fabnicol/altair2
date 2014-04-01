@@ -1,14 +1,18 @@
-installer.paquets(assertthat, plyr, rigoureusement = TRUE)
+
+## ------------------  Prologue  ------------------------ ##
 
 library(compiler)
-library(assertthat)
 enableJIT(3)
 
+source("bibliothèque.altair.R")
+installer.paquets(assertthat, plyr, rigoureusement = TRUE)
 
+library(assertthat)
 
-##---------------------------------------------------------------------------------------------------------------------
+## ------------------------------------------------------ ##
 
-# Programme principal
+##
+#  Programme principal
 ##
 
 options(width=120, warn=-1)
@@ -114,5 +118,3 @@ if (générer.variations == TRUE)
         Analyse.rémunérations.filtrée)
     }
   }
-
-
