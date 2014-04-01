@@ -170,30 +170,36 @@ noyau <- setRefClass(
   fields=list(arguments = "list"),
   methods=list(
     vérifier.intégrité = function(..., poursuivre=FALSE) 
-    {
-      "vérifier.intégrité:  ..., poursuivre=FALSE  ->  IO(console|exec)
-                                poursuivre=FALSE       ->  IO(console|exec)
-          
-           Vérifie si aucune dimension n'est nulle dans les  objets en argument.
-           Avec argument, si au moins un objet a au moins une dimension nulle, alors :
-             - si poursuivre == FALSE :  terminer la session
-             - sinon continuer en laissant un message d'erreur.
-           Sans argument, opère comme avec l'ensemble de ses champs en argument."
-      
-      arguments <<- as.list(match.call()) 
-      arguments[1] <<- NULL
-      if (length(arguments) == 0) arguments <<- fields()
-      if (all(lapply(lapply(arguments, eval, envir=.GlobalEnv), assertthat::not_empty)) != TRUE)
       {
-        message("Un des objets :")
-        cat(unlist(lapply(arguments, deparse)))
-        message("est de dimension nulle")
-        if (formals()$poursuivre == FALSE)
-          stop("Fin de la session.")
+        "vérifier.intégrité:  ..., poursuivre=FALSE  ->  IO(console|exec)
+                                  poursuivre=FALSE   ->  IO(console|exec)
+            
+             Vérifie si aucune dimension n'est nulle dans les  objets en argument.
+             Avec argument, si au moins un objet a au moins une dimension nulle, alors :
+               - si poursuivre == FALSE :  terminer la session
+               - sinon continuer en laissant un message d'erreur.
+             Sans argument, opère comme avec l'ensemble de ses champs en argument."
         
-        return(FALSE)
+        arguments <<- as.list(match.call()) 
+        arguments[1] <<- NULL
+        if  (!missing(poursuivre))  arguments[length(arguments)] <<- NULL
+
+        if (length(arguments) == 0) 
+            arguments <<- fields()
+        
+        if (all(unlist(lapply(lapply(arguments, eval, envir=.GlobalEnv), assertthat::not_empty))) != TRUE)
+          {
+            message("Un des objets :")
+            cat(unlist(lapply(arguments, deparse)))
+            message("est de dimension nulle")
+            if (poursuivre == FALSE)
+              stop("Fin de la session.")
+            
+            return(invisible(FALSE))
+          }
+        else
+          return(invisible(TRUE))
       }
-    }
   )
 )
 
