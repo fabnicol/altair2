@@ -1,3 +1,8 @@
+
+library(assertthat)
+
+if (!exists("dossier.travail") || nchar(dossier.travail) == 0)  dossier.travail <- "Altair"
+
 ##
 #  Fonctions auxiliaires (globales)
 ##
@@ -8,7 +13,13 @@
 #  préfixe le chemin du dossier de travail au chemin de arg0
 
 chemin <-  function(fichier) 
-  file.path(dossier.travail, fichier)
+{
+  if (!see_if(is.dir(dossier.travail)))
+  {
+     stop("Pas de dossier de travail spécifié")
+  }
+      file.path(dossier.travail, fichier)
+}
 
 #  scan.prime:  string  ->  data.frame
 #

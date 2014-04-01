@@ -1,3 +1,5 @@
+
+
 require(qtbase)
 
 # Fonctions globales
@@ -27,7 +29,7 @@ sélectionner.csv <- function(x)
 }
 
 
-source("bibliotheque.fonctions.paie.altair.R", encoding="UTF-8")
+source("bibliotheque.altair.R", encoding="UTF-8")
 source("classes.R", encoding="UTF-8")
 
 altair <- altair.générateur$new()

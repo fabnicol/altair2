@@ -1,10 +1,9 @@
 
+
+
 altair.générateur <- setRefClass(
   "Altair",
-  contains ="Coeur",
   fields=list(
-    Base                      = "data.frame",
-    bulletins.de.paie         = "data.frame",
     champ.détection.1         = "character",
     champ.détection.2         = "character",
     code.autre                = "character",
@@ -12,12 +11,10 @@ altair.générateur <- setRefClass(
     code.prime.ou.contractuel = "character",
     code.traitement           = "character",
     code.vacation             = "character",
-    Codes                     = "data.frame",
     colonnes.sélectionnées    = "character",    
     date.format               = "character",
     début.période.sous.revue  = "numeric",
     décoder.xhl               = "logical",
-    dossier.travail           = "character",
     dossier.bases             = "character",
     dossier.stats             = "character",
     étiquette.code            = "character",
@@ -31,18 +28,18 @@ altair.générateur <- setRefClass(
     générer.codes             = "logical",
     générer.distributions     = "logical",
     générer.tests             = "logical",
-    lignes.de.paie            = "data.frame", 
-    matricule.avantage        = "character",
-    matricule.categorie       = "character",
+    nom.de.fichier.avantages  = "character",
+    nom.de.fichier.base       = "character",
+    nom.de.fichier.bulletins  = "character",
+    nom.de.fichier.catégories = "character",
+    nom.de.fichier.codes      = "character",
+    nom.de.fichier.lignes     = "character",
     nom.de.fichier.nbi        = "character",
-    nom.de.fichier.paie       = "character",
-    nom.de.fichier.primes     = "character",
     seuil.troncature          = "numeric"
     ),
   
   methods=list(
     initialize = function(
-      bulletins               = data.frame(NULL),
       champ1                  = "Matricule",
       champ2                  = "Mois",
       autre                   = "AUTRES",
@@ -50,7 +47,6 @@ altair.générateur <- setRefClass(
       prime                   = "INDEMNITAIRE.OU.CONTRACTUEL",
       traitement              = "TRAITEMENT",
       vacation                = "VACATION",
-      Codes                   = data.frame(NULL),
       colonnes                = c("Matricule",
                                   "Statut",
                                   "Code",
@@ -60,7 +56,6 @@ altair.générateur <- setRefClass(
       date                    = "%d/%m/%Y",
       début                   =  2008,
       décoder                 = FALSE,
-      dossier                 = "Altair",
       dossier.bases           = "Altair/bases",
       dossier.stats           = "Altair/stats",
       code                    = "Code",
@@ -74,18 +69,16 @@ altair.générateur <- setRefClass(
       codage                  =  TRUE,
       distributions           =  TRUE,
       tests                   =  TRUE,
-      lignes                  =  data.frame(NULL),
-      fichier.avantages       =  "avantages.csv",
-      fichier.categories      =  "catégories.csv",
-      fichier.nbi             =  "paies-NBI-1",
-      fichier.paie            =  "paies-Bulletins de paye-1",
-      fichier.primes          =  "codes.csv",
-      seuil                   =  100
-      )
+      nom.avantages           = "avantages",
+      nom.base                = "base.csv",
+      nom.bulletins           = "Bulletins de paye",
+      nom.catégories          = "catégories",
+      nom.codes               = "codes.csv",
+      nom.lignes              = "Lignes de paye", 
+      nom.nbi                 = "NBI",
+      seuil                   =  100)
     {
       "Assigne les champs paramètres des fonctions de traitement statistique"
-      
-      bulletins.de.paie         <<-    bulletins
       champ.détection.1         <<-    champ1
       champ.détection.2         <<-    champ2
       code.autre                <<-    autre
@@ -93,16 +86,14 @@ altair.générateur <- setRefClass(
       code.prime.ou.contractuel <<-    prime
       code.traitement           <<-    traitement
       code.vacation             <<-    vacation
-      Codes                     <<-    Codes
       colonnes.sélectionnées    <<-    colonnes
       date.format               <<-    date
       début.période.sous.revue  <<-    début
       décoder.xhl               <<-    décoder
-      dossier.travail           <<-    dossier
       dossier.bases             <<-    dossier.bases
-      dossier.stats             <<     dossier.stats
+      dossier.stats             <<-    dossier.stats
       étiquette.code            <<-    codage
-      étiquette.libellé         <<-    libellé,
+      étiquette.libellé         <<-    libellé
       étiquette.matricule       <<-    matricule
       étiquette.montant         <<-    montant
       étiquette.totalgénéral    <<-    totalgénéral 
@@ -112,12 +103,13 @@ altair.générateur <- setRefClass(
       générer.codes             <<-    codage
       générer.distributions     <<-    distributions
       générer.tests             <<-    tests
-      lignes.de.paie            <<-    ifelse(length(lignes) == 0
-      matricule.avantage        <<-    avantage
-      matricule.categorie       <<-    categorie
-      nom.de.fichier.nbi        <<-    fichier.nbi
-      nom.de.fichier.paie       <<-    fichier.paie
-      nom.de.fichier.primes     <<-    fichier.primes
+      nom.de.fichier.avantages  <<-    nom.avantages
+      nom.de.fichier.base       <<-    nom.base
+      nom.de.fichier.bulletins  <<-    nom.bulletins
+      nom.de.fichier.catégories <<-    nom.catégories
+      nom.de.fichier.codes      <<-    nom.codes
+      nom.de.fichier.lignes     <<-    nom.lignes
+      nom.de.fichier.nbi        <<-    nom.nbi
       seuil.troncature          <<-    seuil
     },
     
@@ -174,42 +166,69 @@ altair.générateur <- setRefClass(
   )
 
 
-coeur <- setRefClass(
-  "Coeur",
-   fields=list(base,
-               vecteur),
-  
+noyau <- setRefClass(
+  "Noyau",
+  fields=list(arguments = "list"),
   methods=list(
-    initialize(base = data.frame(NULL), vecteur = rep())
-    vérifier.intégrité = function(..., poursuivre=FALSE) 
+  vérifier.intégrité = function(..., poursuivre=FALSE) 
     {
       "vérifier.intégrité:  ..., poursuivre=FALSE  ->  IO(console|exec)
-                            poursuivre=FALSE       ->  IO(console|exec)
+                                poursuivre=FALSE       ->  IO(console|exec)
+          
+           Vérifie si aucune dimension n'est nulle dans les  objets en argument.
+           Avec argument, si au moins un objet a au moins une dimension nulle, alors :
+             - si poursuivre == FALSE :  terminer la session
+             - sinon continuer en laissant un message d'erreur.
+           Sans argument, opère comme avec l'ensemble de ses champs en argument."
       
-       Vérifie si aucune dimension n'est nulle dans les  objets en argument.
-       Avec argument, si au moins un objet a au moins une dimension nulle, alors :
-         - si poursuivre == FALSE :  terminer la session
-         - sinon continuer en laissant un message d'erreur.
-       Sans argument, opère comme avec l'ensemble de ses champs en argument."
-      
-      tmp <- as.list(match.call()) 
-      tmp[1] <- NULL
-      if (length(tmp) == 0) tmp <- fields()
-      if (all(lapply(lapply(tmp, eval, envir=.GlobalEnv), assertthat::not_empty)) != TRUE)
+      arguments <<- as.list(match.call()) 
+      arguments[1] <<- NULL
+      if (length(arguments) == 0) arguments <<- fields()
+      if (all(lapply(lapply(arguments, eval, envir=.GlobalEnv), assertthat::not_empty)) != TRUE)
       {
         message("Un des objets :")
-        cat(unlist(lapply(tmp, deparse)))
+        cat(unlist(lapply(arguments, deparse)))
         message("est de dimension nulle")
         if (formals()$poursuivre == FALSE)
           stop("Fin de la session.")
         
         return(FALSE)
       }
+    }
+  )
+)
+
+bases <- setRefClass(
+  "Base",
+   contains="Noyau",
+   fields=list(
+     Base                      = "data.frame",
+     Bulletins                 = "data.frame",
+     Codes                     = "data.frame",
+     Lignes                    = "data.frame", 
+     Avantages                 = "data.frame",
+     Catégories                = "data.frame",
+     NBI                       = "data.frame"),
+  
+   methods=list(
+    initialize = function(
+        altair                  = altair.générateur$new(),  # valeurs par défaut des champs de classe Altair
+        bulletins               = data.frame(NULL),
+        codes                   = data.frame(NULL),
+        lignes                  = data.frame(NULL), 
+        avantages               = data.frame(NULL), 
+        catégories              = data.frame(NULL), 
+        nbi                     = data.frame(NULL))
+    {
+      # si altair prévoit un décodage xml, alors lancer ce décodage dans un fichier temp
+      # puis attribuer directement base au résultat
+      # sinon, lire lignes, bulletins, nbi et fusionner
+      # mode in : NBI, Lignes, Bulletins dans le premier cas ; *.xhl dans le second
+      # mode out: Base, NBI, Lignes, Bulletins dans les deux cas
     },
     
-     trouver.valeur.skip =  function(chemin.table) 
+   trouver.valeur.skip =  function(chemin.table) 
      {
-       
        "trouver.valeur.skip: character  ->  numeric(1)
        
         Trouve le numéro de la ligne à laquelle se situe la liste des noms de variables
@@ -278,5 +297,4 @@ coeur <- setRefClass(
   )
 )
   
-  return(TRUE)
-}
+
