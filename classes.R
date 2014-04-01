@@ -1,5 +1,6 @@
-
-
+library(compiler)
+source("bibliothèque.altair.R")
+enableJIT(3)
 
 altair.générateur <- setRefClass(
   "Altair",
@@ -35,7 +36,8 @@ altair.générateur <- setRefClass(
     nom.de.fichier.codes      = "character",
     nom.de.fichier.lignes     = "character",
     nom.de.fichier.nbi        = "character",
-    seuil.troncature          = "numeric"
+    seuil.troncature          = "numeric",
+    verbosité                 = "numeric"
     ),
   
   methods=list(
@@ -76,7 +78,9 @@ altair.générateur <- setRefClass(
       nom.codes               = "codes.csv",
       nom.lignes              = "Lignes de paye", 
       nom.nbi                 = "NBI",
-      seuil                   =  100)
+      seuil                   =  100,
+      verbosité               =  0
+      )
     {
       "Assigne les champs paramètres des fonctions de traitement statistique"
       
@@ -93,7 +97,7 @@ altair.générateur <- setRefClass(
       décoder.xhl               <<-    décoder
       dossier.bases             <<-    dossier.bases
       dossier.stats             <<-    dossier.stats
-      étiquette.code            <<-    codage
+      étiquette.code            <<-    code
       étiquette.libellé         <<-    libellé
       étiquette.matricule       <<-    matricule
       étiquette.montant         <<-    montant
@@ -112,59 +116,53 @@ altair.générateur <- setRefClass(
       nom.de.fichier.lignes     <<-    nom.lignes
       nom.de.fichier.nbi        <<-    nom.nbi
       seuil.troncature          <<-    seuil
+      verbosité                 <<-    verbosité
+      # rapport de lecture des paramètres d'entrée
+      # l'interface externe a été simplifiée par rapport aux noms de chams internes
+      # pour éviter trop de verbosité à l'usage tout en gardant des noms de champs précis
+      
+      if (verbosité > 1) champs()
+    
     },
     
-    scan.prime = function(regexp)
+    champs = function()
     {
-    "scan.prime:  character  ->  data.frame
-    
-     Cherche l'expression régulière arg0 dans un Libellé de paiment, sans tenir
-     compte de la casse et renvoie les matricules et libellés correspondants, sans
-     doublons"
+      cat(" champ de détection prioritaire   [ champ1 =", champ.détection.1,"]\n",
+          "champ de détection secondaire    [ champ2 =", champ.détection.2, "]\n",
+          "libellé des autres primes        [ autre =",  code.autre, "]\n",
+          "libellé des NBI                  [ nbi =", code.nbi, "]\n",
+          "libellé des rémunérations\n indemnitaires ou contractuelles  [ prime =", code.prime.ou.contractuel, "]\n",
+          "libellé des  traitements         [ traitement =", code.traitement, "]\n",
+          "libellé des vacations            [ vacations =", code.vacation, "]\n",
+          "colonnes sélectionnées           [ colonnes =", colonnes.sélectionnées, "]\n",
+          "format de date                   [ date =", date.format, "]\n",
+          "début de période sous revue      [ début =", début.période.sous.revue, "]\n",
+          "décoder les fichiers .*xhl       [ décoder =", décoder.xhl, "]\n",
+          "dossier des bases                [ dossier.bases =", dossier.bases, "]\n",
+          "dossier des statistiques         [ dossier.stats =", dossier.stats, "]\n",
+          "champ des codes                  [ code =", étiquette.code, "]\n",
+          "champ des libellés               [ libellé =] ", étiquette.libellé, "]\n",
+          "champ des matricules             [ matricule =", étiquette.matricule, "]\n",
+          "champ des montants               [ montant =", étiquette.montant, "]\n",
+          "champ du total général           [ totalgénéral =", étiquette.totalgénéral, "]\n",
+          "champ du type de rémunération    [ type =", étiquette.type.rémunération, "]\n",
+          "fin de la période sous revue     [ fin =", fin.période.sous.revue, "]\n",
+          "génération des bases .csv        [ bases =", générer.bases, "]\n",
+          "génération des codes de paye     [ codage =", générer.codes, "]\n",
+          "génération des distributions     [ distributions =", générer.distributions, "]\n",
+          "génération des tests statutaires [ tests =", générer.tests, "]\n",
+          "nom du fichier des avantages     [ nom.avantages =", nom.de.fichier.avantages, "]\n",
+          "nom du fichier de base en sortie [ nom.base =", nom.de.fichier.base, "]\n",
+          "nom du fichier de\n bulletins de paye                [ nom.bulletins =", nom.de.fichier.bulletins, "]\n",
+          "nom du fichier de catégories     [ nom.catégories =", nom.de.fichier.catégories, "]\n",
+          "nom du fichier de codes          [ nom.codes =", nom.de.fichier.codes, "]\n",
+          "nom du fichier de lignes de paye [ nom.lignes =", nom.de.fichier.lignes, "]\n",
+          "nom du fichier de NBI            [ nom.nbi =", nom.de.fichier.nbi, "]\n",
+          "durée minimum de travail\n première et dernière année       [ durée =", seuil.troncature, "]\n")
       
-      unique(
-              Base[grep(paste0(".*(", regexp,").*"), étiquette.libellé, ignore.case=TRUE),
-                   c("Matricule", étiquette.libellé)])
-    },
-    
-    enlever.colonnes.doublons.sauf.1 =  function(Base1, Base2) 
-    {
-      "enlever.colonnes.doublons.sauf.1:  data.frame, data.frame  ->  data.frame
-      
-       Enlève les colonnes de arg0 qui sont dans arg1 sauf pour la clé de fusion
-       champ.détection.1"
-      
-      subset(Base1, 
-             select=c(champ.détection.1, setdiff(names(Base1),names(Base2))))
-      
-    },
-    
-    enlever.colonnes.doublons.sauf.2 =  function(Base1, Base2) 
-    {
-      "enlever.colonnes.doublons.sauf.2:  data.frame, data.frame  ->  data.frame
-      
-       Enlève les colonnes de arg0 qui sont dans arg1 sauf pour la clé de fusion
-       champ.détection.1 et pour la clé auxiliaire champ.détection.2. Version tolérante
-       de la fonction précédente"
-      
-      subset(Base1, 
-             select=c(champ.détection.1,champ.détection.2,
-                      setdiff(names(Base1),names(Base2))))
-      
-    },
-    
-    est.code.de.type = function(x) 
-    {
-       "est.code.de.type:  character  ->  logical
-      
-        teste si la valeur du champ Code de Bdp.ldp est de type arg0 dans Code.prime$Type.rémunération"
-
-       Base[, étiquette.code] %in% Codes[Codes[, étiquette.type.rémunération] == x, étiquette.code]
     }
-      
-    
-    )
   )
+)
 
 
 noyau <- setRefClass(
@@ -226,6 +224,57 @@ bases <- setRefClass(
       # sinon, lire lignes, bulletins, nbi et fusionner
       # mode in : NBI, Lignes, Bulletins dans le premier cas ; *.xhl dans le second
       # mode out: Base, NBI, Lignes, Bulletins dans les deux cas
+    
+      
+      
+    },
+    
+    scan.prime = function(regexp)
+    {
+      "scan.prime:  character  ->  data.frame
+      
+      Cherche l'expression régulière arg0 dans un Libellé de paiment, sans tenir
+      compte de la casse et renvoie les matricules et libellés correspondants, sans
+      doublons"
+      
+      unique(
+        Base[grep(paste0(".*(", regexp,").*"), étiquette.libellé, ignore.case=TRUE),
+             c("Matricule", étiquette.libellé)])
+    },
+    
+    enlever.colonnes.doublons.sauf.1 =  function(Base1, Base2) 
+    {
+      "enlever.colonnes.doublons.sauf.1:  data.frame, data.frame  ->  data.frame
+      
+       Enlève les colonnes de arg0 qui sont dans arg1 sauf pour la clé de fusion
+       champ.détection.1"
+      
+      subset(Base1, 
+             select=c(champ.détection.1, setdiff(names(Base1),names(Base2))))
+      
+    },
+    
+    enlever.colonnes.doublons.sauf.2 =  function(Base1, Base2) 
+    {
+      "enlever.colonnes.doublons.sauf.2:  data.frame, data.frame  ->  data.frame
+      
+       Enlève les colonnes de arg0 qui sont dans arg1 sauf pour la clé de fusion
+       champ.détection.1 et pour la clé auxiliaire champ.détection.2. Version tolérante
+       de la fonction précédente"
+      
+      subset(Base1, 
+             select=c(champ.détection.1,champ.détection.2,
+                      setdiff(names(Base1),names(Base2))))
+      
+    },
+    
+    est.code.de.type = function(x) 
+    {
+      "est.code.de.type:  character  ->  logical
+      
+        teste si la valeur du champ Code de Bdp.ldp est de type arg0 dans Code.prime$Type.rémunération"
+      
+      Base[, étiquette.code] %in% Codes[Codes[, étiquette.type.rémunération] == x, étiquette.code]
     },
     
    trouver.valeur.skip =  function(chemin.table) 
@@ -271,7 +320,7 @@ bases <- setRefClass(
        dans le dossier de travail et sous le nom `X.csv2'" 
       
       if (vérifier.intégrité(x, poursuivre=TRUE) == TRUE)
-        write.csv2(x, paste0(chemin(deparse(substitue(x)), ".csv")), row.names=FALSE, fileEncoding = "UTF-8")
+        write.csv2(x, paste0(chemin(deparse(substitute(x)), ".csv")), row.names=FALSE, fileEncoding = "UTF-8")
     },
     
     sauv.bases = function(...) 
