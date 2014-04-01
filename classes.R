@@ -79,6 +79,7 @@ altair.générateur <- setRefClass(
       seuil                   =  100)
     {
       "Assigne les champs paramètres des fonctions de traitement statistique"
+      
       champ.détection.1         <<-    champ1
       champ.détection.2         <<-    champ2
       code.autre                <<-    autre
@@ -165,12 +166,18 @@ altair.générateur <- setRefClass(
     )
   )
 
+coeur <- setRefClass(
+  "Coeur",
+  fields=list(base,
+              vecteur),
+  methods=list(f=function(...) { message("OK")}))
+
 
 noyau <- setRefClass(
   "Noyau",
   fields=list(arguments = "list"),
   methods=list(
-  vérifier.intégrité = function(..., poursuivre=FALSE) 
+    vérifier.intégrité = function(..., poursuivre=FALSE) 
     {
       "vérifier.intégrité:  ..., poursuivre=FALSE  ->  IO(console|exec)
                                 poursuivre=FALSE       ->  IO(console|exec)
