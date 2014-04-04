@@ -8,9 +8,9 @@ base.générateur$methods(
   {
           Base <- mutate(Base,
                             
-                            montant.traitement.indiciaire = parse(altair$étiquette.montant)*(est.code.de.type(altair$code.traitement)),
-                            montant.primes = parse(altair$étiquette.montant)*(est.code.de.type(altair$code.prime.ou.contractuel)),
-                            montant.autres.rémunérations = parse(altair$étiquette.montant)*(est.code.de.type(altair$code.autre)))
+                            montant.traitement.indiciaire = parse(text=altair$étiquette.montant)*(est.code.de.type(altair$code.traitement)),
+                            montant.primes = parse(text=altair$étiquette.montant)*(est.code.de.type(altair$code.prime.ou.contractuel)),
+                            montant.autres.rémunérations = parse(text=altair$étiquette.montant)*(est.code.de.type(altair$code.autre)))
           
           Analyse.rémunérations <- ddply(Base,
                                          .(altair$étiquette.matricule),
@@ -45,7 +45,7 @@ base.générateur$methods(
           cat("masse totale rémunérations brutes élus      : ", rem.brute.élus      <- sum(Bulletins[Bulletins$Service == "Elus",]$Brut), "\n")
           cat("masse totale rémunérations brutes           : ", rem.brute           <- rem.brute.élus + rem.brute.hors.élus, "\n")
           
-          with(Lignes, cat("masse salariale brute : ", sum(parse(étiquette.montant), "\n")))
+          with(Lignes, cat("masse salariale brute : ", sum(parse(text=étiquette.montant), "\n")))
           
           print(Stats)
           

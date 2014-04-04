@@ -51,6 +51,8 @@ altair.générateur <- setRefClass(
     code.autre                = "character",
     code.nbi                  = "character",
     code.prime.ou.contractuel = "character",
+    code.stagiaire            = "character",
+    code.titulaire            = "character",
     code.traitement           = "character",
     code.vacation             = "character",
     colonnes.sélectionnées    = "character",    
@@ -88,6 +90,8 @@ altair.générateur <- setRefClass(
       autre                   = "AUTRES",
       nbi                     = "NBI",
       prime                   = "INDEMNITAIRE.OU.CONTRACTUEL",
+      stagiaire               = "STAGIAIRE",
+      titulaire               = "TITULAIRE",
       traitement              = "TRAITEMENT",
       vacation                = "VACATION",
       colonnes                = c("Matricule",
@@ -105,6 +109,7 @@ altair.générateur <- setRefClass(
       libellé                 = "Libellé",
       matricule               = "Matricule",
       montant                 = "Montant",
+      statut                  = "Statut",
       totalgénéral            = "Total",
       type                    = "Type.rémunération",
       fin                     =  2013,
@@ -142,6 +147,7 @@ altair.générateur <- setRefClass(
       étiquette.libellé         <<-    libellé
       étiquette.matricule       <<-    matricule
       étiquette.montant         <<-    montant
+      étiquette.statut          <<-    statut
       étiquette.totalgénéral    <<-    totalgénéral 
       étiquette.type.rémunération <<-  type
       fin.période.sous.revue    <<-    fin
@@ -181,6 +187,8 @@ altair.générateur <- setRefClass(
           "libellé des autres primes        [ autre =",  code.autre, "]\n",
           "libellé des NBI                  [ nbi =", code.nbi, "]\n",
           "libellé des rémunérations\n indemnitaires ou contractuelles  [ prime =", code.prime.ou.contractuel, "]\n",
+          "libellé des stagiaires           [ stagiaire =", code.stagiaire, "]\n",
+          "libellé des titulaires           [ titulaire =", code.titulaire, "]\n",
           "libellé des  traitements         [ traitement =", code.traitement, "]\n",
           "libellé des vacations            [ vacations =", code.vacation, "]\n",
           "colonnes sélectionnées           [ colonnes =", colonnes.sélectionnées, "]\n",
@@ -190,9 +198,10 @@ altair.générateur <- setRefClass(
           "dossier des bases                [ dossier.bases =", dossier.bases, "]\n",
           "dossier des statistiques         [ dossier.stats =", dossier.stats, "]\n",
           "champ des codes                  [ code =", étiquette.code, "]\n",
-          "champ des libellés               [ libellé =] ", étiquette.libellé, "]\n",
+          "champ des libellés               [ libellé =", étiquette.libellé, "]\n",
           "champ des matricules             [ matricule =", étiquette.matricule, "]\n",
           "champ des montants               [ montant =", étiquette.montant, "]\n",
+          "champ des  statuts               [ statut =", étiquette.statut, "]\n",
           "champ du total général           [ totalgénéral =", étiquette.totalgénéral, "]\n",
           "champ du type de rémunération    [ type =", étiquette.type.rémunération, "]\n",
           "fin de la période sous revue     [ fin =", fin.période.sous.revue, "]\n",
