@@ -14,8 +14,22 @@ source("classes.R")
 # méthodes auxiliaires de gestion de bases  
 
 base.générateur$methods(
-  
-  scan.prime = function(regexp)
+
+  #' Base::scan.prime
+  #'
+  #' Cherche l'expression régulière arg0 dans un Libellé de paiment, sans tenir compte de la casse.
+  #' voir  \code{\link{base.générateur}}
+  #' @param regexp          Expression régulière
+  #' @return Renvoie un data.frame contenant les matricules et libellés correspondants, sans doublons
+  #' @author Fabrice Nicol
+  #' @examples
+  #' # Génère les bases .csv pour les années 2009 à 2013 
+  #' altair <- altair.générateur$new(début=2009, fin=2013, bases=TRUE)
+  #' base   <- base.générateur$new(altair)
+  #' base$scan.prime(".*PRIME.*")
+  #' @export
+     
+  scan.prime = function(regexp= regexp)
   {
     "scan.prime:  character  ->  data.frame
     
@@ -24,11 +38,26 @@ base.générateur$methods(
     doublons"
     
     unique(
-      Base[grep(paste0(".*(", regexp,").*"), étiquette.libellé, ignore.case=TRUE),
+      Global[grep(paste0(".*(", regexp,").*"), étiquette.libellé, ignore.case=TRUE),
            c("Matricule", étiquette.libellé)])
   },
+
+  #' Base::enlever.colonnes.doublons.sauf.1
+  #'
+  #' Cherche l'expression régulière arg0 dans un Libellé de paiment, sans tenir compte de la casse.
+  #' voir  \code{\link{base.générateur}}
+  #' @param dans  Basedont sont enlevées des colonnes qui se trouvent également dans la base de référence, sauf pour le premier champ de détection.
+  #' @param de    Base de référence. 
+  #' @return Renvoie un data.frame contenant la base dans nettoyée des colonnes excédentaires.
+  #' @author Fabrice Nicol
+  #' @examples
+  #' # Génère les bases .csv pour les années 2009 à 2013 
+  #' altair <- altair.générateur$new(début=2009, fin=2013, bases=TRUE)
+  #' base   <- base.générateur$new(altair)
+  #' base$enlever.colonnes.doublons.sauf.1(dans = base$Global, de = base$Avantages)
+  #' @export
   
-  enlever.colonnes.doublons.sauf.1 =  function(Base1, Base2) 
+  enlever.colonnes.doublons.sauf.1 =  function(dans=Base1, de=Base2) 
   {
     "enlever.colonnes.doublons.sauf.1:  data.frame, data.frame  ->  data.frame
     
@@ -39,6 +68,22 @@ base.générateur$methods(
            select=c(champ.détection.1, setdiff(names(Base1),names(Base2))))
     
   },
+  
+  #' Base::enlever.colonnes.doublons.sauf.2
+  #'
+  #' Cherche l'expression régulière arg0 dans un Libellé de paiment, sans tenir compte de la casse.
+  #' voir  \code{\link{base.générateur}}
+  #' @param dans  Basedont sont enlevées des colonnes qui se trouvent également dans la base de référence, sauf pour le premier et dans le second champ de détection.
+  #' @param de    Base de référence. 
+  #' @return Renvoie un data.frame contenant la base dans nettoyée des colonnes excédentaires.
+  #' @author Fabrice Nicol
+  #' @examples
+  #' # Génère les bases .csv pour les années 2009 à 2013 
+  #' altair <- altair.générateur$new(début=2009, fin=2013, bases=TRUE)
+  #' base   <- base.générateur$new(altair)
+  #' base$enlever.colonnes.doublons.sauf.2(dans = base$Global, de = base$Avantages)
+  #' @export
+  
   
   enlever.colonnes.doublons.sauf.2 =  function(Base1, Base2) 
   {
@@ -54,13 +99,27 @@ base.générateur$methods(
     
   },
   
-  est.code.de.type = function(x) 
+  #' Base::est.code.de.type
+  #'
+  #' Teste si le code de rémunération est un code de type indemnité, traitement, etc.
+  #' @param type  Type de la rémunération ("TRAITEMENT", "VACATION",...)
+  #' @return Renvoie un booléen.
+  #' @author Fabrice Nicol
+  #' @examples
+  #' # Génère les bases .csv pour les années 2009 à 2013 
+  #' altair <- altair.générateur$new(début=2009, fin=2013, bases=TRUE)
+  #' base   <- base.générateur$new(altair)
+  #' base$enlever.colonnes.doublons.sauf.1(dans = base$Global, de = base$Avantages)
+  #' @export
+  
+  
+  est.code.de.type = function(type = x) 
   {
     "est.code.de.type:  character  ->  logical
     
     Teste si la valeur du champ Code de Bdp.ldp est de type arg0 dans Code.prime$Type.rémunération"
     
-    Base[, étiquette.code] %in% Codes[Codes[, étiquette.type.rémunération] == x, étiquette.code]
+    Global[, étiquette.code] %in% Codes[Codes[, étiquette.type.rémunération] == x, étiquette.code]
   }
 )
 
@@ -68,7 +127,24 @@ base.générateur$methods(
 
 base.générateur$methods(
   
-  trouver.valeur.skip =  function(chemin.table) 
+  #' Base::trouver.valeur.skip
+  #'
+  #' Calcule le nombre de lignes qu'il faut sauter à l'importation d'une base .csv
+  #' pour pourvoir lire le champ de détection prioritaire 1 ou, s'il n'est pas détecté,
+  #' le champ de détection secondaire 2.
+  #' 
+  #' @param chemin  Chemin complet de la base .csv à importer
+  #' @return Renvoie entier.
+  #' @note   Pour cela on scanne les 25 premières lignes de la table une première fois.
+  #' @author Fabrice Nicol
+  #' @examples
+  #' # Génère les bases .csv pour les années 2009 à 2013 
+  #' altair <- altair.générateur$new(début=2009, fin=2013, bases=TRUE)
+  #' base   <- base.générateur$new(altair)
+  #' base$trouver.valeur.skip(altair$chemin.lignes())
+  #' @export
+    
+  trouver.valeur.skip =  function(chemin = chemin.table) 
   {
     "trouver.valeur.skip: character  ->  numeric(1)
     
@@ -90,7 +166,23 @@ base.générateur$methods(
       ))
   },
   
-  read.csv.skip = function(x) 
+  #' Base::read.csv.skip
+  #'
+  #' Lit une base en sautant les lignes avant les champs de détection automatique
+  #' de la première ligne de noms de colonne, par ex. `Matricule'
+  #' spécifiés par champ.détection.1 et champ.détection.2
+  #' 
+  #' @param chemin  Chemin complet de la base .csv à importer
+  #' @return Renvoie un data.frame.
+  #' @author Fabrice Nicol
+  #' @examples
+  #' # Génère les bases .csv pour les années 2009 à 2013 
+  #' altair <- altair.générateur$new(début=2009, fin=2013, bases=TRUE)
+  #' base   <- base.générateur$new(altair)
+  #' base$read.csv.skip(altair$chemin.lignes())
+  #' @export
+  
+  read.csv.skip = function(chemin = x) 
   {
     
     "read.csv.skip:  character -> data.frame
@@ -103,7 +195,20 @@ base.générateur$methods(
     read.csv2(chem, skip=trouver.valeur.skip(chem), fileEncoding="UTF-8")
   },
   
-  sauv.base = function(x)  
+  #' Base::sauvegarder1
+  #'
+  #' Sauvegarde un objet X sous la forme d'une base csv2 sans noms de ligne, en encodage UTF-8
+  #' dans le dossier de travail et sous le nom `X.csv2'
+  #' 
+  #' @param base  expression
+  #' @author Fabrice Nicol
+  #' @examples
+  #' # Génère les bases .csv pour les années 2009 à 2013 
+  #' altair <- altair.générateur$new(début=2009, fin=2013, bases=TRUE)
+  #' base   <- base.générateur$new(altair)
+  #' base$read.csv.skip(altair$chemin.lignes())
+  
+  sauvegarder1 = function(x)  
   {
     "sauv.base:  object  ->  IO(file)
     
@@ -111,10 +216,26 @@ base.générateur$methods(
     dans le dossier de travail et sous le nom `X.csv2'" 
     
     if (vérifier.intégrité(x, poursuivre=TRUE) == TRUE)
-      write.csv2(x, paste0(chemin(deparse(substitute(x)), ".csv")), row.names=FALSE, fileEncoding = "UTF-8")
+       write.csv2(x, paste0(chemin(deparse(substitute(x)), ".csv")), row.names=FALSE, fileEncoding = "UTF-8")
   },
   
-  sauv.bases = function(...) 
+  #' Base::sauvegarder
+  #'
+  #' Sauvegarde plusieurs arguments X, Y, ... sous la forme de bases csv2
+  #' sans noms de ligne, en encodage UTF-8, dans le dossier de travail
+  #' et sous le nom `X.csv2', `Y.csv2', ... 
+  #' voir  \code{\link{Base::sauv.base}}
+  #' @param base  expression
+  #' @note  Itère sauvegarder1 sur l'ensemble des arguments.
+  #' @author Fabrice Nicol
+  #' @examples
+  #' # Génère les bases .csv pour les années 2009 à 2013 
+  #' altair <- altair.générateur$new(début=2009, fin=2013, bases=TRUE)
+  #' base   <- base.générateur$new(altair)
+  #' base$sauvegarder(Global, Lignes)
+  #' @export
+    
+  sauvegarder = function(...) 
   {
     "sauv.bases:  ...  ->  IO(file),...
     
@@ -140,9 +261,33 @@ base.générateur$methods(
 #  Méthodes de traitement actif du problème et lanceur des tâches de statistiques
 
 base.générateur$methods(
+    
+  #' Base::importer
+  #'
+  #' Importe les différentes bases .csv2 données en input 
+  #' à savoir :
+  #' Lignes     Base des lignes de paie
+  #' NBI        Base des rémunérations de type NBI
+  #' Bulletins  Base des bulletins de paie
+  #' Catégories Base des catégories statutaires (A, B, C,...)
+  #' Codes      Base des codes de paie
+  #' Avantages  Base des avantages en nature
+  #' 
+  #' Fusionne les bases Bulletins et Lignes dans la base Global.
+  #' 
+  #' @author Fabrice Nicol
+  #' @examples
+  #' # Génère les bases .csv pour les années 2009 à 2013 
+  #' altair <- altair.générateur$new(début=2009, fin=2013, bases=TRUE)
+  #' base   <- base.générateur$new(altair)
+  #' base$importer()
+  #' @export
   
-  importer.bases = function()
+  
+  importer = function()
   {
+    "Importe les différentes bases .csv2 données en input."
+    
     vérifier.intégrité(
       Lignes      <<-  Read.csv(altair$nom.de.fichier.lignes),
       NBI         <<-  Read.csv(altair$nom.de.fichier.nbi),
@@ -158,29 +303,68 @@ base.générateur$methods(
     
     #fusion matricule | avantage | catégorie par Matricule
     
-    Base <<- merge(Bulletins, Lignes)
+    Global <<- merge(Bulletins, Lignes)
     
     # un peu par acquis de conscience...
     
-    vérifier.intégrité(Base)
+    vérifier.intégrité(Global)
   },
-  
-  générer.codes = function()
+
+  #' Base::codes
+  #'
+  #' Génère l'ensemble des codes de rémunération correspondant à la base globale,
+  #' à savoir :
+  #' Codes.NT      Codes pour les non titulaires
+  #' Codes.fonct   Codes pour les  fonctionnaires
+  #' Codes.NBI     Codes NBI
+  #' Codes         Ensemble des codes
+  #' @author Fabrice Nicol
+  #' @examples
+  #' # Génère les bases .csv pour les années 2009 à 2013 
+  #' altair <- altair.générateur$new(début=2009, fin=2013, bases=TRUE)
+  #' base   <- base.générateur$new(altair)
+  #' base$codes()
+  #' @export
+    
+  codes = function()
   {
-    Codes.NT     <<- Base[ ! Base$Statut %in% c("TITULAIRE", "STAGIAIRE"), c("Code", "Libellé")]
+    
+    "Génère l'ensemble des codes de rémunération correspondant à la base globale"
+    
+    Codes.NT     <<- Global[ ! Global$Statut %in% c("TITULAIRE", "STAGIAIRE"), c("Code", "Libellé")]
     Codes.NT     <<- Codes.NT[ ! duplicated(Codes.NT),]
-    Codes.fonct  <<- Base[ Bdp.ldp$Statut %in% c("TITULAIRE", "STAGIAIRE"), c("Code", "Libellé")]
+    Codes.fonct  <<- Global[ Global$Statut %in% c("TITULAIRE", "STAGIAIRE"), c("Code", "Libellé")]
     Codes.fonct  <<- Codes.fonct[!duplicated(Codes.fonct),]
     Codes.NBI    <<- NBI[ ,"NBI"]  
     Codes.NBI    <<- Codes.NBI[!duplicated(Codes.NBI),]
     Codes        <<- rbind(Code.NT, Codes.fonct)
     
-    sauv.bases(Codes.NT,
+    sauvegarder(Codes.NT,
                Codes.fonct,
                Codes.NBI,
                Codes)
     
   },
+  
+  #' Base::distributions
+  #'
+  #' Lance l'analyse des distributions de rémunérations.
+  #' Effectue les sauvegardes des bases de résultats, si la valeur
+  #' du champ générer.bases du générateur altair a la valeur TRUE.
+  #' à savoir :
+  #' 
+  #' Analyse.rémunérations   Analyse globale des distributions de rémunérations
+  #' Stats.contractuels      Analyse des distributions pour les contractuels  
+  #' Stats.fonctionnaires    Analyse des distributions pour les fonctionnaires  
+  #' Masses                  Masses de rémunérations brutes  
+  
+  #' @author Fabrice Nicol
+  #' @examples
+  #' # Génère les bases .csv pour les années 2009 à 2013 
+  #' altair <- altair.générateur$new(début=2009, fin=2013, bases=TRUE)
+  #' base   <- base.générateur$new(altair)
+  #' base$distributions()
+  #' @export
   
   générer.distributions = function()
   {
@@ -191,12 +375,37 @@ base.générateur$methods(
       sauv.bases(Analyse.rémunérations,
                  Stats.contractuels,
                  Stats.fonctionnaires,
-                 Base,
-                 masses)
+                 Masses)
     }
   },
   
-  générer.tests = function()
+  #' Base::tests
+  #'
+  #' Lance les tests de cohérence et de régularité.
+  #' Si la valeur du champ générer.bases du générateur altair a la valeur TRUE,
+  #' effectue les sauvegardes des bases de résultats, à savoir :
+  #' 
+  #' NBI.aux.non.titulaires             Base des NBI accordées aux non titulaires
+  #' HS.sup.25                          Base des heures supplémentaires supérieures à 25 h/mois
+  #' personnels.prime.informatique      Base des personnels attributaires d'une prime informatique
+  #' ldp.fonctionnaires.et.vacations    Base des fonctionnaires effectuant des vacations
+  #' matricules.nontit.et.vacations     Matricules des non titulaires qui effectuent des vacations
+  #' vacations                          Base des lignes de paie de vacations
+  #' violation.plancher.indiciaire.ifts Base des lignes de paie qui enfreignent le plancher indiciaire des IFTS
+  #' RI.et.vacations                    Base des agents qui perçoivent un régime indemnitaire et effectuent des vacations
+  #' vacations.concernées               Base des vacations des agents qui ont un régime indemnitaire,
+  #' traitement.et.vacations            Base des agents qui perçoivent un traitement indiciaire et effectuent des vacations
+  #' ifts.et.non.tit                    Base des non titulaires qui perçoivent des IFTS.
+  #' 
+  #' @author Fabrice Nicol
+  #' @examples
+  #' # Génère les bases .csv pour les années 2009 à 2013 
+  #' altair <- altair.générateur$new(début=2009, fin=2013, bases=TRUE)
+  #' base   <- base.générateur$new(altair)
+  #' base$tests()
+  #' @export
+  
+  tests = function()
   {
     source(chemin("analyser.tests.R"))
     analyser.tests()
@@ -206,7 +415,7 @@ base.générateur$methods(
       personnels.prime.informatique,
       ldp.fonctionnaires.et.vacations,
       matricules.nontit.et.vacations,
-      Bdp.ldp.vacations,
+      vacations,
       violation.plancher.indiciaire.ifts,
       RI.et.vacations,
       vacations.concernées,
@@ -214,11 +423,31 @@ base.générateur$methods(
       ifts.et.non.tit)
   },
   
+  #' Base::variations
+  #'
+  #' Lance l'analyse des variations de rémunérations.
+  #' si la valeur du champ générer.bases du générateur altair est TRUE, 
+  #' effectue les sauvegardes des bases de résultats, à savoir :
+  #' 
+  #' Total                                                 
+  #' Stats.Analyse.rémunérations.personnels.plus.de.2.ans  
+  #' Stats.Analyse.rémunérations.personnels.moins.de.2.ans  
+  #' Analyse.rémunérations                                  
+  #' Analyse.rémunérations.filtrée                           
+  #' 
+  #' @author Fabrice Nicol
+  #' @examples
+  #' # Génère les bases .csv pour les années 2009 à 2013 
+  #' altair <- altair.générateur$new(début=2009, fin=2013, bases=TRUE)
+  #' base   <- base.générateur$new(altair)
+  #' base$variations()
+  #' @export
+   
   générer.variations = function()
   {
     source(chemin("analyser.variations.R"))
     analyser.variations()
-    if (générer.bases == TRUE)  
+    if (altair$générer.bases == TRUE)  
     {
       sauv.bases(Total,
                  Stats.Analyse.rémunérations.personnels.plus.de.2.ans,

@@ -46,7 +46,7 @@ noyau.générateur <- setRefClass(
 #' Il permet d'importer l'ensemble des données qui 
 #' caractériseront les bases de données Altair générées 
 #' par \code{\link{base.générateur}}
-#' #' @param champ1          ["Matricule"]    Etiquette du champ qui sera détecté en priorité pour la lecture des bases.
+#' @param champ1          ["Matricule"]    Etiquette du champ qui sera détecté en priorité pour la lecture des bases.
 #' @param champ2          ["Mois"]         Etiquette du champ qui sera détecté en second lieu pour la lecture des bases.
 #' @param code            ["Code"]         Etiquette du champ des codes de rémunération.
 #' @param libellé         ["Libellé"]      Etiquette du champ des libellés de rémunération.
@@ -81,6 +81,7 @@ noyau.générateur <- setRefClass(
 #' @param nom.codes       ["codes"]        Nom du fichier .csv des codes de rémunération.
 #' @param nom.lignes      ["Lignes de paie"] Nom du fichier .csv des lignes de paie.  
 #' @param nom.nbi         ["NBI"]          Nom du fichier .csv des rémunérations de type NBI.
+#' @param nom.xhl         ["paie"]         Nom du fichier .xhl ( base XML de paie) 
 #' @param verbosité       [0]              Niveau de verbosité (0, 1, 2)
 #' @return Retourne un instance de classe Altair par la méthode new(...)
 #' @note La classe est de type classe de références (RefClass).
@@ -122,10 +123,10 @@ altair.générateur <- setRefClass(
     seuil.troncature          = "numeric",
     générer.bases             = "logical",
     générer.codes             = "logical",
+    décoder.xhl               = "logical",
     générer.distributions     = "logical",
     générer.tests             = "logical",
     colonnes.sélectionnées    = "character",
-    décoder.xhl               = "logical",
     dossier.bases             = "character",
     dossier.stats             = "character",
     nom.de.fichier.avantages  = "character",
@@ -163,6 +164,7 @@ altair.générateur <- setRefClass(
       seuil                   =  100,
       bases                   =  FALSE,
       codage                  =  TRUE,
+      décoder                 =  FALSE,
       distributions           =  TRUE,
       tests                   =  TRUE,
       colonnes                = c("Matricule",
@@ -171,7 +173,6 @@ altair.générateur <- setRefClass(
                                   "Mois",
                                   "Libellé",
                                   "Montant"),
-      décoder                 = FALSE,
       dossier.bases           = "Altair/bases",
       dossier.stats           = "Altair/stats",
       nom.avantages           = "avantages",
@@ -181,6 +182,7 @@ altair.générateur <- setRefClass(
       nom.codes               = "codes.csv",
       nom.lignes              = "Lignes de paye", 
       nom.nbi                 = "NBI",
+      nom.xhl                 = "paie" 
       verbosité               =  0
       )
     {
@@ -252,19 +254,6 @@ altair.générateur <- setRefClass(
     {
       cat(" champ de détection prioritaire   [ champ1 =", champ.détection.1,"]\n",
           "champ de détection secondaire    [ champ2 =", champ.détection.2, "]\n",
-          "libellé des autres primes        [ autre =",  code.autre, "]\n",
-          "libellé des NBI                  [ nbi =", code.nbi, "]\n",
-          "libellé des rémunérations\n indemnitaires ou contractuelles  [ prime =", code.prime.ou.contractuel, "]\n",
-          "libellé des stagiaires           [ stagiaire =", code.stagiaire, "]\n",
-          "libellé des titulaires           [ titulaire =", code.titulaire, "]\n",
-          "libellé des  traitements         [ traitement =", code.traitement, "]\n",
-          "libellé des vacations            [ vacations =", code.vacation, "]\n",
-          "colonnes sélectionnées           [ colonnes =", colonnes.sélectionnées, "]\n",
-          "format de date                   [ date =", date.format, "]\n",
-          "début de période sous revue      [ début =", début.période.sous.revue, "]\n",
-          "décoder les fichiers .*xhl       [ décoder =", décoder.xhl, "]\n",
-          "dossier des bases                [ dossier.bases =", dossier.bases, "]\n",
-          "dossier des statistiques         [ dossier.stats =", dossier.stats, "]\n",
           "champ des codes                  [ code =", étiquette.code, "]\n",
           "champ des libellés               [ libellé =", étiquette.libellé, "]\n",
           "champ des matricules             [ matricule =", étiquette.matricule, "]\n",
@@ -272,11 +261,25 @@ altair.générateur <- setRefClass(
           "champ des  statuts               [ statut =", étiquette.statut, "]\n",
           "champ du total général           [ totalgénéral =", étiquette.totalgénéral, "]\n",
           "champ du type de rémunération    [ type =", étiquette.type.rémunération, "]\n",
+          "libellé des autres primes        [ autre =",  code.autre, "]\n",
+          "libellé des NBI                  [ nbi =", code.nbi, "]\n",
+          "libellé des rémunérations\n indemnitaires ou contractuelles  [ prime =", code.prime.ou.contractuel, "]\n",
+          "libellé des stagiaires           [ stagiaire =", code.stagiaire, "]\n",
+          "libellé des titulaires           [ titulaire =", code.titulaire, "]\n",
+          "libellé des  traitements         [ traitement =", code.traitement, "]\n",
+          "libellé des vacations            [ vacations =", code.vacation, "]\n",
+          "format de date                   [ date =", date.format, "]\n",
+          "début de période sous revue      [ début =", début.période.sous.revue, "]\n",
           "fin de la période sous revue     [ fin =", fin.période.sous.revue, "]\n",
+          "durée minimum de travail\n première et dernière année       [ durée =", seuil.troncature, "]\n")
           "génération des bases .csv        [ bases =", générer.bases, "]\n",
           "génération des codes de paye     [ codage =", générer.codes, "]\n",
           "génération des distributions     [ distributions =", générer.distributions, "]\n",
           "génération des tests statutaires [ tests =", générer.tests, "]\n",
+          "colonnes sélectionnées           [ colonnes =", colonnes.sélectionnées, "]\n",          
+          "décoder les fichiers .*xhl       [ décoder =", décoder.xhl, "]\n",
+          "dossier des bases                [ dossier.bases =", dossier.bases, "]\n",
+          "dossier des statistiques         [ dossier.stats =", dossier.stats, "]\n",
           "nom du fichier des avantages     [ nom.avantages =", nom.de.fichier.avantages, "]\n",
           "nom du fichier de base en sortie [ nom.base =", nom.de.fichier.base, "]\n",
           "nom du fichier de\n bulletins de paye                [ nom.bulletins =", nom.de.fichier.bulletins, "]\n",
@@ -285,7 +288,8 @@ altair.générateur <- setRefClass(
           "nom du fichier de lignes de paye [ nom.lignes =", nom.de.fichier.lignes, "]\n",
           "nom du fichier de NBI            [ nom.nbi =", nom.de.fichier.nbi, "]\n",
           "nom du fichier de xhl            [ nom.xhl =", nom.de.fichier.xhl, "]\n",
-          "durée minimum de travail\n première et dernière année       [ durée =", seuil.troncature, "]\n")
+          "verbosité                        [ verbosité =", verbosité, "]\n")
+          
       
     }
   )
@@ -295,42 +299,31 @@ altair.générateur <- setRefClass(
 #' Classe Base
 #'
 #' base.générateur est le générateur de la classe Base.
-#' graâce aux données entrées par l'instance de la classe Altair,
+#' grâce aux données entrées par l'instance de la classe Altair,
 #' voir  \code{\link{altair.générateur}}
-lignes                  = data.frame(NULL), 
-avantages               = data.frame(NULL), 
-catégories              = data.frame(NULL), 
-nbi                     = data.frame(NULL)
 #' @param altair          [altair.générateur$new()]  Valeurs par défaut des champs de classe Altair
-#' @param bulletins       [data.frame(NULL)]         Base des bulletins de paie
-#' @param codes           [data.frame(NULL)]         Base des codes de paie
-#' @param nom.avantages   ["avantages"]    Nom du fichier .csv des avantages en nature.
-#' @param nom.base        ["base"]         Nom du fichier .csv de la base principale de sortie.
-#' @param nom.bulletins   ["Bulletins de paie"] Nom du fichier .csv de la base des bulletins de paie.
-#' @param nom.catégories  ["catégories"]   Nom du fichier .csv de la base des catégories (A, B, C,...) des agents.
-#' @param nom.codes       ["codes"]        Nom du fichier .csv des codes de rémunération.
-#' @param nom.lignes      ["Lignes de paie"] Nom du fichier .csv des lignes de paie.  
-#' @param nom.nbi         ["NBI"]          Nom du fichier .csv des rémunérations de type NBI.
-#' @param verbosité       [0]              Niveau de verbosité (0, 1, 2)
-#' @return Retourne un instance de classe Altair par la méthode new(...)
+#' @param bulletins       [data.frame(NULL)]         Base .csv des bulletins de paie
+#' @param codes           [data.frame(NULL)]         Base .csv des codes de paie
+#' @param lignes          [data.frame(NULL)]         Base .csv des lignes de paie 
+#' @param avantages       [data.frame(NULL)]         Base .csv des avantages en nature
+#' @param catégories      [data.frame(NULL)]         Base .csv des catégories statutaires (A, B, C, ...) des agents
+#' @param nbi             [data.frame(NULL)]         Base .csv des rémunérations NBI
+#' @return Retourne un instance de classe Base par la méthode new(...)
 #' @note La classe est de type classe de références (RefClass).
 #' @author Fabrice Nicol
 #' @seealso Link to functions in the same package with
-#' \code{\link{base.générateur}}
+#' \code{\link{altair.générateur}}
 #' @examples
-#' # Génère altair pour les années 2009 à 2013 et enregistre les bases 
-#' # .csv en sortie du programme
+#' # Génère les bases .csv pour les années 2009 à 2013 
 #' altair <- altair.générateur$new(début=2009, fin=2013, bases=TRUE)
 #' bases  <- bases.générateur$new(altair)
 #' @export
-
-
 
 base.générateur <- setRefClass(
   "Base",
    contains="Noyau",
    fields=list(
-     Base                      = "data.frame",
+     Global                    = "data.frame",
      Bulletins                 = "data.frame",
      Codes                     = "data.frame",
      Codes.fonct               = "data.frame",
@@ -355,7 +348,7 @@ base.générateur <- setRefClass(
       # puis attribuer directement base au résultat
       # sinon, lire lignes, bulletins, nbi et fusionner
       # mode in : NBI, Lignes, Bulletins dans le premier cas ; *.xhl dans le second
-      # mode out: Base, NBI, Lignes, Bulletins dans les deux cas
+      # mode out: Global, NBI, Lignes, Bulletins dans les deux cas
     
       if (altair$décoder.xhl) décoder.xhl(altair$nom.de.fichier.xhl)
       else  
