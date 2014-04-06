@@ -8,7 +8,7 @@ analyser.tests <- function ()
   
   # NBI pour non titulaires
   
-  NBI.aux.non.titulaires <- Base[ ! parse(text=altair$étiquette.statut) %in% c(altair$code.titulaire, altair$code.stagiaire) & as.character(Code) %in% Codes.NBI, altair$colonnes.sélectionnées]
+  NBI.aux.non.titulaires <- Global[ ! parse(text=altair$étiquette.statut) %in% c(altair$code.titulaire, altair$code.stagiaire) & as.character(Code) %in% Codes.NBI, altair$colonnes.sélectionnées]
   
   nombre.de.ldp.NBI.nontit <- nrow(NBI.aux.non.titulaires)
   
@@ -20,11 +20,11 @@ analyser.tests <- function ()
   
   # Prime de fonctions informatiques : pas dans la base de VLB
   # on cherche la chaine de char. "INFO" dans les libellés de primes
-  # variante : filtre <- regexpr(".*(INFO|PFI|P.F.I).*", toupper(Base$Libellé)) et regmatches(Base$Libellé, filtre)
+  # variante : filtre <- regexpr(".*(INFO|PFI|P.F.I).*", toupper(Global$Libellé)) et regmatches(Global$Libellé, filtre)
   
   filtre<-grep(".*(INFO|PFI|P.F.I).*", Libellé, ignore.case=TRUE)
   
-  personnels.prime.informatique <- Base[ filtre, colonnes.sélectionnées]
+  personnels.prime.informatique <- Global[ filtre, colonnes.sélectionnées]
   
   primes.informatiques.potentielles<-unique(Libellé[filtre])
   
@@ -32,23 +32,23 @@ analyser.tests <- function ()
   
   # Vacations et statut de fonctionnaire
   
-  ldp.fonctionnaires.et.vacations <- Base[ parse(text=altair$étiquette.statut) %in% c("TITULAIRE", "STAGIAIRE") & est.code.de.type(code.vacation), colonnes.sélectionnées]
+  ldp.fonctionnaires.et.vacations <- Global[ parse(text=altair$étiquette.statut) %in% c("TITULAIRE", "STAGIAIRE") & est.code.de.type(code.vacation), colonnes.sélectionnées]
   
   nombre.de.ldp.fonctionnaires.et.vacations <- nrow(ldp.fonctionnaires.et.vacations)
   
   # Vacations et régime indemnitaire
   
-  Base.vacations <- Base[est.code.de.type(code.vacation), colonnes.sélectionnées]
+  Global.vacations <- Global[est.code.de.type(code.vacation), colonnes.sélectionnées]
   
   matricules.nontit.et.vacations <- unique(Base.vacations[ ! Base.vacations$Statut %in% c("TITULAIRE", "STAGIAIRE"), "Matricule"])
   
   vacations.concernées <- Base.vacations[Matricule %in% matricules.nontit.et.vacations, ]
   
-  RI.et.vacations <- Base[ Matricule %in% matricules.nontit.et.vacations & est.code.de.type(code.prime.ou.contractuel), colonnes.sélectionnées]
+  RI.et.vacations <- Global[ Matricule %in% matricules.nontit.et.vacations & est.code.de.type(code.prime.ou.contractuel), colonnes.sélectionnées]
   
   # Vacations et indiciaire
   
-  traitement.et.vacations <- Base[ Matricule %in% matricules.nontit.et.vacations & est.code.de.type(code.traitement), colonnes.sélectionnées]
+  traitement.et.vacations <- Global[ Matricule %in% matricules.nontit.et.vacations & est.code.de.type(code.traitement), colonnes.sélectionnées]
   
   nombre.de.ldp.RI.et.vacations <- nrow(RI.et.vacations)
   nombre.de.ldp.traitement.et.vacations <- nrow(traitement.et.vacations)
@@ -57,23 +57,23 @@ analyser.tests <- function ()
   
   filtre.iat<-grep(".*(IAT|I.A.T|.*Adm.*Tech).*", Libellé, ignore.case=TRUE)
   filtre.ifts<-grep(".*(IFTS|I.F.T.S|.*FORF.*TRAV.*SUPP).*", Libellé, ignore.case=TRUE)
-  codes.ifts <- unique(Base[filtre.ifts, "Code"])
+  codes.ifts <- unique(Global[filtre.ifts, "Code"])
   
-  sélection.matricules <- intersect(!duplicated(Base[ Indice < 350, c("Matricule")]), !duplicated( Base[ filtre.ifts, c("Matricule")]))
+  sélection.matricules <- intersect(!duplicated(Global[ Indice < 350, c("Matricule")]), !duplicated(Global[ filtre.ifts, c("Matricule")]))
   
-  violation.plancher.indiciaire.ifts <- Base[Matricule %in% sélection.matricules & Code %in% codes.ifts & (Indice < 350 ), colonnes.sélectionnées]
+  violation.plancher.indiciaire.ifts <- Global[Matricule %in% sélection.matricules & Code %in% codes.ifts & (Indice < 350 ), colonnes.sélectionnées]
   
   rm(sélection.matricules)
   
   # IFTS et non tit
   
-  ifts.et.non.tit <- Base[Code %in% codes.ifts & !parse(text=altair$étiquette.statut) %in% c("TITULAIRE", "STAGIAIRE"), colonnes.sélectionnées]
+  ifts.et.non.tit <- Global[Code %in% codes.ifts & !parse(text=altair$étiquette.statut) %in% c("TITULAIRE", "STAGIAIRE"), colonnes.sélectionnées]
   
   # Incomptabilités de primes entre elles
   
   #IAT et IFTS
   
-  personnels.iat.ifts <- intersect(as.character(Base[ filtre.iat, c("Matricule")]), as.character(Base[ filtre.ifts, c("Matricule")]))
+  personnels.iat.ifts <- intersect(as.character(Global[ filtre.iat, c("Matricule")]), as.character(Global[ filtre.ifts, c("Matricule")]))
   
   nb.personnels.iat.ifts <- length(personnels.iat.ifts)
   
@@ -88,5 +88,5 @@ analyser.tests <- function ()
   pretty.print(nombre.de.ldp.traitement.et.vacations)
   pretty.print(nb.personnels.iat.ifts)
   
-  detach(Base)
+  detach(Global)
 }

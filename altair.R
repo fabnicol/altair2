@@ -8,6 +8,7 @@ source("bibliothèque.altair.R")
 installer.paquets(assertthat, plyr, rigoureusement = TRUE)
 library(assertthat)
 source("classes.R")
+source("analyser.distributions.R")
 
 ## ------------------------------------------------------ ##
 

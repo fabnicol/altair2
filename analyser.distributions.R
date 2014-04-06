@@ -1,21 +1,19 @@
 
-source("classes.R")
 library(plyr)
 
 base.générateur$methods(
 
   analyser.distributions = function () 
   {
-          Base <- mutate(Base,
+    Global <- mutate(Global,
                             
-                            montant.traitement.indiciaire = parse(text=altair$étiquette.montant)*(est.code.de.type(altair$code.traitement)),
-                            montant.primes = parse(text=altair$étiquette.montant)*(est.code.de.type(altair$code.prime.ou.contractuel)),
-                            montant.autres.rémunérations = parse(text=altair$étiquette.montant)*(est.code.de.type(altair$code.autre)))
+                            montant.traitement.indiciaire = get(altair$étiquette.montant)*(est.code.de.type(altair$code.traitement)),
+                            montant.primes = get(altair$étiquette.montant)*(est.code.de.type(altair$code.prime.ou.contractuel)),
+                            montant.autres.rémunérations = get(altair$étiquette.montant)*(est.code.de.type(altair$code.autre)))
           
-          Analyse.rémunérations <- ddply(Base,
-                                         .(altair$étiquette.matricule),
+          Analyse.rémunérations <- ddply(Global,
+                                         c(altair$étiquette.matricule, altair$étiquette.catégorie),
                                          summarize,
-                                         #                             catégorie = Code.catégorie[1],
                                          traitement.indiciaire                      = sum(montant.traitement.indiciaire),
                                          rémunération.contractuelle.ou.indemnitaire = sum(montant.primes),
                                          autres.rémunérations                       = sum(montant.autres.rémunérations),
@@ -25,43 +23,50 @@ base.générateur$methods(
                                          part.rémunération.contractuelle.ou.indemnitaire = 
                                            ifelse(traitement.indiciaire + rémunération.contractuelle.ou.indemnitaire == 0, 0,
                                                   rémunération.contractuelle.ou.indemnitaire /
-                                                    (traitement.indiciaire + rémunération.contractuelle.ou.indemnitaire)*100))
+                                                    (traitement.indiciaire + rémunération.contractuelle.ou.indemnitaire)*100)
+                                         .parallel = TRUE, progress = "text")
           
           attach(Analyse.rémunérations, warn.conflicts=FALSE)
+
+    Analyse.rémunérations <- subset(Analyse.rémunérations,  
+                                      total.rémunérations > 0 
+                                    & ! is.na(get( altair$étiquette.catégorie)))
+    
+    Liste.de.bases <- c(Analyse.rémunérations, lapply(levels(Catégories[, altair$étiquette.catégories]), 
+           function(x) subset(Analyse.rémunérations, get(altair$étiquette.catégorie) == x)))
+        
+    # Il faut impérativement que la catégorie soit renseignée pour chaque agent
+    # Des problèmes risquent de se poser en cas de changement de catégorie en cours d'année.
+    # On peut prendre la convention de la cétgorie au 31 /12.
+        
+    summary.analyse.rémunérations <- function(X)
+    {
+          Stats <- summary(X[  
+                            , c(altair$étiquette.catégorie, 
+                                "traitement.indiciaire",
+                                "rémunération.contractuelle.ou.indemnitaire",
+                                "autres.rémunérations",
+                                "total.rémunérations",
+                                "part.rémunération.contractuelle.ou.indemnitaire")])
           
-          ##
-          #  Stats globales
-          ##
-          
-          Stats <- summary(Analyse.rémunérations[total.rémunérations > 0, c("traitement.indiciaire", "rémunération.contractuelle.ou.indemnitaire", "autres.rémunérations", "total.rémunérations", "part.rémunération.contractuelle.ou.indemnitaire")])
-          
-          masse.indemnitaire            <- sum(rémunération.contractuelle.ou.indemnitaire[ total.rémunérations > 0])
-          masse.indiciaire              <- sum(traitement.indiciaire[ total.rémunérations > 0])
-          masse.rémunérations.brutes    <- sum(total.rémunérations[ total.rémunérations > 0])
+          masse.indemnitaire            <- sum(rémunération.contractuelle.ou.indemnitaire)
+          masse.indiciaire              <- sum(traitement.indiciaire)
+          masse.rémunérations.brutes    <- sum(total.rémunérations)
           
           print(data.frame(masse.indemnitaire, masse.indiciaire, masse.rémunérations.brutes))
           
-          cat("masse totale rémunérations brutes hors élus : ", rem.brute.hors.élus <- sum(Bulletins[Bulletins$Service != "Elus",]$Brut), "\n")
-          cat("masse totale rémunérations brutes élus      : ", rem.brute.élus      <- sum(Bulletins[Bulletins$Service == "Elus",]$Brut), "\n")
+          cat("masse totale rémunérations brutes hors élus : ", rem.brute.hors.élus <- sum(Bulletins[Bulletins$Service != altair$libellé.élus,]$Brut), "\n")
+          cat("masse totale rémunérations brutes élus      : ", rem.brute.élus      <- sum(Bulletins[Bulletins$Service == altair$libellé.élus,]$Brut), "\n")
           cat("masse totale rémunérations brutes           : ", rem.brute           <- rem.brute.élus + rem.brute.hors.élus, "\n")
           
-          with(Lignes, cat("masse salariale brute : ", sum(parse(text=étiquette.montant), "\n")))
+          with(Lignes, cat("masse salariale brute : ", sum(get(étiquette.montant)), "\n")))
           
           print(Stats)
-          
-          
-          # Stats.C <- summary(Analyse.rémunérations[total.rémunérations > 0 & catégorie == "C", c("traitement.indiciaire", "rémunération.contractuelle.ou.indemnitaire", "autres.rémunérations", "total.rémunérations", "part.rémunération.contractuelle.ou.indemnitaire")])
-          # 
-          # masse.indemnitaire.C            <- sum(rémunération.contractuelle.ou.indemnitaire[ total.rémunérations > 0 & catégorie == "C" & ! is.na(rémunération.contractuelle.ou.indemnitaire) & ! is.na(catégorie)])
-          # masse.indiciaire.C              <- sum(traitement.indiciaire[ total.rémunérations > 0 & catégorie == "C" & ! is.na(traitement.indiciaire) & ! is.na(catégorie)])
-          # masse.rémunérations.brutes.C    <- sum(total.rémunérations[ total.rémunérations > 0 & catégorie == "C" & ! is.na(total.rémunérations) & ! is.na(catégorie)])
-          # 
-          # print(data.frame(masse.indemnitaire.C, masse.indiciaire.C, masse.rémunérations.brutes.C))
-          # 
-          # print(Stats.C)
-          
-          
-          
+    } 
+
+
+    lapply(Liste.de.bases, summary.analyse.rémunérations)
+             
           ##
           #  Fonctionnaires (repérés par traitement indemnitaire > 0) : fonctionnaires stagiaires inclus (à vérif.)
           ##

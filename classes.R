@@ -48,6 +48,7 @@ noyau.générateur <- setRefClass(
 #' par \code{\link{base.générateur}}
 #' @param champ1          ["Matricule"]    Etiquette du champ qui sera détecté en priorité pour la lecture des bases.
 #' @param champ2          ["Mois"]         Etiquette du champ qui sera détecté en second lieu pour la lecture des bases.
+#' @param catégorie       ["Catégorie"]    Etiquette du champ des catégories statutaires.
 #' @param code            ["Code"]         Etiquette du champ des codes de rémunération.
 #' @param libellé         ["Libellé"]      Etiquette du champ des libellés de rémunération.
 #' @param matricule       ["Matricule"]    Etiquette du champ du matricule d'un agent.
@@ -103,6 +104,7 @@ altair.générateur <- setRefClass(
     
     champ.détection.1         = "character",
     champ.détection.2         = "character",
+    étiquette.catégorie       = "character",
     étiquette.code            = "character",
     étiquette.libellé         = "character",
     étiquette.matricule       = "character",
@@ -144,6 +146,7 @@ altair.générateur <- setRefClass(
     initialize = function(
       champ1                  = "Matricule",
       champ2                  = "Mois",
+      catégorie               = "Catégorie"
       code                    = "Code",
       libellé                 = "Libellé",
       matricule               = "Matricule",
@@ -190,6 +193,7 @@ altair.générateur <- setRefClass(
       
       champ.détection.1         <<-    champ1
       champ.détection.2         <<-    champ2
+      étiquette.catégorie       <<-    catégorie
       étiquette.code            <<-    code
       étiquette.libellé         <<-    libellé
       étiquette.matricule       <<-    matricule
@@ -254,6 +258,7 @@ altair.générateur <- setRefClass(
     {
       cat(" champ de détection prioritaire   [ champ1 =", champ.détection.1,"]\n",
           "champ de détection secondaire    [ champ2 =", champ.détection.2, "]\n",
+          "champ des catégories             [ catégorie =", champ.détection.2, "]\n",
           "champ des codes                  [ code =", étiquette.code, "]\n",
           "champ des libellés               [ libellé =", étiquette.libellé, "]\n",
           "champ des matricules             [ matricule =", étiquette.matricule, "]\n",
@@ -364,10 +369,5 @@ base.générateur <- setRefClass(
     
 # à implémenter:
 # décoder.xhl(altair$nom.de.fichier.xhl)
-# importer.bases()
-# générer.codes()
-# générer.tests()
-# générer.distributions()
-# générer.variations()
 
 
