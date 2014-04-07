@@ -24,7 +24,7 @@ sélectionner.répertoire <- function(x, z)
                   x$resize(10*x$width, x$height)
                   boutons.hash[z] <<- filename
                }
-             wizard$update()
+             #wizard$update()
              #wizard$resize(largeur.initiale*1.5, hauteur.initiale*1.5)  
              
            })
