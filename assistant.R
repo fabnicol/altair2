@@ -12,24 +12,37 @@ sélectionner.répertoire <- function(x)
   qconnect(x, "clicked",
            function()
            {
+             x$setMaximumSize(80, 40)
              filename <- Qt$QFileDialog$getExistingDirectory(NULL,
                                                              "Sélectionner un répertoire", 
                                                              getwd())
-             if(!is.null(filename))  x$setText(basename(filename)) 
+             if(!is.null(filename))  x$setText(filename) 
+             
            })
   
 }
 
-sélectionner.csv <- function(x)
+
+bouton.hash <- list()
+
+sélectionner <- function(y, type)
 {
-  qconnect(x, "clicked", function() 
+  qconnect(y, "clicked", function() 
     {
+    y$setMaximumSize(80, 40)
+    name_filter <- paste0(type, " (*.", type, ")")
     
-    name_filter <- "CSV  (*.csv)"
-    filename <<- Qt$QFileDialog$getOpenFileName(NULL, "Sélectionner un fichier CSV...", getwd(), name_filter)
-    if(!is.null(filename))  x$setText(basename(filename))
+    filenames <<- Qt$QFileDialog$getOpenFileNames(NULL, paste("Sélectionner un fichier", type, "..."), getwd(), name_filter)
+    if(!is.null(filename))  y$setText(do.call(paste, filenames, sep = "\n"))
+    
+    bouton.hash[names(x)] <<- filenames
+    
    })
 }
+
+sélectionner.csv <- function(y) sélectionner(y, "csv")
+sélectionner.xhl <- function(y) sélectionner(y, "xhl")
+
 
 source("bibliothèque.altair.R", encoding="UTF-8")
 source("classes.R", encoding="UTF-8")
@@ -65,6 +78,7 @@ info.étiquettes <- c(
 "champ de libellé",
 "champ du statut",
 "champ du type de rémunération",
+"colonnes.sélectionnées",
 "libellé de stagiaire",
 "libellé de titulaire",
 "libellé service élu",
@@ -86,6 +100,7 @@ altair$étiquette.code,
 altair$étiquette.libellé,
 altair$étiquette.statut,
 altair$étiquette.type.rémunération,
+altair$colonnes.sélectionnées,
 altair$code.stagiaire,
 altair$code.titulaire,
 altair$code.élu,
@@ -106,6 +121,7 @@ commentaires.champs.noms <- c(
   "libellé exact du champ de codage",
   "libellé exact du champ de libellé",
   "libellé exact du champ du statut",
+  "champs qui seront inclus en colonnes dans la base globale, séparés par au moins un espace"
   "libellé exact du champ du type de rémunération",
   "libellé exact de stagiaire",
   "libellé exact de titulaire",
@@ -199,42 +215,45 @@ wizard$addPage(periode_page)
 
 base_page <- Qt$QWizardPage(wizard)
 base_page$setTitle("Importer")
-
 base_page$setLayout(base_layout <- Qt$QGridLayout())
-
-base_layout$addWidget(parseXml <- Qt$QCheckBox("Importer directement les fichiers xhl"), 0,1)
-
-base_layout$setRowMinimumHeight(1, 20)
 
 base<-data.frame()
 
-base.étiquettes <- c("Lignes de paie", "Bulletins de paie", "Codes", "Avantages en nature", "Catégories")
+# nom.de.fichier.base       = "character",
+# nom.de.fichier.nbi        = "character",
+
+base.étiquettes <- c("Fichiers Xémélios", "Lignes de paie", "Bulletins de paie", "Nouvelle bonification indiciaire", "Codes", "Avantages en nature", "Catégories")
 
 boutons.bases <- lapply(base.étiquettes,
                          function(i) 
-                          Qt$QPushButton("Sélectionner le fichier (.csv)"))
+                          Qt$QPushButton("Sélectionner le fichier"))
 
-names(boutons.bases) <- c("ldp", "bdp", "codes", "avantages", "catégories")
+names(boutons.base) <- base.étiquettes
 
-lapply(boutons.bases, sélectionner.csv)
+sélectionner.xhl(boutons.bases[[1]])
+
+fichiers.xhl.gbox <- Qt$QGroupBox("Bases xhl")
+xhl.gbox.layout <- Qt$QGridLayout()
+xhl.gbox.layout$addWidget(parseXml, 0, 0, Qt$Qt$AlignLeft)
+fichiers.csv.gbox$setLayout(xhl.gbox.layout)
+
+lapply(boutons.bases[2:length(boutons.bases)], sélectionner.csv)
 
 formulaire <- c(formulaire, boutons.bases)
 
-base.form.layout <- Qt$QFormLayout()
-mapply(base.form.layout$addRow, base.étiquettes, boutons.bases)
+fichiers.csv.layout <- Qt$QFormLayout()
+mapply(fichiers.csv.layout$addRow, base.étiquettes, boutons.bases)
 
-base.form.gbox <- Qt$QGroupBox("Bases csv")
+fichiers.csv.gbox <- Qt$QGroupBox("Bases csv")
 
 indicesOk <- Qt$QCheckBox("Sélectionner tous les fichiers\nde même nom racine")
 
-gbox.layout <- Qt$QGridLayout()
-gbox.layout$addWidget(indicesOk, 0, 0, Qt$Qt$AlignLeft)
-gbox.layout$setRowMinimumHeight(1, 10)
+csv.gbox.layout <- Qt$QGridLayout()
+csv.gbox.layout$addWidget(indicesOk, 0, 0, Qt$Qt$AlignLeft)
+csv.gbox.layout$setRowMinimumHeight(1, 10)
+csv.gbox.layout$addLayout(fichiers.csv.layout, 2, 0)
 
-gbox.layout$addLayout(base.form.layout, 2, 0)
-base.form.gbox$setLayout(gbox.layout)
-
-base_layout$addWidget(base.form.gbox, 2, 1)
+fichiers.csv.gbox$setLayout(csv.gbox.layout)
 
 indicesOk$setChecked(TRUE);
 
@@ -242,8 +261,13 @@ button_box <-  Qt$QDialogButtonBox()
 button_box$addButton("Annuler", Qt$QDialogButtonBox$RejectRole)
 button_box$addButton("Importer les bases", Qt$QDialogButtonBox$AcceptRole)
 
-base_layout$setRowMinimumHeight(3, 10)
-base_layout$addWidget(button_box, 4, 1, Qt$Qt$AlignRight)
+base_layout$addWidget(parseXml <- Qt$QCheckBox("Importer directement les fichiers xhl"), 0, 1)
+base_layout$addWidget(fichiers.xhl.gbox, 2, 1)
+base_layout$addWidget(fichiers.csv.gbox, 3, 1)
+base_layout$addWidget(button_box, 5, 1, Qt$Qt$AlignRight)
+base_layout$setRowMinimumHeight(1, 20)
+base_layout$setRowMinimumHeight(4, 10)
+
 
 base_page$setLayout(base_layout)
 wizard$addPage(base_page)
@@ -270,7 +294,11 @@ qconnect(button_box, "accepted",
                   })
          })
 
-qconnect(parseXml, "clicked", function() { base.form.gbox$setEnabled(!parseXml$checked)})
+qconnect(parseXml, "clicked", function() 
+                                {
+                                  fichiers.csv.gbox$setEnabled(!parseXml$checked)
+                                  fichiers.xhl.gbox$setEnabled(parseXml$checked)
+                                })
 
 ## Quatrième page  ##
 
@@ -328,14 +356,6 @@ wizard$addPage(actions_page)
 ############################## Intéraction avec l'environnement et le source  #############################################
 
 
-
-# colonnes.sélectionnées    = "character",
-# nom.de.fichier.base       = "character",
-# nom.de.fichier.nbi        = "character",
-# nom.de.fichier.xhl        = "character",
-# verbosité                 = "numeric"
-
-
 objets <- lapply(quote(c(
   champ.détection.1,
   champ.détection.2,
@@ -359,8 +379,10 @@ objets <- lapply(quote(c(
   seuil.troncature,
   début.période.sous.revue,
   fin.période.sous.revue,
-  nom.de.fichier.bulletins,
+  nom.de.fichier.xhl,
   nom.de.fichier.lignes,
+  nom.de.fichier.bulletins,
+  nom.de.fichier.nbi,
   nom.de.fichier.codes,
   nom.de.fichier.avantages,
   nom.de.fichier.catégories,
@@ -382,8 +404,11 @@ response<-wizard$exec()
 
 valeur.widget <- function(y)
 {
-  if (y$metaObject()$className() %in% c("QPushButton", "QLineEdit"))
-     return(list(y$text))
+  if (y$metaObject()$className() == "QLineEdit")
+    return(strsplit(y$text, split = " +"))
+  else
+  if (y$metaObject()$className() == "QPushButton")
+     return(boutons.hash[names(y)])
   else
   if (y$metaObject()$className() == "QComboBox")   
      return(list(as.numeric(y$currentText)))
@@ -400,6 +425,6 @@ if(response)
   mapply(function(x, y) assign(x,  unlist(valeur.widget(y)), envir=altair),
                         objets,  
                         formulaire)
-
+  
 }
 
