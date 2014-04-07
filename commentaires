@@ -1,4 +1,4 @@
-
+   
 # --------  Pour tester la cohérence de la fusion   ----------  #
 
 Bdp.ldp<-merge(Bdp.ldp, Matricule.categorie, by=c("Nom"), all=TRUE)

@@ -1,7 +1,7 @@
 
 library(assertthat)
 
-if (!exists("dossier.travail") || nchar(dossier.travail) == 0)  dossier.travail <- "Altair"
+if (!exists("dossier.travail", envir=.GlobalEnv) || nchar(dossier.travail) == 0)  dossier.travail <- getwd()
 
 ##
 #  Fonctions auxiliaires (globales)
