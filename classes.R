@@ -1,5 +1,7 @@
 library(compiler)
 source("bibliothèque.altair.R")
+installer.paquets(assertthat, plyr, rigoureusement = TRUE)
+library(assertthat)
 enableJIT(3)
 
 noyau.générateur <- setRefClass(

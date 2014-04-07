@@ -1,6 +1,4 @@
 
-library(assertthat)
-
 if (!exists("dossier.travail", envir=.GlobalEnv) || nchar(dossier.travail) == 0)  dossier.travail <- getwd()
 
 ##

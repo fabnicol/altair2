@@ -1,54 +1,67 @@
 
 source("bibliothèque.altair.R")
 installer.paquets(qtutils, qtbase, rigoureusement = TRUE)
+library(compiler)
 enableJIT(3)
 library(qtbase)
 
-
 # Fonctions globales
 
-sélectionner.répertoire <- function(x) 
+init.width <- 450
+
+sélectionner.répertoire <- function(x, z) 
 {
   qconnect(x, "clicked",
            function()
            {
-             x$setMaximumSize(80, 40)
              filename <- Qt$QFileDialog$getExistingDirectory(NULL,
                                                              "Sélectionner un répertoire", 
                                                              getwd())
-             if(!is.null(filename))  x$setText(filename) 
+             if(nchar(filename) != 0) 
+               {
+                  base.name <- basename(filename)
+                  x$setText(base.name)
+                  x$resize(10*x$width, x$height)
+                  boutons.hash[z] <<- filename
+               }
+             wizard$update()
+             #wizard$resize(largeur.initiale*1.5, hauteur.initiale*1.5)  
              
            })
-  
 }
 
+boutons.hash <- list()
 
-bouton.hash <- list()
-
-sélectionner <- function(y, type)
+sélectionner <- function(y, z, type)
 {
   qconnect(y, "clicked", function() 
     {
-    y$setMaximumSize(80, 40)
+
     name_filter <- paste0(type, " (*.", type, ")")
     
+    # Contrairement à Qt C++, les résultats de qtbase pour un dialogue getOpenFileNames 
+    # ne sont pas sous forme de liste mais de vecteur
+    
     filenames <<- Qt$QFileDialog$getOpenFileNames(NULL, paste("Sélectionner un fichier", type, "..."), getwd(), name_filter)
-    if(!is.null(filename))  y$setText(do.call(paste, filenames, sep = "\n"))
-    
-    bouton.hash[names(x)] <<- filenames
-    
+    if(!is.null(filenames) && sum(nchar(filenames)) != 0)  
+      {
+         y$setText(do.call(paste, list(basename(filenames), collapse = "\n")))
+         y$resize(1.5*y$width, length(filenames)*y$height)
+         boutons.hash[[z]] <<- filenames
+      }
+    #wizard$repaint()
+    #wizard$resize(largeur.initiale*1.5, hauteur.initiale*1.5)  
+        
    })
 }
 
-sélectionner.csv <- function(y) sélectionner(y, "csv")
-sélectionner.xhl <- function(y) sélectionner(y, "xhl")
-
+sélectionner.csv <- function(y, z) sélectionner(y, z, "csv")
+sélectionner.xhl <- function(y, z) sélectionner(y, z, "xhl")
 
 source("bibliothèque.altair.R", encoding="UTF-8")
 source("classes.R", encoding="UTF-8")
 
 altair <- altair.générateur$new()
-
 
 ## Caractéristiques globales ##  
 
@@ -100,7 +113,7 @@ altair$étiquette.code,
 altair$étiquette.libellé,
 altair$étiquette.statut,
 altair$étiquette.type.rémunération,
-altair$colonnes.sélectionnées,
+paste(altair$colonnes.sélectionnées, collapse=" "),
 altair$code.stagiaire,
 altair$code.titulaire,
 altair$code.élu,
@@ -121,7 +134,7 @@ commentaires.champs.noms <- c(
   "libellé exact du champ de codage",
   "libellé exact du champ de libellé",
   "libellé exact du champ du statut",
-  "champs qui seront inclus en colonnes dans la base globale, séparés par au moins un espace"
+  "champs qui seront inclus en colonnes dans la base globale, séparés par au moins un espace",
   "libellé exact du champ du type de rémunération",
   "libellé exact de stagiaire",
   "libellé exact de titulaire",
@@ -136,28 +149,26 @@ commentaires.champs.noms <- c(
 info.form.layout <- Qt$QFormLayout()
 info.form.layout$setAlignment(Qt$Qt$AlignRight)
 
-chemin.dossier.étiquette <- "chemin du dossier de travail"
+formulaire <- list()
 
-info.form.layout$addRow(chemin.dossier.étiquette, dossier.travail.bouton <<- Qt$QPushButton("..."))
+créer.lignes <- function(x, z, t) 
+                     {
+                         line.edit <- Qt$QLineEdit()
+                         line.edit$setToolTip(z)
+                         line.edit$setText(t)
+                         line.edit$setAlignment(Qt$Qt$AlignRight)
+                         info.form.layout$addRow(x, line.edit)
+                         formulaire <<- c(formulaire, line.edit)
+                         
+                         return(line.edit)
+                      }
 
-créer.lignes <- function(x, z, t)  {
-                                   line.edit <- Qt$QLineEdit()
-                                   line.edit$setToolTip(z)
-                                   line.edit$setText(t)
-                                   line.edit$setAlignment(Qt$Qt$AlignRight)
-                                   info.form.layout$addRow(x, line.edit)
-                                   return(line.edit)
-                                }
-
-formulaire <- mapply(créer.lignes, info.étiquettes, commentaires.champs.noms, valeurs.par.défaut, SIMPLIFY = FALSE)
+mapply(créer.lignes, info.étiquettes, commentaires.champs.noms, valeurs.par.défaut, SIMPLIFY = FALSE)
 
 info_page <- Qt$QWizardPage(wizard)
 info_page$setTitle("Champs et libellés")
 info_page$setLayout(info.form.layout)
 wizard$addPage(info_page)
-
-
-sélectionner.répertoire(dossier.travail.bouton)
 
 ## Deuxième page ##
 
@@ -174,14 +185,12 @@ info.form.layout <- Qt$QFormLayout()
 
 ligne.format.date <- créer.lignes(info.étiquettes.2, commentaires.champs.noms.2, valeurs.par.défaut.2)
 
-ligne.format.date$setMaximumWidth(80)
-
-formulaire <-  c(formulaire, ligne.format.date)
+ligne.format.date$setMaximumWidth(100)
 
 période <- (annee.courante-10):annee.courante
 
 nombre.de.jours.de.travail <- Qt$QComboBox()
-nombre.de.jours.de.travail$addItems(altair$seuil.troncature-20:altair$seuil.troncature+20)
+nombre.de.jours.de.travail$addItems((altair$seuil.troncature-20):altair$seuil.troncature+20)
 nombre.de.jours.de.travail$setCurrentIndex(20)
 nombre.de.jours.de.travail$setToolTip( "Nombre de jours minimum qui devront être enregistrés en base de paie, au cours de la première et la dernière année de travail\npour pouvoir être pris en compte dans les statistiques relatives à ces deux années.")
 
@@ -195,11 +204,11 @@ fin.période.sous.revue$addItems(période)
 fin.période.sous.revue$setCurrentIndex(9)
 fin.période.sous.revue$setToolTip("Donner le dernier exercice sous revue")
 
+formulaire <- c(formulaire, nombre.de.jours.de.travail, début.période.sous.revue, fin.période.sous.revue)
+
 info.form.layout$addRow("Nombre minimum de jours de travail", nombre.de.jours.de.travail)
 info.form.layout$addRow("Période sous revue : premier exercice", début.période.sous.revue)
 info.form.layout$addRow("Période sous revue : dernier exercice", fin.période.sous.revue)
-
-formulaire <- c(formulaire, nombre.de.jours.de.travail, début.période.sous.revue, fin.période.sous.revue)
 
 periode_layout <- Qt$QGridLayout()
 periode_layout$setColumnMinimumWidth(0, 40)
@@ -219,55 +228,77 @@ base_page$setLayout(base_layout <- Qt$QGridLayout())
 
 base<-data.frame()
 
-# nom.de.fichier.base       = "character",
-# nom.de.fichier.nbi        = "character",
+indicesOk <- Qt$QCheckBox("Sélectionner tous les fichiers\nde même nom racine")
+indicesOk$setChecked(TRUE);
 
 base.étiquettes <- c("Fichiers Xémélios", "Lignes de paie", "Bulletins de paie", "Nouvelle bonification indiciaire", "Codes", "Avantages en nature", "Catégories")
 
-boutons.bases <- lapply(base.étiquettes,
-                         function(i) 
-                          Qt$QPushButton("Sélectionner le fichier"))
-
-names(boutons.base) <- base.étiquettes
-
-sélectionner.xhl(boutons.bases[[1]])
+parseXml <- Qt$QCheckBox("Importer directement les fichiers xhl")
 
 fichiers.xhl.gbox <- Qt$QGroupBox("Bases xhl")
-xhl.gbox.layout <- Qt$QGridLayout()
-xhl.gbox.layout$addWidget(parseXml, 0, 0, Qt$Qt$AlignLeft)
-fichiers.csv.gbox$setLayout(xhl.gbox.layout)
-
-lapply(boutons.bases[2:length(boutons.bases)], sélectionner.csv)
-
-formulaire <- c(formulaire, boutons.bases)
-
-fichiers.csv.layout <- Qt$QFormLayout()
-mapply(fichiers.csv.layout$addRow, base.étiquettes, boutons.bases)
-
 fichiers.csv.gbox <- Qt$QGroupBox("Bases csv")
 
-indicesOk <- Qt$QCheckBox("Sélectionner tous les fichiers\nde même nom racine")
-
+xhl.gbox.layout <- Qt$QGridLayout()
 csv.gbox.layout <- Qt$QGridLayout()
+
+fichiers.csv.layout <- Qt$QFormLayout()
+fichiers.xhl.layout <- Qt$QFormLayout()
+
+valeurs.par.défaut <- c(altair$nom.de.fichier.xhl,
+                        altair$nom.de.fichier.lignes,
+                        altair$nom.de.fichier.bulletins,
+                        altair$nom.de.fichier.nbi,
+                        altair$nom.de.fichier.codes,
+                        altair$nom.de.fichier.avantages,
+                        altair$nom.de.fichier.catégories)
+
+largeur.initiale <- wizard$sizeHint$width()
+hauteur.initiale <- wizard$sizeHint$height()
+
+créer.boutons.fichiers <- function(étiquette, défaut) 
+{
+  bouton <- Qt$QPushButton("Sélectionner le fichier")
+  boutons.hash[étiquette] <<- défaut
+  if (étiquette != "Fichiers Xémélios") 
+  {
+    sélectionner.csv(bouton, étiquette)
+    fichiers.csv.layout$addRow(étiquette, bouton)
+  }
+  else
+  {
+    sélectionner.xhl(bouton, étiquette)
+    fichiers.xhl.layout$addRow(étiquette, bouton)
+  }
+  return(bouton)
+}
+
+boutons.bases <- mapply(créer.boutons.fichiers, base.étiquettes, valeurs.par.défaut)
+
+names(boutons.bases) <- base.étiquettes
+
+xhl.gbox.layout$addLayout(fichiers.xhl.layout, 0, 0)
+
+csv.gbox.layout$addLayout(fichiers.csv.layout, 2, 0)
 csv.gbox.layout$addWidget(indicesOk, 0, 0, Qt$Qt$AlignLeft)
 csv.gbox.layout$setRowMinimumHeight(1, 10)
-csv.gbox.layout$addLayout(fichiers.csv.layout, 2, 0)
 
+fichiers.csv.gbox$setEnabled(!parseXml$checked)
+fichiers.xhl.gbox$setEnabled(parseXml$checked)
+fichiers.xhl.gbox$setLayout(xhl.gbox.layout)
 fichiers.csv.gbox$setLayout(csv.gbox.layout)
 
-indicesOk$setChecked(TRUE);
+formulaire <- c(formulaire, boutons.bases)
 
 button_box <-  Qt$QDialogButtonBox()
 button_box$addButton("Annuler", Qt$QDialogButtonBox$RejectRole)
 button_box$addButton("Importer les bases", Qt$QDialogButtonBox$AcceptRole)
 
-base_layout$addWidget(parseXml <- Qt$QCheckBox("Importer directement les fichiers xhl"), 0, 1)
+base_layout$addWidget(parseXml, 0, 1)
 base_layout$addWidget(fichiers.xhl.gbox, 2, 1)
 base_layout$addWidget(fichiers.csv.gbox, 3, 1)
 base_layout$addWidget(button_box, 5, 1, Qt$Qt$AlignRight)
 base_layout$setRowMinimumHeight(1, 20)
 base_layout$setRowMinimumHeight(4, 10)
-
 
 base_page$setLayout(base_layout)
 wizard$addPage(base_page)
@@ -300,6 +331,7 @@ qconnect(parseXml, "clicked", function()
                                   fichiers.xhl.gbox$setEnabled(parseXml$checked)
                                 })
 
+
 ## Quatrième page  ##
 
 actions_page <- Qt$QWizardPage(wizard)
@@ -319,33 +351,42 @@ info.etiquettes.4 <- c(
 "Générer les bases .csv des résultats statistiques",
 "Exporter et fusionner les bases bases xhl au format csv")
 
-boutons.générer <- list()
+cases.générer <- list()
 
 mapply(function(x)  
         {
           y <- Qt$QCheckBox()
           y$setChecked(TRUE)
-          boutons.générer <<- c(boutons.générer, y)
+          cases.générer <<- c(cases.générer, y)
           info.out.layout$addRow(x, y)
         }, info.etiquettes.4)
 
-formulaire <- c(formulaire, boutons.générer)
+formulaire <- c(formulaire, cases.générer)
 
-chemin.dossier.bases <- "chemin du dossier des bases"
+chemin.dossiers  <- c("dossier de travail",
+                      "dossier des bases",
+                      "dossier des statistiques")
 
-info.out.layout$addRow(chemin.dossier.bases, dossier.bases.bouton <- Qt$QPushButton("..."))
+valeurs.par.défaut <- c(dossier.travail,
+                        altair$dossier.bases,
+                        altair$dossier.stats)
 
-chemin.dossier.stats <- "chemin du dossier des statistiques"
 
-info.out.layout$addRow(chemin.dossier.stats, dossier.stats.bouton <- Qt$QPushButton("..."))
+créer.boutons.dossiers <- function(étiquette, défaut) 
+{
+  bouton <- Qt$QPushButton("...")
+  boutons.hash[étiquette] <<- défaut
+  sélectionner.répertoire(bouton, étiquette)
+  info.out.layout$addRow(étiquette, bouton)
+  return(bouton)
+}
 
-formulaire <- c(formulaire, dossier.travail.bouton, dossier.bases.bouton, dossier.stats.bouton)
+boutons.dossiers <- mapply(créer.boutons.dossiers, chemin.dossiers, valeurs.par.défaut)
+names(boutons.bases) <- chemin.dossiers
 
-sélectionner.répertoire(dossier.bases.bouton)
-sélectionner.répertoire(dossier.stats.bouton)
+formulaire <- c(formulaire, boutons.dossiers)
 
 actions_layout$setRowMinimumHeight(6,10)
-
 actions_layout$addLayout(info.out.layout, 7,1)
 
 actions_page$setLayout(actions_layout)
@@ -367,6 +408,7 @@ objets <- lapply(quote(c(
   étiquette.libellé,
   étiquette.statut,
   étiquette.type.rémunération,
+  colonnes.sélectionnées,
   code.stagiaire,
   code.titulaire,
   code.élu,
@@ -402,13 +444,13 @@ wizard$raise()
 
 response<-wizard$exec()
 
-valeur.widget <- function(y)
+valeur.widget <- function(y, z)
 {
   if (y$metaObject()$className() == "QLineEdit")
     return(strsplit(y$text, split = " +"))
   else
   if (y$metaObject()$className() == "QPushButton")
-     return(boutons.hash[names(y)])
+     return(boutons.hash[z])
   else
   if (y$metaObject()$className() == "QComboBox")   
      return(list(as.numeric(y$currentText)))
@@ -417,14 +459,14 @@ valeur.widget <- function(y)
      return(list(y$checked))
 }
 
-
 if(response)
 {
   # il faut actualiser les variables (objets) avec la saisie dynamique dans l'assistant  (formulaires, boutions...)
   objets[1] <- NULL 
-  mapply(function(x, y) assign(x,  unlist(valeur.widget(y)), envir=altair),
+  mapply(function(x, y, z) assign(x,  unlist(valeur.widget(y, z)), envir=altair),
                         objets,  
-                        formulaire)
+                        formulaire,
+                        names(formulaire))
   
 }
 
