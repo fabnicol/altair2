@@ -18,12 +18,12 @@ base.générateur$methods(
                                    rémunération.contractuelle.ou.indemnitaire = sum(montant.primes),
                                    autres.rémunérations                       = sum(montant.autres.rémunérations),
                                    total.rémunérations                        = traitement.indiciaire 
-                                   + rémunération.contractuelle.ou.indemnitaire 
-                                   + autres.rémunérations,
+                                                                                 + rémunération.contractuelle.ou.indemnitaire 
+                                                                                 + autres.rémunérations,
                                    part.rémunération.contractuelle.ou.indemnitaire = 
                                      ifelse(traitement.indiciaire + rémunération.contractuelle.ou.indemnitaire == 0, 0,
                                             rémunération.contractuelle.ou.indemnitaire /
-                                              (traitement.indiciaire + rémunération.contractuelle.ou.indemnitaire)*100)
+                                              (traitement.indiciaire + rémunération.contractuelle.ou.indemnitaire)*100),
                                    .parallel = TRUE, progress = "text")
     
     attach(Analyse.rémunérations, warn.conflicts=FALSE)
@@ -60,7 +60,7 @@ base.générateur$methods(
       cat("masse totale rémunérations brutes élus      : ", rem.brute.élus      <- sum(Bulletins[Bulletins$Service == altair$libellé.élus,]$Brut), "\n")
       cat("masse totale rémunérations brutes           : ", rem.brute           <- rem.brute.élus + rem.brute.hors.élus, "\n")
       
-      with(Lignes, cat("masse salariale brute : ", sum(get(étiquette.montant)), "\n")))
+      with(Lignes, cat("masse salariale brute : ", sum(get(étiquette.montant)), "\n"))
 
       print(Stats)
     } 
@@ -160,4 +160,4 @@ masses <- data.frame(masse.indemnitaire, masse.indiciaire, masse.rémunérations
 
 detach(Analyse.rémunérations)
 
-  }
+  })

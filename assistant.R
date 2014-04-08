@@ -7,8 +7,27 @@ library(qtbase)
 
 # Fonctions globales
 
-init.width <- 450
 
+#' Interface graphique assistant
+#'
+#' assistant() lance l'interface graphique Altair qui permet de renseigner
+#' la totalité des champs nécessaires au traitement statistique.
+#' grâce au générateur \code{\link{altair.générateur}} de la classe Altair.
+#' @note Uniquement testé sur linux et Qt 4.8.5 à l'aide du paquet qtbase
+#' @author Fabrice Nicol
+#' @seealso Link to functions in the same package with
+#' \code{\link{base.générateur}} \code{\link{altair.générateur}}
+#' paquet qtbase: 
+#' http:\\
+#' @examples
+#' # Génère altair pour les années 2009 à 2013 et enregistre les bases 
+#' # .csv en sortie du programme
+#' assistant()
+#' @export
+
+assistant <- function()
+{
+  
 sélectionner.répertoire <- function(x, z) 
 {
   qconnect(x, "clicked",
@@ -21,12 +40,10 @@ sélectionner.répertoire <- function(x, z)
                {
                   base.name <- basename(filename)
                   x$setText(base.name)
-                  x$resize(10*x$width, x$height)
+                  x$resize(6*x$width, x$height)
                   boutons.hash[z] <<- filename
                }
-             #wizard$update()
-             #wizard$resize(largeur.initiale*1.5, hauteur.initiale*1.5)  
-             
+             wizard$resize(largeur.initiale*1.5, hauteur.initiale)  
            })
 }
 
@@ -61,7 +78,7 @@ sélectionner.xhl <- function(y, z) sélectionner(y, z, "xhl")
 source("bibliothèque.altair.R", encoding="UTF-8")
 source("classes.R", encoding="UTF-8")
 
-altair <- altair.générateur$new()
+altair <<- altair.générateur$new()
 
 ## Caractéristiques globales ##  
 
@@ -343,7 +360,7 @@ actions_layout$setRowMinimumHeight(0,10)
 
 info.out.layout <- Qt$QFormLayout()
 
-info.etiquettes.4 <- c(
+info.étiquettes <- c(
 "Générer les bases de codes et libellés",
 "Générer l'analyse des distributions de rémunération",
 "Générer l'analyse des variations de rémunération",
@@ -359,7 +376,12 @@ mapply(function(x)
           y$setChecked(TRUE)
           cases.générer <<- c(cases.générer, y)
           info.out.layout$addRow(x, y)
-        }, info.etiquettes.4)
+        },
+        info.étiquettes)
+
+names(cases.générer) <- info.étiquettes 
+
+cases.générer$"Exporter et fusionner les bases bases xhl au format csv"$setChecked(FALSE)
 
 formulaire <- c(formulaire, cases.générer)
 
@@ -370,7 +392,6 @@ chemin.dossiers  <- c("dossier de travail",
 valeurs.par.défaut <- c(dossier.travail,
                         altair$dossier.bases,
                         altair$dossier.stats)
-
 
 créer.boutons.dossiers <- function(étiquette, défaut) 
 {
@@ -439,34 +460,34 @@ objets <- lapply(quote(c(
   dossier.stats)), deparse)
 
 
-wizard$setFocus()
-wizard$raise()
-
-response<-wizard$exec()
-
-valeur.widget <- function(y, z)
-{
-  if (y$metaObject()$className() == "QLineEdit")
-    return(strsplit(y$text, split = " +"))
-  else
-  if (y$metaObject()$className() == "QPushButton")
-     return(boutons.hash[z])
-  else
-  if (y$metaObject()$className() == "QComboBox")   
-     return(list(as.numeric(y$currentText)))
-  else   
-  if (y$metaObject()$className() == "QCheckBox")
-     return(list(y$checked))
-}
-
-if(response)
-{
-  # il faut actualiser les variables (objets) avec la saisie dynamique dans l'assistant  (formulaires, boutions...)
-  objets[1] <- NULL 
-  mapply(function(x, y, z) assign(x,  unlist(valeur.widget(y, z)), envir=altair),
-                        objets,  
-                        formulaire,
-                        names(formulaire))
+  wizard$setFocus()
+  wizard$raise()
   
+  response<-wizard$exec()
+  
+  valeur.widget <- function(y, z)
+  {
+    if (y$metaObject()$className() == "QLineEdit")
+      return(strsplit(y$text, split = " +"))
+    else
+      if (y$metaObject()$className() == "QPushButton")
+        return(boutons.hash[z])
+    else
+      if (y$metaObject()$className() == "QComboBox")   
+        return(list(as.numeric(y$currentText)))
+    else   
+      if (y$metaObject()$className() == "QCheckBox")
+        return(list(y$checked))
+  }
+  
+  if(response)
+  {
+    # il faut actualiser les variables (objets) avec la saisie dynamique dans l'assistant  (formulaires, boutions...)
+    objets[1] <- NULL 
+    mapply(function(x, y, z) assign(x,  unlist(valeur.widget(y, z)), envir=altair),
+           objets,  
+           formulaire,
+           names(formulaire))
+    
+  }
 }
-

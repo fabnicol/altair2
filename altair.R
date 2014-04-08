@@ -66,7 +66,7 @@ base.générateur$methods(
     champ.détection.1"
     
     subset(Base1, 
-           select=c(champ.détection.1, setdiff(names(Base1),names(Base2))))
+           select=c(altair$champ.détection.1, setdiff(names(Base1),names(Base2))))
     
   },
   
@@ -95,7 +95,7 @@ base.générateur$methods(
     de la fonction précédente"
     
     subset(Base1, 
-           select=c(champ.détection.1,champ.détection.2,
+           select=c(altair$champ.détection.1,altair$champ.détection.2,
                     setdiff(names(Base1),names(Base2))))
     
   },
@@ -128,73 +128,7 @@ base.générateur$methods(
 
 base.générateur$methods(
   
-  #' Base::trouver.valeur.skip
-  #'
-  #' Calcule le nombre de lignes qu'il faut sauter à l'importation d'une base .csv
-  #' pour pourvoir lire le champ de détection prioritaire 1 ou, s'il n'est pas détecté,
-  #' le champ de détection secondaire 2.
-  #' 
-  #' @param chemin  Chemin complet de la base .csv à importer
-  #' @return Renvoie entier.
-  #' @note   Pour cela on scanne les 25 premières lignes de la table une première fois.
-  #' @author Fabrice Nicol
-  #' @examples
-  #' # Génère les bases .csv pour les années 2009 à 2013 
-  #' altair <- altair.générateur$new(début=2009, fin=2013, bases=TRUE)
-  #' base   <- base.générateur$new(altair)
-  #' base$trouver.valeur.skip(altair$chemin.lignes())
-  #' @export
-    
-  trouver.valeur.skip =  function(chemin = chemin.table) 
-  {
-    "trouver.valeur.skip: character  ->  numeric(1)
-    
-    Trouve le numéro de la ligne à laquelle se situe la liste des noms de variables
-    en recherchant soit le mot `Matricule' soit une expression du type `Code...'
-    Il faudra déduire ce `skip' du read.csv2 pour récupérer proprement les noms de variable
-    Pour cela on scanne les 25 premières lignes de la table une première fois"
-    
-    max(
-      sapply(
-        read.csv2(chemin.table, nrows=25),
-        function(x) 
-        {
-          m <- match(champ.détection.1, x, nomatch=0 ) 
-          if (m == 0)
-            m <- pmatch(champ.détection.2, x, nomatch=0, duplicates.ok=FALSE ) 
-          return(m)
-        }
-      ))
-  },
-  
-  #' Base::read.csv.skip
-  #'
-  #' Lit une base en sautant les lignes avant les champs de détection automatique
-  #' de la première ligne de noms de colonne, par ex. `Matricule'
-  #' spécifiés par champ.détection.1 et champ.détection.2
-  #' 
-  #' @param chemin  Chemin complet de la base .csv à importer
-  #' @return Renvoie un data.frame.
-  #' @author Fabrice Nicol
-  #' @examples
-  #' # Génère les bases .csv pour les années 2009 à 2013 
-  #' altair <- altair.générateur$new(début=2009, fin=2013, bases=TRUE)
-  #' base   <- base.générateur$new(altair)
-  #' base$read.csv.skip(altair$chemin.lignes())
-  #' @export
-  
-  read.csv.skip = function(chemin = x) 
-  {
-    
-    "read.csv.skip:  character -> data.frame
-    
-    Lit une base en sautant les lignes avant les champs de détection automatique
-    de la première ligne de noms de colonne, par ex. `Matricule'
-    spécifiés par champ.détection.1 et champ.détection.2"
-    
-    chem <- chemin(x)
-    read.csv2(chem, skip=trouver.valeur.skip(chem), fileEncoding="UTF-8")
-  },
+ 
   
   #' Base::sauvegarder1
   #'
@@ -246,71 +180,13 @@ base.générateur$methods(
     tmp[1] <- NULL
     lapply(tmp, sauv.base)
     return(0)
-  },
-  
-  Read.csv = function(vect.chemin)
-  {
-    "Read.csv: vector(character)  ->   data.frame
-    
-    Lit un vecteur de chemins et empile verticalement les bases correspondant à ces chemins
-    qui résultent d'une importation csv2 par read.csv.skip"
-    
-    do.call(rbind, lapply(vect.chemin, read.csv.skip))
   }
 )
 
 #  Méthodes de traitement actif du problème et lanceur des tâches de statistiques
 
 base.générateur$methods(
-    
-  #' Base::importer
-  #'
-  #' Importe les différentes bases .csv2 données en input 
-  #' à savoir :
-  #' Lignes     Base des lignes de paie
-  #' NBI        Base des rémunérations de type NBI
-  #' Bulletins  Base des bulletins de paie
-  #' Catégories Base des catégories statutaires (A, B, C,...)
-  #' Codes      Base des codes de paie
-  #' Avantages  Base des avantages en nature
-  #' 
-  #' Fusionne les bases Bulletins et Lignes dans la base Global.
-  #' 
-  #' @author Fabrice Nicol
-  #' @examples
-  #' # Génère les bases .csv pour les années 2009 à 2013 
-  #' altair <- altair.générateur$new(début=2009, fin=2013, bases=TRUE)
-  #' base   <- base.générateur$new(altair)
-  #' base$importer()
-  #' @export
   
-  
-  importer = function()
-  {
-    "Importe les différentes bases .csv2 données en input."
-    
-    vérifier.intégrité(
-      Lignes      <<-  Read.csv(altair$nom.de.fichier.lignes),
-      NBI         <<-  Read.csv(altair$nom.de.fichier.nbi),
-      Bulletins   <<-  Read.csv(altair$nom.de.fichier.bulletins),
-      Catégories  <<-  Read.csv(altair$nom.de.fichier.catégories),
-      Codes       <<-  Read.csv(altair$nom.de.fichier.codes),
-      Avantages   <<-  Read.csv(altair$nom.de.fichier.avantages))
-    
-    #suppression des colonnes Nom Prénom redondantes
-    
-    Avantages   <<-  selectionner.cle.matricule(Avantages, Categories) 
-    Bulletins   <<-  selectionner.cle.matricule.mois(Bulletins, Lignes)
-    
-    #fusion matricule | avantage | catégorie par Matricule
-    
-    Global <<- merge(Bulletins, Lignes)
-    
-    # un peu par acquis de conscience...
-    
-    vérifier.intégrité(Global)
-  },
-
   #' Base::codes
   #'
   #' Génère l'ensemble des codes de rémunération correspondant à la base globale,

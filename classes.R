@@ -76,7 +76,8 @@ noyau.générateur <- setRefClass(
 #' @param distributions   [TRUE]           Valeur logique : si vaut TRUE, générer la distribution des rémunérations.
 #' @param tests           [TRUE]           Valeur logique : si vaut TRUE, générer les tests statutaires.
 #' @param variations      [TRUE]           Valeur logique : si vaut TRUE, générer l'analyse des variations.
-#' @param colonnes                         Colonnes de variables à produire dans la base principale en sortie.  
+#' @param colonnes        [c(...)]         Colonnes de variables à produire dans la base principale en sortie.  
+#' @param dossier.travail [getwd()]        Dossier de travail.
 #' @param dossier.bases   ["Altair/bases"] Dossier de sortie des bases .csv
 #' @param dossier.stats   ["Altair/stats"] Dossier de sortie des statistiques.
 #' @param nom.avantages   ["avantages"]    Nom du fichier .csv des avantages en nature.
@@ -134,6 +135,7 @@ altair.générateur <- setRefClass(
     générer.tests             = "logical",
     générer.variations        = "logical",
     colonnes.sélectionnées    = "character",
+    dossier.travail           = "character",
     dossier.bases             = "character",
     dossier.stats             = "character",
     nom.de.fichier.avantages  = "character",
@@ -184,6 +186,7 @@ altair.générateur <- setRefClass(
                                   "Mois",
                                   "Libellé",
                                   "Montant"),
+      dossier.travail         = getwd(),
       dossier.bases           = "Altair/bases",
       dossier.stats           = "Altair/stats",
       nom.avantages           = "avantages",
@@ -228,6 +231,7 @@ altair.générateur <- setRefClass(
       générer.variations        <<-    variations
       colonnes.sélectionnées    <<-    colonnes
       décoder.xhl               <<-    décoder
+      dossier.travail           <<-    dossier.travail,
       dossier.bases             <<-    dossier.bases
       dossier.stats             <<-    dossier.stats
       nom.de.fichier.avantages  <<-    nom.avantages
@@ -299,6 +303,7 @@ altair.générateur <- setRefClass(
           "génération des variations        [ variations =", générer.variations, "]\n",
           "colonnes sélectionnées           [ colonnes =", colonnes.sélectionnées, "]\n",          
           "décoder les fichiers .*xhl       [ décoder =", décoder.xhl, "]\n",
+          "dossier de travail               [ dossier.travail =", dossier.travail, "]\n",        
           "dossier des bases                [ dossier.bases =", dossier.bases, "]\n",
           "dossier des statistiques         [ dossier.stats =", dossier.stats, "]\n",
           "nom du fichier des avantages     [ nom.avantages =", nom.de.fichier.avantages, "]\n",
@@ -344,6 +349,7 @@ base.générateur <- setRefClass(
   "Base",
    contains="Noyau",
    fields=list(
+     altair                    = "Altair",
      Global                    = "data.frame",
      Bulletins                 = "data.frame",
      Codes                     = "data.frame",
@@ -356,34 +362,190 @@ base.générateur <- setRefClass(
      NBI                       = "data.frame"),
   
    methods=list(
-    initialize = function(
-        altair                  = altair.générateur$new(),  # valeurs par défaut des champs de classe Altair
-        bulletins               = data.frame(NULL),
-        codes                   = data.frame(NULL),
-        lignes                  = data.frame(NULL), 
-        avantages               = data.frame(NULL), 
-        catégories              = data.frame(NULL), 
-        nbi                     = data.frame(NULL))
+    initialize = function() { doss <<- "/home/fab/Dev/Altair/altair"}, 
+    
+    décoder.xhl = function(x)
+     {
+      .NotYetImplemented()
+     },
+
+    #' Base::trouver.valeur.skip
+    #'
+    #' Calcule le nombre de lignes qu'il faut sauter à l'importation d'une base .csv
+    #' pour pourvoir lire le champ de détection prioritaire 1 ou, s'il n'est pas détecté,
+    #' le champ de détection secondaire 2.
+    #' 
+    #' @param chemin  Chemin complet de la base .csv à importer
+    #' @return Renvoie entier.
+    #' @note   Pour cela on scanne les 25 premières lignes de la table une première fois.
+    #' @author Fabrice Nicol
+    #' @examples
+    #' # Génère les bases .csv pour les années 2009 à 2013 
+    #' altair <- altair.générateur$new(début=2009, fin=2013, bases=TRUE)
+    #' base   <- base.générateur$new(altair)
+    #' base$trouver.valeur.skip(altair$chemin.lignes())
+    #' @export
+    #' 
+    #'   
+    
+    trouver.valeur.skip =  function(x) 
+     {
+       "trouver.valeur.skip: character  ->  numeric(1)
+    
+    Trouve le numéro de la ligne à laquelle se situe la liste des noms de variables
+    en recherchant soit le mot `Matricule' soit une expression du type `Code...'
+    Il faudra déduire ce `skip' du read.csv2 pour récupérer proprement les noms de variable
+    Pour cela on scanne les 25 premières lignes de la table une première fois"
+       
+       max(
+         sapply(
+           read.csv2(x, nrows=25),
+           function(y) 
+           {
+             m <- match(altair$champ.détection.1, y, nomatch=0 ) 
+             if (m == 0)
+               m <- pmatch(altair$champ.détection.2, y, nomatch=0, duplicates.ok=FALSE ) 
+             return(m)
+           }
+         ))
+     },
+
+
+    chemin =  function(fichier) 
     {
-      # si altair prévoit un décodage xml, alors lancer ce décodage dans un fichier temp
-      # puis attribuer directement base au résultat
-      # sinon, lire lignes, bulletins, nbi et fusionner
-      # mode in : NBI, Lignes, Bulletins dans le premier cas ; *.xhl dans le second
-      # mode out: Global, NBI, Lignes, Bulletins dans les deux cas
+      if (!see_if(is.dir(doss)))
+      {
+        stop("Pas de dossier de travail spécifié")
+      }
+      file.path(doss, fichier)
+    },
+
+    #' Base::read.csv.skip
+    #'
+    #' Lit une base en sautant les lignes avant les champs de détection automatique
+    #' de la première ligne de noms de colonne, par ex. `Matricule'
+    #' spécifiés par champ.détection.1 et champ.détection.2
+    #' 
+    #' @param chemin  Chemin complet de la base .csv à importer
+    #' @return Renvoie un data.frame.
+    #' @author Fabrice Nicol
+    #' @examples
+    #' # Génère les bases .csv pour les années 2009 à 2013 
+    #' altair <- altair.générateur$new(début=2009, fin=2013, bases=TRUE)
+    #' base   <- base.générateur$new(altair)
+    #' base$read.csv.skip(altair$chemin.lignes())
+    #' @export
+    #' 
     
-      if (altair$décoder.xhl) décoder.xhl(altair$nom.de.fichier.xhl)
-      else  
-         importer.bases()
-      
-      if (altair$générer.codes == TRUE)          générer.codes()
-      if (altair$générer.tests == TRUE)          générer.tests()
-      if (altair$générer.distributions == TRUE)  générer.distributions()
-      if (altair$générer.variations == TRUE)     générer.variations()
-    }
+  read.csv.skip = function(x) 
+  {
     
-  ))
+    "read.csv.skip:  character -> data.frame
     
+    Lit une base en sautant les lignes avant les champs de détection automatique
+    de la première ligne de noms de colonne, par ex. `Matricule'
+    spécifiés par champ.détection.1 et champ.détection.2"
+    
+    ch <- chemin(x)
+    read.csv2(ch, skip=trouver.valeur.skip(ch), fileEncoding="UTF-8")
+  },
+  
+  Read.csv = function(vect.chemin)
+  {
+    "Read.csv: vector(character)  ->   data.frame
+    
+    Lit un vecteur de chemins et empile verticalement les bases correspondant à ces chemins
+    qui résultent d'une importation csv2 par read.csv.skip"
+    
+    do.call(rbind, lapply(vect.chemin, read.csv.skip))
+  },
+
+  #' Base::importer
+  #'
+  #' Importe les différentes bases .csv2 données en input 
+  #' à savoir :
+  #' Lignes     Base des lignes de paie
+  #' NBI        Base des rémunérations de type NBI
+  #' Bulletins  Base des bulletins de paie
+  #' Catégories Base des catégories statutaires (A, B, C,...)
+  #' Codes      Base des codes de paie
+  #' Avantages  Base des avantages en nature
+  #' 
+  #' Fusionne les bases Bulletins et Lignes dans la base Global.
+  #' 
+  #' @author Fabrice Nicol
+  #' @examples
+  #' # Génère les bases .csv pour les années 2009 à 2013 
+  #' altair <- altair.générateur$new(début=2009, fin=2013, bases=TRUE)
+  #' base   <- base.générateur$new(altair)
+  #' base$importer()
+  #' @export
+  
+  
+  importer = function()
+  {
+    "Importe les différentes bases .csv2 données en input."
+    
+    Lignes      <<-  Read.csv(altair$nom.de.fichier.lignes)
+    NBI         <<-  Read.csv(altair$nom.de.fichier.nbi)
+    Bulletins   <<-  Read.csv(altair$nom.de.fichier.bulletins)
+    Catégories  <<-  Read.csv(altair$nom.de.fichier.catégories)
+    Codes       <<-  Read.csv(altair$nom.de.fichier.codes)
+    Avantages   <<-  Read.csv(altair$nom.de.fichier.avantages)
+    
+    vérifier.intégrité(
+      Lignes,
+      NBI,
+      Bulletins,
+      Catégories,
+      Codes,
+      Avantages,
+      poursuivre = TRUE)
+    
+    #suppression des colonnes Nom Prénom redondantes
+    
+#     Avantages   <<-  selectionner.cle.matricule(Avantages, Categories) 
+#     Bulletins   <<-  selectionner.cle.matricule.mois(Bulletins, Lignes)
+    
+    #fusion matricule | avantage | catégorie par Matricule
+    
+    Global <<- merge(Bulletins, Lignes)
+    
+    # un peu par acquis de conscience...
+    
+    vérifier.intégrité(Global)
+  },
+
+lancer = function() 
+{
+  
+  message("OK")
+  # si altair prévoit un décodage xml, alors lancer ce décodage dans un fichier temp
+  # puis attribuer directement base au résultat
+  # sinon, lire lignes, bulletins, nbi et fusionner
+  # mode in : NBI, Lignes, Bulletins dans le premier cas ; *.xhl dans le second
+  # mode out: Global, NBI, Lignes, Bulletins dans les deux cas
+  
+  altair <<- altair
+  
+  if (altair$décoder.xhl) 
+    décoder.xhl(altair$nom.de.fichier.xhl)
+  else  
+    importer()
+  
+  if (altair$générer.codes == TRUE)          générer.codes()
+  if (altair$générer.tests == TRUE)          générer.tests()
+  if (altair$générer.distributions == TRUE)  générer.distributions()
+  if (altair$générer.variations == TRUE)     générer.variations()
+})  
+
+  
+)
+  
+  
+  
 # à implémenter:
 # décoder.xhl(altair$nom.de.fichier.xhl)
+
 
 

@@ -1,10 +1,11 @@
 
-if (!exists("dossier.travail", envir=.GlobalEnv) || nchar(dossier.travail) == 0)  dossier.travail <- getwd()
+#if (!exists("dossier.travail", envir=.GlobalEnv) || nchar(dossier.travail) == 0)  dossier.travail <- getwd()
 
 ##
 #  Fonctions auxiliaires (globales)
 ##
 
+dossier.travail <- "/home/fab/Dev/Altair/altair"
 
 #  chemin:  string  ->  string
 #
