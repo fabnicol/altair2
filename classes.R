@@ -89,6 +89,7 @@ noyau.générateur <- setRefClass(
 #' @param nom.nbi         ["NBI"]          Nom du fichier .csv des rémunérations de type NBI.
 #' @param nom.xhl         ["paie"]         Nom du fichier .xhl ( base XML de paie) 
 #' @param verbosité       [0]              Niveau de verbosité (0, 1, 2)
+#' @param fusion.intégrale [TRUE]          Fusionner les bases en ajoutant des lignes lorsqu'il y a discordance sur la clé.
 #' @return Retourne un instance de classe Altair par la méthode new(...)
 #' @note La classe est de type classe de références (RefClass).
 #' @author Fabrice Nicol
@@ -146,7 +147,8 @@ altair.générateur <- setRefClass(
     nom.de.fichier.lignes     = "character",
     nom.de.fichier.nbi        = "character",
     nom.de.fichier.xhl        = "character",
-    verbosité                 = "numeric"
+    verbosité                 = "numeric",
+    fusion.intégrale          = "logical"
     ),
   
   methods=list(
@@ -187,17 +189,20 @@ altair.générateur <- setRefClass(
                                   "Libellé",
                                   "Montant"),
       dossier.travail         = getwd(),
-      dossier.bases           = "Altair/bases",
-      dossier.stats           = "Altair/stats",
-      nom.avantages           = "avantages",
+      dossier.bases           = "bases",
+      dossier.stats           = "stats",
+      nom.avantages           = "avantages.csv",
       nom.base                = "base.csv",
-      nom.bulletins           = "Bulletins de paye",
-      nom.catégories          = "catégories",
-      nom.codes               = "codes.csv",
-      nom.lignes              = "Lignes de paye", 
-      nom.nbi                 = "NBI",
+      nom.bulletins           = "paies-Bulletins de paye-1.csv",
+        #"Bulletins de paye",
+      nom.catégories          = "catégories.csv",
+      nom.codes               = "LISTE DES RUBRIQUES DE TRAITEMENT UTILISEES EN 2012.csv",
+      nom.lignes              = "paies-Lignes de paye-1.csv",
+        #"Lignes de paye", 
+      nom.nbi                 = "NBI.csv",
       nom.xhl                 = "paie",
-      verbosité               =  0
+      verbosité               =  0,
+      fusion.intégrale        = TRUE
       )
     {
 "Assigne les champs paramètres des fonctions de traitement statistique"
@@ -231,7 +236,7 @@ altair.générateur <- setRefClass(
       générer.variations        <<-    variations
       colonnes.sélectionnées    <<-    colonnes
       décoder.xhl               <<-    décoder
-      dossier.travail           <<-    dossier.travail,
+      dossier.travail           <<-    dossier.travail
       dossier.bases             <<-    dossier.bases
       dossier.stats             <<-    dossier.stats
       nom.de.fichier.avantages  <<-    nom.avantages
@@ -247,6 +252,7 @@ altair.générateur <- setRefClass(
       nom.de.fichier.xhl        <<-    nom.xhl
       #nom.de.fichier.xhl        <<-    nom.xhl[file.exists(chemin(nom.xhl))]
       verbosité                 <<-    verbosité
+      fusion.intégrale          <<-    fusion.intégrale
 
       # rapport de lecture des paramètres d'entrée
       # l'interface externe a été simplifiée par rapport aux noms de chams internes
@@ -350,6 +356,7 @@ base.générateur <- setRefClass(
    contains="Noyau",
    fields=list(
      altair                    = "Altair",
+     doss                      = "character",
      Global                    = "data.frame",
      Bulletins                 = "data.frame",
      Codes                     = "data.frame",
@@ -362,9 +369,13 @@ base.générateur <- setRefClass(
      NBI                       = "data.frame"),
   
    methods=list(
-    initialize = function() { doss <<- "/home/fab/Dev/Altair/altair"}, 
+    initialize = function(altair) 
+      {
+        altair <<- altair
+        doss   <<- altair$dossier.travail
+      }, 
     
-    décoder.xhl = function(x)
+    décoder.xhl = function()
      {
       .NotYetImplemented()
      },
@@ -437,6 +448,17 @@ base.générateur <- setRefClass(
     #' @export
     #' 
     
+   Read.csv = function(vect.chemin)
+  {
+    "Read.csv: vector(character)  ->   data.frame
+    
+    Lit un vecteur de chemins et empile verticalement les bases correspondant à ces chemins
+    qui résultent d'une importation csv2 par read.csv.skip"
+    
+    usingMethods(read.csv.skip)
+    do.call(rbind, lapply(vect.chemin, read.csv.skip))
+  },
+
   read.csv.skip = function(x) 
   {
     
@@ -447,19 +469,9 @@ base.générateur <- setRefClass(
     spécifiés par champ.détection.1 et champ.détection.2"
     
     ch <- chemin(x)
-    read.csv2(ch, skip=trouver.valeur.skip(ch), fileEncoding="UTF-8")
+    tryCatch(read.csv2(ch, skip=trouver.valeur.skip(ch), fileEncoding="UTF-8"), error = function(e) data.frame(NULL))
   },
   
-  Read.csv = function(vect.chemin)
-  {
-    "Read.csv: vector(character)  ->   data.frame
-    
-    Lit un vecteur de chemins et empile verticalement les bases correspondant à ces chemins
-    qui résultent d'une importation csv2 par read.csv.skip"
-    
-    do.call(rbind, lapply(vect.chemin, read.csv.skip))
-  },
-
   #' Base::importer
   #'
   #' Importe les différentes bases .csv2 données en input 
@@ -509,8 +521,12 @@ base.générateur <- setRefClass(
     
     #fusion matricule | avantage | catégorie par Matricule
     
-    Global <<- merge(Bulletins, Lignes)
-    
+    Global <<- merge(Bulletins, Lignes, all=altair$fusion.intégrale)
+    delta <- nrow(Global) -  nrow(Lignes)
+
+    if ( delta > 0)
+      message("La fusion des bases ", altair$nom.de.fichier.bulletins, " et ", altair$nom.de.fichier.lignes, " a augmenté le nombre de lignes de ", delta," lignes. Des erreurs peuvent en résulter pour les statistiques.")
+
     # un peu par acquis de conscience...
     
     vérifier.intégrité(Global)
@@ -518,7 +534,7 @@ base.générateur <- setRefClass(
 
 lancer = function() 
 {
-  
+  "Lance l'importantion de toutes les bases"
   message("OK")
   # si altair prévoit un décodage xml, alors lancer ce décodage dans un fichier temp
   # puis attribuer directement base au résultat
@@ -533,10 +549,10 @@ lancer = function()
   else  
     importer()
   
-  if (altair$générer.codes == TRUE)          générer.codes()
-  if (altair$générer.tests == TRUE)          générer.tests()
-  if (altair$générer.distributions == TRUE)  générer.distributions()
-  if (altair$générer.variations == TRUE)     générer.variations()
+ # if (altair$générer.codes == TRUE)          générer.codes()
+ # if (altair$générer.tests == TRUE)          générer.tests()
+#   if (altair$générer.distributions == TRUE)  générer.distributions()
+#   if (altair$générer.variations == TRUE)     générer.variations()
 })  
 
   
