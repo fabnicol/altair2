@@ -14,6 +14,7 @@ source("analyser.distributions.R")
 
 # méthodes auxiliaires de gestion de bases  
 
+
 base.générateur$methods(
 
   #' Base::scan.prime

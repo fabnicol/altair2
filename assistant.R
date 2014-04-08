@@ -27,7 +27,6 @@ library(qtbase)
 
 assistant <- function()
 {
-  
 sélectionner.répertoire <- function(x, z) 
 {
   qconnect(x, "clicked",
@@ -121,7 +120,7 @@ info.étiquettes <- c(
 
 valeurs.par.défaut <- c(
 altair$champ.détection.1,
-altair$étiquette.code,
+altair$champ.détection.2,
 altair$étiquette.matricule,
 altair$étiquette.montant,
 altair$étiquette.totalgénéral,
@@ -355,7 +354,6 @@ actions_page <- Qt$QWizardPage(wizard)
 actions_page$setTitle("Générer")
 
 actions_layout <- Qt$QGridLayout()
-
 actions_layout$setRowMinimumHeight(0,10)
 
 info.out.layout <- Qt$QFormLayout()
@@ -366,6 +364,7 @@ info.étiquettes <- c(
 "Générer l'analyse des variations de rémunération",
 "Générer l'analyse des tests statutaires",
 "Générer les bases .csv des résultats statistiques",
+"Fusionner les bases en mode intégral",
 "Exporter et fusionner les bases bases xhl au format csv")
 
 cases.générer <- list()
@@ -417,51 +416,8 @@ wizard$addPage(actions_page)
 
 ############################## Intéraction avec l'environnement et le source  #############################################
 
-
-objets <- lapply(quote(c(
-  champ.détection.1,
-  champ.détection.2,
-  étiquette.matricule,
-  étiquette.montant,
-  étiquette.totalgénéral,
-  étiquette.catégorie,
-  étiquette.code,
-  étiquette.libellé,
-  étiquette.statut,
-  étiquette.type.rémunération,
-  colonnes.sélectionnées,
-  code.stagiaire,
-  code.titulaire,
-  code.élu,
-  code.traitement,
-  code.nbi,
-  code.prime.ou.contractuel,
-  code.vacation,
-  code.autre,
-  date.format,
-  seuil.troncature,
-  début.période.sous.revue,
-  fin.période.sous.revue,
-  nom.de.fichier.xhl,
-  nom.de.fichier.lignes,
-  nom.de.fichier.bulletins,
-  nom.de.fichier.nbi,
-  nom.de.fichier.codes,
-  nom.de.fichier.avantages,
-  nom.de.fichier.catégories,
-  générer.codes,
-  générer.distributions,
-  générer.variations,
-  générer.tests,
-  générer.bases,
-  décoder.xhl,
-  dossier.travail,
-  dossier.bases,
-  dossier.stats)), deparse)
-
-
-  wizard$setFocus()
   wizard$raise()
+  wizard$activateWindow()
   
   response<-wizard$exec()
   
@@ -483,7 +439,49 @@ objets <- lapply(quote(c(
   if(response)
   {
     # il faut actualiser les variables (objets) avec la saisie dynamique dans l'assistant  (formulaires, boutions...)
-    objets[1] <- NULL 
+    objets <- c(
+      "champ.détection.1",
+      "champ.détection.2",
+      "étiquette.matricule",
+      "étiquette.montant",
+      "étiquette.totalgénéral",
+      "étiquette.catégorie",
+      "étiquette.code",
+      "étiquette.libellé",
+      "étiquette.statut",
+      "étiquette.type.rémunération",
+      "colonnes.sélectionnées",
+      "code.stagiaire",
+      "code.titulaire",
+      "code.élu",
+      "code.traitement",
+      "code.nbi",
+      "code.prime.ou.contractuel",
+      "code.vacation",
+      "code.autre",
+      "date.format",
+      "seuil.troncature",
+      "début.période.sous.revue",
+      "fin.période.sous.revue",
+      "nom.de.fichier.xhl",
+      "nom.de.fichier.lignes",
+      "nom.de.fichier.bulletins",
+      "nom.de.fichier.nbi",
+      "nom.de.fichier.codes",
+      "nom.de.fichier.avantages",
+      "nom.de.fichier.catégories",
+      "générer.codes",
+      "générer.distributions",
+      "générer.variations",
+      "générer.tests",
+      "générer.bases",
+      "fusion.intégrale",
+      "décoder.xhl",
+      "dossier.travail",
+      "dossier.bases",
+      "dossier.stats"
+      )
+
     mapply(function(x, y, z) assign(x,  unlist(valeur.widget(y, z)), envir=altair),
            objets,  
            formulaire,
