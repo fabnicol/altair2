@@ -14,7 +14,6 @@ library(xtable)
 options(warn=-1, verbose=FALSE, OutDec=",")
 compilerOptions <- setCompilerOptions(suppressAll=TRUE)
 JITlevel <- enableJIT(3)
-Sys.setlocale("LC_ALL", "fr")
 
 #/*---------------------------------------------------------------------------------------------------------------------
 #  Chemins et variables globales du programme
@@ -23,10 +22,10 @@ Sys.setlocale("LC_ALL", "fr")
 # Cette section pourra être modifiée en entrée dans d'autres contextes
 # Matricule, Codes, Avantages en nature */
 
-chemin.dossier <- "/home/fab/Dev/R/VLB"
-champ.detection.1 <- "Matricule"
-champ.detection.2 <- "Matricule"
-matricule.categorie <- "LISTES DES PERSONNES REMUNEREES EN 2012 PAR CATEGORIE ET STATUT.csv"     
+chemin.dossier <- "/home/fab/Dev/Altair/altair/Reports/Sierg"
+champ.détection.1 <- "Matricule"
+champ.détection.2 <- "Code"
+matricule.catégorie <- "LISTES DES PERSONNES REMUNEREES EN 2012 PAR CATEGORIE ET STATUT.csv"     
 code.prime          <- "LISTE DES RUBRIQUES DE TRAITEMENT UTILISEES EN 2012.csv"
 matricule.avantage  <- "LISTE DES AGENTS AYANT BENEFICIE D'AVANTAGE EN NATURE EN 2012.csv"
 code.traitement <- 1010
@@ -43,7 +42,7 @@ bdp <- "paies-Bulletins de paye-1.csv"
 
 codes.NBI <- c("1012", "101B", "101M", "4652", "4672")
 
-source(file.path(chemin.dossier, "bibliotheque.fonctions.paie.R"))
+source(file.path(chemin.dossier, "bibliothèque.fonctions.paie.R"))
 
 #/* Programme principal
 ##
@@ -63,14 +62,18 @@ Ldp<-Read.csv(ldp)
 
 Bdp <- read.csv.skip(bdp)
 
-#Matricule.categorie <- read.csv.skip(matricule.categorie)
+#Matricule.catégorie <- read.csv.skip(matricule.catégorie)
 Code.prime          <- read.csv.skip(code.prime)
 #Matricule.avantage  <- read.csv.skip(matricule.avantage)
 
 #suppression des colonnes Nom Prénom redondantes
 
-#Matricule.avantage  <- selectionner.cle.matricule(Matricule.avantage, Matricule.categorie) 
+#Matricule.avantage  <- selectionner.cle.matricule(Matricule.avantage, Matricule.catégorie) 
 Bdp                 <- selectionner.cle.matricule.mois(Bdp, Ldp)
+
+if (!setequal(intersect(names(Ldp), names(Bdp)), c("Mois", "Matricule")))
+  stop("L'appariement ne peut se faire par les clés Matricule et Mois")
+    
 
 #fusion matricule | avantage | catégorie par Matricule
 
@@ -112,7 +115,7 @@ hist(total.rémunérations[traitement.indiciaire > 0 ]/1000,
    xlim=c(0, 120),
    main="Rémunération annuelle des fonctionnaires",
    col="blue",
-   breaks=100
+   nclass=50
 )
 
 hist(rémunération.contractuelle.ou.indemnitaire[traitement.indiciaire > 0 ]/1000,
@@ -121,7 +124,7 @@ hist(rémunération.contractuelle.ou.indemnitaire[traitement.indiciaire > 0 ]/10
      xlim=c(0, 70),
      main="Rémunération indemnitaire annuelle des fonctionnaires",
      col="blue",
-     breaks=100
+     nclass=50
 )
 
 
@@ -131,19 +134,18 @@ hist(part.rémunération.contractuelle.ou.indemnitaire[traitement.indiciaire > 0
      main="Distribution de la part indemnitaire\n de la rémunération annuelle des fonctionnaires",
      xlim=c(0,60),     
      col="blue",
-     breaks=50
+     nclass=30
 )
 
 #/* La moyenne est tirée vers le haut par les outlyers */
 
-Stats.fonctionnaires <- summary(Analyse.rémunérations[traitement.indiciaire > 0, 
-                                c("traitement.indiciaire", "rémunération.contractuelle.ou.indemnitaire", "autres.rémunérations", "total.rémunérations", "part.rémunération.contractuelle.ou.indemnitaire") ])
-
-dimnames(Stats.fonctionnaires)[[2]] <-  c("Traitement indiciaire",
+Stats.fonctionnaires <- Résumé(Analyse.rémunérations[traitement.indiciaire > 0, 
+                                c("traitement.indiciaire", "rémunération.contractuelle.ou.indemnitaire", "autres.rémunérations", "total.rémunérations", "part.rémunération.contractuelle.ou.indemnitaire") ],
+                                c("Traitement indiciaire",
                                   "Rémunération contractuelle ou indemnitaire",
                                   "Autres rémunérations",
                                   "Total rémunérations",
-                                  "Part de la rémunération contractuelle ou indemnitaire")
+                                  "Part de la rémunération contractuelle ou indemnitaire"))
 
 masse.indemnitaire            <- sum(rémunération.contractuelle.ou.indemnitaire[ traitement.indiciaire > 0])
 masse.indiciaire              <- sum(traitement.indiciaire)
@@ -172,30 +174,25 @@ hist(total.rémunérations[traitement.indiciaire == 0 & total.rémunérations > 
    ylab="Effectif",
    xlim=c(0, 40),
    main="Rémunération annuelle totale des contractuels",
-   col="red",
-   breaks=40
-)
+   col="red")
 
 hist(autres.rémunérations[autres.rémunérations >0],
      xlab="Distribution des autres rémunérations annuelles en € :\n politique familiale, indemnités journalières et remboursements",
      ylab="Effectif",
      xlim=c(0, 5000),
      main="Autres rémunérations",
-     col="grey",
-     breaks=40
-)
+     col="grey")
 
 #'## Quartiles
 #+ echo=FALSE, results='asis'
 
-Stats.contractuels <- summary(Analyse.rémunérations[traitement.indiciaire == 0, 
+Stats.contractuels <- Résumé(Analyse.rémunérations[traitement.indiciaire == 0, 
                                                     c("rémunération.contractuelle.ou.indemnitaire",
                                                       "autres.rémunérations",
-                                                      "total.rémunérations")])
-
-dimnames(Stats.contractuels)[[2]] <-    c("Rémunération contractuelle ou indemnitaire",
+                                                      "total.rémunérations")],
+                               c("Rémunération contractuelle ou indemnitaire",
                                   "Autres rémunérations",
-                                  "Total rémunérations")
+                                  "Total rémunérations"))
 
 #+ echo=FALSE, results='asis'
 print(xtable(Stats.contractuels), type="html", include.rownames=FALSE)

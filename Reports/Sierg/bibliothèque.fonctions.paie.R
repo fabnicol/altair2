@@ -21,12 +21,12 @@ scan.prime <- function(texte)
 trouver.valeur.skip <-  function(chemin.table) 
   max(
     sapply(
-      read.csv2(chemin.table, nrows=25),
+      read.csv2(chemin.table, nrows=25, fileEncoding="UTF-8-BOM"),
       function(x) 
       {
-        m <- match("Matricule", x, nomatch=0 ) 
+        m <- match(champ.détection.1, x, nomatch=0 ) 
         if (m == 0)
-          m <- pmatch("Code", x, nomatch=0, duplicates.ok=FALSE ) 
+          m <- pmatch(champ.détection.2, x, nomatch=0, duplicates.ok=FALSE ) 
         return(m)
       }
     ))
@@ -34,17 +34,17 @@ trouver.valeur.skip <-  function(chemin.table)
 
 selectionner.cle.matricule <-  function(Base1, Base2) 
   subset(Base1, 
-         select=c(champ.detection.1, setdiff(names(Base1),names(Base2))))
+         select=c(champ.détection.1, setdiff(names(Base1),names(Base2))))
 
 selectionner.cle.matricule.mois <-  function(Base1, Base2) 
   subset(Base1, 
-         select=c(champ.detection.1,champ.detection.2,
+         select=c(champ.détection.1,"Mois",
                   setdiff(names(Base1),names(Base2))))
 
 read.csv.skip <- function(x) 
 {
   chem <- chemin(x)
-  read.csv2(chem, skip=trouver.valeur.skip(chem), fileEncoding="UTF-8")
+  read.csv2(chem, skip=trouver.valeur.skip(chem), fileEncoding="UTF-8-BOM")
 }
 
 
@@ -66,3 +66,13 @@ Read.csv <- function(vect.chemin)   do.call(rbind, lapply(vect.chemin, read.csv.
 pretty.print <- function(x) cat(gsub(".", " ",deparse(substitute(x)), fixed=TRUE), "   ", x,"\n")
 
 est.code.de.type <- function(x) Bdp.ldp$Code %in% Code.prime[Code.prime$Type.rémunération == x, "Code"]
+
+Résumé <- function(x,y, ...) 
+              {
+                 S <- cbind(c("Minimum", "1er quartile", "Médiane", "Moyenne", "3ème quartile", "Maximum"), 
+                       sub("[M13].*:", "", summary(x,...)))  
+                 
+                 dimnames(S)[[2]] <- c("Statistiques", y)
+                 
+                 return(S)
+               }
