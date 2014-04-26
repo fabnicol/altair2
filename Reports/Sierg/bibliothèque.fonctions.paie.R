@@ -5,9 +5,9 @@
 chemin <-  function(fichier) 
   file.path(chemin.dossier, fichier)
 
-scan.prime <- function(texte)
+scan.prime <- function(texte, Base)
 {
-  unique(Bdp.ldp[grep(paste0(".*(", texte,").*"), Bdp.ldp$Libellé, ignore.case=TRUE), c("Matricule", "Libellé", "Libellé")])
+  unique(Base[grep(paste0(".*(", texte,").*"), Base$Libellé, ignore.case=TRUE), c("Matricule", "Libellé", "Libellé")])
 }
 
 
@@ -65,14 +65,22 @@ Read.csv <- function(vect.chemin)   do.call(rbind, lapply(vect.chemin, read.csv.
 
 pretty.print <- function(x) cat(gsub(".", " ",deparse(substitute(x)), fixed=TRUE), "   ", x,"\n")
 
-est.code.de.type <- function(x) Bdp.ldp$Code %in% Code.prime[Code.prime$Type.rémunération == x, "Code"]
+est.code.de.type <- function(x, Base) Base$Code %in% Code.prime[Code.prime$Type.rémunération == x, "Code"]
 
-Résumé <- function(x,y, ...) 
+Résumé <- function(x,y, align='r',...) 
               {
                  S <- cbind(c("Minimum", "1er quartile", "Médiane", "Moyenne", "3ème quartile", "Maximum"), 
-                       sub("[M13].*:", "", summary(x,...)))  
+                            prettyNum(sub("[M13].*:", "", summary(x, ...)), big.mark=" "))
                  
-                 dimnames(S)[[2]] <- c("Statistiques", y)
+                 dimnames(S)[[2]] <- c("Statistique", y)
                  
-                 return(S)
+                 kable(S, row.names=FALSE, align=align)
+                 
                }
+Tableau <- function(x,...)
+{
+  T <- t(prettyNum(c(...), big.mark=" "))
+  T <- as.data.frame(T)
+  names(T) <- x
+  kable(T, row.names=FALSE, align="c")
+}
