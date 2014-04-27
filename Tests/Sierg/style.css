@@ -1,17 +1,20 @@
 table 
   {
-      border: 5px;
+      border: 2px;
       border-style: solid;
       border-color: navy;
       text-align: center;
-      background: silver; 
-      margin-top:  20px;
-      margin-left: 50px;
-      margin-bottom:  20px;
+      background: white; 
+      margin-top: 20px;
+      margin-bottom:50px;
+      margin-left: 110px;
+      page-break-inside: avoid;
   }
-  
- td {padding: 8px;}
- th {padding: 12px;}
+ 
+ td {padding: 5px;}
+ tr.fab   {background: beige; }
+ 
+ th {background: salmon; padding: 5px;}
   
  h1
   {
@@ -28,6 +31,7 @@ table
    font-size: 15px;
    font-style: bolder;
    color: navy;
+   page-break-after: avoid;
   }
   
  h3
@@ -35,4 +39,7 @@ table
     font-size: 12px;
     font-style: bold;
     color: black;
+    page-break-after: avoid;
    }
+   
+
