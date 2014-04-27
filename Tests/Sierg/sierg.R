@@ -160,7 +160,7 @@ Bdp.ldp2 <- mutate(Bdp.ldp,
 
 
 Analyse.rémunérations <- ddply(Bdp.ldp2,
-                             c("Matricule", "Service"),
+                             c("Matricule", "Statut", "Service"),
                              summarize,
                              traitement.indiciaire = sum(montant.traitement.indiciaire),
                              rémunération.contractuelle.ou.indemnitaire = sum(montant.primes),
@@ -179,7 +179,9 @@ attach(Analyse.rémunérations, warn.conflicts=FALSE)
 #'## 2.1 Fonctionnaires titulaires et stagiaires
 #+ echo=FALSE, fig.retina=2, fig.width=7.1
 
-hist(total.rémunérations[traitement.indiciaire > 0 ]/1000,
+filtre.fonctionnaire <- function (X) X[ Statut %in% c("TITULAIRE", "STAGIAIRE") & X >0 ]
+
+hist(filtre.fonctionnaire(total.rémunérations)/1000,
    xlab="Distribution de la rémunération en k€ \n hors politique familiale, indemnités journalières et remboursements",
    ylab="Effectif",
    xlim=c(0, 120),
@@ -191,7 +193,8 @@ hist(total.rémunérations[traitement.indiciaire > 0 ]/1000,
 #'  
 #+ echo=FALSE, fig.retina=2, fig.width=7.1
 
-hist(rémunération.contractuelle.ou.indemnitaire[traitement.indiciaire > 0 ]/1000,
+
+hist(filtre.fonctionnaire(part.rémunération.contractuelle.ou.indemnitaire),
      xlab="Distribution des attributions indemnitaires en k€\n hors politique familiale, indemnités journalières et remboursements",
      ylab="Effectif",
      xlim=c(0, 70),
@@ -203,7 +206,7 @@ hist(rémunération.contractuelle.ou.indemnitaire[traitement.indiciaire > 0 ]/10
 #'    
 #+ echo=FALSE, fig.retina=2, fig.width=7.1
 
-hist(part.rémunération.contractuelle.ou.indemnitaire[traitement.indiciaire > 0 & part.rémunération.contractuelle.ou.indemnitaire >0],
+hist(filtre.fonctionnaire(part.rémunération.contractuelle.ou.indemnitaire),
      xlab="Pourcentage des indemnités dans la rémunération\n hors politique familiale, indemnités journalières et remboursements",
      ylab="Effectif",
      main="Distribution de la part indemnitaire\n de la rémunération annuelle des fonctionnaires",
@@ -239,7 +242,7 @@ ratio.global.masse.indemnitaire  <- masse.indemnitaire/(masse.indiciaire+masse.i
 
 #/*print(xtable(Stats.fonctionnaires), type="html", include.rownames=FALSE)*/
 
- Résumé(Analyse.rémunérations[traitement.indiciaire > 0, 
+ Résumé(Analyse.rémunérations[Statut %in% c("TITULAIRE", "STAGIAIRE"), 
                               c("traitement.indiciaire",
                                 "rémunération.contractuelle.ou.indemnitaire",
                                 "autres.rémunérations") ],
@@ -250,7 +253,7 @@ ratio.global.masse.indemnitaire  <- masse.indemnitaire/(masse.indiciaire+masse.i
 #'
 #+ echo=FALSE, results='asis'
 
- Résumé(Analyse.rémunérations[traitement.indiciaire > 0, 
+ Résumé(Analyse.rémunérations[Statut %in% c("TITULAIRE", "STAGIAIRE"), 
                               c( "total.rémunérations",
                                  "part.rémunération.contractuelle.ou.indemnitaire") ],
                               c("Total rémunérations",
@@ -260,7 +263,7 @@ ratio.global.masse.indemnitaire  <- masse.indemnitaire/(masse.indiciaire+masse.i
 #'## 2.2 Contractuels, vacataires et stagiaires inclus
 #+ echo=FALSE, fig.retina=2, fig.width=7.1
 
-hist(total.rémunérations[traitement.indiciaire == 0 & total.rémunérations > 1000]/1000,
+hist(total.rémunérations[!Statut %in% c("TITULAIRE", "STAGIAIRE") & total.rémunérations > 1000]/1000,
    xlab="Distribution de la rémunération en k€ (supérieure à 1000 €)\n hors politique familiale, indemnités journalières et remboursements",
    ylab="Effectif",
    xlim=c(0, 40),
@@ -280,7 +283,7 @@ hist(autres.rémunérations[autres.rémunérations >0],
 #'### Statistiques de position
 #+ echo=FALSE, results='asis'
 
-  Résumé(Analyse.rémunérations[traitement.indiciaire == 0, 
+  Résumé(Analyse.rémunérations[! Statut %in% c("TITULAIRE", "STAGIAIRE"), 
                                                     c("rémunération.contractuelle.ou.indemnitaire", "autres.rémunérations")],
                                c("Rémunération contractuelle ou indemnitaire",
                                   "Autres rémunérations"))
@@ -288,7 +291,7 @@ hist(autres.rémunérations[autres.rémunérations >0],
 #'
 #+ echo=FALSE, results='asis'
 
-  Résumé(Analyse.rémunérations[traitement.indiciaire == 0, 
+  Résumé(Analyse.rémunérations[!Statut %in% c("TITULAIRE", "STAGIAIRE"), 
                                                    "total.rémunérations"],
                                                    "Total rémunérations")
 detach(Analyse.rémunérations)
@@ -296,7 +299,7 @@ detach(Analyse.rémunérations)
 #'Les résultats sont exprimés en euros.
 #'
 #'# 3. Tests réglementaires
-#'### Contrôle des heures supplémentaires, des NBI et primes informatiques
+#'### 3.1 Contrôle des heures supplémentaires, des NBI et primes informatiques
 #'
 #+ echo=FALSE
 
@@ -305,10 +308,6 @@ attach(Bdp.ldp, warn.conflicts=FALSE)
 NBI.aux.non.titulaires <- Bdp.ldp[ ! Statut %in% c("TITULAIRE","STAGIAIRE") & as.character(Code) %in% codes.NBI, c("Matricule", "Statut", "Code", "Libellé", "Mois", "Montant")]
 
 nombre.de.ldp.NBI.nontit <- nrow(NBI.aux.non.titulaires)
-
-HS.sup.25 <- Bdp.ldp[Heures.Sup. >= 25 , c("Matricule", "Statut", "Mois", "Heures.Sup.", "Brut")]
-
-nombre.de.ldp.HS.sup.25 <- nrow(HS.sup.25)
 
 #/* Prime de fonctions informatiques : pas dans la base de VLB
 # on cherche la chaine de char. "INFO" dans les libellés de primes
@@ -326,19 +325,159 @@ if  (length(primes.informatiques.potentielles) == 0)
   
 nombre.de.personnels.pfi <- nrow(personnels.prime.informatique)
 
-
-#'Primes informatiques potentielles : `r primes.informatiques.potentielles`
+#'Primes informatiques potentielles : `r primes.informatiques.potentielles`  
 #+ echo=FALSE, results='asis'
 
 Tableau(
   c("Nombre de lignes NBI pour non titulaires",
-    "Nombre de lignes HS >= 25",
     "Nombre de bénéficiaires de PFI"),
   nombre.de.ldp.NBI.nontit, 
-  nombre.de.ldp.HS.sup.25,
   nombre.de.personnels.pfi)
 
+#'### 3.2 Contrôle des vacations pour les fonctionnaires  
 #+ echo=FALSE
+
+# Vacations et statut de fonctionnaire
+
+lignes.fonctionnaires.et.vacations <- Bdp.ldp[ Statut %in% c("TITULAIRE", "STAGIAIRE") & Code %in% Code.prime[Code.prime$Type.rémunération == "VACATIONS","Code.rubrique"], c("Matricule", "Statut", "Code", "Libellé", "Montant")]
+matricules.fonctionnaires.et.vacations <- unique(lignes.fonctionnaires.et.vacations$Matricule)
+nombre.fonctionnaires.et.vacations <- length(matricules.fonctionnaires.et.vacations)
+nombre.ldp.fonctionnaires.et.vacations <- nrow(lignes.fonctionnaires.et.vacations)
+
+#'
+#+ echo=FALSE, results='asis'
+
+Tableau(
+  c("Nombre de FEV",
+    "Nombre de lignes de vacations pour FEV"),
+  nombre.fonctionnaires.et.vacations,
+  nombre.ldp.fonctionnaires.et.vacations)
+
+
+#'    
+#'**Nota:**  
+#'FEV : fonctionnaire effectuant des vacations
+#'
+#'### 3.3 Contrôle des contractuels : cumuls traitement indiciaire, indemnités et vacations
+#+ echo=FALSE
+
+# Vacations et régime indemnitaire
+
+lignes.contractuels.et.vacations <- Bdp.ldp[ ! Statut %in% c("TITULAIRE", "STAGIAIRE")  & Code %in% Code.prime[Code.prime$Type.rémunération == "VACATIONS","Code.rubrique"], c("Matricule", "Code", "Libellé", "Montant")]
+matricules.contractuels.et.vacations <- unique(lignes.contractuels.et.vacations$Matricule)
+nombre.contractuels.et.vacations <- length(matricules.contractuels.et.vacations)
+
+RI.et.vacations <- Bdp.ldp[ Matricule %in% matricules.contractuels.et.vacations & Code %in% Code.prime[Code.prime$Type.rémunération == "INDEMNITAIRE.OU.CONTRACTUEL","Code.rubrique"], c("Matricule", "Statut", "Code", "Libellé", "Montant")]
+
+# Vacations et indiciaire
+
+traitement.et.vacations <- Bdp.ldp[ Matricule %in% matricules.contractuels.et.vacations & Code %in% Code.prime[Code.prime$Type.rémunération == "TRAITEMENT","Code.rubrique"], c("Matricule", "Statut", "Code", "Libellé", "Montant")]
+
+nombre.ldp.contractuels.et.vacations <- nrow(lignes.contractuels.et.vacations)
+nombre.ldp.RI.et.vacations <- nrow(RI.et.vacations)
+nombre.ldp.traitement.et.vacations <- nrow(traitement.et.vacations)
+
+#'
+#+ echo=FALSE, results='asis'
+Tableau(c("Nombre de CEV",
+          "Nombre de lignes CEV",
+          "Nombre de lignes indemnitaires pour CEV",
+          "Nombre de lignes de traitement pour CEV"),
+          nombre.contractuels.et.vacations,
+          nombre.ldp.contractuels.et.vacations,
+          nombre.ldp.RI.et.vacations,
+          nombre.ldp.traitement.et.vacations)
+
+#'    
+#'**Nota:**  
+#'CEV : contractuel effectuant des vacations
+
+#'
+#'### 3.4 Contrôle sur IAT/IFTS
+#+ echo=FALSE
+
+#IAT et IFTS
+
+filtre.iat<-grep(".*(IAT|I.A.T|.*Adm.*Tech).*", Libellé, ignore.case=TRUE)
+filtre.ifts<-grep(".*(IFTS|I.F.T.S|.*FORF.*TRAV.*SUPP).*", Libellé, ignore.case=TRUE)
+codes.ifts <- unique(Bdp.ldp[filtre.ifts, "Code"])
+
+nombre.personnels.iat.ifts <- length(personnels.iat.ifts <- intersect(as.character(Bdp.ldp[ filtre.iat, c("Matricule")]), as.character(Bdp.ldp[ filtre.ifts, c("Matricule")])))
+
+#'
+#+ echo=FALSE, results='asis'
+
+Tableau(c("Codes IFTS", "Nombre de personnels percevant IAT et IFTS"), codes.ifts, nombre.personnels.iat.ifts)
+
+#'
+#'### Contrôle IFTS pour catégories B et contractuels
+#+ echo=FALSE
+
+#IFTS et IB >= 380 (IM >= 350)
+
+df1 <- Bdp.ldp[ Indice < 350, c("Matricule")]
+df1 <- df1[!duplicated(df1)]
+
+df2 <- Bdp.ldp[ filtre.ifts, c("Matricule")]
+df2 <- df2[!duplicated(df2)]
+
+df3 <- intersect(df1,df2)
+
+lignes.ifts.anormales <- Bdp.ldp[Matricule %in% df3 & Code %in% codes.ifts & (Indice < 380 ), c("Matricule", "Statut", "Code", "Libellé", "Indice", "Montant")]
+nombre.lignes.ifts.anormales <- length(lignes.ifts.anormales)
+
+rm(df1, df2, df3)
+# IFTS et non tit
+
+ifts.et.contractuel <- Bdp.ldp[Code %in% codes.ifts & ! Statut %in% c("TITULAIRE", "STAGIAIRE"), c("Matricule", "Statut", "Code", "Libellé", "Indice", "Montant")]
+nombres.lignes.ifts.et.contractuel <- length(ifts.et.contractuel)
+
+#'
+#+ echo=FALSE, results='asis'
+
+Tableau(c("Nombre de contractuels percevant des IFTS", "Nombre de lignes IFTS pour IB < 380"), nombres.lignes.ifts.et.contractuel, nombre.lignes.ifts.anormales)
+
+#'    
+#'**Nota:**  
+#'IB < 380 : fonctionnaire percevant un indice brut inférieur à 380  
+
+#'
+#'### 3.5 Contrôle heures supplémentaires
+#+ echo=FALSE
+
+
+HS.sup.25 <- Bdp.ldp[Heures.Sup. >= 25 , c("Matricule", "Statut", "Mois", "Heures.Sup.", "Brut")]
+nombre.ldp.HS.sup.25 <- nrow(HS.sup.25)
+
+# with(Base2,
+#      ihts <<- Base2[! Code.catégorie %in% c("B", "C") & substr(Code,1,2) %in% c("19") & ! grepl(" ENS", Libellé), c("Matricule", "Code", "Libellé", "Montant", "Code.catégorie")]
+# )
+
+ihts <- character(0)
+nombre.ihts.anormales <- length(ihts)
+#'
+#+ echo=FALSE, results='asis'
+ 
+Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"), nombre.ldp.HS.sup.25, nombre.ihts.anormales)
+
+#'
+#'    
+#'**Nota:**  
+#'HS en excès : au-delà de 25 heures par mois  
+#'IHTS anormales : non attribuées à des fonctionnaires de catégorie B ou C.  
+
+
+#'
+#'# Annexe
+#+ echo=FALSE, results='asis'
+
+matricules.à.identifier <- unique(data.frame(Bdp.ldp$Nom, Bdp.ldp$Prénom, Bdp.ldp$Matricule))
+Catégorie <- character(length=nrow(matricules.à.identifier))
+matricules.à.identifier <- cbind(matricules.à.identifier, Catégorie)
+names(matricules.à.identifier) <- c("Nom", "Prénom", "Matricule", "Catégorie")
+
+kable(matricules.à.identifier, row.names=FALSE)
+
 detach(Bdp.ldp)
 
 #'### Nota :
