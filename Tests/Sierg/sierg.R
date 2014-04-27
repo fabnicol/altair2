@@ -9,10 +9,6 @@
 
 
 
-#+ echo=FALSE
-exercice <- 2012
-
-
 #'Exercice `r exercice`  
 #'`r format(Sys.Date(), "%a %d %b %Y")`  
 
@@ -20,19 +16,36 @@ exercice <- 2012
 
 library(compiler)
 library(knitr)
-
 options(warn=-1, verbose=FALSE, OutDec=",")
-
 compilerOptions <- setCompilerOptions(suppressAll=TRUE)
 JITlevel <- enableJIT(3)
+
+
+début.période.sous.revue <- 2012
+fin.période.sous.revue   <- 2013
+exercice <- 2012
+étudier.variations <- TRUE
+
+étiquette.matricule <- "Matricule"
+étiquette.montant <- "Montant"
+
+seuil.troncature <- 99
+
+# Le format est jour/mois/année avec deux chiffres-séparateur-deux chiffres-séparateur-4 chiffres.
+#Le séparateur peut être changé en un autre en modifiant le "/" dans fate.format
+
+date.format <- "%d/%m/%Y"
+
+nom.de.fichier.de.paie  <- "Lignes de paye"
+nom.de.bulletin.de.paie <- "Bulletins de paye"
 
 #+echo=FALSE, results='asis'
 
 # Cette section pourra être modifiée en entrée dans d'autres contextes
 # Matricule, Codes, Avantages en nature 
 
-chemin.dossier <- "~/Dev/altair/Tests/Sierg"
-champ.détection.1 <- "Matricule"
+chemin.dossier <- "~/Dev/Altair/altair/Tests/Sierg"
+champ.détection.1 <- étiquette.matricule
 champ.détection.2 <- "Code"
 champ.détection.élus <- "Service"
 champ.nir <- "Nir"
@@ -47,11 +60,11 @@ code.traitement <- 1010
 # On peut lire jusqu'à 10 fichiers csv qui seront générés au format
 #  "chemin dossier + paies-Bulletins de paye-j.csv" */
 
-ldp <- paste0(paste0(exercice,"-Lignes de paye-"),1:10,".csv")
+ldp <- outer(début.période.sous.revue:fin.période.sous.revue, 1:10, paste, nom.de.fichier.de.paie, "csv", sep=".")
 
 #/* Bulletins de paie */
 
-bdp <- paste0(exercice, "-Bulletins de paye-1.csv")
+bdp <- paste(début.période.sous.revue:fin.période.sous.revue, nom.de.bulletin.de.paie, "csv", sep=".")
 
 codes.NBI <- c("1012", "101B", "101M", "4652", "4672")
 
@@ -84,12 +97,12 @@ Code.prime          <- read.csv.skip(code.prime)
 #Matricule.avantage  <- selectionner.cle.matricule(Matricule.avantage, Matricule.catégorie) 
 Bdp                 <- selectionner.cle.matricule.mois(Bdp, Ldp)
 
-if (!setequal(intersect(names(Ldp), names(Bdp)), c("Mois", "Matricule")))
+if (!setequal(intersect(names(Ldp), names(Bdp)), c("Mois", étiquette.matricule)))
   stop("L'appariement ne peut se faire par les clés Matricule et Mois")
 
 
-liste.matricules.fonctionnaires <- unique(Bdp[Bdp$Mois == 12 & Bdp$Statut %in% c("TITULAIRE", "STAGIAIRE"), "Matricule"])
-liste.matricules.élus   <- unique(Bdp[Bdp$Mois == 12 &  Bdp[champ.détection.élus] == libellé.élus, "Matricule"])
+liste.matricules.fonctionnaires <- unique(Bdp[Bdp$Mois == 12 & Bdp$Statut %in% c("TITULAIRE", "STAGIAIRE"), étiquette.matricule])
+liste.matricules.élus   <- unique(Bdp[Bdp$Mois == 12 &  Bdp[champ.détection.élus] == libellé.élus, étiquette.matricule])
 
 Bdp.nir.total.hors.élus <- Bdp[Bdp$Mois == 12 & ! Bdp$Matricule %in% liste.matricules.élus, champ.nir]
 
@@ -159,7 +172,7 @@ Bdp.ldp2 <- mutate(Bdp.ldp,
 
 
 Analyse.rémunérations <- ddply(Bdp.ldp2,
-                             c("Matricule", "Statut", "Service"),
+                             c(étiquette.matricule, "Statut", "Service"),
                              summarize,
                              traitement.indiciaire = sum(montant.traitement.indiciaire),
                              rémunération.contractuelle.ou.indemnitaire = sum(montant.primes),
@@ -296,6 +309,59 @@ hist(autres.rémunérations[autres.rémunérations >0],
                                                    "Total rémunérations")
 detach(Analyse.rémunérations)
 
+#'
+#'## 2.3 Analyse de l'évolution des rémunérations
+#'
+
+#Ici il faudra affiner l'input des paramètres pour l'interface en utilisatant get(get) par exemple.
+#ou alors un processeur
+
+# faire renseigner par la structure pour les colonnes début et fin.
+# A priori on pourrait aussi prendre : Min(Mois) comme début et Max(Mois) comme fin en appliquant la quotité. C'est imprécis. 
+# Il y a donc tros inputs à solliciter : les débuts / fin d'activité, les catégories statutaires, les avantages en nature
+# Ces trois champs sont des inputs natifs; ils se font au niveau 
+# d'un fichier du type
+#  personne : 
+#     début/fin :  début (date fin)
+#     catégorie : X (date nouvelle)
+#     NAS :  avantage (date suppression)
+# par défaut la personne débute au commencement de la période sous revue et a pour catégorie AUTRE et NAS non
+# plus la validation de la codification des indemnités (confirmation)
+
+Analyse.variations <- ddply(Ldp,
+                               .(Matricule),
+                               summarize,
+                               nb.exercices = length(Montant),
+                               entrée = Date.d.entrée[1],
+                               sortie = Date.de.Sortie[nb.exercices],
+                               nb.jours = calcul.nb.jours(entrée, sortie),
+                               nb.jours.exercice.début = calcul.nb.jours.dans.exercice.in(entrée),
+                               nb.jours.exercice.sortie = calcul.nb.jours.dans.exercice.out(sortie),
+                               rémunération.début = Montant[1]/nb.jours.exercice.début*365,
+                               rémunération.sortie = Montant[nb.exercices]/nb.jours.exercice.sortie*365,
+                               moyenne.rémunération.annuelle.sur.période = sum(Montant)*365/nb.jours,
+                               variation.rémunération.jour = calcul.variation(rémunération.début, rémunération.sortie, nb.jours.exercice.début, nb.jours.exercice.sortie, nb.exercices),
+                               variation.moyenne.rémunération.jour = 
+                                 ( ( 1 + variation.rémunération.jour / 100 ) ^ (365 / nb.jours) - 1) * 100
+)
+
+Analyse.rémunérations <- mutate(Analyse.rémunérations,
+                                plus.de.2.ans = (nb.jours >= 2*365),
+                                moins.de.2.ans = (nb.jours < 2*365),
+                                moins.de.1.an  = (nb.jours < 365),
+                                moins.de.six.mois = (nb.jours < 365/2))
+
+attach(Analyse.rémunérations, warn.conflicts=FALSE)
+
+nlevels(as.factor(Matricule))
+
+summary(Analyse.rémunérations[ c("plus.de.2.ans",
+                                 "moins.de.2.ans",
+                                 "moins.de.1.an", 
+                                 "moins.de.six.mois")])
+
+
+
 #'Les résultats sont exprimés en euros.
 #'
 #'# 3. Tests réglementaires
@@ -305,7 +371,7 @@ detach(Analyse.rémunérations)
 
 attach(Bdp.ldp, warn.conflicts=FALSE)
 
-NBI.aux.non.titulaires <- Bdp.ldp[ ! Statut %in% c("TITULAIRE","STAGIAIRE") & as.character(Code) %in% codes.NBI, c("Matricule", "Statut", "Code", "Libellé", "Mois", "Montant")]
+NBI.aux.non.titulaires <- Bdp.ldp[ ! Statut %in% c("TITULAIRE","STAGIAIRE") & as.character(Code) %in% codes.NBI, c(étiquette.matricule, "Statut", "Code", "Libellé", "Mois", étiquette.montant)]
 
 nombre.de.ldp.NBI.nontit <- nrow(NBI.aux.non.titulaires)
 
@@ -316,7 +382,7 @@ nombre.de.ldp.NBI.nontit <- nrow(NBI.aux.non.titulaires)
 
 filtre<-grep(".*(INFO|PFI|P.F.I).*", Libellé)
 
-personnels.prime.informatique <- Bdp.ldp[ filtre, c("Matricule", "Statut", "Code", "Libellé", "Montant")]
+personnels.prime.informatique <- Bdp.ldp[ filtre, c(étiquette.matricule, "Statut", "Code", "Libellé", étiquette.montant)]
 
 primes.informatiques.potentielles<-unique(Libellé[filtre])
 
@@ -343,7 +409,7 @@ Tableau(
 
 # Vacations et statut de fonctionnaire
 
-lignes.fonctionnaires.et.vacations <- Bdp.ldp[ Statut %in% c("TITULAIRE", "STAGIAIRE") & Code %in% Code.prime[Code.prime$Type.rémunération == "VACATIONS","Code.rubrique"], c("Matricule", "Statut", "Code", "Libellé", "Montant")]
+lignes.fonctionnaires.et.vacations <- Bdp.ldp[ Statut %in% c("TITULAIRE", "STAGIAIRE") & Code %in% Code.prime[Code.prime$Type.rémunération == "VACATIONS","Code.rubrique"], c(étiquette.matricule, "Statut", "Code", "Libellé", étiquette.montant)]
 matricules.fonctionnaires.et.vacations <- unique(lignes.fonctionnaires.et.vacations$Matricule)
 nombre.fonctionnaires.et.vacations <- length(matricules.fonctionnaires.et.vacations)
 nombre.ldp.fonctionnaires.et.vacations <- nrow(lignes.fonctionnaires.et.vacations)
@@ -367,15 +433,15 @@ Tableau(
 
 # Vacations et régime indemnitaire
 
-lignes.contractuels.et.vacations <- Bdp.ldp[ ! Statut %in% c("TITULAIRE", "STAGIAIRE")  & Code %in% Code.prime[Code.prime$Type.rémunération == "VACATIONS","Code.rubrique"], c("Matricule", "Code", "Libellé", "Montant")]
+lignes.contractuels.et.vacations <- Bdp.ldp[ ! Statut %in% c("TITULAIRE", "STAGIAIRE")  & Code %in% Code.prime[Code.prime$Type.rémunération == "VACATIONS","Code.rubrique"], c(étiquette.matricule, "Code", "Libellé", étiquette.montant)]
 matricules.contractuels.et.vacations <- unique(lignes.contractuels.et.vacations$Matricule)
 nombre.contractuels.et.vacations <- length(matricules.contractuels.et.vacations)
 
-RI.et.vacations <- Bdp.ldp[ Matricule %in% matricules.contractuels.et.vacations & Code %in% Code.prime[Code.prime$Type.rémunération == "INDEMNITAIRE.OU.CONTRACTUEL","Code.rubrique"], c("Matricule", "Statut", "Code", "Libellé", "Montant")]
+RI.et.vacations <- Bdp.ldp[ Matricule %in% matricules.contractuels.et.vacations & Code %in% Code.prime[Code.prime$Type.rémunération == "INDEMNITAIRE.OU.CONTRACTUEL","Code.rubrique"], c(étiquette.matricule, "Statut", "Code", "Libellé", étiquette.montant)]
 
 # Vacations et indiciaire
 
-traitement.et.vacations <- Bdp.ldp[ Matricule %in% matricules.contractuels.et.vacations & Code %in% Code.prime[Code.prime$Type.rémunération == "TRAITEMENT","Code.rubrique"], c("Matricule", "Statut", "Code", "Libellé", "Montant")]
+traitement.et.vacations <- Bdp.ldp[ Matricule %in% matricules.contractuels.et.vacations & Code %in% Code.prime[Code.prime$Type.rémunération == "TRAITEMENT","Code.rubrique"], c(étiquette.matricule, "Statut", "Code", "Libellé", étiquette.montant)]
 
 nombre.ldp.contractuels.et.vacations <- nrow(lignes.contractuels.et.vacations)
 nombre.ldp.RI.et.vacations <- nrow(RI.et.vacations)
@@ -406,7 +472,7 @@ filtre.iat<-grep(".*(IAT|I.A.T|.*Adm.*Tech).*", Libellé, ignore.case=TRUE)
 filtre.ifts<-grep(".*(IFTS|I.F.T.S|.*FORF.*TRAV.*SUPP).*", Libellé, ignore.case=TRUE)
 codes.ifts <- unique(Bdp.ldp[filtre.ifts, "Code"])
 
-nombre.personnels.iat.ifts <- length(personnels.iat.ifts <- intersect(as.character(Bdp.ldp[ filtre.iat, c("Matricule")]), as.character(Bdp.ldp[ filtre.ifts, c("Matricule")])))
+nombre.personnels.iat.ifts <- length(personnels.iat.ifts <- intersect(as.character(Bdp.ldp[ filtre.iat, c(étiquette.matricule)]), as.character(Bdp.ldp[ filtre.ifts, c(étiquette.matricule)])))
 
 #'
 #+ echo=FALSE, results='asis'
@@ -419,21 +485,21 @@ Tableau(c("Codes IFTS", "Nombre de personnels percevant IAT et IFTS"), codes.ift
 
 #IFTS et IB >= 380 (IM >= 350)
 
-df1 <- Bdp.ldp[ Indice < 350, c("Matricule")]
+df1 <- Bdp.ldp[ Indice < 350, c(étiquette.matricule)]
 df1 <- df1[!duplicated(df1)]
 
-df2 <- Bdp.ldp[ filtre.ifts, c("Matricule")]
+df2 <- Bdp.ldp[ filtre.ifts, c(étiquette.matricule)]
 df2 <- df2[!duplicated(df2)]
 
 df3 <- intersect(df1,df2)
 
-lignes.ifts.anormales <- Bdp.ldp[Matricule %in% df3 & Code %in% codes.ifts & (Indice < 380 ), c("Matricule", "Statut", "Code", "Libellé", "Indice", "Montant")]
+lignes.ifts.anormales <- Bdp.ldp[Matricule %in% df3 & Code %in% codes.ifts & (Indice < 380 ), c(étiquette.matricule, "Statut", "Code", "Libellé", "Indice", étiquette.montant)]
 nombre.lignes.ifts.anormales <- length(lignes.ifts.anormales)
 
 rm(df1, df2, df3)
 # IFTS et non tit
 
-ifts.et.contractuel <- Bdp.ldp[Code %in% codes.ifts & ! Statut %in% c("TITULAIRE", "STAGIAIRE"), c("Matricule", "Statut", "Code", "Libellé", "Indice", "Montant")]
+ifts.et.contractuel <- Bdp.ldp[Code %in% codes.ifts & ! Statut %in% c("TITULAIRE", "STAGIAIRE"), c(étiquette.matricule, "Statut", "Code", "Libellé", "Indice", étiquette.montant)]
 nombres.lignes.ifts.et.contractuel <- length(ifts.et.contractuel)
 
 #'
@@ -450,11 +516,11 @@ Tableau(c("Nombre de contractuels percevant des IFTS", "Nombre de lignes IFTS po
 #+ echo=FALSE
 
 
-HS.sup.25 <- Bdp.ldp[Heures.Sup. >= 25 , c("Matricule", "Statut", "Mois", "Heures.Sup.", "Brut")]
+HS.sup.25 <- Bdp.ldp[Heures.Sup. >= 25 , c(étiquette.matricule, "Statut", "Mois", "Heures.Sup.", "Brut")]
 nombre.ldp.HS.sup.25 <- nrow(HS.sup.25)
 
 # with(Base2,
-#      ihts <<- Base2[! Code.catégorie %in% c("B", "C") & substr(Code,1,2) %in% c("19") & ! grepl(" ENS", Libellé), c("Matricule", "Code", "Libellé", "Montant", "Code.catégorie")]
+#      ihts <<- Base2[! Code.catégorie %in% c("B", "C") & substr(Code,1,2) %in% c("19") & ! grepl(" ENS", Libellé), c(étiquette.matricule, "Code", "Libellé", étiquette.montant, "Code.catégorie")]
 # )
 
 ihts <- character(0)
@@ -478,9 +544,26 @@ Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"), n
 matricules.à.identifier <- unique(data.frame(Bdp.ldp$Nom, Bdp.ldp$Prénom, Bdp.ldp$Matricule))
 Catégorie <- character(length=nrow(matricules.à.identifier))
 matricules.à.identifier <- cbind(matricules.à.identifier, Catégorie)
-names(matricules.à.identifier) <- c("Nom", "Prénom", "Matricule", "Catégorie")
+names(matricules.à.identifier) <- c("Nom", "Prénom", étiquette.matricule, "Catégorie")
 
 kable(matricules.à.identifier, row.names=FALSE)
+
+#'
+#'
+#'+echo=FALSE
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 detach(Bdp.ldp)
 

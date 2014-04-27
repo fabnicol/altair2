@@ -84,3 +84,90 @@ Tableau <- function(x,...)
   names(T) <- x
   kable(T, row.names=FALSE, align="c")
 }
+
+
+  julian.date.début.période <- julian(as.Date(paste0("01/01/", début.période.sous.revue), date.format))
+  julian.exercice.suivant.premier <- julian(as.Date(paste0("01/01/",(début.période.sous.revue+1)), date.format))
+  julian.date.fin.période   <- julian(as.Date(paste0("01/01/", fin.période.sous.revue+1), date.format))
+  julian.exercice.dernier <- julian(as.Date(paste0("01/01/",fin.période.sous.revue), date.format))
+
+library(plyr)
+
+calcul.nb.jours <- function(entrée, sortie) 
+{
+  
+  julian.entrée <- 
+    ifelse(entrée == "", 
+           julian.date.début.période,
+           max(julian.date.début.période, julian(as.Date(entrée, date.format))))
+  
+  julian.sortie <- 
+    ifelse(sortie == "", 
+           julian.date.fin.période, 
+           min(julian.date.fin.période, julian(as.Date(sortie, date.format))))
+  
+  return (julian.sortie - julian.entrée)
+}
+
+calcul.nb.jours.dans.exercice.in <- function(entrée) 
+{
+  date.entrée <- as.Date(entrée, date.format)
+  
+  if (entrée == "")
+  {
+    julian.entrée <-  julian.date.début.période
+    julian.fin.exercice <- julian.exercice.suivant.premier
+  }
+  else
+  {
+    julian.entrée <- julian(date.entrée)
+    if (julian.date.début.période < julian.entrée)
+      julian.fin.exercice <- julian(as.Date(paste0("01/01/",as.integer(substr(entrée, 7, 10))+1), date.format))
+    else
+    {
+      julian.fin.exercice <- julian.exercice.suivant.premier
+      julian.entrée <- julian.date.début.période
+    }
+  }
+  
+  return (julian.fin.exercice - julian.entrée)
+  
+}
+
+calcul.nb.jours.dans.exercice.out <- function(sortie) 
+{
+  date.sortie <- as.Date(sortie, date.format)
+  
+  if (sortie == "")
+  {
+    julian.sortie <-  julian.date.fin.période
+    julian.début.exercice <- julian.exercice.dernier
+  }
+  else
+  {
+    julian.sortie <- julian(date.sortie)
+    if (julian.date.début.période < julian.sortie)
+      julian.début.exercice <- julian(as.Date(paste0("01/01/",as.integer(substr(sortie, 7, 10))), date.format))
+    else
+    {
+      julian.début.exercice <- julian.date.début.période
+      julian.sortie <- julian.exercice.suivant.premier
+    }
+  }
+  
+  return (julian.sortie - julian.début.exercice)
+  
+}
+
+calcul.variation <- function(rémunération.début, rémunération.sortie, nb.jours.exercice.début, nb.jours.exercice.sortie, nb.exercices)
+{
+  if (nb.exercices > 1)  
+    
+    return(( rémunération.sortie / rémunération.début   - 1  ) * 100)
+  
+  else
+    
+    return (0)
+  
+}
+

@@ -32,7 +32,7 @@ fin.période.sous.revue   <- 2013
 
 etiquette.matricule <- "Matricule"
 etiquette.totalgeneral <- "TOTAL GENERAL"
-etiquette.montant <- "Net.a.Payer"
+etiquette.montant <- "Montant"
 
 seuil.troncature <- 99
 
