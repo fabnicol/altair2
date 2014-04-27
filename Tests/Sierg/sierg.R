@@ -22,17 +22,16 @@ library(compiler)
 library(knitr)
 
 options(warn=-1, verbose=FALSE, OutDec=",")
+
 compilerOptions <- setCompilerOptions(suppressAll=TRUE)
 JITlevel <- enableJIT(3)
 
-#/*---------------------------------------------------------------------------------------------------------------------
-#  Chemins et variables globales du programme
-##
+#+echo=FALSE, results='asis'
 
 # Cette section pourra être modifiée en entrée dans d'autres contextes
-# Matricule, Codes, Avantages en nature */
+# Matricule, Codes, Avantages en nature 
 
-chemin.dossier <- "~/Dev/altair2/Reports/Sierg"
+chemin.dossier <- "~/Dev/altair/Tests/Sierg"
 champ.détection.1 <- "Matricule"
 champ.détection.2 <- "Code"
 champ.détection.élus <- "Service"
@@ -268,7 +267,8 @@ hist(total.rémunérations[!Statut %in% c("TITULAIRE", "STAGIAIRE") & total.rém
    ylab="Effectif",
    xlim=c(0, 40),
    main="Rémunération annuelle totale des contractuels",
-   col="red")
+   col="red",
+   nclass=50)
 
 #'
 #+ echo=FALSE, fig.retina=2, fig.width=7.1
@@ -299,7 +299,7 @@ detach(Analyse.rémunérations)
 #'Les résultats sont exprimés en euros.
 #'
 #'# 3. Tests réglementaires
-#'### 3.1 Contrôle des heures supplémentaires, des NBI et primes informatiques
+#'## 3.1 Contrôle des heures supplémentaires, des NBI et primes informatiques
 #'
 #+ echo=FALSE
 
@@ -334,7 +334,11 @@ Tableau(
   nombre.de.ldp.NBI.nontit, 
   nombre.de.personnels.pfi)
 
-#'### 3.2 Contrôle des vacations pour les fonctionnaires  
+#'**Nota :**  
+#'NBI: nouvelle bonification indiciaire  
+#'PFI: prime de fonctions informatiques  
+#'    
+#'## 3.2 Contrôle des vacations pour les fonctionnaires  
 #+ echo=FALSE
 
 # Vacations et statut de fonctionnaire
@@ -358,7 +362,7 @@ Tableau(
 #'**Nota:**  
 #'FEV : fonctionnaire effectuant des vacations
 #'
-#'### 3.3 Contrôle des contractuels : cumuls traitement indiciaire, indemnités et vacations
+#'## 3.3 Contrôles sur les cumuls traitement indiciaire, indemnités et vacations des contractuels
 #+ echo=FALSE
 
 # Vacations et régime indemnitaire
@@ -393,7 +397,7 @@ Tableau(c("Nombre de CEV",
 #'CEV : contractuel effectuant des vacations
 
 #'
-#'### 3.4 Contrôle sur IAT/IFTS
+#'## 3.4 Contrôle sur les indemnités IAT et IFTS
 #+ echo=FALSE
 
 #IAT et IFTS
@@ -410,7 +414,7 @@ nombre.personnels.iat.ifts <- length(personnels.iat.ifts <- intersect(as.charact
 Tableau(c("Codes IFTS", "Nombre de personnels percevant IAT et IFTS"), codes.ifts, nombre.personnels.iat.ifts)
 
 #'
-#'### Contrôle IFTS pour catégories B et contractuels
+#'### Contrôle sur les IFTS pour catégories B et contractuels
 #+ echo=FALSE
 
 #IFTS et IB >= 380 (IM >= 350)
@@ -442,7 +446,7 @@ Tableau(c("Nombre de contractuels percevant des IFTS", "Nombre de lignes IFTS po
 #'IB < 380 : fonctionnaire percevant un indice brut inférieur à 380  
 
 #'
-#'### 3.5 Contrôle heures supplémentaires
+#'## 3.5 Contrôle sur les heures supplémentaires
 #+ echo=FALSE
 
 
@@ -465,8 +469,8 @@ Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"), n
 #'**Nota:**  
 #'HS en excès : au-delà de 25 heures par mois  
 #'IHTS anormales : non attribuées à des fonctionnaires de catégorie B ou C.  
-
-
+#'
+#'****
 #'
 #'# Annexe
 #+ echo=FALSE, results='asis'
@@ -480,11 +484,9 @@ kable(matricules.à.identifier, row.names=FALSE)
 
 detach(Bdp.ldp)
 
-#'### Nota :
-#'NBI: nouvelle bonification indiciaire  
-#'HS: heures supplémentaires  
-#'PFI: prime de fonctions informatiques  
-
+#To beautify html output run a post script as follows in the bash or in R itself
+#if (file.exists("sierg.html"))
+# system("sed -i -r 's/(class=\"odd\"|class=\"header\")//g' -r 's/class=\"even\"/class=\"fab\"/g' sierg.html")
 
 #/* ------------------------------------------------------------------------------------------------------------------
 #  Sauvegardes : enlever les commentaires en mode opérationnel
