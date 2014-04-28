@@ -1,16 +1,27 @@
 #'---
-#'title: "RH Sierg"
-#'author: "Fabrice Nicol"
+#'title: false
+#'author: false
 #'date: false
 #'output:
 #'html_document:
 #'css: style.css
 #'---
 
+#'<p class="centered"><img src="altair.png" /></p>
+#'<p class="title">RH Sierg</h1>
+#'
 
+#+ echo=FALSE
 
-#'Exercice `r exercice`  
+exercice <- 2012
+
+#'<p class="centered"><b>Exercice `r exercice` </b></p>  
+#'<p class="author">Fabrice Nicol</h1>
+#'
+#+ echo=FALSE
 #'`r format(Sys.Date(), "%a %d %b %Y")`  
+#'
+
 
 #+ echo=FALSE
 

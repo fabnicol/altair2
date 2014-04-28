@@ -3,5 +3,8 @@
 *docx
 *zip
 *html
-
+*.old
 .Rproj.user
+*.pdf
+*.docx
+.directory

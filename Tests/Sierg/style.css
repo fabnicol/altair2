@@ -1,3 +1,31 @@
+
+.title
+{
+   font-size: 25px;
+   font-style: bolder;
+   color: black;
+   margin-top: 100px;
+   margin-bottom: 100px;
+   text-align: center;
+}
+
+.author
+{
+   font-size: 20px;
+   font-style: bold;
+   color: black;
+   margin-top: 30px;
+   margin-bottom: 10px;
+   text-align: left;
+}
+
+.centered
+ {
+  text-align: center;
+  margin-top: 100px;
+  margin-bottom: 100px;
+ }
+
 table 
   {
       border: 2px;
@@ -48,4 +76,5 @@ table
    visibility: hidden;
  }
 
-
+ 
+ 
