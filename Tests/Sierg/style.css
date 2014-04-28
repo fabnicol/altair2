@@ -42,4 +42,10 @@ table
     page-break-after: avoid;
    }
    
+ h6
+ {
+   page-break-after: always;
+   visibility: hidden;
+ }
+
 
