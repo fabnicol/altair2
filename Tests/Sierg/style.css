@@ -36,11 +36,10 @@ table
       margin-top: 20px;
       margin-bottom:50px;
       margin-left: 110px;
-      page-break-inside: avoid;
   }
  
  td {padding: 5px;}
- tr.fab   {background: beige; }
+ tr.fab   {background: silver; }
  
  th {background: salmon; padding: 5px;}
   
@@ -76,5 +75,5 @@ table
    visibility: hidden;
  }
 
- 
+ body {background: #FAFAD2;}
  

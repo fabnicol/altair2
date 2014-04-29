@@ -7,11 +7,15 @@
 #'css: style.css
 #'---
 
+
 #'<p class="centered"><img src="altair.png" /></p>
 #'<p class="title">RH Sierg</h1>
 #'
 
 #+ echo=FALSE
+library(compiler)
+library(knitr)
+knitr::opts_chunk$set(fig.retina=2, echo=FALSE, warning=FALSE, message=FALSE, results='asis')
 
 exercice <- 2012
 
@@ -22,18 +26,13 @@ exercice <- 2012
 #'`r format(Sys.Date(), "%a %d %b %Y")`  
 #'
 
-
-#+ echo=FALSE
-
-library(compiler)
-library(knitr)
 options(warn=-1, verbose=FALSE, OutDec=",")
 compilerOptions <- setCompilerOptions(suppressAll=TRUE)
 JITlevel <- enableJIT(3)
 
 
-début.période.sous.revue <- 2012
-fin.période.sous.revue   <- 2013
+début.période.sous.revue <- 2011
+fin.période.sous.revue   <- 2012
 exercice <- 2012
 étudier.variations <- TRUE
 
@@ -49,8 +48,6 @@ date.format <- "%d/%m/%Y"
 
 nom.de.fichier.de.paie  <- "Lignes de paye"
 nom.de.bulletin.de.paie <- "Bulletins de paye"
-
-#+echo=FALSE, results='asis'
 
 # Cette section pourra être modifiée en entrée dans d'autres contextes
 # Matricule, Codes, Avantages en nature 
@@ -91,13 +88,7 @@ ldp <- ldp[file.exists(chemin(ldp))]
 
 Ldp<-Read.csv(ldp)
 
-#/* Equivaut à :
-# ldp1 <- read.csv2(chemin.ldp1,  blank.lines.skip=TRUE, skip=1)
-# ...
-# ldp <- rbind(ldp1,ldp2,...)
-# Bulletin de paie  */
-
-Bdp <- read.csv.skip(bdp)
+Bdp <- Read.csv(bdp)
 
 #Matricule.catégorie <- read.csv.skip(matricule.catégorie)
 Code.prime          <- read.csv.skip(code.prime)
@@ -106,9 +97,9 @@ Code.prime          <- read.csv.skip(code.prime)
 #suppression des colonnes Nom Prénom redondantes
 
 #Matricule.avantage  <- selectionner.cle.matricule(Matricule.avantage, Matricule.catégorie) 
-Bdp                 <- selectionner.cle.matricule.mois(Bdp, Ldp)
+Bdp2                 <- selectionner.cle.matricule.mois(Bdp, Ldp)
 
-if (!setequal(intersect(names(Ldp), names(Bdp)), c("Mois", étiquette.matricule)))
+if (!setequal(intersect(names(Ldp), names(Bdp2)), c("Mois", étiquette.matricule)))
   stop("L'appariement ne peut se faire par les clés Matricule et Mois")
 
 
@@ -125,7 +116,6 @@ années.total.hors.élus  <- exercice-1-(as.numeric(substr(as.character(Bdp.nir.
 
 #'# 1. Statistiques de population
 #'**Ensemble des personnels non élus**  
-#+ echo=FALSE, fig.retina=2
 
 hist(années.total.hors.élus,
      xlab="Âge",
@@ -136,16 +126,12 @@ hist(années.total.hors.élus,
      nclass=50)
 
 #'
-#+ echo=FALSE, results='asis'
 
 Résumé(années.total.hors.élus, "Âge des personnels", align='c')
 
 #'Effectif total: `r length(années.total.hors.élus)`  
 #'
 #'**Ensemble des fonctionnaires stagiaires et titulaires**  
-
-#'  
-#+ echo=FALSE, fig.retina=2
 
 hist(années.fonctionnaires,
      xlab="Âge",
@@ -156,7 +142,6 @@ hist(années.fonctionnaires,
      nclass=50)
 
 #'
-#+ echo=FALSE, results='asis'
 
 Résumé(années.fonctionnaires, "Âge des fonctionnaires", align='c')
 
@@ -165,11 +150,10 @@ Résumé(années.fonctionnaires, "Âge des fonctionnaires", align='c')
 #'  
 #'**Nota :** Dans les statistiques de cette section, les élus ne sont pas pris en compte.
 #'Pyramides au 31 décembre `r exercice`  
-#+ echo=FALSE
 
 #fusion matricule | avantage | catégorie par Matricule
 
-Bdp.ldp <- merge(Bdp, Ldp)
+Bdp.ldp <- merge(Bdp2, Ldp)
 
 library(plyr)
 
@@ -200,7 +184,7 @@ attach(Analyse.rémunérations, warn.conflicts=FALSE)
 
 #'# 2. Rémunérations 
 #'## 2.1 Fonctionnaires titulaires et stagiaires
-#+ echo=FALSE, fig.retina=2, fig.width=7.1
+#+ fig.width=7.1
 
 filtre.fonctionnaire <- function (X) X[ Statut %in% c("TITULAIRE", "STAGIAIRE") & X >0 ]
 
@@ -214,7 +198,7 @@ hist(filtre.fonctionnaire(total.rémunérations)/1000,
 )
 
 #'  
-#+ echo=FALSE, fig.retina=2, fig.width=7.1
+#+ fig.width=7.1
 
 
 hist(filtre.fonctionnaire(part.rémunération.contractuelle.ou.indemnitaire),
@@ -227,7 +211,7 @@ hist(filtre.fonctionnaire(part.rémunération.contractuelle.ou.indemnitaire),
 )
 
 #'    
-#+ echo=FALSE, fig.retina=2, fig.width=7.1
+#+ fig.width=7.1
 
 hist(filtre.fonctionnaire(part.rémunération.contractuelle.ou.indemnitaire),
      xlab="Pourcentage des indemnités dans la rémunération\n hors politique familiale, indemnités journalières et remboursements",
@@ -248,20 +232,17 @@ ratio.global.masse.indemnitaire  <- masse.indemnitaire/(masse.indiciaire+masse.i
 
 #'### Masses indemnitaires
 #'Les résultats sont exprimés en euros.
-#+ echo=FALSE, results='asis'
 
  Tableau(c("Masse indiciaire", "Masse indemnitaire"),
                   masse.indiciaire, masse.indemnitaire)
   
 #'  
-#+ echo=FALSE, results='asis'
 
  Tableau(c("Masse des rémunérations brutes", "Part de la masse indemnitaire"),
                    masse.rémunérations.brutes, ratio.global.masse.indemnitaire)
 
 
 #'### Statistiques de position
-#+ echo=FALSE, results='asis'
 
 #/*print(xtable(Stats.fonctionnaires), type="html", include.rownames=FALSE)*/
 
@@ -274,7 +255,6 @@ ratio.global.masse.indemnitaire  <- masse.indemnitaire/(masse.indiciaire+masse.i
                                  "Autres rémunérations"))
 
 #'
-#+ echo=FALSE, results='asis'
 
  Résumé(Analyse.rémunérations[Statut %in% c("TITULAIRE", "STAGIAIRE"), 
                               c( "total.rémunérations",
@@ -284,7 +264,7 @@ ratio.global.masse.indemnitaire  <- masse.indemnitaire/(masse.indiciaire+masse.i
 
 
 #'## 2.2 Contractuels, vacataires et stagiaires inclus
-#+ echo=FALSE, fig.retina=2, fig.width=7.1
+#+ fig.width=7.1
 
 hist(total.rémunérations[!Statut %in% c("TITULAIRE", "STAGIAIRE") & total.rémunérations > 1000]/1000,
    xlab="Distribution de la rémunération en k€ (supérieure à 1000 €)\n hors politique familiale, indemnités journalières et remboursements",
@@ -295,7 +275,7 @@ hist(total.rémunérations[!Statut %in% c("TITULAIRE", "STAGIAIRE") & total.rém
    nclass=50)
 
 #'
-#+ echo=FALSE, fig.retina=2, fig.width=7.1
+#+ fig.width=7.1
 
 hist(autres.rémunérations[autres.rémunérations >0],
      xlab="Distribution des autres rémunérations annuelles en € :\n politique familiale, indemnités journalières et remboursements",
@@ -305,7 +285,6 @@ hist(autres.rémunérations[autres.rémunérations >0],
      col="grey")
 
 #'### Statistiques de position
-#+ echo=FALSE, results='asis'
 
   Résumé(Analyse.rémunérations[! Statut %in% c("TITULAIRE", "STAGIAIRE"), 
                                                     c("rémunération.contractuelle.ou.indemnitaire", "autres.rémunérations")],
@@ -313,7 +292,6 @@ hist(autres.rémunérations[autres.rémunérations >0],
                                   "Autres rémunérations"))
 
 #'
-#+ echo=FALSE, results='asis'
 
   Résumé(Analyse.rémunérations[!Statut %in% c("TITULAIRE", "STAGIAIRE"), 
                                                    "total.rémunérations"],
@@ -327,7 +305,7 @@ detach(Analyse.rémunérations)
 #Ici il faudra affiner l'input des paramètres pour l'interface en utilisatant get(get) par exemple.
 #ou alors un processeur
 
-# faire renseigner par la structure pour les colonnes début et fin.
+#/* faire renseigner par la structure pour les colonnes début et fin.
 # A priori on pourrait aussi prendre : Min(Mois) comme début et Max(Mois) comme fin en appliquant la quotité. C'est imprécis. 
 # Il y a donc tros inputs à solliciter : les débuts / fin d'activité, les catégories statutaires, les avantages en nature
 # Ces trois champs sont des inputs natifs; ils se font au niveau 
@@ -337,14 +315,23 @@ detach(Analyse.rémunérations)
 #     catégorie : X (date nouvelle)
 #     NAS :  avantage (date suppression)
 # par défaut la personne débute au commencement de la période sous revue et a pour catégorie AUTRE et NAS non
-# plus la validation de la codification des indemnités (confirmation)
+# plus la validation de la codification des indemnités (confirmation) */
 
-Analyse.variations <- ddply(Ldp,
+#' 
+
+
+Fdp <- ddply(Bdp, 
+                 .(Matricule, Année),
+                  summarize,
+                  Montant=sum(Net.à.Payer))
+
+
+Analyse.variations <- ddply(Fdp,
                                .(Matricule),
                                summarize,
                                nb.exercices = length(Montant),
-                               entrée = Date.d.entrée[1],
-                               sortie = Date.de.Sortie[nb.exercices],
+                               entrée = "1/1/2011",
+                               sortie = "31/12/2012",
                                nb.jours = calcul.nb.jours(entrée, sortie),
                                nb.jours.exercice.début = calcul.nb.jours.dans.exercice.in(entrée),
                                nb.jours.exercice.sortie = calcul.nb.jours.dans.exercice.out(sortie),
@@ -356,29 +343,155 @@ Analyse.variations <- ddply(Ldp,
                                  ( ( 1 + variation.rémunération.jour / 100 ) ^ (365 / nb.jours) - 1) * 100
 )
 
-Analyse.rémunérations <- mutate(Analyse.rémunérations,
+
+Analyse.variations <- mutate(Analyse.variations,
                                 plus.de.2.ans = (nb.jours >= 2*365),
                                 moins.de.2.ans = (nb.jours < 2*365),
                                 moins.de.1.an  = (nb.jours < 365),
                                 moins.de.six.mois = (nb.jours < 365/2))
 
-attach(Analyse.rémunérations, warn.conflicts=FALSE)
+attach(Analyse.variations, warn.conflicts=FALSE)
 
 nlevels(as.factor(Matricule))
 
-summary(Analyse.rémunérations[ c("plus.de.2.ans",
+summary(Analyse.variations[ c("plus.de.2.ans",
                                  "moins.de.2.ans",
                                  "moins.de.1.an", 
                                  "moins.de.six.mois")])
 
 
 
+
+hist(moyenne.rémunération.annuelle.sur.période/1000,
+     xlab=paste0("Distribution de la rémunération nette moyenne sur la période ",début.période.sous.revue,"-",fin.période.sous.revue," en k€"),
+     ylab="Effectif",
+     xlim=c(0, 80),
+     main="Rémunération nette moyenne",
+     col="blue",
+     nclass=100)
+
+
+table(moins.de.2.ans, cut(variation.moyenne.rémunération.jour, breaks=seq(-5,5,by=0.5)))
+
+Analyse.variations.filtrée<-Analyse.variations[ nb.jours.exercice.début > seuil.troncature & nb.jours.exercice.sortie > seuil.troncature & nb.exercices > 1, ]
+
+Stats.Analyse.variations.filtrée<-summary(Analyse.variations.filtrée[-c(1:4)])
+
+print(Stats.Analyse.variations.filtrée)
+
+Analyse.variations.personnels.plus.de.2.ans <- Analyse.variations.filtrée[Analyse.variations.filtrée$plus.de.2.ans,]
+
+Stats.Analyse.variations.personnels.plus.de.2.ans<-summary(Analyse.variations.personnels.plus.de.2.ans[-c(1:4)])
+
+print(Stats.Analyse.variations.personnels.plus.de.2.ans)
+
+
+Analyse.variations.personnels.moins.de.2.ans <- Analyse.variations[moins.de.2.ans,]
+
+Stats.Analyse.variations.personnels.moins.de.2.ans<-summary(Analyse.variations.personnels.moins.de.2.ans)
+
+print(Stats.Analyse.variations.personnels.moins.de.2.ans)
+
+table(Analyse.variations.filtrée$plus.de.2.ans, cut(Analyse.variations.filtrée$variation.moyenne.rémunération.jour, breaks=seq(-10,35,by=0.5)))
+
+hist(Analyse.variations.personnels.plus.de.2.ans$variation.moyenne.rémunération.jour,
+     xlab ="Variation annuelle moyenne de la rémunération en %",
+     las=1,
+     xlim=c(-5,30),
+     sub  = "pour 41 agents restés plus de deux ans",
+     ylab ="Effectifs",
+     main ="Distribution de la variation annuelle\nmoyenne de la rémunération des agents en place",
+     col ="red",
+     nclass=100
+)
+
+
+# hist(Analyse.variations.personnels.moins.de.2.ans$variation.moyenne.rémunération.jour,
+#      xlab ="Variation annuelle moyenne de la rémunération en %",
+#      xlim=c(-10,30),
+#      las=1,
+#      sub  = "pour 30 agents restés moins de deux ans",
+#      ylab ="Effectifs",
+#      main ="Distribution de la variation annuelle\nmoyenne de la rémunération des agents restés moins de deux ans",
+#      col ="red",
+#      nclass=100
+# )
+
+detach(Analyse.variations)
+
+Fdp <- mutate(Fdp,
+              plus.de.2.ans = Matricule
+              %in%
+                Analyse.variations[Analyse.variations$plus.de.2.ans, étiquette.matricule])
+attach(Ldp, warn=-1)
+
+Fdp.plus.de.2.ans<-Fdp[plus.de.2.ans, ]
+
+plot(levels(as.factor(Fdp.plus.de.2.ans$Année)),
+     tapply(Fdp.plus.de.2.ans$Montant, Fdp.plus.de.2.ans$Année, sum)/1000,
+     ylab="k€",
+     las=1,
+     xlab="Année",
+     main="Rémunération annuelle nette des agents\nrestés plus de deux ans",
+     col="red",
+     type="b",  
+     xlim=c(début.période.sous.revue,fin.période.sous.revue)
+)
+
+
+Fdp.moins.de.2.ans<-Fdp[!plus.de.2.ans, ]
+
+# plot(levels(as.factor(Fdp.moins.de.2.ans$Année)),
+#      tapply(Fdp.moins.de.2.ans$Montant, Fdp.moins.de.2.ans$Année, sum)/1000,
+#      ylab="k€",
+#      las=1,
+#      xlab="Année",
+#      main="Rémunération annuelle nette des agents\n restés moins de deux ans",
+#      col="blue",
+#      type="b",  
+#      xlim=c(début.période.sous.revue,fin.période.sous.revue)
+# )
+
+# plot(levels(as.factor(Fdp.moins.de.2.ans$Année)),
+#      sapply(levels(as.factor(Fdp.moins.de.2.ans$Année)) ,function(x) nlevels(as.factor(Fdp.moins.de.2.ans[Fdp.moins.de.2.ans$Année == x, ]$Matricule))),
+#      ylab="Effectif",
+#      las=1,
+#      xlab="Année",
+#      main="Nombre d'agents\n restés moins de deux ans",
+#      col="blue",
+#      type="b",  
+#      xlim=c(début.période.sous.revue,fin.période.sous.revue)
+# )
+
+plot(levels(as.factor(Fdp.plus.de.2.ans$Année)),
+     sapply(levels(as.factor(Fdp.plus.de.2.ans$Année)) ,function(x) nlevels(as.factor(Fdp.plus.de.2.ans[Fdp.plus.de.2.ans$Année == x, ]$Matricule))),
+     ylab="Effectif",
+     las=1,
+     xlab="Année",
+     main="Nombre d'agents\n restés plus de deux ans",
+     col="blue",
+     type="b",  
+     xlim=c(début.période.sous.revue,fin.période.sous.revue)
+)
+
+plot(levels(as.factor(Année)),
+     sapply(levels(as.factor(Année)), function(x) nlevels(as.factor(Fdp[Année == x, ]$Matricule))),
+     ylab="Effectif",
+     las=1,
+     xlab="Année",
+     main="Nombre d'agents rémunérés par exercice",
+     col="green",
+     type="b",  
+     xlim=c(début.période.sous.revue,fin.période.sous.revue)
+)
+
+table(plus.de.2.ans, Année)
+
 #'Les résultats sont exprimés en euros.
 #'
 #'# 3. Tests réglementaires
 #'## 3.1 Contrôle des heures supplémentaires, des NBI et primes informatiques
 #'
-#+ echo=FALSE
 
 attach(Bdp.ldp, warn.conflicts=FALSE)
 
@@ -403,7 +516,6 @@ if  (length(primes.informatiques.potentielles) == 0)
 nombre.de.personnels.pfi <- nrow(personnels.prime.informatique)
 
 #'Primes informatiques potentielles : `r primes.informatiques.potentielles`  
-#+ echo=FALSE, results='asis'
 
 Tableau(
   c("Nombre de lignes NBI pour non titulaires",
@@ -416,7 +528,6 @@ Tableau(
 #'PFI: prime de fonctions informatiques  
 #'    
 #'## 3.2 Contrôle des vacations pour les fonctionnaires  
-#+ echo=FALSE
 
 # Vacations et statut de fonctionnaire
 
@@ -426,7 +537,6 @@ nombre.fonctionnaires.et.vacations <- length(matricules.fonctionnaires.et.vacati
 nombre.ldp.fonctionnaires.et.vacations <- nrow(lignes.fonctionnaires.et.vacations)
 
 #'
-#+ echo=FALSE, results='asis'
 
 Tableau(
   c("Nombre de FEV",
@@ -440,7 +550,6 @@ Tableau(
 #'FEV : fonctionnaire effectuant des vacations
 #'
 #'## 3.3 Contrôles sur les cumuls traitement indiciaire, indemnités et vacations des contractuels
-#+ echo=FALSE
 
 # Vacations et régime indemnitaire
 
@@ -459,7 +568,7 @@ nombre.ldp.RI.et.vacations <- nrow(RI.et.vacations)
 nombre.ldp.traitement.et.vacations <- nrow(traitement.et.vacations)
 
 #'
-#+ echo=FALSE, results='asis'
+
 Tableau(c("Nombre de CEV",
           "Nombre de lignes CEV",
           "Nombre de lignes indemnitaires pour CEV",
@@ -475,7 +584,6 @@ Tableau(c("Nombre de CEV",
 
 #'
 #'## 3.4 Contrôle sur les indemnités IAT et IFTS
-#+ echo=FALSE
 
 #IAT et IFTS
 
@@ -486,13 +594,11 @@ codes.ifts <- unique(Bdp.ldp[filtre.ifts, "Code"])
 nombre.personnels.iat.ifts <- length(personnels.iat.ifts <- intersect(as.character(Bdp.ldp[ filtre.iat, c(étiquette.matricule)]), as.character(Bdp.ldp[ filtre.ifts, c(étiquette.matricule)])))
 
 #'
-#+ echo=FALSE, results='asis'
 
 Tableau(c("Codes IFTS", "Nombre de personnels percevant IAT et IFTS"), codes.ifts, nombre.personnels.iat.ifts)
 
 #'
 #'### Contrôle sur les IFTS pour catégories B et contractuels
-#+ echo=FALSE
 
 #IFTS et IB >= 380 (IM >= 350)
 
@@ -514,18 +620,16 @@ ifts.et.contractuel <- Bdp.ldp[Code %in% codes.ifts & ! Statut %in% c("TITULAIRE
 nombres.lignes.ifts.et.contractuel <- length(ifts.et.contractuel)
 
 #'
-#+ echo=FALSE, results='asis'
 
 Tableau(c("Nombre de contractuels percevant des IFTS", "Nombre de lignes IFTS pour IB < 380"), nombres.lignes.ifts.et.contractuel, nombre.lignes.ifts.anormales)
 
 #'    
 #'**Nota:**  
 #'IB < 380 : fonctionnaire percevant un indice brut inférieur à 380  
-
+#'
+#'###### page break
 #'
 #'## 3.5 Contrôle sur les heures supplémentaires
-#+ echo=FALSE
-
 
 HS.sup.25 <- Bdp.ldp[Heures.Sup. >= 25 , c(étiquette.matricule, "Statut", "Mois", "Heures.Sup.", "Brut")]
 nombre.ldp.HS.sup.25 <- nrow(HS.sup.25)
@@ -537,7 +641,6 @@ nombre.ldp.HS.sup.25 <- nrow(HS.sup.25)
 ihts <- character(0)
 nombre.ihts.anormales <- length(ihts)
 #'
-#+ echo=FALSE, results='asis'
  
 Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"), nombre.ldp.HS.sup.25, nombre.ihts.anormales)
 
@@ -550,7 +653,6 @@ Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"), n
 #'****
 #'
 #'# Annexe
-#+ echo=FALSE, results='asis'
 
 matricules.à.identifier <- unique(data.frame(Bdp.ldp$Nom, Bdp.ldp$Prénom, Bdp.ldp$Matricule))
 Catégorie <- character(length=nrow(matricules.à.identifier))
@@ -560,27 +662,8 @@ names(matricules.à.identifier) <- c("Nom", "Prénom", étiquette.matricule, "Ca
 kable(matricules.à.identifier, row.names=FALSE)
 
 #'
-#'
-#'+echo=FALSE
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 detach(Bdp.ldp)
-
-#To beautify html output run a post script as follows in the bash or in R itself
-#if (file.exists("sierg.html"))
-# system("sed -i -r 's/(class=\"odd\"|class=\"header\")//g' -r 's/class=\"even\"/class=\"fab\"/g' sierg.html")
 
 #/* ------------------------------------------------------------------------------------------------------------------
 #  Sauvegardes : enlever les commentaires en mode opérationnel

@@ -2,9 +2,13 @@
 *RData
 *docx
 *zip
-*html
+*.html
 *.old
 .Rproj.user
 *.pdf
 *.docx
 .directory
+*.md
+figure/*
+*/unnamed-*.png
+*.Rmd
