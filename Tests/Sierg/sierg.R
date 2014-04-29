@@ -52,7 +52,7 @@ nom.de.bulletin.de.paie <- "Bulletins de paye"
 # Cette section pourra être modifiée en entrée dans d'autres contextes
 # Matricule, Codes, Avantages en nature 
 
-chemin.dossier <- "~/Dev/Altair/altair/Tests/Sierg"
+chemin.dossier <- "~/Dev/altair/Tests/Sierg"
 champ.détection.1 <- étiquette.matricule
 champ.détection.2 <- "Code"
 champ.détection.élus <- "Service"
@@ -354,13 +354,19 @@ attach(Analyse.variations, warn.conflicts=FALSE)
 
 nlevels(as.factor(Matricule))
 
-summary(Analyse.variations[ c("plus.de.2.ans",
+#'
+
+Tableau(c("Plus de 2 ans",
+          "Moins de 2 ans",
+          "Moins d'un an", 
+          "Moins de six mois"), 
+        Analyse.variations[ c("plus.de.2.ans",
                                  "moins.de.2.ans",
                                  "moins.de.1.an", 
                                  "moins.de.six.mois")])
 
 
-
+#'
 
 hist(moyenne.rémunération.annuelle.sur.période/1000,
      xlab=paste0("Distribution de la rémunération nette moyenne sur la période ",début.période.sous.revue,"-",fin.période.sous.revue," en k€"),
@@ -370,23 +376,46 @@ hist(moyenne.rémunération.annuelle.sur.période/1000,
      col="blue",
      nclass=100)
 
+#'
 
-table(moins.de.2.ans, cut(variation.moyenne.rémunération.jour, breaks=seq(-5,5,by=0.5)))
+#table(moins.de.2.ans, cut(variation.moyenne.rémunération.jour, breaks=seq(-5,5,by=0.5)))
 
-Analyse.variations.filtrée<-Analyse.variations[ nb.jours.exercice.début > seuil.troncature & nb.jours.exercice.sortie > seuil.troncature & nb.exercices > 1, ]
+Analyse.variations.filtrée <- Analyse.variations[ nb.jours.exercice.début > seuil.troncature & nb.jours.exercice.sortie > seuil.troncature & nb.exercices > 1, ]
 
-Stats.Analyse.variations.filtrée<-summary(Analyse.variations.filtrée[-c(1:4)])
+Analyse.variations.filtrée2 <- na.omit(Analyse.variations.filtrée[8:12])
 
-print(Stats.Analyse.variations.filtrée)
+Résumé(
+    Analyse.variations.filtrée2,
+          c("Première année",
+            "Dernière année",
+            "Moyenne sur la période",
+            "Variation sur la période",
+            "Variation annuelle moyenne"))
 
-Analyse.variations.personnels.plus.de.2.ans <- Analyse.variations.filtrée[Analyse.variations.filtrée$plus.de.2.ans,]
 
-Stats.Analyse.variations.personnels.plus.de.2.ans<-summary(Analyse.variations.personnels.plus.de.2.ans[-c(1:4)])
+#'
 
-print(Stats.Analyse.variations.personnels.plus.de.2.ans)
+Analyse.variations.personnels.plus.de.2.ans <- na.omit(Analyse.variations.filtrée[Analyse.variations.filtrée$plus.de.2.ans, 8:12])
 
+Résumé(Analyse.variations.personnels.plus.de.2.ans, 
+       c("Première année",
+         "Dernière année",
+         "Moyenne sur la période",
+         "Variation sur la période",
+         "Variation annuelle moyenne"))
+#'
 
-Analyse.variations.personnels.moins.de.2.ans <- Analyse.variations[moins.de.2.ans,]
+Analyse.variations.personnels.moins.de.2.ans <- na.omit(Analyse.variations.filtrée[Analyse.variations.filtrée$moins.de.2.ans, 8:12])
+
+#'
+Résumé(Analyse.variations.personnels.plus.de.2.ans, 
+       c("Première année",
+         "Dernière année",
+         "Moyenne sur la période",
+         "Variation sur la période",
+         "Variation annuelle moyenne"))
+#'
+
 
 Stats.Analyse.variations.personnels.moins.de.2.ans<-summary(Analyse.variations.personnels.moins.de.2.ans)
 
@@ -423,7 +452,7 @@ Fdp <- mutate(Fdp,
               plus.de.2.ans = Matricule
               %in%
                 Analyse.variations[Analyse.variations$plus.de.2.ans, étiquette.matricule])
-attach(Ldp, warn=-1)
+attach(Fdp, warn=-1)
 
 Fdp.plus.de.2.ans<-Fdp[plus.de.2.ans, ]
 
