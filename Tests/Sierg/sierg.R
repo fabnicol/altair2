@@ -7,7 +7,6 @@
 #'css: style.css
 #'---
 
-
 #'<p class="centered"><img src="altair.png" /></p>
 #'<p class="title">RH Sierg</h1>
 #'
@@ -34,6 +33,8 @@ JITlevel <- enableJIT(3)
 début.période.sous.revue <- 2011
 fin.période.sous.revue   <- 2012
 exercice <- 2012
+nb.exercices <- fin.période.sous.revue - début.période.sous.revue + 1
+
 étudier.variations <- TRUE
 
 étiquette.matricule <- "Matricule"
@@ -52,7 +53,7 @@ nom.de.bulletin.de.paie <- "Bulletins de paye"
 # Cette section pourra être modifiée en entrée dans d'autres contextes
 # Matricule, Codes, Avantages en nature 
 
-chemin.dossier <- "~/Dev/altair/Tests/Sierg"
+chemin.dossier <- "~/Dev/Altair/altair/Tests/Sierg"
 champ.détection.1 <- étiquette.matricule
 champ.détection.2 <- "Code"
 champ.détection.élus <- "Service"
@@ -96,26 +97,28 @@ Code.prime          <- read.csv.skip(code.prime)
 
 #suppression des colonnes Nom Prénom redondantes
 
+
+Bdp.fin=Bdp[Bdp$Année == fin.période.sous.revue,]
+
 #Matricule.avantage  <- selectionner.cle.matricule(Matricule.avantage, Matricule.catégorie) 
-Bdp2                 <- selectionner.cle.matricule.mois(Bdp, Ldp)
+Bdp2                 <- selectionner.cle.matricule.mois(Bdp.fin, Ldp)
 
 if (!setequal(intersect(names(Ldp), names(Bdp2)), c("Mois", étiquette.matricule)))
   stop("L'appariement ne peut se faire par les clés Matricule et Mois")
 
+liste.matricules.fonctionnaires <- unique(Bdp.fin[Bdp.fin$Mois == 12 & Bdp.fin$Statut %in% c("TITULAIRE", "STAGIAIRE"), étiquette.matricule])
+liste.matricules.élus   <- unique(Bdp.fin[Bdp.fin$Mois == 12 &  Bdp.fin[champ.détection.élus] == libellé.élus, étiquette.matricule])
 
-liste.matricules.fonctionnaires <- unique(Bdp[Bdp$Mois == 12 & Bdp$Statut %in% c("TITULAIRE", "STAGIAIRE"), étiquette.matricule])
-liste.matricules.élus   <- unique(Bdp[Bdp$Mois == 12 &  Bdp[champ.détection.élus] == libellé.élus, étiquette.matricule])
+Bdp.nir.total.hors.élus <- Bdp.fin[Bdp.fin$Mois == 12 & ! Bdp.fin$Matricule %in% liste.matricules.élus, champ.nir]
 
-Bdp.nir.total.hors.élus <- Bdp[Bdp$Mois == 12 & ! Bdp$Matricule %in% liste.matricules.élus, champ.nir]
-
-Bdp.nir.fonctionnaires  <- Bdp[Bdp$Mois == 12 &   Bdp$Matricule %in% liste.matricules.fonctionnaires, champ.nir]
+Bdp.nir.fonctionnaires  <- Bdp.fin[Bdp.fin$Mois == 12 &   Bdp.fin$Matricule %in% liste.matricules.fonctionnaires, champ.nir]
 
 années.fonctionnaires   <- exercice-1-(as.numeric(substr(as.character(Bdp.nir.fonctionnaires), 2, 3)) + 1900)
-
 années.total.hors.élus  <- exercice-1-(as.numeric(substr(as.character(Bdp.nir.total.hors.élus), 2, 3)) + 1900)
 
 #'# 1. Statistiques de population
-#'**Ensemble des personnels non élus**  
+#'
+#'### 1.1 Ensemble des personnels non élus**  
 
 hist(années.total.hors.élus,
      xlab="Âge",
@@ -131,7 +134,7 @@ Résumé(années.total.hors.élus, "Âge des personnels", align='c')
 
 #'Effectif total: `r length(années.total.hors.élus)`  
 #'
-#'**Ensemble des fonctionnaires stagiaires et titulaires**  
+#'### 1.2 Ensemble des fonctionnaires stagiaires et titulaires    
 
 hist(années.fonctionnaires,
      xlab="Âge",
@@ -150,10 +153,61 @@ Résumé(années.fonctionnaires, "Âge des fonctionnaires", align='c')
 #'  
 #'**Nota :** Dans les statistiques de cette section, les élus ne sont pas pris en compte.
 #'Pyramides au 31 décembre `r exercice`  
+#'
+  
+Fdp <- ddply(Bdp, 
+             .(Matricule, Année),
+             summarize,
+             Montant=sum(Net.à.Payer))
+
+Analyse.variations <- ddply(Fdp,
+                            .(Matricule),
+                            summarize,
+                            nb.exercices = length(Montant),
+                            entrée = "1/1/2011",
+                            sortie = "31/12/2012",
+                            nb.jours = calcul.nb.jours(entrée, sortie),
+                            nb.jours.exercice.début = calcul.nb.jours.dans.exercice.in(entrée),
+                            nb.jours.exercice.sortie = calcul.nb.jours.dans.exercice.out(sortie),
+                            rémunération.début = Montant[1]/nb.jours.exercice.début*365,
+                            rémunération.sortie = Montant[nb.exercices]/nb.jours.exercice.sortie*365,
+                            moyenne.rémunération.annuelle.sur.période = sum(Montant)*365/nb.jours,
+                            variation.rémunération.jour = calcul.variation(rémunération.début, rémunération.sortie, nb.jours.exercice.début, nb.jours.exercice.sortie, nb.exercices),
+                            variation.moyenne.rémunération.jour = 
+                              ( ( 1 + variation.rémunération.jour / 100 ) ^ (365 / nb.jours) - 1) * 100
+)
+
+
+Analyse.variations <- mutate(Analyse.variations,
+                             plus.de.2.ans = (nb.jours >= 2*365),
+                             moins.de.2.ans = (nb.jours < 2*365),
+                             moins.de.1.an  = (nb.jours < 365),
+                             moins.de.six.mois = (nb.jours < 365/2))
+
+attach(Analyse.variations, warn.conflicts=FALSE)
+
+#'
+### 1.3 Effectifs des personnels par durée de service
+
+Tableau(c("En place",
+          "Moins de 2 ans",
+          "Moins d'un an", 
+          "Moins de six mois"), 
+        sum(plus.de.2.ans),
+        sum(moins.de.2.ans),
+        sum(moins.de.1.an), 
+        sum(moins.de.six.mois))
+#'
+#'**Nota:**  
+#'Personnels en place : ayant servi au moins 730 jours pendant la période.  
+#'Toutes les durées de service sont calculées en multiples de 365 jours.
+#'
+
+detach(Analyse.variations)
 
 #fusion matricule | avantage | catégorie par Matricule
 
-Bdp.ldp <- merge(Bdp2, Ldp)
+Bdp.ldp <- merge(Bdp2, Ldp[Ldp$Année == fin.période.sous.revue,])
 
 library(plyr)
 
@@ -165,9 +219,8 @@ Bdp.ldp2 <- mutate(Bdp.ldp,
         warn=-1
        )
 
-
 Analyse.rémunérations <- ddply(Bdp.ldp2,
-                             c(étiquette.matricule, "Statut", "Service"),
+                             c(étiquette.matricule, "Statut", "Service", "Année"),
                              summarize,
                              traitement.indiciaire = sum(montant.traitement.indiciaire),
                              rémunération.contractuelle.ou.indemnitaire = sum(montant.primes),
@@ -182,7 +235,7 @@ Analyse.rémunérations <- ddply(Bdp.ldp2,
 
 attach(Analyse.rémunérations, warn.conflicts=FALSE)
 
-#'# 2. Rémunérations 
+#'# 2. Rémunérations : analyse pour l'exercice `r fin.période.sous.revue` 
 #'## 2.1 Fonctionnaires titulaires et stagiaires
 #+ fig.width=7.1
 
@@ -200,8 +253,7 @@ hist(filtre.fonctionnaire(total.rémunérations)/1000,
 #'  
 #+ fig.width=7.1
 
-
-hist(filtre.fonctionnaire(part.rémunération.contractuelle.ou.indemnitaire),
+hist(filtre.fonctionnaire(rémunération.contractuelle.ou.indemnitaire),
      xlab="Distribution des attributions indemnitaires en k€\n hors politique familiale, indemnités journalières et remboursements",
      ylab="Effectif",
      xlim=c(0, 70),
@@ -219,11 +271,9 @@ hist(filtre.fonctionnaire(part.rémunération.contractuelle.ou.indemnitaire),
      main="Distribution de la part indemnitaire\n de la rémunération annuelle des fonctionnaires",
      xlim=c(0,60),     
      col="blue",
-     nclass=30
-)
+     nclass=30)
 
 #/* La moyenne est tirée vers le haut par les outlyers */
-
 
 masse.indemnitaire            <- sum(rémunération.contractuelle.ou.indemnitaire[ traitement.indiciaire > 0])
 masse.indiciaire              <- sum(traitement.indiciaire)
@@ -240,7 +290,6 @@ ratio.global.masse.indemnitaire  <- masse.indemnitaire/(masse.indiciaire+masse.i
 
  Tableau(c("Masse des rémunérations brutes", "Part de la masse indemnitaire"),
                    masse.rémunérations.brutes, ratio.global.masse.indemnitaire)
-
 
 #'### Statistiques de position
 
@@ -261,7 +310,6 @@ ratio.global.masse.indemnitaire  <- masse.indemnitaire/(masse.indiciaire+masse.i
                                  "part.rémunération.contractuelle.ou.indemnitaire") ],
                               c("Total rémunérations",
                                 "Part de la rémunération contractuelle ou indemnitaire"))
-
 
 #'## 2.2 Contractuels, vacataires et stagiaires inclus
 #+ fig.width=7.1
@@ -299,7 +347,7 @@ hist(autres.rémunérations[autres.rémunérations >0],
 detach(Analyse.rémunérations)
 
 #'
-#'## 2.3 Analyse de l'évolution des rémunérations
+#'# 3 Analyse des rémunérations sur l'ensemble de la période `r début.période.sous.revue` - `r fin.période.sous.revue` 
 #'
 
 #Ici il faudra affiner l'input des paramètres pour l'interface en utilisatant get(get) par exemple.
@@ -318,55 +366,7 @@ detach(Analyse.rémunérations)
 # plus la validation de la codification des indemnités (confirmation) */
 
 #' 
-
-
-Fdp <- ddply(Bdp, 
-                 .(Matricule, Année),
-                  summarize,
-                  Montant=sum(Net.à.Payer))
-
-
-Analyse.variations <- ddply(Fdp,
-                               .(Matricule),
-                               summarize,
-                               nb.exercices = length(Montant),
-                               entrée = "1/1/2011",
-                               sortie = "31/12/2012",
-                               nb.jours = calcul.nb.jours(entrée, sortie),
-                               nb.jours.exercice.début = calcul.nb.jours.dans.exercice.in(entrée),
-                               nb.jours.exercice.sortie = calcul.nb.jours.dans.exercice.out(sortie),
-                               rémunération.début = Montant[1]/nb.jours.exercice.début*365,
-                               rémunération.sortie = Montant[nb.exercices]/nb.jours.exercice.sortie*365,
-                               moyenne.rémunération.annuelle.sur.période = sum(Montant)*365/nb.jours,
-                               variation.rémunération.jour = calcul.variation(rémunération.début, rémunération.sortie, nb.jours.exercice.début, nb.jours.exercice.sortie, nb.exercices),
-                               variation.moyenne.rémunération.jour = 
-                                 ( ( 1 + variation.rémunération.jour / 100 ) ^ (365 / nb.jours) - 1) * 100
-)
-
-
-Analyse.variations <- mutate(Analyse.variations,
-                                plus.de.2.ans = (nb.jours >= 2*365),
-                                moins.de.2.ans = (nb.jours < 2*365),
-                                moins.de.1.an  = (nb.jours < 365),
-                                moins.de.six.mois = (nb.jours < 365/2))
-
-attach(Analyse.variations, warn.conflicts=FALSE)
-
-nlevels(as.factor(Matricule))
-
-#'
-
-Tableau(c("Plus de 2 ans",
-          "Moins de 2 ans",
-          "Moins d'un an", 
-          "Moins de six mois"), 
-        Analyse.variations[ c("plus.de.2.ans",
-                                 "moins.de.2.ans",
-                                 "moins.de.1.an", 
-                                 "moins.de.six.mois")])
-
-
-#'
+## 3.1 Rémunération moyenne sur la période
 
 hist(moyenne.rémunération.annuelle.sur.période/1000,
      xlab=paste0("Distribution de la rémunération nette moyenne sur la période ",début.période.sous.revue,"-",fin.période.sous.revue," en k€"),
@@ -378,11 +378,15 @@ hist(moyenne.rémunération.annuelle.sur.période/1000,
 
 #'
 
-#table(moins.de.2.ans, cut(variation.moyenne.rémunération.jour, breaks=seq(-5,5,by=0.5)))
-
 Analyse.variations.filtrée <- Analyse.variations[ nb.jours.exercice.début > seuil.troncature & nb.jours.exercice.sortie > seuil.troncature & nb.exercices > 1, ]
 
 Analyse.variations.filtrée2 <- na.omit(Analyse.variations.filtrée[8:12])
+
+#' 
+## 3.2 Rémunérations sur la période `r début.période.sous.revue` - `r fin.période.sous.revue` 
+#'
+#'### 3.2.1 Tous les personnels
+#'
 
 Résumé(
     Analyse.variations.filtrée2,
@@ -391,7 +395,6 @@ Résumé(
             "Moyenne sur la période",
             "Variation sur la période",
             "Variation annuelle moyenne"))
-
 
 #'
 
@@ -408,6 +411,9 @@ Résumé(Analyse.variations.personnels.plus.de.2.ans,
 Analyse.variations.personnels.moins.de.2.ans <- na.omit(Analyse.variations.filtrée[Analyse.variations.filtrée$moins.de.2.ans, 8:12])
 
 #'
+#'### 3.2.2 Personnels en place
+#'
+
 Résumé(Analyse.variations.personnels.plus.de.2.ans, 
        c("Première année",
          "Dernière année",
@@ -433,7 +439,6 @@ hist(Analyse.variations.personnels.plus.de.2.ans$variation.moyenne.rémunératio
      col ="red",
      nclass=100
 )
-
 
 # hist(Analyse.variations.personnels.moins.de.2.ans$variation.moyenne.rémunération.jour,
 #      xlab ="Variation annuelle moyenne de la rémunération en %",
