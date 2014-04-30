@@ -31,7 +31,7 @@ JITlevel <- enableJIT(3)
 # Cette section pourra être modifiée en entrée dans d'autres contextes
 # Matricule, Codes, Avantages en nature 
 
-chemin.dossier <- "~/Dev/altair/Tests/Sierg"
+chemin.dossier <- "~/Dev/Altair/altair/Tests/Sierg"
 champ.détection.1 <- "Matricule"
 champ.détection.2 <- "Code"
 champ.détection.élus <- "Service"
@@ -193,7 +193,7 @@ hist(filtre.fonctionnaire(total.rémunérations)/1000,
 #+ echo=FALSE, fig.retina=2, fig.width=7.1
 
 
-hist(filtre.fonctionnaire(part.rémunération.contractuelle.ou.indemnitaire),
+hist(filtre.fonctionnaire(rémunération.contractuelle.ou.indemnitaire)/1000,
      xlab="Distribution des attributions indemnitaires en k€\n hors politique familiale, indemnités journalières et remboursements",
      ylab="Effectif",
      xlim=c(0, 70),
