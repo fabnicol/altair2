@@ -33,7 +33,7 @@ JITlevel <- enableJIT(3)
 début.période.sous.revue <- 2011
 fin.période.sous.revue   <- 2012
 exercice <- 2012
-nb.exercices <- fin.période.sous.revue - début.période.sous.revue + 1
+nombre.exercices <- fin.période.sous.revue - début.période.sous.revue + 1
 
 étudier.variations <- TRUE
 
@@ -118,7 +118,7 @@ années.total.hors.élus  <- exercice-1-(as.numeric(substr(as.character(Bdp.nir.
 
 #'# 1. Statistiques de population
 #'
-#'### 1.1 Ensemble des personnels non élus**  
+#'### 1.1 Ensemble des personnels non élus    
 
 hist(années.total.hors.élus,
      xlab="Âge",
@@ -160,8 +160,17 @@ Fdp <- ddply(Bdp,
              summarize,
              Montant=sum(Net.à.Payer))
 
+Fdp <- mutate(Fdp,
+              plus.de.2.ans = Matricule
+              %in%
+                Analyse.variations[Analyse.variations$plus.de.2.ans, étiquette.matricule])
+
+attach(Fdp, warn=-1)
+
+Fdp.plus.de.2.ans<-Fdp[plus.de.2.ans, ]
+
 Analyse.variations <- ddply(Fdp,
-                            .(Matricule),
+                            c(étiquette.matricule, "Année", "Statut"),
                             summarize,
                             nb.exercices = length(Montant),
                             entrée = "1/1/2011",
@@ -197,6 +206,42 @@ Tableau(c("En place",
         sum(moins.de.2.ans),
         sum(moins.de.1.an), 
         sum(moins.de.six.mois))
+
+#'
+#'**Evolutions entre `r début.période.sous.revue` et `r fin.période.sous.revue` **   
+#'
+# plot(levels(as.factor(Fdp.moins.de.2.ans$Année)),
+#      sapply(levels(as.factor(Fdp.moins.de.2.ans$Année)) ,function(x) nlevels(as.factor(Fdp.moins.de.2.ans[Fdp.moins.de.2.ans$Année == x, ]$Matricule))),
+#      ylab="Effectif",
+#      las=1,
+#      xlab="Année",
+#      main="Nombre d'agents\n restés moins de deux ans",
+#      col="blue",
+#      type="b",  
+#      xlim=c(début.période.sous.revue,fin.période.sous.revue)
+# )
+
+plot(levels(as.factor(Fdp.plus.de.2.ans$Année)),
+     sapply(levels(as.factor(Fdp.plus.de.2.ans$Année)) ,function(x) nlevels(as.factor(Fdp.plus.de.2.ans[Fdp.plus.de.2.ans$Année == x, ]$Matricule))),
+     ylab="Effectif",
+     las=1,
+     xlab="Année",
+     main="Nombre d'agents\n restés plus de deux ans",
+     col="blue",
+     type="b",  
+     xlim=c(début.période.sous.revue,fin.période.sous.revue))
+
+plot(c(début.période.sous.revue:fin.période.sous.revue, début.période.sous.revue:fin.période.sous.revue),
+     c(sapply(levels(as.factor(Année)), function(x) nlevels(as.factor(Fdp[Année == x, ]$Matricule))),
+       sapply(levels(as.factor(Fdp.plus.de.2.ans$Année)) ,function(x) nlevels(as.factor(Fdp.plus.de.2.ans[Fdp.plus.de.2.ans$Année == x, ]$Matricule)))),
+     ylab="Effectif",
+     las=1,
+     xlab="Année",
+     main="Nombre d'agents",
+     col=c("green", "blue"),
+     type="p")
+
+
 #'
 #'**Nota:**  
 #'Personnels en place : ayant servi au moins 730 jours pendant la période.  
@@ -253,7 +298,7 @@ hist(filtre.fonctionnaire(total.rémunérations)/1000,
 #'  
 #+ fig.width=7.1
 
-hist(filtre.fonctionnaire(rémunération.contractuelle.ou.indemnitaire),
+hist(filtre.fonctionnaire(rémunération.contractuelle.ou.indemnitaire)/1000,
      xlab="Distribution des attributions indemnitaires en k€\n hors politique familiale, indemnités journalières et remboursements",
      ylab="Effectif",
      xlim=c(0, 70),
@@ -325,7 +370,7 @@ hist(total.rémunérations[!Statut %in% c("TITULAIRE", "STAGIAIRE") & total.rém
 #'
 #+ fig.width=7.1
 
-hist(autres.rémunérations[autres.rémunérations >0],
+hist(positive(autres.rémunérations),
      xlab="Distribution des autres rémunérations annuelles en € :\n politique familiale, indemnités journalières et remboursements",
      ylab="Effectif",
      xlim=c(0, 5000),
@@ -347,9 +392,10 @@ hist(autres.rémunérations[autres.rémunérations >0],
 detach(Analyse.rémunérations)
 
 #'
-#'# 3 Analyse des rémunérations sur l'ensemble de la période `r début.période.sous.revue` - `r fin.période.sous.revue` 
+#'# 3. Analyse des rémunérations sur l'ensemble de la période `r début.période.sous.revue` - `r fin.période.sous.revue` 
 #'
-
+#'Nombre d'exercices: `r nombre.exercices`  
+#'    
 #Ici il faudra affiner l'input des paramètres pour l'interface en utilisatant get(get) par exemple.
 #ou alors un processeur
 
@@ -366,12 +412,13 @@ detach(Analyse.rémunérations)
 # plus la validation de la codification des indemnités (confirmation) */
 
 #' 
-## 3.1 Rémunération moyenne sur la période
+#'## 3.1 Rémunération moyenne sur la période
 
-hist(moyenne.rémunération.annuelle.sur.période/1000,
+attach(Analyse.variations)
+
+hist(moyenne.rémunération.annuelle.sur.période[moyenne.rémunération.annuelle.sur.période > 0]/1000,
      xlab=paste0("Distribution de la rémunération nette moyenne sur la période ",début.période.sous.revue,"-",fin.période.sous.revue," en k€"),
      ylab="Effectif",
-     xlim=c(0, 80),
      main="Rémunération nette moyenne",
      col="blue",
      nclass=100)
@@ -380,12 +427,12 @@ hist(moyenne.rémunération.annuelle.sur.période/1000,
 
 Analyse.variations.filtrée <- Analyse.variations[ nb.jours.exercice.début > seuil.troncature & nb.jours.exercice.sortie > seuil.troncature & nb.exercices > 1, ]
 
-Analyse.variations.filtrée2 <- na.omit(Analyse.variations.filtrée[8:12])
+Analyse.variations.filtrée2 <- na.omit(Analyse.variations.filtrée[10:14])
 
 #' 
-## 3.2 Rémunérations sur la période `r début.période.sous.revue` - `r fin.période.sous.revue` 
+#'## 3.2 Evolutions des rémunérations sur la période `r début.période.sous.revue` - `r fin.période.sous.revue` 
 #'
-#'### 3.2.1 Tous les personnels
+#'### 3.2.1 Ensemble des personnels
 #'
 
 Résumé(
@@ -398,7 +445,7 @@ Résumé(
 
 #'
 
-Analyse.variations.personnels.plus.de.2.ans <- na.omit(Analyse.variations.filtrée[Analyse.variations.filtrée$plus.de.2.ans, 8:12])
+Analyse.variations.personnels.plus.de.2.ans <- na.omit(Analyse.variations.filtrée[Analyse.variations.filtrée$plus.de.2.ans, 10:14])
 
 Résumé(Analyse.variations.personnels.plus.de.2.ans, 
        c("Première année",
@@ -408,7 +455,7 @@ Résumé(Analyse.variations.personnels.plus.de.2.ans,
          "Variation annuelle moyenne"))
 #'
 
-Analyse.variations.personnels.moins.de.2.ans <- na.omit(Analyse.variations.filtrée[Analyse.variations.filtrée$moins.de.2.ans, 8:12])
+Analyse.variations.personnels.moins.de.2.ans <- na.omit(Analyse.variations.filtrée[Analyse.variations.filtrée$moins.de.2.ans, 10:14])
 
 #'
 #'### 3.2.2 Personnels en place
@@ -423,23 +470,23 @@ Résumé(Analyse.variations.personnels.plus.de.2.ans,
 #'
 
 
-Stats.Analyse.variations.personnels.moins.de.2.ans<-summary(Analyse.variations.personnels.moins.de.2.ans)
-
-print(Stats.Analyse.variations.personnels.moins.de.2.ans)
-
-table(Analyse.variations.filtrée$plus.de.2.ans, cut(Analyse.variations.filtrée$variation.moyenne.rémunération.jour, breaks=seq(-10,35,by=0.5)))
+# Stats.Analyse.variations.personnels.moins.de.2.ans<-summary(Analyse.variations.personnels.moins.de.2.ans)
+# 
+# print(Stats.Analyse.variations.personnels.moins.de.2.ans)
+# 
+# table(Analyse.variations.filtrée$plus.de.2.ans, cut(Analyse.variations.filtrée$variation.moyenne.rémunération.jour, breaks=seq(-10,35,by=0.5)))
 
 hist(Analyse.variations.personnels.plus.de.2.ans$variation.moyenne.rémunération.jour,
      xlab ="Variation annuelle moyenne de la rémunération en %",
      las=1,
      xlim=c(-5,30),
-     sub  = "pour 41 agents restés plus de deux ans",
+     sub  = "pour les personnels en place",
      ylab ="Effectifs",
-     main ="Distribution de la variation annuelle\nmoyenne de la rémunération des agents en place",
+     main ="Distribution de la variation annuelle\nmoyenne de la rémunération des personnels en place",
      col ="red",
-     nclass=100
-)
+     nclass=200)
 
+#'
 # hist(Analyse.variations.personnels.moins.de.2.ans$variation.moyenne.rémunération.jour,
 #      xlab ="Variation annuelle moyenne de la rémunération en %",
 #      xlim=c(-10,30),
@@ -450,17 +497,12 @@ hist(Analyse.variations.personnels.plus.de.2.ans$variation.moyenne.rémunératio
 #      col ="red",
 #      nclass=100
 # )
+#'
 
 detach(Analyse.variations)
 
-Fdp <- mutate(Fdp,
-              plus.de.2.ans = Matricule
-              %in%
-                Analyse.variations[Analyse.variations$plus.de.2.ans, étiquette.matricule])
-attach(Fdp, warn=-1)
 
-Fdp.plus.de.2.ans<-Fdp[plus.de.2.ans, ]
-
+#'
 plot(levels(as.factor(Fdp.plus.de.2.ans$Année)),
      tapply(Fdp.plus.de.2.ans$Montant, Fdp.plus.de.2.ans$Année, sum)/1000,
      ylab="k€",
@@ -471,7 +513,7 @@ plot(levels(as.factor(Fdp.plus.de.2.ans$Année)),
      type="b",  
      xlim=c(début.période.sous.revue,fin.période.sous.revue)
 )
-
+#'
 
 Fdp.moins.de.2.ans<-Fdp[!plus.de.2.ans, ]
 
@@ -486,45 +528,10 @@ Fdp.moins.de.2.ans<-Fdp[!plus.de.2.ans, ]
 #      xlim=c(début.période.sous.revue,fin.période.sous.revue)
 # )
 
-# plot(levels(as.factor(Fdp.moins.de.2.ans$Année)),
-#      sapply(levels(as.factor(Fdp.moins.de.2.ans$Année)) ,function(x) nlevels(as.factor(Fdp.moins.de.2.ans[Fdp.moins.de.2.ans$Année == x, ]$Matricule))),
-#      ylab="Effectif",
-#      las=1,
-#      xlab="Année",
-#      main="Nombre d'agents\n restés moins de deux ans",
-#      col="blue",
-#      type="b",  
-#      xlim=c(début.période.sous.revue,fin.période.sous.revue)
-# )
-
-plot(levels(as.factor(Fdp.plus.de.2.ans$Année)),
-     sapply(levels(as.factor(Fdp.plus.de.2.ans$Année)) ,function(x) nlevels(as.factor(Fdp.plus.de.2.ans[Fdp.plus.de.2.ans$Année == x, ]$Matricule))),
-     ylab="Effectif",
-     las=1,
-     xlab="Année",
-     main="Nombre d'agents\n restés plus de deux ans",
-     col="blue",
-     type="b",  
-     xlim=c(début.période.sous.revue,fin.période.sous.revue)
-)
-
-plot(levels(as.factor(Année)),
-     sapply(levels(as.factor(Année)), function(x) nlevels(as.factor(Fdp[Année == x, ]$Matricule))),
-     ylab="Effectif",
-     las=1,
-     xlab="Année",
-     main="Nombre d'agents rémunérés par exercice",
-     col="green",
-     type="b",  
-     xlim=c(début.période.sous.revue,fin.période.sous.revue)
-)
-
-table(plus.de.2.ans, Année)
-
 #'Les résultats sont exprimés en euros.
 #'
-#'# 3. Tests réglementaires
-#'## 3.1 Contrôle des heures supplémentaires, des NBI et primes informatiques
+#'# 4. Tests réglementaires
+#'## 4.1 Contrôle des heures supplémentaires, des NBI et primes informatiques
 #'
 
 attach(Bdp.ldp, warn.conflicts=FALSE)
@@ -561,7 +568,7 @@ Tableau(
 #'NBI: nouvelle bonification indiciaire  
 #'PFI: prime de fonctions informatiques  
 #'    
-#'## 3.2 Contrôle des vacations pour les fonctionnaires  
+#'## 4.2 Contrôle des vacations pour les fonctionnaires  
 
 # Vacations et statut de fonctionnaire
 
@@ -583,7 +590,7 @@ Tableau(
 #'**Nota:**  
 #'FEV : fonctionnaire effectuant des vacations
 #'
-#'## 3.3 Contrôles sur les cumuls traitement indiciaire, indemnités et vacations des contractuels
+#'## 4.3 Contrôles sur les cumuls traitement indiciaire, indemnités et vacations des contractuels
 
 # Vacations et régime indemnitaire
 
@@ -617,7 +624,7 @@ Tableau(c("Nombre de CEV",
 #'CEV : contractuel effectuant des vacations
 
 #'
-#'## 3.4 Contrôle sur les indemnités IAT et IFTS
+#'## 4.4 Contrôle sur les indemnités IAT et IFTS
 
 #IAT et IFTS
 
@@ -663,7 +670,7 @@ Tableau(c("Nombre de contractuels percevant des IFTS", "Nombre de lignes IFTS po
 #'
 #'###### page break
 #'
-#'## 3.5 Contrôle sur les heures supplémentaires
+#'## 4.5 Contrôle sur les heures supplémentaires
 
 HS.sup.25 <- Bdp.ldp[Heures.Sup. >= 25 , c(étiquette.matricule, "Statut", "Mois", "Heures.Sup.", "Brut")]
 nombre.ldp.HS.sup.25 <- nrow(HS.sup.25)
