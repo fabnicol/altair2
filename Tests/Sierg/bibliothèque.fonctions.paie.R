@@ -109,6 +109,31 @@ calcul.nb.jours <- function(entrée, sortie)
   return (julian.sortie - julian.entrée)
 }
 
+calcul.nb.jours.mois <- function(mois.entrée, mois.sortie, année)
+{
+  if (mois.sortie < mois.entrée) return(0);
+  
+  if (mois.sortie == 12) 
+  {
+     année.sortie <- année +1
+     mois.sortie=1
+  }
+  else
+  {
+    année.sortie <- année
+    mois.sortie <- mois.sortie + 1
+  }
+  
+   as.numeric(as.Date(paste0("01", 
+                                  formatC(mois.sortie, width=2, flag="0"),
+                                  année.sortie),
+                      "%d%m%Y")
+              - as.Date(paste0("01",
+                                   formatC(mois.entrée, width=2, flag="0"),
+                                   année),
+                            "%d%m%Y"))
+}
+
 calcul.nb.jours.dans.exercice.in <- function(entrée) 
 {
   date.entrée <- as.Date(entrée, date.format)
@@ -163,11 +188,13 @@ calcul.variation <- function(rémunération.début, rémunération.sortie, nb.jo
 {
   if (nb.exercices > 1)  
     
-    return(( rémunération.sortie / rémunération.début   - 1  ) * 100)
+    return(ifelse(rémunération.début == 0, 0, ( rémunération.sortie / rémunération.début   - 1  ) * 100))
   
   else
     
     return (0)
   
 }
+
+positive <- function(X) X[ X > 0]
 

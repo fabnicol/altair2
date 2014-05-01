@@ -157,35 +157,39 @@ Résumé(années.fonctionnaires, "Âge des fonctionnaires", align='c')
   
 Fdp <- ddply(Bdp, 
              c(étiquette.matricule, "Année"),
-             summarize,
+             summarise,
              Montant=sum(Net.à.Payer),
              Statut.fin.exercice=Statut[length(Net.à.Payer)],
-             entrée="1/1/2011",
-             sortie="31/12/2012")
+             mois.entrée=ifelse((minimum <- min(Mois)) != Inf, minimum, 0),
+             mois.sortie=ifelse((maximum <- max(Mois)) != -Inf, maximum, 0),
+             nb.jours = calcul.nb.jours.mois(mois.entrée[1], mois.sortie[1], Année[1]))
 
-Fdp2 <- ddply(Fdp, étiquette.matricule, summarise, nb.exercices = length(Année))
-
-Fdp <- merge(Fdp, Fdp2)
+# Fdp2 <- ddply(Fdp, 
+#               étiquette.matricule,
+#               summarise,
+#               nb.exercices = length(Année))
+# 
+# Fdp <- merge(Fdp, Fdp2)
 
 Analyse.variations <- ddply(Fdp,
                             .(Matricule),
                             summarise,
-                            Nexercices=nb.exercices[1],
-                            nb.jours = calcul.nb.jours(entrée[1], sortie[Nexercices]),
-                            nb.jours.exercice.début = calcul.nb.jours.dans.exercice.in(entrée[1]),
-                            nb.jours.exercice.sortie = calcul.nb.jours.dans.exercice.out(sortie[Nexercices]),
+                            Nexercices=length(Année),
+                            nb.jours.exercice.début = nb.jours[1],
+                            nb.jours.exercice.sortie = nb.jours[Nexercices],
+                            total.jours = sum(nb.jours),
                             rémunération.début = ifelse(nb.jours.exercice.début == 0, 0, Montant[1]/nb.jours.exercice.début*365),
                             rémunération.sortie = ifelse(nb.jours.exercice.sortie == 0, 0, Montant[Nexercices]/nb.jours.exercice.sortie*365),
-                            moyenne.rémunération.annuelle.sur.période = ifelse(nb.jours == 0, 0, sum(Montant)*365/nb.jours),
-                            variation.rémunération.jour = calcul.variation(rémunération.début, rémunération.sortie, nb.jours.exercice.début, nb.jours.exercice.sortie, nb.exercices),
-                            variation.moyenne.rémunération.jour = ifelse(nb.jours == 0, 0,
-                              ( ( 1 + variation.rémunération.jour / 100 ) ^ (365 / nb.jours) - 1) * 100))
+                            moyenne.rémunération.annuelle.sur.période = ifelse(total.jours == 0, 0, sum(Montant)*365/total.jours),
+                            variation.rémunération.jour = calcul.variation(rémunération.début, rémunération.sortie, nb.jours.exercice.début, nb.jours.exercice.sortie, Nexercices),
+                            variation.moyenne.rémunération.jour = ifelse(total.jours == 0, 0,
+                              ( ( 1 + variation.rémunération.jour / 100 ) ^ (365 / total.jours) - 1) * 100))
 
 Analyse.variations <- mutate(Analyse.variations,
-                             plus.de.2.ans = (nb.jours >= 2*365),
-                             moins.de.2.ans = (nb.jours < 2*365),
-                             moins.de.1.an  = (nb.jours < 365),
-                             moins.de.six.mois = (nb.jours < 365/2))
+                             plus.de.2.ans = (total.jours >= 2*365),
+                             moins.de.2.ans = (total.jours < 2*365),
+                             moins.de.1.an  = (total.jours < 365),
+                             moins.de.six.mois = (total.jours < 365/2))
 
 
 Fdp <- mutate(Fdp,
@@ -196,7 +200,6 @@ Fdp <- mutate(Fdp,
 attach(Fdp, warn=-1)
 
 Fdp.plus.de.2.ans<-Fdp[plus.de.2.ans, ]
-
 
 attach(Analyse.variations, warn.conflicts=FALSE)
 
@@ -428,7 +431,7 @@ hist(moyenne.rémunération.annuelle.sur.période[moyenne.rémunération.annuell
 
 #'
 
-Analyse.variations.filtrée <- Analyse.variations[ nb.jours.exercice.début > seuil.troncature & nb.jours.exercice.sortie > seuil.troncature & nb.exercices > 1, ]
+Analyse.variations.filtrée <- Analyse.variations[ nb.jours.exercice.début > seuil.troncature & nb.jours.exercice.sortie > seuil.troncature & Nexercices > 1, ]
 
 Analyse.variations.filtrée2 <- na.omit(Analyse.variations.filtrée[10:14])
 
@@ -442,8 +445,8 @@ Résumé(
     Analyse.variations.filtrée2,
           c("Première année",
             "Dernière année",
-            "Moyenne sur la période",
-            "Variation sur la période",
+            "Moyenne sur la période<br>d'activité",
+            "Variation sur la période<br>d'activité",
             "Variation annuelle moyenne"))
 
 #'
