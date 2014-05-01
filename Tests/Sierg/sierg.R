@@ -156,9 +156,37 @@ Résumé(années.fonctionnaires, "Âge des fonctionnaires", align='c')
 #'
   
 Fdp <- ddply(Bdp, 
-             .(Matricule, Année),
+             c(étiquette.matricule, "Année"),
              summarize,
-             Montant=sum(Net.à.Payer))
+             Montant=sum(Net.à.Payer),
+             Statut.fin.exercice=Statut[length(Net.à.Payer)],
+             entrée="1/1/2011",
+             sortie="31/12/2012")
+
+Fdp2 <- ddply(Fdp, étiquette.matricule, summarise, nb.exercices = length(Année))
+
+Fdp <- merge(Fdp, Fdp2)
+
+Analyse.variations <- ddply(Fdp,
+                            .(Matricule),
+                            summarise,
+                            Nexercices=nb.exercices[1],
+                            nb.jours = calcul.nb.jours(entrée[1], sortie[Nexercices]),
+                            nb.jours.exercice.début = calcul.nb.jours.dans.exercice.in(entrée[1]),
+                            nb.jours.exercice.sortie = calcul.nb.jours.dans.exercice.out(sortie[Nexercices]),
+                            rémunération.début = ifelse(nb.jours.exercice.début == 0, 0, Montant[1]/nb.jours.exercice.début*365),
+                            rémunération.sortie = ifelse(nb.jours.exercice.sortie == 0, 0, Montant[Nexercices]/nb.jours.exercice.sortie*365),
+                            moyenne.rémunération.annuelle.sur.période = ifelse(nb.jours == 0, 0, sum(Montant)*365/nb.jours),
+                            variation.rémunération.jour = calcul.variation(rémunération.début, rémunération.sortie, nb.jours.exercice.début, nb.jours.exercice.sortie, nb.exercices),
+                            variation.moyenne.rémunération.jour = ifelse(nb.jours == 0, 0,
+                              ( ( 1 + variation.rémunération.jour / 100 ) ^ (365 / nb.jours) - 1) * 100))
+
+Analyse.variations <- mutate(Analyse.variations,
+                             plus.de.2.ans = (nb.jours >= 2*365),
+                             moins.de.2.ans = (nb.jours < 2*365),
+                             moins.de.1.an  = (nb.jours < 365),
+                             moins.de.six.mois = (nb.jours < 365/2))
+
 
 Fdp <- mutate(Fdp,
               plus.de.2.ans = Matricule
@@ -169,29 +197,6 @@ attach(Fdp, warn=-1)
 
 Fdp.plus.de.2.ans<-Fdp[plus.de.2.ans, ]
 
-Analyse.variations <- ddply(Fdp,
-                            c(étiquette.matricule, "Année", "Statut"),
-                            summarize,
-                            nb.exercices = length(Montant),
-                            entrée = "1/1/2011",
-                            sortie = "31/12/2012",
-                            nb.jours = calcul.nb.jours(entrée, sortie),
-                            nb.jours.exercice.début = calcul.nb.jours.dans.exercice.in(entrée),
-                            nb.jours.exercice.sortie = calcul.nb.jours.dans.exercice.out(sortie),
-                            rémunération.début = Montant[1]/nb.jours.exercice.début*365,
-                            rémunération.sortie = Montant[nb.exercices]/nb.jours.exercice.sortie*365,
-                            moyenne.rémunération.annuelle.sur.période = sum(Montant)*365/nb.jours,
-                            variation.rémunération.jour = calcul.variation(rémunération.début, rémunération.sortie, nb.jours.exercice.début, nb.jours.exercice.sortie, nb.exercices),
-                            variation.moyenne.rémunération.jour = 
-                              ( ( 1 + variation.rémunération.jour / 100 ) ^ (365 / nb.jours) - 1) * 100
-)
-
-
-Analyse.variations <- mutate(Analyse.variations,
-                             plus.de.2.ans = (nb.jours >= 2*365),
-                             moins.de.2.ans = (nb.jours < 2*365),
-                             moins.de.1.an  = (nb.jours < 365),
-                             moins.de.six.mois = (nb.jours < 365/2))
 
 attach(Analyse.variations, warn.conflicts=FALSE)
 
@@ -260,9 +265,7 @@ Bdp.ldp2 <- mutate(Bdp.ldp,
        
         montant.traitement.indiciaire = Montant*(Code %in% Code.prime[Code.prime$Type.rémunération == "TRAITEMENT","Code.rubrique"]),
         montant.primes = Montant*(Code %in% Code.prime[Code.prime$Type.rémunération == "INDEMNITAIRE.OU.CONTRACTUEL","Code.rubrique"]),
-        montant.autres.rémunérations = Montant*(Code %in% Code.prime[Code.prime$Type.rémunération == "AUTRES","Code.rubrique"]),
-        warn=-1
-       )
+        montant.autres.rémunérations = Montant*(Code %in% Code.prime[Code.prime$Type.rémunération == "AUTRES","Code.rubrique"]))
 
 Analyse.rémunérations <- ddply(Bdp.ldp2,
                              c(étiquette.matricule, "Statut", "Service", "Année"),
@@ -447,34 +450,11 @@ Résumé(
 
 Analyse.variations.personnels.plus.de.2.ans <- na.omit(Analyse.variations.filtrée[Analyse.variations.filtrée$plus.de.2.ans, 10:14])
 
-Résumé(Analyse.variations.personnels.plus.de.2.ans, 
-       c("Première année",
-         "Dernière année",
-         "Moyenne sur la période",
-         "Variation sur la période",
-         "Variation annuelle moyenne"))
-#'
-
-Analyse.variations.personnels.moins.de.2.ans <- na.omit(Analyse.variations.filtrée[Analyse.variations.filtrée$moins.de.2.ans, 10:14])
-
 #'
 #'### 3.2.2 Personnels en place
 #'
 
-Résumé(Analyse.variations.personnels.plus.de.2.ans, 
-       c("Première année",
-         "Dernière année",
-         "Moyenne sur la période",
-         "Variation sur la période",
-         "Variation annuelle moyenne"))
-#'
 
-
-# Stats.Analyse.variations.personnels.moins.de.2.ans<-summary(Analyse.variations.personnels.moins.de.2.ans)
-# 
-# print(Stats.Analyse.variations.personnels.moins.de.2.ans)
-# 
-# table(Analyse.variations.filtrée$plus.de.2.ans, cut(Analyse.variations.filtrée$variation.moyenne.rémunération.jour, breaks=seq(-10,35,by=0.5)))
 
 hist(Analyse.variations.personnels.plus.de.2.ans$variation.moyenne.rémunération.jour,
      xlab ="Variation annuelle moyenne de la rémunération en %",
@@ -487,20 +467,6 @@ hist(Analyse.variations.personnels.plus.de.2.ans$variation.moyenne.rémunératio
      nclass=200)
 
 #'
-# hist(Analyse.variations.personnels.moins.de.2.ans$variation.moyenne.rémunération.jour,
-#      xlab ="Variation annuelle moyenne de la rémunération en %",
-#      xlim=c(-10,30),
-#      las=1,
-#      sub  = "pour 30 agents restés moins de deux ans",
-#      ylab ="Effectifs",
-#      main ="Distribution de la variation annuelle\nmoyenne de la rémunération des agents restés moins de deux ans",
-#      col ="red",
-#      nclass=100
-# )
-#'
-
-detach(Analyse.variations)
-
 
 #'
 plot(levels(as.factor(Fdp.plus.de.2.ans$Année)),
@@ -515,18 +481,57 @@ plot(levels(as.factor(Fdp.plus.de.2.ans$Année)),
 )
 #'
 
+Résumé(Analyse.variations.personnels.plus.de.2.ans, 
+       c("Première année",
+         "Dernière année",
+         "Moyenne sur la période",
+         "Variation sur la période",
+         "Variation annuelle moyenne"))
+#'
+#'### 3.2.2 Personnels en fonction moins de deux ans
+#'
+
+
+Analyse.variations.personnels.moins.de.2.ans <- na.omit(Analyse.variations.filtrée[Analyse.variations.filtrée$moins.de.2.ans, 10:14])
+
+#'
+hist(Analyse.variations.personnels.moins.de.2.ans$variation.moyenne.rémunération.jour,
+     xlab ="Variation annuelle moyenne de la rémunération en %",
+     xlim=c(-10,30),
+     las=1,
+     sub  = "pour 30 agents restés moins de deux ans",
+     ylab ="Effectifs",
+     main ="Distribution de la variation annuelle\nmoyenne de la rémunération des agents restés moins de deux ans",
+     col ="red",
+     nclass=100
+)
+#'
+
 Fdp.moins.de.2.ans<-Fdp[!plus.de.2.ans, ]
 
-# plot(levels(as.factor(Fdp.moins.de.2.ans$Année)),
-#      tapply(Fdp.moins.de.2.ans$Montant, Fdp.moins.de.2.ans$Année, sum)/1000,
-#      ylab="k€",
-#      las=1,
-#      xlab="Année",
-#      main="Rémunération annuelle nette des agents\n restés moins de deux ans",
-#      col="blue",
-#      type="b",  
-#      xlim=c(début.période.sous.revue,fin.période.sous.revue)
-# )
+plot(levels(as.factor(Fdp.moins.de.2.ans$Année)),
+     tapply(Fdp.moins.de.2.ans$Montant, Fdp.moins.de.2.ans$Année, sum)/1000,
+     ylab="k€",
+     las=1,
+     xlab="Année",
+     main="Rémunération annuelle nette des agents\n restés moins de deux ans",
+     col="blue",
+     type="b",  
+     xlim=c(début.période.sous.revue,fin.période.sous.revue)
+)
+
+#'
+#'
+
+Résumé(Analyse.variations.personnels.moins.de.2.ans, 
+       c("Première année",
+         "Dernière année",
+         "Moyenne sur la période",
+         "Variation sur la période",
+         "Variation annuelle moyenne"))
+
+#'
+detach(Analyse.variations)
 
 #'Les résultats sont exprimés en euros.
 #'
