@@ -150,8 +150,7 @@ Résumé(années.fonctionnaires, "Âge des fonctionnaires", align='c')
 
 #'   
 #'Effectif total: `r length(années.fonctionnaires)`   
-#'  
-#'**Nota :** Dans les statistiques de cette section, les élus ne sont pas pris en compte.
+#'**Nota :**  
 #'Pyramides au 31 décembre `r exercice`  
 #'
   
@@ -194,17 +193,16 @@ Analyse.variations <- mutate(Analyse.variations,
 
 Fdp <- mutate(Fdp,
               plus.de.2.ans = Matricule
-              %in%
-                Analyse.variations[Analyse.variations$plus.de.2.ans, étiquette.matricule])
+                              %in%
+                              Analyse.variations[Analyse.variations$plus.de.2.ans, étiquette.matricule])
 
-attach(Fdp, warn=-1)
-
-Fdp.plus.de.2.ans<-Fdp[plus.de.2.ans, ]
+Fdp.plus.de.2.ans<-Fdp[Fdp$plus.de.2.ans, ]
+Fdp.moins.de.2.ans<-Fdp[!Fdp$plus.de.2.ans, ]
 
 attach(Analyse.variations, warn.conflicts=FALSE)
 
 #'
-### 1.3 Effectifs des personnels par durée de service
+#'### 1.3 Effectifs des personnels par durée de service
 
 Tableau(c("En place",
           "Moins de 2 ans",
@@ -215,48 +213,46 @@ Tableau(c("En place",
         sum(moins.de.1.an), 
         sum(moins.de.six.mois))
 
+detach(Analyse.variations)
+
 #'
 #'**Evolutions entre `r début.période.sous.revue` et `r fin.période.sous.revue` **   
 #'
-# plot(levels(as.factor(Fdp.moins.de.2.ans$Année)),
-#      sapply(levels(as.factor(Fdp.moins.de.2.ans$Année)) ,function(x) nlevels(as.factor(Fdp.moins.de.2.ans[Fdp.moins.de.2.ans$Année == x, ]$Matricule))),
+
+période.sous.revue <- début.période.sous.revue:fin.période.sous.revue
+            
+# matplot(période.sous.revue,
+#      cbind(
+#        sapply(période.sous.revue, function(x) nlevels(as.factor(Fdp[Fdp$Année == x, "Matricule"]))),
+#        sapply(période.sous.revue ,function(x) nlevels(as.factor(Fdp.plus.de.2.ans[Fdp.plus.de.2.ans$Année == x, "Matricule"]))),
+#        sapply(période.sous.revue ,function(x) nlevels(as.factor(Fdp.moins.de.2.ans[Fdp.moins.de.2.ans$Année == x, "Matricule"])))),
 #      ylab="Effectif",
 #      las=1,
 #      xlab="Année",
-#      main="Nombre d'agents\n restés moins de deux ans",
-#      col="blue",
-#      type="b",  
-#      xlim=c(début.période.sous.revue,fin.période.sous.revue)
-# )
+#      main="Nombre d'agents",
+#      col=c("green", "blue", "red"),
+#      type="l")
+# 
+# legend('center', 
+#        legend=c("Total", "Plus de 2 ans de fonctions"),
+#        lty=c(1, 1),
+#        lwd=c(2.5, 2.5),
+#        bty="n",
+#        col=c("green", "blue"))
 
-plot(levels(as.factor(Fdp.plus.de.2.ans$Année)),
-     sapply(levels(as.factor(Fdp.plus.de.2.ans$Année)) ,function(x) nlevels(as.factor(Fdp.plus.de.2.ans[Fdp.plus.de.2.ans$Année == x, ]$Matricule))),
-     ylab="Effectif",
-     las=1,
-     xlab="Année",
-     main="Nombre d'agents\n restés plus de deux ans",
-     col="blue",
-     type="b",  
-     xlim=c(début.période.sous.revue,fin.période.sous.revue))
-
-plot(c(début.période.sous.revue:fin.période.sous.revue, début.période.sous.revue:fin.période.sous.revue),
-     c(sapply(levels(as.factor(Année)), function(x) nlevels(as.factor(Fdp[Année == x, ]$Matricule))),
-       sapply(levels(as.factor(Fdp.plus.de.2.ans$Année)) ,function(x) nlevels(as.factor(Fdp.plus.de.2.ans[Fdp.plus.de.2.ans$Année == x, ]$Matricule)))),
-     ylab="Effectif",
-     las=1,
-     xlab="Année",
-     main="Nombre d'agents",
-     col=c("green", "blue"),
-     type="p")
-
-
+library(ggplot2)
+#'
+qplot(factor(Année), data=Fdp, geom="bar", fill=factor(!plus.de.2.ans), xlab="Année", ylab="Effectif" ) + 
+  scale_fill_discrete(name="Composition des effectifs",
+                      breaks=c(TRUE, FALSE),
+                      labels=c("Moins de deux ans", "Plus de deux ans"))
+  
 #'
 #'**Nota:**  
 #'Personnels en place : ayant servi au moins 730 jours pendant la période.  
-#'Toutes les durées de service sont calculées en multiples de 365 jours.
+#'Toutes les durées de service sont calculées en multiples de 365 jours.  
+#'Dans les statistiques de cette section, les élus ne sont pas pris en compte.
 #'
-
-detach(Analyse.variations)
 
 #fusion matricule | avantage | catégorie par Matricule
 
@@ -271,8 +267,10 @@ Bdp.ldp2 <- mutate(Bdp.ldp,
         montant.autres.rémunérations = Montant*(Code %in% Code.prime[Code.prime$Type.rémunération == "AUTRES","Code.rubrique"]))
 
 Analyse.rémunérations <- ddply(Bdp.ldp2,
-                             c(étiquette.matricule, "Statut", "Service", "Année"),
-                             summarize,
+                             .(Matricule),
+                             summarise,
+                             Statut=Statut[length(Statut)],
+                             Service=Service[length(Service)],
                              traitement.indiciaire = sum(montant.traitement.indiciaire),
                              rémunération.contractuelle.ou.indemnitaire = sum(montant.primes),
                              autres.rémunérations                       = sum(montant.autres.rémunérations),
@@ -298,8 +296,7 @@ hist(filtre.fonctionnaire(total.rémunérations)/1000,
    xlim=c(0, 120),
    main="Rémunération annuelle des fonctionnaires",
    col="blue",
-   nclass=50
-)
+   nclass=50)
 
 #'  
 #+ fig.width=7.1
