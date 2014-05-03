@@ -70,9 +70,9 @@ est.code.de.type <- function(x, Base) Base$Code %in% Code.prime[Code.prime$Type.
 Résumé <- function(x,y, align='r',...) 
               {
                  S <- cbind(c("Minimum", "1er quartile", "Médiane", "Moyenne", "3ème quartile", "Maximum"), 
-                            prettyNum(sub("[M13].*:", "", summary(x, ...)), big.mark=" "))
+                            prettyNum(sub("[M13].*:", "", summary(y, ...)), big.mark=" "))
                  
-                 dimnames(S)[[2]] <- c("Statistique", y)
+                 dimnames(S)[[2]] <- c("Statistique", x)
                  
                  kable(S, row.names=FALSE, align=align)
                  
@@ -90,8 +90,6 @@ Tableau <- function(x,...)
   julian.exercice.suivant.premier <- julian(as.Date(paste0("01/01/",(début.période.sous.revue+1)), date.format))
   julian.date.fin.période   <- julian(as.Date(paste0("01/01/", fin.période.sous.revue+1), date.format))
   julian.exercice.dernier <- julian(as.Date(paste0("01/01/",fin.période.sous.revue), date.format))
-
-library(plyr)
 
 calcul.nb.jours <- function(entrée, sortie) 
 {
