@@ -47,14 +47,16 @@ read.csv.skip <- function(x)
   read.csv2(chem, skip=trouver.valeur.skip(chem), fileEncoding="UTF-8-BOM")
 }
 
+Sauv.base <- function(chemin.dossier, nom, nom.sauv)
+{
+  message("Sauvegarde de ", nom)
+  write.csv2(get(nom), paste0(chemin.dossier, "/", nom.sauv, ".csv"), 
+             row.names=FALSE, fileEncoding = "UTF-8")
+  
+}
 
-sauv.base <- function(chemin.dossier, nom) 
-  {
-     message("Sauvegarde de ", nom)
-     write.csv2(get(nom), paste0(chemin.dossier, "/", nom, ".csv"), 
-                                             row.names=FALSE, fileEncoding = "UTF-8")
-  }
-
+sauv.base <- function(chemin.dossier, nom) Sauv.base(chemin.dossier, nom, nom)
+ 
 sauv.bases <- function(dossier, ...) 
 {
   tmp <- as.list(match.call()) 

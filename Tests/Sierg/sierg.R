@@ -55,7 +55,7 @@ nom.bulletin.paie <- "Bulletins de paye"
 # Cette section pourra être modifiée en entrée dans d'autres contextes
 # Matricule, Codes, Avantages en nature 
 
-chemin.dossier <- "C:/Dev/altair/Tests/Sierg"
+chemin.dossier <- "~/Dev/altair/Tests/Sierg"
 champ.détection.1 <- étiquette.matricule
 champ.détection.2 <- "Code"
 champ.détection.élus <- "Service"
@@ -398,6 +398,14 @@ Résumé(c("Rémunération contractuelle ou indemnitaire", "Autres rémunératio
 Résumé("Total rémunérations",
        Analyse.rémunérations[!Statut %in% c("TITULAIRE", "STAGIAIRE"), 
                              "total.rémunérations"])
+
+nom.base.analyse <- paste0("Analyse.rémunérations.", année)
+
+if (sauvegarder.bases)
+  Sauv.base(chemin("Bases"), "Analyse.rémunérations", nom.base.analyse)
+
+#'
+#'[Lien vers la base](Bases/`r nom.base.analyse`.csv) d'analyse des rémunérations pour `r année`
 #'
 
 detach(Analyse.rémunérations)
@@ -446,8 +454,6 @@ attach(Analyse.rémunérations, warn.conflicts=FALSE)
 #'# 3. Rémunérations : analyse pour l'exercice `r année` 
 #'## 3.1 Fonctionnaires titulaires et stagiaires
 #+ fig.width=7.1
-
-
 
 filtre.fonctionnaire <- function (X) X[ Statut %in% c("TITULAIRE", "STAGIAIRE") & X >0 ]
 
@@ -553,6 +559,16 @@ Résumé("Total rémunérations",
 #'
 
 detach(Analyse.rémunérations)
+
+nom.base.analyse <- paste0("Analyse.rémunérations.", année)
+
+if (sauvegarder.bases)
+  Sauv.base(chemin("Bases"), "Analyse.rémunérations", nom.base.analyse)
+
+#'
+#'[Lien vers la base](Bases/`r nom.base.analyse`.csv) d'analyse des rémunérations pour `r année`
+#'
+
 
 #'
 #'# 4. Analyse des rémunérations nettes sur l'ensemble de la période `r début.période.sous.revue` - `r fin.période.sous.revue` 
@@ -884,26 +900,27 @@ detach(Bulletins.paie.Lignes.paie)
 ##
 
 Masses <- data.frame(masse.indemnitaire, masse.indiciaire, masse.rémunérations.brutes, ratio.global.masse.indemnitaire)
+# 
+# if (sauvegarder.bases) 
+#   sauv.bases("Bases",
+#     "Analyse.variations.par.exercice",
+#     "Analyse.variations.synthèse",
+#     "Analyse.variations.synthèse.filtrée.plus.2.ans",
+#     "Bulletins.paie.nir.total.hors.élus",
+#     "Bulletins.paie.nir.fonctionnaires",
+#     "Bulletins.paie.Lignes.paie", 
+#     "Masses",
+#     "NBI.aux.non.titulaires",
+#     "RI.et.vacations",
+#     "HS.sup.25",
+#     "personnels.prime.informatique",
+#     "liste.matricules.fonctionnaires",
+#     "lignes.contractuels.et.vacations",
+#     "lignes.fonctionnaires.et.vacations",
+#     "lignes.ifts.anormales",
+#     "matricules.contractuels.et.vacations",
+#     "matricules.fonctionnaires.et.vacations")
 
-if (sauvegarder.bases) 
-  sauv.bases("Bases",
-    "Analyse.rémunérations",
-    "Analyse.variations.par.exercice",
-    "Analyse.variations.synthèse",
-    "Analyse.variations.synthèse.filtrée.plus.2.ans",
-    "Bulletins.paie.nir.total.hors.élus",
-    "Bulletins.paie.nir.fonctionnaires",
-    "Bulletins.paie.Lignes.paie", 
-    "Masses",
-    "NBI.aux.non.titulaires",
-    "RI.et.vacations",
-    "HS.sup.25",
-    "personnels.prime.informatique",
-    "liste.matricules.fonctionnaires",
-    "lignes.contractuels.et.vacations",
-    "lignes.fonctionnaires.et.vacations",
-    "lignes.ifts.anormales",
-    "matricules.contractuels.et.vacations",
-    "matricules.fonctionnaires.et.vacations")
+
 
 
