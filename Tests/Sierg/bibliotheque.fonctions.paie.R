@@ -48,14 +48,21 @@ read.csv.skip <- function(x)
 }
 
 
-sauv.base <- function(x)  write.csv2(x, paste0(chemin(deparse(substitute(x))), ".csv"), row.names=FALSE, fileEncoding = "UTF-8")
+sauv.base <- function(chemin.dossier, nom) 
+  {
+     message("Sauvegarde de ", nom)
+     write.csv2(get(nom), paste0(chemin.dossier, "/", nom, ".csv"), 
+                                             row.names=FALSE, fileEncoding = "UTF-8")
+  }
 
-sauv.bases <- function(...) 
+sauv.bases <- function(dossier, ...) 
 {
   tmp <- as.list(match.call()) 
   tmp[1] <- NULL
-  lapply(tmp, sauv.base)
-  return(0)
+  chemin.dossier <- chemin(dossier)
+  dir.create(chemin.dossier, recursive=TRUE)
+  message("Dans le dossier ", chemin.dossier," :")
+  invisible(lapply(tmp[-1], function(x) sauv.base(chemin.dossier, x)))
 }
 
 # Utiliser une assignation globale 
@@ -82,6 +89,15 @@ Tableau <- function(x,...)
   T <- t(prettyNum(c(...), big.mark=" "))
   T <- as.data.frame(T)
   names(T) <- x
+  kable(T, row.names=FALSE, align="c")
+}
+
+Tableau.vertical <- function(colnames, rownames, f)
+{
+  T <- data.frame(rownames,   sapply(rownames, f))
+  
+  names(T) <- colnames
+  
   kable(T, row.names=FALSE, align="c")
 }
 
