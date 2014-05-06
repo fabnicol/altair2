@@ -11,21 +11,32 @@
 #'<p class="title">RH Sierg</h1>
 #'
 
-#+ echo=FALSE
+#+ echo=FALSE, warning=FALSE, message=FALSE
 
 library(compiler)
-library(knitr)
-library(plyr)
-library(ggplot2)
 
 options(warn=-1, verbose=FALSE, OutDec=",")
 compilerOptions <- setCompilerOptions(suppressAll=TRUE)
 JITlevel <- enableJIT(3)
 
-knitr::opts_chunk$set(fig.retina=2, echo=FALSE, warning=FALSE, message=FALSE, results='asis')
-
 début.période.sous.revue <- 2011
 fin.période.sous.revue   <- 2012
+date.format <- "%d/%m/%Y"
+
+chemin.dossier <- "~/Dev/altair/Tests/Sierg"
+source(file.path(chemin.dossier, "bibliotheque.fonctions.paie.R"), encoding="UTF-8-BOM")
+
+installer.paquets(knitr, plyr, ggplot2, assertthat, yaml)
+
+library(knitr)
+library(plyr)
+library(ggplot2)
+library(assertthat)
+
+knitr::opts_chunk$set(fig.retina=2, echo=FALSE, warning=FALSE, message=FALSE, results='asis')
+
+dir.create(chemin("Bases"), recursive=TRUE)
+
 sauvegarder.bases <- TRUE
 
 #'<p class="centered"><b>Exercices `r paste(début.période.sous.revue, "à", fin.période.sous.revue)` </b></p>  
@@ -47,15 +58,12 @@ seuil.troncature <- 99
 # Le format est jour/mois/année avec deux chiffres-séparateur-deux chiffres-séparateur-4 chiffres.
 #Le séparateur peut être changé en un autre en modifiant le "/" dans fate.format
 
-date.format <- "%d/%m/%Y"
-
 nom.fichier.paie  <- "Lignes de paye"
 nom.bulletin.paie <- "Bulletins de paye"
 
 # Cette section pourra être modifiée en entrée dans d'autres contextes
 # Matricule, Codes, Avantages en nature 
 
-chemin.dossier <- "~/Dev/altair/Tests/Sierg"
 champ.détection.1 <- étiquette.matricule
 champ.détection.2 <- "Code"
 champ.détection.élus <- "Service"
@@ -79,7 +87,6 @@ Bulletins.paie <- paste(début.période.sous.revue:fin.période.sous.revue, nom.
 
 codes.NBI <- c("1012", "101B", "101M", "4652", "4672")
 
-source(file.path(chemin.dossier, "bibliotheque.fonctions.paie.R"), encoding="UTF-8-BOM")
 
 #/* Programme principal
 ##
@@ -159,7 +166,7 @@ Analyse.variations.par.exercice <- ddply(Bulletins.paie,
              c(étiquette.matricule, "Année"),
              summarise,
              Montant.net=sum(Net.à.Payer),
-             Statut.dernier.exercice.exercice=Statut[length(Net.à.Payer)],
+             Statut=Statut[length(Net.à.Payer)],
              mois.entrée=ifelse((minimum <- min(Mois)) != Inf, minimum, 0),
              mois.sortie=ifelse((maximum <- max(Mois)) != -Inf, maximum, 0),
              nb.jours = calcul.nb.jours.mois(mois.entrée[1], mois.sortie[1], Année[1]))
@@ -195,7 +202,8 @@ Analyse.variations.synthèse <- ddply(Analyse.variations.par.exercice,
                             plus.2.ans = (total.jours >= 2*365),
                             moins.2.ans = (total.jours < 2*365),
                             moins.1.an  = (total.jours < 365),
-                            moins.six.mois = (total.jours < 365/2))
+                            moins.six.mois = (total.jours < 365/2),
+                            statut = Statut[1])
 
 #  On pourrait aussi plus simplement poser 
 #  que plus.deux.ans soit défini comme length(Année) >= 2.
@@ -235,7 +243,7 @@ detach(Analyse.variations.synthèse)
 #'**Evolutions entre `r début.période.sous.revue` et `r fin.période.sous.revue` **   
 #'
 
-qplot(factor(Année), data=Analyse.variations.par.exercice, geom="bar", fill=factor(!plus.2.ans), xlab="Année", ylab="Effectif" ) + 
+qplot(factor(Année), data=Analyse.variations.par.exercice, geom="bar", fill=factor(!plus.2.ans), xlab="Année", ylab="Effectif", asp=4) + 
   scale_fill_discrete(name="Composition des effectifs",
                       breaks=c(TRUE, FALSE),
                       labels=c("Moins de deux ans", "Plus de deux ans"))
@@ -291,7 +299,7 @@ Analyse.rémunérations <- ddply(Bulletins.paie.Lignes.paie,
 
 attach(Analyse.rémunérations, warn.conflicts=FALSE)
 
-#'# 2. Rémunérations : analyse pour l'exercice `r année` 
+#'# 2. Rémunérations brutes : analyse pour l'exercice `r année` 
 #'## 2.1 Fonctionnaires titulaires et stagiaires
 #+ fig.width=7.1
 
@@ -346,7 +354,16 @@ Tableau(c("Masse indiciaire", "Masse indemnitaire"),
 
 Tableau(c("Masse des rémunérations brutes", "Part de la masse indemnitaire"),
         masse.rémunérations.brutes, ratio.global.masse.indemnitaire)
+
 #'
+
+df <- data.frame(masse.indemnitaire, masse.indiciaire, masse.rémunérations.brutes, ratio.global.masse.indemnitaire)
+
+Sauv.base("Bases", "df", paste0("Masses.", année))
+
+#'
+#'[Lien vers la base de données](Bases/`r paste0("Masses.", année, ".csv")`)    
+#'        
 #'Les résultats sont exprimés en euros.  
 #'
 #'### Statistiques de position pour l'exercice `r année`  
@@ -405,7 +422,7 @@ if (sauvegarder.bases)
   Sauv.base(chemin("Bases"), "Analyse.rémunérations", nom.base.analyse)
 
 #'
-#'[Lien vers la base](Bases/`r nom.base.analyse`.csv) d'analyse des rémunérations pour `r année`
+#'[Lien vers la base de données](Bases/`r nom.base.analyse`.csv) d'analyse des rémunérations pour `r année`
 #'
 
 detach(Analyse.rémunérations)
@@ -451,7 +468,7 @@ Analyse.rémunérations <- ddply(Bulletins.paie.Lignes.paie,
 
 attach(Analyse.rémunérations, warn.conflicts=FALSE)
 
-#'# 3. Rémunérations : analyse pour l'exercice `r année` 
+#'# 3. Rémunérations brutes : analyse pour l'exercice `r année` 
 #'## 3.1 Fonctionnaires titulaires et stagiaires
 #+ fig.width=7.1
 
@@ -504,6 +521,12 @@ Tableau(c("Masse indiciaire", "Masse indemnitaire"),
 
 Tableau(c("Masse des rémunérations brutes", "Part de la masse indemnitaire"),
         masse.rémunérations.brutes, ratio.global.masse.indemnitaire)
+#'
+
+df <- data.frame(masse.indemnitaire, masse.indiciaire, masse.rémunérations.brutes, ratio.global.masse.indemnitaire)
+Sauv.base("Bases", "df", paste0("Masses.", année))
+
+#'[Lien vers la base de données](Bases/`r paste0("Masses.", année, ".csv")` )   
 #'
 #'Les résultats sont exprimés en euros.  
 #'
@@ -566,12 +589,12 @@ if (sauvegarder.bases)
   Sauv.base(chemin("Bases"), "Analyse.rémunérations", nom.base.analyse)
 
 #'
-#'[Lien vers la base](Bases/`r nom.base.analyse`.csv) d'analyse des rémunérations pour `r année`
+#'[Lien vers la base de données](Bases/`r nom.base.analyse`.csv) d'analyse des rémunérations pour `r année`
 #'
 
 
 #'
-#'# 4. Analyse des rémunérations nettes sur l'ensemble de la période `r début.période.sous.revue` - `r fin.période.sous.revue` 
+#'# 4. Rémunérations nettes : évolutions sur la période `r début.période.sous.revue` - `r fin.période.sous.revue` 
 #'
 #'Nombre d'exercices: `r nombre.exercices`  
 #'    
@@ -595,14 +618,24 @@ if (sauvegarder.bases)
 
 attach(Analyse.variations.synthèse)
 
-hist(moyenne.rémunération.annuelle.sur.période[moyenne.rémunération.annuelle.sur.période > 0]/1000,
+hist(positive(moyenne.rémunération.annuelle.sur.période)/1000,
      xlab=paste0("Distribution de la rémunération nette moyenne sur la période ",début.période.sous.revue,"-",fin.période.sous.revue," en k€"),
      ylab="Effectif",
      main="Rémunération nette moyenne",
      col="blue",
      nclass=100)
+#'
+#'
+
+hist(moyenne.rémunération.annuelle.sur.période[moyenne.rémunération.annuelle.sur.période >0 & (statut == "TITULAIRE"  || statut == "STAGIAIRE")]/1000,
+xlab=paste0("Distribution de la rémunération nette moyenne sur la période ",début.période.sous.revue,"-",fin.période.sous.revue," en k€"),
+ylab="Effectif",
+main="Rémunération nette moyenne des fonctionnaires",
+col="blue",
+nclass=100)
 
 #'
+#'**Nota:** La rémunération nette perçue est rapportée au cumul des jours d'activité.  
 
 Analyse.variations.synthèse.filtrée <- na.omit(Analyse.variations.synthèse[ nb.jours.exercice.début > seuil.troncature 
                                                                           & nb.jours.exercice.sortie   > seuil.troncature
@@ -656,7 +689,7 @@ hist(Analyse.variations.synthèse.filtrée.plus.2.ans$variation.moyenne.rémuné
      sub  = "pour les personnels en place",
      ylab ="Effectifs",
      main ="Distribution de la variation annuelle\nmoyenne de la rémunération nette des personnels en place",
-     col ="red",
+     col ="blue",
      nclass=200)
 
 #'
@@ -687,10 +720,9 @@ hist(Analyse.variations.synthèse.filtrée.moins.2.ans$variation.moyenne.rémun�
      xlab ="Variation annuelle moyenne de la rémunération en %",
      xlim=c(-10,30),
      las=1,
-     sub  = "pour 30 agents restés moins de deux ans",
      ylab ="Effectifs",
-     main ="Distribution de la variation annuelle\nmoyenne de la rémunération des agents restés moins de deux ans",
-     col ="red",
+     main ="Distribution de la variation annuelle\nmoyenne de la rémunération des agents en fonction moins de deux ans",
+     col ="turquoise",
      nclass=100
 )
 
@@ -753,6 +785,10 @@ Tableau(
   nombre.Lignes.paie.NBI.nontit, 
   nombre.personnels.pfi)
 
+#'
+#'[Lien vers la base de données NBI aux non titulaires](Bases/NBI.aux.non.titulaires.csv)  
+#'[Lien vers la base de données Primes informatiques](Bases/personnels.prime.informatique.csv)  
+#'   
 #'**Nota :**  
 #'NBI: nouvelle bonification indiciaire  
 #'PFI: prime de fonctions informatiques  
@@ -774,8 +810,10 @@ Tableau(
   nombre.fonctionnaires.et.vacations,
   nombre.Lignes.paie.fonctionnaires.et.vacations)
 
-
-#'    
+#'
+#'[Lien vers la base de données Matricules des FEV](Bases/matricules.fonctionnaires.et.vacations.csv)  
+#'[Lien vers la base de données Lignes de vacations de FEV](Bases/lignes.fonctionnaires.et.vacations.csv)  
+#'   
 #'**Nota:**  
 #'FEV : fonctionnaire effectuant des vacations
 #'
@@ -788,6 +826,7 @@ matricules.contractuels.et.vacations <- unique(lignes.contractuels.et.vacations$
 nombre.contractuels.et.vacations <- length(matricules.contractuels.et.vacations)
 
 RI.et.vacations <- Bulletins.paie.Lignes.paie[ Matricule %in% matricules.contractuels.et.vacations & Code %in% Code.prime[Code.prime$Type.rémunération == "INDEMNITAIRE.OU.CONTRACTUEL","Code.rubrique"], c(étiquette.matricule, "Statut", "Code", "Libellé", étiquette.montant)]
+
 
 # Vacations et indiciaire
 
@@ -808,6 +847,10 @@ Tableau(c("Nombre de CEV",
           nombre.Lignes.paie.RI.et.vacations,
           nombre.Lignes.paie.traitement.et.vacations)
 
+#'
+#'[Lien vers la base de données Matricules des CEV](Bases/matricules.contractuels.et.vacations.csv)  
+#'[Lien vers la base de données Lignes de paie de CEV](Bases/RI.et.vacations.csv)  
+#'[Lien vers la base de données Lignes de traitement indiciaire pour CEV](Bases/traitement.et.vacations)  
 #'    
 #'**Nota:**  
 #'CEV : contractuel effectuant des vacations
@@ -889,6 +932,10 @@ Catégorie <- character(length=nrow(matricules.à.identifier))
 matricules.à.identifier <- cbind(matricules.à.identifier, Catégorie)
 names(matricules.à.identifier) <- c("Nom", "Prénom", étiquette.matricule, "Catégorie")
 
+Sauv.base("Bases", "matricules.à.identifier", "Questionnaire sur les catégories des personnels")
+#'
+#'[Lien vers le questionnaire](Bases/Questionnaire sur les catégories des personnels.csv)
+#'
 kable(matricules.à.identifier, row.names=FALSE)
 
 #'
@@ -899,27 +946,26 @@ detach(Bulletins.paie.Lignes.paie)
 #  Sauvegardes : enlever les commentaires en mode opérationnel
 ##
 
-Masses <- data.frame(masse.indemnitaire, masse.indiciaire, masse.rémunérations.brutes, ratio.global.masse.indemnitaire)
-# 
-# if (sauvegarder.bases) 
-#   sauv.bases("Bases",
-#     "Analyse.variations.par.exercice",
-#     "Analyse.variations.synthèse",
-#     "Analyse.variations.synthèse.filtrée.plus.2.ans",
-#     "Bulletins.paie.nir.total.hors.élus",
-#     "Bulletins.paie.nir.fonctionnaires",
-#     "Bulletins.paie.Lignes.paie", 
-#     "Masses",
-#     "NBI.aux.non.titulaires",
-#     "RI.et.vacations",
-#     "HS.sup.25",
-#     "personnels.prime.informatique",
-#     "liste.matricules.fonctionnaires",
-#     "lignes.contractuels.et.vacations",
-#     "lignes.fonctionnaires.et.vacations",
-#     "lignes.ifts.anormales",
-#     "matricules.contractuels.et.vacations",
-#     "matricules.fonctionnaires.et.vacations")
+
+if (sauvegarder.bases) 
+  sauv.bases("Bases",
+    "Analyse.variations.par.exercice",
+    "Analyse.variations.synthèse",
+    "Analyse.variations.synthèse.filtrée.plus.2.ans",
+    "Bulletins.paie.nir.total.hors.élus",
+    "Bulletins.paie.nir.fonctionnaires",
+    "Bulletins.paie.Lignes.paie", 
+    "NBI.aux.non.titulaires",
+    "RI.et.vacations",
+    "HS.sup.25",
+    "personnels.prime.informatique",
+    "liste.matricules.fonctionnaires",
+    "lignes.contractuels.et.vacations",
+    "lignes.fonctionnaires.et.vacations",
+    "lignes.ifts.anormales",
+    "traitement.et.vacations",
+    "matricules.contractuels.et.vacations",
+    "matricules.fonctionnaires.et.vacations")
 
 
 

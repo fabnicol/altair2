@@ -59,10 +59,16 @@ sauv.base <- function(chemin.dossier, nom) Sauv.base(chemin.dossier, nom, nom)
  
 sauv.bases <- function(dossier, ...) 
 {
+  chemin.dossier <- chemin(dossier)
+  
+  if (!see_if(is.dir(chemin.dossier)))
+  {
+    stop("Pas de dossier de travail spécifié")
+  }
+  
   tmp <- as.list(match.call()) 
   tmp[1] <- NULL
-  chemin.dossier <- chemin(dossier)
-  dir.create(chemin.dossier, recursive=TRUE)
+ 
   message("Dans le dossier ", chemin.dossier," :")
   invisible(lapply(tmp[-1], function(x) sauv.base(chemin.dossier, x)))
 }
@@ -213,4 +219,45 @@ calcul.variation <- function(rémunération.début, rémunération.sortie, nb.jo
 }
 
 positive <- function(X) X[ X > 0]
+
+
+installer.paquet <- function(paquet, rigoureusement = FALSE) 
+{
+  if (missing(paquet))  return(NA_character_)
+  Paquet <- deparse(paquet)
+  if (length(find.package(Paquet, quiet=TRUE)) == 0)
+  {
+    install.packages(Paquet)
+    if (length(find.package(Paquet, quiet=TRUE)) !=0 )
+    {
+      message(Paquet, " a été installé.")
+      return(invisible(1))
+    }
+    else
+    {
+      message(Paquet, " n'a pas été installé.")
+      if (rigoureusement == TRUE) 
+      {
+        message("Arrêt: le paquet ", Paquet, " n'a pas pu être installé.")
+        stop("Fin")
+      }
+      return(invisible(0))
+    }
+  }
+  else
+    message(Paquet, " est déjà installé.")
+  return(invisible(0))
+}
+
+installer.paquets <- function(..., rigoureusement = FALSE) 
+{
+  tmp <- as.list(match.call()) 
+  tmp[1] <- NULL
+  if (!missing(rigoureusement)) tmp[length(tmp)] <- NULL
+  if (length(tmp) == 0) return(0)
+  
+  invisible(do.call(sum, lapply(tmp, function(x) installer.paquet(x, rigoureusement))))
+}
+
+
 
