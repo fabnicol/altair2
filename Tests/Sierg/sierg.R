@@ -24,7 +24,7 @@ début.période.sous.revue <- 2011
 fin.période.sous.revue   <- 2012
 date.format <- "%d/%m/%Y"
 
-chemin.dossier <- "c:/Dev/altair/Tests/Sierg"
+chemin.dossier <- "~/Dev/altair/Tests/Sierg"
 
 base.questionnaire <- data.frame(NULL)
 
@@ -170,7 +170,7 @@ hist(années.fonctionnaires,
      nclass=50)
 
 #'
-#'###### page break   
+#'######     
 #'
 #'[Lien vers la base des âges](Bases/Bulletins.paie.nir.fonctionnaires.csv)
 #'
@@ -386,21 +386,73 @@ Sauv.base(chemin("Bases"), "df", paste0("Masses.", année))
 #'
 #'### Statistiques de position pour l'exercice `r année`  
 #'
+AR1 <- Analyse.rémunérations[Statut %in% c("TITULAIRE", "STAGIAIRE"), 
+                             c("traitement.indiciaire",
+                               "rémunération.contractuelle.ou.indemnitaire",
+                               "autres.rémunérations", étiquette.matricule) ]
+
+if (fichier.questionnaire.existe)
+  AR2 <- merge(AR1, base.questionnaire, by=étiquette.matricule)
+
+AR1 <- AR1[-4]
 
 Résumé(c("Traitement indiciaire",
          "Rémunération contractuelle ou indemnitaire",
-         "Autres rémunérations"),
-       Analyse.rémunérations[Statut %in% c("TITULAIRE", "STAGIAIRE"), 
-                             c("traitement.indiciaire",
-                               "rémunération.contractuelle.ou.indemnitaire",
-                               "autres.rémunérations") ])
+         "Autres rémunérations"), AR1)
 #'
-#'###### page break    
+#'######      
 #'
 
 Résumé(c("Total rémunérations", "Part de la rémunération contractuelle ou indemnitaire"),
        Analyse.rémunérations[Statut %in% c("TITULAIRE", "STAGIAIRE"), 
                              c( "total.rémunérations", "part.rémunération.contractuelle.ou.indemnitaire") ])
+#'
+#'
+#'######      
+#'
+#'### Statistiques de position par catégorie pour l'exercice `r année` 
+#'
+#'**Catégorie A**     
+#'
+#'     
+
+if (fichier.questionnaire.existe)
+{  
+  Résumé(c("Traitement indiciaire",
+           "Rémunération contractuelle ou indemnitaire",
+           "Autres rémunérations"), AR2[AR2$Catégorie == 'A', c("traitement.indiciaire",
+                                                                "rémunération.contractuelle.ou.indemnitaire",
+                                                                "autres.rémunérations")])
+} 
+#'     
+#'
+#'**Catégorie B**     
+#'     
+
+if (fichier.questionnaire.existe)
+{  
+  Résumé(c("Traitement indiciaire",
+           "Rémunération contractuelle ou indemnitaire",
+           "Autres rémunérations"), AR2[AR2$Catégorie == 'B', c("traitement.indiciaire",
+                                                                "rémunération.contractuelle.ou.indemnitaire",
+                                                                "autres.rémunérations")])
+}
+#'     
+#'
+#'**Catégorie C**     
+#'
+#'     
+
+if (fichier.questionnaire.existe)
+{      
+  Résumé(c("Traitement indiciaire",
+           "Rémunération contractuelle ou indemnitaire",
+           "Autres rémunérations"), AR2[AR2$Catégorie == 'C', c("traitement.indiciaire",
+                                                                "rémunération.contractuelle.ou.indemnitaire",
+                                                                "autres.rémunérations")])
+}
+#'
+#'######      
 #'
 #'## 2.2 Contractuels, vacataires et stagiaires inclus
 #'
@@ -425,7 +477,7 @@ hist(positive(autres.rémunérations),
 
 
 #'
-#'###### page break    
+#'######      
 #'
 #'### Statistiques de position pour l'exercice `r année`  
 #'
@@ -556,7 +608,7 @@ Sauv.base(chemin("Bases"), "df", paste0("Masses.", année))
 #'Les résultats sont exprimés en euros.  
 #'
 #'
-#'###### page break    
+#'######      
 #'
 #'### Statistiques de position pour l'exercice `r année`  
 #'
@@ -582,64 +634,53 @@ Résumé(c("Total rémunérations", "Part de la rémunération contractuelle ou 
 
 
 #'
-#'###### page break    
+#'######      
 #'
 #'### Statistiques de position par catégorie pour l'exercice `r année` 
 #'
 
-# if (fichier.questionnaire.existe)
-# {
 
-  #'**Catégorie A**     
-  #'
-  #'     
-  
+#'**Catégorie A**     
+#'
+#'     
+
+if (fichier.questionnaire.existe)
+{  
   Résumé(c("Traitement indiciaire",
                 "Rémunération contractuelle ou indemnitaire",
                  "Autres rémunérations"), AR2[AR2$Catégorie == 'A', c("traitement.indiciaire",
                                                                       "rémunération.contractuelle.ou.indemnitaire",
                                                                       "autres.rémunérations")])
-  
-  #'     
-  #'
-  #'**Catégorie B**     
-  #'     
-  
+} 
+#'     
+#'
+#'**Catégorie B**     
+#'     
+
+if (fichier.questionnaire.existe)
+{  
   Résumé(c("Traitement indiciaire",
            "Rémunération contractuelle ou indemnitaire",
            "Autres rémunérations"), AR2[AR2$Catégorie == 'B', c("traitement.indiciaire",
                                                                 "rémunération.contractuelle.ou.indemnitaire",
                                                                 "autres.rémunérations")])
-  #'     
-  #'
-  #'**Catégorie C**     
-  #'
-  #'     
-       
+}
+#'     
+#'
+#'**Catégorie C**     
+#'
+#'     
+
+if (fichier.questionnaire.existe)
+{      
   Résumé(c("Traitement indiciaire",
            "Rémunération contractuelle ou indemnitaire",
            "Autres rémunérations"), AR2[AR2$Catégorie == 'C', c("traitement.indiciaire",
                                                                 "rémunération.contractuelle.ou.indemnitaire",
                                                                    "autres.rémunérations")])
-       
-  #'
-  #'
-  #'**Contractuels**     
-  #'
-  #'          
-       
-  Résumé(c("Traitement indiciaire",
-           "Rémunération contractuelle ou indemnitaire",
-           "Autres rémunérations"), AR2[AR2$Catégorie == "CONTR", c("traitement.indiciaire",
-                                                                    "rémunération.contractuelle.ou.indemnitaire",
-                                                                    "autres.rémunérations")])
-            
-  #'     
-  #'
-# }
-
+}
 #'
-#'###### page break    
+#'######      
 #'
 #'
 #'## 3.2 Contractuels, vacataires et stagiaires inclus
@@ -768,7 +809,7 @@ Tableau.vertical(c("Année", "Rémunération nette totale (k&euro;)"),
 #'
 #'[Lien vers la base de données](Bases/Analyse.variations.par.exercice.csv)
 #'
-#'###### page break 
+#'######   
 #'
 
 Résumé(   c("Première année",
@@ -820,7 +861,7 @@ Résumé(c("Première année",
 #'**Nota**    
 #'Personnels en place : en fonction au moins 730 jours sur la période `r début.période.sous.revue` à `r fin.période.sous.revue`     
 #'
-#'###### page break 
+#'######   
 #'
 #'### 4.2.3 Personnels en fonction moins de deux ans
 #'
@@ -1023,7 +1064,7 @@ Tableau(c("Nombre de contractuels percevant des IFTS", "Nombre de lignes IFTS po
 #'**Nota:**  
 #'IB < 380 : fonctionnaire percevant un indice brut inférieur à 380  
 #'
-#'###### page break
+#'######  
 #'
 #'## 5.5 Contrôle sur les heures supplémentaires
 
