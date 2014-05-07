@@ -39,7 +39,7 @@ table
   }
  
  td {padding: 5px;}
- tr.fab   {background: silver; }
+ tr.fab   {background: lightgrey; }
  
  th {background: salmon; padding: 5px;}
   
@@ -73,6 +73,7 @@ table
  {
    page-break-after: always;
    visibility: hidden;
+   text-align: right;
  }
 
  body {background: ivory;}
