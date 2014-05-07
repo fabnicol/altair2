@@ -44,7 +44,7 @@ selectionner.cle.matricule.mois <-  function(Base1, Base2)
 read.csv.skip <- function(x) 
 {
   chem <- chemin(x)
-  read.csv2(chem, skip=trouver.valeur.skip(chem), fileEncoding="UTF-8-BOM")
+  read.csv2(chem, skip=trouver.valeur.skip(chem), fileEncoding="UTF-8")
 }
 
 Sauv.base <- function(chemin.dossier, nom, nom.sauv)

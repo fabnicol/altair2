@@ -73,10 +73,9 @@ champ.détection.2 <- "Code"
 champ.détection.élus <- "Service"
 champ.nir <- "Nir"
 libellé.élus <- "Elus"
-
-matricule.catégorie <- "LISTES DES PERSONNES REMUNEREES EN 2012 PAR CATEGORIE ET STATUT.csv"     
+   
 codes.paiement          <- "LISTE DES RUBRIQUES DE TRAITEMENT UTILISEES EN 2012.csv"
-matricule.avantage  <- "LISTE DES AGENTS AYANT BENEFICIE D'AVANTAGE EN NATURE EN 2012.csv"
+#matricule.avantage  <- "LISTE DES AGENTS AYANT BENEFICIE D'AVANTAGE EN NATURE EN 2012.csv"
 code.traitement <- 1010
 
 fichier.personnels <- "Catégories des personnels"
@@ -110,7 +109,6 @@ Lignes.paie<-Read.csv(Lignes.paie)
 
 Bulletins.paie <- Read.csv(Bulletins.paie)
 
-# Matricule.catégorie <- read.csv.skip(matricule.catégorie)
 codes.paiement          <- read.csv.skip(codes.paiement)
 # Matricule.avantage  <- read.csv.skip(matricule.avantage)
 
