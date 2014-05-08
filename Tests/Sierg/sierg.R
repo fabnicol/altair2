@@ -178,7 +178,7 @@ Résumé(paste0("Âge des personnels <br>au 31/12/",fin.période.sous.revue), an
 #'
   
 Analyse.variations.par.exercice <- ddply(Bulletins.paie, 
-             c(étiquette.matricule, "Année"),
+             c(étiquette.matricule, étiquette.année),
              summarise,
              Montant.net = sum(Net.à.Payer),
              Statut = Statut[length(Net.à.Payer)],
@@ -267,7 +267,7 @@ qplot(factor(Année),
       geom = "bar",
       fill = factor(!plus.2.ans),
       main = paste("Evolutions entre", début.période.sous.revue,"et", fin.période.sous.revue),
-      xlab = "Année",
+      xlab = étiquette.année,
       ylab = "Effectif",
       asp = 4) + 
   scale_fill_discrete(name = "Personnels en fonction",
@@ -288,10 +288,10 @@ qplot(factor(Année),
 année <- début.période.sous.revue
 
 colonnes.sélectionnées <- c("traitement.indiciaire",
-                            "rémunération.contractuelle.ou.indemnitaire",
-                            "autres.rémunérations", 
-                            "total.rémunérations",
-                            "part.rémunération.contractuelle.ou.indemnitaire",
+                            ic("rémunération.contractuelle.ou.indemnitaire"),
+                            ic("autres.rémunérations"), 
+                            ic("total.rémunérations"),
+                            ic("part.rémunération.contractuelle.ou.indemnitaire"),
                             étiquette.matricule)
 
 
@@ -426,7 +426,7 @@ Sauv.base(chemin("Bases"), "df", paste0("Masses.", année))
 AR <- Analyse.rémunérations[Statut %in% c("TITULAIRE", "STAGIAIRE"), colonnes.sélectionnées]
 
 Résumé(c("Traitement indiciaire",
-         "Rémunération contractuelle ou indemnitaire",
+         étiquette.rém.indemn,
          "Autres rémunérations"),  AR[1:3])
 
 #'    
@@ -454,7 +454,7 @@ ARC <- AR[AR$Catégorie == 'C', ]
 if (fichier.personnels.existe)
 {  
   Résumé(c("Traitement indiciaire",
-           "Rémunération contractuelle ou indemnitaire",
+           étiquette.rém.indemn,
            "Autres rémunérations"), ARA[c("traitement.indiciaire",
                                           "rémunération.contractuelle.ou.indemnitaire",
                                           "autres.rémunérations")])
@@ -477,7 +477,7 @@ if (fichier.personnels.existe)
 if (fichier.personnels.existe)
 {  
   Résumé(c("Traitement indiciaire",
-           "Rémunération contractuelle ou indemnitaire",
+           étiquette.rém.indemn,
            "Autres rémunérations"), 
          ARB[ c("traitement.indiciaire",
                 "rémunération.contractuelle.ou.indemnitaire",
@@ -503,7 +503,7 @@ if (fichier.personnels.existe)
 if (fichier.personnels.existe)
 {      
   Résumé(c("Traitement indiciaire",
-           "Rémunération contractuelle ou indemnitaire",
+           étiquette.rém.indemn,
            "Autres rémunérations"), 
          ARC[ c("traitement.indiciaire",
                 "rémunération.contractuelle.ou.indemnitaire",
@@ -549,9 +549,9 @@ hist(positive(autres.rémunérations),
 
 #'   
 
-Résumé(c("Rémunération contractuelle ou indemnitaire", "Autres rémunérations"),
+Résumé(c(étiquette.rém.indemn, "Autres rémunérations"),
        Analyse.rémunérations[ ! Matricule %in% liste.matricules.élus & ! Statut %in% c("TITULAIRE", "STAGIAIRE"), 
-                             c("rémunération.contractuelle.ou.indemnitaire", "autres.rémunérations")])
+                             c(ic("rémunération.contractuelle.ou.indemnitaire"), ic("autres.rémunérations"))])
 #'
 
 Résumé("Total rémunérations",
@@ -561,7 +561,7 @@ Résumé("Total rémunérations",
 nom.base.analyse <- paste0("Analyse.rémunérations.", année)
 
 if (sauvegarder.bases)
-  Sauv.base(chemin("Bases"), "Analyse.rémunérations", nom.base.analyse)
+  Sauv.base(chemin("Bases"), ic("Analyse.rémunérations"), nom.base.analyse)
 
 #'
 #'[Lien vers la base de données](Bases/`r nom.base.analyse`.csv) d'analyse des rémunérations pour `r année`
@@ -695,7 +695,7 @@ Sauv.base(chemin("Bases"), "df", paste0("Masses.", année))
 AR <- Analyse.rémunérations[Statut %in% c("TITULAIRE", "STAGIAIRE"), colonnes.sélectionnées ]
 
 Résumé(c("Traitement indiciaire",
-         "Rémunération contractuelle ou indemnitaire",
+         étiquette.rém.indemn,
          "Autres rémunérations"),  AR[1:3])
 #'
 
@@ -719,7 +719,7 @@ ARC <- AR[AR$Catégorie == 'C', ]
 if (fichier.personnels.existe)
 {  
   Résumé(c("Traitement indiciaire",
-                "Rémunération contractuelle ou indemnitaire",
+                étiquette.rém.indemn,
                  "Autres rémunérations"),
          ARA[c("traitement.indiciaire",
                "rémunération.contractuelle.ou.indemnitaire",
@@ -743,7 +743,7 @@ if (fichier.personnels.existe)
 if (fichier.personnels.existe)
 {  
   Résumé(c("Traitement indiciaire",
-           "Rémunération contractuelle ou indemnitaire",
+           étiquette.rém.indemn,
            "Autres rémunérations"),
          ARB[c("traitement.indiciaire",
                "rémunération.contractuelle.ou.indemnitaire",
@@ -768,7 +768,7 @@ if (fichier.personnels.existe)
 if (fichier.personnels.existe)
 {      
   Résumé(c("Traitement indiciaire",
-           "Rémunération contractuelle ou indemnitaire",
+           étiquette.rém.indemn,
            "Autres rémunérations"),
          ARC[ c("traitement.indiciaire",
                 "rémunération.contractuelle.ou.indemnitaire",
@@ -813,9 +813,9 @@ hist(positive(autres.rémunérations),
      col = "grey")
 #'    
 
-Résumé(c("Rémunération contractuelle ou indemnitaire", "Autres rémunérations"),
+Résumé(c(étiquette.rém.indemn, "Autres rémunérations"),
        Analyse.rémunérations[ ! Matricule %in% liste.matricules.élus & ! Statut %in% c("TITULAIRE", "STAGIAIRE"), 
-                             c("rémunération.contractuelle.ou.indemnitaire", "autres.rémunérations")])
+                             c(ic("rémunération.contractuelle.ou.indemnitaire"), ic("autres.rémunérations"))])
 
 #'
 
@@ -832,7 +832,7 @@ detach(Analyse.rémunérations)
 nom.base.analyse <- paste0("Analyse.rémunérations.", année)
 
 if (sauvegarder.bases)
-  Sauv.base(chemin("Bases"), "Analyse.rémunérations", nom.base.analyse)
+  Sauv.base(chemin("Bases"), ic("Analyse.rémunérations"), nom.base.analyse)
 
 #'
 #'[Lien vers la base de données](Bases/`r nom.base.analyse`.csv) d'analyse des rémunérations pour `r année`
@@ -890,11 +890,11 @@ Analyse.variations.synthèse.filtrée <- na.omit(Analyse.variations.synthèse[ n
                                                                           & nb.jours.exercice.sortie   > seuil.troncature
                                                                         #  &  statut %in% c("TITULAIRE", "STAGIAIRE")
                                                                           &  statut !=  "AUTRE_STATUT"
-                                                                              , c("rémunération.début" ,
-                                                                                  "rémunération.sortie",
-                                                                                  "moyenne.rémunération.annuelle.sur.période",
-                                                                                  "variation.rémunération.jour",
-                                                                                  "variation.moyenne.rémunération.jour", 
+                                                                              , c(ic("rémunération.début"),
+                                                                                  ic("rémunération.sortie"),
+                                                                                  ic("moyenne.rémunération.annuelle.sur.période"),
+                                                                                  ic("variation.rémunération.jour"),
+                                                                                  ic("variation.moyenne.rémunération.jour"), 
                                                                                   "plus.2.ans",
                                                                                   étiquette.matricule)])
 
@@ -912,7 +912,7 @@ detach(Analyse.variations.synthèse)
 #'
 f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Analyse.variations.par.exercice$Année == x, "Montant.net"])/ 1000, big.mark = " ", digits = 5, format = "fg")
 
-Tableau.vertical(c("Année", "Rémunération nette totale (k&euro;)"), 
+Tableau.vertical(c(étiquette.année, "Rémunération nette totale (k&euro;)"), 
                  début.période.sous.revue:fin.période.sous.revue, 
                  f)
 
@@ -958,7 +958,7 @@ f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[
                                Analyse.variations.par.exercice$Année == x & Analyse.variations.par.exercice$plus.2.ans,
                                "Montant.net"])/ 1000, big.mark = " ", digits = 5, format = "fg")
 
-Tableau.vertical(c("Année", "Rémunération nette totale <br>des agents en place (k&euro;)"), 
+Tableau.vertical(c(étiquette.année, "Rémunération nette totale <br>des agents en place (k&euro;)"), 
                  début.période.sous.revue:fin.période.sous.revue, 
                  f)
 
@@ -1006,7 +1006,7 @@ f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[
   Analyse.variations.par.exercice$Année == x & ! Analyse.variations.par.exercice$plus.2.ans,
   "Montant.net"])/ 1000, big.mark = " ", digits = 5, format = "fg")
 
-Tableau.vertical(c("Année", "Rémunération nette totale <br>des agents en fonction moins de deux ans (k&euro;)"), 
+Tableau.vertical(c(étiquette.année, "Rémunération nette totale <br>des agents en fonction moins de deux ans (k&euro;)"), 
                  début.période.sous.revue:fin.période.sous.revue, 
                  f)
 
@@ -1044,7 +1044,14 @@ Résumé(   c("Variation sur la période <br>d'activité",
 
 attach(Bulletins.paie.Lignes.paie, warn.conflicts = FALSE)
 
-NBI.aux.non.titulaires <- Bulletins.paie.Lignes.paie[ ! Statut %in% c("TITULAIRE","STAGIAIRE") & as.character(Code) %in% codes.NBI, c(étiquette.matricule, "Statut", "Code", "Libellé", "Mois", étiquette.montant)]
+NBI.aux.non.titulaires <- Bulletins.paie.Lignes.paie[ ! Statut %in% c("TITULAIRE","STAGIAIRE") 
+                                                      & as.character(Code) %in% codes.NBI,
+                                                      c(étiquette.matricule,
+                                                        "Statut",
+                                                        "Code",
+                                                        étiquette.libellé,
+                                                        "Mois",
+                                                        étiquette.montant)]
 
 nombre.Lignes.paie.NBI.nontit <- nrow(NBI.aux.non.titulaires)
 
@@ -1055,7 +1062,12 @@ nombre.Lignes.paie.NBI.nontit <- nrow(NBI.aux.non.titulaires)
 
 filtre<-grep(".*(INFO|PFI|P.F.I).*", Libellé)
 
-personnels.prime.informatique <- Bulletins.paie.Lignes.paie[ filtre, c(étiquette.matricule, "Statut", "Code", "Libellé", étiquette.montant)]
+personnels.prime.informatique <- Bulletins.paie.Lignes.paie[ filtre,
+                                                             c(étiquette.matricule,
+                                                               "Statut",
+                                                               "Code",
+                                                               étiquette.libellé,
+                                                               étiquette.montant)]
 
 primes.informatiques.potentielles<-unique(Libellé[filtre])
 
@@ -1084,7 +1096,14 @@ Tableau(
 
 # Vacations et statut de fonctionnaire
 
-lignes.fonctionnaires.et.vacations <- Bulletins.paie.Lignes.paie[ Statut %in% c("TITULAIRE", "STAGIAIRE") & Code %in% codes.paiement[codes.paiement$Type.rémunération == "VACATIONS","Code.rubrique"], c(étiquette.matricule, "Statut", "Code", "Libellé", étiquette.montant)]
+lignes.fonctionnaires.et.vacations <- Bulletins.paie.Lignes.paie[ Statut %in% c("TITULAIRE", "STAGIAIRE")
+                                                                  & Code %in% codes.paiement[codes.paiement[ic("Type.rémunération")] == "VACATIONS","Code.rubrique"],
+                                                                                             c(étiquette.matricule,
+                                                                                               "Statut",
+                                                                                               "Code",
+                                                                                               étiquette.libellé,
+                                                                                               étiquette.montant)]
+                                                                  
 matricules.fonctionnaires.et.vacations <- unique(lignes.fonctionnaires.et.vacations$Matricule)
 nombre.fonctionnaires.et.vacations <- length(matricules.fonctionnaires.et.vacations)
 nombre.Lignes.paie.fonctionnaires.et.vacations <- nrow(lignes.fonctionnaires.et.vacations)
@@ -1108,16 +1127,16 @@ Tableau(
 
 # Vacations et régime indemnitaire
 
-lignes.contractuels.et.vacations <- Bulletins.paie.Lignes.paie[ ! Statut %in% c("TITULAIRE", "STAGIAIRE")  & Code %in% codes.paiement[codes.paiement$Type.rémunération == "VACATIONS","Code.rubrique"], c(étiquette.matricule, "Code", "Libellé", étiquette.montant)]
+lignes.contractuels.et.vacations <- Bulletins.paie.Lignes.paie[ ! Statut %in% c("TITULAIRE", "STAGIAIRE")  & Code %in% codes.paiement[codes.paiement$Type.rémunération == "VACATIONS","Code.rubrique"], c(étiquette.matricule, "Code", étiquette.libellé, étiquette.montant)]
 matricules.contractuels.et.vacations <- unique(lignes.contractuels.et.vacations$Matricule)
 nombre.contractuels.et.vacations <- length(matricules.contractuels.et.vacations)
 
-RI.et.vacations <- Bulletins.paie.Lignes.paie[ Matricule %in% matricules.contractuels.et.vacations & Code %in% codes.paiement[codes.paiement$Type.rémunération == "INDEMNITAIRE.OU.CONTRACTUEL","Code.rubrique"], c(étiquette.matricule, "Statut", "Code", "Libellé", étiquette.montant)]
+RI.et.vacations <- Bulletins.paie.Lignes.paie[ Matricule %in% matricules.contractuels.et.vacations & Code %in% codes.paiement[codes.paiement$Type.rémunération == "INDEMNITAIRE.OU.CONTRACTUEL","Code.rubrique"], c(étiquette.matricule, "Statut", "Code", étiquette.libellé, étiquette.montant)]
 
 
 # Vacations et indiciaire
 
-traitement.et.vacations <- Bulletins.paie.Lignes.paie[ Matricule %in% matricules.contractuels.et.vacations & Code %in% codes.paiement[codes.paiement$Type.rémunération == "TRAITEMENT","Code.rubrique"], c(étiquette.matricule, "Statut", "Code", "Libellé", étiquette.montant)]
+traitement.et.vacations <- Bulletins.paie.Lignes.paie[ Matricule %in% matricules.contractuels.et.vacations & Code %in% codes.paiement[codes.paiement$Type.rémunération == "TRAITEMENT","Code.rubrique"], c(étiquette.matricule, "Statut", "Code", étiquette.libellé, étiquette.montant)]
 
 nombre.Lignes.paie.contractuels.et.vacations <- nrow(lignes.contractuels.et.vacations)
 nombre.Lignes.paie.RI.et.vacations <- nrow(RI.et.vacations)
@@ -1176,13 +1195,13 @@ df2 <- df2[!duplicated(df2)]
 
 df3 <- intersect(df1,df2)
 
-lignes.ifts.anormales <- Bulletins.paie.Lignes.paie[Matricule %in% df3 & Code %in% codes.ifts & (Indice < 380 ), c(étiquette.matricule, "Statut", "Code", "Libellé", "Indice", étiquette.montant)]
+lignes.ifts.anormales <- Bulletins.paie.Lignes.paie[Matricule %in% df3 & Code %in% codes.ifts & (Indice < 380 ), c(étiquette.matricule, "Statut", "Code", étiquette.libellé, "Indice", étiquette.montant)]
 nombre.lignes.ifts.anormales <- nrow(lignes.ifts.anormales)
 
 rm(df1, df2, df3)
 # IFTS et non tit
 
-ifts.et.contractuel <- Bulletins.paie.Lignes.paie[Code %in% codes.ifts & ! Statut %in% c("TITULAIRE", "STAGIAIRE"), c(étiquette.matricule, "Statut", "Code", "Libellé", "Indice", étiquette.montant)]
+ifts.et.contractuel <- Bulletins.paie.Lignes.paie[Code %in% codes.ifts & ! Statut %in% c("TITULAIRE", "STAGIAIRE"), c(étiquette.matricule, "Statut", "Code", étiquette.libellé, "Indice", étiquette.montant)]
 nombres.lignes.ifts.et.contractuel <- nrow(ifts.et.contractuel)
 
 #'
@@ -1200,11 +1219,11 @@ Tableau(c("Nombre de contractuels percevant des IFTS", "Nombre de lignes IFTS po
 #'
 #'## 5.5 Contrôle sur les heures supplémentaires
 
-HS.sup.25 <- Bulletins.paie.Lignes.paie[Heures.Sup. >= 25 , c(étiquette.matricule, "Année", "Mois", "Statut", "Heures.Sup.", "Brut")]
+HS.sup.25 <- Bulletins.paie.Lignes.paie[Heures.Sup. >= 25 , c(étiquette.matricule, étiquette.année, "Mois", "Statut", "Heures.Sup.", "Brut")]
 nombre.Lignes.paie.HS.sup.25 <- nrow(HS.sup.25)
 
 # with(Base2,
-#      ihts.anormales <<- Base2[! Code.catégorie %in% c("B", "C") & substr(Code,1,2) %in% c("19") & ! grepl(" ENS", Libellé), c(étiquette.matricule, "Code", "Libellé", étiquette.montant, "Code.catégorie")]
+#      ihts.anormales <<- Base2[! Code.catégorie %in% c("B", "C") & substr(Code,1,2) %in% c("19") & ! grepl(" ENS", Libellé), c(étiquette.matricule, "Code", étiquette.libellé, étiquette.montant, "Code.catégorie")]
 # )
 
 ihts.anormales <- data.frame(NULL)
@@ -1226,7 +1245,7 @@ Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"), n
 #'## 5.6 Contrôle sur les indemnités des élus
 #'     
 
-matricules.à.identifier <- unique(Bulletins.paie[, c("Année", "Service", "Grade", "Nom",  étiquette.matricule)])
+matricules.à.identifier <- unique(Bulletins.paie[, c(étiquette.année, "Service", "Grade", "Nom",  étiquette.matricule)])
 
 Catégorie <- character(length = nrow(matricules.à.identifier))
 matricules.à.identifier <- cbind(matricules.à.identifier, Catégorie)
@@ -1234,9 +1253,9 @@ matricules.à.identifier <- matricules.à.identifier[order(matricules.à.identif
 
 rémunérations.élus <- Analyse.rémunérations[ Analyse.rémunérations$indemnités.élu > 0,
                                              c("Matricule",
-                                               "indemnités.élu",
-                                               "autres.rémunérations",
-                                               "total.rémunérations") ]
+                                               ic("indemnités.élu"),
+                                               ic("autres.rémunérations"),
+                                               ic("total.rémunérations")) ]
 
 rémunérations.élus <- merge(unique(matricules.à.identifier[c("Nom",  étiquette.matricule)]),
                             rémunérations.élus,
@@ -1248,7 +1267,7 @@ names(rémunérations.élus) <- c("Nom", "Matricule", "Indemnités d'élu (€)"
 kable(rémunérations.élus, row.names = FALSE)
 #'     
 
-Sauv.base(chemin("Bases"), "matricules.à.identifier", fichier.personnels)
+Sauv.base(chemin("Bases"), ic("matricules.à.identifier"), fichier.personnels)
 
 #'[Lien vers la base de données Rémunérations des élus](Bases/rémunérations.élus.csv)  
 #'     
@@ -1269,10 +1288,10 @@ with( Lignes.paie,
     codes.paiement <<- unique(Lignes.paie[  Montant > 0 
                                               & nchar(as.character(Code)) == 4 
                                               & as.numeric(substr(Code, 1,1)) < 5,
-                                              c("Code", "Libellé")]))
+                                              c("Code", étiquette.libellé)]))
 
 codes.paiement <- cbind(codes.paiement[order(substr(codes.paiement$Code,1,3)), ],
-                        "Type rémunération" = character(nrow(codes.paiement)))
+                        étiquette.type.rémunération = character(nrow(codes.paiement)))
 
 #'---
 #'   

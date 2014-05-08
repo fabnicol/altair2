@@ -44,13 +44,16 @@ selectionner.cle.matricule.mois <-  function(Base1, Base2)
 read.csv.skip <- function(x, encodage = encodage.entrée) 
 {
   chem <- chemin(x)
-  read.csv2(chem, skip = trouver.valeur.skip(chem, encodage), fileEncoding = encodage)
+  T <- read.csv2(chem, skip = trouver.valeur.skip(chem, encodage), fileEncoding = encodage)
+  if (encodage.entrée != "UTF-8")
+     names(T) <- iconv(names(T), to="UTF-8")
+  return(T)
 }
 
 Sauv.base <- function(chemin.dossier, nom, nom.sauv, encodage = encodage.entrée)
 {
   message("Sauvegarde de ", nom)
-  write.csv2(get(nom), paste0(chemin.dossier, "/", nom.sauv, ".csv"), 
+  write.csv2(get(nom), paste0(chemin.dossier, "/", iconv(nom.sauv, to = encodage.entrée), ".csv"), 
              row.names = FALSE, fileEncoding = encodage)
   
 }
@@ -68,7 +71,7 @@ sauv.bases <- function(dossier, ...)
   tmp[1] <- NULL
  
   message("Dans le dossier ", chemin.dossier," :")
-  invisible(lapply(tmp[-1], function(x) Sauv.base(chemin.dossier, x, x)))
+  invisible(lapply(tmp[-1], function(x) Sauv.base(chemin.dossier, ic(x), x)))
 }
 
 # Utiliser une assignation globale 

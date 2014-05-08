@@ -19,3 +19,5 @@
 
 
 #/*print(xtable(Stats.fonctionnaires), type="html", include.rownames=FALSE)*/
+writeLines(sub('l?', "l'", iconv(readLines("sierg.html"), from="ISO-8859-1", to="UTF-8"), fixed=TRUE), "sierg2.html", sep="\n")
+
