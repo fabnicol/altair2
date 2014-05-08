@@ -1,7 +1,7 @@
 # prologue 
 # doit être dans le même répertoire que le programme principal et sa bibliothèque
 
-windows <- FALSE
+windows <- TRUE
 
 if (windows)
 { 
