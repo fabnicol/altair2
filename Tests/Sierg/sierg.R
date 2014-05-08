@@ -251,7 +251,7 @@ attach(Analyse.variations.synthèse, warn.conflicts=FALSE)
 #'**Personnels en fonction des exercices `r début.période.sous.revue` à `r fin.période.sous.revue` inclus :**  
 #'
 
-Tableau(c("Plus de deux ans",
+Tableau(c("Plus de 2 ans",
           "Moins de 2 ans",
           "Moins d'un an", 
           "Moins de six mois"), 
@@ -296,11 +296,7 @@ colonnes.sélectionnées <- c("traitement.indiciaire",
                             "part.rémunération.contractuelle.ou.indemnitaire",
                             étiquette.matricule)
 
-if (fichier.personnels.existe)
-{
-  Analyse.rémunérations <- merge(Analyse.rémunérations, base.personnels.catégorie, by=étiquette.matricule, all=FALSE)
-  colonnes.sélectionnées <- c(colonnes.sélectionnées, "Catégorie") 
-}
+
 
 # pour année début #
 
@@ -342,6 +338,11 @@ Analyse.rémunérations <- ddply(Bulletins.paie.Lignes.paie,
                                         rémunération.contractuelle.ou.indemnitaire /
                                           (traitement.indiciaire + rémunération.contractuelle.ou.indemnitaire)*100))
 
+if (fichier.personnels.existe)
+{
+  Analyse.rémunérations <- merge(Analyse.rémunérations, base.personnels.catégorie, by=étiquette.matricule, all=FALSE)
+  colonnes.sélectionnées <- c(colonnes.sélectionnées, "Catégorie") 
+}
 
 attach(Analyse.rémunérations, warn.conflicts=FALSE)
 
@@ -424,16 +425,18 @@ Sauv.base(chemin("Bases"), "df", paste0("Masses.", année))
 #'### Statistiques de position pour l'exercice `r année`  
 #'
 
-AR1 <- Analyse.rémunérations[Statut %in% c("TITULAIRE", "STAGIAIRE"), colonnes.sélectionnées]
+AR <- Analyse.rémunérations[Statut %in% c("TITULAIRE", "STAGIAIRE"), colonnes.sélectionnées]
 
 Résumé(c("Traitement indiciaire",
          "Rémunération contractuelle ou indemnitaire",
-         "Autres rémunérations"),  AR1[1:3])
+         "Autres rémunérations"),  AR[1:3])
 
 #'    
 #'
-Résumé(c("Total rémunérations", "Part de la rémunération contractuelle ou indemnitaire"), AR1[4:5])
+Résumé(c("Total rémunérations", "Part de la rémunération contractuelle ou indemnitaire"), AR[4:5])
 
+#'     
+#'**Effectif : `r nrow(AR)`**     
 #'
 #'<!-- BREAK -->
 #'
@@ -441,17 +444,22 @@ Résumé(c("Total rémunérations", "Part de la rémunération contractuelle ou 
 #'### Statistiques de position par catégorie pour l'exercice `r année` 
 #'
 
+ARA <- AR[AR$Catégorie == 'A', ]
+ARB <- AR[AR$Catégorie == 'B', ]
+ARC <- AR[AR$Catégorie == 'C', ]
+
 #'**Catégorie A**     
 #'
 #'     
+
 
 if (fichier.personnels.existe)
 {  
   Résumé(c("Traitement indiciaire",
            "Rémunération contractuelle ou indemnitaire",
-           "Autres rémunérations"), AR1[AR1$Catégorie == 'A', c("traitement.indiciaire",
-                                                                "rémunération.contractuelle.ou.indemnitaire",
-                                                                "autres.rémunérations")])
+           "Autres rémunérations"), ARA[c("traitement.indiciaire",
+                                          "rémunération.contractuelle.ou.indemnitaire",
+                                          "autres.rémunérations")])
 } else
   cat("Pas de statistique en l'absence de fichier des catégories.\n")
 
@@ -460,12 +468,11 @@ if (fichier.personnels.existe)
 if (fichier.personnels.existe)
 {  
   Résumé(c("Total rémunérations", "Part de la rémunération contractuelle ou indemnitaire"),
-         AR1[AR1$Catégorie == 'A', 
-             c( "total.rémunérations", "part.rémunération.contractuelle.ou.indemnitaire")])
+          ARA[c( "total.rémunérations", "part.rémunération.contractuelle.ou.indemnitaire")])
 }
-
-#'     
-#'
+#'    
+#'**Effectif : `r nrow(ARA)`**          
+#'    
 #'**Catégorie B**     
 #'     
 
@@ -473,9 +480,10 @@ if (fichier.personnels.existe)
 {  
   Résumé(c("Traitement indiciaire",
            "Rémunération contractuelle ou indemnitaire",
-           "Autres rémunérations"), AR1[AR1$Catégorie == 'B', c("traitement.indiciaire",
-                                                                "rémunération.contractuelle.ou.indemnitaire",
-                                                                "autres.rémunérations")])
+           "Autres rémunérations"), 
+         ARB[ c("traitement.indiciaire",
+                "rémunération.contractuelle.ou.indemnitaire",
+                "autres.rémunérations")])
 } else
   cat("Pas de statistique en l'absence de fichier des catégories.\n")
 
@@ -484,12 +492,12 @@ if (fichier.personnels.existe)
 if (fichier.personnels.existe)
 {  
   Résumé(c("Total rémunérations", "Part de la rémunération contractuelle ou indemnitaire"),
-         AR1[AR1$Catégorie == 'B', 
-             c( "total.rémunérations", "part.rémunération.contractuelle.ou.indemnitaire")])
+         ARB[ c( "total.rémunérations", "part.rémunération.contractuelle.ou.indemnitaire")])
 }
 
 #'     
-#'
+#'**Effectif : `r nrow(ARB)`**     
+#'    
 #'**Catégorie C**     
 #'
 #'     
@@ -498,9 +506,10 @@ if (fichier.personnels.existe)
 {      
   Résumé(c("Traitement indiciaire",
            "Rémunération contractuelle ou indemnitaire",
-           "Autres rémunérations"), AR1[AR1$Catégorie == 'C', c("traitement.indiciaire",
-                                                                "rémunération.contractuelle.ou.indemnitaire",
-                                                                "autres.rémunérations")])
+           "Autres rémunérations"), 
+         ARC[ c("traitement.indiciaire",
+                "rémunération.contractuelle.ou.indemnitaire",
+                "autres.rémunérations")])
 } else
   cat("Pas de statistique en l'absence de fichier des catégories.\n")
 
@@ -509,10 +518,12 @@ if (fichier.personnels.existe)
 if (fichier.personnels.existe)
 {  
   Résumé(c("Total rémunérations", "Part de la rémunération contractuelle ou indemnitaire"),
-         AR1[AR1$Catégorie == 'C', 
-             c( "total.rémunérations", "part.rémunération.contractuelle.ou.indemnitaire")])
+         ARC[ c( "total.rémunérations", "part.rémunération.contractuelle.ou.indemnitaire") ])
 }
-#'
+
+#'**Effectif : `r nrow(ARC)`**     
+#'    
+#'    
 #'######      <br>
 #'
 #'## 2.2 Contractuels, vacataires et stagiaires inclus
@@ -605,8 +616,11 @@ Analyse.rémunérations <- ddply(Bulletins.paie.Lignes.paie,
                                         rémunération.contractuelle.ou.indemnitaire /
                                           (traitement.indiciaire + rémunération.contractuelle.ou.indemnitaire)*100))
 
+
 if (fichier.personnels.existe)
+{
   Analyse.rémunérations <- merge(Analyse.rémunérations, base.personnels.catégorie, by=étiquette.matricule, all=FALSE)
+}
 
 attach(Analyse.rémunérations, warn.conflicts=FALSE)
 
@@ -680,20 +694,25 @@ Sauv.base(chemin("Bases"), "df", paste0("Masses.", année))
 #'### Statistiques de position pour l'exercice `r année`  
 #'
 
-AR1 <- Analyse.rémunérations[Statut %in% c("TITULAIRE", "STAGIAIRE"), colonnes.sélectionnées ]
+AR <- Analyse.rémunérations[Statut %in% c("TITULAIRE", "STAGIAIRE"), colonnes.sélectionnées ]
 
 Résumé(c("Traitement indiciaire",
          "Rémunération contractuelle ou indemnitaire",
-         "Autres rémunérations"),  AR1[1:3])
+         "Autres rémunérations"),  AR[1:3])
 #'
 
-Résumé(c("Total rémunérations", "Part de la rémunération contractuelle ou indemnitaire"), AR1[4:5])
+Résumé(c("Total rémunérations", "Part de la rémunération contractuelle ou indemnitaire"), AR[4:5])
        
-#'
+#'**Effectif : `r nrow(AR)`**     
+#'   
 #'######      
 #'
 #'### Statistiques de position par catégorie pour l'exercice `r année` 
 #'
+
+ARA <- AR[AR$Catégorie == 'A', ]
+ARB <- AR[AR$Catégorie == 'B', ]
+ARC <- AR[AR$Catégorie == 'C', ]
 
 #'**Catégorie A**     
 #'
@@ -703,9 +722,10 @@ if (fichier.personnels.existe)
 {  
   Résumé(c("Traitement indiciaire",
                 "Rémunération contractuelle ou indemnitaire",
-                 "Autres rémunérations"), AR1[AR1$Catégorie == 'A', c("traitement.indiciaire",
-                                                                      "rémunération.contractuelle.ou.indemnitaire",
-                                                                      "autres.rémunérations")])
+                 "Autres rémunérations"),
+         ARA[c("traitement.indiciaire",
+               "rémunération.contractuelle.ou.indemnitaire",
+               "autres.rémunérations")])
 } else
   cat("Pas de statistique en l'absence de fichier des catégories.\n")
 
@@ -714,12 +734,11 @@ if (fichier.personnels.existe)
 if (fichier.personnels.existe)
 {  
   Résumé(c("Total rémunérations", "Part de la rémunération contractuelle ou indemnitaire"),
-         AR1[AR1$Catégorie == 'A', 
-             c( "total.rémunérations", "part.rémunération.contractuelle.ou.indemnitaire")])
+         ARA[ c( "total.rémunérations", "part.rémunération.contractuelle.ou.indemnitaire")])
 }
 
-#'     
-#'
+#'**Effectif : `r nrow(ARA)`**          
+#'    
 #'**Catégorie B**     
 #'     
 
@@ -727,9 +746,10 @@ if (fichier.personnels.existe)
 {  
   Résumé(c("Traitement indiciaire",
            "Rémunération contractuelle ou indemnitaire",
-           "Autres rémunérations"), AR1[AR1$Catégorie == 'B', c("traitement.indiciaire",
-                                                                "rémunération.contractuelle.ou.indemnitaire",
-                                                                "autres.rémunérations")])
+           "Autres rémunérations"),
+         ARB[c("traitement.indiciaire",
+               "rémunération.contractuelle.ou.indemnitaire",
+               "autres.rémunérations")])
 } else
   cat("Pas de statistique en l'absence de fichier des catégories.\n")
 
@@ -738,11 +758,10 @@ if (fichier.personnels.existe)
 if (fichier.personnels.existe)
 {  
   Résumé(c("Total rémunérations", "Part de la rémunération contractuelle ou indemnitaire"),
-         AR1[AR1$Catégorie == 'B', 
-               c( "total.rémunérations", "part.rémunération.contractuelle.ou.indemnitaire")])
+         ARB[ c( "total.rémunérations", "part.rémunération.contractuelle.ou.indemnitaire")])
 }
-
-#'     
+#'
+#'**Effectif : `r nrow(ARB)`**          
 #'
 #'**Catégorie C**     
 #'
@@ -752,9 +771,10 @@ if (fichier.personnels.existe)
 {      
   Résumé(c("Traitement indiciaire",
            "Rémunération contractuelle ou indemnitaire",
-           "Autres rémunérations"), AR1[AR1$Catégorie == 'C', c("traitement.indiciaire",
-                                                                "rémunération.contractuelle.ou.indemnitaire",
-                                                                   "autres.rémunérations")])
+           "Autres rémunérations"),
+         ARC[ c("traitement.indiciaire",
+                "rémunération.contractuelle.ou.indemnitaire",
+               "autres.rémunérations")])
 } else
   cat("Pas de statistique en l'absence de fichier des catégories.\n")
 
@@ -763,11 +783,10 @@ if (fichier.personnels.existe)
 if (fichier.personnels.existe)
 {  
   Résumé(c("Total rémunérations", "Part de la rémunération contractuelle ou indemnitaire"),
-         AR1[AR1$Catégorie == 'C', 
-             c( "total.rémunérations", "part.rémunération.contractuelle.ou.indemnitaire")])
+         ARC[ c( "total.rémunérations", "part.rémunération.contractuelle.ou.indemnitaire")])
 }
-
-
+#'  
+#'**Effectif : `r nrow(ARC)`**     
 #'
 #'######      
 #'
@@ -802,10 +821,13 @@ Résumé(c("Rémunération contractuelle ou indemnitaire", "Autres rémunératio
 
 #'
 
-Résumé("Total rémunérations",
-       Analyse.rémunérations[ ! Matricule %in% liste.matricules.élus & ! Statut %in% c("TITULAIRE", "STAGIAIRE"), 
-                             "total.rémunérations"])
-#'
+AR <- Analyse.rémunérations[ ! Matricule %in% liste.matricules.élus & ! Statut %in% c("TITULAIRE", "STAGIAIRE"), 
+                       "total.rémunérations"]
+
+Résumé("Total rémunérations",   AR)
+#'   
+#'**Effectif : `r nrow(AR)`**     
+#'   
 
 detach(Analyse.rémunérations)
 
@@ -867,26 +889,29 @@ nclass=100)
 
 Analyse.variations.synthèse.filtrée <- na.omit(Analyse.variations.synthèse[ nb.jours.exercice.début > seuil.troncature 
                                                                           & nb.jours.exercice.sortie   > seuil.troncature
+                                                                        #  &  statut %in% c("TITULAIRE", "STAGIAIRE")
+                                                                          &  statut !=  "AUTRE_STATUT"
                                                                               , c("rémunération.début" ,
                                                                                   "rémunération.sortie",
                                                                                   "moyenne.rémunération.annuelle.sur.période",
                                                                                   "variation.rémunération.jour",
-                                                                                  "variation.moyenne.rémunération.jour", "plus.2.ans")])
+                                                                                  "variation.moyenne.rémunération.jour", 
+                                                                                  "plus.2.ans",
+                                                                                  étiquette.matricule)])
 
-Analyse.variations.synthèse.filtrée.plus.2.ans  <- Analyse.variations.synthèse.filtrée[Analyse.variations.synthèse.filtrée$plus.2.ans, -6]
-Analyse.variations.synthèse.filtrée.moins.2.ans <- Analyse.variations.synthèse.filtrée[! Analyse.variations.synthèse.filtrée$plus.2.ans, -6]
-Analyse.variations.synthèse.filtrée <- Analyse.variations.synthèse.filtrée[, -6]
+Analyse.variations.synthèse.filtrée.plus.2.ans  <- Analyse.variations.synthèse.filtrée[Analyse.variations.synthèse.filtrée$plus.2.ans, ]
+Analyse.variations.synthèse.filtrée.moins.2.ans <- Analyse.variations.synthèse.filtrée[! Analyse.variations.synthèse.filtrée$plus.2.ans, ]
+
 
 detach(Analyse.variations.synthèse)
 
 #' 
 #'## 4.2 Evolutions des rémunérations nettes sur la période `r début.période.sous.revue` - `r fin.période.sous.revue` 
 #'
-#'### 4.2.1 Ensemble des personnels
+#'### 4.2.1 Ensemble des personnels fonctionnaires et non titulaires
 #'
 
 #'
-
 f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Analyse.variations.par.exercice$Année == x, "Montant.net"])/ 1000, big.mark=" ", digits=5, format="fg")
 
 Tableau.vertical(c("Année", "Rémunération nette totale (k&euro;)"), 
@@ -912,9 +937,11 @@ Résumé(   c("Variation sur la période <br>d'activité",
           Analyse.variations.synthèse.filtrée[4:5])
 
 #'
+#'**Effectif : `r nrow(Analyse.variations.synthèse.filtrée[étiquette.matricule])`**     
+#'
 #'[Lien vers la base de données](Bases/Analyse.variations.synthèse.filtrée.csv)
 #'
-#'### 4.2.2 Personnels en place
+#'### 4.2.2 Personnels fonctionnaires et non titulaires en place
 #'
 
 hist(Analyse.variations.synthèse.filtrée.plus.2.ans$variation.moyenne.rémunération.jour,
@@ -950,8 +977,9 @@ Résumé(   c("Première année",
 Résumé(   c("Variation sur la période <br>d'activité",
             "Variation annuelle moyenne"),
           Analyse.variations.synthèse.filtrée.plus.2.ans[4:5])
-#'
-#'
+#'     
+#'**Effectif :** `r nrow(Analyse.variations.synthèse.filtrée.plus.2.ans[étiquette.matricule])`    
+#'     
 #'[Lien vers la base de données](Bases/Analyse.variations.synthèse.filtrée.plus.2.ans.csv)
 #'     
 #'**Nota**    
@@ -959,7 +987,7 @@ Résumé(   c("Variation sur la période <br>d'activité",
 #'
 #'######   
 #'
-#'### 4.2.3 Personnels en fonction moins de deux ans
+#'### 4.2.3 Personnels fonctionnaires et non titulaires en fonction moins de deux ans
 #'
 #'
 hist(Analyse.variations.synthèse.filtrée.moins.2.ans$variation.moyenne.rémunération.jour,
@@ -998,11 +1026,17 @@ Résumé(   c("Variation sur la période <br>d'activité",
             "Variation annuelle moyenne"),
           Analyse.variations.synthèse.filtrée.moins.2.ans[4:5])
 #'
+#'     
+#'**Effectif :** `r nrow(Analyse.variations.synthèse.filtrée.moins.2.ans[étiquette.matricule])`    
+#'     
+
+#'
 ########### Tests statutaires ########################
 #'
 #'[Lien vers la base de données](Bases/Analyse.variations.synthèse.filtrée.moins.2.ans.csv)
 #'
 #'**Nota:** Au 4.2 seuls sont pris en compte les personnels en fonction au moins 100 jours la première et la dernière année    
+#'Ne sont pas pris en compte les élus, stagiaires et apprentis ou assimilés.    
 #'
 #'Les résultats sont exprimés en euros.
 #'
@@ -1194,7 +1228,7 @@ Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"), n
 #'## 5.6 Contrôle sur les indemnités des élus
 #'     
 
-matricules.à.identifier <- unique(Bulletins.paie[, c("Année", "Nom", étiquette.matricule, "Grade", "Service")])
+matricules.à.identifier <- unique(Bulletins.paie[, c("Année", "Service", "Grade", "Nom",  étiquette.matricule)])
 
 Catégorie <- character(length=nrow(matricules.à.identifier))
 matricules.à.identifier <- cbind(matricules.à.identifier, Catégorie)
