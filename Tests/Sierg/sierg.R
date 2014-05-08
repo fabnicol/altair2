@@ -111,6 +111,8 @@ codes.paiement          <- read.csv.skip(codes.paiement)
 
 # suppression des colonnes Nom Prénom redondantes
 
+Bulletins.paie.premier.exercice <-  selectionner.cle.matricule.mois(Bulletins.paie[Bulletins.paie$Année == début.période.sous.revue,], Lignes.paie)
+
 Bulletins.paie.dernier.exercice <-  selectionner.cle.matricule.mois(Bulletins.paie[Bulletins.paie$Année == fin.période.sous.revue,], Lignes.paie)
 
 # Matricule.avantage  <- selectionner.cle.matricule(Matricule.avantage, Matricule.catégorie) 
@@ -298,7 +300,7 @@ colonnes.sélectionnées <- c("traitement.indiciaire",
 
 # pour année début #
 
-Bulletins.paie.Lignes.paie <- merge(Bulletins.paie.dernier.exercice, Lignes.paie[Lignes.paie$Année == année,])
+Bulletins.paie.Lignes.paie <- merge(Bulletins.paie.premier.exercice, Lignes.paie[Lignes.paie$Année == année,])
 
 Bulletins.paie.Lignes.paie <- mutate(Bulletins.paie.Lignes.paie,
                                      montant.traitement.indiciaire 

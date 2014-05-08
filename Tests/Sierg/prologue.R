@@ -1,7 +1,7 @@
 # prologue 
 # doit être dans le même répertoire que le programme principal et sa bibliothèque
 
-windows <- TRUE
+windows <- (Sys.info()["sysname"] != "Linux")
 
 if (windows)
 { 
@@ -15,7 +15,8 @@ if (windows)
 
 chemin.dossier <- paste0(racine, "Dev/altair/Tests/Sierg")
 
-ic <- function(x) ifelse(windows, iconv(x, to="UTF-8"), x)
+# ne pas utiliser ifelse
+ic <- function(x) if (windows) iconv(x, to="UTF-8") else x
 
 début.période.sous.revue <- 2011
 fin.période.sous.revue   <- 2012
