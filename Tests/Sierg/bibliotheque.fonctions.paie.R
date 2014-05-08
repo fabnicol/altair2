@@ -7,7 +7,7 @@ chemin <-  function(fichier)
 
 scan.prime <- function(texte, Base)
 {
-  unique(Base[grep(paste0(".*(", texte,").*"), Base$Libellé, ignore.case=TRUE), c("Matricule", "Libellé", "Libellé")])
+  unique(Base[grep(paste0(".*(", texte,").*"), Base$Libellé, ignore.case = TRUE), c("Matricule", "Libellé", "Libellé")])
 }
 
 
@@ -18,15 +18,15 @@ scan.prime <- function(texte, Base)
 # Pour cela on scanne les 25 premières lignes de la table une première fois
 
 
-trouver.valeur.skip <-  function(chemin.table) 
+trouver.valeur.skip <-  function(chemin.table, encodage) 
   max(
     sapply(
-      read.csv2(chemin.table, nrows=25, fileEncoding="UTF-8"),
+      read.csv2(chemin.table, nrows = 25, fileEncoding = encodage),
       function(x) 
       {
-        m <- match(champ.détection.1, x, nomatch=0 ) 
+        m <- match(champ.détection.1, x, nomatch = 0 ) 
         if (m == 0)
-          m <- pmatch(champ.détection.2, x, nomatch=0, duplicates.ok=FALSE ) 
+          m <- pmatch(champ.détection.2, x, nomatch = 0, duplicates.ok = FALSE ) 
         return(m)
       }
     ))
@@ -38,24 +38,22 @@ selectionner.cle.matricule <-  function(Base1, Base2)
 
 selectionner.cle.matricule.mois <-  function(Base1, Base2) 
   subset(Base1, 
-         select=c(champ.détection.1,"Mois",
+         select = c(champ.détection.1,"Mois",
                   setdiff(names(Base1),names(Base2))))
 
-read.csv.skip <- function(x, encodage=encodage.entrée) 
+read.csv.skip <- function(x, encodage = encodage.entrée) 
 {
   chem <- chemin(x)
-  read.csv2(chem, skip = trouver.valeur.skip(chem), fileEncoding = encodage)
+  read.csv2(chem, skip = trouver.valeur.skip(chem, encodage), fileEncoding = encodage)
 }
 
-Sauv.base <- function(chemin.dossier, nom, nom.sauv)
+Sauv.base <- function(chemin.dossier, nom, nom.sauv, encodage = encodage.entrée)
 {
   message("Sauvegarde de ", nom)
   write.csv2(get(nom), paste0(chemin.dossier, "/", nom.sauv, ".csv"), 
-             row.names = FALSE, fileEncoding = "UTF-8")
+             row.names = FALSE, fileEncoding = encodage)
   
 }
-
-sauv.base <- function(chemin.dossier, nom) Sauv.base(chemin.dossier, nom, nom)
  
 sauv.bases <- function(dossier, ...) 
 {
@@ -70,7 +68,7 @@ sauv.bases <- function(dossier, ...)
   tmp[1] <- NULL
  
   message("Dans le dossier ", chemin.dossier," :")
-  invisible(lapply(tmp[-1], function(x) sauv.base(chemin.dossier, x)))
+  invisible(lapply(tmp[-1], function(x) Sauv.base(chemin.dossier, x, x)))
 }
 
 # Utiliser une assignation globale 
@@ -78,26 +76,26 @@ sauv.bases <- function(dossier, ...)
 
 Read.csv <- function(vect.chemin)   do.call(rbind, lapply(vect.chemin, read.csv.skip))
 
-pretty.print <- function(x) cat(gsub(".", " ",deparse(substitute(x)), fixed=TRUE), "   ", x,"\n")
+pretty.print <- function(x) cat(gsub(".", " ",deparse(substitute(x)), fixed = TRUE), "   ", x,"\n")
 
 est.code.de.type <- function(x, Base) Base$Code %in% Code.prime[Code.prime$Type.rémunération == x, "Code"]
 
-Résumé <- function(x,y, align='r',...) 
+Résumé <- function(x,y, align = 'r',...) 
               {
                  S <- cbind(c("Minimum", "1er quartile", "Médiane", "Moyenne", "3ème quartile", "Maximum"), 
-                            prettyNum(sub("[M13].*:", "", summary(y, ...)), big.mark=" "))
+                            prettyNum(sub("[M13].*:", "", summary(y, ...)), big.mark = " "))
                  
                  dimnames(S)[[2]] <- c("Statistique", x)
                  
-                 kable(S, row.names=FALSE, align=align)
+                 kable(S, row.names = FALSE, align = align)
                  
                }
 Tableau <- function(x,...)
 {
-  T <- t(prettyNum(c(...), big.mark=" "))
+  T <- t(prettyNum(c(...), big.mark = " "))
   T <- as.data.frame(T)
   names(T) <- x
-  kable(T, row.names=FALSE, align="c")
+  kable(T, row.names = FALSE, align = "c")
 }
 
 Tableau.vertical <- function(colnames, rownames, f)
@@ -106,7 +104,7 @@ Tableau.vertical <- function(colnames, rownames, f)
   
   names(T) <- colnames
   
-  kable(T, row.names=FALSE, align="c")
+  kable(T, row.names = FALSE, align = "c")
 }
 
 
@@ -138,7 +136,7 @@ calcul.nb.jours.mois <- function(mois.entrée, mois.sortie, année)
   if (mois.sortie == 12) 
   {
      année.sortie <- année +1
-     mois.sortie=1
+     mois.sortie = 1
   }
   else
   {
@@ -147,11 +145,11 @@ calcul.nb.jours.mois <- function(mois.entrée, mois.sortie, année)
   }
   
    as.numeric(as.Date(paste0("01", 
-                                  formatC(mois.sortie, width=2, flag="0"),
+                                  formatC(mois.sortie, width = 2, flag = "0"),
                                   année.sortie),
                       "%d%m%Y")
               - as.Date(paste0("01",
-                                   formatC(mois.entrée, width=2, flag="0"),
+                                   formatC(mois.entrée, width = 2, flag = "0"),
                                    année),
                             "%d%m%Y"))
 }
@@ -225,10 +223,10 @@ installer.paquet <- function(paquet, rigoureusement = FALSE)
 {
   if (missing(paquet))  return(NA_character_)
   Paquet <- deparse(paquet)
-  if (length(find.package(Paquet, quiet=TRUE)) == 0)
+  if (length(find.package(Paquet, quiet = TRUE)) == 0)
   {
     install.packages(Paquet)
-    if (length(find.package(Paquet, quiet=TRUE)) !=0 )
+    if (length(find.package(Paquet, quiet = TRUE)) !=0 )
     {
       message(Paquet, " a été installé.")
       return(invisible(1))

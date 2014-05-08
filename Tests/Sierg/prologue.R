@@ -6,9 +6,8 @@ windows <- FALSE
 if (windows)
 { 
     racine <- "C:/"
-    encodage.entrée <- "CP-1252"    
-}
-else
+    encodage.entrée <- "WINDOWS-1252"    
+} else 
 {
     racine <- "~/"
     encodage.entrée <- "UTF-8"    
