@@ -5,19 +5,11 @@
 #Exécuter le présent programme
 #Vérifier l'absence d'erreur
 
-# prologue 
-
-chemin.dossier <- "~/Dev/altair/Tests/Sierg"
-début.période.sous.revue <- 2011
-fin.période.sous.revue   <- 2012
-étiquette.matricule <- "Matricule"
-champ.détection.1 <- étiquette.matricule
-champ.détection.2 <- "Code"
-date.format <- "%d/%m/%Y"
+source("prologue.R", encoding="UTF-8") 
 
 # programme principal 
 
-source(file.path(chemin.dossier, "bibliotheque.fonctions.paie.R"), encoding="UTF-8-BOM")
+source(file.path(chemin.dossier, "bibliotheque.fonctions.paie.R"), encoding="UTF-8")
 chemin.fichier.personnels <- "Catégories des personnels.csv"
 valeurs.catégories <- c('A', 'B', 'C', 'AUTRES', 'ELU')
 invisible(file.copy(chemin(chemin.fichier.personnels), chemin("Catégories des personnels.tmp.csv"), overwrite=TRUE))

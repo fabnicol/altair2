@@ -21,7 +21,7 @@ scan.prime <- function(texte, Base)
 trouver.valeur.skip <-  function(chemin.table) 
   max(
     sapply(
-      read.csv2(chemin.table, nrows=25, fileEncoding="UTF-8-BOM"),
+      read.csv2(chemin.table, nrows=25, fileEncoding="UTF-8"),
       function(x) 
       {
         m <- match(champ.détection.1, x, nomatch=0 ) 
@@ -34,24 +34,24 @@ trouver.valeur.skip <-  function(chemin.table)
 
 selectionner.cle.matricule <-  function(Base1, Base2) 
   subset(Base1, 
-         select=c(champ.détection.1, setdiff(names(Base1),names(Base2))))
+         select = c(champ.détection.1, setdiff(names(Base1),names(Base2))))
 
 selectionner.cle.matricule.mois <-  function(Base1, Base2) 
   subset(Base1, 
          select=c(champ.détection.1,"Mois",
                   setdiff(names(Base1),names(Base2))))
 
-read.csv.skip <- function(x) 
+read.csv.skip <- function(x, encodage=encodage.entrée) 
 {
   chem <- chemin(x)
-  read.csv2(chem, skip=trouver.valeur.skip(chem), fileEncoding="UTF-8")
+  read.csv2(chem, skip = trouver.valeur.skip(chem), fileEncoding = encodage)
 }
 
 Sauv.base <- function(chemin.dossier, nom, nom.sauv)
 {
   message("Sauvegarde de ", nom)
   write.csv2(get(nom), paste0(chemin.dossier, "/", nom.sauv, ".csv"), 
-             row.names=FALSE, fileEncoding = "UTF-8")
+             row.names = FALSE, fileEncoding = "UTF-8")
   
 }
 

@@ -7,28 +7,33 @@
 #'css: style.css
 #'---
 
-#'<p class="centered"><img src="altair.png" /></p>
-#'<p class="title">RH Sierg</h1>
+#' <p class="centered"><img src="altair.png" /></p>
+#'<p class="title">RH Sierg</p> 
 #'
 
 #+ echo=FALSE, warning=FALSE, message=FALSE
 
+# comportement global du programme
+
+sauvegarder.bases <- TRUE
+étudier.variations <- TRUE
+étudier.tests.statutaires <- TRUE
+
+# Lorsque l'on n'a que une ou deux années, mettre étudier.variations à FALSE
+# Lorsque l'on n'étudie pas une base Xémélios, mettre étudier.tests.statutaires à FALSE
+
 library(compiler)
 
-options(warn=-1, verbose=FALSE, OutDec=",")
+options(warn=-1, verbose=FALSE, OutDec=",", encoding="UTF-8")
+
+source("prologue.R")
 
 compilerOptions <- setCompilerOptions(suppressAll=TRUE)
 JITlevel <- enableJIT(3)
 
-début.période.sous.revue <- 2011
-fin.période.sous.revue   <- 2012
-date.format <- "%d/%m/%Y"
-
-chemin.dossier <- "~/Dev/altair/Tests/Sierg"
+source(file.path(chemin.dossier, "bibliotheque.fonctions.paie.R"))
 
 base.personnels.catégorie <- data.frame(NULL)
-
-source(file.path(chemin.dossier, "bibliotheque.fonctions.paie.R"), encoding="UTF-8-BOM")
 
 installer.paquets(knitr, plyr, ggplot2, assertthat, yaml)
 
@@ -41,8 +46,6 @@ knitr::opts_chunk$set(fig.retina=2, fig.width=7.5, echo=FALSE, warning=FALSE, me
 
 dir.create(chemin("Bases"), recursive=TRUE)
 
-sauvegarder.bases <- TRUE
-
 #'<p class="centered"><b>Exercices `r paste(début.période.sous.revue, "à", fin.période.sous.revue)` </b></p>  
 #'<p class="author">Fabrice Nicol</h1>
 #'
@@ -52,11 +55,7 @@ sauvegarder.bases <- TRUE
 
 nombre.exercices <- fin.période.sous.revue - début.période.sous.revue + 1
 
-étudier.variations <- TRUE
-
-étiquette.matricule <- "Matricule"
 étiquette.montant <- "Montant"
-
 seuil.troncature <- 99
 
 # Le format est jour/mois/année avec deux chiffres-séparateur-deux chiffres-séparateur-4 chiffres.
@@ -68,8 +67,6 @@ nom.bulletin.paie <- "Bulletins de paye"
 # Cette section pourra être modifiée en entrée dans d'autres contextes
 # Matricule, Codes, Avantages en nature 
 
-champ.détection.1 <- étiquette.matricule
-champ.détection.2 <- "Code"
 champ.détection.élus <- "Service"
 champ.nir <- "Nir"
 libellé.élus <- "Elus"
@@ -139,6 +136,8 @@ années.total.hors.élus  <-fin.période.sous.revue-(as.numeric(substr(as.charac
 #'# 1. Statistiques de population
 #'
 #'### 1.1 Ensemble des personnels non élus    
+
+par(cex.main = 0.8)
 
 hist(années.total.hors.élus,
      xlab=paste("Âge au 31 décembre",fin.période.sous.revue),
@@ -1001,6 +1000,7 @@ hist(Analyse.variations.synthèse.filtrée.moins.2.ans$variation.moyenne.rémun�
 )
 
 #'
+#'##            
 #'
 
 f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[
@@ -1010,7 +1010,6 @@ f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[
 Tableau.vertical(c("Année", "Rémunération nette totale <br>des agents en fonction moins de deux ans (k&euro;)"), 
                  début.période.sous.revue:fin.période.sous.revue, 
                  f)
-
 
 #'
 #'
