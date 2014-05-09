@@ -38,7 +38,7 @@ selectionner.cle.matricule <-  function(Base1, Base2)
 
 selectionner.cle.matricule.mois <-  function(Base1, Base2) 
   subset(Base1, 
-         select = c(champ.détection.1,"Mois",
+         select = c(champ.détection.1,"Mois","Année",
                   setdiff(names(Base1),names(Base2))))
 
 read.csv.skip <- function(x, encodage = encodage.entrée) 
@@ -93,9 +93,17 @@ Résumé <- function(x,y, align = 'r',...)
                  kable(S, row.names = FALSE, align = align)
                  
                }
-Tableau <- function(x,...)
+Tableau <- function(x, ...)
 {
-  T <- t(prettyNum(c(...), big.mark = " "))
+  V <- c(...)
+  if ("sep.milliers" %in% names(V))
+  {
+    sep.milliers <- V["sep.milliers"]
+    V$sep.milliers <- NULL
+  }  else
+  sep.milliers <- " "
+  
+  T <- t(prettyNum(V, big.mark = sep.milliers))
   T <- as.data.frame(T)
   names(T) <- x
   kable(T, row.names = FALSE, align = "c")
