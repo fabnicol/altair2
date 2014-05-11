@@ -1,0 +1,13 @@
+*Rhistory
+*docx
+*zip
+*.html
+*.old
+*.pdf
+*.docx
+.directory
+*.md
+figure/*
+*/unnamed-*.png
+*.Rmd
+.Rproj.user

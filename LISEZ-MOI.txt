@@ -1,0 +1,107 @@
+
+                        ALTAIR
+
+            Analyse des lignes de traitement, 
+   attributions indemnitaires et autres rémunérations
+
+
+Le présent logiciel produit automatiquement des statistiques et des tests
+de cohérence et de conformité comptable et réglementaire, à partir de bases
+de données issues de l'application Xémélios (Direction générale des finances 
+publiques, http://xemelios.org).
+
+Auteur
+------
+
+Logiciel écrit par Fabrice Nicol (fabrnicol@gmail.com)
+
+pour :
+
+Chambre régionale des comptes d'Auvergne, Rhône-Alpes
+
+
+Licence
+-------
+
+Logiciel placé provisoirement sous licence GPLv3 jointe, dans l'attente d'une 
+décision administrative sur ce point.
+
+L'auteur souhaite que la licence définitive soit de type GPL ou LGPL, à 
+l'instar du logiciel Xémélios.
+
+Licences auxiliaires
+--------------------
+
+Aucune dépendance sous licence propriétaire. 
+Voir les licences affichées par les installateurs mentionnés ci-après.
+
+L'installateur Windows a été compilé sous NSIS : http://nsis.sourceforge.net
+
+Distribution du code
+--------------------
+
+Le code est téléchargeable sur le site :
+
+  http://github.com/fabnicol/altair
+
+Cliquer sur "Download Zip" ou utiliser le gestionnaire de versions Git par
+clônage de l'entrepôt :
+
+git clone -b windows --single-branch http://github.com/fabnicol/altair.git
+
+L'ensemble du code et des données de démonstration étant anonymisé, un format 
+d'échange public est préconisé par l'auteur du code.
+
+Installation
+------------
+
+Voir fichier Installation.txt
+
+Exécution
+---------
+
+1. Lancer RStudio
+
+  Cliquer sur l'icône "R" bleue ou lancer rstudio.exe dans RStudio\bin
+
+2. Dans l'interface RStudio
+
+  Vérifier que l'onglet actif est bien le fichier 'exemple.R'. Si ce script
+  ne s'affiche pas il est possible de l'afficher en cliquant sur l'onglet 
+  Fichier de la fenêtre inférieure droite, sous le dossier Tests\Exemple.
+
+  Puis, appuyer sur l'icône "carnet de notes" à la droite de l'icône 
+  "baguette magique" et la gauche de 'Run', ou cliquer sur le menu
+  Code > Source, ou appluyer simultanément sur Ctrl + Majuscule + S
+
+3. Choisir le type de rapport (.html, .pdf, ou MS Word) dans le dialogue de
+   l'interface graphique.
+
+   Le rapport d'exécution est généré dans le dossier Tests\Exemple.
+
+   Les bases de données sont produites dans le sous-dossier Exemple\Bases.
+
+Exemple de production   
+---------------------
+
+Voir sous-dossier Tests\Exemple\Rapport ainsi que le dossier des bases
+.csv produites en sortie de l'application.
+
+Il est possible de visualiser sous Excel ou Wordpad les bases liées par
+des liens hypertextes dans les rapports (.pdf, .docx, .html)
+
+Historique
+----------
+
+ décembre 2012  Prototypage du script pour l'examen de gestion du SDIS
+                de l'Isère (rendu public en 2013)
+
+  janvier 2014  Développement du script, première application opérationnelle
+
+    avril 2014  Finalisation de la version 1.0 de la plateforme linux
+
+      mai 2014  Portage sous Windows, tests, installateur NSIS. Améliorations.
+
+   
+                
+      

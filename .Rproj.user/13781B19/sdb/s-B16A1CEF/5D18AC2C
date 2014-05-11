@@ -1,0 +1,16 @@
+{
+    "contents" : "\n#INSTRUCTIONS : exécuter une première fois le programme principal\n#Renseigner la catégorie de spersonnels en veillant à indiquer AUTRES pour le changements de catégorie\n#Renseigner la catégorie une seule fois par matricule\n#Exécuter le présent programme\n#Vérifier l'absence d'erreur\n\nsource(\"prologue.R\", encoding = \"UTF-8\") \n\n# programme principal \n\nsource(file.path(chemin.dossier, \"bibliotheque.fonctions.paie.R\"), encoding = \"UTF-8\")\nchemin.fichier.personnels <- \"Catégories des personnels.csv\"\nvaleurs.catégories <- c('A', 'B', 'C', 'AUTRES', 'ELU')\ninvisible(file.copy(chemin(chemin.fichier.personnels), chemin(\"Catégories des personnels.tmp.csv\"), overwrite = TRUE))\n\nfichier.personnels.tmp <- read.csv.skip(chemin.fichier.personnels)\nfichier.personnels <- unique(fichier.personnels.tmp[, étiquette.matricule])\n\ncolonne.catégories <- na.omit(fichier.personnels.tmp[fichier.personnels.tmp$Catégorie %in% valeurs.catégories, \"Catégorie\"])\n\nif (see_if(length(colonne.catégories) != length(fichier.personnels)))\n{\n  stop(\"Erreur d'appariement : il doit y avoir un matricule avec deux catégories différentes\")\n}\n\nfichier.personnels        <- data.frame(fichier.personnels, colonne.catégories)\nnames(fichier.personnels) <- c( étiquette.matricule, \"Catégorie\")\n\nmessage(\"Appariement réussi\")\n\nwrite.csv2(fichier.personnels, chemin(chemin.fichier.personnels), row.names = FALSE)\n",
+    "created" : 1399642322584.000,
+    "dirty" : false,
+    "encoding" : "ISO8859-1",
+    "folds" : "",
+    "hash" : "3905812973",
+    "id" : "5D18AC2C",
+    "lastKnownWriteTime" : 1399646579,
+    "path" : "C:/Users/fnicol/Dev/altair/Tests/Exemple/auxiliaire.fichier.personnels.R",
+    "project_path" : "Tests/Exemple/auxiliaire.fichier.personnels.R",
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

@@ -1,0 +1,10 @@
+{
+    "dialog-state" : {
+        "caseSensitive" : false,
+        "filePatterns" : [
+        ],
+        "path" : "C:/Users/fnicol/Dev/altair/Tests/Exemple",
+        "query" : "source",
+        "regex" : false
+    }
+}
