@@ -7,3 +7,6 @@ figure/*
 *.png
 *.Rmd
 *.xlsx
+Tests/Sierg/*
+Tests/SERGADI/*
+Tests/VLB/*
