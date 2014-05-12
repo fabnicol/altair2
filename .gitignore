@@ -11,3 +11,4 @@ figure/*
 */unnamed-*.png
 *.Rmd
 .Rproj.user
+*.csv
