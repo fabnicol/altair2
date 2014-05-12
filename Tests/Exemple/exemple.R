@@ -17,8 +17,8 @@
 
 sauvegarder.bases <- TRUE
 
-# Lorsque l'on n'a que une ou deux années, mettre étudier.variations à FALSE
-# Lorsque l'on n'étudie pas une base Xémélios, mettre étudier.tests.statutaires à FALSE
+# Lorsque l'on n'a que une ou deux annÃ©es, mettre Ã©tudier.variations Ã  FALSE
+# Lorsque l'on n'Ã©tudie pas une base XÃ©mÃ©lios, mettre Ã©tudier.tests.statutaires Ã  FALSE
 
 library(compiler)
 
@@ -35,7 +35,7 @@ JITlevel <- enableJIT(2)
 
 source(file.path(chemin.dossier, "bibliotheque.fonctions.paie.R"))
 
-base.personnels.catégorie <- data.frame(NULL)
+base.personnels.catÃ©gorie <- data.frame(NULL)
 
 installer.paquets(knitr, plyr, ggplot2, assertthat, yaml)
 
@@ -48,50 +48,50 @@ knitr::opts_chunk$set(fig.retina = 2, fig.width = 7.5, echo = FALSE, warning = F
 
 dir.create(chemin("Bases"), recursive = TRUE)
 
-#'<p class = "centered"><b>Exercices `r paste(début.période.sous.revue, "à", fin.période.sous.revue)` </b></p>  
+#'<p class = "centered"><b>Exercices `r paste(dÃ©but.pÃ©riode.sous.revue, "Ã ", fin.pÃ©riode.sous.revue)` </b></p>  
 #'<p class = "author">Fabrice Nicol</h1>
 #'
 #+ echo = FALSE
 #'`r format(Sys.Date(), "%a %d %b %Y")`  
 #'
 
-nombre.exercices <- fin.période.sous.revue - début.période.sous.revue + 1
+nombre.exercices <- fin.pÃ©riode.sous.revue - dÃ©but.pÃ©riode.sous.revue + 1
 
-étiquette.montant <- "Montant"
+Ã©tiquette.montant <- "Montant"
 seuil.troncature <- 99
 
-# Le format est jour/mois/année avec deux chiffres-séparateur-deux chiffres-séparateur-4 chiffres.
-#Le séparateur peut être changé en un autre en modifiant le "/" dans fate.format
+# Le format est jour/mois/annÃ©e avec deux chiffres-sÃ©parateur-deux chiffres-sÃ©parateur-4 chiffres.
+#Le sÃ©parateur peut Ãªtre changÃ© en un autre en modifiant le "/" dans fate.format
 
 nom.fichier.paie  <- "Lignes de paye"
 nom.bulletin.paie <- "Bulletins de paye"
 
-# Cette section pourra être modifiée en entrée dans d'autres contextes
+# Cette section pourra Ãªtre modifiÃ©e en entrÃ©e dans d'autres contextes
 # Matricule, Codes
 
-champ.détection.élus <- "Service"
+champ.dÃ©tection.Ã©lus <- "Service"
 champ.nir <- "Nir"
-libellé.élus <- "Elus"
+libellÃ©.Ã©lus <- "Elus"
    
 codes.paiement          <- "codes.csv"
 
 code.traitement <- 1010
 
-fichier.personnels <- "Catégories des personnels"
+fichier.personnels <- "CatÃ©gories des personnels"
 nom.fichier.personnels <- paste0(fichier.personnels, ".csv")
 fichier.personnels.existe <- file.exists(chemin(nom.fichier.personnels))
 if (fichier.personnels.existe)
-  base.personnels.catégorie = read.csv.skip(nom.fichier.personnels)
+  base.personnels.catÃ©gorie = read.csv.skip(nom.fichier.personnels)
 
 #/* Lignes de paie
-# On peut lire jusqu'à 10 fichiers csv qui seront générés au format
+# On peut lire jusqu'Ã  10 fichiers csv qui seront gÃ©nÃ©rÃ©s au format
 #  "chemin dossier + paies-Bulletins de paye-j.csv" */
 
-lignes.paie <- outer(début.période.sous.revue:fin.période.sous.revue, 1:10, paste, nom.fichier.paie, "csv", sep=".")
+lignes.paie <- outer(dÃ©but.pÃ©riode.sous.revue:fin.pÃ©riode.sous.revue, 1:10, paste, nom.fichier.paie, "csv", sep=".")
 
 #/* Bulletins de paie */
 
-bulletins.paie <- paste(début.période.sous.revue:fin.période.sous.revue, nom.bulletin.paie, "csv", sep=".")
+bulletins.paie <- paste(dÃ©but.pÃ©riode.sous.revue:fin.pÃ©riode.sous.revue, nom.bulletin.paie, "csv", sep=".")
 
 codes.NBI <- c("1012", "101B", "101M", "4652", "4672")
 
@@ -108,124 +108,124 @@ Lignes.paie<-Read.csv(lignes.paie)
 
 Bulletins.paie <- Read.csv(bulletins.paie)
 
-# suppression des colonnes Nom Prénom redondantes
+# suppression des colonnes Nom PrÃ©nom redondantes
 
 Bulletins.paie <-  selectionner.cle.matricule.mois(Bulletins.paie, Lignes.paie)
 
 codes.paiement <- read.csv.skip(codes.paiement)
 
 
-if (!setequal(intersect(names(Lignes.paie), names(Bulletins.paie)), c("Mois", "Année", étiquette.matricule)))
-  stop("L'appariement ne peut se faire par les clés Matricule et Mois")
+if (!setequal(intersect(names(Lignes.paie), names(Bulletins.paie)), c("Mois", "AnnÃ©e", Ã©tiquette.matricule)))
+  stop("L'appariement ne peut se faire par les clÃ©s Matricule et Mois")
 
-# Alternative en cas de difficulté :
+# Alternative en cas de difficultÃ© :
 #
-# Bulletins.paie.Lignes.paie <- do.call(rbind, lapply(début.période.sous.revue:fin.période.sous.revue,
+# Bulletins.paie.Lignes.paie <- do.call(rbind, lapply(dÃ©but.pÃ©riode.sous.revue:fin.pÃ©riode.sous.revue,
 #                                                     function(x) 
-#                                                        merge(Bulletins.paie[Bulletins.paie$Année == x, ],
-#                                                              Lignes.paie[Lignes.paie$Année == x, ], 
-#                                                              by=c(étiquette.matricule, "Mois"))))
+#                                                        merge(Bulletins.paie[Bulletins.paie$AnnÃ©e == x, ],
+#                                                              Lignes.paie[Lignes.paie$AnnÃ©e == x, ], 
+#                                                              by=c(Ã©tiquette.matricule, "Mois"))))
 
 Bulletins.paie.Lignes.paie <- merge(Bulletins.paie, Lignes.paie)
 
-Bulletins.paie.dernier.mois <- Bulletins.paie[Bulletins.paie$Année == fin.période.sous.revue & Bulletins.paie$Mois == 12, ]
+Bulletins.paie.dernier.mois <- Bulletins.paie[Bulletins.paie$AnnÃ©e == fin.pÃ©riode.sous.revue & Bulletins.paie$Mois == 12, ]
 
-liste.matricules.fonctionnaires <- unique(Bulletins.paie.dernier.mois[Bulletins.paie.dernier.mois$Statut %in% c("TITULAIRE", "STAGIAIRE"), étiquette.matricule])
+liste.matricules.fonctionnaires <- unique(Bulletins.paie.dernier.mois[Bulletins.paie.dernier.mois$Statut %in% c("TITULAIRE", "STAGIAIRE"), Ã©tiquette.matricule])
 
-liste.matricules.élus   <- unique(Bulletins.paie.dernier.mois[Bulletins.paie.dernier.mois[champ.détection.élus] == libellé.élus, étiquette.matricule])
+liste.matricules.Ã©lus   <- unique(Bulletins.paie.dernier.mois[Bulletins.paie.dernier.mois[champ.dÃ©tection.Ã©lus] == libellÃ©.Ã©lus, Ã©tiquette.matricule])
 
-Bulletins.paie.nir.total.hors.élus <- Bulletins.paie.dernier.mois[ ! Bulletins.paie.dernier.mois$Matricule %in% liste.matricules.élus, c(étiquette.matricule,champ.nir)]
+Bulletins.paie.nir.total.hors.Ã©lus <- Bulletins.paie.dernier.mois[ ! Bulletins.paie.dernier.mois$Matricule %in% liste.matricules.Ã©lus, c(Ã©tiquette.matricule,champ.nir)]
 
-Bulletins.paie.nir.fonctionnaires  <- Bulletins.paie.dernier.mois[Bulletins.paie.dernier.mois$Matricule %in% liste.matricules.fonctionnaires, c(étiquette.matricule, champ.nir)]
+Bulletins.paie.nir.fonctionnaires  <- Bulletins.paie.dernier.mois[Bulletins.paie.dernier.mois$Matricule %in% liste.matricules.fonctionnaires, c(Ã©tiquette.matricule, champ.nir)]
 
-# Age au 31 décembre de l'exercice dernier.exerciceal de la période sous revue
+# Age au 31 dÃ©cembre de l'exercice dernier.exerciceal de la pÃ©riode sous revue
 
-années.fonctionnaires   <-fin.période.sous.revue-(as.numeric(substr(as.character(Bulletins.paie.nir.fonctionnaires[,champ.nir]), 2, 3)) + 1900)
-années.total.hors.élus  <-fin.période.sous.revue-(as.numeric(substr(as.character(Bulletins.paie.nir.total.hors.élus[,champ.nir]), 2, 3)) + 1900)
+annÃ©es.fonctionnaires   <-fin.pÃ©riode.sous.revue-(as.numeric(substr(as.character(Bulletins.paie.nir.fonctionnaires[,champ.nir]), 2, 3)) + 1900)
+annÃ©es.total.hors.Ã©lus  <-fin.pÃ©riode.sous.revue-(as.numeric(substr(as.character(Bulletins.paie.nir.total.hors.Ã©lus[,champ.nir]), 2, 3)) + 1900)
 
-########### Démographie ########################
+########### DÃ©mographie ########################
 
 #'# 1. Statistiques de population
 #'
-#'### 1.1 Ensemble des personnels non élus    
+#'### 1.1 Ensemble des personnels non Ã©lus    
 
 
-hist(années.total.hors.élus,
-     xlab = paste("Âge au 31 décembre",fin.période.sous.revue),
+hist(annÃ©es.total.hors.Ã©lus,
+     xlab = paste("Ã‚ge au 31 dÃ©cembre",fin.pÃ©riode.sous.revue),
      xlim = c(18, 75),
      ylab = "Effectif",
-     main = "Pyramide des âges",
+     main = "Pyramide des Ã¢ges",
      col = "blue",
      nclass = 50)
 
 #'
-#'[Lien vers la base des âges](Bases/Bulletins.paie.nir.total.hors.élus.csv)
+#'[Lien vers la base des Ã¢ges](Bases/Bulletins.paie.nir.total.hors.Ã©lus.csv)
 #'
 
-Résumé(paste0("Âge des personnels <br>au 31/12/",fin.période.sous.revue), années.total.hors.élus, align = 'c')
+RÃ©sumÃ©(paste0("Ã‚ge des personnels <br>au 31/12/",fin.pÃ©riode.sous.revue), annÃ©es.total.hors.Ã©lus, align = 'c')
 
-#'Effectif total: `r length(années.total.hors.élus)`  
+#'Effectif total: `r length(annÃ©es.total.hors.Ã©lus)`  
 #'
 #'######      <br>
 #'
 #'
 #'### 1.2 Ensemble des fonctionnaires stagiaires et titulaires    
 
-hist(années.fonctionnaires,
-     xlab = paste("Âge au 31 décembre",fin.période.sous.revue),
+hist(annÃ©es.fonctionnaires,
+     xlab = paste("Ã‚ge au 31 dÃ©cembre",fin.pÃ©riode.sous.revue),
      xlim = c(18,68),
      ylab = "Effectif",
-     main = "Pyramide des âges des fonctionnaires",
+     main = "Pyramide des Ã¢ges des fonctionnaires",
      col = "navy",
      nclass = 50)
 
 #'
-#'[Lien vers la base des âges](Bases/Bulletins.paie.nir.fonctionnaires.csv)
+#'[Lien vers la base des Ã¢ges](Bases/Bulletins.paie.nir.fonctionnaires.csv)
 #'
 
-Résumé(paste0("Âge des personnels <br>au 31/12/",fin.période.sous.revue), années.fonctionnaires, align = 'c')
+RÃ©sumÃ©(paste0("Ã‚ge des personnels <br>au 31/12/",fin.pÃ©riode.sous.revue), annÃ©es.fonctionnaires, align = 'c')
 
 #'   
-#'**Effectif total: `r length(années.fonctionnaires)`**     
+#'**Effectif total: `r length(annÃ©es.fonctionnaires)`**     
 #'
   
 Analyse.variations.par.exercice <- ddply(Bulletins.paie, 
-             c(étiquette.matricule, étiquette.année),
+             c(Ã©tiquette.matricule, Ã©tiquette.annÃ©e),
              summarise,
-             Montant.net = sum(Net.à.Payer),
-             Statut = Statut[length(Net.à.Payer)],
-             mois.entrée = ifelse((minimum <- min(Mois)) != Inf, minimum, 0),
+             Montant.net = sum(Net.Ã .Payer),
+             Statut = Statut[length(Net.Ã .Payer)],
+             mois.entrÃ©e = ifelse((minimum <- min(Mois)) != Inf, minimum, 0),
              mois.sortie = ifelse((maximum <- max(Mois)) != -Inf, maximum, 0),
-             nb.jours = calcul.nb.jours.mois(mois.entrée[1], mois.sortie[1], Année[1]))
+             nb.jours = calcul.nb.jours.mois(mois.entrÃ©e[1], mois.sortie[1], AnnÃ©e[1]))
 
 # Analyse.variations.par.exercice2 <- ddply(Analyse.variations.par.exercice, 
-#               étiquette.matricule,
+#               Ã©tiquette.matricule,
 #               summarise,
-#               nb.exercices = length(Année))
+#               nb.exercices = length(AnnÃ©e))
 # 
 # Analyse.variations.par.exercice <- merge(Analyse.variations.par.exercice, Analyse.variations.par.exercice2)
 
-Analyse.variations.synthèse <- ddply(Analyse.variations.par.exercice,
+Analyse.variations.synthÃ¨se <- ddply(Analyse.variations.par.exercice,
                             .(Matricule),
                             summarise,
-                            Nexercices = length(Année),
-                            nb.jours.exercice.début = nb.jours[1],
+                            Nexercices = length(AnnÃ©e),
+                            nb.jours.exercice.dÃ©but = nb.jours[1],
                             nb.jours.exercice.sortie = nb.jours[Nexercices],
                             total.jours = sum(nb.jours),
-                            rémunération.début = ifelse(nb.jours.exercice.début == 0,
+                            rÃ©munÃ©ration.dÃ©but = ifelse(nb.jours.exercice.dÃ©but == 0,
                                                         0,
-                                                        Montant.net[1]/nb.jours.exercice.début*365),
-                            rémunération.sortie = ifelse(nb.jours.exercice.sortie == 0,
+                                                        Montant.net[1]/nb.jours.exercice.dÃ©but*365),
+                            rÃ©munÃ©ration.sortie = ifelse(nb.jours.exercice.sortie == 0,
                                                          0,
                                                          Montant.net[Nexercices]/nb.jours.exercice.sortie*365),
-                            moyenne.rémunération.annuelle.sur.période = ifelse(total.jours == 0, 0, sum(Montant.net)*365/total.jours),
-                            variation.rémunération.jour = calcul.variation(rémunération.début, 
-                                                                           rémunération.sortie,
-                                                                           nb.jours.exercice.début,
+                            moyenne.rÃ©munÃ©ration.annuelle.sur.pÃ©riode = ifelse(total.jours == 0, 0, sum(Montant.net)*365/total.jours),
+                            variation.rÃ©munÃ©ration.jour = calcul.variation(rÃ©munÃ©ration.dÃ©but, 
+                                                                           rÃ©munÃ©ration.sortie,
+                                                                           nb.jours.exercice.dÃ©but,
                                                                            nb.jours.exercice.sortie,
                                                                            Nexercices),
-                            variation.moyenne.rémunération.jour = ifelse(total.jours == 0, 0,
-                              ( ( 1 + variation.rémunération.jour / 100 ) ^ (365 / total.jours) - 1) * 100),
+                            variation.moyenne.rÃ©munÃ©ration.jour = ifelse(total.jours == 0, 0,
+                              ( ( 1 + variation.rÃ©munÃ©ration.jour / 100 ) ^ (365 / total.jours) - 1) * 100),
                             plus.2.ans = (total.jours >= 2*365),
                             moins.2.ans = (total.jours < 2*365),
                             moins.1.an  = (total.jours < 365),
@@ -233,32 +233,32 @@ Analyse.variations.synthèse <- ddply(Analyse.variations.par.exercice,
                             statut = Statut[1])
 
 ####  On pourrait aussi plus simplement poser  ###
-#  que plus.deux.ans soit défini comme length(Année) >= 2.
-#  On préfère une définition à partir de total.jours pour 
-#  avoir une définition cohérente sur toutes les durées, y.c infra-annuelles
+#  que plus.deux.ans soit dÃ©fini comme length(AnnÃ©e) >= 2.
+#  On prÃ©fÃ¨re une dÃ©finition Ã  partir de total.jours pour 
+#  avoir une dÃ©finition cohÃ©rente sur toutes les durÃ©es, y.c infra-annuelles
 
 attach(Analyse.variations.par.exercice, warn = FALSE)
 
 Analyse.variations.par.exercice <- na.omit(Analyse.variations.par.exercice[ nb.jours[1] > seuil.troncature
-                                                                 &  nb.jours[length(Année)] > seuil.troncature, ])
+                                                                 &  nb.jours[length(AnnÃ©e)] > seuil.troncature, ])
 
 Analyse.variations.par.exercice <- mutate(Analyse.variations.par.exercice,
                                           plus.2.ans = Matricule
                                                           %in%
-                                                       Analyse.variations.synthèse[Analyse.variations.synthèse$plus.2.ans, étiquette.matricule])
+                                                       Analyse.variations.synthÃ¨se[Analyse.variations.synthÃ¨se$plus.2.ans, Ã©tiquette.matricule])
 
 
 detach(Analyse.variations.par.exercice)
 
-attach(Analyse.variations.synthèse, warn.conflicts = FALSE)
+attach(Analyse.variations.synthÃ¨se, warn.conflicts = FALSE)
 
 #'
 #'<!-- BREAK -->
 #'
 #'
-#'### 1.3 Effectifs des personnels par durée de service
+#'### 1.3 Effectifs des personnels par durÃ©e de service
 #'
-#'**Personnels en fonction des exercices `r début.période.sous.revue` à `r fin.période.sous.revue` inclus :**  
+#'**Personnels en fonction des exercices `r dÃ©but.pÃ©riode.sous.revue` Ã  `r fin.pÃ©riode.sous.revue` inclus :**  
 #'
 
 Tableau(c("Plus de 2 ans",
@@ -272,14 +272,14 @@ Tableau(c("Plus de 2 ans",
 
 #'
 
-detach(Analyse.variations.synthèse)
+detach(Analyse.variations.synthÃ¨se)
 
-qplot(factor(Année), 
+qplot(factor(AnnÃ©e), 
       data = Analyse.variations.par.exercice,
       geom = "bar",
       fill = factor(!plus.2.ans),
-      main = paste("Evolutions entre", début.période.sous.revue,"et", fin.période.sous.revue),
-      xlab = étiquette.année,
+      main = paste("Evolutions entre", dÃ©but.pÃ©riode.sous.revue,"et", fin.pÃ©riode.sous.revue),
+      xlab = Ã©tiquette.annÃ©e,
       ylab = "Effectif",
       asp = 4) + 
   scale_fill_discrete(name = "Personnels en fonction",
@@ -288,90 +288,90 @@ qplot(factor(Année),
   
 #'
 #'**Nota:**  
-#'Personnels en place : ayant servi au moins 730 jours pendant la période.  
-#'Toutes les durées de service sont calculées en multiples de 365 jours.  
-#'Dans les statistiques de cette section, les élus ne sont pas pris en compte.
+#'Personnels en place : ayant servi au moins 730 jours pendant la pÃ©riode.  
+#'Toutes les durÃ©es de service sont calculÃ©es en multiples de 365 jours.  
+#'Dans les statistiques de cette section, les Ã©lus ne sont pas pris en compte.
 #'
 
-# fusion matricule | avantage | catégorie par Matricule
-# peut aisément être modifié ainsi
+# fusion matricule | avantage | catÃ©gorie par Matricule
+# peut aisÃ©ment Ãªtre modifiÃ© ainsi
 
 
 Bulletins.paie.Lignes.paie <- mutate(Bulletins.paie.Lignes.paie,
                                       montant.traitement.indiciaire 
-                                      = Montant*(Code %in% codes.paiement[codes.paiement$Type.rémunération 
+                                      = Montant*(Code %in% codes.paiement[codes.paiement$Type.rÃ©munÃ©ration 
                                                                           == "TRAITEMENT","Code.rubrique"]),
                                       montant.primes 
-                                      = Montant*(Code %in% codes.paiement[codes.paiement$Type.rémunération 
+                                      = Montant*(Code %in% codes.paiement[codes.paiement$Type.rÃ©munÃ©ration 
                                                                           == "INDEMNITAIRE.OU.CONTRACTUEL","Code.rubrique"]),
-                                      montant.autres.rémunérations 
-                                      = Montant*(Code %in% codes.paiement[codes.paiement$Type.rémunération
+                                      montant.autres.rÃ©munÃ©rations 
+                                      = Montant*(Code %in% codes.paiement[codes.paiement$Type.rÃ©munÃ©ration
                                                                           == "AUTRES","Code.rubrique"]),
-                                      montant.indemnité.élu 
-                                      = Montant*(Code %in% codes.paiement[codes.paiement$Type.rémunération
+                                      montant.indemnitÃ©.Ã©lu 
+                                      = Montant*(Code %in% codes.paiement[codes.paiement$Type.rÃ©munÃ©ration
                                                                           == "ELU","Code.rubrique"]))
 
-Analyse.rémunérations <- ddply(Bulletins.paie.Lignes.paie,
-                              .(Matricule, Année),
+Analyse.rÃ©munÃ©rations <- ddply(Bulletins.paie.Lignes.paie,
+                              .(Matricule, AnnÃ©e),
                               summarise,
                               Statut = Statut[1],
                               Service = Service[1],
                               traitement.indiciaire = sum(montant.traitement.indiciaire),
-                              rémunération.contractuelle.ou.indemnitaire = sum(montant.primes),
-                              indemnités.élu                             = sum(montant.indemnité.élu),
-                              autres.rémunérations                       = sum(montant.autres.rémunérations),
-                              total.rémunérations                        = traitement.indiciaire 
-                              + rémunération.contractuelle.ou.indemnitaire 
-                              + autres.rémunérations,
-                              part.rémunération.contractuelle.ou.indemnitaire = 
-                                ifelse(traitement.indiciaire + rémunération.contractuelle.ou.indemnitaire == 0, 0,
-                                       rémunération.contractuelle.ou.indemnitaire /
-                                         (traitement.indiciaire + rémunération.contractuelle.ou.indemnitaire)*100))
+                              rÃ©munÃ©ration.contractuelle.ou.indemnitaire = sum(montant.primes),
+                              indemnitÃ©s.Ã©lu                             = sum(montant.indemnitÃ©.Ã©lu),
+                              autres.rÃ©munÃ©rations                       = sum(montant.autres.rÃ©munÃ©rations),
+                              total.rÃ©munÃ©rations                        = traitement.indiciaire 
+                              + rÃ©munÃ©ration.contractuelle.ou.indemnitaire 
+                              + autres.rÃ©munÃ©rations,
+                              part.rÃ©munÃ©ration.contractuelle.ou.indemnitaire = 
+                                ifelse(traitement.indiciaire + rÃ©munÃ©ration.contractuelle.ou.indemnitaire == 0, 0,
+                                       rÃ©munÃ©ration.contractuelle.ou.indemnitaire /
+                                         (traitement.indiciaire + rÃ©munÃ©ration.contractuelle.ou.indemnitaire)*100))
 
 
-# on ne compte pas les élus dans le total (voir 5.6)
+# on ne compte pas les Ã©lus dans le total (voir 5.6)
 
-année <- début.période.sous.revue
+annÃ©e <- dÃ©but.pÃ©riode.sous.revue
 
-colonnes.sélectionnées <- c("traitement.indiciaire",
-                            "rémunération.contractuelle.ou.indemnitaire",
-                            "autres.rémunérations", 
-                            "total.rémunérations",
-                            "part.rémunération.contractuelle.ou.indemnitaire",
-                            étiquette.matricule)
-
-
-
-# pour année début #
+colonnes.sÃ©lectionnÃ©es <- c("traitement.indiciaire",
+                            "rÃ©munÃ©ration.contractuelle.ou.indemnitaire",
+                            "autres.rÃ©munÃ©rations", 
+                            "total.rÃ©munÃ©rations",
+                            "part.rÃ©munÃ©ration.contractuelle.ou.indemnitaire",
+                            Ã©tiquette.matricule)
 
 
-###########  Analyse des rémunérations  début de période###################
-#  ATTENTION : les années doivent être SUCCESSIVES                        #
+
+# pour annÃ©e dÃ©but #
 
 
-Analyse.rémunérations.premier.exercice <- Analyse.rémunérations[Analyse.rémunérations$Année == année, ]
+###########  Analyse des rÃ©munÃ©rations  dÃ©but de pÃ©riode###################
+#  ATTENTION : les annÃ©es doivent Ãªtre SUCCESSIVES                        #
+
+
+Analyse.rÃ©munÃ©rations.premier.exercice <- Analyse.rÃ©munÃ©rations[Analyse.rÃ©munÃ©rations$AnnÃ©e == annÃ©e, ]
   
 if (fichier.personnels.existe)
 {
-  Analyse.rémunérations.premier.exercice <- merge(Analyse.rémunérations.premier.exercice, base.personnels.catégorie, by = étiquette.matricule, all = FALSE)
-  colonnes.sélectionnées <- c(colonnes.sélectionnées, "Catégorie") 
+  Analyse.rÃ©munÃ©rations.premier.exercice <- merge(Analyse.rÃ©munÃ©rations.premier.exercice, base.personnels.catÃ©gorie, by = Ã©tiquette.matricule, all = FALSE)
+  colonnes.sÃ©lectionnÃ©es <- c(colonnes.sÃ©lectionnÃ©es, "CatÃ©gorie") 
 }
 
-attach(Analyse.rémunérations.premier.exercice, warn.conflicts = FALSE)
+attach(Analyse.rÃ©munÃ©rations.premier.exercice, warn.conflicts = FALSE)
 
 ########### Analyse statique premier exercice ########################
-#'# 2. Rémunérations brutes : analyse pour l'exercice `r année` 
+#'# 2. RÃ©munÃ©rations brutes : analyse pour l'exercice `r annÃ©e` 
 #'
 #'## 2.1 Statistiques de position globales (tous statuts)       
 #'
-#/* La moyenne est tirée vers le haut par les outlyers */
+#/* La moyenne est tirÃ©e vers le haut par les outlyers */
 
-masse.indemnitaire            <- sum(rémunération.contractuelle.ou.indemnitaire)
+masse.indemnitaire            <- sum(rÃ©munÃ©ration.contractuelle.ou.indemnitaire)
 masse.indiciaire              <- sum(traitement.indiciaire)
-masse.rémunérations.brutes    <- sum(total.rémunérations)
+masse.rÃ©munÃ©rations.brutes    <- sum(total.rÃ©munÃ©rations)
 ratio.global.masse.indemnitaire  <- masse.indemnitaire/(masse.indiciaire+masse.indemnitaire)*100
 
-#'### Cumuls des rémunérations brutes pour l'exercice `r année`
+#'### Cumuls des rÃ©munÃ©rations brutes pour l'exercice `r annÃ©e`
 #'
 Tableau(c("Masse indiciaire", "Masse indemnitaire"),
         masse.indiciaire, masse.indemnitaire)
@@ -380,52 +380,52 @@ Tableau(c("Masse indiciaire", "Masse indemnitaire"),
 #'<!-- BREAK -->
 #'
 
-Tableau(c("Masse des rémunérations brutes", "Part de la masse indemnitaire"),
-        masse.rémunérations.brutes, ratio.global.masse.indemnitaire)
+Tableau(c("Masse des rÃ©munÃ©rations brutes", "Part de la masse indemnitaire"),
+        masse.rÃ©munÃ©rations.brutes, ratio.global.masse.indemnitaire)
 
 #'
-#'Cumuls réalisés sur les lignes de paie. Les indemnités d'élu ne sont pas prises en compte.  
+#'Cumuls rÃ©alisÃ©s sur les lignes de paie. Les indemnitÃ©s d'Ã©lu ne sont pas prises en compte.  
 #'
-somme.brut.non.élu  <- sum(Bulletins.paie[Bulletins.paie$Année == année & Bulletins.paie$Service != "Elus", "Brut"])
-delta  <- somme.brut.non.élu - masse.rémunérations.brutes               
+somme.brut.non.Ã©lu  <- sum(Bulletins.paie[Bulletins.paie$AnnÃ©e == annÃ©e & Bulletins.paie$Service != "Elus", "Brut"])
+delta  <- somme.brut.non.Ã©lu - masse.rÃ©munÃ©rations.brutes               
 
-#'**Tests de cohérence**  
+#'**Tests de cohÃ©rence**  
 #'
 # A ce jour la version windows ne supporte ni ISO-88
-#'Somme des rémunérations brutes versées aux personnels (non élus) :   
+#'Somme des rÃ©munÃ©rations brutes versÃ©es aux personnels (non Ã©lus) :   
 #'
-Tableau.vertical2(c("Agrégats", "euros"),
-                 c("Bulletins de paie (euros)",  "Lignes de paie (euros)", "Différence (euros)"),
-                 c(somme.brut.non.élu, masse.rémunérations.brutes, delta))
+Tableau.vertical2(c("AgrÃ©gats", "euros"),
+                 c("Bulletins de paie (euros)",  "Lignes de paie (euros)", "DiffÃ©rence (euros)"),
+                 c(somme.brut.non.Ã©lu, masse.rÃ©munÃ©rations.brutes, delta))
 
 #'
-somme.brut.globale  <- sum(Bulletins.paie[Bulletins.paie$Année == année, "Brut"])
-total.rémunérations.élu.compris <-  masse.rémunérations.brutes + sum(indemnités.élu)
-delta2 <- somme.brut.globale - total.rémunérations.élu.compris
+somme.brut.globale  <- sum(Bulletins.paie[Bulletins.paie$AnnÃ©e == annÃ©e, "Brut"])
+total.rÃ©munÃ©rations.Ã©lu.compris <-  masse.rÃ©munÃ©rations.brutes + sum(indemnitÃ©s.Ã©lu)
+delta2 <- somme.brut.globale - total.rÃ©munÃ©rations.Ã©lu.compris
 #'     
-#'à comparer aux soldes des comptes 641 et 648 du compte de gestion.   
+#'Ã  comparer aux soldes des comptes 641 et 648 du compte de gestion.   
 #'
-#'Somme des rémunérations brutes versées (élus compris) :   
+#'Somme des rÃ©munÃ©rations brutes versÃ©es (Ã©lus compris) :   
 #'
-Tableau.vertical2(c("Agrégats", "euros"),
-                 c("Bulletins de paie (euros)",  "Lignes de paie (euros)", "Différence (euros)"),
-                 c(somme.brut.globale, total.rémunérations.élu.compris, delta2))
+Tableau.vertical2(c("AgrÃ©gats", "euros"),
+                 c("Bulletins de paie (euros)",  "Lignes de paie (euros)", "DiffÃ©rence (euros)"),
+                 c(somme.brut.globale, total.rÃ©munÃ©rations.Ã©lu.compris, delta2))
 
 #'  
-#'à comparer aux soldes des comptes 641, 648 et 653 du compte de gestion   
+#'Ã  comparer aux soldes des comptes 641, 648 et 653 du compte de gestion   
 #'
 
 
-df <- data.frame(masse.indemnitaire, masse.indiciaire, masse.rémunérations.brutes, 
-                 ratio.global.masse.indemnitaire, somme.brut.non.élu, somme.brut.globale, total.rémunérations.élu.compris)
+df <- data.frame(masse.indemnitaire, masse.indiciaire, masse.rÃ©munÃ©rations.brutes, 
+                 ratio.global.masse.indemnitaire, somme.brut.non.Ã©lu, somme.brut.globale, total.rÃ©munÃ©rations.Ã©lu.compris)
 
 
-Sauv.base(chemin("Bases"), "df", paste0("Masses.", année))
+Sauv.base(chemin("Bases"), "df", paste0("Masses.", annÃ©e))
 
 #'
-#'[Lien vers la base de données](Bases/`r paste0("Masses.", année, ".csv")`)    
+#'[Lien vers la base de donnÃ©es](Bases/`r paste0("Masses.", annÃ©e, ".csv")`)    
 #'        
-#'Les résultats sont exprimés en euros.  
+#'Les rÃ©sultats sont exprimÃ©s en euros.  
 #'  
 
 #'
@@ -434,149 +434,149 @@ Sauv.base(chemin("Bases"), "df", paste0("Masses.", année))
 
 filtre.fonctionnaire <- function (X) X[ Statut %in% c("TITULAIRE", "STAGIAIRE") & X >0 ]
 
-hist(filtre.fonctionnaire(total.rémunérations)/1000,
-     xlab = "En milliers d'euros hors politique familiale\nindemnités journalières et remboursements",
+hist(filtre.fonctionnaire(total.rÃ©munÃ©rations)/1000,
+     xlab = "En milliers d'euros hors politique familiale\nindemnitÃ©s journaliÃ¨res et remboursements",
      ylab = "Effectif",
      xlim = c(0, 120),
-     main = paste("Rémunération annuelle des fonctionnaires en", année),
+     main = paste("RÃ©munÃ©ration annuelle des fonctionnaires en", annÃ©e),
      col = "blue",
      nclass = 50)
 
 #'    
 
-hist(filtre.fonctionnaire(rémunération.contractuelle.ou.indemnitaire)/1000,
-     xlab = "En milliers d'euros hors politique familiale\nindemnités journalières et remboursements",
+hist(filtre.fonctionnaire(rÃ©munÃ©ration.contractuelle.ou.indemnitaire)/1000,
+     xlab = "En milliers d'euros hors politique familiale\nindemnitÃ©s journaliÃ¨res et remboursements",
      ylab = "Effectif",
      xlim = c(0, 70),
-     main = paste("Rémunération indemnitaire annuelle des fonctionnaires en", année),
+     main = paste("RÃ©munÃ©ration indemnitaire annuelle des fonctionnaires en", annÃ©e),
      col = "blue",
      nclass = 50
 )
 
-hist(filtre.fonctionnaire(part.rémunération.contractuelle.ou.indemnitaire),
-     xlab = "Part des indemnités dans la rémunération en %\n hors politique familiale, indemnités journalières et remboursements",
+hist(filtre.fonctionnaire(part.rÃ©munÃ©ration.contractuelle.ou.indemnitaire),
+     xlab = "Part des indemnitÃ©s dans la rÃ©munÃ©ration en %\n hors politique familiale, indemnitÃ©s journaliÃ¨res et remboursements",
      ylab = "Effectif",
-     main = paste("Part indemnitaire de la rémunération annuelle des fonctionnaires en", année),
+     main = paste("Part indemnitaire de la rÃ©munÃ©ration annuelle des fonctionnaires en", annÃ©e),
      xlim = c(0,60),     
      col = "blue",
      nclass = 30)
 
 #'   
-#'### Statistiques de position pour l'exercice `r année`  
+#'### Statistiques de position pour l'exercice `r annÃ©e`  
 #'
 
-AR <- Analyse.rémunérations.premier.exercice[Statut %in% c("TITULAIRE", "STAGIAIRE"), colonnes.sélectionnées]
+AR <- Analyse.rÃ©munÃ©rations.premier.exercice[Statut %in% c("TITULAIRE", "STAGIAIRE"), colonnes.sÃ©lectionnÃ©es]
 
-Résumé(c("Traitement indiciaire",
-         étiquette.rém.indemn,
-         "Autres rémunérations"),  AR[1:3])
+RÃ©sumÃ©(c("Traitement indiciaire",
+         Ã©tiquette.rÃ©m.indemn,
+         "Autres rÃ©munÃ©rations"),  AR[1:3])
 
 #'    
 #'
-Résumé(c("Total rémunérations", "Part de la rémunération contractuelle ou indemnitaire"), AR[4:5])
+RÃ©sumÃ©(c("Total rÃ©munÃ©rations", "Part de la rÃ©munÃ©ration contractuelle ou indemnitaire"), AR[4:5])
 
 #'     
 #'**Effectif : `r nrow(AR)`**     
 #'
-#'**Tests de cohérence**  
+#'**Tests de cohÃ©rence**  
 
-somme.brut.fonct  <- sum(Bulletins.paie[Bulletins.paie$Année == année & 
+somme.brut.fonct  <- sum(Bulletins.paie[Bulletins.paie$AnnÃ©e == annÃ©e & 
                                                          Bulletins.paie$Statut %in% c("TITULAIRE", "STAGIAIRE"),
                                                          "Brut"])
 
-total.rémunérations.fonct <- sum(AR[4])
+total.rÃ©munÃ©rations.fonct <- sum(AR[4])
 
-delta <- somme.brut.fonct - total.rémunérations.fonct
+delta <- somme.brut.fonct - total.rÃ©munÃ©rations.fonct
 
-#'Somme des rémunérations brutes versées aux personnels titulaires et stagiaires :   
+#'Somme des rÃ©munÃ©rations brutes versÃ©es aux personnels titulaires et stagiaires :   
 #'
 
-Tableau.vertical2(c("Agrégats", "euros"),
-                 c("Bulletins de paie (euros)",  "Lignes de paie (euros)", "Différence (euros)"),
-                 c(somme.brut.fonct,  total.rémunérations.fonct, delta)) 
+Tableau.vertical2(c("AgrÃ©gats", "euros"),
+                 c("Bulletins de paie (euros)",  "Lignes de paie (euros)", "DiffÃ©rence (euros)"),
+                 c(somme.brut.fonct,  total.rÃ©munÃ©rations.fonct, delta)) 
                  
 #' 
 #'A comparer aux soldes des comptes 6411, 6419 et 648 du conmpte de gestion.     
 #'
 
-#'### Statistiques de position par catégorie pour l'exercice `r année` 
+#'### Statistiques de position par catÃ©gorie pour l'exercice `r annÃ©e` 
 #'
 
-ARA <- AR[AR$Catégorie == 'A', ]
-ARB <- AR[AR$Catégorie == 'B', ]
-ARC <- AR[AR$Catégorie == 'C', ]
+ARA <- AR[AR$CatÃ©gorie == 'A', ]
+ARB <- AR[AR$CatÃ©gorie == 'B', ]
+ARC <- AR[AR$CatÃ©gorie == 'C', ]
 
-#'**Catégorie A**     
+#'**CatÃ©gorie A**     
 #'
 #'     
 
 if (fichier.personnels.existe)
 {  
-  Résumé(c("Traitement indiciaire",
-           étiquette.rém.indemn,
-           "Autres rémunérations"), ARA[c("traitement.indiciaire",
-                                          "rémunération.contractuelle.ou.indemnitaire",
-                                          "autres.rémunérations")])
+  RÃ©sumÃ©(c("Traitement indiciaire",
+           Ã©tiquette.rÃ©m.indemn,
+           "Autres rÃ©munÃ©rations"), ARA[c("traitement.indiciaire",
+                                          "rÃ©munÃ©ration.contractuelle.ou.indemnitaire",
+                                          "autres.rÃ©munÃ©rations")])
 } else
-  cat("Pas de statistique en l'absence de fichier des catégories.\n")
+  cat("Pas de statistique en l'absence de fichier des catÃ©gories.\n")
 
 #'
 
 if (fichier.personnels.existe)
 {  
-  Résumé(c("Total rémunérations", "Part de la rémunération contractuelle ou indemnitaire"),
-          ARA[c( "total.rémunérations", "part.rémunération.contractuelle.ou.indemnitaire")])
+  RÃ©sumÃ©(c("Total rÃ©munÃ©rations", "Part de la rÃ©munÃ©ration contractuelle ou indemnitaire"),
+          ARA[c( "total.rÃ©munÃ©rations", "part.rÃ©munÃ©ration.contractuelle.ou.indemnitaire")])
 }
 
 #'    
 #'**Effectif : `r nrow(ARA)`**          
 #'  
-#'**Catégorie B**     
+#'**CatÃ©gorie B**     
 #'     
 
 if (fichier.personnels.existe)
 {  
-  Résumé(c("Traitement indiciaire",
-           étiquette.rém.indemn,
-           "Autres rémunérations"), 
+  RÃ©sumÃ©(c("Traitement indiciaire",
+           Ã©tiquette.rÃ©m.indemn,
+           "Autres rÃ©munÃ©rations"), 
          ARB[ c("traitement.indiciaire",
-                "rémunération.contractuelle.ou.indemnitaire",
-                "autres.rémunérations")])
+                "rÃ©munÃ©ration.contractuelle.ou.indemnitaire",
+                "autres.rÃ©munÃ©rations")])
 } else
-  cat("Pas de statistique en l'absence de fichier des catégories.\n")
+  cat("Pas de statistique en l'absence de fichier des catÃ©gories.\n")
 
 #'
 
 if (fichier.personnels.existe)
 {  
-  Résumé(c("Total rémunérations", "Part de la rémunération contractuelle ou indemnitaire"),
-         ARB[ c( "total.rémunérations", "part.rémunération.contractuelle.ou.indemnitaire")])
+  RÃ©sumÃ©(c("Total rÃ©munÃ©rations", "Part de la rÃ©munÃ©ration contractuelle ou indemnitaire"),
+         ARB[ c( "total.rÃ©munÃ©rations", "part.rÃ©munÃ©ration.contractuelle.ou.indemnitaire")])
 }
 
 #'     
 #'**Effectif : `r nrow(ARB)`**     
 #'    
-#'**Catégorie C**     
+#'**CatÃ©gorie C**     
 #'
 #'     
 
 if (fichier.personnels.existe)
 {      
-  Résumé(c("Traitement indiciaire",
-           étiquette.rém.indemn,
-           "Autres rémunérations"), 
+  RÃ©sumÃ©(c("Traitement indiciaire",
+           Ã©tiquette.rÃ©m.indemn,
+           "Autres rÃ©munÃ©rations"), 
          ARC[ c("traitement.indiciaire",
-                "rémunération.contractuelle.ou.indemnitaire",
-                "autres.rémunérations")])
+                "rÃ©munÃ©ration.contractuelle.ou.indemnitaire",
+                "autres.rÃ©munÃ©rations")])
 } else
-  cat("Pas de statistique en l'absence de fichier des catégories.\n")
+  cat("Pas de statistique en l'absence de fichier des catÃ©gories.\n")
 
 #'
 
 if (fichier.personnels.existe)
 {  
-  Résumé(c("Total rémunérations", "Part de la rémunération contractuelle ou indemnitaire"),
-         ARC[ c( "total.rémunérations", "part.rémunération.contractuelle.ou.indemnitaire") ])
+  RÃ©sumÃ©(c("Total rÃ©munÃ©rations", "Part de la rÃ©munÃ©ration contractuelle ou indemnitaire"),
+         ARC[ c( "total.rÃ©munÃ©rations", "part.rÃ©munÃ©ration.contractuelle.ou.indemnitaire") ])
 }
 
 #'**Effectif : `r nrow(ARC)`**     
@@ -587,95 +587,95 @@ if (fichier.personnels.existe)
 #'## 2.3 Contractuels, vacataires et stagiaires inclus
 #'
 
-hist(total.rémunérations[! Matricule %in% liste.matricules.élus & !Statut %in% c("TITULAIRE", "STAGIAIRE") & total.rémunérations > 1000]/1000,
-     xlab = "Rémunération en milliers d'euros \n hors politique familiale, indemnités journalières et remboursements",
+hist(total.rÃ©munÃ©rations[! Matricule %in% liste.matricules.Ã©lus & !Statut %in% c("TITULAIRE", "STAGIAIRE") & total.rÃ©munÃ©rations > 1000]/1000,
+     xlab = "RÃ©munÃ©ration en milliers d'euros \n hors politique familiale, indemnitÃ©s journaliÃ¨res et remboursements",
      ylab = "Effectif",
      xlim = c(0, 40),
-     main = paste("Rémunération annuelle totale des contractuels en", année),
+     main = paste("RÃ©munÃ©ration annuelle totale des contractuels en", annÃ©e),
      col = "red",
      nclass = 50)
 #'
 #'**Nota:**   
-#'Ne sont retenues que les rémunérations supérieures à 1 000 euros.  
-#'Les élus ne sont pas pris en compte.   
+#'Ne sont retenues que les rÃ©munÃ©rations supÃ©rieures Ã  1 000 euros.  
+#'Les Ã©lus ne sont pas pris en compte.   
 #'
 
-hist(positive(autres.rémunérations),
-     xlab = "En euros :\n politique familiale, indemnités journalières et remboursements",
+hist(positive(autres.rÃ©munÃ©rations),
+     xlab = "En euros :\n politique familiale, indemnitÃ©s journaliÃ¨res et remboursements",
      ylab = "Effectif",
      xlim = c(0, 5000),
-     main = paste("Autres rémunérations en", année),
+     main = paste("Autres rÃ©munÃ©rations en", annÃ©e),
      col = "grey")
 
 #'   
 
-Résumé(c(étiquette.rém.indemn, "Autres rémunérations"),
-       Analyse.rémunérations.premier.exercice[ ! Matricule %in% liste.matricules.élus & ! Statut %in% c("TITULAIRE", "STAGIAIRE"), 
-                             c("rémunération.contractuelle.ou.indemnitaire", "autres.rémunérations")])
+RÃ©sumÃ©(c(Ã©tiquette.rÃ©m.indemn, "Autres rÃ©munÃ©rations"),
+       Analyse.rÃ©munÃ©rations.premier.exercice[ ! Matricule %in% liste.matricules.Ã©lus & ! Statut %in% c("TITULAIRE", "STAGIAIRE"), 
+                             c("rÃ©munÃ©ration.contractuelle.ou.indemnitaire", "autres.rÃ©munÃ©rations")])
 #'
 
-Résumé("Total rémunérations",
-       Analyse.rémunérations.premier.exercice[ ! Matricule %in% liste.matricules.élus & !Statut %in% c("TITULAIRE", "STAGIAIRE"), 
-                             "total.rémunérations"])
+RÃ©sumÃ©("Total rÃ©munÃ©rations",
+       Analyse.rÃ©munÃ©rations.premier.exercice[ ! Matricule %in% liste.matricules.Ã©lus & !Statut %in% c("TITULAIRE", "STAGIAIRE"), 
+                             "total.rÃ©munÃ©rations"])
 
-nom.base.analyse <- "Analyse.rémunérations.premier.exercice"
+nom.base.analyse <- "Analyse.rÃ©munÃ©rations.premier.exercice"
 
 if (sauvegarder.bases)
-  Sauv.base(chemin("Bases"), "Analyse.rémunérations.premier.exercice", nom.base.analyse)
+  Sauv.base(chemin("Bases"), "Analyse.rÃ©munÃ©rations.premier.exercice", nom.base.analyse)
 
-detach(Analyse.rémunérations.premier.exercice)
+detach(Analyse.rÃ©munÃ©rations.premier.exercice)
 
-# pour année fin #
+# pour annÃ©e fin #
 
-année <- fin.période.sous.revue
+annÃ©e <- fin.pÃ©riode.sous.revue
 
 #'
 #'
 
-Bulletins.paie.Lignes.paie.dernier.exercice <-  Bulletins.paie.Lignes.paie[Bulletins.paie.Lignes.paie$Année == fin.période.sous.revue,]
+Bulletins.paie.Lignes.paie.dernier.exercice <-  Bulletins.paie.Lignes.paie[Bulletins.paie.Lignes.paie$AnnÃ©e == fin.pÃ©riode.sous.revue,]
 
 Bulletins.paie.Lignes.paie.dernier.exercice <- mutate(Bulletins.paie.Lignes.paie.dernier.exercice,
                                      montant.traitement.indiciaire 
-                                     = Montant*(Code %in% codes.paiement[codes.paiement$Type.rémunération 
+                                     = Montant*(Code %in% codes.paiement[codes.paiement$Type.rÃ©munÃ©ration 
                                                                      == "TRAITEMENT","Code.rubrique"]),
                                      montant.primes 
-                                     = Montant*(Code %in% codes.paiement[codes.paiement$Type.rémunération 
+                                     = Montant*(Code %in% codes.paiement[codes.paiement$Type.rÃ©munÃ©ration 
                                                                      == "INDEMNITAIRE.OU.CONTRACTUEL","Code.rubrique"]),
-                                     montant.autres.rémunérations 
-                                     = Montant*(Code %in% codes.paiement[codes.paiement$Type.rémunération
+                                     montant.autres.rÃ©munÃ©rations 
+                                     = Montant*(Code %in% codes.paiement[codes.paiement$Type.rÃ©munÃ©ration
                                                                      == "AUTRES","Code.rubrique"]),
-                                     montant.indemnité.élu 
-                                     = Montant*(Code %in% codes.paiement[codes.paiement$Type.rémunération
+                                     montant.indemnitÃ©.Ã©lu 
+                                     = Montant*(Code %in% codes.paiement[codes.paiement$Type.rÃ©munÃ©ration
                                                                      == "ELU","Code.rubrique"]))
 
-###########  Analyse des rémunérations  fin de période###################
-#  ATTENTION : les années doivent être SUCCESSIVES                      #
+###########  Analyse des rÃ©munÃ©rations  fin de pÃ©riode###################
+#  ATTENTION : les annÃ©es doivent Ãªtre SUCCESSIVES                      #
 
 
-Analyse.rémunérations.dernier.exercice <- Analyse.rémunérations[Analyse.rémunérations$Année == année, ]
+Analyse.rÃ©munÃ©rations.dernier.exercice <- Analyse.rÃ©munÃ©rations[Analyse.rÃ©munÃ©rations$AnnÃ©e == annÃ©e, ]
 
 if (fichier.personnels.existe)
 {
-  Analyse.rémunérations.dernier.exercice <- merge(Analyse.rémunérations.dernier.exercice, base.personnels.catégorie, by = étiquette.matricule, all = FALSE)
+  Analyse.rÃ©munÃ©rations.dernier.exercice <- merge(Analyse.rÃ©munÃ©rations.dernier.exercice, base.personnels.catÃ©gorie, by = Ã©tiquette.matricule, all = FALSE)
 }
 
-attach(Analyse.rémunérations.dernier.exercice, warn.conflicts = FALSE)
+attach(Analyse.rÃ©munÃ©rations.dernier.exercice, warn.conflicts = FALSE)
 
 ########### Analyse statique dernier exercice ########################
 
-#'# 3. Rémunérations brutes : analyse pour l'exercice `r année` 
+#'# 3. RÃ©munÃ©rations brutes : analyse pour l'exercice `r annÃ©e` 
 #'
 #'## 3.1 Statistiques de position globales (tous statuts)       
 #'
-#/* La moyenne est tirée vers le haut par les outlyers */
+#/* La moyenne est tirÃ©e vers le haut par les outlyers */
 
-masse.indemnitaire            <- sum(rémunération.contractuelle.ou.indemnitaire)
+masse.indemnitaire            <- sum(rÃ©munÃ©ration.contractuelle.ou.indemnitaire)
 masse.indiciaire              <- sum(traitement.indiciaire)
-masse.rémunérations.brutes    <- sum(total.rémunérations)
+masse.rÃ©munÃ©rations.brutes    <- sum(total.rÃ©munÃ©rations)
 ratio.global.masse.indemnitaire  <- masse.indemnitaire/(masse.indiciaire+masse.indemnitaire)*100
 
 
-#'### Cumuls des rémunérations brutes pour l'exercice `r année`
+#'### Cumuls des rÃ©munÃ©rations brutes pour l'exercice `r annÃ©e`
 #'
 Tableau(c("Masse indiciaire", "Masse indemnitaire"),
         masse.indiciaire, masse.indemnitaire)
@@ -684,49 +684,49 @@ Tableau(c("Masse indiciaire", "Masse indemnitaire"),
 #'<!-- BREAK -->
 #'
 
-Tableau(c("Masse des rémunérations brutes", "Part de la masse indemnitaire"),
-        masse.rémunérations.brutes, ratio.global.masse.indemnitaire)
+Tableau(c("Masse des rÃ©munÃ©rations brutes", "Part de la masse indemnitaire"),
+        masse.rÃ©munÃ©rations.brutes, ratio.global.masse.indemnitaire)
 
 #'
-#'Cumuls réalisés sur les lignes de paie. Les indemnités d'élu ne sont pas prises en compte.  
+#'Cumuls rÃ©alisÃ©s sur les lignes de paie. Les indemnitÃ©s d'Ã©lu ne sont pas prises en compte.  
 #'
-somme.brut.non.élu  <- sum(Bulletins.paie[Bulletins.paie$Année == année & Bulletins.paie$Service != "Elus", "Brut"])
-delta  <- somme.brut.non.élu - masse.rémunérations.brutes               
+somme.brut.non.Ã©lu  <- sum(Bulletins.paie[Bulletins.paie$AnnÃ©e == annÃ©e & Bulletins.paie$Service != "Elus", "Brut"])
+delta  <- somme.brut.non.Ã©lu - masse.rÃ©munÃ©rations.brutes               
 
-#'**Tests de cohérence**  
+#'**Tests de cohÃ©rence**  
 #'
 # A ce jour la version windows ne supporte ni ISO-88
-#'Somme des rémunérations brutes versées aux personnels (non élus) :   
+#'Somme des rÃ©munÃ©rations brutes versÃ©es aux personnels (non Ã©lus) :   
 #'
-Tableau.vertical2(c("Agrégats", "euros"),
-                 c("Bulletins de paie (euros)",  "Lignes de paie (euros)", "Différence (euros)"),
-                 c(somme.brut.non.élu, masse.rémunérations.brutes, delta))
+Tableau.vertical2(c("AgrÃ©gats", "euros"),
+                 c("Bulletins de paie (euros)",  "Lignes de paie (euros)", "DiffÃ©rence (euros)"),
+                 c(somme.brut.non.Ã©lu, masse.rÃ©munÃ©rations.brutes, delta))
 
 #'
-somme.brut.globale  <- sum(Bulletins.paie[Bulletins.paie$Année == année, "Brut"])
-total.rémunérations.élu.compris <-  masse.rémunérations.brutes + sum(indemnités.élu)
-delta2 <- somme.brut.globale - total.rémunérations.élu.compris
+somme.brut.globale  <- sum(Bulletins.paie[Bulletins.paie$AnnÃ©e == annÃ©e, "Brut"])
+total.rÃ©munÃ©rations.Ã©lu.compris <-  masse.rÃ©munÃ©rations.brutes + sum(indemnitÃ©s.Ã©lu)
+delta2 <- somme.brut.globale - total.rÃ©munÃ©rations.Ã©lu.compris
 #'     
-#'à comparer aux soldes des comptes 641 et 648 du compte de gestion.   
+#'Ã  comparer aux soldes des comptes 641 et 648 du compte de gestion.   
 #'
-#'Somme des rémunérations brutes versées (élus compris) :   
+#'Somme des rÃ©munÃ©rations brutes versÃ©es (Ã©lus compris) :   
 #'
-Tableau.vertical2(c("Agrégats", "euros"), 
-                 c("Bulletins de paie (euros)",  "Lignes de paie (euros)", "Différence (euros)"),
-                 c(somme.brut.globale, total.rémunérations.élu.compris, delta2))
+Tableau.vertical2(c("AgrÃ©gats", "euros"), 
+                 c("Bulletins de paie (euros)",  "Lignes de paie (euros)", "DiffÃ©rence (euros)"),
+                 c(somme.brut.globale, total.rÃ©munÃ©rations.Ã©lu.compris, delta2))
 
 #'  
-#'à comparer aux soldes des comptes 641, 648 et 653 du compte de gestion   
+#'Ã  comparer aux soldes des comptes 641, 648 et 653 du compte de gestion   
 #'
 
-df <- data.frame(masse.indemnitaire, masse.indiciaire, masse.rémunérations.brutes, 
-                 ratio.global.masse.indemnitaire, somme.brut.non.élu, somme.brut.globale, total.rémunérations.élu.compris)
+df <- data.frame(masse.indemnitaire, masse.indiciaire, masse.rÃ©munÃ©rations.brutes, 
+                 ratio.global.masse.indemnitaire, somme.brut.non.Ã©lu, somme.brut.globale, total.rÃ©munÃ©rations.Ã©lu.compris)
 
-Sauv.base(chemin("Bases"), "df", paste0("Masses.", année))
+Sauv.base(chemin("Bases"), "df", paste0("Masses.", annÃ©e))
 #'
-#'[Lien vers la base de données](Bases/`r paste0("Masses.", année, ".csv")` )   
+#'[Lien vers la base de donnÃ©es](Bases/`r paste0("Masses.", annÃ©e, ".csv")` )   
 #'
-#'Les résultats sont exprimés en euros.  
+#'Les rÃ©sultats sont exprimÃ©s en euros.  
 #'
 #'
 #'######      
@@ -735,22 +735,22 @@ Sauv.base(chemin("Bases"), "df", paste0("Masses.", année))
 #'
 
 
-hist(filtre.fonctionnaire(total.rémunérations)/1000,
-     xlab = "En milliers d'euros \n hors politique familiale, indemnités journalières et remboursements",
+hist(filtre.fonctionnaire(total.rÃ©munÃ©rations)/1000,
+     xlab = "En milliers d'euros \n hors politique familiale, indemnitÃ©s journaliÃ¨res et remboursements",
      ylab = "Effectif",
      xlim = c(0, 120),
-     main = paste("Rémunération annuelle des fonctionnaires en", année),
+     main = paste("RÃ©munÃ©ration annuelle des fonctionnaires en", annÃ©e),
      col = "blue",
      nclass = 50)
 
 #'  
 #'
 
-hist(filtre.fonctionnaire(rémunération.contractuelle.ou.indemnitaire)/1000,
-     xlab = "En milliers d'euros\n hors politique familiale, indemnités journalières et remboursements",
+hist(filtre.fonctionnaire(rÃ©munÃ©ration.contractuelle.ou.indemnitaire)/1000,
+     xlab = "En milliers d'euros\n hors politique familiale, indemnitÃ©s journaliÃ¨res et remboursements",
      ylab = "Effectif",
      xlim = c(0, 70),
-     main = paste("Rémunération indemnitaire annuelle\ndes fonctionnaires en", année),
+     main = paste("RÃ©munÃ©ration indemnitaire annuelle\ndes fonctionnaires en", annÃ©e),
      col = "blue",
      nclass = 50
 )
@@ -758,130 +758,130 @@ hist(filtre.fonctionnaire(rémunération.contractuelle.ou.indemnitaire)/1000,
 #'    
 #'
 
-hist(filtre.fonctionnaire(part.rémunération.contractuelle.ou.indemnitaire),
-     xlab = "Pourcentage des indemnités dans la rémunération\n hors politique familiale, indemnités journalières et remboursements",
+hist(filtre.fonctionnaire(part.rÃ©munÃ©ration.contractuelle.ou.indemnitaire),
+     xlab = "Pourcentage des indemnitÃ©s dans la rÃ©munÃ©ration\n hors politique familiale, indemnitÃ©s journaliÃ¨res et remboursements",
      ylab = "Effectif",
-     main = paste("Part indemnitaire de la rémunération annuelle des fonctionnaires en", année),
+     main = paste("Part indemnitaire de la rÃ©munÃ©ration annuelle des fonctionnaires en", annÃ©e),
      xlim = c(0,60),     
      col = "blue",
      nclass = 30)
 
 #'
-#'**Tests de cohérence**  
+#'**Tests de cohÃ©rence**  
 
-somme.brut.fonct  <- sum(Bulletins.paie[Bulletins.paie$Année == année & 
+somme.brut.fonct  <- sum(Bulletins.paie[Bulletins.paie$AnnÃ©e == annÃ©e & 
                                           Bulletins.paie$Statut %in% c("TITULAIRE", "STAGIAIRE"),
                                         "Brut"])
 
-total.rémunérations.fonct <- sum(AR[4])
+total.rÃ©munÃ©rations.fonct <- sum(AR[4])
 
-delta <- somme.brut.fonct - total.rémunérations.fonct
+delta <- somme.brut.fonct - total.rÃ©munÃ©rations.fonct
 
-#'Somme des rémunérations brutes versées aux personnels titulaires et stagiaires :   
+#'Somme des rÃ©munÃ©rations brutes versÃ©es aux personnels titulaires et stagiaires :   
 #'
 
-Tableau.vertical2(c("Agrégats", "euros"), 
-                 c("Bulletins de paie (euros)",  "Lignes de paie (euros)", "Différence (euros)"),
-                 c(somme.brut.fonct,  total.rémunérations.fonct, delta)) 
+Tableau.vertical2(c("AgrÃ©gats", "euros"), 
+                 c("Bulletins de paie (euros)",  "Lignes de paie (euros)", "DiffÃ©rence (euros)"),
+                 c(somme.brut.fonct,  total.rÃ©munÃ©rations.fonct, delta)) 
 
 #' 
 #'A comparer aux soldes des comptes 6411, 6419 et 648 du conmpte de gestion.     
 #'
 
 #'
-#'### Statistiques de position pour l'exercice `r année`  
+#'### Statistiques de position pour l'exercice `r annÃ©e`  
 #'
 
-AR <- Analyse.rémunérations.dernier.exercice[Statut %in% c("TITULAIRE", "STAGIAIRE"), colonnes.sélectionnées ]
+AR <- Analyse.rÃ©munÃ©rations.dernier.exercice[Statut %in% c("TITULAIRE", "STAGIAIRE"), colonnes.sÃ©lectionnÃ©es ]
 
-Résumé(c("Traitement indiciaire",
-         étiquette.rém.indemn,
-         "Autres rémunérations"),  AR[1:3])
+RÃ©sumÃ©(c("Traitement indiciaire",
+         Ã©tiquette.rÃ©m.indemn,
+         "Autres rÃ©munÃ©rations"),  AR[1:3])
 #'
 
-Résumé(c("Total rémunérations", "Part de la rémunération contractuelle ou indemnitaire"), AR[4:5])
+RÃ©sumÃ©(c("Total rÃ©munÃ©rations", "Part de la rÃ©munÃ©ration contractuelle ou indemnitaire"), AR[4:5])
        
 #'**Effectif : `r nrow(AR)`**     
 #'   
 #'######      
 #'
-#'### Statistiques de position par catégorie pour l'exercice `r année` 
+#'### Statistiques de position par catÃ©gorie pour l'exercice `r annÃ©e` 
 #'
 
-ARA <- AR[AR$Catégorie == 'A', ]
-ARB <- AR[AR$Catégorie == 'B', ]
-ARC <- AR[AR$Catégorie == 'C', ]
+ARA <- AR[AR$CatÃ©gorie == 'A', ]
+ARB <- AR[AR$CatÃ©gorie == 'B', ]
+ARC <- AR[AR$CatÃ©gorie == 'C', ]
 
-#'**Catégorie A**     
+#'**CatÃ©gorie A**     
 #'
 #'     
 
 if (fichier.personnels.existe)
 {  
-  Résumé(c("Traitement indiciaire",
-                étiquette.rém.indemn,
-                 "Autres rémunérations"),
+  RÃ©sumÃ©(c("Traitement indiciaire",
+                Ã©tiquette.rÃ©m.indemn,
+                 "Autres rÃ©munÃ©rations"),
          ARA[c("traitement.indiciaire",
-               "rémunération.contractuelle.ou.indemnitaire",
-               "autres.rémunérations")])
+               "rÃ©munÃ©ration.contractuelle.ou.indemnitaire",
+               "autres.rÃ©munÃ©rations")])
 } else
-  cat("Pas de statistique en l'absence de fichier des catégories.\n")
+  cat("Pas de statistique en l'absence de fichier des catÃ©gories.\n")
 
 #'
 
 if (fichier.personnels.existe)
 {  
-  Résumé(c("Total rémunérations", "Part de la rémunération contractuelle ou indemnitaire"),
-         ARA[ c( "total.rémunérations", "part.rémunération.contractuelle.ou.indemnitaire")])
+  RÃ©sumÃ©(c("Total rÃ©munÃ©rations", "Part de la rÃ©munÃ©ration contractuelle ou indemnitaire"),
+         ARA[ c( "total.rÃ©munÃ©rations", "part.rÃ©munÃ©ration.contractuelle.ou.indemnitaire")])
 }
 
 #'**Effectif : `r nrow(ARA)`**          
 #'   
-#'**Catégorie B**     
+#'**CatÃ©gorie B**     
 #'     
 
 if (fichier.personnels.existe)
 {  
-  Résumé(c("Traitement indiciaire",
-           étiquette.rém.indemn,
-           "Autres rémunérations"),
+  RÃ©sumÃ©(c("Traitement indiciaire",
+           Ã©tiquette.rÃ©m.indemn,
+           "Autres rÃ©munÃ©rations"),
          ARB[c("traitement.indiciaire",
-               "rémunération.contractuelle.ou.indemnitaire",
-               "autres.rémunérations")])
+               "rÃ©munÃ©ration.contractuelle.ou.indemnitaire",
+               "autres.rÃ©munÃ©rations")])
 } else
-  cat("Pas de statistique en l'absence de fichier des catégories.\n")
+  cat("Pas de statistique en l'absence de fichier des catÃ©gories.\n")
 
 #'
 
 if (fichier.personnels.existe)
 {  
-  Résumé(c("Total rémunérations", "Part de la rémunération contractuelle ou indemnitaire"),
-         ARB[ c( "total.rémunérations", "part.rémunération.contractuelle.ou.indemnitaire")])
+  RÃ©sumÃ©(c("Total rÃ©munÃ©rations", "Part de la rÃ©munÃ©ration contractuelle ou indemnitaire"),
+         ARB[ c( "total.rÃ©munÃ©rations", "part.rÃ©munÃ©ration.contractuelle.ou.indemnitaire")])
 }
 #'
 #'**Effectif : `r nrow(ARB)`**          
 #'
-#'**Catégorie C**     
+#'**CatÃ©gorie C**     
 #'
 #'     
 
 if (fichier.personnels.existe)
 {      
-  Résumé(c("Traitement indiciaire",
-           étiquette.rém.indemn,
-           "Autres rémunérations"),
+  RÃ©sumÃ©(c("Traitement indiciaire",
+           Ã©tiquette.rÃ©m.indemn,
+           "Autres rÃ©munÃ©rations"),
          ARC[ c("traitement.indiciaire",
-                "rémunération.contractuelle.ou.indemnitaire",
-               "autres.rémunérations")])
+                "rÃ©munÃ©ration.contractuelle.ou.indemnitaire",
+               "autres.rÃ©munÃ©rations")])
 } else
-  cat("Pas de statistique en l'absence de fichier des catégories.\n")
+  cat("Pas de statistique en l'absence de fichier des catÃ©gories.\n")
 
 #'
 
 if (fichier.personnels.existe)
 {  
-  Résumé(c("Total rémunérations", "Part de la rémunération contractuelle ou indemnitaire"),
-         ARC[ c( "total.rémunérations", "part.rémunération.contractuelle.ou.indemnitaire")])
+  RÃ©sumÃ©(c("Total rÃ©munÃ©rations", "Part de la rÃ©munÃ©ration contractuelle ou indemnitaire"),
+         ARC[ c( "total.rÃ©munÃ©rations", "part.rÃ©munÃ©ration.contractuelle.ou.indemnitaire")])
 }
 #'  
 #'**Effectif : `r nrow(ARC)`**     
@@ -892,141 +892,141 @@ if (fichier.personnels.existe)
 #'## 3.2 Contractuels, vacataires et stagiaires inclus
 #'
 
-hist(total.rémunérations[ ! Matricule %in% liste.matricules.élus & ! Statut %in% c("TITULAIRE", "STAGIAIRE") & total.rémunérations > 1000]/1000,
-     xlab = "Rémunération en milliers d'euros\n hors politique familiale, indemnités journalières et remboursements",
+hist(total.rÃ©munÃ©rations[ ! Matricule %in% liste.matricules.Ã©lus & ! Statut %in% c("TITULAIRE", "STAGIAIRE") & total.rÃ©munÃ©rations > 1000]/1000,
+     xlab = "RÃ©munÃ©ration en milliers d'euros\n hors politique familiale, indemnitÃ©s journaliÃ¨res et remboursements",
      ylab = "Effectif",
      xlim = c(0, 40),
-     main = paste("Rémunération annuelle totale des contractuels en", année),
+     main = paste("RÃ©munÃ©ration annuelle totale des contractuels en", annÃ©e),
      col = "red",
      nclass = 50)
 
 #'
 #'**Nota:**   
-#'Ne sont retenues que les rémunérations supérieures à 1 000 euros.  
-#'Les élus ne sont pas pris en compte.   
+#'Ne sont retenues que les rÃ©munÃ©rations supÃ©rieures Ã  1 000 euros.  
+#'Les Ã©lus ne sont pas pris en compte.   
 
-hist(positive(autres.rémunérations),
-     xlab = "En euros :\n politique familiale, indemnités journalières et remboursements",
+hist(positive(autres.rÃ©munÃ©rations),
+     xlab = "En euros :\n politique familiale, indemnitÃ©s journaliÃ¨res et remboursements",
      ylab = "Effectif",
      xlim = c(0, 5000),
-     main = paste("Autres rémunérations en", année),
+     main = paste("Autres rÃ©munÃ©rations en", annÃ©e),
      col = "grey")
 #'    
 
-Résumé(c(étiquette.rém.indemn, "Autres rémunérations"),
-       Analyse.rémunérations.dernier.exercice[ ! Matricule %in% liste.matricules.élus & ! Statut %in% c("TITULAIRE", "STAGIAIRE"), 
-                             c("rémunération.contractuelle.ou.indemnitaire", "autres.rémunérations")])
+RÃ©sumÃ©(c(Ã©tiquette.rÃ©m.indemn, "Autres rÃ©munÃ©rations"),
+       Analyse.rÃ©munÃ©rations.dernier.exercice[ ! Matricule %in% liste.matricules.Ã©lus & ! Statut %in% c("TITULAIRE", "STAGIAIRE"), 
+                             c("rÃ©munÃ©ration.contractuelle.ou.indemnitaire", "autres.rÃ©munÃ©rations")])
 
 #'
 
-AR <- Analyse.rémunérations.dernier.exercice[ ! Matricule %in% liste.matricules.élus & ! Statut %in% c("TITULAIRE", "STAGIAIRE"), 
-                                              "total.rémunérations"]
+AR <- Analyse.rÃ©munÃ©rations.dernier.exercice[ ! Matricule %in% liste.matricules.Ã©lus & ! Statut %in% c("TITULAIRE", "STAGIAIRE"), 
+                                              "total.rÃ©munÃ©rations"]
 
-Résumé("Total rémunérations",   AR)
+RÃ©sumÃ©("Total rÃ©munÃ©rations",   AR)
 #'   
 #'**Effectif : `r length(AR)`**     
 #'   
 
-detach(Analyse.rémunérations.dernier.exercice)
+detach(Analyse.rÃ©munÃ©rations.dernier.exercice)
 
 
 #'
-#'[Lien vers la base de données](Bases/Analyse.rémunérations.csv) d'analyse des rémunérations
+#'[Lien vers la base de donnÃ©es](Bases/Analyse.rÃ©munÃ©rations.csv) d'analyse des rÃ©munÃ©rations
 #'
 
 ########### Analyse dynamique ########################
 #'
-#'# 4. Rémunérations nettes : évolutions sur la période `r début.période.sous.revue` - `r fin.période.sous.revue` 
+#'# 4. RÃ©munÃ©rations nettes : Ã©volutions sur la pÃ©riode `r dÃ©but.pÃ©riode.sous.revue` - `r fin.pÃ©riode.sous.revue` 
 #'
 #'Nombre d'exercices: `r nombre.exercices`  
 #'    
-#'## 4.1 Rémunération nette moyenne sur la période
+#'## 4.1 RÃ©munÃ©ration nette moyenne sur la pÃ©riode
 
-attach(Analyse.variations.synthèse)
+attach(Analyse.variations.synthÃ¨se)
 
-hist(positive(moyenne.rémunération.annuelle.sur.période)/1000,
-     xlab = paste0("Sur la période ",début.période.sous.revue,"-",fin.période.sous.revue," en milliers d'euros"),
+hist(positive(moyenne.rÃ©munÃ©ration.annuelle.sur.pÃ©riode)/1000,
+     xlab = paste0("Sur la pÃ©riode ",dÃ©but.pÃ©riode.sous.revue,"-",fin.pÃ©riode.sous.revue," en milliers d'euros"),
      ylab = "Effectif",
-     main = "Rémunération nette moyenne",
+     main = "RÃ©munÃ©ration nette moyenne",
      col = "blue",
      nclass = 100)
 #'  
 #+ fig.height=4.5  
 
-hist(moyenne.rémunération.annuelle.sur.période[moyenne.rémunération.annuelle.sur.période >0 & (statut == "TITULAIRE"  | statut == "STAGIAIRE")]/1000,
-xlab = paste0("Sur la période ",début.période.sous.revue,"-",fin.période.sous.revue," en milliers d'euros"),
+hist(moyenne.rÃ©munÃ©ration.annuelle.sur.pÃ©riode[moyenne.rÃ©munÃ©ration.annuelle.sur.pÃ©riode >0 & (statut == "TITULAIRE"  | statut == "STAGIAIRE")]/1000,
+xlab = paste0("Sur la pÃ©riode ",dÃ©but.pÃ©riode.sous.revue,"-",fin.pÃ©riode.sous.revue," en milliers d'euros"),
 ylab = "Effectif",
-main = "Rémunération nette moyenne des fonctionnaires",
+main = "RÃ©munÃ©ration nette moyenne des fonctionnaires",
 col = "blue",
 nclass = 100)
 
 #'
-#'[Lien vers la base de données](Bases/Analyse.variations.synthèse.csv)
+#'[Lien vers la base de donnÃ©es](Bases/Analyse.variations.synthÃ¨se.csv)
 #'
-#'**Nota:** La rémunération nette perçue est rapportée au cumul des jours d'activité.  
+#'**Nota:** La rÃ©munÃ©ration nette perÃ§ue est rapportÃ©e au cumul des jours d'activitÃ©.  
 
-Analyse.variations.synthèse.filtrée <- na.omit(Analyse.variations.synthèse[ nb.jours.exercice.début > seuil.troncature 
+Analyse.variations.synthÃ¨se.filtrÃ©e <- na.omit(Analyse.variations.synthÃ¨se[ nb.jours.exercice.dÃ©but > seuil.troncature 
                                                                           & nb.jours.exercice.sortie   > seuil.troncature
                                                                         #  &  statut %in% c("TITULAIRE", "STAGIAIRE")
                                                                           &  statut !=  "AUTRE_STATUT"
-                                                                              , c("rémunération.début",
-                                                                                  "rémunération.sortie",
-                                                                                  "moyenne.rémunération.annuelle.sur.période",
-                                                                                  "variation.rémunération.jour",
-                                                                                  "variation.moyenne.rémunération.jour", 
+                                                                              , c("rÃ©munÃ©ration.dÃ©but",
+                                                                                  "rÃ©munÃ©ration.sortie",
+                                                                                  "moyenne.rÃ©munÃ©ration.annuelle.sur.pÃ©riode",
+                                                                                  "variation.rÃ©munÃ©ration.jour",
+                                                                                  "variation.moyenne.rÃ©munÃ©ration.jour", 
                                                                                   "plus.2.ans",
-                                                                                  étiquette.matricule)])
+                                                                                  Ã©tiquette.matricule)])
 
-Analyse.variations.synthèse.filtrée.plus.2.ans  <- Analyse.variations.synthèse.filtrée[Analyse.variations.synthèse.filtrée$plus.2.ans, ]
-Analyse.variations.synthèse.filtrée.moins.2.ans <- Analyse.variations.synthèse.filtrée[! Analyse.variations.synthèse.filtrée$plus.2.ans, ]
+Analyse.variations.synthÃ¨se.filtrÃ©e.plus.2.ans  <- Analyse.variations.synthÃ¨se.filtrÃ©e[Analyse.variations.synthÃ¨se.filtrÃ©e$plus.2.ans, ]
+Analyse.variations.synthÃ¨se.filtrÃ©e.moins.2.ans <- Analyse.variations.synthÃ¨se.filtrÃ©e[! Analyse.variations.synthÃ¨se.filtrÃ©e$plus.2.ans, ]
 
 
-detach(Analyse.variations.synthèse)
+detach(Analyse.variations.synthÃ¨se)
 #'  
-#'## 4.2 Evolutions des rémunérations nettes sur la période `r début.période.sous.revue` - `r fin.période.sous.revue` 
+#'## 4.2 Evolutions des rÃ©munÃ©rations nettes sur la pÃ©riode `r dÃ©but.pÃ©riode.sous.revue` - `r fin.pÃ©riode.sous.revue` 
 #'
 #'### 4.2.1 Ensemble des personnels fonctionnaires et non titulaires
 #'
 
 #'
-f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Analyse.variations.par.exercice$Année == x, "Montant.net"])/ 1000, big.mark = " ", digits = 5, format = "fg")
+f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Analyse.variations.par.exercice$AnnÃ©e == x, "Montant.net"])/ 1000, big.mark = " ", digits = 5, format = "fg")
 
-Tableau.vertical(c(étiquette.année, "Rémunération nette totale (k&euro;)"), 
-                 début.période.sous.revue:fin.période.sous.revue, 
+Tableau.vertical(c(Ã©tiquette.annÃ©e, "RÃ©munÃ©ration nette totale (k&euro;)"), 
+                 dÃ©but.pÃ©riode.sous.revue:fin.pÃ©riode.sous.revue, 
                  f)
 
 
 #'
-#'[Lien vers la base de données](Bases/Analyse.variations.par.exercice.csv)
+#'[Lien vers la base de donnÃ©es](Bases/Analyse.variations.par.exercice.csv)
 #'
 #'######   
 #'
 
-Résumé(   c("Première année",
-            "Dernière année",
-            "Moyenne sur la période <br>d'activité"),
-             Analyse.variations.synthèse.filtrée[1:3])
+RÃ©sumÃ©(   c("PremiÃ¨re annÃ©e",
+            "DerniÃ¨re annÃ©e",
+            "Moyenne sur la pÃ©riode <br>d'activitÃ©"),
+             Analyse.variations.synthÃ¨se.filtrÃ©e[1:3])
 
 #'
 
-Résumé(   c("Variation sur la période <br>d'activité",
+RÃ©sumÃ©(   c("Variation sur la pÃ©riode <br>d'activitÃ©",
             "Variation annuelle moyenne"),
-          Analyse.variations.synthèse.filtrée[4:5])
+          Analyse.variations.synthÃ¨se.filtrÃ©e[4:5])
 
 #'
-#'**Effectif : `r nrow(Analyse.variations.synthèse.filtrée[étiquette.matricule])`**     
+#'**Effectif : `r nrow(Analyse.variations.synthÃ¨se.filtrÃ©e[Ã©tiquette.matricule])`**     
 #'
-#'[Lien vers la base de données](Bases/Analyse.variations.synthèse.filtrée.csv)
+#'[Lien vers la base de donnÃ©es](Bases/Analyse.variations.synthÃ¨se.filtrÃ©e.csv)
 #'
 #'### 4.2.2 Personnels fonctionnaires et non titulaires en place
 #'
 
-hist(Analyse.variations.synthèse.filtrée.plus.2.ans$variation.moyenne.rémunération.jour,
+hist(Analyse.variations.synthÃ¨se.filtrÃ©e.plus.2.ans$variation.moyenne.rÃ©munÃ©ration.jour,
      xlab ="Variation annuelle moyenne en %",
      las = 1,
      xlim = c(-5,30),
      ylab ="Effectifs",
-     main ="Rémunération nette des personnels en place",
+     main ="RÃ©munÃ©ration nette des personnels en place",
      col ="blue",
      nclass = 200)
 
@@ -1034,45 +1034,45 @@ hist(Analyse.variations.synthèse.filtrée.plus.2.ans$variation.moyenne.rémunérati
 #'
 
 f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[
-                               Analyse.variations.par.exercice$Année == x & Analyse.variations.par.exercice$plus.2.ans,
+                               Analyse.variations.par.exercice$AnnÃ©e == x & Analyse.variations.par.exercice$plus.2.ans,
                                "Montant.net"])/ 1000, big.mark = " ", digits = 5, format = "fg")
 
-Tableau.vertical(c(étiquette.année, "Rémunération nette totale <br>des agents en place (k&euro;)"), 
-                 début.période.sous.revue:fin.période.sous.revue, 
+Tableau.vertical(c(Ã©tiquette.annÃ©e, "RÃ©munÃ©ration nette totale <br>des agents en place (k&euro;)"), 
+                 dÃ©but.pÃ©riode.sous.revue:fin.pÃ©riode.sous.revue, 
                  f)
 
 
 #'
 
-Résumé(   c("Première année",
-            "Dernière année",
-            "Moyenne sur la période <br>d'activité"),
-          Analyse.variations.synthèse.filtrée.plus.2.ans[1:3])
+RÃ©sumÃ©(   c("PremiÃ¨re annÃ©e",
+            "DerniÃ¨re annÃ©e",
+            "Moyenne sur la pÃ©riode <br>d'activitÃ©"),
+          Analyse.variations.synthÃ¨se.filtrÃ©e.plus.2.ans[1:3])
 
 #'
 
-Résumé(   c("Variation sur la période <br>d'activité",
+RÃ©sumÃ©(   c("Variation sur la pÃ©riode <br>d'activitÃ©",
             "Variation annuelle moyenne"),
-          Analyse.variations.synthèse.filtrée.plus.2.ans[4:5])
+          Analyse.variations.synthÃ¨se.filtrÃ©e.plus.2.ans[4:5])
 #'     
-#'**Effectif :** `r nrow(Analyse.variations.synthèse.filtrée.plus.2.ans[étiquette.matricule])`    
+#'**Effectif :** `r nrow(Analyse.variations.synthÃ¨se.filtrÃ©e.plus.2.ans[Ã©tiquette.matricule])`    
 #'     
-#'[Lien vers la base de données](Bases/Analyse.variations.synthèse.filtrée.plus.2.ans.csv)
+#'[Lien vers la base de donnÃ©es](Bases/Analyse.variations.synthÃ¨se.filtrÃ©e.plus.2.ans.csv)
 #'     
 #'**Nota**    
-#'Personnels en place : en fonction au moins 730 jours sur la période `r début.période.sous.revue` à `r fin.période.sous.revue`     
+#'Personnels en place : en fonction au moins 730 jours sur la pÃ©riode `r dÃ©but.pÃ©riode.sous.revue` Ã  `r fin.pÃ©riode.sous.revue`     
 #'
 #'######   
 #'
 #'### 4.2.3 Personnels fonctionnaires et non titulaires en fonction moins de deux ans
 #'
 #'
-hist(Analyse.variations.synthèse.filtrée.moins.2.ans$variation.moyenne.rémunération.jour,
+hist(Analyse.variations.synthÃ¨se.filtrÃ©e.moins.2.ans$variation.moyenne.rÃ©munÃ©ration.jour,
      xlab ="Variation annuelle moyenne en %",
      xlim = c(-10,30),
      las = 1,
      ylab ="Effectifs",
-     main ="Rémunération nette des personnels en fonction moins de deux ans",
+     main ="RÃ©munÃ©ration nette des personnels en fonction moins de deux ans",
      col ="turquoise",
      nclass = 100
 )
@@ -1082,73 +1082,73 @@ hist(Analyse.variations.synthèse.filtrée.moins.2.ans$variation.moyenne.rémunérat
 #'
 
 f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[
-  Analyse.variations.par.exercice$Année == x & ! Analyse.variations.par.exercice$plus.2.ans,
+  Analyse.variations.par.exercice$AnnÃ©e == x & ! Analyse.variations.par.exercice$plus.2.ans,
   "Montant.net"])/ 1000, big.mark = " ", digits = 5, format = "fg")
 
-Tableau.vertical(c(étiquette.année, "Rémunération nette totale <br>des agents en fonction moins de deux ans (k&euro;)"), 
-                 début.période.sous.revue:fin.période.sous.revue, 
+Tableau.vertical(c(Ã©tiquette.annÃ©e, "RÃ©munÃ©ration nette totale <br>des agents en fonction moins de deux ans (k&euro;)"), 
+                 dÃ©but.pÃ©riode.sous.revue:fin.pÃ©riode.sous.revue, 
                  f)
 
 #'
 #'
 
-Résumé(   c("Première année",
-            "Dernière année",
-            "Moyenne sur la période <br>d'activité"),
-          Analyse.variations.synthèse.filtrée.moins.2.ans[1:3])
+RÃ©sumÃ©(   c("PremiÃ¨re annÃ©e",
+            "DerniÃ¨re annÃ©e",
+            "Moyenne sur la pÃ©riode <br>d'activitÃ©"),
+          Analyse.variations.synthÃ¨se.filtrÃ©e.moins.2.ans[1:3])
 
 #'
 
-Résumé(   c("Variation sur la période <br>d'activité",
+RÃ©sumÃ©(   c("Variation sur la pÃ©riode <br>d'activitÃ©",
             "Variation annuelle moyenne"),
-          Analyse.variations.synthèse.filtrée.moins.2.ans[4:5])
+          Analyse.variations.synthÃ¨se.filtrÃ©e.moins.2.ans[4:5])
 #'
 #'     
-#'**Effectif :** `r nrow(Analyse.variations.synthèse.filtrée.moins.2.ans[étiquette.matricule])`    
+#'**Effectif :** `r nrow(Analyse.variations.synthÃ¨se.filtrÃ©e.moins.2.ans[Ã©tiquette.matricule])`    
 #'     
 
 #'
 ########### Tests statutaires ########################
 #'
-#'[Lien vers la base de données](Bases/Analyse.variations.synthèse.filtrée.moins.2.ans.csv)
+#'[Lien vers la base de donnÃ©es](Bases/Analyse.variations.synthÃ¨se.filtrÃ©e.moins.2.ans.csv)
 #'
-#'**Nota:** Au 4.2 seuls sont pris en compte les personnels en fonction au moins 100 jours la première et la dernière année    
-#'Ne sont pas pris en compte les élus, stagiaires et apprentis ou assimilés.    
+#'**Nota:** Au 4.2 seuls sont pris en compte les personnels en fonction au moins 100 jours la premiÃ¨re et la derniÃ¨re annÃ©e    
+#'Ne sont pas pris en compte les Ã©lus, stagiaires et apprentis ou assimilÃ©s.    
 #'
-#'Les résultats sont exprimés en euros.
+#'Les rÃ©sultats sont exprimÃ©s en euros.
 #'
-#'# 5. Tests réglementaires
-#'## 5.1 Contrôle des heures supplémentaires, des NBI et primes informatiques
+#'# 5. Tests rÃ©glementaires
+#'## 5.1 ContrÃ´le des heures supplÃ©mentaires, des NBI et primes informatiques
 #'
 
 attach(Bulletins.paie.Lignes.paie, warn.conflicts = FALSE)
 
 NBI.aux.non.titulaires <- Bulletins.paie.Lignes.paie[ ! Statut %in% c("TITULAIRE","STAGIAIRE") 
                                                       & as.character(Code) %in% codes.NBI,
-                                                      c(étiquette.matricule,
+                                                      c(Ã©tiquette.matricule,
                                                         "Statut",
                                                         "Code",
-                                                        étiquette.libellé,
+                                                        Ã©tiquette.libellÃ©,
                                                         "Mois",
-                                                        étiquette.montant)]
+                                                        Ã©tiquette.montant)]
 
 nombre.Lignes.paie.NBI.nontit <- nrow(NBI.aux.non.titulaires)
 
 #/* Prime de fonctions informatiques : pas dans la base de VLB
-# on cherche la chaine de char. "INFO" dans les libellés de primes
+# on cherche la chaine de char. "INFO" dans les libellÃ©s de primes
 
-# variante : filtre <- regexpr(".*(INFO|PFI|P.F.I).*", toupper(Bulletins.paie.Lignes.paie$Libellé)) et regmatches(Bulletins.paie.Lignes.paie$Libellé, filtre)*/
+# variante : filtre <- regexpr(".*(INFO|PFI|P.F.I).*", toupper(Bulletins.paie.Lignes.paie$LibellÃ©)) et regmatches(Bulletins.paie.Lignes.paie$LibellÃ©, filtre)*/
 
-filtre<-grep(".*(INFO|PFI|P.F.I).*", Libellé)
+filtre<-grep(".*(INFO|PFI|P.F.I).*", LibellÃ©)
 
 personnels.prime.informatique <- Bulletins.paie.Lignes.paie[ filtre,
-                                                             c(étiquette.matricule,
+                                                             c(Ã©tiquette.matricule,
                                                                "Statut",
                                                                "Code",
-                                                               étiquette.libellé,
-                                                               étiquette.montant)]
+                                                               Ã©tiquette.libellÃ©,
+                                                               Ã©tiquette.montant)]
 
-primes.informatiques.potentielles<-unique(Libellé[filtre])
+primes.informatiques.potentielles<-unique(LibellÃ©[filtre])
 
 if  (length(primes.informatiques.potentielles) == 0) 
   primes.informatiques.potentielles <- "aucune"
@@ -1159,13 +1159,13 @@ nombre.personnels.pfi <- nrow(personnels.prime.informatique)
 
 Tableau(
   c("Nombre de lignes NBI pour non titulaires",
-    "Nombre de bénéficiaires de PFI"),
+    "Nombre de bÃ©nÃ©ficiaires de PFI"),
   nombre.Lignes.paie.NBI.nontit, 
   nombre.personnels.pfi)
 
 #'
-#'[Lien vers la base de données NBI aux non titulaires](Bases/NBI.aux.non.titulaires.csv)  
-#'[Lien vers la base de données Primes informatiques](Bases/personnels.prime.informatique.csv)  
+#'[Lien vers la base de donnÃ©es NBI aux non titulaires](Bases/NBI.aux.non.titulaires.csv)  
+#'[Lien vers la base de donnÃ©es Primes informatiques](Bases/personnels.prime.informatique.csv)  
 #'   
 #'**Nota :**  
 #'NBI: nouvelle bonification indiciaire  
@@ -1173,17 +1173,17 @@ Tableau(
 #'    
 #'#       
 #'    
-#'## 5.2 Contrôle des vacations pour les fonctionnaires  
+#'## 5.2 ContrÃ´le des vacations pour les fonctionnaires  
 
 # Vacations et statut de fonctionnaire
 
 lignes.fonctionnaires.et.vacations <- Bulletins.paie.Lignes.paie[ Statut %in% c("TITULAIRE", "STAGIAIRE")
-                                                                  & Code %in% codes.paiement[codes.paiement["Type.rémunération"] == "VACATIONS","Code.rubrique"],
-                                                                                             c(étiquette.matricule,
+                                                                  & Code %in% codes.paiement[codes.paiement["Type.rÃ©munÃ©ration"] == "VACATIONS","Code.rubrique"],
+                                                                                             c(Ã©tiquette.matricule,
                                                                                                "Statut",
                                                                                                "Code",
-                                                                                               étiquette.libellé,
-                                                                                               étiquette.montant)]
+                                                                                               Ã©tiquette.libellÃ©,
+                                                                                               Ã©tiquette.montant)]
                                                                   
 matricules.fonctionnaires.et.vacations <- unique(lignes.fonctionnaires.et.vacations$Matricule)
 nombre.fonctionnaires.et.vacations <- length(matricules.fonctionnaires.et.vacations)
@@ -1198,26 +1198,26 @@ Tableau(
   nombre.Lignes.paie.fonctionnaires.et.vacations)
 
 #'
-#'[Lien vers la base de données Matricules des FEV](Bases/matricules.fonctionnaires.et.vacations.csv)  
-#'[Lien vers la base de données Lignes de vacations de FEV](Bases/lignes.fonctionnaires.et.vacations.csv)  
+#'[Lien vers la base de donnÃ©es Matricules des FEV](Bases/matricules.fonctionnaires.et.vacations.csv)  
+#'[Lien vers la base de donnÃ©es Lignes de vacations de FEV](Bases/lignes.fonctionnaires.et.vacations.csv)  
 #'   
 #'**Nota:**  
 #'FEV : fonctionnaire effectuant des vacations
 #'
-#'## 5.3 Contrôles sur les cumuls traitement indiciaire, indemnités et vacations des contractuels
+#'## 5.3 ContrÃ´les sur les cumuls traitement indiciaire, indemnitÃ©s et vacations des contractuels
 
-# Vacations et régime indemnitaire
+# Vacations et rÃ©gime indemnitaire
 
-lignes.contractuels.et.vacations <- Bulletins.paie.Lignes.paie[ ! Statut %in% c("TITULAIRE", "STAGIAIRE")  & Code %in% codes.paiement[codes.paiement$Type.rémunération == "VACATIONS","Code.rubrique"], c(étiquette.matricule, "Code", étiquette.libellé, étiquette.montant)]
+lignes.contractuels.et.vacations <- Bulletins.paie.Lignes.paie[ ! Statut %in% c("TITULAIRE", "STAGIAIRE")  & Code %in% codes.paiement[codes.paiement$Type.rÃ©munÃ©ration == "VACATIONS","Code.rubrique"], c(Ã©tiquette.matricule, "Code", Ã©tiquette.libellÃ©, Ã©tiquette.montant)]
 matricules.contractuels.et.vacations <- unique(lignes.contractuels.et.vacations$Matricule)
 nombre.contractuels.et.vacations <- length(matricules.contractuels.et.vacations)
 
-RI.et.vacations <- Bulletins.paie.Lignes.paie[ Matricule %in% matricules.contractuels.et.vacations & Code %in% codes.paiement[codes.paiement$Type.rémunération == "INDEMNITAIRE.OU.CONTRACTUEL","Code.rubrique"], c(étiquette.matricule, "Statut", "Code", étiquette.libellé, étiquette.montant)]
+RI.et.vacations <- Bulletins.paie.Lignes.paie[ Matricule %in% matricules.contractuels.et.vacations & Code %in% codes.paiement[codes.paiement$Type.rÃ©munÃ©ration == "INDEMNITAIRE.OU.CONTRACTUEL","Code.rubrique"], c(Ã©tiquette.matricule, "Statut", "Code", Ã©tiquette.libellÃ©, Ã©tiquette.montant)]
 
 
 # Vacations et indiciaire
 
-traitement.et.vacations <- Bulletins.paie.Lignes.paie[ Matricule %in% matricules.contractuels.et.vacations & Code %in% codes.paiement[codes.paiement$Type.rémunération == "TRAITEMENT","Code.rubrique"], c(étiquette.matricule, "Statut", "Code", étiquette.libellé, étiquette.montant)]
+traitement.et.vacations <- Bulletins.paie.Lignes.paie[ Matricule %in% matricules.contractuels.et.vacations & Code %in% codes.paiement[codes.paiement$Type.rÃ©munÃ©ration == "TRAITEMENT","Code.rubrique"], c(Ã©tiquette.matricule, "Statut", "Code", Ã©tiquette.libellÃ©, Ã©tiquette.montant)]
 
 nombre.Lignes.paie.contractuels.et.vacations <- nrow(lignes.contractuels.et.vacations)
 nombre.Lignes.paie.RI.et.vacations <- nrow(RI.et.vacations)
@@ -1237,22 +1237,22 @@ Tableau(c("Nombre de CEV",
           nombre.Lignes.paie.traitement.et.vacations)
 
 #'
-#'[Lien vers la base de données Matricules des CEV](Bases/matricules.contractuels.et.vacations.csv)  
-#'[Lien vers la base de données Lignes de paie de CEV](Bases/RI.et.vacations.csv)  
-#'[Lien vers la base de données Lignes de traitement indiciaire pour CEV](Bases/traitement.et.vacations.csv)  
+#'[Lien vers la base de donnÃ©es Matricules des CEV](Bases/matricules.contractuels.et.vacations.csv)  
+#'[Lien vers la base de donnÃ©es Lignes de paie de CEV](Bases/RI.et.vacations.csv)  
+#'[Lien vers la base de donnÃ©es Lignes de traitement indiciaire pour CEV](Bases/traitement.et.vacations.csv)  
 #'    
 #'     
 #'     
-#'## 5.4 Contrôle sur les indemnités IAT et IFTS
+#'## 5.4 ContrÃ´le sur les indemnitÃ©s IAT et IFTS
 
 #IAT et IFTS
 
-filtre.iat<-grep(".*(IAT|I.A.T|.*Adm.*Tech).*", Libellé, ignore.case = TRUE)
-filtre.ifts<-grep(".*(IFTS|I.F.T.S|.*FORF.*TRAV.*SUPP).*", Libellé, ignore.case = TRUE)
+filtre.iat<-grep(".*(IAT|I.A.T|.*Adm.*Tech).*", LibellÃ©, ignore.case = TRUE)
+filtre.ifts<-grep(".*(IFTS|I.F.T.S|.*FORF.*TRAV.*SUPP).*", LibellÃ©, ignore.case = TRUE)
 codes.ifts <- unique(Bulletins.paie.Lignes.paie[filtre.ifts, "Code"])
 
-personnels.iat.ifts <- intersect(as.character(Bulletins.paie.Lignes.paie[ filtre.iat, c(étiquette.matricule)]),
-                                 as.character(Bulletins.paie.Lignes.paie[ filtre.ifts, c(étiquette.matricule)]))
+personnels.iat.ifts <- intersect(as.character(Bulletins.paie.Lignes.paie[ filtre.iat, c(Ã©tiquette.matricule)]),
+                                 as.character(Bulletins.paie.Lignes.paie[ filtre.ifts, c(Ã©tiquette.matricule)]))
 
 nombre.personnels.iat.ifts <- length(personnels.iat.ifts)
 
@@ -1262,27 +1262,27 @@ Tableau(c("Codes IFTS", "Nombre de personnels percevant IAT et IFTS"), sep.milli
 
 #'
 #'[Codes IFTS retenus](Bases/codes.ifts.csv)    
-#'[Lien vers la base de données](Bases/personnels.iat.ifts.csv)    
+#'[Lien vers la base de donnÃ©es](Bases/personnels.iat.ifts.csv)    
 #'
-#'### Contrôle sur les IFTS pour catégories B et contractuels
+#'### ContrÃ´le sur les IFTS pour catÃ©gories B et contractuels
 
 #IFTS et IB >= 380 (IM >= 350)
 
-df1 <- Bulletins.paie.Lignes.paie[ Indice < 350, c(étiquette.matricule)]
+df1 <- Bulletins.paie.Lignes.paie[ Indice < 350, c(Ã©tiquette.matricule)]
 df1 <- df1[!duplicated(df1)]
 
-df2 <- Bulletins.paie.Lignes.paie[ filtre.ifts, c(étiquette.matricule)]
+df2 <- Bulletins.paie.Lignes.paie[ filtre.ifts, c(Ã©tiquette.matricule)]
 df2 <- df2[!duplicated(df2)]
 
 df3 <- intersect(df1,df2)
 
-lignes.ifts.anormales <- Bulletins.paie.Lignes.paie[Matricule %in% df3 & Code %in% codes.ifts & (Indice < 380 ), c(étiquette.matricule, "Statut", "Code", étiquette.libellé, "Indice", étiquette.montant)]
+lignes.ifts.anormales <- Bulletins.paie.Lignes.paie[Matricule %in% df3 & Code %in% codes.ifts & (Indice < 380 ), c(Ã©tiquette.matricule, "Statut", "Code", Ã©tiquette.libellÃ©, "Indice", Ã©tiquette.montant)]
 nombre.lignes.ifts.anormales <- nrow(lignes.ifts.anormales)
 
 rm(df1, df2, df3)
 # IFTS et non tit
 
-ifts.et.contractuel <- Bulletins.paie.Lignes.paie[Code %in% codes.ifts & ! Statut %in% c("TITULAIRE", "STAGIAIRE"), c(étiquette.matricule, "Statut", "Code", étiquette.libellé, "Indice", étiquette.montant)]
+ifts.et.contractuel <- Bulletins.paie.Lignes.paie[Code %in% codes.ifts & ! Statut %in% c("TITULAIRE", "STAGIAIRE"), c(Ã©tiquette.matricule, "Statut", "Code", Ã©tiquette.libellÃ©, "Indice", Ã©tiquette.montant)]
 nombres.lignes.ifts.et.contractuel <- nrow(ifts.et.contractuel)
 
 #'
@@ -1290,96 +1290,96 @@ nombres.lignes.ifts.et.contractuel <- nrow(ifts.et.contractuel)
 Tableau(c("Nombre de contractuels percevant des IFTS", "Nombre de lignes IFTS pour IB < 380"), nombres.lignes.ifts.et.contractuel, nombre.lignes.ifts.anormales)
 
 #'
-#'[Lien vers la base de données Lignes IFTS pour contractuels](Bases/ifts.et.contractuel.csv)  
-#'[Lien vers la base de données Lignes IFTS pour IB < 380](Bases/lignes.ifts.anormales.csv)  
+#'[Lien vers la base de donnÃ©es Lignes IFTS pour contractuels](Bases/ifts.et.contractuel.csv)  
+#'[Lien vers la base de donnÃ©es Lignes IFTS pour IB < 380](Bases/lignes.ifts.anormales.csv)  
 #'       
 #'**Nota:**  
-#'IB < 380 : fonctionnaire percevant un indice brut inférieur à 380  
+#'IB < 380 : fonctionnaire percevant un indice brut infÃ©rieur Ã  380  
 #'
 #'######      
 #'
-#'## 5.5 Contrôle sur les heures supplémentaires
+#'## 5.5 ContrÃ´le sur les heures supplÃ©mentaires
 
-HS.sup.25 <- Bulletins.paie.Lignes.paie[Heures.Sup. >= 25 , c(étiquette.matricule, étiquette.année, "Mois", "Statut", "Heures.Sup.", "Brut")]
+HS.sup.25 <- Bulletins.paie.Lignes.paie[Heures.Sup. >= 25 , c(Ã©tiquette.matricule, Ã©tiquette.annÃ©e, "Mois", "Statut", "Heures.Sup.", "Brut")]
 nombre.Lignes.paie.HS.sup.25 <- nrow(HS.sup.25)
 
 # with(Base2,
-#      ihts.anormales <<- Base2[! Code.catégorie %in% c("B", "C") & substr(Code,1,2) %in% c("19") & ! grepl(" ENS", Libellé), c(étiquette.matricule, "Code", étiquette.libellé, étiquette.montant, "Code.catégorie")]
+#      ihts.anormales <<- Base2[! Code.catÃ©gorie %in% c("B", "C") & substr(Code,1,2) %in% c("19") & ! grepl(" ENS", LibellÃ©), c(Ã©tiquette.matricule, "Code", Ã©tiquette.libellÃ©, Ã©tiquette.montant, "Code.catÃ©gorie")]
 # )
 
 ihts.anormales <- data.frame(NULL)
 nombre.ihts.anormales <- nrow(ihts.anormales)
 #'
  
-Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"), nombre.Lignes.paie.HS.sup.25, nombre.ihts.anormales)
+Tableau(c("Nombre de lignes HS en excÃ¨s", "Nombre de lignes IHTS anormales"), nombre.Lignes.paie.HS.sup.25, nombre.ihts.anormales)
 
 #'
-#'[Lien vers la base de données Heures suplémentaires en excès](Bases/HS.sup.25.csv)  
-#'[Lien vers la base de données IHTS anormales](Bases/ihts.anormales.csv)  
+#'[Lien vers la base de donnÃ©es Heures suplÃ©mentaires en excÃ¨s](Bases/HS.sup.25.csv)  
+#'[Lien vers la base de donnÃ©es IHTS anormales](Bases/ihts.anormales.csv)  
 #'       
 #'**Nota:**  
-#'HS en excès : au-delà de 25 heures par mois  
-#'IHTS anormales : non attribuées à des fonctionnaires de catégorie B ou C.  
+#'HS en excÃ¨s : au-delÃ  de 25 heures par mois  
+#'IHTS anormales : non attribuÃ©es Ã  des fonctionnaires de catÃ©gorie B ou C.  
 #'
-#'## 5.6 Contrôle sur les indemnités des élus
+#'## 5.6 ContrÃ´le sur les indemnitÃ©s des Ã©lus
 #'     
 
-matricules.à.identifier <- unique(Bulletins.paie.Lignes.paie[ , 
-                                                             c(étiquette.année,
+matricules.Ã .identifier <- unique(Bulletins.paie.Lignes.paie[ , 
+                                                             c(Ã©tiquette.annÃ©e,
                                                                "Service",
                                                                "Grade",
                                                                "Nom",
-                                                               étiquette.matricule)])
+                                                               Ã©tiquette.matricule)])
 
 if (fichier.personnels.existe) {
-  matricules.à.identifier <- merge(matricules.à.identifier, base.personnels.catégorie, by = "Matricule", all=TRUE)
+  matricules.Ã .identifier <- merge(matricules.Ã .identifier, base.personnels.catÃ©gorie, by = "Matricule", all=TRUE)
 } else {
-  Catégorie <- character(length = nrow(matricules.à.identifier))
-  matricules.à.identifier <- cbind(matricules.à.identifier, Catégorie)
+  CatÃ©gorie <- character(length = nrow(matricules.Ã .identifier))
+  matricules.Ã .identifier <- cbind(matricules.Ã .identifier, CatÃ©gorie)
 }
 
-matricules.à.identifier <- matricules.à.identifier[order(matricules.à.identifier$Matricule,
-                                                         matricules.à.identifier$Année),]
+matricules.Ã .identifier <- matricules.Ã .identifier[order(matricules.Ã .identifier$Matricule,
+                                                         matricules.Ã .identifier$AnnÃ©e),]
 
 
-rémunérations.élu <- Analyse.rémunérations[ Analyse.rémunérations$indemnités.élu > 0,
-                                             c(étiquette.matricule,
-                                               "Année",
-                                               "indemnités.élu",
-                                               "autres.rémunérations",
-                                               "total.rémunérations") ]
+rÃ©munÃ©rations.Ã©lu <- Analyse.rÃ©munÃ©rations[ Analyse.rÃ©munÃ©rations$indemnitÃ©s.Ã©lu > 0,
+                                             c(Ã©tiquette.matricule,
+                                               "AnnÃ©e",
+                                               "indemnitÃ©s.Ã©lu",
+                                               "autres.rÃ©munÃ©rations",
+                                               "total.rÃ©munÃ©rations") ]
 
 
-rémunérations.élu <- mutate(rémunérations.élu,
-                            total.rémunérations = indemnités.élu + autres.rémunérations + total.rémunérations)
+rÃ©munÃ©rations.Ã©lu <- mutate(rÃ©munÃ©rations.Ã©lu,
+                            total.rÃ©munÃ©rations = indemnitÃ©s.Ã©lu + autres.rÃ©munÃ©rations + total.rÃ©munÃ©rations)
                                    
 
-rémunérations.élu <- merge(unique(matricules.à.identifier[c("Nom",  étiquette.matricule)]),
-                            rémunérations.élu,
+rÃ©munÃ©rations.Ã©lu <- merge(unique(matricules.Ã .identifier[c("Nom",  Ã©tiquette.matricule)]),
+                            rÃ©munÃ©rations.Ã©lu,
                             all.y = TRUE,
                             all.x = FALSE)
 
-names(rémunérations.élu) <- c(étiquette.matricule, "Nom", "Année", "Indemnités d'élu (euros)", "Autres rémunérations (euros)", "Total (euros)")
+names(rÃ©munÃ©rations.Ã©lu) <- c(Ã©tiquette.matricule, "Nom", "AnnÃ©e", "IndemnitÃ©s d'Ã©lu (euros)", "Autres rÃ©munÃ©rations (euros)", "Total (euros)")
 
 #'   
 
-kable(rémunérations.élu, row.names = FALSE)
+kable(rÃ©munÃ©rations.Ã©lu, row.names = FALSE)
 
 #'     
-Sauv.base(chemin("Bases"), "matricules.à.identifier", fichier.personnels)
+Sauv.base(chemin("Bases"), "matricules.Ã .identifier", fichier.personnels)
 
-#'[Lien vers la base de données Rémunérations des élus](Bases/rémunérations.élu.csv)  
+#'[Lien vers la base de donnÃ©es RÃ©munÃ©rations des Ã©lus](Bases/rÃ©munÃ©rations.Ã©lu.csv)  
 #'     
 
 #'# Annexe
 
-#'## Liens complémentaires
+#'## Liens complÃ©mentaires
 #'     
-#'[Lien vers la base de données fusionnées des bulletins et lignes de paie](Bases/Bulletins.paie.Lignes.paie.csv)
+#'[Lien vers la base de donnÃ©es fusionnÃ©es des bulletins et lignes de paie](Bases/Bulletins.paie.Lignes.paie.csv)
 #'      
 #'[Lien vers le tableau des codes de paiement](Bases/codes.paiement.csv)
 #'
-#'[Lien vers le fichier des personnels](Bases/Catégories des personnels.csv)
+#'[Lien vers le fichier des personnels](Bases/CatÃ©gories des personnels.csv)
 #'
 
 with( Lignes.paie,
@@ -1387,18 +1387,18 @@ with( Lignes.paie,
     codes.paiement <<- unique(Lignes.paie[  Montant > 0 
                                               & nchar(as.character(Code)) == 4 
                                               & as.numeric(substr(Code, 1,1)) < 5,
-                                              c("Code", étiquette.libellé)]))
+                                              c("Code", Ã©tiquette.libellÃ©)]))
 
 codes.paiement <- cbind(codes.paiement[order(substr(codes.paiement$Code,1,3)), ],
                         character(nrow(codes.paiement)))
 
-names(codes.paiement)[3] <- étiquette.Type.rémunération
+names(codes.paiement)[3] <- Ã©tiquette.Type.rÃ©munÃ©ration
 
 #'---
 #'   
 #'# Tableau des codes de paiement
 #'
-#'##  Renseigner le type de rémunération
+#'##  Renseigner le type de rÃ©munÃ©ration
 #'
 #'Utiliser les codes : TRAITEMENT, INDEMNITAIRE.OU.CONTRACTUEL, ELU, AUTRES  
 #'  
@@ -1409,32 +1409,32 @@ kable(codes.paiement, row.names = FALSE)
 #'<!-- BREAK -->
 #'
 #'                             
-#'# Tableau des personnels : renseigner la catégorie  
+#'# Tableau des personnels : renseigner la catÃ©gorie  
 #'
 #'Utiliser les codes : A, B, C, ELU, AUTRES    
 #'
-#'En cas de changement de catégorie en cours de période, utiliser la catégorie AUTRES   
-#'Cela peut conduire à modifier manuellement le fichier Catégories des personnels.csv
+#'En cas de changement de catÃ©gorie en cours de pÃ©riode, utiliser la catÃ©gorie AUTRES   
+#'Cela peut conduire Ã  modifier manuellement le fichier CatÃ©gories des personnels.csv
 #'
-kable(matricules.à.identifier, row.names = FALSE)
+kable(matricules.Ã .identifier, row.names = FALSE)
 #'
 
 detach(Bulletins.paie.Lignes.paie)
 
 #/* ------------------------------------------------------------------------------------------------------------------*/
-#  Sauvegardes : enlever les commentaires en mode opérationnel
+#  Sauvegardes : enlever les commentaires en mode opÃ©rationnel
 ##
 
 
 if (sauvegarder.bases) 
   sauv.bases("Bases",
     "Analyse.variations.par.exercice",
-    "Analyse.variations.synthèse",
-    "Analyse.variations.synthèse.filtrée",
-    "Analyse.variations.synthèse.filtrée.plus.2.ans",
-    "Analyse.variations.synthèse.filtrée.moins.2.ans",
-    "Analyse.rémunérations",
-    "Bulletins.paie.nir.total.hors.élus",
+    "Analyse.variations.synthÃ¨se",
+    "Analyse.variations.synthÃ¨se.filtrÃ©e",
+    "Analyse.variations.synthÃ¨se.filtrÃ©e.plus.2.ans",
+    "Analyse.variations.synthÃ¨se.filtrÃ©e.moins.2.ans",
+    "Analyse.rÃ©munÃ©rations",
+    "Bulletins.paie.nir.total.hors.Ã©lus",
     "Bulletins.paie.nir.fonctionnaires",
     "Bulletins.paie.Lignes.paie", 
     "NBI.aux.non.titulaires",
@@ -1452,7 +1452,7 @@ if (sauvegarder.bases)
     "traitement.et.vacations",
     "matricules.contractuels.et.vacations",
     "matricules.fonctionnaires.et.vacations",
-    "rémunérations.élu",
+    "rÃ©munÃ©rations.Ã©lu",
     "codes.paiement")
 
 

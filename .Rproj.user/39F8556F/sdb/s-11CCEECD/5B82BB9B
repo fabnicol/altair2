@@ -1,0 +1,16 @@
+{
+    "contents" : "# prologue \n# doit être dans le même répertoire que le programme principal et sa bibliothèque\n\nwindows <- (Sys.info()[\"sysname\"] != \"Linux\")\n\nif (windows)\n{ \n    encodage.entrée <- \"ISO-8859-1\"    \n} else \n{\n    encodage.entrée <- \"UTF-8\"    \n}\n\nchemin.dossier <- getwd()\n\n  \ndébut.période.sous.revue <- 2011\nfin.période.sous.revue   <- 2012\nétiquette.matricule <- \"Matricule\"\nétiquette.Type.rémunération <- \"Type rémunération\"\nétiquette.année <- \"Année\"\nétiquette.libellé <- \"Libellé\"\nétiquette.rém.indemn <- \"Rémunération contractuelle ou indemnitaire\"\nchamp.détection.1 <- étiquette.matricule\nchamp.détection.2 <- \"Code\"\ndate.format <- \"%d/%m/%Y\"",
+    "created" : 1399857650004.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "669708561",
+    "id" : "5B82BB9B",
+    "lastKnownWriteTime" : 1399857858,
+    "path" : "~/Dev/altair/Tests/Exemple/prologue.R",
+    "project_path" : "Tests/Exemple/prologue.R",
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

@@ -1,33 +1,26 @@
 # prologue 
-# doit être dans le même répertoire que le programme principal et sa bibliothèque
+# doit Ãªtre dans le mÃªme rÃ©pertoire que le programme principal et sa bibliothÃ¨que
 
 windows <- (Sys.info()["sysname"] != "Linux")
 
 if (windows)
 { 
-    encodage.entrée <- "ISO-8859-1"    
+    encodage.entrÃ©e <- "ISO-8859-1"    
 } else 
 {
-    encodage.entrée <- "UTF-8"    
+    encodage.entrÃ©e <- "UTF-8"    
 }
 
 chemin.dossier <- getwd()
 
-
-# ne pas utiliser ifelse
-if (windows) 
-{
-  ic <<- function(x) iconv(x, to="UTF-8") 
-} else
-  ic <<- x
   
-début.période.sous.revue <- 2011
-fin.période.sous.revue   <- 2012
-étiquette.matricule <- "Matricule"
-étiquette.Type.rémunération <- ic("Type rémunération")
-étiquette.année <- ic("Année")
-étiquette.libellé <- ic("Libellé")
-étiquette.rém.indemn <- ic("Rémunération contractuelle ou indemnitaire")
-champ.détection.1 <- étiquette.matricule
-champ.détection.2 <- "Code"
+dÃ©but.pÃ©riode.sous.revue <- 2011
+fin.pÃ©riode.sous.revue   <- 2012
+Ã©tiquette.matricule <- "Matricule"
+Ã©tiquette.Type.rÃ©munÃ©ration <- "Type rÃ©munÃ©ration"
+Ã©tiquette.annÃ©e <- "AnnÃ©e"
+Ã©tiquette.libellÃ© <- "LibellÃ©"
+Ã©tiquette.rÃ©m.indemn <- "RÃ©munÃ©ration contractuelle ou indemnitaire"
+champ.dÃ©tection.1 <- Ã©tiquette.matricule
+champ.dÃ©tection.2 <- "Code"
 date.format <- "%d/%m/%Y"

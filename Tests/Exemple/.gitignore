@@ -1,4 +1,5 @@
-Exemple.pdf
+*.pdf
+*.docx
 *png
 *csv
 *gz

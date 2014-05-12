@@ -7,15 +7,15 @@ chemin <-  function(fichier)
 
 scan.prime <- function(texte, Base)
 {
-  unique(Base[grep(paste0(".*(", texte,").*"), Base$Libellé, ignore.case = TRUE), c("Matricule", "Libellé", "Libellé")])
+  unique(Base[grep(paste0(".*(", texte,").*"), Base$LibellÃ©, ignore.case = TRUE), c("Matricule", "LibellÃ©", "LibellÃ©")])
 }
 
 
-# Trouve le numéro de la ligne à laquelle se situe la liste des noms de variables
+# Trouve le numÃ©ro de la ligne Ã  laquelle se situe la liste des noms de variables
 # en recherchant soit le mot "Matricule" soit une expression du type "Code..."
-# Il faudra déduire ce "skip" du read.csv2 pour récupérer proprement les noms de variable
+# Il faudra dÃ©duire ce "skip" du read.csv2 pour rÃ©cupÃ©rer proprement les noms de variable
 
-# Pour cela on scanne les 25 premières lignes de la table une première fois
+# Pour cela on scanne les 25 premiÃ¨res lignes de la table une premiÃ¨re fois
 
 
 trouver.valeur.skip <-  function(chemin.table, encodage) 
@@ -24,9 +24,9 @@ trouver.valeur.skip <-  function(chemin.table, encodage)
       read.csv2(chemin.table, nrows = 25, fileEncoding = encodage),
       function(x) 
       {
-        m <- match(champ.détection.1, x, nomatch = 0 ) 
+        m <- match(champ.dÃ©tection.1, x, nomatch = 0 ) 
         if (m == 0)
-          m <- pmatch(champ.détection.2, x, nomatch = 0, duplicates.ok = FALSE ) 
+          m <- pmatch(champ.dÃ©tection.2, x, nomatch = 0, duplicates.ok = FALSE ) 
         return(m)
       }
     ))
@@ -34,26 +34,26 @@ trouver.valeur.skip <-  function(chemin.table, encodage)
 
 selectionner.cle.matricule <-  function(Base1, Base2) 
   subset(Base1, 
-         select = c(champ.détection.1, setdiff(names(Base1),names(Base2))))
+         select = c(champ.dÃ©tection.1, setdiff(names(Base1),names(Base2))))
 
 selectionner.cle.matricule.mois <-  function(Base1, Base2) 
   subset(Base1, 
-         select = c(champ.détection.1,"Mois","Année",
+         select = c(champ.dÃ©tection.1,"Mois","AnnÃ©e",
                   setdiff(names(Base1),names(Base2))))
 
-read.csv.skip <- function(x, encodage = encodage.entrée) 
+read.csv.skip <- function(x, encodage = encodage.entrÃ©e) 
 {
   chem <- chemin(x)
   T <- read.csv2(chem, skip = trouver.valeur.skip(chem, encodage), fileEncoding = encodage)
-  if (encodage.entrée != "UTF-8")
+  if (encodage.entrÃ©e != "UTF-8")
      names(T) <- iconv(names(T), to="UTF-8")
   return(T)
 }
 
-Sauv.base <- function(chemin.dossier, nom, nom.sauv, encodage = encodage.entrée)
+Sauv.base <- function(chemin.dossier, nom, nom.sauv, encodage = encodage.entrÃ©e)
 {
   message("Sauvegarde de ", nom)
-  write.csv2(get(nom), paste0(chemin.dossier, "/", iconv(nom.sauv, to = encodage.entrée), ".csv"), 
+  write.csv2(get(nom), paste0(chemin.dossier, "/", iconv(nom.sauv, to = encodage.entrÃ©e), ".csv"), 
              row.names = FALSE, fileEncoding = encodage)
   
 }
@@ -64,14 +64,14 @@ sauv.bases <- function(dossier, ...)
   
   if (!see_if(is.dir(chemin.dossier)))
   {
-    stop("Pas de dossier de travail spécifié")
+    stop("Pas de dossier de travail spÃ©cifiÃ©")
   }
   
   tmp <- as.list(match.call()) 
   tmp[1] <- NULL
  
   message("Dans le dossier ", chemin.dossier," :")
-  invisible(lapply(tmp[-1], function(x) Sauv.base(chemin.dossier, ic(x), x)))
+  invisible(lapply(tmp[-1], function(x) Sauv.base(chemin.dossier, x, x)))
 }
 
 # Utiliser une assignation globale 
@@ -81,11 +81,11 @@ Read.csv <- function(vect.chemin)   do.call(rbind, lapply(vect.chemin, read.csv.
 
 pretty.print <- function(x) cat(gsub(".", " ",deparse(substitute(x)), fixed = TRUE), "   ", x,"\n")
 
-est.code.de.type <- function(x, Base) Base$Code %in% Code.prime[Code.prime$Type.rémunération == x, "Code"]
+est.code.de.type <- function(x, Base) Base$Code %in% Code.prime[Code.prime$Type.rÃ©munÃ©ration == x, "Code"]
 
-Résumé <- function(x,y, align = 'r',...) 
+RÃ©sumÃ© <- function(x,y, align = 'r',...) 
               {
-                 S <- cbind(c("Minimum", "1er quartile", "Médiane", "Moyenne", "3ème quartile", "Maximum"), 
+                 S <- cbind(c("Minimum", "1er quartile", "MÃ©diane", "Moyenne", "3Ã¨me quartile", "Maximum"), 
                             prettyNum(sub("[M13].*:", "", summary(y, ...)), big.mark = " "))
                  
                  dimnames(S)[[2]] <- c("Statistique", x)
@@ -118,10 +118,10 @@ Tableau.vertical <- function(colnames, rownames, f)
   kable(T, row.names = FALSE, align = "c")
 }
 
-Tableau.vertical2 <- function(colnames, données.col1, données.col2)
+Tableau.vertical2 <- function(colnames, donnÃ©es.col1, donnÃ©es.col2)
 {
 
-  T <- data.frame(données.col1, prettyNum(données.col2, big.mark=" "))
+  T <- data.frame(donnÃ©es.col1, prettyNum(donnÃ©es.col2, big.mark=" "))
   
   names(T) <- colnames
   
@@ -129,74 +129,74 @@ Tableau.vertical2 <- function(colnames, données.col1, données.col2)
 }
 
 
-  julian.date.début.période <- julian(as.Date(paste0("01/01/", début.période.sous.revue), date.format))
-  julian.exercice.suivant.premier <- julian(as.Date(paste0("01/01/",(début.période.sous.revue+1)), date.format))
-  julian.date.fin.période   <- julian(as.Date(paste0("01/01/", fin.période.sous.revue+1), date.format))
-  julian.exercice.dernier <- julian(as.Date(paste0("01/01/",fin.période.sous.revue), date.format))
+  julian.date.dÃ©but.pÃ©riode <- julian(as.Date(paste0("01/01/", dÃ©but.pÃ©riode.sous.revue), date.format))
+  julian.exercice.suivant.premier <- julian(as.Date(paste0("01/01/",(dÃ©but.pÃ©riode.sous.revue+1)), date.format))
+  julian.date.fin.pÃ©riode   <- julian(as.Date(paste0("01/01/", fin.pÃ©riode.sous.revue+1), date.format))
+  julian.exercice.dernier <- julian(as.Date(paste0("01/01/",fin.pÃ©riode.sous.revue), date.format))
 
-calcul.nb.jours <- function(entrée, sortie) 
+calcul.nb.jours <- function(entrÃ©e, sortie) 
 {
   
-  julian.entrée <- 
-    ifelse(entrée == "", 
-           julian.date.début.période,
-           max(julian.date.début.période, julian(as.Date(entrée, date.format))))
+  julian.entrÃ©e <- 
+    ifelse(entrÃ©e == "", 
+           julian.date.dÃ©but.pÃ©riode,
+           max(julian.date.dÃ©but.pÃ©riode, julian(as.Date(entrÃ©e, date.format))))
   
   julian.sortie <- 
     ifelse(sortie == "", 
-           julian.date.fin.période, 
-           min(julian.date.fin.période, julian(as.Date(sortie, date.format))))
+           julian.date.fin.pÃ©riode, 
+           min(julian.date.fin.pÃ©riode, julian(as.Date(sortie, date.format))))
   
-  return (julian.sortie - julian.entrée)
+  return (julian.sortie - julian.entrÃ©e)
 }
 
-calcul.nb.jours.mois <- function(mois.entrée, mois.sortie, année)
+calcul.nb.jours.mois <- function(mois.entrÃ©e, mois.sortie, annÃ©e)
 {
-  if (mois.sortie < mois.entrée) return(0);
+  if (mois.sortie < mois.entrÃ©e) return(0);
   
   if (mois.sortie == 12) 
   {
-     année.sortie <- année +1
+     annÃ©e.sortie <- annÃ©e +1
      mois.sortie = 1
   }
   else
   {
-    année.sortie <- année
+    annÃ©e.sortie <- annÃ©e
     mois.sortie <- mois.sortie + 1
   }
   
    as.numeric(as.Date(paste0("01", 
                                   formatC(mois.sortie, width = 2, flag = "0"),
-                                  année.sortie),
+                                  annÃ©e.sortie),
                       "%d%m%Y")
               - as.Date(paste0("01",
-                                   formatC(mois.entrée, width = 2, flag = "0"),
-                                   année),
+                                   formatC(mois.entrÃ©e, width = 2, flag = "0"),
+                                   annÃ©e),
                             "%d%m%Y"))
 }
 
-calcul.nb.jours.dans.exercice.in <- function(entrée) 
+calcul.nb.jours.dans.exercice.in <- function(entrÃ©e) 
 {
-  date.entrée <- as.Date(entrée, date.format)
+  date.entrÃ©e <- as.Date(entrÃ©e, date.format)
   
-  if (entrée == "")
+  if (entrÃ©e == "")
   {
-    julian.entrée <-  julian.date.début.période
+    julian.entrÃ©e <-  julian.date.dÃ©but.pÃ©riode
     julian.fin.exercice <- julian.exercice.suivant.premier
   }
   else
   {
-    julian.entrée <- julian(date.entrée)
-    if (julian.date.début.période < julian.entrée)
-      julian.fin.exercice <- julian(as.Date(paste0("01/01/",as.integer(substr(entrée, 7, 10))+1), date.format))
+    julian.entrÃ©e <- julian(date.entrÃ©e)
+    if (julian.date.dÃ©but.pÃ©riode < julian.entrÃ©e)
+      julian.fin.exercice <- julian(as.Date(paste0("01/01/",as.integer(substr(entrÃ©e, 7, 10))+1), date.format))
     else
     {
       julian.fin.exercice <- julian.exercice.suivant.premier
-      julian.entrée <- julian.date.début.période
+      julian.entrÃ©e <- julian.date.dÃ©but.pÃ©riode
     }
   }
   
-  return (julian.fin.exercice - julian.entrée)
+  return (julian.fin.exercice - julian.entrÃ©e)
   
 }
 
@@ -206,30 +206,30 @@ calcul.nb.jours.dans.exercice.out <- function(sortie)
   
   if (sortie == "")
   {
-    julian.sortie <-  julian.date.fin.période
-    julian.début.exercice <- julian.exercice.dernier
+    julian.sortie <-  julian.date.fin.pÃ©riode
+    julian.dÃ©but.exercice <- julian.exercice.dernier
   }
   else
   {
     julian.sortie <- julian(date.sortie)
-    if (julian.date.début.période < julian.sortie)
-      julian.début.exercice <- julian(as.Date(paste0("01/01/",as.integer(substr(sortie, 7, 10))), date.format))
+    if (julian.date.dÃ©but.pÃ©riode < julian.sortie)
+      julian.dÃ©but.exercice <- julian(as.Date(paste0("01/01/",as.integer(substr(sortie, 7, 10))), date.format))
     else
     {
-      julian.début.exercice <- julian.date.début.période
+      julian.dÃ©but.exercice <- julian.date.dÃ©but.pÃ©riode
       julian.sortie <- julian.exercice.suivant.premier
     }
   }
   
-  return (julian.sortie - julian.début.exercice)
+  return (julian.sortie - julian.dÃ©but.exercice)
   
 }
 
-calcul.variation <- function(rémunération.début, rémunération.sortie, nb.jours.exercice.début, nb.jours.exercice.sortie, nb.exercices)
+calcul.variation <- function(rÃ©munÃ©ration.dÃ©but, rÃ©munÃ©ration.sortie, nb.jours.exercice.dÃ©but, nb.jours.exercice.sortie, nb.exercices)
 {
   if (nb.exercices > 1)  
     
-    return(ifelse(rémunération.début == 0, 0, ( rémunération.sortie / rémunération.début   - 1  ) * 100))
+    return(ifelse(rÃ©munÃ©ration.dÃ©but == 0, 0, ( rÃ©munÃ©ration.sortie / rÃ©munÃ©ration.dÃ©but   - 1  ) * 100))
   
   else
     
@@ -249,22 +249,22 @@ installer.paquet <- function(paquet, rigoureusement = FALSE)
     install.packages(Paquet)
     if (length(find.package(Paquet, quiet = TRUE)) !=0 )
     {
-      message(Paquet, " a été installé.")
+      message(Paquet, " a Ã©tÃ© installÃ©.")
       return(invisible(1))
     }
     else
     {
-      message(Paquet, " n'a pas été installé.")
+      message(Paquet, " n'a pas Ã©tÃ© installÃ©.")
       if (rigoureusement == TRUE) 
       {
-        message("Arrêt: le paquet ", Paquet, " n'a pas pu être installé.")
+        message("ArrÃªt: le paquet ", Paquet, " n'a pas pu Ãªtre installÃ©.")
         stop("Fin")
       }
       return(invisible(0))
     }
   }
   else
-    message(Paquet, " est déjà installé.")
+    message(Paquet, " est dÃ©jÃ  installÃ©.")
   return(invisible(0))
 }
 
