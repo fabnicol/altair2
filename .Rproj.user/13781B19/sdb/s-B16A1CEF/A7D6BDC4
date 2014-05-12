@@ -1,0 +1,17 @@
+{
+    "contents" : "# prologue \n# doit être dans le même répertoire que le programme principal et sa bibliothèque\n\nwindows <- (Sys.info()[\"sysname\"] != \"Linux\")\n\nif (windows)\n{ \n    racine <- \"C:/Users/fnicol/\"\n    encodage.entrée <- \"ISO-8859-1\"    \n} else \n{\n    racine <- \"~/\"\n    encodage.entrée <- \"UTF-8\"    \n}\n\nchemin.dossier <- paste0(racine, \"Dev/altair/Tests/Exemple\")\n\n# ne pas utiliser ifelse\nif (windows) \n{\n  ic <<- function(x) iconv(x, to=\"UTF-8\") \n} else\n  ic <<- x\n  \ndébut.période.sous.revue <- 2011\nfin.période.sous.revue   <- 2012\nétiquette.matricule <- \"Matricule\"\nétiquette.Type.rémunération <- ic(\"Type rémunération\")\nétiquette.année <- ic(\"Année\")\nétiquette.libellé <- ic(\"Libellé\")\nétiquette.rém.indemn <- ic(\"Rémunération contractuelle ou indemnitaire\")\nchamp.détection.1 <- étiquette.matricule\nchamp.détection.2 <- \"Code\"\ndate.format <- \"%d/%m/%Y\"",
+    "created" : 1399646473241.000,
+    "dirty" : false,
+    "encoding" : "ISO8859-1",
+    "folds" : "",
+    "hash" : "1566489792",
+    "id" : "A7D6BDC4",
+    "lastKnownWriteTime" : 1399646800,
+    "path" : "C:/Users/fnicol/Dev/altair/Tests/Exemple/prologue.R",
+    "project_path" : "Tests/Exemple/prologue.R",
+    "properties" : {
+        "notebook_format" : "html_document"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}
