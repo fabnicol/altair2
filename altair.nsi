@@ -14,6 +14,7 @@
 !define startmenu "$SMPROGRAMS\${prodname}-${version}"
 !define uninstaller "uninstall.exe"
 !define notefile  "${altair}\LISEZ-MOI.txt"
+!define installfile  "${altair}\INSTALLATION.txt"
 !define MUI_ICON  "${images}\${icon}"
 !define MUI_WELCOMEFINISHPAGE
 !define MUI_WELCOMEPAGE_TEXT  $(wizard1)
@@ -28,8 +29,9 @@
  LangString  wizard1 ${LANG_FRENCH}  "Installation du logiciel Analyse des lignes de traitement, attributions indemnitaires et autres rémunérations. Appuyer sur suivant pour continuer."
  LangString  wizard2 ${LANG_FRENCH}  "Installation du logiciel ${prodname} version ${version}"
  LangString title1 ${LANG_FRENCH}   "Installation terminée"
- LangString title1 ${LANG_FRENCH}  "Installation terminée"
  LangString text1 ${LANG_FRENCH}  "${prodname} ${version} a été installé dans $INSTDIR"
+ LangString title2 ${LANG_FRENCH}   ""
+ LangString text2 ${LANG_FRENCH}  "Compléments d'information sur l'installation."
  LangString uninstall ${LANG_FRENCH}     "désinstallation du logiciel ${prodname} "
  LangString completed ${LANG_FRENCH}    "Installation terminée"
  LangString Sec1Name ${LANG_FRENCH} "Altair"
@@ -57,8 +59,8 @@
 !define MUI_FINISHPAGE_TEXT  $(text1)
 !define MUI_FINISHPAGE_RUN 
 !define MUI_FINISHPAGE_RUN_TEXT "Lire le fichier LISEZ-MOI"
-!define MUI_FINISHPAGE_RUN_FUNCTION "Launch_${prodname}"
-!define MUI_FINISHPAGE_BUTTON  "Terminer"
+!define MUI_FINISHPAGE_RUN_FUNCTION "Launch_LISEZ"
+!define MUI_FINISHPAGE_BUTTON  "Compléments"
 !define MUI_FINISHPAGE_CANCEL_ENABLED 
 
 !insertmacro MUI_PAGE_LICENSE "${altair}\LICENCE"
@@ -66,6 +68,17 @@
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_INSTFILES
 !insertmacro MUI_PAGE_FINISH
+
+!define MUI_FINISHPAGE_TITLE $(title2)
+!define MUI_FINISHPAGE_TEXT  $(text2)
+!define MUI_FINISHPAGE_RUN 
+!define MUI_FINISHPAGE_RUN_TEXT "Lire le fichier INSTALLATION"
+!define MUI_FINISHPAGE_RUN_FUNCTION "Launch_INSTALLATION"
+!define MUI_FINISHPAGE_BUTTON  "Terminer"
+!define MUI_FINISHPAGE_CANCEL_ENABLED 
+
+!insertmacro MUI_PAGE_FINISH
+
 !insertmacro MUI_UNPAGE_INSTFILES
 UninstallText  $(uninstall)
 CompletedText  $(completed)
@@ -105,9 +118,14 @@ Function .onInit
 FunctionEnd
 
 
-Function Launch_${prodname}
+Function Launch_LISEZ
   Exec '"notepad" "$INSTDIR\${notefile}"'
 FunctionEnd
+
+Function Launch_INSTALLATION
+  Exec '"notepad" "$INSTDIR\${installfile}"'
+FunctionEnd
+
 
 Section
 MessageBox MB_YESNO|MB_ICONINFORMATION $(Message)  IDNO Fin IDYES End
@@ -138,31 +156,34 @@ Section  ; allways done
 
   SetOutPath $INSTDIR ; for working directory
   File /r  "${srcdir}\Dev"  
-  File  R-3.1.0-win.exe RStudio-0.98.831.exe basic-miktex-2.9.5105.exe Git-1.9.2-preview20140411.exe
 
 SectionEnd
 
 
  Section  $(Sec2Name) sec2 
    SetOutPath $INSTDIR 
+   File  R-3.1.0-win.exe
    ExecShell "" R-3.1.0-win.exe
    ;ExecWait  'cmd.exe /C "start /B /MAX /WAIT R-3.1.0-win.exe"'
  SectionEnd
 
  Section  $(Sec3Name) sec3 
    SetOutPath $INSTDIR 
+   File RStudio-0.98.831.exe 
    ExecShell "" RStudio-0.98.831.exe
    ;ExecWait  'cmd.exe /C "start /B /MAX /WAIT RStudio-0.98.831.exe"'
  SectionEnd
 
  Section  $(Sec4Name) sec4
   SetOutPath $INSTDIR 
+  File basic-miktex-2.9.5105.exe
   ExecShell "" basic-miktex-2.9.5105.exe
   ;ExecWait  'cmd.exe /C "start /B /MAX /WAIT basic-miktex-2.9.5105.exe"'
  SectionEnd
  
  Section  $(Sec5Name) sec5
   SetOutPath $INSTDIR 
+  File Git-1.9.2-preview20140411.exe
   ExecShell "" Git-1.9.2-preview20140411.exe
   ;ExecWait  'cmd.exe /C "start /B /MAX /WAIT Git-1.9.2-preview20140411.exe"' 
  SectionEnd
