@@ -110,7 +110,7 @@ Bulletins.paie <- Read.csv(bulletins.paie)
 
 # suppression des colonnes Nom Prénom redondantes
 
-Bulletins.paie <-  selectionner.cle.matricule.mois(Bulletins.paie, Lignes.paie)
+Bulletins.paie <- selectionner.cle.matricule.mois(Bulletins.paie, Lignes.paie)
 
 codes.paiement <- read.csv.skip(codes.paiement)
 
@@ -140,8 +140,8 @@ Bulletins.paie.nir.fonctionnaires  <- Bulletins.paie.dernier.mois[Bulletins.paie
 
 # Age au 31 décembre de l'exercice dernier.exerciceal de la période sous revue
 
-années.fonctionnaires   <-fin.période.sous.revue-(as.numeric(substr(as.character(Bulletins.paie.nir.fonctionnaires[,champ.nir]), 2, 3)) + 1900)
-années.total.hors.élus  <-fin.période.sous.revue-(as.numeric(substr(as.character(Bulletins.paie.nir.total.hors.élus[,champ.nir]), 2, 3)) + 1900)
+années.fonctionnaires   <- fin.période.sous.revue - (as.numeric(substr(as.character(Bulletins.paie.nir.fonctionnaires[,champ.nir]), 2, 3)) + 1900)
+années.total.hors.élus  <- fin.période.sous.revue - (as.numeric(substr(as.character(Bulletins.paie.nir.total.hors.élus[,champ.nir]), 2, 3)) + 1900)
 
 ########### Démographie ########################
 
@@ -298,6 +298,8 @@ qplot(factor(Année),
 
 
 Bulletins.paie.Lignes.paie <- mutate(Bulletins.paie.Lignes.paie,
+                                     a.indemnité.élu = Code %in% codes.paiement[codes.paiement$Type.rémunération
+                                                              == "ELU","Code.rubrique"],
                                       montant.traitement.indiciaire 
                                       = Montant*(Code %in% codes.paiement[codes.paiement$Type.rémunération 
                                                                           == "TRAITEMENT","Code.rubrique"]),
@@ -308,8 +310,7 @@ Bulletins.paie.Lignes.paie <- mutate(Bulletins.paie.Lignes.paie,
                                       = Montant*(Code %in% codes.paiement[codes.paiement$Type.rémunération
                                                                           == "AUTRES","Code.rubrique"]),
                                       montant.indemnité.élu 
-                                      = Montant*(Code %in% codes.paiement[codes.paiement$Type.rémunération
-                                                                          == "ELU","Code.rubrique"]))
+                                      = Montant*(a.indemnité.élu == TRUE))
 
 Analyse.rémunérations <- ddply(Bulletins.paie.Lignes.paie,
                               .(Matricule, Année),
@@ -386,7 +387,23 @@ Tableau(c("Masse des rémunérations brutes", "Part de la masse indemnitaire"),
 #'
 #'Cumuls réalisés sur les lignes de paie. Les indemnités d'élu ne sont pas prises en compte.  
 #'
-somme.brut.non.élu  <- sum(Bulletins.paie[Bulletins.paie$Année == année & Bulletins.paie$Service != "Elus", "Brut"])
+#somme.brut.non.élu  <- sum(Bulletins.paie[Bulletins.paie$Année == année & Bulletins.paie$Service != "Elus", "Brut"])
+
+liste.élus <- unique(Bulletins.paie.Lignes.paie[, c("Matricule", "Mois", "a.indemnité.élu")])
+
+# somme.brut.non.élu  <- sum(unique(Bulletins.paie.Lignes.paie[  Bulletins.paie.Lignes.paie$Année == année 
+#                                                       & Bulletins.paie.Lignes.paie$a.indemnité.élu == FALSE,
+#                                                       c(étiquette.matricule, "Mois", "Brut")])$Brut)
+                             
+L <- merge(Bulletins.paie[Bulletins.paie$Année == année , 
+                          c("Matricule", "Mois", "Brut")], liste.élus)
+
+somme.brut.non.élu <- sum(
+                             
+                             L[L$a.indemnité.élu == FALSE, "Brut"]
+                             
+                         )
+  
 delta  <- somme.brut.non.élu - masse.rémunérations.brutes               
 
 #'**Tests de cohérence**  
@@ -1208,8 +1225,12 @@ Tableau(
 
 # Vacations et régime indemnitaire
 
-lignes.contractuels.et.vacations <- Bulletins.paie.Lignes.paie[ ! Statut %in% c("TITULAIRE", "STAGIAIRE")  & Code %in% codes.paiement[codes.paiement$Type.rémunération == "VACATIONS","Code.rubrique"], c(étiquette.matricule, "Code", étiquette.libellé, étiquette.montant)]
+lignes.contractuels.et.vacations <- Bulletins.paie.Lignes.paie[ ! Statut %in% c("TITULAIRE", "STAGIAIRE")  
+                                                                & Code %in% codes.paiement[codes.paiement$Type.rémunération == "VACATIONS","Code.rubrique"],
+                                                                c(étiquette.matricule, "Code", étiquette.libellé, étiquette.montant)]
+
 matricules.contractuels.et.vacations <- unique(lignes.contractuels.et.vacations$Matricule)
+
 nombre.contractuels.et.vacations <- length(matricules.contractuels.et.vacations)
 
 RI.et.vacations <- Bulletins.paie.Lignes.paie[ Matricule %in% matricules.contractuels.et.vacations & Code %in% codes.paiement[codes.paiement$Type.rémunération == "INDEMNITAIRE.OU.CONTRACTUEL","Code.rubrique"], c(étiquette.matricule, "Statut", "Code", étiquette.libellé, étiquette.montant)]
@@ -1217,9 +1238,12 @@ RI.et.vacations <- Bulletins.paie.Lignes.paie[ Matricule %in% matricules.contrac
 
 # Vacations et indiciaire
 
-traitement.et.vacations <- Bulletins.paie.Lignes.paie[ Matricule %in% matricules.contractuels.et.vacations & Code %in% codes.paiement[codes.paiement$Type.rémunération == "TRAITEMENT","Code.rubrique"], c(étiquette.matricule, "Statut", "Code", étiquette.libellé, étiquette.montant)]
+traitement.et.vacations <- Bulletins.paie.Lignes.paie[   Matricule %in% matricules.contractuels.et.vacations 
+                                                       & Code %in% codes.paiement[codes.paiement$Type.rémunération == "TRAITEMENT","Code.rubrique"], 
+                                                       c(étiquette.matricule, "Statut", "Code", étiquette.libellé, étiquette.montant)]
 
 nombre.Lignes.paie.contractuels.et.vacations <- nrow(lignes.contractuels.et.vacations)
+
 nombre.Lignes.paie.RI.et.vacations <- nrow(RI.et.vacations)
 nombre.Lignes.paie.traitement.et.vacations <- nrow(traitement.et.vacations)
 
