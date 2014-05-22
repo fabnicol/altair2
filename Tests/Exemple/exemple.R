@@ -102,9 +102,11 @@ codes.NBI <- c("1012", "101B", "101M", "4652", "4672")
 
 lignes.paie <- lignes.paie[file.exists(chemin(lignes.paie))]
 
-Read.csv(Lignes.paie, lignes.paie)
+Lignes.paie    <- data.frame(NULL)
+Bulletins.paie <- data.frame(NULL)
 
-Read.csv(Bulletins.paie, bulletins.paie)
+Read.csv("Lignes.paie", lignes.paie)
+Read.csv("Bulletins.paie", bulletins.paie)
 
 # suppression des colonnes Nom Prénom redondantes
 
