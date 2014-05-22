@@ -76,7 +76,7 @@ sauv.bases <- function(dossier, ...)
 # Utiliser une assignation globale 
 # car la fonction anonyme ne comporte que de variables locales
 
-Read.csv <- function(vect.chemin)   do.call(rbind, lapply(vect.chemin, read.csv.skip))
+Read.csv <- function(Base, vect.chemin, charger = charger.bases)   if (charger.bases) Base <- do.call(rbind, lapply(vect.chemin, read.csv.skip))
 
 pretty.print <- function(x) cat(gsub(".", " ",deparse(substitute(x)), fixed = TRUE), "   ", x,"\n")
 
