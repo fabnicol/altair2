@@ -1,0 +1,13 @@
+*.csv
+*zip
+*.old
+.directory
+*.md
+figure/*
+*.png
+*.Rmd
+*.xlsx
+Tests/Sierg/*
+Tests/SERGADI/*
+Tests/VLB/*
+.Rproj.user

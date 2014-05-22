@@ -1,0 +1,137 @@
+
+                        ALTAIR
+
+            Analyse des lignes de traitement, 
+   attributions indemnitaires et autres rémunérations
+
+
+Le présent logiciel produit automatiquement des statistiques et des tests
+de cohérence et de conformité comptable et réglementaire, à partir de bases
+de données issues de l'application Xémélios (Direction générale des finances 
+publiques, http://xemelios.org).
+
+
+Installation
+------------
+
+Voir fichier Installation.txt au dialogue suivant.
+
+
+Interface Altair
+----------------
+
+1. Lancement de l'interface
+
+  Cliquer sur l'icône "A" bleue sur le Bureau ou dans le menu Démarrer 
+  dans le répertoire Altair.
+
+  Une interface utilisateur simple s'affiche qui donne le choix entre :
+
+   - le lancement de l'interface RStudio pour afficher le script et lancer
+     son exécution en langage R ;
+
+   - l'affichage de rapports de démonstration aux formats HTML, PDF ou MSWORD.
+
+  Pour afficher les rapports de démonstration directement parl'interface,
+  les logiciels suivants doivent être préinstallés :
+
+    HTML : n'importe quel navigateur enregistré dans le registre comme application
+           par défaut ;
+
+    PDF  : Acrobat Reader d'Adobe;
+    
+    MSWORD : Microsoft Word
+
+2. Affichage du script dans l'interface RStudio
+
+  Au lancement de l'interface RStudio, dans la fenêtre inférieure droite, 
+  cliquer sur le fichier 
+
+               Altair\Tests\Exemple\exemple.R
+
+  Vérifier que l'onglet actif est bien le fichier 'exemple.R' dans la fenêtre
+  supérieure gauche. 
+
+  Pour les lancements suivants de l'interface RStudio, cette opération de 
+  sélection de fichier ne sera plus nécessaire.
+
+3. Production d'un nouveau rapport par exécution du script.
+
+  Appuyer sur l'icône "carnet de notes" à la droite de l'icône 
+  "baguette magique" et à la gauche de 'Run', ou cliquer sur le menu
+  Code > Source, ou appluyer simultanément sur Ctrl + Majuscule + S
+
+  Choisir le type de rapport (.html, .pdf, ou MS Word) dans le dialogue de
+  l'interface graphique.
+
+  Le rapport d'exécution est généré dans le dossier :
+
+               Altair\Tests\Exemple
+
+  Les bases de données sont produites dans le dossier :
+
+               Altair\Tests\Exemple\Bases
+
+Il est possible de visualiser sous Excel ou Wordpad les bases liées par
+des liens hypertextes dans les rapports (.pdf, .docx, .html)
+
+
+Auteur
+------
+
+Logiciel écrit par Fabrice Nicol (fabrnicol@gmail.com)
+
+pour :
+
+Chambre régionale des comptes d'Auvergne, Rhône-Alpes
+
+
+Licence
+-------
+
+Logiciel placé provisoirement sous licence CeCILL jointe (CEA-CNRS-INRIA),
+dans l'attente d'une décision administrative sur ce point. 
+
+L'auteur souhaite que la licence définitive soit de type CeCILL ou LGPL, à 
+l'instar du logiciel Xémélios.
+
+Licences auxiliaires
+--------------------
+
+Aucune dépendance sous licence propriétaire. 
+Voir les licences affichées par les installateurs mentionnés ci-après.
+
+L'installateur Windows a été compilé sous NSIS : http://nsis.sourceforge.net
+à l'aide du fichier altair.nsi
+
+Distribution du code
+--------------------
+
+Le code est téléchargeable sur le site :
+
+  http://github.com/fabnicol/altair
+
+Cliquer sur "Download Zip" ou utiliser le gestionnaire de versions Git par
+clônage de l'entrepôt :
+
+git clone -b windows --single-branch http://github.com/fabnicol/altair.git
+
+L'ensemble du code et des données de démonstration étant anonymisé, un format 
+d'échange public est préconisé par l'auteur du code.
+
+
+Historique
+----------
+
+ décembre 2012  Prototypage du script pour l'examen de gestion du SDIS
+                de l'Isère (rendu public en 2013)
+
+  janvier 2014  Développement du script, première application opérationnelle
+
+    avril 2014  Finalisation de la version 1.0 de la plateforme linux
+
+      mai 2014  Portage sous Windows, tests, installateur NSIS. Améliorations.
+
+   
+                
+      

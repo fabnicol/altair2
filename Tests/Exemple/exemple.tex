@@ -1,0 +1,3175 @@
+\documentclass{article}\usepackage[]{graphicx}\usepackage[]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{amsmath}
+\usepackage{alltt}
+\usepackage[sc]{mathpazo}
+\renewcommand{\sfdefault}{lmss}
+\renewcommand{\ttdefault}{lmtt}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\geometry{verbose,tmargin=2.5cm,bmargin=2.5cm,lmargin=2.5cm,rmargin=2.5cm}
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+\usepackage[unicode=true,pdfusetitle,
+ bookmarks=true,bookmarksnumbered=true,bookmarksopen=true,bookmarksopenlevel=2,
+ breaklinks=false,pdfborder={0 0 1},backref=false,colorlinks=false]
+ {hyperref}
+\hypersetup{
+ pdfstartview={XYZ null null 1}}
+\usepackage{breakurl}
+
+\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\topfraction}{0.8}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\floatpagefraction}{0.75}
+
+\makeatother
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+
+\begin{document}
+
+
+
+
+
+
+
+
+
+The results below are generated from an R script.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{#'---}
+\hlcom{#'title: false}
+\hlcom{#'author: false}
+\hlcom{#'date: false}
+\hlcom{#'output:}
+\hlcom{#'html_document:}
+\hlcom{#'css: style.css}
+\hlcom{#'---}
+
+\hlcom{#'<p class = "centered"><img src = "altair.png" /></p>}
+\hlcom{#'<p class = "title">RH Exemple</p> }
+\hlcom{#'}
+
+\hlcom{#+ echo = FALSE, warning = FALSE, message = FALSE}
+
+\hlcom{# comportement global du programme}
+
+\hlstd{sauvegarder.bases} \hlkwb{<-} \hlnum{TRUE}
+
+\hlcom{# Lorsque l'on n'a que une ou deux années, mettre étudier.variations à FALSE}
+\hlcom{# Lorsque l'on n'étudie pas une base Xémélios, mettre étudier.tests.statutaires à FALSE}
+
+\hlkwd{library}\hlstd{(compiler)}
+
+\hlkwd{options}\hlstd{(}\hlkwc{warn} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{,} \hlkwc{verbose} \hlstd{=} \hlnum{FALSE}\hlstd{,} \hlkwc{OutDec} \hlstd{=} \hlstr{","}\hlstd{)}
+
+\hlcom{# dans cet ordre}
+
+\hlkwd{try}\hlstd{(}\hlkwd{setwd}\hlstd{(}\hlstr{"Tests/Exemple"}\hlstd{),} \hlkwc{silent} \hlstd{=} \hlnum{TRUE}\hlstd{)}
+
+\hlkwd{source}\hlstd{(}\hlstr{"prologue.R"}\hlstd{)}
+
+\hlstd{compilerOptions} \hlkwb{<-} \hlkwd{setCompilerOptions}\hlstd{(}\hlkwc{suppressAll} \hlstd{=} \hlnum{TRUE}\hlstd{)}
+\hlstd{JITlevel} \hlkwb{<-} \hlkwd{enableJIT}\hlstd{(}\hlnum{2}\hlstd{)}
+
+\hlkwd{source}\hlstd{(}\hlkwd{file.path}\hlstd{(chemin.dossier,} \hlstr{"bibliotheque.fonctions.paie.R"}\hlstd{))}
+
+\hlstd{base.personnels.catégorie} \hlkwb{<-} \hlkwd{data.frame}\hlstd{(}\hlkwa{NULL}\hlstd{)}
+
+\hlkwd{installer.paquets}\hlstd{(knitr, plyr, ggplot2, assertthat, yaml)}
+\end{alltt}
+
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# knitr est déjà installé.\\\#\# plyr est déjà installé.\\\#\# ggplot2 est déjà installé.\\\#\# assertthat est déjà installé.\\\#\# yaml est déjà installé.}}\begin{alltt}
+\hlkwd{library}\hlstd{(knitr)}
+\hlkwd{library}\hlstd{(plyr)}
+\hlkwd{library}\hlstd{(ggplot2)}
+\end{alltt}
+
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: methods}}\begin{alltt}
+\hlkwd{library}\hlstd{(assertthat)}
+
+\hlstd{knitr::opts_chunk}\hlopt{$}\hlkwd{set}\hlstd{(}\hlkwc{fig.retina} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{fig.width} \hlstd{=} \hlnum{7.5}\hlstd{,} \hlkwc{echo} \hlstd{=} \hlnum{FALSE}\hlstd{,} \hlkwc{warning} \hlstd{=} \hlnum{FALSE}\hlstd{,} \hlkwc{message} \hlstd{=} \hlnum{FALSE}\hlstd{,} \hlkwc{results} \hlstd{=} \hlstr{'asis'}\hlstd{)}
+
+\hlkwd{dir.create}\hlstd{(chemin.dossier.bases,} \hlkwc{recursive} \hlstd{=} \hlnum{TRUE}\hlstd{)}
+
+\hlcom{#'<p class = "centered"><b>Exercices `r paste(début.période.sous.revue, "à", fin.période.sous.revue)` </b></p>  }
+\hlcom{#'<p class = "author">Fabrice Nicol</h1>}
+\hlcom{#'}
+\hlcom{#+ echo = FALSE}
+\hlcom{#'`r format(Sys.Date(), "%a %d %b %Y")`  }
+\hlcom{#'}
+
+\hlstd{nombre.exercices} \hlkwb{<-} \hlstd{fin.période.sous.revue} \hlopt{-} \hlstd{début.période.sous.revue} \hlopt{+} \hlnum{1}
+
+\hlstd{étiquette.montant} \hlkwb{<-} \hlstr{"Montant"}
+\hlstd{seuil.troncature} \hlkwb{<-} \hlnum{99}
+
+\hlcom{# Le format est jour/mois/année avec deux chiffres-séparateur-deux chiffres-séparateur-4 chiffres.}
+\hlcom{#Le séparateur peut être changé en un autre en modifiant le "/" dans fate.format}
+
+\hlstd{nom.fichier.paie}  \hlkwb{<-} \hlstr{"Lignes de paye"}
+\hlstd{nom.bulletin.paie} \hlkwb{<-} \hlstr{"Bulletins de paye"}
+
+\hlcom{# Cette section pourra être modifiée en entrée dans d'autres contextes}
+\hlcom{# Matricule, Codes}
+
+\hlstd{champ.détection.élus} \hlkwb{<-} \hlstr{"Service"}
+\hlstd{champ.nir} \hlkwb{<-} \hlstr{"Nir"}
+\hlstd{libellé.élus} \hlkwb{<-} \hlstr{"Elus"}
+
+\hlstd{codes.paiement}          \hlkwb{<-} \hlstr{"codes.csv"}
+
+\hlstd{code.traitement} \hlkwb{<-} \hlnum{1010}
+
+\hlstd{fichier.personnels} \hlkwb{<-} \hlstr{"Catégories des personnels"}
+\hlstd{nom.fichier.personnels} \hlkwb{<-} \hlkwd{paste0}\hlstd{(fichier.personnels,} \hlstr{".csv"}\hlstd{)}
+\hlstd{fichier.personnels.existe} \hlkwb{<-} \hlkwd{file.exists}\hlstd{(}\hlkwd{chemin}\hlstd{(nom.fichier.personnels))}
+\hlkwa{if} \hlstd{(fichier.personnels.existe)}
+  \hlstd{base.personnels.catégorie} \hlkwb{=} \hlkwd{read.csv.skip}\hlstd{(nom.fichier.personnels)}
+
+\hlcom{#/* Lignes de paie}
+\hlcom{# On peut lire jusqu'à 10 fichiers csv qui seront générés au format}
+\hlcom{#  "chemin dossier + paies-Bulletins de paye-j.csv" */}
+
+\hlstd{lignes.paie} \hlkwb{<-} \hlkwd{outer}\hlstd{(début.période.sous.revue}\hlopt{:}\hlstd{fin.période.sous.revue,} \hlnum{1}\hlopt{:}\hlnum{10}\hlstd{, paste, nom.fichier.paie,} \hlstr{"csv"}\hlstd{,} \hlkwc{sep}\hlstd{=}\hlstr{"."}\hlstd{)}
+
+\hlcom{#/* Bulletins de paie */}
+
+\hlstd{bulletins.paie} \hlkwb{<-} \hlkwd{paste}\hlstd{(début.période.sous.revue}\hlopt{:}\hlstd{fin.période.sous.revue, nom.bulletin.paie,} \hlstr{"csv"}\hlstd{,} \hlkwc{sep}\hlstd{=}\hlstr{"."}\hlstd{)}
+
+\hlstd{codes.NBI} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"1012"}\hlstd{,} \hlstr{"101B"}\hlstd{,} \hlstr{"101M"}\hlstd{,} \hlstr{"4652"}\hlstd{,} \hlstr{"4672"}\hlstd{)}
+
+
+\hlcom{#/* Programme principal}
+\hlcom{##}
+\hlcom{#  Bases}
+\hlcom{##}
+\hlcom{# Lignes de paie  */}
+
+\hlstd{lignes.paie} \hlkwb{<-} \hlstd{lignes.paie[}\hlkwd{file.exists}\hlstd{(}\hlkwd{chemin}\hlstd{(lignes.paie))]}
+
+\hlstd{Lignes.paie}\hlkwb{<-}\hlkwd{Read.csv}\hlstd{(lignes.paie)}
+
+\hlstd{Bulletins.paie} \hlkwb{<-} \hlkwd{Read.csv}\hlstd{(bulletins.paie)}
+
+\hlcom{# suppression des colonnes Nom Prénom redondantes}
+
+\hlstd{Bulletins.paie} \hlkwb{<-}  \hlkwd{selectionner.cle.matricule.mois}\hlstd{(Bulletins.paie, Lignes.paie)}
+
+\hlstd{codes.paiement} \hlkwb{<-} \hlkwd{read.csv.skip}\hlstd{(codes.paiement)}
+
+
+\hlkwa{if} \hlstd{(}\hlopt{!}\hlkwd{setequal}\hlstd{(}\hlkwd{intersect}\hlstd{(}\hlkwd{names}\hlstd{(Lignes.paie),} \hlkwd{names}\hlstd{(Bulletins.paie)),} \hlkwd{c}\hlstd{(}\hlstr{"Mois"}\hlstd{,} \hlstr{"Année"}\hlstd{, étiquette.matricule)))}
+  \hlkwd{stop}\hlstd{(}\hlstr{"L'appariement ne peut se faire par les clés Matricule et Mois"}\hlstd{)}
+
+\hlcom{# Alternative en cas de difficulté :}
+\hlcom{#}
+\hlcom{# Bulletins.paie.Lignes.paie <- do.call(rbind, lapply(début.période.sous.revue:fin.période.sous.revue,}
+\hlcom{#                                                     function(x) }
+\hlcom{#                                                        merge(Bulletins.paie[Bulletins.paie$Année == x, ],}
+\hlcom{#                                                              Lignes.paie[Lignes.paie$Année == x, ], }
+\hlcom{#                                                              by=c(étiquette.matricule, "Mois"))))}
+
+\hlstd{Bulletins.paie.Lignes.paie} \hlkwb{<-} \hlkwd{merge}\hlstd{(Bulletins.paie, Lignes.paie)}
+
+\hlstd{Bulletins.paie.dernier.mois} \hlkwb{<-} \hlstd{Bulletins.paie[Bulletins.paie}\hlopt{$}\hlstd{Année} \hlopt{==} \hlstd{fin.période.sous.revue} \hlopt{&} \hlstd{Bulletins.paie}\hlopt{$}\hlstd{Mois} \hlopt{==} \hlnum{12}\hlstd{, ]}
+
+\hlstd{liste.matricules.fonctionnaires} \hlkwb{<-} \hlkwd{unique}\hlstd{(Bulletins.paie.dernier.mois[Bulletins.paie.dernier.mois}\hlopt{$}\hlstd{Statut} \hlopt{%in%} \hlkwd{c}\hlstd{(}\hlstr{"TITULAIRE"}\hlstd{,} \hlstr{"STAGIAIRE"}\hlstd{), étiquette.matricule])}
+
+\hlstd{liste.matricules.élus}   \hlkwb{<-} \hlkwd{unique}\hlstd{(Bulletins.paie.dernier.mois[Bulletins.paie.dernier.mois[champ.détection.élus]} \hlopt{==} \hlstd{libellé.élus, étiquette.matricule])}
+
+\hlstd{Bulletins.paie.nir.total.hors.élus} \hlkwb{<-} \hlstd{Bulletins.paie.dernier.mois[} \hlopt{!} \hlstd{Bulletins.paie.dernier.mois}\hlopt{$}\hlstd{Matricule} \hlopt{%in%} \hlstd{liste.matricules.élus,} \hlkwd{c}\hlstd{(étiquette.matricule,champ.nir)]}
+
+\hlstd{Bulletins.paie.nir.fonctionnaires}  \hlkwb{<-} \hlstd{Bulletins.paie.dernier.mois[Bulletins.paie.dernier.mois}\hlopt{$}\hlstd{Matricule} \hlopt{%in%} \hlstd{liste.matricules.fonctionnaires,} \hlkwd{c}\hlstd{(étiquette.matricule, champ.nir)]}
+
+\hlcom{# Age au 31 décembre de l'exercice dernier.exerciceal de la période sous revue}
+
+\hlstd{années.fonctionnaires}   \hlkwb{<-}\hlstd{fin.période.sous.revue}\hlopt{-}\hlstd{(}\hlkwd{as.numeric}\hlstd{(}\hlkwd{substr}\hlstd{(}\hlkwd{as.character}\hlstd{(Bulletins.paie.nir.fonctionnaires[,champ.nir]),} \hlnum{2}\hlstd{,} \hlnum{3}\hlstd{))} \hlopt{+} \hlnum{1900}\hlstd{)}
+\hlstd{années.total.hors.élus}  \hlkwb{<-}\hlstd{fin.période.sous.revue}\hlopt{-}\hlstd{(}\hlkwd{as.numeric}\hlstd{(}\hlkwd{substr}\hlstd{(}\hlkwd{as.character}\hlstd{(Bulletins.paie.nir.total.hors.élus[,champ.nir]),} \hlnum{2}\hlstd{,} \hlnum{3}\hlstd{))} \hlopt{+} \hlnum{1900}\hlstd{)}
+
+\hlcom{########### Démographie ########################}
+
+\hlcom{#'# 1. Statistiques de population}
+\hlcom{#'}
+\hlcom{#'### 1.1 Ensemble des personnels non élus    }
+
+
+\hlkwd{hist}\hlstd{(années.total.hors.élus,}
+     \hlkwc{xlab} \hlstd{=} \hlkwd{paste}\hlstd{(}\hlstr{"Âge au 31 décembre"}\hlstd{,fin.période.sous.revue),}
+     \hlkwc{xlim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{18}\hlstd{,} \hlnum{75}\hlstd{),}
+     \hlkwc{ylab} \hlstd{=} \hlstr{"Effectif"}\hlstd{,}
+     \hlkwc{main} \hlstd{=} \hlstr{"Pyramide des âges"}\hlstd{,}
+     \hlkwc{col} \hlstd{=} \hlstr{"blue"}\hlstd{,}
+     \hlkwc{nclass} \hlstd{=} \hlnum{50}\hlstd{)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=.6\linewidth]{figure/exemple-Rnwunnamed-chunk-11} 
+
+}
+
+
+\begin{kframe}\begin{alltt}
+\hlcom{#'}
+\hlcom{#'[Lien vers la base des âges](Bases/Bulletins.paie.nir.total.hors.élus.csv)}
+\hlcom{#'}
+
+\hlkwd{Résumé}\hlstd{(}\hlkwd{paste0}\hlstd{(}\hlstr{"Âge des personnels <br>au 31/12/"}\hlstd{,fin.période.sous.revue), années.total.hors.élus,} \hlkwc{align} \hlstd{=} \hlstr{'c'}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{c|c}
+## \hline
+## Statistique & Âge des personnels <br>au 31/12/2012\\
+## \hline
+## Minimum & 20\\
+## \hline
+## 1er quartile & 41,8\\
+## \hline
+## Médiane & 48,5\\
+## \hline
+## Moyenne & 46,5\\
+## \hline
+## 3ème quartile & 54,2\\
+## \hline
+## Maximum & 65\\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'Effectif total: `r length(années.total.hors.élus)`  }
+\hlcom{#'}
+\hlcom{#'######      <br>}
+\hlcom{#'}
+\hlcom{#'}
+\hlcom{#'### 1.2 Ensemble des fonctionnaires stagiaires et titulaires    }
+
+\hlkwd{hist}\hlstd{(années.fonctionnaires,}
+     \hlkwc{xlab} \hlstd{=} \hlkwd{paste}\hlstd{(}\hlstr{"Âge au 31 décembre"}\hlstd{,fin.période.sous.revue),}
+     \hlkwc{xlim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{18}\hlstd{,}\hlnum{68}\hlstd{),}
+     \hlkwc{ylab} \hlstd{=} \hlstr{"Effectif"}\hlstd{,}
+     \hlkwc{main} \hlstd{=} \hlstr{"Pyramide des âges des fonctionnaires"}\hlstd{,}
+     \hlkwc{col} \hlstd{=} \hlstr{"navy"}\hlstd{,}
+     \hlkwc{nclass} \hlstd{=} \hlnum{50}\hlstd{)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=.6\linewidth]{figure/exemple-Rnwunnamed-chunk-12} 
+
+}
+
+
+\begin{kframe}\begin{alltt}
+\hlcom{#'}
+\hlcom{#'[Lien vers la base des âges](Bases/Bulletins.paie.nir.fonctionnaires.csv)}
+\hlcom{#'}
+
+\hlkwd{Résumé}\hlstd{(}\hlkwd{paste0}\hlstd{(}\hlstr{"Âge des personnels <br>au 31/12/"}\hlstd{,fin.période.sous.revue), années.fonctionnaires,} \hlkwc{align} \hlstd{=} \hlstr{'c'}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{c|c}
+## \hline
+## Statistique & Âge des personnels <br>au 31/12/2012\\
+## \hline
+## Minimum & 32\\
+## \hline
+## 1er quartile & 42\\
+## \hline
+## Médiane & 48,5\\
+## \hline
+## Moyenne & 47,7\\
+## \hline
+## 3ème quartile & 55\\
+## \hline
+## Maximum & 64\\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'   }
+\hlcom{#'**Effectif total: `r length(années.fonctionnaires)`**     }
+\hlcom{#'}
+
+\hlstd{Analyse.variations.par.exercice} \hlkwb{<-} \hlkwd{ddply}\hlstd{(Bulletins.paie,}
+             \hlkwd{c}\hlstd{(étiquette.matricule, étiquette.année),}
+             \hlstd{summarise,}
+             \hlkwc{Montant.net} \hlstd{=} \hlkwd{sum}\hlstd{(Net.à.Payer),}
+             \hlkwc{Statut} \hlstd{= Statut[}\hlkwd{length}\hlstd{(Net.à.Payer)],}
+             \hlkwc{mois.entrée} \hlstd{=} \hlkwd{ifelse}\hlstd{((minimum} \hlkwb{<-} \hlkwd{min}\hlstd{(Mois))} \hlopt{!=} \hlnum{Inf}\hlstd{, minimum,} \hlnum{0}\hlstd{),}
+             \hlkwc{mois.sortie} \hlstd{=} \hlkwd{ifelse}\hlstd{((maximum} \hlkwb{<-} \hlkwd{max}\hlstd{(Mois))} \hlopt{!= -}\hlnum{Inf}\hlstd{, maximum,} \hlnum{0}\hlstd{),}
+             \hlkwc{nb.jours} \hlstd{=} \hlkwd{calcul.nb.jours.mois}\hlstd{(mois.entrée[}\hlnum{1}\hlstd{], mois.sortie[}\hlnum{1}\hlstd{], Année[}\hlnum{1}\hlstd{]))}
+
+\hlcom{# Analyse.variations.par.exercice2 <- ddply(Analyse.variations.par.exercice, }
+\hlcom{#               étiquette.matricule,}
+\hlcom{#               summarise,}
+\hlcom{#               nb.exercices = length(Année))}
+\hlcom{# }
+\hlcom{# Analyse.variations.par.exercice <- merge(Analyse.variations.par.exercice, Analyse.variations.par.exercice2)}
+
+\hlstd{Analyse.variations.synthèse} \hlkwb{<-} \hlkwd{ddply}\hlstd{(Analyse.variations.par.exercice,}
+                            \hlkwd{.}\hlstd{(Matricule),}
+                            \hlstd{summarise,}
+                            \hlkwc{Nexercices} \hlstd{=} \hlkwd{length}\hlstd{(Année),}
+                            \hlkwc{nb.jours.exercice.début} \hlstd{= nb.jours[}\hlnum{1}\hlstd{],}
+                            \hlkwc{nb.jours.exercice.sortie} \hlstd{= nb.jours[Nexercices],}
+                            \hlkwc{total.jours} \hlstd{=} \hlkwd{sum}\hlstd{(nb.jours),}
+                            \hlkwc{rémunération.début} \hlstd{=} \hlkwd{ifelse}\hlstd{(nb.jours.exercice.début} \hlopt{==} \hlnum{0}\hlstd{,}
+                                                        \hlnum{0}\hlstd{,}
+                                                        \hlstd{Montant.net[}\hlnum{1}\hlstd{]}\hlopt{/}\hlstd{nb.jours.exercice.début}\hlopt{*}\hlnum{365}\hlstd{),}
+                            \hlkwc{rémunération.sortie} \hlstd{=} \hlkwd{ifelse}\hlstd{(nb.jours.exercice.sortie} \hlopt{==} \hlnum{0}\hlstd{,}
+                                                         \hlnum{0}\hlstd{,}
+                                                         \hlstd{Montant.net[Nexercices]}\hlopt{/}\hlstd{nb.jours.exercice.sortie}\hlopt{*}\hlnum{365}\hlstd{),}
+                            \hlkwc{moyenne.rémunération.annuelle.sur.période} \hlstd{=} \hlkwd{ifelse}\hlstd{(total.jours} \hlopt{==} \hlnum{0}\hlstd{,} \hlnum{0}\hlstd{,} \hlkwd{sum}\hlstd{(Montant.net)}\hlopt{*}\hlnum{365}\hlopt{/}\hlstd{total.jours),}
+                            \hlkwc{variation.rémunération.jour} \hlstd{=} \hlkwd{calcul.variation}\hlstd{(rémunération.début,}
+                                                                           \hlstd{rémunération.sortie,}
+                                                                           \hlstd{nb.jours.exercice.début,}
+                                                                           \hlstd{nb.jours.exercice.sortie,}
+                                                                           \hlstd{Nexercices),}
+                            \hlkwc{variation.moyenne.rémunération.jour} \hlstd{=} \hlkwd{ifelse}\hlstd{(total.jours} \hlopt{==} \hlnum{0}\hlstd{,} \hlnum{0}\hlstd{,}
+                              \hlstd{( (} \hlnum{1} \hlopt{+} \hlstd{variation.rémunération.jour} \hlopt{/} \hlnum{100} \hlstd{)} \hlopt{^} \hlstd{(}\hlnum{365} \hlopt{/} \hlstd{total.jours)} \hlopt{-} \hlnum{1}\hlstd{)} \hlopt{*} \hlnum{100}\hlstd{),}
+                            \hlkwc{plus.2.ans} \hlstd{= (total.jours} \hlopt{>=} \hlnum{2}\hlopt{*}\hlnum{365}\hlstd{),}
+                            \hlkwc{moins.2.ans} \hlstd{= (total.jours} \hlopt{<} \hlnum{2}\hlopt{*}\hlnum{365}\hlstd{),}
+                            \hlkwc{moins.1.an}  \hlstd{= (total.jours} \hlopt{<} \hlnum{365}\hlstd{),}
+                            \hlkwc{moins.six.mois} \hlstd{= (total.jours} \hlopt{<} \hlnum{365}\hlopt{/}\hlnum{2}\hlstd{),}
+                            \hlkwc{statut} \hlstd{= Statut[}\hlnum{1}\hlstd{])}
+
+\hlcom{####  On pourrait aussi plus simplement poser  ###}
+\hlcom{#  que plus.deux.ans soit défini comme length(Année) >= 2.}
+\hlcom{#  On préfère une définition à partir de total.jours pour }
+\hlcom{#  avoir une définition cohérente sur toutes les durées, y.c infra-annuelles}
+
+\hlkwd{attach}\hlstd{(Analyse.variations.par.exercice,} \hlkwc{warn} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+
+\hlstd{Analyse.variations.par.exercice} \hlkwb{<-} \hlkwd{na.omit}\hlstd{(Analyse.variations.par.exercice[ nb.jours[}\hlnum{1}\hlstd{]} \hlopt{>} \hlstd{seuil.troncature}
+                                                                 \hlopt{&}  \hlstd{nb.jours[}\hlkwd{length}\hlstd{(Année)]} \hlopt{>} \hlstd{seuil.troncature, ])}
+
+\hlstd{Analyse.variations.par.exercice} \hlkwb{<-} \hlkwd{mutate}\hlstd{(Analyse.variations.par.exercice,}
+                                          \hlkwc{plus.2.ans} \hlstd{= Matricule}
+                                                          \hlopt{%in%}
+                                                       \hlstd{Analyse.variations.synthèse[Analyse.variations.synthèse}\hlopt{$}\hlstd{plus.2.ans, étiquette.matricule])}
+
+
+\hlkwd{detach}\hlstd{(Analyse.variations.par.exercice)}
+
+\hlkwd{attach}\hlstd{(Analyse.variations.synthèse,} \hlkwc{warn.conflicts} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+
+\hlcom{#'}
+\hlcom{#'<!-- BREAK -->}
+\hlcom{#'}
+\hlcom{#'}
+\hlcom{#'### 1.3 Effectifs des personnels par durée de service}
+\hlcom{#'}
+\hlcom{#'**Personnels en fonction des exercices `r début.période.sous.revue` à `r fin.période.sous.revue` inclus :**  }
+\hlcom{#'}
+
+\hlkwd{Tableau}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"Plus de 2 ans"}\hlstd{,}
+          \hlstr{"Moins de 2 ans"}\hlstd{,}
+          \hlstr{"Moins d'un an"}\hlstd{,}
+          \hlstr{"Moins de six mois"}\hlstd{),}
+        \hlkwd{sum}\hlstd{(plus.2.ans),}
+        \hlkwd{sum}\hlstd{(moins.2.ans),}
+        \hlkwd{sum}\hlstd{(moins.1.an),}
+        \hlkwd{sum}\hlstd{(moins.six.mois))}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{c|c|c|c}
+## \hline
+## Plus de 2 ans & Moins de 2 ans & Moins d'un an & Moins de six mois\\
+## \hline
+## 63 & 25 & 16 & 11\\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'}
+
+\hlkwd{detach}\hlstd{(Analyse.variations.synthèse)}
+
+\hlkwd{qplot}\hlstd{(}\hlkwd{factor}\hlstd{(Année),}
+      \hlkwc{data} \hlstd{= Analyse.variations.par.exercice,}
+      \hlkwc{geom} \hlstd{=} \hlstr{"bar"}\hlstd{,}
+      \hlkwc{fill} \hlstd{=} \hlkwd{factor}\hlstd{(}\hlopt{!}\hlstd{plus.2.ans),}
+      \hlkwc{main} \hlstd{=} \hlkwd{paste}\hlstd{(}\hlstr{"Evolutions entre"}\hlstd{, début.période.sous.revue,}\hlstr{"et"}\hlstd{, fin.période.sous.revue),}
+      \hlkwc{xlab} \hlstd{= étiquette.année,}
+      \hlkwc{ylab} \hlstd{=} \hlstr{"Effectif"}\hlstd{,}
+      \hlkwc{asp} \hlstd{=} \hlnum{4}\hlstd{)} \hlopt{+}
+  \hlkwd{scale_fill_discrete}\hlstd{(}\hlkwc{name} \hlstd{=} \hlstr{"Personnels en fonction"}\hlstd{,}
+                      \hlkwc{breaks} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{TRUE}\hlstd{,} \hlnum{FALSE}\hlstd{),}
+                      \hlkwc{labels} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"Moins de deux ans"}\hlstd{,} \hlstr{"Plus de deux ans"}\hlstd{))}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=.6\linewidth]{figure/exemple-Rnwunnamed-chunk-13} 
+
+}
+
+
+\begin{kframe}\begin{alltt}
+\hlcom{#'}
+\hlcom{#'**Nota:**  }
+\hlcom{#'Personnels en place : ayant servi au moins 730 jours pendant la période.  }
+\hlcom{#'Toutes les durées de service sont calculées en multiples de 365 jours.  }
+\hlcom{#'Dans les statistiques de cette section, les élus ne sont pas pris en compte.}
+\hlcom{#'}
+
+\hlcom{# fusion matricule | avantage | catégorie par Matricule}
+\hlcom{# peut aisément être modifié ainsi}
+
+
+\hlstd{Bulletins.paie.Lignes.paie} \hlkwb{<-} \hlkwd{mutate}\hlstd{(Bulletins.paie.Lignes.paie,}
+                                      \hlkwc{montant.traitement.indiciaire}
+                                      \hlstd{= Montant}\hlopt{*}\hlstd{(Code} \hlopt{%in%} \hlstd{codes.paiement[codes.paiement}\hlopt{$}\hlstd{Type.rémunération}
+                                                                          \hlopt{==} \hlstr{"TRAITEMENT"}\hlstd{,}\hlstr{"Code.rubrique"}\hlstd{]),}
+                                      \hlkwc{montant.primes}
+                                      \hlstd{= Montant}\hlopt{*}\hlstd{(Code} \hlopt{%in%} \hlstd{codes.paiement[codes.paiement}\hlopt{$}\hlstd{Type.rémunération}
+                                                                          \hlopt{==} \hlstr{"INDEMNITAIRE.OU.CONTRACTUEL"}\hlstd{,}\hlstr{"Code.rubrique"}\hlstd{]),}
+                                      \hlkwc{montant.autres.rémunérations}
+                                      \hlstd{= Montant}\hlopt{*}\hlstd{(Code} \hlopt{%in%} \hlstd{codes.paiement[codes.paiement}\hlopt{$}\hlstd{Type.rémunération}
+                                                                          \hlopt{==} \hlstr{"AUTRES"}\hlstd{,}\hlstr{"Code.rubrique"}\hlstd{]),}
+                                      \hlkwc{montant.indemnité.élu}
+                                      \hlstd{= Montant}\hlopt{*}\hlstd{(Code} \hlopt{%in%} \hlstd{codes.paiement[codes.paiement}\hlopt{$}\hlstd{Type.rémunération}
+                                                                          \hlopt{==} \hlstr{"ELU"}\hlstd{,}\hlstr{"Code.rubrique"}\hlstd{]))}
+
+\hlstd{Analyse.rémunérations} \hlkwb{<-} \hlkwd{ddply}\hlstd{(Bulletins.paie.Lignes.paie,}
+                              \hlkwd{.}\hlstd{(Matricule, Année),}
+                              \hlstd{summarise,}
+                              \hlkwc{Statut} \hlstd{= Statut[}\hlnum{1}\hlstd{],}
+                              \hlkwc{Service} \hlstd{= Service[}\hlnum{1}\hlstd{],}
+                              \hlkwc{traitement.indiciaire} \hlstd{=} \hlkwd{sum}\hlstd{(montant.traitement.indiciaire),}
+                              \hlkwc{rémunération.contractuelle.ou.indemnitaire} \hlstd{=} \hlkwd{sum}\hlstd{(montant.primes),}
+                              \hlkwc{indemnités.élu}                             \hlstd{=} \hlkwd{sum}\hlstd{(montant.indemnité.élu),}
+                              \hlkwc{autres.rémunérations}                       \hlstd{=} \hlkwd{sum}\hlstd{(montant.autres.rémunérations),}
+                              \hlkwc{total.rémunérations}                        \hlstd{= traitement.indiciaire}
+                              \hlopt{+} \hlstd{rémunération.contractuelle.ou.indemnitaire}
+                              \hlopt{+} \hlstd{autres.rémunérations,}
+                              \hlkwc{part.rémunération.contractuelle.ou.indemnitaire} \hlstd{=}
+                                \hlkwd{ifelse}\hlstd{(traitement.indiciaire} \hlopt{+} \hlstd{rémunération.contractuelle.ou.indemnitaire} \hlopt{==} \hlnum{0}\hlstd{,} \hlnum{0}\hlstd{,}
+                                       \hlstd{rémunération.contractuelle.ou.indemnitaire} \hlopt{/}
+                                         \hlstd{(traitement.indiciaire} \hlopt{+} \hlstd{rémunération.contractuelle.ou.indemnitaire)}\hlopt{*}\hlnum{100}\hlstd{))}
+
+
+\hlcom{# on ne compte pas les élus dans le total (voir 5.6)}
+
+\hlstd{année} \hlkwb{<-} \hlstd{début.période.sous.revue}
+
+\hlstd{colonnes.sélectionnées} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"traitement.indiciaire"}\hlstd{,}
+                            \hlstr{"rémunération.contractuelle.ou.indemnitaire"}\hlstd{,}
+                            \hlstr{"autres.rémunérations"}\hlstd{,}
+                            \hlstr{"total.rémunérations"}\hlstd{,}
+                            \hlstr{"part.rémunération.contractuelle.ou.indemnitaire"}\hlstd{,}
+                            \hlstd{étiquette.matricule)}
+
+
+
+\hlcom{# pour année début #}
+
+
+\hlcom{###########  Analyse des rémunérations  début de période###################}
+\hlcom{#  ATTENTION : les années doivent être SUCCESSIVES                        #}
+
+
+\hlstd{Analyse.rémunérations.premier.exercice} \hlkwb{<-} \hlstd{Analyse.rémunérations[Analyse.rémunérations}\hlopt{$}\hlstd{Année} \hlopt{==} \hlstd{année, ]}
+
+\hlkwa{if} \hlstd{(fichier.personnels.existe)}
+\hlstd{\{}
+  \hlstd{Analyse.rémunérations.premier.exercice} \hlkwb{<-} \hlkwd{merge}\hlstd{(Analyse.rémunérations.premier.exercice, base.personnels.catégorie,} \hlkwc{by} \hlstd{= étiquette.matricule,} \hlkwc{all} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+  \hlstd{colonnes.sélectionnées} \hlkwb{<-} \hlkwd{c}\hlstd{(colonnes.sélectionnées,} \hlstr{"Catégorie"}\hlstd{)}
+\hlstd{\}}
+
+\hlkwd{attach}\hlstd{(Analyse.rémunérations.premier.exercice,} \hlkwc{warn.conflicts} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+
+\hlcom{########### Analyse statique premier exercice ########################}
+\hlcom{#'# 2. Rémunérations brutes : analyse pour l'exercice `r année` }
+\hlcom{#'}
+\hlcom{#'## 2.1 Statistiques de position globales (tous statuts)       }
+\hlcom{#'}
+\hlcom{#/* La moyenne est tirée vers le haut par les outlyers */}
+
+\hlstd{masse.indemnitaire}            \hlkwb{<-} \hlkwd{sum}\hlstd{(rémunération.contractuelle.ou.indemnitaire)}
+\hlstd{masse.indiciaire}              \hlkwb{<-} \hlkwd{sum}\hlstd{(traitement.indiciaire)}
+\hlstd{masse.rémunérations.brutes}    \hlkwb{<-} \hlkwd{sum}\hlstd{(total.rémunérations)}
+\hlstd{ratio.global.masse.indemnitaire}  \hlkwb{<-} \hlstd{masse.indemnitaire}\hlopt{/}\hlstd{(masse.indiciaire}\hlopt{+}\hlstd{masse.indemnitaire)}\hlopt{*}\hlnum{100}
+
+\hlcom{#'### Cumuls des rémunérations brutes pour l'exercice `r année`}
+\hlcom{#'}
+\hlkwd{Tableau}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"Masse indiciaire"}\hlstd{,} \hlstr{"Masse indemnitaire"}\hlstd{),}
+        \hlstd{masse.indiciaire, masse.indemnitaire)}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{c|c}
+## \hline
+## Masse indiciaire & Masse indemnitaire\\
+## \hline
+## 1 107 489 &   636 267\\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'}
+\hlcom{#'<!-- BREAK -->}
+\hlcom{#'}
+
+\hlkwd{Tableau}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"Masse des rémunérations brutes"}\hlstd{,} \hlstr{"Part de la masse indemnitaire"}\hlstd{),}
+        \hlstd{masse.rémunérations.brutes, ratio.global.masse.indemnitaire)}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{c|c}
+## \hline
+## Masse des rémunérations brutes & Part de la masse indemnitaire\\
+## \hline
+## 1 758 318 &     36,49\\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'}
+\hlcom{#'Cumuls réalisés sur les lignes de paie. Les indemnités d'élu ne sont pas prises en compte.  }
+\hlcom{#'}
+\hlstd{somme.brut.non.élu}  \hlkwb{<-} \hlkwd{sum}\hlstd{(Bulletins.paie[Bulletins.paie}\hlopt{$}\hlstd{Année} \hlopt{==} \hlstd{année} \hlopt{&} \hlstd{Bulletins.paie}\hlopt{$}\hlstd{Service} \hlopt{!=} \hlstr{"Elus"}\hlstd{,} \hlstr{"Brut"}\hlstd{])}
+\hlstd{delta}  \hlkwb{<-} \hlstd{somme.brut.non.élu} \hlopt{-} \hlstd{masse.rémunérations.brutes}
+
+\hlcom{#'**Tests de cohérence**  }
+\hlcom{#'}
+\hlcom{# A ce jour la version windows ne supporte ni ISO-88}
+\hlcom{#'Somme des rémunérations brutes versées aux personnels (non élus) :   }
+\hlcom{#'}
+\hlkwd{Tableau.vertical2}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"Agrégats"}\hlstd{,} \hlstr{"euros"}\hlstd{),}
+                 \hlkwd{c}\hlstd{(}\hlstr{"Bulletins de paie (euros)"}\hlstd{,}  \hlstr{"Lignes de paie (euros)"}\hlstd{,} \hlstr{"Différence (euros)"}\hlstd{),}
+                 \hlkwd{c}\hlstd{(somme.brut.non.élu, masse.rémunérations.brutes, delta))}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{c|c}
+## \hline
+## Agrégats & euros\\
+## \hline
+## Bulletins de paie (euros) & 1 800 145\\
+## \hline
+## Lignes de paie (euros) & 1 758 318\\
+## \hline
+## Différence (euros) &    41 827\\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'}
+\hlstd{somme.brut.globale}  \hlkwb{<-} \hlkwd{sum}\hlstd{(Bulletins.paie[Bulletins.paie}\hlopt{$}\hlstd{Année} \hlopt{==} \hlstd{année,} \hlstr{"Brut"}\hlstd{])}
+\hlstd{total.rémunérations.élu.compris} \hlkwb{<-}  \hlstd{masse.rémunérations.brutes} \hlopt{+} \hlkwd{sum}\hlstd{(indemnités.élu)}
+\hlstd{delta2} \hlkwb{<-} \hlstd{somme.brut.globale} \hlopt{-} \hlstd{total.rémunérations.élu.compris}
+\hlcom{#'     }
+\hlcom{#'à comparer aux soldes des comptes 641 et 648 du compte de gestion.   }
+\hlcom{#'}
+\hlcom{#'Somme des rémunérations brutes versées (élus compris) :   }
+\hlcom{#'}
+\hlkwd{Tableau.vertical2}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"Agrégats"}\hlstd{,} \hlstr{"euros"}\hlstd{),}
+                 \hlkwd{c}\hlstd{(}\hlstr{"Bulletins de paie (euros)"}\hlstd{,}  \hlstr{"Lignes de paie (euros)"}\hlstd{,} \hlstr{"Différence (euros)"}\hlstd{),}
+                 \hlkwd{c}\hlstd{(somme.brut.globale, total.rémunérations.élu.compris, delta2))}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{c|c}
+## \hline
+## Agrégats & euros\\
+## \hline
+## Bulletins de paie (euros) & 1 962 228\\
+## \hline
+## Lignes de paie (euros) & 1 920 401\\
+## \hline
+## Différence (euros) &    41 827\\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'  }
+\hlcom{#'à comparer aux soldes des comptes 641, 648 et 653 du compte de gestion   }
+\hlcom{#'}
+
+
+\hlstd{df} \hlkwb{<-} \hlkwd{data.frame}\hlstd{(masse.indemnitaire, masse.indiciaire, masse.rémunérations.brutes,}
+                 \hlstd{ratio.global.masse.indemnitaire, somme.brut.non.élu, somme.brut.globale, total.rémunérations.élu.compris)}
+
+
+\hlkwd{Sauv.base}\hlstd{(chemin.dossier.bases,} \hlstr{"df"}\hlstd{,} \hlkwd{paste0}\hlstd{(}\hlstr{"Masses."}\hlstd{, année))}
+\end{alltt}
+
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Sauvegarde de df}}\begin{alltt}
+\hlcom{#'}
+\hlcom{#'[Lien vers la base de données](Bases/`r paste0("Masses.", année, ".csv")`)    }
+\hlcom{#'        }
+\hlcom{#'Les résultats sont exprimés en euros.  }
+\hlcom{#'  }
+
+\hlcom{#'}
+\hlcom{#'## 2.2 Fonctionnaires titulaires et stagiaires}
+\hlcom{#'}
+
+\hlstd{filtre.fonctionnaire} \hlkwb{<-} \hlkwa{function} \hlstd{(}\hlkwc{X}\hlstd{) X[ Statut} \hlopt{%in%} \hlkwd{c}\hlstd{(}\hlstr{"TITULAIRE"}\hlstd{,} \hlstr{"STAGIAIRE"}\hlstd{)} \hlopt{&} \hlstd{X} \hlopt{>}\hlnum{0} \hlstd{]}
+
+\hlkwd{hist}\hlstd{(}\hlkwd{filtre.fonctionnaire}\hlstd{(total.rémunérations)}\hlopt{/}\hlnum{1000}\hlstd{,}
+     \hlkwc{xlab} \hlstd{=} \hlstr{"En milliers d'euros hors politique familiale\textbackslash{}nindemnités journalières et remboursements"}\hlstd{,}
+     \hlkwc{ylab} \hlstd{=} \hlstr{"Effectif"}\hlstd{,}
+     \hlkwc{xlim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{120}\hlstd{),}
+     \hlkwc{main} \hlstd{=} \hlkwd{paste}\hlstd{(}\hlstr{"Rémunération annuelle des fonctionnaires en"}\hlstd{, année),}
+     \hlkwc{col} \hlstd{=} \hlstr{"blue"}\hlstd{,}
+     \hlkwc{nclass} \hlstd{=} \hlnum{50}\hlstd{)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=.6\linewidth]{figure/exemple-Rnwunnamed-chunk-14} 
+
+}
+
+
+\begin{kframe}\begin{alltt}
+\hlcom{#'    }
+
+\hlkwd{hist}\hlstd{(}\hlkwd{filtre.fonctionnaire}\hlstd{(rémunération.contractuelle.ou.indemnitaire)}\hlopt{/}\hlnum{1000}\hlstd{,}
+     \hlkwc{xlab} \hlstd{=} \hlstr{"En milliers d'euros hors politique familiale\textbackslash{}nindemnités journalières et remboursements"}\hlstd{,}
+     \hlkwc{ylab} \hlstd{=} \hlstr{"Effectif"}\hlstd{,}
+     \hlkwc{xlim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{70}\hlstd{),}
+     \hlkwc{main} \hlstd{=} \hlkwd{paste}\hlstd{(}\hlstr{"Rémunération indemnitaire annuelle des fonctionnaires en"}\hlstd{, année),}
+     \hlkwc{col} \hlstd{=} \hlstr{"blue"}\hlstd{,}
+     \hlkwc{nclass} \hlstd{=} \hlnum{50}
+\hlstd{)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=.6\linewidth]{figure/exemple-Rnwunnamed-chunk-15} 
+
+}
+
+
+\begin{kframe}\begin{alltt}
+\hlkwd{hist}\hlstd{(}\hlkwd{filtre.fonctionnaire}\hlstd{(part.rémunération.contractuelle.ou.indemnitaire),}
+     \hlkwc{xlab} \hlstd{=} \hlstr{"Part des indemnités dans la rémunération en %\textbackslash{}n hors politique familiale, indemnités journalières et remboursements"}\hlstd{,}
+     \hlkwc{ylab} \hlstd{=} \hlstr{"Effectif"}\hlstd{,}
+     \hlkwc{main} \hlstd{=} \hlkwd{paste}\hlstd{(}\hlstr{"Part indemnitaire de la rémunération annuelle des fonctionnaires en"}\hlstd{, année),}
+     \hlkwc{xlim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,}\hlnum{60}\hlstd{),}
+     \hlkwc{col} \hlstd{=} \hlstr{"blue"}\hlstd{,}
+     \hlkwc{nclass} \hlstd{=} \hlnum{30}\hlstd{)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=.6\linewidth]{figure/exemple-Rnwunnamed-chunk-16} 
+
+}
+
+
+\begin{kframe}\begin{alltt}
+\hlcom{#'   }
+\hlcom{#'### Statistiques de position pour l'exercice `r année`  }
+\hlcom{#'}
+
+\hlstd{AR} \hlkwb{<-} \hlstd{Analyse.rémunérations.premier.exercice[Statut} \hlopt{%in%} \hlkwd{c}\hlstd{(}\hlstr{"TITULAIRE"}\hlstd{,} \hlstr{"STAGIAIRE"}\hlstd{), colonnes.sélectionnées]}
+
+\hlkwd{Résumé}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"Traitement indiciaire"}\hlstd{,}
+         \hlstd{étiquette.rém.indemn,}
+         \hlstr{"Autres rémunérations"}\hlstd{),  AR[}\hlnum{1}\hlopt{:}\hlnum{3}\hlstd{])}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{r|r|r|r}
+## \hline
+## Statistique & Traitement indiciaire & Rémunération contractuelle ou indemnitaire & Autres rémunérations\\
+## \hline
+## Minimum &  7 767   &      0   &      0  \\
+## \hline
+## 1er quartile & 16 877   &  8 535   &      0  \\
+## \hline
+## Médiane & 19 308   & 10 377   &      0  \\
+## \hline
+## Moyenne & 21 839   & 12 217   &    188  \\
+## \hline
+## 3ème quartile & 23 170   & 12 667   &    202  \\
+## \hline
+## Maximum & 58 786   & 63 949   &    876  \\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'    }
+\hlcom{#'}
+\hlkwd{Résumé}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"Total rémunérations"}\hlstd{,} \hlstr{"Part de la rémunération contractuelle ou indemnitaire"}\hlstd{), AR[}\hlnum{4}\hlopt{:}\hlnum{5}\hlstd{])}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{r|r|r}
+## \hline
+## Statistique & Total rémunérations & Part de la rémunération contractuelle ou indemnitaire\\
+## \hline
+## Minimum &  10 890   &     0,0  \\
+## \hline
+## 1er quartile &  27 105   &    30,8  \\
+## \hline
+## Médiane &  30 552   &    35,4  \\
+## \hline
+## Moyenne &  34 244   &    34,3  \\
+## \hline
+## 3ème quartile &  36 317   &    38,8  \\
+## \hline
+## Maximum & 122 735   &    52,1  \\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'     }
+\hlcom{#'**Effectif : `r nrow(AR)`**     }
+\hlcom{#'}
+\hlcom{#'**Tests de cohérence**  }
+
+\hlstd{somme.brut.fonct}  \hlkwb{<-} \hlkwd{sum}\hlstd{(Bulletins.paie[Bulletins.paie}\hlopt{$}\hlstd{Année} \hlopt{==} \hlstd{année} \hlopt{&}
+                                                         \hlstd{Bulletins.paie}\hlopt{$}\hlstd{Statut} \hlopt{%in%} \hlkwd{c}\hlstd{(}\hlstr{"TITULAIRE"}\hlstd{,} \hlstr{"STAGIAIRE"}\hlstd{),}
+                                                         \hlstr{"Brut"}\hlstd{])}
+
+\hlstd{total.rémunérations.fonct} \hlkwb{<-} \hlkwd{sum}\hlstd{(AR[}\hlnum{4}\hlstd{])}
+
+\hlstd{delta} \hlkwb{<-} \hlstd{somme.brut.fonct} \hlopt{-} \hlstd{total.rémunérations.fonct}
+
+\hlcom{#'Somme des rémunérations brutes versées aux personnels titulaires et stagiaires :   }
+\hlcom{#'}
+
+\hlkwd{Tableau.vertical2}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"Agrégats"}\hlstd{,} \hlstr{"euros"}\hlstd{),}
+                 \hlkwd{c}\hlstd{(}\hlstr{"Bulletins de paie (euros)"}\hlstd{,}  \hlstr{"Lignes de paie (euros)"}\hlstd{,} \hlstr{"Différence (euros)"}\hlstd{),}
+                 \hlkwd{c}\hlstd{(somme.brut.fonct,  total.rémunérations.fonct, delta))}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{c|c}
+## \hline
+## Agrégats & euros\\
+## \hline
+## Bulletins de paie (euros) & 1 574 942\\
+## \hline
+## Lignes de paie (euros) & 1 575 222\\
+## \hline
+## Différence (euros) &    -280,6\\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#' }
+\hlcom{#'A comparer aux soldes des comptes 6411, 6419 et 648 du conmpte de gestion.     }
+\hlcom{#'}
+
+\hlcom{#'### Statistiques de position par catégorie pour l'exercice `r année` }
+\hlcom{#'}
+
+\hlstd{ARA} \hlkwb{<-} \hlstd{AR[AR}\hlopt{$}\hlstd{Catégorie} \hlopt{==} \hlstr{'A'}\hlstd{, ]}
+\hlstd{ARB} \hlkwb{<-} \hlstd{AR[AR}\hlopt{$}\hlstd{Catégorie} \hlopt{==} \hlstr{'B'}\hlstd{, ]}
+\hlstd{ARC} \hlkwb{<-} \hlstd{AR[AR}\hlopt{$}\hlstd{Catégorie} \hlopt{==} \hlstr{'C'}\hlstd{, ]}
+
+\hlcom{#'**Catégorie A**     }
+\hlcom{#'}
+\hlcom{#'     }
+
+\hlkwa{if} \hlstd{(fichier.personnels.existe)}
+\hlstd{\{}
+  \hlkwd{Résumé}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"Traitement indiciaire"}\hlstd{,}
+           \hlstd{étiquette.rém.indemn,}
+           \hlstr{"Autres rémunérations"}\hlstd{), ARA[}\hlkwd{c}\hlstd{(}\hlstr{"traitement.indiciaire"}\hlstd{,}
+                                          \hlstr{"rémunération.contractuelle.ou.indemnitaire"}\hlstd{,}
+                                          \hlstr{"autres.rémunérations"}\hlstd{)])}
+\hlstd{\}} \hlkwa{else}
+  \hlkwd{cat}\hlstd{(}\hlstr{"Pas de statistique en l'absence de fichier des catégories.\textbackslash{}n"}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{r|r|r|r}
+## \hline
+## Statistique & Traitement indiciaire & Rémunération contractuelle ou indemnitaire & Autres rémunérations\\
+## \hline
+## Minimum & 22 992   &      0   &      0  \\
+## \hline
+## 1er quartile & 27 421   & 14 231   &      0  \\
+## \hline
+## Médiane & 31 977   & 19 033   &      0  \\
+## \hline
+## Moyenne & 35 323   & 21 839   &    110  \\
+## \hline
+## 3ème quartile & 39 964   & 23 918   &      0  \\
+## \hline
+## Maximum & 58 786   & 63 949   &    876  \\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'}
+
+\hlkwa{if} \hlstd{(fichier.personnels.existe)}
+\hlstd{\{}
+  \hlkwd{Résumé}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"Total rémunérations"}\hlstd{,} \hlstr{"Part de la rémunération contractuelle ou indemnitaire"}\hlstd{),}
+          \hlstd{ARA[}\hlkwd{c}\hlstd{(} \hlstr{"total.rémunérations"}\hlstd{,} \hlstr{"part.rémunération.contractuelle.ou.indemnitaire"}\hlstd{)])}
+\hlstd{\}}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{r|r|r}
+## \hline
+## Statistique & Total rémunérations & Part de la rémunération contractuelle ou indemnitaire\\
+## \hline
+## Minimum &  32 540   &     0,0  \\
+## \hline
+## 1er quartile &  43 402   &    34,8  \\
+## \hline
+## Médiane &  46 843   &    37,8  \\
+## \hline
+## Moyenne &  57 272   &    34,5  \\
+## \hline
+## 3ème quartile &  60 535   &    40,8  \\
+## \hline
+## Maximum & 122 735   &    52,1  \\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'    }
+\hlcom{#'**Effectif : `r nrow(ARA)`**          }
+\hlcom{#'  }
+\hlcom{#'**Catégorie B**     }
+\hlcom{#'     }
+
+\hlkwa{if} \hlstd{(fichier.personnels.existe)}
+\hlstd{\{}
+  \hlkwd{Résumé}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"Traitement indiciaire"}\hlstd{,}
+           \hlstd{étiquette.rém.indemn,}
+           \hlstr{"Autres rémunérations"}\hlstd{),}
+         \hlstd{ARB[} \hlkwd{c}\hlstd{(}\hlstr{"traitement.indiciaire"}\hlstd{,}
+                \hlstr{"rémunération.contractuelle.ou.indemnitaire"}\hlstd{,}
+                \hlstr{"autres.rémunérations"}\hlstd{)])}
+\hlstd{\}} \hlkwa{else}
+  \hlkwd{cat}\hlstd{(}\hlstr{"Pas de statistique en l'absence de fichier des catégories.\textbackslash{}n"}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{r|r|r|r}
+## \hline
+## Statistique & Traitement indiciaire & Rémunération contractuelle ou indemnitaire & Autres rémunérations\\
+## \hline
+## Minimum & 18 909   &  8 717   &    0,0  \\
+## \hline
+## 1er quartile & 20 807   &  9 744   &   14,1  \\
+## \hline
+## Médiane & 22 706   & 10 770   &   28,1  \\
+## \hline
+## Moyenne & 22 706   & 10 770   &   28,1  \\
+## \hline
+## 3ème quartile & 24 605   & 11 796   &   42,1  \\
+## \hline
+## Maximum & 26 504   & 12 822   &   56,2  \\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'}
+
+\hlkwa{if} \hlstd{(fichier.personnels.existe)}
+\hlstd{\{}
+  \hlkwd{Résumé}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"Total rémunérations"}\hlstd{,} \hlstr{"Part de la rémunération contractuelle ou indemnitaire"}\hlstd{),}
+         \hlstd{ARB[} \hlkwd{c}\hlstd{(} \hlstr{"total.rémunérations"}\hlstd{,} \hlstr{"part.rémunération.contractuelle.ou.indemnitaire"}\hlstd{)])}
+\hlstd{\}}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{r|r|r}
+## \hline
+## Statistique & Total rémunérations & Part de la rémunération contractuelle ou indemnitaire\\
+## \hline
+## Minimum & 27 682   &   31,6  \\
+## \hline
+## 1er quartile & 30 593   &   31,8  \\
+## \hline
+## Médiane & 33 504   &   32,1  \\
+## \hline
+## Moyenne & 33 504   &   32,1  \\
+## \hline
+## 3ème quartile & 36 415   &   32,3  \\
+## \hline
+## Maximum & 39 326   &   32,6  \\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'     }
+\hlcom{#'**Effectif : `r nrow(ARB)`**     }
+\hlcom{#'    }
+\hlcom{#'**Catégorie C**     }
+\hlcom{#'}
+\hlcom{#'     }
+
+\hlkwa{if} \hlstd{(fichier.personnels.existe)}
+\hlstd{\{}
+  \hlkwd{Résumé}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"Traitement indiciaire"}\hlstd{,}
+           \hlstd{étiquette.rém.indemn,}
+           \hlstr{"Autres rémunérations"}\hlstd{),}
+         \hlstd{ARC[} \hlkwd{c}\hlstd{(}\hlstr{"traitement.indiciaire"}\hlstd{,}
+                \hlstr{"rémunération.contractuelle.ou.indemnitaire"}\hlstd{,}
+                \hlstr{"autres.rémunérations"}\hlstd{)])}
+\hlstd{\}} \hlkwa{else}
+  \hlkwd{cat}\hlstd{(}\hlstr{"Pas de statistique en l'absence de fichier des catégories.\textbackslash{}n"}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{r|r|r|r}
+## \hline
+## Statistique & Traitement indiciaire & Rémunération contractuelle ou indemnitaire & Autres rémunérations\\
+## \hline
+## Minimum &  7 767   &      0   &    0,0  \\
+## \hline
+## 1er quartile & 16 688   &  8 462   &    0,0  \\
+## \hline
+## Médiane & 18 605   &  9 169   &   13,7  \\
+## \hline
+## Moyenne & 18 308   &  9 819   &  213,4  \\
+## \hline
+## 3ème quartile & 19 992   & 11 468   &  244,1  \\
+## \hline
+## Maximum & 23 892   & 18 927   &  876,5  \\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'}
+
+\hlkwa{if} \hlstd{(fichier.personnels.existe)}
+\hlstd{\{}
+  \hlkwd{Résumé}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"Total rémunérations"}\hlstd{,} \hlstr{"Part de la rémunération contractuelle ou indemnitaire"}\hlstd{),}
+         \hlstd{ARC[} \hlkwd{c}\hlstd{(} \hlstr{"total.rémunérations"}\hlstd{,} \hlstr{"part.rémunération.contractuelle.ou.indemnitaire"}\hlstd{) ])}
+\hlstd{\}}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{r|r|r}
+## \hline
+## Statistique & Total rémunérations & Part de la rémunération contractuelle ou indemnitaire\\
+## \hline
+## Minimum & 10 890   &    0,0  \\
+## \hline
+## 1er quartile & 26 015   &   30,4  \\
+## \hline
+## Médiane & 27 945   &   35,2  \\
+## \hline
+## Moyenne & 28 340   &   34,3  \\
+## \hline
+## 3ème quartile & 31 768   &   38,5  \\
+## \hline
+## Maximum & 41 680   &   46,3  \\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'**Effectif : `r nrow(ARC)`**     }
+\hlcom{#'    }
+\hlcom{#'    }
+\hlcom{#'######      <br>}
+\hlcom{#'}
+\hlcom{#'## 2.3 Contractuels, vacataires et stagiaires inclus}
+\hlcom{#'}
+
+\hlkwd{hist}\hlstd{(total.rémunérations[}\hlopt{!} \hlstd{Matricule} \hlopt{%in%} \hlstd{liste.matricules.élus} \hlopt{& !}\hlstd{Statut} \hlopt{%in%} \hlkwd{c}\hlstd{(}\hlstr{"TITULAIRE"}\hlstd{,} \hlstr{"STAGIAIRE"}\hlstd{)} \hlopt{&} \hlstd{total.rémunérations} \hlopt{>} \hlnum{1000}\hlstd{]}\hlopt{/}\hlnum{1000}\hlstd{,}
+     \hlkwc{xlab} \hlstd{=} \hlstr{"Rémunération en milliers d'euros \textbackslash{}n hors politique familiale, indemnités journalières et remboursements"}\hlstd{,}
+     \hlkwc{ylab} \hlstd{=} \hlstr{"Effectif"}\hlstd{,}
+     \hlkwc{xlim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{40}\hlstd{),}
+     \hlkwc{main} \hlstd{=} \hlkwd{paste}\hlstd{(}\hlstr{"Rémunération annuelle totale des contractuels en"}\hlstd{, année),}
+     \hlkwc{col} \hlstd{=} \hlstr{"red"}\hlstd{,}
+     \hlkwc{nclass} \hlstd{=} \hlnum{50}\hlstd{)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=.6\linewidth]{figure/exemple-Rnwunnamed-chunk-17} 
+
+}
+
+
+\begin{kframe}\begin{alltt}
+\hlcom{#'}
+\hlcom{#'**Nota:**   }
+\hlcom{#'Ne sont retenues que les rémunérations supérieures à 1 000 euros.  }
+\hlcom{#'Les élus ne sont pas pris en compte.   }
+\hlcom{#'}
+
+\hlkwd{hist}\hlstd{(}\hlkwd{positive}\hlstd{(autres.rémunérations),}
+     \hlkwc{xlab} \hlstd{=} \hlstr{"En euros :\textbackslash{}n politique familiale, indemnités journalières et remboursements"}\hlstd{,}
+     \hlkwc{ylab} \hlstd{=} \hlstr{"Effectif"}\hlstd{,}
+     \hlkwc{xlim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{5000}\hlstd{),}
+     \hlkwc{main} \hlstd{=} \hlkwd{paste}\hlstd{(}\hlstr{"Autres rémunérations en"}\hlstd{, année),}
+     \hlkwc{col} \hlstd{=} \hlstr{"grey"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=.6\linewidth]{figure/exemple-Rnwunnamed-chunk-18} 
+
+}
+
+
+\begin{kframe}\begin{alltt}
+\hlcom{#'   }
+
+\hlkwd{Résumé}\hlstd{(}\hlkwd{c}\hlstd{(étiquette.rém.indemn,} \hlstr{"Autres rémunérations"}\hlstd{),}
+       \hlstd{Analyse.rémunérations.premier.exercice[} \hlopt{!} \hlstd{Matricule} \hlopt{%in%} \hlstd{liste.matricules.élus} \hlopt{& !} \hlstd{Statut} \hlopt{%in%} \hlkwd{c}\hlstd{(}\hlstr{"TITULAIRE"}\hlstd{,} \hlstr{"STAGIAIRE"}\hlstd{),}
+                             \hlkwd{c}\hlstd{(}\hlstr{"rémunération.contractuelle.ou.indemnitaire"}\hlstd{,} \hlstr{"autres.rémunérations"}\hlstd{)])}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{r|r|r}
+## \hline
+## Statistique & Rémunération contractuelle ou indemnitaire & Autres rémunérations\\
+## \hline
+## Minimum &      0   &      0  \\
+## \hline
+## 1er quartile &      0   &      0  \\
+## \hline
+## Médiane &    528   &      0  \\
+## \hline
+## Moyenne &  3 910   &    312  \\
+## \hline
+## 3ème quartile &  1 756   &     42  \\
+## \hline
+## Maximum & 41 809   &  3 182  \\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'}
+
+\hlkwd{Résumé}\hlstd{(}\hlstr{"Total rémunérations"}\hlstd{,}
+       \hlstd{Analyse.rémunérations.premier.exercice[} \hlopt{!} \hlstd{Matricule} \hlopt{%in%} \hlstd{liste.matricules.élus} \hlopt{& !}\hlstd{Statut} \hlopt{%in%} \hlkwd{c}\hlstd{(}\hlstr{"TITULAIRE"}\hlstd{,} \hlstr{"STAGIAIRE"}\hlstd{),}
+                             \hlstr{"total.rémunérations"}\hlstd{])}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{r|r}
+## \hline
+## Statistique & Total rémunérations\\
+## \hline
+## Minimum &      0\\
+## \hline
+## 1er quartile &    488\\
+## \hline
+## Médiane &    942\\
+## \hline
+## Moyenne &  9 640\\
+## \hline
+## 3ème quartile &  2 850\\
+## \hline
+## Maximum & 92 100\\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlstd{nom.base.analyse} \hlkwb{<-} \hlstr{"Analyse.rémunérations.premier.exercice"}
+
+\hlkwa{if} \hlstd{(sauvegarder.bases)}
+  \hlkwd{Sauv.base}\hlstd{(chemin.dossier.bases,} \hlstr{"Analyse.rémunérations.premier.exercice"}\hlstd{, nom.base.analyse)}
+\end{alltt}
+
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Sauvegarde de Analyse.rémunérations.premier.exercice}}\begin{alltt}
+\hlkwd{detach}\hlstd{(Analyse.rémunérations.premier.exercice)}
+
+\hlcom{# pour année fin #}
+
+\hlstd{année} \hlkwb{<-} \hlstd{fin.période.sous.revue}
+
+\hlcom{#'}
+\hlcom{#'}
+
+\hlstd{Bulletins.paie.Lignes.paie.dernier.exercice} \hlkwb{<-}  \hlstd{Bulletins.paie.Lignes.paie[Bulletins.paie.Lignes.paie}\hlopt{$}\hlstd{Année} \hlopt{==} \hlstd{fin.période.sous.revue,]}
+
+\hlstd{Bulletins.paie.Lignes.paie.dernier.exercice} \hlkwb{<-} \hlkwd{mutate}\hlstd{(Bulletins.paie.Lignes.paie.dernier.exercice,}
+                                     \hlkwc{montant.traitement.indiciaire}
+                                     \hlstd{= Montant}\hlopt{*}\hlstd{(Code} \hlopt{%in%} \hlstd{codes.paiement[codes.paiement}\hlopt{$}\hlstd{Type.rémunération}
+                                                                     \hlopt{==} \hlstr{"TRAITEMENT"}\hlstd{,}\hlstr{"Code.rubrique"}\hlstd{]),}
+                                     \hlkwc{montant.primes}
+                                     \hlstd{= Montant}\hlopt{*}\hlstd{(Code} \hlopt{%in%} \hlstd{codes.paiement[codes.paiement}\hlopt{$}\hlstd{Type.rémunération}
+                                                                     \hlopt{==} \hlstr{"INDEMNITAIRE.OU.CONTRACTUEL"}\hlstd{,}\hlstr{"Code.rubrique"}\hlstd{]),}
+                                     \hlkwc{montant.autres.rémunérations}
+                                     \hlstd{= Montant}\hlopt{*}\hlstd{(Code} \hlopt{%in%} \hlstd{codes.paiement[codes.paiement}\hlopt{$}\hlstd{Type.rémunération}
+                                                                     \hlopt{==} \hlstr{"AUTRES"}\hlstd{,}\hlstr{"Code.rubrique"}\hlstd{]),}
+                                     \hlkwc{montant.indemnité.élu}
+                                     \hlstd{= Montant}\hlopt{*}\hlstd{(Code} \hlopt{%in%} \hlstd{codes.paiement[codes.paiement}\hlopt{$}\hlstd{Type.rémunération}
+                                                                     \hlopt{==} \hlstr{"ELU"}\hlstd{,}\hlstr{"Code.rubrique"}\hlstd{]))}
+
+\hlcom{###########  Analyse des rémunérations  fin de période###################}
+\hlcom{#  ATTENTION : les années doivent être SUCCESSIVES                      #}
+
+
+\hlstd{Analyse.rémunérations.dernier.exercice} \hlkwb{<-} \hlstd{Analyse.rémunérations[Analyse.rémunérations}\hlopt{$}\hlstd{Année} \hlopt{==} \hlstd{année, ]}
+
+\hlkwa{if} \hlstd{(fichier.personnels.existe)}
+\hlstd{\{}
+  \hlstd{Analyse.rémunérations.dernier.exercice} \hlkwb{<-} \hlkwd{merge}\hlstd{(Analyse.rémunérations.dernier.exercice, base.personnels.catégorie,} \hlkwc{by} \hlstd{= étiquette.matricule,} \hlkwc{all} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+\hlstd{\}}
+
+\hlkwd{attach}\hlstd{(Analyse.rémunérations.dernier.exercice,} \hlkwc{warn.conflicts} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+
+\hlcom{########### Analyse statique dernier exercice ########################}
+
+\hlcom{#'# 3. Rémunérations brutes : analyse pour l'exercice `r année` }
+\hlcom{#'}
+\hlcom{#'## 3.1 Statistiques de position globales (tous statuts)       }
+\hlcom{#'}
+\hlcom{#/* La moyenne est tirée vers le haut par les outlyers */}
+
+\hlstd{masse.indemnitaire}            \hlkwb{<-} \hlkwd{sum}\hlstd{(rémunération.contractuelle.ou.indemnitaire)}
+\hlstd{masse.indiciaire}              \hlkwb{<-} \hlkwd{sum}\hlstd{(traitement.indiciaire)}
+\hlstd{masse.rémunérations.brutes}    \hlkwb{<-} \hlkwd{sum}\hlstd{(total.rémunérations)}
+\hlstd{ratio.global.masse.indemnitaire}  \hlkwb{<-} \hlstd{masse.indemnitaire}\hlopt{/}\hlstd{(masse.indiciaire}\hlopt{+}\hlstd{masse.indemnitaire)}\hlopt{*}\hlnum{100}
+
+
+\hlcom{#'### Cumuls des rémunérations brutes pour l'exercice `r année`}
+\hlcom{#'}
+\hlkwd{Tableau}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"Masse indiciaire"}\hlstd{,} \hlstr{"Masse indemnitaire"}\hlstd{),}
+        \hlstd{masse.indiciaire, masse.indemnitaire)}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{c|c}
+## \hline
+## Masse indiciaire & Masse indemnitaire\\
+## \hline
+## 1 062 865 &   620 137\\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'}
+\hlcom{#'<!-- BREAK -->}
+\hlcom{#'}
+
+\hlkwd{Tableau}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"Masse des rémunérations brutes"}\hlstd{,} \hlstr{"Part de la masse indemnitaire"}\hlstd{),}
+        \hlstd{masse.rémunérations.brutes, ratio.global.masse.indemnitaire)}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{c|c}
+## \hline
+## Masse des rémunérations brutes & Part de la masse indemnitaire\\
+## \hline
+## 1 694 243 &     36,85\\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'}
+\hlcom{#'Cumuls réalisés sur les lignes de paie. Les indemnités d'élu ne sont pas prises en compte.  }
+\hlcom{#'}
+\hlstd{somme.brut.non.élu}  \hlkwb{<-} \hlkwd{sum}\hlstd{(Bulletins.paie[Bulletins.paie}\hlopt{$}\hlstd{Année} \hlopt{==} \hlstd{année} \hlopt{&} \hlstd{Bulletins.paie}\hlopt{$}\hlstd{Service} \hlopt{!=} \hlstr{"Elus"}\hlstd{,} \hlstr{"Brut"}\hlstd{])}
+\hlstd{delta}  \hlkwb{<-} \hlstd{somme.brut.non.élu} \hlopt{-} \hlstd{masse.rémunérations.brutes}
+
+\hlcom{#'**Tests de cohérence**  }
+\hlcom{#'}
+\hlcom{# A ce jour la version windows ne supporte ni ISO-88}
+\hlcom{#'Somme des rémunérations brutes versées aux personnels (non élus) :   }
+\hlcom{#'}
+\hlkwd{Tableau.vertical2}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"Agrégats"}\hlstd{,} \hlstr{"euros"}\hlstd{),}
+                 \hlkwd{c}\hlstd{(}\hlstr{"Bulletins de paie (euros)"}\hlstd{,}  \hlstr{"Lignes de paie (euros)"}\hlstd{,} \hlstr{"Différence (euros)"}\hlstd{),}
+                 \hlkwd{c}\hlstd{(somme.brut.non.élu, masse.rémunérations.brutes, delta))}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{c|c}
+## \hline
+## Agrégats & euros\\
+## \hline
+## Bulletins de paie (euros) & 1 734 444\\
+## \hline
+## Lignes de paie (euros) & 1 694 243\\
+## \hline
+## Différence (euros) &    40 201\\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'}
+\hlstd{somme.brut.globale}  \hlkwb{<-} \hlkwd{sum}\hlstd{(Bulletins.paie[Bulletins.paie}\hlopt{$}\hlstd{Année} \hlopt{==} \hlstd{année,} \hlstr{"Brut"}\hlstd{])}
+\hlstd{total.rémunérations.élu.compris} \hlkwb{<-}  \hlstd{masse.rémunérations.brutes} \hlopt{+} \hlkwd{sum}\hlstd{(indemnités.élu)}
+\hlstd{delta2} \hlkwb{<-} \hlstd{somme.brut.globale} \hlopt{-} \hlstd{total.rémunérations.élu.compris}
+\hlcom{#'     }
+\hlcom{#'à comparer aux soldes des comptes 641 et 648 du compte de gestion.   }
+\hlcom{#'}
+\hlcom{#'Somme des rémunérations brutes versées (élus compris) :   }
+\hlcom{#'}
+\hlkwd{Tableau.vertical2}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"Agrégats"}\hlstd{,} \hlstr{"euros"}\hlstd{),}
+                 \hlkwd{c}\hlstd{(}\hlstr{"Bulletins de paie (euros)"}\hlstd{,}  \hlstr{"Lignes de paie (euros)"}\hlstd{,} \hlstr{"Différence (euros)"}\hlstd{),}
+                 \hlkwd{c}\hlstd{(somme.brut.globale, total.rémunérations.élu.compris, delta2))}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{c|c}
+## \hline
+## Agrégats & euros\\
+## \hline
+## Bulletins de paie (euros) & 1 896 527\\
+## \hline
+## Lignes de paie (euros) & 1 856 326\\
+## \hline
+## Différence (euros) &    40 201\\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'  }
+\hlcom{#'à comparer aux soldes des comptes 641, 648 et 653 du compte de gestion   }
+\hlcom{#'}
+
+\hlstd{df} \hlkwb{<-} \hlkwd{data.frame}\hlstd{(masse.indemnitaire, masse.indiciaire, masse.rémunérations.brutes,}
+                 \hlstd{ratio.global.masse.indemnitaire, somme.brut.non.élu, somme.brut.globale, total.rémunérations.élu.compris)}
+
+\hlkwd{Sauv.base}\hlstd{(chemin.dossier.bases,} \hlstr{"df"}\hlstd{,} \hlkwd{paste0}\hlstd{(}\hlstr{"Masses."}\hlstd{, année))}
+\end{alltt}
+
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Sauvegarde de df}}\begin{alltt}
+\hlcom{#'}
+\hlcom{#'[Lien vers la base de données](Bases/`r paste0("Masses.", année, ".csv")` )   }
+\hlcom{#'}
+\hlcom{#'Les résultats sont exprimés en euros.  }
+\hlcom{#'}
+\hlcom{#'}
+\hlcom{#'######      }
+
+\hlcom{#'## 3.2 Fonctionnaires titulaires et stagiaires}
+\hlcom{#'}
+
+
+\hlkwd{hist}\hlstd{(}\hlkwd{filtre.fonctionnaire}\hlstd{(total.rémunérations)}\hlopt{/}\hlnum{1000}\hlstd{,}
+     \hlkwc{xlab} \hlstd{=} \hlstr{"En milliers d'euros \textbackslash{}n hors politique familiale, indemnités journalières et remboursements"}\hlstd{,}
+     \hlkwc{ylab} \hlstd{=} \hlstr{"Effectif"}\hlstd{,}
+     \hlkwc{xlim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{120}\hlstd{),}
+     \hlkwc{main} \hlstd{=} \hlkwd{paste}\hlstd{(}\hlstr{"Rémunération annuelle des fonctionnaires en"}\hlstd{, année),}
+     \hlkwc{col} \hlstd{=} \hlstr{"blue"}\hlstd{,}
+     \hlkwc{nclass} \hlstd{=} \hlnum{50}\hlstd{)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=.6\linewidth]{figure/exemple-Rnwunnamed-chunk-19} 
+
+}
+
+
+\begin{kframe}\begin{alltt}
+\hlcom{#'  }
+\hlcom{#'}
+
+\hlkwd{hist}\hlstd{(}\hlkwd{filtre.fonctionnaire}\hlstd{(rémunération.contractuelle.ou.indemnitaire)}\hlopt{/}\hlnum{1000}\hlstd{,}
+     \hlkwc{xlab} \hlstd{=} \hlstr{"En milliers d'euros\textbackslash{}n hors politique familiale, indemnités journalières et remboursements"}\hlstd{,}
+     \hlkwc{ylab} \hlstd{=} \hlstr{"Effectif"}\hlstd{,}
+     \hlkwc{xlim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{70}\hlstd{),}
+     \hlkwc{main} \hlstd{=} \hlkwd{paste}\hlstd{(}\hlstr{"Rémunération indemnitaire annuelle\textbackslash{}ndes fonctionnaires en"}\hlstd{, année),}
+     \hlkwc{col} \hlstd{=} \hlstr{"blue"}\hlstd{,}
+     \hlkwc{nclass} \hlstd{=} \hlnum{50}
+\hlstd{)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=.6\linewidth]{figure/exemple-Rnwunnamed-chunk-110} 
+
+}
+
+
+\begin{kframe}\begin{alltt}
+\hlcom{#'    }
+\hlcom{#'}
+
+\hlkwd{hist}\hlstd{(}\hlkwd{filtre.fonctionnaire}\hlstd{(part.rémunération.contractuelle.ou.indemnitaire),}
+     \hlkwc{xlab} \hlstd{=} \hlstr{"Pourcentage des indemnités dans la rémunération\textbackslash{}n hors politique familiale, indemnités journalières et remboursements"}\hlstd{,}
+     \hlkwc{ylab} \hlstd{=} \hlstr{"Effectif"}\hlstd{,}
+     \hlkwc{main} \hlstd{=} \hlkwd{paste}\hlstd{(}\hlstr{"Part indemnitaire de la rémunération annuelle des fonctionnaires en"}\hlstd{, année),}
+     \hlkwc{xlim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,}\hlnum{60}\hlstd{),}
+     \hlkwc{col} \hlstd{=} \hlstr{"blue"}\hlstd{,}
+     \hlkwc{nclass} \hlstd{=} \hlnum{30}\hlstd{)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=.6\linewidth]{figure/exemple-Rnwunnamed-chunk-111} 
+
+}
+
+
+\begin{kframe}\begin{alltt}
+\hlcom{#'}
+\hlcom{#'**Tests de cohérence**  }
+
+\hlstd{somme.brut.fonct}  \hlkwb{<-} \hlkwd{sum}\hlstd{(Bulletins.paie[Bulletins.paie}\hlopt{$}\hlstd{Année} \hlopt{==} \hlstd{année} \hlopt{&}
+                                          \hlstd{Bulletins.paie}\hlopt{$}\hlstd{Statut} \hlopt{%in%} \hlkwd{c}\hlstd{(}\hlstr{"TITULAIRE"}\hlstd{,} \hlstr{"STAGIAIRE"}\hlstd{),}
+                                        \hlstr{"Brut"}\hlstd{])}
+
+\hlstd{total.rémunérations.fonct} \hlkwb{<-} \hlkwd{sum}\hlstd{(AR[}\hlnum{4}\hlstd{])}
+
+\hlstd{delta} \hlkwb{<-} \hlstd{somme.brut.fonct} \hlopt{-} \hlstd{total.rémunérations.fonct}
+
+\hlcom{#'Somme des rémunérations brutes versées aux personnels titulaires et stagiaires :   }
+\hlcom{#'}
+
+\hlkwd{Tableau.vertical2}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"Agrégats"}\hlstd{,} \hlstr{"euros"}\hlstd{),}
+                 \hlkwd{c}\hlstd{(}\hlstr{"Bulletins de paie (euros)"}\hlstd{,}  \hlstr{"Lignes de paie (euros)"}\hlstd{,} \hlstr{"Différence (euros)"}\hlstd{),}
+                 \hlkwd{c}\hlstd{(somme.brut.fonct,  total.rémunérations.fonct, delta))}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{c|c}
+## \hline
+## Agrégats & euros\\
+## \hline
+## Bulletins de paie (euros) & 1 509 197\\
+## \hline
+## Lignes de paie (euros) & 1 575 222\\
+## \hline
+## Différence (euros) &   -66 025\\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#' }
+\hlcom{#'A comparer aux soldes des comptes 6411, 6419 et 648 du conmpte de gestion.     }
+\hlcom{#'}
+
+\hlcom{#'}
+\hlcom{#'### Statistiques de position pour l'exercice `r année`  }
+\hlcom{#'}
+
+\hlstd{AR} \hlkwb{<-} \hlstd{Analyse.rémunérations.dernier.exercice[Statut} \hlopt{%in%} \hlkwd{c}\hlstd{(}\hlstr{"TITULAIRE"}\hlstd{,} \hlstr{"STAGIAIRE"}\hlstd{), colonnes.sélectionnées ]}
+
+\hlkwd{Résumé}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"Traitement indiciaire"}\hlstd{,}
+         \hlstd{étiquette.rém.indemn,}
+         \hlstr{"Autres rémunérations"}\hlstd{),  AR[}\hlnum{1}\hlopt{:}\hlnum{3}\hlstd{])}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{r|r|r|r}
+## \hline
+## Statistique & Traitement indiciaire & Rémunération contractuelle ou indemnitaire & Autres rémunérations\\
+## \hline
+## Minimum &  7 362   &      0   &      0  \\
+## \hline
+## 1er quartile & 17 699   &  8 825   &      0  \\
+## \hline
+## Médiane & 20 503   & 10 670   &      0  \\
+## \hline
+## Moyenne & 22 611   & 12 900   &    194  \\
+## \hline
+## 3ème quartile & 24 328   & 13 588   &    233  \\
+## \hline
+## Maximum & 58 786   & 63 949   &    881  \\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'}
+
+\hlkwd{Résumé}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"Total rémunérations"}\hlstd{,} \hlstr{"Part de la rémunération contractuelle ou indemnitaire"}\hlstd{), AR[}\hlnum{4}\hlopt{:}\hlnum{5}\hlstd{])}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{r|r|r}
+## \hline
+## Statistique & Total rémunérations & Part de la rémunération contractuelle ou indemnitaire\\
+## \hline
+## Minimum &  12 602   &     0,0  \\
+## \hline
+## 1er quartile &  27 568   &    30,2  \\
+## \hline
+## Médiane &  30 454   &    35,4  \\
+## \hline
+## Moyenne &  35 706   &    34,8  \\
+## \hline
+## 3ème quartile &  38 298   &    40,4  \\
+## \hline
+## Maximum & 122 735   &    52,1  \\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'**Effectif : `r nrow(AR)`**     }
+\hlcom{#'   }
+\hlcom{#'######      }
+\hlcom{#'}
+\hlcom{#'### Statistiques de position par catégorie pour l'exercice `r année` }
+\hlcom{#'}
+
+\hlstd{ARA} \hlkwb{<-} \hlstd{AR[AR}\hlopt{$}\hlstd{Catégorie} \hlopt{==} \hlstr{'A'}\hlstd{, ]}
+\hlstd{ARB} \hlkwb{<-} \hlstd{AR[AR}\hlopt{$}\hlstd{Catégorie} \hlopt{==} \hlstr{'B'}\hlstd{, ]}
+\hlstd{ARC} \hlkwb{<-} \hlstd{AR[AR}\hlopt{$}\hlstd{Catégorie} \hlopt{==} \hlstr{'C'}\hlstd{, ]}
+
+\hlcom{#'**Catégorie A**     }
+\hlcom{#'}
+\hlcom{#'     }
+
+\hlkwa{if} \hlstd{(fichier.personnels.existe)}
+\hlstd{\{}
+  \hlkwd{Résumé}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"Traitement indiciaire"}\hlstd{,}
+                \hlstd{étiquette.rém.indemn,}
+                 \hlstr{"Autres rémunérations"}\hlstd{),}
+         \hlstd{ARA[}\hlkwd{c}\hlstd{(}\hlstr{"traitement.indiciaire"}\hlstd{,}
+               \hlstr{"rémunération.contractuelle.ou.indemnitaire"}\hlstd{,}
+               \hlstr{"autres.rémunérations"}\hlstd{)])}
+\hlstd{\}} \hlkwa{else}
+  \hlkwd{cat}\hlstd{(}\hlstr{"Pas de statistique en l'absence de fichier des catégories.\textbackslash{}n"}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{r|r|r|r}
+## \hline
+## Statistique & Traitement indiciaire & Rémunération contractuelle ou indemnitaire & Autres rémunérations\\
+## \hline
+## Minimum & 25 170   &      0   &      0  \\
+## \hline
+## 1er quartile & 28 509   & 17 193   &      0  \\
+## \hline
+## Médiane & 34 255   & 21 527   &      0  \\
+## \hline
+## Moyenne & 36 800   & 24 721   &    135  \\
+## \hline
+## 3ème quartile & 42 603   & 29 312   &     50  \\
+## \hline
+## Maximum & 58 786   & 63 949   &    881  \\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'}
+
+\hlkwa{if} \hlstd{(fichier.personnels.existe)}
+\hlstd{\{}
+  \hlkwd{Résumé}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"Total rémunérations"}\hlstd{,} \hlstr{"Part de la rémunération contractuelle ou indemnitaire"}\hlstd{),}
+         \hlstd{ARA[} \hlkwd{c}\hlstd{(} \hlstr{"total.rémunérations"}\hlstd{,} \hlstr{"part.rémunération.contractuelle.ou.indemnitaire"}\hlstd{)])}
+\hlstd{\}}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{r|r|r}
+## \hline
+## Statistique & Total rémunérations & Part de la rémunération contractuelle ou indemnitaire\\
+## \hline
+## Minimum &  39 030   &     0,0  \\
+## \hline
+## 1er quartile &  45 200   &    39,0  \\
+## \hline
+## Médiane &  50 868   &    41,7  \\
+## \hline
+## Moyenne &  61 655   &    37,0  \\
+## \hline
+## 3ème quartile &  69 125   &    42,8  \\
+## \hline
+## Maximum & 122 735   &    52,1  \\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'**Effectif : `r nrow(ARA)`**          }
+\hlcom{#'   }
+\hlcom{#'**Catégorie B**     }
+\hlcom{#'     }
+
+\hlkwa{if} \hlstd{(fichier.personnels.existe)}
+\hlstd{\{}
+  \hlkwd{Résumé}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"Traitement indiciaire"}\hlstd{,}
+           \hlstd{étiquette.rém.indemn,}
+           \hlstr{"Autres rémunérations"}\hlstd{),}
+         \hlstd{ARB[}\hlkwd{c}\hlstd{(}\hlstr{"traitement.indiciaire"}\hlstd{,}
+               \hlstr{"rémunération.contractuelle.ou.indemnitaire"}\hlstd{,}
+               \hlstr{"autres.rémunérations"}\hlstd{)])}
+\hlstd{\}} \hlkwa{else}
+  \hlkwd{cat}\hlstd{(}\hlstr{"Pas de statistique en l'absence de fichier des catégories.\textbackslash{}n"}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{r|r|r|r}
+## \hline
+## Statistique & Traitement indiciaire & Rémunération contractuelle ou indemnitaire & Autres rémunérations\\
+## \hline
+## Minimum &  8 859   &  4 176   &   0,00  \\
+## \hline
+## 1er quartile & 13 489   &  6 368   &   5,72  \\
+## \hline
+## Médiane & 18 119   &  8 561   &  11,45  \\
+## \hline
+## Moyenne & 18 119   &  8 561   &  11,45  \\
+## \hline
+## 3ème quartile & 22 749   & 10 754   &  17,18  \\
+## \hline
+## Maximum & 27 379   & 12 947   &  22,90  \\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'}
+
+\hlkwa{if} \hlstd{(fichier.personnels.existe)}
+\hlstd{\{}
+  \hlkwd{Résumé}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"Total rémunérations"}\hlstd{,} \hlstr{"Part de la rémunération contractuelle ou indemnitaire"}\hlstd{),}
+         \hlstd{ARB[} \hlkwd{c}\hlstd{(} \hlstr{"total.rémunérations"}\hlstd{,} \hlstr{"part.rémunération.contractuelle.ou.indemnitaire"}\hlstd{)])}
+\hlstd{\}}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{r|r|r}
+## \hline
+## Statistique & Total rémunérations & Part de la rémunération contractuelle ou indemnitaire\\
+## \hline
+## Minimum & 13 058   &   32,0  \\
+## \hline
+## 1er quartile & 19 875   &   32,0  \\
+## \hline
+## Médiane & 26 692   &   32,1  \\
+## \hline
+## Moyenne & 26 692   &   32,1  \\
+## \hline
+## 3ème quartile & 33 509   &   32,1  \\
+## \hline
+## Maximum & 40 326   &   32,1  \\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'}
+\hlcom{#'**Effectif : `r nrow(ARB)`**          }
+\hlcom{#'}
+\hlcom{#'**Catégorie C**     }
+\hlcom{#'}
+\hlcom{#'     }
+
+\hlkwa{if} \hlstd{(fichier.personnels.existe)}
+\hlstd{\{}
+  \hlkwd{Résumé}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"Traitement indiciaire"}\hlstd{,}
+           \hlstd{étiquette.rém.indemn,}
+           \hlstr{"Autres rémunérations"}\hlstd{),}
+         \hlstd{ARC[} \hlkwd{c}\hlstd{(}\hlstr{"traitement.indiciaire"}\hlstd{,}
+                \hlstr{"rémunération.contractuelle.ou.indemnitaire"}\hlstd{,}
+               \hlstr{"autres.rémunérations"}\hlstd{)])}
+\hlstd{\}} \hlkwa{else}
+  \hlkwd{cat}\hlstd{(}\hlstr{"Pas de statistique en l'absence de fichier des catégories.\textbackslash{}n"}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{r|r|r|r}
+## \hline
+## Statistique & Traitement indiciaire & Rémunération contractuelle ou indemnitaire & Autres rémunérations\\
+## \hline
+## Minimum & 14 430   &  4 732   &    0,0  \\
+## \hline
+## 1er quartile & 17 394   &  8 825   &    0,0  \\
+## \hline
+## Médiane & 19 169   &  9 387   &    6,9  \\
+## \hline
+## Moyenne & 19 636   & 10 342   &  219,5  \\
+## \hline
+## 3ème quartile & 21 968   & 11 387   &  249,0  \\
+## \hline
+## Maximum & 24 763   & 16 594   &  876,5  \\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'}
+
+\hlkwa{if} \hlstd{(fichier.personnels.existe)}
+\hlstd{\{}
+  \hlkwd{Résumé}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"Total rémunérations"}\hlstd{,} \hlstr{"Part de la rémunération contractuelle ou indemnitaire"}\hlstd{),}
+         \hlstd{ARC[} \hlkwd{c}\hlstd{(} \hlstr{"total.rémunérations"}\hlstd{,} \hlstr{"part.rémunération.contractuelle.ou.indemnitaire"}\hlstd{)])}
+\hlstd{\}}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{r|r|r}
+## \hline
+## Statistique & Total rémunérations & Part de la rémunération contractuelle ou indemnitaire\\
+## \hline
+## Minimum & 19 484   &   24,3  \\
+## \hline
+## 1er quartile & 27 346   &   29,1  \\
+## \hline
+## Médiane & 29 799   &   34,4  \\
+## \hline
+## Moyenne & 30 198   &   34,2  \\
+## \hline
+## 3ème quartile & 32 747   &   37,7  \\
+## \hline
+## Maximum & 38 630   &   44,7  \\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'  }
+\hlcom{#'**Effectif : `r nrow(ARC)`**     }
+\hlcom{#'}
+\hlcom{#'######      }
+\hlcom{#'}
+\hlcom{#'}
+\hlcom{#'## 3.2 Contractuels, vacataires et stagiaires inclus}
+\hlcom{#'}
+
+\hlkwd{hist}\hlstd{(total.rémunérations[} \hlopt{!} \hlstd{Matricule} \hlopt{%in%} \hlstd{liste.matricules.élus} \hlopt{& !} \hlstd{Statut} \hlopt{%in%} \hlkwd{c}\hlstd{(}\hlstr{"TITULAIRE"}\hlstd{,} \hlstr{"STAGIAIRE"}\hlstd{)} \hlopt{&} \hlstd{total.rémunérations} \hlopt{>} \hlnum{1000}\hlstd{]}\hlopt{/}\hlnum{1000}\hlstd{,}
+     \hlkwc{xlab} \hlstd{=} \hlstr{"Rémunération en milliers d'euros\textbackslash{}n hors politique familiale, indemnités journalières et remboursements"}\hlstd{,}
+     \hlkwc{ylab} \hlstd{=} \hlstr{"Effectif"}\hlstd{,}
+     \hlkwc{xlim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{40}\hlstd{),}
+     \hlkwc{main} \hlstd{=} \hlkwd{paste}\hlstd{(}\hlstr{"Rémunération annuelle totale des contractuels en"}\hlstd{, année),}
+     \hlkwc{col} \hlstd{=} \hlstr{"red"}\hlstd{,}
+     \hlkwc{nclass} \hlstd{=} \hlnum{50}\hlstd{)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=.6\linewidth]{figure/exemple-Rnwunnamed-chunk-112} 
+
+}
+
+
+\begin{kframe}\begin{alltt}
+\hlcom{#'}
+\hlcom{#'**Nota:**   }
+\hlcom{#'Ne sont retenues que les rémunérations supérieures à 1 000 euros.  }
+\hlcom{#'Les élus ne sont pas pris en compte.   }
+
+\hlkwd{hist}\hlstd{(}\hlkwd{positive}\hlstd{(autres.rémunérations),}
+     \hlkwc{xlab} \hlstd{=} \hlstr{"En euros :\textbackslash{}n politique familiale, indemnités journalières et remboursements"}\hlstd{,}
+     \hlkwc{ylab} \hlstd{=} \hlstr{"Effectif"}\hlstd{,}
+     \hlkwc{xlim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{5000}\hlstd{),}
+     \hlkwc{main} \hlstd{=} \hlkwd{paste}\hlstd{(}\hlstr{"Autres rémunérations en"}\hlstd{, année),}
+     \hlkwc{col} \hlstd{=} \hlstr{"grey"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=.6\linewidth]{figure/exemple-Rnwunnamed-chunk-113} 
+
+}
+
+
+\begin{kframe}\begin{alltt}
+\hlcom{#'    }
+
+\hlkwd{Résumé}\hlstd{(}\hlkwd{c}\hlstd{(étiquette.rém.indemn,} \hlstr{"Autres rémunérations"}\hlstd{),}
+       \hlstd{Analyse.rémunérations.dernier.exercice[} \hlopt{!} \hlstd{Matricule} \hlopt{%in%} \hlstd{liste.matricules.élus} \hlopt{& !} \hlstd{Statut} \hlopt{%in%} \hlkwd{c}\hlstd{(}\hlstr{"TITULAIRE"}\hlstd{,} \hlstr{"STAGIAIRE"}\hlstd{),}
+                             \hlkwd{c}\hlstd{(}\hlstr{"rémunération.contractuelle.ou.indemnitaire"}\hlstd{,} \hlstr{"autres.rémunérations"}\hlstd{)])}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{r|r|r}
+## \hline
+## Statistique & Rémunération contractuelle ou indemnitaire & Autres rémunérations\\
+## \hline
+## Minimum &       0   &     0,0  \\
+## \hline
+## 1er quartile &       0   &     0,0  \\
+## \hline
+## Médiane &     699   &     0,0  \\
+## \hline
+## Moyenne &   3 635   &   160,3  \\
+## \hline
+## 3ème quartile &   1 165   &    85,6  \\
+## \hline
+## Maximum &  35 539   & 1 323,1  \\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'}
+
+\hlstd{AR} \hlkwb{<-} \hlstd{Analyse.rémunérations.dernier.exercice[} \hlopt{!} \hlstd{Matricule} \hlopt{%in%} \hlstd{liste.matricules.élus} \hlopt{& !} \hlstd{Statut} \hlopt{%in%} \hlkwd{c}\hlstd{(}\hlstr{"TITULAIRE"}\hlstd{,} \hlstr{"STAGIAIRE"}\hlstd{),}
+                                              \hlstr{"total.rémunérations"}\hlstd{]}
+
+\hlkwd{Résumé}\hlstd{(}\hlstr{"Total rémunérations"}\hlstd{,   AR)}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{r|r}
+## \hline
+## Statistique & Total rémunérations\\
+## \hline
+## Minimum &      0\\
+## \hline
+## 1er quartile &    504\\
+## \hline
+## Médiane &    849\\
+## \hline
+## Moyenne &  8 830\\
+## \hline
+## 3ème quartile &  1 430\\
+## \hline
+## Maximum & 85 800\\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'   }
+\hlcom{#'**Effectif : `r length(AR)`**     }
+\hlcom{#'   }
+
+\hlkwd{detach}\hlstd{(Analyse.rémunérations.dernier.exercice)}
+
+
+\hlcom{#'}
+\hlcom{#'[Lien vers la base de données](Bases/Analyse.rémunérations.csv) d'analyse des rémunérations}
+\hlcom{#'}
+
+\hlcom{########### Analyse dynamique ########################}
+\hlcom{#'}
+\hlcom{#'# 4. Rémunérations nettes : évolutions sur la période `r début.période.sous.revue` - `r fin.période.sous.revue` }
+\hlcom{#'}
+\hlcom{#'Nombre d'exercices: `r nombre.exercices`  }
+\hlcom{#'    }
+\hlcom{#'## 4.1 Rémunération nette moyenne sur la période}
+
+\hlkwd{attach}\hlstd{(Analyse.variations.synthèse)}
+
+\hlkwd{hist}\hlstd{(}\hlkwd{positive}\hlstd{(moyenne.rémunération.annuelle.sur.période)}\hlopt{/}\hlnum{1000}\hlstd{,}
+     \hlkwc{xlab} \hlstd{=} \hlkwd{paste0}\hlstd{(}\hlstr{"Sur la période "}\hlstd{,début.période.sous.revue,}\hlstr{"-"}\hlstd{,fin.période.sous.revue,}\hlstr{" en milliers d'euros"}\hlstd{),}
+     \hlkwc{ylab} \hlstd{=} \hlstr{"Effectif"}\hlstd{,}
+     \hlkwc{main} \hlstd{=} \hlstr{"Rémunération nette moyenne"}\hlstd{,}
+     \hlkwc{col} \hlstd{=} \hlstr{"blue"}\hlstd{,}
+     \hlkwc{nclass} \hlstd{=} \hlnum{100}\hlstd{)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=.6\linewidth]{figure/exemple-Rnwunnamed-chunk-114} 
+
+}
+
+
+\begin{kframe}\begin{alltt}
+\hlcom{#'  }
+\hlcom{#+ fig.height=4.5  }
+
+\hlkwd{hist}\hlstd{(moyenne.rémunération.annuelle.sur.période[moyenne.rémunération.annuelle.sur.période} \hlopt{>}\hlnum{0} \hlopt{&} \hlstd{(statut} \hlopt{==} \hlstr{"TITULAIRE"}  \hlopt{|} \hlstd{statut} \hlopt{==} \hlstr{"STAGIAIRE"}\hlstd{)]}\hlopt{/}\hlnum{1000}\hlstd{,}
+\hlkwc{xlab} \hlstd{=} \hlkwd{paste0}\hlstd{(}\hlstr{"Sur la période "}\hlstd{,début.période.sous.revue,}\hlstr{"-"}\hlstd{,fin.période.sous.revue,}\hlstr{" en milliers d'euros"}\hlstd{),}
+\hlkwc{ylab} \hlstd{=} \hlstr{"Effectif"}\hlstd{,}
+\hlkwc{main} \hlstd{=} \hlstr{"Rémunération nette moyenne des fonctionnaires"}\hlstd{,}
+\hlkwc{col} \hlstd{=} \hlstr{"blue"}\hlstd{,}
+\hlkwc{nclass} \hlstd{=} \hlnum{100}\hlstd{)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=.6\linewidth]{figure/exemple-Rnwunnamed-chunk-115} 
+
+}
+
+
+\begin{kframe}\begin{alltt}
+\hlcom{#'}
+\hlcom{#'[Lien vers la base de données](Bases/Analyse.variations.synthèse.csv)}
+\hlcom{#'}
+\hlcom{#'**Nota:** La rémunération nette perçue est rapportée au cumul des jours d'activité.  }
+
+\hlstd{Analyse.variations.synthèse.filtrée} \hlkwb{<-} \hlkwd{na.omit}\hlstd{(Analyse.variations.synthèse[ nb.jours.exercice.début} \hlopt{>} \hlstd{seuil.troncature}
+                                                                          \hlopt{&} \hlstd{nb.jours.exercice.sortie}   \hlopt{>} \hlstd{seuil.troncature}
+                                                                        \hlcom{#  &  statut %in% c("TITULAIRE", "STAGIAIRE")}
+                                                                          \hlopt{&}  \hlstd{statut} \hlopt{!=}  \hlstr{"AUTRE_STATUT"}
+                                                                              \hlstd{,} \hlkwd{c}\hlstd{(}\hlstr{"rémunération.début"}\hlstd{,}
+                                                                                  \hlstr{"rémunération.sortie"}\hlstd{,}
+                                                                                  \hlstr{"moyenne.rémunération.annuelle.sur.période"}\hlstd{,}
+                                                                                  \hlstr{"variation.rémunération.jour"}\hlstd{,}
+                                                                                  \hlstr{"variation.moyenne.rémunération.jour"}\hlstd{,}
+                                                                                  \hlstr{"plus.2.ans"}\hlstd{,}
+                                                                                  \hlstd{étiquette.matricule)])}
+
+\hlstd{Analyse.variations.synthèse.filtrée.plus.2.ans}  \hlkwb{<-} \hlstd{Analyse.variations.synthèse.filtrée[Analyse.variations.synthèse.filtrée}\hlopt{$}\hlstd{plus.2.ans, ]}
+\hlstd{Analyse.variations.synthèse.filtrée.moins.2.ans} \hlkwb{<-} \hlstd{Analyse.variations.synthèse.filtrée[}\hlopt{!} \hlstd{Analyse.variations.synthèse.filtrée}\hlopt{$}\hlstd{plus.2.ans, ]}
+
+
+\hlkwd{detach}\hlstd{(Analyse.variations.synthèse)}
+\hlcom{#'  }
+\hlcom{#'## 4.2 Evolutions des rémunérations nettes sur la période `r début.période.sous.revue` - `r fin.période.sous.revue` }
+\hlcom{#'}
+\hlcom{#'### 4.2.1 Ensemble des personnels fonctionnaires et non titulaires}
+\hlcom{#'}
+
+\hlcom{#'}
+\hlstd{f} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{x}\hlstd{)} \hlkwd{prettyNum}\hlstd{(}\hlkwd{sum}\hlstd{(Analyse.variations.par.exercice[Analyse.variations.par.exercice}\hlopt{$}\hlstd{Année} \hlopt{==} \hlstd{x,} \hlstr{"Montant.net"}\hlstd{])}\hlopt{/} \hlnum{1000}\hlstd{,} \hlkwc{big.mark} \hlstd{=} \hlstr{" "}\hlstd{,} \hlkwc{digits} \hlstd{=} \hlnum{5}\hlstd{,} \hlkwc{format} \hlstd{=} \hlstr{"fg"}\hlstd{)}
+
+\hlkwd{Tableau.vertical}\hlstd{(}\hlkwd{c}\hlstd{(étiquette.année,} \hlstr{"Rémunération nette totale (k&euro;)"}\hlstd{),}
+                 \hlstd{début.période.sous.revue}\hlopt{:}\hlstd{fin.période.sous.revue,}
+                 \hlstd{f)}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{c|c}
+## \hline
+## Année & Rémunération nette totale (k&euro;)\\
+## \hline
+## 2011 & 1 579,9\\
+## \hline
+## 2012 & 1 525,9\\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'}
+\hlcom{#'[Lien vers la base de données](Bases/Analyse.variations.par.exercice.csv)}
+\hlcom{#'}
+\hlcom{#'######   }
+\hlcom{#'}
+
+\hlkwd{Résumé}\hlstd{(}   \hlkwd{c}\hlstd{(}\hlstr{"Première année"}\hlstd{,}
+            \hlstr{"Dernière année"}\hlstd{,}
+            \hlstr{"Moyenne sur la période <br>d'activité"}\hlstd{),}
+             \hlstd{Analyse.variations.synthèse.filtrée[}\hlnum{1}\hlopt{:}\hlnum{3}\hlstd{])}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{r|r|r|r}
+## \hline
+## Statistique & Première année & Dernière année & Moyenne sur la période <br>d'activité\\
+## \hline
+## Minimum &       0   &       0   &       0  \\
+## \hline
+## 1er quartile &  21 871   &  22 068   &  21 881  \\
+## \hline
+## Médiane &  24 087   &  24 822   &  24 585  \\
+## \hline
+## Moyenne &  28 247   &  28 890   &  28 571  \\
+## \hline
+## 3ème quartile &  30 716   &  30 523   &  30 983  \\
+## \hline
+## Maximum & 102 891   & 102 260   & 102 575  \\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'}
+
+\hlkwd{Résumé}\hlstd{(}   \hlkwd{c}\hlstd{(}\hlstr{"Variation sur la période <br>d'activité"}\hlstd{,}
+            \hlstr{"Variation annuelle moyenne"}\hlstd{),}
+          \hlstd{Analyse.variations.synthèse.filtrée[}\hlnum{4}\hlopt{:}\hlnum{5}\hlstd{])}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{r|r|r}
+## \hline
+## Statistique & Variation sur la période <br>d'activité & Variation annuelle moyenne\\
+## \hline
+## Minimum & -53,24   & -31,585  \\
+## \hline
+## 1er quartile &  -1,22   &  -0,613  \\
+## \hline
+## Médiane &   1,94   &   0,966  \\
+## \hline
+## Moyenne &   1,90   &   0,711  \\
+## \hline
+## 3ème quartile &   4,29   &   2,120  \\
+## \hline
+## Maximum &  54,27   &  24,167  \\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'}
+\hlcom{#'**Effectif : `r nrow(Analyse.variations.synthèse.filtrée[étiquette.matricule])`**     }
+\hlcom{#'}
+\hlcom{#'[Lien vers la base de données](Bases/Analyse.variations.synthèse.filtrée.csv)}
+\hlcom{#'}
+\hlcom{#'### 4.2.2 Personnels fonctionnaires et non titulaires en place}
+\hlcom{#'}
+
+\hlkwd{hist}\hlstd{(Analyse.variations.synthèse.filtrée.plus.2.ans}\hlopt{$}\hlstd{variation.moyenne.rémunération.jour,}
+     \hlkwc{xlab} \hlstd{=}\hlstr{"Variation annuelle moyenne en %"}\hlstd{,}
+     \hlkwc{las} \hlstd{=} \hlnum{1}\hlstd{,}
+     \hlkwc{xlim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlopt{-}\hlnum{5}\hlstd{,}\hlnum{30}\hlstd{),}
+     \hlkwc{ylab} \hlstd{=}\hlstr{"Effectifs"}\hlstd{,}
+     \hlkwc{main} \hlstd{=}\hlstr{"Rémunération nette des personnels en place"}\hlstd{,}
+     \hlkwc{col} \hlstd{=}\hlstr{"blue"}\hlstd{,}
+     \hlkwc{nclass} \hlstd{=} \hlnum{200}\hlstd{)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=.6\linewidth]{figure/exemple-Rnwunnamed-chunk-116} 
+
+}
+
+
+\begin{kframe}\begin{alltt}
+\hlcom{#'}
+\hlcom{#'}
+
+\hlstd{f} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{x}\hlstd{)} \hlkwd{prettyNum}\hlstd{(}\hlkwd{sum}\hlstd{(Analyse.variations.par.exercice[}
+                               \hlstd{Analyse.variations.par.exercice}\hlopt{$}\hlstd{Année} \hlopt{==} \hlstd{x} \hlopt{&} \hlstd{Analyse.variations.par.exercice}\hlopt{$}\hlstd{plus.2.ans,}
+                               \hlstr{"Montant.net"}\hlstd{])}\hlopt{/} \hlnum{1000}\hlstd{,} \hlkwc{big.mark} \hlstd{=} \hlstr{" "}\hlstd{,} \hlkwc{digits} \hlstd{=} \hlnum{5}\hlstd{,} \hlkwc{format} \hlstd{=} \hlstr{"fg"}\hlstd{)}
+
+\hlkwd{Tableau.vertical}\hlstd{(}\hlkwd{c}\hlstd{(étiquette.année,} \hlstr{"Rémunération nette totale <br>des agents en place (k&euro;)"}\hlstd{),}
+                 \hlstd{début.période.sous.revue}\hlopt{:}\hlstd{fin.période.sous.revue,}
+                 \hlstd{f)}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{c|c}
+## \hline
+## Année & Rémunération nette totale <br>des agents en place (k&euro;)\\
+## \hline
+## 2011 & 1 403,9\\
+## \hline
+## 2012 & 1 438,6\\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'}
+
+\hlkwd{Résumé}\hlstd{(}   \hlkwd{c}\hlstd{(}\hlstr{"Première année"}\hlstd{,}
+            \hlstr{"Dernière année"}\hlstd{,}
+            \hlstr{"Moyenne sur la période <br>d'activité"}\hlstd{),}
+          \hlstd{Analyse.variations.synthèse.filtrée.plus.2.ans[}\hlnum{1}\hlopt{:}\hlnum{3}\hlstd{])}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{r|r|r|r}
+## \hline
+## Statistique & Première année & Dernière année & Moyenne sur la période <br>d'activité\\
+## \hline
+## Minimum &       0   &       0   &       0  \\
+## \hline
+## 1er quartile &  22 015   &  22 225   &  22 377  \\
+## \hline
+## Médiane &  24 840   &  25 082   &  24 800  \\
+## \hline
+## Moyenne &  29 272   &  30 010   &  29 641  \\
+## \hline
+## 3ème quartile &  30 716   &  30 523   &  30 983  \\
+## \hline
+## Maximum & 102 891   & 102 260   & 102 575  \\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'}
+
+\hlkwd{Résumé}\hlstd{(}   \hlkwd{c}\hlstd{(}\hlstr{"Variation sur la période <br>d'activité"}\hlstd{,}
+            \hlstr{"Variation annuelle moyenne"}\hlstd{),}
+          \hlstd{Analyse.variations.synthèse.filtrée.plus.2.ans[}\hlnum{4}\hlopt{:}\hlnum{5}\hlstd{])}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{r|r|r}
+## \hline
+## Statistique & Variation sur la période <br>d'activité & Variation annuelle moyenne\\
+## \hline
+## Minimum & -53,24   & -31,585  \\
+## \hline
+## 1er quartile &  -1,22   &  -0,613  \\
+## \hline
+## Médiane &   2,42   &   1,201  \\
+## \hline
+## Moyenne &   2,24   &   0,870  \\
+## \hline
+## 3ème quartile &   4,49   &   2,215  \\
+## \hline
+## Maximum &  54,27   &  24,167  \\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'     }
+\hlcom{#'**Effectif :** `r nrow(Analyse.variations.synthèse.filtrée.plus.2.ans[étiquette.matricule])`    }
+\hlcom{#'     }
+\hlcom{#'[Lien vers la base de données](Bases/Analyse.variations.synthèse.filtrée.plus.2.ans.csv)}
+\hlcom{#'     }
+\hlcom{#'**Nota**    }
+\hlcom{#'Personnels en place : en fonction au moins 730 jours sur la période `r début.période.sous.revue` à `r fin.période.sous.revue`     }
+\hlcom{#'}
+\hlcom{#'######   }
+\hlcom{#'}
+\hlcom{#'### 4.2.3 Personnels fonctionnaires et non titulaires en fonction moins de deux ans}
+\hlcom{#'}
+\hlcom{#'}
+\hlkwd{hist}\hlstd{(Analyse.variations.synthèse.filtrée.moins.2.ans}\hlopt{$}\hlstd{variation.moyenne.rémunération.jour,}
+     \hlkwc{xlab} \hlstd{=}\hlstr{"Variation annuelle moyenne en %"}\hlstd{,}
+     \hlkwc{xlim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlopt{-}\hlnum{10}\hlstd{,}\hlnum{30}\hlstd{),}
+     \hlkwc{las} \hlstd{=} \hlnum{1}\hlstd{,}
+     \hlkwc{ylab} \hlstd{=}\hlstr{"Effectifs"}\hlstd{,}
+     \hlkwc{main} \hlstd{=}\hlstr{"Rémunération nette des personnels en fonction moins de deux ans"}\hlstd{,}
+     \hlkwc{col} \hlstd{=}\hlstr{"turquoise"}\hlstd{,}
+     \hlkwc{nclass} \hlstd{=} \hlnum{100}
+\hlstd{)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=.6\linewidth]{figure/exemple-Rnwunnamed-chunk-117} 
+
+}
+
+
+\begin{kframe}\begin{alltt}
+\hlcom{#'}
+\hlcom{#'##            }
+\hlcom{#'}
+
+\hlstd{f} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{x}\hlstd{)} \hlkwd{prettyNum}\hlstd{(}\hlkwd{sum}\hlstd{(Analyse.variations.par.exercice[}
+  \hlstd{Analyse.variations.par.exercice}\hlopt{$}\hlstd{Année} \hlopt{==} \hlstd{x} \hlopt{& !} \hlstd{Analyse.variations.par.exercice}\hlopt{$}\hlstd{plus.2.ans,}
+  \hlstr{"Montant.net"}\hlstd{])}\hlopt{/} \hlnum{1000}\hlstd{,} \hlkwc{big.mark} \hlstd{=} \hlstr{" "}\hlstd{,} \hlkwc{digits} \hlstd{=} \hlnum{5}\hlstd{,} \hlkwc{format} \hlstd{=} \hlstr{"fg"}\hlstd{)}
+
+\hlkwd{Tableau.vertical}\hlstd{(}\hlkwd{c}\hlstd{(étiquette.année,} \hlstr{"Rémunération nette totale <br>des agents en fonction moins de deux ans (k&euro;)"}\hlstd{),}
+                 \hlstd{début.période.sous.revue}\hlopt{:}\hlstd{fin.période.sous.revue,}
+                 \hlstd{f)}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{c|c}
+## \hline
+## Année & Rémunération nette totale <br>des agents en fonction moins de deux ans (k&euro;)\\
+## \hline
+## 2011 & 175,97\\
+## \hline
+## 2012 & 87,253\\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'}
+\hlcom{#'}
+
+\hlkwd{Résumé}\hlstd{(}   \hlkwd{c}\hlstd{(}\hlstr{"Première année"}\hlstd{,}
+            \hlstr{"Dernière année"}\hlstd{,}
+            \hlstr{"Moyenne sur la période <br>d'activité"}\hlstd{),}
+          \hlstd{Analyse.variations.synthèse.filtrée.moins.2.ans[}\hlnum{1}\hlopt{:}\hlnum{3}\hlstd{])}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{r|r|r|r}
+## \hline
+## Statistique & Première année & Dernière année & Moyenne sur la période <br>d'activité\\
+## \hline
+## Minimum &      0   &      0   &      0  \\
+## \hline
+## 1er quartile & 10 551   & 10 551   & 10 551  \\
+## \hline
+## Médiane & 18 169   & 17 401   & 17 840  \\
+## \hline
+## Moyenne & 17 232   & 16 848   & 17 068  \\
+## \hline
+## 3ème quartile & 24 851   & 23 698   & 24 357  \\
+## \hline
+## Maximum & 32 591   & 32 591   & 32 591  \\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'}
+
+\hlkwd{Résumé}\hlstd{(}   \hlkwd{c}\hlstd{(}\hlstr{"Variation sur la période <br>d'activité"}\hlstd{,}
+            \hlstr{"Variation annuelle moyenne"}\hlstd{),}
+          \hlstd{Analyse.variations.synthèse.filtrée.moins.2.ans[}\hlnum{4}\hlopt{:}\hlnum{5}\hlstd{])}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{r|r|r}
+## \hline
+## Statistique & Variation sur la période <br>d'activité & Variation annuelle moyenne\\
+## \hline
+## Minimum & -6,90   & -4  \\
+## \hline
+## 1er quartile & -1,73   & -1  \\
+## \hline
+## Médiane &  0,00   &  0  \\
+## \hline
+## Moyenne & -1,73   & -1  \\
+## \hline
+## 3ème quartile &  0,00   &  0  \\
+## \hline
+## Maximum &  0,00   &  0  \\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'}
+\hlcom{#'     }
+\hlcom{#'**Effectif :** `r nrow(Analyse.variations.synthèse.filtrée.moins.2.ans[étiquette.matricule])`    }
+\hlcom{#'     }
+
+\hlcom{#'}
+\hlcom{########### Tests statutaires ########################}
+\hlcom{#'}
+\hlcom{#'[Lien vers la base de données](Bases/Analyse.variations.synthèse.filtrée.moins.2.ans.csv)}
+\hlcom{#'}
+\hlcom{#'**Nota:** Au 4.2 seuls sont pris en compte les personnels en fonction au moins 100 jours la première et la dernière année    }
+\hlcom{#'Ne sont pas pris en compte les élus, stagiaires et apprentis ou assimilés.    }
+\hlcom{#'}
+\hlcom{#'Les résultats sont exprimés en euros.}
+\hlcom{#'}
+\hlcom{#'# 5. Tests réglementaires}
+\hlcom{#'## 5.1 Contrôle des heures supplémentaires, des NBI et primes informatiques}
+\hlcom{#'}
+
+\hlkwd{attach}\hlstd{(Bulletins.paie.Lignes.paie,} \hlkwc{warn.conflicts} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+
+\hlstd{NBI.aux.non.titulaires} \hlkwb{<-} \hlstd{Bulletins.paie.Lignes.paie[} \hlopt{!} \hlstd{Statut} \hlopt{%in%} \hlkwd{c}\hlstd{(}\hlstr{"TITULAIRE"}\hlstd{,}\hlstr{"STAGIAIRE"}\hlstd{)}
+                                                      \hlopt{&} \hlkwd{as.character}\hlstd{(Code)} \hlopt{%in%} \hlstd{codes.NBI,}
+                                                      \hlkwd{c}\hlstd{(étiquette.matricule,}
+                                                        \hlstr{"Statut"}\hlstd{,}
+                                                        \hlstr{"Code"}\hlstd{,}
+                                                        \hlstd{étiquette.libellé,}
+                                                        \hlstr{"Mois"}\hlstd{,}
+                                                        \hlstd{étiquette.montant)]}
+
+\hlstd{nombre.Lignes.paie.NBI.nontit} \hlkwb{<-} \hlkwd{nrow}\hlstd{(NBI.aux.non.titulaires)}
+
+\hlcom{#/* Prime de fonctions informatiques : pas dans la base de VLB}
+\hlcom{# on cherche la chaine de char. "INFO" dans les libellés de primes}
+
+\hlcom{# variante : filtre <- regexpr(".*(INFO|PFI|P.F.I).*", toupper(Bulletins.paie.Lignes.paie$Libellé)) et regmatches(Bulletins.paie.Lignes.paie$Libellé, filtre)*/}
+
+\hlstd{filtre}\hlkwb{<-}\hlkwd{grep}\hlstd{(}\hlstr{".*(INFO|PFI|P.F.I).*"}\hlstd{, Libellé)}
+
+\hlstd{personnels.prime.informatique} \hlkwb{<-} \hlstd{Bulletins.paie.Lignes.paie[ filtre,}
+                                                             \hlkwd{c}\hlstd{(étiquette.matricule,}
+                                                               \hlstr{"Statut"}\hlstd{,}
+                                                               \hlstr{"Code"}\hlstd{,}
+                                                               \hlstd{étiquette.libellé,}
+                                                               \hlstd{étiquette.montant)]}
+
+\hlstd{primes.informatiques.potentielles}\hlkwb{<-}\hlkwd{unique}\hlstd{(Libellé[filtre])}
+
+\hlkwa{if}  \hlstd{(}\hlkwd{length}\hlstd{(primes.informatiques.potentielles)} \hlopt{==} \hlnum{0}\hlstd{)}
+  \hlstd{primes.informatiques.potentielles} \hlkwb{<-} \hlstr{"aucune"}
+
+\hlstd{nombre.personnels.pfi} \hlkwb{<-} \hlkwd{nrow}\hlstd{(personnels.prime.informatique)}
+
+\hlcom{#'Primes informatiques potentielles : `r primes.informatiques.potentielles`  }
+
+\hlkwd{Tableau}\hlstd{(}
+  \hlkwd{c}\hlstd{(}\hlstr{"Nombre de lignes NBI pour non titulaires"}\hlstd{,}
+    \hlstr{"Nombre de bénéficiaires de PFI"}\hlstd{),}
+  \hlstd{nombre.Lignes.paie.NBI.nontit,}
+  \hlstd{nombre.personnels.pfi)}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{c|c}
+## \hline
+## Nombre de lignes NBI pour non titulaires & Nombre de bénéficiaires de PFI\\
+## \hline
+## 1 & 0\\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'}
+\hlcom{#'[Lien vers la base de données NBI aux non titulaires](Bases/NBI.aux.non.titulaires.csv)  }
+\hlcom{#'[Lien vers la base de données Primes informatiques](Bases/personnels.prime.informatique.csv)  }
+\hlcom{#'   }
+\hlcom{#'**Nota :**  }
+\hlcom{#'NBI: nouvelle bonification indiciaire  }
+\hlcom{#'PFI: prime de fonctions informatiques  }
+\hlcom{#'    }
+\hlcom{#'#       }
+\hlcom{#'    }
+\hlcom{#'## 5.2 Contrôle des vacations pour les fonctionnaires  }
+
+\hlcom{# Vacations et statut de fonctionnaire}
+
+\hlstd{lignes.fonctionnaires.et.vacations} \hlkwb{<-} \hlstd{Bulletins.paie.Lignes.paie[ Statut} \hlopt{%in%} \hlkwd{c}\hlstd{(}\hlstr{"TITULAIRE"}\hlstd{,} \hlstr{"STAGIAIRE"}\hlstd{)}
+                                                                  \hlopt{&} \hlstd{Code} \hlopt{%in%} \hlstd{codes.paiement[codes.paiement[}\hlstr{"Type.rémunération"}\hlstd{]} \hlopt{==} \hlstr{"VACATIONS"}\hlstd{,}\hlstr{"Code.rubrique"}\hlstd{],}
+                                                                                             \hlkwd{c}\hlstd{(étiquette.matricule,}
+                                                                                               \hlstr{"Statut"}\hlstd{,}
+                                                                                               \hlstr{"Code"}\hlstd{,}
+                                                                                               \hlstd{étiquette.libellé,}
+                                                                                               \hlstd{étiquette.montant)]}
+
+\hlstd{matricules.fonctionnaires.et.vacations} \hlkwb{<-} \hlkwd{unique}\hlstd{(lignes.fonctionnaires.et.vacations}\hlopt{$}\hlstd{Matricule)}
+\hlstd{nombre.fonctionnaires.et.vacations} \hlkwb{<-} \hlkwd{length}\hlstd{(matricules.fonctionnaires.et.vacations)}
+\hlstd{nombre.Lignes.paie.fonctionnaires.et.vacations} \hlkwb{<-} \hlkwd{nrow}\hlstd{(lignes.fonctionnaires.et.vacations)}
+
+\hlcom{#'}
+
+\hlkwd{Tableau}\hlstd{(}
+  \hlkwd{c}\hlstd{(}\hlstr{"Nombre de FEV"}\hlstd{,}
+    \hlstr{"Nombre de lignes de vacations pour FEV"}\hlstd{),}
+  \hlstd{nombre.fonctionnaires.et.vacations,}
+  \hlstd{nombre.Lignes.paie.fonctionnaires.et.vacations)}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{c|c}
+## \hline
+## Nombre de FEV & Nombre de lignes de vacations pour FEV\\
+## \hline
+## 0 & 0\\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'}
+\hlcom{#'[Lien vers la base de données Matricules des FEV](Bases/matricules.fonctionnaires.et.vacations.csv)  }
+\hlcom{#'[Lien vers la base de données Lignes de vacations de FEV](Bases/lignes.fonctionnaires.et.vacations.csv)  }
+\hlcom{#'   }
+\hlcom{#'**Nota:**  }
+\hlcom{#'FEV : fonctionnaire effectuant des vacations}
+\hlcom{#'}
+\hlcom{#'## 5.3 Contrôles sur les cumuls traitement indiciaire, indemnités et vacations des contractuels}
+
+\hlcom{# Vacations et régime indemnitaire}
+
+\hlstd{lignes.contractuels.et.vacations} \hlkwb{<-} \hlstd{Bulletins.paie.Lignes.paie[} \hlopt{!} \hlstd{Statut} \hlopt{%in%} \hlkwd{c}\hlstd{(}\hlstr{"TITULAIRE"}\hlstd{,} \hlstr{"STAGIAIRE"}\hlstd{)}  \hlopt{&} \hlstd{Code} \hlopt{%in%} \hlstd{codes.paiement[codes.paiement}\hlopt{$}\hlstd{Type.rémunération} \hlopt{==} \hlstr{"VACATIONS"}\hlstd{,}\hlstr{"Code.rubrique"}\hlstd{],} \hlkwd{c}\hlstd{(étiquette.matricule,} \hlstr{"Code"}\hlstd{, étiquette.libellé, étiquette.montant)]}
+\hlstd{matricules.contractuels.et.vacations} \hlkwb{<-} \hlkwd{unique}\hlstd{(lignes.contractuels.et.vacations}\hlopt{$}\hlstd{Matricule)}
+\hlstd{nombre.contractuels.et.vacations} \hlkwb{<-} \hlkwd{length}\hlstd{(matricules.contractuels.et.vacations)}
+
+\hlstd{RI.et.vacations} \hlkwb{<-} \hlstd{Bulletins.paie.Lignes.paie[ Matricule} \hlopt{%in%} \hlstd{matricules.contractuels.et.vacations} \hlopt{&} \hlstd{Code} \hlopt{%in%} \hlstd{codes.paiement[codes.paiement}\hlopt{$}\hlstd{Type.rémunération} \hlopt{==} \hlstr{"INDEMNITAIRE.OU.CONTRACTUEL"}\hlstd{,}\hlstr{"Code.rubrique"}\hlstd{],} \hlkwd{c}\hlstd{(étiquette.matricule,} \hlstr{"Statut"}\hlstd{,} \hlstr{"Code"}\hlstd{, étiquette.libellé, étiquette.montant)]}
+
+
+\hlcom{# Vacations et indiciaire}
+
+\hlstd{traitement.et.vacations} \hlkwb{<-} \hlstd{Bulletins.paie.Lignes.paie[ Matricule} \hlopt{%in%} \hlstd{matricules.contractuels.et.vacations} \hlopt{&} \hlstd{Code} \hlopt{%in%} \hlstd{codes.paiement[codes.paiement}\hlopt{$}\hlstd{Type.rémunération} \hlopt{==} \hlstr{"TRAITEMENT"}\hlstd{,}\hlstr{"Code.rubrique"}\hlstd{],} \hlkwd{c}\hlstd{(étiquette.matricule,} \hlstr{"Statut"}\hlstd{,} \hlstr{"Code"}\hlstd{, étiquette.libellé, étiquette.montant)]}
+
+\hlstd{nombre.Lignes.paie.contractuels.et.vacations} \hlkwb{<-} \hlkwd{nrow}\hlstd{(lignes.contractuels.et.vacations)}
+\hlstd{nombre.Lignes.paie.RI.et.vacations} \hlkwb{<-} \hlkwd{nrow}\hlstd{(RI.et.vacations)}
+\hlstd{nombre.Lignes.paie.traitement.et.vacations} \hlkwb{<-} \hlkwd{nrow}\hlstd{(traitement.et.vacations)}
+
+\hlcom{#'}
+
+\hlcom{#'**Contractuels effectuant des vacations (CEV)**  }
+\hlcom{#'  }
+\hlkwd{Tableau}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"Nombre de CEV"}\hlstd{,}
+          \hlstr{"Nombre de lignes"}\hlstd{,}
+          \hlstr{"Nombre de lignes indemnitaires"}\hlstd{,}
+          \hlstr{"Nombre de lignes de traitement"}\hlstd{),}
+          \hlstd{nombre.contractuels.et.vacations,}
+          \hlstd{nombre.Lignes.paie.contractuels.et.vacations,}
+          \hlstd{nombre.Lignes.paie.RI.et.vacations,}
+          \hlstd{nombre.Lignes.paie.traitement.et.vacations)}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{c|c|c|c}
+## \hline
+## Nombre de CEV & Nombre de lignes & Nombre de lignes indemnitaires & Nombre de lignes de traitement\\
+## \hline
+## 0 & 0 & 0 & 0\\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'}
+\hlcom{#'[Lien vers la base de données Matricules des CEV](Bases/matricules.contractuels.et.vacations.csv)  }
+\hlcom{#'[Lien vers la base de données Lignes de paie de CEV](Bases/RI.et.vacations.csv)  }
+\hlcom{#'[Lien vers la base de données Lignes de traitement indiciaire pour CEV](Bases/traitement.et.vacations.csv)  }
+\hlcom{#'    }
+\hlcom{#'     }
+\hlcom{#'     }
+\hlcom{#'## 5.4 Contrôle sur les indemnités IAT et IFTS}
+
+\hlcom{#IAT et IFTS}
+
+\hlstd{filtre.iat}\hlkwb{<-}\hlkwd{grep}\hlstd{(}\hlstr{".*(IAT|I.A.T|.*Adm.*Tech).*"}\hlstd{, Libellé,} \hlkwc{ignore.case} \hlstd{=} \hlnum{TRUE}\hlstd{)}
+\hlstd{filtre.ifts}\hlkwb{<-}\hlkwd{grep}\hlstd{(}\hlstr{".*(IFTS|I.F.T.S|.*FORF.*TRAV.*SUPP).*"}\hlstd{, Libellé,} \hlkwc{ignore.case} \hlstd{=} \hlnum{TRUE}\hlstd{)}
+\hlstd{codes.ifts} \hlkwb{<-} \hlkwd{unique}\hlstd{(Bulletins.paie.Lignes.paie[filtre.ifts,} \hlstr{"Code"}\hlstd{])}
+
+\hlstd{personnels.iat.ifts} \hlkwb{<-} \hlkwd{intersect}\hlstd{(}\hlkwd{as.character}\hlstd{(Bulletins.paie.Lignes.paie[ filtre.iat,} \hlkwd{c}\hlstd{(étiquette.matricule)]),}
+                                 \hlkwd{as.character}\hlstd{(Bulletins.paie.Lignes.paie[ filtre.ifts,} \hlkwd{c}\hlstd{(étiquette.matricule)]))}
+
+\hlstd{nombre.personnels.iat.ifts} \hlkwb{<-} \hlkwd{length}\hlstd{(personnels.iat.ifts)}
+
+\hlcom{#'}
+
+\hlkwd{Tableau}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"Codes IFTS"}\hlstd{,} \hlstr{"Nombre de personnels percevant IAT et IFTS"}\hlstd{),} \hlkwc{sep.milliers} \hlstd{=} \hlstr{""}\hlstd{,} \hlkwd{paste0}\hlstd{(codes.ifts,} \hlkwc{collapse} \hlstd{=} \hlstr{" "}\hlstd{), nombre.personnels.iat.ifts)}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{c|c}
+## \hline
+## Codes IFTS & Nombre de personnels percevant IAT et IFTS\\
+## \hline
+## 3040 3044 & 0\\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'}
+\hlcom{#'[Codes IFTS retenus](Bases/codes.ifts.csv)    }
+\hlcom{#'[Lien vers la base de données](Bases/personnels.iat.ifts.csv)    }
+\hlcom{#'}
+\hlcom{#'### Contrôle sur les IFTS pour catégories B et contractuels}
+
+\hlcom{#IFTS et IB >= 380 (IM >= 350)}
+
+\hlstd{df1} \hlkwb{<-} \hlstd{Bulletins.paie.Lignes.paie[ Indice} \hlopt{<} \hlnum{350}\hlstd{,} \hlkwd{c}\hlstd{(étiquette.matricule)]}
+\hlstd{df1} \hlkwb{<-} \hlstd{df1[}\hlopt{!}\hlkwd{duplicated}\hlstd{(df1)]}
+
+\hlstd{df2} \hlkwb{<-} \hlstd{Bulletins.paie.Lignes.paie[ filtre.ifts,} \hlkwd{c}\hlstd{(étiquette.matricule)]}
+\hlstd{df2} \hlkwb{<-} \hlstd{df2[}\hlopt{!}\hlkwd{duplicated}\hlstd{(df2)]}
+
+\hlstd{df3} \hlkwb{<-} \hlkwd{intersect}\hlstd{(df1,df2)}
+
+\hlstd{lignes.ifts.anormales} \hlkwb{<-} \hlstd{Bulletins.paie.Lignes.paie[Matricule} \hlopt{%in%} \hlstd{df3} \hlopt{&} \hlstd{Code} \hlopt{%in%} \hlstd{codes.ifts} \hlopt{&} \hlstd{(Indice} \hlopt{<} \hlnum{380} \hlstd{),} \hlkwd{c}\hlstd{(étiquette.matricule,} \hlstr{"Statut"}\hlstd{,} \hlstr{"Code"}\hlstd{, étiquette.libellé,} \hlstr{"Indice"}\hlstd{, étiquette.montant)]}
+\hlstd{nombre.lignes.ifts.anormales} \hlkwb{<-} \hlkwd{nrow}\hlstd{(lignes.ifts.anormales)}
+
+\hlkwd{rm}\hlstd{(df1, df2, df3)}
+\hlcom{# IFTS et non tit}
+
+\hlstd{ifts.et.contractuel} \hlkwb{<-} \hlstd{Bulletins.paie.Lignes.paie[Code} \hlopt{%in%} \hlstd{codes.ifts} \hlopt{& !} \hlstd{Statut} \hlopt{%in%} \hlkwd{c}\hlstd{(}\hlstr{"TITULAIRE"}\hlstd{,} \hlstr{"STAGIAIRE"}\hlstd{),} \hlkwd{c}\hlstd{(étiquette.matricule,} \hlstr{"Statut"}\hlstd{,} \hlstr{"Code"}\hlstd{, étiquette.libellé,} \hlstr{"Indice"}\hlstd{, étiquette.montant)]}
+\hlstd{nombres.lignes.ifts.et.contractuel} \hlkwb{<-} \hlkwd{nrow}\hlstd{(ifts.et.contractuel)}
+
+\hlcom{#'}
+
+\hlkwd{Tableau}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"Nombre de contractuels percevant des IFTS"}\hlstd{,} \hlstr{"Nombre de lignes IFTS pour IB < 380"}\hlstd{), nombres.lignes.ifts.et.contractuel, nombre.lignes.ifts.anormales)}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{c|c}
+## \hline
+## Nombre de contractuels percevant des IFTS & Nombre de lignes IFTS pour IB < 380\\
+## \hline
+## 11 & 0\\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'}
+\hlcom{#'[Lien vers la base de données Lignes IFTS pour contractuels](Bases/ifts.et.contractuel.csv)  }
+\hlcom{#'[Lien vers la base de données Lignes IFTS pour IB < 380](Bases/lignes.ifts.anormales.csv)  }
+\hlcom{#'       }
+\hlcom{#'**Nota:**  }
+\hlcom{#'IB < 380 : fonctionnaire percevant un indice brut inférieur à 380  }
+\hlcom{#'}
+\hlcom{#'######      }
+\hlcom{#'}
+\hlcom{#'## 5.5 Contrôle sur les heures supplémentaires}
+
+\hlstd{HS.sup.25} \hlkwb{<-} \hlstd{Bulletins.paie.Lignes.paie[Heures.Sup.} \hlopt{>=} \hlnum{25} \hlstd{,} \hlkwd{c}\hlstd{(étiquette.matricule, étiquette.année,} \hlstr{"Mois"}\hlstd{,} \hlstr{"Statut"}\hlstd{,} \hlstr{"Heures.Sup."}\hlstd{,} \hlstr{"Brut"}\hlstd{)]}
+\hlstd{nombre.Lignes.paie.HS.sup.25} \hlkwb{<-} \hlkwd{nrow}\hlstd{(HS.sup.25)}
+
+\hlcom{# with(Base2,}
+\hlcom{#      ihts.anormales <<- Base2[! Code.catégorie %in% c("B", "C") & substr(Code,1,2) %in% c("19") & ! grepl(" ENS", Libellé), c(étiquette.matricule, "Code", étiquette.libellé, étiquette.montant, "Code.catégorie")]}
+\hlcom{# )}
+
+\hlstd{ihts.anormales} \hlkwb{<-} \hlkwd{data.frame}\hlstd{(}\hlkwa{NULL}\hlstd{)}
+\hlstd{nombre.ihts.anormales} \hlkwb{<-} \hlkwd{nrow}\hlstd{(ihts.anormales)}
+\hlcom{#'}
+
+\hlkwd{Tableau}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"Nombre de lignes HS en excès"}\hlstd{,} \hlstr{"Nombre de lignes IHTS anormales"}\hlstd{), nombre.Lignes.paie.HS.sup.25, nombre.ihts.anormales)}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{c|c}
+## \hline
+## Nombre de lignes HS en excès & Nombre de lignes IHTS anormales\\
+## \hline
+## 3 196 &     0\\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'}
+\hlcom{#'[Lien vers la base de données Heures suplémentaires en excès](Bases/HS.sup.25.csv)  }
+\hlcom{#'[Lien vers la base de données IHTS anormales](Bases/ihts.anormales.csv)  }
+\hlcom{#'       }
+\hlcom{#'**Nota:**  }
+\hlcom{#'HS en excès : au-delà de 25 heures par mois  }
+\hlcom{#'IHTS anormales : non attribuées à des fonctionnaires de catégorie B ou C.  }
+\hlcom{#'}
+\hlcom{#'## 5.6 Contrôle sur les indemnités des élus}
+\hlcom{#'     }
+
+\hlstd{matricules.à.identifier} \hlkwb{<-} \hlkwd{unique}\hlstd{(Bulletins.paie.Lignes.paie[ ,}
+                                                             \hlkwd{c}\hlstd{(étiquette.année,}
+                                                               \hlstr{"Service"}\hlstd{,}
+                                                               \hlstr{"Grade"}\hlstd{,}
+                                                               \hlstr{"Nom"}\hlstd{,}
+                                                               \hlstd{étiquette.matricule)])}
+
+\hlkwa{if} \hlstd{(fichier.personnels.existe) \{}
+  \hlstd{matricules.à.identifier} \hlkwb{<-} \hlkwd{merge}\hlstd{(matricules.à.identifier, base.personnels.catégorie,} \hlkwc{by} \hlstd{=} \hlstr{"Matricule"}\hlstd{,} \hlkwc{all}\hlstd{=}\hlnum{TRUE}\hlstd{)}
+\hlstd{\}} \hlkwa{else} \hlstd{\{}
+  \hlstd{Catégorie} \hlkwb{<-} \hlkwd{character}\hlstd{(}\hlkwc{length} \hlstd{=} \hlkwd{nrow}\hlstd{(matricules.à.identifier))}
+  \hlstd{matricules.à.identifier} \hlkwb{<-} \hlkwd{cbind}\hlstd{(matricules.à.identifier, Catégorie)}
+\hlstd{\}}
+
+\hlstd{matricules.à.identifier} \hlkwb{<-} \hlstd{matricules.à.identifier[}\hlkwd{order}\hlstd{(matricules.à.identifier}\hlopt{$}\hlstd{Matricule,}
+                                                         \hlstd{matricules.à.identifier}\hlopt{$}\hlstd{Année),]}
+
+
+\hlstd{rémunérations.élu} \hlkwb{<-} \hlstd{Analyse.rémunérations[ Analyse.rémunérations}\hlopt{$}\hlstd{indemnités.élu} \hlopt{>} \hlnum{0}\hlstd{,}
+                                             \hlkwd{c}\hlstd{(étiquette.matricule,}
+                                               \hlstr{"Année"}\hlstd{,}
+                                               \hlstr{"indemnités.élu"}\hlstd{,}
+                                               \hlstr{"autres.rémunérations"}\hlstd{,}
+                                               \hlstr{"total.rémunérations"}\hlstd{) ]}
+
+
+\hlstd{rémunérations.élu} \hlkwb{<-} \hlkwd{mutate}\hlstd{(rémunérations.élu,}
+                            \hlkwc{total.rémunérations} \hlstd{= indemnités.élu} \hlopt{+} \hlstd{autres.rémunérations} \hlopt{+} \hlstd{total.rémunérations)}
+
+
+\hlstd{rémunérations.élu} \hlkwb{<-} \hlkwd{merge}\hlstd{(}\hlkwd{unique}\hlstd{(matricules.à.identifier[}\hlkwd{c}\hlstd{(}\hlstr{"Nom"}\hlstd{,  étiquette.matricule)]),}
+                            \hlstd{rémunérations.élu,}
+                            \hlkwc{all.y} \hlstd{=} \hlnum{TRUE}\hlstd{,}
+                            \hlkwc{all.x} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+
+\hlkwd{names}\hlstd{(rémunérations.élu)} \hlkwb{<-} \hlkwd{c}\hlstd{(étiquette.matricule,} \hlstr{"Nom"}\hlstd{,} \hlstr{"Année"}\hlstd{,} \hlstr{"Indemnités d'élu (euros)"}\hlstd{,} \hlstr{"Autres rémunérations (euros)"}\hlstd{,} \hlstr{"Total (euros)"}\hlstd{)}
+
+\hlcom{#'   }
+
+\hlkwd{kable}\hlstd{(rémunérations.élu,} \hlkwc{row.names} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{r|l|r|r|r|r}
+## \hline
+## Matricule & Nom & Année & Indemnités d'élu (euros) & Autres rémunérations (euros) & Total (euros)\\
+## \hline
+## 403 & XXXD & 2011 & 17066 & 0 & 17066\\
+## \hline
+## 403 & XXXD & 2012 & 17066 & 0 & 17066\\
+## \hline
+## 407 & XXXS & 2011 &  8530 & 0 &  8530\\
+## \hline
+## 407 & XXXS & 2012 &  8530 & 0 &  8530\\
+## \hline
+## 411 & XXXN & 2011 &  8530 & 0 &  8530\\
+## \hline
+## 411 & XXXN & 2012 &  8530 & 0 &  8530\\
+## \hline
+## 459 & XXXI & 2011 &  8530 & 0 &  8530\\
+## \hline
+## 459 & XXXI & 2012 &  8530 & 0 &  8530\\
+## \hline
+## 461 & XXXY & 2011 &  8530 & 0 &  8530\\
+## \hline
+## 461 & XXXY & 2012 &  8530 & 0 &  8530\\
+## \hline
+## 462 & XXXR & 2011 &  8530 & 0 &  8530\\
+## \hline
+## 462 & XXXR & 2012 &  8530 & 0 &  8530\\
+## \hline
+## 515 & XXXO & 2011 &  8530 & 0 &  8530\\
+## \hline
+## 515 & XXXO & 2012 &  8530 & 0 &  8530\\
+## \hline
+## 516 & XXXS & 2011 &  8530 & 0 &  8530\\
+## \hline
+## 516 & XXXS & 2012 &  8530 & 0 &  8530\\
+## \hline
+## 517 & XXXD & 2011 &  8530 & 0 &  8530\\
+## \hline
+## 517 & XXXD & 2012 &  8530 & 0 &  8530\\
+## \hline
+## 518 & XXXO & 2011 &  8530 & 0 &  8530\\
+## \hline
+## 518 & XXXO & 2012 &  8530 & 0 &  8530\\
+## \hline
+## 519 & XXXY & 2011 &  8530 & 0 &  8530\\
+## \hline
+## 519 & XXXY & 2012 &  8530 & 0 &  8530\\
+## \hline
+## 520 & XXXT & 2011 &  8530 & 0 &  8530\\
+## \hline
+## 520 & XXXT & 2012 &  8530 & 0 &  8530\\
+## \hline
+## 521 & XXXO & 2011 &  8530 & 0 &  8530\\
+## \hline
+## 521 & XXXO & 2012 &  8530 & 0 &  8530\\
+## \hline
+## 522 & XXXE & 2011 &  8530 & 0 &  8530\\
+## \hline
+## 522 & XXXE & 2012 &  8530 & 0 &  8530\\
+## \hline
+## 523 & XXXN & 2011 &  8530 & 0 &  8530\\
+## \hline
+## 523 & XXXN & 2012 &  8530 & 0 &  8530\\
+## \hline
+## 524 & XXXR & 2011 &  8530 & 0 &  8530\\
+## \hline
+## 524 & XXXR & 2012 &  8530 & 0 &  8530\\
+## \hline
+## 525 & XXXE & 2011 &  8530 & 0 &  8530\\
+## \hline
+## 525 & XXXE & 2012 &  8530 & 0 &  8530\\
+## \hline
+## 526 & XXXI & 2011 &  8530 & 0 &  8530\\
+## \hline
+## 526 & XXXI & 2012 &  8530 & 0 &  8530\\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'     }
+\hlkwd{Sauv.base}\hlstd{(chemin.dossier.bases,} \hlstr{"matricules.à.identifier"}\hlstd{, fichier.personnels)}
+\end{alltt}
+
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Sauvegarde de matricules.à.identifier}}\begin{alltt}
+\hlcom{#'[Lien vers la base de données Rémunérations des élus](Bases/rémunérations.élu.csv)  }
+\hlcom{#'     }
+
+\hlcom{#'# Annexe}
+
+\hlcom{#'## Liens complémentaires}
+\hlcom{#'     }
+\hlcom{#'[Lien vers la base de données fusionnées des bulletins et lignes de paie](Bases/Bulletins.paie.Lignes.paie.csv)}
+\hlcom{#'      }
+\hlcom{#'[Lien vers le tableau des codes de paiement](Bases/codes.paiement.csv)}
+\hlcom{#'}
+\hlcom{#'[Lien vers le fichier des personnels](Bases/Catégories des personnels.csv)}
+\hlcom{#'}
+
+\hlkwd{with}\hlstd{( Lignes.paie,}
+
+    \hlstd{codes.paiement} \hlkwb{<<-} \hlkwd{unique}\hlstd{(Lignes.paie[  Montant} \hlopt{>} \hlnum{0}
+                                              \hlopt{&} \hlkwd{nchar}\hlstd{(}\hlkwd{as.character}\hlstd{(Code))} \hlopt{==} \hlnum{4}
+                                              \hlopt{&} \hlkwd{as.numeric}\hlstd{(}\hlkwd{substr}\hlstd{(Code,} \hlnum{1}\hlstd{,}\hlnum{1}\hlstd{))} \hlopt{<} \hlnum{5}\hlstd{,}
+                                              \hlkwd{c}\hlstd{(}\hlstr{"Code"}\hlstd{, étiquette.libellé)]))}
+
+\hlstd{codes.paiement} \hlkwb{<-} \hlkwd{cbind}\hlstd{(codes.paiement[}\hlkwd{order}\hlstd{(}\hlkwd{substr}\hlstd{(codes.paiement}\hlopt{$}\hlstd{Code,}\hlnum{1}\hlstd{,}\hlnum{3}\hlstd{)), ],}
+                        \hlkwd{character}\hlstd{(}\hlkwd{nrow}\hlstd{(codes.paiement)))}
+
+\hlkwd{names}\hlstd{(codes.paiement)[}\hlnum{3}\hlstd{]} \hlkwb{<-} \hlstd{étiquette.Type.rémunération}
+
+\hlcom{#'---}
+\hlcom{#'   }
+\hlcom{#'# Tableau des codes de paiement}
+\hlcom{#'}
+\hlcom{#'##  Renseigner le type de rémunération}
+\hlcom{#'}
+\hlcom{#'Utiliser les codes : TRAITEMENT, INDEMNITAIRE.OU.CONTRACTUEL, ELU, AUTRES  }
+\hlcom{#'  }
+\hlcom{#'  }
+\hlkwd{kable}\hlstd{(codes.paiement,} \hlkwc{row.names} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{l|l|l}
+## \hline
+## Code & Libellé & Type rémunération\\
+## \hline
+## 1010 & Traitement indiciaire & \\
+## \hline
+## 1012 & Nouvelle Bonification Indiciaire & \\
+## \hline
+## 1030 & Gratification Etudiant en stage & \\
+## \hline
+## 1030 & Gratification 16/01 au 17/02 & \\
+## \hline
+## 1040 & Supplément familial & \\
+## \hline
+## 1510 & Demi-traitement & \\
+## \hline
+## 1700 & Ind. différentielle. SMIC & \\
+## \hline
+## 1900 & HS <= 14 H EXO & \\
+## \hline
+## 1900 & HS <= 14 H & \\
+## \hline
+## 1900 & HS &lt;= 14 H & \\
+## \hline
+## 1910 & HS > 14 H EXO & \\
+## \hline
+## 1910 & HS > 14 H & \\
+## \hline
+## 1910 & HS &gt; 14 H & \\
+## \hline
+## 1920 & HS dimanche/jf EXO & \\
+## \hline
+## 1920 & HS dimanche/jf & \\
+## \hline
+## 1930 & HS de nuit EXO & \\
+## \hline
+## 1930 & HS de nuit & \\
+## \hline
+## 2249 & Différentiel de pourcentage & \\
+## \hline
+## 2249 & Retenue T.I. 3 j service non fait & \\
+## \hline
+## 2250 & Salaire Apprenti & \\
+## \hline
+## 2903 & Indemnité Vice-Président CG/CR/CC & \\
+## \hline
+## 2902 & Indemnité Président & \\
+## \hline
+## 3040 & I.F.T.S.                         MATRICE & \\
+## \hline
+## 3044 & IFTS des administrateurs territoriaux & \\
+## \hline
+## 3051 & Indemnité d'admin. et technicité & \\
+## \hline
+## 3058 & iemp & \\
+## \hline
+## 3058 & Indemnité d'exercice des missions & \\
+## \hline
+## 3051 & Indemnité d&apos;admin. et technicité & \\
+## \hline
+## 3058 & Indemnité d&apos;exercice des missions & \\
+## \hline
+## 3070 & Astreinte Exploitat. Semaine comp. (Tec) & \\
+## \hline
+## 3076 & Astreinte Exploitat.Dim.J_Férié (Tec) & \\
+## \hline
+## 3110 & Ind. administrateur & \\
+## \hline
+## 3111 & Prime de Fonctions & \\
+## \hline
+## 3112 & Prime de Résultats (Individ.) & \\
+## \hline
+## 3112 & Prime de Résultats  (Individ.) & \\
+## \hline
+## 3209 & Prime Service et Rendement (nouvelle) & \\
+## \hline
+## 3220 & IPF - Part Performance & \\
+## \hline
+## 3221 & IPF - Part Fonctions & \\
+## \hline
+## 3252 & Indemnité spécifique de service (MOIS) & \\
+## \hline
+## 326A & Maintien du RI & \\
+## \hline
+## 4305 & Prime responsabilite (emploi adm.direct. & \\
+## \hline
+## 4608 & Prime de fin d'année apprenti  MS & \\
+## \hline
+## 4605 & Prime de fin d'annee & \\
+## \hline
+## 4603 & Prime fin d'année & \\
+## \hline
+## 4604 & Prime de fin d'année APP & \\
+## \hline
+## 4608 & Prime de fin d'année apprenti & \\
+## \hline
+## 4605 & Rappel Prime fin d'annee & \\
+## \hline
+## 4603 & Prime fin d'année 01 à 03/2012 & \\
+## \hline
+## 4605 & Prime de fin d'année & \\
+## \hline
+## 4608 & Prime de fin d'année 01 au 07/09 & \\
+## \hline
+## 4604 & Prime de fin d'année 01 à 09 & \\
+## \hline
+## 4640 & Indemnité conseil Receveur            MS & \\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'                             }
+\hlcom{#'}
+\hlcom{#'<!-- BREAK -->}
+\hlcom{#'}
+\hlcom{#'                             }
+\hlcom{#'# Tableau des personnels : renseigner la catégorie  }
+\hlcom{#'}
+\hlcom{#'Utiliser les codes : A, B, C, ELU, AUTRES    }
+\hlcom{#'}
+\hlcom{#'En cas de changement de catégorie en cours de période, utiliser la catégorie AUTRES   }
+\hlcom{#'Cela peut conduire à modifier manuellement le fichier Catégories des personnels.csv}
+\hlcom{#'}
+\hlkwd{kable}\hlstd{(matricules.à.identifier,} \hlkwc{row.names} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## 
+## \begin{tabular}{r|r|l|l|l|l}
+## \hline
+## Matricule & Année & Service & Grade & Nom & Catégorie\\
+## \hline
+##  12 & 2011 & Administration & Rédacteur Ter.chef & XXXO & C\\
+## \hline
+##  25 & 2011 & Administration & Attaché Territorial & XXXF & A\\
+## \hline
+##  25 & 2011 & Administration & Attaché principal & XXXF & A\\
+## \hline
+##  25 & 2012 & Administration & Attaché principal & XXXF & A\\
+## \hline
+##  29 & 2011 & Techniques & Controleur Ter.Pal. Trav & XXXN & AUTRES\\
+## \hline
+##  29 & 2011 & Techniques & Technicien Princip 2CL & XXXN & AUTRES\\
+## \hline
+##  29 & 2012 & Techniques & Technicien Princip 2CL & XXXN & AUTRES\\
+## \hline
+##  43 & 2011 & Administration & Rédacteur Ter.chef & XXXK & A\\
+## \hline
+##  43 & 2011 & Administration & Attaché Territorial & XXXK & A\\
+## \hline
+##  43 & 2012 & Administration & Attaché Territorial & XXXK & A\\
+## \hline
+##  44 & 2011 & Administration & Adjt Adminis.Princ 2 Cl & XXXR & C\\
+## \hline
+##  50 & 2011 & Administration & Rédacteur Ter. principal & XXXD & B\\
+## \hline
+##  50 & 2011 & Administration & Rédacteur Ter.chef & XXXD & B\\
+## \hline
+##  50 & 2012 & Administration & Rédacteur Ter.chef & XXXD & B\\
+## \hline
+##  50 & 2012 & Administration & Rédacteur Principal 1 CL & XXXD & B\\
+## \hline
+##  57 & 2011 & Techniques & Agent maîtrise principal & XXXT & C\\
+## \hline
+##  57 & 2012 & Techniques & Agent maîtrise principal & XXXT & C\\
+## \hline
+##  58 & 2011 & Techniques & Agent maîtrise principal & XXXN & C\\
+## \hline
+##  58 & 2012 & Techniques & Agent maîtrise principal & XXXN & C\\
+## \hline
+##  65 & 2011 & Techniques & Agent maîtrise principal & XXXI & C\\
+## \hline
+##  65 & 2012 & Techniques & Agent maîtrise principal & XXXI & C\\
+## \hline
+##  66 & 2011 & Techniques & Adjt.Tech.Princ.2 Cl & XXXS & C\\
+## \hline
+##  66 & 2011 & Techniques & Adjt.Tech.Princ.1 Cl & XXXS & C\\
+## \hline
+##  66 & 2012 & Techniques & Adjt.Tech.Princ.1 Cl & XXXS & C\\
+## \hline
+##  70 & 2011 & Techniques & Agent de Maîtrise & XXXO & C\\
+## \hline
+##  70 & 2012 & Techniques & Agent de Maîtrise & XXXO & C\\
+## \hline
+##  72 & 2011 & Techniques & Agent maîtrise principal & XXXE & C\\
+## \hline
+##  72 & 2012 & Techniques & Agent maîtrise principal & XXXE & C\\
+## \hline
+##  76 & 2011 & Techniques & Adjt technique 1 Cl & XXXZ & C\\
+## \hline
+##  76 & 2012 & Techniques & Adjt technique 1 Cl & XXXZ & C\\
+## \hline
+##  76 & 2012 & Techniques & Adjt.Tech.Princ.2 Cl & XXXZ & C\\
+## \hline
+##  77 & 2011 & Techniques & Ingénieur Principal & XXXS & A\\
+## \hline
+##  77 & 2012 & Techniques & Ingénieur Principal & XXXS & A\\
+## \hline
+##  77 & 2012 & Techniques & Ingénieur Chef Cl.Normal & XXXS & A\\
+## \hline
+## 150 & 2011 & Administration & Adjoint administ. 1 CL & XXXN & C\\
+## \hline
+## 150 & 2011 & Administration & Adjt Adminis.Princ 2 Cl & XXXN & C\\
+## \hline
+## 150 & 2012 & Administration & Adjt Adminis.Princ 2 Cl & XXXN & C\\
+## \hline
+## 170 & 2011 & Techniques & Adjt technique 1 Cl & XXXN & C\\
+## \hline
+## 170 & 2012 & Techniques & Adjt technique 1 Cl & XXXN & C\\
+## \hline
+## 180 & 2011 & Veilleurs & Adjt technique 1 Cl & XXXS & C\\
+## \hline
+## 180 & 2012 & Veilleurs & Adjt technique 1 Cl & XXXS & C\\
+## \hline
+## 180 & 2012 & Veilleurs & Adjt.Tech.Princ.2 Cl & XXXS & C\\
+## \hline
+## 250 & 2011 & Techniques & Agent maîtrise principal & XXXR & C\\
+## \hline
+## 250 & 2012 & Techniques & Agent maîtrise principal & XXXR & C\\
+## \hline
+## 290 & 2011 & Administration & Adjt technique 1 Cl & XXXX & C\\
+## \hline
+## 290 & 2012 & Administration & Adjt technique 1 Cl & XXXX & C\\
+## \hline
+## 290 & 2012 & Administration & Adjt.Tech.Princ.2 Cl & XXXX & C\\
+## \hline
+## 300 & 2011 & Techniques & Adjt technique 2 Cl & XXXA & C\\
+## \hline
+## 300 & 2011 & Techniques & Adjt technique 1 Cl & XXXA & C\\
+## \hline
+## 300 & 2012 & Techniques & Adjt technique 1 Cl & XXXA & C\\
+## \hline
+## 310 & 2011 & Administration & Adjoint administ. 1 CL & XXXS & C\\
+## \hline
+## 310 & 2012 & Administration & Adjoint administ. 1 CL & XXXS & C\\
+## \hline
+## 320 & 2011 & Laboratoire & Technicien Sup.Ter-Chef & XXXN & A\\
+## \hline
+## 320 & 2011 & Laboratoire & Technicien Princip 1CL & XXXN & A\\
+## \hline
+## 320 & 2012 & Laboratoire & Technicien Princip 1CL & XXXN & A\\
+## \hline
+## 320 & 2012 & Laboratoire & Ingénieur & XXXN & A\\
+## \hline
+## 330 & 2011 & Techniques & Adjt technique 2 Cl & XXXT & C\\
+## \hline
+## 340 & 2011 & Veilleurs & Adjt technique 1 Cl & XXXA & C\\
+## \hline
+## 340 & 2012 & Veilleurs & Adjt technique 1 Cl & XXXA & C\\
+## \hline
+## 340 & 2012 & Veilleurs & Adjt.Tech.Princ.2 Cl & XXXA & C\\
+## \hline
+## 350 & 2011 & Techniques & Agent de Maîtrise & XXXX & C\\
+## \hline
+## 350 & 2012 & Techniques & Agent de Maîtrise & XXXX & C\\
+## \hline
+## 370 & 2011 & Techniques & Controleur Ter.Pal. Trav & XXXT & AUTRES\\
+## \hline
+## 370 & 2011 & Techniques & Technicien Princip 2CL & XXXT & AUTRES\\
+## \hline
+## 370 & 2012 & Techniques & Technicien Princip 2CL & XXXT & AUTRES\\
+## \hline
+## 400 & 2011 & Administration & Adjt technique 1 Cl & XXXA & C\\
+## \hline
+## 400 & 2012 & Administration & Adjt technique 1 Cl & XXXA & C\\
+## \hline
+## 403 & 2011 & Elus & Président & XXXD & ELU\\
+## \hline
+## 403 & 2012 & Elus & Président & XXXD & ELU\\
+## \hline
+## 407 & 2011 & Elus & Vice président & XXXS & ELU\\
+## \hline
+## 407 & 2012 & Elus & Vice président & XXXS & ELU\\
+## \hline
+## 411 & 2011 & Elus & Vice président & XXXN & ELU\\
+## \hline
+## 411 & 2012 & Elus & Vice président & XXXN & ELU\\
+## \hline
+## 430 & 2011 & Techniques & DGST 80000/150000 hab & XXXR & AUTRES\\
+## \hline
+## 430 & 2012 & Techniques & DGST 150 mille hab & XXXR & AUTRES\\
+## \hline
+## 440 & 2011 & Techniques & Adjt technique 2 Cl & XXXT & C\\
+## \hline
+## 440 & 2012 & Techniques & Adjt technique 2 Cl & XXXT & C\\
+## \hline
+## 440 & 2012 & Techniques & Adjt technique 1 Cl & XXXT & C\\
+## \hline
+## 450 & 2011 & Veilleurs & Adjt technique 2 Cl & XXXL & C\\
+## \hline
+## 450 & 2012 & Veilleurs & Adjt technique 2 Cl & XXXL & C\\
+## \hline
+## 457 & 2011 & Administration & Administrateur Ter.HCl. & XXXT & A\\
+## \hline
+## 457 & 2012 & Administration & Administrateur Ter.HCl. & XXXT & A\\
+## \hline
+## 459 & 2011 & Elus & Vice président & XXXI & ELU\\
+## \hline
+## 459 & 2012 & Elus & Vice président & XXXI & ELU\\
+## \hline
+## 461 & 2011 & Elus & Vice président & XXXY & ELU\\
+## \hline
+## 461 & 2012 & Elus & Vice président & XXXY & ELU\\
+## \hline
+## 462 & 2011 & Elus & Vice président & XXXR & ELU\\
+## \hline
+## 462 & 2012 & Elus & Vice président & XXXR & ELU\\
+## \hline
+## 466 & 2011 & Techniques & Adjt technique 1 Cl & XXXT & C\\
+## \hline
+## 466 & 2012 & Techniques & Adjt technique 1 Cl & XXXT & C\\
+## \hline
+## 466 & 2012 & Techniques & Adjt.Tech.Princ.2 Cl & XXXT & C\\
+## \hline
+## 467 & 2011 & Techniques & Adjt technique 2 Cl & XXXX & C\\
+## \hline
+## 467 & 2012 & Techniques & Adjt technique 2 Cl & XXXX & C\\
+## \hline
+## 469 & 2011 & Techniques & Agent de Maîtrise & XXXI & C\\
+## \hline
+## 469 & 2011 & Laboratoire & Agent de Maîtrise & XXXI & C\\
+## \hline
+## 469 & 2012 & Laboratoire & Agent de Maîtrise & XXXI & C\\
+## \hline
+## 471 & 2011 & Administration & Adjoint administ. 1 CL & XXXO & C\\
+## \hline
+## 471 & 2011 & Administration & Adjt Adminis.Princ 2 Cl & XXXO & C\\
+## \hline
+## 471 & 2012 & Administration & Adjt Adminis.Princ 2 Cl & XXXO & C\\
+## \hline
+## 478 & 2011 & Techniques & Adjt technique 1 Cl & XXXU & C\\
+## \hline
+## 478 & 2012 & Techniques & Adjt technique 1 Cl & XXXU & C\\
+## \hline
+## 478 & 2012 & Techniques & Adjt.Tech.Princ.2 Cl & XXXU & C\\
+## \hline
+## 481 & 2011 & Techniques & Adjt technique 1 Cl & XXXN & C\\
+## \hline
+## 481 & 2012 & Techniques & Adjt technique 1 Cl & XXXN & C\\
+## \hline
+## 481 & 2012 & Techniques & Adjt.Tech.Princ.2 Cl & XXXN & C\\
+## \hline
+## 488 & 2011 & Administration & Attaché Territorial & XXXO & A\\
+## \hline
+## 488 & 2012 & Administration & Attaché Territorial & XXXO & A\\
+## \hline
+## 490 & 2011 & Femmes d'agent percevant & Sans Grade & XXXA  & AUTRES\\
+## \hline
+## 490 & 2012 & Femmes d'agent percevant & Sans Grade & XXXA  & AUTRES\\
+## \hline
+## 499 & 2011 & Techniques & Ingénieur Principal & XXXE & A\\
+## \hline
+## 499 & 2012 & Techniques & Ingénieur Principal & XXXE & A\\
+## \hline
+## 500 & 2011 & Femmes d'agent percevant & Sans Grade & XXXT & AUTRES\\
+## \hline
+## 507 & 2011 & Veilleurs & Adjt technique 2 Cl & XXXR & C\\
+## \hline
+## 507 & 2012 & Veilleurs & Adjt technique 2 Cl & XXXR & C\\
+## \hline
+## 515 & 2011 & Elus & Vice président & XXXO & ELU\\
+## \hline
+## 515 & 2012 & Elus & Vice président & XXXO & ELU\\
+## \hline
+## 516 & 2011 & Elus & Vice président & XXXS & ELU\\
+## \hline
+## 516 & 2012 & Elus & Vice président & XXXS & ELU\\
+## \hline
+## 517 & 2011 & Elus & Vice président & XXXD & ELU\\
+## \hline
+## 517 & 2012 & Elus & Vice président & XXXD & ELU\\
+## \hline
+## 518 & 2011 & Elus & Vice président & XXXO & ELU\\
+## \hline
+## 518 & 2012 & Elus & Vice président & XXXO & ELU\\
+## \hline
+## 519 & 2011 & Elus & Vice président & XXXY & ELU\\
+## \hline
+## 519 & 2012 & Elus & Vice président & XXXY & ELU\\
+## \hline
+## 520 & 2011 & Elus & Vice président & XXXT & ELU\\
+## \hline
+## 520 & 2012 & Elus & Vice président & XXXT & ELU\\
+## \hline
+## 521 & 2011 & Elus & Vice président & XXXO & ELU\\
+## \hline
+## 521 & 2012 & Elus & Vice président & XXXO & ELU\\
+## \hline
+## 522 & 2011 & Elus & Vice président & XXXE & ELU\\
+## \hline
+## 522 & 2012 & Elus & Vice président & XXXE & ELU\\
+## \hline
+## 523 & 2011 & Elus & Vice président & XXXN & ELU\\
+## \hline
+## 523 & 2012 & Elus & Vice président & XXXN & ELU\\
+## \hline
+## 524 & 2011 & Elus & Vice président & XXXR & ELU\\
+## \hline
+## 524 & 2012 & Elus & Vice président & XXXR & ELU\\
+## \hline
+## 525 & 2011 & Elus & Vice président & XXXE & ELU\\
+## \hline
+## 525 & 2012 & Elus & Vice président & XXXE & ELU\\
+## \hline
+## 526 & 2011 & Elus & Vice président & XXXI & ELU\\
+## \hline
+## 526 & 2012 & Elus & Vice président & XXXI & ELU\\
+## \hline
+## 531 & 2011 & Femmes d'agent percevant & Sans Grade & XXXT & AUTRES\\
+## \hline
+## 531 & 2012 & Femmes d'agent percevant & Sans Grade & XXXT & AUTRES\\
+## \hline
+## 534 & 2011 & Techniques & Adjt technique 2 Cl & XXXR & C\\
+## \hline
+## 534 & 2012 & Techniques & Adjt technique 2 Cl & XXXR & C\\
+## \hline
+## 535 & 2011 & Techniques & Apprenti & XXXA & AUTRES\\
+## \hline
+## 537 & 2011 & Administration & Receveur & XXXZ & AUTRES\\
+## \hline
+## 537 & 2012 & Administration & Receveur & XXXZ & AUTRES\\
+## \hline
+## 538 & 2011 & Techniques & Technicien Sup.Ter. & XXXT & B\\
+## \hline
+## 538 & 2011 & Techniques & Technicien Princip 2CL & XXXT & B\\
+## \hline
+## 538 & 2012 & Techniques & Technicien Princip 2CL & XXXT & B\\
+## \hline
+## 539 & 2011 & Techniques & Adjt technique 2 Cl & XXXS & C\\
+## \hline
+## 539 & 2012 & Techniques & Adjt technique 2 Cl & XXXS & C\\
+## \hline
+## 545 & 2011 & Techniques & Adjt technique 2 Cl & XXXC & C\\
+## \hline
+## 545 & 2012 & Techniques & Adjt technique 2 Cl & XXXC & C\\
+## \hline
+## 545 & 2012 & Techniques & Adjt technique 1 Cl & XXXC & C\\
+## \hline
+## 545 & 2012 & Laboratoire & Adjt technique 1 Cl & XXXC & C\\
+## \hline
+## 547 & 2011 & Techniques & Apprenti & XXXR & AUTRES\\
+## \hline
+## 547 & 2012 & Techniques & Apprenti & XXXR & AUTRES\\
+## \hline
+## 550 & 2011 & Administration & Etudiant stagaire & XXXE & AUTRES\\
+## \hline
+## 551 & 2011 & Techniques & Adjt technique 2 Cl & XXXE & C\\
+## \hline
+## 551 & 2012 & Techniques & Adjt technique 2 Cl & XXXE & C\\
+## \hline
+## 552 & 2011 & Administration & Adjoint administ. 2 CL & XXXU & C\\
+## \hline
+## 552 & 2011 & Administration & Adjoint administ. 1 CL & XXXU & C\\
+## \hline
+## 552 & 2012 & Administration & Adjoint administ. 1 CL & XXXU & C\\
+## \hline
+## 553 & 2011 & Techniques & Adjt technique 2 Cl & XXXR & C\\
+## \hline
+## 553 & 2012 & Techniques & Adjt technique 2 Cl & XXXR & C\\
+## \hline
+## 553 & 2012 & Techniques & Adjt technique 1 Cl & XXXR & C\\
+## \hline
+## 555 & 2011 & Techniques & Adjt technique 2 Cl & XXXL & C\\
+## \hline
+## 558 & 2011 & Laboratoire & Apprenti & XXXN & AUTRES\\
+## \hline
+## 559 & 2011 & Techniques & Apprenti & XXXD & AUTRES\\
+## \hline
+## 559 & 2012 & Techniques & Apprenti & XXXD & AUTRES\\
+## \hline
+## 560 & 2011 & Administration & Etudiant stagaire & XXXY & AUTRES\\
+## \hline
+## 560 & 2012 & Administration & Etudiant stagaire & XXXY & AUTRES\\
+## \hline
+## 560 & 2012 & Administration & Rédacteur Territorial & XXXY & AUTRES\\
+## \hline
+## 561 & 2011 & Administration & Attaché Territorial & XXXN & AUTRES\\
+## \hline
+## 561 & 2012 & Administration & Attaché Territorial & XXXN & AUTRES\\
+## \hline
+## 562 & 2011 & Techniques & Ingénieur Chef Cl.Normal & XXXD & A\\
+## \hline
+## 562 & 2012 & Techniques & Ingénieur Chef Cl.Normal & XXXD & A\\
+## \hline
+## 563 & 2011 & Techniques & Etudiant stagaire & XXXN & AUTRES\\
+## \hline
+## 563 & 2012 & Techniques & Apprenti & XXXN & AUTRES\\
+## \hline
+## 563 & 2012 & Techniques & Etudiant stagaire & XXXN & AUTRES\\
+## \hline
+## 564 & 2011 & Administration & Etudiant stagaire & XXXE & AUTRES\\
+## \hline
+## 565 & 2011 & Techniques & Adjt technique 2 Cl & XXXY & C\\
+## \hline
+## 565 & 2012 & Techniques & Adjt technique 2 Cl & XXXY & C\\
+## \hline
+## 566 & 2011 & Laboratoire & Apprenti & XXXE & C\\
+## \hline
+## 566 & 2012 & Laboratoire & Apprenti & XXXE & C\\
+## \hline
+## 566 & 2012 & Laboratoire & Agent de Maîtrise & XXXE & C\\
+## \hline
+## 567 & 2011 & Techniques & Apprenti & XXXD & AUTRES\\
+## \hline
+## 567 & 2012 & Techniques & Apprenti & XXXD & AUTRES\\
+## \hline
+## 568 & 2012 & Laboratoire & Etudiant stagaire & XXXU & AUTRES\\
+## \hline
+## 569 & 2012 & Administration & Etudiant stagaire & XXXE & AUTRES\\
+## \hline
+## 570 & 2012 & Techniques & Adjt technique 2 Cl & XXXR & C\\
+## \hline
+## 571 & 2012 & Laboratoire & Apprenti & XXXZ & AUTRES\\
+## \hline
+## 572 & 2012 & Techniques & Apprenti & XXXR & AUTRES\\
+## \hline
+## \end{tabular}
+\end{verbatim}
+\begin{alltt}
+\hlcom{#'}
+
+\hlkwd{detach}\hlstd{(Bulletins.paie.Lignes.paie)}
+
+\hlcom{#/* ------------------------------------------------------------------------------------------------------------------*/}
+\hlcom{#  Sauvegardes : enlever les commentaires en mode opérationnel}
+\hlcom{##}
+
+
+\hlkwa{if} \hlstd{(sauvegarder.bases)}
+  \hlkwd{sauv.bases}\hlstd{(chemin.dossier.bases,}
+    \hlstr{"Analyse.variations.par.exercice"}\hlstd{,}
+    \hlstr{"Analyse.variations.synthèse"}\hlstd{,}
+    \hlstr{"Analyse.variations.synthèse.filtrée"}\hlstd{,}
+    \hlstr{"Analyse.variations.synthèse.filtrée.plus.2.ans"}\hlstd{,}
+    \hlstr{"Analyse.variations.synthèse.filtrée.moins.2.ans"}\hlstd{,}
+    \hlstr{"Analyse.rémunérations"}\hlstd{,}
+    \hlstr{"Bulletins.paie.nir.total.hors.élus"}\hlstd{,}
+    \hlstr{"Bulletins.paie.nir.fonctionnaires"}\hlstd{,}
+    \hlstr{"Bulletins.paie.Lignes.paie"}\hlstd{,}
+    \hlstr{"NBI.aux.non.titulaires"}\hlstd{,}
+    \hlstr{"RI.et.vacations"}\hlstd{,}
+    \hlstr{"HS.sup.25"}\hlstd{,}
+    \hlstr{"ihts.anormales"}\hlstd{,}
+    \hlstr{"personnels.prime.informatique"}\hlstd{,}
+    \hlstr{"liste.matricules.fonctionnaires"}\hlstd{,}
+    \hlstr{"lignes.contractuels.et.vacations"}\hlstd{,}
+    \hlstr{"lignes.fonctionnaires.et.vacations"}\hlstd{,}
+    \hlstr{"lignes.ifts.anormales"}\hlstd{,}
+    \hlstr{"personnels.iat.ifts"}\hlstd{,}
+    \hlstr{"codes.ifts"}\hlstd{,}
+    \hlstr{"ifts.et.contractuel"}\hlstd{,}
+    \hlstr{"traitement.et.vacations"}\hlstd{,}
+    \hlstr{"matricules.contractuels.et.vacations"}\hlstd{,}
+    \hlstr{"matricules.fonctionnaires.et.vacations"}\hlstd{,}
+    \hlstr{"rémunérations.élu"}\hlstd{,}
+    \hlstr{"codes.paiement"}\hlstd{)}
+\end{alltt}
+
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Dans le dossier C:/Users/Public/Altair/Tests/Exemple/Bases :\\\#\# Sauvegarde de Analyse.variations.par.exercice\\\#\# Sauvegarde de Analyse.variations.synthèse\\\#\# Sauvegarde de Analyse.variations.synthèse.filtrée\\\#\# Sauvegarde de Analyse.variations.synthèse.filtrée.plus.2.ans\\\#\# Sauvegarde de Analyse.variations.synthèse.filtrée.moins.2.ans\\\#\# Sauvegarde de Analyse.rémunérations\\\#\# Sauvegarde de Bulletins.paie.nir.total.hors.élus\\\#\# Sauvegarde de Bulletins.paie.nir.fonctionnaires\\\#\# Sauvegarde de Bulletins.paie.Lignes.paie\\\#\# Sauvegarde de NBI.aux.non.titulaires\\\#\# Sauvegarde de RI.et.vacations\\\#\# Sauvegarde de HS.sup.25\\\#\# Sauvegarde de ihts.anormales\\\#\# Sauvegarde de personnels.prime.informatique\\\#\# Sauvegarde de liste.matricules.fonctionnaires\\\#\# Sauvegarde de lignes.contractuels.et.vacations\\\#\# Sauvegarde de lignes.fonctionnaires.et.vacations\\\#\# Sauvegarde de lignes.ifts.anormales\\\#\# Sauvegarde de personnels.iat.ifts\\\#\# Sauvegarde de codes.ifts\\\#\# Sauvegarde de ifts.et.contractuel\\\#\# Sauvegarde de traitement.et.vacations\\\#\# Sauvegarde de matricules.contractuels.et.vacations\\\#\# Sauvegarde de matricules.fonctionnaires.et.vacations\\\#\# Sauvegarde de rémunérations.élu\\\#\# Sauvegarde de codes.paiement}}\end{kframe}
+\end{knitrout}
+
+
+The R session information (including the OS info, R version and all
+packages used):
+
+R version 3.1.0 (2014-04-10)
+Platform: i386-w64-mingw32/i386 (32-bit)
+
+locale:
+[1] LC_COLLATE=French_France.1252  LC_CTYPE=French_France.1252   
+[3] LC_MONETARY=French_France.1252 LC_NUMERIC=C                  
+[5] LC_TIME=French_France.1252    
+
+attached base packages:
+[1] methods   compiler  stats     graphics  grDevices utils     datasets  base     
+
+other attached packages:
+[1] assertthat_0.1  ggplot2_0.9.3.1 plyr_1.8.1      knitr_1.5      
+
+loaded via a namespace (and not attached):
+ [1] colorspace_1.2-4 digest_0.6.4     evaluate_0.5.5   formatR_0.10     grid_3.1.0      
+ [6] gtable_0.1.2     highr_0.3        labeling_0.2     MASS_7.3-31      munsell_0.4.2   
+[11] proto_0.3-10     Rcpp_0.11.1      reshape2_1.4     scales_0.2.4     stringr_0.6.2   
+[16] tools_3.1.0     
+[1] "2014-05-18 02:30:38 CEST"
+
+
+
+
+
+\end{document}
