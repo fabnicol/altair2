@@ -12,7 +12,8 @@ if (windows)
 }
 
 
-charger.bases <- TRUE
+charger.bases <- FALSE
+sauvegarder.bases <- FALSE
 
 nom.fichier.paie  <- "Paye Annecy BP-Lignes de paye"
 nom.bulletin.paie <- "Paye Annecy BP-Bulletins de paye"
