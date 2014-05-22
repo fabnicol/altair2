@@ -15,8 +15,6 @@
 
 # comportement global du programme
 
-sauvegarder.bases <- TRUE
-
 # Lorsque l'on n'a que une ou deux années, mettre étudier.variations à FALSE
 # Lorsque l'on n'étudie pas une base Xémélios, mettre étudier.tests.statutaires à FALSE
 
@@ -70,7 +68,7 @@ champ.détection.élus <- "Service"
 champ.nir <- "Nir"
 libellé.élus <- "Elus"
    
-codes.paiement          <- "codes.csv"
+codes.paiement  <- "codes.csv"
 
 code.traitement <- 1010
 
@@ -102,9 +100,6 @@ codes.NBI <- c("1012", "101B", "101M", "4652", "4672")
 
 lignes.paie <- lignes.paie[file.exists(chemin(lignes.paie))]
 
-Lignes.paie    <- data.frame(NULL)
-Bulletins.paie <- data.frame(NULL)
-
 Read.csv("Lignes.paie", lignes.paie)
 Read.csv("Bulletins.paie", bulletins.paie)
 
@@ -112,7 +107,12 @@ Read.csv("Bulletins.paie", bulletins.paie)
 
 Bulletins.paie <-  selectionner.cle.matricule.mois(Bulletins.paie, Lignes.paie)
 
-codes.paiement <- read.csv.skip(codes.paiement)
+             Codes.paiement <- read.csv.skip(codes.paiement)
+Codes.paiement.indemnitaire <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "INDEMNITAIRE.OU.CONTRACTUEL","Code"])
+  Codes.paiement.traitement <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "TRAITEMENT","Code"])
+         Codes.paiement.élu <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "ELU","Code"])
+   Codes.paiement.vacations <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "VACATIONS","Code"])
+      Codes.paiement.autres <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "AUTRES","Code"])
 
 
 if (!setequal(intersect(names(Lignes.paie), names(Bulletins.paie)), c("Mois", "Année", étiquette.matricule)))
@@ -302,17 +302,13 @@ qplot(factor(Année),
 
 Bulletins.paie.Lignes.paie <- mutate(Bulletins.paie.Lignes.paie,
                                       montant.traitement.indiciaire 
-                                      = Montant*(Code %in% codes.paiement[codes.paiement$Type.rémunération 
-                                                                          == "TRAITEMENT","Code"]),
+                                      = Montant*(Code %in% Codes.paiement.traitement),
                                       montant.primes 
-                                      = Montant*(Code %in% codes.paiement[codes.paiement$Type.rémunération 
-                                                                          == "INDEMNITAIRE.OU.CONTRACTUEL","Code"]),
+                                      = Montant*(Code %in% Codes.paiement.indemnitaire),
                                       montant.autres.rémunérations 
-                                      = Montant*(Code %in% codes.paiement[codes.paiement$Type.rémunération
-                                                                          == "AUTRES","Code"]),
+                                      = Montant*(Code %in% Codes.paiement.autres),
                                       montant.indemnité.élu 
-                                      = Montant*(Code %in% codes.paiement[codes.paiement$Type.rémunération
-                                                                          == "ELU","Code"]))
+                                      = Montant*(Code %in% Codes.paiement.élu))
 
 Analyse.rémunérations <- ddply(Bulletins.paie.Lignes.paie,
                               .(Matricule, Année),
@@ -639,17 +635,13 @@ Bulletins.paie.Lignes.paie.dernier.exercice <-  Bulletins.paie.Lignes.paie[Bulle
 
 Bulletins.paie.Lignes.paie.dernier.exercice <- mutate(Bulletins.paie.Lignes.paie.dernier.exercice,
                                      montant.traitement.indiciaire 
-                                     = Montant*(Code %in% codes.paiement[codes.paiement$Type.rémunération 
-                                                                     == "TRAITEMENT","Code"]),
+                                     = Montant*(Code %in% Codes.paiement.traitement),
                                      montant.primes 
-                                     = Montant*(Code %in% codes.paiement[codes.paiement$Type.rémunération 
-                                                                     == "INDEMNITAIRE.OU.CONTRACTUEL","Code"]),
+                                     = Montant*(Code %in% Codes.paiement.indemnitaire),
                                      montant.autres.rémunérations 
-                                     = Montant*(Code %in% codes.paiement[codes.paiement$Type.rémunération
-                                                                     == "AUTRES","Code"]),
+                                     = Montant*(Code %in% Codes.paiement.autres),
                                      montant.indemnité.élu 
-                                     = Montant*(Code %in% codes.paiement[codes.paiement$Type.rémunération
-                                                                     == "ELU","Code"]))
+                                     = Montant*(Code %in% Codes.paiement.élu))
 
 ###########  Analyse des rémunérations  fin de période###################
 #  ATTENTION : les années doivent être SUCCESSIVES                      #
@@ -1181,12 +1173,12 @@ Tableau(
 # Vacations et statut de fonctionnaire
 
 lignes.fonctionnaires.et.vacations <- Bulletins.paie.Lignes.paie[ Statut %in% c("TITULAIRE", "STAGIAIRE")
-                                                                  & Code %in% codes.paiement[codes.paiement["Type.rémunération"] == "VACATIONS","Code"],
-                                                                                             c(étiquette.matricule,
-                                                                                               "Statut",
-                                                                                               "Code",
-                                                                                               étiquette.libellé,
-                                                                                               étiquette.montant)]
+                                                                  & Code %in% Codes.paiement.vacations,
+                                                                 c(étiquette.matricule,
+                                                                   "Statut",
+                                                                   "Code",
+                                                                    étiquette.libellé,
+                                                                    étiquette.montant)]
                                                                   
 matricules.fonctionnaires.et.vacations <- unique(lignes.fonctionnaires.et.vacations$Matricule)
 nombre.fonctionnaires.et.vacations <- length(matricules.fonctionnaires.et.vacations)
@@ -1211,16 +1203,16 @@ Tableau(
 
 # Vacations et régime indemnitaire
 
-lignes.contractuels.et.vacations <- Bulletins.paie.Lignes.paie[ ! Statut %in% c("TITULAIRE", "STAGIAIRE")  & Code %in% codes.paiement[codes.paiement$Type.rémunération == "VACATIONS","Code"], c(étiquette.matricule, "Code", étiquette.libellé, étiquette.montant)]
+lignes.contractuels.et.vacations <- Bulletins.paie.Lignes.paie[ ! Statut %in% c("TITULAIRE", "STAGIAIRE")  & Code %in% Codes.paiement.vacations, c(étiquette.matricule, "Code", étiquette.libellé, étiquette.montant)]
 matricules.contractuels.et.vacations <- unique(lignes.contractuels.et.vacations$Matricule)
 nombre.contractuels.et.vacations <- length(matricules.contractuels.et.vacations)
 
-RI.et.vacations <- Bulletins.paie.Lignes.paie[ Matricule %in% matricules.contractuels.et.vacations & Code %in% codes.paiement[codes.paiement$Type.rémunération == "INDEMNITAIRE.OU.CONTRACTUEL","Code"], c(étiquette.matricule, "Statut", "Code", étiquette.libellé, étiquette.montant)]
+RI.et.vacations <- Bulletins.paie.Lignes.paie[ Matricule %in% matricules.contractuels.et.vacations & Code %in% Codes.paiement.indemnitaire, c(étiquette.matricule, "Statut", "Code", étiquette.libellé, étiquette.montant)]
 
 
 # Vacations et indiciaire
 
-traitement.et.vacations <- Bulletins.paie.Lignes.paie[ Matricule %in% matricules.contractuels.et.vacations & Code %in% codes.paiement[codes.paiement$Type.rémunération == "TRAITEMENT","Code"], c(étiquette.matricule, "Statut", "Code", étiquette.libellé, étiquette.montant)]
+traitement.et.vacations <- Bulletins.paie.Lignes.paie[ Matricule %in% matricules.contractuels.et.vacations & Code %in% Codes.paiement.traitement, c(étiquette.matricule, "Statut", "Code", étiquette.libellé, étiquette.montant)]
 
 nombre.Lignes.paie.contractuels.et.vacations <- nrow(lignes.contractuels.et.vacations)
 nombre.Lignes.paie.RI.et.vacations <- nrow(RI.et.vacations)
@@ -1387,15 +1379,16 @@ Sauv.base(chemin.dossier.bases, "matricules.à.identifier", fichier.personnels)
 
 with( Lignes.paie,
       
-    codes.paiement <<- unique(Lignes.paie[  Montant > 0 
+    codes.paiement.généré <<- unique(Lignes.paie[  Montant > 0 
                                               & nchar(as.character(Code)) == 4 
-                                              & as.numeric(substr(Code, 1,1)) < 6,
+                                              & as.numeric(substr(Code, 1,1)) != 6,
                                               c("Code", étiquette.libellé)]))
 
-codes.paiement <- cbind(codes.paiement[order(substr(codes.paiement$Code,1,3)), ],
-                        character(nrow(codes.paiement)))
+codes.paiement.généré <- cbind(codes.paiement.généré[order(substr(codes.paiement.généré$Code, 1, 3)), ],
+                        character(nrow(codes.paiement.généré)))
 
-names(codes.paiement)[3] <- étiquette.Type.rémunération
+names(codes.paiement.généré)[3] <- étiquette.Type.rémunération
+
 
 #'---
 #'   
@@ -1406,7 +1399,7 @@ names(codes.paiement)[3] <- étiquette.Type.rémunération
 #'Utiliser les codes : TRAITEMENT, INDEMNITAIRE.OU.CONTRACTUEL, ELU, AUTRES  
 #'  
 #'  
-kable(codes.paiement, row.names = FALSE)
+kable(codes.paiement.généré, row.names = FALSE)
 #'                             
 #'
 #'<!-- BREAK -->
@@ -1456,7 +1449,7 @@ if (sauvegarder.bases)
     "matricules.contractuels.et.vacations",
     "matricules.fonctionnaires.et.vacations",
     "rémunérations.élu",
-    "codes.paiement")
+    "codes.paiement.généré")
 
 
 
