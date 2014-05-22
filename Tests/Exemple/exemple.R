@@ -102,9 +102,9 @@ codes.NBI <- c("1012", "101B", "101M", "4652", "4672")
 
 lignes.paie <- lignes.paie[file.exists(chemin(lignes.paie))]
 
-Lignes.paie<-Read.csv(lignes.paie)
+Read.csv(Lignes.paie, lignes.paie)
 
-Bulletins.paie <- Read.csv(bulletins.paie)
+Read.csv(Bulletins.paie, bulletins.paie)
 
 # suppression des colonnes Nom Prénom redondantes
 
@@ -124,22 +124,25 @@ if (!setequal(intersect(names(Lignes.paie), names(Bulletins.paie)), c("Mois", "A
 #                                                              Lignes.paie[Lignes.paie$Année == x, ], 
 #                                                              by=c(étiquette.matricule, "Mois"))))
 
-Bulletins.paie.Lignes.paie <- merge(Bulletins.paie, Lignes.paie)
-
-Bulletins.paie.dernier.mois <- Bulletins.paie[Bulletins.paie$Année == fin.période.sous.revue & Bulletins.paie$Mois == 12, ]
-
-liste.matricules.fonctionnaires <- unique(Bulletins.paie.dernier.mois[Bulletins.paie.dernier.mois$Statut %in% c("TITULAIRE", "STAGIAIRE"), étiquette.matricule])
-
-liste.matricules.élus   <- unique(Bulletins.paie.dernier.mois[Bulletins.paie.dernier.mois[champ.détection.élus] == libellé.élus, étiquette.matricule])
-
-Bulletins.paie.nir.total.hors.élus <- Bulletins.paie.dernier.mois[ ! Bulletins.paie.dernier.mois$Matricule %in% liste.matricules.élus, c(étiquette.matricule,champ.nir)]
-
-Bulletins.paie.nir.fonctionnaires  <- Bulletins.paie.dernier.mois[Bulletins.paie.dernier.mois$Matricule %in% liste.matricules.fonctionnaires, c(étiquette.matricule, champ.nir)]
-
-# Age au 31 décembre de l'exercice dernier.exerciceal de la période sous revue
-
-années.fonctionnaires   <-fin.période.sous.revue-(as.numeric(substr(as.character(Bulletins.paie.nir.fonctionnaires[,champ.nir]), 2, 3)) + 1900)
-années.total.hors.élus  <-fin.période.sous.revue-(as.numeric(substr(as.character(Bulletins.paie.nir.total.hors.élus[,champ.nir]), 2, 3)) + 1900)
+if (charger.bases)
+{
+  Bulletins.paie.Lignes.paie <- merge(Bulletins.paie, Lignes.paie)
+  
+  Bulletins.paie.dernier.mois <- Bulletins.paie[Bulletins.paie$Année == fin.période.sous.revue & Bulletins.paie$Mois == 12, ]
+  
+  liste.matricules.fonctionnaires <- unique(Bulletins.paie.dernier.mois[Bulletins.paie.dernier.mois$Statut %in% c("TITULAIRE", "STAGIAIRE"), étiquette.matricule])
+  
+  liste.matricules.élus   <- unique(Bulletins.paie.dernier.mois[Bulletins.paie.dernier.mois[champ.détection.élus] == libellé.élus, étiquette.matricule])
+  
+  Bulletins.paie.nir.total.hors.élus <- Bulletins.paie.dernier.mois[ ! Bulletins.paie.dernier.mois$Matricule %in% liste.matricules.élus, c(étiquette.matricule,champ.nir)]
+  
+  Bulletins.paie.nir.fonctionnaires  <- Bulletins.paie.dernier.mois[Bulletins.paie.dernier.mois$Matricule %in% liste.matricules.fonctionnaires, c(étiquette.matricule, champ.nir)]
+  
+  # Age au 31 décembre de l'exercice dernier.exerciceal de la période sous revue
+  
+  années.fonctionnaires   <-fin.période.sous.revue-(as.numeric(substr(as.character(Bulletins.paie.nir.fonctionnaires[,champ.nir]), 2, 3)) + 1900)
+  années.total.hors.élus  <-fin.période.sous.revue-(as.numeric(substr(as.character(Bulletins.paie.nir.total.hors.élus[,champ.nir]), 2, 3)) + 1900)
+}
 
 ########### Démographie ########################
 
