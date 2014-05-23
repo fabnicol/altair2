@@ -96,12 +96,18 @@ codes.NBI <- c("1012", "101B", "101M", "4652", "4672")
 ##
 #  Bases
 ##
-# Lignes de paie  */
+# Lignes de paie 
+
+
+*/
 
 lignes.paie <- lignes.paie[file.exists(chemin(lignes.paie))]
 
 Read.csv("Lignes.paie", lignes.paie)
 Read.csv("Bulletins.paie", bulletins.paie)
+
+if (tester.matricules)
+    tester.homogeneite.matricules(Lignes.paie)
 
 if (générer.codes) {
     
