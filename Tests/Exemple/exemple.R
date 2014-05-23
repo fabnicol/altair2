@@ -103,6 +103,25 @@ lignes.paie <- lignes.paie[file.exists(chemin(lignes.paie))]
 Read.csv("Lignes.paie", lignes.paie)
 Read.csv("Bulletins.paie", bulletins.paie)
 
+if (générer.codes) {
+    
+  with( Lignes.paie,
+        
+        codes.paiement.généré <<- unique(Lignes.paie[  Montant > 0 ,
+                                                       c("Code", étiquette.libellé)]))
+  
+  codes.paiement.généré <- cbind(codes.paiement.généré[order(substr(as.character(codes.paiement.généré$Code), 1, 3)), ],
+                                 character(nrow(codes.paiement.généré)))
+  
+  names(codes.paiement.généré)[3] <- étiquette.Type.rémunération
+  sauv.bases(chemin.dossier.bases, "codes.paiement.généré")
+  if (file.exists(file.path(chemin.dossier.bases, "codes.paiement.généré.csv")))
+   message("Génération des codes : voir fichier Bases/codes.paiement.généré.csv")
+  else
+    message("Les codes n'ont pas été générés.")
+  stop(" Le programme est arrêté par l'utilisateur.", call.=FALSE)
+}
+
 # suppression des colonnes Nom Prénom redondantes
 
 Bulletins.paie <-  selectionner.cle.matricule.mois(Bulletins.paie, Lignes.paie)
@@ -277,6 +296,7 @@ Tableau(c("Plus de 2 ans",
 
 detach(Analyse.variations.synthèse)
 
+if (nrow(Analyse.variations.par.exercice))
 qplot(factor(Année), 
       data = Analyse.variations.par.exercice,
       geom = "bar",
@@ -434,7 +454,7 @@ Sauv.base(chemin.dossier.bases, "df", paste0("Masses.", année))
 filtre.fonctionnaire <- function (X) X[ Statut %in% c("TITULAIRE", "STAGIAIRE") & X >0 ]
 
 hist(filtre.fonctionnaire(total.rémunérations)/1000,
-     xlab = "En milliers d'euros hors politique familiale\nindemnités journalières et remboursements",
+     xlab = "En milliers d'euros hors\nindemnités journalières et remboursements",
      ylab = "Effectif",
      xlim = c(0, 120),
      main = paste("Rémunération annuelle des fonctionnaires en", année),
@@ -444,7 +464,7 @@ hist(filtre.fonctionnaire(total.rémunérations)/1000,
 #'    
 
 hist(filtre.fonctionnaire(rémunération.contractuelle.ou.indemnitaire)/1000,
-     xlab = "En milliers d'euros hors politique familiale\nindemnités journalières et remboursements",
+     xlab = "En milliers d'euros hors\nindemnités journalières et remboursements",
      ylab = "Effectif",
      xlim = c(0, 70),
      main = paste("Rémunération indemnitaire annuelle des fonctionnaires en", année),
@@ -453,7 +473,7 @@ hist(filtre.fonctionnaire(rémunération.contractuelle.ou.indemnitaire)/1000,
 )
 
 hist(filtre.fonctionnaire(part.rémunération.contractuelle.ou.indemnitaire),
-     xlab = "Part des indemnités dans la rémunération en %\n hors politique familiale, indemnités journalières et remboursements",
+     xlab = "Part des indemnités dans la rémunération en %\n hors indemnités journalières et remboursements",
      ylab = "Effectif",
      main = paste("Part indemnitaire de la rémunération annuelle des fonctionnaires en", année),
      xlim = c(0,60),     
@@ -587,7 +607,7 @@ if (fichier.personnels.existe)
 #'
 
 hist(total.rémunérations[! Matricule %in% liste.matricules.élus & !Statut %in% c("TITULAIRE", "STAGIAIRE") & total.rémunérations > 1000]/1000,
-     xlab = "Rémunération en milliers d'euros \n hors politique familiale, indemnités journalières et remboursements",
+     xlab = "Rémunération en milliers d'euros \n hors indemnités journalières et remboursements",
      ylab = "Effectif",
      xlim = c(0, 40),
      main = paste("Rémunération annuelle totale des contractuels en", année),
@@ -600,7 +620,7 @@ hist(total.rémunérations[! Matricule %in% liste.matricules.élus & !Statut %in% c
 #'
 
 hist(positive(autres.rémunérations),
-     xlab = "En euros :\n politique familiale, indemnités journalières et remboursements",
+     xlab = "En euros :\n indemnités journalières et remboursements",
      ylab = "Effectif",
      xlim = c(0, 5000),
      main = paste("Autres rémunérations en", année),
@@ -731,7 +751,7 @@ Sauv.base(chemin.dossier.bases, "df", paste0("Masses.", année))
 
 
 hist(filtre.fonctionnaire(total.rémunérations)/1000,
-     xlab = "En milliers d'euros \n hors politique familiale, indemnités journalières et remboursements",
+     xlab = "En milliers d'euros \n hors indemnités journalières et remboursements",
      ylab = "Effectif",
      xlim = c(0, 120),
      main = paste("Rémunération annuelle des fonctionnaires en", année),
@@ -742,7 +762,7 @@ hist(filtre.fonctionnaire(total.rémunérations)/1000,
 #'
 
 hist(filtre.fonctionnaire(rémunération.contractuelle.ou.indemnitaire)/1000,
-     xlab = "En milliers d'euros\n hors politique familiale, indemnités journalières et remboursements",
+     xlab = "En milliers d'euros\n hors indemnités journalières et remboursements",
      ylab = "Effectif",
      xlim = c(0, 70),
      main = paste("Rémunération indemnitaire annuelle\ndes fonctionnaires en", année),
@@ -754,7 +774,7 @@ hist(filtre.fonctionnaire(rémunération.contractuelle.ou.indemnitaire)/1000,
 #'
 
 hist(filtre.fonctionnaire(part.rémunération.contractuelle.ou.indemnitaire),
-     xlab = "Pourcentage des indemnités dans la rémunération\n hors politique familiale, indemnités journalières et remboursements",
+     xlab = "Pourcentage des indemnités dans la rémunération\n hors indemnités journalières et remboursements",
      ylab = "Effectif",
      main = paste("Part indemnitaire de la rémunération annuelle des fonctionnaires en", année),
      xlim = c(0,60),     
@@ -888,7 +908,7 @@ if (fichier.personnels.existe)
 #'
 
 hist(total.rémunérations[ ! Matricule %in% liste.matricules.élus & ! Statut %in% c("TITULAIRE", "STAGIAIRE") & total.rémunérations > 1000]/1000,
-     xlab = "Rémunération en milliers d'euros\n hors politique familiale, indemnités journalières et remboursements",
+     xlab = "Rémunération en milliers d'euros\n hors indemnités journalières et remboursements",
      ylab = "Effectif",
      xlim = c(0, 40),
      main = paste("Rémunération annuelle totale des contractuels en", année),
@@ -901,7 +921,7 @@ hist(total.rémunérations[ ! Matricule %in% liste.matricules.élus & ! Statut %in%
 #'Les élus ne sont pas pris en compte.   
 
 hist(positive(autres.rémunérations),
-     xlab = "En euros :\n politique familiale, indemnités journalières et remboursements",
+     xlab = "En euros :\n indemnités journalières et remboursements",
      ylab = "Effectif",
      xlim = c(0, 5000),
      main = paste("Autres rémunérations en", année),
@@ -1377,17 +1397,7 @@ Sauv.base(chemin.dossier.bases, "matricules.à.identifier", fichier.personnels)
 #'[Lien vers le fichier des personnels](Bases/Catégories des personnels.csv)
 #'
 
-with( Lignes.paie,
-      
-    codes.paiement.généré <<- unique(Lignes.paie[  Montant > 0 
-                                              & nchar(as.character(Code)) == 4 
-                                              & as.numeric(substr(Code, 1,1)) != 6,
-                                              c("Code", étiquette.libellé)]))
 
-codes.paiement.généré <- cbind(codes.paiement.généré[order(substr(codes.paiement.généré$Code, 1, 3)), ],
-                        character(nrow(codes.paiement.généré)))
-
-names(codes.paiement.généré)[3] <- étiquette.Type.rémunération
 
 
 #'---
@@ -1448,8 +1458,7 @@ if (sauvegarder.bases)
     "traitement.et.vacations",
     "matricules.contractuels.et.vacations",
     "matricules.fonctionnaires.et.vacations",
-    "rémunérations.élu",
-    "codes.paiement.généré")
+    "rémunérations.élu")
 
 
 
