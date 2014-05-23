@@ -15,6 +15,7 @@ if (windows)
 charger.bases <- TRUE
 sauvegarder.bases <- TRUE
 générer.codes <- FALSE
+tester.matricules <- FALSE
 
 nom.fichier.paie  <- "PEV CA-Lignes de paye"
 nom.bulletin.paie <- "PEV CA-Bulletins de paye"

@@ -284,4 +284,22 @@ installer.paquets <- function(..., rigoureusement = FALSE)
 }
 
 
+tester.homogeneite.matricules <- function(Base) {
+    
+  S <- Base[ , c("Nom", "Prénom", "Matricule")]
+  S[ , c("Nom", "Prénom")] <- apply(S[ , c("Nom", "Prénom")],
+                                    2,
+                                    function(x) 
+                                     toupper(chartr("éèô","eeo", x)))
+  
+  with.matr    <-   nrow(unique(S))
+  without.matr <-   nrow(unique(S[ , c("Nom", "Prénom")]))     
+  
+  message("Matricules distincts: ", with.matr)                         
+  message("Noms-Prénoms distincs: ", without.matr)
+  
+  if (with.matr  >   1.10 * without.matr)
+     stop("Résultats trop différents (10 % de marge tolérée). Changement de régime de matricule.", call. = FALSE)
+}
+
 
