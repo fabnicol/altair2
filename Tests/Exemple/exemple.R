@@ -164,6 +164,8 @@ if (!setequal(intersect(names(Lignes.paie), names(Bulletins.paie)), c("Mois", "A
 
 if (charger.bases)
 {
+  
+  
   Bulletins.paie.Lignes.paie <- merge(Bulletins.paie, Lignes.paie)
   
   Bulletins.paie.dernier.mois <- Bulletins.paie[Bulletins.paie$Année == fin.période.sous.revue & Bulletins.paie$Mois == 12, ]
@@ -181,6 +183,9 @@ if (charger.bases)
   années.fonctionnaires   <-fin.période.sous.revue-(as.numeric(substr(as.character(Bulletins.paie.nir.fonctionnaires[,champ.nir]), 2, 3)) + 1900)
   années.total.hors.élus  <-fin.période.sous.revue-(as.numeric(substr(as.character(Bulletins.paie.nir.total.hors.élus[,champ.nir]), 2, 3)) + 1900)
 }
+
+
+
 
 ########### Démographie ########################
 
@@ -970,181 +975,6 @@ detach(Analyse.rémunérations.dernier.exercice)
 #'[Lien vers la base de données](Bases/Analyse.rémunérations.csv) d'analyse des rémunérations
 #'
 
-########### Analyse dynamique ########################
-#'
-#'# 4. Rémunérations nettes : évolutions sur la période `r début.période.sous.revue` - `r fin.période.sous.revue` 
-#'
-#'Nombre d'exercices: `r nombre.exercices`  
-#'    
-#'## 4.1 Rémunération nette moyenne sur la période
-
-attach(Analyse.variations.synthèse)
-
-hist(positive(moyenne.rémunération.annuelle.sur.période)/1000,
-     xlab = paste0("Sur la période ",début.période.sous.revue,"-",fin.période.sous.revue," en milliers d'euros"),
-     ylab = "Effectif",
-     main = "Rémunération nette moyenne",
-     col = "blue",
-     nclass = 100)
-#'  
-#+ fig.height=4.5  
-
-hist(moyenne.rémunération.annuelle.sur.période[moyenne.rémunération.annuelle.sur.période >0 & (statut == "TITULAIRE"  | statut == "STAGIAIRE")]/1000,
-xlab = paste0("Sur la période ",début.période.sous.revue,"-",fin.période.sous.revue," en milliers d'euros"),
-ylab = "Effectif",
-main = "Rémunération nette moyenne des fonctionnaires",
-col = "blue",
-nclass = 100)
-
-#'
-#'[Lien vers la base de données](Bases/Analyse.variations.synthèse.csv)
-#'
-#'**Nota:** La rémunération nette perçue est rapportée au cumul des jours d'activité.  
-
-Analyse.variations.synthèse.filtrée <- na.omit(Analyse.variations.synthèse[ nb.jours.exercice.début > seuil.troncature 
-                                                                          & nb.jours.exercice.sortie   > seuil.troncature
-                                                                        #  &  statut %in% c("TITULAIRE", "STAGIAIRE")
-                                                                          &  statut !=  "AUTRE_STATUT"
-                                                                              , c("rémunération.début",
-                                                                                  "rémunération.sortie",
-                                                                                  "moyenne.rémunération.annuelle.sur.période",
-                                                                                  "variation.rémunération.jour",
-                                                                                  "variation.moyenne.rémunération.jour", 
-                                                                                  "plus.2.ans",
-                                                                                  étiquette.matricule)])
-
-Analyse.variations.synthèse.filtrée.plus.2.ans  <- Analyse.variations.synthèse.filtrée[Analyse.variations.synthèse.filtrée$plus.2.ans, ]
-Analyse.variations.synthèse.filtrée.moins.2.ans <- Analyse.variations.synthèse.filtrée[! Analyse.variations.synthèse.filtrée$plus.2.ans, ]
-
-
-detach(Analyse.variations.synthèse)
-#'  
-#'## 4.2 Evolutions des rémunérations nettes sur la période `r début.période.sous.revue` - `r fin.période.sous.revue` 
-#'
-#'### 4.2.1 Ensemble des personnels fonctionnaires et non titulaires
-#'
-
-#'
-f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Analyse.variations.par.exercice$Année == x, "Montant.net"])/ 1000, big.mark = " ", digits = 5, format = "fg")
-
-Tableau.vertical(c(étiquette.année, "Rémunération nette totale (k&euro;)"), 
-                 début.période.sous.revue:fin.période.sous.revue, 
-                 f)
-
-
-#'
-#'[Lien vers la base de données](Bases/Analyse.variations.par.exercice.csv)
-#'
-#'######   
-#'
-
-Résumé(   c("Première année",
-            "Dernière année",
-            "Moyenne sur la période <br>d'activité"),
-             Analyse.variations.synthèse.filtrée[1:3])
-
-#'
-
-Résumé(   c("Variation sur la période <br>d'activité",
-            "Variation annuelle moyenne"),
-          Analyse.variations.synthèse.filtrée[4:5])
-
-#'
-#'**Effectif : `r nrow(Analyse.variations.synthèse.filtrée[étiquette.matricule])`**     
-#'
-#'[Lien vers la base de données](Bases/Analyse.variations.synthèse.filtrée.csv)
-#'
-#'### 4.2.2 Personnels fonctionnaires et non titulaires en place
-#'
-
-temp <- Analyse.variations.synthèse.filtrée.plus.2.ans$variation.moyenne.rémunération.jour
-
-if (length(temp) > 0)
-  hist(temp,
-     xlab ="Variation annuelle moyenne en %",
-     las = 1,
-     xlim = c(-5,30),
-     ylab ="Effectifs",
-     main ="Rémunération nette des personnels en place",
-     col ="blue",
-     nclass = 200)
-
-#'
-#'
-
-f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[
-                               Analyse.variations.par.exercice$Année == x & Analyse.variations.par.exercice$plus.2.ans,
-                               "Montant.net"])/ 1000, big.mark = " ", digits = 5, format = "fg")
-
-Tableau.vertical(c(étiquette.année, "Rémunération nette totale <br>des agents en place (k&euro;)"), 
-                 début.période.sous.revue:fin.période.sous.revue, 
-                 f)
-
-
-#'
-
-Résumé(   c("Première année",
-            "Dernière année",
-            "Moyenne sur la période <br>d'activité"),
-          Analyse.variations.synthèse.filtrée.plus.2.ans[1:3])
-
-#'
-
-Résumé(   c("Variation sur la période <br>d'activité",
-            "Variation annuelle moyenne"),
-          Analyse.variations.synthèse.filtrée.plus.2.ans[4:5])
-#'     
-#'**Effectif :** `r nrow(Analyse.variations.synthèse.filtrée.plus.2.ans[étiquette.matricule])`    
-#'     
-#'[Lien vers la base de données](Bases/Analyse.variations.synthèse.filtrée.plus.2.ans.csv)
-#'     
-#'**Nota**    
-#'Personnels en place : en fonction au moins 730 jours sur la période `r début.période.sous.revue` à `r fin.période.sous.revue`     
-#'
-#'######   
-#'
-#'### 4.2.3 Personnels fonctionnaires et non titulaires en fonction moins de deux ans
-#'
-#'
-hist(Analyse.variations.synthèse.filtrée.moins.2.ans$variation.moyenne.rémunération.jour,
-     xlab ="Variation annuelle moyenne en %",
-     xlim = c(-10,30),
-     las = 1,
-     ylab ="Effectifs",
-     main ="Rémunération nette des personnels en fonction moins de deux ans",
-     col ="turquoise",
-     nclass = 100
-)
-
-#'
-#'##            
-#'
-
-f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[
-  Analyse.variations.par.exercice$Année == x & ! Analyse.variations.par.exercice$plus.2.ans,
-  "Montant.net"])/ 1000, big.mark = " ", digits = 5, format = "fg")
-
-Tableau.vertical(c(étiquette.année, "Rémunération nette totale <br>des agents en fonction moins de deux ans (k&euro;)"), 
-                 début.période.sous.revue:fin.période.sous.revue, 
-                 f)
-
-#'
-#'
-
-Résumé(   c("Première année",
-            "Dernière année",
-            "Moyenne sur la période <br>d'activité"),
-          Analyse.variations.synthèse.filtrée.moins.2.ans[1:3])
-
-#'
-
-Résumé(   c("Variation sur la période <br>d'activité",
-            "Variation annuelle moyenne"),
-          Analyse.variations.synthèse.filtrée.moins.2.ans[4:5])
-#'
-#'     
-#'**Effectif :** `r nrow(Analyse.variations.synthèse.filtrée.moins.2.ans[étiquette.matricule])`    
-#'     
 
 #'
 ########### Tests statutaires ########################
@@ -1443,12 +1273,7 @@ detach(Bulletins.paie.Lignes.paie)
 
 if (sauvegarder.bases) 
   sauv.bases(chemin.dossier.bases,
-    "Analyse.variations.par.exercice",
-    "Analyse.variations.synthèse",
-    "Analyse.variations.synthèse.filtrée",
-    "Analyse.variations.synthèse.filtrée.plus.2.ans",
-    "Analyse.variations.synthèse.filtrée.moins.2.ans",
-    "Analyse.rémunérations",
+      "Analyse.rémunérations",
     "Bulletins.paie.nir.total.hors.élus",
     "Bulletins.paie.nir.fonctionnaires",
     "Bulletins.paie.Lignes.paie", 
