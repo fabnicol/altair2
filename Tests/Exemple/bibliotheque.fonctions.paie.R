@@ -242,7 +242,7 @@ calcul.variation <- function(rémunération.début, rémunération.sortie, nb.jours.e
   
 }
 
-positive <- function(X) X[ X > 0]
+positive <- function(X) X[!is.na(X) & X > 0]
 
 
 installer.paquet <- function(paquet, rigoureusement = FALSE) 
