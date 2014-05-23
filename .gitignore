@@ -6,3 +6,4 @@ figure/*
 *.Rmd
 *.xlsx
 *Thumbs
+.Rproj.user
