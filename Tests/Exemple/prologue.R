@@ -12,11 +12,11 @@ if (windows)
 }
 
 
-charger.bases <- FALSE
-sauvegarder.bases <- FALSE
+charger.bases <- TRUE
+sauvegarder.bases <- TRUE
 
-nom.fichier.paie  <- "Paye Annecy BP-Lignes de paye"
-nom.bulletin.paie <- "Paye Annecy BP-Bulletins de paye"
+nom.fichier.paie  <- "Ville Annecy Paye BP-Lignes de paye"
+nom.bulletin.paie <- "Ville Annecy Paye BP-Bulletins de paye"
 
 chemin.dossier <- getwd()
 
