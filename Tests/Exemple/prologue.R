@@ -14,19 +14,20 @@ if (windows)
 
 charger.bases <- TRUE
 sauvegarder.bases <- TRUE
+générer.codes <- TRUE
 
-nom.fichier.paie  <- "Ville Annecy Paye BP-Lignes de paye"
-nom.bulletin.paie <- "Ville Annecy Paye BP-Bulletins de paye"
+nom.fichier.paie  <- "PEV CA-Lignes de paye"
+nom.bulletin.paie <- "PEV CA-Bulletins de paye"
 
 chemin.dossier <- getwd()
 
 chemin.dossier.bases <- paste0(chemin.dossier, "/Bases")
 
-chemin.dossier.données <- paste0(chemin.dossier, "/Données")
+chemin.dossier.données <- paste0(chemin.dossier, "/Donnees")
 
   
 début.période.sous.revue <- 2010
-fin.période.sous.revue   <- 2013
+fin.période.sous.revue   <- 2011
 étiquette.matricule <- "Matricule"
 étiquette.Type.rémunération <- "Type rémunération"
 étiquette.année <- "Année"
