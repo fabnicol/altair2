@@ -1,16 +1,7 @@
 # prologue 
 # doit être dans le même répertoire que le programme principal et sa bibliothèque
 
-windows <- (Sys.info()["sysname"] != "Linux")
-
-if (windows)
-{ 
-    encodage.entrée <- "ISO-8859-1"    
-} else 
-{
-    encodage.entrée <- "UTF-8"    
-}
-
+fusionner.nom.prénom <- TRUE
 
 charger.bases <- TRUE
 sauvegarder.bases <- TRUE
@@ -37,3 +28,20 @@ fin.période.sous.revue   <- 2011
 champ.détection.1 <- étiquette.matricule
 champ.détection.2 <- "Code"
 date.format <- "%d/%m/%Y"
+
+ifelse(fusionner.nom.prénom, 
+       clé.fusion <<- c("Nom", "Prénom"),
+       clé.fusion <<- étiquette.matricule)
+
+if (!setOSWindows)
+{
+  windows <- (Sys.info()["sysname"] != "Linux")
+  
+  if (windows)
+  { 
+    encodage.entrée <- "ISO-8859-1"    
+  } else 
+  {
+    encodage.entrée <- "UTF-8"    
+  }
+}
