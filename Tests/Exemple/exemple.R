@@ -26,12 +26,15 @@ options(warn = -1, verbose = FALSE, OutDec = ",")
 
 try(setwd("Tests/Exemple"), silent = TRUE)
 
-source("prologue.R")
+setOSWindows <- TRUE
+encodage.entrée <- "ISO-8859-1"
+
+source("prologue.R", encoding = encodage.entrée)
 
 compilerOptions <- setCompilerOptions(suppressAll = TRUE)
 JITlevel <- enableJIT(2)
 
-source(file.path(chemin.dossier, "bibliotheque.fonctions.paie.R"))
+source(file.path(chemin.dossier, "bibliotheque.fonctions.paie.R"), encoding = encodage.entrée)
 
 base.personnels.catégorie <- data.frame(NULL)
 
@@ -96,10 +99,7 @@ codes.NBI <- c("1012", "101B", "101M", "4652", "4672")
 ##
 #  Bases
 ##
-# Lignes de paie 
-
-
-*/
+# Lignes de paie */
 
 lignes.paie <- lignes.paie[file.exists(chemin(lignes.paie))]
 
@@ -147,7 +147,14 @@ if (générer.codes) {
 
 # suppression des colonnes Nom Prénom redondantes
 
-Bulletins.paie <-  selectionner.cle.matricule.mois(Bulletins.paie, Lignes.paie)
+             sélectionner.clé("Bulletins.paie", "Lignes.paie")
+
+# Technique : les espaces de noms sont pollués par la sélection des clés, il faut les nettoyer
+
+              attr(Bulletins.paie$Nom, "names")    <- NULL
+              attr(Bulletins.paie$Prénom, "names") <- NULL
+              attr(Lignes.paie$Nom, "names")    <- NULL
+              attr(Lignes.paie$Prénom, "names") <- NULL
 
              Codes.paiement <- read.csv.skip(codes.paiement)
 Codes.paiement.indemnitaire <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "INDEMNITAIRE.OU.CONTRACTUEL","Code"])
@@ -156,9 +163,17 @@ Codes.paiement.indemnitaire <- unique(Codes.paiement[Codes.paiement$Type.rémunér
    Codes.paiement.vacations <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "VACATIONS","Code"])
       Codes.paiement.autres <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "AUTRES","Code"])
 
-
-if (!setequal(intersect(names(Lignes.paie), names(Bulletins.paie)), c("Mois", "Année", étiquette.matricule)))
-  stop("L'appariement ne peut se faire par les clés Matricule et Mois")
+  if (!setequal(intersect(names(Lignes.paie), names(Bulletins.paie)), union(c("Mois", "Année"), clé.fusion)))
+  {
+   if (fusionner.nom.prénom) {
+     
+     stop("L'appariement ne peut se faire par les clés Nom, Prénom et Mois")
+     
+   } else {
+     
+     stop("L'appariement ne peut se faire par les clés Matricule et Mois")
+   }
+  }
 
 # Alternative en cas de difficulté :
 #
@@ -170,9 +185,8 @@ if (!setequal(intersect(names(Lignes.paie), names(Bulletins.paie)), c("Mois", "A
 
 if (charger.bases)
 {
-  
-  
-  Bulletins.paie.Lignes.paie <- merge(Bulletins.paie, Lignes.paie)
+   
+  Bulletins.paie.Lignes.paie <- merge(Bulletins.paie, Lignes.paie, by = c(clé.fusion, "Année", "Mois"))
   
   Bulletins.paie.dernier.mois <- Bulletins.paie[Bulletins.paie$Année == fin.période.sous.revue & Bulletins.paie$Mois == 12, ]
   
@@ -190,15 +204,11 @@ if (charger.bases)
   années.total.hors.élus  <-fin.période.sous.revue-(as.numeric(substr(as.character(Bulletins.paie.nir.total.hors.élus[,champ.nir]), 2, 3)) + 1900)
 }
 
-
-
-
 ########### Démographie ########################
 
 #'# 1. Statistiques de population
 #'
 #'### 1.1 Ensemble des personnels non élus    
-
 
 hist(années.total.hors.élus,
      xlab = paste("Âge au 31 décembre",fin.période.sous.revue),
@@ -238,7 +248,8 @@ Résumé(paste0("Âge des personnels <br>au 31/12/",fin.période.sous.revue), années
 #'   
 #'**Effectif total: `r length(années.fonctionnaires)`**     
 #'
-  
+
+
 Analyse.variations.par.exercice <- ddply(Bulletins.paie, 
              c(étiquette.matricule, étiquette.année),
              summarise,
@@ -400,7 +411,7 @@ Analyse.rémunérations.premier.exercice <- Analyse.rémunérations[Analyse.rémunéra
   
 if (fichier.personnels.existe)
 {
-  Analyse.rémunérations.premier.exercice <- merge(Analyse.rémunérations.premier.exercice, base.personnels.catégorie, by = étiquette.matricule, all = FALSE)
+  Analyse.rémunérations.premier.exercice <- merge(Analyse.rémunérations.premier.exercice, base.personnels.catégorie, by = clé.fusion, all = FALSE)
   colonnes.sélectionnées <- c(colonnes.sélectionnées, "Catégorie") 
 }
 
@@ -703,7 +714,7 @@ Analyse.rémunérations.dernier.exercice <- Analyse.rémunérations[Analyse.rémunéra
 
 if (fichier.personnels.existe)
 {
-  Analyse.rémunérations.dernier.exercice <- merge(Analyse.rémunérations.dernier.exercice, base.personnels.catégorie, by = étiquette.matricule, all = FALSE)
+  Analyse.rémunérations.dernier.exercice <- merge(Analyse.rémunérations.dernier.exercice, base.personnels.catégorie, by = clé.fusion, all = FALSE)
 }
 
 attach(Analyse.rémunérations.dernier.exercice, warn.conflicts = FALSE)
@@ -1203,7 +1214,7 @@ matricules.à.identifier <- unique(Bulletins.paie.Lignes.paie[ ,
                                                                étiquette.matricule)])
 
 if (fichier.personnels.existe) {
-  matricules.à.identifier <- merge(matricules.à.identifier, base.personnels.catégorie, by = "Matricule", all=TRUE)
+  matricules.à.identifier <- merge(matricules.à.identifier, base.personnels.catégorie, by = clé.fusion, all=TRUE)
 } else {
   Catégorie <- character(length = nrow(matricules.à.identifier))
   matricules.à.identifier <- cbind(matricules.à.identifier, Catégorie)
@@ -1224,9 +1235,9 @@ rémunérations.élu <- Analyse.rémunérations[ Analyse.rémunérations$indemnités.élu
 rémunérations.élu <- mutate(rémunérations.élu,
                             total.rémunérations = indemnités.élu + autres.rémunérations + total.rémunérations)
                                    
-
 rémunérations.élu <- merge(unique(matricules.à.identifier[c("Nom",  étiquette.matricule)]),
                             rémunérations.élu,
+                            by = étiquette.matricule,
                             all.y = TRUE,
                             all.x = FALSE)
 
