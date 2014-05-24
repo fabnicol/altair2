@@ -340,9 +340,9 @@ tester.homogeneite.matricules <- function(Base) {
   message("Matricules distincts: ", with.matr)                         
   message("Noms-Prénoms distincs: ", without.matr)
   
-  if (with.matr  >   1.10 * without.matr)
+  if (with.matr  >   1.05 * without.matr)
   {
-     message("Résultats trop différents (10 % de marge tolérée). Changement de régime de matricule.")
+     message("Résultats trop différents (5 % de marge tolérée). Changement de régime de matricule.")
      if (fusionner.nom.prénom == FALSE)
        stop("Vous pouvez essayer de fusionner sur Nom, Prénom en spécifiant fusionner.nom.prénom <- TRUE dans prologue.R", call. = FALSE)
   }
