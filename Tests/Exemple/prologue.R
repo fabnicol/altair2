@@ -4,7 +4,7 @@
 fusionner.nom.prénom <- TRUE
 
 charger.bases <- TRUE
-sauvegarder.bases <- TRUE
+sauvegarder.bases <- FALSE
 générer.codes <- FALSE
 tester.matricules <- FALSE
 

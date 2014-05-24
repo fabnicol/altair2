@@ -157,6 +157,22 @@ if (générer.codes) {
               attr(Lignes.paie$Prénom, "names") <- NULL
 
              Codes.paiement <- read.csv.skip(codes.paiement)
+
+if (nlevels(Codes.paiement$Code) != nrow(unique(Codes.paiement[ , c("Code", "Type.rémunération")])))
+{
+  message("Davantage de types de rémunérations que de codes distincts : incohérence de la base de codes.")
+
+  V <- tapply(Codes.paiement$Type.rémunération, Codes.paiement$Code, function(x) length(unique(x))) 
+  V <- V[V > 1]
+  
+  print(unique(merge(data.frame(Code = names(V), "Nombre de libellés distincts" = V, row.names=NULL),
+               Codes.paiement[Codes.paiement$Code %in% names(V), c("Code", "Type.rémunération")],
+               by = "Code", all=TRUE)))
+  
+  stop("Vérifier le fichier codes.csv")
+    
+}
+
 Codes.paiement.indemnitaire <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "INDEMNITAIRE.OU.CONTRACTUEL","Code"])
   Codes.paiement.traitement <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "TRAITEMENT","Code"])
          Codes.paiement.élu <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "ELU","Code"])
@@ -366,6 +382,8 @@ Bulletins.paie.Lignes.paie <- mutate(Bulletins.paie.Lignes.paie,
                                       = Montant*(Code %in% Codes.paiement.indemnitaire),
                                       montant.autres.rémunérations 
                                       = Montant*(Code %in% Codes.paiement.autres),
+                                      montant.vacations 
+                                      = Montant*(Code %in% Codes.paiement.vacations),
                                       montant.indemnité.élu 
                                       = Montant*(Code %in% Codes.paiement.élu))
 
@@ -377,15 +395,17 @@ Analyse.rémunérations <- ddply(Bulletins.paie.Lignes.paie,
                               traitement.indiciaire = sum(montant.traitement.indiciaire),
                               rémunération.contractuelle.ou.indemnitaire = sum(montant.primes),
                               indemnités.élu                             = sum(montant.indemnité.élu),
+                              vacations                                  = sum(montant.vacations),
                               autres.rémunérations                       = sum(montant.autres.rémunérations),
                               total.rémunérations                        = traitement.indiciaire 
-                              + rémunération.contractuelle.ou.indemnitaire 
-                              + autres.rémunérations,
+                                                                            + rémunération.contractuelle.ou.indemnitaire 
+                                                                            + vacations,
                               part.rémunération.contractuelle.ou.indemnitaire = 
                                 ifelse(traitement.indiciaire + rémunération.contractuelle.ou.indemnitaire == 0, 0,
                                        rémunération.contractuelle.ou.indemnitaire /
                                          (traitement.indiciaire + rémunération.contractuelle.ou.indemnitaire)*100))
 
+Analyse.rémunérations <- Analyse.rémunérations[!is.na(Analyse.rémunérations$total.rémunérations), ]
 
 # on ne compte pas les élus dans le total (voir 5.6)
 
@@ -539,8 +559,8 @@ Résumé(c("Total rémunérations", "Part de la rémunération contractuelle ou indemn
 #'**Tests de cohérence**  
 
 somme.brut.fonct  <- sum(Bulletins.paie[Bulletins.paie$Année == année & 
-                                                         Bulletins.paie$Statut %in% c("TITULAIRE", "STAGIAIRE"),
-                                                         "Brut"])
+                                        Bulletins.paie$Statut %in% c("TITULAIRE", "STAGIAIRE"),
+                                        "Brut"])
 
 total.rémunérations.fonct <- sum(AR[4])
 
@@ -827,6 +847,9 @@ hist(filtre.fonctionnaire(part.rémunération.contractuelle.ou.indemnitaire),
 #'
 #'**Tests de cohérence**  
 
+
+AR <- Analyse.rémunérations.dernier.exercice[Statut %in% c("TITULAIRE", "STAGIAIRE"), colonnes.sélectionnées ]
+
 somme.brut.fonct  <- sum(Bulletins.paie[Bulletins.paie$Année == année & 
                                           Bulletins.paie$Statut %in% c("TITULAIRE", "STAGIAIRE"),
                                         "Brut"])
@@ -843,14 +866,13 @@ Tableau.vertical2(c("Agrégats", "euros"),
                  c(somme.brut.fonct,  total.rémunérations.fonct, delta)) 
 
 #' 
-#'A comparer aux soldes des comptes 6411, 6419 et 648 du conmpte de gestion.     
+#'A comparer aux soldes des comptes 6411, 6419 et 648 du compte de gestion.     
 #'
 
 #'
 #'### Statistiques de position pour l'exercice `r année`  
 #'
 
-AR <- Analyse.rémunérations.dernier.exercice[Statut %in% c("TITULAIRE", "STAGIAIRE"), colonnes.sélectionnées ]
 
 Résumé(c("Traitement indiciaire",
          étiquette.rém.indemn,
@@ -947,7 +969,7 @@ if (fichier.personnels.existe)
 #'######      
 #'
 #'
-#'## 3.2 Contractuels, vacataires et stagiaires inclus
+#'## 3.3 Contractuels, vacataires et stagiaires inclus
 #'
 
 hist(total.rémunérations[ ! Matricule %in% liste.matricules.élus & ! Statut %in% c("TITULAIRE", "STAGIAIRE") & total.rémunérations > 1000]/1000,
@@ -978,7 +1000,7 @@ Résumé(c(étiquette.rém.indemn, "Autres rémunérations"),
 #'
 
 AR <- Analyse.rémunérations.dernier.exercice[ ! Matricule %in% liste.matricules.élus & ! Statut %in% c("TITULAIRE", "STAGIAIRE"), 
-                                              "total.rémunérations"]
+                                              "total.rémunérations" ]
 
 Résumé("Total rémunérations",   AR)
 #'   
@@ -1233,7 +1255,7 @@ rémunérations.élu <- Analyse.rémunérations[ Analyse.rémunérations$indemnités.élu
 
 
 rémunérations.élu <- mutate(rémunérations.élu,
-                            total.rémunérations = indemnités.élu + autres.rémunérations + total.rémunérations)
+                            total.rémunérations = indemnités.élu +  total.rémunérations)
                                    
 rémunérations.élu <- merge(unique(matricules.à.identifier[c("Nom",  étiquette.matricule)]),
                             rémunérations.élu,
