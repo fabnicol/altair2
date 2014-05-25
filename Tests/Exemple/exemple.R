@@ -67,12 +67,9 @@ seuil.troncature <- 3
 # Cette section pourra être modifiée en entrée dans d'autres contextes
 # Matricule, Codes
 
-champ.détection.élus <- "Service"
 champ.nir <- "Nir"
-libellé.élus <- "Elus"
    
 codes.paiement  <- "codes.csv"
-
 code.traitement <- 1010
 
 fichier.personnels <- "Catégories des personnels"
@@ -105,6 +102,24 @@ lignes.paie <- lignes.paie[file.exists(chemin(lignes.paie))]
 
 Read.csv("Lignes.paie", lignes.paie)
 Read.csv("Bulletins.paie", bulletins.paie)
+
+if ( ! all(c("Nom",
+            "Prénom",
+             étiquette.matricule,
+             étiquette.année,
+            "Mois",
+            "Statut",
+            "Brut",
+            "Net.à.Payer",
+            "Heures.Sup.",
+            "Emploi",
+             champ.nir,
+            "Temps.de.travail") %in% names(Bulletins.paie))) {
+  
+  stop("Il manque des colonnes au(x) fichier(s) Bulletins de paie")
+} else {
+  message("Bulletins de paie : contrôle des noms de colonne ... OK")
+}
 
 if (tester.matricules)
     tester.homogeneite.matricules(Lignes.paie)
@@ -258,7 +273,7 @@ if (charger.bases)
                                  nb.jours = nb.jours[1],
                                  nb.mois = nb.mois[1],
                                  mois.sortie = mois.sortie[1],
-                                 Service = Service[length(Net.à.Payer)],
+                                 Emploi = Emploi[length(Net.à.Payer)],
                                  traitement.indiciaire = sum(montant.traitement.indiciaire),
                                  rémunération.principale.contractuel = sum(montant.rémunération.principale.contractuel),
                                  rémunération.indemnitaire = sum(montant.primes),
@@ -472,35 +487,27 @@ attach(Analyse.rémunérations.premier.exercice, warn.conflicts = FALSE)
 #'
 #'## 2.1 Statistiques de position globales (tous statuts)       
 #'
-#/* La moyenne est tirée vers le haut par les outlyers */
-
-   masse.indemnitaire            <- sum(rémunération.indemnitaire)
-   masse.indiciaire              <- sum(traitement.indiciaire)
-   masse.rémunérations.brutes    <- sum(total.rémunérations)
-ratio.global.masse.indemnitaire  <- masse.indemnitaire / (masse.indiciaire + masse.indemnitaire)*100
+   masse.rémunérations.brutes <- sum(total.rémunérations)
+                 masse.autres <- sum(autres.rémunérations)
 
 #'### Cumuls des rémunérations brutes pour l'exercice `r année`
 #'
-Tableau(c("Masse indiciaire", "Masse indemnitaire"),
-        masse.indiciaire, masse.indemnitaire)
 
-#'
-#'<!-- BREAK -->
-#'
-
-Tableau(c("Masse des rémunérations brutes", "Part de la masse indemnitaire"),
-        masse.rémunérations.brutes, ratio.global.masse.indemnitaire)
+Tableau(c("Rémunérations brutes", "Autres paiements"),
+        masse.rémunérations.brutes, masse.autres)
 
 #'
 #'Cumuls réalisés sur les lignes de paie. Les indemnités d'élu ne sont pas prises en compte.  
 #'
 
-somme.brut.non.élu  <- sum(Bulletins.paie[Bulletins.paie$Année == année & Bulletins.paie$Service != "Elus", "Brut"])
+somme.brut.non.élu  <- sum(Bulletins.paie[  Bulletins.paie$Année == année 
+                                          & ! Bulletins.paie$Emploi %in% libellés.élus, 
+                                            "Brut"])
+
 delta  <- somme.brut.non.élu - masse.rémunérations.brutes               
 
 #'**Tests de cohérence**  
 #'
-# A ce jour la version windows ne supporte ni ISO-88
 #'Somme des rémunérations brutes versées aux personnels (non élus) :   
 #'
 Tableau.vertical2(c("Agrégats", "euros"),
@@ -508,9 +515,11 @@ Tableau.vertical2(c("Agrégats", "euros"),
                  c(somme.brut.non.élu, masse.rémunérations.brutes, delta))
 
 #'
-somme.brut.globale  <- sum(Bulletins.paie[Bulletins.paie$Année == année, "Brut"])
+            somme.brut.globale  <-  sum(Bulletins.paie[Bulletins.paie$Année == année,
+                                                       "Brut"])
 total.rémunérations.élu.compris <-  masse.rémunérations.brutes + sum(indemnités.élu)
-delta2 <- somme.brut.globale - total.rémunérations.élu.compris
+                         delta2 <-  somme.brut.globale - total.rémunérations.élu.compris
+
 #'     
 #'à comparer aux soldes des comptes 641 et 648 du compte de gestion.   
 #'
@@ -525,8 +534,10 @@ Tableau.vertical2(c("Agrégats", "euros"),
 #'
 
 
-df <- data.frame(masse.indemnitaire, masse.indiciaire, masse.rémunérations.brutes, 
-                 ratio.global.masse.indemnitaire, somme.brut.non.élu, somme.brut.globale, total.rémunérations.élu.compris)
+df <- data.frame( masse.rémunérations.brutes, 
+                 somme.brut.non.élu,
+                 somme.brut.globale,
+                 total.rémunérations.élu.compris)
 
 Sauv.base(chemin.dossier.bases, "df", paste0("Masses.", année))
 
@@ -785,61 +796,57 @@ attach(Analyse.rémunérations.dernier.exercice, warn.conflicts = FALSE)
 #'
 #'## 3.1 Statistiques de position globales (tous statuts)       
 #'
-#/* La moyenne est tirée vers le haut par les outlyers */
-
-masse.indemnitaire            <- sum(rémunération.indemnitaire)
-masse.indiciaire              <- sum(traitement.indiciaire)
-masse.rémunérations.brutes    <- sum(total.rémunérations)
-ratio.global.masse.indemnitaire  <- masse.indemnitaire/(masse.indiciaire+masse.indemnitaire)*100
-
+masse.rémunérations.brutes <- sum(total.rémunérations)
+masse.autres <- sum(autres.rémunérations)
 
 #'### Cumuls des rémunérations brutes pour l'exercice `r année`
 #'
-Tableau(c("Masse indiciaire", "Masse indemnitaire"),
-        masse.indiciaire, masse.indemnitaire)
 
-#'
-#'<!-- BREAK -->
-#'
-
-Tableau(c("Masse des rémunérations brutes", "Part de la masse indemnitaire"),
-        masse.rémunérations.brutes, ratio.global.masse.indemnitaire)
+Tableau(c("Rémunérations brutes", "Autres paiements"),
+        masse.rémunérations.brutes, masse.autres)
 
 #'
 #'Cumuls réalisés sur les lignes de paie. Les indemnités d'élu ne sont pas prises en compte.  
 #'
-somme.brut.non.élu  <- sum(Bulletins.paie[Bulletins.paie$Année == année & Bulletins.paie$Service != "Elus", "Brut"])
+
+somme.brut.non.élu  <- sum(Bulletins.paie[  Bulletins.paie$Année == année 
+                                            & ! Bulletins.paie$Emploi %in% libellés.élus, 
+                                            "Brut"])
+
 delta  <- somme.brut.non.élu - masse.rémunérations.brutes               
 
 #'**Tests de cohérence**  
 #'
-# A ce jour la version windows ne supporte ni ISO-88
 #'Somme des rémunérations brutes versées aux personnels (non élus) :   
 #'
-
 Tableau.vertical2(c("Agrégats", "euros"),
-                 c("Bulletins de paie (euros)",  "Lignes de paie (euros)", "Différence (euros)"),
-                 c(somme.brut.non.élu, masse.rémunérations.brutes, delta))
+                  c("Bulletins de paie (euros)",  "Lignes de paie (euros)", "Différence (euros)"),
+                  c(somme.brut.non.élu, masse.rémunérations.brutes, delta))
 
 #'
-somme.brut.globale  <- sum(Bulletins.paie[Bulletins.paie$Année == année, "Brut"])
+somme.brut.globale  <-  sum(Bulletins.paie[Bulletins.paie$Année == année,
+                                           "Brut"])
 total.rémunérations.élu.compris <-  masse.rémunérations.brutes + sum(indemnités.élu)
-delta2 <- somme.brut.globale - total.rémunérations.élu.compris
+delta2 <-  somme.brut.globale - total.rémunérations.élu.compris
+
 #'     
 #'à comparer aux soldes des comptes 641 et 648 du compte de gestion.   
 #'
 #'Somme des rémunérations brutes versées (élus compris) :   
 #'
-Tableau.vertical2(c("Agrégats", "euros"), 
-                 c("Bulletins de paie (euros)",  "Lignes de paie (euros)", "Différence (euros)"),
-                 c(somme.brut.globale, total.rémunérations.élu.compris, delta2))
+Tableau.vertical2(c("Agrégats", "euros"),
+                  c("Bulletins de paie (euros)",  "Lignes de paie (euros)", "Différence (euros)"),
+                  c(somme.brut.globale, total.rémunérations.élu.compris, delta2))
 
 #'  
 #'à comparer aux soldes des comptes 641, 648 et 653 du compte de gestion   
 #'
 
-df <- data.frame(masse.indemnitaire, masse.indiciaire, masse.rémunérations.brutes, 
-                 ratio.global.masse.indemnitaire, somme.brut.non.élu, somme.brut.globale, total.rémunérations.élu.compris)
+
+df <- data.frame( masse.rémunérations.brutes, 
+                  somme.brut.non.élu,
+                  somme.brut.globale,
+                  total.rémunérations.élu.compris)
 
 Sauv.base(chemin.dossier.bases, "df", paste0("Masses.", année))
 
@@ -853,7 +860,6 @@ Sauv.base(chemin.dossier.bases, "df", paste0("Masses.", année))
 
 #'## 3.2 Fonctionnaires titulaires et stagiaires
 #'
-
 
 hist(filtre.fonctionnaire(total.rémunérations) / 1000,
      xlab = "En milliers d'euros \n hors indemnités journalières et remboursements",
@@ -1447,8 +1453,7 @@ Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"), no
 
 matricules.à.identifier <- unique(Bulletins.paie.Lignes.paie[ , 
                                                              c(étiquette.année,
-                                                               "Service",
-                                                               "Grade",
+                                                               "Emploi",
                                                                "Nom",
                                                                étiquette.matricule)])
 
