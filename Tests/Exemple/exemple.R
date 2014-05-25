@@ -376,78 +376,12 @@ Résumé(paste0("Âge des personnels <br>au 31/12/",fin.période.sous.revue), années
 #'**Effectif total: `r length(années.fonctionnaires)`**     
 #'
 
-Analyse.variations.par.exercice <- ddply(Bulletins.paie, 
-             .(Matricule, Année),
-             summarise,
-             Montant.net = sum(Net.à.Payer),
-             Statut = Statut[length(Net.à.Payer)],
-             mois.entrée = ifelse((minimum <- min(Mois)) != Inf, minimum, 0),
-             mois.sortie = ifelse((maximum <- max(Mois)) != -Inf, maximum, 0),
-             nb.jours = calcul.nb.jours.mois(mois.entrée[1], mois.sortie[1], Année[1]))
-
-# Analyse.variations.par.exercice2 <- ddply(Analyse.variations.par.exercice, 
-#               étiquette.matricule,
-#               summarise,
-#               nb.exercices = length(Année))
-# 
-# Analyse.variations.par.exercice <- merge(Analyse.variations.par.exercice, Analyse.variations.par.exercice2)
-
-Analyse.variations.synthèse <- ddply(Analyse.variations.par.exercice,
-                            .(Matricule),
-                            summarise,
-                            Nexercices = length(Année),
-                            nb.jours.exercice.début = nb.jours[1],
-                            nb.jours.exercice.sortie = nb.jours[Nexercices],
-                            total.jours = sum(nb.jours),
-                            rémunération.début = ifelse(nb.jours.exercice.début == 0,
-                                                        0,
-                                                        Montant.net[1]/nb.jours.exercice.début*365),
-                            rémunération.sortie = ifelse(nb.jours.exercice.sortie == 0,
-                                                         0,
-                                                         Montant.net[Nexercices]/nb.jours.exercice.sortie*365),
-                            moyenne.rémunération.annuelle.sur.période = ifelse(total.jours == 0, 0, sum(Montant.net)*365/total.jours),
-                            variation.rémunération.jour = calcul.variation(rémunération.début, 
-                                                                           rémunération.sortie,
-                                                                           nb.jours.exercice.début,
-                                                                           nb.jours.exercice.sortie,
-                                                                           Nexercices),
-                            variation.moyenne.rémunération.jour = ifelse(total.jours == 0,
-                                                                         0,
-                                                                        (( 1 + variation.rémunération.jour / 100 ) ^ (365 / total.jours) - 1) * 100),
-                            plus.2.ans = (total.jours >= 2*365),
-                            moins.2.ans = (total.jours < 2*365),
-                            moins.1.an  = (total.jours < 365),
-                            moins.six.mois = (total.jours < 365 / 2),
-                            statut = Statut[1])
-
-####  On pourrait aussi plus simplement poser  ###
-#  que plus.deux.ans soit défini comme length(Année) >= 2.
-#  On préfère une définition à partir de total.jours pour 
-#  avoir une définition cohérente sur toutes les durées, y.c infra-annuelles
-
-attach(Analyse.variations.par.exercice, warn = FALSE)
-
-Analyse.variations.par.exercice <- na.omit(Analyse.variations.par.exercice[ nb.jours[1] > seuil.troncature
-                                                                 &  nb.jours[length(Année)] > seuil.troncature, ])
-
-Analyse.variations.par.exercice <- mutate(Analyse.variations.par.exercice,
-                                          plus.2.ans = Matricule
-                                                          %in%
-                                                       Analyse.variations.synthèse[Analyse.variations.synthèse$plus.2.ans, étiquette.matricule])
-
-
-detach(Analyse.variations.par.exercice)
-
-attach(Analyse.variations.synthèse, warn.conflicts = FALSE)
-
-#'
-#'<!-- BREAK -->
-#'
 #'
 #'### 1.3 Effectifs des personnels par durée de service
 #'
 #'**Personnels en fonction des exercices `r début.période.sous.revue` à `r fin.période.sous.revue` inclus :**  
 #'
+attach(Analyse.variations.synthèse)
 
 Tableau(c("Plus de 2 ans",
           "Moins de 2 ans",
@@ -458,23 +392,24 @@ Tableau(c("Plus de 2 ans",
         sum(moins.1.an), 
         sum(moins.six.mois))
 
+
 #'
 
-detach(Analyse.variations.synthèse)
-
-if (nrow(Analyse.variations.par.exercice))
-qplot(factor(Année), 
-      data = Analyse.variations.par.exercice,
-      geom = "bar",
-      fill = factor(!plus.2.ans),
-      main = paste("Evolutions entre", début.période.sous.revue,"et", fin.période.sous.revue),
-      xlab = étiquette.année,
-      ylab = "Effectif",
-      asp = 4) + 
+if (nrow(Analyse.variations.synthèse) > 0)
+  qplot(factor(Année), 
+        data = Analyse.variations.synthèse,
+        geom = "bar",
+        fill = factor(!plus.2.ans),
+        main = paste("Evolutions entre", début.période.sous.revue,"et", fin.période.sous.revue),
+        xlab = étiquette.année,
+        ylab = "Effectif",
+        asp = 4)        + 
   scale_fill_discrete(name = "Personnels en fonction",
                       breaks = c(TRUE, FALSE),
                       labels = c("Moins de deux ans", "Plus de deux ans"))
-  
+
+detach(Analyse.variations.synthèse)
+
 #'
 #'**Nota:**  
 #'Personnels en place : ayant servi au moins 730 jours pendant la période.  
