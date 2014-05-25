@@ -1,10 +1,12 @@
 # prologue 
 # doit être dans le même répertoire que le programme principal et sa bibliothèque
 
+setOSWindows <- TRUE
+
 fusionner.nom.prénom <- TRUE
 
     charger.bases <- TRUE
-sauvegarder.bases <- TRUE
+sauvegarder.bases <- FALSE
     générer.codes <- FALSE
 tester.matricules <- FALSE
 calculer.nb.jours <- TRUE
