@@ -217,7 +217,6 @@ Codes.paiement.indemnitaire <- unique(Codes.paiement[Codes.paiement$Type.rémunér
 
 if (charger.bases)
 {
-  
   anavar <- ddply(Bulletins.paie, 
                   c(étiquette.matricule, étiquette.année),
                   summarise,
@@ -284,7 +283,7 @@ if (charger.bases)
                                   + rémunération.indemnitaire,
                                  
                                  quotité = ifelse(length(quotité[quotité > 0]) > 0, quotité[quotité > 0][1], 0),
-                                 rémunération.eqtp = ifelse(quotité == 0, 0, total.rémunérations / quotité),
+                                 montant.net.eqtp = ifelse(quotité == 0, 0, Montant.net / quotité),
                                  part.rémunération.indemnitaire = ifelse( (s <- traitement.indiciaire + rémunération.principale.contractuel + rémunération.indemnitaire) == 0, 
                                                                           0,
                                                                           (rémunération.indemnitaire + rémunération.principale.contractuel )/ 
@@ -293,8 +292,9 @@ if (charger.bases)
   Analyse.rémunérations <- Analyse.rémunérations[!is.na(Analyse.rémunérations$total.rémunérations), ]
   
   Analyse.variations.par.exercice <- Analyse.rémunérations[ , c(clé.fusion, étiquette.année,
-                                                                "rémunération.eqtp", 
+                                                                "montant.net.eqtp", 
                                                                 "Statut",
+                                                                "Montant.net",
                                                                 "nb.jours",
                                                                 "nb.mois",
                                                                 "quotité")]
@@ -309,11 +309,11 @@ if (charger.bases)
                                        nb.mois.exercice.sortie = nb.mois[Nexercices],
                                        total.jours = sum(nb.jours),
                                        total.mois  = sum(nb.mois),
-                                       rémunération.eqtp.début  = rémunération.eqtp[1],
-                                       rémunération.eqtp.sortie = rémunération.eqtp[Nexercices],
-                                       moyenne.rémunération.annuelle.sur.période = mean(rémunération.eqtp[rémunération.eqtp > 0], na.rm=TRUE),
-                                       variation.rémunération = ifelse(Nexercices > 1 & rémunération.eqtp.début > 0,
-                                                                       rémunération.eqtp.sortie / rémunération.eqtp.début -1,
+                                       montant.net.eqtp.début  = montant.net.eqtp[1],
+                                       montant.net.eqtp.sortie = montant.net.eqtp[Nexercices],
+                                       moyenne.rémunération.annuelle.sur.période = mean(montant.net.eqtp[montant.net.eqtp > 0], na.rm=TRUE),
+                                       variation.rémunération = ifelse(Nexercices > 1 & montant.net.eqtp.début > 0,
+                                                                       montant.net.eqtp.sortie / montant.net.eqtp.début -1,
                                                                        0),
                                        variation.moyenne.rémunération = ifelse(total.mois == 0, 0,
                                                                                     ( ( 1 + variation.rémunération / 100 ) ^ (12 / total.mois) - 1) * 100),
@@ -1098,8 +1098,8 @@ Analyse.variations.synthèse.filtrée <- na.omit(Analyse.variations.synthèse[ nb.m
                                                                             & nb.mois.exercice.sortie   > seuil.troncature
                                                                             #  &  statut %in% c("TITULAIRE", "STAGIAIRE")
                                                                             &  statut !=  "AUTRE_STATUT"
-                                                                            , c("rémunération.eqtp.début",
-                                                                                "rémunération.eqtp.sortie",
+                                                                            , c("montant.net.eqtp.début",
+                                                                                "montant.net.eqtp.sortie",
                                                                                 "moyenne.rémunération.annuelle.sur.période",
                                                                                 "variation.rémunération",
                                                                                 "variation.moyenne.rémunération", 
