@@ -59,7 +59,7 @@ dir.create(chemin.dossier.bases, recursive = TRUE)
 nombre.exercices <- fin.période.sous.revue - début.période.sous.revue + 1
 
 étiquette.montant <- "Montant"
-seuil.troncature <- 99
+seuil.troncature <- 3
 
 # Le format est jour/mois/année avec deux chiffres-séparateur-deux chiffres-séparateur-4 chiffres.
 #Le séparateur peut être changé en un autre en modifiant le "/" dans fate.format
@@ -290,24 +290,44 @@ if (charger.bases)
                                        Nexercices = length(Année),
                                        # quotité.exercice.début = quotité[1],
                                        # quotité.exercice.sortie = quotité[Nexercices],
-                                       nb.mois.exercice.début = nb.mois[1],
-                                       nb.mois.exercice.sortie   = nb.mois[Nexercices],
+                                       nb.mois.exercice.début  = nb.mois[1],
+                                       nb.mois.exercice.sortie = nb.mois[Nexercices],
                                        total.jours = sum(nb.jours),
                                        total.mois  = sum(nb.mois),
-                                       rémunération.eqtp.début =  rémunération.eqtp[1],
+                                       rémunération.eqtp.début  = rémunération.eqtp[1],
                                        rémunération.eqtp.sortie = rémunération.eqtp[Nexercices],
                                        moyenne.rémunération.annuelle.sur.période = mean(rémunération.eqtp[rémunération.eqtp > 0], na.rm=TRUE),
                                        variation.rémunération = ifelse(Nexercices > 1 & rémunération.eqtp.début > 0,
                                                                        rémunération.eqtp.sortie / rémunération.eqtp.début -1,
                                                                        0),
-                                       variation.moyenne.rémunération.jour = ifelse(total.mois == 0, 0,
+                                       variation.moyenne.rémunération = ifelse(total.mois == 0, 0,
                                                                                     ( ( 1 + variation.rémunération / 100 ) ^ (12 / total.mois) - 1) * 100),
-                                       plus.2.ans = (total.mois >= 2*12),
+                                       plus.2.ans = (total.mois  >= 2*12),
                                        moins.2.ans = (total.mois < 2*12),
                                        moins.1.an  = (total.mois < 12),
                                        moins.six.mois = (total.mois < 6),
                                        statut = Statut[1])
   
+  attach(Analyse.variations.par.exercice, warn = FALSE)
+  
+  Analyse.variations.par.exercice <- na.omit(Analyse.variations.par.exercice[ nb.mois[1] > seuil.troncature
+                                                                            &  nb.mois[length(Année)] > seuil.troncature, ])
+  
+  temp <- Analyse.variations.synthèse[Analyse.variations.synthèse$plus.2.ans, clé.fusion] 
+  
+  if (fusionner.nom.prénom) {
+  Analyse.variations.par.exercice <- mutate(Analyse.variations.par.exercice,
+                                            plus.2.ans.Nom = Nom %in% temp$Nom,
+                                            plus.2.ans = Prénom %in% temp$Prénom & plus.2.ans.Nom)
+  } else {
+  Analyse.variations.par.exercice <- mutate(Analyse.variations.par.exercice,
+                                            plus.2.ans = Matricule %in% temp)
+  }
+  
+  rm(temp)
+  
+  detach(Analyse.variations.par.exercice)
+
   Bulletins.paie.nir.total.hors.élus <- merge(Analyse.rémunérations[   Analyse.rémunérations$Année == fin.période.sous.revue 
                                                                      & Analyse.rémunérations$indemnités.élu == 0,
                                                                        c(clé.fusion, champ.nir) ],
@@ -392,12 +412,11 @@ Tableau(c("Plus de 2 ans",
         sum(moins.1.an), 
         sum(moins.six.mois))
 
-
 #'
 
-if (nrow(Analyse.variations.synthèse) > 0)
+if (nrow(Analyse.variations.par.exercice) > 0)
   qplot(factor(Année), 
-        data = Analyse.variations.synthèse,
+        data = Analyse.variations.par.exercice,
         geom = "bar",
         fill = factor(!plus.2.ans),
         main = paste("Evolutions entre", début.période.sous.revue,"et", fin.période.sous.revue),
@@ -1069,17 +1088,17 @@ hist(moyenne.rémunération.annuelle.sur.période[moyenne.rémunération.annuelle.sur
 #'
 #'**Nota:** La rémunération nette perçue est rapportée au cumul des jours d'activité.  
 
-Analyse.variations.synthèse.filtrée <- na.omit(Analyse.variations.synthèse[ nb.jours.exercice.début > seuil.troncature 
-                                                                            & nb.jours.exercice.sortie   > seuil.troncature
+Analyse.variations.synthèse.filtrée <- na.omit(Analyse.variations.synthèse[ nb.mois.exercice.début > seuil.troncature 
+                                                                            & nb.mois.exercice.sortie   > seuil.troncature
                                                                             #  &  statut %in% c("TITULAIRE", "STAGIAIRE")
                                                                             &  statut !=  "AUTRE_STATUT"
-                                                                            , c("rémunération.début",
-                                                                                "rémunération.sortie",
+                                                                            , c("rémunération.eqtp.début",
+                                                                                "rémunération.eqtp.sortie",
                                                                                 "moyenne.rémunération.annuelle.sur.période",
-                                                                                "variation.rémunération.jour",
-                                                                                "variation.moyenne.rémunération.jour", 
+                                                                                "variation.rémunération",
+                                                                                "variation.moyenne.rémunération", 
                                                                                 "plus.2.ans",
-                                                                                étiquette.matricule)])
+                                                                                clé.fusion)])
 
 Analyse.variations.synthèse.filtrée.plus.2.ans  <- Analyse.variations.synthèse.filtrée[Analyse.variations.synthèse.filtrée$plus.2.ans, ]
 Analyse.variations.synthèse.filtrée.moins.2.ans <- Analyse.variations.synthèse.filtrée[! Analyse.variations.synthèse.filtrée$plus.2.ans, ]
@@ -1118,7 +1137,7 @@ Résumé(   c("Variation sur la période <br>d'activité",
           Analyse.variations.synthèse.filtrée[4:5])
 
 #'
-#'**Effectif : `r nrow(Analyse.variations.synthèse.filtrée[étiquette.matricule])`**     
+#'**Effectif : `r nrow(Analyse.variations.synthèse.filtrée[clé.fusion])`**     
 #'
 #'[Lien vers la base de données](Bases/Analyse.variations.synthèse.filtrée.csv)
 #'
@@ -1126,7 +1145,7 @@ Résumé(   c("Variation sur la période <br>d'activité",
 #'
 
 if (nrow(Analyse.variations.synthèse.filtrée.plus.2.ans) > 0)
-  hist(Analyse.variations.synthèse.filtrée.plus.2.ans$variation.moyenne.rémunération.jour,
+  hist(Analyse.variations.synthèse.filtrée.plus.2.ans$variation.moyenne.rémunération,
        xlab ="Variation annuelle moyenne en %",
        las = 1,
        xlim = c(-5,30),
@@ -1160,7 +1179,7 @@ Résumé(   c("Variation sur la période <br>d'activité",
             "Variation annuelle moyenne"),
           Analyse.variations.synthèse.filtrée.plus.2.ans[4:5])
 #'     
-#'**Effectif :** `r nrow(Analyse.variations.synthèse.filtrée.plus.2.ans[étiquette.matricule])`    
+#'**Effectif :** `r nrow(Analyse.variations.synthèse.filtrée.plus.2.ans[clé.fusion])`    
 #'     
 #'[Lien vers la base de données](Bases/Analyse.variations.synthèse.filtrée.plus.2.ans.csv)
 #'     
@@ -1174,7 +1193,7 @@ Résumé(   c("Variation sur la période <br>d'activité",
 #'
 
 if (nrow(Analyse.variations.synthèse.filtrée.moins.2.ans) > 0)
-  hist(Analyse.variations.synthèse.filtrée.moins.2.ans$variation.moyenne.rémunération.jour,
+  hist(Analyse.variations.synthèse.filtrée.moins.2.ans$variation.moyenne.rémunération,
        xlab ="Variation annuelle moyenne en %",
        xlim = c(-10,30),
        las = 1,
@@ -1210,7 +1229,7 @@ Résumé(   c("Variation sur la période <br>d'activité",
           Analyse.variations.synthèse.filtrée.moins.2.ans[4:5])
 #'
 #'     
-#'**Effectif :** `r nrow(Analyse.variations.synthèse.filtrée.moins.2.ans[étiquette.matricule])`    
+#'**Effectif :** `r nrow(Analyse.variations.synthèse.filtrée.moins.2.ans[clé.fusion])`    
 #'     
 
 #'
@@ -1440,6 +1459,7 @@ if (fichier.personnels.existe) {
   matricules.à.identifier <- cbind(matricules.à.identifier, Catégorie)
 }
 
+
 matricules.à.identifier <- matricules.à.identifier[order(matricules.à.identifier$Matricule,
                                                          matricules.à.identifier$Année),]
 
@@ -1454,23 +1474,25 @@ rémunérations.élu <- Analyse.rémunérations[ Analyse.rémunérations$indemnités.élu
 
 rémunérations.élu <- mutate(rémunérations.élu,
                             total.rémunérations = indemnités.élu +  total.rémunérations)
-                                   
-rémunérations.élu <- merge(unique(matricules.à.identifier[c("Nom",  étiquette.matricule)]),
+
+if (!fusionner.nom.prénom)
+ rémunérations.élu <- merge(unique(matricules.à.identifier[c("Nom",  étiquette.matricule)]),
                             rémunérations.élu,
                             by = étiquette.matricule,
                             all.y = TRUE,
                             all.x = FALSE)
 
-names(rémunérations.élu) <- c(étiquette.matricule, "Nom", "Année", "Indemnités d'élu (euros)", "Autres rémunérations (euros)", "Total (euros)")
+names(rémunérations.élu) <- c(union(clé.fusion, "Nom"), "Année", "Indemnités d'élu (euros)", "Autres rémunérations (euros)", "Total (euros)")
 
-rémunérations.élu <- rémunérations.élu[!is.na(rémunérations.élu$Matricule), ]
+rémunérations.élu <- na.omit(rémunérations.élu)
 
 #'   
 
 kable(rémunérations.élu, row.names = FALSE)
 
-#'     
-Sauv.base(chemin.dossier.bases, "matricules.à.identifier", fichier.personnels)
+#'
+
+   Sauv.base(chemin.dossier.bases, "matricules.à.identifier", fichier.personnels)
 
 #'[Lien vers la base de données Rémunérations des élus](Bases/rémunérations.élu.csv)  
 #'     
@@ -1493,7 +1515,8 @@ Sauv.base(chemin.dossier.bases, "matricules.à.identifier", fichier.personnels)
 #'En cas de changement de catégorie en cours de période, utiliser la catégorie AUTRES   
 #'Cela peut conduire à modifier manuellement le fichier Catégories des personnels.csv
 #'
-kable(matricules.à.identifier, row.names = FALSE)
+
+  kable(matricules.à.identifier, row.names = FALSE)
 #'
 
 detach(Bulletins.paie.Lignes.paie)
