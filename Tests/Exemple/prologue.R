@@ -14,6 +14,8 @@ calculer.nb.jours <- TRUE
 nom.fichier.paie  <- "PEV CA-Lignes de paye"
 nom.bulletin.paie <- "PEV CA-Bulletins de paye"
 
+    libellés.élus <- c("ELU", "ELUS", "Elu", "Elus", "élu", "élus")
+
         chemin.dossier <- getwd()
   chemin.dossier.bases <- paste0(chemin.dossier, "/Bases")
 chemin.dossier.données <- paste0(chemin.dossier, "/Donnees")
