@@ -6,7 +6,7 @@ setOSWindows <- TRUE
 fusionner.nom.prénom <- TRUE
 
     charger.bases <- TRUE
-sauvegarder.bases <- FALSE
+sauvegarder.bases <- TRUE
     générer.codes <- FALSE
 tester.matricules <- FALSE
 calculer.nb.jours <- TRUE
