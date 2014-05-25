@@ -248,7 +248,7 @@ if (charger.bases)
                                        *  ifelse(calculer.nb.jours, nb.jours / 365, nb.mois / 12)) 
   
   Analyse.rémunérations <- ddply(Bulletins.paie.Lignes.paie,
-                                 c(étiquette.matricule, étiquette.année),
+                                 c(clé.fusion, étiquette.année),
                                  summarise,
                                  
                                  Nir = Nir[1],
@@ -277,18 +277,15 @@ if (charger.bases)
   
   Analyse.rémunérations <- Analyse.rémunérations[!is.na(Analyse.rémunérations$total.rémunérations), ]
   
-  Analyse.variations.par.exercice <- Analyse.rémunérations[ , c(étiquette.matricule, étiquette.année,
+  Analyse.variations.par.exercice <- Analyse.rémunérations[ , c(clé.fusion, étiquette.année,
                                                                 "rémunération.eqtp", 
                                                                 "Statut",
                                                                 "nb.jours",
                                                                 "nb.mois",
                                                                 "quotité")]
-  
-  
-  
-  
+    
   Analyse.variations.synthèse <- ddply(Analyse.variations.par.exercice,
-                                       .(Matricule),
+                                       clé.fusion,
                                        summarise,
                                        Nexercices = length(Année),
                                        # quotité.exercice.début = quotité[1],
@@ -313,19 +310,19 @@ if (charger.bases)
   
   Bulletins.paie.nir.total.hors.élus <- merge(Analyse.rémunérations[   Analyse.rémunérations$Année == fin.période.sous.revue 
                                                                      & Analyse.rémunérations$indemnités.élu == 0,
-                                                                       c(étiquette.matricule, champ.nir) ],
+                                                                       c(clé.fusion, champ.nir) ],
                                               Bulletins.paie[  Bulletins.paie$Année == fin.période.sous.revue
                                                              & Bulletins.paie$Mois == 12,
-                                                             c(étiquette.matricule, champ.nir)], 
-                                              by = étiquette.matricule, all = FALSE)
+                                                             c(clé.fusion, champ.nir)], 
+                                              by = clé.fusion, all = FALSE)
   
   Bulletins.paie.nir.fonctionnaires  <- unique(Bulletins.paie[  Bulletins.paie$Année == fin.période.sous.revue 
                                                                   & Bulletins.paie$Mois  == 12
                                                                   & Bulletins.paie$Statut %in% c("TITULAIRE", "STAGIAIRE"),
-                                                                  c(étiquette.matricule, champ.nir)])
+                                                                  c(clé.fusion, champ.nir)])
   
   Bulletins.paie.nir.total.hors.élus <- Bulletins.paie.nir.total.hors.élus[-3]
-  names(Bulletins.paie.nir.total.hors.élus) <- c(étiquette.matricule, champ.nir)
+  names(Bulletins.paie.nir.total.hors.élus) <- c(clé.fusion, champ.nir)
   
   # Age au 31 décembre de l'exercice dernier.exerciceal de la période sous revue
   # ne pas oublier [ ,...] ici:
@@ -495,7 +492,7 @@ colonnes.sélectionnées <- c("traitement.indiciaire",
                             "autres.rémunérations", 
                             "total.rémunérations",
                             "part.rémunération.indemnitaire",
-                            étiquette.matricule)
+                            clé.fusion)
 
 
 
@@ -1513,7 +1510,7 @@ matricules.à.identifier <- matricules.à.identifier[order(matricules.à.identifier
 
 
 rémunérations.élu <- Analyse.rémunérations[ Analyse.rémunérations$indemnités.élu > 0,
-                                             c(étiquette.matricule,
+                                             c(clé.fusion,
                                                "Année",
                                                "indemnités.élu",
                                                "autres.rémunérations",
