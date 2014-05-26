@@ -8,11 +8,11 @@ fusionner.nom.prénom <- FALSE
     charger.bases <- TRUE
 sauvegarder.bases <- FALSE
     générer.codes <- FALSE
-tester.matricules <- TRUE
+tester.matricules <- FALSE
 calculer.nb.jours <- TRUE
 
-nom.fichier.paie  <- "Ville Annecy Paye BP-Lignes de paye"
-nom.bulletin.paie <- "Ville Annecy Paye BP-Bulletins de paye"
+nom.fichier.paie  <- "RAG-Lignes de paye"
+nom.bulletin.paie <- "RAG-Bulletins de paye"
 
     libellés.élus <- c("ELU", "ELUS", "Elu", "Elus", "élu", "élus")
 
@@ -20,12 +20,14 @@ nom.bulletin.paie <- "Ville Annecy Paye BP-Bulletins de paye"
   chemin.dossier.bases <- paste0(chemin.dossier, "/Bases")
 chemin.dossier.données <- paste0(chemin.dossier, "/Donnees")
   
-   début.période.sous.revue <- 2010
-   fin.période.sous.revue   <- 2011
+   début.période.sous.revue <- 2009
+   fin.période.sous.revue   <- 2012
+           seuil.troncature <- 3
         étiquette.matricule <- "Matricule"
 étiquette.Type.rémunération <- "Type rémunération"
             étiquette.année <- "Année"
           étiquette.libellé <- "Libellé"
+          étiquette.montant <- "Montant"
        étiquette.rém.indemn <- "Rémunération contractuelle ou indemnitaire"
           champ.détection.1 <- étiquette.matricule
           champ.détection.2 <- "Code"
