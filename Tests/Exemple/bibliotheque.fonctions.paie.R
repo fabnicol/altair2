@@ -32,15 +32,51 @@ trouver.valeur.skip <-  function(chemin.table, encodage)
     ))
 
 
-selectionner.cle.matricule <-  function(Base1, Base2) 
-  subset(Base1, 
-         select = c(champ.détection.1, setdiff(names(Base1),names(Base2))))
+# selectionner.cle.matricule <-  function(Base1, Base2) 
+# {
+#   if (fusionner.nom.prénom) {
+#      subset(Base1, 
+#            select = c("Nom", "Prénom", étiquette.matricule, setdiff(names(Base1),names(Base2))))
+#     } else {
+#      subset(Base1, 
+#          select = c(étiquette.matricule, setdiff(names(Base1), names(Base2))))
+#     }
+# }
 
-selectionner.cle.matricule.mois <-  function(Base1, Base2) 
-  subset(Base1, 
-         select = c(champ.détection.1,"Mois","Année",
-                  setdiff(names(Base1),names(Base2))))
-
+sélectionner.clé <-  function(base1, base2) 
+{
+  Base1 <- get(base1)
+  
+  if (fusionner.nom.prénom) {
+    Base2 <- get(base2)    
+    Set1 <- c("Mois", "Année", étiquette.matricule, setdiff(names(Base1), names(Base2)))
+    Set2 <- setdiff(names(Base2), c("Nom", "Prénom", étiquette.matricule))
+    
+    assign(base1, 
+           subset(Base1, select = c("Nom", "Prénom", Set1)), 
+           envir = .GlobalEnv)
+    
+    assign(base1, 
+           cbind(as.data.frame(convertir.nom.prénom.majuscules(Base1[, c("Nom", "Prénom")])),
+                 Base1[, Set1]),
+           envir = .GlobalEnv)
+            
+    assign(base2,
+           cbind(as.data.frame(convertir.nom.prénom.majuscules(Base2[, c("Nom", "Prénom")])),
+                 Base2[, Set2]),
+           envir = .GlobalEnv)
+    
+  
+    
+  } else {
+    
+    assign(base1, subset(Base1, 
+                         select = c(étiquette.matricule,"Mois","Année",
+                         setdiff(names(Base1), names(Base2)))), envir = .GlobalEnv)
+    
+  }
+}
+  
 read.csv.skip <- function(x, encodage = encodage.entrée) 
 {
   chem <- chemin(x)
@@ -242,7 +278,7 @@ calcul.variation <- function(rémunération.début, rémunération.sortie, nb.jours.e
   
 }
 
-positive <- function(X) X[ X > 0]
+positive <- function(X) X[!is.na(X) & X > 0]
 
 
 installer.paquet <- function(paquet, rigoureusement = FALSE) 
@@ -283,5 +319,33 @@ installer.paquets <- function(..., rigoureusement = FALSE)
   invisible(do.call(sum, lapply(tmp, function(x) installer.paquet(x, rigoureusement))))
 }
 
+convertir.nom.prénom.majuscules <- function(S)
+{
+
+  S[ , c("Nom", "Prénom")] <- apply(S[ , c("Nom", "Prénom")],
+                                    2,
+                                    function(x) 
+                                      toupper(chartr("éèôâçë","eeoaice", x)))
+  
+
+}
+
+tester.homogeneite.matricules <- function(Base) {
+  
+  S <- convertir.nom.prénom.majuscules(Base[ , c("Nom", "Prénom", "Matricule")])
+  
+  with.matr    <-   nrow(unique(S))
+  without.matr <-   nrow(unique(S[ , c("Nom", "Prénom")]))     
+  
+  message("Matricules distincts: ", with.matr)                         
+  message("Noms-Prénoms distincs: ", without.matr)
+  
+  if (with.matr  >   1.05 * without.matr)
+  {
+     message("Résultats trop différents (5 % de marge tolérée). Changement de régime de matricule.")
+     if (fusionner.nom.prénom == FALSE)
+       stop("Vous pouvez essayer de fusionner sur Nom, Prénom en spécifiant fusionner.nom.prénom <- TRUE dans prologue.R", call. = FALSE)
+  }
+}
 
 
