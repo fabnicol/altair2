@@ -11,8 +11,10 @@ sauvegarder.bases <- FALSE
 tester.matricules <- FALSE
 calculer.nb.jours <- TRUE
 
-nom.fichier.paie  <- "PEV CA-Lignes de paye"
-nom.bulletin.paie <- "PEV CA-Bulletins de paye"
+racine <- "PEV CA-"
+
+nom.fichier.paie  <- paste0(racine, "Lignes de paye")
+nom.bulletin.paie <- paste0(racine, "Bulletins de paye")
 
     libellés.élus <- c("ELU", "ELUS", "Elu", "Elus", "élu", "élus")
 
