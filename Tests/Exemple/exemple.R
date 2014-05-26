@@ -67,10 +67,25 @@ seuil.troncature <- 3
 # Cette section pourra être modifiée en entrée dans d'autres contextes
 # Matricule, Codes
 
-champ.nir <- "Nir"
-   
-codes.paiement  <- "codes.csv"
-code.traitement <- 1010
+
+
+Codes.paiement <- read.csv.skip(codes.paiement)
+
+if (nlevels(as.factor(Codes.paiement$Code)) != nrow(unique(Codes.paiement[ , c("Code", "Type.rémunération")])))
+{
+  message("Davantage de types de rémunérations que de codes distincts : incohérence de la base de codes.")
+  
+  V <- tapply(Codes.paiement$Type.rémunération, Codes.paiement$Code, function(x) length(unique(x))) 
+  V <- V[V > 1]
+  
+  print(unique(merge(data.frame(Code = names(V), "Nombre de libellés distincts" = V, row.names=NULL),
+                     Codes.paiement[Codes.paiement$Code %in% names(V), c("Code", "Type.rémunération")],
+                     by = "Code", all=TRUE)))
+  
+  stop("Vérifier le fichier codes.csv")
+  
+}
+
 
 fichier.personnels <- "Catégories des personnels"
 nom.fichier.personnels <- paste0(fichier.personnels, ".csv")
@@ -103,9 +118,7 @@ lignes.paie <- lignes.paie[file.exists(chemin(lignes.paie))]
 Read.csv("Lignes.paie", lignes.paie)
 Read.csv("Bulletins.paie", bulletins.paie)
 
-if ( ! all(c("Nom",
-            "Prénom",
-             étiquette.matricule,
+if ( ! all(c(union(clé.fusion, étiquette.matricule),
              étiquette.année,
             "Mois",
             "Statut",
@@ -171,23 +184,7 @@ if (générer.codes) {
               attr(Lignes.paie$Nom, "names")    <- NULL
               attr(Lignes.paie$Prénom, "names") <- NULL
 
-             Codes.paiement <- read.csv.skip(codes.paiement)
-
-if (nlevels(Codes.paiement$Code) != nrow(unique(Codes.paiement[ , c("Code", "Type.rémunération")])))
-{
-  message("Davantage de types de rémunérations que de codes distincts : incohérence de la base de codes.")
-
-  V <- tapply(Codes.paiement$Type.rémunération, Codes.paiement$Code, function(x) length(unique(x))) 
-  V <- V[V > 1]
-  
-  print(unique(merge(data.frame(Code = names(V), "Nombre de libellés distincts" = V, row.names=NULL),
-               Codes.paiement[Codes.paiement$Code %in% names(V), c("Code", "Type.rémunération")],
-               by = "Code", all=TRUE)))
-  
-  stop("Vérifier le fichier codes.csv")
-    
-}
-
+             
 Codes.paiement.indemnitaire <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "INDEMNITAIRE.OU.CONTRACTUEL","Code"])
   Codes.paiement.traitement <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "TRAITEMENT","Code"])
          Codes.paiement.élu <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "ELU","Code"])
