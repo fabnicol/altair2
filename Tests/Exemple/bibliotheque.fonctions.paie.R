@@ -46,9 +46,10 @@ trouver.valeur.skip <-  function(chemin.table, encodage)
 sélectionner.clé <-  function(base1, base2) 
 {
   Base1 <- get(base1)
+  Base2 <- get(base2)    
   
   if (fusionner.nom.prénom) {
-    Base2 <- get(base2)    
+
     Set1 <- c("Mois", "Année", étiquette.matricule, setdiff(names(Base1), names(Base2)))
     Set2 <- setdiff(names(Base2), c("Nom", "Prénom", étiquette.matricule))
     
