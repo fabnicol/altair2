@@ -104,7 +104,6 @@ lignes.paie <- paste0(nom.fichier.paie, "-", 1:50, ".csv")
 bulletins.paie <- paste0(nom.bulletin.paie, "-", 1:10, ".csv")
 bulletins.paie <- bulletins.paie[file.exists(chemin(bulletins.paie))]
 
-codes.NBI <- c("1012", "101B", "101M", "4652", "4672")
 
 
 #/* Programme principal
@@ -118,16 +117,16 @@ lignes.paie <- lignes.paie[file.exists(chemin(lignes.paie))]
 Read.csv("Lignes.paie", lignes.paie)
 Read.csv("Bulletins.paie", bulletins.paie)
 
-if ( ! all(c(union(clé.fusion, étiquette.matricule),
+if (! all(c(union(clé.fusion, étiquette.matricule),
              étiquette.année,
-            "Mois",
-            "Statut",
-            "Brut",
-            "Net.à.Payer",
-            "Heures.Sup.",
-            "Emploi",
-             champ.nir,
-            "Temps.de.travail") %in% names(Bulletins.paie))) {
+             "Mois",
+             "Statut",
+             "Brut",
+             "Net.à.Payer",
+             "Heures.Sup.",
+             "Emploi",
+              champ.nir,
+             "Temps.de.travail") %in% names(Bulletins.paie))) {
   
   stop("Il manque des colonnes au(x) fichier(s) Bulletins de paie")
 } else {
@@ -194,10 +193,10 @@ if (exists("Codes.paiement"))
 } else
   stop("Charger le fichier de codes de paiement.")
 
-  if (fusionner.nom.prénom) 
+  if ( ! fusionner.nom.prénom) 
     Bulletins.paie <- subset(Bulletins.paie, select = setdiff(names(Bulletins.paie), c("Nom", "Prénom")))
     
-  if (!setequal(intersect(names(Lignes.paie), names(Bulletins.paie)), union(c("Mois", "Année"), clé.fusion)))
+  if ( ! setequal(intersect(names(Lignes.paie), names(Bulletins.paie)), union(c("Mois", "Année"), clé.fusion)))
   {
    if (fusionner.nom.prénom) {
      
@@ -342,12 +341,15 @@ if (charger.bases)
   
   temp <- Analyse.variations.synthèse[Analyse.variations.synthèse$plus.2.ans, clé.fusion] 
   
+  trouver.ligne <- function(x) anyDuplicated(rbind(x, temp)) > 1
+
   if (fusionner.nom.prénom) {
-  Analyse.variations.par.exercice <- mutate(Analyse.variations.par.exercice,
-                                            plus.2.ans.Nom = Nom %in% temp$Nom,
-                                            plus.2.ans = Prénom %in% temp$Prénom & plus.2.ans.Nom)
+    
+    Analyse.variations.par.exercice <- mutate(Analyse.variations.par.exercice,
+                                            plus.2.ans = trouver.ligne(c(Nom, Prénom)))
   } else {
-  Analyse.variations.par.exercice <- mutate(Analyse.variations.par.exercice,
+    
+    Analyse.variations.par.exercice <- mutate(Analyse.variations.par.exercice,
                                             plus.2.ans = Matricule %in% temp)
   }
   
