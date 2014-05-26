@@ -58,8 +58,6 @@ dir.create(chemin.dossier.bases, recursive = TRUE)
 
 nombre.exercices <- fin.période.sous.revue - début.période.sous.revue + 1
 
-étiquette.montant <- "Montant"
-seuil.troncature <- 3
 
 # Le format est jour/mois/année avec deux chiffres-séparateur-deux chiffres-séparateur-4 chiffres.
 #Le séparateur peut être changé en un autre en modifiant le "/" dans fate.format
@@ -68,22 +66,24 @@ seuil.troncature <- 3
 # Matricule, Codes
 
 
-
-Codes.paiement <- read.csv.skip(codes.paiement)
-
-if (nlevels(as.factor(Codes.paiement$Code)) != nrow(unique(Codes.paiement[ , c("Code", "Type.rémunération")])))
+if (file.exists(chemin(codes.paiement)))
 {
-  message("Davantage de types de rémunérations que de codes distincts : incohérence de la base de codes.")
-  
-  V <- tapply(Codes.paiement$Type.rémunération, Codes.paiement$Code, function(x) length(unique(x))) 
-  V <- V[V > 1]
-  
-  print(unique(merge(data.frame(Code = names(V), "Nombre de libellés distincts" = V, row.names=NULL),
-                     Codes.paiement[Codes.paiement$Code %in% names(V), c("Code", "Type.rémunération")],
-                     by = "Code", all=TRUE)))
-  
-  stop("Vérifier le fichier codes.csv")
-  
+  Codes.paiement <- read.csv.skip(codes.paiement)
+
+  if (nlevels(as.factor(Codes.paiement$Code)) != nrow(unique(Codes.paiement[ , c("Code", "Type.rémunération")])))
+  {
+    message("Davantage de types de rémunérations que de codes distincts : incohérence de la base de codes.")
+    
+    V <- tapply(Codes.paiement$Type.rémunération, Codes.paiement$Code, function(x) length(unique(x))) 
+    V <- V[V > 1]
+    
+    print(unique(merge(data.frame(Code = names(V), "Nombre de libellés distincts" = V, row.names=NULL),
+                       Codes.paiement[Codes.paiement$Code %in% names(V), c("Code", "Type.rémunération")],
+                       by = "Code", all=TRUE)))
+    
+    stop("Vérifier le fichier codes.csv")
+    
+  }
 }
 
 
@@ -184,13 +184,19 @@ if (générer.codes) {
               attr(Lignes.paie$Nom, "names")    <- NULL
               attr(Lignes.paie$Prénom, "names") <- NULL
 
-             
-Codes.paiement.indemnitaire <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "INDEMNITAIRE.OU.CONTRACTUEL","Code"])
-  Codes.paiement.traitement <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "TRAITEMENT","Code"])
-         Codes.paiement.élu <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "ELU","Code"])
-   Codes.paiement.vacations <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "VACATIONS","Code"])
-      Codes.paiement.autres <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "AUTRES","Code"])
+if (exists("Codes.paiement"))
+{
+  Codes.paiement.indemnitaire <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "INDEMNITAIRE","Code"])
+    Codes.paiement.traitement <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "TRAITEMENT","Code"])
+           Codes.paiement.élu <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "ELU","Code"])
+     Codes.paiement.vacations <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "VACATIONS","Code"])
+        Codes.paiement.autres <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "AUTRES","Code"])
+} else
+  stop("Charger le fichier de codes de paiement.")
 
+  if (fusionner.nom.prénom) 
+    Bulletins.paie <- subset(Bulletins.paie, select = setdiff(names(Bulletins.paie), c("Nom", "Prénom")))
+    
   if (!setequal(intersect(names(Lignes.paie), names(Bulletins.paie)), union(c("Mois", "Année"), clé.fusion)))
   {
    if (fusionner.nom.prénom) {
@@ -359,8 +365,10 @@ if (charger.bases)
   # Age au 31 décembre de l'exercice dernier.exerciceal de la période sous revue
   # ne pas oublier [ ,...] ici:
   
-  années.fonctionnaires   <- fin.période.sous.revue - (as.numeric(substr(as.character(Bulletins.paie.nir.fonctionnaires[ , champ.nir]), 2, 3)) + 1900)
-  années.total.hors.élus  <- fin.période.sous.revue - (as.numeric(substr(as.character(Bulletins.paie.nir.total.hors.élus[ , champ.nir]), 2, 3)) + 1900)
+  années.fonctionnaires   <- fin.période.sous.revue - (as.numeric(substr(as.character(
+                                                                  format(Bulletins.paie.nir.fonctionnaires[ , champ.nir], scientific = FALSE)), 2, 3)) + 1900)
+  années.total.hors.élus  <- fin.période.sous.revue - (as.numeric(substr(as.character(
+                                                                  format(Bulletins.paie.nir.total.hors.élus[ , champ.nir], scientific=FALSE)), 2, 3)) + 1900)
 }
 
 ########### Démographie ########################
@@ -369,6 +377,7 @@ if (charger.bases)
 #'
 #'### 1.1 Ensemble des personnels non élus    
 
+if (length(années.total.hors.élus) > 0)
 hist(années.total.hors.élus,
      xlab = paste("Âge au 31 décembre",fin.période.sous.revue),
      xlim = c(18, 75),
@@ -390,7 +399,8 @@ Résumé(paste0("Âge des personnels <br>au 31/12/",fin.période.sous.revue), années
 #'
 #'### 1.2 Ensemble des fonctionnaires stagiaires et titulaires    
 
-hist(années.fonctionnaires,
+if (length(années.fonctionnaires) > 0)
+ hist(années.fonctionnaires,
      xlab = paste("Âge au 31 décembre",fin.période.sous.revue),
      xlim = c(18,68),
      ylab = "Effectif",
@@ -552,7 +562,8 @@ filtre.fonctionnaire <- function (X) X[ Statut %in% c("TITULAIRE", "STAGIAIRE") 
 
 AR <- Analyse.rémunérations.premier.exercice[Statut %in% c("TITULAIRE", "STAGIAIRE"), colonnes.sélectionnées]
 
-hist(filtre.fonctionnaire(total.rémunérations)/1000,
+if (length(filtre.fonctionnaire(total.rémunérations) > 0))
+ hist(filtre.fonctionnaire(total.rémunérations)/1000,
      xlab = "En milliers d'euros hors\nindemnités journalières et remboursements",
      ylab = "Effectif",
      xlim = c(0, 120),
@@ -562,16 +573,17 @@ hist(filtre.fonctionnaire(total.rémunérations)/1000,
 
 #'    
 
-hist(filtre.fonctionnaire(rémunération.indemnitaire)/1000,
+if (length(filtre.fonctionnaire(rémunération.indemnitaire) > 0))
+  hist(filtre.fonctionnaire(rémunération.indemnitaire)/1000,
      xlab = "En milliers d'euros hors\nindemnités journalières et remboursements",
      ylab = "Effectif",
      xlim = c(0, 70),
      main = paste("Rémunération indemnitaire annuelle des fonctionnaires en", année),
      col = "blue",
-     nclass = 50
-)
+     nclass = 50)
 
-hist(filtre.fonctionnaire(part.rémunération.indemnitaire),
+if (length(filtre.fonctionnaire(part.rémunération.indemnitaire) > 0))
+  hist(filtre.fonctionnaire(part.rémunération.indemnitaire),
      xlab = "Part des indemnités dans la rémunération en %\n hors indemnités journalières et remboursements",
      ylab = "Effectif",
      main = paste("Part indemnitaire de la rémunération annuelle des fonctionnaires en", année),
@@ -590,7 +602,7 @@ somme.brut.fonct  <- sum(Bulletins.paie[Bulletins.paie$Année == année &
                                           Bulletins.paie$Statut %in% c("TITULAIRE", "STAGIAIRE"),
                                         "Brut"])
 
-total.rémunérations.fonct <- sum(AR[4])
+total.rémunérations.fonct <- ifelse(nrow(AR) > 0, sum(AR[4]), 0)
 
 delta <- somme.brut.fonct - total.rémunérations.fonct
 
@@ -708,7 +720,10 @@ if (fichier.personnels.existe)
 #'## 2.3 Contractuels, vacataires et stagiaires inclus
 #'
 
-hist(total.rémunérations[ indemnités.élu == 0 & !Statut %in% c("TITULAIRE", "STAGIAIRE") & total.rémunérations > 1000]/1000,
+temp <- total.rémunérations[ indemnités.élu == 0 & !Statut %in% c("TITULAIRE", "STAGIAIRE") & total.rémunérations > 1000]/1000
+
+if (length(temp > 0))
+  hist(temp,
      xlab = "Rémunération en milliers d'euros \n hors indemnités journalières et remboursements",
      ylab = "Effectif",
      xlim = c(0, 40),
@@ -724,7 +739,7 @@ hist(total.rémunérations[ indemnités.élu == 0 & !Statut %in% c("TITULAIRE", "STA
 temp <- positive(autres.rémunérations)
 
 if (length(temp))
-  hist(aur,
+  hist(temp,
        xlab = "En euros :\n indemnités journalières et remboursements",
        ylab = "Effectif",
        xlim = c(0, 5000),
@@ -858,7 +873,8 @@ Sauv.base(chemin.dossier.bases, "df", paste0("Masses.", année))
 #'## 3.2 Fonctionnaires titulaires et stagiaires
 #'
 
-hist(filtre.fonctionnaire(total.rémunérations) / 1000,
+if (length(filtre.fonctionnaire(total.rémunérations)) > 0)
+  hist(filtre.fonctionnaire(total.rémunérations) / 1000,
      xlab = "En milliers d'euros \n hors indemnités journalières et remboursements",
      ylab = "Effectif",
      xlim = c(0, 120),
@@ -869,19 +885,20 @@ hist(filtre.fonctionnaire(total.rémunérations) / 1000,
 #'  
 #'
 
-hist(filtre.fonctionnaire(rémunération.indemnitaire)/1000,
+if (length(filtre.fonctionnaire(rémunération.indemnitaire) > 0))
+  hist(filtre.fonctionnaire(rémunération.indemnitaire)/1000,
      xlab = "En milliers d'euros\n hors indemnités journalières et remboursements",
      ylab = "Effectif",
      xlim = c(0, 70),
      main = paste("Rémunération indemnitaire annuelle\ndes fonctionnaires en", année),
      col = "blue",
-     nclass = 50
-)
+     nclass = 50)
 
 #'    
 #'
 
-hist(filtre.fonctionnaire(part.rémunération.indemnitaire),
+if (length(filtre.fonctionnaire(part.rémunération.indemnitaire)) > 0)
+  hist(filtre.fonctionnaire(part.rémunération.indemnitaire),
      xlab = "Pourcentage des indemnités dans la rémunération\n hors indemnités journalières et remboursements",
      ylab = "Effectif",
      main = paste("Part indemnitaire de la rémunération annuelle des fonctionnaires en", année),
@@ -899,7 +916,7 @@ somme.brut.fonct  <- sum(Bulletins.paie[Bulletins.paie$Année == année &
                                           Bulletins.paie$Statut %in% c("TITULAIRE", "STAGIAIRE"),
                                         "Brut"])
 
-total.rémunérations.fonct <- sum(AR[4])
+total.rémunérations.fonct <- ifelse(nrow(AR) > 0, sum(AR[4]), 0)
 
 delta <- somme.brut.fonct - total.rémunérations.fonct
 
@@ -1018,7 +1035,10 @@ if (fichier.personnels.existe)
 #'## 3.3 Contractuels, vacataires et stagiaires inclus
 #'
 
-hist(total.rémunérations[ indemnités.élu == 0 & ! Statut %in% c("TITULAIRE", "STAGIAIRE") & total.rémunérations > 1000]/1000,
+temp <- total.rémunérations[ indemnités.élu == 0 & ! Statut %in% c("TITULAIRE", "STAGIAIRE") & total.rémunérations > 1000]/1000
+
+if (length(temp) > 0)
+  hist(temp,
      xlab = "Rémunération en milliers d'euros\n hors indemnités journalières et remboursements",
      ylab = "Effectif",
      xlim = c(0, 40),
@@ -1031,7 +1051,10 @@ hist(total.rémunérations[ indemnités.élu == 0 & ! Statut %in% c("TITULAIRE", "ST
 #'Ne sont retenues que les rémunérations supérieures à 1 000 euros.  
 #'Les élus ne sont pas pris en compte.   
 
-hist(positive(autres.rémunérations),
+temp <- positive(autres.rémunérations)
+
+if (length(temp) > 0)
+  hist(temp,
      xlab = "En euros :\n indemnités journalières et remboursements",
      ylab = "Effectif",
      xlim = c(0, 5000),
@@ -1070,16 +1093,23 @@ detach(Analyse.rémunérations.dernier.exercice)
 
 attach(Analyse.variations.synthèse)
 
-hist(positive(moyenne.rémunération.annuelle.sur.période)/1000,
+temp <- positive(moyenne.rémunération.annuelle.sur.période)/1000
+
+if (length(temp))
+  hist(temp,
      xlab = paste0("Sur la période ",début.période.sous.revue,"-",fin.période.sous.revue," en milliers d'euros"),
      ylab = "Effectif",
      main = "Rémunération nette moyenne",
      col = "blue",
      nclass = 100)
+
 #'  
 #+ fig.height=4.5  
 
-hist(moyenne.rémunération.annuelle.sur.période[moyenne.rémunération.annuelle.sur.période >0 & (statut == "TITULAIRE"  | statut == "STAGIAIRE")]/1000,
+temp <- moyenne.rémunération.annuelle.sur.période[moyenne.rémunération.annuelle.sur.période >0 & (statut == "TITULAIRE"  | statut == "STAGIAIRE")]/1000
+
+if (length(temp) > 0)
+  hist(temp,
      xlab = paste0("Sur la période ",début.période.sous.revue,"-",fin.période.sous.revue," en milliers d'euros"),
      ylab = "Effectif",
      main = "Rémunération nette moyenne des fonctionnaires",
@@ -1489,8 +1519,8 @@ names(rémunérations.élu) <- c(union(clé.fusion, "Nom"), "Année", "Indemnités d'é
 rémunérations.élu <- na.omit(rémunérations.élu)
 
 #'   
-
-kable(rémunérations.élu, row.names = FALSE)
+if (nrow(rémunérations.élu) >0)
+    kable(rémunérations.élu, row.names = FALSE)
 
 #'
 
