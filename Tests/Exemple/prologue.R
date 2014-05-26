@@ -3,7 +3,7 @@
 
 setOSWindows <- TRUE
 
-fusionner.nom.prénom <- FALSE
+fusionner.nom.prénom <- TRUE
 
     charger.bases <- TRUE
 sauvegarder.bases <- FALSE
@@ -11,8 +11,8 @@ sauvegarder.bases <- FALSE
 tester.matricules <- FALSE
 calculer.nb.jours <- TRUE
 
-nom.fichier.paie  <- "RAG-Lignes de paye"
-nom.bulletin.paie <- "RAG-Bulletins de paye"
+nom.fichier.paie  <- "PEV CA-Lignes de paye"
+nom.bulletin.paie <- "PEV CA-Bulletins de paye"
 
     libellés.élus <- c("ELU", "ELUS", "Elu", "Elus", "élu", "élus")
 
@@ -34,6 +34,8 @@ chemin.dossier.données <- paste0(chemin.dossier, "/Donnees")
                 date.format <- "%d/%m/%Y"
                   champ.nir <- "Nir"
             codes.paiement  <- "codes.csv"
+
+codes.NBI <- c("1012", "101B", "101M", "4652", "4672")
 
 ifelse(fusionner.nom.prénom, 
        clé.fusion <<- c("Nom", "Prénom"),
