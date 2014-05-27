@@ -6,10 +6,12 @@ setOSWindows <- TRUE
 fusionner.nom.prénom <- TRUE
 
     charger.bases <- TRUE
-sauvegarder.bases <- TRUE
+sauvegarder.bases <- FALSE
     générer.codes <- FALSE
 tester.matricules <- FALSE
+corriger.quotité  <- FALSE
 calculer.nb.jours <- TRUE
+comportement.strict <- TRUE
 
 racine <- "PEV CA-"
 
