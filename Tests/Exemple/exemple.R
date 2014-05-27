@@ -261,11 +261,13 @@ if (charger.bases)
                                        
                                        quotité
                                        =  Temps.de.travail / 100
-                                       * ifelse(is.na(Taux), 1, Taux)
-                                       *  (montant.rémunération.principale.contractuel > 0 
-                                             | 
-                                           montant.traitement.indiciaire  > 0)
-                                       *  ifelse(calculer.nb.jours, nb.jours / 365, nb.mois / 12)) 
+                                       * ifelse(corriger.quotité,
+                                                ifelse(is.na(Taux), 1, Taux),
+                                                1)
+                                       * (montant.rémunération.principale.contractuel > 0 
+                                            | 
+                                          montant.traitement.indiciaire > 0)
+                                       * ifelse(calculer.nb.jours, nb.jours / 365, nb.mois / 12)) 
   
   Analyse.rémunérations <- ddply(Bulletins.paie.Lignes.paie,
                                  c(clé.fusion, étiquette.année),
@@ -295,10 +297,14 @@ if (charger.bases)
                                  part.rémunération.indemnitaire = ifelse( (s <- traitement.indiciaire + rémunération.principale.contractuel + rémunération.indemnitaire) == 0, 
                                                                           0,
                                                                           (rémunération.indemnitaire + rémunération.principale.contractuel )/ 
-                                                                            (s * 100)))
+                                                                            s * 100))
   
   Analyse.rémunérations <- Analyse.rémunérations[!is.na(Analyse.rémunérations$total.rémunérations), ]
   
+
+  if (length (Analyse.rémunérations$quotité > 1) > 0 & comportement.strict) stop("Détection de quotités > 1", call. = FALSE)
+
+
   Analyse.variations.par.exercice <- Analyse.rémunérations[ , c(clé.fusion, étiquette.année,
                                                                 "montant.net.eqtp", 
                                                                 "Statut",
