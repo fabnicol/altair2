@@ -341,12 +341,12 @@ if (charger.bases)
   
   temp <- Analyse.variations.synthèse[Analyse.variations.synthèse$plus.2.ans, clé.fusion] 
   
-  trouver.ligne <- function(x) anyDuplicated(rbind(x, temp)) > 1
+  trouver.ligne <- function(x, y) anyDuplicated(rbind(x, y)) > 1
 
   if (fusionner.nom.prénom) {
     
     Analyse.variations.par.exercice <- mutate(Analyse.variations.par.exercice,
-                                            plus.2.ans = trouver.ligne(c(Nom, Prénom)))
+                                            plus.2.ans = trouver.ligne(c(Nom, Prénom), temp))
   } else {
     
     Analyse.variations.par.exercice <- mutate(Analyse.variations.par.exercice,
@@ -1172,9 +1172,9 @@ detach(Analyse.rémunérations.dernier.exercice)
 
 attach(Analyse.variations.synthèse)
 
-temp <- positive(moyenne.rémunération.annuelle.sur.période)/1000
+temp <- positive(moyenne.rémunération.annuelle.sur.période) / 1000
 
-if (length(temp))
+if (length(temp) > 0)
   hist(temp,
      xlab = paste0("Sur la période ",début.période.sous.revue,"-",fin.période.sous.revue," en milliers d'euros"),
      ylab = "Effectif",
@@ -1185,8 +1185,8 @@ if (length(temp))
 #'  
 #+ fig.height=4.5  
 
-temp <- moyenne.rémunération.annuelle.sur.période[  moyenne.rémunération.annuelle.sur.période > 0 
-                                                  & (statut == "TITULAIRE"  | statut == "STAGIAIRE")] / 1000
+temp <- na.omit(moyenne.rémunération.annuelle.sur.période[  moyenne.rémunération.annuelle.sur.période > 0 
+                                                  & (statut == "TITULAIRE"  | statut == "STAGIAIRE")] / 1000)
 
 if (length(temp) > 0)
   hist(temp,
@@ -1503,8 +1503,8 @@ Tableau(c("Nombre de CEV",
                 filtre.ifts <- grep(".*(IFTS|I.F.T.S|.*FORF.*TRAV.*SUPP).*", Libellé, ignore.case = TRUE)
                 codes.ifts  <- unique(Bulletins.paie.Lignes.paie[filtre.ifts, "Code"])
         
-        personnels.iat.ifts <- intersect(as.character(Bulletins.paie.Lignes.paie[ filtre.iat, c(étiquette.matricule)]),
-                                         as.character(Bulletins.paie.Lignes.paie[ filtre.ifts, c(étiquette.matricule)]))
+        personnels.iat.ifts <- intersect(as.character(Bulletins.paie.Lignes.paie[ filtre.iat, clé.fusion[1]]),
+                                         as.character(Bulletins.paie.Lignes.paie[ filtre.ifts, clé.fusion[1]]))
 
  nombre.personnels.iat.ifts <- length(personnels.iat.ifts)
 
@@ -1523,18 +1523,16 @@ Tableau(c("Codes IFTS", "Nombre de personnels percevant IAT et IFTS"),
 
 #IFTS et IB >= 380 (IM >= 350)
 
-                         df1 <- Bulletins.paie.Lignes.paie[ Indice < 350, c(étiquette.matricule)]
-                         df1 <- df1[!duplicated(df1)]
-                      
-                         df2 <- Bulletins.paie.Lignes.paie[ filtre.ifts, c(étiquette.matricule)]
-                         df2 <- df2[!duplicated(df2)]
-                      
-                         df3 <- intersect(df1,df2)
+ lignes.ifts.anormales <- na.omit(Bulletins.paie.Lignes.paie[   Indice < 350  & Code %in% codes.ifts,
+                                                      c(clé.fusion,
+                                                        "Statut",
+                                                        "Code",
+                                                         étiquette.libellé,
+                                                         "Indice",
+                                                         étiquette.montant)])
 
-       lignes.ifts.anormales <- Bulletins.paie.Lignes.paie[Matricule %in% df3 & Code %in% codes.ifts & (Indice < 380 ), c(étiquette.matricule, "Statut", "Code", étiquette.libellé, "Indice", étiquette.montant)]
 nombre.lignes.ifts.anormales <- nrow(lignes.ifts.anormales)
 
-rm(df1, df2, df3)
 # IFTS et non tit
 
 ifts.et.contractuel <- Bulletins.paie.Lignes.paie[  Code %in% codes.ifts 
