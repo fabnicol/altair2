@@ -6,7 +6,7 @@ setOSWindows <- TRUE
 fusionner.nom.prénom <- TRUE
 
     charger.bases <- TRUE
-sauvegarder.bases <- FALSE
+sauvegarder.bases <- TRUE
     générer.codes <- FALSE
 tester.matricules <- FALSE
 calculer.nb.jours <- TRUE
@@ -22,8 +22,8 @@ nom.bulletin.paie <- paste0(racine, "Bulletins de paye")
   chemin.dossier.bases <- paste0(chemin.dossier, "/Bases")
 chemin.dossier.données <- paste0(chemin.dossier, "/Donnees")
   
-   début.période.sous.revue <- 2009
-   fin.période.sous.revue   <- 2012
+   début.période.sous.revue <- 2010
+   fin.période.sous.revue   <- 2011
            seuil.troncature <- 3
         étiquette.matricule <- "Matricule"
 étiquette.Type.rémunération <- "Type rémunération"
