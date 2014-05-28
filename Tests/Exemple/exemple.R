@@ -117,6 +117,10 @@ lignes.paie <- lignes.paie[file.exists(chemin(lignes.paie))]
 Read.csv("Lignes.paie", lignes.paie)
 Read.csv("Bulletins.paie", bulletins.paie)
 
+Bulletins.paie <- Bulletins.paie[Bulletins.paie$Année >= début.période.sous.revue & Bulletins.paie$Année <= fin.période.sous.revue, ]
+   Lignes.paie <- Lignes.paie[Lignes.paie$Année >= début.période.sous.revue & Lignes.paie$Année <= fin.période.sous.revue, ]
+
+
 if (! all(c(union(clé.fusion, étiquette.matricule),
              étiquette.année,
              "Mois",
@@ -140,7 +144,7 @@ if (générer.codes) {
     
   with( Lignes.paie,
         
-        codes.paiement.généré <<- unique(Lignes.paie[  Montant > 0 ,
+        codes.paiement.généré <<- unique(Lignes.paie[  Montant > 0 & Année >= début.période.sous.revue & Année <= fin.période.sous.revue,
                                                        c("Code", étiquette.libellé)]))
   
   codes.paiement.généré <- cbind(codes.paiement.généré[order(substr(as.character(codes.paiement.généré$Code), 1, 3)), ],
@@ -267,7 +271,7 @@ if (charger.bases)
                                        * (montant.rémunération.principale.contractuel > 0 
                                             | 
                                           montant.traitement.indiciaire > 0)
-                                       * ifelse(calculer.nb.jours, nb.jours / 365, nb.mois / 12)) 
+                                       * nb.mois / 12) 
   
   Analyse.rémunérations <- ddply(Bulletins.paie.Lignes.paie,
                                  c(clé.fusion, étiquette.année),
@@ -302,7 +306,7 @@ if (charger.bases)
   Analyse.rémunérations <- Analyse.rémunérations[!is.na(Analyse.rémunérations$total.rémunérations), ]
   
 
-  if (length (Analyse.rémunérations$quotité > 1) > 0 & comportement.strict) stop("Détection de quotités > 1", call. = FALSE)
+  if (length (Analyse.rémunérations$quotité > 1) > 0 & comportement.strict & corriger.quotité) stop("Détection de quotités > 1", call. = FALSE)
 
 
   Analyse.variations.par.exercice <- Analyse.rémunérations[ , c(clé.fusion, étiquette.année,
@@ -340,11 +344,12 @@ if (charger.bases)
                                        moins.six.mois = (total.mois < 6),
                                        statut = Statut[1])
   
-  attach(Analyse.variations.par.exercice, warn = FALSE)
   
-  Analyse.variations.par.exercice <- na.omit(Analyse.variations.par.exercice[  nb.mois[1] > seuil.troncature
-                                                                             & nb.mois[length(Année)] > seuil.troncature, ])
   
+  Analyse.variations.par.exercice <- na.omit(Analyse.variations.par.exercice[ ( Analyse.variations.par.exercice$Année > début.période.sous.revue 
+                                                                               & Analyse.variations.par.exercice$Année < fin.période.sous.revue) | 
+                                                                               Analyse.variations.par.exercice$nb.mois > seuil.troncature, ])
+    
   temp <- Analyse.variations.synthèse[Analyse.variations.synthèse$plus.2.ans, clé.fusion] 
   
   trouver.ligne <- function(x, y) anyDuplicated(rbind(x, y)) > 1
@@ -360,9 +365,7 @@ if (charger.bases)
   }
   
   rm(temp)
-  
-  detach(Analyse.variations.par.exercice)
-
+    
   Bulletins.paie.nir.total.hors.élus <- merge(Analyse.rémunérations[  Analyse.rémunérations$Année == fin.période.sous.revue 
                                                                     & Analyse.rémunérations$indemnités.élu == 0,
                                                                       c(clé.fusion, champ.nir) ],
