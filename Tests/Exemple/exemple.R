@@ -1508,8 +1508,8 @@ Tableau(c("Nombre de CEV",
 
 #IAT et IFTS
 
-                filtre.iat  <- grep(".*(IAT|I.A.T|.*Adm.*Tech).*", Libellé, ignore.case = TRUE)
-                filtre.ifts <- grep(".*(IFTS|I.F.T.S|.*FORF.*TRAV.*SUPP).*", Libellé, ignore.case = TRUE)
+                filtre.iat  <- grep(".*(I.?A.?T|I.*Ad.*Tec).*", Libellé, ignore.case = TRUE)
+                filtre.ifts <- grep(".*(I.?F.?T.?S|I.*F.*TRAV.*S).*", Libellé, ignore.case = TRUE)
                 codes.ifts  <- unique(Bulletins.paie.Lignes.paie[filtre.ifts, "Code"])
         
         personnels.iat.ifts <- intersect(as.character(Bulletins.paie.Lignes.paie[ filtre.iat, clé.fusion[1]]),
@@ -1570,15 +1570,26 @@ Tableau(c("Nombre de contractuels percevant des IFTS", "Nombre de lignes IFTS po
 #'
 #'## 5.5 Contrôle sur les heures supplémentaires
 
-HS.sup.25 <- Bulletins.paie.Lignes.paie[Heures.Sup. >= 25 , 
+HS.sup.25.matricules.mois <- unique(Bulletins.paie.Lignes.paie[Heures.Sup. >= 25, 
                                         c(étiquette.matricule,
                                           étiquette.année,
                                           "Mois",
                                           "Statut",
-                                          "Heures.Sup.",
-                                          "Brut")]
+                                          "Heures.Sup.")])
 
-nombre.Lignes.paie.HS.sup.25 <- nrow(HS.sup.25)
+HS.sup.25.montants <- Bulletins.paie.Lignes.paie[Heures.Sup. >= 25 
+                                                 & grepl(".*(I.?H.?T.?S|I.*H.*SUP|I.*H.*TRAV|I.*HO.*).*", Libellé, ignore.case = TRUE)
+                                                 & as.numeric(substr(Code,1,2)) < 50, 
+                           c(étiquette.matricule,
+                             étiquette.année,
+                             "Mois",
+                             "Statut",
+                             "Libellé",
+                             "Base",
+                             "Taux",
+                             "Montant")]
+
+nombre.Lignes.paie.HS.sup.25 <- nrow(HS.sup.25.matricules.mois)
 
 # with(Base2,
 #      ihts.anormales <<- Base2[! Code.catégorie %in% c("B", "C") & substr(Code,1,2) %in% c("19") & ! grepl(" ENS", Libellé), c(étiquette.matricule, "Code", étiquette.libellé, étiquette.montant, "Code.catégorie")]
@@ -1591,7 +1602,8 @@ nombre.ihts.anormales <- nrow(ihts.anormales)
 Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"), nombre.Lignes.paie.HS.sup.25, nombre.ihts.anormales)
 
 #'
-#'[Lien vers la base de données Heures suplémentaires en excès](Bases/HS.sup.25.csv)  
+#'[Lien vers la base de données Heures suplémentaires en excès : matricules](Bases/HS.sup.25.matricules.mois.csv)  
+#'[Lien vers la base de données Heures suplémentaires en excès : montants](Bases/HS.sup.25.montants.csv)  
 #'[Lien vers la base de données IHTS anormales](Bases/ihts.anormales.csv)  
 #'       
 #'**Nota:**  
@@ -1689,13 +1701,14 @@ detach(Bulletins.paie.Lignes.paie)
 
 if (sauvegarder.bases) 
   sauv.bases(chemin.dossier.bases,
-      "Analyse.rémunérations",
+    "Analyse.rémunérations",
     "Bulletins.paie.nir.total.hors.élus",
     "Bulletins.paie.nir.fonctionnaires",
     "Bulletins.paie.Lignes.paie", 
     "NBI.aux.non.titulaires",
     "RI.et.vacations",
-    "HS.sup.25",
+    "HS.sup.25.matricules.mois",
+    "HS.sup.25.montants",
     "ihts.anormales",
     "personnels.prime.informatique",
     "lignes.contractuels.et.vacations",
