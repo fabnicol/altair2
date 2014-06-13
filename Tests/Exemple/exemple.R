@@ -244,23 +244,25 @@ if (charger.bases)
   Bulletins.paie.Lignes.paie <- merge(Bulletins.paie,
                                       Lignes.paie,
                                       by = c(clé.fusion, "Année", "Mois"))
-  
+
+  if ( ! exists("Codes.paiement.indemnitaire"))  stop("Pas de fichier des Types de codes [INDEMNITAIRE]")
+  if ( ! exists("Codes.paiement.traitement"))    stop("Pas de fichier des Types de codes [TRAITEMENT]")
+  if ( ! exists("Codes.paiement.élu"))           stop("Pas de fichier des Types de codes [ELU]")
+  if ( ! exists("Codes.paiement.autres"))        stop("Pas de fichier des Types de codes [AUTRES]")
+    
   Bulletins.paie.Lignes.paie <- mutate(Bulletins.paie.Lignes.paie,
                                        montant.traitement.indiciaire 
-                                        = Montant*(Code %in% Codes.paiement[Codes.paiement$Type.rémunération 
-                                                                           == "TRAITEMENT","Code"]),
+                                        = Montant*(Code %in% Codes.paiement.traitement),
                                        montant.rémunération.principale.contractuel =0, # rajouter critère non tit
 #                                         = Montant*(Code %in% codes.paiement[codes.paiement$Type.rémunération 
 #                                                                            == "PRINCIPAL.CONTRACTUEL","Code"]),
                                        montant.primes 
-                                        = Montant*(Code %in% Codes.paiement[Codes.paiement$Type.rémunération 
-                                                                           == "INDEMNITAIRE","Code"]),
+                                        = Montant*(Code %in% Codes.paiement.indemnitaire),
                                        montant.autres.rémunérations 
-                                        = Montant*(Code %in% Codes.paiement[Codes.paiement$Type.rémunération
-                                                                           == "AUTRES","Code"]),
+                                        = Montant*(Code %in% Codes.paiement.autres),
                                        montant.indemnité.élu 
-                                        = Montant*(Code %in% Codes.paiement[Codes.paiement$Type.rémunération
-                                                                           == "ELU","Code"]),
+                                        = Montant*(Code %in% Codes.paiement.élu),
+
                                        ### EQTP  ###
                                        
                                        quotité
@@ -1532,26 +1534,26 @@ Tableau(c("Codes IFTS", "Nombre de personnels percevant IAT et IFTS"),
 
 #IFTS et IB >= 380 (IM >= 350)
 
- lignes.ifts.anormales <- na.omit(Bulletins.paie.Lignes.paie[   Indice < 350  & Code %in% codes.ifts,
-                                                      c(clé.fusion,
-                                                        "Statut",
-                                                        "Code",
-                                                         étiquette.libellé,
-                                                         "Indice",
-                                                         étiquette.montant)])
+ lignes.ifts.anormales <- na.omit(Bulletins.paie.Lignes.paie[Indice < 350  & Code %in% codes.ifts,
+                                                                  c(clé.fusion,
+                                                                    "Statut",
+                                                                    "Code",
+                                                                     étiquette.libellé,
+                                                                     "Indice",
+                                                                     étiquette.montant)])
 
 nombre.lignes.ifts.anormales <- nrow(lignes.ifts.anormales)
 
 # IFTS et non tit
 
-ifts.et.contractuel <- Bulletins.paie.Lignes.paie[  Code %in% codes.ifts 
+ifts.et.contractuel <- Bulletins.paie.Lignes.paie[Code %in% codes.ifts 
                                                   & ! Statut %in% c("TITULAIRE", "STAGIAIRE"),
-                                                  c(étiquette.matricule,
-                                                    "Statut",
-                                                    "Code",
-                                                    étiquette.libellé,
-                                                    "Indice",
-                                                    étiquette.montant)]
+                                                      c(étiquette.matricule,
+                                                        "Statut",
+                                                        "Code",
+                                                        étiquette.libellé,
+                                                        "Indice",
+                                                        étiquette.montant)]
 
 nombres.lignes.ifts.et.contractuel <- nrow(ifts.et.contractuel)
 
@@ -1577,19 +1579,40 @@ HS.sup.25.matricules.mois <- unique(Bulletins.paie.Lignes.paie[Heures.Sup. >= 25
                                           "Statut",
                                           "Heures.Sup.")])
 
-HS.sup.25.montants <- Bulletins.paie.Lignes.paie[Heures.Sup. >= 25 
-                                                 & grepl(".*(I.?H.?T.?S|I.*H.*SUP|I.*H.*TRAV|I.*HO.*).*", Libellé, ignore.case = TRUE)
+HS.sup.25.montants <- Bulletins.paie.Lignes.paie[Heures.Sup. >= 25
+                                                 & ! Code %in% Codes.paiement.traitement
+                                                 & grepl(".*(I.*H.*T.*S|I.*H.*TRA|IN.*HO.*).*", Libellé, ignore.case = TRUE)
                                                  & as.numeric(substr(Code,1,2)) < 50, 
-                           c(étiquette.matricule,
-                             étiquette.année,
-                             "Mois",
-                             "Statut",
-                             "Libellé",
-                             "Base",
-                             "Taux",
-                             "Montant")]
+                                                    c(étiquette.matricule,
+                                                     étiquette.année,
+                                                     "Mois",
+                                                     "Libellé",
+                                                     "Code",
+                                                     "Heures",
+                                                     "Base",
+                                                     "Taux",
+                                                     "Montant")]
 
-nombre.Lignes.paie.HS.sup.25 <- nrow(HS.sup.25.matricules.mois)
+
+HS.sup.25 <- merge(HS.sup.25.matricules.mois, HS.sup.25.montants, all = TRUE)
+
+T <- aggregate(Bulletins.paie.Lignes.paie$montant.traitement.indiciaire,
+          by = list(Matricule, Année, Mois),
+          FUN = sum)
+names(T) <- c(étiquette.matricule, "Année", "Mois", "montant.traitement.indiciaire")
+
+HS.sup.25 <- merge(HS.sup.25, T)
+                   
+HS.sup.25 <- merge(HS.sup.25, Analyse.rémunérations[ , c(étiquette.matricule, "traitement.indiciaire")])
+
+L <-  length(names(HS.sup.25))
+
+names(HS.sup.25)[L]   <- "Traitement indiciaire annuel"
+names(HS.sup.25)[L-1]	<- "Traitement indiciaire mensuel" 
+
+rm(HS.sup.25.matricules.mois, HS.sup.25.montants, T, L)
+
+nombre.Lignes.paie.HS.sup.25 <- nrow(HS.sup.25)
 
 # with(Base2,
 #      ihts.anormales <<- Base2[! Code.catégorie %in% c("B", "C") & substr(Code,1,2) %in% c("19") & ! grepl(" ENS", Libellé), c(étiquette.matricule, "Code", étiquette.libellé, étiquette.montant, "Code.catégorie")]
@@ -1602,8 +1625,7 @@ nombre.ihts.anormales <- nrow(ihts.anormales)
 Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"), nombre.Lignes.paie.HS.sup.25, nombre.ihts.anormales)
 
 #'
-#'[Lien vers la base de données Heures suplémentaires en excès : matricules](Bases/HS.sup.25.matricules.mois.csv)  
-#'[Lien vers la base de données Heures suplémentaires en excès : montants](Bases/HS.sup.25.montants.csv)  
+#'[Lien vers la base de données Heures suplémentaires en excès : matricules](Bases/HS.sup.25.csv)  
 #'[Lien vers la base de données IHTS anormales](Bases/ihts.anormales.csv)  
 #'       
 #'**Nota:**  
@@ -1614,10 +1636,10 @@ Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"), no
 #'     
 
 matricules.à.identifier <- unique(Bulletins.paie.Lignes.paie[ , 
-                                                             c(étiquette.année,
-                                                               "Emploi",
-                                                               "Nom",
-                                                               étiquette.matricule)])
+                                                               c(étiquette.année,
+                                                                 "Emploi",
+                                                                 "Nom",
+                                                                 étiquette.matricule)])
 
 if (fichier.personnels.existe) {
   matricules.à.identifier <- merge(matricules.à.identifier, base.personnels.catégorie, by = clé.fusion, all=TRUE)
@@ -1632,11 +1654,11 @@ matricules.à.identifier <- matricules.à.identifier[order(matricules.à.identifier
 
 
       rémunérations.élu <- Analyse.rémunérations[ Analyse.rémunérations$indemnités.élu > 0,
-                                                   c(clé.fusion,
-                                                     "Année",
-                                                     "indemnités.élu",
-                                                     "autres.rémunérations",
-                                                     "total.rémunérations") ]
+                                                       c(clé.fusion,
+                                                         "Année",
+                                                         "indemnités.élu",
+                                                         "autres.rémunérations",
+                                                         "total.rémunérations") ]
 
 
       rémunérations.élu <- mutate(rémunérations.élu,
@@ -1707,8 +1729,7 @@ if (sauvegarder.bases)
     "Bulletins.paie.Lignes.paie", 
     "NBI.aux.non.titulaires",
     "RI.et.vacations",
-    "HS.sup.25.matricules.mois",
-    "HS.sup.25.montants",
+    "HS.sup.25",
     "ihts.anormales",
     "personnels.prime.informatique",
     "lignes.contractuels.et.vacations",
