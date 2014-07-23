@@ -7,7 +7,7 @@
 #'css: style.css
 #'---
 
-#'<p class = "centered"><img src = "altair.png" /></p>
+#'<p class = "centered"><img src = "Altair.bmp" /></p>
 #'<p class = "title">RH Exemple</p> 
 #'
 
@@ -45,7 +45,9 @@ library(plyr)
 library(ggplot2)
 library(assertthat)
 
-knitr::opts_chunk$set(fig.retina = 2, fig.width = 7.5, echo = FALSE, warning = FALSE, message = FALSE, results = 'asis')
+# problème temporaire avec l'option fig.retina depuis fin mai 2014
+
+knitr::opts_chunk$set(fig.width = 7.5, echo = FALSE, warning = FALSE, message = FALSE, results = 'asis')
 
 dir.create(chemin.dossier.bases, recursive = TRUE)
 
@@ -93,24 +95,24 @@ if (file.exists(chemin(codes.paiement)))
 if (fichier.personnels.existe)
   base.personnels.catégorie <- read.csv.skip(nom.fichier.personnels)
 
-#/* Lignes de paie
+# Lignes de paie
 # On peut lire jusqu'à 10 fichiers csv qui seront générés au format
-#  "chemin dossier + paies-Bulletins de paye-j.csv" */
+#  "chemin dossier + paies-Bulletins de paye-j.csv" 
 
 lignes.paie <- paste0(nom.fichier.paie, "-", 1:50, ".csv")
 
-#/* Bulletins de paie */
+# Bulletins de paie 
 
 bulletins.paie <- paste0(nom.bulletin.paie, "-", 1:10, ".csv")
 bulletins.paie <- bulletins.paie[file.exists(chemin(bulletins.paie))]
 
 
 
-#/* Programme principal
+# Programme principal
 ##
 #  Bases
 ##
-# Lignes de paie */
+# Lignes de paie 
 
 lignes.paie <- lignes.paie[file.exists(chemin(lignes.paie))]
 
@@ -308,7 +310,7 @@ if (charger.bases)
   Analyse.rémunérations <- Analyse.rémunérations[!is.na(Analyse.rémunérations$total.rémunérations), ]
   
 
-  if (length (Analyse.rémunérations$quotité > 1) > 0 & comportement.strict & corriger.quotité) stop("Détection de quotités > 1", call. = FALSE)
+  if (length (Analyse.rémunérations$quotité[Analyse.rémunérations$quotité > 1]) > 0 & comportement.strict & corriger.quotité) stop("Détection de quotités > 1", call. = FALSE)
 
 
   Analyse.variations.par.exercice <- Analyse.rémunérations[ , c(clé.fusion, étiquette.année,
@@ -1383,10 +1385,10 @@ NBI.aux.non.titulaires <- Bulletins.paie.Lignes.paie[ ! Statut %in% c("TITULAIRE
 
 nombre.Lignes.paie.NBI.nontit <- nrow(NBI.aux.non.titulaires)
 
-#/* Prime de fonctions informatiques : pas dans la base de VLB
+# Prime de fonctions informatiques : pas dans la base de VLB
 # on cherche la chaine de char. "INFO" dans les libellés de primes
 
-# variante : filtre <- regexpr(".*(INFO|PFI|P.F.I).*", toupper(Bulletins.paie.Lignes.paie$Libellé)) et regmatches(Bulletins.paie.Lignes.paie$Libellé, filtre)*/
+# variante : filtre <- regexpr(".*(INFO|PFI|P.F.I).*", toupper(Bulletins.paie.Lignes.paie$Libellé)) et regmatches(Bulletins.paie.Lignes.paie$Libellé, filtre)
 
 filtre <- grep(".*(INFO|PFI|P.F.I).*", Libellé)
 
@@ -1716,7 +1718,7 @@ if (nrow(rémunérations.élu) >0)
 
 detach(Bulletins.paie.Lignes.paie)
 
-#/* ------------------------------------------------------------------------------------------------------------------*/
+# ------------------------------------------------------------------------------------------------------------------
 #  Sauvegardes : enlever les commentaires en mode opérationnel
 ##
 
