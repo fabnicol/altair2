@@ -6,13 +6,13 @@ setOSWindows <- TRUE
 fusionner.nom.prénom <- FALSE
 
     charger.bases <- TRUE
-sauvegarder.bases <- TRUE
+sauvegarder.bases <- FALSE
     générer.codes <- FALSE
 tester.matricules <- FALSE
 corriger.quotité  <- FALSE
 comportement.strict <- TRUE
 
-racine <- "PEV CA-"
+racine <- "c2a-"
 
 nom.fichier.paie  <- paste0(racine, "Lignes de paye")
 nom.bulletin.paie <- paste0(racine, "Bulletins de paye")
@@ -24,7 +24,7 @@ nom.bulletin.paie <- paste0(racine, "Bulletins de paye")
 chemin.dossier.données <- paste0(chemin.dossier, "/Donnees")
   
    début.période.sous.revue <- 2011
-   fin.période.sous.revue   <- 2012
+   fin.période.sous.revue   <- 2013
            seuil.troncature <- 3
         étiquette.matricule <- "Matricule"
 étiquette.Type.rémunération <- "Type rémunération"
