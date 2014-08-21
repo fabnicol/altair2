@@ -11,7 +11,7 @@
 #'<p class = "title">RH Exemple</p> 
 #'
 
-#+ echo = FALSE, warning = FALSE, message = FALSE
+#+ echo = FALSE, warning = TRUE, message = FALSE
 
 # comportement global du programme
 
