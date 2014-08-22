@@ -7,7 +7,9 @@ chemin <-  function(fichier)
 
 scan.prime <- function(texte, Base)
 {
-  unique(Base[grep(paste0(".*(", texte,").*"), Base$Libellé, ignore.case = TRUE), c("Matricule", "Libellé", "Libellé")])
+  unique(Base[grep(paste0(".*(", texte,").*"), 
+              Base$Libellé, ignore.case = TRUE),
+              c("Matricule", "Libellé", "Libellé")])
 }
 
 
@@ -331,8 +333,15 @@ convertir.nom.prénom.majuscules <- function(S)
 
 }
 
+# tester.homogeneite.matricules(Base)
+
+#  Teste si, dans une base, la proportion d'enregistrements Noms-Prénoms dont les matricules ne sont pas identiques
+#  reste inférieure à une marge de tolérance fixée (taux.tolérance.homonymie)
+#  utilité : tester si l'appariement sur Nom-Prénom au lieu de matricule sera acceptable
+
 tester.homogeneite.matricules <- function(Base) {
   
+  message("Contrôle sur la cohérence de l'association Nom-Prénom-Matricule (homonymies et changements de matricule)")                         
   S <- convertir.nom.prénom.majuscules(Base[ , c("Nom", "Prénom", "Matricule")])
   
   with.matr    <-   nrow(unique(S))
@@ -341,9 +350,9 @@ tester.homogeneite.matricules <- function(Base) {
   message("Matricules distincts: ", with.matr)                         
   message("Noms-Prénoms distincs: ", without.matr)
   
-  if (with.matr  >   1.05 * without.matr)
+  if (with.matr  >   (1 + taux.tolérance.homonymie/100) * without.matr)
   {
-     message("Résultats trop différents (5 % de marge tolérée). Changement de régime de matricule.")
+     message(paste0("Résultats trop différents (", taux.tolérance.homonymie, " % de marge tolérée). Changement de régime de matricule."))
      if (fusionner.nom.prénom == FALSE)
        stop("Vous pouvez essayer de fusionner sur Nom, Prénom en spécifiant fusionner.nom.prénom <- TRUE dans prologue.R", call. = FALSE)
   }
