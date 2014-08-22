@@ -1,48 +1,73 @@
 # prologue 
 # doit être dans le même répertoire que le programme principal et sa bibliothèque
 
-setOSWindows <- TRUE
+début.période.sous.revue    <- 2011
+fin.période.sous.revue      <- 2013
 
+# PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
+
+setOSWindows         <- TRUE
 fusionner.nom.prénom <- FALSE
+charger.bases        <- TRUE
+sauvegarder.bases    <- FALSE
+générer.codes        <- FALSE
+tester.matricules    <- FALSE
+corriger.quotité     <- FALSE
+comportement.strict  <- TRUE
+seuil.troncature     <- 3
+taux.tolérance.homonymie <- 5  # en %
 
-    charger.bases <- TRUE
-sauvegarder.bases <- FALSE
-    générer.codes <- FALSE
-tester.matricules <- FALSE
-corriger.quotité  <- FALSE
-comportement.strict <- TRUE
+# FICHIERS EN INPUT
+# conventions de nommage : les noms et chemins sont en minuscules ;
+# les bases commencent par une majuscule. Un nom de fichier est souvent associé
+# à une variable commençant par une majuscule et représentant la base (data.frame ou matrice)
 
-racine <- "c2a-"
+codes.paiement              <- "codes.csv"
+fichier.personnels          <- "Catégories des personnels"
+nom.fichier.personnels      <- paste0(fichier.personnels, ".csv")
+racine                      <- "c2a-"
+nom.fichier.paie            <- paste0(racine, "Lignes de paye")
+nom.bulletin.paie           <- paste0(racine, "Bulletins de paye")
 
-nom.fichier.paie  <- paste0(racine, "Lignes de paye")
-nom.bulletin.paie <- paste0(racine, "Bulletins de paye")
+# DOSSIERS
 
-    libellés.élus <- c("ELU", "ELUS", "Elu", "Elus", "élu", "élus")
+chemin.dossier              <- getwd()
+chemin.dossier.bases        <- paste0(chemin.dossier, "/Bases")
+chemin.dossier.données      <- paste0(chemin.dossier, "/Donnees")
 
-        chemin.dossier <- getwd()
-  chemin.dossier.bases <- paste0(chemin.dossier, "/Bases")
-chemin.dossier.données <- paste0(chemin.dossier, "/Donnees")
-  
-   début.période.sous.revue <- 2011
-   fin.période.sous.revue   <- 2013
-           seuil.troncature <- 3
-        étiquette.matricule <- "Matricule"
+# ETIQUETTES ET FORMATS
+
+étiquette.matricule         <- "Matricule"
 étiquette.Type.rémunération <- "Type rémunération"
-            étiquette.année <- "Année"
-          étiquette.libellé <- "Libellé"
-          étiquette.montant <- "Montant"
-       étiquette.rém.indemn <- "Rémunération contractuelle ou indemnitaire"
-          champ.détection.1 <- étiquette.matricule
-          champ.détection.2 <- "Code"
-                date.format <- "%d/%m/%Y"
-                  champ.nir <- "Nir"
-            codes.paiement  <- "codes.csv"
-
-codes.NBI <- c("1012", "101B", "101M", "4652", "4672")
+étiquette.année             <- "Année"
+étiquette.libellé           <- "Libellé"
+étiquette.montant           <- "Montant"
+étiquette.code              <- "Code"
+étiquette.rém.indemn        <- "Rémunération contractuelle ou indemnitaire"
+champ.détection.1           <- étiquette.matricule
+champ.détection.2           <- "Code"
+champ.nir                   <- "Nir"
+colonnes.requises           <- c(union(clé.fusion, étiquette.matricule),
+                                 étiquette.année,
+                                 "Mois",
+                                 "Statut",
+                                 "Brut",
+                                 "Net.à.Payer",
+                                 "Heures.Sup.",
+                                 "Emploi",
+                                 champ.nir,
+                                 "Temps.de.travail")
 
 ifelse(fusionner.nom.prénom, 
        clé.fusion <<- c("Nom", "Prénom"),
        clé.fusion <<- étiquette.matricule)
+
+date.format                 <- "%d/%m/%Y"
+
+# ESPACES DE VALEURS LICITES POUR CERTAINS CHAMPS
+
+libellés.élus               <- c("ELU", "ELUS", "Elu", "Elus", "élu", "élus")
+codes.NBI <- c("1012", "101B", "101M", "4652", "4672")
 
 if (!setOSWindows)
 {
