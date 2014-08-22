@@ -21,22 +21,18 @@
 library(compiler)
 
 options(warn = -1, verbose = FALSE, OutDec = ",")
+encodage.entrée <- "ISO-8859-1"
 
 # dans cet ordre
 
 try(setwd("Tests/Exemple"), silent = TRUE)
 
-   setOSWindows <- TRUE
-encodage.entrée <- "ISO-8859-1"
-
 source("prologue.R", encoding = encodage.entrée)
 
 compilerOptions <- setCompilerOptions(suppressAll = TRUE)
-       JITlevel <- enableJIT(2)
+JITlevel        <- enableJIT(2)
 
 source(file.path(chemin.dossier, "bibliotheque.fonctions.paie.R"), encoding = encodage.entrée)
-
-base.personnels.catégorie <- data.frame(NULL)
 
 installer.paquets(knitr, plyr, ggplot2, assertthat, yaml)
 
@@ -60,102 +56,125 @@ dir.create(chemin.dossier.bases, recursive = TRUE)
 
 nombre.exercices <- fin.période.sous.revue - début.période.sous.revue + 1
 
-
 # Le format est jour/mois/année avec deux chiffres-séparateur-deux chiffres-séparateur-4 chiffres.
-#Le séparateur peut être changé en un autre en modifiant le "/" dans fate.format
+# Le séparateur peut être changé en un autre en modifiant le "/" dans date.format
 
 # Cette section pourra être modifiée en entrée dans d'autres contextes
 # Matricule, Codes
 
+# Contrôle de cohérence
+#  on vérifie que chaque code de paie est associé, dans le fichier codes.paiement (par défaut, codes.csv),
+#  que à chaque code donné on a associé un et un seul type de rémunération ("INDEMNITAIRE", "TRAITEMENT", etc.)           
 
 if (file.exists(chemin(codes.paiement)))
 {
   Codes.paiement <- read.csv.skip(codes.paiement)
 
-  if (nlevels(as.factor(Codes.paiement$Code)) != nrow(unique(Codes.paiement[ , c("Code", "Type.rémunération")])))
+  if (nlevels(as.factor(Codes.paiement$Code)) != nrow(unique(Codes.paiement[ , c(étiquette.code, "Type.rémunération")])))
   {
     message("Davantage de types de rémunérations que de codes distincts : incohérence de la base de codes.")
     
     V <- tapply(Codes.paiement$Type.rémunération, Codes.paiement$Code, function(x) length(unique(x))) 
     V <- V[V > 1]
     
-    print(unique(merge(data.frame(Code = names(V), "Nombre de libellés distincts" = V, row.names=NULL),
-                       Codes.paiement[Codes.paiement$Code %in% names(V), c("Code", "Type.rémunération")],
-                       by = "Code", all=TRUE)))
+    print(unique(merge(data.frame(Code = names(V),
+                                  "Nombre de types de rémunérations distincts" = V,
+                                   row.names=NULL),
+                       Codes.paiement[Codes.paiement$Code %in% names(V), 
+                                      c(étiquette.code, "Type.rémunération")],
+                       by = étiquette.code,
+                       all=TRUE)))
     
-    stop("Vérifier le fichier codes.csv")
+    stop(paste("Vérifier le fichier ", codes.paiement))
     
   }
+  
+  message("Chargement des codes de paiement.")
 }
 
-
-         fichier.personnels <- "Catégories des personnels"
-     nom.fichier.personnels <- paste0(fichier.personnels, ".csv")
+  
   fichier.personnels.existe <- file.exists(chemin(nom.fichier.personnels))
-if (fichier.personnels.existe)
-  base.personnels.catégorie <- read.csv.skip(nom.fichier.personnels)
+
+  if (fichier.personnels.existe)
+  {
+   base.personnels.catégorie <- read.csv.skip(nom.fichier.personnels)
+   message("Chargement du fichier des catégories statutaires des personnels.")
+  }
 
 # Lignes de paie
-# On peut lire jusqu'à 10 fichiers csv qui seront générés au format
-#  "chemin dossier + paies-Bulletins de paye-j.csv" 
+# On peut lire jusqu'à 50 fichiers csv de lignes de paie qui seront générés au format :
+
+# "chemin dossier + racine-Lignes de paye-j.csv" où racine est un bref identifiant du type de contrôle (exemple : "c2a", "PEV", ...)
 
 lignes.paie <- paste0(nom.fichier.paie, "-", 1:50, ".csv")
+lignes.paie <- lignes.paie[file.exists(chemin(lignes.paie))]
 
 # Bulletins de paie 
+# On peut lire jusqu'à 10 fichiers csv de bulletins de paie qui seront générés au format :
+
+# "chemin dossier + racine-Bulletins de paye-j.csv" 
 
 bulletins.paie <- paste0(nom.bulletin.paie, "-", 1:10, ".csv")
 bulletins.paie <- bulletins.paie[file.exists(chemin(bulletins.paie))]
 
-
-
 # Programme principal
-##
-#  Bases
-##
+
+# Bases
+
 # Lignes de paie 
 
-lignes.paie <- lignes.paie[file.exists(chemin(lignes.paie))]
+# On ne retient que les bases ayant pour années au minimum début.période.sous.revue 
+# et au maximum fin.période.sous.revue, qui contiennent toutes les colonnes requises
+# pour le contrôle
 
 Read.csv("Lignes.paie", lignes.paie)
+
+if (!is.null(Lignes.paie)) message("Chargement des lignes de paie.") else stop("Chargement des lignes de paie en échec.")
+
 Read.csv("Bulletins.paie", bulletins.paie)
 
-Bulletins.paie <- Bulletins.paie[Bulletins.paie$Année >= début.période.sous.revue & Bulletins.paie$Année <= fin.période.sous.revue, ]
-   Lignes.paie <- Lignes.paie[Lignes.paie$Année >= début.période.sous.revue & Lignes.paie$Année <= fin.période.sous.revue, ]
+if (!is.null(Bulletins.paie)) message("Chargement des bulletins de paie.") else stop("Chargement des bulletins de paie en échec.")
 
+Bulletins.paie <- Bulletins.paie[  Bulletins.paie$Année >= début.période.sous.revue 
+                                 & Bulletins.paie$Année <= fin.période.sous.revue, ]
+Lignes.paie    <- Lignes.paie[  Lignes.paie$Année >= début.période.sous.revue 
+                              & Lignes.paie$Année <= fin.période.sous.revue, ]
 
-if (! all(c(union(clé.fusion, étiquette.matricule),
-             étiquette.année,
-             "Mois",
-             "Statut",
-             "Brut",
-             "Net.à.Payer",
-             "Heures.Sup.",
-             "Emploi",
-              champ.nir,
-             "Temps.de.travail") %in% names(Bulletins.paie))) {
+Bulletins.paie.contiennent.colonnes.requises <- colonnes.requises %in% names(Bulletins.paie)
+
+if (! all(Bulletins.paie.contiennent.colonnes.requises)) {
   
-  stop("Il manque des colonnes au(x) fichier(s) Bulletins de paie")
+  stop("Il manque les colonnes suivantes au(x) fichier(s) Bulletins de paie :",
+       names(Bulletins.paie)[! Bulletins.paie.contiennent.colonnes.requises])
+  
 } else {
-  message("Bulletins de paie : contrôle des noms de colonne ... OK")
+  
+  message("Contrôle des noms de colonne des bulletins de paie : normal.")
 }
 
-if (tester.matricules)
-    tester.homogeneite.matricules(Lignes.paie)
+if (tester.matricules)  tester.homogeneite.matricules(Lignes.paie)
+
+# Lors de la PREMIERE utilisation d'Altair, paramétrer générer.codes <- TRUE dans prologue.R
+# pour générer les fichier des codes de paiement sous le dossier des bases (par défaut "Bases").
+# ce fichier est trier par ordre croissant des codes de paiement sur les trois premiers chiffres des codes
+# des anomalies peuvent résiduellement apparaître avec des codes contenant des lettres, en général après
+# le troisième chiffre du code.
+# L'utilisateur devra alors renseigner la colonne étiquette.type.rémunération de ce fichier
 
 if (générer.codes) {
-    
+  
+  message("Génération de la base des codes de paie et des libellés.")
+  
   with( Lignes.paie,
-        
-        codes.paiement.généré <<- unique(Lignes.paie[  Montant > 0 & Année >= début.période.sous.revue & Année <= fin.période.sous.revue,
-                                                       c("Code", étiquette.libellé)]))
+        codes.paiement.généré <<- unique(Lignes.paie[  Montant > 0,
+                                                       c(étiquette.code, étiquette.libellé)]))
   
   codes.paiement.généré <- cbind(codes.paiement.généré[order(substr(as.character(codes.paiement.généré$Code), 1, 3)), ],
                                  character(nrow(codes.paiement.généré)))
   
   names(codes.paiement.généré)[3] <- étiquette.Type.rémunération
   sauv.bases(chemin.dossier.bases, "codes.paiement.généré")
-  
-  
+    
   #'---
   #'   
   #'# Tableau des codes de paiement
@@ -167,42 +186,56 @@ if (générer.codes) {
   #'  
   kable(codes.paiement.généré, row.names = FALSE)
   #'                             
-  #'
-  #'<!-- BREAK -->
-  
+    
   
   if (file.exists(file.path(chemin.dossier.bases, "codes.paiement.généré.csv")))
-   message("Génération des codes : voir fichier Bases/codes.paiement.généré.csv")
+    message("Génération des codes : voir fichier Bases/codes.paiement.généré.csv")
   else
     message("Les codes n'ont pas été générés.")
-  stop(" Le programme est arrêté par l'utilisateur.", call.=FALSE)
+  
+  stop(paste(
+" Le programme est arrêté après génération de la base de codes et libellés. 
+  Relancer Altair après avoir renseigné la troisième colonne 
+  et placé le fichier sous le répertoire racine avec le nom", codes.paiement), call.=FALSE)
 }
 
 # suppression des colonnes Nom Prénom redondantes
 
-             sélectionner.clé("Bulletins.paie", "Lignes.paie")
+message("Nettoyage des bases.")
+
+sélectionner.clé("Bulletins.paie", "Lignes.paie")
 
 # Technique : les espaces de noms sont pollués par la sélection des clés, il faut les nettoyer
 
-              attr(Bulletins.paie$Nom, "names")    <- NULL
-              attr(Bulletins.paie$Prénom, "names") <- NULL
-              attr(Lignes.paie$Nom, "names")       <- NULL
-              attr(Lignes.paie$Prénom, "names")    <- NULL
+unname(Bulletins.paie$Nom)
+unname(Bulletins.paie$Prénom)
+unname(Lignes.paie$Nom)
+unname(Lignes.paie$Prénom)
+
+# Extraction de vecteurs représentant les codes de paiement par type de code (indemnitaire, traitement, vacations...)
 
 if (exists("Codes.paiement"))
 {
-  Codes.paiement.indemnitaire <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "INDEMNITAIRE","Code"])
-    Codes.paiement.traitement <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "TRAITEMENT","Code"])
-           Codes.paiement.élu <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "ELU","Code"])
-     Codes.paiement.vacations <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "VACATIONS","Code"])
-        Codes.paiement.autres <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "AUTRES","Code"])
+   Codes.paiement.indemnitaire <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "INDEMNITAIRE",étiquette.code])
+   Codes.paiement.traitement   <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "TRAITEMENT",étiquette.code])
+   Codes.paiement.élu          <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "ELU",étiquette.code])
+   Codes.paiement.vacations    <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "VACATIONS",étiquette.code])
+   Codes.paiement.autres       <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "AUTRES",étiquette.code])
+   
+   message("Extraction des codes par type de code.")
+   
 } else
   stop("Charger le fichier de codes de paiement.")
 
-  if ( ! fusionner.nom.prénom) 
-    Bulletins.paie <- subset(Bulletins.paie, select = setdiff(names(Bulletins.paie), c("Nom", "Prénom")))
+# Pour assurer une fusion correcte des bulletins et lignes de paie, il importe que les colonnes communes aux deux fichiers soient 
+# exactement celles utilisées pour la clé d'appariement d'une part, et le tri sous chaque clé d'autre part, autrement dit :
+# la clé (Matricule ou (Nom, Prénom) selon le cas) + Année + Mois
+
+  if (! fusionner.nom.prénom) 
+    Bulletins.paie <- subset(Bulletins.paie,
+                             select = setdiff(names(Bulletins.paie), c("Nom", "Prénom")))
     
-  if ( ! setequal(intersect(names(Lignes.paie), names(Bulletins.paie)), union(c("Mois", "Année"), clé.fusion)))
+  if (! setequal(intersect(names(Lignes.paie), names(Bulletins.paie)), union(c("Mois", "Année"), clé.fusion)))
   {
    if (fusionner.nom.prénom) {
      
@@ -212,6 +245,10 @@ if (exists("Codes.paiement"))
      
      stop("L'appariement ne peut se faire par les clés Matricule et Mois")
    }
+   
+  } else {
+   
+    message("Pas de redondance des colonnes des bulletins et lignes de paie : la fusion peut être réalisée.")
   }
 
 # Alternative en cas de difficulté :
@@ -222,6 +259,7 @@ if (exists("Codes.paiement"))
 #                                                              Lignes.paie[Lignes.paie$Année == x, ], 
 #                                                              by=c(étiquette.matricule, "Mois"))))
 
+# Lorsque les bases sont déjà chargées, ont peu désactiver le rechargement par charger.bases <- FALSE
 
 if (charger.bases)
 {
@@ -257,7 +295,7 @@ if (charger.bases)
                                         = Montant*(Code %in% Codes.paiement.traitement),
                                        montant.rémunération.principale.contractuel =0, # rajouter critère non tit
 #                                         = Montant*(Code %in% codes.paiement[codes.paiement$Type.rémunération 
-#                                                                            == "PRINCIPAL.CONTRACTUEL","Code"]),
+#                                                                            == "PRINCIPAL.CONTRACTUEL",étiquette.code]),
                                        montant.primes 
                                         = Montant*(Code %in% Codes.paiement.indemnitaire),
                                        montant.autres.rémunérations 
@@ -1378,7 +1416,7 @@ NBI.aux.non.titulaires <- Bulletins.paie.Lignes.paie[ ! Statut %in% c("TITULAIRE
                                                       & as.character(Code) %in% codes.NBI,
                                                       c(étiquette.matricule,
                                                         "Statut",
-                                                        "Code",
+                                                        étiquette.code,
                                                         étiquette.libellé,
                                                         "Mois",
                                                         étiquette.montant)]
@@ -1395,7 +1433,7 @@ filtre <- grep(".*(INFO|PFI|P.F.I).*", Libellé)
 personnels.prime.informatique <- Bulletins.paie.Lignes.paie[ filtre,
                                                              c(étiquette.matricule,
                                                                "Statut",
-                                                               "Code",
+                                                               étiquette.code,
                                                                étiquette.libellé,
                                                                étiquette.montant)]
 
@@ -1432,7 +1470,7 @@ lignes.fonctionnaires.et.vacations <- Bulletins.paie.Lignes.paie[ Statut %in% c(
                                                                   & Code %in% Codes.paiement.vacations,
                                                                  c(étiquette.matricule,
                                                                    "Statut",
-                                                                   "Code",
+                                                                   étiquette.code,
                                                                     étiquette.libellé,
                                                                     étiquette.montant)]
                                                                   
@@ -1462,7 +1500,7 @@ Tableau(
     lignes.contractuels.et.vacations <- Bulletins.paie.Lignes.paie[   ! Statut %in% c("TITULAIRE", "STAGIAIRE")  
                                                                     & Code %in% Codes.paiement.vacations,
                                                                     c(étiquette.matricule,
-                                                                      "Code",
+                                                                      étiquette.code,
                                                                       étiquette.libellé,
                                                                       étiquette.montant)]
 
@@ -1472,7 +1510,7 @@ matricules.contractuels.et.vacations <- unique(lignes.contractuels.et.vacations$
                                                                     & Code %in% Codes.paiement.indemnitaire,
                                                                     c(étiquette.matricule,
                                                                       "Statut", 
-                                                                      "Code",
+                                                                      étiquette.code,
                                                                       étiquette.libellé,
                                                                       étiquette.montant)]
 # Vacations et indiciaire
@@ -1481,7 +1519,7 @@ traitement.et.vacations <- Bulletins.paie.Lignes.paie[   Matricule %in% matricul
                                                        & Code %in% Codes.paiement.traitement,
                                                        c(étiquette.matricule,
                                                          "Statut",
-                                                         "Code",
+                                                         étiquette.code,
                                                          étiquette.libellé,
                                                          étiquette.montant)]
 
@@ -1514,7 +1552,7 @@ Tableau(c("Nombre de CEV",
 
                 filtre.iat  <- grep(".*(I.?A.?T|I.*Ad.*Tec).*", Libellé, ignore.case = TRUE)
                 filtre.ifts <- grep(".*(I.?F.?T.?S|I.*F.*TRAV.*S).*", Libellé, ignore.case = TRUE)
-                codes.ifts  <- unique(Bulletins.paie.Lignes.paie[filtre.ifts, "Code"])
+                codes.ifts  <- unique(Bulletins.paie.Lignes.paie[filtre.ifts, étiquette.code])
         
         personnels.iat.ifts <- intersect(as.character(Bulletins.paie.Lignes.paie[ filtre.iat, clé.fusion[1]]),
                                          as.character(Bulletins.paie.Lignes.paie[ filtre.ifts, clé.fusion[1]]))
@@ -1539,7 +1577,7 @@ Tableau(c("Codes IFTS", "Nombre de personnels percevant IAT et IFTS"),
  lignes.ifts.anormales <- na.omit(Bulletins.paie.Lignes.paie[Indice < 350  & Code %in% codes.ifts,
                                                                   c(clé.fusion,
                                                                     "Statut",
-                                                                    "Code",
+                                                                    étiquette.code,
                                                                      étiquette.libellé,
                                                                      "Indice",
                                                                      étiquette.montant)])
@@ -1552,7 +1590,7 @@ ifts.et.contractuel <- Bulletins.paie.Lignes.paie[Code %in% codes.ifts
                                                   & ! Statut %in% c("TITULAIRE", "STAGIAIRE"),
                                                       c(étiquette.matricule,
                                                         "Statut",
-                                                        "Code",
+                                                        étiquette.code,
                                                         étiquette.libellé,
                                                         "Indice",
                                                         étiquette.montant)]
@@ -1589,7 +1627,7 @@ HS.sup.25.montants <- Bulletins.paie.Lignes.paie[Heures.Sup. >= 25
                                                      étiquette.année,
                                                      "Mois",
                                                      "Libellé",
-                                                     "Code",
+                                                     étiquette.code,
                                                      "Heures",
                                                      "Base",
                                                      "Taux",
@@ -1617,7 +1655,7 @@ rm(HS.sup.25.matricules.mois, HS.sup.25.montants, T, L)
 nombre.Lignes.paie.HS.sup.25 <- nrow(HS.sup.25)
 
 # with(Base2,
-#      ihts.anormales <<- Base2[! Code.catégorie %in% c("B", "C") & substr(Code,1,2) %in% c("19") & ! grepl(" ENS", Libellé), c(étiquette.matricule, "Code", étiquette.libellé, étiquette.montant, "Code.catégorie")]
+#      ihts.anormales <<- Base2[! Code.catégorie %in% c("B", "C") & substr(Code,1,2) %in% c("19") & ! grepl(" ENS", Libellé), c(étiquette.matricule, étiquette.code, étiquette.libellé, étiquette.montant, "Code.catégorie")]
 # )
 
        ihts.anormales <- data.frame(NULL)
