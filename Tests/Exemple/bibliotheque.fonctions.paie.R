@@ -359,3 +359,10 @@ tester.homogeneite.matricules <- function(Base) {
 }
 
 
+# opérateurs infixe
+
+# concaténer deux strings
+
+`%+%` <- function(x, y) paste0(x,  y)
+
+
