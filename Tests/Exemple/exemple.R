@@ -85,7 +85,7 @@ if (file.exists(chemin(codes.paiement)))
                        by = étiquette.code,
                        all=TRUE)))
     
-    stop(paste("Vérifier le fichier ", codes.paiement))
+    stop("Vérifier le fichier " %+% codes.paiement)
     
   }
   
@@ -106,7 +106,7 @@ if (file.exists(chemin(codes.paiement)))
 
 # "chemin dossier + racine-Lignes de paye-j.csv" où racine est un bref identifiant du type de contrôle (exemple : "c2a", "PEV", ...)
 
-lignes.paie <- paste0(nom.fichier.paie, "-", 1:50, ".csv")
+lignes.paie <- nom.fichier.paie %+% "-" %+% 1:50 %+% ".csv"
 lignes.paie <- lignes.paie[file.exists(chemin(lignes.paie))]
 
 # Bulletins de paie 
@@ -114,7 +114,7 @@ lignes.paie <- lignes.paie[file.exists(chemin(lignes.paie))]
 
 # "chemin dossier + racine-Bulletins de paye-j.csv" 
 
-bulletins.paie <- paste0(nom.bulletin.paie, "-", 1:10, ".csv")
+bulletins.paie <- nom.bulletin.paie %+% "-" %+% 1:10 %+% ".csv"
 bulletins.paie <- bulletins.paie[file.exists(chemin(bulletins.paie))]
 
 # Programme principal
@@ -193,10 +193,10 @@ if (générer.codes) {
   else
     message("Les codes n'ont pas été générés.")
   
-  stop(paste(
+  stop(
 " Le programme est arrêté après génération de la base de codes et libellés. 
   Relancer Altair après avoir renseigné la troisième colonne 
-  et placé le fichier sous le répertoire racine avec le nom", codes.paiement), call.=FALSE)
+  et placé le fichier sous le répertoire racine avec le nom " %+% codes.paiement, call.=FALSE)
 }
 
 # suppression des colonnes Nom Prénom redondantes
@@ -445,7 +445,7 @@ if (charger.bases)
 
 if (length(années.total.hors.élus) > 0)
 hist(années.total.hors.élus,
-     xlab = paste("Âge au 31 décembre",fin.période.sous.revue),
+     xlab = "Âge au 31 décembre " %+% fin.période.sous.revue,
      xlim = c(18, 75),
      ylab = "Effectif",
      main = "Pyramide des âges",
@@ -456,7 +456,7 @@ hist(années.total.hors.élus,
 #'[Lien vers la base des âges](Bases/Bulletins.paie.nir.total.hors.élus.csv)
 #'
 
-Résumé(paste0("Âge des personnels <br>au 31/12/",fin.période.sous.revue), années.total.hors.élus, align = 'c')
+Résumé("Âge des personnels <br>au 31/12/" %+% fin.période.sous.revue, années.total.hors.élus, align = 'c')
 
 #'Effectif total: `r length(années.total.hors.élus)`  
 #'
@@ -467,7 +467,7 @@ Résumé(paste0("Âge des personnels <br>au 31/12/",fin.période.sous.revue), années
 
 if (length(années.fonctionnaires) > 0)
  hist(années.fonctionnaires,
-     xlab = paste("Âge au 31 décembre",fin.période.sous.revue),
+     xlab = "Âge au 31 décembre " %+% fin.période.sous.revue,
      xlim = c(18,68),
      ylab = "Effectif",
      main = "Pyramide des âges des fonctionnaires",
@@ -478,7 +478,7 @@ if (length(années.fonctionnaires) > 0)
 #'[Lien vers la base des âges](Bases/Bulletins.paie.nir.fonctionnaires.csv)
 #'
 
-Résumé(paste0("Âge des personnels <br>au 31/12/",fin.période.sous.revue),
+Résumé("Âge des personnels <br>au 31/12/" %+% fin.période.sous.revue,
        années.fonctionnaires,
        align = 'c')
 
@@ -509,7 +509,7 @@ if (nrow(Analyse.variations.par.exercice) > 0)
         data = Analyse.variations.par.exercice,
         geom = "bar",
         fill = factor(!plus.2.ans),
-        main = paste("Evolutions entre", début.période.sous.revue,"et", fin.période.sous.revue),
+        main = "Evolutions entre " %+% début.période.sous.revue %+% " et " %+% fin.période.sous.revue,
         xlab = étiquette.année,
         ylab = "Effectif",
         asp = 4)        + 
@@ -627,7 +627,7 @@ df <- data.frame( masse.rémunérations.brutes,
                  somme.brut.globale,
                  total.rémunérations.élu.compris)
 
-Sauv.base(chemin.dossier.bases, "df", paste0("Masses.", année))
+Sauv.base(chemin.dossier.bases, "df", "Masses." %+% année)
 
 #'
 #'[Lien vers la base de données](Bases/`r paste0("Masses.", année, ".csv")`)    
@@ -648,7 +648,7 @@ if (length(filtre.fonctionnaire(total.rémunérations) > 0))
      xlab = "En milliers d'euros hors\nindemnités journalières et remboursements",
      ylab = "Effectif",
      xlim = c(0, 120),
-     main = paste("Rémunération annuelle des fonctionnaires en", année),
+     main = "Rémunération annuelle des fonctionnaires en " %+% année,
      col = "blue",
      nclass = 50)
 
@@ -659,7 +659,7 @@ if (length(filtre.fonctionnaire(rémunération.indemnitaire) > 0))
      xlab = "En milliers d'euros hors\nindemnités journalières et remboursements",
      ylab = "Effectif",
      xlim = c(0, 70),
-     main = paste("Rémunération indemnitaire annuelle des fonctionnaires en", année),
+     main = "Rémunération indemnitaire annuelle des fonctionnaires en " %+% année),
      col = "blue",
      nclass = 50)
 
@@ -667,7 +667,7 @@ if (length(filtre.fonctionnaire(part.rémunération.indemnitaire) > 0))
   hist(filtre.fonctionnaire(part.rémunération.indemnitaire),
      xlab = "Part des indemnités dans la rémunération en %\n hors indemnités journalières et remboursements",
      ylab = "Effectif",
-     main = paste("Part indemnitaire de la rémunération annuelle des fonctionnaires en", année),
+     main = "Part indemnitaire de la rémunération annuelle des fonctionnaires en " %+% année),
      xlim = c(0,60),     
      col = "blue",
      nclass = 30)
@@ -821,7 +821,7 @@ if (length(temp > 0))
      xlab = "Rémunération en milliers d'euros \n hors indemnités journalières et remboursements",
      ylab = "Effectif",
      xlim = c(0, 40),
-     main = paste("Rémunération annuelle totale des contractuels en", année),
+     main = "Rémunération annuelle totale des contractuels en " %+% année),
      col = "red",
      nclass = 50)
 #'
@@ -837,7 +837,7 @@ if (length(temp))
        xlab = "En euros :\n indemnités journalières et remboursements",
        ylab = "Effectif",
        xlim = c(0, 5000),
-       main = paste("Autres rémunérations en", année),
+       main = "Autres rémunérations en " année),
        nclass = 50,
        col = "grey")
 
@@ -972,7 +972,7 @@ df <- data.frame( masse.rémunérations.brutes,
                   somme.brut.globale,
                   total.rémunérations.élu.compris)
 
-Sauv.base(chemin.dossier.bases, "df", paste0("Masses.", année))
+Sauv.base(chemin.dossier.bases, "df", "Masses." %+% année)
 
 #'
 #'[Lien vers la base de données](Bases/`r paste0("Masses.", année, ".csv")` )   
@@ -990,7 +990,7 @@ if (length(filtre.fonctionnaire(total.rémunérations)) > 0)
      xlab = "En milliers d'euros \n hors indemnités journalières et remboursements",
      ylab = "Effectif",
      xlim = c(0, 120),
-     main = paste("Rémunération annuelle des fonctionnaires en", année),
+     main = "Rémunération annuelle des fonctionnaires en " %+% année,
      col = "blue",
      nclass = 50)
 
@@ -1002,7 +1002,7 @@ if (length(filtre.fonctionnaire(rémunération.indemnitaire) > 0))
      xlab = "En milliers d'euros\n hors indemnités journalières et remboursements",
      ylab = "Effectif",
      xlim = c(0, 70),
-     main = paste("Rémunération indemnitaire annuelle\ndes fonctionnaires en", année),
+     main = "Rémunération indemnitaire annuelle\ndes fonctionnaires en " %+% année,
      col = "blue",
      nclass = 50)
 
@@ -1013,7 +1013,7 @@ if (length(filtre.fonctionnaire(part.rémunération.indemnitaire)) > 0)
   hist(filtre.fonctionnaire(part.rémunération.indemnitaire),
      xlab = "Pourcentage des indemnités dans la rémunération\n hors indemnités journalières et remboursements",
      ylab = "Effectif",
-     main = paste("Part indemnitaire de la rémunération annuelle des fonctionnaires en", année),
+     main = "Part indemnitaire de la rémunération annuelle des fonctionnaires en " %+% année,
      xlim = c(0,60),     
      col = "blue",
      nclass = 30)
@@ -1169,7 +1169,7 @@ if (length(temp) > 0)
      xlab = "Rémunération en milliers d'euros\n hors indemnités journalières et remboursements",
      ylab = "Effectif",
      xlim = c(0, 40),
-     main = paste("Rémunération annuelle totale des contractuels en", année),
+     main = "Rémunération annuelle totale des contractuels en " %+% année,
      col = "red",
      nclass = 50)
 
@@ -1185,7 +1185,7 @@ if (length(temp) > 0)
      xlab = "En euros :\n indemnités journalières et remboursements",
      ylab = "Effectif",
      xlim = c(0, 5000),
-     main = paste("Autres rémunérations en", année),
+     main = "Autres rémunérations en " %+% année,
      col = "grey")
 #'    
 
@@ -1227,7 +1227,7 @@ temp <- positive(moyenne.rémunération.annuelle.sur.période) / 1000
 
 if (length(temp) > 0)
   hist(temp,
-     xlab = paste0("Sur la période ",début.période.sous.revue,"-",fin.période.sous.revue," en milliers d'euros"),
+     xlab = "Sur la période " %+% début.période.sous.revue %+% "-" %+% fin.période.sous.revue %+% " en milliers d'euros",
      ylab = "Effectif",
      main = "Rémunération nette moyenne",
      col = "blue",
@@ -1241,7 +1241,7 @@ temp <- na.omit(moyenne.rémunération.annuelle.sur.période[  moyenne.rémunération
 
 if (length(temp) > 0)
   hist(temp,
-     xlab = paste0("Sur la période ",début.période.sous.revue,"-",fin.période.sous.revue," en milliers d'euros"),
+     xlab = "Sur la période "%+% début.période.sous.revue %+% "-" %+% fin.période.sous.revue %+% " en milliers d'euros"),
      ylab = "Effectif",
      main = "Rémunération nette moyenne des fonctionnaires",
      col = "blue",
