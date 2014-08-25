@@ -25,7 +25,7 @@ taux.tolérance.homonymie <- 5  # en %
 codes.paiement              <- "codes.csv"
 fichier.personnels          <- "Catégories des personnels"
 nom.fichier.personnels      <- paste0(fichier.personnels, ".csv")
-racine                      <- "c2a-"
+racine                      <- "PEV CA-"
 nom.fichier.paie            <- paste0(racine, "Lignes de paye")
 nom.bulletin.paie           <- paste0(racine, "Bulletins de paye")
 
@@ -47,6 +47,11 @@ chemin.dossier.données      <- paste0(chemin.dossier, "/Donnees")
 champ.détection.1           <- étiquette.matricule
 champ.détection.2           <- "Code"
 champ.nir                   <- "Nir"
+
+ifelse(fusionner.nom.prénom, 
+       clé.fusion <<- c("Nom", "Prénom"),
+       clé.fusion <<- étiquette.matricule)
+
 colonnes.requises           <- c(union(clé.fusion, étiquette.matricule),
                                  étiquette.année,
                                  "Mois",
@@ -58,9 +63,7 @@ colonnes.requises           <- c(union(clé.fusion, étiquette.matricule),
                                  champ.nir,
                                  "Temps.de.travail")
 
-ifelse(fusionner.nom.prénom, 
-       clé.fusion <<- c("Nom", "Prénom"),
-       clé.fusion <<- étiquette.matricule)
+
 
 date.format                 <- "%d/%m/%Y"
 
