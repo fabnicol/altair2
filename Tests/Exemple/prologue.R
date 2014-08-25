@@ -2,14 +2,14 @@
 # doit être dans le même répertoire que le programme principal et sa bibliothèque
 
 début.période.sous.revue    <- 2011
-fin.période.sous.revue      <- 2013
+fin.période.sous.revue      <- 2012
 
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
 
 setOSWindows         <- TRUE
 fusionner.nom.prénom <- FALSE
 charger.bases        <- TRUE
-sauvegarder.bases    <- FALSE
+sauvegarder.bases    <- TRUE
 générer.codes        <- FALSE
 tester.matricules    <- FALSE
 corriger.quotité     <- FALSE
@@ -84,3 +84,12 @@ if (!setOSWindows)
     encodage.entrée <- "UTF-8"    
   }
 }
+
+# expressions régulières
+
+# heures supplémentaires
+
+
+expression.rég.heures.sup <- ".*(I.*H.*T.*S|I.*H.*TRA|IN.*HO.*|HS|H.*SU|HC|H.*COM).*"
+
+

@@ -207,10 +207,13 @@ sélectionner.clé("Bulletins.paie", "Lignes.paie")
 
 # Technique : les espaces de noms sont pollués par la sélection des clés, il faut les nettoyer
 
-unname(Bulletins.paie$Nom)
-unname(Bulletins.paie$Prénom)
-unname(Lignes.paie$Nom)
-unname(Lignes.paie$Prénom)
+# unname(Bulletins.paie$Nom) devrait marcher mais cause une génération de tableau sous RMarkdown, probablement un bug.
+# utiliser attr à la place.
+
+attr(Bulletins.paie$Nom, "names") <- NULL
+attr(Bulletins.paie$Prénom, "names") <- NULL
+attr(Lignes.paie$Nom, "names") <- NULL
+attr(Lignes.paie$Prénom, "names") <- NULL
 
 # Extraction de vecteurs représentant les codes de paiement par type de code (indemnitaire, traitement, vacations...)
 
@@ -444,7 +447,7 @@ if (charger.bases)
 #'### 1.1 Ensemble des personnels non élus    
 
 if (length(années.total.hors.élus) > 0)
-hist(années.total.hors.élus,
+   hist(années.total.hors.élus,
      xlab = "Âge au 31 décembre " %+% fin.période.sous.revue,
      xlim = c(18, 75),
      ylab = "Effectif",
@@ -1619,11 +1622,19 @@ HS.sup.25.matricules.mois <- unique(Bulletins.paie.Lignes.paie[Heures.Sup. >= 25
                                       "Statut",
                                       "Heures.Sup.")])
 
+# Sont repérées comme heures supplémentaires ou complémentaires les heures dont le libellé obéissent à
+# l'expression régulière expression.rég.heures.sup donnée par le fichier prologue.R
+ 
+
 HS.sup.25.montants <- Bulletins.paie.Lignes.paie[Heures.Sup. >= 25
                                                  & ! Code %in% Codes.paiement.traitement
-                                                 & grepl(".*(I.*H.*T.*S|I.*H.*TRA|IN.*HO.*).*",
+                                                 & ! is.na(Libellé)
+                                                 & ! is.na(Code)
+                                                 & ! grepl(".*SMIC.*",
                                                          Libellé, ignore.case = TRUE)
-                                                 & as.numeric(substr(Code,1,2)) < 50, 
+                                                 & as.numeric(substr(Code,1,2)) < 50
+                                                 & grepl(expression.rég.heures.sup,
+                                                         Libellé, ignore.case = TRUE),
                                                  c(étiquette.matricule,
                                                    étiquette.année,
                                                    "Mois",
@@ -1643,7 +1654,7 @@ names(T) <- c(étiquette.matricule, "Année", "Mois", "montant.traitement.indiciai
 
 HS.sup.25 <- merge(HS.sup.25, T)
                    
-HS.sup.25 <- merge(HS.sup.25, Analyse.rémunérations[ , c(étiquette.matricule, "traitement.indiciaire")])
+HS.sup.25 <- merge(HS.sup.25, Analyse.rémunérations[ , c(étiquette.matricule, étiquette.année, "traitement.indiciaire")])
 
 L <-  length(names(HS.sup.25))
 
