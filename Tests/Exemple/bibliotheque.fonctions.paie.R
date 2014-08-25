@@ -365,4 +365,5 @@ tester.homogeneite.matricules <- function(Base) {
 
 `%+%` <- function(x, y) paste0(x,  y)
 
+ longueur.non.na <- function(v) length(v[!is.na(v)])
 
