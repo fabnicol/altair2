@@ -659,7 +659,7 @@ if (length(filtre.fonctionnaire(rémunération.indemnitaire) > 0))
      xlab = "En milliers d'euros hors\nindemnités journalières et remboursements",
      ylab = "Effectif",
      xlim = c(0, 70),
-     main = "Rémunération indemnitaire annuelle des fonctionnaires en " %+% année),
+     main = "Rémunération indemnitaire annuelle des fonctionnaires en " %+% année,
      col = "blue",
      nclass = 50)
 
@@ -667,7 +667,7 @@ if (length(filtre.fonctionnaire(part.rémunération.indemnitaire) > 0))
   hist(filtre.fonctionnaire(part.rémunération.indemnitaire),
      xlab = "Part des indemnités dans la rémunération en %\n hors indemnités journalières et remboursements",
      ylab = "Effectif",
-     main = "Part indemnitaire de la rémunération annuelle des fonctionnaires en " %+% année),
+     main = "Part indemnitaire de la rémunération annuelle des fonctionnaires en " %+% année,
      xlim = c(0,60),     
      col = "blue",
      nclass = 30)
@@ -821,7 +821,7 @@ if (length(temp > 0))
      xlab = "Rémunération en milliers d'euros \n hors indemnités journalières et remboursements",
      ylab = "Effectif",
      xlim = c(0, 40),
-     main = "Rémunération annuelle totale des contractuels en " %+% année),
+     main = "Rémunération annuelle totale des contractuels en " %+% année,
      col = "red",
      nclass = 50)
 #'
@@ -837,7 +837,7 @@ if (length(temp))
        xlab = "En euros :\n indemnités journalières et remboursements",
        ylab = "Effectif",
        xlim = c(0, 5000),
-       main = "Autres rémunérations en " année),
+       main = "Autres rémunérations en " %+% année,
        nclass = 50,
        col = "grey")
 
@@ -1241,7 +1241,7 @@ temp <- na.omit(moyenne.rémunération.annuelle.sur.période[  moyenne.rémunération
 
 if (length(temp) > 0)
   hist(temp,
-     xlab = "Sur la période "%+% début.période.sous.revue %+% "-" %+% fin.période.sous.revue %+% " en milliers d'euros"),
+     xlab = "Sur la période "%+% début.période.sous.revue %+% "-" %+% fin.période.sous.revue %+% " en milliers d'euros",
      ylab = "Effectif",
      main = "Rémunération nette moyenne des fonctionnaires",
      col = "blue",
@@ -1613,32 +1613,32 @@ Tableau(c("Nombre de contractuels percevant des IFTS", "Nombre de lignes IFTS po
 #'## 5.5 Contrôle sur les heures supplémentaires
 
 HS.sup.25.matricules.mois <- unique(Bulletins.paie.Lignes.paie[Heures.Sup. >= 25, 
-                                        c(étiquette.matricule,
-                                          étiquette.année,
-                                          "Mois",
-                                          "Statut",
-                                          "Heures.Sup.")])
+                                    c(étiquette.matricule,
+                                      étiquette.année,
+                                      "Mois",
+                                      "Statut",
+                                      "Heures.Sup.")])
 
 HS.sup.25.montants <- Bulletins.paie.Lignes.paie[Heures.Sup. >= 25
                                                  & ! Code %in% Codes.paiement.traitement
-                                                 & grepl(".*(I.*H.*T.*S|I.*H.*TRA|IN.*HO.*).*", Libellé, ignore.case = TRUE)
+                                                 & grepl(".*(I.*H.*T.*S|I.*H.*TRA|IN.*HO.*).*",
+                                                         Libellé, ignore.case = TRUE)
                                                  & as.numeric(substr(Code,1,2)) < 50, 
-                                                    c(étiquette.matricule,
-                                                     étiquette.année,
-                                                     "Mois",
-                                                     "Libellé",
-                                                     étiquette.code,
-                                                     "Heures",
-                                                     "Base",
-                                                     "Taux",
-                                                     "Montant")]
-
+                                                 c(étiquette.matricule,
+                                                   étiquette.année,
+                                                   "Mois",
+                                                   "Libellé",
+                                                   étiquette.code,
+                                                   "Heures",
+                                                   "Base",
+                                                   "Taux",
+                                                   "Montant")]
 
 HS.sup.25 <- merge(HS.sup.25.matricules.mois, HS.sup.25.montants, all = TRUE)
 
 T <- aggregate(Bulletins.paie.Lignes.paie$montant.traitement.indiciaire,
-          by = list(Matricule, Année, Mois),
-          FUN = sum)
+               by = list(Matricule, Année, Mois),
+               FUN = sum)
 names(T) <- c(étiquette.matricule, "Année", "Mois", "montant.traitement.indiciaire")
 
 HS.sup.25 <- merge(HS.sup.25, T)
