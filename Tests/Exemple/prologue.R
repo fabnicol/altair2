@@ -2,7 +2,7 @@
 # doit être dans le même répertoire que le programme principal et sa bibliothèque
 
 début.période.sous.revue    <- 2011
-fin.période.sous.revue      <- 2012
+fin.période.sous.revue      <- 2011
 
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
 
@@ -25,7 +25,7 @@ taux.tolérance.homonymie <- 5  # en %
 codes.paiement              <- "codes.csv"
 fichier.personnels          <- "Catégories des personnels"
 nom.fichier.personnels      <- paste0(fichier.personnels, ".csv")
-racine                      <- "PEV CA-"
+racine                      <- "paies-"
 nom.fichier.paie            <- paste0(racine, "Lignes de paye")
 nom.bulletin.paie           <- paste0(racine, "Bulletins de paye")
 
