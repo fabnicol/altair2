@@ -145,7 +145,7 @@ Bulletins.paie.contiennent.colonnes.requises <- colonnes.requises %in% names(Bul
 if (! all(Bulletins.paie.contiennent.colonnes.requises)) {
   
   stop("Il manque les colonnes suivantes au(x) fichier(s) Bulletins de paie :",
-       names(Bulletins.paie)[! Bulletins.paie.contiennent.colonnes.requises])
+       colonnes.requises[! Bulletins.paie.contiennent.colonnes.requises])
   
 } else {
   
@@ -446,7 +446,7 @@ if (charger.bases)
 #'
 #'### 1.1 Ensemble des personnels non élus    
 
-if (length(années.total.hors.élus) > 0)
+if (longueur.non.na(années.total.hors.élus) > 0)
    hist(années.total.hors.élus,
      xlab = "Âge au 31 décembre " %+% fin.période.sous.revue,
      xlim = c(18, 75),
@@ -468,7 +468,7 @@ Résumé("Âge des personnels <br>au 31/12/" %+% fin.période.sous.revue, années.tot
 #'
 #'### 1.2 Ensemble des fonctionnaires stagiaires et titulaires    
 
-if (length(années.fonctionnaires) > 0)
+if (longueur.non.na(années.fonctionnaires) > 0)
  hist(années.fonctionnaires,
      xlab = "Âge au 31 décembre " %+% fin.période.sous.revue,
      xlim = c(18,68),
@@ -646,7 +646,7 @@ filtre.fonctionnaire <- function (X) X[ Statut %in% c("TITULAIRE", "STAGIAIRE") 
 
 AR <- Analyse.rémunérations.premier.exercice[Statut %in% c("TITULAIRE", "STAGIAIRE"), colonnes.sélectionnées]
 
-if (length(filtre.fonctionnaire(total.rémunérations) > 0))
+if (longueur.non.na(filtre.fonctionnaire(total.rémunérations) > 0))
  hist(filtre.fonctionnaire(total.rémunérations)/1000,
      xlab = "En milliers d'euros hors\nindemnités journalières et remboursements",
      ylab = "Effectif",
@@ -657,7 +657,7 @@ if (length(filtre.fonctionnaire(total.rémunérations) > 0))
 
 #'    
 
-if (length(filtre.fonctionnaire(rémunération.indemnitaire) > 0))
+if (longueur.non.na(filtre.fonctionnaire(rémunération.indemnitaire) > 0))
   hist(filtre.fonctionnaire(rémunération.indemnitaire)/1000,
      xlab = "En milliers d'euros hors\nindemnités journalières et remboursements",
      ylab = "Effectif",
@@ -666,7 +666,7 @@ if (length(filtre.fonctionnaire(rémunération.indemnitaire) > 0))
      col = "blue",
      nclass = 50)
 
-if (length(filtre.fonctionnaire(part.rémunération.indemnitaire) > 0))
+if (longueur.non.na(filtre.fonctionnaire(part.rémunération.indemnitaire) > 0))
   hist(filtre.fonctionnaire(part.rémunération.indemnitaire),
      xlab = "Part des indemnités dans la rémunération en %\n hors indemnités journalières et remboursements",
      ylab = "Effectif",
@@ -988,7 +988,7 @@ Sauv.base(chemin.dossier.bases, "df", "Masses." %+% année)
 #'## 3.2 Fonctionnaires titulaires et stagiaires
 #'
 
-if (length(filtre.fonctionnaire(total.rémunérations)) > 0)
+if (longueur.non.na(filtre.fonctionnaire(total.rémunérations)) > 0)
   hist(filtre.fonctionnaire(total.rémunérations) / 1000,
      xlab = "En milliers d'euros \n hors indemnités journalières et remboursements",
      ylab = "Effectif",
@@ -1000,7 +1000,7 @@ if (length(filtre.fonctionnaire(total.rémunérations)) > 0)
 #'  
 #'
 
-if (length(filtre.fonctionnaire(rémunération.indemnitaire) > 0))
+if (longueur.non.na(filtre.fonctionnaire(rémunération.indemnitaire) > 0))
   hist(filtre.fonctionnaire(rémunération.indemnitaire)/1000,
      xlab = "En milliers d'euros\n hors indemnités journalières et remboursements",
      ylab = "Effectif",
@@ -1012,7 +1012,7 @@ if (length(filtre.fonctionnaire(rémunération.indemnitaire) > 0))
 #'    
 #'
 
-if (length(filtre.fonctionnaire(part.rémunération.indemnitaire)) > 0)
+if (longueur.non.na(filtre.fonctionnaire(part.rémunération.indemnitaire)) > 0)
   hist(filtre.fonctionnaire(part.rémunération.indemnitaire),
      xlab = "Pourcentage des indemnités dans la rémunération\n hors indemnités journalières et remboursements",
      ylab = "Effectif",
@@ -1167,7 +1167,7 @@ temp <- total.rémunérations[   indemnités.élu == 0
                              & ! Statut %in% c("TITULAIRE", "STAGIAIRE")
                              & total.rémunérations > 1000]/1000
 
-if (length(temp) > 0)
+if (longueur.non.na(temp) > 0)
   hist(temp,
      xlab = "Rémunération en milliers d'euros\n hors indemnités journalières et remboursements",
      ylab = "Effectif",
@@ -1183,7 +1183,7 @@ if (length(temp) > 0)
 
 temp <- positive(autres.rémunérations)
 
-if (length(temp) > 0)
+if (longueur.non.na(temp) > 0)
   hist(temp,
      xlab = "En euros :\n indemnités journalières et remboursements",
      ylab = "Effectif",
@@ -1228,7 +1228,7 @@ attach(Analyse.variations.synthèse)
 
 temp <- positive(moyenne.rémunération.annuelle.sur.période) / 1000
 
-if (length(temp) > 0)
+if (longueur.non.na(temp) > 0)
   hist(temp,
      xlab = "Sur la période " %+% début.période.sous.revue %+% "-" %+% fin.période.sous.revue %+% " en milliers d'euros",
      ylab = "Effectif",
@@ -1242,7 +1242,7 @@ if (length(temp) > 0)
 temp <- na.omit(moyenne.rémunération.annuelle.sur.période[  moyenne.rémunération.annuelle.sur.période > 0 
                                                   & (statut == "TITULAIRE"  | statut == "STAGIAIRE")] / 1000)
 
-if (length(temp) > 0)
+if (longueur.non.na(temp) > 0)
   hist(temp,
      xlab = "Sur la période "%+% début.période.sous.revue %+% "-" %+% fin.période.sous.revue %+% " en milliers d'euros",
      ylab = "Effectif",
