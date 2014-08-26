@@ -25,7 +25,7 @@ taux.tolérance.homonymie <- 5  # en %
 codes.paiement              <- "codes.csv"
 fichier.personnels          <- "Catégories des personnels"
 nom.fichier.personnels      <- paste0(fichier.personnels, ".csv")
-racine                      <- "paies-"
+racine                      <- "SIERG-"
 nom.fichier.paie            <- paste0(racine, "Lignes de paye")
 nom.bulletin.paie           <- paste0(racine, "Bulletins de paye")
 
@@ -59,6 +59,7 @@ colonnes.requises           <- c(union(clé.fusion, étiquette.matricule),
                                  "Brut",
                                  "Net.à.Payer",
                                  "Heures.Sup.",
+                                 "Heures",
                                  "Emploi",
                                  champ.nir,
                                  "Temps.de.travail")
