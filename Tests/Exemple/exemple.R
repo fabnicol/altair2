@@ -219,11 +219,13 @@ attr(Lignes.paie$Prénom, "names") <- NULL
 
 if (exists("Codes.paiement"))
 {
-   Codes.paiement.indemnitaire <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "INDEMNITAIRE",étiquette.code])
-   Codes.paiement.traitement   <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "TRAITEMENT",étiquette.code])
-   Codes.paiement.élu          <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "ELU",étiquette.code])
-   Codes.paiement.vacations    <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "VACATIONS",étiquette.code])
-   Codes.paiement.autres       <- unique(Codes.paiement[Codes.paiement$Type.rémunération == "AUTRES",étiquette.code])
+   Codes.paiement.indemnitaire <- unique(Codes.paiement[Codes.paiement$Type.rémunération == modalité.indemnitaire, étiquette.code])
+   Codes.paiement.principal.contractuel
+                               <- unique(Codes.paiement[Codes.paiement$Type.rémunération == modalité.principal.contractuel, étiquette.code])
+   Codes.paiement.traitement   <- unique(Codes.paiement[Codes.paiement$Type.rémunération == modalité.traitement, étiquette.code])
+   Codes.paiement.élu          <- unique(Codes.paiement[Codes.paiement$Type.rémunération == modalité.élu, étiquette.code])
+   Codes.paiement.vacations    <- unique(Codes.paiement[Codes.paiement$Type.rémunération == modalité.vacations, étiquette.code])
+   Codes.paiement.autres       <- unique(Codes.paiement[Codes.paiement$Type.rémunération == modalité.autres, étiquette.code])
    
    message("Extraction des codes par type de code.")
    
@@ -289,6 +291,7 @@ if (charger.bases)
                                       by = c(clé.fusion, "Année", "Mois"))
 
   if ( ! exists("Codes.paiement.indemnitaire"))  stop("Pas de fichier des Types de codes [INDEMNITAIRE]")
+  if ( ! exists("Codes.paiement.principal.contractuel"))  stop("Pas de fichier des Types de codes [PRINCIPAL.CONTRACTUEL]")
   if ( ! exists("Codes.paiement.traitement"))    stop("Pas de fichier des Types de codes [TRAITEMENT]")
   if ( ! exists("Codes.paiement.élu"))           stop("Pas de fichier des Types de codes [ELU]")
   if ( ! exists("Codes.paiement.autres"))        stop("Pas de fichier des Types de codes [AUTRES]")
@@ -296,9 +299,8 @@ if (charger.bases)
   Bulletins.paie.Lignes.paie <- mutate(Bulletins.paie.Lignes.paie,
                                        montant.traitement.indiciaire 
                                         = Montant*(Code %in% Codes.paiement.traitement),
-                                       montant.rémunération.principale.contractuel =0, # rajouter critère non tit
-#                                         = Montant*(Code %in% codes.paiement[codes.paiement$Type.rémunération 
-#                                                                            == "PRINCIPAL.CONTRACTUEL",étiquette.code]),
+                                       montant.rémunération.principale.contractuel 
+                                        = Montant*(Code %in% Codes.paiement.principal.contractuel),
                                        montant.primes 
                                         = Montant*(Code %in% Codes.paiement.indemnitaire),
                                        montant.autres.rémunérations 
