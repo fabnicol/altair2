@@ -63,12 +63,12 @@ nombre.exercices <- fin.période.sous.revue - début.période.sous.revue + 1
 # Matricule, Codes
 
 # Contrôle de cohérence
-#  on vérifie que chaque code de paie est associé, dans le fichier codes.paiement (par défaut, codes.csv),
+#  on vérifie que chaque code de paie est associé, dans le fichier des codes de paiement (par défaut, racinecodes.csv),
 #  que à chaque code donné on a associé un et un seul type de rémunération ("INDEMNITAIRE", "TRAITEMENT", etc.)           
 
-if (file.exists(chemin(codes.paiement)))
+if (file.exists(chemin(nom.fichier.codes.paiement)))
 {
-  Codes.paiement <- read.csv.skip(codes.paiement)
+  Codes.paiement <- read.csv.skip(nom.fichier.codes.paiement)
 
   if (nlevels(as.factor(Codes.paiement$Code)) != nrow(unique(Codes.paiement[ , c(étiquette.code, "Type.rémunération")])))
   {
@@ -85,7 +85,7 @@ if (file.exists(chemin(codes.paiement)))
                        by = étiquette.code,
                        all=TRUE)))
     
-    stop("Vérifier le fichier " %+% codes.paiement)
+    stop("Vérifier le fichier " %+% nom.fichier.codes.paiement)
     
   }
   
@@ -181,7 +181,7 @@ if (générer.codes) {
   #'
   #'##  Renseigner le type de rémunération
   #'
-  #'Utiliser les codes : TRAITEMENT, INDEMNITAIRE.OU.CONTRACTUEL, ELU, AUTRES  
+  #'Utiliser les codes : TRAITEMENT, INDEMNITAIRE, ELU, VACATIONS, AUTRES  
   #'  
   #'  
   kable(codes.paiement.généré, row.names = FALSE)
@@ -196,7 +196,7 @@ if (générer.codes) {
   stop(
 " Le programme est arrêté après génération de la base de codes et libellés. 
   Relancer Altair après avoir renseigné la troisième colonne 
-  et placé le fichier sous le répertoire racine avec le nom " %+% codes.paiement, call.=FALSE)
+  et placé le fichier sous le répertoire racine avec le nom " %+% nom.fichier.codes.paiement, call.=FALSE)
 }
 
 # suppression des colonnes Nom Prénom redondantes
@@ -1749,7 +1749,7 @@ if (nrow(rémunérations.élu) >0)
 #'     
 #'[Lien vers la base de données fusionnées des bulletins et lignes de paie](Bases/Bulletins.paie.Lignes.paie.csv)
 #'      
-#'[Lien vers le tableau des codes de paiement](Bases/codes.paiement.csv)
+#'[Lien vers le tableau des codes de paiement](Bases/nom.fichier.codes.paiement.csv)
 #'
 #'[Lien vers le fichier des personnels](Bases/Catégories des personnels.csv)
 #'
