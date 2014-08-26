@@ -1553,8 +1553,8 @@ Tableau(c("Nombre de CEV",
 
 #IAT et IFTS
 
-                filtre.iat  <- grep(".*(I.?A.?T|I.*Ad.*Tec).*", Libellé, ignore.case = TRUE)
-                filtre.ifts <- grep(".*(I.?F.?T.?S|I.*F.*TRAV.*S).*", Libellé, ignore.case = TRUE)
+                filtre.iat  <- grep(expression.rég.iat, Libellé, ignore.case = TRUE)
+                filtre.ifts <- grep(expression.rég.ifts, Libellé, ignore.case = TRUE)
                 codes.ifts  <- unique(Bulletins.paie.Lignes.paie[filtre.ifts, étiquette.code])
         
         personnels.iat.ifts <- intersect(as.character(Bulletins.paie.Lignes.paie[ filtre.iat, clé.fusion[1]]),
