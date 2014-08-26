@@ -9,7 +9,7 @@ fin.période.sous.revue      <- 2011
 setOSWindows         <- TRUE
 fusionner.nom.prénom <- FALSE
 charger.bases        <- TRUE
-sauvegarder.bases    <- FALSE
+sauvegarder.bases    <- TRUE
 générer.codes        <- FALSE
 tester.matricules    <- FALSE
 corriger.quotité     <- FALSE
@@ -22,10 +22,10 @@ taux.tolérance.homonymie <- 5  # en %
 # les bases commencent par une majuscule. Un nom de fichier est souvent associé
 # à une variable commençant par une majuscule et représentant la base (data.frame ou matrice)
 
-codes.paiement              <- "codes.csv"
+racine                      <- "SIERG-"
+nom.fichier.codes.paiement  <- paste0(racine, "codes.csv")
 fichier.personnels          <- "Catégories des personnels"
 nom.fichier.personnels      <- paste0(fichier.personnels, ".csv")
-racine                      <- "SIERG-"
 nom.fichier.paie            <- paste0(racine, "Lignes de paye")
 nom.bulletin.paie           <- paste0(racine, "Bulletins de paye")
 
