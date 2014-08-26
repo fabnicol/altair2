@@ -9,7 +9,7 @@ fin.période.sous.revue      <- 2011
 setOSWindows         <- TRUE
 fusionner.nom.prénom <- FALSE
 charger.bases        <- TRUE
-sauvegarder.bases    <- TRUE
+sauvegarder.bases    <- FALSE
 générer.codes        <- FALSE
 tester.matricules    <- FALSE
 corriger.quotité     <- FALSE
@@ -91,6 +91,7 @@ if (!setOSWindows)
 # heures supplémentaires
 
 
-expression.rég.heures.sup <- ".*(I.*H.*T.*S|I.*H.*TRA|IN.*HO.*|HS|H.*SU|HC|H.*COM).*"
-
+expression.rég.heures.sup <- ".*(\\bI[[:alpha:]]*.?\\b.*\\bH[[:alpha:]]*.?\\b.*T[[:alpha:]]*.?.*|\\bH[[:alpha:]]*.?\\b.*(S|C)[[:alpha:]]*.?\\b).*"
+expression.rég.iat        <- ".*(\\bI.?A.?T\\b|\\bI[[:alpha:]]*.?\\b.*\\bAd[[:alpha:]]*.?\\b.*Tec[[:alpha:]]*.?\\b).*"
+expression.rég.ifts       <- ".*(\\bI.?F.?T.?S\\b|\\bI[[:alpha:]]*.?\\b.*\\bF[[:alpha:]]*.?\\b.*\\bTRAV[[:alpha:]]*.?\\b.*\\bS[[:alpha:]]*.?\\b).*"
 
