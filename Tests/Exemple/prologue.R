@@ -68,7 +68,7 @@ colonnes.requises           <- c(union(clé.fusion, étiquette.matricule),
 
 date.format                 <- "%d/%m/%Y"
 
-# ESPACES DE VALEURS LICITES POUR CERTAINS CHAMPS
+# ESPACES DE VALEURS LICITES POUR CERTAINS CHAMPS (modalités)
 
 libellés.élus               <- c("ELU", "ELUS", "Elu", "Elus", "élu", "élus")
 codes.NBI <- c("1012", "101B", "101M", "4652", "4672")
@@ -85,6 +85,17 @@ if (!setOSWindows)
     encodage.entrée <- "UTF-8"    
   }
 }
+
+modalité.traitement            <- "TRAITEMENT"
+modalité.indemnitaire          <- "INDEMNITAIRE"
+
+# La modalité principal contractuel ne concerne que les contractuels qui ne sont pas payés par référénece à un traitement indiciaire.
+modalité.princiapl.contractuel <- "PRINCIPAL.CONTRACTUEL"
+
+modalité.élu                   <- "ELU"
+modalité.vacations             <- "VACATIONS"
+modalité.autres                <- "AUTRES"
+
 
 # expressions régulières
 
