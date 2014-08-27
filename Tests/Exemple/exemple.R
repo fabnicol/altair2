@@ -592,7 +592,10 @@ attach(Analyse.rémunérations.premier.exercice, warn.conflicts = FALSE)
 #'## 2.1 Statistiques de position globales (tous statuts)       
 #'
 
-temp <- colSums(Analyse.rémunérations.premier.exercice[c("total.rémunérations", "indemnités.élu", "autres.rémunérations")])
+temp <- colSums(Analyse.rémunérations.premier.exercice[c("Montant.brut", 
+                                                         "total.rémunérations",
+                                                         "indemnités.élu",
+                                                         "autres.rémunérations")])
 
 #'### Cumuls des rémunérations brutes pour l'exercice `r année`
 #'
@@ -604,7 +607,7 @@ Tableau(c("Rémunérations brutes",
         temp["total.rémunérations"],
         temp["indemnités.élu"],
         temp["autres.rémunérations"],
-        sum(temp))
+        sum(temp[c("total.rémunérations", "indemnités.élu", "autres.rémunérations")]))
 
 #'   
 #'**Définitions :**   
@@ -636,14 +639,8 @@ Tableau.vertical2(c("Agrégats",
                    delta))
 
 
+delta2 <-  temp["Montant.brut"] - temp["total.rémunérations"] - temp["indemnités.élu"]
 
-#'
-            somme.brut.globale  <-  sum(Bulletins.paie[Bulletins.paie$Année == année,
-                                                       "Brut"])
-total.rémunérations.élu.compris <-  temp["total.rémunérations"] + temp["indemnités.élu"]
-                         delta2 <-  somme.brut.globale - total.rémunérations.élu.compris
-
-rm(temp)
 
 #'     
 #'à comparer aux soldes des comptes 641 et 648 du compte de gestion.   
@@ -655,24 +652,21 @@ Tableau.vertical2(c("Agrégats",
                  c("Bulletins de paie (euros)",
                    "Lignes de paie (euros)",
                    "Différence (euros)"),
-                 c(somme.brut.globale,
-                   total.rémunérations.élu.compris,
+                 c(temp["Montant.brut"],
+                   temp["total.rémunérations"] + temp["indemnités.élu"],
                    delta2))
 
 #'  
 #'à comparer aux soldes des comptes 641, 648 et 653 du compte de gestion   
 #'    
 #'**Définitions :**   
-#'  *Bulletins de paie*   : somme du champ *Brut* de la base Bulletins de paie. Le champ *Brut* ne tient pas compte des *Autres paiements* en base de données.  
-#'  *Lignes de paie*      : somme des lignes de paie correspondantes de la base Lignes de paie sans tenir compte des remboursements de frais, régularisations, etc.  
+#'  *Bulletins de paie*   : somme du champ *Brut* de la base Bulletins de paie. Le champ *Brut* ne tient pas compte des *Autres paiements* (remboursements de frais, régularisations, etc.) en base de données.  
+#'  *Lignes de paie*      : somme des lignes de paie correspondantes de la base Lignes de paie sans tenir compte des *Autres paiements*   
 #'
 
-df <- data.frame( masse.rémunérations.brutes, 
-                 somme.brut.non.élu,
-                 somme.brut.globale,
-                 total.rémunérations.élu.compris)
+Sauv.base(chemin.dossier.bases, "temp", "Masses." %+% année)
 
-Sauv.base(chemin.dossier.bases, "df", "Masses." %+% année)
+rm(temp)
 
 #'
 #'[Lien vers la base de données](Bases/`r paste0("Masses.", année, ".csv")`)    
@@ -949,7 +943,7 @@ attach(Analyse.rémunérations.dernier.exercice, warn.conflicts = FALSE)
 #'## 3.1 Statistiques de position globales (tous statuts)       
 #'
 
-temp <- colSums(Analyse.rémunérations.dernier.exercice[c("total.rémunérations", "indemnités.élu", "autres.rémunérations")])
+temp <- colSums(Analyse.rémunérations.dernier.exercice[c("Montant.brut", "total.rémunérations", "indemnités.élu", "autres.rémunérations")])
 
 #'### Cumuls des rémunérations brutes pour l'exercice `r année`
 #'
@@ -961,7 +955,7 @@ Tableau(c("Rémunérations brutes",
         temp["total.rémunérations"],
         temp["indemnités.élu"],
         temp["autres.rémunérations"],
-        sum(temp))
+        sum(temp[c("total.rémunérations", "indemnités.élu", "autres.rémunérations")]))
 
 #'   
 #'**Définitions :**   
@@ -994,19 +988,18 @@ Tableau.vertical2(c("Agrégats",
                     "Lignes de paie (euros)",
                     "Différence (euros)"),
                   c(somme.brut.non.élu,
-                    masse.rémunérations.brutes, 
+                    temp["total.rémunérations"],
                     delta))
 
-#'
-            somme.brut.globale  <-  sum(Bulletins.paie[Bulletins.paie$Année == année,
-                                           "Brut"])
-total.rémunérations.élu.compris <-  temp["total.rémunérations"] + temp["indemnités.élu"]
-                         delta2 <-  somme.brut.globale - total.rémunérations.élu.compris
+delta2 <-  temp["Montant.brut"] - temp["total.rémunérations"] - temp["indemnités.élu"]
 
-rm(temp)
 
 #'     
 #'à comparer aux soldes des comptes 641 et 648 du compte de gestion.   
+#'    
+#'**Définitions :**   
+#'  *Bulletins de paie*   : somme du champ *Brut* de la base Bulletins de paie. Le champ *Brut* ne tient pas compte des *Autres paiements* (remboursements de frais, régularisations, etc.) en base de données.  
+#'  *Lignes de paie*      : somme des lignes de paie correspondantes de la base Lignes de paie sans tenir compte des *Autres paiements*   
 #'
 #'Somme des rémunérations brutes versées (élus compris) :   
 #'
@@ -1016,21 +1009,17 @@ Tableau.vertical2(c("Agrégats",
                   c("Bulletins de paie (euros)",
                     "Lignes de paie (euros)",
                     "Différence (euros)"),
-                  c(somme.brut.globale,
-                    total.rémunérations.élu.compris,
+                  c(temp["Montant.brut"],
+                    temp["total.rémunérations"] + temp["indemnités.élu"],
                     delta2))
 
 #'  
 #'à comparer aux soldes des comptes 641, 648 et 653 du compte de gestion   
 #'
 
+Sauv.base(chemin.dossier.bases, "temp", "Masses." %+% année)
 
-df <- data.frame( masse.rémunérations.brutes, 
-                  somme.brut.non.élu,
-                  somme.brut.globale,
-                  total.rémunérations.élu.compris)
-
-Sauv.base(chemin.dossier.bases, "df", "Masses." %+% année)
+rm(temp)
 
 #'
 #'[Lien vers la base de données](Bases/`r paste0("Masses.", année, ".csv")` )   
