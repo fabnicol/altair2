@@ -1,7 +1,7 @@
 # prologue 
 # doit être dans le même répertoire que le programme principal et sa bibliothèque
 
-début.période.sous.revue    <- 2010
+début.période.sous.revue    <- 2011
 fin.période.sous.revue      <- 2012
 
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
