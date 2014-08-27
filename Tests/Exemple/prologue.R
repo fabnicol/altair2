@@ -1,15 +1,15 @@
 # prologue 
 # doit être dans le même répertoire que le programme principal et sa bibliothèque
 
-début.période.sous.revue    <- 2011
-fin.période.sous.revue      <- 2011
+début.période.sous.revue    <- 2010
+fin.période.sous.revue      <- 2012
 
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
 
 setOSWindows         <- TRUE
 fusionner.nom.prénom <- FALSE
 charger.bases        <- TRUE
-sauvegarder.bases    <- TRUE
+sauvegarder.bases    <- FALSE
 générer.codes        <- FALSE
 tester.matricules    <- FALSE
 corriger.quotité     <- FALSE
@@ -22,7 +22,7 @@ taux.tolérance.homonymie <- 5  # en %
 # les bases commencent par une majuscule. Un nom de fichier est souvent associé
 # à une variable commençant par une majuscule et représentant la base (data.frame ou matrice)
 
-racine                      <- "SIERG-"
+racine                      <- "PEV CA-"
 nom.fichier.codes.paiement  <- paste0(racine, "codes.csv")
 fichier.personnels          <- "Catégories des personnels"
 nom.fichier.personnels      <- paste0(fichier.personnels, ".csv")

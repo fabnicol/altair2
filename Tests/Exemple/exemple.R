@@ -356,7 +356,10 @@ if (charger.bases)
                                  
                                  # ici on ajoute les remboursements de frais professionnels (autres.rémunérations) et on enlève les régularisations (détachements..., màd...)
                                  
-                                 total.rémunérations.et.remboursements = total.rémunérations + autres.rémunérations,
+                                 total.rémunérations.et.remboursements =  total.rémunérations 
+                                                                        + autres.rémunérations 
+                                                                        + indemnités.élu,
+                                 
                                  quotité = ifelse(length(quotité[quotité > 0]) > 0, 
                                                   quotité[quotité > 0][1], 
                                                   0),
@@ -556,6 +559,7 @@ colonnes.sélectionnées <- c("traitement.indiciaire",
                             "rémunération.indemnitaire",
                             "autres.rémunérations", 
                             "total.rémunérations",
+                            "total.rémunérations.et.remboursements",
                             "Montant.brut",
                             "part.rémunération.indemnitaire",
                             clé.fusion)
@@ -587,24 +591,36 @@ attach(Analyse.rémunérations.premier.exercice, warn.conflicts = FALSE)
 #'
 #'## 2.1 Statistiques de position globales (tous statuts)       
 #'
-   masse.rémunérations.brutes <- sum(total.rémunérations)
-                 masse.autres <- sum(autres.rémunérations)
+
+temp <- colSums(Analyse.rémunérations.premier.exercice[c("total.rémunérations", "indemnités.élu", "autres.rémunérations")])
 
 #'### Cumuls des rémunérations brutes pour l'exercice `r année`
 #'
 
-Tableau(c("Rémunérations brutes", "Autres paiements"),
-        masse.rémunérations.brutes, masse.autres)
+Tableau(c("Rémunérations brutes", 
+          "Indemnités d'élus", 
+          "Autres paiements",
+          "Total brut"),
+        temp["total.rémunérations"],
+        temp["indemnités.élu"],
+        temp["autres.rémunérations"],
+        sum(temp))
 
-#'
-#'Cumuls réalisés sur les lignes de paie. Les indemnités d'élu ne sont pas prises en compte.  
+#'   
+#'**Définitions :**   
+#'Tous les items du tableau sont calculés sur le champ Montant de la base Lignes de paie  
+#'  *Rémunération brutes* : somme du champ *Montant* des rémunérations versées hors élus  
+#'  *Indemnités d'élus*   : somme du champ *Montant* des rémunérations versées pour les élus   
+#'  *Autres paiements*    : remboursements de frais, régularisations, etc., non compris dans les deux premiers agrégats    
+#'  *Total brut*          : somme des trois précédents facteurs   
 #'
 
 somme.brut.non.élu  <- sum(Bulletins.paie[  Bulletins.paie$Année == année 
-                                          & ! Bulletins.paie$Emploi %in% libellés.élus, 
+                                          & ! Bulletins.paie$Emploi %in% libellés.élus
+                                          & ! Bulletins.paie$Service %in% libellés.élus, 
                                             "Brut"])
 
-delta  <- somme.brut.non.élu - masse.rémunérations.brutes               
+delta  <- somme.brut.non.élu - temp["total.rémunérations"]               
 
 #'**Tests de cohérence**  
 #'
@@ -616,14 +632,18 @@ Tableau.vertical2(c("Agrégats",
                    "Lignes de paie (euros)",
                    "Différence (euros)"),
                  c(somme.brut.non.élu,
-                   masse.rémunérations.brutes,
+                   temp["total.rémunérations"],
                    delta))
+
+
 
 #'
             somme.brut.globale  <-  sum(Bulletins.paie[Bulletins.paie$Année == année,
                                                        "Brut"])
-total.rémunérations.élu.compris <-  masse.rémunérations.brutes + sum(indemnités.élu)
+total.rémunérations.élu.compris <-  temp["total.rémunérations"] + temp["indemnités.élu"]
                          delta2 <-  somme.brut.globale - total.rémunérations.élu.compris
+
+rm(temp)
 
 #'     
 #'à comparer aux soldes des comptes 641 et 648 du compte de gestion.   
@@ -641,8 +661,11 @@ Tableau.vertical2(c("Agrégats",
 
 #'  
 #'à comparer aux soldes des comptes 641, 648 et 653 du compte de gestion   
+#'    
+#'**Définitions :**   
+#'  *Bulletins de paie*   : somme du champ *Brut* de la base Bulletins de paie. Le champ *Brut* ne tient pas compte des *Autres paiements* en base de données.  
+#'  *Lignes de paie*      : somme des lignes de paie correspondantes de la base Lignes de paie sans tenir compte des remboursements de frais, régularisations, etc.  
 #'
-
 
 df <- data.frame( masse.rémunérations.brutes, 
                  somme.brut.non.élu,
@@ -729,11 +752,12 @@ rm(temp)
 Résumé(c("Traitement indiciaire",
          étiquette.rém.indemn,
          "Autres rémunérations"), 
-       AR[1:3])
+       AR[c("traitement.indiciaire", "rémunération.indemnitaire", "autres.rémunérations")])
 
 #'    
 #'
-Résumé(c("Total rémunérations", "Part de la rémunération contractuelle ou indemnitaire"), AR[4:5])
+Résumé(c("Total rémunérations", "Part de la rémunération contractuelle ou indemnitaire"),
+       AR[c("total.rémunérations", "part.rémunération.indemnitaire")])
 
 
 
@@ -871,11 +895,11 @@ AR <- Analyse.rémunérations.premier.exercice[  indemnités.élu == 0
 #'
 Résumé(c(étiquette.rém.indemn, 
          "Autres rémunérations"),
-       AR[1:2])
+       AR[c("rémunération.indemnitaire", "autres.rémunérations")])
 
 #'
 
-Résumé("Total rémunérations",   AR[3])
+Résumé("Total rémunérations",   AR["total.rémunérations"])
 #'   
 #'**Effectif : `r nrow(AR)`**     
 #'   
@@ -891,7 +915,6 @@ detach(Analyse.rémunérations.premier.exercice)
 
 année <- fin.période.sous.revue
 
-#'
 #'
 
 Bulletins.paie.Lignes.paie.dernier.exercice <-  Bulletins.paie.Lignes.paie[Bulletins.paie.Lignes.paie$Année == fin.période.sous.revue, ]
@@ -925,31 +948,46 @@ attach(Analyse.rémunérations.dernier.exercice, warn.conflicts = FALSE)
 #'
 #'## 3.1 Statistiques de position globales (tous statuts)       
 #'
-masse.rémunérations.brutes <- sum(total.rémunérations)
-masse.autres <- sum(autres.rémunérations)
+
+temp <- colSums(Analyse.rémunérations.dernier.exercice[c("total.rémunérations", "indemnités.élu", "autres.rémunérations")])
 
 #'### Cumuls des rémunérations brutes pour l'exercice `r année`
 #'
 
 Tableau(c("Rémunérations brutes", 
-          "Autres paiements"),
-        masse.rémunérations.brutes,
-        masse.autres)
+          "Indemnités d'élus", 
+          "Autres paiements",
+          "Total brut"),
+        temp["total.rémunérations"],
+        temp["indemnités.élu"],
+        temp["autres.rémunérations"],
+        sum(temp))
+
+#'   
+#'**Définitions :**   
+#'Tous les items du tableau sont calculés sur le champ Montant de la base Lignes de paie  
+#'  *Rémunération brutes* : somme du champ *Montant* des rémunérations versées hors élus  
+#'  *Indemnités d'élus*   : somme du champ *Montant* des rémunérations versées pour les élus   
+#'  *Autres paiements*    : remboursements de frais, régularisations, etc., non compris dans les deux premiers agrégats    
+#'  *Total brut*          : somme des trois précédents facteurs   
+#'
 
 #'
 #'Cumuls réalisés sur les lignes de paie. Les indemnités d'élu ne sont pas prises en compte.  
 #'
 
 somme.brut.non.élu  <- sum(Bulletins.paie[  Bulletins.paie$Année == année 
-                                          & ! Bulletins.paie$Emploi %in% libellés.élus, 
+                                          & ! Bulletins.paie$Emploi %in% libellés.élus
+                                          & ! Bulletins.paie$Service %in% libellés.élus, 
                                           "Brut"])
 
-             delta  <- somme.brut.non.élu - masse.rémunérations.brutes               
+             delta  <- somme.brut.non.élu - temp["total.rémunérations"]
 
 #'**Tests de cohérence**  
 #'
 #'Somme des rémunérations brutes versées aux personnels (non élus) :   
 #'
+
 Tableau.vertical2(c("Agrégats",
                     "euros"),
                   c("Bulletins de paie (euros)",
@@ -962,8 +1000,10 @@ Tableau.vertical2(c("Agrégats",
 #'
             somme.brut.globale  <-  sum(Bulletins.paie[Bulletins.paie$Année == année,
                                            "Brut"])
-total.rémunérations.élu.compris <-  masse.rémunérations.brutes + sum(indemnités.élu)
+total.rémunérations.élu.compris <-  temp["total.rémunérations"] + temp["indemnités.élu"]
                          delta2 <-  somme.brut.globale - total.rémunérations.élu.compris
+
+rm(temp)
 
 #'     
 #'à comparer aux soldes des comptes 641 et 648 du compte de gestion.   
@@ -1073,12 +1113,12 @@ rm(temp)
 Résumé(c("Traitement indiciaire",
          étiquette.rém.indemn,
          "Autres rémunérations"), 
-       AR[1:3])
+       AR[c("traitement.indiciaire", "rémunération.indemnitaire", "autres.rémunérations")])
 #'
 
 Résumé(c("Total rémunérations", 
          "Part de la rémunération contractuelle ou indemnitaire"), 
-       AR[4:5])
+       AR[c("total.rémunérations", "part.rémunération.indemnitaire")])
        
 #'**Effectif : `r nrow(AR)`**     
 #'   
@@ -1214,11 +1254,11 @@ AR <- Analyse.rémunérations.dernier.exercice[   indemnités.élu == 0
                                                 "total.rémunérations") ]
 
 #'
-Résumé(c(étiquette.rém.indemn, "Autres rémunérations"), AR[1:2])
+Résumé(c(étiquette.rém.indemn, "Autres rémunérations"), AR[c("rémunération.indemnitaire", "autres.rémunérations")])
 
 #'
 
-Résumé("Total rémunérations",   AR[3])
+Résumé("Total rémunérations",   AR["total.rémunérations"])
 #'   
 #'**Effectif : `r nrow(AR)`**     
 #'   
