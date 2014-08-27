@@ -86,15 +86,14 @@ if (!setOSWindows)
   }
 }
 
-modalité.traitement            <- "TRAITEMENT"
-modalité.indemnitaire          <- "INDEMNITAIRE"
+modalité.traitement            <- "TRAITEMENT"     # s'applique aussi aux NBI
+modalité.indemnitaire          <- "INDEMNITAIRE"   # hors vacations
 
-# La modalité principal contractuel ne concerne que les contractuels qui ne sont pas payés par référénece à un traitement indiciaire.
-modalité.princiapl.contractuel <- "PRINCIPAL.CONTRACTUEL"
 
+modalité.principal.contractuel <- "PRINCIPAL.CONTRACTUEL" # contractuels qui ne sont pas payés par référénece à un traitement indiciaire.
 modalité.élu                   <- "ELU"
 modalité.vacations             <- "VACATIONS"
-modalité.autres                <- "AUTRES"
+modalité.autres                <- "AUTRES"         # notamment les remboursements de frais professionnels, de transport et les restitutions/régularisations
 
 
 # expressions régulières

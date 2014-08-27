@@ -220,8 +220,9 @@ attr(Lignes.paie$Prénom, "names") <- NULL
 if (exists("Codes.paiement"))
 {
    Codes.paiement.indemnitaire <- unique(Codes.paiement[Codes.paiement$Type.rémunération == modalité.indemnitaire, étiquette.code])
-   Codes.paiement.principal.contractuel
-                               <- unique(Codes.paiement[Codes.paiement$Type.rémunération == modalité.principal.contractuel, étiquette.code])
+   Codes.paiement.principal.contractuel  <- unique(Codes.paiement[Codes.paiement$Type.rémunération == modalité.principal.contractuel,
+                                                                  étiquette.code])
+   Codes.paiement.vacataire    <- unique(Codes.paiement[Codes.paiement$Type.rémunération == modalité.vacations, étiquette.code])
    Codes.paiement.traitement   <- unique(Codes.paiement[Codes.paiement$Type.rémunération == modalité.traitement, étiquette.code])
    Codes.paiement.élu          <- unique(Codes.paiement[Codes.paiement$Type.rémunération == modalité.élu, étiquette.code])
    Codes.paiement.vacations    <- unique(Codes.paiement[Codes.paiement$Type.rémunération == modalité.vacations, étiquette.code])
@@ -273,6 +274,8 @@ if (charger.bases)
                   summarise,
                   # partie Analyse des variations par exercice #
                   Montant.net = sum(Net.à.Payer),
+                  
+                  # En principe la colonne Brut ne tient pas compte des remboursements d efrais ou des régularisations
                   Montant.brut = sum(Brut),
                   Statut = Statut[length(Net.à.Payer)],
                   mois.entrée = ifelse((minimum <- min(Mois)) != Inf,
@@ -292,6 +295,7 @@ if (charger.bases)
 
   if ( ! exists("Codes.paiement.indemnitaire"))  stop("Pas de fichier des Types de codes [INDEMNITAIRE]")
   if ( ! exists("Codes.paiement.principal.contractuel"))  stop("Pas de fichier des Types de codes [PRINCIPAL.CONTRACTUEL]")
+  if ( ! exists("Codes.paiement.vacataire"))  stop("Pas de fichier des Types de codes [VACATAIRE]")
   if ( ! exists("Codes.paiement.traitement"))    stop("Pas de fichier des Types de codes [TRAITEMENT]")
   if ( ! exists("Codes.paiement.élu"))           stop("Pas de fichier des Types de codes [ELU]")
   if ( ! exists("Codes.paiement.autres"))        stop("Pas de fichier des Types de codes [AUTRES]")
@@ -301,6 +305,8 @@ if (charger.bases)
                                         = Montant*(Code %in% Codes.paiement.traitement),
                                        montant.rémunération.principale.contractuel 
                                         = Montant*(Code %in% Codes.paiement.principal.contractuel),
+                                       montant.rémunération.vacataire 
+                                        = Montant*(Code %in% Codes.paiement.vacataire),
                                        montant.primes 
                                         = Montant*(Code %in% Codes.paiement.indemnitaire),
                                        montant.autres.rémunérations 
@@ -324,23 +330,33 @@ if (charger.bases)
                                  c(clé.fusion, étiquette.année),
                                  summarise,
                                  
-                                 Nir = Nir[1],
-                                 Montant.net = Montant.net[1],
-                                 Statut = Statut[1],   
-                                 mois.entrée = mois.entrée[1],
-                                 nb.jours = nb.jours[1],
-                                 nb.mois = nb.mois[1],
-                                 mois.sortie = mois.sortie[1],
-                                 Emploi = Emploi[length(Net.à.Payer)],
-                                 traitement.indiciaire = sum(montant.traitement.indiciaire),
+                                 Nir          = Nir[1],
+                                 Montant.net  = Montant.net[1],
+                                 Montant.brut = Montant.brut[1],
+                                 Statut       = Statut[1],   
+                                 mois.entrée  = mois.entrée[1],
+                                 nb.jours     = nb.jours[1],
+                                 nb.mois      = nb.mois[1],
+                                 mois.sortie  = mois.sortie[1],
+                                 Emploi       = Emploi[length(Net.à.Payer)],
+                                 traitement.indiciaire               = sum(montant.traitement.indiciaire),
                                  rémunération.principale.contractuel = sum(montant.rémunération.principale.contractuel),
-                                 rémunération.indemnitaire = sum(montant.primes),
-                                 indemnités.élu = sum(montant.indemnité.élu),
-                                 autres.rémunérations = sum(montant.autres.rémunérations),
-                                 total.rémunérations =  traitement.indiciaire                       # le premier et deuxième terme sont exclusifs
-                                  + rémunération.principale.contractuel
-                                  + rémunération.indemnitaire,
+                                 rémunération.vacataire              = sum(montant.rémunération.vacataire),
+                                 rémunération.indemnitaire           = sum(montant.primes),
+                                 indemnités.élu                      = sum(montant.indemnité.élu),
+                                 autres.rémunérations                = sum(montant.autres.rémunérations),
                                  
+                                 # on ne considère que les rémunérations brutes (sans prise en compte des remboursements de frais aux salariés ou des régularisations)
+                                 # pour être en homogénéïté avec la colonne Brut/Montant.brut
+                                 
+                                 total.rémunérations                 =  traitement.indiciaire                       # le premier et deuxième terme sont exclusifs
+                                                                      + rémunération.principale.contractuel
+                                                                      + rémunération.vacataire
+                                                                      + rémunération.indemnitaire,
+                                 
+                                 # ici on ajoute les remboursements de frais professionnels (autres.rémunérations) et on enlève les régularisations (détachements..., màd...)
+                                 
+                                 total.rémunérations.et.remboursements = total.rémunérations + autres.rémunérations,
                                  quotité = ifelse(length(quotité[quotité > 0]) > 0, 
                                                   quotité[quotité > 0][1], 
                                                   0),
@@ -540,6 +556,7 @@ colonnes.sélectionnées <- c("traitement.indiciaire",
                             "rémunération.indemnitaire",
                             "autres.rémunérations", 
                             "total.rémunérations",
+                            "Montant.brut",
                             "part.rémunération.indemnitaire",
                             clé.fusion)
 
@@ -677,32 +694,28 @@ if (longueur.non.na(filtre.fonctionnaire(part.rémunération.indemnitaire) > 0))
      col = "blue",
      nclass = 30)
 
-
 #'     
 #'**Effectif : `r nrow(AR)`**     
 #'
 #'**Tests de cohérence**  
 
-
-somme.brut.fonct  <- sum(Bulletins.paie[Bulletins.paie$Année == année & 
-                                        Bulletins.paie$Statut %in% c("TITULAIRE", "STAGIAIRE"),
-                                        "Brut"])
-
-total.rémunérations.fonct <- ifelse(nrow(AR) > 0, sum(AR[4]), 0)
-
-delta <- somme.brut.fonct - total.rémunérations.fonct
+if (nrow(AR) > 0) {
+   temp <- colSums(AR[ ,c("Montant.brut", "total.rémunérations")])
+} else {
+   temp <- c(0,0) }
 
 #'Somme des rémunérations brutes versées aux personnels titulaires et stagiaires :   
 #'
 
-Tableau.vertical2(c("Agrégats",
-                    "euros"),
-                  c("Bulletins de paie (euros)",
+Tableau.vertical2(c("Agrégats", "euros"), 
+                  c("Bulletins de paie (euros)",  
                     "Lignes de paie (euros)",
                     "Différence (euros)"),
-                  c(somme.brut.fonct, 
-                    total.rémunérations.fonct, 
-                    delta)) 
+                  c(temp["Montant.brut"],
+                    temp["total.rémunérations"],
+                    temp["Montant.brut"] - temp["total.rémunérations"])) 
+
+rm(temp)
 
 #' 
 #'A comparer aux soldes des comptes 6411, 6419 et 648 du conmpte de gestion.     
@@ -1026,16 +1039,14 @@ if (longueur.non.na(filtre.fonctionnaire(part.rémunération.indemnitaire)) > 0)
 #'
 #'**Tests de cohérence**  
 
-                       AR <- Analyse.rémunérations.dernier.exercice[Statut %in% c("TITULAIRE", "STAGIAIRE"), 
+AR <- Analyse.rémunérations.dernier.exercice[Statut %in% c("TITULAIRE", "STAGIAIRE"), 
                                                                     colonnes.sélectionnées ]
         
-        somme.brut.fonct  <- sum(Bulletins.paie[Bulletins.paie$Année == année & 
-                                                Bulletins.paie$Statut %in% c("TITULAIRE", "STAGIAIRE"),
-                                                "Brut"])
-
-total.rémunérations.fonct <- ifelse(nrow(AR) > 0, sum(AR[4]), 0)
-
-                    delta <- somme.brut.fonct - total.rémunérations.fonct
+if (nrow(AR) > 0) {          
+   temp <- colSums(AR[ ,c("Montant.brut", "total.rémunérations")])
+} else {
+   temp <- c(0,0) }
+        
 
 #'Somme des rémunérations brutes versées aux personnels titulaires et stagiaires :   
 #'
@@ -1044,10 +1055,12 @@ Tableau.vertical2(c("Agrégats", "euros"),
                   c("Bulletins de paie (euros)",  
                     "Lignes de paie (euros)",
                     "Différence (euros)"),
-                  c(somme.brut.fonct,
-                    total.rémunérations.fonct,
-                    delta)) 
+                  c(temp["Montant.brut"],
+                    temp["total.rémunérations"],
+                    temp["Montant.brut"] - temp["total.rémunérations"])) 
 
+
+rm(temp)
 #' 
 #'A comparer aux soldes des comptes 6411, 6419 et 648 du compte de gestion.     
 #'
