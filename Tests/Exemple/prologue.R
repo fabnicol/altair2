@@ -1,15 +1,16 @@
 # prologue 
 # doit être dans le même répertoire que le programme principal et sa bibliothèque
 
-début.période.sous.revue    <- 2011
+début.période.sous.revue    <- 2009
 fin.période.sous.revue      <- 2012
 
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
 
 setOSWindows         <- TRUE
+extraire.population  <- TRUE
 fusionner.nom.prénom <- FALSE
 charger.bases        <- TRUE
-sauvegarder.bases    <- FALSE
+sauvegarder.bases    <- TRUE
 générer.codes        <- FALSE
 tester.matricules    <- FALSE
 corriger.quotité     <- FALSE
@@ -22,7 +23,7 @@ taux.tolérance.homonymie <- 5  # en %
 # les bases commencent par une majuscule. Un nom de fichier est souvent associé
 # à une variable commençant par une majuscule et représentant la base (data.frame ou matrice)
 
-racine                      <- "PEV CA-"
+racine                      <- "PAYE_METROBP_2009_2012-"
 nom.fichier.codes.paiement  <- paste0(racine, "codes.csv")
 fichier.personnels          <- "Catégories des personnels"
 nom.fichier.personnels      <- paste0(fichier.personnels, ".csv")
@@ -104,4 +105,4 @@ modalité.autres                <- "AUTRES"         # notamment les remboursement
 expression.rég.heures.sup <- ".*(\\bI[[:alpha:]]*.?\\b.*\\bH[[:alpha:]]*.?\\b.*T[[:alpha:]]*.?.*|\\bH[[:alpha:]]*.?\\b.*(S|C)[[:alpha:]]*.?\\b).*"
 expression.rég.iat        <- ".*(\\bI.?A.?T\\b|\\bI[[:alpha:]]*.?\\b.*\\bAd[[:alpha:]]*.?\\b.*Tec[[:alpha:]]*.?\\b).*"
 expression.rég.ifts       <- ".*(\\bI.?F.?T.?S\\b|\\bI[[:alpha:]]*.?\\b.*\\bF[[:alpha:]]*.?\\b.*\\bTRAV[[:alpha:]]*.?\\b.*\\bS[[:alpha:]]*.?\\b).*"
-
+expression.rég.population <- ".*\\bASS(\\b|A).*"
