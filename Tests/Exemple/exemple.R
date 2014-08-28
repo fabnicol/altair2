@@ -300,6 +300,13 @@ if (charger.bases)
   if ( ! exists("Codes.paiement.élu"))           stop("Pas de fichier des Types de codes [ELU]")
   if ( ! exists("Codes.paiement.autres"))        stop("Pas de fichier des Types de codes [AUTRES]")
     
+  if (extraire.population) {
+    
+    Bulletins.paie.Lignes.paie <- Bulletins.paie.Lignes.paie[grepl(expression.rég.population, Bulletins.paie.Lignes.paie$Service, ignore.case=TRUE), ]
+    Bulletins.paie             <- Bulletins.paie[grepl(expression.rég.population, Bulletins.paie$Service, ignore.case=TRUE), ]
+  }
+    
+  
   Bulletins.paie.Lignes.paie <- mutate(Bulletins.paie.Lignes.paie,
                                        montant.traitement.indiciaire 
                                         = Montant*(Code %in% Codes.paiement.traitement),
@@ -1705,7 +1712,7 @@ L <-  length(names(HS.sup.25))
 names(HS.sup.25)[L]   <- "Traitement indiciaire annuel"
 names(HS.sup.25)[L-1]	<- "Traitement indiciaire mensuel" 
 
-rm(HS.sup.25.matricules.mois, HS.sup.25.montants, T, L)
+rm(HS.sup.25.matricules.mois, HS.sup.25.montants, L)
 
 nombre.Lignes.paie.HS.sup.25 <- nrow(HS.sup.25)
 
@@ -1815,6 +1822,7 @@ detach(Bulletins.paie.Lignes.paie)
 #  Sauvegardes : enlever les commentaires en mode opérationnel
 ##
 
+length(unique(Bulletins.paie$Service))
 
 if (sauvegarder.bases) 
   sauv.bases(chemin.dossier.bases,
@@ -1822,6 +1830,7 @@ if (sauvegarder.bases)
     "Bulletins.paie.nir.total.hors.élus",
     "Bulletins.paie.nir.fonctionnaires",
     "Bulletins.paie.Lignes.paie", 
+    "Bulletins.paie",
     "NBI.aux.non.titulaires",
     "RI.et.vacations",
     "HS.sup.25",
