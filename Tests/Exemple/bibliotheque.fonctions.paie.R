@@ -20,10 +20,10 @@ scan.prime <- function(texte, Base)
 # Pour cela on scanne les 25 premières lignes de la table une première fois
 
 
-trouver.valeur.skip <-  function(chemin.table, encodage) 
+trouver.valeur.skip <-  function(chemin.table, encodage, classes = NA) 
   max(
     sapply(
-      read.csv2(chemin.table, nrows = 25, fileEncoding = encodage),
+      read.csv2(chemin.table, nrows = 25, fileEncoding = encodage, colClasses = classes),
       function(x) 
       {
         m <- match(champ.détection.1, x, nomatch = 0 ) 
@@ -80,10 +80,15 @@ sélectionner.clé <-  function(base1, base2)
   }
 }
   
-read.csv.skip <- function(x, encodage = encodage.entrée) 
+read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA) 
 {
   chem <- chemin(x)
-  T <- read.csv2(chem, skip = trouver.valeur.skip(chem, encodage), fileEncoding = encodage)
+  T <- read.csv2(chem, 
+                 comment.char = "",
+                 colClasses = classes,
+                 skip = trouver.valeur.skip(chem, encodage),
+                 fileEncoding = encodage)
+  
   if (encodage.entrée != "UTF-8")
      names(T) <- iconv(names(T), to="UTF-8")
   return(T)
@@ -115,11 +120,13 @@ sauv.bases <- function(dossier, ...)
 # Utiliser une assignation globale 
 # car la fonction anonyme ne comporte que de variables locales
 
-Read.csv <- function(base.string, vect.chemin, charger = charger.bases)  {
+Read.csv <- function(base.string, vect.chemin, charger = charger.bases, colClasses = NA)  {
   
                       if (charger.bases) {
   
-                          assign(base.string,  do.call(rbind, lapply(vect.chemin, read.csv.skip)), envir = .GlobalEnv)
+                          assign(base.string,  
+                                 do.call(rbind, lapply(vect.chemin, read.csv.skip, classes = colClasses)), 
+                                 envir = .GlobalEnv)
                       }
 }
 

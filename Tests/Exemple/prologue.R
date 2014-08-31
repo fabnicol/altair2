@@ -2,15 +2,15 @@
 # doit être dans le même répertoire que le programme principal et sa bibliothèque
 
 début.période.sous.revue    <- 2009
-fin.période.sous.revue      <- 2012
+fin.période.sous.revue      <- 2010
 
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
 
 setOSWindows         <- TRUE
-extraire.population  <- TRUE
+extraire.population  <- FALSE
 fusionner.nom.prénom <- FALSE
 charger.bases        <- TRUE
-sauvegarder.bases    <- TRUE
+sauvegarder.bases    <- FALSE
 générer.codes        <- FALSE
 tester.matricules    <- FALSE
 corriger.quotité     <- FALSE
@@ -65,7 +65,17 @@ colonnes.requises           <- c(union(clé.fusion, étiquette.matricule),
                                  champ.nir,
                                  "Temps.de.travail")
 
+bulletins.paie.input <- c("Année", "Mois", "Nom", "Prénom", "Matricule", "Statut", "Emploi", "Service", "Indice", "Net", "Brut", "Net.à.Payer", "Heures.Sup.", "Heures", "Temps.de.travail", "Nir", "Grade", "Etablissement")
 
+bulletins.paie.classes.input    <- c("integer", "integer", "character", "character", "character", "character", "character", "character", "character", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric", "character", "character")
+
+bulletins.paie.output <- c(bulletins.paie.input, c("Montant.net", "Montant.brut", "mois.entrée", "mois.sortie", "nb.jours", "nb.mois"))
+
+bulletins.paie.classes.output <- c(bulletins.paie.classes.input, c("numeric", "integer", "integer", "integer", "integer"))
+
+lignes.paie.input <- c("Année", "Mois", "Matricule", "Libellé", "Code", "Base", "Taux", "Montant")
+
+lignes.paie.classes.input <- c("integer", "integer", "character", "character", "character", "numeric", "numeric", "numeric")
 
 date.format                 <- "%d/%m/%Y"
 
@@ -102,7 +112,7 @@ modalité.autres                <- "AUTRES"         # notamment les remboursement
 # heures supplémentaires
 
 
-expression.rég.heures.sup <- ".*(\\bI[[:alpha:]]*.?\\b.*\\bH[[:alpha:]]*.?\\b.*T[[:alpha:]]*.?.*|\\bH[[:alpha:]]*.?\\b.*(S|C)[[:alpha:]]*.?\\b).*"
+expression.rég.heures.sup <- ".*(I.?H.?T|H.?(S|C)|\\bI[[:alpha:]]*.?.*\\bH[[:alpha:]]*.?\\b.*T[[:alpha:]]*.?.*|\\bH[[:alpha:]]*.?\\b.*(S|C)[[:alpha:]]*.?\\b).*"
 expression.rég.iat        <- ".*(\\bI.?A.?T\\b|\\bI[[:alpha:]]*.?\\b.*\\bAd[[:alpha:]]*.?\\b.*Tec[[:alpha:]]*.?\\b).*"
 expression.rég.ifts       <- ".*(\\bI.?F.?T.?S\\b|\\bI[[:alpha:]]*.?\\b.*\\bF[[:alpha:]]*.?\\b.*\\bTRAV[[:alpha:]]*.?\\b.*\\bS[[:alpha:]]*.?\\b).*"
 expression.rég.population <- ".*\\bASS(\\b|A).*"

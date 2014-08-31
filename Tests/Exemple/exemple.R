@@ -104,7 +104,7 @@ if (file.exists(chemin(nom.fichier.codes.paiement)))
 # Lignes de paie
 # On peut lire jusqu'à 50 fichiers csv de lignes de paie qui seront générés au format :
 
-# "chemin dossier + racine-Lignes de paye-j.csv" où racine est un bref identifiant du type de contrôle (exemple : "c2a", "PEV", ...)
+# "chemin dossier + racine-Lignes de paye-j.csv" où racine est un bref identifiant du type de contrôle (exemple : "c2a-", "PEV-", ...)
 
 lignes.paie <- nom.fichier.paie %+% "-" %+% 1:50 %+% ".csv"
 lignes.paie <- lignes.paie[file.exists(chemin(lignes.paie))]
@@ -127,11 +127,11 @@ bulletins.paie <- bulletins.paie[file.exists(chemin(bulletins.paie))]
 # et au maximum fin.période.sous.revue, qui contiennent toutes les colonnes requises
 # pour le contrôle
 
-Read.csv("Lignes.paie", lignes.paie)
+Read.csv("Lignes.paie", lignes.paie, colClasses = lignes.paie.classes.input)
 
 if (!is.null(Lignes.paie)) message("Chargement des lignes de paie.") else stop("Chargement des lignes de paie en échec.")
 
-Read.csv("Bulletins.paie", bulletins.paie)
+Read.csv("Bulletins.paie", bulletins.paie, colClasses = bulletins.paie.classes.input)
 
 if (!is.null(Bulletins.paie)) message("Chargement des bulletins de paie.") else stop("Chargement des bulletins de paie en échec.")
 
@@ -236,10 +236,6 @@ if (exists("Codes.paiement"))
 # Pour assurer une fusion correcte des bulletins et lignes de paie, il importe que les colonnes communes aux deux fichiers soient 
 # exactement celles utilisées pour la clé d'appariement d'une part, et le tri sous chaque clé d'autre part, autrement dit :
 # la clé (Matricule ou (Nom, Prénom) selon le cas) + Année + Mois
-
-  if (! fusionner.nom.prénom) 
-    Bulletins.paie <- subset(Bulletins.paie,
-                             select = setdiff(names(Bulletins.paie), c("Nom", "Prénom")))
     
   if (! setequal(intersect(names(Lignes.paie), names(Bulletins.paie)), union(c("Mois", "Année"), clé.fusion)))
   {
@@ -287,23 +283,29 @@ if (charger.bases)
                   nb.jours = calcul.nb.jours.mois(mois.entrée[1], mois.sortie[1], Année[1]),
                   nb.mois  = mois.sortie[1] - mois.entrée[1] + 1)
   
+  
   Bulletins.paie <- merge (Bulletins.paie, anavar)
   
   Bulletins.paie.Lignes.paie <- merge(Bulletins.paie,
                                       Lignes.paie,
                                       by = c(clé.fusion, "Année", "Mois"))
 
-  if ( ! exists("Codes.paiement.indemnitaire"))  stop("Pas de fichier des Types de codes [INDEMNITAIRE]")
-  if ( ! exists("Codes.paiement.principal.contractuel"))  stop("Pas de fichier des Types de codes [PRINCIPAL.CONTRACTUEL]")
-  if ( ! exists("Codes.paiement.vacataire"))  stop("Pas de fichier des Types de codes [VACATAIRE]")
-  if ( ! exists("Codes.paiement.traitement"))    stop("Pas de fichier des Types de codes [TRAITEMENT]")
-  if ( ! exists("Codes.paiement.élu"))           stop("Pas de fichier des Types de codes [ELU]")
-  if ( ! exists("Codes.paiement.autres"))        stop("Pas de fichier des Types de codes [AUTRES]")
+  if (!is.null(Bulletins.paie.Lignes.paie)) message("Fusion réalisée")
+  
+  if (! exists("Codes.paiement.indemnitaire"))  stop("Pas de fichier des Types de codes [INDEMNITAIRE]")
+  if (! exists("Codes.paiement.principal.contractuel"))  stop("Pas de fichier des Types de codes [PRINCIPAL.CONTRACTUEL]")
+  if (! exists("Codes.paiement.vacataire"))  stop("Pas de fichier des Types de codes [VACATAIRE]")
+  if (! exists("Codes.paiement.traitement"))    stop("Pas de fichier des Types de codes [TRAITEMENT]")
+  if (! exists("Codes.paiement.élu"))           stop("Pas de fichier des Types de codes [ELU]")
+  if (! exists("Codes.paiement.autres"))        stop("Pas de fichier des Types de codes [AUTRES]")
     
   if (extraire.population) {
     
     Bulletins.paie.Lignes.paie <- Bulletins.paie.Lignes.paie[grepl(expression.rég.population, Bulletins.paie.Lignes.paie$Service, ignore.case=TRUE), ]
     Bulletins.paie             <- Bulletins.paie[grepl(expression.rég.population, Bulletins.paie$Service, ignore.case=TRUE), ]
+    
+    if (!is.null(Bulletins.paie.Lignes.paie) & !is.null(Bulletins.paie)) message("Extraction réalisée")
+    
   }
     
   
@@ -332,6 +334,7 @@ if (charger.bases)
                                             | 
                                           montant.traitement.indiciaire > 0)
                                        * nb.mois / 12) 
+    
   
   Analyse.rémunérations <- ddply(Bulletins.paie.Lignes.paie,
                                  c(clé.fusion, étiquette.année),
@@ -467,6 +470,11 @@ if (charger.bases)
 
   années.total.hors.élus  <- extraire.nir(Bulletins.paie.nir.total.hors.élus)
 }
+
+
+if (!is.null(Bulletins.paie.Lignes.paie) & !is.null(Analyse.rémunérations)
+    & !is.null(Analyse.variations.synthèse) & !is.null(Analyse.variations.par.exercice)) 
+  message("Statistiques de synthèse réalisées")
 
 ########### Démographie ########################
 
@@ -1666,53 +1674,43 @@ Tableau(c("Nombre de contractuels percevant des IFTS", "Nombre de lignes IFTS po
 #'
 #'## 5.5 Contrôle sur les heures supplémentaires
 
-HS.sup.25.matricules.mois <- unique(Bulletins.paie.Lignes.paie[Heures.Sup. >= 25, 
-                                    c(étiquette.matricule,
-                                      étiquette.année,
-                                      "Mois",
-                                      "Statut",
-                                      "Heures.Sup.")])
+
 
 # Sont repérées comme heures supplémentaires ou complémentaires les heures dont le libellé obéissent à
 # l'expression régulière expression.rég.heures.sup donnée par le fichier prologue.R
  
 
-HS.sup.25.montants <- Bulletins.paie.Lignes.paie[Heures.Sup. >= 25
-                                                 & ! Code %in% Codes.paiement.traitement
-                                                 & ! is.na(Libellé)
-                                                 & ! is.na(Code)
+HS.sup.25 <- Bulletins.paie.Lignes.paie[Heures.Sup. >= 25
+                                                 & Code %in% Codes.paiement.indemnitaire
                                                  & ! grepl(".*SMIC.*",
                                                          Libellé, ignore.case = TRUE)
-                                                 & as.numeric(substr(Code,1,2)) < 50
                                                  & grepl(expression.rég.heures.sup,
                                                          Libellé, ignore.case = TRUE),
                                                  c(étiquette.matricule,
                                                    étiquette.année,
+                                                   "Statut",
                                                    "Mois",
                                                    "Libellé",
                                                    étiquette.code,
                                                    "Heures",
+                                                   "Heures.Sup.",
                                                    "Base",
                                                    "Taux",
                                                    "Montant")]
 
-HS.sup.25 <- merge(HS.sup.25.matricules.mois, HS.sup.25.montants, all = TRUE)
 
-T <- aggregate(Bulletins.paie.Lignes.paie$montant.traitement.indiciaire,
-               by = list(Matricule, Année, Mois),
-               FUN = sum)
-names(T) <- c(étiquette.matricule, "Année", "Mois", "montant.traitement.indiciaire")
 
-HS.sup.25 <- merge(HS.sup.25, T)
+HS.sup.25 <- merge(HS.sup.25, 
+                   ddply(Bulletins.paie.Lignes.paie, 
+                         .(Matricule, Année, Mois),
+                         summarise,
+                         "Traitement indiciaire mensuel" = sum(montant.traitement.indiciaire)))
                    
 HS.sup.25 <- merge(HS.sup.25, Analyse.rémunérations[ , c(étiquette.matricule, étiquette.année, "traitement.indiciaire")])
 
-L <-  length(names(HS.sup.25))
+names(HS.sup.25)[length(names(HS.sup.25))]   <- "Traitement indiciaire annuel"
 
-names(HS.sup.25)[L]   <- "Traitement indiciaire annuel"
-names(HS.sup.25)[L-1]	<- "Traitement indiciaire mensuel" 
-
-rm(HS.sup.25.matricules.mois, HS.sup.25.montants, L)
+rm(HS.sup.25.matricules.mois, HS.sup.25.montants)
 
 nombre.Lignes.paie.HS.sup.25 <- nrow(HS.sup.25)
 
@@ -1822,7 +1820,7 @@ detach(Bulletins.paie.Lignes.paie)
 #  Sauvegardes : enlever les commentaires en mode opérationnel
 ##
 
-length(unique(Bulletins.paie$Service))
+
 
 if (sauvegarder.bases) 
   sauv.bases(chemin.dossier.bases,
