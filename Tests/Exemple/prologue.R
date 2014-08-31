@@ -2,17 +2,20 @@
 # doit être dans le même répertoire que le programme principal et sa bibliothèque
 
 début.période.sous.revue    <- 2009
-fin.période.sous.revue      <- 2010
+fin.période.sous.revue      <- 2012
 
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
 
 setOSWindows         <- TRUE
+
+générer.codes        <- FALSE
+
 extraire.population  <- FALSE
 fusionner.nom.prénom <- FALSE
 charger.bases        <- TRUE
 sauvegarder.bases    <- FALSE
-générer.codes        <- FALSE
-tester.matricules    <- FALSE
+tester.matricules            <- FALSE
+tester.lignes.bulletins.mois <- TRUE
 corriger.quotité     <- FALSE
 comportement.strict  <- TRUE
 seuil.troncature     <- 3
@@ -23,7 +26,7 @@ taux.tolérance.homonymie <- 5  # en %
 # les bases commencent par une majuscule. Un nom de fichier est souvent associé
 # à une variable commençant par une majuscule et représentant la base (data.frame ou matrice)
 
-racine                      <- "PAYE_METROBP_2009_2012-"
+racine                      <- "RAG_2009_2012-"
 nom.fichier.codes.paiement  <- paste0(racine, "codes.csv")
 fichier.personnels          <- "Catégories des personnels"
 nom.fichier.personnels      <- paste0(fichier.personnels, ".csv")
@@ -65,9 +68,9 @@ colonnes.requises           <- c(union(clé.fusion, étiquette.matricule),
                                  champ.nir,
                                  "Temps.de.travail")
 
-bulletins.paie.input <- c("Année", "Mois", "Nom", "Prénom", "Matricule", "Statut", "Emploi", "Service", "Indice", "Net", "Brut", "Net.à.Payer", "Heures.Sup.", "Heures", "Temps.de.travail", "Nir", "Grade", "Etablissement")
+bulletins.paie.input <- c("Année", "Mois", "Nom", "Prénom", "Matricule", "Statut", "Emploi", "Service", "Indice", "Net", "Brut", "Net.à.Payer", "Heures.Sup.", "Heures", "Temps.de.travail", "Nir", "Grade")
 
-bulletins.paie.classes.input    <- c("integer", "integer", "character", "character", "character", "character", "character", "character", "character", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric", "character", "character")
+bulletins.paie.classes.input    <- c("integer", "integer", "character", "character", "character", "character", "character", "character", "character", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric", "character")
 
 bulletins.paie.output <- c(bulletins.paie.input, c("Montant.net", "Montant.brut", "mois.entrée", "mois.sortie", "nb.jours", "nb.mois"))
 
@@ -75,7 +78,7 @@ bulletins.paie.classes.output <- c(bulletins.paie.classes.input, c("numeric", "i
 
 lignes.paie.input <- c("Année", "Mois", "Matricule", "Libellé", "Code", "Base", "Taux", "Montant")
 
-lignes.paie.classes.input <- c("integer", "integer", "character", "character", "character", "numeric", "numeric", "numeric")
+lignes.paie.classes.input <- c("integer", "integer", "character", "integer", "integer", "character", "character", "character", "numeric", "numeric", "numeric")
 
 date.format                 <- "%d/%m/%Y"
 
