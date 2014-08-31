@@ -366,6 +366,9 @@ tester.homogeneite.matricules <- function(Base) {
 }
 
 
+na.regularise <- function(x, y = 0) x[is.na(x)] <- y
+
+
 # opérateurs infixe
 
 # concaténer deux strings

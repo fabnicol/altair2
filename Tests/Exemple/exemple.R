@@ -131,6 +131,8 @@ Read.csv("Lignes.paie", lignes.paie, colClasses = lignes.paie.classes.input)
 
 if (!is.null(Lignes.paie)) message("Chargement des lignes de paie.") else stop("Chargement des lignes de paie en échec.")
 
+Lignes.paie <- Lignes.paie[setdiff(names(Lignes.paie), c("Année.1","Mois.1","Matricule.1"))]
+
 Read.csv("Bulletins.paie", bulletins.paie, colClasses = bulletins.paie.classes.input)
 
 if (!is.null(Bulletins.paie)) message("Chargement des bulletins de paie.") else stop("Chargement des bulletins de paie en échec.")
@@ -152,7 +154,50 @@ if (! all(Bulletins.paie.contiennent.colonnes.requises)) {
   message("Contrôle des noms de colonne des bulletins de paie : normal.")
 }
 
+
 if (tester.matricules)  tester.homogeneite.matricules(Lignes.paie)
+
+# Ce test contrôle la cohérence entre bulletins et lignes d epaie : il faut qu'à chaque bulletin de paie, il y 
+# ait au mois une ligne de paie associée...
+
+if (tester.lignes.bulletins.mois) {
+  
+  temp   <- ddply(Bulletins.paie[ , c("Matricule", "Année", "Mois", "Brut", "Net") ], .(Matricule, Année),  
+                  summarise,
+                  nMois.bull = length(Mois),
+                  nMois.brut = length(Brut[Brut != 0]),
+                  nMois.net  = length(Net[Net != 0]))
+    
+  temp2  <- ddply(unique(Lignes.paie[Lignes.paie$Code %in% Codes.paiement$Code , c("Matricule", "Année", "Mois") ]),
+                  .(Matricule, Année),
+                  summarise,
+                  nMois.lignes = length(Mois))
+    
+  M      <- merge(temp, temp2, all = TRUE)
+  M$nMois.lignes    <- na;regularise(M$nMois.lignes)
+  M      <- M[M$nMois.lignes != M$nMois.bull & M$nMois.lignes != M$nMois.brut & M$nMois.lignes != M$nMois.net, ] 
+              
+  if (!is.null(M) & nrow(M) != 0) {
+    Matrice.différence.bulletins.lignes.NMois <- M
+    print(Matrice.différence.bulletins.lignes.NMois)
+    sauv.bases(chemin.dossier.bases, "Matrice.différence.bulletins.lignes.NMois")
+            
+    stop("Le nombre de bulletins de paye est différent du nombre de mois payés en lignes de paye. 
+           Voir Matrice.différence.bulletins.lignes.NMois.csv dans le dossier Bases")
+    
+  }  else {
+    
+    message("Le nombre de bulletins de paie est cohérent avec les lignes de paie en base.")
+  }
+  
+  rm(temp, temp2, M, Matrice.différence.bulletins.lignes.NMois)
+}
+
+#   <- M[M$Diff != 0, ]
+#   if (!is.null(Matrice.différence.bulletins.lignes.NMois) & nrow(Matrice.différence.bulletins.lignes.NMois) > 0)    {
+#     sauv.bases(chemin.dossier.bases, "Matrice.différence.bulletins.lignes.NMois")
+#   }
+# }
 
 # Lors de la PREMIERE utilisation d'Altair, paramétrer générer.codes <- TRUE dans prologue.R
 # pour générer les fichier des codes de paiement sous le dossier des bases (par défaut "Bases").
@@ -164,13 +209,10 @@ if (tester.matricules)  tester.homogeneite.matricules(Lignes.paie)
 if (générer.codes) {
   
   message("Génération de la base des codes de paie et des libellés.")
-  
-  with( Lignes.paie,
-        codes.paiement.généré <<- unique(Lignes.paie[  Montant > 0,
-                                                       c(étiquette.code, étiquette.libellé)]))
-  
-  codes.paiement.généré <- cbind(codes.paiement.généré[order(substr(as.character(codes.paiement.généré$Code), 1, 3)), ],
-                                 character(nrow(codes.paiement.généré)))
+    
+  codes.paiement.généré <- unique(Lignes.paie[c(étiquette.code, étiquette.libellé)])
+    
+  codes.paiement.généré <- cbind(sort(codes.paiement.généré),   character(length(codes.paiement.généré)))
   
   names(codes.paiement.généré)[3] <- étiquette.Type.rémunération
   sauv.bases(chemin.dossier.bases, "codes.paiement.généré")
