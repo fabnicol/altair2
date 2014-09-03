@@ -34,12 +34,13 @@ JITlevel        <- enableJIT(2)
 
 source(file.path(chemin.dossier, "bibliotheque.fonctions.paie.R"), encoding = encodage.entrée)
 
-installer.paquets(knitr, plyr, ggplot2, assertthat, yaml)
+installer.paquets(knitr, plyr, ggplot2, assertthat, yaml, gtools)
 
 library(knitr)
 library(plyr)
 library(ggplot2)
 library(assertthat)
+library(gtools)
 
 # problème temporaire avec l'option fig.retina depuis fin mai 2014
 
@@ -174,7 +175,7 @@ if (tester.lignes.bulletins.mois) {
                   nMois.lignes = length(Mois))
     
   M      <- merge(temp, temp2, all = TRUE)
-  M$nMois.lignes    <- na;regularise(M$nMois.lignes)
+  M$nMois.lignes[is.na(M$nMois.lignes)] <- 0
   M      <- M[M$nMois.lignes != M$nMois.bull & M$nMois.lignes != M$nMois.brut & M$nMois.lignes != M$nMois.net, ] 
               
   if (!is.null(M) & nrow(M) != 0) {
@@ -200,7 +201,7 @@ if (tester.lignes.bulletins.mois) {
 # }
 
 # Lors de la PREMIERE utilisation d'Altair, paramétrer générer.codes <- TRUE dans prologue.R
-# pour générer les fichier des codes de paiement sous le dossier des bases (par défaut "Bases").
+# pour générer les fichier des codes de paiement sous le dossier des bases (par défaut "Données").
 # ce fichier est trier par ordre croissant des codes de paiement sur les trois premiers chiffres des codes
 # des anomalies peuvent résiduellement apparaître avec des codes contenant des lettres, en général après
 # le troisième chiffre du code.
@@ -212,10 +213,10 @@ if (générer.codes) {
     
   codes.paiement.généré <- unique(Lignes.paie[c(étiquette.code, étiquette.libellé)])
     
-  codes.paiement.généré <- cbind(sort(codes.paiement.généré),   character(length(codes.paiement.généré)))
+  codes.paiement.généré <- cbind(codes.paiement.généré[mixedorder(codes.paiement.généré$Code), ], character(nrow(codes.paiement.généré)))
   
   names(codes.paiement.généré)[3] <- étiquette.Type.rémunération
-  sauv.bases(chemin.dossier.bases, "codes.paiement.généré")
+  sauv.bases(chemin.dossier.données, "codes.paiement.généré")
     
   #'---
   #'   
@@ -230,15 +231,14 @@ if (générer.codes) {
   #'                             
     
   
-  if (file.exists(file.path(chemin.dossier.bases, "codes.paiement.généré.csv")))
-    message("Génération des codes : voir fichier Bases/codes.paiement.généré.csv")
-  else
+  if (file.exists(file.path(chemin.dossier.données, "codes.paiement.généré.csv")))
+    message("Génération des codes : voir fichier Données/codes.paiement.généré.csv")  else
     message("Les codes n'ont pas été générés.")
   
   stop(
 " Le programme est arrêté après génération de la base de codes et libellés. 
   Relancer Altair après avoir renseigné la troisième colonne 
-  et placé le fichier sous le répertoire racine avec le nom " %+% nom.fichier.codes.paiement, call.=FALSE)
+  et placé le fichier sous le répertoire Données avec le nom " %+% nom.fichier.codes.paiement, call.=FALSE)
 }
 
 # suppression des colonnes Nom Prénom redondantes
@@ -261,15 +261,37 @@ attr(Lignes.paie$Prénom, "names") <- NULL
 
 if (exists("Codes.paiement"))
 {
-   Codes.paiement.indemnitaire <- unique(Codes.paiement[Codes.paiement$Type.rémunération == modalité.indemnitaire, étiquette.code])
-   Codes.paiement.principal.contractuel  <- unique(Codes.paiement[Codes.paiement$Type.rémunération == modalité.principal.contractuel,
-                                                                  étiquette.code])
-   Codes.paiement.vacataire    <- unique(Codes.paiement[Codes.paiement$Type.rémunération == modalité.vacations, étiquette.code])
-   Codes.paiement.traitement   <- unique(Codes.paiement[Codes.paiement$Type.rémunération == modalité.traitement, étiquette.code])
-   Codes.paiement.élu          <- unique(Codes.paiement[Codes.paiement$Type.rémunération == modalité.élu, étiquette.code])
-   Codes.paiement.vacations    <- unique(Codes.paiement[Codes.paiement$Type.rémunération == modalité.vacations, étiquette.code])
-   Codes.paiement.autres       <- unique(Codes.paiement[Codes.paiement$Type.rémunération == modalité.autres, étiquette.code])
-   
+   Map(   
+       function(Data, type) {
+           assign(Data, 
+                  unique(Codes.paiement[Codes.paiement$Type.rémunération == type, c(étiquette.code, "Coefficient")]), 
+                  envir = .GlobalEnv)
+           Tab <- get(Data, envir = .GlobalEnv)
+           
+           if (anyDuplicated(Tab[1]))  
+             stop("Incohérence d'un code utilisé à la fois comme paiement et retenue.")
+           
+           V <- Tab[[2]]
+           names(V) <- Tab[[1]]
+           assign(Data, V, envir = .GlobalEnv)
+          
+        },
+  
+       c("Codes.paiement.indemnitaire",
+         "Codes.paiement.principal.contractuel",
+         "Codes.paiement.traitement",
+         "Codes.paiement.élu",
+         "Codes.paiement.vacations",
+         "Codes.paiement.autres"),
+       
+       c(modalité.indemnitaire, 
+         modalité.principal.contractuel,
+         modalité.traitement,
+         modalité.élu,
+         modalité.vacations,
+         modalité.autres))
+    
+      
    message("Extraction des codes par type de code.")
    
 } else
@@ -336,7 +358,7 @@ if (charger.bases)
   
   if (! exists("Codes.paiement.indemnitaire"))  stop("Pas de fichier des Types de codes [INDEMNITAIRE]")
   if (! exists("Codes.paiement.principal.contractuel"))  stop("Pas de fichier des Types de codes [PRINCIPAL.CONTRACTUEL]")
-  if (! exists("Codes.paiement.vacataire"))  stop("Pas de fichier des Types de codes [VACATAIRE]")
+  if (! exists("Codes.paiement.vacations"))  stop("Pas de fichier des Types de codes [VACATAIRE]")
   if (! exists("Codes.paiement.traitement"))    stop("Pas de fichier des Types de codes [TRAITEMENT]")
   if (! exists("Codes.paiement.élu"))           stop("Pas de fichier des Types de codes [ELU]")
   if (! exists("Codes.paiement.autres"))        stop("Pas de fichier des Types de codes [AUTRES]")
@@ -353,17 +375,17 @@ if (charger.bases)
   
   Bulletins.paie.Lignes.paie <- mutate(Bulletins.paie.Lignes.paie,
                                        montant.traitement.indiciaire 
-                                        = Montant*(Code %in% Codes.paiement.traitement),
+                                        = Montant %*% Codes.paiement.traitement[Code],
                                        montant.rémunération.principale.contractuel 
-                                        = Montant*(Code %in% Codes.paiement.principal.contractuel),
+                                        = Montant %*% Codes.paiement.principal.contractuel[Code],
                                        montant.rémunération.vacataire 
-                                        = Montant*(Code %in% Codes.paiement.vacataire),
+                                        = Montant %*% Codes.paiement.vacations[Code],
                                        montant.primes 
-                                        = Montant*(Code %in% Codes.paiement.indemnitaire),
+                                        = Montant %*% Codes.paiement.indemnitaire[Code],
                                        montant.autres.rémunérations 
-                                        = Montant*(Code %in% Codes.paiement.autres),
+                                        = Montant %*% Codes.paiement.autres[Code],
                                        montant.indemnité.élu 
-                                        = Montant*(Code %in% Codes.paiement.élu),
+                                        = Montant %*% Codes.paiement.élu[Code],
 
                                        ### EQTP  ###
                                        
@@ -1678,7 +1700,7 @@ Tableau(c("Codes IFTS", "Nombre de personnels percevant IAT et IFTS"),
 
 #IFTS et IB >= 380 (IM >= 350)
 
- lignes.ifts.anormales <- na.omit(Bulletins.paie.Lignes.paie[Indice < 350  & Code %in% codes.ifts,
+ lignes.ifts.anormales <- na.omit(Bulletins.paie.Lignes.paie[as.integer(Indice) < 350  & Code %in% codes.ifts,
                                                                   c(clé.fusion,
                                                                     "Statut",
                                                                     étiquette.code,
