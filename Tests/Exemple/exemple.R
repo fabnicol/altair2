@@ -271,9 +271,10 @@ if (exists("Codes.paiement"))
            if (anyDuplicated(Tab[1]))  
              stop("Incohérence d'un code utilisé à la fois comme paiement et retenue.")
            
-           V <- Tab[[2]]
-           names(V) <- Tab[[1]]
-           assign(Data, V, envir = .GlobalEnv)
+           W <- rep(0, nrow(Codes.paiement))
+           names(W) <- Codes.paiement[["Code"]]
+           W[Tab[[1]]] <- Tab[[2]]
+           assign(Data, W, envir = .GlobalEnv)
           
         },
   
@@ -372,20 +373,20 @@ if (charger.bases)
     
   }
     
-  
-  Bulletins.paie.Lignes.paie <- mutate(Bulletins.paie.Lignes.paie,
+  system.time(
+ { Bulletins.paie.Lignes.paie <- mutate(Bulletins.paie.Lignes.paie,
                                        montant.traitement.indiciaire 
-                                        = Montant %*% Codes.paiement.traitement[Code],
+                                        = Montant * Codes.paiement.traitement[Code],
                                        montant.rémunération.principale.contractuel 
-                                        = Montant %*% Codes.paiement.principal.contractuel[Code],
+                                        = Montant * Codes.paiement.principal.contractuel[Code],
                                        montant.rémunération.vacataire 
-                                        = Montant %*% Codes.paiement.vacations[Code],
+                                        = Montant * Codes.paiement.vacations[Code],
                                        montant.primes 
-                                        = Montant %*% Codes.paiement.indemnitaire[Code],
+                                        = Montant * Codes.paiement.indemnitaire[Code],
                                        montant.autres.rémunérations 
-                                        = Montant %*% Codes.paiement.autres[Code],
+                                        = Montant * Codes.paiement.autres[Code],
                                        montant.indemnité.élu 
-                                        = Montant %*% Codes.paiement.élu[Code],
+                                        = Montant * Codes.paiement.élu[Code],
 
                                        ### EQTP  ###
                                        
@@ -397,8 +398,11 @@ if (charger.bases)
                                        * (montant.rémunération.principale.contractuel > 0 
                                             | 
                                           montant.traitement.indiciaire > 0)
-                                       * nb.mois / 12) 
-    
+                                       * nb.mois / 12)
+  
+  }
+  )
+}
   
   Analyse.rémunérations <- ddply(Bulletins.paie.Lignes.paie,
                                  c(clé.fusion, étiquette.année),
@@ -472,7 +476,7 @@ if (charger.bases)
                                        montant.net.eqtp.sortie = montant.net.eqtp[Nexercices],
                                        moyenne.rémunération.annuelle.sur.période = mean(montant.net.eqtp[montant.net.eqtp > 0], na.rm=TRUE),
                                        variation.rémunération = ifelse(Nexercices > 1 & montant.net.eqtp.début > 0,
-                                                                       montant.net.eqtp.sortie / montant.net.eqtp.début -1,
+                                                                       (montant.net.eqtp.sortie / montant.net.eqtp.début -1)*100,
                                                                        0),
                                        variation.moyenne.rémunération = 
                                          ifelse(total.mois == 0, 
@@ -1380,8 +1384,7 @@ if (longueur.non.na(temp) > 0)
 
 Analyse.variations.synthèse.filtrée <- na.omit(Analyse.variations.synthèse[ nb.mois.exercice.début > seuil.troncature 
                                                                             & nb.mois.exercice.sortie   > seuil.troncature
-                                                                            #  &  statut %in% c("TITULAIRE", "STAGIAIRE")
-                                                                            &  statut !=  "AUTRE_STATUT",
+                                                                              &  statut !=  "AUTRE_STATUT",
                                                                             c("montant.net.eqtp.début",
                                                                               "montant.net.eqtp.sortie",
                                                                               "moyenne.rémunération.annuelle.sur.période",
@@ -1422,8 +1425,8 @@ Résumé(   c("Première année",
 
 #'
 
-Résumé(   c("Variation sur la période <br>d'activité",
-            "Variation annuelle moyenne"),
+Résumé(   c("Variation sur la période <br>d'activité (%)",
+            "Variation annuelle moyenne (%)"),
           Analyse.variations.synthèse.filtrée[4:5])
 
 #'
@@ -1465,8 +1468,8 @@ Résumé(   c("Première année",
 
 #'
 
-Résumé(   c("Variation sur la période <br>d'activité",
-            "Variation annuelle moyenne"),
+Résumé(   c("Variation sur la période <br>d'activité (%)",
+            "Variation annuelle moyenne (%)"),
           Analyse.variations.synthèse.filtrée.plus.2.ans[4:5])
 #'     
 #'**Effectif :** `r nrow(Analyse.variations.synthèse.filtrée.plus.2.ans[clé.fusion])`    
@@ -1514,8 +1517,8 @@ Résumé(   c("Première année",
 
 #'
 
-Résumé(   c("Variation sur la période <br>d'activité",
-            "Variation annuelle moyenne"),
+Résumé(   c("Variation sur la période <br>d'activité (%)",
+            "Variation annuelle moyenne (%)"),
           Analyse.variations.synthèse.filtrée.moins.2.ans[4:5])
 #'
 #'     
