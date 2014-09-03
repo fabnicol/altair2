@@ -365,9 +365,7 @@ tester.homogeneite.matricules <- function(Base) {
   }
 }
 
-
-na.regularise <- function(x, y = 0) x[is.na(x)] <- y
-
+longueur.non.na <- function(v) length(v[!is.na(v)])
 
 # opérateurs infixe
 
@@ -375,5 +373,7 @@ na.regularise <- function(x, y = 0) x[is.na(x)] <- y
 
 `%+%` <- function(x, y) paste0(x,  y)
 
- longueur.non.na <- function(v) length(v[!is.na(v)])
+`%*%` <- function(x, y) if (is.na(x) | is.na(y)) return(0) else return(x*y)
+
+ 
 

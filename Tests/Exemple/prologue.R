@@ -15,7 +15,7 @@ fusionner.nom.prénom <- FALSE
 charger.bases        <- TRUE
 sauvegarder.bases    <- FALSE
 tester.matricules            <- FALSE
-tester.lignes.bulletins.mois <- TRUE
+tester.lignes.bulletins.mois <- FALSE
 corriger.quotité     <- FALSE
 comportement.strict  <- TRUE
 seuil.troncature     <- 3
