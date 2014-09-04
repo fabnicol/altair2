@@ -1858,8 +1858,8 @@ if (!fusionner.nom.prénom)
 
 names(rémunérations.élu) <- c(union(clé.fusion, "Nom"), 
                               "Année",
-                              "Indemnités d'élu (euros)",
-                              "Autres rémunérations (euros)",
+                              "Indemnités (euros)",
+                              "Autres (euros)",
                               "Total (euros)")
 
        rémunérations.élu <- na.omit(rémunérations.élu)
