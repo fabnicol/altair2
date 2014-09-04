@@ -10,7 +10,7 @@ setOSWindows         <- TRUE
 
 générer.codes        <- FALSE
 
-extraire.population  <- FALSE
+extraire.population  <- TRUE
 fusionner.nom.prénom <- FALSE
 charger.bases        <- TRUE
 sauvegarder.bases    <- FALSE
@@ -115,7 +115,7 @@ modalité.autres                <- "AUTRES"         # notamment les remboursement
 # heures supplémentaires
 
 
-expression.rég.heures.sup <- ".*(I.?H.?T|H.?(S|C)|\\bI[[:alpha:]]*.?.*\\bH[[:alpha:]]*.?\\b.*T[[:alpha:]]*.?.*|\\bH[[:alpha:]]*.?\\b.*(S|C)[[:alpha:]]*.?\\b).*"
+expression.rég.heures.sup <- ".*(I.?H.?T|H.?[SC]|\\bI[[:alpha:]]*.?.*\\bH[[:alpha:]]*.?\\b.*T[[:alpha:]]*.?.*|\\bH[[:alpha:]]*.?\\b.*[SC][[:alpha:]]*.?\\b).*"
 expression.rég.iat        <- ".*(\\bI.?A.?T\\b|\\bI[[:alpha:]]*.?\\b.*\\bAd[[:alpha:]]*.?\\b.*Tec[[:alpha:]]*.?\\b).*"
 expression.rég.ifts       <- ".*(\\bI.?F.?T.?S\\b|\\bI[[:alpha:]]*.?\\b.*\\bF[[:alpha:]]*.?\\b.*\\bTRAV[[:alpha:]]*.?\\b.*\\bS[[:alpha:]]*.?\\b).*"
 expression.rég.population <- ".*\\bASS(\\b|A).*"
