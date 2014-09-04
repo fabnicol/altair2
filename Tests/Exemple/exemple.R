@@ -1008,20 +1008,6 @@ detach(Analyse.rémunérations.premier.exercice)
 
 année <- fin.période.sous.revue
 
-#'  
-
-Bulletins.paie.Lignes.paie.dernier.exercice <-  Bulletins.paie.Lignes.paie[Bulletins.paie.Lignes.paie$Année == fin.période.sous.revue, ]
-
-Bulletins.paie.Lignes.paie.dernier.exercice <- mutate(Bulletins.paie.Lignes.paie.dernier.exercice,
-                                     montant.traitement.indiciaire 
-                                       = Montant*(Code %in% Codes.paiement.traitement),
-                                     montant.primes 
-                                       = Montant*(Code %in% Codes.paiement.indemnitaire),
-                                     montant.autres.rémunérations 
-                                       = Montant*(Code %in% Codes.paiement.autres),
-                                     montant.indemnité.élu 
-                                       = Montant*(Code %in% Codes.paiement.élu))
-
 ###########  Analyse des rémunérations  fin de période###################
 #  ATTENTION : les années doivent être SUCCESSIVES                      #
 
@@ -1613,7 +1599,7 @@ Tableau(
 # Vacations et statut de fonctionnaire
 
 lignes.fonctionnaires.et.vacations <- Bulletins.paie.Lignes.paie[ Statut %in% c("TITULAIRE", "STAGIAIRE")
-                                                                  & Code %in% Codes.paiement.vacations,
+                                                                  & Codes.paiement.vacations[Code] != 0,
                                                                  c(étiquette.matricule,
                                                                    "Statut",
                                                                    étiquette.code,
@@ -1644,7 +1630,7 @@ Tableau(
 # Vacations et régime indemnitaire
 
     lignes.contractuels.et.vacations <- Bulletins.paie.Lignes.paie[   ! Statut %in% c("TITULAIRE", "STAGIAIRE")  
-                                                                    & Code %in% Codes.paiement.vacations,
+                                                                    & Codes.paiement.vacations[Code],
                                                                     c(étiquette.matricule,
                                                                       étiquette.code,
                                                                       étiquette.libellé,
@@ -1653,7 +1639,7 @@ Tableau(
 matricules.contractuels.et.vacations <- unique(lignes.contractuels.et.vacations$Matricule)
     nombre.contractuels.et.vacations <- length(matricules.contractuels.et.vacations)
                      RI.et.vacations <- Bulletins.paie.Lignes.paie[   Matricule %in% matricules.contractuels.et.vacations
-                                                                    & Code %in% Codes.paiement.indemnitaire,
+                                                                    & Codes.paiement.indemnitaire[Code] != 0,
                                                                     c(étiquette.matricule,
                                                                       "Statut", 
                                                                       étiquette.code,
@@ -1662,7 +1648,7 @@ matricules.contractuels.et.vacations <- unique(lignes.contractuels.et.vacations$
 # Vacations et indiciaire
 
 traitement.et.vacations <- Bulletins.paie.Lignes.paie[   Matricule %in% matricules.contractuels.et.vacations 
-                                                       & Code %in% Codes.paiement.traitement,
+                                                       & Codes.paiement.traitement[Code] != 0,
                                                        c(étiquette.matricule,
                                                          "Statut",
                                                          étiquette.code,
@@ -1765,7 +1751,7 @@ Tableau(c("Nombre de contractuels percevant des IFTS", "Nombre de lignes IFTS po
  
 
 HS.sup.25 <- Bulletins.paie.Lignes.paie[Heures.Sup. >= 25
-                                                 & Code %in% Codes.paiement.indemnitaire
+                                                 & Codes.paiement.indemnitaire[Code] != 0
                                                  & ! grepl(".*SMIC.*",
                                                          Libellé, ignore.case = TRUE)
                                                  & grepl(expression.rég.heures.sup,
