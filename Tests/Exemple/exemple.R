@@ -34,7 +34,7 @@ JITlevel        <- enableJIT(2)
 
 source(file.path(chemin.dossier, "bibliotheque.fonctions.paie.R"), encoding = encodage.entrée)
 
-installer.paquets(knitr, plyr, ggplot2, assertthat, yaml, gtools)
+installer.paquets(knitr, plyr, ggplot2, assertthat, yaml, gtools, utils)
 
 library(knitr)
 library(plyr)
@@ -142,6 +142,10 @@ Bulletins.paie <- Bulletins.paie[  Bulletins.paie$Année >= début.période.sous.re
                                  & Bulletins.paie$Année <= fin.période.sous.revue, ]
 Lignes.paie    <- Lignes.paie[  Lignes.paie$Année >= début.période.sous.revue 
                               & Lignes.paie$Année <= fin.période.sous.revue, ]
+
+matricules.à.retirer  <- Lignes.paie[Lignes.paie$Code == "", "Matricule"]
+Lignes.paie    <- Lignes.paie[Lignes.paie$Code != "", ]
+Bulletins.paie <- Bulletins.paie[! Bulletins.paie$Matricule %in% matricules.à.retirer, ]
 
 Bulletins.paie.contiennent.colonnes.requises <- colonnes.requises %in% names(Bulletins.paie)
 
@@ -370,7 +374,7 @@ if (charger.bases)
   }
     
 
-  system.time(Bulletins.paie.Lignes.paie <- mutate(Bulletins.paie.Lignes.paie,
+  Bulletins.paie.Lignes.paie <- mutate(Bulletins.paie.Lignes.paie,
                                                    
                                        montant.traitement.indiciaire 
                                        = Montant * Codes.paiement.traitement[Code],
@@ -413,8 +417,9 @@ if (charger.bases)
                                        * (montant.rémunération.principale.contractuel > 0 
                                           | 
                                           montant.traitement.indiciaire > 0)
-                                       * nb.mois / 12))
+                                       * nb.mois / 12)
   
+  Bulletins.paie.Lignes.paie$quotité[is.na(Bulletins.paie.Lignes.paie$quotité)] <- 0
   
   Analyse.rémunérations <- ddply(Bulletins.paie.Lignes.paie,
                                  c(clé.fusion, étiquette.année),
@@ -449,16 +454,17 @@ if (charger.bases)
                                  total.rémunérations.et.remboursements =  total.rémunérations 
                                                                         + autres.rémunérations 
                                                                         + indemnités.élu,
+  
                                  
                                  quotité = if (length(quotité[quotité > 0]) > 0)  quotité[quotité > 0][1] else 0,
+                                 
                                  montant.net.eqtp = if (quotité == 0) 0 else Montant.net / quotité,
-                                 part.rémunération.indemnitaire = if (is.na(traitement.indiciaire)) 
-                                                                   0 else if ((s <-  traitement.indiciaire 
-                                                                                  + rémunération.principale.contractuel 
-                                                                                  + rémunération.indemnitaire) == 0)
+                                 part.rémunération.indemnitaire =  if ((s <-  traitement.indiciaire 
+                                                                            + rémunération.principale.contractuel 
+                                                                            + rémunération.indemnitaire) == 0)
                                                                            0 else  (rémunération.indemnitaire + rémunération.principale.contractuel ) 
                                                                                   / s * 100,
-                                .progress = "text")
+                                .progress = "tk")
   
   Analyse.rémunérations <- Analyse.rémunérations[!is.na(Analyse.rémunérations$total.rémunérations), ]
   
@@ -1783,7 +1789,7 @@ HS.sup.25 <- merge(HS.sup.25,
                          .(Matricule, Année, Mois),
                          summarise,
                          "Traitement indiciaire mensuel" = sum(montant.traitement.indiciaire),
-                         .progress = "text"))
+                         .progress = "tk"))
                    
 HS.sup.25 <- merge(HS.sup.25, Analyse.rémunérations[ , c(étiquette.matricule, étiquette.année, "traitement.indiciaire")])
 
