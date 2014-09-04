@@ -265,21 +265,17 @@ attr(Lignes.paie$Prénom, "names") <- NULL
 
 if (exists("Codes.paiement"))
 {
+   #W <- rep(0, nrow(Codes.paiement))
    Map(   
        function(Data, type) {
-           assign(Data, 
-                  unique(Codes.paiement[Codes.paiement$Type.rémunération == type, c(étiquette.code, "Coefficient")]), 
-                  envir = .GlobalEnv)
-           Tab <- get(Data, envir = .GlobalEnv)
+           Tab <- unique(Codes.paiement[Codes.paiement$Type.rémunération == type, c(étiquette.code, "Coefficient")])
            
            if (anyDuplicated(Tab[1]))  
-             stop("Incohérence d'un code utilisé à la fois comme paiement et retenue.")
-           
-           W <- rep(0, nrow(Codes.paiement))
+             stop("Incohérence d'un code utilisé à la fois comme paiement et retenue ou cotisation.")
+        
+           W        <- Codes.paiement$Coefficient*(Codes.paiement$Type.rémunération == type)
            names(W) <- Codes.paiement[["Code"]]
-           W[Tab[[1]]] <- Tab[[2]]
            assign(Data, W, envir = .GlobalEnv)
-          
         },
   
        c("Codes.paiement.indemnitaire",
@@ -502,7 +498,8 @@ if (charger.bases)
                                        moins.2.ans = (total.mois < 2*12),
                                        moins.1.an  = (total.mois < 12),
                                        moins.six.mois = (total.mois < 6),
-                                       statut = Statut[1])
+                                       statut = Statut[1],
+                                       .progress = "tk")
   
   
   
@@ -576,17 +573,17 @@ if (longueur.non.na(années.total.hors.élus) > 0)
      col = "blue",
      nclass = 50)
 
-#'
-#'[Lien vers la base des âges](Bases/Bulletins.paie.nir.total.hors.élus.csv)
-#'
+#'  
+#'[Lien vers la base des âges](Bases/Bulletins.paie.nir.total.hors.élus.csv)  
+#'  
 
 Résumé("Âge des personnels <br>au 31/12/" %+% fin.période.sous.revue, années.total.hors.élus, align = 'c')
 
 #'Effectif total: `r length(années.total.hors.élus)`  
-#'
+#'  
 #'######      <br>
-#'
-#'
+#'  
+#'  
 #'### 1.2 Ensemble des fonctionnaires stagiaires et titulaires    
 
 if (longueur.non.na(années.fonctionnaires) > 0)
@@ -598,9 +595,9 @@ if (longueur.non.na(années.fonctionnaires) > 0)
      col = "navy",
      nclass = 50)
 
-#'
-#'[Lien vers la base des âges](Bases/Bulletins.paie.nir.fonctionnaires.csv)
-#'
+#'  
+#'[Lien vers la base des âges](Bases/Bulletins.paie.nir.fonctionnaires.csv)  
+#'  
 
 Résumé("Âge des personnels <br>au 31/12/" %+% fin.période.sous.revue,
        années.fonctionnaires,
@@ -608,11 +605,11 @@ Résumé("Âge des personnels <br>au 31/12/" %+% fin.période.sous.revue,
 
 #'   
 #'**Effectif total: `r length(années.fonctionnaires)`**     
-#'
+#'  
 
-#'
-#'### 1.3 Effectifs des personnels par durée de service
-#'
+#'  
+#'### 1.3 Effectifs des personnels par durée de service  
+#'  
 #'**Personnels en fonction des exercices `r début.période.sous.revue` à `r fin.période.sous.revue` inclus :**  
 #'
 attach(Analyse.variations.synthèse)
@@ -626,7 +623,7 @@ Tableau(c("Plus de 2 ans",
         sum(moins.1.an), 
         sum(moins.six.mois))
 
-#'
+#'  
 
 if (nrow(Analyse.variations.par.exercice) > 0)
   qplot(factor(Année), 
@@ -647,11 +644,10 @@ detach(Analyse.variations.synthèse)
 #'**Nota:**  
 #'Personnels en place : ayant servi au moins 730 jours pendant la période.  
 #'Toutes les durées de service sont calculées en multiples de 365 jours.  
-#'Dans les statistiques de cette section, les élus ne sont pas pris en compte.
-#'
+#'Dans les statistiques de cette section, les élus ne sont pas pris en compte.  
+#'  
 
-
-# on ne compte pas les élus dans le total (voir 5.6)
+# on ne compte pas les élus dans le total (voir 5.6)  
 
 année <- début.période.sous.revue
 
@@ -694,11 +690,12 @@ attach(Analyse.rémunérations.premier.exercice, warn.conflicts = FALSE)
 
 temp <- colSums(Analyse.rémunérations.premier.exercice[c("Montant.brut", 
                                                          "total.rémunérations",
+                                                         "total.rémunérations.et.remboursements",
                                                          "indemnités.élu",
                                                          "autres.rémunérations")])
 
-#'### Cumuls des rémunérations brutes pour l'exercice `r année`
-#'
+#'### Cumuls des rémunérations brutes pour l'exercice `r année`  
+#'  
 
 Tableau(c("Rémunérations brutes", 
           "Indemnités d'élus", 
@@ -716,7 +713,7 @@ Tableau(c("Rémunérations brutes",
 #'  *Indemnités d'élus*   : somme du champ *Montant* des rémunérations versées pour les élus   
 #'  *Autres paiements*    : remboursements de frais, régularisations, etc., non compris dans les deux premiers agrégats    
 #'  *Total brut*          : somme des trois précédents facteurs   
-#'
+#'  
 
 somme.brut.non.élu  <- sum(Bulletins.paie[  Bulletins.paie$Année == année 
                                           & ! Bulletins.paie$Emploi %in% libellés.élus
@@ -726,9 +723,9 @@ somme.brut.non.élu  <- sum(Bulletins.paie[  Bulletins.paie$Année == année
 delta  <- somme.brut.non.élu - temp["total.rémunérations"]               
 
 #'**Tests de cohérence**  
-#'
+#'  
 #'Somme des rémunérations brutes versées aux personnels (non élus) :   
-#'
+#'  
 Tableau.vertical2(c("Agrégats",
                     "euros"),
                  c("Bulletins de paie (euros)",
@@ -744,9 +741,9 @@ delta2 <-  temp["Montant.brut"] - temp["total.rémunérations"] - temp["indemnités
 
 #'     
 #'à comparer aux soldes des comptes 641 et 648 du compte de gestion.   
-#'
+#'  
 #'Somme des rémunérations brutes versées (élus compris) :   
-#'
+#'  
 Tableau.vertical2(c("Agrégats",
                     "euros"),
                  c("Bulletins de paie (euros)",
@@ -762,21 +759,21 @@ Tableau.vertical2(c("Agrégats",
 #'**Définitions :**   
 #'  *Bulletins de paie*   : somme du champ *Brut* de la base Bulletins de paie. Le champ *Brut* ne tient pas compte des *Autres paiements* (remboursements de frais, régularisations, etc.) en base de données.  
 #'  *Lignes de paie*      : somme des lignes de paie correspondantes de la base Lignes de paie sans tenir compte des *Autres paiements*   
-#'
+#'  
 
 Sauv.base(chemin.dossier.bases, "temp", "Masses." %+% année)
 
 rm(temp)
 
-#'
+#'  
 #'[Lien vers la base de données](Bases/`r paste0("Masses.", année, ".csv")`)    
 #'        
 #'Les résultats sont exprimés en euros.  
 #'  
 
-#'
+#'  
 #'## 2.2 Fonctionnaires titulaires et stagiaires
-#'
+#'  
 
 filtre.fonctionnaire <- function (X) X[ Statut %in% c("TITULAIRE", "STAGIAIRE") & X >0 ]
 
@@ -813,34 +810,36 @@ if (longueur.non.na(filtre.fonctionnaire(part.rémunération.indemnitaire) > 0))
 
 #'     
 #'**Effectif : `r nrow(AR)`**     
-#'
-#'**Tests de cohérence**  
+#'  
+#'**Tests de cohérence**    
 
 if (nrow(AR) > 0) {
-   temp <- colSums(AR[ ,c("Montant.brut", "total.rémunérations")])
+   temp <- colSums(AR[ ,c("Montant.brut", "total.rémunérations", "total.rémunérations.et.remboursements")])
 } else {
    temp <- c(0,0) }
 
 #'Somme des rémunérations brutes versées aux personnels titulaires et stagiaires :   
-#'
+#'  
 
 Tableau.vertical2(c("Agrégats", "euros"), 
                   c("Bulletins de paie (euros)",  
-                    "Lignes de paie (euros)",
+                    "Lignes de paie (euros), hors remb.",
+                    "Lignes de paie (euros), total.",
                     "Différence (euros)"),
                   c(temp["Montant.brut"],
                     temp["total.rémunérations"],
-                    temp["Montant.brut"] - temp["total.rémunérations"])) 
+                    temp["total.rémunérations.et.remboursements"],
+                    temp["Montant.brut"] - temp["total.rémunérations.et.remboursements"])) 
 
 rm(temp)
 
 #' 
 #'A comparer aux soldes des comptes 6411, 6419 et 648 du conmpte de gestion.     
-#'
+#'  
 
 #'   
 #'### Statistiques de position pour l'exercice `r année`  
-#'
+#'  
 
 
 Résumé(c("Traitement indiciaire",
@@ -848,15 +847,15 @@ Résumé(c("Traitement indiciaire",
          "Autres rémunérations"), 
        AR[c("traitement.indiciaire", "rémunération.indemnitaire", "autres.rémunérations")])
 
-#'    
-#'
+  
+#'  
 Résumé(c("Total rémunérations", "Part de la rémunération contractuelle ou indemnitaire"),
        AR[c("total.rémunérations", "part.rémunération.indemnitaire")])
 
 
 
 #'### Statistiques de position par catégorie pour l'exercice `r année` 
-#'
+#'  
 
 ARA <- AR[AR$Catégorie == 'A', ]
 ARB <- AR[AR$Catégorie == 'B', ]
@@ -916,8 +915,8 @@ if (fichier.personnels.existe)
 #'**Effectif : `r nrow(ARB)`**     
 #'    
 #'**Catégorie C**     
-#'
-#'     
+#'  
+   
 
 if (fichier.personnels.existe)
 {      
@@ -930,7 +929,7 @@ if (fichier.personnels.existe)
 } else
   cat("Pas de statistique en l'absence de fichier des catégories.\n")
 
-#'
+#'   
 
 if (fichier.personnels.existe)
 {  
@@ -945,8 +944,8 @@ if (fichier.personnels.existe)
 #'    
 #'######      <br>
 #'
-#'## 2.3 Contractuels, vacataires et stagiaires inclus
-#'
+#'## 2.3 Contractuels, vacataires et stagiaires inclus  
+#'  
 
 temp <- total.rémunérations[ indemnités.élu == 0 
                              & ! Statut %in% c("TITULAIRE", "STAGIAIRE")
@@ -978,7 +977,7 @@ if (length(temp))
        col = "grey")
 
 #'   
-#'    
+
 
 AR <- Analyse.rémunérations.premier.exercice[  indemnités.élu == 0 
                                               & ! Statut %in% c("TITULAIRE", "STAGIAIRE"), 
@@ -986,12 +985,12 @@ AR <- Analyse.rémunérations.premier.exercice[  indemnités.élu == 0
                                                 "autres.rémunérations",
                                                 "total.rémunérations") ]
 
-#'
+#'  
 Résumé(c(étiquette.rém.indemn, 
          "Autres rémunérations"),
        AR[c("rémunération.indemnitaire", "autres.rémunérations")])
 
-#'
+#'  
 
 Résumé("Total rémunérations",   AR["total.rémunérations"])
 #'   
@@ -1009,7 +1008,7 @@ detach(Analyse.rémunérations.premier.exercice)
 
 année <- fin.période.sous.revue
 
-#'
+#'  
 
 Bulletins.paie.Lignes.paie.dernier.exercice <-  Bulletins.paie.Lignes.paie[Bulletins.paie.Lignes.paie$Année == fin.période.sous.revue, ]
 
@@ -1045,8 +1044,8 @@ attach(Analyse.rémunérations.dernier.exercice, warn.conflicts = FALSE)
 
 temp <- colSums(Analyse.rémunérations.dernier.exercice[c("Montant.brut", "total.rémunérations", "indemnités.élu", "autres.rémunérations")])
 
-#'### Cumuls des rémunérations brutes pour l'exercice `r année`
-#'
+#'### Cumuls des rémunérations brutes pour l'exercice `r année`  
+#'  
 
 Tableau(c("Rémunérations brutes", 
           "Indemnités d'élus", 
@@ -1064,11 +1063,11 @@ Tableau(c("Rémunérations brutes",
 #'  *Indemnités d'élus*   : somme du champ *Montant* des rémunérations versées pour les élus   
 #'  *Autres paiements*    : remboursements de frais, régularisations, etc., non compris dans les deux premiers agrégats    
 #'  *Total brut*          : somme des trois précédents facteurs   
-#'
+#'  
 
-#'
-#'Cumuls réalisés sur les lignes de paie. Les indemnités d'élu ne sont pas prises en compte.  
-#'
+#'  
+#'Cumuls réalisés sur les lignes de paie. Les indemnités d'élu ne sont pas prises en compte.   
+#'  
 
 somme.brut.non.élu  <- sum(Bulletins.paie[  Bulletins.paie$Année == année 
                                           & ! Bulletins.paie$Emploi %in% libellés.élus
@@ -1077,10 +1076,10 @@ somme.brut.non.élu  <- sum(Bulletins.paie[  Bulletins.paie$Année == année
 
              delta  <- somme.brut.non.élu - temp["total.rémunérations"]
 
-#'**Tests de cohérence**  
-#'
-#'Somme des rémunérations brutes versées aux personnels (non élus) :   
-#'
+#'**Tests de cohérence**   
+#'  
+#'Somme des rémunérations brutes versées aux personnels (non élus) :     
+#'  
 
 Tableau.vertical2(c("Agrégats",
                     "euros"),
@@ -1100,9 +1099,9 @@ delta2 <-  temp["Montant.brut"] - temp["total.rémunérations"] - temp["indemnités
 #'**Définitions :**   
 #'  *Bulletins de paie*   : somme du champ *Brut* de la base Bulletins de paie. Le champ *Brut* ne tient pas compte des *Autres paiements* (remboursements de frais, régularisations, etc.) en base de données.  
 #'  *Lignes de paie*      : somme des lignes de paie correspondantes de la base Lignes de paie sans tenir compte des *Autres paiements*   
-#'
+#'  
 #'Somme des rémunérations brutes versées (élus compris) :   
-#'
+#'  
 
 Tableau.vertical2(c("Agrégats",
                     "euros"),
@@ -1115,22 +1114,22 @@ Tableau.vertical2(c("Agrégats",
 
 #'  
 #'à comparer aux soldes des comptes 641, 648 et 653 du compte de gestion   
-#'
+#'  
 
 Sauv.base(chemin.dossier.bases, "temp", "Masses." %+% année)
 
 rm(temp)
 
-#'
+#'  
 #'[Lien vers la base de données](Bases/`r paste0("Masses.", année, ".csv")` )   
-#'
-#'Les résultats sont exprimés en euros.  
-#'
-#'
+#'  
+#'Les résultats sont exprimés en euros.   
+#'  
+#'  
 #'######      
 
 #'## 3.2 Fonctionnaires titulaires et stagiaires
-#'
+#'  
 
 if (longueur.non.na(filtre.fonctionnaire(total.rémunérations)) > 0)
   hist(filtre.fonctionnaire(total.rémunérations) / 1000,
@@ -1142,7 +1141,7 @@ if (longueur.non.na(filtre.fonctionnaire(total.rémunérations)) > 0)
      nclass = 50)
 
 #'  
-#'
+#'  
 
 if (longueur.non.na(filtre.fonctionnaire(rémunération.indemnitaire) > 0))
   hist(filtre.fonctionnaire(rémunération.indemnitaire)/1000,
@@ -1154,7 +1153,7 @@ if (longueur.non.na(filtre.fonctionnaire(rémunération.indemnitaire) > 0))
      nclass = 50)
 
 #'    
-#'
+#'  
 
 if (longueur.non.na(filtre.fonctionnaire(part.rémunération.indemnitaire)) > 0)
   hist(filtre.fonctionnaire(part.rémunération.indemnitaire),
@@ -1165,7 +1164,7 @@ if (longueur.non.na(filtre.fonctionnaire(part.rémunération.indemnitaire)) > 0)
      col = "blue",
      nclass = 30)
 
-#'
+#'  
 #'**Tests de cohérence**  
 
 AR <- Analyse.rémunérations.dernier.exercice[Statut %in% c("TITULAIRE", "STAGIAIRE"), 
@@ -1190,13 +1189,13 @@ Tableau.vertical2(c("Agrégats", "euros"),
 
 
 rm(temp)
-#' 
+#'  
 #'A comparer aux soldes des comptes 6411, 6419 et 648 du compte de gestion.     
-#'
+#'  
 
-#'
+#'  
 #'### Statistiques de position pour l'exercice `r année`  
-#'
+#'  
 
 
 Résumé(c("Traitement indiciaire",
@@ -1208,13 +1207,14 @@ Résumé(c("Traitement indiciaire",
 Résumé(c("Total rémunérations", 
          "Part de la rémunération contractuelle ou indemnitaire"), 
        AR[c("total.rémunérations", "part.rémunération.indemnitaire")])
-       
+
+#'         
 #'**Effectif : `r nrow(AR)`**     
 #'   
 #'######      
-#'
+#'  
 #'### Statistiques de position par catégorie pour l'exercice `r année` 
-#'
+#'  
 
 ARA <- AR[AR$Catégorie == 'A', ]
 ARB <- AR[AR$Catégorie == 'B', ]
@@ -1320,7 +1320,7 @@ if (longueur.non.na(temp) > 0)
      col = "red",
      nclass = 50)
 
-#'
+#'  
 #'**Nota:**   
 #'Ne sont retenues que les rémunérations supérieures à 1 000 euros.  
 #'Les élus ne sont pas pris en compte.   
@@ -1355,9 +1355,9 @@ Résumé("Total rémunérations",   AR["total.rémunérations"])
 detach(Analyse.rémunérations.dernier.exercice)
 
 
-#'
-#'[Lien vers la base de données](Bases/Analyse.rémunérations.csv) d'analyse des rémunérations
-#'
+#'  
+#'[Lien vers la base de données](Bases/Analyse.rémunérations.csv) d'analyse des rémunérations  
+#'   
 
 
 ########### Analyse dynamique ########################
