@@ -339,12 +339,8 @@ if (charger.bases)
                   # En principe la colonne Brut ne tient pas compte des remboursements d efrais ou des régularisations
                   Montant.brut = sum(Brut),
                   Statut = Statut[length(Net.à.Payer)],
-                  mois.entrée = ifelse((minimum <- min(Mois)) != Inf,
-                                       minimum,
-                                       0),
-                  mois.sortie = ifelse((maximum <- max(Mois)) != -Inf,
-                                       maximum,
-                                       0),
+                  mois.entrée = if ((minimum <- min(Mois)) != Inf) minimum else 0,
+                  mois.sortie = if ((maximum <- max(Mois)) != -Inf) maximum else 0,
                   nb.jours = calcul.nb.jours.mois(mois.entrée[1], mois.sortie[1], Année[1]),
                   nb.mois  = mois.sortie[1] - mois.entrée[1] + 1)
   
@@ -373,36 +369,52 @@ if (charger.bases)
     
   }
     
-  system.time(
- { Bulletins.paie.Lignes.paie <- mutate(Bulletins.paie.Lignes.paie,
-                                       montant.traitement.indiciaire 
-                                        = Montant * Codes.paiement.traitement[Code],
-                                       montant.rémunération.principale.contractuel 
-                                        = Montant * Codes.paiement.principal.contractuel[Code],
-                                       montant.rémunération.vacataire 
-                                        = Montant * Codes.paiement.vacations[Code],
-                                       montant.primes 
-                                        = Montant * Codes.paiement.indemnitaire[Code],
-                                       montant.autres.rémunérations 
-                                        = Montant * Codes.paiement.autres[Code],
-                                       montant.indemnité.élu 
-                                        = Montant * Codes.paiement.élu[Code],
 
+  system.time(Bulletins.paie.Lignes.paie <- mutate(Bulletins.paie.Lignes.paie,
+                                                   
+                                       montant.traitement.indiciaire 
+                                       = Montant * Codes.paiement.traitement[Code],
+                                       
+                                       montant.primes 
+                                       = if (montant.traitement.indiciaire != 0) 
+                                         0 else Montant * Codes.paiement.indemnitaire[Code],
+
+                                       montant.rémunération.principale.contractuel 
+                                       = if (montant.traitement.indiciaire != 0
+                                             || montant.primes != 0) 
+                                         0 else Montant * Codes.paiement.principal.contractuel[Code],
+                                       
+                                       montant.rémunération.vacataire 
+                                       = if (montant.traitement.indiciaire != 0 
+                                             || montant.primes != 0
+                                             || montant.rémunération.principale.contractuel != 0) 
+                                         0 else Montant * Codes.paiement.vacations[Code],
+                                       
+                                       montant.autres.rémunérations 
+                                       = if (montant.traitement.indiciaire !=0 
+                                             || montant.rémunération.principale.contractuel !=0
+                                             || montant.rémunération.vacataire !=0
+                                             || montant.primes !=0)
+                                         0 else Montant * Codes.paiement.autres[Code],
+                                       
+                                       montant.indemnité.élu 
+                                       = if (montant.traitement.indiciaire  !=0
+                                             || montant.rémunération.principale.contractuel !=0
+                                             || montant.rémunération.vacataire !=0
+                                             || montant.primes !=0
+                                             || montant.autres.rémunérations !=0)
+                                         0 else Montant * Codes.paiement.élu[Code],
+                                       
                                        ### EQTP  ###
                                        
                                        quotité
                                        =  Temps.de.travail / 100
-                                       * ifelse(corriger.quotité,
-                                                ifelse(is.na(Taux), 1, Taux),
-                                                1)
+                                       * (if (corriger.quotité) (if (is.na(Taux)) 1 else Taux) else 1)
                                        * (montant.rémunération.principale.contractuel > 0 
-                                            | 
+                                          | 
                                           montant.traitement.indiciaire > 0)
-                                       * nb.mois / 12)
+                                       * nb.mois / 12))
   
-  }
-  )
-}
   
   Analyse.rémunérations <- ddply(Bulletins.paie.Lignes.paie,
                                  c(clé.fusion, étiquette.année),
@@ -438,14 +450,15 @@ if (charger.bases)
                                                                         + autres.rémunérations 
                                                                         + indemnités.élu,
                                  
-                                 quotité = ifelse(length(quotité[quotité > 0]) > 0, 
-                                                  quotité[quotité > 0][1], 
-                                                  0),
-                                 montant.net.eqtp = ifelse(quotité == 0, 0, Montant.net / quotité),
-                                 part.rémunération.indemnitaire = ifelse( (s <- traitement.indiciaire + rémunération.principale.contractuel + rémunération.indemnitaire) == 0, 
-                                                                          0,
-                                                                          (rémunération.indemnitaire + rémunération.principale.contractuel )/ 
-                                                                            s * 100))
+                                 quotité = if (length(quotité[quotité > 0]) > 0)  quotité[quotité > 0][1] else 0,
+                                 montant.net.eqtp = if (quotité == 0) 0 else Montant.net / quotité,
+                                 part.rémunération.indemnitaire = if (is.na(traitement.indiciaire)) 
+                                                                   0 else if ((s <-  traitement.indiciaire 
+                                                                                  + rémunération.principale.contractuel 
+                                                                                  + rémunération.indemnitaire) == 0)
+                                                                           0 else  (rémunération.indemnitaire + rémunération.principale.contractuel ) 
+                                                                                  / s * 100,
+                                .progress = "text")
   
   Analyse.rémunérations <- Analyse.rémunérations[!is.na(Analyse.rémunérations$total.rémunérations), ]
   
@@ -475,13 +488,10 @@ if (charger.bases)
                                        montant.net.eqtp.début  = montant.net.eqtp[1],
                                        montant.net.eqtp.sortie = montant.net.eqtp[Nexercices],
                                        moyenne.rémunération.annuelle.sur.période = mean(montant.net.eqtp[montant.net.eqtp > 0], na.rm=TRUE),
-                                       variation.rémunération = ifelse(Nexercices > 1 & montant.net.eqtp.début > 0,
-                                                                       (montant.net.eqtp.sortie / montant.net.eqtp.début -1)*100,
-                                                                       0),
-                                       variation.moyenne.rémunération = 
-                                         ifelse(total.mois == 0, 
-                                                 0,
-                                                ( ( 1 + variation.rémunération / 100 ) ^ (12 / total.mois) - 1) * 100),
+                                       variation.rémunération = if (Nexercices > 1 & montant.net.eqtp.début > 0) 
+                                                                 (montant.net.eqtp.sortie / montant.net.eqtp.début -1)*100  else 0,
+                                       variation.moyenne.rémunération = if (total.mois == 0)   
+                                                                         0  else (( 1 + variation.rémunération / 100 ) ^ (12 / total.mois) - 1) * 100,
                                        plus.2.ans  = (total.mois  >= 2*12),
                                        moins.2.ans = (total.mois < 2*12),
                                        moins.1.an  = (total.mois < 12),
@@ -516,7 +526,8 @@ if (charger.bases)
                                               Bulletins.paie[  Bulletins.paie$Année == fin.période.sous.revue
                                                              & Bulletins.paie$Mois == 12,
                                                              c(clé.fusion, champ.nir)], 
-                                              by = clé.fusion, all = FALSE)
+                                              by = clé.fusion, 
+                                              all = FALSE)
   
   Bulletins.paie.nir.fonctionnaires  <- unique(Bulletins.paie[  Bulletins.paie$Année == fin.période.sous.revue 
                                                               & Bulletins.paie$Mois  == 12
@@ -1771,7 +1782,8 @@ HS.sup.25 <- merge(HS.sup.25,
                    ddply(Bulletins.paie.Lignes.paie, 
                          .(Matricule, Année, Mois),
                          summarise,
-                         "Traitement indiciaire mensuel" = sum(montant.traitement.indiciaire)))
+                         "Traitement indiciaire mensuel" = sum(montant.traitement.indiciaire),
+                         .progress = "text"))
                    
 HS.sup.25 <- merge(HS.sup.25, Analyse.rémunérations[ , c(étiquette.matricule, étiquette.année, "traitement.indiciaire")])
 
