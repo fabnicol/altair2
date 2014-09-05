@@ -128,20 +128,32 @@ bulletins.paie <- bulletins.paie[file.exists(chemin(bulletins.paie))]
 # et au maximum fin.période.sous.revue, qui contiennent toutes les colonnes requises
 # pour le contrôle
 
-Read.csv("Lignes.paie", lignes.paie, colClasses = lignes.paie.classes.input)
+res <- try(Read.csv("Lignes.paie", lignes.paie, colClasses = lignes.paie.classes.input), silent = TRUE)
+if (inherits(res, 'try-error'))
+  res2 <- try(Read.csv("Lignes.paie", lignes.paie, colClasses = lignes.paie.classes.input.fallback), silent = TRUE)
+if (inherits(res2, 'try-error'))
+  stop("Problème de lecture des bases de lignes de paye")
 
 if (!is.null(Lignes.paie)) message("Chargement des lignes de paie.") else stop("Chargement des lignes de paie en échec.")
 
 Lignes.paie <- Lignes.paie[setdiff(names(Lignes.paie), c("Année.1","Mois.1","Matricule.1"))]
 
-Read.csv("Bulletins.paie", bulletins.paie, colClasses = bulletins.paie.classes.input)
+res <- try(Read.csv("Bulletins.paie", bulletins.paie, colClasses = bulletins.paie.classes.input), silent = TRUE)
+if (inherits(res, 'try-error')) 
+    stop("Problème de lecture des bases de bulletins de paye")
 
 if (!is.null(Bulletins.paie)) message("Chargement des bulletins de paie.") else stop("Chargement des bulletins de paie en échec.")
 
+if (!extraire.années) {
+  début.période.sous.revue    <- pmin.int(Bulletins.paie$Année)
+  fin.période.sous.revue      <- pmax.int(Bulletins.paie$Année)
+}
+
+
 Bulletins.paie <- Bulletins.paie[  Bulletins.paie$Année >= début.période.sous.revue 
-                                 & Bulletins.paie$Année <= fin.période.sous.revue, ]
+                                   & Bulletins.paie$Année <= fin.période.sous.revue, ]
 Lignes.paie    <- Lignes.paie[  Lignes.paie$Année >= début.période.sous.revue 
-                              & Lignes.paie$Année <= fin.période.sous.revue, ]
+                                & Lignes.paie$Année <= fin.période.sous.revue, ]
 
 matricules.à.retirer  <- Lignes.paie[Lignes.paie$Code == "", "Matricule"]
 Lignes.paie    <- Lignes.paie[Lignes.paie$Code != "", ]
@@ -373,7 +385,7 @@ if (charger.bases)
 # L'optimisation ci-dessous repose sur l'utilisation des informations déjà calculées sur les colonnes précédentes pour éviter
 # de computer Codes....[Code] autant que possible. Gain de temps par rapport à une consultation systématique : x100 à x200 
 
-  Bulletins.paie.Lignes.paie <- mutate(Bulletins.paie.Lignes.paie,
+  Bulletins.paie.Lignes.paie <- try(mutate(Bulletins.paie.Lignes.paie,
                                                    
                                        montant.traitement.indiciaire 
                                        = Montant * Codes.paiement.traitement[Code],
@@ -416,8 +428,12 @@ if (charger.bases)
                                        * (montant.rémunération.principale.contractuel > 0 
                                           | 
                                           montant.traitement.indiciaire > 0)
-                                       * nb.mois / 12)
+                                       * nb.mois / 12), silent=TRUE)
   
+
+  if (inherits(Bulletins.paie.Lignes.paie, 'try-error') )
+    stop("Il est probable que le fichier des codes n'est pas exhaustif. Avez-vous (re-)généré l'ensemble des codes récemment ?")
+
   Bulletins.paie.Lignes.paie$quotité[is.na(Bulletins.paie.Lignes.paie$quotité)] <- 0
   
   Analyse.rémunérations <- ddply(Bulletins.paie.Lignes.paie,
@@ -504,10 +520,10 @@ if (charger.bases)
                                        statut = Statut[1],
                                        .progress = "tk")
   
-  
-  
-  Analyse.variations.par.exercice <- na.omit(Analyse.variations.par.exercice[ ( Analyse.variations.par.exercice$Année > début.période.sous.revue 
-                                                                               & Analyse.variations.par.exercice$Année < fin.période.sous.revue) | 
+
+
+  Analyse.variations.par.exercice <- na.omit(Analyse.variations.par.exercice[ ( Analyse.variations.par.exercice$Année > min.var
+                                                                               & Analyse.variations.par.exercice$Année < max.var) | 
                                                                                Analyse.variations.par.exercice$nb.mois > seuil.troncature, ])
     
   temp <- Analyse.variations.synthèse[Analyse.variations.synthèse$plus.2.ans, clé.fusion] 
@@ -1802,15 +1818,16 @@ HS.sup.25 <- with(HS.sup.25, HS.sup.25[order(Matricule, Année, Mois), c(étiquett
                                                                         "Montant")])
 
 # donne un tableau à 3 dimensions [Matricules, Années, Mois] dont les valeurs sont nommées par matricule
-# bizarrement le hashage de la variable année se fait par charactère alors que le mois reste entier !
+# bizarrement le hashage de la variable année se fait par charactère alors que le mois reste entier dans certaines exécutions et pas dana d'autres !
+# Tout convertir en as.character() est plus prudent.
 
 temp <- with(HS.sup.indiciaire.mensuel, 
              tapply(montant.traitement.indiciaire, list(Matricule, Année, Mois), FUN=sum))
 
 traitement.indiciaire.mensuel <-    unlist(Map(function(x, y, z) temp[x, y, z], 
-                                        HS.sup.indiciaire.mensuel$Matricule, 
+                                        as.character(HS.sup.indiciaire.mensuel$Matricule), 
                                         as.character(HS.sup.indiciaire.mensuel$Année), 
-                                        HS.sup.indiciaire.mensuel$Mois), use.names=FALSE)
+                                        as.character(HS.sup.indiciaire.mensuel$Mois)), use.names=FALSE)
 
 HS.sup.25 <- merge(HS.sup.25, data.frame(Matricule=HS.sup.indiciaire.mensuel$Matricule, 
                                     Année=HS.sup.indiciaire.mensuel$Année,
