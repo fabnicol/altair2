@@ -369,6 +369,9 @@ if (charger.bases)
     
   }
     
+# Optimisation : il faut impérativement limiter le recours aux hash table lookups pour les gros fichiers.
+# L'optimisation ci-dessous repose sur l'utilisation des informations déjà calculées sur les colonnes précédentes pour éviter
+# de computer Codes....[Code] autant que possible. Gain de temps par rapport à une consultation systématique : x100 à x200 
 
   Bulletins.paie.Lignes.paie <- mutate(Bulletins.paie.Lignes.paie,
                                                    
@@ -1085,9 +1088,9 @@ delta2 <-  temp["Montant.brut"] - temp["total.rémunérations"] - temp["indemnités
 #'**Définitions :**   
 #'  *Bulletins de paie*   : somme du champ *Brut* de la base Bulletins de paie. Le champ *Brut* ne tient pas compte des *Autres paiements* (remboursements de frais, régularisations, etc.) en base de données.  
 #'  *Lignes de paie*      : somme des lignes de paie correspondantes de la base Lignes de paie sans tenir compte des *Autres paiements*   
-#'  
+#'   
 #'Somme des rémunérations brutes versées (élus compris) :   
-#'  
+#'   
 
 Tableau.vertical2(c("Agrégats",
                     "euros"),
@@ -1750,12 +1753,7 @@ Tableau(c("Nombre de contractuels percevant des IFTS", "Nombre de lignes IFTS po
 # l'expression régulière expression.rég.heures.sup donnée par le fichier prologue.R
  
 
-HS.sup.25 <- Bulletins.paie.Lignes.paie[Heures.Sup. >= 25
-                                                 & Codes.paiement.indemnitaire[Code] != 0
-                                                 & ! grepl(".*SMIC.*",
-                                                         Libellé, ignore.case = TRUE)
-                                                 & grepl(expression.rég.heures.sup,
-                                                         Libellé, ignore.case = TRUE),
+HS.sup.25 <- Bulletins.paie.Lignes.paie[Heures.Sup. >= 25,
                                                  c(étiquette.matricule,
                                                    étiquette.année,
                                                    "Statut",
@@ -1766,22 +1764,66 @@ HS.sup.25 <- Bulletins.paie.Lignes.paie[Heures.Sup. >= 25
                                                    "Heures.Sup.",
                                                    "Base",
                                                    "Taux",
-                                                   "Montant")]
+                                                   "Montant",
+                                                   "montant.primes",
+                                                   "montant.traitement.indiciaire")]
+
+# version 1 : 48 s
+# HS.sup.25 <- merge(HS.sup.25, 
+#                    ddply(Bulletins.paie.Lignes.paie, 
+#                          .(Matricule, Année, Mois),
+#                          summarise,
+#                          "Traitement indiciaire mensuel" = sum(montant.traitement.indiciaire),
+#                          .progress = "tk"))
+
+# version optimisée : 0,15 s soit x300
 
 
+HS.sup.indiciaire.mensuel <- with(HS.sup.25, HS.sup.25[!is.na(montant.traitement.indiciaire) & montant.traitement.indiciaire != 0, c("Matricule", "Année", "Mois", "montant.traitement.indiciaire")])
 
-HS.sup.25 <- merge(HS.sup.25, 
-                   ddply(Bulletins.paie.Lignes.paie, 
-                         .(Matricule, Année, Mois),
-                         summarise,
-                         "Traitement indiciaire mensuel" = sum(montant.traitement.indiciaire),
-                         .progress = "tk"))
-                   
+HS.sup.25 <- with(HS.sup.25, 
+                  HS.sup.25[! is.na(montant.primes)
+                            & montant.primes != 0
+                            & ! grepl(".*SMIC.*",
+                                     Libellé, ignore.case = TRUE)
+                            & grepl(expression.rég.heures.sup,
+                                      Libellé, ignore.case = TRUE), ])
+  
+HS.sup.25 <- with(HS.sup.25, HS.sup.25[order(Matricule, Année, Mois), c(étiquette.matricule,
+                                                                        étiquette.année,
+                                                                        "Statut",
+                                                                        "Mois",
+                                                                        "Libellé",
+                                                                        étiquette.code,
+                                                                        "Heures",
+                                                                        "Heures.Sup.",
+                                                                        "Base",
+                                                                        "Taux",
+                                                                        "Montant")])
+
+# donne un tableau à 3 dimensions [Matricules, Années, Mois] dont les valeurs sont nommées par matricule
+# bizarrement le hashage de la variable année se fait par charactère alors que le mois reste entier !
+
+temp <- with(HS.sup.indiciaire.mensuel, 
+             tapply(montant.traitement.indiciaire, list(Matricule, Année, Mois), FUN=sum))
+
+traitement.indiciaire.mensuel <-    unlist(Map(function(x, y, z) temp[x, y, z], 
+                                        HS.sup.indiciaire.mensuel$Matricule, 
+                                        as.character(HS.sup.indiciaire.mensuel$Année), 
+                                        HS.sup.indiciaire.mensuel$Mois), use.names=FALSE)
+
+HS.sup.25 <- merge(HS.sup.25, data.frame(Matricule=HS.sup.indiciaire.mensuel$Matricule, 
+                                    Année=HS.sup.indiciaire.mensuel$Année,
+                                    Mois=HS.sup.indiciaire.mensuel$Mois,
+                                    "Traitement indiciaire mensuel"=traitement.indiciaire.mensuel))
+
+rm(temp, traitement.indiciaire.mensuel, HS.sup.indiciaire.mensuel )
+
 HS.sup.25 <- merge(HS.sup.25, Analyse.rémunérations[ , c(étiquette.matricule, étiquette.année, "traitement.indiciaire")])
 
-names(HS.sup.25)[length(names(HS.sup.25))]   <- "Traitement indiciaire annuel"
+HS.sup.25 <- unique(HS.sup.25)
 
-rm(HS.sup.25.matricules.mois, HS.sup.25.montants)
+names(HS.sup.25) <- sub("traitement.indiciaire", "Traitement indiciaire annuel", names(HS.sup.25))
 
 nombre.Lignes.paie.HS.sup.25 <- nrow(HS.sup.25)
 

@@ -10,7 +10,7 @@ setOSWindows         <- TRUE
 
 générer.codes        <- FALSE
 
-extraire.population  <- TRUE
+extraire.population  <- FALSE
 fusionner.nom.prénom <- FALSE
 charger.bases        <- TRUE
 sauvegarder.bases    <- FALSE
