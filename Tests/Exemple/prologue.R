@@ -6,11 +6,11 @@ fin.période.sous.revue      <- 2012
 
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
 
-setOSWindows         <- Sys.info()["sysname"] != "Linux")
+setOSWindows         <- Sys.info()["sysname"] != "Linux"
 
 générer.codes        <- FALSE
-
-extraire.années <- FALSE
+paralléliser         <- FALSE
+extraire.années      <- FALSE
 extraire.population  <- FALSE
 fusionner.nom.prénom <- FALSE
 charger.bases        <- TRUE
