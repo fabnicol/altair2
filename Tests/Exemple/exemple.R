@@ -401,11 +401,12 @@ if (charger.bases)
   } else {
   
     # Fusion parallélisée : gain de plus de moitié sur 4 coeurs (25,5s --> 9,7s) soit environ 16s de gain sous linux [RAG]
-    #                       sous windows la parallélisation est moins performance, le gain est d'environ 5s.    
+    #                       sous windows le merge standard est plus rapide (18s) mais la parallélisation est moins performante,
+    #                       le gain est d'environ 4s à 14s, soit 5s de plus que sous linux parallèle.    
       
     library(parallel)   
     
-    cores   <- parallel::detectCores()
+    cores   <- detectCores()
         
     L <- lapply(list(Bulletins.paie, Lignes.paie), 
                 function(X) {
@@ -417,15 +418,18 @@ if (charger.bases)
   
     
     if (setOSWindows) {
-      cluster <- parallel::makePSOCKcluster(cores)
+      
+      cluster <- makePSOCKcluster(cores)
       clusterExport(cluster, c("clé.fusion"))
       
       L <- clusterMap(cluster, function(x, y)  merge(x,
                                                    y,
                                                    by = c(clé.fusion, "Année", "Mois")),
                                                    L[[1]],  # Bulletins de paie coupés en 4, éventuellement nul
-                                                   L[[2]],  # Lignes de paie coupés en 4, éventuellement nul 
-                                                   .scheduling = "static")
+                                                   L[[2]])  # Lignes de paie coupés en 4, éventuellement nul  
+      stopCluster(cluster)
+      rm(cluster)
+      
     }  else  {
       
       L <- mcMap(function(x, y)  merge(x,
