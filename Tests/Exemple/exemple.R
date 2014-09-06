@@ -32,7 +32,7 @@ options(warn = -1, verbose = FALSE, OutDec = ",")
 
 try(setwd("Tests/Exemple"), silent = TRUE)
 
-source("prologue.R")
+source("prologue.R", encoding = "ISO-8859-1")
 
 compilerOptions <- setCompilerOptions(suppressAll = TRUE)
 JITlevel        <- enableJIT(2)
@@ -387,11 +387,62 @@ if (charger.bases)
   
   Bulletins.paie <- merge (Bulletins.paie, anavar)
   
-  Bulletins.paie.Lignes.paie <- merge(Bulletins.paie,
-                                      Lignes.paie,
-                                      by = c(clé.fusion, "Année", "Mois"))
+  nb.exercices <- fin.période.sous.revue - début.période.sous.revue + 1
+      
+  cut <- round(nb.exercices/4) 
+  if (cut == 0) cut = 1
+  
+  # Fusion non parallélisée
+  
+  if (! paralléliser) {
+    Bulletins.paie.Lignes.paie <- merge(Bulletins.paie,
+                                        Lignes.paie,
+                                        by = c(clé.fusion, "Année", "Mois")) 
+  } else {
+  
+    # Fusion parallélisée : gain de plus de moitié sur 4 coeurs (25,5s --> 9,7s) soit environ 16s de gain sous linux [RAG]
+    #                       sous windows la parallélisation est moins performance, clusterMap prenant 5s de plus que mcmapply    
+      
+    library(parallel)   
+    
+    cores   <- parallel::detectCores()
+        
+    L <- lapply(list(Bulletins.paie, Lignes.paie), 
+                function(X) {
+                             lapply(0:3, 
+                                    function(j) {
+                                      if (nb.exercices > j)  
+                                         X[  X$Année >= j * cut +  début.période.sous.revue 
+                                            & X$Année < (j + 1) * cut +  début.période.sous.revue, ]})})
+  
+    
+    if (setOSWindows) {
+      cluster <- parallel::makePSOCKcluster(cores)
+      clusterExport(cluster, c("clé.fusion"))
+      
+      L <- clusterMap(cluster, function(x, y)  merge(x,
+                                                   y,
+                                                   by = c(clé.fusion, "Année", "Mois")),
+                                                   L[[1]],  # Bulletins de paie coupés en 4, éventuellement nul
+                                                   L[[2]],  # Lignes de paie coupés en 4, éventuellement nul 
+                                                   .scheduling = "static")
+    }  else  {
+      
+      L <- mcMap(function(x, y)  merge(x,
+                                          y,
+                                          by = c(clé.fusion, "Année", "Mois")),
+                      L[[1]],  # Bulletins de paie coupés en 4, éventuellement nul
+                      L[[2]],  # Lignes de paie coupés en 4, éventuellement nul 
+                      mc.cores = cores)
+      
+      
+    }
+                                      
+    Bulletins.paie.Lignes.paie <- rbind(L[[1]], L[[2]], L[[3]], L[[4]])
+    rm(L)
+  }
 
-  if (!is.null(Bulletins.paie.Lignes.paie)) message("Fusion réalisée")
+  if (!is.null(Bulletins.paie.Lignes.paie)) message("Fusion réalisée") else stop("Echec de fusion" ) 
   
   if (! exists("Codes.paiement.indemnitaire"))  stop("Pas de fichier des Types de codes [INDEMNITAIRE]")
   if (! exists("Codes.paiement.principal.contractuel"))  stop("Pas de fichier des Types de codes [PRINCIPAL.CONTRACTUEL]")
