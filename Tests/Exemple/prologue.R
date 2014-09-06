@@ -9,7 +9,7 @@ fin.période.sous.revue      <- 2012
 setOSWindows         <- Sys.info()["sysname"] != "Linux"
 
 générer.codes        <- FALSE
-paralléliser         <- FALSE
+paralléliser         <- TRUE
 extraire.années      <- FALSE
 extraire.population  <- FALSE
 fusionner.nom.prénom <- FALSE
