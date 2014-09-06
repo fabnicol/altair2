@@ -39,7 +39,7 @@ JITlevel        <- enableJIT(2)
 
 source(file.path(chemin.dossier, "bibliotheque.fonctions.paie.R"), encoding = encodage.entrée)
 
-installer.paquets(knitr, plyr, ggplot2, assertthat, yaml, gtools, utils)
+installer.paquets(knitr, plyr, ggplot2, assertthat, yaml, gtools, utils, parallel)
 # + parallel, soSNOW (windows) ou doMC (unix))
 
 # version parallélisée : à ce stade les tests ne sont pas concluant sur les applications de ddply
@@ -401,7 +401,7 @@ if (charger.bases)
   } else {
   
     # Fusion parallélisée : gain de plus de moitié sur 4 coeurs (25,5s --> 9,7s) soit environ 16s de gain sous linux [RAG]
-    #                       sous windows la parallélisation est moins performance, clusterMap prenant 5s de plus que mcmapply    
+    #                       sous windows la parallélisation est moins performance, le gain est d'environ 5s.    
       
     library(parallel)   
     
