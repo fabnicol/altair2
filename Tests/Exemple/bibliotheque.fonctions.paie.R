@@ -23,7 +23,7 @@ scan.prime <- function(texte, Base)
 trouver.valeur.skip <-  function(chemin.table, encodage, classes = NA) 
   max(
     sapply(
-      read.csv2(chemin.table, nrows = 25, fileEncoding = encodage, colClasses = classes),
+      read.csv2(chemin.table, nrows = 25, fileEncoding = encodage.entrée, colClasses = classes),
       function(x) 
       {
         m <- match(champ.détection.1, x, nomatch = 0 ) 

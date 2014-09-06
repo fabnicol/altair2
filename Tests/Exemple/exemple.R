@@ -21,13 +21,18 @@
 library(compiler)
 
 options(warn = -1, verbose = FALSE, OutDec = ",")
-encodage.entrée <- "ISO-8859-1"
+
+# encodage :sous unix, les fichiers sources devraient être encodés en UTF-8 pour permettre une génération correcte des documents
+#           sous Windows, en ISO-8859-1.
+# Les bases peuvent être en encodage fixe, ici ISO-8859-1 pour des raisons de commodité Windows
+# Pour convertir les fihciers, réencoder sous RStudio par "Save with encoding..." les trois fichiers source *.R
+
 
 # dans cet ordre
 
 try(setwd("Tests/Exemple"), silent = TRUE)
 
-source("prologue.R", encoding = encodage.entrée)
+source("prologue.R")
 
 compilerOptions <- setCompilerOptions(suppressAll = TRUE)
 JITlevel        <- enableJIT(2)
@@ -35,7 +40,27 @@ JITlevel        <- enableJIT(2)
 source(file.path(chemin.dossier, "bibliotheque.fonctions.paie.R"), encoding = encodage.entrée)
 
 installer.paquets(knitr, plyr, ggplot2, assertthat, yaml, gtools, utils)
+# + parallel, soSNOW (windows) ou doMC (unix))
 
+# version parallélisée : à ce stade les tests ne sont pas concluant sur les applications de ddply
+# toutefois à terme on pourrait couper les bases en 2 selon les lignes.
+
+#cores <- parallel::detectCores()  
+
+# if (setOSWindows) 
+#   {
+#     installer.paquets(doSNOW) 
+#     library(doSNOW)
+# si utilisation de foreach :
+#     registerDoSNOW(makeCluster(cores, type = "SOCK"))
+#   } else {
+#     installer.paquets(doMC)
+#     library(doMC)
+# si utilisation de foreach :
+#     registerDoMC(cores = cores, type="SOCK")
+#   }
+
+#library(foreach)  
 library(knitr)
 library(plyr)
 library(ggplot2)
@@ -130,9 +155,11 @@ bulletins.paie <- bulletins.paie[file.exists(chemin(bulletins.paie))]
 
 res <- try(Read.csv("Lignes.paie", lignes.paie, colClasses = lignes.paie.classes.input), silent = TRUE)
 if (inherits(res, 'try-error'))
+{
   res2 <- try(Read.csv("Lignes.paie", lignes.paie, colClasses = lignes.paie.classes.input.fallback), silent = TRUE)
-if (inherits(res2, 'try-error'))
+  if (inherits(res2, 'try-error'))
   stop("Problème de lecture des bases de lignes de paye")
+}
 
 if (!is.null(Lignes.paie)) message("Chargement des lignes de paie.") else stop("Chargement des lignes de paie en échec.")
 
@@ -145,8 +172,8 @@ if (inherits(res, 'try-error'))
 if (!is.null(Bulletins.paie)) message("Chargement des bulletins de paie.") else stop("Chargement des bulletins de paie en échec.")
 
 if (!extraire.années) {
-  début.période.sous.revue    <- pmin.int(Bulletins.paie$Année)
-  fin.période.sous.revue      <- pmax.int(Bulletins.paie$Année)
+  début.période.sous.revue    <- min(Bulletins.paie$Année)
+  fin.période.sous.revue      <- max(Bulletins.paie$Année)
 }
 
 
@@ -357,6 +384,7 @@ if (charger.bases)
                   nb.mois  = mois.sortie[1] - mois.entrée[1] + 1)
   
   
+  
   Bulletins.paie <- merge (Bulletins.paie, anavar)
   
   Bulletins.paie.Lignes.paie <- merge(Bulletins.paie,
@@ -478,8 +506,7 @@ if (charger.bases)
                                                                             + rémunération.principale.contractuel 
                                                                             + rémunération.indemnitaire) == 0)
                                                                            0 else  (rémunération.indemnitaire + rémunération.principale.contractuel ) 
-                                                                                  / s * 100,
-                                .progress = "tk")
+                                                                                   / s * 100)
   
   Analyse.rémunérations <- Analyse.rémunérations[!is.na(Analyse.rémunérations$total.rémunérations), ]
   
@@ -495,7 +522,7 @@ if (charger.bases)
                                                                 "nb.mois",
                                                                 "quotité")]
     
-  Analyse.variations.synthèse <- ddply(Analyse.variations.par.exercice,
+ Analyse.variations.synthèse <- ddply(Analyse.variations.par.exercice,
                                        clé.fusion,
                                        summarise,
                                        
@@ -517,13 +544,13 @@ if (charger.bases)
                                        moins.2.ans = (total.mois < 2*12),
                                        moins.1.an  = (total.mois < 12),
                                        moins.six.mois = (total.mois < 6),
-                                       statut = Statut[1],
-                                       .progress = "tk")
+                                       statut = Statut[1])
+                                 
   
 
 
-  Analyse.variations.par.exercice <- na.omit(Analyse.variations.par.exercice[ ( Analyse.variations.par.exercice$Année > min.var
-                                                                               & Analyse.variations.par.exercice$Année < max.var) | 
+  Analyse.variations.par.exercice <- na.omit(Analyse.variations.par.exercice[ ( Analyse.variations.par.exercice$Année > début.période.sous.revue
+                                                                               & Analyse.variations.par.exercice$Année < fin.période.sous.revue) | 
                                                                                Analyse.variations.par.exercice$nb.mois > seuil.troncature, ])
     
   temp <- Analyse.variations.synthèse[Analyse.variations.synthèse$plus.2.ans, clé.fusion] 

@@ -6,7 +6,7 @@ fin.période.sous.revue      <- 2012
 
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
 
-setOSWindows         <- TRUE
+setOSWindows         <- Sys.info()["sysname"] != "Linux")
 
 générer.codes        <- FALSE
 
@@ -28,7 +28,7 @@ taux.tolérance.homonymie <- 5  # en %
 # les bases commencent par une majuscule. Un nom de fichier est souvent associé
 # à une variable commençant par une majuscule et représentant la base (data.frame ou matrice)
 
-racine                      <- "Ville Annecy Paye BP-"
+racine                      <- "RAG_2009_2012-"
 nom.fichier.codes.paiement  <- paste0(racine, "codes.csv")
 fichier.personnels          <- "Catégories des personnels"
 nom.fichier.personnels      <- paste0(fichier.personnels, ".csv")
@@ -90,18 +90,20 @@ date.format                 <- "%d/%m/%Y"
 libellés.élus               <- c("ELU", "ELUS", "Elu", "Elus", "élu", "élus")
 codes.NBI <- c("1012", "101B", "101M", "4652", "4672")
 
-if (!setOSWindows)
-{
-  windows <- (Sys.info()["sysname"] != "Linux")
-  
-  if (windows)
-  { 
-    encodage.entrée <- "ISO-8859-1"    
-  } else 
-  {
-    encodage.entrée <- "UTF-8"    
-  }
-}
+# if (!setOSWindows)
+# {
+#   windows <- (Sys.info()["sysname"] != "Linux")
+#   
+#   if (windows)
+#   { 
+#     encodage.entrée <- "ISO-8859-1"    
+#   } else 
+#   {
+#     encodage.entrée <- "UTF-8"    
+#   }
+# }
+
+encodage.entrée <- "ISO-8859-1"
 
 modalité.traitement            <- "TRAITEMENT"     # s'applique aussi aux NBI
 modalité.indemnitaire          <- "INDEMNITAIRE"   # hors vacations
