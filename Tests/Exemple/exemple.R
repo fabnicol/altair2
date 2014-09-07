@@ -25,7 +25,7 @@ options(warn = -1, verbose = FALSE, OutDec = ",")
 # encodage :sous unix, les fichiers sources devraient être encodés en UTF-8 pour permettre une génération correcte des documents
 #           sous Windows, en ISO-8859-1.
 # Les bases peuvent être en encodage fixe, ici ISO-8859-1 pour des raisons de commodité Windows
-# Pour convertir les fihciers, réencoder sous RStudio par "Save with encoding..." les trois fichiers source *.R
+# Pour convertir les fichiers, réencoder sous RStudio par "Save with encoding..." les trois fichiers source *.R
 
 
 # dans cet ordre
@@ -174,6 +174,7 @@ if (!is.null(Bulletins.paie)) message("Chargement des bulletins de paie.") else 
 if (!extraire.années) {
   début.période.sous.revue    <- min(Bulletins.paie$Année)
   fin.période.sous.revue      <- max(Bulletins.paie$Année)
+  période                     <- début.période.sous.revue:fin.période.sous.revue
 }
 
 
@@ -359,13 +360,13 @@ if (exists("Codes.paiement"))
 
 # Alternative en cas de difficulté :
 #
-# Bulletins.paie.Lignes.paie <- do.call(rbind, lapply(début.période.sous.revue:fin.période.sous.revue,
+# Bulletins.paie.Lignes.paie <- do.call(rbind, lapply(période,
 #                                                     function(x) 
 #                                                        merge(Bulletins.paie[Bulletins.paie$Année == x, ],
 #                                                              Lignes.paie[Lignes.paie$Année == x, ], 
 #                                                              by=c(étiquette.matricule, "Mois"))))
 
-# Lorsque les bases sont déjà chargées, ont peu désactiver le rechargement par charger.bases <- FALSE
+# Lorsque les bases sont déjà chargées, on peut désactiver le rechargement par charger.bases <- FALSE
 
 if (charger.bases)
 {
@@ -680,9 +681,34 @@ if (longueur.non.na(années.total.hors.élus) > 0)
 
 Résumé("Âge des personnels <br>au 31/12/" %+% fin.période.sous.revue, années.total.hors.élus, align = 'c')
 
-#'Effectif total: `r length(années.total.hors.élus)`  
+#'Effectif de l'histogramme: `r length(années.total.hors.élus)`  
 #'  
-#'######      <br>
+
+liste.années <- as.character(période)
+
+effectifs <- lapply(période, 
+                      function(x) {
+                         A <- Bulletins.paie[Bulletins.paie$Année == x, c("Matricule", "Statut", "Service", "Emploi", "nb.mois")]
+                         E <- unique(A[ , c("Matricule", "nb.mois")])
+                         F <- E[E$nb.mois == 12, ]
+                         G <- unique(A[(A$Statut == "TITULAIRE" | A$Statut == "STAGIAIRE") , c("Matricule", "nb.mois")])
+                         H <- G[G$nb.mois == 12, ]
+                         I <- unique(A[A$Service %in% libellés.élus | A$Emploi %in% libellés.élus, c("Matricule", "nb.mois")])
+                         J <- I[I$nb.mois == 12, ]
+                         résultat <- c(nrow(E), nrow(F), nrow(G), nrow(H), nrow(I), nrow(J))
+                         rm(A, E, F, G, H, I, J)
+                         résultat
+                      })
+
+effectifs <- prettyNum(effectifs, big.mark = " ")
+tableau.effectifs <- as.data.frame(effectifs, row.names = c("Total", "  dont présents 12 mois", "  dont fonctionnaires", "  dont fonct. présents 12 mois", "  dont élus", "  dont élus présents 12 mois"))
+
+names(tableau.effectifs) <- liste.années
+#'                                             
+kable(tableau.effectifs, row.names = TRUE, align='c')
+#'  
+#'  
+#'[Lien vers la base des effectifs](Bases/tableau.effectifs.csv)  
 #'  
 #'  
 #'### 1.2 Ensemble des fonctionnaires stagiaires et titulaires    
@@ -1512,7 +1538,7 @@ detach(Analyse.variations.synthèse)
 f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Analyse.variations.par.exercice$Année == x, "Montant.net"])/ 1000, big.mark = " ", digits = 5, format = "fg")
 
 Tableau.vertical(c(étiquette.année, "Rémunération nette totale (k&euro;)"), 
-                 début.période.sous.revue:fin.période.sous.revue, 
+                 période, 
                  f)
 
 
@@ -1522,16 +1548,16 @@ Tableau.vertical(c(étiquette.année, "Rémunération nette totale (k&euro;)"),
 #'######   
 #'
 
-Résumé(   c("Première année",
-            "Dernière année",
-            "Moyenne sur la période <br>d'activité"),
-          Analyse.variations.synthèse.filtrée[1:3])
+Résumé(c("Première année",
+         "Dernière année",
+         "Moyenne sur la période <br>d'activité"),
+       Analyse.variations.synthèse.filtrée[1:3])
 
 #'
 
-Résumé(   c("Variation sur la période <br>d'activité (%)",
-            "Variation annuelle moyenne (%)"),
-          Analyse.variations.synthèse.filtrée[4:5])
+Résumé(c("Variation sur la période <br>d'activité (%)",
+         "Variation annuelle moyenne (%)"),
+       Analyse.variations.synthèse.filtrée[4:5])
 
 #'
 #'**Effectif : `r nrow(Analyse.variations.synthèse.filtrée[clé.fusion])`**     
@@ -1559,22 +1585,22 @@ f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[
   "Montant.net"])/ 1000, big.mark = " ", digits = 5, format = "fg")
 
 Tableau.vertical(c(étiquette.année, "Rémunération nette totale <br>des agents en place (k&euro;)"), 
-                 début.période.sous.revue:fin.période.sous.revue, 
+                 période, 
                  f)
 
 
 #'
 
-Résumé(   c("Première année",
-            "Dernière année",
-            "Moyenne sur la période <br>d'activité"),
-          Analyse.variations.synthèse.filtrée.plus.2.ans[1:3])
+Résumé(c("Première année",
+         "Dernière année",
+         "Moyenne sur la période <br>d'activité"),
+       Analyse.variations.synthèse.filtrée.plus.2.ans[1:3])
 
 #'
 
-Résumé(   c("Variation sur la période <br>d'activité (%)",
-            "Variation annuelle moyenne (%)"),
-          Analyse.variations.synthèse.filtrée.plus.2.ans[4:5])
+Résumé(c("Variation sur la période <br>d'activité (%)",
+         "Variation annuelle moyenne (%)"),
+       Analyse.variations.synthèse.filtrée.plus.2.ans[4:5])
 #'     
 #'**Effectif :** `r nrow(Analyse.variations.synthèse.filtrée.plus.2.ans[clé.fusion])`    
 #'     
@@ -1608,22 +1634,22 @@ f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[
   "Montant.net"])/ 1000, big.mark = " ", digits = 5, format = "fg")
 
 Tableau.vertical(c(étiquette.année, "Rémunération nette totale <br>des agents en fonction moins de deux ans (k&euro;)"), 
-                 début.période.sous.revue:fin.période.sous.revue, 
+                 période, 
                  f)
 
 #'
 #'
 
-Résumé(   c("Première année",
-            "Dernière année",
-            "Moyenne sur la période <br>d'activité"),
-          Analyse.variations.synthèse.filtrée.moins.2.ans[1:3])
+Résumé(c("Première année",
+         "Dernière année",
+         "Moyenne sur la période <br>d'activité"),
+       Analyse.variations.synthèse.filtrée.moins.2.ans[1:3])
 
 #'
 
-Résumé(   c("Variation sur la période <br>d'activité (%)",
-            "Variation annuelle moyenne (%)"),
-          Analyse.variations.synthèse.filtrée.moins.2.ans[4:5])
+Résumé(c("Variation sur la période <br>d'activité (%)",
+         "Variation annuelle moyenne (%)"),
+       Analyse.variations.synthèse.filtrée.moins.2.ans[4:5])
 #'
 #'     
 #'**Effectif :** `r nrow(Analyse.variations.synthèse.filtrée.moins.2.ans[clé.fusion])`    
@@ -2041,6 +2067,7 @@ if (sauvegarder.bases)
     "Bulletins.paie.nir.fonctionnaires",
     "Bulletins.paie.Lignes.paie", 
     "Bulletins.paie",
+    "tableau.effectifs",
     "NBI.aux.non.titulaires",
     "RI.et.vacations",
     "HS.sup.25",
