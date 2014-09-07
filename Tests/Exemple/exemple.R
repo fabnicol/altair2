@@ -39,7 +39,10 @@ JITlevel        <- enableJIT(2)
 
 source(file.path(chemin.dossier, "bibliotheque.fonctions.paie.R"), encoding = encodage.entrée)
 
-installer.paquets(knitr, plyr, ggplot2, assertthat, yaml, gtools, utils, parallel)
+installer.paquets(knitr, plyr, ggplot2, assertthat, yaml, gtools, utils)
+if (paralléliser) installer.paquets(parallel)
+if (table.rapide) installer.paquets(data.table)
+
 # + parallel, soSNOW (windows) ou doMC (unix))
 
 # version parallélisée : à ce stade les tests ne sont pas concluant sur les applications de ddply
@@ -94,7 +97,7 @@ nombre.exercices <- fin.période.sous.revue - début.période.sous.revue + 1
 
 if (file.exists(chemin(nom.fichier.codes.paiement)))
 {
-  Codes.paiement <- read.csv.skip(nom.fichier.codes.paiement)
+  Codes.paiement <- read.csv.skip(nom.fichier.codes.paiement, rapide = FALSE)
 
   if (nlevels(as.factor(Codes.paiement$Code)) != nrow(unique(Codes.paiement[ , c(étiquette.code, "Type.rémunération")])))
   {
@@ -153,19 +156,39 @@ bulletins.paie <- bulletins.paie[file.exists(chemin(bulletins.paie))]
 # et au maximum fin.période.sous.revue, qui contiennent toutes les colonnes requises
 # pour le contrôle
 
-res <- try(Read.csv("Lignes.paie", lignes.paie, colClasses = lignes.paie.classes.input), silent = TRUE)
-if (inherits(res, 'try-error'))
-{
-  res2 <- try(Read.csv("Lignes.paie", lignes.paie, colClasses = lignes.paie.classes.input.fallback), silent = TRUE)
-  if (inherits(res2, 'try-error'))
-  stop("Problème de lecture des bases de lignes de paye")
-}
+# Le mode rapide n'est disponible que avec des csv à séparateurs virgule
+# Il permet d'économiser environ 8s par million de ligne lues sur une dizaine de champs
 
-if (!is.null(Lignes.paie)) message("Chargement des lignes de paie.") else stop("Chargement des lignes de paie en échec.")
+  res <- try(Read.csv("Lignes.paie", 
+                    lignes.paie,
+                    colClasses = lignes.paie.classes.input,
+                    colNames = lignes.paie.input.fallback,
+                    drop=1:3,
+                    rapide = table.rapide),
+                    silent = TRUE)
+           
+  if (inherits(res, 'try-error')) {
+    res2 <- try(Read.csv("Lignes.paie", 
+                         lignes.paie,
+                         colClasses = lignes.paie.classes.input.fallback,
+                         colNames = lignes.paie.input.fallback,
+                         rapide = table.rapide),
+                         silent = TRUE)
+    if (inherits(res2, 'try-error'))
+       stop("Problème de lecture des bases de lignes de paye")
+  }
+
+if (!is.null(Lignes.paie))
+   message("Chargement des lignes de paie.") else stop("Chargement des lignes de paie en échec.")
 
 Lignes.paie <- Lignes.paie[setdiff(names(Lignes.paie), c("Année.1","Mois.1","Matricule.1"))]
 
-res <- try(Read.csv("Bulletins.paie", bulletins.paie, colClasses = bulletins.paie.classes.input), silent = TRUE)
+res <- try(Read.csv("Bulletins.paie",
+                    bulletins.paie,
+                    colClasses = bulletins.paie.classes.input,
+                    colNames = bulletins.paie.input,
+                    rapide = table.rapide), silent = TRUE)
+
 if (inherits(res, 'try-error')) 
     stop("Problème de lecture des bases de bulletins de paye")
 
@@ -270,8 +293,9 @@ if (générer.codes) {
   #'
   #'Utiliser les codes : TRAITEMENT, INDEMNITAIRE, ELU, VACATIONS, AUTRES  
   #'  
-  #'  
+    
   kable(codes.paiement.généré, row.names = FALSE)
+  
   #'                             
     
   
@@ -664,8 +688,36 @@ if (!is.null(Bulletins.paie.Lignes.paie) & !is.null(Analyse.rémunérations)
 
 #'# 1. Statistiques de population
 #'
-#'### 1.1 Ensemble des personnels non élus    
+#'### 1.1 Effectifs    
 
+liste.années <- as.character(période)
+
+effectifs <- lapply(période, 
+                    function(x) {
+                      A <- Bulletins.paie[Bulletins.paie$Année == x, c("Matricule", "Statut", "Service", "Emploi", "nb.mois")]
+                      E <- unique(A[ , c("Matricule", "nb.mois")])
+                      F <- E[E$nb.mois == 12, ]
+                      G <- unique(A[(A$Statut == "TITULAIRE" | A$Statut == "STAGIAIRE") , c("Matricule", "nb.mois")])
+                      H <- G[G$nb.mois == 12, ]
+                      I <- unique(A[A$Service %in% libellés.élus | A$Emploi %in% libellés.élus, c("Matricule", "nb.mois")])
+                      J <- I[I$nb.mois == 12, ]
+                      résultat <- c(nrow(E), nrow(F), nrow(G), nrow(H), nrow(I), nrow(J))
+                      rm(A, E, F, G, H, I, J)
+                      résultat
+                    })
+
+effectifs <- prettyNum(effectifs, big.mark = " ")
+tableau.effectifs <- as.data.frame(effectifs, row.names = c("Total", "  dont présents 12 mois", "  dont fonctionnaires", "  dont fonct. présents 12 mois", "  dont élus", "  dont élus présents 12 mois"))
+
+names(tableau.effectifs) <- liste.années
+#'                                             
+kable(tableau.effectifs, row.names = TRUE, align='c')
+#'  
+#'[Lien vers la base des effectifs](Bases/tableau.effectifs.csv)  
+#'  
+#'  
+#'### 1.2 Pyramide des âges, personnels non élus    
+  
 if (longueur.non.na(années.total.hors.élus) > 0)
    hist(années.total.hors.élus,
      xlab = "Âge au 31 décembre " %+% fin.période.sous.revue,
@@ -675,7 +727,7 @@ if (longueur.non.na(années.total.hors.élus) > 0)
      col = "blue",
      nclass = 50)
 
-#'  
+#'    
 #'[Lien vers la base des âges](Bases/Bulletins.paie.nir.total.hors.élus.csv)  
 #'  
 
@@ -684,34 +736,8 @@ Résumé("Âge des personnels <br>au 31/12/" %+% fin.période.sous.revue, années.tot
 #'Effectif de l'histogramme: `r length(années.total.hors.élus)`  
 #'  
 
-liste.années <- as.character(période)
-
-effectifs <- lapply(période, 
-                      function(x) {
-                         A <- Bulletins.paie[Bulletins.paie$Année == x, c("Matricule", "Statut", "Service", "Emploi", "nb.mois")]
-                         E <- unique(A[ , c("Matricule", "nb.mois")])
-                         F <- E[E$nb.mois == 12, ]
-                         G <- unique(A[(A$Statut == "TITULAIRE" | A$Statut == "STAGIAIRE") , c("Matricule", "nb.mois")])
-                         H <- G[G$nb.mois == 12, ]
-                         I <- unique(A[A$Service %in% libellés.élus | A$Emploi %in% libellés.élus, c("Matricule", "nb.mois")])
-                         J <- I[I$nb.mois == 12, ]
-                         résultat <- c(nrow(E), nrow(F), nrow(G), nrow(H), nrow(I), nrow(J))
-                         rm(A, E, F, G, H, I, J)
-                         résultat
-                      })
-
-effectifs <- prettyNum(effectifs, big.mark = " ")
-tableau.effectifs <- as.data.frame(effectifs, row.names = c("Total", "  dont présents 12 mois", "  dont fonctionnaires", "  dont fonct. présents 12 mois", "  dont élus", "  dont élus présents 12 mois"))
-
-names(tableau.effectifs) <- liste.années
-#'                                             
-kable(tableau.effectifs, row.names = TRUE, align='c')
 #'  
-#'  
-#'[Lien vers la base des effectifs](Bases/tableau.effectifs.csv)  
-#'  
-#'  
-#'### 1.2 Ensemble des fonctionnaires stagiaires et titulaires    
+#'### 1.3 Pyramide des âges, personnels fonctionnaires stagiaires et titulaires    
 
 if (longueur.non.na(années.fonctionnaires) > 0)
  hist(années.fonctionnaires,
@@ -735,7 +761,7 @@ Résumé("Âge des personnels <br>au 31/12/" %+% fin.période.sous.revue,
 #'  
 
 #'  
-#'### 1.3 Effectifs des personnels par durée de service  
+#'### 1.4 Effectifs des personnels par durée de service  
 #'  
 #'**Personnels en fonction des exercices `r début.période.sous.revue` à `r fin.période.sous.revue` inclus :**  
 #'
@@ -810,6 +836,7 @@ if (fichier.personnels.existe)
 attach(Analyse.rémunérations.premier.exercice, warn.conflicts = FALSE)
 
 ########### Analyse statique premier exercice ########################
+
 #'# 2. Rémunérations brutes : analyse pour l'exercice `r année` 
 #'
 #'## 2.1 Statistiques de position globales (tous statuts)       
