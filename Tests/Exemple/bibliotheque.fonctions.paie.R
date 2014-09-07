@@ -79,19 +79,45 @@ sélectionner.clé <-  function(base1, base2)
     
   }
 }
-  
-read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA) 
+
+#chem.dot <- paste0("\'",chem, ".dot", "\'")
+#system(paste0("sed -e s/,/\\./g < \'", chem,"\' > ", chem.dot), wait = TRUE)
+
+
+read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, étiquettes = NULL, drop = NULL, rapide = FALSE) 
 {
   chem <- chemin(x)
-  T <- read.csv2(chem, 
-                 comment.char = "",
-                 colClasses = classes,
-                 skip = trouver.valeur.skip(chem, encodage),
-                 fileEncoding = encodage)
+  if (! rapide) {
+    
+    T <- read.csv2(chem, 
+                   comment.char = "",
+                   colClasses = classes,
+                   skip = trouver.valeur.skip(chem, encodage),
+                   fileEncoding = encodage)
+    
+    if (!is.null(drop)) T <- T[-(drop)]
   
-  if (encodage.entrée != "UTF-8")
+  } else {
+
+    T <- data.table::fread(chem,
+                      sep = ",",
+                      header = TRUE, 
+                      verbose = FALSE,
+                      skip = champ.détection.1, 
+                      colClasses = classes,
+                      integer64="numeric",
+                      drop = drop,
+                      showProgress=FALSE)
+    
+    T <- as.data.frame(T)
+  }
+
+if (!is.null(étiquettes)) names(T) <- étiquettes
+
+if (encodage.entrée != "UTF-8")
      names(T) <- iconv(names(T), to="UTF-8")
-  return(T)
+
+return(T)
 }
 
 Sauv.base <- function(chemin.dossier, nom, nom.sauv, encodage = encodage.entrée)
@@ -120,12 +146,17 @@ sauv.bases <- function(dossier, ...)
 # Utiliser une assignation globale 
 # car la fonction anonyme ne comporte que de variables locales
 
-Read.csv <- function(base.string, vect.chemin, charger = charger.bases, colClasses = NA)  {
+Read.csv <- function(base.string, vect.chemin, charger = charger.bases, colClasses = NA, colNames = NULL, drop = NULL, rapide = FALSE)  {
   
                       if (charger.bases) {
   
                           assign(base.string,  
-                                 do.call(rbind, lapply(vect.chemin, read.csv.skip, classes = colClasses)), 
+                                 do.call(rbind, lapply(vect.chemin, 
+                                                       read.csv.skip,
+                                                          classes = colClasses,
+                                                          étiquettes = colNames,
+                                                          drop = drop,
+                                                          rapide = rapide)), 
                                  envir = .GlobalEnv)
                       }
 }
@@ -297,7 +328,7 @@ installer.paquet <- function(paquet, rigoureusement = FALSE)
   Paquet <- deparse(paquet)
   if (length(find.package(Paquet, quiet = TRUE)) == 0)
   {
-    install.packages(Paquet, repos="http://cran.univ-lyon1.fr/")
+    install.packages(Paquet)
     if (length(find.package(Paquet, quiet = TRUE)) !=0 )
     {
       message(Paquet, " a été installé.")
