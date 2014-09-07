@@ -20,6 +20,7 @@ tester.matricules            <- FALSE
 tester.lignes.bulletins.mois <- FALSE
 corriger.quotité     <- FALSE
 comportement.strict  <- TRUE
+table.rapide         <- TRUE
 
 seuil.troncature     <- 3
 taux.tolérance.homonymie <- 5  # en %
@@ -79,9 +80,12 @@ bulletins.paie.output <- c(bulletins.paie.input, c("Montant.net", "Montant.brut"
 
 bulletins.paie.classes.output <- c(bulletins.paie.classes.input, c("numeric", "integer", "integer", "integer", "integer"))
 
-lignes.paie.input <- c("Année", "Mois", "Matricule", "Libellé", "Code", "Base", "Taux", "Montant")
+lignes.paie.input <- c("Année", "Mois", "Matricule", "Année", "Mois", "Matricule", "Libellé", "Code", "Base", "Taux", "Montant")
+
+lignes.paie.input.fallback <- c("Année", "Mois", "Matricule", "Libellé", "Code", "Base", "Taux", "Montant")
 
 lignes.paie.classes.input <- c("integer", "integer", "character", "integer", "integer", "character", "character", "character", "numeric", "numeric", "numeric")
+
 lignes.paie.classes.input.fallback <- c("integer", "integer", "character", "character", "character", "numeric", "numeric", "numeric")
 
 date.format                 <- "%d/%m/%Y"
