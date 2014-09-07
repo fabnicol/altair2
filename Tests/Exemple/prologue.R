@@ -4,6 +4,7 @@
 début.période.sous.revue    <- 2009
 fin.période.sous.revue      <- 2012
 
+
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
 
 setOSWindows         <- Sys.info()["sysname"] != "Linux"
