@@ -163,8 +163,6 @@ Read.csv <- function(base.string, vect.chemin, charger = charger.bases, colClass
 
 pretty.print <- function(x) cat(gsub(".", " ",deparse(substitute(x)), fixed = TRUE), "   ", x,"\n")
 
-est.code.de.type <- function(x, Base) Base$Code %in% Code.prime[Code.prime$Type.rémunération == x, "Code"]
-
 Résumé <- function(x,y, align = 'r',...) 
               {
                  S <- cbind(c("Minimum", "1er quartile", "Médiane", "Moyenne", "3ème quartile", "Maximum"), 
