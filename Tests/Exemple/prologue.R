@@ -10,7 +10,7 @@ fin.période.sous.revue      <- 2012
 setOSWindows         <- Sys.info()["sysname"] != "Linux"
 
 générer.codes        <- FALSE
-paralléliser         <- FALSE
+paralléliser         <- TRUE
 extraire.années      <- FALSE
 extraire.population  <- FALSE
 fusionner.nom.prénom <- FALSE
@@ -126,6 +126,6 @@ modalité.autres                <- "AUTRES"         # notamment les remboursement
 
 
 expression.rég.heures.sup <- ".*(I.?H.?T|H.?[SC]|\\bI[[:alpha:]]*.?.*\\bH[[:alpha:]]*.?\\b.*T[[:alpha:]]*.?.*|\\bH[[:alpha:]]*.?\\b.*[SC][[:alpha:]]*.?\\b).*"
-expression.rég.iat        <- ".*(\\bI.?A.?T\\b|\\bI[[:alpha:]]*.?\\b.*\\bAd[[:alpha:]]*.?\\b.*Tec[[:alpha:]]*.?\\b).*"
-expression.rég.ifts       <- ".*(\\bI.?F.?T.?S\\b|\\bI[[:alpha:]]*.?\\b.*\\bF[[:alpha:]]*.?\\b.*\\bTRAV[[:alpha:]]*.?\\b.*\\bS[[:alpha:]]*.?\\b).*"
+expression.rég.iat        <- ".*(\\b[Ii].?[Aa].?[Tt]\\b|\\b[Ii][[:alpha:]]*.?\\b.*\\b[Aa][Dd][[:alpha:]]*.?\\b.*[Tt][Ee][Cc][[:alpha:]]*.?\\b).*"
+expression.rég.ifts       <- ".*(\\b[Ii].?[Ff].?[Tt].?[Ss]\\b|\\b[Ii][[:alpha:]]*.?\\b.*\\b[Ff][[:alpha:]]*.?\\b.*\\b[Tt][Rr][Aa][Vv][[:alpha:]]*.?\\b.*\\b[Ss][[:alpha:]]*.?\\b).*"
 expression.rég.population <- ".*\\bASS(\\b|A).*"
