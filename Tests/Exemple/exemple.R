@@ -422,9 +422,9 @@ if (charger.bases)
   
   if (! paralléliser) {
 
-    Bulletins.paie.Lignes.paie <- as.data.frame(merge(data.table::as.data.table(Bulletins.paie),
+    Bulletins.paie.Lignes.paie <- merge(data.table::as.data.table(Bulletins.paie),
                                         Lignes.paie,
-                                        by = c(clé.fusion, "Année", "Mois")))
+                                        by = c(clé.fusion, "Année", "Mois"))
   } else {
 
     # Fusion parallélisée : gain de plus de moitié sur 4 coeurs (25,5s --> 9,7s) soit environ 16s de gain sous linux [RAG]
@@ -465,8 +465,7 @@ if (charger.bases)
                       mc.cores = cores)
     }
 
-    Bulletins.paie.Lignes.paie <- as.data.frame(data.table::rbindlist(L))
-
+    Bulletins.paie.Lignes.paie <- data.table::rbindlist(L)
   }
 
   if (!is.null(Bulletins.paie.Lignes.paie)) message("Fusion réalisée") else stop("Echec de fusion" )
@@ -491,56 +490,56 @@ if (charger.bases)
 # L'optimisation ci-dessous repose sur l'utilisation des informations déjà calculées sur les colonnes précédentes pour éviter
 # de computer Codes....[Code] autant que possible. Gain de temps par rapport à une consultation systématique : x100 à x200
 
-  Bulletins.paie.Lignes.paie <- try(mutate(Bulletins.paie.Lignes.paie,
+  Bulletins.paie.Lignes.paie[ ,   montant.traitement.indiciaire 
+                                   :=  Codes.paiement.traitement[Code]*Montant]
 
-                                       montant.traitement.indiciaire
-                                       = Montant * Codes.paiement.traitement[Code],
+  Bulletins.paie.Lignes.paie[,    montant.primes 
+                                   :=  (montant.traitement.indiciaire == 0)*  
+                                        Montant * Codes.paiement.indemnitaire[Code]]
 
-                                       montant.primes
-                                       = if (montant.traitement.indiciaire != 0)
-                                         0 else Montant * Codes.paiement.indemnitaire[Code],
+  Bulletins.paie.Lignes.paie[ ,   montant.rémunération.principale.contractuel
+                                   := (montant.traitement.indiciaire == 0 
+                                       & montant.primes == 0)
+                                        * Montant * Codes.paiement.principal.contractuel[Code]]
 
-                                       montant.rémunération.principale.contractuel
-                                       = if (montant.traitement.indiciaire != 0
-                                             || montant.primes != 0)
-                                         0 else Montant * Codes.paiement.principal.contractuel[Code],
+  Bulletins.paie.Lignes.paie[ ,   montant.rémunération.vacataire
+                                       :=  (montant.traitement.indiciaire == 0
+                                             & montant.primes == 0
+                                             & montant.rémunération.principale.contractuel == 0)
+                                             * Montant * Codes.paiement.vacations[Code]]
 
-                                       montant.rémunération.vacataire
-                                       = if (montant.traitement.indiciaire != 0
-                                             || montant.primes != 0
-                                             || montant.rémunération.principale.contractuel != 0)
-                                         0 else Montant * Codes.paiement.vacations[Code],
+  Bulletins.paie.Lignes.paie[ ,   montant.autres.rémunérations
+                                       :=  (montant.traitement.indiciaire == 0
+                                             & montant.rémunération.principale.contractuel == 0
+                                             & montant.rémunération.vacataire == 0
+                                             & montant.primes == 0)
+                                             * Montant * Codes.paiement.autres[Code]]
 
-                                       montant.autres.rémunérations
-                                       = if (montant.traitement.indiciaire !=0
-                                             || montant.rémunération.principale.contractuel !=0
-                                             || montant.rémunération.vacataire !=0
-                                             || montant.primes !=0)
-                                         0 else Montant * Codes.paiement.autres[Code],
-
-                                       montant.indemnité.élu
-                                       = if (montant.traitement.indiciaire  !=0
-                                             || montant.rémunération.principale.contractuel !=0
-                                             || montant.rémunération.vacataire !=0
-                                             || montant.primes !=0
-                                             || montant.autres.rémunérations !=0)
-                                         0 else Montant * Codes.paiement.élu[Code],
+  Bulletins.paie.Lignes.paie[ ,   montant.indemnité.élu
+                                       :=  (montant.traitement.indiciaire  == 0
+                                             & montant.rémunération.principale.contractuel == 0
+                                             & montant.rémunération.vacataire == 0
+                                             & montant.primes == 0
+                                             & montant.autres.rémunérations == 0)
+                                             * Montant * Codes.paiement.élu[Code]]
 
                                        ### EQTP  ###
 
-                                       quotité
-                                       =  Temps.de.travail / 100
-                                       * (if (corriger.quotité) (if (is.na(Taux)) 1 else Taux) else 1)
+  Bulletins.paie.Lignes.paie[ ,   quotité
+                                       :=  Temps.de.travail / 100
+                                       * ((corriger.quotité)*(is.na(Taux) * (1- Taux)  + Taux) + 1 - corriger.quotité)
                                        * (montant.rémunération.principale.contractuel > 0
                                           |
                                           montant.traitement.indiciaire > 0)
-                                       * nb.mois / 12), silent=TRUE)
+                                       * nb.mois / 12] 
 
 
   if (inherits(Bulletins.paie.Lignes.paie, 'try-error') )
     stop("Il est probable que le fichier des codes n'est pas exhaustif. Avez-vous (re-)généré l'ensemble des codes récemment ?")
 
   Bulletins.paie.Lignes.paie$quotité[is.na(Bulletins.paie.Lignes.paie$quotité)] <- 0
+
+  Bulletins.paie.Lignes.paie <- as.data.frame(Bulletins.paie.Lignes.paie)
 
   Analyse.rémunérations <- ddply(Bulletins.paie.Lignes.paie,
                                  c(clé.fusion, étiquette.année),
