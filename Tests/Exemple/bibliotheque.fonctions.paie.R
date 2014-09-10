@@ -2,12 +2,12 @@
 #  Fonctions auxiliaires
 ##
 
-chemin <-  function(fichier) 
+chemin <-  function(fichier)
   file.path(chemin.dossier.données, fichier)
 
 scan.prime <- function(texte, Base)
 {
-  unique(Base[grep(paste0(".*(", texte,").*"), 
+  unique(Base[grep(paste0(".*(", texte,").*"),
               Base$Libellé, ignore.case = TRUE),
               c("Matricule", "Libellé", "Libellé")])
 }
@@ -15,68 +15,68 @@ scan.prime <- function(texte, Base)
 
 # Trouve le numéro de la ligne à laquelle se situe la liste des noms de variables
 # en recherchant soit le mot "Matricule" soit une expression du type "Code..."
-# Il faudra déduire ce "skip" du read.csv2 pour récupérer proprement les noms de variable
+# Il faudra déduire ce "skip" du read.csv pour récupérer proprement les noms de variable
 
 # Pour cela on scanne les 25 premières lignes de la table une première fois
 
 
-trouver.valeur.skip <-  function(chemin.table, encodage, classes = NA) 
+trouver.valeur.skip <-  function(chemin.table, encodage, classes = NA, séparateur.liste = ",", séparateur.décimal = ".")
   max(
     sapply(
-      read.csv2(chemin.table, nrows = 25, fileEncoding = encodage.entrée, colClasses = classes),
-      function(x) 
+      read.csv(chemin.table, sep=séparateur.liste, dec=séparateur.décimal, nrows = 25, fileEncoding = encodage.entrée, colClasses = classes),
+      function(x)
       {
-        m <- match(champ.détection.1, x, nomatch = 0 ) 
+        m <- match(champ.détection.1, x, nomatch = 0 )
         if (m == 0)
-          m <- pmatch(champ.détection.2, x, nomatch = 0, duplicates.ok = FALSE ) 
+          m <- pmatch(champ.détection.2, x, nomatch = 0, duplicates.ok = FALSE )
         return(m)
       }
     ))
 
 
-# selectionner.cle.matricule <-  function(Base1, Base2) 
+# selectionner.cle.matricule <-  function(Base1, Base2)
 # {
 #   if (fusionner.nom.prénom) {
-#      subset(Base1, 
+#      subset(Base1,
 #            select = c("Nom", "Prénom", étiquette.matricule, setdiff(names(Base1),names(Base2))))
 #     } else {
-#      subset(Base1, 
+#      subset(Base1,
 #          select = c(étiquette.matricule, setdiff(names(Base1), names(Base2))))
 #     }
 # }
 
-sélectionner.clé <-  function(base1, base2) 
+sélectionner.clé <-  function(base1, base2)
 {
   Base1 <- get(base1)
-  Base2 <- get(base2)    
-  
+  Base2 <- get(base2)
+
   if (fusionner.nom.prénom) {
 
     Set1 <- c("Mois", "Année", étiquette.matricule, setdiff(names(Base1), names(Base2)))
     Set2 <- setdiff(names(Base2), c("Nom", "Prénom", étiquette.matricule))
-    
-    assign(base1, 
-           subset(Base1, select = c("Nom", "Prénom", Set1)), 
+
+    assign(base1,
+           subset(Base1, select = c("Nom", "Prénom", Set1)),
            envir = .GlobalEnv)
-    
-    assign(base1, 
+
+    assign(base1,
            cbind(as.data.frame(convertir.nom.prénom.majuscules(Base1[, c("Nom", "Prénom")])),
                  Base1[, Set1]),
            envir = .GlobalEnv)
-            
+
     assign(base2,
            cbind(as.data.frame(convertir.nom.prénom.majuscules(Base2[, c("Nom", "Prénom")])),
                  Base2[, Set2]),
            envir = .GlobalEnv)
-    
-  
-    
+
+
+
   } else {
-    
-    assign(base1, subset(Base1, 
+
+    assign(base1, subset(Base1,
                          select = c(étiquette.matricule,"Mois","Année",
                          setdiff(names(Base1), names(Base2)))), envir = .GlobalEnv)
-    
+
   }
 }
 
@@ -84,31 +84,33 @@ sélectionner.clé <-  function(base1, base2)
 #system(paste0("sed -e s/,/\\./g < \'", chem,"\' > ", chem.dot), wait = TRUE)
 
 
-read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, étiquettes = NULL, drop = NULL, rapide = FALSE) 
+read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, étiquettes = NULL, drop = NULL, rapide = FALSE, séparateur.liste = ",", séparateur.décimal = ".")
 {
   chem <- chemin(x)
   if (! rapide) {
-    
-    T <- read.csv2(chem, 
+
+    T <- read.csv(chem,
                    comment.char = "",
+                   sep =séparateur.liste,
+                   dec = séparateur.décimal,
                    colClasses = classes,
-                   skip = trouver.valeur.skip(chem, encodage),
+                   skip = trouver.valeur.skip(chem, encodage, séparateur.liste = séparateur.liste, séparateur.décimal = séparateur.décimal),
                    fileEncoding = encodage)
-    
+
     if (!is.null(drop)) T <- T[-(drop)]
-  
+
   } else {
 
     T <- data.table::fread(chem,
                       sep = ",",
-                      header = TRUE, 
+                      header = TRUE,
                       verbose = FALSE,
-                      skip = champ.détection.1, 
+                      skip = champ.détection.1,
                       colClasses = classes,
                       integer64="numeric",
                       drop = drop,
                       showProgress=FALSE)
-    
+
     T <- as.data.frame(T)
   }
 
@@ -123,55 +125,57 @@ return(T)
 Sauv.base <- function(chemin.dossier, nom, nom.sauv, encodage = encodage.entrée)
 {
   message("Sauvegarde de ", nom)
-  write.csv2(get(nom), paste0(chemin.dossier, "/", iconv(nom.sauv, to = encodage.entrée), ".csv"), 
+  write.csv2(get(nom), paste0(chemin.dossier, "/", iconv(nom.sauv, to = encodage.entrée), ".csv"),
              row.names = FALSE, fileEncoding = encodage)
-  
+
 }
- 
-sauv.bases <- function(dossier, ...) 
+
+sauv.bases <- function(dossier, ...)
 {
-   
+
   if (!see_if(is.dir(dossier)))
   {
     stop("Pas de dossier de travail spécifié")
   }
-  
-  tmp <- as.list(match.call()) 
+
+  tmp <- as.list(match.call())
   tmp[1] <- NULL
- 
+
   message("Dans le dossier ", dossier," :")
   invisible(lapply(tmp[-1], function(x) Sauv.base(dossier, x, x)))
 }
 
-# Utiliser une assignation globale 
+# Utiliser une assignation globale
 # car la fonction anonyme ne comporte que de variables locales
 
-Read.csv <- function(base.string, vect.chemin, charger = charger.bases, colClasses = NA, colNames = NULL, drop = NULL, rapide = FALSE)  {
-  
+Read.csv <- function(base.string, vect.chemin, charger = charger.bases, colClasses = NA, colNames = NULL, drop = NULL, séparateur.liste = ",", séparateur.décimal = ".", rapide = FALSE)  {
+
                       if (charger.bases) {
-  
-                          assign(base.string,  
-                                 do.call(rbind, lapply(vect.chemin, 
+
+                          assign(base.string,
+                                 do.call(rbind, lapply(vect.chemin,
                                                        read.csv.skip,
                                                           classes = colClasses,
                                                           étiquettes = colNames,
+                                                          séparateur.liste = séparateur.liste,
+                                                          séparateur.décimal = séparateur.décimal,
                                                           drop = drop,
-                                                          rapide = rapide)), 
+                                                          rapide = rapide)),
                                  envir = .GlobalEnv)
                       }
 }
 
 pretty.print <- function(x) cat(gsub(".", " ",deparse(substitute(x)), fixed = TRUE), "   ", x,"\n")
 
-Résumé <- function(x,y, align = 'r',...) 
+Résumé <- function(x,y, align = 'r',...)
               {
-                 S <- cbind(c("Minimum", "1er quartile", "Médiane", "Moyenne", "3ème quartile", "Maximum"), 
+                 S <- cbind(c("Minimum", "1er quartile", "Médiane", "Moyenne", "3ème quartile", "Maximum"),
                             prettyNum(sub("[M13].*:", "", summary(y, ...)), big.mark = " "))
-                 
+
                  dimnames(S)[[2]] <- c("Statistique", x)
-                 
+
                  kable(S, row.names = FALSE, align = align)
-                 
+
                }
 Tableau <- function(x, ...)
 {
@@ -182,7 +186,7 @@ Tableau <- function(x, ...)
     V$sep.milliers <- NULL
   }  else
   sep.milliers <- " "
-  
+
   T <- t(prettyNum(V, big.mark = sep.milliers))
   T <- as.data.frame(T)
   names(T) <- x
@@ -192,9 +196,9 @@ Tableau <- function(x, ...)
 Tableau.vertical <- function(colnames, rownames, f)
 {
   T <- data.frame(rownames,   sapply(rownames, f))
-  
+
   names(T) <- colnames
-  
+
   kable(T, row.names = FALSE, align = "c")
 }
 
@@ -202,9 +206,9 @@ Tableau.vertical2 <- function(colnames, données.col1, données.col2)
 {
 
   T <- data.frame(données.col1, prettyNum(données.col2, big.mark=" "))
-  
+
   names(T) <- colnames
-  
+
   kable(T, row.names = FALSE, align = "c")
 }
 
@@ -214,27 +218,27 @@ Tableau.vertical2 <- function(colnames, données.col1, données.col2)
   julian.date.fin.période   <- julian(as.Date(paste0("01/01/", fin.période.sous.revue+1), date.format))
   julian.exercice.dernier <- julian(as.Date(paste0("01/01/",fin.période.sous.revue), date.format))
 
-calcul.nb.jours <- function(entrée, sortie) 
+calcul.nb.jours <- function(entrée, sortie)
 {
-  
-  julian.entrée <- 
-    ifelse(entrée == "", 
+
+  julian.entrée <-
+    ifelse(entrée == "",
            julian.date.début.période,
            max(julian.date.début.période, julian(as.Date(entrée, date.format))))
-  
-  julian.sortie <- 
-    ifelse(sortie == "", 
-           julian.date.fin.période, 
+
+  julian.sortie <-
+    ifelse(sortie == "",
+           julian.date.fin.période,
            min(julian.date.fin.période, julian(as.Date(sortie, date.format))))
-  
+
   return (julian.sortie - julian.entrée)
 }
 
 calcul.nb.jours.mois <- function(mois.entrée, mois.sortie, année)
 {
   if (mois.sortie < mois.entrée) return(0);
-  
-  if (mois.sortie == 12) 
+
+  if (mois.sortie == 12)
   {
      année.sortie <- année +1
      mois.sortie = 1
@@ -244,8 +248,8 @@ calcul.nb.jours.mois <- function(mois.entrée, mois.sortie, année)
     année.sortie <- année
     mois.sortie <- mois.sortie + 1
   }
-  
-   as.numeric(as.Date(paste0("01", 
+
+   as.numeric(as.Date(paste0("01",
                                   formatC(mois.sortie, width = 2, flag = "0"),
                                   année.sortie),
                       "%d%m%Y")
@@ -255,10 +259,10 @@ calcul.nb.jours.mois <- function(mois.entrée, mois.sortie, année)
                             "%d%m%Y"))
 }
 
-calcul.nb.jours.dans.exercice.in <- function(entrée) 
+calcul.nb.jours.dans.exercice.in <- function(entrée)
 {
   date.entrée <- as.Date(entrée, date.format)
-  
+
   if (entrée == "")
   {
     julian.entrée <-  julian.date.début.période
@@ -275,15 +279,15 @@ calcul.nb.jours.dans.exercice.in <- function(entrée)
       julian.entrée <- julian.date.début.période
     }
   }
-  
+
   return (julian.fin.exercice - julian.entrée)
-  
+
 }
 
-calcul.nb.jours.dans.exercice.out <- function(sortie) 
+calcul.nb.jours.dans.exercice.out <- function(sortie)
 {
   date.sortie <- as.Date(sortie, date.format)
-  
+
   if (sortie == "")
   {
     julian.sortie <-  julian.date.fin.période
@@ -300,27 +304,27 @@ calcul.nb.jours.dans.exercice.out <- function(sortie)
       julian.sortie <- julian.exercice.suivant.premier
     }
   }
-  
+
   return (julian.sortie - julian.début.exercice)
-  
+
 }
 
 calcul.variation <- function(rémunération.début, rémunération.sortie, nb.jours.exercice.début, nb.jours.exercice.sortie, nb.exercices)
 {
-  if (nb.exercices > 1)  
-    
+  if (nb.exercices > 1)
+
     return(ifelse(rémunération.début == 0, 0, ( rémunération.sortie / rémunération.début   - 1  ) * 100))
-  
+
   else
-    
+
     return (0)
-  
+
 }
 
 positive <- function(X) X[!is.na(X) & X > 0]
 
 
-installer.paquet <- function(paquet, rigoureusement = FALSE) 
+installer.paquet <- function(paquet, rigoureusement = FALSE)
 {
   if (missing(paquet))  return(NA_character_)
   Paquet <- deparse(paquet)
@@ -335,7 +339,7 @@ installer.paquet <- function(paquet, rigoureusement = FALSE)
     else
     {
       message(Paquet, " n'a pas été installé.")
-      if (rigoureusement == TRUE) 
+      if (rigoureusement == TRUE)
       {
         message("Arrêt: le paquet ", Paquet, " n'a pas pu être installé.")
         stop("Fin")
@@ -348,13 +352,13 @@ installer.paquet <- function(paquet, rigoureusement = FALSE)
   return(invisible(0))
 }
 
-installer.paquets <- function(..., rigoureusement = FALSE) 
+installer.paquets <- function(..., rigoureusement = FALSE)
 {
-  tmp <- as.list(match.call()) 
+  tmp <- as.list(match.call())
   tmp[1] <- NULL
   if (!missing(rigoureusement)) tmp[length(tmp)] <- NULL
   if (length(tmp) == 0) return(0)
-  
+
   invisible(do.call(sum, lapply(tmp, function(x) installer.paquet(x, rigoureusement))))
 }
 
@@ -363,9 +367,9 @@ convertir.nom.prénom.majuscules <- function(S)
 
   S[ , c("Nom", "Prénom")] <- apply(S[ , c("Nom", "Prénom")],
                                     2,
-                                    function(x) 
+                                    function(x)
                                       toupper(chartr("éèôâçë","eeoaice", x)))
-  
+
 
 }
 
@@ -376,16 +380,16 @@ convertir.nom.prénom.majuscules <- function(S)
 #  utilité : tester si l'appariement sur Nom-Prénom au lieu de matricule sera acceptable
 
 tester.homogeneite.matricules <- function(Base) {
-  
-  message("Contrôle sur la cohérence de l'association Nom-Prénom-Matricule (homonymies et changements de matricule)")                         
+
+  message("Contrôle sur la cohérence de l'association Nom-Prénom-Matricule (homonymies et changements de matricule)")
   S <- convertir.nom.prénom.majuscules(Base[ , c("Nom", "Prénom", "Matricule")])
-  
+
   with.matr    <-   nrow(unique(S))
-  without.matr <-   nrow(unique(S[ , c("Nom", "Prénom")]))     
-  
-  message("Matricules distincts: ", with.matr)                         
+  without.matr <-   nrow(unique(S[ , c("Nom", "Prénom")]))
+
+  message("Matricules distincts: ", with.matr)
   message("Noms-Prénoms distincs: ", without.matr)
-  
+
   if (with.matr  >   (1 + taux.tolérance.homonymie/100) * without.matr)
   {
      message(paste0("Résultats trop différents (", taux.tolérance.homonymie, " % de marge tolérée). Changement de régime de matricule."))
@@ -404,5 +408,5 @@ longueur.non.na <- function(v) length(v[!is.na(v)])
 
 `%*%` <- function(x, y) if (is.na(x) | is.na(y)) return(0) else return(x*y)
 
- 
+
 
