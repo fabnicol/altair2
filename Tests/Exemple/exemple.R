@@ -39,7 +39,7 @@ enableJIT(1)
 
 source(file.path(chemin.dossier, "bibliotheque.fonctions.paie.R"), encoding = encodage.entrée)
 
-installer.paquets(knitr, plyr, ggplot2, assertthat, yaml, gtools, utils, data.table, stringr)
+installer.paquets(knitr, plyr, ggplot2, assertthat, yaml, gtools, utils, data.table)
 if (paralléliser) installer.paquets(parallel)
 
 # + parallel, soSNOW (windows) ou doMC (unix))
@@ -96,7 +96,7 @@ nombre.exercices <- fin.période.sous.revue - début.période.sous.revue + 1
 
 if (file.exists(chemin(nom.fichier.codes.paiement)))
 {
-  Codes.paiement <- read.csv.skip(nom.fichier.codes.paiement, rapide = FALSE)
+  Codes.paiement <- read.csv.skip(nom.fichier.codes.paiement, rapide = FALSE, séparateur.liste = séparateur.liste, séparateur.décimal = séparateur.décimal)
 
   if (nlevels(as.factor(Codes.paiement$Code)) != nrow(unique(Codes.paiement[ , c(étiquette.code, "Type.rémunération")])))
   {
@@ -125,7 +125,7 @@ if (file.exists(chemin(nom.fichier.codes.paiement)))
 
   if (fichier.personnels.existe)
   {
-   base.personnels.catégorie <- read.csv.skip(nom.fichier.personnels)
+   base.personnels.catégorie <- read.csv.skip(nom.fichier.personnels, séparateur.liste = séparateur.liste, séparateur.décimal = séparateur.décimal)
    message("Chargement du fichier des catégories statutaires des personnels.")
   }
 
@@ -162,6 +162,8 @@ bulletins.paie <- bulletins.paie[file.exists(chemin(bulletins.paie))]
                     lignes.paie,
                     colClasses = lignes.paie.classes.input,
                     colNames = lignes.paie.input.fallback,
+                    séparateur.liste = séparateur.liste,
+                    séparateur.décimal = séparateur.décimal,
                     drop=1:3,
                     rapide = table.rapide),
                     silent = TRUE)
@@ -171,6 +173,8 @@ bulletins.paie <- bulletins.paie[file.exists(chemin(bulletins.paie))]
                          lignes.paie,
                          colClasses = lignes.paie.classes.input.fallback,
                          colNames = lignes.paie.input.fallback,
+                         séparateur.liste = séparateur.liste,
+                         séparateur.décimal = séparateur.décimal,
                          rapide = table.rapide),
                          silent = TRUE)
     if (inherits(res2, 'try-error'))
@@ -186,6 +190,8 @@ res <- try(Read.csv("Bulletins.paie",
                     bulletins.paie,
                     colClasses = bulletins.paie.classes.input,
                     colNames = bulletins.paie.input,
+                    séparateur.liste = séparateur.liste,
+                    séparateur.décimal = séparateur.décimal,
                     rapide = table.rapide), silent = TRUE)
 
 if (inherits(res, 'try-error'))
@@ -417,9 +423,9 @@ if (charger.bases)
   if (cut == 0) cut = 1
 
   # Fusion non parallélisée
-  
+
   # gain de 24s par l'utilisation de data.table::merge
-  
+
   if (! paralléliser) {
 
     Bulletins.paie.Lignes.paie <- merge(data.table::as.data.table(Bulletins.paie),
@@ -432,7 +438,7 @@ if (charger.bases)
     #                       le gain est d'environ 4s à 14s, soit 5s de plus que sous linux parallèle.
     # Le merge classique est toutefois loin des performancs de data.table::merge
 
-      
+
     library(parallel)
 
     cores   <- detectCores()
@@ -445,6 +451,7 @@ if (charger.bases)
                                         X[  X$Année >= j * cut +  début.période.sous.revue
                                             & X$Année < (j + 1) * cut +  début.période.sous.revue, ]})})
 
+    L <- lapply(L, function(x) Filter(Negate(is.null), x))
 
     if (setOSWindows) {
 
@@ -458,14 +465,18 @@ if (charger.bases)
       rm(cluster)
 
     }  else  {
-      
+
       L <- mcMap(function(x, y)  merge(x, y, by = c(clé.fusion, "Année", "Mois")),
                       L[[1]],  # Bulletins de paie coupés en 4, éventuellement nul
                       L[[2]],  # Lignes de paie coupés en 4, éventuellement nul
                       mc.cores = cores)
     }
 
-    Bulletins.paie.Lignes.paie <- data.table::rbindlist(L)
+    if (table.rapide) {
+        Bulletins.paie.Lignes.paie <- data.table::rbindlist(L)
+    } else {
+        Bulletins.paie.Lignes.paie <- do.call(rbind, L)
+    }
   }
 
   if (!is.null(Bulletins.paie.Lignes.paie)) message("Fusion réalisée") else stop("Echec de fusion" )
@@ -490,15 +501,17 @@ if (charger.bases)
 # L'optimisation ci-dessous repose sur l'utilisation des informations déjà calculées sur les colonnes précédentes pour éviter
 # de computer Codes....[Code] autant que possible. Gain de temps par rapport à une consultation systématique : x100 à x200
 
-  Bulletins.paie.Lignes.paie[ ,   montant.traitement.indiciaire 
+if (table.rapide == TRUE) {
+
+  Bulletins.paie.Lignes.paie[ ,   montant.traitement.indiciaire
                                    :=  Codes.paiement.traitement[Code]*Montant]
 
-  Bulletins.paie.Lignes.paie[,    montant.primes 
-                                   :=  (montant.traitement.indiciaire == 0)*  
+  Bulletins.paie.Lignes.paie[,    montant.primes
+                                   :=  (montant.traitement.indiciaire == 0)*
                                         Montant * Codes.paiement.indemnitaire[Code]]
 
   Bulletins.paie.Lignes.paie[ ,   montant.rémunération.principale.contractuel
-                                   := (montant.traitement.indiciaire == 0 
+                                   := (montant.traitement.indiciaire == 0
                                        & montant.primes == 0)
                                         * Montant * Codes.paiement.principal.contractuel[Code]]
 
@@ -531,8 +544,53 @@ if (charger.bases)
                                        * (montant.rémunération.principale.contractuel > 0
                                           |
                                           montant.traitement.indiciaire > 0)
-                                       * nb.mois / 12] 
+                                       * nb.mois / 12]
+}
+else
+  Bulletins.paie.Lignes.paie <- mutate(Bulletins.paie.Lignes.paie,
+                                         montant.traitement.indiciaire
+                                                                  =  Codes.paiement.traitement[Code]*Montant,
 
+                                         montant.primes
+                                                                  =  (montant.traitement.indiciaire == 0)*
+                                                                    Montant * Codes.paiement.indemnitaire[Code],
+
+                                         montant.rémunération.principale.contractuel
+                                                                  = (montant.traitement.indiciaire == 0
+                                                                      & montant.primes == 0)
+                                                                  * Montant * Codes.paiement.principal.contractuel[Code],
+
+                                         montant.rémunération.vacataire
+                                                                  =  (montant.traitement.indiciaire == 0
+                                                                       & montant.primes == 0
+                                                                       & montant.rémunération.principale.contractuel == 0)
+                                                                  * Montant * Codes.paiement.vacations[Code],
+
+                                         montant.autres.rémunérations
+                                                                  =  (montant.traitement.indiciaire == 0
+                                                                       & montant.rémunération.principale.contractuel == 0
+                                                                       & montant.rémunération.vacataire == 0
+                                                                       & montant.primes == 0)
+                                                                  * Montant * Codes.paiement.autres[Code],
+
+                                         montant.indemnité.élu
+                                                                  =  (montant.traitement.indiciaire  == 0
+                                                                       & montant.rémunération.principale.contractuel == 0
+                                                                       & montant.rémunération.vacataire == 0
+                                                                       & montant.primes == 0
+                                                                       & montant.autres.rémunérations == 0)
+                                                                  * Montant * Codes.paiement.élu[Code],
+
+                                       ### EQTP  ###
+
+                                         quotité
+                                                                  =  Temps.de.travail / 100
+                                                                  * ((corriger.quotité)*(is.na(Taux) * (1- Taux)  + Taux) + 1 - corriger.quotité)
+                                                                  * (montant.rémunération.principale.contractuel > 0
+                                                                     |
+                                                                       montant.traitement.indiciaire > 0)
+                                                                  * nb.mois / 12
+                                       )
 
   if (inherits(Bulletins.paie.Lignes.paie, 'try-error') )
     stop("Il est probable que le fichier des codes n'est pas exhaustif. Avez-vous (re-)généré l'ensemble des codes récemment ?")

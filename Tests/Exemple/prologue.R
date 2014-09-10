@@ -1,4 +1,4 @@
-# prologue 
+# prologue
 # doit être dans le même répertoire que le programme principal et sa bibliothèque
 
 début.période.sous.revue    <- 2009
@@ -10,7 +10,7 @@ fin.période.sous.revue      <- 2012
 setOSWindows         <- Sys.info()["sysname"] != "Linux"
 
 générer.codes        <- FALSE
-paralléliser         <- FALSE
+paralléliser         <- TRUE
 extraire.années      <- FALSE
 extraire.population  <- FALSE
 fusionner.nom.prénom <- FALSE
@@ -20,17 +20,21 @@ tester.matricules            <- FALSE
 tester.lignes.bulletins.mois <- FALSE
 corriger.quotité     <- FALSE
 comportement.strict  <- TRUE
-table.rapide         <- TRUE
+table.rapide         <- FALSE
 
 seuil.troncature     <- 3
 taux.tolérance.homonymie <- 5  # en %
+
+séparateur.liste <- ";"
+séparateur.décimal <- ","
 
 # FICHIERS EN INPUT
 # conventions de nommage : les noms et chemins sont en minuscules ;
 # les bases commencent par une majuscule. Un nom de fichier est souvent associé
 # à une variable commençant par une majuscule et représentant la base (data.frame ou matrice)
 
-racine                      <- "RAG_2009_2012-"
+racine                      <- "SIERG-"
+  #"RAG_2009_2012-"
 nom.fichier.codes.paiement  <- paste0(racine, "codes.csv")
 fichier.personnels          <- "Catégories des personnels"
 nom.fichier.personnels      <- paste0(fichier.personnels, ".csv")
@@ -56,7 +60,7 @@ champ.détection.1           <- étiquette.matricule
 champ.détection.2           <- "Code"
 champ.nir                   <- "Nir"
 
-ifelse(fusionner.nom.prénom, 
+ifelse(fusionner.nom.prénom,
        clé.fusion <<- c("Nom", "Prénom"),
        clé.fusion <<- étiquette.matricule)
 
@@ -98,13 +102,13 @@ codes.NBI <- c("1012", "101B", "101M", "4652", "4672")
 # if (!setOSWindows)
 # {
 #   windows <- (Sys.info()["sysname"] != "Linux")
-#   
+#
 #   if (windows)
-#   { 
-#     encodage.entrée <- "ISO-8859-1"    
-#   } else 
 #   {
-#     encodage.entrée <- "UTF-8"    
+#     encodage.entrée <- "ISO-8859-1"
+#   } else
+#   {
+#     encodage.entrée <- "UTF-8"
 #   }
 # }
 
