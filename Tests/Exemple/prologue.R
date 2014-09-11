@@ -20,13 +20,13 @@ tester.matricules            <- FALSE
 tester.lignes.bulletins.mois <- FALSE
 corriger.quotité     <- FALSE
 comportement.strict  <- TRUE
-table.rapide         <- FALSE
+table.rapide         <- TRUE
 
 seuil.troncature     <- 3
 taux.tolérance.homonymie <- 5  # en %
 
-séparateur.liste <- ";"
-séparateur.décimal <- ","
+séparateur.liste <- ","
+séparateur.décimal <- "."
 
 # FICHIERS EN INPUT
 # conventions de nommage : les noms et chemins sont en minuscules ;
