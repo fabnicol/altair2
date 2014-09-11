@@ -1,8 +1,8 @@
 # prologue
 # doit être dans le même répertoire que le programme principal et sa bibliothèque
 
-début.période.sous.revue    <- 2011
-fin.période.sous.revue      <- 2011
+début.période.sous.revue    <- 2009
+fin.période.sous.revue      <- 2012
 
 
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
@@ -33,7 +33,7 @@ séparateur.décimal <- "."
 # les bases commencent par une majuscule. Un nom de fichier est souvent associé
 # à une variable commençant par une majuscule et représentant la base (data.frame ou matrice)
 
-racine                      <- "SIERG-"
+racine                      <- "RAG_2009_2012-"
   #"RAG_2009_2012-"
 nom.fichier.codes.paiement  <- paste0(racine, "codes.csv")
 fichier.personnels          <- "Catégories des personnels"
