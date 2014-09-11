@@ -389,7 +389,7 @@ if (charger.bases)
 
   # gain de 24s par l'utilisation de data.table::merge
 
-  if (! paralléliser) {
+  if (! paralléliser & table.rapide) {
 
     Bulletins.paie.Lignes.paie <- merge(data.table::as.data.table(Bulletins.paie),
                                         Lignes.paie,
@@ -503,7 +503,7 @@ if (table.rapide == TRUE) {
 
   Bulletins.paie.Lignes.paie[ ,   quotité
                                        :=  Temps.de.travail / 100
-                                       * ((corriger.quotité)*(is.na(Taux) * (1- Taux)  + Taux) + 1 - corriger.quotité)
+                                       #* ((corriger.quotité)*(is.na(Taux) * (1- Taux)  + Taux) + 1 - corriger.quotité)
                                        * (montant.rémunération.principale.contractuel > 0
                                           |
                                           montant.traitement.indiciaire > 0)
@@ -548,7 +548,7 @@ else
 
                                          quotité
                                                                   =  Temps.de.travail / 100
-                                                                  * ((corriger.quotité)*(is.na(Taux) * (1- Taux)  + Taux) + 1 - corriger.quotité)
+                                        #                          * ((corriger.quotité)*(is.na(Taux) * (1- Taux)  + Taux) + 1 - corriger.quotité)
                                                                   * (montant.rémunération.principale.contractuel > 0
                                                                      |
                                                                        montant.traitement.indiciaire > 0)
