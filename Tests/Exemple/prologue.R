@@ -1,8 +1,8 @@
 # prologue
 # doit être dans le même répertoire que le programme principal et sa bibliothèque
 
-début.période.sous.revue    <- 2009
-fin.période.sous.revue      <- 2012
+début.période.sous.revue    <- 2011
+fin.période.sous.revue      <- 2011
 
 
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
@@ -10,7 +10,7 @@ fin.période.sous.revue      <- 2012
 setOSWindows         <- Sys.info()["sysname"] != "Linux"
 
 générer.codes        <- FALSE
-paralléliser         <- TRUE
+paralléliser         <- FALSE
 extraire.années      <- FALSE
 extraire.population  <- FALSE
 fusionner.nom.prénom <- FALSE
@@ -20,7 +20,7 @@ tester.matricules            <- FALSE
 tester.lignes.bulletins.mois <- FALSE
 corriger.quotité     <- FALSE
 comportement.strict  <- TRUE
-table.rapide         <- TRUE
+table.rapide         <- FALSE
 
 seuil.troncature     <- 3
 taux.tolérance.homonymie <- 5  # en %
