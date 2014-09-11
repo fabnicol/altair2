@@ -228,43 +228,6 @@ if (! all(Bulletins.paie.contiennent.colonnes.requises)) {
 }
 
 
-if (tester.matricules)  tester.homogeneite.matricules(Lignes.paie)
-
-# Ce test contrôle la cohérence entre bulletins et lignes d epaie : il faut qu'à chaque bulletin de paie, il y
-# ait au mois une ligne de paie associée...
-
-if (tester.lignes.bulletins.mois) {
-
-  temp   <- ddply(Bulletins.paie[ , c("Matricule", "Année", "Mois", "Brut", "Net") ], .(Matricule, Année),
-                  summarise,
-                  nMois.bull = length(Mois),
-                  nMois.brut = length(Brut[Brut != 0]),
-                  nMois.net  = length(Net[Net != 0]))
-
-  temp2  <- ddply(unique(Lignes.paie[Lignes.paie$Code %in% Codes.paiement$Code , c("Matricule", "Année", "Mois") ]),
-                  .(Matricule, Année),
-                  summarise,
-                  nMois.lignes = length(Mois))
-
-  M      <- merge(temp, temp2, all = TRUE)
-  M$nMois.lignes[is.na(M$nMois.lignes)] <- 0
-  M      <- M[M$nMois.lignes != M$nMois.bull & M$nMois.lignes != M$nMois.brut & M$nMois.lignes != M$nMois.net, ]
-
-  if (!is.null(M) & nrow(M) != 0) {
-    Matrice.différence.bulletins.lignes.NMois <- M
-    print(Matrice.différence.bulletins.lignes.NMois)
-    sauv.bases(chemin.dossier.bases, "Matrice.différence.bulletins.lignes.NMois")
-
-    stop("Le nombre de bulletins de paye est différent du nombre de mois payés en lignes de paye.
-           Voir Matrice.différence.bulletins.lignes.NMois.csv dans le dossier Bases")
-
-  }  else {
-
-    message("Le nombre de bulletins de paie est cohérent avec les lignes de paie en base.")
-  }
-
-  rm(temp, temp2, M, Matrice.différence.bulletins.lignes.NMois)
-}
 
 #   <- M[M$Diff != 0, ]
 #   if (!is.null(Matrice.différence.bulletins.lignes.NMois) & nrow(Matrice.différence.bulletins.lignes.NMois) > 0)    {
@@ -637,9 +600,9 @@ else
                                  quotité = if (length(quotité[quotité > 0]) > 0)  quotité[quotité > 0][1] else 0,
 
                                  montant.net.eqtp = if (quotité == 0) 0 else Montant.net / quotité,
-                                 part.rémunération.indemnitaire =  if ((s <-  traitement.indiciaire
+                                 part.rémunération.indemnitaire =  if (is.na(s <-  traitement.indiciaire
                                                                             + rémunération.principale.contractuel
-                                                                            + rémunération.indemnitaire) == 0)
+                                                                            + rémunération.indemnitaire) | s == 0)
                                                                            0 else  (rémunération.indemnitaire + rémunération.principale.contractuel )
                                                                                    / s * 100)
 
