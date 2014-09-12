@@ -97,7 +97,7 @@ read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, étiquette
                    skip = trouver.valeur.skip(chem, encodage, séparateur.liste = séparateur.liste, séparateur.décimal = séparateur.décimal),
                    fileEncoding = encodage)
 
-    if (!is.null(drop)) T <- T[-(drop)]
+    if (!is.null(drop)) { T <- T[-(drop)] }
 
   } else {
 
@@ -111,7 +111,6 @@ read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, étiquette
                       drop = drop,
                       showProgress=FALSE)
 
-    T <- as.data.frame(T)
   }
 
 if (!is.null(étiquettes)) names(T) <- étiquettes
