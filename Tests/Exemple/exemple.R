@@ -184,7 +184,11 @@ bulletins.paie <- bulletins.paie[file.exists(chemin(bulletins.paie))]
 if (!is.null(Lignes.paie))
    message("Chargement des lignes de paie.") else stop("Chargement des lignes de paie en échec.")
 
-Lignes.paie <- Lignes.paie[setdiff(names(Lignes.paie), c("Année.1","Mois.1","Matricule.1"))]
+if (table.rapide) {
+    Lignes.paie <- Lignes.paie[ ,setdiff(names(Lignes.paie), c("Année.1","Mois.1","Matricule.1")), with = FALSE] 
+  } else {
+    Lignes.paie <- Lignes.paie[ ,setdiff(names(Lignes.paie), c("Année.1","Mois.1","Matricule.1"))]
+  }
 
 res <- try(Read.csv("Bulletins.paie",
                     bulletins.paie,
@@ -211,7 +215,13 @@ Bulletins.paie <- Bulletins.paie[  Bulletins.paie$Année >= début.période.sous.re
 Lignes.paie    <- Lignes.paie[  Lignes.paie$Année >= début.période.sous.revue
                                 & Lignes.paie$Année <= fin.période.sous.revue, ]
 
-matricules.à.retirer  <- Lignes.paie[Lignes.paie$Code == "", "Matricule"]
+if (table.rapide) {
+  matricules.à.retirer  <- Lignes.paie[Lignes.paie$Code == "", "Matricule", with=F]
+  matricules.à.retirer  <- matricules.à.retirer[[1]]
+} else {
+  matricules.à.retirer  <- Lignes.paie[Lignes.paie$Code == "", "Matricule"]
+}
+
 Lignes.paie    <- Lignes.paie[Lignes.paie$Code != "", ]
 Bulletins.paie <- Bulletins.paie[! Bulletins.paie$Matricule %in% matricules.à.retirer, ]
 
@@ -245,8 +255,12 @@ if (! all(Bulletins.paie.contiennent.colonnes.requises)) {
 if (générer.codes) {
 
   message("Génération de la base des codes de paie et des libellés.")
-
-  codes.paiement.généré <- unique(Lignes.paie[c(étiquette.code, étiquette.libellé)])
+  
+  if (table.rapide) {
+     codes.paiement.généré <- unique(Lignes.paie[ , c(étiquette.code, étiquette.libellé), with = FALSE])  
+   } else {
+     codes.paiement.généré <- unique(Lignes.paie[ , c(étiquette.code, étiquette.libellé)])
+   }
 
   codes.paiement.généré <- cbind(codes.paiement.généré[mixedorder(codes.paiement.généré$Code), ], character(nrow(codes.paiement.généré)))
 
@@ -370,7 +384,7 @@ if (charger.bases)
 
                   # En principe la colonne Brut ne tient pas compte des remboursements d efrais ou des régularisations
                   Montant.brut = sum(Brut),
-                  Statut = Statut[length(Net.à.Payer)],
+                  Statut.sortie = Statut[length(Net.à.Payer)],
                   mois.entrée = if ((minimum <- min(Mois)) != Inf) minimum else 0,
                   mois.sortie = if ((maximum <- max(Mois)) != -Inf) maximum else 0,
                   nb.jours = calcul.nb.jours.mois(mois.entrée[1], mois.sortie[1], Année[1]),
@@ -378,7 +392,7 @@ if (charger.bases)
 
 
 
-  Bulletins.paie <- merge (Bulletins.paie, anavar)
+  Bulletins.paie <- merge (Bulletins.paie, anavar, by = c(étiquette.matricule, étiquette.année))
 
   nb.exercices <- fin.période.sous.revue - début.période.sous.revue + 1
 
@@ -389,9 +403,9 @@ if (charger.bases)
 
   # gain de 24s par l'utilisation de data.table::merge
 
-  if (! paralléliser & table.rapide) {
+  if (! paralléliser && table.rapide) {
 
-    Bulletins.paie.Lignes.paie <- merge(data.table::as.data.table(Bulletins.paie),
+    Bulletins.paie.Lignes.paie <- merge(Bulletins.paie,
                                         Lignes.paie,
                                         by = c(clé.fusion, "Année", "Mois"))
   } else {
@@ -421,7 +435,7 @@ if (charger.bases)
       cluster <- makePSOCKcluster(cores)
       clusterExport(cluster, c("clé.fusion"))
 
-      L <- clusterMap(cluster, function(x, y)  merge(x, y, by = c(clé.fusion, "Année", "Mois")),
+      L <- clusterMap(cluster, function(x, y)  merge(x, y, by = c(clé.fusion, "Année", "Mois"), sort = FALSE),
                                                    L[[1]],  # Bulletins de paie coupés en 4, éventuellement nul
                                                    L[[2]])  # Lignes de paie coupés en 4, éventuellement nul
       stopCluster(cluster)
@@ -429,7 +443,7 @@ if (charger.bases)
 
     }  else  {
 
-      L <- mcMap(function(x, y)  merge(x, y, by = c(clé.fusion, "Année", "Mois")),
+      L <- mcMap(function(x, y)  merge(x, y, by = c(clé.fusion, "Année", "Mois"), sort = FALSE),
                       L[[1]],  # Bulletins de paie coupés en 4, éventuellement nul
                       L[[2]],  # Lignes de paie coupés en 4, éventuellement nul
                       mc.cores = cores)
@@ -440,6 +454,11 @@ if (charger.bases)
     } else {
         Bulletins.paie.Lignes.paie <- do.call(rbind, L)
     }
+    
+    if (paralléliser || ! table.rapide)
+       with(Bulletins.paie.Lignes.paie, 
+            Bulletins.paie.Lignes.paie <- Bulletins.paie.Lignes.paie[order(Matricule, Année, Mois), ])
+      
   }
 
   if (!is.null(Bulletins.paie.Lignes.paie)) message("Fusion réalisée") else stop("Echec de fusion" )
@@ -560,7 +579,7 @@ else
 
   Bulletins.paie.Lignes.paie$quotité[is.na(Bulletins.paie.Lignes.paie$quotité)] <- 0
 
-  Bulletins.paie.Lignes.paie <- as.data.frame(Bulletins.paie.Lignes.paie)
+  #Bulletins.paie.Lignes.paie <- as.data.frame(Bulletins.paie.Lignes.paie)
 
   Analyse.rémunérations <- ddply(Bulletins.paie.Lignes.paie,
                                  c(clé.fusion, étiquette.année),
@@ -668,22 +687,47 @@ else
 
   rm(temp)
 
-  Bulletins.paie.nir.total.hors.élus <- merge(Analyse.rémunérations[  Analyse.rémunérations$Année == fin.période.sous.revue
-                                                                    & Analyse.rémunérations$indemnités.élu == 0,
-                                                                      c(clé.fusion, champ.nir) ],
-                                              Bulletins.paie[  Bulletins.paie$Année == fin.période.sous.revue
-                                                             & Bulletins.paie$Mois == 12,
-                                                             c(clé.fusion, champ.nir)],
-                                              by = clé.fusion,
-                                              all = FALSE)
-
-  Bulletins.paie.nir.fonctionnaires  <- unique(Bulletins.paie[  Bulletins.paie$Année == fin.période.sous.revue
-                                                              & Bulletins.paie$Mois  == 12
-                                                              & (Bulletins.paie$Statut == "TITULAIRE" |
-                                                                 Bulletins.paie$Statut == "STAGIAIRE"),
-                                                              c(clé.fusion, champ.nir)])
-
-  Bulletins.paie.nir.total.hors.élus <- Bulletins.paie.nir.total.hors.élus[-3]
+  if (table.rapide) {
+    
+    Bulletins.paie.nir.total.hors.élus <- merge(Bulletins.paie[  Bulletins.paie$Année == fin.période.sous.revue
+                                                                 & Bulletins.paie$Mois == 12,
+                                                                 c(clé.fusion, champ.nir), with = FALSE],
+                                                Analyse.rémunérations[  Analyse.rémunérations$Année == fin.période.sous.revue
+                                                                        & Analyse.rémunérations$indemnités.élu == 0,
+                                                                        c(clé.fusion, champ.nir) ],
+                                                by = clé.fusion)
+    
+  } else {
+    
+    Bulletins.paie.nir.total.hors.élus <- merge(Bulletins.paie[  Bulletins.paie$Année == fin.période.sous.revue
+                                                                 & Bulletins.paie$Mois == 12,
+                                                                 c(clé.fusion, champ.nir)],
+                                                Analyse.rémunérations[  Analyse.rémunérations$Année == fin.période.sous.revue
+                                                                        & Analyse.rémunérations$indemnités.élu == 0,
+                                                                        c(clé.fusion, champ.nir) ],
+                                                by = clé.fusion)  
+  }
+  
+      
+ if (table.rapide) {
+   
+   Bulletins.paie.nir.fonctionnaires  <- unique(Bulletins.paie[  Bulletins.paie$Année == fin.période.sous.revue
+                                                                 & Bulletins.paie$Mois  == 12
+                                                                 & (Bulletins.paie$Statut == "TITULAIRE" |
+                                                                      Bulletins.paie$Statut == "STAGIAIRE"),
+                                                                 c(clé.fusion, champ.nir), with = FALSE])
+      
+ } else {
+   
+   Bulletins.paie.nir.fonctionnaires  <- unique(Bulletins.paie[  Bulletins.paie$Année == fin.période.sous.revue
+                                                                 & Bulletins.paie$Mois  == 12
+                                                                 & (Bulletins.paie$Statut == "TITULAIRE" |
+                                                                      Bulletins.paie$Statut == "STAGIAIRE"),
+                                                                 c(clé.fusion, champ.nir)])
+   
+ }
+  
+  Bulletins.paie.nir.total.hors.élus$Nir.y <- NULL
   names(Bulletins.paie.nir.total.hors.élus) <- c(clé.fusion, champ.nir)
 
   # Age au 31 décembre de l'exercice dernier.exerciceal de la période sous revue
@@ -703,6 +747,12 @@ else
 if (!is.null(Bulletins.paie.Lignes.paie) & !is.null(Analyse.rémunérations)
     & !is.null(Analyse.variations.synthèse) & !is.null(Analyse.variations.par.exercice))
   message("Statistiques de synthèse réalisées")
+
+if (table.rapide) {
+  Bulletins.paie <- as.data.frame(Bulletins.paie)
+  Bulletins.paie.Lignes.paie <- as.data.frame(Bulletins.paie.Lignes.paie)
+}
+
 
 ########### Démographie ########################
 
@@ -2061,7 +2111,7 @@ if (fichier.personnels.existe) {
 
 
 matricules.à.identifier <- matricules.à.identifier[order(matricules.à.identifier$Matricule,
-                                                         matricules.à.identifier$Année),]
+                                                         matricules.à.identifier$Année), ]
 
 
       rémunérations.élu <- Analyse.rémunérations[ Analyse.rémunérations$indemnités.élu > 0,
