@@ -116,7 +116,7 @@ read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, étiquette
 if (!is.null(étiquettes)) names(T) <- étiquettes
 
 if (encodage.entrée != "UTF-8")
-     names(T) <- iconv(names(T), to="UTF-8")
+     names(T) <- iconv(names(T), to="UTF-8", mark = FALSE)
 
 return(T)
 }
@@ -124,7 +124,7 @@ return(T)
 Sauv.base <- function(chemin.dossier, nom, nom.sauv, encodage = encodage.entrée)
 {
   message("Sauvegarde de ", nom)
-  write.csv2(get(nom), paste0(chemin.dossier, "/", iconv(nom.sauv, to = encodage.entrée), ".csv"),
+  write.csv2(get(nom), paste0(chemin.dossier, "/", iconv(nom.sauv, to = encodage.entrée, mark = FALSE), ".csv"),
              row.names = FALSE, fileEncoding = encodage)
 
 }
