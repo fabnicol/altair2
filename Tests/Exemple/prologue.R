@@ -21,6 +21,8 @@ tester.lignes.bulletins.mois <- FALSE
 corriger.quotité     <- FALSE
 comportement.strict  <- TRUE
 table.rapide         <- TRUE
+etp.égale.effectif   <- FALSE
+générer.table.effectifs <- FALSE
 
 seuil.troncature     <- 3
 taux.tolérance.homonymie <- 5  # en %
@@ -33,7 +35,7 @@ séparateur.décimal <- "."
 # les bases commencent par une majuscule. Un nom de fichier est souvent associé
 # à une variable commençant par une majuscule et représentant la base (data.frame ou matrice)
 
-racine                      <- "UTF-8.SIERG-"
+racine                      <- "UTF-8.RAG_2009_2012-"
   #"RAG_2009_2012-"
 nom.fichier.codes.paiement  <- paste0(racine, "codes.csv")
 fichier.personnels          <- "Catégories des personnels"
@@ -113,7 +115,6 @@ codes.NBI <- c("1012", "101B", "101M", "4652", "4672")
 # }
 
 encodage.entrée <- "UTF-8"
-etp.égale.effectif <- TRUE
 
 modalité.traitement            <- "TRAITEMENT"     # s'applique aussi aux NBI
 modalité.indemnitaire          <- "INDEMNITAIRE"   # hors vacations
