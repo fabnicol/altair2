@@ -2175,7 +2175,7 @@ if (sauvegarder.bases)
 #'En cas de changement de catégorie en cours de période, utiliser la catégorie AUTRES
 #'Cela peut conduire à modifier manuellement le fichier Catégories des personnels.csv
 #'
-
+if (générer.table.effectifs)
   kable(matricules.à.identifier, row.names = FALSE)
 #'
 
