@@ -10,7 +10,7 @@ fin.période.sous.revue      <- 2012
 setOSWindows         <- Sys.info()["sysname"] != "Linux"
 
 générer.codes        <- FALSE
-paralléliser         <- FALSE
+paralléliser         <- TRUE
 extraire.années      <- FALSE
 extraire.population  <- FALSE
 fusionner.nom.prénom <- FALSE
@@ -20,7 +20,7 @@ tester.matricules            <- FALSE
 tester.lignes.bulletins.mois <- FALSE
 corriger.quotité     <- FALSE
 comportement.strict  <- TRUE
-table.rapide         <- TRUE
+table.rapide         <- FALSE
 etp.égale.effectif   <- FALSE
 générer.table.effectifs <- FALSE
 
@@ -35,7 +35,9 @@ séparateur.décimal <- "."
 # les bases commencent par une majuscule. Un nom de fichier est souvent associé
 # à une variable commençant par une majuscule et représentant la base (data.frame ou matrice)
 
-racine                      <- "UTF-8.RAG_2009_2012-"
+racine                      <-  "UTF-8.RAG_2009_2012-"
+  #"UTF-8.SIERG-"
+  # "UTF-8.RAG_2009_2012-"
   #"RAG_2009_2012-"
 nom.fichier.codes.paiement  <- paste0(racine, "codes.csv")
 fichier.personnels          <- "Catégories des personnels"
