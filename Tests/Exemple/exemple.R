@@ -269,7 +269,8 @@ if (générer.codes) {
   names(codes.paiement.généré)[3] <- étiquette.Type.rémunération
   class(codes.paiement.généré) <- "data.frame"
   codes.paiement.généré$Libellé <- iconv(codes.paiement.généré$Libellé, from = "UTF-8", to=encodage.entrée, mark = FALSE)
-  sauv.bases(chemin.dossier.données, "codes.paiement.généré")
+  nom.fichier.codes <- paste0(racine, "codes.paiement.généré")
+  Sauv.base(chemin.dossier.données, "codes.paiement.généré", nom.fichier.codes)
 
   #'---
   #'
@@ -285,8 +286,8 @@ if (générer.codes) {
   #'
 
 
-  if (file.exists(file.path(chemin.dossier.données, "codes.paiement.généré.csv")))
-    message("Génération des codes : voir fichier Données/codes.paiement.généré.csv")  else
+  if (file.exists(file.path(chemin.dossier.données, paste0(nom.fichier.codes, ".csv"))))
+    message(paste0("Génération des codes : voir fichier Données/", nom.fichier.codes, ".csv"))  else
     message("Les codes n'ont pas été générés.")
 
   stop(
