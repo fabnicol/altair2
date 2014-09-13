@@ -22,6 +22,8 @@ library(compiler)
 
 options(warn = -1, verbose = FALSE, OutDec = ",")
 
+encodage.code.source <- "ISO-8859-1"
+
 # encodage :sous unix, les fichiers sources devraient être encodés en UTF-8 pour permettre une génération correcte des documents
 #           sous Windows, en ISO-8859-1.
 # Les bases peuvent être en encodage fixe, ici ISO-8859-1 pour des raisons de commodité Windows
@@ -32,12 +34,12 @@ options(warn = -1, verbose = FALSE, OutDec = ",")
 
 try(setwd("Tests/Exemple"), silent = TRUE)
 
-source("prologue.R", encoding = "ISO-8859-1")
+source("prologue.R", encoding = encodage.code.source)
 
 compilerOptions <- setCompilerOptions(suppressAll = TRUE)
 enableJIT(1)
 
-source(file.path(chemin.dossier, "bibliotheque.fonctions.paie.R"), encoding = encodage.entrée)
+source(file.path(chemin.dossier, "bibliotheque.fonctions.paie.R"), encoding = encodage.code.source)
 
 installer.paquets(knitr, plyr, ggplot2, assertthat, yaml, gtools, utils, data.table)
 if (paralléliser) installer.paquets(parallel)
@@ -265,6 +267,8 @@ if (générer.codes) {
   codes.paiement.généré <- cbind(codes.paiement.généré[mixedorder(codes.paiement.généré$Code), ], character(nrow(codes.paiement.généré)))
 
   names(codes.paiement.généré)[3] <- étiquette.Type.rémunération
+  class(codes.paiement.généré) <- "data.frame"
+  codes.paiement.généré$Libellé <- iconv(codes.paiement.généré$Libellé, from = "UTF-8", to=encodage.entrée, mark = FALSE)
   sauv.bases(chemin.dossier.données, "codes.paiement.généré")
 
   #'---
@@ -394,11 +398,6 @@ if (charger.bases)
 
   Bulletins.paie <- merge (Bulletins.paie, anavar, by = c(étiquette.matricule, étiquette.année))
 
-  nb.exercices <- fin.période.sous.revue - début.période.sous.revue + 1
-
-  cut <- round(nb.exercices/4)
-  if (cut == 0) cut = 1
-
   # Fusion non parallélisée
 
   # gain de 24s par l'utilisation de data.table::merge
@@ -415,7 +414,11 @@ if (charger.bases)
     #                       le gain est d'environ 4s à 14s, soit 5s de plus que sous linux parallèle.
     # Le merge classique est toutefois loin des performancs de data.table::merge
 
-
+    nb.exercices <- fin.période.sous.revue - début.période.sous.revue + 1
+    
+    cut <- round(nb.exercices/4)
+    if (cut == 0) cut = 1
+    
     library(parallel)
 
     cores   <- detectCores()
@@ -521,12 +524,12 @@ if (table.rapide == TRUE) {
                                        ### EQTP  ###
 
   Bulletins.paie.Lignes.paie[ ,   quotité
-                                       :=  Temps.de.travail / 100
+                                       :=  if (etp.égale.effectif) 1 else (Temps.de.travail / 100
                                        #* ((corriger.quotité)*(is.na(Taux) * (1- Taux)  + Taux) + 1 - corriger.quotité)
                                        * (montant.rémunération.principale.contractuel > 0
                                           |
                                           montant.traitement.indiciaire > 0)
-                                       * nb.mois / 12]
+                                       * nb.mois / 12)]
 }
 else
   Bulletins.paie.Lignes.paie <- mutate(Bulletins.paie.Lignes.paie,
@@ -565,13 +568,14 @@ else
 
                                        ### EQTP  ###
 
-                                         quotité
-                                                                  =  Temps.de.travail / 100
-                                        #                          * ((corriger.quotité)*(is.na(Taux) * (1- Taux)  + Taux) + 1 - corriger.quotité)
-                                                                  * (montant.rémunération.principale.contractuel > 0
-                                                                     |
-                                                                       montant.traitement.indiciaire > 0)
-                                                                  * nb.mois / 12
+                                         quotité                  = if (etp.égale.effectif) 1 else (
+                                                                       Temps.de.travail / 100
+                                            #                          * ((corriger.quotité)*(is.na(Taux) * (1- Taux)  + Taux) + 1 - corriger.quotité)
+                                                                      * (montant.rémunération.principale.contractuel > 0
+                                                                         |
+                                                                           montant.traitement.indiciaire > 0)
+                                                                      * nb.mois / 12 
+                                                                    )
                                        )
 
   if (inherits(Bulletins.paie.Lignes.paie, 'try-error') )
