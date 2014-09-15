@@ -384,7 +384,7 @@ if (charger.bases)
   if (table.rapide == TRUE) {
     
     Bulletins.paie[ ,   quotité   := if (etp.égale.effectif | is.na(Temps.de.travail)) 1 else  Temps.de.travail / 100]
-    Bulletins.paie[ ,   Montant.net.eqtp         = if (quotité != 0 & !is.na(Net.à.Payer)) Net.à.Payer / quotité else 0]
+    Bulletins.paie[ ,   Montant.net.eqtp  := if (quotité != 0 & !is.na(Net.à.Payer)) Net.à.Payer / quotité else 0]
   } else {
     Bulletins.paie <- mutate(Bulletins.paie,
                            
