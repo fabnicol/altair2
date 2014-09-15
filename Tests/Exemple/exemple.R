@@ -37,7 +37,7 @@ try(setwd("Tests/Exemple"), silent = TRUE)
 source("prologue.R", encoding = encodage.code.source)
 
 compilerOptions <- setCompilerOptions(suppressAll = TRUE)
-enableJIT(1)
+JITLevel <- enableJIT(1)
 
 source(file.path(chemin.dossier, "bibliotheque.fonctions.paie.R"), encoding = encodage.code.source)
 
@@ -383,7 +383,8 @@ if (charger.bases)
   if (table.rapide == TRUE) {
 
     Bulletins.paie[ ,   quotité   := if (etp.égale.effectif | is.na(Temps.de.travail)) 1 else  Temps.de.travail / 100]
-    Bulletins.paie[ ,   Montant.net.eqtp  := if (quotité != 0 & !is.na(Net.à.Payer)) Net.à.Payer / quotité else 0]
+    Bulletins.paie[ ,   Montant.net.eqtp := ifelse(is.finite(Net.à.Payer/quotité), Net.à.Payer/quotité,  NA)]
+    
   } else {
     Bulletins.paie <- mutate(Bulletins.paie,
 
@@ -391,8 +392,9 @@ if (charger.bases)
 
                            quotité                  = if (etp.égale.effectif | is.na(Temps.de.travail)) 1 else  Temps.de.travail / 100,
                            #                          * ((corriger.quotité)*(is.na(Taux) * (1- Taux)  + Taux) + 1 - corriger.quotité)
+# if( ...) ne fonctionne pas.
 
-                           Montant.net.eqtp         = if (quotité != 0 & !is.na(Net.à.Payer)) Net.à.Payer / quotité else 0)
+                           Montant.net.eqtp         = ifelse(is.finite(Net.à.Payer/quotité), Net.à.Payer/quotité, NA)) 
   }
 
   anavar <- ddply(Bulletins.paie,
@@ -400,7 +402,7 @@ if (charger.bases)
                   summarise,
                   # partie Analyse des variations par exercice #
 
-                  Montant.net.annuel.eqtp = sum(Montant.net.eqtp),
+                  Montant.net.annuel.eqtp = sum(Montant.net.eqtp, na.rm = TRUE),
 
                   # En principe la colonne Brut ne tient pas compte des remboursements d efrais ou des régularisations
                   Montant.brut.annuel = sum(Brut),
@@ -525,6 +527,7 @@ if (charger.bases)
 # Optimisation : il faut impérativement limiter le recours aux hash table lookups pour les gros fichiers.
 # L'optimisation ci-dessous repose sur l'utilisation des informations déjà calculées sur les colonnes précédentes pour éviter
 # de computer Codes....[Code] autant que possible. Gain de temps par rapport à une consultation systématique : x100 à x200
+# data.table ne gère pas les expressions du type if (...ligne précédente..) mais admet les calculs logiques booléens.
 
 if (table.rapide == TRUE) {
 
@@ -1710,7 +1713,11 @@ detach(Analyse.variations.synthèse)
 #'
 #'
 
-f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Analyse.variations.par.exercice$Année == x, "Montant.net.annuel.eqtp"])/ 1000, big.mark = " ", digits = 5, format = "fg")
+f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Analyse.variations.par.exercice$Année == x,
+                                                               "Montant.net.annuel.eqtp"], na.rm = TRUE)/ 1000,
+                                                                big.mark = " ",
+                                                                digits = 5,
+                                                                format = "fg")
 #'
 #'#### Rémunération
 #'
@@ -1770,14 +1777,16 @@ if (nrow(Analyse.variations.synthèse.filtrée.plus.2.ans) > 0)
 #'
 #'
 
-f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[
-  Analyse.variations.par.exercice$Année == x & Analyse.variations.par.exercice$plus.2.ans,
-  "Montant.net.annuel.eqtp"])/ 1000, big.mark = " ", digits = 5, format = "fg")
+f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Analyse.variations.par.exercice$Année == x 
+                                                               & Analyse.variations.par.exercice$plus.2.ans,
+                                                               "Montant.net.annuel.eqtp"], na.rm = TRUE)/ 1000,
+                                                               big.mark = " ",
+                                                               digits = 5,
+                                                               format = "fg")
 
 Tableau.vertical(c(étiquette.année, "Rémunération nette totale <br>des agents en place (k&euro;)"),
                  période,
                  f)
-
 
 #'
 
@@ -1832,9 +1841,12 @@ if (nrow(Analyse.variations.synthèse.filtrée.moins.2.ans) > 0)
 #'##
 #'
 
-f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[
-  Analyse.variations.par.exercice$Année == x & ! Analyse.variations.par.exercice$plus.2.ans,
-  "Montant.net.annuel.eqtp"])/ 1000, big.mark = " ", digits = 5, format = "fg")
+f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Analyse.variations.par.exercice$Année == x 
+                                                               & ! Analyse.variations.par.exercice$plus.2.ans,
+                                                               "Montant.net.annuel.eqtp"], na.rm = TRUE)/ 1000,
+                           big.mark = " ",
+                           digits = 5, 
+                           format = "fg")
 
 Tableau.vertical(c(étiquette.année, "Rémunération nette totale <br>des agents en fonction moins de deux ans (k&euro;)"),
                  période,
