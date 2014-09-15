@@ -84,7 +84,7 @@ bulletins.paie.input <- c("Année", "Mois", "Nom", "Prénom", "Matricule", "Statut
 
 bulletins.paie.classes.input    <- c("integer", "integer", "character", "character", "character", "character", "character", "character", "character", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric", "character", "character")
 
-bulletins.paie.output <- c(bulletins.paie.input, c("Montant.net", "Montant.brut", "mois.entrée", "mois.sortie", "nb.jours", "nb.mois"))
+bulletins.paie.output <- c(bulletins.paie.input, c("Montant.net.annuel.eqtp", "Montant.brut.annuel", "mois.entrée", "mois.sortie", "nb.jours", "nb.mois"))
 
 bulletins.paie.classes.output <- c(bulletins.paie.classes.input, c("numeric", "integer", "integer", "integer", "integer"))
 
