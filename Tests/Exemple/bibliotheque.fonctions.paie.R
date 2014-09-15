@@ -166,10 +166,20 @@ Read.csv <- function(base.string, vect.chemin, charger = charger.bases, colClass
 
 pretty.print <- function(x) cat(gsub(".", " ",deparse(substitute(x)), fixed = TRUE), "   ", x,"\n")
 
-Résumé <- function(x,y, align = 'r',...)
+Résumé <- function(x,y, align = 'r', extra = 0, ...)
               {
+                 Y <- na.omit(y)
+
                  S <- cbind(c("Minimum", "1er quartile", "Médiane", "Moyenne", "3ème quartile", "Maximum"),
-                            prettyNum(sub("[M13].*:", "", summary(y, ...)), big.mark = " "))
+                            prettyNum(sub("[M13].*:", "", summary(Y, ...)), big.mark = " "))
+                 if (! missing(extra))
+                    if (extra == "length") {
+                      L <- if (is.vector(Y)) length(Y) else nrow(Y)
+                      S <- cbind(S, c("", "", "", L, "", ""))
+                    } else {
+                    if (is.numeric(extra))
+                            S <- cbind(S, c("", "", "", as.character(extra), "", ""))
+                    }
 
                  dimnames(S)[[2]] <- c("Statistique", x)
 
@@ -321,6 +331,7 @@ calcul.variation <- function(rémunération.début, rémunération.sortie, nb.jours.e
 }
 
 positive <- function(X) X[!is.na(X) & X > 0]
+non.null <- function(X) X[!is.na(X) & X != 0]
 
 
 installer.paquet <- function(paquet, rigoureusement = FALSE)
