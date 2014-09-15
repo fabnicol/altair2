@@ -381,20 +381,35 @@ if (exists("Codes.paiement"))
 
 if (charger.bases)
 {
+  if (table.rapide == TRUE) {
+    
+    Bulletins.paie[ ,   quotité   := if (etp.égale.effectif | is.na(Temps.de.travail)) 1 else  Temps.de.travail / 100]
+    Bulletins.paie[ ,   Montant.net.eqtp         = if (quotité != 0 & !is.na(Net.à.Payer)) Net.à.Payer / quotité else 0]
+  } else {
+    Bulletins.paie <- mutate(Bulletins.paie,
+                           
+                           ### EQTP  ###
+                           
+                           quotité                  = if (etp.égale.effectif | is.na(Temps.de.travail)) 1 else  Temps.de.travail / 100,
+                           #                          * ((corriger.quotité)*(is.na(Taux) * (1- Taux)  + Taux) + 1 - corriger.quotité)
+                           
+                           Montant.net.eqtp         = if (quotité != 0 & !is.na(Net.à.Payer)) Net.à.Payer / quotité else 0)
+  }
+  
   anavar <- ddply(Bulletins.paie,
                   c(étiquette.matricule, étiquette.année),
                   summarise,
                   # partie Analyse des variations par exercice #
-                  Montant.net = sum(Net.à.Payer),
+                  
+                  Montant.net.annuel.eqtp = sum(Montant.net.eqtp),
 
                   # En principe la colonne Brut ne tient pas compte des remboursements d efrais ou des régularisations
-                  Montant.brut = sum(Brut),
+                  Montant.brut.annuel = sum(Brut),
                   Statut.sortie = Statut[length(Net.à.Payer)],
                   mois.entrée = if ((minimum <- min(Mois)) != Inf) minimum else 0,
                   mois.sortie = if ((maximum <- max(Mois)) != -Inf) maximum else 0,
                   nb.jours = calcul.nb.jours.mois(mois.entrée[1], mois.sortie[1], Année[1]),
                   nb.mois  = mois.sortie[1] - mois.entrée[1] + 1)
-
 
 
   Bulletins.paie <- merge (Bulletins.paie, anavar, by = c(étiquette.matricule, étiquette.année))
@@ -439,7 +454,7 @@ if (charger.bases)
       cluster <- makePSOCKcluster(cores)
       clusterExport(cluster, c("clé.fusion"))
 
-      L <- clusterMap(cluster, function(x, y)  merge(x, y, by = c(clé.fusion, "Année", "Mois"), sort = FALSE),
+      L <- clusterMap(cluster, function(x, y)  merge(x, y, by = c(clé.fusion, "Année", "Mois")),
                                                    L[[1]],  # Bulletins de paie coupés en 4, éventuellement nul
                                                    L[[2]])  # Lignes de paie coupés en 4, éventuellement nul
       stopCluster(cluster)
@@ -447,7 +462,7 @@ if (charger.bases)
 
     }  else  {
 
-      L <- mcMap(function(x, y)  merge(x, y, by = c(clé.fusion, "Année", "Mois"), sort = FALSE),
+      L <- mcMap(function(x, y)  merge(x, y, by = c(clé.fusion, "Année", "Mois")),
                       L[[1]],  # Bulletins de paie coupés en 4, éventuellement nul
                       L[[2]],  # Lignes de paie coupés en 4, éventuellement nul
                       mc.cores = cores)
@@ -457,6 +472,7 @@ if (charger.bases)
         Bulletins.paie.Lignes.paie <- data.table::rbindlist(L)
     } else {
         Bulletins.paie.Lignes.paie <- do.call(rbind, L)
+        
     }
     
     if (paralléliser || ! table.rapide)
@@ -469,7 +485,7 @@ if (charger.bases)
 
   if (! exists("Codes.paiement.indemnitaire"))  stop("Pas de fichier des Types de codes [INDEMNITAIRE]")
   if (! exists("Codes.paiement.principal.contractuel"))  stop("Pas de fichier des Types de codes [PRINCIPAL.CONTRACTUEL]")
-  if (! exists("Codes.paiement.vacations"))  stop("Pas de fichier des Types de codes [VACATAIRE]")
+  if (! exists("Codes.paiement.vacations"))     stop("Pas de fichier des Types de codes [VACATAIRE]")
   if (! exists("Codes.paiement.traitement"))    stop("Pas de fichier des Types de codes [TRAITEMENT]")
   if (! exists("Codes.paiement.élu"))           stop("Pas de fichier des Types de codes [ELU]")
   if (! exists("Codes.paiement.autres"))        stop("Pas de fichier des Types de codes [AUTRES]")
@@ -524,13 +540,6 @@ if (table.rapide == TRUE) {
 
                                        ### EQTP  ###
 
-  Bulletins.paie.Lignes.paie[ ,   quotité
-                                       :=  if (etp.égale.effectif) 1 else (Temps.de.travail / 100
-                                       #* ((corriger.quotité)*(is.na(Taux) * (1- Taux)  + Taux) + 1 - corriger.quotité)
-                                       * (montant.rémunération.principale.contractuel > 0
-                                          |
-                                          montant.traitement.indiciaire > 0)
-                                       * nb.mois / 12)]
 }
 else
   Bulletins.paie.Lignes.paie <- mutate(Bulletins.paie.Lignes.paie,
@@ -565,25 +574,16 @@ else
                                                                        & montant.rémunération.vacataire == 0
                                                                        & montant.primes == 0
                                                                        & montant.autres.rémunérations == 0)
-                                                                  * Montant * Codes.paiement.élu[Code],
-
-                                       ### EQTP  ###
-
-                                         quotité                  = if (etp.égale.effectif) 1 else (
-                                                                       Temps.de.travail / 100
-                                            #                          * ((corriger.quotité)*(is.na(Taux) * (1- Taux)  + Taux) + 1 - corriger.quotité)
-                                                                      * (montant.rémunération.principale.contractuel > 0
-                                                                         |
-                                                                           montant.traitement.indiciaire > 0)
-                                                                      * nb.mois / 12 
-                                                                    )
+                                                                  * Montant * Codes.paiement.élu[Code]
+                                                                    
                                        )
 
   if (inherits(Bulletins.paie.Lignes.paie, 'try-error') )
     stop("Il est probable que le fichier des codes n'est pas exhaustif. Avez-vous (re-)généré l'ensemble des codes récemment ?")
 
   Bulletins.paie.Lignes.paie$quotité[is.na(Bulletins.paie.Lignes.paie$quotité)] <- 0
-
+  
+  message("Bulletins de paye retraités")
   #Bulletins.paie.Lignes.paie <- as.data.frame(Bulletins.paie.Lignes.paie)
 
   Analyse.rémunérations <- ddply(Bulletins.paie.Lignes.paie,
@@ -591,8 +591,8 @@ else
                                  summarise,
 
                                  Nir          = Nir[1],
-                                 Montant.net  = Montant.net[1],
-                                 Montant.brut = Montant.brut[1],
+                                 Montant.net.annuel.eqtp  = Montant.net.annuel.eqtp[1],
+                                 Montant.brut.annuel = Montant.brut.annuel[1],
                                  Statut       = Statut[1],
                                  mois.entrée  = mois.entrée[1],
                                  nb.jours     = nb.jours[1],
@@ -607,7 +607,7 @@ else
                                  autres.rémunérations                = sum(montant.autres.rémunérations),
 
                                  # on ne considère que les rémunérations brutes (sans prise en compte des remboursements de frais aux salariés ou des régularisations)
-                                 # pour être en homogénéïté avec la colonne Brut/Montant.brut
+                                 # pour être en homogénéïté avec la colonne Brut/Montant.brut.annuel
 
                                  total.rémunérations                 =  traitement.indiciaire                       # le premier et deuxième terme sont exclusifs
                                                                       + rémunération.principale.contractuel
@@ -621,9 +621,8 @@ else
                                                                         + indemnités.élu,
 
 
-                                 quotité = if (length(quotité[quotité > 0]) > 0)  quotité[quotité > 0][1] else 0,
+                                 
 
-                                 montant.net.eqtp = if (quotité == 0) 0 else Montant.net / quotité,
                                  part.rémunération.indemnitaire =  if (is.na(s <-  traitement.indiciaire
                                                                             + rémunération.principale.contractuel
                                                                             + rémunération.indemnitaire) | s == 0)
@@ -633,35 +632,32 @@ else
   Analyse.rémunérations <- Analyse.rémunérations[!is.na(Analyse.rémunérations$total.rémunérations), ]
 
 
-  if (length (Analyse.rémunérations$quotité[Analyse.rémunérations$quotité > 1]) > 0 & comportement.strict & corriger.quotité) stop("Détection de quotités > 1", call. = FALSE)
+  if (length (Analyse.rémunérations$quotité[Analyse.rémunérations$quotité > 1]) > 0 & comportement.strict ) stop("Détection de quotités > 1", call. = FALSE)
 
+  message("Analyse des rémunérations réalisée.")
 
   Analyse.variations.par.exercice <- Analyse.rémunérations[ , c(clé.fusion, étiquette.année,
-                                                                "montant.net.eqtp",
+                                                                "Montant.net.annuel.eqtp",
                                                                 "Statut",
-                                                                "Montant.net",
                                                                 "nb.jours",
-                                                                "nb.mois",
-                                                                "quotité")]
+                                                                "nb.mois")]
 
  Analyse.variations.synthèse <- ddply(Analyse.variations.par.exercice,
                                        clé.fusion,
                                        summarise,
 
                                        Nexercices = length(Année),
-                                       # quotité.exercice.début = quotité[1],
-                                       # quotité.exercice.sortie = quotité[Nexercices],
                                        nb.mois.exercice.début  = nb.mois[1],
                                        nb.mois.exercice.sortie = nb.mois[Nexercices],
                                        total.jours = sum(nb.jours),
                                        total.mois  = sum(nb.mois),
-                                       montant.net.eqtp.début  = montant.net.eqtp[1],
-                                       montant.net.eqtp.sortie = montant.net.eqtp[Nexercices],
+                                       Montant.net.annuel.eqtp.début  = Montant.net.annuel.eqtp[1],
+                                       Montant.net.annuel.eqtp.sortie = Montant.net.annuel.eqtp[Nexercices],
                                        moyenne.rémunération.annuelle.sur.période =
-                                         sum(montant.net.eqtp, na.rm = TRUE)/length(Année[!is.na(montant.net.eqtp) & montant.net.eqtp > 0]),
-                                       variation.rémunération = if (Nexercices > 1 & montant.net.eqtp.début > 0 & montant.net.eqtp.sortie > 0)
-                                                                 (montant.net.eqtp.sortie / montant.net.eqtp.début -1)*100  else 0,
-                                       variation.moyenne.rémunération = if (total.mois == 0 | variation.rémunération == 0)
+                                         sum(Montant.net.annuel.eqtp, na.rm = TRUE)/length(Année[!is.na(Montant.net.annuel.eqtp) & Montant.net.annuel.eqtp > 0]),
+                                       variation.rémunération = if (Nexercices > 1 & !is.na(Montant.net.annuel.eqtp.début) & !is.na(Montant.net.annuel.eqtp.sortie) & Montant.net.annuel.eqtp.début > 0 & Montant.net.annuel.eqtp.sortie > 0)
+                                                                 (Montant.net.annuel.eqtp.sortie / Montant.net.annuel.eqtp.début -1)*100  else 0,
+                                       variation.moyenne.rémunération = if (is.na(total.mois) | is.na(variation.rémunération) | total.mois == 0 | variation.rémunération == 0)
                                                                          0  else (( 1 + variation.rémunération / 100 ) ^ (12 / total.mois) - 1) * 100,
                                        plus.2.ans  = (total.mois  >= 2*12),
                                        moins.2.ans = (total.mois < 2*12),
@@ -691,6 +687,8 @@ else
   }
 
   rm(temp)
+
+  message("Analyse des variations réalisée.")
 
   if (table.rapide) {
     
@@ -748,6 +746,7 @@ else
   années.total.hors.élus  <- extraire.nir(Bulletins.paie.nir.total.hors.élus)
 }
 
+message("Analyse démographique réalisée.")
 
 if (!is.null(Bulletins.paie.Lignes.paie) & !is.null(Analyse.rémunérations)
     & !is.null(Analyse.variations.synthèse) & !is.null(Analyse.variations.par.exercice))
@@ -909,7 +908,7 @@ colonnes.sélectionnées <- c("traitement.indiciaire",
                             "autres.rémunérations",
                             "total.rémunérations",
                             "total.rémunérations.et.remboursements",
-                            "Montant.brut",
+                            "Montant.brut.annuel",
                             "part.rémunération.indemnitaire",
                             clé.fusion)
 
@@ -942,7 +941,7 @@ attach(Analyse.rémunérations.premier.exercice, warn.conflicts = FALSE)
 #'## 2.1 Statistiques de position globales (tous statuts)
 #'
 
-masses.premier <- colSums(Analyse.rémunérations.premier.exercice[c("Montant.brut",
+masses.premier <- colSums(Analyse.rémunérations.premier.exercice[c("Montant.brut.annuel",
                                                          "total.rémunérations",
                                                          "total.rémunérations.et.remboursements",
                                                          "indemnités.élu",
@@ -990,7 +989,7 @@ Tableau.vertical2(c("Agrégats",
                    delta))
 
 
-delta2 <-  masses.premier["Montant.brut"] - masses.premier["total.rémunérations"] - masses.premier["indemnités.élu"]
+delta2 <-  masses.premier["Montant.brut.annuel"] - masses.premier["total.rémunérations"] - masses.premier["indemnités.élu"]
 
 
 #'
@@ -1003,7 +1002,7 @@ Tableau.vertical2(c("Agrégats",
                  c("Bulletins de paie (euros)",
                    "Lignes de paie (euros)",
                    "Différence (euros)"),
-                 c(masses.premier["Montant.brut"],
+                 c(masses.premier["Montant.brut.annuel"],
                    masses.premier["total.rémunérations"] + masses.premier["indemnités.élu"],
                    delta2))
 
@@ -1064,7 +1063,7 @@ if (longueur.non.na(filtre.fonctionnaire(part.rémunération.indemnitaire) > 0))
 #'**Tests de cohérence**
 
 if (nrow(AR) > 0) {
-   temp <- colSums(AR[ ,c("Montant.brut", "total.rémunérations", "total.rémunérations.et.remboursements")])
+   temp <- colSums(AR[ ,c("Montant.brut.annuel", "total.rémunérations", "total.rémunérations.et.remboursements")])
 } else {
    temp <- c(0,0) }
 
@@ -1076,10 +1075,10 @@ Tableau.vertical2(c("Agrégats", "euros"),
                     "Lignes de paie (euros), hors remb.",
                     "Lignes de paie (euros), total.",
                     "Différence (euros)"),
-                  c(temp["Montant.brut"],
+                  c(temp["Montant.brut.annuel"],
                     temp["total.rémunérations"],
                     temp["total.rémunérations.et.remboursements"],
-                    temp["Montant.brut"] - temp["total.rémunérations.et.remboursements"]))
+                    temp["Montant.brut.annuel"] - temp["total.rémunérations.et.remboursements"]))
 
 rm(temp)
 
@@ -1280,7 +1279,7 @@ attach(Analyse.rémunérations.dernier.exercice, warn.conflicts = FALSE)
 #'## 3.1 Statistiques de position globales (tous statuts)
 #'
 
-masses.dernier <- colSums(Analyse.rémunérations.dernier.exercice[c("Montant.brut", "total.rémunérations", "indemnités.élu", "autres.rémunérations")])
+masses.dernier <- colSums(Analyse.rémunérations.dernier.exercice[c("Montant.brut.annuel", "total.rémunérations", "indemnités.élu", "autres.rémunérations")])
 
 #'### Cumuls des rémunérations brutes pour l'exercice `r année`
 #'
@@ -1328,7 +1327,7 @@ Tableau.vertical2(c("Agrégats",
                     masses.dernier["total.rémunérations"],
                     delta))
 
-delta2 <-  masses.dernier["Montant.brut"] - masses.dernier["total.rémunérations"] - masses.dernier["indemnités.élu"]
+delta2 <-  masses.dernier["Montant.brut.annuel"] - masses.dernier["total.rémunérations"] - masses.dernier["indemnités.élu"]
 
 
 #'
@@ -1346,7 +1345,7 @@ Tableau.vertical2(c("Agrégats",
                   c("Bulletins de paie (euros)",
                     "Lignes de paie (euros)",
                     "Différence (euros)"),
-                  c(masses.dernier["Montant.brut"],
+                  c(masses.dernier["Montant.brut.annuel"],
                     masses.dernier["total.rémunérations"] + masses.dernier["indemnités.élu"],
                     delta2))
 
@@ -1405,7 +1404,7 @@ AR <- Analyse.rémunérations.dernier.exercice[Statut == "TITULAIRE" | Statut == "
                                                                     colonnes.sélectionnées ]
 
 if (nrow(AR) > 0) {
-   temp <- colSums(AR[ ,c("Montant.brut", "total.rémunérations")])
+   temp <- colSums(AR[ ,c("Montant.brut.annuel", "total.rémunérations")])
 } else {
    temp <- c(0,0) }
 
@@ -1417,9 +1416,9 @@ Tableau.vertical2(c("Agrégats", "euros"),
                   c("Bulletins de paie (euros)",
                     "Lignes de paie (euros)",
                     "Différence (euros)"),
-                  c(temp["Montant.brut"],
+                  c(temp["Montant.brut.annuel"],
                     temp["total.rémunérations"],
-                    temp["Montant.brut"] - temp["total.rémunérations"]))
+                    temp["Montant.brut.annuel"] - temp["total.rémunérations"]))
 
 
 rm(temp)
@@ -1638,8 +1637,8 @@ if (longueur.non.na(temp) > 0)
 Analyse.variations.synthèse.filtrée <- na.omit(Analyse.variations.synthèse[ nb.mois.exercice.début > seuil.troncature
                                                                             & nb.mois.exercice.sortie   > seuil.troncature
                                                                               &  statut !=  "AUTRE_STATUT",
-                                                                            c("montant.net.eqtp.début",
-                                                                              "montant.net.eqtp.sortie",
+                                                                            c("Montant.net.annuel.eqtp.début",
+                                                                              "Montant.net.annuel.eqtp.sortie",
                                                                               "moyenne.rémunération.annuelle.sur.période",
                                                                               "variation.rémunération",
                                                                               "variation.moyenne.rémunération",
@@ -1658,7 +1657,7 @@ detach(Analyse.variations.synthèse)
 #'
 #'
 
-f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Analyse.variations.par.exercice$Année == x, "Montant.net"])/ 1000, big.mark = " ", digits = 5, format = "fg")
+f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Analyse.variations.par.exercice$Année == x, "Montant.net.annuel.eqtp"])/ 1000, big.mark = " ", digits = 5, format = "fg")
 #'
 #'#### Rémunération
 #'
@@ -1708,7 +1707,7 @@ if (nrow(Analyse.variations.synthèse.filtrée.plus.2.ans) > 0)
 
 f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[
   Analyse.variations.par.exercice$Année == x & Analyse.variations.par.exercice$plus.2.ans,
-  "Montant.net"])/ 1000, big.mark = " ", digits = 5, format = "fg")
+  "Montant.net.annuel.eqtp"])/ 1000, big.mark = " ", digits = 5, format = "fg")
 
 Tableau.vertical(c(étiquette.année, "Rémunération nette totale <br>des agents en place (k&euro;)"),
                  période,
@@ -1757,7 +1756,7 @@ if (nrow(Analyse.variations.synthèse.filtrée.moins.2.ans) > 0)
 
 f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[
   Analyse.variations.par.exercice$Année == x & ! Analyse.variations.par.exercice$plus.2.ans,
-  "Montant.net"])/ 1000, big.mark = " ", digits = 5, format = "fg")
+  "Montant.net.annuel.eqtp"])/ 1000, big.mark = " ", digits = 5, format = "fg")
 
 Tableau.vertical(c(étiquette.année, "Rémunération nette totale <br>des agents en fonction moins de deux ans (k&euro;)"),
                  période,
