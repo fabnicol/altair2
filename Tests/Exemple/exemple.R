@@ -187,7 +187,7 @@ if (!is.null(Lignes.paie))
    message("Chargement des lignes de paie.") else stop("Chargement des lignes de paie en échec.")
 
 if (table.rapide) {
-    Lignes.paie <- Lignes.paie[ ,setdiff(names(Lignes.paie), c("Année.1","Mois.1","Matricule.1")), with = FALSE] 
+    Lignes.paie <- Lignes.paie[ ,setdiff(names(Lignes.paie), c("Année.1","Mois.1","Matricule.1")), with = FALSE]
   } else {
     Lignes.paie <- Lignes.paie[ ,setdiff(names(Lignes.paie), c("Année.1","Mois.1","Matricule.1"))]
   }
@@ -257,9 +257,9 @@ if (! all(Bulletins.paie.contiennent.colonnes.requises)) {
 if (générer.codes) {
 
   message("Génération de la base des codes de paie et des libellés.")
-  
+
   if (table.rapide) {
-     codes.paiement.généré <- unique(Lignes.paie[ , c(étiquette.code, étiquette.libellé), with = FALSE])  
+     codes.paiement.généré <- unique(Lignes.paie[ , c(étiquette.code, étiquette.libellé), with = FALSE])
    } else {
      codes.paiement.généré <- unique(Lignes.paie[ , c(étiquette.code, étiquette.libellé)])
    }
@@ -382,25 +382,25 @@ if (exists("Codes.paiement"))
 if (charger.bases)
 {
   if (table.rapide == TRUE) {
-    
+
     Bulletins.paie[ ,   quotité   := if (etp.égale.effectif | is.na(Temps.de.travail)) 1 else  Temps.de.travail / 100]
     Bulletins.paie[ ,   Montant.net.eqtp  := if (quotité != 0 & !is.na(Net.à.Payer)) Net.à.Payer / quotité else 0]
   } else {
     Bulletins.paie <- mutate(Bulletins.paie,
-                           
+
                            ### EQTP  ###
-                           
+
                            quotité                  = if (etp.égale.effectif | is.na(Temps.de.travail)) 1 else  Temps.de.travail / 100,
                            #                          * ((corriger.quotité)*(is.na(Taux) * (1- Taux)  + Taux) + 1 - corriger.quotité)
-                           
+
                            Montant.net.eqtp         = if (quotité != 0 & !is.na(Net.à.Payer)) Net.à.Payer / quotité else 0)
   }
-  
+
   anavar <- ddply(Bulletins.paie,
                   c(étiquette.matricule, étiquette.année),
                   summarise,
                   # partie Analyse des variations par exercice #
-                  
+
                   Montant.net.annuel.eqtp = sum(Montant.net.eqtp),
 
                   # En principe la colonne Brut ne tient pas compte des remboursements d efrais ou des régularisations
@@ -420,9 +420,15 @@ if (charger.bases)
 
   if (! paralléliser && table.rapide) {
 
+    message("Mode table rapide.")
+
     Bulletins.paie.Lignes.paie <- merge(Bulletins.paie,
                                         Lignes.paie,
                                         by = c(clé.fusion, "Année", "Mois"))
+
+    if (!is.null(Bulletins.paie.Lignes.paie))
+      message(paste("Fusion réalisée")) else stop("Echec de fusion" )
+
   } else {
 
     # Fusion parallélisée : gain de plus de moitié sur 4 coeurs (25,5s --> 9,7s) soit environ 16s de gain sous linux [RAG]
@@ -430,11 +436,13 @@ if (charger.bases)
     #                       le gain est d'environ 4s à 14s, soit 5s de plus que sous linux parallèle.
     # Le merge classique est toutefois loin des performancs de data.table::merge
 
+    message("Mode parallèle.")
+
     nb.exercices <- fin.période.sous.revue - début.période.sous.revue + 1
-    
+
     cut <- round(nb.exercices/4)
     if (cut == 0) cut = 1
-    
+
     library(parallel)
 
     cores   <- detectCores()
@@ -448,24 +456,28 @@ if (charger.bases)
                                             & X$Année < (j + 1) * cut +  début.période.sous.revue, ]})})
 
     L <- lapply(L, function(x) Filter(Negate(is.null), x))
-    f <- function(x, y)  {
-      temp <- merge(x, y, by = c(clé.fusion, "Année", "Mois"), sort=FALSE)
+
+    f <- function(x, y, z)  {
+      tab <- merge(x, y, by = c(clé.fusion, "Année", "Mois"), sort=FALSE)
       # Le sort du merge classique n'est pas fiable sous parallélisation
+
       if (clé.fusion[1] != "Matricule") {
-        temp <- temp[order(temp$Nom, temp$Prénom, temp$Année, temp$Mois), ]
+        tab <- tab[order(tab$Nom, tab$Prénom, tab$Année, tab$Mois), ]
       } else {
-        temp <- temp[order(temp$Matricule, temp$Année, temp$Mois), ]
+        tab <- tab[order(tab$Matricule, tab$Année, tab$Mois), ]
       }
-      temp
+
+      tab
     }
 
     if (setOSWindows) {
 
       cluster <- makePSOCKcluster(cores)
       clusterExport(cluster, c("clé.fusion"))
-      
+
       L <- clusterMap(cluster, f,  L[[1]],  # Bulletins de paie coupés en 4, éventuellement nul
                                    L[[2]])  # Lignes de paie coupés en 4, éventuellement nul
+
       stopCluster(cluster)
       rm(cluster)
 
@@ -474,23 +486,27 @@ if (charger.bases)
       L <- mcMap(f,   L[[1]],  # Bulletins de paie coupés en 4, éventuellement nul
                       L[[2]],  # Lignes de paie coupés en 4, éventuellement nul
                       mc.cores = cores)
-      
+
     }
+
+   rm(temp)
 
     if (table.rapide) {
         Bulletins.paie.Lignes.paie <- data.table::rbindlist(L)
     } else {
         Bulletins.paie.Lignes.paie <- do.call(rbind, L)
-        
+
     }
-    
+
     if (paralléliser || ! table.rapide)
-       with(Bulletins.paie.Lignes.paie, 
+       with(Bulletins.paie.Lignes.paie,
             Bulletins.paie.Lignes.paie <- Bulletins.paie.Lignes.paie[order(Matricule, Année, Mois), ])
-      
+
+    if (!is.null(L[[1]]) & !is.null(L[[2]]) & !is.null(Bulletins.paie.Lignes.paie))
+       message(paste("Fusion réalisée")) else stop("Echec de fusion" )
+
   }
 
-  if (!is.null(Bulletins.paie.Lignes.paie)) message("Fusion réalisée") else stop("Echec de fusion" )
 
   if (! exists("Codes.paiement.indemnitaire"))  stop("Pas de fichier des Types de codes [INDEMNITAIRE]")
   if (! exists("Codes.paiement.principal.contractuel"))  stop("Pas de fichier des Types de codes [PRINCIPAL.CONTRACTUEL]")
@@ -584,14 +600,14 @@ else
                                                                        & montant.primes == 0
                                                                        & montant.autres.rémunérations == 0)
                                                                   * Montant * Codes.paiement.élu[Code]
-                                                                    
+
                                        )
 
   if (inherits(Bulletins.paie.Lignes.paie, 'try-error') )
     stop("Il est probable que le fichier des codes n'est pas exhaustif. Avez-vous (re-)généré l'ensemble des codes récemment ?")
 
   Bulletins.paie.Lignes.paie$quotité[is.na(Bulletins.paie.Lignes.paie$quotité)] <- 0
-  
+
   message("Bulletins de paye retraités")
   #Bulletins.paie.Lignes.paie <- as.data.frame(Bulletins.paie.Lignes.paie)
 
@@ -603,7 +619,7 @@ else
                                  Montant.net.annuel.eqtp  = Montant.net.annuel.eqtp[1],
                                  Montant.brut.annuel = Montant.brut.annuel[1],
                                  Statut       = Statut[1],
-                                 
+
                                  nb.jours     = nb.jours[1],
                                  nb.mois      = nb.mois[1],
                                  mois.sortie  = mois.sortie[1],
@@ -630,7 +646,7 @@ else
                                                                         + indemnités.élu,
 
 
-                                 
+
 
                                  part.rémunération.indemnitaire =  if (is.na(s <-  traitement.indiciaire
                                                                             + rémunération.principale.contractuel
@@ -700,7 +716,7 @@ else
   message("Analyse des variations réalisée.")
 
   if (table.rapide) {
-    
+
     Bulletins.paie.nir.total.hors.élus <- merge(Bulletins.paie[  Bulletins.paie$Année == fin.période.sous.revue
                                                                  & Bulletins.paie$Mois == 12,
                                                                  c(clé.fusion, champ.nir), with = FALSE],
@@ -708,39 +724,44 @@ else
                                                                         & Analyse.rémunérations$indemnités.élu == 0,
                                                                         c(clé.fusion, champ.nir) ],
                                                 by = clé.fusion)
-    
+
   } else {
-    
+
     Bulletins.paie.nir.total.hors.élus <- merge(Bulletins.paie[  Bulletins.paie$Année == fin.période.sous.revue
                                                                  & Bulletins.paie$Mois == 12,
                                                                  c(clé.fusion, champ.nir)],
                                                 Analyse.rémunérations[  Analyse.rémunérations$Année == fin.période.sous.revue
                                                                         & Analyse.rémunérations$indemnités.élu == 0,
                                                                         c(clé.fusion, champ.nir) ],
-                                                by = clé.fusion)  
+                                                by = clé.fusion)
   }
-  
-      
+
+
  if (table.rapide) {
-   
+
    Bulletins.paie.nir.fonctionnaires  <- unique(Bulletins.paie[  Bulletins.paie$Année == fin.période.sous.revue
                                                                  & Bulletins.paie$Mois  == 12
                                                                  & (Bulletins.paie$Statut == "TITULAIRE" |
                                                                       Bulletins.paie$Statut == "STAGIAIRE"),
                                                                  c(clé.fusion, champ.nir), with = FALSE])
-      
+
  } else {
-   
+
    Bulletins.paie.nir.fonctionnaires  <- unique(Bulletins.paie[  Bulletins.paie$Année == fin.période.sous.revue
                                                                  & Bulletins.paie$Mois  == 12
                                                                  & (Bulletins.paie$Statut == "TITULAIRE" |
                                                                       Bulletins.paie$Statut == "STAGIAIRE"),
                                                                  c(clé.fusion, champ.nir)])
-   
+
  }
-  
+
   Bulletins.paie.nir.total.hors.élus$Nir.y <- NULL
   names(Bulletins.paie.nir.total.hors.élus) <- c(clé.fusion, champ.nir)
+
+ if (table.rapide) {
+  class(Bulletins.paie.nir.total.hors.élus) <- "data.frame"
+  class(Bulletins.paie.nir.fonctionnaires)  <- "data.frame"
+ }
 
   # Age au 31 décembre de l'exercice dernier.exerciceal de la période sous revue
   # ne pas oublier [ ,...] ici:
@@ -762,8 +783,8 @@ if (!is.null(Bulletins.paie.Lignes.paie) & !is.null(Analyse.rémunérations)
   message("Statistiques de synthèse réalisées")
 
 if (table.rapide) {
-  Bulletins.paie <- as.data.frame(Bulletins.paie)
-  Bulletins.paie.Lignes.paie <- as.data.frame(Bulletins.paie.Lignes.paie)
+  class(Bulletins.paie)             <- "data.frame"
+  class(Bulletins.paie.Lignes.paie) <- "data.frame"
 }
 
 
