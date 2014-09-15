@@ -382,7 +382,7 @@ if (charger.bases)
 {
   if (table.rapide == TRUE) {
 
-    Bulletins.paie[ ,   quotité   := if (etp.égale.effectif | is.na(Temps.de.travail)) 1 else  Temps.de.travail / 100]
+    Bulletins.paie[ ,   quotité   := ifelse(etp.égale.effectif | is.na(Temps.de.travail), 1,  Temps.de.travail / 100)]
     Bulletins.paie[ ,   Montant.net.eqtp := ifelse(is.finite(Net.à.Payer/quotité), Net.à.Payer/quotité,  NA)]
     
   } else {
@@ -390,7 +390,7 @@ if (charger.bases)
 
                            ### EQTP  ###
 
-                           quotité                  = if (etp.égale.effectif | is.na(Temps.de.travail)) 1 else  Temps.de.travail / 100,
+                           quotité                  = ifelse(etp.égale.effectif | is.na(Temps.de.travail), 1,  Temps.de.travail / 100),
                            #                          * ((corriger.quotité)*(is.na(Taux) * (1- Taux)  + Taux) + 1 - corriger.quotité)
 # if( ...) ne fonctionne pas.
 
@@ -403,7 +403,6 @@ if (charger.bases)
                   # partie Analyse des variations par exercice #
 
                   Montant.net.annuel.eqtp = sum(Montant.net.eqtp, na.rm = TRUE),
-
                   # En principe la colonne Brut ne tient pas compte des remboursements d efrais ou des régularisations
                   Montant.brut.annuel = sum(Brut),
                   Statut.sortie = Statut[length(Net.à.Payer)],
@@ -646,14 +645,11 @@ else
                                                                         + autres.rémunérations
                                                                         + indemnités.élu,
 
-
-
-
-                                 part.rémunération.indemnitaire =  if (is.na(s <-  traitement.indiciaire
+                                 part.rémunération.indemnitaire =  ifelse(is.na(s <-  traitement.indiciaire
                                                                             + rémunération.principale.contractuel
-                                                                            + rémunération.indemnitaire) | s == 0)
-                                                                           0 else  (rémunération.indemnitaire + rémunération.principale.contractuel )
-                                                                                   / s * 100)
+                                                                            + rémunération.indemnitaire) | s == 0,
+                                                                           NA, (rémunération.indemnitaire + rémunération.principale.contractuel )
+                                                                                   / s * 100))
 
   Analyse.rémunérations <- Analyse.rémunérations[!is.na(Analyse.rémunérations$total.rémunérations), ]
 
@@ -681,18 +677,18 @@ else
                                        Montant.net.annuel.eqtp.sortie = Montant.net.annuel.eqtp[Nexercices],
                                        moyenne.rémunération.annuelle.sur.période =
                                          sum(Montant.net.annuel.eqtp, na.rm = TRUE)/length(Année[!is.na(Montant.net.annuel.eqtp) & Montant.net.annuel.eqtp > 0]),
-                                       variation.rémunération = if (Nexercices > 1 & !is.na(Montant.net.annuel.eqtp.début) & !is.na(Montant.net.annuel.eqtp.sortie) & Montant.net.annuel.eqtp.début > 0 & Montant.net.annuel.eqtp.sortie > 0)
-                                                                 (Montant.net.annuel.eqtp.sortie / Montant.net.annuel.eqtp.début -1)*100  else NA,
-                                       variation.moyenne.rémunération = if (is.na(total.mois)
+                                       variation.rémunération = ifelse(Nexercices > 1 & !is.na(Montant.net.annuel.eqtp.début) & !is.na(Montant.net.annuel.eqtp.sortie) & Montant.net.annuel.eqtp.début > 0 & Montant.net.annuel.eqtp.sortie > 0,
+                                                                 (Montant.net.annuel.eqtp.sortie / Montant.net.annuel.eqtp.début -1)*100, NA),
+                                       variation.moyenne.rémunération = ifelse(is.na(total.mois)
                                                                             | is.na(variation.rémunération)
                                                                             | total.mois == 0
-                                                                            | variation.rémunération == 0)
-                                                                         NA  else (( 1 + variation.rémunération / 100 ) ^ (12 / total.mois) - 1) * 100,
-                                       variation.rémunération.normalisée = if (durée.sous.revue == Nexercices
+                                                                            | variation.rémunération == 0,
+                                                                         NA, (( 1 + variation.rémunération / 100 ) ^ (12 / total.mois) - 1) * 100),
+                                       variation.rémunération.normalisée = ifelse(durée.sous.revue == Nexercices
                                                                                & nb.mois.exercice.début == 12
-                                                                               & nb.mois.exercice.sortie == 12)
-                                                                            variation.rémunération else NA,
-                                       variation.moyenne.rémunération.normalisée = if (!is.na(variation.rémunération.normalisée)) variation.moyenne.rémunération else NA,
+                                                                               & nb.mois.exercice.sortie == 12,
+                                                                            variation.rémunération, NA),
+                                       variation.moyenne.rémunération.normalisée = ifelse(!is.na(variation.rémunération.normalisée), variation.moyenne.rémunération, NA),
                                        plus.2.ans  = (total.mois  >= 2*12),
                                        moins.2.ans = (total.mois < 2*12),
                                        moins.1.an  = (total.mois < 12),
