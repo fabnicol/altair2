@@ -84,7 +84,6 @@ dir.create(chemin.dossier.bases, recursive = TRUE)
 #'`r format(Sys.Date(), "%a %d %b %Y")`
 #'
 
-nombre.exercices <- fin.période.sous.revue - début.période.sous.revue + 1
 
 # Le format est jour/mois/année avec deux chiffres-séparateur-deux chiffres-séparateur-4 chiffres.
 # Le séparateur peut être changé en un autre en modifiant le "/" dans date.format
@@ -125,8 +124,7 @@ if (file.exists(chemin(nom.fichier.codes.paiement)))
 
   fichier.personnels.existe <- file.exists(chemin(nom.fichier.personnels))
 
-  if (fichier.personnels.existe)
-  {
+  if (fichier.personnels.existe) {
    base.personnels.catégorie <- read.csv.skip(nom.fichier.personnels, séparateur.liste = séparateur.liste, séparateur.décimal = séparateur.décimal)
    message("Chargement du fichier des catégories statutaires des personnels.")
   }
@@ -209,6 +207,7 @@ if (!extraire.années) {
   début.période.sous.revue    <- min(Bulletins.paie$Année)
   fin.période.sous.revue      <- max(Bulletins.paie$Année)
   période                     <- début.période.sous.revue:fin.période.sous.revue
+  durée.sous.revue            <- fin.période.sous.revue - début.période.sous.revue + 1
 }
 
 
@@ -269,7 +268,7 @@ if (générer.codes) {
   names(codes.paiement.généré)[3] <- étiquette.Type.rémunération
   class(codes.paiement.généré) <- "data.frame"
   codes.paiement.généré$Libellé <- iconv(codes.paiement.généré$Libellé, from = "UTF-8", to=encodage.entrée, mark = FALSE)
-  nom.fichier.codes <- paste0(racine, "codes.paiement.généré")
+  nom.fichier.codes <- racine %+% "codes.paiement.généré"
   Sauv.base(chemin.dossier.données, "codes.paiement.généré", nom.fichier.codes)
 
   #'---
@@ -286,8 +285,8 @@ if (générer.codes) {
   #'
 
 
-  if (file.exists(file.path(chemin.dossier.données, paste0(nom.fichier.codes, ".csv"))))
-    message(paste0("Génération des codes : voir fichier Données/", nom.fichier.codes, ".csv"))  else
+  if (file.exists(file.path(chemin.dossier.données, nom.fichier.codes %+% ".csv")))
+    message("Génération des codes : voir fichier Données/" %+% nom.fichier.codes %+% ".csv")  else
     message("Les codes n'ont pas été générés.")
 
   stop(
@@ -438,9 +437,8 @@ if (charger.bases)
 
     message("Mode parallèle.")
 
-    nb.exercices <- fin.période.sous.revue - début.période.sous.revue + 1
 
-    cut <- round(nb.exercices/4)
+    cut <- round(durée.sous.revue/4)
     if (cut == 0) cut = 1
 
     library(parallel)
@@ -451,7 +449,7 @@ if (charger.bases)
                 function(X) {
                              lapply(0:3,
                                     function(j) {
-                                      if (nb.exercices > j)
+                                      if (durée.sous.revue > j)
                                         X[  X$Année >= j * cut +  début.période.sous.revue
                                             & X$Année < (j + 1) * cut +  début.période.sous.revue, ]})})
 
@@ -681,9 +679,17 @@ else
                                        moyenne.rémunération.annuelle.sur.période =
                                          sum(Montant.net.annuel.eqtp, na.rm = TRUE)/length(Année[!is.na(Montant.net.annuel.eqtp) & Montant.net.annuel.eqtp > 0]),
                                        variation.rémunération = if (Nexercices > 1 & !is.na(Montant.net.annuel.eqtp.début) & !is.na(Montant.net.annuel.eqtp.sortie) & Montant.net.annuel.eqtp.début > 0 & Montant.net.annuel.eqtp.sortie > 0)
-                                                                 (Montant.net.annuel.eqtp.sortie / Montant.net.annuel.eqtp.début -1)*100  else 0,
-                                       variation.moyenne.rémunération = if (is.na(total.mois) | is.na(variation.rémunération) | total.mois == 0 | variation.rémunération == 0)
-                                                                         0  else (( 1 + variation.rémunération / 100 ) ^ (12 / total.mois) - 1) * 100,
+                                                                 (Montant.net.annuel.eqtp.sortie / Montant.net.annuel.eqtp.début -1)*100  else NA,
+                                       variation.moyenne.rémunération = if (is.na(total.mois)
+                                                                            | is.na(variation.rémunération)
+                                                                            | total.mois == 0
+                                                                            | variation.rémunération == 0)
+                                                                         NA  else (( 1 + variation.rémunération / 100 ) ^ (12 / total.mois) - 1) * 100,
+                                       variation.rémunération.normalisée = if (durée.sous.revue == Nexercices
+                                                                               & nb.mois.exercice.début == 12
+                                                                               & nb.mois.exercice.sortie == 12)
+                                                                            variation.rémunération else NA,
+                                       variation.moyenne.rémunération.normalisée = if (!is.na(variation.rémunération.normalisée)) variation.moyenne.rémunération else NA,
                                        plus.2.ans  = (total.mois  >= 2*12),
                                        moins.2.ans = (total.mois < 2*12),
                                        moins.1.an  = (total.mois < 12),
@@ -835,9 +841,12 @@ if (longueur.non.na(années.total.hors.élus) > 0)
 #'[Lien vers la base des âges](Bases/Bulletins.paie.nir.total.hors.élus.csv)
 #'
 
-Résumé("Âge des personnels <br>au 31/12/" %+% fin.période.sous.revue, années.total.hors.élus, align = 'c')
+Résumé(c("Âge des personnels <br>au 31/12/" %+% fin.période.sous.revue,
+         "Effectif"),
+       années.total.hors.élus,
+        extra = "length",
+        align = 'c')
 
-#'Effectif de l'histogramme: `r length(années.total.hors.élus)`
 #'
 
 #'
@@ -856,12 +865,13 @@ if (longueur.non.na(années.fonctionnaires) > 0)
 #'[Lien vers la base des âges](Bases/Bulletins.paie.nir.fonctionnaires.csv)
 #'
 
-Résumé("Âge des personnels <br>au 31/12/" %+% fin.période.sous.revue,
+Résumé(c("Âge des personnels <br>au 31/12/" %+% fin.période.sous.revue,
+         "Effectif"),
        années.fonctionnaires,
+       extra = "length",
        align = 'c')
 
-#'
-#'**Effectif total: `r length(années.fonctionnaires)`**
+
 #'
 
 #'
@@ -1045,7 +1055,7 @@ Tableau.vertical2(c("Agrégats",
 #'
 
 #'
-#'[Lien vers la base de données](Bases/`r paste0("Masses.", année, ".csv")`)
+#'[Lien vers la base de données](Bases/`r "Masses." %+% année %+% ".csv"`)
 #'
 #'Les résultats sont exprimés en euros.
 #'
@@ -1123,13 +1133,16 @@ rm(temp)
 
 Résumé(c("Traitement indiciaire",
          étiquette.rém.indemn,
-         "Autres rémunérations"),
-       AR[c("traitement.indiciaire", "rémunération.indemnitaire", "autres.rémunérations")])
+         "Autres rémunérations",
+         "Effectif"),
+       AR[c("traitement.indiciaire", "rémunération.indemnitaire", "autres.rémunérations")],
+       extra = "length")
 
 
 #'
-Résumé(c("Total rémunérations", "Part de la rémunération contractuelle ou indemnitaire"),
-       AR[c("total.rémunérations", "part.rémunération.indemnitaire")])
+Résumé(c("Total rémunérations", "Part de la rémunération contractuelle ou indemnitaire", "Effectif"),
+       AR[c("total.rémunérations", "part.rémunération.indemnitaire")],
+       extra = "length")
 
 
 
@@ -1268,14 +1281,17 @@ AR <- Analyse.rémunérations.premier.exercice[  indemnités.élu == 0
 
 #'
 Résumé(c(étiquette.rém.indemn,
-         "Autres rémunérations"),
-       AR[c("rémunération.indemnitaire", "autres.rémunérations")])
+         "Autres rémunérations",
+         "Effectif"),
+       AR[c("rémunération.indemnitaire", "autres.rémunérations")],
+       extra = "length")
 
 #'
 
-Résumé("Total rémunérations",   AR["total.rémunérations"])
-#'
-#'**Effectif : `r nrow(AR)`**
+Résumé(c("Total rémunérations",
+         "Effectif"),
+       AR["total.rémunérations"],
+       extra = "length")
 #'
 
 nom.base.analyse <- "Analyse.rémunérations.premier.exercice"
@@ -1384,7 +1400,7 @@ Tableau.vertical2(c("Agrégats",
 #'
 
 #'
-#'[Lien vers la base de données](Bases/`r paste0("Masses.", année, ".csv")` )
+#'[Lien vers la base de données](Bases/`r "Masses." %+% année %+% ".csv"` )
 #'
 #'Les résultats sont exprimés en euros.
 #'
@@ -1468,11 +1484,11 @@ Résumé(c("Traitement indiciaire",
 #'
 
 Résumé(c("Total rémunérations",
-         "Part de la rémunération contractuelle ou indemnitaire"),
-       AR[c("total.rémunérations", "part.rémunération.indemnitaire")])
+         "Part de la rémunération contractuelle ou indemnitaire",
+         "Effectif"),
+       AR[c("total.rémunérations", "part.rémunération.indemnitaire")],
+       extra = "length")
 
-#'
-#'**Effectif : `r nrow(AR)`**
 #'
 #'######
 #'
@@ -1608,15 +1624,20 @@ AR <- Analyse.rémunérations.dernier.exercice[   indemnités.élu == 0
                                                 "total.rémunérations") ]
 
 #'
-Résumé(c(étiquette.rém.indemn, "Autres rémunérations"), AR[c("rémunération.indemnitaire", "autres.rémunérations")])
+Résumé(c(étiquette.rém.indemn,
+         "Autres rémunérations",
+         "Effectif"),
+       AR[c("rémunération.indemnitaire", "autres.rémunérations")],
+       extra = "length")
 
 #'
 
-Résumé("Total rémunérations",   AR["total.rémunérations"])
-#'
-#'**Effectif : `r nrow(AR)`**
-#'
+Résumé(c("Total rémunérations",
+         "Effectif"),
+       AR["total.rémunérations"],
+       extra = "length")
 
+#'
 detach(Analyse.rémunérations.dernier.exercice)
 
 
@@ -1629,7 +1650,7 @@ detach(Analyse.rémunérations.dernier.exercice)
 #'
 #'# 4. Rémunérations nettes : évolutions sur la période `r début.période.sous.revue` - `r fin.période.sous.revue`
 #'
-#'Nombre d'exercices: `r nombre.exercices`
+#'Nombre d'exercices: `r durée.sous.revue`
 #'
 #'## 4.1 Rémunération nette moyenne sur la période
 
@@ -1664,7 +1685,7 @@ if (longueur.non.na(temp) > 0)
 #'
 #'**Nota:** La rémunération nette perçue est rapportée au cumul des jours d'activité.
 
-Analyse.variations.synthèse.filtrée <- na.omit(Analyse.variations.synthèse[ nb.mois.exercice.début > seuil.troncature
+Analyse.variations.synthèse.filtrée <- Analyse.variations.synthèse[ nb.mois.exercice.début > seuil.troncature
                                                                             & nb.mois.exercice.sortie   > seuil.troncature
                                                                               &  statut !=  "AUTRE_STATUT",
                                                                             c("Montant.net.annuel.eqtp.début",
@@ -1672,8 +1693,10 @@ Analyse.variations.synthèse.filtrée <- na.omit(Analyse.variations.synthèse[ nb.m
                                                                               "moyenne.rémunération.annuelle.sur.période",
                                                                               "variation.rémunération",
                                                                               "variation.moyenne.rémunération",
+                                                                              "variation.rémunération.normalisée",
+                                                                              "variation.moyenne.rémunération.normalisée",
                                                                               "plus.2.ans",
-                                                                              clé.fusion)])
+                                                                              clé.fusion)]
 
 Analyse.variations.synthèse.filtrée.plus.2.ans  <- Analyse.variations.synthèse.filtrée[Analyse.variations.synthèse.filtrée$plus.2.ans, ]
 Analyse.variations.synthèse.filtrée.moins.2.ans <- Analyse.variations.synthèse.filtrée[! Analyse.variations.synthèse.filtrée$plus.2.ans, ]
@@ -1706,16 +1729,28 @@ Tableau.vertical(c(étiquette.année, "Rémunération nette totale (k&euro;)"),
 Résumé(c("Première année",
          "Dernière année",
          "Moyenne sur la période <br>d'activité"),
-       Analyse.variations.synthèse.filtrée[1:3])
+       Analyse.variations.synthèse.filtrée[c("Montant.net.annuel.eqtp.début",
+                                             "Montant.net.annuel.eqtp.sortie",
+                                             "moyenne.rémunération.annuelle.sur.période")])
 
 #'
 
 Résumé(c("Variation sur la période <br>d'activité (%)",
-         "Variation annuelle moyenne (%)"),
-       Analyse.variations.synthèse.filtrée[4:5])
+         "Variation annuelle moyenne (%)",
+         "Effectif"),
+       Analyse.variations.synthèse.filtrée[c("variation.rémunération",
+                                             "variation.moyenne.rémunération")],
+       extra = "length")
 
 #'
-#'**Effectif : `r nrow(Analyse.variations.synthèse.filtrée[clé.fusion])`**
+
+Résumé(c("Variation normalisée (%)",
+         "Variation annuelle moyenne normalisée (%)",
+         "Effectif"),
+       Analyse.variations.synthèse.filtrée[ c("variation.rémunération.normalisée",
+                                             "variation.moyenne.rémunération.normalisée")],
+       extra = "length")
+
 #'
 #'[Lien vers la base de données](Bases/Analyse.variations.synthèse.filtrée.csv)
 #'
@@ -1748,16 +1783,29 @@ Tableau.vertical(c(étiquette.année, "Rémunération nette totale <br>des agents en
 
 Résumé(c("Première année",
          "Dernière année",
-         "Moyenne sur la période <br>d'activité"),
-       Analyse.variations.synthèse.filtrée.plus.2.ans[1:3])
+         "Moyenne sur la période <br>d'activité",
+         "Effectif"),
+       Analyse.variations.synthèse.filtrée.plus.2.ans[1:3],
+       extra = "length")
 
 #'
 
 Résumé(c("Variation sur la période <br>d'activité (%)",
-         "Variation annuelle moyenne (%)"),
-       Analyse.variations.synthèse.filtrée.plus.2.ans[4:5])
+         "Variation annuelle moyenne (%)",
+         "Effectif"),
+       Analyse.variations.synthèse.filtrée.plus.2.ans[4:5],
+       extra = "length")
 #'
-#'**Effectif :** `r nrow(Analyse.variations.synthèse.filtrée.plus.2.ans[clé.fusion])`
+#'
+
+Résumé(c("Variation normalisée (%)",
+         "Variation annuelle moyenne normalisée (%)",
+         "Effectif"),
+       Analyse.variations.synthèse.filtrée.plus.2.ans[ c("variation.rémunération.normalisée",
+                                              "variation.moyenne.rémunération.normalisée")],
+       extra = "length")
+
+#'
 #'
 #'[Lien vers la base de données](Bases/Analyse.variations.synthèse.filtrée.plus.2.ans.csv)
 #'
@@ -1797,19 +1845,30 @@ Tableau.vertical(c(étiquette.année, "Rémunération nette totale <br>des agents en
 
 Résumé(c("Première année",
          "Dernière année",
-         "Moyenne sur la période <br>d'activité"),
-       Analyse.variations.synthèse.filtrée.moins.2.ans[1:3])
+         "Moyenne sur la période <br>d'activité",
+         "Effectif"),
+       Analyse.variations.synthèse.filtrée.moins.2.ans[1:3],
+       extra = "length")
 
 #'
 
 Résumé(c("Variation sur la période <br>d'activité (%)",
-         "Variation annuelle moyenne (%)"),
-       Analyse.variations.synthèse.filtrée.moins.2.ans[4:5])
+         "Variation annuelle moyenne (%)",
+         "Effectif"),
+       Analyse.variations.synthèse.filtrée.moins.2.ans[4:5],
+       extra = "length")
 #'
-#'
-#'**Effectif :** `r nrow(Analyse.variations.synthèse.filtrée.moins.2.ans[clé.fusion])`
 #'
 
+if (durée.sous.revue <= 2)
+    Résumé(c("Variation normalisée (%)",
+             "Variation annuelle moyenne normalisée (%)",
+             "Effectif"),
+           Analyse.variations.synthèse.filtrée.moins.2.ans[ c("variation.rémunération.normalisée",
+                                                             "variation.moyenne.rémunération.normalisée")],
+           extra = "length")
+
+#'
 #'
 ########### Tests statutaires ########################
 #'
@@ -1826,15 +1885,15 @@ Résumé(c("Variation sur la période <br>d'activité (%)",
 
 attach(Bulletins.paie.Lignes.paie, warn.conflicts = FALSE)
 
-NBI.aux.non.titulaires <- Bulletins.paie.Lignes.paie[   Statut != "TITULAIRE"
-                                                      & Statut != "STAGIAIRE"
-                                                      & as.character(Code) %in% codes.NBI,
-                                                      c(étiquette.matricule,
-                                                        "Statut",
-                                                        étiquette.code,
-                                                        étiquette.libellé,
-                                                        "Mois",
-                                                        étiquette.montant)]
+NBI.aux.non.titulaires <- Bulletins.paie.Lignes.paie[Statut != "TITULAIRE"
+                                                     & Statut != "STAGIAIRE"
+                                                     & as.character(Code) %in% codes.NBI,
+                                                     c(étiquette.matricule,
+                                                       "Statut",
+                                                       étiquette.code,
+                                                       étiquette.libellé,
+                                                       "Mois",
+                                                       étiquette.montant)]
 
 nombre.Lignes.paie.NBI.nontit <- nrow(NBI.aux.non.titulaires)
 
