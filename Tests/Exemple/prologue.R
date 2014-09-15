@@ -10,7 +10,8 @@ fin.période.sous.revue      <- 2012
 setOSWindows         <- Sys.info()["sysname"] != "Linux"
 
 générer.codes        <- FALSE
-paralléliser         <- FALSE
+paralléliser         <- TRUE
+table.rapide         <- FALSE
 extraire.années      <- FALSE
 extraire.population  <- FALSE
 fusionner.nom.prénom <- FALSE
@@ -20,7 +21,6 @@ tester.matricules            <- FALSE
 tester.lignes.bulletins.mois <- FALSE
 corriger.quotité     <- FALSE
 comportement.strict  <- TRUE
-table.rapide         <- TRUE
 etp.égale.effectif   <- FALSE
 générer.table.effectifs <- FALSE
 

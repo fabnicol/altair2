@@ -448,24 +448,33 @@ if (charger.bases)
                                             & X$Année < (j + 1) * cut +  début.période.sous.revue, ]})})
 
     L <- lapply(L, function(x) Filter(Negate(is.null), x))
+    f <- function(x, y)  {
+      temp <- merge(x, y, by = c(clé.fusion, "Année", "Mois"), sort=FALSE)
+      # Le sort du merge classique n'est pas fiable sous parallélisation
+      if (clé.fusion[1] != "Matricule") {
+        temp <- temp[order(temp$Nom, temp$Prénom, temp$Année, temp$Mois), ]
+      } else {
+        temp <- temp[order(temp$Matricule, temp$Année, temp$Mois), ]
+      }
+      temp
+    }
 
     if (setOSWindows) {
 
       cluster <- makePSOCKcluster(cores)
       clusterExport(cluster, c("clé.fusion"))
-
-      L <- clusterMap(cluster, function(x, y)  merge(x, y, by = c(clé.fusion, "Année", "Mois")),
-                                                   L[[1]],  # Bulletins de paie coupés en 4, éventuellement nul
-                                                   L[[2]])  # Lignes de paie coupés en 4, éventuellement nul
+      
+      L <- clusterMap(cluster, f,  L[[1]],  # Bulletins de paie coupés en 4, éventuellement nul
+                                   L[[2]])  # Lignes de paie coupés en 4, éventuellement nul
       stopCluster(cluster)
       rm(cluster)
 
     }  else  {
 
-      L <- mcMap(function(x, y)  merge(x, y, by = c(clé.fusion, "Année", "Mois")),
-                      L[[1]],  # Bulletins de paie coupés en 4, éventuellement nul
+      L <- mcMap(f,   L[[1]],  # Bulletins de paie coupés en 4, éventuellement nul
                       L[[2]],  # Lignes de paie coupés en 4, éventuellement nul
                       mc.cores = cores)
+      
     }
 
     if (table.rapide) {
@@ -589,12 +598,12 @@ else
   Analyse.rémunérations <- ddply(Bulletins.paie.Lignes.paie,
                                  c(clé.fusion, étiquette.année),
                                  summarise,
-
+                                 mois.entrée  = mois.entrée[1],
                                  Nir          = Nir[1],
                                  Montant.net.annuel.eqtp  = Montant.net.annuel.eqtp[1],
                                  Montant.brut.annuel = Montant.brut.annuel[1],
                                  Statut       = Statut[1],
-                                 mois.entrée  = mois.entrée[1],
+                                 
                                  nb.jours     = nb.jours[1],
                                  nb.mois      = nb.mois[1],
                                  mois.sortie  = mois.sortie[1],
