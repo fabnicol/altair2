@@ -384,7 +384,7 @@ if (charger.bases)
 
     Bulletins.paie[ ,   quotité   := ifelse(etp.égale.effectif | is.na(Temps.de.travail), 1,  Temps.de.travail / 100)]
     Bulletins.paie[ ,   Montant.net.eqtp := ifelse(is.finite(Net.à.Payer/quotité), Net.à.Payer/quotité,  NA)]
-    
+
   } else {
     Bulletins.paie <- mutate(Bulletins.paie,
 
@@ -394,7 +394,7 @@ if (charger.bases)
                            #                          * ((corriger.quotité)*(is.na(Taux) * (1- Taux)  + Taux) + 1 - corriger.quotité)
 # if( ...) ne fonctionne pas.
 
-                           Montant.net.eqtp         = ifelse(is.finite(Net.à.Payer/quotité), Net.à.Payer/quotité, NA)) 
+                           Montant.net.eqtp         = ifelse(is.finite(Net.à.Payer/quotité), Net.à.Payer/quotité, NA))
   }
 
   anavar <- ddply(Bulletins.paie,
@@ -681,9 +681,8 @@ else
                                                                  (Montant.net.annuel.eqtp.sortie / Montant.net.annuel.eqtp.début -1)*100, NA),
                                        variation.moyenne.rémunération = ifelse(is.na(total.mois)
                                                                             | is.na(variation.rémunération)
-                                                                            | total.mois == 0
-                                                                            | variation.rémunération == 0,
-                                                                         NA, (( 1 + variation.rémunération / 100 ) ^ (12 / total.mois) - 1) * 100),
+                                                                            | total.mois < 13,
+                                                                         NA, (( 1 + variation.rémunération / 100 ) ^ (12 / (total.mois - 12)) - 1) * 100),
                                        variation.rémunération.normalisée = ifelse(durée.sous.revue == Nexercices
                                                                                & nb.mois.exercice.début == 12
                                                                                & nb.mois.exercice.sortie == 12,
@@ -1773,7 +1772,7 @@ if (nrow(Analyse.variations.synthèse.filtrée.plus.2.ans) > 0)
 #'
 #'
 
-f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Analyse.variations.par.exercice$Année == x 
+f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Analyse.variations.par.exercice$Année == x
                                                                & Analyse.variations.par.exercice$plus.2.ans,
                                                                "Montant.net.annuel.eqtp"], na.rm = TRUE)/ 1000,
                                                                big.mark = " ",
@@ -1837,11 +1836,11 @@ if (nrow(Analyse.variations.synthèse.filtrée.moins.2.ans) > 0)
 #'##
 #'
 
-f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Analyse.variations.par.exercice$Année == x 
+f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Analyse.variations.par.exercice$Année == x
                                                                & ! Analyse.variations.par.exercice$plus.2.ans,
                                                                "Montant.net.annuel.eqtp"], na.rm = TRUE)/ 1000,
                            big.mark = " ",
-                           digits = 5, 
+                           digits = 5,
                            format = "fg")
 
 Tableau.vertical(c(étiquette.année, "Rémunération nette totale <br>des agents en fonction moins de deux ans (k&euro;)"),
@@ -2287,6 +2286,10 @@ detach(Bulletins.paie.Lignes.paie)
 if (sauvegarder.bases)
   sauv.bases(chemin.dossier.bases,
     "Analyse.rémunérations",
+    "Analyse.variations.synthèse",
+    "Analyse.variations.synthèse.filtrée",
+    "Analyse.variations.synthèse.filtrée.plus.2.ans",
+    "Analyse.variations.synthèse.filtrée.moins.2.ans",
     "Bulletins.paie.nir.total.hors.élus",
     "Bulletins.paie.nir.fonctionnaires",
     "Bulletins.paie.Lignes.paie",
