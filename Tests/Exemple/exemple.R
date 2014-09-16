@@ -682,7 +682,7 @@ else
                                        variation.moyenne.rémunération = ifelse(is.na(total.mois)
                                                                             | is.na(variation.rémunération)
                                                                             | total.mois < 13,
-                                                                         NA, (( 1 + variation.rémunération / 100 ) ^ (12 / (total.mois - 12)) - 1) * 100),
+                                                                         NA, ((Montant.net.annuel.eqtp.sortie / Montant.net.annuel.eqtp.début) ^ (12 / (total.mois - 12)) - 1) * 100),
                                        variation.rémunération.normalisée = ifelse(durée.sous.revue == Nexercices
                                                                                & nb.mois.exercice.début == 12
                                                                                & nb.mois.exercice.sortie == 12,
