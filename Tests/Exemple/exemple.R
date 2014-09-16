@@ -678,11 +678,12 @@ else
                                        moyenne.rémunération.annuelle.sur.période =
                                          sum(Montant.net.annuel.eqtp, na.rm = TRUE)/length(Année[!is.na(Montant.net.annuel.eqtp) & Montant.net.annuel.eqtp > 0]),
                                        variation.rémunération = ifelse(Nexercices > 1 & !is.na(Montant.net.annuel.eqtp.début) & !is.na(Montant.net.annuel.eqtp.sortie) & Montant.net.annuel.eqtp.début > 0 & Montant.net.annuel.eqtp.sortie > 0,
-                                                                 (Montant.net.annuel.eqtp.sortie / Montant.net.annuel.eqtp.début -1)*100, NA),
+                                                                 (Montant.net.annuel.eqtp.sortie / Montant.net.annuel.eqtp.début - 1)*100, NA),
                                        variation.moyenne.rémunération = ifelse(is.na(total.mois)
                                                                             | is.na(variation.rémunération)
                                                                             | total.mois < 13,
-                                                                         NA, ((Montant.net.annuel.eqtp.sortie / Montant.net.annuel.eqtp.début) ^ (12 / (total.mois - 12)) - 1) * 100),
+                                                                         NA,
+                                                                         ((Montant.net.annuel.eqtp.sortie/Montant.net.annuel.eqtp.début)^(12 / (total.mois - 12)) - 1) * 100),
                                        variation.rémunération.normalisée = ifelse(durée.sous.revue == Nexercices
                                                                                & nb.mois.exercice.début == 12
                                                                                & nb.mois.exercice.sortie == 12,
@@ -1053,8 +1054,6 @@ Tableau.vertical2(c("Agrégats",
 #'
 
 #'
-#'[Lien vers la base de données](Bases/`r "Masses." %+% année %+% ".csv"`)
-#'
 #'Les résultats sont exprimés en euros.
 #'
 
@@ -1294,9 +1293,6 @@ Résumé(c("Total rémunérations",
 
 nom.base.analyse <- "Analyse.rémunérations.premier.exercice"
 
-if (sauvegarder.bases)
-  Sauv.base(chemin.dossier.bases, "Analyse.rémunérations.premier.exercice", nom.base.analyse)
-
 detach(Analyse.rémunérations.premier.exercice)
 
 # pour année fin #
@@ -1397,8 +1393,6 @@ Tableau.vertical2(c("Agrégats",
 #'à comparer aux soldes des comptes 641, 648 et 653 du compte de gestion
 #'
 
-#'
-#'[Lien vers la base de données](Bases/`r "Masses." %+% année %+% ".csv"` )
 #'
 #'Les résultats sont exprimés en euros.
 #'
@@ -2287,6 +2281,7 @@ if (sauvegarder.bases)
   sauv.bases(chemin.dossier.bases,
     "Analyse.rémunérations",
     "Analyse.variations.synthèse",
+    "Analyse.variations.par.exercice",
     "Analyse.variations.synthèse.filtrée",
     "Analyse.variations.synthèse.filtrée.plus.2.ans",
     "Analyse.variations.synthèse.filtrée.moins.2.ans",
@@ -2294,24 +2289,25 @@ if (sauvegarder.bases)
     "Bulletins.paie.nir.fonctionnaires",
     "Bulletins.paie.Lignes.paie",
     "Bulletins.paie",
-    "tableau.effectifs",
-    "masses.premier",
-    "masses.dernier",
-    "NBI.aux.non.titulaires",
-    "RI.et.vacations",
+    "codes.ifts",
     "HS.sup.25",
+    "ifts.et.contractuel",
     "ihts.anormales",
-    "personnels.prime.informatique",
     "lignes.contractuels.et.vacations",
     "lignes.fonctionnaires.et.vacations",
     "lignes.ifts.anormales",
-    "personnels.iat.ifts",
-    "codes.ifts",
-    "ifts.et.contractuel",
-    "traitement.et.vacations",
     "matricules.contractuels.et.vacations",
     "matricules.fonctionnaires.et.vacations",
-    "rémunérations.élu")
+    "masses.premier",
+    "masses.dernier",
+    "NBI.aux.non.titulaires",
+    "personnels.prime.informatique",
+    "personnels.iat.ifts",
+    "rémunérations.élu",
+    "RI.et.vacations",
+    "tableau.effectifs",
+    "traitement.et.vacations")
+
 
 
 
