@@ -16,7 +16,7 @@ extraire.années      <- FALSE
 extraire.population  <- FALSE
 fusionner.nom.prénom <- FALSE
 charger.bases        <- TRUE
-sauvegarder.bases    <- TRUE
+sauvegarder.bases    <- FALSE
 tester.matricules            <- FALSE
 tester.lignes.bulletins.mois <- FALSE
 corriger.quotité     <- FALSE

@@ -1761,7 +1761,10 @@ if (nrow(Analyse.variations.synthèse.filtrée.plus.2.ans) > 0)
        ylab ="Effectifs",
        main ="Rémunération nette des personnels en place",
        col ="blue",
-       nclass = 300)
+       nclass=1000,
+       xaxt = 'n')
+
+axis(side=1, at=seq(-5,30, 1), labels=seq(-5,30,1), lwd=2)
 
 #'
 #'
@@ -1824,7 +1827,7 @@ if (nrow(Analyse.variations.synthèse.filtrée.moins.2.ans) > 0)
        ylab ="Effectifs",
        main ="Rémunération nette des personnels en fonction moins de deux ans",
        col ="turquoise",
-       nclass = 200)
+       nclass = 800)
 
 #'
 #'##
