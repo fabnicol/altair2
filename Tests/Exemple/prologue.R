@@ -1,6 +1,10 @@
 # prologue
 # doit être dans le même répertoire que le programme principal et sa bibliothèque
 
+# dans le cas où l'on ne lance le programme que pour certaines années, il préciser début.période sous revue et fin.période .sous.revue
+# Dans ce cas fixer extraire.années en valeur TRUE.
+# Sinon le programme travaille sur l'ensemble des années disponibles.
+
 début.période.sous.revue    <- 2009
 fin.période.sous.revue      <- 2012
 
@@ -9,10 +13,12 @@ fin.période.sous.revue      <- 2012
 
 setOSWindows         <- Sys.info()["sysname"] != "Linux"
 
-générer.codes        <- FALSE
+extraire.années      <- FALSE
+
+générer.codes        <- TRUE
+
 paralléliser         <- FALSE
 table.rapide         <- TRUE
-extraire.années      <- FALSE
 extraire.population  <- FALSE
 fusionner.nom.prénom <- FALSE
 charger.bases        <- TRUE
@@ -35,10 +41,11 @@ séparateur.décimal <- "."
 # les bases commencent par une majuscule. Un nom de fichier est souvent associé
 # à une variable commençant par une majuscule et représentant la base (data.frame ou matrice)
 
-racine                      <-  "UTF-8.RAG_2009_2012-"
-  #"UTF-8.SIERG-"
+racine                      <-  "PDC-"
   # "UTF-8.RAG_2009_2012-"
-  #"RAG_2009_2012-"
+  # "UTF-8.SIERG-"
+  # "UTF-8.RAG_2009_2012-"
+  # "RAG_2009_2012-"
 nom.fichier.codes.paiement  <- paste0(racine, "codes.csv")
 fichier.personnels          <- "Catégories des personnels"
 nom.fichier.personnels      <- paste0(fichier.personnels, ".csv")
