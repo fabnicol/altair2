@@ -124,9 +124,12 @@ return(T)
 Sauv.base <- function(chemin.dossier, nom, nom.sauv, encodage = encodage.entrée)
 {
   message("Sauvegarde de ", nom)
-  write.csv2(get(nom), paste0(chemin.dossier, "/", iconv(nom.sauv, to = encodage.entrée, mark = FALSE), ".csv"),
-             row.names = FALSE, fileEncoding = encodage)
-
+  write.csv(get(nom),
+             paste0(chemin.dossier, "/", iconv(nom.sauv, to = "ISO-8859-1", mark = FALSE), ".csv"),
+             row.names = FALSE,
+             fileEncoding = encodage,
+             sep =séparateur.décimal,
+             dec = séparateur.liste)
 }
 
 sauv.bases <- function(dossier, ...)
@@ -382,6 +385,11 @@ convertir.nom.prénom.majuscules <- function(S)
 
 
 }
+
+extraire.nir <- function(Base) fin.période.sous.revue - (as.numeric(substr(as.character(
+  format(Base[ , champ.nir], scientific = FALSE)),
+  2, 3))
+  + 1900)
 
 # tester.homogeneite.matricules(Base)
 
