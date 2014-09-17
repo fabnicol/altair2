@@ -95,6 +95,8 @@ dir.create(chemin.dossier.bases, recursive = TRUE)
 #  on vérifie que chaque code de paie est associé, dans le fichier des codes de paiement (par défaut, racinecodes.csv),
 #  que à chaque code donné on a associé un et un seul type de rémunération ("INDEMNITAIRE", "TRAITEMENT", etc.)
 
+# Pour le mode rapide, convertir les fichiers base en UTF-8 SANS BOM (par exemple, notepad++ après Excel)
+
 if (file.exists(chemin(nom.fichier.codes.paiement)))
 {
   Codes.paiement <- read.csv.skip(nom.fichier.codes.paiement, rapide = FALSE, séparateur.liste = séparateur.liste, séparateur.décimal = séparateur.décimal)
@@ -203,23 +205,44 @@ if (inherits(res, 'try-error'))
 
 if (!is.null(Bulletins.paie)) message("Chargement des bulletins de paie.") else stop("Chargement des bulletins de paie en échec.")
 
+
+# dans le cas où l'on ne lance le programme que pour certaines années, il préciser début.période sous revue et fin.période .sous.revue
+# dans le fichier prologue.R. Sinon le programme travaille sur l'ensemble des années disponibles.
+
 if (!extraire.années) {
-  début.période.sous.revue    <- min(Bulletins.paie$Année)
-  fin.période.sous.revue      <- max(Bulletins.paie$Année)
+
+  début.période.sous.revue    <- pmin(Bulletins.paie$Année, Lignes.paie$Année)
+  fin.période.sous.revue      <- pmax(Bulletins.paie$Année, Lignes.paie$Année)
+
+  if (début.période.sous.revue[1] != début.période.sous.revue[2])
+      stop("Les bases des bulletins et lignes de paye
+ne portent pas sur le même nombre d'années : " %+%  début.période.sous.revue[1] %+% "... pour les bulletins et " %+% début.période.sous.revue[1] %+% "... pour les lignes de paye.")
+
+  if (fin.période.sous.revue[1] != fin.période.sous.revue[2])
+          stop("Les bases des bulletins et lignes de paye
+ne portent pas sur le même nombre d'années : ..." %+%  fin.période.sous.revue[1] %+% " pour les bulletins et ..." %+% fin.période.sous.revue[1] %+% "... pour les lignes de paye.")
+
+  début.période.sous.revue <- début.période.sous.revue[1]
+  fin.période.sous.revue   <- fin.période.sous.revue[1]
+
   période                     <- début.période.sous.revue:fin.période.sous.revue
   durée.sous.revue            <- fin.période.sous.revue - début.période.sous.revue + 1
+
+} else {
+
+  Bulletins.paie <- Bulletins.paie[  Bulletins.paie$Année >= début.période.sous.revue
+                                     & Bulletins.paie$Année <= fin.période.sous.revue, ]
+  Lignes.paie    <- Lignes.paie[  Lignes.paie$Année >= début.période.sous.revue
+                                  & Lignes.paie$Année <= fin.période.sous.revue, ]
 }
 
-
-Bulletins.paie <- Bulletins.paie[  Bulletins.paie$Année >= début.période.sous.revue
-                                   & Bulletins.paie$Année <= fin.période.sous.revue, ]
-Lignes.paie    <- Lignes.paie[  Lignes.paie$Année >= début.période.sous.revue
-                                & Lignes.paie$Année <= fin.période.sous.revue, ]
-
 if (table.rapide) {
+
   matricules.à.retirer  <- Lignes.paie[Lignes.paie$Code == "", "Matricule", with=F]
   matricules.à.retirer  <- matricules.à.retirer[[1]]
+
 } else {
+
   matricules.à.retirer  <- Lignes.paie[Lignes.paie$Code == "", "Matricule"]
 }
 
@@ -258,8 +281,11 @@ if (générer.codes) {
   message("Génération de la base des codes de paie et des libellés.")
 
   if (table.rapide) {
+
      codes.paiement.généré <- unique(Lignes.paie[ , c(étiquette.code, étiquette.libellé), with = FALSE])
+
    } else {
+
      codes.paiement.généré <- unique(Lignes.paie[ , c(étiquette.code, étiquette.libellé)])
    }
 
@@ -289,10 +315,12 @@ if (générer.codes) {
     message("Génération des codes : voir fichier Données/" %+% nom.fichier.codes %+% ".csv")  else
     message("Les codes n'ont pas été générés.")
 
-  stop(
-" Le programme est arrêté après génération de la base de codes et libellés.
-  Relancer Altair après avoir renseigné la troisième colonne
-  et placé le fichier sous le répertoire Données avec le nom " %+% nom.fichier.codes.paiement, call.=FALSE)
+
+message("Le programme est arrêté après génération de la base de codes et libellés.
+Relancer Altair après avoir renseigné la troisième colonne
+et placé le fichier sous le répertoire Données avec le nom " %+% nom.fichier.codes.paiement)
+browser()
+
 }
 
 # suppression des colonnes Nom Prénom redondantes
@@ -418,16 +446,18 @@ if (charger.bases)
 
   # gain de 24s par l'utilisation de data.table::merge
 
-  if (! paralléliser && table.rapide) {
+if (table.rapide)   message("Mode table rapide.") else message("Mode table standard.")
+if (table.rapide)   paralléliser <- FALSE
 
-    message("Mode table rapide.")
+  if (! paralléliser) {
 
-    Bulletins.paie.Lignes.paie <- merge(Bulletins.paie,
-                                        Lignes.paie,
-                                        by = c(clé.fusion, "Année", "Mois"))
+      Bulletins.paie.Lignes.paie <- merge(Bulletins.paie,
+                                          Lignes.paie,
+                                          by = c(clé.fusion, "Année", "Mois"))
 
-    if (!is.null(Bulletins.paie.Lignes.paie))
-      message(paste("Fusion réalisée")) else stop("Echec de fusion" )
+      if (!is.null(Bulletins.paie.Lignes.paie))
+        message(paste("Fusion réalisée")) else stop("Echec de fusion" )
+
 
   } else {
 
@@ -771,11 +801,6 @@ else
   # Age au 31 décembre de l'exercice dernier.exerciceal de la période sous revue
   # ne pas oublier [ ,...] ici:
 
-  extraire.nir <- function(Base) fin.période.sous.revue - (as.numeric(substr(as.character(
-                                                            format(Base[ , champ.nir], scientific = FALSE)),
-                                                      2, 3))
-                                  + 1900)
-
   années.fonctionnaires   <- extraire.nir(Bulletins.paie.nir.fonctionnaires)
 
   années.total.hors.élus  <- extraire.nir(Bulletins.paie.nir.total.hors.élus)
@@ -879,6 +904,7 @@ Résumé(c("Âge des personnels <br>au 31/12/" %+% fin.période.sous.revue,
 #'**Personnels en fonction des exercices `r début.période.sous.revue` à `r fin.période.sous.revue` inclus :**
 #'
 attach(Analyse.variations.synthèse)
+
 
 Tableau(c("Plus de 2 ans",
           "Moins de 2 ans",
@@ -1764,7 +1790,7 @@ if (nrow(Analyse.variations.synthèse.filtrée.plus.2.ans) > 0)
        nclass=1000,
        xaxt = 'n')
 
-axis(side=1, at=seq(-5,30, 1), labels=seq(-5,30,1), lwd=2)
+try(axis(side=1, at=seq(-5,30, 1), labels=seq(-5,30,1), lwd=2))
 
 #'
 #'
