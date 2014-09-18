@@ -833,7 +833,8 @@ effectifs <- lapply(période,
                       F <- E[E$nb.mois == 12, ]
                       G <- unique(A[(A$Statut == "TITULAIRE" | A$Statut == "STAGIAIRE") , c("Matricule", "nb.mois")])
                       H <- G[G$nb.mois == 12, ]
-                      I <- unique(A[A$Service %in% libellés.élus | A$Emploi %in% libellés.élus, c("Matricule", "nb.mois")])
+                      I <- unique(A[grepl(expression.rég.élus, A$Service, ignore.case=TRUE)
+                                    | grepl(expression.rég.élus, A$Emploi, ignore.case=TRUE), c("Matricule", "nb.mois")])
                       J <- I[I$nb.mois == 12, ]
                       résultat <- c(nrow(E), nrow(F), nrow(G), nrow(H), nrow(I), nrow(J))
                       rm(A, E, F, G, H, I, J)
@@ -1034,8 +1035,8 @@ Tableau(c("Rémunérations brutes",
 #'
 
 somme.brut.non.élu  <- sum(Bulletins.paie[  Bulletins.paie$Année == année
-                                          & ! Bulletins.paie$Emploi %in% libellés.élus
-                                          & ! Bulletins.paie$Service %in% libellés.élus,
+                                          & ! grepl(expression.rég.élus, Bulletins.paie$Emploi, ignore.case=TRUE)
+                                          & ! grepl(expression.rég.élus, Bulletins.paie$Emploi, ignore.case=TRUE),
                                             "Brut"])
 
 delta  <- somme.brut.non.élu - masses.premier["total.rémunérations"]
@@ -1373,8 +1374,8 @@ Tableau(c("Rémunérations brutes",
 #'
 
 somme.brut.non.élu  <- sum(Bulletins.paie[  Bulletins.paie$Année == année
-                                          & ! Bulletins.paie$Emploi %in% libellés.élus
-                                          & ! Bulletins.paie$Service %in% libellés.élus,
+                                          & ! grepl(expression.rég.élus, Bulletins.paie$Emploi, ignore.case=TRUE)
+                                          & ! grepl(expression.rég.élus, Bulletins.paie$Service, ignore.case=TRUE),
                                           "Brut"])
 
              delta  <- somme.brut.non.élu - masses.dernier["total.rémunérations"]
@@ -2056,9 +2057,9 @@ Tableau(c("Nombre de CEV",
 
 #IAT et IFTS
 
-  ifts.logical <- grepl(expression.rég.ifts, Bulletins.paie.Lignes.paie$Libellé)
+  ifts.logical <- grepl(expression.rég.ifts, Bulletins.paie.Lignes.paie$Libellé, ignore.case=TRUE)
   codes.ifts  <- levels(as.factor(Bulletins.paie.Lignes.paie[ifts.logical, étiquette.code]))
-  personnels.iat.ifts <- intersect(Bulletins.paie.Lignes.paie[grepl(expression.rég.iat, Libellé), clé.fusion[1]],
+  personnels.iat.ifts <- intersect(Bulletins.paie.Lignes.paie[grepl(expression.rég.iat, Libellé, ignore.case=TRUE), clé.fusion[1]],
                                    Bulletins.paie.Lignes.paie[ifts.logical, clé.fusion[1]])
 
  nombre.personnels.iat.ifts <- length(personnels.iat.ifts)
