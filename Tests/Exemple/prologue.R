@@ -15,7 +15,7 @@ setOSWindows         <- Sys.info()["sysname"] != "Linux"
 
 extraire.années      <- FALSE
 
-générer.codes        <- TRUE
+générer.codes        <- FALSE
 
 paralléliser         <- FALSE
 table.rapide         <- TRUE
@@ -41,7 +41,7 @@ séparateur.décimal <- "."
 # les bases commencent par une majuscule. Un nom de fichier est souvent associé
 # à une variable commençant par une majuscule et représentant la base (data.frame ou matrice)
 
-racine                      <-  "PDC-"
+racine                      <-  "UTF-8.PDC-"
   # "UTF-8.RAG_2009_2012-"
   # "UTF-8.SIERG-"
   # "UTF-8.RAG_2009_2012-"
@@ -124,6 +124,7 @@ codes.NBI <- c("1012", "101B", "101M", "4652", "4672")
 # }
 
 encodage.entrée <- "UTF-8"
+encodage.sortie <- ifelse(setOSWindows, "ISO-8859-1", encodage.entrée)
 
 modalité.traitement            <- "TRAITEMENT"     # s'applique aussi aux NBI
 modalité.indemnitaire          <- "INDEMNITAIRE"   # hors vacations

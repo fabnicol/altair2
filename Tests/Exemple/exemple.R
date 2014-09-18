@@ -1845,7 +1845,7 @@ Résumé(c("Variation normalisée (%)",
 #'
 #'
 
-if (nrow(Analyse.variations.synthèse.filtrée.moins.2.ans) > 0)
+if (nrow(na.omit(Analyse.variations.synthèse.filtrée.moins.2.ans)) > 0)
   hist(Analyse.variations.synthèse.filtrée.moins.2.ans$variation.moyenne.rémunération,
        xlab ="Variation annuelle moyenne en %",
        xlim = c(-10,30),
