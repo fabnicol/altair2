@@ -22,13 +22,14 @@ table.rapide         <- TRUE
 extraire.population  <- FALSE
 fusionner.nom.prénom <- FALSE
 charger.bases        <- TRUE
-sauvegarder.bases    <- FALSE
+sauvegarder.bases.analyse    <- TRUE
+sauvegarder.bases.origine    <- FALSE
+générer.table.effectifs <- TRUE
 tester.matricules            <- FALSE
 tester.lignes.bulletins.mois <- FALSE
 corriger.quotité     <- FALSE
 comportement.strict  <- TRUE
 etp.égale.effectif   <- FALSE
-générer.table.effectifs <- FALSE
 
 seuil.troncature     <- 3
 taux.tolérance.homonymie <- 5  # en %
