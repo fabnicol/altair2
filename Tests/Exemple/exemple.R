@@ -22,6 +22,14 @@ library(compiler)
 
 options(warn = -1, verbose = FALSE, OutDec = ",")
 
+if (sauvegarder.bases.analyse) {
+  for (path in c("Rémunérations", "Effectifs", "Réglementation"))
+    dir.create(file.path(chemin.dossier.bases, path), recursive = TRUE)
+}
+
+if (sauvegarder.bases.origine) 
+  dir.create(file.path(chemin.dossier.bases, "Paiements"), recursive = TRUE)
+
 encodage.code.source <- "ISO-8859-1"
 
 # encodage :sous unix, les fichiers sources devraient être encodés en UTF-8 pour permettre une génération correcte des documents
@@ -74,8 +82,6 @@ library(gtools)
 # problème temporaire avec l'option fig.retina depuis fin mai 2014
 
 knitr::opts_chunk$set(fig.width = 7.5, echo = FALSE, warning = FALSE, message = FALSE, results = 'asis')
-
-dir.create(chemin.dossier.bases, recursive = TRUE)
 
 #'<p class = "centered"><b>Exercices `r paste(début.période.sous.revue, "à", fin.période.sous.revue)` </b></p>
 #'<p class = "author">Fabrice Nicol</h1>
@@ -848,7 +854,7 @@ names(tableau.effectifs) <- liste.années
 #'
 kable(tableau.effectifs, row.names = TRUE, align='c')
 #'
-#'[Lien vers la base des effectifs](Bases/tableau.effectifs.csv)
+#'[Lien vers la base des effectifs](Bases/Effectifs/tableau.effectifs.csv)
 #'
 #'
 #'### 1.2 Pyramide des âges, personnels non élus
@@ -863,7 +869,7 @@ if (longueur.non.na(années.total.hors.élus) > 0)
      nclass = 50)
 
 #'
-#'[Lien vers la base des âges](Bases/Bulletins.paie.nir.total.hors.élus.csv)
+#'[Lien vers la base des âges](Bases/Effectifs/Bulletins.paie.nir.total.hors.élus.csv)
 #'
 
 Résumé(c("Âge des personnels <br>au 31/12/" %+% fin.période.sous.revue,
@@ -887,7 +893,7 @@ if (longueur.non.na(années.fonctionnaires) > 0)
      nclass = 50)
 
 #'
-#'[Lien vers la base des âges](Bases/Bulletins.paie.nir.fonctionnaires.csv)
+#'[Lien vers la base des âges](Bases/Effectifs/Bulletins.paie.nir.fonctionnaires.csv)
 #'
 
 Résumé(c("Âge des personnels <br>au 31/12/" %+% fin.période.sous.revue,
@@ -1661,7 +1667,7 @@ detach(Analyse.rémunérations.dernier.exercice)
 
 
 #'
-#'[Lien vers la base de données](Bases/Analyse.rémunérations.csv) d'analyse des rémunérations
+#'[Lien vers la base de données](Bases/Rémunérations/Analyse.rémunérations.csv) d'analyse des rémunérations
 #'
 
 
@@ -1700,7 +1706,7 @@ if (longueur.non.na(temp) > 0)
      nclass = 200)
 
 #'
-#'[Lien vers la base de données](Bases/Analyse.variations.synthèse.csv)
+#'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.csv)
 #'
 #'**Nota:** La rémunération nette perçue est rapportée au cumul des jours d'activité.
 
@@ -1744,7 +1750,7 @@ Tableau.vertical(c(étiquette.année, "Rémunération nette totale (k&euro;)"),
 
 
 #'
-#'[Lien vers la base de données](Bases/Analyse.variations.par.exercice.csv)
+#'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.par.exercice.csv)
 #'
 #'######
 #'
@@ -1775,7 +1781,7 @@ Résumé(c("Variation normalisée (%)",
        extra = "length")
 
 #'
-#'[Lien vers la base de données](Bases/Analyse.variations.synthèse.filtrée.csv)
+#'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.filtrée.csv)
 #'
 #'### 4.2.2 Personnels fonctionnaires et non titulaires en place
 #'
@@ -1835,7 +1841,7 @@ Résumé(c("Variation normalisée (%)",
 
 #'
 #'
-#'[Lien vers la base de données](Bases/Analyse.variations.synthèse.filtrée.plus.2.ans.csv)
+#'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.filtrée.plus.2.ans.csv)
 #'
 #'**Nota**
 #'Personnels en place : en fonction au moins 730 jours sur la période `r début.période.sous.revue` à `r fin.période.sous.revue`
@@ -1903,7 +1909,7 @@ if (durée.sous.revue <= 2)
 #'
 ########### Tests statutaires ########################
 #'
-#'[Lien vers la base de données](Bases/Analyse.variations.synthèse.filtrée.moins.2.ans.csv)
+#'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.filtrée.moins.2.ans.csv)
 #'
 #'**Nota:** Au 4.2 seuls sont pris en compte les personnels en fonction au moins 100 jours la première et la dernière année
 #'Ne sont pas pris en compte les élus, stagiaires et apprentis ou assimilés.
@@ -1958,8 +1964,8 @@ Tableau(
   nombre.personnels.pfi)
 
 #'
-#'[Lien vers la base de données NBI aux non titulaires](Bases/NBI.aux.non.titulaires.csv)
-#'[Lien vers la base de données Primes informatiques](Bases/personnels.prime.informatique.csv)
+#'[Lien vers la base de données NBI aux non titulaires](Bases/Réglementation/NBI.aux.non.titulaires.csv)
+#'[Lien vers la base de données Primes informatiques](Bases/Réglementation/personnels.prime.informatique.csv)
 #'
 #'**Nota :**
 #'NBI: nouvelle bonification indiciaire
@@ -1974,13 +1980,14 @@ Tableau(
 lignes.fonctionnaires.et.vacations <- Bulletins.paie.Lignes.paie[ (Statut == "TITULAIRE" | Statut == "STAGIAIRE")
                                                                   & Codes.paiement.vacations[Code] != 0,
                                                                  c(étiquette.matricule,
+                                                                   "Nom", "Prénom",
                                                                    "Statut",
                                                                    étiquette.code,
                                                                     étiquette.libellé,
                                                                     étiquette.montant)]
 
-        matricules.fonctionnaires.et.vacations <- unique(lignes.fonctionnaires.et.vacations$Matricule)
-            nombre.fonctionnaires.et.vacations <- length(matricules.fonctionnaires.et.vacations)
+        matricules.fonctionnaires.et.vacations <- unique(lignes.fonctionnaires.et.vacations[c("Matricule", "Nom", "Prénom")])
+            nombre.fonctionnaires.et.vacations <- nrow(matricules.fonctionnaires.et.vacations)
 nombre.Lignes.paie.fonctionnaires.et.vacations <- nrow(lignes.fonctionnaires.et.vacations)
 
 #'
@@ -1992,8 +1999,8 @@ Tableau(
   nombre.Lignes.paie.fonctionnaires.et.vacations)
 
 #'
-#'[Lien vers la base de données Matricules des FEV](Bases/matricules.fonctionnaires.et.vacations.csv)
-#'[Lien vers la base de données Lignes de vacations de FEV](Bases/lignes.fonctionnaires.et.vacations.csv)
+#'[Lien vers la base de données Matricules des FEV](Bases/Réglementation/matricules.fonctionnaires.et.vacations.csv)
+#'[Lien vers la base de données Lignes de vacations de FEV](Bases/Réglementation/lignes.fonctionnaires.et.vacations.csv)
 #'
 #'**Nota:**
 #'FEV : fonctionnaire effectuant des vacations
@@ -2006,15 +2013,18 @@ Tableau(
                                                                    & Statut != "STAGIAIRE"
                                                                    & Codes.paiement.vacations[Code],
                                                                     c(étiquette.matricule,
+                                                                      "Nom", "Prénom",
                                                                       étiquette.code,
                                                                       étiquette.libellé,
                                                                       étiquette.montant)]
 
-matricules.contractuels.et.vacations <- unique(lignes.contractuels.et.vacations$Matricule)
-    nombre.contractuels.et.vacations <- length(matricules.contractuels.et.vacations)
+
+   matricules.contractuels.et.vacations <- unique(lignes.contractuels.et.vacations[c("Matricule", "Nom", "Prénom")])
+
+    nombre.contractuels.et.vacations <- nrow(matricules.contractuels.et.vacations)
 
                      RI.et.vacations <- Bulletins.paie.Lignes.paie[Codes.paiement.indemnitaire[Code] != 0
-                                                                   & Matricule %in% matricules.contractuels.et.vacations,
+                                                                   & Matricule %in% matricules.contractuels.et.vacations$Matricule,
                                                                     c(étiquette.matricule,
                                                                       "Statut",
                                                                       étiquette.code,
@@ -2023,7 +2033,7 @@ matricules.contractuels.et.vacations <- unique(lignes.contractuels.et.vacations$
 # Vacations et indiciaire
 
 traitement.et.vacations <- Bulletins.paie.Lignes.paie[Codes.paiement.traitement[Code] != 0
-                                                      & Matricule %in% matricules.contractuels.et.vacations,
+                                                      & Matricule %in% matricules.contractuels.et.vacations$Matricule,
                                                        c(étiquette.matricule,
                                                          "Statut",
                                                          étiquette.code,
@@ -2047,9 +2057,9 @@ Tableau(c("Nombre de CEV",
           nombre.Lignes.paie.traitement.et.vacations)
 
 #'
-#'[Lien vers la base de données Matricules des CEV](Bases/matricules.contractuels.et.vacations.csv)
-#'[Lien vers la base de données Lignes de paie de CEV](Bases/RI.et.vacations.csv)
-#'[Lien vers la base de données Lignes de traitement indiciaire pour CEV](Bases/traitement.et.vacations.csv)
+#'[Lien vers la base de données Matricules des CEV](Bases/Réglementation/matricules.contractuels.et.vacations.csv)
+#'[Lien vers la base de données Lignes de paie de CEV](Bases/Réglementation/RI.et.vacations.csv)
+#'[Lien vers la base de données Lignes de traitement indiciaire pour CEV](Bases/Réglementation/traitement.et.vacations.csv)
 #'
 #'
 #'
@@ -2061,6 +2071,7 @@ Tableau(c("Nombre de CEV",
   codes.ifts  <- levels(as.factor(Bulletins.paie.Lignes.paie[ifts.logical, étiquette.code]))
   personnels.iat.ifts <- intersect(Bulletins.paie.Lignes.paie[grepl(expression.rég.iat, Libellé, ignore.case=TRUE), clé.fusion[1]],
                                    Bulletins.paie.Lignes.paie[ifts.logical, clé.fusion[1]])
+ names(personnels.iat.ifts) <- "Matricules des agents percevant IAT et/ou IFTS sur la période"
 
  nombre.personnels.iat.ifts <- length(personnels.iat.ifts)
 
@@ -2072,8 +2083,8 @@ Tableau(c("Codes IFTS", "Nombre de personnels percevant IAT et IFTS"),
         nombre.personnels.iat.ifts)
 
 #'
-#'[Codes IFTS retenus](Bases/codes.ifts.csv)
-#'[Lien vers la base de données](Bases/personnels.iat.ifts.csv)
+#'[Codes IFTS retenus](Bases/Réglementation/codes.ifts.csv)
+#'[Lien vers la base de données](Bases/Réglementation/personnels.iat.ifts.csv)
 #'
 #'### Contrôle sur les IFTS pour catégories B et contractuels
 
@@ -2108,8 +2119,8 @@ nombres.lignes.ifts.et.contractuel <- nrow(ifts.et.contractuel)
 Tableau(c("Nombre de contractuels percevant des IFTS", "Nombre de lignes IFTS pour IB < 380"), nombres.lignes.ifts.et.contractuel, nombre.lignes.ifts.anormales)
 
 #'
-#'[Lien vers la base de données Lignes IFTS pour contractuels](Bases/ifts.et.contractuel.csv)
-#'[Lien vers la base de données Lignes IFTS pour IB < 380](Bases/lignes.ifts.anormales.csv)
+#'[Lien vers la base de données Lignes IFTS pour contractuels](Bases/Réglementation/ifts.et.contractuel.csv)
+#'[Lien vers la base de données Lignes IFTS pour IB < 380](Bases/Réglementation/lignes.ifts.anormales.csv)
 #'
 #'**Nota:**
 #'IB < 380 : fonctionnaire percevant un indice brut inférieur à 380
@@ -2210,8 +2221,8 @@ nombre.ihts.anormales <- nrow(ihts.anormales)
 Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"), nombre.Lignes.paie.HS.sup.25, nombre.ihts.anormales)
 
 #'
-#'[Lien vers la base de données Heures suplémentaires en excès : matricules](Bases/HS.sup.25.csv)
-#'[Lien vers la base de données IHTS anormales](Bases/ihts.anormales.csv)
+#'[Lien vers la base de données Heures suplémentaires en excès : matricules](Bases/Réglementation/HS.sup.25.csv)
+#'[Lien vers la base de données IHTS anormales](Bases/Réglementation/ihts.anormales.csv)
 #'
 #'**Nota:**
 #'HS en excès : au-delà de 25 heures par mois
@@ -2241,6 +2252,7 @@ matricules.à.identifier <- matricules.à.identifier[order(matricules.à.identifier
       rémunérations.élu <- Analyse.rémunérations[ Analyse.rémunérations$indemnités.élu > 0,
                                                        c(clé.fusion,
                                                          "Année",
+                                                         "Emploi",
                                                          "indemnités.élu",
                                                          "autres.rémunérations",
                                                          "total.rémunérations") ]
@@ -2258,6 +2270,7 @@ if (!fusionner.nom.prénom)
 
 names(rémunérations.élu) <- c(union(clé.fusion, "Nom"),
                               "Année",
+                              "Emploi",
                               "Indemnités (euros)",
                               "Autres (euros)",
                               "Total (euros)")
@@ -2269,23 +2282,22 @@ if (nrow(rémunérations.élu) >0)
     kable(rémunérations.élu, row.names = FALSE)
 
 #'
-if (sauvegarder.bases)
-   Sauv.base(chemin.dossier.bases,
+if (sauvegarder.bases.analyse)
+   Sauv.base(file.path(chemin.dossier.bases, "Effectifs"),
              "matricules.à.identifier",
              fichier.personnels)
 
-#'[Lien vers la base de données Rémunérations des élus](Bases/rémunérations.élu.csv)
+#'[Lien vers la base de données Rémunérations des élus](Bases/Réglementation/rémunérations.élu.csv)
 #'
 
 #'# Annexe
 
 #'## Liens complémentaires
 #'
-#'[Lien vers la base de données fusionnées des bulletins et lignes de paie](Bases/Bulletins.paie.Lignes.paie.csv)
+#'[Lien vers la base de données fusionnées des bulletins et lignes de paie](Bases/Paiements/Bulletins.paie.Lignes.paie.csv)
 #'
-#'[Lien vers le tableau des codes de paiement](Bases/nom.fichier.codes.paiement.csv)
 #'
-#'[Lien vers le fichier des personnels](Bases/Catégories des personnels.csv)
+#'[Lien vers le fichier des personnels](Bases/Effectifs/Catégories des personnels.csv)
 #'
 #'
 #'# Tableau des personnels : renseigner la catégorie
@@ -2305,20 +2317,26 @@ detach(Bulletins.paie.Lignes.paie)
 #  Sauvegardes : enlever les commentaires en mode opérationnel
 ##
 
+   
 
-
-if (sauvegarder.bases)
-  sauv.bases(chemin.dossier.bases,
+if (sauvegarder.bases.analyse) {
+  
+  sauv.bases(file.path(chemin.dossier.bases, "Rémunérations"),
     "Analyse.rémunérations",
     "Analyse.variations.synthèse",
     "Analyse.variations.par.exercice",
     "Analyse.variations.synthèse.filtrée",
     "Analyse.variations.synthèse.filtrée.plus.2.ans",
     "Analyse.variations.synthèse.filtrée.moins.2.ans",
+    "masses.premier",
+    "masses.dernier")
+   
+  sauv.bases(file.path(chemin.dossier.bases, "Effectifs"),
     "Bulletins.paie.nir.total.hors.élus",
     "Bulletins.paie.nir.fonctionnaires",
-    "Bulletins.paie.Lignes.paie",
-    "Bulletins.paie",
+    "tableau.effectifs")
+                          
+  sauv.bases(file.path(chemin.dossier.bases, "Réglementation"),
     "codes.ifts",
     "HS.sup.25",
     "ifts.et.contractuel",
@@ -2328,17 +2346,18 @@ if (sauvegarder.bases)
     "lignes.ifts.anormales",
     "matricules.contractuels.et.vacations",
     "matricules.fonctionnaires.et.vacations",
-    "masses.premier",
-    "masses.dernier",
     "NBI.aux.non.titulaires",
     "personnels.prime.informatique",
     "personnels.iat.ifts",
     "rémunérations.élu",
     "RI.et.vacations",
-    "tableau.effectifs",
     "traitement.et.vacations")
+}
 
-
+if (sauvegarder.bases.origine)
+  sauv.bases(file.path(chemin.dossier.bases, "Paiements"),
+            "Bulletins.paie.Lignes.paie",
+            "Bulletins.paie")
 
 
 
