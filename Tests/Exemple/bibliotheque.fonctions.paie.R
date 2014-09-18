@@ -124,12 +124,10 @@ return(T)
 Sauv.base <- function(chemin.dossier, nom, nom.sauv, encodage = encodage.entrée)
 {
   message("Sauvegarde de ", nom)
-  write.csv(get(nom),
+  write.csv2(get(nom),
              paste0(chemin.dossier, "/", iconv(nom.sauv, to = encodage.sortie, mark = FALSE), ".csv"),
              row.names = FALSE,
-             fileEncoding = encodage,
-             sep =séparateur.décimal,
-             dec = séparateur.liste)
+             fileEncoding = encodage)
 }
 
 sauv.bases <- function(dossier, ...)

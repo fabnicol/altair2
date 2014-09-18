@@ -22,14 +22,6 @@ library(compiler)
 
 options(warn = -1, verbose = FALSE, OutDec = ",")
 
-if (sauvegarder.bases.analyse) {
-  for (path in c("Rémunérations", "Effectifs", "Réglementation"))
-    dir.create(file.path(chemin.dossier.bases, path), recursive = TRUE)
-}
-
-if (sauvegarder.bases.origine) 
-  dir.create(file.path(chemin.dossier.bases, "Paiements"), recursive = TRUE)
-
 encodage.code.source <- "ISO-8859-1"
 
 # encodage :sous unix, les fichiers sources devraient être encodés en UTF-8 pour permettre une génération correcte des documents
@@ -78,6 +70,15 @@ library(plyr)
 library(ggplot2)
 library(assertthat)
 library(gtools)
+
+if (sauvegarder.bases.analyse) {
+  for (path in c("Rémunérations", "Effectifs", "Réglementation"))
+    dir.create(file.path(chemin.dossier.bases, path), recursive = TRUE)
+}
+
+if (sauvegarder.bases.origine) 
+  dir.create(file.path(chemin.dossier.bases, "Paiements"), recursive = TRUE)
+
 
 # problème temporaire avec l'option fig.retina depuis fin mai 2014
 
