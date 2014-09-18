@@ -125,7 +125,7 @@ Sauv.base <- function(chemin.dossier, nom, nom.sauv, encodage = encodage.entrée)
 {
   message("Sauvegarde de ", nom)
   write.csv(get(nom),
-             paste0(chemin.dossier, "/", iconv(nom.sauv, to = "ISO-8859-1", mark = FALSE), ".csv"),
+             paste0(chemin.dossier, "/", iconv(nom.sauv, to = encodage.sortie, mark = FALSE), ".csv"),
              row.names = FALSE,
              fileEncoding = encodage,
              sep =séparateur.décimal,
