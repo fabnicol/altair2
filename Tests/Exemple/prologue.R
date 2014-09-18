@@ -107,7 +107,7 @@ date.format                 <- "%d/%m/%Y"
 
 # ESPACES DE VALEURS LICITES POUR CERTAINS CHAMPS (modalités)
 
-libellés.élus               <- c("ELU", "ELUS", "Elu", "Elus", "élu", "élus")
+#libellés.élus               <- c("Elu", "Elus", "élu", "élus", "maire", "président", "adjoint au maire", "vice-président", "vice président")
 codes.NBI <- c("1012", "101B", "101M", "4652", "4672")
 
 # if (!setOSWindows)
@@ -145,3 +145,5 @@ expression.rég.heures.sup <- ".*(I.?H.?T|H.?[SC]|\\bI[[:alpha:]]*.?.*\\bH[[:alph
 expression.rég.iat        <- ".*(\\b[Ii].?[Aa].?[Tt]\\b|\\b[Ii][[:alpha:]]*.?\\b.*\\b[Aa][Dd][[:alpha:]]*.?\\b.*[Tt][Ee][Cc][[:alpha:]]*.?\\b).*"
 expression.rég.ifts       <- ".*(\\b[Ii].?[Ff].?[Tt].?[Ss]\\b|\\b[Ii][[:alpha:]]*.?\\b.*\\b[Ff][[:alpha:]]*.?\\b.*\\b[Tt][Rr][Aa][Vv][[:alpha:]]*.?\\b.*\\b[Ss][[:alpha:]]*.?\\b).*"
 expression.rég.population <- ".*\\bASS(\\b|A).*"
+expression.rég.élus       <- ".*([eé]lu[s]?|adj.*maire|pr[eé]sident|cons.*muni.*).*"
+
