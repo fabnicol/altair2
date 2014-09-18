@@ -42,7 +42,7 @@ séparateur.décimal <- "."
 # les bases commencent par une majuscule. Un nom de fichier est souvent associé
 # à une variable commençant par une majuscule et représentant la base (data.frame ou matrice)
 
-racine                      <-  "UTF-8.PDC-"
+racine                      <-  "PDC-"
   # "UTF-8.RAG_2009_2012-"
   # "UTF-8.SIERG-"
   # "UTF-8.RAG_2009_2012-"
