@@ -218,8 +218,8 @@ if (!is.null(Bulletins.paie)) message("Chargement des bulletins de paie.") else 
 
 if (!extraire.années) {
 
-  début.période.sous.revue    <- pmin(Bulletins.paie$Année, Lignes.paie$Année)
-  fin.période.sous.revue      <- pmax(Bulletins.paie$Année, Lignes.paie$Année)
+  début.période.sous.revue    <- c(min(Bulletins.paie$Année), min(Lignes.paie$Année))
+  fin.période.sous.revue      <- c(max(Bulletins.paie$Année), max(Lignes.paie$Année))
 
   if (début.période.sous.revue[1] != début.période.sous.revue[2])
       stop("Les bases des bulletins et lignes de paye
@@ -232,9 +232,6 @@ ne portent pas sur le même nombre d'années : ..." %+%  fin.période.sous.revue[1]
   début.période.sous.revue <- début.période.sous.revue[1]
   fin.période.sous.revue   <- fin.période.sous.revue[1]
 
-  période                     <- début.période.sous.revue:fin.période.sous.revue
-  durée.sous.revue            <- fin.période.sous.revue - début.période.sous.revue + 1
-
 } else {
 
   Bulletins.paie <- Bulletins.paie[  Bulletins.paie$Année >= début.période.sous.revue
@@ -242,6 +239,9 @@ ne portent pas sur le même nombre d'années : ..." %+%  fin.période.sous.revue[1]
   Lignes.paie    <- Lignes.paie[  Lignes.paie$Année >= début.période.sous.revue
                                   & Lignes.paie$Année <= fin.période.sous.revue, ]
 }
+
+période                     <- début.période.sous.revue:fin.période.sous.revue
+durée.sous.revue            <- fin.période.sous.revue - début.période.sous.revue + 1
 
 if (table.rapide) {
 
@@ -341,10 +341,10 @@ sélectionner.clé("Bulletins.paie", "Lignes.paie")
 # unname(Bulletins.paie$Nom) devrait marcher mais cause une génération de tableau sous RMarkdown, probablement un bug.
 # utiliser attr à la place.
 
-attr(Bulletins.paie$Nom, "names") <- NULL
+attr(Bulletins.paie$Nom, "names")    <- NULL
 attr(Bulletins.paie$Prénom, "names") <- NULL
-attr(Lignes.paie$Nom, "names") <- NULL
-attr(Lignes.paie$Prénom, "names") <- NULL
+attr(Lignes.paie$Nom, "names")       <- NULL
+attr(Lignes.paie$Prénom, "names")    <- NULL
 
 # Extraction de vecteurs représentant les codes de paiement par type de code (indemnitaire, traitement, vacations...)
 
