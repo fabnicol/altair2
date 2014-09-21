@@ -3,19 +3,19 @@
 
 # dans le cas où l'on ne lance le programme que pour certaines années, il préciser début.période sous revue et fin.période .sous.revue
 # Dans ce cas fixer extraire.années en valeur TRUE.
-# Sinon le programme travaille sur l'ensemble des années disponibles.
+# Sinon le programme travaille sur l'ensemble des années disponibles dans la base : elles sont détectées aurtomatiquement.
 
 début.période.sous.revue    <- 2009
-fin.période.sous.revue      <- 2012
+fin.période.sous.revue      <- 2010
 
 
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
 
 setOSWindows         <- Sys.info()["sysname"] != "Linux"
 
-extraire.années      <- FALSE
+extraire.années      <- TRUE
 
-générer.codes        <- TRUE
+générer.codes        <- FALSE
 
 paralléliser         <- FALSE
 table.rapide         <- TRUE
@@ -41,7 +41,7 @@ séparateur.décimal <- "."
 # les bases commencent par une majuscule. Un nom de fichier est souvent associé
 # à une variable commençant par une majuscule et représentant la base (data.frame ou matrice)
 
-racine                      <-  "PDC-"
+racine                      <-  "RAG_2009_2012-"
   # "UTF-8.RAG_2009_2012-"
   # "UTF-8.SIERG-"
   # "UTF-8.RAG_2009_2012-"
