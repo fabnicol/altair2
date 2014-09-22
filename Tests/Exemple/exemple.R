@@ -167,6 +167,11 @@ bulletins.paie <- bulletins.paie[file.exists(chemin(bulletins.paie))]
 # Le mode rapide n'est disponible que avec des csv à séparateurs virgule
 # Il permet d'économiser environ 8s par million de ligne lues sur une dizaine de champs
 
+Import.Lignes.paie <- function()  {
+  
+  res <- NULL
+  res2 <- NULL
+  
   res <- try(Read.csv("Lignes.paie",
                     lignes.paie,
                     colClasses = lignes.paie.classes.input,
@@ -186,9 +191,24 @@ bulletins.paie <- bulletins.paie[file.exists(chemin(bulletins.paie))]
                          séparateur.décimal = séparateur.décimal,
                          rapide = table.rapide),
                          silent = TRUE)
-    if (inherits(res2, 'try-error'))
-       stop("Problème de lecture des bases de lignes de paye")
   }
+  
+  c(res, res2)
+}
+
+résultat <- Import.Lignes.paie()
+
+if (table.rapide && résultat[2] != NULL && inherits(résultat[2], 'try-error')) {
+      
+       message("Conversion en UTF-8...")
+       Vectorize(file2utf8, simplify = FALSE, USE.NAMES = FALSE)(lignes.paie)
+       message("Conversion en UTF-8 terminée")
+       
+       résultat <- Import.Lignes.paie()
+       
+       if (résultat[2] != NULL && inherits(résultat[2], 'try-error')) 
+          stop("Problème de lecture des bases de lignes de paye")
+}       
 
 if (!is.null(Lignes.paie))
    message("Chargement des lignes de paie.") else stop("Chargement des lignes de paie en échec.")
