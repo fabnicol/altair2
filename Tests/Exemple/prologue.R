@@ -5,15 +5,14 @@
 # Dans ce cas fixer extraire.années en valeur TRUE.
 # Sinon le programme travaille sur l'ensemble des années disponibles dans la base : elles sont détectées aurtomatiquement.
 
-début.période.sous.revue    <- 2009
-fin.période.sous.revue      <- 2010
-
-
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
 
-setOSWindows         <- Sys.info()["sysname"] != "Linux"
+extraire.années      <- FALSE
+    début.période.sous.revue    <- 2009
+    fin.période.sous.revue      <- 2010
 
-extraire.années      <- TRUE
+
+setOSWindows         <- Sys.info()["sysname"] != "Linux"
 
 générer.codes        <- FALSE
 
@@ -24,7 +23,7 @@ fusionner.nom.prénom <- FALSE
 charger.bases        <- TRUE
 sauvegarder.bases.analyse    <- TRUE
 sauvegarder.bases.origine    <- FALSE
-générer.table.effectifs <- TRUE
+générer.table.effectifs <- FALSE
 tester.matricules            <- FALSE
 tester.lignes.bulletins.mois <- FALSE
 corriger.quotité     <- FALSE
@@ -42,7 +41,8 @@ séparateur.décimal <- "."
 # les bases commencent par une majuscule. Un nom de fichier est souvent associé
 # à une variable commençant par une majuscule et représentant la base (data.frame ou matrice)
 
-racine                      <-  "RAG_2009_2012-"
+racine                      <- "UTF-8.PDC-"
+  # "RAG_2009_2012-"
   # "UTF-8.RAG_2009_2012-"
   # "UTF-8.SIERG-"
   # "UTF-8.RAG_2009_2012-"
