@@ -54,6 +54,8 @@ nom.fichier.paie            <- paste0(racine, "Lignes de paye")
 nom.bulletin.paie           <- paste0(racine, "Bulletins de paye")
 
 # DOSSIERS
+# Attention, si l'on lance la génération de document pour la première fois sans répertoire Bases existant, on aura un write error.
+# pour les applications à ergonomie facilitée, prévoir de distribuer le logiciel avec un dossier Bases déjà généré.
 
 chemin.dossier              <- getwd()
 chemin.dossier.bases        <- paste0(chemin.dossier, "/Bases")

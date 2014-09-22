@@ -121,11 +121,13 @@ if (encodage.entrée != "UTF-8")
 return(T)
 }
 
-Sauv.base <- function(chemin.dossier, nom, nom.sauv, encodage = encodage.entrée)
+Sauv.base <- function(chemin.dossier, nom, nom.sauv, encodage = encodage.sortie)
 {
   message("Sauvegarde de ", nom)
-  write.csv2(get(nom),
-             paste0(chemin.dossier, "/", iconv(nom.sauv, to = encodage.sortie, mark = FALSE), ".csv"),
+  write.csv(get(nom),
+             paste0(chemin.dossier, "/", iconv(nom.sauv, to = encodage.sortie, mark = FALSE), ".csv"), 
+             dec = séparateur.décimal,
+             sep = séparateur.liste,
              row.names = FALSE,
              fileEncoding = encodage)
 }
