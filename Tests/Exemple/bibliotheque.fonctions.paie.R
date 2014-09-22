@@ -5,11 +5,18 @@
 chemin <-  function(fichier)
   file.path(chemin.dossier.données, fichier)
 
-scan.prime <- function(texte, Base)
-{
-  unique(Base[grep(paste0(".*(", texte,").*"),
-              Base$Libellé, ignore.case = TRUE),
-              c("Matricule", "Libellé", "Libellé")])
+
+file2utf8 <- function(nom)  {
+  
+  chem <- chemin(nom)
+  shell(iconv %+% " -f ISO-8859-1 -t UTF-8 " %+% chem %+% "-o temp && mv temp " %+% shQuote(chem))
+}
+
+convertir.séparateurs <- function(nom)  {
+  
+  chem <- chemin(nom)
+  commande <- sed %+% " -e s/,/\\./g -e s/;/,/g -i " %+% shQuote(chem)
+  shell(commande)
 }
 
 
@@ -95,13 +102,13 @@ read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, étiquette
                    dec = séparateur.décimal,
                    colClasses = classes,
                    skip = trouver.valeur.skip(chem, encodage, séparateur.liste = séparateur.liste, séparateur.décimal = séparateur.décimal),
-                   fileEncoding = encodage)
+                   encoding = encodage)
 
     if (!is.null(drop)) { T <- T[-(drop)] }
 
   } else {
-
-    T <- data.table::fread(chem,
+    
+    T <- try(data.table::fread(chem,
                       sep = ",",
                       header = TRUE,
                       verbose = FALSE,
@@ -109,14 +116,29 @@ read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, étiquette
                       colClasses = classes,
                       integer64="numeric",
                       drop = drop,
-                      showProgress=FALSE)
+                      showProgress=FALSE))
+    
+    if (inherits(T, "try-error") && grepl("The supplied 'sep' was not found", T, fixed = TRUE)) {
+      message("Conversion des séparateurs...")
+      convertir.séparateurs(x)
+      message("Séparateurs convertis.")
+      T <- read.csv.skip (x, 
+                    encodage,
+                    classes,
+                    étiquettes,
+                    drop,
+                    rapide,
+                    séparateur.liste,
+                    séparateur.décimal)
+    }
+    
 
   }
 
 if (!is.null(étiquettes)) names(T) <- étiquettes
 
-if (encodage.entrée != "UTF-8")
-     names(T) <- iconv(names(T), to="UTF-8", mark = FALSE)
+# if (encodage.entrée != "UTF-8")
+#      names(T) <- iconv(names(T), to="UTF-8", mark = FALSE)
 
 return(T)
 }
@@ -166,6 +188,9 @@ Read.csv <- function(base.string, vect.chemin, charger = charger.bases, colClass
                                  envir = .GlobalEnv)
                       }
 }
+
+
+
 
 pretty.print <- function(x) cat(gsub(".", " ",deparse(substitute(x)), fixed = TRUE), "   ", x,"\n")
 

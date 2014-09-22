@@ -13,10 +13,11 @@ extraire.années      <- FALSE
 
 
 setOSWindows         <- Sys.info()["sysname"] != "Linux"
+exec.root             <- ifelse(setOSWindows, ".exe", "")
 
 générer.codes        <- FALSE
 
-paralléliser         <- FALSE
+paralléliser         <- TRUE
 table.rapide         <- TRUE
 extraire.population  <- FALSE
 fusionner.nom.prénom <- FALSE
@@ -33,8 +34,8 @@ etp.égale.effectif   <- FALSE
 seuil.troncature     <- 3
 taux.tolérance.homonymie <- 5  # en %
 
-séparateur.liste <- ","
-séparateur.décimal <- "."
+séparateur.liste <- ";"
+séparateur.décimal <- ","
 
 # FICHIERS EN INPUT
 # conventions de nommage : les noms et chemins sont en minuscules ;
@@ -59,8 +60,14 @@ nom.bulletin.paie           <- paste0(racine, "Bulletins de paye")
 # pour les applications à ergonomie facilitée, prévoir de distribuer le logiciel avec un dossier Bases déjà généré.
 
 chemin.dossier              <- getwd()
-chemin.dossier.bases        <- paste0(chemin.dossier, "/Bases")
-chemin.dossier.données      <- paste0(chemin.dossier, "/Donnees")
+chemin.dossier.bases        <- file.path(chemin.dossier, "Bases")
+chemin.dossier.outils       <- file.path(chemin.dossier, "..", "..", "Outils")
+chemin.dossier.données      <- file.path(chemin.dossier, "Donnees")
+
+# Outils
+
+iconv <- file.path(chemin.dossier.outils, paste0("iconv", exec.root))
+sed   <- file.path(chemin.dossier.outils, paste0("sed", exec.root))
 
 # ETIQUETTES ET FORMATS
 
@@ -127,7 +134,8 @@ codes.NBI <- c("1012", "101B", "101M", "4652", "4672")
 #   }
 # }
 
-encodage.entrée <- "UTF-8"
+encodage.entrée <- "ISO-8859-1"
+  #"UTF-8"
 encodage.sortie <- ifelse(setOSWindows, "ISO-8859-1", encodage.entrée)
 
 modalité.traitement            <- "TRAITEMENT"     # s'applique aussi aux NBI
@@ -141,8 +149,6 @@ modalité.autres                <- "AUTRES"         # notamment les remboursement
 
 
 # expressions régulières
-
-# heures supplémentaires
 
 
 expression.rég.heures.sup <- ".*(I.?H.?T|H.?[SC]|\\bI[[:alpha:]]*.?.*\\bH[[:alpha:]]*.?\\b.*T[[:alpha:]]*.?.*|\\bH[[:alpha:]]*.?\\b.*[SC][[:alpha:]]*.?\\b).*"
