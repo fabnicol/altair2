@@ -76,7 +76,7 @@ if (sauvegarder.bases.analyse) {
     dir.create(file.path(chemin.dossier.bases, path), recursive = TRUE)
 }
 
-if (sauvegarder.bases.origine) 
+if (sauvegarder.bases.origine)
   dir.create(file.path(chemin.dossier.bases, "Paiements"), recursive = TRUE)
 
 
@@ -2058,9 +2058,9 @@ Tableau(c("Nombre de CEV",
           nombre.Lignes.paie.traitement.et.vacations)
 
 #'
-#'[Lien vers la base de données Matricules des CEV](Bases/Réglementation/matricules.contractuels.et.vacations.csv)
-#'[Lien vers la base de données Lignes de paie de CEV](Bases/Réglementation/RI.et.vacations.csv)
-#'[Lien vers la base de données Lignes de traitement indiciaire pour CEV](Bases/Réglementation/traitement.et.vacations.csv)
+#'[Lien vers la base de données Matricules des CEV](Bases/Réglementation/matricules.contractuels.et.vacations.csv)  
+#'[Lien vers la base de données Lignes de paie de CEV](Bases/Réglementation/RI.et.vacations.csv)  
+#'[Lien vers la base de données Lignes de traitement indiciaire pour CEV](Bases/Réglementation/traitement.et.vacations.csv)  
 #'
 #'
 #'
@@ -2084,8 +2084,8 @@ Tableau(c("Codes IFTS", "Nombre de personnels percevant IAT et IFTS"),
         nombre.personnels.iat.ifts)
 
 #'
-#'[Codes IFTS retenus](Bases/Réglementation/codes.ifts.csv)
-#'[Lien vers la base de données](Bases/Réglementation/personnels.iat.ifts.csv)
+#'[Codes IFTS retenus](Bases/Réglementation/codes.ifts.csv)   
+#'[Lien vers la base de données](Bases/Réglementation/personnels.iat.ifts.csv)   
 #'
 #'### Contrôle sur les IFTS pour catégories B et contractuels
 
@@ -2120,8 +2120,8 @@ nombres.lignes.ifts.et.contractuel <- nrow(ifts.et.contractuel)
 Tableau(c("Nombre de contractuels percevant des IFTS", "Nombre de lignes IFTS pour IB < 380"), nombres.lignes.ifts.et.contractuel, nombre.lignes.ifts.anormales)
 
 #'
-#'[Lien vers la base de données Lignes IFTS pour contractuels](Bases/Réglementation/ifts.et.contractuel.csv)
-#'[Lien vers la base de données Lignes IFTS pour IB < 380](Bases/Réglementation/lignes.ifts.anormales.csv)
+#'[Lien vers la base de données Lignes IFTS pour contractuels](Bases/Réglementation/ifts.et.contractuel.csv)   
+#'[Lien vers la base de données Lignes IFTS pour IB < 380](Bases/Réglementation/lignes.ifts.anormales.csv)   
 #'
 #'**Nota:**
 #'IB < 380 : fonctionnaire percevant un indice brut inférieur à 380
@@ -2222,8 +2222,8 @@ nombre.ihts.anormales <- nrow(ihts.anormales)
 Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"), nombre.Lignes.paie.HS.sup.25, nombre.ihts.anormales)
 
 #'
-#'[Lien vers la base de données Heures suplémentaires en excès : matricules](Bases/Réglementation/HS.sup.25.csv)
-#'[Lien vers la base de données IHTS anormales](Bases/Réglementation/ihts.anormales.csv)
+#'[Lien vers la base de données Heures suplémentaires en excès : matricules](Bases/Réglementation/HS.sup.25.csv)  
+#'[Lien vers la base de données IHTS anormales](Bases/Réglementation/ihts.anormales.csv)  
 #'
 #'**Nota:**
 #'HS en excès : au-delà de 25 heures par mois
@@ -2318,10 +2318,10 @@ detach(Bulletins.paie.Lignes.paie)
 #  Sauvegardes : enlever les commentaires en mode opérationnel
 ##
 
-   
+
 
 if (sauvegarder.bases.analyse) {
-  
+
   sauv.bases(file.path(chemin.dossier.bases, "Rémunérations"),
     "Analyse.rémunérations",
     "Analyse.variations.synthèse",
@@ -2331,12 +2331,12 @@ if (sauvegarder.bases.analyse) {
     "Analyse.variations.synthèse.filtrée.moins.2.ans",
     "masses.premier",
     "masses.dernier")
-   
+
   sauv.bases(file.path(chemin.dossier.bases, "Effectifs"),
     "Bulletins.paie.nir.total.hors.élus",
     "Bulletins.paie.nir.fonctionnaires",
     "tableau.effectifs")
-                          
+
   sauv.bases(file.path(chemin.dossier.bases, "Réglementation"),
     "codes.ifts",
     "HS.sup.25",
