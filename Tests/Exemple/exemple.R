@@ -855,7 +855,7 @@ names(tableau.effectifs) <- liste.années
 #'
 kable(tableau.effectifs, row.names = TRUE, align='c')
 #'
-#'[Lien vers la base des effectifs](Bases/Effectifs/tableau.effectifs.csv)
+#'[Lien vers la base des effectifs](Bases/Effectifs/tableau.effectifs.csv)  
 #'
 #'
 #'### 1.2 Pyramide des âges, personnels non élus
@@ -870,7 +870,7 @@ if (longueur.non.na(années.total.hors.élus) > 0)
      nclass = 50)
 
 #'
-#'[Lien vers la base des âges](Bases/Effectifs/Bulletins.paie.nir.total.hors.élus.csv)
+#'[Lien vers la base des âges](Bases/Effectifs/Bulletins.paie.nir.total.hors.élus.csv)  
 #'
 
 Résumé(c("Âge des personnels <br>au 31/12/" %+% fin.période.sous.revue,
@@ -894,7 +894,7 @@ if (longueur.non.na(années.fonctionnaires) > 0)
      nclass = 50)
 
 #'
-#'[Lien vers la base des âges](Bases/Effectifs/Bulletins.paie.nir.fonctionnaires.csv)
+#'[Lien vers la base des âges](Bases/Effectifs/Bulletins.paie.nir.fonctionnaires.csv)  
 #'
 
 Résumé(c("Âge des personnels <br>au 31/12/" %+% fin.période.sous.revue,
@@ -1668,7 +1668,7 @@ detach(Analyse.rémunérations.dernier.exercice)
 
 
 #'
-#'[Lien vers la base de données](Bases/Rémunérations/Analyse.rémunérations.csv) d'analyse des rémunérations
+#'[Lien vers la base de données](Bases/Rémunérations/Analyse.rémunérations.csv) d'analyse des rémunérations  
 #'
 
 
@@ -1707,7 +1707,7 @@ if (longueur.non.na(temp) > 0)
      nclass = 200)
 
 #'
-#'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.csv)
+#'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.csv)  
 #'
 #'**Nota:** La rémunération nette perçue est rapportée au cumul des jours d'activité.
 
@@ -1751,7 +1751,7 @@ Tableau.vertical(c(étiquette.année, "Rémunération nette totale (k&euro;)"),
 
 
 #'
-#'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.par.exercice.csv)
+#'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.par.exercice.csv)  
 #'
 #'######
 #'
@@ -1782,7 +1782,7 @@ Résumé(c("Variation normalisée (%)",
        extra = "length")
 
 #'
-#'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.filtrée.csv)
+#'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.filtrée.csv)  
 #'
 #'### 4.2.2 Personnels fonctionnaires et non titulaires en place
 #'
@@ -1842,7 +1842,7 @@ Résumé(c("Variation normalisée (%)",
 
 #'
 #'
-#'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.filtrée.plus.2.ans.csv)
+#'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.filtrée.plus.2.ans.csv)  
 #'
 #'**Nota**
 #'Personnels en place : en fonction au moins 730 jours sur la période `r début.période.sous.revue` à `r fin.période.sous.revue`
@@ -1910,7 +1910,7 @@ if (durée.sous.revue <= 2)
 #'
 ########### Tests statutaires ########################
 #'
-#'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.filtrée.moins.2.ans.csv)
+#'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.filtrée.moins.2.ans.csv)  
 #'
 #'**Nota:** Au 4.2 seuls sont pris en compte les personnels en fonction au moins 100 jours la première et la dernière année
 #'Ne sont pas pris en compte les élus, stagiaires et apprentis ou assimilés.
@@ -1965,7 +1965,7 @@ Tableau(
   nombre.personnels.pfi)
 
 #'
-#'[Lien vers la base de données NBI aux non titulaires](Bases/Réglementation/NBI.aux.non.titulaires.csv)
+#'[Lien vers la base de données NBI aux non titulaires](Bases/Réglementation/NBI.aux.non.titulaires.csv)  
 #'[Lien vers la base de données Primes informatiques](Bases/Réglementation/personnels.prime.informatique.csv)
 #'
 #'**Nota :**
@@ -2000,8 +2000,8 @@ Tableau(
   nombre.Lignes.paie.fonctionnaires.et.vacations)
 
 #'
-#'[Lien vers la base de données Matricules des FEV](Bases/Réglementation/matricules.fonctionnaires.et.vacations.csv)
-#'[Lien vers la base de données Lignes de vacations de FEV](Bases/Réglementation/lignes.fonctionnaires.et.vacations.csv)
+#'[Lien vers la base de données Matricules des FEV](Bases/Réglementation/matricules.fonctionnaires.et.vacations.csv)  
+#'[Lien vers la base de données Lignes de vacations de FEV](Bases/Réglementation/lignes.fonctionnaires.et.vacations.csv)  
 #'
 #'**Nota:**
 #'FEV : fonctionnaire effectuant des vacations
