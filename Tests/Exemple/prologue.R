@@ -7,9 +7,9 @@
 
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
 
-extraire.années      <- FALSE
-    début.période.sous.revue    <- 2009
-    fin.période.sous.revue      <- 2010
+extraire.années      <- TRUE
+    début.période.sous.revue    <- 2008
+    fin.période.sous.revue      <- 2009
 
 
 setOSWindows         <- Sys.info()["sysname"] != "Linux"
@@ -18,7 +18,7 @@ exec.root             <- ifelse(setOSWindows, ".exe", "")
 générer.codes        <- FALSE
 
 paralléliser         <- TRUE
-table.rapide         <- FALSE
+table.rapide         <- TRUE
 extraire.population  <- FALSE
 fusionner.nom.prénom <- FALSE
 charger.bases        <- TRUE
@@ -42,7 +42,7 @@ séparateur.décimal <- "."
 # les bases commencent par une majuscule. Un nom de fichier est souvent associé
 # à une variable commençant par une majuscule et représentant la base (data.frame ou matrice)
 
-racine                      <- "PDC-"
+racine                      <- "metro2008-"
   # "Ville Annecy Paye BP-"
   # "UTF-8.PDC-"
   # "RAG_2009_2012-"
@@ -125,7 +125,7 @@ codes.NBI <- c("1012", "101B", "101M", "4652", "4672")
 # A priori les deux modes de lectures de tables (rapide et standard) lisent aussi bien le Windows ANSI/ISO-8859-1 que 
 # l'UTF-8 à condition que le Windows ANSI soit encodé par Excel ou l'éditeur de RStudio.
 
-encodage.entrée <-
+encodage.entrée <- "WINDOWS-1252"
   # "WINDOWS-1252"
   # "UTF-8"
   # "ISO-8859-1"
