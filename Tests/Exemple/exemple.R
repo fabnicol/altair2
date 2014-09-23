@@ -519,8 +519,8 @@ if (table.rapide || durée.sous.revue < 4)   paralléliser <- FALSE
                              lapply(0:3,
                                     function(j) {
                                       if (durée.sous.revue > j)
-                                        X[  X$Année >= j * cut +  début.période.sous.revue
-                                            & X$Année < (j + 1) * cut +  début.période.sous.revue, ]})})
+                                        X[X$Année >= j * cut +  début.période.sous.revue
+                                          & X$Année < (j + 1) * cut +  début.période.sous.revue, ]})})
 
     L <- lapply(L, function(x) Filter(Negate(is.null), x))
 
@@ -1929,15 +1929,14 @@ Résumé(c("Variation sur la période <br>d'activité (%)",
 #'
 #'
 
-if (durée.sous.revue <= 2)
+if (durée.sous.revue < 2)
     Résumé(c("Variation normalisée (%)",
              "Variation annuelle moyenne normalisée (%)",
              "Effectif"),
-           Analyse.variations.synthèse.filtrée.moins.2.ans[ c("variation.rémunération.normalisée",
+           Analyse.variations.synthèse.filtrée.moins.2.ans[c("variation.rémunération.normalisée",
                                                              "variation.moyenne.rémunération.normalisée")],
            extra = "length")
 
-#'
 #'
 ########### Tests statutaires ########################
 #'
