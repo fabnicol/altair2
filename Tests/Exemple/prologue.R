@@ -18,7 +18,7 @@ exec.root             <- ifelse(setOSWindows, ".exe", "")
 générer.codes        <- FALSE
 
 paralléliser         <- TRUE
-table.rapide         <- TRUE
+table.rapide         <- FALSE
 extraire.population  <- FALSE
 fusionner.nom.prénom <- FALSE
 charger.bases        <- TRUE
@@ -34,15 +34,16 @@ etp.égale.effectif   <- FALSE
 seuil.troncature     <- 3
 taux.tolérance.homonymie <- 5  # en %
 
-séparateur.liste <- ";"
-séparateur.décimal <- ","
+séparateur.liste <- ","
+séparateur.décimal <- "."
 
 # FICHIERS EN INPUT
 # conventions de nommage : les noms et chemins sont en minuscules ;
 # les bases commencent par une majuscule. Un nom de fichier est souvent associé
 # à une variable commençant par une majuscule et représentant la base (data.frame ou matrice)
 
-racine                      <- "Ville Annecy Paye BP-"
+racine                      <- "PDC-"
+  # "Ville Annecy Paye BP-"
   # "UTF-8.PDC-"
   # "RAG_2009_2012-"
   # "UTF-8.RAG_2009_2012-"
@@ -121,21 +122,14 @@ date.format                 <- "%d/%m/%Y"
 #libellés.élus               <- c("Elu", "Elus", "élu", "élus", "maire", "président", "adjoint au maire", "vice-président", "vice président")
 codes.NBI <- c("1012", "101B", "101M", "4652", "4672")
 
-# if (!setOSWindows)
-# {
-#   windows <- (Sys.info()["sysname"] != "Linux")
-#
-#   if (windows)
-#   {
-#     encodage.entrée <- "ISO-8859-1"
-#   } else
-#   {
-#     encodage.entrée <- "UTF-8"
-#   }
-# }
+# A priori les deux modes de lectures de tables (rapide et standard) lisent aussi bien le Windows ANSI/ISO-8859-1 que 
+# l'UTF-8 à condition que le Windows ANSI soit encodé par Excel ou l'éditeur de RStudio.
 
-encodage.entrée <- "ISO-8859-1"
-  #"UTF-8"
+encodage.entrée <-
+  # "WINDOWS-1252"
+  # "UTF-8"
+  # "ISO-8859-1"
+  
 encodage.sortie <- ifelse(setOSWindows, "ISO-8859-1", encodage.entrée)
 
 modalité.traitement            <- "TRAITEMENT"     # s'applique aussi aux NBI

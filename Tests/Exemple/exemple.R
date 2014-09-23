@@ -474,10 +474,21 @@ if (charger.bases)
   # gain de 24s par l'utilisation de data.table::merge
 
 if (table.rapide)   message("Mode table rapide.") else message("Mode table standard.")
-if (table.rapide)   paralléliser <- FALSE
+
+# Inutile de paralléliser en mode table rapide pour les dimensions de tables courantes (à tester pour les très grosses communes)
+
+if (table.rapide || durée.sous.revue < 4)   paralléliser <- FALSE
+
+# On réserve la parallélisation à des durées de période sous revue > 4 ans
+
+
 
   if (! paralléliser) {
-
+    
+      # la fonction sera automatiquement déterminée par le type du premier argument (data.table ou data.frame)
+    
+      message("Mode parallèle non activé.")
+    
       Bulletins.paie.Lignes.paie <- merge(Bulletins.paie,
                                           Lignes.paie,
                                           by = c(clé.fusion, "Année", "Mois"))
@@ -493,7 +504,7 @@ if (table.rapide)   paralléliser <- FALSE
     #                       le gain est d'environ 4s à 14s, soit 5s de plus que sous linux parallèle.
     # Le merge classique est toutefois loin des performancs de data.table::merge
 
-    message("Mode parallèle.")
+    message("Mode parallèle activé.")
 
 
     cut <- round(durée.sous.revue/4)
@@ -874,9 +885,9 @@ tableau.effectifs <- as.data.frame(effectifs, row.names = c("Total", "  dont pré
 names(tableau.effectifs) <- liste.années
 #'
 kable(tableau.effectifs, row.names = TRUE, align='c')
-#'
-#'[Lien vers la base des effectifs](Bases/Effectifs/tableau.effectifs.csv)  
-#'
+#'  
+#'[Lien vers la base des effectifs](Bases/Effectifs/tableau.effectifs.csv)    
+#'  
 #'
 #'### 1.2 Pyramide des âges, personnels non élus
 
@@ -1687,9 +1698,9 @@ Résumé(c("Total rémunérations",
 detach(Analyse.rémunérations.dernier.exercice)
 
 
-#'
+#'  
 #'[Lien vers la base de données](Bases/Rémunérations/Analyse.rémunérations.csv) d'analyse des rémunérations  
-#'
+#'  
 
 
 ########### Analyse dynamique ########################
@@ -1726,14 +1737,14 @@ if (longueur.non.na(temp) > 0)
      col = "blue",
      nclass = 200)
 
-#'
+#'  
 #'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.csv)  
-#'
+#'  
 #'**Nota:** La rémunération nette perçue est rapportée au cumul des jours d'activité.
 
-Analyse.variations.synthèse.filtrée <- Analyse.variations.synthèse[ nb.mois.exercice.début > seuil.troncature
-                                                                            & nb.mois.exercice.sortie   > seuil.troncature
-                                                                              &  statut !=  "AUTRE_STATUT",
+Analyse.variations.synthèse.filtrée <- Analyse.variations.synthèse[nb.mois.exercice.début > seuil.troncature
+                                                                   & nb.mois.exercice.sortie   > seuil.troncature
+                                                                   & statut !=  "AUTRE_STATUT",
                                                                             c("Montant.net.annuel.eqtp.début",
                                                                               "Montant.net.annuel.eqtp.sortie",
                                                                               "moyenne.rémunération.annuelle.sur.période",
