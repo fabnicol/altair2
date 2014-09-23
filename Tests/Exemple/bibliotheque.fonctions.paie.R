@@ -5,17 +5,21 @@
 chemin <-  function(fichier)
   file.path(chemin.dossier.données, fichier)
 
-
 file2utf8 <- function(nom)  {
   
   chem <- chemin(nom)
   shell(iconv %+% " -f ISO-8859-1 -t UTF-8 " %+% chem %+% "-o temp && mv temp " %+% shQuote(chem))
 }
 
-convertir.séparateurs <- function(nom)  {
-  
-  chem <- chemin(nom)
+en.séparateurs <- function(chem)  {
+
   commande <- sed %+% " -e s/,/\\./g -e s/;/,/g -i " %+% shQuote(chem)
+  shell(commande)
+}
+
+fr.séparateurs <- function(chem)  {
+  
+  commande <- sed %+% " -e s/,/;/g -e s/\\./,/g -i " %+% shQuote(chem)
   shell(commande)
 }
 
@@ -120,7 +124,7 @@ read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, étiquette
     
     if (inherits(T, "try-error") && grepl("The supplied 'sep' was not found", T, fixed = TRUE)) {
       message("Conversion des séparateurs...")
-      convertir.séparateurs(x)
+      en.séparateurs(chem)
       message("Séparateurs convertis.")
       T <- read.csv.skip (x, 
                     encodage,
