@@ -3,7 +3,7 @@
 
 # dans le cas où l'on ne lance le programme que pour certaines années, il préciser début.période sous revue et fin.période .sous.revue
 # Dans ce cas fixer extraire.années en valeur TRUE.
-# Sinon le programme travaille sur l'ensemble des années disponibles dans la base : elles sont détectées aurtomatiquement.
+# Sinon le programme travaille sur l'ensemble des années disponibles dans la base : elles sont détectées automatiquement.
 
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
 
@@ -23,7 +23,7 @@ extraire.population  <- FALSE
 fusionner.nom.prénom <- FALSE
 charger.bases        <- TRUE
 sauvegarder.bases.analyse    <- TRUE
-sauvegarder.bases.origine    <- FALSE
+sauvegarder.bases.origine    <- TRUE
 générer.table.effectifs <- FALSE
 tester.matricules            <- FALSE
 tester.lignes.bulletins.mois <- FALSE
