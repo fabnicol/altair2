@@ -8,8 +8,8 @@
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
 
 extraire.années      <- TRUE
-    début.période.sous.revue    <- 2008
-    fin.période.sous.revue      <- 2009
+    début.période.sous.revue    <- 2010
+    fin.période.sous.revue      <- 2012
 
 
 setOSWindows         <- Sys.info()["sysname"] != "Linux"
@@ -22,8 +22,8 @@ table.rapide         <- TRUE
 extraire.population  <- FALSE
 fusionner.nom.prénom <- FALSE
 charger.bases        <- TRUE
-sauvegarder.bases.analyse    <- TRUE
-sauvegarder.bases.origine    <- TRUE
+sauvegarder.bases.analyse    <- FALSE
+sauvegarder.bases.origine    <- FALSE
 générer.table.effectifs <- FALSE
 tester.matricules            <- FALSE
 tester.lignes.bulletins.mois <- FALSE
