@@ -16,261 +16,238 @@
 
 #ifdef __cplusplus
 extern "C" {
-
+#endif
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
 
+#ifndef MAX_LIGNES_PAYE
+ #define MAX_LIGNES_PAYE 300
+#endif
+
+#endif // MAX_LIGNES_PAYE
+
+#define SAUTER_UN_NOEUD cur = (cur)? cur->next: NULL;  cur = (cur)? cur->next: NULL;
+
+#define BULLETIN(X) if (cur != NULL && !xmlStrcmp(cur->name, (const xmlChar *) #X)) { \
+                          bulletinIdent->##X = xmlGetProp(cur, "V"); \
+                          SAUTER_UN_NOEUD \
+                     } else { \
+                            bulletinIdent->##X = NULL; \
+
+#define _BULLETIN(X)      BULLETIN(X) \
+                            if (cur) \
+                              fprintf(stderr, "Trouvé %s au lieu de " #X "\n", cur->name);   \
+                            else \
+                              fprintf(stderr, "%s\n", "Noeud courant null au stade de la vérification de " #X ); \
+                              SAUTER_UN_NOEUD \
+                          }
+
+
+/* pas de contrôle d'existence de noeud : version affaiblie de la macro précédente */
+
+#define _BULLETIN_(X)     BULLETIN(X) }
+
+
+#define DESCENDRE_UN_NIVEAU    cur = (cur)? cur->xmlChildrenNode: NULL;   cur = (cur)? cur-> next: NULL;
+
+#define REMONTER_UN_NIVEAU     cur = (cur)? cur->parent: NULL;   SAUTER_UN_NOEUD
+
 typedef struct bulletin
 {
-    xmlChar *nom;
-    xmlChar *prénom;
-    xmlChar *matricule;
-    xmlChar *brut;
-    xmlChar *net;
-    xmlChar *net_à_payer;
-    xmlChar *heures_sup;
+    xmlChar *Nom;
+    xmlChar *Prenom;
+    xmlChar *Matricule;
+    xmlChar *NIR;
+    xmlChar *Statut;
+    xmlChar *EmploiMetier;
+    xmlChar *Grade;
+    xmlChar *Indice;
+    xmlChar *Service;
+    xmlChar *Indice;
+    xmlChar *QuotiteTrav;
+    xmlChar *NbHeureTotal;
+    xmlChar *NbHeureSup;
+    xmlChar *MtBrut;
+    xmlChar *MtNet;
+    xmlChar *MtNetAPayer;
+    xmlChar *ligne[MAX_LIGNES_PAYE][5] = {{NULL}};
+
 } bulletin, *bulletinPtr;
 
-static bulletinPtr
-parseBulletin(xmlDocPtr doc, xmlNsPtr ns, xmlNodePtr cur)
+inline xmlNodePtr  lignePaye(char* type, xmlNodePtr cur, bulletinPtr bulletinIdent)
 {
-    bulletinPtr ret = NULL;
+     static int j;
 
-    ret = (bulletinPtr) malloc(sizeof(bulletin));
-    if (ret == NULL)
-    {
-        fprintf(stderr,"Pas assez de mémoire\n");
-        return(NULL);
-    }
+     while (j < MAX_LIGNES_PAYE && cur != NULL && !xmlStrcmp(cur->name, (const xmlChar *) type))
+       {
+            DESCENDRE_UN_NIVEAU
+                /* Libellé */
+                _BULLETIN(ligne[j][0])
+                /* Code */
+                _BULLETIN(ligne[j][1])
+                /* Taux, s'il existe */
+                _BULLETIN_(ligne[j][2])
+                /* Nombre d'unités, s'il existe */
+                _BULLETIN_(ligne[j][3])
+                /* Montant */
+                _BULLETIN(ligne[j][4])
+           REMONTER_UN_NIVEAU
+           j++;
+       }
 
-    memset(ret, 0, sizeof(bulletin));
-
-    cur = cur->xmlChildrenNode;
-
-    while (cur != NULL)
-    {
-        if ((!xmlStrcmp(cur->name, (const xmlChar *)"Person")) &&
-                (cur->ns == ns))
-            ret->name = xmlNodeListGetString(doc, cur->xmlChildrenNode, 1);
-        if ((!xmlStrcmp(cur->name, (const xmlChar *)"Email")) &&
-                (cur->ns == ns))
-            ret->email = xmlNodeListGetString(doc, cur->xmlChildrenNode, 1);
-        cur = cur->next;
-    }
-
-    return(ret);
+       return cur;
 }
 
-/*
- * and to print it
- */
-static void
-printPerson(personPtr cur)
+static xmlNodePtr parseBulletin(xmlNodePtr cur)
 {
-    if (cur == NULL) return;
-    printf("------ Person\n");
-    if (cur->name) printf("	name: %s\n", cur->name);
-    if (cur->email) printf("	email: %s\n", cur->email);
-    if (cur->company) printf("	company: %s\n", cur->company);
-    if (cur->organisation) printf("	organisation: %s\n", cur->organisation);
-    if (cur->smail) printf("	smail: %s\n", cur->smail);
-    if (cur->webPage) printf("	Web: %s\n", cur->webPage);
-    if (cur->phone) printf("	phone: %s\n", cur->phone);
-    printf("------\n");
-}
-
-/*
- * a Description for a Job
- */
-typedef struct job
-{
-    xmlChar *projectID;
-    xmlChar *application;
-    xmlChar *category;
-    personPtr contact;
-    int nbDevelopers;
-    personPtr developers[100]; /* using dynamic alloc is left as an exercise */
-} job, *jobPtr;
-
-/*
- * And the code needed to parse it
- */
-static jobPtr
-parseJob(xmlDocPtr doc, xmlNsPtr ns, xmlNodePtr cur)
-{
-    globalPtr ret = NULL;
-
-    ret = (globalPtr) malloc(sizeof(global));
-    if (ret == NULL)
-    {
-        fprintf(stderr,"Pas assez de mémoire\n");
-        return(NULL);
-    }
-    memset(ret, 0, sizeof(global));
-
-    /* We don't care what the top level element name is */
-    cur = cur->xmlChildrenNode;
-    while (cur != NULL)
-    {
-       if (xmlStrcmp(cur->name, (const xmlChar *) "DonneesIndiv"))
-         cur = cur->next;
-
-       cur->xmlChildrenNode;
-    }
+    bulletinPtr bulletinIdent = NULL;
 
     while (cur != NULL)
     {
-       if (xmlStrcmp(cur->name, (const xmlChar *) "PayeIndivMensuel"))
-         cur = cur->next;
-
-       cur->xmlChildrenNode;
-
-        if (!xmlStrcmp(cur->name, (const xmlChar *) "Nom"))
+        cur = atteindreNoeud("Agent", cur);
+        if (cur != NULL)
         {
-            ret->projectID = xmlGetProp(cur, (const xmlChar *) "ID");
-            if (ret->projectID == NULL)
-            {
-                fprintf(stderr, "Project has no ID\n");
-            }
+              bulletinIdent = (bulletinPtr) calloc(1, sizeof(bulletin));
+              if (bulletinIdent == NULL)
+                {
+                    fprintf(stderr,"Pas assez de mémoire\n");
+                    return(NULL);
+                }
+
+              DESCENDRE_UN_NIVEAU
+
+                  SAUTER_UN_NOEUD
+                  _BULLETIN(Nom)
+                  _BULLETIN(Prenom)
+                  _BULLETIN(Matricule)
+                  _BULLETIN(NIR)
+                  SAUTER_UN_NOEUD
+                  _BULLETIN(Statut)
+                  _BULLETIN(EmploiMetier)
+                  _BULLETIN(Grade)
+                  SAUTER_UN_NOEUD
+                  _BULLETIN(Indice)
+
+             REMONTER_UN_NIVEAU
+
+        } else {
+
+            fprintf(stderr, "Trouvé %s au lieu de \"Agent\"", cur->name);
+            return(NULL);
         }
-        if ((!xmlStrcmp(cur->name, (const xmlChar *) "Application")) &&
-                (cur->ns == ns))
-            ret->application =
-                xmlNodeListGetString(doc, cur->xmlChildrenNode, 1);
-        if ((!xmlStrcmp(cur->name, (const xmlChar *) "Category")) &&
-                (cur->ns == ns))
-            ret->category =
-                xmlNodeListGetString(doc, cur->xmlChildrenNode, 1);
-        if ((!xmlStrcmp(cur->name, (const xmlChar *) "Contact")) &&
-                (cur->ns == ns))
-            ret->contact = parsePerson(doc, ns, cur);
-        cur = cur->next;
+
+        _BULLETIN(Service)
+        _BULLETIN(NBI)
+        _BULLETIN(QuotiteTrav)
+        SAUTER_UN_NOEUD
+
+        if (!xmlStrcmp(cur->name, (const xmlChar *)"Remuneration"))
+        {
+            DESCENDRE_UN_NIVEAU
+
+                /* Traitement Brut */
+
+                cur = lignePaye("TraitBrut", cur, bulletinIdent);
+
+                /* Supplément familial */
+
+                cur = lignePaye("SupFam", cur, bulletinIdent);
+
+                /* Indemnités */
+
+                cur = lignePaye("Indemnite", cur, bulletinIdent);
+
+                /* Déduction */
+
+                cur = lignePaye("Deduction", cur, bulletinIdent);
+
+                /* Rappel */
+
+                cur = lignePaye("Rappel", cur, bulletinIdent);
+
+               /* Retenue */
+
+                cur = lignePaye("Retenue", cur, bulletinIdent);
+
+               /* Cotisation */
+
+                cur = lignePaye("Cotisation", cur, bulletinIdent);
+
+            REMONTER_UN_NIVEAU
+
+      }  else  {
+          fprintf(stderr, "Trouvé %s au lieu de \"Remuneration\"", cur->name);
+          return NULL;
+      }
+
+     _BULLETIN(NbHeureTotal)
+     _BULLETIN(NbHeureSup)
+     _BULLETIN(MtBrut)
+     _BULLETIN(MtNet)
+     _BULLETIN(MtNetAPayer)
+
     }
 
-    return(ret);
+  return(cur);
 }
 
-/*
- * and to print it
- */
-static void
-printJob(jobPtr cur)
+inline xmlNodePtr atteindreNoeud(char* noeud, xmlNodePtr cur)
 {
-    int i;
+    while (cur && xmlIsBlankNode(cur))
+    {
+        cur = cur -> next;
+    }
 
-    if (cur == NULL) return;
-    printf("=======  Job\n");
-    if (cur->projectID != NULL) printf("projectID: %s\n", cur->projectID);
-    if (cur->application != NULL) printf("application: %s\n", cur->application);
-    if (cur->category != NULL) printf("category: %s\n", cur->category);
-    if (cur->contact != NULL) printPerson(cur->contact);
-    printf("%d developers\n", cur->nbDevelopers);
+    while (cur != NULL)
+    {
+     if (xmlStrcmp(cur->name, (const xmlChar *) noeud)
+      {
+        cur = cur->next;
+      }
+    }
 
-    for (i = 0; i < cur->nbDevelopers; i++) printPerson(cur->developers[i]);
-    printf("======= \n");
+    return cur;
 }
 
-/*
- * A pool of Gnome Jobs
- */
-typedef struct gjob
-{
-    int nbJobs;
-    jobPtr jobs[500]; /* using dynamic alloc is left as an exercise */
-} gJob, *gJobPtr;
-
-
-static globalPtr
-parseFile(char *filename)
+static xmlNodePtr  parseFile(char *filename)
 {
     xmlDocPtr doc;
-    globalPtr ret;
-    emploiPtr curjob;
-    xmlNodePtr cur;
-
+    xmlNodePtr cur = NULL;
     cur = xmlDocGetRootElement(doc);
+
     if (cur == NULL)
     {
         fprintf(stderr,"document vide\n");
         xmlFreeDoc(doc);
-        return(NULL);
-    }
-    ns = xmlSearchNsByHref(doc, cur,
-                           (const xmlChar *) "http://www.gnome.org/some-location");
-    if (ns == NULL)
-    {
-        fprintf(stderr,
-                "document of the wrong type, GJob Namespace not found\n");
-        xmlFreeDoc(doc);
-        return(NULL);
-    }
-    if (xmlStrcmp(cur->name, (const xmlChar *) "Helping"))
-    {
-        fprintf(stderr,"document of the wrong type, root node != Helping");
-        xmlFreeDoc(doc);
-        return(NULL);
+        return NULL;
     }
 
-    /*
-     * Allocate the structure to be returned.
-     */
-    ret = (gJobPtr) malloc(sizeof(gJob));
-    if (ret == NULL)
-    {
-        fprintf(stderr,"out of memory\n");
-        xmlFreeDoc(doc);
-        return(NULL);
-    }
-    memset(ret, 0, sizeof(gJob));
+    DESCENDRE_UN_NIVEAU
 
-    /*
-     * Now, walk the tree.
-     */
-    /* First level we expect just Jobs */
-    cur = cur->xmlChildrenNode;
-    while ( cur && xmlIsBlankNode ( cur ) )
+    cur = atteindreNoeud("DonneesIndiv");
+
+    DESCENDRE_UN_NIVEAU
+
+    while(cur != NULL)
     {
-        cur = cur -> next;
-    }
-    if ( cur == 0 )
-        return ( NULL );
-    if ((xmlStrcmp(cur->name, (const xmlChar *) "Jobs")) || (cur->ns != ns))
-    {
-        fprintf(stderr,"document of the wrong type, was '%s', Jobs expected",
-                cur->name);
-        fprintf(stderr,"xmlDocDump follows\n");
-#ifdef LIBXML_OUTPUT_ENABLED
-        xmlDocDump ( stderr, doc );
-        fprintf(stderr,"xmlDocDump finished\n");
-#endif /* LIBXML_OUTPUT_ENABLED */
-        xmlFreeDoc(doc);
-        free(ret);
-        return(NULL);
+      cur = atteindreNoeud("PayeIndivMensuel");
+
+      DESCENDRE_UN_NIVEAU
+
+      cur = parseBulletin(cur)
+
+      REMONTER_UN_NIVEAU
+
+      cur = cur->next;
     }
 
-    /* Second level is a list of Job, but be laxist */
-    cur = cur->xmlChildrenNode;
-    while (cur != NULL)
-    {
-        if ((!xmlStrcmp(cur->name, (const xmlChar *) "Job")) &&
-                (cur->ns == ns))
-        {
-            curjob = parseJob(doc, ns, cur);
-            if (curjob != NULL)
-                ret->jobs[ret->nbJobs++] = curjob;
-            if (ret->nbJobs >= 500) break;
-        }
-        cur = cur->next;
-    }
-
-    return(ret);
+    return(cur);
 }
 
-static void
-handleGjob(gJobPtr cur)
+static void handleGjob(gJobPtr cur)
 {
     int i;
 
@@ -286,13 +263,13 @@ int main(int argc, char **argv)
     int i;
     gJobPtr cur;
 
-    /* COMPAT: Do not genrate nodes for formatting spaces */
     LIBXML_TEST_VERSION
     xmlKeepBlanksDefault(0);
 
     for (i = 1; i < argc ; i++)
     {
         cur = parseGjobFile(argv[i]);
+
         if ( cur )
             handleGjob(cur);
         else
@@ -309,3 +286,4 @@ int main(int argc, char **argv)
 #ifdef __cplusplus
 }
 #endif
+
