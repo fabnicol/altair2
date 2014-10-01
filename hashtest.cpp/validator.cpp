@@ -20,6 +20,7 @@ extern "C" {
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
 
@@ -27,15 +28,19 @@ extern "C" {
  #define MAX_LIGNES_PAYE 300
 #endif
 
-#endif // MAX_LIGNES_PAYE
+#ifndef MAX_NB_AGENTS
+ #define MAX_NB_AGENTS 2000
+#endif
 
-#define SAUTER_UN_NOEUD cur = (cur)? cur->next: NULL;  cur = (cur)? cur->next: NULL;
+#define DEBUG(X) fprintf(stderr, "%s\n", X);
+
+#define SAUTER_UN_NOEUD cur = (cur)? cur->next: NULL;  //cur = (cur)? cur->next: NULL;
 
 #define BULLETIN(X) if (cur != NULL && !xmlStrcmp(cur->name, (const xmlChar *) #X)) { \
-                          bulletinIdent->##X = xmlGetProp(cur, "V"); \
+                          bulletinIdent->X = xmlGetProp(cur, (const xmlChar *) "V"); \
                           SAUTER_UN_NOEUD \
                      } else { \
-                            bulletinIdent->##X = NULL; \
+                            bulletinIdent->X = NULL; \
 
 #define _BULLETIN(X)      BULLETIN(X) \
                             if (cur) \
@@ -51,7 +56,7 @@ extern "C" {
 #define _BULLETIN_(X)     BULLETIN(X) }
 
 
-#define DESCENDRE_UN_NIVEAU    cur = (cur)? cur->xmlChildrenNode: NULL;   cur = (cur)? cur-> next: NULL;
+#define DESCENDRE_UN_NIVEAU    cur = (cur)? cur->xmlChildrenNode: NULL;  // cur = (cur)? cur-> next: NULL;
 
 #define REMONTER_UN_NIVEAU     cur = (cur)? cur->parent: NULL;   SAUTER_UN_NOEUD
 
@@ -66,7 +71,7 @@ typedef struct bulletin
     xmlChar *Grade;
     xmlChar *Indice;
     xmlChar *Service;
-    xmlChar *Indice;
+    xmlChar *NBI;
     xmlChar *QuotiteTrav;
     xmlChar *NbHeureTotal;
     xmlChar *NbHeureSup;
@@ -77,7 +82,34 @@ typedef struct bulletin
 
 } bulletin, *bulletinPtr;
 
-inline xmlNodePtr  lignePaye(char* type, xmlNodePtr cur, bulletinPtr bulletinIdent)
+ bulletinPtr bulletinIdent = NULL;
+
+inline xmlNodePtr atteindreNoeud(const char* noeud, xmlNodePtr cur)
+{
+    while (cur && xmlIsBlankNode(cur))
+    {
+        cur = cur -> next;
+    }
+
+    while (cur != NULL)
+    {
+     if (xmlStrcmp(cur->name, (const xmlChar *) noeud))
+      {
+        cur = cur->next;
+      }
+      else
+      {
+          char msg[50]={0};
+          sprintf(msg, "atteint %s\n", noeud);
+          DEBUG(msg)
+          break;
+      }
+    }
+
+    return cur;
+}
+
+inline xmlNodePtr  lignePaye(const char* type, xmlNodePtr cur, bulletinPtr bulletinIdent)
 {
      static int j;
 
@@ -103,11 +135,11 @@ inline xmlNodePtr  lignePaye(char* type, xmlNodePtr cur, bulletinPtr bulletinIde
 
 static xmlNodePtr parseBulletin(xmlNodePtr cur)
 {
-    bulletinPtr bulletinIdent = NULL;
+    DEBUG("Parsage")
 
     while (cur != NULL)
     {
-        cur = atteindreNoeud("Agent", cur);
+        cur = atteindreNoeud((const char*) "Agent", cur);
         if (cur != NULL)
         {
               bulletinIdent = (bulletinPtr) calloc(1, sizeof(bulletin));
@@ -150,23 +182,23 @@ static xmlNodePtr parseBulletin(xmlNodePtr cur)
 
                 /* Traitement Brut */
 
-                cur = lignePaye("TraitBrut", cur, bulletinIdent);
+                cur = lignePaye((const char*) "TraitBrut", cur, bulletinIdent);
 
                 /* Supplément familial */
 
-                cur = lignePaye("SupFam", cur, bulletinIdent);
+                cur = lignePaye((const char*)  "SupFam", cur, bulletinIdent);
 
                 /* Indemnités */
 
-                cur = lignePaye("Indemnite", cur, bulletinIdent);
+                cur = lignePaye((const char*)  "Indemnite", cur, bulletinIdent);
 
                 /* Déduction */
 
-                cur = lignePaye("Deduction", cur, bulletinIdent);
+                cur = lignePaye((const char*) "Deduction", cur, bulletinIdent);
 
                 /* Rappel */
 
-                cur = lignePaye("Rappel", cur, bulletinIdent);
+                cur = lignePaye((const char*) "Rappel", cur, bulletinIdent);
 
                /* Retenue */
 
@@ -194,86 +226,100 @@ static xmlNodePtr parseBulletin(xmlNodePtr cur)
   return(cur);
 }
 
-inline xmlNodePtr atteindreNoeud(char* noeud, xmlNodePtr cur)
-{
-    while (cur && xmlIsBlankNode(cur))
-    {
-        cur = cur -> next;
-    }
 
-    while (cur != NULL)
-    {
-     if (xmlStrcmp(cur->name, (const xmlChar *) noeud)
-      {
-        cur = cur->next;
-      }
-    }
-
-    return cur;
-}
-
-static xmlNodePtr  parseFile(char *filename)
+static int  parseFile(const char *filename, uint16_t nbAgents)
 {
     xmlDocPtr doc;
     xmlNodePtr cur = NULL;
+    static uint16_t agent_total;
+    uint16_t agent_du_fichier = 0;
+
+    bulletinPtr Table[nbAgents];
+    memset(Table, 0, nbAgents*sizeof(bulletinPtr));
+
+    doc = xmlParseFile(filename);
+
+    if (doc == NULL) return(-1);
+
     cur = xmlDocGetRootElement(doc);
 
     if (cur == NULL)
     {
         fprintf(stderr,"document vide\n");
         xmlFreeDoc(doc);
-        return NULL;
+        return -1;
     }
 
     DESCENDRE_UN_NIVEAU
 
-    cur = atteindreNoeud("DonneesIndiv");
+    cur = atteindreNoeud("DonneesIndiv", cur);
 
     DESCENDRE_UN_NIVEAU
 
     while(cur != NULL)
     {
-      cur = atteindreNoeud("PayeIndivMensuel");
+      cur = atteindreNoeud("PayeIndivMensuel", cur);
 
       DESCENDRE_UN_NIVEAU
 
-      cur = parseBulletin(cur)
+      cur = parseBulletin(cur);
+
+      if (cur == NULL) return -1;
 
       REMONTER_UN_NIVEAU
 
       cur = cur->next;
+
+      Table[agent_total++] = bulletinIdent;
+      agent_du_fichier++;
     }
 
-    return(cur);
+    printf("Population du fichier %s : %4d agents    Total : %4d agents.\n", filename, agent_du_fichier, agent_total);
+
+    xmlFreeDoc(doc);
+    return(0);
 }
 
-static void handleGjob(gJobPtr cur)
-{
-    int i;
-
-    /*
-     * Do whatever you want and free the structure.
-     */
-    printf("%d Jobs registered\n", cur->nbJobs);
-    for (i = 0; i < cur->nbJobs; i++) printJob(cur->jobs[i]);
-}
 
 int main(int argc, char **argv)
 {
-    int i;
-    gJobPtr cur;
 
     LIBXML_TEST_VERSION
     xmlKeepBlanksDefault(0);
 
-    for (i = 1; i < argc ; i++)
-    {
-        cur = parseGjobFile(argv[i]);
+    uint16_t nbAgents = MAX_NB_AGENTS;
+    int start = 1;
 
-        if ( cur )
-            handleGjob(cur);
-        else
-            fprintf( stderr, "Error parsing file '%s'\n", argv[i]);
+    if (argc < 2)
+    {
+        fprintf(stderr, "%s\n", "Il faut au moins un fichier à analyser.");
+        return -2;
+    }
+
+    if (!strcmp(argv[1], "-n"))
+        {
+            if (argc > 2)
+            {
+                nbAgents = atoi(argv[2]);
+                start += 2;
+            }
+            else
+            {
+                fprintf(stderr, "%s\n", "Préciser le nombre d'agents approximativement à 20 % près.");
+                return -3;
+            }
+        }
+
+    for (int i = start; i < argc ; i++)
+    {
+        int ret = parseFile(argv[i], nbAgents);
+
+        if (ret == -1)
+        {
+            fprintf( stderr, "Erreur de décodage pour le fichier %s\n", argv[i]);
+            return -1;
+        }
+
 
     }
 
