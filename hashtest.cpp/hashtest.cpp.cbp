@@ -12,6 +12,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option parameters='-n 1500 &quot;C:\Users\fnicol\Desktop\altair\github\Tests\Exemple\Donnees\xhl\2009\METRO_200906_99_00.xhl&quot;' />
 				<Compiler>
 					<Add option="-std=c++11" />
 					<Add option="-g" />
@@ -22,7 +23,7 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters='-n 1500 &quot;C:\Dev\altair_github\altair\Tests\Exemple\Donnees\xhl\2009\METRO_200906_99_00.xhl&quot;' />
+				<Option parameters='-n 1500 &quot;C:\Users\fnicol\Desktop\altair\github\Tests\Exemple\Donnees\xhl\2009\METRO_200906_99_00.xhl&quot;' />
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-std=c++11" />
@@ -38,8 +39,9 @@
 			<Add directory="../../../../MinGW/include" />
 		</Compiler>
 		<Linker>
-			<Add library="..\..\..\..\MinGW\bin\libxml2.dll" />
+			<Add option="-lxml2" />
 			<Add directory="../../../../MinGW/bin" />
+			<Add directory="../../../../../../Program Files (x86)/CodeBlocks/MinGW/bin" />
 		</Linker>
 		<Unit filename="main.cpp">
 			<Option target="&lt;{~None~}&gt;" />
