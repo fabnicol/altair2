@@ -22,7 +22,7 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters='&quot;C:\Users\fnicol\Desktop\PAYE\fichiers xhl\2009\METRO_200906_01_00.xhl &gt; a.txt&quot; ' />
+				<Option parameters='-n 1500 &quot;C:\Dev\altair_github\altair\Tests\Exemple\Donnees\xhl\2009\METRO_200906_99_00.xhl&quot;' />
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-std=c++11" />
@@ -34,7 +34,6 @@
 		</Build>
 		<Compiler>
 			<Add option="-std=c++11" />
-			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 			<Add directory="../../../../MinGW/include" />
 		</Compiler>

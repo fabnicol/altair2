@@ -22,43 +22,43 @@
 	<libxml/relaxng.h>
 	<libxml/xmlschemas.h>
 
-1308512438 c:\mingw\include\libxml\xmlversion.h
+1412095412 c:\mingw\include\libxml\xmlversion.h
 	<libxml/xmlexports.h>
 	<ansidecl.h>
 
-1286864732 c:\mingw\include\libxml\xmlexports.h
+1412095412 c:\mingw\include\libxml\xmlexports.h
 
-1286864732 c:\mingw\include\libxml\tree.h
+1412095412 c:\mingw\include\libxml\tree.h
 	<stdio.h>
 	<libxml/xmlversion.h>
 	<libxml/xmlstring.h>
 	<libxml/xmlregexp.h>
 	<libxml/xmlmemory.h>
 
-1286864732 c:\mingw\include\libxml\xmlstring.h
+1412095412 c:\mingw\include\libxml\xmlstring.h
 	<stdarg.h>
 	<libxml/xmlversion.h>
 
-1286864732 c:\mingw\include\libxml\xmlregexp.h
+1412095412 c:\mingw\include\libxml\xmlregexp.h
 	<libxml/xmlversion.h>
 	<libxml/tree.h>
 	<libxml/dict.h>
 
-1253806320 c:\mingw\include\libxml\dict.h
+1412095412 c:\mingw\include\libxml\dict.h
 	<libxml/xmlversion.h>
 	<libxml/tree.h>
 
-1286864732 c:\mingw\include\libxml\xmlmemory.h
+1412095412 c:\mingw\include\libxml\xmlmemory.h
 	<stdio.h>
 	<libxml/xmlversion.h>
 	<libxml/threads.h>
 	<libxml/globals.h>
 
-1286864732 c:\mingw\include\libxml\threads.h
+1412095412 c:\mingw\include\libxml\threads.h
 	<libxml/xmlversion.h>
 	<libxml/globals.h>
 
-1286864732 c:\mingw\include\libxml\globals.h
+1412095412 c:\mingw\include\libxml\globals.h
 	<libxml/xmlversion.h>
 	<libxml/parser.h>
 	<libxml/xmlerror.h>
@@ -67,7 +67,7 @@
 	<libxml/xmlmemory.h>
 	<libxml/threads.h>
 
-1288882724 c:\mingw\include\libxml\parser.h
+1412095412 c:\mingw\include\libxml\parser.h
 	<stdarg.h>
 	<libxml/xmlversion.h>
 	<libxml/tree.h>
@@ -81,12 +81,12 @@
 	<libxml/xmlIO.h>
 	<libxml/globals.h>
 
-1253806320 c:\mingw\include\libxml\hash.h
+1412095412 c:\mingw\include\libxml\hash.h
 	<libxml/xmlversion.h>
 	<libxml/parser.h>
 	<libxml/dict.h>
 
-1286864732 c:\mingw\include\libxml\valid.h
+1412095412 c:\mingw\include\libxml\valid.h
 	<libxml/xmlversion.h>
 	<libxml/xmlerror.h>
 	<libxml/tree.h>
@@ -94,22 +94,22 @@
 	<libxml/xmlautomata.h>
 	<libxml/xmlregexp.h>
 
-1286864732 c:\mingw\include\libxml\xmlerror.h
+1412095412 c:\mingw\include\libxml\xmlerror.h
 	<libxml/parser.h>
 
-1253806320 c:\mingw\include\libxml\list.h
+1412095412 c:\mingw\include\libxml\list.h
 	<libxml/xmlversion.h>
 
-1253806320 c:\mingw\include\libxml\xmlautomata.h
+1412095412 c:\mingw\include\libxml\xmlautomata.h
 	<libxml/xmlversion.h>
 	<libxml/tree.h>
 	<libxml/xmlregexp.h>
 
-1286864732 c:\mingw\include\libxml\entities.h
+1412095412 c:\mingw\include\libxml\entities.h
 	<libxml/xmlversion.h>
 	<libxml/tree.h>
 
-1288886032 c:\mingw\include\libxml\encoding.h
+1412095412 c:\mingw\include\libxml\encoding.h
 	<libxml/xmlversion.h>
 	<iconv.h>
 	<unicode/ucnv.h>
@@ -148,7 +148,7 @@
 1341006776 c:\mingw\include\stdint.h
 	<stddef.h>
 
-1253806320 c:\mingw\include\libxml\xmlio.h
+1412095412 c:\mingw\include\libxml\xmlio.h
 	<stdio.h>
 	<libxml/xmlversion.h>
 	<libxml/globals.h>
@@ -156,7 +156,7 @@
 	<libxml/parser.h>
 	<libxml/encoding.h>
 
-1253806320 c:\mingw\include\libxml\sax.h
+1412095412 c:\mingw\include\libxml\sax.h
 	<stdio.h>
 	<stdlib.h>
 	<libxml/xmlversion.h>
@@ -167,11 +167,11 @@
 	<_mingw.h>
 	<stddef.h>
 
-1253806320 c:\mingw\include\libxml\xlink.h
+1412095412 c:\mingw\include\libxml\xlink.h
 	<libxml/xmlversion.h>
 	<libxml/tree.h>
 
-1253806320 c:\mingw\include\libxml\sax2.h
+1412095412 c:\mingw\include\libxml\sax2.h
 	<stdio.h>
 	<stdlib.h>
 	<libxml/xmlversion.h>
@@ -186,4 +186,16 @@
 1286864732 c:\mingw\include\libxml\xmlschemas.h
 	<libxml/xmlversion.h>
 	<libxml/tree.h>
+
+1412163908 source:c:\dev\altair_github\altair\hashtest.cpp\validator.cpp
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+	<stdint.h>
+	<libxml/xmlmemory.h>
+	<libxml/parser.h>
+
+1341006777 c:\mingw\include\string.h
+	<_mingw.h>
+	<stddef.h>
 
