@@ -199,3 +199,11 @@
 	<_mingw.h>
 	<stddef.h>
 
+1412182458 source:c:\users\fnicol\desktop\altair\github\hashtest.cpp\validator.cpp
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+	<stdint.h>
+	<libxml/xmlmemory.h>
+	<libxml/parser.h>
+
