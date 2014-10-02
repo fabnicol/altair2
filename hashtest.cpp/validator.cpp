@@ -1,17 +1,4 @@
 
-/**
- * section: xmlReader
- * synopsis: Parse and validate an XML file with an xmlReader
- * purpose: Demonstrate the use of xmlReaderForFile() to parse an XML file
- *          validating the content in the process and activating options
- *          like entities substitution, and DTD attributes defaulting.
- *          (Note that the XMLReader functions require libxml2 version later
- *          than 2.6.)
- * usage: reader2 <valid_xml_filename>
- * test: reader2 test2.xml > reader1.tmp && diff reader1.tmp $(srcdir)/reader1.res
- * author: Daniel Veillard
- * copy: see Copyright for the status of this software.
- */
 
 
 #ifdef __cplusplus
@@ -21,8 +8,12 @@ extern "C" {
 #include <string.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <limits.h>
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
+#include <Windows.h>
+
+#define nbType 9
 
 #ifndef MAX_LIGNES_PAYE
 #define MAX_LIGNES_PAYE 300
@@ -71,6 +62,19 @@ extern "C" {
 
 #define REMONTER_UN_NIVEAU     cur = (cur)? cur->parent: NULL;   if ((!NO_DEBUG) && cur) fprintf(stderr, "Remontée au niveau %s\n", cur->name); SAUTER_UN_NOEUD
 
+
+/* Traitement Brut : */
+/* Indemnité de résidence */
+/* Supplément familial */
+/* Indemnités */
+/* Rémunérations diverses */
+/* Déduction */
+/* Rappel */
+/* Retenue */
+/* Cotisation */
+
+const char* type[nbType] = {"TraitBrut", "IndemResid", "SupFam", "Indemnite", "RemDivers", "Deduction", "Rappel", "Retenue", "Cotisation"};
+
 typedef struct bulletin
 {
     xmlChar *Nom;
@@ -89,7 +93,7 @@ typedef struct bulletin
     xmlChar *MtBrut;
     xmlChar *MtNet;
     xmlChar *MtNetAPayer;
-    xmlChar *ligne[MAX_LIGNES_PAYE][6] = {{NULL}};
+    xmlChar *ligne[nbType][MAX_LIGNES_PAYE][6] = {{{NULL}}};  // type de ligne de paye x rang de la ligne x {Libellé, ..., Montant}
 
 } bulletin, *bulletinPtr;
 
@@ -118,50 +122,55 @@ inline xmlNodePtr atteindreNoeud(const char* noeud, xmlNodePtr cur)
     return cur;
 }
 
-inline xmlNodePtr  lignePaye(const char* type, xmlNodePtr cur, bulletinPtr bulletinIdent)
+inline void lignePaye(xmlNodePtr cur, bulletinPtr bulletinIdent)
 {
-    static int j;
-        fprintf(stderr, "LP---%s, j=%d, cur is null=%d, \n", type, j, (cur==NULL));
-        if (cur != NULL && xmlStrcmp(cur->name, (const xmlChar *) type))
-        {
-            fprintf(stderr, "%s %s but %s\n", "cur->name is not of type", type, cur->name);
-            cur=cur->next;
-            if (cur != NULL && xmlStrcmp(cur->name, (const xmlChar *) type))
-             {
-                fprintf(stderr, "%s %s but %s\n", "cur->name is not of type", type, cur->name);
-                cur=cur->next;
-                // exit(0);
-             } else
-                if (cur) fprintf(stderr, "%s %s \n", "cur->name is NOW of type", type);
+    int l = 0;
+    int t = 0;
 
-           // exit(0);
-        }
-    while (j < MAX_LIGNES_PAYE && cur != NULL && !xmlStrcmp(cur->name, (const xmlChar *) type))
+    while (cur != NULL)
     {
+        if (xmlStrcmp(cur->name, (const xmlChar *) type[t]))
+        {
+            t++;
+            l = 0;
+            if (t == nbType)
+            {
+                fprintf(stderr, "En excès du nombre de types de lignes de paye autorisé (%d)\n", nbType);
+                fprintf(stderr, "Type litigieux : %s\n", cur->name);
+                exit(-11);
+            }
+            continue;
+        }
+
         DESCENDRE_UN_NIVEAU
         /* Libellé, obligatoire */
 
         cur = atteindreNoeud("Libelle", cur);
-        fprintf(stderr, "---%s\n", cur->name);
 
-        _Bulletin(ligne[j][0], Libelle)
+        _Bulletin(ligne[t][l][0], Libelle)
         /* Code, obligatoire */
         cur = atteindreNoeud("Code", cur);
-        _Bulletin(ligne[j][1], Code)
+        _Bulletin(ligne[t][l][1], Code)
         /* Base, si elle existe */
-        _Bulletin_(ligne[j][2], Base)
+        _Bulletin_(ligne[t][l][2], Base)
         /* Taux, s'il existe */
-        _Bulletin_(ligne[j][3], Taux)
+        _Bulletin_(ligne[t][l][3], Taux)
         /* Nombre d'unités, s'il existe */
-        _Bulletin_(ligne[j][4], NbUnite)
+        _Bulletin_(ligne[t][l][4], NbUnite)
         /* Montant , obligatoire */
         cur = atteindreNoeud("Mt", cur);
-        _Bulletin(ligne[j][5], Mt)
-        REMONTER_UN_NIVEAU
-        j++;
-    }
+        _Bulletin(ligne[t][l][5], Mt)
 
-    return cur;
+        REMONTER_UN_NIVEAU
+        l++;
+        if (l == MAX_LIGNES_PAYE)
+        {
+            fprintf(stderr, "En excès du nombre de lignes de paye autorisé (%d)\n", MAX_LIGNES_PAYE);
+            exit(-10);
+        }
+
+        // Lorsque on a épuisé tous les types licites on a nécessairement cur = NULL
+    }
 }
 
 static void  parseBulletin(xmlNodePtr cur)
@@ -169,7 +178,6 @@ static void  parseBulletin(xmlNodePtr cur)
     DEBUG("Parsage")
 
     if (cur == NULL) return;
-
     cur = atteindreNoeud((const char*) "Agent", cur);
     if (cur != NULL)
     {
@@ -196,16 +204,14 @@ static void  parseBulletin(xmlNodePtr cur)
         _BULLETIN(Indice)
 
         REMONTER_UN_NIVEAU
-
     }
     else
     {
-
         fprintf(stderr, "%s\n", "Impossible d'atteindre \"Agent\"");
         return;
     }
 
-     cur = atteindreNoeud("Service", cur);
+    cur = atteindreNoeud("Service", cur);
     _BULLETIN(Service)
     _BULLETIN(NBI)
     _BULLETIN(QuotiteTrav)
@@ -217,45 +223,8 @@ static void  parseBulletin(xmlNodePtr cur)
 
         DESCENDRE_UN_NIVEAU
 
-        // certains noeuds <Remuneration/> sont vides
-
-        if (cur)
-        {
-
-            /* Traitement Brut */
-
-            cur = lignePaye((const char*) "TraitBrut", cur, bulletinIdent);
-
-            /* Supplément familial */
-
-            cur = lignePaye((const char*)  "SupFam", cur, bulletinIdent);
-
-            /* Indemnités */
-
-            cur = lignePaye((const char*)  "Indemnite", cur, bulletinIdent);
-
-            /* Déduction */
-
-            cur = lignePaye((const char*) "Deduction", cur, bulletinIdent);
-
-            /* Rappel */
-
-            cur = lignePaye((const char*) "Rappel", cur, bulletinIdent);
-
-            /* Retenue */
-
-            cur = lignePaye("Retenue", cur, bulletinIdent);
-
-            /* Cotisation */
-
-            cur = lignePaye("Cotisation", cur, bulletinIdent);
-
-            // A présent cur= NULL est normal
-
-        }
-
+        lignePaye(cur, bulletinIdent);
         cur = cur_save->next;
-
     }
     else
     {
@@ -269,21 +238,15 @@ static void  parseBulletin(xmlNodePtr cur)
     _BULLETIN(MtBrut)
     _BULLETIN(MtNet)
     _BULLETIN(MtNetAPayer)
-
-
-
 }
 
 
-static int  parseFile(const char *filename, uint16_t nbAgents)
+static int  parseFile(const char *filename, uint16_t nbAgents, bulletinPtr* Table)
 {
     xmlDocPtr doc;
     xmlNodePtr cur = NULL;
     static uint16_t agent_total;
     uint16_t agent_du_fichier = 0;
-
-    bulletinPtr Table[nbAgents];
-    memset(Table, 0, nbAgents*sizeof(bulletinPtr));
 
     doc = xmlParseFile(filename);
 
@@ -306,13 +269,21 @@ static int  parseFile(const char *filename, uint16_t nbAgents)
 
     while(cur != NULL)
     {
+#if !NO_DEBUG
+        char msg[50] = { 0};
+        sprintf(msg, "Paye n°%d\n", agent_du_fichier);
+
+        DEBUG(msg);
+
+        Sleep(1000);
+#endif
+
         cur = atteindreNoeud("PayeIndivMensuel", cur);
         xmlNodePtr cur_save =  cur;
 
         DESCENDRE_UN_NIVEAU
 
         parseBulletin(cur);
-
         // Ici il est normal que cur = NULL
 
         cur = cur_save->next;
@@ -323,52 +294,165 @@ static int  parseFile(const char *filename, uint16_t nbAgents)
         agent_du_fichier++;
     }
 
-    printf("Population du fichier %s : %4d agents    Total : %4d agents.\n", filename, agent_du_fichier, agent_total);
+    printf("Population du fichier %s : %4d bulletins    Total : %4d bulletins.\n", filename, agent_du_fichier, agent_total);
 
     xmlFreeDoc(doc);
+    xmlCleanupParser();
     return(0);
 }
 
 
 int main(int argc, char **argv)
 {
-    LIBXML_TEST_VERSION
-    xmlKeepBlanksDefault(0);
-    uint16_t nbAgents = MAX_NB_AGENTS;
-    int start = 1;
-
     if (argc < 2)
     {
         fprintf(stderr, "%s\n", "Il faut au moins un fichier à analyser.");
         return -2;
     }
 
-    if (!strcmp(argv[1], "-n"))
+    LIBXML_TEST_VERSION
+    xmlKeepBlanksDefault(0);
+    uint16_t nbAgents = MAX_NB_AGENTS;
+
+    int start = 1;
+
+    char* type_table;
+    strcpy(type_table, "standard");
+    char decimal = '.';
+    char separateur = ',';
+    char* chemin_table;
+    strcpy(chemin_table, "table.csv");
+
+    while (start < argc)
     {
-        if (argc > 2)
+         if (!strcmp(argv[start], "-n"))
+            {
+                if (argc > 2)
+                {
+                    const char* const c_str = argv[start + 1];
+                    char *end;
+                    errno = 0;
+                    const long sl = strtol(c_str, &end, 10);
+
+                    if (end == c_str)
+                    {
+                        fprintf(stderr, "%s: pas un décimal\n", c_str);
+                    }
+                    else if ((LONG_MIN == sl || LONG_MAX == sl) && ERANGE == errno)
+                    {
+                        fprintf(stderr, "%s entier excédant la limite des entiers longs\n", c_str);
+                    }
+                    else if (sl > UINT16_MAX)
+                    {
+                        fprintf(stderr, "%ld entier excédant la limite des entiers à 16 bits\n", sl);
+                    }
+                    else if (sl < 0)
+                    {
+                        fprintf(stderr, "%ld l'entier doit être positif\n", sl);
+                    }
+                    else
+                    {
+                        nbAgents  = (uint16_t)sl;
+                        start += 2;
+                        continue;
+                    }
+                    exit(-100);
+                }
+                else
+                {
+                    fprintf(stderr, "%s\n", "Préciser le nombre de bulletins mensuels attendus (majorant du nombre).");
+                    return -3;
+                }
+            }
+        else if (!strcmp(argv[start], "-h"))
+            {
+                printf("%s\n", "Usage :  xhl2csv OPTIONS fichiers.xhl");
+                puts("OPTIONS :");
+                printf("-n nombre de bulletins mensuels attendus [défaut %d]\n", MAX_NB_AGENTS);
+                printf("%s\n", "-t type de base en sortie, soit 'standard', soit 'bulletins' [défaut standard]");
+                printf("%s\n", "-o fichier.csv, fichier de sortie [défaut table.csv]");
+                printf("%s\n", "-d séparateur décimal [défaut .]");
+                printf("%s\n", "-s séparateur de champs [défaut ,]");
+                exit(0);
+            }
+        else if (!strcmp(argv[start], "-t"))
         {
-            nbAgents = atoi(argv[2]);
-            start += 2;
+            if (start + 1 == argc)
+            {
+                fprintf(stderr, "%s\n", "Option -t suivi d'un argument obligatoire, standard ou bulletins.");
+                exit(-100);
+            }
+
+            if (!strcmp(argv[start + 1], "standard") || !strcmp(argv[start + 1], "bulletins"))
+            {
+                type_table = argv[start + 1];
+                start += 2;
+                continue;
+            }
+            else
+            {
+                fprintf(stderr, "%s\n", "Préciser le type de la table, standard ou bulletins.");
+                exit(-100);
+            }
         }
-        else
+       else if (!strcmp(argv[start], "-s"))
         {
-            fprintf(stderr, "%s\n", "Préciser le nombre d'agents approximativement à 20 % près.");
-            return -3;
+            if (start + 1 == argc)
+            {
+                fprintf(stderr, "%s\n", "Option -s suivi d'un argument obligatoire (séparateur de champs).");
+                exit(-100);
+            }
+
+                separateur = argv[start + 1][0];
+                start += 2;
+                continue;
         }
+       else if (!strcmp(argv[start], "-d"))
+        {
+            if (start + 1 == argc)
+            {
+                fprintf(stderr, "%s\n", "Option -d suivi d'un argument obligatoire (séparateur décimal).");
+                exit(-100);
+            }
+
+                decimal = argv[start + 1][0];
+                start += 2;
+                continue;
+        }
+       else if (!strcmp(argv[start], "-o"))
+        {
+            if (start + 1 == argc)
+            {
+                fprintf(stderr, "%s\n", "Option -o suivi d'un argument obligatoire (nom de  fichier).");
+                exit(-100);
+            }
+
+                chemin_table = argv[start + 1];
+                start += 2;
+                continue;
+        }
+       else if (argv[start][0] == '-')
+       {
+                fprintf(stderr, "%s\n", "Option inconnue.");
+                exit(-100);
+       }
+       else break;
     }
+
+    bulletinPtr Table[nbAgents*(argc-1)];
+    memset(Table, 0, nbAgents*(argc-1)*sizeof(bulletinPtr));
 
     for (int i = start; i < argc ; i++)
     {
-        int ret = parseFile(argv[i], nbAgents);
+        int ret = parseFile(argv[i], nbAgents, Table);
 
         if (ret == -1)
         {
-            fprintf( stderr, "Erreur de décodage pour le fichier %s\n", argv[i]);
+            fprintf(stderr, "Erreur de décodage pour le fichier %s\n", argv[i]);
             return -1;
         }
     }
-    /* Clean up everything else before quitting. */
-    xmlCleanupParser();
+
     return(0);
 }
 

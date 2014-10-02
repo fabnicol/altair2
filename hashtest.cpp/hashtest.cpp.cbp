@@ -12,7 +12,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters='-n 1500 &quot;C:\Users\fnicol\Desktop\altair\github\Tests\Exemple\Donnees\xhl\2009\METRO_200906_99_00.xhl&quot;' />
+				<Option parameters='-n 1500 &quot;C:\Dev\altair_github\altair\Tests\Exemple\Donnees\xhl\2009\METRO_200906_99_00.xhl&quot;' />
 				<Compiler>
 					<Add option="-std=c++11" />
 					<Add option="-g" />
@@ -23,10 +23,11 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters='-n 1500 &quot;C:\Users\fnicol\Desktop\altair\github\Tests\Exemple\Donnees\xhl\2009\METRO_200906_99_00.xhl&quot;' />
+				<Option parameters='-s ; -d , -t standard -o table.csv -n 1500 &quot;C:\Dev\altair_github\altair\Tests\Exemple\Donnees\xhl\2008\METRO_2008*.xhl&quot;' />
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-std=c++11" />
+					<Add option="-DNO_DEBUG" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
