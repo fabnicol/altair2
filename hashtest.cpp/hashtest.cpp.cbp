@@ -24,7 +24,7 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters='-t  -n 1500 &quot;C:\Dev\altair_github\altair\Tests\Exemple\Donnees\xhl\2009\METRO_2009*.xhl&quot;  &quot;C:\Dev\altair_github\altair\Tests\Exemple\Donnees\xhl\2008\METRO_2008*.xhl&quot;  ' />
+				<Option parameters='-t  -n 1500 -s ; -d , &quot;C:\Users\fnicol\Desktop\PAYE\fichiers xhl\2009\*.xhl&quot; &quot;C:\Users\fnicol\Desktop\PAYE\fichiers xhl\2010\*.xhl&quot; &quot;C:\Users\fnicol\Desktop\PAYE\fichiers xhl\2011\*.xhl&quot; &quot;C:\Users\fnicol\Desktop\PAYE\fichiers xhl\2012\*.xhl&quot;' />
 				<Compiler>
 					<Add option="-march=core2" />
 					<Add option="-std=c++11" />
