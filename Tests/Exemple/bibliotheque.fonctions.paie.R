@@ -111,7 +111,7 @@ read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, étiquette
     if (!is.null(drop)) { T <- T[-(drop)] }
 
   } else {
-    
+    if (is.na(classes)) classes = NULL
     T <- try(data.table::fread(chem,
                       sep = ",",
                       header = TRUE,
