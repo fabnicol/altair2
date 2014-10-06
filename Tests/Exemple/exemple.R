@@ -154,6 +154,9 @@ lignes.paie <- lignes.paie[file.exists(chemin(lignes.paie))]
 bulletins.paie <- nom.bulletin.paie %+% "-" %+% 1:10 %+% ".csv"
 bulletins.paie <- bulletins.paie[file.exists(chemin(bulletins.paie))]
 
+if (import.direct)
+    nom.table      <- nom.table[file.exists(chemin(nom.table))]
+
 # Programme principal
 
 # Bases
@@ -196,10 +199,12 @@ Import.Lignes.paie <- function()  {
   c(res, res2)
 }
 
-résultat <- Import.Lignes.paie()
+if (import.direct)
+{
+  résultat <- Import.Lignes.paie()
 
-if (table.rapide && résultat[2] != NULL && inherits(résultat[2], 'try-error')) {
-      
+if (table.rapide && résultat[2] != NULL && inherits(résultat[2], 'try-error'))
+{
        message("Conversion en UTF-8...")
        Vectorize(file2utf8, simplify = FALSE, USE.NAMES = FALSE)(lignes.paie)
        message("Conversion en UTF-8 terminée")
@@ -214,10 +219,14 @@ if (!is.null(Lignes.paie))
    message("Chargement des lignes de paie.") else stop("Chargement des lignes de paie en échec.")
 
 if (table.rapide) {
-    Lignes.paie <- Lignes.paie[ ,setdiff(names(Lignes.paie), c("Année.1","Mois.1","Matricule.1")), with = FALSE]
+    
+  Lignes.paie <- Lignes.paie[ ,setdiff(names(Lignes.paie), c("Année.1","Mois.1","Matricule.1")), with = FALSE]
+  
   } else {
-    Lignes.paie <- Lignes.paie[ ,setdiff(names(Lignes.paie), c("Année.1","Mois.1","Matricule.1"))]
-  }
+    
+  Lignes.paie <- Lignes.paie[ ,setdiff(names(Lignes.paie), c("Année.1","Mois.1","Matricule.1"))]
+  
+}
 
 res <- try(Read.csv("Bulletins.paie",
                     bulletins.paie,
@@ -232,69 +241,100 @@ if (inherits(res, 'try-error'))
 
 if (!is.null(Bulletins.paie)) message("Chargement des bulletins de paie.") else stop("Chargement des bulletins de paie en échec.")
 
+} else {
+  
+    res <- try(Read.csv("Bulletins.paie.Lignes.paie",
+                        chemin(Table),
+  #                      colClasses = union(bulletins.paie.classes.input, lignes.paie.classes.input),
+  #                      colNames = bulletins.paie.input,
+                        séparateur.liste = séparateur.liste,
+                        séparateur.décimal = séparateur.décimal,
+                        rapide = table.rapide), silent = TRUE)
+    
+    if (inherits(res, 'try-error'))
+      stop("Problème de lecture des bases de la table bulletins-lignes de paye")
+    
+    if (!is.null(Bulletins.paie.Lignes.paie)) 
+      message("Chargement de la table bulletins-lignes de paye.") 
+      else
+      stop("Chargement de la table bulletins-lignes de paie en échec.")
+}  
+
 
 # dans le cas où l'on ne lance le programme que pour certaines années, il préciser début.période sous revue et fin.période .sous.revue
 # dans le fichier prologue.R. Sinon le programme travaille sur l'ensemble des années disponibles.
 
 if (!extraire.années) {
 
-  début.période.sous.revue    <- c(min(Bulletins.paie$Année), min(Lignes.paie$Année))
-  fin.période.sous.revue      <- c(max(Bulletins.paie$Année), max(Lignes.paie$Année))
-
-  if (début.période.sous.revue[1] != début.période.sous.revue[2])
+  if (import.direct)
+  {
+    début.période.sous.revue <- min(Bulletins.paie.Lignes.paie$Année)
+    fin.période.sous.revue   <- max(Bulletins.paie.Lignes.paie$Année)
+    
+  } else {
+    
+    début.période.sous.revue    <- c(min(Bulletins.paie$Année), min(Lignes.paie$Année))
+    fin.période.sous.revue      <- c(max(Bulletins.paie$Année), max(Lignes.paie$Année))
+    if (début.période.sous.revue[1] != début.période.sous.revue[2])
       stop("Les bases des bulletins et lignes de paye
 ne portent pas sur le même nombre d'années : " %+%  début.période.sous.revue[1] %+% "... pour les bulletins et " %+% début.période.sous.revue[1] %+% "... pour les lignes de paye.")
-
-  if (fin.période.sous.revue[1] != fin.période.sous.revue[2])
-          stop("Les bases des bulletins et lignes de paye
+    
+    if (fin.période.sous.revue[1] != fin.période.sous.revue[2])
+      stop("Les bases des bulletins et lignes de paye
 ne portent pas sur le même nombre d'années : ..." %+%  fin.période.sous.revue[1] %+% " pour les bulletins et ..." %+% fin.période.sous.revue[1] %+% "... pour les lignes de paye.")
+    
+    début.période.sous.revue <- début.période.sous.revue[1]
+    fin.période.sous.revue   <- fin.période.sous.revue[1]
+    
+  }
 
-  début.période.sous.revue <- début.période.sous.revue[1]
-  fin.période.sous.revue   <- fin.période.sous.revue[1]
-
+  
 } else {
 
-  Bulletins.paie <- Bulletins.paie[  Bulletins.paie$Année >= début.période.sous.revue
+  if (import.direct)
+  {
+    Bulletins.paie.Lignes.paie <- Bulletins.paie.Lignes.paie[Bulletins.paie.Lignes.paie$Année >= début.période.sous.revue
+                                                             & Bulletins.paie.Lignes.paie$Année <= fin.période.sous.revue, ]  
+      
+  } else {
+    
+    Bulletins.paie <- Bulletins.paie[Bulletins.paie$Année >= début.période.sous.revue
                                      & Bulletins.paie$Année <= fin.période.sous.revue, ]
-  Lignes.paie    <- Lignes.paie[  Lignes.paie$Année >= début.période.sous.revue
+    Lignes.paie    <- Lignes.paie[Lignes.paie$Année >= début.période.sous.revue
                                   & Lignes.paie$Année <= fin.période.sous.revue, ]
+  }
 }
 
 période                     <- début.période.sous.revue:fin.période.sous.revue
 durée.sous.revue            <- fin.période.sous.revue - début.période.sous.revue + 1
 
-if (table.rapide) {
-
+if (! import.direct)
+{
+  if (table.rapide) {
+  
   matricules.à.retirer  <- Lignes.paie[Lignes.paie$Code == "", "Matricule", with=F]
   matricules.à.retirer  <- matricules.à.retirer[[1]]
-
-} else {
-
+  
+  } else {
+  
   matricules.à.retirer  <- Lignes.paie[Lignes.paie$Code == "", "Matricule"]
-}
-
-Lignes.paie    <- Lignes.paie[Lignes.paie$Code != "", ]
-Bulletins.paie <- Bulletins.paie[! Bulletins.paie$Matricule %in% matricules.à.retirer, ]
-
-Bulletins.paie.contiennent.colonnes.requises <- colonnes.requises %in% names(Bulletins.paie)
-
-if (! all(Bulletins.paie.contiennent.colonnes.requises)) {
-
+  }
+  
+  Lignes.paie    <- Lignes.paie[Lignes.paie$Code != "", ]
+  Bulletins.paie <- Bulletins.paie[! Bulletins.paie$Matricule %in% matricules.à.retirer, ]
+  
+  Bulletins.paie.contiennent.colonnes.requises <- colonnes.requises %in% names(Bulletins.paie)
+  
+  if (! all(Bulletins.paie.contiennent.colonnes.requises)) {
+  
   stop("Il manque les colonnes suivantes au(x) fichier(s) Bulletins de paie :",
        colonnes.requises[! Bulletins.paie.contiennent.colonnes.requises])
-
-} else {
-
+  
+  } else {
+  
   message("Contrôle des noms de colonne des bulletins de paie : normal.")
+  }
 }
-
-
-
-#   <- M[M$Diff != 0, ]
-#   if (!is.null(Matrice.différence.bulletins.lignes.NMois) & nrow(Matrice.différence.bulletins.lignes.NMois) > 0)    {
-#     sauv.bases(chemin.dossier.bases, "Matrice.différence.bulletins.lignes.NMois")
-#   }
-# }
 
 # Lors de la PREMIERE utilisation d'Altair, paramétrer générer.codes <- TRUE dans prologue.R
 # pour générer les fichier des codes de paiement sous le dossier des bases (par défaut "Données").
@@ -303,376 +343,12 @@ if (! all(Bulletins.paie.contiennent.colonnes.requises)) {
 # le troisième chiffre du code.
 # L'utilisateur devra alors renseigner la colonne étiquette.type.rémunération de ce fichier
 
-if (générer.codes) {
-
-  message("Génération de la base des codes de paie et des libellés.")
-
-  if (table.rapide) {
-
-     codes.paiement.généré <- unique(Lignes.paie[ , c(étiquette.code, étiquette.libellé), with = FALSE])
-
-   } else {
-
-     codes.paiement.généré <- unique(Lignes.paie[ , c(étiquette.code, étiquette.libellé)])
-   }
-
-  codes.paiement.généré <- cbind(codes.paiement.généré[mixedorder(codes.paiement.généré$Code), ], character(nrow(codes.paiement.généré)))
-
-  names(codes.paiement.généré)[3] <- étiquette.Type.rémunération
-  class(codes.paiement.généré) <- "data.frame"
-  codes.paiement.généré$Libellé <- iconv(codes.paiement.généré$Libellé, from = "UTF-8", to=encodage.entrée, mark = FALSE)
-  nom.fichier.codes <- racine %+% "codes.paiement.généré"
-  Sauv.base(chemin.dossier.données, "codes.paiement.généré", nom.fichier.codes)
-
-  #'---
-  #'
-  #'# Tableau des codes de paiement
-  #'
-  #'##  Renseigner le type de rémunération
-  #'
-  #'Utiliser les codes : TRAITEMENT, INDEMNITAIRE, ELU, VACATIONS, AUTRES
-  #'
-
-  kable(codes.paiement.généré, row.names = FALSE)
-
-  #'
-
-
-  if (file.exists(file.path(chemin.dossier.données, nom.fichier.codes %+% ".csv")))
-    message("Génération des codes : voir fichier Données/" %+% nom.fichier.codes %+% ".csv")  else
-    message("Les codes n'ont pas été générés.")
-
-
-message("Le programme est arrêté après génération de la base de codes et libellés.
-Relancer Altair après avoir renseigné la troisième colonne
-et placé le fichier sous le répertoire Données avec le nom " %+% nom.fichier.codes.paiement)
-browser()
-
-}
-
-# suppression des colonnes Nom Prénom redondantes
-
-message("Nettoyage des bases.")
-
-sélectionner.clé("Bulletins.paie", "Lignes.paie")
-
-# Technique : les espaces de noms sont pollués par la sélection des clés, il faut les nettoyer
-
-# unname(Bulletins.paie$Nom) devrait marcher mais cause une génération de tableau sous RMarkdown, probablement un bug.
-# utiliser attr à la place.
-
-attr(Bulletins.paie$Nom, "names")    <- NULL
-attr(Bulletins.paie$Prénom, "names") <- NULL
-attr(Lignes.paie$Nom, "names")       <- NULL
-attr(Lignes.paie$Prénom, "names")    <- NULL
-
-# Extraction de vecteurs représentant les codes de paiement par type de code (indemnitaire, traitement, vacations...)
-
-if (exists("Codes.paiement"))
-{
-   #W <- rep(0, nrow(Codes.paiement))
-   Map(
-       function(Data, type) {
-           Tab <- unique(Codes.paiement[Codes.paiement$Type.rémunération == type, c(étiquette.code, "Coefficient")])
-
-           if (anyDuplicated(Tab[1]))
-             stop("Incohérence d'un code utilisé à la fois comme paiement et retenue ou cotisation.")
-
-           W        <- Codes.paiement$Coefficient*(Codes.paiement$Type.rémunération == type)
-           names(W) <- Codes.paiement[["Code"]]
-           assign(Data, W, envir = .GlobalEnv)
-        },
-
-       c("Codes.paiement.indemnitaire",
-         "Codes.paiement.principal.contractuel",
-         "Codes.paiement.traitement",
-         "Codes.paiement.élu",
-         "Codes.paiement.vacations",
-         "Codes.paiement.autres"),
-
-       c(modalité.indemnitaire,
-         modalité.principal.contractuel,
-         modalité.traitement,
-         modalité.élu,
-         modalité.vacations,
-         modalité.autres))
-
-
-   message("Extraction des codes par type de code.")
-
-} else
-  stop("Charger le fichier de codes de paiement.")
-
-# Pour assurer une fusion correcte des bulletins et lignes de paie, il importe que les colonnes communes aux deux fichiers soient
-# exactement celles utilisées pour la clé d'appariement d'une part, et le tri sous chaque clé d'autre part, autrement dit :
-# la clé (Matricule ou (Nom, Prénom) selon le cas) + Année + Mois
-
-  if (! setequal(intersect(names(Lignes.paie), names(Bulletins.paie)), union(c("Mois", "Année"), clé.fusion)))
-  {
-   if (fusionner.nom.prénom) {
-
-     stop("L'appariement ne peut se faire par les clés Nom, Prénom et Mois")
-
-   } else {
-
-     stop("L'appariement ne peut se faire par les clés Matricule et Mois")
-   }
-
-  } else {
-
-    message("Pas de redondance des colonnes des bulletins et lignes de paie : la fusion peut être réalisée.")
-  }
-
-# Alternative en cas de difficulté :
-#
-# Bulletins.paie.Lignes.paie <- do.call(rbind, lapply(période,
-#                                                     function(x)
-#                                                        merge(Bulletins.paie[Bulletins.paie$Année == x, ],
-#                                                              Lignes.paie[Lignes.paie$Année == x, ],
-#                                                              by=c(étiquette.matricule, "Mois"))))
-
-# Lorsque les bases sont déjà chargées, on peut désactiver le rechargement par charger.bases <- FALSE
-
-if (charger.bases)
-{
-  if (table.rapide == TRUE) {
-
-    Bulletins.paie[ ,   quotité   := ifelse(etp.égale.effectif | is.na(Temps.de.travail), 1,  Temps.de.travail / 100)]
-    Bulletins.paie[ ,   Montant.net.eqtp := ifelse(is.finite(Net.à.Payer/quotité), Net.à.Payer/quotité,  NA)]
-
-  } else {
-    Bulletins.paie <- mutate(Bulletins.paie,
-
-                           ### EQTP  ###
-
-                           quotité                  = ifelse(etp.égale.effectif | is.na(Temps.de.travail), 1,  Temps.de.travail / 100),
-                           #                          * ((corriger.quotité)*(is.na(Taux) * (1- Taux)  + Taux) + 1 - corriger.quotité)
-# if( ...) ne fonctionne pas.
-
-                           Montant.net.eqtp         = ifelse(is.finite(Net.à.Payer/quotité), Net.à.Payer/quotité, NA))
-  }
-
-  anavar <- ddply(Bulletins.paie,
-                  c(étiquette.matricule, étiquette.année),
-                  summarise,
-                  # partie Analyse des variations par exercice #
-
-                  Montant.net.annuel.eqtp = sum(Montant.net.eqtp, na.rm = TRUE),
-                  # En principe la colonne Brut ne tient pas compte des remboursements d efrais ou des régularisations
-                  Montant.brut.annuel = sum(Brut),
-                  Statut.sortie = Statut[length(Net.à.Payer)],
-                  mois.entrée = if ((minimum <- min(Mois)) != Inf) minimum else 0,
-                  mois.sortie = if ((maximum <- max(Mois)) != -Inf) maximum else 0,
-                  nb.jours = calcul.nb.jours.mois(mois.entrée[1], mois.sortie[1], Année[1]),
-                  nb.mois  = mois.sortie[1] - mois.entrée[1] + 1)
-
-
-  Bulletins.paie <- merge (Bulletins.paie, anavar, by = c(étiquette.matricule, étiquette.année))
-
-  # Fusion non parallélisée
-
-  # gain de 24s par l'utilisation de data.table::merge
-
-if (table.rapide)   message("Mode table rapide.") else message("Mode table standard.")
-
-# Inutile de paralléliser en mode table rapide pour les dimensions de tables courantes (à tester pour les très grosses communes)
-
-if (table.rapide || durée.sous.revue < 4)   paralléliser <- FALSE
-
-# On réserve la parallélisation à des durées de période sous revue > 4 ans
-
-
-
-  if (! paralléliser) {
-    
-      # la fonction sera automatiquement déterminée par le type du premier argument (data.table ou data.frame)
-    
-      message("Mode parallèle non activé.")
-    
-      Bulletins.paie.Lignes.paie <- merge(Bulletins.paie,
-                                          Lignes.paie,
-                                          by = c(clé.fusion, "Année", "Mois"))
-
-      if (!is.null(Bulletins.paie.Lignes.paie))
-        message(paste("Fusion réalisée")) else stop("Echec de fusion" )
-
-
-  } else {
-
-    # Fusion parallélisée : gain de plus de moitié sur 4 coeurs (25,5s --> 9,7s) soit environ 16s de gain sous linux [RAG]
-    #                       sous windows le merge standard est plus rapide (18s) mais la parallélisation est moins performante,
-    #                       le gain est d'environ 4s à 14s, soit 5s de plus que sous linux parallèle.
-    # Le merge classique est toutefois loin des performancs de data.table::merge
-
-    message("Mode parallèle activé.")
-
-
-    cut <- round(durée.sous.revue/4)
-    if (cut == 0) cut = 1
-
-    library(parallel)
-
-    cores   <- detectCores()
-
-    L <- lapply(list(Bulletins.paie, Lignes.paie),
-                function(X) {
-                             lapply(0:3,
-                                    function(j) {
-                                      if (durée.sous.revue > j)
-                                        X[X$Année >= j * cut +  début.période.sous.revue
-                                          & X$Année < (j + 1) * cut +  début.période.sous.revue, ]})})
-
-    L <- lapply(L, function(x) Filter(Negate(is.null), x))
-
-    f <- function(x, y, z)  {
-      tab <- merge(x, y, by = c(clé.fusion, "Année", "Mois"), sort=FALSE)
-      # Le sort du merge classique n'est pas fiable sous parallélisation
-
-      if (clé.fusion[1] != "Matricule") {
-        tab <- tab[order(tab$Nom, tab$Prénom, tab$Année, tab$Mois), ]
-      } else {
-        tab <- tab[order(tab$Matricule, tab$Année, tab$Mois), ]
-      }
-
-      tab
-    }
-
-    if (setOSWindows) {
-
-      cluster <- makePSOCKcluster(cores)
-      clusterExport(cluster, c("clé.fusion"))
-
-      L <- clusterMap(cluster, f,  L[[1]],  # Bulletins de paie coupés en 4, éventuellement nul
-                                   L[[2]])  # Lignes de paie coupés en 4, éventuellement nul
-
-      stopCluster(cluster)
-      rm(cluster)
-
-    }  else  {
-
-      L <- mcMap(f,   L[[1]],  # Bulletins de paie coupés en 4, éventuellement nul
-                      L[[2]],  # Lignes de paie coupés en 4, éventuellement nul
-                      mc.cores = cores)
-
-    }
-
-   rm(temp)
-
-    if (table.rapide) {
-        Bulletins.paie.Lignes.paie <- data.table::rbindlist(L)
-    } else {
-        Bulletins.paie.Lignes.paie <- do.call(rbind, L)
-
-    }
-
-    if (paralléliser || ! table.rapide)
-       with(Bulletins.paie.Lignes.paie,
-            Bulletins.paie.Lignes.paie <- Bulletins.paie.Lignes.paie[order(Matricule, Année, Mois), ])
-
-    if (!is.null(L[[1]]) & !is.null(L[[2]]) & !is.null(Bulletins.paie.Lignes.paie))
-       message(paste("Fusion réalisée")) else stop("Echec de fusion" )
-
-  }
-
-
-  if (! exists("Codes.paiement.indemnitaire"))  stop("Pas de fichier des Types de codes [INDEMNITAIRE]")
-  if (! exists("Codes.paiement.principal.contractuel"))  stop("Pas de fichier des Types de codes [PRINCIPAL.CONTRACTUEL]")
-  if (! exists("Codes.paiement.vacations"))     stop("Pas de fichier des Types de codes [VACATAIRE]")
-  if (! exists("Codes.paiement.traitement"))    stop("Pas de fichier des Types de codes [TRAITEMENT]")
-  if (! exists("Codes.paiement.élu"))           stop("Pas de fichier des Types de codes [ELU]")
-  if (! exists("Codes.paiement.autres"))        stop("Pas de fichier des Types de codes [AUTRES]")
-
-  if (extraire.population) {
-
-    Bulletins.paie.Lignes.paie <- Bulletins.paie.Lignes.paie[grepl(expression.rég.population, Bulletins.paie.Lignes.paie$Service, ignore.case=TRUE), ]
-    Bulletins.paie             <- Bulletins.paie[grepl(expression.rég.population, Bulletins.paie$Service, ignore.case=TRUE), ]
-
-    if (!is.null(Bulletins.paie.Lignes.paie) & !is.null(Bulletins.paie)) message("Extraction réalisée")
-
-  }
-
-# Optimisation : il faut impérativement limiter le recours aux hash table lookups pour les gros fichiers.
-# L'optimisation ci-dessous repose sur l'utilisation des informations déjà calculées sur les colonnes précédentes pour éviter
-# de computer Codes....[Code] autant que possible. Gain de temps par rapport à une consultation systématique : x100 à x200
-# data.table ne gère pas les expressions du type if (...ligne précédente..) mais admet les calculs logiques booléens.
-
-if (table.rapide == TRUE) {
-
-  Bulletins.paie.Lignes.paie[ ,   montant.traitement.indiciaire
-                                   :=  Codes.paiement.traitement[Code]*Montant]
-
-  Bulletins.paie.Lignes.paie[,    montant.primes
-                                   :=  (montant.traitement.indiciaire == 0)*
-                                        Montant * Codes.paiement.indemnitaire[Code]]
-
-  Bulletins.paie.Lignes.paie[ ,   montant.rémunération.principale.contractuel
-                                   := (montant.traitement.indiciaire == 0
-                                       & montant.primes == 0)
-                                        * Montant * Codes.paiement.principal.contractuel[Code]]
-
-  Bulletins.paie.Lignes.paie[ ,   montant.rémunération.vacataire
-                                       :=  (montant.traitement.indiciaire == 0
-                                             & montant.primes == 0
-                                             & montant.rémunération.principale.contractuel == 0)
-                                             * Montant * Codes.paiement.vacations[Code]]
-
-  Bulletins.paie.Lignes.paie[ ,   montant.autres.rémunérations
-                                       :=  (montant.traitement.indiciaire == 0
-                                             & montant.rémunération.principale.contractuel == 0
-                                             & montant.rémunération.vacataire == 0
-                                             & montant.primes == 0)
-                                             * Montant * Codes.paiement.autres[Code]]
-
-  Bulletins.paie.Lignes.paie[ ,   montant.indemnité.élu
-                                       :=  (montant.traitement.indiciaire  == 0
-                                             & montant.rémunération.principale.contractuel == 0
-                                             & montant.rémunération.vacataire == 0
-                                             & montant.primes == 0
-                                             & montant.autres.rémunérations == 0)
-                                             * Montant * Codes.paiement.élu[Code]]
-
-                                       ### EQTP  ###
-
-}
+if (générer.codes) source("générer.codes.R", encoding = encodage.code.source)
+if (! import.direct)
+  source("fusionner.bulletins.lignes.R", encoding = encodage.code.source)
 else
-  Bulletins.paie.Lignes.paie <- mutate(Bulletins.paie.Lignes.paie,
-                                         montant.traitement.indiciaire
-                                                                  =  Codes.paiement.traitement[Code]*Montant,
-
-                                         montant.primes
-                                                                  =  (montant.traitement.indiciaire == 0)*
-                                                                    Montant * Codes.paiement.indemnitaire[Code],
-
-                                         montant.rémunération.principale.contractuel
-                                                                  = (montant.traitement.indiciaire == 0
-                                                                      & montant.primes == 0)
-                                                                  * Montant * Codes.paiement.principal.contractuel[Code],
-
-                                         montant.rémunération.vacataire
-                                                                  =  (montant.traitement.indiciaire == 0
-                                                                       & montant.primes == 0
-                                                                       & montant.rémunération.principale.contractuel == 0)
-                                                                  * Montant * Codes.paiement.vacations[Code],
-
-                                         montant.autres.rémunérations
-                                                                  =  (montant.traitement.indiciaire == 0
-                                                                       & montant.rémunération.principale.contractuel == 0
-                                                                       & montant.rémunération.vacataire == 0
-                                                                       & montant.primes == 0)
-                                                                  * Montant * Codes.paiement.autres[Code],
-
-                                         montant.indemnité.élu
-                                                                  =  (montant.traitement.indiciaire  == 0
-                                                                       & montant.rémunération.principale.contractuel == 0
-                                                                       & montant.rémunération.vacataire == 0
-                                                                       & montant.primes == 0
-                                                                       & montant.autres.rémunérations == 0)
-                                                                  * Montant * Codes.paiement.élu[Code]
-
-                                       )
-
-  if (inherits(Bulletins.paie.Lignes.paie, 'try-error') )
-    stop("Il est probable que le fichier des codes n'est pas exhaustif. Avez-vous (re-)généré l'ensemble des codes récemment ?")
+  Bulletins.paie <- Bulletins.paie.Lignes.paie
+  
 
   Bulletins.paie.Lignes.paie$quotité[is.na(Bulletins.paie.Lignes.paie$quotité)] <- 0
 
