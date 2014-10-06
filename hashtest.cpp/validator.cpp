@@ -591,7 +591,7 @@ int main(int argc, char **argv)
     char decimal = '.';
     char separateur = ',';
     char chemin_table[500]= {0};
-    strcpy(chemin_table, "table.csv");
+    strcpy(chemin_table, "Table.csv");
     bool afficher_memoire_reservee = false;
     bool generer_table = false;
     bool liberer_memoire = true;
@@ -643,7 +643,8 @@ int main(int argc, char **argv)
             puts("OPTIONS :");
             printf("-n nombre de bulletins mensuels attendus [défaut %d].\n", MAX_NB_AGENTS);
             printf("%s\n", "-t argument optionnel : type de base en sortie, soit 'standard', soit 'bulletins' [défaut bulletins].");
-            printf("%s\n", "-o argument obligatoire : fichier.csv, fichier de sortie [défaut 'table.csv' avec -t].");
+            printf("%s\n", "-o argument obligatoire : fichier.csv, chemin complet du fichier de sortie [défaut 'Table.csv' avec -t].");
+            printf("%s\n", "-D argument obligatoire : répertoire complet du fichier de sortie [défaut '.' avec -t].");
             printf("%s\n", "-d argument obligatoire : séparateur décimal [défaut . avec -t].");
             printf("%s\n", "-s argument obligatoire : séparateur de champs [défaut , avec -t]/");
             printf("%s\n", "-m sans argument : mémoire réservée. Estimation de la consommation de mémoire.");
@@ -706,13 +707,19 @@ int main(int argc, char **argv)
         else if (! strcmp(argv[start], "-m"))
         {
             afficher_memoire_reservee = true;
-            start +=1;
+            start++;
             continue;
         }
         else if (! strcmp(argv[start], "-M"))
         {
             liberer_memoire = false;
-            start +=1;
+            start++;
+            continue;
+        }
+        else if (! strcmp(argv[start], "-D"))
+        {
+            snprintf(chemin_table, 500*sizeof(char), "%s/Table.csv", argv[start + 1]);
+            start += 2;
             continue;
         }
         else if (argv[start][0] == '-')
