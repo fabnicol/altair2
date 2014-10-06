@@ -34,7 +34,7 @@ extern "C" {
 #endif
 
 #ifndef MAX_LIGNES_PAYE
- #define MAX_LIGNES_PAYE 100
+ #define MAX_LIGNES_PAYE 150
 #endif
 
 #ifndef MAX_NB_AGENTS
@@ -187,7 +187,8 @@ static inline int lignePaye(xmlNodePtr cur, bulletinPtr bulletinIdent, const cha
             if (t == nbType)
             {
                 fprintf(stderr, "En excès du nombre de types de lignes de paye autorisé (%d)\n", nbType);
-                fprintf(stderr, "Type litigieux : %s: \n", cur->name);
+                if (cur) fprintf(stderr, "Type litigieux %s aux alentours du matricule %s \n", cur->name, bulletinIdent->Matricule);
+                else fprintf(stderr, "%s", "Pointeur noeud courant nul\n");
                 exit(-11);
             }
             continue;
@@ -311,9 +312,16 @@ static uint64_t  parseBulletin(xmlNodePtr cur, const char decimal, bulletinPtr b
     {
         xmlNodePtr cur_save = cur;
 
-        DESCENDRE_UN_NIVEAU
-
-        ligne = lignePaye(cur, bulletinIdent, decimal);
+        if (xmlChildElementCount(cur))
+        {
+            DESCENDRE_UN_NIVEAU
+            ligne = lignePaye(cur, bulletinIdent, decimal);
+        }
+        else
+        {
+            // Rémuneration tag vide
+            ligne = 1 ;
+        }
 
         cur = cur_save->next;
     }
