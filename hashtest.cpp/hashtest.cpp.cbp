@@ -24,7 +24,7 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters='-t  -n 1500 -s ; -d , &quot;C:\Users\fnicol\Desktop\PAYE\fichiers xhl\2009\*.xhl&quot; &quot;C:\Users\fnicol\Desktop\PAYE\fichiers xhl\2010\*.xhl&quot; &quot;C:\Users\fnicol\Desktop\PAYE\fichiers xhl\2011\*.xhl&quot; &quot;C:\Users\fnicol\Desktop\PAYE\fichiers xhl\2012\*.xhl&quot;' />
+				<Option parameters='-t -n 1500 -s ; -d , &quot;C:\Dev\altair_github\altair\Tests\Exemple\Donnees\xhl\Metro\2011\*.xhl&quot; ' />
 				<Compiler>
 					<Add option="-march=core2" />
 					<Add option="-std=c++11" />
@@ -36,6 +36,8 @@
 		</Build>
 		<Compiler>
 			<Add option="-std=c++11" />
+			<Add option="-Wextra" />
+			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 			<Add option="-D__GNUC_EXTENSION" />
 			<Add directory="../../../../MinGW/include" />
@@ -45,9 +47,6 @@
 			<Add directory="../../../../MinGW/bin" />
 			<Add directory="../../../../../../Program Files (x86)/CodeBlocks/MinGW/bin" />
 		</Linker>
-		<Unit filename="main.cpp">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
 		<Unit filename="validator.cpp" />
 		<Extensions>
 			<code_completion />
