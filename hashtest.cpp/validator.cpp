@@ -27,7 +27,7 @@ extern "C" {
 #define __STDC_FORMAT_MACROS
 #include <inttypes.h>
 
-#define nbType 9
+#define nbType 11
 
 #ifndef NA_STRING
  #define NA_STRING "NA"
@@ -78,7 +78,7 @@ uint64_t MAX_MEMOIRE_RESERVEE = UINT32_MAX;
                           if (cur) \
                               fprintf(stderr, "Trouvé %s au lieu de " #X "\n", cur->name);   \
                             else \
-                              fprintf(stderr, "%s\n", "Noeud courant null au stade de la vérification de " #X ); \
+                              fprintf(stderr, "%s pour %s\n", "Noeud courant null au stade de la vérification de " #X, bulletinIdent->Matricule); \
                               SAUTER_UN_NOEUD \
                           }
 
@@ -98,9 +98,12 @@ uint64_t MAX_MEMOIRE_RESERVEE = UINT32_MAX;
 #define _BULLETIN_SUB_DEC_SEP(X)  _BULLETIN(X) \
                                    _SUB_DEC_SEP(X)
 
-#define DESCENDRE_UN_NIVEAU    cur = (cur)? cur->xmlChildrenNode: NULL;  if ((!NO_DEBUG) && cur) fprintf(stderr, "Descente au niveau %s\n", cur->name);  // cur = (cur)? cur-> next: NULL;
+#define _BULLETIN__SUB_DEC_SEP(X)  Bulletin(X, X) \
+                                   _SUB_DEC_SEP(X) }
 
-#define REMONTER_UN_NIVEAU     cur = (cur)? cur->parent: NULL;   if ((!NO_DEBUG) && cur) fprintf(stderr, "Remontée au niveau %s\n", cur->name); SAUTER_UN_NOEUD
+#define DESCENDRE_UN_NIVEAU    cur = (cur)? cur->xmlChildrenNode: NULL;  if ((! NO_DEBUG) && cur) fprintf(stderr, "Descente au niveau %s\n", cur->name);  // cur = (cur)? cur-> next: NULL;
+
+#define REMONTER_UN_NIVEAU     cur = (cur)? cur->parent: NULL;   if ((! NO_DEBUG) && cur) fprintf(stderr, "Remontée au niveau %s\n", cur->name); SAUTER_UN_NOEUD
 
 /* Traitement Brut : */
 /* Indemnité de résidence */
@@ -112,8 +115,8 @@ uint64_t MAX_MEMOIRE_RESERVEE = UINT32_MAX;
 /* Retenue */
 /* Cotisation */
 
-const char* type_remuneration[nbType] = {"TraitBrut", "IndemResid", "SupFam", "Indemnite", "RemDivers", "Deduction", "Rappel", "Retenue", "Cotisation"};
-const char* type_remuneration_traduit[nbType] = {"Traitement", u8"Indemnité de résidence", u8"Supplément Familial", u8"Indemnité", u8"Autres Rémunérations", u8"Déduction", "Rappel", "Retenue", "Cotisation"};
+const char* type_remuneration[nbType] = {"TraitBrut", "IndemResid", "SupFam", "AvantageNature", "Indemnite", "RemDivers", "Deduction", "Rappel", "Retenue", "Cotisation", "Commentaire"};
+const char* type_remuneration_traduit[nbType] = {"Traitement", u8"Indemnité de résidence", u8"Supplément familial", "Avantage en nature", u8"Indemnité", u8"Autres rémunérations", u8"Déduction", "Rappel", "Retenue", "Cotisation", "Commentaire"};
 
 xmlChar* annee_fichier = NULL;
 xmlChar* mois_fichier = NULL;
@@ -138,11 +141,13 @@ typedef struct bulletin
     xmlChar *MtBrut;
     xmlChar *MtNet;
     xmlChar *MtNetAPayer;
-    xmlChar *ligne[nbType][MAX_LIGNES_PAYE][6];  // type de ligne de paye x rang de la ligne x {Libellé, ..., Montant}
+    xmlChar *ligne[nbType-1][MAX_LIGNES_PAYE][6];  // type de ligne de paye x rang de la ligne x {Libellé, ..., Montant}
 
 } bulletin, *bulletinPtr;
 
-bulletinPtr bulletinIdent = NULL;
+//bulletinPtr bulletinIdent = NULL;
+
+FILE* BASE;
 
 static inline xmlNodePtr atteindreNoeud(const char* noeud, xmlNodePtr cur)
 {
@@ -166,10 +171,13 @@ static inline xmlNodePtr atteindreNoeud(const char* noeud, xmlNodePtr cur)
     return cur;
 }
 
-static inline void lignePaye(xmlNodePtr cur, bulletinPtr bulletinIdent, const char decimal)
+
+
+static inline int lignePaye(xmlNodePtr cur, bulletinPtr bulletinIdent, const char decimal)
 {
-    int l = 0;
+    int l = 0, nbLignePaye = 0;
     int t = 0;
+
     while (cur != NULL)
     {
         if (xmlStrcmp(cur->name, (const xmlChar *) type_remuneration[t]))
@@ -179,10 +187,15 @@ static inline void lignePaye(xmlNodePtr cur, bulletinPtr bulletinIdent, const ch
             if (t == nbType)
             {
                 fprintf(stderr, "En excès du nombre de types de lignes de paye autorisé (%d)\n", nbType);
-                fprintf(stderr, "Type litigieux : %s\n", cur->name);
+                fprintf(stderr, "Type litigieux : %s: \n", cur->name);
                 exit(-11);
             }
             continue;
+        }
+
+        if (! xmlStrcmp(cur->name, (const xmlChar*) "Commentaire"))
+        {
+            return l;
         }
 
         DESCENDRE_UN_NIVEAU
@@ -194,6 +207,10 @@ static inline void lignePaye(xmlNodePtr cur, bulletinPtr bulletinIdent, const ch
         /* Code, obligatoire */
         cur = atteindreNoeud("Code", cur);
         _Bulletin(ligne[t][l][1], Code)
+
+         if (xmlStrcmp(bulletinIdent->ligne[t][l][1], (xmlChar*)NA_STRING))
+            nbLignePaye++;
+
         /* Base, si elle existe */
         _Bulletin__SUB_DEC_SEP(ligne[t][l][2], Base)
         /* Taux, s'il existe */
@@ -205,7 +222,9 @@ static inline void lignePaye(xmlNodePtr cur, bulletinPtr bulletinIdent, const ch
         _Bulletin_SUB_DEC_SEP(ligne[t][l][5], Mt)
 
         REMONTER_UN_NIVEAU
+
         l++;
+
         if (l == MAX_LIGNES_PAYE)
         {
             fprintf(stderr, "En excès du nombre de lignes de paye autorisé (%d)\n", MAX_LIGNES_PAYE);
@@ -213,84 +232,108 @@ static inline void lignePaye(xmlNodePtr cur, bulletinPtr bulletinIdent, const ch
         }
         // Lorsque on a épuisé tous les types licites on a nécessairement cur = NULL
     }
+
+   return nbLignePaye;
 }
 
-static void  parseBulletin(xmlNodePtr cur, const char decimal)
+static uint64_t  parseBulletin(xmlNodePtr cur, const char decimal, bulletinPtr bulletinIdent)
 {
     DEBUG("Parsage")
+    int ligne = 0;
 
-    if (cur == NULL) return;
+    if (cur == NULL) return 0;
     cur = atteindreNoeud("Agent", cur);
-    if (cur != NULL)
-    {
-        bulletinIdent = (bulletinPtr) calloc(1, sizeof(bulletin));
-        if (bulletinIdent == NULL)
-        {
-            fprintf(stderr,"Pas assez de mémoire\n");
-            return;
-        }
 
-        for (int i = 0; i < nbType; i++)
-            for (int j = 0; j < MAX_LIGNES_PAYE; j++)
-              for (int k = 0; k < 6; k++)
-               bulletinIdent->ligne[i][j][k] = (xmlChar *) NA_STRING;
-
-        bulletinIdent->Annee = annee_fichier;
-        bulletinIdent->Mois = mois_fichier;
-
-        DESCENDRE_UN_NIVEAU
-
-        SAUTER_UN_NOEUD
-        _BULLETIN(Nom)
-        _BULLETIN(Prenom)
-        _BULLETIN(Matricule)
-        _BULLETIN(NIR)
-        SAUTER_UN_NOEUD
-        SAUTER_UN_NOEUD
-        _BULLETIN(Statut)
-        _BULLETIN(EmploiMetier)
-        _BULLETIN(Grade)
-        SAUTER_UN_NOEUD
-        _BULLETIN(Indice)
-
-        REMONTER_UN_NIVEAU
-    }
-    else
+    if (cur == NULL)
     {
         fprintf(stderr, "%s\n", "Impossible d'atteindre \"Agent\"");
-        return;
+        return 0;
     }
+
+    for (int i = 0; i < nbType-1; i++)
+       for (int j = 0; j < MAX_LIGNES_PAYE; j++)
+          for (int k = 0; k < 6; k++)
+            bulletinIdent->ligne[i][j][k] = (xmlChar *) NA_STRING;
+
+    bulletinIdent->Annee = annee_fichier;
+    bulletinIdent->Mois = mois_fichier;
+
+    DESCENDRE_UN_NIVEAU
+
+    SAUTER_UN_NOEUD
+    _BULLETIN(Nom)
+
+    cur = cur->parent;
+    cur = cur->xmlChildrenNode;
+    xmlNodePtr cur_save = cur;
+    cur = atteindreNoeud("Prenom", cur);
+
+    _BULLETIN(Prenom)
+    _BULLETIN(Matricule)
+    _BULLETIN(NIR)
+
+    cur = cur_save;
+    cur = atteindreNoeud("Indice", cur);
+    _BULLETIN(Indice)
+
+    cur = cur_save;
+    cur = atteindreNoeud("Statut", cur);
+    _BULLETIN(Statut)
+
+    cur = cur_save;
+    cur = atteindreNoeud("EmploiMetier", cur);
+
+    _BULLETIN(EmploiMetier)
+
+    cur = cur_save;
+    cur = atteindreNoeud("Grade", cur);
+    _BULLETIN(Grade)
+
+    REMONTER_UN_NIVEAU
 
     cur = atteindreNoeud("Service", cur);
     _BULLETIN(Service)
-    _BULLETIN(NBI)
-    _BULLETIN_SUB_DEC_SEP(QuotiteTrav)
-    SAUTER_UN_NOEUD
 
-    if (cur && !xmlStrcmp(cur->name, (const xmlChar *)"Remuneration"))
+    cur = cur->parent;
+    cur = cur->xmlChildrenNode;
+    cur_save = cur;
+    cur = atteindreNoeud("NBI", cur);
+
+    _BULLETIN(NBI)
+
+    cur = cur_save;
+    cur = atteindreNoeud("QuotiteTrav", cur);
+    _BULLETIN_SUB_DEC_SEP(QuotiteTrav)
+
+    cur = atteindreNoeud("Remuneration", cur);
+
+    if (cur)
     {
         xmlNodePtr cur_save = cur;
 
         DESCENDRE_UN_NIVEAU
 
-        lignePaye(cur, bulletinIdent, decimal);
+        ligne = lignePaye(cur, bulletinIdent, decimal);
+
         cur = cur_save->next;
     }
     else
     {
-        fprintf(stderr, "Trouvé %s au lieu de \"Remuneration\"", cur->name);
+        perror("Rémunération introuvable.");
         exit(-4);
     }
 
-    _BULLETIN_SUB_DEC_SEP(NbHeureTotal)
+    _BULLETIN__SUB_DEC_SEP(NbHeureTotal)
     cur = atteindreNoeud("NbHeureSup", cur);
     _BULLETIN_SUB_DEC_SEP(NbHeureSup)
     _BULLETIN_SUB_DEC_SEP(MtBrut)
     _BULLETIN_SUB_DEC_SEP(MtNet)
     _BULLETIN_SUB_DEC_SEP(MtNetAPayer)
+
+    return ligne;
 }
 
-static int32_t  parseFile(const char *filename,  bulletinPtr* Table, const char decimal)
+static int32_t  parseFile(const char *filename,  bulletinPtr* Table, const char decimal, uint64_t* ligne)
 {
     xmlDocPtr doc;
     xmlNodePtr cur = NULL;
@@ -335,7 +378,11 @@ static int32_t  parseFile(const char *filename,  bulletinPtr* Table, const char 
            exit(-503);
         }
 
-    cur = atteindreNoeud("DonneesIndiv", cur);
+cur = atteindreNoeud("DonneesIndiv", cur);
+
+while(! xmlStrcmp(cur->name, (const xmlChar*) "DonneesIndiv"))
+{
+    xmlNodePtr cur_save = cur;
 
     DESCENDRE_UN_NIVEAU
 
@@ -355,37 +402,96 @@ static int32_t  parseFile(const char *filename,  bulletinPtr* Table, const char 
 
         DESCENDRE_UN_NIVEAU
 
-        parseBulletin(cur, decimal);
+        bulletinPtr bulletinIdent = NULL;
+        bulletinIdent = (bulletinPtr) calloc(1, sizeof(bulletin));
+        if (bulletinIdent == NULL)
+        {
+            fprintf(stderr,"Pas assez de mémoire\n");
+            return 0;
+        }
+
+        *ligne += parseBulletin(cur, decimal, bulletinIdent);
+
         // Ici il est normal que cur = NULL
+
+
         cur = cur_save->next;
 
         AFFICHER_NOEUD(cur->name)
 
-        Table[agent_total++] = bulletinIdent;
+        Table[agent_total] = bulletinIdent;
+
+        agent_total++;
         agent_du_fichier++;
     }
 
-    agent_du_fichier--;
-    agent_total--;
-    printf("Population du fichier %s : %4d bulletins    Total : %4d bulletins.\n", filename, agent_du_fichier, agent_total);
+    cur = cur_save->next;
+
+}
+    printf("Population du fichier %s : %4d bulletins    Total : %4d bulletins  %4" PRIu64 " lignes cumulées.\n", filename, agent_du_fichier, agent_total, *ligne);
     xmlFreeDoc(doc);
     xmlCleanupParser();
     return((int32_t) agent_total);
 }
 
+#define format_base "%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s\n"
 
-#define ECRIRE(...) { fprintf(table, "%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s\n", __VA_ARGS__);  }
+#define args(X, agent, separateur, type, ligne) X[agent]->Annee, separateur, X[agent]->Mois, separateur, X[agent]->Nom, separateur, X[agent]->Prenom, separateur,\
+                        X[agent]->Matricule, separateur, X[agent]->Service, separateur, X[agent]->Statut, separateur, X[agent]->QuotiteTrav, separateur,\
+                        X[agent]->NbHeureSup, separateur, X[agent]->NbHeureTotal, separateur, X[agent]->Indice, separateur, X[agent]->MtBrut, separateur,\
+                        X[agent]->MtNet, separateur, X[agent]->MtNetAPayer, separateur, X[agent]->NBI, separateur, X[agent]->ligne[type][ligne][0], separateur, \
+                        X[agent]->ligne[type][ligne][1], separateur, X[agent]->ligne[type][ligne][2], separateur, X[agent]->ligne[type][ligne][3], separateur, X[agent]->ligne[type][ligne][4], separateur,\
+                        X[agent]->ligne[type][ligne][5], separateur, type_remuneration_traduit[type], separateur, X[agent]->EmploiMetier, separateur,\
+                        X[agent]->Grade, separateur, X[agent]->NIR
 
-int64_t generer_table_bulletins(const char* chemin_table, uint32_t taille, bulletinPtr* Table, const char separateur, const char decimal)
+#define ECRIRE(...) { fprintf(base, format_base, __VA_ARGS__);  }
+
+inline uint32_t boucle_ecriture(FILE* base,
+                                uint32_t nbAgent,
+                                bulletinPtr* Table,
+                                const char separateur,
+                                uint64_t* compteur)
 {
+  int ligne = 0;
+  uint32_t agent = 0;
 
-    FILE* table = fopen(chemin_table, "wb");
-    if (table == NULL)
+    for (uint32_t agent = 0; agent < nbAgent; agent++)
+    {
+        int type = 0;
+        while (type < nbType-1)  // Pour chaque type pour lequel il existe un code non NA
+        {
+            while (xmlStrcmp(Table[agent]->ligne[type][ligne][1], (xmlChar*) NA_STRING))  // Tant qu'il existe un code non NA, càd une ligne de paye correspondante
+            {
+                // Un peu low-level C, mais beaucoup plus rapide que de coder un fprintf pour chaque item.
+                // Gain d'exécution : 30s pour fprintf par item
+                //                    22s sur une ligne
+
+                if (ligne == MAX_LIGNES_PAYE) perror("Max lignes de paye atteint !");
+                fprintf(base, format_base, args(Table, agent, separateur, type, ligne));
+                ligne++;
+            }
+
+            *compteur += ligne;
+            ligne = 0;
+            type++;
+        }
+
+    }
+
+  return agent;
+}
+
+uint64_t generer_table_bulletins(const char* chemin_base, uint32_t nbAgent, bulletinPtr* Table, const char separateur)
+{
+    FILE* base = fopen(chemin_base, "wb");
+    fseek(base, 0, SEEK_SET);
+    if (base == NULL)
     {
         fprintf(stderr, "%s\n", "Impossible d'ouvrir le fichier de sortie.");
         exit(-1000);
     }
-    else printf("%s\n", "Enregistrement de la base csv");
+    else
+        printf("%s\n", "Enregistrement de la base csv");
 
      ECRIRE(u8"Année",
             separateur,
@@ -437,83 +543,15 @@ int64_t generer_table_bulletins(const char* chemin_table, uint32_t taille, bulle
             separateur,
             "NIR")
 
-    int ligne=0;
+    uint64_t compteur=0;
 
-    int64_t compteur = 0;
+    boucle_ecriture(base, nbAgent, Table, separateur, &compteur);
 
-    for (uint32_t agent = 0; agent < taille; agent++)
-    {
-        int type=0;
-        while (type < nbType)  // Pour chaque type pour lequel il existe un code non NA
-        {
-            while (xmlStrcmp(Table[agent]->ligne[type][ligne][1], (xmlChar*) NA_STRING) && ligne < MAX_LIGNES_PAYE)  // Tant qu'il existe un code non NA, càd une ligne de paye correspondante
-            {
-                // Un peu low-level C, mais 3 fois plus rapide que de coder un fprintf pour chaque item.
-
-         ECRIRE(Table[agent]->Annee,
-                separateur,
-                Table[agent]->Mois,
-                separateur,
-                Table[agent]->Nom,
-                separateur,
-                Table[agent]->Prenom,
-                separateur,
-                Table[agent]->Matricule,
-                separateur,
-                Table[agent]->Service,
-                separateur,
-                Table[agent]->Statut,
-                separateur,
-                Table[agent]->QuotiteTrav,
-                separateur,
-                Table[agent]->NbHeureSup,
-                separateur,
-                Table[agent]->NbHeureTotal,
-                separateur,
-                Table[agent]->Indice,
-                separateur,
-                Table[agent]->MtBrut,
-                separateur,
-                Table[agent]->MtNet,
-                separateur,
-                Table[agent]->MtNetAPayer,
-                separateur,
-                Table[agent]->NBI,
-                separateur,
-                Table[agent]->ligne[type][ligne][0], //"Libellé"
-                separateur,
-                Table[agent]->ligne[type][ligne][1], //"Code"
-                separateur,
-                Table[agent]->ligne[type][ligne][2], //"Base"
-                separateur,
-                Table[agent]->ligne[type][ligne][3], //"Taux"
-                separateur,
-                Table[agent]->ligne[type][ligne][4], //"Nb. Unité"
-                separateur,
-                Table[agent]->ligne[type][ligne][5], //"Montant"
-                separateur,
-                type_remuneration_traduit[type],
-                separateur,
-                Table[agent]->EmploiMetier,
-                separateur,
-                Table[agent]->Grade,
-                separateur,
-                Table[agent]->NIR)
-
-                ligne++;
-            }
-            compteur += ligne;
-            ligne=0;
-            type++;
-        }
-
-    }
-
-    fclose(table);
+    fclose(base);
     return compteur;
 }
 
-int64_t generer_table_standard(const char* chemin_table, uint32_t taille, bulletinPtr* Table, char separateur, char decimal)
+int64_t generer_table_standard(const char* chemin_table, uint32_t nbAgent, bulletinPtr* Table, char separateur)
 {
 
 
@@ -536,7 +574,7 @@ int main(int argc, char **argv)
 
     LIBXML_TEST_VERSION
     xmlKeepBlanksDefault(0);
-    uint16_t nbAgents = MAX_NB_AGENTS;
+    uint32_t nbAgents = MAX_NB_AGENTS;
 
     int start = 1;
 
@@ -548,10 +586,11 @@ int main(int argc, char **argv)
     strcpy(chemin_table, "table.csv");
     bool afficher_memoire_reservee = false;
     bool generer_table = false;
+    bool liberer_memoire = true;
 
     while (start < argc)
     {
-        if (!strcmp(argv[start], "-n"))
+        if (! strcmp(argv[start], "-n"))
         {
             if (argc > 2)
             {
@@ -578,7 +617,7 @@ int main(int argc, char **argv)
                 }
                 else
                 {
-                    nbAgents  = (uint16_t)sl;
+                    nbAgents  = (uint32_t)sl;
                     start += 2;
                     continue;
                 }
@@ -590,7 +629,7 @@ int main(int argc, char **argv)
                 return -3;
             }
         }
-        else if (!strcmp(argv[start], "-h"))
+        else if (! strcmp(argv[start], "-h"))
         {
             printf("%s\n", "Usage :  xhl2csv OPTIONS fichiers.xhl");
             puts("OPTIONS :");
@@ -600,12 +639,13 @@ int main(int argc, char **argv)
             printf("%s\n", "-d argument obligatoire : séparateur décimal [défaut . avec -t].");
             printf("%s\n", "-s argument obligatoire : séparateur de champs [défaut , avec -t]/");
             printf("%s\n", "-m sans argument : mémoire réservée. Estimation de la consommation de mémoire.");
+            printf("%s\n", "-M sans argument : ne pas libérer la mémoire réservée en fin de programme.");
             exit(0);
         }
-        else if (!strcmp(argv[start], "-t"))
+        else if (! strcmp(argv[start], "-t"))
         {
             generer_table = true;
-            if (!strcmp(argv[start + 1], "standard"))
+            if (! strcmp(argv[start + 1], "standard"))
             {
                 strncpy(type_table, argv[start + 1], 50*sizeof(char));
                 start += 2;
@@ -617,7 +657,7 @@ int main(int argc, char **argv)
                 continue;
             }
         }
-        else if (!strcmp(argv[start], "-s"))
+        else if (! strcmp(argv[start], "-s"))
         {
             if (start + 1 == argc)
             {
@@ -633,7 +673,7 @@ int main(int argc, char **argv)
             start += 2;
             continue;
         }
-        else if (!strcmp(argv[start], "-d"))
+        else if (! strcmp(argv[start], "-d"))
         {
             if (start + 1 == argc)
             {
@@ -644,7 +684,7 @@ int main(int argc, char **argv)
             start += 2;
             continue;
         }
-        else if (!strcmp(argv[start], "-o"))
+        else if (! strcmp(argv[start], "-o"))
         {
             if (start + 1 == argc)
             {
@@ -655,9 +695,15 @@ int main(int argc, char **argv)
             start += 2;
             continue;
         }
-        else if (!strcmp(argv[start], "-m"))
+        else if (! strcmp(argv[start], "-m"))
         {
             afficher_memoire_reservee = true;
+            start +=1;
+            continue;
+        }
+        else if (! strcmp(argv[start], "-M"))
+        {
+            liberer_memoire = false;
             start +=1;
             continue;
         }
@@ -681,30 +727,72 @@ int main(int argc, char **argv)
 
     memset(Table, 0, sizeof(Table));
 
-    int32_t taille = 0;
+    int32_t nbAgent = 0;
+    uint64_t nbLigne = 0;
 
     for (int i = start; i < argc ; i++)
     {
-        taille = parseFile(argv[i], Table, decimal);
+        BASE=fopen("table3.csv", "a+");
+        nbAgent = parseFile(argv[i], Table, decimal, &nbLigne);
+        fclose(BASE);
 
-        if (taille < 0)
+        if (nbAgent < 0)
         {
             fprintf(stderr, "Erreur de décodage pour le fichier %s\n", argv[i]);
             return -1;
         }
     }
 
+    uint64_t nbLigneBase=0;
+
     if (generer_table)
     {
-        if (!strcmp(type_table, "standard"))
-            generer_table_standard(chemin_table, taille, Table, separateur, decimal);
-        else if (!strcmp(type_table, "bulletins"))
-            generer_table_bulletins(chemin_table, taille, Table, separateur, decimal);
+
+        if (! strcmp(type_table, "standard"))
+            nbLigneBase = generer_table_standard(chemin_table, nbAgent, Table, separateur);
+        else if (! strcmp(type_table, "bulletins"))
+            nbLigneBase = generer_table_bulletins(chemin_table, nbAgent, Table, separateur);
         else
         {
             fprintf(stderr, "Type %s inconnu.", type_table);
             exit(-501);
         }
+    }
+
+    fprintf(stderr, "Table de %" PRIu64 " lignes générée pour %" PRIu64 "lignes de paie d'origine.\n", nbLigneBase, nbLigne);
+
+    #define FREE(X) if (X && xmlStrcmp(X, (xmlChar*)NA_STRING)) xmlFree(X);
+
+    /* libération de la mémoire */
+
+   if (liberer_memoire)
+    for (int i = 0; i < nbAgent; i++)
+    {
+
+        FREE(Table[i]->Nom)
+        FREE(Table[i]->Prenom)
+        FREE(Table[i]->Matricule)
+        FREE(Table[i]->Annee)
+        FREE(Table[i]->Mois)
+        FREE(Table[i]->NIR)
+        FREE(Table[i]->Statut)
+        FREE(Table[i]->EmploiMetier)
+        FREE(Table[i]->Grade)
+        FREE(Table[i]->Indice)
+        FREE(Table[i]->Service)
+        FREE(Table[i]->NBI)
+        FREE(Table[i]->QuotiteTrav)
+        FREE(Table[i]->NbHeureTotal)
+        FREE(Table[i]->NbHeureSup)
+        FREE(Table[i]->MtBrut)
+        FREE(Table[i]->MtNet)
+        FREE(Table[i]->MtNetAPayer)
+        for (int l = 0; l < nbType-1; l++)
+             for (int j = 0; j < MAX_LIGNES_PAYE; j++)
+                  for (int k = 0; k < 6; k++)
+                     FREE(Table[i]->ligne[l][j][k])
+
+       free(Table[i]);
     }
 
     return(0);

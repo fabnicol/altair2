@@ -1,7 +1,16 @@
 # depslib dependency file v1.0
-1412082949 source:c:\users\public\dev\hashtest.cpp\validator.cpp
+1412555094 source:c:\dev\altair_github\altair\hashtest.cpp\validator.cpp
 	<stdio.h>
-	<libxml/xmlreader.h>
+	<string.h>
+	<stdlib.h>
+	<stdint.h>
+	<stdbool.h>
+	<limits.h>
+	<locale.h>
+	<libxml/xmlmemory.h>
+	<libxml/parser.h>
+	<Windows.h>
+	<inttypes.h>
 
 1341006776 c:\mingw\include\stdio.h
 	<_mingw.h>
@@ -15,44 +24,36 @@
 	<_mingw.h>
 	<stddef.h>
 
-1286864732 c:\mingw\include\libxml\xmlreader.h
-	<libxml/xmlversion.h>
-	<libxml/tree.h>
-	<libxml/xmlIO.h>
-	<libxml/relaxng.h>
-	<libxml/xmlschemas.h>
+1341006777 c:\mingw\include\string.h
+	<_mingw.h>
+	<stddef.h>
 
-1412095412 c:\mingw\include\libxml\xmlversion.h
-	<libxml/xmlexports.h>
-	<ansidecl.h>
+1341006777 c:\mingw\include\stdlib.h
+	<_mingw.h>
+	<stddef.h>
 
-1412095412 c:\mingw\include\libxml\xmlexports.h
+1341006776 c:\mingw\include\stdint.h
+	<stddef.h>
 
-1412095412 c:\mingw\include\libxml\tree.h
-	<stdio.h>
-	<libxml/xmlversion.h>
-	<libxml/xmlstring.h>
-	<libxml/xmlregexp.h>
-	<libxml/xmlmemory.h>
+1341006774 c:\mingw\include\limits.h
+	<_mingw.h>
 
-1412095412 c:\mingw\include\libxml\xmlstring.h
-	<stdarg.h>
-	<libxml/xmlversion.h>
-
-1412095412 c:\mingw\include\libxml\xmlregexp.h
-	<libxml/xmlversion.h>
-	<libxml/tree.h>
-	<libxml/dict.h>
-
-1412095412 c:\mingw\include\libxml\dict.h
-	<libxml/xmlversion.h>
-	<libxml/tree.h>
+1341006774 c:\mingw\include\locale.h
+	<_mingw.h>
+	<stddef.h>
+	<stddef.h>
 
 1412095412 c:\mingw\include\libxml\xmlmemory.h
 	<stdio.h>
 	<libxml/xmlversion.h>
 	<libxml/threads.h>
 	<libxml/globals.h>
+
+1412095412 c:\mingw\include\libxml\xmlversion.h
+	<libxml/xmlexports.h>
+	<ansidecl.h>
+
+1412095412 c:\mingw\include\libxml\xmlexports.h
 
 1412095412 c:\mingw\include\libxml\threads.h
 	<libxml/xmlversion.h>
@@ -80,6 +81,26 @@
 	<libxml/encoding.h>
 	<libxml/xmlIO.h>
 	<libxml/globals.h>
+
+1412095412 c:\mingw\include\libxml\tree.h
+	<stdio.h>
+	<libxml/xmlversion.h>
+	<libxml/xmlstring.h>
+	<libxml/xmlregexp.h>
+	<libxml/xmlmemory.h>
+
+1412095412 c:\mingw\include\libxml\xmlstring.h
+	<stdarg.h>
+	<libxml/xmlversion.h>
+
+1412095412 c:\mingw\include\libxml\xmlregexp.h
+	<libxml/xmlversion.h>
+	<libxml/tree.h>
+	<libxml/dict.h>
+
+1412095412 c:\mingw\include\libxml\dict.h
+	<libxml/xmlversion.h>
+	<libxml/tree.h>
 
 1412095412 c:\mingw\include\libxml\hash.h
 	<libxml/xmlversion.h>
@@ -145,9 +166,6 @@
 	<_mingw.h>
 	<stddef.h>
 
-1341006776 c:\mingw\include\stdint.h
-	<stddef.h>
-
 1412095412 c:\mingw\include\libxml\xmlio.h
 	<stdio.h>
 	<libxml/xmlversion.h>
@@ -163,10 +181,6 @@
 	<libxml/parser.h>
 	<libxml/xlink.h>
 
-1341006777 c:\mingw\include\stdlib.h
-	<_mingw.h>
-	<stddef.h>
-
 1412095412 c:\mingw\include\libxml\xlink.h
 	<libxml/xmlversion.h>
 	<libxml/tree.h>
@@ -177,45 +191,6 @@
 	<libxml/xmlversion.h>
 	<libxml/parser.h>
 	<libxml/xlink.h>
-
-1286864732 c:\mingw\include\libxml\relaxng.h
-	<libxml/xmlversion.h>
-	<libxml/hash.h>
-	<libxml/xmlstring.h>
-
-1286864732 c:\mingw\include\libxml\xmlschemas.h
-	<libxml/xmlversion.h>
-	<libxml/tree.h>
-
-1412292788 source:c:\dev\altair_github\altair\hashtest.cpp\validator.cpp
-	<stdio.h>
-	<string.h>
-	<stdlib.h>
-	<stdint.h>
-	<stdbool.h>
-	<limits.h>
-	<locale.h>
-	<libxml/xmlmemory.h>
-	<libxml/parser.h>
-	<Windows.h>
-	<inttypes.h>
-
-1341006777 c:\mingw\include\string.h
-	<_mingw.h>
-	<stddef.h>
-
-1412337918 source:c:\users\fnicol\desktop\altair\github\hashtest.cpp\validator.cpp
-	<stdio.h>
-	<string.h>
-	<stdlib.h>
-	<stdint.h>
-	<stdbool.h>
-	<limits.h>
-	<locale.h>
-	<libxml/xmlmemory.h>
-	<libxml/parser.h>
-	<Windows.h>
-	<inttypes.h>
 
 1301111162 c:\mingw\include\windows.h
 	<winresrc.h>
@@ -411,16 +386,8 @@
 1301111156 c:\mingw\include\oleidl.h
 	<objfwd.h>
 
-1341006774 c:\mingw\include\limits.h
-	<_mingw.h>
-
 1341006773 c:\mingw\include\inttypes.h
 	<_mingw.h>
 	<stdint.h>
-	<stddef.h>
-
-1341006774 c:\mingw\include\locale.h
-	<_mingw.h>
-	<stddef.h>
 	<stddef.h>
 
