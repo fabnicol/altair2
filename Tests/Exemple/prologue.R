@@ -122,7 +122,10 @@ date.format                      <- "%d/%m/%Y"
 # ESPACES DE VALEURS LICITES POUR CERTAINS CHAMPS (modalités)
 
 #libellés.élus               <- c("Elu", "Elus", "élu", "élus", "maire", "président", "adjoint au maire", "vice-président", "vice président")
-#codes.NBI <- c("1012", "101B", "101M", "4652", "4672")
+
+########## Problématique ##############
+codes.NBI <- c("1012", "101B", "101M", "4652", "4672")
+Codes.paiement.vacations <- c("")
 
 # A priori les deux modes de lectures de tables (rapide et standard) lisent aussi bien le Windows ANSI/ISO-8859-1 que 
 # l'UTF-8 à condition que le Windows ANSI soit encodé par Excel ou l'éditeur de RStudio.
