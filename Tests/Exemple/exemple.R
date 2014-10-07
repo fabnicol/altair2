@@ -355,51 +355,129 @@ if (! import.direct) {
   Bulletins.paie <- Bulletins.paie.Lignes.paie
  }
 
+if (table.rapide == TRUE) {
+  
+  Bulletins.paie.Lignes.paie[ ,   quotité   := ifelse(etp.égale.effectif | is.na(Temps.de.travail), 1,  Temps.de.travail / 100)]
+  Bulletins.paie.Lignes.paie[ ,   Montant.net.eqtp := ifelse(is.finite(Net.à.Payer/quotité), Net.à.Payer/quotité,  NA)]
+  
+} else {
+  Bulletins.paie.Lignes.paie <- mutate(Bulletins.paie.Lignes.paie,
+                           
+                           ### EQTP  ###
+                           
+                           quotité                  = ifelse(etp.égale.effectif | is.na(Temps.de.travail), 1,  Temps.de.travail / 100),
+                           #                          * ((corriger.quotité)*(is.na(Taux) * (1- Taux)  + Taux) + 1 - corriger.quotité)
+                           # if( ...) ne fonctionne pas.
+                           
+                           Montant.net.eqtp         = ifelse(is.finite(Net.à.Payer/quotité), Net.à.Payer/quotité, NA))
+}
+
+anavar <- ddply(Bulletins.paie.Lignes.paie,
+                c(clé.fusion, étiquette.année),
+                summarise,
+                # partie Analyse des variations par exercice #
+                
+                Montant.net.annuel.eqtp = sum(Montant.net.eqtp, na.rm = TRUE),
+                # En principe la colonne Brut ne tient pas compte des remboursements d efrais ou des régularisations
+                Montant.brut.annuel = sum(Brut),
+                Statut.sortie       = Statut[length(Net.à.Payer)],
+                mois.entrée         = ifelse((minimum <- min(Mois)) != Inf, minimum, 0),
+                mois.sortie         = ifelse((maximum <- max(Mois)) != -Inf, maximum, 0),
+                nb.jours            = calcul.nb.jours.mois(mois.entrée[1], mois.sortie[1], Année[1]),
+                nb.mois             = mois.sortie[1] - mois.entrée[1] + 1)
+
+Bulletins.paie.Lignes.paie <- merge (Bulletins.paie.Lignes.paie, anavar, by = c(étiquette.matricule, étiquette.année))
 
 Bulletins.paie.Lignes.paie$quotité[is.na(Bulletins.paie.Lignes.paie$quotité)] <- 0
 
 message("Bulletins de paye retraités")
-#Bulletins.paie.Lignes.paie <- as.data.frame(Bulletins.paie.Lignes.paie)
 
-Analyse.rémunérations <- ddply(Bulletins.paie.Lignes.paie,
-                               c(clé.fusion, étiquette.année),
-                               summarise,
-                               mois.entrée  = mois.entrée[1],
-                               Nir          = Nir[1],
-                               Montant.net.annuel.eqtp  = Montant.net.annuel.eqtp[1],
-                               Montant.brut.annuel = Montant.brut.annuel[1],
-                               Statut       = Statut[1],
+if (! import.direct) {
+  Analyse.rémunérations <- ddply(Bulletins.paie.Lignes.paie,
+                                 c(clé.fusion, étiquette.année),
+                                 summarise,
+                                 mois.entrée  = mois.entrée[1],
+                                 Nir          = Nir[1],
+                                 Montant.net.annuel.eqtp  = Montant.net.annuel.eqtp[1],
+                                 Montant.brut.annuel = Montant.brut.annuel[1],
+                                 Statut       = Statut[1],
+  
+                                 nb.jours     = nb.jours[1],
+                                 nb.mois      = nb.mois[1],
+                                 mois.sortie  = mois.sortie[1],
+                                 Emploi       = Emploi[length(Net.à.Payer)],
+                                 traitement.indiciaire               = sum(montant.traitement.indiciaire),
+                                 rémunération.principale.contractuel = sum(montant.rémunération.principale.contractuel),
+                                 rémunération.vacataire              = sum(montant.rémunération.vacataire),
+                                 rémunération.indemnitaire           = sum(montant.primes),
+                                 indemnités.élu                      = sum(montant.indemnité.élu),
+                                 autres.rémunérations                = sum(montant.autres.rémunérations),
+  
+                                 # on ne considère que les rémunérations brutes (sans prise en compte des remboursements de frais aux salariés ou des régularisations)
+                                 # pour être en homogénéïté avec la colonne Brut/Montant.brut.annuel
+  
+                                 total.rémunérations                 =  traitement.indiciaire                       # le premier et deuxième terme sont exclusifs
+                                                                      + rémunération.principale.contractuel
+                                                                      + rémunération.vacataire
+                                                                      + rémunération.indemnitaire,
+  
+                                 # ici on ajoute les remboursements de frais professionnels (autres.rémunérations) et on enlève les régularisations (détachements..., màd...)
+  
+                                 total.rémunérations.et.remboursements =  total.rémunérations
+                                                                        + autres.rémunérations
+                                                                        + indemnités.élu,
+  
+                                 part.rémunération.indemnitaire =  ifelse(is.na(s <-  traitement.indiciaire
+                                                                            + rémunération.principale.contractuel
+                                                                            + rémunération.indemnitaire) | s == 0,
+                                                                           NA, (rémunération.indemnitaire + rémunération.principale.contractuel )
+                                                                                   / s * 100))
 
-                               nb.jours     = nb.jours[1],
-                               nb.mois      = nb.mois[1],
-                               mois.sortie  = mois.sortie[1],
-                               Emploi       = Emploi[length(Net.à.Payer)],
-                               traitement.indiciaire               = sum(montant.traitement.indiciaire),
-                               rémunération.principale.contractuel = sum(montant.rémunération.principale.contractuel),
-                               rémunération.vacataire              = sum(montant.rémunération.vacataire),
-                               rémunération.indemnitaire           = sum(montant.primes),
-                               indemnités.élu                      = sum(montant.indemnité.élu),
-                               autres.rémunérations                = sum(montant.autres.rémunérations),
+} else {
+  Analyse.rémunérations <- ddply(Bulletins.paie.Lignes.paie,
+                                 c(clé.fusion, étiquette.année),
+                                 summarise,
+                                 mois.entrée  = mois.entrée[1],
+                                 Nir          = Nir[1],
+                                 Montant.net.annuel.eqtp  = Montant.net.annuel.eqtp[1],
+                                 Montant.brut.annuel = Montant.brut.annuel[1],
+                                 Statut       = Statut[1],
+                                 
+                                 nb.jours     = nb.jours[1],
+                                 nb.mois      = nb.mois[1],
+                                 mois.sortie  = mois.sortie[1],
+                                 Emploi       = Emploi[length(Net.à.Payer)],
+                                 traitement.indiciaire               = sum(Montant[Type == "Traitement"]),
+                                # rémunération.principale.contractuel = sum(Montant[Type == "Traitement"]),
+                                # rémunération.vacataire              = sum(Montant[Type == "Traitement"]),
+                                 rémunération.indemnitaire           = sum(Montant[Type == "Indemmnité" | Type == "Indemnité de résidence"]),
+                                 indemnités.élu                      = sum(Montant[Type == "Indemmnité" & (grepl(expression.rég.élus, Service) | grepl(expression.rég.élus, Emploi))]),
+                                 autres.rémunérations                = sum(Montant[Type == "Rappel"]),
+                                 
+                                 # on ne considère que les rémunérations brutes (sans prise en compte des remboursements de frais aux salariés ou des régularisations)
+                                 # pour être en homogénéïté avec la colonne Brut/Montant.brut.annuel
+                                 
+                                 total.rémunérations                 =  traitement.indiciaire                       # le premier et deuxième terme sont exclusifs
+                                # + rémunération.principale.contractuel
+                                # + rémunération.vacataire
+                                 + rémunération.indemnitaire
+                                 + autres.rémunérations,
+                                 
+                                 # ici on ajoute les remboursements de frais professionnels (autres.rémunérations) et on enlève les régularisations (détachements..., màd...)
+                                 
+                                 total.rémunérations.et.remboursements =  total.rémunérations
+                                                                 + indemnités.élu,
+                                 
+                                 part.rémunération.indemnitaire =  ifelse(is.na(s <-  traitement.indiciaire
+                                                        #                        + rémunération.principale.contractuel
+                                                                                + rémunération.indemnitaire) | s == 0,
+                                                                          NA, (rémunération.indemnitaire 
+                                                                               # + rémunération.principale.contractuel 
+                                                                               )
+                                                                          / s * 100))
+  Bulletins.paie <- Bulletins.paie.Lignes.paie
+}
 
-                               # on ne considère que les rémunérations brutes (sans prise en compte des remboursements de frais aux salariés ou des régularisations)
-                               # pour être en homogénéïté avec la colonne Brut/Montant.brut.annuel
-
-                               total.rémunérations                 =  traitement.indiciaire                       # le premier et deuxième terme sont exclusifs
-                                                                    + rémunération.principale.contractuel
-                                                                    + rémunération.vacataire
-                                                                    + rémunération.indemnitaire,
-
-                               # ici on ajoute les remboursements de frais professionnels (autres.rémunérations) et on enlève les régularisations (détachements..., màd...)
-
-                               total.rémunérations.et.remboursements =  total.rémunérations
-                                                                      + autres.rémunérations
-                                                                      + indemnités.élu,
-
-                               part.rémunération.indemnitaire =  ifelse(is.na(s <-  traitement.indiciaire
-                                                                          + rémunération.principale.contractuel
-                                                                          + rémunération.indemnitaire) | s == 0,
-                                                                         NA, (rémunération.indemnitaire + rémunération.principale.contractuel )
-                                                                                 / s * 100))
 
   Analyse.rémunérations <- Analyse.rémunérations[!is.na(Analyse.rémunérations$total.rémunérations), ]
 

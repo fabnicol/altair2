@@ -83,39 +83,7 @@ if (! setequal(intersect(names(Lignes.paie), names(Bulletins.paie)), union(c("Mo
 
 if (charger.bases)
 {
-  if (table.rapide == TRUE) {
-    
-    Bulletins.paie[ ,   quotité   := ifelse(etp.égale.effectif | is.na(Temps.de.travail), 1,  Temps.de.travail / 100)]
-    Bulletins.paie[ ,   Montant.net.eqtp := ifelse(is.finite(Net.à.Payer/quotité), Net.à.Payer/quotité,  NA)]
-    
-  } else {
-    Bulletins.paie <- mutate(Bulletins.paie,
-                             
-                             ### EQTP  ###
-                             
-                             quotité                  = ifelse(etp.égale.effectif | is.na(Temps.de.travail), 1,  Temps.de.travail / 100),
-                             #                          * ((corriger.quotité)*(is.na(Taux) * (1- Taux)  + Taux) + 1 - corriger.quotité)
-                             # if( ...) ne fonctionne pas.
-                             
-                             Montant.net.eqtp         = ifelse(is.finite(Net.à.Payer/quotité), Net.à.Payer/quotité, NA))
-  }
-  
-  anavar <- ddply(Bulletins.paie,
-                  c(étiquette.matricule, étiquette.année),
-                  summarise,
-                  # partie Analyse des variations par exercice #
-                  
-                  Montant.net.annuel.eqtp = sum(Montant.net.eqtp, na.rm = TRUE),
-                  # En principe la colonne Brut ne tient pas compte des remboursements d efrais ou des régularisations
-                  Montant.brut.annuel = sum(Brut),
-                  Statut.sortie = Statut[length(Net.à.Payer)],
-                  mois.entrée = if ((minimum <- min(Mois)) != Inf) minimum else 0,
-                  mois.sortie = if ((maximum <- max(Mois)) != -Inf) maximum else 0,
-                  nb.jours = calcul.nb.jours.mois(mois.entrée[1], mois.sortie[1], Année[1]),
-                  nb.mois  = mois.sortie[1] - mois.entrée[1] + 1)
-  
-  
-  Bulletins.paie <- merge (Bulletins.paie, anavar, by = c(étiquette.matricule, étiquette.année))
+ 
   
   # Fusion non parallélisée
   
@@ -221,6 +189,8 @@ if (charger.bases)
       message(paste("Fusion réalisée")) else stop("Echec de fusion" )
     
   }
+  
+  
   
   
   if (! exists("Codes.paiement.indemnitaire"))  stop("Pas de fichier des Types de codes [INDEMNITAIRE]")

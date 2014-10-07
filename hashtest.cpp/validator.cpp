@@ -513,9 +513,9 @@ uint64_t generer_table_bulletins(const char* chemin_base, uint32_t nbAgent, bull
             separateur,
             "Statut",
             separateur,
-            u8"quotité",
+            u8"Temps.de.travail",
             separateur,
-            "HeureSup",
+            "Heures.Sup.",
             separateur,
             "Heures",
             separateur,
@@ -525,7 +525,7 @@ uint64_t generer_table_bulletins(const char* chemin_base, uint32_t nbAgent, bull
             separateur,
             "Net",
             separateur,
-            u8"Net à Payer",
+            u8"Net.à.Payer",
             separateur,
             "NBI",
             separateur,
@@ -537,7 +537,7 @@ uint64_t generer_table_bulletins(const char* chemin_base, uint32_t nbAgent, bull
             separateur,
             "Taux",
             separateur,
-            u8"Nb. Unité",
+            u8"Nb.Unité",
             separateur,
             "Montant",
             separateur,
@@ -547,7 +547,7 @@ uint64_t generer_table_bulletins(const char* chemin_base, uint32_t nbAgent, bull
             separateur,
             "Grade",
             separateur,
-            "NIR")
+            "Nir")
 
     uint64_t compteur=0;
 
