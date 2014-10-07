@@ -310,8 +310,8 @@ ne portent pas sur le même nombre d'années : ..." %+%  fin.période.sous.revue[1]
   }
 }
 
-période                     <- début.période.sous.revue:fin.période.sous.revue
-durée.sous.revue            <- fin.période.sous.revue - début.période.sous.revue + 1
+période                 <- début.période.sous.revue:fin.période.sous.revue
+durée.sous.revue        <- fin.période.sous.revue - début.période.sous.revue + 1
 
 if (! import.direct)
 {
@@ -356,9 +356,10 @@ if (! import.direct) {
  }
 
 if (table.rapide == TRUE) {
+  # Bulletins.paie.Lignes.paie <- en raison du fonctionnement de knitr sinon inutile
   
-  Bulletins.paie.Lignes.paie[ ,   quotité   := ifelse(etp.égale.effectif | is.na(Temps.de.travail), 1,  Temps.de.travail / 100)]
-  Bulletins.paie.Lignes.paie[ ,   Montant.net.eqtp := ifelse(is.finite(Net.à.Payer/quotité), Net.à.Payer/quotité,  NA)]
+  Bulletins.paie.Lignes.paie <- Bulletins.paie.Lignes.paie[ ,   quotité   := ifelse(etp.égale.effectif | is.na(Temps.de.travail), 1,  Temps.de.travail / 100)]
+  Bulletins.paie.Lignes.paie <- Bulletins.paie.Lignes.paie[ ,   Montant.net.eqtp := ifelse(is.finite(Net.à.Payer/quotité), Net.à.Payer/quotité,  NA)]
   
 } else {
   Bulletins.paie.Lignes.paie <- mutate(Bulletins.paie.Lignes.paie,
@@ -372,19 +373,37 @@ if (table.rapide == TRUE) {
                            Montant.net.eqtp         = ifelse(is.finite(Net.à.Payer/quotité), Net.à.Payer/quotité, NA))
 }
 
-anavar <- ddply(Bulletins.paie.Lignes.paie,
-                c(clé.fusion, étiquette.année),
-                summarise,
-                # partie Analyse des variations par exercice #
-                
-                Montant.net.annuel.eqtp = sum(Montant.net.eqtp, na.rm = TRUE),
-                # En principe la colonne Brut ne tient pas compte des remboursements d efrais ou des régularisations
-                Montant.brut.annuel = sum(Brut),
-                Statut.sortie       = Statut[length(Net.à.Payer)],
-                mois.entrée         = ifelse((minimum <- min(Mois)) != Inf, minimum, 0),
-                mois.sortie         = ifelse((maximum <- max(Mois)) != -Inf, maximum, 0),
-                nb.jours            = calcul.nb.jours.mois(mois.entrée[1], mois.sortie[1], Année[1]),
-                nb.mois             = mois.sortie[1] - mois.entrée[1] + 1)
+
+if (! import.direct) {
+  anavar <- ddply(Bulletins.paie,
+                  c(clé.fusion, étiquette.année),
+                  summarise,
+                  # partie Analyse des variations par exercice #
+                 
+                  Montant.net.annuel.eqtp = sum(Montant.net.eqtp, na.rm = TRUE),
+                  # En principe la colonne Brut ne tient pas compte des remboursements d efrais ou des régularisations
+                  Montant.brut.annuel = sum(Brut, na.rm=TRUE),
+                  Statut.sortie       = Statut[length(Net.à.Payer)],
+                  mois.entrée         = ifelse((minimum <- min(Mois)) != Inf, minimum, 0),
+                  mois.sortie         = ifelse((maximum <- max(Mois)) != -Inf, maximum, 0),
+                  nb.jours            = calcul.nb.jours.mois(mois.entrée[1], mois.sortie[1], Année[1]),
+                  nb.mois             = mois.sortie[1] - mois.entrée[1] + 1)
+} else  {
+  anavar <- ddply(Bulletins.paie.Lignes.paie,
+                  c(clé.fusion, étiquette.année),
+                  summarise,
+                  # partie Analyse des variations par exercice #
+                  
+                  
+                  Statut.sortie       = Statut[length(Net.à.Payer)],
+                  mois.entrée         = ifelse((minimum <- min(Mois)) != Inf, minimum, 0),
+                  mois.sortie         = ifelse((maximum <- max(Mois)) != -Inf, maximum, 0),
+                  Montant.net.annuel.eqtp = sum(tapply(Montant.net.eqtp, Mois, function(x) x[1])),
+                  # En principe la colonne Brut ne tient pas compte des remboursements d efrais ou des régularisations
+                  Montant.brut.annuel = sum(tapply(Brut, Mois, function(x) x[1])),
+                  nb.jours            = calcul.nb.jours.mois(mois.entrée[1], mois.sortie[1], Année[1]),
+                  nb.mois             = mois.sortie[1] - mois.entrée[1] + 1)
+}
 
 Bulletins.paie.Lignes.paie <- merge (Bulletins.paie.Lignes.paie, anavar, by = c(étiquette.matricule, étiquette.année))
 
@@ -448,10 +467,10 @@ if (! import.direct) {
                                  mois.sortie  = mois.sortie[1],
                                  Emploi       = Emploi[length(Net.à.Payer)],
                                  traitement.indiciaire               = sum(Montant[Type == "Traitement"]),
-                                # rémunération.principale.contractuel = sum(Montant[Type == "Traitement"]),
-                                # rémunération.vacataire              = sum(Montant[Type == "Traitement"]),
-                                 rémunération.indemnitaire           = sum(Montant[Type == "Indemmnité" | Type == "Indemnité de résidence"]),
-                                 indemnités.élu                      = sum(Montant[Type == "Indemmnité" & (grepl(expression.rég.élus, Service) | grepl(expression.rég.élus, Emploi))]),
+                                 rémunération.principale.contractuel = 0,
+                                 rémunération.vacataire              = 0,
+                                 rémunération.indemnitaire           = sum(Montant[Type == "Indemnité" | Type == "Indemnité de résidence"]),
+                                 indemnités.élu                      = sum(Montant[Type == "Indemnité" & (grepl(expression.rég.élus, Service) | grepl(expression.rég.élus, Emploi))]),
                                  autres.rémunérations                = sum(Montant[Type == "Rappel"]),
                                  
                                  # on ne considère que les rémunérations brutes (sans prise en compte des remboursements de frais aux salariés ou des régularisations)
@@ -1764,6 +1783,8 @@ Tableau(
 
 # Vacations et statut de fonctionnaire
 
+if (exists("Codes.paiement.vacations")) {
+  
 lignes.fonctionnaires.et.vacations <- Bulletins.paie.Lignes.paie[ (Statut == "TITULAIRE" | Statut == "STAGIAIRE")
                                                                   & Codes.paiement.vacations[Code] != 0,
                                                                  c(étiquette.matricule,
@@ -1776,14 +1797,17 @@ lignes.fonctionnaires.et.vacations <- Bulletins.paie.Lignes.paie[ (Statut == "TI
         matricules.fonctionnaires.et.vacations <- unique(lignes.fonctionnaires.et.vacations[c("Matricule", "Nom", "Prénom")])
             nombre.fonctionnaires.et.vacations <- nrow(matricules.fonctionnaires.et.vacations)
 nombre.Lignes.paie.fonctionnaires.et.vacations <- nrow(lignes.fonctionnaires.et.vacations)
+}
 
 #'
 
-Tableau(
-  c("Nombre de FEV",
-    "Nombre de lignes de vacations pour FEV"),
-  nombre.fonctionnaires.et.vacations,
-  nombre.Lignes.paie.fonctionnaires.et.vacations)
+if (exists("nombre.fonctionnaires.et.vacations"))
+  Tableau(
+    c("Nombre de FEV",
+      "Nombre de lignes de vacations pour FEV"),
+    nombre.fonctionnaires.et.vacations,
+    nombre.Lignes.paie.fonctionnaires.et.vacations)
+
 
 #'
 #'[Lien vers la base de données Matricules des FEV](Bases/Réglementation/matricules.fonctionnaires.et.vacations.csv)  
@@ -1796,6 +1820,8 @@ Tableau(
 
 # Vacations et régime indemnitaire
 
+if (exists("Codes.paiement.vacations")) {
+  
     lignes.contractuels.et.vacations <- Bulletins.paie.Lignes.paie[Statut != "TITULAIRE"
                                                                    & Statut != "STAGIAIRE"
                                                                    & Codes.paiement.vacations[Code],
@@ -1830,11 +1856,16 @@ traitement.et.vacations <- Bulletins.paie.Lignes.paie[Codes.paiement.traitement[
 nombre.Lignes.paie.contractuels.et.vacations <- nrow(lignes.contractuels.et.vacations)
 nombre.Lignes.paie.RI.et.vacations <- nrow(RI.et.vacations)
 nombre.Lignes.paie.traitement.et.vacations <- nrow(traitement.et.vacations)
+} else {
+  message("Pas de traitement des vacations")
+}
 
 #'
 #'**Contractuels effectuant des vacations (CEV)**
 #'
-Tableau(c("Nombre de CEV",
+
+if (exists("nombre.contractuels.et.vacations"))
+  Tableau(c("Nombre de CEV",
           "Nombre de lignes",
           "Nombre de lignes indemnitaires",
           "Nombre de lignes de traitement"),
@@ -1854,9 +1885,9 @@ Tableau(c("Nombre de CEV",
 
 #IAT et IFTS
 
-  ifts.logical <- grepl(expression.rég.ifts, Bulletins.paie.Lignes.paie$Libellé, ignore.case=TRUE)
-  codes.ifts  <- levels(as.factor(Bulletins.paie.Lignes.paie[ifts.logical, étiquette.code]))
-  personnels.iat.ifts <- intersect(Bulletins.paie.Lignes.paie[grepl(expression.rég.iat, Libellé, ignore.case=TRUE), clé.fusion[1]],
+ ifts.logical <- grepl(expression.rég.ifts, Bulletins.paie.Lignes.paie$Libellé, ignore.case=TRUE)
+ codes.ifts  <- levels(as.factor(Bulletins.paie.Lignes.paie[ifts.logical, étiquette.code]))
+ personnels.iat.ifts <- intersect(Bulletins.paie.Lignes.paie[grepl(expression.rég.iat, Libellé, ignore.case=TRUE), clé.fusion[1]],
                                    Bulletins.paie.Lignes.paie[ifts.logical, clé.fusion[1]])
  names(personnels.iat.ifts) <- "Matricules des agents percevant IAT et/ou IFTS sur la période"
 
@@ -1922,20 +1953,21 @@ Tableau(c("Nombre de contractuels percevant des IFTS", "Nombre de lignes IFTS po
 # l'expression régulière expression.rég.heures.sup donnée par le fichier prologue.R
 
 
-HS.sup.25 <- Bulletins.paie.Lignes.paie[Heures.Sup. >= 25,
-                                                 c(étiquette.matricule,
-                                                   étiquette.année,
-                                                   "Statut",
-                                                   "Mois",
-                                                   "Libellé",
-                                                   étiquette.code,
-                                                   "Heures",
-                                                   "Heures.Sup.",
-                                                   "Base",
-                                                   "Taux",
-                                                   "Montant",
-                                                   "montant.primes",
-                                                   "montant.traitement.indiciaire")]
+colonnes <- c(étiquette.matricule,
+              étiquette.année,
+              "Statut",
+              "Mois",
+              "Libellé",
+              étiquette.code,
+              "Heures",
+              "Heures.Sup.",
+              "Base",
+              "Taux",
+              "Montant")
+
+if (import.direct) colonnes <- c(colonnes, "Type") else colonnes <- c(colonnes, "montant.primes", "montant.traitement.indiciaire")
+
+HS.sup.25 <- Bulletins.paie.Lignes.paie[Heures.Sup. >= 25, colonnes]
 
 # version 1 : 48 s
 # HS.sup.25 <- merge(HS.sup.25,
@@ -1948,11 +1980,14 @@ HS.sup.25 <- Bulletins.paie.Lignes.paie[Heures.Sup. >= 25,
 # version optimisée : 0,15 s soit x300
 
 
-HS.sup.indiciaire.mensuel <- with(HS.sup.25, HS.sup.25[!is.na(montant.traitement.indiciaire) & montant.traitement.indiciaire != 0, c("Matricule", "Année", "Mois", "montant.traitement.indiciaire")])
+Filtre1 <- ifelse(import.direct, Type == "Traitement", !is.na(montant.traitement.indiciaire) & montant.traitement.indiciaire != 0)
+
+Filtre2 <- ifelse(import.direct, Type == "Indemnité", !is.na(montant.primes) & montant.primes != 0)
+
+HS.sup.indiciaire.mensuel <- with(HS.sup.25, HS.sup.25[Filtre1, c("Matricule", "Année", "Mois", "Montant")])
 
 HS.sup.25 <- with(HS.sup.25,
-                  HS.sup.25[! is.na(montant.primes)
-                            & montant.primes != 0
+                  HS.sup.25[Filtre2
                             & ! grepl(".*SMIC.*",
                                      Libellé, ignore.case = TRUE)
                             & grepl(expression.rég.heures.sup,
@@ -1975,7 +2010,7 @@ HS.sup.25 <- with(HS.sup.25, HS.sup.25[order(Matricule, Année, Mois), c(étiquett
 # Tout convertir en as.character() est plus prudent.
 
 temp <- with(HS.sup.indiciaire.mensuel,
-             tapply(montant.traitement.indiciaire, list(Matricule, Année, Mois), FUN=sum))
+             tapply(Montant, list(Matricule, Année, Mois), FUN=sum))
 
 traitement.indiciaire.mensuel <-    unlist(Map(function(x, y, z) temp[x, y, z],
                                         as.character(HS.sup.indiciaire.mensuel$Matricule),
