@@ -143,7 +143,7 @@ if (! import.direct && file.exists(chemin(nom.fichier.codes.paiement)))
 # Lignes de paie
 # On peut lire jusqu'à 50 fichiers csv de lignes de paie qui seront générés au format :
 
-# "chemin dossier + racine-Lignes de paye-j.csv" où racine est un bref identifiant du type de contrôle (exemple : "c2a-", "PEV-", ...)
+# "chemin dossier + racine-Lignes de Paie-j.csv" où racine est un bref identifiant du type de contrôle (exemple : "c2a-", "PEV-", ...)
 
 lignes.paie <- nom.fichier.paie %+% "-" %+% 1:50 %+% ".csv"
 lignes.paie <- lignes.paie[file.exists(chemin(lignes.paie))]
@@ -151,7 +151,7 @@ lignes.paie <- lignes.paie[file.exists(chemin(lignes.paie))]
 # Bulletins de paie
 # On peut lire jusqu'à 10 fichiers csv de bulletins de paie qui seront générés au format :
 
-# "chemin dossier + racine-Bulletins de paye-j.csv"
+# "chemin dossier + racine-Bulletins de Paie-j.csv"
 
 bulletins.paie <- nom.bulletin.paie %+% "-" %+% 1:10 %+% ".csv"
 bulletins.paie <- bulletins.paie[file.exists(chemin(bulletins.paie))]
@@ -214,7 +214,7 @@ if (table.rapide && résultat[2] != NULL && inherits(résultat[2], 'try-error'))
    résultat <- Import.Lignes.paie()
    
    if (résultat[2] != NULL && inherits(résultat[2], 'try-error')) 
-      stop("Problème de lecture des bases de lignes de paye")
+      stop("Problème de lecture des bases de lignes de Paie")
 }       
 
 if (!is.null(Lignes.paie))
@@ -239,13 +239,13 @@ res <- try(Read.csv("Bulletins.paie",
                     rapide = table.rapide), silent = TRUE)
 
 if (inherits(res, 'try-error'))
-    stop("Problème de lecture des bases de bulletins de paye")
+    stop("Problème de lecture des bases de bulletins de Paie")
 
 if (!is.null(Bulletins.paie)) message("Chargement des bulletins de paie.") else stop("Chargement des bulletins de paie en échec.")
 
 } else {
   
-    res <- try(Read.csv("Bulletins.paie.Lignes.paie",
+    res <- try(Read.csv("Paie",
                         nom.table,
   #                      colClasses = union(bulletins.paie.classes.input, lignes.paie.classes.input),
   #                      colNames = bulletins.paie.input,
@@ -254,10 +254,10 @@ if (!is.null(Bulletins.paie)) message("Chargement des bulletins de paie.") else 
                         rapide = table.rapide), silent = FALSE)
     
     if (inherits(res, 'try-error'))
-      stop("Problème de lecture de la base de la table bulletins-lignes de paye")
+      stop("Problème de lecture de la base de la table bulletins-lignes de Paie")
     
-    if (!is.null(Bulletins.paie.Lignes.paie)) {
-      message("Chargement de la table bulletins-lignes de paye.") 
+    if (!is.null(Paie)) {
+      message("Chargement de la table bulletins-lignes de Paie.") 
     } else {
       stop("Chargement de la table bulletins-lignes de paie en échec.")
     }
@@ -273,20 +273,20 @@ if (! extraire.années) {
 
   if (import.direct)
   {
-    début.période.sous.revue <- min(Bulletins.paie.Lignes.paie$Année)
-    fin.période.sous.revue   <- max(Bulletins.paie.Lignes.paie$Année)
+    début.période.sous.revue <- min(Paie$Année)
+    fin.période.sous.revue   <- max(Paie$Année)
     
   } else {
     
     début.période.sous.revue    <- c(min(Bulletins.paie$Année), min(Lignes.paie$Année))
     fin.période.sous.revue      <- c(max(Bulletins.paie$Année), max(Lignes.paie$Année))
     if (début.période.sous.revue[1] != début.période.sous.revue[2])
-      stop("Les bases des bulletins et lignes de paye
-ne portent pas sur le même nombre d'années : " %+%  début.période.sous.revue[1] %+% "... pour les bulletins et " %+% début.période.sous.revue[1] %+% "... pour les lignes de paye.")
+      stop("Les bases des bulletins et lignes de Paie
+ne portent pas sur le même nombre d'années : " %+%  début.période.sous.revue[1] %+% "... pour les bulletins et " %+% début.période.sous.revue[1] %+% "... pour les lignes de Paie.")
     
     if (fin.période.sous.revue[1] != fin.période.sous.revue[2])
-      stop("Les bases des bulletins et lignes de paye
-ne portent pas sur le même nombre d'années : ..." %+%  fin.période.sous.revue[1] %+% " pour les bulletins et ..." %+% fin.période.sous.revue[1] %+% "... pour les lignes de paye.")
+      stop("Les bases des bulletins et lignes de Paie
+ne portent pas sur le même nombre d'années : ..." %+%  fin.période.sous.revue[1] %+% " pour les bulletins et ..." %+% fin.période.sous.revue[1] %+% "... pour les lignes de Paie.")
     
     début.période.sous.revue <- début.période.sous.revue[1]
     fin.période.sous.revue   <- fin.période.sous.revue[1]
@@ -298,8 +298,7 @@ ne portent pas sur le même nombre d'années : ..." %+%  fin.période.sous.revue[1]
 
   if (import.direct)
   {
-    Bulletins.paie.Lignes.paie <- Bulletins.paie.Lignes.paie[Bulletins.paie.Lignes.paie$Année >= début.période.sous.revue
-                                                             & Bulletins.paie.Lignes.paie$Année <= fin.période.sous.revue, ]  
+    Paie <- Paie[Paie$Année >= début.période.sous.revue & Paie$Année <= fin.période.sous.revue, ]  
       
   } else {
     
@@ -317,12 +316,12 @@ if (! import.direct)
 {
   if (table.rapide) {
   
-  matricules.à.retirer  <- Lignes.paie[Lignes.paie$Code == "", "Matricule", with=F]
-  matricules.à.retirer  <- matricules.à.retirer[[1]]
+    matricules.à.retirer  <- Lignes.paie[Lignes.paie$Code == "", "Matricule", with=F]
+    matricules.à.retirer  <- matricules.à.retirer[[1]]
   
   } else {
   
-  matricules.à.retirer  <- Lignes.paie[Lignes.paie$Code == "", "Matricule"]
+   matricules.à.retirer  <- Lignes.paie[Lignes.paie$Code == "", "Matricule"]
   }
   
   Lignes.paie    <- Lignes.paie[Lignes.paie$Code != "", ]
@@ -337,7 +336,7 @@ if (! import.direct)
   
   } else {
   
-  message("Contrôle des noms de colonne des bulletins de paie : normal.")
+    message("Contrôle des noms de colonne des bulletins de paie : normal.")
   }
 }
 
@@ -350,80 +349,55 @@ if (! import.direct)
 
 if (générer.codes) source("générer.codes.R", encoding = encodage.code.source)
 
-if (! import.direct) {
-  
-  anavar <- ddply(Bulletins.paie,
-                  c(clé.fusion, étiquette.année),
-                  summarise,
-                  # partie Analyse des variations par exercice #
-                  
-                  Montant.net.annuel.eqtp = sum(Montant.net.eqtp, na.rm = TRUE),
-                  # En principe la colonne Brut ne tient pas compte des remboursements d efrais ou des régularisations
-                  Montant.brut.annuel = sum(Brut, na.rm=TRUE),
-                  Statut.sortie       = Statut[length(Net.à.Payer)],
-                  mois.entrée         = ifelse((minimum <- min(Mois)) != Inf, minimum, 0),
-                  mois.sortie         = ifelse((maximum <- max(Mois)) != -Inf, maximum, 0),
-                  nb.jours            = calcul.nb.jours.mois(mois.entrée[1], mois.sortie[1], Année[1]),
-                  nb.mois             = mois.sortie[1] - mois.entrée[1] + 1)
-} else  {
-  
-  anavar <- ddply(Bulletins.paie.Lignes.paie,
-                  c(clé.fusion, étiquette.année),
-                  summarise,
-                  # partie Analyse des variations par exercice #
-                  
-                  
-                  Statut.sortie       = Statut[length(Net.à.Payer)],
-                  mois.entrée         = ifelse((minimum <- min(Mois)) != Inf, minimum, 0),
-                  mois.sortie         = ifelse((maximum <- max(Mois)) != -Inf, maximum, 0),
-                  Montant.net.annuel.eqtp = sum(tapply(Montant.net.eqtp, Mois, function(x) x[1])),
-                  # En principe la colonne Brut ne tient pas compte des remboursements d efrais ou des régularisations
-                  Montant.brut.annuel = sum(tapply(Brut, Mois, function(x) x[1])),
-                  nb.jours            = calcul.nb.jours.mois(mois.entrée[1], mois.sortie[1], Année[1]),
-                  nb.mois             = mois.sortie[1] - mois.entrée[1] + 1)
-}
-
-if (! import.direct) {
-  
-  Bulletins.paie <- merge (Bulletins.paie, anavar, by = c(étiquette.matricule, étiquette.année))
-  
-} else {
-  
-  Bulletins.paie.Lignes.paie <- merge (Bulletins.paie.Lignes.paie, anavar, by = c(étiquette.matricule, étiquette.année))  
-}
-
-if (! import.direct) {
+if (! import.direct) 
   source("fusionner.bulletins.lignes.R", encoding = encodage.code.source)
- } else {
-  Bulletins.paie <- Bulletins.paie.Lignes.paie
- }
+  
 
 if (table.rapide == TRUE) {
-  # Bulletins.paie.Lignes.paie <- en raison du fonctionnement de knitr sinon inutile
+  # Paie <- en raison du fonctionnement de knitr sinon inutile
   
-  Bulletins.paie.Lignes.paie <- Bulletins.paie.Lignes.paie[ ,   quotité   := ifelse(etp.égale.effectif | is.na(Temps.de.travail), 1,  Temps.de.travail / 100)]
-  Bulletins.paie.Lignes.paie <- Bulletins.paie.Lignes.paie[ ,   Montant.net.eqtp := ifelse(is.finite(Net.à.Payer/quotité), Net.à.Payer/quotité,  NA)]
+  Paie <- Paie[ ,   quotité   := ifelse(etp.égale.effectif | is.na(Temps.de.travail), 1,  Temps.de.travail / 100)]
+  Paie <- Paie[ ,   Montant.net.eqtp := ifelse(is.finite(Net.à.Payer/quotité), Net.à.Payer/quotité,  NA)]
   
 } else {
-  Bulletins.paie.Lignes.paie <- mutate(Bulletins.paie.Lignes.paie,
-                           
+  Paie <- mutate(Paie,
                            ### EQTP  ###
-                           
                            quotité                  = ifelse(etp.égale.effectif | is.na(Temps.de.travail), 1,  Temps.de.travail / 100),
                            #                          * ((corriger.quotité)*(is.na(Taux) * (1- Taux)  + Taux) + 1 - corriger.quotité)
                            # if( ...) ne fonctionne pas.
-                           
                            Montant.net.eqtp         = ifelse(is.finite(Net.à.Payer/quotité), Net.à.Payer/quotité, NA))
 }
 
 
+if (! import.direct) { 
+    S <- function(x) sum(x, na.rm = TRUE) 
+  } else {
+    S <- function(x) sum(tapply(x, Mois, function(x) x[1]), na.rm = TRUE)
+  }
+  
+  anavar <- ddply(Paie,
+                  c(clé.fusion, étiquette.année),
+                  summarise,
+                  # partie Analyse des variations par exercice #
+                  
+                  Montant.net.annuel.eqtp = S(Montant.net.eqtp),
+                  # En principe la colonne Brut ne tient pas compte des remboursements d efrais ou des régularisations
+                  Montant.brut.annuel = S(Brut),
+                  Statut.sortie       = Statut[length(Net.à.Payer)],
+                  mois.entrée         = ifelse((minimum <- min(Mois)) != Inf, minimum, 0),
+                  mois.sortie         = ifelse((maximum <- max(Mois)) != -Inf, maximum, 0),
+                  nb.jours            = calcul.nb.jours.mois(mois.entrée[1], mois.sortie[1], Année[1]),
+                  nb.mois             = mois.sortie[1] - mois.entrée[1] + 1)
 
-Bulletins.paie.Lignes.paie$quotité[is.na(Bulletins.paie.Lignes.paie$quotité)] <- 0
+  
+Paie <- merge (Paie, anavar, by = c(étiquette.matricule, étiquette.année))  
 
-message("Bulletins de paye retraités")
+Paie$quotité[is.na(Paie$quotité)] <- 0
+
+message("Bulletins de Paie retraités")
 
 if (! import.direct) {
-  Analyse.rémunérations <- ddply(Bulletins.paie.Lignes.paie,
+  Analyse.rémunérations <- ddply(Paie,
                                  c(clé.fusion, étiquette.année),
                                  summarise,
                                  mois.entrée  = mois.entrée[1],
@@ -431,8 +405,7 @@ if (! import.direct) {
                                  Montant.net.annuel.eqtp  = Montant.net.annuel.eqtp[1],
                                  Montant.brut.annuel = Montant.brut.annuel[1],
                                  Statut       = Statut[1],
-  
-                                 nb.jours     = nb.jours[1],
+                                   nb.jours     = nb.jours[1],
                                  nb.mois      = nb.mois[1],
                                  mois.sortie  = mois.sortie[1],
                                  Emploi       = Emploi[length(Net.à.Payer)],
@@ -464,7 +437,7 @@ if (! import.direct) {
                                                                                    / s * 100))
 
 } else {
-  Analyse.rémunérations <- ddply(Bulletins.paie.Lignes.paie,
+  Analyse.rémunérations <- ddply(Paie,
                                  c(clé.fusion, étiquette.année),
                                  summarise,
                                  mois.entrée  = mois.entrée[1],
@@ -505,7 +478,7 @@ if (! import.direct) {
                                                                                # + rémunération.principale.contractuel 
                                                                                )
                                                                           / s * 100))
-  Bulletins.paie <- Bulletins.paie.Lignes.paie
+  
 }
 
 
@@ -576,8 +549,8 @@ if (! import.direct) {
 
   if (table.rapide) {
 
-    Bulletins.paie.nir.total.hors.élus <- merge(Bulletins.paie[Bulletins.paie$Année == fin.période.sous.revue
-                                                               & Bulletins.paie$Mois == 12,
+    Bulletins.paie.nir.total.hors.élus <- merge(Paie[Paie$Année == fin.période.sous.revue
+                                                               & Paie$Mois == 12,
                                                                c(clé.fusion, champ.nir), with = FALSE],
                                                 Analyse.rémunérations[Analyse.rémunérations$Année == fin.période.sous.revue
                                                                       & Analyse.rémunérations$indemnités.élu == 0,
@@ -586,8 +559,8 @@ if (! import.direct) {
 
   } else {
 
-    Bulletins.paie.nir.total.hors.élus <- merge(Bulletins.paie[Bulletins.paie$Année == fin.période.sous.revue
-                                                               & Bulletins.paie$Mois == 12,
+    Bulletins.paie.nir.total.hors.élus <- merge(Paie[Paie$Année == fin.période.sous.revue
+                                                               & Paie$Mois == 12,
                                                                c(clé.fusion, champ.nir)],
                                                 Analyse.rémunérations[Analyse.rémunérations$Année == fin.période.sous.revue
                                                                       & Analyse.rémunérations$indemnités.élu == 0,
@@ -598,18 +571,18 @@ if (! import.direct) {
 
  if (table.rapide) {
 
-   Bulletins.paie.nir.fonctionnaires  <- unique(Bulletins.paie[Bulletins.paie$Année == fin.période.sous.revue
-                                                               & Bulletins.paie$Mois  == 12
-                                                               & (Bulletins.paie$Statut == "TITULAIRE" |
-                                                                  Bulletins.paie$Statut == "STAGIAIRE"),
+   Bulletins.paie.nir.fonctionnaires  <- unique(Paie[Paie$Année == fin.période.sous.revue
+                                                               & Paie$Mois  == 12
+                                                               & (Paie$Statut == "TITULAIRE" |
+                                                                  Paie$Statut == "STAGIAIRE"),
                                                                  c(clé.fusion, champ.nir), with = FALSE])
 
  } else {
 
-   Bulletins.paie.nir.fonctionnaires  <- unique(Bulletins.paie[Bulletins.paie$Année == fin.période.sous.revue
-                                                               & Bulletins.paie$Mois  == 12
-                                                               & (Bulletins.paie$Statut == "TITULAIRE" |
-                                                                  Bulletins.paie$Statut == "STAGIAIRE"),
+   Bulletins.paie.nir.fonctionnaires  <- unique(Bulletins.paie[Paie$Année == fin.période.sous.revue
+                                                               & Paie$Mois  == 12
+                                                               & (Paie$Statut == "TITULAIRE" |
+                                                                  Paie$Statut == "STAGIAIRE"),
                                                                  c(clé.fusion, champ.nir)])
 
  }
@@ -632,13 +605,12 @@ if (! import.direct) {
 
 message("Analyse démographique réalisée.")
 
-if (!is.null(Bulletins.paie.Lignes.paie) & !is.null(Analyse.rémunérations)
+if (!is.null(Paie) & !is.null(Analyse.rémunérations)
     & !is.null(Analyse.variations.synthèse) & !is.null(Analyse.variations.par.exercice))
   message("Statistiques de synthèse réalisées")
 
 if (table.rapide) {
-  class(Bulletins.paie)             <- "data.frame"
-  class(Bulletins.paie.Lignes.paie) <- "data.frame"
+  class(Paie) <- "data.frame"
 }
 
 
@@ -652,7 +624,7 @@ liste.années <- as.character(période)
 
 effectifs <- lapply(période,
                     function(x) {
-                      A <- Bulletins.paie[Bulletins.paie$Année == x, c("Matricule", "Statut", "Service", "Emploi", "nb.mois")]
+                      A <- Paie[Paie$Année == x, c("Matricule", "Statut", "Service", "Emploi", "nb.mois")]
                       E <- unique(A[ , c("Matricule", "nb.mois")])
                       F <- E[E$nb.mois == 12, ]
                       G <- unique(A[(A$Statut == "TITULAIRE" | A$Statut == "STAGIAIRE") , c("Matricule", "nb.mois")])
@@ -858,9 +830,9 @@ Tableau(c("Rémunérations brutes",
 #'  *Total brut*          : somme des trois précédents facteurs
 #'
 
-somme.brut.non.élu  <- sum(Bulletins.paie[  Bulletins.paie$Année == année
-                                          & ! grepl(expression.rég.élus, Bulletins.paie$Emploi, ignore.case=TRUE)
-                                          & ! grepl(expression.rég.élus, Bulletins.paie$Emploi, ignore.case=TRUE),
+somme.brut.non.élu  <- sum(Paie[  Paie$Année == année
+                                          & ! grepl(expression.rég.élus, Paie$Emploi, ignore.case=TRUE)
+                                          & ! grepl(expression.rég.élus, Paie$Emploi, ignore.case=TRUE),
                                             "Brut"])
 
 delta  <- somme.brut.non.élu - masses.premier["total.rémunérations"]
@@ -1197,9 +1169,9 @@ Tableau(c("Rémunérations brutes",
 #'Cumuls réalisés sur les lignes de paie. Les indemnités d'élu ne sont pas prises en compte.
 #'
 
-somme.brut.non.élu  <- sum(Bulletins.paie[  Bulletins.paie$Année == année
-                                          & ! grepl(expression.rég.élus, Bulletins.paie$Emploi, ignore.case=TRUE)
-                                          & ! grepl(expression.rég.élus, Bulletins.paie$Service, ignore.case=TRUE),
+somme.brut.non.élu  <- sum(Paie[  Paie$Année == année
+                                          & ! grepl(expression.rég.élus, Paie$Emploi, ignore.case=TRUE)
+                                          & ! grepl(expression.rég.élus, Paie$Service, ignore.case=TRUE),
                                           "Brut"])
 
              delta  <- somme.brut.non.élu - masses.dernier["total.rémunérations"]
@@ -1737,9 +1709,9 @@ if (durée.sous.revue < 2)
 #'## 5.1 Contrôle des heures supplémentaires, des NBI et primes informatiques
 #'
 
-attach(Bulletins.paie.Lignes.paie, warn.conflicts = FALSE)
+attach(Paie, warn.conflicts = FALSE)
 
-NBI.aux.non.titulaires <- Bulletins.paie.Lignes.paie[Statut != "TITULAIRE"
+NBI.aux.non.titulaires <- Paie[Statut != "TITULAIRE"
                                                      & Statut != "STAGIAIRE"
                                                      & as.character(Code) %in% codes.NBI,
                                                      c(étiquette.matricule,
@@ -1754,11 +1726,11 @@ nombre.Lignes.paie.NBI.nontit <- nrow(NBI.aux.non.titulaires)
 # Prime de fonctions informatiques : pas dans la base de VLB
 # on cherche la chaine de char. "INFO" dans les libellés de primes
 
-# variante : filtre <- regexpr(".*(INFO|PFI|P.F.I).*", toupper(Bulletins.paie.Lignes.paie$Libellé)) et regmatches(Bulletins.paie.Lignes.paie$Libellé, filtre)
+# variante : filtre <- regexpr(".*(INFO|PFI|P.F.I).*", toupper(Paie$Libellé)) et regmatches(Paie$Libellé, filtre)
 
 filtre <- grep(".*(INFO|PFI|P.F.I).*", Libellé)
 
-personnels.prime.informatique <- Bulletins.paie.Lignes.paie[ filtre,
+personnels.prime.informatique <- Paie[ filtre,
                                                              c(étiquette.matricule,
                                                                "Statut",
                                                                étiquette.code,
@@ -1796,7 +1768,7 @@ Tableau(
 
 if (exists("Codes.paiement.vacations")) {
   
-lignes.fonctionnaires.et.vacations <- Bulletins.paie.Lignes.paie[ (Statut == "TITULAIRE" | Statut == "STAGIAIRE")
+lignes.fonctionnaires.et.vacations <- Paie[ (Statut == "TITULAIRE" | Statut == "STAGIAIRE")
                                                                   & Codes.paiement.vacations[Code] != 0,
                                                                  c(étiquette.matricule,
                                                                    "Nom", "Prénom",
@@ -1833,7 +1805,7 @@ if (exists("nombre.fonctionnaires.et.vacations"))
 
 if (exists("Codes.paiement.vacations")) {
   
-    lignes.contractuels.et.vacations <- Bulletins.paie.Lignes.paie[Statut != "TITULAIRE"
+    lignes.contractuels.et.vacations <- Paie[Statut != "TITULAIRE"
                                                                    & Statut != "STAGIAIRE"
                                                                    & Codes.paiement.vacations[Code],
                                                                     c(étiquette.matricule,
@@ -1847,7 +1819,7 @@ if (exists("Codes.paiement.vacations")) {
 
     nombre.contractuels.et.vacations <- nrow(matricules.contractuels.et.vacations)
 
-                     RI.et.vacations <- Bulletins.paie.Lignes.paie[Codes.paiement.indemnitaire[Code] != 0
+                     RI.et.vacations <- Paie[Codes.paiement.indemnitaire[Code] != 0
                                                                    & Matricule %in% matricules.contractuels.et.vacations$Matricule,
                                                                     c(étiquette.matricule,
                                                                       "Statut",
@@ -1856,7 +1828,7 @@ if (exists("Codes.paiement.vacations")) {
                                                                       étiquette.montant)]
 # Vacations et indiciaire
 
-traitement.et.vacations <- Bulletins.paie.Lignes.paie[Codes.paiement.traitement[Code] != 0
+traitement.et.vacations <- Paie[Codes.paiement.traitement[Code] != 0
                                                       & Matricule %in% matricules.contractuels.et.vacations$Matricule,
                                                        c(étiquette.matricule,
                                                          "Statut",
@@ -1896,10 +1868,10 @@ if (exists("nombre.contractuels.et.vacations"))
 
 #IAT et IFTS
 
- ifts.logical <- grepl(expression.rég.ifts, Bulletins.paie.Lignes.paie$Libellé, ignore.case=TRUE)
- codes.ifts  <- levels(as.factor(Bulletins.paie.Lignes.paie[ifts.logical, étiquette.code]))
- personnels.iat.ifts <- intersect(Bulletins.paie.Lignes.paie[grepl(expression.rég.iat, Libellé, ignore.case=TRUE), clé.fusion[1]],
-                                   Bulletins.paie.Lignes.paie[ifts.logical, clé.fusion[1]])
+ ifts.logical <- grepl(expression.rég.ifts, Paie$Libellé, ignore.case=TRUE)
+ codes.ifts  <- levels(as.factor(Paie[ifts.logical, étiquette.code]))
+ personnels.iat.ifts <- intersect(Paie[grepl(expression.rég.iat, Libellé, ignore.case=TRUE), clé.fusion[1]],
+                                   Paie[ifts.logical, clé.fusion[1]])
  names(personnels.iat.ifts) <- "Matricules des agents percevant IAT et/ou IFTS sur la période"
 
  nombre.personnels.iat.ifts <- length(personnels.iat.ifts)
@@ -1919,7 +1891,7 @@ Tableau(c("Codes IFTS", "Nombre de personnels percevant IAT et IFTS"),
 
 #IFTS et IB >= 380 (IM >= 350)
 
- lignes.ifts.anormales <- na.omit(Bulletins.paie.Lignes.paie[as.integer(Indice) < 350  & Code %in% codes.ifts,
+ lignes.ifts.anormales <- na.omit(Paie[as.integer(Indice) < 350  & Code %in% codes.ifts,
                                                                   c(clé.fusion,
                                                                     "Statut",
                                                                     étiquette.code,
@@ -1931,7 +1903,7 @@ nombre.lignes.ifts.anormales <- nrow(lignes.ifts.anormales)
 
 # IFTS et non tit
 
-ifts.et.contractuel <- Bulletins.paie.Lignes.paie[ Statut != "TITULAIRE"
+ifts.et.contractuel <- Paie[ Statut != "TITULAIRE"
                                                   & Statut != "STAGIAIRE"
                                                   & Code %in% codes.ifts,
                                                       c(étiquette.matricule,
@@ -1978,11 +1950,11 @@ colonnes <- c(étiquette.matricule,
 
 if (import.direct) colonnes <- c(colonnes, "Type") else colonnes <- c(colonnes, "montant.primes", "montant.traitement.indiciaire")
 
-HS.sup.25 <- Bulletins.paie.Lignes.paie[Heures.Sup. >= 25, colonnes]
+HS.sup.25 <- Paie[Heures.Sup. >= 25, colonnes]
 
 # version 1 : 48 s
 # HS.sup.25 <- merge(HS.sup.25,
-#                    ddply(Bulletins.paie.Lignes.paie,
+#                    ddply(Paie,
 #                          .(Matricule, Année, Mois),
 #                          summarise,
 #                          "Traitement indiciaire mensuel" = sum(montant.traitement.indiciaire),
@@ -2064,7 +2036,7 @@ Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"), no
 #'## 5.6 Contrôle sur les indemnités des élus
 #'
 
-matricules.à.identifier <- unique(Bulletins.paie.Lignes.paie[ ,
+matricules.à.identifier <- unique(Paie[ ,
                                                                c(étiquette.année,
                                                                  "Emploi",
                                                                  "Nom",
@@ -2127,7 +2099,7 @@ if (sauvegarder.bases.analyse)
 
 #'## Liens complémentaires
 #'
-#'[Lien vers la base de données fusionnées des bulletins et lignes de paie](Bases/Paiements/Bulletins.paie.Lignes.paie.csv)
+#'[Lien vers la base de données fusionnées des bulletins et lignes de paie](Bases/Paiements/Paie.csv)
 #'
 #'
 #'[Lien vers le fichier des personnels](Bases/Effectifs/Catégories des personnels.csv)
@@ -2144,7 +2116,7 @@ if (générer.table.effectifs)
   kable(matricules.à.identifier, row.names = FALSE)
 #'
 
-detach(Bulletins.paie.Lignes.paie)
+detach(Paie)
 
 # ------------------------------------------------------------------------------------------------------------------
 #  Sauvegardes : enlever les commentaires en mode opérationnel
@@ -2189,7 +2161,7 @@ if (sauvegarder.bases.analyse) {
 
 if (sauvegarder.bases.origine)
   sauv.bases(file.path(chemin.dossier.bases, "Paiements"),
-            "Bulletins.paie.Lignes.paie",
+            "Paie",
             "Bulletins.paie")
 
 
