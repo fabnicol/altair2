@@ -349,6 +349,49 @@ if (! import.direct)
 # L'utilisateur devra alors renseigner la colonne étiquette.type.rémunération de ce fichier
 
 if (générer.codes) source("générer.codes.R", encoding = encodage.code.source)
+
+if (! import.direct) {
+  
+  anavar <- ddply(Bulletins.paie,
+                  c(clé.fusion, étiquette.année),
+                  summarise,
+                  # partie Analyse des variations par exercice #
+                  
+                  Montant.net.annuel.eqtp = sum(Montant.net.eqtp, na.rm = TRUE),
+                  # En principe la colonne Brut ne tient pas compte des remboursements d efrais ou des régularisations
+                  Montant.brut.annuel = sum(Brut, na.rm=TRUE),
+                  Statut.sortie       = Statut[length(Net.à.Payer)],
+                  mois.entrée         = ifelse((minimum <- min(Mois)) != Inf, minimum, 0),
+                  mois.sortie         = ifelse((maximum <- max(Mois)) != -Inf, maximum, 0),
+                  nb.jours            = calcul.nb.jours.mois(mois.entrée[1], mois.sortie[1], Année[1]),
+                  nb.mois             = mois.sortie[1] - mois.entrée[1] + 1)
+} else  {
+  
+  anavar <- ddply(Bulletins.paie.Lignes.paie,
+                  c(clé.fusion, étiquette.année),
+                  summarise,
+                  # partie Analyse des variations par exercice #
+                  
+                  
+                  Statut.sortie       = Statut[length(Net.à.Payer)],
+                  mois.entrée         = ifelse((minimum <- min(Mois)) != Inf, minimum, 0),
+                  mois.sortie         = ifelse((maximum <- max(Mois)) != -Inf, maximum, 0),
+                  Montant.net.annuel.eqtp = sum(tapply(Montant.net.eqtp, Mois, function(x) x[1])),
+                  # En principe la colonne Brut ne tient pas compte des remboursements d efrais ou des régularisations
+                  Montant.brut.annuel = sum(tapply(Brut, Mois, function(x) x[1])),
+                  nb.jours            = calcul.nb.jours.mois(mois.entrée[1], mois.sortie[1], Année[1]),
+                  nb.mois             = mois.sortie[1] - mois.entrée[1] + 1)
+}
+
+if (! import.direct) {
+  
+  Bulletins.paie <- merge (Bulletins.paie, anavar, by = c(étiquette.matricule, étiquette.année))
+  
+} else {
+  
+  Bulletins.paie.Lignes.paie <- merge (Bulletins.paie.Lignes.paie, anavar, by = c(étiquette.matricule, étiquette.année))  
+}
+
 if (! import.direct) {
   source("fusionner.bulletins.lignes.R", encoding = encodage.code.source)
  } else {
@@ -374,38 +417,6 @@ if (table.rapide == TRUE) {
 }
 
 
-if (! import.direct) {
-  anavar <- ddply(Bulletins.paie,
-                  c(clé.fusion, étiquette.année),
-                  summarise,
-                  # partie Analyse des variations par exercice #
-                 
-                  Montant.net.annuel.eqtp = sum(Montant.net.eqtp, na.rm = TRUE),
-                  # En principe la colonne Brut ne tient pas compte des remboursements d efrais ou des régularisations
-                  Montant.brut.annuel = sum(Brut, na.rm=TRUE),
-                  Statut.sortie       = Statut[length(Net.à.Payer)],
-                  mois.entrée         = ifelse((minimum <- min(Mois)) != Inf, minimum, 0),
-                  mois.sortie         = ifelse((maximum <- max(Mois)) != -Inf, maximum, 0),
-                  nb.jours            = calcul.nb.jours.mois(mois.entrée[1], mois.sortie[1], Année[1]),
-                  nb.mois             = mois.sortie[1] - mois.entrée[1] + 1)
-} else  {
-  anavar <- ddply(Bulletins.paie.Lignes.paie,
-                  c(clé.fusion, étiquette.année),
-                  summarise,
-                  # partie Analyse des variations par exercice #
-                  
-                  
-                  Statut.sortie       = Statut[length(Net.à.Payer)],
-                  mois.entrée         = ifelse((minimum <- min(Mois)) != Inf, minimum, 0),
-                  mois.sortie         = ifelse((maximum <- max(Mois)) != -Inf, maximum, 0),
-                  Montant.net.annuel.eqtp = sum(tapply(Montant.net.eqtp, Mois, function(x) x[1])),
-                  # En principe la colonne Brut ne tient pas compte des remboursements d efrais ou des régularisations
-                  Montant.brut.annuel = sum(tapply(Brut, Mois, function(x) x[1])),
-                  nb.jours            = calcul.nb.jours.mois(mois.entrée[1], mois.sortie[1], Année[1]),
-                  nb.mois             = mois.sortie[1] - mois.entrée[1] + 1)
-}
-
-Bulletins.paie.Lignes.paie <- merge (Bulletins.paie.Lignes.paie, anavar, by = c(étiquette.matricule, étiquette.année))
 
 Bulletins.paie.Lignes.paie$quotité[is.na(Bulletins.paie.Lignes.paie$quotité)] <- 0
 
