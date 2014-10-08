@@ -73,7 +73,7 @@ if (! setequal(intersect(names(Lignes.paie), names(Bulletins.paie)), union(c("Mo
 
 # Alternative en cas de difficulté :
 #
-# Bulletins.paie.Lignes.paie <- do.call(rbind, lapply(période,
+# Paie <- do.call(rbind, lapply(période,
 #                                                     function(x)
 #                                                        merge(Bulletins.paie[Bulletins.paie$Année == x, ],
 #                                                              Lignes.paie[Lignes.paie$Année == x, ],
@@ -105,11 +105,11 @@ if (charger.bases)
     
     message("Mode parallèle non activé.")
     
-    Bulletins.paie.Lignes.paie <- merge(Bulletins.paie,
+    Paie <- merge(Bulletins.paie,
                                         Lignes.paie,
                                         by = c(clé.fusion, "Année", "Mois"))
     
-    if (!is.null(Bulletins.paie.Lignes.paie))
+    if (!is.null(Paie))
       message(paste("Fusion réalisée")) else stop("Echec de fusion" )
     
     
@@ -175,17 +175,17 @@ if (charger.bases)
     rm(temp)
     
     if (table.rapide) {
-      Bulletins.paie.Lignes.paie <- data.table::rbindlist(L)
+      Paie <- data.table::rbindlist(L)
     } else {
-      Bulletins.paie.Lignes.paie <- do.call(rbind, L)
+      Paie <- do.call(rbind, L)
       
     }
     
     if (paralléliser || ! table.rapide)
-      with(Bulletins.paie.Lignes.paie,
-           Bulletins.paie.Lignes.paie <- Bulletins.paie.Lignes.paie[order(Matricule, Année, Mois), ])
+      with(Paie,
+           Paie <- Paie[order(Matricule, Année, Mois), ])
     
-    if (!is.null(L[[1]]) & !is.null(L[[2]]) & !is.null(Bulletins.paie.Lignes.paie))
+    if (!is.null(L[[1]]) & !is.null(L[[2]]) & !is.null(Paie))
       message(paste("Fusion réalisée")) else stop("Echec de fusion" )
     
   }
@@ -202,10 +202,10 @@ if (charger.bases)
   
   if (extraire.population) {
     
-    Bulletins.paie.Lignes.paie <- Bulletins.paie.Lignes.paie[grepl(expression.rég.population, Bulletins.paie.Lignes.paie$Service, ignore.case=TRUE), ]
+    Paie <- Paie[grepl(expression.rég.population, Paie$Service, ignore.case=TRUE), ]
     Bulletins.paie             <- Bulletins.paie[grepl(expression.rég.population, Bulletins.paie$Service, ignore.case=TRUE), ]
     
-    if (!is.null(Bulletins.paie.Lignes.paie) & !is.null(Bulletins.paie)) message("Extraction réalisée")
+    if (!is.null(Paie) & !is.null(Bulletins.paie)) message("Extraction réalisée")
     
   }
   
@@ -216,32 +216,32 @@ if (charger.bases)
   
   if (table.rapide == TRUE) {
     
-    Bulletins.paie.Lignes.paie[ ,   montant.traitement.indiciaire
+    Paie[ ,   montant.traitement.indiciaire
                                :=  Codes.paiement.traitement[Code]*Montant]
     
-    Bulletins.paie.Lignes.paie[,    montant.primes
+    Paie[,    montant.primes
                                :=  (montant.traitement.indiciaire == 0)*
                                  Montant * Codes.paiement.indemnitaire[Code]]
     
-    Bulletins.paie.Lignes.paie[ ,   montant.rémunération.principale.contractuel
+    Paie[ ,   montant.rémunération.principale.contractuel
                                := (montant.traitement.indiciaire == 0
                                    & montant.primes == 0)
                                * Montant * Codes.paiement.principal.contractuel[Code]]
     
-    Bulletins.paie.Lignes.paie[ ,   montant.rémunération.vacataire
+    Paie[ ,   montant.rémunération.vacataire
                                :=  (montant.traitement.indiciaire == 0
                                     & montant.primes == 0
                                     & montant.rémunération.principale.contractuel == 0)
                                * Montant * Codes.paiement.vacations[Code]]
     
-    Bulletins.paie.Lignes.paie[ ,   montant.autres.rémunérations
+    Paie[ ,   montant.autres.rémunérations
                                :=  (montant.traitement.indiciaire == 0
                                     & montant.rémunération.principale.contractuel == 0
                                     & montant.rémunération.vacataire == 0
                                     & montant.primes == 0)
                                * Montant * Codes.paiement.autres[Code]]
     
-    Bulletins.paie.Lignes.paie[ ,   montant.indemnité.élu
+    Paie[ ,   montant.indemnité.élu
                                :=  (montant.traitement.indiciaire  == 0
                                     & montant.rémunération.principale.contractuel == 0
                                     & montant.rémunération.vacataire == 0
@@ -253,7 +253,7 @@ if (charger.bases)
     
   }
   else
-    Bulletins.paie.Lignes.paie <- mutate(Bulletins.paie.Lignes.paie,
+    Paie <- mutate(Paie,
                                          montant.traitement.indiciaire
                                          =  Codes.paiement.traitement[Code]*Montant,
                                          
@@ -289,6 +289,6 @@ if (charger.bases)
                                          
     )
   
-  if (inherits(Bulletins.paie.Lignes.paie, 'try-error') )
+  if (inherits(Paie, 'try-error') )
     stop("Il est probable que le fichier des codes n'est pas exhaustif. Avez-vous (re-)généré l'ensemble des codes récemment ?")
 }
