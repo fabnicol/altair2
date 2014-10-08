@@ -291,4 +291,4 @@ if (charger.bases)
   
   if (inherits(Bulletins.paie.Lignes.paie, 'try-error') )
     stop("Il est probable que le fichier des codes n'est pas exhaustif. Avez-vous (re-)généré l'ensemble des codes récemment ?")
-  
+}

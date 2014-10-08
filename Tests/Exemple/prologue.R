@@ -16,7 +16,7 @@ setOSWindows         <- Sys.info()["sysname"] != "Linux"
 exec.root            <- ifelse(setOSWindows, ".exe", "")
 
 générer.codes        <- FALSE
-import.direct        <- TRUE
+import.direct        <- FALSE
 
 paralléliser         <- TRUE
 table.rapide         <- TRUE
