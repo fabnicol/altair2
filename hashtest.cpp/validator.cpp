@@ -25,7 +25,7 @@ extern "C" {
 #define __STDC_FORMAT_MACROS
 #include <inttypes.h>
 
-#define nbType 11
+#define nbType 12
 
 #ifndef NA_STRING
  #define NA_STRING "NA"
@@ -113,8 +113,8 @@ uint64_t MAX_MEMOIRE_RESERVEE = UINT32_MAX;
 /* Retenue */
 /* Cotisation */
 
-const char* type_remuneration[nbType] = {"TraitBrut", "IndemResid", "SupFam", "AvantageNature", "Indemnite", "RemDivers", "Deduction", "Rappel", "Retenue", "Cotisation", "Commentaire"};
-const char* type_remuneration_traduit[nbType] = {"Traitement", u8"Indemnité de résidence", u8"Supplément familial", "Avantage en nature", u8"Indemnité", u8"Autres rémunérations", u8"Déduction", "Rappel", "Retenue", "Cotisation", "Commentaire"};
+const char* type_remuneration[nbType] = {"TraitBrut", "IndemResid", "SupFam", "AvantageNature", "Indemnite", "RemDivers", "Deduction", "Acompte", "Rappel", "Retenue", "Cotisation", "Commentaire"};
+const char* type_remuneration_traduit[nbType] = {"Traitement", u8"Indemnité de résidence", u8"Supplément familial", "Avantage en nature", u8"Indemnité", u8"Autres rémunérations", u8"Déduction", "Acompte", "Rappel", "Retenue", "Cotisation", "Commentaire"};
 
 xmlChar* annee_fichier = NULL;
 xmlChar* mois_fichier = NULL;
@@ -419,7 +419,6 @@ while(! xmlStrcmp(cur->name, (const xmlChar*) "DonneesIndiv"))
         *ligne += parseBulletin(cur, decimal, bulletinIdent);
 
         // Ici il est normal que cur = NULL
-
 
         cur = cur_save->next;
 
