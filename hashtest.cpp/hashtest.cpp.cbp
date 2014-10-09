@@ -24,7 +24,7 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters=' -t -n 1500 -s , -d .  -o &quot;C:\Users\fnicol\desktop\altair\github\Tests\Exemple\Donnees\PDC-Table.csv&quot; &quot;C:\Users\fnicol\desktop\altair\github\Tests\Exemple\Donnees\xhl\PdC\*.xhl&quot;' />
+				<Option parameters=' -t -n 1500 -s , -d .  -o &quot;C:\Dev\altair_github\altair\Tests\Exemple\Donnees\PDC-Table.csv&quot; &quot;C:\Dev\altair_github\altair\Tests\Exemple\Donnees\xhl\PdC\*.xhl&quot;' />
 				<Compiler>
 					<Add option="-march=core2" />
 					<Add option="-std=c++11" />

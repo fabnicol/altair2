@@ -369,20 +369,19 @@ if (table.rapide == TRUE) {
 }
 
 
-if (! import.direct) { 
-    S <- function(x) sum(x, na.rm = TRUE) 
-  } else {
-    S <- function(x) sum(tapply(x, Mois, function(x) x[1]), na.rm = TRUE)
-  }
-  
+  f <- sum(tapply(Paie$Montant.net.eqtp, Paie$Mois, function(x) x[1]), na.rm = TRUE)
+  g <- sum(tapply(Paie$Brut, Paie$Mois, function(x) x[1]), na.rm = TRUE)
+
   anavar <- ddply(Paie,
+                  
                   c(clé.fusion, étiquette.année),
                   summarise,
+                                   
                   # partie Analyse des variations par exercice #
                   
-                  Montant.net.annuel.eqtp = S(Montant.net.eqtp),
+                  Montant.net.annuel.eqtp = f,
                   # En principe la colonne Brut ne tient pas compte des remboursements d efrais ou des régularisations
-                  Montant.brut.annuel = S(Brut),
+                  Montant.brut.annuel = g,
                   Statut.sortie       = Statut[length(Net.à.Payer)],
                   mois.entrée         = ifelse((minimum <- min(Mois)) != Inf, minimum, 0),
                   mois.sortie         = ifelse((maximum <- max(Mois)) != -Inf, maximum, 0),
