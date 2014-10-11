@@ -69,8 +69,14 @@ chemin.dossier.données      <- file.path(chemin.dossier, "Donnees")
 
 # Outils
 
-iconv <- file.path(chemin.dossier.outils, paste0("iconv", exec.root))
-sed   <- file.path(chemin.dossier.outils, paste0("sed", exec.root))
+if (setOSWindows) {
+  iconv <- file.path(chemin.dossier.outils, paste0("iconv", exec.root))
+  sed   <- file.path(chemin.dossier.outils, paste0("sed", exec.root))
+} else {
+  iconv <- "iconv"  
+  sed   <- "sed"
+}
+
 
 # ETIQUETTES ET FORMATS
 
@@ -130,11 +136,12 @@ codes.NBI <- c("1012", "101B", "101M", "4652", "4672")
 # A priori les deux modes de lectures de tables (rapide et standard) lisent aussi bien le Windows ANSI/ISO-8859-1 que 
 # l'UTF-8 à condition que le Windows ANSI soit encodé par Excel ou l'éditeur de RStudio.
 
-encodage.entrée <- "WINDOWS-1252"
+encodage.entrée <- "ISO-8859-1"
   # "WINDOWS-1252"
   # "UTF-8"
   # "ISO-8859-1"
-  
+encodage.entrée.xhl2csv <- "UTF-8"
+
 encodage.sortie <- ifelse(setOSWindows, "ISO-8859-1", encodage.entrée)
 
 modalité.traitement            <- "TRAITEMENT"     # s'applique aussi aux NBI
