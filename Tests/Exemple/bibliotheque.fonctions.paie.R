@@ -5,10 +5,12 @@
 chemin <-  function(fichier)
   file.path(chemin.dossier.données, fichier)
 
-file2utf8 <- function(nom)  {
+file2utf8 <- function(nom, encodage.in = encodage.entrée)  {
   
-  chem <- chemin(nom)
-  shell(iconv %+% " -f ISO-8859-1 -t UTF-8 " %+% chem %+% "-o temp && mv temp " %+% shQuote(chem))
+ chem <- chemin(nom)
+ err <- system2(iconv, c("-f", encodage.in, "-t", "UTF-8", shQuote(chem), "-o", "temp"))
+ if (! err)  err <- system2("mv", c("temp", shQuote(chem))) else stop("Erreur d'encodage avec iconv")
+ if (! err)  message("Conversion réussie") else stop("Erreur de copie fichier après encodage avec iconv")
 }
 
 en.séparateurs <- function(chem)  {
@@ -95,7 +97,7 @@ sélectionner.clé <-  function(base1, base2)
 #system(paste0("sed -e s/,/\\./g < \'", chem,"\' > ", chem.dot), wait = TRUE)
 
 
-read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, étiquettes = NULL, drop = NULL, rapide = FALSE, séparateur.liste = ",", séparateur.décimal = ".")
+read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, étiquettes = NULL, drop = NULL, rapide = FALSE, séparateur.liste = ",", séparateur.décimal = ".", convertir.encodage = TRUE)
 {
   chem <- chemin(x)
   if (! rapide) {
@@ -111,6 +113,13 @@ read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, étiquette
     if (!is.null(drop)) { T <- T[-(drop)] }
 
   } else {
+    
+    if (encodage != "UTF-8" && convertir.encodage) {
+      message("La table en entrée doit être encodée en UTF-8")
+      if (convertir.encodage) message("Conversion via iconv du format " %+% encodage %+% " au format UTF-8...") else stop("Arrêt : convertir l'encodage de la table en UTF-8.")
+      file2utf8(x, encodage.in = encodage)
+    }
+      
     if (is.na(classes)) classes = NULL
     T <- try(data.table::fread(chem,
                       sep = ",",
@@ -141,8 +150,6 @@ read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, étiquette
 
 if (!is.null(étiquettes)) names(T) <- étiquettes
 
-# if (encodage.entrée != "UTF-8")
-#      names(T) <- iconv(names(T), to="UTF-8", mark = FALSE)
 
 return(T)
 }
@@ -176,7 +183,7 @@ sauv.bases <- function(dossier, ...)
 # Utiliser une assignation globale
 # car la fonction anonyme ne comporte que de variables locales
 
-Read.csv <- function(base.string, vect.chemin, charger = charger.bases, colClasses = NA, colNames = NULL, drop = NULL, séparateur.liste = ",", séparateur.décimal = ".", rapide = FALSE)  {
+Read.csv <- function(base.string, vect.chemin, charger = charger.bases, colClasses = NA, colNames = NULL, drop = NULL, séparateur.liste = ",", séparateur.décimal = ".", rapide = FALSE, convertir.encodage = TRUE, encodage = encodage.entrée)  {
 
                       if (charger.bases) {
 
@@ -188,6 +195,8 @@ Read.csv <- function(base.string, vect.chemin, charger = charger.bases, colClass
                                                           séparateur.liste = séparateur.liste,
                                                           séparateur.décimal = séparateur.décimal,
                                                           drop = drop,
+                                                          convertir.encodage = convertir.encodage,
+                                                          encodage = encodage,
                                                           rapide = rapide)),
                                  envir = .GlobalEnv)
                       }
