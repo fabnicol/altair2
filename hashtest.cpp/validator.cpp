@@ -18,6 +18,8 @@ extern "C" {
 #include <limits.h>
 #include <locale.h>
 #include <errno.h>
+#include <pthread.h>
+#include <math.h>
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
 #if !NO_DEBUG
@@ -145,9 +147,6 @@ typedef struct bulletin
 
 } bulletin, *bulletinPtr;
 
-//bulletinPtr bulletinIdent = NULL;
-
-FILE* BASE;
 
 static inline xmlNodePtr atteindreNoeud(const char* noeud, xmlNodePtr cur)
 {
@@ -565,6 +564,47 @@ int64_t generer_table_standard(const char* chemin_table, uint32_t nbAgent, bulle
 
 }
 
+
+int32_t decoder_fichier(char** fichiers, int nbfichier, bulletinPtr* Table, const char decimal, uint64_t nbLigne)
+{
+  int32_t nbAgent  = 0;
+    for (int i = 0; i < nbfichier ; i++)
+    {
+        fprintf(stderr, "Fichier: %s, %d/%d, nbLigne=%lld", fichiers[i], i+1, nbfichier, nbLigne);
+        fflush(NULL);
+        nbAgent = parseFile(fichiers[i], Table, decimal, &nbLigne);
+
+        if (nbAgent < 0)
+        {
+            fprintf(stderr, "Erreur de décodage pour le fichier %s\n", fichiers[i]);
+            return -1;
+        }
+
+    }
+    return nbAgent;
+}
+
+typedef struct
+{
+   pthread_t thread_id;
+   int       thread_num;
+   int    nbfichier;
+   char** argv_string;
+   char decimal;
+   int32_t nbAgent;
+   uint64_t nbLigne;
+   bulletinPtr* Table;
+} thread_info;
+
+static void* decoder_fichier_fils(void* info)
+{
+    thread_info* tinfo = (thread_info*) info;
+    fprintf(stderr, "Lancement de %d avec %d fichiers\n", tinfo->thread_num, tinfo->nbfichier);
+    tinfo->nbAgent = decoder_fichier(tinfo->argv_string, tinfo->nbfichier, tinfo->Table, tinfo->decimal, tinfo->nbLigne);
+    return NULL;
+}
+
+
 int main(int argc, char **argv)
 {
 #ifdef _WIN32
@@ -581,7 +621,7 @@ int main(int argc, char **argv)
 
     LIBXML_TEST_VERSION
     xmlKeepBlanksDefault(0);
-    uint32_t nbAgents = MAX_NB_AGENTS;
+    int32_t nbAgent = MAX_NB_AGENTS;
 
     int start = 1;
 
@@ -594,6 +634,7 @@ int main(int argc, char **argv)
     bool afficher_memoire_reservee = false;
     bool generer_table = false;
     bool liberer_memoire = true;
+    int nbfil = 0;
 
     while (start < argc)
     {
@@ -624,7 +665,7 @@ int main(int argc, char **argv)
                 }
                 else
                 {
-                    nbAgents  = (uint32_t)sl;
+                    nbAgent  = (uint32_t)sl;
                     start += 2;
                     continue;
                 }
@@ -647,6 +688,7 @@ int main(int argc, char **argv)
             printf("%s\n", "-d argument obligatoire : séparateur décimal [défaut . avec -t].");
             printf("%s\n", "-s argument obligatoire : séparateur de champs [défaut , avec -t]/");
             printf("%s\n", "-m sans argument : mémoire réservée. Estimation de la consommation de mémoire.");
+            printf("%s\n", "-j argument obligatoire : nombre de fils d'exécution (maximum 10).");
             printf("%s\n", "-M sans argument : ne pas libérer la mémoire réservée en fin de programme.");
             exit(0);
         }
@@ -721,6 +763,17 @@ int main(int argc, char **argv)
             start += 2;
             continue;
         }
+        else if (! strcmp(argv[start], "-j"))
+        {
+            nbfil = atoi(argv[start +1]);
+            if (nbfil > 10 || nbfil < 2)
+            {
+              perror("Le nombre de fils d'exécution doit être compris entre 2 et 10.");
+              exit(-111);
+            }
+            start += 2;
+            continue;
+        }
         else if (argv[start][0] == '-')
         {
             fprintf(stderr, "%s\n", "Option inconnue.");
@@ -729,8 +782,7 @@ int main(int argc, char **argv)
         else break;
     }
 
-    bulletinPtr Table[nbAgents*(argc-start)];
-    uint64_t memoire_reservee = nbAgents*(argc-start)*sizeof(bulletin);
+    uint64_t memoire_reservee = nbAgent*(argc-start)*sizeof(bulletin);
     if (memoire_reservee > MAX_MEMOIRE_RESERVEE)
     {
         fprintf(stderr, "Quantité de mémoire réservée %" PRIu64 " supérieure au maximum de %" PRIu64 " octets.\nAppliquer le programme sur une partie des fichiers et fusionner les bases en résultant.\n", memoire_reservee, MAX_MEMOIRE_RESERVEE);
@@ -739,22 +791,67 @@ int main(int argc, char **argv)
 
     if (afficher_memoire_reservee) fprintf(stderr, "Quantité de mémoire réservée %" PRIu64 " octets.\n", memoire_reservee);
 
-    memset(Table, 0, sizeof(Table));
 
-    int32_t nbAgent = 0;
     uint64_t nbLigne = 0;
 
-    for (int i = start; i < argc ; i++)
+    if (nbfil == 0 || (argc -start < 2))
     {
-        BASE=fopen("table3.csv", "a+");
-        nbAgent = parseFile(argv[i], Table, decimal, &nbLigne);
-        fclose(BASE);
+        bulletinPtr Table[nbAgent*(argc-start)];
+        memset(Table, 0, sizeof(Table));
+        nbAgent = decoder_fichier(argv + start, argc - start, Table, decimal, nbLigne);
+    }
+    else
+    {
 
-        if (nbAgent < 0)
-        {
-            fprintf(stderr, "Erreur de décodage pour le fichier %s\n", argv[i]);
-            return -1;
-        }
+      int nbfichier_par_fil = floor((argc - start) / nbfil);
+      if (nbfichier_par_fil == 0)
+      {
+          fprintf(stderr, "%s\n", "Trop de fils pour le nombre de fichiers ; exécution avec -j 2");
+          nbfil = 2;
+      }
+
+      if ((argc - start) % nbfil) nbfil++;  // on en crée un de plus pour le reste
+
+      pthread_t thread_clients[nbfil];
+
+      thread_info tinfo[nbfil];
+
+      puts("Creation des fils clients.\n");
+      for (int i = 0; i < nbfil; i++)
+      {
+
+         tinfo[i].thread_num = i;
+         tinfo[i].decimal = decimal;
+         tinfo[i].nbLigne = 0;
+         tinfo[i].nbfichier = (argc - start < nbfichier_par_fil)? argc - start: nbfichier_par_fil;
+         tinfo[i].argv_string = (char**) malloc(nbfichier_par_fil * sizeof(char*));
+         tinfo[i].Table = (bulletinPtr*) calloc(nbAgent*nbfichier_par_fil, sizeof(bulletinPtr));
+
+         for (int j = 0; j <  nbfichier_par_fil && start + j < argc; j++)
+         {
+             tinfo[i].argv_string[j] = strdup(argv[start + j]);
+         }
+
+         start += nbfichier_par_fil;
+
+         int ret = pthread_create (
+            &thread_clients[i],
+            NULL,
+            decoder_fichier_fils,
+            &tinfo[i]
+         );
+
+         if (ret)
+         {
+            fprintf (stderr, "%s", strerror(ret));
+         }
+      }
+
+      for (int i = 0; i < nbfil; i++)
+      {
+        pthread_join (thread_clients [i], NULL);
+      }
+
     }
 
     uint64_t nbLigneBase=0;
@@ -762,15 +859,15 @@ int main(int argc, char **argv)
     if (generer_table)
     {
 
-        if (! strcmp(type_table, "standard"))
-            nbLigneBase = generer_table_standard(chemin_table, nbAgent, Table, separateur);
-        else if (! strcmp(type_table, "bulletins"))
-            nbLigneBase = generer_table_bulletins(chemin_table, nbAgent, Table, separateur);
-        else
-        {
-            fprintf(stderr, "Type %s inconnu.", type_table);
-            exit(-501);
-        }
+//        if (! strcmp(type_table, "standard"))
+//          //  nbLigneBase = generer_table_standard(chemin_table, nbAgent, Table, separateur);
+//        else if (! strcmp(type_table, "bulletins"))
+//            //nbLigneBase = generer_table_bulletins(chemin_table, nbAgent, Table, separateur);
+//        else
+//        {
+//            fprintf(stderr, "Type %s inconnu.", type_table);
+//            exit(-501);
+//        }
     }
 
     fprintf(stderr, "Table de %" PRIu64 " lignes générée pour %" PRIu64 "lignes de paie d'origine.\n", nbLigneBase, nbLigne);
@@ -783,28 +880,28 @@ int main(int argc, char **argv)
     for (int i = 0; i < nbAgent; i++)
     {
 
-        FREE(Table[i]->Nom)
-        FREE(Table[i]->Prenom)
-        FREE(Table[i]->Matricule)
-        FREE(Table[i]->Annee)
-        FREE(Table[i]->Mois)
-        FREE(Table[i]->NIR)
-        FREE(Table[i]->Statut)
-        FREE(Table[i]->EmploiMetier)
-        FREE(Table[i]->Grade)
-        FREE(Table[i]->Indice)
-        FREE(Table[i]->Service)
-        FREE(Table[i]->NBI)
-        FREE(Table[i]->QuotiteTrav)
-        FREE(Table[i]->NbHeureTotal)
-        FREE(Table[i]->NbHeureSup)
-        FREE(Table[i]->MtBrut)
-        FREE(Table[i]->MtNet)
-        FREE(Table[i]->MtNetAPayer)
-        for (int l = 0; l < nbType-1; l++)
-             for (int j = 0; j < MAX_LIGNES_PAYE; j++)
-                  for (int k = 0; k < 6; k++)
-                     FREE(Table[i]->ligne[l][j][k])
+//        FREE(Table[i]->Nom)
+//        FREE(Table[i]->Prenom)
+//        FREE(Table[i]->Matricule)
+//        FREE(Table[i]->Annee)
+//        FREE(Table[i]->Mois)
+//        FREE(Table[i]->NIR)
+//        FREE(Table[i]->Statut)
+//        FREE(Table[i]->EmploiMetier)
+//        FREE(Table[i]->Grade)
+//        FREE(Table[i]->Indice)
+//        FREE(Table[i]->Service)
+//        FREE(Table[i]->NBI)
+//        FREE(Table[i]->QuotiteTrav)
+//        FREE(Table[i]->NbHeureTotal)
+//        FREE(Table[i]->NbHeureSup)
+//        FREE(Table[i]->MtBrut)
+//        FREE(Table[i]->MtNet)
+//        FREE(Table[i]->MtNetAPayer)
+//        for (int l = 0; l < nbType-1; l++)
+//             for (int j = 0; j < MAX_LIGNES_PAYE; j++)
+//                  for (int k = 0; k < 6; k++)
+//                     FREE(Table[i]->ligne[l][j][k])
 
     }
 
