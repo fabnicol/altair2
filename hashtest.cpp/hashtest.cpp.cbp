@@ -24,7 +24,7 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters='-j 2  -n 1500 -s , -d .  -o &quot;~/Dev/altair/Tests/Exemple/Donnees/PDC-Table.csv&quot; ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2010/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2011/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2012/*.xhl ' />
+				<Option parameters='  -n 1500 -s , -d .  -o &quot;C:/Dev/altair/Tests/Exemple/Donnees/PDC-Table.csv&quot; C:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/*.xhl C:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/*.xhl C:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2010/*.xhl ' />
 				<Compiler>
 					<Add option="-march=core2" />
 					<Add option="-g" />
@@ -42,8 +42,8 @@
 			<Add option="-D__GNUC_EXTENSION" />
 			<Add option="-D_REENTRANT" />
 			<Add option="-D_GNU_SOURCE" />
-			<Add directory="../../../../MinGW/include" />
 			<Add directory="/usr/include/libxml2" />
+			<Add directory="C:/Program Files (x86)/CodeBlocks/MinGW/include" />
 		</Compiler>
 		<Linker>
 			<Add option="-lpthread" />
