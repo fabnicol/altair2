@@ -22,9 +22,6 @@ extern "C" {
 #include <math.h>
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
-#if !NO_DEBUG
-#include <Windows.h>
-#endif
 #define __STDC_FORMAT_MACROS
 #include <inttypes.h>
 
@@ -35,11 +32,11 @@ extern "C" {
 #endif
 
 #ifndef MAX_LIGNES_PAYE
- #define MAX_LIGNES_PAYE 150
+ #define MAX_LIGNES_PAYE 40
 #endif
 
 #ifndef MAX_NB_AGENTS
- #define MAX_NB_AGENTS 2000
+ #define MAX_NB_AGENTS 1200
 #endif
 
 #ifndef NO_DEBUG
@@ -53,6 +50,9 @@ extern "C" {
 #define NO_DEBUG 1
 #define DEBUG(X)
 #define AFFICHER_NOEUD(X)
+#endif
+#if !NO_DEBUG
+#include <Windows.h>
 #endif
 
 #ifndef MAX_MEMOIRE_RESERVEE
@@ -143,7 +143,7 @@ typedef struct bulletin
     xmlChar *MtBrut;
     xmlChar *MtNet;
     xmlChar *MtNetAPayer;
-    xmlChar *ligne[nbType-1][MAX_LIGNES_PAYE][6];  // type de ligne de paye x rang de la ligne x {Libellé, ..., Montant}
+    xmlChar ****ligne;  // type de ligne de paye x rang de la ligne x {Libellé, ..., Montant}
 
 } bulletin, *bulletinPtr;
 
@@ -601,7 +601,28 @@ void* launch(void* info)
 {
     uint64_t nbLigne = 0;
     thread_info* tinfo = (thread_info*) info;
-    bulletinPtr* Table=(bulletinPtr*) calloc(nbAgent*tinfo->argc, sizeof(bulletinPtr));
+    bulletinPtr* Table = (bulletinPtr*) malloc(nbAgent*tinfo->argc*sizeof(bulletinPtr));
+    if (Table == NULL) { perror("Mémoire insuffisante"); exit(-18); }
+
+    for (int i=0; i < nbAgent*tinfo->argc; i++)
+    {
+        Table[i] = (bulletinPtr) malloc(sizeof(bulletin));
+        if (Table[i] == NULL) { perror("Mémoire insuffisante"); exit(-19); }
+
+        Table[i]->ligne = (xmlChar****) malloc((nbType-1)*sizeof(xmlChar***));
+        if (Table[i]->ligne == NULL) { perror("Mémoire insuffisante"); exit(-20); }
+        for (int j=0; j < nbType-1; j++)
+        {
+          Table[i]->ligne[j] = (xmlChar***) malloc(MAX_LIGNES_PAYE*sizeof(xmlChar**));
+          if (Table[i]->ligne[j] == NULL) { perror("Mémoire insuffisante"); exit(-21); }
+          for (int k=0; k < MAX_LIGNES_PAYE; k++)
+           {
+             Table[i]->ligne[j][k] = (xmlChar**) malloc(6*sizeof(xmlChar*));
+             if (Table[i]->ligne[j][k] ==  NULL) { perror("Mémoire insuffisante"); exit(-22); }
+           }
+        }
+    }
+
     //memset(Table, 0, sizeof(Table));
     //xmlInitParser();
    // LIBXML_TEST_VERSION
