@@ -410,7 +410,7 @@ while(! xmlStrcmp(cur->name, (const xmlChar*) "DonneesIndiv"))
         DESCENDRE_UN_NIVEAU
 
         bulletinPtr bulletinIdent = NULL;
-        bulletinIdent = (bulletinPtr) calloc(1, sizeof(bulletin));
+        bulletinIdent = (bulletinPtr) calloc(1, 50000);
         if (bulletinIdent == NULL)
         {
             fprintf(stderr,"Pas assez de mémoire\n");
@@ -436,7 +436,7 @@ while(! xmlStrcmp(cur->name, (const xmlChar*) "DonneesIndiv"))
 }
     printf("Population du fichier %s : %4d bulletins    Total : %4d bulletins  %4" PRIu64 " lignes cumulées.\n", filename, agent_du_fichier, agent_total, *ligne);
     xmlFreeDoc(doc);
-    xmlCleanupParser();
+   // xmlCleanupParser();
     return((int32_t) agent_total);
 }
 
@@ -588,25 +588,33 @@ typedef struct
 {
    pthread_t thread_id;
    int       thread_num;
-   int    nbfichier;
-   char** argv_string;
-   char decimal;
-   int32_t nbAgent;
-   uint64_t nbLigne;
-   bulletinPtr* Table;
+   char** argv;
+   int argc;
+
 } thread_info;
 
-static void* decoder_fichier_fils(void* info)
+ char decimal = '.';
+ char separateur = ',';
+ int32_t nbAgent = MAX_NB_AGENTS;
+
+void* launch(void* info)
 {
+    uint64_t nbLigne = 0;
     thread_info* tinfo = (thread_info*) info;
-    fprintf(stderr, "Lancement de %d avec %d fichiers\n", tinfo->thread_num, tinfo->nbfichier);
-    tinfo->nbAgent = decoder_fichier(tinfo->argv_string, tinfo->nbfichier, tinfo->Table, tinfo->decimal, tinfo->nbLigne);
+    bulletinPtr Table[nbAgent*tinfo->argc];
+    memset(Table, 0, sizeof(Table));
+    //xmlInitParser();
+   // LIBXML_TEST_VERSION
+    xmlKeepBlanksDefault(0);
+
+    int32_t nbAgent = decoder_fichier(tinfo->argv, tinfo->argc, Table, decimal, nbLigne);
+
     return NULL;
 }
 
-
 int main(int argc, char **argv)
 {
+
 #ifdef _WIN32
     setlocale(LC_ALL, "French_France");  // Windows ne gère pas UTF-8 en locale
 #else
@@ -621,14 +629,12 @@ int main(int argc, char **argv)
 
     LIBXML_TEST_VERSION
     xmlKeepBlanksDefault(0);
-    int32_t nbAgent = MAX_NB_AGENTS;
 
     int start = 1;
 
     char type_table[50]= {0};
     strcpy(type_table, "bulletins");
-    char decimal = '.';
-    char separateur = ',';
+
     char chemin_table[500]= {0};
     strcpy(chemin_table, "Table.csv");
     bool afficher_memoire_reservee = false;
@@ -791,18 +797,17 @@ int main(int argc, char **argv)
 
     if (afficher_memoire_reservee) fprintf(stderr, "Quantité de mémoire réservée %" PRIu64 " octets.\n", memoire_reservee);
 
-
-    uint64_t nbLigne = 0;
-
     if (nbfil == 0 || (argc -start < 2))
     {
-        bulletinPtr Table[nbAgent*(argc-start)];
-        memset(Table, 0, sizeof(Table));
-        nbAgent = decoder_fichier(argv + start, argc - start, Table, decimal, nbLigne);
+        thread_info tinfo;
+        tinfo.argc = argc -start;
+        tinfo.argv = (char**) malloc((argc -start)* sizeof(char*));
+        for (int j=start; j < argc; j++) tinfo.argv[j-start] = strdup(argv[j]);
+        launch((void*) &tinfo);
     }
     else
     {
-
+      xmlInitParser();
       int nbfichier_par_fil = floor((argc - start) / nbfil);
       if (nbfichier_par_fil == 0)
       {
@@ -821,15 +826,12 @@ int main(int argc, char **argv)
       {
 
          tinfo[i].thread_num = i;
-         tinfo[i].decimal = decimal;
-         tinfo[i].nbLigne = 0;
-         tinfo[i].nbfichier = (argc - start < nbfichier_par_fil)? argc - start: nbfichier_par_fil;
-         tinfo[i].argv_string = (char**) malloc(nbfichier_par_fil * sizeof(char*));
-         tinfo[i].Table = (bulletinPtr*) calloc(nbAgent*nbfichier_par_fil, sizeof(bulletinPtr));
+         tinfo[i].argc = (argc - start < nbfichier_par_fil)? argc - start: nbfichier_par_fil;
+         tinfo[i].argv = (char**) malloc(nbfichier_par_fil * sizeof(char*));
 
          for (int j = 0; j <  nbfichier_par_fil && start + j < argc; j++)
          {
-             tinfo[i].argv_string[j] = strdup(argv[start + j]);
+             tinfo[i].argv[j] = strdup(argv[start + j]);
          }
 
          start += nbfichier_par_fil;
@@ -837,7 +839,7 @@ int main(int argc, char **argv)
          int ret = pthread_create (
             &thread_clients[i],
             NULL,
-            decoder_fichier_fils,
+            launch,
             &tinfo[i]
          );
 
@@ -852,7 +854,10 @@ int main(int argc, char **argv)
         pthread_join (thread_clients [i], NULL);
       }
 
+      xmlCleanupParser();
+
     }
+
 
     uint64_t nbLigneBase=0;
 
@@ -870,7 +875,7 @@ int main(int argc, char **argv)
 //        }
     }
 
-    fprintf(stderr, "Table de %" PRIu64 " lignes générée pour %" PRIu64 "lignes de paie d'origine.\n", nbLigneBase, nbLigne);
+//    fprintf(stderr, "Table de %" PRIu64 " lignes générée pour %" PRIu64 "lignes de paie d'origine.\n", nbLigneBase, nbLigne);
 
     #define FREE(X) if (X && xmlStrcmp(X, (xmlChar*)NA_STRING)) xmlFree(X);
 
@@ -905,9 +910,9 @@ int main(int argc, char **argv)
 
     }
 
-    return(0);
-}
+return 0;
 
+}
 #ifdef __cplusplus
 }
 #endif
