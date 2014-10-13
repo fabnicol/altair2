@@ -410,7 +410,7 @@ while(! xmlStrcmp(cur->name, (const xmlChar*) "DonneesIndiv"))
         DESCENDRE_UN_NIVEAU
 
         bulletinPtr bulletinIdent = NULL;
-        bulletinIdent = (bulletinPtr) calloc(1, 50000);
+        bulletinIdent = (bulletinPtr) calloc(1, sizeof(bulletin));
         if (bulletinIdent == NULL)
         {
             fprintf(stderr,"Pas assez de mémoire\n");
@@ -601,8 +601,8 @@ void* launch(void* info)
 {
     uint64_t nbLigne = 0;
     thread_info* tinfo = (thread_info*) info;
-    bulletinPtr Table[nbAgent*tinfo->argc];
-    memset(Table, 0, sizeof(Table));
+    bulletinPtr* Table=(bulletinPtr*) calloc(nbAgent*tinfo->argc, sizeof(bulletinPtr));
+    //memset(Table, 0, sizeof(Table));
     //xmlInitParser();
    // LIBXML_TEST_VERSION
     xmlKeepBlanksDefault(0);
