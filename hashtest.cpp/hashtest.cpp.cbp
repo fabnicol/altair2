@@ -27,7 +27,6 @@
 				<Option parameters='-j 2  -n 1500 -s , -d .  -o &quot;~/Dev/altair/Tests/Exemple/Donnees/PDC-Table.csv&quot; ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2010/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2011/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2012/*.xhl ' />
 				<Compiler>
 					<Add option="-march=core2" />
-					<Add option="-std=c++11" />
 					<Add option="-g" />
 					<Add option="-DNO_DEBUG" />
 					<Add option="-D__GNUC_EXTENSION" />
@@ -35,23 +34,23 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-std=c++11" />
 			<Add option="-Wextra" />
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 			<Add option="-pthread" />
+			<Add option="-std=gnu++11" />
 			<Add option="-D__GNUC_EXTENSION" />
 			<Add option="-D_REENTRANT" />
+			<Add option="-D_GNU_SOURCE" />
 			<Add directory="../../../../MinGW/include" />
 			<Add directory="/usr/include/libxml2" />
 		</Compiler>
 		<Linker>
 			<Add option="-lpthread" />
-			<Add library="../../../../../usr/local/lib/libxml2.so" />
+			<Add option="-lxml2" />
 			<Add directory="../../../../MinGW/bin" />
 			<Add directory="../../../../../../Program Files (x86)/CodeBlocks/MinGW/bin" />
 		</Linker>
-		<Unit filename="copyfile.cpp" />
 		<Unit filename="copyfile.hpp" />
 		<Unit filename="validator.cpp" />
 		<Extensions>

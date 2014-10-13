@@ -570,7 +570,7 @@ int32_t decoder_fichier(char** fichiers, int nbfichier, bulletinPtr* Table, cons
   int32_t nbAgent  = 0;
     for (int i = 0; i < nbfichier ; i++)
     {
-        fprintf(stderr, "Fichier: %s, %d/%d, nbLigne=%lld", fichiers[i], i+1, nbfichier, nbLigne);
+        fprintf(stderr, "Fichier: %s, %d/%d, nbLigne=%" PRIu64 "\n", fichiers[i], i+1, nbfichier, nbLigne);
         fflush(NULL);
         nbAgent = parseFile(fichiers[i], Table, decimal, &nbLigne);
 
