@@ -24,7 +24,7 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters='-j 4 -n 1500 -s , -d .  -o &quot;~/Dev/altair/Tests/Exemple/Donnees/PDC-Table.csv&quot; ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2010/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2011/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2012/*.xhl' />
+				<Option parameters='-j 2  -n 1500 -s , -d .  -o &quot;~/Dev/altair/Tests/Exemple/Donnees/PDC-Table.csv&quot; ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2010/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2011/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2012/*.xhl ' />
 				<Compiler>
 					<Add option="-march=core2" />
 					<Add option="-std=c++11" />
@@ -39,14 +39,15 @@
 			<Add option="-Wextra" />
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
+			<Add option="-pthread" />
 			<Add option="-D__GNUC_EXTENSION" />
 			<Add option="-D_REENTRANT" />
 			<Add directory="../../../../MinGW/include" />
 			<Add directory="/usr/include/libxml2" />
 		</Compiler>
 		<Linker>
-			<Add option="-lxml2" />
 			<Add option="-lpthread" />
+			<Add library="../../../../../usr/local/lib/libxml2.so" />
 			<Add directory="../../../../MinGW/bin" />
 			<Add directory="../../../../../../Program Files (x86)/CodeBlocks/MinGW/bin" />
 		</Linker>
