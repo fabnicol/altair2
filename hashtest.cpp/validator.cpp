@@ -162,13 +162,31 @@ static inline void  verifier_taille(const int l)
 
 /* obligatoire */
 
+
+static inline bool Bulletin(const int l, const char* tag, const bulletinPtr bulletinIdent, xmlNodePtr* cur)
+{
+
+bool test = (*cur != NULL &&!xmlStrcmp((*cur)->name,  (const xmlChar*) tag));
+
+if (test)
+  {
+    bulletinIdent->ligne[l] = xmlGetProp(*cur, (const xmlChar *) "V");
+    xmlChar* s = bulletinIdent->ligne[l];
+
+    /* sanitisation */
+
+    for (int i = 0; i < xmlStrlen(s); i++)
+        if (s[i] == separateur) s[i] = '_';
+
+    *cur = (*cur)? (*cur)->next: NULL;
+  }
+
+ return test;
+}
+
 static inline void _Bulletin(const int l, const char* tag, const bulletinPtr bulletinIdent, xmlNodePtr* cur)
 {
-    if (cur != NULL &&!xmlStrcmp((*cur)->name,  (const xmlChar*) tag))
-    {
-        bulletinIdent->ligne[l] = xmlGetProp(*cur, (const xmlChar *) "V");
-        *cur = (*cur)? (*cur)->next: NULL;
-    }
+    if (Bulletin(const int l, const char* tag, const bulletinPtr bulletinIdent, xmlNodePtr* cur))
     else
     {
         if (*cur)
@@ -193,19 +211,17 @@ static inline void substituer_separateur_decimal(const int l, const bulletinPtr 
 
 static inline void _Bulletin_(const int l , const char* tag, const bulletinPtr bulletinIdent, xmlNodePtr* cur, const char decimal)
 {
-    if (*cur != NULL && !xmlStrcmp((*cur)->name, (const xmlChar *) tag))
-    {
-        bulletinIdent->ligne[l] = xmlGetProp(*cur, (const xmlChar *) "V");
-        substituer_separateur_decimal(l, bulletinIdent, decimal);
-        *cur = (*cur)? (*cur)->next : NULL;
-    }
+    if (Bulletin(const int l , const char* tag, const bulletinPtr bulletinIdent, xmlNodePtr* cur))
     else
     {
           bulletinIdent->ligne[l] = (xmlChar*) malloc(3*sizeof(xmlChar));
           if (bulletinIdent->ligne[l] == NULL) { perror("Erreur d'allocation de drapeau II."); exit(-64); }
           bulletinIdent->ligne[l][0] = 'N';
           bulletinIdent->ligne[l][1] = 'A';
+          return;
     }
+
+    substituer_separateur_decimal(l, bulletinIdent, decimal);
 }
 
 /* obligatoire et avec substitution séparateur décimal */
