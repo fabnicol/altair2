@@ -406,11 +406,10 @@ static uint64_t  parseBulletin(xmlNodePtr cur, const char decimal, bulletinPtr b
     return ligne;
 }
 
-static int32_t  parseFile(const char *filename,  bulletinPtr* Table, const char decimal, uint64_t* ligne)
+static int32_t  parseFile(const char *filename,  bulletinPtr* Table, const char decimal, uint64_t* ligne, int32_t agent_total)
 {
     xmlDocPtr doc;
     xmlNodePtr cur = NULL;
-    static uint16_t agent_total;
     uint16_t agent_du_fichier = 0;
 
     doc = xmlParseFile(filename);
@@ -475,16 +474,10 @@ static int32_t  parseFile(const char *filename,  bulletinPtr* Table, const char 
 
             DESCENDRE_UN_NIVEAU
 
-            bulletinPtr bulletinIdent = (bulletinPtr) calloc(1, sizeof(bulletin));
-            if (bulletinIdent == NULL)
-            {
-                fprintf(stderr,"Pas assez de mémoire\n");
-                return 0;
-            }
-            bulletinIdent->ligne = (xmlChar**) malloc(MAX_LIGNES_PAYE* sizeof(xmlChar*));
-            if (bulletinIdent->ligne == NULL) { perror("Erreur d'allocation de drapeau I."); exit(-63); }
+            Table[agent_total]->ligne = (xmlChar**) malloc(MAX_LIGNES_PAYE* sizeof(xmlChar*));
+            if (Table[agent_total]->ligne == NULL) { perror("Erreur d'allocation de drapeau I."); exit(-63); }
 
-            *ligne += parseBulletin(cur, decimal, bulletinIdent);
+            *ligne += parseBulletin(cur, decimal, Table[agent_total]);
 
             // Ici il est normal que cur = NULL
 
@@ -492,7 +485,7 @@ static int32_t  parseFile(const char *filename,  bulletinPtr* Table, const char 
 
             AFFICHER_NOEUD(cur->name)
 
-            Table[agent_total] = bulletinIdent;
+            //Table[agent_total] = bulletinIdent;
 
             agent_total++;
             agent_du_fichier++;
@@ -504,7 +497,7 @@ static int32_t  parseFile(const char *filename,  bulletinPtr* Table, const char 
     printf("Population du fichier %s : %4d bulletins    Total : %4d bulletins  %4" PRIu64 " lignes cumulées.\n", filename, agent_du_fichier, agent_total, *ligne);
     xmlFreeDoc(doc);
     // xmlCleanupParser();
-    return((int32_t) agent_total);
+    return(agent_total);
 }
 #ifdef ECRIRE
 #define format_base "%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s\n"
@@ -639,7 +632,7 @@ int32_t decoder_fichier(char** fichiers, int nbfichier, bulletinPtr* Table, cons
     {
         fprintf(stderr, "Fichier: %s, %d/%d, nbLigne=%" PRIu64 "\n", fichiers[i], i+1, nbfichier, nbLigne);
         fflush(NULL);
-        nbAgent = parseFile(fichiers[i], Table, decimal, &nbLigne);
+        nbAgent = parseFile(fichiers[i], Table, decimal, &nbLigne, nbAgent);
 
         if (nbAgent < 0)
         {
@@ -686,8 +679,6 @@ void* launch(void* info)
 
     }
 
-    //memset(Table, 0, sizeof(Table));
-    //xmlInitParser();
     // LIBXML_TEST_VERSION
     xmlKeepBlanksDefault(0);
 
@@ -908,7 +899,6 @@ int main(int argc, char **argv)
         puts("Creation des fils clients.\n");
         for (int i = 0; i < nbfil; i++)
         {
-
             tinfo[i].thread_num = i;
             tinfo[i].argc = (argc - start < nbfichier_par_fil)? argc - start: nbfichier_par_fil;
             tinfo[i].argv = (char**) malloc(nbfichier_par_fil * sizeof(char*));
