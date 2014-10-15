@@ -7,3 +7,6 @@ figure/*
 *.xlsx
 *Thumbs
 .Rproj.user
+packrat/lib*/
+packrat/src/
+*.layout
