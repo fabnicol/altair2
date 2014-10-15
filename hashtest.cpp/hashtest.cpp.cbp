@@ -14,7 +14,6 @@
 				<Option compiler="gcc" />
 				<Option parameters='-n 1500 &quot;C:\Dev\altair_github\altair\Tests\Exemple\Donnees\xhl\2009\METRO_200906_99_00.xhl&quot; -t ' />
 				<Compiler>
-					<Add option="-std=c++11" />
 					<Add option="-g" />
 					<Add option="-D__GNUC_EXTENSION" />
 				</Compiler>
@@ -24,7 +23,7 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters=' -s , -d .  -o &quot;~/Dev/altair/Tests/Exemple/Donnees/PDC-Table.csv&quot; ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2010/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2011/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2012/*.xhl ' />
+				<Option parameters='-n 1200 -s , -d .  -o &quot;~/Dev/altair/Tests/Exemple/Donnees/PDC-Table.csv&quot;  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2010/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2011/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2012/*.xhl ' />
 				<Compiler>
 					<Add option="-march=core2" />
 					<Add option="-g" />
@@ -53,6 +52,7 @@
 		</Linker>
 		<Unit filename="copyfile.hpp" />
 		<Unit filename="validator.cpp" />
+		<Unit filename="validator.hpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

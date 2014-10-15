@@ -9,128 +9,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <stdint.h>
-#include <stdbool.h>
-#include <limits.h>
-#include <locale.h>
-#include <errno.h>
-#include <pthread.h>
-#include <math.h>
-#include <libxml/xmlmemory.h>
-#include <libxml/parser.h>
-#define __STDC_FORMAT_MACROS
-#include <inttypes.h>
-
-#define nbType 12
-
-#ifndef NA_STRING
-#define NA_STRING "NA"
-#endif
-
-#ifndef MAX_LIGNES_PAYE
-#define MAX_LIGNES_PAYE 350
-#endif
-
-#ifndef MAX_NB_AGENTS
-#define MAX_NB_AGENTS 1200
-#endif
-
-#ifndef NO_DEBUG
-#define DEBUG(X) fprintf(stderr, "%s\n", X);
-#define AFFICHER_NOEUD(X)       { char msg[50]={0}; \
-                                  sprintf(msg, "atteint %s\n", X);\
-                                  DEBUG(msg) }
-
-#define NO_DEBUG 0
-#else
-#define NO_DEBUG 1
-#define DEBUG(X)
-#define AFFICHER_NOEUD(X)
-#endif
-#if !NO_DEBUG
-#ifdef __WIN32__
-#include <Windows.h>
-#endif
-#endif
-
-#ifndef MAX_MEMOIRE_RESERVEE
-uint64_t MAX_MEMOIRE_RESERVEE = UINT32_MAX;
-// = 2^32 = 4 294 967 296 = 4GB
-#endif
-/* pas de contrôle d'existence de noeud : version affaiblie de la macro précédente */
-
-
-#define DESCENDRE_UN_NIVEAU    cur = (cur)? cur->xmlChildrenNode: NULL;  if ((! NO_DEBUG) && cur) fprintf(stderr, "Descente au niveau %s\n", cur->name);  // cur = (cur)? cur-> next: NULL;
-
-#define REMONTER_UN_NIVEAU     cur = (cur)? cur->parent: NULL;   if ((! NO_DEBUG) && cur) fprintf(stderr, "Remontée au niveau %s\n", cur->name); cur = (cur)? cur->next: NULL;
-
-/* Traitement Brut : */
-/* Indemnité de résidence */
-/* Supplément familial */
-/* Indemnités */
-/* Rémunérations diverses */
-/* Déduction */
-/* Rappel */
-/* Retenue */
-/* Cotisation */
-
-const char* type_remuneration[nbType] = {"TraitBrut", "IndemResid", "SupFam", "AvantageNature", "Indemnite", "RemDivers", "Deduction", "Acompte", "Rappel", "Retenue", "Cotisation", "Commentaire"};
-const char* type_remuneration_traduit[nbType] = {"Traitement", u8"Indemnité de résidence", u8"Supplément familial", "Avantage en nature", u8"Indemnité", u8"Autres rémunérations", u8"Déduction", "Acompte", "Rappel", "Retenue", "Cotisation", "Commentaire"};
-
-
-#define Nom 0
-#define Prenom 1
-#define Matricule 2
-#define Annee 3
-#define Mois 4
-#define NIR 5
-#define Statut 6
-#define EmploiMetier 7
-#define Grade 8
-#define Indice 9
-#define Service 10
-#define NBI 11
-#define QuotiteTrav 12
-#define NbHeureTotal 13
-#define NbHeureSup 14
-#define MtBrut 15
-#define MtNet 16
-#define MtNetAPayer 17
-
-const char* Tags[] = {"Nom",
-                      "Prenom",
-                      "Matricule",
-                      "Annee",
-                      "Mois",
-                      "NIR",
-                      "Statut",
-                      "EmploiMetier",
-                      "Grade",
-                      "Indice",
-                      "Service",
-                      "NBI",
-                      "QuotiteTrav",
-                      "NbHeureTotal",
-                      "NbHeureSup",
-                      "MtBrut",
-                      "MtNet",
-                      "MtNetAPayer"
-                     };
-
-
-xmlChar* annee_fichier = NULL;
-xmlChar* mois_fichier = NULL;
-
-typedef struct bulletin
-{
-    // 18 + lignes
-    xmlChar **ligne;
-
-} bulletin, *bulletinPtr;
-
+#include "validator.hpp"
 
 static inline xmlNodePtr atteindreNoeud(const char* noeud, xmlNodePtr cur)
 {
@@ -165,12 +44,13 @@ static inline void  verifier_taille(const int l)
 
 /* obligatoire */
 
+typedef enum {Nom, Prenom, Matricule, Annee, Mois, NIR, Statut, EmploiMetier, Grade, Indice,
+          Service, NBI, QuotiteTrav, NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer
+         } Entete;
 
 static inline bool Bulletin(const int l, const char* tag, const bulletinPtr bulletinIdent, xmlNodePtr* cur)
 {
-
     bool test = (*cur != NULL &&!xmlStrcmp((*cur)->name,  (const xmlChar*) tag));
-
     if (test)
     {
         bulletinIdent->ligne[l] = xmlGetProp(*cur, (const xmlChar *) "V");
@@ -183,7 +63,6 @@ static inline bool Bulletin(const int l, const char* tag, const bulletinPtr bull
 
         *cur = (*cur)? (*cur)->next: NULL;
     }
-
     return test;
 }
 
@@ -215,17 +94,16 @@ static inline void _Bulletin_(const int l , const char* tag, const bulletinPtr b
 {
     if (!Bulletin(l , tag, bulletinIdent, cur))
     {
-        bulletinIdent->ligne[l] = (xmlChar*) malloc(3*sizeof(xmlChar));
+        bulletinIdent->ligne[l] = xmlCharStrdup("NA");//(xmlChar*) malloc(16*sizeof(xmlChar)); //3
         if (bulletinIdent->ligne[l] == NULL)
         {
             perror("Erreur d'allocation de drapeau II.");
             exit(-64);
         }
-        bulletinIdent->ligne[l][0] = 'N';
-        bulletinIdent->ligne[l][1] = 'A';
+        //bulletinIdent->ligne[l][0] = 'N';
+        //bulletinIdent->ligne[l][1] = 'A';
         return;
     }
-
     substituer_separateur_decimal(l, bulletinIdent, decimal);
 }
 
@@ -239,7 +117,7 @@ static inline void Bulletin_(const int l, const char* tag, const bulletinPtr bul
 
 static inline int lignePaye(xmlNodePtr cur, const bulletinPtr bulletinIdent, const char decimal)
 {
-    int start = sizeof(Tags)/sizeof(xmlChar*);
+    int start = sizeof(Entete)/sizeof(int);
     int l = start, nbLignePaye = 0;
     unsigned int t = 0;
 
@@ -248,7 +126,7 @@ static inline int lignePaye(xmlNodePtr cur, const bulletinPtr bulletinIdent, con
         if (xmlStrcmp(cur->name, (const xmlChar *) type_remuneration[t]))
         {
             t++;
-            bulletinIdent->ligne[l] = (xmlChar*) malloc(2*sizeof(xmlChar));
+            bulletinIdent->ligne[l] = xmlCharStrdup("A");//(xmlChar*) malloc(16*sizeof(xmlChar)); // 2
             bulletinIdent->ligne[l][0] = t+1;  // +1 pour éviter la confusion avec \0 des chaines vides
             l++;
 
@@ -314,13 +192,13 @@ static inline int lignePaye(xmlNodePtr cur, const bulletinPtr bulletinIdent, con
 }
 
 
-#define _BULLETIN(X) _Bulletin(X, Tags[X], bulletinIdent, &cur);
+#define _BULLETIN(X) _Bulletin(X, #X, bulletinIdent, &cur);
 
-#define BULLETIN_(X)  Bulletin_(X, Tags[X], bulletinIdent, &cur, decimal);
+#define BULLETIN_(X)  Bulletin_(X, #X, bulletinIdent, &cur, info->decimal);
 
-#define _BULLETIN_(X)  _Bulletin_(X, Tags[X], bulletinIdent, &cur, decimal);
+#define _BULLETIN_(X)  _Bulletin_(X, #X, bulletinIdent, &cur, info->decimal);
 
-static uint64_t  parseBulletin(xmlNodePtr cur, const char decimal, bulletinPtr bulletinIdent)
+static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
 {
     DEBUG("Parsage")
     int ligne = 0;
@@ -334,10 +212,10 @@ static uint64_t  parseBulletin(xmlNodePtr cur, const char decimal, bulletinPtr b
         return 0;
     }
 
+    #define bulletinIdent info->Table[info->fichier_courant]
 
-
-    bulletinIdent->ligne[Annee] = annee_fichier;
-    bulletinIdent->ligne[Mois] = mois_fichier;
+    bulletinIdent->ligne[Annee] = info->annee_fichier;
+    bulletinIdent->ligne[Mois] = info->mois_fichier;
 
     DESCENDRE_UN_NIVEAU
 
@@ -397,7 +275,7 @@ static uint64_t  parseBulletin(xmlNodePtr cur, const char decimal, bulletinPtr b
         if (xmlChildElementCount(cur))
         {
             DESCENDRE_UN_NIVEAU
-            ligne = lignePaye(cur, bulletinIdent, decimal);
+            ligne = lignePaye(cur, bulletinIdent, info->decimal);
         }
         else
         {
@@ -424,16 +302,20 @@ static uint64_t  parseBulletin(xmlNodePtr cur, const char decimal, bulletinPtr b
     BULLETIN_(MtNet)
     BULLETIN_(MtNetAPayer)
 
+    #undef bulletinIdent
+
     return ligne;
 }
 
-static int32_t  parseFile(const char *filename,  bulletinPtr* Table, const char decimal, uint64_t* ligne, int32_t agent_total)
+/* agent_total est une variable de contrôle pour info->NCumAgent */
+
+static int32_t  parseFile(info_t* info, int32_t agent_total)
 {
     xmlDocPtr doc;
     xmlNodePtr cur = NULL;
     uint16_t agent_du_fichier = 0;
-
-    doc = xmlParseFile(filename);
+puts(info->threads->argv[0]);
+    doc = xmlParseFile(info->threads->argv[info->fichier_courant]);
 
     if (doc == NULL) return(-1);
 
@@ -452,7 +334,7 @@ static int32_t  parseFile(const char *filename,  bulletinPtr* Table, const char 
 
     if (cur != NULL)
     {
-        annee_fichier = xmlGetProp(cur, (const xmlChar *) "V");
+        info->annee_fichier = xmlGetProp(cur, (const xmlChar *) "V");
         cur = (cur)? cur->next : NULL;
     }
     else
@@ -463,7 +345,7 @@ static int32_t  parseFile(const char *filename,  bulletinPtr* Table, const char 
 
     if (cur != NULL)
     {
-        mois_fichier = xmlGetProp(cur, (const xmlChar *) "V");
+        info->mois_fichier = xmlGetProp(cur, (const xmlChar *) "V");
     }
     else
     {
@@ -495,7 +377,7 @@ static int32_t  parseFile(const char *filename,  bulletinPtr* Table, const char 
 
             DESCENDRE_UN_NIVEAU
 
-            *ligne += parseBulletin(cur, decimal, Table[agent_total]);
+            info->nbLigne += parseBulletin(cur, info);
 
             // Ici il est normal que cur = NULL
 
@@ -503,19 +385,20 @@ static int32_t  parseFile(const char *filename,  bulletinPtr* Table, const char 
 
             AFFICHER_NOEUD(cur->name)
 
-            //Table[agent_total] = bulletinIdent;
-
             agent_total++;
             agent_du_fichier++;
         }
-
         cur = cur_save->next;
-
     }
-    printf("Population du fichier %s : %4d bulletins    Total : %4d bulletins  %4" PRIu64 " lignes cumulées.\n", filename, agent_du_fichier, agent_total, *ligne);
+
+    printf("Fichier n°%d:\nPopulation du fichier  %s : %4d bulletins    Total : %4d bulletins  %4" PRIu64 " lignes cumulées.\n",
+           info->fichier_courant,
+           info->threads->argv[info->fichier_courant],
+           agent_du_fichier, agent_total, info->nbLigne);
+
     xmlFreeDoc(doc);
-    // xmlCleanupParser();
     return(agent_total);
+    // xmlCleanupParser();
 }
 #ifdef ECRIRE
 #define format_base "%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s\n"
@@ -643,151 +526,155 @@ int64_t generer_table_standard(const char* chemin_table, uint32_t nbAgent, bulle
 }
 #endif
 
-int32_t decoder_fichier(char** fichiers, int nbfichier, bulletinPtr* Table, const char decimal, uint64_t nbLigne, bool reduire_consommation_memoire)
+
+inline int calculer_memoire_requise(info_t* info)
 {
-    int32_t nbAgent  = 0;
-
-    uint16_t NLigne[nbfichier*nbAgent];
-    int32_t  NAgent[nbfichier];
-    uint32_t NCumAgent = 0;
-
-    if (reduire_consommation_memoire)
+    errno = 0;
+    info->NLigne = (uint16_t*) calloc(info->threads->argc, MAX_NB_AGENTS * info->threads->argc * sizeof(uint16_t));  // nm total de bulletins
+    info->NAgent = (int32_t*) calloc(info->threads->argc, sizeof(int32_t));
+    puts("Premier scan des fichiers pour déterminer les besoins mémoire ... ");
+    int max_nbLigne = 30  ;
+    /* par convention  un agent avec rémunération non renseignées (balise sans fils) a une ligne */
+    for (int i = 0; i < info->threads->argc ; i++)
     {
-
-        memset(NLigne, 0, nbfichier*nbAgent*sizeof(uint16_t));
-        memset(NAgent, 0, nbfichier*sizeof(int32_t));
-
-        /* par convention  un agent avec rémunération non renseignées (balise sans fils) a une ligne */
-        for (int i = 0; i < nbfichier ; i++)
+        FILE* c;
+        errno = 0;
+        c=fopen(info->threads->argv[i], "r");
+        fseek(c, 0, SEEK_SET);  // cautious no-op
+        if (errno)
         {
-            FILE* c;
-            errno = 0;
-            c=fopen(fichiers[i], "r");
-            fseek(c, 0, SEEK_SET);  // cautious no-op
-            if (errno)
-            {
-                perror("Fichier .xhl");
-                exit(-122);
-            }
-            int d;
+            perror("Fichier .xhl");
+            exit(-122);
+        }
+        int d = 0;
 
-            while ((d = fgetc(c)) != EOF)
+        while (d != EOF && (d = fgetc(c)) != EOF)
+        {
+            if (d != '<') continue;
+            if  ((d = fgetc(c)) != 'P') continue;
+            if  ((d = fgetc(c)) != 'a') continue;
+            if  ((d = fgetc(c)) != 'y') continue;
+            if  ((d = fgetc(c)) != 'e') continue;
+            //if  ((d = fgetc(c)) != 'I') continue;
+            while (d != EOF && (d = fgetc(c)) != EOF)
             {
-
                 if (d != '<') continue;
-                if  (fgetc(c) != 'P') continue;
-                if  (fgetc(c) != 'a') continue;
-                if  (fgetc(c) != 'y') continue;
-
-                while ((d = fgetc(c)) != EOF)
+                if ((d = fgetc(c)) != 'C')
                 {
-                    if (d != '<') continue;
-                    if ((d = fgetc(c)) != 'C')
-                    {
-                       if (d != '/') continue;
+                    if (d != '/') continue;
+                    else
+                        if((d = fgetc(c)) != 'P')   continue;
                         else
-                        {
-                            if(fgetc(c) != 'P')   continue;
+                            if ((d = fgetc(c)) != 'a')   continue;
                             else
-                                if(fgetc(c) != 'a')   continue;
+                                if((d = fgetc(c)) != 'y')   continue;
                                 else
-                                    if(fgetc(c) != 'y')   continue;
-                        }
+                                  if((d = fgetc(c)) != 'e')   continue;
+                                //  else
+                                  //  if((d = fgetc(c)) != 'I')   continue;
 
-                        if (NLigne[NCumAgent] == 0) NLigne[NCumAgent] = 1;
-                        NAgent[i]++;
-                        NCumAgent++;
-                        break;
 
-                    }
+                    if (info->NLigne[info->NCumAgent] == 0) info->NLigne[info->NCumAgent] = 1;
+                    info->NAgent[i]++;
+                    if (info->NLigne[info->NCumAgent] > max_nbLigne) { max_nbLigne = info->NLigne[info->NCumAgent]; printf("%d\n", max_nbLigne);}
+                    info->NCumAgent++;
+                    break;
+                }
+                else
+                {
+                    if ((d = fgetc(c)) != 'o') continue;
                     else
                     {
-                       if (fgetc(c)!= 'o') continue;
+                        if((d = fgetc(c)) != 'd')   continue;
                         else
-                            if(fgetc(c) != 'd')   continue;
+                        {
+                            if((d = fgetc(c)) != 'e')   continue;
                             else
-                                if(fgetc(c) != 'e')   continue;
-
+                            {
+                                if((d = fgetc(c)) != ' ')   continue;
+                            }
+                        }
                     }
-
-                    NLigne[NCumAgent]++;
                 }
-
+                info->NLigne[info->NCumAgent]++;
             }
-
-            nbLigne = NLigne[NCumAgent - 1];
-            fclose(c);
         }
 
+        info->nbLigne = info->NLigne[info->NCumAgent - 1];
+        fclose(c);
     }
 
+    for (int i=0; i < info->NCumAgent; i++) info->NLigne[i] = max_nbLigne;
 
-    if (! reduire_consommation_memoire) NCumAgent = nbAgent*nbfichier;
+    return errno;
+}
 
-    for (int agent = 0; agent < NCumAgent; agent++)
+
+void decoder_fichier(info_t* info, int32_t* agent_total)
+{
+    /* environ 6000 bulletins par seconde en processus sumple, et 15000 en multithread ; rajoute 1/3 du temps */
+
+    if (info->reduire_consommation_memoire)
     {
-        printf("%d\n", NCumAgent);
-        Table[agent] = (bulletinPtr) malloc(sizeof(bulletin));
-        if (Table[agent] == NULL)
+        int err = calculer_memoire_requise(info);
+        if (err)
+        {
+            perror("Calcul de la mémoire requise");
+            exit(-1001);
+        }
+    }
+    else
+    {
+         info->NCumAgent = info->nbAgentUtilisateur * info->threads->argc;
+         info->NLigne = (uint16_t*) calloc(info->threads->argc, info->nbAgentUtilisateur* sizeof(uint16_t));
+         info->NAgent = (int32_t*) calloc(info->threads->argc, sizeof(int32_t));
+    }
+
+    printf("Numbre total de bulletins d'agent : %d  Maximum de lignes par bulletins: %d\n", info->NCumAgent, info->NLigne[0]);
+    for (unsigned agent = 0; agent < info->NCumAgent; agent++)
+    {
+        info->Table[agent] = (bulletinPtr) malloc(sizeof(bulletin));
+        if (info->Table[agent] == NULL)
         {
             perror("Mémoire insuffisante");
             exit(-19);
         }
-        Table[agent]->ligne = (xmlChar**) malloc(((reduire_consommation_memoire)? NLigne[agent] : MAX_LIGNES_PAYE)* sizeof(xmlChar*));
-        if (Table[agent]->ligne == NULL)
+        info->Table[agent]->ligne = (xmlChar**) malloc(((info->reduire_consommation_memoire)?  info->NLigne[agent]*2 : MAX_LIGNES_PAYE)* sizeof(xmlChar*));
+        //info->NLigne[agent]
+        if (info->Table[agent]->ligne == NULL)
         {
             perror("Erreur d'allocation de drapeau I.");
             exit(-63);
         }
     }
 
-    for (int i = 0; i < nbfichier ; i++)
+    for (int i = 0; i < info->threads->argc ; i++)
     {
-        fprintf(stderr, "Fichier: %s, %d/%d, nbLigne=%" PRIu64 "\n", fichiers[i], i+1, nbfichier, nbLigne);
-        fflush(NULL);
-        nbAgent = parseFile(fichiers[i], Table, decimal, &nbLigne, nbAgent);
+        info->fichier_courant = i;
 
-        if (nbAgent < 0)
-        {
-            fprintf(stderr, "Erreur de décodage pour le fichier %s\n", fichiers[i]);
-            return -1;
-        }
-
+        fprintf(stderr, "Fichier: %s, %d/%d, nbLigne=%" PRIu64 "\n", info->threads->argv[i], i+1, info->threads->argc, info->nbLigne);
+        *agent_total = parseFile(info, *agent_total);
     }
-    return nbAgent;
 }
-
-typedef struct
-{
-    pthread_t thread_id;
-    int       thread_num;
-    bool      reduire_consommation_memoire;
-    char** argv;
-    int argc;
-
-} thread_info;
-
-char decimal = '.';
-char separateur = ',';
-int32_t nbAgent = MAX_NB_AGENTS;
 
 void* launch(void* info)
 {
-    uint64_t nbLigne = 0;
-    thread_info* tinfo = (thread_info*) info;
-    bulletinPtr* Table = (bulletinPtr*) malloc(nbAgent*tinfo->argc*sizeof(bulletinPtr));
-    if (Table == NULL)
+
+    info_t* tinfo = ((info_t*)info);
+
+    tinfo->Table = (bulletinPtr*) malloc(tinfo->NCumAgent * tinfo->threads->argc * sizeof(bulletinPtr));
+
+    if (tinfo->Table == NULL)
     {
         perror("Mémoire insuffisante");
         exit(-18);
     }
 
-    // LIBXML_TEST_VERSION
     xmlKeepBlanksDefault(0);
-
-    int32_t nbAgent = decoder_fichier(tinfo->argv, tinfo->argc, Table, decimal, nbLigne, tinfo->reduire_consommation_memoire);
-
+    int32_t agent_total=0;
+    decoder_fichier(tinfo, &agent_total);
     return NULL;
+    /* controle sur agent_total */
 }
 
 int main(int argc, char **argv)
@@ -809,6 +696,7 @@ int main(int argc, char **argv)
     xmlKeepBlanksDefault(0);
 
     int start = 1;
+    uint32_t nbAgentUtilisateur = MAX_NB_AGENTS;
 
     char type_table[50]= {0};
     strcpy(type_table, "bulletins");
@@ -819,12 +707,15 @@ int main(int argc, char **argv)
     bool generer_table = false;
     bool liberer_memoire = true;
     bool reduire_consommation_memoire = true;
+    char separateur = ',';
+    char decimal = '.';
     int nbfil = 0;
 
     while (start < argc)
     {
         if (! strcmp(argv[start], "-n"))
         {
+            reduire_consommation_memoire = false;
             if (argc > 2)
             {
                 const char* const c_str = argv[start + 1];
@@ -850,7 +741,7 @@ int main(int argc, char **argv)
                 }
                 else
                 {
-                    nbAgent  = (uint32_t)sl;
+                    nbAgentUtilisateur  = (uint32_t)sl;
                     start += 2;
                     continue;
                 }
@@ -967,7 +858,7 @@ int main(int argc, char **argv)
         else break;
     }
 
-    uint64_t memoire_reservee = nbAgent*(argc-start)*sizeof(bulletin);
+    uint64_t memoire_reservee = nbAgentUtilisateur*(argc-start)*sizeof(bulletin);
     if (memoire_reservee > MAX_MEMOIRE_RESERVEE)
     {
         fprintf(stderr, "Quantité de mémoire réservée %" PRIu64 " supérieure au maximum de %" PRIu64 " octets.\nAppliquer le programme sur une partie des fichiers et fusionner les bases en résultant.\n", memoire_reservee, MAX_MEMOIRE_RESERVEE);
@@ -976,15 +867,34 @@ int main(int argc, char **argv)
 
     if (afficher_memoire_reservee) fprintf(stderr, "Quantité de mémoire réservée %" PRIu64 " octets.\n", memoire_reservee);
 
+    thread_t mon_thread;
+    info_t info =
+    {
+            NULL,             //    bulletinPtr* Table;
+            0,                //    uint64_t nbLigne;
+            NULL,             //    int32_t  *NAgent;
+            nbAgentUtilisateur,          //
+            nbAgentUtilisateur*(argc-start),      //    uint32_t NCumAgent;
+            NULL,             //    uint16_t *NLigne;
+            0,                //    uint16_t fichier_courant;
+            &mon_thread,      //    thread_t threads;
+            NULL,             //    xmlChar*  annee_fichier;
+            NULL,             //    xmlChar* mois_fichier;
+            NULL,             //    char** fichiers;
+            decimal,          //    const char decimal;
+            separateur,       //    const char separateur;
+            reduire_consommation_memoire  //bool
+    };
+
+
     if (nbfil == 0 || (argc -start < 2))
     {
-        thread_info tinfo;
-        tinfo.argc = argc -start;
-        tinfo.argv = (char**) malloc((argc -start)* sizeof(char*));
-        tinfo.reduire_consommation_memoire = reduire_consommation_memoire;
-        for (int j=start; j < argc; j++) tinfo.argv[j-start] = strdup(argv[j]);
+        info.threads->argc = argc -start;
+        info.threads->argv = (char**) malloc((argc -start)* sizeof(char*));
+        info.reduire_consommation_memoire = reduire_consommation_memoire;
+        for (int j = start; j < argc; j++) info.threads->argv[j-start] = strdup(argv[j]);
 
-        launch((void*) &tinfo);
+        launch((void*) &info);
     }
     else
     {
@@ -1000,18 +910,21 @@ int main(int argc, char **argv)
 
         pthread_t thread_clients[nbfil];
 
-        thread_info tinfo[nbfil];
+        info_t* Info = (info_t* ) malloc(nbfil*sizeof(info_t));
+        if (Info == NULL) {perror("Allocation de info"); exit(-144); }
 
         puts("Creation des fils clients.\n");
         for (int i = 0; i < nbfil; i++)
         {
-            tinfo[i].thread_num = i;
-            tinfo[i].argc = (argc - start < nbfichier_par_fil)? argc - start: nbfichier_par_fil;
-            tinfo[i].argv = (char**) malloc(nbfichier_par_fil * sizeof(char*));
+            Info[i] = info; // initialisation d'ensemble
+            Info[i].threads->thread_num = i;
+            Info[i].reduire_consommation_memoire = reduire_consommation_memoire;
+            Info[i].threads->argc = (argc - start < nbfichier_par_fil)? argc - start: nbfichier_par_fil;
+            Info[i].threads->argv = (char**) malloc(nbfichier_par_fil * sizeof(char*));
 
             for (int j = 0; j <  nbfichier_par_fil && start + j < argc; j++)
             {
-                tinfo[i].argv[j] = strdup(argv[start + j]);
+                Info[i].threads->argv[j] = strdup(argv[start + j]);
             }
 
             start += nbfichier_par_fil;
@@ -1020,7 +933,7 @@ int main(int argc, char **argv)
                           &thread_clients[i],
                           NULL,
                           launch,
-                          &tinfo[i]
+                          &Info[i]
                       );
 
             if (ret)
@@ -1039,7 +952,7 @@ int main(int argc, char **argv)
     }
 
 
-    uint64_t nbLigneBase=0;
+   // uint64_t nbLigneBase=0;
 
     if (generer_table)
     {
@@ -1060,9 +973,9 @@ int main(int argc, char **argv)
 #define FREE(X) if (X && xmlStrcmp(X, (xmlChar*)NA_STRING)) xmlFree(X);
 
     /* libération de la mémoire */
-
+// calculer nbAgent à partir de info->NCumAgent...
     if (liberer_memoire)
-        for (int i = 0; i < nbAgent; i++)
+        for (int i = 0; i < nbAgentUtilisateur; i++)
         {
 
 //        FREE(Table[i]->Nom)
