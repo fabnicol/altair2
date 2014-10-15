@@ -404,7 +404,7 @@
 	<Windows.h>
 	<inttypes.h>
 
-1413162951 source:/home/fab/Dev/altair/hashtest.cpp/validator.cpp
+1413332010 source:/home/fab/Dev/altair/hashtest.cpp/validator.cpp
 	<stdio.h>
 	<string.h>
 	<stdlib.h>
@@ -417,8 +417,8 @@
 	<math.h>
 	<libxml/xmlmemory.h>
 	<libxml/parser.h>
-	<Windows.h>
 	<inttypes.h>
+	<Windows.h>
 
 1406643637 /usr/include/libxml2/libxml/xmlmemory.h
 	<stdio.h>
