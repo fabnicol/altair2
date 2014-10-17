@@ -23,7 +23,7 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="-h" />
+				<Option parameters="-s , -d . -L /home/fab/log.new ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/*.xhl" />
 				<Compiler>
 					<Add option="-march=core2" />
 					<Add option="-g" />
@@ -50,7 +50,10 @@
 			<Add directory="../../../../MinGW/bin" />
 			<Add directory="../../../../../../Program Files (x86)/CodeBlocks/MinGW/bin" />
 		</Linker>
+		<Unit filename="copyfile.cpp" />
 		<Unit filename="copyfile.hpp" />
+		<Unit filename="fonctions_auxiliaires.cpp" />
+		<Unit filename="fonctions_auxiliaires.hpp" />
 		<Unit filename="validator.cpp" />
 		<Unit filename="validator.hpp" />
 		<Extensions>
