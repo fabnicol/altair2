@@ -10,6 +10,7 @@
 extern "C" {
 #endif
 #include "validator.hpp"
+#include "fonctions_auxiliaires.hpp"
 
 static inline xmlNodePtr atteindreNoeud(const char* noeud, xmlNodePtr cur)
 {
@@ -44,82 +45,79 @@ static inline void  verifier_taille(const int l)
 
 /* obligatoire */
 
-
-
-static inline bool Bulletin(const int l, const char* tag, const bulletinPtr bulletinIdent, xmlNodePtr* cur)
+static inline bool Bulletin(const char* tag, xmlNodePtr* cur, xmlChar* ligne, const char separateur)
 {
     bool test = (cur != NULL && *cur != NULL && (! xmlStrcmp((*cur)->name,  (const xmlChar*) tag)));
+
     if (test)
     {
-        bulletinIdent->ligne[l] = xmlGetProp(*cur, (const xmlChar *) "V");
-        if (bulletinIdent->ligne[l] == NULL) bulletinIdent->ligne[l] = (xmlChar*) "NA";
-        xmlChar* s = bulletinIdent->ligne[l];
+        ligne = xmlGetProp(*cur, (const xmlChar *) "V");
+        if (ligne == NULL) ligne = (xmlChar*) "NA";
 
         /* sanitisation */
 
-        for (int i = 0; i < xmlStrlen(s); i++)
-            if (s[i] == ',') s[i] = '_';
+        for (int i = 0; i < xmlStrlen(ligne); i++)
+            if (ligne[i] == separateur) ligne[i] = '_';
 
         *cur = (*cur)? (*cur)->next: NULL;
     }
     return test;
 }
 
-static inline void _Bulletin(const int l, const char* tag, const bulletinPtr bulletinIdent, xmlNodePtr* cur)
+static inline void _Bulletin(const char* tag, xmlNodePtr* cur, xmlChar* ligne, const char separateur)
 {
-    if (! Bulletin(l, tag, bulletinIdent, cur))
+    if (! Bulletin(tag, cur, ligne, separateur))
     {
         if (*cur)
             fprintf(stderr, "Trouvé %s au lieu de %s \n", (*cur)->name, tag);
         else
-            fprintf(stderr, "Noeud courant null au stade de la vérification de %s pour le matricule %s \n", tag, bulletinIdent->ligne[Matricule]);
+            fprintf(stderr, "Noeud courant null au stade de la vérification de %s\n", tag);
 
         exit(-32);
-
     }
 }
 
-static inline void substituer_separateur_decimal(const int l, const bulletinPtr bulletinIdent, const char decimal)
+static inline void substituer_separateur_decimal(xmlChar* ligne, const char decimal)
 {
-    xmlChar* s = bulletinIdent->ligne[l];
-    for (int i = 0; i < xmlStrlen(s); i++)
-        if (s[i] == '.') s[i] = decimal;
-//    bulletinIdent->ligne[l] = s;
+    for (int i = 0; i < xmlStrlen(ligne); i++)
+        if (ligne[i] == '.') ligne[i] = decimal;
 }
 
 /* optionnel */
 
-static inline void _Bulletin_(const int l , const char* tag, const bulletinPtr bulletinIdent, xmlNodePtr* cur, const char decimal)
+static inline void _Bulletin_(const char* tag, xmlNodePtr* cur, xmlChar* ligne, const char separateur, const char decimal)
 {
-    if (! Bulletin(l , tag, bulletinIdent, cur))
+    if (! Bulletin(tag, cur, ligne, separateur))
     {
-        bulletinIdent->ligne[l] = xmlCharStrdup("NA");//(xmlChar*) malloc(16*sizeof(xmlChar)); //3
-        if (bulletinIdent->ligne[l] == NULL)
+        //(xmlChar*) malloc(16*sizeof(xmlChar)); //3
+
+        if ((ligne = xmlCharStrdup("NA")) == NULL)
         {
-            perror("Erreur d'allocation de drapeau II.");
+            perror("Erreur d'allocation de drapeau II");
             exit(-64);
         }
         //bulletinIdent->ligne[l][0] = 'N';
         //bulletinIdent->ligne[l][1] = 'A';
         return;
     }
-    substituer_separateur_decimal(l, bulletinIdent, decimal);
+
+    //substituer_separateur_decimal(ligne, decimal);
 }
 
 /* obligatoire et avec substitution séparateur décimal */
 
-static inline void Bulletin_(const int l, const char* tag, const bulletinPtr bulletinIdent, xmlNodePtr* cur, const char decimal)
+static inline void Bulletin_(const char* tag, xmlNodePtr* cur, xmlChar* ligne, const char decimal, const char separateur)
 {
-    _Bulletin(l, tag, bulletinIdent, cur) ;
-    substituer_separateur_decimal(l, bulletinIdent, decimal);
+    _Bulletin(tag, cur, ligne, separateur) ;
+   // substituer_separateur_decimal(ligne, decimal);
 }
 
 static inline int lignePaye(xmlNodePtr cur, info_t* info)
 {
 
-  #define bulletinIdent  info->Table[info->agent_courant]
+#define ligne_l  info->Table[info->agent_courant]->ligne[l]
 
-    int l = 18; //info->besoin_memoire_par_ligne;
+    int l = info->besoin_memoire_par_ligne;
 
     int nbLignePaye = 0;
     unsigned int t = 0;
@@ -129,20 +127,23 @@ static inline int lignePaye(xmlNodePtr cur, info_t* info)
         if (xmlStrcmp(cur->name, (const xmlChar *) type_remuneration[t]))
         {
             t++;
-            bulletinIdent->ligne[l] = xmlCharStrdup("A");//(xmlChar*) malloc(16*sizeof(xmlChar)); // 2
-            bulletinIdent->ligne[l][0] = t+1;  // +1 pour éviter la confusion avec \0 des chaines vides
+            ligne_l = xmlCharStrdup("A");//(xmlChar*) malloc(16*sizeof(xmlChar)); // 2
+            ligne_l[0] = t+1;  // +1 pour éviter la confusion avec \0 des chaines vides
             l++;
             if (t == nbType)
             {
                 fprintf(stderr, "En excès du nombre de types de lignes de paye autorisé (%d)\n", nbType);
-                if (cur) fprintf(stderr, "Type litigieux %s aux alentours du matricule %s \n", cur->name, bulletinIdent->ligne[Matricule]);
+                if (cur) fprintf(stderr, "Type litigieux %s aux alentours du matricule %s \n",
+                                     cur->name,
+                                     info->Table[info->agent_courant]->ligne[Matricule]);
                 else fprintf(stderr, "%s", "Pointeur noeud courant nul\n");
                 exit(-11);
             }
+
             continue;
         }
 
-       // verifier_taille(l);
+        // verifier_taille(l);
 
         if (! xmlStrcmp(cur->name, (const xmlChar*) "Commentaire"))
         {
@@ -155,11 +156,11 @@ static inline int lignePaye(xmlNodePtr cur, info_t* info)
 
         cur = atteindreNoeud("Libelle", cur);
 
-        _Bulletin(l, "Libelle", bulletinIdent, &cur);
+        _Bulletin("Libelle", &cur, ligne_l, info->separateur);
         l++;
         /* Code, obligatoire */
         cur = atteindreNoeud("Code", cur);
-        _Bulletin(l, "Code",  bulletinIdent, &cur);
+        _Bulletin("Code", &cur, ligne_l, info->separateur);
 
         //if (xmlStrcmp(bulletinIdent->ligne[l], (xmlChar*)NA_STRING))
         nbLignePaye++;
@@ -167,21 +168,21 @@ static inline int lignePaye(xmlNodePtr cur, info_t* info)
 
         /* Base, si elle existe */
 
-        _Bulletin_(l, "Base", bulletinIdent, &cur, info->decimal);
+        _Bulletin_("Base", &cur, ligne_l, info->separateur, info->decimal);
         l++;
 
         /* Taux, s'il existe */
-        _Bulletin_(l, "Taux", bulletinIdent, &cur, info->decimal);
+        _Bulletin_("Taux", &cur, ligne_l, info->separateur, info->decimal);
         l++;
 
         /* Nombre d'unités, s'il existe */
-        _Bulletin_(l, "NbUnite", bulletinIdent, &cur, info->decimal);
+        _Bulletin_("NbUnite", &cur, ligne_l, info->separateur, info->decimal);
         l++;
 
         /* Montant , obligatoire */
         cur = atteindreNoeud("Mt", cur);
 
-        Bulletin_(l, "Mt", bulletinIdent, &cur, info->decimal);
+        Bulletin_("Mt", &cur, ligne_l, info->separateur, info->decimal);
         l++;
 
         REMONTER_UN_NIVEAU
@@ -189,17 +190,16 @@ static inline int lignePaye(xmlNodePtr cur, info_t* info)
         // Lorsque on a épuisé tous les types licites on a nécessairement cur = NULL
     }
 
-#undef bulletinIdent
+#undef ligne_l
 
     return nbLignePaye;
 }
 
+#define _BULLETIN(X) _Bulletin(#X, &cur, info->Table[info->agent_courant]->ligne[X], info->separateur);
 
-#define _BULLETIN(X) _Bulletin(X, #X, bulletinIdent, &cur);
+#define BULLETIN_(X)  Bulletin_(#X, &cur, info->Table[info->agent_courant]->ligne[X], info->separateur, info->decimal);
 
-#define BULLETIN_(X)  Bulletin_(X, #X, bulletinIdent, &cur, info->decimal);
-
-#define _BULLETIN_(X)  _Bulletin_(X, #X, bulletinIdent, &cur, info->decimal);
+#define _BULLETIN_(X)  _Bulletin_(#X, &cur, info->Table[info->agent_courant]->ligne[X], info->separateur, info->decimal);
 
 static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
 {
@@ -215,7 +215,7 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
         return 0;
     }
 
-    #define bulletinIdent info->Table[info->agent_courant]
+#define bulletinIdent info->Table[info->agent_courant]
 
     bulletinIdent->ligne[Annee] = info->annee_fichier;
     bulletinIdent->ligne[Mois] = info->mois_fichier;
@@ -304,7 +304,7 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
     BULLETIN_(MtNet)
     BULLETIN_(MtNetAPayer)
 
-    #undef bulletinIdent
+#undef bulletinIdent
 
     return ligne;
 }
@@ -380,25 +380,30 @@ static int32_t  parseFile(info_t* info, int32_t agent_total)
             DESCENDRE_UN_NIVEAU
             int32_t ligne_p=parseBulletin(cur, info);
             info->nbLigne += ligne_p;
-            FILE* log=fopen("/home/fab/log", "a+");
-            int calc=0;
-            static int max_calc;
-            if (info->NLigne[agent_total]-ligne_p)
-                //fprintf(log, "\nLigne parsing %5d Ligne preprocessing %5d  Diff %4d\n", ligne_p, info->NLigne[agent_total], info->NLigne[agent_total]-ligne_p);
+            if (info->chemin_log)
+            {
+                FILE* log=fopen(info->chemin_log, "a+");
+
+                if (info->NLigne[agent_total]-ligne_p)
                 {
-                    calc = info->NLigne[agent_total]-ligne_p;
-                    if (calc)
+                    int diff = info->NLigne[agent_total]-ligne_p;
+                    if (diff)
                     {
-                        max_calc=calc;
-                        fprintf(log, "diff %d Année %s Mois %s Matricule %s agent_total %d agent_du_fichier %d info->agent_courant %d C %d ligne_p %d\n", calc,
-                                  info->annee_fichier,
-                                  info->mois_fichier,
-                                  info->Table[agent_total]->ligne[Matricule], agent_total, agent_du_fichier, info->agent_courant, info->NLigne[agent_total], ligne_p);
-                     //   for (int j=0; 0 < 3; j++) fprintf(log, "Max diff %d Année %s Mois %s Mat %s\n", max_calc, info->annee_fichier, info->mois_fichier, info->Table[info->agent_courant]->ligne[j]);
+                        fprintf(log, "Année %s Mois %s Matricule %s Rang global agent %d Rang agent du fichier %d Analyseur C, ligne n° %d Analyseur Xml, ligne n° %d Différence %d\n",
+                                info->annee_fichier,
+                                info->mois_fichier,
+                                info->Table[agent_total]->ligne[Matricule],
+                                agent_total,
+                                agent_du_fichier,
+                                info->NLigne[agent_total],
+                                ligne_p,
+                                diff);
+
                     }
-                    //exit(-1);
                 }
-            fclose(log);
+
+                fclose(log);
+            }
 
             // Ici il est normal que cur = NULL
 
@@ -555,12 +560,12 @@ inline int calculer_memoire_requise(info_t* info)
 {
     errno = 0;
     info->NLigne = (uint16_t*) calloc(info->threads->argc, MAX_NB_AGENTS * info->threads->argc * sizeof(uint16_t));  // nm total de bulletins
-    info->NAgent = (int32_t*) calloc(info->threads->argc, sizeof(int32_t));
+    info->NAgent = (int32_t*)  calloc(info->threads->argc, sizeof(int32_t));
     info->NCumAgent = 0;
     int control=0;
     puts("Premier scan des fichiers pour déterminer les besoins mémoire ... ");
     int max_nbLigne = 30  ;
-    char codest[15]={0};
+
     /* par convention  un agent avec rémunération non renseignées (balise sans fils) a une ligne */
     for (int i = 0; i < info->threads->argc ; i++)
     {
@@ -569,7 +574,11 @@ inline int calculer_memoire_requise(info_t* info)
         c = fopen(info->threads->argv[i], "r");
         //if (c) fseek(c, 0, SEEK_SET);
         //else
-        if(c == NULL)  {perror("Ouverture Fichiers."); exit(-120);}// cautious no-op
+        if(c == NULL)
+        {
+            perror("Ouverture Fichiers.");    // cautious no-op
+            exit(-120);
+        }
         if (errno)
         {
             perror("Fichier .xhl");
@@ -594,13 +603,17 @@ inline int calculer_memoire_requise(info_t* info)
             if  ((d = fgetc(c), PUTCHAR(d)) != 'n') continue;
             if  ((d = fgetc(c), PUTCHAR(d)) == '/')
             {
-                 //if (info->NLigne[info->NCumAgent] == 0) info->NLigne[info->NCumAgent] = 1;
-                    info->NAgent[i]++;
-                    if (info->NLigne[info->NCumAgent] > max_nbLigne) { max_nbLigne = info->NLigne[info->NCumAgent]; printf("%d\n", max_nbLigne);}
-                    info->NLigne[info->NCumAgent]++;
-                    info->NCumAgent++;
-                    control++;
-                    //printf("\nNCumAgent : %d Control : %d info->NLigne : %d \n", info->NCumAgent, control, info->NLigne[info->NCumAgent-1]);
+                //if (info->NLigne[info->NCumAgent] == 0) info->NLigne[info->NCumAgent] = 1;
+                info->NAgent[i]++;
+                if (info->NLigne[info->NCumAgent] > max_nbLigne)
+                {
+                    max_nbLigne = info->NLigne[info->NCumAgent];
+                    printf("%d\n", max_nbLigne);
+                }
+                info->NLigne[info->NCumAgent]++;
+                info->NCumAgent++;
+                control++;
+                //printf("\nNCumAgent : %d Control : %d info->NLigne : %d \n", info->NCumAgent, control, info->NLigne[info->NCumAgent-1]);
                 continue;  // Balise simple vide
             }
 
@@ -610,25 +623,23 @@ inline int calculer_memoire_requise(info_t* info)
                 if ((d = fgetc(c), PUTCHAR(d)) != 'C')
                 {
                     if (d != '/') continue;
-                    else
-                        if((d = fgetc(c), PUTCHAR(d)) != 'R')   continue;
-                        else
-                            if ((d = fgetc(c), PUTCHAR(d)) != 'e')   continue;
-                            else
-                                if((d = fgetc(c), PUTCHAR(d)) != 'm')   continue;
-                                else
-                                  if((d = fgetc(c), PUTCHAR(d)) != 'u')    continue;
-                                    else
-                                      if((d = fgetc(c), PUTCHAR(d)) != 'n')   continue;
-
+                    else if ((d = fgetc(c), PUTCHAR(d)) != 'R')   continue;
+                    else if ((d = fgetc(c), PUTCHAR(d)) != 'e')   continue;
+                    else if ((d = fgetc(c), PUTCHAR(d)) != 'm')   continue;
+                    else if ((d = fgetc(c), PUTCHAR(d)) != 'u')    continue;
+                    else if ((d = fgetc(c), PUTCHAR(d)) != 'n')   continue;
 
                     //if (info->NLigne[info->NCumAgent] == 0) info->NLigne[info->NCumAgent] = 1;
                     info->NAgent[i]++;
-                    if (info->NLigne[info->NCumAgent] > max_nbLigne) { max_nbLigne = info->NLigne[info->NCumAgent]; printf("%d\n", max_nbLigne);}
+                    if (info->NLigne[info->NCumAgent] > max_nbLigne)
+                    {
+                        max_nbLigne = info->NLigne[info->NCumAgent];
+                        printf("%d\n", max_nbLigne);
+                    }
                     info->NCumAgent++;
 
                     //printf("\nNCumAgent : %d Control : %d info->NLigne : %d \n", info->NCumAgent, control, info->NLigne[info->NCumAgent-1]);
-                                        //exit(-1);
+                    //exit(-1);
 
                     break;
                 }
@@ -645,12 +656,12 @@ inline int calculer_memoire_requise(info_t* info)
                             if ((d = fgetc(c), PUTCHAR(d)) != 'e')   continue;
                             else
                             {
-                               PUTCHAR('*');
-                               if ((d = fgetc(c), PUTCHAR(d)) != ' ')   continue;
-                               info->NLigne[info->NCumAgent]++;
-                               control++;
-                               //printf("%s", fgets(codest, 9, c));
-                               PUTCHAR('@');
+                                PUTCHAR('*');
+                                if ((d = fgetc(c), PUTCHAR(d)) != ' ')   continue;
+                                info->NLigne[info->NCumAgent]++;
+                                control++;
+                                //printf("%s", fgets(codest, 9, c));
+                                PUTCHAR('@');
                             }
                         }
                     }
@@ -684,14 +695,14 @@ void decoder_fichier(info_t* info, int32_t* agent_total)
     }
     else
     {
-         info->NCumAgent = info->nbAgentUtilisateur * info->threads->argc;
-         info->NLigne = (uint16_t*) calloc(info->threads->argc, info->nbAgentUtilisateur* sizeof(uint16_t));
-         info->NAgent = (int32_t*) calloc(info->threads->argc, sizeof(int32_t));
+        info->NCumAgent = info->nbAgentUtilisateur * info->threads->argc;
+        info->NLigne = (uint16_t*) calloc(info->threads->argc, info->nbAgentUtilisateur* sizeof(uint16_t));
+        info->NAgent = (int32_t*) calloc(info->threads->argc, sizeof(int32_t));
     }
 
     printf("Numbre total de bulletins d'agent : %d  Maximum de lignes par bulletins: %d\n", info->NCumAgent, info->NLigne[0]);
 
-    for (int agent = 0; agent < info->NCumAgent; agent++)
+    for (unsigned agent = 0; agent < info->NCumAgent; agent++)
     {
         info->Table[agent] = (bulletinPtr) malloc(sizeof(bulletin));
         if (info->Table[agent] == NULL)
@@ -701,8 +712,8 @@ void decoder_fichier(info_t* info, int32_t* agent_total)
         }
 
         info->Table[agent]->ligne = (xmlChar**) calloc(((info->reduire_consommation_memoire)?
-                                                        info->besoin_memoire_par_ligne + nbType + (info->NLigne[agent])*6
-                                                         : MAX_LIGNES_PAYE), sizeof(xmlChar*));
+                                    info->besoin_memoire_par_ligne + nbType + (info->NLigne[agent])*6
+                                    : MAX_LIGNES_PAYE), sizeof(xmlChar*));
         //free(info->NLigne);
         //free(info->NAgent);
         //info->NLigne[agent]
@@ -761,62 +772,50 @@ int main(int argc, char **argv)
     xmlKeepBlanksDefault(0);
 
     int start = 1;
-    uint32_t nbAgentUtilisateur = MAX_NB_AGENTS;
-
     char type_table[50]= {0};
     strcpy(type_table, "bulletins");
-
     char chemin_table[500]= {0};
     strcpy(chemin_table, "Table.csv");
     bool afficher_memoire_reservee = false;
     bool generer_table = false;
     bool liberer_memoire = true;
-    bool reduire_consommation_memoire = true;
-    char separateur = ',';
-    char decimal = '.';
+
     int nbfil = 0;
+
+    thread_t mon_thread;
+    info_t info =
+    {
+        NULL,             //    bulletinPtr* Table;
+        0,                //    uint64_t nbLigne;
+        NULL,             //    int32_t  *NAgent;
+        MAX_NB_AGENTS,    //
+        MAX_NB_AGENTS,    //    uint32_t NCumAgent;
+        NULL,             //    uint16_t *NLigne;
+        0,                //    uint16_t fichier_courant;
+        0,                //    uint32_t agent courant
+        &mon_thread,      //    thread_t threads;
+        NULL,             //    xmlChar*  annee_fichier;
+        NULL,             //    xmlChar* mois_fichier;
+        NULL,             //    char** fichiers;
+        '.',              //    const char decimal;
+        ',',              //    const char separateur;
+        true,             //    bool
+        BESOIN_MEMOIRE_ENTETE,   // besoin mémoire minimum hors lecture de lignes : devra être incréméenté
+        NULL
+    };
+
 
     while (start < argc)
     {
         if (! strcmp(argv[start], "-n"))
         {
-            reduire_consommation_memoire = false;
-            if (argc > 2)
+            info.reduire_consommation_memoire = false;
+            if ((info.nbAgentUtilisateur = lire_argument(argc, argv[start + 1])) > 0)
             {
-                const char* const c_str = argv[start + 1];
-                char *end;
-                errno = 0;
-                const long sl = strtol(c_str, &end, 10);
-
-                if (end == c_str)
-                {
-                    fprintf(stderr, "%s: pas un décimal\n", c_str);
-                }
-                else if ((LONG_MIN == sl || LONG_MAX == sl) && ERANGE == errno)
-                {
-                    fprintf(stderr, "%s entier excédant la limite des entiers longs\n", c_str);
-                }
-                else if (sl > UINT16_MAX)
-                {
-                    fprintf(stderr, "%ld entier excédant la limite des entiers à 16 bits\n", sl);
-                }
-                else if (sl < 0)
-                {
-                    fprintf(stderr, "%ld l'entier doit être positif\n", sl);
-                }
-                else
-                {
-                    nbAgentUtilisateur  = (uint32_t)sl;
-                    start += 2;
-                    continue;
-                }
-                exit(-100);
+                start += 2;
+                continue;
             }
-            else
-            {
-                fprintf(stderr, "%s\n", "Préciser le nombre de bulletins mensuels attendus (majorant du nombre).");
-                return -3;
-            }
+            else exit(-1);
         }
         else if (! strcmp(argv[start], "-h"))
         {
@@ -831,6 +830,7 @@ int main(int argc, char **argv)
             printf("%s\n", "-m sans argument : mémoire réservée. Estimation de la consommation de mémoire.");
             printf("%s\n", "-j argument obligatoire : nombre de fils d'exécution (maximum 10).");
             printf("%s\n", "-M sans argument : ne pas libérer la mémoire réservée en fin de programme.");
+            printf("%s\n", "-L argument obligatoire : chemin du log d'exécution du test de cohérence entre analyseurs C et XML.");
             exit(0);
         }
         else if (! strcmp(argv[start], "-t"))
@@ -855,12 +855,8 @@ int main(int argc, char **argv)
                 fprintf(stderr, "%s\n", "Option -s suivi d'un argument obligatoire (séparateur de champs).");
                 exit(-100);
             }
-            separateur = argv[start + 1][0];
-            if (separateur == '!')
-            {
-                fprintf(stderr, "%s\n", "Le séparateur ne peut pas être '!'");
-                exit(-100);
-            }
+            info.separateur = argv[start + 1][0];
+
             start += 2;
             continue;
         }
@@ -871,7 +867,7 @@ int main(int argc, char **argv)
                 fprintf(stderr, "%s\n", "Option -d suivi d'un argument obligatoire (séparateur décimal).");
                 exit(-100);
             }
-            decimal = argv[start + 1][0];
+            info.decimal = argv[start + 1][0];
             start += 2;
             continue;
         }
@@ -883,6 +879,11 @@ int main(int argc, char **argv)
                 exit(-100);
             }
             strncpy(chemin_table, argv[start + 1], 500*sizeof(char));
+            if (NULL == fopen(chemin_table, "w"))
+            {
+                perror("La base de données ne peut être créée, vérifier l'existence du dossier.");
+                exit(-113);
+            }
             start += 2;
             continue;
         }
@@ -901,19 +902,40 @@ int main(int argc, char **argv)
         else if (! strcmp(argv[start], "-D"))
         {
             snprintf(chemin_table, 500*sizeof(char), "%s/Table.csv", argv[start + 1]);
+            if (NULL == fopen(chemin_table, "w"))
+            {
+                perror("La base de données ne peut être créée, vérifier l'existence du dossier.");
+                exit(-113);
+            }
             start += 2;
             continue;
         }
         else if (! strcmp(argv[start], "-j"))
         {
-            nbfil = atoi(argv[start +1]);
-            if (nbfil > 10 || nbfil < 2)
+            if ((nbfil = lire_argument(argc, argv[start +1])) > 0)
             {
-                perror("Le nombre de fils d'exécution doit être compris entre 2 et 10.");
-                exit(-111);
+               if (nbfil > 10 || nbfil < 2)
+                {
+                    perror("Le nombre de fils d'exécution doit être compris entre 2 et 10.");
+                    exit(-111);
+                }
+                start += 2;
+                continue;
             }
-            start += 2;
-            continue;
+
+            exit(-110);
+        }
+        else if (! strcmp(argv[start], "-L"))
+        {
+         char chemin_log[500] = {0};
+         strncpy(chemin_log, argv[start + 1], 500*sizeof(char));
+         if (NULL == fopen(chemin_log, "w"))
+            {
+                perror("Le log ne peut être créé, vérifier l'existence du dossier.");
+                exit(-114);
+            }
+         start += 2;
+         continue;
         }
         else if (argv[start][0] == '-')
         {
@@ -924,7 +946,7 @@ int main(int argc, char **argv)
     }
 
     xmlInitMemory();
-    uint64_t memoire_reservee = nbAgentUtilisateur*(argc-start)*sizeof(bulletin);
+    uint64_t memoire_reservee = info.nbAgentUtilisateur*(argc-start)*sizeof(bulletin);
     if (memoire_reservee > MAX_MEMOIRE_RESERVEE)
     {
         fprintf(stderr, "Quantité de mémoire réservée %" PRIu64 " supérieure au maximum de %" PRIu64 " octets.\nAppliquer le programme sur une partie des fichiers et fusionner les bases en résultant.\n", memoire_reservee, MAX_MEMOIRE_RESERVEE);
@@ -933,33 +955,10 @@ int main(int argc, char **argv)
 
     if (afficher_memoire_reservee) fprintf(stderr, "Quantité de mémoire réservée %" PRIu64 " octets.\n", memoire_reservee);
 
-    thread_t mon_thread;
-    info_t info =
-    {
-            NULL,             //    bulletinPtr* Table;
-            0,                //    uint64_t nbLigne;
-            NULL,             //    int32_t  *NAgent;
-            nbAgentUtilisateur,          //
-            nbAgentUtilisateur*(argc-start),      //    uint32_t NCumAgent;
-            NULL,             //    uint16_t *NLigne;
-            0,                //    uint16_t fichier_courant;
-            0,                //    uint32_t agent courant
-            &mon_thread,      //    thread_t threads;
-            NULL,             //    xmlChar*  annee_fichier;
-            NULL,             //    xmlChar* mois_fichier;
-            NULL,             //    char** fichiers;
-            decimal,          //    const char decimal;
-            separateur,       //    const char separateur;
-            reduire_consommation_memoire,  //bool
-            BESOIN_MEMOIRE_ENTETE// besoin mémoire minimum hors lecture de lignes : devra être incréméenté
-    };
-
-
     if (nbfil == 0 || (argc -start < 2))
     {
         info.threads->argc = argc -start;
         info.threads->argv = (char**) malloc((argc -start)* sizeof(char*));
-        info.reduire_consommation_memoire = reduire_consommation_memoire;
         for (int j = start; j < argc; j++) info.threads->argv[j-start] = strdup(argv[j]);
 
         launch((void*) &info);
@@ -979,14 +978,17 @@ int main(int argc, char **argv)
         pthread_t thread_clients[nbfil];
 
         info_t* Info = (info_t* ) malloc(nbfil*sizeof(info_t));
-        if (Info == NULL) {perror("Allocation de info"); exit(-144); }
+        if (Info == NULL)
+        {
+            perror("Allocation de info");
+            exit(-144);
+        }
 
         puts("Creation des fils clients.\n");
         for (int i = 0; i < nbfil; i++)
         {
             Info[i] = info; // initialisation d'ensemble
             Info[i].threads->thread_num = i;
-            Info[i].reduire_consommation_memoire = reduire_consommation_memoire;
             Info[i].threads->argc = (argc - start < nbfichier_par_fil)? argc - start: nbfichier_par_fil;
             Info[i].threads->argv = (char**) malloc(nbfichier_par_fil * sizeof(char*));
 
@@ -1020,7 +1022,7 @@ int main(int argc, char **argv)
     }
 
 
-   // uint64_t nbLigneBase=0;
+    // uint64_t nbLigneBase=0;
 
     if (generer_table)
     {
@@ -1043,7 +1045,7 @@ int main(int argc, char **argv)
     /* libération de la mémoire */
 // calculer nbAgent à partir de info->NCumAgent...
     if (liberer_memoire)
-        for (int i = 0; i < nbAgentUtilisateur; i++)
+        for (int i = 0; i < info.nbAgentUtilisateur; i++)
         {
 
 //        FREE(Table[i]->Nom)
