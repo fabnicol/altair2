@@ -799,14 +799,14 @@ int main(int argc, char **argv)
         if (! strcmp(argv[start], "-n"))
         {
             info.reduire_consommation_memoire = false;
-            if ((info.nbAgentUtilisateur = lire_argument(argc, argv[start + 1])) > 0)
+            if ((info.nbAgentUtilisateur = lire_argument(argc, argv[start + 1])) < 1)
              {
                 fprintf(stderr, "%s\n", "Préciser le nombre de bulletins mensuels attendus (majorant du nombre).");
-                return -3;
-                start += 2;
-                continue;
+                exit(-1);
              }
-            else exit(-1);
+            start += 2;
+            continue;
+
         }
         else if (! strcmp(argv[start], "-h"))
         {
@@ -979,18 +979,27 @@ int main(int argc, char **argv)
 
         for (int i = 0; i < nbfil; i++)
         {
-            Info[i] = info; // initialisation d'ensemble
+            //Info[i] = info; // initialisation d'ensemble
+            Info[i].nbAgentUtilisateur = info.nbAgentUtilisateur;
+            Info[i].decimal = info.decimal;
+            Info[i].separateur = info.separateur;
+            Info[i].reduire_consommation_memoire = info.reduire_consommation_memoire;
+            Info[i].besoin_memoire_par_ligne = info.besoin_memoire_par_ligne;
+            if (info.chemin_log) Info[i].chemin_log = strdup(info.chemin_log);
+            Info[i].threads = (thread_t*) malloc(sizeof(thread_t));
+            if (Info[i].threads == NULL) {perror("Allocation de threads"); exit(-145); }
             Info[i].threads->thread_num = i;
             Info[i].threads->argc = (argc - start < nbfichier_par_fil)? argc - start: nbfichier_par_fil;
 
             printf("\nThread i=%d/%d Info[i].threads->argc=%d\n", i, nbfil, Info[i].threads->argc);
 
             Info[i].threads->argv = (char**) malloc(nbfichier_par_fil * sizeof(char*));
+            if (Info[i].threads->argv == NULL)  {perror("Allocation de threads"); exit(-145); }
 
             for (int j = 0; j <  nbfichier_par_fil && start + j < argc; j++)
             {
                 Info[i].threads->argv[j] = strdup(argv[start + j]);
-                printf("%s   ",Info[i].threads->argv[j]);
+                printf("%s   ", Info[i].threads->argv[j]);
             }
 
             start += nbfichier_par_fil;
@@ -1056,6 +1065,7 @@ int main(int argc, char **argv)
 //        FREE(Table[i]->Service)
 //        FREE(Table[i]->NBI)
 //        FREE(Table[i]->QuotiteTrav)
+
 //        FREE(Table[i]->NbHeureTotal)
 //        FREE(Table[i]->NbHeureSup)
 //        FREE(Table[i]->MtBrut)
