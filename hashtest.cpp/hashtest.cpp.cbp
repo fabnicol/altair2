@@ -23,7 +23,7 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="-s , -d . -L /home/fab/log.new ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/*.xhl" />
+				<Option parameters="-j 4 -s , -d . ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/*.xhl " />
 				<Compiler>
 					<Add option="-march=core2" />
 					<Add option="-g" />
