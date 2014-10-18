@@ -701,6 +701,9 @@ void* decoder_fichier(void* tinfo)
         info->NAgent = (int32_t*) calloc(info->threads->argc, sizeof(int32_t));
     }
 
+    static int count;
+    printf("\nCount %d Thread %d : Allocating %d * %d B\n", count++, info->threads->thread_num, info->NCumAgent, sizeof(bulletinPtr));
+
     info->Table = (bulletinPtr*) malloc(info->NCumAgent *  sizeof(bulletinPtr));
 
     if (info->Table == NULL)
@@ -731,6 +734,7 @@ void* decoder_fichier(void* tinfo)
     for (int i = 0; i < info->threads->argc ; i++)
     {
         info->fichier_courant = i;
+        printf("\nparse file %d/%d\n", i, info->threads->argc);
 
         parseFile(info);
     }
@@ -972,26 +976,30 @@ int main(int argc, char **argv)
         if (Info == NULL) {perror("Allocation de info"); exit(-144); }
 
         puts("Creation des fils clients.\n");
+
         for (int i = 0; i < nbfil; i++)
         {
             Info[i] = info; // initialisation d'ensemble
             Info[i].threads->thread_num = i;
             Info[i].threads->argc = (argc - start < nbfichier_par_fil)? argc - start: nbfichier_par_fil;
+
+            printf("\nThread i=%d/%d Info[i].threads->argc=%d\n", i, nbfil, Info[i].threads->argc);
+
             Info[i].threads->argv = (char**) malloc(nbfichier_par_fil * sizeof(char*));
 
             for (int j = 0; j <  nbfichier_par_fil && start + j < argc; j++)
             {
                 Info[i].threads->argv[j] = strdup(argv[start + j]);
+                printf("%s   ",Info[i].threads->argv[j]);
             }
 
             start += nbfichier_par_fil;
 
-            int ret = pthread_create (
+            int ret = pthread_create(
                           &thread_clients[i],
                           NULL,
                           decoder_fichier,
-                          &Info[i]
-                      );
+                          (void*) &Info[i]);
 
             if (ret)
             {
