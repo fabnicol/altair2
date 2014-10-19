@@ -31,18 +31,12 @@ typedef enum {Nom, Prenom, Matricule, Annee, Mois, NIR, Statut, EmploiMetier, Gr
           Service, NBI, QuotiteTrav, NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer
          } Entete;
 
-typedef struct bulletin
-{
     // 18 + lignes
-    xmlChar **ligne;
-
-} bulletin, *bulletinPtr;
-
 
 
 typedef struct
 {
-    bulletinPtr* Table;
+    xmlChar*** Table;
     uint64_t nbLigne;
     int32_t  *NAgent;
     uint32_t nbAgentUtilisateur;
@@ -64,7 +58,7 @@ typedef struct
 } info_t;
 
 
-#define nbType 12
+
 #ifndef NA_STRING
  #define NA_STRING "NA"
 #endif
@@ -94,7 +88,7 @@ typedef struct
 #endif
 
 #ifndef MAX_MEMOIRE_RESERVEE
-uint64_t MAX_MEMOIRE_RESERVEE = UINT32_MAX;
+static uint64_t MAX_MEMOIRE_RESERVEE = UINT32_MAX;
 // = 2^32 = 4 294 967 296 = 4GB
 #endif
 /* pas de contrôle d'existence de noeud : version affaiblie de la macro précédente */
@@ -114,8 +108,13 @@ uint64_t MAX_MEMOIRE_RESERVEE = UINT32_MAX;
 /* Retenue */
 /* Cotisation */
 
-static const char* type_remuneration[nbType] = {"TraitBrut", "IndemResid", "SupFam", "AvantageNature", "Indemnite", "RemDivers", "Deduction", "Acompte", "Rappel", "Retenue", "Cotisation", "Commentaire"};
-static const char* type_remuneration_traduit[nbType] = {"Traitement", u8"Indemnité de résidence", u8"Supplément familial", "Avantage en nature", u8"Indemnité", u8"Autres rémunérations", u8"Déduction", "Acompte", "Rappel", "Retenue", "Cotisation", "Commentaire"};
+static const char* type_remuneration[] = {"TraitBrut", "IndemResid", "SupFam", "AvantageNature", "Indemnite", "RemDivers", "Deduction", "Acompte", "Rappel", "Retenue", "Cotisation", "Commentaire"};
+static const char* drapeau[]  ={"_0", "_1", "_2", "_3", "_4", "_5", "_6", "_7", "_8", "_9", "_10", "_11", "_11" };
+static const char* type_remuneration_traduit[] = {"Traitement", u8"Indemnité de résidence", u8"Supplément familial", "Avantage en nature", u8"Indemnité", u8"Autres rémunérations", u8"Déduction", "Acompte", "Rappel", "Retenue", "Cotisation", "Commentaire"};
+static const int nbType = sizeof(type_remuneration)/sizeof(char*);
 
+static const char* entete_char[]={u8"Année", "Mois", "Nom", u8"Prénom", "Matricule", "Service", "Statut", u8"Temps.de.travail",
+                                  "Heures.Sup.", "Heures", "Indice", "Brut", "Net", u8"Net.à.Payer", "NBI", u8"Libellé", "Code",
+                                  "Base", "Taux", u8"Nb.Unité", "Montant", "Type", "Emploi", "Grade", "Nir"};
 
 #endif // VALIDATOR_HPP_INCLUDED
