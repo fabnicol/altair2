@@ -404,9 +404,10 @@
 	<Windows.h>
 	<inttypes.h>
 
-1413646434 source:/home/fab/Dev/altair/hashtest.cpp/validator.cpp
+1413761261 source:/home/fab/Dev/altair/hashtest.cpp/validator.cpp
 	"validator.hpp"
 	"fonctions_auxiliaires.hpp"
+	"table.hpp"
 
 1406643637 /usr/include/libxml2/libxml/xmlmemory.h
 	<stdio.h>
@@ -945,7 +946,7 @@
 1301114756 c:\program files (x86)\codeblocks\mingw\include\oleidl.h
 	<objfwd.h>
 
-1413643734 /home/fab/Dev/altair/hashtest.cpp/validator.hpp
+1413757090 /home/fab/Dev/altair/hashtest.cpp/validator.hpp
 	<stdio.h>
 	<string.h>
 	<stdlib.h>
@@ -961,13 +962,20 @@
 	<inttypes.h>
 	<Windows.h>
 
-1413582187 source:/home/fab/Dev/altair/hashtest.cpp/fonctions_auxiliaires.cpp
+1413761764 source:/home/fab/Dev/altair/hashtest.cpp/fonctions_auxiliaires.cpp
 	"fonctions_auxiliaires.hpp"
 
-1413582554 /home/fab/Dev/altair/hashtest.cpp/fonctions_auxiliaires.hpp
+1413672230 /home/fab/Dev/altair/hashtest.cpp/fonctions_auxiliaires.hpp
 	<limits.h>
 	<errno.h>
 	<stdio.h>
 	<inttypes.h>
 	<stdlib.h>
+	"validator.hpp"
+
+1413757399 source:/home/fab/Dev/altair/hashtest.cpp/table.cpp
+	"table.hpp"
+
+1413739746 /home/fab/Dev/altair/hashtest.cpp/table.hpp
+	"validator.hpp"
 
