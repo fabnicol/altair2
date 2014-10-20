@@ -44,7 +44,7 @@ uint64_t boucle_ecriture(FILE* base, info_t* info)
     int ligne = 0;
     uint64_t compteur = 0;
 
-#define TAILLE_FORMAT (info->besoin_memoire_par_ligne + 6 +1 +2)*4
+#define TAILLE_FORMAT (info->besoin_memoire_par_ligne + 6 +1)*4
 
     char format_base[TAILLE_FORMAT];
 
@@ -111,14 +111,12 @@ uint64_t boucle_ecriture(FILE* base, info_t* info)
                     VAR(MtNet), sep,
                     VAR(MtNetAPayer), sep,
                     VAR(NBI), sep,
-                    "*",'$',
                     VAR(l), sep,
                     VAR(l+1), sep,
                     VAR(l+2), sep,
                     VAR(l+3), sep,
                     VAR(l+4), sep,
                     VAR(l+5), sep,
-                    "*", '$',
                     type, sep,
                     VAR(EmploiMetier), sep,
                     VAR(Grade), sep,
