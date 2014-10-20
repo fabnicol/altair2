@@ -56,7 +56,7 @@ static inline bool Bulletin(const char* tag, xmlNodePtr* cur, int l, info_t* inf
     {
         ligne_l = xmlGetProp(*cur, (const xmlChar *) "V");
 
-        if (ligne_l == NULL) ligne_l = (xmlChar*) "NA"; //ligne_l = xmlCharStrdup("NA");
+        if (ligne_l == NULL) ligne_l = (xmlChar*) NA_STRING;
 
         /* sanitisation */
 
@@ -93,17 +93,7 @@ static inline void _Bulletin_(const char* tag, xmlNodePtr* cur,  int l, info_t* 
 {
     if (! Bulletin(tag, cur, l,  info))
     {
-        //(xmlChar*) malloc(16*sizeof(xmlChar)); //3
-
-        ligne_l = (xmlChar*) "NA";
-
-        //if ((ligne_l = xmlCharStrdup("NA")) == NULL)
-//        {
-//            perror("Erreur d'allocation de drapeau II");
-//            exit(-64);
-//        }
-        //bulletinIdent->ligne[l][0] = 'N';
-        //bulletinIdent->ligne[l][1] = 'A';
+        ligne_l = (xmlChar*) NA_STRING;
         return;
     }
 
@@ -147,12 +137,11 @@ static inline int lignePaye(xmlNodePtr cur, info_t* info)
 
         if (new_type && t > 0 && t < nbType)
         {
-            //(xmlChar*) malloc(16*sizeof(xmlChar)); // 2
             ligne_l = (xmlChar*) drapeau[t];  // +1 pour éviter la confusion avec \0 des chaines vides
             l++;
         }
 
-        // verifier_taille(l);
+       if (! info->reduire_consommation_memoire) verifier_taille(l);
 
         if (! xmlStrcmp(cur->name, (const xmlChar*) "Commentaire"))
         {
@@ -292,7 +281,7 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
         {
             // Rémuneration tag vide
             ligne = 1 ;
-            for (int k=0; k < 6; k++) bulletinIdent[info->besoin_memoire_par_ligne + k]=(xmlChar*) "NA";
+            for (int k=0; k < 6; k++) bulletinIdent[info->besoin_memoire_par_ligne + k]=(xmlChar*) NA_STRING;
         }
 
         cur = cur_save->next;
