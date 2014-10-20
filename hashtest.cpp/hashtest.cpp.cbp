@@ -12,7 +12,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters='-n 1500 &quot;C:\Dev\altair_github\altair\Tests\Exemple\Donnees\xhl\2009\METRO_200906_99_00.xhl&quot; -t ' />
+				<Option parameters='-t  &quot;C:\Dev\altair_github\altair\Tests\Exemple' />
 				<Compiler>
 					<Add option="-g" />
 					<Add option="-D__GNUC_EXTENSION" />
@@ -23,7 +23,7 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2010/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2011/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2012/*.xhl  " />
+				<Option parameters=" -t C:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/*.xhl  " />
 				<Compiler>
 					<Add option="-march=core2" />
 					<Add option="-g" />
@@ -50,10 +50,9 @@
 			<Add directory="../../../../MinGW/bin" />
 			<Add directory="../../../../../../Program Files (x86)/CodeBlocks/MinGW/bin" />
 		</Linker>
-		<Unit filename="copyfile.cpp" />
-		<Unit filename="copyfile.hpp" />
 		<Unit filename="fonctions_auxiliaires.cpp" />
 		<Unit filename="fonctions_auxiliaires.hpp" />
+		<Unit filename="main.cpp" />
 		<Unit filename="table.cpp" />
 		<Unit filename="table.hpp" />
 		<Unit filename="validator.cpp" />

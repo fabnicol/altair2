@@ -54,7 +54,7 @@ typedef struct
     bool reduire_consommation_memoire;
     uint8_t besoin_memoire_par_ligne;
     char* chemin_log;
-
+    int nbfil;
 } info_t;
 
 
@@ -87,10 +87,6 @@ typedef struct
 #endif
 #endif
 
-#ifndef MAX_MEMOIRE_RESERVEE
-static uint64_t MAX_MEMOIRE_RESERVEE = UINT32_MAX;
-// = 2^32 = 4 294 967 296 = 4GB
-#endif
 /* pas de contrôle d'existence de noeud : version affaiblie de la macro précédente */
 
 
@@ -116,5 +112,7 @@ static const int nbType = sizeof(type_remuneration)/sizeof(char*);
 static const char* entete_char[]={u8"Année", "Mois", "Nom", u8"Prénom", "Matricule", "Service", "Statut", u8"Temps.de.travail",
                                   "Heures.Sup.", "Heures", "Indice", "Brut", "Net", u8"Net.à.Payer", "NBI", u8"Libellé", "Code",
                                   "Base", "Taux", u8"Nb.Unité", "Montant", "Type", "Emploi", "Grade", "Nir"};
+
+void* decoder_fichier(void* tinfo);
 
 #endif // VALIDATOR_HPP_INCLUDED
