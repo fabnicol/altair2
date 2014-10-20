@@ -127,6 +127,8 @@ static inline int lignePaye(xmlNodePtr cur, info_t* info)
     /* Besoins en mémoire : 18 [champs hors ligne] + nombre de lignes + flags (maximum nbType) */
     while (cur != NULL)
     {
+        bool new_type = false;
+
         while (xmlStrcmp(cur->name, (const xmlChar *) type_remuneration[t]))
         {
             t++;
@@ -139,9 +141,11 @@ static inline int lignePaye(xmlNodePtr cur, info_t* info)
                 else fprintf(stderr, "%s", "Pointeur noeud courant nul\n");
                 exit(-11);
             }
+
+            new_type = true;
         }
 
-        if (t > 0 && t < nbType)
+        if (new_type && t > 0 && t < nbType)
         {
             //(xmlChar*) malloc(16*sizeof(xmlChar)); // 2
             ligne_l = (xmlChar*) drapeau[t];  // +1 pour éviter la confusion avec \0 des chaines vides
@@ -807,15 +811,24 @@ int main(int argc, char **argv)
             info.NCumAgentLibxml2 += Info[i].NCumAgentLibxml2;
             info.NCumAgent += Info[i].NCumAgent;
             info.nbLigne   += Info[i].nbLigne;
+        }
 
-            for(unsigned agent = 0; agent < Info[i].NCumAgentLibxml2; agent++)
+        info.NLigne = (uint16_t*) calloc(info.NCumAgentLibxml2, sizeof(uint16_t));
+        info.Table = (xmlChar***) malloc(info.NCumAgentLibxml2*sizeof(xmlChar**));
+
+       for (int i = 0; i < nbfil; i++)
+       {
+        for(unsigned agent = 0; agent < Info[i].NCumAgentLibxml2; agent++)
             {
                 info.NLigne[agent_cumul] = Info[i].NLigne[agent];
+                info.Table[agent_cumul] =  (xmlChar**) malloc(Info[i].NLigne[agent]*sizeof(xmlChar*));
                 for (int l=0; l < Info[i].NLigne[agent]; l++)
+                {
                     info.Table[agent_cumul][l] = Info[i].Table[agent][l];
+                }
                 agent_cumul++;
             }
-        }
+       }
 
     }
 
