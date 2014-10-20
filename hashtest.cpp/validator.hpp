@@ -63,7 +63,7 @@ typedef struct
  #define NA_STRING "NA"
 #endif
 #ifndef MAX_LIGNES_PAYE
- #define MAX_LIGNES_PAYE 600
+ #define MAX_LIGNES_PAYE 300
 #endif
 #ifndef MAX_NB_AGENTS
  #define MAX_NB_AGENTS 1200
@@ -104,10 +104,34 @@ typedef struct
 /* Retenue */
 /* Cotisation */
 
-static const char* type_remuneration[] = {"TraitBrut", "IndemResid", "SupFam", "AvantageNature", "Indemnite", "RemDivers", "Deduction", "Acompte", "Rappel", "Retenue", "Cotisation", "Commentaire"};
-static const char* drapeau[]  ={"_0", "_1", "_2", "_3", "_4", "_5", "_6", "_7", "_8", "_9", "_10", "_11", "_11" };
-static const char* type_remuneration_traduit[] = {"Traitement", u8"Indemnité de résidence", u8"Supplément familial", "Avantage en nature", u8"Indemnité", u8"Autres rémunérations", u8"Déduction", "Acompte", "Rappel", "Retenue", "Cotisation", "Commentaire"};
-static const int nbType = sizeof(type_remuneration)/sizeof(char*);
+static const char* type_remuneration[]   = {"TraitBrut",
+                                            "IndemResid",
+                                            "SupFam",
+                                            "AvantageNature",
+                                            "Indemnite",
+                                            "RemDivers",
+                                            "Deduction",
+                                            "Acompte",
+                                            "Rappel",
+                                            "Retenue",
+                                            "Cotisation",
+                                            "Commentaire"};
+
+static const char* type_remuneration_traduit[] = {"Traitement",
+                                                   u8"Indemnité de résidence",
+                                                   u8"Supplément familial",
+                                                   "Avantage en nature",
+                                                   u8"Indemnité",
+                                                   u8"Autres rémunérations",
+                                                   u8"Déduction",
+                                                   "Acompte",
+                                                   "Rappel",
+                                                   "Retenue",
+                                                   "Cotisation",
+                                                   "Commentaire"};
+
+static const int nbType                  = sizeof(type_remuneration)/sizeof(char*);
+static const xmlChar drapeau[nbType][2]  = {{1,0}, {2,0}, {3,0}, {4,0}, {5,0}, {6,0}, {7,0}, {8,0}, {9,0}, {10,0}, {11,0}, {12,0}};
 
 static const char* entete_char[]={u8"Année", "Mois", "Nom", u8"Prénom", "Matricule", "Service", "Statut", u8"Temps.de.travail",
                                   "Heures.Sup.", "Heures", "Indice", "Brut", "Net", u8"Net.à.Payer", "NBI", u8"Libellé", "Code",

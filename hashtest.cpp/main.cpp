@@ -187,13 +187,7 @@ int main(int argc, char **argv)
         }
         else if (! strcmp(argv[start], "-L"))
         {
-            info.chemin_log = (char*) calloc(500, sizeof(char));
-            if (info.chemin_log == NULL)
-            {
-                perror("Chemin log");
-                exit(-853);
-            }
-            strncpy(info.chemin_log, argv[start + 1], 500*sizeof(char));
+            if (argc > start +2) info.chemin_log = argv[start + 1];
             if (NULL == fopen(info.chemin_log, "w"))
             {
                 perror("Le log ne peut être créé, vérifier l'existence du dossier.");
@@ -227,7 +221,7 @@ int main(int argc, char **argv)
         info.nbfil=1;
         info.threads->argc = argc -start;
         info.threads->argv = (char**) malloc((argc -start)* sizeof(char*));
-        for (int j = start; j < argc; j++) info.threads->argv[j-start] = strdup(argv[j]);
+        for (int j = start; j < argc; j++) info.threads->argv[j-start] = argv[j];
 
         decoder_fichier((void*) &info);
 
@@ -274,12 +268,8 @@ int main(int argc, char **argv)
             Info[i].reduire_consommation_memoire = info.reduire_consommation_memoire;
             Info[i].besoin_memoire_par_ligne = info.besoin_memoire_par_ligne;
             if (info.chemin_log) Info[i].chemin_log = strdup(info.chemin_log);
-            Info[i].threads = (thread_t*) malloc(sizeof(thread_t));
-            if (Info[i].threads == NULL)
-            {
-                perror("Allocation de threads");
-                exit(-145);
-            }
+            //thread_t thr;
+            Info[i].threads = (thread_t *) malloc(sizeof(thread_t));
             Info[i].threads->thread_num = i;
             Info[i].threads->argc = (argc - start < nbfichier_par_fil)? argc - start: nbfichier_par_fil;
 
@@ -337,19 +327,22 @@ int main(int argc, char **argv)
     fprintf(stderr, "Table de %" PRIu64 " lignes générée pour %" PRIu64 "lignes de paie d'origine.\n", nbLigneBase, Info[0].nbLigne);
 
    #define FREE(X) {if (X && xmlStrcmp((xmlChar*) X, (xmlChar*) NA_STRING)) xmlFree(X);}
+   #define FREE2(X) {if (X && xmlStrcmp((xmlChar*) X, (xmlChar*) NA_STRING) && X[0] > nbType) xmlFree(X);}
+
 
     /* libération de la mémoire */
-// calculer nbAgent à partir de info->NCumAgent...
+
     if (liberer_memoire)
         for (int i = 0; i < Info[0].nbfil; i++)
         {
           for (int agent = 0; agent < Info[i].NCumAgentLibxml2; agent++)
           {
            for (int j = 0; j < Info[i].NLigne[agent]; j++)
-             FREE(Info[i].Table[agent][j])
+             FREE2(Info[i].Table[agent][j])
           }
           free(Info[i].NLigne);
           free(Info[i].NAgent);
+          free(Info[i].threads->argv);
 
           FREE(Info[i].chemin_log)
           // free(Info[i]);
