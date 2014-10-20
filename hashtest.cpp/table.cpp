@@ -85,12 +85,11 @@ uint64_t boucle_ecriture(FILE* base, info_t* Info)
                     exit(-1002);
                 }
 
-                if (VAR(l) && VAR(l)[0] == '_')
+                int val;
+
+                if (VAR(l) && (val = VAR(l)[0]) < nbType && val)
                 {
-                    char* p = (char*) VAR(l);
-                    int val = atoi(p+1);
-                    if (val > 0 && val < nbType)
-                        type =  (char*) type_remuneration_traduit[val];
+                    type =  (char*) type_remuneration_traduit[val];
                     l++;
                 }
 
