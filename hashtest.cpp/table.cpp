@@ -37,7 +37,7 @@ int64_t generer_table_standard(const char* chemin_table, info_t* info)
 
 }
 
-/* Il doit y avoir BESOIN_MEMOIRE_ENTETE + 6 champs plus Type, soit 18 + 6 +1 = 25 champs et 24 séparateurs + saut de ligne = 50 char + \0*/
+/* Il doit y avoir BESOIN_MEMOIRE_ENTETE + 6 champs plus Type, soit 16 + 6 +1 = 23 champs et 22 séparateurs + saut de ligne = 46 char + \0*/
 
 #define TAILLE_FORMAT (Info[0].besoin_memoire_par_ligne + 6 +1)*4
 #define VAR(X) Info[i].Table[agent][X]
@@ -94,8 +94,8 @@ uint64_t boucle_ecriture(FILE* base, info_t* Info)
                 }
 
                 fprintf(base, format_base,
-                        VAR(Annee), sep,
-                        VAR(Mois), sep,
+                        Info[i].annee_fichier, sep,
+                        Info[i].mois_fichier, sep,
                         VAR(Nom), sep,
                         VAR(Prenom), sep,
                         VAR(Matricule), sep,

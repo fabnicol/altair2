@@ -26,8 +26,8 @@ typedef struct
 
 } thread_t;
 
-#define BESOIN_MEMOIRE_ENTETE  18  /* nb d'éléments de l'enum ci-dessous */
-typedef enum {Nom, Prenom, Matricule, Annee, Mois, NIR, Statut, EmploiMetier, Grade, Indice,
+#define BESOIN_MEMOIRE_ENTETE  16  /* nb d'éléments de l'enum ci-dessous */
+typedef enum {Nom, Prenom, Matricule, NIR, Statut, EmploiMetier, Grade, Indice,
           Service, NBI, QuotiteTrav, NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer
          } Entete;
 
@@ -48,7 +48,6 @@ typedef struct
     thread_t* threads;
     xmlChar*  annee_fichier;
     xmlChar* mois_fichier;
-    char** fichiers;
     char decimal;
     char separateur;
     bool reduire_consommation_memoire;
@@ -93,16 +92,6 @@ typedef struct
 #define DESCENDRE_UN_NIVEAU    cur = (cur)? cur->xmlChildrenNode: NULL;  if ((! NO_DEBUG) && cur) fprintf(stderr, "Descente au niveau %s\n", cur->name);  // cur = (cur)? cur-> next: NULL;
 
 #define REMONTER_UN_NIVEAU     cur = (cur)? cur->parent: NULL;   if ((! NO_DEBUG) && cur) fprintf(stderr, "Remontée au niveau %s\n", cur->name); cur = (cur)? cur->next: NULL;
-
-/* Traitement Brut : */
-/* Indemnité de résidence */
-/* Supplément familial */
-/* Indemnités */
-/* Rémunérations diverses */
-/* Déduction */
-/* Rappel */
-/* Retenue */
-/* Cotisation */
 
 static const char* type_remuneration[]   = {"TraitBrut",
                                             "IndemResid",
