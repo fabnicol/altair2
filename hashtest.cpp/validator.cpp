@@ -56,12 +56,15 @@ static inline bool Bulletin(const char* tag, xmlNodePtr* cur, int l, info_t* inf
     {
         ligne_l = xmlGetProp(*cur, (const xmlChar *) "V");
 
-        if (ligne_l == NULL) ligne_l = (xmlChar*) NA_STRING;
+        if (ligne_l == NULL)
+            ligne_l = (xmlChar*) NA_STRING;
 
         /* sanitisation */
 
-        for (int i = 0; i < xmlStrlen(ligne_l); i++)
-            if (ligne_l[i] == info->separateur) ligne_l[i] = '_';
+        else
+          for (int i = 0; i < xmlStrlen(ligne_l); i++)
+              if (ligne_l[i] == info->separateur)
+                  ligne_l[i] = '_';
 
         *cur = (*cur)? (*cur)->next: NULL;
     }
@@ -160,7 +163,6 @@ static inline int lignePaye(xmlNodePtr cur, info_t* info)
         cur = atteindreNoeud("Code", cur);
         _Bulletin("Code", &cur, l, info);
 
-        //if (xmlStrcmp(bulletinIdent->ligne[l], (xmlChar*)NA_STRING))
         nbLignePaye++;
         l++;
 
@@ -212,11 +214,6 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
         fprintf(stderr, "%s\n", "Impossible d'atteindre \"Agent\"");
         return 0;
     }
-
-#define bulletinIdent info->Table[info->NCumAgentLibxml2]
-
-    bulletinIdent[Annee] = info->annee_fichier;
-    bulletinIdent[Mois]  = info->mois_fichier;
 
     DESCENDRE_UN_NIVEAU
 
@@ -281,7 +278,7 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
         {
             // Rémuneration tag vide
             ligne = 1 ;
-            for (int k=0; k < 6; k++) bulletinIdent[info->besoin_memoire_par_ligne + k]=(xmlChar*) NA_STRING;
+            for (int k=0; k < 6; k++) info->Table[info->NCumAgentLibxml2][info->besoin_memoire_par_ligne + k]=(xmlChar*) NA_STRING;
         }
 
         cur = cur_save->next;
@@ -306,8 +303,6 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
     return ligne;
 }
 
-
-#undef bulletinIdent
 /* agent_total est une variable de contrôle pour info->NCumAgent */
 
 static void parseFile(info_t* info)
@@ -363,15 +358,6 @@ static void parseFile(info_t* info)
 
         while(cur != NULL)
         {
-#if !NO_DEBUG
-            char msg[50] = { 0};
-            sprintf(msg, "Paye n°%d\n", agent_du_fichier);
-
-            DEBUG(msg);
-
-            //sleep(1000);
-#endif
-
             cur = atteindreNoeud("PayeIndivMensuel", cur);
             xmlNodePtr cur_save =  cur;
 
@@ -383,7 +369,12 @@ static void parseFile(info_t* info)
             {
                 if (ligne_p != info->NLigne[info->NCumAgentLibxml2] && info->chemin_log == NULL)
                 {
-                    fprintf(stderr, "Incohérence des décomptes de lignes entre le contrôle C : %d et l'analyse Libxml2 : %d\nPour l'agent %s, Année %s Mois %s\n", info->NLigne[info->NCumAgentLibxml2], ligne_p, info->Table[info->NCumAgentLibxml2][Matricule], info->Table[info->NCumAgentLibxml2][Annee], info->Table[info->NCumAgentLibxml2][Mois]);
+                    fprintf(stderr, "Incohérence des décomptes de lignes entre le contrôle C : %d et l'analyse Libxml2 : %d\nPour l'agent %s, Année %s Mois %s\n",
+                            info->NLigne[info->NCumAgentLibxml2],
+                            ligne_p,
+                            info->Table[info->NCumAgentLibxml2][Matricule],
+                            info->annee_fichier,
+                            info->mois_fichier);
                     exit(-1278);
                 }
             }
@@ -427,9 +418,8 @@ static void parseFile(info_t* info)
            info->threads->argv[info->fichier_courant],
            agent_du_fichier, info->NCumAgentLibxml2, info->nbLigne);
 
-     xmlFreeDoc(doc);
 
-    // xmlCleanupParser();
+     xmlFreeDoc(doc);
 }
 
 
