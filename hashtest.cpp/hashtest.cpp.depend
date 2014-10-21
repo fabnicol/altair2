@@ -537,21 +537,10 @@
 	<iostream>
 	<fstream>
 
-1413222653 source:c:\dev\altair\hashtest.cpp\validator.cpp
-	<stdio.h>
-	<string.h>
-	<stdlib.h>
-	<stdint.h>
-	<stdbool.h>
-	<limits.h>
-	<locale.h>
-	<errno.h>
-	<pthread.h>
-	<math.h>
-	<libxml/xmlmemory.h>
-	<libxml/parser.h>
-	<inttypes.h>
-	<Windows.h>
+1413913522 source:c:\dev\altair\hashtest.cpp\validator.cpp
+	"validator.hpp"
+	"fonctions_auxiliaires.hpp"
+	"table.hpp"
 
 1341006776 c:\program files (x86)\codeblocks\mingw\include\stdio.h
 	<_mingw.h>
@@ -982,5 +971,43 @@
 1413848406 source:/home/fab/Dev/altair/hashtest.cpp/main.cpp
 	"validator.hpp"
 	"fonctions_auxiliaires.hpp"
+	"table.hpp"
+
+1413899895 source:c:\dev\altair\hashtest.cpp\fonctions_auxiliaires.cpp
+	"fonctions_auxiliaires.hpp"
+
+1413801846 c:\dev\altair\hashtest.cpp\fonctions_auxiliaires.hpp
+	<limits.h>
+	<errno.h>
+	<stdio.h>
+	<inttypes.h>
+	<stdlib.h>
+	"validator.hpp"
+
+1413910742 c:\dev\altair\hashtest.cpp\validator.hpp
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+	<stdint.h>
+	<stdbool.h>
+	<limits.h>
+	<locale.h>
+	<errno.h>
+	<pthread.h>
+	<math.h>
+	<libxml/xmlmemory.h>
+	<libxml/parser.h>
+	<inttypes.h>
+	<Windows.h>
+
+1413914031 source:c:\dev\altair\hashtest.cpp\main.cpp
+	"validator.hpp"
+	"fonctions_auxiliaires.hpp"
+	"table.hpp"
+
+1413822803 c:\dev\altair\hashtest.cpp\table.hpp
+	"validator.hpp"
+
+1413911924 source:c:\dev\altair\hashtest.cpp\table.cpp
 	"table.hpp"
 
