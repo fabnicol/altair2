@@ -46,20 +46,18 @@ int main(int argc, char **argv)
         NULL,             //    bulletinPtr* Table;
         0,                //    uint64_t nbLigne;
         NULL,             //    int32_t  *NAgent;
-        0,          //
-        0,      //    uint32_t NCumAgent;
-        0,                //    uint32_t agent courant
+        0,                //    uint32_t nbAgentUtilisateur
+        0,                //    uint32_t NCumAgent;
+        0,                //    uint32_t NCumAgentLibxml2;
         NULL,             //    uint16_t *NLigne;
-        0,                //    uint16_t fichier_courant;
         &mon_thread,      //    thread_t threads;
-        NULL,             //    xmlChar*  annee_fichier;
-        NULL,             //    xmlChar* mois_fichier;
-        '.',          //    const char decimal;
-        ',',       //    const char separateur;
-        true,  //bool
+        NULL,             //    chemin log
+        0,                //    uint16_t fichier_courant
+        '.',              //    const char decimal;
+        ',',              //    const char separateur;
+        true,             //bool
         BESOIN_MEMOIRE_ENTETE,// besoin mémoire minimum hors lecture de lignes : devra être incréméenté,
-        NULL,  // chemin log
-        1  // nbfil
+        1                 // nbfil
     };
 
     while (start < argc)
@@ -206,6 +204,9 @@ int main(int argc, char **argv)
         info.threads->argv = (char**) malloc((argc -start)* sizeof(char*));
         for (int j = start; j < argc; j++) info.threads->argv[j-start] = argv[j];
 
+        Info =&info;
+        printf("IBML %d\n", Info[0].besoin_memoire_par_ligne);
+
         decoder_fichier((void*) &info);
 
         if (info.reduire_consommation_memoire && info.NCumAgent != info.NCumAgentLibxml2)
@@ -218,7 +219,7 @@ int main(int argc, char **argv)
             fprintf(stderr, "%s\n", "Cohérence des cumuls de nombre d'agents vérifiée.");
         }
 
-        Info =&info;
+
     }
     else
     {
@@ -336,9 +337,6 @@ int main(int argc, char **argv)
       free(Info[i].NAgent);
       free(Info[i].threads->argv);
       xmlFree(Info[i].Table);
-      xmlFree(Info[i].mois_fichier);
-      xmlFree(Info[i].annee_fichier);
-
 
       FREE(Info[i].chemin_log)
       if (Info[0].nbfil > 1)

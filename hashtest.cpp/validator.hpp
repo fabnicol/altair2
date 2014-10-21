@@ -26,8 +26,8 @@ typedef struct
 
 } thread_t;
 
-#define BESOIN_MEMOIRE_ENTETE  16  /* nb d'Ã©lÃ©ments de l'enum ci-dessous */
-typedef enum {Nom, Prenom, Matricule, NIR, Statut, EmploiMetier, Grade, Indice,
+#define BESOIN_MEMOIRE_ENTETE  18  /* nb d'éléments de l'enum ci-dessous */
+typedef enum {Annee, Mois, Nom, Prenom, Matricule, NIR, Statut, EmploiMetier, Grade, Indice,
           Service, NBI, QuotiteTrav, NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer
          } Entete;
 
@@ -43,16 +43,13 @@ typedef struct
     uint32_t NCumAgent;
     uint32_t NCumAgentLibxml2;
     uint16_t *NLigne;
-    uint16_t fichier_courant;
-    //uint32_t agent_courant;
     thread_t* threads;
-    xmlChar*  annee_fichier;
-    xmlChar* mois_fichier;
+    char* chemin_log;
+    uint16_t fichier_courant;
     char decimal;
     char separateur;
     bool reduire_consommation_memoire;
     uint8_t besoin_memoire_par_ligne;
-    char* chemin_log;
     int nbfil;
 } info_t;
 
@@ -86,12 +83,12 @@ typedef struct
 #endif
 #endif
 
-/* pas de contrÃ´le d'existence de noeud : version affaiblie de la macro prÃ©cÃ©dente */
+/* pas de contrôle d'existence de noeud : version affaiblie de la macro précédente */
 
 
 #define DESCENDRE_UN_NIVEAU    cur = (cur)? cur->xmlChildrenNode: NULL;  if ((! NO_DEBUG) && cur) fprintf(stderr, "Descente au niveau %s\n", cur->name);  // cur = (cur)? cur-> next: NULL;
 
-#define REMONTER_UN_NIVEAU     cur = (cur)? cur->parent: NULL;   if ((! NO_DEBUG) && cur) fprintf(stderr, "RemontÃ©e au niveau %s\n", cur->name); cur = (cur)? cur->next: NULL;
+#define REMONTER_UN_NIVEAU     cur = (cur)? cur->parent: NULL;   if ((! NO_DEBUG) && cur) fprintf(stderr, "Remontée au niveau %s\n", cur->name); cur = (cur)? cur->next: NULL;
 
 static const char* type_remuneration[]   = {"TraitBrut",
                                             "IndemResid",
@@ -106,25 +103,26 @@ static const char* type_remuneration[]   = {"TraitBrut",
                                             "Cotisation",
                                             "Commentaire"};
 
-static const char* type_remuneration_traduit[] = {"Traitement",
-                                                   u8"IndemnitÃ© de rÃ©sidence",
-                                                   u8"SupplÃ©ment familial",
-                                                   "Avantage en nature",
-                                                   u8"IndemnitÃ©",
-                                                   u8"Autres rÃ©munÃ©rations",
-                                                   u8"DÃ©duction",
-                                                   "Acompte",
-                                                   "Rappel",
-                                                   "Retenue",
-                                                   "Cotisation",
-                                                   "Commentaire"};
+static const char* type_remuneration_traduit[] = { "T",  // Traitement
+                                                   "IR", // Indemnité de résidence
+                                                   "S",  // Supplément familial
+                                                   "AV", // Avantage en nature
+                                                   "I",  // Indemnité
+                                                   "A", //Autres rémunérations
+                                                   "D", //Déduction
+                                                   "AC", //Acompte
+                                                   "R", // Rappel
+                                                   "RE", //Retenue
+                                                   "C", //Cotisation
+                                                   "CO" //Commentaire
+                                                 };
 
 static const int nbType                  = sizeof(type_remuneration)/sizeof(char*);
 static const xmlChar drapeau[nbType][2]  = {{1,0}, {2,0}, {3,0}, {4,0}, {5,0}, {6,0}, {7,0}, {8,0}, {9,0}, {10,0}, {11,0}, {12,0}};
 
-static const char* entete_char[]={u8"AnnÃ©e", "Mois", "Nom", u8"PrÃ©nom", "Matricule", "Service", "Statut", u8"Temps.de.travail",
-                                  "Heures.Sup.", "Heures", "Indice", "Brut", "Net", u8"Net.Ã .Payer", "NBI", u8"LibellÃ©", "Code",
-                                  "Base", "Taux", u8"Nb.UnitÃ©", "Montant", "Type", "Emploi", "Grade", "Nir"};
+static const char* entete_char[]={u8"Année", "Mois", "Nom", u8"Prénom", "Matricule", "Service", "Statut", u8"Temps.de.travail",
+                                  "Heures.Sup.", "Heures", "Indice", "Brut", "Net", u8"Net.à.Payer", "NBI", u8"Libellé", "Code",
+                                  "Base", "Taux", u8"Nb.Unité", "Montant", "Type", "Emploi", "Grade", "Nir"};
 
 void* decoder_fichier(void* tinfo);
 
