@@ -60,13 +60,14 @@ extern "C" {
             FILE* c;
             errno = 0;
             c = fopen(info->threads->argv[i], "r");
-            //if (c) fseek(c, 0, SEEK_SET);
-            //else
-            if(c == NULL)
-            {
+            if (c) fseek(c, 0, SEEK_SET);
+            else
+             if(c == NULL)
+             {
                 perror("Ouverture Fichiers.");    // cautious no-op
                 exit(-120);
-            }
+              }
+
             if (errno)
             {
                 perror("Fichier .xhl");

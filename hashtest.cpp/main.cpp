@@ -36,7 +36,6 @@ int main(int argc, char **argv)
 
     char chemin_table[500]= {0};
     strcpy(chemin_table, "Table.csv");
-    bool afficher_memoire_reservee = false;
     bool generer_table = false;
     bool liberer_memoire = true;
     int nbfil = 0;
@@ -55,7 +54,6 @@ int main(int argc, char **argv)
         &mon_thread,      //    thread_t threads;
         NULL,             //    xmlChar*  annee_fichier;
         NULL,             //    xmlChar* mois_fichier;
-        NULL,             //    char** fichiers;
         '.',          //    const char decimal;
         ',',       //    const char separateur;
         true,  //bool
@@ -88,7 +86,6 @@ int main(int argc, char **argv)
             printf("%s\n", "-D argument obligatoire : répertoire complet du fichier de sortie [défaut '.' avec -t].");
             printf("%s\n", "-d argument obligatoire : séparateur décimal [défaut . avec -t].");
             printf("%s\n", "-s argument obligatoire : séparateur de champs [défaut , avec -t]/");
-            printf("%s\n", "-m sans argument : mémoire réservée. Estimation de la consommation de mémoire.");
             printf("%s\n", "-j argument obligatoire : nombre de fils d'exécution (maximum 10).");
             printf("%s\n", "-M sans argument : ne pas libérer la mémoire réservée en fin de programme.");
             exit(0);
@@ -147,12 +144,6 @@ int main(int argc, char **argv)
             start += 2;
             continue;
         }
-        else if (! strcmp(argv[start], "-m"))
-        {
-            afficher_memoire_reservee = true;
-            start++;
-            continue;
-        }
         else if (! strcmp(argv[start], "-M"))
         {
             liberer_memoire = false;
@@ -187,7 +178,7 @@ int main(int argc, char **argv)
         }
         else if (! strcmp(argv[start], "-L"))
         {
-            if (argc > start +2) info.chemin_log = argv[start + 1];
+            if (argc > start +2) info.chemin_log = strdup(argv[start + 1]);
             if (NULL == fopen(info.chemin_log, "w"))
             {
                 perror("Le log ne peut être créé, vérifier l'existence du dossier.");
@@ -205,14 +196,6 @@ int main(int argc, char **argv)
     }
 
     xmlInitMemory();
-
-//    if (memoire_reservee > MAX_MEMOIRE_RESERVEE)
-//    {
-//        fprintf(stderr, "Quantité de mémoire réservée %" PRIu64 " supérieure au maximum de %" PRIu64 " octets.\nAppliquer le programme sur une partie des fichiers et fusionner les bases en résultant.\n", memoire_reservee, MAX_MEMOIRE_RESERVEE);
-//        exit(-500);
-//    }
-
-//    if (afficher_memoire_reservee) fprintf(stderr, "Quantité de mémoire réservée %" PRIu64 " octets.\n", memoire_reservee);
     xmlInitParser();
     info_t* Info;
 
@@ -250,6 +233,8 @@ int main(int argc, char **argv)
 
         pthread_t thread_clients[nbfil];
 
+        // Allocation dynamique nécessaire (à expliquer)
+
         Info = (info_t* ) malloc(nbfil*sizeof(info_t));
         if (Info == NULL)
         {
@@ -273,7 +258,7 @@ int main(int argc, char **argv)
             Info[i].threads->thread_num = i;
             Info[i].threads->argc = (argc - start < nbfichier_par_fil)? argc - start: nbfichier_par_fil;
 
-            printf("\nThread i=%d/%d Info[i].threads->argc=%d\n", i, nbfil, Info[i].threads->argc);
+            printf("Thread i=%d/%d Nombre de fichiers : %d\n", i+1, nbfil, Info[i].threads->argc);
 
             Info[i].threads->argv = (char**) malloc(nbfichier_par_fil * sizeof(char*));
             if (Info[i].threads->argv == NULL)
@@ -284,7 +269,7 @@ int main(int argc, char **argv)
 
             for (int j = 0; j <  nbfichier_par_fil && start + j < argc; j++)
             {
-                Info[i].threads->argv[j] = strdup(argv[start + j]);
+                Info[i].threads->argv[j] = argv[start + j];
             }
 
             start += nbfichier_par_fil;
@@ -322,31 +307,48 @@ int main(int argc, char **argv)
             fprintf(stderr, "Type %s inconnu.", type_table);
             exit(-501);
         }
+        fprintf(stderr, "Table de %" PRIu64 " lignes générée pour %" PRIu64 "lignes de paie d'origine.\n", nbLigneBase, Info[0].nbLigne);
     }
 
-    fprintf(stderr, "Table de %" PRIu64 " lignes générée pour %" PRIu64 "lignes de paie d'origine.\n", nbLigneBase, Info[0].nbLigne);
 
    #define FREE(X) {if (X && xmlStrcmp((xmlChar*) X, (xmlChar*) NA_STRING)) xmlFree(X);}
    #define FREE2(X) {if (X && xmlStrcmp((xmlChar*) X, (xmlChar*) NA_STRING) && X[0] > nbType) xmlFree(X);}
 
-
     /* libération de la mémoire */
 
-    if (liberer_memoire)
-        for (int i = 0; i < Info[0].nbfil; i++)
-        {
-          for (int agent = 0; agent < Info[i].NCumAgentLibxml2; agent++)
-          {
-           for (int j = 0; j < Info[i].NLigne[agent]; j++)
-             FREE2(Info[i].Table[agent][j])
-          }
-          free(Info[i].NLigne);
-          free(Info[i].NAgent);
-          free(Info[i].threads->argv);
+    if (! liberer_memoire) return 0;
 
-          FREE(Info[i].chemin_log)
-          // free(Info[i]);
-        }
+    for (int i = 0; i < Info[0].nbfil; i++)
+    {
+      for (unsigned agent = 0; agent < Info[i].NCumAgentLibxml2; agent++)
+      {
+
+       int memory_usage = ((Info[i].reduire_consommation_memoire)?
+                                                  Info[i].besoin_memoire_par_ligne + nbType + (Info[i].NLigne[agent])*6
+                                                : Info[i].besoin_memoire_par_ligne + nbType + MAX_LIGNES_PAYE*6);
+
+       for (int j = 0; j < memory_usage; j++)
+         FREE2(Info[i].Table[agent][j])
+
+       xmlFree(Info[i].Table[agent]);
+      }
+      free(Info[i].NLigne);
+      free(Info[i].NAgent);
+      free(Info[i].threads->argv);
+      xmlFree(Info[i].Table);
+      xmlFree(Info[i].mois_fichier);
+      xmlFree(Info[i].annee_fichier);
+
+
+      FREE(Info[i].chemin_log)
+      if (Info[0].nbfil > 1)
+      {
+        free(Info[i].threads);
+      }
+
+    }
+
+    if (Info[0].nbfil > 1) free(Info);
 
     return 0;
 
