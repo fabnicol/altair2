@@ -8,7 +8,7 @@
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
 
 extraire.années      <- FALSE
-    début.période.sous.revue    <- 2010
+    début.période.sous.revue    <- 2008
     fin.période.sous.revue      <- 2012
 
 
@@ -161,5 +161,5 @@ expression.rég.heures.sup <- ".*(I.?H.?T|H.?[SC]|\\bI[[:alpha:]]*.?.*\\bH[[:alph
 expression.rég.iat        <- ".*(\\b[Ii].?[Aa].?[Tt]\\b|\\b[Ii][[:alpha:]]*.?\\b.*\\b[Aa][Dd][[:alpha:]]*.?\\b.*[Tt][Ee][Cc][[:alpha:]]*.?\\b).*"
 expression.rég.ifts       <- ".*(\\b[Ii].?[Ff].?[Tt].?[Ss]\\b|\\b[Ii][[:alpha:]]*.?\\b.*\\b[Ff][[:alpha:]]*.?\\b.*\\b[Tt][Rr][Aa][Vv][[:alpha:]]*.?\\b.*\\b[Ss][[:alpha:]]*.?\\b).*"
 expression.rég.population <- ".*\\bASS(\\b|A).*"
-expression.rég.élus       <- ".*([eé]lu[s]?|adj.*maire|pr[eé]sident|cons.*muni.*).*"
+expression.rég.élus       <- "maire|pr[eé]sident|.*([eé]lu[s]?|adj.*maire|v.*pr[eé]sident|cons.*muni|cons.*commun).*"
 
