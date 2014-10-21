@@ -37,7 +37,7 @@ static inline xmlNodePtr atteindreNoeud(const char* noeud, xmlNodePtr cur)
 
 static inline void  verifier_taille(const int l)
 {
-    if (l == (MAX_LIGNES_PAYE - 6))
+    if (l == (MAX_LIGNES_PAYE - 1)*6)
     {
         fprintf(stderr, "En excès du nombre de lignes de paye autorisé (%d)\n", MAX_LIGNES_PAYE);
         exit(-10);
@@ -57,7 +57,7 @@ static inline bool Bulletin(const char* tag, xmlNodePtr* cur, int l, info_t* inf
         ligne_l = xmlGetProp(*cur, (const xmlChar *) "V");
 
         if (ligne_l == NULL)
-            ligne_l = (xmlChar*) NA_STRING;
+            ligne_l = (xmlChar*) xmlStrdup(NA_STRING);
 
         /* sanitisation */
 
@@ -96,7 +96,7 @@ static inline void _Bulletin_(const char* tag, xmlNodePtr* cur,  int l, info_t* 
 {
     if (! Bulletin(tag, cur, l,  info))
     {
-        ligne_l = (xmlChar*) NA_STRING;
+        ligne_l = (xmlChar*) xmlStrdup(NA_STRING);
         return;
     }
 
@@ -113,7 +113,7 @@ static inline void Bulletin_(const char* tag, xmlNodePtr* cur, int l, info_t* in
 
 static inline int lignePaye(xmlNodePtr cur, info_t* info)
 {
-    int l = info->besoin_memoire_par_ligne;
+    int l = info->minimum_memoire_p_ligne;
 
     int nbLignePaye = 0;
     unsigned int t = 0;
@@ -138,17 +138,17 @@ static inline int lignePaye(xmlNodePtr cur, info_t* info)
             new_type = true;
         }
 
-        if (new_type && t > 0 && t < nbType)
+        if (new_type && t < nbType)
         {
-            ligne_l = (xmlChar*) drapeau[t];  // +1 pour éviter la confusion avec \0 des chaines vides
+            ligne_l = (xmlChar*) xmlStrdup(drapeau[t]);  // +1 pour éviter la confusion avec \0 des chaines vides
             l++;
         }
 
-       if (! info->reduire_consommation_memoire) {printf("l=%d\n"); exit(0); verifier_taille(l); }
+       if (! info->reduire_consommation_memoire) {verifier_taille(l); }
 
         if (! xmlStrcmp(cur->name, (const xmlChar*) "Commentaire"))
         {
-            cur=cur->next;
+            cur = cur->next;
             continue;
         }
 
@@ -278,7 +278,7 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
         {
             // Rémuneration tag vide
             ligne = 1 ;
-            for (int k=0; k < 6; k++) info->Table[info->NCumAgentLibxml2][info->besoin_memoire_par_ligne + k]=(xmlChar*) NA_STRING;
+            for (int k=0; k < 6; k++) info->Table[info->NCumAgentLibxml2][info->minimum_memoire_p_ligne + k]=(xmlChar*) xmlStrdup(NA_STRING);
         }
 
         cur = cur_save->next;
@@ -464,8 +464,8 @@ void* decoder_fichier(void* tinfo)
     for (unsigned agent = 0; agent < info->NCumAgent; agent++)
     {
         info->Table[agent] = (xmlChar**) calloc(((info->reduire_consommation_memoire)?
-                                                info->besoin_memoire_par_ligne + nbType + (info->NLigne[agent])*6
-                                                : info->besoin_memoire_par_ligne + nbType + MAX_LIGNES_PAYE*6), sizeof(xmlChar*));
+                                                info->minimum_memoire_p_ligne + nbType + (info->NLigne[agent])*6
+                                                : info->minimum_memoire_p_ligne + nbType + MAX_LIGNES_PAYE*6), sizeof(xmlChar*));
         if (info->Table[agent] == NULL)
         {
             perror("Erreur d'allocation de drapeau I.");

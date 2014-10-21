@@ -205,9 +205,8 @@ int main(int argc, char **argv)
         for (int j = start; j < argc; j++) info.threads->argv[j-start] = argv[j];
 
         Info =&info;
-        printf("IBML %d\n", Info[0].besoin_memoire_par_ligne);
 
-        decoder_fichier((void*) &info);
+        decoder_fichier((void*) Info);
 
         if (info.reduire_consommation_memoire && info.NCumAgent != info.NCumAgentLibxml2)
         {
@@ -252,7 +251,7 @@ int main(int argc, char **argv)
             Info[i].decimal = info.decimal;
             Info[i].separateur = info.separateur;
             Info[i].reduire_consommation_memoire = info.reduire_consommation_memoire;
-            Info[i].besoin_memoire_par_ligne = info.besoin_memoire_par_ligne;
+            Info[i].minimum_memoire_p_ligne = info.minimum_memoire_p_ligne;
             if (info.chemin_log) Info[i].chemin_log = strdup(info.chemin_log);
             //thread_t thr;
             Info[i].threads = (thread_t *) malloc(sizeof(thread_t));
@@ -311,9 +310,10 @@ int main(int argc, char **argv)
         fprintf(stderr, "Table de %" PRIu64 " lignes générée pour %" PRIu64 "lignes de paie d'origine.\n", nbLigneBase, Info[0].nbLigne);
     }
 
+// && xmlStrcmp((xmlChar*) X, (xmlChar*) NA_STRING
 
-   #define FREE(X) {if (X && xmlStrcmp((xmlChar*) X, (xmlChar*) NA_STRING)) xmlFree(X);}
-   #define FREE2(X) {if (X && xmlStrcmp((xmlChar*) X, (xmlChar*) NA_STRING) && X[0] > nbType) xmlFree(X);}
+   #define FREE(X)  {if (X) xmlFree(X);}
+   //#define FREE2(X) {if (X && X[0] > nbType) xmlFree(X);}
 
     /* libération de la mémoire */
 
@@ -324,12 +324,12 @@ int main(int argc, char **argv)
       for (unsigned agent = 0; agent < Info[i].NCumAgentLibxml2; agent++)
       {
 
-       int memory_usage = ((Info[i].reduire_consommation_memoire)?
-                                                  Info[i].besoin_memoire_par_ligne + nbType + (Info[i].NLigne[agent])*6
-                                                : Info[i].besoin_memoire_par_ligne + nbType + MAX_LIGNES_PAYE*6);
+       int utilisation_memoire = ((Info[i].reduire_consommation_memoire)?
+                                                  Info[i].minimum_memoire_p_ligne + nbType + (Info[i].NLigne[agent])*6
+                                                : Info[i].minimum_memoire_p_ligne + nbType + MAX_LIGNES_PAYE*6);
 
-       for (int j = 0; j < memory_usage; j++)
-         FREE2(Info[i].Table[agent][j])
+       for (int j = 0; j < utilisation_memoire; j++)
+         FREE(Info[i].Table[agent][j])
 
        xmlFree(Info[i].Table[agent]);
       }

@@ -49,14 +49,14 @@ typedef struct
     char decimal;
     char separateur;
     bool reduire_consommation_memoire;
-    uint8_t besoin_memoire_par_ligne;
+    uint8_t minimum_memoire_p_ligne;
     int nbfil;
 } info_t;
 
 
 
 #ifndef NA_STRING
- #define NA_STRING "NA"
+ #define NA_STRING (xmlChar*) "NA"
 #endif
 #ifndef MAX_LIGNES_PAYE
  #define MAX_LIGNES_PAYE 300
@@ -90,7 +90,8 @@ typedef struct
 
 #define REMONTER_UN_NIVEAU     cur = (cur)? cur->parent: NULL;   if ((! NO_DEBUG) && cur) fprintf(stderr, "Remontée au niveau %s\n", cur->name); cur = (cur)? cur->next: NULL;
 
-static const char* type_remuneration[]   = {"TraitBrut",
+static const char* type_remuneration[]   = {
+                                            "TraitBrut",
                                             "IndemResid",
                                             "SupFam",
                                             "AvantageNature",
@@ -101,23 +102,27 @@ static const char* type_remuneration[]   = {"TraitBrut",
                                             "Rappel",
                                             "Retenue",
                                             "Cotisation",
-                                            "Commentaire"};
+                                            "Commentaire"
+                                            };
 
-static const char* type_remuneration_traduit[] = { "T",  // Traitement
-                                                   "IR", // Indemnité de résidence
-                                                   "S",  // Supplément familial
-                                                   "AV", // Avantage en nature
-                                                   "I",  // Indemnité
-                                                   "A", //Autres rémunérations
-                                                   "D", //Déduction
-                                                   "AC", //Acompte
-                                                   "R", // Rappel
-                                                   "RE", //Retenue
-                                                   "C", //Cotisation
-                                                   "CO" //Commentaire
-                                                 };
 
 static const int nbType                  = sizeof(type_remuneration)/sizeof(char*);
+
+static const char* type_remuneration_traduit[nbType] = {
+                                                           "T",  // Traitement
+                                                           "IR", // Indemnité de résidence
+                                                           "S",  // Supplément familial
+                                                           "AV", // Avantage en nature
+                                                           "I",  // Indemnité
+                                                           "A", //Autres rémunérations
+                                                           "D", //Déduction
+                                                           "AC", //Acompte
+                                                           "R", // Rappel
+                                                           "RE", //Retenue
+                                                           "C", //Cotisation
+                                                           "CO" //Commentaire
+                                                       };
+
 static const xmlChar drapeau[nbType][2]  = {{1,0}, {2,0}, {3,0}, {4,0}, {5,0}, {6,0}, {7,0}, {8,0}, {9,0}, {10,0}, {11,0}, {12,0}};
 
 static const char* entete_char[]={u8"Année", "Mois", "Nom", u8"Prénom", "Matricule", "Service", "Statut", u8"Temps.de.travail",

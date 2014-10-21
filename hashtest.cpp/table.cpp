@@ -39,7 +39,7 @@ int64_t generer_table_standard(const char* chemin_table, info_t* info)
 
 /* Il doit y avoir BESOIN_MEMOIRE_ENTETE + 6 champs plus Type, soit 18 + 6 +1 = 23 champs et 24 séparateurs + saut de ligne = 48 char + \0*/
 
-#define TAILLE_FORMAT (Info[0].besoin_memoire_par_ligne + 6 +1)*4
+#define TAILLE_FORMAT (Info[0].minimum_memoire_p_ligne + 6 +1)*4
 #define VAR(X) Info[i].Table[agent][X]
 
 uint64_t boucle_ecriture(FILE* base, info_t* Info)
@@ -69,17 +69,20 @@ uint64_t boucle_ecriture(FILE* base, info_t* Info)
 
     for (int i = 0; i < Info[0].nbfil; i++)
     {
+
+
         for (uint32_t agent = 0; agent < Info[i].NCumAgentLibxml2; agent++)
         {
             /* BOUCLER SUR L */
-            unsigned l = Info[i].besoin_memoire_par_ligne;
+            unsigned l = Info[i].minimum_memoire_p_ligne;
             char* type =  (char*) type_remuneration_traduit[0];
+
 
             while (ligne < Info[i].NLigne[agent])
             {
                 if (l + 6 == ((Info[i].reduire_consommation_memoire)?
-                               Info[i].besoin_memoire_par_ligne + nbType + (Info[i].NLigne[agent])*6
-                               : Info[i].besoin_memoire_par_ligne + nbType + MAX_LIGNES_PAYE*6) * sizeof(xmlChar*))
+                               Info[i].minimum_memoire_p_ligne + nbType + (Info[i].NLigne[agent])*6
+                             : Info[i].minimum_memoire_p_ligne + nbType + MAX_LIGNES_PAYE*6) * sizeof(xmlChar*))
                 {
                     perror("Max lignes de paye atteint !");
                     exit(-1002);
@@ -87,9 +90,9 @@ uint64_t boucle_ecriture(FILE* base, info_t* Info)
 
                 int val;
 
-                if (VAR(l) && (val = VAR(l)[0]) < nbType && val)
+                if (VAR(l) && (val = VAR(l)[0]) >= 1 && (val <= nbType))
                 {
-                    type =  (char*) type_remuneration_traduit[val];
+                    type =  (char*) type_remuneration_traduit[val-1];
                     l++;
                 }
 
