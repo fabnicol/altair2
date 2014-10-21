@@ -375,6 +375,13 @@ if (table.rapide == TRUE) {
   Paie <- Paie[ ,   quotité   := ifelse(etp.égale.effectif | is.na(Temps.de.travail), 1,  Temps.de.travail / 100)]
   Paie <- Paie[ ,   Montant.net.eqtp := ifelse(is.finite(Net.à.Payer/quotité), Net.à.Payer/quotité,  NA)]
   
+  Unique.Paie <- unique(Paie[ , c("Matricule", "Année", "Mois", "Brut", "Montant.net.eqtp"), with=FALSE])
+  Unique.Paie <- Unique.Paie[ ,   Montant.brut.annuel := sum(Brut, na.rm=TRUE), key=c("Matricule", "Année")]
+  Unique.Paie <- Unique.Paie[ ,   Montant.net.annuel.eqtp := sum(Montant.net.eqtp, na.rm=TRUE), key=c("Matricule", "Année")]
+  
+  class(Paie) <- "data.frame"
+  class(Unique.Paie) <- "data.frame"
+  
 } else {
   Paie <- mutate(Paie,
                  ### EQTP  ###
@@ -382,11 +389,9 @@ if (table.rapide == TRUE) {
                  #                          * ((corriger.quotité)*(is.na(Taux) * (1- Taux)  + Taux) + 1 - corriger.quotité)
                  # if( ...) ne fonctionne pas.
                  Montant.net.eqtp         = ifelse(is.finite(Net.à.Payer/quotité), Net.à.Payer/quotité, NA))
+ # définir si l'on a unique.paie 
 }
 
-
-f <- sum(tapply(Paie$Montant.net.eqtp, Paie$Mois, function(x) x[1]), na.rm = TRUE)
-g <- sum(tapply(Paie$Brut, Paie$Mois, function(x) x[1]), na.rm = TRUE)
 
 anavar <- ddply(Paie,
                 
@@ -394,16 +399,17 @@ anavar <- ddply(Paie,
                 summarise,
                 
                 # partie Analyse des variations par exercice #
-                
-                Montant.net.annuel.eqtp = f,
+                                
                 # En principe la colonne Brut ne tient pas compte des remboursements d efrais ou des régularisations
-                Montant.brut.annuel = g,
+                
                 Statut.sortie       = Statut[length(Net.à.Payer)],
                 mois.entrée         = ifelse((minimum <- min(Mois)) != Inf, minimum, 0),
                 mois.sortie         = ifelse((maximum <- max(Mois)) != -Inf, maximum, 0),
                 nb.jours            = calcul.nb.jours.mois(mois.entrée[1], mois.sortie[1], Année[1]),
                 nb.mois             = mois.sortie[1] - mois.entrée[1] + 1)
 
+anavar <- merge(anavar, Unique.Paie)
+rm(Unique.Paie)
 
 Paie <- merge (Paie, anavar, by = c(étiquette.matricule, étiquette.année))  
 
@@ -423,7 +429,8 @@ if (! import.direct) {
                                  nb.jours     = nb.jours[1],
                                  nb.mois      = nb.mois[1],
                                  mois.sortie  = mois.sortie[1],
-                                 Emploi       = Emploi[length(Net.à.Payer)],
+                                 Emploi       = Emploi[1],
+                                 Service      = Service[1],
                                  traitement.indiciaire               = sum(montant.traitement.indiciaire),
                                  rémunération.principale.contractuel = sum(montant.rémunération.principale.contractuel),
                                  rémunération.vacataire              = sum(montant.rémunération.vacataire),
@@ -464,13 +471,14 @@ if (! import.direct) {
                                  nb.jours     = nb.jours[1],
                                  nb.mois      = nb.mois[1],
                                  mois.sortie  = mois.sortie[1],
-                                 Emploi       = Emploi[length(Net.à.Payer)],
-                                 traitement.indiciaire               = sum(Montant[Type == "Traitement"]),
+                                 Emploi       = Emploi[1],
+                                 Service      = Service[1],
+                                 traitement.indiciaire               = sum(Montant[Type == "Traitement" | Type == "Supplément familial"]),
                                  rémunération.principale.contractuel = 0,
                                  rémunération.vacataire              = 0,
                                  rémunération.indemnitaire           = sum(Montant[Type == "Indemnité" | Type == "Indemnité de résidence"]),
-                                 indemnités.élu                      = sum(Montant[Type == "Indemnité" & (grepl(expression.rég.élus, Service) | grepl(expression.rég.élus, Emploi))]),
-                                 autres.rémunérations                = sum(Montant[Type == "Rappel"]),
+                                 indemnités.élu                      = sum(Montant[Type == "Indemnité" & (grepl(expression.rég.élus, Service, ignore.case = TRUE) | grepl(expression.rég.élus, Emploi, ignore.case = TRUE))]),
+                                 autres.rémunérations                = sum(Montant[Type == "Rappel" | Type == "Autres rémunérations"]),
                                  
                                  # on ne considère que les rémunérations brutes (sans prise en compte des remboursements de frais aux salariés ou des régularisations)
                                  # pour être en homogénéïté avec la colonne Brut/Montant.brut.annuel
@@ -845,10 +853,10 @@ Tableau(c("Rémunérations brutes",
 #'  *Total brut*          : somme des trois précédents facteurs
 #'
 
-somme.brut.non.élu  <- sum(Paie[  Paie$Année == année
-                                  & ! grepl(expression.rég.élus, Paie$Emploi, ignore.case=TRUE)
-                                  & ! grepl(expression.rég.élus, Paie$Emploi, ignore.case=TRUE),
-                                  "Brut"])
+somme.brut.non.élu  <- sum(Analyse.rémunérations[Analyse.rémunérations$Année == année
+                                                 & ! grepl(expression.rég.élus, Analyse.rémunérations$Emploi, ignore.case=TRUE)
+                                                 & ! grepl(expression.rég.élus, Analyse.rémunérations$Service, ignore.case=TRUE),
+                                              "Montant.brut.annuel"])
 
 delta  <- somme.brut.non.élu - masses.premier["total.rémunérations"]
 
@@ -975,7 +983,7 @@ Résumé(c("Traitement indiciaire",
 
 
 #'
-Résumé(c("Total rémunérations", "Part de la rémunération contractuelle ou indemnitaire", "Effectif"),
+Résumé(c("Total rémunérations", "Part de la rémunération indemnitaire", "Effectif"),
        AR[c("total.rémunérations", "part.rémunération.indemnitaire")],
        extra = "length")
 
@@ -1007,7 +1015,7 @@ if (fichier.personnels.existe)
 
 if (fichier.personnels.existe)
 {
-  Résumé(c("Total rémunérations", "Part de la rémunération contractuelle ou indemnitaire"),
+  Résumé(c("Total rémunérations", "Part de la rémunération indemnitaire"),
          ARA[c( "total.rémunérations", "part.rémunération.indemnitaire")])
 }
 
@@ -1033,7 +1041,7 @@ if (fichier.personnels.existe)
 if (fichier.personnels.existe)
 {
   Résumé(c("Total rémunérations",
-           "Part de la rémunération contractuelle ou indemnitaire"),
+           "Part de la rémunération indemnitaire"),
          ARB[ c( "total.rémunérations",
                  "part.rémunération.indemnitaire")])
 }
@@ -1061,7 +1069,7 @@ if (fichier.personnels.existe)
 if (fichier.personnels.existe)
 {
   Résumé(c("Total rémunérations",
-           "Part de la rémunération contractuelle ou indemnitaire"),
+           "Part de la rémunération indemnitaire"),
          ARC[ c( "total.rémunérations",
                  "part.rémunération.indemnitaire") ])
 }
@@ -1184,10 +1192,10 @@ Tableau(c("Rémunérations brutes",
 #'Cumuls réalisés sur les lignes de paie. Les indemnités d'élu ne sont pas prises en compte.
 #'
 
-somme.brut.non.élu  <- sum(Paie[  Paie$Année == année
-                                  & ! grepl(expression.rég.élus, Paie$Emploi, ignore.case=TRUE)
-                                  & ! grepl(expression.rég.élus, Paie$Service, ignore.case=TRUE),
-                                  "Brut"])
+somme.brut.non.élu  <- sum(Analyse.rémunérations[Analyse.rémunérations$Année == année
+                                              & ! grepl(expression.rég.élus, Analyse.rémunérations$Emploi, ignore.case=TRUE)
+                                              & ! grepl(expression.rég.élus, Analyse.rémunérations$Service, ignore.case=TRUE),
+                                             "Montant.brut.annuel"])
 
 delta  <- somme.brut.non.élu - masses.dernier["total.rémunérations"]
 
@@ -1314,7 +1322,7 @@ Résumé(c("Traitement indiciaire",
 #'
 
 Résumé(c("Total rémunérations",
-         "Part de la rémunération contractuelle ou indemnitaire",
+         "Part de la rémunération indemnitaire",
          "Effectif"),
        AR[c("total.rémunérations", "part.rémunération.indemnitaire")],
        extra = "length")
@@ -1349,7 +1357,7 @@ if (fichier.personnels.existe)
 if (fichier.personnels.existe)
 {
   Résumé(c("Total rémunérations",
-           "Part de la rémunération contractuelle ou indemnitaire"),
+           "Part de la rémunération indemnitaire"),
          ARA[ c( "total.rémunérations",
                  "part.rémunération.indemnitaire")])
 }
@@ -1375,7 +1383,7 @@ if (fichier.personnels.existe)
 if (fichier.personnels.existe)
 {
   Résumé(c("Total rémunérations",
-           "Part de la rémunération contractuelle ou indemnitaire"),
+           "Part de la rémunération indemnitaire"),
          ARB[ c( "total.rémunérations",
                  "part.rémunération.indemnitaire")])
 }
@@ -1402,7 +1410,7 @@ if (fichier.personnels.existe)
 if (fichier.personnels.existe)
 {
   Résumé(c("Total rémunérations",
-           "Part de la rémunération contractuelle ou indemnitaire"),
+           "Part de la rémunération indemnitaire"),
          ARC[ c( "total.rémunérations",
                  "part.rémunération.indemnitaire")])
 }
