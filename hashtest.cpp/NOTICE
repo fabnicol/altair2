@@ -12,7 +12,6 @@ OPTIONS :
 -D argument obligatoire : répertoire complet du fichier de sortie [défaut '.' avec -t].
 -d argument obligatoire : séparateur décimal [défaut . avec -t].
 -s argument obligatoire : séparateur de champs [défaut , avec -t]/
--m sans argument : mémoire réservée. Estimation de la consommation de mémoire.
 -j argument obligatoire : nombre de fils d'exécution (maximum 10).
 -M sans argument : ne pas libérer la mémoire réservée en fin de programme.
 -L argument obligatoire : chemin du log d'exécution du test de cohérence entre analyseurs C et XML.
@@ -283,15 +282,6 @@ Part patronale
 </Cotisation>
 
 
-
-La rémunération brute doit donc être :
-
- Brut = TraitBrut [y.c NBI] + IndemResid + SupFam + Indemnite + RemDivers + Rappel + Acompte [mais pas +Retenue]
- soit :
-
- T + IR + S + I + A + AC
-
-
 Codage de la TABLE
 ------------------
 
@@ -312,3 +302,47 @@ Par souci d'économie, les codes suivants sont définis pour le Type de la ligne
                                             "Retenue"           RE
                                             "Cotisation"        C
                                             "Commentaire"       CO
+
+
+Méthode de vérification de la cohérence Montant brut (Bulletins de paie) et rémunérations brutes des lignes de paie
+-------------------------------------------------------------------------------------------------------------------
+
+La rémunération brute doit être :
+
+ Brut = TraitBrut [y.c NBI] + IndemResid + SupFam + Indemnite + RemDivers + Rappels + Acompte + Avantage en nature
+          - [Indemnités non soumises à cotisations] - Rappels de cotisations, retenues et déductions
+ soit :
+
+ delta = Brut - Somme des Montants de Type  T | IR | S | I | A | AC | AV  et qui ne sont pas du type  (I | R dans liste d'exclusion)
+
+ En principe delta =0.
+
+ Il convient pour arriver à ce résultat de déterminer les listes d'exclusion, qui ne sont pas données par Xémélios.
+
+ Pour les indemnités
+ -------------------
+
+ - IJSS et autres indemnités journalières ;
+
+ - Remboursements de frais ou indemnités forfaitaires (transports, frais professionnels) ;
+
+ - Autres indemnités non imposables éventuelles ;
+
+ - Cas des "indemnités calculées", qui ne s'ajoutent pas au traitement mais qui en résultent par soustraction.
+      Exemple d'indemnités d'élus calculées comme le Traitement brut soumis à Retenue pour écrêtement : c'est une anomalie qui peut
+      être traitée en intégrant l'indemnité d'élu à la liste d'exclusions.
+
+
+ Les indemnités d'élus sont non imposables, au delà d'un seuil d'exonération ()1466 € net en 2012)
+ lorsqu'un prélèvement à la source est effectué(article 204-0 bis du code général des impôts).
+ Mais elles sont soumises à cotisations sociales.
+ Elle doivent donc faire partie du calcul du Montant Brut (mais pas du montant imposable).
+ Des anomalies fréquentes sont relevées sur ce point, qui peuvent être détectées à partir de la variable delta.
+
+ Cas des "traitements virtuels"
+ -----------------------------
+
+ Pour calculer la liquidation de retenues, cotisations ou déductions sans versement de salaire :
+      Exemple d'un fonctionnaire détaché pour lequel un Traitement brut est mentionné, alors qu'il n'est pas versé (retenue compensatoire)
+ La lignes de traitement ne sert donc qu'à liquider les cotisations CNRACL dans ce cas de figure. La somme se retouve au Brut mais pas au Net.
+ Pour comparer au compte de gestion (qui ne comprend pas cette somme) il faudra retraiter manuellement le résultat du logiciel.
