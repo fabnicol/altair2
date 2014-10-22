@@ -376,7 +376,7 @@ if (! import.direct)
 if (table.rapide == TRUE) {
   # Paie <- en raison du fonctionnement de knitr sinon inutile
 
-  Paie <- Paie[ , delta := sum(Montant*(Type == "I" | Type == "T" | Type == "S" | Type == "IR" | Type == "AC" | Type == "A" | Type == "RA" | Type == "AV"), na.rm=TRUE) - Brut[1], key=c("Matricule", "Année", "Mois")]
+  Paie <- Paie[ , delta := sum(Montant*(Type == "I" | Type == "T" | Type == "S" | Type == "IR" | Type == "AC" | Type == "A" | Type == "R" | Type == "AV"), na.rm=TRUE) - Brut[1], key=c("Matricule", "Année", "Mois")]
     
   Bulletins.paie <- unique(Paie[ , c("Matricule", "Année", "Mois", "Temps.de.travail", "Statut", "Brut", "Net.à.Payer"), with=FALSE])
 
@@ -496,7 +496,7 @@ if (! import.direct) {
                                  rémunération.principale.contractuel = 0,
                                  rémunération.vacataire              = 0,
                                  rémunération.indemnitaire           = sum(Montant[Type == "I" | Type == "IR"]),
-                                 autres.rémunérations                = sum(Montant[Type == "AC" | Type == "A" | Type == "RA"  | Type == "AV"]),
+                                 autres.rémunérations                = sum(Montant[Type == "AC" | Type == "A" | Type == "R"  | Type == "AV"]),
                                                                   
                                  # on ne considère que les rémunérations brutes (sans prise en compte des remboursements de frais aux salariés ou des régularisations)
                                  # pour être en homogénéïté avec la colonne Brut/Montant.brut.annuel
@@ -1991,9 +1991,9 @@ HS.sup.25 <- Paie[Heures.Sup. >= 25, colonnes]
 # version optimisée : 0,15 s soit x300
 
 
-Filtre1 <- ifelse(import.direct, Type == "Traitement", !is.na(montant.traitement.indiciaire) & montant.traitement.indiciaire != 0)
+Filtre1 <- ifelse(import.direct, Type == "T", !is.na(montant.traitement.indiciaire) & montant.traitement.indiciaire != 0)
 
-Filtre2 <- ifelse(import.direct, Type == "Indemnité", !is.na(montant.primes) & montant.primes != 0)
+Filtre2 <- ifelse(import.direct, Type == "I", !is.na(montant.primes) & montant.primes != 0)
 
 HS.sup.indiciaire.mensuel <- with(HS.sup.25, HS.sup.25[Filtre1, c("Matricule", "Année", "Mois", "Montant")])
 
