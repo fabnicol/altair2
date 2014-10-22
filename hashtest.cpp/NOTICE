@@ -286,7 +286,29 @@ Part patronale
 
 La rémunération brute doit donc être :
 
- Brut = TraitBrut + IndemResid + SupFam + Indemnite [y.compris NBI, improprement]+ RemDivers + Rappel + Deduction + Acompte [mais pas +Retenue]
+ Brut = TraitBrut [y.c NBI] + IndemResid + SupFam + Indemnite + RemDivers + Rappel + Acompte [mais pas +Retenue]
+ soit :
+
+ T + IR + S + I + A + AC
 
 
+Codage de la TABLE
+------------------
 
+Par souci d'économie, les codes suivants sont définis pour le Type de la ligne de paye
+
+                                            Code XML            Code Base
+
+
+                                            "TraitBrut"         T
+                                            "IndemResid"        IR
+                                            "SupFam"            S
+                                            "AvantageNature"    AV
+                                            "Indemnite"         I
+                                            "RemDivers"         A
+                                            "Deduction"         D
+                                            "Acompte"           AC
+                                            "Rappel"            R
+                                            "Retenue"           RE
+                                            "Cotisation"        C
+                                            "Commentaire"       CO

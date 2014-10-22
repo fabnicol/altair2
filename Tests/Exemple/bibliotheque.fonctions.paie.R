@@ -255,11 +255,11 @@ Tableau.vertical <- function(colnames, rownames, f)
 Tableau.vertical2 <- function(colnames, données.col1, données.col2)
 {
 
-  T <- data.frame(données.col1, prettyNum(données.col2, big.mark=" "))
+  T <- data.frame(données.col1, formatC(données.col2, big.mark=" ", width="12", format="d", preserve.width="common"))
 
   names(T) <- colnames
 
-  kable(T, row.names = FALSE, align = "c")
+  kable(T, row.names = FALSE, align = NULL)
 }
 
 
