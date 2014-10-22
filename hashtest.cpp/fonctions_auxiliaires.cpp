@@ -4,9 +4,9 @@
  */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+//#ifdef __cplusplus
+//extern "C" {
+//#endif
 #include "fonctions_auxiliaires.hpp"
 #include <stdint.h>
     int lire_argument(int argc, const char* const c_str)
@@ -141,6 +141,6 @@ extern "C" {
         return errno;
     }
 
-#ifdef __cplusplus
-}
-#endif // __cplusplus
+//#ifdef __cplusplus
+//}
+//#endif // __cplusplus
