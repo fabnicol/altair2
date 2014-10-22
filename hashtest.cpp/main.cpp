@@ -4,9 +4,9 @@
  */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+//#ifdef __cplusplus
+//extern "C" {
+//#endif
 
 #include "validator.hpp"
 #include "fonctions_auxiliaires.hpp"
@@ -310,10 +310,6 @@ int main(int argc, char **argv)
         fprintf(stderr, "Table de %" PRIu64 " lignes générée pour %" PRIu64 "lignes de paie d'origine.\n", nbLigneBase, Info[0].nbLigne);
     }
 
-// && xmlStrcmp((xmlChar*) X, (xmlChar*) NA_STRING
-
-   #define FREE(X)  {if (X) xmlFree(X);}
-   //#define FREE2(X) {if (X && X[0] > nbType) xmlFree(X);}
 
     /* libération de la mémoire */
 
@@ -329,7 +325,7 @@ int main(int argc, char **argv)
                                                 : Info[i].minimum_memoire_p_ligne + nbType + MAX_LIGNES_PAYE*6);
 
        for (int j = 0; j < utilisation_memoire; j++)
-         FREE(Info[i].Table[agent][j])
+         if (Info[i].Table[agent][j]) xmlFree(Info[i].Table[agent][j]);
 
        xmlFree(Info[i].Table[agent]);
       }
@@ -338,7 +334,8 @@ int main(int argc, char **argv)
       free(Info[i].threads->argv);
       xmlFree(Info[i].Table);
 
-      FREE(Info[i].chemin_log)
+      if (Info[i].chemin_log) xmlFree(Info[i].chemin_log);
+
       if (Info[0].nbfil > 1)
       {
         free(Info[i].threads);
@@ -352,7 +349,7 @@ int main(int argc, char **argv)
 
 }
 
-
-#ifdef __cplusplus
-}
-#endif // __cplusplus
+//
+//#ifdef __cplusplus
+//}
+//#endif // __cplusplus
