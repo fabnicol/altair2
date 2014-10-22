@@ -404,28 +404,28 @@
 	<Windows.h>
 	<inttypes.h>
 
-1413926260 source:/home/fab/Dev/altair/hashtest.cpp/validator.cpp
+1413991773 source:/home/fab/Dev/altair/hashtest.cpp/validator.cpp
 	"validator.hpp"
 	"fonctions_auxiliaires.hpp"
 	"table.hpp"
 
-1406643637 /usr/include/libxml2/libxml/xmlmemory.h
+1399577349 /usr/include/libxml2/libxml/xmlmemory.h
 	<stdio.h>
 	<libxml/xmlversion.h>
 	<libxml/threads.h>
 	<libxml/globals.h>
 
-1406643637 /usr/include/libxml2/libxml/xmlversion.h
+1399577349 /usr/include/libxml2/libxml/xmlversion.h
 	<libxml/xmlexports.h>
 	<ansidecl.h>
 
-1406643637 /usr/include/libxml2/libxml/xmlexports.h
+1399577349 /usr/include/libxml2/libxml/xmlexports.h
 
-1406643637 /usr/include/libxml2/libxml/threads.h
+1399577349 /usr/include/libxml2/libxml/threads.h
 	<libxml/xmlversion.h>
 	<libxml/globals.h>
 
-1406643637 /usr/include/libxml2/libxml/globals.h
+1399577349 /usr/include/libxml2/libxml/globals.h
 	<libxml/xmlversion.h>
 	<libxml/parser.h>
 	<libxml/xmlerror.h>
@@ -434,7 +434,7 @@
 	<libxml/xmlmemory.h>
 	<libxml/threads.h>
 
-1406643637 /usr/include/libxml2/libxml/parser.h
+1399577349 /usr/include/libxml2/libxml/parser.h
 	<stdarg.h>
 	<libxml/xmlversion.h>
 	<libxml/tree.h>
@@ -448,7 +448,7 @@
 	<libxml/xmlIO.h>
 	<libxml/globals.h>
 
-1406643637 /usr/include/libxml2/libxml/tree.h
+1399577349 /usr/include/libxml2/libxml/tree.h
 	<stdio.h>
 	<limits.h>
 	<libxml/xmlversion.h>
@@ -456,26 +456,26 @@
 	<libxml/xmlregexp.h>
 	<libxml/xmlmemory.h>
 
-1406643637 /usr/include/libxml2/libxml/xmlstring.h
+1399577349 /usr/include/libxml2/libxml/xmlstring.h
 	<stdarg.h>
 	<libxml/xmlversion.h>
 
-1406643637 /usr/include/libxml2/libxml/xmlregexp.h
+1399577349 /usr/include/libxml2/libxml/xmlregexp.h
 	<libxml/xmlversion.h>
 	<libxml/tree.h>
 	<libxml/dict.h>
 
-1406643637 /usr/include/libxml2/libxml/dict.h
+1399577349 /usr/include/libxml2/libxml/dict.h
 	<limits.h>
 	<libxml/xmlversion.h>
 	<libxml/tree.h>
 
-1406643637 /usr/include/libxml2/libxml/hash.h
+1399577349 /usr/include/libxml2/libxml/hash.h
 	<libxml/xmlversion.h>
 	<libxml/parser.h>
 	<libxml/dict.h>
 
-1406643637 /usr/include/libxml2/libxml/valid.h
+1399577349 /usr/include/libxml2/libxml/valid.h
 	<libxml/xmlversion.h>
 	<libxml/xmlerror.h>
 	<libxml/tree.h>
@@ -483,28 +483,28 @@
 	<libxml/xmlautomata.h>
 	<libxml/xmlregexp.h>
 
-1406643637 /usr/include/libxml2/libxml/xmlerror.h
+1399577349 /usr/include/libxml2/libxml/xmlerror.h
 	<libxml/parser.h>
 
-1406643637 /usr/include/libxml2/libxml/list.h
+1399577349 /usr/include/libxml2/libxml/list.h
 	<libxml/xmlversion.h>
 
-1406643637 /usr/include/libxml2/libxml/xmlautomata.h
+1399577349 /usr/include/libxml2/libxml/xmlautomata.h
 	<libxml/xmlversion.h>
 	<libxml/tree.h>
 	<libxml/xmlregexp.h>
 
-1406643637 /usr/include/libxml2/libxml/entities.h
+1399577349 /usr/include/libxml2/libxml/entities.h
 	<libxml/xmlversion.h>
 	<libxml/tree.h>
 
-1406643637 /usr/include/libxml2/libxml/encoding.h
+1399577349 /usr/include/libxml2/libxml/encoding.h
 	<libxml/xmlversion.h>
 	<iconv.h>
 	<unicode/ucnv.h>
 	<libxml/tree.h>
 
-1406643637 /usr/include/libxml2/libxml/xmlIO.h
+1399577349 /usr/include/libxml2/libxml/xmlIO.h
 	<stdio.h>
 	<libxml/xmlversion.h>
 	<libxml/globals.h>
@@ -512,18 +512,18 @@
 	<libxml/parser.h>
 	<libxml/encoding.h>
 
-1406643637 /usr/include/libxml2/libxml/SAX.h
+1399577349 /usr/include/libxml2/libxml/SAX.h
 	<stdio.h>
 	<stdlib.h>
 	<libxml/xmlversion.h>
 	<libxml/parser.h>
 	<libxml/xlink.h>
 
-1406643637 /usr/include/libxml2/libxml/xlink.h
+1399577349 /usr/include/libxml2/libxml/xlink.h
 	<libxml/xmlversion.h>
 	<libxml/tree.h>
 
-1406643637 /usr/include/libxml2/libxml/SAX2.h
+1399577349 /usr/include/libxml2/libxml/SAX2.h
 	<stdio.h>
 	<stdlib.h>
 	<libxml/xmlversion.h>
@@ -935,7 +935,7 @@
 1301114756 c:\program files (x86)\codeblocks\mingw\include\oleidl.h
 	<objfwd.h>
 
-1413926260 /home/fab/Dev/altair/hashtest.cpp/validator.hpp
+1413976810 /home/fab/Dev/altair/hashtest.cpp/validator.hpp
 	<stdio.h>
 	<string.h>
 	<stdlib.h>
@@ -951,10 +951,11 @@
 	<inttypes.h>
 	<Windows.h>
 
-1413847453 source:/home/fab/Dev/altair/hashtest.cpp/fonctions_auxiliaires.cpp
+1413990313 source:/home/fab/Dev/altair/hashtest.cpp/fonctions_auxiliaires.cpp
 	"fonctions_auxiliaires.hpp"
+	<stdint.h>
 
-1413672230 /home/fab/Dev/altair/hashtest.cpp/fonctions_auxiliaires.hpp
+1413976810 /home/fab/Dev/altair/hashtest.cpp/fonctions_auxiliaires.hpp
 	<limits.h>
 	<errno.h>
 	<stdio.h>
@@ -962,13 +963,16 @@
 	<stdlib.h>
 	"validator.hpp"
 
-1413926715 source:/home/fab/Dev/altair/hashtest.cpp/table.cpp
+1413993444 source:/home/fab/Dev/altair/hashtest.cpp/table.cpp
 	"table.hpp"
+	<regex>
+	<string>
+	<iostream>
 
-1413836713 /home/fab/Dev/altair/hashtest.cpp/table.hpp
+1413976810 /home/fab/Dev/altair/hashtest.cpp/table.hpp
 	"validator.hpp"
 
-1413926215 source:/home/fab/Dev/altair/hashtest.cpp/main.cpp
+1413990313 source:/home/fab/Dev/altair/hashtest.cpp/main.cpp
 	"validator.hpp"
 	"fonctions_auxiliaires.hpp"
 	"table.hpp"
