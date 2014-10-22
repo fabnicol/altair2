@@ -8,7 +8,7 @@
 extern "C" {
 #endif
 #include "fonctions_auxiliaires.hpp"
-
+#include <stdint.h>
     int lire_argument(int argc, const char* const c_str)
     {
         if (argc > 2)

@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <inttypes.h>
 #include <stdlib.h>
+
 #include "validator.hpp"
 
 int lire_argument(int argc, const char* const c_str);
