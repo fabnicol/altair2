@@ -493,6 +493,7 @@ if (! import.direct) {
                                  rémunération.vacataire              = 0,
                                  rémunération.indemnitaire           = sum(Montant[Type == "I" | Type == "IR"]),
                                  autres.rémunérations                = sum(Montant[Type == "AC" | Type == "A" | Type == "RA"  | Type == "AV"]),
+                                 delta                               = traitement.indiciaire + rémunération.indemnitaire + autres.rémunérations - Montant.brut.annuel,
                                  
                                  # on ne considère que les rémunérations brutes (sans prise en compte des remboursements de frais aux salariés ou des régularisations)
                                  # pour être en homogénéïté avec la colonne Brut/Montant.brut.annuel
