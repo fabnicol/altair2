@@ -5,10 +5,10 @@
 
 /* Constantes de compilation pouvant être redéfinies : NA_STRING, MAX_LIGNES_PAYE, MAX_NB_AGENTS, NO_DEBUG, MAX_MEMOIRE_RESERVEE */
 
-
-#ifdef __cplusplus
-extern "C" {
-#endif
+//
+//#ifdef __cplusplus
+//extern "C" {
+//#endif
 #include "validator.hpp"
 #include "fonctions_auxiliaires.hpp"
 #include "table.hpp"
@@ -482,8 +482,8 @@ void* decoder_fichier(void* tinfo)
 
     return NULL;
 }
-
-#ifdef __cplusplus
-}
-#endif
+//
+//#ifdef __cplusplus
+//}
+//#endif
 

@@ -376,8 +376,18 @@ if (! import.direct)
 if (table.rapide == TRUE) {
   # Paie <- en raison du fonctionnement de knitr sinon inutile
 
-  Paie <- Paie[ , delta := sum(Montant*(Type == "I" | Type == "T" | Type == "S" | Type == "IR" | Type == "AC" | Type == "A" | Type == "R" | Type == "AV"), na.rm=TRUE) - Brut[1], key=c("Matricule", "Année", "Mois")]
-    
+  Paie <- Paie[ , `:=`(delta = sum(Montant*(  Type == "I"
+                                          | Type == "T"
+                                          | Type == "S"
+                                          | Type == "IR"
+                                          | Type == "AC"
+                                          | Type == "A"
+                                          | Type == "R"
+                                          | Type == "AV"),
+                                 na.rm=TRUE)
+                              - Brut[1], key=c("Matricule", "Année", "Mois"),
+                      Statut = if (grepl(expression.rég.élus, Service, ignore.case = TRUE) | grepl(expression.rég.élus, Emploi, ignore.case = TRUE)) "ELU" else Statut)]
+                     
   Bulletins.paie <- unique(Paie[ , c("Matricule", "Année", "Mois", "Temps.de.travail", "Statut", "Brut", "Net.à.Payer"), with=FALSE])
 
   Bulletins.paie <- Bulletins.paie[ ,   quotité   := ifelse(etp.égale.effectif | is.na(Temps.de.travail), 1,  Temps.de.travail / 100)]
@@ -510,7 +520,7 @@ if (! import.direct) {
 
                                  total.lignes.paie =  rémunérations.récurrentes + autres.rémunérations,
                                  
-                                 élu = grepl(expression.rég.élus, Service, ignore.case = TRUE) | grepl(expression.rég.élus, Emploi, ignore.case = TRUE),
+                                 élu = Statut[length(Statut)] == "ELU",
                                  
                                  indemnités.élu = ifelse(élu, total.lignes.paie, 0),
 
@@ -601,7 +611,7 @@ if (table.rapide) {
                                                    & Paie$Mois == 12,
                                                    c(clé.fusion, champ.nir), with = FALSE],
                                               Analyse.rémunérations[Analyse.rémunérations$Année == fin.période.sous.revue
-                                                                    & Analyse.rémunérations$indemnités.élu == 0,
+                                                                    & Analyse.rémunérations$élu == FALSE,
                                                                     c(clé.fusion, champ.nir)],
                                               by = clé.fusion)
 
@@ -611,7 +621,7 @@ if (table.rapide) {
                                                    & Paie$Mois == 12,
                                                    c(clé.fusion, champ.nir)],
                                               Analyse.rémunérations[Analyse.rémunérations$Année == fin.période.sous.revue
-                                                                    & Analyse.rémunérations$indemnités.élu == 0,
+                                                                    & Analyse.rémunérations$élu == FALSE,
                                                                     c(clé.fusion, champ.nir)],
                                               by = clé.fusion)
 }
@@ -846,18 +856,27 @@ attach(Analyse.rémunérations.premier.exercice, warn.conflicts = FALSE)
 
 #'# 2. Rémunérations brutes : analyse pour l'exercice `r année`
 #'
-#'## 2.1 Statistiques de position globales (tous statuts)
+#'## 2.1 Statistiques de position globales
 #'
 
-masses.premier <- colSums(Analyse.rémunérations.premier.exercice[c("Montant.brut.annuel",
-                                                                   "rémunérations.récurrentes",
-                                                                   "indemnités.élu",
-                                                                   "total.lignes.paie",
-                                                                   "autres.rémunérations")])
+masses.premier.personnels <- colSums(Analyse.rémunérations.premier.exercice[élu == FALSE,
+                                                                            c("Montant.brut.annuel",
+                                                                           "rémunérations.récurrentes",
+                                                                           "indemnités.élu",
+                                                                           "total.lignes.paie",
+                                                                           "autres.rémunérations")])
 
   
+masses.premier.élus <- colSums(Analyse.rémunérations.premier.exercice[élu == TRUE,
+                                                                      c("Montant.brut.annuel",
+                                                                        "rémunérations.récurrentes",
+                                                                        "indemnités.élu",
+                                                                        "total.lignes.paie",
+                                                                        "autres.rémunérations")])
 
 #'### Cumuls des rémunérations brutes pour l'exercice `r année`
+#'
+#'#### Personnels  
 #'
 
 Tableau.vertical2(c("Agrégats",
@@ -870,6 +889,22 @@ Tableau.vertical2(c("Agrégats",
                   masses.premier["total.lignes.paie"],
                   masses.premier["rémunérations.récurrentes"],
                   masses.premier["autres.rémunérations"]))
+
+#'
+#'#### Elus  
+#'
+
+Tableau.vertical2(c("Agrégats",
+                    "euros"),
+                  c("Brut annuel (bulletins)",
+                    "Brut annuel (lignes), dont :",
+                    "\\ \\ Rémunérations récurrentes :",
+                    "\\ \\ Autres rémunérations"),
+                  c(masses.premier.élus["Montant.brut.annuel"],
+                    masses.premier.élus["total.lignes.paie"],
+                    masses.premier.élus["rémunérations.récurrentes"],
+                    masses.premier.élus["autres.rémunérations"]))
+
 
 #'
 #'**Définitions :**
@@ -951,24 +986,50 @@ if (longueur.non.na(filtre.fonctionnaire(part.rémunération.indemnitaire) > 0))
 #'**Tests de cohérence**
 
 if (nrow(AR) > 0) {
-  temp <- colSums(AR[ ,c("Montant.brut.annuel", "rémunérations.récurrentes", "total.lignes.paie")])
+  masses.premier <- colSums(AR[ ,c("Montant.brut.annuel", "rémunérations.récurrentes", "total.lignes.paie", "autres.rémunérations")])
 } else {
-  temp <- c(0,0) }
+  masses.premier <- c(0,0) }
 
 #'Somme des rémunérations brutes versées aux personnels titulaires et stagiaires :
 #'
 
-Tableau.vertical2(c("Agrégats", "euros"),
-                  c("Bulletins de paie (euros)",
-                    "Lignes de paie (euros), hors remb.",
-                    "Lignes de paie (euros), total.",
-                    "Différence (euros)"),
-                  c(temp["Montant.brut.annuel"],
-                    temp["rémunérations.récurrentes"],
-                    temp["total.lignes.paie"],
-                    temp["Montant.brut.annuel"] - temp["total.lignes.paie"]))
+Tableau.vertical2(c("Agrégats",
+                    "euros"),
+                  c("Brut annuel (bulletins)",
+                    "Brut annuel (lignes), dont :",
+                    "\\ \\ Rémunérations récurrentes :",
+                    "\\ \\ Autres rémunérations"),
+                  c(masses.premier["Montant.brut.annuel"],
+                    masses.premier["total.lignes.paie"],
+                    masses.premier["rémunérations.récurrentes"],
+                    masses.premier["autres.rémunérations"]))
 
-rm(temp)
+#'
+#'**Définitions :**
+#'
+#'  *Brut annuel (bulletins)*   : somme du champ *Brut*
+#'  *Brut annuel (lignes)*      : somme du champ *Montant* des lignes de paye, dont :  
+#'  *Rémunérations récurrentes* : traitement brut, indemnités de résidence et autres indemnités, SFT, dont :  
+#'  *Indemnités d'élus*         : toutes rémunérations indemnitaires des élus    
+#'  *Autres rémunérations*      : acomptes, retenues sur brut, rémunérations diverses, rappels   
+#'
+
+#'**Tests de cohérence**
+#'
+#'Somme des rémunérations brutes versées aux personnels (non élus) :
+#'
+
+Tableau.vertical2(c("Agrégats",
+                    "euros"),
+                  c("Bulletins de paie (euros)",
+                    "Lignes de paie (euros)",
+                    "Différence (euros)"),
+                  c(masses.premier["Montant.brut.annuel"],
+                    masses.premier["total.lignes.paie"],
+                    masses.premier["Montant.brut.annuel"] -
+                      masses.premier["total.lignes.paie"]))
+
+
 
 #'
 #'A comparer aux soldes des comptes 6411, 6419 et 648 du conmpte de gestion.
@@ -1087,7 +1148,7 @@ if (fichier.personnels.existe)
 #'## 2.3 Contractuels, vacataires et stagiaires inclus
 #'
 
-temp <- rémunérations.récurrentes[indemnités.élu == 0
+temp <- rémunérations.récurrentes[élu == FALSE
                             & Statut != "TITULAIRE"
                             & Statut != "STAGIAIRE"
                             & rémunérations.récurrentes > 1000] / 1000
@@ -1120,7 +1181,7 @@ if (length(temp))
 #'
 
 
-AR <- Analyse.rémunérations.premier.exercice[  indemnités.élu == 0
+AR <- Analyse.rémunérations.premier.exercice[  élu == FALSE
                                                &  Statut != "TITULAIRE"
                                                &  Statut != "STAGIAIRE",
                                                c("rémunération.indemnitaire",
@@ -1175,34 +1236,26 @@ masses.dernier <- colSums(Analyse.rémunérations.dernier.exercice[c("Montant.brut
 #'### Cumuls des rémunérations brutes pour l'exercice `r année`
 #'
 
-Tableau(c("Rémunérations brutes",
-          "Indemnités d'élus",
-          "Autres paiements",
-          "Total brut"),
-        masses.dernier["rémunérations.récurrentes"],
-        masses.dernier["indemnités.élu"],
-        masses.dernier["autres.rémunérations"],
-        sum(masses.dernier[c("rémunérations.récurrentes", "indemnités.élu", "autres.rémunérations")]))
+Tableau.vertical2(c("Agrégats",
+                    "euros"),
+                  c("Brut annuel (bulletins)",
+                    "Brut annuel (lignes), dont :",
+                    "\\ \\ Rémunérations récurrentes :",
+                    "\\ \\ Autres rémunérations"),
+                  c(masses.dernier["Montant.brut.annuel"],
+                    masses.dernier["total.lignes.paie"],
+                    masses.dernier["rémunérations.récurrentes"],
+                    masses.dernier["autres.rémunérations"]))
 
 #'
 #'**Définitions :**
-#'Tous les items du tableau sont calculés sur le champ Montant de la base Lignes de paie
-#'  *Rémunération brutes* : somme du champ *Montant* des rémunérations versées hors élus
-#'  *Indemnités d'élus*   : somme du champ *Montant* des rémunérations versées pour les élus
-#'  *Autres paiements*    : remboursements de frais, régularisations, etc., non compris dans les deux premiers agrégats
-#'  *Total brut*          : somme des trois précédents facteurs
 #'
-
+#'  *Brut annuel (bulletins)*   : somme du champ *Brut*
+#'  *Brut annuel (lignes)*      : somme du champ *Montant* des lignes de paye, dont :  
+#'  *Rémunérations récurrentes* : traitement brut, indemnités de résidence et autres indemnités, SFT, dont :  
+#'  *Indemnités d'élus*         : toutes rémunérations indemnitaires des élus    
+#'  *Autres rémunérations*      : acomptes, retenues sur brut, rémunérations diverses, rappels   
 #'
-#'Cumuls réalisés sur les lignes de paie. Les indemnités d'élu ne sont pas prises en compte.
-#'
-
-somme.brut.non.élu  <- sum(Analyse.rémunérations[Analyse.rémunérations$Année == année
-                                              & ! grepl(expression.rég.élus, Analyse.rémunérations$Emploi, ignore.case=TRUE)
-                                              & ! grepl(expression.rég.élus, Analyse.rémunérations$Service, ignore.case=TRUE),
-                                             "Montant.brut.annuel"])
-
-delta  <- somme.brut.non.élu - masses.dernier["rémunérations.récurrentes"]
 
 #'**Tests de cohérence**
 #'
@@ -1214,31 +1267,17 @@ Tableau.vertical2(c("Agrégats",
                   c("Bulletins de paie (euros)",
                     "Lignes de paie (euros)",
                     "Différence (euros)"),
-                  c(somme.brut.non.élu,
-                    masses.dernier["rémunérations.récurrentes"],
-                    delta))
-
-delta2 <-  masses.dernier["Montant.brut.annuel"] - masses.dernier["rémunérations.récurrentes"] - masses.dernier["indemnités.élu"]
-
+                  c(masses.dernier["Montant.brut.annuel"],
+                    masses.dernier["total.lignes.paie"],
+                    masses.dernier["Montant.brut.annuel"] -
+                      masses.dernier["total.lignes.paie"]))
 
 #'
 #'à comparer aux soldes des comptes 641 et 648 du compte de gestion.
 #'
-#'**Définitions :**
-#'  *Bulletins de paie*   : somme du champ *Brut* de la base Bulletins de paie. Le champ *Brut* ne tient pas compte des *Autres paiements* (remboursements de frais, régularisations, etc.) en base de données.
-#'  *Lignes de paie*      : somme des lignes de paie correspondantes de la base Lignes de paie sans tenir compte des *Autres paiements*
-#'
 #'Somme des rémunérations brutes versées (élus compris) :
 #'
 
-Tableau.vertical2(c("Agrégats",
-                    "euros"),
-                  c("Bulletins de paie (euros)",
-                    "Lignes de paie (euros)",
-                    "Différence (euros)"),
-                  c(masses.dernier["Montant.brut.annuel"],
-                    masses.dernier["rémunérations.récurrentes"] + masses.dernier["indemnités.élu"],
-                    delta2))
 
 #'
 #'à comparer aux soldes des comptes 641, 648 et 653 du compte de gestion
@@ -1429,10 +1468,10 @@ if (fichier.personnels.existe)
 #'## 3.3 Contractuels, vacataires et stagiaires inclus
 #'
 
-temp <- rémunérations.récurrentes[   indemnités.élu == 0
-                               & Statut != "TITULAIRE"
-                               & Statut != "STAGIAIRE"
-                               & rémunérations.récurrentes > 1000]/1000
+temp <- rémunérations.récurrentes[   élu == FALSE
+                                     & Statut != "TITULAIRE"
+                                     & Statut != "STAGIAIRE"
+                                     & rémunérations.récurrentes > 1000]/1000
 
 if (longueur.non.na(temp) > 0)
   hist(temp,
@@ -1459,7 +1498,7 @@ if (longueur.non.na(temp) > 0)
        col = "grey")
 #'
 
-AR <- Analyse.rémunérations.dernier.exercice[   indemnités.élu == 0
+AR <- Analyse.rémunérations.dernier.exercice[   élu == FALSE
                                                 & Statut != "TITULAIRE"
                                                 & Statut != "STAGIAIRE",
                                                 c("rémunération.indemnitaire",
