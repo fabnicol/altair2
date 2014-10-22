@@ -376,11 +376,15 @@ if (! import.direct)
 if (table.rapide == TRUE) {
   # Paie <- en raison du fonctionnement de knitr sinon inutile
 
+  Paie <- Paie[ , delta := sum(Montant*(Type == "I" | Type == "T" | Type == "S" | Type == "IR" | Type == "AC" | Type == "A" | Type == "RA" | Type == "AV"), na.rm=TRUE) - Brut[1], key=c("Matricule", "Année", "Mois")]
+    
   Bulletins.paie <- unique(Paie[ , c("Matricule", "Année", "Mois", "Temps.de.travail", "Statut", "Brut", "Net.à.Payer"), with=FALSE])
 
   Bulletins.paie <- Bulletins.paie[ ,   quotité   := ifelse(etp.égale.effectif | is.na(Temps.de.travail), 1,  Temps.de.travail / 100)]
   Bulletins.paie <- Bulletins.paie[ ,   Montant.net.eqtp := ifelse(is.finite(Net.à.Payer/quotité), Net.à.Payer/quotité,  NA)]
+  
   Bulletins.paie <- Bulletins.paie[ ,   Montant.brut.annuel := sum(Brut, na.rm=TRUE), key=c("Matricule", "Année")]
+  
   Bulletins.paie <- Bulletins.paie[ ,   `:=`(Montant.net.annuel.eqtp = sum(Montant.net.eqtp, na.rm=TRUE),
                                              Statut.sortie       = Statut[length(Net.à.Payer)],
                                              mois.entrée         = ifelse((minimum <- min(Mois)) != Inf, minimum, 0),
@@ -493,8 +497,7 @@ if (! import.direct) {
                                  rémunération.vacataire              = 0,
                                  rémunération.indemnitaire           = sum(Montant[Type == "I" | Type == "IR"]),
                                  autres.rémunérations                = sum(Montant[Type == "AC" | Type == "A" | Type == "RA"  | Type == "AV"]),
-                                 delta                               = traitement.indiciaire + rémunération.indemnitaire + autres.rémunérations - Montant.brut.annuel,
-                                 
+                                                                  
                                  # on ne considère que les rémunérations brutes (sans prise en compte des remboursements de frais aux salariés ou des régularisations)
                                  # pour être en homogénéïté avec la colonne Brut/Montant.brut.annuel
 
@@ -509,7 +512,7 @@ if (! import.direct) {
                                  
                                  élu = grepl(expression.rég.élus, Service, ignore.case = TRUE) | grepl(expression.rég.élus, Emploi, ignore.case = TRUE),
                                  
-                                 indemnités.élus = ifelse(élu, total.lignes.paie, 0),
+                                 indemnités.élu = ifelse(élu, total.lignes.paie, 0),
 
                                  part.rémunération.indemnitaire =  ifelse(is.na(s <-  traitement.indiciaire
                                                                                 #                        + rémunération.principale.contractuel
