@@ -545,57 +545,57 @@
 	"fonctions_auxiliaires.hpp"
 	"table.hpp"
 
-1341006776 c:\program files (x86)\codeblocks\mingw\include\stdio.h
+1341010376 c:\program files (x86)\codeblocks\mingw\include\stdio.h
 	<_mingw.h>
 	<stddef.h>
 	<stdarg.h>
 	<sys/types.h>
 
-1341006770 c:\program files (x86)\codeblocks\mingw\include\_mingw.h
+1341010370 c:\program files (x86)\codeblocks\mingw\include\_mingw.h
 
-1341006780 c:\program files (x86)\codeblocks\mingw\include\sys\types.h
+1341010380 c:\program files (x86)\codeblocks\mingw\include\sys\types.h
 	<_mingw.h>
 	<stddef.h>
 
-1341006776 c:\program files (x86)\codeblocks\mingw\include\string.h
+1341010376 c:\program files (x86)\codeblocks\mingw\include\string.h
 	<_mingw.h>
 	<stddef.h>
 
-1341006776 c:\program files (x86)\codeblocks\mingw\include\stdlib.h
+1341010376 c:\program files (x86)\codeblocks\mingw\include\stdlib.h
 	<_mingw.h>
 	<stddef.h>
 
-1341006776 c:\program files (x86)\codeblocks\mingw\include\stdint.h
+1341010376 c:\program files (x86)\codeblocks\mingw\include\stdint.h
 	<stddef.h>
 
-1341006774 c:\program files (x86)\codeblocks\mingw\include\limits.h
+1341010374 c:\program files (x86)\codeblocks\mingw\include\limits.h
 	<_mingw.h>
 
-1341006774 c:\program files (x86)\codeblocks\mingw\include\locale.h
+1341010374 c:\program files (x86)\codeblocks\mingw\include\locale.h
 	<_mingw.h>
 	<stddef.h>
 	<stddef.h>
 
-1341006772 c:\program files (x86)\codeblocks\mingw\include\errno.h
+1341010372 c:\program files (x86)\codeblocks\mingw\include\errno.h
 	<_mingw.h>
 
-1380761904 c:\program files (x86)\codeblocks\mingw\include\pthread.h
-	<stddef.h>
-	<errno.h>
-	<sys/types.h>
-	<process.h>
-	<limits.h>
+1413229324 c:\program files (x86)\codeblocks\mingw\include\pthread.h
+	<windows.h>
+	"config.h"
+	<time.h>
 	<signal.h>
-	<sys/timeb.h>
-	"pthread_compat.h"
-	<pthread_unistd.h>
+	<limits.h>
+	"need_errno.h"
+	<errno.h>
+	<sched.h>
+	<sys/types.h>
 
 1341006774 c:\program files (x86)\codeblocks\mingw\include\process.h
 	<_mingw.h>
 	<sys/types.h>
 	<stdint.h>
 
-1341006776 c:\program files (x86)\codeblocks\mingw\include\signal.h
+1341010376 c:\program files (x86)\codeblocks\mingw\include\signal.h
 	<_mingw.h>
 
 1341006780 c:\program files (x86)\codeblocks\mingw\include\sys\timeb.h
@@ -610,7 +610,7 @@
 
 1380761904 c:\program files (x86)\codeblocks\mingw\include\pthread_unistd.h
 
-1341006774 c:\program files (x86)\codeblocks\mingw\include\math.h
+1341010374 c:\program files (x86)\codeblocks\mingw\include\math.h
 	<_mingw.h>
 
 1286864732 c:\program files (x86)\codeblocks\mingw\include\libxml\xmlmemory.h
@@ -739,7 +739,7 @@
 	<libxml/parser.h>
 	<libxml/xlink.h>
 
-1341006772 c:\program files (x86)\codeblocks\mingw\include\inttypes.h
+1341010372 c:\program files (x86)\codeblocks\mingw\include\inttypes.h
 	<_mingw.h>
 	<stdint.h>
 	<stddef.h>
@@ -859,7 +859,7 @@
 
 1301114758 c:\program files (x86)\codeblocks\mingw\include\rpcnterr.h
 
-1341006772 c:\program files (x86)\codeblocks\mingw\include\excpt.h
+1341010372 c:\program files (x86)\codeblocks\mingw\include\excpt.h
 	<_mingw.h>
 	<windef.h>
 
@@ -977,10 +977,11 @@
 	"fonctions_auxiliaires.hpp"
 	"table.hpp"
 
-1413899895 source:c:\dev\altair\hashtest.cpp\fonctions_auxiliaires.cpp
+1414027623 source:c:\dev\altair\hashtest.cpp\fonctions_auxiliaires.cpp
 	"fonctions_auxiliaires.hpp"
+	<stdint.h>
 
-1413801846 c:\dev\altair\hashtest.cpp\fonctions_auxiliaires.hpp
+1413940965 c:\dev\altair\hashtest.cpp\fonctions_auxiliaires.hpp
 	<limits.h>
 	<errno.h>
 	<stdio.h>
@@ -988,7 +989,7 @@
 	<stdlib.h>
 	"validator.hpp"
 
-1413910742 c:\dev\altair\hashtest.cpp\validator.hpp
+1414033316 c:\dev\altair\hashtest.cpp\validator.hpp
 	<stdio.h>
 	<string.h>
 	<stdlib.h>
@@ -1004,14 +1005,24 @@
 	<inttypes.h>
 	<Windows.h>
 
-1413914031 source:c:\dev\altair\hashtest.cpp\main.cpp
+1414027623 source:c:\dev\altair\hashtest.cpp\main.cpp
 	"validator.hpp"
 	"fonctions_auxiliaires.hpp"
 	"table.hpp"
 
-1413822803 c:\dev\altair\hashtest.cpp\table.hpp
+1413939872 c:\dev\altair\hashtest.cpp\table.hpp
 	"validator.hpp"
 
-1413911924 source:c:\dev\altair\hashtest.cpp\table.cpp
+1414030920 source:c:\dev\altair\hashtest.cpp\table.cpp
 	"table.hpp"
+
+1341010376 c:\program files (x86)\codeblocks\mingw\include\time.h
+	<_mingw.h>
+	<stddef.h>
+
+1413229324 c:\program files (x86)\codeblocks\mingw\include\sched.h
+	"need_errno.h"
+	<errno.h>
+	<sys/types.h>
+	<time.h>
 
