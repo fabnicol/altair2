@@ -52,6 +52,7 @@ int main(int argc, char **argv)
         NULL,             //    uint16_t *NLigne;
         &mon_thread,      //    thread_t threads;
         NULL,             //    chemin log
+        (char*) EXPRESSION_REG_ELUS,
         0,                //    uint16_t fichier_courant
         '.',              //    const char decimal;
         ',',              //    const char separateur;
@@ -86,6 +87,7 @@ int main(int argc, char **argv)
             printf("%s\n", "-s argument obligatoire : séparateur de champs [défaut , avec -t]/");
             printf("%s\n", "-j argument obligatoire : nombre de fils d'exécution (maximum 10).");
             printf("%s\n", "-M sans argument : ne pas libérer la mémoire réservée en fin de programme.");
+            printf("%s\n", "-R argument obligatoire : expression régulière pour la recherche des élus (codés : ELU dans le champ Statut.");
             exit(0);
         }
         else if (! strcmp(argv[start], "-t"))
@@ -185,6 +187,17 @@ int main(int argc, char **argv)
             start += 2;
             continue;
         }
+        else if (! strcmp(argv[start], "-R"))
+        {
+            if (argc > start +2) info.expression_reg_elus = strdup(argv[start + 1]);
+            else
+            {
+                perror("Il manque l'expression régulière.");
+                exit(-115);
+            }
+            start += 2;
+            continue;
+        }
         else if (argv[start][0] == '-')
         {
             fprintf(stderr, "%s\n", "Option inconnue.");
@@ -253,6 +266,7 @@ int main(int argc, char **argv)
             Info[i].reduire_consommation_memoire = info.reduire_consommation_memoire;
             Info[i].minimum_memoire_p_ligne = info.minimum_memoire_p_ligne;
             if (info.chemin_log) Info[i].chemin_log = strdup(info.chemin_log);
+            if (info.expression_reg_elus) Info[i].expression_reg_elus = strdup(info.expression_reg_elus);
             //thread_t thr;
             Info[i].threads = (thread_t *) malloc(sizeof(thread_t));
             Info[i].threads->thread_num = i;
@@ -317,7 +331,7 @@ int main(int argc, char **argv)
 
     for (int i = 0; i < Info[0].nbfil; i++)
     {
-      for (unsigned agent = 0; agent < Info[i].NCumAgentLibxml2; agent++)
+      for (unsigned agent = 0; agent < Info[i].NCumAgent; agent++)
       {
 
        int utilisation_memoire = ((Info[i].reduire_consommation_memoire)?
@@ -335,6 +349,7 @@ int main(int argc, char **argv)
       xmlFree(Info[i].Table);
 
       if (Info[i].chemin_log) xmlFree(Info[i].chemin_log);
+      if (Info[i].expression_reg_elus) xmlFree(Info[i].expression_reg_elus);
 
       if (Info[0].nbfil > 1)
       {

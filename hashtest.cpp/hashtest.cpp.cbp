@@ -23,16 +23,13 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="-t -j 2 -M -n 1200 ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2010/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2011/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2012/*.xhl " />
+				<Option parameters="-t  -j 4  -M -n 1200  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2010/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2011/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2012/*.xhl " />
 				<Compiler>
-					<Add option="-march=nocona" />
-					<Add option="-O3" />
+					<Add option="-march=core2" />
+					<Add option="-g" />
 					<Add option="-DNO_DEBUG" />
 					<Add option="-D__GNUC_EXTENSION" />
 				</Compiler>
-				<Linker>
-					<Add option="-s" />
-				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
