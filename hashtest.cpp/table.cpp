@@ -97,8 +97,6 @@ uint64_t boucle_ecriture(FILE* base, info_t* Info)
                     l++;
                 }
 
-
-
                 fprintf(base, format_base,
                         VAR(Annee),sep,
                         VAR(Mois), sep,
