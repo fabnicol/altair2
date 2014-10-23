@@ -3,12 +3,7 @@
 //#endif // __cplusplus
 
 #include "table.hpp"
-#ifdef __cplusplus
- #include <regex>
- #include <string>
- #include <iostream>
- using namespace std;
-#endif
+
 
 uint64_t generer_table_bulletins(const char* chemin_base, info_t* Info)
 {
@@ -102,26 +97,7 @@ uint64_t boucle_ecriture(FILE* base, info_t* Info)
                     l++;
                 }
 
-                #ifdef __cplusplus
 
-                  // g++-4.8.2 : le compilateur GNU n'implémente pas encore les groupements [...]. Utilisation de parenthèses à la place
-                  #ifndef REGEXP
-                  //regex pat {"maire|pr(?:e|é)sident|.*(?:(?:e|é)lus?|adj.*maire|v.*pr(?:e|é)sident|cons.*muni|cons.*commun).*",  regex_constants::icase};
-                  regex pat1 {"ELUS?"};
-                  regex pat2 {"ADJ.*MAIRE"};
-                  regex pat3 {"V.*PRESIDENT"};
-                  regex pat4 {"CONS.*MUNI.*"};
-                  regex pat5 {"CONS.*COMMUN.*"};
-
-                   /* Performances très décevantes en exécution */
-
-                  const char* c_st = (const char*) VAR(Statut);
-                  if (regex_match(c_st, pat1) || regex_match(c_st, pat2) || regex_match(c_st, pat3) || regex_match(c_st, pat4) || regex_match(c_st, pat5) ||!strcmp(c_st, "MAIRE") || !strcmp(c_st, "PRESIDENT"))
-                    cout << "OK!!!" << endl;//VAR(Statut) = (xmlChar*) strdup("ELU");
-
-                  #endif // REGEXP
-
-                #endif // __cplusplus
 
                 fprintf(base, format_base,
                         VAR(Annee),sep,
@@ -160,7 +136,7 @@ uint64_t boucle_ecriture(FILE* base, info_t* Info)
     }
     return compteur;
 }
-//#undef VAR
+#undef VAR
 //#ifdef __cplusplus
 //}
 //#endif // __cplusplus
