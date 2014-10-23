@@ -494,7 +494,7 @@ void* decoder_fichier(void* tinfo)
                   // Cette foncitionnalité coûte, en -j 4, environ 800 ms/M lignes de paie.
 
      // attention, pas info<-NCumAgent ici
-     #ifndef  __WIN32__
+     #if !defined __WIN32__ && !defined GCC_4_8
      regex pat {info->expression_reg_elus,  regex_constants::icase};
      for (unsigned agent = 0; agent < info->NCumAgentLibxml2; agent++)
         {
@@ -507,7 +507,7 @@ void* decoder_fichier(void* tinfo)
       regex pat3  {".*ADJ.*MAIRE.*",  regex_constants::icase};
       regex pat4  {"ELUS?",  regex_constants::icase};
       regex pat5  {".*CONS.*MUNI.*",  regex_constants::icase};
-     #endif
+
 
      for (unsigned agent = 0; agent < info->NCumAgentLibxml2; agent++)
         {
@@ -520,7 +520,7 @@ void* decoder_fichier(void* tinfo)
                       VAR(Statut) = (xmlChar*) xmlStrdup((const xmlChar*)"ELU");
         }
 
-
+    #endif
     #undef VAR
     #endif // __cplusplus
     #endif // REGEXP
