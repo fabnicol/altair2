@@ -3,7 +3,7 @@
  *  En entrée d'Altair préciser encodage.entrée en conformité avec l'encodage du présent fichier, qui sera celui de la base générée.
  */
 
-/* Constantes de compilation pouvant être redéfinies : NA_STRING, MAX_LIGNES_PAYE, MAX_NB_AGENTS, NO_DEBUG, MAX_MEMOIRE_RESERVEE */
+/* Constantes de compilation pouvant être redéfinies : NA_STRING, MAX_LIGNES_PAYE, MAX_NB_AGENTS, NO_DEBUG, NO_REGEXP */
 
 //
 //#ifdef __cplusplus
@@ -12,6 +12,12 @@
 #include "validator.hpp"
 #include "fonctions_auxiliaires.hpp"
 #include "table.hpp"
+#ifdef __cplusplus
+ #include <regex>
+ #include <string>
+ #include <iostream>
+ using namespace std;
+#endif
 
 static inline xmlNodePtr atteindreNoeud(const char* noeud, xmlNodePtr cur)
 {
@@ -480,6 +486,26 @@ void* decoder_fichier(void* tinfo)
         parseFile(info);
     }
 
+     #ifdef __cplusplus
+     #ifndef NO_REGEXP
+     #define VAR(X) info->Table[agent][X]
+
+                  // g++-4.8.2 : le compilateur GNU n'implémente pas encore les groupements [...]. Utilisation de parenthèses à la place
+                  // Cette foncitionnalité coûte, en -j 4, environ 800 ms/M lignes de paie.
+
+     regex pat {info->expression_reg_elus,  regex_constants::icase};
+
+     // attention, pas info<-NCumAgent ici
+
+     for (unsigned agent = 0; agent < info->NCumAgentLibxml2; agent++)
+        {
+                  if (regex_match((const char*) VAR(EmploiMetier), pat) || regex_match((const char*) VAR(Service), pat))
+                      VAR(Statut) = (xmlChar*) xmlStrdup((const xmlChar*)"ELU");
+        }
+
+    #undef VAR
+    #endif // __cplusplus
+    #endif // REGEXP
     return NULL;
 }
 //
