@@ -19,6 +19,7 @@
 # Lorsque l'on n'étudie pas une base Xémélios, mettre étudier.tests.statutaires à FALSE
 
 library(compiler)
+#write.csv(unique(Paie[Paie$delta > 500 & Paie$Montant > 500 & Paie$Type %in% c("A", "I", "R", "AV", "A"), c("Type",  "Libellé", "Code"), with=F]), chemin("test.csv"))
 
 options(warn = -1, verbose = FALSE, OutDec = ",")
 
@@ -367,7 +368,13 @@ if (! import.direct)
 # le troisième chiffre du code.
 # L'utilisateur devra alors renseigner la colonne étiquette.type.rémunération de ce fichier
 
-if (générer.codes) source("générer.codes.R", encoding = encodage.code.source)
+source("générer.codes.R", encoding = encodage.code.source)
+
+if (générer.codes) {
+
+  if (import.direct) générer.base.codes(Paie) else générer.base.codes(Lignes.paie)
+  
+}
 
 if (! import.direct)
   source("fusionner.bulletins.lignes.R", encoding = encodage.code.source)
@@ -385,7 +392,10 @@ if (table.rapide == TRUE) {
                                           | Type == "R"
                                           | Type == "AV"),
                                  na.rm=TRUE)
-                              - Brut[1], key=c("Matricule", "Année", "Mois"))]
+                              - Brut), by=c("Matricule", "Année", "Mois")]
+  
+  générer.base.codes(Paie[Paie$delta  0, ])
+  stop("test")
                      
   Bulletins.paie <- unique(Paie[ , c("Matricule", "Année", "Mois", "Temps.de.travail", "Statut", "Brut", "Net.à.Payer"), with=FALSE])
 
