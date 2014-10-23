@@ -493,15 +493,33 @@ void* decoder_fichier(void* tinfo)
                   // g++-4.8.2 : le compilateur GNU n'implémente pas encore les groupements [...]. Utilisation de parenthèses à la place
                   // Cette foncitionnalité coûte, en -j 4, environ 800 ms/M lignes de paie.
 
-     regex pat {info->expression_reg_elus,  regex_constants::icase};
-
      // attention, pas info<-NCumAgent ici
-
+     #ifndef  __WIN32__
+     regex pat {info->expression_reg_elus,  regex_constants::icase};
      for (unsigned agent = 0; agent < info->NCumAgentLibxml2; agent++)
         {
                   if (regex_match((const char*) VAR(EmploiMetier), pat) || regex_match((const char*) VAR(Service), pat))
                       VAR(Statut) = (xmlChar*) xmlStrdup((const xmlChar*)"ELU");
         }
+     #else
+      regex pat1  {".*V.*PRESIDENT.*",  regex_constants::icase};
+      regex pat2  {".*CONS.*COMMUN.*",  regex_constants::icase};
+      regex pat3  {".*ADJ.*MAIRE.*",  regex_constants::icase};
+      regex pat4  {"ELUS?",  regex_constants::icase};
+      regex pat5  {".*CONS.*MUNI.*",  regex_constants::icase};
+     #endif
+
+     for (unsigned agent = 0; agent < info->NCumAgentLibxml2; agent++)
+        {
+                  if (regex_match((const char*) VAR(EmploiMetier), pat1) || regex_match((const char*) VAR(Service), pat1) ||
+                      regex_match((const char*) VAR(EmploiMetier), pat1) || regex_match((const char*) VAR(Service), pat2) ||
+                      regex_match((const char*) VAR(EmploiMetier), pat1) || regex_match((const char*) VAR(Service), pat3) ||
+                      regex_match((const char*) VAR(EmploiMetier), pat1) || regex_match((const char*) VAR(Service), pat4) ||
+                      regex_match((const char*) VAR(EmploiMetier), pat1) || regex_match((const char*) VAR(Service), pat5) ||
+                      !strcasecmp((const char*) VAR(EmploiMetier), "PRESIDENT") || !strcasecmp((const char*) VAR(EmploiMetier), "MAIRE"))
+                      VAR(Statut) = (xmlChar*) xmlStrdup((const xmlChar*)"ELU");
+        }
+
 
     #undef VAR
     #endif // __cplusplus
