@@ -27,6 +27,8 @@ typedef struct
 } thread_t;
 
 #define BESOIN_MEMOIRE_ENTETE  18  /* nb d'éléments de l'enum ci-dessous */
+#define EXPRESSION_REG_ELUS u8"maire|pr[eé]sident|[eé]lus?|.*(?:adj.*maire|v.*pr[eé]sident|cons.*muni|cons.*commun).*"
+//u8"maire|pr(?:e|é)sident|(?:e|é)lus?|.*(?:adj.*maire|v.*pr(?:e|é)sident|cons.*muni|cons.*commun).*"
 typedef enum {Annee, Mois, Nom, Prenom, Matricule, NIR, Statut, EmploiMetier, Grade, Indice,
           Service, NBI, QuotiteTrav, NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer
          } Entete;
@@ -45,6 +47,7 @@ typedef struct
     uint16_t *NLigne;
     thread_t* threads;
     char* chemin_log;
+    char* expression_reg_elus;
     uint16_t fichier_courant;
     char decimal;
     char separateur;
