@@ -57,6 +57,7 @@ int main(int argc, char **argv)
         '.',              //    const char decimal;
         ',',              //    const char separateur;
         true,             //bool
+        true,             // par défaut lire la balise adjacente
         BESOIN_MEMOIRE_ENTETE,// besoin mémoire minimum hors lecture de lignes : devra être incréméenté,
         1                 // nbfil
     };
@@ -209,6 +210,7 @@ int main(int argc, char **argv)
     xmlInitMemory();
     xmlInitParser();
     info_t* Info;
+    printf("Besoin de mémoire requise minimum par bulletin : %d x sizeof(xmlChar*)\n", info.minimum_memoire_p_ligne);
 
     if (nbfil == 0 || (argc -start < 2))
     {

@@ -56,6 +56,7 @@ typedef struct
     char decimal;
     char separateur;
     bool reduire_consommation_memoire;
+    bool drapeau_cont;
     uint8_t minimum_memoire_p_ligne;
     int nbfil;
 } info_t;
@@ -66,7 +67,7 @@ typedef struct
  #define NA_STRING (xmlChar*) "NA"
 #endif
 #ifndef MAX_LIGNES_PAYE
- #define MAX_LIGNES_PAYE 300
+ #define MAX_LIGNES_PAYE 500
 #endif
 #ifndef MAX_NB_AGENTS
  #define MAX_NB_AGENTS 1200
