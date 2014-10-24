@@ -62,7 +62,7 @@ static inline bool Bulletin(const char* tag, xmlNodePtr* cur, int l, info_t* inf
     {
         ligne_l = xmlGetProp(*cur, (const xmlChar *) "V");
 
-        if (ligne_l == NULL)
+        if (ligne_l == NULL || ligne_l[0] == '\0')
             ligne_l = (xmlChar*) xmlStrdup(NA_STRING);
 
         /* sanitisation */
@@ -72,22 +72,28 @@ static inline bool Bulletin(const char* tag, xmlNodePtr* cur, int l, info_t* inf
               if (ligne_l[i] == info->separateur)
                   ligne_l[i] = '_';
 
-        *cur = (*cur)? (*cur)->next: NULL;
+        if (info->drapeau_cont)
+            *cur = (*cur)? (*cur)->next: NULL;
     }
     return test;
 }
 
-static inline void _Bulletin(const char* tag, xmlNodePtr* cur,  int l, info_t* info)
+static inline bool _Bulletin(const char* tag, xmlNodePtr* cur,  int l, info_t* info)
 {
     if (! Bulletin(tag, cur, l, info))
     {
         if (*cur)
             fprintf(stderr, "Trouvé %s au lieu de %s \n", (*cur)->name, tag);
         else
+        {
             fprintf(stderr, "Noeud courant null au stade de la vérification de %s\n", tag);
+            for (int l=0; l < Service; l++) printf("info->Table[info->NCumAgentLibxml2][%d]=%s\n", l, info->Table[info->NCumAgentLibxml2][l]);
+        }
 
-        exit(-32);
+
+        return false;
     }
+    return true;
 }
 
 static inline void substituer_separateur_decimal(xmlChar* ligne, const char decimal)
@@ -98,23 +104,25 @@ static inline void substituer_separateur_decimal(xmlChar* ligne, const char deci
 
 /* optionnel */
 
-static inline void _Bulletin_(const char* tag, xmlNodePtr* cur,  int l, info_t* info)
+static inline bool _Bulletin_(const char* tag, xmlNodePtr* cur,  int l, info_t* info)
 {
     if (! Bulletin(tag, cur, l,  info))
     {
         ligne_l = (xmlChar*) xmlStrdup(NA_STRING);
-        return;
+        return false;
     }
 
     if (info->decimal != '.') substituer_separateur_decimal(ligne_l, info->decimal);
+    return true;
 }
 
 /* obligatoire et avec substitution séparateur décimal */
 
-static inline void Bulletin_(const char* tag, xmlNodePtr* cur, int l, info_t* info)
+static inline bool Bulletin_(const char* tag, xmlNodePtr* cur, int l, info_t* info)
 {
-    _Bulletin(tag, cur, l, info) ;
+    bool test = _Bulletin(tag, cur, l, info) ;
     if (info->decimal != '.')  substituer_separateur_decimal(ligne_l, info->decimal);
+    return test;
 }
 
 static inline int lignePaye(xmlNodePtr cur, info_t* info)
@@ -224,6 +232,8 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
     DESCENDRE_UN_NIVEAU
 
     cur = (cur)? cur->next : NULL;
+    /* passer à la balise adjacente après lecture */
+    info->drapeau_cont = true;
     _BULLETIN(Nom)
 
     cur = cur->parent;
@@ -249,10 +259,12 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
 
     cur = cur_save;
     cur = atteindreNoeud("Indice", cur);
+    info->drapeau_cont = false; /* ne pas lire la balise adjacente : fin du niveau subordonné Agent*/
     _BULLETIN(Indice)
 
     REMONTER_UN_NIVEAU
 
+    info->drapeau_cont = true;
     cur = atteindreNoeud("Service", cur);
     _BULLETIN(Service)
 
@@ -266,7 +278,7 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
     cur = cur_save;
     cur = atteindreNoeud("QuotiteTrav", cur);
 
-    /* obligatoire, substitution du sparateur décimal */
+    /* obligatoire, substitution du séparateur décimal */
     BULLETIN_(QuotiteTrav)
 
     cur = atteindreNoeud("Remuneration", cur);
@@ -304,6 +316,8 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
     BULLETIN_(NbHeureSup)
     BULLETIN_(MtBrut)
     BULLETIN_(MtNet)
+
+    info->drapeau_cont=false; // fin du niveau PayeIndivMensuel
     BULLETIN_(MtNetAPayer)
 
     return ligne;
@@ -370,10 +384,11 @@ static void parseFile(info_t* info)
 
             DESCENDRE_UN_NIVEAU
 
-            int32_t ligne_p=parseBulletin(cur, info);
-
             info->Table[info->NCumAgentLibxml2][Annee] = xmlStrdup(annee_fichier);
             info->Table[info->NCumAgentLibxml2][Mois]  = xmlStrdup(mois_fichier);
+
+            int32_t ligne_p=parseBulletin(cur, info);
+            info->drapeau_cont = true;
 
             if (info->reduire_consommation_memoire)
             {
