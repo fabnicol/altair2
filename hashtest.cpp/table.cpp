@@ -4,7 +4,6 @@
 
 #include "table.hpp"
 
-
 uint64_t generer_table_bulletins(const char* chemin_base, info_t* Info)
 {
     FILE* base = fopen(chemin_base, "wb");
@@ -70,20 +69,19 @@ uint64_t boucle_ecriture(FILE* base, info_t* Info)
 
     for (int i = 0; i < Info[0].nbfil; i++)
     {
-
-
         for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; agent++)
         {
             /* BOUCLER SUR L */
             unsigned l = Info[i].minimum_memoire_p_ligne;
             char* type =  (char*) type_remuneration_traduit[0];
 
+            int allocation_memoire = (Info[i].reduire_consommation_memoire)?
+                                      Info[i].minimum_memoire_p_ligne + nbType + Info[i].NLigne[agent] * 6
+                                    : Info[i].minimum_memoire_p_ligne + nbType + Info[i].nbLigneUtilisateur * 6 * sizeof(xmlChar*);
 
             while (ligne < Info[i].NLigne[agent])
             {
-                if (l + 6 == ((Info[i].reduire_consommation_memoire)?
-                               Info[i].minimum_memoire_p_ligne + nbType + (Info[i].NLigne[agent])*6
-                             : Info[i].minimum_memoire_p_ligne + nbType + Info[i].nbLigneUtilisateur*6) * sizeof(xmlChar*))
+                if (l + 6 == allocation_memoire)
                 {
                     perror("Max lignes de paye atteint !");
                     exit(-1002);

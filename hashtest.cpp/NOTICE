@@ -1,13 +1,13 @@
 Programme sous licence CECILL 2.1 écrit par Fabrice Nicol
 
-Utilisation
------------
+1. Utilisation
+--------------
 
 xhl2csv OPTIONS fichiers.xhl
 
 OPTIONS :
 -n nombre maximum de bulletins mensuels attendus [calcul exact par défaut]
--M nombre maximum de lignes de paye attendues [calcul exact par défaut]
+-N nombre maximum de lignes de paye attendues [calcul exact par défaut]
 -t argument optionnel : type de base en sortie, soit 'standard', soit 'bulletins' [défaut bulletins].
 -o argument obligatoire : fichier.csv, chemin complet du fichier de sortie [défaut 'Table.csv' avec -t].
 -D argument obligatoire : répertoire complet du fichier de sortie [défaut '.' avec -t].
@@ -15,11 +15,16 @@ OPTIONS :
 -s argument obligatoire : séparateur de champs [défaut , avec -t]/
 -j argument obligatoire : nombre de fils d'exécution (maximum 10).
 -M sans argument : ne pas libérer la mémoire réservée en fin de programme.
+-m sans argument : calculer les maxima d'agents et de lignes de paye.
 -L argument obligatoire : chemin du log d'exécution du test de cohérence entre analyseurs C et XML.
 -R argument obligatoire : expression régulière pour la recherche des élus (codés : ELU dans le champ Statut.
 
-Historique
-----------
+2. Historique
+-------------
+25 octobre 2014
+    Ajout des options -N, -m, -R.
+    Ajout de la fonctionnalité d'exportation des catégories de ligne de paye
+    (voir 5. infra)
 
 17 octobre 2014
    Mise au point des options suivante :
@@ -35,7 +40,8 @@ Historique
    projet Altair.
 
 
-Schéma XML
+3. Schéma XML
+-------------
 
 Ce programme est conçu pour analyser les schémas de paye définis par le site internet de l'application Xémélios :
     http://xemelios.org/schemas/cfg-paye/doc/index47.html
@@ -106,8 +112,8 @@ Ce programme est conçu pour analyser les schémas de paye définis par le site 
   </xs:sequence>
 </xs:complexType>
 
-Définition des éléments
------------------------
+4. Définition des éléments
+--------------------------
 
 TraitBrut
 ---------
@@ -284,8 +290,8 @@ Part patronale
 </Cotisation>
 
 
-Codage de la TABLE
-------------------
+5. Codage de la TABLE
+---------------------
 
 Par souci d'économie, les codes suivants sont définis pour le Type de la ligne de paye
 
@@ -348,3 +354,24 @@ La rémunération brute doit être :
       Exemple d'un fonctionnaire détaché pour lequel un Traitement brut est mentionné, alors qu'il n'est pas versé (retenue compensatoire)
  La lignes de traitement ne sert donc qu'à liquider les cotisations CNRACL dans ce cas de figure. La somme se retouve au Brut mais pas au Net.
  Pour comparer au compte de gestion (qui ne comprend pas cette somme) il faudra retraiter manuellement le résultat du logiciel.
+
+ 6. Performances
+ ---------------
+
+ Les performances suivantes ont été calculées à partir de la version du 25 octobre 2014 sur un processeur Intel Core2 Quad Q9550 2.86 Ghz
+ doté de 6 Go de RAM. Pour 1 million de lignes de paie, les résultats sont donnés sous la forme (sans exportation de la base / avec exportation).
+
+ ________________________________________________________________________________
+                    Mode économique en mémoire  | Mode avec préallocation
+  Options                                       | de la mémoire (-n xxx -N yyy)
+ ________________________________________________________________________________
+
+ 4 fils d'exécution :
+   -j 4                        12,5 / 17        |            8 / 11
+ ________________________________________________________________________________
+
+ 1 seul processus              26,5 / 30,5      |         20,5 / 23,5
+ ________________________________________________________________________________
+
+
+
