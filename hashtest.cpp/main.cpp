@@ -12,6 +12,29 @@
 #include "fonctions_auxiliaires.hpp"
 #include "table.hpp"
 
+inline const uint32_t* calculer_maxima(const info_t* Info)
+{
+    static int once;
+
+    uint32_t* maximum= (uint32_t*) calloc(2, 4);
+
+    if (once || maximum == NULL) return NULL;  // no-op)
+
+    for (int i = 0; i < Info[0].nbfil; i++)
+    {
+        for (unsigned j = 0; j < Info[i].threads->argc; j++)
+            if (Info[i].NAgent[j] > maximum[0])
+               maximum[0] = Info[i].NAgent[j];
+
+        for (uint32_t agent=0; agent < Info[i].NCumAgentXml; agent++)
+            if (Info[i].NLigne[agent] > maximum[1])
+                maximum[1] = Info[i].NLigne[agent];
+    }
+
+    once++;
+    return(maximum);
+}
+
 int main(int argc, char **argv)
 {
 
@@ -57,8 +80,9 @@ int main(int argc, char **argv)
         0,                //    uint16_t fichier_courant
         '.',              //    const char decimal;
         ',',              //    const char separateur;
-        true,             //bool
+        true,             // réduire coso mémoire
         true,             // par défaut lire la balise adjacente
+        false,             // calculer les maxima de lignes et d'agents
         BESOIN_MEMOIRE_ENTETE,// besoin mémoire minimum hors lecture de lignes : devra être incréméenté,
         1                 // nbfil
     };
@@ -82,7 +106,7 @@ int main(int argc, char **argv)
             printf("%s\n", "Usage :  xhl2csv OPTIONS fichiers.xhl");
             puts("OPTIONS :");
             printf("%s\n", "-n nombre maximum de bulletins mensuels attendus [calcul exact par défaut]");
-            printf("%s\n", "-M nombre maximum de lignes de paye attendues [calcul exact par défaut]");
+            printf("%s\n", "-N nombre maximum de lignes de paye attendues [calcul exact par défaut]");
             printf("%s\n", "-t argument optionnel : type de base en sortie, soit 'standard', soit 'bulletins' [défaut bulletins].");
             printf("%s\n", "-o argument obligatoire : fichier.csv, chemin complet du fichier de sortie [défaut 'Table.csv' avec -t].");
             printf("%s\n", "-D argument obligatoire : répertoire complet du fichier de sortie [défaut '.' avec -t].");
@@ -90,6 +114,7 @@ int main(int argc, char **argv)
             printf("%s\n", "-s argument obligatoire : séparateur de champs [défaut , avec -t]/");
             printf("%s\n", "-j argument obligatoire : nombre de fils d'exécution (maximum 10).");
             printf("%s\n", "-M sans argument : ne pas libérer la mémoire réservée en fin de programme.");
+            printf("%s\n", "-m sans argument : calculer les maxima d'agents et de lignes de paye.");
             printf("%s\n", "-L argument obligatoire : chemin du log d'exécution du test de cohérence entre analyseurs C et XML.");
             printf("%s\n", "-R argument obligatoire : expression régulière pour la recherche des élus (codés : ELU dans le champ Statut.");
             exit(0);
@@ -154,6 +179,12 @@ int main(int argc, char **argv)
             start++;
             continue;
         }
+        else if (! strcmp(argv[start], "-m"))
+        {
+            info.calculer_maxima = true;
+            start++;
+            continue;
+        }
         else if (! strcmp(argv[start], "-D"))
         {
             snprintf(chemin_table, 500*sizeof(char), "%s/Table.csv", argv[start + 1]);
@@ -178,7 +209,6 @@ int main(int argc, char **argv)
             }
             start += 2;
             continue;
-
         }
         else if (! strcmp(argv[start], "-L"))
         {
@@ -278,21 +308,37 @@ int main(int argc, char **argv)
 
         for (int i = 0; i < nbfil; i++)
         {
-            Info[i].nbfil =nbfil;
+
+            Info[i].nbLigne = 0;
+            Info[i].NAgent = NULL;
             Info[i].nbAgentUtilisateur = info.nbAgentUtilisateur;
-            Info[i].nbLigneUtilisateur = info.nbLigneUtilisateur;
-            Info[i].decimal = info.decimal;
-            Info[i].separateur = info.separateur;
-            Info[i].reduire_consommation_memoire = info.reduire_consommation_memoire;
-            Info[i].minimum_memoire_p_ligne = info.minimum_memoire_p_ligne;
-            if (info.chemin_log) Info[i].chemin_log = strdup(info.chemin_log);
-            if (info.expression_reg_elus) Info[i].expression_reg_elus = strdup(info.expression_reg_elus);
-            //thread_t thr;
+            Info[i].NCumAgent = 0;
+            Info[i].NCumAgentXml = 0;
+            Info[i].NLigne = NULL;
+
             Info[i].threads = (thread_t *) malloc(sizeof(thread_t));
             Info[i].threads->thread_num = i;
             Info[i].threads->argc = (argc - start < nbfichier_par_fil)? argc - start: nbfichier_par_fil;
 
-            printf("Thread i=%d/%d Nombre de fichiers : %d\n", i+1, nbfil, Info[i].threads->argc);
+            if (info.chemin_log)
+            {
+                Info[i].chemin_log = strdup(info.chemin_log);
+            }
+            if (info.expression_reg_elus)
+            {
+                Info[i].expression_reg_elus = strdup(info.expression_reg_elus);
+            }
+            //thread_t thr;
+
+            Info[i].nbLigneUtilisateur = info.nbLigneUtilisateur;
+            Info[i].fichier_courant = 0;
+            Info[i].decimal = info.decimal;
+            Info[i].separateur = info.separateur;
+            Info[i].reduire_consommation_memoire = info.reduire_consommation_memoire;
+            Info[i].drapeau_cont = true;
+            Info[i].calculer_maxima = info.calculer_maxima;
+            Info[i].minimum_memoire_p_ligne = info.minimum_memoire_p_ligne;
+            Info[i].nbfil = nbfil;
 
             Info[i].threads->argv = (char**) malloc(nbfichier_par_fil * sizeof(char*));
             if (Info[i].threads->argv == NULL)
@@ -300,10 +346,10 @@ int main(int argc, char **argv)
                 perror("Allocation de threads");
                 exit(-145);
             }
-
+            printf("Thread i=%d/%d Nombre de fichiers : %d\n", i+1, nbfil, Info[i].threads->argc);
             for (int j = 0; j <  nbfichier_par_fil && start + j < argc; j++)
             {
-                Info[i].threads->argv[j] = argv[start + j];
+                Info[i].threads->argv[j] = strdup(argv[start + j]);
             }
 
             start += nbfichier_par_fil;
@@ -324,27 +370,31 @@ int main(int argc, char **argv)
         {
             pthread_join (thread_clients[i], NULL);
         }
+
+        free(info.chemin_log);
+        free(info.expression_reg_elus);
+    }
+
+    const uint32_t*   maxima = NULL;
+
+    if (Info[0].calculer_maxima)
+    {
+      maxima = calculer_maxima(Info);
+      if (maxima)
+      {
+        printf("\nMaximum N.lignes Analyseur : %d  \n", maxima[0]);
+        printf("\nMaximum N.agents Analyseur : %d  \n", maxima[1]);
+      }
     }
 
     if (Info[0].chemin_log)
     {
-        int maximumL = 0, maximumA = 0;
-        for (int i =0; i < Info[0].nbfil; i++)
-        {
-            for (int j = 0; j < Info[i].threads->argc; j++)
-                if (Info[i].NAgent[j] > maximumA)
-                   maximumA = Info[i].NAgent[j];
-
-            for (uint32_t agent=0; agent < Info[i].NCumAgentXml; agent++)
-                if (Info[i].NLigne[agent] > maximumL)
-                    maximumL = Info[i].NLigne[agent];
-        }
-
+      maxima = calculer_maxima(Info);
       FILE* LOG = fopen(Info[0].chemin_log, "a");
-      if (LOG)
+      if (LOG && maxima)
         {
-            fprintf(LOG, "\nMaximum N.lignes Analyseur : %d  \n", maximumL);
-            fprintf(LOG, "\nMaximum N.agents Analyseur : %d  \n", maximumA);
+            fprintf(LOG, "\nMaximum N.lignes Analyseur : %d  \n", maxima[0]);
+            fprintf(LOG, "\nMaximum N.agents Analyseur : %d  \n", maxima[1]);
             fclose(LOG);
         }
     }
@@ -364,9 +414,8 @@ int main(int argc, char **argv)
             fprintf(stderr, "Type %s inconnu.", type_table);
             exit(-501);
         }
-        fprintf(stderr, "Table de %" PRIu64 " lignes générée pour %" PRIu64 "lignes de paie d'origine.\n", nbLigneBase, Info[0].nbLigne);
+        fprintf(stderr, "Table de %" PRIu64 " lignes générée pour %" PRIu64 " lignes de paie d'origine.\n", nbLigneBase, Info[0].nbLigne);
     }
-
 
     /* libération de la mémoire */
 
@@ -376,35 +425,39 @@ int main(int argc, char **argv)
     {
         for (unsigned agent = 0; agent < Info[i].NCumAgent; agent++)
         {
-
             int utilisation_memoire = ((Info[i].reduire_consommation_memoire)?
-                                       Info[i].minimum_memoire_p_ligne + nbType + Info[i].NLigne[agent]*6
+                                         Info[i].minimum_memoire_p_ligne + nbType + Info[i].NLigne[agent]*6
                                        : Info[i].minimum_memoire_p_ligne + nbType + Info[i].nbLigneUtilisateur*6);
 
             for (int j = 0; j < utilisation_memoire; j++)
-                if (Info[i].Table[agent][j]) xmlFree(Info[i].Table[agent][j]);
+                if (Info[i].Table[agent][j])
+                    xmlFree(Info[i].Table[agent][j]);
 
             xmlFree(Info[i].Table[agent]);
         }
+
         free(Info[i].NLigne);
         free(Info[i].NAgent);
         free(Info[i].threads->argv);
+
         xmlFree(Info[i].Table);
 
-        if (Info[i].chemin_log) xmlFree(Info[i].chemin_log);
-        if (Info[i].expression_reg_elus) xmlFree(Info[i].expression_reg_elus);
+        if (Info[i].chemin_log)
+            xmlFree(Info[i].chemin_log);
+        if (Info[i].expression_reg_elus)
+            xmlFree(Info[i].expression_reg_elus);
 
         if (Info[0].nbfil > 1)
         {
             free(Info[i].threads);
         }
-
     }
+
+    if (maxima) free((uint32_t*) maxima);
 
     if (Info[0].nbfil > 1) free(Info);
 
     return 0;
-
 }
 
 //

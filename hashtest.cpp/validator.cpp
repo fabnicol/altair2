@@ -68,11 +68,11 @@ static inline bool Bulletin(const char* tag, xmlNodePtr* cur, int l, info_t* inf
         ligne_l = xmlGetProp(*cur, (const xmlChar *) "V");
 
         if (ligne_l == NULL)
-            ligne_l = (xmlChar*) xmlStrdup(NA_STRING);
+            ligne_l = (xmlChar*) strdup(NA_STRING);
         else if (ligne_l[0] == '\0')
         {
             xmlFree(ligne_l);
-            ligne_l = (xmlChar*) xmlStrdup(NA_STRING);
+            ligne_l = (xmlChar*) strdup(NA_STRING);
         }
 
         /* sanitisation */
@@ -88,7 +88,7 @@ static inline bool Bulletin(const char* tag, xmlNodePtr* cur, int l, info_t* inf
     return test;
 }
 
-static inline bool _Bulletin(const char* tag, xmlNodePtr* cur,  int l, info_t* info)
+static inline void _Bulletin(const char* tag, xmlNodePtr* cur,  int l, info_t* info)
 {
     if (! Bulletin(tag, cur, l, info))
     {
@@ -99,11 +99,8 @@ static inline bool _Bulletin(const char* tag, xmlNodePtr* cur,  int l, info_t* i
             fprintf(stderr, "Noeud courant null au stade de la vérification de %s\n", tag);
             for (int l=0; l < Service; l++) printf("info->Table[info->NCumAgentXml][%d]=%s\n", l, info->Table[info->NCumAgentXml][l]);
         }
-
-
-        return false;
     }
-    return true;
+
 }
 
 static inline void substituer_separateur_decimal(xmlChar* ligne, const char decimal)
@@ -114,25 +111,25 @@ static inline void substituer_separateur_decimal(xmlChar* ligne, const char deci
 
 /* optionnel */
 
-static inline bool _Bulletin_(const char* tag, xmlNodePtr* cur,  int l, info_t* info)
+static inline void _Bulletin_(const char* tag, xmlNodePtr* cur,  int l, info_t* info)
 {
     if (! Bulletin(tag, cur, l,  info))
     {
-        ligne_l = (xmlChar*) xmlStrdup(NA_STRING);
-        return false;
+        ligne_l = (xmlChar*) strdup(NA_STRING);
+
     }
 
     if (info->decimal != '.') substituer_separateur_decimal(ligne_l, info->decimal);
-    return true;
+
 }
 
 /* obligatoire et avec substitution séparateur décimal */
 
-static inline bool Bulletin_(const char* tag, xmlNodePtr* cur, int l, info_t* info)
+static inline void Bulletin_(const char* tag, xmlNodePtr* cur, int l, info_t* info)
 {
-    bool test = _Bulletin(tag, cur, l, info) ;
+    _Bulletin(tag, cur, l, info) ;
     if (info->decimal != '.')  substituer_separateur_decimal(ligne_l, info->decimal);
-    return test;
+
 }
 
 static inline int lignePaye(xmlNodePtr cur, info_t* info)
@@ -162,16 +159,13 @@ static inline int lignePaye(xmlNodePtr cur, info_t* info)
             new_type = true;
         }
 
-
-
         if (new_type && t < nbType)
         {
             ligne_l = (xmlChar*) xmlStrdup(drapeau[t]);  // +1 pour éviter la confusion avec \0 des chaines vides
             l++;
         }
 
-
-        if (! info->reduire_consommation_memoire) {verifier_taille(nbLignePaye, info); }
+        if (! info->reduire_consommation_memoire) { verifier_taille(nbLignePaye, info); }
 
         if (! xmlStrcmp(cur->name, (const xmlChar*) "Commentaire"))
         {
@@ -309,9 +303,8 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
         {
             // Rémuneration tag vide
             ligne = 1 ;
-            for (int k=0; k < 6; k++) info->Table[info->NCumAgentXml][info->minimum_memoire_p_ligne + k]=(xmlChar*) xmlStrdup(NA_STRING);
+            for (int k=0; k < 6; k++) info->Table[info->NCumAgentXml][info->minimum_memoire_p_ligne + k]=(xmlChar*) strdup(NA_STRING);
         }
-
         cur = cur_save->next;
     }
     else
@@ -400,7 +393,7 @@ static void parseFile(info_t* info)
             info->Table[info->NCumAgentXml][Annee] = xmlStrdup(annee_fichier);
             info->Table[info->NCumAgentXml][Mois]  = xmlStrdup(mois_fichier);
 
-            int32_t ligne_p=parseBulletin(cur, info);
+            int32_t ligne_p = parseBulletin(cur, info);
             info->drapeau_cont = true;
 
             if (info->reduire_consommation_memoire)
@@ -455,7 +448,9 @@ static void parseFile(info_t* info)
     printf("Fichier n°%d:\nPopulation du fichier  %s :\n %4d bulletins    Total : %4d bulletins  %4" PRIu64 " lignes cumulées.\n",
            info->fichier_courant,
            info->threads->argv[info->fichier_courant],
-           info->NAgent[info->fichier_courant], info->NCumAgentXml, info->nbLigne);
+           info->NAgent[info->fichier_courant],
+           info->NCumAgentXml,
+           info->nbLigne);
 
 
      xmlFreeDoc(doc);
@@ -482,11 +477,10 @@ void* decoder_fichier(void* tinfo)
     {
         info->NCumAgent = info->nbAgentUtilisateur * info->threads->argc;
         info->NLigne = (uint16_t*) calloc(info->threads->argc, info->nbAgentUtilisateur* sizeof(uint16_t));
-        info->NAgent = (int32_t*) calloc(info->threads->argc, sizeof(int32_t));
     }
 
-
-    info->Table = (xmlChar***) malloc(info->NCumAgent *  sizeof(xmlChar**));
+    info->NAgent = (uint32_t*)  calloc(info->threads->argc, sizeof(int32_t));
+    info->Table  = (xmlChar***) malloc(info->NCumAgent *  sizeof(xmlChar**));
 
     if (info->Table == NULL)
     {
@@ -497,7 +491,7 @@ void* decoder_fichier(void* tinfo)
     for (unsigned agent = 0; agent < info->NCumAgent; agent++)
     {
         info->Table[agent] = (xmlChar**) calloc(((info->reduire_consommation_memoire)?
-                                                info->minimum_memoire_p_ligne + nbType + (info->NLigne[agent])*6
+                                                  info->minimum_memoire_p_ligne + nbType + (info->NLigne[agent])*6
                                                 : info->minimum_memoire_p_ligne + nbType + info->nbLigneUtilisateur*6), sizeof(xmlChar*));
         if (info->Table[agent] == NULL)
         {
@@ -506,7 +500,7 @@ void* decoder_fichier(void* tinfo)
         }
     }
 
-    for (int i = 0; i < info->threads->argc ; i++)
+    for (unsigned i = 0; i < info->threads->argc ; i++)
     {
         info->fichier_courant = i;
 

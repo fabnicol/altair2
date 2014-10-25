@@ -12,10 +12,11 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="-t   -M   -L c:/Dev/altair/Tests/Exemple/Donnees/xhl/log  c:/Dev/altair/Tests/Exemple/Donnees/xhl/PLV/2010/*.xhl  c:/Dev/altair/Tests/Exemple/Donnees/xhl/PLV/2011/*.xhl c:/Dev/altair/Tests/Exemple/Donnees/xhl/PLV/2012/*.xhl c:/Dev/altair/Tests/Exemple/Donnees/xhl/PLV/2013/*.xhl " />
+				<Option parameters="-t  -j 4 -n 1171 -N 77 -M ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2010/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2011/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2012/*.xhl " />
 				<Compiler>
 					<Add option="-g" />
 					<Add option="-D__GNUC_EXTENSION" />
+					<Add option="-DNO_DEBUG" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -23,12 +24,11 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="-t   -M -j 4 c:/Dev/altair/Tests/Exemple/Donnees/xhl/PLV/2010/*.xhl  c:/Dev/altair/Tests/Exemple/Donnees/xhl/PLV/2011/*.xhl c:/Dev/altair/Tests/Exemple/Donnees/xhl/PLV/2012/*.xhl c:/Dev/altair/Tests/Exemple/Donnees/xhl/PLV/2013/*.xhl " />
+				<Option parameters=" -j 4  -n 1171 -N 77 -M ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2010/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2011/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2012/*.xhl " />
 				<Compiler>
-					<Add option="-march=nocona" />
+					<Add option="-march=core2" />
 					<Add option="-O3" />
 					<Add option="-D__GNUC_EXTENSION" />
-					<Add option="-DGCC_4_8" />
 					<Add option="-DNO_DEBUG" />
 				</Compiler>
 			</Target>
