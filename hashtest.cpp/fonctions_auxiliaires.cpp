@@ -49,13 +49,12 @@
     int calculer_memoire_requise(info_t* info)
     {
         errno = 0;
-        info->NLigne = (uint16_t*) calloc(info->threads->argc, MAX_NB_AGENTS * info->threads->argc * sizeof(uint16_t));  // nm total de bulletins
-        info->NAgent = (int32_t*)  calloc(info->threads->argc, sizeof(int32_t));
+        info->NLigne = (uint16_t*) calloc(info->threads->argc, MAX_NB_AGENTS * sizeof(uint16_t));  // nm total de bulletins
         info->NCumAgent = 0;
         puts("Premier scan des fichiers pour déterminer les besoins mémoire ... ");
 
         /* par convention  un agent avec rémunération non renseignées (balise sans fils) a une ligne */
-        for (int i = 0; i < info->threads->argc ; i++)
+        for (unsigned i = 0; i < info->threads->argc ; i++)
         {
             FILE* c;
             errno = 0;
@@ -138,6 +137,9 @@
 
             fclose(c);
         }
+
+        info->NLigne = (uint16_t*) realloc(info->NLigne, info->NCumAgent * sizeof(uint16_t));
+
         return errno;
     }
 
