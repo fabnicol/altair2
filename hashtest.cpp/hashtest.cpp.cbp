@@ -24,7 +24,7 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters=" -j 4  -n 1171 -N 77 -M ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2010/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2011/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2012/*.xhl " />
+				<Option parameters=" -t -m  -o ~/PDC-Table.csv  ~/Dev/altair/Tests/Exemple/Donnees/xhl/PdC/*.xhl" />
 				<Compiler>
 					<Add option="-march=core2" />
 					<Add option="-O3" />
