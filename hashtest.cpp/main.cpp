@@ -26,7 +26,7 @@ inline const uint32_t* calculer_maxima(const info_t* Info)
             if (Info[i].NAgent[j] > maximum[0])
                maximum[0] = Info[i].NAgent[j];
 
-        for (uint32_t agent=0; agent < Info[i].NCumAgentXml; agent++)
+        for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; agent++)
             if (Info[i].NLigne[agent] > maximum[1])
                 maximum[1] = Info[i].NLigne[agent];
     }
@@ -382,19 +382,19 @@ int main(int argc, char **argv)
       maxima = calculer_maxima(Info);
       if (maxima)
       {
-        printf("\nMaximum N.lignes Analyseur : %d  \n", maxima[0]);
-        printf("\nMaximum N.agents Analyseur : %d  \n", maxima[1]);
+        printf("\nMaximum de lignes : %d  \n", maxima[1]);
+        printf("\nMaximum d'agents  : %d  \n\n", maxima[0]);
       }
     }
 
     if (Info[0].chemin_log)
     {
-      maxima = calculer_maxima(Info);
+      if (maxima == NULL) maxima = calculer_maxima(Info);
       FILE* LOG = fopen(Info[0].chemin_log, "a");
       if (LOG && maxima)
         {
-            fprintf(LOG, "\nMaximum N.lignes Analyseur : %d  \n", maxima[0]);
-            fprintf(LOG, "\nMaximum N.agents Analyseur : %d  \n", maxima[1]);
+            fprintf(LOG, "\nMaximum de lignes : %d  \n", maxima[1]);
+            fprintf(LOG, "\nMaximum d'agent   : %d  \n", maxima[0]);
             fclose(LOG);
         }
     }
