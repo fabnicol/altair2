@@ -26,9 +26,9 @@ typedef struct
 
 } thread_t;
 
-#define BESOIN_MEMOIRE_ENTETE  18  /* nb d'éléments de l'enum ci-dessous */
+#define BESOIN_MEMOIRE_ENTETE  18  /* nb d'Ã©lÃ©ments de l'enum ci-dessous */
 #ifndef __WIN32__
-#define EXPRESSION_REG_ELUS u8"maire|pr[eé]sident|[eé]lus?|.*(?:adj.*maire|v.*pr[eé]sident|cons.*muni|cons.*commun).*"
+#define EXPRESSION_REG_ELUS u8"maire|pr[eÃ©]sident|[eÃ©]lus?|.*(?:adj.*maire|v.*pr[eÃ©]sident|cons.*muni|cons.*commun).*"
 #else
 #define EXPRESSION_REG_ELUS ";*PRESIDENT.*"
 #endif
@@ -47,11 +47,12 @@ typedef struct
     int32_t  *NAgent;
     uint32_t nbAgentUtilisateur;
     uint32_t NCumAgent;
-    uint32_t NCumAgentLibxml2;
+    uint32_t NCumAgentXml;
     uint16_t *NLigne;
     thread_t* threads;
     char* chemin_log;
     char* expression_reg_elus;
+    uint16_t nbLigneUtilisateur;
     uint16_t fichier_courant;
     char decimal;
     char separateur;
@@ -67,7 +68,7 @@ typedef struct
  #define NA_STRING (xmlChar*) "NA"
 #endif
 #ifndef MAX_LIGNES_PAYE
- #define MAX_LIGNES_PAYE 500
+ #define MAX_LIGNES_PAYE 1000
 #endif
 #ifndef MAX_NB_AGENTS
  #define MAX_NB_AGENTS 1200
@@ -91,12 +92,12 @@ typedef struct
 #endif
 #endif
 
-/* pas de contrôle d'existence de noeud : version affaiblie de la macro précédente */
+/* pas de contrÃ´le d'existence de noeud : version affaiblie de la macro prÃ©cÃ©dente */
 
 
 #define DESCENDRE_UN_NIVEAU    cur = (cur)? cur->xmlChildrenNode: NULL;  if ((! NO_DEBUG) && cur) fprintf(stderr, "Descente au niveau %s\n", cur->name);  // cur = (cur)? cur-> next: NULL;
 
-#define REMONTER_UN_NIVEAU     cur = (cur)? cur->parent: NULL;   if ((! NO_DEBUG) && cur) fprintf(stderr, "Remontée au niveau %s\n", cur->name); cur = (cur)? cur->next: NULL;
+#define REMONTER_UN_NIVEAU     cur = (cur)? cur->parent: NULL;   if ((! NO_DEBUG) && cur) fprintf(stderr, "RemontÃ©e au niveau %s\n", cur->name); cur = (cur)? cur->next: NULL;
 
 static const char* type_remuneration[]   = {
                                             "TraitBrut",
@@ -118,12 +119,12 @@ static const int nbType                  = sizeof(type_remuneration)/sizeof(char
 
 static const char* type_remuneration_traduit[nbType] = {
                                                            "T",  // Traitement
-                                                           "IR", // Indemnité de résidence
-                                                           "S",  // Supplément familial
+                                                           "IR", // IndemnitÃ© de rÃ©sidence
+                                                           "S",  // SupplÃ©ment familial
                                                            "AV", // Avantage en nature
-                                                           "I",  // Indemnité
-                                                           "A", //Autres rémunérations
-                                                           "D", //Déduction
+                                                           "I",  // IndemnitÃ©
+                                                           "A", //Autres rÃ©munÃ©rations
+                                                           "D", //DÃ©duction
                                                            "AC", //Acompte
                                                            "R", // Rappel
                                                            "RE", //Retenue
@@ -133,9 +134,9 @@ static const char* type_remuneration_traduit[nbType] = {
 
 static const xmlChar drapeau[nbType][2]  = {{1,0}, {2,0}, {3,0}, {4,0}, {5,0}, {6,0}, {7,0}, {8,0}, {9,0}, {10,0}, {11,0}, {12,0}};
 
-static const char* entete_char[]={u8"Année", "Mois", "Nom", u8"Prénom", "Matricule", "Service", "Statut", u8"Temps.de.travail",
-                                  "Heures.Sup.", "Heures", "Indice", "Brut", "Net", u8"Net.à.Payer", "NBI", u8"Libellé", "Code",
-                                  "Base", "Taux", u8"Nb.Unité", "Montant", "Type", "Emploi", "Grade", "Nir"};
+static const char* entete_char[]={u8"AnnÃ©e", "Mois", "Nom", u8"PrÃ©nom", "Matricule", "Service", "Statut", u8"Temps.de.travail",
+                                  "Heures.Sup.", "Heures", "Indice", "Brut", "Net", u8"Net.Ã .Payer", "NBI", u8"LibellÃ©", "Code",
+                                  "Base", "Taux", u8"Nb.UnitÃ©", "Montant", "Type", "Emploi", "Grade", "Nir"};
 
 void* decoder_fichier(void* tinfo);
 

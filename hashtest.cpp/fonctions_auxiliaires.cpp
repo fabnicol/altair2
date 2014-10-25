@@ -92,7 +92,7 @@
                 if  ((d = fgetc(c)) != 'n') continue;
                 if  ((d = fgetc(c)) == '/')
                 {
-                    info->NAgent[i]++;
+                   // info->NAgent[i]++;
                     info->NLigne[info->NCumAgent]=1;
                     info->NCumAgent++;
 
@@ -112,7 +112,7 @@
                         else if ((d = fgetc(c)) != 'n')   continue;
 
                         if (info->NLigne[info->NCumAgent] == 0) info->NLigne[info->NCumAgent] = 1;
-                        info->NAgent[i]++;
+                        //info->NAgent[i]++;
                         info->NCumAgent++;
                         break;
                     }

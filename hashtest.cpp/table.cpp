@@ -72,7 +72,7 @@ uint64_t boucle_ecriture(FILE* base, info_t* Info)
     {
 
 
-        for (uint32_t agent = 0; agent < Info[i].NCumAgentLibxml2; agent++)
+        for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; agent++)
         {
             /* BOUCLER SUR L */
             unsigned l = Info[i].minimum_memoire_p_ligne;
@@ -83,7 +83,7 @@ uint64_t boucle_ecriture(FILE* base, info_t* Info)
             {
                 if (l + 6 == ((Info[i].reduire_consommation_memoire)?
                                Info[i].minimum_memoire_p_ligne + nbType + (Info[i].NLigne[agent])*6
-                             : Info[i].minimum_memoire_p_ligne + nbType + MAX_LIGNES_PAYE*6) * sizeof(xmlChar*))
+                             : Info[i].minimum_memoire_p_ligne + nbType + Info[i].nbLigneUtilisateur*6) * sizeof(xmlChar*))
                 {
                     perror("Max lignes de paye atteint !");
                     exit(-1002);
