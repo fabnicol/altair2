@@ -22,7 +22,7 @@ typedef struct
     pthread_t thread_id;
     int       thread_num;
     char** argv;
-    int argc;
+    unsigned argc;
 
 } thread_t;
 
@@ -44,7 +44,7 @@ typedef struct
 {
     xmlChar*** Table;
     uint64_t nbLigne;
-    int32_t  *NAgent;
+    uint32_t  *NAgent;
     uint32_t nbAgentUtilisateur;
     uint32_t NCumAgent;
     uint32_t NCumAgentXml;
@@ -58,6 +58,7 @@ typedef struct
     char separateur;
     bool reduire_consommation_memoire;
     bool drapeau_cont;
+    bool calculer_maxima;
     uint8_t minimum_memoire_p_ligne;
     int nbfil;
 } info_t;
@@ -65,13 +66,13 @@ typedef struct
 
 
 #ifndef NA_STRING
- #define NA_STRING (xmlChar*) "NA"
+ #define NA_STRING  "NA"
 #endif
 #ifndef MAX_LIGNES_PAYE
  #define MAX_LIGNES_PAYE 1000
 #endif
 #ifndef MAX_NB_AGENTS
- #define MAX_NB_AGENTS 1200
+ #define MAX_NB_AGENTS 8000
 #endif
 
 #ifndef NO_DEBUG
