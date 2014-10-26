@@ -56,14 +56,14 @@ int main(int argc, char **argv)
     int start = 1;
     char type_table[50]= {0};
     strcpy(type_table, "bulletins");
-
-    char chemin_table[500]= {0};
-    strcpy(chemin_table, "Table.csv");
     bool generer_table = false;
     bool liberer_memoire = true;
-    int nbfil = 0;
+
+    char chemin_base[500]={0};
+    sprintf(chemin_base, "%s%s", CHEMIN_BASE, CSV);
 
     thread_t mon_thread;
+
     info_t info =
     {
         NULL,             //    bulletinPtr* Table;
@@ -72,17 +72,19 @@ int main(int argc, char **argv)
         0,                //    uint32_t nbAgentUtilisateur
         0,                //    uint32_t NCumAgent;
         0,                //    uint32_t NCumAgentXml;
+        MONOLITHIQUE,                //    taille base : non limitée par défaut
         NULL,             //    uint16_t *NLigne;
         &mon_thread,      //    thread_t threads;
         NULL,             //    chemin log
         (char*) strdup(EXPRESSION_REG_ELUS),
+        (char*) strdup(chemin_base),
         MAX_LIGNES_PAYE,  // nbLigneUtilisateur
         0,                //    uint16_t fichier_courant
         '.',              //    const char decimal;
         ',',              //    const char separateur;
         true,             // réduire coso mémoire
         true,             // par défaut lire la balise adjacente
-        false,             // calculer les maxima de lignes et d'agents
+        false,            // calculer les maxima de lignes et d'agents
         BESOIN_MEMOIRE_ENTETE,// besoin mémoire minimum hors lecture de lignes : devra être incréméenté,
         1                 // nbfil
     };
@@ -105,16 +107,18 @@ int main(int argc, char **argv)
         {
             printf("%s\n", "Usage :  xhl2csv OPTIONS fichiers.xhl");
             puts("OPTIONS :");
-            printf("%s\n", "-n nombre maximum de bulletins mensuels attendus [calcul exact par défaut]");
-            printf("%s\n", "-N nombre maximum de lignes de paye attendues [calcul exact par défaut]");
-            printf("%s\n", "-t argument optionnel : type de base en sortie, soit 'standard', soit 'bulletins' [défaut bulletins].");
+            printf("%s\n", "-n argument obligatoire : nombre maximum de bulletins mensuels attendus [calcul exact par défaut]");
+            printf("%s\n", "-N argument obligatoire : nombre maximum de lignes de paye attendues [calcul exact par défaut]");
+            printf("%s\n", "-t argument optionnel   : type de base en sortie, soit 'standard', soit 'bulletins' [défaut bulletins].");
+            printf("%s\n", "-T argument obligatoire : nombre de lignes maximum par base .csv [défaut illimité]. Au plus 999 tables seront générées.");
+            printf("%s\n", "-T A                    : générer une table par année");
             printf("%s\n", "-o argument obligatoire : fichier.csv, chemin complet du fichier de sortie [défaut 'Table.csv' avec -t].");
             printf("%s\n", "-D argument obligatoire : répertoire complet du fichier de sortie [défaut '.' avec -t].");
             printf("%s\n", "-d argument obligatoire : séparateur décimal [défaut . avec -t].");
             printf("%s\n", "-s argument obligatoire : séparateur de champs [défaut , avec -t]/");
             printf("%s\n", "-j argument obligatoire : nombre de fils d'exécution (maximum 10).");
-            printf("%s\n", "-M sans argument : ne pas libérer la mémoire réservée en fin de programme.");
-            printf("%s\n", "-m sans argument : calculer les maxima d'agents et de lignes de paye.");
+            printf("%s\n", "-M sans argument        : ne pas libérer la mémoire réservée en fin de programme.");
+            printf("%s\n", "-m sans argument        : calculer les maxima d'agents et de lignes de paye.");
             printf("%s\n", "-L argument obligatoire : chemin du log d'exécution du test de cohérence entre analyseurs C et XML.");
             printf("%s\n", "-R argument obligatoire : expression régulière pour la recherche des élus (codés : ELU dans le champ Statut.");
             exit(0);
@@ -133,6 +137,29 @@ int main(int argc, char **argv)
                 start++;
                 continue;
             }
+        }
+        else if (! strcmp(argv[start], "-T"))
+        {
+           if (start + 1 == argc)
+            {
+                fprintf(stderr, "%s\n", "Option -T suivi d'un argument obligatoire (nombre de lignes).");
+                exit(-100);
+            }
+
+            if (! strcmp(argv[start + 1], "A"))
+            {
+                info.taille_base = PAR_ANNEE;
+                start += 2;
+                continue;
+            }
+
+            if ((info.taille_base = lire_argument(argc, argv[start +1])) < 0 || info.taille_base > INT32_MAX -1)
+            {
+                    perror("Le nombre de lignes doit être compris entre 0 et INT64_MAX");
+                    exit(-908);
+            }
+            start += 2;
+            continue;
         }
         else if (! strcmp(argv[start], "-s"))
         {
@@ -164,8 +191,9 @@ int main(int argc, char **argv)
                 fprintf(stderr, "%s\n", "Option -o suivi d'un argument obligatoire (nom de  fichier).");
                 exit(-100);
             }
-            strncpy(chemin_table, argv[start + 1], 500*sizeof(char));
-            if (NULL == fopen(chemin_table, "w"))
+            free(info.chemin_base);
+            strncpy(info.chemin_base, argv[start + 1], 500*sizeof(char));
+            if (NULL == fopen(info.chemin_base, "w"))
             {
                 perror("La base de données ne peut être créée, vérifier l'existence du dossier.");
                 exit(-113);
@@ -187,8 +215,9 @@ int main(int argc, char **argv)
         }
         else if (! strcmp(argv[start], "-D"))
         {
-            snprintf(chemin_table, 500*sizeof(char), "%s/Table.csv", argv[start + 1]);
-            if (NULL == fopen(chemin_table, "w"))
+            snprintf(info.chemin_base, strlen(info.chemin_base), "%s/%s%s", argv[start + 1], CHEMIN_BASE, CSV);
+
+            if (NULL == fopen(info.chemin_base, "w"))
             {
                 perror("La base de données ne peut être créée, vérifier l'existence du dossier.");
                 exit(-113);
@@ -199,9 +228,9 @@ int main(int argc, char **argv)
         }
         else if (! strcmp(argv[start], "-j"))
         {
-            if ((nbfil = lire_argument(argc, argv[start +1])) > 0)
+            if ((info.nbfil = lire_argument(argc, argv[start +1])) > 0)
             {
-                if (nbfil > 10 || nbfil < 2)
+                if (info.nbfil > 10 || info.nbfil < 2)
                 {
                     perror("Le nombre de fils d'exécution doit être compris entre 2 et 10.");
                     exit(-111);
@@ -259,9 +288,8 @@ int main(int argc, char **argv)
     info_t* Info;
     printf("Besoin de mémoire requise minimum par bulletin : %d x sizeof(xmlChar*)\n", info.minimum_memoire_p_ligne);
 
-    if (nbfil == 0 || (argc -start < 2))
+    if (info.nbfil == 1 || (argc -start < 2))
     {
-        info.nbfil=1;
         info.threads->argc = argc -start;
         info.threads->argv = (char**) malloc((argc -start)* sizeof(char*));
         for (int j = start; j < argc; j++) info.threads->argv[j-start] = argv[j];
@@ -284,20 +312,20 @@ int main(int argc, char **argv)
     }
     else
     {
-        int nbfichier_par_fil = floor((argc - start) / nbfil);
+        int nbfichier_par_fil = floor((argc - start) / info.nbfil);
         if (nbfichier_par_fil == 0)
         {
             fprintf(stderr, "%s\n", "Trop de fils pour le nombre de fichiers ; exécution avec -j 2");
-            nbfil = 2;
+            info.nbfil = 2;
         }
 
-        if ((argc - start) % nbfil) nbfil++;  // on en crée un de plus pour le reste
+        if ((argc - start) % info.nbfil) info.nbfil++;  // on en crée un de plus pour le reste
 
-        pthread_t thread_clients[nbfil];
+        pthread_t thread_clients[info.nbfil];
 
         // Allocation dynamique nécessaire (à expliquer)
 
-        Info = (info_t* ) malloc(nbfil*sizeof(info_t));
+        Info = (info_t* ) malloc(info.nbfil*sizeof(info_t));
         if (Info == NULL)
         {
             perror("Allocation de info");
@@ -306,7 +334,7 @@ int main(int argc, char **argv)
 
         puts("Creation des fils clients.\n");
 
-        for (int i = 0; i < nbfil; i++)
+        for (int i = 0; i < info.nbfil; i++)
         {
 
             Info[i].nbLigne = 0;
@@ -314,6 +342,8 @@ int main(int argc, char **argv)
             Info[i].nbAgentUtilisateur = info.nbAgentUtilisateur;
             Info[i].NCumAgent = 0;
             Info[i].NCumAgentXml = 0;
+            Info[i].taille_base = info.taille_base;
+            Info[i].chemin_base = info.chemin_base;
             Info[i].NLigne = NULL;
 
             Info[i].threads = (thread_t *) malloc(sizeof(thread_t));
@@ -328,8 +358,10 @@ int main(int argc, char **argv)
             {
                 Info[i].expression_reg_elus = strdup(info.expression_reg_elus);
             }
-            //thread_t thr;
-
+            if (info.chemin_base)
+            {
+                Info[i].chemin_base = strdup(info.chemin_base);
+            }
             Info[i].nbLigneUtilisateur = info.nbLigneUtilisateur;
             Info[i].fichier_courant = 0;
             Info[i].decimal = info.decimal;
@@ -338,7 +370,7 @@ int main(int argc, char **argv)
             Info[i].drapeau_cont = true;
             Info[i].calculer_maxima = info.calculer_maxima;
             Info[i].minimum_memoire_p_ligne = info.minimum_memoire_p_ligne;
-            Info[i].nbfil = nbfil;
+            Info[i].nbfil = info.nbfil;
 
             Info[i].threads->argv = (char**) malloc(nbfichier_par_fil * sizeof(char*));
             if (Info[i].threads->argv == NULL)
@@ -346,7 +378,7 @@ int main(int argc, char **argv)
                 perror("Allocation de threads");
                 exit(-145);
             }
-            printf("Thread i=%d/%d Nombre de fichiers : %d\n", i+1, nbfil, Info[i].threads->argc);
+            printf("Thread i=%d/%d Nombre de fichiers : %d\n", i+1, info.nbfil, Info[i].threads->argc);
             for (int j = 0; j <  nbfichier_par_fil && start + j < argc; j++)
             {
                 Info[i].threads->argv[j] = strdup(argv[start + j]);
@@ -366,7 +398,7 @@ int main(int argc, char **argv)
             }
         }
 
-        for (int i = 0; i < nbfil; i++)
+        for (int i = 0; i < info.nbfil; i++)
         {
             pthread_join (thread_clients[i], NULL);
         }
@@ -401,20 +433,17 @@ int main(int argc, char **argv)
 
     xmlCleanupParser();
 
-    uint64_t nbLigneBase=0;
-
     if (generer_table)
     {
         if (! strcmp(type_table, "standard"))
-            nbLigneBase = generer_table_standard(chemin_table, Info);
+            generer_table_standard(Info[0].chemin_base, Info);
         else if (! strcmp(type_table, "bulletins"))
-            nbLigneBase = generer_table_bulletins(chemin_table, Info);
+              boucle_ecriture(Info);
         else
         {
             fprintf(stderr, "Type %s inconnu.", type_table);
             exit(-501);
         }
-        fprintf(stderr, "Table de %" PRIu64 " lignes générée pour %" PRIu64 " lignes de paie d'origine.\n", nbLigneBase, Info[0].nbLigne);
     }
 
     /* libération de la mémoire */
@@ -443,9 +472,11 @@ int main(int argc, char **argv)
         xmlFree(Info[i].Table);
 
         if (Info[i].chemin_log)
-            xmlFree(Info[i].chemin_log);
+            free(Info[i].chemin_log);
         if (Info[i].expression_reg_elus)
-            xmlFree(Info[i].expression_reg_elus);
+            free(Info[i].expression_reg_elus);
+        if (Info[i].chemin_base)
+            free(Info[i].chemin_base);
 
         if (Info[0].nbfil > 1)
         {
