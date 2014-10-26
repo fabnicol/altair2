@@ -33,6 +33,11 @@ typedef struct
 #define EXPRESSION_REG_ELUS ";*PRESIDENT.*"
 #endif
 
+#define CHEMIN_BASE "Table"
+#define CSV  ".csv"
+#define MONOLITHIQUE -1
+#define PAR_ANNEE -2
+
 typedef enum {Annee, Mois, Nom, Prenom, Matricule, NIR, Statut, EmploiMetier, Grade, Indice,
           Service, NBI, QuotiteTrav, NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer
          } Entete;
@@ -48,10 +53,12 @@ typedef struct
     uint32_t nbAgentUtilisateur;
     uint32_t NCumAgent;
     uint32_t NCumAgentXml;
+    int32_t  taille_base;
     uint16_t *NLigne;
     thread_t* threads;
     char* chemin_log;
     char* expression_reg_elus;
+    char* chemin_base;
     uint16_t nbLigneUtilisateur;
     uint16_t fichier_courant;
     char decimal;

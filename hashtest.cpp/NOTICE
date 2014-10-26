@@ -6,23 +6,25 @@ Programme sous licence CECILL 2.1 écrit par Fabrice Nicol
 xhl2csv OPTIONS fichiers.xhl
 
 OPTIONS :
--n nombre maximum de bulletins mensuels attendus [calcul exact par défaut]
--N nombre maximum de lignes de paye attendues [calcul exact par défaut]
--t argument optionnel : type de base en sortie, soit 'standard', soit 'bulletins' [défaut bulletins].
+-n argument obligatoire : nombre maximum de bulletins mensuels attendus [calcul exact par défaut]
+-N argument obligatoire : nombre maximum de lignes de paye attendues [calcul exact par défaut]
+-t argument optionnel   : type de base en sortie, soit 'standard', soit 'bulletins' [défaut bulletins].
+-T argument obligatoire : nombre de lignes maximum par base .csv [défaut illimité]. Au plus 999 tables seront générées.
+-T A                    : générer une table par année.
 -o argument obligatoire : fichier.csv, chemin complet du fichier de sortie [défaut 'Table.csv' avec -t].
 -D argument obligatoire : répertoire complet du fichier de sortie [défaut '.' avec -t].
 -d argument obligatoire : séparateur décimal [défaut . avec -t].
 -s argument obligatoire : séparateur de champs [défaut , avec -t]/
 -j argument obligatoire : nombre de fils d'exécution (maximum 10).
--M sans argument : ne pas libérer la mémoire réservée en fin de programme.
--m sans argument : calculer les maxima d'agents et de lignes de paye.
+-M sans argument        : ne pas libérer la mémoire réservée en fin de programme.
+-m sans argument        : calculer les maxima d'agents et de lignes de paye.
 -L argument obligatoire : chemin du log d'exécution du test de cohérence entre analyseurs C et XML.
 -R argument obligatoire : expression régulière pour la recherche des élus (codés : ELU dans le champ Statut.
 
 2. Historique
 -------------
-25 octobre 2014
-    Ajout des options -N, -m, -R.
+26 octobre 2014
+    Ajout des options -N, -m, -R, -T.
     Ajout de la fonctionnalité d'exportation des catégories de ligne de paye
     (voir 5. infra)
 
