@@ -394,7 +394,7 @@ if (table.rapide == TRUE) {
                                  na.rm=TRUE)
                               - Brut), by=c("Matricule", "Année", "Mois")]
   
-  générer.base.codes(Paie[Paie$delta  0, ])
+  générer.base.codes(Paie[, ])
   stop("test")
                      
   Bulletins.paie <- unique(Paie[ , c("Matricule", "Année", "Mois", "Temps.de.travail", "Statut", "Brut", "Net.à.Payer"), with=FALSE])
