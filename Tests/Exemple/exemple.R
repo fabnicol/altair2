@@ -224,11 +224,11 @@ importer.bases.via.xemelios <- function() {
 
   if (table.rapide) {
 
-    Lignes.paie <- Lignes.paie[ ,setdiff(names(Lignes.paie), c("Année.1","Mois.1","Matricule.1")), with = FALSE]
+    Lignes.paie <- Lignes.paie[ , setdiff(names(Lignes.paie), c("Année.1","Mois.1","Matricule.1")), with = FALSE]
 
   } else {
 
-    Lignes.paie <- Lignes.paie[ ,setdiff(names(Lignes.paie), c("Année.1","Mois.1","Matricule.1"))]
+    Lignes.paie <- Lignes.paie[ , setdiff(names(Lignes.paie), c("Année.1","Mois.1","Matricule.1"))]
 
   }
 
@@ -394,9 +394,7 @@ if (table.rapide == TRUE) {
                                  na.rm=TRUE)
                               - Brut), by=c("Matricule", "Année", "Mois")]
   
-  générer.base.codes(Paie[, ])
-  stop("test")
-                     
+                      
   Bulletins.paie <- unique(Paie[ , c("Matricule", "Année", "Mois", "Temps.de.travail", "Statut", "Brut", "Net.à.Payer"), with=FALSE])
 
   Bulletins.paie <- Bulletins.paie[ ,   quotité   := ifelse(etp.égale.effectif | is.na(Temps.de.travail), 1,  Temps.de.travail / 100)]
@@ -511,10 +509,10 @@ if (! import.direct) {
                                  mois.sortie  = mois.sortie[1],
                                  Emploi       = Emploi[1],
                                  Service      = Service[1],
-                                 traitement.indiciaire               = sum(Montant[Type == "T" | Type == "S"]),
+                                 traitement.indiciaire               = sum(Montant[Type == "T" | Type == "IR"]),
                                  rémunération.principale.contractuel = 0,
                                  rémunération.vacataire              = 0,
-                                 rémunération.indemnitaire           = sum(Montant[Type == "I" | Type == "IR"]),
+                                 rémunération.indemnitaire           = sum(Montant[Type == "I" | Type == "S"]),
                                  autres.rémunérations                = sum(Montant[Type == "AC" | Type == "A" | Type == "R"  | Type == "AV"]),
                                                                   
                                  # on ne considère que les rémunérations brutes (sans prise en compte des remboursements de frais aux salariés ou des régularisations)
@@ -2084,30 +2082,32 @@ HS.sup.25 <- Paie[Heures.Sup. >= 25, colonnes]
 # version optimisée : 0,15 s soit x300
 
 
-Filtre1 <- ifelse(import.direct, Type == "T", !is.na(montant.traitement.indiciaire) & montant.traitement.indiciaire != 0)
+if (import.direct) {
 
-Filtre2 <- ifelse(import.direct, Type == "I", !is.na(montant.primes) & montant.primes != 0)
 
-HS.sup.indiciaire.mensuel <- with(HS.sup.25, HS.sup.25[Filtre1, c("Matricule", "Année", "Mois", "Montant")])
+  HS.sup.indiciaire.mensuel <- with(HS.sup.25, HS.sup.25[Type == "T", c("Matricule", "Année", "Mois", "Montant")])
 
-HS.sup.25 <- with(HS.sup.25,
-                  HS.sup.25[Filtre2
+  HS.sup.25 <- with(HS.sup.25,
+                  HS.sup.25[Type %in% c("I", "T", "R")
                             & ! grepl(".*SMIC.*",
                                       Libellé, ignore.case = TRUE)
                             & grepl(expression.rég.heures.sup,
                                     Libellé, ignore.case = TRUE), ])
+} else {
+  
+  HS.sup.indiciaire.mensuel <- with(HS.sup.25, HS.sup.25[!is.na(montant.traitement.indiciaire) & montant.traitement.indiciaire != 0,
+                                                         c("Matricule", "Année", "Mois", "Montant")])
+  
+  HS.sup.25 <- with(HS.sup.25,
+                    HS.sup.25[!is.na(montant.primes) & montant.primes != 0
+                              & ! grepl(".*SMIC.*",
+                                        Libellé, ignore.case = TRUE)
+                              & grepl(expression.rég.heures.sup,
+                                      Libellé, ignore.case = TRUE), ])
 
-HS.sup.25 <- with(HS.sup.25, HS.sup.25[order(Matricule, Année, Mois), c(étiquette.matricule,
-                                                                        étiquette.année,
-                                                                        "Statut",
-                                                                        "Mois",
-                                                                        "Libellé",
-                                                                        étiquette.code,
-                                                                        "Heures",
-                                                                        "Heures.Sup.",
-                                                                        "Base",
-                                                                        "Taux",
-                                                                        "Montant")])
+}
+
+HS.sup.25 <- with(HS.sup.25, HS.sup.25[order(Matricule, Année, Mois), names(HS.sup.25)])
 
 # donne un tableau à 3 dimensions [Matricules, Années, Mois] dont les valeurs sont nommées par matricule
 # bizarrement le hashage de la variable année se fait par charactère alors que le mois reste entier dans certaines exécutions et pas dana d'autres !
@@ -2252,8 +2252,10 @@ if (sauvegarder.bases.analyse) {
              "Analyse.variations.synthèse.filtrée",
              "Analyse.variations.synthèse.filtrée.plus.2.ans",
              "Analyse.variations.synthèse.filtrée.moins.2.ans",
-             "masses.premier",
-             "masses.dernier")
+             "masses.premier.personnels",
+             "masses.premier.élus",
+             "masses.dernier.personnels",
+             "masses.dernier.élus")
 
   sauv.bases(file.path(chemin.dossier.bases, "Effectifs"),
              "Bulletins.paie.nir.total.hors.élus",
