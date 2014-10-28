@@ -14,19 +14,19 @@ int64_t generer_table_standard(const char* chemin_table, info_t* info)
 
 }
 
-/* Il doit y avoir BESOIN_MEMOIRE_ENTETE + 6 champs plus Type, soit 18 + 6 +1 = 23 champs et 24 sÃ©parateurs + saut de ligne = 48 char + \0*/
+/* Il doit y avoir BESOIN_MEMOIRE_ENTETE + 6 champs plus Type, soit 18 + 6 +1 = 23 champs et 24 séparateurs + saut de ligne = 48 char + \0*/
 
 inline FILE* ouvrir_nouvelle_base(info_t* info, unsigned* rang_fichier_base, FILE* base)
 {
     if (fclose(base) == EOF)
     {
-        perror("ProblÃ¨me fermeture fichier base");
+        perror("Problème fermeture fichier base");
         exit(-902);
     }
 
     if (*rang_fichier_base >= 1000)
     {
-        fprintf(stderr, "%s", "Ne peut gÃ©nÃ©rer que 999 bases au plus\n");
+        fprintf(stderr, "%s", "Ne peut générer que 999 bases au plus\n");
         exit(-904);
     }
 
@@ -60,7 +60,7 @@ void boucle_ecriture(info_t* Info)
     unsigned rang_fichier_base = 1;
 
     // Un peu low-level C, mais beaucoup plus rapide que de coder un fprintf pour chaque item.
-    // Gain d'exÃ©cution : 30s pour fprintf par item
+    // Gain d'exécution : 30s pour fprintf par item
     //                    22s sur une ligne
 
     FILE* base = ouvrir_fichier_base(Info, rang_fichier_base);
@@ -74,7 +74,7 @@ void boucle_ecriture(info_t* Info)
             if (Info[i].taille_base == PAR_ANNEE && strcmp((const char*)VAR(Annee), annee_courante))
             {
                 base = ouvrir_nouvelle_base(&Info[i], &rang_fichier_base, base);
-                fprintf(stderr, "AnnÃ©e : %s Table gÃ©nÃ©rÃ©e.\n", annee_courante);
+                fprintf(stderr, "Année : %s Table générée.\n", annee_courante);
                 annee_courante = (char*) VAR(Annee);
             }
 
@@ -89,7 +89,7 @@ void boucle_ecriture(info_t* Info)
             {
                 if (Info[i].taille_base > MONOLITHIQUE && compteur + ligne == rang_fichier_base*Info[i].taille_base -1)
                 {
-                    fprintf(stderr, "Table nÂ° %d de %d lignes gÃ©nÃ©rÃ©e, lignes %d Ã  %d.\n",
+                    fprintf(stderr, "Table n° %d de %d lignes générée, lignes %d à %d.\n",
                             rang_fichier_base,
                             Info[i].taille_base,
                             (rang_fichier_base-1) * Info[i].taille_base +1,
@@ -153,13 +153,13 @@ void boucle_ecriture(info_t* Info)
         switch (Info[0].taille_base)
         {
         case MONOLITHIQUE :
-            fprintf(stderr, "Table de %" PRIu64 " lignes gÃ©nÃ©rÃ©e.\n", compteur);
+            fprintf(stderr, "Table de %" PRIu64 " lignes générée.\n", compteur);
             break;
         case PAR_ANNEE    :
-            fprintf(stderr, "AnnÃ©e : %s Table gÃ©nÃ©rÃ©e.\n", annee_courante);
+            fprintf(stderr, "Année : %s Table générée.\n", annee_courante);
             break;
-        default :  /* Taille dÃ©finie par l'utilisateur */
-            fprintf(stderr, "Table nÂ° %d de %" PRIu64 " lignes gÃ©nÃ©rÃ©e, lignes %d Ã  %" PRIu64 ".\n",
+        default :  /* Taille définie par l'utilisateur */
+            fprintf(stderr, "Table n° %d de %" PRIu64 " lignes générée, lignes %d à %" PRIu64 ".\n",
                     rang_fichier_base,
                     compteur - (rang_fichier_base-1)*Info[0].taille_base,
                     (rang_fichier_base-1)*Info[0].taille_base +1,
