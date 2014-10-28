@@ -68,7 +68,9 @@ static inline bool Bulletin(const char* tag, xmlNodePtr* cur, int l, info_t* inf
         ligne_l = xmlGetProp(*cur, (const xmlChar *) "V");
 
         if (ligne_l == NULL)
+        {
             ligne_l = (xmlChar*) strdup(NA_STRING);
+        }
         else if (ligne_l[0] == '\0')
         {
             xmlFree(ligne_l);
@@ -243,53 +245,77 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
     info->drapeau_cont = true;
     _BULLETIN(Nom)
 
+#ifdef TOLERANT
     cur = cur->parent;
     cur = cur->xmlChildrenNode;
     xmlNodePtr cur_save = cur;
+
     cur = atteindreNoeud("Prenom", cur);
 
+#endif
     _BULLETIN(Prenom)
     _BULLETIN(Matricule)
     _BULLETIN(NIR)
 
+#ifdef TOLERANT
     cur = cur_save;
     cur = atteindreNoeud("Statut", cur);
+#else
+    cur = cur->next;
+    cur = cur->next;
+#endif
     _BULLETIN(Statut)
-
+#ifdef TOLERANT
     cur = cur_save;
     cur = atteindreNoeud("EmploiMetier", cur);
+#endif
     _BULLETIN(EmploiMetier)
 
+#ifdef TOLERANT
     cur = cur_save;
     cur = atteindreNoeud("Grade", cur);
+#endif
     _BULLETIN(Grade)
-
+#ifdef TOLERANT
     cur = cur_save;
     cur = atteindreNoeud("Indice", cur);
+#else
+    cur = cur->next;
+#endif
     info->drapeau_cont = false; /* ne pas lire la balise adjacente : fin du niveau subordonné Agent*/
     _BULLETIN(Indice)
 
     REMONTER_UN_NIVEAU
 
     info->drapeau_cont = true;
-    cur = atteindreNoeud("Service", cur);
-    _BULLETIN(Service)
 
+#ifdef TOLERANT
+    cur = atteindreNoeud("Service", cur);
+#else
+    while (cur && xmlStrcmp(cur->name, (const xmlChar*)"Service")) cur = cur->next;
+#endif
+    _BULLETIN(Service)
+#ifdef TOLERANT
     cur = cur->parent;
     cur = cur->xmlChildrenNode;
     cur_save = cur;
     cur = atteindreNoeud("NBI", cur);
-
+#endif
     _BULLETIN(NBI)
 
+#ifdef TOLERANT
     cur = cur_save;
     cur = atteindreNoeud("QuotiteTrav", cur);
+#endif
 
     /* obligatoire, substitution du séparateur décimal */
     BULLETIN_(QuotiteTrav)
 
+#ifdef TOLERANT
     cur = atteindreNoeud("Remuneration", cur);
-
+#else
+    cur = cur->next;
+#endif
     if (cur)
     {
         xmlNodePtr cur_save = cur;
