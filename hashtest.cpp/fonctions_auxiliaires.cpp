@@ -1,6 +1,6 @@
-/*  Programme Ã©crit par Fabrice NICOL sous licence CECILL 3
- *  Attention : lorsqu'il est Ã©ditÃ©, le prÃ©sent code doit Ãªtre converti soit en UTF-8 soit en ISO-5589-1 (Latin-1)avant d'Ãªtre compilÃ©.
- *  En entrÃ©e d'Altair prÃ©ciser encodage.entrÃ©e en conformitÃ© avec l'encodage du prÃ©sent fichier, qui sera celui de la base gÃ©nÃ©rÃ©e.
+/*  Programme écrit par Fabrice NICOL sous licence CECILL 3
+ *  Attention : lorsqu'il est édité, le présent code doit être converti soit en UTF-8 soit en ISO-5589-1 (Latin-1)avant d'être compilé.
+ *  En entrée d'Altair préciser encodage.entrée en conformité avec l'encodage du présent fichier, qui sera celui de la base générée.
  */
 
 
@@ -49,15 +49,15 @@ int32_t lire_argument(int argc, const char* const c_str)
 
         if (end == c_str)
         {
-            fprintf(stderr, "%s: pas un dÃ©cimal\n", c_str);
+            fprintf(stderr, "%s: pas un décimal\n", c_str);
         }
         else if (sl > INT32_MAX)
         {
-            fprintf(stderr, "%ld entier excÃ©dant la limite des entiers Ã  16 bits\n", sl);
+            fprintf(stderr, "%ld entier excédant la limite des entiers à 16 bits\n", sl);
         }
         else if (sl < 0)
         {
-            fprintf(stderr, "%ld l'entier doit Ãªtre positif\n", sl);
+            fprintf(stderr, "%ld l'entier doit être positif\n", sl);
         }
         else
         {
@@ -67,7 +67,7 @@ int32_t lire_argument(int argc, const char* const c_str)
     }
     else
     {
-        fprintf(stderr, "%s\n", "PrÃ©ciser le nombre de bulletins mensuels attendus (majorant du nombre).");
+        fprintf(stderr, "%s\n", "Préciser le nombre de bulletins mensuels attendus (majorant du nombre).");
         return(-1);
     }
 }
@@ -77,9 +77,9 @@ int calculer_memoire_requise(info_t* info)
     errno = 0;
     info->NLigne = (uint16_t*) calloc(info->threads->argc, MAX_NB_AGENTS * sizeof(uint16_t));  // nm total de bulletins
     info->NCumAgent = 0;
-    puts("Premier scan des fichiers pour dÃ©terminer les besoins mÃ©moire ... ");
+    puts("Premier scan des fichiers pour déterminer les besoins mémoire ... ");
 
-    /* par convention  un agent avec rÃ©munÃ©ration non renseignÃ©es (balise sans fils) a une ligne */
+    /* par convention  un agent avec rémunération non renseignées (balise sans fils) a une ligne */
     for (unsigned i = 0; i < info->threads->argc ; i++)
     {
         FILE* c;
