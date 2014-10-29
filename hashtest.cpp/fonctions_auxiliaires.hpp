@@ -12,4 +12,6 @@ int32_t lire_argument(int argc, const char* const c_str);
 int calculer_memoire_requise(info_t* info);
 FILE* ouvrir_fichier_base(info_t* info, int i);
 char* ecrire_chemin_base(char* chemin_base, int rang_fichier_base);
+FILE* ajouter_au_fichier_base(info_t* info, int rang);
+void ecrire_entete(info_t* info, FILE* base);
 #endif // FONCTIONS_AUXILIAIRES_HPP_INCLUDED

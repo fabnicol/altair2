@@ -35,8 +35,25 @@ typedef struct
 
 #define CHEMIN_BASE "Table"
 #define CSV  ".csv"
+
+/* Les définitions ci-après doivent être négatives */
+
+
 #define MONOLITHIQUE -1
 #define PAR_ANNEE -2
+
+#define PAR_TRAITEMENT   -3
+#define PAR_INDEMNITE_RESIDENCE -4
+#define PAR_SFT          -5
+#define PAR_AVANTAGE_NATURE -6
+#define PAR_INDEMNITE    -7
+#define PAR_REM_DIVERSES -8
+#define PAR_DEDUCTION    -9
+#define PAR_ACOMPTE      -10
+#define PAR_RAPPEL       -11
+#define PAR_RETENUE      -12
+#define PAR_COTISATION   -13
+#define TOUTES_CATEGORIES -14
 
 typedef enum {Annee, Mois, Nom, Prenom, Matricule, NIR, Statut, EmploiMetier, Grade, Indice,
           Service, NBI, QuotiteTrav, NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer
@@ -126,7 +143,7 @@ static const char* type_remuneration[]   = {
 static const int nbType                  = sizeof(type_remuneration)/sizeof(char*);
 
 static const char* type_remuneration_traduit[nbType] = {
-                                                           "T",  // Traitement
+                                                           "T",   // Traitement
                                                            "IR", // Indemnité de résidence
                                                            "S",  // Supplément familial
                                                            "AV", // Avantage en nature
