@@ -20,10 +20,32 @@ char* ecrire_chemin_base(char* chemin_base, int rang_fichier_base)
     return(strdup(chemin));
 }
 
+void ecrire_entete(info_t* info, FILE* base)
+{
+  unsigned i;
+  for (i = 0; i < sizeof(entete_char)/sizeof(char*) -1; i++)
+      fprintf(base, "%s%c", entete_char[i], info[0].separateur);
+
+  fprintf(base, "%s\n", entete_char[i]);
+}
+
+FILE* ajouter_au_fichier_base(info_t* info, int rang)
+{
+    char* chemin = ecrire_chemin_base(info[0].chemin_base, rang);
+    FILE* base = fopen(chemin, "a");
+    fseek(base, 0, SEEK_END);
+    if (base == NULL)
+    {
+        fprintf(stderr, "%s\n", "Impossible d'ouvrir le fichier de sortie.");
+        exit(-1000);
+    }
+    return base;
+}
+
 FILE* ouvrir_fichier_base(info_t* info, int rang)
 {
     char* chemin = ecrire_chemin_base(info[0].chemin_base, rang);
-    FILE* base = fopen(chemin, "wb");
+    FILE* base = fopen(chemin, "w");
     fseek(base, 0, SEEK_SET);
     if (base == NULL)
     {
@@ -32,10 +54,8 @@ FILE* ouvrir_fichier_base(info_t* info, int rang)
     }
 
     unsigned i;
-    for (i = 0; i < sizeof(entete_char)/sizeof(char*) -1; i++)
-        fprintf(base, "%s%c", entete_char[i], info[0].separateur);
 
-    fprintf(base, "%s\n", entete_char[i]);
+    ecrire_entete(info, base);
     return base;
 }
 
