@@ -503,39 +503,31 @@ if (! import.direct) {
                                  Montant.net.annuel.eqtp  = Montant.net.annuel.eqtp[1],
                                  Montant.brut.annuel = Montant.brut.annuel[1],
                                  Statut       = Statut[1],
-
                                  nb.jours     = nb.jours[1],
                                  nb.mois      = nb.mois[1],
                                  mois.sortie  = mois.sortie[1],
                                  Emploi       = Emploi[1],
                                  Service      = Service[1],
-                                 traitement.indiciaire               = sum(Montant[Type == "T" | Type == "IR"]),
+                                 traitement.indiciaire   = sum(Montant[Type == "T"]),
+                                 sft          = sum(Montant[Type == "S"]),
+                                 indemnité.résidence = sum(Montant[Type == "IR"]),
+                                 indemnités   = sum(Montant[Type == "I"]),
                                  rémunération.principale.contractuel = 0,
                                  rémunération.vacataire              = 0,
-                                 rémunération.indemnitaire           = sum(Montant[Type == "I" | Type == "S"]),
-                                 autres.rémunérations                = sum(Montant[Type == "AC" | Type == "A" | Type == "R"  | Type == "AV"]),
+                                 rémunération.indemnitaire.imposable = Montant.brut.annuel - sft - indemnité.résidence - traitement.indiciaire,
+                                 autres.rémunérations                = sum(Montant[Type == "AC" | Type == "A" | Type == "AV"]),
                                                                   
                                  # on ne considère que les rémunérations brutes (sans prise en compte des remboursements de frais aux salariés ou des régularisations)
                                  # pour être en homogénéïté avec la colonne Brut/Montant.brut.annuel
 
-                                 rémunérations.récurrentes                 =  traitement.indiciaire                       # le premier et deuxième terme sont exclusifs
-                                 # + rémunération.principale.contractuel
-                                 # + rémunération.vacataire
-                                 + rémunération.indemnitaire,
-
                                  # ici on ajoute les remboursements de frais professionnels (autres.rémunérations) et on enlève les régularisations (détachements..., màd...)
 
-                                 total.lignes.paie =  rémunérations.récurrentes + autres.rémunérations,
+                                 total.lignes.paie =  traitement.indiciaire + sft + indemnité.résidence + indemnités + autres.rémunérations,
                                  
                                  indemnités.élu = ifelse(Statut == "ELU", total.lignes.paie, 0),
 
-                                 part.rémunération.indemnitaire =  ifelse(is.na(s <-  traitement.indiciaire
-                                                                                #                        + rémunération.principale.contractuel
-                                                                                + rémunération.indemnitaire) | s == 0,
-                                                                          NA, (rémunération.indemnitaire
-                                                                               # + rémunération.principale.contractuel
-                                                                          )
-                                                                          / s * 100))
+                                 part.rémunération.indemnitaire =  ifelse(is.na(s <-  rémunération.indemnitaire.imposable) | s == 0,
+                                                                          NA, (rémunération.indemnitaire.imposable) / s * 100))
 
 }
 
@@ -587,9 +579,9 @@ Analyse.variations.synthèse <- ddply(Analyse.variations.par.exercice,
                                      moins.six.mois = (total.mois < 6),
                                      statut = Statut[1])
 
-Analyse.variations.par.exercice <- na.omit(Analyse.variations.par.exercice[ ( Analyse.variations.par.exercice$Année > début.période.sous.revue
-                                                                              & Analyse.variations.par.exercice$Année < fin.période.sous.revue) |
-                                                                              Analyse.variations.par.exercice$nb.mois > seuil.troncature, ])
+Analyse.variations.par.exercice <- na.omit(Analyse.variations.par.exercice[ (Analyse.variations.par.exercice$Année > début.période.sous.revue
+                                                                             & Analyse.variations.par.exercice$Année < fin.période.sous.revue) |
+                                                                               Analyse.variations.par.exercice$nb.mois > seuil.troncature, ])
 
 temp <- Analyse.variations.synthèse[Analyse.variations.synthèse$plus.2.ans, clé.fusion]
 
@@ -861,7 +853,7 @@ attach(Analyse.rémunérations.premier.exercice, warn.conflicts = FALSE)
 
 masses.premier.personnels <- colSums(Analyse.rémunérations.premier.exercice[Statut != "ELU",
                                                                             c("Montant.brut.annuel",
-                                                                           "rémunérations.récurrentes",
+                                                                           "rémunérations.indemnitaires.imposables",
                                                                            "indemnités.élu",
                                                                            "total.lignes.paie",
                                                                            "autres.rémunérations")])
