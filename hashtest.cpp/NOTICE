@@ -10,7 +10,19 @@ OPTIONS :
 -N argument obligatoire : nombre maximum de lignes de paye attendues [calcul exact par défaut]
 -t argument optionnel   : type de base en sortie, soit 'standard', soit 'bulletins' [défaut bulletins].
 -T argument obligatoire : nombre de lignes maximum par base .csv [défaut illimité]. Au plus 999 tables seront générées.
--T A                    : générer une table par année.
+-T AN                   : générer une table par année.
+-T A/AC/AV/C/D/I/IR/RE/S/T : générer une table pour chaque catégorie de ligne :
+                          A rémunérations diverse
+                          AC acompte
+                          AV avantage en nature
+                          C cotisation
+                          D déduction
+                          I indemnités
+                          IR indemnité de résidence
+                          RE retenue
+                          S supplément familial
+                          T traitement brut
+                          X toutes catégories
 -o argument obligatoire : fichier.csv, chemin complet du fichier de sortie [défaut 'Table.csv' avec -t].
 -D argument obligatoire : répertoire complet du fichier de sortie [défaut '.' avec -t].
 -d argument obligatoire : séparateur décimal [défaut . avec -t].
@@ -23,7 +35,7 @@ OPTIONS :
 
 2. Historique
 -------------
-26 octobre 2014
+26-29 octobre 2014
     Ajout des options -N, -m, -R, -T.
     Ajout de la fonctionnalité d'exportation des catégories de ligne de paye
     (voir 5. infra)

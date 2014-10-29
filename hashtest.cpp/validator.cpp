@@ -140,6 +140,10 @@ static inline int lignePaye(xmlNodePtr cur, info_t* info)
 
     int nbLignePaye = 0;
     unsigned int t = 0;
+
+    ligne_l = (xmlChar*) xmlStrdup(drapeau[t]);  // +1 pour éviter la confusion avec \0 des chaines vides
+    l++;
+
     /* Besoins en mémoire : 18 [champs hors ligne] + nombre de lignes + flags (maximum nbType) */
     while (cur != NULL)
     {
