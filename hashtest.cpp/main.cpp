@@ -111,7 +111,19 @@ int main(int argc, char **argv)
             printf("%s\n", "-N argument obligatoire : nombre maximum de lignes de paye attendues [calcul exact par défaut]");
             printf("%s\n", "-t argument optionnel   : type de base en sortie, soit 'standard', soit 'bulletins' [défaut bulletins].");
             printf("%s\n", "-T argument obligatoire : nombre de lignes maximum par base .csv [défaut illimité]. Au plus 999 tables seront générées.");
-            printf("%s\n", "-T A                    : générer une table par année");
+            printf("%s\n", "-T AN                    : générer une table par année");
+            printf("%s\n", "-T A/AC/AV/C/D/I/IR/RE/S/T : générer une table pour chaque catégorie de ligne : \
+                          A rémunérations diverse \n \
+                          AC acompte \n \
+                          AV avantage en nature \n \
+                          C cotisation \n \
+                          D déduction \n \
+                          I indemnités \n \
+                          IR indemnité de résidence \n \
+                          RE retenue \n \
+                          S supplément familial \n \
+                          T traitement brut \n \
+                          X toutes catégories\n");
             printf("%s\n", "-o argument obligatoire : fichier.csv, chemin complet du fichier de sortie [défaut 'Table.csv' avec -t].");
             printf("%s\n", "-D argument obligatoire : répertoire complet du fichier de sortie [défaut '.' avec -t].");
             printf("%s\n", "-d argument obligatoire : séparateur décimal [défaut . avec -t].");
@@ -146,13 +158,71 @@ int main(int argc, char **argv)
                 exit(-100);
             }
 
-            if (! strcmp(argv[start + 1], "A"))
+            if (! strcmp(argv[start + 1], "AN"))
             {
                 info.taille_base = PAR_ANNEE;
-                start += 2;
-                continue;
             }
-
+            else
+            if (! strcmp(argv[start + 1], "A"))
+            {
+                info.taille_base = PAR_REM_DIVERSES ;
+            }
+            else
+            if (! strcmp(argv[start + 1], "AC"))
+            {
+                info.taille_base = PAR_ACOMPTE ;
+            }
+            else
+            if (! strcmp(argv[start + 1], "AV"))
+            {
+                info.taille_base = PAR_AVANTAGE_NATURE ;
+            }
+            else
+            if (! strcmp(argv[start + 1], "C"))
+            {
+                info.taille_base = PAR_COTISATION ;
+            }
+            else
+            if (! strcmp(argv[start + 1], "D"))
+            {
+                info.taille_base = PAR_DEDUCTION ;
+            }
+            else
+            if (! strcmp(argv[start + 1], "I"))
+            {
+                info.taille_base = PAR_INDEMNITE ;
+            }
+            else
+            if (! strcmp(argv[start + 1], "IR"))
+            {
+                info.taille_base = PAR_INDEMNITE_RESIDENCE ;
+            }
+            else
+            if (! strcmp(argv[start + 1], "RE"))
+            {
+                info.taille_base = PAR_RETENUE ;
+            }
+            else
+            if (! strcmp(argv[start + 1], "S"))
+            {
+                info.taille_base = PAR_SFT ;
+            }
+            else
+            if (! strcmp(argv[start + 1], "T"))
+            {
+                info.taille_base = PAR_TRAITEMENT ;
+            }
+            else
+            if (! strcmp(argv[start + 1], "R"))
+            {
+                info.taille_base = PAR_RAPPEL ;
+            }
+            else
+            if (! strcmp(argv[start + 1], "X"))
+            {
+                info.taille_base = TOUTES_CATEGORIES ;
+            }
+            else
             if ((info.taille_base = lire_argument(argc, argv[start +1])) < 0 || info.taille_base > INT32_MAX -1)
             {
                     perror("Le nombre de lignes doit être compris entre 0 et INT64_MAX");
