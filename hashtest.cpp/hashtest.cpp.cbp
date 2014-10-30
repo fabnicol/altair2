@@ -25,7 +25,7 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters=" -M -j 2 -n 1200 -N 77 -t c:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/*.xhl c:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/*.xhl c:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2010/*.xhl c:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2011/*.xhl c:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2012/*.xhl " />
+				<Option parameters=" -m -j 2 -t c:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2009/*.xhl c:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2010/*.xhl c:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2011/*.xhl c:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2012/*.xhl " />
 				<Compiler>
 					<Add option="-march=pentium4" />
 					<Add option="-O3" />
