@@ -90,11 +90,11 @@ void boucle_ecriture(info_t* Info)
     // Gain d'exécution : 30s pour fprintf par item
     //                    22s sur une ligne
 
-if (Info[0].taille_base == TOUTES_CATEGORIES)
-   for (int rang = 11; rang >= 1; rang--)
-        base= ouvrir_fichier_base(Info, rang);
- else
-    base = ouvrir_fichier_base(Info, rang_fichier_base);
+    if (Info[0].taille_base == TOUTES_CATEGORIES)
+        for (int rang = 11; rang >= 1; rang--)
+            base= ouvrir_fichier_base(Info, rang);
+    else
+        base = ouvrir_fichier_base(Info, rang_fichier_base);
 
     for (int i = 0; i < Info[0].nbfil; i++)
     {
@@ -104,9 +104,9 @@ if (Info[0].taille_base == TOUTES_CATEGORIES)
 
             if (Info[i].taille_base == PAR_ANNEE  && strcmp((const char*)VAR(Annee), annee_courante))
             {
-                  base = ouvrir_nouvelle_base(&Info[i], &rang_fichier_base, base);
-                  fprintf(stderr, "Année : %s Table générée.\n", annee_courante);
-                  annee_courante = (char*) VAR(Annee);
+                base = ouvrir_nouvelle_base(&Info[i], &rang_fichier_base, base);
+                fprintf(stderr, "Année : %s Table générée.\n", annee_courante);
+                annee_courante = (char*) VAR(Annee);
             }
 
             unsigned l = Info[i].minimum_memoire_p_ligne;
@@ -136,16 +136,17 @@ if (Info[0].taille_base == TOUTES_CATEGORIES)
                     exit(-1002);
                 }
 
-                int val = 0;
+                int valeur_drapeau_categorie = 0, test_drapeau_categorie = 0;
 
-                if (VAR(l) && (val = VAR(l)[0]) >= 1 && (val <= nbType))
+                while (VAR(l) && (test_drapeau_categorie = VAR(l)[0]) >= 1 && (test_drapeau_categorie <= nbType))
                 {
-                    type =  (char*) type_remuneration_traduit[val-1];
+                    valeur_drapeau_categorie = test_drapeau_categorie;
+                    type =  (char*) type_remuneration_traduit[valeur_drapeau_categorie - 1];
                     nouveau_type = true;
                     l++;
                 }
 
-                if (Info[0].taille_base > PAR_TRAITEMENT || (Info[0].taille_base != TOUTES_CATEGORIES && val + 2 == -Info[0].taille_base))
+                if (Info[0].taille_base > PAR_TRAITEMENT)
                 {
                     ligne_typee++;
 
@@ -153,17 +154,26 @@ if (Info[0].taille_base == TOUTES_CATEGORIES)
                 }
                 else
                 {
-                 if (Info[0].taille_base == TOUTES_CATEGORIES)
-                  {
-                      ligne_typee++;
-                      if (nouveau_type)
-                      {
-                        fclose(base);
-                        base = ajouter_au_fichier_base(Info, val);
-                      }
+                    if (Info[0].taille_base != TOUTES_CATEGORIES)
+                    {
+                        if (valeur_drapeau_categorie + 2 == -Info[0].taille_base)
+                        {
+                            ligne_typee++;
 
-                      ECRIRE_LIGNE_l
-                  }
+                            ECRIRE_LIGNE_l
+                        }
+                    }
+                    else
+                    {
+                        ligne_typee++;
+                        if (nouveau_type)
+                        {
+                            fclose(base);
+                            base = ajouter_au_fichier_base(Info, valeur_drapeau_categorie);
+                        }
+
+                        ECRIRE_LIGNE_l
+                    }
                 }
 
                 l += 6;
@@ -182,33 +192,60 @@ if (Info[0].taille_base == TOUTES_CATEGORIES)
         fclose(base);
         switch (Info[0].taille_base)
         {
-            case  MONOLITHIQUE            : goto message;
-            case  PAR_TRAITEMENT          : puts("Catégorie : Traitement.");             goto message;
-            case  PAR_INDEMNITE_RESIDENCE : puts("Catégorie : Indemnité de résidence."); goto message;
-            case  PAR_SFT                 : puts("Catégorie : Supplément familial de traitement."); goto message;
-            case  PAR_AVANTAGE_NATURE     : puts("Catégorie : Avantage en nature.");     goto message;
-            case  PAR_INDEMNITE           : puts("Catégorie : Indemnité.");              goto message;
-            case  PAR_REM_DIVERSES        : puts("Catégorie : Rémunérations diverses."); goto message;
-            case  PAR_DEDUCTION           : puts("Catégorie : Déduction.");              goto message;
-            case  PAR_ACOMPTE             : puts("Catégorie : Acompte.");                goto message;
-            case  PAR_RAPPEL              : puts("Catégorie : Rappel.");                 goto message;
-            case  PAR_RETENUE             : puts("Catégorie : Retenue.");                goto message;
-            case  PAR_COTISATION          : puts("Catégorie : Cotisation.");             goto message;
-            case  TOUTES_CATEGORIES       : puts("Toutes catégories."); fprintf(stderr, "Total de %" PRIu64 " lignes générée dans 11 bases.\n", compteur); break;
+        case  MONOLITHIQUE            :
+            goto message;
+        case  PAR_TRAITEMENT          :
+            puts("Catégorie : Traitement.");
+            goto message;
+        case  PAR_INDEMNITE_RESIDENCE :
+            puts("Catégorie : Indemnité de résidence.");
+            goto message;
+        case  PAR_SFT                 :
+            puts("Catégorie : Supplément familial de traitement.");
+            goto message;
+        case  PAR_AVANTAGE_NATURE     :
+            puts("Catégorie : Avantage en nature.");
+            goto message;
+        case  PAR_INDEMNITE           :
+            puts("Catégorie : Indemnité.");
+            goto message;
+        case  PAR_REM_DIVERSES        :
+            puts("Catégorie : Rémunérations diverses.");
+            goto message;
+        case  PAR_DEDUCTION           :
+            puts("Catégorie : Déduction.");
+            goto message;
+        case  PAR_ACOMPTE             :
+            puts("Catégorie : Acompte.");
+            goto message;
+        case  PAR_RAPPEL              :
+            puts("Catégorie : Rappel.");
+            goto message;
+        case  PAR_RETENUE             :
+            puts("Catégorie : Retenue.");
+            goto message;
+        case  PAR_COTISATION          :
+            puts("Catégorie : Cotisation.");
+            goto message;
+        case  TOUTES_CATEGORIES       :
+            puts("Toutes catégories.");
+            fprintf(stderr, "Total de %" PRIu64 " lignes générée dans 11 bases.\n", compteur);
+            break;
 
-            case PAR_ANNEE    :
-                fprintf(stderr, "Année : %s Table générée.\n", annee_courante);
-                break;
-            default :  /* Taille définie par l'utilisateur */
-                fprintf(stderr, "Table n° %d de %" PRIu64 " lignes, lignes %d à %" PRIu64 ".\n",
-                        rang_fichier_base,
-                        compteur - (rang_fichier_base-1) * Info[0].taille_base,
-                        (rang_fichier_base-1) * Info[0].taille_base +1,
-                        compteur);
+        case PAR_ANNEE    :
+            fprintf(stderr, "Année : %s Table générée.\n", annee_courante);
+            break;
+        default :  /* Taille définie par l'utilisateur */
+            fprintf(stderr, "Table n° %d de %" PRIu64 " lignes, lignes %d à %" PRIu64 ".\n",
+                    rang_fichier_base,
+                    compteur - (rang_fichier_base-1) * Info[0].taille_base,
+                    (rang_fichier_base-1) * Info[0].taille_base +1,
+                    compteur);
         }
 
         return;
-        message : fprintf(stderr, "Table de %" PRIu64 " lignes.\n", compteur);
+message :
+        fprintf(stderr, "Table de %" PRIu64 " lignes.\n", compteur);
     }
 }
 #undef VAR

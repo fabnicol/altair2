@@ -128,7 +128,7 @@ int main(int argc, char **argv)
             printf("%s\n", "-D argument obligatoire : répertoire complet du fichier de sortie [défaut '.' avec -t].");
             printf("%s\n", "-d argument obligatoire : séparateur décimal [défaut . avec -t].");
             printf("%s\n", "-s argument obligatoire : séparateur de champs [défaut , avec -t]/");
-            printf("%s\n", "-j argument obligatoire : nombre de fils d'exécution (maximum 10).");
+            printf("%s\n", "-j argument obligatoire : nombre de fils d'exécution (1 à 10).");
             printf("%s\n", "-M sans argument        : ne pas libérer la mémoire réservée en fin de programme.");
             printf("%s\n", "-m sans argument        : calculer les maxima d'agents et de lignes de paye.");
             printf("%s\n", "-L argument obligatoire : chemin du log d'exécution du test de cohérence entre analyseurs C et XML.");
@@ -300,11 +300,12 @@ int main(int argc, char **argv)
         {
             if ((info.nbfil = lire_argument(argc, argv[start +1])) > 0)
             {
-                if (info.nbfil > 10 || info.nbfil < 2)
+                if (info.nbfil > 10 || info.nbfil < 1)
                 {
                     perror("Le nombre de fils d'exécution doit être compris entre 2 et 10.");
                     exit(-111);
                 }
+
             }
             start += 2;
             continue;
