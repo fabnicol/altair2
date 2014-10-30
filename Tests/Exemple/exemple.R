@@ -478,14 +478,14 @@ if (! import.direct) {
                                  # on ne considère que les rémunérations brutes (sans prise en compte des remboursements de frais aux salariés ou des régularisations)
                                  # pour être en homogénéïté avec la colonne Brut/Montant.brut.annuel
 
-                                 rémunérations.récurrentes           =  traitement.indiciaire                       # le premier et deuxième terme sont exclusifs
+                                 rémunération.indemnitaire.imposable           =  traitement.indiciaire                       # le premier et deuxième terme sont exclusifs
                                                                         + rémunération.principale.contractuel
                                                                         + rémunération.vacataire
                                                                         + rémunération.indemnitaire,
 
                                  # ici on ajoute les remboursements de frais professionnels (autres.rémunérations) et on enlève les régularisations (détachements..., màd...)
 
-                                 total.lignes.paie =   rémunérations.récurrentes
+                                 total.lignes.paie =   rémunération.indemnitaire.imposable
                                                      + autres.rémunérations,
 
                                  part.rémunération.indemnitaire =  ifelse(is.na(s <-  traitement.indiciaire
@@ -532,7 +532,7 @@ if (! import.direct) {
 }
 
 
-Analyse.rémunérations <- Analyse.rémunérations[!is.na(Analyse.rémunérations$rémunérations.récurrentes), ]
+Analyse.rémunérations <- Analyse.rémunérations[!is.na(Analyse.rémunérations$rémunération.indemnitaire.imposable), ]
 
 
 if (length (Analyse.rémunérations$quotité[Analyse.rémunérations$quotité > 1]) > 0 & comportement.strict ) stop("Détection de quotités > 1", call. = FALSE)
@@ -814,9 +814,8 @@ detach(Analyse.variations.synthèse)
 année <- début.période.sous.revue
 
 colonnes.sélectionnées <- c("traitement.indiciaire",
-                            "rémunération.indemnitaire",
                             "autres.rémunérations",
-                            "rémunérations.récurrentes",
+                            "rémunération.indemnitaire.imposable",
                             "total.lignes.paie",
                             "Montant.brut.annuel",
                             "part.rémunération.indemnitaire",
@@ -853,7 +852,7 @@ attach(Analyse.rémunérations.premier.exercice, warn.conflicts = FALSE)
 
 masses.premier.personnels <- colSums(Analyse.rémunérations.premier.exercice[Statut != "ELU",
                                                                             c("Montant.brut.annuel",
-                                                                           "rémunérations.indemnitaires.imposables",
+                                                                           "rémunération.indemnitaire.imposable",
                                                                            "indemnités.élu",
                                                                            "total.lignes.paie",
                                                                            "autres.rémunérations")])
@@ -861,7 +860,7 @@ masses.premier.personnels <- colSums(Analyse.rémunérations.premier.exercice[Stat
   
 masses.premier.élus <- colSums(Analyse.rémunérations.premier.exercice[Statut == "ELU",
                                                                       c("Montant.brut.annuel",
-                                                                        "rémunérations.récurrentes",
+                                                                        "rémunération.indemnitaire.imposable",
                                                                         "indemnités.élu",
                                                                         "total.lignes.paie",
                                                                         "autres.rémunérations")])
@@ -875,11 +874,11 @@ Tableau.vertical2(c("Agrégats",
                     "euros"),
                   c("Brut annuel (bulletins)",
                     "Brut annuel (lignes), dont :",
-                    "\\ \\ Rémunérations récurrentes :",
+                    "\\ \\ Indemnités imposables :",
                     "\\ \\ Autres rémunérations"),
                   c(masses.premier.personnels["Montant.brut.annuel"],
                   masses.premier.personnels["total.lignes.paie"],
-                  masses.premier.personnels["rémunérations.récurrentes"],
+                  masses.premier.personnels["rémunération.indemnitaire.imposable"],
                   masses.premier.personnels["autres.rémunérations"]))
 
 #'  
@@ -890,21 +889,21 @@ Tableau.vertical2(c("Agrégats",
                     "euros"),
                   c("Brut annuel (bulletins)",
                     "Brut annuel (lignes), dont :",
-                    "\\ \\ Rémunérations récurrentes :",
+                    "\\ \\ Indemnités imposables :",
                     "\\ \\ Autres rémunérations"),
                   c(masses.premier.élus["Montant.brut.annuel"],
                     masses.premier.élus["total.lignes.paie"],
-                    masses.premier.élus["rémunérations.récurrentes"],
+                    masses.premier.élus["rémunération.indemnitaire.imposable"],
                     masses.premier.élus["autres.rémunérations"]))
 
 
 #'  
 #'**Définitions :**
 #'
-#'  *Brut annuel (bulletins)*   : somme du champ *Brut*
+#'  *Brut annuel (bulletins)*   : somme du champ *Brut*   
 #'  *Brut annuel (lignes)*      : somme du champ *Montant* des lignes de paye, dont :  
-#'  *Rémunérations récurrentes* : traitement brut, indemnités de résidence et autres indemnités, SFT, dont :  
-#'  *Indemnités d'élus*         : toutes rémunérations indemnitaires des élus    
+#'  *Indemnités imposables*     : indemnités sauf remboursements, certaines IJSS, indemnités d'élu    
+#'  *Indemnités d'élu*         : toutes rémunérations indemnitaires des élus    
 #'  *Autres rémunérations*      : acomptes, retenues sur brut, rémunérations diverses, rappels   
 #'  
 
@@ -953,8 +952,8 @@ filtre.fonctionnaire <- function (X) X[ (Statut == "TITULAIRE" | Statut == "STAG
 
 AR <- Analyse.rémunérations.premier.exercice[Statut == "TITULAIRE" | Statut == "STAGIAIRE", colonnes.sélectionnées]
 
-if (longueur.non.na(filtre.fonctionnaire(rémunérations.récurrentes) > 0))
-  hist(filtre.fonctionnaire(rémunérations.récurrentes)/1000,
+if (longueur.non.na(filtre.fonctionnaire(rémunération.indemnitaire.imposable) > 0))
+  hist(filtre.fonctionnaire(rémunération.indemnitaire.imposable)/1000,
        xlab = "En milliers d'euros hors\nindemnités journalières et remboursements",
        ylab = "Effectif",
        xlim = c(0, 120),
@@ -964,8 +963,8 @@ if (longueur.non.na(filtre.fonctionnaire(rémunérations.récurrentes) > 0))
 
 #'
 
-if (longueur.non.na(filtre.fonctionnaire(rémunération.indemnitaire) > 0))
-  hist(filtre.fonctionnaire(rémunération.indemnitaire)/1000,
+if (longueur.non.na(filtre.fonctionnaire(rémunération.indemnitaire.imposable) > 0))
+  hist(filtre.fonctionnaire(rémunération.indemnitaire.imposable)/1000,
        xlab = "En milliers d'euros hors\nindemnités journalières et remboursements",
        ylab = "Effectif",
        xlim = c(0, 70),
@@ -988,7 +987,7 @@ if (longueur.non.na(filtre.fonctionnaire(part.rémunération.indemnitaire) > 0))
 #'**Tests de cohérence**
 
 if (nrow(AR) > 0) {
-  masses.premier <- colSums(AR[ ,c("Montant.brut.annuel", "rémunérations.récurrentes", "total.lignes.paie", "autres.rémunérations")])
+  masses.premier <- colSums(AR[ ,c("Montant.brut.annuel", "rémunération.indemnitaire.imposable", "total.lignes.paie", "autres.rémunérations")])
 } else {
   masses.premier <- c(0,0) }
 
@@ -999,11 +998,11 @@ Tableau.vertical2(c("Agrégats",
                     "euros"),
                   c("Brut annuel (bulletins)",
                     "Brut annuel (lignes), dont :",
-                    "\\ \\ Rémunérations récurrentes :",
+                    "\\ \\ Indemnités imposables :",
                     "\\ \\ Autres rémunérations"),
                   c(masses.premier["Montant.brut.annuel"],
                     masses.premier["total.lignes.paie"],
-                    masses.premier["rémunérations.récurrentes"],
+                    masses.premier["rémunération.indemnitaire.imposable"],
                     masses.premier["autres.rémunérations"]))
 
 #'
@@ -1046,13 +1045,13 @@ Résumé(c("Traitement indiciaire",
          étiquette.rém.indemn,
          "Autres rémunérations",
          "Effectif"),
-       AR[c("traitement.indiciaire", "rémunération.indemnitaire", "autres.rémunérations")],
+       AR[c("traitement.indiciaire", "rémunération.indemnitaire.imposable", "autres.rémunérations")],
        extra = "length")
 
 
 #'
 Résumé(c("Total rémunérations", "Part de la rémunération indemnitaire", "Effectif"),
-       AR[c("rémunérations.récurrentes", "part.rémunération.indemnitaire")],
+       AR[c("rémunération.indemnitaire.imposable", "part.rémunération.indemnitaire")],
        extra = "length")
 
 
@@ -1074,7 +1073,7 @@ if (fichier.personnels.existe)
            étiquette.rém.indemn,
            "Autres rémunérations"),
          ARA[c("traitement.indiciaire",
-               "rémunération.indemnitaire",
+               "rémunération.indemnitaire.imposable",
                "autres.rémunérations")])
 } else
   cat("Pas de statistique en l'absence de fichier des catégories.\n")
@@ -1084,7 +1083,7 @@ if (fichier.personnels.existe)
 if (fichier.personnels.existe)
 {
   Résumé(c("Total rémunérations", "Part de la rémunération indemnitaire"),
-         ARA[c( "rémunérations.récurrentes", "part.rémunération.indemnitaire")])
+         ARA[c( "rémunération.indemnitaire.imposable", "part.rémunération.indemnitaire")])
 }
 
 #'
@@ -1099,7 +1098,7 @@ if (fichier.personnels.existe)
            étiquette.rém.indemn,
            "Autres rémunérations"),
          ARB[ c("traitement.indiciaire",
-                "rémunération.indemnitaire",
+                "rémunération.indemnitaire.imposable",
                 "autres.rémunérations")])
 } else
   cat("Pas de statistique en l'absence de fichier des catégories.\n")
@@ -1110,7 +1109,7 @@ if (fichier.personnels.existe)
 {
   Résumé(c("Total rémunérations",
            "Part de la rémunération indemnitaire"),
-         ARB[ c( "rémunérations.récurrentes",
+         ARB[ c( "rémunération.indemnitaire.imposable",
                  "part.rémunération.indemnitaire")])
 }
 
@@ -1127,7 +1126,7 @@ if (fichier.personnels.existe)
            étiquette.rém.indemn,
            "Autres rémunérations"),
          ARC[ c("traitement.indiciaire",
-                "rémunération.indemnitaire",
+                "rémunération.indemnitaire.imposable",
                 "autres.rémunérations")])
 } else
   cat("Pas de statistique en l'absence de fichier des catégories.\n")
@@ -1138,7 +1137,7 @@ if (fichier.personnels.existe)
 {
   Résumé(c("Total rémunérations",
            "Part de la rémunération indemnitaire"),
-         ARC[ c( "rémunérations.récurrentes",
+         ARC[ c( "rémunération.indemnitaire.imposable",
                  "part.rémunération.indemnitaire") ])
 }
 
@@ -1150,10 +1149,10 @@ if (fichier.personnels.existe)
 #'## 2.3 Contractuels, vacataires et stagiaires inclus
 #'
 
-temp <- rémunérations.récurrentes[Statut != "ELU"
+temp <- rémunération.indemnitaire.imposable[Statut != "ELU"
                             & Statut != "TITULAIRE"
                             & Statut != "STAGIAIRE"
-                            & rémunérations.récurrentes > 1000] / 1000
+                            & rémunération.indemnitaire.imposable > 1000] / 1000
 
 if (length(temp > 0))
   hist(temp,
@@ -1186,22 +1185,22 @@ if (length(temp))
 AR <- Analyse.rémunérations.premier.exercice[Statut != "ELU"
                                              &  Statut != "TITULAIRE"
                                              &  Statut != "STAGIAIRE",
-                                             c("rémunération.indemnitaire",
+                                             c("rémunération.indemnitaire.imposable",
                                                "autres.rémunérations",
-                                               "rémunérations.récurrentes") ]
+                                               "rémunération.indemnitaire.imposable") ]
 
 #'
 Résumé(c(étiquette.rém.indemn,
          "Autres rémunérations",
          "Effectif"),
-       AR[c("rémunération.indemnitaire", "autres.rémunérations")],
+       AR[c("rémunération.indemnitaire.imposable", "autres.rémunérations")],
        extra = "length")
 
 #'
 
 Résumé(c("Total rémunérations",
          "Effectif"),
-       AR["rémunérations.récurrentes"],
+       AR["rémunération.indemnitaire.imposable"],
        extra = "length")
 #'
 
@@ -1235,7 +1234,7 @@ attach(Analyse.rémunérations.dernier.exercice, warn.conflicts = FALSE)
 
 masses.dernier.personnels <- colSums(Analyse.rémunérations.dernier.exercice[Statut != "ELU",
                                                                             c("Montant.brut.annuel",
-                                                                              "rémunérations.récurrentes",
+                                                                              "rémunération.indemnitaire.imposable",
                                                                               "indemnités.élu",
                                                                               "total.lignes.paie",
                                                                               "autres.rémunérations")])
@@ -1243,7 +1242,7 @@ masses.dernier.personnels <- colSums(Analyse.rémunérations.dernier.exercice[Stat
 
 masses.dernier.élus <- colSums(Analyse.rémunérations.dernier.exercice[Statut == "ELU",
                                                                       c("Montant.brut.annuel",
-                                                                        "rémunérations.récurrentes",
+                                                                        "rémunération.indemnitaire.imposable",
                                                                         "indemnités.élu",
                                                                         "total.lignes.paie",
                                                                         "autres.rémunérations")])
@@ -1261,7 +1260,7 @@ Tableau.vertical2(c("Agrégats",
                     "\\ \\ Autres rémunérations"),
                   c(masses.dernier.personnels["Montant.brut.annuel"],
                     masses.dernier.personnels["total.lignes.paie"],
-                    masses.dernier.personnels["rémunérations.récurrentes"],
+                    masses.dernier.personnels["rémunération.indemnitaire.imposable"],
                     masses.dernier.personnels["autres.rémunérations"]))
 
 #'  
@@ -1276,7 +1275,7 @@ Tableau.vertical2(c("Agrégats",
                     "\\ \\ Autres rémunérations"),
                   c(masses.dernier.élus["Montant.brut.annuel"],
                     masses.dernier.élus["total.lignes.paie"],
-                    masses.dernier.élus["rémunérations.récurrentes"],
+                    masses.dernier.élus["rémunération.indemnitaire.imposable"],
                     masses.dernier.élus["autres.rémunérations"]))
 
 
@@ -1336,8 +1335,8 @@ Tableau.vertical2(c("Agrégats",
 #'## 3.2 Fonctionnaires titulaires et stagiaires
 #'
 
-if (longueur.non.na(filtre.fonctionnaire(rémunérations.récurrentes)) > 0)
-  hist(filtre.fonctionnaire(rémunérations.récurrentes) / 1000,
+if (longueur.non.na(filtre.fonctionnaire(rémunération.indemnitaire.imposable)) > 0)
+  hist(filtre.fonctionnaire(rémunération.indemnitaire.imposable) / 1000,
        xlab = "En milliers d'euros \n hors indemnités journalières et remboursements",
        ylab = "Effectif",
        xlim = c(0, 120),
@@ -1348,8 +1347,8 @@ if (longueur.non.na(filtre.fonctionnaire(rémunérations.récurrentes)) > 0)
 #'
 #'
 
-if (longueur.non.na(filtre.fonctionnaire(rémunération.indemnitaire) > 0))
-  hist(filtre.fonctionnaire(rémunération.indemnitaire)/1000,
+if (longueur.non.na(filtre.fonctionnaire(rémunération.indemnitaire.imposable) > 0))
+  hist(filtre.fonctionnaire(rémunération.indemnitaire.imposable)/1000,
        xlab = "En milliers d'euros\n hors indemnités journalières et remboursements",
        ylab = "Effectif",
        xlim = c(0, 70),
@@ -1376,7 +1375,7 @@ AR <- Analyse.rémunérations.dernier.exercice[Statut == "TITULAIRE" | Statut == "
                                              colonnes.sélectionnées ]
 
 if (nrow(AR) > 0) {
-  temp <- colSums(AR[ ,c("Montant.brut.annuel", "rémunérations.récurrentes")])
+  temp <- colSums(AR[ ,c("Montant.brut.annuel", "rémunération.indemnitaire.imposable")])
 } else {
   temp <- c(0,0) }
 
@@ -1389,8 +1388,8 @@ Tableau.vertical2(c("Agrégats", "euros"),
                     "Lignes de paie (euros)",
                     "Différence (euros)"),
                   c(temp["Montant.brut.annuel"],
-                    temp["rémunérations.récurrentes"],
-                    temp["Montant.brut.annuel"] - temp["rémunérations.récurrentes"]))
+                    temp["rémunération.indemnitaire.imposable"],
+                    temp["Montant.brut.annuel"] - temp["rémunération.indemnitaire.imposable"]))
 
 
 rm(temp)
@@ -1406,13 +1405,13 @@ rm(temp)
 Résumé(c("Traitement indiciaire",
          étiquette.rém.indemn,
          "Autres rémunérations"),
-       AR[c("traitement.indiciaire", "rémunération.indemnitaire", "autres.rémunérations")])
+       AR[c("traitement.indiciaire", "rémunération.indemnitaire.imposable", "autres.rémunérations")])
 #'
 
 Résumé(c("Total rémunérations",
          "Part de la rémunération indemnitaire",
          "Effectif"),
-       AR[c("rémunérations.récurrentes", "part.rémunération.indemnitaire")],
+       AR[c("rémunération.indemnitaire.imposable", "part.rémunération.indemnitaire")],
        extra = "length")
 
 #'
@@ -1435,7 +1434,7 @@ if (fichier.personnels.existe)
            étiquette.rém.indemn,
            "Autres rémunérations"),
          ARA[c("traitement.indiciaire",
-               "rémunération.indemnitaire",
+               "rémunération.indemnitaire.imposable",
                "autres.rémunérations")])
 } else
   cat("Pas de statistique en l'absence de fichier des catégories.\n")
@@ -1446,7 +1445,7 @@ if (fichier.personnels.existe)
 {
   Résumé(c("Total rémunérations",
            "Part de la rémunération indemnitaire"),
-         ARA[ c( "rémunérations.récurrentes",
+         ARA[ c( "rémunération.indemnitaire.imposable",
                  "part.rémunération.indemnitaire")])
 }
 
@@ -1461,7 +1460,7 @@ if (fichier.personnels.existe)
            étiquette.rém.indemn,
            "Autres rémunérations"),
          ARB[c("traitement.indiciaire",
-               "rémunération.indemnitaire",
+               "rémunération.indemnitaire.imposable",
                "autres.rémunérations")])
 } else
   cat("Pas de statistique en l'absence de fichier des catégories.\n")
@@ -1472,7 +1471,7 @@ if (fichier.personnels.existe)
 {
   Résumé(c("Total rémunérations",
            "Part de la rémunération indemnitaire"),
-         ARB[ c( "rémunérations.récurrentes",
+         ARB[ c( "rémunération.indemnitaire.imposable",
                  "part.rémunération.indemnitaire")])
 }
 #'
@@ -1488,7 +1487,7 @@ if (fichier.personnels.existe)
            étiquette.rém.indemn,
            "Autres rémunérations"),
          ARC[ c("traitement.indiciaire",
-                "rémunération.indemnitaire",
+                "rémunération.indemnitaire.imposable",
                 "autres.rémunérations")])
 } else
   cat("Pas de statistique en l'absence de fichier des catégories.\n")
@@ -1499,7 +1498,7 @@ if (fichier.personnels.existe)
 {
   Résumé(c("Total rémunérations",
            "Part de la rémunération indemnitaire"),
-         ARC[ c( "rémunérations.récurrentes",
+         ARC[ c( "rémunération.indemnitaire.imposable",
                  "part.rémunération.indemnitaire")])
 }
 
@@ -1512,10 +1511,10 @@ if (fichier.personnels.existe)
 #'## 3.3 Contractuels, vacataires et stagiaires inclus
 #'
 
-temp <- rémunérations.récurrentes[   Statut   != "ELU"
+temp <- rémunération.indemnitaire.imposable[   Statut   != "ELU"
                                      & Statut != "TITULAIRE"
                                      & Statut != "STAGIAIRE"
-                                     & rémunérations.récurrentes > 1000]/1000
+                                     & rémunération.indemnitaire.imposable > 1000]/1000
 
 if (longueur.non.na(temp) > 0)
   hist(temp,
@@ -1545,22 +1544,22 @@ if (longueur.non.na(temp) > 0)
 AR <- Analyse.rémunérations.dernier.exercice[   Statut != "ELU"
                                                 & Statut != "TITULAIRE"
                                                 & Statut != "STAGIAIRE",
-                                                c("rémunération.indemnitaire",
+                                                c("rémunération.indemnitaire.imposable",
                                                   "autres.rémunérations",
-                                                  "rémunérations.récurrentes") ]
+                                                  "rémunération.indemnitaire.imposable") ]
 
 #'
 Résumé(c(étiquette.rém.indemn,
          "Autres rémunérations",
          "Effectif"),
-       AR[c("rémunération.indemnitaire", "autres.rémunérations")],
+       AR[c("rémunération.indemnitaire.imposable", "autres.rémunérations")],
        extra = "length")
 
 #'
 
 Résumé(c("Total rémunérations",
          "Effectif"),
-       AR["rémunérations.récurrentes"],
+       AR["rémunération.indemnitaire.imposable"],
        extra = "length")
 
 #'
@@ -1983,7 +1982,7 @@ ifts.logical <- grepl(expression.rég.ifts, Paie$Libellé, ignore.case=TRUE)
 codes.ifts  <- levels(as.factor(Paie[ifts.logical, étiquette.code]))
 personnels.iat.ifts <- intersect(Paie[grepl(expression.rég.iat, Libellé, ignore.case=TRUE), clé.fusion[1]],
                                  Paie[ifts.logical, clé.fusion[1]])
-names(personnels.iat.ifts) <- "Matricules des agents percevant IAT et/ou IFTS sur la période"
+if (length(personnels.iat.ifts))  names(personnels.iat.ifts) <- "Matricules des agents percevant IAT et/ou IFTS sur la période"
 
 nombre.personnels.iat.ifts <- length(personnels.iat.ifts)
 
@@ -2173,11 +2172,11 @@ rémunérations.élu <- Analyse.rémunérations[ Analyse.rémunérations$indemnités.élu
                                               "Emploi",
                                               "indemnités.élu",
                                               "autres.rémunérations",
-                                              "rémunérations.récurrentes") ]
+                                              "rémunération.indemnitaire.imposable") ]
 
 
 rémunérations.élu <- mutate(rémunérations.élu,
-                            rémunérations.récurrentes = indemnités.élu +  rémunérations.récurrentes)
+                            rémunération.indemnitaire.imposable = indemnités.élu +  rémunération.indemnitaire.imposable)
 
 if (!fusionner.nom.prénom)
   rémunérations.élu <- merge(unique(matricules.à.identifier[c("Nom",  étiquette.matricule)]),
