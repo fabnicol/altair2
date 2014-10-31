@@ -675,20 +675,21 @@ liste.années <- as.character(période)
 
 effectifs <- lapply(période,
                     function(x) {
-                      A <- Paie[Paie$Année == x, c("Matricule", "Statut", "Service", "Emploi", "nb.mois")]
+                      A <- Paie[Paie$Année == x, c("Matricule", "Statut",  "nb.mois", "quotité")]
                       E <- unique(A[ , c("Matricule", "nb.mois")])
+                      ETP <- unique(Paie[Paie$Matricule %in% E[[1]], c("quotité", "Matricule", "Mois")])
                       F <- E[E$nb.mois == 12, ]
                       G <- unique(A[(A$Statut == "TITULAIRE" | A$Statut == "STAGIAIRE") , c("Matricule", "nb.mois")])
                       H <- G[G$nb.mois == 12, ]
                       I <- unique(A[A$Statut == "ELU", c("Matricule", "nb.mois")])
                       J <- I[I$nb.mois == 12, ]
-                      résultat <- c(nrow(E), nrow(F), nrow(G), nrow(H), nrow(I), nrow(J))
-                      rm(A, E, F, G, H, I, J)
+                      résultat <- c(nrow(E), nrow(F), nrow(G), nrow(H), nrow(I), nrow(J), sum(ETP[[1]], na.rm=TRUE)/12)
+                      rm(A, E, ETP, F, G, H, I, J)
                       résultat
                     })
 
 effectifs <- prettyNum(effectifs, big.mark = " ")
-tableau.effectifs <- as.data.frame(effectifs, row.names = c("Total", "  dont présents 12 mois", "  dont fonctionnaires", "  dont fonct. présents 12 mois", "  dont élus", "  dont élus présents 12 mois"))
+tableau.effectifs <- as.data.frame(effectifs, row.names = c("Total effectifs", "Total ETP", "  dont présents 12 mois", "  dont fonctionnaires", "  dont fonct. présents 12 mois", "  dont élus", "  dont élus présents 12 mois"))
 
 names(tableau.effectifs) <- liste.années
 #'
