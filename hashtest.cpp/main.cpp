@@ -243,6 +243,17 @@ int main(int argc, char **argv)
             start += 2;
             continue;
         }
+        else if (! strcmp(argv[start], "-g"))  // no-op pour l'interface graphique
+        {
+            if (start + 1 == argc)
+            {
+                fprintf(stderr, "%s\n", "Option -g suivi d'un argument obligatoire.");
+                exit(-100);
+            }
+
+            start += 1;
+            continue;
+        }
         else if (! strcmp(argv[start], "-d"))
         {
             if (start + 1 == argc)
@@ -555,11 +566,13 @@ int main(int argc, char **argv)
         }
     }
 
+    int valeur_de_retour = (maxima)? 2 * maxima[0] + 3 * maxima[1]: 0;
+
     if (maxima) free((uint32_t*) maxima);
 
     if (Info[0].nbfil > 1) free(Info);
 
-    return 0;
+    return valeur_de_retour;
 }
 
 //
