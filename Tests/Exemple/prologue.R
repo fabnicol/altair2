@@ -43,7 +43,7 @@ séparateur.décimal <- "."
 # les bases commencent par une majuscule. Un nom de fichier est souvent associé
 # à une variable commençant par une majuscule et représentant la base (data.frame ou matrice)
 
-racine                      <- "SE-"
+racine                      <- "ASS-"
   # "Ville Annecy Paye BP-"
   # "UTF-8.PDC-"
   # "RAG_2009_2012-"
@@ -142,7 +142,7 @@ encodage.entrée <- "ISO-8859-1"
   # "ISO-8859-1"
 encodage.entrée.xhl2csv <- "UTF-8"
 
-encodage.sortie <- ifelse(setOSWindows, "ISO-8859-1", encodage.entrée)
+encodage.sortie <- ifelse(setOSWindows, "ISO-8859-15", encodage.entrée)
 
 modalité.traitement            <- "TRAITEMENT"     # s'applique aussi aux NBI
 modalité.indemnitaire          <- "INDEMNITAIRE"   # hors vacations
