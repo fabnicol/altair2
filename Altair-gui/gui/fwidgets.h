@@ -206,51 +206,6 @@ private slots:
 };
 
 
-class FRadioBox :  public QWidget, public FAbstractWidget
-{
-  Q_OBJECT
-
-  friend class FAbstractWidget;
-
-public:
-   FRadioBox(const QStringList &boxLabelList, int status, const QString &hashKey, const QStringList &description,
-                     const QStringList &optionLabelStringList, const Q2ListWidget* enabledObjects=nullptr,  const Q2ListWidget* disabledObjects=nullptr) ;
-
-   FRadioBox(const QStringList &boxLabelList, const QString &hashKey, const QStringList &description,
-                     const QStringList &optionLabelStringList, const Q2ListWidget* enabledObjects=nullptr,  const Q2ListWidget* disabledObjects=nullptr) :
-     FRadioBox(boxLabelList, flags::status::defaultStatus|flags::commandLineType::defaultCommandLine,hashKey, description,  optionLabelStringList, enabledObjects,  disabledObjects) {}
-
-   FRadioBox(const QStringList &boxLabelList, const QString &hashKey, const QStringList &description,
-                   const Q2ListWidget* enabledObjects=nullptr,  const Q2ListWidget* disabledObjects=nullptr) :
-       FRadioBox(boxLabelList, flags::status::defaultStatus|flags::commandLineType::defaultCommandLine,hashKey, description,  QStringList(), enabledObjects,  disabledObjects) {}
-
-  void setWidgetFromXml(const FStringList& );
-  const FString setXmlFromWidget();
-  void refreshWidgetDisplay();
-  bool isAbstractEnabled() { return this->radioGroupBox->isEnabled();}
-  void setEnabled(bool enabled) {this->radioGroupBox->setEnabled(enabled);}
-  void  toggle(int i) {this->radioButtonList.at(i)->toggle();}
-                                         
-
-private:
-  int size;
-  QList<QRadioButton*> radioButtonList;
-  QStringList optionLabelStringList;
-  QGroupBox* radioGroupBox;
-  int rank;
-
-
-private slots:
-  void toggledTo(bool);
-  void resetRadioBox(bool value);
-
-signals:
-  void toggled(bool value);
-};
-
-
-
-
 class FComboBox : public QComboBox, public FAbstractWidget
 {
   Q_OBJECT
@@ -304,56 +259,6 @@ public:
 private:
 
 
-};
-
-
-
-class FColorButton : public QWidget, public FAbstractWidget
-{
- Q_OBJECT
-
-private:
-
-  QPushButton *button;
-  QCheckBox* parent;
-
-public:
-  FColorButton( const char* text, const QString & color, QCheckBox* =nullptr);
-  QLabel *colorLabel;
-  int buttonWidth()   const ;
-  void setMinimumButtonWidth(const int w);
-  void setWidgetFromXml(const FStringList&);
-  void refreshWidgetDisplay();
-  const FString setXmlFromWidget();
-  bool isAbstractEnabled() {return this->isEnabled();}
-
-public slots:
-  void changeColors();
-
-};
-
-class FPalette :   public QWidget, public FAbstractWidget
-{
-  Q_OBJECT
-  friend class FAbstractWidget;
-
-  public:
-    FPalette(const char* textR, const char* textG, const char* textB, int status , const QString &hashKey,const QStringList &description, const QString &commandLine, int buttonWidth=150, QCheckBox* =nullptr);
-    FPalette(const char* textR, const char* textG, const char* textB,  const QString &hashKey,const QStringList &description, const QString &commandLine, QCheckBox*  parent= nullptr):
-      FPalette(textR, textG, textB, flags::status::defaultStatus|flags::commandLineType::defaultCommandLine,hashKey,description,commandLine, 150, parent) {}
-    void setWidgetFromXml(const FStringList&);
-    void refreshWidgetDisplay();
-    void refreshComponent(short i);
-
-    const FString setXmlFromWidget();
-    void setMinimumButtonWidth(const int w);
-    bool isAbstractEnabled() {return (this->isEnabled());}
-
-    FColorButton *button[3];
-
-  private:
-
-   void refreshPaletteHash();
 };
 
 #endif

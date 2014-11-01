@@ -1,8 +1,10 @@
 
 #include "browser.h"
 
+#ifndef STATIC
 browser::browser(const QUrl &urlPath,  QWidget *parent) :  QWidget(parent)
 {
+ 
     setAttribute(Qt::WA_DeleteOnClose);
     setWindowModality(Qt::WindowModal);
 
@@ -46,6 +48,9 @@ browser::browser(const QUrl &urlPath,  QWidget *parent) :  QWidget(parent)
 
 }
 
+#endif
+
+#ifndef STATIC
 void browser::home()
 {
     textBrowser->load(url);
@@ -62,6 +67,13 @@ void browser::showPage(const QUrl &url)
     app->resize(1000, 500);
     app->show();
 }
+#else
 
+void browser::showPage(const QUrl &url)
+{
+    QDesktopServices::openUrl(url);
+}
+
+#endif
 
 
