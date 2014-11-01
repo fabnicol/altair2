@@ -6,22 +6,19 @@ greaterThan(QT_MAJOR_VERSION, 5)
 
 # Ensure that library is built before application
 
-CONFIG  += ordered 
+CONFIG  += ordered static
 
 #use at least Qt5.1 with g++-4.8 for windows
 
 TEMPLATE = app
 
-QT       += core gui xml widgets webkitwidgets 
+QT       += core gui xml widgets 
 
 TARGET = altair-gui
 
 VPATH = .
 
-#win32:LIBS += -L../win32
-#linux:LIBS += -L../linux
-
-DEFINES += DEBUG 
+DEFINES += DEBUG STATIC
 
 #linux: DEFINES += LOCAL_BINPATH
 
