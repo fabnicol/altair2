@@ -4,7 +4,6 @@
 #include <QMainWindow>
 #include <QDialog>
 #include <QProcess>
-#include <QMediaPlayer>
 #include <QDomNode>
 #include <QFile>
 #include <QtXml>
