@@ -62,6 +62,7 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
 
 
  mainTabWidget->addTab(fileListWidget->currentListWidget, xml_tags[1]+" 1");
+ mainTabWidget->setMovable(true);
 
  const QIcon importIcon = QIcon(QString::fromUtf8( ":/images/document-import.png"));
  importFromMainTree->setIcon(importIcon);

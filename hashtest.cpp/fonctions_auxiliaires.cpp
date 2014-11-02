@@ -53,18 +53,24 @@ FILE* ouvrir_fichier_base(info_t* info, int rang)
         exit(-1000);
     }
 
-    unsigned i;
-
     ecrire_entete(info, base);
     return base;
 }
 
-int32_t lire_argument(int argc, const char* const c_str)
+int32_t lire_argument(int argc, char* c_str)
 {
     if (argc > 2)
     {
         char *end;
+        int s = strlen(c_str);
         errno = 0;
+
+        if (c_str[0] == '\'' && c_str[s - 1] == '\'')
+         {
+           c_str++;
+           c_str[s - 2] ='\0';
+         }
+
         const long sl = strtol(c_str, &end, 10);
 
         if (end == c_str)
@@ -97,7 +103,7 @@ int calculer_memoire_requise(info_t* info)
     errno = 0;
     info->NLigne = (uint16_t*) calloc(info->threads->argc, MAX_NB_AGENTS * sizeof(uint16_t));  // nm total de bulletins
     info->NCumAgent = 0;
-    puts("Premier scan des fichiers pour déterminer les besoins mémoire ... ");
+    fprintf(stderr, "Premier scan des fichiers pour déterminer les besoins mémoire ... ");
 
     /* par convention  un agent avec rémunération non renseignées (balise sans fils) a une ligne */
     for (unsigned i = 0; i < info->threads->argc ; i++)
@@ -109,6 +115,7 @@ int calculer_memoire_requise(info_t* info)
         else if(c == NULL)
         {
             perror("Ouverture Fichiers.");    // cautious no-op
+            fprintf(stderr, "%s\n", info->threads->argv[i]);
             exit(-120);
         }
 

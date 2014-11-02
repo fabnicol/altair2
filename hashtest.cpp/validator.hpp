@@ -33,7 +33,7 @@ typedef struct
 #define EXPRESSION_REG_ELUS ";*PRESIDENT.*"
 #endif
 
-#define CHEMIN_BASE "Table"
+#define NOM_BASE "Table"
 #define CSV  ".csv"
 
 /* Les définitions ci-après doivent être négatives */
