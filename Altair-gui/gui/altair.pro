@@ -14,7 +14,7 @@ TEMPLATE = app
 
 QT       += core gui xml widgets webkitwidgets 
 
-TARGET = altair-gui
+TARGET = Altair
 
 VPATH = .
 
@@ -41,7 +41,6 @@ SOURCES += \
     xmlparser.cpp \
     highlighter.cpp \
     run.cpp \
-    console.cpp \ 
     probe.cpp
 
 HEADERS  += \
@@ -56,7 +55,6 @@ HEADERS  += \
     browser.h \
     altair.h \
     highlighter.h \
-    console.h \
     tags.h \
     templates.h \
     altair-gui.h \

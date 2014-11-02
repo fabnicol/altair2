@@ -55,7 +55,7 @@ public:
     void dropEvent(QDropEvent *event);
 
      QPoint startPos;
-     QProcess process;
+     QProcess* process = new QProcess;
      QProcess ejectProcess;
      QDir soundDir;
      QString outputType;
@@ -223,8 +223,8 @@ public:
 
       void stop()
       {
-          if (parent->process.state() == QProcess::Running) return;
-          if (parent->process.exitStatus() != QProcess::CrashExit)
+          if (parent->process->state() == QProcess::Running) return;
+          if (parent->process->exitStatus() != QProcess::CrashExit)
               bar->setValue(100);
           timer->stop();
           killButton->setDisabled(true);

@@ -7,7 +7,7 @@
 //#ifdef __cplusplus
 //extern "C" {
 //#endif
-
+#include <unistd.h>
 #include "validator.hpp"
 #include "fonctions_auxiliaires.hpp"
 #include "table.hpp"
@@ -59,8 +59,8 @@ int main(int argc, char **argv)
     bool generer_table = false;
     bool liberer_memoire = true;
 
-    char chemin_base[500]={0};
-    sprintf(chemin_base, "%s%s", CHEMIN_BASE, CSV);
+    char* chemin_base=(char*) calloc(500, sizeof(char));
+    sprintf(chemin_base, "%s%s", NOM_BASE, CSV);
 
     thread_t mon_thread;
 
@@ -77,7 +77,7 @@ int main(int argc, char **argv)
         &mon_thread,      //    thread_t threads;
         NULL,             //    chemin log
         (char*) strdup(EXPRESSION_REG_ELUS),
-        (char*) strdup(chemin_base),
+        chemin_base,
         MAX_LIGNES_PAYE,  // nbLigneUtilisateur
         0,                //    uint16_t fichier_courant
         '.',              //    const char decimal;
@@ -296,13 +296,15 @@ int main(int argc, char **argv)
         }
         else if (! strcmp(argv[start], "-D"))
         {
-            snprintf(info.chemin_base, strlen(info.chemin_base), "%s/%s%s", argv[start + 1], CHEMIN_BASE, CSV);
+            snprintf(info.chemin_base, 500, "%s/%s%s", argv[start + 1], NOM_BASE, CSV);
 
             if (NULL == fopen(info.chemin_base, "w"))
             {
-                perror("La base de données ne peut être créée, vérifier l'existence du dossier.");
+                fprintf(stderr, "La base de données %s ne peut être créée, vérifier l'existence du dossier.\n", info.chemin_base);
+
                 exit(-113);
             }
+            else (unlink(info.chemin_base));
 
             start += 2;
             continue;
@@ -359,7 +361,7 @@ int main(int argc, char **argv)
         }
         else if (argv[start][0] == '-')
         {
-            fprintf(stderr, "%s\n", "Option inconnue.");
+            fprintf(stderr, "Option inconnue %s\n", argv[start]);
             exit(-100);
         }
         else break;
@@ -368,13 +370,23 @@ int main(int argc, char **argv)
     xmlInitMemory();
     xmlInitParser();
     info_t* Info;
-    printf("Besoin de mémoire requise minimum par bulletin : %d x sizeof(xmlChar*)\n", info.minimum_memoire_p_ligne);
+    // fprintf(stderr, "Besoin de mémoire requise minimum par bulletin : %d x sizeof(xmlChar*)\n", info.minimum_memoire_p_ligne);
 
     if (info.nbfil == 1 || (argc -start < 2))
     {
         info.threads->argc = argc -start;
         info.threads->argv = (char**) malloc((argc -start)* sizeof(char*));
-        for (int j = start; j < argc; j++) info.threads->argv[j-start] = argv[j];
+        int shift = 0;
+        for (int j = start; j + shift < argc; j++)
+        {
+            if (! strcmp(argv[j + shift], "-g"))
+            {
+              info.threads->argc--;
+              shift++;
+            }
+
+            info.threads->argv[j-start] = argv[j + shift];
+        }
 
         Info =&info;
 
@@ -414,7 +426,7 @@ int main(int argc, char **argv)
             exit(-144);
         }
 
-        puts("Creation des fils clients.\n");
+        fprintf(stderr, "Creation des fils clients.\n");
 
         for (int i = 0; i < info.nbfil; i++)
         {
@@ -460,11 +472,19 @@ int main(int argc, char **argv)
                 perror("Allocation de threads");
                 exit(-145);
             }
-            printf("Thread i=%d/%d Nombre de fichiers : %d\n", i+1, info.nbfil, Info[i].threads->argc);
-            for (int j = 0; j <  nbfichier_par_fil && start + j < argc; j++)
+
+            int shift = 0;
+            for (int j = start; j <  nbfichier_par_fil + start && j + shift < argc; j++)
             {
-                Info[i].threads->argv[j] = strdup(argv[start + j]);
+                if (! strcmp(argv[j + shift], "-g"))
+                {
+                  Info[i].threads->argc--;
+                  shift++;
+                }
+                Info[i].threads->argv[j - start] = strdup(argv[j + shift]);
             }
+
+            fprintf(stderr, "Thread i=%d/%d Nombre de fichiers : %d\n", i+1, info.nbfil, Info[i].threads->argc);
 
             start += nbfichier_par_fil;
 
@@ -496,8 +516,8 @@ int main(int argc, char **argv)
       maxima = calculer_maxima(Info);
       if (maxima)
       {
-        printf("\nMaximum de lignes : %d  \n", maxima[1]);
-        printf("\nMaximum d'agents  : %d  \n\n", maxima[0]);
+        fprintf(stderr, "\nMaximum de lignes : %d  \n", maxima[1]);
+        fprintf(stderr, "\nMaximum d'agents  : %d  \n\n", maxima[0]);
       }
     }
 

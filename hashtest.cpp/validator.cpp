@@ -99,7 +99,7 @@ static inline void _Bulletin(const char* tag, xmlNodePtr* cur,  int l, info_t* i
         else
         {
             fprintf(stderr, "Noeud courant null au stade de la vérification de %s\n", tag);
-            for (int l=0; l < Service; l++) printf("info->Table[info->NCumAgentXml][%d]=%s\n", l, info->Table[info->NCumAgentXml][l]);
+            for (int l=0; l < Service; l++) fprintf(stderr, "info->Table[info->NCumAgentXml][%d]=%s\n", l, info->Table[info->NCumAgentXml][l]);
         }
     }
 
@@ -475,7 +475,7 @@ static void parseFile(info_t* info)
 
     xmlFree(mois_fichier);
     xmlFree(annee_fichier);
-    printf("Fichier n°%d:\nPopulation du fichier  %s :\n %4d bulletins    Total : %4d bulletins  %4" PRIu64 " lignes cumulées.\n",
+    fprintf(stderr, "Fichier n°%d:\nPopulation du fichier  %s :\n %4d bulletins    Total : %4d bulletins  %4" PRIu64 " lignes cumulées.\n",
            info->fichier_courant,
            info->threads->argv[info->fichier_courant],
            info->NAgent[info->fichier_courant],

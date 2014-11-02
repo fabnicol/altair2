@@ -31,7 +31,6 @@
         <file>about.html</file>
         <file>images/display-output.png</file>
         <file>images/manager.png</file>
-        <file>images/console.png</file>
         <file>images/warning.png</file>
         <file>images/msg.png</file>
         <file>images/error.png</file>
@@ -52,5 +51,7 @@
         <file>whatsthis.info</file>
         <file>images/64x64/drive-optical.png</file>
         <file>images/application-xml.png</file>
+        <file>images/64x64/system-file-manager.png</file>
+        <file>images/csv.png</file>
     </qresource>
 </RCC>

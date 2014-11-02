@@ -14,6 +14,28 @@ extern template void createHash(QHash<QString, QString>*, const QList<QString>*,
 standardPage::standardPage()
 {
 
+    QGroupBox *baseBox= new QGroupBox(tr("Base .csv"));
+    QGridLayout *baseLayout= new QGridLayout;
+
+    baseLineEdit= new FLineEdit(generateDatadirPath("Base"),
+                                        "base",
+                                       {"Base", "Chemin de la base .csv"},
+                                        "D");
+
+    QLabel *baseLabel= new QLabel(tr("Répertoire de la base"));
+    QToolDirButton *baseButton;
+
+    baseButton= new QToolDirButton(tr("Sélectionner le répertoire de la base de données .csv\nen sortie de l'application"));
+    
+    QToolDirButton *openBaseButton=new QToolDirButton(tr("Ouvrir le répertoire "), actionType::OpenFolder);
+    
+    baseLayout->addWidget(baseLineEdit, 1, 0);
+    baseLayout->addWidget(baseLabel, 0, 0);
+    baseLayout->addWidget(baseButton, 1, 1);
+    baseLayout->addWidget(openBaseButton, 1, 2);
+            
+    baseBox->setLayout(baseLayout);
+    
     baseTypeBox=new QGroupBox(tr("Type de base en sortie"));
     processTypeBox=new QGroupBox(tr("Mode d'exécution"));
 
@@ -41,7 +63,7 @@ standardPage::standardPage()
     baseTypeWidget->status=flags::status::defaultStatus;
     baseTypeWidget->commandLineType=flags::commandLineType::defaultCommandLine;
 
-    baseTypeWidget->setFixedWidth(140);
+    baseTypeWidget->setFixedWidth(175);
     baseTypeWidget->setFixedHeight(30);
     baseTypeWidget->setCurrentIndex(0);
     baseTypeWidget->setToolTip(tr("Sélectionner le type de base en sortie"));
@@ -110,10 +132,13 @@ standardPage::standardPage()
     processTypeBox->setLayout(v2Layout);
 
     QVBoxLayout* mainLayout = new QVBoxLayout;
-    FRichLabel *mainLabel=new FRichLabel("Paramètres de sortie", ":/images/64x64/text-rtf.png");
+    FRichLabel *mainLabel=new FRichLabel("Paramètres de sortie", ":/images/encode.png");
     mainLayout->addWidget(mainLabel);
-    mainLayout->addWidget(baseTypeBox);
-    mainLayout->addWidget(processTypeBox);
+    mainLayout->addWidget(baseBox, 1, 0);
+    mainLayout->addSpacing(20);
+    mainLayout->addWidget(baseTypeBox, 3, 0);
+    mainLayout->addSpacing(20);
+    mainLayout->addWidget(processTypeBox, 5, 0);
     
     setLayout(mainLayout);
 
@@ -124,46 +149,64 @@ standardPage::standardPage()
     connect(processTypeWidget,
             SIGNAL(currentIndexChanged(int)),
             this, SLOT(on_processTypeWidgetChanged(int)));
+    
+    connect(openBaseButton,
+            SIGNAL(clicked()),
+            this, SLOT(on_openBaseDirButton_clicked()));
+    
+    connect(baseButton,
+            SIGNAL(clicked()),
+            this, SLOT(selectOutput()));
 
 }
 
 
-//void selectOutput()
-//{
-
-//    QString path=QFileDialog::getExistingDirectory(this, QString("Open Directory"),
-//                                                   QDir::currentPath(),
-//                                                   QFileDialog::ShowDirsOnly
-//                                                   | QFileDialog::DontResolveSymlinks);
-//    if (path.isEmpty()) return;
-
-//    /* It is recommended to clean the directory, otherwise ProgressBar is flawed. A Warning pops up for confirmation. I eschewed Qt here */
-//    qint64 size=getDirectorySize(path, "*");
-//    /* you may have to run as root or sudo to root depending on permissions */
-
-//    if (size)
-//    {
-//        if (QMessageBox::warning(0, QString("Directory scan"), QString("Directory %1 is not empty (size is %2B). Erase and recreate? ").arg(path,QString::number(size)), QMessageBox::Ok | QMessageBox::Cancel)
-//                == QMessageBox::Ok)
-//        {
+void standardPage::on_openBaseDirButton_clicked()
+{
+    QString path=baseLineEdit->text();
+    QDir targetDirObject(path);
+    if (targetDirObject.mkpath(path) == false)
+    {
+        QMessageBox::warning(0, QString("Répertoire"), QString("Le répertoire %1 n'a pas été créé").arg(path), QMessageBox::Ok);
+        return;
+    }
+    
+    common::openDir(baseLineEdit->text());
+}
 
 
-//            if (!common::removeDirectory(path))    QMessageBox::information(0, QString("Remove Directory"),
-//                                                           QString("Failed to remove directory %1").arg(QDir::toNativeSeparators(path)));
+void standardPage::selectOutput()
+{
+    QString path=QFileDialog::getExistingDirectory(this, QString("Sélection du répertoire"),
+                                                   QDir::currentPath(),
+                                                   QFileDialog::ShowDirsOnly
+                                                   | QFileDialog::DontResolveSymlinks);
+    if (path.isEmpty()) return;
 
-//            QDir targetDirObject(path);
-//            if (targetDirObject.mkpath(path) == false)
-//            {
-//                QMessageBox::warning(0, QString("Directory view"), QString("Failed to create %1").arg(path), QMessageBox::Ok);
-//                return;
-//            }
+    qint64 size=common::getDirectorySize(path, "*");
 
-//        }
-//    }
+    if (size)
+    {
+        if (QMessageBox::warning(0, QString("Répertoire"), QString("Le répertoire %1 n'est pas vide (Taille %2B). Ecraser et recréer ? ").arg(path,QString::number(size)), QMessageBox::Ok | QMessageBox::Cancel)
+                == QMessageBox::Ok)
+        {
 
-//    targetDirLineEdit->setText(path);
-//}
 
+            if (!common::removeDirectory(path))    QMessageBox::information(0, QString("Supprimer le répertoire"),
+                                                           QString("Le répertoire n'a pas été supprimé' %1").arg(QDir::toNativeSeparators(path)));
+
+            QDir targetDirObject(path);
+            if (targetDirObject.mkpath(path) == false)
+            {
+                QMessageBox::warning(0, QString("Répertoire"), QString("Le répertoire %1 n'a pas été créé").arg(path), QMessageBox::Ok);
+                return;
+            }
+
+        }
+    }
+
+    baseLineEdit->setText(path);
+}
 
 
 int options::RefreshFlag;
@@ -182,7 +225,8 @@ options::options(Altair* parent)
 
     closeButton = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     
-    closeButton->setLocale(QLocale("fr_FR"));
+    closeButton->button(QDialogButtonBox::Ok)->setText("Accepter");
+    closeButton->button(QDialogButtonBox::Cancel)->setText("Annuler");    
     
     connect(closeButton,
             &QDialogButtonBox::accepted,
@@ -210,8 +254,8 @@ options::options(Altair* parent)
     setLayout(mainLayout);
 
     setWindowTitle(tr("Options"));
-    setWindowIcon(QIcon(":/images/altair-author.png"));
-
+    setWindowIcon(QIcon(":/images/altair.png"));
+    
 }
 
 
