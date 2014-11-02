@@ -19,7 +19,7 @@ standardPage::standardPage()
 
     baseLineEdit= new FLineEdit(generateDatadirPath("Base"),
                                         "base",
-                                       {"Base", "Chemin de la base .csv"},
+                                       {"Base", "Répertoire de la base .csv"},
                                         "D");
 
     QLabel *baseLabel= new QLabel(tr("Répertoire de la base"));
