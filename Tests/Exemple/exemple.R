@@ -23,7 +23,7 @@ library(compiler)
 
 options(warn = -1, verbose = FALSE, OutDec = ",")
 
-encodage.code.source <- "ISO-8859-1"
+encodage.code.source <- "ISO-8859-15"
 
 # encodage :sous unix, les fichiers sources devraient être encodés en UTF-8 pour permettre une génération correcte des documents
 #           sous Windows, en ISO-8859-1.
@@ -42,7 +42,7 @@ JITLevel <- enableJIT(1)
 
 source(file.path(chemin.dossier, "bibliotheque.fonctions.paie.R"), encoding = encodage.code.source)
 
-installer.paquets(knitr, plyr, ggplot2, assertthat, yaml, gtools, utils, data.table)
+installer.paquets(knitr, plyr, digest, colorspace, ggplot2, assertthat, yaml, gtools, utils, data.table)
 if (paralléliser) installer.paquets(parallel)
 
 # + parallel, soSNOW (windows) ou doMC (unix))
@@ -937,62 +937,8 @@ filtre.fonctionnaire <- function (X) X[ (Statut == "TITULAIRE" | Statut == "STAG
 
 AR <- Analyse.rémunérations.premier.exercice[Statut == "TITULAIRE" | Statut == "STAGIAIRE", colonnes.sélectionnées]
 
-if (longueur.non.na(filtre.fonctionnaire(Montant.brut.annuel) > 0))
-  hist(filtre.fonctionnaire(Montant.brut.annuel)/1000,
-       xlab = "En milliers d'euros  (< 60 k¤)\n",
-       ylab = "Effectif",
-       xlim = c(0, 60),
-       main = "Rémunération brute annuelle des fonctionnaires en " %+% année,
-       col = "blue",
-       nclass = 50)
-
-#'
-if (longueur.non.na(filtre.fonctionnaire(Montant.brut.annuel) > 0))
-  hist(filtre.fonctionnaire(Montant.brut.annuel)/1000,
-       xlab = "En milliers d'euros (> 60 k¤)\n",
-       ylab = "Effectif",
-       xlim = c(60, 120),
-       main = "Rémunération brute annuelle des fonctionnaires en " %+% année,
-       col = "blue",
-       nclass = 50)
-
-#'
-if (longueur.non.na(filtre.fonctionnaire(rémunération.indemnitaire.imposable) > 0))
-  hist(filtre.fonctionnaire(rémunération.indemnitaire.imposable)/1000,
-       xlab = "En milliers d'euros (< 20 k¤)\n",
-       ylab = "Effectif",
-       xlim = c(0, 20),
-       main = "Rémunération indemnitaire imposable annuelle des fonctionnaires en " %+% année,
-       col = "blue",
-       nclass = 50)
-
-if (longueur.non.na(filtre.fonctionnaire(rémunération.indemnitaire.imposable) > 0))
-  hist(filtre.fonctionnaire(rémunération.indemnitaire.imposable)/1000,
-       xlab = "En milliers d'euros (> 20 k¤)\n",
-       ylab = "Effectif",
-       xlim = c(20, 60),
-       main = "Rémunération indemnitaire imposable annuelle des fonctionnaires en " %+% année,
-       col = "blue",
-       nclass = 50)
-
-
-if (longueur.non.na(filtre.fonctionnaire(part.rémunération.indemnitaire) > 0))
-  hist(filtre.fonctionnaire(part.rémunération.indemnitaire),
-       xlab = "Part des indemnités imposables (< 40 %) dans la rémunération brute en %\n",
-       ylab = "Effectif",
-       main = "Part indemnitaire de la rémunération annuelle des fonctionnaires en " %+% année,
-       xlim = c(0,40),
-       col = "blue",
-       nclass = 60)
-
-if (longueur.non.na(filtre.fonctionnaire(part.rémunération.indemnitaire) > 0))
-  hist(filtre.fonctionnaire(part.rémunération.indemnitaire),
-       xlab = "Part des indemnités imposables (> 40 %)  dans la rémunération brute en %\n",
-       ylab = "Effectif",
-       main = "Part indemnitaire de la rémunération annuelle des fonctionnaires en " %+% année,
-       xlim = c(40,60),
-       col = "blue",
-       nclass = 60)
+source("histogrammes.R", encoding = "UTF-8")
+histogrammes()
 
 #'
 #'**Effectif : `r nrow(AR)`**
@@ -1351,38 +1297,7 @@ Tableau.vertical2(c("Agrégats",
 #'## 3.2 Fonctionnaires titulaires et stagiaires
 #'
 
-if (longueur.non.na(filtre.fonctionnaire(Montant.brut.annuel)) > 0)
-  hist(filtre.fonctionnaire(Montant.brut.annuel) / 1000,
-       xlab = "En milliers d'euros \n",
-       ylab = "Effectif",
-       xlim = c(0, 120),
-       main = "Rémunération annuelle des fonctionnaires en " %+% année,
-       col = "blue",
-       nclass = 50)
-
-#'
-#'
-
-if (longueur.non.na(filtre.fonctionnaire(rémunération.indemnitaire.imposable) > 0))
-  hist(filtre.fonctionnaire(rémunération.indemnitaire.imposable)/1000,
-       xlab = "En milliers d'euros\n",
-       ylab = "Effectif",
-       xlim = c(0, 70),
-       main = "Rémunération indemnitaire imposable annuelle\ndes fonctionnaires en " %+% année,
-       col = "blue",
-       nclass = 50)
-
-#'
-#'
-
-if (longueur.non.na(filtre.fonctionnaire(part.rémunération.indemnitaire)) > 0)
-  hist(filtre.fonctionnaire(part.rémunération.indemnitaire),
-       xlab = "Pourcentage des indemnités imposables dans la rémunération brute\n",
-       ylab = "Effectif",
-       main = "Part indemnitaire de la rémunération annuelle des fonctionnaires en " %+% année,
-       xlim = c(0,60),
-       col = "blue",
-       nclass = 60)
+histogrammes()
 
 #'
 #'**Tests de cohérence**
