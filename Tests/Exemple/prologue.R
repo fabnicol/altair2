@@ -25,7 +25,7 @@ fusionner.nom.prénom <- FALSE
 charger.bases        <- TRUE
 sauvegarder.bases.analyse    <- F
 sauvegarder.bases.origine    <- F
-générer.table.effectifs      <- TRUE
+générer.table.effectifs      <- F
 tester.matricules            <- TRUE
 tester.lignes.bulletins.mois <- TRUE
 corriger.quotité     <- FALSE
@@ -43,7 +43,7 @@ séparateur.décimal <- "."
 # les bases commencent par une majuscule. Un nom de fichier est souvent associé
 # à une variable commençant par une majuscule et représentant la base (data.frame ou matrice)
 
-racine                      <- "ASS-"
+racine                      <- "metro2008-"
   # "Ville Annecy Paye BP-"
   # "UTF-8.PDC-"
   # "RAG_2009_2012-"
