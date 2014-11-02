@@ -126,17 +126,17 @@ Altair::Altair()
 
   progress=new FProgressBar(this,
                                   &Altair::getDirectorySize,
-                                  NULL,
+                                  &Altair::printBaseSize,
                                   &Altair::killProcess);
 
-  progress2=new FProgressBar(this,
-                                  &Altair::getFileSize,
-                                  &Altair::printFileSize,
-                                   &Altair::killProcess,
-                                   "altair.iso");
+//  progress2=new FProgressBar(this,
+//                                  &Altair::getFileSize,
+//                                  &Altair::printFileSize,
+//                                   &Altair::killProcess,
+//                                   "altair.iso");
 
   progress->setToolTip(tr("Décodage"));
-  progress2->setToolTip(tr("Rapport"));
+ // progress2->setToolTip(tr("Rapport"));
 
   outputTextEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
   outputTextEdit->setAcceptDrops(false);
@@ -187,7 +187,7 @@ Altair::Altair()
   mainLayout->addLayout(projectLayout);
 
   progressLayout->addLayout(progress->layout);
-  progressLayout->addLayout(progress2->layout);
+  //progressLayout->addLayout(progress2->layout);
 
   mainLayout->addLayout(progressLayout);
 
@@ -747,10 +747,10 @@ FProgressBar::FProgressBar(Altair* parent,
     engine=measureFunction;
     this->parent=parent;
 
-//    connect(timer,
-//                   &QTimer::timeout,
-//                   [this, displayMessageWhileProcessing] { (this->parent->*displayMessageWhileProcessing)(updateProgressBar()); });
+    connect(timer,
+                   &QTimer::timeout,
+                   [this, displayMessageWhileProcessing] { (this->parent->*displayMessageWhileProcessing)(updateProgressBar()); });
 
     connect(killButton, &QToolButton::clicked, parent, killFunction);
-    //connect(parent->process, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(stop()));
+    connect(parent->process, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(stop()));
 }
