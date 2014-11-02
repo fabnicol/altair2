@@ -402,16 +402,20 @@ if (table.rapide == TRUE) {
   
   Bulletins.paie <- Bulletins.paie[ ,   Montant.brut.annuel := sum(Brut, na.rm=TRUE), key=c("Matricule", "Année")]
   
-  Bulletins.paie <- Bulletins.paie[ ,   `:=`(Montant.net.annuel.eqtp = sum(Montant.net.eqtp, na.rm=TRUE),
-                                             Statut.sortie       = Statut[length(Net.à.Payer)],
+  Bulletins.paie <- Bulletins.paie[ ,   `:=`(Statut.sortie       = Statut[length(Net.à.Payer)],
                                              mois.entrée         = ifelse((minimum <- min(Mois)) != Inf, minimum, 0),
                                              mois.sortie         = ifelse((maximum <- max(Mois)) != -Inf, maximum, 0)),
                                         key=c("Matricule", "Année")]
   Bulletins.paie <- Bulletins.paie[ ,   `:=`(nb.jours            = calcul.nb.jours.mois(mois.entrée[1], mois.sortie[1], Année[1]),
                                              nb.mois             = mois.sortie[1] - mois.entrée[1] + 1),
                                         key=c("Matricule", "Année")]
+  Bulletins.paie <- Bulletins.paie[ ,    Montant.net.annuel.eqtp := sum(Montant.net.eqtp * 365 / nb.jours, na.rm=TRUE),
+                                        key=c("Matricule", "Année")]
 
-  Paie <- merge(Bulletins.paie[, c("Matricule", "Année", "Mois", "quotité", "Montant.net.eqtp", "Montant.brut.annuel", "Montant.net.annuel.eqtp", "Statut.sortie", "mois.entrée", "mois.sortie", "nb.jours", "nb.mois"), with=FALSE], Paie, by=c("Année", "Mois", "Matricule"))
+  Paie <- merge(Bulletins.paie[, c("Matricule", "Année", "Mois", "quotité", "Montant.net.eqtp", "Montant.brut.annuel", "Montant.net.annuel.eqtp",
+                                   "Statut.sortie", "mois.entrée", "mois.sortie", "nb.jours", "nb.mois"), with=FALSE],
+                Paie, 
+                by=c("Année", "Mois", "Matricule"))
 
   class(Paie) <- "data.frame"
   class(Bulletins.paie) <- "data.frame"
@@ -542,7 +546,10 @@ Analyse.variations.par.exercice <- Analyse.rémunérations[ , c(clé.fusion, étique
                                                               "Montant.net.annuel.eqtp",
                                                               "Statut",
                                                               "nb.jours",
+
                                                               "nb.mois")]
+
+Analyse.variations.par.exercice <- Analyse.variations.par.exercice[Analyse.variations.par.exercice$nb.mois > seuil.troncature, ]
 
 Analyse.variations.synthèse <- ddply(Analyse.variations.par.exercice,
                                      clé.fusion,
@@ -556,31 +563,38 @@ Analyse.variations.synthèse <- ddply(Analyse.variations.par.exercice,
                                      Montant.net.annuel.eqtp.sortie = Montant.net.annuel.eqtp[Nexercices],
                                      moyenne.rémunération.annuelle.sur.période =
                                        sum(Montant.net.annuel.eqtp, na.rm = TRUE)/length(Année[!is.na(Montant.net.annuel.eqtp) & Montant.net.annuel.eqtp > 0]),
-                                     variation.rémunération = ifelse(Nexercices > 1 
-                                                                     & !is.na(Montant.net.annuel.eqtp.début)
-                                                                     & !is.na(Montant.net.annuel.eqtp.sortie) 
-                                                                     & Montant.net.annuel.eqtp.début > 0 
-                                                                     & Montant.net.annuel.eqtp.sortie > 0,
-                                                                     (Montant.net.annuel.eqtp.sortie / Montant.net.annuel.eqtp.début - 1)*100, NA),
-                                     variation.moyenne.rémunération = ifelse(is.na(total.mois)
-                                                                             | is.na(variation.rémunération)
-                                                                             | total.mois < 13,
-                                                                             NA,
-                                                                             ((Montant.net.annuel.eqtp.sortie/Montant.net.annuel.eqtp.début)^(12 / (total.mois - 12)) - 1) * 100),
+                                     
+                                     pris.en.compte = Nexercices > 1 
+                                                        & ! is.na(Montant.net.annuel.eqtp.début)
+                                                        & ! is.na(Montant.net.annuel.eqtp.sortie)
+                                                        & ! is.na(total.mois)
+                                                        & Montant.net.annuel.eqtp.début  > 0 
+                                                        & Montant.net.annuel.eqtp.sortie > 0
+                                                        & total.mois > 12,
+                                     
+                                     variation.rémunération = ifelse(pris.en.compte,
+                                                                      (Montant.net.annuel.eqtp.sortie / Montant.net.annuel.eqtp.début - 1)*100,
+                                                                       NA),
+                                     
+                                     variation.moyenne.rémunération = ifelse(pris.en.compte,
+                                                                             ((variation.rémunération/100 + 1)^(12 / (total.mois - 12)) - 1) * 100,
+                                                                             NA),
+
                                      variation.rémunération.normalisée = ifelse(durée.sous.revue == Nexercices
                                                                                 & nb.mois.exercice.début == 12
                                                                                 & nb.mois.exercice.sortie == 12,
-                                                                                variation.rémunération, NA),
-                                     variation.moyenne.rémunération.normalisée = ifelse(!is.na(variation.rémunération.normalisée), variation.moyenne.rémunération, NA),
+                                                                                variation.rémunération,
+                                                                                NA),
+                                     
+                                     variation.moyenne.rémunération.normalisée = ifelse(!is.na(variation.rémunération.normalisée),
+                                                                                        variation.moyenne.rémunération,
+                                                                                        NA),
                                      plus.2.ans  = (total.mois  >= 2*12),
                                      moins.2.ans = (total.mois < 2*12),
                                      moins.1.an  = (total.mois < 12),
                                      moins.six.mois = (total.mois < 6),
                                      statut = Statut[1])
 
-Analyse.variations.par.exercice <- na.omit(Analyse.variations.par.exercice[ (Analyse.variations.par.exercice$Année > début.période.sous.revue
-                                                                             & Analyse.variations.par.exercice$Année < fin.période.sous.revue) |
-                                                                               Analyse.variations.par.exercice$nb.mois > seuil.troncature, ])
 
 temp <- Analyse.variations.synthèse[Analyse.variations.synthèse$plus.2.ans, clé.fusion]
 
