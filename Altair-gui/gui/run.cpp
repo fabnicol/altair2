@@ -13,13 +13,11 @@ QStringList Altair::createCommandLineString(flags::commandLineType commandLineTy
   while (w.hasPrevious())
     {
       FAbstractWidget* item=w.previous();
-      
-      if (item->commandLineType == commandLineType && item->isAbstractEnabled())
-        {
+            
           const QStringList commandLineChunk=item->commandLineStringList();
           if (!commandLineChunk.isEmpty() && !commandLineChunk[0].isEmpty())
              commandLine +=  commandLineChunk;
-        }
+        
     }
 
   return commandLine;
@@ -58,12 +56,16 @@ void Altair::run()
   command=args.join(" ");
   outputTextEdit->append(STATE_HTML_TAG + tr("Ligne de commande : ")+ altairCommandStr+ " "+command);
 
-  outputType="XHL";
-
-  process.setProcessChannelMode(QProcess::MergedChannels);
-
-  process.start(altairCommandStr, args);
-
+  outputType="LHX";
+  
+  process->setProcessChannelMode(QProcess::MergedChannels);
+  
+  process->start(altairCommandStr,  args);
+  if (process->waitForStarted())
+      outputTextEdit->append(PROCESSING_HTML_TAG + tr("Lancement de LXH..."));
+  else
+      outputTextEdit->append(PROCESSING_HTML_TAG + tr("Echec du lancement de LXH"));
+  
   //progress->setTarget(Hash::wrapper["targetDir"]->toQString());
   //progress2->setTarget(Hash::wrapper["mkisofsPath"]->toQString());
 
@@ -74,28 +76,16 @@ void Altair::run()
 
 void Altair::runRAltair()
 {
-      
+            
+  outputTextEdit->append(tr(STATE_HTML_TAG "Création du rapport R-Altair..."));
+    
+  outputTextEdit->append(tr(STATE_HTML_TAG "Ligne de commande : %1").arg(RAltairCommandStr));
 
-  QStringList args;
-  QString command;
+  process->start(RAltairCommandStr);
+  //progress->setTarget(Hash::wrapper["targetDir"]->toQString());
+  //progress2->setTarget(Hash::wrapper["mkisofsPath"]->toQString());
 
-  QListIterator<FAbstractWidget*> w(Abstract::abstractWidgetList);
-  
-  args << createCommandLineString(flags::commandLineType::RAltairFiles);
-          
-  outputTextEdit->append(tr(STATE_HTML_TAG "Création du rapport Altair..."));
-  
-  if (!args.isEmpty()) args.takeFirst();
-  
-  command=args.join(" ");
-  outputTextEdit->append(tr(STATE_HTML_TAG "Command line : %1 %2").arg(RAltairCommandStr, command));
-
-
-  process.start(RAltairCommandStr, args);
-  progress->setTarget(Hash::wrapper["targetDir"]->toQString());
-  progress2->setTarget(Hash::wrapper["mkisofsPath"]->toQString());
-
-  progress->start(500);
+  //progress->start(500);
 
 }
 
@@ -119,7 +109,7 @@ void Altair::processFinished(exitCode code)
   }
   
 
-if (process.exitStatus() == QProcess::CrashExit) return;
+if (process->exitStatus() == QProcess::CrashExit) return;
 
 qint64 isoSize=1, fsSize=1;
 
@@ -138,30 +128,6 @@ if (outputType == "XHL")
     
 
 }
-//else
-// if (outputType == "Disc image authoring")
-//    {
-//        outputTextEdit->append(PROCESSING_HTML_TAG  + outputType + tr(" completed. Image file is: %1").arg(v(mkisofsPath)));
-
-//        isoSize=getFileSize(v(mkisofsPath));
-
-
-//        outputTextEdit->append(tr(PROCESSING_HTML_TAG"Iso file size: ")+ QString::number(isoSize) + " Bytes ("+ QString::number(((float)isoSize)/(1024.0*1024.0*1024.0), 'f', 2)+ " GB)");
-//    }
-//else
-// if (outputType == "Burning")
-// {
-////     resetCdRecordProcessedOutput();
-//     if ((process.exitStatus() == QProcess::NormalExit) && (process.exitCode() == 0))
-//        outputTextEdit->append(PROCESSING_HTML_TAG  + outputType + tr(" completed."));
-//     else
-//     {
-//        outputTextEdit->append(ERROR_HTML_TAG  + outputType + tr(" issues: check disc."));
-//        QString msg=(process.exitStatus() == QProcess::NormalExit)?(QString(ERROR_HTML_TAG) + "Cdrecord: Normal exit") :(QString(ERROR_HTML_TAG) + "Crash exit");
-//        outputTextEdit->append(msg+". Error code: "+QString::number(process.exitCode()));
-//     }
-// }
-
 
 }
 
@@ -171,7 +137,7 @@ if (outputType == "XHL")
 
 void Altair::killProcess()
 {
-  process.kill();
+  process->kill();
   outputTextEdit->append(PROCESSING_HTML_TAG+ outputType + tr(" was killed (SIGKILL)"));
 }
 
@@ -179,7 +145,7 @@ void Altair::killProcess()
 
 void Altair::printMsg(qint64 new_value, const QString &str)
 {
-    if (process.state() != QProcess::Running)        return;
+    if (process->state() != QProcess::Running)        return;
     if (new_value < 1024*1024*1024)
                    outputTextEdit->append(tr(STATE_HTML_TAG) + str + QString::number(new_value) +" B ("+QString::number(new_value/(1024*1024))+ " Mo)");
              else

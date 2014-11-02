@@ -174,8 +174,8 @@ const QStringList FAbstractWidget::commandLineStringList()
                     else
                     {
                        if (commandLineList[0] != "  ")
-                        strL= (optionLabel.size() == 1)? QStringList("-"+optionLabel+" "+commandLineList[0].toQString())
-                                                                           :QStringList("--"+optionLabel+"="+commandLineList[0].toQString());
+                        strL= (optionLabel.size() == 1)? QStringList() << "-"+optionLabel << commandLineList[0].toQString()
+                                                        :QStringList("--"+optionLabel+"="+commandLineList[0].toQString());
                     }
                 }
             }
@@ -467,10 +467,14 @@ void FComboBox::fromCurrentIndex(const QString &text)
 
 void FComboBox::refreshWidgetDisplay()
 {
-    if (commandLineList[0].isFilled())
+    FString str = commandLineList[0];
+    if (str.isFilled())
     {
-        if (findText(commandLineList[0]) != -1)
-            setCurrentIndex(findText(commandLineList[0]));
+        if (comboBoxTranslationHash && !comboBoxTranslationHash->isEmpty()) 
+            str = comboBoxTranslationHash->key(str);
+        
+        if (findText(str.remove('\'')) != -1)
+            setCurrentIndex(findText(str));
         else
             if (isEditable())
             {

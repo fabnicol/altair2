@@ -54,9 +54,7 @@ MainWindow::MainWindow(char* projectName)
   altair->parent=this;
   altair->projectName=projectName;
 
-  console=new Console(this);
-
-  connect(&(altair->process),   &QProcess::started,     [&]  {  feedConsole(); });
+  connect(altair->process,   &QProcess::started,     [&]  {  feedConsole(); });
 
   createActions();
   createMenus();
@@ -83,8 +81,9 @@ MainWindow::MainWindow(char* projectName)
   bottomDockWidget=new QDockWidget;
   bottomTabWidget=new QTabWidget;
   consoleDialog=  new QTextEdit;
-  //consoleDialog->setMinimumSize(800,600);
   bottomTabWidget->addTab(altair->outputTextEdit, tr("Messages"));
+  bottomTabWidget->addTab(consoleDialog, tr("Console"));
+  bottomTabWidget->setCurrentIndex(0);
 
   fileTreeViewDockWidget= new QDockWidget;
   fileTreeViewDockWidget->setWidget(altair->fileTreeView);
@@ -142,10 +141,6 @@ MainWindow::MainWindow(char* projectName)
 
 void MainWindow::on_clearOutputTextButton_clicked()
 {
-    if (console->isVisible())
-    {
-        console->raise(); // to refocus if triggering main app button otherwise redundant
-    }
 
     qobject_cast<QTextEdit*>(bottomTabWidget->currentWidget())->clear();
  }
@@ -210,12 +205,11 @@ void MainWindow::createMenus()
  editMenu->addAction(displayOutputAction);
  editMenu->addAction(displayFileTreeViewAction);
  editMenu->addAction(displayManagerAction);
- editMenu->addAction(displayConsoleAction);
  editMenu->addAction(clearOutputTextAction);
  editMenu->addAction(editProjectAction);
 
- processMenu->addAction(burnAction);
- processMenu->addAction(encodeAction);
+ processMenu->addAction(RAction);
+ processMenu->addAction(lhxAction);
 
 
  optionsMenu->addAction(optionsAction);
@@ -257,18 +251,19 @@ void MainWindow::createActions()
   closeAction->setIcon(QIcon(":/images/document-close.png"));
   connect(closeAction, SIGNAL(triggered()), altair, SLOT(closeProject()));
 
-  burnAction = new QAction(tr("&Lancer le décodage"), this);
-  burnAction->setShortcut(QKeySequence("Ctrl+B"));
-  burnAction->setIcon(QIcon(":/images/burn.png"));
+  RAction = new QAction(tr("&Lancer l'analyse R-Altair."), this);
+  RAction->setShortcut(QKeySequence("Ctrl+R"));
+  RAction->setIcon(QIcon(":/images/altair.png"));
+  connect(RAction, SIGNAL(triggered()), altair, SLOT(runRAltair()));
 
-  encodeAction = new QAction(tr("Créer le rapport"), this);
-  encodeAction->setShortcut(QKeySequence("Ctrl+R"));
-  encodeAction->setIcon(QIcon(":/images/encode.png"));
-  connect(encodeAction, SIGNAL(triggered()), altair, SLOT(run()));
+  lhxAction = new QAction(tr("Créer la base de données .csv"), this);
+  lhxAction->setShortcut(QKeySequence("Ctrl+B"));
+  lhxAction->setIcon(QIcon(":/images/csv.png"));
+  connect(lhxAction, SIGNAL(triggered()), altair, SLOT(run()));
 
   optionsAction = new QAction(tr("&Options"), this);
   optionsAction->setShortcut(QKeySequence("Ctrl+P"));
-  optionsAction->setIcon(QIcon(":/images/configure.png"));
+  optionsAction->setIcon(QIcon(":/images/encode.png"));
   connect(optionsAction, SIGNAL(triggered()), this, SLOT(on_optionsButton_clicked()));
 
   configureAction= new QAction(tr("&Configurer l'interface"), this);
@@ -288,11 +283,6 @@ void MainWindow::createActions()
   const QIcon iconViewList = QIcon(QString::fromUtf8( ":/images/manager.png"));
   displayManagerAction->setIcon(iconViewList);
   connect(displayManagerAction, SIGNAL(triggered()), this, SLOT(on_openManagerWidgetButton_clicked()));
-
-  displayConsoleAction = new QAction(tr("Ouvrir/Fermer la console"), this);
-  const QIcon consoleIcon = QIcon(QString::fromUtf8( ":/images/console.png"));
-  displayConsoleAction->setIcon(consoleIcon);
-  connect(displayConsoleAction, &QAction::triggered, [&] {console->on_displayConsoleButton_clicked(this);});
 
   editProjectAction=new QAction(tr("Editer le projet courant"), this);
   editProjectAction->setShortcut(QKeySequence("Ctrl+E"));
@@ -349,8 +339,8 @@ void MainWindow::createActions()
     }
 
   actionList << openAction << saveAction << saveAsAction << closeAction << exitAction << separator[0] <<
-                burnAction << encodeAction << displayOutputAction << displayFileTreeViewAction <<
-                displayManagerAction << displayConsoleAction <<  separator[4] <<
+                RAction << lhxAction << displayOutputAction << displayFileTreeViewAction <<
+                displayManagerAction <<  separator[4] <<
                 clearOutputTextAction <<  editProjectAction << separator[3] << configureAction <<
                 optionsAction << helpAction << aboutAction ;
   
@@ -406,11 +396,10 @@ void MainWindow::createToolBars()
  editToolBar->addAction(displayOutputAction);
  editToolBar->addAction(displayFileTreeViewAction);
  editToolBar->addAction(displayManagerAction);
- editToolBar->addAction(displayConsoleAction);
- editToolBar->addAction(editProjectAction);
+  editToolBar->addAction(editProjectAction);
 
- processToolBar->addAction(burnAction);
- processToolBar->addAction(encodeAction);
+ processToolBar->addAction(RAction);
+ processToolBar->addAction(lhxAction);
 
  optionsToolBar->addAction(optionsAction);
  optionsToolBar->addAction(configureAction);
@@ -566,7 +555,9 @@ void MainWindow::configureOptions()
     QGroupBox *displayToolBarsGroupBox =new QGroupBox(tr("Barres d'outils"));
 
     closeButton = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
-
+    closeButton->button(QDialogButtonBox::Ok)->setText("Accepter");
+    closeButton->button(QDialogButtonBox::Cancel)->setText("Annuler");    
+    
     QGridLayout *layout=new QGridLayout;
     QVBoxLayout *displayDocksLayout=new QVBoxLayout;
     QVBoxLayout *displayToolBarsLayout=new QVBoxLayout;
@@ -582,10 +573,6 @@ void MainWindow::configureOptions()
                                                                             "projectManagerDisplay",
                                                                             {"Interface", "Afficher le gestionnaire de projet"});
 
-    defaultConsoleLayoutBox=new FCheckBox("Afficher la console",
-                                                                            flags::status::enabledChecked|flags::commandLineType::noCommandLine,
-                                                                            "launchConsoleAsTab",
-                                                                            {"Interface", "Ajouter un onglet pour la console/Supprimer la console"});
 
     defaultFullScreenLayout=new FCheckBox("Plein écran",
                                                         flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
@@ -639,13 +626,12 @@ void MainWindow::configureOptions()
 
     displayWidgetList  <<  defaultFileManagerWidgetLayoutBox
                        << defaultProjectManagerWidgetLayoutBox
-                       << defaultConsoleLayoutBox
                        << defaultOutputTextEditBox
                        << defaultFullScreenLayout;
 
 
     behaviorWidgetList   << defaultSaveProjectBehavior
-                             << defaultLoadProjectBehavior;
+                         << defaultLoadProjectBehavior;
     
     displayToolBarCBoxList <<  defaultFileToolBarBox
                        <<  defaultEditToolBarBox
@@ -715,7 +701,6 @@ void MainWindow::configureOptions()
     connect(defaultFileManagerWidgetLayoutBox, SIGNAL(toggled(bool)), this, SLOT(on_displayFileTreeViewButton_clicked(bool)));
     connect(defaultProjectManagerWidgetLayoutBox, SIGNAL(toggled(bool)), this, SLOT(on_openManagerWidgetButton_clicked(bool)));
     
-    connect(defaultConsoleLayoutBox, &FCheckBox::toggled, [this] {console->detachConsole(defaultConsoleLayoutBox->isChecked(), this);});
     connect(defaultFullScreenLayout, SIGNAL(toggled(bool)), this, SLOT(showMainWidget(bool)));
     connect(defaultOutputTextEditBox, &FCheckBox::toggled, [this] {bottomDockWidget->setVisible(defaultOutputTextEditBox->isChecked());});
     connect(defaultLoadProjectBehavior, &FCheckBox::toggled, [this] {if (defaultLoadProjectBehavior->isChecked()) altair->RefreshFlag |=  ParseXml;});
@@ -750,16 +735,6 @@ static bool flushHtmlContent=true;
 
 void MainWindow::feedConsoleWithHtml()
 {
-#ifdef DEBUG
-    static qint64 tableFlag=0;
-    QFile testInput(QDir::homePath()+"/input"+QString::number(tableFlag));
-    QFile testOutput(QDir::homePath()+"/output"+QString::number(tableFlag));
-
-    testInput.open(QFile::WriteOnly|QFile::Truncate);
-    testOutput.open(QFile::WriteOnly|QFile::Truncate);
-    QTextStream input(&testInput);
-    QTextStream output(&testOutput);
-#endif
 
     QString  readData;
 
@@ -767,41 +742,29 @@ void MainWindow::feedConsoleWithHtml()
      * whilst just creating the Html code for a console table, resulting in display issues, it is necessary to integrate a 'delayed display'
      * cut-and-paste capability so as to ensure corresponding <table>...</table> tags in the same file */
 
-    QRegExp reg("(\\[INF\\]|\\[PAR\\]|\\[MSG\\]|\\[ERR\\]|\\[WAR\\]|\\[LICENSE\\]|\\[DBG\\])([^\n]+)");
+    QRegExp reg("^(Fichier|Population|Total|Table|Premier|Erreur|Creation|Coh.+\\s)([^\n]+)");
  
 
-     if (altair->outputType == "DVD-Audio authoring")
+     if (altair->outputType == "LHX")
      {
-            while (altair->process.canReadLine())
+            while (altair->process->canReadLine())
             {
-                QString buffer=altair->process.readLine();
-
-                /* must come first before block (2) */
-
-
-                /* block (2) */
-
+                QString buffer=altair->process->readLine();
 
                 if (buffer.contains(reg))
                 {
 
-                    switch (reg.cap(1).at(1).toLatin1())
+                    switch (reg.cap(1).at(0).toLatin1())
                     {
-                    case 'I' :
-                        buffer= buffer.replace(reg, (QString)PROCESSING_HTML_TAG "\\2"); break;
-                    case 'P' :
-                        buffer=buffer.replace(reg, (QString)  PARAMETER_HTML_TAG "\\2"); break;
-                    case 'M' :
-                        buffer=buffer.replace(reg, (QString) STATE_HTML_TAG "\\2"); break;
-                    case 'E' :
-                        buffer=buffer.replace(reg, (QString) ERROR_HTML_TAG "\\2"); break;
-                    case 'W' :
-                        buffer=buffer.replace(reg, (QString) WARNING_HTML_TAG "\\2"); break;
-                    case 'L' :
-                        buffer=buffer.replace(reg, (QString)  LICENSE_HTML_TAG "\\2"); break;
-                    case 'D' :
-                        buffer=buffer.replace(reg, (QString)  DBG_HTML_TAG "\\2"); break;
-
+                        case 'C' :   
+                            buffer= buffer.replace(reg, (QString)PROCESSING_HTML_TAG "\\1 \\2"); break;
+                        case 'T' :
+                            buffer=buffer.replace(reg, (QString)  PARAMETER_HTML_TAG "\\1 \\2"); break;
+                        case 'P' :
+                        case 'F' :   
+                            buffer=buffer.replace(reg, (QString) STATE_HTML_TAG "\\1 \\2"); break;
+                        case 'E' :
+                            buffer=buffer.replace(reg, (QString) ERROR_HTML_TAG "\\1 \\2"); break;
                     }
 
                 }
@@ -811,28 +774,20 @@ void MainWindow::feedConsoleWithHtml()
                     if (!readData.isEmpty())
                     {
                         consoleDialog->insertHtml(readData.replace("\n","<br>" ));
-                       output << readData ;
-                       readData.clear();
+                        readData.clear();
                     }
                     else
                     {
                         consoleDialog->insertHtml(buffer.replace("\n", "<br>"));
-                        output << buffer;
                     }
                 }
             }
 
     }
-
-   consoleDialog->insertHtml(readData.replace("\n","<br>" ));
+   
+   QString consoleText=readData.replace("\n","<br>" );
+   consoleDialog->insertHtml(consoleText);
    consoleDialog->moveCursor(QTextCursor::End);
-
-#ifdef DEBUG
-
-    testInput.close(); testOutput.close();
-    tableFlag++;
-#endif
-
 }
 
 void MainWindow::feedConsole()
@@ -840,9 +795,8 @@ void MainWindow::feedConsole()
 
         consoleDialog->insertHtml(QString("<br>" PROCESSING_HTML_TAG " ") +altair->outputType+"...<br>");
         consoleDialog->moveCursor(QTextCursor::End);
-        console->appendHtml(QString("<br>" PROCESSING_HTML_TAG " " ) +altair->outputType+"...<br>");
 
-        connect(&(altair->process), &QProcess::readyReadStandardOutput, [&] {
+        connect(altair->process, &QProcess::readyReadStandardOutput, [&] {
                 feedConsoleWithHtml();
             });
 
