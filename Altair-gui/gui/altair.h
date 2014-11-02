@@ -142,8 +142,9 @@ private:
     bool refreshProjectManager();
     void msg (const QString & text);
     void printMsg(qint64 new_value, const QString &str);
-    void printFileSize(qint64 new_value);
-    void printBurnProcess(qint64 new_value);
+    void printBaseSize(qint64 new_value);
+//    void printFileSize(qint64 new_value);
+//    void printBurnProcess(qint64 new_value);
     inline int removeFileTreeElement();
     int applyFunctionToSelectedFiles(int (*f)());
     StandardComplianceProbe  *probe;
@@ -173,7 +174,7 @@ public:
                                      MeasureFunction measureFunction,
                                      DisplayFunction displayMessageWhileProcessing,
                                      SlotFunction  killFunction=nullptr,
-                                     const QString & fileExtensionFilter="*.AOB",
+                                     const QString & fileExtensionFilter="*.csv",
                                      const QString&  measurableTarget="",
                                      const qint64 referenceSize=1);
 
