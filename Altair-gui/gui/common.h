@@ -95,13 +95,13 @@ protected :
   const QString sharedir= generateDatadirPath();
  
   QString altairCommandStr=execPath+ QDir::separator()+QString("lxh"+ QString(systemSuffix));
-  QString RAltairCommandStr=execPath+ QDir::separator()+QString("altair"+ QString(systemSuffix));
+  QString RAltairCommandStr=execPath+ QDir::separator()+QString("rstudio"+ QString(systemSuffix));
    
 #else
 
    QString execPath=PREFIX+QString("/bin");
    QString sharedir=PREFIX+QString("/share/applications/altair");
-   QString RAltairCommandStr=PREFIX+QString("/bin/altair");
+   QString RAltairCommandStr=PREFIX+QString("/bin/rstudio");
    QString altairCommandStr=PREFIX+QString("/bin/lhx");
 
 #endif

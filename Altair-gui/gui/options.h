@@ -27,6 +27,7 @@ private:
       *processTypeWidget;
     
     FLineEdit 
+     *baseLineEdit,
      *sepLineEdit,
      *decLineEdit,
      *maxNLigneLineEdit,
@@ -48,6 +49,8 @@ private:
  private slots :
     void on_baseTypeWidgetChanged(int){}
     void on_processTypeWidgetChanged(int){}
+    void on_openBaseDirButton_clicked();
+    void selectOutput();
 
 };
 

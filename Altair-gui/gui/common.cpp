@@ -100,14 +100,14 @@ return string;
 
 QString common::generateDatadirPath(const QString &path)
 {
-  QString pathstr= QDir::cleanPath(  QStandardPaths::writableLocation(QStandardPaths::DataLocation) + path);
+  QString pathstr= QDir::cleanPath(  QStandardPaths::writableLocation(QStandardPaths::DataLocation) + ((path.isEmpty())?"":QString("/"))+path);
   return pathstr;
 }
 
 QString common::generateDatadirPath(const char* path)
 {
   const QString str= QString(path);
-  QString pathstr= QDir::cleanPath(  QStandardPaths::writableLocation(QStandardPaths::DataLocation) +  str);
+  QString pathstr= QDir::cleanPath(  QStandardPaths::writableLocation(QStandardPaths::DataLocation) + ((path[0]=='\0')?"":"/")+ str);
   return pathstr;
 }
 
@@ -118,7 +118,7 @@ void common::setWhatsThisText(QWidget* widget, int start, int stop)
 
 void common::openDir(QString path)
 {
-   if (path.isEmpty()) return;
+  if (path.isEmpty()) return;
   if (!QFileInfo(path).isDir())
     {
       QMessageBox::warning(this, "", path + " n'est pas un répertoire.");

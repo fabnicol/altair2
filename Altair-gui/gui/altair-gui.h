@@ -13,7 +13,6 @@
 #include "common.h"
 #include "highlighter.h"
 #include "enums.h"
-#include "console.h"
 #include "altair.h"
 
 
@@ -121,9 +120,9 @@ class MainWindow : public QMainWindow
    QAction *saveAsAction;
    QAction *saveAction;
    QAction *closeAction;
-   QAction *burnAction;
+   QAction *RAction;
    QAction *configureAction;
-   QAction *encodeAction;
+   QAction *lhxAction;
    QAction *decodeAction;
    QAction *aboutAction;
    QAction *licenceAction;
@@ -132,7 +131,6 @@ class MainWindow : public QMainWindow
    QAction *helpAction;
    QAction *displayAction;
    QAction *displayManagerAction;
-   QAction *displayConsoleAction;
    QAction *editProjectAction;
    QAction *displayOutputAction;
    QAction *displayFileTreeViewAction;
@@ -145,7 +143,6 @@ class MainWindow : public QMainWindow
 
    FCheckBox *defaultFullScreenLayout,
                         *defaultRAltairActivation,
-                        *defaultConsoleLayoutBox,
                         *defaultProjectManagerWidgetLayoutBox,
                         *defaultFileManagerWidgetLayoutBox,
                         *defaultMessageLayoutBox,
@@ -162,7 +159,6 @@ class MainWindow : public QMainWindow
    
    QTextEdit *editor;
    Highlighter *highlighter;
-   Console *console;
    void feedConsoleWithHtml();
 
 };
