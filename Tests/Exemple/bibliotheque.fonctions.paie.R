@@ -284,8 +284,11 @@ calcul.nb.jours <- function(entrée, sortie)
   return (julian.sortie - julian.entrée)
 }
 
-calcul.nb.jours.mois <- function(mois.entrée, mois.sortie, année)
+calcul.nb.jours.mois.deprecated <- function(mois.entrée, mois.sortie, année)
 {
+
+  # calcul exact pour une période continue 
+    
   if (mois.sortie < mois.entrée) return(0);
 
   if (mois.sortie == 12)
@@ -309,67 +312,15 @@ calcul.nb.jours.mois <- function(mois.entrée, mois.sortie, année)
                             "%d%m%Y"))
 }
 
-calcul.nb.jours.dans.exercice.in <- function(entrée)
-{
-  date.entrée <- as.Date(entrée, date.format)
+v.jmois  <-  c(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
+v.jmois.leap  <-  c(31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
 
-  if (entrée == "")
-  {
-    julian.entrée <-  julian.date.début.période
-    julian.fin.exercice <- julian.exercice.suivant.premier
-  }
-  else
-  {
-    julian.entrée <- julian(date.entrée)
-    if (julian.date.début.période < julian.entrée)
-      julian.fin.exercice <- julian(as.Date(paste0("01/01/",as.integer(substr(entrée, 7, 10))+1), date.format))
-    else
-    {
-      julian.fin.exercice <- julian.exercice.suivant.premier
-      julian.entrée <- julian.date.début.période
-    }
-  }
-
-  return (julian.fin.exercice - julian.entrée)
-
-}
-
-calcul.nb.jours.dans.exercice.out <- function(sortie)
-{
-  date.sortie <- as.Date(sortie, date.format)
-
-  if (sortie == "")
-  {
-    julian.sortie <-  julian.date.fin.période
-    julian.début.exercice <- julian.exercice.dernier
-  }
-  else
-  {
-    julian.sortie <- julian(date.sortie)
-    if (julian.date.début.période < julian.sortie)
-      julian.début.exercice <- julian(as.Date(paste0("01/01/",as.integer(substr(sortie, 7, 10))), date.format))
-    else
-    {
-      julian.début.exercice <- julian.date.début.période
-      julian.sortie <- julian.exercice.suivant.premier
-    }
-  }
-
-  return (julian.sortie - julian.début.exercice)
-
-}
-
-calcul.variation <- function(rémunération.début, rémunération.sortie, nb.jours.exercice.début, nb.jours.exercice.sortie, nb.exercices)
-{
-  if (nb.exercices > 1)
-
-    return(ifelse(rémunération.début == 0, 0, ( rémunération.sortie / rémunération.début   - 1  ) * 100))
-
-  else
-
-    return (0)
-
-}
+calcul.nb.jours.mois <- function(Mois, année)   if ((année - 2008) %%4 == 0) {
+                                                  return(sum(v.jmois.leap[Mois])) 
+                                                  } else {
+                                                  return(sum(v.jmois[Mois]))
+                                                }
+    
 
 positive <- function(X) X[!is.na(X) & X > 0]
 non.null <- function(X) X[!is.na(X) & X != 0]
