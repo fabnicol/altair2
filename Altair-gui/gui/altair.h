@@ -60,7 +60,6 @@ public:
      QDir soundDir;
      QString outputType;
 
-
 public slots:
 
    void updateProject(bool=false);
@@ -109,7 +108,7 @@ private:
 
     QIcon iconShowMaximized, iconShowNormal;
     
-    FProgressBar *progress, *progress2;
+    FProgressBar *progress;
     QToolButton *mkdirButton= new QToolButton;
     QToolButton *removeFileTreeElementsButton= new QToolButton;
 
@@ -148,6 +147,9 @@ private:
     inline int removeFileTreeElement();
     int applyFunctionToSelectedFiles(int (*f)());
     StandardComplianceProbe  *probe;
+
+ public:
+     QProgressBar* getBar();
 
  protected:
 
@@ -206,6 +208,7 @@ public:
     void setToolTip(const QString & tip) { bar->setToolTip(tip); }
     void setTarget(const QString&  t) { target=t; }
     void setReference(qint64  r) { reference=r; }
+    QProgressBar* getBar() {return bar; }
     qint64 updateProgressBar();
 
  private:
