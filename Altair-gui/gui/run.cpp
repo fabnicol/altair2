@@ -52,9 +52,9 @@ void Altair::run()
     
     process->start(altairCommandStr,  args);
     if (process->waitForStarted())
-        outputTextEdit->append(PROCESSING_HTML_TAG + tr("Lancement de LXH..."));
+        outputTextEdit->append(PROCESSING_HTML_TAG + tr("Lancement de LHX..."));
     else
-        outputTextEdit->append(PROCESSING_HTML_TAG + tr("Echec du lancement de LXH"));
+        outputTextEdit->append(PROCESSING_HTML_TAG + tr("Echec du lancement de LHX"));
     
     QString path=Hash::wrapper["base"]->toQString();
     QDir targetDirObject(path);
