@@ -1,6 +1,6 @@
-/*  Programme écrit par Fabrice NICOL sous licence CECILL 3
- *  Attention : lorsqu'il est édité, le présent code doit être converti soit en UTF-8 soit en ISO-5589-1 (Latin-1)avant d'être compilé.
- *  En entrée d'Altair préciser encodage.entrée en conformité avec l'encodage du présent fichier, qui sera celui de la base générée.
+/*  Programme Ã©crit par Fabrice NICOL sous licence CECILL 3
+ *  Attention : lorsqu'il est Ã©ditÃ©, le prÃ©sent code doit Ãªtre converti soit en UTF-8 soit en ISO-5589-1 (Latin-1)avant d'Ãªtre compilÃ©.
+ *  En entrÃ©e d'Altair prÃ©ciser encodage.entrÃ©e en conformitÃ© avec l'encodage du prÃ©sent fichier, qui sera celui de la base gÃ©nÃ©rÃ©e.
  */
 
 
@@ -39,14 +39,14 @@ int main(int argc, char **argv)
 {
 
 #ifdef _WIN32
-    setlocale(LC_ALL, "French_France");  // Windows ne gère pas UTF-8 en locale
+    setlocale(LC_ALL, "French_France");  // Windows ne gÃ¨re pas UTF-8 en locale
 #else
     setlocale(LC_ALL, "fr_FR.UTF-8");
 #endif
 
     if (argc < 2)
     {
-        fprintf(stderr, "%s\n", "Il faut au moins un fichier à analyser.");
+        fprintf(stderr, "%s\n", "Il faut au moins un fichier Ã  analyser.");
         return -2;
     }
 
@@ -72,7 +72,7 @@ int main(int argc, char **argv)
         0,                //    uint32_t nbAgentUtilisateur
         0,                //    uint32_t NCumAgent;
         0,                //    uint32_t NCumAgentXml;
-        MONOLITHIQUE,                //    taille base : non limitée par défaut
+        MONOLITHIQUE,                //    taille base : non limitÃ©e par dÃ©faut
         NULL,             //    uint16_t *NLigne;
         &mon_thread,      //    thread_t threads;
         NULL,             //    chemin log
@@ -82,10 +82,10 @@ int main(int argc, char **argv)
         0,                //    uint16_t fichier_courant
         '.',              //    const char decimal;
         ',',              //    const char separateur;
-        true,             // réduire coso mémoire
-        true,             // par défaut lire la balise adjacente
+        true,             // rÃ©duire coso mÃ©moire
+        true,             // par dÃ©faut lire la balise adjacente
         false,            // calculer les maxima de lignes et d'agents
-        BESOIN_MEMOIRE_ENTETE,// besoin mémoire minimum hors lecture de lignes : devra être incréméenté,
+        BESOIN_MEMOIRE_ENTETE,// besoin mÃ©moire minimum hors lecture de lignes : devra Ãªtre incrÃ©mÃ©entÃ©,
         1                 // nbfil
     };
 
@@ -96,7 +96,7 @@ int main(int argc, char **argv)
             info.reduire_consommation_memoire = false;
             if ((info.nbAgentUtilisateur = lire_argument(argc, argv[start + 1])) < 1)
             {
-                fprintf(stderr, "%s\n", "Préciser le nombre de bulletins mensuels attendus (majorant du nombre).");
+                fprintf(stderr, "%s\n", "PrÃ©ciser le nombre de bulletins mensuels attendus (majorant du nombre).");
                 exit(-1);
             }
             start += 2;
@@ -107,32 +107,32 @@ int main(int argc, char **argv)
         {
             printf("%s\n", "Usage :  xhl2csv OPTIONS fichiers.xhl");
             puts("OPTIONS :");
-            printf("%s\n", "-n argument obligatoire : nombre maximum de bulletins mensuels attendus [calcul exact par défaut]");
-            printf("%s\n", "-N argument obligatoire : nombre maximum de lignes de paye attendues [calcul exact par défaut]");
-            printf("%s\n", "-t argument optionnel   : type de base en sortie, soit 'standard', soit 'bulletins' [défaut bulletins].");
-            printf("%s\n", "-T argument obligatoire : nombre de lignes maximum par base .csv [défaut illimité]. Au plus 999 tables seront générées.");
-            printf("%s\n", "-T AN                    : générer une table par année");
-            printf("%s\n", "-T A/AC/AV/C/D/I/IR/RE/S/T : générer une table pour chaque catégorie de ligne : \
-                          A rémunérations diverse \n \
+            printf("%s\n", "-n argument obligatoire : nombre maximum de bulletins mensuels attendus [calcul exact par dÃ©faut]");
+            printf("%s\n", "-N argument obligatoire : nombre maximum de lignes de paye attendues [calcul exact par dÃ©faut]");
+            printf("%s\n", "-t argument optionnel   : type de base en sortie, soit 'standard', soit 'bulletins' [dÃ©faut bulletins].");
+            printf("%s\n", "-T argument obligatoire : nombre de lignes maximum par base .csv [dÃ©faut illimitÃ©]. Au plus 999 tables seront gÃ©nÃ©rÃ©es.");
+            printf("%s\n", "-T AN                    : gÃ©nÃ©rer une table par annÃ©e");
+            printf("%s\n", "-T A/AC/AV/C/D/I/IR/RE/S/T : gÃ©nÃ©rer une table pour chaque catÃ©gorie de ligne : \
+                          A rÃ©munÃ©rations diverse \n \
                           AC acompte \n \
                           AV avantage en nature \n \
                           C cotisation \n \
-                          D déduction \n \
-                          I indemnités \n \
-                          IR indemnité de résidence \n \
+                          D dÃ©duction \n \
+                          I indemnitÃ©s \n \
+                          IR indemnitÃ© de rÃ©sidence \n \
                           RE retenue \n \
-                          S supplément familial \n \
+                          S supplÃ©ment familial \n \
                           T traitement brut \n \
-                          X toutes catégories\n");
-            printf("%s\n", "-o argument obligatoire : fichier.csv, chemin complet du fichier de sortie [défaut 'Table.csv' avec -t].");
-            printf("%s\n", "-D argument obligatoire : répertoire complet du fichier de sortie [défaut '.' avec -t].");
-            printf("%s\n", "-d argument obligatoire : séparateur décimal [défaut . avec -t].");
-            printf("%s\n", "-s argument obligatoire : séparateur de champs [défaut , avec -t]/");
-            printf("%s\n", "-j argument obligatoire : nombre de fils d'exécution (1 à 10).");
-            printf("%s\n", "-M sans argument        : ne pas libérer la mémoire réservée en fin de programme.");
+                          X toutes catÃ©gories\n");
+            printf("%s\n", "-o argument obligatoire : fichier.csv, chemin complet du fichier de sortie [dÃ©faut 'Table.csv' avec -t].");
+            printf("%s\n", "-D argument obligatoire : rÃ©pertoire complet du fichier de sortie [dÃ©faut '.' avec -t].");
+            printf("%s\n", "-d argument obligatoire : sÃ©parateur dÃ©cimal [dÃ©faut . avec -t].");
+            printf("%s\n", "-s argument obligatoire : sÃ©parateur de champs [dÃ©faut , avec -t]/");
+            printf("%s\n", "-j argument obligatoire : nombre de fils d'exÃ©cution (1 Ã  10).");
+            printf("%s\n", "-M sans argument        : ne pas libÃ©rer la mÃ©moire rÃ©servÃ©e en fin de programme.");
             printf("%s\n", "-m sans argument        : calculer les maxima d'agents et de lignes de paye.");
-            printf("%s\n", "-L argument obligatoire : chemin du log d'exécution du test de cohérence entre analyseurs C et XML.");
-            printf("%s\n", "-R argument obligatoire : expression régulière pour la recherche des élus (codés : ELU dans le champ Statut.");
+            printf("%s\n", "-L argument obligatoire : chemin du log d'exÃ©cution du test de cohÃ©rence entre analyseurs C et XML.");
+            printf("%s\n", "-R argument obligatoire : expression rÃ©guliÃ¨re pour la recherche des Ã©lus (codÃ©s : ELU dans le champ Statut.");
             exit(0);
         }
         else if (! strcmp(argv[start], "-t"))
@@ -225,7 +225,7 @@ int main(int argc, char **argv)
             else
             if ((info.taille_base = lire_argument(argc, argv[start +1])) < 0 || info.taille_base > INT32_MAX -1)
             {
-                    perror("Le nombre de lignes doit être compris entre 0 et INT64_MAX");
+                    perror("Le nombre de lignes doit Ãªtre compris entre 0 et INT64_MAX");
                     exit(-908);
             }
             start += 2;
@@ -235,7 +235,7 @@ int main(int argc, char **argv)
         {
             if (start + 1 == argc)
             {
-                fprintf(stderr, "%s\n", "Option -s suivi d'un argument obligatoire (séparateur de champs).");
+                fprintf(stderr, "%s\n", "Option -s suivi d'un argument obligatoire (sÃ©parateur de champs).");
                 exit(-100);
             }
             info.separateur = argv[start + 1][0];
@@ -258,7 +258,7 @@ int main(int argc, char **argv)
         {
             if (start + 1 == argc)
             {
-                fprintf(stderr, "%s\n", "Option -d suivi d'un argument obligatoire (séparateur décimal).");
+                fprintf(stderr, "%s\n", "Option -d suivi d'un argument obligatoire (sÃ©parateur dÃ©cimal).");
                 exit(-100);
             }
             info.decimal = argv[start + 1][0];
@@ -276,7 +276,7 @@ int main(int argc, char **argv)
             strncpy(info.chemin_base, argv[start + 1], 500*sizeof(char));
             if (NULL == fopen(info.chemin_base, "w"))
             {
-                perror("La base de données ne peut être créée, vérifier l'existence du dossier.");
+                perror("La base de donnÃ©es ne peut Ãªtre crÃ©Ã©e, vÃ©rifier l'existence du dossier.");
                 exit(-113);
             }
             start += 2;
@@ -300,7 +300,7 @@ int main(int argc, char **argv)
 
             if (NULL == fopen(info.chemin_base, "w"))
             {
-                fprintf(stderr, "La base de données %s ne peut être créée, vérifier l'existence du dossier.\n", info.chemin_base);
+                fprintf(stderr, "La base de donnÃ©es %s ne peut Ãªtre crÃ©Ã©e, vÃ©rifier l'existence du dossier.\n", info.chemin_base);
 
                 exit(-113);
             }
@@ -315,7 +315,7 @@ int main(int argc, char **argv)
             {
                 if (info.nbfil > 10 || info.nbfil < 1)
                 {
-                    perror("Le nombre de fils d'exécution doit être compris entre 2 et 10.");
+                    perror("Le nombre de fils d'exÃ©cution doit Ãªtre compris entre 2 et 10.");
                     exit(-111);
                 }
 
@@ -328,7 +328,7 @@ int main(int argc, char **argv)
             if (argc > start +2) info.chemin_log = strdup(argv[start + 1]);
             if (NULL == fopen(info.chemin_log, "w"))
             {
-                perror("Le log ne peut être créé, vérifier l'existence du dossier.");
+                perror("Le log ne peut Ãªtre crÃ©Ã©, vÃ©rifier l'existence du dossier.");
                 exit(-114);
             }
             start += 2;
@@ -338,7 +338,7 @@ int main(int argc, char **argv)
         {
             if ((info.nbLigneUtilisateur = lire_argument(argc, argv[start +1])) > 1)
             {
-               fprintf(stderr, "Nombre maximum de lignes de paye redéfini à %d\n", info.nbLigneUtilisateur);
+               fprintf(stderr, "Nombre maximum de lignes de paye redÃ©fini Ã  %d\n", info.nbLigneUtilisateur);
             }
 
             start += 2;
@@ -353,7 +353,7 @@ int main(int argc, char **argv)
             }
             else
             {
-                perror("Il manque l'expression régulière.");
+                perror("Il manque l'expression rÃ©guliÃ¨re.");
                 exit(-115);
             }
             start += 2;
@@ -370,7 +370,7 @@ int main(int argc, char **argv)
     xmlInitMemory();
     xmlInitParser();
     info_t* Info;
-    // fprintf(stderr, "Besoin de mémoire requise minimum par bulletin : %d x sizeof(xmlChar*)\n", info.minimum_memoire_p_ligne);
+    // fprintf(stderr, "Besoin de mÃ©moire requise minimum par bulletin : %d x sizeof(xmlChar*)\n", info.minimum_memoire_p_ligne);
 
     if (info.nbfil == 1 || (argc -start < 2))
     {
@@ -394,12 +394,12 @@ int main(int argc, char **argv)
 
         if (info.reduire_consommation_memoire && info.NCumAgent != info.NCumAgentXml)
         {
-            fprintf(stderr, "%s\n", "Incohérence des cumuls de nombre d'agents");
+            fprintf(stderr, "%s\n", "IncohÃ©rence des cumuls de nombre d'agents");
             exit(-123);
         }
         else
         {
-            fprintf(stderr, "%s\n", "Cohérence des cumuls de nombre d'agents vérifiée.");
+            fprintf(stderr, "%s\n", "CohÃ©rence des cumuls de nombre d'agents vÃ©rifiÃ©e.");
         }
 
 
@@ -409,15 +409,15 @@ int main(int argc, char **argv)
         int nbfichier_par_fil = floor((argc - start) / info.nbfil);
         if (nbfichier_par_fil == 0)
         {
-            fprintf(stderr, "%s\n", "Trop de fils pour le nombre de fichiers ; exécution avec -j 2");
+            fprintf(stderr, "%s\n", "Trop de fils pour le nombre de fichiers ; exÃ©cution avec -j 2");
             info.nbfil = 2;
         }
 
-        if ((argc - start) % info.nbfil) info.nbfil++;  // on en crée un de plus pour le reste
+        if ((argc - start) % info.nbfil) info.nbfil++;  // on en crÃ©e un de plus pour le reste
 
         pthread_t thread_clients[info.nbfil];
 
-        // Allocation dynamique nécessaire (à expliquer)
+        // Allocation dynamique nÃ©cessaire (Ã  expliquer)
 
         Info = (info_t* ) malloc(info.nbfil*sizeof(info_t));
         if (Info == NULL)
@@ -548,7 +548,7 @@ int main(int argc, char **argv)
         }
     }
 
-    /* libération de la mémoire */
+    /* libÃ©ration de la mÃ©moire */
 
     if (! liberer_memoire) return 0;
 

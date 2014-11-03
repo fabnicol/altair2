@@ -94,8 +94,8 @@ protected :
   const QString execPath= QDir::toNativeSeparators(QDir::cleanPath(QCoreApplication::applicationDirPath()+systemPathPrefix+System));
   const QString sharedir= generateDatadirPath();
  
-  QString altairCommandStr=execPath+ QDir::separator()+QString("lxh"+ QString(systemSuffix));
-  QString RAltairCommandStr=execPath+ QDir::separator()+QString("rstudio"+ QString(systemSuffix));
+  QString altairCommandStr=execPath+ QDir::separator()+QString("lhx"+ QString(systemSuffix));
+  QString RAltairCommandStr=QString("\"C:\\Program Files\\RStudio\\bin\\rstudio"+ QString(systemSuffix)+"\"");
    
 #else
 
