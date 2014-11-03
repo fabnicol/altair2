@@ -10,7 +10,8 @@ if (longueur.non.na(filtre.fonctionnaire(Montant.brut.annuel) > 0))
        col = "blue",
        nclass = 50)
 
-#'
+#'    
+#'    
 if (longueur.non.na(filtre.fonctionnaire(Montant.brut.annuel[Montant.brut.annuel > 40000]) > 0)) 
   hist(filtre.fonctionnaire(Montant.brut.annuel[Montant.brut.annuel > 40000])/1000,
        xlab = "En milliers d'euros (> 40 k€)\n",
@@ -20,7 +21,9 @@ if (longueur.non.na(filtre.fonctionnaire(Montant.brut.annuel[Montant.brut.annuel
        col = "blue",
        nclass = 50)
 
-#'
+#'   
+#'    
+#'    
 if (longueur.non.na(filtre.fonctionnaire(rémunération.indemnitaire.imposable) > 0))
   hist(filtre.fonctionnaire(rémunération.indemnitaire.imposable)/1000,
        xlab = "En milliers d'euros (< 10 k€)\n",
@@ -29,7 +32,9 @@ if (longueur.non.na(filtre.fonctionnaire(rémunération.indemnitaire.imposable) 
        main = "Rémunération indemnitaire imposable annuelle des fonctionnaires en " %+% année,
        col = "blue",
        nclass = 80)
-
+#'   
+#'   
+#'   
 if (filtre.fonctionnaire(rémunération.indemnitaire.imposable[rémunération.indemnitaire.imposable > 10000]) > 0)
   hist(filtre.fonctionnaire(rémunération.indemnitaire.imposable[rémunération.indemnitaire.imposable > 10000])/1000,
        xlab = "En milliers d'euros (> 10 k€)\n",
@@ -38,7 +43,9 @@ if (filtre.fonctionnaire(rémunération.indemnitaire.imposable[rémunération.in
        main = "Rémunération indemnitaire imposable annuelle des fonctionnaires en " %+% année,
        col = "blue",
        nclass = 50)
-
+#'   
+#'   
+#'   
 
 if (longueur.non.na(filtre.fonctionnaire(part.rémunération.indemnitaire) > 0)) 
   hist(filtre.fonctionnaire(part.rémunération.indemnitaire),
@@ -48,7 +55,9 @@ if (longueur.non.na(filtre.fonctionnaire(part.rémunération.indemnitaire) > 0))
        xlim = c(0,30),
        col = "blue",
        nclass = 60)
-
+#'   
+#'   
+#'   
 if (longueur.non.na(filtre.fonctionnaire(part.rémunération.indemnitaire[part.rémunération.indemnitaire > 30]) > 0)) 
   hist(filtre.fonctionnaire(part.rémunération.indemnitaire[part.rémunération.indemnitaire > 30]),
        xlab = "Part des indemnités imposables (> 30 %)  dans la rémunération brute en %\n",

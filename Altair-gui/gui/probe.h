@@ -13,8 +13,6 @@ private:
     uint audioZone;
 
     void getXhlCharacteristics(const QString &filename);
-
-    void checkStandardCompliance();
     enum class xhlCharacteristics   { isCompliant, isNonCompliant};
     xhlCharacteristics decoderCompliance;
     int nAgent=0;
@@ -27,7 +25,7 @@ private:
         audioZone=zone;
         getXhlCharacteristics(filename);
     }
-    bool isStandardCompliant();
+
     QString getnAgent() {return QString::number(nAgent);}
     QString getChar2() {return QString::number(char2);}
     QString getChar3() {return QString::number(char3);}
