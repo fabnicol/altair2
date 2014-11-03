@@ -16,10 +16,8 @@ setOSWindows         <- Sys.info()["sysname"] != "Linux"
 exec.root            <- ifelse(setOSWindows, ".exe", "")
 
 générer.codes        <- FALSE
-import.direct        <- TRUE
 
 paralléliser         <- TRUE
-table.rapide         <- TRUE
 extraire.population  <- FALSE
 fusionner.nom.prénom <- FALSE
 charger.bases        <- TRUE
@@ -32,8 +30,9 @@ corriger.quotité     <- FALSE
 comportement.strict  <- TRUE
 etp.égale.effectif   <- FALSE
 
-seuil.troncature         <- 3
+seuil.troncature         <- 90 # jours
 taux.tolérance.homonymie <- 5  # en %
+quantile.cut             <- 2  # en %
 
 séparateur.liste   <- ","
 séparateur.décimal <- "."

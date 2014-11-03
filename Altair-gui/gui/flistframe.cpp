@@ -254,7 +254,7 @@ void FListFrame::on_deleteItem_clicked()
    if (localrow) fileListWidget->currentListWidget->setCurrentRow(localrow-1);
    else if (localrow==0) fileListWidget->currentListWidget->setCurrentRow(0);
    row=localrow-1;
-   if (localrow <= 0) deleteGroup();
+   if (localrow <= 0 && (*Hash::wrapper[frameHashKey])[currentIndex].isEmpty()) deleteGroup();
    updateIndexInfo();
    emit(is_ntabs_changed(currentIndex+1)); // emits signal of number of tabs/QListWidgets opened
    emit(is_ntracks_changed(Hash::counter[frameHashKey]));
