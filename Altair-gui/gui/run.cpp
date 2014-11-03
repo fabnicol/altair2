@@ -69,10 +69,7 @@ void Altair::run()
         targetDirObject.mkdir(Hash::wrapper["base"]->toQString());
     }
     
-    progress->setTarget(Hash::wrapper["base"]->toQString());
-    
-    progress->setReference(Altair::totalSize[0]/2.5);
-    progress->start(700);
+
 }
 
 void Altair::runRAltair()

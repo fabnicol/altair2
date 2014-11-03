@@ -735,15 +735,21 @@ static bool flushHtmlContent=true;
 
 void MainWindow::feedConsoleWithHtml()
 {
-
     QString  readData;
 
     /* Owing to experimentally verified occurrences of altair-author process std output interruptions
      * whilst just creating the Html code for a console table, resulting in display issues, it is necessary to integrate a 'delayed display'
      * cut-and-paste capability so as to ensure corresponding <table>...</table> tags in the same file */
 
-    QRegExp reg("^(Fichier|Population|Total|Table|Premier|Erreur|Creation|Coh.+\\s)([^\n]+)");
- 
+    QRegExp reg("^(Fichier n°[0-9]+|Population|Total|Table|Premier|Erreur|Creation|Coh.+\\s)([^\n]+)");
+    QRegExp reg2("Fichier n°([0-9]+)") ;
+    QString result;
+    static int r;
+    static bool vieux;
+    if (! vieux) altair->getBar()->setRange(0, Hash::counter["XHL"]-1);
+    else vieux = true;
+
+    //altair->outputTextEdit->append("-----  " + QString::number(Hash::counter["XHL"]));
 
      if (altair->outputType == "LHX")
      {
@@ -759,14 +765,23 @@ void MainWindow::feedConsoleWithHtml()
                         case 'C' :   
                             buffer= buffer.replace(reg, (QString)PROCESSING_HTML_TAG "\\1 \\2"); break;
                         case 'T' :
-                            buffer=buffer.replace(reg, (QString)  PARAMETER_HTML_TAG "\\1 \\2"); break;
+                            if (reg.cap(1).at(1).toLatin1() == 'r')
+                                buffer=buffer.replace(reg, (QString)  ERROR_HTML_TAG "\\1 \\2");
+                            else
+                                buffer=buffer.replace(reg, (QString)  PARAMETER_HTML_TAG "\\1 \\2");
+                            break;
                         case 'P' :
                         case 'F' :   
-                            buffer=buffer.replace(reg, (QString) STATE_HTML_TAG "\\1 \\2"); break;
+                            buffer=buffer.replace(reg, (QString) STATE_HTML_TAG "\\1 \\2");
+                            result = reg.cap(1);
+                            if (result.contains(reg2))
+                                altair->getBar()->setValue(r=reg2.cap(1).toInt());
+                                altair->outputTextEdit->append("****  " + QString::number(r)+"/"+QString::number(Hash::counter["XHL"]-1));
+
+                            break;
                         case 'E' :
                             buffer=buffer.replace(reg, (QString) ERROR_HTML_TAG "\\1 \\2"); break;
                     }
-
                 }
 
                 if (flushHtmlContent)
@@ -781,8 +796,10 @@ void MainWindow::feedConsoleWithHtml()
                         consoleDialog->insertHtml(buffer.replace("\n", "<br>"));
                     }
                 }
-            }
 
+                if (r == Hash::counter["XHL"]-1) emit(switch_to_progress_2());
+
+            }
     }
    
    QString consoleText=readData.replace("\n","<br>" );

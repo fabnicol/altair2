@@ -156,28 +156,33 @@ Altair::Altair()
   connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int)));
   connect(xhlFilterButton, SIGNAL(toggled(bool)), this, SLOT(on_xhlFilterButton_clicked(bool)));
       
-  for (int ZONE : {AUDIO})
- {
-      project[ZONE]->model=model;
-      project[ZONE]->slotList=nullptr;
-      connect(project[ZONE]->addGroupButton, SIGNAL(clicked()), this, SLOT(addGroup()));
-      connect(project[ZONE]->deleteGroupButton, SIGNAL(clicked()), this, SLOT(deleteGroup()));
-      connect(project[ZONE]->importFromMainTree, &QToolButton::clicked,
-              [this]{
-                          updateProject();
-                          displayTotalSize();
-                          showFilenameOnly();
-                       });
-      connect(project[ZONE]->moveUpItemButton, SIGNAL(clicked()), this, SLOT(on_moveUpItemButton_clicked()));
-      connect(project[ZONE]->moveDownItemButton, SIGNAL(clicked()), this, SLOT(on_moveDownItemButton_clicked()));
-      connect(project[ZONE]->retrieveItemButton, SIGNAL(clicked()), this, SLOT(on_deleteItem_clicked()));
-      connect(project[ZONE]->clearListButton, &QToolButton::clicked, [this] { updateProject(); displayTotalSize(); });
-      // set visible importFromMaintree and controlButtonBox !
-      projectLayout->addWidget(project[ZONE]->tabBox, 0,2);
-      updownLayout->addWidget(project[ZONE]->getControlButtonBox(), 0,0);
-      //in this order!
-      projectLayout->addWidget(project[ZONE]->importFromMainTree, 0,1);
-  }
+  int ZONE=0;
+
+  project[ZONE]->model=model;
+  project[ZONE]->slotList=nullptr;
+  connect(project[ZONE]->addGroupButton, SIGNAL(clicked()), this, SLOT(addGroup()));
+  connect(project[ZONE]->deleteGroupButton, SIGNAL(clicked()), this, SLOT(deleteGroup()));
+  connect(project[ZONE]->importFromMainTree, &QToolButton::clicked,
+          [this]{
+                      updateProject();
+                      displayTotalSize();
+                      showFilenameOnly();
+                   });
+  connect(project[ZONE]->moveUpItemButton, SIGNAL(clicked()), this, SLOT(on_moveUpItemButton_clicked()));
+  connect(project[ZONE]->moveDownItemButton, SIGNAL(clicked()), this, SLOT(on_moveDownItemButton_clicked()));
+  connect(project[ZONE]->retrieveItemButton, SIGNAL(clicked()), this, SLOT(on_deleteItem_clicked()));
+  connect(project[ZONE]->clearListButton, &QToolButton::clicked, [this] { updateProject(); displayTotalSize(); });
+
+  connect(parent, &MainWindow::switch_to_progress_2, [this] {
+                                                                  progress->setTarget(Hash::wrapper["base"]->toQString());
+                                                                  progress->setReference(Altair::totalSize[0]/2.5);
+                                                                  progress->start(700);
+                                                            });
+
+  projectLayout->addWidget(project[ZONE]->tabBox, 0,2);
+  updownLayout->addWidget(project[ZONE]->getControlButtonBox(), 0,0);
+
+  projectLayout->addWidget(project[ZONE]->importFromMainTree, 0,1);
 
   updownLayout->setRowMinimumHeight(1, 40);
   updownLayout->setRowMinimumHeight(3, 40);
@@ -210,6 +215,7 @@ Altair::Altair()
 
 }
 
+QProgressBar* Altair::getBar()  { return progress->getBar(); }
 
 void Altair::refreshRowPresentation()
 {
