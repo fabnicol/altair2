@@ -65,6 +65,6 @@ if (longueur.non.na(filtre.fonctionnaire(part.rémunération.indemnitaire[part.r
        main = "Part indemnitaire de la rémunération annuelle des fonctionnaires en " %+% année,
        xlim = c(30,60),
        col = "blue",
-       nclass = 60)
+       breaks = 100)
 
 }
