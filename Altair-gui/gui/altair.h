@@ -52,7 +52,8 @@ public:
     QPoint startPos;
     QProcess* process = new QProcess;
     QProcess ejectProcess;
-    QDir soundDir;
+    QDir fileTreeDir;
+    QString fileTreeFile;
     QString outputType;
     int fileRank=0;
 
@@ -136,7 +137,7 @@ private:
 //    void printFileSize(qint64 new_value);
 //    void printBurnProcess(qint64 new_value);
     inline int removeFileTreeElement();
-    int applyFunctionToSelectedFiles(int (*f)());
+    int applyFunctionToSelectedFiles(int (Altair::*f)());
     StandardComplianceProbe  *probe;
 
  public:
