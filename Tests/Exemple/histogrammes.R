@@ -1,9 +1,9 @@
 
 histogrammes <- function()  {
 
-if (longueur.non.na(filtre.fonctionnaire(Montant.brut.annuel) > 0)) 
-  hist(filtre.fonctionnaire(Montant.brut.annuel)/1000,
-       xlab = "En milliers d'euros  (< 40 k€)\n",
+if (longueur.non.na(filtre.fonctionnaire(Montant.brut.annuel.eqtp) > 0)) 
+  hist(filtre.fonctionnaire(Montant.brut.annuel.eqtp)/1000,
+       xlab = "En milliers d'euros  (< 40 k€) EQTP\n",
        ylab = "Effectif",
        xlim = c(0, 40),
        main = "Rémunération brute annuelle des fonctionnaires en " %+% année,
@@ -12,9 +12,9 @@ if (longueur.non.na(filtre.fonctionnaire(Montant.brut.annuel) > 0))
 
 #'    
 #'    
-if (longueur.non.na(filtre.fonctionnaire(Montant.brut.annuel[Montant.brut.annuel > 40000]) > 0)) 
-  hist(filtre.fonctionnaire(Montant.brut.annuel[Montant.brut.annuel > 40000])/1000,
-       xlab = "En milliers d'euros (> 40 k€)\n",
+if (longueur.non.na(filtre.fonctionnaire(Montant.brut.annuel.eqtp[Montant.brut.annuel.eqtp > 40000]) > 0)) 
+  hist(filtre.fonctionnaire(Montant.brut.annuel.eqtp[Montant.brut.annuel.eqtp > 40000])/1000,
+       xlab = "En milliers d'euros (> 40 k€) EQTP\n",
        ylab = "Effectif",
        xlim = c(40, 120),
        main = "Rémunération brute annuelle des fonctionnaires en " %+% année,
@@ -24,9 +24,9 @@ if (longueur.non.na(filtre.fonctionnaire(Montant.brut.annuel[Montant.brut.annuel
 #'   
 #'    
 #'    
-if (longueur.non.na(filtre.fonctionnaire(rémunération.indemnitaire.imposable) > 0))
-  hist(filtre.fonctionnaire(rémunération.indemnitaire.imposable)/1000,
-       xlab = "En milliers d'euros (< 10 k€)\n",
+if (longueur.non.na(filtre.fonctionnaire(rémunération.indemnitaire.imposable.eqtp) > 0))
+  hist(filtre.fonctionnaire(rémunération.indemnitaire.imposable.eqtp)/1000,
+       xlab = "En milliers d'euros (< 10 k€) EQTP\n",
        ylab = "Effectif",
        xlim = c(0, 10),
        main = "Rémunération indemnitaire imposable annuelle des fonctionnaires en " %+% année,
@@ -35,9 +35,9 @@ if (longueur.non.na(filtre.fonctionnaire(rémunération.indemnitaire.imposable) 
 #'   
 #'   
 #'   
-if (filtre.fonctionnaire(rémunération.indemnitaire.imposable[rémunération.indemnitaire.imposable > 10000]) > 0)
-  hist(filtre.fonctionnaire(rémunération.indemnitaire.imposable[rémunération.indemnitaire.imposable > 10000])/1000,
-       xlab = "En milliers d'euros (> 10 k€)\n",
+if (filtre.fonctionnaire(rémunération.indemnitaire.imposable.eqtp[rémunération.indemnitaire.imposable.eqtp > 10000]) > 0)
+  hist(filtre.fonctionnaire(rémunération.indemnitaire.imposable.eqtp[rémunération.indemnitaire.imposable.eqtp > 10000])/1000,
+       xlab = "En milliers d'euros (> 10 k€) EQTP\n",
        ylab = "Effectif",
        xlim = c(10, 60),
        main = "Rémunération indemnitaire imposable annuelle des fonctionnaires en " %+% année,
