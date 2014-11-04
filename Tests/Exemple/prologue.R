@@ -7,6 +7,16 @@
 
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
 
+
+racine                      <- "R-Altair/"
+# "Ville Annecy Paye BP-"
+# "UTF-8.PDC-"
+# "RAG_2009_2012-"
+# "UTF-8.RAG_2009_2012-"
+# "UTF-8.SIERG-"
+# "UTF-8.RAG_2009_2012-"
+# "RAG_2009_2012-"
+
 extraire.années      <- FALSE
     début.période.sous.revue    <- 2008
     fin.période.sous.revue      <- 2012
@@ -42,20 +52,12 @@ séparateur.décimal <- "."
 # les bases commencent par une majuscule. Un nom de fichier est souvent associé
 # à une variable commençant par une majuscule et représentant la base (data.frame ou matrice)
 
-racine                      <- "metro2008-"
-  # "Ville Annecy Paye BP-"
-  # "UTF-8.PDC-"
-  # "RAG_2009_2012-"
-  # "UTF-8.RAG_2009_2012-"
-  # "UTF-8.SIERG-"
-  # "UTF-8.RAG_2009_2012-"
-  # "RAG_2009_2012-"
 nom.fichier.codes.paiement  <- paste0(racine, "codes.csv")
 fichier.personnels          <- "Catégories des personnels"
 nom.fichier.personnels      <- paste0(fichier.personnels, ".csv")
 nom.fichier.paie            <- paste0(racine, "Lignes de paye")
 nom.bulletin.paie           <- paste0(racine, "Bulletins de paye")
-nom.table                   <- paste0(racine, "Table.csv")
+nom.table                   <- paste0(racine, "Table_1.csv")
 
 # DOSSIERS
 # Attention, si l'on lance la génération de document pour la première fois sans répertoire Bases existant, on aura un write error.

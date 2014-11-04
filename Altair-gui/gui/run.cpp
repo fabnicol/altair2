@@ -2,7 +2,6 @@
 #include "fwidgets.h"
 
 
-
 QStringList Altair::createCommandLineString(flags::commandLineType commandLineType)
 {
     QListIterator<FAbstractWidget*> w(Abstract::abstractWidgetList);
@@ -17,7 +16,6 @@ QStringList Altair::createCommandLineString(flags::commandLineType commandLineTy
         const QStringList commandLineChunk=item->commandLineStringList();
         if (!commandLineChunk.isEmpty() && !commandLineChunk[0].isEmpty())
             commandLine +=  commandLineChunk;
-        
     }
     
     return commandLine;
@@ -98,9 +96,6 @@ void Altair::runRAltair()
     outputTextEdit->append(tr(STATE_HTML_TAG "Ligne de commande : %1").arg(RAltairCommandStr));
     
     process->start(RAltairCommandStr);
-    //progress->setTarget(Hash::wrapper["targetDir"]->toQString());
-    //progress2->setTarget(Hash::wrapper["mkisofsPath"]->toQString());
-    //progress->start(500);
 }
 
 
