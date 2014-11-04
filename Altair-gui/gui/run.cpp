@@ -31,6 +31,17 @@ void Altair::run()
         processFinished(exitCode::shouldLaunchRAltairAlone);
     }
     
+    QString path=Hash::wrapper["base"]->toQString();
+    QDir targetDirObject(path);
+    
+    if (! targetDirObject.exists() && ! targetDirObject.mkdir(path))
+    {
+        QMessageBox::critical(this, "Erreur", "Impossible de trouver le répertoire " + path);
+        return;
+    }
+    else
+        outputTextEdit->append(PROCESSING_HTML_TAG + tr("Validation du répertoire de sortie ") + path);    
+       
     QStringList args;
     QString command;
     
@@ -58,18 +69,7 @@ void Altair::run()
     else
         outputTextEdit->append(PROCESSING_HTML_TAG + tr("Echec du lancement de LHX"));
     
-    QString path=Hash::wrapper["base"]->toQString();
-    QDir targetDirObject(path);
-    if (targetDirObject.mkpath(path) == false)
-    {
-        QMessageBox::warning(0, QString("Répertoire"), QString("Le répertoire %1 n'a pas été créé").arg(path), QMessageBox::Ok);
-        return;
-    }
-    else
-    {
-        targetDirObject.removeRecursively();
-        targetDirObject.mkdir(Hash::wrapper["base"]->toQString());
-    }
+    
     
    progress->getBar()->setRange(0, Hash::counter["XHL"]-1);
    progress->start(700);
