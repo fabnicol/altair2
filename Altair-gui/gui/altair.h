@@ -77,7 +77,7 @@ private slots:
     void deleteGroup();
     void killProcess();
     void on_helpButton_clicked();
-    void on_xhlFilterButton_clicked(bool active);
+    void on_xhlFilterButton_clicked(bool active=false);
     void requestSaveProject();
     void writeProjectFile();
     void assignGroupFiles( const int group_index, const QString& file);
