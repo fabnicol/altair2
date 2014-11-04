@@ -28,7 +28,7 @@ void Altair::initialize()
 }
 
 
-int Altair::applyFunctionToSelectedFiles(int (*f)())
+int Altair::applyFunctionToSelectedFiles(int (Altair::*f)())
 {
 
     QItemSelectionModel *selectionModel = fileTreeView->selectionModel();
@@ -45,12 +45,13 @@ int Altair::applyFunctionToSelectedFiles(int (*f)())
 
         if (model->fileInfo(index).isFile())
         {
+            fileTreeFile = model->filePath(index);
             currentFileTreeItem=TREE_FILE;
          }
         else
         if (model->fileInfo(index).isDir())
           {
-            soundDir.setPath(model->filePath(index));
+            fileTreeDir.setPath(model->filePath(index));
             currentFileTreeItem=TREE_DIR;
          }
        else
@@ -60,7 +61,7 @@ int Altair::applyFunctionToSelectedFiles(int (*f)())
             return 0;
          }
 
-         result+= (*f)();
+         result+= (this->*f)();
     }
 
     return result;
@@ -498,8 +499,8 @@ inline int Altair::removeFileTreeElement()
 {
 int result=0;
 
-//        if ((result=static_cast<int>(QFile(soundFile.fileName()).remove())) == 0)
-  //          result=common::removeDirectory(soundDir.absolutePath());
+ if ((result=static_cast<int>(QFile(fileTreeFile).remove())) == 0)
+          result=common::removeDirectory(fileTreeDir.absolutePath());
 
 return result;
 
@@ -509,7 +510,7 @@ void Altair::removeFileTreeElements()
 {
   int result=0;
 
- // result=applyFunctionToSelectedFiles(&Altair::removeFileTreeElement);
+  result=applyFunctionToSelectedFiles(&Altair::removeFileTreeElement);
 
   if (!result)
     QMessageBox::information(this, tr("Supprimer"),
