@@ -129,15 +129,8 @@ Altair::Altair()
                                   &Altair::printBaseSize,
                                   &Altair::killProcess);
 
-//  progress2=new FProgressBar(this,
-//                                  &Altair::getFileSize,
-//                                  &Altair::printFileSize,
-//                                   &Altair::killProcess,
-//                                   "altair.iso");
-
   progress->setToolTip(tr("Décodage"));
- // progress2->setToolTip(tr("Rapport"));
-
+ 
   outputTextEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
   outputTextEdit->setAcceptDrops(false);
   outputTextEdit->setMinimumHeight(200);
@@ -172,12 +165,6 @@ Altair::Altair()
   connect(project[ZONE]->moveDownItemButton, SIGNAL(clicked()), this, SLOT(on_moveDownItemButton_clicked()));
   connect(project[ZONE]->retrieveItemButton, SIGNAL(clicked()), this, SLOT(on_deleteItem_clicked()));
   connect(project[ZONE]->clearListButton, &QToolButton::clicked, [this] { updateProject(); displayTotalSize(); });
-
-  connect(parent, &MainWindow::switch_to_progress_2, [this] {
-                                                                  progress->setTarget(Hash::wrapper["base"]->toQString());
-                                                                  progress->setReference(Altair::totalSize[0]/2.5);
-                                                                  progress->start(700);
-                                                            });
 
   projectLayout->addWidget(project[ZONE]->tabBox, 0,2);
   updownLayout->addWidget(project[ZONE]->getControlButtonBox(), 0,0);
@@ -216,6 +203,7 @@ Altair::Altair()
 }
 
 QProgressBar* Altair::getBar()  { return progress->getBar(); }
+
 
 void Altair::refreshRowPresentation()
 {
@@ -737,12 +725,12 @@ FProgressBar::FProgressBar(Altair* parent,
                                  const qint64 referenceSize)
 {
     bar->hide();
-    bar->setRange(0,100);
+    //bar->setRange(0,100);
     killButton->hide();
     const QIcon iconKill = QIcon(QString::fromUtf8( ":/images/process-stop.png"));
     killButton->setIcon(iconKill);
     killButton->setIconSize(QSize(22,22));
-        killButton->setToolTip(tr("Arrêter le processus"));
+    killButton->setToolTip(tr("Arrêter le processus"));
 
     layout->addWidget(killButton);
     layout->addWidget(bar);
@@ -752,11 +740,19 @@ FProgressBar::FProgressBar(Altair* parent,
     reference=referenceSize;
     engine=measureFunction;
     this->parent=parent;
+    stage_2=false;
 
     connect(timer,
                    &QTimer::timeout,
-                   [this, displayMessageWhileProcessing] { (this->parent->*displayMessageWhileProcessing)(updateProgressBar()); });
+                   [this, displayMessageWhileProcessing] { if (stage_2) (this->parent->*displayMessageWhileProcessing)(updateProgressBar()); });
 
+    connect(timer,
+                   &QTimer::timeout,
+                   [this] {
+                            if (!stage_2)  
+                                bar->setValue(this->parent->fileRank * Hash::wrapper["processType"]->toInt());
+                          });
+    
     connect(killButton, &QToolButton::clicked, parent, killFunction);
     connect(parent->process, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(stop()));
 }
