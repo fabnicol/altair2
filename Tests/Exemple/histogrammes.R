@@ -8,7 +8,7 @@ if (longueur.non.na(filtre.fonctionnaire(Montant.brut.annuel.eqtp) > 0))
        xlim = c(0, 40),
        main = "Rémunération brute annuelle des fonctionnaires en " %+% année,
        col = "blue",
-       nclass = 50)
+       breaks = 50)
 
 #'    
 #'    
@@ -19,7 +19,7 @@ if (longueur.non.na(filtre.fonctionnaire(Montant.brut.annuel.eqtp[Montant.brut.a
        xlim = c(40, 120),
        main = "Rémunération brute annuelle des fonctionnaires en " %+% année,
        col = "blue",
-       nclass = 50)
+       breaks = 50)
 
 #'   
 #'    
@@ -31,7 +31,7 @@ if (longueur.non.na(filtre.fonctionnaire(rémunération.indemnitaire.imposable.e
        xlim = c(0, 10),
        main = "Rémunération indemnitaire imposable annuelle des fonctionnaires en " %+% année,
        col = "blue",
-       nclass = 80)
+       breaks = 250)
 #'   
 #'   
 #'   
@@ -42,7 +42,7 @@ if (filtre.fonctionnaire(rémunération.indemnitaire.imposable.eqtp[rémunérati
        xlim = c(10, 60),
        main = "Rémunération indemnitaire imposable annuelle des fonctionnaires en " %+% année,
        col = "blue",
-       nclass = 50)
+       breaks = 50)
 #'   
 #'   
 #'   
@@ -54,7 +54,7 @@ if (longueur.non.na(filtre.fonctionnaire(part.rémunération.indemnitaire) > 0))
        main = "Part indemnitaire de la rémunération annuelle des fonctionnaires en " %+% année,
        xlim = c(0,30),
        col = "blue",
-       nclass = 60)
+       breaks = 60)
 #'   
 #'   
 #'   
