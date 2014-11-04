@@ -457,12 +457,13 @@ effectifs <- lapply(période,
                       H <- G[G$permanent, ]
                       I <- unique(A[A$Statut == "ELU", c("Matricule", "permanent"), with=FALSE])
                       J <- I[I$permanent, ]
-                      c(nrow(E), nrow(F), nrow(G), nrow(H), nrow(I), nrow(J), sum(ETP[[1]], na.rm=TRUE))
+                      c(nrow(E), nrow(F), nrow(G), nrow(H), nrow(I), nrow(J), sum(ETP[[1]], na.rm=TRUE)/12)
                       
                     })
 
 effectifs <- prettyNum(effectifs, big.mark = " ")
-tableau.effectifs <- as.data.frame(effectifs, row.names = c("Total effectifs", "  dont présents 12 mois", "  dont fonctionnaires", "  dont fonct. présents 12 mois", "  dont élus", "  dont élus présents 12 mois", "Total ETP/année"))
+tableau.effectifs <- as.data.frame(effectifs, row.names = c("Total effectifs", "  dont présents 12 mois", "  dont fonctionnaires",
+                                                            "  dont fonct. présents 12 mois", "  dont élus", "  dont élus présents 12 mois", "Total ETP/année"))
 
 names(tableau.effectifs) <- liste.années
 #'
@@ -1334,7 +1335,7 @@ detach(Analyse.rémunérations.dernier.exercice)
 #'
 #'Nombre d'exercices: `r durée.sous.revue`   
 #'  
-#'**Les données présentées dans cette section sont toutes relatives à des rémunérations nette en équivalent temps plein (EQTP)**      
+#'**Les données présentées dans cette section sont toutes relatives à des rémunérations nettes en équivalent temps plein (EQTP)**      
 #'  
 #'## 4.1 Rémunération nette moyenne sur la période    
 
