@@ -148,7 +148,7 @@ Altair::Altair()
   connect(mkdirButton, SIGNAL(clicked()), this, SLOT(createDirectory()));
   connect(removeFileTreeElementsButton, SIGNAL(clicked()), this, SLOT(removeFileTreeElements()));
   connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int)));
-  connect(xhlFilterButton, SIGNAL(toggled(bool)), this, SLOT(on_xhlFilterButton_clicked(bool)));
+  connect(xhlFilterButton, SIGNAL(clicked(bool)), this, SLOT(on_xhlFilterButton_clicked(bool)));
       
   int ZONE=0;
 

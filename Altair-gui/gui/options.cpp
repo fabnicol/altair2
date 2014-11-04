@@ -4,7 +4,6 @@
 #include "altair.h"
 #include "forms.h"
 #include "options.h"
-
 #include "browser.h"
 #include "altair.h"
 #include "templates.h"
@@ -29,9 +28,9 @@ standardPage::standardPage()
     
     QToolDirButton *openBaseButton=new QToolDirButton(tr("Ouvrir le répertoire "), actionType::OpenFolder);
     
-    baseLayout->addWidget(baseLineEdit, 1, 0);
-    baseLayout->addWidget(baseLabel, 0, 0);
-    baseLayout->addWidget(baseButton, 1, 1);
+    baseLayout->addWidget(baseLineEdit,   1, 0);
+    baseLayout->addWidget(baseLabel,      0, 0);
+    baseLayout->addWidget(baseButton,     1, 1);
     baseLayout->addWidget(openBaseButton, 1, 2);
             
     baseBox->setLayout(baseLayout);
@@ -41,14 +40,14 @@ standardPage::standardPage()
 
     QList<QString> range=QList<QString>(), range2=QList<QString>();
     range << "Standard" << "Par année" << "Toutes catégories" << "Traitement" << "Indemnité"
-          << "SFT" << "Rémunérations diverses" << "Rappel" << "Acompte"
+          << "SFT"      << "Rémunérations diverses"           << "Rappel"     << "Acompte"
           << "Avantage en nature" << "Indemnité de résidence" << "Cotisations"
-          << "Déductions" << "Retenue";
+          << "Déductions"         << "Retenue";
 
-    range2 << "" << "AN" << "X" << "T" << "I"
-           << "S" << "A" << "R" << "AC"
+    range2 << ""   << "AN" << "X" << "T" << "I"
+           << "S"  << "A"  << "R" << "AC"
            << "AV" << "IR" << "C"
-           << "D" << "RE";
+           << "D"  << "RE";
 
     QStringList range3=QStringList();
     for (int i=1; i < 9; i++) range3 << QString::number(i);
@@ -69,15 +68,24 @@ standardPage::standardPage()
     baseTypeWidget->setToolTip(tr("Sélectionner le type de base en sortie"));
 
     QLabel* maxNLigneLabel = new QLabel("Nombre maximum de lignes  ");
-    maxNLigneLineEdit = new FLineEdit("", "maxLigne", {"Type de base", "Nombre maximum de lignes"}, "T");
+    maxNLigneLineEdit = new FLineEdit("", 
+                                      "maxLigne",
+                                     {"Type de base", "Nombre maximum de lignes"},
+                                      "T");
     maxNLigneLineEdit->setFixedWidth(60);
     
     QLabel* sepLabel = new QLabel("Séparateur de champs ");
-    sepLineEdit = new FLineEdit(",", "separateur", {"Séparateurs", "Séparateur de champ"}, "s");
+    sepLineEdit = new FLineEdit(",",
+                                "separateur",
+                               {"Séparateurs", "Séparateur de champ"},
+                                "s");
     sepLineEdit->setFixedWidth(15);
     
     QLabel* decLabel = new QLabel("Séparateur décimal  ");
-    decLineEdit = new FLineEdit(".", "decimal", {"Séparateurs", "Séparateur décimal"}, "d");
+    decLineEdit = new FLineEdit(".",
+                                "decimal",
+                               {"Séparateurs", "Séparateur décimal"},
+                                "d");
     decLineEdit->setFixedWidth(15);
     
     QLabel* processTypeLabel = new QLabel("Nombre de fils d'exécution  ");
@@ -92,14 +100,23 @@ standardPage::standardPage()
     processTypeWidget->setToolTip(tr("Sélectionner le nombre de fils d'exécution"));
 
     QLabel* nLineLabel = new QLabel("Nombre maximum d'agents par mois  ");
-    nLineEdit=new FLineEdit("", "nAgent", {"Nombre maximum d'agents", ""}, "n");
+    nLineEdit=new FLineEdit("", 
+                            "nAgent",
+                           {"Nombre maximum d'agents", ""},
+                            "n");
     nLineEdit->setFixedWidth(40);
     
     QLabel* NLineLabel = new QLabel("Nombre maximum de lignes de paye par agent  ");
-    NLineEdit=new FLineEdit("", "nLine", {"Nombre maximum de ligne de paye par agent", ""}, "N");
+    NLineEdit=new FLineEdit("",
+                            "nLine",
+                           {"Nombre maximum de ligne de paye par agent", ""},
+                            "N");
     NLineEdit->setFixedWidth(40);
     
-    tableCheckBox=new FCheckBox("Générer la table  ", "genererTable", {"Générer la table .csv", "type standard"}, "t");
+    tableCheckBox=new FCheckBox("Générer la table  ",
+                                "genererTable",
+                                {"Générer la table .csv", "type standard"},
+                                "t");
     economeCheckBox=new FCheckBox("Economiser la RAM  ",
                                   "ecoRAM",
                                  {"Mode économe en mémoire", ""},
@@ -190,8 +207,6 @@ void standardPage::selectOutput()
         if (QMessageBox::warning(0, QString("Répertoire"), QString("Le répertoire %1 n'est pas vide (Taille %2B). Ecraser et recréer ? ").arg(path,QString::number(size)), QMessageBox::Ok | QMessageBox::Cancel)
                 == QMessageBox::Ok)
         {
-
-
             if (!common::removeDirectory(path))    QMessageBox::information(0, QString("Supprimer le répertoire"),
                                                            QString("Le répertoire n'a pas été supprimé' %1").arg(QDir::toNativeSeparators(path)));
 
@@ -201,7 +216,16 @@ void standardPage::selectOutput()
                 QMessageBox::warning(0, QString("Répertoire"), QString("Le répertoire %1 n'a pas été créé").arg(path), QMessageBox::Ok);
                 return;
             }
-
+        }
+    } 
+    else
+    {
+        QString path=Hash::wrapper["base"]->toQString();
+        QDir targetDirObject(path);
+        if (targetDirObject.mkpath(path) == false)
+        {
+            QMessageBox::warning(0, QString("Répertoire"), QString("Le répertoire %1 n'a pas été créé").arg(path), QMessageBox::Ok);
+            return;
         }
     }
 
