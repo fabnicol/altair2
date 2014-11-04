@@ -58,7 +58,7 @@ class MainWindow : public QMainWindow
    FCheckBox *defaultSaveProjectBehavior;
    QTabWidget *bottomTabWidget;
    QTextEdit *consoleDialog;
-
+   
   private slots:
 
    void on_displayFileTreeViewButton_clicked();
