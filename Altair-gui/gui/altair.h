@@ -19,24 +19,20 @@ public:
 
     Altair();
     void setCurrentFile(const QString &fileName);
-
     MainWindow *parent;
     enum { MaxRecentFiles = 5 };
     static int RefreshFlag;
     static int dialVolume;
-
     QFileSystemModel *model=new QFileSystemModel;
     QTreeWidget *managerWidget= new QTreeWidget;
-
     QTreeView *fileTreeView= new QTreeView;
-
     QString projectName;
     QString curFile;
     FListFrame *project[2];
     QPushButton *xhlFilterButton=new QPushButton;
     QTextEdit *outputTextEdit = new QTextEdit;
 
-     void initializeProject(const bool cleardata=true);
+    void initializeProject(const bool cleardata=true);
     
     void checkEmptyProjectName()
       {
@@ -53,38 +49,32 @@ public:
     void dragMoveEvent(QDragMoveEvent *event);
     void dragEnterEvent(QDragEnterEvent *event);
     void dropEvent(QDropEvent *event);
-
-     QPoint startPos;
-     QProcess* process = new QProcess;
-     QProcess ejectProcess;
-     QDir soundDir;
-     QString outputType;
+    QPoint startPos;
+    QProcess* process = new QProcess;
+    QProcess ejectProcess;
+    QDir soundDir;
+    QString outputType;
+    int fileRank=0;
 
 public slots:
 
    void updateProject(bool=false);
    void on_openProjectButton_clicked();
 
-
 private slots:
     
     void on_moveUpItemButton_clicked();
     void on_moveDownItemButton_clicked();
     void on_deleteItem_clicked();
-
     void removeFileTreeElements();
-
     void createDirectory();
     void run();
-  
     void runRAltair();
     void processFinished(int code) { processFinished(static_cast<exitCode>(code));}
     void processFinished(exitCode);
     void addGroup();
     void deleteGroup();
     void killProcess();
-
-
     void on_helpButton_clicked();
     void on_xhlFilterButton_clicked(bool active);
     void requestSaveProject();
@@ -92,6 +82,7 @@ private slots:
     void assignGroupFiles( const int group_index, const QString& file);
     void openProjectFile();
     void closeProject();
+    void on_switch_to_progress_2();
 
 private:
 
@@ -120,7 +111,7 @@ private:
     void assignVariables();
     void clearProjectData();
     QStringList createCommandLineString(flags::commandLineType commandLineType);
-     void initialize();
+    void initialize();
     const QString  makeParserString(int start, int end=Abstract::abstractWidgetList.size()-1);
     const QString  makeDataString( );
     const QString  makeSystemString( );
@@ -149,7 +140,7 @@ private:
     StandardComplianceProbe  *probe;
 
  public:
-     QProgressBar* getBar();
+    QProgressBar* getBar();
 
  protected:
 
@@ -179,6 +170,7 @@ public:
                                      const QString & fileExtensionFilter="*.csv",
                                      const QString&  measurableTarget="",
                                      const qint64 referenceSize=1);
+   
 
     QHBoxLayout* layout=new QHBoxLayout;
 
@@ -210,6 +202,7 @@ public:
     void setReference(qint64  r) { reference=r; }
     QProgressBar* getBar() {return bar; }
     qint64 updateProgressBar();
+    bool stage_2;
 
  private:
     QToolButton* killButton=new QToolButton;
@@ -220,7 +213,6 @@ public:
     QProgressBar *bar=new QProgressBar ;
     qint64 new_value=0;
     Altair* parent;
-
     MeasureFunction engine ;
 
   public slots:
@@ -229,7 +221,7 @@ public:
       {
           if (parent->process->state() == QProcess::Running) return;
           if (parent->process->exitStatus() != QProcess::CrashExit)
-              bar->setValue(100);
+              if (bar->value() < 100) bar->setValue(100);
           timer->stop();
           killButton->setDisabled(true);
       }

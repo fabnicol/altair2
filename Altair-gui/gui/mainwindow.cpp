@@ -41,8 +41,6 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 MainWindow::MainWindow(char* projectName)
 {
-
-
   setGeometry(QRect(200, 200,1150,400));
   recentFiles=QStringList()<<QString("defaut") ;
 
@@ -70,7 +68,6 @@ MainWindow::MainWindow(char* projectName)
         altair->setCurrentFile(projectName);
         settings->setValue("defaut",projectName);
     }
-
 
   setCentralWidget(altair);
 
@@ -116,7 +113,6 @@ MainWindow::MainWindow(char* projectName)
              a->setChecked(settings->value(a->getHashKey()).toBool());
       }
 
-
   altair->initializeProject();
   bottomTabWidget->setCurrentIndex(0);
 
@@ -125,7 +121,8 @@ MainWindow::MainWindow(char* projectName)
   clearBottomTabWidgetButton->setIcon(clearOutputText);
 
   connect(clearBottomTabWidgetButton, &QToolButton::clicked, [this] { on_clearOutputTextButton_clicked();});
-
+  connect(this, SIGNAL(switch_to_progress_2()), altair, SLOT(on_switch_to_progress_2()));
+  
   QGroupBox *stackedBottomWidget=new QGroupBox;
   QHBoxLayout *stackedBottomWidgetLayout=new QHBoxLayout;
   stackedBottomWidgetLayout->addWidget(clearBottomTabWidgetButton);
@@ -210,7 +207,6 @@ void MainWindow::createMenus()
 
  processMenu->addAction(RAction);
  processMenu->addAction(lhxAction);
-
 
  optionsMenu->addAction(optionsAction);
  optionsMenu->addAction(configureAction);
@@ -379,9 +375,6 @@ void MainWindow::on_openManagerWidgetButton_clicked()
     on_openManagerWidgetButton_clicked(managerDockWidget->isHidden());
 }
 
-
-
-
 void MainWindow::createToolBars()
 {
  
@@ -407,8 +400,6 @@ void MainWindow::createToolBars()
  aboutToolBar->addAction(helpAction);
  aboutToolBar->addAction(aboutAction);
 }
-
-
 
 void MainWindow::on_editProjectButton_clicked()
 {
@@ -744,11 +735,9 @@ void MainWindow::feedConsoleWithHtml()
     QRegExp reg("^(Fichier n°[0-9]+|Population|Total|Table|Premier|Erreur|Creation|Coh.+\\s)([^\n]+)");
     QRegExp reg2("Fichier n°([0-9]+)") ;
     QString result;
-    static int r;
-    static bool vieux;
-    if (! vieux) altair->getBar()->setRange(0, Hash::counter["XHL"]-1);
-    else vieux = true;
-
+    int count = Hash::counter["XHL"];
+    int wrap = Hash::wrapper["processType"]->toInt();
+     
     //altair->outputTextEdit->append("-----  " + QString::number(Hash::counter["XHL"]));
 
      if (altair->outputType == "LHX")
@@ -775,9 +764,10 @@ void MainWindow::feedConsoleWithHtml()
                             buffer=buffer.replace(reg, (QString) STATE_HTML_TAG "\\1 \\2");
                             result = reg.cap(1);
                             if (result.contains(reg2))
-                                altair->getBar()->setValue(r=reg2.cap(1).toInt());
-                                altair->outputTextEdit->append("****  " + QString::number(r)+"/"+QString::number(Hash::counter["XHL"]-1));
-
+                            {
+                                altair->fileRank=reg2.cap(1).toInt();
+                            }
+                            
                             break;
                         case 'E' :
                             buffer=buffer.replace(reg, (QString) ERROR_HTML_TAG "\\1 \\2"); break;
@@ -797,7 +787,8 @@ void MainWindow::feedConsoleWithHtml()
                     }
                 }
 
-                if (r == Hash::counter["XHL"]-1) emit(switch_to_progress_2());
+                if ((altair->fileRank + 1) * ((count % wrap != 0) + wrap) >= Hash::counter["XHL"])
+                    emit(switch_to_progress_2());
 
             }
     }

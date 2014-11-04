@@ -52,7 +52,11 @@ void Altair::run()
     
     process->start(altairCommandStr,  args);
     if (process->waitForStarted())
-        outputTextEdit->append(PROCESSING_HTML_TAG + tr("Lancement de LHX..."));
+    {
+        outputTextEdit->append(PROCESSING_HTML_TAG + tr("Lancement de LHX...Veuillez patienter\n"));
+        if (Hash::wrapper["ecoRAM"]->toFString().isTrue())
+            outputTextEdit->append(PROCESSING_HTML_TAG + tr("En mode économe de mémoire, le lancement effectif peut être retardé de plusieurs dizaines de secondes.\n"));
+    }
     else
         outputTextEdit->append(PROCESSING_HTML_TAG + tr("Echec du lancement de LHX"));
     
@@ -69,7 +73,21 @@ void Altair::run()
         targetDirObject.mkdir(Hash::wrapper["base"]->toQString());
     }
     
+   progress->getBar()->setRange(0, Hash::counter["XHL"]-1);
+   progress->start(700);
+   
+}
 
+
+void Altair::on_switch_to_progress_2()
+{
+     progress->stage_2=true;
+     progress->getBar()->setRange(0,100);
+     progress->stop();
+     progress->getBar()->setValue(0);
+     progress->setTarget(Hash::wrapper["base"]->toQString());
+     progress->setReference(Altair::totalSize[0]/2.5);
+     progress->start(700);
 }
 
 void Altair::runRAltair()
@@ -82,9 +100,7 @@ void Altair::runRAltair()
     process->start(RAltairCommandStr);
     //progress->setTarget(Hash::wrapper["targetDir"]->toQString());
     //progress2->setTarget(Hash::wrapper["mkisofsPath"]->toQString());
-    
     //progress->start(500);
-    
 }
 
 
@@ -125,7 +141,6 @@ void Altair::processFinished(exitCode code)
         //if (v(launchRAltairAlone).isTrue())
         //  runRAltair();
     }
-    
 }
 
 
