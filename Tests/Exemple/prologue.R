@@ -26,7 +26,6 @@ setOSWindows         <- Sys.info()["sysname"] != "Linux"
 exec.root            <- ifelse(setOSWindows, ".exe", "")
 
 générer.codes        <- FALSE
-
 paralléliser         <- TRUE
 extraire.population  <- FALSE
 fusionner.nom.prénom <- FALSE
@@ -34,6 +33,7 @@ charger.bases        <- TRUE
 sauvegarder.bases.analyse    <- F
 sauvegarder.bases.origine    <- F
 générer.table.effectifs      <- F
+générer.table.élus           <- F
 tester.matricules            <- TRUE
 tester.lignes.bulletins.mois <- TRUE
 corriger.quotité     <- FALSE
