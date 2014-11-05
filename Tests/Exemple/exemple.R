@@ -246,8 +246,6 @@ if (générer.codes)   {
   
   # Paie <- en raison du fonctionnement de knitr sinon inutile
 
-Paie <- Paie[!duplicated(Paie), ]
-
 Paie <- Paie[ , `:=`(delta = sum(Montant*(  Type == "I"
                                         | Type == "T"
                                         | Type == "S"
@@ -260,7 +258,7 @@ Paie <- Paie[ , `:=`(delta = sum(Montant*(  Type == "I"
                             - Brut), by=c("Matricule", "Année", "Mois")]
 
                     
-Bulletins.paie <- unique(Paie[ , c("Matricule", "Année", "Mois", "Temps.de.travail", "Statut", "Brut", "Net.à.Payer", champ.nir), with=FALSE])
+Bulletins.paie <- unique(Paie[ , c("Matricule", "Année", "Mois", "Temps.de.travail", "Statut", "Brut", "Net.à.Payer", champ.nir), with=FALSE], by = NULL)
 
 Bulletins.paie <- Bulletins.paie[ ,   quotité   := ifelse(etp.égale.effectif | is.na(Temps.de.travail), 1,  Temps.de.travail / 100)]
 
@@ -279,7 +277,7 @@ Bulletins.paie <- Bulletins.paie[ ,   `:=`(Montant.brut.annuel      = sum(Brut, 
 
 # Il y a des duplications occasionnelles à éclaircir (Romans)
 
-Bulletins.paie <- Bulletins.paie[! duplicated(Bulletins.paie), ]
+Bulletins.paie <- unique(Bulletins.paie, by = NULL)
 
 Paie <- merge(Bulletins.paie[ , c("Matricule", "Année", "Mois", "quotité", "Montant.net.eqtp", "Montant.brut.eqtp", "Montant.brut.annuel", "Montant.brut.annuel.eqtp", "Montant.net.annuel.eqtp", "Statut.sortie", "nb.jours", "permanent"), with=FALSE],
               Paie, 
@@ -418,14 +416,14 @@ message("Analyse des variations réalisée.")
 Bulletins.paie.nir.total.hors.élus <- unique(Bulletins.paie[Bulletins.paie$Année == fin.période.sous.revue
                                            & Bulletins.paie$Mois == 12
                                            & Bulletins.paie$Statut != "ELU",
-                                           c(clé.fusion, champ.nir), with = FALSE])
+                                           c(clé.fusion, champ.nir), with = FALSE], by = NULL)
 
 
 Bulletins.paie.nir.fonctionnaires  <- unique(Bulletins.paie[Bulletins.paie$Année == fin.période.sous.revue
                                                   & Bulletins.paie$Mois  == 12
                                                   & (Bulletins.paie$Statut == "TITULAIRE" |
                                                      Bulletins.paie$Statut == "STAGIAIRE"),
-                                                  c(clé.fusion, champ.nir), with = FALSE])
+                                                  c(clé.fusion, champ.nir), with = FALSE], by = NULL)
 
 names(Bulletins.paie.nir.total.hors.élus) <- c(clé.fusion, champ.nir)
 
@@ -458,18 +456,19 @@ liste.années <- as.character(période)
 effectifs <- lapply(période,
                     function(x) {
                       A <- Bulletins.paie[Bulletins.paie$Année == x, c("Matricule", "Statut",  "permanent", "quotité"), with=FALSE]
-                      E <- unique(A[ , c("Matricule", "permanent"), with=FALSE])
-                      ETP <- unique(Bulletins.paie[Bulletins.paie$Matricule %in% E[[1]], c("quotité", "Matricule", "Mois"), with=FALSE])
+                      E <- unique(A[ , c("Matricule", "permanent"), with=FALSE], by = NULL)
+                      ETP <- unique(Bulletins.paie[Bulletins.paie$Matricule %in% E[[1]], c("quotité", "Matricule", "Mois"), with=FALSE], by = NULL)
                       F <- E[E$permanent, ]
-                      G <- unique(A[A$Statut == "TITULAIRE" | A$Statut == "STAGIAIRE", c("Matricule", "permanent"), with=FALSE])
+                      G <- unique(A[A$Statut == "TITULAIRE" | A$Statut == "STAGIAIRE", c("Matricule", "permanent"), with=FALSE], by = NULL)
                       H <- G[G$permanent, ]
-                      I <- unique(A[A$Statut == "ELU", c("Matricule", "permanent"), with=FALSE])
+                      I <- unique(A[A$Statut == "ELU", c("Matricule", "permanent"), with=FALSE], by = NULL)
                       J <- I[I$permanent, ]
                       c(nrow(E), nrow(F), nrow(G), nrow(H), nrow(I), nrow(J), sum(ETP[[1]], na.rm=TRUE)/12)
                       
                     })
 
-effectifs <- prettyNum(effectifs, big.mark = " ")
+effectifs <- lapply(effectifs, function(x) formatC(x, big.mark = " ", format="f", digits=1, decimal.mark=","))
+
 tableau.effectifs <- as.data.frame(effectifs, row.names = c("Total effectifs", "  dont présents 12 mois", "  dont fonctionnaires",
                                                             "  dont fonct. présents 12 mois", "  dont élus", "  dont élus présents 12 mois", "Total ETP/année"))
 
