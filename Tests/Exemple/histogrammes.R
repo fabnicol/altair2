@@ -1,4 +1,6 @@
 
+knitr::opts_chunk$set(fig.width = 7.5, echo = FALSE, warning = FALSE, message = FALSE, results = 'asis')
+
 histogrammes <- function()  {
 
 if (longueur.non.na(filtre.fonctionnaire(Montant.brut.annuel.eqtp) > 0)) 
@@ -65,6 +67,6 @@ if (longueur.non.na(filtre.fonctionnaire(part.rémunération.indemnitaire[part.r
        main = "Part indemnitaire de la rémunération annuelle des fonctionnaires en " %+% année,
        xlim = c(30,60),
        col = "blue",
-       breaks = 100)
+       breaks = 800)
 
 }
