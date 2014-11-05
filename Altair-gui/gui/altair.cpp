@@ -28,12 +28,12 @@ void Altair::initialize()
 }
 
 
-int Altair::applyFunctionToSelectedFiles(int (Altair::*f)())
+int Altair::applyFunctionToSelectedFiles(int (Altair::*f)(int))
 {
 
     QItemSelectionModel *selectionModel = fileTreeView->selectionModel();
     QModelIndexList  indexList=selectionModel->selectedIndexes();
-    int result=0;
+    int result=0, cum_result=0;
 
     if (indexList.isEmpty()) return -1;
     updateIndexInfo();
@@ -43,28 +43,20 @@ int Altair::applyFunctionToSelectedFiles(int (Altair::*f)())
       {
         QModelIndex index=i.next();
 
-        if (model->fileInfo(index).isFile())
-        {
-            fileTreeFile = model->filePath(index);
-            currentFileTreeItem=TREE_FILE;
-         }
-        else
-        if (model->fileInfo(index).isDir())
-          {
-            fileTreeDir.setPath(model->filePath(index));
-            currentFileTreeItem=TREE_DIR;
-         }
-       else
+         fileTreeFile = model->filePath(index);
+         result = (this->*f)(model->fileInfo(index).isDir() << 8 | model->fileInfo(index).isFile());
+
+        if (!result)
          {
             QMessageBox::warning(this, tr("Parcourir"),
                                  tr("%1 n'est pas un fichier ou un répertoire.").arg(model->fileInfo(index).fileName()));
             return 0;
          }
 
-         result+= (this->*f)();
-    }
+        cum_result += result;
+      }
 
-    return result;
+    return cum_result;
 }
 
 
@@ -495,12 +487,19 @@ void Altair::createDirectory()
 }
 
 
-inline int Altair::removeFileTreeElement()
+inline int Altair::removeFileTreeElement(int flag)
 {
 int result=0;
 
- if ((result=static_cast<int>(QFile(fileTreeFile).remove())) == 0)
-          result=common::removeDirectory(fileTreeDir.absolutePath());
+outputTextEdit->append(fileTreeFile+QString::number(flag));
+if (flag & 0x01) result=QFile(fileTreeFile).remove();
+else if(flag & 0x0100)
+{
+    QDir d = QDir(fileTreeFile);
+    if (!d.exists()) outputTextEdit->append("NE");
+    result = d.removeRecursively();
+    outputTextEdit->append("IS DIR");
+}
 
 return result;
 

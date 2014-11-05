@@ -239,44 +239,51 @@ message("Contrôle des noms de colonne des bulletins de paie : normal.")
 # le troisième chiffre du code.
 # L'utilisateur devra alors renseigner la colonne étiquette.type.rémunération de ce fichier
 
-source("générer.codes.R", encoding = encodage.code.source)
-
-if (générer.codes)   générer.base.codes(Paie) 
+if (générer.codes)   {
+  source("générer.codes.R", encoding = encodage.code.source)
+  générer.base.codes(Paie) 
+}
   
   # Paie <- en raison du fonctionnement de knitr sinon inutile
 
-  Paie <- Paie[ , `:=`(delta = sum(Montant*(  Type == "I"
-                                          | Type == "T"
-                                          | Type == "S"
-                                          | Type == "IR"
-                                          | Type == "AC"
-                                          | Type == "A"
-                                          | Type == "R"
-                                          | Type == "AV"),
-                                 na.rm=TRUE)
-                              - Brut), by=c("Matricule", "Année", "Mois")]
-  
-                      
-  Bulletins.paie <- unique(Paie[ , c("Matricule", "Année", "Mois", "Temps.de.travail", "Statut", "Brut", "Net.à.Payer", champ.nir), with=FALSE])
+Paie <- Paie[!duplicated(Paie), ]
 
-  Bulletins.paie <- Bulletins.paie[ ,   quotité   := ifelse(etp.égale.effectif | is.na(Temps.de.travail), 1,  Temps.de.travail / 100)]
+Paie <- Paie[ , `:=`(delta = sum(Montant*(  Type == "I"
+                                        | Type == "T"
+                                        | Type == "S"
+                                        | Type == "IR"
+                                        | Type == "AC"
+                                        | Type == "A"
+                                        | Type == "R"
+                                        | Type == "AV"),
+                               na.rm=TRUE)
+                            - Brut), by=c("Matricule", "Année", "Mois")]
 
-  Bulletins.paie <- Bulletins.paie[ ,   `:=`(Montant.net.eqtp  = ifelse(is.finite(a<-Net.à.Payer/quotité), a,  NA),
-                                             Montant.brut.eqtp = ifelse(is.finite(a<-Brut/quotité), a,  NA))]
-      
-  Bulletins.paie <- Bulletins.paie[ ,   `:=`(Statut.sortie   = Statut[length(Net.à.Payer)],
-                                             nb.jours        = calcul.nb.jours.mois(Mois, Année[1])),
-                                        key=c("Matricule", "Année")]
+                    
+Bulletins.paie <- unique(Paie[ , c("Matricule", "Année", "Mois", "Temps.de.travail", "Statut", "Brut", "Net.à.Payer", champ.nir), with=FALSE])
+
+Bulletins.paie <- Bulletins.paie[ ,   quotité   := ifelse(etp.égale.effectif | is.na(Temps.de.travail), 1,  Temps.de.travail / 100)]
+
+Bulletins.paie <- Bulletins.paie[ ,   `:=`(Montant.net.eqtp  = ifelse(is.finite(a<-Net.à.Payer/quotité), a,  NA),
+                                           Montant.brut.eqtp = ifelse(is.finite(a<-Brut/quotité), a,  NA))]
+    
+Bulletins.paie <- Bulletins.paie[ ,   `:=`(Statut.sortie   = Statut[length(Net.à.Payer)],
+                                           nb.jours        = calcul.nb.jours.mois(Mois, Année[1])),
+                                      key=c("Matricule", "Année")]
 
 Bulletins.paie <- Bulletins.paie[ ,   `:=`(Montant.brut.annuel      = sum(Brut, na.rm=TRUE),
-                                           Montant.brut.annuel.eqtp = sum(Montant.brut.eqtp * 365 / nb.jours, na.rm=TRUE),
-                                           Montant.net.annuel.eqtp  = sum(Montant.net.eqtp * 365 / nb.jours, na.rm=TRUE),
-                                           permanent                = nb.jours >= 365),
-                                        key=c("Matricule", "Année")]
+                                         Montant.brut.annuel.eqtp = sum(Montant.brut.eqtp * 365 / nb.jours, na.rm=TRUE),
+                                         Montant.net.annuel.eqtp  = sum(Montant.net.eqtp * 365 / nb.jours, na.rm=TRUE),
+                                         permanent                = nb.jours >= 365),
+                                      key=c("Matricule", "Année")]
 
-  Paie <- merge(Bulletins.paie[, c("Matricule", "Année", "Mois", "quotité", "Montant.net.eqtp", "Montant.brut.eqtp", "Montant.brut.annuel", "Montant.brut.annuel.eqtp", "Montant.net.annuel.eqtp", "Statut.sortie", "nb.jours", "permanent"), with=FALSE],
-                Paie, 
-                by=c("Année", "Mois", "Matricule"))
+# Il y a des duplications occasionnelles à éclaircir (Romans)
+
+Bulletins.paie <- Bulletins.paie[! duplicated(Bulletins.paie), ]
+
+Paie <- merge(Bulletins.paie[ , c("Matricule", "Année", "Mois", "quotité", "Montant.net.eqtp", "Montant.brut.eqtp", "Montant.brut.annuel", "Montant.brut.annuel.eqtp", "Montant.net.annuel.eqtp", "Statut.sortie", "nb.jours", "permanent"), with=FALSE],
+              Paie, 
+              by=c("Année", "Mois", "Matricule"))
 
 class(Paie) <- "data.frame"
 

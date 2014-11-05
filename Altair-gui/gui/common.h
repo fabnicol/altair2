@@ -46,8 +46,6 @@ public:
 
   qint64 getDirectorySize(const QString &path, const QString &extension="");
 
-  bool removeDirectory(const QString &path);
-
   int readFile(QString &path, QStringList &list, int start=0, int stop=-1, int width=0);
   int readFile(const char* path, QStringList &list, int start=0, int stop=-1, int width=0)
   {

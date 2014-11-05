@@ -82,7 +82,7 @@ static inline bool Bulletin(const char* tag, xmlNodePtr* cur, int l, info_t* inf
         else
           for (int i = 0; i < xmlStrlen(ligne_l); i++)
               if (ligne_l[i] == info->separateur)
-                  ligne_l[i] = '_';
+                  ligne_l[i] = '.';
 
         if (info->drapeau_cont)
             *cur = (*cur)? (*cur)->next: NULL;
@@ -244,7 +244,10 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
 
     DESCENDRE_UN_NIVEAU
 
-    cur = (cur)? cur->next : NULL;
+    cur = atteindreNoeud("Nom", cur);
+
+    /* dans certains sxhémas on peut ne pas avoir la civilité */
+
     /* passer à la balise adjacente après lecture */
     info->drapeau_cont = true;
     _BULLETIN(Nom)
@@ -269,6 +272,7 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
     cur = cur->next;
 #endif
     _BULLETIN(Statut)
+    /* dans certains schémas on peut avoir ici des balises */
     cur = atteindreNoeud("EmploiMetier", cur);
 #ifdef TOLERANT
     cur = cur_save;

@@ -297,14 +297,19 @@ int main(int argc, char **argv)
         else if (! strcmp(argv[start], "-D"))
         {
             snprintf(info.chemin_base, 500, "%s/%s%s", argv[start + 1], NOM_BASE, CSV);
-
-            if (NULL == fopen(info.chemin_base, "w"))
+            FILE* base;
+            if (NULL == (base = fopen(info.chemin_base, "w")))
             {
                 fprintf(stderr, "La base de données %s ne peut être créée, vérifier l'existence du dossier.\n", info.chemin_base);
 
                 exit(-113);
             }
-            else (unlink(info.chemin_base));
+            else
+            {
+                // Necessaire sous Windows, no-op sous *.nix
+                fclose(base);
+                unlink(info.chemin_base);
+            }
 
             start += 2;
             continue;
