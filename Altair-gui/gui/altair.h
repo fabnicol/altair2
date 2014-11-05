@@ -52,7 +52,6 @@ public:
     QPoint startPos;
     QProcess* process = new QProcess;
     QProcess ejectProcess;
-    QDir fileTreeDir;
     QString fileTreeFile;
     QString outputType;
     int fileRank=0;
@@ -90,7 +89,6 @@ private:
     bool hasIndexChanged;
     int myTimerId=0;
     int row=0;
-    int currentFileTreeItem=TREE_FILE;
     uint isVideo=AUDIO;
     uint currentIndex=0;
     qint64 value=0;
@@ -134,10 +132,9 @@ private:
     void msg (const QString & text);
     void printMsg(qint64 new_value, const QString &str);
     void printBaseSize(qint64 new_value);
-//    void printFileSize(qint64 new_value);
-//    void printBurnProcess(qint64 new_value);
-    inline int removeFileTreeElement();
-    int applyFunctionToSelectedFiles(int (Altair::*f)());
+
+    inline int removeFileTreeElement(int);
+    int applyFunctionToSelectedFiles(int (Altair::*f)(int));
     StandardComplianceProbe  *probe;
 
  public:

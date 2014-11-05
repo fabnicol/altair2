@@ -3,30 +3,6 @@
 FString common::htmlLogPath;
 QString common::tempdir=QDir::homePath ()+QDir::separator()+"tempdir";  // should be equal to main app globals.settings.tempdir=TEMPDIR;
 
-bool common::removeDirectory(const QString &path)
-{
-    if (path.isEmpty()) return false;
-    if (!QFileInfo(path).isDir()) return false;
-    QDir dir(path);
-
-    foreach (QFileInfo fileinfo, dir.entryInfoList(QDir::AllEntries|QDir::System|QDir::Hidden))
-    {
-        if (fileinfo.fileName() == "." || fileinfo.fileName() == "..") continue;
-
-
-        if (fileinfo.isFile()||fileinfo.isSymLink())
-            dir.remove(fileinfo.absoluteFilePath());
-        else
-            if (fileinfo.isDir())
-            {
-                QString p;
-                if (dir.rmpath(p=fileinfo.absoluteFilePath()) == false)
-                    removeDirectory(p);
-            }
-    }
-    dir.rmdir(path);
-    return true;
-}
 
 qint64 common::getDirectorySize(const QString &path, const QString &extension)
 {
