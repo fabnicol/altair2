@@ -437,6 +437,30 @@ années.fonctionnaires   <- extraire.nir(Bulletins.paie.nir.fonctionnaires)
 
 années.total.hors.élus  <- extraire.nir(Bulletins.paie.nir.total.hors.élus)
 
+Bulletins.paie.nir.total.hors.élus.début <- unique(Bulletins.paie[Bulletins.paie$Année == début.période.sous.revue
+                                                            & Bulletins.paie$Mois == 12
+                                                            & Bulletins.paie$Statut != "ELU",
+                                                            c(clé.fusion, champ.nir), with = FALSE], by = NULL)
+
+
+Bulletins.paie.nir.fonctionnaires.début  <- unique(Bulletins.paie[Bulletins.paie$Année == début.période.sous.revue
+                                                            & Bulletins.paie$Mois  == 12
+                                                            & (Bulletins.paie$Statut == "TITULAIRE" |
+                                                                 Bulletins.paie$Statut == "STAGIAIRE"),
+                                                            c(clé.fusion, champ.nir), with = FALSE], by = NULL)
+
+names(Bulletins.paie.nir.total.hors.élus.début) <- c(clé.fusion, champ.nir)
+
+class(Bulletins.paie.nir.total.hors.élus.début) <- "data.frame"
+class(Bulletins.paie.nir.fonctionnaires.début)  <- "data.frame"
+
+# Age au 31 décembre de l'exercice dernier.exerciceal de la période sous revue
+# ne pas oublier [ ,...] ici:
+
+années.fonctionnaires.début   <- extraire.nir(Bulletins.paie.nir.fonctionnaires.début)
+
+années.total.hors.élus.début  <- extraire.nir(Bulletins.paie.nir.total.hors.élus.début)
+
 message("Analyse démographique réalisée.")
 
 if (!is.null(Paie) & !is.null(Analyse.rémunérations)
@@ -484,6 +508,22 @@ class(Bulletins.paie) <- "data.frame"
 #'
 #'### 1.2 Pyramide des âges, personnels non élus
 
+
+Résumé(c("Âge des personnels <br>au 31/12/" %+% début.période.sous.revue,
+         "Effectif"),
+       années.total.hors.élus.début,
+       extra = "length",
+       align = 'c')
+#'  
+  
+Résumé(c("Âge des personnels <br>au 31/12/" %+% fin.période.sous.revue,
+         "Effectif"),
+       années.total.hors.élus,
+       extra = "length",
+       align = 'c')
+
+#'  
+
 if (longueur.non.na(années.total.hors.élus) > 0)
   hist(années.total.hors.élus,
        xlab = "Âge au 31 décembre " %+% fin.période.sous.revue,
@@ -493,19 +533,28 @@ if (longueur.non.na(années.total.hors.élus) > 0)
        col = "blue",
        nclass = 50)
 
-#'
-#'[Lien vers la base des âges](Bases/Effectifs/Bulletins.paie.nir.total.hors.élus.csv)
-#'
-
-Résumé(c("Âge des personnels <br>au 31/12/" %+% fin.période.sous.revue,
-         "Effectif"),
-       années.total.hors.élus,
-       extra = "length",
-       align = 'c')
+#'  
+#'[Lien vers la base des âges](Bases/Effectifs/Bulletins.paie.nir.total.hors.élus.csv)  
+#'  
 
 #'
 #'
 #'### 1.3 Pyramide des âges, personnels fonctionnaires stagiaires et titulaires
+
+Résumé(c("Âge des personnels <br>au 31/12/" %+% début.période.sous.revue,
+         "Effectif"),
+       années.fonctionnaires.début,
+       extra = "length",
+       align = 'c')
+
+#'
+Résumé(c("Âge des personnels <br>au 31/12/" %+% fin.période.sous.revue,
+         "Effectif"),
+       années.fonctionnaires,
+       extra = "length",
+       align = 'c')
+
+#'
 
 if (longueur.non.na(années.fonctionnaires) > 0)
   hist(années.fonctionnaires,
@@ -516,17 +565,10 @@ if (longueur.non.na(années.fonctionnaires) > 0)
        col = "navy",
        nclass = 50)
 
-#'
-#'[Lien vers la base des âges](Bases/Effectifs/Bulletins.paie.nir.fonctionnaires.csv)
-#'
+#'  
+#'[Lien vers la base des âges](Bases/Effectifs/Bulletins.paie.nir.fonctionnaires.csv)  
+#'  
 
-Résumé(c("Âge des personnels <br>au 31/12/" %+% fin.période.sous.revue,
-         "Effectif"),
-       années.fonctionnaires,
-       extra = "length",
-       align = 'c')
-
-#'
 #'### 1.4 Effectifs des personnels par durée de service
 #'
 #'**Personnels en fonction des exercices `r début.période.sous.revue` à `r fin.période.sous.revue` inclus :**
@@ -1944,8 +1986,14 @@ names(rémunérations.élu) <- c(union(clé.fusion, "Nom"),
 rémunérations.élu <- na.omit(rémunérations.élu)
 
 #'
-if (nrow(rémunérations.élu) >0)
-  kable(rémunérations.élu, row.names = FALSE)
+if (générer.table.élus)
+{
+    if (nrow(rémunérations.élu) > 0)
+      kable(rémunérations.élu, row.names = FALSE)
+} else {
+  
+  cat("Tableau des indemnités d'élu : non générée.")
+}
 
 #'
 if (sauvegarder.bases.analyse)
