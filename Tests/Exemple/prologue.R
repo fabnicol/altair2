@@ -30,8 +30,8 @@ paralléliser         <- TRUE
 extraire.population  <- FALSE
 fusionner.nom.prénom <- FALSE
 charger.bases        <- TRUE
-sauvegarder.bases.analyse    <- F
-sauvegarder.bases.origine    <- F
+sauvegarder.bases.analyse    <- T
+sauvegarder.bases.origine    <- T
 générer.table.effectifs      <- F
 générer.table.élus           <- F
 tester.matricules            <- TRUE

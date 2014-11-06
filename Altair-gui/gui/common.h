@@ -93,6 +93,7 @@ protected :
   const QString sharedir= generateDatadirPath();
  
   QString altairCommandStr=execPath+ QDir::separator()+QString("lhx"+ QString(systemSuffix));
+  QString RAltairDirStr = QString("C:\\Program Files\\RStudio");
   QString RAltairCommandStr=QString("\"C:\\Program Files\\RStudio\\bin\\rstudio"+ QString(systemSuffix)+"\"");
    
 #else
