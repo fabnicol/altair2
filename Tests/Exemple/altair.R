@@ -478,8 +478,8 @@ names(tableau.effectifs) <- liste.années
 kable(tableau.effectifs, row.names = TRUE, align='c')
 #'
 #'
-#'
-
+#'*Effectifs pourvus mesurés par l'émission d'un bulletin de paie dans l'année.*     
+#'   
 #'[Lien vers la base des effectifs](Bases/Effectifs/tableau.effectifs.csv)
 #'
 #'
@@ -648,7 +648,8 @@ attach(Analyse.rémunérations.premier.exercice, warn.conflicts = FALSE)
 #'    
 #'## 2.1 Statistiques de position globales     
 #'     
-
+#'**Statitiques sur données brutes sans prise en compte de la quotité**  
+#'  
 masses.premier.personnels <- colSums(Analyse.rémunérations.premier.exercice[Statut != "ELU",
                                                                             .(Montant.brut.annuel,
                                                                            rémunération.indemnitaire.imposable,
@@ -748,8 +749,10 @@ AR <- Analyse.rémunérations.premier.exercice[Statut == "TITULAIRE" | Statut == "
 
 source("histogrammes.R", encoding = "UTF-8")
 histogrammes()
-
-#'
+#'    
+#'**Nota:**   
+#'*EQTP = Equivalent temps plein travaillé = rémunération . quotité . 12/nombre de mois travaillés dans l'année*  
+#'    
 #'**Effectif : `r nrow(AR)`**
 #'
 #'**Tests de cohérence**
@@ -1017,7 +1020,8 @@ attach(Analyse.rémunérations.dernier.exercice, warn.conflicts = FALSE)
 #'   
 #'## 3.1 Statistiques de position globales (tous statuts)    
 #'   
-
+#'**Statitiques sur données brutes sans prise en compte de la quotité**  
+#'  
 masses.dernier.personnels <- colSums(Analyse.rémunérations.dernier.exercice[Statut != "ELU",
                                                                             .(Montant.brut.annuel,
                                                                               rémunération.indemnitaire.imposable,
@@ -1117,8 +1121,10 @@ AR <- Analyse.rémunérations.dernier.exercice[Statut == "TITULAIRE" | Statut == "
 
 source("histogrammes.R", encoding = "UTF-8")
 histogrammes()
-
-#'
+#'    
+#'**Nota:**   
+#'*EQTP = Equivalent temps plein travaillé = rémunération . quotité . 12/nombre de mois travaillés dans l'année*  
+#'   
 #'**Effectif : `r nrow(AR)`**
 #'
 #'**Tests de cohérence**
@@ -1372,7 +1378,10 @@ detach(Analyse.rémunérations.dernier.exercice)
 #'Nombre d'exercices: `r durée.sous.revue`   
 #'  
 #'**Les données présentées dans cette section sont toutes relatives à des rémunérations nettes en équivalent temps plein (EQTP)**      
-#'  
+#'    
+#'*Nota:*   
+#'*EQTP = Equivalent temps plein travaillé = rémunération . quotité . 12/nombre de mois travaillés dans l'année*  
+#'    
 #'## 4.1 Rémunération nette moyenne sur la période    
 
 attach(Analyse.variations.synthèse)
