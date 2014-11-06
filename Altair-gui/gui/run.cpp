@@ -67,10 +67,8 @@ void Altair::run()
             outputTextEdit->append(PROCESSING_HTML_TAG + tr("En mode économe de mémoire, le lancement effectif peut être retardé de plusieurs dizaines de secondes.\n"));
     }
     else
-        outputTextEdit->append(PROCESSING_HTML_TAG + tr("Echec du lancement de LHX"));
-    
-    
-    
+        outputTextEdit->append(PROCESSING_HTML_TAG + tr("Echec du lancement de LHX, ligne de commande ")+ altairCommandStr);
+
    progress->getBar()->setRange(0, Hash::counter["XHL"]-1);
    progress->start(700);
    
