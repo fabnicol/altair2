@@ -94,7 +94,8 @@ void Altair::runRAltair()
     outputTextEdit->append(tr(STATE_HTML_TAG "Création du rapport R-Altair..."));
     
     outputTextEdit->append(tr(STATE_HTML_TAG "Ligne de commande : %1").arg(RAltairCommandStr));
-    
+    QDir dir=QDir::current();
+    dir.setCurrent(RAltairDirStr);
     process->start(RAltairCommandStr);
 }
 
