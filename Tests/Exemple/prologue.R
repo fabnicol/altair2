@@ -90,7 +90,7 @@ if (setOSWindows) {
 étiquette.rém.indemn        <- "Rémunération contractuelle ou indemnitaire"
 champ.détection.1           <- étiquette.matricule
 champ.détection.2           <- "Code"
-champ.nir                   <- "Nir"
+
 
 ifelse(fusionner.nom.prénom,
        clé.fusion <<- c("Nom", "Prénom"),
@@ -105,16 +105,20 @@ colonnes.requises           <- c(union(clé.fusion, étiquette.matricule),
                                  "Heures.Sup.",
                                  "Heures",
                                  "Emploi",
-                                 champ.nir,
+                                 "Nir",
                                  "Temps.de.travail")
 
-bulletins.paie.input            <- c("Année", "Mois", "Nom", "Prénom", "Matricule", "Statut", "Emploi", "Service", "Indice", "Net", "Brut", "Net.à.Payer", "Heures.Sup.", "Heures", "Temps.de.travail", "Nir", "Grade")
+colonnes.input <- c("Année", "Mois", "Nom", "Prénom", "Matricule",
+                    "Service", "Statut", "Temps.de.travail", "Heures.Sup.", "Heures",
+                    "Indice", "Brut", "Net", "Net.à.Payer", "NBI",
+                    "Libellé", "Code", "Base", "Taux", "Nb.Unité",
+                    "Montant", "Type", "Emploi", "Grade", "Nir")
 
-bulletins.paie.classes.input    <- c("integer", "integer", "character", "character", "character", "character", "character", "character", "character", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric", "character", "character")
-
-bulletins.paie.output           <- c(bulletins.paie.input, c("Montant.net.annuel.eqtp", "Montant.brut.annuel", "mois.entrée", "mois.sortie", "nb.jours", "nb.mois"))
-
-bulletins.paie.classes.output   <- c(bulletins.paie.classes.input, c("numeric", "integer", "integer", "integer", "integer"))
+colonnes.classes.input    <- c("integer", "integer", "character", "character", "character", 
+                               "character", "character", "numeric", "numeric", "numeric",
+                               "character",  "numeric", "numeric", "numeric", "numeric",
+                               "character",  "character", "numeric", "numeric", "numeric",
+                               "numeric", "character", "character", "character", "character")
 
 lignes.paie.input               <- c("Année", "Mois", "Matricule", "Année", "Mois", "Matricule", "Libellé", "Code", "Base", "Taux", "Montant")
 
