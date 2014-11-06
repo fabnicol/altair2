@@ -251,7 +251,9 @@ Paie <- Paie[ , `:=`(delta = sum(Montant*(  Type == "I"
                             - Brut), by=c("Matricule", "Année", "Mois")]
 
                     
-Bulletins.paie <- unique(Paie[ , .(Matricule, Année, Mois, Temps.de.travail, Statut, Brut, Net.à.Payer, Nir)], by = NULL)
+Bulletins.paie <- unique(Paie[ , .(Matricule, Nom, Année, Mois, Temps.de.travail, Statut, Emploi, Brut, Net.à.Payer, Nir)], by = NULL)
+
+
 
 Bulletins.paie <- Bulletins.paie[ ,   quotité   := ifelse(etp.égale.effectif | is.na(Temps.de.travail), 1,  Temps.de.travail / 100)]
 
@@ -259,7 +261,8 @@ Bulletins.paie <- Bulletins.paie[ ,   `:=`(Montant.net.eqtp  = ifelse(is.finite(
                                            Montant.brut.eqtp = ifelse(is.finite(a<-Brut/quotité), a,  NA))]
     
 Bulletins.paie <- Bulletins.paie[ ,   `:=`(Statut.sortie   = Statut[length(Net.à.Payer)],
-                                           nb.jours        = calcul.nb.jours.mois(Mois, Année[1])),
+                                           nb.jours        = calcul.nb.jours.mois(Mois, Année[1]),
+                                           nb.mois         = length(Mois)),
                                       key=c("Matricule", "Année")]
 
 Bulletins.paie <- Bulletins.paie[ ,   `:=`(Montant.brut.annuel      = sum(Brut, na.rm=TRUE),
@@ -272,11 +275,41 @@ Bulletins.paie <- Bulletins.paie[ ,   `:=`(Montant.brut.annuel      = sum(Brut, 
 
 Bulletins.paie <- unique(Bulletins.paie, by = NULL)
 
-Paie <- merge(Bulletins.paie[ , c("Matricule", "Année", "Mois", "quotité", "Montant.net.eqtp", "Montant.brut.eqtp", "Montant.brut.annuel", "Montant.brut.annuel.eqtp", "Montant.net.annuel.eqtp", "Statut.sortie", "nb.jours", "permanent"), with=FALSE],
+Paie <- merge(Bulletins.paie[ , c("Matricule", 
+                                  "Année",
+                                  "Mois",
+                                  "quotité",
+                                  "Montant.net.eqtp",
+                                  "Montant.brut.eqtp",
+                                  "Montant.brut.annuel",
+                                  "Montant.brut.annuel.eqtp",
+                                  "Montant.net.annuel.eqtp",
+                                  "Statut.sortie",
+                                  "nb.jours",
+                                  "nb.mois",
+                                  "permanent"), with=FALSE],
               Paie, 
               by=c("Année", "Mois", "Matricule"))
 
 Paie$quotité[is.na(Paie$quotité)] <- 0
+
+matricules <- unique(Bulletins.paie[ ,
+                                                 c("Année",
+                                                   "Emploi",
+                                                   "Nom",
+                                                   "Matricule"), 
+                                                 with=FALSE], by=NULL)
+
+if (fichier.personnels.existe) {
+  matricules <- merge(matricules, base.personnels.catégorie, by = clé.fusion, all=TRUE)
+} else {
+  Catégorie <- character(length = nrow(matricules))
+  matricules <- cbind(matricules, Catégorie)
+}
+
+matricules <- matricules[order(Matricule,
+                                                         Année), ]
+
 
 message("Bulletins de Paie retraités")
 
@@ -459,25 +492,31 @@ effectifs <- lapply(période,
                     function(x) {
                       A <- Bulletins.paie[Année == x, .(Matricule, Statut, permanent, quotité)]
                       E <- unique(A[ , .(Matricule, permanent)], by = NULL)
-                      ETP <- unique(Bulletins.paie[Matricule %in% E[[1]], .(quotité, Matricule, Mois)], by = NULL)
+                      ETP <- unique(Bulletins.paie[Année == x, .(quotité, Matricule, Mois, nb.mois)], by = NULL)
                       F <- E[E$permanent, ]
                       G <- unique(A[A$Statut == "TITULAIRE" | A$Statut == "STAGIAIRE", .(Matricule, permanent)], by = NULL)
                       H <- G[G$permanent, ]
                       I <- unique(A[A$Statut == "ELU", .(Matricule, permanent)], by = NULL)
                       J <- I[I$permanent, ]
-                      c(nrow(E), nrow(F), nrow(G), nrow(H), nrow(I), nrow(J), sum(ETP[[1]], na.rm=TRUE)/12)
+                      c(nrow(E), nrow(F), nrow(G), nrow(H), nrow(I), nrow(J), sum(ETP[[1]], na.rm=TRUE)/12, ETP[ , sum(quotité/nb.mois, na.rm=TRUE)*12]/12)
                      })
 
 effectifs <- lapply(effectifs, function(x) formatC(x, big.mark = " ", format="f", digits=1, decimal.mark=","))
 
 tableau.effectifs <- as.data.frame(effectifs, row.names = c("Total effectifs", "  dont présents 12 mois", "  dont fonctionnaires",
-                                                            "  dont fonct. présents 12 mois", "  dont élus", "  dont élus présents 12 mois", "Total ETP/année"))
+                                                            "  dont fonct. présents 12 mois", "  dont élus", "  dont élus présents 12 mois",
+                                                            "Total ETP/année", "Total ETPT/année"))
 
 names(tableau.effectifs) <- liste.années
 #'
 kable(tableau.effectifs, row.names = TRUE, align='c')
 #'
-#'
+#'**Nota:**   
+#'*ETP  : Equivalent temps plein = rémunération . quotité*  
+#'*ETPT : Equivalent temps plein travaillé = ETP . 12/nombre de mois travaillés dans l'année*  
+#'      
+#'   
+#'   
 #'*Effectifs pourvus mesurés par l'émission d'un bulletin de paie dans l'année.*     
 #'   
 #'[Lien vers la base des effectifs](Bases/Effectifs/tableau.effectifs.csv)
@@ -604,7 +643,7 @@ kable(tableau.effectifs.var, row.names = TRUE, align='c')
 detach(Analyse.variations.synthèse)
 
 #'
-#'**Nota:**
+#'**Nota :**
 #'Personnels en place : ayant servi au moins 730 jours pendant la période.
 #'Dans les statistiques de cette section, les élus ne sont pas pris en compte.
 #'
@@ -750,8 +789,8 @@ AR <- Analyse.rémunérations.premier.exercice[Statut == "TITULAIRE" | Statut == "
 source("histogrammes.R", encoding = "UTF-8")
 histogrammes()
 #'    
-#'**Nota:**   
-#'*EQTP = Equivalent temps plein travaillé = rémunération . quotité . 12/nombre de mois travaillés dans l'année*  
+#'**Nota :**   
+#'*EQTPT = Equivalent temps plein travaillé = ratio rémunération / quotité sommé sur le nombre de mois travaillés dans l'année / 12*  
 #'    
 #'**Effectif : `r nrow(AR)`**
 #'
@@ -822,7 +861,7 @@ Résumé(c("Traitement indiciaire",
 #'
 Résumé(c("Total lignes hors rappels",
          "Total brut",
-         "Total brut EQTP",
+         "Total brut EQTPT",
          "Part de la rém. indemnitaire",
          "Effectif"),
        AR[ , .(total.lignes.paie,
@@ -860,7 +899,7 @@ if (fichier.personnels.existe)
 if (fichier.personnels.existe)
 {
   Résumé(c("Total rémunérations", 
-           "Total rémunérations EQTP", 
+           "Total rémunérations EQTPT", 
            "Part de la rémunération indemnitaire"),
          ARA[ , .(Montant.brut.annuel,
                   Montant.brut.annuel.eqtp,
@@ -891,7 +930,7 @@ if (fichier.personnels.existe)
 if (fichier.personnels.existe)
 {
   Résumé(c("Total rémunérations",
-           "Total rémunérations EQTP",
+           "Total rémunérations EQTPT",
            "Part de la rémunération indemnitaire"),
          ARB[ , .(Montant.brut.annuel,
                   Montant.brut.annuel.eqtp,
@@ -923,7 +962,7 @@ if (fichier.personnels.existe)
 if (fichier.personnels.existe)
 {
   Résumé(c("Total rémunérations",
-           "Total rémunérations EQTP",
+           "Total rémunérations EQTPT",
            "Part de la rémunération indemnitaire"),
          ARC[ , .(Montant.brut.annuel,
                   Montant.brut.annuel.eqtp,
@@ -945,14 +984,14 @@ temp <- rémunération.indemnitaire.imposable.eqtp[Statut != "ELU"
 
 if (length(temp > 0))
   hist(temp,
-       xlab = "Rémunération indemnitaire brute imposable en milliers d'euros EQTP\n",
+       xlab = "Rémunération indemnitaire brute imposable en milliers d'euros EQTPT\n",
        ylab = "Effectif",
        xlim = c(0, 40),
        main = "Rémunération annuelle totale des contractuels en " %+% année,
        col = "red",
        nclass = 50)
 #'
-#'**Nota:**
+#'**Nota :**
 #'Ne sont retenues que les rémunérations supérieures à 1 000 euros.
 #'Les élus ne sont pas pris en compte.
 #'
@@ -987,7 +1026,7 @@ Résumé(c("Indemnités imposables",
 #'
 
 Résumé(c("Total rémunérations",
-         "Total rémunérations EQTP",
+         "Total rémunérations EQTPT",
          "Effectif"),
        AR[ , .(Montant.brut.annuel, Montant.brut.annuel.eqtp)],
        extra = "length")
@@ -1122,8 +1161,8 @@ AR <- Analyse.rémunérations.dernier.exercice[Statut == "TITULAIRE" | Statut == "
 source("histogrammes.R", encoding = "UTF-8")
 histogrammes()
 #'    
-#'**Nota:**   
-#'*EQTP = Equivalent temps plein travaillé = rémunération . quotité . 12/nombre de mois travaillés dans l'année*  
+#'**Nota :**   
+#'*EQTPT = Equivalent temps plein travaillé = ratio rémunération / quotité sommé sur le nombre de mois travaillés dans l'année / 12*  
 #'   
 #'**Effectif : `r nrow(AR)`**
 #'
@@ -1194,7 +1233,7 @@ Résumé(c("Traitement indiciaire",
 #'
 Résumé(c("Total lignes hors rappels",
          "Total brut",
-         "Total brut EQTP",
+         "Total brut EQTPT",
          "Part de la rém. indemnitaire",
          "Effectif"),
        AR[ , .(total.lignes.paie,
@@ -1232,7 +1271,7 @@ if (fichier.personnels.existe)
 if (fichier.personnels.existe)
 {
   Résumé(c("Total rémunérations", 
-           "Total rémunérations EQTP",
+           "Total rémunérations EQTPT",
            "Part de la rémunération indemnitaire"),
          ARA[ , .(Montant.brut.annuel,
                   Montant.brut.annuel.eqtp,
@@ -1262,7 +1301,7 @@ if (fichier.personnels.existe)
 if (fichier.personnels.existe)
 {
   Résumé(c("Total rémunérations",
-           "Total rémunérations EQTP",
+           "Total rémunérations EQTPT",
            "Part de la rémunération indemnitaire"),
          ARB[ c( "Montant.brut.annuel",
                  "Montant.brut.annuel.eqtp",
@@ -1293,7 +1332,7 @@ if (fichier.personnels.existe)
 if (fichier.personnels.existe)
 {
   Résumé(c("Total rémunérations",
-           "Total rémunérations EQTP",
+           "Total rémunérations EQTPT",
            "Part de la rémunération indemnitaire"),
          ARC[ , .(Montant.brut.annuel,
                  Montant.brut.annuel.eqtp,
@@ -1316,14 +1355,14 @@ temp <- rémunération.indemnitaire.imposable.eqtp[!is.na(rémunération.indemnitair
 
 if (length(temp > 0))
   hist(temp,
-       xlab = "Rémunération indemnitaire brute imposable en milliers d'euros EQTP\n",
+       xlab = "Rémunération indemnitaire brute imposable en milliers d'euros EQTPT\n",
        ylab = "Effectif",
        xlim = c(0, 40),
        main = "Rémunération annuelle totale des contractuels en " %+% année,
        col = "red",
        nclass = 50)
 #'
-#'**Nota:**
+#'**Nota :**
 #'Ne sont retenues que les rémunérations supérieures à 1 000 euros.
 #'Les élus ne sont pas pris en compte.
 #'
@@ -1357,7 +1396,7 @@ Résumé(c("Indemnités imposables",
 #'
 
 Résumé(c("Total rémunérations",
-         "Total rémunérations EQTP",
+         "Total rémunérations EQTPT",
          "Effectif"),
        AR[ , .(Montant.brut.annuel, Montant.brut.annuel.eqtp)],
        extra = "length")
@@ -1377,10 +1416,10 @@ detach(Analyse.rémunérations.dernier.exercice)
 #'
 #'Nombre d'exercices: `r durée.sous.revue`   
 #'  
-#'**Les données présentées dans cette section sont toutes relatives à des rémunérations nettes en équivalent temps plein (EQTP)**      
+#'**Les données présentées dans cette section sont toutes relatives à des rémunérations nettes en équivalent temps plein (EQTPT)**      
 #'    
-#'*Nota:*   
-#'*EQTP = Equivalent temps plein travaillé = rémunération . quotité . 12/nombre de mois travaillés dans l'année*  
+#'*Nota :*   
+#'*EQTPT = Equivalent temps plein travaillé = ratio rémunération / quotité sommé sur le nombre de mois travaillés dans l'année / 12*  
 #'    
 #'## 4.1 Rémunération nette moyenne sur la période    
 
@@ -1413,7 +1452,7 @@ if (longueur.non.na(temp) > 0)
 #'
 #'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.csv)
 #'
-#'**Nota:** La rémunération nette perçue est rapportée au cumul des jours d'activité.
+#'**Nota :** La rémunération nette perçue est rapportée au cumul des jours d'activité.
 
 Analyse.variations.synthèse.filtrée <- Analyse.variations.synthèse[total.jours > seuil.troncature
                                                                    & statut !=  "ELU",
@@ -1613,7 +1652,7 @@ if (durée.sous.revue < 2)
 #'
 #'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.filtrée.moins.2.ans.csv)
 #'
-#'**Nota:** Au 4.2 seuls sont pris en compte les personnels en fonction au moins 100 jours la première et la dernière année
+#'**Nota :** Au 4.2 seuls sont pris en compte les personnels en fonction au moins 100 jours la première et la dernière année
 #'Ne sont pas pris en compte les élus, stagiaires et apprentis ou assimilés.
 #'
 #'Les résultats sont exprimés en euros.
@@ -1632,6 +1671,7 @@ NBI.aux.non.titulaires <- Paie[Statut != "TITULAIRE"
                                  "Statut",
                                  étiquette.code,
                                  étiquette.libellé,
+                                 étiquette.année,
                                  "Mois",
                                  "NBI",
                                  étiquette.montant),
@@ -1648,12 +1688,14 @@ filtre <- grep(".*(INFO|PFI|P.F.I).*", Libellé)
 
 personnels.prime.informatique <- Paie[ filtre,
                                        c(étiquette.matricule,
+                                         étiquette.année,
+                                         "Mois",
                                          "Statut",
                                          étiquette.code,
                                          étiquette.libellé,
                                          étiquette.montant), with=FALSE]
 
-primes.informatiques.potentielles <- unique(Libellé[filtre])
+primes.informatiques.potentielles <- unique(Libellé[filtre], by=NULL)
 
 if  (length(primes.informatiques.potentielles) == 0)
   primes.informatiques.potentielles <- "aucune"
@@ -1668,14 +1710,14 @@ Tableau(
   nombre.Lignes.paie.NBI.nontit,
   nombre.personnels.pfi)
 
-#'
-#'[Lien vers la base de données NBI aux non titulaires](Bases/Réglementation/NBI.aux.non.titulaires.csv)
-#'[Lien vers la base de données Primes informatiques](Bases/Réglementation/personnels.prime.informatique.csv)
-#'
-#'**Nota :**
-#'NBI: nouvelle bonification indiciaire
-#'PFI: prime de fonctions informatiques
-#'
+#'   
+#'[Lien vers la base de données NBI aux non titulaires](Bases/Réglementation/NBI.aux.non.titulaires.csv)   
+#'[Lien vers la base de données Primes informatiques](Bases/Réglementation/personnels.prime.informatique.csv)   
+#'   
+#'**Nota :**   
+#'NBI: nouvelle bonification indiciaire   
+#'PFI: prime de fonctions informatiques   
+#'   
 #'#
 #'
 #'## 5.2 Contrôle des vacations pour les fonctionnaires
@@ -1693,7 +1735,7 @@ if (exists("Codes.paiement.vacations")) {
                                                 étiquette.libellé,
                                                 étiquette.montant)]
 
-  matricules.fonctionnaires.et.vacations <- unique(lignes.fonctionnaires.et.vacations[c("Matricule", "Nom", "Prénom")])
+  matricules.fonctionnaires.et.vacations <- unique(lignes.fonctionnaires.et.vacations[c("Matricule", "Nom", "Prénom")], by=NULL)
   nombre.fonctionnaires.et.vacations <- nrow(matricules.fonctionnaires.et.vacations)
   nombre.Lignes.paie.fonctionnaires.et.vacations <- nrow(lignes.fonctionnaires.et.vacations)
 }
@@ -1712,7 +1754,7 @@ if (exists("nombre.fonctionnaires.et.vacations"))
 #'[Lien vers la base de données Matricules des FEV](Bases/Réglementation/matricules.fonctionnaires.et.vacations.csv)
 #'[Lien vers la base de données Lignes de vacations de FEV](Bases/Réglementation/lignes.fonctionnaires.et.vacations.csv)
 #'
-#'**Nota:**
+#'**Nota :**
 #'FEV : fonctionnaire effectuant des vacations
 #'
 #'## 5.3 Contrôles sur les cumuls traitement indiciaire, indemnités et vacations des contractuels
@@ -1731,7 +1773,7 @@ if (exists("Codes.paiement.vacations")) {
                                              étiquette.montant)]
 
 
-  matricules.contractuels.et.vacations <- unique(lignes.contractuels.et.vacations[c("Matricule", "Nom", "Prénom")])
+  matricules.contractuels.et.vacations <- unique(lignes.contractuels.et.vacations[c("Matricule", "Nom", "Prénom")], by=NULL)
 
   nombre.contractuels.et.vacations <- nrow(matricules.contractuels.et.vacations)
 
@@ -1785,7 +1827,7 @@ if (exists("nombre.contractuels.et.vacations"))
 #IAT et IFTS
 
 ifts.logical <- grepl(expression.rég.ifts, Paie$Libellé, ignore.case=TRUE)
-codes.ifts  <- unique(Paie[ifts.logical, étiquette.code, with=FALSE])
+codes.ifts  <- unique(Paie[ifts.logical, étiquette.code, with=FALSE], by=NULL)
 personnels.iat.ifts <- intersect(Paie[grepl(expression.rég.iat, Libellé, ignore.case=TRUE), clé.fusion[1], with=FALSE][[1]],
                                  Paie[ifts.logical, clé.fusion[1], with=FALSE][[1]])
 if (length(personnels.iat.ifts))  names(personnels.iat.ifts) <- "Matricules des agents percevant IAT et/ou IFTS sur la période"
@@ -1809,6 +1851,8 @@ Tableau(c("Codes IFTS", "Nombre de personnels percevant IAT et IFTS"),
 
 lignes.ifts.anormales <- na.omit(Paie[as.integer(Indice) < 350  & Code %in% codes.ifts[[1]],
                                       c(clé.fusion,
+                                        étiquette.année,
+                                        "Mois",
                                         "Statut",
                                         étiquette.code,
                                         étiquette.libellé,
@@ -1823,6 +1867,8 @@ ifts.et.contractuel <- Paie[ Statut != "TITULAIRE"
                              & Statut != "STAGIAIRE"
                              & Code %in% codes.ifts[[1]],
                              c(étiquette.matricule,
+                               étiquette.année,
+                               "Mois",
                                "Statut",
                                étiquette.code,
                                étiquette.libellé,
@@ -1839,7 +1885,7 @@ Tableau(c("Nombre de contractuels percevant des IFTS", "Nombre de lignes IFTS po
 #'[Lien vers la base de données Lignes IFTS pour contractuels](Bases/Réglementation/ifts.et.contractuel.csv)
 #'[Lien vers la base de données Lignes IFTS pour IB < 380](Bases/Réglementation/lignes.ifts.anormales.csv)
 #'
-#'**Nota:**
+#'**Nota :**
 #'IB < 380 : fonctionnaire percevant un indice brut inférieur à 380
 #'
 #'######
@@ -1851,8 +1897,8 @@ Tableau(c("Nombre de contractuels percevant des IFTS", "Nombre de lignes IFTS po
 
 colonnes <- c(étiquette.matricule,
               étiquette.année,
-              "Statut",
               "Mois",
+              "Statut",
               "Libellé",
               étiquette.code,
               "Heures",
@@ -1907,7 +1953,7 @@ rm(temp, traitement.indiciaire.mensuel, HS.sup.indiciaire.mensuel )
 
 HS.sup.25 <- merge(HS.sup.25, Analyse.rémunérations[ , .(Matricule, Année, traitement.indiciaire)], by=c("Matricule", "Année"))
 
-HS.sup.25 <- unique(HS.sup.25)
+HS.sup.25 <- unique(HS.sup.25, by=NULL)
 
 names(HS.sup.25) <- sub("traitement.indiciaire", "Traitement indiciaire annuel", names(HS.sup.25))
 
@@ -1927,42 +1973,28 @@ Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"), no
 #'[Lien vers la base de données Heures suplémentaires en excès : matricules](Bases/Réglementation/HS.sup.25.csv)
 #'[Lien vers la base de données IHTS anormales](Bases/Réglementation/ihts.anormales.csv)
 #'
-#'**Nota:**
+#'**Nota :**
 #'HS en excès : au-delà de 25 heures par mois
 #'IHTS anormales : non attribuées à des fonctionnaires de catégorie B ou C.
 #'
 #'## 5.6 Contrôle sur les indemnités des élus
 #'
 
-matricules.à.identifier <- unique(Paie[ ,
-                                       c(étiquette.année,
-                                         "Emploi",
-                                         "Nom",
-                                         étiquette.matricule), with=FALSE])
 
-if (fichier.personnels.existe) {
-  matricules.à.identifier <- merge(matricules.à.identifier, base.personnels.catégorie, by = clé.fusion, all=TRUE)
-} else {
-  Catégorie <- character(length = nrow(matricules.à.identifier))
-  matricules.à.identifier <- cbind(matricules.à.identifier, Catégorie)
-}
-
-matricules.à.identifier <- matricules.à.identifier[order(matricules.à.identifier$Matricule,
-                                                         matricules.à.identifier$Année), ]
-
-rémunérations.élu <- Analyse.rémunérations[ Analyse.rémunérations$indemnités.élu > 0,
+rémunérations.élu <- Analyse.rémunérations[ indemnités.élu > 0,
                                             c(clé.fusion,
                                               "Année",
                                               "Emploi",
                                               "indemnités.élu",
                                               "autres.rémunérations",
-                                              "rémunération.indemnitaire.imposable"), with=FALSE ]
+                                              "rémunération.indemnitaire.imposable"),
+                                            with=FALSE ]
 
 
 rémunérations.élu <- rémunérations.élu[ , rémunération.indemnitaire.imposable := indemnités.élu +  rémunération.indemnitaire.imposable]
 
 if (!fusionner.nom.prénom)
-  rémunérations.élu <- merge(unique(matricules.à.identifier[ , .(Nom,  Matricule)]),
+  rémunérations.élu <- merge(unique(matricules[ , .(Nom,  Matricule)], by=NULL),
                              rémunérations.élu,
                              by = étiquette.matricule,
                              all.y = TRUE,
@@ -1984,13 +2016,13 @@ if (générer.table.élus)
       kable(rémunérations.élu, row.names = FALSE)
 } else {
   
-  cat("Tableau des indemnités d'élu : non générée.")
+   cat("Tableau des indemnités d'élu : non générée.")
 }
 
 #'
 if (sauvegarder.bases.analyse)
   Sauv.base(file.path(chemin.dossier.bases, "Effectifs"),
-            "matricules.à.identifier",
+            "matricules",
             fichier.personnels)
 
 #'[Lien vers la base de données Rémunérations des élus](Bases/Réglementation/rémunérations.élu.csv)
@@ -2014,7 +2046,7 @@ if (sauvegarder.bases.analyse)
 #'Cela peut conduire à modifier manuellement le fichier Catégories des personnels.csv
 #'
 if (générer.table.effectifs)
-  kable(matricules.à.identifier, row.names = FALSE)
+  kable(matricules, row.names = FALSE)
 #'
 
 detach(Paie)

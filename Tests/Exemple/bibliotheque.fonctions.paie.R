@@ -177,7 +177,7 @@ sauv.bases <- function(dossier, ...)
   tmp[1] <- NULL
 
   message("Dans le dossier ", dossier," :")
-  invisible(lapply(tmp[-1], function(x) Sauv.base(dossier, x, x)))
+  invisible(lapply(tmp[-1], function(x) if (exists(x)) Sauv.base(dossier, x, x)))
 }
 
 # Utiliser une assignation globale
