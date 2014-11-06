@@ -71,7 +71,7 @@ protected :
 #ifdef Q_OS_WIN
      const QString   System="win32";
      const QString   systemSuffix=".exe";
-     const QString   systemPathPrefix="/../../";
+     const QString   systemPathPrefix="/../";
       #ifndef LOCAL_BINPATH
       #define LOCAL_BINPATH
      #endif

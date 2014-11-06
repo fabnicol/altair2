@@ -31,9 +31,9 @@ extraire.population  <- FALSE
 fusionner.nom.prénom <- FALSE
 charger.bases        <- TRUE
 sauvegarder.bases.analyse    <- T
-sauvegarder.bases.origine    <- T
+sauvegarder.bases.origine    <- F
 générer.table.effectifs      <- F
-générer.table.élus           <- F
+générer.table.élus           <- T
 tester.matricules            <- TRUE
 tester.lignes.bulletins.mois <- TRUE
 corriger.quotité     <- FALSE
