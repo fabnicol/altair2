@@ -185,25 +185,22 @@ sauv.bases <- function(dossier, ...)
 
 Read.csv <- function(base.string, vect.chemin, charger = charger.bases, colClasses = NA, colNames = NULL, drop = NULL, séparateur.liste = ",", séparateur.décimal = ".", rapide = FALSE, convertir.encodage = TRUE, encodage = encodage.entrée)  {
 
-                      if (charger.bases) {
+    if (charger.bases) {
 
-                          assign(base.string,
-                                 do.call(rbind, lapply(vect.chemin,
-                                                       read.csv.skip,
-                                                          classes = colClasses,
-                                                          étiquettes = colNames,
-                                                          séparateur.liste = séparateur.liste,
-                                                          séparateur.décimal = séparateur.décimal,
-                                                          drop = drop,
-                                                          convertir.encodage = convertir.encodage,
-                                                          encodage = encodage,
-                                                          rapide = rapide)),
-                                 envir = .GlobalEnv)
-                      }
+        assign(base.string,
+               do.call(rbind, lapply(vect.chemin,
+                                     read.csv.skip,
+                                        classes = colClasses,
+                                        étiquettes = colNames,
+                                        séparateur.liste = séparateur.liste,
+                                        séparateur.décimal = séparateur.décimal,
+                                        drop = drop,
+                                        convertir.encodage = convertir.encodage,
+                                        encodage = encodage,
+                                        rapide = rapide)),
+               envir = .GlobalEnv)
+    }
 }
-
-
-
 
 pretty.print <- function(x) cat(gsub(".", " ",deparse(substitute(x)), fixed = TRUE), "   ", x,"\n")
 
@@ -376,7 +373,7 @@ convertir.nom.prénom.majuscules <- function(S)
 }
 
 extraire.nir <- function(Base) fin.période.sous.revue - (as.numeric(substr(as.character(
-  format(Base[ , champ.nir], scientific = FALSE)),
+  format(Base[ , Nir], scientific = FALSE)),
   2, 3))
   + 1900)
 
