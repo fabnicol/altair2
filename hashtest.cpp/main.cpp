@@ -272,13 +272,16 @@ int main(int argc, char **argv)
                 fprintf(stderr, "%s\n", "Option -o suivi d'un argument obligatoire (nom de  fichier).");
                 exit(-100);
             }
-            free(info.chemin_base);
+
             strncpy(info.chemin_base, argv[start + 1], 500*sizeof(char));
-            if (NULL == fopen(info.chemin_base, "w"))
+            FILE* base;
+            if (base == fopen(info.chemin_base, "w"))
             {
                 perror("La base de données ne peut être créée, vérifier l'existence du dossier.");
                 exit(-113);
             }
+            fclose(base);
+            unlink(info.chemin_base);
             start += 2;
             continue;
         }
@@ -424,7 +427,7 @@ int main(int argc, char **argv)
 
         // Allocation dynamique nécessaire (à expliquer)
 
-        Info = (info_t* ) malloc(info.nbfil*sizeof(info_t));
+        Info = (info_t* ) calloc(info.nbfil, sizeof(info_t));
         if (Info == NULL)
         {
             perror("Allocation de info");
@@ -561,9 +564,7 @@ int main(int argc, char **argv)
     {
         for (unsigned agent = 0; agent < Info[i].NCumAgent; agent++)
         {
-            int utilisation_memoire = ((Info[i].reduire_consommation_memoire)?
-                                         Info[i].minimum_memoire_p_ligne + nbType + Info[i].NLigne[agent]*6
-                                       : Info[i].minimum_memoire_p_ligne + nbType + Info[i].nbLigneUtilisateur*6);
+            int utilisation_memoire =  Info[i].minimum_memoire_p_ligne + nbType + Info[i].NLigne[agent]*6;
 
             for (int j = 0; j < utilisation_memoire; j++)
                 if (Info[i].Table[agent][j])
