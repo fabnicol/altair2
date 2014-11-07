@@ -13,10 +13,12 @@
 #include "fonctions_auxiliaires.hpp"
 #include "table.hpp"
 #ifdef __cplusplus
- #include <regex>
- #include <string>
- #include <iostream>
- using namespace std;
+#include <regex>
+#include <string>
+#include <iostream>
+#include <ctype.h>
+
+using namespace std;
 #endif
 
 static inline xmlNodePtr atteindreNoeud(const char* noeud, xmlNodePtr cur)
@@ -80,9 +82,9 @@ static inline bool Bulletin(const char* tag, xmlNodePtr* cur, int l, info_t* inf
         /* sanitisation */
 
         else
-          for (int i = 0; i < xmlStrlen(ligne_l); i++)
-              if (ligne_l[i] == info->separateur)
-                  ligne_l[i] = '.';
+            for (int i = 0; i < xmlStrlen(ligne_l); i++)
+                if (ligne_l[i] == info->separateur)
+                    ligne_l[i] = '.';
 
         if (info->drapeau_cont)
             *cur = (*cur)? (*cur)->next: NULL;
@@ -171,7 +173,10 @@ static inline int lignePaye(xmlNodePtr cur, info_t* info)
             l++;
         }
 
-        if (! info->reduire_consommation_memoire) { verifier_taille(nbLignePaye, info); }
+        if (! info->reduire_consommation_memoire)
+        {
+            verifier_taille(nbLignePaye, info);
+        }
 
         if (! xmlStrcmp(cur->name, (const xmlChar*) "Commentaire"))
         {
@@ -338,7 +343,8 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
         {
             // Rémuneration tag vide
             ligne = 1 ;
-            for (int k=0; k < 6; k++) info->Table[info->NCumAgentXml][info->minimum_memoire_p_ligne + k]=(xmlChar*) strdup(NA_STRING);
+            for (int k=0; k < 6; k++)
+                info->Table[info->NCumAgentXml][info->minimum_memoire_p_ligne + k] = (xmlChar*) strdup(NA_STRING);
         }
         cur = cur_save->next;
     }
@@ -420,6 +426,14 @@ static void parseFile(info_t* info)
 
         while(cur != NULL)
         {
+            if (info->NCumAgentXml == info->NCumAgent)
+            {
+                fprintf(stderr,
+                        "Incohérence de l'allocation mémoire ex-ante %d B et ex-post %d B : sortie pour éviter une erreur de segmentation.\n",
+                        info->NCumAgent, info->NCumAgentXml);
+                exit(1005);
+            }
+
             cur = atteindreNoeud("PayeIndivMensuel", cur);
             xmlNodePtr cur_save =  cur;
 
@@ -454,14 +468,14 @@ static void parseFile(info_t* info)
                 FILE* log=fopen(info->chemin_log, "a+");
                 int diff = info->NLigne[info->NCumAgentXml]-ligne_p;
                 fprintf(log, "Année %s | Mois %2s | Matricule %6s | Rang global %6d | Rang dans fichier %5d | Analyseur C : N.ligne %6d | Xml : N.ligne %6d | Différence %4d\n",
-                            info->Table[info->NCumAgentXml][Annee],
-                            info->Table[info->NCumAgentXml][Mois],
-                            info->Table[info->NCumAgentXml][Matricule],
-                            info->NCumAgentXml,
-                            info->NAgent[info->fichier_courant],
-                            info->NLigne[info->NCumAgentXml],
-                            ligne_p,
-                            diff);
+                        info->Table[info->NCumAgentXml][Annee],
+                        info->Table[info->NCumAgentXml][Mois],
+                        info->Table[info->NCumAgentXml][Matricule],
+                        info->NCumAgentXml,
+                        info->NAgent[info->fichier_courant],
+                        info->NLigne[info->NCumAgentXml],
+                        ligne_p,
+                        diff);
 
                 fclose(log);
             }
@@ -481,16 +495,30 @@ static void parseFile(info_t* info)
     xmlFree(mois_fichier);
     xmlFree(annee_fichier);
     fprintf(stderr, "Fichier n°%d:\nPopulation du fichier  %s :\n %4d bulletins    Total : %4d bulletins  %4" PRIu64 " lignes cumulées.\n",
-           info->fichier_courant,
-           info->threads->argv[info->fichier_courant],
-           info->NAgent[info->fichier_courant],
-           info->NCumAgentXml,
-           info->nbLigne);
+            info->fichier_courant,
+            info->threads->argv[info->fichier_courant],
+            info->NAgent[info->fichier_courant],
+            info->NCumAgentXml,
+            info->nbLigne);
 
 
-     xmlFreeDoc(doc);
+    xmlFreeDoc(doc);
 }
 
+#if defined __WIN32__ || !defined GCC_4_8
+ inline const char* VAR(xmlChar* X)
+    {
+      if (X == NULL) return NULL;
+      string s = string((char*) X);
+
+      if (! s.empty())
+        {
+             for (auto &c: s)
+              c = toupper(c);
+        }
+      return (const char*) s.c_str();
+    }
+#endif // defined
 
 void* decoder_fichier(void* tinfo)
 {
@@ -511,7 +539,14 @@ void* decoder_fichier(void* tinfo)
     else
     {
         info->NCumAgent = info->nbAgentUtilisateur * info->threads->argc;
-        info->NLigne = (uint16_t*) calloc(info->threads->argc, info->nbAgentUtilisateur* sizeof(uint16_t));
+        info->NLigne = (uint16_t*) malloc(info->NCumAgent * sizeof(uint16_t));
+        if (info->NLigne)
+            for (unsigned i = 0 ; i < info->NCumAgent; i++) info->NLigne[i] = info->nbLigneUtilisateur;
+        else
+        {
+            perror("Problème d'allocation mémoire de info->NLigne");
+            exit(1003);
+        }
     }
 
     info->NAgent = (uint32_t*)  calloc(info->threads->argc, sizeof(int32_t));
@@ -525,12 +560,10 @@ void* decoder_fichier(void* tinfo)
 
     for (unsigned agent = 0; agent < info->NCumAgent; agent++)
     {
-        info->Table[agent] = (xmlChar**) calloc(((info->reduire_consommation_memoire)?
-                                                  info->minimum_memoire_p_ligne + nbType + (info->NLigne[agent])*6
-                                                : info->minimum_memoire_p_ligne + nbType + info->nbLigneUtilisateur*6), sizeof(xmlChar*));
+        info->Table[agent] = (xmlChar**) calloc(info->minimum_memoire_p_ligne + nbType + (info->NLigne[agent])*6, sizeof(xmlChar*));
         if (info->Table[agent] == NULL)
         {
-            perror("Erreur d'allocation de drapeau I.");
+            fprintf(stderr, "Erreur d'allocation de drapeau I. pour l'agent %d et pour %d B\n", agent, info->minimum_memoire_p_ligne + nbType + (info->NLigne[agent])*6);
             exit(-63);
         }
     }
@@ -542,44 +575,89 @@ void* decoder_fichier(void* tinfo)
         parseFile(info);
     }
 
-     #ifdef __cplusplus
-     #ifndef NO_REGEXP
-     #define VAR(X) info->Table[agent][X]
+#ifdef __cplusplus
+#ifndef NO_REGEXP
 
-                  // g++-4.8.2 : le compilateur GNU n'implémente pas encore les groupements [...]. Utilisation de parenthèses à la place
-                  // Cette foncitionnalité coûte, en -j 4, environ 800 ms/M lignes de paie.
 
-     // attention, pas info<-NCumAgent ici
-     #if !defined __WIN32__ && !defined GCC_4_8
-     regex pat {info->expression_reg_elus,  regex_constants::icase};
-     for (unsigned agent = 0; agent < info->NCumAgentXml; agent++)
+    // g++-4.8.2 : le compilateur GNU n'implémente pas encore les groupements [...]. Utilisation de parenthèses à la place
+    // Cette foncitionnalité coûte, en -j 4, environ 800 ms/M lignes de paie.
+    // En outre le compilateur n'implémente pas regex_constants::icase !
+
+    // attention, pas info<-NCumAgent ici
+#if !defined __WIN32__ && !defined GCC_4_8
+    #define VAR(X) info->Table[agent][X]
+    regex pat {info->expression_reg_elus,  regex_constants::icase};
+    regex pat2 {EXPRESSION_REG_VACATIONS, regex_constants::icase};
+
+    for (unsigned agent = 0; agent < info->NCumAgentXml; agent++)
+    {
+        if (regex_match((const char*) VAR(EmploiMetier), pat) || regex_match((const char*) VAR(Service), pat))
+            { xmlFree(VAR(Statut)) ; VAR(Statut) = (xmlChar*) xmlStrdup((const xmlChar*)"ELU"); }
+
+        if (info->reduire_consommation_memoire)
         {
-                  if (regex_match((const char*) VAR(EmploiMetier), pat) || regex_match((const char*) VAR(Service), pat))
-                      VAR(Statut) = (xmlChar*) xmlStrdup((const xmlChar*)"ELU");
+            /* inutile de boucler sur la partie vide du tableau... */
+            for (int j = info->minimum_memoire_p_ligne ; j < info->NLigne[agent]; j++)
+                if (regex_match((const char*) VAR(j), pat2))
+                    { xmlFree(VAR(Statut)); VAR(Statut) = (xmlChar*) xmlStrdup((const xmlChar*)"V"); }
         }
-     #else
-      regex pat1  {".*V.*PRESIDENT.*",  regex_constants::icase};
-      regex pat2  {".*CONS.*COMMUN.*",  regex_constants::icase};
-      regex pat3  {".*ADJ.*MAIRE.*",  regex_constants::icase};
-      regex pat4  {"ELUS?",  regex_constants::icase};
-      regex pat5  {".*CONS.*MUNI.*",  regex_constants::icase};
-
-
-     for (unsigned agent = 0; agent < info->NCumAgentXml; agent++)
+        else
         {
-                  if (regex_match((const char*) VAR(EmploiMetier), pat1) || regex_match((const char*) VAR(Service), pat1) ||
-                      regex_match((const char*) VAR(EmploiMetier), pat2) || regex_match((const char*) VAR(Service), pat2) ||
-                      regex_match((const char*) VAR(EmploiMetier), pat3) || regex_match((const char*) VAR(Service), pat3) ||
-                      regex_match((const char*) VAR(EmploiMetier), pat4) || regex_match((const char*) VAR(Service), pat4) ||
-                      regex_match((const char*) VAR(EmploiMetier), pat5) || regex_match((const char*) VAR(Service), pat5) ||
-                      !strcasecmp((const char*) VAR(EmploiMetier), "PRESIDENT") || !strcasecmp((const char*) VAR(EmploiMetier), "MAIRE"))
-                      VAR(Statut) = (xmlChar*) xmlStrdup((const xmlChar*)"ELU");
+            for (int j = info->minimum_memoire_p_ligne ; j < info->NLigne[agent] && info->Table[agent][j] != NULL; j++)
+                if (regex_match((const char*) VAR(j), pat2))
+                    { xmlFree(VAR(Statut)); VAR(Statut) = (xmlChar*) xmlStrdup((const xmlChar*)"V"); }
+        }
+    }
+
+#else
+
+    basic_regex<char> pat1("V.*PR.*SID.*");
+    basic_regex<char> pat2(".*CONS.*COMMU.*");
+    basic_regex<char> pat3(".*ADJ.*MAIRE.*");
+    regex pat4(".*ELUS?.*");
+    basic_regex<char> pat5(".*CONS.*MUNI.*");
+    basic_regex<char> pat6(".*VAC.*");
+    regex pat7("MAIR.*");
+    basic_regex<char> pat8("PR.*SID.*");
+    basic_regex<char> pat9(".*CONS.*MAIR.*");
+
+    for (unsigned agent = 0; agent < info->NCumAgentXml; agent++)
+    {
+        const char* EM = (const char*) VAR(info->Table[agent][EmploiMetier]);
+        const char* S  = (const char*) VAR(info->Table[agent][Service]);
+        if (EM && S )
+        {
+            if (regex_match(EM , pat1) || regex_match(S, pat1) ||
+                    regex_match(EM, pat2) || regex_match(S, pat2) ||
+                    regex_match(EM, pat3) || regex_match(S, pat3) ||
+                    regex_match(EM, pat4) || regex_match(S, pat4) ||
+                    regex_match(EM, pat5) || regex_match(S, pat5) ||
+                    regex_match(EM, pat7) || regex_match(S, pat7) ||
+                    regex_match(EM, pat8) || regex_match(S, pat8) ||
+                    regex_match(EM, pat9) || regex_match(S, pat9))
+
+                info->Table[agent][Statut] = (xmlChar*) xmlStrdup((const xmlChar*)"ELU");
         }
 
-    #endif
-    #undef VAR
-    #endif // __cplusplus
-    #endif // REGEXP
+        if (info->reduire_consommation_memoire)
+        {
+            /* inutile de boucler sur la partie vide du tableau... */
+            for (int j = info->minimum_memoire_p_ligne ; j < info->NLigne[agent] && info->Table[agent][j] != NULL; j++)
+                if (regex_match(VAR(info->Table[agent][j]), pat6))
+                     { xmlFree(info->Table[agent][Grade] ); info->Table[agent][Grade] = (xmlChar*) xmlStrdup((const xmlChar*) "V"); }
+        }
+        else
+        {
+            for (int j = info->minimum_memoire_p_ligne ; j < info->NLigne[agent] && info->Table[agent][j] != NULL; j++)
+                if (regex_match(VAR(info->Table[agent][j]), pat6))
+                     { xmlFree(info->Table[agent][Grade]); info->Table[agent][Grade] = (xmlChar*) xmlStrdup((const xmlChar*) "V");}
+        }
+    }
+
+#endif
+#undef VAR
+#endif // __cplusplus
+#endif // REGEXP
     return NULL;
 }
 //
