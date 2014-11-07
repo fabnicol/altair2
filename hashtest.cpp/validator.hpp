@@ -27,11 +27,8 @@ typedef struct
 } thread_t;
 
 #define BESOIN_MEMOIRE_ENTETE  18  /* nb d'éléments de l'enum ci-dessous */
-#ifndef __WIN32__
-#define EXPRESSION_REG_ELUS u8"maire|pr[eé]sident|[eé]lus?|.*(?:adj.*maire|v.*pr[eé]sident|cons.*muni|cons.*commun).*"
-#else
-#define EXPRESSION_REG_ELUS ";*PRESIDENT.*"
-#endif
+#define EXPRESSION_REG_ELUS u8"maire|pr.sident|.lus?|.*(?:adj.*maire|v.*pr.sident|cons.*muni|cons.*comm|cons.*d.l.gu.).*"
+#define EXPRESSION_REG_VACATIONS ".*vac.*"
 
 #define NOM_BASE "Table"
 #define CSV  ".csv"
