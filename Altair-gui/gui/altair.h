@@ -209,6 +209,7 @@ public:
     qint64 reference;
     QTimer *timer= new QTimer(this);
     QProgressBar *bar=new QProgressBar ;
+    int startshift = 8;
     qint64 new_value=0;
     Altair* parent;
     MeasureFunction engine ;

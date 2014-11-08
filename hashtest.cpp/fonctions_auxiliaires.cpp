@@ -8,6 +8,7 @@
 //extern "C" {
 //#endif
 #include "fonctions_auxiliaires.hpp"
+#include <string.h>
 #include <stdint.h>
 
 char* ecrire_chemin_base(char* chemin_base, int rang_fichier_base)
