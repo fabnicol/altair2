@@ -833,8 +833,8 @@ Tableau.vertical2(c("Agrégats",
 #'
 #'**Définitions :**
 #'
-#'  *Brut annuel (bulletins)*   : somme du champ *Brut*
-#'  *Brut annuel (lignes)*      : somme du champ *Montant* des lignes de paye, dont :  
+#'  *Brut annuel (bulletins)*   : somme du champ *Brut*   
+#'  *Brut annuel (lignes)*      : somme du champ *Montant* des lignes de paye, dont :   
 #'  *Indemnités imposables*     : champ *Brut* moins le SFT, le traitement indiciaire et l'indemnité de résidence 
 #'  *Indemnités d'élus*         : toutes rémunérations indemnitaires des élus    
 #'  *Autres rémunérations*      : acomptes, retenues sur brut, rémunérations diverses, rappels   
@@ -1176,7 +1176,7 @@ source("histogrammes.R", encoding = "UTF-8")
 histogrammes()
 #'    
 #'**Nota :**   
-#'*EQTP = Equivalent temps plein = 12 . moyenne du ratio rémunération / quotité 
+#'*EQTP = Equivalent temps plein = 12 . moyenne du ratio rémunération / quotité*   
 #'   
 #'**Effectif : `r nrow(AR)`**
 #'
@@ -1205,7 +1205,7 @@ Tableau.vertical2(c("Agrégats",
 #'
 #'**Définitions :**
 #'
-#'  *Brut annuel (bulletins)*   : somme du champ *Brut*
+#'  *Brut annuel (bulletins)*   : somme du champ *Brut*   
 #'  *Brut annuel (lignes)*      : somme du champ *Montant* des lignes de paye, dont :  
 #'  *Indemnités imposables*     : champ *Brut* moins le SFT, le traitement indiciaire et l'indemnité de résidence 
 #'  *Indemnités d'élus*         : toutes rémunérations indemnitaires des élus    
@@ -1433,7 +1433,7 @@ detach(Analyse.rémunérations.dernier.exercice)
 #'**Les données présentées dans cette section sont toutes relatives à des rémunérations nettes en équivalent temps plein (EQTP)**      
 #'    
 #'*Nota :*   
-#'*EQTP = Equivalent temps plein  = 12 . ratio rémunération / quotité*  
+#'*EQTP = Equivalent temps plein  = 12 . moyenne du ratio rémunération / quotité*    
 #'    
 #'## 4.1 Rémunération nette moyenne sur la période    
 
