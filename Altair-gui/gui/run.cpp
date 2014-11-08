@@ -34,13 +34,17 @@ void Altair::run()
     QString path=Hash::wrapper["base"]->toQString();
     QDir targetDirObject(path);
     
-    if (! targetDirObject.exists() && ! targetDirObject.mkdir(path))
+    if (!targetDirObject.removeRecursively())    QMessageBox::information(0, QString("Supprimer le répertoire"),
+                                                   QString("Le répertoire n'a pas été supprimé' %1").arg(QDir::toNativeSeparators(path)));
+
+    else
+    if (targetDirObject.mkpath(path) == false)
     {
-        QMessageBox::critical(this, "Erreur", "Impossible de trouver le répertoire " + path);
+        QMessageBox::warning(0, QString("Répertoire"), QString("Le répertoire %1 n'a pas été créé").arg(path), QMessageBox::Ok);
         return;
     }
-    else
-        outputTextEdit->append(PROCESSING_HTML_TAG + tr("Validation du répertoire de sortie ") + path);    
+
+    outputTextEdit->append(PROCESSING_HTML_TAG + tr("Validation du répertoire de sortie ") + path);
        
     QStringList args;
     QString command;
@@ -50,7 +54,7 @@ void Altair::run()
     args <<  createCommandLineString(flags::commandLineType::altairCommandLine);
     
     outputTextEdit->append(STATE_HTML_TAG + tr("Décodage des fichiers .xhl..."));
-    outputTextEdit->append(PROCESSING_HTML_TAG + tr("Taille totale des fichiers ")+QString::number(Altair::totalSize[AUDIO]));
+    outputTextEdit->append(PROCESSING_HTML_TAG + tr("Taille totale des fichiers ")+QString::number(Altair::totalSize[AUDIO])/(1024*1024) +tr(" Mo"));
     
     command=args.join(" ");
     outputTextEdit->append(STATE_HTML_TAG + tr("Ligne de commande : ")+ altairCommandStr+ " "+command);
