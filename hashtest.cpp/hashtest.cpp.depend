@@ -169,8 +169,9 @@
 	"fonctions_auxiliaires.hpp"
 	"table.hpp"
 
-1415014890 source:c:\dev\altair\hashtest.cpp\fonctions_auxiliaires.cpp
+1415391566 source:c:\dev\altair\hashtest.cpp\fonctions_auxiliaires.cpp
 	"fonctions_auxiliaires.hpp"
+	<string.h>
 	<stdint.h>
 
 1415014890 c:\dev\altair\hashtest.cpp\fonctions_auxiliaires.hpp
@@ -211,7 +212,7 @@
 	<_mingw.h>
 	<stddef.h>
 
-1415379432 c:\dev\altair\hashtest.cpp\validator.hpp
+1415398943 c:\dev\altair\hashtest.cpp\validator.hpp
 	<stdio.h>
 	<string.h>
 	<stdlib.h>
@@ -599,10 +600,11 @@
 1415014890 c:\dev\altair\hashtest.cpp\table.hpp
 	"validator.hpp"
 
-1415377911 source:c:\dev\altair\hashtest.cpp\validator.cpp
+1415398864 source:c:\dev\altair\hashtest.cpp\validator.cpp
 	"validator.hpp"
 	"fonctions_auxiliaires.hpp"
 	"table.hpp"
+	<regex.h>
 	<regex>
 	<string>
 	<iostream>
@@ -636,6 +638,28 @@
 	<time.h>
 
 1341003170 c:\program files (x86)\codeblocks\mingw\include\ctype.h
+	<_mingw.h>
+	<stddef.h>
+
+1229781538 c:\program files (x86)\gnuwin32\include\tre\regex.h
+	"tre-config.h"
+	<sys/types.h>
+	<libutf8.h>
+	<wchar.h>
+
+1229780760 c:\program files (x86)\gnuwin32\include\tre\tre-config.h
+
+1341003178 c:\program files (x86)\codeblocks\mingw\include\wchar.h
+	<_mingw.h>
+	<stddef.h>
+	<stdarg.h>
+	<wctype.h>
+	<sys/types.h>
+	<stdio.h>
+	<stdint.h>
+	<stdint.h>
+
+1341003178 c:\program files (x86)\codeblocks\mingw\include\wctype.h
 	<_mingw.h>
 	<stddef.h>
 

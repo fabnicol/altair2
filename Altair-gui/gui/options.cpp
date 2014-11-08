@@ -207,10 +207,11 @@ void standardPage::selectOutput()
         if (QMessageBox::warning(0, QString("Répertoire"), QString("Le répertoire %1 n'est pas vide (Taille %2B). Ecraser et recréer ? ").arg(path,QString::number(size)), QMessageBox::Ok | QMessageBox::Cancel)
                 == QMessageBox::Ok)
         {
-            if (!QDir(path).removeRecursively())    QMessageBox::information(0, QString("Supprimer le répertoire"),
+            QDir targetDirObject(path);
+            if (!targetDirObject.removeRecursively())    QMessageBox::information(0, QString("Supprimer le répertoire"),
                                                            QString("Le répertoire n'a pas été supprimé' %1").arg(QDir::toNativeSeparators(path)));
 
-            QDir targetDirObject(path);
+            else
             if (targetDirObject.mkpath(path) == false)
             {
                 QMessageBox::warning(0, QString("Répertoire"), QString("Le répertoire %1 n'a pas été créé").arg(path), QMessageBox::Ok);
