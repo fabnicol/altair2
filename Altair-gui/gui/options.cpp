@@ -117,6 +117,24 @@ standardPage::standardPage()
                                 "genererTable",
                                 {"Générer la table .csv", "type standard"},
                                 "t");
+
+    QLabel* logLineLabel = new QLabel("Répertoire du Log");
+
+    logLineEdit= new FLineEdit(generateDatadirPath("Log"),
+                                        "log",
+                                       {"Générer un log d'exécution", "répertoire du log"},
+                                        "L");
+
+    logButton= new QToolDirButton(tr("Sélectionner le répertoire du log.csv\nen sortie de l'application noyau"));
+
+    QToolDirButton *openLogButton=new QToolDirButton(tr("Ouvrir le répertoire "), actionType::OpenFolder);
+
+    logCheckBox=new FCheckBox("Générer le log  ",
+                              flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
+                                "genererLog",
+                                {"Générer un log d'exécution", "application noyau"},
+                               {logLineLabel, logLineEdit, openLogButton});
+
     economeCheckBox=new FCheckBox("Economiser la RAM  ",
                                   "ecoRAM",
                                  {"Mode économe en mémoire", ""},
@@ -139,6 +157,12 @@ standardPage::standardPage()
     v2Layout->addWidget(processTypeLabel,  5,0,Qt::AlignRight);
     v2Layout->addWidget(processTypeWidget, 5,1,Qt::AlignLeft);
     v2Layout->addWidget(tableCheckBox,     1,0,Qt::AlignLeft);
+
+    v2Layout->addWidget(logLineLabel,   1, 0);
+    v2Layout->addWidget(,      0, 0);
+    v2Layout->addWidget(baseButton,     1, 1);
+    v2Layout->addWidget(openBaseButton, 1, 2);
+
     v2Layout->addWidget(economeCheckBox,   2,0,Qt::AlignLeft);
     v2Layout->addWidget(nLineEdit,         3,1,Qt::AlignLeft);
     v2Layout->addWidget(NLineEdit,         4,1,Qt::AlignLeft);
