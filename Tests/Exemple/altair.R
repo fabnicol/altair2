@@ -1519,9 +1519,9 @@ g <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x,
                            digits = 1,
                            format = "fg")
 
-#'
-#'#### Rémunération
-#'
+#'    
+#'#### Rémunération    
+#'   
 
 Tableau.vertical(c(étiquette.année, "Rém. nette totale (k&euro;)", "Rém. nette par EQTP (&euro;)"),
                  période,
@@ -1529,10 +1529,8 @@ Tableau.vertical(c(étiquette.année, "Rém. nette totale (k&euro;)", "Rém. nette p
                  f,
                  g)
 
-#'
-#'
-#'######
-#'
+#'    
+#'    
 
 Résumé(c("Première année",
          "Dernière année",
@@ -1541,7 +1539,7 @@ Résumé(c("Première année",
                                                 Montant.net.annuel.eqtp.sortie,
                                                 moyenne.rémunération.annuelle.sur.période)])
 
-#'
+#'   
 
 Résumé(c("Variation sur la période <br>d'activité (%)",
          "Variation annuelle moyenne (%)",
@@ -1550,7 +1548,7 @@ Résumé(c("Variation sur la période <br>d'activité (%)",
                                                 variation.moyenne.rémunération)],
        extra = "length")
 
-#'
+#'   
 
 Résumé(c("Variation normalisée (%)",
          "Variation annuelle moyenne normalisée (%)",
@@ -1559,9 +1557,9 @@ Résumé(c("Variation normalisée (%)",
                                                 variation.moyenne.rémunération.normalisée)],
        extra = "length")
 
-#'
+#'   
 #'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.filtrée.csv)
-#'
+#'   
 
 #'### 4.2.2 Fonctionnaires
 #'
@@ -1585,7 +1583,7 @@ g <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x & (Sta
 #'#### Rémunération
 #'
 
-Tableau.vertical(c(étiquette.année, "Rém. nette totale des fonctionnaires (k&euro;)", "Rém. nette des fonctionnaires par EQTP (&euro;)"),
+Tableau.vertical(c(étiquette.année, "Rém. nette totale (k&euro;)", "Rém. nette par EQTP (&euro;)"),
                  période,
                  extra = "variation",
                  f,
@@ -1622,7 +1620,7 @@ Résumé(c("Variation normalisée (%)",
 
 #'
 #'#### Titulaires à temps complet   
-
+#'   
 f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x & Statut == "TITULAIRE" & temps.complet, 
                                                                Montant.net.annuel.eqtp],
                                na.rm = TRUE) / 1000,
@@ -1637,19 +1635,18 @@ g <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x & Stat
                            digits = 1,
                            format = "fg")
 
-#'
-#'#### Rémunération
-#'
+#'   
+#'#### Rémunération   
+#'   
 
-Tableau.vertical(c(étiquette.année, "Rém. nette totale des titulaires à temps complet (k&euro;)", "Rém. nette des titulaires à temps complet (&euro;)"),
+Tableau.vertical(c(étiquette.année, "Rém. nette totale (k&euro;)", "Rém. nette par titulaire (&euro;)"),
                  période,
                  extra = "variation",
                  f,
                  g)
 
-#'
-#'######
-#'
+#'     
+#'      
 
 Résumé(c("Première année",
          "Dernière année",
@@ -1659,7 +1656,7 @@ Résumé(c("Première année",
                                              Montant.net.annuel.eqtp.sortie,
                                              moyenne.rémunération.annuelle.sur.période)])
 
-#'
+#'   
 
 Résumé(c("Variation sur la période <br>d'activité (%)",
          "Variation annuelle moyenne (%)",
@@ -1720,8 +1717,8 @@ g <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x
                            format = "fg")
 #'   
 Tableau.vertical(c(étiquette.année,
-                   "Rém. nette totale <br>des agents en place (k&euro;)",
-                   "Rém. nette par EQTP<br>des agents en place (k&euro;)"),
+                   "Rém. nette totale (k&euro;)",
+                   "Rém. nette par EQTP (k&euro;)"),
                  période,
                  extra = "variation",
                  f,
