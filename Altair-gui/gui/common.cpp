@@ -105,7 +105,7 @@ QUrl url("file:///" + path);
 QDesktopServices::openUrl(url);
 }
 
-bool common::openDirDialog()
+const QString common::openDirDialog()
 {
 QString path=QFileDialog::getExistingDirectory(this, QString("Sélection du répertoire"),
                                                QDir::currentPath(),
@@ -133,7 +133,7 @@ if (size)
     }
 }
 
-return true;
+return path;
 }
 
 
