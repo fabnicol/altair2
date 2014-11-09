@@ -164,10 +164,11 @@ standardPage::standardPage()
     v2Layout->addWidget(nLineLabel,        3,0,Qt::AlignRight);
     v2Layout->addWidget(NLineLabel,        4,0,Qt::AlignRight);
 
+    v2Layout->addWidget(logCheckBox,       5,0,Qt::AlignRight);
     v2Layout->addWidget(logLineLabel,      6,0,Qt::AlignRight);
     v2Layout->addWidget(logLineEdit,       6,1,Qt::AlignLeft);
-    v2Layout->addWidget(logCheckBox,       5,0,Qt::AlignRight);
-    v2Layout->addWidget(openBaseButton, 1, 2);
+    v2Layout->addWidget(logButton,         6,2);
+    v2Layout->addWidget(openLogButton,     6,3);
 
     baseTypeBox->setLayout(v1Layout);
     processTypeBox->setLayout(v2Layout);
@@ -198,7 +199,6 @@ standardPage::standardPage()
     connect(baseButton,
             SIGNAL(clicked()),
             this, SLOT(selectOutput()));
-
 }
 
 
@@ -211,39 +211,12 @@ void standardPage::on_openBaseDirButton_clicked()
         QMessageBox::warning(0, QString("Répertoire"), QString("Le répertoire %1 n'a pas été créé").arg(path), QMessageBox::Ok);
         return;
     }
-    
     common::openDir(baseLineEdit->text());
 }
 
-
 void standardPage::selectOutput()
 {
-    QString path=QFileDialog::getExistingDirectory(this, QString("Sélection du répertoire"),
-                                                   QDir::currentPath(),
-                                                   QFileDialog::ShowDirsOnly
-                                                   | QFileDialog::DontResolveSymlinks);
-    if (path.isEmpty()) return;
-
-    qint64 size=common::getDirectorySize(path, "*");
-
-    if (size)
-    {
-        if (QMessageBox::warning(0, QString("Répertoire"), QString("Le répertoire %1 n'est pas vide (Taille %2B). Ecraser et recréer ? ").arg(path,QString::number(size)), QMessageBox::Ok | QMessageBox::Cancel)
-                == QMessageBox::Ok)
-        {
-            QDir targetDirObject(path);
-            if (!targetDirObject.removeRecursively())    QMessageBox::information(0, QString("Supprimer le répertoire"),
-                                                           QString("Le répertoire n'a pas été supprimé' %1").arg(QDir::toNativeSeparators(path)));
-
-            else
-            if (targetDirObject.mkpath(path) == false)
-            {
-                QMessageBox::warning(0, QString("Répertoire"), QString("Le répertoire %1 n'a pas été créé").arg(path), QMessageBox::Ok);
-                return;
-            }
-        }
-    } 
-    else
+   if (common::openDirDialog())
     {
         QString path=Hash::wrapper["base"]->toQString();
         QDir targetDirObject(path);
@@ -253,17 +226,14 @@ void standardPage::selectOutput()
             return;
         }
     }
-
     baseLineEdit->setText(path);
 }
-
 
 int options::RefreshFlag;
 
 options::options(Altair* parent)
 {
     /* plain old data types must be 0-initialised even though the class instance was new-initialised. */
-
         
     options::RefreshFlag=UpdateOptionTabs;
 
@@ -271,9 +241,7 @@ options::options(Altair* parent)
     standardTab = new standardPage;
     pagesWidget->addWidget(standardTab);
 
-
     closeButton = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
-    
     closeButton->button(QDialogButtonBox::Ok)->setText("Accepter");
     closeButton->button(QDialogButtonBox::Cancel)->setText("Annuler");    
     
@@ -286,25 +254,20 @@ options::options(Altair* parent)
                 parent->updateProject(true);
             });
 
-
     connect(closeButton, SIGNAL(rejected()), this, SLOT(reject()));
         
     QHBoxLayout *horizontalLayout = new QHBoxLayout;
     horizontalLayout->addWidget(pagesWidget, 1);
-
     QHBoxLayout *buttonsLayout = new QHBoxLayout;
     buttonsLayout->addStretch(1);
     buttonsLayout->addWidget(closeButton);
-
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addLayout(horizontalLayout);
     mainLayout->addStretch(1);
     mainLayout->addLayout(buttonsLayout);
     setLayout(mainLayout);
-
     setWindowTitle(tr("Options"));
     setWindowIcon(QIcon(":/images/altair.png"));
-    
 }
 
 

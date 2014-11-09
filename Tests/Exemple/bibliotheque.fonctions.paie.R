@@ -270,7 +270,7 @@ Tableau.vertical <- function(colnames, rownames, extra = 0, ...)
         T <- cbind(T, sapply(rownames, tmp[[x]]), g(tmp[[x]]))
         NT <- c(NT, colnames[[x + 1]], "Variation (%)")
       }
-      print(NT)
+    
       names(T) <- NT
     } else {
       T <- data.frame(rownames, lapply(tmp, function(f) sapply(rownames, f)))
