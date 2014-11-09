@@ -324,6 +324,7 @@ message("Bulletins de Paie retraités")
                                      nb.jours     = nb.jours[1],
                                      permanent    = permanent[1],
                                      Emploi       = Emploi[1],
+                                     temps.complet = all(quotité == 1),
                                      Service      = Service[1],
                                      traitement.indiciaire   = sum(Montant[Type == "T"], na.rm = TRUE),
                                      sft          = sum(Montant[Type == "S"], na.rm = TRUE),
@@ -362,6 +363,7 @@ Analyse.variations.par.exercice <- Analyse.rémunérations[ , c(clé.fusion, étique
                                                               "rémunération.indemnitaire.imposable.eqtp",
                                                               "Statut",
                                                               "nb.jours",
+                                                              "temps.complet",
                                                               "permanent"), with=FALSE]
 
 Analyse.variations.par.exercice <- Analyse.variations.par.exercice[nb.jours > seuil.troncature]
@@ -373,6 +375,7 @@ Analyse.variations.synthèse <- Analyse.variations.par.exercice[ ,
                                                                     Montant.net.annuel.eqtp.début  = Montant.net.annuel.eqtp[1],
                                                                     Montant.net.annuel.eqtp.sortie = Montant.net.annuel.eqtp[length(Année)],
                                                                     permanent = all(permanent),
+                                                                    temps.complet = temps.complet[1] & temps.complet[length(Année)],
                                                                     moyenne.rémunération.annuelle.sur.période =
                                                                          sum(Montant.net.annuel.eqtp, na.rm = TRUE)/length(Année[!is.na(Montant.net.annuel.eqtp) & Montant.net.annuel.eqtp > 0])),
                                                                 by = clé.fusion]
@@ -491,7 +494,7 @@ effectifs <- lapply(période,
                     function(x) {
                       A <- Bulletins.paie[Année == x, .(Matricule, Statut, permanent, quotité, nb.mois)]
                       E <- unique(A[ , .(Matricule, permanent)], by = NULL)
-                      ETP <- unique(Bulletins.paie[Année == x, .(quotité, Matricule, Mois, nb.mois)], by = NULL)
+                      ETP <- unique(Bulletins.paie[Année == x, .(quotité, Matricule, Statut, Mois, nb.mois)], by = NULL)
                       F <- E[E$permanent, ]
                       G <- unique(A[A$Statut == "TITULAIRE" | A$Statut == "STAGIAIRE", .(Matricule, permanent)], by = NULL)
                       H <- G[G$permanent, ]
@@ -505,12 +508,20 @@ effectifs <- lapply(période,
                                                                              & Année == x,
                                                                                Matricule],
                             sum(quotité, na.rm=TRUE)] / 12,
-                        ETP[Matricule %chin% Analyse.variations.par.exercice[plus.2.ans
-                                                                             & Année == x
-                                                                             & (Statut == "TITULAIRE" | Statut == "STAGIAIRE"),
-                                                                               Matricule],
+                        ETP[Statut == "TITULAIRE" | Statut == "STAGIAIRE",
+                              sum(quotité, na.rm=TRUE)] / 12,
+                        ETP[Matricule %chin% Analyse.variations.par.exercice[permanent
+                                                                             & Statut == "TITULAIRE"
+                                                                             & temps.complet
+                                                                             & Année == x,
+                                                                             Matricule],
                             sum(quotité, na.rm=TRUE)] / 12)
                      })
+
+for (i in 1:length(effectifs)) names(effectifs[[i]]) <- c("Effectifs", "Effectifs_12", "Effectifs_12_fonct",
+                                                      "Effectifs_12_fonct", "Effectifs_élus", "Effectifs_12_élus",
+                                                      "ETP", "ETPT", "ETPT_pp", 
+                                                      "ETPT_fonct", "Tit_12_100")
 
 effectifs.locale <- lapply(effectifs, function(x) formatC(x, big.mark = " ", format="f", digits=1, decimal.mark=","))
 
@@ -518,7 +529,7 @@ tableau.effectifs <- as.data.frame(effectifs.locale,
                                    row.names = c("Total effectifs", "  dont présents 12 mois", "  dont fonctionnaires",
                                                  "  dont fonct. présents 12 mois", "  dont élus", "  dont élus présents 12 mois",
                                                  "Total ETP/année", "Total ETPT/année", "Total ETPT/année agents en place",
-                                                 "Total ETPT/année fonctionnaires"))
+                                                 "Total ETPT/année fonctionnaires", "Total ETPT/année titulaires à temps complet"))
 
 names(tableau.effectifs) <- liste.années
 names(effectifs) <- liste.années
@@ -722,7 +733,7 @@ masses.premier.élus <- colSums(Analyse.rémunérations.premier.exercice[Statut == 
 #'*Personnels*     
 
 Tableau.vertical2(c("Agrégats",
-                    "k&euros;"),
+                    "k&euro;"),
                   c("Brut annuel (bulletins)",
                     "Brut annuel (lignes), dont :",
                     "\\ \\ Indemnités imposables :",
@@ -737,7 +748,7 @@ Tableau.vertical2(c("Agrégats",
 #'  
 
 Tableau.vertical2(c("Agrégats",
-                    "k&euros;"),
+                    "k&euro;"),
                   c("Brut annuel (bulletins)",
                     "Brut annuel (lignes), dont :",
                     "\\ \\ Indemnités imposables :",
@@ -763,7 +774,7 @@ Tableau.vertical2(c("Agrégats",
 #'  
 
 Tableau.vertical2(c("Agrégats",
-                    "k&euros;"),
+                    "k&euro;"),
                   c("Bulletins de paie ",
                     "Lignes de paie ",
                     "Différence "),
@@ -779,7 +790,7 @@ Tableau.vertical2(c("Agrégats",
 #'  
 
 Tableau.vertical2(c("Agrégats",
-                    "k&euros;"),
+                    "k&euro;"),
                   c("Bulletins de paie ",
                     "Lignes de paie ",
                     "Différence "),
@@ -820,7 +831,7 @@ if (nrow(AR) > 0) {
 #'
 
 Tableau.vertical2(c("Agrégats",
-                    "k&euros;"),
+                    "k&euro;"),
                   c("Brut annuel (bulletins)",
                     "Brut annuel (lignes), dont :",
                     "\\ \\ Indemnités imposables :",
@@ -845,7 +856,7 @@ Tableau.vertical2(c("Agrégats",
 #'
 
 Tableau.vertical2(c("Agrégats",
-                    "k&euros;"),
+                    "k&euro;"),
                   c("Bulletins de paie ",
                     "Lignes de paie ",
                     "Différence "),
@@ -1006,7 +1017,7 @@ if (length(temp > 0))
        nclass = 50)
 #'
 #'**Nota :**
-#'Ne sont retenues que les rémunérations supérieures à 1 000 k&euros;.
+#'Ne sont retenues que les rémunérations supérieures à 1 000 k&euro;.
 #'Les élus ne sont pas pris en compte.
 #'
 
@@ -1094,7 +1105,7 @@ masses.dernier.élus <- colSums(Analyse.rémunérations.dernier.exercice[Statut == 
 #'*Personnels*     
 
 Tableau.vertical2(c("Agrégats",
-                    "k&euros;"),
+                    "k&euro;"),
                   c("Brut annuel (bulletins)",
                     "Brut annuel (lignes), dont :",
                     "\\ \\ Indemnités imposables :",
@@ -1109,7 +1120,7 @@ Tableau.vertical2(c("Agrégats",
 #'  
 
 Tableau.vertical2(c("Agrégats",
-                    "k&euros;"),
+                    "k&euro;"),
                   c("Brut annuel (bulletins)",
                     "Brut annuel (lignes), dont :",
                     "\\ \\ Indemnités imposables :",
@@ -1135,7 +1146,7 @@ Tableau.vertical2(c("Agrégats",
 #'  
 
 Tableau.vertical2(c("Agrégats",
-                    "k&euros;"),
+                    "k&euro;"),
                   c("Bulletins de paie ",
                     "Lignes de paie ",
                     "Différence "),
@@ -1151,7 +1162,7 @@ Tableau.vertical2(c("Agrégats",
 #'  
 
 Tableau.vertical2(c("Agrégats",
-                    "k&euros;"),
+                    "k&euro;"),
                   c("Bulletins de paie ",
                     "Lignes de paie ",
                     "Différence "),
@@ -1192,7 +1203,7 @@ if (nrow(AR) > 0) {
 #'
 
 Tableau.vertical2(c("Agrégats",
-                    "k&euros;"),
+                    "k&euro;"),
                   c("Brut annuel (bulletins)",
                     "Brut annuel (lignes), dont :",
                     "\\ \\ Indemnités imposables :",
@@ -1217,7 +1228,7 @@ Tableau.vertical2(c("Agrégats",
 #'
 
 Tableau.vertical2(c("Agrégats",
-                    "k&euros;"),
+                    "k&euro;"),
                   c("Bulletins de paie ",
                     "Lignes de paie ",
                     "Différence "),
@@ -1377,7 +1388,7 @@ if (length(temp > 0))
        nclass = 50)
 #'
 #'**Nota :**
-#'Ne sont retenues que les rémunérations supérieures à 1 000 k&euros;.
+#'Ne sont retenues que les rémunérations supérieures à 1 000 k&euro;.
 #'Les élus ne sont pas pris en compte.
 #'
 
@@ -1478,6 +1489,8 @@ Analyse.variations.synthèse.filtrée <- Analyse.variations.synthèse[total.jours >
                                                                      variation.rémunération.normalisée,
                                                                      variation.moyenne.rémunération.normalisée,
                                                                      statut,
+                                                                     temps.complet,
+                                                                     permanent,
                                                                      plus.2.ans,
                                                                      clé.fusion)]
 
@@ -1501,7 +1514,7 @@ f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x,
 
 g <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x, 
                                                                Montant.net.annuel.eqtp],
-                               na.rm = TRUE) / effectifs[[as.character(x)]][8],
+                               na.rm = TRUE) / effectifs[[as.character(x)]]["ETPT"],
                            big.mark = " ",
                            digits = 1,
                            format = "fg")
@@ -1510,8 +1523,9 @@ g <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x,
 #'#### Rémunération
 #'
 
-Tableau.vertical(c(étiquette.année, "Rémunération nette totale (k&euro;)", "Rémunération nette par EQTP (&euro;)"),
+Tableau.vertical(c(étiquette.année, "Rém. nette totale (k&euro;)", "Rém. nette par EQTP (&euro;)"),
                  période,
+                 extra = "variation",
                  f,
                  g)
 
@@ -1551,7 +1565,7 @@ Résumé(c("Variation normalisée (%)",
 
 #'### 4.2.2 Fonctionnaires
 #'
-
+#'#### Titulaires et stagiaires   
 
 f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x & (Statut == "TITULAIRE" | Statut == "STAGIAIRE"), 
                                                                Montant.net.annuel.eqtp],
@@ -1562,7 +1576,7 @@ f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x & (Sta
 
 g <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x & (Statut == "TITULAIRE" | Statut == "STAGIAIRE"), 
                                                                Montant.net.annuel.eqtp],
-                               na.rm = TRUE) / effectifs[[as.character(x)]][10],
+                               na.rm = TRUE) / effectifs[[as.character(x)]]["ETPT_fonct"],
                            big.mark = " ",
                            digits = 1,
                            format = "fg")
@@ -1571,8 +1585,9 @@ g <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x & (Sta
 #'#### Rémunération
 #'
 
-Tableau.vertical(c(étiquette.année, "Rémunération nette totale des fonctionnaires (k&euro;)", "Rémunération nette des fonctionnaires par EQTP (&euro;)"),
+Tableau.vertical(c(étiquette.année, "Rém. nette totale des fonctionnaires (k&euro;)", "Rém. nette des fonctionnaires par EQTP (&euro;)"),
                  période,
+                 extra = "variation",
                  f,
                  g)
 
@@ -1603,6 +1618,65 @@ Résumé(c("Variation normalisée (%)",
          "Effectif"),
        Analyse.variations.synthèse.filtrée[statut == "TITULAIRE" | statut == "STAGIAIRE" , .(variation.rémunération.normalisée,
                                                 variation.moyenne.rémunération.normalisée)],
+       extra = "length")
+
+#'
+#'#### Titulaires à temps complet   
+
+f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x & Statut == "TITULAIRE" & temps.complet, 
+                                                               Montant.net.annuel.eqtp],
+                               na.rm = TRUE) / 1000,
+                           big.mark = " ",
+                           digits = 5,
+                           format = "fg")
+
+g <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x & Statut == "TITULAIRE" & temps.complet & permanent, 
+                                                               Montant.net.annuel.eqtp],
+                               na.rm = TRUE) / effectifs[[as.character(x)]]["Tit_12_100"],
+                           big.mark = " ",
+                           digits = 1,
+                           format = "fg")
+
+#'
+#'#### Rémunération
+#'
+
+Tableau.vertical(c(étiquette.année, "Rém. nette totale des titulaires à temps complet (k&euro;)", "Rém. nette des titulaires à temps complet (&euro;)"),
+                 période,
+                 extra = "variation",
+                 f,
+                 g)
+
+#'
+#'######
+#'
+
+Résumé(c("Première année",
+         "Dernière année",
+         "Moyenne sur la période <br>d'activité"),
+       Analyse.variations.synthèse.filtrée[statut == "TITULAIRE" & temps.complet & permanent,
+                                           .(Montant.net.annuel.eqtp.début,
+                                             Montant.net.annuel.eqtp.sortie,
+                                             moyenne.rémunération.annuelle.sur.période)])
+
+#'
+
+Résumé(c("Variation sur la période <br>d'activité (%)",
+         "Variation annuelle moyenne (%)",
+         "Effectif"),
+       Analyse.variations.synthèse.filtrée[statut == "TITULAIRE" & temps.complet & permanent,
+                                           .(variation.rémunération,
+                                             variation.moyenne.rémunération)],
+       extra = "length")
+
+#'
+
+Résumé(c("Variation normalisée (%)",
+         "Variation annuelle moyenne normalisée (%)",
+         "Effectif"),
+       Analyse.variations.synthèse.filtrée[statut == "TITULAIRE" & temps.complet & permanent,
+                                           .(variation.rémunération.normalisée,
+                                             variation.moyenne.rémunération.normalisée)],
        extra = "length")
 
 #'
@@ -1640,15 +1714,16 @@ f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x
 g <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x 
                                                                & plus.2.ans,
                                                                Montant.net.annuel.eqtp],
-                               na.rm = TRUE) / effectifs[[as.character(x)]][9],
+                               na.rm = TRUE) / effectifs[[as.character(x)]]["ETPT_pp"],
                            big.mark = " ",
                            digits = 1,
                            format = "fg")
 #'   
 Tableau.vertical(c(étiquette.année,
-                   "Rémunération nette totale <br>des agents en place (k&euro;)",
-                   "Rémunération nette par EQTP<br>des agents en place (k&euro;)"),
+                   "Rém. nette totale <br>des agents en place (k&euro;)",
+                   "Rém. nette par EQTP<br>des agents en place (k&euro;)"),
                  période,
+                 extra = "variation",
                  f,
                  g)
 
@@ -1712,8 +1787,9 @@ f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x
                            digits = 5,
                            format = "fg")
 
-Tableau.vertical(c(étiquette.année, "Rémunération nette totale <br>des agents en fonction moins de deux ans (k&euro;)"),
+Tableau.vertical(c(étiquette.année, "Rém. nette totale <br>des agents en fonction moins de deux ans (k&euro;)"),
                  période,
+                 extra = "variation",
                  f)
 
 #'
