@@ -41,7 +41,7 @@ corriger.quotité     <- FALSE
 comportement.strict  <- TRUE
 etp.égale.effectif   <- FALSE
 
-seuil.troncature         <- 90 # jours
+seuil.troncature         <- 120 # jours
 taux.tolérance.homonymie <- 5  # en %
 quantile.cut             <- 2  # en %
 

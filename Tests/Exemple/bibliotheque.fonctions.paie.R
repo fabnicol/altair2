@@ -240,7 +240,7 @@ Tableau <- function(x, ...)
   kable(T, row.names = FALSE, align = "c")
 }
 
-Tableau.vertical <- function(colnames, rownames, ...)
+Tableau.vertical <- function(colnames, rownames, extra = 0, ...)
 {
     tmp <- c(...)
    
@@ -248,11 +248,35 @@ Tableau.vertical <- function(colnames, rownames, ...)
       message("all arguments must be functions")
       return("")
     }
+    
+    lr <- length(rownames)
+    
+    h <- function(x) as.numeric(sub(",",".", sub(" ", "", x, fixed=T), fixed=T))
+    
+    g <- function(f) {
+        S <- rep("", lr)
+    
+        S[ceiling(lr/2)] <- as.character(prettyNum((h(f(rownames[lr]))/h(f(rownames[1])) -1)*100, digits=2))
+    
+        S
+    }
       
-    T <- data.frame(rownames, lapply(tmp, function(f) sapply(rownames, f)))
   
-    names(T) <- colnames
-  
+    if (! missing(extra) && (extra == "variation")) {
+      T <- data.frame(rownames)
+      NT <- colnames[1]
+      ltmp <- length(tmp)
+      for (x in seq_len(ltmp)) {
+        T <- cbind(T, sapply(rownames, tmp[[x]]), g(tmp[[x]]))
+        NT <- c(NT, colnames[[x + 1]], "Variation (%)")
+      }
+      print(NT)
+      names(T) <- NT
+    } else {
+      T <- data.frame(rownames, lapply(tmp, function(f) sapply(rownames, f)))
+      names(T) <- colnames
+    }
+    
     kable(T, row.names = FALSE, align = "c")
 }
 
