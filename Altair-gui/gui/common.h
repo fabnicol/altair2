@@ -101,7 +101,8 @@ protected :
 
    QString execPath=PREFIX+QString("/bin");
    QString sharedir=PREFIX+QString("/share/applications/altair");
-   QString RAltairCommandStr=PREFIX+QString("/bin/rstudio");
+   QString RAltairCommandStr=PREFIX+QString("/lib/rstudio/bin/rstudio");
+   QString RAltairDirStr = QString("/lib/rstudio/bin");
    QString altairCommandStr=PREFIX+QString("/bin/lhx");
 
 #endif

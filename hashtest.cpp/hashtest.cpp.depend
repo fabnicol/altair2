@@ -663,3 +663,55 @@
 	<_mingw.h>
 	<stddef.h>
 
+1415551036 source:/home/fab/Dev/Altair/hashtest.cpp/fonctions_auxiliaires.cpp
+	"fonctions_auxiliaires.hpp"
+	<string.h>
+	<stdint.h>
+
+1415551036 /home/fab/Dev/Altair/hashtest.cpp/fonctions_auxiliaires.hpp
+	<limits.h>
+	<errno.h>
+	<stdio.h>
+	<inttypes.h>
+	<stdlib.h>
+	"validator.hpp"
+
+1415551036 /home/fab/Dev/Altair/hashtest.cpp/validator.hpp
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+	<stdint.h>
+	<stdbool.h>
+	<limits.h>
+	<locale.h>
+	<errno.h>
+	<pthread.h>
+	<math.h>
+	<libxml/xmlmemory.h>
+	<libxml/parser.h>
+	<inttypes.h>
+	<Windows.h>
+
+1415551036 source:/home/fab/Dev/Altair/hashtest.cpp/main.cpp
+	<unistd.h>
+	"validator.hpp"
+	"fonctions_auxiliaires.hpp"
+	"table.hpp"
+
+1415550788 /home/fab/Dev/Altair/hashtest.cpp/table.hpp
+	"validator.hpp"
+
+1415551036 source:/home/fab/Dev/Altair/hashtest.cpp/table.cpp
+	"table.hpp"
+	"fonctions_auxiliaires.hpp"
+
+1415552989 source:/home/fab/Dev/Altair/hashtest.cpp/validator.cpp
+	"validator.hpp"
+	"fonctions_auxiliaires.hpp"
+	"table.hpp"
+	<regex.h>
+	<regex>
+	<string>
+	<iostream>
+	<ctype.h>
+
