@@ -62,6 +62,7 @@ static void writeFile(QString & path, const QStringList &list, QFlags<QIODevice:
 void setWhatsThisText(QWidget* widget, int start, int stop);
 void openDir(QString path);
 qint64 getFileSize(const QString &, const QString& ="");
+bool openDirDialog();
 
 
 protected :
