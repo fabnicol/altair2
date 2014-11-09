@@ -133,7 +133,7 @@ standardPage::standardPage()
                               flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
                                 "genererLog",
                                 {"Générer un log d'exécution", "application noyau"},
-                               {logLineLabel, logLineEdit, openLogButton});
+                               {logLineLabel, logLineEdit, logButton, openLogButton});
 
     economeCheckBox=new FCheckBox("Economiser la RAM  ",
                                   "ecoRAM",
@@ -158,17 +158,17 @@ standardPage::standardPage()
     v2Layout->addWidget(processTypeWidget, 5,1,Qt::AlignLeft);
     v2Layout->addWidget(tableCheckBox,     1,0,Qt::AlignLeft);
 
-    v2Layout->addWidget(logLineLabel,   1, 0);
-    v2Layout->addWidget(,      0, 0);
-    v2Layout->addWidget(baseButton,     1, 1);
-    v2Layout->addWidget(openBaseButton, 1, 2);
-
     v2Layout->addWidget(economeCheckBox,   2,0,Qt::AlignLeft);
     v2Layout->addWidget(nLineEdit,         3,1,Qt::AlignLeft);
     v2Layout->addWidget(NLineEdit,         4,1,Qt::AlignLeft);
     v2Layout->addWidget(nLineLabel,        3,0,Qt::AlignRight);
     v2Layout->addWidget(NLineLabel,        4,0,Qt::AlignRight);
-    
+
+    v2Layout->addWidget(logLineLabel,      6,0,Qt::AlignRight);
+    v2Layout->addWidget(logLineEdit,       6,1,Qt::AlignLeft);
+    v2Layout->addWidget(logCheckBox,       5,0,Qt::AlignRight);
+    v2Layout->addWidget(openBaseButton, 1, 2);
+
     baseTypeBox->setLayout(v1Layout);
     processTypeBox->setLayout(v2Layout);
 
