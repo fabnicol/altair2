@@ -89,10 +89,10 @@ static inline void _Bulletin(const char* tag, xmlNodePtr* cur,  int l, info_t* i
     if (! Bulletin(tag, cur, l, info))
     {
         if (*cur)
-            fprintf(stderr, "Trouvé %s au lieu de %s \n", (*cur)->name, tag);
+            fprintf(stderr, "Erreur : Trouvé %s au lieu de %s \n", (*cur)->name, tag);
         else
         {
-            fprintf(stderr, "Noeud courant null au stade de la vérification de %s\n", tag);
+            fprintf(stderr, "Erreur : Noeud courant null au stade de la vérification de %s\n", tag);
             for (int l=0; l < Service; l++) fprintf(stderr, "info->Table[info->NCumAgentXml][%d]=%s\n", l, info->Table[info->NCumAgentXml][l]);
         }
     }
@@ -148,11 +148,11 @@ static inline int lignePaye(xmlNodePtr cur, info_t* info)
             t++;
             if (t == nbType)
             {
-                fprintf(stderr, "En excès du nombre de types de lignes de paye autorisé (%d)\n", nbType);
-                if (cur) fprintf(stderr, "Type litigieux %s aux alentours du matricule %s \n",
+                fprintf(stderr, "Erreur : En excès du nombre de types de lignes de paye autorisé (%d)\n", nbType);
+                if (cur) fprintf(stderr, "Erreur : Type litigieux %s aux alentours du matricule %s \n",
                                      cur->name,
                                      info->Table[info->NCumAgentXml][Matricule]);
-                else fprintf(stderr, "%s", "Pointeur noeud courant nul\n");
+                else fprintf(stderr, "%s", "Erreur : Pointeur noeud courant nul\n");
                 exit(-11);
             }
 
@@ -235,7 +235,7 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
 
     if (cur == NULL)
     {
-        fprintf(stderr, "%s\n", "Impossible d'atteindre \"Agent\"");
+        fprintf(stderr, "%s\n", "Erreur : Impossible d'atteindre \"Agent\"");
         return 0;
     }
 
@@ -343,7 +343,7 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
     }
     else
     {
-        perror("Rémunération introuvable.");
+        perror("Erreur : Rémunération introuvable.");
         exit(-4);
     }
 
@@ -380,7 +380,7 @@ static void parseFile(info_t* info)
 
     if (cur == NULL)
     {
-        fprintf(stderr,"document vide\n");
+        fprintf(stderr,"Erreur : document vide\n");
         xmlFreeDoc(doc);
     }
 
@@ -395,7 +395,7 @@ static void parseFile(info_t* info)
     }
     else
     {
-        fprintf(stderr, "%s\n", "Année non détectable");
+        fprintf(stderr, "%s\n", "Erreur : Année non détectable");
         exit(-502);
     }
 
@@ -405,7 +405,7 @@ static void parseFile(info_t* info)
     }
     else
     {
-        fprintf(stderr, "%s\n", "Mois non détectable");
+        fprintf(stderr, "%s\n", "Erreur : Mois non détectable");
         exit(-503);
     }
 
@@ -422,7 +422,7 @@ static void parseFile(info_t* info)
             if (info->NCumAgentXml == info->NCumAgent)
             {
                 fprintf(stderr,
-                        "Incohérence de l'allocation mémoire ex-ante %d B et ex-post %d B : sortie pour éviter une erreur de segmentation.\n",
+                        "Erreur : Incohérence de l'allocation mémoire ex-ante %d B et ex-post %d B : sortie pour éviter une erreur de segmentation.\n",
                         info->NCumAgent, info->NCumAgentXml);
                 exit(1005);
             }
@@ -550,7 +550,7 @@ void* decoder_fichier(void* tinfo)
         int err = calculer_memoire_requise(info);
         if (err)
         {
-            perror("Calcul de la mémoire requise");
+            perror("Erreur : Calcul de la mémoire requise");
             exit(-1001);
         }
     }
@@ -565,7 +565,7 @@ void* decoder_fichier(void* tinfo)
         }
         else
         {
-            perror("Problème d'allocation mémoire de info->NLigne");
+            perror("Erreur : Problème d'allocation mémoire de info->NLigne");
             exit(1003);
         }
     }
@@ -575,7 +575,7 @@ void* decoder_fichier(void* tinfo)
 
     if (info->Table == NULL)
     {
-        perror("Mémoire insuffisante");
+        perror("Erreur : Mémoire insuffisante");
         exit(-18);
     }
 
@@ -585,7 +585,7 @@ void* decoder_fichier(void* tinfo)
         if (info->Table[agent] == NULL)
         {
             fprintf(stderr,
-                    "Erreur d'allocation de drapeau I. pour l'agent %d et pour %d B\n",
+                    "Erreur : Erreur d'allocation de drapeau I. pour l'agent %d et pour %d B\n",
                      agent,
                      info->minimum_memoire_p_ligne + nbType + (info->NLigne[agent]) * 6);
             exit(-63);

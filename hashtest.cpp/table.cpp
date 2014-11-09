@@ -20,13 +20,13 @@ inline FILE* ouvrir_nouvelle_base(info_t* info, unsigned* rang_fichier_base, FIL
 {
     if (fclose(base) == EOF)
     {
-        perror("Problème fermeture fichier base");
+        perror("Erreur : Problème fermeture fichier base");
         exit(-902);
     }
 
     if (*rang_fichier_base >= 1000)
     {
-        fprintf(stderr, "%s", "Ne peut générer que 999 bases au plus\n");
+        fprintf(stderr, "%s", "Erreur : Ne peut générer que 999 bases au plus\n");
         exit(-904);
     }
 
