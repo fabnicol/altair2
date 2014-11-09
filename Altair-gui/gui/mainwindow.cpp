@@ -722,18 +722,15 @@ void MainWindow::showMainWidget()
 }
 
 
-static bool flushHtmlContent=true;
-
 void MainWindow::feedConsoleWithHtml()
 {
     QString  readData;
 
-    /* Owing to experimentally verified occurrences of altair-author process std output interruptions
-     * whilst just creating the Html code for a console table, resulting in display issues, it is necessary to integrate a 'delayed display'
-     * cut-and-paste capability so as to ensure corresponding <table>...</table> tags in the same file */
+     /* it is necessary to integrate a 'delayed display'
+      * cut-and-paste capability */
 
-    QRegExp reg("^(Fichier n°[0-9]+|Population|Total|Table|Premier|Erreur|Creation|Coh.+\\s)([^\n]+)");
-    QRegExp reg2("Fichier n°([0-9]+)") ;
+    QRegExp reg("^(Fichier n..?[0-9]+|Population|Total|Table|Premier|Erreur|Creation|Coh.+\\s)([^\n]+)");
+    QRegExp reg2("Fichier n..?([0-9]+)") ;
     QString result;
     int count = Hash::counter["XHL"];
     int wrap = Hash::wrapper["processType"]->toInt();
@@ -774,17 +771,15 @@ void MainWindow::feedConsoleWithHtml()
                     }
                 }
 
-                if (flushHtmlContent)
+
+                if (!readData.isEmpty())
                 {
-                    if (!readData.isEmpty())
-                    {
-                        consoleDialog->insertHtml(readData.replace("\n","<br>" ));
-                        readData.clear();
-                    }
-                    else
-                    {
-                        consoleDialog->insertHtml(buffer.replace("\n", "<br>"));
-                    }
+                    consoleDialog->insertHtml(readData.replace("\n","<br>" ));
+                    readData.clear();
+                }
+                else
+                {
+                    consoleDialog->insertHtml(buffer.replace("\n", "<br>"));
                 }
 
                 if ((altair->fileRank + 1) * ((count % wrap != 0) + wrap) >= Hash::counter["XHL"])
