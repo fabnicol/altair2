@@ -220,7 +220,10 @@ public:
       {
           if (parent->process->state() == QProcess::Running) return;
           if (parent->process->exitStatus() != QProcess::CrashExit)
+          {
               if (bar->value() < 100) bar->setValue(100);
+          }
+          else bar->setValue(0);
           timer->stop();
           killButton->setDisabled(true);
       }

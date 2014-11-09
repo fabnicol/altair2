@@ -148,6 +148,7 @@ void Altair::killProcess()
 {
     process->kill();
     outputTextEdit->append(PROCESSING_HTML_TAG+ outputType + tr(" was killed (SIGKILL)"));
+    progress->stop();
 }
 
 void Altair::printMsg(qint64 new_value, const QString &str)
