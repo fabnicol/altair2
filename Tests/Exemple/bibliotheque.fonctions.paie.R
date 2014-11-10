@@ -240,7 +240,7 @@ Tableau <- function(x, ...)
   kable(T, row.names = FALSE, align = "c")
 }
 
-Tableau.vertical <- function(colnames, rownames, extra = 0, ...)
+Tableau.vertical <- function(colnames, rownames, extra = "", ...)
 {
     tmp <- c(...)
    
@@ -262,7 +262,7 @@ Tableau.vertical <- function(colnames, rownames, extra = 0, ...)
     }
       
   
-    if (! missing(extra) && (extra == "variation")) {
+    if (! missing(extra) && (is.character(extra)) && (extra == "variation")) {
       T <- data.frame(rownames)
       NT <- colnames[1]
       ltmp <- length(tmp)
