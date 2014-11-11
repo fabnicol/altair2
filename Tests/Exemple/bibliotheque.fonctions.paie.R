@@ -237,7 +237,7 @@ Tableau <- function(x, ...)
   T <- t(prettyNum(V, big.mark = sep.milliers))
   T <- as.data.frame(T)
   names(T) <- x
-  kable(T, row.names = FALSE, align = "c")
+  kable(T, row.names = FALSE, align = "c", booktabs=TRUE)
 }
 
 Tableau.vertical <- function(colnames, rownames, extra = "", ...)
@@ -256,7 +256,7 @@ Tableau.vertical <- function(colnames, rownames, extra = "", ...)
     g <- function(f) {
         S <- rep("", lr)
     
-        S[ceiling(lr/2)] <- as.character(prettyNum((h(f(rownames[lr]))/h(f(rownames[1])) -1)*100, digits=2))
+        S[ceiling(lr/2)] <- as.character(prettyNum((h(f(rownames[lr]))/h(f(rownames[1])) - 1) * 100, digits = 3))
     
         S
     }
@@ -277,17 +277,22 @@ Tableau.vertical <- function(colnames, rownames, extra = "", ...)
       names(T) <- colnames
     }
     
-    kable(T, row.names = FALSE, align = "c")
+    kable(T, row.names = FALSE, align = "c", booktabs=TRUE)
 }
 
-Tableau.vertical2 <- function(colnames, données.col1, données.col2)
+Tableau.vertical2 <- function(colnames, rownames, ...)
 {
-
-  T <- data.frame(données.col1, formatC(données.col2, big.mark=" ", width="12", format="d", preserve.width="common"))
-
+  tmp <- list(...)
+  
+  T <- data.frame(rownames, 
+                  lapply(tmp, function(y) formatC(y, 
+                                                          big.mark=" ",
+                                                          width="12",
+                                                          format="d",
+                                                          preserve.width="common")))
   names(T) <- colnames
 
-  kable(T, row.names = FALSE, align = NULL)
+  kable(T, row.names = FALSE, align = NULL, booktabs=TRUE)
 }
 
 
@@ -443,5 +448,12 @@ longueur.non.na <- function(v) length(v[!is.na(v)])
 
 `%*%` <- function(x, y) if (is.na(x) | is.na(y)) return(0) else return(x*y)
 
+# numérotation des tableaux
 
+numéro.tableau <- 0
+
+incrément <- function() { 
+  numéro.tableau <<- numéro.tableau +1 
+  numéro.tableau
+}
 
