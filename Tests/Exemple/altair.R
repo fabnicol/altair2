@@ -330,12 +330,13 @@ message("Bulletins de Paie retraités")
                                      sft          = sum(Montant[Type == "S"], na.rm = TRUE),
                                      indemnité.résidence = sum(Montant[Type == "IR"], na.rm = TRUE),
                                      indemnités   = sum(Montant[Type == "I"], na.rm = TRUE),
-                                     rémunération.principale.contractuel = 0,
+                                     rémunérations.diverses = sum(Montant[Type == "A"], na.rm = TRUE),
                                      autres.rémunérations = sum(Montant[Type == "AC" | Type == "A" | Type == "AV"], na.rm = TRUE),
-                                     rémunération.vacataire = 0),
+                                     rémunération.vacataire = sum(Montant[Type == "VAC"], na.rm = TRUE)),
                                 by = c(clé.fusion, étiquette.année)]
 
-Analyse.rémunérations <- Analyse.rémunérations[ , rémunération.indemnitaire.imposable := Montant.brut.annuel - sft - indemnité.résidence - traitement.indiciaire]
+Analyse.rémunérations <- Analyse.rémunérations[ , rémunération.indemnitaire.imposable := indemnités + sft + indemnité.résidence + rémunérations.diverses]
+                                                 #Montant.brut.annuel - sft - indemnité.résidence - traitement.indiciaire
 
 Analyse.rémunérations <- Analyse.rémunérations[ ,
                                                `:=`(rémunération.indemnitaire.imposable.eqtp = ifelse(is.finite(q <- Montant.brut.annuel.eqtp/Montant.brut.annuel), 
@@ -528,12 +529,15 @@ effectifs.locale <- lapply(effectifs, function(x) formatC(x, big.mark = " ", for
 tableau.effectifs <- as.data.frame(effectifs.locale,
                                    row.names = c("Total effectifs", "  dont présents 12 mois", "  dont fonctionnaires",
                                                  "  dont fonct. présents 12 mois", "  dont élus", "  dont élus présents 12 mois",
-                                                 "Total ETP/année", "Total ETPT/année", "Total ETPT/année agents en place",
+                                                 "Total ETP/année", "Total ETPT/année", "Total ETPT/année personnes en place",
                                                  "Total ETPT/année fonctionnaires", "Total ETPT/année titulaires à temps complet"))
 
 names(tableau.effectifs) <- liste.années
 names(effectifs) <- liste.années
-#'
+#'  
+#  
+#'&nbsp;*Tableau `r incrément()`*   
+#            
 kable(tableau.effectifs, row.names = TRUE, align='c')
 #'
 #'**Nota:**   
@@ -549,14 +553,18 @@ kable(tableau.effectifs, row.names = TRUE, align='c')
 #'
 #'### 1.2 Pyramide des âges, personnels non élus
 
-
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
 Résumé(c("Âge des personnels <br>au 31/12/" %+% début.période.sous.revue,
          "Effectif"),
        années.total.hors.élus.début,
        extra = "length",
        align = 'c')
 #'  
-  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
 Résumé(c("Âge des personnels <br>au 31/12/" %+% fin.période.sous.revue,
          "Effectif"),
        années.total.hors.élus,
@@ -564,6 +572,8 @@ Résumé(c("Âge des personnels <br>au 31/12/" %+% fin.période.sous.revue,
        align = 'c')
 
 #'  
+#'    
+
 
 if (longueur.non.na(années.total.hors.élus) > 0)
   hist(années.total.hors.élus,
@@ -582,13 +592,20 @@ if (longueur.non.na(années.total.hors.élus) > 0)
 #'
 #'### 1.3 Pyramide des âges, personnels fonctionnaires stagiaires et titulaires
 
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
 Résumé(c("Âge des personnels <br>au 31/12/" %+% début.période.sous.revue,
          "Effectif"),
        années.fonctionnaires.début,
        extra = "length",
        align = 'c')
 
-#'
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
 Résumé(c("Âge des personnels <br>au 31/12/" %+% fin.période.sous.revue,
          "Effectif"),
        années.fonctionnaires,
@@ -615,6 +632,9 @@ if (longueur.non.na(années.fonctionnaires) > 0)
 #'**Personnels en fonction des exercices `r début.période.sous.revue` à `r fin.période.sous.revue` inclus :**
 #'
 attach(Analyse.variations.synthèse)
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
 
 Tableau(c("Plus de 2 ans",
           "Moins de 2 ans",
@@ -641,7 +661,7 @@ if (nrow(Analyse.variations.par.exercice) > 0)
                       labels = c("Moins de deux ans", "Plus de deux ans"))
 
 #'
-#'#### Effectifs
+#'**Effectifs**   
 #'
 
 effectifs.var <- lapply(période,
@@ -661,7 +681,10 @@ effectifs.var.locale <- lapply(effectifs.var, function(x) formatC(x, big.mark = 
 tableau.effectifs.var <- as.data.frame(effectifs.var.locale, row.names = c("Plus de deux ans", "Moins de deux ans", "Total"))
 
 names(tableau.effectifs.var) <- liste.années
-#'
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
 kable(tableau.effectifs.var, row.names = TRUE, align='c')
 #'
 
@@ -710,9 +733,8 @@ attach(Analyse.rémunérations.premier.exercice, warn.conflicts = FALSE)
 
 #'# 2. Rémunérations brutes : analyse pour l'exercice `r année`    
 #'    
-#'## 2.1 Statistiques de position globales     
+#'## 2.1 Masse salariale brute de l'ensemble des agents     
 #'     
-#'**Statitiques sur données brutes sans prise en compte de la quotité**  
 #'  
 masses.premier.personnels <- colSums(Analyse.rémunérations.premier.exercice[Statut != "ELU",
                                                                             .(Montant.brut.annuel,
@@ -730,22 +752,30 @@ masses.premier.élus <- colSums(Analyse.rémunérations.premier.exercice[Statut == 
 
 #'### Cumuls des rémunérations brutes pour l'exercice `r année`
 #'  
-#'*Personnels*     
+#'*Personnels (hors élus)*     
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
 
 Tableau.vertical2(c("Agrégats",
                     "k&euro;"),
                   c("Brut annuel (bulletins)",
                     "Brut annuel (lignes), dont :",
                     "\\ \\ Indemnités imposables :",
-                    "\\ \\ Autres rémunérations"),
+                    "\\ \\ Autres rémunérations",
+                    "Part de primes en %"),
                   c(masses.premier.personnels["Montant.brut.annuel"],
                   masses.premier.personnels["total.lignes.paie"],
                   masses.premier.personnels["rémunération.indemnitaire.imposable"],
-                  masses.premier.personnels["autres.rémunérations"]))
+                  masses.premier.personnels["autres.rémunérations"],
+                  masses.premier.personnels["rémunération.indemnitaire.imposable"]/masses.premier.personnels["Montant.brut.annuel"] * 100))
 
 #'  
 #'*Elus*    
 #'  
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
 
 Tableau.vertical2(c("Agrégats",
                     "k&euro;"),
@@ -772,6 +802,9 @@ Tableau.vertical2(c("Agrégats",
 #'
 #'Somme des rémunérations brutes versées aux personnels (non élus) :  
 #'  
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
 
 Tableau.vertical2(c("Agrégats",
                     "k&euro;"),
@@ -788,6 +821,9 @@ Tableau.vertical2(c("Agrégats",
 #'
 #'Somme des rémunérations brutes versées (élus) :  
 #'  
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
 
 Tableau.vertical2(c("Agrégats",
                     "k&euro;"),
@@ -802,11 +838,11 @@ Tableau.vertical2(c("Agrégats",
 #'
 #'Les résultats sont exprimés en euros.
 #'
-
 #'   
-#'## 2.2 Fonctionnaires titulaires et stagiaires   
+#'## 2.2 Masse salariale brute des fonctionnaires
 #'
-
+#'*Cette section concerne les personnels fonctionnaires titulaires et stagiaires*  
+#'
 filtre.fonctionnaire <- function (X) X[ !is.na(X) & (Statut == "TITULAIRE" | Statut == "STAGIAIRE") & X >0 ]
 
 AR <- Analyse.rémunérations.premier.exercice[Statut == "TITULAIRE" | Statut == "STAGIAIRE", colonnes.sélectionnées, with=FALSE]
@@ -829,17 +865,22 @@ if (nrow(AR) > 0) {
 
 #'Somme des rémunérations brutes versées aux personnels titulaires et stagiaires :
 #'
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
 
 Tableau.vertical2(c("Agrégats",
                     "k&euro;"),
                   c("Brut annuel (bulletins)",
                     "Brut annuel (lignes), dont :",
                     "\\ \\ Indemnités imposables :",
-                    "\\ \\ Autres rémunérations"),
+                    "\\ \\ Autres rémunérations",
+                    "Part de primes en %"),
                   c(masses.premier["Montant.brut.annuel"],
                     masses.premier["total.lignes.paie"],
                     masses.premier["rémunération.indemnitaire.imposable"],
-                    masses.premier["autres.rémunérations"]))
+                    masses.premier["autres.rémunérations"],
+                    masses.premier["rémunération.indemnitaire.imposable"]/masses.premier["Montant.brut.annuel"] * 100))
 
 #'
 #'**Définitions :**
@@ -854,6 +895,9 @@ Tableau.vertical2(c("Agrégats",
 #'
 #'Somme des rémunérations brutes versées aux personnels (non élus) :
 #'
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
 
 Tableau.vertical2(c("Agrégats",
                     "k&euro;"),
@@ -870,8 +914,11 @@ Tableau.vertical2(c("Agrégats",
 #'A comparer aux soldes des comptes 6411, 6419 et 648 du compte de gestion.
 #'
 #'
-#'### Statistiques de position pour l'exercice `r année`
-#'
+#'**Formation et distribution du salaire brut moyen par tête (SMPT) en EQTP pour l'année `r année`**     
+#'   
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
 
 Résumé(c("Traitement indiciaire",
          "Indemnités imposables",
@@ -882,11 +929,13 @@ Résumé(c("Traitement indiciaire",
                autres.rémunérations)],
        extra = "length")
 
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
 
-#'
 Résumé(c("Total lignes hors rappels",
          "Total brut",
-         "Total brut EQTP",
+         "SMPT brut en EQTP",
          "Part de la rém. indemnitaire",
          "Effectif"),
        AR[ , .(total.lignes.paie,
@@ -894,21 +943,19 @@ Résumé(c("Total lignes hors rappels",
                Montant.brut.annuel.eqtp,
                part.rémunération.indemnitaire)],
        extra = "length")
-
-#'### Statistiques de position par catégorie pour l'exercice `r année`
 #'
-
 #'**Catégorie A**
-#'
 #'
 
 ARA <- data.table::data.table(NULL)
 ARB <- data.table::data.table(NULL)
 ARC <- data.table::data.table(NULL)
 
-if (fichier.personnels.existe)
-{
+if (fichier.personnels.existe) {
   ARA <- AR[Catégorie == 'A', ]
+  #'  
+  #'&nbsp;*Tableau `r incrément()`*   
+  #'    
   
   Résumé(c("Traitement indiciaire",
            "Indemnités imposables",
@@ -921,8 +968,11 @@ if (fichier.personnels.existe)
 
 #'
 
-if (fichier.personnels.existe)
-{
+if (fichier.personnels.existe) {
+  #'  
+  #'&nbsp;*Tableau `r incrément()`*   
+  #'    
+  
   Résumé(c("Total rémunérations", 
            "Total rémunérations EQTP", 
            "Part de la rémunération indemnitaire"),
@@ -932,15 +982,17 @@ if (fichier.personnels.existe)
 }
 
 #'
-#'*Effectif : `r nrow(ARA)`**
+#'**Effectif : `r nrow(ARA)`**  
 #'
 #'**Catégorie B**
 #'
 
-if (fichier.personnels.existe)
-{
+if (fichier.personnels.existe) {
   ARB <- AR[Catégorie == 'B', ]
-    
+  #'  
+  #'&nbsp;*Tableau `r incrément()`*   
+  #'    
+  
   Résumé(c("Traitement indiciaire",
            "Indemnités imposables",
            "Autres rémunérations"),
@@ -952,8 +1004,11 @@ if (fichier.personnels.existe)
 
 #'
 
-if (fichier.personnels.existe)
-{
+if (fichier.personnels.existe) {
+  #'  
+  #'&nbsp;*Tableau `r incrément()`*   
+  #'    
+  
   Résumé(c("Total rémunérations",
            "Total rémunérations EQTP",
            "Part de la rémunération indemnitaire"),
@@ -969,9 +1024,11 @@ if (fichier.personnels.existe)
 #'
 
 
-if (fichier.personnels.existe)
-{
+if (fichier.personnels.existe) {
   ARC <- AR[Catégorie == 'C', ]
+  #'  
+  #'&nbsp;*Tableau `r incrément()`*   
+  #'    
   
   Résumé(c("Traitement indiciaire",
            "Indemnités imposables",
@@ -984,8 +1041,11 @@ if (fichier.personnels.existe)
 
 #'
 
-if (fichier.personnels.existe)
-{
+if (fichier.personnels.existe) {
+  #'  
+  #'&nbsp;*Tableau `r incrément()`*   
+  #'    
+  
   Résumé(c("Total rémunérations",
            "Total rémunérations EQTP",
            "Part de la rémunération indemnitaire"),
@@ -1015,11 +1075,11 @@ if (length(temp > 0))
        main = "Rémunération annuelle totale des contractuels en " %+% année,
        col = "red",
        nclass = 50)
-#'
+#'   
 #'**Nota :**
 #'Ne sont retenues que les rémunérations supérieures à 1 000 k&euro;.
 #'Les élus ne sont pas pris en compte.
-#'
+#'   
 
 temp <- positive(autres.rémunérations)
 
@@ -1040,7 +1100,13 @@ AR <- Analyse.rémunérations.premier.exercice[Statut != "ELU"
                                              colonnes.sélectionnées, 
                                              with=FALSE]
 
-#'
+#'   
+#'**Formation et distribution du salaire brut moyen par tête (SMPT) en EQTP pour l'année `r année`**     
+#'   
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
 Résumé(c("Indemnités imposables",
          "Autres rémunérations",
          "Effectif"),
@@ -1048,7 +1114,10 @@ Résumé(c("Indemnités imposables",
                autres.rémunérations)],
        extra = "length")
 
-#'
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
 
 Résumé(c("Total rémunérations",
          "Total rémunérations EQTP",
@@ -1082,10 +1151,9 @@ attach(Analyse.rémunérations.dernier.exercice, warn.conflicts = FALSE)
 
 #'# 3. Rémunérations brutes : analyse pour l'exercice `r année`    
 #'   
-#'## 3.1 Statistiques de position globales (tous statuts)    
+#'## 3.1 Masse salariale brute de l'ensemble des agents     
 #'   
-#'**Statitiques sur données brutes sans prise en compte de la quotité**  
-#'  
+  
 masses.dernier.personnels <- colSums(Analyse.rémunérations.dernier.exercice[Statut != "ELU",
                                                                             .(Montant.brut.annuel,
                                                                               rémunération.indemnitaire.imposable,
@@ -1102,22 +1170,31 @@ masses.dernier.élus <- colSums(Analyse.rémunérations.dernier.exercice[Statut == 
 
 #'### Cumuls des rémunérations brutes pour l'exercice `r année`
 #'  
-#'*Personnels*     
+#'*Personnels (hors élus)*     
+#'
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
 
 Tableau.vertical2(c("Agrégats",
                     "k&euro;"),
                   c("Brut annuel (bulletins)",
                     "Brut annuel (lignes), dont :",
                     "\\ \\ Indemnités imposables :",
-                    "\\ \\ Autres rémunérations"),
+                    "\\ \\ Autres rémunérations",
+                    "Part de primes en %"),
                   c(masses.dernier.personnels["Montant.brut.annuel"],
                     masses.dernier.personnels["total.lignes.paie"],
                     masses.dernier.personnels["rémunération.indemnitaire.imposable"],
-                    masses.dernier.personnels["autres.rémunérations"]))
-
+                    masses.dernier.personnels["autres.rémunérations"],
+                    masses.dernier.personnels["rémunération.indemnitaire.imposable"]/masses.dernier.personnels["Montant.brut.annuel"] * 100))
+                  
 #'  
 #'*Elus*    
 #'  
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
 
 Tableau.vertical2(c("Agrégats",
                     "k&euro;"),
@@ -1144,6 +1221,9 @@ Tableau.vertical2(c("Agrégats",
 #'
 #'Somme des rémunérations brutes versées aux personnels (non élus) :  
 #'  
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
 
 Tableau.vertical2(c("Agrégats",
                     "k&euro;"),
@@ -1160,6 +1240,9 @@ Tableau.vertical2(c("Agrégats",
 #'
 #'Somme des rémunérations brutes versées (élus) :  
 #'  
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
 
 Tableau.vertical2(c("Agrégats",
                     "k&euro;"),
@@ -1202,22 +1285,28 @@ if (nrow(AR) > 0) {
 #'Somme des rémunérations brutes versées aux personnels titulaires et stagiaires :
 #'
 
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
 Tableau.vertical2(c("Agrégats",
                     "k&euro;"),
                   c("Brut annuel (bulletins)",
                     "Brut annuel (lignes), dont :",
                     "\\ \\ Indemnités imposables :",
-                    "\\ \\ Autres rémunérations"),
+                    "\\ \\ Autres rémunérations",
+                    "Part de primes en %"),
                   c(masses.dernier["Montant.brut.annuel"],
                     masses.dernier["total.lignes.paie"],
                     masses.dernier["rémunération.indemnitaire.imposable"],
-                    masses.dernier["autres.rémunérations"]))
+                    masses.dernier["autres.rémunérations"],
+                    masses.dernier["rémunération.indemnitaire.imposable"]/masses.dernier["Montant.brut.annuel"] * 100))
 
 #'
 #'**Définitions :**
 #'
 #'  *Brut annuel (bulletins)*   : somme du champ *Brut*   
-#'  *Brut annuel (lignes)*      : somme du champ *Montant* des lignes de paye, dont :  
+#'  *Brut annuel (lignes)*      : somme du champ *Montant* des lignes de paye, dont :   
 #'  *Indemnités imposables*     : champ *Brut* moins le SFT, le traitement indiciaire et l'indemnité de résidence 
 #'  *Indemnités d'élus*         : toutes rémunérations indemnitaires des élus    
 #'  *Autres rémunérations*      : acomptes, retenues sur brut, rémunérations diverses, rappels   
@@ -1226,6 +1315,9 @@ Tableau.vertical2(c("Agrégats",
 #'
 #'Somme des rémunérations brutes versées aux personnels (non élus) :
 #'
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
 
 Tableau.vertical2(c("Agrégats",
                     "k&euro;"),
@@ -1242,8 +1334,11 @@ Tableau.vertical2(c("Agrégats",
 #'A comparer aux soldes des comptes 6411, 6419 et 648 du compte de gestion.
 #'
 #'
-#'### Statistiques de position pour l'exercice `r année`
-#'
+#'**Formation et distribution du salaire brut moyen par tête (SMPT) en EQTP pour l'année `r année`**     
+#'   
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
 
 Résumé(c("Traitement indiciaire",
          "Indemnités imposables",
@@ -1255,10 +1350,13 @@ Résumé(c("Traitement indiciaire",
        extra = "length")
 
 
-#'
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
 Résumé(c("Total lignes hors rappels",
          "Total brut",
-         "Total brut EQTP",
+         "SMPT brut en EQTP",
          "Part de la rém. indemnitaire",
          "Effectif"),
        AR[ , .(total.lignes.paie,
@@ -1266,10 +1364,6 @@ Résumé(c("Total lignes hors rappels",
                Montant.brut.annuel.eqtp,
                part.rémunération.indemnitaire)],
        extra = "length")
-
-#'### Statistiques de position par catégorie pour l'exercice `r année`
-#'
-
 
 #'**Catégorie A**
 #'
@@ -1282,6 +1376,10 @@ ARC <- data.table::data.table(NULL)
 if (fichier.personnels.existe)
 {
   ARA <- AR[Catégorie == 'A', ]
+  #'  
+  #'&nbsp;*Tableau `r incrément()`*   
+  #'    
+  
   Résumé(c("Traitement indiciaire",
            "Indemnités imposables",
            "Autres rémunérations"),
@@ -1295,6 +1393,10 @@ if (fichier.personnels.existe)
 
 if (fichier.personnels.existe)
 {
+  #'  
+  #'&nbsp;*Tableau `r incrément()`*   
+  #'    
+  
   Résumé(c("Total rémunérations", 
            "Total rémunérations EQTP",
            "Part de la rémunération indemnitaire"),
@@ -1312,6 +1414,10 @@ if (fichier.personnels.existe)
 if (fichier.personnels.existe)
 {
   ARB <- AR[Catégorie == 'B', ]
+  #'  
+  #'&nbsp;*Tableau `r incrément()`*   
+  #'    
+  
   Résumé(c("Traitement indiciaire",
            "Indemnités imposables",
            "Autres rémunérations"),
@@ -1325,6 +1431,10 @@ if (fichier.personnels.existe)
 
 if (fichier.personnels.existe)
 {
+  #'  
+  #'&nbsp;*Tableau `r incrément()`*   
+  #'    
+  
   Résumé(c("Total rémunérations",
            "Total rémunérations EQTP",
            "Part de la rémunération indemnitaire"),
@@ -1343,6 +1453,10 @@ if (fichier.personnels.existe)
 if (fichier.personnels.existe)
 {
   ARC <- AR[Catégorie == 'C', ]
+  #'  
+  #'&nbsp;*Tableau `r incrément()`*   
+  #'    
+  
   Résumé(c("Traitement indiciaire",
            "Indemnités imposables",
            "Autres rémunérations"),
@@ -1356,6 +1470,10 @@ if (fichier.personnels.existe)
 
 if (fichier.personnels.existe)
 {
+  #'  
+  #'&nbsp;*Tableau `r incrément()`*   
+  #'    
+  
   Résumé(c("Total rémunérations",
            "Total rémunérations EQTP",
            "Part de la rémunération indemnitaire"),
@@ -1410,7 +1528,10 @@ AR <- Analyse.rémunérations.dernier.exercice[Statut != "ELU"
                                              &  Statut != "STAGIAIRE",
                                              colonnes.sélectionnées, with=FALSE]
 
-#'
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
 Résumé(c("Indemnités imposables",
          "Autres rémunérations",
          "Effectif"),
@@ -1418,7 +1539,10 @@ Résumé(c("Indemnités imposables",
                autres.rémunérations)],
        extra = "length")
 
-#'
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
 
 Résumé(c("Total rémunérations",
          "Total rémunérations EQTP",
@@ -1434,6 +1558,41 @@ detach(Analyse.rémunérations.dernier.exercice)
 #'[Lien vers la base de données](Bases/Rémunérations/Analyse.rémunérations.csv) d'analyse des rémunérations
 #'
 
+#'
+#'**Comparaisons source INSEE/DGCL**   
+#'   
+#'*Salaires annnuels moyens 2011 en EQTP (hors assistantes maternelles)*   
+
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
+Tableau.vertical2(c("Agrégat", "Salaires bruts &euro;"),
+                  c("Ensemble", "Titulaires", "Autres salariés"),
+                  12 * c(2159, 2223, 1903))
+
+#'
+#'**Eléments de la rémunération brute pour les titulaires de la FPT en 2010 et 2011**      
+#'   
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
+Tableau.vertical2(
+  c("Rémunérations annuelles", "2010 (&euro;)", "Part de primes (%)", "2011 (&euro;)", "Part de primes (%)"),
+  c("Salaire brut",
+    "Traitement brut",
+    "Primes et rémunérations annexes",
+    "y compris IR et SFT"),
+  c(26305, 20350,	"", 5955),
+  c("", 22.6, "", "" ),
+  c(26660, 20562, "", 6098),
+  c("", 22.9, "", "" ))
+#'   
+#'*Champ : France. Salariés en équivalent-temps plein (EQTP) des collectivités territoriales (y compris bénéficiaires de contrats aidés, hors assistantes maternelles).*   												
+#'[Source INSEE](http://www.insee.fr/fr/ffc/ipweb/ip1486/ip1486.xls)    
+#'[Source DGCL](http://www.fonction-publique.gouv.fr/files/files/statistiques/rapports_annuels/2012-2013/xls/Vue3_1_Remunerations.xls)    
+#'   
 
 ########### Analyse dynamique ########################
 #'
@@ -1446,7 +1605,7 @@ detach(Analyse.rémunérations.dernier.exercice)
 #'*Nota :*   
 #'*EQTP = Equivalent temps plein  = 12 . moyenne du ratio rémunération / quotité*    
 #'    
-#'## 4.1 Rémunération nette moyenne sur la période    
+#'## 4.1 Distribution de la rémunération nette moyenne sur la période    
 
 attach(Analyse.variations.synthèse)
 
@@ -1477,7 +1636,7 @@ if (longueur.non.na(temp) > 0)
 #'
 #'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.csv)
 #'
-#'**Nota :** La rémunération nette perçue est rapportée au cumul des jours d'activité.
+
 
 Analyse.variations.synthèse.filtrée <- Analyse.variations.synthèse[total.jours > seuil.troncature
                                                                    & statut !=  "ELU",
@@ -1522,12 +1681,13 @@ g <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x,
                            digits = 1,
                            format = "fg")
 #'    
-#'#### Rémunération nette et effet de noria sur salaires nets 
-#'   
-#'#### Rémunération      
+#'**Salaire net moyen par tête (SMPT net) en EQTP**         
 #'       
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
 
-Tableau.vertical(c(étiquette.année, "Rém. nette totale (k&euro;)", "Rém. nette par EQTP (&euro;)"),
+Tableau.vertical(c(étiquette.année, "Rém. nette totale (k&euro;)", "SMPT net (&euro;)"),
                  période,
                  extra = "variation",
                  f,
@@ -1538,8 +1698,6 @@ entrants <- function(x)   {
   A <- setdiff(Analyse.variations.par.exercice[Année == x , Matricule], 
                Analyse.variations.par.exercice[Année == x -1, Matricule])
   
-#   nb.fonct <- nrow(Analyse.variations.par.exercice[Matricule %chin% A 
-#                                                    & (Statut == "TITULAIRE" | Statut == "STAGIAIRE")])
 
   B <- unique(Bulletins.paie[Année == x 
                              & Matricule %chin% A, .(Année, quotité, Matricule, Mois, Statut)], by = NULL)
@@ -1563,8 +1721,6 @@ sortants <- function(x)   {
   
   list(A, eqtp.agent, eqtp.fonct)
 }
-
-#'  Montant.net.annuel.eqtp
 
 s <- list(0)
 e <- list(0)
@@ -1602,20 +1758,36 @@ g <- function(x) {
                            digits = 3,
                            format = "fg")
 }
-
-#'#### Effet de noria   
-#'       
-Tableau.vertical(c(étiquette.année,  "Effet noria EQTP (&euro; année N)", "En % de la rém. nette totale N-1", "Remplacements EQTP"),
-                 période[2:length(période)],
+#'   
+#'**Effet de noria sur salaires nets et taux de remplacements**       
+#'   
+#'**Effet de noria** : *différence entre la rémunération annuelle des entrants à l'année N et des sortants à l'année N-1*.  
+#'*Usuellement calculée sur les rémunérations brutes, ici sur les rémunérations nettes EQTP*  
+#'*afin d'apprécier l'impact de cet effet sur l'évolution des rémunérations nette moyennes calculée au tableau précédent.*               
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+if (durée.sous.revue > 1) {
+Tableau.vertical(c(étiquette.année,  "Noria EQTP (&euro;)", "En % de la MS N-1", "Remplacements EQTP", "Taux de remplacements (%)"),
+                 période[2:durée.sous.revue],
                  extra = "no",
                  f,
                  g,
-                 function(x) prettyNum(remplacements[x - début.période.sous.revue], digits=0, format="f"))
+                 function(x) prettyNum(remplacements[x - début.période.sous.revue], digits=0, format="f"),
+                 function(x) prettyNum(remplacements[x - début.période.sous.revue]/ effectifs[[as.character(x)]]["ETPT"] * 100, digits=2, format="f"))
+} else {
+  cat("L'effet de noria ne peut être calculé que pour des durées sous revue supérieures à un exercice.")
+}
+
 #'
-#'*Effet de noria : différence entre la rémunération annuelle des entrants à l'année N et des sortants à l'année N-1*.  
-#'*Usuellement calculée sur les rémunérations brutes, ici sur les rémunérations nettes EQTP*  
-#'*afin d'apprécier l'impact de cet effet sur l'évolution des rémunérations nette moyennes calculée au tableau précédent.*               
-#'   
+#'*MS N-1 : masse salariale nette de l'année n-1.*   
+#'       
+#'**Distribution et variation sur la période du salaire moyen net par tête (SMPT net) en EQTP**         
+#'       
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
 Résumé(c("Première année",
          "Dernière année",
          "Moyenne sur la période <br>d'activité"),
@@ -1623,29 +1795,69 @@ Résumé(c("Première année",
                                                 Montant.net.annuel.eqtp.sortie,
                                                 moyenne.rémunération.annuelle.sur.période)])
 
-#'   
-Résumé(c("Variation sur la période <br>d'activité (%)",
-         "Variation annuelle moyenne (%)",
-         "Effectif"),
-       Analyse.variations.synthèse.filtrée[ , .(variation.rémunération,
-                                                variation.moyenne.rémunération)],
-       extra = "length")
-#'   
 
-Résumé(c("Variation normalisée (%)",
-         "Variation annuelle moyenne normalisée (%)",
-         "Effectif"),
-       Analyse.variations.synthèse.filtrée[ , .(variation.rémunération.normalisée,
-                                                variation.moyenne.rémunération.normalisée)],
-       extra = "length")
+#'  
+#'*Nota :*  La population retenue est constituée des agents qui :   
+#'&nbsp;&nbsp;- ne font pas partie des `r quantile.cut` centiles extrêmaux   
+#'&nbsp;&nbsp;- sont au moins présents `r seuil.troncature` jours la première et la dernière année d'activité  
+#'   
+#'**Comparaisons source INSEE/DGCL**   
+#'
+#'**Salaires annuels moyens 2011 en EQTP (hors assistantes maternelles)**   
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
 
+Tableau.vertical2(c("Agrégat",  "Salaires nets &euro;"),
+                  c("Ensemble", "Titulaires", "Autres salariés"),
+                  12*c(1823, 1886, 1572))
+
+#'*Champ : France. Salariés en équivalent-temps plein (EQTP) des collectivités territoriales (y compris bénéficiaires de contrats aidés, hors assistantes maternelles).*     			
+
+matrice.déciles <- t(matrix(12*c(1458, 1274, 1382, 1170, 1743, 1376, 1514, 1305, 1921, 1459, 1635, 1428, 2076, 1540, 1754,
+                              1559, 2236, 1636, 1883, 1712, 2412, 1751, 2042, 1902, 2636, 1905, 2268, 2156, 2966, 2133,
+                              2583, 2569, 3538, 2573, 3151, 3400),  ncol = 9))
+
+#'**Distribution des salaires nets annuels en EQTP dans la fonction publique par versant en 2011**   
+#' 
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
+Tableau.vertical2(c("Décile (k&euro;)", "FPE", "FPT", "FPH", "Secteur privé"),
+                  paste0("D", 1:9),
+                  matrice.déciles[,1],
+                  matrice.déciles[,2],
+                  matrice.déciles[,3],
+                  matrice.déciles[,4])
+
+matrice.déciles.cat <- matrix(12*c(2170,2416,2606,2789,2985,3222,3523,3927,4570,1823,
+                                    1715,1856,1971,2080,2187,2303,2430,2582,2817,3225,
+                                    1331,1408,1471,1530,1597,1675,1768,1890,2083,2244,
+                                    1135,1195,1252,1307,1364,1436,1540,1732,2243,1668), nrow = 10)
+
+
+
+#'**Distribution des salaires nets annuels en EQTP dans la fonction publique territoriale par catégorie en 2011**   
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
+Tableau.vertical2(c("Décile (k&euro;)", "Catégorie A", "Catégorie B", "Catégorie C", "Autres salariés"),
+                  c(paste0("D", 1:9), "Moyenne"),
+                  matrice.déciles.cat[,1],
+                  matrice.déciles.cat[,2],
+                  matrice.déciles.cat[,3],
+                  matrice.déciles.cat[,4])
+
+#'[Source INSEE, onglets Figure3, F1web et F3web](http://www.insee.fr/fr/ffc/ipweb/ip1486/ip1486.xls)   
 #'   
 #'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.filtrée.csv)
 #'   
 
 #'### 4.2.2 Fonctionnaires
 #'
-#'#### Titulaires et stagiaires   
+#'**Titulaires et stagiaires**      
 
 f <- function(x) {
 
@@ -1667,9 +1879,12 @@ g <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x & (Sta
                            digits = 1,
                            format = "fg")
 
-#'
-#'#### Rémunération
-#'
+#'    
+#'**Salaire net moyen par tête (SMPT net) en EQTP**         
+#'       
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
 
 Tableau.vertical(c(étiquette.année, "Rém. nette totale (k&euro;)", "Rém. nette par EQTP (&euro;)"),
                  période,
@@ -1709,18 +1924,32 @@ g <- function(x) {
             format = "fg")
 }
 
-#'#### Effet de noria   
-#'       
-Tableau.vertical(c(étiquette.année,  "Effet noria EQTP (&euro; année N)", "En % de la rém. nette totale N-1", "Remplacements EQTP"),
+#'   
+#'**Effet de noria sur salaires nets et taux de remplacements**       
+#'        
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+if (durée.sous.revue > 1) {
+Tableau.vertical(c(étiquette.année,  "Noria EQTP (&euro;)", "En % de la  MSN N-1", "Remplacements EQTP", "Taux de remplacements (%)"),
                  période[2:length(période)],
                  extra = "no",
                  f,
                  g,
-                 function(x) prettyNum(remplacements[x - début.période.sous.revue], digits=0, format="f"))
-#'
+                 function(x) prettyNum(remplacements[x - début.période.sous.revue], digits=0, format="f"),
+                 function(x) prettyNum(remplacements[x - début.période.sous.revue]/ effectifs[[as.character(x)]]["ETPT_fonct"] * 100, digits=2, format="f"))
+} else {
+  cat("L'effet de noria ne peut être calculé que pour des durées sous revue supérieures à un exercice.")
+}
+#'     
+#'*MS N-1 : masse salariale nette de l'année n-1.*   
+#'       
+#'**Distribution et variation sur la période du salaire moyen net par tête (SMPT net) en EQTP**         
+#'       
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
 
-#'######
-#'
 
 Résumé(c("Première année",
          "Dernière année",
@@ -1730,28 +1959,8 @@ Résumé(c("Première année",
                                              Montant.net.annuel.eqtp.sortie,
                                              moyenne.rémunération.annuelle.sur.période)])
 
-#'
 
-Résumé(c("Variation sur la période <br>d'activité (%)",
-         "Variation annuelle moyenne (%)",
-         "Effectif"),
-       Analyse.variations.synthèse.filtrée[statut == "TITULAIRE" | statut == "STAGIAIRE" ,
-                                           .(variation.rémunération,
-                                             variation.moyenne.rémunération)],
-       extra = "length")
-
-#'
-
-Résumé(c("Variation normalisée (%)",
-         "Variation annuelle moyenne normalisée (%)",
-         "Effectif"),
-       Analyse.variations.synthèse.filtrée[statut == "TITULAIRE" | statut == "STAGIAIRE" , .(variation.rémunération.normalisée,
-                                                variation.moyenne.rémunération.normalisée)],
-       extra = "length")
-
-#'
-#'#### Titulaires à temps complet   
-#'   
+#'    
 f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x 
                                                                & Statut == "TITULAIRE"
                                                                & temps.complet, 
@@ -1771,17 +1980,24 @@ g <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x
                            format = "fg")
 
 #'   
-#'#### Rémunération   
+#'**Evolution du SMPT net des titulaires titulaires à temps complet**     
 #'   
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
 
-Tableau.vertical(c(étiquette.année, "Rém. nette totale (k&euro;)", "Rém. nette par titulaire (&euro;)"),
+Tableau.vertical(c(étiquette.année, "Rémunération nette totale (k&euro;)", "SMPT (&euro;)"),
                  période,
                  extra = "variation",
                  f,
                  g)
 
-#'     
-#'      
+#'    
+#'**Distribution et variation sur la période du salaire moyen net par tête (SMPT net) des titulaires à temps complet**         
+#'       
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
 
 Résumé(c("Première année",
          "Dernière année",
@@ -1793,32 +2009,17 @@ Résumé(c("Première année",
 
 #'   
 
-Résumé(c("Variation sur la période <br>d'activité (%)",
-         "Variation annuelle moyenne (%)",
-         "Effectif"),
-       Analyse.variations.synthèse.filtrée[statut == "TITULAIRE" & temps.complet & permanent,
-                                           .(variation.rémunération,
-                                             variation.moyenne.rémunération)],
-       extra = "length")
-
-#'
-
-Résumé(c("Variation normalisée (%)",
-         "Variation annuelle moyenne normalisée (%)",
-         "Effectif"),
-       Analyse.variations.synthèse.filtrée[statut == "TITULAIRE" & temps.complet & permanent,
-                                           .(variation.rémunération.normalisée,
-                                             variation.moyenne.rémunération.normalisée)],
-       extra = "length")
-
 #'
 #'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.filtrée.csv)
 #'
 
 #'
-#'### 4.2.3 Personnels fonctionnaires et non titulaires en place   
+#'### 4.2.3 Glissement viellesse-technicité (GVT)   
 #'   
-
+#'*Cette section est consacrée à la rémunération moyenne des personnes en place (RMPP), définies comme présentes deux années consécutives avec la même quotité*   
+#'*L'évolution de la RMPP permet d'étudier le glissement viellesse-technicité "positif", à effectifs constants sur deux années*      
+#'*Le GVT positif est dû aux mesures statutaires et individuelles, à l'avancement et aux changements d'activité*  
+#'   
 if (nrow(Analyse.variations.synthèse.filtrée.plus.2.ans) > 0)
   hist(Analyse.variations.synthèse.filtrée.plus.2.ans$variation.moyenne.rémunération,
        xlab ="Variation annuelle moyenne en %",
@@ -1851,15 +2052,26 @@ g <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x
                            digits = 1,
                            format = "fg")
 #'   
+#'**Evolution de la RMPP nette en EQTP**     
+#'   
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
 Tableau.vertical(c(étiquette.année,
-                   "Rém. nette totale (k&euro;)",
-                   "Rém. nette par EQTP (k&euro;)"),
+                   "Rémunération nette totale (k&euro;)",
+                   "RMPP nette (k&euro;)"),
                  période,
                  extra = "variation",
                  f,
                  g)
 
+#'    
+#'**Distribution et variation sur la période de la rémunération nette des personnes en place**         
+#'       
 #'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
 
 Résumé(c("Première année",
          "Dernière année",
@@ -1869,7 +2081,10 @@ Résumé(c("Première année",
        extra = "length")
 
 #'  
- 
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
 Résumé(c("Variation sur la période <br>d'activité (%)",
          "Variation annuelle moyenne (%)",
          "Effectif"),
@@ -1877,6 +2092,9 @@ Résumé(c("Variation sur la période <br>d'activité (%)",
        extra = "length")
 #'
 #'
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
 
 Résumé(c("Variation normalisée (%)",
          "Variation annuelle moyenne normalisée (%)",
@@ -1889,13 +2107,16 @@ Résumé(c("Variation normalisée (%)",
 #'
 #'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.filtrée.plus.2.ans.csv)
 #'
-#'**Nota**
-#'Personnels en place : en fonction au moins 730 jours sur la période `r début.période.sous.revue` à `r fin.période.sous.revue`
-#'
-#'######
-#'
+#'**Nota**   
+#'*Personnes en place :* en fonction au moins 730 jours sur la période `r début.période.sous.revue` à `r fin.période.sous.revue`    
+#'*Variation sur la période d'activité :* entre l'arrivée et le départ de la personne      
+#'*Variation normalisée :* conforme à la définition INSEE (présente en début et en fin de période avec la même quotité)  
+#'  
+#'**Commentaire**       
+#'Les différences éventuelles constatées entre l'évolution de la RMPP au tableau `r numéro.tableau-2` sont dues soit à l'effet de noria soit à l'effet périmètre.    
+#'      
+#'   
 #'### 4.2.4 Personnels fonctionnaires et non titulaires en fonction moins de deux ans   
-#'
 #'
 
 if (nrow(na.omit(Analyse.variations.synthèse.filtrée.moins.2.ans)) > 0)
@@ -1919,13 +2140,27 @@ f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x
                            digits = 5,
                            format = "fg")
 
-Tableau.vertical(c(étiquette.année, "Rém. nette totale <br>des agents en fonction moins de deux ans (k&euro;)"),
+
+#'    
+#'**SMPT des agents présents en fonction moins de deux années sur la période**         
+#'       
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
+Tableau.vertical(c(étiquette.année, "Rém. nette totale <br>des personnes en fonction moins de deux ans (k&euro;)"),
                  période,
                  extra = "variation",
                  f)
 
-#'
-#'
+
+#'    
+#'**Distribution et variation de la rémunération des agents en fonction moins de deux années sur la période**         
+#'       
+
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
 
 Résumé(c("Première année",
          "Dernière année",
@@ -1934,23 +2169,6 @@ Résumé(c("Première année",
        Analyse.variations.synthèse.filtrée.moins.2.ans[ , 1:3, with=FALSE],
        extra = "length")
 
-#'
-
-Résumé(c("Variation sur la période <br>d'activité (%)",
-         "Variation annuelle moyenne (%)",
-         "Effectif"),
-       Analyse.variations.synthèse.filtrée.moins.2.ans[ , 4:5, with=FALSE],
-       extra = "length")
-#'
-#'
-
-if (durée.sous.revue < 2)
-  Résumé(c("Variation normalisée (%)",
-           "Variation annuelle moyenne normalisée (%)",
-           "Effectif"),
-         Analyse.variations.synthèse.filtrée.moins.2.ans[ , .(variation.rémunération.normalisée,
-                                                              variation.moyenne.rémunération.normalisée)],
-         extra = "length")
 
 #'
 ########### Tests statutaires ########################
@@ -1961,6 +2179,56 @@ if (durée.sous.revue < 2)
 #'Ne sont pas pris en compte les élus, stagiaires et apprentis ou assimilés.
 #'
 #'Les résultats sont exprimés en euros.
+#'
+#'### 4.3 Comparaisons avec la situation nationale des rémunérations   
+#'  
+#'**Évolution en euros courants du SMPT et de la RMPP dans la FPT (en %)**    
+
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
+Tableau.vertical2(c("Année", "2008-2009", "2009-2010", "2010-2011", "2008-2011", "2008-2012*", "Moyenne 2007-2011"),
+                  c("SMPT brut", "SMPT net", "RMPP brute", "RMPP nette"),         
+                  t(data.frame(c("2,5", "1,3", "1,5", "5,4", "6,9", ""),
+                  c("3,0", "1,4", "1,3", "5,8", "7,2", "1,2"),
+                  c("3,3", "2,5", "2,5", "8,5", "11,2", ""),
+                  c("3,3", "2,5", "2,3", "8.3", "10,9", ""))))
+
+
+#'*Source : fichier général de l'État (FGE), DADS, SIASP, Insee, Drees. Traitement Insee, Drees, DGCL*    
+#'Hors assistants maternels et familiaux, y compris bénéficiaires de contrats aidés.   
+#'2008-2012* : estimation de l'évolution 2011-2012 par la moyenne arithmétique des taux d'évolution des deux années précédentes (calcul CRC)     
+#'Moyenne 2007-2011 : moyenne géométrique des évolutions annuelles en euros courants (calcul CRC sur données INSEE en euros constants)  
+#'SMPT : Salaire moyen par tête en EQTP.   
+#'RMPP : Agents présents 24 mois consécutifs chez le même employeur avec la même quotité de travail.  
+
+#'  
+#'**Salaires nets annuels et évolution moyenne type de collectivité en &euro; courants  EQTP**    
+#'   
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
+Tableau.vertical2(c("Type de collectivité", "Salaires nets annuels 2011 (&euro;)", "Évolution annuelle moyenne 2007-2011 (%)"),
+  c("Communes",
+    "CCAS et caisses des écoles",
+    "EPCI à fiscalité propre",
+    "Autres structures intercommunales",
+    "Départements",
+    "SDIS",
+    "Régions",		 
+    "Autres collectivités locales",	 
+    "Ensemble (moyenne)",
+    "Ensemble (médiane)"),	
+   c(21575, 20326, 24088, 22686, 26910, 30548, 24137,	26242, 22954, 19626),
+   c("2,5", "2,4", "3,1", "3,0", "3,9", "3,4", "3,8", "3,2", "2,9", ""))
+
+#'
+#'*Champ : France. Salariés en équivalent-temps plein (EQTP) des collectivités territoriales (y compris bénéficiaires de contrats aidés, hors assistantes maternelles).*     			
+#'Conversion en euros courants, calcul CRC.  
+#'[Source INSEE](http://www.insee.fr/fr/ffc/ipweb/ip1486/ip1486.xls)   
+#'   
 #'
 #'# 5. Tests réglementaires   
 #'## 5.1 Contrôle des heures supplémentaires, des NBI et primes informatiques   
@@ -2014,6 +2282,9 @@ if  (length(primes.informatiques.potentielles) == 0)
 nombre.personnels.pfi <- nrow(personnels.prime.informatique)
 
 #'Primes informatiques potentielles : `r primes.informatiques.potentielles`
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
 
 Tableau(
   c("Nombre de lignes NBI pour non titulaires",
@@ -2028,9 +2299,7 @@ Tableau(
 #'**Nota :**   
 #'NBI: nouvelle bonification indiciaire   
 #'PFI: prime de fonctions informatiques   
-#'   
-#'#
-#'
+#'  
 #'## 5.2 Contrôle des vacations pour les fonctionnaires
 
 # Vacations et statut de fonctionnaire
@@ -2115,7 +2384,12 @@ if (! is.null(nombre.fonctionnaires.et.vacations)) {
 #'**Contractuels effectuant des vacations (CEV)**
 #'
 
-if (exists("nombre.contractuels.et.vacations"))
+
+if (exists("nombre.contractuels.et.vacations")) {
+  #'  
+  #'&nbsp;*Tableau `r incrément()`*   
+  #'    
+  
   Tableau(c("Nombre de CEV",
             "Nombre de lignes",
             "Nombre de lignes indemnitaires",
@@ -2124,6 +2398,7 @@ if (exists("nombre.contractuels.et.vacations"))
           nombre.Lignes.paie.contractuels.et.vacations,
           nombre.Lignes.paie.RI.et.vacations,
           nombre.Lignes.paie.traitement.et.vacations)
+}
 #'  
 #'[Lien vers le bulletins des CEV](Bases/Réglementation/lignes.contractuels.et.vacations.csv)   
 #'[Lien vers la base de données Matricules des CEV](Bases/Réglementation/matricules.contractuels.et.vacations.csv)  
@@ -2145,6 +2420,9 @@ if (length(personnels.iat.ifts))  names(personnels.iat.ifts) <- "Matricules des 
 nombre.personnels.iat.ifts <- length(personnels.iat.ifts)
 
 #'
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
 
 Tableau(c("Codes IFTS", "Nombre de personnels percevant IAT et IFTS"),
         sep.milliers = "",
@@ -2190,6 +2468,9 @@ ifts.et.contractuel <- Paie[ Statut != "TITULAIRE"
 nombre.lignes.ifts.et.contractuel <- nrow(ifts.et.contractuel)
 
 #'
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
 
 Tableau(c("Nombre de lignes de paye de contractuels percevant des IFTS", "Nombre de lignes IFTS pour IB < 380"), nombre.lignes.ifts.et.contractuel, nombre.lignes.ifts.anormales)
 
@@ -2278,6 +2559,9 @@ nombre.Lignes.paie.HS.sup.25 <- nrow(HS.sup.25)
 ihts.anormales <- data.frame(NULL)
 if (fichier.personnels.existe) nombre.ihts.anormales <- nrow(ihts.anormales) else nombre.ihts.anormales <- NA
 #'
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
 
 Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"), nombre.Lignes.paie.HS.sup.25, nombre.ihts.anormales)
 
