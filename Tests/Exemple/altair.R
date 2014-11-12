@@ -1511,13 +1511,13 @@ if (fichier.personnels.existe)
 #'
 #'
 #'######      <br>
-#'
+#'   
 #'## 3.3 Contractuels, vacataires et stagiaires inclus   
 #'   
 
 attach(Analyse.rémunérations.dernier.exercice, warn.conflicts=FALSE)
-temp <- rémunération.indemnitaire.imposable.eqtp[!is.na(rémunération.indemnitaire.imposable.eqtp) &
-                                                  Statut != "ELU"
+temp <- rémunération.indemnitaire.imposable.eqtp[!is.na(rémunération.indemnitaire.imposable.eqtp) 
+                                                  & Statut != "ELU"
                                                   & Statut != "TITULAIRE"
                                                   & Statut != "STAGIAIRE"
                                                   & rémunération.indemnitaire.imposable.eqtp > 1000] / 1000
@@ -1585,8 +1585,8 @@ nom.base.analyse <- "Analyse.rémunérations.dernier.exercice"
 #'[Lien vers la base de données](Bases/Rémunérations/Analyse.rémunérations.csv) d'analyse des rémunérations
 #'
 
-#'
-#'**Comparaisons source INSEE/DGCL**   
+#'   
+#'## 3.4 Comparaisons source INSEE/DGCL   
 #'   
 #'*Salaires annnuels moyens 2011 en EQTP (hors assistantes maternelles)*   
 
@@ -1594,19 +1594,20 @@ nom.base.analyse <- "Analyse.rémunérations.dernier.exercice"
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-Tableau.vertical2(c("Agrégat", "Salaires bruts &euro;"),
+Tableau.vertical2(c("Agrégat", "Salaires bruts 2011 (&euro;)", "Salaires bruts 2012 (&euro;)"),
                   c("Ensemble", "Titulaires", "Autres salariés"),
-                  12 * c(2159, 2223, 1903))
+                  12 * c(2159, 2223, 1903),
+                  12 * c(2195, 2259, NA))
 
-#'
-#'**Eléments de la rémunération brute pour les titulaires de la FPT en 2010 et 2011**      
+#'   
+#'**Eléments de la rémunération brute pour les titulaires de la FPT entre 2010 et 2012**      
 #'   
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
 Tableau.vertical2(
-  c("Rémunérations annuelles", "2010 (&euro;)", "Part de primes (%)", "2011 (&euro;)", "Part de primes (%)"),
+  c("Rém. annuelles", "2010 (&euro;)", "Primes (%)", "2011 (&euro;)", "Primes (%)", "2012 (&euro;)", "Primes (%)"),
   c("Salaire brut",
     "Traitement brut",
     "Primes et rémunérations annexes",
@@ -1614,11 +1615,15 @@ Tableau.vertical2(
   c(26305, 20350,	"", 5955),
   c("", 22.6, "", "" ),
   c(26660, 20562, "", 6098),
-  c("", 22.9, "", "" ))
+  c("", 22.9, "", "" ),
+  c(12*2195, 12*1727, "", 532),
+  c("", 23.6, "", "" ))
 #'   
 #'*Champ : France. Salariés en équivalent-temps plein (EQTP) des collectivités territoriales (y compris bénéficiaires de contrats aidés, hors assistantes maternelles).*   												
+#'*Les primes sont cumulées au supplément familial de traitement (SFT) et à l'indemnité de résidence (IR). Le cumul est rapporté à la rémunération brute totale.*    
 #'[Source INSEE](http://www.insee.fr/fr/ffc/ipweb/ip1486/ip1486.xls)    
 #'[Source DGCL](http://www.fonction-publique.gouv.fr/files/files/statistiques/rapports_annuels/2012-2013/xls/Vue3_1_Remunerations.xls)    
+#'[Source DGFIP PLF 2015](http://www.performance-publique.budget.gouv.fr/sites/performance_publique/files/farandole/ressources/2015/pap/pdf/jaunes/jaune2015_fonction_publique.pdf)   
 #'   
 
 ########### Analyse dynamique ########################
@@ -1820,13 +1825,14 @@ Résumé("Dernière année",
 #'   
 #'**Comparaisons source INSEE/DGCL**   
 #'
-#'**Salaires annuels moyens 2011 en EQTP (hors assistantes maternelles)**   
+#'**Salaires annuels moyens 2011 et 2012 en EQTP (hors assistantes maternelles)**   
 #'  
 #'&nbsp;*Tableau `r incrément()`*   '    
 
-Tableau.vertical2(c("Agrégat",  "Salaires nets &euro;"),
+Tableau.vertical2(c("Agrégat",  "Salaires nets 2011 (&euro;)", "Salaires nets 2012 (&euro;)"),
                   c("Ensemble", "Titulaires", "Autres salariés"),
-                  12*c(1823, 1886, 1572))
+                  12*c(1823, 1886, 1572),
+                  12*c(1848, 1910, NA))
 
 #'*Champ : France. Salariés en équivalent-temps plein (EQTP) des collectivités territoriales (y compris bénéficiaires de contrats aidés, hors assistantes maternelles).*     			
 
@@ -2033,7 +2039,9 @@ Résumé("Dernière année",
 #'
 
 #'
-#'### 4.2.3 Glissement viellesse-technicité (GVT)   
+#'## 4.3 Glissement viellesse-technicité (GVT)   
+#'
+#'### 4.3.1 Ensemble des personnels   
 #'   
 #'*Cette section est consacrée à la rémunération moyenne des personnes en place (RMPP), définies comme présentes deux années consécutives avec la même quotité*   
 #'*L'évolution de la RMPP permet d'étudier le glissement viellesse-technicité "positif", à effectifs constants sur deux années*      
@@ -2041,8 +2049,6 @@ Résumé("Dernière année",
 
 
 # Appliquer les filtres maintenant
-
-
 
 q3 <- quantile(Analyse.variations.synthèse$variation.rémunération, c(quantile.cut/100, 1 - quantile.cut/100), na.rm=TRUE)
 
@@ -2167,6 +2173,81 @@ Résumé(c("Variation normalisée (%)",
 #        Analyse.variations.synthèse[indicatrice.période == masque.présent.sur.période, variation.rémunération.normalisée],
 #        extra = "length")
 
+#'    
+#'### 4.3.2 Titulaires et stagiaires     
+#'   
+
+f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x
+                                                               & est.rmpp == TRUE
+                                                               & (Statut == "TITULAIRE" | Statut == "STAGIAIRE"),
+                                                                 Montant.net.annuel.eqtp],
+                               na.rm = TRUE)/ 1000,
+                           big.mark = " ",
+                           digits = 5,
+                           format = "fg")
+
+g <- function(x) prettyNum(mean.default(Analyse.variations.par.exercice[Année == x 
+                                                                        & est.rmpp == TRUE
+                                                                        & (Statut == "TITULAIRE" | Statut == "STAGIAIRE"),
+                                                                        Montant.net.annuel.eqtp],
+                                        na.rm = TRUE) ,
+                           big.mark = " ",
+                           digits = 1,
+                           format = "fg")
+#'   
+#'**Evolution de la RMPP nette en EQTP**     
+#'   
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
+Tableau.vertical(c(étiquette.année,
+                   "Rémunération nette totale (k&euro;)",
+                   "RMPP nette (k&euro;)"),
+                 période[2:durée.sous.revue],
+                 extra = "variation",
+                 f,
+                 g)
+
+#'    
+#'**Distribution et variation sur la période de la rémunération nette des fonctionnaires en place**                
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
+
+#'  
+Résumé(c("Première année",
+         "Effectif"),
+       Analyse.variations.synthèse[(statut == "TITULAIRE" | statut == "STAGIAIRE")
+                                   & bitwAnd(indicatrice.période, masque.rmpp.début.période) == masque.rmpp.début.période, 
+                                   Montant.net.annuel.eqtp.début],
+       extra = "length")
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
+Résumé(c("Dernière année",
+         "Effectif"),
+       Analyse.variations.synthèse[statut == "TITULAIRE" | statut == "STAGIAIRE"
+                                   & indicatrice.période >= masque.rmpp.fin.période, Montant.net.annuel.eqtp.sortie],
+       extra = "length")
+#'
+#'*Variation individuelle de rémunération nette en EQTP pour les personnels présents la première et la dernière année*   
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
+Résumé(c("Variation normalisée (%)",
+         "Variation annuelle moyenne normalisée (%)",
+         "Effectif"),
+       Analyse.variations.synthèse[(statut == "TITULAIRE" | statut == "STAGIAIRE")
+                                   & bitwAnd(indicatrice.période, masque.présent.début.fin) == masque.présent.début.fin,
+                                   c("variation.rémunération.normalisée",  "variation.moyenne.rémunération.normalisée"),
+                                   with = FALSE],
+       extra = "length")
+
+
 #'
 #'
 #'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.csv)
@@ -2185,34 +2266,29 @@ Résumé(c("Variation normalisée (%)",
 #'
 #'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse)
 #'
-#'**Nota :** Au 4.2 seuls sont pris en compte les personnels en fonction au moins 100 jours la première et la dernière année
-#'Ne sont pas pris en compte les élus, stagiaires et apprentis ou assimilés.
 #'
-#'Les résultats sont exprimés en euros.
-#'
-#'### 4.3 Comparaisons avec la situation nationale des rémunérations   
+#'### 4.4 Comparaisons avec la situation nationale des rémunérations   
 #'  
-#'**Évolution en euros courants du SMPT et de la RMPP dans la FPT (en %)**    
+#'**Évolution en euros courants du SMPT et de la RMPP dans la FPT (en % et euros courants)**    
 
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-Tableau.vertical2(c("Année", "2008-2009", "2009-2010", "2010-2011", "2008-2011", "2008-2012*", "Moyenne 2007-2011"),
+Tableau.vertical2(c("Année", "2008-2009", "2009-2010", "2010-2011", "2011-1012", "2008-2012", "Moy. 2008-2012", "Médiane 2007-2011"),
                   c("SMPT brut", "SMPT net", "RMPP brute", "RMPP nette"),         
-                  t(data.frame(c("2,5", "1,3", "1,5", "5,4", "6,9", ""),
-                  c("3,0", "1,4", "1,3", "5,8", "7,2", "1,2"),
-                  c("3,3", "2,5", "2,5", "8,5", "11,2", ""),
-                  c("3,3", "2,5", "2,3", "8.3", "10,9", ""))))
+                  t(data.frame(c("2,5", "1,3", "1,5", "1,7", "7,2", "1,8", ""),
+                  c("3,0", "1,4", "1,3", "1,4", "7,3", "1,8", "13,4"),
+                  c("3,3", "2,5", "2,5", "2,7", "11,5", "2,8", ""),
+                  c("3,3", "2,5", "2,3", "2,4", "10,9", "2,6", ""))))
 
 
 #'*Source : fichier général de l'État (FGE), DADS, SIASP, Insee, Drees. Traitement Insee, Drees, DGCL*    
 #'Hors assistants maternels et familiaux, y compris bénéficiaires de contrats aidés.   
-#'2008-2012* : estimation de l'évolution 2011-2012 par la moyenne arithmétique des taux d'évolution des deux années précédentes (calcul CRC)     
-#'Moyenne 2007-2011 : moyenne géométrique des évolutions annuelles en euros courants (calcul CRC sur données INSEE en euros constants)  
 #'SMPT : Salaire moyen par tête en EQTP.   
 #'RMPP : Agents présents 24 mois consécutifs chez le même employeur avec la même quotité de travail.  
-
+#'Moyenne des variation géométriques annuelles pour les agents du champ.  
+#'La dernière colonne présente la médiane des augmentations du SMPT net pour les agents présents en 2007 et 2011.   
 #'  
 #'**Salaires nets annuels et évolution moyenne type de collectivité en &euro; courants  EQTP**    
 #'   
@@ -2220,7 +2296,7 @@ Tableau.vertical2(c("Année", "2008-2009", "2009-2010", "2010-2011", "2008-2011",
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-Tableau.vertical2(c("Type de collectivité", "Salaires nets annuels 2011 (&euro;)", "Évolution annuelle moyenne 2007-2011 (%)"),
+Tableau.vertical2(c("Type de collectivité", "SMPT net 2011 (&euro;)", "SMPT net 2012 (&euro;)", "Évolution annuelle moy. 2007-2011 (%)"),
   c("Communes",
     "CCAS et caisses des écoles",
     "EPCI à fiscalité propre",
@@ -2232,12 +2308,14 @@ Tableau.vertical2(c("Type de collectivité", "Salaires nets annuels 2011 (&euro;)
     "Ensemble (moyenne)",
     "Ensemble (médiane)"),	
    c(21575, 20326, 24088, 22686, 26910, 30548, 24137,	26242, 22954, 19626),
+  12*c(1760, 1643, 1924, 1807, 2062, 2495, 1903,  2058, 1848, NA),
    c("2,5", "2,4", "3,1", "3,0", "3,9", "3,4", "3,8", "3,2", "2,9", ""))
 
 #'
 #'*Champ : France. Salariés en équivalent-temps plein (EQTP) des collectivités territoriales (y compris bénéficiaires de contrats aidés, hors assistantes maternelles).*     			
 #'Conversion en euros courants, calcul CRC.  
 #'[Source INSEE](http://www.insee.fr/fr/ffc/ipweb/ip1486/ip1486.xls)   
+#'[Source DGAFP](http://infos.emploipublic.fr/dossiers/la-fonction-publique-en-chiffres/la-fonction-publique-en-chiffre-2013/non-defini-08/apm-71444/)  
 #'   
 #'
 #'# 5. Tests réglementaires   
