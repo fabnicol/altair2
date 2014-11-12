@@ -54,7 +54,7 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <div id="header">
 <h1 class="title">prologue.R</h1>
 <h4 class="author"><em>fnicol</em></h4>
-<h4 class="date"><em>Thu Nov 06 15:53:51 2014</em></h4>
+<h4 class="date"><em>Wed Nov 12 05:10:38 2014</em></h4>
 </div>
 
 
@@ -85,12 +85,13 @@ extraire.années      &lt;- FALSE
 setOSWindows         &lt;- Sys.info()[&quot;sysname&quot;] != &quot;Linux&quot;
 exec.root            &lt;- ifelse(setOSWindows, &quot;.exe&quot;, &quot;&quot;)
 
+éliminer.duplications &lt;- T
 générer.codes        &lt;- FALSE
 paralléliser         &lt;- TRUE
 extraire.population  &lt;- FALSE
 fusionner.nom.prénom &lt;- FALSE
-charger.bases        &lt;- TRUE
-sauvegarder.bases.analyse    &lt;- T
+charger.bases        &lt;- F
+sauvegarder.bases.analyse    &lt;- F
 sauvegarder.bases.origine    &lt;- F
 générer.table.effectifs      &lt;- F
 générer.table.élus           &lt;- F
@@ -100,9 +101,10 @@ corriger.quotité     &lt;- FALSE
 comportement.strict  &lt;- TRUE
 etp.égale.effectif   &lt;- FALSE
 
-seuil.troncature         &lt;- 90 # jours
-taux.tolérance.homonymie &lt;- 5  # en %
-quantile.cut             &lt;- 2  # en %
+seuil.troncature         &lt;- 0 # jours
+taux.tolérance.homonymie &lt;- 2  # en %
+quantile.cut             &lt;- 1  # en %
+minimum.positif &lt;- 0.5
 
 séparateur.liste   &lt;- &quot;,&quot;
 séparateur.décimal &lt;- &quot;.&quot;
