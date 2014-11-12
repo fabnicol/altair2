@@ -30,20 +30,21 @@ générer.codes        <- FALSE
 paralléliser         <- TRUE
 extraire.population  <- FALSE
 fusionner.nom.prénom <- FALSE
-charger.bases        <- TRUE
-sauvegarder.bases.analyse    <- T
+charger.bases        <- T
+sauvegarder.bases.analyse    <- F
 sauvegarder.bases.origine    <- F
 générer.table.effectifs      <- F
-générer.table.élus           <- T
+générer.table.élus           <- F
 tester.matricules            <- TRUE
 tester.lignes.bulletins.mois <- TRUE
 corriger.quotité     <- FALSE
 comportement.strict  <- TRUE
 etp.égale.effectif   <- FALSE
 
-seuil.troncature         <- 120 # jours
-taux.tolérance.homonymie <- 5  # en %
-quantile.cut             <- 2  # en %
+seuil.troncature         <- 0 # jours
+taux.tolérance.homonymie <- 2  # en %
+quantile.cut             <- 1  # en %
+minimum.positif <- 0.5
 
 séparateur.liste   <- ","
 séparateur.décimal <- "."
