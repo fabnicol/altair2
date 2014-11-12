@@ -353,7 +353,7 @@ Analyse.rémunérations <- Analyse.rémunérations[ , indemnités.élu := ifelse(Statu
 Analyse.rémunérations <- Analyse.rémunérations[! is.na(Montant.brut.annuel)]
 
 
-if (length (Analyse.rémunérations$quotité[Analyse.rémunérations$quotité > 1]) > 0 & comportement.strict ) 
+if (length (Analyse.rémunérations$quotité[Analyse.rémunérations$quotité > 1]) > minimum.positif & comportement.strict ) 
   stop("Détection de quotités > 1", call. = FALSE)
 
 message("Analyse des rémunérations réalisée.")
@@ -367,29 +367,27 @@ Analyse.variations.par.exercice <- Analyse.rémunérations[ , c(clé.fusion, étique
                                                               "temps.complet",
                                                               "permanent"), with=FALSE]
 
-Analyse.variations.par.exercice <- Analyse.variations.par.exercice[nb.jours > seuil.troncature]
+Analyse.variations.par.exercice <- Analyse.variations.par.exercice[ , indicatrice.année := bitwShiftL(1, Année - début.période.sous.revue) ]
 
 Analyse.variations.synthèse <- Analyse.variations.par.exercice[ ,
                                                                   .(Nexercices = length(Année),
-                                                                    statut = Statut[1],
+                                                                    statut = Statut[length(Année)],
                                                                     total.jours = sum(nb.jours, na.rm = TRUE),
+                                                                    indicatrice.période = sum(indicatrice.année),
                                                                     Montant.net.annuel.eqtp.début  = Montant.net.annuel.eqtp[1],
                                                                     Montant.net.annuel.eqtp.sortie = Montant.net.annuel.eqtp[length(Année)],
                                                                     permanent = all(permanent),
                                                                     temps.complet = temps.complet[1] & temps.complet[length(Année)],
                                                                     moyenne.rémunération.annuelle.sur.période =
-                                                                         sum(Montant.net.annuel.eqtp, na.rm = TRUE)/length(Année[!is.na(Montant.net.annuel.eqtp) & Montant.net.annuel.eqtp > 0])),
+                                                                         sum(Montant.net.annuel.eqtp, na.rm = TRUE)/length(Année[!is.na(Montant.net.annuel.eqtp) & Montant.net.annuel.eqtp > minimum.positif])),
                                                                 by = clé.fusion]
 
-Analyse.variations.synthèse <- Analyse.variations.synthèse[ ,                                         
-                                                                   pris.en.compte := Nexercices > 1 
-                                                                                   & ! is.na(Montant.net.annuel.eqtp.début)
-                                                                                   & ! is.na(Montant.net.annuel.eqtp.sortie)
-                                                                                   & Montant.net.annuel.eqtp.début  > 0 
-                                                                                   & Montant.net.annuel.eqtp.sortie > 0
-                                                                                   & total.jours >= 365]
+Analyse.variations.synthèse <- Analyse.variations.synthèse[ ,  pris.en.compte := ! is.na(Montant.net.annuel.eqtp.début)
+                                                                                 & ! is.na(Montant.net.annuel.eqtp.sortie)
+                                                                                 & Montant.net.annuel.eqtp.début  > minimum.positif 
+                                                                                 & Montant.net.annuel.eqtp.sortie > minimum.positif ]
 
-Analyse.variations.synthèse <- Analyse.variations.synthèse[ ,   variation.rémunération := ifelse(pris.en.compte,
+Analyse.variations.synthèse <- Analyse.variations.synthèse[ ,  variation.rémunération := ifelse(pris.en.compte,
                                                                           (Montant.net.annuel.eqtp.sortie / Montant.net.annuel.eqtp.début - 1)*100,
                                                                            NA)]
 
@@ -398,41 +396,47 @@ Analyse.variations.synthèse <- Analyse.variations.synthèse[ ,
                                                                                  ((variation.rémunération/100 + 1)^(1 / (Nexercices - 1)) - 1) * 100,
                                                                                  NA),
     
-                                              variation.rémunération.normalisée = ifelse(durée.sous.revue == Nexercices
-                                                                                    & permanent,
+                                              variation.rémunération.normalisée = ifelse(durée.sous.revue == Nexercices,
                                                                                     variation.rémunération,
                                                                                     NA))]
+
 
 Analyse.variations.synthèse <- Analyse.variations.synthèse[ ,                                                                 
                                          `:=`(variation.moyenne.rémunération.normalisée = ifelse(!is.na(variation.rémunération.normalisée),
                                                                                             variation.moyenne.rémunération,
                                                                                             NA),
-                                               plus.2.ans  = (total.jours  >= 730),
+                                               
+                                               plus.2.ans  = (total.jours  >= 730),  
                                                moins.2.ans = (total.jours < 730),
                                                moins.1.an  = (total.jours < 365),
                                                moins.six.mois = (total.jours < 183))]
                                                
+# Note : sous environnement knitr/spin, data.table parvient mal à identifier les noms locaux,
+# ce qui ne pose pas de problème en environnement standard. Il faut donc rajouter le préfixe de base dans ce cas.
 
-q3 <- quantile(Analyse.variations.synthèse$variation.rémunération, c(quantile.cut/100, 1 - quantile.cut/100), na.rm=TRUE)
+temp <- Analyse.variations.synthèse[Analyse.variations.synthèse$plus.2.ans, Matricule]
 
-Analyse.variations.synthèse <- Analyse.variations.synthèse[is.na(Analyse.variations.synthèse$variation.rémunération) |
-                                                             (Analyse.variations.synthèse$variation.rémunération > q3[[1]]
-                                                             & Analyse.variations.synthèse$variation.rémunération < q3[[2]])]
+temp2 <- Analyse.variations.synthèse[ , .(Matricule, indicatrice.période, pris.en.compte, Nexercices)]
 
-temp <- Analyse.variations.synthèse[Analyse.variations.synthèse$plus.2.ans, clé.fusion, with=FALSE]
-
-trouver.ligne <- function(x, y) anyDuplicated(rbind(x, y)) > 1
 
 if (fusionner.nom.prénom) {
-
+  trouver.ligne <- function(x, y) anyDuplicated(rbind(x, y)) > 1
   Analyse.variations.par.exercice <- mutate(Analyse.variations.par.exercice,
                                             plus.2.ans = trouver.ligne(c(Nom, Prénom), temp[[1]]))
 } else {
 
   Analyse.variations.par.exercice <- Analyse.variations.par.exercice[ , plus.2.ans := Matricule %chin% temp[[1]]]
+  Analyse.variations.par.exercice <- merge(Analyse.variations.par.exercice, temp2, by=c("Matricule"))
 }
 
-rm(temp)
+Analyse.variations.par.exercice <- Analyse.variations.par.exercice[ , est.rmpp :=  Année != début.période.sous.revue  
+                                                                                   & bitwAnd(bitwShiftL(1, Année - 1 - début.période.sous.revue),
+                                                                                             indicatrice.période) != 0]
+
+rm(temp, temp2)
+
+Analyse.variations.synthèse.plus.2.ans  <- data.frame(NULL)
+Analyse.variations.synthèse.moins.2.ans <- data.frame(NULL)
 
 message("Analyse des variations réalisée.")
 
@@ -503,9 +507,9 @@ effectifs <- lapply(période,
                       J <- I[I$permanent, ]
                       c(nrow(E), nrow(F), nrow(G),
                         nrow(H), nrow(I), nrow(J),
-                        ETP[ , sum(quotité/nb.mois, na.rm=TRUE)],
-                        ETP[ , sum(quotité, na.rm=TRUE)] / 12,
-                        ETP[Matricule %chin% Analyse.variations.par.exercice[plus.2.ans
+                        ETP[Statut != "ELU" , sum(quotité/nb.mois, na.rm=TRUE)],
+                        ETP[Statut != "ELU" , sum(quotité, na.rm=TRUE)] / 12,
+                        ETP[Matricule %chin% Analyse.variations.par.exercice[est.rmpp
                                                                              & Année == x,
                                                                                Matricule],
                             sum(quotité, na.rm=TRUE)] / 12,
@@ -529,7 +533,7 @@ effectifs.locale <- lapply(effectifs, function(x) formatC(x, big.mark = " ", for
 tableau.effectifs <- as.data.frame(effectifs.locale,
                                    row.names = c("Total effectifs", "  dont présents 12 mois", "  dont fonctionnaires",
                                                  "  dont fonct. présents 12 mois", "  dont élus", "  dont élus présents 12 mois",
-                                                 "Total ETP/année", "Total ETPT/année", "Total ETPT/année personnes en place",
+                                                 "Total ETP/année (a)", "Total ETPT/année (b)", "Total ETPT/année personnes en place (c)",
                                                  "Total ETPT/année fonctionnaires", "Total ETPT/année titulaires à temps complet"))
 
 names(tableau.effectifs) <- liste.années
@@ -541,8 +545,10 @@ names(effectifs) <- liste.années
 kable(tableau.effectifs, row.names = TRUE, align='c')
 #'
 #'**Nota:**   
-#'*ETP  : Equivalent temps plein = rémunération . quotité*  
-#'*ETPT : Equivalent temps plein travaillé = ETP . 12/nombre de mois travaillés dans l'année*  
+#'*(a) ETP  : Equivalent temps plein = rémunération . quotité*  
+#'*(b) ETPT : Equivalent temps plein travaillé = ETP . 12/nombre de mois travaillés dans l'année*  
+#'*(c) Personnes en place : présentes en N et N-1 avec la même quotité*   
+#'*Les cinq dernières lignes du tableau sont calculées en ne tenant pas compte des élus.   
 #'      
 #'   
 #'   
@@ -631,21 +637,25 @@ if (longueur.non.na(années.fonctionnaires) > 0)
 #'
 #'**Personnels en fonction des exercices `r début.période.sous.revue` à `r fin.période.sous.revue` inclus :**
 #'
-attach(Analyse.variations.synthèse)
+
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
+
+
 
 Tableau(c("Plus de 2 ans",
           "Moins de 2 ans",
           "Moins d'un an",
           "Moins de six mois"),
-        sum(plus.2.ans, na.rm=TRUE),
-        sum(moins.2.ans, na.rm=TRUE),
-        sum(moins.1.an, na.rm=TRUE),
-        sum(moins.six.mois, na.rm=TRUE))
+        sum(Analyse.variations.synthèse$plus.2.ans, na.rm=TRUE),
+        sum(Analyse.variations.synthèse$moins.2.ans, na.rm=TRUE),
+        sum(Analyse.variations.synthèse$moins.1.an, na.rm=TRUE),
+        sum(Analyse.variations.synthèse$moins.six.mois, na.rm=TRUE))
+
 
 #'
+class(Analyse.variations.par.exercice) <-"data.frame"
 
 if (nrow(Analyse.variations.par.exercice) > 0)
   qplot(factor(Année),
@@ -688,7 +698,6 @@ names(tableau.effectifs.var) <- liste.années
 kable(tableau.effectifs.var, row.names = TRUE, align='c')
 #'
 
-detach(Analyse.variations.synthèse)
 
 #'
 #'**Nota :**
@@ -727,7 +736,6 @@ if (fichier.personnels.existe)
   colonnes.sélectionnées <- c(colonnes.sélectionnées, "Catégorie")
 }
 
-attach(Analyse.rémunérations.premier.exercice, warn.conflicts = FALSE)
 
 ########### Analyse statique premier exercice ########################
 
@@ -843,12 +851,13 @@ Tableau.vertical2(c("Agrégats",
 #'
 #'*Cette section concerne les personnels fonctionnaires titulaires et stagiaires*  
 #'
-filtre.fonctionnaire <- function (X) X[ !is.na(X) & (Statut == "TITULAIRE" | Statut == "STAGIAIRE") & X >0 ]
+filtre.fonctionnaire <- function (X) X[ !is.na(X)  & X > minimum.positif ]
 
 AR <- Analyse.rémunérations.premier.exercice[Statut == "TITULAIRE" | Statut == "STAGIAIRE", colonnes.sélectionnées, with=FALSE]
-
+attach(AR)
 source("histogrammes.R", encoding = "UTF-8")
 histogrammes()
+detach(AR)
 #'    
 #'**Nota :**   
 #'*EQTP : Equivalent temps plein = 12 . moyenne du ratio ratio rémunération / quotité*  
@@ -1062,6 +1071,7 @@ if (fichier.personnels.existe) {
 #'## 2.3 Contractuels, vacataires et stagiaires inclus   
 #'   
 
+attach(Analyse.rémunérations.premier.exercice)
 temp <- rémunération.indemnitaire.imposable.eqtp[Statut != "ELU"
                             & Statut != "TITULAIRE"
                             & Statut != "STAGIAIRE"
@@ -1082,6 +1092,8 @@ if (length(temp > 0))
 #'   
 
 temp <- positive(autres.rémunérations)
+
+detach(Analyse.rémunérations.premier.exercice)
 
 if (length(temp))
   hist(temp,
@@ -1128,7 +1140,6 @@ Résumé(c("Total rémunérations",
 
 nom.base.analyse <- "Analyse.rémunérations.premier.exercice"
 
-detach(Analyse.rémunérations.premier.exercice)
 
 # pour année fin #
 
@@ -1145,7 +1156,6 @@ if (fichier.personnels.existe)
   Analyse.rémunérations.dernier.exercice <- merge(Analyse.rémunérations.dernier.exercice, base.personnels.catégorie, by = clé.fusion, all = FALSE)
 }
 
-attach(Analyse.rémunérations.dernier.exercice, warn.conflicts = FALSE)
 
 ########### Analyse statique dernier exercice ########################
 
@@ -1262,12 +1272,13 @@ Tableau.vertical2(c("Agrégats",
 #'## 3.2 Fonctionnaires titulaires et stagiaires   
 #'
 
-filtre.fonctionnaire <- function (X) X[ (Statut == "TITULAIRE" | Statut == "STAGIAIRE") & X >0 ]
+filtre.fonctionnaire <- function (X) X[ !is.na(X) & X > minimum.positif ]
 
 AR <- Analyse.rémunérations.dernier.exercice[Statut == "TITULAIRE" | Statut == "STAGIAIRE", colonnes.sélectionnées, with=FALSE]
-
+attach(AR)
 source("histogrammes.R", encoding = "UTF-8")
 histogrammes()
+detach(AR)
 #'    
 #'**Nota :**   
 #'*EQTP = Equivalent temps plein = 12 . moyenne du ratio rémunération / quotité*   
@@ -1490,6 +1501,7 @@ if (fichier.personnels.existe)
 #'## 3.3 Contractuels, vacataires et stagiaires inclus   
 #'   
 
+attach(Analyse.rémunérations.dernier.exercice)
 temp <- rémunération.indemnitaire.imposable.eqtp[!is.na(rémunération.indemnitaire.imposable.eqtp) &
                                                   Statut != "ELU"
                                                   & Statut != "TITULAIRE"
@@ -1511,6 +1523,8 @@ if (length(temp > 0))
 #'
 
 temp <- positive(autres.rémunérations)
+
+detach(Analyse.rémunérations.dernier.exercice)
 
 if (length(temp))
   hist(temp,
@@ -1553,7 +1567,6 @@ Résumé(c("Total rémunérations",
 
 nom.base.analyse <- "Analyse.rémunérations.dernier.exercice"
 
-detach(Analyse.rémunérations.dernier.exercice)
 #'
 #'[Lien vers la base de données](Bases/Rémunérations/Analyse.rémunérations.csv) d'analyse des rémunérations
 #'
@@ -1607,6 +1620,17 @@ Tableau.vertical2(
 #'    
 #'## 4.1 Distribution de la rémunération nette moyenne sur la période    
 
+Analyse.variations.synthèse <- Analyse.variations.synthèse[ total.jours > 2 * seuil.troncature
+                                                            & pris.en.compte
+                                                            & ! is.na(statut)   
+                                                            & statut !=  "ELU"]
+
+Analyse.variations.par.exercice <- Analyse.variations.par.exercice[nb.jours > seuil.troncature
+                                                                   & pris.en.compte
+                                                                   & ! is.na(Statut)
+                                                                   & Statut !=  "ELU"] 
+
+
 attach(Analyse.variations.synthèse)
 
 temp <- positive(moyenne.rémunération.annuelle.sur.période) / 1000
@@ -1622,7 +1646,7 @@ if (longueur.non.na(temp) > 0)
 #'
 #+ fig.height=4.5
 
-temp <- na.omit(moyenne.rémunération.annuelle.sur.période[  moyenne.rémunération.annuelle.sur.période > 0
+temp <- na.omit(moyenne.rémunération.annuelle.sur.période[  moyenne.rémunération.annuelle.sur.période > minimum.positif
                                                             & (statut == "TITULAIRE"  | statut == "STAGIAIRE")] / 1000)
 
 if (longueur.non.na(temp) > 0)
@@ -1633,36 +1657,20 @@ if (longueur.non.na(temp) > 0)
        col = "blue",
        nclass = 200)
 
+detach(Analyse.variations.synthèse)
+
 #'
 #'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.csv)
 #'
 
 
-Analyse.variations.synthèse.filtrée <- Analyse.variations.synthèse[total.jours > seuil.troncature
-                                                                   & statut !=  "ELU",
-                                                                   .(Montant.net.annuel.eqtp.début,
-                                                                     Montant.net.annuel.eqtp.sortie,
-                                                                     moyenne.rémunération.annuelle.sur.période,
-                                                                     variation.rémunération,
-                                                                     variation.moyenne.rémunération,
-                                                                     variation.rémunération.normalisée,
-                                                                     variation.moyenne.rémunération.normalisée,
-                                                                     statut,
-                                                                     temps.complet,
-                                                                     permanent,
-                                                                     plus.2.ans,
-                                                                     clé.fusion)]
-
-Analyse.variations.synthèse.filtrée.plus.2.ans  <- Analyse.variations.synthèse.filtrée[plus.2.ans]
-Analyse.variations.synthèse.filtrée.moins.2.ans <- Analyse.variations.synthèse.filtrée[! plus.2.ans]
-
-detach(Analyse.variations.synthèse)
 #'
 #'## 4.2 Evolutions des rémunérations nettes sur la période `r début.période.sous.revue` - `r fin.période.sous.revue`   
 #'
-#'### 4.2.1 Ensemble des personnels fonctionnaires et non titulaires   
+#'### 4.2.1 Ensemble des personnels fonctionnaires et non titulaires (hors élus)
 #'
 #'
+
 
 masse.salariale.nette <- rep(0, durée.sous.revue)
 
@@ -1674,14 +1682,14 @@ f <- function(x) prettyNum(masse.salariale.nette[x - début.période.sous.revue + 
                            digits = 5,
                            format = "fg")
 
-g <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x, 
+g <- function(x) prettyNum(mean.default(Analyse.variations.par.exercice[Année == x, 
                                                                Montant.net.annuel.eqtp],
-                               na.rm = TRUE) / effectifs[[as.character(x)]]["ETPT"],
+                               na.rm = TRUE),
                            big.mark = " ",
                            digits = 1,
                            format = "fg")
 #'    
-#'**Salaire net moyen par tête (SMPT net) en EQTP**         
+#'**Salaire net moyen par tête (SMPT net) en EQTP, hors élus**         
 #'       
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
@@ -1695,7 +1703,7 @@ Tableau.vertical(c(étiquette.année, "Rém. nette totale (k&euro;)", "SMPT net (&e
 
 entrants <- function(x)   {
   
-  A <- setdiff(Analyse.variations.par.exercice[Année == x , Matricule], 
+  A <- setdiff(Analyse.variations.par.exercice[Année == x, Matricule], 
                Analyse.variations.par.exercice[Année == x -1, Matricule])
   
 
@@ -1710,7 +1718,7 @@ entrants <- function(x)   {
 
 sortants <- function(x)   {
   
-  A <- setdiff(Analyse.variations.par.exercice[Année == x-1 , Matricule], 
+  A <- setdiff(Analyse.variations.par.exercice[Année == x-1, Matricule], 
                Analyse.variations.par.exercice[Année == x, Matricule])
     
   B <- unique(Bulletins.paie[Année == x - 1
@@ -1733,13 +1741,13 @@ f <- function(x) {
   s[[y]] <<- sortants(x)
   e[[y]] <<- entrants(x)
   
-  noria[y] <<- sum(Analyse.variations.par.exercice[Année == x 
-                                                   & Matricule %chin% e[[y]][[1]], 
+  noria[y] <<- mean.default(Analyse.variations.par.exercice[Année == x 
+                                                            & Matricule %chin% e[[y]][[1]], 
                                                        Montant.net.annuel.eqtp],
-                    na.rm = TRUE) / e[[y]][[2]] - sum(Analyse.variations.par.exercice[Année == x- 1 
-                                                                                      & Matricule %chin% s[[y]][[1]], 
+                    na.rm = TRUE) - mean.default(Analyse.variations.par.exercice[Année == x- 1 
+                                                                                 & Matricule %chin% s[[y]][[1]], 
                                                                                           Montant.net.annuel.eqtp],
-                                                      na.rm = TRUE) / s[[y]][[2]]
+                                                 na.rm = TRUE)
   
   prettyNum(noria[y],
             big.mark = " ",
@@ -1791,9 +1799,9 @@ Tableau.vertical(c(étiquette.année,  "Noria EQTP (&euro;)", "En % de la MS N-1",
 Résumé(c("Première année",
          "Dernière année",
          "Moyenne sur la période <br>d'activité"),
-       Analyse.variations.synthèse.filtrée[ , .(Montant.net.annuel.eqtp.début,
-                                                Montant.net.annuel.eqtp.sortie,
-                                                moyenne.rémunération.annuelle.sur.période)])
+       Analyse.variations.synthèse[ , .(Montant.net.annuel.eqtp.début,
+                                        Montant.net.annuel.eqtp.sortie,
+                                        moyenne.rémunération.annuelle.sur.période)])
 
 
 #'  
@@ -1852,7 +1860,7 @@ Tableau.vertical2(c("Décile (k&euro;)", "Catégorie A", "Catégorie B", "Catégorie
 
 #'[Source INSEE, onglets Figure3, F1web et F3web](http://www.insee.fr/fr/ffc/ipweb/ip1486/ip1486.xls)   
 #'   
-#'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.filtrée.csv)
+#'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.csv)
 #'   
 
 #'### 4.2.2 Fonctionnaires
@@ -1872,12 +1880,13 @@ f <- function(x) {
                            format = "fg")
 }
 
-g <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x & (Statut == "TITULAIRE" | Statut == "STAGIAIRE"), 
-                                                               Montant.net.annuel.eqtp],
-                               na.rm = TRUE) / effectifs[[as.character(x)]]["ETPT_fonct"],
-                           big.mark = " ",
-                           digits = 1,
-                           format = "fg")
+g <- function(x) prettyNum(mean.default(Analyse.variations.par.exercice[Année == x 
+                                                                        & (Statut == "TITULAIRE" | Statut == "STAGIAIRE"), 
+                                                                         Montant.net.annuel.eqtp],
+                           na.rm = TRUE),
+                   big.mark = " ",
+                   digits = 1,
+                   format = "fg")
 
 #'    
 #'**Salaire net moyen par tête (SMPT net) en EQTP**         
@@ -1886,7 +1895,7 @@ g <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x & (Sta
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-Tableau.vertical(c(étiquette.année, "Rém. nette totale (k&euro;)", "Rém. nette par EQTP (&euro;)"),
+Tableau.vertical(c(étiquette.année, "Rém. nette totale (k&euro;)", "SMTP net en EQTP (&euro;)"),
                  période,
                  extra = "variation",
                  f,
@@ -1954,7 +1963,7 @@ Tableau.vertical(c(étiquette.année,  "Noria EQTP (&euro;)", "En % de la  MSN N-1
 Résumé(c("Première année",
          "Dernière année",
          "Moyenne sur la période <br>d'activité"),
-       Analyse.variations.synthèse.filtrée[statut == "TITULAIRE" | statut == "STAGIAIRE" ,
+       Analyse.variations.synthèse[(statut == "TITULAIRE" | statut == "STAGIAIRE"),
                                            .(Montant.net.annuel.eqtp.début,
                                              Montant.net.annuel.eqtp.sortie,
                                              moyenne.rémunération.annuelle.sur.période)])
@@ -1970,11 +1979,11 @@ f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x
                            digits = 5,
                            format = "fg")
 
-g <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x
+g <- function(x) prettyNum(mean.default(Analyse.variations.par.exercice[Année == x
                                                                & Statut == "TITULAIRE"
                                                                & temps.complet & permanent, 
                                                                Montant.net.annuel.eqtp],
-                               na.rm = TRUE) / effectifs[[as.character(x)]]["Tit_12_100"],
+                               na.rm = TRUE),
                            big.mark = " ",
                            digits = 1,
                            format = "fg")
@@ -2002,7 +2011,7 @@ Tableau.vertical(c(étiquette.année, "Rémunération nette totale (k&euro;)", "SMPT
 Résumé(c("Première année",
          "Dernière année",
          "Moyenne sur la période <br>d'activité"),
-       Analyse.variations.synthèse.filtrée[statut == "TITULAIRE" & temps.complet & permanent,
+       Analyse.variations.synthèse[statut == "TITULAIRE" & temps.complet & permanent,
                                            .(Montant.net.annuel.eqtp.début,
                                              Montant.net.annuel.eqtp.sortie,
                                              moyenne.rémunération.annuelle.sur.période)])
@@ -2010,7 +2019,7 @@ Résumé(c("Première année",
 #'   
 
 #'
-#'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.filtrée.csv)
+#'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.csv)
 #'
 
 #'
@@ -2019,14 +2028,40 @@ Résumé(c("Première année",
 #'*Cette section est consacrée à la rémunération moyenne des personnes en place (RMPP), définies comme présentes deux années consécutives avec la même quotité*   
 #'*L'évolution de la RMPP permet d'étudier le glissement viellesse-technicité "positif", à effectifs constants sur deux années*      
 #'*Le GVT positif est dû aux mesures statutaires et individuelles, à l'avancement et aux changements d'activité*  
-#'   
-if (nrow(Analyse.variations.synthèse.filtrée.plus.2.ans) > 0)
-  hist(Analyse.variations.synthèse.filtrée.plus.2.ans$variation.moyenne.rémunération,
+
+
+# Appliquer les filtres maintenant
+
+
+
+q3 <- quantile(Analyse.variations.synthèse$variation.rémunération, c(quantile.cut/100, 1 - quantile.cut/100), na.rm=TRUE)
+
+# Filtrage : on enlève les personnels présents depuis moins d'un seuil de troncature (ex. 120 jours) dans l'année et les élus
+# (paramètre seuil.troncature) 
+
+# Filtrage pour l'étude des variations : on enlève les valeurs manquantes des variations, les centiles extrêmaux,
+# les rémunérations nettes négatives ou proche de zéro. On exige un statut explicite en fin de période.
+# Paramétrable par :
+# minimum.positif, quantile.cut 
+
+
+Analyse.variations.synthèse <- Analyse.variations.synthèse[! is.na(variation.rémunération) 
+                                                           & variation.rémunération > q3[[1]]
+                                                           & variation.rémunération < q3[[2]]]
+
+Analyse.variations.synthèse.plus.2.ans  <- Analyse.variations.synthèse[! is.na(plus.2.ans) & plus.2.ans]
+Analyse.variations.synthèse.moins.2.ans <- Analyse.variations.synthèse[! is.na(plus.2.ans) & ! plus.2.ans]
+
+#Analyse.variations.par.exercice <- Analyse.variations.par.exercice[Nexercices > 1]
+
+
+if (nrow(Analyse.variations.synthèse.plus.2.ans) > 0)
+  hist(Analyse.variations.synthèse.plus.2.ans$variation.moyenne.rémunération,
        xlab ="Variation annuelle moyenne en %",
        las = 1,
        xlim = c(-5,30),
        ylab ="Effectifs",
-       main ="Rémunération nette des personnels en place",
+       main ="Rémunération nette des personnes en place",
        col ="blue",
        nclass=1000,
        xaxt = 'n')
@@ -2037,17 +2072,17 @@ try(axis(side=1, at=seq(-5,30, 1), labels=seq(-5,30,1), lwd=2))
 #'
 
 f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x
-                                                               & plus.2.ans,
+                                                               & est.rmpp,
                                                                Montant.net.annuel.eqtp],
                                na.rm = TRUE)/ 1000,
                            big.mark = " ",
                            digits = 5,
                            format = "fg")
 
-g <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x 
-                                                               & plus.2.ans,
+g <- function(x) prettyNum(mean.default(Analyse.variations.par.exercice[Année == x 
+                                                               & est.rmpp,
                                                                Montant.net.annuel.eqtp],
-                               na.rm = TRUE) / effectifs[[as.character(x)]]["ETPT_pp"],
+                               na.rm = TRUE) ,
                            big.mark = " ",
                            digits = 1,
                            format = "fg")
@@ -2061,37 +2096,41 @@ g <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x
 Tableau.vertical(c(étiquette.année,
                    "Rémunération nette totale (k&euro;)",
                    "RMPP nette (k&euro;)"),
-                 période,
+                 période[2:durée.sous.revue],
                  extra = "variation",
                  f,
                  g)
 
 #'    
-#'**Distribution et variation sur la période de la rémunération nette des personnes en place**         
-#'       
+#'**Distribution et variation sur la période de la rémunération nette des personnes en place**                
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
+# La légère différence de pérmètre entre Analyse.variations.synthèse et Analyse.variations.par.exercice tient au filtrage des quantiles
+# extrêmaux et des valeurs manquantes des variations
+
+masque.rmpp.fin.période    <- bitwShiftL(3, durée.sous.revue - 2)      #  11{0,1}...{0,1}
+masque.rmpp.début.période  <- 3                                        #  {0,1}...{0,1}11
+masque.présent.début.fin   <- bitwShiftL(1, durée.sous.revue - 1) + 1  #  10000..1
+masque.présent.sur.période <- bitwShiftL(1, durée.sous.revue) -1       #  11111..1
+
+#'  
 Résumé(c("Première année",
-         "Dernière année",
-         "Moyenne sur la période <br>d'activité",
          "Effectif"),
-       Analyse.variations.synthèse.filtrée.plus.2.ans[ ,1:3, with=FALSE],
+       Analyse.variations.synthèse[bitwAnd(indicatrice.période, masque.rmpp.début.période) == masque.rmpp.début.période, 
+                                           Montant.net.annuel.eqtp.début],
        extra = "length")
-
-#'  
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-Résumé(c("Variation sur la période <br>d'activité (%)",
-         "Variation annuelle moyenne (%)",
+Résumé(c("Dernière année",
          "Effectif"),
-       Analyse.variations.synthèse.filtrée.plus.2.ans[ ,4:5, with=FALSE],
-       extra = "length")
+        Analyse.variations.synthèse[indicatrice.période >= masque.rmpp.fin.période, Montant.net.annuel.eqtp.sortie],
+        extra = "length")
 #'
-#'
+#'*Personnels présents la première et la dernière année*   
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
@@ -2099,13 +2138,26 @@ Résumé(c("Variation sur la période <br>d'activité (%)",
 Résumé(c("Variation normalisée (%)",
          "Variation annuelle moyenne normalisée (%)",
          "Effectif"),
-       Analyse.variations.synthèse.filtrée.plus.2.ans[ , .(variation.rémunération.normalisée,
-                                                           variation.moyenne.rémunération.normalisée)],
+       Analyse.variations.synthèse[bitwAnd(indicatrice.période, masque.présent.début.fin) == masque.présent.début.fin, c("variation.rémunération.normalisée",
+                                                                                                                          "variation.moyenne.rémunération.normalisée"), with=FALSE],
+       extra = "length")
+
+#'
+#'*Personnels présents la première et la dernière année*   
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'  
+
+Résumé(c("Variation normalisée (%)",
+         "Variation annuelle moyenne normalisée (%)",
+         "Effectif"),
+       Analyse.variations.synthèse[indicatrice.période == masque.présent.sur.période, c("variation.rémunération.normalisée",
+                                                                                             "variation.moyenne.rémunération.normalisée"), with=FALSE],
        extra = "length")
 
 #'
 #'
-#'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.filtrée.plus.2.ans.csv)
+#'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.csv)
 #'
 #'**Nota**   
 #'*Personnes en place :* en fonction au moins 730 jours sur la période `r début.période.sous.revue` à `r fin.période.sous.revue`    
@@ -2119,8 +2171,8 @@ Résumé(c("Variation normalisée (%)",
 #'### 4.2.4 Personnels fonctionnaires et non titulaires en fonction moins de deux ans   
 #'
 
-if (nrow(na.omit(Analyse.variations.synthèse.filtrée.moins.2.ans)) > 0)
-  hist(Analyse.variations.synthèse.filtrée.moins.2.ans$variation.moyenne.rémunération,
+if (nrow(na.omit(Analyse.variations.synthèse.moins.2.ans)) > 0)
+  hist(Analyse.variations.synthèse.moins.2.ans$variation.moyenne.rémunération,
        xlab ="Variation annuelle moyenne en %",
        xlim = c(-10,30),
        las = 1,
@@ -2166,14 +2218,14 @@ Résumé(c("Première année",
          "Dernière année",
          "Moyenne sur la période <br>d'activité",
          "Effectif"),
-       Analyse.variations.synthèse.filtrée.moins.2.ans[ , 1:3, with=FALSE],
+       Analyse.variations.synthèse.moins.2.ans[ , 1:3, with=FALSE],
        extra = "length")
 
 
 #'
 ########### Tests statutaires ########################
 #'
-#'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.filtrée.moins.2.ans.csv)
+#'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse)
 #'
 #'**Nota :** Au 4.2 seuls sont pris en compte les personnels en fonction au moins 100 jours la première et la dernière année
 #'Ne sont pas pris en compte les élus, stagiaires et apprentis ou assimilés.
@@ -2234,7 +2286,6 @@ Tableau.vertical2(c("Type de collectivité", "Salaires nets annuels 2011 (&euro;)
 #'## 5.1 Contrôle des heures supplémentaires, des NBI et primes informatiques   
 #'   
 
-attach(Paie, warn.conflicts = FALSE)
 
 if (N <- length(unique(Paie[Statut != "TITULAIRE"
                                         & Statut != "STAGIAIRE"
@@ -2263,6 +2314,7 @@ nombre.Lignes.paie.NBI.nontit <- nrow(NBI.aux.non.titulaires)
 
 # variante : filtre <- regexpr(".*(INFO|PFI|P.F.I).*", toupper(Paie$Libellé)) et regmatches(Paie$Libellé, filtre)
 
+attach(Paie)
 filtre <- grep(".*(INFO|PFI|P.F.I).*", Libellé)
 
 personnels.prime.informatique <- Paie[ filtre,
@@ -2281,6 +2333,7 @@ if  (length(primes.informatiques.potentielles) == 0)
 
 nombre.personnels.pfi <- nrow(personnels.prime.informatique)
 
+detach(Paie)
 #'Primes informatiques potentielles : `r primes.informatiques.potentielles`
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
@@ -2577,7 +2630,7 @@ Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"), no
 #'
 
 
-rémunérations.élu <- Analyse.rémunérations[ indemnités.élu > 0,
+rémunérations.élu <- Analyse.rémunérations[ indemnités.élu > minimum.positif,
                                             c(clé.fusion,
                                               "Année",
                                               "Emploi",
@@ -2645,7 +2698,6 @@ if (générer.table.effectifs)
   kable(matricules, row.names = FALSE)
 #'
 
-detach(Paie)
 
 # ------------------------------------------------------------------------------------------------------------------
 #  Sauvegardes : enlever les commentaires en mode opérationnel
@@ -2657,9 +2709,6 @@ if (sauvegarder.bases.analyse) {
              "Analyse.rémunérations",
              "Analyse.variations.synthèse",
              "Analyse.variations.par.exercice",
-             "Analyse.variations.synthèse.filtrée",
-             "Analyse.variations.synthèse.filtrée.plus.2.ans",
-             "Analyse.variations.synthèse.filtrée.moins.2.ans",
              "masses.premier.personnels",
              "masses.premier.élus",
              "masses.dernier.personnels",
