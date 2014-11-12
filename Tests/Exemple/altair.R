@@ -260,12 +260,14 @@ Bulletins.paie <- unique(Paie[ , .(Matricule, Nom, Année, Mois, Temps.de.travail
 
 Bulletins.paie <- Bulletins.paie[ ,   quotité   := ifelse(etp.égale.effectif | is.na(Temps.de.travail), 1,  Temps.de.travail / 100)]
 
+
 Bulletins.paie <- Bulletins.paie[ ,   `:=`(Montant.net.eqtp  = ifelse(is.finite(a<-Net.à.Payer/quotité), a,  NA),
                                            Montant.brut.eqtp = ifelse(is.finite(a<-Brut/quotité), a,  NA))]
     
 Bulletins.paie <- Bulletins.paie[ ,   `:=`(Statut.sortie   = Statut[length(Net.à.Payer)],
                                            nb.jours        = calcul.nb.jours.mois(Mois, Année[1]),
-                                           nb.mois         = length(Mois)),
+                                           nb.mois         = length(Mois),
+                                           quotité.moyenne = round(mean.default(quotité, na.rm = TRUE), digits = 1)),
                                       key=c("Matricule", "Année")]
 
 Bulletins.paie <- Bulletins.paie[ ,   `:=`(Montant.brut.annuel      = sum(Brut, na.rm=TRUE),
@@ -273,6 +275,19 @@ Bulletins.paie <- Bulletins.paie[ ,   `:=`(Montant.brut.annuel      = sum(Brut, 
                                          Montant.net.annuel.eqtp  = sum(Montant.net.eqtp * 365 / nb.jours, na.rm=TRUE),
                                          permanent                = nb.jours >= 365),
                                       key=c("Matricule", "Année")]
+
+Bulletins.paie.réduit <- unique(Bulletins.paie[ , .(Matricule, Année, quotité.moyenne)], by = NULL)
+
+Bulletins.paie.réduit <- Bulletins.paie.réduit[ , nb.années := length(Année), by="Matricule"]
+
+indicatrice.quotité <- function(matricule, année)  Bulletins.paie.réduit[Matricule == matricule & Année == année, quotité.moyenne][1] ==  Bulletins.paie[Matricule == matricule & (Année == année - 1), quotité.moyenne][1]
+                                                  
+
+Bulletins.paie <- merge(Bulletins.paie, cbind(Bulletins.paie.réduit[, .(Matricule, Année, nb.années)], vind = mapply(indicatrice.quotité,
+                                               Bulletins.paie.réduit[ , Matricule], 
+                                               Bulletins.paie.réduit[ , Année],
+                                               USE.NAMES = FALSE)),
+                        by = c("Matricule", "Année"))
 
 Paie <- merge(unique(Bulletins.paie[ , c("Matricule", 
                                   "Année",
@@ -286,6 +301,9 @@ Paie <- merge(unique(Bulletins.paie[ , c("Matricule",
                                   "Statut.sortie",
                                   "nb.jours",
                                   "nb.mois",
+                                  "nb.années",
+                                  "quotité.moyenne",
+                                  "vind",
                                   "permanent"), with=FALSE], by=NULL),
               Paie, 
               by=c("Année", "Mois", "Matricule"))
@@ -323,6 +341,7 @@ message("Bulletins de Paie retraités")
                                      Statut       = Statut[1],
                                      nb.jours     = nb.jours[1],
                                      permanent    = permanent[1],
+                                     ind.quotité  = vind[1],
                                      Emploi       = Emploi[1],
                                      temps.complet = all(quotité == 1),
                                      Service      = Service[1],
@@ -331,9 +350,10 @@ message("Bulletins de Paie retraités")
                                      indemnité.résidence = sum(Montant[Type == "IR"], na.rm = TRUE),
                                      indemnités   = sum(Montant[Type == "I"], na.rm = TRUE),
                                      rémunérations.diverses = sum(Montant[Type == "A"], na.rm = TRUE),
-                                     autres.rémunérations = sum(Montant[Type == "AC" | Type == "A" | Type == "AV"], na.rm = TRUE),
+                                     autres.rémunérations   = sum(Montant[Type == "AC" | Type == "A" | Type == "AV"], na.rm = TRUE),
                                      rémunération.vacataire = sum(Montant[Type == "VAC"], na.rm = TRUE)),
                                 by = c(clé.fusion, étiquette.année)]
+
 
 Analyse.rémunérations <- Analyse.rémunérations[ , rémunération.indemnitaire.imposable := indemnités + sft + indemnité.résidence + rémunérations.diverses]
                                                  #Montant.brut.annuel - sft - indemnité.résidence - traitement.indiciaire
@@ -365,6 +385,7 @@ Analyse.variations.par.exercice <- Analyse.rémunérations[ , c(clé.fusion, étique
                                                               "Statut",
                                                               "nb.jours",
                                                               "temps.complet",
+                                                              "ind.quotité",
                                                               "permanent"), with=FALSE]
 
 Analyse.variations.par.exercice <- Analyse.variations.par.exercice[ , indicatrice.année := bitwShiftL(1, Année - début.période.sous.revue) ]
@@ -423,6 +444,8 @@ Analyse.variations.par.exercice <- merge(Analyse.variations.par.exercice, temp2,
 rm(temp2)
 
 Analyse.variations.par.exercice <- Analyse.variations.par.exercice[ , est.rmpp :=  Année != début.période.sous.revue  
+                                                                                   & ! is.na(ind.quotité)
+                                                                                   &  ind.quotité == TRUE
                                                                                    & bitwAnd(bitwShiftL(1, Année - 1 - début.période.sous.revue),
                                                                                              indicatrice.période) != 0]
 
@@ -694,11 +717,9 @@ kable(tableau.effectifs.var, row.names = TRUE, align='c')
 
 #'
 #'**Nota :**
-#'Personnels en place : ayant servi au moins 730 jours pendant la période.
-#'Dans les statistiques de cette section, les élus ne sont pas pris en compte.
+#'*Personnels en place : ayant servi au moins deux années consécutives pendant la période.*     
+#'*Plus/moins de deux ans : plus/mois de 730 jours sur la période sous revue.*   
 #'
-
-# on ne compte pas les élus dans le total (voir 5.6)
 
 année <- début.période.sous.revue
 
@@ -762,7 +783,7 @@ Tableau.vertical2(c("Agrégats",
                     "k&euro;"),
                   c("Brut annuel (bulletins)",
                     "Brut annuel (lignes), dont :",
-                    "\\ \\ Indemnités imposables :",
+                    "\\ \\ Primes :",
                     "\\ \\ Autres rémunérations",
                     "Part de primes en %"),
                   c(masses.premier.personnels["Montant.brut.annuel"],
@@ -782,7 +803,7 @@ Tableau.vertical2(c("Agrégats",
                     "k&euro;"),
                   c("Brut annuel (bulletins)",
                     "Brut annuel (lignes), dont :",
-                    "\\ \\ Indemnités imposables :",
+                    "\\ \\ Primes :",
                     "\\ \\ Autres rémunérations"),
                   c(masses.premier.élus["Montant.brut.annuel"],
                     masses.premier.élus["total.lignes.paie"],
@@ -794,8 +815,8 @@ Tableau.vertical2(c("Agrégats",
 #'
 #'  *Brut annuel (bulletins)*   : somme du champ *Brut*    
 #'  *Brut annuel (lignes)*      : somme du champ *Montant* des lignes de paye, dont :    
-#'  *Indemnités imposables*     : indemnités sauf remboursements, certaines IJSS, indemnités d'élu      
-#'  *Indemnités d'élu*         : toutes rémunérations indemnitaires des élus    
+#'  *Primes*                    : indemnités sauf remboursements, certaines IJSS, indemnités d'élu le cas échéant, Supplément familial de traitement et Indemnité de résidence        
+#'  *Indemnités d'élu*          : toutes rémunérations indemnitaires des élus    
 #'  *Autres rémunérations*      : acomptes, retenues sur brut, rémunérations diverses, rappels   
 #'  
 
@@ -875,7 +896,7 @@ Tableau.vertical2(c("Agrégats",
                     "k&euro;"),
                   c("Brut annuel (bulletins)",
                     "Brut annuel (lignes), dont :",
-                    "\\ \\ Indemnités imposables :",
+                    "\\ \\ Primes :",
                     "\\ \\ Autres rémunérations",
                     "Part de primes en %"),
                   c(masses.premier["Montant.brut.annuel"],
@@ -889,7 +910,7 @@ Tableau.vertical2(c("Agrégats",
 #'
 #'  *Brut annuel (bulletins)*   : somme du champ *Brut*   
 #'  *Brut annuel (lignes)*      : somme du champ *Montant* des lignes de paye, dont :   
-#'  *Indemnités imposables*     : champ *Brut* moins le SFT, le traitement indiciaire et l'indemnité de résidence 
+#'  *Primes*                    : indemnités sauf remboursements, certaines IJSS, indemnités d'élu le cas échéant, Supplément familial de traitement et Indemnité de résidence        
 #'  *Indemnités d'élus*         : toutes rémunérations indemnitaires des élus    
 #'  *Autres rémunérations*      : acomptes, retenues sur brut, rémunérations diverses, rappels   
 #'
@@ -923,7 +944,7 @@ Tableau.vertical2(c("Agrégats",
 #'    
 
 Résumé(c("Traitement indiciaire",
-         "Indemnités imposables",
+         "Primes",
          "Autres rémunérations",
          "Effectif"),
        AR[ , .(traitement.indiciaire,
@@ -960,7 +981,7 @@ if (fichier.personnels.existe) {
   #'    
   
   Résumé(c("Traitement indiciaire",
-           "Indemnités imposables",
+           "Primes",
            "Autres rémunérations"),
          ARA[ , .(traitement.indiciaire,
                   rémunération.indemnitaire.imposable,
@@ -996,7 +1017,7 @@ if (fichier.personnels.existe) {
   #'    
   
   Résumé(c("Traitement indiciaire",
-           "Indemnités imposables",
+           "Primes",
            "Autres rémunérations"),
          ARB[ , .(traitement.indiciaire,
                   rémunération.indemnitaire.imposable,
@@ -1033,7 +1054,7 @@ if (fichier.personnels.existe) {
   #'    
   
   Résumé(c("Traitement indiciaire",
-           "Indemnités imposables",
+           "Primes",
            "Autres rémunérations"),
          ARC[ , .(traitement.indiciaire,
                   rémunération.indemnitaire.imposable,
@@ -1112,7 +1133,7 @@ AR <- Analyse.rémunérations.premier.exercice[Statut != "ELU"
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-Résumé(c("Indemnités imposables",
+Résumé(c("Primes",
          "Autres rémunérations",
          "Effectif"),
        AR[ , .(rémunération.indemnitaire.imposable,
@@ -1183,7 +1204,7 @@ Tableau.vertical2(c("Agrégats",
                     "k&euro;"),
                   c("Brut annuel (bulletins)",
                     "Brut annuel (lignes), dont :",
-                    "\\ \\ Indemnités imposables :",
+                    "\\ \\ Primes :",
                     "\\ \\ Autres rémunérations",
                     "Part de primes en %"),
                   c(masses.dernier.personnels["Montant.brut.annuel"],
@@ -1203,7 +1224,7 @@ Tableau.vertical2(c("Agrégats",
                     "k&euro;"),
                   c("Brut annuel (bulletins)",
                     "Brut annuel (lignes), dont :",
-                    "\\ \\ Indemnités imposables :",
+                    "\\ \\ Primes :",
                     "\\ \\ Autres rémunérations"),
                   c(masses.dernier.élus["Montant.brut.annuel"],
                     masses.dernier.élus["total.lignes.paie"],
@@ -1215,7 +1236,7 @@ Tableau.vertical2(c("Agrégats",
 #'
 #'  *Brut annuel (bulletins)*   : somme du champ *Brut*    
 #'  *Brut annuel (lignes)*      : somme du champ *Montant* des lignes de paye, dont :    
-#'  *Indemnités imposables*     : indemnités sauf remboursements, certaines IJSS, indemnités d'élu      
+#'  *Primes*                    : indemnités sauf remboursements, certaines IJSS, indemnités d'élu le cas échéant, Supplément familial de traitement et Indemnité de résidence        
 #'  *Indemnités d'élu*         : toutes rémunérations indemnitaires des élus    
 #'  *Autres rémunérations*      : acomptes, retenues sur brut, rémunérations diverses, rappels   
 #'  
@@ -1297,7 +1318,7 @@ Tableau.vertical2(c("Agrégats",
                     "k&euro;"),
                   c("Brut annuel (bulletins)",
                     "Brut annuel (lignes), dont :",
-                    "\\ \\ Indemnités imposables :",
+                    "\\ \\ Primes :",
                     "\\ \\ Autres rémunérations",
                     "Part de primes en %"),
                   c(masses.dernier["Montant.brut.annuel"],
@@ -1311,7 +1332,7 @@ Tableau.vertical2(c("Agrégats",
 #'
 #'  *Brut annuel (bulletins)*   : somme du champ *Brut*   
 #'  *Brut annuel (lignes)*      : somme du champ *Montant* des lignes de paye, dont :   
-#'  *Indemnités imposables*     : champ *Brut* moins le SFT, le traitement indiciaire et l'indemnité de résidence 
+#'  *Primes*                    : indemnités sauf remboursements, certaines IJSS, indemnités d'élu le cas échéant, Supplément familial de traitement et Indemnité de résidence        
 #'  *Indemnités d'élus*         : toutes rémunérations indemnitaires des élus    
 #'  *Autres rémunérations*      : acomptes, retenues sur brut, rémunérations diverses, rappels   
 #'
@@ -1345,7 +1366,7 @@ Tableau.vertical2(c("Agrégats",
 #'    
 
 Résumé(c("Traitement indiciaire",
-         "Indemnités imposables",
+         "Primes",
          "Autres rémunérations",
          "Effectif"),
        AR[ , .(traitement.indiciaire,
@@ -1385,7 +1406,7 @@ if (fichier.personnels.existe)
   #'    
   
   Résumé(c("Traitement indiciaire",
-           "Indemnités imposables",
+           "Primes",
            "Autres rémunérations"),
          ARA[ , .(traitement.indiciaire,
                   rémunération.indemnitaire.imposable,
@@ -1423,7 +1444,7 @@ if (fichier.personnels.existe)
   #'    
   
   Résumé(c("Traitement indiciaire",
-           "Indemnités imposables",
+           "Primes",
            "Autres rémunérations"),
          ARB[ , .(traitement.indiciaire,
                   rémunération.indemnitaire.imposable,
@@ -1462,7 +1483,7 @@ if (fichier.personnels.existe)
   #'    
   
   Résumé(c("Traitement indiciaire",
-           "Indemnités imposables",
+           "Primes",
            "Autres rémunérations"),
          ARC[ , .(traitement.indiciaire,
                   rémunération.indemnitaire.imposable,
@@ -1539,7 +1560,7 @@ AR <- Analyse.rémunérations.dernier.exercice[Statut != "ELU"
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-Résumé(c("Indemnités imposables",
+Résumé(c("Primes",
          "Autres rémunérations",
          "Effectif"),
        AR[ , .(rémunération.indemnitaire.imposable,
@@ -2151,7 +2172,7 @@ Résumé(c("Variation normalisée (%)",
 #'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.csv)
 #'
 #'**Nota**   
-#'*Personnes en place :* en fonction au moins 730 jours sur la période `r début.période.sous.revue` à `r fin.période.sous.revue`    
+#'*Personnes en place :* en fonction au moins deux années consécutives sur la période `r début.période.sous.revue` à `r fin.période.sous.revue`    
 #'*Variation sur la période d'activité :* entre l'arrivée et le départ de la personne      
 #'*Variation normalisée :* conforme à la définition INSEE (présente en début et en fin de période avec la même quotité)  
 #'  
