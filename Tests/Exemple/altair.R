@@ -2501,12 +2501,15 @@ if (exists("nombre.contractuels.et.vacations")) {
 #IAT et IFTS
 
 ifts.logical <- grepl(expression.rég.ifts, Paie$Libellé, ignore.case=TRUE)
-codes.ifts  <- unique(Paie[ifts.logical, étiquette.code, with=FALSE], by=NULL)
-personnels.iat.ifts <- intersect(Paie[grepl(expression.rég.iat, Libellé, ignore.case=TRUE), clé.fusion[1], with=FALSE][[1]],
-                                 Paie[ifts.logical, clé.fusion[1], with=FALSE][[1]])
+iat.logical  <- grepl(expression.rég.iat, Paie$Libellé, ignore.case=TRUE)
+codes.ifts  <- unique(Paie[ifts.logical, Code], by=NULL)
+personnels.iat.ifts <- intersect(Paie[iat.logical, Matricule],
+                                 Paie[ifts.logical, Matricule])
 if (length(personnels.iat.ifts))  names(personnels.iat.ifts) <- "Matricules des agents percevant IAT et/ou IFTS sur la période"
 
 nombre.personnels.iat.ifts <- length(personnels.iat.ifts)
+base.iat.ifts <- Paie[Matricule %chin% personnels.iat.ifts & (ifts.logical | iat.logical)]
+base.iat.ifts <- base.iat.ifts[order(Matricule, Année, Mois)]
 
 #'
 #'  
@@ -2520,13 +2523,13 @@ Tableau(c("Codes IFTS", "Nombre de personnels percevant IAT et IFTS"),
 
 #'
 #'[Codes IFTS retenus](Bases/Réglementation/codes.ifts.csv)
-#'[Lien vers la base de données](Bases/Réglementation/personnels.iat.ifts.csv)
+#'[Lien vers la base de données](Bases/Réglementation/base.iat.ifts.csv)
 #'
 #'### Contrôle sur les IFTS pour catégories B et contractuels
 
 #IFTS et IB >= 380 (IM >= 350)
 
-lignes.ifts.anormales <- na.omit(Paie[as.integer(Indice) < 350  & Code %chin% codes.ifts[[1]],
+lignes.ifts.anormales <- na.omit(Paie[as.integer(Indice) < 350   & ifts.logical == TRUE,
                                       c(clé.fusion,
                                         étiquette.année,
                                         "Mois",
@@ -2543,7 +2546,7 @@ nombre.lignes.ifts.anormales <- nrow(lignes.ifts.anormales)
 
 ifts.et.contractuel <- Paie[ Statut != "TITULAIRE"
                              & Statut != "STAGIAIRE"
-                             & Code %chin% codes.ifts[[1]],
+                             & ifts.logical,
                              c(étiquette.matricule,
                                étiquette.année,
                                "Mois",
@@ -2756,6 +2759,7 @@ if (sauvegarder.bases.analyse) {
              "tableau.effectifs")
 
   sauv.bases(file.path(chemin.dossier.bases, "Réglementation"),
+             "base.iat.ifts",
              "codes.ifts",
              "HS.sup.25",
              "ifts.et.contractuel",
