@@ -165,8 +165,8 @@ modalité.autres                <- "AUTRES"         # notamment les remboursement
 
 
 expression.rég.heures.sup <- ".*(I.?H.?T|H.?[SC]|\\bI[[:alpha:]]*.?.*\\bH[[:alpha:]]*.?\\b.*T[[:alpha:]]*.?.*|\\bH[[:alpha:]]*.?\\b.*[SC][[:alpha:]]*.?\\b).*"
-expression.rég.iat        <- ".*(\\b[Ii].?[Aa].?[Tt]\\b|\\b[Ii][[:alpha:]]*.?\\b.*\\b[Aa][Dd][[:alpha:]]*.?\\b.*[Tt][Ee][Cc][[:alpha:]]*.?\\b).*"
-expression.rég.ifts       <- ".*(\\b[Ii].?[Ff].?[Tt].?[Ss]\\b|\\b[Ii][[:alpha:]]*.?\\b.*\\b[Ff][[:alpha:]]*.?\\b.*\\b[Tt][Rr][Aa][Vv][[:alpha:]]*.?\\b.*\\b[Ss][[:alpha:]]*.?\\b).*"
+expression.rég.iat        <- ".*(\\bi.?a.?t\\b|\\bi[[:alpha:]]*.?\\b.*\\ba[d][[:alpha:]]*.?\\b.*tec[[:alpha:]]*.?\\b).*"
+expression.rég.ifts       <- ".*(\\bi.?f.?t.?s\\b|\\bi[[:alpha:]]*.?\\b.*\\bf[[:alpha:]]*.?\\b.*\\btrav[[:alpha:]]*.?\\b.*\\bs[[:alpha:]]*.?\\b).*"
 expression.rég.population <- ".*\\bASS(\\b|A).*"
 expression.rég.élus       <- "maire|pr[eé]sident|.*([eé]lu[s]?|adj.*maire|v.*pr[eé]sident|cons.*muni|cons.*commun).*"
 
