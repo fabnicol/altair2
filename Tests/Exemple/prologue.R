@@ -33,7 +33,7 @@ paralléliser         <- TRUE
 extraire.population  <- FALSE
 fusionner.nom.prénom <- FALSE
 charger.bases        <- T
-sauvegarder.bases.analyse    <- F
+sauvegarder.bases.analyse    <- T
 sauvegarder.bases.origine    <- F
 générer.table.effectifs      <- F
 générer.table.élus           <- T
