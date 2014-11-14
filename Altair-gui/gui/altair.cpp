@@ -496,9 +496,9 @@ if (flag & 0x01) result=QFile(fileTreeFile).remove();
 else if(flag & 0x0100)
 {
     QDir d = QDir(fileTreeFile);
-    if (!d.exists()) outputTextEdit->append("NE");
-    result = d.removeRecursively();
-    outputTextEdit->append("IS DIR");
+    if (d.exists())
+       result = d.removeRecursively();
+
 }
 
 return result;
@@ -710,7 +710,7 @@ qint64 FProgressBar::updateProgressBar()
       {
           share=100;
       }
-      bar->setValue(share);
+      bar->setValue((share >= startshift)? share: startshift);
       if ( share == 100) stop();
       return new_value;
 }
@@ -742,6 +742,7 @@ FProgressBar::FProgressBar(Altair* parent,
     this->parent=parent;
     stage_2=false;
 
+
     connect(timer,
                    &QTimer::timeout,
                    [this, displayMessageWhileProcessing] { if (stage_2) (this->parent->*displayMessageWhileProcessing)(updateProgressBar()); });
@@ -749,8 +750,11 @@ FProgressBar::FProgressBar(Altair* parent,
     connect(timer,
                    &QTimer::timeout,
                    [this] {
-                            if (!stage_2)  
-                                bar->setValue(this->parent->fileRank * Hash::wrapper["processType"]->toInt());
+                               if (!stage_2)
+                               {
+                                 int value = this->parent->fileRank * Hash::wrapper["processType"]->toInt();
+                                 bar->setValue((value >= startshift)? value: startshift);
+                               }
                           });
     
     connect(killButton, &QToolButton::clicked, parent, killFunction);

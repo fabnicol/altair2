@@ -46,7 +46,7 @@ int main(int argc, char **argv)
 
     if (argc < 2)
     {
-        fprintf(stderr, "%s\n", "Il faut au moins un fichier à analyser.");
+        fprintf(stderr, "%s\n", "Erreur : Il faut au moins un fichier à analyser.");
         return -2;
     }
 
@@ -154,7 +154,7 @@ int main(int argc, char **argv)
         {
            if (start + 1 == argc)
             {
-                fprintf(stderr, "%s\n", "Option -T suivi d'un argument obligatoire (nombre de lignes).");
+                fprintf(stderr, "%s\n", "Erreur : Option -T suivi d'un argument obligatoire (nombre de lignes).");
                 exit(-100);
             }
 
@@ -225,7 +225,7 @@ int main(int argc, char **argv)
             else
             if ((info.taille_base = lire_argument(argc, argv[start +1])) < 0 || info.taille_base > INT32_MAX -1)
             {
-                    perror("Le nombre de lignes doit être compris entre 0 et INT64_MAX");
+                    perror("Erreur : Le nombre de lignes doit être compris entre 0 et INT64_MAX");
                     exit(-908);
             }
             start += 2;
@@ -235,7 +235,7 @@ int main(int argc, char **argv)
         {
             if (start + 1 == argc)
             {
-                fprintf(stderr, "%s\n", "Option -s suivi d'un argument obligatoire (séparateur de champs).");
+                fprintf(stderr, "%s\n", "Erreur : Option -s suivi d'un argument obligatoire (séparateur de champs).");
                 exit(-100);
             }
             info.separateur = argv[start + 1][0];
@@ -247,7 +247,7 @@ int main(int argc, char **argv)
         {
             if (start + 1 == argc)
             {
-                fprintf(stderr, "%s\n", "Option -g suivi d'un argument obligatoire.");
+                fprintf(stderr, "%s\n", "Erreur : Option -g suivi d'un argument obligatoire.");
                 exit(-100);
             }
 
@@ -258,7 +258,7 @@ int main(int argc, char **argv)
         {
             if (start + 1 == argc)
             {
-                fprintf(stderr, "%s\n", "Option -d suivi d'un argument obligatoire (séparateur décimal).");
+                fprintf(stderr, "%s\n", "Erreur : Option -d suivi d'un argument obligatoire (séparateur décimal).");
                 exit(-100);
             }
             info.decimal = argv[start + 1][0];
@@ -269,16 +269,19 @@ int main(int argc, char **argv)
         {
             if (start + 1 == argc)
             {
-                fprintf(stderr, "%s\n", "Option -o suivi d'un argument obligatoire (nom de  fichier).");
+                fprintf(stderr, "%s\n", "Erreur : Option -o suivi d'un argument obligatoire (nom de  fichier).");
                 exit(-100);
             }
-            free(info.chemin_base);
+
             strncpy(info.chemin_base, argv[start + 1], 500*sizeof(char));
-            if (NULL == fopen(info.chemin_base, "w"))
+            FILE* base;
+            if (base == fopen(info.chemin_base, "w"))
             {
-                perror("La base de données ne peut être créée, vérifier l'existence du dossier.");
+                perror("Erreur : La base de données ne peut être créée, vérifier l'existence du dossier.");
                 exit(-113);
             }
+            fclose(base);
+            unlink(info.chemin_base);
             start += 2;
             continue;
         }
@@ -300,7 +303,7 @@ int main(int argc, char **argv)
             FILE* base;
             if (NULL == (base = fopen(info.chemin_base, "w")))
             {
-                fprintf(stderr, "La base de données %s ne peut être créée, vérifier l'existence du dossier.\n", info.chemin_base);
+                fprintf(stderr, "Erreur : La base de données %s ne peut être créée, vérifier l'existence du dossier.\n", info.chemin_base);
 
                 exit(-113);
             }
@@ -320,7 +323,7 @@ int main(int argc, char **argv)
             {
                 if (info.nbfil > 10 || info.nbfil < 1)
                 {
-                    perror("Le nombre de fils d'exécution doit être compris entre 2 et 10.");
+                    perror("Erreur : Le nombre de fils d'exécution doit être compris entre 2 et 10.");
                     exit(-111);
                 }
 
@@ -333,7 +336,7 @@ int main(int argc, char **argv)
             if (argc > start +2) info.chemin_log = strdup(argv[start + 1]);
             if (NULL == fopen(info.chemin_log, "w"))
             {
-                perror("Le log ne peut être créé, vérifier l'existence du dossier.");
+                perror("Erreur : Le log ne peut être créé, vérifier l'existence du dossier.");
                 exit(-114);
             }
             start += 2;
@@ -358,7 +361,7 @@ int main(int argc, char **argv)
             }
             else
             {
-                perror("Il manque l'expression régulière.");
+                perror("Erreur : Il manque l'expression régulière.");
                 exit(-115);
             }
             start += 2;
@@ -366,7 +369,7 @@ int main(int argc, char **argv)
         }
         else if (argv[start][0] == '-')
         {
-            fprintf(stderr, "Option inconnue %s\n", argv[start]);
+            fprintf(stderr, "Erreur : Option inconnue %s\n", argv[start]);
             exit(-100);
         }
         else break;
@@ -399,7 +402,7 @@ int main(int argc, char **argv)
 
         if (info.reduire_consommation_memoire && info.NCumAgent != info.NCumAgentXml)
         {
-            fprintf(stderr, "%s\n", "Incohérence des cumuls de nombre d'agents");
+            fprintf(stderr, "%s\n", "Erreur : Incohérence des cumuls de nombre d'agents");
             exit(-123);
         }
         else
@@ -414,7 +417,7 @@ int main(int argc, char **argv)
         int nbfichier_par_fil = floor((argc - start) / info.nbfil);
         if (nbfichier_par_fil == 0)
         {
-            fprintf(stderr, "%s\n", "Trop de fils pour le nombre de fichiers ; exécution avec -j 2");
+            fprintf(stderr, "%s\n", "Erreur : Trop de fils pour le nombre de fichiers ; exécution avec -j 2");
             info.nbfil = 2;
         }
 
@@ -424,10 +427,10 @@ int main(int argc, char **argv)
 
         // Allocation dynamique nécessaire (à expliquer)
 
-        Info = (info_t* ) malloc(info.nbfil*sizeof(info_t));
+        Info = (info_t* ) calloc(info.nbfil, sizeof(info_t));
         if (Info == NULL)
         {
-            perror("Allocation de info");
+            perror("Erreur : Allocation de info");
             exit(-144);
         }
 
@@ -474,7 +477,7 @@ int main(int argc, char **argv)
             Info[i].threads->argv = (char**) malloc(nbfichier_par_fil * sizeof(char*));
             if (Info[i].threads->argv == NULL)
             {
-                perror("Allocation de threads");
+                perror("Erreur : Allocation de threads");
                 exit(-145);
             }
 
@@ -561,9 +564,7 @@ int main(int argc, char **argv)
     {
         for (unsigned agent = 0; agent < Info[i].NCumAgent; agent++)
         {
-            int utilisation_memoire = ((Info[i].reduire_consommation_memoire)?
-                                         Info[i].minimum_memoire_p_ligne + nbType + Info[i].NLigne[agent]*6
-                                       : Info[i].minimum_memoire_p_ligne + nbType + Info[i].nbLigneUtilisateur*6);
+            int utilisation_memoire =  Info[i].minimum_memoire_p_ligne + nbType + Info[i].NLigne[agent]*6;
 
             for (int j = 0; j < utilisation_memoire; j++)
                 if (Info[i].Table[agent][j])

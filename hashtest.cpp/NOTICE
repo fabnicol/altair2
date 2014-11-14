@@ -355,7 +355,7 @@ La rémunération brute doit être :
       être traitée en intégrant l'indemnité d'élu à la liste d'exclusions.
 
 
- Les indemnités d'élus sont non imposables, au delà d'un seuil d'exonération ()1466 € net en 2012)
+ Les indemnités d'élus sont non imposables, au delà d'un seuil d'exonération (1466 € net en 2012)
  lorsqu'un prélèvement à la source est effectué(article 204-0 bis du code général des impôts).
  Mais elles sont soumises à cotisations sociales.
  Elle doivent donc faire partie du calcul du Montant Brut (mais pas du montant imposable).
@@ -375,7 +375,7 @@ La rémunération brute doit être :
  Les performances suivantes ont été calculées à partir de la version du 25 octobre 2014 sur un processeur Intel x86 32 bit
  Core2 Quad Q9550 2.86 Ghz, doté de 6 Go de RAM sous GNU/Linux Kubuntu 14.04
 
- Pour 1 million de lignes de paie, les résultats sont donnés sous la forme (sans exportation de la base / avec exportation).
+ Pour 1 million de lignes de paie, les résultats sont donnés en secondes sous la forme (sans exportation de la base / avec exportation).
 
  ________________________________________________________________________________
                     Mode économique en mémoire  | Mode avec préallocation
