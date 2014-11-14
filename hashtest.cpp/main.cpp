@@ -275,7 +275,7 @@ int main(int argc, char **argv)
 
             strncpy(info.chemin_base, argv[start + 1], 500*sizeof(char));
             FILE* base;
-            if (base == fopen(info.chemin_base, "w"))
+            if (NULL == (base = fopen(info.chemin_base, "w")))
             {
                 perror("Erreur : La base de données ne peut être créée, vérifier l'existence du dossier.");
                 exit(-113);
