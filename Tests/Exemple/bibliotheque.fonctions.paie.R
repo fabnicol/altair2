@@ -167,7 +167,6 @@ Sauv.base <- function(chemin.dossier, nom, nom.sauv, encodage = encodage.sortie)
 
 sauv.bases <- function(dossier, ...)
 {
-
   if (!see_if(is.dir(dossier)))
   {
     stop("Pas de dossier de travail spécifié")
@@ -177,7 +176,7 @@ sauv.bases <- function(dossier, ...)
   tmp[1] <- NULL
 
   message("Dans le dossier ", dossier," :")
-  invisible(lapply(tmp[-1], function(x) Sauv.base(dossier, x, x)))
+  invisible(lapply(tmp[-1], function(x) if (exists(x)) Sauv.base(dossier, x, x)))
 }
 
 # Utiliser une assignation globale
@@ -204,26 +203,27 @@ Read.csv <- function(base.string, vect.chemin, charger = charger.bases, colClass
 
 pretty.print <- function(x) cat(gsub(".", " ",deparse(substitute(x)), fixed = TRUE), "   ", x,"\n")
 
-Résumé <- function(x,y, align = 'r', extra = 0, ...)
-              {
-                 Y <- na.omit(y)
+Résumé <- function(x,y, align = 'r', extra = 0, ...)  {
+    
+     Y <- na.omit(y)
 
-                 S <- cbind(c("Minimum", "1er quartile", "Médiane", "Moyenne", "3ème quartile", "Maximum"),
-                            prettyNum(sub("[M13].*:", "", summary(Y, ...)), big.mark = " "))
-                 if (! missing(extra))
-                    if (extra == "length") {
-                      L <- if (is.vector(Y)) length(Y) else nrow(Y)
-                      S <- cbind(S, c("", "", "", L, "", ""))
-                    } else {
-                    if (is.numeric(extra))
-                            S <- cbind(S, c("", "", "", as.character(extra), "", ""))
-                    }
+     S <- cbind(c("Minimum", "1er quartile", "Médiane", "Moyenne", "3ème quartile", "Maximum"),
+                prettyNum(sub("[M13].*:", "", summary(Y, ...)), big.mark = " "))
+     
+     if (! missing(extra))
+        if (extra == "length") {
+          L <- if (is.vector(Y)) length(Y) else nrow(Y)
+          S <- cbind(S, c("", "", "", L, "", ""))
+        } else {
+        if (is.numeric(extra))
+                S <- cbind(S, c("", "", "", as.character(extra), "", ""))
+        }
 
-                 dimnames(S)[[2]] <- c("Statistique", x)
+     dimnames(S)[[2]] <- c("Statistique", x)
 
-                 kable(S, row.names = FALSE, align = align)
+     kable(S, row.names = FALSE, align = align)
+}
 
-               }
 Tableau <- function(x, ...)
 {
   V <- c(...)
@@ -237,86 +237,122 @@ Tableau <- function(x, ...)
   T <- t(prettyNum(V, big.mark = sep.milliers))
   T <- as.data.frame(T)
   names(T) <- x
-  kable(T, row.names = FALSE, align = "c")
+  kable(T, row.names = FALSE, align = "c", booktabs=TRUE)
 }
 
-Tableau.vertical <- function(colnames, rownames, f)
+Tableau.vertical <- function(colnames, rownames, extra = "", ...)
 {
-  T <- data.frame(rownames,   sapply(rownames, f))
-
-  names(T) <- colnames
-
-  kable(T, row.names = FALSE, align = "c")
-}
-
-Tableau.vertical2 <- function(colnames, données.col1, données.col2)
-{
-
-  T <- data.frame(données.col1, formatC(données.col2, big.mark=" ", width="12", format="d", preserve.width="common"))
-
-  names(T) <- colnames
-
-  kable(T, row.names = FALSE, align = NULL)
-}
-
-
-  julian.date.début.période <- julian(as.Date(paste0("01/01/", début.période.sous.revue), date.format))
-  julian.exercice.suivant.premier <- julian(as.Date(paste0("01/01/",(début.période.sous.revue+1)), date.format))
-  julian.date.fin.période   <- julian(as.Date(paste0("01/01/", fin.période.sous.revue+1), date.format))
-  julian.exercice.dernier <- julian(as.Date(paste0("01/01/",fin.période.sous.revue), date.format))
-
-calcul.nb.jours <- function(entrée, sortie)
-{
-
-  julian.entrée <-
-    ifelse(entrée == "",
-           julian.date.début.période,
-           max(julian.date.début.période, julian(as.Date(entrée, date.format))))
-
-  julian.sortie <-
-    ifelse(sortie == "",
-           julian.date.fin.période,
-           min(julian.date.fin.période, julian(as.Date(sortie, date.format))))
-
-  return (julian.sortie - julian.entrée)
-}
-
-calcul.nb.jours.mois.deprecated <- function(mois.entrée, mois.sortie, année)
-{
-
-  # calcul exact pour une période continue 
+    tmp <- c(...)
+   
+    if (! all(lapply(tmp, is.function))) {
+      message("all arguments must be functions")
+      return("")
+    }
     
-  if (mois.sortie < mois.entrée) return(0);
-
-  if (mois.sortie == 12)
-  {
-     année.sortie <- année +1
-     mois.sortie = 1
-  }
-  else
-  {
-    année.sortie <- année
-    mois.sortie <- mois.sortie + 1
-  }
-
-   as.numeric(as.Date(paste0("01",
-                                  formatC(mois.sortie, width = 2, flag = "0"),
-                                  année.sortie),
-                      "%d%m%Y")
-              - as.Date(paste0("01",
-                                   formatC(mois.entrée, width = 2, flag = "0"),
-                                   année),
-                            "%d%m%Y"))
+    lr <- length(rownames)
+    
+    h <- function(x) as.numeric(sub(",",".", sub(" ", "", x, fixed=T), fixed=T))
+    
+    g <- function(f) {
+        S <- rep("", lr)
+    
+        S[ceiling(lr/2)] <- as.character(prettyNum((h(f(rownames[lr]))/h(f(rownames[1])) - 1) * 100, digits = 3))
+    
+        S
+    }
+      
+  
+    if (! missing(extra) && (is.character(extra)) && (extra == "variation")) {
+      T <- data.frame(rownames)
+      NT <- colnames[1]
+      ltmp <- length(tmp)
+      for (x in seq_len(ltmp)) {
+        T <- cbind(T, sapply(rownames, tmp[[x]]), g(tmp[[x]]))
+        NT <- c(NT, colnames[[x + 1]], "Variation (%)")
+      }
+    
+      names(T) <- NT
+    } else {
+      T <- data.frame(rownames, lapply(tmp, function(f) sapply(rownames, f)))
+      names(T) <- colnames
+    }
+    
+    kable(T, row.names = FALSE, align = "c", booktabs=TRUE)
 }
+
+Tableau.vertical2 <- function(colnames, rownames, ...)
+{
+  tmp <- list(...)
+  
+  T <- data.frame(rownames, 
+                  lapply(tmp, function(y) formatC(y, 
+                                                          big.mark=" ",
+                                                          width="12",
+                                                          format="d",
+                                                          preserve.width="common")))
+  names(T) <- colnames
+
+  kable(T, row.names = FALSE, align = NULL, booktabs=TRUE)
+}
+
+
+#   julian.date.début.période <- julian(as.Date(paste0("01/01/", début.période.sous.revue), date.format))
+#   julian.exercice.suivant.premier <- julian(as.Date(paste0("01/01/",(début.période.sous.revue+1)), date.format))
+#   julian.date.fin.période   <- julian(as.Date(paste0("01/01/", fin.période.sous.revue+1), date.format))
+#   julian.exercice.dernier <- julian(as.Date(paste0("01/01/",fin.période.sous.revue), date.format))
+# 
+# calcul.nb.jours <- function(entrée, sortie)
+# {
+# 
+#   julian.entrée <-
+#     ifelse(entrée == "",
+#            julian.date.début.période,
+#            max(julian.date.début.période, julian(as.Date(entrée, date.format))))
+# 
+#   julian.sortie <-
+#     ifelse(sortie == "",
+#            julian.date.fin.période,
+#            min(julian.date.fin.période, julian(as.Date(sortie, date.format))))
+# 
+#   return (julian.sortie - julian.entrée)
+# }
+# 
+# calcul.nb.jours.mois.deprecated <- function(mois.entrée, mois.sortie, année)
+# {
+# 
+#   # calcul exact pour une période continue 
+#     
+#   if (mois.sortie < mois.entrée) return(0);
+# 
+#   if (mois.sortie == 12)
+#   {
+#      année.sortie <- année +1
+#      mois.sortie = 1
+#   }
+#   else
+#   {
+#     année.sortie <- année
+#     mois.sortie <- mois.sortie + 1
+#   }
+# 
+#    as.numeric(as.Date(paste0("01",
+#                                   formatC(mois.sortie, width = 2, flag = "0"),
+#                                   année.sortie),
+#                       "%d%m%Y")
+#               - as.Date(paste0("01",
+#                                    formatC(mois.entrée, width = 2, flag = "0"),
+#                                    année),
+#                             "%d%m%Y"))
+# }
 
 v.jmois  <-  c(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
 v.jmois.leap  <-  c(31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
 
 calcul.nb.jours.mois <- function(Mois, année)   if ((année - 2008) %%4 == 0) {
-                                                  return(sum(v.jmois.leap[Mois])) 
-                                                  } else {
-                                                  return(sum(v.jmois[Mois]))
-                                                }
+    return(sum(v.jmois.leap[Mois])) 
+    } else {
+    return(sum(v.jmois[Mois]))
+  }
     
 
 positive <- function(X) X[!is.na(X) & X > 0]
@@ -412,5 +448,12 @@ longueur.non.na <- function(v) length(v[!is.na(v)])
 
 `%*%` <- function(x, y) if (is.na(x) | is.na(y)) return(0) else return(x*y)
 
+# numérotation des tableaux
 
+numéro.tableau <- 0
+
+incrément <- function() { 
+  numéro.tableau <<- numéro.tableau +1 
+  numéro.tableau
+}
 

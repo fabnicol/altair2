@@ -8,6 +8,7 @@
 //extern "C" {
 //#endif
 #include "fonctions_auxiliaires.hpp"
+#include <string.h>
 #include <stdint.h>
 
 char* ecrire_chemin_base(char* chemin_base, int rang_fichier_base)
@@ -36,7 +37,7 @@ FILE* ajouter_au_fichier_base(info_t* info, int rang)
     fseek(base, 0, SEEK_END);
     if (base == NULL)
     {
-        fprintf(stderr, "%s\n", "Impossible d'ouvrir le fichier de sortie.");
+        fprintf(stderr, "%s\n", "Erreur : Impossible d'ouvrir le fichier de sortie.");
         exit(-1000);
     }
     return base;
@@ -49,7 +50,7 @@ FILE* ouvrir_fichier_base(info_t* info, int rang)
     fseek(base, 0, SEEK_SET);
     if (base == NULL)
     {
-        fprintf(stderr, "%s\n", "Impossible d'ouvrir le fichier de sortie.");
+        fprintf(stderr, "%s\n", "Erreur : Impossible d'ouvrir le fichier de sortie.");
         exit(-1000);
     }
 
@@ -75,15 +76,15 @@ int32_t lire_argument(int argc, char* c_str)
 
         if (end == c_str)
         {
-            fprintf(stderr, "%s: pas un décimal\n", c_str);
+            fprintf(stderr, "Erreur : %s: pas un décimal\n", c_str);
         }
         else if (sl > INT32_MAX)
         {
-            fprintf(stderr, "%ld entier excédant la limite des entiers à 16 bits\n", sl);
+            fprintf(stderr, "Erreur : %ld entier excédant la limite des entiers à 16 bits\n", sl);
         }
         else if (sl < 0)
         {
-            fprintf(stderr, "%ld l'entier doit être positif\n", sl);
+            fprintf(stderr, "Erreur : %ld l'entier doit être positif\n", sl);
         }
         else
         {
@@ -93,7 +94,7 @@ int32_t lire_argument(int argc, char* c_str)
     }
     else
     {
-        fprintf(stderr, "%s\n", "Préciser le nombre de bulletins mensuels attendus (majorant du nombre).");
+        fprintf(stderr, "%s\n", "Erreur : Préciser le nombre de bulletins mensuels attendus (majorant du nombre).");
         return(-1);
     }
 }
@@ -114,14 +115,14 @@ int calculer_memoire_requise(info_t* info)
         if (c) fseek(c, 0, SEEK_SET);
         else if(c == NULL)
         {
-            perror("Ouverture Fichiers.");    // cautious no-op
+            perror("Erreur : Erreur : Ouverture Fichiers.");    // cautious no-op
             fprintf(stderr, "%s\n", info->threads->argv[i]);
             exit(-120);
         }
 
         if (errno)
         {
-            perror("Fichier .xhl");
+            perror("Erreur : Fichier .xhl");
             exit(-122);
         }
         int d = 0;
