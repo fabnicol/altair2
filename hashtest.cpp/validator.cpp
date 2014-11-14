@@ -1,9 +1,9 @@
-/*  Programme Ècrit par Fabrice NICOL sous licence CECILL 3
- *  Attention : lorsqu'il est ÈditÈ, le prÈsent code doit Ítre converti soit en UTF-8 soit en ISO-5589-1 (Latin-1)avant d'Ítre compilÈ.
- *  En entrÈe d'Altair prÈciser encodage.entrÈe en conformitÈ avec l'encodage du prÈsent fichier, qui sera celui de la base gÈnÈrÈe.
+/*  Programme √©crit par Fabrice NICOL sous licence CECILL 3
+ *  Attention : lorsqu'il est √©dit√©, le pr√©sent code doit √™tre converti soit en UTF-8 soit en ISO-5589-1 (Latin-1)avant d'√™tre compil√©.
+ *  En entr√©e d'Altair pr√©ciser encodage.entr√©e en conformit√© avec l'encodage du pr√©sent fichier, qui sera celui de la base g√©n√©r√©e.
  */
 
-/* Constantes de compilation pouvant Ítre redÈfinies : NA_STRING, MAX_LIGNES_PAYE, MAX_NB_AGENTS, NO_DEBUG, NO_REGEXP */
+/* Constantes de compilation pouvant √™tre red√©finies : NA_STRING, MAX_LIGNES_PAYE, MAX_NB_AGENTS, NO_DEBUG, NO_REGEXP */
 
 //
 //#ifdef __cplusplus
@@ -40,9 +40,9 @@ static inline void  verifier_taille(const int nbLignePaye, info_t* info)
     if (nbLignePaye >= info->nbLigneUtilisateur)
     {
         fprintf(stderr, "\n\
-                En excËs du nombre de lignes de paye autorisÈ (%d).\n\
-                Omettre -n ... et utiliser -L fichier_log pour dÈtecter le maximum de lignes de paye dans les fichiers.\n\
-                Utiliser -N ce_maximum ou bien recompiler en augmentant MAX_LIGNES_PAYE, ‡ condition de disposer d'assez de mÈmoire.\n",
+                En exc√®s du nombre de lignes de paye autoris√© (%d).\n\
+                Omettre -n ... et utiliser -L fichier_log pour d√©tecter le maximum de lignes de paye dans les fichiers.\n\
+                Utiliser -N ce_maximum ou bien recompiler en augmentant MAX_LIGNES_PAYE, √† condition de disposer d'assez de m√©moire.\n",
                 info->nbLigneUtilisateur);
 
         exit(-10);
@@ -89,10 +89,10 @@ static inline void _Bulletin(const char* tag, xmlNodePtr* cur,  int l, info_t* i
     if (! Bulletin(tag, cur, l, info))
     {
         if (*cur)
-            fprintf(stderr, "Erreur : TrouvÈ %s au lieu de %s \n", (*cur)->name, tag);
+            fprintf(stderr, "Erreur : Trouv√© %s au lieu de %s \n", (*cur)->name, tag);
         else
         {
-            fprintf(stderr, "Erreur : Noeud courant null au stade de la vÈrification de %s\n", tag);
+            fprintf(stderr, "Erreur : Noeud courant null au stade de la v√©rification de %s\n", tag);
             for (int l=0; l < Service; l++) fprintf(stderr, "info->Table[info->NCumAgentXml][%d]=%s\n", l, info->Table[info->NCumAgentXml][l]);
         }
     }
@@ -119,7 +119,7 @@ static inline void _Bulletin_(const char* tag, xmlNodePtr* cur,  int l, info_t* 
 
 }
 
-/* obligatoire et avec substitution sÈparateur dÈcimal */
+/* obligatoire et avec substitution s√©parateur d√©cimal */
 
 static inline void Bulletin_(const char* tag, xmlNodePtr* cur, int l, info_t* info)
 {
@@ -135,10 +135,10 @@ static inline int lignePaye(xmlNodePtr cur, info_t* info)
     int nbLignePaye = 0;
     unsigned int t = 0;
 
-    ligne_l = (xmlChar*) xmlStrdup(drapeau[t]);  // +1 pour Èviter la confusion avec \0 des chaines vides
+    ligne_l = (xmlChar*) xmlStrdup(drapeau[t]);  // +1 pour √©viter la confusion avec \0 des chaines vides
     l++;
 
-    /* Besoins en mÈmoire : 18 [champs hors ligne] + nombre de lignes + flags (maximum nbType) */
+    /* Besoins en m√©moire : 18 [champs hors ligne] + nombre de lignes + flags (maximum nbType) */
     while (cur != NULL)
     {
         bool new_type = false;
@@ -148,7 +148,7 @@ static inline int lignePaye(xmlNodePtr cur, info_t* info)
             t++;
             if (t == nbType)
             {
-                fprintf(stderr, "Erreur : En excËs du nombre de types de lignes de paye autorisÈ (%d)\n", nbType);
+                fprintf(stderr, "Erreur : En exc√®s du nombre de types de lignes de paye autoris√© (%d)\n", nbType);
                 if (cur) fprintf(stderr, "Erreur : Type litigieux %s aux alentours du matricule %s \n",
                                      cur->name,
                                      info->Table[info->NCumAgentXml][Matricule]);
@@ -161,7 +161,7 @@ static inline int lignePaye(xmlNodePtr cur, info_t* info)
 
         if (new_type && t < nbType)
         {
-            ligne_l = (xmlChar*) xmlStrdup(drapeau[t]);  // +1 pour Èviter la confusion avec \0 des chaines vides
+            ligne_l = (xmlChar*) xmlStrdup(drapeau[t]);  // +1 pour √©viter la confusion avec \0 des chaines vides
             l++;
         }
 
@@ -177,7 +177,7 @@ static inline int lignePaye(xmlNodePtr cur, info_t* info)
         }
 
         DESCENDRE_UN_NIVEAU
-        /* LibellÈ, obligatoire */
+        /* Libell√©, obligatoire */
 
         cur = atteindreNoeud("Libelle", cur);
 
@@ -198,7 +198,7 @@ static inline int lignePaye(xmlNodePtr cur, info_t* info)
         _Bulletin_("Taux", &cur, l, info);
         l++;
 
-        /* Nombre d'unitÈs, s'il existe */
+        /* Nombre d'unit√©s, s'il existe */
         _Bulletin_("NbUnite", &cur, l, info);
         l++;
 
@@ -211,7 +211,7 @@ static inline int lignePaye(xmlNodePtr cur, info_t* info)
 
         REMONTER_UN_NIVEAU
 
-        // Lorsque on a ÈpuisÈ tous les types licites on a nÈcessairement cur = NULL
+        // Lorsque on a √©puis√© tous les types licites on a n√©cessairement cur = NULL
     }
 
 #undef ligne_l
@@ -241,10 +241,10 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
 
     DESCENDRE_UN_NIVEAU
 
-    /* dans certains sxhÈmas on peut ne pas avoir la civilitÈ */
+    /* dans certains sxh√©mas on peut ne pas avoir la civilit√© */
     cur = atteindreNoeud("Nom", cur);
 
-    /* passer ‡ la balise adjacente aprËs lecture */
+    /* passer √† la balise adjacente apr√®s lecture */
     info->drapeau_cont = true;
     _BULLETIN(Nom)
 
@@ -254,7 +254,7 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
     xmlNodePtr cur_save = cur;
 
 #endif
-    /* Dans certains cas on peut avoir un complÈment de nom */
+    /* Dans certains cas on peut avoir un compl√©ment de nom */
     cur = atteindreNoeud("Prenom", cur);
     _BULLETIN(Prenom)
     _BULLETIN(Matricule)
@@ -268,7 +268,7 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
     cur = cur->next;
 #endif
     _BULLETIN(Statut)
-    /* dans certains schÈmas on peut avoir ici des balises */
+    /* dans certains sch√©mas on peut avoir ici des balises */
     cur = atteindreNoeud("EmploiMetier", cur);
 #ifdef TOLERANT
     cur = cur_save;
@@ -287,7 +287,7 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
 #else
     cur = cur->next;
 #endif
-    info->drapeau_cont = false; /* ne pas lire la balise adjacente : fin du niveau subordonnÈ Agent*/
+    info->drapeau_cont = false; /* ne pas lire la balise adjacente : fin du niveau subordonn√© Agent*/
     _BULLETIN(Indice)
 
     REMONTER_UN_NIVEAU
@@ -313,7 +313,7 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
     cur = atteindreNoeud("QuotiteTrav", cur);
 #endif
 
-    /* obligatoire, substitution du sÈparateur dÈcimal */
+    /* obligatoire, substitution du s√©parateur d√©cimal */
     BULLETIN_(QuotiteTrav)
 
 #ifdef TOLERANT
@@ -332,7 +332,7 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
         }
         else
         {
-            // RÈmuneration tag vide
+            // R√©muneration tag vide
             ligne = 1 ;
             for (int k=0; k < 6; k++)
                 info->Table[info->NCumAgentXml][info->minimum_memoire_p_ligne + k] = (xmlChar*) strdup(NA_STRING);
@@ -341,16 +341,16 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
     }
     else
     {
-        perror("Erreur : RÈmunÈration introuvable.");
+        perror("Erreur : R√©mun√©ration introuvable.");
         exit(-4);
     }
 
-    /* non obligatoire , substitution du sparateur dÈcimal */
+    /* non obligatoire , substitution du sparateur d√©cimal */
 
     _BULLETIN_(NbHeureTotal)
     cur = atteindreNoeud("NbHeureSup", cur);
 
-    /* obligatoire, substitution du sparateur dÈcimal */
+    /* obligatoire, substitution du sparateur d√©cimal */
     BULLETIN_(NbHeureSup)
     BULLETIN_(MtBrut)
     BULLETIN_(MtNet)
@@ -361,7 +361,7 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
     return ligne;
 }
 
-/* agent_total est une variable de contrÙle pour info->NCumAgent */
+/* agent_total est une variable de contr√¥le pour info->NCumAgent */
 
 static void parseFile(info_t* info)
 {
@@ -393,7 +393,7 @@ static void parseFile(info_t* info)
     }
     else
     {
-        fprintf(stderr, "%s\n", "Erreur : AnnÈe non dÈtectable");
+        fprintf(stderr, "%s\n", "Erreur : Ann√©e non d√©tectable");
         exit(-502);
     }
 
@@ -403,7 +403,7 @@ static void parseFile(info_t* info)
     }
     else
     {
-        fprintf(stderr, "%s\n", "Erreur : Mois non dÈtectable");
+        fprintf(stderr, "%s\n", "Erreur : Mois non d√©tectable");
         exit(-503);
     }
 
@@ -420,7 +420,7 @@ static void parseFile(info_t* info)
             if (info->NCumAgentXml == info->NCumAgent)
             {
                 fprintf(stderr,
-                        "Erreur : IncohÈrence de l'allocation mÈmoire ex-ante %d B et ex-post %d B : sortie pour Èviter une erreur de segmentation.\n",
+                        "Erreur : Incoh√©rence de l'allocation m√©moire ex-ante %d B et ex-post %d B : sortie pour √©viter une erreur de segmentation.\n",
                         info->NCumAgent, info->NCumAgentXml);
                 exit(1005);
             }
@@ -440,7 +440,7 @@ static void parseFile(info_t* info)
             {
                 if (ligne_p != info->NLigne[info->NCumAgentXml] && info->chemin_log == NULL)
                 {
-                    fprintf(stderr, "IncohÈrence des dÈcomptes de lignes entre le contrÙle C : %d et l'analyse Libxml2 : %d\nPour l'agent %s, AnnÈe %s Mois %s\n",
+                    fprintf(stderr, "Incoh√©rence des d√©comptes de lignes entre le contr√¥le C : %d et l'analyse Libxml2 : %d\nPour l'agent %s, Ann√©e %s Mois %s\n",
                             info->NLigne[info->NCumAgentXml],
                             ligne_p,
                             info->Table[info->NCumAgentXml][Matricule],
@@ -458,7 +458,7 @@ static void parseFile(info_t* info)
             {
                 FILE* log=fopen(info->chemin_log, "a+");
                 int diff = info->NLigne[info->NCumAgentXml]-ligne_p;
-                fprintf(log, "AnnÈe %s | Mois %2s | Matricule %6s | Rang global %6d | Rang dans fichier %5d | Analyseur C : N.ligne %6d | Xml : N.ligne %6d | DiffÈrence %4d\n",
+                fprintf(log, "Ann√©e %s | Mois %2s | Matricule %6s | Rang global %6d | Rang dans fichier %5d | Analyseur C : N.ligne %6d | Xml : N.ligne %6d | Diff√©rence %4d\n",
                         info->Table[info->NCumAgentXml][Annee],
                         info->Table[info->NCumAgentXml][Mois],
                         info->Table[info->NCumAgentXml][Matricule],
@@ -485,7 +485,7 @@ static void parseFile(info_t* info)
 
     xmlFree(mois_fichier);
     xmlFree(annee_fichier);
-    fprintf(stderr, "Fichier n∞%d:\nPopulation du fichier  %s :\n %4d bulletins    Total : %4d bulletins  %4" PRIu64 " lignes cumulÈes.\n",
+    fprintf(stderr, "Fichier n¬∞%d:\nPopulation du fichier  %s :\n %4d bulletins    Total : %4d bulletins  %4" PRIu64 " lignes cumul√©es.\n",
             info->fichier_courant,
             info->threads->argv[info->fichier_courant],
             info->NAgent[info->fichier_courant],
@@ -528,7 +528,7 @@ const char* pat2 = EXPRESSION_REG_VACATIONS;
 #include <ctype.h>
 
 using namespace std;
-#else error "C++11 doit Ítre utilisÈ."
+#else error "C++11 doit √™tre utilis√©."
 #endif
 
 
@@ -555,7 +555,7 @@ void* decoder_fichier(void* tinfo)
         int err = calculer_memoire_requise(info);
         if (err)
         {
-            perror("Erreur : Calcul de la mÈmoire requise");
+            perror("Erreur : Calcul de la m√©moire requise");
             exit(-1001);
         }
     }
@@ -570,7 +570,7 @@ void* decoder_fichier(void* tinfo)
         }
         else
         {
-            perror("Erreur : ProblËme d'allocation mÈmoire de info->NLigne");
+            perror("Erreur : Probl√®me d'allocation m√©moire de info->NLigne");
             exit(1003);
         }
     }
@@ -580,7 +580,7 @@ void* decoder_fichier(void* tinfo)
 
     if (info->Table == NULL)
     {
-        perror("Erreur : MÈmoire insuffisante");
+        perror("Erreur : M√©moire insuffisante");
         exit(-18);
     }
 
