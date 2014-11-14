@@ -26,6 +26,8 @@ setOSWindows         <- Sys.info()["sysname"] != "Linux"
 exec.root            <- ifelse(setOSWindows, ".exe", "")
 
 éliminer.duplications <- T
+enlever.quotités.nulles <- T
+enlever.quotités.na     <- T
 générer.codes        <- FALSE
 paralléliser         <- TRUE
 extraire.population  <- FALSE

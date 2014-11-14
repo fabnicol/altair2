@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="hashtest.cpp" />
+		<Option pch_mode="2" />
+		<Option default_target="Release" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/lhx" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option parameters=" -m -j 4 -t -o c:/Dev/altair/Tests/Exemple/Donnees/R-Altair/TR.csv c:/Dev/altair/Tests/Exemple/Donnees/xhl/Romans/*.xhl  " />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="-D__GNUC_EXTENSION" />
+					<Add option="-DNO_DEBUG" />
+					<Add option="-DTOLERANT" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/lhx" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option parameters="  -t  -M -j 2 -n 1171 -N 77 ~/Dev/Altair/Tests/Exemple/Donnees/xhl/Metro/2008/*.xhl  ~/Dev/Altair/Tests/Exemple/Donnees/xhl/Metro/2009/*.xhl  ~/Dev/Altair/Tests/Exemple/Donnees/xhl/Metro/2010/*.xhl  ~/Dev/Altair/Tests/Exemple/Donnees/xhl/Metro/2011/*.xhl ~/Dev/Altair/Tests/Exemple/Donnees/xhl/Metro/2012/*.xhl  " />
+				<Compiler>
+					<Add option="-march=core2" />
+					<Add option="-O3" />
+					<Add option="-D__GNUC_EXTENSION" />
+					<Add option="-DNO_DEBUG" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-march=pentium4" />
+			<Add option="-Os" />
+			<Add option="-Wextra" />
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+			<Add option="-pthread" />
+			<Add option="-std=gnu++11" />
+			<Add option="-D__GNUC_EXTENSION" />
+			<Add option="-D_REENTRANT" />
+			<Add option="-D_GNU_SOURCE" />
+			<Add option="-D__STDC_LIMIT_MACROS" />
+			<Add directory="/usr/include/libxml2" />
+		</Compiler>
+		<Linker>
+			<Add option="-lxml2" />
+			<Add option="-ltre" />
+			<Add option="-lpthread" />
+		</Linker>
+		<Unit filename="NOTICE" />
+		<Unit filename="fonctions_auxiliaires.cpp" />
+		<Unit filename="fonctions_auxiliaires.hpp" />
+		<Unit filename="main.cpp" />
+		<Unit filename="table.cpp" />
+		<Unit filename="table.hpp" />
+		<Unit filename="validator.cpp" />
+		<Unit filename="validator.hpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

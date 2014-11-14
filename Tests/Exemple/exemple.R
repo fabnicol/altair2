@@ -276,7 +276,16 @@ Paie <- merge(Bulletins.paie[ , c("Matricule", "Année", "Mois", "quotité", "Mont
               Paie, 
               by=c("Année", "Mois", "Matricule"))
 
-Paie$quotité[is.na(Paie$quotité)] <- 0
+if (enlever.quotités.na) {
+  Paie <- Paie[! is.na(quotité) ]
+  Bulletins.paie <- Bulletins.paie[!is.na(Bulletins.paie)]
+}
+
+if (enlever.quotités.nulles) {
+  Paie <- Paie[quotité != 0]
+  Bulletins.paie <- Bulletins.paie[quotité != 0]
+}
+
 
 message("Bulletins de Paie retraités")
 
