@@ -253,8 +253,6 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
     cur = cur->xmlChildrenNode;
     xmlNodePtr cur_save = cur;
 
-    cur = atteindreNoeud("Prenom", cur);
-
 #endif
     /* Dans certains cas on peut avoir un complément de nom */
     cur = atteindreNoeud("Prenom", cur);
