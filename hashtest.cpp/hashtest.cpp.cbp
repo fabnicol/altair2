@@ -12,7 +12,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="-t -j 4 -m -T X   ~/Dev/altair/Tests/Exemple/Donnees/xhl/PLV/2010/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/PLV/2011/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/PLV/2012/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/PLV/2013/*.xhl " />
+				<Option parameters=" -m -j 4 -t -o c:/Dev/altair/Tests/Exemple/Donnees/R-Altair/TR.csv c:/Dev/altair/Tests/Exemple/Donnees/xhl/Romans/*.xhl  " />
 				<Compiler>
 					<Add option="-g" />
 					<Add option="-D__GNUC_EXTENSION" />
@@ -25,9 +25,9 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters=" -m -j 4 -t -D c:/Dev/altair/Tests/Exemple/Donnees/R-Altair c:/Dev/altair/Tests/Exemple/Donnees/xhl/Romans/*.xhl  " />
+				<Option parameters=" -m  -t  -D c:/Dev/altair/Tests/Exemple/Donnees/R-Altair c:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/*.xhl  c:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/*.xhl  c:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2010/*.xhl  c:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2011/*.xhl  c:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2012/*.xhl  " />
 				<Compiler>
-					<Add option="-march=pentium4" />
+					<Add option="-march=core2" />
 					<Add option="-O3" />
 					<Add option="-D__GNUC_EXTENSION" />
 					<Add option="-DNO_DEBUG" />
@@ -52,12 +52,16 @@
 			<Add option="-D__STDC_LIMIT_MACROS" />
 			<Add directory="/usr/include/libxml2" />
 			<Add directory="C:/Program Files (x86)/CodeBlocks/MinGW/include" />
+			<Add directory="C:/Program Files (x86)/GnuWin32/include/tre" />
 		</Compiler>
 		<Linker>
-			<Add option="-lpthread" />
 			<Add option="-lxml2" />
+			<Add option="-ltre4" />
+			<Add option="-lpthread" />
 			<Add directory="../../../../MinGW/bin" />
 			<Add directory="../../../../../../Program Files (x86)/CodeBlocks/MinGW/bin" />
+			<Add directory="C:/Program Files (x86)/GnuWin32/bin" />
+			<Add directory="../../../MinGW/lib" />
 		</Linker>
 		<Unit filename="NOTICE" />
 		<Unit filename="fonctions_auxiliaires.cpp" />

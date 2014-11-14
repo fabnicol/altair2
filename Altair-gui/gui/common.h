@@ -62,6 +62,7 @@ static void writeFile(QString & path, const QStringList &list, QFlags<QIODevice:
 void setWhatsThisText(QWidget* widget, int start, int stop);
 void openDir(QString path);
 qint64 getFileSize(const QString &, const QString& ="");
+const QString openDirDialog();
 
 
 protected :
@@ -71,7 +72,7 @@ protected :
 #ifdef Q_OS_WIN
      const QString   System="win32";
      const QString   systemSuffix=".exe";
-     const QString   systemPathPrefix="/../../";
+     const QString   systemPathPrefix="/../";
       #ifndef LOCAL_BINPATH
       #define LOCAL_BINPATH
      #endif
@@ -93,13 +94,15 @@ protected :
   const QString sharedir= generateDatadirPath();
  
   QString altairCommandStr=execPath+ QDir::separator()+QString("lhx"+ QString(systemSuffix));
+  QString RAltairDirStr = QString("C:\\Program Files\\RStudio");
   QString RAltairCommandStr=QString("\"C:\\Program Files\\RStudio\\bin\\rstudio"+ QString(systemSuffix)+"\"");
    
 #else
 
    QString execPath=PREFIX+QString("/bin");
    QString sharedir=PREFIX+QString("/share/applications/altair");
-   QString RAltairCommandStr=PREFIX+QString("/bin/rstudio");
+   QString RAltairCommandStr=PREFIX+QString("/lib/rstudio/bin/rstudio");
+   QString RAltairDirStr = QString("/lib/rstudio/bin");
    QString altairCommandStr=PREFIX+QString("/bin/lhx");
 
 #endif

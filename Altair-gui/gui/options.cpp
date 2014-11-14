@@ -117,6 +117,24 @@ standardPage::standardPage()
                                 "genererTable",
                                 {"Générer la table .csv", "type standard"},
                                 "t");
+
+    QLabel* logLineLabel = new QLabel("Chemin du Log");
+
+    logLineEdit= new FLineEdit(generateDatadirPath("Log"),
+                                        "log",
+                                       {"Générer un log d'exécution", "chemin du log"},
+                                        "L");
+
+    QToolDirButton* logButton= new QToolDirButton(tr("Sélectionner le log\nen sortie de l'application noyau"));
+
+    QToolDirButton *openLogButton=new QToolDirButton(tr("Ouvrir le répertoire du log"), actionType::OpenFolder);
+
+    logCheckBox=new FCheckBox("Générer le log  ",
+                              flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
+                                "genererLog",
+                                {"Générer un log d'exécution", "application noyau"},
+                               {logLineLabel, logLineEdit, logButton, openLogButton});
+
     economeCheckBox=new FCheckBox("Economiser la RAM  ",
                                   "ecoRAM",
                                  {"Mode économe en mémoire", ""},
@@ -136,15 +154,20 @@ standardPage::standardPage()
     v1Layout->addWidget(decLabel,          4,0,Qt::AlignRight);
     v1Layout->addWidget(decLineEdit,       4,1,Qt::AlignLeft);
     
-    v2Layout->addWidget(processTypeLabel,  5,0,Qt::AlignRight);
-    v2Layout->addWidget(processTypeWidget, 5,1,Qt::AlignLeft);
     v2Layout->addWidget(tableCheckBox,     1,0,Qt::AlignLeft);
     v2Layout->addWidget(economeCheckBox,   2,0,Qt::AlignLeft);
     v2Layout->addWidget(nLineEdit,         3,1,Qt::AlignLeft);
-    v2Layout->addWidget(NLineEdit,         4,1,Qt::AlignLeft);
     v2Layout->addWidget(nLineLabel,        3,0,Qt::AlignRight);
+    v2Layout->addWidget(NLineEdit,         4,1,Qt::AlignLeft);
     v2Layout->addWidget(NLineLabel,        4,0,Qt::AlignRight);
-    
+    v2Layout->addWidget(processTypeLabel,  5,0,Qt::AlignRight);
+    v2Layout->addWidget(processTypeWidget, 5,1,Qt::AlignLeft);
+    v2Layout->addWidget(logCheckBox,       6,0,Qt::AlignLeft);
+    v2Layout->addWidget(logLineLabel,      7,1,Qt::AlignLeft);
+    v2Layout->addWidget(logLineEdit,       8,1,Qt::AlignLeft);
+    v2Layout->addWidget(logButton,         8,2);
+    v2Layout->addWidget(openLogButton,     8,3);
+
     baseTypeBox->setLayout(v1Layout);
     processTypeBox->setLayout(v2Layout);
 
@@ -171,10 +194,17 @@ standardPage::standardPage()
             SIGNAL(clicked()),
             this, SLOT(on_openBaseDirButton_clicked()));
     
+    connect(openLogButton,
+            SIGNAL(clicked()),
+            this, SLOT(on_openLogDirButton_clicked()));
+
     connect(baseButton,
             SIGNAL(clicked()),
-            this, SLOT(selectOutput()));
+            this, SLOT(selectBaseOutput()));
 
+    connect(logButton,
+            SIGNAL(clicked()),
+            this, SLOT(selectLogOutput()));
 }
 
 
@@ -187,49 +217,36 @@ void standardPage::on_openBaseDirButton_clicked()
         QMessageBox::warning(0, QString("Répertoire"), QString("Le répertoire %1 n'a pas été créé").arg(path), QMessageBox::Ok);
         return;
     }
-    
-    common::openDir(baseLineEdit->text());
+    common::openDir(path);
+}
+
+void standardPage::on_openLogDirButton_clicked()
+{
+    QString path=logLineEdit->text();
+    path = QFileInfo(path).path();
+    QDir targetDirObject(path);
+    if (targetDirObject.mkpath(path) == false)
+    {
+        QMessageBox::warning(0, QString("Répertoire"), QString("Le répertoire %1 n'a pas été créé").arg(path), QMessageBox::Ok);
+        return;
+    }
+    common::openDir(path);
 }
 
 
-void standardPage::selectOutput()
+void standardPage::selectBaseOutput()
 {
-    QString path=QFileDialog::getExistingDirectory(this, QString("Sélection du répertoire"),
-                                                   QDir::currentPath(),
-                                                   QFileDialog::ShowDirsOnly
-                                                   | QFileDialog::DontResolveSymlinks);
-    if (path.isEmpty()) return;
+   QString path;
+   if ((path=common::openDirDialog()) == NULL) return;
+   baseLineEdit->setText(path);
+}
 
-    qint64 size=common::getDirectorySize(path, "*");
-
-    if (size)
-    {
-        if (QMessageBox::warning(0, QString("Répertoire"), QString("Le répertoire %1 n'est pas vide (Taille %2B). Ecraser et recréer ? ").arg(path,QString::number(size)), QMessageBox::Ok | QMessageBox::Cancel)
-                == QMessageBox::Ok)
-        {
-            if (!QDir(path).removeRecursively())    QMessageBox::information(0, QString("Supprimer le répertoire"),
-                                                           QString("Le répertoire n'a pas été supprimé' %1").arg(QDir::toNativeSeparators(path)));
-
-            QDir targetDirObject(path);
-            if (targetDirObject.mkpath(path) == false)
-            {
-                QMessageBox::warning(0, QString("Répertoire"), QString("Le répertoire %1 n'a pas été créé").arg(path), QMessageBox::Ok);
-                return;
-            }
-        }
-    } 
-    else
-    {
-        QString path=Hash::wrapper["base"]->toQString();
-        QDir targetDirObject(path);
-        if (targetDirObject.mkpath(path) == false)
-        {
-            QMessageBox::warning(0, QString("Répertoire"), QString("Le répertoire %1 n'a pas été créé").arg(path), QMessageBox::Ok);
-            return;
-        }
-    }
-
-    baseLineEdit->setText(path);
+void standardPage::selectLogOutput()
+{
+   QString path;
+   if ((path=QFileDialog::getSaveFileName(this, "Sélectionner le log",
+                                          QDir::currentPath()+QDir::separator()+"altair.log", "Log (*.log)")) == NULL) return;
+   logLineEdit->setText(path);
 }
 
 
@@ -238,7 +255,6 @@ int options::RefreshFlag;
 options::options(Altair* parent)
 {
     /* plain old data types must be 0-initialised even though the class instance was new-initialised. */
-
         
     options::RefreshFlag=UpdateOptionTabs;
 
@@ -246,9 +262,7 @@ options::options(Altair* parent)
     standardTab = new standardPage;
     pagesWidget->addWidget(standardTab);
 
-
     closeButton = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
-    
     closeButton->button(QDialogButtonBox::Ok)->setText("Accepter");
     closeButton->button(QDialogButtonBox::Cancel)->setText("Annuler");    
     
@@ -261,25 +275,20 @@ options::options(Altair* parent)
                 parent->updateProject(true);
             });
 
-
     connect(closeButton, SIGNAL(rejected()), this, SLOT(reject()));
         
     QHBoxLayout *horizontalLayout = new QHBoxLayout;
     horizontalLayout->addWidget(pagesWidget, 1);
-
     QHBoxLayout *buttonsLayout = new QHBoxLayout;
     buttonsLayout->addStretch(1);
     buttonsLayout->addWidget(closeButton);
-
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addLayout(horizontalLayout);
     mainLayout->addStretch(1);
     mainLayout->addLayout(buttonsLayout);
     setLayout(mainLayout);
-
     setWindowTitle(tr("Options"));
     setWindowIcon(QIcon(":/images/altair.png"));
-    
 }
 
 

@@ -30,6 +30,7 @@ private:
      *baseLineEdit,
      *sepLineEdit,
      *decLineEdit,
+     *logLineEdit,
      *maxNLigneLineEdit,
      *nLineEdit,
      *NLineEdit;
@@ -40,6 +41,7 @@ private:
 
     FCheckBox
       *tableCheckBox,
+      *logCheckBox,
       *economeCheckBox;
 
     FString
@@ -50,8 +52,9 @@ private:
     void on_baseTypeWidgetChanged(int){}
     void on_processTypeWidgetChanged(int){}
     void on_openBaseDirButton_clicked();
-    void selectOutput();
-
+    void selectBaseOutput();
+    void on_openLogDirButton_clicked();
+    void selectLogOutput();
 };
 
 
