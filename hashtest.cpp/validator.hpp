@@ -9,11 +9,10 @@
 #include <limits.h>
 #include <locale.h>
 #include <errno.h>
-#include <pthread.h>
+#include <pthread/pthread.h>
 #include <math.h>
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
-#define __STDC_FORMAT_MACROS
 #include <inttypes.h>
 
 
