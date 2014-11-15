@@ -496,7 +496,7 @@ static void parseFile(info_t* info)
     xmlFreeDoc(doc);
 }
 
-#if defined __WIN32__ || defined GCC_4_8
+#if !defined GCC_REGEX && (defined __WIN32__ || defined GCC_4_8)
 #include <regex.h>
 
 bool regex_match(const char *string, const char *pattern)
@@ -528,7 +528,8 @@ const char* pat2 = EXPRESSION_REG_VACATIONS;
 #include <ctype.h>
 
 using namespace std;
-#else error "C++11 doit être utilisé."
+#else
+#error "C++11 doit être utilisé."
 #endif
 
 
@@ -541,7 +542,7 @@ void* decoder_fichier(void* tinfo)
 
 
     info_t* info = (info_t*) tinfo;
-    #if  !defined __WIN32__ && !defined GCC_4_8
+    #if defined GCC_REGEX || (!defined __WIN32__ && !defined GCC_4_8)
 
      regex pat {info->expression_reg_elus,  regex_constants::icase};
      regex pat2 {EXPRESSION_REG_VACATIONS, regex_constants::icase};
