@@ -17,39 +17,41 @@ racine                      <- "R-Altair/"
 # "UTF-8.RAG_2009_2012-"
 # "RAG_2009_2012-"
 
-extraire.années      <- FALSE
-    début.période.sous.revue    <- 2008
-    fin.période.sous.revue      <- 2012
+extraire.années      <- T
+    début.période.sous.revue    <- 2011
+    fin.période.sous.revue      <- 2013
 
 
-setOSWindows         <- Sys.info()["sysname"] != "Linux"
-exec.root            <- ifelse(setOSWindows, ".exe", "")
+setOSWindows            <- Sys.info()["sysname"] != "Linux"
+exec.root               <- ifelse(setOSWindows, ".exe", "")
 
-éliminer.duplications <- T
+éliminer.duplications   <- T
 enlever.quotités.nulles <- T
 enlever.quotités.na     <- T
-générer.codes        <- FALSE
-paralléliser         <- TRUE
-extraire.population  <- FALSE
-fusionner.nom.prénom <- FALSE
-charger.bases        <- T
-sauvegarder.bases.analyse    <- F
+générer.codes           <- FALSE
+paralléliser            <- TRUE
+extraire.population     <- FALSE
+fusionner.nom.prénom    <- FALSE
+charger.bases           <- T
+sauvegarder.bases.analyse    <- T
 sauvegarder.bases.origine    <- F
 générer.table.effectifs      <- F
 générer.table.élus           <- T
 tester.matricules            <- TRUE
 tester.lignes.bulletins.mois <- TRUE
-corriger.quotité     <- FALSE
-comportement.strict  <- TRUE
-etp.égale.effectif   <- FALSE
+corriger.quotité         <- FALSE
+comportement.strict      <- TRUE
+etp.égale.effectif       <- FALSE
 
 seuil.troncature         <- 0 # jours
 taux.tolérance.homonymie <- 2  # en %
 quantile.cut             <- 1  # en %
-minimum.positif <- 0.5
+minimum.positif          <- 0.5
 
-séparateur.liste   <- ","
-séparateur.décimal <- "."
+séparateur.liste.entrée     <- ","
+séparateur.décimal.entrée   <- "."
+séparateur.liste.sortie     <- ";"
+séparateur.décimal.sortie   <- ","
 
 # FICHIERS EN INPUT
 # conventions de nommage : les noms et chemins sont en minuscules ;

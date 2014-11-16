@@ -18,6 +18,8 @@
 					<Add option="-D__GNUC_EXTENSION" />
 					<Add option="-DNO_DEBUG" />
 					<Add option="-DTOLERANT" />
+					<Add option="-DGCC_REGEX" />
+					<Add option="-DIN_WINPTHREAD" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -25,10 +27,20 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters=" -m  -t  -j 8 -n 330 -N 478  -D c:/Dev/altair/Tests/Exemple/Donnees/R-Altair c:/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2010/*.xhl  c:/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2011/*.xhl  c:/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2012/*.xhl  c:/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2013/*.xhl  " />
+				<Option parameters=" -m  -t c:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/*.xhl " />
 				<Compiler>
-					<Add option="-march=corei7-avx" />
-			<Add option="-march=pentium4" />
+					<Add option="-march=core2" />
+					<Add option="-O3" />
+					<Add option="-D__GNUC_EXTENSION" />
+					<Add option="-DNO_DEBUG" />
+					<Add option="-DGCC_4_8" />
+					<Add option="-DGCC_REGEX" />
+					<Add option="-DIN_WINPTHREAD" />
+				</Compiler>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-march=core2" />
 			<Add option="-O3" />
 			<Add option="-Wextra" />
 			<Add option="-Wall" />
@@ -40,13 +52,15 @@
 			<Add option="-D__STDC_LIMIT_MACROS" />
 			<Add option="-D__STDC_FORMAT_MACROS" />
 			<Add directory="/usr/include/libxml2" />
-			<Add directory="../../../Mingw64/include/tre" />
+			<Add directory="C:/Mingw64/include/tre" />
+			<Add directory="../../../Mingw64/include" />
 		</Compiler>
 		<Linker>
-			<Add option="-lxml2" />
 			<Add option="-pthread" />
+			<Add option="-lxml2" />
+			<Add library="..\..\..\MinGW64\lib\libpthread.dll.a" />
+			<Add directory="C:/MinGW64/lib" />
 			<Add directory="C:/Mingw64/bin" />
-
 		</Linker>
 		<Unit filename="NOTICE" />
 		<Unit filename="fonctions_auxiliaires.cpp" />
