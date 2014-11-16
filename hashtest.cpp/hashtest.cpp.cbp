@@ -25,17 +25,9 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters=" -m -j 2 -t c:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/*.xhl " />
+				<Option parameters=" -m  -t  -j 8 -n 330 -N 478  -D c:/Dev/altair/Tests/Exemple/Donnees/R-Altair c:/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2010/*.xhl  c:/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2011/*.xhl  c:/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2012/*.xhl  c:/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2013/*.xhl  " />
 				<Compiler>
-					<Add option="-march=pentium4" />
-					<Add option="-O3" />
-					<Add option="-D__GNUC_EXTENSION" />
-					<Add option="-DNO_DEBUG" />
-					<Add option="-DGCC_4_8" />
-				</Compiler>
-			</Target>
-		</Build>
-		<Compiler>
+					<Add option="-march=corei7-avx" />
 			<Add option="-march=pentium4" />
 			<Add option="-O3" />
 			<Add option="-Wextra" />
@@ -48,15 +40,13 @@
 			<Add option="-D__STDC_LIMIT_MACROS" />
 			<Add option="-D__STDC_FORMAT_MACROS" />
 			<Add directory="/usr/include/libxml2" />
-			<Add directory="C:/Mingw/include/tre" />
+			<Add directory="../../../Mingw64/include/tre" />
 		</Compiler>
 		<Linker>
-			<Add option="-pthread" />
-			<Add option="-ltre4" />
 			<Add option="-lxml2" />
-			<Add library="..\..\..\MinGW\lib\libpthread.dll.a" />
-			<Add directory="../../../../MinGW/bin" />
-			<Add directory="C:/MinGW/lib" />
+			<Add option="-pthread" />
+			<Add directory="C:/Mingw64/bin" />
+
 		</Linker>
 		<Unit filename="NOTICE" />
 		<Unit filename="fonctions_auxiliaires.cpp" />

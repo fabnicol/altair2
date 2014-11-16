@@ -2,6 +2,8 @@
 #  Fonctions auxiliaires
 ##
 
+library(MASS)
+
 chemin <-  function(fichier)
   file.path(chemin.dossier.données, fichier)
 
@@ -33,7 +35,7 @@ fr.séparateurs <- function(chem)  {
 # Pour cela on scanne les 25 premières lignes de la table une première fois
 
 
-trouver.valeur.skip <-  function(chemin.table, encodage, classes = NA, séparateur.liste = ",", séparateur.décimal = ".")
+trouver.valeur.skip <-  function(chemin.table, encodage, classes = NA, séparateur.liste = séparateur.liste.entrée, séparateur.décimal = séparateur.décimal.entrée)
   max(
     sapply(
       read.csv(chemin.table, sep=séparateur.liste, dec=séparateur.décimal, nrows = 25, fileEncoding = encodage.entrée, colClasses = classes),
@@ -97,7 +99,7 @@ sélectionner.clé <-  function(base1, base2)
 #system(paste0("sed -e s/,/\\./g < \'", chem,"\' > ", chem.dot), wait = TRUE)
 
 
-read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, étiquettes = NULL, drop = NULL, rapide = FALSE, séparateur.liste = ",", séparateur.décimal = ".", convertir.encodage = TRUE)
+read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, étiquettes = NULL, drop = NULL, rapide = FALSE, séparateur.liste = séparateur.liste.entrée, séparateur.décimal = séparateur.décimal.entrée, convertir.encodage = TRUE)
 {
   chem <- chemin(x)
   if (! rapide) {
@@ -122,7 +124,7 @@ read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, étiquette
       
     if (is.na(classes)) classes = NULL
     T <- try(data.table::fread(chem,
-                      sep = ",",
+                      sep = séparateur.liste,
                       header = TRUE,
                       verbose = FALSE,
                       skip = champ.détection.1,
@@ -154,13 +156,14 @@ if (!is.null(étiquettes)) names(T) <- étiquettes
 return(T)
 }
 
-Sauv.base <- function(chemin.dossier, nom, nom.sauv, encodage = encodage.sortie)
+Sauv.base <- function(chemin.dossier, nom, nom.sauv, encodage = encodage.sortie, sep = séparateur.liste.sortie, dec = séparateur.décimal.sortie)
 {
   message("Sauvegarde de ", nom)
-  write.csv(get(nom),
-             paste0(chemin.dossier, "/", iconv(nom.sauv, to = encodage.sortie, mark = FALSE), ".csv"), 
-             dec = séparateur.décimal,
-             sep = séparateur.liste,
+  write.table(get(nom),
+             paste0(chemin.dossier, "/", iconv(nom.sauv, to = encodage, mark = FALSE), ".csv"), 
+             quote = FALSE,
+             sep = sep,
+             dec = dec,
              row.names = FALSE,
              fileEncoding = encodage)
 }
@@ -182,7 +185,7 @@ sauv.bases <- function(dossier, ...)
 # Utiliser une assignation globale
 # car la fonction anonyme ne comporte que de variables locales
 
-Read.csv <- function(base.string, vect.chemin, charger = charger.bases, colClasses = NA, colNames = NULL, drop = NULL, séparateur.liste = ",", séparateur.décimal = ".", rapide = FALSE, convertir.encodage = TRUE, encodage = encodage.entrée)  {
+Read.csv <- function(base.string, vect.chemin, charger = charger.bases, colClasses = NA, colNames = NULL, drop = NULL, séparateur.liste = séparateur.décimal.entrée, séparateur.décimal = séparateur.décimal.entrée, rapide = FALSE, convertir.encodage = TRUE, encodage = encodage.entrée)  {
 
     if (charger.bases) {
 
