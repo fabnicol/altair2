@@ -411,7 +411,11 @@ void FCheckBox::setWidgetFromXml(const FStringList &s)
 {
     QString st=s.toFString();
     commandLineList[0]=FString(st);
- 
+
+    // subtilité liée au fait qu'en se chargeant, la checkbox ne va pas nécessairement désactiver un élément qu'elle déclenche.
+    // Il faut donc donner un signal
+    if (this->enabledObjects || this->disabledObjects) this->setChecked(true);
+
     this->setChecked(commandLineList[0].isTrue());
 }
 

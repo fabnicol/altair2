@@ -8,7 +8,7 @@ class StandardComplianceProbe : public QObject
 
 private:
 
-    QStringList xhlFormatList ={"xhl"};
+    QStringList xhlFormatList;
 
     uint audioZone;
 
@@ -24,6 +24,7 @@ private:
     {
         audioZone=zone;
         getXhlCharacteristics(filename);
+        xhlFormatList << "xhl";
     }
 
     QString getnAgent() {return QString::number(nAgent);}

@@ -299,7 +299,7 @@ int main(int argc, char **argv)
         }
         else if (! strcmp(argv[start], "-D"))
         {
-            snprintf(info.chemin_base, 500, "%s/%s%s", argv[start + 1], NOM_BASE, CSV);
+            sprintf(info.chemin_base, "%s/%s%s", argv[start + 1], NOM_BASE, CSV);
             FILE* base;
             if (NULL == (base = fopen(info.chemin_base, "w")))
             {
@@ -414,7 +414,7 @@ int main(int argc, char **argv)
     }
     else
     {
-        int nbfichier_par_fil = floor((argc - start) / info.nbfil);
+        int nbfichier_par_fil = (int) (argc - start) / info.nbfil;
         if (nbfichier_par_fil == 0)
         {
             fprintf(stderr, "%s\n", "Erreur : Trop de fils pour le nombre de fichiers ; exécution avec -j 2");
@@ -551,7 +551,7 @@ int main(int argc, char **argv)
               boucle_ecriture(Info);
         else
         {
-            fprintf(stderr, "Type %s inconnu.", type_table);
+            fprintf(stderr, "Type %s inconnu.\n", type_table);
             exit(-501);
         }
     }
@@ -559,6 +559,8 @@ int main(int argc, char **argv)
     /* libération de la mémoire */
 
     if (! liberer_memoire) return 0;
+
+    fprintf(stderr, "%s", "\nLibération de la mémoire...\n");
 
     for (int i = 0; i < Info[0].nbfil; i++)
     {

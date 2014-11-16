@@ -2,9 +2,9 @@
 #define FONCTIONS_AUXILIAIRES_HPP_INCLUDED
 #include <limits.h>
 #include <errno.h>
-#include <stdio.h>
+//#include <stdio.h>
 #include <inttypes.h>
-#include <stdlib.h>
+//#include <stdlib.h>
 
 #include "validator.hpp"
 
