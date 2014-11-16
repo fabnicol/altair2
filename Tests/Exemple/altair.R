@@ -73,8 +73,15 @@ library(assertthat)
 library(gtools)
 library(data.table)
 
-if (séparateur.liste != ",")
-  stop("Pour les tables importées par data.table::fread, le séparateur de champs doit être ','")
+if (séparateur.décimal.entrée != ".")
+  stop("Pour les tables importées par data.table::fread, le séparateur décimal doit être '.'")
+
+if (séparateur.décimal.entrée == séparateur.liste.entrée)
+  stop("Le séparateur décimal en entrée doit être différent du séparateur de colonnes !")
+
+if (séparateur.décimal.sortie == séparateur.liste.sortie)
+  stop("Le séparateur décimal en sortie doit être différent du séparateur de colonnes !")
+
 
 if (sauvegarder.bases.analyse) {
   for (path in c("Rémunérations", "Effectifs", "Réglementation"))
@@ -112,7 +119,7 @@ knitr::opts_chunk$set(fig.width = 7.5, echo = FALSE, warning = FALSE, message = 
 fichier.personnels.existe <- file.exists(chemin(nom.fichier.personnels))
 
 if (fichier.personnels.existe) {
-  base.personnels.catégorie <- read.csv.skip(nom.fichier.personnels, séparateur.liste = séparateur.liste, séparateur.décimal = séparateur.décimal)
+  base.personnels.catégorie <- read.csv.skip(nom.fichier.personnels, séparateur.liste = séparateur.liste.entrée, séparateur.décimal = séparateur.décimal.entrée)
   message("Chargement du fichier des catégories statutaires des personnels.")
 }
 
@@ -155,8 +162,8 @@ Import.Lignes.paie <- function()  {
                       lignes.paie,
                       colClasses = lignes.paie.classes.input,
                       colNames = lignes.paie.input.fallback,
-                      séparateur.liste = séparateur.liste,
-                      séparateur.décimal = séparateur.décimal,
+                      séparateur.liste = séparateur.liste.entrée,
+                      séparateur.décimal = séparateur.décimal.entrée,
                       drop=1:3,
                       rapide = TRUE),
              silent = TRUE)
@@ -166,8 +173,8 @@ Import.Lignes.paie <- function()  {
                          lignes.paie,
                          colClasses = lignes.paie.classes.input.fallback,
                          colNames = lignes.paie.input.fallback,
-                         séparateur.liste = séparateur.liste,
-                         séparateur.décimal = séparateur.décimal,
+                         séparateur.liste = séparateur.liste.entrée,
+                         séparateur.décimal = séparateur.décimal.entrée,
                          rapide = TRUE),
                 silent = TRUE)
   }
@@ -182,8 +189,8 @@ importer.bases.via.xhl2csv <- function(base) {
                       nom.table,
                       colClasses = colonnes.classes.input,
                       colNames =  colonnes.input,
-                      séparateur.liste = séparateur.liste,
-                      séparateur.décimal = séparateur.décimal,
+                      séparateur.liste = séparateur.liste.entrée,
+                      séparateur.décimal = séparateur.décimal.entrée,
                       convertir.encodage = (encodage.entrée.xhl2csv != "UTF-8"),
                       encodage = encodage.entrée.xhl2csv,
                       rapide = TRUE),
@@ -205,7 +212,17 @@ importer.bases.via.xhl2csv <- function(base) {
 
 
 importer.bases.via.xhl2csv("Paie")
-if (éliminer.duplications) Paie <- unique(Paie, by=NULL)
+
+
+if (éliminer.duplications) {
+  avant.redressement <- nrow(Paie)
+  Paie <- unique(Paie, by=NULL)
+  après.redressement <- nrow(Paie)
+  if (après.redressement != avant.redressement) {
+    cat("Retraitement de la base : ")
+    cat("Elimination de ", avant.redressement - après.redressement, " lignes dupliquées")
+  }
+}
 
 # dans le cas où l'on ne lance le programme que pour certaines années, il préciser début.période sous revue et fin.période .sous.revue
 # dans le fichier prologue.R. Sinon le programme travaille sur l'ensemble des années disponibles.
@@ -253,7 +270,7 @@ Paie <- Paie[ , `:=`(delta = sum(Montant*(  Type == "I"
                                na.rm=TRUE)
                             - Brut), by=c("Matricule", "Année", "Mois")]
 
-                    
+              
 Bulletins.paie <- unique(Paie[ , .(Matricule, Nom, Année, Mois, Temps.de.travail, Statut, Emploi, Brut, Net.à.Payer, Nir)], by = NULL)
 
 
@@ -1683,10 +1700,8 @@ if (longueur.non.na(temp) > 0)
 detach(Analyse.variations.synthèse)
 
 #'
-#'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.csv)
-#'
-
-
+#'[Lien vers la base de données synthétique](Bases/Rémunérations/Analyse.variations.synthèse.csv)
+#'[Lien vers la base de données détaillée par année](Bases/Rémunérations/Analyse.variations.par.exercice.csv)
 #'
 #'## 4.2 Evolutions des rémunérations nettes sur la période `r début.période.sous.revue` - `r fin.période.sous.revue`   
 #'
@@ -2272,7 +2287,7 @@ Résumé(c("Variation normalisée (%)",
 #'
 ########### Tests statutaires ########################
 #'
-#'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse)
+#'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.csv)
 #'
 #'
 #'### 4.4 Comparaisons avec la situation nationale des rémunérations   
@@ -2725,6 +2740,7 @@ if (sauvegarder.bases.analyse)
 
 #'## Liens complémentaires
 #'
+#'[Lien vers la base de données des bulletins et lignes de paie](Bases/Paiements/Bulletins.paie.csv)
 #'[Lien vers la base de données fusionnées des bulletins et lignes de paie](Bases/Paiements/Paie.csv)
 #'
 #'
