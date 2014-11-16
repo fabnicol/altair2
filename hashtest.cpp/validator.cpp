@@ -496,7 +496,9 @@ static void parseFile(info_t* info)
     xmlFreeDoc(doc);
 }
 
-#if defined __WIN32__ || defined GCC_4_8
+ /* Les expressions régulières correctes ne sont disponibles sur MINGW GCC qu'à partir du build 4.9.2 */
+
+#if !defined GCC_REGEX && (defined __WIN32__ || defined GCC_4_8)
 #include <regex.h>
 
 bool regex_match(const char *string, const char *pattern)
@@ -528,7 +530,8 @@ const char* pat2 = EXPRESSION_REG_VACATIONS;
 #include <ctype.h>
 
 using namespace std;
-#else error "C++11 doit être utilisé."
+#else
+#error "C++11 doit être utilisé."
 #endif
 
 
@@ -541,10 +544,11 @@ void* decoder_fichier(void* tinfo)
 
 
     info_t* info = (info_t*) tinfo;
-    #if  !defined __WIN32__ && !defined GCC_4_8
+    #if  defined GCC_REGEX //&& !defined __WIN32__ && !defined GCC_4_8
 
      regex pat {info->expression_reg_elus,  regex_constants::icase};
      regex pat2 {EXPRESSION_REG_VACATIONS, regex_constants::icase};
+     regex pat3 {EXPRESSION_REG_ASSISTANTES_MATERNELLES, regex_constants::icase};
 
     #endif
 
@@ -605,18 +609,43 @@ void* decoder_fichier(void* tinfo)
 
     // attention, pas info<-NCumAgent ici
 
+    /* Le champ statut est modifié comme suit :
+        ELU   pour un élu
+        V     pour un vacataire
+        A     pour une assistante maternelle */
+
 #define VAR(X) info->Table[agent][X]
     for (unsigned agent = 0; agent < info->NCumAgentXml; agent++)
     {
+        /* Les élus peuvent être identifiés soit dans le service soit dans l'emploi métier */
+
         if (regex_match((const char*) VAR(EmploiMetier), pat) || regex_match((const char*) VAR(Service), pat))
         {
             xmlFree(VAR(Statut)) ;
             VAR(Statut) = (xmlChar*) xmlStrdup((const xmlChar*)"ELU");
         }
+        else
+        /* vacataires */
+        if (regex_match((const char*) VAR(EmploiMetier), pat2))
+            {
+                xmlFree(VAR(Statut));
+                VAR(Statut) = (xmlChar*) xmlStrdup((const xmlChar*)"V");
+            }
+        else
+        /* assistantes maternelles */
+        if (regex_match((const char*) VAR(EmploiMetier), pat3))
+            {
+                xmlFree(VAR(Statut));
+                VAR(Statut) = (xmlChar*) xmlStrdup((const xmlChar*)"A");
+            }
+
+        /* les vacations peuvent être indiquées comme telles dans les libellés de paie mais pas dans les emplois métiers.
+           On les récupère en parcourant les libellés */
 
         if (info->reduire_consommation_memoire)
         {
             /* inutile de boucler sur la partie vide du tableau... */
+
             for (int j = info->minimum_memoire_p_ligne ; j < info->NLigne[agent]; j++)
                 if (regex_match((const char*) VAR(j), pat2))
                 {

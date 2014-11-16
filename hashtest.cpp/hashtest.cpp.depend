@@ -169,12 +169,12 @@
 	"fonctions_auxiliaires.hpp"
 	"table.hpp"
 
-1415965232 source:c:\dev\altair\hashtest.cpp\fonctions_auxiliaires.cpp
+1416084081 source:c:\dev\altair\hashtest.cpp\fonctions_auxiliaires.cpp
 	"fonctions_auxiliaires.hpp"
 	<string.h>
 	<stdint.h>
 
-1415136196 c:\dev\altair\hashtest.cpp\fonctions_auxiliaires.hpp
+1416084081 c:\dev\altair\hashtest.cpp\fonctions_auxiliaires.hpp
 	<limits.h>
 	<errno.h>
 	<stdio.h>
@@ -212,7 +212,7 @@
 	<_mingw.h>
 	<stddef.h>
 
-1415965232 c:\dev\altair\hashtest.cpp\validator.hpp
+1416093851 c:\dev\altair\hashtest.cpp\validator.hpp
 	<stdio.h>
 	<string.h>
 	<stdlib.h>
@@ -591,16 +591,16 @@
 1301111156 c:\program files (x86)\codeblocks\mingw\include\oleidl.h
 	<objfwd.h>
 
-1415965232 source:c:\dev\altair\hashtest.cpp\main.cpp
+1416084081 source:c:\dev\altair\hashtest.cpp\main.cpp
 	<unistd.h>
 	"validator.hpp"
 	"fonctions_auxiliaires.hpp"
 	"table.hpp"
 
-1415135527 c:\dev\altair\hashtest.cpp\table.hpp
+1416084081 c:\dev\altair\hashtest.cpp\table.hpp
 	"validator.hpp"
 
-1415403296 source:c:\dev\altair\hashtest.cpp\validator.cpp
+1416092356 source:c:\dev\altair\hashtest.cpp\validator.cpp
 	"validator.hpp"
 	"fonctions_auxiliaires.hpp"
 	"table.hpp"
@@ -623,7 +623,7 @@
 1341006772 c:\program files (x86)\codeblocks\mingw\include\getopt.h
 	<_mingw.h>
 
-1415965232 source:c:\dev\altair\hashtest.cpp\table.cpp
+1416084081 source:c:\dev\altair\hashtest.cpp\table.cpp
 	"table.hpp"
 	"fonctions_auxiliaires.hpp"
 
@@ -716,4 +716,12 @@
 	<ctype.h>
 
 1252051681 c:\program files (x86)\gnuwin32\include\tre\config.h
+
+1416084081 c:\mingw64\include\tre\regex.h
+	"tre-config.h"
+	<sys/types.h>
+	<libutf8.h>
+	<wchar.h>
+
+1416084081 c:\mingw64\include\tre\tre-config.h
 
