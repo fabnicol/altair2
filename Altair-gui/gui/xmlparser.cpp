@@ -69,11 +69,11 @@ void Altair::writeProjectFile()
   out << Altair::makeDataString();
 
   out << " </data>\n";
-  out << u8" <systeme>\n";
+  out << " <systeme>\n";
 
   out << Altair::makeSystemString();
 
-  out << u8" </systeme>\n <recent>\n";
+  out << " </systeme>\n <recent>\n";
 
   QStringListIterator w(parent->recentFiles);
   QString str;

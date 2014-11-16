@@ -45,10 +45,6 @@ MainWindow::MainWindow(char* projectName)
   recentFiles=QStringList()<<QString("defaut") ;
 
   altair=new Altair;
-
-  dialog=new options(altair);
-
-  dialog->setParent(altair, Qt::Window);
   altair->parent=this;
   altair->projectName=projectName;
 
@@ -113,7 +109,6 @@ MainWindow::MainWindow(char* projectName)
              a->setChecked(settings->value(a->getHashKey()).toBool());
       }
 
-  altair->initializeProject();
   bottomTabWidget->setCurrentIndex(0);
 
   QToolButton *clearBottomTabWidgetButton=new QToolButton;
@@ -134,6 +129,10 @@ MainWindow::MainWindow(char* projectName)
 
   setWindowIcon(QIcon(":/images/altair.png"));
   setWindowTitle("Interface  Altair"+ QString(VERSION));
+  raise();
+  dialog=new options(altair);
+  dialog->setParent(altair, Qt::Window);
+  altair->initializeProject();
 }
 
 void MainWindow::on_clearOutputTextButton_clicked()

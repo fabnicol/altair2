@@ -157,9 +157,9 @@ static const char* type_remuneration_traduit[nbType] = {
 
 static const xmlChar drapeau[nbType][2]  = {{1,0}, {2,0}, {3,0}, {4,0}, {5,0}, {6,0}, {7,0}, {8,0}, {9,0}, {10,0}, {11,0}, {12,0}};
 
-static const char* entete_char[]={u8"Année", "Mois", "Nom", u8"Prénom", "Matricule", "Service", "Statut", u8"Temps.de.travail",
-                                  "Heures.Sup.", "Heures", "Indice", "Brut", "Net", u8"Net.à.Payer", "NBI", u8"Libellé", "Code",
-                                  "Base", "Taux", u8"Nb.Unité", "Montant", "Type", "Emploi", "Grade", "Nir"};
+static const char* entete_char[]={"Année", "Mois", "Nom", "Prénom", "Matricule", "Service", "Statut", "Temps.de.travail",
+                                  "Heures.Sup.", "Heures", "Indice", "Brut", "Net", "Net.à.Payer", "NBI", "Libellé", "Code",
+                                  "Base", "Taux", "Nb.Unité", "Montant", "Type", "Emploi", "Grade", "Nir"};
 
 void* decoder_fichier(void* tinfo);
 
