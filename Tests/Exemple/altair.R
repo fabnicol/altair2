@@ -73,8 +73,16 @@ library(assertthat)
 library(gtools)
 library(data.table)
 
-if (séparateur.liste != ",")
-  stop("Pour les tables importées par data.table::fread, le séparateur de champs doit être ','")
+if (séparateur.décimal.entrée != ".")
+  stop("Pour les tables importées par data.table::fread, le séparateur décimal doit être '.'")
+
+if (séparateur.décimal.entrée == séparateur.liste.entrée)
+  stop("Le séparateur décimal en entrée doit être différent du séparateur de colonnes !")
+
+if (séparateur.décimal.sortie == séparateur.liste.sortie)
+  stop("Le séparateur décimal en sortie doit être différent du séparateur de colonnes !")
+
+
 
 if (sauvegarder.bases.analyse) {
   for (path in c("Rémunérations", "Effectifs", "Réglementation"))
@@ -112,7 +120,7 @@ knitr::opts_chunk$set(fig.width = 7.5, echo = FALSE, warning = FALSE, message = 
 fichier.personnels.existe <- file.exists(chemin(nom.fichier.personnels))
 
 if (fichier.personnels.existe) {
-  base.personnels.catégorie <- read.csv.skip(nom.fichier.personnels, séparateur.liste = séparateur.liste, séparateur.décimal = séparateur.décimal)
+  base.personnels.catégorie <- read.csv.skip(nom.fichier.personnels, séparateur.liste = séparateur.liste.entrée, séparateur.décimal = séparateur.décimal.entrée)
   message("Chargement du fichier des catégories statutaires des personnels.")
 }
 
@@ -155,8 +163,8 @@ Import.Lignes.paie <- function()  {
                       lignes.paie,
                       colClasses = lignes.paie.classes.input,
                       colNames = lignes.paie.input.fallback,
-                      séparateur.liste = séparateur.liste,
-                      séparateur.décimal = séparateur.décimal,
+                      séparateur.liste = séparateur.liste.entrée,
+                      séparateur.décimal = séparateur.décimal.entrée,
                       drop=1:3,
                       rapide = TRUE),
              silent = TRUE)
@@ -166,8 +174,8 @@ Import.Lignes.paie <- function()  {
                          lignes.paie,
                          colClasses = lignes.paie.classes.input.fallback,
                          colNames = lignes.paie.input.fallback,
-                         séparateur.liste = séparateur.liste,
-                         séparateur.décimal = séparateur.décimal,
+                         séparateur.liste = séparateur.liste.entrée,
+                         séparateur.décimal = séparateur.décimal.entrée,
                          rapide = TRUE),
                 silent = TRUE)
   }
@@ -182,8 +190,8 @@ importer.bases.via.xhl2csv <- function(base) {
                       nom.table,
                       colClasses = colonnes.classes.input,
                       colNames =  colonnes.input,
-                      séparateur.liste = séparateur.liste,
-                      séparateur.décimal = séparateur.décimal,
+                      séparateur.liste = séparateur.liste.entrée,
+                      séparateur.décimal = séparateur.décimal.entrée,
                       convertir.encodage = (encodage.entrée.xhl2csv != "UTF-8"),
                       encodage = encodage.entrée.xhl2csv,
                       rapide = TRUE),
@@ -205,7 +213,18 @@ importer.bases.via.xhl2csv <- function(base) {
 
 
 importer.bases.via.xhl2csv("Paie")
-if (éliminer.duplications) Paie <- unique(Paie, by=NULL)
+
+
+if (éliminer.duplications) {
+  avant.redressement <- nrow(Paie)
+  Paie <- unique(Paie, by=NULL)
+  après.redressement <- nrow(Paie)
+  if (après.redressement != avant.redressement) {
+    cat("Retraitement de la base : ")
+    cat("Elimination de ", avant.redressement - après.redressement, " lignes dupliquées")
+  }
+}
+
 
 # dans le cas où l'on ne lance le programme que pour certaines années, il préciser début.période sous revue et fin.période .sous.revue
 # dans le fichier prologue.R. Sinon le programme travaille sur l'ensemble des années disponibles.
@@ -253,12 +272,12 @@ Paie <- Paie[ , `:=`(delta = sum(Montant*(  Type == "I"
                                na.rm=TRUE)
                             - Brut), by=c("Matricule", "Année", "Mois")]
 
-                    
 Bulletins.paie <- unique(Paie[ , .(Matricule, Nom, Année, Mois, Temps.de.travail, Statut, Emploi, Brut, Net.à.Payer, Nir)], by = NULL)
 
 
 
 Bulletins.paie <- Bulletins.paie[ ,   quotité   := ifelse(etp.égale.effectif | is.na(Temps.de.travail), 1,  Temps.de.travail / 100)]
+
 
 Bulletins.paie <- Bulletins.paie[ ,   `:=`(Montant.net.eqtp  = ifelse(is.finite(a<-Net.à.Payer/quotité), a,  NA),
                                            Montant.brut.eqtp = ifelse(is.finite(a<-Brut/quotité), a,  NA))]
@@ -331,6 +350,32 @@ if (fichier.personnels.existe) {
   matricules <- cbind(matricules, Catégorie)
 }
 
+=======
+if (enlever.quotités.na) {
+  Paie           <- Paie[! is.na(quotité)]
+  Bulletins.paie <- Bulletins.paie[! is.na(quotité)]
+}
+
+if (enlever.quotités.nulles) {
+  Paie           <- Paie[quotité != 0]
+  Bulletins.paie <- Bulletins.paie[quotité != 0]
+}
+
+matricules <- unique(Bulletins.paie[ ,
+                                                 c("Année",
+                                                   "Emploi",
+                                                   "Nom",
+                                                   "Matricule"), 
+                                                 with=FALSE], by=NULL)
+
+if (fichier.personnels.existe) {
+  matricules <- merge(matricules, base.personnels.catégorie, by = clé.fusion, all=TRUE)
+} else {
+  Catégorie <- character(length = nrow(matricules))
+  matricules <- cbind(matricules, Catégorie)
+}
+
+>>>>>>> 8c75bb228c17fc7d2bb753e29d97c4939982b238:Tests/Exemple/altair.R
 matricules <- matricules[order(Matricule,
                                                          Année), ]
 
@@ -446,7 +491,7 @@ Analyse.variations.synthèse <- Analyse.variations.synthèse[ ,
 temp2 <- Analyse.variations.synthèse[ , .(Matricule, indicatrice.période, pris.en.compte, Nexercices, plus.2.ans)]
 
 
-Analyse.variations.par.exercice <- merge(Analyse.variations.par.exercice, temp2, by=c("Matricule"))
+Analyse.variations.par.exercice <- merge(Analyse.variations.par.exercice, temp2, by="Matricule")
 
 rm(temp2)
 
@@ -455,6 +500,7 @@ Analyse.variations.par.exercice <- Analyse.variations.par.exercice[ , est.rmpp :
                                                                                    &  ind.quotité == TRUE
                                                                                    & bitwAnd(bitwShiftL(1, Année - 1 - début.période.sous.revue),
                                                                                              indicatrice.période) != 0]
+
 
 Analyse.variations.synthèse.plus.2.ans  <- data.frame(NULL)
 Analyse.variations.synthèse.moins.2.ans <- data.frame(NULL)
@@ -1682,10 +1728,8 @@ if (longueur.non.na(temp) > 0)
 detach(Analyse.variations.synthèse)
 
 #'
-#'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.csv)
-#'
-
-
+#'[Lien vers la base de données synthétique](Bases/Rémunérations/Analyse.variations.synthèse.csv)
+#'[Lien vers la base de données détaillée par année](Bases/Rémunérations/Analyse.variations.par.exercice.csv)
 #'
 #'## 4.2 Evolutions des rémunérations nettes sur la période `r début.période.sous.revue` - `r fin.période.sous.revue`   
 #'
@@ -1836,6 +1880,7 @@ Résumé("Dernière année",
 #'  
 #'&nbsp;*Tableau `r incrément()`*   '    
 
+  
 Tableau.vertical2(c("Agrégat",  "Salaires nets 2011 (&euro;)", "Salaires nets 2012 (&euro;)"),
                   c("Ensemble", "Titulaires", "Autres salariés"),
                   12*c(1823, 1886, 1572),
@@ -1843,9 +1888,11 @@ Tableau.vertical2(c("Agrégat",  "Salaires nets 2011 (&euro;)", "Salaires nets 20
 
 #'*Champ : France. Salariés en équivalent-temps plein (EQTP) des collectivités territoriales (y compris bénéficiaires de contrats aidés, hors assistantes maternelles).*     			
 
+
 matrice.déciles <- t(matrix(12*c(1458, 1274, 1382, 1170, 1743, 1376, 1514, 1305, 1921, 1459, 1635, 1428, 2076, 1540, 1754,
-                              1559, 2236, 1636, 1883, 1712, 2412, 1751, 2042, 1902, 2636, 1905, 2268, 2156, 2966, 2133,
-                              2583, 2569, 3538, 2573, 3151, 3400),  ncol = 9))
+                                 1559, 2236, 1636, 1883, 1712, 2412, 1751, 2042, 1902, 2636, 1905, 2268, 2156, 2966, 2133,
+                                 2583, 2569, 3538, 2573, 3151, 3400),  ncol = 9))
+
 
 #'**Distribution des salaires nets annuels en EQTP dans la fonction publique par versant en 2011**   
 #' 
@@ -1853,12 +1900,14 @@ matrice.déciles <- t(matrix(12*c(1458, 1274, 1382, 1170, 1743, 1376, 1514, 1305,
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
+
 Tableau.vertical2(c("Décile (k&euro;)", "FPE", "FPT", "FPH", "Secteur privé"),
                   paste0("D", 1:9),
                   matrice.déciles[,1],
                   matrice.déciles[,2],
                   matrice.déciles[,3],
                   matrice.déciles[,4])
+
 
 matrice.déciles.cat <- matrix(12*c(2170,2416,2606,2789,2985,3222,3523,3927,4570,1823,
                                     1715,1856,1971,2080,2187,2303,2430,2582,2817,3225,
@@ -1871,6 +1920,7 @@ matrice.déciles.cat <- matrix(12*c(2170,2416,2606,2789,2985,3222,3523,3927,4570,
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
+
 
 Tableau.vertical2(c("Décile (k&euro;)", "Catégorie A", "Catégorie B", "Catégorie C", "Autres salariés"),
                   c(paste0("D", 1:9), "Moyenne"),
@@ -1957,6 +2007,7 @@ g <- function(x) {
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
+
 if (durée.sous.revue > 1) {
 Tableau.vertical(c(étiquette.année,  "Noria EQTP (&euro;)", "En % de la  MSN N-1", "Remplacements EQTP", "Taux de remplacements (%)"),
                  période[2:length(période)],
@@ -2025,6 +2076,7 @@ Tableau.vertical(c(étiquette.année, "Rémunération nette totale (k&euro;)", "SMPT
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
+
 Résumé("Première année",
        Analyse.variations.par.exercice[Année == début.période.sous.revue
                                        & Statut == "TITULAIRE" 
@@ -2044,8 +2096,8 @@ Résumé("Dernière année",
 #'
 #'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.csv)
 #'
-
 #'
+
 #'## 4.3 Glissement viellesse-technicité (GVT)   
 #'
 #'### 4.3.1 Ensemble des personnels   
@@ -2066,6 +2118,7 @@ q3 <- quantile(Analyse.variations.synthèse$variation.rémunération, c(quantile.cu
 # les rémunérations nettes négatives ou proche de zéro. On exige un statut explicite en fin de période.
 # Paramétrable par :
 # minimum.positif, quantile.cut 
+
 
 Analyse.variations.synthèse <- Analyse.variations.synthèse[ total.jours > 2 * seuil.troncature
                                                             & pris.en.compte == TRUE
@@ -2127,6 +2180,7 @@ Tableau.vertical(c(étiquette.année,
                  f,
                  g)
 
+
 #'    
 #'**Distribution et variation sur la période de la rémunération nette des personnes en place**                
 #'  
@@ -2135,6 +2189,7 @@ Tableau.vertical(c(étiquette.année,
 
 # La légère différence de pérmètre entre Analyse.variations.synthèse et Analyse.variations.par.exercice tient au filtrage des quantiles
 # extrêmaux et des valeurs manquantes des variations
+
 
 masque.rmpp.fin.période    <- bitwShiftL(3, durée.sous.revue - 2)      #  11{0,1}...{0,1}
 masque.rmpp.début.période  <- 3                                        #  {0,1}...{0,1}11
@@ -2208,6 +2263,7 @@ g <- function(x) prettyNum(mean.default(Analyse.variations.par.exercice[Année ==
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
+
 Tableau.vertical(c(étiquette.année,
                    "Rémunération nette totale (k&euro;)",
                    "RMPP nette (k&euro;)"),
@@ -2221,7 +2277,6 @@ Tableau.vertical(c(étiquette.année,
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
-
 
 #'  
 Résumé(c("Première année",
@@ -2271,7 +2326,7 @@ Résumé(c("Variation normalisée (%)",
 #'
 ########### Tests statutaires ########################
 #'
-#'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse)
+#'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.csv)
 #'
 #'
 #'### 4.4 Comparaisons avec la situation nationale des rémunérations   
@@ -2727,6 +2782,7 @@ if (sauvegarder.bases.analyse)
 
 #'## Liens complémentaires
 #'
+#'[Lien vers la base de données des bulletins et lignes de paie](Bases/Paiements/Bulletins.paie.csv)
 #'[Lien vers la base de données fusionnées des bulletins et lignes de paie](Bases/Paiements/Paie.csv)
 #'
 #'
