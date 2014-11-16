@@ -364,6 +364,7 @@ void Altair::clearProjectData()
 void Altair::on_helpButton_clicked()
 {
   QUrl url=QUrl::fromLocalFile(this->generateDatadirPath("/GUI.html") );
+   outputTextEdit->append(STATE_HTML_TAG + QString(" Ouverture de l'aide : ") + url.toDisplayString());
    browser::showPage(url);
 }
 
