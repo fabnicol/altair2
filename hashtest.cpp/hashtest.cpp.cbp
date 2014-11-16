@@ -25,13 +25,14 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters=" -m  -t  -D c:/Dev/altair/Tests/Exemple/Donnees/R-Altair c:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/*.xhl  c:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/*.xhl  c:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2010/*.xhl  c:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2011/*.xhl  c:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2012/*.xhl  " />
+				<Option parameters=" -m  -t  -j 8 -n 330 -N 478  -D c:/Dev/altair/Tests/Exemple/Donnees/R-Altair c:/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2010/*.xhl  c:/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2011/*.xhl  c:/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2012/*.xhl  c:/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2013/*.xhl  " />
 				<Compiler>
-					<Add option="-march=core2" />
+					<Add option="-march=corei7-avx" />
 					<Add option="-O3" />
 					<Add option="-D__GNUC_EXTENSION" />
 					<Add option="-DNO_DEBUG" />
 					<Add option="-DGCC_4_8" />
+					<Add option="-DGCC_REGEX" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -39,8 +40,6 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-march=pentium4" />
-			<Add option="-Os" />
 			<Add option="-Wextra" />
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
@@ -51,17 +50,12 @@
 			<Add option="-D_GNU_SOURCE" />
 			<Add option="-D__STDC_LIMIT_MACROS" />
 			<Add directory="/usr/include/libxml2" />
-			<Add directory="C:/Program Files (x86)/CodeBlocks/MinGW/include" />
-			<Add directory="C:/Program Files (x86)/GnuWin32/include/tre" />
+			<Add directory="../../../Mingw64/include/tre" />
 		</Compiler>
 		<Linker>
 			<Add option="-lxml2" />
-			<Add option="-ltre4" />
-			<Add option="-lpthread" />
-			<Add directory="../../../../MinGW/bin" />
-			<Add directory="../../../../../../Program Files (x86)/CodeBlocks/MinGW/bin" />
-			<Add directory="C:/Program Files (x86)/GnuWin32/bin" />
-			<Add directory="../../../MinGW/lib" />
+			<Add option="-pthread" />
+			<Add directory="C:/Mingw64/bin" />
 		</Linker>
 		<Unit filename="NOTICE" />
 		<Unit filename="fonctions_auxiliaires.cpp" />
