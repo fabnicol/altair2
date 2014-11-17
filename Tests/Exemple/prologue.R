@@ -17,9 +17,9 @@ racine                      <- "R-Altair/"
 # "UTF-8.RAG_2009_2012-"
 # "RAG_2009_2012-"
 
-extraire.années      <- FALSE
-    début.période.sous.revue    <- 2008
-    fin.période.sous.revue      <- 2012
+extraire.années      <- T
+    début.période.sous.revue    <- 2011
+    fin.période.sous.revue      <- 2013
 
 
 setOSWindows            <- Sys.info()["sysname"] != "Linux"
