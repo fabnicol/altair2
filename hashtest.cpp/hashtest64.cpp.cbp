@@ -29,7 +29,7 @@
 				<Option compiler="gcc" />
 				<Option parameters=" -m  -t c:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/*.xhl " />
 				<Compiler>
-					<Add option="-march=core2" />
+					<Add option="-march=corei7-avx" />
 					<Add option="-O3" />
 					<Add option="-D__GNUC_EXTENSION" />
 					<Add option="-DNO_DEBUG" />
@@ -54,6 +54,7 @@
 			<Add directory="/usr/include/libxml2" />
 			<Add directory="C:/Mingw64/include/tre" />
 			<Add directory="../../../Mingw64/include" />
+			<Add directory="../../../Mingw64/x86_64-w64-mingw32/include" />
 		</Compiler>
 		<Linker>
 			<Add option="-pthread" />

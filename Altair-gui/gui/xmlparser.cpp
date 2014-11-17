@@ -53,7 +53,7 @@ void Altair::writeProjectFile()
     QErrorMessage *errorMessageDialog = new QErrorMessage(this);
     if (!projectFile.open(QIODevice::WriteOnly))
     {
-        errorMessageDialog->showMessage(tr("Impossible d'ouvrir le fichier\n")+ qPrintable(projectFile.errorString()));
+        errorMessageDialog->showMessage(tr("Impossible d'ouvrir le fichier du projet\n")+ qPrintable(projectFile.errorString()));
         QLabel *errorLabel = new QLabel;
         errorLabel->setText(tr("Si cette case est décochée, ce message "
                                "ne s'affichera plus à nouveau."));

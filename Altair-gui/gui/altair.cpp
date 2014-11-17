@@ -299,7 +299,6 @@ void Altair::initializeProject(const bool cleardata)
 
 void Altair::closeProject()
 {
-    projectName="";
     clearProjectData();
 
     Altair::totalSize[0]=0;
@@ -312,6 +311,11 @@ void Altair::closeProject()
 
     project[0]->addNewTab();
 
+    QFile projectFile(projectName);
+
+    projectFile.close();
+
+    projectName="";
 }
 
 
