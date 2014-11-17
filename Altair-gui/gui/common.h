@@ -15,7 +15,7 @@
 #endif
 
 
-#define AUDIO 0
+
 #define TREE_FILE 2
 #define TREE_DIR  3
 
