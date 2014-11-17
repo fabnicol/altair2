@@ -116,10 +116,10 @@
    '6'
   </processType>
   <nAgent profondeur="0">
-   1171
+   601
   </nAgent>
   <nLine profondeur="0">
-   77
+   1249
   </nLine>
   <genererTable profondeur="0">
    oui
@@ -131,10 +131,10 @@
    non
   </genererLog>
   <ecoRAM profondeur="0">
-   oui
+   non
   </ecoRAM>
  </systeme>
  <recent>
-  <fichier>C:/Dev/altair/Interface/defaut.alt</fichier>
+  <fichier>C:/Dev/altair/Interface/pev.alt</fichier>
  </recent>
 </projet>

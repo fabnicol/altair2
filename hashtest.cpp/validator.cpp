@@ -628,15 +628,15 @@ void* decoder_fichier(void* tinfo)
         /* vacataires */
         if (regex_match((const char*) VAR(EmploiMetier), pat2))
             {
-                xmlFree(VAR(Statut));
-                VAR(Statut) = (xmlChar*) xmlStrdup((const xmlChar*)"V");
+                xmlFree(VAR(Grade));
+                VAR(Grade) = (xmlChar*) xmlStrdup((const xmlChar*)"V");
             }
         else
         /* assistantes maternelles */
         if (regex_match((const char*) VAR(EmploiMetier), pat3))
             {
-                xmlFree(VAR(Statut));
-                VAR(Statut) = (xmlChar*) xmlStrdup((const xmlChar*)"A");
+                xmlFree(VAR(Grade));
+                VAR(Grade) = (xmlChar*) xmlStrdup((const xmlChar*)"A");
             }
 
         /* les vacations peuvent être indiquées comme telles dans les libellés de paie mais pas dans les emplois métiers.
@@ -649,8 +649,8 @@ void* decoder_fichier(void* tinfo)
             for (int j = info->minimum_memoire_p_ligne ; j < info->NLigne[agent]; j++)
                 if (regex_match((const char*) VAR(j), pat2))
                 {
-                    xmlFree(VAR(Statut));
-                    VAR(Statut) = (xmlChar*) xmlStrdup((const xmlChar*)"V");
+                    xmlFree(VAR(Grade));
+                    VAR(Grade) = (xmlChar*) xmlStrdup((const xmlChar*)"V");
                 }
         }
         else
@@ -658,8 +658,8 @@ void* decoder_fichier(void* tinfo)
             for (int j = info->minimum_memoire_p_ligne ; j < info->NLigne[agent] && info->Table[agent][j] != NULL; j++)
                 if (regex_match((const char*) VAR(j), pat2))
                 {
-                    xmlFree(VAR(Statut));
-                    VAR(Statut) = (xmlChar*) xmlStrdup((const xmlChar*)"V");
+                    xmlFree(VAR(Grade));
+                    VAR(Grade) = (xmlChar*) xmlStrdup((const xmlChar*)"V");
                 }
         }
     }

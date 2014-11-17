@@ -113,10 +113,10 @@
    '5'
   </processType>
   <nAgent profondeur="0">
-   330
+   1171
   </nAgent>
   <nLine profondeur="0">
-   479
+   77
   </nLine>
   <genererTable profondeur="0">
    oui
@@ -128,7 +128,7 @@
    non
   </genererLog>
   <ecoRAM profondeur="0">
-   non
+   oui
   </ecoRAM>
  </systeme>
  <recent>

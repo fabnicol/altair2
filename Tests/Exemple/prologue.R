@@ -17,7 +17,7 @@ racine                      <- "R-Altair/"
 # "UTF-8.RAG_2009_2012-"
 # "RAG_2009_2012-"
 
-extraire.années      <- T
+extraire.années      <- F
     début.période.sous.revue    <- 2011
     fin.période.sous.revue      <- 2013
 
@@ -47,6 +47,7 @@ seuil.troncature         <- 0 # jours
 taux.tolérance.homonymie <- 2  # en %
 quantile.cut             <- 1  # en %
 minimum.positif          <- 0.5
+minimum.quotité          <- 0.1
 
 séparateur.liste.entrée     <- ","
 séparateur.décimal.entrée   <- "."
