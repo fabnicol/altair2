@@ -37,7 +37,7 @@ if (longueur.non.na(filtre.fonctionnaire(rémunération.indemnitaire.imposable.e
 #'   
 #'   
 #'   
-if (filtre.fonctionnaire(rémunération.indemnitaire.imposable.eqtp[rémunération.indemnitaire.imposable.eqtp > 10000]) > 0)
+if (longueur.non.na(filtre.fonctionnaire(rémunération.indemnitaire.imposable.eqtp[rémunération.indemnitaire.imposable.eqtp > 10000]) > 0))
   hist(filtre.fonctionnaire(rémunération.indemnitaire.imposable.eqtp[rémunération.indemnitaire.imposable.eqtp > 10000])/1000,
        xlab = "En milliers d'euros (> 10 k€) EQTP\n",
        ylab = "Effectif",

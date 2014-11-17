@@ -9,7 +9,7 @@
 #include <limits.h>
 #include <locale.h>
 #include <errno.h>
-#include <pthread/pthread.h>
+#include <pthread.h>
 #include <math.h>
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
