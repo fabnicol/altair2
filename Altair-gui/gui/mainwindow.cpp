@@ -354,7 +354,7 @@ void MainWindow::on_optionsButton_clicked()
 void MainWindow::on_displayFileTreeViewButton_clicked(bool isHidden)
 {
    fileTreeViewDockWidget->setVisible(isHidden);
-   altair->project[AUDIO]->importFromMainTree->setVisible(isHidden);
+   altair->project[0]->importFromMainTree->setVisible(isHidden);
 
  }
 

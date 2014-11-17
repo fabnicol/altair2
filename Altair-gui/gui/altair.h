@@ -23,7 +23,7 @@ public:
     enum { MaxRecentFiles = 5 };
     static int RefreshFlag;
     static int dialVolume;
-    QFileSystemModel *model=new QFileSystemModel;
+    QFileSystemModel *model = nullptr;
     QTreeWidget *managerWidget= new QTreeWidget;
     QTreeView *fileTreeView= new QTreeView;
     QString projectName;
@@ -79,7 +79,7 @@ private slots:
     void on_xhlFilterButton_clicked(bool active=false);
     void requestSaveProject();
     void writeProjectFile();
-    void assignGroupFiles( const int group_index, const QString& file);
+    void assignGroupFiles( const int group_index);
     void openProjectFile();
     void closeProject();
     void on_switch_to_progress_2();
@@ -89,7 +89,6 @@ private:
     bool hasIndexChanged;
     int myTimerId=0;
     int row=0;
-    uint isVideo=AUDIO;
     uint currentIndex=0;
     qint64 value=0;
     static qint64 totalSize[2];
@@ -118,13 +117,15 @@ private:
     FStringList parseEntry(const QDomNode &, QTreeWidgetItem *parent=0);
 
     void refreshRowPresentation();
-    void refreshRowPresentation(uint, uint);
+    void refreshRowPresentation(uint);
     void setIndexedProperties(QModelIndexList* indexList);
     void setDialogFromProject();
     void showFilenameOnly();
     void updateIndexInfo();
     void updateIndexChangeInfo();
     void displayTotalSize();
+    void refreshModel();
+    void refreshTreeView();
 
     void DomParser(QIODevice*);
     void refreshProjectManagerValues(int= refreshAllZones );

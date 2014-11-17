@@ -21,10 +21,10 @@ class Hash;
 
 void Altair::initialize()
 {
-  adjustSize();
+    adjustSize();
     
-  Hash::description["année"]={"Fichiers .xhl"};
-  Hash::description["recent"]={"Récent"};
+    Hash::description["année"]={"Fichiers .xhl"};
+    Hash::description["recent"]={"Récent"};
 }
 
 
@@ -40,158 +40,170 @@ int Altair::applyFunctionToSelectedFiles(int (Altair::*f)(int))
     QListIterator<QModelIndex> i(indexList);
 
     while (i.hasNext())
-      {
+    {
         QModelIndex index=i.next();
 
-         fileTreeFile = model->filePath(index);
-         result = (this->*f)(model->fileInfo(index).isDir() << 8 | model->fileInfo(index).isFile());
+        fileTreeFile = model->filePath(index);
+        result = (this->*f)(model->fileInfo(index).isDir() << 8 | model->fileInfo(index).isFile());
 
         if (!result)
-         {
+        {
             QMessageBox::warning(this, tr("Parcourir"),
                                  tr("%1 n'est pas un fichier ou un répertoire.").arg(model->fileInfo(index).fileName()));
             return 0;
-         }
+        }
 
         cum_result += result;
-      }
+    }
 
     return cum_result;
 }
 
+void Altair::refreshModel()
+{
+    if (model) delete(model);
+    model = new QFileSystemModel;
+    model->setReadOnly(false);
+    model->setRootPath(QDir::homePath());
+    model->sort(Qt::AscendingOrder);
+    model->setFilter(QDir::AllDirs|QDir::Drives|QDir::Files|QDir::NoDotAndDotDot|QDir::NoSymLinks);
+    model->setNameFilterDisables(false);
+    model->setNameFilters({"*.xhl"});
+}
 
+
+void Altair::refreshTreeView()
+{
+    fileTreeView->setModel(model);
+    fileTreeView->hideColumn(1);
+    fileTreeView->setMinimumWidth(300);
+    fileTreeView->setColumnWidth(0,300);
+
+    fileTreeView->header()->setStretchLastSection(true);
+    fileTreeView->header()->setSortIndicator(0, Qt::AscendingOrder);
+    fileTreeView->header()->setSortIndicatorShown(true);
+
+    fileTreeView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    fileTreeView->setSelectionBehavior(QAbstractItemView::SelectItems);
+
+    QModelIndex index = model->index(QDir::currentPath());
+    fileTreeView->expand(index);
+    fileTreeView->scrollTo(index);
+}
 
 Altair::Altair()
 {
-  setAttribute(Qt::WA_DeleteOnClose);
-  initialize();
-  setAcceptDrops(true);
+    setAttribute(Qt::WA_DeleteOnClose);
+    initialize();
+    setAcceptDrops(true);
 
-  model->setReadOnly(false);
-  model->setRootPath(QDir::homePath());
-  model->sort(Qt::AscendingOrder);
-  model->setNameFilterDisables(false);
+    refreshModel();
 
-  fileTreeView->setModel(model);
-  fileTreeView->hideColumn(1);
-  fileTreeView->setMinimumWidth(300);
-  fileTreeView->setColumnWidth(0,300);
+    refreshTreeView();
 
-  fileTreeView->header()->setStretchLastSection(true);
-  fileTreeView->header()->setSortIndicator(0, Qt::AscendingOrder);
-  fileTreeView->header()->setSortIndicatorShown(true);
 
-  fileTreeView->setSelectionMode(QAbstractItemView::ExtendedSelection);
-  fileTreeView->setSelectionBehavior(QAbstractItemView::SelectItems);
+    xhlFilterButton->setToolTip("Rafraîchir l'arborescence");
+    const QIcon iconAudioFilter = QIcon(QString::fromUtf8( ":/images/application-xml.png"));
+    xhlFilterButton->setIcon(iconAudioFilter);
+    xhlFilterButton->setIconSize(QSize(22, 22));
+    xhlFilterButton->setCheckable(true);
+    xhlFilterButton->setAutoFillBackground(true);
 
-  QModelIndex index = model->index(QDir::currentPath());
-  fileTreeView->expand(index);
-  fileTreeView->scrollTo(index);
+    project[0]=new FListFrame(nullptr,      // no parent widget
+                              fileTreeView,                   // files may be imported from this tree view
+                              importFiles,                     // FListFrame type
+                              "XHL",                          // superordinate xml tag
+    {"Décodeur de fichiers XHL", ""},                   // project manager widget on-screen tag
+                              "g",                                  // command line label
+                              flags::commandLineType::altairCommandLine|flags::status::hasListCommandLine|flags::status::enabled,  // command line characteristic features
+    {" ", " -g "},                       // command line separators
+    {"fichier", "année"},                // subordinate xml tags
+                              common::TabWidgetTrait::NO_EMBEDDING_TAB_WIDGET);                      //tab icon
 
-  xhlFilterButton->setToolTip("Afficher les fichiers avec l'extension .xhl");
-  const QIcon iconAudioFilter = QIcon(QString::fromUtf8( ":/images/application-xml.png"));
-  xhlFilterButton->setIcon(iconAudioFilter);
-  xhlFilterButton->setIconSize(QSize(22, 22));
-  xhlFilterButton->setCheckable(true);
-  xhlFilterButton->setAutoFillBackground(true);
 
-  project[AUDIO]=new FListFrame(nullptr,      // no parent widget
-                                fileTreeView,                   // files may be imported from this tree view
-                                importFiles,                     // FListFrame type
-                                "XHL",                          // superordinate xml tag
-                                {"Décodeur de fichiers XHL", ""},                   // project manager widget on-screen tag
-                                "g",                                  // command line label
-                                flags::commandLineType::altairCommandLine|flags::status::hasListCommandLine|flags::status::enabled,  // command line characteristic features
-                               {" ", " -g "},                       // command line separators
-                               {"fichier", "année"},                // subordinate xml tags
-                                common::TabWidgetTrait::NO_EMBEDDING_TAB_WIDGET);                      //tab icon
+    mkdirButton->setToolTip(tr("Créer le répertoire..."));
+    const QIcon iconCreate = QIcon(QString::fromUtf8( ":/images/folder-new.png"));
+    mkdirButton->setIcon(iconCreate);
+    mkdirButton->setIconSize(QSize(22, 22));
 
-  
-  mkdirButton->setToolTip(tr("Créer le répertoire..."));
-  const QIcon iconCreate = QIcon(QString::fromUtf8( ":/images/folder-new.png"));
-  mkdirButton->setIcon(iconCreate);
-  mkdirButton->setIconSize(QSize(22, 22));
+    removeFileTreeElementsButton->setToolTip(tr("Effacer le répertoire ou le fichier..."));
+    const QIcon iconremoveFileTreeElements = QIcon(QString::fromUtf8( ":/images/edit-delete.png"));
+    removeFileTreeElementsButton->setIcon(iconremoveFileTreeElements);
+    removeFileTreeElementsButton->setIconSize(QSize(22, 22));
 
-  removeFileTreeElementsButton->setToolTip(tr("Effacer le répertoire ou le fichier..."));
-  const QIcon iconremoveFileTreeElements = QIcon(QString::fromUtf8( ":/images/edit-delete.png"));
-  removeFileTreeElementsButton->setIcon(iconremoveFileTreeElements);
-  removeFileTreeElementsButton->setIconSize(QSize(22, 22));
+    progress=new FProgressBar(this,
+                              &Altair::getDirectorySize,
+                              &Altair::printBaseSize,
+                              &Altair::killProcess);
 
-  progress=new FProgressBar(this,
-                                  &Altair::getDirectorySize,
-                                  &Altair::printBaseSize,
-                                  &Altair::killProcess);
+    progress->setToolTip(tr("Décodage"));
 
-  progress->setToolTip(tr("Décodage"));
- 
-  outputTextEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-  outputTextEdit->setAcceptDrops(false);
-  outputTextEdit->setMinimumHeight(200);
+    outputTextEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    outputTextEdit->setAcceptDrops(false);
+    outputTextEdit->setMinimumHeight(200);
 
-  QGridLayout *projectLayout = new QGridLayout;
-  QGridLayout *updownLayout = new QGridLayout;
-  QVBoxLayout *mkdirLayout = new QVBoxLayout;
+    QGridLayout *projectLayout = new QGridLayout;
+    QGridLayout *updownLayout = new QGridLayout;
+    QVBoxLayout *mkdirLayout = new QVBoxLayout;
 
-  mkdirLayout->addWidget(mkdirButton);
-  mkdirLayout->addWidget(removeFileTreeElementsButton);
-  mkdirLayout->addWidget(xhlFilterButton);
-  projectLayout->addLayout(mkdirLayout,0,0);
+    mkdirLayout->addWidget(mkdirButton);
+    mkdirLayout->addWidget(removeFileTreeElementsButton);
+    mkdirLayout->addWidget(xhlFilterButton);
+    projectLayout->addLayout(mkdirLayout,0,0);
 
-  connect(mkdirButton, SIGNAL(clicked()), this, SLOT(createDirectory()));
-  connect(removeFileTreeElementsButton, SIGNAL(clicked()), this, SLOT(removeFileTreeElements()));
-  connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int)));
-  connect(xhlFilterButton, SIGNAL(clicked(bool)), this, SLOT(on_xhlFilterButton_clicked(bool)));
-      
-  int ZONE=0;
+    connect(mkdirButton, SIGNAL(clicked()), this, SLOT(createDirectory()));
+    connect(removeFileTreeElementsButton, SIGNAL(clicked()), this, SLOT(removeFileTreeElements()));
+    connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int)));
+    connect(xhlFilterButton, SIGNAL(clicked(bool)), this, SLOT(on_xhlFilterButton_clicked(bool)));
 
-  project[ZONE]->model=model;
-  project[ZONE]->slotList=nullptr;
-  connect(project[ZONE]->addGroupButton, SIGNAL(clicked()), this, SLOT(addGroup()));
-  connect(project[ZONE]->deleteGroupButton, SIGNAL(clicked()), this, SLOT(deleteGroup()));
-  connect(project[ZONE]->importFromMainTree, &QToolButton::clicked,
-          [this]{
-                      updateProject();
-                      displayTotalSize();
-                      showFilenameOnly();
-                   });
-  connect(project[ZONE]->moveUpItemButton, SIGNAL(clicked()), this, SLOT(on_moveUpItemButton_clicked()));
-  connect(project[ZONE]->moveDownItemButton, SIGNAL(clicked()), this, SLOT(on_moveDownItemButton_clicked()));
-  connect(project[ZONE]->retrieveItemButton, SIGNAL(clicked()), this, SLOT(on_deleteItem_clicked()));
-  connect(project[ZONE]->clearListButton, &QToolButton::clicked, [this] { updateProject(); displayTotalSize(); });
+    project[0]->model=model;
+    project[0]->slotList=nullptr;
+    connect(project[0]->addGroupButton, SIGNAL(clicked()), this, SLOT(addGroup()));
+    connect(project[0]->deleteGroupButton, SIGNAL(clicked()), this, SLOT(deleteGroup()));
+    connect(project[0]->importFromMainTree, &QToolButton::clicked,
+            [this]{
+        updateProject();
+        displayTotalSize();
+        showFilenameOnly();
+    });
+    connect(project[0]->moveUpItemButton, SIGNAL(clicked()), this, SLOT(on_moveUpItemButton_clicked()));
+    connect(project[0]->moveDownItemButton, SIGNAL(clicked()), this, SLOT(on_moveDownItemButton_clicked()));
+    connect(project[0]->retrieveItemButton, SIGNAL(clicked()), this, SLOT(on_deleteItem_clicked()));
+    connect(project[0]->clearListButton, &QToolButton::clicked, [this] { updateProject(); displayTotalSize(); });
 
-  projectLayout->addWidget(project[ZONE]->tabBox, 0,2);
-  updownLayout->addWidget(project[ZONE]->getControlButtonBox(), 0,0);
+    projectLayout->addWidget(project[0]->tabBox, 0,2);
+    updownLayout->addWidget(project[0]->getControlButtonBox(), 0,0);
 
-  projectLayout->addWidget(project[ZONE]->importFromMainTree, 0,1);
+    projectLayout->addWidget(project[0]->importFromMainTree, 0,1);
 
-  updownLayout->setRowMinimumHeight(1, 40);
-  updownLayout->setRowMinimumHeight(3, 40);
+    updownLayout->setRowMinimumHeight(1, 40);
+    updownLayout->setRowMinimumHeight(3, 40);
 
-  projectLayout->addLayout(updownLayout, 0,3);
+    projectLayout->addLayout(updownLayout, 0,3);
 
-  mainLayout->addLayout(projectLayout);
+    mainLayout->addLayout(projectLayout);
 
-  progressLayout->addLayout(progress->layout);
-  //progressLayout->addLayout(progress2->layout);
+    progressLayout->addLayout(progress->layout);
+    //progressLayout->addLayout(progress2->layout);
 
-  mainLayout->addLayout(progressLayout);
+    mainLayout->addLayout(progressLayout);
 
-  QStringList labels;
-  labels << tr("") << tr("Chemin") << tr("Taille");
-  managerWidget->hide();
-  managerWidget->setHeaderLabels(labels);
-  managerWidget->setColumnWidth(0,300);
-  managerWidget->setColumnWidth(1,300);
-  managerWidget->setContextMenuPolicy(Qt::ContextMenuPolicy::NoContextMenu);
-  managerLayout->addWidget(managerWidget);
+    QStringList labels;
+    labels << tr("") << tr("Chemin") << tr("Taille");
+    managerWidget->hide();
+    managerWidget->setHeaderLabels(labels);
+    managerWidget->setColumnWidth(0,300);
+    managerWidget->setColumnWidth(1,300);
+    managerWidget->setContextMenuPolicy(Qt::ContextMenuPolicy::NoContextMenu);
+    managerLayout->addWidget(managerWidget);
 
-  allLayout->addLayout(mainLayout);
-  allLayout->addLayout(managerLayout);
+    allLayout->addLayout(mainLayout);
+    allLayout->addLayout(managerLayout);
 
-  setLayout(allLayout);
-  setWindowTitle(tr("altair-author"));
-  const QIcon altairIcon=QIcon(QString::fromUtf8( ":/images/altair.png"));
-  setWindowIcon(altairIcon);
+    setLayout(allLayout);
+    setWindowTitle(tr("altair-author"));
+    const QIcon altairIcon=QIcon(QString::fromUtf8( ":/images/altair.png"));
+    setWindowIcon(altairIcon);
 
 }
 
@@ -200,69 +212,68 @@ QProgressBar* Altair::getBar()  { return progress->getBar(); }
 
 void Altair::refreshRowPresentation()
 {
-  // indexes are supposed to have been recently updated
-  refreshRowPresentation(isVideo, currentIndex);
+    // indexes are supposed to have been recently updated
+    refreshRowPresentation(currentIndex);
 }
 
 
-void Altair::refreshRowPresentation(uint ZONE, uint j)
+void Altair::refreshRowPresentation(uint j)
 {
-  QPalette palette;
-  palette.setColor(QPalette::AlternateBase,QColor("silver"));
-  QFont font=QFont("Courier",10);
+    QPalette palette;
+    palette.setColor(QPalette::AlternateBase,QColor("silver"));
+    QFont font=QFont("Courier",10);
 
-  QListWidget *widget=project[ZONE]->getWidgetContainer(j);
-  if (widget == nullptr) return;
-  widget->setPalette(palette);
-  widget->setAlternatingRowColors(true);
-  widget->setFont(font);
+    QListWidget *widget=project[0]->getWidgetContainer(j);
+    if (widget == nullptr) return;
+    widget->setPalette(palette);
+    widget->setAlternatingRowColors(true);
+    widget->setFont(font);
 
-  for (int r=0; (r < widget->count()) && (r < Hash::wrapper["XHL"]->at(j).size()); r++ )
+    for (int r=0; (r < widget->count()) && (r < Hash::wrapper["XHL"]->at(j).size()); r++ )
     {
-      widget->item(r)->setText(Hash::wrapper.value("XHL")->at(j).at(r).section('/',-1));
-      widget->item(r)->setTextColor(QColor("navy"));
-      //widget->item(r)->setToolTip(fileSizeDataBase[ZONE].at(j).at(r)+" B");
+        widget->item(r)->setToolTip(fileSizeDataBase[0].at(j).at(r)+QString("octets"));
+        widget->item(r)->setText(Hash::wrapper.value("XHL")->at(j).at(r).section('/',-1));
+        widget->item(r)->setTextColor(QColor("navy"));
+
     }
 }
 
 //TODO insert button somewhere or right-click option, and back to sort by name
 void Altair::showFilenameOnly()
 {
-  updateIndexInfo();
-  refreshRowPresentation(isVideo, currentIndex);
- }
+    updateIndexInfo();
+    refreshRowPresentation(currentIndex);
+}
 
 
 
 
 void Altair::on_openProjectButton_clicked()
 {
-  static bool must_close;
+    closeProject();
+    projectName=QFileDialog::getOpenFileName(this,  tr("Ouvrir le projet"), QDir::currentPath(),  tr("projet altair (*.alt)"));
 
-  if (must_close) closeProject();
-  projectName=QFileDialog::getOpenFileName(this,  tr("Ouvrir le projet"), QDir::currentPath(),  tr("projet altair (*.alt)"));
+    if (projectName.isEmpty()) return;
 
-  if (projectName.isEmpty()) return;
+    RefreshFlag |=ParseXml;
+    initializeProject();
 
-  RefreshFlag |=ParseXml;
-  initializeProject();
-  must_close=true;
 }
 
 
 void Altair::on_xhlFilterButton_clicked(bool active)
 {
-  QStringList filters= (active)? QStringList("*.xhl"): QStringList("*.*");
-  
-  model->setNameFilters(filters);
-  fileTreeView->update();
+    refreshModel();
+    refreshTreeView();
+    model->setNameFilterDisables(active);
 }
 
 void Altair::openProjectFile()
 {
-  projectName=qobject_cast<QAction *>(sender())->data().toString();
-  RefreshFlag |=ParseXml;
-  initializeProject();
+    closeProject();
+    projectName=qobject_cast<QAction *>(sender())->data().toString();
+    RefreshFlag |=ParseXml;
+    initializeProject();
 }
 
 
@@ -277,7 +288,7 @@ void Altair::initializeProject(const bool cleardata)
     RefreshFlag |= UpdateTree ;
     QListIterator<FAbstractWidget*>  w(Abstract::abstractWidgetList);
 
-   while (w.hasNext())
+    while (w.hasNext())
         w.next()->setXmlFromWidget();
 
     refreshProjectManager();
@@ -288,90 +299,86 @@ void Altair::initializeProject(const bool cleardata)
 
 void Altair::closeProject()
 {
-  projectName="";
-  clearProjectData();
+    projectName="";
+    clearProjectData();
 
-  Altair::totalSize[AUDIO]=0;
-  displayTotalSize();
+    Altair::totalSize[0]=0;
+    displayTotalSize();
 
-  for (int ZONE : {AUDIO})
-  {
-    for  (int i = project[ZONE]->getRank()+1; i >=0;   i--)
+    for  (int i = project[0]->getRank()+1; i >=0;   i--)
     {
-      project[ZONE]->mainTabWidget->removeTab(i);
+        project[0]->mainTabWidget->removeTab(i);
     }
 
-    project[ZONE]->addNewTab();
-  }
+    project[0]->addNewTab();
+
 }
 
 
 void Altair::clearProjectData()
 {
-  RefreshFlag = RefreshFlag|UpdateMainTabs|UpdateOptionTabs|UpdateTree;
+    RefreshFlag = RefreshFlag|UpdateMainTabs|UpdateOptionTabs|UpdateTree;
 
-  for (int ZONE : {AUDIO})
+    int R=project[0]->getRank();
+
+    for (int i=1; 2*i <= R+1; i++)
     {
-      int R=project[ZONE]->getRank();
-      
-      for (int i=1; 2*i <= R+1; i++)
-      {
-          /* i <= R-i+1, majorant = nombre de groupes restants */   
-          project[ZONE]->deleteGroup(i, R-i+1);
-      }
-
-      project[ZONE]->on_clearList_clicked();
-
-      project[ZONE]->clearWidgetContainer();
-      fileSizeDataBase[ZONE].clear();
+        /* i <= R-i+1, majorant = nombre de groupes restants */
+        project[0]->deleteGroup(i, R-i+1);
     }
 
-   managerWidget->clear();
+    project[0]->on_clearList_clicked();
 
-  QMessageBox::StandardButton choice=QMessageBox::Cancel;
+    project[0]->clearWidgetContainer();
+    fileSizeDataBase[0].clear();
 
-  if (options::RefreshFlag ==  hasUnsavedOptions)
+
+    managerWidget->clear();
+
+    QMessageBox::StandardButton choice=QMessageBox::Cancel;
+
+    if (options::RefreshFlag ==  hasUnsavedOptions)
     {
-      choice=QMessageBox::information(this, "Nouveaux paramètres",
-                                      "Ce projet contient de nouveaux paramètres.\nAppuyer sur OK pour les sauvegarder,\nsinon sur Non\nou sur Annuler pour quitter.\n",
-                                      QMessageBox::Ok|QMessageBox::No|QMessageBox::Cancel);
-      switch (choice)
+        choice=QMessageBox::information(this, "Nouveaux paramètres",
+                                        "Ce projet contient de nouveaux paramètres.\nAppuyer sur OK pour les sauvegarder,\nsinon sur Non\nou sur Annuler pour quitter.\n",
+                                        QMessageBox::Ok|QMessageBox::No|QMessageBox::Cancel);
+        switch (choice)
         {
-            case QMessageBox::Ok  :
-             // parent->dialog->clearOptionData();
-              break;
+        case QMessageBox::Ok  :
+            // parent->dialog->clearOptionData();
+            break;
 
-            case QMessageBox::No :
-              options::RefreshFlag = KeepOptionTabs;
-              break;
+        case QMessageBox::No :
+            options::RefreshFlag = KeepOptionTabs;
+            break;
 
-            case QMessageBox::Cancel :
-            default:
-              return;
-              break;
+        case QMessageBox::Cancel :
+        default:
+            return;
+            break;
         }
     }
 
 
-      project[0]->embeddingTabWidget->setCurrentIndex(0);
-      project[0]->initializeWidgetContainer();
+    project[0]->embeddingTabWidget->setCurrentIndex(0);
+    project[0]->initializeWidgetContainer();
 
 
     /* cleanly wipe out main Hash */
-        Abstract::initializeFStringListHashes();
+    Abstract::initializeFStringListHashes();
 }
 
 void Altair::on_helpButton_clicked()
 {
-  QUrl url=QUrl::fromLocalFile(this->generateDatadirPath("/GUI.html") );
-   outputTextEdit->append(STATE_HTML_TAG + QString(" Ouverture de l'aide : ") + url.toDisplayString());
-   browser::showPage(url);
+    QUrl url=QUrl::fromLocalFile(this->generateDatadirPath("/GUI.html") );
+    outputTextEdit->append(STATE_HTML_TAG + QString(" Ouverture de l'aide : ") + url.toDisplayString());
+    browser::showPage(url);
 }
 
 
 void Altair::addGroup()
 {
-  updateIndexInfo();
+    updateIndexInfo();
 
 }
 
@@ -379,60 +386,60 @@ void Altair::addGroup()
 void Altair::displayTotalSize()
 {
     static qint64 comp;
-    qint64 tot=Altair::totalSize[AUDIO];
+    qint64 tot=Altair::totalSize[0];
     if (tot != comp)
-       outputTextEdit->append(STATE_HTML_TAG "Taille du projet :  " + QString::number(tot) + " B ("+QString::number(tot/(1024*1024))+" Mo)");
+        outputTextEdit->append(STATE_HTML_TAG "Taille du projet :  " + QString::number(tot) + " B ("+QString::number(tot/(1024*1024))+" Mo)");
     comp=tot;
 }
 
 void Altair::deleteGroup()
 {
-  updateIndexInfo();
-  uint rank=(uint) project[isVideo]->getRank();
+    updateIndexInfo();
+    uint rank=(uint) project[0]->getRank();
 
-  //if ((uint) fileSizeDataBase[isVideo].size() > currentIndex)
-    //  fileSizeDataBase[isVideo][currentIndex].clear();
+    if ((uint) fileSizeDataBase[0].size() > currentIndex)
+        fileSizeDataBase[0][currentIndex].clear();
 
-  if (rank > 0)
+    if (rank > 0)
     {
-      if (currentIndex < rank)
+        if (currentIndex < rank)
         {
 
-          for (unsigned j=currentIndex; j < rank ; j++)
+            for (unsigned j=currentIndex; j < rank ; j++)
             {
-              //fileSizeDataBase[isVideo][j]=fileSizeDataBase[isVideo][j+1];
-             }
+                fileSizeDataBase[0][j]=fileSizeDataBase[0][j+1];
+            }
         }
     }
 
-  updateProject();
-  displayTotalSize();
+    updateProject();
+    displayTotalSize();
 }
 
 static bool firstSelection=true;
 
 void Altair::updateIndexChangeInfo()
 {
-  static uint oldVideo;
-  static uint oldCurrentIndex;
-  static int oldRow;
-  hasIndexChanged=(isVideo != oldVideo) | (currentIndex != oldCurrentIndex) |  (row != oldRow);
-  if (firstSelection) hasIndexChanged=false;
+    static uint oldVideo;
+    static uint oldCurrentIndex;
+    static int oldRow;
+    hasIndexChanged=(0 != oldVideo) | (currentIndex != oldCurrentIndex) |  (row != oldRow);
+    if (firstSelection) hasIndexChanged=false;
 
-  emit(hasIndexChangedSignal());
+    emit(hasIndexChangedSignal());
 
-  oldVideo=isVideo;
-  oldCurrentIndex=currentIndex;
-  oldRow=row;
-  firstSelection=false;
+    oldVideo=0;
+    oldCurrentIndex=currentIndex;
+    oldRow=row;
+    firstSelection=false;
 }
 
 
 void Altair::updateIndexInfo()
 {
-  isVideo=0;
-  currentIndex=project[isVideo]->getCurrentIndex();
-  row=project[isVideo]->getCurrentRow();
+
+    currentIndex=project[0]->getCurrentIndex();
+    row=project[0]->getCurrentRow();
 
     // row = -1 if nothing selected
 }
@@ -440,102 +447,102 @@ void Altair::updateIndexInfo()
 
 void Altair::on_moveUpItemButton_clicked()
 {
-  updateIndexInfo();
-  if (row == 0) return;
-  //fileSizeDataBase[isVideo][currentIndex].swap(row, row-1);
+    updateIndexInfo();
+    if (row == 0) return;
+    fileSizeDataBase[0][currentIndex].swap(row, row-1);
 
-  RefreshFlag |= SaveTree|UpdateTree;
-  updateProject();
-  refreshRowPresentation();
+    RefreshFlag |= SaveTree|UpdateTree;
+    updateProject();
+    refreshRowPresentation();
 }
 
 void Altair::on_moveDownItemButton_clicked()
 {
-  updateIndexInfo();
-  if (row < 0) return;
-  if (row == project[isVideo]->getCurrentWidget()->count() -1) return;
+    updateIndexInfo();
+    if (row < 0) return;
+    if (row == project[0]->getCurrentWidget()->count() -1) return;
 
- // fileSizeDataBase[isVideo][currentIndex].swap(row, row+1);
-  RefreshFlag |= SaveTree | UpdateTree;
-  updateProject();
-  refreshRowPresentation();
+    fileSizeDataBase[0][currentIndex].swap(row, row+1);
+    RefreshFlag |= SaveTree | UpdateTree;
+    updateProject();
+    refreshRowPresentation();
 }
 
 
 void Altair::on_deleteItem_clicked()
 {
-  RefreshFlag |= SaveTree | UpdateTree;
-  updateProject();
-  updateIndexInfo();
-  displayTotalSize();
+    RefreshFlag |= SaveTree | UpdateTree;
+    updateProject();
+    updateIndexInfo();
+    displayTotalSize();
 }
 
 
 void Altair::createDirectory()
 {
-  QModelIndex index = fileTreeView->currentIndex();
-  if (!index.isValid())
-    return;
+    QModelIndex index = fileTreeView->currentIndex();
+    if (!index.isValid())
+        return;
 
-  QString dirName = QInputDialog::getText(this, tr("Create Directory"), tr("Directory name"));
+    QString dirName = QInputDialog::getText(this, tr("Create Directory"), tr("Directory name"));
 
-  if (!dirName.isEmpty())
+    if (!dirName.isEmpty())
     {
-      if (!model->mkdir(index, dirName).isValid())
-        QMessageBox::information(this, tr("Create Directory"),
-                                 tr("Failed to create the directory"));
+        if (!model->mkdir(index, dirName).isValid())
+            QMessageBox::information(this, tr("Create Directory"),
+                                     tr("Failed to create the directory"));
     }
 }
 
 
 inline int Altair::removeFileTreeElement(int flag)
 {
-int result=0;
+    int result=0;
 
-outputTextEdit->append(fileTreeFile+QString::number(flag));
-if (flag & 0x01) result=QFile(fileTreeFile).remove();
-else if(flag & 0x0100)
-{
-    QDir d = QDir(fileTreeFile);
-    if (d.exists())
-       result = d.removeRecursively();
+    outputTextEdit->append(fileTreeFile+QString::number(flag));
+    if (flag & 0x01) result=QFile(fileTreeFile).remove();
+    else if(flag & 0x0100)
+    {
+        QDir d = QDir(fileTreeFile);
+        if (d.exists())
+            result = d.removeRecursively();
 
-}
+    }
 
-return result;
+    return result;
 
 }
 
 void Altair::removeFileTreeElements()
 {
-  int result=0;
+    int result=0;
 
-  result=applyFunctionToSelectedFiles(&Altair::removeFileTreeElement);
+    result=applyFunctionToSelectedFiles(&Altair::removeFileTreeElement);
 
-  if (!result)
-    QMessageBox::information(this, tr("Supprimer"),
-                             tr("Le fichier n'a pas pu être supprimé."));
+    if (!result)
+        QMessageBox::information(this, tr("Supprimer"),
+                                 tr("Le fichier n'a pas pu être supprimé."));
 }
 
 
 
 void Altair::requestSaveProject()
 {
-  projectName=QFileDialog::getSaveFileName(this,  tr("Entrer le nom du projet"), "defaut.alt", tr("projets altair (*.alt)"));
-  updateProject(true);
+    projectName=QFileDialog::getSaveFileName(this,  tr("Entrer le nom du projet"), "defaut.alt", tr("projets altair (*.alt)"));
+    updateProject(true);
 }
 
 
 void Altair::updateProject(bool requestSave)
 {
-   RefreshFlag = SaveTree|UpdateTree ;
+    RefreshFlag = SaveTree|UpdateTree ;
 
-  xhlFilterButton->setToolTip("Show audio files with extension ");
+    xhlFilterButton->setToolTip("Show audio files with extension ");
 
-  if (parent->defaultSaveProjectBehavior->isChecked() || requestSave)
+    if (parent->defaultSaveProjectBehavior->isChecked() || requestSave)
         writeProjectFile();
 
-  refreshProjectManager();
+    refreshProjectManager();
 }
 
 /* Remember that the first two elements of the FAvstractWidgetList are DVD-A and DVD-V respectively, which cuts down parsing time */
@@ -543,110 +550,110 @@ void Altair::updateProject(bool requestSave)
 
 void Altair::setCurrentFile(const QString &fileName)
 {
-  curFile =fileName;
-  setWindowModified(false);
+    curFile =fileName;
+    setWindowModified(false);
 
-  QString shownName = "Sans titre";
+    QString shownName = "Sans titre";
 
-  if (!curFile.isEmpty())
+    if (!curFile.isEmpty())
     {
-      shownName =parent->strippedName(curFile);
-      parent->recentFiles.prepend(curFile);
-      parent->updateRecentFileActions();
+        shownName =parent->strippedName(curFile);
+        parent->recentFiles.prepend(curFile);
+        parent->updateRecentFileActions();
     }
 
-  parent->settings->setValue("defaut", QVariant(curFile));
+    parent->settings->setValue("defaut", QVariant(curFile));
 }
 
 
 void Altair::assignVariables()
 {
-  QListIterator<FAbstractWidget*> w(Abstract::abstractWidgetList);
+    QListIterator<FAbstractWidget*> w(Abstract::abstractWidgetList);
 
-  if (w.hasNext())
-  {
-      FAbstractWidget* widget=w.next();
-      if (Altair::RefreshFlag&UpdateMainTabs)
-      {
-             widget->setWidgetFromXml(*Hash::wrapper[widget->getHashKey()]);
-      }
-  }
+    if (w.hasNext())
+    {
+        FAbstractWidget* widget=w.next();
+        if (Altair::RefreshFlag&UpdateMainTabs)
+        {
+            widget->setWidgetFromXml(*Hash::wrapper[widget->getHashKey()]);
+        }
+    }
 
-  if (options::RefreshFlag&UpdateOptionTabs)
-      while (w.hasNext())
-      {
-          FAbstractWidget* widget=w.next();
-          widget->setWidgetFromXml(*Hash::wrapper[widget->getHashKey()]);
-      }
+    if (options::RefreshFlag&UpdateOptionTabs)
+        while (w.hasNext())
+        {
+            FAbstractWidget* widget=w.next();
+            widget->setWidgetFromXml(*Hash::wrapper[widget->getHashKey()]);
+        }
 
 }
 
-void Altair::assignGroupFiles(const int group_index,  const QString& file)
+void Altair::assignGroupFiles(const int group_index)
 {
-  static int last_group;
-  if (group_index-last_group) outputTextEdit->append(STATE_HTML_TAG "Ajout de l'année " + QString::number(group_index+1));
-  last_group=group_index;
+    static int last_group;
+    if (group_index-last_group) outputTextEdit->append(STATE_HTML_TAG "Ajout de l'année " + QString::number(group_index+1));
+    last_group=group_index;
 }
 
 
 bool Altair::refreshProjectManager()
 {
-  // Step 1: prior to parsing
-      checkEmptyProjectName();
-      QFile file(projectName);
+    // Step 1: prior to parsing
+    checkEmptyProjectName();
+    QFile file(projectName);
 
-  if ((RefreshFlag&UpdateTreeMask) == UpdateTree)
+    if ((RefreshFlag&UpdateTreeMask) == UpdateTree)
     {
-      managerWidget->clear();
+        managerWidget->clear();
     }
 
-  if ((RefreshFlag&SaveTreeMask) == SaveTree)
+    if ((RefreshFlag&SaveTreeMask) == SaveTree)
     {
-      if (!file.isOpen())
-        file.open(QIODevice::ReadWrite);
-      else
-        file.seek(0);
-    }
-
-  // Step 2: parsing on opening .dvp project  (=update tree +refresh tabs) or adding/deleting tab files (=update tree)
-
-  if ((RefreshFlag&UpdateTreeMask) == UpdateTree)
-     {
-      QPalette palette;
-      palette.setColor(QPalette::AlternateBase,QColor("silver"));
-      managerWidget->setPalette(palette);
-      managerWidget->setAlternatingRowColors(true);
-
-     if ((RefreshFlag&ParseXmlMask) == ParseXml)  // refresh display by parsing xml file again
-      {
-
-          if (!file.isOpen())
+        if (!file.isOpen())
             file.open(QIODevice::ReadWrite);
-          else
+        else
             file.seek(0);
+    }
 
-          if (file.size() == 0)
+    // Step 2: parsing on opening .dvp project  (=update tree +refresh tabs) or adding/deleting tab files (=update tree)
+
+    if ((RefreshFlag&UpdateTreeMask) == UpdateTree)
+    {
+        QPalette palette;
+        palette.setColor(QPalette::AlternateBase,QColor("silver"));
+        managerWidget->setPalette(palette);
+        managerWidget->setAlternatingRowColors(true);
+
+        if ((RefreshFlag&ParseXmlMask) == ParseXml)  // refresh display by parsing xml file again
+        {
+
+            if (!file.isOpen())
+                file.open(QIODevice::ReadWrite);
+            else
+                file.seek(0);
+
+            if (file.size() == 0)
             {
-              outputTextEdit->append(WARNING_HTML_TAG "fichier vide !");
-              return false;
+                outputTextEdit->append(WARNING_HTML_TAG "fichier vide !");
+                return false;
             }
 
-          DomParser(&file);
+            DomParser(&file);
 
-      }
-      else  // refresh display using containers without parsing xml file
-      {
-          refreshProjectManagerValues(refreshProjectInteractiveMode | refreshAudioZone | refreshSystemZone);
-      }
+        }
+        else  // refresh display using containers without parsing xml file
+        {
+            refreshProjectManagerValues(refreshProjectInteractiveMode | refreshAudioZone | refreshSystemZone);
+        }
 
-       
-     }
 
-  if (file.isOpen()) file.close();
-  RefreshFlag &= hasSavedOptionsMask|SaveTreeMask|UpdateTreeMask|UpdateTabMask ;
+    }
 
-  //altairCommandStr=parent->dialog->outputTab->applicationLineEdit->text();
-  return true;
+    if (file.isOpen()) file.close();
+    RefreshFlag &= hasSavedOptionsMask|SaveTreeMask|UpdateTreeMask|UpdateTabMask ;
+
+    //altairCommandStr=parent->dialog->outputTab->applicationLineEdit->text();
+    return true;
 
 }
 
@@ -656,10 +663,10 @@ void Altair::dragEnterEvent(QDragEnterEvent *event)
 {
 
     if (event->source() != this)
-        {
-            event->setDropAction(Qt::CopyAction);
-            event->accept();
-        }
+    {
+        event->setDropAction(Qt::CopyAction);
+        event->accept();
+    }
 }
 
 void Altair::dragMoveEvent(QDragMoveEvent *event)
@@ -677,11 +684,21 @@ void Altair::dropEvent(QDropEvent *event)
 
     if (event->source() != this)
     {
+
         QList<QUrl> urls=event->mimeData()->urls();
         if (urls.isEmpty()) return;
 
         QString fileName = urls.first().toLocalFile();
         if (fileName.isEmpty()) return;
+
+        if (QFileInfo(fileName).isDir())
+        {
+            urls.takeFirst();
+            QDir dir(fileName);
+            QFileInfoList entries = dir.entryInfoList({"*.xhl"}, QDir::Files);
+            for (QFileInfo & localFile: entries)
+                urls << QUrl::fromLocalFile(localFile.absoluteFilePath());
+        }
 
         addDraggedFiles(urls);
     }
@@ -691,39 +708,39 @@ void Altair::dropEvent(QDropEvent *event)
 
 void Altair::addDraggedFiles(const QList<QUrl>& urls)
 {
-  updateIndexInfo();
+    updateIndexInfo();
 
-  for (const QUrl &u: urls)
+    for (const QUrl &u: urls)
     {
-      if (false == project[isVideo]->addStringToListWidget(u.toLocalFile())) return;
+        if (false == project[0]->addStringToListWidget(u.toLocalFile())) return;
     }
-  updateProject();
-  showFilenameOnly();
+    updateProject();
+    showFilenameOnly();
 }
 
 
 
 qint64 FProgressBar::updateProgressBar()
 {
-      qint64   new_value=(parent->*engine)(target, filter);
-      int share=qCeil(100*(static_cast<float>(new_value)/static_cast<float>(reference)));
-      if (share >= 100)
-      {
-          share=100;
-      }
-      bar->setValue((share >= startshift)? share: startshift);
-      if ( share == 100) stop();
-      return new_value;
+    qint64   new_value=(parent->*engine)(target, filter);
+    int share=qCeil(100*(static_cast<float>(new_value)/static_cast<float>(reference)));
+    if (share >= 100)
+    {
+        share=100;
+    }
+    bar->setValue((share >= startshift)? share: startshift);
+    if ( share == 100) stop();
+    return new_value;
 }
 
 
 FProgressBar::FProgressBar(Altair* parent,
-                                 MeasureFunction measureFunction,
-                                 DisplayFunction displayMessageWhileProcessing,
-                                 SlotFunction  killFunction,
-                                 const QString&  fileExtensionFilter,
-                                 const QString&  measurableTarget,
-                                 const qint64 referenceSize)
+                           MeasureFunction measureFunction,
+                           DisplayFunction displayMessageWhileProcessing,
+                           SlotFunction  killFunction,
+                           const QString&  fileExtensionFilter,
+                           const QString&  measurableTarget,
+                           const qint64 referenceSize)
 {
     bar->hide();
     //bar->setRange(0,100);
@@ -745,18 +762,18 @@ FProgressBar::FProgressBar(Altair* parent,
 
 
     connect(timer,
-                   &QTimer::timeout,
-                   [this, displayMessageWhileProcessing] { if (stage_2) (this->parent->*displayMessageWhileProcessing)(updateProgressBar()); });
+            &QTimer::timeout,
+            [this, displayMessageWhileProcessing] { if (stage_2) (this->parent->*displayMessageWhileProcessing)(updateProgressBar()); });
 
     connect(timer,
-                   &QTimer::timeout,
-                   [this] {
-                               if (!stage_2)
-                               {
-                                 int value = this->parent->fileRank * Hash::wrapper["processType"]->toInt();
-                                 bar->setValue((value >= startshift)? value: startshift);
-                               }
-                          });
+            &QTimer::timeout,
+            [this] {
+        if (!stage_2)
+        {
+            int value = this->parent->fileRank * Hash::wrapper["processType"]->toInt();
+            bar->setValue((value >= startshift)? value: startshift);
+        }
+    });
     
     connect(killButton, &QToolButton::clicked, parent, killFunction);
     connect(parent->process, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(stop()));

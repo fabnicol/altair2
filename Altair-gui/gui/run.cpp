@@ -29,15 +29,30 @@ void Altair::run()
     if (Altair::totalSize[0] == 0)
     {
         processFinished(exitCode::shouldLaunchRAltairAlone);
+        return;
     }
-    
+    if (Hash::wrapper["XHL"]->at(0).at(0).isEmpty())
+    {
+        Q("Charger un projet !")
+        processFinished(exitCode::shouldLaunchRAltairAlone);
+        return;
+    }
     QString path=Hash::wrapper["base"]->toQString();
-    //outputTextEdit->append(path)  ;
+
     QDir targetDirObject(path);
-    
+    if (!targetDirObject.exists())
+    {
+        Q("Le répertoire " + path +" n'existe pas.")
+        processFinished(exitCode::shouldLaunchRAltairAlone);
+        return;
+    }
     if (!targetDirObject.removeRecursively())
+    {
         QMessageBox::information(0, QString("Supprimer le répertoire"),
-                                    QString("Le répertoire n'a pas été supprimé' %1").arg(QDir::toNativeSeparators(path)));
+                                    QString("Le répertoire n'a pas été supprimé %1").arg(QDir::toNativeSeparators(path)));
+        processFinished(exitCode::shouldLaunchRAltairAlone);
+        return;
+    }
 
     else
     if (targetDirObject.mkpath(path) == false)
@@ -56,7 +71,7 @@ void Altair::run()
     args <<  createCommandLineString(flags::commandLineType::altairCommandLine);
     
     outputTextEdit->append(STATE_HTML_TAG + tr("Décodage des fichiers .xhl..."));
-    outputTextEdit->append(PROCESSING_HTML_TAG + tr("Taille totale des fichiers ")+QString::number(Altair::totalSize[AUDIO]/(1024*1024)) +tr(" Mo"));
+    outputTextEdit->append(PROCESSING_HTML_TAG + tr("Taille totale des fichiers ")+QString::number(Altair::totalSize[0]/(1024*1024)) +tr(" Mo"));
     
     command=args.join(" ");
     outputTextEdit->append(STATE_HTML_TAG + tr("Ligne de commande : ")+ altairCommandStr+ " "+command);
