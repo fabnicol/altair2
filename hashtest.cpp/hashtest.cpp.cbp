@@ -12,7 +12,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters=" -m -j 4 -t -o c:/Dev/altair/Tests/Exemple/Donnees/R-Altair/TR.csv c:/Dev/altair/Tests/Exemple/Donnees/xhl/Romans/*.xhl  " />
+				<Option parameters="-t -j 4 -m -T X   ~/Dev/altair/Tests/Exemple/Donnees/xhl/PLV/2010/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/PLV/2011/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/PLV/2012/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/PLV/2013/*.xhl " />
 				<Compiler>
 					<Add option="-g" />
 					<Add option="-D__GNUC_EXTENSION" />
@@ -28,27 +28,17 @@
 				<Option parameters="-M  -t -j 5  -n 1171 -N 478  -D c:/Dev/altair/Tests/Exemple/Donnees/R-Altair c:/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2010/*.xhl  c:/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2011/*.xhl  c:/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2012/*.xhl  c:/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2013/*.xhl   " />
 				<Compiler>
 					<Add option="-march=corei7-avx" />
-					<Add option="-O3" />
-					<Add option="-D__GNUC_EXTENSION" />
-					<Add option="-DNO_DEBUG" />
-					<Add option="-DGCC_4_8" />
-					<Add option="-DGCC_REGEX" />
-				</Compiler>
-				<Linker>
-					<Add option="-s" />
-				</Linker>
-			</Target>
-		</Build>
-		<Compiler>
+			<Add option="-march=pentium4" />
+			<Add option="-O3" />
 			<Add option="-Wextra" />
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
-			<Add option="-pthread" />
 			<Add option="-std=gnu++11" />
 			<Add option="-D__GNUC_EXTENSION" />
 			<Add option="-D_REENTRANT" />
 			<Add option="-D_GNU_SOURCE" />
 			<Add option="-D__STDC_LIMIT_MACROS" />
+			<Add option="-D__STDC_FORMAT_MACROS" />
 			<Add directory="/usr/include/libxml2" />
 			<Add directory="../../../Mingw64/include/tre" />
 		</Compiler>
@@ -56,6 +46,7 @@
 			<Add option="-lxml2" />
 			<Add option="-pthread" />
 			<Add directory="C:/Mingw64/bin" />
+
 		</Linker>
 		<Unit filename="NOTICE" />
 		<Unit filename="fonctions_auxiliaires.cpp" />

@@ -4,6 +4,7 @@
 
 #include "table.hpp"
 #include "fonctions_auxiliaires.hpp"
+#include <inttypes.h>
 
 
 
