@@ -271,12 +271,15 @@ Bulletins.paie <- Bulletins.paie[ , Sexe := substr(Nir, 1, 1)]
 # Une quotité ne peut pas dépasser 1.
 # Les élus sont réputés travailler à temps complet.
 
+message("Calcul des quotités")
+
 Bulletins.paie <- Bulletins.paie[Temps.de.travail == 100, MHeures := median(Heures, na.rm = TRUE), by=c("Emploi", "Sexe")]
 
 Bulletins.paie <- Bulletins.paie[ ,   quotité   :=  ifelse(MHeures < minimum.positif, NA, ifelse(Heures > MHeures, 1, round(Heures/MHeures, digits=2)))]  
 
 Bulletins.paie <- Bulletins.paie[Statut == "ELU", `:=`(MHeures = 1,
                                                        quotité = 1)]
+message("Quotités calculées")
 
 Bulletins.paie <- Bulletins.paie[ ,   `:=`(Montant.net.eqtp  = ifelse(is.finite(a<-Net.à.Payer/quotité), a,  NA),
                                            Montant.brut.eqtp = ifelse(is.finite(a<-Brut/quotité), a,  NA))]
