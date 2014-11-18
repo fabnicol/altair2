@@ -311,36 +311,35 @@ Bulletins.paie <- merge(Bulletins.paie, cbind(Bulletins.paie.réduit[ , .(Matricu
                                               vind = mapply(indicatrice.quotité,
                                                              Bulletins.paie.réduit[ , Matricule], 
                                                              Bulletins.paie.réduit[ , Année],
-                                                             USE.NAMES = FALSE)),
+                                                             USE.NAMES = FALSE), all.x=TRUE, all.y=FALSE),
                         by = c("Matricule", "Année"))
 
 Paie <- merge(unique(Bulletins.paie[ , c("Matricule", 
                                   "Année",
                                   "Mois",
                                   "quotité",
+                                  "quotité.moyenne",
                                   "Montant.net.eqtp",
                                   "Montant.brut.eqtp",
                                   "Montant.brut.annuel",
                                   "Montant.brut.annuel.eqtp",
                                   "Montant.net.annuel.eqtp",
                                   "Statut.sortie",
+                                  "Sexe",
                                   "nb.jours",
                                   "nb.mois",
                                   "nb.années",
-                                  "quotité.moyenne",
                                   "vind",
                                   "permanent"), with=FALSE], by=NULL),
-              Paie, 
-              by=c("Année", "Mois", "Matricule"))
-
-
+              unique(Paie, by=NULL), 
+              by=c("Matricule", "Année", "Mois"), allow.cartesian=TRUE)
 
 matricules <- unique(Bulletins.paie[ ,
-                                                 c("Année",
-                                                   "Emploi",
-                                                   "Nom",
-                                                   "Matricule"), 
-                                                 with=FALSE], by=NULL)
+                                       c("Année",
+                                         "Emploi",
+                                         "Nom",
+                                         "Matricule"), 
+                                       with=FALSE], by=NULL)
 
 if (fichier.personnels.existe) {
   matricules <- merge(matricules, base.personnels.catégorie, by = clé.fusion, all=TRUE)
@@ -349,11 +348,9 @@ if (fichier.personnels.existe) {
   matricules <- cbind(matricules, Catégorie)
 }
 
-
 matricules <- matricules[order(Matricule,  Année), ]
 
 message("Bulletins de Paie retraités")
-
 
 ###########  Analyse des rémunérations : base globale ###################
 #                                 c(clé.fusion, étiquette.année),
@@ -2586,7 +2583,7 @@ base.iat.ifts <- base.iat.ifts[order(Matricule, Année, Mois)]
 #'
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
-#'    
+#'      
 if (nrow(base.iat.ifts)) {
   Tableau(c("Codes IFTS", "Nombre de personnels percevant IAT et IFTS"),
           sep.milliers = "",
@@ -2596,31 +2593,31 @@ if (nrow(base.iat.ifts)) {
   cat("Tests sans résultat positif.")
 }
 
-#'
+#'   
 #'[Codes IFTS retenus](Bases/Réglementation/codes.ifts.csv)
 #'[Lien vers la base de données](Bases/Réglementation/base.iat.ifts.csv)
 #'
 #'### Contrôle sur les IFTS pour catégories B et contractuels
 
 #IFTS et IB >= 380 (IM >= 350)
-
+#'  
 if (! résultat.ifts.manquant) {
-lignes.ifts.anormales <- na.omit(Paie[as.integer(Indice) < 350   & ifts.logical == TRUE,
-                                      c(clé.fusion,
-                                        étiquette.année,
-                                        "Mois",
-                                        "Statut",
-                                        étiquette.code,
-                                        étiquette.libellé,
-                                        "Indice",
-                                        étiquette.montant), 
-                                      with=FALSE])
+    lignes.ifts.anormales <- na.omit(Paie[as.integer(Indice) < 350   & ifts.logical == TRUE,
+                                          c(clé.fusion,
+                                            étiquette.année,
+                                            "Mois",
+                                            "Statut",
+                                            étiquette.code,
+                                            étiquette.libellé,
+                                            "Indice",
+                                            étiquette.montant), 
+                                          with=FALSE])
 } else {
 
-  lignes.ifts.anormales <- NULL
-  cat("Il n'a pas été possible de déterminer les lignes IFTS anormales faute d'indentification des libellés IFTS.")
+    lignes.ifts.anormales <- NULL
+    cat("Il n'a pas été possible de déterminer les lignes IFTS anormales faute d'indentification des libellés IFTS.")
 }
-
+#'  
 nombre.lignes.ifts.anormales <- nrow(lignes.ifts.anormales)
 
 # IFTS et non tit
@@ -2651,7 +2648,7 @@ nombre.lignes.ifts.et.contractuel <- nrow(ifts.et.contractuel)
 #'    
 
 if (! résultat.ifts.manquant) {
-Tableau(c("Nombre de lignes de paye de contractuels percevant des IFTS", "Nombre de lignes IFTS pour IB < 380"), nombre.lignes.ifts.et.contractuel, nombre.lignes.ifts.anormales)
+   Tableau(c("Nombre de lignes de paye de contractuels percevant des IFTS", "Nombre de lignes IFTS pour IB < 380"), nombre.lignes.ifts.et.contractuel, nombre.lignes.ifts.anormales)
 }
 
 #'
@@ -2694,15 +2691,15 @@ HS.sup.25 <- Paie[Heures.Sup. >= 25, colonnes, with=FALSE]
 # version optimisée : 0,15 s soit x300
 
 
-  HS.sup.indiciaire.mensuel <- HS.sup.25[Type == "T", .(Matricule, Année, Mois, Montant)]
+HS.sup.indiciaire.mensuel <- HS.sup.25[Type == "T", .(Matricule, Année, Mois, Montant)]
 
-  HS.sup.25 <-  HS.sup.25[Type %chin% c("I", "T", "R")
-                            & ! grepl(".*SMIC.*",
-                                      Libellé, ignore.case = TRUE)
-                            & grepl(expression.rég.heures.sup,
-                                    Libellé, ignore.case = TRUE), ]
+HS.sup.25 <-  HS.sup.25[Type %chin% c("I", "T", "R")
+                          & ! grepl(".*SMIC.*",
+                                    Libellé, ignore.case = TRUE)
+                          & grepl(expression.rég.heures.sup,
+                                  Libellé, ignore.case = TRUE), ]
 
-  HS.sup.25 <- HS.sup.25[order(Matricule, Année, Mois), ]
+HS.sup.25 <- HS.sup.25[order(Matricule, Année, Mois), ]
 
 # donne un tableau à 3 dimensions [Matricules, Années, Mois] dont les valeurs sont nommées par matricule
 # bizarrement le hashage de la variable année se fait par charactère alors que le mois reste entier dans certaines exécutions et pas dana d'autres !
@@ -2757,7 +2754,7 @@ Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"), no
 #'IHTS anormales : non attribuées à des fonctionnaires de catégorie B ou C.
 #'
 #'## 5.6 Contrôle sur les indemnités des élus
-#'
+#'   
 
 rémunérations.élu <- Analyse.rémunérations[ indemnités.élu > minimum.positif,
                                             c(clé.fusion,
@@ -2786,7 +2783,7 @@ names(rémunérations.élu) <- c(union(clé.fusion, "Nom"),
 
 rémunérations.élu <- na.omit(rémunérations.élu)
 
-#'
+#'   
 if (générer.table.élus)
 {
     if (nrow(rémunérations.élu) > 0)
@@ -2796,7 +2793,7 @@ if (générer.table.élus)
    cat("Tableau des indemnités d'élu : non générée.")
 }
 
-#'
+#'   
 if (sauvegarder.bases.analyse)
   Sauv.base(file.path(chemin.dossier.bases, "Effectifs"),
             "matricules",
@@ -2829,13 +2826,15 @@ if (générer.table.effectifs)
 #'  
     if (après.redressement != avant.redressement) {
       
-cat("Retraitement de la base : \n")
-cat("Elimination de ", avant.redressement - après.redressement, " lignes dupliquées\n")
+cat("Retraitement de la base : ")
+#'  
+#'   
+cat("Elimination de ", avant.redressement - après.redressement, " lignes dupliquées")
 
 } else {
-  
-cat("Aucune duplication de ligne détecté. \n")
-  
+#'    
+cat("Aucune duplication de ligne détecté. ")
+#'    
 }
 
 base.heures.nulles.salaire.nonnull     <- Bulletins.paie[Heures == 0  & (Net.à.Payer != 0 | Brut != 0)]
@@ -2843,13 +2842,13 @@ base.quotité.indéfinie.salaire.nonnull <- Bulletins.paie[MHeures == 0 & (Net.à.P
 
 nligne.base.heures.nulles.salaire.nonnull     <- nrow(base.heures.nulles.salaire.nonnull)
 nligne.base.quotité.indéfinie.salaire.nonnull <- nrow(base.quotité.indéfinie.salaire.nonnull)
-
+#'  
 if (nligne.base.heures.nulles.salaire.nonnull)
    cat("Nombre de bulletins de paye de salaires (net ou brut) versés pour un champ Heures = 0 : ", nligne.base.heures.nulles.salaire.nonnull)
 
 if (nligne.base.quotité.indéfinie.salaire.nonnull)
    cat("\nNombre de bulletins de paye de salaires (net ou brut) versés pour une quotité de travail indéfinie : ", nligne.base.heures.nulles.salaire.nonnull)
-
+#'   
 
 # ------------------------------------------------------------------------------------------------------------------
 #  Sauvegardes : enlever les commentaires en mode opérationnel
