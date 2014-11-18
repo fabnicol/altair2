@@ -82,10 +82,8 @@ if (séparateur.décimal.entrée == séparateur.liste.entrée)
 if (séparateur.décimal.sortie == séparateur.liste.sortie)
   stop("Le séparateur décimal en sortie doit être différent du séparateur de colonnes !")
 
-
-
 if (sauvegarder.bases.analyse) {
-  for (path in c("Rémunérations", "Effectifs", "Réglementation"))
+  for (path in c("Rémunérations", "Effectifs", "Réglementation", "Fiabilité"))
     dir.create(file.path(chemin.dossier.bases, path), recursive = TRUE)
 }
 
@@ -96,24 +94,10 @@ if (sauvegarder.bases.origine)
 
 knitr::opts_chunk$set(fig.width = 7.5, echo = FALSE, warning = FALSE, message = FALSE, results = 'asis')
 
-#'<p class = "centered"><b>Exercices `r paste(début.période.sous.revue, "à", fin.période.sous.revue)` </b></p>
-#'<p class = "author">Fabrice Nicol</h1>
-#'
-#+ echo = FALSE
-#'`r format(Sys.Date(), "%a %d %b %Y")`
-#'
-
-
-# Le format est jour/mois/année avec deux chiffres-séparateur-deux chiffres-séparateur-4 chiffres.
-# Le séparateur peut être changé en un autre en modifiant le "/" dans date.format
-
-# Cette section pourra être modifiée en entrée dans d'autres contextes
-# Matricule, Codes
 
 # Contrôle de cohérence
 #  on vérifie que chaque code de paie est associé, dans le fichier des codes de paiement (par défaut, racinecodes.csv),
 #  que à chaque code donné on a associé un et un seul type de rémunération ("INDEMNITAIRE", "TRAITEMENT", etc.)
-
 # Pour le mode rapide, convertir les fichiers base en UTF-8 SANS BOM (par exemple, notepad++ après Excel)
 
 
@@ -214,31 +198,32 @@ importer.bases.via.xhl2csv <- function(base) {
 
 importer.bases.via.xhl2csv("Paie")
 
+if (! extraire.années) {
+  début.période.sous.revue <- min(Paie[[1]])
+  fin.période.sous.revue   <- max(Paie[[1]])
+}
+
+#'<p class = "centered"><b>Exercices `r paste(début.période.sous.revue, "à", fin.période.sous.revue)` </b></p>
+#'<p class = "author">Fabrice Nicol</h1>
+#'
+#+ echo = FALSE
+#'`r format(Sys.Date(), "%a %d %b %Y")`
+#'
+
+# Le format est jour/mois/année avec deux chiffres-séparateur-deux chiffres-séparateur-4 chiffres.
+# Le séparateur peut être changé en un autre en modifiant le "/" dans date.format
 
 if (éliminer.duplications) {
   avant.redressement <- nrow(Paie)
   Paie <- unique(Paie, by=NULL)
   après.redressement <- nrow(Paie)
-  if (après.redressement != avant.redressement) {
-    cat("Retraitement de la base : ")
-    cat("Elimination de ", avant.redressement - après.redressement, " lignes dupliquées")
-  }
 }
-
 
 # dans le cas où l'on ne lance le programme que pour certaines années, il préciser début.période sous revue et fin.période .sous.revue
 # dans le fichier prologue.R. Sinon le programme travaille sur l'ensemble des années disponibles.
 
-if (! extraire.années) {
-
-    début.période.sous.revue <- min(Paie[[1]])
-    fin.période.sous.revue   <- max(Paie[[1]])
-
-
-} else {
-
+if (extraire.années) {
     Paie <- Paie[Paie$Année >= début.période.sous.revue & Paie$Année <= fin.période.sous.revue, ]
-
 }
 
 période                 <- début.période.sous.revue:fin.période.sous.revue
@@ -275,9 +260,23 @@ Paie <- Paie[ , `:=`(delta = sum(Montant*(  Type == "I"
 
 Bulletins.paie <- unique(Paie[ , .(Matricule, Nom, Année, Mois, Temps.de.travail, Heures,  Statut, Emploi, Grade, Brut, Net.à.Payer, Nir)], by = NULL)
 
-ratio.quotité <- median(Bulletins.paie$Heures, na.rm=TRUE)
+Bulletins.paie <- Bulletins.paie[ , Sexe := substr(Nir, 1, 1)]
 
-Bulletins.paie <- Bulletins.paie[ ,   quotité   :=  ifelse(Heures > ratio.quotité, 1, round(Heures/ratio.quotité, digits=1))]  #Temps.de.travail / 100)]
+# Médiane des services horaires à temps complet par emploi et par sexe 
+
+# La variable Heures des élus est non fiable et on peut par convention prendre la quotité 1
+
+# Pour faciliter les comparaisons de quotité lors du calcul de la RMPP on arrondit les quotités au centième inférieur
+# Lorsque la déterminéation de la médiane par emploi et sexe du nombre d'heures travaillées à temps complet n'est pas positive, la quotité est indéfinie
+# Une quotité ne peut pas dépasser 1.
+# Les élus sont réputés travailler à temps complet.
+
+Bulletins.paie <- Bulletins.paie[Temps.de.travail == 100, MHeures := median(Heures, na.rm = TRUE), by=c("Emploi", "Sexe")]
+
+Bulletins.paie <- Bulletins.paie[ ,   quotité   :=  ifelse(MHeures < minimum.positif, NA, ifelse(Heures > MHeures, 1, round(Heures/MHeures, digits=2)))]  
+
+Bulletins.paie <- Bulletins.paie[Statut == "ELU", `:=`(MHeures = 1,
+                                                       quotité = 1)]
 
 Bulletins.paie <- Bulletins.paie[ ,   `:=`(Montant.net.eqtp  = ifelse(is.finite(a<-Net.à.Payer/quotité), a,  NA),
                                            Montant.brut.eqtp = ifelse(is.finite(a<-Brut/quotité), a,  NA))]
@@ -2821,7 +2820,32 @@ if (sauvegarder.bases.analyse)
 #'
 if (générer.table.effectifs)
   kable(matricules, row.names = FALSE)
-#'
+#'  
+#'## Fiabilité du traitement statistique  
+#'### Eliminations des doublons  
+#'  
+    if (après.redressement != avant.redressement) {
+      
+cat("Retraitement de la base : \n")
+cat("Elimination de ", avant.redressement - après.redressement, " lignes dupliquées\n")
+
+} else {
+  
+cat("Aucune duplication de ligne détecté. \n")
+  
+}
+
+base.heures.nulles.salaire.nonnull     <- Bulletins.paie[Heures == 0  & (Net.à.Payer != 0 | Brut != 0)]
+base.quotité.indéfinie.salaire.nonnull <- Bulletins.paie[MHeures == 0 & (Net.à.Payer != 0 | Brut != 0)]
+
+nligne.base.heures.nulles.salaire.nonnull     <- nrow(base.heures.nulles.salaire.nonnull)
+nligne.base.quotité.indéfinie.salaire.nonnull <- nrow(base.quotité.indéfinie.salaire.nonnull)
+
+if (nligne.base.heures.nulles.salaire.nonnull)
+   cat("Nombre de bulletins de paye de salaires (net ou brut) versés pour un champ Heures = 0 : ", nligne.base.heures.nulles.salaire.nonnull)
+
+if (nligne.base.quotité.indéfinie.salaire.nonnull)
+   cat("\nNombre de bulletins de paye de salaires (net ou brut) versés pour une quotité de travail indéfinie : ", nligne.base.heures.nulles.salaire.nonnull)
 
 
 # ------------------------------------------------------------------------------------------------------------------
@@ -2861,6 +2885,11 @@ if (sauvegarder.bases.analyse) {
              "rémunérations.élu",
              "RI.et.vacations",
              "traitement.et.vacations")
+  
+  sauv.bases(file.path(chemin.dossier.bases, "Fiabilité"),
+              "base.heures.nulles.salaire.nonnull",
+              "base.quotité.indéfinie.salaire.nonnull")
+  
 }
 
 if (sauvegarder.bases.origine)
