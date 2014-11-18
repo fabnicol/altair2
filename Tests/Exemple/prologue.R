@@ -36,7 +36,7 @@ charger.bases           <- T
 sauvegarder.bases.analyse    <- T
 sauvegarder.bases.origine    <- F
 générer.table.effectifs      <- F
-générer.table.élus           <- T
+générer.table.élus           <- F
 tester.matricules            <- TRUE
 tester.lignes.bulletins.mois <- TRUE
 corriger.quotité         <- FALSE

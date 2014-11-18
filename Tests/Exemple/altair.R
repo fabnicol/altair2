@@ -2824,19 +2824,19 @@ if (générer.table.effectifs)
 #'## Fiabilité du traitement statistique  
 #'### Eliminations des doublons  
 #'  
-    if (après.redressement != avant.redressement) {
+if (après.redressement != avant.redressement) {
       
 cat("Retraitement de la base : ")
-#'  
-#'   
-cat("Elimination de ", avant.redressement - après.redressement, " lignes dupliquées")
 
 } else {
-#'    
 cat("Aucune duplication de ligne détecté. ")
-#'    
 }
 
+#'  
+if (après.redressement != avant.redressement)
+  cat("Elimination de ", avant.redressement - après.redressement, " lignes dupliquées")
+
+#'   
 base.heures.nulles.salaire.nonnull     <- Bulletins.paie[Heures == 0  & (Net.à.Payer != 0 | Brut != 0)]
 base.quotité.indéfinie.salaire.nonnull <- Bulletins.paie[MHeures == 0 & (Net.à.Payer != 0 | Brut != 0)]
 
@@ -2845,7 +2845,7 @@ nligne.base.quotité.indéfinie.salaire.nonnull <- nrow(base.quotité.indéfinie.sal
 #'  
 if (nligne.base.heures.nulles.salaire.nonnull)
    cat("Nombre de bulletins de paye de salaires (net ou brut) versés pour un champ Heures = 0 : ", nligne.base.heures.nulles.salaire.nonnull)
-
+#'   
 if (nligne.base.quotité.indéfinie.salaire.nonnull)
    cat("\nNombre de bulletins de paye de salaires (net ou brut) versés pour une quotité de travail indéfinie : ", nligne.base.heures.nulles.salaire.nonnull)
 #'   
