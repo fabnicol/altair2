@@ -11,7 +11,7 @@
 #include <string.h>
 #include <stdint.h>
 
-char* ecrire_chemin_base(char* chemin_base, int rang_fichier_base)
+char* ecrire_chemin_base(const char* chemin_base, int rang_fichier_base)
 {
     int s = strlen(chemin_base);
     char chemin[s + 1 + 3];   // chemin_base + _ + 3 chiffres
@@ -21,13 +21,25 @@ char* ecrire_chemin_base(char* chemin_base, int rang_fichier_base)
     return(strdup(chemin));
 }
 
+void ecrire_entete_bulletins(info_t* info, FILE* base)
+{
+  ecrire_entete0(info, base, entete_char_bulletins);
+}
+
+
 void ecrire_entete(info_t* info, FILE* base)
 {
-  unsigned i;
-  for (i = 0; i < sizeof(entete_char)/sizeof(char*) -1; i++)
-      fprintf(base, "%s%c", entete_char[i], info[0].separateur);
+  ecrire_entete0(info, base, entete_char);
+}
 
-  fprintf(base, "%s\n", entete_char[i]);
+
+void ecrire_entete0(info_t* info, FILE* base, const char* entete[])
+{
+  unsigned i;
+  for (i = 0; i < sizeof(entete)/sizeof(char*) -1; i++)
+      fprintf(base, "%s%c", entete[i], info[0].separateur);
+
+  fprintf(base, "%s\n", entete[i]);
 }
 
 FILE* ajouter_au_fichier_base(info_t* info, int rang)
@@ -43,9 +55,20 @@ FILE* ajouter_au_fichier_base(info_t* info, int rang)
     return base;
 }
 
+FILE* ouvrir_fichier_bulletins(info_t* info)
+{
+    return ouvrir_fichier_base0(info, 1, info[0].chemin_bulletins);
+}
+
+
 FILE* ouvrir_fichier_base(info_t* info, int rang)
 {
-    char* chemin = ecrire_chemin_base(info[0].chemin_base, rang);
+    return ouvrir_fichier_base0(info, rang, info[0].chemin_base);
+}
+
+FILE* ouvrir_fichier_base0(info_t* info, int rang, const char* chemin_base)
+{
+    char* chemin = ecrire_chemin_base(chemin_base, rang);
     FILE* base = fopen(chemin, "w");
     fseek(base, 0, SEEK_SET);
     if (base == NULL)
@@ -53,7 +76,6 @@ FILE* ouvrir_fichier_base(info_t* info, int rang)
         fprintf(stderr, "%s\n", "Erreur : Impossible d'ouvrir le fichier de sortie.");
         exit(-1000);
     }
-
     ecrire_entete(info, base);
     return base;
 }
