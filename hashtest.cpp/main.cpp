@@ -60,7 +60,9 @@ int main(int argc, char **argv)
     bool liberer_memoire = true;
 
     char* chemin_base=(char*) calloc(500, sizeof(char));
+    char* chemin_bulletins=(char*) calloc(500, sizeof(char));
     sprintf(chemin_base, "%s%s", NOM_BASE, CSV);
+    sprintf(chemin_bulletins, "%s%s", NOM_BASE_BULLETINS, CSV);
 
     thread_t mon_thread;
 
@@ -78,6 +80,7 @@ int main(int argc, char **argv)
         NULL,             //    chemin log
         (char*) strdup(EXPRESSION_REG_ELUS),
         chemin_base,
+        chemin_bulletins,
         MAX_LIGNES_PAYE,  // nbLigneUtilisateur
         0,                //    uint16_t fichier_courant
         '.',              //    const char decimal;
@@ -300,6 +303,7 @@ int main(int argc, char **argv)
         else if (! strcmp(argv[start], "-D"))
         {
             sprintf(info.chemin_base, "%s/%s%s", argv[start + 1], NOM_BASE, CSV);
+            sprintf(info.chemin_bulletins, "%s/%s%s", argv[start + 1], NOM_BASE_BULLETINS, CSV);
             FILE* base;
             if (NULL == (base = fopen(info.chemin_base, "w")))
             {
@@ -446,6 +450,7 @@ int main(int argc, char **argv)
             Info[i].NCumAgentXml = 0;
             Info[i].taille_base = info.taille_base;
             Info[i].chemin_base = info.chemin_base;
+            Info[i].chemin_bulletins = info.chemin_bulletins;
             Info[i].NLigne = NULL;
 
             Info[i].threads = (thread_t *) malloc(sizeof(thread_t));
@@ -587,7 +592,8 @@ int main(int argc, char **argv)
             free(Info[i].expression_reg_elus);
         if (Info[i].chemin_base)
             free(Info[i].chemin_base);
-
+        if (Info[i].chemin_bulletins)
+            free(Info[i].chemin_bulletins);
         if (Info[0].nbfil > 1)
         {
             free(Info[i].threads);

@@ -11,7 +11,12 @@
 int32_t lire_argument(int argc, char* c_str);
 int calculer_memoire_requise(info_t* info);
 FILE* ouvrir_fichier_base(info_t* info, int i);
-char* ecrire_chemin_base(char* chemin_base, int rang_fichier_base);
+char* ecrire_chemin_base(const char* chemin_base, int rang_fichier_base);
+void ecrire_entete_bulletins(info_t* info, FILE* base);
 FILE* ajouter_au_fichier_base(info_t* info, int rang);
 void ecrire_entete(info_t* info, FILE* base);
+void ecrire_entete0(info_t* info, FILE* base, const char* entete[]);
+FILE* ouvrir_fichier_bulletins(info_t* info);
+FILE* ouvrir_fichier_base0(info_t* info, int rang, const char* chemin_base);
+
 #endif // FONCTIONS_AUXILIAIRES_HPP_INCLUDED

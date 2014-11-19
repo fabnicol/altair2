@@ -25,30 +25,32 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="-M  -t -j 5  -n 1171 -N 478  -D c:/Dev/altair/Tests/Exemple/Donnees/R-Altair c:/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2010/*.xhl  c:/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2011/*.xhl  c:/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2012/*.xhl  c:/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2013/*.xhl   " />
+				<Option parameters="-M  -t -j 2 -D c:/Dev/altair/Tests/Exemple/Donnees/R-Altair c:/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2010/*.xhl  c:/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2011/*.xhl  c:/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2012/*.xhl  c:/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2013/*.xhl   " />
 				<Compiler>
-					<Add option="-march=corei7-avx" />
-			<Add option="-march=pentium4" />
-			<Add option="-O3" />
-			<Add option="-Wextra" />
-			<Add option="-Wall" />
-			<Add option="-fexceptions" />
-			<Add option="-std=gnu++11" />
-			<Add option="-D__GNUC_EXTENSION" />
-			<Add option="-D_REENTRANT" />
-			<Add option="-D_GNU_SOURCE" />
-			<Add option="-D__STDC_LIMIT_MACROS" />
-			<Add option="-D__STDC_FORMAT_MACROS" />
-			<Add directory="/usr/include/libxml2" />
-			<Add directory="../../../Mingw64/include/tre" />
+					<Add option="-march=core2" />
+					<Add option="-O3" />
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-fexceptions" />
+					<Add option="-std=gnu++11" />
+					<Add option="-D__GNUC_EXTENSION" />
+					<Add option="-D_REENTRANT" />
+					<Add option="-D_GNU_SOURCE" />
+					<Add option="-D__STDC_LIMIT_MACROS" />
+					<Add option="-D__STDC_FORMAT_MACROS" />
+					<Add directory="/usr/include/libxml2" />
+					<Add directory="../../../Mingw/include/tre" />
+				</Compiler>
+				<Linker>
+					<Add option="-lxml2" />
+					<Add option="-pthread" />
+					<Add directory="C:/Mingw/bin" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-DGCC_REGEX" />
 		</Compiler>
-		<Linker>
-			<Add option="-lxml2" />
-			<Add option="-pthread" />
-			<Add directory="C:/Mingw64/bin" />
-
-		</Linker>
-		<Unit filename="NOTICE" />
 		<Unit filename="fonctions_auxiliaires.cpp" />
 		<Unit filename="fonctions_auxiliaires.hpp" />
 		<Unit filename="main.cpp" />
