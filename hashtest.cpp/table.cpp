@@ -63,10 +63,32 @@ inline FILE* ouvrir_nouvelle_base(info_t* info, unsigned* rang_fichier_base, FIL
                             VAR(Grade), sep, \
                             VAR(NIR));
 
+#define ECRIRE_LIGNE_BULLETIN fprintf(bulletins, format_base, \
+                            VAR(Annee),sep, \
+                            VAR(Mois), sep, \
+                            VAR(Nom), sep, \
+                            VAR(Prenom), sep, \
+                            VAR(Matricule), sep, \
+                            VAR(Service), sep, \
+                            VAR(Statut), sep, \
+                            VAR(QuotiteTrav), sep, \
+                            VAR(NbHeureSup), sep, \
+                            VAR(NbHeureTotal), sep, \
+                            VAR(Indice), sep, \
+                            VAR(MtBrut), sep, \
+                            VAR(MtNet), sep, \
+                            VAR(MtNetAPayer), sep, \
+                            VAR(NBI), sep, \
+                            VAR(EmploiMetier), sep, \
+                            VAR(Grade), sep, \
+                            VAR(NIR));
+
 void boucle_ecriture(info_t* Info)
 {
     int ligne = 0, ligne_typee = 0;
     uint64_t compteur = 0;
+    uint32_t compteur_lignes_bulletins = 0;
+
     char format_base[TAILLE_FORMAT];
 
     for (int i = 0; i <= TAILLE_FORMAT - 8; i += 4)
@@ -86,14 +108,17 @@ void boucle_ecriture(info_t* Info)
     char* annee_courante = (char*) Info[0].Table[0][Annee];
     unsigned rang_fichier_base = 1;
     FILE* base = NULL;
+    FILE* bulletins = NULL;
 
     // Un peu low-level C, mais beaucoup plus rapide que de coder un fprintf pour chaque item.
     // Gain d'exécution : 30s pour fprintf par item
     //                    22s sur une ligne
 
+    bulletins = ouvrir_fichier_bulletins(Info);
+
     if (Info[0].taille_base == TOUTES_CATEGORIES)
         for (int rang = 11; rang >= 1; rang--)
-            base= ouvrir_fichier_base(Info, rang);
+            base = ouvrir_fichier_base(Info, rang);
     else
         base = ouvrir_fichier_base(Info, rang_fichier_base);
 
@@ -102,6 +127,10 @@ void boucle_ecriture(info_t* Info)
         for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; agent++)
         {
             /* BOUCLER SUR L */
+
+            ECRIRE_LIGNE_BULLETIN
+
+            compteur_lignes_bulletins++;
 
             if (Info[i].taille_base == PAR_ANNEE  && strcmp((const char*)VAR(Annee), annee_courante))
             {
@@ -245,6 +274,7 @@ void boucle_ecriture(info_t* Info)
         return;
 message :
         fprintf(stderr, "Table de %" PRIu64 " lignes.\n", compteur);
+        if (bulletins) fprintf(stderr, "Base des bulletins de paye de %" PRIu32 " lignes.\n", compteur_lignes_bulletins);
     }
 }
 #undef VAR

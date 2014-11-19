@@ -31,6 +31,7 @@ typedef struct
 #define EXPRESSION_REG_ASSISTANTES_MATERNELLES ".*\\bass.*\\bmater.*"
 
 #define NOM_BASE "Table"
+#define NOM_BASE_BULLETINS "Bulletins"
 #define CSV  ".csv"
 
 /* Les définitions ci-après doivent être négatives */
@@ -73,6 +74,7 @@ typedef struct
     char* chemin_log;
     char* expression_reg_elus;
     char* chemin_base;
+    char* chemin_bulletins;
     uint16_t nbLigneUtilisateur;
     uint16_t fichier_courant;
     char decimal;
@@ -159,6 +161,9 @@ static const xmlChar drapeau[nbType][2]  = {{1,0}, {2,0}, {3,0}, {4,0}, {5,0}, {
 static const char* entete_char[]={"Année", "Mois", "Nom", "Prénom", "Matricule", "Service", "Statut", "Temps.de.travail",
                                   "Heures.Sup.", "Heures", "Indice", "Brut", "Net", "Net.à.Payer", "NBI", "Libellé", "Code",
                                   "Base", "Taux", "Nb.Unité", "Montant", "Type", "Emploi", "Grade", "Nir"};
+
+static const char* entete_char_bulletins[]={"Année", "Mois", "Nom", "Prénom", "Matricule", "Service", "Statut", "Temps.de.travail",
+                                  "Heures.Sup.", "Heures", "Indice", "Brut", "Net", "Net.à.Payer", "NBI", "Emploi", "Grade", "Nir"};
 
 void* decoder_fichier(void* tinfo);
 
