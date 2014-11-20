@@ -168,12 +168,12 @@ Import.Lignes.paie <- function()  {
 }
 
 
-importer.bases.via.xhl2csv <- function(base) {
+importer.bases.via.xhl2csv <- function(base, table = nom.table, colClasses = colonnes.classes.input, colNames =  colonnes.input) {
 
   res <- try(Read.csv(base,
-                      nom.table,
-                      colClasses = colonnes.classes.input,
-                      colNames =  colonnes.input,
+                      table,
+                      colClasses = colClasses,
+                      colNames = colNames,
                       séparateur.liste = séparateur.liste.entrée,
                       séparateur.décimal = séparateur.décimal.entrée,
                       convertir.encodage = (encodage.entrée.xhl2csv != "UTF-8"),
@@ -197,6 +197,7 @@ importer.bases.via.xhl2csv <- function(base) {
 
 
 importer.bases.via.xhl2csv("Paie")
+importer.bases.via.xhl2csv("Bulletins.paie", nom.bulletins, colClasses =  colonnes.bulletins.classes.input, colNames = colonnes.bulletins.input)
 
 if (! extraire.années) {
   début.période.sous.revue <- min(Paie[[1]])
@@ -258,7 +259,7 @@ Paie <- Paie[ , `:=`(delta = sum(Montant*(  Type == "I"
                                na.rm=TRUE)
                             - Brut), by=c("Matricule", "Année", "Mois")]
 
-Bulletins.paie <- unique(Paie[ , .(Matricule, Nom, Année, Mois, Temps.de.travail, Heures,  Statut, Emploi, Grade, Brut, Net.à.Payer, Nir)], by = NULL)
+#Bulletins.paie <- unique(Paie[ , .(Matricule, Nom, Année, Mois, Temps.de.travail, Heures,  Statut, Emploi, Grade, Brut, Net.à.Payer, Nir)], by = NULL)
 
 Bulletins.paie <- Bulletins.paie[ , Sexe := substr(Nir, 1, 1)]
 
@@ -2809,17 +2810,6 @@ if (sauvegarder.bases.analyse)
 #'
 #'
 #'[Lien vers le fichier des personnels](Bases/Effectifs/Catégories des personnels.csv)
-#'
-#'
-#'# Tableau des personnels : renseigner la catégorie
-#'
-#'Utiliser les codes : A, B, C, ELU, AUTRES
-#'
-#'En cas de changement de catégorie en cours de période, utiliser la catégorie AUTRES
-#'Cela peut conduire à modifier manuellement le fichier Catégories des personnels.csv
-#'
-if (générer.table.effectifs)
-  kable(matricules, row.names = FALSE)
 #'  
 #'## Fiabilité du traitement statistique  
 #'### Eliminations des doublons  
@@ -2849,6 +2839,18 @@ if (nligne.base.heures.nulles.salaire.nonnull)
 if (nligne.base.quotité.indéfinie.salaire.nonnull)
    cat("\nNombre de bulletins de paye de salaires (net ou brut) versés pour une quotité de travail indéfinie : ", nligne.base.heures.nulles.salaire.nonnull)
 #'   
+#'[Lien vers la base de données des salaires versés pour Heures=0](Bases/Fiabilité/base.heures.nulles.salaire.nonnull.csv)   
+#'[Lien vers la base de données des salaires versés à quotité indéfinie](Bases/Fiabilité/base.quotité.indéfinie.salaire.nonnull.csv)   
+#'
+#'# Tableau des personnels : renseigner la catégorie
+#'
+#'Utiliser les codes : A, B, C, ELU, AUTRES
+#'
+#'En cas de changement de catégorie en cours de période, utiliser la catégorie AUTRES
+#'Cela peut conduire à modifier manuellement le fichier Catégories des personnels.csv
+#'
+if (générer.table.effectifs)
+  kable(matricules, row.names = FALSE)
 
 # ------------------------------------------------------------------------------------------------------------------
 #  Sauvegardes : enlever les commentaires en mode opérationnel

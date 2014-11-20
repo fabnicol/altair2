@@ -25,8 +25,8 @@ DEFINES += DEBUG
 
 #linux: DEFINES += LOCAL_BINPATH
 
-#QMAKE_CXXFLAGS += -std=c++11 -march=corei7 -O3 -j4
-QMAKE_CXXFLAGS += /Ox /MP
+QMAKE_CXXFLAGS += -std=c++11 -march=core2 -O3
+#QMAKE_CXXFLAGS += /Ox /MP
 
 
 SOURCES += \

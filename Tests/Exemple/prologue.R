@@ -65,6 +65,7 @@ nom.fichier.personnels      <- paste0(fichier.personnels, ".csv")
 nom.fichier.paie            <- paste0(racine, "Lignes de paye")
 nom.bulletin.paie           <- paste0(racine, "Bulletins de paye")
 nom.table                   <- paste0(racine, "Table_1.csv")
+nom.bulletins                   <- paste0(racine, "Bulletins_1.csv")
 
 # DOSSIERS
 # Attention, si l'on lance la génération de document pour la première fois sans répertoire Bases existant, on aura un write error.
@@ -126,6 +127,16 @@ colonnes.classes.input    <- c("integer", "integer", "character", "character", "
                                "character",  "numeric", "numeric", "numeric", "numeric",
                                "character",  "character", "numeric", "numeric", "numeric",
                                "numeric", "character", "character", "character", "character")
+
+colonnes.bulletins.input <- c("Année", "Mois", "Nom", "Prénom", "Matricule",
+                              "Service", "Statut", "Temps.de.travail", "Heures.Sup.", "Heures",
+                              "Indice", "Brut", "Net", "Net.à.Payer", "NBI",
+                              "Emploi", "Grade", "Nir")
+
+colonnes.bulletins.classes.input <- c("integer", "integer", "character", "character", "character", 
+                                      "character", "character", "numeric", "numeric", "numeric",
+                                      "character",  "numeric", "numeric", "numeric", "numeric",
+                                      "character", "character", "character")
 
 lignes.paie.input               <- c("Année", "Mois", "Matricule", "Année", "Mois", "Matricule", "Libellé", "Code", "Base", "Taux", "Montant")
 
