@@ -34,7 +34,7 @@ inline FILE* ouvrir_nouvelle_base(info_t* info, unsigned* rang_fichier_base, FIL
     return ouvrir_fichier_base(info, ++*rang_fichier_base);
 }
 
-#define TAILLE_FORMAT (Info[0].minimum_memoire_p_ligne + 6 +1)*4
+
 #define VAR(X) Info[i].Table[agent][X]
 #define ECRIRE_LIGNE_l fprintf(base, format_base, \
                             VAR(Annee),sep, \
@@ -63,7 +63,7 @@ inline FILE* ouvrir_nouvelle_base(info_t* info, unsigned* rang_fichier_base, FIL
                             VAR(Grade), sep, \
                             VAR(NIR));
 
-#define ECRIRE_LIGNE_BULLETIN fprintf(bulletins, format_base, \
+#define ECRIRE_LIGNE_BULLETIN fprintf(bulletins, format_bulletins, \
                             VAR(Annee),sep, \
                             VAR(Mois), sep, \
                             VAR(Nom), sep, \
@@ -88,8 +88,11 @@ void boucle_ecriture(info_t* Info)
     int ligne = 0, ligne_typee = 0;
     uint64_t compteur = 0;
     uint32_t compteur_lignes_bulletins = 0;
+    int TAILLE_FORMAT = (Info[0].minimum_memoire_p_ligne + 6 + 1) * 4;
+    int TAILLE_FORMAT_BULLETINS = Info[0].minimum_memoire_p_ligne * 4;
 
     char format_base[TAILLE_FORMAT];
+    char format_bulletins[TAILLE_FORMAT_BULLETINS];
 
     for (int i = 0; i <= TAILLE_FORMAT - 8; i += 4)
     {
@@ -103,6 +106,19 @@ void boucle_ecriture(info_t* Info)
     format_base[TAILLE_FORMAT - 3] = 's';
     format_base[TAILLE_FORMAT - 2] = '\n';
     format_base[TAILLE_FORMAT - 1] = '\0';
+
+    for (int i = 0; i <= TAILLE_FORMAT_BULLETINS - 8; i += 4)
+    {
+        format_bulletins[i] = '%';
+        format_bulletins[i + 1] = 's';
+        format_bulletins[i + 2] = '%';
+        format_bulletins[i + 3] = 'c';
+    }
+
+    format_bulletins[TAILLE_FORMAT_BULLETINS - 4] = '%';
+    format_bulletins[TAILLE_FORMAT_BULLETINS - 3] = 's';
+    format_bulletins[TAILLE_FORMAT_BULLETINS - 2] = '\n';
+    format_bulletins[TAILLE_FORMAT_BULLETINS - 1] = '\0';
 
     char sep = Info[0].separateur;
     char* annee_courante = (char*) Info[0].Table[0][Annee];
@@ -274,8 +290,14 @@ void boucle_ecriture(info_t* Info)
         return;
 message :
         fprintf(stderr, "Table de %" PRIu64 " lignes.\n", compteur);
-        if (bulletins) fprintf(stderr, "Base des bulletins de paye de %" PRIu32 " lignes.\n", compteur_lignes_bulletins);
     }
+
+    if (bulletins)
+    {
+        fclose(bulletins);
+        fprintf(stderr, "Base des bulletins de paye de %" PRIu32 " lignes.\n", compteur_lignes_bulletins);
+    }
+
 }
 #undef VAR
 //#ifdef __cplusplus
