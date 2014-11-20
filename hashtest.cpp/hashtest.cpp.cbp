@@ -12,13 +12,24 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="-t -j 4 -m -T X   ~/Dev/altair/Tests/Exemple/Donnees/xhl/PLV/2010/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/PLV/2011/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/PLV/2012/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/PLV/2013/*.xhl " />
+				<Option parameters="-M   -t -j 2 -D c:/Dev/altair/Tests/Exemple/Donnees/R-Altair c:/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2011/*.xhl  " />
 				<Compiler>
+					<Add option="-march=prescott" />
 					<Add option="-g" />
+					<Add option="-std=gnu++11" />
 					<Add option="-D__GNUC_EXTENSION" />
 					<Add option="-DNO_DEBUG" />
 					<Add option="-DTOLERANT" />
+					<Add option="-D_GNU_SOURCE" />
+					<Add option="-D__STDC_LIMIT_MACROS" />
+					<Add option="-D__STDC_FORMAT_MACROS" />
+					<Add directory="../../../mingw32/include" />
 				</Compiler>
+				<Linker>
+					<Add option="-lxml2" />
+					<Add option="-pthread" />
+					<Add directory="../../../mingw32/bin" />
+				</Linker>
 			</Target>
 			<Target title="Release">
 				<Option output="bin/Release/lhx" prefix_auto="1" extension_auto="1" />
@@ -38,19 +49,25 @@
 					<Add option="-D_GNU_SOURCE" />
 					<Add option="-D__STDC_LIMIT_MACROS" />
 					<Add option="-D__STDC_FORMAT_MACROS" />
+					<Add option="-DNO_DEBUG" />
 					<Add directory="/usr/include/libxml2" />
-					<Add directory="../../../Mingw/include/tre" />
+					<Add directory="../../../mingw32/bin" />
 				</Compiler>
 				<Linker>
+					<Add option="-s" />
 					<Add option="-lxml2" />
 					<Add option="-pthread" />
-					<Add directory="C:/Mingw/bin" />
+					<Add directory="../../../Mingw64_new/mingw64/bin" />
 				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-DGCC_REGEX" />
+			<Add directory="../../../mingw32/include" />
 		</Compiler>
+		<Linker>
+			<Add directory="../../../mingw32/bin" />
+		</Linker>
 		<Unit filename="fonctions_auxiliaires.cpp" />
 		<Unit filename="fonctions_auxiliaires.hpp" />
 		<Unit filename="main.cpp" />

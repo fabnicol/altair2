@@ -23,20 +23,18 @@ char* ecrire_chemin_base(const char* chemin_base, int rang_fichier_base)
 
 void ecrire_entete_bulletins(info_t* info, FILE* base)
 {
-  ecrire_entete0(info, base, entete_char_bulletins);
+  ecrire_entete0(info, base, entete_char_bulletins, sizeof(entete_char_bulletins)/sizeof(char*));
 }
-
 
 void ecrire_entete(info_t* info, FILE* base)
 {
-  ecrire_entete0(info, base, entete_char);
+  ecrire_entete0(info, base, entete_char, sizeof(entete_char)/sizeof(char*));
 }
 
-
-void ecrire_entete0(info_t* info, FILE* base, const char* entete[])
+void ecrire_entete0(info_t* info, FILE* base, const char* entete[], int N)
 {
-  unsigned i;
-  for (i = 0; i < sizeof(entete)/sizeof(char*) -1; i++)
+  int i;
+  for (i = 0; i < N - 1; i++)
       fprintf(base, "%s%c", entete[i], info[0].separateur);
 
   fprintf(base, "%s\n", entete[i]);
@@ -55,19 +53,26 @@ FILE* ajouter_au_fichier_base(info_t* info, int rang)
     return base;
 }
 
+
 FILE* ouvrir_fichier_bulletins(info_t* info)
 {
-    return ouvrir_fichier_base0(info, 1, info[0].chemin_bulletins);
+    return ouvrir_fichier_base0(info, 1, BULLETINS);
 }
 
 
 FILE* ouvrir_fichier_base(info_t* info, int rang)
 {
-    return ouvrir_fichier_base0(info, rang, info[0].chemin_base);
+    return ouvrir_fichier_base0(info, rang, BASE);
 }
 
-FILE* ouvrir_fichier_base0(info_t* info, int rang, const char* chemin_base)
+FILE* ouvrir_fichier_base0(info_t* info, int rang, int type)
 {
+    char* chemin_base = NULL;
+    if (type == BASE)
+        chemin_base = info[0].chemin_base;
+    else
+        chemin_base = info[0].chemin_bulletins;
+
     char* chemin = ecrire_chemin_base(chemin_base, rang);
     FILE* base = fopen(chemin, "w");
     fseek(base, 0, SEEK_SET);
@@ -76,7 +81,11 @@ FILE* ouvrir_fichier_base0(info_t* info, int rang, const char* chemin_base)
         fprintf(stderr, "%s\n", "Erreur : Impossible d'ouvrir le fichier de sortie.");
         exit(-1000);
     }
-    ecrire_entete(info, base);
+    if (type == BASE)
+        ecrire_entete(info, base);
+    else
+        ecrire_entete_bulletins(info, base);
+
     return base;
 }
 
