@@ -12,7 +12,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="-t -j 4 -m c:/Dev/altair/Tests/Exemple/Donnees/xhl/PLV/2010/*1.xhl " />
+				<Option parameters="-t -j 4 -m c:/Dev/altair/Tests/Exemple/Donnees/xhl/PLV/2010/*.xhl  c:/Dev/altair/Tests/Exemple/Donnees/xhl/PLV/2011/*.xhl  c:/Dev/altair/Tests/Exemple/Donnees/xhl/PLV/2012/*.xhl  c:/Dev/altair/Tests/Exemple/Donnees/xhl/PLV/2013/*.xhl " />
 				<Compiler>
 					<Add option="-g" />
 					<Add option="-D__GNUC_EXTENSION" />
