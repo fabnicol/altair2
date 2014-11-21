@@ -449,8 +449,6 @@ int main(int argc, char **argv)
             Info[i].NCumAgent = 0;
             Info[i].NCumAgentXml = 0;
             Info[i].taille_base = info.taille_base;
-            Info[i].chemin_base = info.chemin_base;
-            Info[i].chemin_bulletins = info.chemin_bulletins;
             Info[i].NLigne = NULL;
 
             Info[i].threads = (thread_t *) malloc(sizeof(thread_t));
@@ -469,6 +467,11 @@ int main(int argc, char **argv)
             {
                 Info[i].chemin_base = strdup(info.chemin_base);
             }
+            if (info.chemin_bulletins)
+            {
+                Info[i].chemin_bulletins = strdup(info.chemin_bulletins);
+            }
+
             Info[i].nbLigneUtilisateur = info.nbLigneUtilisateur;
             Info[i].fichier_courant = 0;
             Info[i].decimal = info.decimal;
