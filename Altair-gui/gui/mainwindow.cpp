@@ -42,6 +42,7 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 MainWindow::MainWindow(char* projectName)
 {
   setGeometry(QRect(200, 200,1150,400));
+  raise();
   recentFiles=QStringList()<<QString("defaut") ;
 
   altair=new Altair;
@@ -129,7 +130,7 @@ MainWindow::MainWindow(char* projectName)
 
   setWindowIcon(QIcon(":/images/altair.png"));
   setWindowTitle("Interface  Altair"+ QString(VERSION));
-  raise();
+
   dialog=new options(altair);
   dialog->setParent(altair, Qt::Window);
   altair->initializeProject();
