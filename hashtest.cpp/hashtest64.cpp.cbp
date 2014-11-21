@@ -12,7 +12,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="-t -j 4 -m -T X   ~/Dev/altair/Tests/Exemple/Donnees/xhl/PLV/2010/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/PLV/2011/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/PLV/2012/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/PLV/2013/*.xhl " />
+				<Option parameters="-t -j 4 -m c:/Dev/altair/Tests/Exemple/Donnees/xhl/PLV/2010/*.xhl  c:/Dev/altair/Tests/Exemple/Donnees/xhl/PLV/2011/*.xhl  c:/Dev/altair/Tests/Exemple/Donnees/xhl/PLV/2012/*.xhl  c:/Dev/altair/Tests/Exemple/Donnees/xhl/PLV/2013/*.xhl " />
 				<Compiler>
 					<Add option="-g" />
 					<Add option="-D__GNUC_EXTENSION" />
@@ -27,7 +27,7 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters=" -m  -t c:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/*.xhl " />
+				<Option parameters="-M  -m  -t -j 5 -n 1171 -N 77  c:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/*.xhl c:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/*.xhl c:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2010/*.xhl c:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2011/*.xhl c:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2012/*.xhl " />
 				<Compiler>
 					<Add option="-march=corei7-avx" />
 					<Add option="-O3" />
@@ -37,10 +37,13 @@
 					<Add option="-DGCC_REGEX" />
 					<Add option="-DIN_WINPTHREAD" />
 				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-march=core2" />
+			<Add option="-march=corei7-avx" />
 			<Add option="-O3" />
 			<Add option="-Wextra" />
 			<Add option="-Wall" />
