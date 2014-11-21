@@ -1,0 +1,185 @@
+<?xml version="1.0"?>
+<projet>
+ <data>
+  <XHL profondeur="2">
+   <année>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2009/VILLE_200904_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2009/VILLE_200904_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2009/VILLE_200905_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2009/VILLE_200905_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2009/VILLE_200906_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2009/VILLE_200906_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2009/VILLE_200907_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2009/VILLE_200907_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2009/VILLE_200908_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2009/VILLE_200908_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2009/VILLE_200909_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2009/VILLE_200909_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2009/VILLE_200910_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2009/VILLE_200910_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2009/VILLE_200911_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2009/VILLE_200911_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2009/VILLE_200912_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2009/VILLE_200912_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2009/VILLE_200901_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2009/VILLE_200901_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2009/VILLE_200902_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2009/VILLE_200902_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2009/VILLE_200903_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2009/VILLE_200903_02.xhl</fichier>
+   </année>
+   <année>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2010/VILLE_201003_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2010/VILLE_201004_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2010/VILLE_201004_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2010/VILLE_201005_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2010/VILLE_201005_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2010/VILLE_201006_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2010/VILLE_201006_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2010/VILLE_201007_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2010/VILLE_201007_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2010/VILLE_201008_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2010/VILLE_201008_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2010/VILLE_201009_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2010/VILLE_201009_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2010/VILLE_201010_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2010/VILLE_201010_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2010/VILLE_201011_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2010/VILLE_201011_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2010/VILLE_201012_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2010/VILLE_201012_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2010/VILLE_201001_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2010/VILLE_201001_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2010/VILLE_201002_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2010/VILLE_201002_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2010/VILLE_201003_01.xhl</fichier>
+   </année>
+   <année>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2011/VILLE_201104_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2011/VILLE_201105_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2011/VILLE_201105_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2011/VILLE_201106_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2011/VILLE_201106_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2011/VILLE_201107_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2011/VILLE_201107_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2011/VILLE_201108_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2011/VILLE_201108_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2011/VILLE_201109_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2011/VILLE_201109_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2011/VILLE_201110_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2011/VILLE_201110_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2011/VILLE_201111_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2011/VILLE_201111_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2011/VILLE_201112_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2011/VILLE_201112_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2011/VILLE_201101_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2011/VILLE_201101_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2011/VILLE_201102_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2011/VILLE_201102_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2011/VILLE_201103_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2011/VILLE_201103_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2011/VILLE_201104_01.xhl</fichier>
+   </année>
+   <année>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2012/VILLE_201204_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2012/VILLE_201205_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2012/VILLE_201205_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2012/VILLE_201206_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2012/VILLE_201206_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2012/VILLE_201207_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2012/VILLE_201207_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2012/VILLE_201208_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2012/VILLE_201208_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2012/VILLE_201209_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2012/VILLE_201209_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2012/VILLE_201210_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2012/VILLE_201210_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2012/VILLE_201211_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2012/VILLE_201211_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2012/VILLE_201212_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2012/VILLE_201212_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2012/VILLE_201201_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2012/VILLE_201201_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2012/VILLE_201202_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2012/VILLE_201202_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2012/VILLE_201203_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2012/VILLE_201203_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/SE/2012/VILLE_201204_01.xhl</fichier>
+   </année>
+  </XHL>
+ </data>
+ <systeme>
+  <fileManagerDisplay profondeur="0">
+   oui
+  </fileManagerDisplay>
+  <projectManagerDisplay profondeur="0">
+   oui
+  </projectManagerDisplay>
+  <fullScreenDisplay profondeur="0">
+   non
+  </fullScreenDisplay>
+  <outputTextEdit profondeur="0">
+   oui
+  </outputTextEdit>
+  <fileToolBar profondeur="0">
+   oui
+  </fileToolBar>
+  <editToolBar profondeur="0">
+   oui
+  </editToolBar>
+  <processToolBar profondeur="0">
+   oui
+  </processToolBar>
+  <optionsToolBar profondeur="0">
+   oui
+  </optionsToolBar>
+  <aboutToolBar profondeur="0">
+   oui
+  </aboutToolBar>
+  <saveProjectBehavior profondeur="0">
+   oui
+  </saveProjectBehavior>
+  <loadProjectBehavior profondeur="0">
+   oui
+  </loadProjectBehavior>
+  <base profondeur="0">
+   C:/Dev/Altair/Tests/Exemple/Donnees/R-Altair
+  </base>
+  <baseType profondeur="0">
+     
+  </baseType>
+  <maxLigne profondeur="0">
+     
+  </maxLigne>
+  <separateur profondeur="0">
+   ,
+  </separateur>
+  <decimal profondeur="0">
+   .
+  </decimal>
+  <processType profondeur="0">
+   '5'
+  </processType>
+  <nAgent profondeur="0">
+   554
+  </nAgent>
+  <nLine profondeur="0">
+   75
+  </nLine>
+  <genererTable profondeur="0">
+   oui
+  </genererTable>
+  <log profondeur="0">
+   C:/Dev/altair/Log/altair.log
+  </log>
+  <genererLog profondeur="0">
+   non
+  </genererLog>
+  <ecoRAM profondeur="0">
+   non
+  </ecoRAM>
+ </systeme>
+ <recent>
+  <fichier>C:/Dev/Altair/Interface_w64/se.alt</fichier>
+ </recent>
+</projet>

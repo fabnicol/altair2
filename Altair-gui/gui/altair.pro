@@ -13,6 +13,7 @@ CONFIG  += ordered
 TEMPLATE = app
 
 QT       += core gui xml widgets webkitwidgets 
+QT       -= opengl
 
 TARGET = Altair
 
@@ -21,7 +22,7 @@ VPATH = .
 #win32:LIBS += -L../win32
 #linux:LIBS += -L../linux
 
-DEFINES += DEBUG 
+DEFINES += DEBUG QT_NO_OPENGL
 
 #linux: DEFINES += LOCAL_BINPATH
 
