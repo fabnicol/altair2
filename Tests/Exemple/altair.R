@@ -2052,7 +2052,7 @@ g <- function(x) prettyNum(mean.default(Analyse.variations.par.exercice[Année ==
                            format = "fg")
 
 #'   
-#'**Evolution du SMPT net des titulaires titulaires à temps complet**     
+#'**Evolution du SMPT net des titulaires à temps complet**     
 #'   
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
@@ -2389,7 +2389,7 @@ if (N <- length(unique(Paie[Statut != "TITULAIRE"
 NBI.aux.non.titulaires <- Paie[Statut != "TITULAIRE"
                                & Statut != "STAGIAIRE"
                                & NBI != 0
-                               & grepl("N.*B.*I", Libellé, ignore.case=TRUE),
+                               & grepl(".*\\bN[[:alpha:]]*.?\\b\\s*B[[:alpha:]]*.?\\b\\s*I.*", Libellé, ignore.case=TRUE),
                                c(étiquette.matricule,
                                  "Statut",
                                  étiquette.code,

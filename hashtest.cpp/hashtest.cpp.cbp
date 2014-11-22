@@ -57,7 +57,7 @@
 					<Add option="-s" />
 					<Add option="-lxml2" />
 					<Add option="-pthread" />
-					<Add directory="../../../Mingw64_new/mingw64/bin" />
+					<Add directory="../../../mingw32/bin" />
 				</Linker>
 			</Target>
 		</Build>
