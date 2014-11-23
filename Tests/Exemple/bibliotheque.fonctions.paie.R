@@ -99,7 +99,9 @@ sélectionner.clé <-  function(base1, base2)
 #system(paste0("sed -e s/,/\\./g < \'", chem,"\' > ", chem.dot), wait = TRUE)
 
 
-read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, étiquettes = NULL, drop = NULL, rapide = FALSE, séparateur.liste = séparateur.liste.entrée, séparateur.décimal = séparateur.décimal.entrée, convertir.encodage = TRUE)
+read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, étiquettes = NULL, drop = NULL,
+                          rapide = FALSE, séparateur.liste = séparateur.liste.entrée, séparateur.décimal = séparateur.décimal.entrée,
+                          convertir.encodage = TRUE)
 {
   chem <- chemin(x)
   if (! rapide) {
@@ -129,9 +131,7 @@ read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, étiquette
                       verbose = FALSE,
                       skip = champ.détection.1,
                       colClasses = classes,
-                      integer64="numeric",
-                      drop = drop,
-                      showProgress=FALSE))
+                      showProgress = FALSE))
     
     if (inherits(T, "try-error") && grepl("The supplied 'sep' was not found", T, fixed = TRUE)) {
       message("Conversion des séparateurs...")
@@ -146,8 +146,6 @@ read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, étiquette
                     séparateur.liste,
                     séparateur.décimal)
     }
-    
-
   }
 
 if (!is.null(étiquettes)) names(T) <- étiquettes
@@ -185,7 +183,9 @@ sauv.bases <- function(dossier, ...)
 # Utiliser une assignation globale
 # car la fonction anonyme ne comporte que de variables locales
 
-Read.csv <- function(base.string, vect.chemin, charger = charger.bases, colClasses = NA, colNames = NULL, drop = NULL, séparateur.liste = séparateur.décimal.entrée, séparateur.décimal = séparateur.décimal.entrée, rapide = FALSE, convertir.encodage = TRUE, encodage = encodage.entrée)  {
+Read.csv <- function(base.string, vect.chemin, charger = charger.bases, colClasses = NA, colNames = NULL,
+                     drop = NULL, séparateur.liste = séparateur.décimal.entrée, séparateur.décimal = séparateur.décimal.entrée,
+                     rapide = FALSE, convertir.encodage = TRUE, encodage = encodage.entrée)  {
 
     if (charger.bases) {
 
