@@ -22,7 +22,7 @@
 library(compiler)
 #write.csv(unique(Paie[Paie$delta > 500 & Paie$Montant > 500 & Paie$Type %chin% c("A", "I", "R", "AV", "A"), c("Type",  "Libellé", "Code"), with=F]), chemin("test.csv"))
 
-options(warn = -1, verbose = FALSE, OutDec = ",")
+options(warn = -1, verbose = FALSE, OutDec = ",", datatable.verbose = FALSE)
 
 encodage.code.source <- "ISO-8859-15"
 
@@ -247,6 +247,8 @@ if (générer.codes)   {
   
   # Paie <- en raison du fonctionnement de knitr sinon inutile
 
+setkey(Paie, Matricule, Année, Mois)
+setkey(Bulletins.paie, Matricule, Année, Mois)
 
 Paie <- Paie[ , `:=`(delta = sum(Montant*(  Type == "I"
                                         | Type == "T"
@@ -257,11 +259,16 @@ Paie <- Paie[ , `:=`(delta = sum(Montant*(  Type == "I"
                                         | Type == "R"
                                         | Type == "AV"),
                                na.rm=TRUE)
-                            - Brut), by=c("Matricule", "Année", "Mois")]
+                            - Brut), by="Matricule,Année,Mois"]
 
 #Bulletins.paie <- unique(Paie[ , .(Matricule, Nom, Année, Mois, Temps.de.travail, Heures,  Statut, Emploi, Grade, Brut, Net.à.Payer, Nir)], by = NULL)
 
-Bulletins.paie <- Bulletins.paie[ , Sexe := substr(Nir, 1, 1)]
+Bulletins.paie <- Bulletins.paie[ , `:=`(Sexe = substr(Nir, 1, 1),
+                                         R    = .I - 1)]
+
+# Attention, NA, pas FALSE
+
+set(Bulletins.paie, 1, "R", NA)
 
 # Médiane des services horaires à temps complet par emploi et par sexe 
 
@@ -274,12 +281,13 @@ Bulletins.paie <- Bulletins.paie[ , Sexe := substr(Nir, 1, 1)]
 
 message("Calcul des quotités")
 
-Bulletins.paie <- Bulletins.paie[Temps.de.travail == 100, MHeures := median(Heures, na.rm = TRUE), by=c("Emploi", "Sexe")]
+Bulletins.paie <- Bulletins.paie[ , MHeures := median(Heures[Temps.de.travail == 100], na.rm = TRUE), by="Sexe,Emploi"]
 
-Bulletins.paie <- Bulletins.paie[ ,   quotité   :=  ifelse(MHeures < minimum.positif, NA, ifelse(Heures > MHeures, 1, round(Heures/MHeures, digits=2)))]  
+Bulletins.paie <- Bulletins.paie[ , quotité   :=  ifelse(MHeures < minimum.positif, NA, ifelse(Heures > MHeures, 1, round(Heures/MHeures, digits=2)))]  
 
 Bulletins.paie <- Bulletins.paie[Statut == "ELU", `:=`(MHeures = 1,
                                                        quotité = 1)]
+
 message("Quotités calculées")
 
 Bulletins.paie <- Bulletins.paie[ ,   `:=`(Montant.net.eqtp  = ifelse(is.finite(a<-Net.à.Payer/quotité), a,  NA),
@@ -291,29 +299,41 @@ Bulletins.paie <- Bulletins.paie[ ,   `:=`(Statut.sortie   = Statut[length(Net.à
                                            quotité.moyenne = round(mean.default(quotité, na.rm = TRUE), digits = 1)),
                                       key=c("Matricule", "Année")]
 
+Bulletins.paie <- Bulletins.paie[ , vind := (Matricule[R] == Matricule & Année[R] == Année - 1 & quotité.moyenne[R] == quotité.moyenne)]
+
 Bulletins.paie <- Bulletins.paie[ ,   `:=`(Montant.brut.annuel      = sum(Brut, na.rm=TRUE),
                                          Montant.brut.annuel.eqtp = sum(Montant.brut.eqtp * 365 / nb.jours, na.rm=TRUE),
                                          Montant.net.annuel.eqtp  = sum(Montant.net.eqtp * 365 / nb.jours, na.rm=TRUE),
-                                         permanent                = nb.jours >= 365),
+                                         permanent                = nb.jours >= 365,
+                                         vind = vind[1]),
                                       key=c("Matricule", "Année")]
 
-Bulletins.paie.réduit <- unique(Bulletins.paie[ , .(Matricule, Année, quotité.moyenne)], by = NULL)
+message("Indicatrice RMPP calculée")
 
-Bulletins.paie.réduit <- Bulletins.paie.réduit[ , nb.années := length(Année), by="Matricule"]
+# Obsolète
 
-indicatrice.quotité <- function(matricule, année)  Bulletins.paie.réduit[Matricule == matricule 
-                                                                         & Année == année, 
-                                                                           quotité.moyenne][1] ==  Bulletins.paie[Matricule == matricule
-                                                                                                                  & (Année == année - 1),
-                                                                                                                    quotité.moyenne][1]
-                                                  
-
-Bulletins.paie <- merge(Bulletins.paie, cbind(Bulletins.paie.réduit[ , .(Matricule, Année, nb.années)],
-                                              vind = mapply(indicatrice.quotité,
-                                                             Bulletins.paie.réduit[ , Matricule], 
-                                                             Bulletins.paie.réduit[ , Année],
-                                                             USE.NAMES = FALSE), all.x=TRUE, all.y=FALSE),
-                        by = c("Matricule", "Année"))
+# Bulletins.paie.réduit <- unique(Bulletins.paie[ , .(Matricule, Année, quotité.moyenne)], by = NULL)
+# 
+# Bulletins.paie.réduit <- Bulletins.paie.réduit[ , nb.années := length(Année), by="Matricule"]
+# 
+# indicatrice.quotité <- function(matricule, année)  Bulletins.paie.réduit[Matricule == matricule 
+#                                                                          & Année == année, 
+#                                                                            quotité.moyenne][1] ==  Bulletins.paie[Matricule == matricule
+#                                                                                                                   & (Année == année - 1),
+#                                                                                                                     quotité.moyenne][1]
+#                                                   
+# 
+# Bulletins.paie <- merge(Bulletins.paie, cbind(Bulletins.paie.réduit[ , .(Matricule, Année, nb.années)],
+#                                               vind = mapply(indicatrice.quotité,
+#                                                              Bulletins.paie.réduit[ , Matricule], 
+#                                                              Bulletins.paie.réduit[ , Année],
+#                                                              USE.NAMES = FALSE)),
+#                         by = c("Matricule", "Année"))
+# 
+# delta<-Bulletins.paie[indic.rmpp != vind, .(Matricule, Année, Mois, quotité, quotité.moyenne, indic.rmpp, vind, R)]
+# 
+# sauv.bases(dossier = chemin.dossier.bases, "delta")
+# stop("test")
 
 Paie <- merge(unique(Bulletins.paie[ , c("Matricule", 
                                   "Année",
@@ -329,11 +349,11 @@ Paie <- merge(unique(Bulletins.paie[ , c("Matricule",
                                   "Sexe",
                                   "nb.jours",
                                   "nb.mois",
-                                  "nb.années",
+#                                  "nb.années",
                                   "vind",
                                   "permanent"), with=FALSE], by=NULL),
-              unique(Paie, by=NULL), 
-              by=c("Matricule", "Année", "Mois"), allow.cartesian=TRUE)
+              Paie, 
+              by=c("Matricule","Année","Mois"))
 
 matricules <- unique(Bulletins.paie[ ,
                                        c("Année",
@@ -2707,7 +2727,11 @@ HS.sup.25 <- HS.sup.25[order(Matricule, Année, Mois), ]
 # Tout convertir en as.character() est plus prudent.
 
 temp <- with(HS.sup.indiciaire.mensuel,
-             tapply(Montant, list(Matricule, Année, Mois), FUN=sum))
+              tapply(Montant, list(Matricule, Année, Mois), FUN=sum))
+
+#temp <- HS.sup.indiciaire.mensuel[ , sum(Montant), by = "Matricule,Année,Mois"]
+
+#cat("Test sur temp et tapply: ", a<-identical(temp, temp0), "  : ", ifelse(a, "OK", "inégal !"))
 
 traitement.indiciaire.mensuel <- unlist(Map(function(x, y, z) temp[x, y, z],
                                              as.character(HS.sup.indiciaire.mensuel$Matricule),
