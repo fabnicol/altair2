@@ -188,6 +188,9 @@
   <nLine profondeur="0">
    77
   </nLine>
+  <genererNumLigne profondeur="0">
+   oui
+  </genererNumLigne>
   <genererTable profondeur="0">
    oui
   </genererTable>

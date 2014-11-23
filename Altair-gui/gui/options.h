@@ -41,6 +41,7 @@ private:
 
     FCheckBox
       *tableCheckBox,
+      *rangCheckBox,
       *logCheckBox,
       *economeCheckBox;
 

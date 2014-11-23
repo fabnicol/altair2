@@ -113,6 +113,13 @@ standardPage::standardPage()
                             "N");
     NLineEdit->setFixedWidth(40);
     
+    QLabel* rangLabel = new QLabel("Numéroter les lignes");
+
+    rangCheckBox=new FCheckBox("",
+                                "genererNumLigne",
+                                {"Générer la table .csv", "numéroter les lignes"},
+                                "l");
+
     tableCheckBox=new FCheckBox("Générer la table  ",
                                 "genererTable",
                                 {"Générer la table .csv", "type standard"},
@@ -153,6 +160,8 @@ standardPage::standardPage()
     v1Layout->addWidget(sepLineEdit,       3,1,Qt::AlignLeft);
     v1Layout->addWidget(decLabel,          4,0,Qt::AlignRight);
     v1Layout->addWidget(decLineEdit,       4,1,Qt::AlignLeft);
+    v1Layout->addWidget(rangCheckBox,      5,1,Qt::AlignRight);
+    v1Layout->addWidget(rangLabel,         5,0,Qt::AlignRight);
     
     v2Layout->addWidget(tableCheckBox,     1,0,Qt::AlignLeft);
     v2Layout->addWidget(economeCheckBox,   2,0,Qt::AlignLeft);

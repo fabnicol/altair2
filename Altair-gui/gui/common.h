@@ -70,7 +70,11 @@ protected :
   static FString    htmlLogPath;
   
 #ifdef Q_OS_WIN
-     const QString   System="win32";
+    #ifndef WIN_64
+         const QString   System="win32";
+    #else
+         const QString   System="win64";
+    #endif
      const QString   systemSuffix=".exe";
      const QString   systemPathPrefix="/../";
       #ifndef LOCAL_BINPATH
