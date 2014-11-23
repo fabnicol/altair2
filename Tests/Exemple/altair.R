@@ -2404,7 +2404,7 @@ if (N <- length(unique(Paie[Statut != "TITULAIRE"
                                         & Statut != "STAGIAIRE"
                                         & NBI != 0, 
                                         Matricule])))
-  cat("Il existe ", N, "non titulaires percevant une NBI.")
+  cat("Il existe ", N, "non titulaire", ifelse(N>1, "s", ""), " percevant une NBI.")
 
 NBI.aux.non.titulaires <- Paie[Statut != "TITULAIRE"
                                & Statut != "STAGIAIRE"
