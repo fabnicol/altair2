@@ -12,7 +12,7 @@
 #include "fonctions_auxiliaires.hpp"
 #include "table.hpp"
 
-inline const uint32_t* calculer_maxima(const info_t* Info)
+static inline const uint32_t* calculer_maxima(const info_t* Info)
 {
     static int once;
 
@@ -88,6 +88,7 @@ int main(int argc, char **argv)
         true,             // réduire coso mémoire
         true,             // par défaut lire la balise adjacente
         false,            // calculer les maxima de lignes et d'agents
+        false,            // numéroter les lignes
         BESOIN_MEMOIRE_ENTETE,// besoin mémoire minimum hors lecture de lignes : devra être incréméenté,
         1                 // nbfil
     };
@@ -132,6 +133,7 @@ int main(int argc, char **argv)
             printf("%s\n", "-d argument obligatoire : séparateur décimal [défaut . avec -t].");
             printf("%s\n", "-s argument obligatoire : séparateur de champs [défaut , avec -t]/");
             printf("%s\n", "-j argument obligatoire : nombre de fils d'exécution (1 à 10).");
+            printf("%s\n", "-l sans argument        : générer une colonne de numéros de ligne intitulée 'R'.");
             printf("%s\n", "-M sans argument        : ne pas libérer la mémoire réservée en fin de programme.");
             printf("%s\n", "-m sans argument        : calculer les maxima d'agents et de lignes de paye.");
             printf("%s\n", "-L argument obligatoire : chemin du log d'exécution du test de cohérence entre analyseurs C et XML.");
@@ -152,6 +154,12 @@ int main(int argc, char **argv)
                 start++;
                 continue;
             }
+        }
+        else if (! strcmp(argv[start], "-l"))
+        {
+            info.generer_rang = true ;
+            start++;
+            continue;
         }
         else if (! strcmp(argv[start], "-T"))
         {
@@ -478,6 +486,7 @@ int main(int argc, char **argv)
             Info[i].separateur = info.separateur;
             Info[i].reduire_consommation_memoire = info.reduire_consommation_memoire;
             Info[i].drapeau_cont = true;
+            Info[i].generer_rang = info.generer_rang;
             Info[i].calculer_maxima = info.calculer_maxima;
             Info[i].minimum_memoire_p_ligne = info.minimum_memoire_p_ligne;
             Info[i].nbfil = info.nbfil;

@@ -28,6 +28,7 @@ OPTIONS :
 -d argument obligatoire : séparateur décimal [défaut . avec -t].
 -s argument obligatoire : séparateur de champs [défaut , avec -t]/
 -j argument obligatoire : nombre de fils d'exécution (1 à 10).
+-l sans argument        : générer une colonne de numéros de ligne intitulée 'R'.
 -M sans argument        : ne pas libérer la mémoire réservée en fin de programme.
 -m sans argument        : calculer les maxima d'agents et de lignes de paye.
 -L argument obligatoire : chemin du log d'exécution du test de cohérence entre analyseurs C et XML.

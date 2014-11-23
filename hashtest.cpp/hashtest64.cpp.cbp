@@ -27,7 +27,7 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="-M  -m  -t -j 6 -n 1171 -N 77  c:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/*.xhl c:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/*.xhl c:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2010/*.xhl c:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2011/*.xhl c:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2012/*.xhl " />
+				<Option parameters="-M  -m -j 6 -t  -n 1171 -N 77  -D c:/Dev/altair/Tests/Exemple/Donnees/R-Altair  c:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/*.xhl c:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/*.xhl c:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2010/*.xhl c:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2011/*.xhl c:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2012/*.xhl " />
 				<Compiler>
 					<Add option="-march=corei7-avx" />
 					<Add option="-O3" />

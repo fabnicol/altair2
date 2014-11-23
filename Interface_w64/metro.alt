@@ -180,7 +180,7 @@
    .
   </decimal>
   <processType profondeur="0">
-   '6'
+   '1'
   </processType>
   <nAgent profondeur="0">
    1171
@@ -188,6 +188,9 @@
   <nLine profondeur="0">
    77
   </nLine>
+  <genererNumLigne profondeur="0">
+   non
+  </genererNumLigne>
   <genererTable profondeur="0">
    oui
   </genererTable>
@@ -202,6 +205,6 @@
   </ecoRAM>
  </systeme>
  <recent>
-  <fichier>C:/Dev/altair/Interface/metro.alt</fichier>
+  <fichier>C:/Dev/altair/Interface_w64/metro.alt</fichier>
  </recent>
 </projet>

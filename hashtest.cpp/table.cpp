@@ -17,7 +17,7 @@ int64_t generer_table_standard(const char* chemin_table, info_t* info)
 
 /* Il doit y avoir BESOIN_MEMOIRE_ENTETE + 6 champs plus Type, soit 18 + 6 +1 = 23 champs et 24 séparateurs + saut de ligne = 48 char + \0*/
 
-inline FILE* ouvrir_nouvelle_base(info_t* info, unsigned* rang_fichier_base, FILE* base)
+static inline FILE* ouvrir_nouvelle_base(info_t* info, unsigned* rang_fichier_base, FILE* base)
 {
     if (fclose(base) == EOF)
     {
@@ -36,66 +36,127 @@ inline FILE* ouvrir_nouvelle_base(info_t* info, unsigned* rang_fichier_base, FIL
 
 
 #define VAR(X) Info[i].Table[agent][X]
-#define ECRIRE_LIGNE_l(X) fprintf(base, format_base, \
-                            X, sep, \
-                            VAR(Annee), sep, \
-                            VAR(Mois), sep, \
-                            VAR(Nom), sep, \
-                            VAR(Prenom), sep, \
-                            VAR(Matricule), sep, \
-                            VAR(Service), sep, \
-                            VAR(Statut), sep, \
-                            VAR(QuotiteTrav), sep, \
-                            VAR(NbHeureSup), sep, \
-                            VAR(NbHeureTotal), sep, \
-                            VAR(Indice), sep, \
-                            VAR(MtBrut), sep, \
-                            VAR(MtNet), sep, \
-                            VAR(MtNetAPayer), sep, \
-                            VAR(NBI), sep, \
-                            VAR(l), sep, \
-                            VAR(l+1), sep, \
-                            VAR(l+2), sep, \
-                            VAR(l+3), sep, \
-                            VAR(l+4), sep, \
-                            VAR(l+5), sep, \
-                            type, sep, \
-                            VAR(EmploiMetier), sep, \
-                            VAR(Grade), sep, \
+
+static inline void __attribute__((always_inline)) ECRIRE_LIGNE_l(int i, uint32_t agent, int l, char* type, FILE* base, char* format_base, char sep, info_t* Info, int rang)
+{
+if (Info[0].generer_rang)
+    fprintf(base, format_base,
+                            rang, sep,
+                            VAR(Annee), sep,
+                            VAR(Mois), sep,
+                            VAR(Nom), sep,
+                            VAR(Prenom), sep,
+                            VAR(Matricule), sep,
+                            VAR(Service), sep,
+                            VAR(Statut), sep,
+                            VAR(QuotiteTrav), sep,
+                            VAR(NbHeureSup), sep,
+                            VAR(NbHeureTotal), sep,
+                            VAR(Indice), sep,
+                            VAR(MtBrut), sep,
+                            VAR(MtNet), sep,
+                            VAR(MtNetAPayer), sep,
+                            VAR(NBI), sep,
+                            VAR(l), sep,
+                            VAR(l+1), sep,
+                            VAR(l+2), sep,
+                            VAR(l+3), sep,
+                            VAR(l+4), sep,
+                            VAR(l+5), sep,
+                            type, sep,
+                            VAR(EmploiMetier), sep,
+                            VAR(Grade), sep,
+                            VAR(NIR));
+else
+    fprintf(base, format_base,
+                            VAR(Annee), sep,
+                            VAR(Mois), sep,
+                            VAR(Nom), sep,
+                            VAR(Prenom), sep,
+                            VAR(Matricule), sep,
+                            VAR(Service), sep,
+                            VAR(Statut), sep,
+                            VAR(QuotiteTrav), sep,
+                            VAR(NbHeureSup), sep,
+                            VAR(NbHeureTotal), sep,
+                            VAR(Indice), sep,
+                            VAR(MtBrut), sep,
+                            VAR(MtNet), sep,
+                            VAR(MtNetAPayer), sep,
+                            VAR(NBI), sep,
+                            VAR(l), sep,
+                            VAR(l+1), sep,
+                            VAR(l+2), sep,
+                            VAR(l+3), sep,
+                            VAR(l+4), sep,
+                            VAR(l+5), sep,
+                            type, sep,
+                            VAR(EmploiMetier), sep,
+                            VAR(Grade), sep,
                             VAR(NIR));
 
-#define ECRIRE_LIGNE_BULLETIN(X) fprintf(bulletins, format_bulletins, \
-                            X, sep, \
-                            VAR(Annee), sep, \
-                            VAR(Mois), sep, \
-                            VAR(Nom), sep, \
-                            VAR(Prenom), sep, \
-                            VAR(Matricule), sep, \
-                            VAR(Service), sep, \
-                            VAR(Statut), sep, \
-                            VAR(QuotiteTrav), sep, \
-                            VAR(NbHeureSup), sep, \
-                            VAR(NbHeureTotal), sep, \
-                            VAR(Indice), sep, \
-                            VAR(MtBrut), sep, \
-                            VAR(MtNet), sep, \
-                            VAR(MtNetAPayer), sep, \
-                            VAR(NBI), sep, \
-                            VAR(EmploiMetier), sep, \
-                            VAR(Grade), sep, \
+}
+
+
+static inline void __attribute__((always_inline)) ECRIRE_LIGNE_BULLETIN(int i, uint32_t agent, FILE* bulletins, char* format_bulletins, char sep, info_t* Info, int rang)
+{
+if (Info[0].generer_rang)
+ fprintf(bulletins, format_bulletins,
+                            rang, sep,
+                            VAR(Annee), sep,
+                            VAR(Mois), sep,
+                            VAR(Nom), sep,
+                            VAR(Prenom), sep,
+                            VAR(Matricule), sep,
+                            VAR(Service), sep,
+                            VAR(Statut), sep,
+                            VAR(QuotiteTrav), sep,
+                            VAR(NbHeureSup), sep,
+                            VAR(NbHeureTotal), sep,
+                            VAR(Indice), sep,
+                            VAR(MtBrut), sep,
+                            VAR(MtNet), sep,
+                            VAR(MtNetAPayer), sep,
+                            VAR(NBI), sep,
+                            VAR(EmploiMetier), sep,
+                            VAR(Grade), sep,
                             VAR(NIR));
+else
+  fprintf(bulletins, format_bulletins,
+                            VAR(Annee), sep,
+                            VAR(Mois), sep,
+                            VAR(Nom), sep,
+                            VAR(Prenom), sep,
+                            VAR(Matricule), sep,
+                            VAR(Service), sep,
+                            VAR(Statut), sep,
+                            VAR(QuotiteTrav), sep,
+                            VAR(NbHeureSup), sep,
+                            VAR(NbHeureTotal), sep,
+                            VAR(Indice), sep,
+                            VAR(MtBrut), sep,
+                            VAR(MtNet), sep,
+                            VAR(MtNetAPayer), sep,
+                            VAR(NBI), sep,
+                            VAR(EmploiMetier), sep,
+                            VAR(Grade), sep,
+                            VAR(NIR));
+
+}
 
 void boucle_ecriture(info_t* Info)
 {
-    int ligne = 0, ligne_typee = 0;
+    int ligne = 0;
     uint64_t compteur = 0;
     uint32_t compteur_lignes_bulletins = 0;
-    int TAILLE_FORMAT = (Info[0].minimum_memoire_p_ligne + 6 + 1) * 4 + 4;
-    int TAILLE_FORMAT_BULLETINS = Info[0].minimum_memoire_p_ligne * 4 + 4;
+    int TAILLE_FORMAT = (Info[0].minimum_memoire_p_ligne + 6 + 1) * 4 + ((Info[0].generer_rang)? 4 : 0);
+    int TAILLE_FORMAT_BULLETINS = Info[0].minimum_memoire_p_ligne * 4 + ((Info[0].generer_rang)? 4 : 0);
 
     char format_base[TAILLE_FORMAT];
     char format_bulletins[TAILLE_FORMAT_BULLETINS];
 
+   if (Info[0].generer_rang)
+   {
     format_base[0]='%';
     format_base[1]='d';
     format_base[2]='%';
@@ -105,8 +166,9 @@ void boucle_ecriture(info_t* Info)
     format_bulletins[1]='d';
     format_bulletins[2]='%';
     format_bulletins[3]='c';
+   }
 
-    for (int i = 4; i <= TAILLE_FORMAT - 8; i += 4)
+    for (int i = (Info[0].generer_rang)? 4 : 0; i <= TAILLE_FORMAT - 8; i += 4)
     {
         format_base[i] = '%';
         format_base[i + 1] = 's';
@@ -119,7 +181,7 @@ void boucle_ecriture(info_t* Info)
     format_base[TAILLE_FORMAT - 2] = '\n';
     format_base[TAILLE_FORMAT - 1] = '\0';
 
-    for (int i = 4; i <= TAILLE_FORMAT_BULLETINS - 8; i += 4)
+    for (int i = (Info[0].generer_rang)? 4 : 0; i <= TAILLE_FORMAT_BULLETINS - 8; i += 4)
     {
         format_bulletins[i] = '%';
         format_bulletins[i + 1] = 's';
@@ -158,7 +220,7 @@ void boucle_ecriture(info_t* Info)
 
             compteur_lignes_bulletins++;
 
-            ECRIRE_LIGNE_BULLETIN(compteur_lignes_bulletins)
+            ECRIRE_LIGNE_BULLETIN(i, agent, bulletins, format_bulletins, sep, Info, compteur_lignes_bulletins);
 
             if (Info[i].taille_base == PAR_ANNEE  && strcmp((const char*)VAR(Annee), annee_courante))
             {
@@ -204,9 +266,9 @@ void boucle_ecriture(info_t* Info)
 
                 if (Info[0].taille_base > PAR_TRAITEMENT)
                 {
-                    ligne_typee++;
+                    compteur++;
 
-                    ECRIRE_LIGNE_l(ligne_typee)
+                    ECRIRE_LIGNE_l(i, agent, l, type, base, format_base, sep, Info, compteur);
                 }
                 else
                 {
@@ -214,30 +276,29 @@ void boucle_ecriture(info_t* Info)
                     {
                         if (valeur_drapeau_categorie + 2 == -Info[0].taille_base)
                         {
-                            ligne_typee++;
+                            compteur++;
 
-                            ECRIRE_LIGNE_l(ligne_typee)
+                            ECRIRE_LIGNE_l(i, agent, l, type, base, format_base, sep, Info, compteur);
                         }
                     }
                     else
                     {
-                        ligne_typee++;
+                        compteur++;
                         if (nouveau_type)
                         {
                             fclose(base);
                             base = ajouter_au_fichier_base(Info, valeur_drapeau_categorie);
                         }
 
-                        ECRIRE_LIGNE_l(ligne_typee)
+                        ECRIRE_LIGNE_l(i, agent, l, type, base, format_base, sep, Info, compteur);
                     }
                 }
 
                 l += 6;
                 ligne++;
             }
-            compteur += ligne_typee;
+
             ligne = 0;
-            ligne_typee = 0;
         }
 
         if (i) Info[0].nbLigne += Info[i].nbLigne;
