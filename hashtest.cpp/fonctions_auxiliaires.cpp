@@ -34,7 +34,7 @@ void ecrire_entete(info_t* info, FILE* base)
 void ecrire_entete0(info_t* info, FILE* base, const char* entete[], int N)
 {
   int i;
-  for (i = 0; i < N - 1; i++)
+  for (i = !info->generer_rang; i < N - 1; i++)
       fprintf(base, "%s%c", entete[i], info[0].separateur);
 
   fprintf(base, "%s\n", entete[i]);

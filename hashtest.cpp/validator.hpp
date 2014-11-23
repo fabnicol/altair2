@@ -82,6 +82,7 @@ typedef struct
     bool reduire_consommation_memoire;
     bool drapeau_cont;
     bool calculer_maxima;
+    bool generer_rang;
     uint8_t minimum_memoire_p_ligne;
     int nbfil;
 } info_t;
