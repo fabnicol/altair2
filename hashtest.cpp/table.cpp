@@ -36,8 +36,9 @@ inline FILE* ouvrir_nouvelle_base(info_t* info, unsigned* rang_fichier_base, FIL
 
 
 #define VAR(X) Info[i].Table[agent][X]
-#define ECRIRE_LIGNE_l fprintf(base, format_base, \
-                            VAR(Annee),sep, \
+#define ECRIRE_LIGNE_l(X) fprintf(base, format_base, \
+                            X, sep, \
+                            VAR(Annee), sep, \
                             VAR(Mois), sep, \
                             VAR(Nom), sep, \
                             VAR(Prenom), sep, \
@@ -63,8 +64,9 @@ inline FILE* ouvrir_nouvelle_base(info_t* info, unsigned* rang_fichier_base, FIL
                             VAR(Grade), sep, \
                             VAR(NIR));
 
-#define ECRIRE_LIGNE_BULLETIN fprintf(bulletins, format_bulletins, \
-                            VAR(Annee),sep, \
+#define ECRIRE_LIGNE_BULLETIN(X) fprintf(bulletins, format_bulletins, \
+                            X, sep, \
+                            VAR(Annee), sep, \
                             VAR(Mois), sep, \
                             VAR(Nom), sep, \
                             VAR(Prenom), sep, \
@@ -88,13 +90,23 @@ void boucle_ecriture(info_t* Info)
     int ligne = 0, ligne_typee = 0;
     uint64_t compteur = 0;
     uint32_t compteur_lignes_bulletins = 0;
-    int TAILLE_FORMAT = (Info[0].minimum_memoire_p_ligne + 6 + 1) * 4;
-    int TAILLE_FORMAT_BULLETINS = Info[0].minimum_memoire_p_ligne * 4;
+    int TAILLE_FORMAT = (Info[0].minimum_memoire_p_ligne + 6 + 1) * 4 + 4;
+    int TAILLE_FORMAT_BULLETINS = Info[0].minimum_memoire_p_ligne * 4 + 4;
 
     char format_base[TAILLE_FORMAT];
     char format_bulletins[TAILLE_FORMAT_BULLETINS];
 
-    for (int i = 0; i <= TAILLE_FORMAT - 8; i += 4)
+    format_base[0]='%';
+    format_base[1]='d';
+    format_base[2]='%';
+    format_base[3]='c';
+
+    format_bulletins[0]='%';
+    format_bulletins[1]='d';
+    format_bulletins[2]='%';
+    format_bulletins[3]='c';
+
+    for (int i = 4; i <= TAILLE_FORMAT - 8; i += 4)
     {
         format_base[i] = '%';
         format_base[i + 1] = 's';
@@ -107,7 +119,7 @@ void boucle_ecriture(info_t* Info)
     format_base[TAILLE_FORMAT - 2] = '\n';
     format_base[TAILLE_FORMAT - 1] = '\0';
 
-    for (int i = 0; i <= TAILLE_FORMAT_BULLETINS - 8; i += 4)
+    for (int i = 4; i <= TAILLE_FORMAT_BULLETINS - 8; i += 4)
     {
         format_bulletins[i] = '%';
         format_bulletins[i + 1] = 's';
@@ -144,9 +156,9 @@ void boucle_ecriture(info_t* Info)
         {
             /* BOUCLER SUR L */
 
-            ECRIRE_LIGNE_BULLETIN
-
             compteur_lignes_bulletins++;
+
+            ECRIRE_LIGNE_BULLETIN(compteur_lignes_bulletins)
 
             if (Info[i].taille_base == PAR_ANNEE  && strcmp((const char*)VAR(Annee), annee_courante))
             {
@@ -194,7 +206,7 @@ void boucle_ecriture(info_t* Info)
                 {
                     ligne_typee++;
 
-                    ECRIRE_LIGNE_l
+                    ECRIRE_LIGNE_l(ligne_typee)
                 }
                 else
                 {
@@ -204,7 +216,7 @@ void boucle_ecriture(info_t* Info)
                         {
                             ligne_typee++;
 
-                            ECRIRE_LIGNE_l
+                            ECRIRE_LIGNE_l(ligne_typee)
                         }
                     }
                     else
@@ -216,7 +228,7 @@ void boucle_ecriture(info_t* Info)
                             base = ajouter_au_fichier_base(Info, valeur_drapeau_categorie);
                         }
 
-                        ECRIRE_LIGNE_l
+                        ECRIRE_LIGNE_l(ligne_typee)
                     }
                 }
 
