@@ -21,7 +21,6 @@ extraire.années      <- F
     début.période.sous.revue    <- 2011
     fin.période.sous.revue      <- 2013
 
-
 setOSWindows            <- Sys.info()["sysname"] != "Linux"
 exec.root               <- ifelse(setOSWindows, ".exe", "")
 
@@ -185,4 +184,5 @@ expression.rég.iat        <- ".*(\\bi.?a.?t\\b|\\bi[[:alpha:]]*.?\\b.*a[d][[:alp
 expression.rég.ifts       <- ".*(\\bi.?f.?t.?s\\b|\\bi[[:alpha:]]*.?\\b\\s*f[[:alpha:]]*.?\\b\\s*trav[[:alpha:]]*.?\\b\\s*s[[:alpha:]]*.?\\b).*"
 expression.rég.population <- ".*\\bASS(\\b|A).*"
 expression.rég.élus       <- "maire|pr[eé]sident|.*([eé]lu[s]?|adj.*maire|v[[:alpha:]]*\\b\\s*pr[eé]sident|cons[[:alpha:]]*\\b\\s*muni|cons[[:alpha:]]*\\b\\s*commun).*"
+expression.rég.nbi        <- ".*\\bN[[:alpha:]]*.?\\s*B[[:alpha:]]*.?\\s*I.*"
 
