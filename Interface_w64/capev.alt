@@ -95,7 +95,7 @@
    oui
   </loadProjectBehavior>
   <base profondeur="0">
-   C:/Dev/Altair/Tests/Exemple/Donnees/R-Altair
+   C:/Dev/altair/Tests/Exemple/Donnees/R-Altair
   </base>
   <baseType profondeur="0">
      
@@ -110,28 +110,31 @@
    .
   </decimal>
   <processType profondeur="0">
-   '5'
+   '7'
   </processType>
   <nAgent profondeur="0">
-   330
+     
   </nAgent>
   <nLine profondeur="0">
-   479
+     
   </nLine>
+  <genererNumLigne profondeur="0">
+   non
+  </genererNumLigne>
   <genererTable profondeur="0">
    oui
   </genererTable>
   <log profondeur="0">
-   c:/Dev/Altair/Log/altair.log
+     
   </log>
   <genererLog profondeur="0">
    non
   </genererLog>
   <ecoRAM profondeur="0">
-   non
+   oui
   </ecoRAM>
  </systeme>
  <recent>
-  <fichier>C:/Dev/altair/Interface/capev.alt</fichier>
+  <fichier>C:/Dev/altair/Interface_w64/pev.alt</fichier>
  </recent>
 </projet>

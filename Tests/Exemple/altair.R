@@ -24,7 +24,7 @@ library(compiler)
 
 options(warn = -1, verbose = FALSE, OutDec = ",", datatable.verbose = FALSE)
 
-encodage.code.source <- "ISO-8859-15"
+encodage.code.source <- "UTF-8" #"ISO-8859-15"
 
 # encodage :sous unix, les fichiers sources devraient être encodés en UTF-8 pour permettre une génération correcte des documents
 #           sous Windows, en ISO-8859-1.
@@ -2415,10 +2415,11 @@ Tableau.vertical2(c("Type de collectivité", "SMPT net 2011 (&euro;)", "SMPT net
 #'
 #'*Champ : France. Salariés en équivalent-temps plein (EQTP) des collectivités territoriales (y compris bénéficiaires de contrats aidés, hors assistantes maternelles).*     			
 #'Conversion en euros courants, calcul CRC.  
-#'[Source INSEE](http://www.insee.fr/fr/ffc/ipweb/ip1486/ip1486.xls)   
+#'[Source INSEE données 2011](http://www.insee.fr/fr/ffc/ipweb/ip1486/ip1486.xls)   
 #'[Source DGAFP](http://infos.emploipublic.fr/dossiers/la-fonction-publique-en-chiffres/la-fonction-publique-en-chiffre-2013/non-defini-08/apm-71444/)  
-#'   
-#'
+#'[Source PLF 2015 données 2012 p.130](http://www.performance-publique.budget.gouv.fr/sites/performance_publique/files/farandole/ressources/2015/pap/pdf/jaunes/jaune2015_fonction_publique.pdf)   
+#'*Nota* Les évaluation du PLF 2015 ont apparemment fait l'objet d'un redressement par rapport à la publication INSEE précédente sur les données 2011.   
+#'    
 #'# 5. Tests réglementaires   
 #'## 5.1 Contrôle des heures supplémentaires, des NBI et primes informatiques   
 #'   
