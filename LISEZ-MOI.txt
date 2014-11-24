@@ -2,7 +2,7 @@
                         ALTAIR
 
             Analyse des lignes de traitement, 
-   attributions indemnitaires et autres rémunérations
+   attributions indemnitaires et rémunérations diverses
 
 
 Le présent logiciel produit automatiquement des statistiques et des tests
@@ -20,17 +20,17 @@ Voir fichier Installation.txt au dialogue suivant.
 Interface Altair
 ----------------
 
-1. Lancement de l'interface
-
   Cliquer sur l'icône "A" bleue sur le Bureau ou dans le menu Démarrer 
   dans le répertoire Altair.
 
-  Une interface utilisateur simple s'affiche qui donne le choix entre :
+  Une interface utilisateur s'affiche qui permet d'exécuter l'extraction des
+  données de paye des fichiers .xhl pour les convertir en fichiers plats .csv
 
-   - le lancement de l'interface RStudio pour afficher le script et lancer
-     son exécution en langage R ;
+Interface RStudio
+-----------------
 
-   - l'affichage de rapports de démonstration aux formats HTML, PDF ou MSWORD.
+  L'interface Altair permet le lancement de l'interface RStudio pour afficher 
+  le script  en langage R et lancer son exécution.
 
   Pour afficher les rapports de démonstration directement parl'interface,
   les logiciels suivants doivent être préinstallés :
@@ -44,13 +44,11 @@ Interface Altair
 
 2. Affichage du script dans l'interface RStudio
 
-  Au lancement de l'interface RStudio, dans la fenêtre inférieure droite, 
-  cliquer sur le fichier 
-
-               Altair\Tests\Exemple\exemple.R
-
-  Vérifier que l'onglet actif est bien le fichier 'exemple.R' dans la fenêtre
+  Au lancement de l'interface RStudio, vérifier que l'onglet actif est bien le fichier 'altair.R' dans la fenêtre
   supérieure gauche. 
+  Sinon, dans la fenêtre inférieure droite, cliquer sur le fichier 
+
+               Altair\Tests\Exemple\altair.R
 
   Pour les lancements suivants de l'interface RStudio, cette opération de 
   sélection de fichier ne sera plus nécessaire.
@@ -107,18 +105,7 @@ L'installateur Windows a été compilé sous NSIS : http://nsis.sourceforge.net
 Distribution du code
 --------------------
 
-Le code est téléchargeable sur le site :
-
-  http://github.com/fabnicol/altair
-
-Cliquer sur "Download Zip" ou utiliser le gestionnaire de versions Git par
-clônage de l'entrepôt :
-
-git clone -b windows --single-branch http://github.com/fabnicol/altair.git
-
-L'ensemble du code et des données de démonstration étant anonymisé, un format 
-d'échange public est préconisé par l'auteur du code.
-
+L'ensemble du code et des données de démonstration est anonymisé.
 
 Historique
 ----------
@@ -127,11 +114,15 @@ Historique
                 de l'Isère (rendu public en 2013)
 
   janvier 2014  Développement du script, première application opérationnelle
+                complète.
 
     avril 2014  Finalisation de la version 1.0 de la plateforme linux
 
       mai 2014  Portage sous Windows, tests, installateur NSIS. Améliorations.
-
-   
+                Tests sur d'autres cas pratiques.
+      
+ novembre 2014  Améliorations du script (performances, statistiques).
+                Interface graphique. Application noyau LHX.
+ 
                 
       

@@ -1,0 +1,19 @@
+TODO:
+fix cdrecord regression: revert to older states !   
+Refeed console.
+fix selecting of many tracks when moving up/down
+fix ordering of subordinate tags in project manager
+fix resample bug when not clicking in directory  view
+fix extra comma at end of --screentex <-> control screentext length depending on audio track count per group
+fix application of "all slide transitions" to all slides: crashes when slides tabs already set.
+test --dvdv-slides : appears to overgenerate on first tab (?)
+fix issue of --dvdv-slides=... being generated with older slides whilst a new radio button is now set.
+  When the slides frame widget is no longer enabled, --dvdv-slides should not be generated.
+  [General FWidgets issue: impede both command line and XML generation when disabled]
+add a try catch at dvp loading stage: when dvp has problematic settings, 
+  application will crash on launch unless default.dvp is erased manually, should it be specified with default .dvp 
+  loading on launch. This can be avoided by trCatch on dvdp and a fallback on an empty dvp; or ideally with just the xml 
+  that can be read without any issue. 
+
+
+
