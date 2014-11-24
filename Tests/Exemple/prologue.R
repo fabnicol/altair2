@@ -1,9 +1,9 @@
 # prologue
-# doit être dans le même répertoire que le programme principal et sa bibliothèque
+# doit Ãªtre dans le mÃªme rÃ©pertoire que le programme principal et sa bibliothÃ¨que
 
-# dans le cas où l'on ne lance le programme que pour certaines années, il préciser début.période sous revue et fin.période .sous.revue
-# Dans ce cas fixer extraire.années en valeur TRUE.
-# Sinon le programme travaille sur l'ensemble des années disponibles dans la base : elles sont détectées automatiquement.
+# dans le cas oÃ¹ l'on ne lance le programme que pour certaines annÃ©es, il prÃ©ciser dÃ©but.pÃ©riode sous revue et fin.pÃ©riode .sous.revue
+# Dans ce cas fixer extraire.annÃ©es en valeur TRUE.
+# Sinon le programme travaille sur l'ensemble des annÃ©es disponibles dans la base : elles sont dÃ©tectÃ©es automatiquement.
 
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
 
@@ -17,49 +17,49 @@ racine                      <- "R-Altair/"
 # "UTF-8.RAG_2009_2012-"
 # "RAG_2009_2012-"
 
-extraire.années      <- F
-    début.période.sous.revue    <- 2011
-    fin.période.sous.revue      <- 2013
+extraire.annÃ©es      <- F
+    dÃ©but.pÃ©riode.sous.revue    <- 2011
+    fin.pÃ©riode.sous.revue      <- 2013
 
 setOSWindows            <- Sys.info()["sysname"] != "Linux"
 exec.root               <- ifelse(setOSWindows, ".exe", "")
 
-éliminer.duplications   <- T
-enlever.quotités.nulles <- T
-enlever.quotités.na     <- T
-générer.codes           <- FALSE
-paralléliser            <- TRUE
+Ã©liminer.duplications   <- T
+enlever.quotitÃ©s.nulles <- T
+enlever.quotitÃ©s.na     <- T
+gÃ©nÃ©rer.codes           <- FALSE
+parallÃ©liser            <- TRUE
 extraire.population     <- FALSE
-fusionner.nom.prénom    <- FALSE
+fusionner.nom.prÃ©nom    <- FALSE
 charger.bases           <- T
 sauvegarder.bases.analyse    <- T
 sauvegarder.bases.origine    <- F
-générer.table.effectifs      <- F
-générer.table.élus           <- F
+gÃ©nÃ©rer.table.effectifs      <- F
+gÃ©nÃ©rer.table.Ã©lus           <- F
 tester.matricules            <- TRUE
 tester.lignes.bulletins.mois <- TRUE
-corriger.quotité         <- FALSE
+corriger.quotitÃ©         <- FALSE
 comportement.strict      <- TRUE
-etp.égale.effectif       <- FALSE
+etp.Ã©gale.effectif       <- FALSE
 
 seuil.troncature         <- 0 # jours
-taux.tolérance.homonymie <- 2  # en %
+taux.tolÃ©rance.homonymie <- 2  # en %
 quantile.cut             <- 1  # en %
 minimum.positif          <- 0.5
-minimum.quotité          <- 0.1
+minimum.quotitÃ©          <- 0.1
 
-séparateur.liste.entrée     <- ","
-séparateur.décimal.entrée   <- "."
-séparateur.liste.sortie     <- ";"
-séparateur.décimal.sortie   <- ","
+sÃ©parateur.liste.entrÃ©e     <- ","
+sÃ©parateur.dÃ©cimal.entrÃ©e   <- "."
+sÃ©parateur.liste.sortie     <- ";"
+sÃ©parateur.dÃ©cimal.sortie   <- ","
 
 # FICHIERS EN INPUT
 # conventions de nommage : les noms et chemins sont en minuscules ;
-# les bases commencent par une majuscule. Un nom de fichier est souvent associé
-# à une variable commençant par une majuscule et représentant la base (data.frame ou matrice)
+# les bases commencent par une majuscule. Un nom de fichier est souvent associÃ©
+# Ã  une variable commenÃ§ant par une majuscule et reprÃ©sentant la base (data.frame ou matrice)
 
 nom.fichier.codes.paiement  <- paste0(racine, "codes.csv")
-fichier.personnels          <- "Catégories des personnels"
+fichier.personnels          <- "CatÃ©gories des personnels"
 nom.fichier.personnels      <- paste0(fichier.personnels, ".csv")
 nom.fichier.paie            <- paste0(racine, "Lignes de paye")
 nom.bulletin.paie           <- paste0(racine, "Bulletins de paye")
@@ -67,13 +67,13 @@ nom.table                   <- paste0(racine, "Table_1.csv")
 nom.bulletins                   <- paste0(racine, "Bulletins_1.csv")
 
 # DOSSIERS
-# Attention, si l'on lance la génération de document pour la première fois sans répertoire Bases existant, on aura un write error.
-# pour les applications à ergonomie facilitée, prévoir de distribuer le logiciel avec un dossier Bases déjà généré.
+# Attention, si l'on lance la gÃ©nÃ©ration de document pour la premiÃ¨re fois sans rÃ©pertoire Bases existant, on aura un write error.
+# pour les applications Ã  ergonomie facilitÃ©e, prÃ©voir de distribuer le logiciel avec un dossier Bases dÃ©jÃ  gÃ©nÃ©rÃ©.
 
 chemin.dossier              <- getwd()
 chemin.dossier.bases        <- file.path(chemin.dossier, "Bases")
 chemin.dossier.outils       <- file.path(chemin.dossier, "..", "..", "Outils")
-chemin.dossier.données      <- file.path(chemin.dossier, "Donnees")
+chemin.dossier.donnÃ©es      <- file.path(chemin.dossier, "Donnees")
 
 # Outils
 
@@ -88,37 +88,37 @@ if (setOSWindows) {
 
 # ETIQUETTES ET FORMATS
 
-étiquette.matricule         <- "Matricule"
-étiquette.Type.rémunération <- "Type rémunération"
-étiquette.année             <- "Année"
-étiquette.libellé           <- "Libellé"
-étiquette.montant           <- "Montant"
-étiquette.code              <- "Code"
-étiquette.rém.indemn        <- "Rémunération contractuelle ou indemnitaire"
-champ.détection.1           <- étiquette.matricule
-champ.détection.2           <- "Code"
+Ã©tiquette.matricule         <- "Matricule"
+Ã©tiquette.Type.rÃ©munÃ©ration <- "Type rÃ©munÃ©ration"
+Ã©tiquette.annÃ©e             <- "AnnÃ©e"
+Ã©tiquette.libellÃ©           <- "LibellÃ©"
+Ã©tiquette.montant           <- "Montant"
+Ã©tiquette.code              <- "Code"
+Ã©tiquette.rÃ©m.indemn        <- "RÃ©munÃ©ration contractuelle ou indemnitaire"
+champ.dÃ©tection.1           <- Ã©tiquette.matricule
+champ.dÃ©tection.2           <- "Code"
 
 
-ifelse(fusionner.nom.prénom,
-       clé.fusion <<- c("Nom", "Prénom"),
-       clé.fusion <<- étiquette.matricule)
+ifelse(fusionner.nom.prÃ©nom,
+       clÃ©.fusion <<- c("Nom", "PrÃ©nom"),
+       clÃ©.fusion <<- Ã©tiquette.matricule)
 
-colonnes.requises           <- c(union(clé.fusion, étiquette.matricule),
-                                 étiquette.année,
+colonnes.requises           <- c(union(clÃ©.fusion, Ã©tiquette.matricule),
+                                 Ã©tiquette.annÃ©e,
                                  "Mois",
                                  "Statut",
                                  "Brut",
-                                 "Net.à.Payer",
+                                 "Net.Ã .Payer",
                                  "Heures.Sup.",
                                  "Heures",
                                  "Emploi",
                                  "Nir",
                                  "Temps.de.travail")
 
-colonnes.input <- c("Année", "Mois", "Nom", "Prénom", "Matricule",
+colonnes.input <- c("AnnÃ©e", "Mois", "Nom", "PrÃ©nom", "Matricule",
                     "Service", "Statut", "Temps.de.travail", "Heures.Sup.", "Heures",
-                    "Indice", "Brut", "Net", "Net.à.Payer", "NBI",
-                    "Libellé", "Code", "Base", "Taux", "Nb.Unité",
+                    "Indice", "Brut", "Net", "Net.Ã .Payer", "NBI",
+                    "LibellÃ©", "Code", "Base", "Taux", "Nb.UnitÃ©",
                     "Montant", "Type", "Emploi", "Grade", "Nir")
 
 colonnes.classes.input    <- c("integer", "integer", "character", "character", "character", 
@@ -127,9 +127,9 @@ colonnes.classes.input    <- c("integer", "integer", "character", "character", "
                                "character",  "character", "numeric", "numeric", "numeric",
                                "numeric", "character", "character", "character", "character")
 
-colonnes.bulletins.input <- c("Année", "Mois", "Nom", "Prénom", "Matricule",
+colonnes.bulletins.input <- c("AnnÃ©e", "Mois", "Nom", "PrÃ©nom", "Matricule",
                               "Service", "Statut", "Temps.de.travail", "Heures.Sup.", "Heures",
-                              "Indice", "Brut", "Net", "Net.à.Payer", "NBI",
+                              "Indice", "Brut", "Net", "Net.Ã .Payer", "NBI",
                               "Emploi", "Grade", "Nir")
 
 colonnes.bulletins.classes.input <- c("integer", "integer", "character", "character", "character", 
@@ -137,9 +137,9 @@ colonnes.bulletins.classes.input <- c("integer", "integer", "character", "charac
                                       "character",  "numeric", "numeric", "numeric", "numeric",
                                       "character", "character", "character")
 
-lignes.paie.input               <- c("Année", "Mois", "Matricule", "Année", "Mois", "Matricule", "Libellé", "Code", "Base", "Taux", "Montant")
+lignes.paie.input               <- c("AnnÃ©e", "Mois", "Matricule", "AnnÃ©e", "Mois", "Matricule", "LibellÃ©", "Code", "Base", "Taux", "Montant")
 
-lignes.paie.input.fallback      <- c("Année", "Mois", "Matricule", "Libellé", "Code", "Base", "Taux", "Montant")
+lignes.paie.input.fallback      <- c("AnnÃ©e", "Mois", "Matricule", "LibellÃ©", "Code", "Base", "Taux", "Montant")
 
 lignes.paie.classes.input       <- c("integer", "integer", "character", "integer", "integer", "character", "character", "character", "numeric", "numeric", "numeric")
 
@@ -147,42 +147,42 @@ lignes.paie.classes.input.fallback <- c("integer", "integer", "character", "char
 
 date.format                      <- "%d/%m/%Y"
 
-# ESPACES DE VALEURS LICITES POUR CERTAINS CHAMPS (modalités)
+# ESPACES DE VALEURS LICITES POUR CERTAINS CHAMPS (modalitÃ©s)
 
-#libellés.élus               <- c("Elu", "Elus", "élu", "élus", "maire", "président", "adjoint au maire", "vice-président", "vice président")
+#libellÃ©s.Ã©lus               <- c("Elu", "Elus", "Ã©lu", "Ã©lus", "maire", "prÃ©sident", "adjoint au maire", "vice-prÃ©sident", "vice prÃ©sident")
 
-########## Problématique ##############
+########## ProblÃ©matique ##############
 codes.NBI <- c("1012", "101B", "101M", "4652", "4672")
 
 
 # A priori les deux modes de lectures de tables (rapide et standard) lisent aussi bien le Windows ANSI/ISO-8859-1 que 
-# l'UTF-8 à condition que le Windows ANSI soit encodé par Excel ou l'éditeur de RStudio.
+# l'UTF-8 Ã  condition que le Windows ANSI soit encodÃ© par Excel ou l'Ã©diteur de RStudio.
 
-encodage.entrée <- "ISO-8859-1"
+encodage.entrÃ©e <- "ISO-8859-1"
   # "WINDOWS-1252"
   # "UTF-8"
   # "ISO-8859-1"
-encodage.entrée.xhl2csv <- "UTF-8"
+encodage.entrÃ©e.xhl2csv <- "UTF-8"
 
-encodage.sortie <- ifelse(setOSWindows, "ISO-8859-15", encodage.entrée)
+encodage.sortie <- ifelse(setOSWindows, "ISO-8859-15", encodage.entrÃ©e)
 
-modalité.traitement            <- "TRAITEMENT"     # s'applique aussi aux NBI
-modalité.indemnitaire          <- "INDEMNITAIRE"   # hors vacations
-
-
-modalité.principal.contractuel <- "PRINCIPAL.CONTRACTUEL" # contractuels qui ne sont pas payés par référénece à un traitement indiciaire.
-modalité.élu                   <- "ELU"
-modalité.vacations             <- "VACATIONS"
-modalité.autres                <- "AUTRES"         # notamment les remboursements de frais professionnels, de transport et les restitutions/régularisations
+modalitÃ©.traitement            <- "TRAITEMENT"     # s'applique aussi aux NBI
+modalitÃ©.indemnitaire          <- "INDEMNITAIRE"   # hors vacations
 
 
-# expressions régulières
+modalitÃ©.principal.contractuel <- "PRINCIPAL.CONTRACTUEL" # contractuels qui ne sont pas payÃ©s par rÃ©fÃ©rÃ©nece Ã  un traitement indiciaire.
+modalitÃ©.Ã©lu                   <- "ELU"
+modalitÃ©.vacations             <- "VACATIONS"
+modalitÃ©.autres                <- "AUTRES"         # notamment les remboursements de frais professionnels, de transport et les restitutions/rÃ©gularisations
 
 
-expression.rég.heures.sup <- ".*(I.?H.?T|H.?[SC]|\\bI[[:alpha:]]*.?.*\\bH[[:alpha:]]*.?\\b.*T[[:alpha:]]*.?.*|\\bH[[:alpha:]]*.?\\b.*[SC][[:alpha:]]*.?\\b).*"
-expression.rég.iat        <- ".*(\\bi.?a.?t\\b|\\bi[[:alpha:]]*.?\\b.*a[d][[:alpha:]]*.?\\b.*tec[[:alpha:]]*.?\\b).*"
-expression.rég.ifts       <- ".*(\\bi.?f.?t.?s\\b|\\bi[[:alpha:]]*.?\\b\\s*f[[:alpha:]]*.?\\b\\s*trav[[:alpha:]]*.?\\b\\s*s[[:alpha:]]*.?\\b).*"
-expression.rég.population <- ".*\\bASS(\\b|A).*"
-expression.rég.élus       <- "maire|pr[eé]sident|.*([eé]lu[s]?|adj.*maire|v[[:alpha:]]*\\b\\s*pr[eé]sident|cons[[:alpha:]]*\\b\\s*muni|cons[[:alpha:]]*\\b\\s*commun).*"
-expression.rég.nbi        <- ".*\\bN[[:alpha:]]*.?\\s*B[[:alpha:]]*.?\\s*I.*"
+# expressions rÃ©guliÃ¨res
+
+
+expression.rÃ©g.heures.sup <- ".*(I.?H.?T|H.?[SC]|\\bI[[:alpha:]]*.?.*\\bH[[:alpha:]]*.?\\b.*T[[:alpha:]]*.?.*|\\bH[[:alpha:]]*.?\\b.*[SC][[:alpha:]]*.?\\b).*"
+expression.rÃ©g.iat        <- ".*(\\bi.?a.?t\\b|\\bi[[:alpha:]]*.?\\b.*a[d][[:alpha:]]*.?\\b.*tec[[:alpha:]]*.?\\b).*"
+expression.rÃ©g.ifts       <- ".*(\\bi.?f.?t.?s\\b|\\bi[[:alpha:]]*.?\\b\\s*f[[:alpha:]]*.?\\b\\s*trav[[:alpha:]]*.?\\b\\s*s[[:alpha:]]*.?\\b).*"
+expression.rÃ©g.population <- ".*\\bASS(\\b|A).*"
+expression.rÃ©g.Ã©lus       <- "maire|pr[eÃ©]sident|.*([eÃ©]lu[s]?|adj.*maire|v[[:alpha:]]*\\b\\s*pr[eÃ©]sident|cons[[:alpha:]]*\\b\\s*muni|cons[[:alpha:]]*\\b\\s*commun).*"
+expression.rÃ©g.nbi        <- ".*\\bN[[:alpha:]]*.?\\s*B[[:alpha:]]*.?\\s*I.*"
 
