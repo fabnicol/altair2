@@ -251,6 +251,9 @@ if (générer.codes)   {
 setkey(Paie, Matricule, Année, Mois)
 setkey(Bulletins.paie, Matricule, Année, Mois)
 
+Paie <- Paie[ , Filtre_actif := any(Montant[Type == "T"] 
+                                            & Heures > minimum.positif, na.rm = TRUE), by="Matricule,Année"]
+
 Paie <- Paie[ , `:=`(delta = sum(Montant*(  Type == "I"
                                         | Type == "T"
                                         | Type == "S"
@@ -282,9 +285,38 @@ set(Bulletins.paie, 1, "R", NA)
 
 message("Calcul des quotités")
 
-Bulletins.paie <- Bulletins.paie[ , MHeures := median(Heures[Temps.de.travail == 100], na.rm = TRUE), by="Sexe,Emploi"]
+#on va trouver la plupart du temps 151,67...
+# Tableau de référence des matrices de médianes
+# A ce niveau de généralité, le filtre actif est inutile, sauf peut-être pour de très petits effectifs.
 
-Bulletins.paie <- Bulletins.paie[ , quotité   :=  ifelse(MHeures < minimum.positif, NA, ifelse(Heures > MHeures, 1, round(Heures/MHeures, digits=2)))]  
+M <- Bulletins.paie[Sexe %chin% c("1", "2") & Heures > minimum.positif, .(Médiane_Sexe_Statut = median(Heures, na.rm=TRUE)), by="Sexe,Statut"]
+
+Bulletins.paie <- merge(Bulletins.paie, Paie[, .(Filtre_actif=Filtre_actif[1]), by="Matricule,Année,Mois"], all.x=TRUE, all.y=FALSE)
+
+Bulletins.paie <- Bulletins.paie[ , pop_calcul_médiane := length(Heures[Temps.de.travail == 100 
+                                                                       & !is.na(Heures) 
+                                                                       & Heures > minimum.positif]), by = "Sexe,Emploi"]
+
+# Pour les quotités seules les périodes actives sont prises en compte
+
+Bulletins.paie <- Bulletins.paie[ , MHeures := ifelse(pop_calcul_médiane > population_minimale_calcul_médiane 
+                                                      & Filtre_actif == TRUE,
+                                                      median(Heures[Temps.de.travail == 100 
+                                                                    & Filtre_actif == TRUE
+                                                                    & Heures > minimum.positif], na.rm = TRUE),
+                                                      M[M$Sexe == Bulletins.paie$Sexe
+                                                        & M$Statut == Bulletins.paie$Statut,
+                                                          Médiane_Sexe_Statut]),
+                                 by="Sexe,Emploi"]
+
+# L'écrêtement des quotités est une contrainte statistiquement discutable qui permet de "stresser" le modèle
+# Par défaut les quotités sont écrêtées pour pouvoir par la suite raisonner en définissant le temps plein comme quotité == 1
+
+if (écreter.quotités) {
+   Bulletins.paie <- Bulletins.paie[ , quotité   :=  ifelse(MHeures < minimum.positif, NA, ifelse(Heures > MHeures, 1, round(Heures/MHeures, digits=2)))]  
+} else {
+   Bulletins.paie <- Bulletins.paie[ , quotité   :=  ifelse(MHeures < minimum.positif, NA, round(Heures/MHeures, digits=2))]  
+}
 
 Bulletins.paie <- Bulletins.paie[Statut == "ELU", `:=`(MHeures = 1,
                                                        quotité = 1)]
@@ -393,6 +425,7 @@ Vérifier_non_annexe <- function(Montant, Année) if (Année == 2013)  (Montant 
                                      nb.mois      = nb.mois[1],
                                      permanent    = permanent[1],
                                      ind.quotité  = vind[1],
+                                     Filtre_actif = Filtre_actif[1],
                                      quotité.moyenne = quotité.moyenne[1],
                                      Emploi       = Emploi[1],
                                      Grade        = Grade[1],
@@ -404,17 +437,15 @@ Vérifier_non_annexe <- function(Montant, Année) if (Année == 2013)  (Montant 
                                      indemnités   = sum(Montant[Type == "I"], na.rm = TRUE),
                                      rémunérations.diverses = sum(Montant[Type == "A"], na.rm = TRUE),
                                      autres.rémunérations   = sum(Montant[Type == "AC" | Type == "A" | Type == "AV"], na.rm = TRUE),
-                                     rémunération.vacataire = sum(Montant[Type == "VAC"], na.rm = TRUE),
-                                     Filtre_actif = any(Montant[Type == "T"] 
-                                                         & Heures > minimum.positif, na.rm = TRUE)),  
+                                     rémunération.vacataire = sum(Montant[Type == "VAC"], na.rm = TRUE)),  
                                 by = c(clé.fusion, étiquette.année)]
 
 Analyse.rémunérations <- Analyse.rémunérations[ , `:=`(rémunération.indemnitaire.imposable = indemnités + sft + indemnité.résidence + rémunérations.diverses,
                                                        Filtre_actif_non_annexe = (Filtre_actif == TRUE
-                                                                                   & Vérifier_non_annexe(Montant.net.annuel, Année) 
-                                                                                   & nb.mois > 1 
-                                                                                   & cumHeures > 120 
-                                                                                   & cumHeures / nb.jours > 1.5))]
+                                                                                  & Vérifier_non_annexe(Montant.net.annuel, Année) 
+                                                                                  & nb.mois > 1 
+                                                                                  & cumHeures > 120 
+                                                                                  & cumHeures / nb.jours > 1.5))]
 
                                                  #Montant.brut.annuel - sft - indemnité.résidence - traitement.indiciaire
 

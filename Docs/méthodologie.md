@@ -77,7 +77,7 @@ rémunéré 20 000 euros par an.
 Le salaire net annuel moyen en « équivalent temps plein annualisé » est obtenu en pondérant 
 les salaires annualisés des postes par le nombre d’« équivalents temps plein annualisés ».  
 
-Le calcul de la quotité consiste à déterminer une durée médiane annuelle de travail pour les postes
+Le calcul de la quotité consiste à déterminer une durée médiane annuelle de travail pour les postes actifs
 à temps complet, par strate. La durée estimée au sein d’une strate sert ensuite de pondération pour ramener, au 
 sein de ces strates, les postes à temps partiel ou à temps non complet à des « équivalent temps plein ».   
 
@@ -206,13 +206,14 @@ Pour chacun des statuts S dans {TITULAIRE, STAGIAIRE, AUTRE_STATUT},
 Pour chaque Emploi et Sexe dans la période calculer l'effectif E des agents tels que :
    
      Temps.de.travail == 100   
+     et Filtre_actif == vrai
      et Heures est renseigné   
      et Heures > minimum.positif.  
 `````````````    
 `````````````    
   Si E > 4  
   alors 
-     calculer M = médiane(Heures) 
+     calculer M = médiane(Heures) sur cet effectif
   sinon
      M = M0[S, G], pour S le statut de l'agent et G son sexe.   
 
