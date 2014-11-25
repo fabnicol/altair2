@@ -113,7 +113,7 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <p>Pour chaque poste, le salaire est transformé en un salaire en équivalent temps plein annualisé (EQTP annualisé), correspondant au salaire qui aurait été perçu par un poste à temps plein (notion de quotité) toute l’année (notion de durée).</p>
 <p>Pour chaque poste, ce salaire est pondéré par son poids en « équivalent temps plein annualisé », autrement dit au prorata de la durée rémunérée et de la quotité travaillée. Par exemple, un poste occupé durant 6 mois à temps plein et rémunéré 10 000 euros compte pour 0,5 « équivalent temps plein annualisé », rémunéré par an 20 000 euros. Un poste occupé toute l’année avec une quotité travaillée de 60 % et rémunéré 12 000 euros compte pour 0,6 « équivalent temps plein annualisé » rémunéré 20 000 euros par an.</p>
 <p>Le salaire net annuel moyen en « équivalent temps plein annualisé » est obtenu en pondérant les salaires annualisés des postes par le nombre d’« équivalents temps plein annualisés ».</p>
-<p>Le calcul de la quotité consiste à déterminer une durée médiane annuelle de travail pour les postes à temps complet, par strate. La durée estimée au sein d’une strate sert ensuite de pondération pour ramener, au sein de ces strates, les postes à temps partiel ou à temps non complet à des « équivalent temps plein ».</p>
+<p>Le calcul de la quotité consiste à déterminer une durée médiane annuelle de travail pour les postes actifs à temps complet, par strate. La durée estimée au sein d’une strate sert ensuite de pondération pour ramener, au sein de ces strates, les postes à temps partiel ou à temps non complet à des « équivalent temps plein ».</p>
 </div>
 <div id="lunicite-du-siren" class="section level2">
 <h2>L’unicité du SIREN</h2>
@@ -198,11 +198,12 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <pre><code>Pour chaque Emploi et Sexe dans la période calculer l'effectif E des agents tels que :
    
      Temps.de.travail == 100   
+     et Filtre_actif == vrai
      et Heures est renseigné   
      et Heures &gt; minimum.positif.  </code></pre>
 <pre><code>  Si E &gt; 4  
   alors 
-     calculer M = médiane(Heures) 
+     calculer M = médiane(Heures) sur cet effectif
   sinon
      M = M0[S, G], pour S le statut de l'agent et G son sexe.   
 </code></pre>
