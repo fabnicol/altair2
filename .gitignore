@@ -1,9 +1,7 @@
 *zip
 *.old
 .directory
-*.md
 figure/*
-*.Rmd
 *.xlsx
 *Thumbs
 .Rproj.user
