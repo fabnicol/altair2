@@ -1,7 +1,9 @@
 ---
 title: "Méthodologie de calcul des rémunérations individuelles"
 output:
+  html_document: default
   pdf_document:
+    keep_tex: yes
     number_sections: yes
 ---
 
