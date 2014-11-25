@@ -1,13 +1,4 @@
----
-title: "Méthodologie de calcul des rémunérations individuelles"
-output:
-  pdf_document:
-    keep_tex: yes
-    number_sections: yes
-  html_document:
-    keep_md: yes
-    toc: yes
----
+# Méthodologie de calcul des rémunérations individuelles
 
 # Les convergences avec les statistiques de l'INSEE
  

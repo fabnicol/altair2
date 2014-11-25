@@ -26,10 +26,11 @@ options(warn = -1, verbose = FALSE, OutDec = ",", datatable.verbose = FALSE)
 
 encodage.code.source <- "UTF-8" #"ISO-8859-15"
 
-# encodage :sous unix, les fichiers sources devraient être encodés en UTF-8 pour permettre une génération correcte des documents
-#           sous Windows, en ISO-8859-1.
-# Les bases peuvent être en encodage fixe, ici ISO-8859-1 pour des raisons de commodité Windows
-# Pour convertir les fichiers, réencoder sous RStudio par "Save with encoding..." les trois fichiers source *.R
+# encodage :sous unix, les fichiers sources devraient être encodés en UTF-8 pour
+# permettre une génération correcte des documents sous Windows, en ISO-8859-1. 
+# Les bases peuvent être en encodage fixe, ici ISO-8859-1 pour des raisons de
+# commodité Windows Pour convertir les fichiers, réencoder sous RStudio par
+# "Save with encoding..." les trois fichiers source *.R
 
 
 # dans cet ordre
@@ -486,17 +487,18 @@ if (enlever.quotités.nulles) {
 }
 
 Analyse.variations.synthèse <- Analyse.variations.par.exercice[ ,
-                                                                  .(Nexercices = length(Année),
-                                                                    statut = Statut[length(Année)],
-                                                                    total.jours = sum(nb.jours, na.rm = TRUE),
-                                                                    indicatrice.période = sum(indicatrice.année),
-                                                                    Montant.net.annuel.eqtp.début  = Montant.net.annuel.eqtp[1],
-                                                                    Montant.net.annuel.eqtp.sortie = Montant.net.annuel.eqtp[length(Année)],
-                                                                    permanent = all(permanent),
-                                                                    temps.complet = all(temps.complet),
-                                                                    moyenne.rémunération.annuelle.sur.période =
-                                                                         sum(Montant.net.annuel.eqtp, na.rm = TRUE)/length(Année[!is.na(Montant.net.annuel.eqtp) & Montant.net.annuel.eqtp > minimum.positif])),
-                                                                by = clé.fusion]
+                                    .(Nexercices = length(Année),
+                                      statut = Statut[length(Année)],
+                                      total.jours = sum(nb.jours, na.rm = TRUE),
+                                      indicatrice.période = sum(indicatrice.année),
+                                      Montant.net.annuel.eqtp.début  = Montant.net.annuel.eqtp[1],
+                                      Montant.net.annuel.eqtp.sortie = Montant.net.annuel.eqtp[length(Année)],
+                                      permanent = all(permanent),
+                                      temps.complet = all(temps.complet),
+                                      moyenne.rémunération.annuelle.sur.période =
+                                           sum(Montant.net.annuel.eqtp, na.rm = TRUE)/length(Année[!is.na(Montant.net.annuel.eqtp) 
+                                                                                                   & Montant.net.annuel.eqtp > minimum.positif])),
+                                  by = clé.fusion]
 
 Analyse.variations.synthèse <- Analyse.variations.synthèse[ ,  pris.en.compte := ! is.na(Montant.net.annuel.eqtp.début)
                                                                                  & ! is.na(Montant.net.annuel.eqtp.sortie)
@@ -521,7 +523,6 @@ Analyse.variations.synthèse <- Analyse.variations.synthèse[ ,
                                          `:=`(variation.moyenne.rémunération.normalisée = ifelse(!is.na(variation.rémunération.normalisée),
                                                                                             variation.moyenne.rémunération,
                                                                                             NA),
-                                               
                                                plus.2.ans  = (total.jours  >= 730),  
                                                moins.2.ans = (total.jours < 730),
                                                moins.1.an  = (total.jours < 365),
@@ -2406,19 +2407,18 @@ Tableau.vertical2(c("Type de collectivité", "SMPT net 2011 (&euro;)", "SMPT net
     "SDIS",
     "Régions",		 
     "Autres collectivités locales",	 
-    "Ensemble (moyenne)",
-    "Ensemble (médiane)"),	
-   c(21575, 20326, 24088, 22686, 26910, 30548, 24137,	26242, 22954, 19626),
-  12*c(1760, 1643, 1924, 1807, 2062, 2495, 1903,  2058, 1848, NA),
-   c("2,5", "2,4", "3,1", "3,0", "3,9", "3,4", "3,8", "3,2", "2,9", ""))
+    "Ensemble (moyenne)"),	
+   c(20784, 19415, 22882, 21299, 24487, 29811, 22432, 24680, 21873),
+  12*c(1760, 1643, 1924, 1807, 2062, 2495, 1903,  2058, 1848),
+   c("2,5", "2,4", "3,1", "3,0", "3,9", "3,4", "3,8", "3,2", "2,9"))
 
 #'
 #'*Champ : France. Salariés en équivalent-temps plein (EQTP) des collectivités territoriales (y compris bénéficiaires de contrats aidés, hors assistantes maternelles).*     			
 #'Conversion en euros courants, calcul CRC.  
-#'[Source INSEE données 2011](http://www.insee.fr/fr/ffc/ipweb/ip1486/ip1486.xls)   
+#'[Source INSEE données 2011 obsolètes](http://www.insee.fr/fr/ffc/ipweb/ip1486/ip1486.xls)   
 #'[Source DGAFP](http://infos.emploipublic.fr/dossiers/la-fonction-publique-en-chiffres/la-fonction-publique-en-chiffre-2013/non-defini-08/apm-71444/)  
+#'[Source PLF 2014 données 2011 révisées p.151](http://www.fonction-publique.gouv.fr/files/files/statistiques/jaunes/jaune2014_FP.pdf)   
 #'[Source PLF 2015 données 2012 p.130](http://www.performance-publique.budget.gouv.fr/sites/performance_publique/files/farandole/ressources/2015/pap/pdf/jaunes/jaune2015_fonction_publique.pdf)   
-#'*Nota* Les évaluation du PLF 2015 ont apparemment fait l'objet d'un redressement par rapport à la publication INSEE précédente sur les données 2011.   
 #'    
 #'# 5. Tests réglementaires   
 #'## 5.1 Contrôle des heures supplémentaires, des NBI et primes informatiques   
@@ -2727,17 +2727,6 @@ colonnes <- c(étiquette.matricule,
 
 HS.sup.25 <- Paie[Heures.Sup. >= 25, colonnes, with=FALSE]
 
-# version 1 : 48 s
-# HS.sup.25 <- merge(HS.sup.25,
-#                    ddply(Paie,
-#                          .(Matricule, Année, Mois),
-#                          summarise,
-#                          "Traitement indiciaire mensuel" = sum(montant.traitement.indiciaire),
-#                          .progress = "tk"))
-
-# version optimisée : 0,15 s soit x300
-
-
 HS.sup.indiciaire.mensuel <- HS.sup.25[Type == "T", .(Matricule, Année, Mois, Montant)]
 
 HS.sup.25 <-  HS.sup.25[Type %chin% c("I", "T", "R")
@@ -2749,15 +2738,11 @@ HS.sup.25 <-  HS.sup.25[Type %chin% c("I", "T", "R")
 HS.sup.25 <- HS.sup.25[order(Matricule, Année, Mois), ]
 
 # donne un tableau à 3 dimensions [Matricules, Années, Mois] dont les valeurs sont nommées par matricule
-# bizarrement le hashage de la variable année se fait par charactère alors que le mois reste entier dans certaines exécutions et pas dana d'autres !
+# bizarrement le hashage de la variable année se fait par charactère alors que le mois reste entier dans certaines exécutions et pas dans d'autres !
 # Tout convertir en as.character() est plus prudent.
 
 temp <- with(HS.sup.indiciaire.mensuel,
               tapply(Montant, list(Matricule, Année, Mois), FUN=sum))
-
-#temp <- HS.sup.indiciaire.mensuel[ , sum(Montant), by = "Matricule,Année,Mois"]
-
-#cat("Test sur temp et tapply: ", a<-identical(temp, temp0), "  : ", ifelse(a, "OK", "inégal !"))
 
 traitement.indiciaire.mensuel <- unlist(Map(function(x, y, z) temp[x, y, z],
                                              as.character(HS.sup.indiciaire.mensuel$Matricule),
@@ -2779,10 +2764,6 @@ HS.sup.25 <- unique(HS.sup.25, by=NULL)
 names(HS.sup.25) <- sub("traitement.indiciaire", "Traitement indiciaire annuel", names(HS.sup.25))
 
 nombre.Lignes.paie.HS.sup.25 <- nrow(HS.sup.25)
-
-# with(Base2,
-#      ihts.anormales <<- Base2[! Code.catégorie %chin% c("B", "C") & substr(Code,1,2) %chin% c("19") & ! grepl(" ENS", Libellé), c(étiquette.matricule, étiquette.code, étiquette.libellé, étiquette.montant, "Code.catégorie")]
-# )
 
 ihts.anormales <- data.frame(NULL)
 
