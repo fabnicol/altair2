@@ -104,13 +104,13 @@
      
   </maxLigne>
   <separateur profondeur="0">
-     
+   ,
   </separateur>
   <decimal profondeur="0">
-     
+   .
   </decimal>
   <processType profondeur="0">
-   '2'
+   '7'
   </processType>
   <nAgent profondeur="0">
      
@@ -118,6 +118,9 @@
   <nLine profondeur="0">
      
   </nLine>
+  <genererNumLigne profondeur="0">
+   non
+  </genererNumLigne>
   <genererTable profondeur="0">
    oui
   </genererTable>
@@ -132,6 +135,6 @@
   </ecoRAM>
  </systeme>
  <recent>
-  <fichier>C:/Dev/Altair/Interface_w32/pev.alt</fichier>
+  <fichier>C:/Dev/altair/Interface_w32/pev.alt</fichier>
  </recent>
 </projet>
