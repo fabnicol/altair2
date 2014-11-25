@@ -1950,7 +1950,7 @@ Résumé("Dernière année",
 #'
 #'**Salaires annuels moyens 2011 et 2012 en EQTP (hors assistantes maternelles)**   
 #'  
-#'&nbsp;*Tableau `r incrément()`*   '    
+#'&nbsp;*Tableau `r incrément()`*       
 
   
 Tableau.vertical2(c("Agrégat",  "Salaires nets 2011 (&euro;)", "Salaires nets 2012 (&euro;)"),

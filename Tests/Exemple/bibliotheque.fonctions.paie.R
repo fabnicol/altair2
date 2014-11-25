@@ -291,7 +291,9 @@ Tableau.vertical2 <- function(colnames, rownames, ...)
                   lapply(tmp, function(y) formatC(y, 
                                                           big.mark=" ",
                                                           width="12",
-                                                          format="d",
+                                                          format="f",
+                                                          digits=1,
+                                                          decimal.mark=",",
                                                           preserve.width="common")))
   names(T) <- colnames
 
