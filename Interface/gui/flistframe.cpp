@@ -394,7 +394,8 @@ void FListFrame::addDirectoryToListWidget(const QFileInfo& info)
      else
        {
          QString path=file.canonicalFilePath();
-         addStringToListWidget(path);
+         if (path.endsWith(".xhl"))
+             addStringToListWidget(path);
        }
    }
 }
@@ -480,8 +481,9 @@ void FListFrame::on_importFromMainTree_clicked()
          if (info.isFile())
            {
              QString filepath=info.canonicalFilePath();
-      
-            addStringToListWidget(filepath);
+
+             if (filepath.endsWith(".xhl"))
+                 addStringToListWidget(filepath);
            }
          else if (info.isDir())
            {
