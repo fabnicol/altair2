@@ -54,6 +54,25 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <h1 class="title">Méthodologie de calcul des rémunérations individuelles</h1>
 </div>
 
+<div id="TOC">
+<ul>
+<li><a href="#les-convergences-avec-les-statistiques-de-linsee">Les convergences avec les statistiques de l’INSEE</a><ul>
+<li><a href="#la-caracterisation-des-postes-actifs-non-annexes">La caractérisation des postes actifs non annexes</a></li>
+<li><a href="#le-calcul-des-quotites">Le calcul des quotités</a></li>
+<li><a href="#lunicite-du-siren">L’unicité du SIREN</a></li>
+</ul></li>
+<li><a href="#les-approximations-retenues-par-le-logiciel-altair">Les approximations retenues par le logiciel Altair</a><ul>
+<li><a href="#la-caracterisation-des-postes-actifs">La caractérisation des postes actifs</a></li>
+<li><a href="#lutilisation-de-donnees-brutes">L’utilisation de données brutes</a></li>
+<li><a href="#autres-differences-et-approximations">Autres différences et approximations</a></li>
+</ul></li>
+<li><a href="#algorithmes">Algorithmes</a><ul>
+<li><a href="#filtrage-des-periodes">Filtrage des périodes</a></li>
+<li><a href="#calcul-des-quotites">Calcul des quotités</a></li>
+</ul></li>
+<li><a href="#references">Références</a></li>
+</ul>
+</div>
 
 <div id="les-convergences-avec-les-statistiques-de-linsee" class="section level1">
 <h1>Les convergences avec les statistiques de l’INSEE</h1>
@@ -175,19 +194,19 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
   
      Temps.de.travail == 100   
      et Heures est renseigné   
-     et Heures &gt; 0.  </code></pre>
+     et Heures &gt; minimum.positif.  </code></pre>
 <pre><code>Pour chaque Emploi et Sexe dans la période calculer l'effectif E des agents tels que :
    
      Temps.de.travail == 100   
      et Heures est renseigné   
-     et Heures &gt; 0.  </code></pre>
+     et Heures &gt; minimum.positif.  </code></pre>
 <pre><code>  Si E &gt; 4  
   alors 
      calculer M = médiane(Heures) 
   sinon
      M = M0[S, G], pour S le statut de l'agent et G son sexe.   
 </code></pre>
-<pre><code>Alors si M est non-manquante et M &gt; 0 :  
+<pre><code>Alors si M est non-manquante et M &gt; minimum.positif :  
 
          Quotité = Heures / M
 
