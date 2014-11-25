@@ -27,6 +27,7 @@ exec.root               <- ifelse(setOSWindows, ".exe", "")
 éliminer.duplications   <- T
 enlever.quotités.nulles <- T
 enlever.quotités.na     <- T
+écreter.quotités        <- T
 générer.codes           <- FALSE
 paralléliser            <- TRUE
 extraire.population     <- FALSE
@@ -47,6 +48,7 @@ taux.tolérance.homonymie <- 2  # en %
 quantile.cut             <- 1  # en %
 minimum.positif          <- 0.5
 minimum.quotité          <- 0.1
+population_minimale_calcul_médiane  <- 3
 
 séparateur.liste.entrée     <- ","
 séparateur.décimal.entrée   <- "."
