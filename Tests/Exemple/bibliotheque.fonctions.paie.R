@@ -413,10 +413,16 @@ convertir.nom.prénom.majuscules <- function(S)
 
 }
 
-extraire.nir <- function(Base) fin.période.sous.revue - (as.numeric(substr(as.character(
+#Age fin décembre de l'Année en années révolues si né au XXème siècle
+# On trouve quelques valeurs aberrantes correspondant à des NIr non conventionnels par ex 8041620130028
+extraire.nir <- function(Base, Année)  {
+  age <- Année - (as.numeric(substr(as.character(
   format(Base[ , Nir], scientific = FALSE)),
   2, 3))
   + 1900)
+  ifelse(age < 80, age, NA)
+}
+
 
 # tester.homogeneite.matricules(Base)
 
