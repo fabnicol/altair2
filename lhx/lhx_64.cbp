@@ -14,7 +14,7 @@
 				<Option compiler="gcc" />
 				<Option parameters="-M   -t -j 2 -D c:/Dev/altair/Tests/Exemple/Donnees/R-Altair c:/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2011/*.xhl  " />
 				<Compiler>
-					<Add option="-march=prescott" />
+					<Add option="-march=core2" />
 					<Add option="-g" />
 					<Add option="-std=gnu++11" />
 					<Add option="-D__GNUC_EXTENSION" />
@@ -23,12 +23,10 @@
 					<Add option="-D_GNU_SOURCE" />
 					<Add option="-D__STDC_LIMIT_MACROS" />
 					<Add option="-D__STDC_FORMAT_MACROS" />
-					<Add directory="../../../mingw32/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-lxml2" />
 					<Add option="-pthread" />
-					<Add directory="../../../mingw32/bin" />
 				</Linker>
 			</Target>
 			<Target title="Release">
