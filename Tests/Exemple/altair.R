@@ -593,14 +593,29 @@ Bulletins.paie.nir.fonctionnaires  <- unique(Bulletins.paie[Année == fin.pério
                                                               Statut == "STAGIAIRE"),
                                                            c(clé.fusion, "Nir"), with=FALSE], by = NULL)
 
+Bulletins.paie.nir.nontit  <- unique(Bulletins.paie[Année == fin.période.sous.revue
+                                                           & Mois  == 12
+                                                           & (Statut == "NON_TITULAIRE"),
+                                                           c(clé.fusion, "Nir"), with=FALSE], by = NULL)
+														   
+
+Bulletins.paie.nir.permanents  <- unique(Bulletins.paie[Année == fin.période.sous.revue
+                                                           & Mois  == 12
+                                                           & (Statut == "NON_TITULAIRE" | Statut == "STAGIAIRE" | Statut == "TITULAIRE"),
+                                                           c(clé.fusion, "Nir"), with=FALSE], by = NULL)
+														   
 names(Bulletins.paie.nir.total.hors.élus) <- c(clé.fusion, "Nir")
 
 # Age au 31 décembre de l'exercice dernier.exerciceal de la période sous revue
 # ne pas oublier [ ,...] ici:
 
-années.fonctionnaires   <- extraire.nir(Bulletins.paie.nir.fonctionnaires)
+années.fonctionnaires   <- extraire.nir(Bulletins.paie.nir.fonctionnaires, fin.période.sous.revue)
 
-années.total.hors.élus  <- extraire.nir(Bulletins.paie.nir.total.hors.élus)
+années.total.hors.élus  <- extraire.nir(Bulletins.paie.nir.total.hors.élus, fin.période.sous.revue)
+
+années.total.permanents  <- extraire.nir(Bulletins.paie.nir.permanents, fin.période.sous.revue)
+
+années.total.nontit     <- extraire.nir(Bulletins.paie.nir.nontit, fin.période.sous.revue)
 
 Bulletins.paie.nir.total.hors.élus.début <- unique(Bulletins.paie[Année == début.période.sous.revue
                                                                   & Mois == 12
@@ -614,14 +629,30 @@ Bulletins.paie.nir.fonctionnaires.début  <- unique(Bulletins.paie[Année == dé
                                                                      Statut == "STAGIAIRE"),
                                                                   c(clé.fusion, "Nir"), with=FALSE], by = NULL)
 
+Bulletins.paie.nir.nontit.début <- unique(Bulletins.paie[Année == début.période.sous.revue
+                                                           & Mois == 12
+                                                           & Statut == "NON_TITULAIRE"   , .(Matricule, Nir)], by = NULL)
+
+Bulletins.paie.nir.permanents.début  <- unique(Bulletins.paie[Année == début.période.sous.revue
+                                                           & Mois  == 12
+                                                           & (Statut == "NON_TITULAIRE" | Statut == "STAGIAIRE" | Statut == "TITULAIRE"),
+                                                           c(clé.fusion, "Nir"), with=FALSE], by = NULL)
+
+														   
 names(Bulletins.paie.nir.total.hors.élus.début) <- c(clé.fusion, "Nir")
+
 
 # Age au 31 décembre de l'exercice dernier.exerciceal de la période sous revue
 # ne pas oublier [ ,...] ici:
 
-années.fonctionnaires.début   <- extraire.nir(Bulletins.paie.nir.fonctionnaires.début)
+années.fonctionnaires.début   <- extraire.nir(Bulletins.paie.nir.fonctionnaires.début, début.période.sous.revue)
 
-années.total.hors.élus.début  <- extraire.nir(Bulletins.paie.nir.total.hors.élus.début)
+années.total.hors.élus.début  <- extraire.nir(Bulletins.paie.nir.total.hors.élus.début, début.période.sous.revue)
+
+années.total.nontit.début <- extraire.nir(Bulletins.paie.nir.nontit.début, début.période.sous.revue)
+
+années.total.permanents.début <- extraire.nir(Bulletins.paie.nir.permanents.début, début.période.sous.revue)
+
 
 message("Analyse démographique réalisée.")
 
@@ -714,6 +745,16 @@ Résumé(c("Âge des personnels <br>au 31/12/" %+% début.période.sous.revue,
        extra = "length",
        align = 'c')
 #'  
+if (longueur.non.na(années.total.hors.élus.début) > 0)
+  hist(années.total.hors.élus.début,
+       xlab = "Âge au 31 décembre " %+% début.période.sous.revue,
+       xlim = c(18, 75),
+       ylab = "Effectif",
+       main = "Pyramide des âges des personnels (non élus)",
+       col = "blue",
+       nclass = 50)
+
+#'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
@@ -724,25 +765,66 @@ Résumé(c("Âge des personnels <br>au 31/12/" %+% fin.période.sous.revue,
        align = 'c')
 
 #'  
-#'    
-
-
+#'  
 if (longueur.non.na(années.total.hors.élus) > 0)
   hist(années.total.hors.élus,
        xlab = "Âge au 31 décembre " %+% fin.période.sous.revue,
        xlim = c(18, 75),
        ylab = "Effectif",
-       main = "Pyramide des âges",
+       main = "Pyramide des âges des personnels (non élus)",
        col = "blue",
        nclass = 50)
 
-#'  
-#'[Lien vers la base des âges](Bases/Effectifs/Bulletins.paie.nir.total.hors.élus.csv)  
-#'  
+#'
+#'### 1.2 Pyramide des âges, personnels non titulaires
 
+
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
+Résumé(c("Âge des personnels non titulaires<br>au 31/12/" %+% début.période.sous.revue,
+         "Effectif"),
+       années.total.nontit.début,
+       extra = "length",
+       align = 'c')
+
+#'  
+if (longueur.non.na(années.total.nontit.début) > 0)
+  hist(années.total.nontit.début,
+       xlab = "Âge au 31 décembre " %+% début.période.sous.revue,
+       xlim = c(18, 75),
+       ylab = "Effectif",
+       main = "Pyramide des âges des personnels non titulaires",
+       col = "blue",
+       nclass = 50)
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
+Résumé(c("Âge des personnels non titulaires<br>au 31/12/" %+% fin.période.sous.revue,
+         "Effectif"),
+       années.total.nontit,
+       extra = "length",
+       align = 'c')
+
+	   
+if (longueur.non.na(années.total.nontit) > 0)
+  hist(années.total.nontit,
+       xlab = "Âge au 31 décembre " %+% fin.période.sous.revue,
+       xlim = c(18, 75),
+       ylab = "Effectif",
+       main = "Pyramide des âges des personnels non titulaires",
+       col = "blue",
+       nclass = 50)
+	   
+	   
+#'  
+#'[Lien vers la base des âges](Bases/Effectifs/Bulletins.paie.nir.nontit.csv)  
+#'  
 #'
 #'
-#'### 1.3 Pyramide des âges, personnels fonctionnaires stagiaires et titulaires
+#'### 1.4 Pyramide des âges, personnels fonctionnaires stagiaires et titulaires
 
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
@@ -755,6 +837,19 @@ Résumé(c("Âge des personnels <br>au 31/12/" %+% début.période.sous.revue,
        align = 'c')
 
 #'  
+#'
+
+if (longueur.non.na(années.fonctionnaires.début) > 0)
+  hist(années.fonctionnaires.début,
+       xlab = "Âge au 31 décembre " %+% début.période.sous.revue,
+       xlim = c(18,68),
+       ylab = "Effectif",
+       main = "Pyramide des âges des fonctionnaires",
+       col = "navy",
+       nclass = 50)
+
+#'  
+
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
@@ -779,7 +874,54 @@ if (longueur.non.na(années.fonctionnaires) > 0)
 #'[Lien vers la base des âges](Bases/Effectifs/Bulletins.paie.nir.fonctionnaires.csv)  
 #'  
 
-#'### 1.4 Effectifs des personnels par durée de service
+#'### 1.5 Pyramide des âges, personnels permanents (titulaires, stagiaires et non titulaires)
+
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
+Résumé(c("Âge des personnels <br>au 31/12/" %+% début.période.sous.revue,
+         "Effectif"),
+       années.total.permanents.début,
+       extra = "length",
+       align = 'c')
+
+#'  
+
+if (longueur.non.na(années.total.permanents.début) > 0)
+  hist(années.total.permanents.début,
+       xlab = "Âge au 31 décembre " %+% début.période.sous.revue,
+       xlim = c(18,68),
+       ylab = "Effectif",
+       main = "Pyramide des âges des permanents",
+       col = "navy",
+       nclass = 50)
+
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
+Résumé(c("Âge des personnels <br>au 31/12/" %+% fin.période.sous.revue,
+         "Effectif"),
+       années.total.permanents,
+       extra = "length",
+       align = 'c')
+
+#'
+
+if (longueur.non.na(années.total.permanents) > 0)
+  hist(années.total.permanents,
+       xlab = "Âge au 31 décembre " %+% fin.période.sous.revue,
+       xlim = c(18,68),
+       ylab = "Effectif",
+       main = "Pyramide des âges des permanents",
+       col = "navy",
+       nclass = 50)
+
+#'  
+#'[Lien vers la base des âges](Bases/Effectifs/Bulletins.paie.nir.permanents.csv)  
+#'  
+
+#'### 1.6 Effectifs des personnels par durée de service
 #'
 #'**Personnels en fonction (hors élus) des exercices `r début.période.sous.revue` à `r fin.période.sous.revue` inclus :**
 #'
@@ -2932,6 +3074,8 @@ if (sauvegarder.bases.analyse) {
   sauv.bases(file.path(chemin.dossier.bases, "Effectifs"),
              "Bulletins.paie.nir.total.hors.élus",
              "Bulletins.paie.nir.fonctionnaires",
+             "Bulletins.paie.nir.nontit",
+             "Bulletins.paie.nir.permanents",
              "tableau.effectifs")
 
   sauv.bases(file.path(chemin.dossier.bases, "Réglementation"),
