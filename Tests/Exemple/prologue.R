@@ -75,6 +75,7 @@ nom.bulletins                   <- paste0(racine, "Bulletins_1.csv")
 chemin.dossier              <- getwd()
 chemin.dossier.bases        <- file.path(chemin.dossier, "Bases")
 chemin.dossier.outils       <- file.path(chemin.dossier, "..", "..", "Outils")
+chemin.dossier.lib          <- file.path(chemin.dossier, "..", "..", "lib")
 chemin.dossier.données      <- file.path(chemin.dossier, "Donnees")
 
 # Outils
