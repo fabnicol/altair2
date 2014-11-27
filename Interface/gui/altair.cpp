@@ -746,7 +746,7 @@ void FProgressBar::stop()
     //if (parent->process->state() == QProcess::Running) return;
     if (parent->process->state() == QProcess::Running
         ||
-        (parent->process->exitStatus() == QProcess::NormalExit && parent->process->exitCode() == 0))
+        (parent->process->exitStatus() == QProcess::NormalExit))
     {
         if (bar->value() < bar->maximum()) bar->setValue(bar->maximum());
     }

@@ -107,7 +107,8 @@ inline void FAbstractWidget::FCore(const QList<QWidget*>& w, FString defaultComm
     if ((status & flags::status::widgetMask) == flags::status::multimodal) { this->commandLineList[0].setMultimodal(); }
     this->hashKey=hashKey;
     this->commandLineType=static_cast<flags::commandLineType>(commandLineType & static_cast<int>(flags::commandLineType::commandLineMask));
-    this->status=static_cast<flags::status>(commandLineType & static_cast<int>(flags::status::statusMask));;
+    this->status=static_cast<flags::status>(commandLineType & static_cast<int>(flags::status::statusMask));
+
     if (!hashKey.isEmpty())
             {
                 if (!description.isEmpty())\
@@ -362,6 +363,7 @@ FCheckBox::FCheckBox(const QString &boxLabel, int status, const QString &hashKey
     setLayoutDirection(Qt::RightToLeft);
     bool mode= ((status & flags::status::widgetMask) == flags::status::checked) ;
     widgetDepth="0";
+
     FCore({this}, FString(mode), status, hashKey, description, commandLineString, enabledObjects, disabledObjects);
 }
 

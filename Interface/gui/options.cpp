@@ -121,6 +121,7 @@ standardPage::standardPage()
                                 "l");
 
     tableCheckBox=new FCheckBox("Générer la table  ",
+                                flags::status::enabledChecked | flags::commandLineType::altairCommandLine,
                                 "genererTable",
                                 {"Générer la table .csv", "type standard"},
                                 "t");
@@ -137,17 +138,19 @@ standardPage::standardPage()
     QToolDirButton *openLogButton=new QToolDirButton(tr("Ouvrir le répertoire du log"), actionType::OpenFolder);
 
     logCheckBox=new FCheckBox("Générer le log  ",
-                              flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
+                              flags::status::enabledUnchecked | flags::commandLineType::noCommandLine,
                                 "genererLog",
                                 {"Générer un log d'exécution", "application noyau"},
                                {logLineLabel, logLineEdit, logButton, openLogButton});
 
     economeCheckBox=new FCheckBox("Economiser la RAM  ",
+                                  flags::status::enabledChecked | flags::commandLineType::altairCommandLine,
                                   "ecoRAM",
                                  {"Mode économe en mémoire", ""},
                                   "t",
                                  {NULL},
                                  { nLineLabel, NLineLabel, nLineEdit, NLineEdit});
+
 
     QGridLayout *v1Layout = new QGridLayout;
     QGridLayout *v2Layout = new QGridLayout;
@@ -189,6 +192,9 @@ standardPage::standardPage()
     mainLayout->addSpacing(20);
     mainLayout->addWidget(processTypeBox, 5, 0);
     
+    economeCheckBox->setChecked(true);
+    tableCheckBox->setChecked(true);
+
     setLayout(mainLayout);
 
     connect(baseTypeWidget,
@@ -216,6 +222,13 @@ standardPage::standardPage()
             this, SLOT(selectLogOutput()));
 }
 
+void standardPage::on_baseTypeWidgetChanged(int rank)
+{
+        bool sign=(rank > 0);
+
+        sepLineEdit->setText((sign)? ";" : ",");
+        decLineEdit->setText((sign)? "," : ".");
+}
 
 void standardPage::on_openBaseDirButton_clicked()
 {

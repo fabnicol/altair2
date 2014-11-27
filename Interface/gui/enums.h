@@ -12,9 +12,6 @@ public:
 
     enum class commandLineType : std::uint8_t {altairCommandLine,
                                                defaultCommandLine=altairCommandLine,
-                                               createDisc,
-                                               createIso,
-                                               altairExtract,
                                                RAltairFiles,
                                                noCommandLine,
                                                commandLinewidgetDepthMask=0xF,

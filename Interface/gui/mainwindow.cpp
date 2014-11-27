@@ -740,7 +740,7 @@ void MainWindow::feedConsoleWithHtml()
      /* it is necessary to integrate a 'delayed display'
       * cut-and-paste capability */
 
-    QRegExp reg("^(Fichier n..?[0-9]+|Population|Total|Table|Lib..?ration|Base|Premier|Erreur|Creation|Coh.+\\s)([^\n]+)");
+    QRegExp reg("^(Fichier n..?[0-9]+|Population|Total|Table|Lib..?ration|Base|Premier|Erreur|Creation|Maximum|Coh.+\\s)([^\n]+)");
     QRegExp reg2("Fichier n..?([0-9]+)") ;
     QString result;
     int count = Hash::counter["XHL"];
@@ -759,8 +759,9 @@ void MainWindow::feedConsoleWithHtml()
 
                     switch (reg.cap(1).at(0).toLatin1())
                     {
-                        case 'C' :   
+                        case 'C':
                         case 'L':
+                        case 'M':
                             buffer= buffer.replace(reg, (QString)PROCESSING_HTML_TAG "\\1 \\2"); break;
                         case 'T' :
                         case 'B' :
