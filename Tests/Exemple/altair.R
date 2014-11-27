@@ -44,6 +44,10 @@ JITLevel <- enableJIT(1)
 
 source(file.path(chemin.dossier, "bibliotheque.fonctions.paie.R"), encoding = encodage.code.source)
 
+dir.create(chemin.dossier.lib, recursive = TRUE)
+
+.libPaths(union(chemin.dossier.lib, .libPaths()))
+
 installer.paquets(knitr, digest, colorspace, ggplot2, assertthat, yaml, gtools, utils, data.table)
 if (paralléliser) installer.paquets(parallel)
 
