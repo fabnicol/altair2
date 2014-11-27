@@ -75,7 +75,7 @@ void Altair::run()
     
     progress->show();
     
-    args <<  createCommandLineString(flags::commandLineType::altairCommandLine);
+    args <<  "-m" << createCommandLineString(flags::commandLineType::altairCommandLine);
     
     outputTextEdit->append(STATE_HTML_TAG + tr("Décodage des fichiers .xhl..."));
     outputTextEdit->append(PROCESSING_HTML_TAG + tr("Taille totale des fichiers ")+QString::number(Altair::totalSize[0]/(1024*1024)) +tr(" Mo"));
