@@ -50,7 +50,8 @@ private:
       standardMsg;
 
  private slots :
-    void on_baseTypeWidgetChanged(int){}
+    void on_baseTypeWidgetChanged(int rank);
+
     void on_processTypeWidgetChanged(int){}
     void on_openBaseDirButton_clicked();
     void selectBaseOutput();

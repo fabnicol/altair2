@@ -44,8 +44,9 @@ Interface RStudio
 
 2. Affichage du script dans l'interface RStudio
 
-  Au lancement de l'interface RStudio, vérifier que l'onglet actif est bien le fichier 'altair.R' dans la fenêtre
-  supérieure gauche. 
+  Au lancement de l'interface RStudio, vérifier que l'onglet actif est bien le fichier
+  'altair.R'
+  dans la fenêtre supérieure gauche. 
   Sinon, dans la fenêtre inférieure droite, cliquer sur le fichier 
 
                Altair\Tests\Exemple\altair.R
@@ -87,8 +88,14 @@ Chambre régionale des comptes d'Auvergne, Rhône-Alpes
 Licence
 -------
 
-Logiciel placé provisoirement sous licence CeCILL jointe (CEA-CNRS-INRIA),
-dans l'attente d'une décision administrative sur ce point. 
+L'interface graphique, étant un dérivé d'application libre sous licence GPL,
+est placée sous licence CECILL (version francisée de la GPL) par voie d'héritage 
+de licence.
+
+Les deux autres modules du logiciel (l'application noyau LHX, exécutée par
+l'interface graphique, et les scripts R) sont placés provisoirement sous licence
+CeCILL jointe (CEA-CNRS-INRIA), dans l'attente d'une décision administrative sur
+ce point. 
 
 L'auteur souhaite que la licence définitive soit de type CeCILL ou LGPL, à 
 l'instar du logiciel Xémélios.
@@ -106,6 +113,49 @@ Distribution du code
 --------------------
 
 L'ensemble du code et des données de démonstration est anonymisé.
+
+Composition du paquet distribué
+-------------------------------
+
+Le module Interface graphique est distribué sous forme binaire dans les 
+répertoires Interface_w32 ou Interface_w64. 
+
+Le premier type de distribution correspond à une compilation sous Windows64 avec
+les dépendances logicielles Qt5.3.2 de l'éditeur Digia, le compilateur étant de
+type GNU GCC pour plateforme 32 bits et processeur de type Celeron ou monocoeur. 
+
+Le premier type de distribution correspond à une compilation sous Windows64 avec
+les dépendances logicielles Qt5.3.2 de l'éditeur Digia, le compilateur étant de
+type Microsoft MSVC2013 pour plateforme 64 bits et processeur de type multicoeur
+récent. 
+
+Le module noyau LHX, qui effectue la conversion des données au format .xhl vers
+les bases de données au format .csv, est distribué sous forme binaire dans les 
+répertoires win32 ou win64. 
+
+Le type de distribution  win32 correspond à une compilation du code source 
+écrit en langage C/C++ sous Windows64 et la version MINGW64 du compilateur GNU
+GCC 4.9.2 du projet Mingw w64 (http://mingw-w64.sourceforge.net). La version 
+win32 est donc une compilation de type 64 bits, qui vient en complément de 
+l'interface Interface_w32 pour processeur de type Celeron ou monocoeur.
+
+Le type de distribution  win64 correspond à une compilation du code source
+écrit en langage C/C++ sous Windows64 et la  même version MINGW64 du compilateur
+GNU GCC 4.9.2 mais pour processeur de type multicoeur récent. Elle vient en 
+complément de l'interface sous Interface_w64.
+
+Les scripts R sont distribués sous Tests\Exemple
+
+Autres répertoires
+------------------
+
+Docs    : méthodologie statistique
+lib     : bibliothèques pour l'exécution des scripts R, pré-téléchargées du réseau CRAN.
+Paquets : dépendances logicielles libres (voir INSTALLATION.txt)
+Outils  : versions compilées d'utilitaires Unix pour Windows, téléchargées du site GNUWin32
+         (http://gnuwin32.sourceforge.net)
+
+Tests\Exemple\Données\xhl\Anonyme : jeu de données anonymisées.
 
 Historique
 ----------

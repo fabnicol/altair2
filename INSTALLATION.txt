@@ -7,9 +7,7 @@ Les logiciels auxiliaires suivants sont inclus dans l'installation :
  * Interface RStudio : http://rstudio.com
  * Système LaTex pour Windows, version MikTex : 
      http://http://miktex.org/download
- * Git, gestionnaire de version (optionnel) : 
-     http://git-scm.com/download/win
-
+ 
 Lors de l'installation, choisir les dépendances voulues.
 
 L'installateur principal lance (au plus) quatre installateurs recueillis auprès
@@ -17,7 +15,7 @@ des sites indiqués ci-dessus. Chacune de ces installations peut nécessiter une
 élévation des droits, en fonction du dossier d'installation retenu et de la 
 configuration de la plateforme.
 
-Lors de la première exécution du script exemple.R, des paquets R gérés par un
+Lors de la première exécution du script altair.R, des paquets R gérés par un
 serveur centralisé CRAN seront téléchargés en complément.
 
 Le logiciel est configuré pour sélectionner le serveur CRAN du laboratoire
@@ -80,44 +78,8 @@ En cas d'installation de MikTex, un complément d'installation sera demandé
 par ce logiciel à l'occasion de la production du premier rapport pdf. Il s'agit
 d'un petit nombre de feuilles de style LaTeX complémentaires. 
 
-Une connection internet est nécessaire à cette occasion. 
-Le script d'installation de ces paquets ne gère pas les serveurs mandataires.
-En cas d'échec du téléchargement, tenter de relancer en accès internet direct.
+Utiliser le répertoire du DVD pour charger les feuilles de style requises.
 
 L'installation est alors complète : les paquets auxiliaires ne seront plus
 téléchargés ultérieurement.
-
-Git
----
-
-Penser à fermer toutes les applications et notamment l'explorateur de fichiers
-Windows. L'installation de Git peut créer temporairement un bureau vide notamment
-s'il reste un explorateur Windows ouvert ; dans ce cas, se déconnecteur et 
-relancer une nouvelle session après l'installation (inutile de rebooter).
-
-L'installation de Git est proposée pour pouvoir bénéficier des mises à jour 
-du code en temps réel, mais n'est pas indispensable pour une utilisation 
-de base.
-
-En cas d'utilisation de Git, il convient de suivre la procéduire suivante,
-si Git n'a pas préalablement été installé sur le système :
-
-  -> Dans la fenêtre supérieure droite, activer : Git > More > Shell
-  -> Dans la console, entrer les instructions suivantes :
-
-     $ git config --global user.email  fabrnicol@gmail.com
-     $ git config --global user.name   "Fabrice Nicol"
-
-(Remplacer par votre Nom et adresse).
-
-En présence d'un serveur mandataire (proxy), ajouter les deux instructions :
-
-     $ git config --global http.proxy  http:123.156.78.90:5566  
-     $ git config --global https.proxy  https:123.156.78.90:5566
-
-(Remplacer l'adresse de serveur fictive par celle de votre serveur mandataire 
-suivie du port après les deux points).
-
-L'utilisation de Mozilla Firefox est conseillée (mais pas obligatoire) afin
-d'éviter des messages d'erreurs intempestifs d'Internet Explorer.
 

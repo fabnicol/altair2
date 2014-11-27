@@ -114,8 +114,10 @@ Section
   File /r  "${prodname}\Interface_w${nbits}" 
   File /r  "${prodname}\Docs" 
   File /r  "${prodname}\Outils" 
+  File /r  "${prodname}\lib" 
   File /r  "${prodname}\win${nbits}" 
   File /r  "${prodname}\.Rproj.user" 
+  File     "${prodname}\*.*" 
   SetOutPath $INSTDIR\${exemple}
   File /r  ${exemple}\Docs
   File /r  ${exemple}\Donnees\xhl\Anonyme
