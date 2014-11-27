@@ -121,7 +121,7 @@ if (size)
             == QMessageBox::Ok)
     {
         QDir targetDirObject(path);
-        if (!targetDirObject.removeRecursively())    QMessageBox::information(0, QString("Supprimer le répertoire"),
+        if (!targetDirObject.removeRecursively())    QMessageBox::information(0, QString("Supprimer le répertoire de création des bases"),
                                                        QString("Le répertoire n'a pas été supprimé' %1").arg(QDir::toNativeSeparators(path)));
 
         else

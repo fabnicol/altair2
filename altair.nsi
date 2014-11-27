@@ -3,17 +3,20 @@
 !include "x64.nsh"
 !include "${NSISDIR}\Contrib\Modern UI\System.nsh"
  
-!define version  "2014.5"
+!define version  "2014.10"
 !define VER_MAJOR 2014
-!define VER_MINOR 5
+!define VER_MINOR 10
 !define VER_REVISION 0
 !define VER_BUILD  0
 
 !define prodname "Altair"
-!define setup    "${prodname}-${version}.win32.installer.exe"
-!define images   "${prodname}\Tests\Exemple"
+!define nbits 64
+!define setup    "${prodname}-${version}.win${nbits}.installer.exe"
+!define exemple   "${prodname}\Tests\Exemple"
 !define icon     neptune.ico
-
+!define RStudio  "RStudio-0.98.1091.exe" 
+!define R        "R-3.1.2-win.exe"
+!define Miktex   "setup-2.9.4503-x64.exe"
 !define startmenu "$SMPROGRAMS\${prodname}-${version}"
 !define Désinstaller "Désinstaller.exe"
 !define notefile  "${prodname}\LISEZ-MOI.txt"
@@ -22,13 +25,13 @@
 !define MEMENTO_REGISTRY_ROOT HKLM
 !define MEMENTO_REGISTRY_KEY "${REG_UNINST_KEY}"
 
-!define MUI_ICON  "${images}\${icon}"
+!define MUI_ICON  "${exemple}\${icon}"
 !define MUI_WELCOMEFINISHPAGE
 !define MUI_WELCOMEPAGE_TEXT  $(wizard1)
 !define MUI_WELCOMEPAGE_TITLE $(wizard2)
 !define MUI_HEADERIMAGE
-!define MUI_HEADERIMAGE_BITMAP "${images}\${prodname}.bmp"
-!define MUI_WELCOMEFINISHPAGE_BITMAP "${images}\neptune.bmp"
+!define MUI_HEADERIMAGE_BITMAP "${exemple}\${prodname}.bmp"
+!define MUI_WELCOMEFINISHPAGE_BITMAP "${exemple}\neptune.bmp"
 !define MUI_ABORTWARNING
 
  RequestExecutionLevel admin
@@ -44,7 +47,7 @@
 !insertmacro MUI_PAGE_WELCOME  
 !insertmacro MUI_LANGUAGE "French" 
 
- LangString  wizard1 ${LANG_FRENCH}  "Installation du logiciel Analyse des lignes de traitement, attributions indemnitaires et autres rémunérations. Appuyer sur suivant pour continuer."
+ LangString  wizard1 ${LANG_FRENCH}  "Installation du logiciel Analyse des lignes de traitement, attributions indemnitaires et rémunérations diverses. Appuyer sur suivant pour continuer."
  LangString  wizard2 ${LANG_FRENCH}  "Installation du logiciel ${prodname} version ${version}"
  LangString title1 ${LANG_FRENCH}   "Lisez-moi"
  LangString text1 ${LANG_FRENCH}  "${prodname} ${version} va être installé dans $INSTDIR. Cliquer sur Compléments pour des précisions sur l'installation."
@@ -57,7 +60,7 @@
  LangString Sec2Name ${LANG_FRENCH} "R"
  LangString Sec3Name ${LANG_FRENCH} "RStudio"
  LangString Sec4Name ${LANG_FRENCH} "MikTex"
- LangString Sec5Name ${LANG_FRENCH} "Git"
+ ;LangString Sec5Name ${LANG_FRENCH} "Git"
  LangString DESC_sec2 ${LANG_FRENCH} "Installer le langage R"
  LangString DESC_sec3 ${LANG_FRENCH} "Installer l'interface RStudio"
  LangString DESC_sec4 ${LANG_FRENCH} "Installer le système MikTex (création de documents pdf)"
@@ -106,13 +109,18 @@ SectionEnd
 
 
 Section
+  CreateDirectory  $INSTDIR\${exemple}\Donnees\R-Altair
   SetOutPath $INSTDIR\${prodname}
-  File /r  "${prodname}\Interface" 
-  File /r  "${prodname}\Tests" 
-  File /r  "${prodname}\Rapport" 
-  File /r  "${prodname}\.git" 
+  File /r  "${prodname}\Interface_w${nbits}" 
+  File /r  "${prodname}\Docs" 
+  File /r  "${prodname}\Outils" 
+  File /r  "${prodname}\win${nbits}" 
   File /r  "${prodname}\.Rproj.user" 
-  File   "${prodname}\*.*" 
+  SetOutPath $INSTDIR\${exemple}
+  File /r  ${exemple}\Docs
+  File /r  ${exemple}\Donnees\xhl\Anonyme
+  File     ${exemple}\Altair.bmp     ${exemple}\Altair.ico      ${exemple}\altair.R    ${exemple}\bibliotheque.fonctions.paie.R ${exemple}\générer.codes.R 
+  File     ${exemple}\histogrammes.R ${exemple}\neptune.512.ico ${exemple}\neptune.bmp ${exemple}\neptune.ico                   ${exemple}\prologue.R       ${exemple}\style.css
 SectionEnd
 
 !insertmacro MUI_PAGE_INSTFILES
@@ -137,7 +145,7 @@ SilentInstall normal
 InstallDir "C:\Users\Public"
 InstallDirRegKey HKLM "${regkey}" ""
 
-Icon "${prodname}\Interface\${icon}"
+Icon "${prodname}\Interface_w${nbits}\${icon}"
 
 RequestExecutionLevel user
 AutoCloseWindow false
@@ -147,7 +155,7 @@ ShowInstDetails show
 Function .onInit
  
   SetOutPath $TEMP	
-  File /oname=spltmp.bmp "${prodname}\Paquets\spltmp.bmp"
+  File /oname=spltmp.bmp "${prodname}\spltmp.bmp"
 
   advsplash::show 2300 600 400 -1 $TEMP\spltmp
 
@@ -177,15 +185,15 @@ Section -post
 
  !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
  
-  SetOutPath "$INSTDIR\${prodname}\Interface"
-  CreateShortCut "$DESKTOP\${prodname}.lnk" "$INSTDIR\${prodname}\Interface\${prodname}.exe"  "" "$INSTDIR\${prodname}\Interface\${icon}"
-  WriteRegStr HKLM "${prodname}\Shell\open\command\" "" "$INSTDIR\${prodname}\Interface\${prodname}.exe"
+  SetOutPath "$INSTDIR\${prodname}\Interface_w${nbits}"
+  CreateShortCut "$DESKTOP\${prodname}.lnk" "$INSTDIR\${prodname}\Interface_w${nbits}\${prodname}.exe"  "" "$INSTDIR\${prodname}\Interface_w${nbits}\${icon}"
+  WriteRegStr HKLM "${prodname}\Shell\open\command\" "" "$INSTDIR\${prodname}\Interface_w${nbits}\${prodname}.exe"
   
   CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
   CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Désinstaller.lnk" "$INSTDIR\Désinstaller.exe" "" "$INSTDIR\Désinstaller.exe" 0
-  CreateShortCut "$SMPROGRAMS\$StartMenuFolder\${prodname}.lnk" "$INSTDIR\${prodname}\Interface\${prodname}.exe" "" "$INSTDIR\${prodname}\Interface\${icon}" 0
+  CreateShortCut "$SMPROGRAMS\$StartMenuFolder\${prodname}.lnk" "$INSTDIR\${prodname}\Interface_w${nbits}\${prodname}.exe" "" "$INSTDIR\${prodname}\Interface_w${nbits}\${icon}" 0
   
- ; WriteRegStr HKLM "${prodname}\DefaultIcon" "${prodname}" "$INSTDIR\${prodname}\Interface\${icon}"
+ ; WriteRegStr HKLM "${prodname}\DefaultIcon" "${prodname}" "$INSTDIR\${prodname}\Interface_w${nbits}\${icon}"
  
  ; WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${prodname}" "DisplayName" "${prodname} (désinstallation)"
  ; WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${prodname}" "UninstallString" "$\"$INSTDIR\Désinstaller.exe$\""
@@ -204,7 +212,7 @@ Section -post
   WriteRegStr HKLM "SOFTWARE\${prodname}" "Install_Dir" "$INSTDIR"
 
   WriteRegStr HKLM "${REG_UNINST_KEY}" "DisplayName" "${prodname}"
-  WriteRegStr HKLM "${REG_UNINST_KEY}" "DisplayIcon" "$INSTDIR\${prodname}\Interface\${icon}"
+  WriteRegStr HKLM "${REG_UNINST_KEY}" "DisplayIcon" "$INSTDIR\${prodname}\Interface_w${nbits}\${icon}"
   WriteRegStr HKLM "${REG_UNINST_KEY}" "DisplayVersion" "${version}"
   WriteRegDWORD HKLM "${REG_UNINST_KEY}" "NoModify" "1"
   WriteRegDWORD HKLM "${REG_UNINST_KEY}" "NoRepair" "1"
@@ -213,8 +221,8 @@ Section -post
 
   WriteRegDWORD HKLM "${REG_UNINST_KEY}" "VersionMajor" "${VER_MAJOR}"
   WriteRegDWORD HKLM "${REG_UNINST_KEY}" "VersionMinor" "${VER_MINOR}"
-  WriteRegStr HKLM "${REG_UNINST_KEY}" "URLInfoAbout" "http://github.com/fabnicol/altair"
-  WriteRegStr HKLM "${REG_UNINST_KEY}" "HelpLink" "http://github.com/fabnicol/altair"
+  ;WriteRegStr HKLM "${REG_UNINST_KEY}" "URLInfoAbout" "http://github.com/fabnicol/altair"
+  ;WriteRegStr HKLM "${REG_UNINST_KEY}" "HelpLink" "http://github.com/fabnicol/altair"
 
   WriteUninstaller "$INSTDIR\Désinstaller.exe"
   
@@ -227,34 +235,34 @@ SectionEnd
 
  Section  $(Sec2Name) sec2 
   SetOutPath $INSTDIR\${prodname}\Paquets
-  File "${prodname}\Paquets\R-3.1.0-win.exe"
-  ExecShell "" "$INSTDIR\${prodname}\Paquets\R-3.1.0-win.exe"
+  File "${prodname}\Paquets\${R}"
+  ExecShell "" "$INSTDIR\${prodname}\Paquets\${R}"
  SectionEnd
 
  Section  $(Sec3Name) sec3 
   SetOutPath $INSTDIR\${prodname}\Paquets
-  File "${prodname}\Paquets\RStudio-0.98.831.exe"
-  ExecShell "" "$INSTDIR\${prodname}\Paquets\RStudio-0.98.831.exe"
+  File "${prodname}\Paquets\${RStudio}"
+  ExecShell "" "$INSTDIR\${prodname}\Paquets\${RStudio}"
  SectionEnd
 
  Section  $(Sec4Name) sec4
   SetOutPath $INSTDIR\${prodname}\Paquets
-  File "${prodname}\Paquets\basic-miktex-2.9.5105.exe"
-  ExecShell "" "$INSTDIR\${prodname}\Paquets\basic-miktex-2.9.5105.exe"
+  File "${prodname}\Paquets\${Miktex}"
+  ExecShell "" "$INSTDIR\${prodname}\Paquets\${Miktex}"
  SectionEnd
  
- Section  $(Sec5Name) sec5
-  SetOutPath $INSTDIR\${prodname}\Paquets
-  File "${prodname}\Paquets\Git-1.9.2-preview20140411.exe"  
-  ExecShell "" "$INSTDIR\${prodname}\Paquets\Git-1.9.2-preview20140411.exe"
- SectionEnd
+; Section  $(Sec5Name) sec5
+;  SetOutPath $INSTDIR\${prodname}\Paquets
+;  File "${prodname}\Paquets\Git-1.9.2-preview20140411.exe"  
+;  ExecShell "" "$INSTDIR\${prodname}\Paquets\Git-1.9.2-preview20140411.exe"
+; SectionEnd
 
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
   !insertmacro MUI_DESCRIPTION_TEXT ${sec1} $(DESC_sec1)
   !insertmacro MUI_DESCRIPTION_TEXT ${sec2} $(DESC_sec2)
   !insertmacro MUI_DESCRIPTION_TEXT ${sec3} $(DESC_sec3)
   !insertmacro MUI_DESCRIPTION_TEXT ${sec4} $(DESC_sec4)
-  !insertmacro MUI_DESCRIPTION_TEXT ${sec5} $(DESC_sec5)
+ ; !insertmacro MUI_DESCRIPTION_TEXT ${sec5} $(DESC_sec5)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 

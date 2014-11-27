@@ -247,6 +247,25 @@ void Altair::showFilenameOnly()
 
 
 
+void Altair::on_newProjectButton_clicked()
+{
+    closeProject();
+
+    projectName=QString("défaut.alt");
+    QFile projectFile(projectName);
+
+    if (projectFile.exists()) projectFile.remove();
+
+    parent->saveProjectAs();
+
+    initializeProject();
+
+
+    outputTextEdit->append(PARAMETER_HTML_TAG "Nouveau projet créé sous " + projectName);
+
+}
+
+
 
 void Altair::on_openProjectButton_clicked()
 {
@@ -257,7 +276,6 @@ void Altair::on_openProjectButton_clicked()
 
     RefreshFlag |=ParseXml;
     initializeProject();
-
 }
 
 
@@ -286,10 +304,10 @@ void Altair::initializeProject(const bool cleardata)
 
     options::RefreshFlag = options::RefreshFlag|UpdateOptionTabs ;
     RefreshFlag |= UpdateTree ;
-    QListIterator<FAbstractWidget*>  w(Abstract::abstractWidgetList);
 
-    while (w.hasNext())
-        w.next()->setXmlFromWidget();
+    QTextEdit* editor = parent->getEditor();
+
+    if (editor) editor->clear();
 
     refreshProjectManager();
 
@@ -374,7 +392,7 @@ void Altair::clearProjectData()
 
 void Altair::on_helpButton_clicked()
 {
-    QUrl url=QUrl::fromLocalFile(this->generateDatadirPath("/GUI.html") );
+    QUrl url=QUrl::fromLocalFile(QCoreApplication::applicationDirPath() + "/GUI.html");
     outputTextEdit->append(STATE_HTML_TAG + QString(" Ouverture de l'aide : ") + url.toDisplayString());
     browser::showPage(url);
 }
@@ -532,7 +550,7 @@ void Altair::removeFileTreeElements()
 
 void Altair::requestSaveProject()
 {
-    projectName=QFileDialog::getSaveFileName(this,  tr("Entrer le nom du projet"), "defaut.alt", tr("projets altair (*.alt)"));
+    projectName=QFileDialog::getSaveFileName(this,  tr("Entrer le nom du projet"), "défaut.alt", tr("projets altair (*.alt)"));
     updateProject(true);
 }
 
@@ -543,7 +561,7 @@ void Altair::updateProject(bool requestSave)
 
     xhlFilterButton->setToolTip("Show audio files with extension ");
 
-    if (parent->defaultSaveProjectBehavior->isChecked() || requestSave)
+    if (parent->isDefaultSaveProjectChecked() || requestSave)
         writeProjectFile();
 
     refreshProjectManager();
@@ -723,17 +741,37 @@ void Altair::addDraggedFiles(const QList<QUrl>& urls)
 }
 
 
+void FProgressBar::stop()
+{
+    //if (parent->process->state() == QProcess::Running) return;
+    if (parent->process->state() == QProcess::Running
+        ||
+        (parent->process->exitStatus() == QProcess::NormalExit && parent->process->exitCode() == 0))
+    {
+        if (bar->value() < bar->maximum()) bar->setValue(bar->maximum());
+    }
+    else
+    {
+        bar->reset();
+    }
+
+    timer->stop();
+    killButton->setDisabled(true);
+}
 
 qint64 FProgressBar::updateProgressBar()
 {
+    if (parent->process->state() != QProcess::Running) return 0;
+
     qint64   new_value=(parent->*engine)(target, filter);
-    int share=qCeil(100*(static_cast<float>(new_value)/static_cast<float>(reference)));
-    if (share >= 100)
+    int share=qCeil(bar->maximum()*(static_cast<float>(new_value)/static_cast<float>(reference)));
+    if (share >= bar->maximum())
     {
-        share=100;
+        share=bar->maximum();
     }
+
     bar->setValue((share >= startshift)? share: startshift);
-    if ( share == 100) stop();
+    if ( share == bar->maximum()) stop();
     return new_value;
 }
 
@@ -747,7 +785,7 @@ FProgressBar::FProgressBar(Altair* parent,
                            const qint64 referenceSize)
 {
     bar->hide();
-    //bar->setRange(0,100);
+    bar->setRange(0,100);
     killButton->hide();
     const QIcon iconKill = QIcon(QString::fromUtf8( ":/images/process-stop.png"));
     killButton->setIcon(iconKill);
@@ -767,12 +805,14 @@ FProgressBar::FProgressBar(Altair* parent,
 
     connect(timer,
             &QTimer::timeout,
-            [this, displayMessageWhileProcessing] { if (stage_2) (this->parent->*displayMessageWhileProcessing)(updateProgressBar()); });
+            [this, parent, displayMessageWhileProcessing] {
+             if (stage_2 && parent->process->state() == QProcess::Running)
+             (this->parent->*displayMessageWhileProcessing)(updateProgressBar()); });
 
     connect(timer,
             &QTimer::timeout,
-            [this] {
-        if (!stage_2)
+            [this, parent] {
+        if (!stage_2 && parent->process->state() == QProcess::Running)
         {
             int value = this->parent->fileRank * Hash::wrapper["processType"]->toInt();
             bar->setValue((value >= startshift)? value: startshift);

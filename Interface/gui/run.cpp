@@ -39,7 +39,14 @@ void Altair::run()
     }
     QString path=Hash::wrapper["base"]->toQString();
 
+    if (path.isEmpty())
+    {
+        QMessageBox::warning(this, "Répertoire de sortie", "Le répertoire de création des bases " + path +" n'a pas été indiqué, renseigner le dialogue des paramètres.");
+        processFinished(exitCode::shouldLaunchRAltairAlone);
+        return;
+    }
     QDir targetDirObject(path);
+
     if (!targetDirObject.exists())
     {
         Q("Le répertoire " + path +" n'existe pas.")
@@ -48,7 +55,7 @@ void Altair::run()
     }
     if (!targetDirObject.removeRecursively())
     {
-        QMessageBox::information(0, QString("Supprimer le répertoire"),
+        QMessageBox::information(0, QString("Supprimer le répertoire au lancement"),
                                     QString("Le répertoire n'a pas été supprimé %1").arg(QDir::toNativeSeparators(path)));
         processFinished(exitCode::shouldLaunchRAltairAlone);
         return;
@@ -88,7 +95,10 @@ void Altair::run()
             outputTextEdit->append(PROCESSING_HTML_TAG + tr("En mode économe de mémoire, le lancement effectif peut être retardé de plusieurs dizaines de secondes.\n"));
     }
     else
+    {
         outputTextEdit->append(PROCESSING_HTML_TAG + tr("Echec du lancement de LHX, ligne de commande ")+ altairCommandStr);
+        progress->getBar()->setValue(0);
+    }
 
    progress->getBar()->setRange(0, Hash::counter["XHL"]-1);
    progress->start(700);
@@ -162,7 +172,7 @@ void Altair::processFinished(exitCode code)
 void Altair::killProcess()
 {
     process->kill();
-    outputTextEdit->append(PROCESSING_HTML_TAG+ outputType + tr(" was killed (SIGKILL)"));
+    outputTextEdit->append(PROCESSING_HTML_TAG+ outputType + tr(" en arrêt (SIGKILL)"));
     progress->stop();
 }
 
