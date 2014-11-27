@@ -37,14 +37,14 @@ public:
     void checkEmptyProjectName()
       {
          if (projectName.isEmpty())
-            projectName=QDir::currentPath() + "/defaut.alt";
+            projectName=QDir::currentPath() + "/défaut.alt";
       }
 
     //    void addDraggedFiles(QList<QUrl> urls);
 
     void startDrag();
     void addDraggedFiles(const QList<QUrl>& urls);
- /*   void mousePressEvent(QMouseEvent *event);
+ /* void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event)*/
     void dragMoveEvent(QDragMoveEvent *event);
     void dragEnterEvent(QDragEnterEvent *event);
@@ -60,6 +60,7 @@ public slots:
 
    void updateProject(bool=false);
    void on_openProjectButton_clicked();
+   void on_newProjectButton_clicked();
 
 private slots:
     
@@ -217,17 +218,7 @@ public:
 
   public slots:
 
-      void stop()
-      {
-          //if (parent->process->state() == QProcess::Running) return;
-          if (parent->process->exitStatus() != QProcess::CrashExit)
-          {
-              if (bar->value() < 100) bar->setValue(100);
-          }
-          else bar->setValue(0);
-          timer->stop();
-          killButton->setDisabled(true);
-      }
+    void stop();
 
 };
 
