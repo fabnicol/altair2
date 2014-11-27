@@ -187,6 +187,7 @@ void MainWindow::createMenus()
  optionsMenu = menuBar()->addMenu("&Configurer");
  aboutMenu = menuBar()->addMenu("&Aide");
 
+ fileMenu->addAction(newAction);
  fileMenu->addAction(openAction);
  fileMenu->addAction(saveAction);
  fileMenu->addAction(saveAsAction);
@@ -224,9 +225,15 @@ void MainWindow::f()
 
 void MainWindow::createActions()
 {
+
+  newAction  = new QAction(tr("Nouveau projet .alt"), this);
   openAction = new QAction(tr("&Ouvrir le projet .alt"), this);
+  newAction ->setShortcut(QKeySequence("Ctrl+N"));
   openAction->setShortcut(QKeySequence("Ctrl+O"));
-  openAction->setIcon(QIcon(":/images/project-open.png"));
+  newAction->setIcon(QIcon(":/images/project-open.png"));
+  openAction->setIcon(QIcon(":/images/document-open-folder.png"));
+
+  connect(newAction, SIGNAL(triggered()), altair, SLOT(on_newProjectButton_clicked()));
   connect(openAction, SIGNAL(triggered()), altair, SLOT(on_openProjectButton_clicked()));
 
   saveAction = new QAction(tr("&Enregistrer"), this);
@@ -309,14 +316,14 @@ void MainWindow::createActions()
   aboutAction->setIcon(QIcon(":/images/about.png"));
 
   connect(aboutAction, &QAction::triggered,  [this]  {
-                                                          QUrl url=QUrl::fromLocalFile( altair->generateDatadirPath("/about.html") );
+                                                          QUrl url=QUrl::fromLocalFile( QCoreApplication::applicationDirPath() + "/about.html") ;
                                                           browser::showPage(url);
                                                       });
 
   licenceAction=new QAction(tr("Licence"), this);
   licenceAction->setIcon(QIcon(":/images/web/gplv3.png"));
   connect(licenceAction, &QAction::triggered,  [this]  {
-                                                            QUrl url=QUrl::fromLocalFile( altair->generateDatadirPath("/licence.html") );
+                                                            QUrl url=QUrl::fromLocalFile( QCoreApplication::applicationDirPath() + "/licence.html");
                                                             browser::showPage(url);
                                                         });
 
@@ -334,7 +341,7 @@ void MainWindow::createActions()
       separator[i]->setSeparator(true);
     }
 
-  actionList << openAction << saveAction << saveAsAction << closeAction << exitAction << separator[0] <<
+  actionList << newAction << openAction << saveAction << saveAsAction << closeAction << exitAction << separator[0] <<
                 RAction << lhxAction << displayOutputAction << displayFileTreeViewAction <<
                 displayManagerAction <<  separator[4] <<
                 clearOutputTextAction <<  editProjectAction << separator[3] << configureAction <<
@@ -377,7 +384,7 @@ void MainWindow::on_openManagerWidgetButton_clicked()
 
 void MainWindow::createToolBars()
 {
- 
+ fileToolBar->addAction(newAction);
  fileToolBar->addAction(openAction);
  fileToolBar->addAction(saveAction);
  fileToolBar->addAction(saveAsAction);
@@ -389,7 +396,7 @@ void MainWindow::createToolBars()
  editToolBar->addAction(displayOutputAction);
  editToolBar->addAction(displayFileTreeViewAction);
  editToolBar->addAction(displayManagerAction);
-  editToolBar->addAction(editProjectAction);
+ editToolBar->addAction(editProjectAction);
 
  processToolBar->addAction(RAction);
  processToolBar->addAction(lhxAction);
@@ -432,6 +439,7 @@ void MainWindow::on_editProjectButton_clicked()
     highlighter = new Highlighter(editor->document());
 
     if (altair->projectName.isEmpty()) return;
+
    QFile  *file=new QFile(altair->projectName);
 
    if (file->open(QFile::ReadWrite| QFile::Text))
@@ -442,7 +450,7 @@ void MainWindow::on_editProjectButton_clicked()
    // do not capture file by reference!
    connect(actionHash["Nouveau"],
                  &QAction::triggered,
-                 [this] { editor->clear();});
+                 [this] { altair->on_newProjectButton_clicked(); });
 
    connect(actionHash["Ouvrir"],
                  &QAction::triggered,
@@ -467,7 +475,7 @@ void MainWindow::on_editProjectButton_clicked()
 
    connect(actionHash["Enregistrer comme..."],
                   &QAction::triggered,
-                  [file, this] {saveProjectAs(file);});
+                  [this] {saveProjectAs();});
 
    connect(actionHash["Actualiser"],
                  &QAction::triggered,
@@ -504,7 +512,7 @@ void MainWindow::on_editProjectButton_clicked()
 }
 
 
-void MainWindow::saveProjectAs(QFile* file)
+void MainWindow::saveProjectAs()
 {
     QString newstr=QFileDialog::getSaveFileName(this, tr("Enregistrer le projet comme..."), QDir::currentPath(), tr("projet altair (*.alt)"));
     if (newstr.isEmpty()) return;
@@ -524,11 +532,14 @@ void MainWindow::saveProjectAs(QFile* file)
                  newfile.remove();
           }
     }
-    if (file->rename(newstr) ==false) return;
+
     altair->projectName=newstr;
+
+    QFile* file = new QFile(altair->projectName);
+
     if (file->open(QFile::WriteOnly | QFile::Truncate | QFile::Text))
     {
-       file->write(editor->document()->toPlainText().toUtf8()) ;
+       if (editor) file->write(editor->document()->toPlainText().toUtf8()) ;
     }
     file->close();
     Altair::RefreshFlag = Altair::RefreshFlag |UpdateTree | ParseXml;
@@ -671,7 +682,7 @@ void MainWindow::configureOptions()
                                     for (FCheckBox* a : displayWidgetList + behaviorWidgetList + displayToolBarCBoxList)
                                         settings->setValue(a->getHashKey(), a->isChecked());
                                 
-                                    if (    (defaultSaveProjectBehavior->isChecked())
+                                    if (    (isDefaultSaveProjectChecked())
                                          || (QMessageBox::Yes == QMessageBox::warning(this,
                                                                                       tr("Sauvegarder le projet"),
                                                                                       tr("Le projet n'a pas été sauvegardé.\nAppuyer sur Oui pour le sauvegarder\nou sur Non pour fermer le dialogue sans sauvegarder le projet."),

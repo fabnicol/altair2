@@ -45,19 +45,18 @@ class MainWindow : public QMainWindow
    MainWindow(char*);
    options* dialog;
    QSettings  *settings;
-   QAction *playInSpectrumAnalyzerAction ;
-   QAction *playAction ;
-   long long cdRecordProcessedOutput;
-   //void contextMenuEvent(QContextMenuEvent *event);
 
    enum { MaxRecentFiles = 5 };
    QStringList recentFiles;
    void updateRecentFileActions();
    QString strippedName(const QString &fullFuleName);
    void on_clearOutputTextButton_clicked();
-   FCheckBox *defaultSaveProjectBehavior;
+
    QTabWidget *bottomTabWidget;
-   QTextEdit *consoleDialog;
+
+   QTextEdit* getEditor() {return editor;}
+   bool isDefaultSaveProjectChecked() { return defaultSaveProjectBehavior->isChecked(); }
+   void saveProjectAs();
    
   private slots:
 
@@ -89,8 +88,10 @@ class MainWindow : public QMainWindow
    void createToolBars();
    void createFontDataBase();
    void loadFile(const QString &fileName);
-   void saveProjectAs(QFile* file);
+
    inline void connectShowActions();
+
+   QTextEdit *consoleDialog;
 
    QDockWidget* fileTreeViewDockWidget;
    QDockWidget* bottomDockWidget;
@@ -116,6 +117,7 @@ class MainWindow : public QMainWindow
    
    QAction *recentFileActions[MaxRecentFiles];
    QAction *separatorAction;
+   QAction *newAction;
    QAction *openAction;
    QAction *saveAsAction;
    QAction *saveAction;
@@ -152,12 +154,12 @@ class MainWindow : public QMainWindow
                         *defaultEditToolBarBox,
                         *defaultProcessToolBarBox,
                         *defaultOptionsToolBarBox,
-                        *defaultAboutToolBarBox;
-
+                        *defaultAboutToolBarBox,
+                        *defaultSaveProjectBehavior;
 
    QList<FCheckBox*> displayWidgetList, behaviorWidgetList, displayToolBarCBoxList;
    
-   QTextEdit *editor;
+   QTextEdit *editor=nullptr;
    Highlighter *highlighter;
    void feedConsoleWithHtml();
 
