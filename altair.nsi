@@ -8,7 +8,6 @@
 !define VER_MINOR 10
 !define VER_REVISION 0
 !define VER_BUILD  0
-
 !define prodname "Altair"
 !define nbits 64
 !define setup    "${prodname}-${version}.win${nbits}.installer.exe"
@@ -16,6 +15,7 @@
 !define icon     neptune.ico
 !define RStudio  "RStudio-0.98.1091.exe" 
 !define R        "R-3.1.2-win.exe"
+!define RVERSION 3.1
 !define Miktex   "setup-2.9.4503-x64.exe"
 !define startmenu "$SMPROGRAMS\${prodname}-${version}"
 !define Désinstaller "Désinstaller.exe"
@@ -110,19 +110,23 @@ SectionEnd
 
 Section
   CreateDirectory  $INSTDIR\${exemple}\Donnees\R-Altair
+  CreateDirectory  $INSTDIR\${exemple}\Donnees\xhl
   SetOutPath $INSTDIR\${prodname}
   File /r  "${prodname}\Interface_w${nbits}" 
   File /r  "${prodname}\Docs" 
   File /r  "${prodname}\Outils" 
-  File /r  "${prodname}\lib" 
   File /r  "${prodname}\win${nbits}" 
   File /r  "${prodname}\.Rproj.user" 
   File     "${prodname}\*.*" 
   SetOutPath $INSTDIR\${exemple}
   File /r  ${exemple}\Docs
-  File /r  ${exemple}\Donnees\xhl\Anonyme
-  File     ${exemple}\Altair.bmp     ${exemple}\Altair.ico      ${exemple}\altair.R    ${exemple}\bibliotheque.fonctions.paie.R ${exemple}\générer.codes.R 
+  File     ${exemple}\Altair.bmp     ${exemple}\Altair.ico      ${exemple}\altair.R    ${exemple}\bibliotheque.fonctions.paie.R ${exemple}\générer.codes.R  ${exemple}\installation.R 
   File     ${exemple}\histogrammes.R ${exemple}\neptune.512.ico ${exemple}\neptune.bmp ${exemple}\neptune.ico                   ${exemple}\prologue.R       ${exemple}\style.css
+  SetOutPath $INSTDIR\${exemple}\Donnees\xhl
+  File /r  ${exemple}\Donnees\xhl\Anonyme
+  File /r  ${exemple}\Donnees\xhl\Anonyme2
+  SetOutPath $DOCUMENTS\R\win-library\${RVERSION}
+  File /r  "${prodname}\lib\*.*" 
 SectionEnd
 
 !insertmacro MUI_PAGE_INSTFILES
