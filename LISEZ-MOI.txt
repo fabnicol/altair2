@@ -44,9 +44,8 @@ Interface RStudio
 
 2. Affichage du script dans l'interface RStudio
 
-  Au lancement de l'interface RStudio, vérifier que l'onglet actif est bien le fichier
-  'altair.R'
-  dans la fenêtre supérieure gauche. 
+  Au lancement de l'interface RStudio, vérifier que l'onglet actif est bien le 
+  fichier  'altair.R'  dans la fenêtre supérieure gauche. 
   Sinon, dans la fenêtre inférieure droite, cliquer sur le fichier 
 
                Altair\Tests\Exemple\altair.R
@@ -80,25 +79,36 @@ Auteur
 
 Logiciel écrit par Fabrice Nicol (fabrnicol@gmail.com)
 
-pour :
+L'auteur remercie les personnes suivantes pour leur contribution aux tests et 
+à l'analyse des situations de tests :
 
-Chambre régionale des comptes d'Auvergne, Rhône-Alpes
+		Vitalia Le Boudec
+		Nicole Rossetti
+		Cyril Janvier
 
+vérificateurs à la chambre régionale des comptes d'Auvergne, Rhône-Alpes
+
+        Jean-Pierre Rousselle, magistrat.
 
 Licence
 -------
 
 L'interface graphique, étant un dérivé d'application libre sous licence GPL,
-est placée sous licence CECILL (version francisée de la GPL) par voie d'héritage 
+est placée sous licence CeCILL (version francisée de la GPL) par voie d'héritage 
 de licence.
 
-Les deux autres modules du logiciel (l'application noyau LHX, exécutée par
-l'interface graphique, et les scripts R) sont placés provisoirement sous licence
-CeCILL jointe (CEA-CNRS-INRIA), dans l'attente d'une décision administrative sur
-ce point. 
+Le module noyau LHX, qui convertit les données .xhl des bases de paye en fichiers 
+plats .csv, a été écrit en dehors des activités professionnelles ; il est placé 
+sous la même licence CeCILL jointe (CEA-CNRS-INRIA).
 
-L'auteur souhaite que la licence définitive soit de type CeCILL ou LGPL, à 
-l'instar du logiciel Xémélios.
+Le module-script R du logiciel est la propriété de l'Etat, ayant été pour partie
+développé parallèlement aux activités professionnelles et en lien direct avec 
+quelques contrôles. 
+
+L'auteur formule le souhait que ce module soit placé sous la même licence CeCILL
+lorsque son développement aura atteint une maturité suffisante, et propose que 
+l'ensemble soit diffusé sur une forge logicielle publique à l'instar du logiciel
+Xémélios de la DGFIP.
 
 Licences auxiliaires
 --------------------
@@ -117,32 +127,25 @@ L'ensemble du code et des données de démonstration est anonymisé.
 Composition du paquet distribué
 -------------------------------
 
-Le module Interface graphique est distribué sous forme binaire dans les 
-répertoires Interface_w32 ou Interface_w64. 
-
-Le premier type de distribution correspond à une compilation sous Windows64 avec
-les dépendances logicielles Qt5.3.2 de l'éditeur Digia, le compilateur étant de
-type GNU GCC pour plateforme 32 bits et processeur de type Celeron ou monocoeur. 
-
-Le premier type de distribution correspond à une compilation sous Windows64 avec
+Le module Interface graphique est distribué sous forme binaire dans le répertoire
+Interface_win64. Elle a été compilée sous Windows 8 plateforme x64 avec
 les dépendances logicielles Qt5.3.2 de l'éditeur Digia, le compilateur étant de
 type Microsoft MSVC2013 pour plateforme 64 bits et processeur de type multicoeur
-récent. 
+récent (corei7).  Sa compatibilité a été vérifiée sous Windows 7 après installation
+des bibliothèques dynamiques vc_redistx64 disponibles sur le site de Microsoft.
 
-Le module noyau LHX, qui effectue la conversion des données au format .xhl vers
-les bases de données au format .csv, est distribué sous forme binaire dans les 
-répertoires win32 ou win64. 
+Deux exécutables LHX sont disponibles selon l'installateur. Le module noyau LHX, 
+qui effectue la conversion des données au format .xhl vers les bases de données au
+format .csv, est distribué sous forme binaire dans les répertoires win.celeron
+win.core. 
 
-Le type de distribution  win32 correspond à une compilation du code source 
-écrit en langage C/C++ sous Windows64 et la version MINGW64 du compilateur GNU
-GCC 4.9.2 du projet Mingw w64 (http://mingw-w64.sourceforge.net). La version 
-win32 est donc une compilation de type 64 bits, qui vient en complément de 
-l'interface Interface_w32 pour processeur de type Celeron ou monocoeur.
+Le premier type de distribution correspond à une compilation sous Windows 7 x64 avec
+un processeur de type Celeron ou monocoeur. La compilation du code source a été 
+réalisée en utilisant la version MINGW64 du compilateur GNU GCC 4.9.2 du projet 
+Mingw w64 (http://mingw-w64.sourceforge.net).
 
-Le type de distribution  win64 correspond à une compilation du code source
-écrit en langage C/C++ sous Windows64 et la  même version MINGW64 du compilateur
-GNU GCC 4.9.2 mais pour processeur de type multicoeur récent. Elle vient en 
-complément de l'interface sous Interface_w64.
+Le deuxième type de distribution a été réalisé avec le même compilateur MINGW64
+mais sous processeur corei7.
 
 Les scripts R sont distribués sous Tests\Exemple
 
@@ -150,12 +153,13 @@ Autres répertoires
 ------------------
 
 Docs    : méthodologie statistique
-lib     : bibliothèques pour l'exécution des scripts R, pré-téléchargées du réseau CRAN.
+lib     : bibliothèques pour l'exécution des scripts R, pré-téléchargées du
+          réseau universitaire CRAN (http://cran.r-project.org/)
 Paquets : dépendances logicielles libres (voir INSTALLATION.txt)
-Outils  : versions compilées d'utilitaires Unix pour Windows, téléchargées du site GNUWin32
-         (http://gnuwin32.sourceforge.net)
+Outils  : versions compilées d'utilitaires Unix pour Windows, téléchargées du 
+          site GNUWin32 (http://gnuwin32.sourceforge.net)
 
-Tests\Exemple\Données\xhl\Anonyme : jeu de données anonymisées.
+Tests\Exemple\Données\xhl\Anonyme et Anonyme2 : jeux de données anonymisées.
 
 Historique
 ----------
