@@ -1,0 +1,10 @@
+configuration du dépot local
+
+(git clone [remote])
+
+git branch master
+git branch -D PEV
+git checkout -f remotes/origin/PEV
+git checkout -b PEV
+git config --global push.default simple
+git config --global --set-upstream origin PEV
