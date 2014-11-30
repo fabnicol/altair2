@@ -25,6 +25,7 @@ void Altair::initialize()
     
     Hash::description["année"]={"Fichiers .xhl"};
     Hash::description["recent"]={"Récent"};
+
 }
 
 

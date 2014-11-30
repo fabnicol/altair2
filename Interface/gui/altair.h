@@ -30,6 +30,9 @@ public:
     QString curFile;
     FListFrame *project[2];
     QPushButton *xhlFilterButton=new QPushButton;
+    QToolButton *mkdirButton= new QToolButton;
+    QToolButton *removeFileTreeElementsButton= new QToolButton;
+
     QTextEdit *outputTextEdit = new QTextEdit;
 
     void initializeProject(const bool cleardata=true);
@@ -54,6 +57,7 @@ public:
     QProcess ejectProcess;
     QString fileTreeFile;
     QString outputType;
+
     int fileRank=0;
 
 public slots:
@@ -99,9 +103,6 @@ private:
     QIcon iconShowMaximized, iconShowNormal;
     
     FProgressBar *progress;
-    QToolButton *mkdirButton= new QToolButton;
-    QToolButton *removeFileTreeElementsButton= new QToolButton;
-
     QVBoxLayout *mainLayout= new QVBoxLayout;
     QVBoxLayout *progressLayout= new QVBoxLayout;
     QVBoxLayout *managerLayout= new QVBoxLayout;
