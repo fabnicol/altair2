@@ -110,6 +110,29 @@ lorsque son développement aura atteint une maturité suffisante, et propose que
 l'ensemble soit diffusé sur une forge logicielle publique à l'instar du logiciel
 Xémélios de la DGFIP.
 
+
+Mis à disposition du code
+-------------------------
+
+Le code sous licence libre est à ce stade entreposé sur les serveurs suivants,
+en accès réservé à ce jour, accessible sur demande aux titulaires d'un compte 
+github.
+
+Pour l'application noyau LHX :
+
+  https://github.com/fabnicol/Altair-LHX.git
+
+Pour l'interface :
+ 
+  https://github.com/fabnicol/Altair-Interface.git
+
+
+Distribution du code
+--------------------
+
+L'ensemble du code et des données de démonstration est anonymisé.
+Aucune donnée n'est entreposée sur les serveurs susmentionnés.
+
 Licences auxiliaires
 --------------------
 
@@ -119,10 +142,6 @@ Voir les licences affichées par les installateurs mentionnés ci-après.
 L'installateur Windows a été compilé sous NSIS : http://nsis.sourceforge.net
 à l'aide du fichier altair.nsi
 
-Distribution du code
---------------------
-
-L'ensemble du code et des données de démonstration est anonymisé.
 
 Composition du paquet distribué
 -------------------------------

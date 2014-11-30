@@ -70,8 +70,11 @@ Choisir l'installateur .core pour une installation sur portables multicoeurs (co
   	inférieur droit (onglet Files). Le fichier est localisé sous le répetoire Tests\Exemple.
    
     Appuyer sur le bouton qui ressemble à un cahier ("Notebook") dans la barre d'outils. Vers la fin de 
-	  l'exécution du script une série de dialogues apparaît qui demandent d'importer des feuilles de style.
-	  Sélectionner à la première fois le répertoire du DVD Miktex-...  dans le menu déroulant.
+    l'exécution du script une série de dialogues apparaît qui demandent d'importer des feuilles de style.
+	Sélectionner la première fois le répertoire du DVD Miktex-...  en appuyant sur "Change" puis, dans le dialogue
+	suivant, sur "Packages shall be installed from a directory", puis au suivant en vérifiant que le répertoire Miktex 
+    du DVD est bien sélectionné. Appuyer enfin sur le bouton "Install" avec un écusson d'administrateur. Cinq à dix
+	validations seront requises.
    
 15. Lorsque le pdf apparaît, l'installation est terminée. Veiller à refermer RStudio en laissant le script altair.R 
     sélectionné dans la partie supérieure gauche.    

@@ -25,10 +25,10 @@ Choisir l'installateur .core pour une installation sur portables multicoeurs (co
     c) laisser le bouton radio à "Basic Miktex" au dialogue suivant
 	  d) laisser le choix de l'utilisateur à "Anyone..." au dialogue suivant
     e) puis préciser le répertoire dans lequel seront prises les feuilles de style :
-	   à ce stade il est important de sélectionner (bouton Browse) le répertoire Miktex du DVD
-	   
-      
-8.  Installer vc_redistx64.exe de Microsoft. Ce sont des bibliothèques dynamiques qui permettent d'exécuter 
+	     à ce stade il est important de sélectionner (bouton Browse) le répertoire Miktex du DVD
+    f) laisser le dialogue "Install missing packages on the fly" dans sa valeur par défaut "Ask me first"
+        
+8.  Installer vcredist_x64.exe de Microsoft. Ce sont des bibliothèques dynamiques qui permettent d'exécuter 
     les programmes compilés avec le compilateur Microsoft MSVC2013.
    
 9.  Exécuter l'interface.
@@ -68,11 +68,14 @@ Choisir l'installateur .core pour une installation sur portables multicoeurs (co
    
 14. Vérifier que l'on a dans le quart supérieur gauche de l'interface un script altair.R. Sinon aller le 
     chercher en cliquant sur le fichier altair.R dans l'arborescence des fichiers et répertoires dans le quart 
-  	inférieur droit (onglet Files). Le fichier est localisé sous le répetoire Tests\Exemple.
+    inférieur droit (onglet Files). Le fichier est localisé sous le répetoire Tests\Exemple.
    
     Appuyer sur le bouton qui ressemble à un cahier ("Notebook") dans la barre d'outils. Vers la fin de 
-	  l'exécution du script une série de dialogues apparaît qui demandent d'importer des feuilles de style.
-	  Sélectionner à la première fois le répertoire du DVD Miktex-...  dans le menu déroulant.
+    l'exécution du script une série de dialogues apparaît qui demandent d'importer des feuilles de style.
+    Sélectionner la première fois le répertoire du DVD Miktex-...  en appuyant sur "Change" puis, dans le dialogue  
+    suivant, sur "Packages shall be installed from a directory", puis au suivant en vérifiant que le répertoire Miktex 
+    du DVD est bien sélectionné. Appuyer enfin sur le bouton "Install" avec un écusson d'administrateur. Cinq à dix
+    validations seront requises.
    
 15. Lorsque le pdf apparaît, l'installation est terminée. Veiller à refermer RStudio en laissant le script altair.R 
     sélectionné dans la partie supérieure gauche.    
