@@ -25,10 +25,10 @@ Choisir l'installateur .core pour une installation sur portables multicoeurs (co
     c) laisser le bouton radio à "Basic Miktex" au dialogue suivant
 	  d) laisser le choix de l'utilisateur à "Anyone..." au dialogue suivant
     e) puis préciser le répertoire dans lequel seront prises les feuilles de style :
-	   à ce stade il est important de sélectionner (bouton Browse) le répertoire Miktex du DVD
-	   
-      
-8.  Installer vc_redistx64.exe de Microsoft. Ce sont des bibliothèques dynamiques qui permettent d'exécuter 
+	     à ce stade il est important de sélectionner (bouton Browse) le répertoire Miktex du DVD
+    f) laisser le dialogue "Install missing packages on the fly" dans sa valeur par défaut "Ask me first"
+        
+8.  Installer vcredist_x64.exe de Microsoft. Ce sont des bibliothèques dynamiques qui permettent d'exécuter 
     les programmes compilés avec le compilateur Microsoft MSVC2013.
    
 9.  Exécuter l'interface.
