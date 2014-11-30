@@ -20,9 +20,9 @@ Choisir l'installateur .core pour une installation sur portables multicoeurs (co
 	
 7.  Installation de Miktex : attention à choisir les bonnes options.
     a) cocher la case "I accept..." du premier dialogue, en bas à gauche
-	b) puis cocher "Install Miktex" au dialogue suivant
+	  b) puis cocher "Install Miktex" au dialogue suivant
     c) laisser le bouton radio à "Basic Miktex" au dialogue suivant
-	d) laisser le choix de l'utilisateur à "Anyone..." au dialogue suivant
+	  d) laisser le choix de l'utilisateur à "Anyone..." au dialogue suivant
     e) puis préciser le répertoire dans lequel seront prises les feuilles de style :
 	   à ce stade il est important de sélectionner (bouton Browse) le répertoire Miktex du DVD
 	   
@@ -57,14 +57,21 @@ Choisir l'installateur .core pour une installation sur portables multicoeurs (co
    
 13. Lorsque la barre de progression est à 100 % et que le dialogue des messages confirme "Terminé..."
     appuyer sur le bouton bleu "A" de la barre d'outils, qui lance l'interface RStudio.
+
+    Aller dans l'arborescence "Files"" dans le quart inférieur droit de l'interface et sélectionner le projet
+    altair.Rproj.
+
+    Changer les paramètres d'édition de code par défaut : Tools > Global options > Default text encoding > Change > UTF-8
+         Tools > Global options > Default text encoding > Change > UTF-8
+
    
 14. Vérifier que l'on a dans le quart supérieur gauche de l'interface un script altair.R. Sinon aller le 
     chercher en cliquant sur le fichier altair.R dans l'arborescence des fichiers et répertoires dans le quart 
-	inférieur droit (onglet Files). Le fichier est localisé sous le répetoire Tests\Exemple.
+  	inférieur droit (onglet Files). Le fichier est localisé sous le répetoire Tests\Exemple.
    
     Appuyer sur le bouton qui ressemble à un cahier ("Notebook") dans la barre d'outils. Vers la fin de 
-	l'exécution du script une série de dialogues apparaît qui demandent d'importer des feuilles de style.
-	Sélectionner à la première fois le répertoire du DVD Miktex-...  dans le menu déroulant.
+	  l'exécution du script une série de dialogues apparaît qui demandent d'importer des feuilles de style.
+	  Sélectionner à la première fois le répertoire du DVD Miktex-...  dans le menu déroulant.
    
 15. Lorsque le pdf apparaît, l'installation est terminée. Veiller à refermer RStudio en laissant le script altair.R 
     sélectionné dans la partie supérieure gauche.    
