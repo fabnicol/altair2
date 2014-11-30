@@ -1,5 +1,85 @@
-Installation
-------------
+
+Guide d'installation
+--------------------
+
+Choisir l'installateur .celeron pour une installation sur portables standard.
+Choisir l'installateur .core pour une installation sur portables multicoeurs (core2, corei3 et plus).
+
+1.  Copier l'installateur sur le bureau et l'exécuter.
+
+2.  Choisir le chemin d'installation par défaut c:\Users\Public
+
+3.  Installer les dépendances logicielles R-3.1.2, RStudio et Miktex.
+
+4.  Installation de R-3.1.2 : utiliser les chemins d'installations par défaut.
+    Décocher la case "32 bits" lorsque le choix entre plusieurs plateformes (32 bits, 64 bits... est proposé)
+  
+5.  Installation de RStudio : utiliser les chemins d'installations par défaut.
+
+6.  Attention, lorsqu'un premier installateur dépendant a été exécuté, pour passer au suivant, il faut
+    parfois cliquer sur la barre d'état de Windows (en bas de l'écran).
+	
+7.  Installation de Miktex : attention à choisir les bonnes options.
+    a) cocher la case "I accept..." du premier dialogue, en bas à gauche
+	  b) puis cocher "Install Miktex" au dialogue suivant
+    c) laisser le bouton radio à "Basic Miktex" au dialogue suivant
+	  d) laisser le choix de l'utilisateur à "Anyone..." au dialogue suivant
+    e) puis préciser le répertoire dans lequel seront prises les feuilles de style :
+	   à ce stade il est important de sélectionner (bouton Browse) le répertoire Miktex du DVD
+	   
+      
+8.  Installer vc_redistx64.exe de Microsoft. Ce sont des bibliothèques dynamiques qui permettent d'exécuter 
+    les programmes compilés avec le compilateur Microsoft MSVC2013.
+   
+9.  Exécuter l'interface.
+    Configurer l'interface en cochant toutes les cases sauf plein écran.
+   
+10. Ouvrir un nouveau projet (Fichiers > Nouveau projet)
+    Importer dans le projet un des deux répertoires :
+   
+       Tests\Exemple\Donnees\xhl\Anonyme
+    ou Tests\Exemple\Donnees\xhl\Anonyme2
+   
+11. Ouvrir le dialogue des paramètres. 
+    Renseigner le répertoire de sortie de la base .csv produite par Altair.
+    A ce stade, le répertoire doit être :
+   
+       Tests\Exemple\Donnees\R-Altair   
+   
+    Vérifier le nombre de fils d'exécution dans le menu déroulant en bas du dialogue.
+    Sur un portable récent il est possible de sélectionner "2" comme nombre de fils d'exécution pour accélérer 
+    le traitement. Sur un portable performant (corei5 et plus) , il est possible de sélectionner jusqu'à 
+    "6" ou "7" fils d'exécution. Pour exécuter en fond de tâche au contraire, laisser sur "1".
+   
+    Valider.
+   
+12. Cliquer sur le bouton "csv" de la barre d'outils.    
+    Attendre une à trois minutes.
+   
+13. Lorsque la barre de progression est à 100 % et que le dialogue des messages confirme "Terminé..."
+    appuyer sur le bouton bleu "A" de la barre d'outils, qui lance l'interface RStudio.
+
+    Aller dans l'arborescence "Files"" dans le quart inférieur droit de l'interface et sélectionner le projet
+    altair.Rproj.
+
+    Changer les paramètres d'édition de code par défaut : Tools > Global options > Default text encoding > Change > UTF-8
+         Tools > Global options > Default text encoding > Change > UTF-8
+
+   
+14. Vérifier que l'on a dans le quart supérieur gauche de l'interface un script altair.R. Sinon aller le 
+    chercher en cliquant sur le fichier altair.R dans l'arborescence des fichiers et répertoires dans le quart 
+  	inférieur droit (onglet Files). Le fichier est localisé sous le répetoire Tests\Exemple.
+   
+    Appuyer sur le bouton qui ressemble à un cahier ("Notebook") dans la barre d'outils. Vers la fin de 
+	  l'exécution du script une série de dialogues apparaît qui demandent d'importer des feuilles de style.
+	  Sélectionner à la première fois le répertoire du DVD Miktex-...  dans le menu déroulant.
+   
+15. Lorsque le pdf apparaît, l'installation est terminée. Veiller à refermer RStudio en laissant le script altair.R 
+    sélectionné dans la partie supérieure gauche.    
+
+
+Dépendances
+-----------
 
 Les logiciels auxiliaires suivants sont inclus dans l'installation :
 
@@ -7,65 +87,15 @@ Les logiciels auxiliaires suivants sont inclus dans l'installation :
  * Interface RStudio : http://rstudio.com
  * Système LaTex pour Windows, version MikTex : 
      http://http://miktex.org/download
- 
-Lors de l'installation, choisir les dépendances voulues.
 
-L'installateur principal lance (au plus) quatre installateurs recueillis auprès
+L'installateur principal lance trois installateurs auxiliaires recueillis auprès
 des sites indiqués ci-dessus. Chacune de ces installations peut nécessiter une
 élévation des droits, en fonction du dossier d'installation retenu et de la 
 configuration de la plateforme.
 
-Lors de la première exécution du script altair.R, des paquets R gérés par un
-serveur centralisé CRAN seront téléchargés en complément.
+Les bibliothèques auxiliaires installées par l'installateur sont conservées dans le 
+répertoire utilisateur\Documents\R\win-library\3.1 et ne doivent pas être détruits.
 
-Le logiciel est configuré pour sélectionner le serveur CRAN du laboratoire
-CNRS de l'université de Lyon-1 (http://cran.univ-lyon1.fr")
-
-Une connexion internet fonctionnelle est nécessaire à cette occasion.
-
-L'installation des paquets requis est effectuée lorsque la console (fenêtre
-inférieure gauche) rapporte les messages suivants :
-
-	package ‘mime’ successfully unpacked and MD5 sums checked
-	package ‘evaluate’ successfully unpacked and MD5 sums checked
-	package ‘digest’ successfully unpacked and MD5 sums checked
-	package ‘formatR’ successfully unpacked and MD5 sums checked
-	package ‘highr’ successfully unpacked and MD5 sums checked
-	package ‘markdown’ successfully unpacked and MD5 sums checked
-	package ‘stringr’ successfully unpacked and MD5 sums checked
-	package ‘knitr’ successfully unpacked and MD5 sums checked
-(...)
-	package ‘Rcpp’ successfully unpacked and MD5 sums checked
-	package ‘plyr’ successfully unpacked and MD5 sums checked
-(...)
-
-	package ‘colorspace’ successfully unpacked and MD5 sums checked
-	package ‘RColorBrewer’ successfully unpacked and MD5 sums checked
-	package ‘dichromat’ successfully unpacked and MD5 sums checked
-	package ‘munsell’ successfully unpacked and MD5 sums checked
-	package ‘labeling’ successfully unpacked and MD5 sums checked
-	package ‘gtable’ successfully unpacked and MD5 sums checked
-	package ‘reshape2’ successfully unpacked and MD5 sums checked
-	package ‘scales’ successfully unpacked and MD5 sums checked
-	package ‘proto’ successfully unpacked and MD5 sums checked
-	package ‘ggplot2’ successfully unpacked and MD5 sums checked
-(...)
-	package ‘assertthat’ successfully unpacked and MD5 sums checked
-(...)
-
-	package ‘yaml’ successfully unpacked and MD5 sums checked
-
-En outre, lors de la première génération d'un rapport (quel que soit son 
-format) un paquet supplémentaire (RMarkdown) est autorisé après validation
-dans une boîte de dialogue. 
-
-RMarkdown est également géré par le serveur CRAN.
-
-Des informations complémentaires sur CRAN sont disponibles à ce lien :
-
-			http://cran.r-project.org
-
-Les paquets sont conservés dans le répertoire utilisateur\Documents\R
 
 LaTex/MikTex
 ------------
@@ -74,12 +104,9 @@ MikTex n'est utile que pour pouvoir produire des rapports au format .pdf.
 Sans cette dépendance, l'application produit seulement des rapports au format 
 .html ou .docx.
 
-En cas d'installation de MikTex, un complément d'installation sera demandé
-par ce logiciel à l'occasion de la production du premier rapport pdf. Il s'agit
-d'un petit nombre de feuilles de style LaTeX complémentaires. 
-
-Utiliser le répertoire du DVD pour charger les feuilles de style requises.
+Lors de la première exécution du script altair.R, des feuilles de style doivent
+être installées depuis le répertoire MikTex du DVD d'installation si un rapport pdf 
+est souhaité.
 
 L'installation est alors complète : les paquets auxiliaires ne seront plus
 téléchargés ultérieurement.
-
