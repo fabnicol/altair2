@@ -6,13 +6,14 @@ greaterThan(QT_MAJOR_VERSION, 5)
 
 # Ensure that library is built before application
 
-CONFIG  += ordered 
+CONFIG  += ordered static
 
 #use at least Qt5.1 with g++-4.8 for windows
 
 TEMPLATE = app
 
-QT       += core gui xml widgets webkitwidgets
+QT       += core gui xml widgets
+# webkitwidgets
 QT       -= opengl
 
 TARGET = Altair
@@ -22,7 +23,9 @@ VPATH = .
 #win32:LIBS += -L../win32
 #linux:LIBS += -L../linux
 
-DEFINES += DEBUG QT_NO_OPENGL WIN_64
+DEFINES += DEBUG QT_NO_OPENGL WIN_64 STATIC
+
+windows:RC_ICONS = neptune.ico
 
 #linux: DEFINES += LOCAL_BINPATH
 
@@ -64,7 +67,7 @@ HEADERS  += \
 
 
 RESOURCES += \
-    ../share/altair-gui/altair-gui.qrc 
+    ../share/altair-gui/altair-gui.qrc
 
    
 

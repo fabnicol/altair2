@@ -363,6 +363,9 @@ void MainWindow::on_displayFileTreeViewButton_clicked(bool isHidden)
 {
    fileTreeViewDockWidget->setVisible(isHidden);
    altair->project[0]->importFromMainTree->setVisible(isHidden);
+   altair->removeFileTreeElementsButton->setVisible(isHidden);
+   altair->xhlFilterButton->setVisible(isHidden);
+   altair->mkdirButton->setVisible(isHidden);
 
  }
 
