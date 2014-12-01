@@ -1,6 +1,5 @@
 #include "fwidgets.h"
 #include "common.h"
-#include "fcolor.h"
 #include "templates.h"
 /* using above function with controlled object encapsulation */
 
