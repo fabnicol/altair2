@@ -22,7 +22,7 @@ VPATH = .
 #win32:LIBS += -L../win32
 #linux:LIBS += -L../linux
 
-DEFINES += DEBUG QT_NO_OPENGL WIN_64 STATIC
+DEFINES += DEBUG QT_NO_OPENGL CORE  STATIC
 
 windows:RC_ICONS = neptune.ico
 

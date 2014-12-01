@@ -70,10 +70,10 @@ protected :
   static FString    htmlLogPath;
   
 #ifdef Q_OS_WIN
-    #ifndef WIN_64
-         const QString   System="win32";
+    #ifndef CORE
+         const QString   System="win.celeron";
     #else
-         const QString   System="win64";
+         const QString   System="win.core";
     #endif
      const QString   systemSuffix=".exe";
      const QString   systemPathPrefix="/../";
