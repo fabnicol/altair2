@@ -48,6 +48,7 @@ taux.tolérance.homonymie <- 2  # en %
 quantile.cut             <- 1  # en %
 minimum.positif          <- 0.5
 minimum.quotité          <- 0.1
+minimum.actif            <- 100
 population_minimale_calcul_médiane  <- 3
 
 séparateur.liste.entrée     <- ","
