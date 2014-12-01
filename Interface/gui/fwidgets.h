@@ -2,7 +2,6 @@
 #define FWIDGETS_H
 
 #include <QtWidgets>
-#include "fcolor.h"
 #include "fstring.h"
 #include "tags.h"
 
