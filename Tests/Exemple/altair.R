@@ -299,14 +299,22 @@ Bulletins.paie <- Bulletins.paie[ ,   `:=`(Statut.sortie   = Statut[length(Net.�
                                            quotité.moyenne = round(mean.default(quotité, na.rm = TRUE), digits = 1)),
                                       key=c("Matricule", "Année")]
 
-Bulletins.paie <- Bulletins.paie[ , vind := (Matricule[R] == Matricule & Année[R] == Année - 1 & quotité.moyenne[R] == quotité.moyenne)]
+# Indicatrice pour la rémunération moyenne des personnes en place :
+# quotité égale pendant deux années successives contigues, permanence sur 12 mois.
+# nous prenons les moyennes des quotités non NA.
+
+Bulletins.paie <- Bulletins.paie[ , indicatrice.quotité.pp := (Matricule[R] == Matricule 
+                                                               & Année[R] == Année - 1 
+                                                               & quotité.moyenne[R] == quotité.moyenne
+                                                               & nb.mois[R] == nb.mois
+                                                               & nb.mois == 12)]
 
 Bulletins.paie <- Bulletins.paie[ ,   `:=`(Montant.brut.annuel      = sum(Brut, na.rm=TRUE),
                                          Montant.brut.annuel.eqtp = sum(Montant.brut.eqtp * 365 / nb.jours, na.rm=TRUE),
                                          Montant.net.annuel.eqtp  = sum(Montant.net.eqtp * 365 / nb.jours, na.rm=TRUE),
                                          Montant.net.annuel       = sum(Net.à.Payer, na.rm=TRUE),
                                          permanent                = nb.jours >= 365,
-                                         vind = vind[1]),
+                                         indicatrice.quotité.pp = indicatrice.quotité.pp[1]),
                                       key=c("Matricule", "Année")]
 
 message("Indicatrice RMPP calculée")
@@ -325,13 +333,13 @@ message("Indicatrice RMPP calculée")
 #                                                   
 # 
 # Bulletins.paie <- merge(Bulletins.paie, cbind(Bulletins.paie.réduit[ , .(Matricule, Année, nb.années)],
-#                                               vind = mapply(indicatrice.quotité,
+#                                               indicatrice.quotité.pp = mapply(indicatrice.quotité,
 #                                                              Bulletins.paie.réduit[ , Matricule], 
 #                                                              Bulletins.paie.réduit[ , Année],
 #                                                              USE.NAMES = FALSE)),
 #                         by = c("Matricule", "Année"))
 # 
-# delta<-Bulletins.paie[indic.rmpp != vind, .(Matricule, Année, Mois, quotité, quotité.moyenne, indic.rmpp, vind, R)]
+# delta<-Bulletins.paie[indic.rmpp != indicatrice.quotité.pp, .(Matricule, Année, Mois, quotité, quotité.moyenne, indic.rmpp, indicatrice.quotité.pp, R)]
 # 
 # sauv.bases(dossier = chemin.dossier.bases, "delta")
 # stop("test")
@@ -352,7 +360,7 @@ Paie <- merge(unique(Bulletins.paie[ , c("Matricule",
                                   "nb.jours",
                                   "nb.mois",
 #                                  "nb.années",
-                                  "vind",
+                                  "indicatrice.quotité.pp",
                                   "permanent"), with=FALSE], by=NULL),
               Paie, 
               by=c("Matricule","Année","Mois"))
@@ -391,7 +399,7 @@ Vérifier_non_annexe <- function(Montant, Année) if (Année == 2013)  (Montant 
                                      nb.jours     = nb.jours[1],
                                      nb.mois      = nb.mois[1],
                                      permanent    = permanent[1],
-                                     ind.quotité  = vind[1],
+                                     ind.quotité  = indicatrice.quotité.pp[1],
                                      Filtre_actif = Filtre_actif[1],
                                      quotité.moyenne = quotité.moyenne[1],
                                      Emploi       = Emploi[1],
@@ -407,14 +415,13 @@ Vérifier_non_annexe <- function(Montant, Année) if (Année == 2013)  (Montant 
                                      rémunération.vacataire = sum(Montant[Type == "VAC"], na.rm = TRUE)),  
                                 by = c(clé.fusion, étiquette.année)]
 
-Analyse.rémunérations <- Analyse.rémunérations[ ,	Filtre_non_annexe := Vérifier_non_annexe(Montant.net.annuel, Année)]
+Analyse.rémunérations <- Analyse.rémunérations[ ,	Filtre_non_annexe := Vérifier_non_annexe(Montant.net.annuel, Année)
+                                                                       & nb.mois > 1 
+                                                                       & cumHeures > 120 
+                                                                       & cumHeures / nb.jours > 1.5]
 								
 Analyse.rémunérations <- Analyse.rémunérations[ , `:=`(rémunération.indemnitaire.imposable = indemnités + sft + indemnité.résidence + rémunérations.diverses,
-                                                       Filtre_actif_non_annexe = (Filtre_actif == TRUE
-                                                                                  & Filtre_non_annexe == TRUE 
-                                                                                  & nb.mois > 1 
-                                                                                  & cumHeures > 120 
-                                                                                  & cumHeures / nb.jours > 1.5))]
+                                                       Filtre_actif_non_annexe = (Filtre_actif == TRUE & Filtre_non_annexe == TRUE))]
 
                                                  #Montant.brut.annuel - sft - indemnité.résidence - traitement.indiciaire
 
@@ -652,9 +659,26 @@ effectifs <- lapply(période,
                       J <- I[permanent == TRUE, ]
                       K <- unique(A[Statut != "TITULAIRE" & Statut != "STAGIAIRE" & Grade == "V", .(Matricule, permanent)], by = NULL)
                       L <- unique(A[Grade == "A", .(Matricule, permanent)], by = NULL)
+                      postes.non.actifs <- unique(Analyse.rémunérations[Statut != "ELU"
+                                                                        & Filtre_actif == FALSE
+                                                                        & Année == x,
+                                                                        Matricule])
+                      postes.annexes <- unique(Analyse.rémunérations[Statut != "ELU"
+                                                                     & Filtre_non_annexe == FALSE
+                                                                     & Année == x,
+                                                                       Matricule])
+                      postes.actifs.non.annexes <- unique(Analyse.rémunérations[Statut != "ELU"
+                                                                                & Filtre_actif_non_annexe == TRUE
+                                                                                & Année == x,
+                                                                                Matricule])
+                      postes.non.titulaires <- unique(Analyse.variations.par.exercice[Statut == "NON_TITULAIRE" & Année ==x, Matricule])
+                      
                       c(nrow(E), nrow(F), nrow(G),
-                        nrow(H), nrow(I), nrow(J),
-                        nrow(K), nrow(L),
+                        nrow(H),  length(postes.non.titulaires), nrow(I),
+                        nrow(J),nrow(K), nrow(L),
+                        length(postes.non.actifs),
+                        length(postes.annexes),
+                        length(postes.actifs.non.annexes),
                         ETP[Statut != "ELU" , sum(quotité/nb.mois, na.rm=TRUE)],
                         ETP[Statut != "ELU" , sum(quotité, na.rm=TRUE)] / 12,
                         ETP[Matricule %chin% unique(Analyse.variations.par.exercice[est.rmpp == TRUE
@@ -672,32 +696,19 @@ effectifs <- lapply(période,
                                                                              & Analyse.variations.par.exercice$Année == x,
                                                                              Matricule]),
                             sum(quotité, na.rm=TRUE)] / 12,
-                        ETP[Statut == "NON_TITULAIRE" & Matricule %chin% unique(Analyse.variations.par.exercice[Analyse.variations.par.exercice$Statut == "NON_TITULAIRE",
+                        ETP[Statut == "NON_TITULAIRE" & Matricule %chin% postes.non.titulaires,  sum(quotité, na.rm=TRUE)] / 12,
+                        ETP[Statut == "AUTRE_STATUT"  & Matricule %chin% unique(Analyse.rémunérations[Analyse.rémunérations$Statut == "AUTRE_STATUT",
                                                                                     Matricule]),
                             sum(quotité, na.rm=TRUE)] / 12,
-                        ETP[Statut == "AUTRE_STATUT" & Matricule %chin% unique(Analyse.rémunérations[Analyse.rémunérations$Statut == "AUTRE_STATUT",
-                                                                                    Matricule]),
-                            sum(quotité, na.rm=TRUE)] / 12,
-            						ETP[Matricule %chin% unique(Analyse.rémunérations[Analyse.rémunérations$Statut != "ELU"
-                                                                          & Analyse.rémunérations$Filtre_actif == FALSE
-                                                                          & Analyse.rémunérations$Année == x,
-                                                                            Matricule]),
-                            sum(quotité, na.rm=TRUE)] / 12,
-            						ETP[Matricule %chin% unique(Analyse.rémunérations[Analyse.rémunérations$Statut != "ELU"
-                                                                          & Analyse.rémunérations$Filtre_non_annexe == FALSE
-                                                                          & Analyse.rémunérations$Année == x,
-                                                                             Matricule]),
-                            sum(quotité, na.rm=TRUE)] / 12,
-                        ETP[Matricule %chin% unique(Analyse.rémunérations[Analyse.rémunérations$Statut != "ELU"
-                                                                          & Analyse.rémunérations$Filtre_actif_non_annexe == TRUE
-                                                                          & Analyse.rémunérations$Année == x,
-                                                                             Matricule]),
-                            sum(quotité, na.rm=TRUE)] / 12)							
+            						ETP[Matricule %chin% postes.non.actifs, sum(quotité, na.rm=TRUE)] / 12,
+            						ETP[Matricule %chin% postes.annexes, sum(quotité, na.rm=TRUE)] / 12,
+                        ETP[Matricule %chin% postes.actifs.non.annexes, sum(quotité, na.rm=TRUE)] / 12)							
                      })
 
 for (i in 1:length(effectifs)) names(effectifs[[i]]) <- c("Effectifs", "Effectifs_12", "Effectifs_12_fonct",
-                                                      "Effectifs_12_fonct", "Effectifs_élus", "Effectifs_12_élus",
-                                                      "Effectifs_vac", "Effectifs_am",
+                                                      "Effectifs_12_fonct", "Effectifs_nontit", "Effectifs_élus",
+                                                      "Effectifs_12_élus", "Effectifs_vac", "Effectifs_am",
+                                                       "Effectifs_non.actifs", "Effectifs_annexes", "Effectifs_actifs_non.annexes",
                                                       "ETP", "ETPT", "ETPT_pp", 
                                                       "ETPT_fonct", "Tit_12_100", "ETPT_nontit", 
                                                       "ETPT_autre",  "ETPT_non_actif", "ETPT_annexe",
@@ -706,9 +717,10 @@ for (i in 1:length(effectifs)) names(effectifs[[i]]) <- c("Effectifs", "Effectif
 effectifs.locale <- lapply(effectifs, function(x) formatC(x, big.mark = " ", format="f", digits=1, decimal.mark=","))
 
 tableau.effectifs <- as.data.frame(effectifs.locale,
-                                   row.names = c("Total effectifs (a)", "  dont présents 12 mois", "  dont fonctionnaires (b)",
-                                                 "  dont fonct. présents 12 mois", "  dont élus", "  dont élus présents 12 mois",
-                                                 "  dont vacataires détectés (c)", "  dont assistantes maternelles détectées (c)",
+                                   row.names = c("Total effectifs (a)", "&nbsp;&nbsp;&nbsp;dont présents 12 mois", "&nbsp;&nbsp;&nbsp;dont fonctionnaires (b)",
+                                                 "&nbsp;&nbsp;&nbsp;dont fonct. présents 12 mois", "&nbsp;&nbsp;&nbsp;dont non titulaires", "&nbsp;&nbsp;&nbsp;dont élus", "&nbsp;&nbsp;&nbsp;dont élus présents 12 mois",
+                                                 "&nbsp;&nbsp;&nbsp;dont vacataires détectés (c)", "&nbsp;&nbsp;&nbsp;dont assistantes maternelles détectées (c)",
+                                                 "Postes non actifs (g)", "Postes annexes (g)", "Postes actifs non annexes (g)",
                                                  "Total ETP/année (d)", "Total ETPT/année (e)", "Total ETPT/année personnes en place (f)(g)",
                                                  "Total ETPT/année fonctionnaires (g)", "Total ETPT/année titulaires à temps complet (g)", "Total ETPT non titulaires (g)",
                                                  "Total ETPT autre statut",  "Total ETPT postes non actifs (g)",   "Total ETPT postes annexes (g)",
@@ -729,7 +741,9 @@ kable(tableau.effectifs, row.names = TRUE, align='c')
 #'*(d) ETP  : Equivalent temps plein = rémunération . quotité*  
 #'*(e) ETPT : Equivalent temps plein travaillé = ETP . 12/nombre de mois travaillés dans l'année*  
 #'*(f) Personnes en place : présentes en N et N-1 avec la même quotité, postes actifs et non annexes uniquement.*     
-#'*(g) Postes actifs et non annexes :* voir [Compléments méthodologiques](Docs/méthodologie.pdf)          
+#'*(g) Postes actifs et non annexes :* voir [Compléments méthodologiques](Docs/méthodologie.pdf)    
+#'     Un poste actif est défini par au moins un bulletin de paie comportant un traitement positif pour un volume d'heures de travail mensuel non nul.             
+#'     Un poste non annexe est défini comme la conjonction de critères horaires et de revenu sur une année. La période minimale de référence est le mois.   
 #'*Les dix dernières lignes du tableau sont calculées en ne tenant pas compte des élus.*      
 #'   
 #'[Lien vers la base des effectifs](Bases/Effectifs/tableau.effectifs.csv)
@@ -2320,7 +2334,7 @@ Résumé("Dernière année",
 #'
 #'### 4.3.1 Ensemble des personnels   
 #'   
-#'*Cette section est consacrée à la rémunération moyenne des personnes en place (RMPP), définies comme présentes deux années consécutives avec la même quotité*   
+#'*Cette section est consacrée à la rémunération moyenne des personnes en place (RMPP), définies comme présentes deux années entières consécutives avec la même quotité*   
 #'*L'évolution de la RMPP permet d'étudier le glissement viellesse-technicité "positif", à effectifs constants sur deux années*      
 #'*Le GVT positif est dû aux mesures statutaires et individuelles, à l'avancement et aux changements d'activité*  
 
