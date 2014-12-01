@@ -140,9 +140,6 @@ private:
     int applyFunctionToSelectedFiles(int (Altair::*f)(int));
     StandardComplianceProbe  *probe;
 
- public:
-    QProgressBar* getBar();
-
  protected:
 
     QString      sourceDir;
@@ -201,7 +198,9 @@ public:
     void setToolTip(const QString & tip) { bar->setToolTip(tip); }
     void setTarget(const QString&  t) { target=t; }
     void setReference(qint64  r) { reference=r; }
-    QProgressBar* getBar() {return bar; }
+    void setInterval(int i) { timer->setInterval(i);}
+    void setRange(int x, int y) { bar->setRange(x, y); }
+    void setValue(int x) { bar->setValue(x); }
     qint64 updateProgressBar();
     bool stage_2;
 
