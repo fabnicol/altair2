@@ -144,25 +144,25 @@
    oui
   </outputTextEdit>
   <fileToolBar profondeur="0">
-   non
+   oui
   </fileToolBar>
   <editToolBar profondeur="0">
-   non
+   oui
   </editToolBar>
   <processToolBar profondeur="0">
-   non
+   oui
   </processToolBar>
   <optionsToolBar profondeur="0">
-   non
+   oui
   </optionsToolBar>
   <aboutToolBar profondeur="0">
-   non
+   oui
   </aboutToolBar>
   <saveProjectBehavior profondeur="0">
-   non
+   oui
   </saveProjectBehavior>
   <loadProjectBehavior profondeur="0">
-   non
+   oui
   </loadProjectBehavior>
   <base profondeur="0">
    C:/Dev/altair/Tests/Exemple/Donnees/R-Altair

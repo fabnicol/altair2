@@ -208,8 +208,6 @@ Altair::Altair()
 
 }
 
-QProgressBar* Altair::getBar()  { return progress->getBar(); }
-
 
 void Altair::refreshRowPresentation()
 {

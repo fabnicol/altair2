@@ -624,7 +624,7 @@ void MainWindow::configureOptions()
                                                                                "saveProjectBehavior",
                                                                                {"Interface", "Sauvegarder le projet .alt automatiquement"});
 
-    defaultLoadProjectBehavior=new FCheckBox("Charger le projet .alt au lancement",
+    defaultLoadProjectBehavior=new FCheckBox("Charger le projet par défaut au lancement",
                                                                             flags::status::enabledChecked|flags::commandLineType::noCommandLine,
                                                                             "loadProjectBehavior",
                                                                             {"Interface", "Charger le projet .alt au lancement"});
@@ -743,8 +743,8 @@ void MainWindow::feedConsoleWithHtml()
      /* it is necessary to integrate a 'delayed display'
       * cut-and-paste capability */
 
-    QRegExp reg("^(Fichier n..?[0-9]+|Population|Total|Table|Lib..?ration|Base|Premier|Erreur|Creation|Maximum|Coh.+\\s)([^\n]+)");
-    QRegExp reg2("Fichier n..?([0-9]+)") ;
+    QRegExp reg("^(Fichier n.*[0-9]+|Population|Total|Table|Lib..?ration|Base|Premier|Erreur|Creation|Maximum|Coh.+\\s)([^\n]+)");
+    QRegExp reg2("Fichier n.*([0-9]+)") ;
     QString result;
     int count = Hash::counter["XHL"];
     int wrap = Hash::wrapper["processType"]->toInt();

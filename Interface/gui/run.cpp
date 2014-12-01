@@ -97,10 +97,10 @@ void Altair::run()
     else
     {
         outputTextEdit->append(PROCESSING_HTML_TAG + tr("Echec du lancement de LHX, ligne de commande ")+ altairCommandStr);
-        progress->getBar()->setValue(0);
+        progress->setValue(0);
     }
 
-   progress->getBar()->setRange(0, Hash::counter["XHL"]-1);
+   progress->setRange(0, Hash::counter["XHL"]-1);
    progress->setInterval(1200);
    progress->start(300);
    
@@ -110,9 +110,9 @@ void Altair::run()
 void Altair::on_switch_to_progress_2()
 {
      progress->stage_2=true;
-     progress->getBar()->setRange(0,100);
+     progress->setRange(0,100);
      progress->stop();
-     progress->getBar()->setValue(0);
+     progress->setValue(0);
      progress->setTarget(Hash::wrapper["base"]->toQString());
      progress->setReference(Altair::totalSize[0]/2.5);
      progress->start(700);
