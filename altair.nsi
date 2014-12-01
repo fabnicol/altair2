@@ -115,7 +115,7 @@ Section
   File /r  "${prodname}\Interface_win64" 
   File /r  "${prodname}\Docs" 
   File /r  "${prodname}\Outils" 
-  File /r  "${prodname}\win${nbits}" 
+  File /r  "${prodname}\win.${nbits}" 
   File /r  "${prodname}\.Rproj.user" 
   File     "${prodname}\*.*" 
   SetOutPath $INSTDIR\${exemple}
