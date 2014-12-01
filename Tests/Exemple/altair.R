@@ -219,8 +219,7 @@ if (générer.codes)   {
 setkey(Paie, Matricule, Année, Mois)
 setkey(Bulletins.paie, Matricule, Année, Mois)
 
-Paie <- Paie[ , Filtre_actif := any(Montant[Type == "T"] 
-                                            & Heures > minimum.positif, na.rm = TRUE), by="Matricule,Année"]
+Paie <- Paie[ , Filtre_actif := any(Montant[Type == "T" & Heures > minimum.positif] > minimum.actif, na.rm = TRUE), by="Matricule,Année"]
 
 Paie <- Paie[ , `:=`(delta = sum(Montant*(  Type == "I"
                                         | Type == "T"
@@ -629,6 +628,7 @@ message("Analyse démographique réalisée.")
 if (!is.null(Paie) & !is.null(Analyse.rémunérations)
     & !is.null(Analyse.variations.synthèse) & !is.null(Analyse.variations.par.exercice))
   message("Statistiques de synthèse réalisées")
+  message("Démographie...")
 
 ########### Démographie ########################
 
@@ -638,11 +638,13 @@ if (!is.null(Paie) & !is.null(Analyse.rémunérations)
 
 liste.années <- as.character(période)
 
+# Rappel Analyse.variations.par.exercice comprend uniquement les actifs non annexes non assist. mat., non vacataires, non élus.
+
 effectifs <- lapply(période,
                     function(x) {
                       A <- Bulletins.paie[Année == x, .(Matricule, Statut, permanent, quotité, nb.mois, Grade)]
                       E <- unique(A[ , .(Matricule, permanent)], by = NULL)
-                      ETP <- unique(Bulletins.paie[Année == x, .(quotité, Matricule, Statut, Mois, nb.mois)], by = NULL)
+                      ETP <- unique(Bulletins.paie[Année == x, .(quotité, Matricule, Statut, permanent, Mois, nb.mois)], by = NULL)
                       F <- E[permanent == TRUE, ]
                       G <- unique(A[A$Statut == "TITULAIRE" | A$Statut == "STAGIAIRE", .(Matricule, permanent)], by = NULL)
                       H <- G[permanent == TRUE, ]
@@ -659,29 +661,36 @@ effectifs <- lapply(période,
                                                                                     & Année == x,
                                                                                     Matricule]),
                             sum(quotité, na.rm=TRUE)] / 12,
-                        ETP[Matricule %chin% unique(Analyse.variations.par.exercice[Statut == "TITULAIRE"
-                                                                                    | Statut == "STAGIAIRE",
+                        ETP[(Statut == "TITULAIRE" | Statut == "STAGIAIRE")
+                            & Matricule %chin% unique(Analyse.variations.par.exercice[Analyse.variations.par.exercice$Statut == "TITULAIRE"
+                                                                                      | Analyse.variations.par.exercice$Statut == "STAGIAIRE",
+                                                                                         Matricule]),
+                            sum(quotité, na.rm=TRUE)] / 12,
+                        ETP[Statut == "TITULAIRE" & permanent == TRUE & Matricule %chin% unique(Analyse.variations.par.exercice[Analyse.variations.par.exercice$permanent == TRUE
+                                                                             & Analyse.variations.par.exercice$Statut == "TITULAIRE"
+                                                                             & Analyse.variations.par.exercice$temps.complet == TRUE
+                                                                             & Analyse.variations.par.exercice$Année == x,
+                                                                             Matricule]),
+                            sum(quotité, na.rm=TRUE)] / 12,
+                        ETP[Statut == "NON_TITULAIRE" & Matricule %chin% unique(Analyse.variations.par.exercice[Analyse.variations.par.exercice$Statut == "NON_TITULAIRE",
                                                                                     Matricule]),
                             sum(quotité, na.rm=TRUE)] / 12,
-                        ETP[Matricule %chin% unique(Analyse.variations.par.exercice[permanent == TRUE
-                                                                             & Statut == "TITULAIRE"
-                                                                             & temps.complet == TRUE
-                                                                             & Année == x,
-                                                                             Matricule]),
+                        ETP[Statut == "AUTRE_STATUT" & Matricule %chin% unique(Analyse.rémunérations[Analyse.rémunérations$Statut == "AUTRE_STATUT",
+                                                                                    Matricule]),
                             sum(quotité, na.rm=TRUE)] / 12,
-            						ETP[Matricule %chin% unique(Analyse.rémunérations[Statut != "ELU"
-                                                                          & Filtre_actif == FALSE
-                                                                          & Année == x,
+            						ETP[Matricule %chin% unique(Analyse.rémunérations[Analyse.rémunérations$Statut != "ELU"
+                                                                          & Analyse.rémunérations$Filtre_actif == FALSE
+                                                                          & Analyse.rémunérations$Année == x,
                                                                             Matricule]),
                             sum(quotité, na.rm=TRUE)] / 12,
-            						ETP[Matricule %chin% unique(Analyse.rémunérations[Statut != "ELU"
-                                                                          & Filtre_non_annexe == FALSE
-                                                                          & Année == x,
+            						ETP[Matricule %chin% unique(Analyse.rémunérations[Analyse.rémunérations$Statut != "ELU"
+                                                                          & Analyse.rémunérations$Filtre_non_annexe == FALSE
+                                                                          & Analyse.rémunérations$Année == x,
                                                                              Matricule]),
                             sum(quotité, na.rm=TRUE)] / 12,
-                        ETP[Matricule %chin% unique(Analyse.rémunérations[Statut != "ELU"
-                                                                          & Filtre_actif_non_annexe == TRUE
-                                                                          & Année == x,
+                        ETP[Matricule %chin% unique(Analyse.rémunérations[Analyse.rémunérations$Statut != "ELU"
+                                                                          & Analyse.rémunérations$Filtre_actif_non_annexe == TRUE
+                                                                          & Analyse.rémunérations$Année == x,
                                                                              Matricule]),
                             sum(quotité, na.rm=TRUE)] / 12)							
                      })
@@ -690,18 +699,20 @@ for (i in 1:length(effectifs)) names(effectifs[[i]]) <- c("Effectifs", "Effectif
                                                       "Effectifs_12_fonct", "Effectifs_élus", "Effectifs_12_élus",
                                                       "Effectifs_vac", "Effectifs_am",
                                                       "ETP", "ETPT", "ETPT_pp", 
-                                                      "ETPT_fonct", "Tit_12_100", "ETPT_non_actif",
-													                            "ETPT_annexe", "ETPT_actif_nonannexe")
+                                                      "ETPT_fonct", "Tit_12_100", "ETPT_nontit", 
+                                                      "ETPT_autre",  "ETPT_non_actif", "ETPT_annexe",
+                                                      "ETPT_actif_nonannexe")
 
 effectifs.locale <- lapply(effectifs, function(x) formatC(x, big.mark = " ", format="f", digits=1, decimal.mark=","))
 
 tableau.effectifs <- as.data.frame(effectifs.locale,
-                                   row.names = c("Total effectifs", "  dont présents 12 mois", "  dont fonctionnaires",
+                                   row.names = c("Total effectifs (a)", "  dont présents 12 mois", "  dont fonctionnaires (b)",
                                                  "  dont fonct. présents 12 mois", "  dont élus", "  dont élus présents 12 mois",
-                                                 "  dont vacataires détectés (a)", "  dont assistantes maternelles détectées (a)",
-                                                 "Total ETP/année (b)", "Total ETPT/année (c)", "Total ETPT/année personnes en place (d)(e)",
-                                                 "Total ETPT/année fonctionnaires (e)", "Total ETPT/année titulaires à temps complet (e)", "Total ETPT postes non actifs (e)",
-												                         "Total ETPT postes annexes (e)", "Total ETPT postes actifs non annexes (e)"))
+                                                 "  dont vacataires détectés (c)", "  dont assistantes maternelles détectées (c)",
+                                                 "Total ETP/année (d)", "Total ETPT/année (e)", "Total ETPT/année personnes en place (f)(g)",
+                                                 "Total ETPT/année fonctionnaires (g)", "Total ETPT/année titulaires à temps complet (g)", "Total ETPT non titulaires (g)",
+                                                 "Total ETPT autre statut",  "Total ETPT postes non actifs (g)",   "Total ETPT postes annexes (g)",
+                                                 "Total ETPT postes actifs non annexes (g)"))
 
 names(tableau.effectifs) <- liste.années
 names(effectifs) <- liste.années
@@ -712,18 +723,21 @@ names(effectifs) <- liste.années
 kable(tableau.effectifs, row.names = TRUE, align='c')
 #'
 #'**Nota:**   
-#'*(a) Sur la base des libellés d'emploi et des libellés de lignes de paye. La détection peut être lacunaire*   
-#'*(b) ETP  : Equivalent temps plein = rémunération . quotité*  
-#'*(c) ETPT : Equivalent temps plein travaillé = ETP . 12/nombre de mois travaillés dans l'année*  
-#'*(d) Personnes en place : présentes en N et N-1 avec la même quotité, postes actifs et non annexes uniquement.*     
-#'*(e) Postes actifs et non annexes :* voir [Compléments méthodologiques](Docs/méthodologie.pdf)          
-#'*Les huit dernières lignes du tableau sont calculées en ne tenant pas compte des élus.*      
-#'   
-#'*Effectifs pourvus mesurés par l'émission d'un bulletin de paie dans l'année.*     
+#'*(a) Nombre de matricules distincts ayant eu au moins un bulletin de paie dans l'année, en fonction ou non.Peut correspondre à des régularisations, des personnels hors position d'activité ou des ayants droit (reversion, etc.)*   
+#'*(b) Titulaires ou stagiaires*   
+#'*(c) Sur la base des libellés d'emploi et des libellés de lignes de paye. La détection peut être lacunaire*   
+#'*(d) ETP  : Equivalent temps plein = rémunération . quotité*  
+#'*(e) ETPT : Equivalent temps plein travaillé = ETP . 12/nombre de mois travaillés dans l'année*  
+#'*(f) Personnes en place : présentes en N et N-1 avec la même quotité, postes actifs et non annexes uniquement.*     
+#'*(g) Postes actifs et non annexes :* voir [Compléments méthodologiques](Docs/méthodologie.pdf)          
+#'*Les dix dernières lignes du tableau sont calculées en ne tenant pas compte des élus.*      
 #'   
 #'[Lien vers la base des effectifs](Bases/Effectifs/tableau.effectifs.csv)
 #'
 #'
+#'
+message("Statistiques de démographie réalisées.")
+
 #'### 1.2 Pyramide des âges, personnels non élus
 
 #'  
