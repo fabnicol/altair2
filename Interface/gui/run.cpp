@@ -86,7 +86,7 @@ void Altair::run()
     outputType="LHX";
     
     process->setProcessChannelMode(QProcess::MergedChannels);
-    
+    process->setWorkingDirectory(execPath);
     process->start(altairCommandStr,  args);
     if (process->waitForStarted())
     {
@@ -101,7 +101,8 @@ void Altair::run()
     }
 
    progress->getBar()->setRange(0, Hash::counter["XHL"]-1);
-   progress->start(700);
+   progress->setInterval(1200);
+   progress->start(300);
    
 }
 
