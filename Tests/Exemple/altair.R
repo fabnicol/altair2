@@ -314,6 +314,7 @@ Bulletins.paie <- Bulletins.paie[ ,   `:=`(Montant.brut.annuel      = sum(Brut, 
                                          Montant.net.annuel.eqtp  = sum(Montant.net.eqtp * 365 / nb.jours, na.rm=TRUE),
                                          Montant.net.annuel       = sum(Net.à.Payer, na.rm=TRUE),
                                          permanent                = nb.jours >= 365,
+                                         cumHSup      = sum(Heures.Sup., na.rm = TRUE), 
                                          indicatrice.quotité.pp = indicatrice.quotité.pp[1]),
                                       key=c("Matricule", "Année")]
 
@@ -2797,43 +2798,48 @@ if (exists("nombre.contractuels.et.vacations")) {
 résultat.ifts.manquant <- FALSE
 résultat.iat.manquant  <- FALSE
 
-ifts.logical <- grepl(expression.rég.ifts, Paie$Libellé, ignore.case=TRUE)
-iat.logical  <- grepl(expression.rég.iat, Paie$Libellé, ignore.case=TRUE)
-codes.ifts  <- unique(Paie[ifts.logical, Code], by=NULL)
+codes.ifts  <- unique(Paie[ifts.logical, Code])
 if (length(codes.ifts) == 0) {
   cat("Il n'a pas été possible d'identifier les IFTS par expression régulière.")
   résultat.ifts.manquant <- TRUE
 }
 
-if (! any(iat.logical)) {
+if (! any(Paie$iat.logical)) {
   cat("Il n'a pas été possible d'identifier les IAT par expression régulière.")
   résultat.iat.manquant <- TRUE
 }
 
-personnels.iat.ifts <- intersect(Paie[iat.logical, Matricule],
-                                 Paie[ifts.logical, Matricule])
-if (length(personnels.iat.ifts))  names(personnels.iat.ifts) <- "Matricules des agents percevant IAT et/ou IFTS sur la période"
+Paie <- Paie[ , `:=`(ifts.logical = grepl(expression.rég.ifts, Paie$Libellé, ignore.case=TRUE),
+                     iat.logical  = grepl(expression.rég.iat, Paie$Libellé, ignore.case=TRUE))]
 
-nombre.personnels.iat.ifts <- length(personnels.iat.ifts)
-base.iat.ifts <- Paie[Matricule %chin% personnels.iat.ifts & (ifts.logical | iat.logical)]
-base.iat.ifts <- base.iat.ifts[order(Matricule, Année, Mois)]
+Paie <- Paie[ , cumul.iat.ifts := any(ifts.logical[Type != "R"]) & any(iat.logical[Type != "R"]), by="Matricule,Année,Mois"]
+
+# on exclut les rappels !
+
+personnels.iat.ifts <- Paie[cumul.iat.ifts & (ifts.logical == TRUE | iat.logical == TRUE), .(Matricule, Année, Mois, Code, Libellé, Montant, Type)]
+
+nombre.mois.cumuls <- nrow(unique(personnels.iat.ifts[ , .(Matricule, Année, Mois)], by = NULL))
+
+nombre.agents.cumulant.iat.ifts <- length(unique(personnels.iat.ifts$Matricule))
+
+personnels.iat.ifts <- personnels.iat.ifts[order(Année, Mois, Matricule)]
 
 #'
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'      
-if (nrow(base.iat.ifts)) {
+if (nombre.agents.cumulant.iat.ifts) {
   Tableau(c("Codes IFTS", "Nombre de personnels percevant IAT et IFTS"),
           sep.milliers = "",
           paste0(codes.ifts, collapse = " "),
-          nombre.personnels.iat.ifts)
+          nombre.agents.cumulant.iat.ifts)
 } else {
   cat("Tests sans résultat positif.")
 }
 
 #'   
 #'[Codes IFTS retenus](Bases/Réglementation/codes.ifts.csv)
-#'[Lien vers la base de données](Bases/Réglementation/base.iat.ifts.csv)
+#'[Lien vers la base de données](Bases/Réglementation/personnels.iat.ifts.csv)
 #'
 #'### Contrôle sur les IFTS pour catégories B et contractuels
 
@@ -2866,7 +2872,7 @@ if (! résultat.ifts.manquant) {
   
   ifts.et.contractuel <- Paie[ Statut != "TITULAIRE"
                              & Statut != "STAGIAIRE"
-                             & ifts.logical,
+                             & ifts.logical == TRUE,
                              c(étiquette.matricule,
                                étiquette.année,
                                "Mois",
@@ -2903,6 +2909,20 @@ if (! résultat.ifts.manquant) {
 # Sont repérées comme heures supplémentaires ou complémentaires les heures dont le libellé obéissent à
 # l'expression régulière expression.rég.heures.sup donnée par le fichier prologue.R
 
+# Vérification des seuils annuels :
+
+Dépassement.seuil.180h <- unique(Bulletins.paie[cumHSup > 180, .(Matricule, Année, cumHSup)])
+nb.agents.dépassement <- length(unique(Dépassement.seuil.180h$Matricule))
+
+if  (nb.agents.dépassement)  {
+  cat("Le seuil de 180 heures supplémentaires maximum est dépassé par ", nb.agents.dépassement, " agents.")
+  Dépassement.seuil.220h <- Dépassement.seuil.180h[cumHSup > 220, Matricule]
+  nb.agents.dépassement.220h <- length(unique(Dépassement.seuil.220h))  
+  
+  if  (nb.agents.dépassement.220h) cat(" Le seuil de 220 heures supplémentaires maximum est dépassé par ", nb.agents.dépassement.220h, " agents.") 
+}
+
+
 colonnes <- c(étiquette.matricule,
               étiquette.année,
               "Mois",
@@ -2916,11 +2936,11 @@ colonnes <- c(étiquette.matricule,
               "Montant",
               "Type")
 
-HS.sup.25 <- Paie[Heures.Sup. >= 25, colonnes, with=FALSE]
+HS.sup.25 <- Paie[Heures.Sup. > 25, colonnes, with=FALSE]
 
 HS.sup.indiciaire.mensuel <- HS.sup.25[Type == "T", .(Matricule, Année, Mois, Montant)]
 
-HS.sup.25 <-  HS.sup.25[Type %chin% c("I", "T", "R")
+HS.sup.25 <-  HS.sup.25[Type %chin% c("I", "T", "R", "S", "IR")
                           & ! grepl(".*SMIC.*",
                                     Libellé, ignore.case = TRUE)
                           & grepl(expression.rég.heures.sup,
@@ -2928,25 +2948,34 @@ HS.sup.25 <-  HS.sup.25[Type %chin% c("I", "T", "R")
 
 HS.sup.25 <- HS.sup.25[order(Matricule, Année, Mois), ]
 
+
+# Obsolète :
+
 # donne un tableau à 3 dimensions [Matricules, Années, Mois] dont les valeurs sont nommées par matricule
 # bizarrement le hashage de la variable année se fait par charactère alors que le mois reste entier dans certaines exécutions et pas dans d'autres !
 # Tout convertir en as.character() est plus prudent.
 
-temp <- with(HS.sup.indiciaire.mensuel,
-              tapply(Montant, list(Matricule, Année, Mois), FUN=sum))
+# temp <- with(HS.sup.indiciaire.mensuel,
+#               tapply(Montant, list(Matricule, Année, Mois), FUN=sum))
+# 
+# traitement.indiciaire.mensuel <- unlist(Map(function(x, y, z) temp[x, y, z],
+#                                              as.character(HS.sup.indiciaire.mensuel$Matricule),
+#                                              as.character(HS.sup.indiciaire.mensuel$Année),
+#                                              as.character(HS.sup.indiciaire.mensuel$Mois)), use.names=FALSE)
+# 
+# HS.sup.25 <- merge(as.data.frame(HS.sup.25), data.frame(Matricule=HS.sup.indiciaire.mensuel$Matricule,
+#                                              Année=HS.sup.indiciaire.mensuel$Année,
+#                                              Mois=HS.sup.indiciaire.mensuel$Mois,
+#                                              "Traitement indiciaire mensuel"=traitement.indiciaire.mensuel), 
+#                                              by=c("Matricule", "Année", "Mois"))
+# 
+# rm(temp, traitement.indiciaire.mensuel, HS.sup.indiciaire.mensuel )
 
-traitement.indiciaire.mensuel <- unlist(Map(function(x, y, z) temp[x, y, z],
-                                             as.character(HS.sup.indiciaire.mensuel$Matricule),
-                                             as.character(HS.sup.indiciaire.mensuel$Année),
-                                             as.character(HS.sup.indiciaire.mensuel$Mois)), use.names=FALSE)
+# La méthode data.table est beaucoup plus efficiente
 
-HS.sup.25 <- merge(as.data.frame(HS.sup.25), data.frame(Matricule=HS.sup.indiciaire.mensuel$Matricule,
-                                             Année=HS.sup.indiciaire.mensuel$Année,
-                                             Mois=HS.sup.indiciaire.mensuel$Mois,
-                                             "Traitement indiciaire mensuel"=traitement.indiciaire.mensuel), 
-                                             by=c("Matricule", "Année", "Mois"))
+traitement.indiciaire.mensuel <- HS.sup.indiciaire.mensuel[ , sum(Montant), by="Matricule,Année,Mois"]
 
-rm(temp, traitement.indiciaire.mensuel, HS.sup.indiciaire.mensuel )
+HS.sup.25 <- merge(HS.sup.25, traitement.indiciaire.mensuel)
 
 HS.sup.25 <- merge(HS.sup.25, Analyse.rémunérations[ , .(Matricule, Année, traitement.indiciaire)], by=c("Matricule", "Année"))
 
@@ -2976,7 +3005,27 @@ Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"), n
 #'HS en excès : au-delà de 25 heures par mois
 #'IHTS anormales : non attribuées à des fonctionnaires de catégorie B ou C.
 #'
-#'## 5.6 Contrôle sur les indemnités des élus
+#'## 5.6 Contrôle de la prime de fonctions et de résultats (PFR)
+
+
+
+#'
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
+#Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"), nombre.Lignes.paie.HS.sup.25, nombre.ihts.anormales)
+
+#'
+#'[Lien vers la base de données Heures suplémentaires en excès : matricules](Bases/Réglementation/HS.sup.25.csv)
+#'[Lien vers la base de données IHTS anormales](Bases/Réglementation/ihts.anormales.csv)
+#'
+#'**Nota :**
+#'HS en excès : au-delà de 25 heures par mois
+#'IHTS anormales : non attribuées à des fonctionnaires de catégorie B ou C.
+
+
+#'## 5.7 Contrôle sur les indemnités des élus
 #'   
 
 rémunérations.élu <- Analyse.rémunérations[ indemnités.élu > minimum.positif,
@@ -3100,7 +3149,7 @@ if (sauvegarder.bases.analyse) {
              "tableau.effectifs")
 
   sauv.bases(file.path(chemin.dossier.bases, "Réglementation"),
-             "base.iat.ifts",
+             "personnels.iat.ifts",
              "codes.ifts",
              "HS.sup.25",
              "ifts.et.contractuel",
