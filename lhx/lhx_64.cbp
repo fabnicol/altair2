@@ -36,7 +36,7 @@
 				<Option compiler="gcc" />
 				<Option parameters="-M -N 478 -n 330 -t -j 4 -D c:/Dev/altair/Tests/Exemple/Donnees/R-Altair c:/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2010/*.xhl  c:/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2011/*.xhl  c:/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2012/*.xhl  c:/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2013/*.xhl   " />
 				<Compiler>
-					<Add option="-march=nocona" />
+					<Add option="-march=corei7" />
 					<Add option="-O3" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />

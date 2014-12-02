@@ -2798,7 +2798,11 @@ if (exists("nombre.contractuels.et.vacations")) {
 résultat.ifts.manquant <- FALSE
 résultat.iat.manquant  <- FALSE
 
-codes.ifts  <- unique(Paie[ifts.logical, Code])
+Paie <- Paie[ , `:=`(ifts.logical = grepl(expression.rég.ifts, Paie$Libellé, ignore.case=TRUE),
+                     iat.logical  = grepl(expression.rég.iat, Paie$Libellé, ignore.case=TRUE))]
+
+codes.ifts  <- unique(Paie[ifts.logical == TRUE][ , Code])
+
 if (length(codes.ifts) == 0) {
   cat("Il n'a pas été possible d'identifier les IFTS par expression régulière.")
   résultat.ifts.manquant <- TRUE
@@ -2809,20 +2813,20 @@ if (! any(Paie$iat.logical)) {
   résultat.iat.manquant <- TRUE
 }
 
-Paie <- Paie[ , `:=`(ifts.logical = grepl(expression.rég.ifts, Paie$Libellé, ignore.case=TRUE),
-                     iat.logical  = grepl(expression.rég.iat, Paie$Libellé, ignore.case=TRUE))]
-
-Paie <- Paie[ , cumul.iat.ifts := any(ifts.logical[Type != "R"]) & any(iat.logical[Type != "R"]), by="Matricule,Année,Mois"]
-
-# on exclut les rappels !
-
-personnels.iat.ifts <- Paie[cumul.iat.ifts & (ifts.logical == TRUE | iat.logical == TRUE), .(Matricule, Année, Mois, Code, Libellé, Montant, Type)]
-
-nombre.mois.cumuls <- nrow(unique(personnels.iat.ifts[ , .(Matricule, Année, Mois)], by = NULL))
-
-nombre.agents.cumulant.iat.ifts <- length(unique(personnels.iat.ifts$Matricule))
-
-personnels.iat.ifts <- personnels.iat.ifts[order(Année, Mois, Matricule)]
+if (! résultat.ifts.manquant && ! résultat.iat.manquant) {
+  
+  Paie <- Paie[ , cumul.iat.ifts := any(ifts.logical[Type != "R"]) & any(iat.logical[Type != "R"]), by="Matricule,Année,Mois"]
+  
+  # on exclut les rappels !
+  
+  personnels.iat.ifts <- Paie[cumul.iat.ifts & (ifts.logical == TRUE | iat.logical == TRUE), .(Matricule, Année, Mois, Code, Libellé, Montant, Type)]
+  
+  nombre.mois.cumuls <- nrow(unique(personnels.iat.ifts[ , .(Matricule, Année, Mois)], by = NULL))
+  
+  nombre.agents.cumulant.iat.ifts <- length(unique(personnels.iat.ifts$Matricule))
+  
+  personnels.iat.ifts <- personnels.iat.ifts[order(Année, Mois, Matricule)]
+}
 
 #'
 #'  
@@ -3014,17 +3018,8 @@ Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"), n
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-#Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"), nombre.Lignes.paie.HS.sup.25, nombre.ihts.anormales)
 
-#'
-#'[Lien vers la base de données Heures suplémentaires en excès : matricules](Bases/Réglementation/HS.sup.25.csv)
-#'[Lien vers la base de données IHTS anormales](Bases/Réglementation/ihts.anormales.csv)
-#'
-#'**Nota :**
-#'HS en excès : au-delà de 25 heures par mois
-#'IHTS anormales : non attribuées à des fonctionnaires de catégorie B ou C.
-
-
+#' 
 #'## 5.7 Contrôle sur les indemnités des élus
 #'   
 
