@@ -2819,7 +2819,7 @@ if (! résultat.ifts.manquant && ! résultat.iat.manquant) {
   
   # on exclut les rappels !
   
-  personnels.iat.ifts <- Paie[cumul.iat.ifts & (ifts.logical == TRUE | iat.logical == TRUE), .(Matricule, Année, Mois, Code, Libellé, Montant, Type)]
+  personnels.iat.ifts <- Paie[cumul.iat.ifts & (ifts.logical == TRUE | iat.logical == TRUE), .(Matricule, Année, Mois, Code, Libellé, Montant, Type, Emploi, Grade, Service)]
   
   nombre.mois.cumuls <- nrow(unique(personnels.iat.ifts[ , .(Matricule, Année, Mois)], by = NULL))
   
@@ -2842,8 +2842,8 @@ if (nombre.agents.cumulant.iat.ifts) {
 }
 
 #'   
-#'[Codes IFTS retenus](Bases/Réglementation/codes.ifts.csv)
-#'[Lien vers la base de données](Bases/Réglementation/personnels.iat.ifts.csv)
+#'[Codes IFTS retenus](Bases/Réglementation/codes.ifts.csv)   
+#'[Lien vers la base de données cumuls iat/ifts](Bases/Réglementation/personnels.iat.ifts.csv)    
 #'
 #'### Contrôle sur les IFTS pour catégories B et contractuels
 
@@ -2858,7 +2858,8 @@ if (! résultat.ifts.manquant) {
                                             étiquette.code,
                                             étiquette.libellé,
                                             "Indice",
-                                            étiquette.montant), 
+                                            étiquette.montant,
+                                            "Service"), 
                                           with=FALSE])
 } else {
 
@@ -2915,17 +2916,16 @@ if (! résultat.ifts.manquant) {
 
 # Vérification des seuils annuels :
 
-Dépassement.seuil.180h <- unique(Bulletins.paie[cumHSup > 180, .(Matricule, Année, cumHSup)])
+Dépassement.seuil.180h <- unique(Bulletins.paie[cumHSup > 180, .(Matricule, Année, "Cumul heures sup" = cumHSup, Emploi, Grade, Service)])
 nb.agents.dépassement <- length(unique(Dépassement.seuil.180h$Matricule))
 
 if  (nb.agents.dépassement)  {
   cat("Le seuil de 180 heures supplémentaires maximum est dépassé par ", nb.agents.dépassement, " agents.")
-  Dépassement.seuil.220h <- Dépassement.seuil.180h[cumHSup > 220, Matricule]
-  nb.agents.dépassement.220h <- length(unique(Dépassement.seuil.220h))  
+  Dépassement.seuil.220h <- Dépassement.seuil.180h["Cumul heures sup" > 220]
+  nb.agents.dépassement.220h <- length(unique(Dépassement.seuil.220h$Matricule))  
   
   if  (nb.agents.dépassement.220h) cat(" Le seuil de 220 heures supplémentaires maximum est dépassé par ", nb.agents.dépassement.220h, " agents.") 
 }
-
 
 colonnes <- c(étiquette.matricule,
               étiquette.année,
@@ -2938,7 +2938,10 @@ colonnes <- c(étiquette.matricule,
               "Base",
               "Taux",
               "Montant",
-              "Type")
+              "Type",
+              "Service",
+              "Emploi",
+              "Grade")
 
 HS.sup.25 <- Paie[Heures.Sup. > 25, colonnes, with=FALSE]
 
@@ -2952,33 +2955,11 @@ HS.sup.25 <-  HS.sup.25[Type %chin% c("I", "T", "R", "S", "IR")
 
 HS.sup.25 <- HS.sup.25[order(Matricule, Année, Mois), ]
 
-
-# Obsolète :
-
-# donne un tableau à 3 dimensions [Matricules, Années, Mois] dont les valeurs sont nommées par matricule
-# bizarrement le hashage de la variable année se fait par charactère alors que le mois reste entier dans certaines exécutions et pas dans d'autres !
-# Tout convertir en as.character() est plus prudent.
-
-# temp <- with(HS.sup.indiciaire.mensuel,
-#               tapply(Montant, list(Matricule, Année, Mois), FUN=sum))
-# 
-# traitement.indiciaire.mensuel <- unlist(Map(function(x, y, z) temp[x, y, z],
-#                                              as.character(HS.sup.indiciaire.mensuel$Matricule),
-#                                              as.character(HS.sup.indiciaire.mensuel$Année),
-#                                              as.character(HS.sup.indiciaire.mensuel$Mois)), use.names=FALSE)
-# 
-# HS.sup.25 <- merge(as.data.frame(HS.sup.25), data.frame(Matricule=HS.sup.indiciaire.mensuel$Matricule,
-#                                              Année=HS.sup.indiciaire.mensuel$Année,
-#                                              Mois=HS.sup.indiciaire.mensuel$Mois,
-#                                              "Traitement indiciaire mensuel"=traitement.indiciaire.mensuel), 
-#                                              by=c("Matricule", "Année", "Mois"))
-# 
-# rm(temp, traitement.indiciaire.mensuel, HS.sup.indiciaire.mensuel )
-
 # La méthode data.table est beaucoup plus efficiente
 
-traitement.indiciaire.mensuel <- HS.sup.indiciaire.mensuel[ , sum(Montant), by="Matricule,Année,Mois"]
-
+traitement.indiciaire.mensuel <- HS.sup.indiciaire.mensuel[ ,  sum(Montant, na.rm = TRUE), by="Matricule,Année,Mois"]
+names(traitement.indiciaire.mensuel)[4] <- "Traitement indiciaire mensuel" 
+  
 HS.sup.25 <- merge(HS.sup.25, traitement.indiciaire.mensuel)
 
 HS.sup.25 <- merge(HS.sup.25, Analyse.rémunérations[ , .(Matricule, Année, traitement.indiciaire)], by=c("Matricule", "Année"))
@@ -3002,7 +2983,8 @@ if (fichier.personnels.existe)
 Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"), nombre.Lignes.paie.HS.sup.25, nombre.ihts.anormales)
 
 #'
-#'[Lien vers la base de données Heures suplémentaires en excès : matricules](Bases/Réglementation/HS.sup.25.csv)
+#'[Lien vers la base de données Heures suplémentaires en excès du seuil de 25h/mois: matricules](Bases/Réglementation/HS.sup.25.csv)
+#'[Lien vers la base de données cumuls en excès des seuils annuels](Bases/Réglementation/Dépassement.seuil.180h.csv)    
 #'[Lien vers la base de données IHTS anormales](Bases/Réglementation/ihts.anormales.csv)
 #'
 #'**Nota :**
@@ -3147,6 +3129,7 @@ if (sauvegarder.bases.analyse) {
              "personnels.iat.ifts",
              "codes.ifts",
              "HS.sup.25",
+             "Dépassement.seuil.180h",
              "ifts.et.contractuel",
              "ihts.anormales",
              "lignes.contractuels.et.vacations",
