@@ -87,6 +87,7 @@ void Altair::run()
     
     process->setProcessChannelMode(QProcess::MergedChannels);
     process->setWorkingDirectory(execPath);
+    outputTextEdit->append(PROCESSING_HTML_TAG + tr("Démarrage dans ") + execPath);
     process->start(altairCommandStr,  args);
     if (process->waitForStarted())
     {
