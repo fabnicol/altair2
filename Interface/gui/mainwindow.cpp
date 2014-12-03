@@ -117,8 +117,7 @@ MainWindow::MainWindow(char* projectName)
   clearBottomTabWidgetButton->setIcon(clearOutputText);
 
   connect(clearBottomTabWidgetButton, &QToolButton::clicked, [this] { on_clearOutputTextButton_clicked();});
-  connect(this, SIGNAL(switch_to_progress_2()), altair, SLOT(on_switch_to_progress_2()));
-  
+
   QGroupBox *stackedBottomWidget=new QGroupBox;
   QHBoxLayout *stackedBottomWidgetLayout=new QHBoxLayout;
   stackedBottomWidgetLayout->addWidget(clearBottomTabWidgetButton);
@@ -798,9 +797,6 @@ void MainWindow::feedConsoleWithHtml()
                 {
                     consoleDialog->insertHtml(buffer.replace("\n", "<br>"));
                 }
-
-                if ((altair->fileRank + 1) * ((count % wrap != 0) + wrap) >= Hash::counter["XHL"])
-                    emit(switch_to_progress_2());
 
             }
     }

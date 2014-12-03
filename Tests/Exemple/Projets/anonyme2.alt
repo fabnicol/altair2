@@ -124,7 +124,7 @@
      
   </decimal>
   <processType profondeur="0">
-   '2'
+   '6'
   </processType>
   <nAgent profondeur="0">
      
@@ -149,6 +149,6 @@
   </ecoRAM>
  </systeme>
  <recent>
-  <fichier>C:/Users/Public/Altair/Tests/Exemple/Projets/anonyme2.alt</fichier>
+  <fichier>C:/Dev/altair/Tests/Exemple/Projets/anonyme2.alt</fichier>
  </recent>
 </projet>

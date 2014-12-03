@@ -163,8 +163,6 @@ class MainWindow : public QMainWindow
    Highlighter *highlighter;
    void feedConsoleWithHtml();
 
-signals:
-   void switch_to_progress_2();
 
 };
 
