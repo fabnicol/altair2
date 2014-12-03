@@ -49,22 +49,22 @@ void Altair::run()
 
     if (!targetDirObject.exists())
     {
-        Q("Le répertoire " + path +" n'existe pas.")
-        processFinished(exitCode::shouldLaunchRAltairAlone);
-        return;
-    }
-    if (!targetDirObject.removeRecursively())
-    {
-        QMessageBox::information(0, QString("Supprimer le répertoire au lancement"),
-                                    QString("Le répertoire n'a pas été supprimé %1").arg(QDir::toNativeSeparators(path)));
+        Q("Le répertoire " + path +" n'existe pas. Veuillez le créer manuellement par sécurité.")
         processFinished(exitCode::shouldLaunchRAltairAlone);
         return;
     }
 
+    if (!targetDirObject.removeRecursively())
+    {
+        QMessageBox::information(0, QString("Supprimer le répertoire au lancement"),
+                                    QString("Il n'a pas été possible de nettoyer le répertoire %1 au lancement de LHX.\nNettoyer le répertoire et relancer.").arg(QDir::toNativeSeparators(path)));
+        processFinished(exitCode::shouldLaunchRAltairAlone);
+        return;
+    }
     else
     if (targetDirObject.mkpath(path) == false)
     {
-        QMessageBox::warning(0, QString("Répertoire"), QString("Le répertoire %1 n'a pas été créé").arg(path), QMessageBox::Ok);
+        QMessageBox::warning(0, QString("Répertoire"), QString("Le répertoire de sortie %1 n'a pas pu être créé. Relancer après avoir réglé le problème.").arg(path), QMessageBox::Ok);
         return;
     }
 
@@ -88,7 +88,13 @@ void Altair::run()
     process->setProcessChannelMode(QProcess::MergedChannels);
     process->setWorkingDirectory(execPath);
     outputTextEdit->append(PROCESSING_HTML_TAG + tr("Démarrage dans ") + execPath);
+    progress->setRange(0, Hash::counter["XHL"]-1);
+    progress->setInterval(1200);
+    progress->setValue(0);
+    progress->start(300);
+
     process->start(altairCommandStr,  args);
+
     if (process->waitForStarted())
     {
         outputTextEdit->append(PROCESSING_HTML_TAG + tr("Lancement de LHX...Veuillez patienter\n"));
@@ -98,13 +104,8 @@ void Altair::run()
     else
     {
         outputTextEdit->append(PROCESSING_HTML_TAG + tr("Echec du lancement de LHX, ligne de commande ")+ altairCommandStr);
-        progress->setValue(0);
     }
 
-   progress->setRange(0, Hash::counter["XHL"]-1);
-   progress->setInterval(1200);
-   progress->start(300);
-   
 }
 
 

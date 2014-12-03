@@ -7,10 +7,11 @@
 #'html_document:
 #'css: style.css
 #'---
-
-#'<p class = "centered"><img src = "Altair.bmp" /></p>
-#'<p class = "title">RH Exemple</p>
-#'
+#'   
+#'![Image_Altair](../../Altair.png)
+#'   
+#'   
+#'# Démonstrateur Altair version 14.12   
 
 #+ echo = FALSE, warning = TRUE, message = FALSE
 
@@ -168,6 +169,9 @@ importer.bases.via.xhl2csv <- function(base, table = nom.table, colClasses = col
 importer.bases.via.xhl2csv("Paie")
 importer.bases.via.xhl2csv("Bulletins.paie", nom.bulletins, colClasses =  colonnes.bulletins.classes.input, colNames = colonnes.bulletins.input)
 
+setkey(Paie, Matricule, Année, Mois)
+setkey(Bulletins.paie, Matricule, Année, Mois)
+
 if (! extraire.années) {
   début.période.sous.revue <- min(Paie[[1]])
   fin.période.sous.revue   <- max(Paie[[1]])
@@ -183,10 +187,18 @@ if (! extraire.années) {
 # Le format est jour/mois/année avec deux chiffres-séparateur-deux chiffres-séparateur-4 chiffres.
 # Le séparateur peut être changé en un autre en modifiant le "/" dans date.format
 
+avant.redressement <- 0
+après.redressement <- 0
+
 if (éliminer.duplications) {
   avant.redressement <- nrow(Paie)
-  Paie <- unique(Paie, by=NULL)
+  duplications.vecteur <- duplicated(Paie, by=NULL)
+  duplications.paie <- Paie[duplications.vecteur]
+  Paie <- Paie[! duplications.vecteur] 
+
+  sauv.bases(chemin.dossier.bases, "duplications.paie")
   après.redressement <- nrow(Paie)
+  rm(duplications.vecteur)
 }
 
 # dans le cas où l'on ne lance le programme que pour certaines années, il préciser début.période sous revue et fin.période .sous.revue
@@ -215,9 +227,6 @@ if (générer.codes)   {
 }
   
   # Paie <- en raison du fonctionnement de knitr sinon inutile
-
-setkey(Paie, Matricule, Année, Mois)
-setkey(Bulletins.paie, Matricule, Année, Mois)
 
 Paie <- Paie[ , Filtre_actif := any(Montant[Type == "T" & Heures > minimum.positif] > minimum.actif, na.rm = TRUE), by="Matricule,Année"]
 
@@ -440,10 +449,6 @@ Analyse.rémunérations <- Analyse.rémunérations[ , indemnités.élu := ifelse
 
 Analyse.rémunérations <- Analyse.rémunérations[! is.na(Montant.brut.annuel)]
 
-
-# if (longueur.non.na(Bulletins.paie[ , quotité > 1]) > minimum.positif & comportement.strict ) 
-#   stop("Détection de quotités > 1", call. = FALSE)
-
 message("Analyse des rémunérations réalisée.")
 
 Analyse.variations.par.exercice <- Analyse.rémunérations[Grade != "A"  
@@ -599,7 +604,6 @@ Bulletins.paie.nir.total.hors.élus.début <- unique(Bulletins.paie[Année == d�
                                                                   & Statut != "ELU",
                                                                   c(clé.fusion, "Nir"), with=FALSE], by = NULL)
 
-
 Bulletins.paie.nir.fonctionnaires.début  <- unique(Bulletins.paie[Année == début.période.sous.revue
                                                                   & Mois  == 12
                                                                   & (Statut == "TITULAIRE" |
@@ -743,12 +747,11 @@ kable(tableau.effectifs, row.names = TRUE, align='c')
 #'*(e) ETPT : Equivalent temps plein travaillé = ETP . 12/nombre de mois travaillés dans l'année*  
 #'*(f) Personnes en place : présentes en N et N-1 avec la même quotité, postes actifs et non annexes uniquement.*     
 #'*(g) Postes actifs et non annexes :* voir [Compléments méthodologiques](Docs/méthodologie.pdf)    
-#'     Un poste actif est défini par au moins un bulletin de paie comportant un traitement positif pour un volume d'heures de travail mensuel non nul.             
-#'     Un poste non annexe est défini comme la conjonction de critères horaires et de revenu sur une année. La période minimale de référence est le mois.   
+#'*&nbsp;&nbsp;&nbsp;Un poste actif est défini par au moins un bulletin de paie comportant un traitement positif pour un volume d'heures de travail mensuel non nul.*             
+#'*&nbsp;&nbsp;&nbsp;Un poste non annexe est défini comme la conjonction de critères horaires et de revenu sur une année. La période minimale de référence est le mois.*   
 #'*Les dix dernières lignes du tableau sont calculées en ne tenant pas compte des élus.*      
 #'   
 #'[Lien vers la base des effectifs](Bases/Effectifs/tableau.effectifs.csv)
-#'
 #'
 #'
 message("Statistiques de démographie réalisées.")
@@ -1141,9 +1144,6 @@ Tableau.vertical2(c("Agrégats",
                     masses.premier.élus["Montant.brut.annuel"] -
                     masses.premier.élus["total.lignes.paie"]))
 
-#'
-#'Les résultats sont exprimés en euros.
-#'
 #'   
 #'## 2.2 Masse salariale brute des fonctionnaires
 #'
@@ -1220,9 +1220,7 @@ Tableau.vertical2(c("Agrégats",
 #'
 #'A comparer aux soldes des comptes 6411, 6419 et 648 du compte de gestion.
 #'
-#'
 #'**Formation et distribution du salaire brut moyen par tête (SMPT) en EQTP pour l'année `r année`**     
-#'   
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
@@ -1560,8 +1558,7 @@ Tableau.vertical2(c("Agrégats",
                     masses.dernier.élus["Montant.brut.annuel"] -
                       masses.dernier.élus["total.lignes.paie"]))
 
-#'
-#'Les résultats sont exprimés en euros.
+
 #'
 #'   
 #'## 3.2 Masse salariale brute des fonctionnaires
@@ -2101,8 +2098,8 @@ Résumé("Dernière année",
 
 #'  
 #'*Nota :*  La population retenue est constituée des agents qui :   
-#'&nbsp;&nbsp;- ne font pas partie des `r quantile.cut` centiles extrêmaux   
-#'&nbsp;&nbsp;- sont au moins présents `r seuil.troncature` jours la première et la dernière année d'activité  
+#'&nbsp;&nbsp;- ne font pas partie des `r 2*quantile.cut` centiles extrêmaux   
+#'&nbsp;&nbsp;- sont au moins présents `r seuil.troncature` jour(s) la première et la dernière année d'activité  
 #'Les élus, vacataires et assistantes maternelles sont retirés du périmètre.   
 #'Seuls sont pris en compte les agents ayant connu au moins un mois actif et ayant eu, sur l'année, des rémunérations non annexes.  
 #'[Compléments méthodologiques](Docs/méthodologie.pdf)     
@@ -2331,12 +2328,12 @@ Résumé("Dernière année",
 #'
 #'
 
-#'## 4.3 Glissement viellesse-technicité (GVT)   
+#'## 4.3 Glissement vieillesse-technicité (GVT)   
 #'
 #'### 4.3.1 Ensemble des personnels   
 #'   
 #'*Cette section est consacrée à la rémunération moyenne des personnes en place (RMPP), définies comme présentes deux années entières consécutives avec la même quotité*   
-#'*L'évolution de la RMPP permet d'étudier le glissement viellesse-technicité "positif", à effectifs constants sur deux années*      
+#'*L'évolution de la RMPP permet d'étudier le glissement vieillesse-technicité "positif", à effectifs constants sur deux années*      
 #'*Le GVT positif est dû aux mesures statutaires et individuelles, à l'avancement et aux changements d'activité*  
 
 
@@ -2581,7 +2578,7 @@ Tableau.vertical2(c("Année", "2008-2009", "2009-2010", "2010-2011", "2011-1012"
 #'Hors assistants maternels et familiaux, y compris bénéficiaires de contrats aidés.   
 #'SMPT : Salaire moyen par tête en EQTP.   
 #'RMPP : Agents présents 24 mois consécutifs chez le même employeur avec la même quotité de travail.  
-#'Moyenne des variation géométriques annuelles pour les agents du champ.  
+#'Moyenne des variations géométriques annuelles pour les agents du champ.  
 #'La dernière colonne présente la médiane des augmentations du SMPT net pour les agents présents en 2007 et 2011.   
 #'  
 #'**Salaires nets annuels et évolution moyenne type de collectivité en &euro; courants  EQTP**    
@@ -2627,7 +2624,7 @@ if (N <- length(unique(Paie[Statut != "TITULAIRE"
 NBI.aux.non.titulaires <- Paie[Statut != "TITULAIRE"
                                & Statut != "STAGIAIRE"
                                & NBI != 0
-                               & grepl(expression.rég.nbi, Libellé, ignore.case=TRUE),
+                               & grepl(expression.rég.nbi, Libellé, ignore.case=TRUE, perl=TRUE),
                                c(étiquette.matricule,
                                  "Statut",
                                  étiquette.code,
@@ -2646,7 +2643,7 @@ nombre.Lignes.paie.NBI.nontit <- nrow(NBI.aux.non.titulaires)
 # variante : filtre <- regexpr(".*(INFO|PFI|P.F.I).*", toupper(Paie$Libellé)) et regmatches(Paie$Libellé, filtre)
 
 attach(Paie, warn.conflicts=FALSE)
-filtre <- grep(".*(INFO|PFI|P.F.I).*", Libellé)
+filtre <- grep(expression.rég.pfi, Libellé, ignore.case=TRUE, perl=TRUE)
 
 personnels.prime.informatique <- Paie[ filtre,
                                        c(étiquette.matricule,
@@ -2798,10 +2795,11 @@ if (exists("nombre.contractuels.et.vacations")) {
 résultat.ifts.manquant <- FALSE
 résultat.iat.manquant  <- FALSE
 
-Paie <- Paie[ , `:=`(ifts.logical = grepl(expression.rég.ifts, Paie$Libellé, ignore.case=TRUE),
-                     iat.logical  = grepl(expression.rég.iat, Paie$Libellé, ignore.case=TRUE))]
+Paie <- Paie[ , `:=`(ifts.logical = grepl(expression.rég.ifts, Paie$Libellé, ignore.case=TRUE, perl=TRUE),
+                     iat.logical  = grepl(expression.rég.iat, Paie$Libellé, ignore.case=TRUE, perl=TRUE))]
 
-codes.ifts  <- unique(Paie[ifts.logical == TRUE][ , Code])
+codes.ifts  <- list("codes IFTS" = unique(Paie[ifts.logical == TRUE][ , Code]))
+
 
 if (length(codes.ifts) == 0) {
   cat("Il n'a pas été possible d'identifier les IFTS par expression régulière.")
@@ -2815,7 +2813,7 @@ if (! any(Paie$iat.logical)) {
 
 if (! résultat.ifts.manquant && ! résultat.iat.manquant) {
   
-  Paie <- Paie[ , cumul.iat.ifts := any(ifts.logical[Type != "R"]) & any(iat.logical[Type != "R"]), by="Matricule,Année,Mois"]
+  Paie <- Paie[ , cumul.iat.ifts := any(ifts.logical[Type == "I"]) & any(iat.logical[Type == "I"]), by="Matricule,Année,Mois"]
   
   # on exclut les rappels !
   
@@ -2835,7 +2833,7 @@ if (! résultat.ifts.manquant && ! résultat.iat.manquant) {
 if (nombre.agents.cumulant.iat.ifts) {
   Tableau(c("Codes IFTS", "Nombre de personnels percevant IAT et IFTS"),
           sep.milliers = "",
-          paste0(codes.ifts, collapse = " "),
+          paste(unlist(codes.ifts), collapse=" "),
           nombre.agents.cumulant.iat.ifts)
 } else {
   cat("Tests sans résultat positif.")
@@ -2901,15 +2899,68 @@ if (! résultat.ifts.manquant) {
 }
 
 #'
-#'[Lien vers la base de données Lignes IFTS pour contractuels](Bases/Réglementation/ifts.et.contractuel.csv)
-#'[Lien vers la base de données Lignes IFTS pour IB < 380](Bases/Réglementation/lignes.ifts.anormales.csv)
+#'[Lien vers la base de données Lignes IFTS pour contractuels](Bases/Réglementation/ifts.et.contractuel.csv)    
+#'[Lien vers la base de données Lignes IFTS pour IB < 380](Bases/Réglementation/lignes.ifts.anormales.csv)     
 #'
 #'**Nota :**
 #'IB < 380 : fonctionnaire percevant un indice brut inférieur à 380
 #'
-#'######
+
 #'
-#'## 5.5 Contrôle sur les heures supplémentaires
+#'## 5.5 Contrôle de la prime de fonctions et de résultats (PFR) et de la prime de responsabilité (PR)     
+#'   
+résultat.pfr.manquant <- FALSE
+nombre.agents.cumulant.pfr.ifts <- 0
+
+# L'expression régulière capte la PFR et la PR 
+# Le cumul de la PR et de l'IFTS est régulier, de même que celui de la PR et de la PFR
+# le cumul de la PFR et de l'IFTS est irrrégulier
+
+Paie <- Paie[ , pfr.logical := grepl(expression.rég.pfr, Paie$Libellé, ignore.case=TRUE, perl=TRUE)]
+
+codes.pfr  <- list( "codes PFR" = unique(Paie[pfr.logical == TRUE][ , Code]))
+
+
+if (length(codes.pfr) == 0) {
+  cat("Il n'a pas été possible d'identifier la PFR par expression régulière.")
+  résultat.pfr.manquant <- TRUE
+}
+
+
+if (! résultat.ifts.manquant && ! résultat.pfr.manquant) {
+  
+  Paie <- Paie[ , cumul.pfr.ifts := any(pfr.logical[Type == "I"]) & any(ifts.logical[Type == "I"]), by="Matricule,Année,Mois"]
+  
+  # on exclut les rappels !
+  
+  personnels.pfr.ifts <- Paie[cumul.pfr.ifts == TRUE & Type == "I"  & (pfr.logical == TRUE | ifts.logical == TRUE), .(Matricule, Année, Mois, Code, Libellé, Montant, Type, Emploi, Grade, Service)]
+  
+  nombre.mois.cumuls <- nrow(unique(personnels.pfr.ifts[ , .(Matricule, Année, Mois)], by = NULL))
+  
+  nombre.agents.cumulant.pfr.ifts <- length(unique(personnels.pfr.ifts$Matricule))
+  
+  personnels.pfr.ifts <- personnels.pfr.ifts[order(Année, Mois, Matricule)]
+}
+
+#'
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'      
+if (nombre.agents.cumulant.pfr.ifts) {
+  Tableau(c("Codes IFTS", "Nombre de personnels percevant PFR/PR et IFTS"),
+          sep.milliers = "",
+          paste(unlist(codes.pfr), collapse = " "),
+          nombre.agents.cumulant.pfr.ifts)
+} else {
+  cat("Tests sans résultat positif.")
+}
+
+#'   
+#'[Codes PFR retenus](Bases/Réglementation/codes.pfr.csv)   
+#'[Lien vers la base de données cumuls pfr/ifts](Bases/Réglementation/personnels.pfr.ifts.csv)    
+#'
+#'
+#'## 5.6 Contrôle sur les heures supplémentaires
 
 # Sont repérées comme heures supplémentaires ou complémentaires les heures dont le libellé obéissent à
 # l'expression régulière expression.rég.heures.sup donnée par le fichier prologue.R
@@ -2951,7 +3002,7 @@ HS.sup.25 <-  HS.sup.25[Type %chin% c("I", "T", "R", "S", "IR")
                           & ! grepl(".*SMIC.*",
                                     Libellé, ignore.case = TRUE)
                           & grepl(expression.rég.heures.sup,
-                                  Libellé, ignore.case = TRUE), ]
+                                  Libellé, ignore.case = TRUE, perl=TRUE), ]
 
 HS.sup.25 <- HS.sup.25[order(Matricule, Année, Mois), ]
 
@@ -2983,22 +3034,13 @@ if (fichier.personnels.existe)
 Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"), nombre.Lignes.paie.HS.sup.25, nombre.ihts.anormales)
 
 #'
-#'[Lien vers la base de données Heures suplémentaires en excès du seuil de 25h/mois: matricules](Bases/Réglementation/HS.sup.25.csv)
+#'[Lien vers la base de données Heures suplémentaires en excès du seuil de 25h/mois: matricules](Bases/Réglementation/HS.sup.25.csv)     
 #'[Lien vers la base de données cumuls en excès des seuils annuels](Bases/Réglementation/Dépassement.seuil.180h.csv)    
-#'[Lien vers la base de données IHTS anormales](Bases/Réglementation/ihts.anormales.csv)
+#'[Lien vers la base de données IHTS anormales](Bases/Réglementation/ihts.anormales.csv)      
 #'
 #'**Nota :**
 #'HS en excès : au-delà de 25 heures par mois
 #'IHTS anormales : non attribuées à des fonctionnaires de catégorie B ou C.
-#'
-#'## 5.6 Contrôle de la prime de fonctions et de résultats (PFR)
-
-
-
-#'
-#'  
-#'&nbsp;*Tableau `r incrément()`*   
-#'    
 
 
 #' 
@@ -3008,7 +3050,7 @@ Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"), n
 rémunérations.élu <- Analyse.rémunérations[ indemnités.élu > minimum.positif,
                                             c(clé.fusion,
                                               "Année",
-                                              "Emploi",
+                         #                     "Emploi",
                                               "indemnités.élu",
                                               "autres.rémunérations",
                                               "rémunération.indemnitaire.imposable"),
@@ -3016,8 +3058,7 @@ rémunérations.élu <- Analyse.rémunérations[ indemnités.élu > minimum.posi
 
 rémunérations.élu <- rémunérations.élu[ , rémunération.indemnitaire.imposable := indemnités.élu +  rémunération.indemnitaire.imposable]
 
-if (!fusionner.nom.prénom)
-  rémunérations.élu <- merge(unique(matricules[ , .(Nom,  Matricule)], by=NULL),
+rémunérations.élu <- merge(unique(matricules[ , .(Nom,  Matricule)], by=NULL),
                              rémunérations.élu,
                              by = étiquette.matricule,
                              all.y = TRUE,
@@ -3025,7 +3066,7 @@ if (!fusionner.nom.prénom)
 
 names(rémunérations.élu) <- c(union(clé.fusion, "Nom"),
                               "Année",
-                              "Emploi",
+                        #      "Emploi",
                               "Indemnités ",
                               "Autres ",
                               "Total ")
@@ -3067,7 +3108,7 @@ if (après.redressement != avant.redressement) {
 cat("Retraitement de la base : ")
 
 } else {
-cat("Aucune duplication de ligne détecté. ")
+cat("Aucune duplication de ligne détectée. ")
 }
 
 #'  
@@ -3128,6 +3169,8 @@ if (sauvegarder.bases.analyse) {
   sauv.bases(file.path(chemin.dossier.bases, "Réglementation"),
              "personnels.iat.ifts",
              "codes.ifts",
+             "personnels.pfr.ifts",
+             "codes.pfr",
              "HS.sup.25",
              "Dépassement.seuil.180h",
              "ifts.et.contractuel",

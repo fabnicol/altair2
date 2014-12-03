@@ -224,7 +224,7 @@ Résumé <- function(x,y, align = 'r', extra = 0, ...)  {
 
      dimnames(S)[[2]] <- c("Statistique", x)
 
-     kable(S, row.names = FALSE, align = align)
+     kable(S, row.names = FALSE, align = align, booktabs= TRUE)
 }
 
 Tableau <- function(x, ...)
@@ -240,7 +240,7 @@ Tableau <- function(x, ...)
   T <- t(prettyNum(V, big.mark = sep.milliers))
   T <- as.data.frame(T)
   names(T) <- x
-  kable(T, row.names = FALSE, align = "c")
+  kable(T, row.names = FALSE, align = "c", booktabs= TRUE)
 }
 
 Tableau.vertical <- function(colnames, rownames, extra = "", ...)
@@ -280,7 +280,7 @@ Tableau.vertical <- function(colnames, rownames, extra = "", ...)
       names(T) <- colnames
     }
     
-    kable(T, row.names = FALSE, align = "c")
+    kable(T, row.names = FALSE, align = "c", booktabs= TRUE)
 }
 
 Tableau.vertical2 <- function(colnames, rownames, ...)
@@ -297,7 +297,7 @@ Tableau.vertical2 <- function(colnames, rownames, ...)
                                                           preserve.width="common")))
   names(T) <- colnames
 
-  kable(T, row.names = FALSE, align = NULL)
+  kable(T, row.names = FALSE, align = NULL, booktabs= TRUE)
 }
 
 
