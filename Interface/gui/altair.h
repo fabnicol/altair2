@@ -43,8 +43,6 @@ public:
             projectName=QDir::currentPath() + "/défaut.alt";
       }
 
-    //    void addDraggedFiles(QList<QUrl> urls);
-
     void startDrag();
     void addDraggedFiles(const QList<QUrl>& urls);
  /* void mousePressEvent(QMouseEvent *event);
@@ -59,6 +57,8 @@ public:
     QString outputType;
 
     int fileRank=0;
+
+    qint64 size() { return Altair::totalSize[0]; }
 
 public slots:
 
@@ -87,7 +87,6 @@ private slots:
     void assignGroupFiles( const int group_index);
     void openProjectFile();
     void closeProject();
-    void on_switch_to_progress_2();
 
 private:
 
@@ -134,7 +133,7 @@ private:
     bool refreshProjectManager();
     void msg (const QString & text);
     void printMsg(qint64 new_value, const QString &str);
-    void printBaseSize(qint64 new_value);
+    void printBaseSize(qint64 new_value = 0);
 
     inline int removeFileTreeElement(int);
     int applyFunctionToSelectedFiles(int (Altair::*f)(int));
@@ -162,14 +161,8 @@ class FProgressBar : public QWidget
 
 public:
     FProgressBar(Altair* parent,
-                                     MeasureFunction measureFunction,
-                                     DisplayFunction displayMessageWhileProcessing,
-                                     SlotFunction  killFunction=nullptr,
-                                     const QString & fileExtensionFilter="*.csv",
-                                     const QString&  measurableTarget="",
-                                     const qint64 referenceSize=1);
+                 SlotFunction  killFunction=nullptr);
    
-
     QHBoxLayout* layout=new QHBoxLayout;
 
     void show()
@@ -186,7 +179,6 @@ public:
         killButton->setEnabled(true);
     }
 
-
     void hide()
     {
         stop();
@@ -196,28 +188,27 @@ public:
     }
 
     void setToolTip(const QString & tip) { bar->setToolTip(tip); }
-    void setTarget(const QString&  t) { target=t; }
-    void setReference(qint64  r) { reference=r; }
     void setInterval(int i) { timer->setInterval(i);}
     void setRange(int x, int y) { bar->setRange(x, y); }
     void setValue(int x) { bar->setValue(x); }
-    qint64 updateProgressBar();
-    bool stage_2;
+    void reset() {bar->reset();}
+    int  value() { return bar -> value();}
+    int maximum() { return bar->maximum();}
+    void rewind()
+    {
+        show();
+        setInterval(1200);
+     }
 
  private:
     QToolButton* killButton=new QToolButton;
-    QString   target;
-    QString   filter;
-    qint64 reference;
     QTimer *timer= new QTimer(this);
     QProgressBar *bar=new QProgressBar ;
     int startshift = 8;
-    qint64 new_value=0;
+
     Altair* parent;
-    MeasureFunction engine ;
 
   public slots:
-
     void stop();
 
 };

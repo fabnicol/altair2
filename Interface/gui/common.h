@@ -11,7 +11,7 @@
 #include "config.h"
 #endif
 #ifndef VERSION
-#define VERSION " 14.10"
+#define VERSION " 14.12"
 #endif
 
 

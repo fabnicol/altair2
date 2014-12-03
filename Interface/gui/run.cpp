@@ -25,7 +25,8 @@ void Altair::run()
 {
     updateProject(true);   // crucial otherwise some dynamic settings in the option dialog 
     //may not get through to command line
-    
+
+
     if (Altair::totalSize[0] == 0)
     {
         processFinished(exitCode::shouldLaunchRAltairAlone);
@@ -89,10 +90,8 @@ void Altair::run()
     process->setWorkingDirectory(execPath);
     outputTextEdit->append(PROCESSING_HTML_TAG + tr("Démarrage dans ") + execPath);
     progress->setRange(0, Hash::counter["XHL"]-1);
-    progress->setInterval(1200);
-    progress->setValue(0);
-    progress->start(300);
-
+    fileRank=0;
+    progress->rewind();
     process->start(altairCommandStr,  args);
 
     if (process->waitForStarted())
@@ -108,17 +107,6 @@ void Altair::run()
 
 }
 
-
-void Altair::on_switch_to_progress_2()
-{
-     progress->stage_2=true;
-     progress->setRange(0,100);
-     progress->stop();
-     progress->setValue(0);
-     progress->setTarget(Hash::wrapper["base"]->toQString());
-     progress->setReference(Altair::totalSize[0]/2.5);
-     progress->start(700);
-}
 
 void Altair::runRAltair()
 {
