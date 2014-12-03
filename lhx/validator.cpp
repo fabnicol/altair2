@@ -139,6 +139,8 @@ static inline int lignePaye(xmlNodePtr cur, info_t* info)
     l++;
 
     /* Besoins en mémoire : 18 [champs hors ligne] + nombre de lignes + flags (maximum nbType) */
+    bool rembobiner = false;
+
     while (cur != NULL)
     {
         bool new_type = false;
@@ -148,6 +150,20 @@ static inline int lignePaye(xmlNodePtr cur, info_t* info)
             t++;
             if (t == nbType)
             {
+                /* En principe les éléments constitutifs des enregistrements <Remunération>....</Remuneration> sont enregistrés
+                   dans l'ordre du tableau type_remuneration. Toutefois quelques cas de désordre sont observés. Dans ces cas là on peut
+                   "rembobiner le tableau". On évite toutefois de faire une recherche ensembliste systématique, qui éviterait cela mais
+                   freinerait 99,9 % des recherches */
+
+                if (rembobiner == false)
+                {
+                    rembobiner = true;
+                    t = 0;
+                    continue;
+                }
+
+                /* On ne rembobine qu'une seule fois. Si l'essai échoue, on déclenche une exception */
+
                 fprintf(stderr, "Erreur : En excès du nombre de types de lignes de paye autorisé (%d)\n", nbType);
                 if (cur) fprintf(stderr, "Erreur : Type litigieux %s aux alentours du matricule %s \n",
                                      cur->name,
@@ -158,6 +174,8 @@ static inline int lignePaye(xmlNodePtr cur, info_t* info)
 
             new_type = true;
         }
+
+        rembobiner = false;
 
         if (new_type && t < nbType)
         {
@@ -262,11 +280,9 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
 
 #ifdef TOLERANT
     cur = cur_save;
-    cur = atteindreNoeud("Statut", cur);
-#else
-    cur = cur->next;
-    cur = cur->next;
 #endif
+    cur = atteindreNoeud("Statut", cur);
+
     _BULLETIN(Statut)
     /* dans certains schémas on peut avoir ici des balises */
     cur = atteindreNoeud("EmploiMetier", cur);
@@ -486,7 +502,7 @@ static void parseFile(info_t* info)
     xmlFree(mois_fichier);
     xmlFree(annee_fichier);
     fprintf(stderr, "Fichier n°%d:\nPopulation du fichier  %s :\n %4d bulletins    Total : %4d bulletins  %4" PRIu64 " lignes cumulées.\n",
-            info->fichier_courant,
+            info->fichier_courant + 1,
             info->threads->argv[info->fichier_courant],
             info->NAgent[info->fichier_courant],
             info->NCumAgentXml,
