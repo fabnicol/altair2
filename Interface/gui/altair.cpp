@@ -763,7 +763,9 @@ qint64 FProgressBar::updateProgressBar()
     if (parent->process->state() != QProcess::Running) return 0;
 
     qint64   new_value=(parent->*engine)(target, filter);
-    int share=qCeil(bar->maximum()*(static_cast<float>(new_value)/static_cast<float>(reference)));
+    int share;
+    share = std::max(bar->value(), qCeil(bar->maximum()*(static_cast<float>(new_value)/static_cast<float>(reference))));
+
     if (share >= bar->maximum())
     {
         share=bar->maximum();
@@ -814,7 +816,7 @@ FProgressBar::FProgressBar(Altair* parent,
         if (!stage_2 && parent->process->state() == QProcess::Running)
         {
             int value = this->parent->fileRank * Hash::wrapper["processType"]->toInt();
-            bar->setValue((value >= startshift)? value: startshift);
+            bar->setValue((value >= startshift)? value: std::max(qCeil(bar->value() + 0.1), startshift));
         }
     });
     

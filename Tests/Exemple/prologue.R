@@ -24,26 +24,20 @@ extraire.années      <- F
 setOSWindows            <- Sys.info()["sysname"] != "Linux"
 exec.root               <- ifelse(setOSWindows, ".exe", "")
 
-éliminer.duplications   <- T
-enlever.quotités.nulles <- T
-enlever.quotités.na     <- T
+éliminer.duplications   <- F
+enlever.quotités.nulles <- F
+enlever.quotités.na     <- F
 écreter.quotités        <- T
 générer.codes           <- FALSE
-paralléliser            <- TRUE
 extraire.population     <- FALSE
-fusionner.nom.prénom    <- FALSE
 charger.bases           <- T
 sauvegarder.bases.analyse    <- T
 sauvegarder.bases.origine    <- F
 générer.table.effectifs      <- F
-générer.table.élus           <- F
+générer.table.élus           <- T
 tester.matricules            <- TRUE
-tester.lignes.bulletins.mois <- TRUE
-corriger.quotité         <- FALSE
-comportement.strict      <- TRUE
-etp.égale.effectif       <- FALSE
 
-seuil.troncature         <- 0 # jours
+seuil.troncature         <- 2 # jours
 taux.tolérance.homonymie <- 2  # en %
 quantile.cut             <- 1  # en %
 minimum.positif          <- 0.5
@@ -102,10 +96,7 @@ if (setOSWindows) {
 champ.détection.1           <- étiquette.matricule
 champ.détection.2           <- "Code"
 
-
-ifelse(fusionner.nom.prénom,
-       clé.fusion <<- c("Nom", "Prénom"),
-       clé.fusion <<- étiquette.matricule)
+clé.fusion <- étiquette.matricule
 
 colonnes.requises           <- c(union(clé.fusion, étiquette.matricule),
                                  étiquette.année,
@@ -183,10 +174,12 @@ modalité.autres                <- "AUTRES"         # notamment les remboursemen
 # expressions régulières
 
 
-expression.rég.heures.sup <- ".*(I.?H.?T|H.?[SC]|\\bI[[:alpha:]]*.?.*\\bH[[:alpha:]]*.?\\b.*T[[:alpha:]]*.?.*|\\bH[[:alpha:]]*.?\\b.*[SC][[:alpha:]]*.?\\b).*"
-expression.rég.iat        <- ".*(\\bi.?a.?t\\b|\\bi[[:alpha:]]*.?\\b.*a[d][[:alpha:]]*.?\\b.*tec[[:alpha:]]*.?\\b).*"
-expression.rég.ifts       <- ".*(\\bi.?f.?t.?s\\b|\\bi[[:alpha:]]*.?\\b\\s*f[[:alpha:]]*.?\\b\\s*trav[[:alpha:]]*.?\\b\\s*s[[:alpha:]]*.?\\b).*"
+expression.rég.heures.sup <- ".*((\\sI|^I).?H.?T|(\\sI|^I)H.?[SC]|(\\sI|^I)\\w*.?.*\\s+H\\w*.?.*\\s+T|(\\sH|^H)\\w*.?.*\\s+[SC]).*"
+expression.rég.iat        <- ".*((\\si|^i).?a.?t|(\\si|^i)\\w*.?.*\\s+ad\\w*.?.*\\s+te).*"
+expression.rég.ifts       <- ".*((\\si|^i).?f.?t.?s|(\\si|^i)\\w*.?.*\\s+f\\w*.?.*\\s+tr\\w*.?.*\\s+s).*"
+expression.rég.pfr        <- ".*((\\sp|^p).?f.?r|(\\sp|^p)\\w*.?.*\\s+f\\w*.?.*\\s+r[eé]?|(\\sp|^p)\\w*.?.*\\s+r\\w*s).*"
+expression.rég.pfi        <- ".*((\\sp|^p).?f.?i|(\\sp|^p)\\w*.?.*\\s+f\\w*.?.*\\s+i).*"
 expression.rég.population <- ".*\\bASS(\\b|A).*"
-expression.rég.élus       <- "maire|pr[eé]sident|.*([eé]lu[s]?|adj.*maire|v[[:alpha:]]*\\b\\s*pr[eé]sident|cons[[:alpha:]]*\\b\\s*muni|cons[[:alpha:]]*\\b\\s*commun).*"
-expression.rég.nbi        <- ".*\\bN[[:alpha:]]*.?\\s*B[[:alpha:]]*.?\\s*I.*"
+expression.rég.élus       <- "maire|pr[eé]sident|.*([eé]lu[s]?|adj.*maire|v\\w*.*\\s+pr[eé]sident|cons\\w*.*\\s+muni|cons\\w*.*\\s+commun).*"
+expression.rég.nbi        <- ".*(\\sN|^N)\\w*.?B\\w*.?\\s*I.*"
 
