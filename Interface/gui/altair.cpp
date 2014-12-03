@@ -99,9 +99,7 @@ Altair::Altair()
     setAcceptDrops(true);
 
     refreshModel();
-
     refreshTreeView();
-
 
     xhlFilterButton->setToolTip("Rafraîchir l'arborescence");
     const QIcon iconAudioFilter = QIcon(QString::fromUtf8( ":/images/application-xml.png"));
@@ -132,10 +130,7 @@ Altair::Altair()
     removeFileTreeElementsButton->setIcon(iconremoveFileTreeElements);
     removeFileTreeElementsButton->setIconSize(QSize(22, 22));
 
-    progress=new FProgressBar(this,
-                              &Altair::getDirectorySize,
-                              &Altair::printBaseSize,
-                              &Altair::killProcess);
+    progress=new FProgressBar(this, &Altair::killProcess);
 
     progress->setToolTip(tr("Décodage"));
 
@@ -183,10 +178,7 @@ Altair::Altair()
     projectLayout->addLayout(updownLayout, 0,3);
 
     mainLayout->addLayout(projectLayout);
-
     progressLayout->addLayout(progress->layout);
-    //progressLayout->addLayout(progress2->layout);
-
     mainLayout->addLayout(progressLayout);
 
     QStringList labels;
@@ -211,7 +203,6 @@ Altair::Altair()
 
 void Altair::refreshRowPresentation()
 {
-    // indexes are supposed to have been recently updated
     refreshRowPresentation(currentIndex);
 }
 
@@ -742,51 +733,28 @@ void Altair::addDraggedFiles(const QList<QUrl>& urls)
 
 void FProgressBar::stop()
 {
-    //if (parent->process->state() == QProcess::Running) return;
     if (parent->process->state() == QProcess::Running
         ||
         (parent->process->exitStatus() == QProcess::NormalExit))
-    {
-        if (bar->value() < bar->maximum()) bar->setValue(bar->maximum());
-    }
-    else
-    {
-        bar->reset();
-    }
+        {
+            if (bar->value() < bar->maximum()) bar->setValue(bar->maximum());
+        }
+        else
+        {
+            rewind();
+        }
 
     timer->stop();
     killButton->setDisabled(true);
 }
 
-qint64 FProgressBar::updateProgressBar()
-{
-    if (parent->process->state() != QProcess::Running) return 0;
-
-    qint64   new_value=(parent->*engine)(target, filter);
-    int share;
-    share = std::max(bar->value(), qCeil(bar->maximum()*(static_cast<float>(new_value)/static_cast<float>(reference))));
-
-    if (share >= bar->maximum())
-    {
-        share=bar->maximum();
-    }
-
-    bar->setValue((share >= startshift)? share: startshift);
-    if ( share == bar->maximum()) stop();
-    return new_value;
-}
 
 
 FProgressBar::FProgressBar(Altair* parent,
-                           MeasureFunction measureFunction,
-                           DisplayFunction displayMessageWhileProcessing,
-                           SlotFunction  killFunction,
-                           const QString&  fileExtensionFilter,
-                           const QString&  measurableTarget,
-                           const qint64 referenceSize)
+                           SlotFunction  killFunction)
 {
     bar->hide();
-    bar->setRange(0,100);
+
     killButton->hide();
     const QIcon iconKill = QIcon(QString::fromUtf8( ":/images/process-stop.png"));
     killButton->setIcon(iconKill);
@@ -796,29 +764,43 @@ FProgressBar::FProgressBar(Altair* parent,
     layout->addWidget(killButton);
     layout->addWidget(bar);
 
-    target=measurableTarget;
-    filter=fileExtensionFilter;
-    reference=referenceSize;
-    engine=measureFunction;
     this->parent=parent;
-    stage_2=false;
-
-
-    connect(timer,
-            &QTimer::timeout,
-            [this, parent, displayMessageWhileProcessing] {
-             if (stage_2 && parent->process->state() == QProcess::Running)
-             (this->parent->*displayMessageWhileProcessing)(updateProgressBar()); });
 
     connect(timer,
             &QTimer::timeout,
             [this, parent] {
-        if (!stage_2 && parent->process->state() == QProcess::Running)
-        {
-            int value = this->parent->fileRank * Hash::wrapper["processType"]->toInt();
-            bar->setValue((value >= startshift)? value: std::max(qCeil(bar->value() + 0.1), startshift));
-        }
-    });
+             QString dir = Hash::wrapper["base"]->toQString();
+             qint64 dirSize = parent->getDirectorySize(dir, "*.csv");
+             if (parent->process->state() != QProcess::Running) return;
+
+             if (dirSize < 1) {
+              int level = this->parent->fileRank * Hash::wrapper["processType"]->toInt();
+              setValue((level >= startshift)? level : std::min(bar->maximum(), std::max(qCeil(value() + 0.1), startshift)));
+
+              if (value() == maximum()) setValue(startshift);
+
+
+
+             }
+             else {
+                  qreal share;
+
+                  setRange(0, parent->size());
+
+                  if (parent->size() > 1) {
+                      share = static_cast<qreal>(dirSize) * 1.5 / static_cast<qreal>(parent->size());
+                      if (share > 1) share = 1;
+
+                      parent->outputTextEdit->append((QString)PROCESSING_HTML_TAG + QString::number(static_cast<int>(share*100)) + " % des bases de données.");
+                  }
+
+                  bar->setValue(std::max(startshift, static_cast<int>(share * maximum())));
+
+                  if (value() == maximum()) setValue(startshift);
+              }
+
+            }
+    );
     
     connect(killButton, &QToolButton::clicked, parent, killFunction);
     connect(parent->process, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(stop()));
