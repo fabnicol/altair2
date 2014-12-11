@@ -442,9 +442,10 @@ Analyse.rémunérations <- Analyse.rémunérations[ ,
 
                                                     total.lignes.paie =  traitement.indiciaire + sft + indemnité.résidence + indemnités + autres.rémunérations,
 
-                                                    part.rémunération.indemnitaire =  ifelse(is.na(s <-  Montant.brut.annuel) | s == 0,
-                                                                                                   NA,
-                                                                                                  (rémunération.indemnitaire.imposable) / s * 100))]
+                                                    part.rémunération.indemnitaire =  ifelse(is.finite(q <- rémunération.indemnitaire.imposable/Montant.brut.annuel),
+                                                                                                   pmin(q, 1) * 100,
+                                                                                                   NA))]
+
 Analyse.rémunérations <- Analyse.rémunérations[ , indemnités.élu := ifelse(Statut == "ELU", total.lignes.paie, 0)]
 
 Analyse.rémunérations <- Analyse.rémunérations[! is.na(Montant.brut.annuel)]
@@ -2795,8 +2796,10 @@ if (exists("nombre.contractuels.et.vacations")) {
 résultat.ifts.manquant <- FALSE
 résultat.iat.manquant  <- FALSE
 
+microbenchmark({
+
 Paie <- Paie[ , `:=`(ifts.logical = grepl(expression.rég.ifts, Paie$Libellé, ignore.case=TRUE, perl=TRUE),
-                     iat.logical  = grepl(expression.rég.iat, Paie$Libellé, ignore.case=TRUE, perl=TRUE))]
+                     iat.logical  = grepl(expression.rég.iat, Paie$Libellé, ignore.case=TRUE, perl=TRUE))]}, times=10)
 
 codes.ifts  <- list("codes IFTS" = unique(Paie[ifts.logical == TRUE][ , Code]))
 
@@ -2836,7 +2839,7 @@ if (nombre.agents.cumulant.iat.ifts) {
           paste(unlist(codes.ifts), collapse=" "),
           nombre.agents.cumulant.iat.ifts)
 } else {
-  cat("Tests sans résultat positif.")
+  cat("Tests IAT/IFTS sans résultat positif.")
 }
 
 #'   
@@ -2952,7 +2955,7 @@ if (nombre.agents.cumulant.pfr.ifts) {
           paste(unlist(codes.pfr), collapse = " "),
           nombre.agents.cumulant.pfr.ifts)
 } else {
-  cat("Tests sans résultat positif.")
+  cat("Tests PFR/IFTS sans résultat positif.")
 }
 
 #'   
@@ -2971,11 +2974,11 @@ Dépassement.seuil.180h <- unique(Bulletins.paie[cumHSup > 180, .(Matricule, Ann
 nb.agents.dépassement <- length(unique(Dépassement.seuil.180h$Matricule))
 
 if  (nb.agents.dépassement)  {
-  cat("Le seuil de 180 heures supplémentaires maximum est dépassé par ", nb.agents.dépassement, " agents.")
+  cat("Le seuil de 180 heures supplémentaires maximum est dépassé par ", nb.agents.dépassement, " agents.\n")
   Dépassement.seuil.220h <- Dépassement.seuil.180h["Cumul heures sup" > 220]
   nb.agents.dépassement.220h <- length(unique(Dépassement.seuil.220h$Matricule))  
   
-  if  (nb.agents.dépassement.220h) cat(" Le seuil de 220 heures supplémentaires maximum est dépassé par ", nb.agents.dépassement.220h, " agents.") 
+  if  (nb.agents.dépassement.220h) cat(" Le seuil de 220 heures supplémentaires maximum est dépassé par ", nb.agents.dépassement.220h, " agents.\n") 
 }
 
 colonnes <- c(étiquette.matricule,
@@ -2995,6 +2998,8 @@ colonnes <- c(étiquette.matricule,
               "Grade")
 
 HS.sup.25 <- Paie[Heures.Sup. > 25, colonnes, with=FALSE]
+
+#setkey(HS.sup.25, Type)
 
 HS.sup.indiciaire.mensuel <- HS.sup.25[Type == "T", .(Matricule, Année, Mois, Montant)]
 
@@ -3026,6 +3031,8 @@ ihts.anormales <- data.frame(NULL)
 if (fichier.personnels.existe)
   nombre.ihts.anormales <- nrow(ihts.anormales) else nombre.ihts.anormales <- NA
 
+
+if (! is.null(HS.sup.25)) message("Heures sup controlées")
 #'
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
@@ -3050,7 +3057,7 @@ Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"), n
 rémunérations.élu <- Analyse.rémunérations[ indemnités.élu > minimum.positif,
                                             c(clé.fusion,
                                               "Année",
-                         #                     "Emploi",
+                                              "Emploi",
                                               "indemnités.élu",
                                               "autres.rémunérations",
                                               "rémunération.indemnitaire.imposable"),
@@ -3066,7 +3073,7 @@ rémunérations.élu <- merge(unique(matricules[ , .(Nom,  Matricule)], by=NULL)
 
 names(rémunérations.élu) <- c(union(clé.fusion, "Nom"),
                               "Année",
-                        #      "Emploi",
+                              "Emploi",
                               "Indemnités ",
                               "Autres ",
                               "Total ")

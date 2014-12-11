@@ -65,8 +65,9 @@ if (longueur.non.na(filtre.fonctionnaire(part.rémunération.indemnitaire[part.r
        xlab = "Part des indemnités imposables (> 30 %)  dans la rémunération brute en %\n",
        ylab = "Effectif",
        main = "Part indemnitaire de la rémunération annuelle des fonctionnaires en " %+% année,
-       xlim = c(30,60),
+       xlim = c(30,100),
        col = "blue",
-       breaks = 600)
+       include.lowest=TRUE,
+       breaks = seq.int(20, 100, by=2))
 
 }

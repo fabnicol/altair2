@@ -37,7 +37,7 @@ générer.table.effectifs      <- F
 générer.table.élus           <- T
 tester.matricules            <- TRUE
 
-seuil.troncature         <- 2 # jours
+seuil.troncature         <- 1 # jours
 taux.tolérance.homonymie <- 2  # en %
 quantile.cut             <- 1  # en %
 minimum.positif          <- 0.5
@@ -173,13 +173,14 @@ modalité.autres                <- "AUTRES"         # notamment les remboursemen
 
 # expressions régulières
 
+#\\b veut aussi dire .xyz(...)
 
-expression.rég.heures.sup <- ".*((\\sI|^I).?H.?T|(\\sI|^I)H.?[SC]|(\\sI|^I)\\w*.?.*\\s+H\\w*.?.*\\s+T|(\\sH|^H)\\w*.?.*\\s+[SC]).*"
-expression.rég.iat        <- ".*((\\si|^i).?a.?t|(\\si|^i)\\w*.?.*\\s+ad\\w*.?.*\\s+te).*"
-expression.rég.ifts       <- ".*((\\si|^i).?f.?t.?s|(\\si|^i)\\w*.?.*\\s+f\\w*.?.*\\s+tr\\w*.?.*\\s+s).*"
-expression.rég.pfr        <- ".*((\\sp|^p).?f.?r|(\\sp|^p)\\w*.?.*\\s+f\\w*.?.*\\s+r[eé]?|(\\sp|^p)\\w*.?.*\\s+r\\w*s).*"
-expression.rég.pfi        <- ".*((\\sp|^p).?f.?i|(\\sp|^p)\\w*.?.*\\s+f\\w*.?.*\\s+i).*"
+expression.rég.heures.sup <- ".*(?:(?:^|\\s)I.?H.?T|(?:\\s|^)I.?H.?[SC]|(?:\\s|^)I\\w*.?.*\\s+H\\w*.?.*\\s+T|(?:\\s|^)H\\w*.?.*\\s+[SC]).*"
+expression.rég.iat        <- "iat|.*(?:^|\\s)i\\w*\\ba[\.d]\\w*.?.*[\\s\.]te.*"
+expression.rég.ifts       <- ".*(?:(?:^|\\s)i.?f.?t.?s|(?:\\s|^)i\\w*.?.*\\s+f\\w*.?.*\\s+tr\\w*.?.*\\s+s).*"
+expression.rég.pfr        <- ".*(?:(?:^|\\s)p.?f.?r|(?:\\s|^)p\\w*.?.*\\s+f\\w*.?.*\\s+r[eé]?|(?:\\s|^)p\\w*.?.*\\s+r\\w*s).*"
+expression.rég.pfi        <- ".*(?:(?:^|\\s)p.?f.?i|(?:\\s|^)p\\w*.?.*\\s+f\\w*.?.*\\s+i).*"
 expression.rég.population <- ".*\\bASS(\\b|A).*"
 expression.rég.élus       <- "maire|pr[eé]sident|.*([eé]lu[s]?|adj.*maire|v\\w*.*\\s+pr[eé]sident|cons\\w*.*\\s+muni|cons\\w*.*\\s+commun).*"
-expression.rég.nbi        <- ".*(\\sN|^N)\\w*.?B\\w*.?\\s*I.*"
+expression.rég.nbi        <- ".*(?:\\s|^)N\\w*.?B\\w*.?\\s*I.*"
 
