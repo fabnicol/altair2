@@ -2796,10 +2796,9 @@ if (exists("nombre.contractuels.et.vacations")) {
 résultat.ifts.manquant <- FALSE
 résultat.iat.manquant  <- FALSE
 
-microbenchmark({
-
 Paie <- Paie[ , `:=`(ifts.logical = grepl(expression.rég.ifts, Paie$Libellé, ignore.case=TRUE, perl=TRUE),
-                     iat.logical  = grepl(expression.rég.iat, Paie$Libellé, ignore.case=TRUE, perl=TRUE))]}, times=10)
+                     iat.logical  = grepl(expression.rég.iat, Paie$Libellé, ignore.case=TRUE, perl=TRUE))]
+
 
 codes.ifts  <- list("codes IFTS" = unique(Paie[ifts.logical == TRUE][ , Code]))
 
