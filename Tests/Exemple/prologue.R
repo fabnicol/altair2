@@ -173,14 +173,14 @@ modalité.autres                <- "AUTRES"         # notamment les remboursemen
 
 # expressions régulières
 
-#\\b veut aussi dire .xyz(...)
+#\\bxyz veut aussi dire cde.xyz(...), à éviter
 
-expression.rég.heures.sup <- ".*(?:(?:^|\\s)I.?H.?T|(?:\\s|^)I.?H.?[SC]|(?:\\s|^)I\\w*.?.*\\s+H\\w*.?.*\\s+T|(?:\\s|^)H\\w*.?.*\\s+[SC]).*"
-expression.rég.iat        <- "iat|.*(?:^|\\s)i\\w*\\ba[\.d]\\w*.?.*[\\s\.]te.*"
-expression.rég.ifts       <- ".*(?:(?:^|\\s)i.?f.?t.?s|(?:\\s|^)i\\w*.?.*\\s+f\\w*.?.*\\s+tr\\w*.?.*\\s+s).*"
-expression.rég.pfr        <- ".*(?:(?:^|\\s)p.?f.?r|(?:\\s|^)p\\w*.?.*\\s+f\\w*.?.*\\s+r[eé]?|(?:\\s|^)p\\w*.?.*\\s+r\\w*s).*"
-expression.rég.pfi        <- ".*(?:(?:^|\\s)p.?f.?i|(?:\\s|^)p\\w*.?.*\\s+f\\w*.?.*\\s+i).*"
-expression.rég.population <- ".*\\bASS(\\b|A).*"
-expression.rég.élus       <- "maire|pr[eé]sident|.*([eé]lu[s]?|adj.*maire|v\\w*.*\\s+pr[eé]sident|cons\\w*.*\\s+muni|cons\\w*.*\\s+commun).*"
-expression.rég.nbi        <- ".*(?:\\s|^)N\\w*.?B\\w*.?\\s*I.*"
+expression.rég.heures.sup <- "(?:^|\\s)iht?[sc]|i(?:(?=n)n\\w*|)\\.?\\s*\\bh(?:(?=o)o\\w*|)\\.?.*\\bs(?:(?=u)u\\w*|)\\.?\\b|h(?:(?=e)e\\w*|)\\.?\\s*\\b(?:(?=s)s\\w*|(?:(?=c)c\\w*|))\\.?\\b"
+expression.rég.iat        <- "(?:^|\\s)iat|i(?:(?=n)n\\w*|)\\.?\\s*\\ba(?:(?=d)d\\w*|)\\.?\\s*\\bt(?:(?=e)e\\w*|)\\.?\\b"
+expression.rég.ifts       <- "(?:^|\\s)ifts|i(?:(?=n)n\\w*|)\\.?\\s*\\bf\\w*\\.?\\s*\\bt(?:(?=r)r\\w*|)\\.?\\s*\\bs(?:(?=u)u\\w*|)\\.?\\b"
+expression.rég.pfr        <- "(?:^|\\s)pfr|p(?:(?=r)r\\w*|)\\.?\\s*\\bf(?:(?=o)o\\w*|)\\.?\\s*\\br(?:(?<=[eé])s\\w*|)\\.?\\s*\\b|p(?:(?=r)r\\w*|)\\.?\\s*\\br(?:(?<=[eé])s\\w*|)\\.?\\b"
+expression.rég.pfi        <- "(?:^|\\s)pfi|p(?:(?=r)r\\w*|)\\.?\\s*\\bf(?:(?=o)o\\w*|)\\.?\\s*\\bi(?:(?=n)n\\w*|)\\.?\\b"
+expression.rég.population <- "\\bASS(\\b|A).*"
+expression.rég.élus       <- "maire|pr[eé]sident|.*([eé]lu[s]?|adj.*maire|v\\w*.*\\s+pr[eé]sident|cons\\w*.*\\s+muni|cons\\w*.*\\s+commun)"
+expression.rég.nbi        <- "(?:\\s|^)nbi|n(?:(?=o)o\\w*|)\\.?\\s*\\bb(?:(?=o)o\\w*|)\\.?\\s*\\bi(?:(?=n)n\\w*|)\\.?\\b"
 
