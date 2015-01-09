@@ -464,7 +464,14 @@ longueur.non.na <- function(v) length(v[!is.na(v)])
 numéro.tableau <- 0
 
 incrément <- function() { 
-  numéro.tableau <<- numéro.tableau +1 
+  numéro.tableau <<- numéro.tableau + 1 
   numéro.tableau
+}
+
+chapitre <- 0
+
+incrémenter.chapitre <- function() {
+  chapitre <<- chapitre + 1
+  invisible(chapitre)
 }
 
