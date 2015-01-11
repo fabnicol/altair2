@@ -36,6 +36,7 @@ sauvegarder.bases.origine    <- F
 générer.table.effectifs      <- F
 générer.table.élus           <- T
 tester.matricules            <- TRUE
+produire.rapport             <- TRUE
 
 seuil.troncature         <- 1 # jours
 taux.tolérance.homonymie <- 2  # en %
