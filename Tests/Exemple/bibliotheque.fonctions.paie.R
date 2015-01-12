@@ -15,17 +15,18 @@ file2utf8 <- function(nom, encodage.in = encodage.entrée)  {
  if (! err)  message("Conversion réussie") else stop("Erreur de copie fichier après encodage avec iconv")
 }
 
-en.séparateurs <- function(chem)  {
+#obsolète
+# en.séparateurs <- function(chem)  {
+# 
+#   commande <- sed %+% " -e s/,/\\./g -e s/;/,/g -i " %+% shQuote(chem)
+#   shell(commande)
+# }
 
-  commande <- sed %+% " -e s/,/\\./g -e s/;/,/g -i " %+% shQuote(chem)
-  shell(commande)
-}
-
-fr.séparateurs <- function(chem)  {
-  
-  commande <- sed %+% " -e s/,/;/g -e s/\\./,/g -i " %+% shQuote(chem)
-  shell(commande)
-}
+# fr.séparateurs <- function(chem)  {
+#   
+#   commande <- sed %+% " -e s/,/;/g -e s/\\./,/g -i " %+% shQuote(chem)
+#   shell(commande)
+# }
 
 
 # Trouve le numéro de la ligne à laquelle se situe la liste des noms de variables
@@ -95,8 +96,6 @@ sélectionner.clé <-  function(base1, base2)
   }
 }
 
-#chem.dot <- paste0("\'",chem, ".dot", "\'")
-#system(paste0("sed -e s/,/\\./g < \'", chem,"\' > ", chem.dot), wait = TRUE)
 
 
 read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, étiquettes = NULL, drop = NULL,
@@ -124,28 +123,33 @@ read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, étiquet
       file2utf8(x, encodage.in = encodage)
     }
       
+    # data.table n'admet d'argument dec qu'à partir de la version 1.9.5 
+    
     if (is.na(classes)) classes = NULL
     T <- try(data.table::fread(chem,
                       sep = séparateur.liste,
+                      dec = séparateur.décimal,
                       header = TRUE,
                       verbose = FALSE,
                       skip = champ.détection.1,
                       colClasses = classes,
                       showProgress = FALSE))
-    
-    if (inherits(T, "try-error") && grepl("The supplied 'sep' was not found", T, fixed = TRUE)) {
-      message("Conversion des séparateurs...")
-      en.séparateurs(chem)
-      message("Séparateurs convertis.")
-      T <- read.csv.skip (x, 
-                    encodage,
-                    classes,
-                    étiquettes,
-                    drop,
-                    rapide,
-                    séparateur.liste,
-                    séparateur.décimal)
-    }
+
+#  code marqué comme obsolète     : avait pour vocation de convertir des séparateurs fr en séparateur en
+
+#     if (inherits(T, "try-error") && grepl("The supplied 'sep' was not found", T, fixed = TRUE)) {
+#       message("Conversion des séparateurs...")
+#       en.séparateurs(chem)
+#       message("Séparateurs convertis.")
+#       T <- read.csv.skip (x, 
+#                     encodage,
+#                     classes,
+#                     étiquettes,
+#                     drop,
+#                     rapide,
+#                     séparateur.liste,
+#                     séparateur.décimal)
+#     }
   }
 
 if (!is.null(étiquettes)) names(T) <- étiquettes
@@ -204,7 +208,6 @@ Read.csv <- function(base.string, vect.chemin, charger = charger.bases, colClass
     }
 }
 
-pretty.print <- function(x) cat(gsub(".", " ",deparse(substitute(x)), fixed = TRUE), "   ", x,"\n")
 
 Résumé <- function(x,y, align = 'r', extra = 0, ...)  {
     
