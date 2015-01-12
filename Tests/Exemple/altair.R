@@ -160,9 +160,7 @@ importer.bases.via.xhl2csv <- function(base, table = nom.table, colClasses = col
     stop("Chargement de la table bulletins-lignes de paie en échec.")
   }
   
-
   message("Chargement direct des bulletins et lignes de paie")
-
 }
 
 
@@ -230,7 +228,7 @@ if (générer.codes)   {
 
 Paie <- Paie[ , Filtre_actif := any(Montant[Type == "T" & Heures > minimum.positif] > minimum.actif, na.rm = TRUE), by="Matricule,Année"]
 
-Paie <- Paie[ , `:=`(delta = sum(Montant * (Type %chin% ("I", "T", "S", "IR", "AC","A", "R", "AV")),
+Paie <- Paie[ , `:=`(delta = sum(Montant * (Type %chin% c("I", "T", "S", "IR", "AC","A", "R", "AV")),
                                  na.rm=TRUE) - Brut),
                  by="Matricule,Année,Mois"]
 

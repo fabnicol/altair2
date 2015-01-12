@@ -165,7 +165,7 @@
    oui
   </loadProjectBehavior>
   <base profondeur="0">
-   C:/Users/Public/altair/Tests/Exemple/Donnees/R-Altair
+   C:/Dev/altair/Tests/Exemple/Donnees/R-Altair
   </base>
   <baseType profondeur="0">
      
@@ -174,13 +174,13 @@
      
   </maxLigne>
   <separateur profondeur="0">
-     
+   ;
   </separateur>
   <decimal profondeur="0">
-     
+   ,
   </decimal>
   <processType profondeur="0">
-   '7'
+   '4'
   </processType>
   <nAgent profondeur="0">
      
@@ -205,6 +205,6 @@
   </ecoRAM>
  </systeme>
  <recent>
-  <fichier>C:/Dev/altair/Tests/Exemple/Projets/anonyme.alt</fichier>
+  <fichier>C:\Dev\altair\Tests\Exemple\Projets\anonyme.alt</fichier>
  </recent>
 </projet>
