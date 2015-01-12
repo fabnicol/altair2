@@ -107,7 +107,7 @@ read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, étiquet
 
     T <- read.csv(chem,
                    comment.char = "",
-                   sep =séparateur.liste,
+                   sep = séparateur.liste,
                    dec = séparateur.décimal,
                    colClasses = classes,
                    skip = trouver.valeur.skip(chem, encodage, séparateur.liste = séparateur.liste, séparateur.décimal = séparateur.décimal),
@@ -126,11 +126,12 @@ read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, étiquet
     # data.table n'admet d'argument dec qu'à partir de la version 1.9.5 
     
     if (is.na(classes)) classes = NULL
+    cat(chem)
     T <- try(data.table::fread(chem,
                       sep = séparateur.liste,
                       dec = séparateur.décimal,
                       header = TRUE,
-                      verbose = FALSE,
+                      verbose = TRUE,
                       skip = champ.détection.1,
                       colClasses = classes,
                       showProgress = FALSE))
@@ -188,7 +189,7 @@ sauv.bases <- function(dossier, ...)
 # car la fonction anonyme ne comporte que de variables locales
 
 Read.csv <- function(base.string, vect.chemin, charger = charger.bases, colClasses = NA, colNames = NULL,
-                     drop = NULL, séparateur.liste = séparateur.décimal.entrée, séparateur.décimal = séparateur.décimal.entrée,
+                     drop = NULL, séparateur.liste = séparateur.liste.entrée, séparateur.décimal = séparateur.décimal.entrée,
                      rapide = FALSE, convertir.encodage = TRUE, encodage = encodage.entrée)  {
 
     if (charger.bases) {

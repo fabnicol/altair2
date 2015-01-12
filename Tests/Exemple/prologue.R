@@ -36,7 +36,7 @@ sauvegarder.bases.origine    <- F
 générer.table.effectifs      <- F
 générer.table.élus           <- T
 tester.matricules            <- TRUE
-produire.rapport             <- TRUE
+produire.rapport             <- F
 
 seuil.troncature         <- 1 # jours
 taux.tolérance.homonymie <- 2  # en %
@@ -46,8 +46,8 @@ minimum.quotité          <- 0.1
 minimum.actif            <- 100
 population_minimale_calcul_médiane  <- 3
 
-séparateur.liste.entrée     <- ","
-séparateur.décimal.entrée   <- "."
+séparateur.liste.entrée     <- ";"
+séparateur.décimal.entrée   <- ","
 séparateur.liste.sortie     <- ";"
 séparateur.décimal.sortie   <- ","
 
