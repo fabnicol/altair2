@@ -53,6 +53,9 @@ static inline void  verifier_taille(const int nbLignePaye, info_t* info)
 
 #define ligne_l  info->Table[info->NCumAgentXml][l]
 
+/* Remplace les occurrences d'un caractère séparateur à l'intérieur d'un champ par le caractère '_' qui ne doit donc jamais
+   être séparateur de champ (c'est bien rare !) */
+
 static inline bool Bulletin(const char* tag, xmlNodePtr* cur, int l, info_t* info)
 {
     bool test = (cur != NULL && *cur != NULL && (! xmlStrcmp((*cur)->name,  (const xmlChar*) tag)));
@@ -73,10 +76,10 @@ static inline bool Bulletin(const char* tag, xmlNodePtr* cur, int l, info_t* inf
 
         /* sanitisation */
 
-        else
-            for (int i = 0; i < xmlStrlen(ligne_l); i++)
-                if (ligne_l[i] == info->separateur)
-                    ligne_l[i] = '.';
+            else
+                for (int i = 0; i < xmlStrlen(ligne_l); i++)
+                    if (ligne_l[i] == info->separateur)
+                        ligne_l[i] = '_';
 
         if (info->drapeau_cont)
             *cur = (*cur)? (*cur)->next: NULL;
@@ -98,6 +101,14 @@ static inline void _Bulletin(const char* tag, xmlNodePtr* cur,  int l, info_t* i
     }
 
 }
+
+/* A tester : la substitution du caractère décimal , au . de la locale anglaise utilisé par Xémélios (hélas)
+   reste nécessaire tant que nous utiliserons un stockage uniforme en chaînes de caractères.
+   Si un jour nous décidons d'utilisr strold pour convertir les chaînes de caractère numériques en float, nous
+   gagnerons de la place en stockage temporaire (peut être utile pour les gros fichiers) et alors printf et setlocale
+   feront le travail de substitution de la virgule au point lors de l'écriture de la base.
+   A ce stade nous stockons tous les champs lus en char, pour écriture identique en .csv dans la table, avec substition
+   'manuelle' de la virgule au point dans la chaîne en output. */
 
 static inline void substituer_separateur_decimal(xmlChar* ligne, const char decimal)
 {

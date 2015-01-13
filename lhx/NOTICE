@@ -25,8 +25,8 @@ OPTIONS :
                           X toutes catégories
 -o argument obligatoire : fichier.csv, chemin complet du fichier de sortie [défaut 'Table.csv' avec -t].
 -D argument obligatoire : répertoire complet du fichier de sortie [défaut '.' avec -t].
--d argument obligatoire : séparateur décimal [défaut . avec -t].
--s argument obligatoire : séparateur de champs [défaut , avec -t]/
+-d argument obligatoire : séparateur décimal [défaut , avec -t].
+-s argument obligatoire : séparateur de champs [défaut ; avec -t]. Ne pas utiliser '_'.
 -j argument obligatoire : nombre de fils d'exécution (1 à 10).
 -l sans argument        : générer une colonne de numéros de ligne intitulée 'R'.
 -M sans argument        : ne pas libérer la mémoire réservée en fin de programme.
@@ -36,6 +36,11 @@ OPTIONS :
 
 2. Historique
 -------------
+5  janvier 2015
+   Basculement des valeurs par défaut des séparateurs (champ et décimal)
+   aux valeurs de la locale française fr_FR.1252. Rendu possible pour
+   les versions de data.table supérieures à 1.9.5
+
 26-29 octobre 2014
     Ajout des options -N, -m, -R, -T.
     Ajout de la fonctionnalité d'exportation des catégories de ligne de paye
