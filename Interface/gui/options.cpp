@@ -75,14 +75,14 @@ standardPage::standardPage()
     maxNLigneLineEdit->setFixedWidth(60);
     
     QLabel* sepLabel = new QLabel("Séparateur de champs ");
-    sepLineEdit = new FLineEdit(",",
+    sepLineEdit = new FLineEdit(";",
                                 "separateur",
                                {"Séparateurs", "Séparateur de champ"},
                                 "s");
     sepLineEdit->setFixedWidth(15);
     
     QLabel* decLabel = new QLabel("Séparateur décimal  ");
-    decLineEdit = new FLineEdit(".",
+    decLineEdit = new FLineEdit(",",
                                 "decimal",
                                {"Séparateurs", "Séparateur décimal"},
                                 "d");
@@ -196,11 +196,6 @@ standardPage::standardPage()
     tableCheckBox->setChecked(true);
 
     setLayout(mainLayout);
-
-    connect(baseTypeWidget,
-            SIGNAL(currentIndexChanged(int)),
-            this, SLOT(on_baseTypeWidgetChanged(int)));
-
     connect(processTypeWidget,
             SIGNAL(currentIndexChanged(int)),
             this, SLOT(on_processTypeWidgetChanged(int)));
@@ -220,14 +215,6 @@ standardPage::standardPage()
     connect(logButton,
             SIGNAL(clicked()),
             this, SLOT(selectLogOutput()));
-}
-
-void standardPage::on_baseTypeWidgetChanged(int rank)
-{
-        bool sign=(rank > 0);
-
-        sepLineEdit->setText((sign)? ";" : ",");
-        decLineEdit->setText((sign)? "," : ".");
 }
 
 void standardPage::on_openBaseDirButton_clicked()

@@ -38,10 +38,12 @@ static inline const uint32_t* calculer_maxima(const info_t* Info)
 int main(int argc, char **argv)
 {
 
-#ifdef _WIN32
-    setlocale(LC_ALL, "French_France");  // Windows ne gère pas UTF-8 en locale
+#if defined _WIN32 | defined _WIN64
+    setlocale(LC_NUMERIC, "French_France.1252"); // Windows ne gère pas UTF-8 en locale
+#elif defined __linux__
+    setlocale(LC_NUMERIC, "fr_FR.utf8");
 #else
-    setlocale(LC_ALL, "fr_FR.UTF-8");
+    #error "Programme conçu pour Windows ou linux"
 #endif
 
     if (argc < 2)
@@ -83,8 +85,8 @@ int main(int argc, char **argv)
         chemin_bulletins,
         MAX_LIGNES_PAYE,  // nbLigneUtilisateur
         0,                //    uint16_t fichier_courant
-        '.',              //    const char decimal;
-        ',',              //    const char separateur;
+        ',',              //    const char decimal;
+        ';',              //    const char separateur;
         true,             // réduire coso mémoire
         true,             // par défaut lire la balise adjacente
         false,            // calculer les maxima de lignes et d'agents
@@ -130,8 +132,8 @@ int main(int argc, char **argv)
                           X toutes catégories\n");
             printf("%s\n", "-o argument obligatoire : fichier.csv, chemin complet du fichier de sortie [défaut 'Table.csv' avec -t].");
             printf("%s\n", "-D argument obligatoire : répertoire complet du fichier de sortie [défaut '.' avec -t].");
-            printf("%s\n", "-d argument obligatoire : séparateur décimal [défaut . avec -t].");
-            printf("%s\n", "-s argument obligatoire : séparateur de champs [défaut , avec -t]/");
+            printf("%s\n", "-d argument obligatoire : séparateur décimal [défaut ',' avec -t].");
+            printf("%s\n", "-s argument obligatoire : séparateur de champs [défaut ';' avec -t]. Ne pas utiliser '_'.");
             printf("%s\n", "-j argument obligatoire : nombre de fils d'exécution (1 à 10).");
             printf("%s\n", "-l sans argument        : générer une colonne de numéros de ligne intitulée 'R'.");
             printf("%s\n", "-M sans argument        : ne pas libérer la mémoire réservée en fin de programme.");
@@ -250,6 +252,12 @@ int main(int argc, char **argv)
                 exit(-100);
             }
             info.separateur = argv[start + 1][0];
+
+            if (info.separateur == '_')
+            {
+                    perror("Erreur : Le séparateur ne doit pas être '_'");
+                    exit(-909);
+            }
 
             start += 2;
             continue;
