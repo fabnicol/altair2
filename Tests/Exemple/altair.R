@@ -1070,18 +1070,17 @@ colonnes.sélectionnées <- c("traitement.indiciaire",
 
 
 ########### Analyse statique premier exercice ########################
-
+out <- NULL
 année <- début.période.sous.revue
 
 incrémenter.chapitre()
+
+cat(knit_child(text = if (produire. rapport) readLines('analyse.statique.Rmd', encoding = encodage.code.source) else "", quiet=TRUE), sep = '\n')
 
 if (! produire.rapport) {
   
   source('analyse.statique.R', encoding = encodage.code.source) 
   
-} else {
- 
-  cat(knit_child(text = readLines('analyse.statique.Rmd'), quiet=TRUE), sep = '\n')
 }
 
 ########### Analyse statique dernier exercice ########################
@@ -1096,7 +1095,7 @@ if (! produire.rapport) {
   
 } else {
   
-  cat(knit_child(text = readLines('analyse.statique.Rmd'), quiet=TRUE), sep = '\n')
+  #cat(knit_child(text = readLines('analyse.statique.Rmd'), quiet=TRUE), sep = '\n')
 }
 
 
