@@ -46,8 +46,8 @@ minimum.quotité          <- 0.1
 minimum.actif            <- 100
 population_minimale_calcul_médiane  <- 3
 
-séparateur.liste.entrée     <- ","
-séparateur.décimal.entrée   <- "."
+séparateur.liste.entrée     <- ";"
+séparateur.décimal.entrée   <- ","
 séparateur.liste.sortie     <- ";"
 séparateur.décimal.sortie   <- ","
 
