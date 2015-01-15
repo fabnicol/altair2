@@ -120,7 +120,8 @@ Tableau.vertical2(c("Agrégats",
                   c(masses.élus["Montant.brut.annuel"],
                     masses.élus["total.lignes.paie"],
                     masses.élus["Montant.brut.annuel"] -
-                      masses.élus["total.lignes.paie"]))
+                      masses.élus["total.lignes.paie"]))   
+
 ```
 
   
@@ -130,6 +131,7 @@ Tableau.vertical2(c("Agrégats",
 
 
 ```{r }
+
 filtre.fonctionnaire <- function (X) X[ !is.na(X)  & X > minimum.positif ]
 
 AR <- Analyse.rémunérations.exercice[Statut == "TITULAIRE" | Statut == "STAGIAIRE", colonnes.sélectionnées, with=FALSE]
@@ -142,7 +144,10 @@ if (longueur.non.na(filtre.fonctionnaire(Montant.brut.annuel.eqtp) > 0))
        xlim = c(0, 40),
        main = "Rémunération brute annuelle des fonctionnaires en " %+% année,
        col = "blue",
-       breaks = 250)
+       breaks = 250)  
+
+````  
+```{r }  
 
 if (longueur.non.na(filtre.fonctionnaire(Montant.brut.annuel.eqtp[Montant.brut.annuel.eqtp > 40000]) > 0)) 
   hist(filtre.fonctionnaire(Montant.brut.annuel.eqtp[Montant.brut.annuel.eqtp > 40000])/1000,
@@ -152,6 +157,8 @@ if (longueur.non.na(filtre.fonctionnaire(Montant.brut.annuel.eqtp[Montant.brut.a
        main = "Rémunération brute annuelle des fonctionnaires en " %+% année,
        col = "blue",
        breaks = 250)
+```
+```{r }  
 
 if (longueur.non.na(filtre.fonctionnaire(rémunération.indemnitaire.imposable.eqtp[rémunération.indemnitaire.imposable.eqtp < 10000]) > 0))
   hist(filtre.fonctionnaire(rémunération.indemnitaire.imposable.eqtp[rémunération.indemnitaire.imposable.eqtp < 10000])/1000,
@@ -162,6 +169,9 @@ if (longueur.non.na(filtre.fonctionnaire(rémunération.indemnitaire.imposable.e
        col = "blue",
        breaks = 150)
 
+```  
+```{r }  
+
 if (longueur.non.na(filtre.fonctionnaire(rémunération.indemnitaire.imposable.eqtp[rémunération.indemnitaire.imposable.eqtp > 10000]) > 0))
   hist(filtre.fonctionnaire(rémunération.indemnitaire.imposable.eqtp[rémunération.indemnitaire.imposable.eqtp > 10000])/1000,
        xlab = "En milliers d'euros (> 10 k€) EQTP\n",
@@ -171,6 +181,9 @@ if (longueur.non.na(filtre.fonctionnaire(rémunération.indemnitaire.imposable.e
        col = "blue",
        breaks = 150)
 
+```  
+```{r }   
+
 if (longueur.non.na(filtre.fonctionnaire(part.rémunération.indemnitaire[part.rémunération.indemnitaire < 30]) > 0)) 
   hist(filtre.fonctionnaire(part.rémunération.indemnitaire[part.rémunération.indemnitaire < 30]),
        xlab = "Part des indemnités imposables (< 30 %) dans la rémunération brute en %\n",
@@ -179,6 +192,9 @@ if (longueur.non.na(filtre.fonctionnaire(part.rémunération.indemnitaire[part.r
        xlim = c(0,30),
        col = "blue",
        breaks = 250)
+```
+
+```{r }
 
 if (longueur.non.na(filtre.fonctionnaire(part.rémunération.indemnitaire[part.rémunération.indemnitaire > 30]) > 0)) 
   hist(filtre.fonctionnaire(part.rémunération.indemnitaire[part.rémunération.indemnitaire > 30]),
