@@ -233,17 +233,16 @@ if (générer.codes)   {
   générer.base.codes(Paie) 
 }
   
-  # Paie <- en raison du fonctionnement de knitr sinon inutile
 
-Paie <- Paie[ , Filtre_actif := any(Montant[Type == "T" & Heures > minimum.positif] > minimum.actif, na.rm = TRUE), by="Matricule,Année"]
+Paie[ , Filtre_actif := any(Montant[Type == "T" & Heures > minimum.positif] > minimum.actif, na.rm = TRUE), by="Matricule,Année"]
 
-Paie <- Paie[ , `:=`(delta = sum(Montant * (Type %chin% c("I", "T", "S", "IR", "AC","A", "R", "AV")),
-                                 na.rm=TRUE) - Brut),
-                 by="Matricule,Année,Mois"]
+Paie[ , `:=`(delta = sum(Montant * (Type %chin% c("I", "T", "S", "IR", "AC","A", "R", "AV")),
+                         na.rm=TRUE) - Brut),
+         by="Matricule,Année,Mois"]
 
 #Bulletins.paie <- unique(Paie[ , .(Matricule, Nom, Année, Mois, Temps.de.travail, Heures,  Statut, Emploi, Grade, Brut, Net.à.Payer, Nir)], by = NULL)
 
-Bulletins.paie <- Bulletins.paie[ , `:=`(Sexe = substr(Nir, 1, 1),
+Bulletins.paie[ , `:=`(Sexe = substr(Nir, 1, 1),
                                          R    = .I - 1)]
 
 # Attention, NA, pas FALSE
@@ -269,63 +268,63 @@ M <- Bulletins.paie[(Sexe == "1" | Sexe == "2") & Heures > minimum.positif, .(M�
 
 Bulletins.paie <- merge(Bulletins.paie, Paie[, .(Filtre_actif=Filtre_actif[1]), by="Matricule,Année,Mois"], all.x=TRUE, all.y=FALSE)
 
-Bulletins.paie <- Bulletins.paie[ , pop_calcul_médiane := length(Heures[Temps.de.travail == 100 
-                                                                       & !is.na(Heures) 
-                                                                       & Heures > minimum.positif]), by = "Sexe,Emploi"]
+Bulletins.paie[ , pop_calcul_médiane := length(Heures[Temps.de.travail == 100 
+                                                       & !is.na(Heures) 
+                                                       & Heures > minimum.positif]), by = "Sexe,Emploi"]
 
 # Pour les quotités seules les périodes actives sont prises en compte
 
-Bulletins.paie <- Bulletins.paie[ , MHeures := ifelse(pop_calcul_médiane > population_minimale_calcul_médiane 
-                                                      & Filtre_actif == TRUE,
-                                                      median(Heures[Temps.de.travail == 100 
-                                                                    & Filtre_actif == TRUE
-                                                                    & Heures > minimum.positif], na.rm = TRUE),
-                                                      M[M$Sexe == Bulletins.paie$Sexe
-                                                        & M$Statut == Bulletins.paie$Statut,
-                                                          Médiane_Sexe_Statut]),
-                                 by="Sexe,Emploi"]
+Bulletins.paie[ , MHeures := ifelse(pop_calcul_médiane > population_minimale_calcul_médiane 
+                                    & Filtre_actif == TRUE,
+                                    median(Heures[Temps.de.travail == 100 
+                                                  & Filtre_actif == TRUE
+                                                  & Heures > minimum.positif], na.rm = TRUE),
+                                    M[M$Sexe == Bulletins.paie$Sexe
+                                      & M$Statut == Bulletins.paie$Statut,
+                                        Médiane_Sexe_Statut]),
+               by="Sexe,Emploi"]
 
 # L'écrêtement des quotités est une contrainte statistiquement discutable qui permet de "stresser" le modèle
 # Par défaut les quotités sont écrêtées pour pouvoir par la suite raisonner en définissant le temps plein comme quotité == 1
 
 if (écreter.quotités) {
-   Bulletins.paie <- Bulletins.paie[ , quotité   :=  ifelse(MHeures < minimum.positif, NA, ifelse(Heures > MHeures, 1, round(Heures/MHeures, digits=2)))]  
+   Bulletins.paie[ , quotité   :=  ifelse(MHeures < minimum.positif, NA, ifelse(Heures > MHeures, 1, round(Heures/MHeures, digits=2)))]  
 } else {
-   Bulletins.paie <- Bulletins.paie[ , quotité   :=  ifelse(MHeures < minimum.positif, NA, round(Heures/MHeures, digits=2))]  
+   Bulletins.paie[ , quotité   :=  ifelse(MHeures < minimum.positif, NA, round(Heures/MHeures, digits=2))]  
 }
 
-Bulletins.paie <- Bulletins.paie[Statut == "ELU", `:=`(MHeures = 1,
-                                                       quotité = 1)]
+Bulletins.paie[Statut == "ELU", `:=`(MHeures = 1,
+                                     quotité = 1)]
 
 message("Quotités calculées")
 
-Bulletins.paie <- Bulletins.paie[ ,   `:=`(Montant.net.eqtp  = ifelse(is.finite(a<-Net.à.Payer/quotité), a,  NA),
-                                           Montant.brut.eqtp = ifelse(is.finite(a<-Brut/quotité), a,  NA))]
+Bulletins.paie[ ,   `:=`(Montant.net.eqtp  = ifelse(is.finite(a<-Net.à.Payer/quotité), a,  NA),
+                         Montant.brut.eqtp = ifelse(is.finite(a<-Brut/quotité), a,  NA))]
     
-Bulletins.paie <- Bulletins.paie[ ,   `:=`(Statut.sortie   = Statut[length(Net.à.Payer)],
-                                           nb.jours        = calcul.nb.jours.mois(Mois, Année[1]),
-                                           nb.mois         = length(Mois),
-                                           quotité.moyenne = round(mean.default(quotité, na.rm = TRUE), digits = 1)),
-                                      key=c("Matricule", "Année")]
+Bulletins.paie[ ,   `:=`(Statut.sortie   = Statut[length(Net.à.Payer)],
+                         nb.jours        = calcul.nb.jours.mois(Mois, Année[1]),
+                         nb.mois         = length(Mois),
+                         quotité.moyenne = round(mean.default(quotité, na.rm = TRUE), digits = 1)),
+                    key=c("Matricule", "Année")]
 
 # Indicatrice pour la rémunération moyenne des personnes en place :
 # quotité égale pendant deux années successives contigues, permanence sur 12 mois.
 # nous prenons les moyennes des quotités non NA.
 
-Bulletins.paie <- Bulletins.paie[ , indicatrice.quotité.pp := (Matricule[R] == Matricule 
-                                                               & Année[R] == Année - 1 
-                                                               & quotité.moyenne[R] == quotité.moyenne
-                                                               & nb.mois[R] == nb.mois
-                                                               & nb.mois == 12)]
+Bulletins.paie[ , indicatrice.quotité.pp := (Matricule[R] == Matricule 
+                                             & Année[R]   == Année - 1 
+                                             & quotité.moyenne[R] == quotité.moyenne
+                                             & nb.mois[R] == nb.mois
+                                             & nb.mois    == 12)]
 
-Bulletins.paie <- Bulletins.paie[ ,   `:=`(Montant.brut.annuel      = sum(Brut, na.rm=TRUE),
-                                         Montant.brut.annuel.eqtp = sum(Montant.brut.eqtp * 365 / nb.jours, na.rm=TRUE),
-                                         Montant.net.annuel.eqtp  = sum(Montant.net.eqtp * 365 / nb.jours, na.rm=TRUE),
-                                         Montant.net.annuel       = sum(Net.à.Payer, na.rm=TRUE),
-                                         permanent                = nb.jours >= 365,
-                                         cumHSup      = sum(Heures.Sup., na.rm = TRUE), 
-                                         indicatrice.quotité.pp = indicatrice.quotité.pp[1]),
-                                      key=c("Matricule", "Année")]
+Bulletins.paie[ ,   `:=`(Montant.brut.annuel      = sum(Brut, na.rm=TRUE),
+                         Montant.brut.annuel.eqtp = sum(Montant.brut.eqtp * 365 / nb.jours, na.rm=TRUE),
+                         Montant.net.annuel.eqtp  = sum(Montant.net.eqtp * 365 / nb.jours, na.rm=TRUE),
+                         Montant.net.annuel       = sum(Net.à.Payer, na.rm=TRUE),
+                         permanent                = nb.jours >= 365,
+                         cumHSup      = sum(Heures.Sup., na.rm = TRUE), 
+                         indicatrice.quotité.pp = indicatrice.quotité.pp[1]),
+                      key=c("Matricule", "Année")]
 
 message("Indicatrice RMPP calculée")
 
@@ -425,30 +424,30 @@ Vérifier_non_annexe <- function(Montant, Année) if (Année == 2013)  (Montant 
                                      rémunération.vacataire = sum(Montant[Type == "VAC"], na.rm = TRUE)),  
                                 by = c(clé.fusion, étiquette.année)]
 
-Analyse.rémunérations <- Analyse.rémunérations[ ,	Filtre_non_annexe := Vérifier_non_annexe(Montant.net.annuel, Année)
-                                                                       & nb.mois > 1 
-                                                                       & cumHeures > 120 
-                                                                       & cumHeures / nb.jours > 1.5]
+Analyse.rémunérations[ ,	Filtre_non_annexe := Vérifier_non_annexe(Montant.net.annuel, Année)
+                                               & nb.mois > 1 
+                                               & cumHeures > 120 
+                                               & cumHeures / nb.jours > 1.5]
 								
-Analyse.rémunérations <- Analyse.rémunérations[ , `:=`(rémunération.indemnitaire.imposable = indemnités + sft + indemnité.résidence + rémunérations.diverses,
-                                                       Filtre_actif_non_annexe = (Filtre_actif == TRUE & Filtre_non_annexe == TRUE))]
+Analyse.rémunérations[ , `:=`(rémunération.indemnitaire.imposable = indemnités + sft + indemnité.résidence + rémunérations.diverses,
+                              Filtre_actif_non_annexe = (Filtre_actif == TRUE & Filtre_non_annexe == TRUE))]
 
                                                  #Montant.brut.annuel - sft - indemnité.résidence - traitement.indiciaire
 
-Analyse.rémunérations <- Analyse.rémunérations[ ,
-                                               `:=`(rémunération.indemnitaire.imposable.eqtp = ifelse(is.finite(q <- Montant.brut.annuel.eqtp/Montant.brut.annuel), 
-                                                                                                            q * rémunération.indemnitaire.imposable,
-                                                                                                            NA),
+Analyse.rémunérations[ ,
+                         `:=`(rémunération.indemnitaire.imposable.eqtp = ifelse(is.finite(q <- Montant.brut.annuel.eqtp/Montant.brut.annuel), 
+                                                                                      q * rémunération.indemnitaire.imposable,
+                                                                                      NA),
 
-                                                    total.lignes.paie =  traitement.indiciaire + sft + indemnité.résidence + indemnités + autres.rémunérations,
+                              total.lignes.paie =  traitement.indiciaire + sft + indemnité.résidence + indemnités + autres.rémunérations,
 
-                                                    part.rémunération.indemnitaire =  ifelse(is.finite(q <- rémunération.indemnitaire.imposable/Montant.brut.annuel),
-                                                                                                   pmin(q, 1) * 100,
-                                                                                                   NA))]
+                              part.rémunération.indemnitaire =  ifelse(is.finite(q <- rémunération.indemnitaire.imposable/Montant.brut.annuel),
+                                                                             pmin(q, 1) * 100,
+                                                                             NA))]
 
-Analyse.rémunérations <- Analyse.rémunérations[ , indemnités.élu := ifelse(Statut == "ELU", total.lignes.paie, 0)]
+Analyse.rémunérations[ , indemnités.élu := ifelse(Statut == "ELU", total.lignes.paie, 0)]
 
-Analyse.rémunérations <- Analyse.rémunérations[! is.na(Montant.brut.annuel)]
+Analyse.rémunération <- Analyse.rémunérations[! is.na(Montant.brut.annuel)]
 
 message("Analyse des rémunérations réalisée.")
 
@@ -468,7 +467,7 @@ Analyse.variations.par.exercice <- Analyse.rémunérations[Grade != "A"
                                                               "quotité.moyenne",
                                                               "permanent"), with=FALSE]
 
-Analyse.variations.par.exercice <- Analyse.variations.par.exercice[ , indicatrice.année := bitwShiftL(1, Année - début.période.sous.revue) ]
+Analyse.variations.par.exercice[ , indicatrice.année := bitwShiftL(1, Année - début.période.sous.revue) ]
 
 sélectionner.exercice.analyse.rémunérations <- function(année) {
 
@@ -513,33 +512,33 @@ Analyse.variations.synthèse <- Analyse.variations.par.exercice[ ,
                                                                                                    & Montant.net.annuel.eqtp > minimum.positif])),
                                   by = clé.fusion]
 
-Analyse.variations.synthèse <- Analyse.variations.synthèse[ ,  pris.en.compte := ! is.na(Montant.net.annuel.eqtp.début)
-                                                                                 & ! is.na(Montant.net.annuel.eqtp.sortie)
-                                                                                 & Montant.net.annuel.eqtp.début  > minimum.positif 
-                                                                                 & Montant.net.annuel.eqtp.sortie > minimum.positif ]
+Analyse.variations.synthèse[ ,  pris.en.compte := ! is.na(Montant.net.annuel.eqtp.début)
+                                                   & ! is.na(Montant.net.annuel.eqtp.sortie)
+                                                   & Montant.net.annuel.eqtp.début  > minimum.positif 
+                                                   & Montant.net.annuel.eqtp.sortie > minimum.positif ]
 
-Analyse.variations.synthèse <- Analyse.variations.synthèse[ ,  variation.rémunération := ifelse(pris.en.compte,
-                                                                          (Montant.net.annuel.eqtp.sortie / Montant.net.annuel.eqtp.début - 1)*100,
-                                                                           NA)]
+Analyse.variations.synthèse[ ,  variation.rémunération := ifelse(pris.en.compte,
+                                                          (Montant.net.annuel.eqtp.sortie / Montant.net.annuel.eqtp.début - 1)*100,
+                                                           NA)]
 
-Analyse.variations.synthèse <- Analyse.variations.synthèse[ ,                                            
-                                         `:=`(variation.moyenne.rémunération = ifelse(pris.en.compte,
-                                                                                 ((variation.rémunération/100 + 1)^(1 / (Nexercices - 1)) - 1) * 100,
-                                                                                 NA),
-    
-                                              variation.rémunération.normalisée = ifelse(durée.sous.revue == Nexercices,
-                                                                                    variation.rémunération,
-                                                                                    NA))]
+Analyse.variations.synthèse[ ,                                            
+                               `:=`(variation.moyenne.rémunération = ifelse(pris.en.compte,
+                                                                       ((variation.rémunération/100 + 1)^(1 / (Nexercices - 1)) - 1) * 100,
+                                                                       NA),
+
+                                    variation.rémunération.normalisée = ifelse(durée.sous.revue == Nexercices,
+                                                                          variation.rémunération,
+                                                                          NA))]
 
 
-Analyse.variations.synthèse <- Analyse.variations.synthèse[ ,                                                                 
-                                         `:=`(variation.moyenne.rémunération.normalisée = ifelse(!is.na(variation.rémunération.normalisée),
-                                                                                            variation.moyenne.rémunération,
-                                                                                            NA),
-                                               plus.2.ans  = (total.jours  >= 730),  
-                                               moins.2.ans = (total.jours < 730),
-                                               moins.1.an  = (total.jours < 365),
-                                               moins.six.mois = (total.jours < 183))]
+Analyse.variations.synthèse[ ,                                                                 
+                               `:=`(variation.moyenne.rémunération.normalisée = ifelse(!is.na(variation.rémunération.normalisée),
+                                                                                  variation.moyenne.rémunération,
+                                                                                  NA),
+                                     plus.2.ans  = (total.jours  >= 730),  
+                                     moins.2.ans = (total.jours < 730),
+                                     moins.1.an  = (total.jours < 365),
+                                     moins.six.mois = (total.jours < 183))]
                                                
 # Note : sous environnement knitr/spin, data.table parvient mal à identifier les noms locaux,
 # ce qui ne pose pas de problème en environnement standard. Il faut donc rajouter le préfixe de base dans ce cas.
@@ -552,11 +551,11 @@ Analyse.variations.par.exercice <- merge(Analyse.variations.par.exercice, temp2,
 
 rm(temp2)
 
-Analyse.variations.par.exercice <- Analyse.variations.par.exercice[ , est.rmpp :=  Année != début.période.sous.revue  
-                                                                                   & ! is.na(ind.quotité)
-                                                                                   &  ind.quotité == TRUE
-                                                                                   & bitwAnd(bitwShiftL(1, Année - 1 - début.période.sous.revue),
-                                                                                             indicatrice.période) != 0]
+Analyse.variations.par.exercice[ , est.rmpp :=  Année != début.période.sous.revue  
+                                                 & ! is.na(ind.quotité)
+                                                 &  ind.quotité == TRUE
+                                                 & bitwAnd(bitwShiftL(1, Année - 1 - début.période.sous.revue),
+                                                           indicatrice.période) != 0]
 
 
 Analyse.variations.synthèse.plus.2.ans  <- data.frame(NULL)
@@ -595,7 +594,7 @@ années.fonctionnaires   <- extraire.nir(Bulletins.paie.nir.fonctionnaires, fin.
 
 années.total.hors.élus  <- extraire.nir(Bulletins.paie.nir.total.hors.élus, fin.période.sous.revue)
 
-années.total.permanents  <- extraire.nir(Bulletins.paie.nir.permanents, fin.période.sous.revue)
+années.total.permanents <- extraire.nir(Bulletins.paie.nir.permanents, fin.période.sous.revue)
 
 années.total.nontit     <- extraire.nir(Bulletins.paie.nir.nontit, fin.période.sous.revue)
 
@@ -633,7 +632,6 @@ années.total.hors.élus.début  <- extraire.nir(Bulletins.paie.nir.total.hors.�
 années.total.nontit.début     <- extraire.nir(Bulletins.paie.nir.nontit.début, début.période.sous.revue)
 
 années.total.permanents.début <- extraire.nir(Bulletins.paie.nir.permanents.début, début.période.sous.revue)
-
 
 message("Analyse démographique réalisée.")
 
@@ -2062,7 +2060,7 @@ if (! any(Paie$iat.logical)) {
 
 if (! résultat.ifts.manquant && ! résultat.iat.manquant) {
   
-  Paie <- Paie[ , cumul.iat.ifts := any(ifts.logical[Type == "I"]) & any(iat.logical[Type == "I"]), by="Matricule,Année,Mois"]
+  Paie[ , cumul.iat.ifts := any(ifts.logical[Type == "I"]) & any(iat.logical[Type == "I"]), by="Matricule,Année,Mois"]
   
   # on exclut les rappels !
   
@@ -2169,7 +2167,7 @@ nombre.agents.cumulant.pfr.ifts <- 0
 # Le cumul de la PR et de l'IFTS est régulier, de même que celui de la PR et de la PFR
 # le cumul de la PFR et de l'IFTS est irrrégulier
 
-Paie <- Paie[ , pfr.logical := grepl(expression.rég.pfr, Paie$Libellé, ignore.case=TRUE, perl=TRUE)]
+Paie[ , pfr.logical := grepl(expression.rég.pfr, Paie$Libellé, ignore.case=TRUE, perl=TRUE)]
 
 codes.pfr  <- list( "codes PFR" = unique(Paie[pfr.logical == TRUE][ , Code]))
 
@@ -2182,10 +2180,10 @@ if (length(codes.pfr) == 0) {
 
 if (! résultat.ifts.manquant && ! résultat.pfr.manquant) {
   
-  Paie <- Paie[ , cumul.pfr.ifts := (  any(pfr.logical[Type == "I"]) 
-                                     & any(ifts.logical[Type == "I"])), 
-               by="Matricule,Année,Mois"]
-  
+  Paie[ , cumul.pfr.ifts := (any(pfr.logical[Type == "I"]) 
+                               & any(ifts.logical[Type == "I"])), 
+         by="Matricule,Année,Mois"]
+
   # on exclut les rappels !
   
   personnels.pfr.ifts <- Paie[cumul.pfr.ifts == TRUE 
@@ -2323,7 +2321,7 @@ rémunérations.élu <- Analyse.rémunérations[ indemnités.élu > minimum.posi
                                               "rémunération.indemnitaire.imposable"),
                                             with=FALSE ]
 
-rémunérations.élu <- rémunérations.élu[ , rémunération.indemnitaire.imposable := indemnités.élu +  rémunération.indemnitaire.imposable]
+rémunérations.élu[ , rémunération.indemnitaire.imposable := indemnités.élu +  rémunération.indemnitaire.imposable]
 
 rémunérations.élu <- merge(unique(matricules[ , .(Nom,  Matricule)], by=NULL),
                              rémunérations.élu,

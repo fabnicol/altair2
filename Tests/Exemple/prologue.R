@@ -37,7 +37,7 @@ générer.table.effectifs      <- F
 générer.table.élus           <- T
 tester.matricules            <- TRUE
 produire.rapport             <- TRUE
-analyse.statique.totale      <- TRUE
+analyse.statique.totale      <- F
 
 seuil.troncature         <- 1 # jours
 taux.tolérance.homonymie <- 2  # en %
