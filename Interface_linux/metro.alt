@@ -174,10 +174,10 @@
      
   </maxLigne>
   <separateur profondeur="0">
-   ,
+   ;
   </separateur>
   <decimal profondeur="0">
-   .
+   ,
   </decimal>
   <processType profondeur="0">
    '7'
@@ -205,6 +205,6 @@
   </ecoRAM>
  </systeme>
  <recent>
-  <fichier>/home/fab/defaut.alt</fichier>
+  <fichier>/home/fab/Dev/altair/Interface_linux/metro.alt</fichier>
  </recent>
 </projet>

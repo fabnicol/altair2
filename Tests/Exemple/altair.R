@@ -175,6 +175,7 @@ if (! extraire.années) {
   fin.période.sous.revue   <- max(Paie[[1]])
 }
 
+
 #'<p class = "centered"><b>Exercices `r paste(début.période.sous.revue, "à", fin.période.sous.revue)` </b></p>
 #'<p class = "author">Fabrice Nicol</h1>
 #'
@@ -209,6 +210,14 @@ if (extraire.années) {
 période                 <- début.période.sous.revue:fin.période.sous.revue
 durée.sous.revue        <- fin.période.sous.revue - début.période.sous.revue + 1
 
+if (! analyse.statique.totale) {
+  
+  années.analyse.statique <- c(début.période.sous.revue, fin.période.sous.revue)
+  
+} else {
+  
+  années.analyse.statique <- période
+}
 
 message("Contrôle des noms de colonne des bulletins de paie : normal.")
 
@@ -1069,38 +1078,23 @@ colonnes.sélectionnées <- c("traitement.indiciaire",
                             clé.fusion)
 
 
-########### Analyse statique premier exercice ########################
-out <- NULL
-année <- début.période.sous.revue
+########### Analyse statique ########################
 
-incrémenter.chapitre()
-
-cat(knit_child(text = if (produire. rapport) readLines('analyse.statique.Rmd', encoding = encodage.code.source) else "", quiet=TRUE), sep = '\n')
-
-if (! produire.rapport) {
-  
-  source('analyse.statique.R', encoding = encodage.code.source) 
-  
-}
-
-########### Analyse statique dernier exercice ########################
-
-année <- fin.période.sous.revue
-
-incrémenter.chapitre()
-
-if (! produire.rapport) {
-  
-  source('analyse.statique.R', encoding = encodage.code.source) 
-  
-} else {
-  
-  #cat(knit_child(text = readLines('analyse.statique.Rmd'), quiet=TRUE), sep = '\n')
-}
+sapply(années.analyse.statique, function(x) {
+                 année <<- x
+                 incrémenter.chapitre()
+                 if (! produire.rapport) {
+                   
+                   source('analyse.statique.R', encoding = encodage.code.source) 
+                   
+                 } else {
+                                      
+                   cat(knit_child(text = readLines(file.path(chemin.dossier,'analyse.statique.Rmd'), encoding = encodage.code.source), quiet=TRUE), sep = '\n')
+                 }
+               })
 
 
-########### INSEE DGCL ##############################################
-
+########### INSEE DGCL ###############################
 #'   
 #'## `r chapitre`.4 Comparaisons source INSEE/DGCL   
 #'   
