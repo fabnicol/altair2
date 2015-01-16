@@ -164,8 +164,17 @@ importer.bases.via.xhl2csv <- function(base, table = nom.table, colClasses = col
 }
 
 
-importer.bases.via.xhl2csv("Paie")
-importer.bases.via.xhl2csv("Bulletins.paie", nom.bulletins, colClasses =  colonnes.bulletins.classes.input, colNames = colonnes.bulletins.input)
+if (charger.bases) {
+  importer.bases.via.xhl2csv("Paie")
+  importer.bases.via.xhl2csv("Bulletins.paie", nom.bulletins, colClasses =  colonnes.bulletins.classes.input, colNames = colonnes.bulletins.input)
+  
+  Paie[is.na(Grade),  Grade  := ""]
+  Paie[is.na(Statut), Statut := "AUTRE_STATUT"]
+  Paie[is.na(NBI),    NBI    := 0]
+  Bulletins.paie[is.na(Grade),  Grade  := ""]
+  Bulletins.paie[is.na(Statut), Statut := "AUTRE_STATUT"]
+  Bulletins.paie[is.na(NBI),    NBI    := 0]
+}
 
 setkey(Paie, Matricule, Année, Mois)
 setkey(Bulletins.paie, Matricule, Année, Mois)
@@ -233,164 +242,169 @@ if (générer.codes)   {
   générer.base.codes(Paie) 
 }
   
-
-Paie[ , Filtre_actif := any(Montant[Type == "T" & Heures > minimum.positif] > minimum.actif, na.rm = TRUE), by="Matricule,Année"]
-
-Paie[ , `:=`(delta = sum(Montant * (Type %chin% c("I", "T", "S", "IR", "AC","A", "R", "AV")),
-                         na.rm=TRUE) - Brut),
-         by="Matricule,Année,Mois"]
-
-#Bulletins.paie <- unique(Paie[ , .(Matricule, Nom, Année, Mois, Temps.de.travail, Heures,  Statut, Emploi, Grade, Brut, Net.à.Payer, Nir)], by = NULL)
-
-Bulletins.paie[ , `:=`(Sexe = substr(Nir, 1, 1),
-                                         R    = .I - 1)]
-
-# Attention, NA, pas FALSE
-
-set(Bulletins.paie, 1, "R", NA)
-
-# Médiane des services horaires à temps complet par emploi et par sexe 
-
-# La variable Heures des élus est non fiable et on peut par convention prendre la quotité 1
-
-# Pour faciliter les comparaisons de quotité lors du calcul de la RMPP on arrondit les quotités au centième inférieur
-# Lorsque la déterminéation de la médiane par emploi et sexe du nombre d'heures travaillées à temps complet n'est pas positive, la quotité est indéfinie
-# Une quotité ne peut pas dépasser 1.
-# Les élus sont réputés travailler à temps complet.
-
-message("Calcul des quotités")
-
-#on va trouver la plupart du temps 151,67...
-# Tableau de référence des matrices de médianes
-# A ce niveau de généralité, le filtre actif est inutile, sauf peut-être pour de très petits effectifs.
-
-M <- Bulletins.paie[(Sexe == "1" | Sexe == "2") & Heures > minimum.positif, .(Médiane_Sexe_Statut = median(Heures, na.rm=TRUE)), by="Sexe,Statut"]
-
-Bulletins.paie <- merge(Bulletins.paie, Paie[, .(Filtre_actif=Filtre_actif[1]), by="Matricule,Année,Mois"], all.x=TRUE, all.y=FALSE)
-
-Bulletins.paie[ , pop_calcul_médiane := length(Heures[Temps.de.travail == 100 
-                                                       & !is.na(Heures) 
-                                                       & Heures > minimum.positif]), by = "Sexe,Emploi"]
-
-# Pour les quotités seules les périodes actives sont prises en compte
-
-Bulletins.paie[ , MHeures := ifelse(pop_calcul_médiane > population_minimale_calcul_médiane 
-                                    & Filtre_actif == TRUE,
-                                    median(Heures[Temps.de.travail == 100 
-                                                  & Filtre_actif == TRUE
-                                                  & Heures > minimum.positif], na.rm = TRUE),
-                                    M[M$Sexe == Bulletins.paie$Sexe
-                                      & M$Statut == Bulletins.paie$Statut,
-                                        Médiane_Sexe_Statut]),
-               by="Sexe,Emploi"]
-
-# L'écrêtement des quotités est une contrainte statistiquement discutable qui permet de "stresser" le modèle
-# Par défaut les quotités sont écrêtées pour pouvoir par la suite raisonner en définissant le temps plein comme quotité == 1
-
-if (écreter.quotités) {
-   Bulletins.paie[ , quotité   :=  ifelse(MHeures < minimum.positif, NA, ifelse(Heures > MHeures, 1, round(Heures/MHeures, digits=2)))]  
-} else {
-   Bulletins.paie[ , quotité   :=  ifelse(MHeures < minimum.positif, NA, round(Heures/MHeures, digits=2))]  
-}
-
-Bulletins.paie[Statut == "ELU", `:=`(MHeures = 1,
-                                     quotité = 1)]
-
-message("Quotités calculées")
-
-Bulletins.paie[ ,   `:=`(Montant.net.eqtp  = ifelse(is.finite(a<-Net.à.Payer/quotité), a,  NA),
-                         Montant.brut.eqtp = ifelse(is.finite(a<-Brut/quotité), a,  NA))]
+if (charger.bases) {
     
-Bulletins.paie[ ,   `:=`(Statut.sortie   = Statut[length(Net.à.Payer)],
-                         nb.jours        = calcul.nb.jours.mois(Mois, Année[1]),
-                         nb.mois         = length(Mois),
-                         quotité.moyenne = round(mean.default(quotité, na.rm = TRUE), digits = 1)),
-                    key=c("Matricule", "Année")]
-
-# Indicatrice pour la rémunération moyenne des personnes en place :
-# quotité égale pendant deux années successives contigues, permanence sur 12 mois.
-# nous prenons les moyennes des quotités non NA.
-
-Bulletins.paie[ , indicatrice.quotité.pp := (Matricule[R] == Matricule 
-                                             & Année[R]   == Année - 1 
-                                             & quotité.moyenne[R] == quotité.moyenne
-                                             & nb.mois[R] == nb.mois
-                                             & nb.mois    == 12)]
-
-Bulletins.paie[ ,   `:=`(Montant.brut.annuel      = sum(Brut, na.rm=TRUE),
-                         Montant.brut.annuel.eqtp = sum(Montant.brut.eqtp * 365 / nb.jours, na.rm=TRUE),
-                         Montant.net.annuel.eqtp  = sum(Montant.net.eqtp * 365 / nb.jours, na.rm=TRUE),
-                         Montant.net.annuel       = sum(Net.à.Payer, na.rm=TRUE),
-                         permanent                = nb.jours >= 365,
-                         cumHSup      = sum(Heures.Sup., na.rm = TRUE), 
-                         indicatrice.quotité.pp = indicatrice.quotité.pp[1]),
+  Paie[ , Filtre_actif := any(Montant[Type == "T" & Heures > minimum.positif] > minimum.actif, na.rm = TRUE), by="Matricule,Année"]
+  
+  Paie[ , `:=`(delta = sum(Montant * (Type %chin% c("I", "T", "S", "IR", "AC","A", "R", "AV")),
+                           na.rm=TRUE) - Brut),
+           by="Matricule,Année,Mois"]
+     
+  #Bulletins.paie <- unique(Paie[ , .(Matricule, Nom, Année, Mois, Temps.de.travail, Heures,  Statut, Emploi, Grade, Brut, Net.à.Payer, Nir)], by = NULL)
+  
+  Bulletins.paie[ , `:=`(Sexe = substr(Nir, 1, 1),
+                         R    = .I - 1)]
+  
+  # Attention, NA, pas FALSE
+  
+  set(Bulletins.paie, 1, "R", NA)
+  
+  
+  # Médiane des services horaires à temps complet par emploi et par sexe 
+  
+  # La variable Heures des élus est non fiable et on peut par convention prendre la quotité 1
+  
+  # Pour faciliter les comparaisons de quotité lors du calcul de la RMPP on arrondit les quotités au centième inférieur
+  # Lorsque la déterminéation de la médiane par emploi et sexe du nombre d'heures travaillées à temps complet n'est pas positive, la quotité est indéfinie
+  # Une quotité ne peut pas dépasser 1.
+  # Les élus sont réputés travailler à temps complet.
+  
+  message("Calcul des quotités")
+  
+  #on va trouver la plupart du temps 151,67...
+  # Tableau de référence des matrices de médianes
+  # A ce niveau de généralité, le filtre actif est inutile, sauf peut-être pour de très petits effectifs.
+  
+  
+  M <- Bulletins.paie[(Sexe == "1" | Sexe == "2") & Heures > minimum.positif, .(Médiane_Sexe_Statut = median(Heures, na.rm=TRUE)), by="Sexe,Statut"]
+  
+  Bulletins.paie <- merge(Bulletins.paie, Paie[, .(Filtre_actif=Filtre_actif[1]), by="Matricule,Année,Mois"], all.x=TRUE, all.y=FALSE)
+  
+  Bulletins.paie[ , pop_calcul_médiane := length(Heures[Temps.de.travail == 100 
+                                                         & !is.na(Heures) 
+                                                         & Heures > minimum.positif]), by = "Sexe,Emploi"]
+  
+  # Pour les quotités seules les périodes actives sont prises en compte
+  
+  Bulletins.paie[ , MHeures := ifelse(pop_calcul_médiane > population_minimale_calcul_médiane 
+                                      & Filtre_actif == TRUE,
+                                      median(Heures[Temps.de.travail == 100 
+                                                    & Filtre_actif == TRUE
+                                                    & Heures > minimum.positif], na.rm = TRUE),
+                                      M[M$Sexe == Bulletins.paie$Sexe
+                                        & M$Statut == Bulletins.paie$Statut,
+                                          Médiane_Sexe_Statut]),
+                 by="Sexe,Emploi"]
+  
+  # L'écrêtement des quotités est une contrainte statistiquement discutable qui permet de "stresser" le modèle
+  # Par défaut les quotités sont écrêtées pour pouvoir par la suite raisonner en définissant le temps plein comme quotité == 1
+  
+  if (écreter.quotités) {
+     Bulletins.paie[ , quotité   :=  ifelse(MHeures < minimum.positif, NA, ifelse(Heures > MHeures, 1, round(Heures/MHeures, digits=2)))]  
+  } else {
+     Bulletins.paie[ , quotité   :=  ifelse(MHeures < minimum.positif, NA, round(Heures/MHeures, digits=2))]  
+  }
+  
+  Bulletins.paie[Statut == "ELU", `:=`(MHeures = 1,
+                                       quotité = 1)]
+  
+  message("Quotités calculées")
+  
+  Bulletins.paie[ ,   `:=`(Montant.net.eqtp  = ifelse(is.finite(a<-Net.à.Payer/quotité), a,  NA),
+                           Montant.brut.eqtp = ifelse(is.finite(a<-Brut/quotité), a,  NA))]
+      
+  Bulletins.paie[ ,   `:=`(Statut.sortie   = Statut[length(Net.à.Payer)],
+                           nb.jours        = calcul.nb.jours.mois(Mois, Année[1]),
+                           nb.mois         = length(Mois),
+                           quotité.moyenne = round(mean.default(quotité, na.rm = TRUE), digits = 1)),
                       key=c("Matricule", "Année")]
+  
+  # Indicatrice pour la rémunération moyenne des personnes en place :
+  # quotité égale pendant deux années successives contigues, permanence sur 12 mois.
+  # nous prenons les moyennes des quotités non NA.
+  
+  Bulletins.paie[ , indicatrice.quotité.pp := (Matricule[R] == Matricule 
+                                               & Année[R]   == Année - 1 
+                                               & quotité.moyenne[R] == quotité.moyenne
+                                               & nb.mois[R] == nb.mois
+                                               & nb.mois    == 12)]
+  
+  Bulletins.paie[ ,   `:=`(Montant.brut.annuel      = sum(Brut, na.rm=TRUE),
+                           Montant.brut.annuel.eqtp = sum(Montant.brut.eqtp * 365 / nb.jours, na.rm=TRUE),
+                           Montant.net.annuel.eqtp  = sum(Montant.net.eqtp * 365 / nb.jours, na.rm=TRUE),
+                           Montant.net.annuel       = sum(Net.à.Payer, na.rm=TRUE),
+                           permanent                = nb.jours >= 365,
+                           cumHSup      = sum(Heures.Sup., na.rm = TRUE), 
+                           indicatrice.quotité.pp = indicatrice.quotité.pp[1]),
+                        key=c("Matricule", "Année")]
+  
+  message("Indicatrice RMPP calculée")
+  
+  # Obsolète
+  
+  # Bulletins.paie.réduit <- unique(Bulletins.paie[ , .(Matricule, Année, quotité.moyenne)], by = NULL)
+  # 
+  # Bulletins.paie.réduit <- Bulletins.paie.réduit[ , nb.années := length(Année), by="Matricule"]
+  # 
+  # indicatrice.quotité <- function(matricule, année)  Bulletins.paie.réduit[Matricule == matricule 
+  #                                                                          & Année == année, 
+  #                                                                            quotité.moyenne][1] ==  Bulletins.paie[Matricule == matricule
+  #                                                                                                                   & (Année == année - 1),
+  #                                                                                                                     quotité.moyenne][1]
+  #                                                   
+  # 
+  # Bulletins.paie <- merge(Bulletins.paie, cbind(Bulletins.paie.réduit[ , .(Matricule, Année, nb.années)],
+  #                                               indicatrice.quotité.pp = mapply(indicatrice.quotité,
+  #                                                              Bulletins.paie.réduit[ , Matricule], 
+  #                                                              Bulletins.paie.réduit[ , Année],
+  #                                                              USE.NAMES = FALSE)),
+  #                         by = c("Matricule", "Année"))
+  # 
+  # delta<-Bulletins.paie[indic.rmpp != indicatrice.quotité.pp, .(Matricule, Année, Mois, quotité, quotité.moyenne, indic.rmpp, indicatrice.quotité.pp, R)]
+  # 
+  # sauv.bases(dossier = chemin.dossier.bases, "delta")
+  # stop("test")
+  
+  Paie <- merge(unique(Bulletins.paie[ , c("Matricule", 
+                                    "Année",
+                                    "Mois",
+                                    "quotité",
+                                    "quotité.moyenne",
+                                    "Montant.net.eqtp",
+                                    "Montant.brut.eqtp",
+                                    "Montant.brut.annuel",
+                                    "Montant.brut.annuel.eqtp",
+                                    "Montant.net.annuel",
+                                    "Montant.net.annuel.eqtp",
+                                    "Statut.sortie",
+                                    "Sexe",
+                                    "nb.jours",
+                                    "nb.mois",
+  #                                  "nb.années",
+                                    "indicatrice.quotité.pp",
+                                    "permanent"), with=FALSE], by=NULL),
+                Paie, 
+                by=c("Matricule","Année","Mois"))
+  
+  matricules <- unique(Bulletins.paie[ ,
+                                         c("Année",
+                                           "Emploi",
+                                           "Nom",
+                                           "Matricule"), 
+                                         with=FALSE], by=NULL)
+  
+  if (fichier.personnels.existe) {
+    matricules <- merge(matricules, base.personnels.catégorie, by = clé.fusion, all=TRUE)
+  } else {
+    Catégorie <- character(length = nrow(matricules))
+    matricules <- cbind(matricules, Catégorie)
+  }
+  
+  matricules <- matricules[order(Matricule,  Année), ]
+  
+  message("Bulletins de Paie retraités")
 
-message("Indicatrice RMPP calculée")
-
-# Obsolète
-
-# Bulletins.paie.réduit <- unique(Bulletins.paie[ , .(Matricule, Année, quotité.moyenne)], by = NULL)
-# 
-# Bulletins.paie.réduit <- Bulletins.paie.réduit[ , nb.années := length(Année), by="Matricule"]
-# 
-# indicatrice.quotité <- function(matricule, année)  Bulletins.paie.réduit[Matricule == matricule 
-#                                                                          & Année == année, 
-#                                                                            quotité.moyenne][1] ==  Bulletins.paie[Matricule == matricule
-#                                                                                                                   & (Année == année - 1),
-#                                                                                                                     quotité.moyenne][1]
-#                                                   
-# 
-# Bulletins.paie <- merge(Bulletins.paie, cbind(Bulletins.paie.réduit[ , .(Matricule, Année, nb.années)],
-#                                               indicatrice.quotité.pp = mapply(indicatrice.quotité,
-#                                                              Bulletins.paie.réduit[ , Matricule], 
-#                                                              Bulletins.paie.réduit[ , Année],
-#                                                              USE.NAMES = FALSE)),
-#                         by = c("Matricule", "Année"))
-# 
-# delta<-Bulletins.paie[indic.rmpp != indicatrice.quotité.pp, .(Matricule, Année, Mois, quotité, quotité.moyenne, indic.rmpp, indicatrice.quotité.pp, R)]
-# 
-# sauv.bases(dossier = chemin.dossier.bases, "delta")
-# stop("test")
-
-Paie <- merge(unique(Bulletins.paie[ , c("Matricule", 
-                                  "Année",
-                                  "Mois",
-                                  "quotité",
-                                  "quotité.moyenne",
-                                  "Montant.net.eqtp",
-                                  "Montant.brut.eqtp",
-                                  "Montant.brut.annuel",
-                                  "Montant.brut.annuel.eqtp",
-                                  "Montant.net.annuel",
-                                  "Montant.net.annuel.eqtp",
-                                  "Statut.sortie",
-                                  "Sexe",
-                                  "nb.jours",
-                                  "nb.mois",
-#                                  "nb.années",
-                                  "indicatrice.quotité.pp",
-                                  "permanent"), with=FALSE], by=NULL),
-              Paie, 
-              by=c("Matricule","Année","Mois"))
-
-matricules <- unique(Bulletins.paie[ ,
-                                       c("Année",
-                                         "Emploi",
-                                         "Nom",
-                                         "Matricule"), 
-                                       with=FALSE], by=NULL)
-
-if (fichier.personnels.existe) {
-  matricules <- merge(matricules, base.personnels.catégorie, by = clé.fusion, all=TRUE)
-} else {
-  Catégorie <- character(length = nrow(matricules))
-  matricules <- cbind(matricules, Catégorie)
-}
-
-matricules <- matricules[order(Matricule,  Année), ]
-
-message("Bulletins de Paie retraités")
+} # if (charger.bases)
 
 ###########  Analyse des rémunérations : base globale ###################
 #                                 c(clé.fusion, étiquette.année),
@@ -447,7 +461,7 @@ Analyse.rémunérations[ ,
 
 Analyse.rémunérations[ , indemnités.élu := ifelse(Statut == "ELU", total.lignes.paie, 0)]
 
-Analyse.rémunération <- Analyse.rémunérations[! is.na(Montant.brut.annuel)]
+Analyse.rémunérations <- Analyse.rémunérations[! is.na(Montant.brut.annuel)]
 
 message("Analyse des rémunérations réalisée.")
 
@@ -675,7 +689,7 @@ effectifs <- lapply(période,
                       postes.non.actifs <- unique(Analyse.rémunérations[Statut != "ELU"
                                                                         & Filtre_actif == FALSE
                                                                         & Année == x,
-                                                                        Matricule])
+                                                                          Matricule])
                       postes.annexes <- unique(Analyse.rémunérations[Statut != "ELU"
                                                                      & Filtre_non_annexe == FALSE
                                                                      & Année == x,
@@ -683,8 +697,10 @@ effectifs <- lapply(période,
                       postes.actifs.non.annexes <- unique(Analyse.rémunérations[Statut != "ELU"
                                                                                 & Filtre_actif_non_annexe == TRUE
                                                                                 & Année == x,
-                                                                                Matricule])
-                      postes.non.titulaires <- unique(Analyse.variations.par.exercice[Statut == "NON_TITULAIRE" & Année ==x, Matricule])
+                                                                                  Matricule])
+                      postes.non.titulaires <- unique(Analyse.variations.par.exercice[Statut == "NON_TITULAIRE" 
+                                                                                      & Année ==x, 
+                                                                                        Matricule])
                       
                       c(nrow(E), 
                         nrow(F),
@@ -1794,9 +1810,6 @@ Résumé(c("Variation normalisée (%)",
 #'Les différences éventuelles constatées entre l'évolution de la RMPP au tableau `r numéro.tableau-2` sont dues soit à l'effet de noria soit à l'effet périmètre.    
 #'      
 
-#'
-########### Tests statutaires ########################
-#'
 #'[Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.csv)
 #'
 #'
@@ -1853,6 +1866,11 @@ Tableau.vertical2(c("Type de collectivité", "SMPT net 2011 (&euro;)", "SMPT net
 #'    
 
 incrémenter.chapitre()
+
+
+#'
+########### Tests statutaires ########################
+#'
 
 #'# `r chapitre`. Tests réglementaires   
 #'## `r chapitre`.1 Contrôle des heures supplémentaires, des NBI et primes informatiques   
@@ -2057,6 +2075,8 @@ if (! any(Paie$iat.logical)) {
   cat("Il n'a pas été possible d'identifier les IAT par expression régulière.")
   résultat.iat.manquant <- TRUE
 }
+
+nombre.agents.cumulant.iat.ifts <- 0
 
 if (! résultat.ifts.manquant && ! résultat.iat.manquant) {
   
