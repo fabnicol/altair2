@@ -131,7 +131,6 @@ read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, étiquet
                       sep = séparateur.liste,
                       dec = séparateur.décimal,
                       header = TRUE,
-                      verbose = TRUE,
                       skip = champ.détection.1,
                       colClasses = classes,
                       showProgress = FALSE))
