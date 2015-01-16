@@ -126,7 +126,7 @@ read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, étiquet
     # data.table n'admet d'argument dec qu'à partir de la version 1.9.5 
     
     if (is.na(classes)) classes = NULL
-    cat(chem)
+    
     T <- try(data.table::fread(chem,
                       sep = séparateur.liste,
                       dec = séparateur.décimal,
