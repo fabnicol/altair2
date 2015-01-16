@@ -36,7 +36,7 @@ sauvegarder.bases.origine    <- F
 générer.table.effectifs      <- F
 générer.table.élus           <- T
 tester.matricules            <- TRUE
-produire.rapport             <- TRUE
+produire.rapport             <- T
 analyse.statique.totale      <- F
 
 seuil.troncature         <- 1 # jours
@@ -134,14 +134,6 @@ colonnes.bulletins.classes.input <- c("integer", "integer", "character", "charac
                                       "character",  "numeric", "numeric", "numeric", "numeric",
                                       "character", "character", "character")
 
-lignes.paie.input               <- c("Année", "Mois", "Matricule", "Année", "Mois", "Matricule", "Libellé", "Code", "Base", "Taux", "Montant")
-
-lignes.paie.input.fallback      <- c("Année", "Mois", "Matricule", "Libellé", "Code", "Base", "Taux", "Montant")
-
-lignes.paie.classes.input       <- c("integer", "integer", "character", "integer", "integer", "character", "character", "character", "numeric", "numeric", "numeric")
-
-lignes.paie.classes.input.fallback <- c("integer", "integer", "character", "character", "character", "numeric", "numeric", "numeric")
-
 date.format                      <- "%d/%m/%Y"
 
 # ESPACES DE VALEURS LICITES POUR CERTAINS CHAMPS (modalités)
@@ -184,5 +176,5 @@ expression.rég.pfr        <- "(?:^|\\s)pfr|p(?:(?=r)r\\w*|)\\.?\\s*\\bf(?:(?=o)
 expression.rég.pfi        <- "(?:^|\\s)pfi|p(?:(?=r)r\\w*|)\\.?\\s*\\bf(?:(?=o)o\\w*|)\\.?\\s*\\bi(?:(?=n)n\\w*|)\\.?\\b"
 expression.rég.population <- "\\bASS(\\b|A).*"
 expression.rég.élus       <- "maire|pr[eé]sident|.*([eé]lu[s]?|adj.*maire|v\\w*.*\\s+pr[eé]sident|cons\\w*.*\\s+muni|cons\\w*.*\\s+commun)"
-expression.rég.nbi        <- "(?:\\s|^)nbi|n(?:(?=o)o\\w*|)\\.?\\s*\\bb(?:(?=o)o\\w*|)\\.?\\s*\\bi(?:(?=n)n\\w*|)\\.?\\b"
+expression.rég.nbi        <- "(?:\\s|^)nbi|(?:n(?:(?=o)o\\w*|)\\.?\\s*\\b)?b(?:(?=o)o\\w*|)\\.?\\s*\\bi(?:(?=n)n\\w*|)\\.?\\b"
 
