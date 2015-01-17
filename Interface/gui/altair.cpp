@@ -697,22 +697,30 @@ void Altair::dropEvent(QDropEvent *event)
     if (event->source() != this)
     {
 
-        QList<QUrl> urls=event->mimeData()->urls();
-        if (urls.isEmpty()) return;
+        QList<QUrl> urlsDragged=event->mimeData()->urls();
+        QList<QUrl> urlsToBeDropped;
+        
+        if (urlsDragged.isEmpty()) return;
+        
+        do {
+            QUrl firstUrl = urlsDragged.takeFirst();
+            QString fileName = firstUrl.toLocalFile();
+            if (fileName.isEmpty()) return;
+            QFileInfo info = QFileInfo(fileName);
+            if (info.isDir())
+              {
+                QDir dir(fileName);
+                QFileInfoList entries = dir.entryInfoList({"*.xhl"}, QDir::Files);
+                for (QFileInfo & localFile: entries)
+                    urlsToBeDropped << QUrl::fromLocalFile(localFile.absoluteFilePath());
+              }
+            else
+              if (info.isFile())
+                  urlsToBeDropped << firstUrl;
+                  
+        } while (! urlsDragged.isEmpty());
 
-        QString fileName = urls.first().toLocalFile();
-        if (fileName.isEmpty()) return;
-
-        if (QFileInfo(fileName).isDir())
-        {
-            urls.takeFirst();
-            QDir dir(fileName);
-            QFileInfoList entries = dir.entryInfoList({"*.xhl"}, QDir::Files);
-            for (QFileInfo & localFile: entries)
-                urls << QUrl::fromLocalFile(localFile.absoluteFilePath());
-        }
-
-        addDraggedFiles(urls);
+        addDraggedFiles(urlsToBeDropped);
     }
 
 }
