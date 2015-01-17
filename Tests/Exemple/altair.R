@@ -1094,7 +1094,7 @@ colonnes.sélectionnées <- c("traitement.indiciaire",
 
 ########### Analyse statique ########################
 
-sapply(années.analyse.statique, function(x) {
+invisible(lapply(années.analyse.statique, function(x) {
                  année <<- x
                  incrémenter.chapitre()
                  if (! produire.rapport) {
@@ -1105,7 +1105,7 @@ sapply(années.analyse.statique, function(x) {
                                       
                    cat(knit_child(text = readLines(file.path(chemin.dossier,'analyse.statique.Rmd'), encoding = encodage.code.source), quiet=TRUE), sep = '\n')
                  }
-               })
+               }))
 
 
 ########### INSEE DGCL ###############################
