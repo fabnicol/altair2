@@ -333,7 +333,7 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
     cur_save = cur;
     cur = atteindreNoeud("NBI", cur);
 #endif
-    _BULLETIN(NBI)
+    BULLETIN_(NBI)
 
 #ifdef TOLERANT
     cur = cur_save;

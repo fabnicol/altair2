@@ -36,7 +36,7 @@ sauvegarder.bases.origine    <- F
 générer.table.effectifs      <- F
 générer.table.élus           <- T
 tester.matricules            <- TRUE
-produire.rapport             <- T
+produire.rapport             <- F
 analyse.statique.totale      <- F
 
 seuil.troncature         <- 1 # jours
@@ -170,7 +170,7 @@ modalité.autres                <- "AUTRES"         # notamment les remboursemen
 #\\bxyz veut aussi dire cde.xyz(...), à éviter
 
 expression.rég.heures.sup <- "(?:^|\\s)iht?[sc]|i(?:(?=n)n\\w*|)\\.?\\s*\\bh(?:(?=o)o\\w*|)\\.?.*\\bs(?:(?=u)u\\w*|)\\.?\\b|h(?:(?=e)e\\w*|)\\.?\\s*\\b(?:(?=s)s\\w*|(?:(?=c)c\\w*|))\\.?\\b"
-expression.rég.iat        <- "(?:^|\\s)iat|i(?:(?=n)n\\w*|)\\.?\\s*\\ba(?:(?=d)d\\w*|)\\.?\\s*\\bt(?:(?=e)e\\w*|)\\.?\\b"
+expression.rég.iat        <- "(?:^|\\s)iat|i(?:(?=n)n\\w*|)\\.?\\s*\\ba(?:(?=d)d\\w*|)\\.?\\s*\\b(?:et\\s*\\b)?t(?:(?=e)e\\w*|)\\.?\\b"
 expression.rég.ifts       <- "(?:^|\\s)ifts|i(?:(?=n)n\\w*|)\\.?\\s*\\bf\\w*\\.?\\s*\\bt(?:(?=r)r\\w*|)\\.?\\s*\\bs(?:(?=u)u\\w*|)\\.?\\b"
 expression.rég.pfr        <- "(?:^|\\s)pfr|p(?:(?=r)r\\w*|)\\.?\\s*\\bf(?:(?=o)o\\w*|)\\.?\\s*\\br(?:(?<=[eé])s\\w*|)\\.?\\s*\\b|p(?:(?=r)r\\w*|)\\.?\\s*\\br(?:(?<=[eé])s\\w*|)\\.?\\b"
 expression.rég.pfi        <- "(?:^|\\s)pfi|p(?:(?=r)r\\w*|)\\.?\\s*\\bf(?:(?=o)o\\w*|)\\.?\\s*\\bi(?:(?=n)n\\w*|)\\.?\\b"
