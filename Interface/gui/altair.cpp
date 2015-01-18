@@ -23,8 +23,8 @@ void Altair::initialize()
 {
     adjustSize();
     
-    Hash::description["année"]={"Fichiers .xhl"};
-    Hash::description["recent"]={"Récent"};
+    Hash::description["année"]=QStringList("Fichiers .xhl");
+    Hash::description["recent"]=QStringList("Récent");
 
 }
 
@@ -691,6 +691,44 @@ void Altair::dragMoveEvent(QDragMoveEvent *event)
     }
 }
 
+
+// TODO : explorer les possibilités de move semantics pour accélérer la récursion
+
+QList<QUrl> Altair::parseUrlsDragged(QList<QUrl>& urlsDragged)
+{
+    
+    QList<QUrl> urlsToBeDropped;
+    
+    do {
+        QUrl firstUrl = urlsDragged.takeFirst();
+        QString fileName = firstUrl.toLocalFile();
+        if (fileName.isEmpty()) return QList<QUrl>();
+        QFileInfo info = QFileInfo(fileName);
+        if (info.isDir())
+          {
+            QDir dir(fileName);
+            QFileInfoList entries = dir.entryInfoList(QDir::NoDotAndDotDot|QDir::Files|QDir::Dirs);
+            // Recursion
+            QList<QUrl> urls;
+            for (QFileInfo & localFile: entries)
+            {
+                 urls << QUrl::fromLocalFile(localFile.absoluteFilePath());
+            }
+
+            urlsToBeDropped << parseUrlsDragged(urls);
+                       
+          }
+        else
+          if (info.isFile() && info.suffix() == "xhl")
+              urlsToBeDropped << firstUrl;
+              
+    } while (! urlsDragged.isEmpty());
+    
+    return urlsToBeDropped; 
+}
+
+
+
 void Altair::dropEvent(QDropEvent *event)
 {
 
@@ -698,29 +736,10 @@ void Altair::dropEvent(QDropEvent *event)
     {
 
         QList<QUrl> urlsDragged=event->mimeData()->urls();
-        QList<QUrl> urlsToBeDropped;
-        
+                
         if (urlsDragged.isEmpty()) return;
         
-        do {
-            QUrl firstUrl = urlsDragged.takeFirst();
-            QString fileName = firstUrl.toLocalFile();
-            if (fileName.isEmpty()) return;
-            QFileInfo info = QFileInfo(fileName);
-            if (info.isDir())
-              {
-                QDir dir(fileName);
-                QFileInfoList entries = dir.entryInfoList({"*.xhl"}, QDir::Files);
-                for (QFileInfo & localFile: entries)
-                    urlsToBeDropped << QUrl::fromLocalFile(localFile.absoluteFilePath());
-              }
-            else
-              if (info.isFile())
-                  urlsToBeDropped << firstUrl;
-                  
-        } while (! urlsDragged.isEmpty());
-
-        addDraggedFiles(urlsToBeDropped);
+        addDraggedFiles(parseUrlsDragged(urlsDragged));
     }
 
 }
