@@ -380,30 +380,11 @@ void FListFrame::deleteGroups(QList<int> &L)
 }
 #endif
 
-void FListFrame::addDirectoryToListWidget(const QFileInfo& info)
-{
- QStringList filters;
- filters+="*";
- QDir dir=QDir(info.canonicalFilePath());
- foreach (QFileInfo file, dir.entryInfoList(filters,QDir::AllDirs | QDir::NoDotAndDotDot|QDir::Files))
-   {
-     if (file.isDir())
-       {
-         addDirectoryToListWidget(file);
-       }
-     else
-       {
-         QString path=file.canonicalFilePath();
-         if (path.endsWith(".xhl"))
-             addStringToListWidget(path);
-       }
-   }
-}
 
-void FListFrame::addStringToHash(const QString & filepath)
+void FListFrame::addStringListToHash(const QStringList & stringList, int size)
 {
-    (*Hash::wrapper[frameHashKey])[currentIndex] << filepath;
-    Hash::counter[frameHashKey]++;
+    (*Hash::wrapper[frameHashKey])[currentIndex] << stringList;
+    Hash::counter[frameHashKey] += size;
     updateIndexInfo();
     if (row == 0) 
     {
@@ -413,44 +394,62 @@ void FListFrame::addStringToHash(const QString & filepath)
 }
 
 
-bool FListFrame::addStringToListWidget(const QString& filepath)
+bool FListFrame::addStringListToListWidget(const QStringList& stringList, int size)
 {
 
  updateIndexInfo();
- if ((filepath.isEmpty()) || (currentIndex >= (*Hash::wrapper[frameHashKey]).count() )) return false;
+ if ((size == 0) || (currentIndex >= (*Hash::wrapper[frameHashKey]).count() )) return false;
 
-
- if  (!filepath.isEmpty())
- {
-     fileListWidget->currentListWidget->addItem(filepath);
-     fileListWidget->currentListWidget->setCurrentRow(row+1);
-     addStringToHash(filepath);
- }
-
- 
- return true;
-}
-
-
-bool FListFrame::addStringToListWidget(const QString& str, int rank)
-{
- 
- if ((str.isEmpty()) || (rank >= (*Hash::wrapper[frameHashKey]).count() )) return false;
-
- 
- (*Hash::wrapper[frameHashKey])[rank] << str;
- Hash::counter[frameHashKey]++;
- 
- if  (!str.isEmpty())
- {
-      fileListWidget->currentListWidget->addItem(str);
-      fileListWidget->currentListWidget->setCurrentRow(Hash::wrapper[frameHashKey]->at(rank).count()-1);
- }
-
-  fileListWidget->currentListWidget->setSelectionMode(QAbstractItemView::ExtendedSelection);
+ fileListWidget->currentListWidget->addItems(stringList);
+ fileListWidget->currentListWidget->setCurrentRow(row + size);
+ addStringListToHash(stringList, size);
   
  return true;
 }
+
+
+// TODO : explorer les possibilités de move semantics pour accélérer la récursion
+
+QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
+{
+    
+    QStringList stringsToBeAdded;
+    QStringListIterator i(stringList);
+    if (importType != flags::importFiles) return QStringList();
+
+    while (i.hasNext())
+    {
+        QString currentString = i.next();
+        if (currentString.isEmpty()) return QStringList();
+  
+            QFileInfo info = QFileInfo(currentString);
+            if (info.isDir())
+              {
+                QDir dir(currentString);
+                QFileInfoList entries = dir.entryInfoList(QDir::NoDotAndDotDot|QDir::Files|QDir::Dirs);
+                // Recursion
+                  // Utilisation d'une rvalue 
+                QList<QString> &&tempStrings=QStringList();
+                for (QFileInfo & embeddedFileInfo: entries)
+                {
+                     tempStrings <<  embeddedFileInfo.absoluteFilePath();
+                }
+                
+                  // Move semantics : gain de temps et de mémoire (>= Qt5.4)
+                
+                const QStringList constStringList = QStringList(tempStrings);
+                
+                stringsToBeAdded << parseTreeForFilePaths(constStringList);
+                           
+              }
+            else
+              if (info.isFile() && info.suffix() == "xhl")
+                  stringsToBeAdded << currentString;
+    }
+    
+    return stringsToBeAdded; 
+}
+
 
 void FListFrame::on_importFromMainTree_clicked()
 {
@@ -467,41 +466,41 @@ void FListFrame::on_importFromMainTree_clicked()
  QModelIndexList  indexList=selectionModel->selectedIndexes();
 
  if (indexList.isEmpty()) return;
- uint size=indexList.size();
-
- for (uint i = 0; i < size; i++)
-   {
-     QModelIndex index;
-     index=indexList.at(i);
-
-     if (importType == flags::importFiles)
+ 
+ QStringList stringsToBeAdded;
+ int stringListSize=0;
+ 
+ if (importType == flags::importFiles)
+    {
+     for (const QModelIndex& index : indexList)
        {
-         const QFileInfo info=model->fileInfo(index);
-
-         if (info.isFile())
-           {
-             QString filepath=info.canonicalFilePath();
-
-             if (filepath.endsWith(".xhl"))
-                 addStringToListWidget(filepath);
-           }
-         else if (info.isDir())
-           {
-             addDirectoryToListWidget(info);
-           }
-         else
-           {
-             QMessageBox::warning(this, tr("Parcourir"),
-                                  tr("%1 n'est pas un fichier ou un répertoire.").arg(index.data().toString()));
-           }
+         const QString path = model->filePath(index);
+         if (! path.isEmpty()) 
+         {
+             stringListSize++;
+             stringsToBeAdded << path;
+         }
        }
-     else if (importType == flags::importNames)
+     if (stringListSize) 
+         addParsedTreeToListWidget(stringsToBeAdded, stringListSize);
+    }
+ else
+ if (importType == flags::importNames)
+    {
+     for (const QModelIndex& index : indexList)
        {
          QString name=index.data().toString();
          //
-         addStringToListWidget(name);
+         if (! name.isEmpty()) 
+         {
+             stringListSize++;
+             stringsToBeAdded << name;
+         }
        }
-  }
+     
+     if (stringListSize) 
+         addStringListToListWidget(stringsToBeAdded, stringListSize);
+    }
 }
 
 void  FListFrame::setSlotListSize(int s) 
