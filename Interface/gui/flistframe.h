@@ -34,6 +34,9 @@ private:
  bool isTotalConnected=false;
  bool activateOnStart=false;
  void deleteAllGroups();
+ QStringList parseTreeForFilePaths(const QStringList& stringList);
+ bool addStringListToListWidget(const QStringList&, int size);
+ void addStringListToHash(const QStringList & stringList, int size);
  
 public:
  
@@ -82,11 +85,9 @@ void setControlButtonBoxVisible(bool x) {controlButtonBox->setVisible(x);}
 inline int getCurrentIndex() { return this->mainTabWidget->currentIndex(); }
 inline int getCurrentRow() { return getCurrentWidget()->currentRow(); }
 
-void addDirectoryToListWidget(const QFileInfo&);
 void addNewTab();
-bool addStringToListWidget(const QString& , int);
-bool addStringToListWidget(const QString&);
-void addStringToHash(const QString & filepath);
+
+bool addParsedTreeToListWidget(const QStringList& stringList, int size) { return addStringListToListWidget(parseTreeForFilePaths(stringList), size); }
 void list_connect(FComboBox* w);
 void list_connect(FListFrame* w);
 void total_connect(FListFrame* w);

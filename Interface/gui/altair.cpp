@@ -182,11 +182,13 @@ Altair::Altair()
     mainLayout->addLayout(progressLayout);
 
     QStringList labels;
-    labels << tr("") << tr("Chemin") << tr("Taille");
+    labels << tr("") << tr("Chemin") << tr("Taille\nFichier") << tr("Total");
     managerWidget->hide();
     managerWidget->setHeaderLabels(labels);
     managerWidget->setColumnWidth(0,300);
     managerWidget->setColumnWidth(1,300);
+    managerWidget->setColumnWidth(2,50);
+    managerWidget->setColumnWidth(3,80);
     managerWidget->setContextMenuPolicy(Qt::ContextMenuPolicy::NoContextMenu);
     managerLayout->addWidget(managerWidget);
 
@@ -692,43 +694,6 @@ void Altair::dragMoveEvent(QDragMoveEvent *event)
 }
 
 
-// TODO : explorer les possibilités de move semantics pour accélérer la récursion
-
-QList<QUrl> Altair::parseUrlsDragged(QList<QUrl>& urlsDragged)
-{
-    
-    QList<QUrl> urlsToBeDropped;
-    
-    do {
-        QUrl firstUrl = urlsDragged.takeFirst();
-        QString fileName = firstUrl.toLocalFile();
-        if (fileName.isEmpty()) return QList<QUrl>();
-        QFileInfo info = QFileInfo(fileName);
-        if (info.isDir())
-          {
-            QDir dir(fileName);
-            QFileInfoList entries = dir.entryInfoList(QDir::NoDotAndDotDot|QDir::Files|QDir::Dirs);
-            // Recursion
-            QList<QUrl> urls;
-            for (QFileInfo & localFile: entries)
-            {
-                 urls << QUrl::fromLocalFile(localFile.absoluteFilePath());
-            }
-
-            urlsToBeDropped << parseUrlsDragged(urls);
-                       
-          }
-        else
-          if (info.isFile() && info.suffix() == "xhl")
-              urlsToBeDropped << firstUrl;
-              
-    } while (! urlsDragged.isEmpty());
-    
-    return urlsToBeDropped; 
-}
-
-
-
 void Altair::dropEvent(QDropEvent *event)
 {
 
@@ -736,26 +701,29 @@ void Altair::dropEvent(QDropEvent *event)
     {
 
         QList<QUrl> urlsDragged=event->mimeData()->urls();
-                
-        if (urlsDragged.isEmpty()) return;
+        QStringList stringsDragged;
+        int size = 0;
         
-        addDraggedFiles(parseUrlsDragged(urlsDragged));
+        for (const QUrl& url : urlsDragged) 
+        {
+            const QString path = url.toLocalFile();
+            if (! path.isEmpty())
+            {
+                stringsDragged << path;
+                size ++;
+            }
+        }
+                
+        if (size == 0) return;
+       
+        updateIndexInfo();
+        if (false == project[0]->addParsedTreeToListWidget(stringsDragged, size)) return;
+        updateProject();
+        showFilenameOnly();
     }
 
 }
 
-
-void Altair::addDraggedFiles(const QList<QUrl>& urls)
-{
-    updateIndexInfo();
-
-    for (const QUrl &u: urls)
-    {
-        if (false == project[0]->addStringToListWidget(u.toLocalFile())) return;
-    }
-    updateProject();
-    showFilenameOnly();
-}
 
 
 void FProgressBar::stop()

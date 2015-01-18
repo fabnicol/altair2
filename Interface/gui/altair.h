@@ -44,7 +44,6 @@ public:
       }
 
     void startDrag();
-    void addDraggedFiles(const QList<QUrl>& urls);
  /* void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event)*/
     void dragMoveEvent(QDragMoveEvent *event);

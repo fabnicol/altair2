@@ -175,21 +175,13 @@ inline void stackData(const QDomNode & node, QStringList tags, int level, QVaria
 }
 
 /* computes sizes and sends filenames to main tab Widget */
-
-
 /* displays on manager tree window */
 
-//void displayTextData(const QStringList &firstColumn,
-//                                 const QString &secondColumn,
-//                                 const QString &thirdColumn,
-//                     const QColor &color=QColor("blue"));
 
 void displayTextData(const QStringList &firstColumn,
                      const QString &secondColumn="",
                      const QString &thirdColumn="",
                      const QString &fourthColumn="",
-                     const QString &fifthColumn="",
-                     const QString &sixthColumn="",
                      const QColor &color=QColor("blue"))
 {
     static QString last;
@@ -214,13 +206,16 @@ void displayTextData(const QStringList &firstColumn,
     {
         if (!thirdColumn.isEmpty()) item2->setText(2, thirdColumn);
         if (!thirdColumn.isEmpty()) item2->setText(3, fourthColumn);
-        if (!thirdColumn.isEmpty()) item2->setText(4, fifthColumn);
-        if (!thirdColumn.isEmpty()) item2->setText(5, sixthColumn);
-        if (color.isValid()) item2->setTextColor(2, color);
+        if (color.isValid())
+        {
+            item2->setTextColor(2, color);
+            item2->setTextColor(3, color);
+        }
+        item2->setTextAlignment(2, Qt::AlignRight);
+        item2->setTextAlignment(3, Qt::AlignLeft);
     }
 
     item2->setText(1, secondColumn);
-
 }
 
 
@@ -236,7 +231,7 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
     int k=0, count=0, l;
     qint64 filesizecount=0;
     QString  firstColumn, root=tags.at(0), secondColumn=tags.at(1),
-            thirdColumn, fourthColumn,fifthColumn,sixthColumn;
+            thirdColumn, fourthColumn;
 
     QListIterator<QStringList> i(stackedInfo), j(stackedSizeInfo);
 
@@ -264,13 +259,11 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
                 qint64 msize=units.at(0).toLongLong();
                 filesizecount += msize;
                 // force coertion into float or double using .0
-                thirdColumn    = QString::number(msize/1048576.0, 'f', 1) + "/"+  QString::number(filesizecount/1048576.0, 'f', 1)+ " Mo" ;
-                fourthColumn = units.at(1);
-                fifthColumn = units.at(2);
-                sixthColumn = units.at(3);
+                thirdColumn    = QString::number(msize/1048576.0, 'f', 1); 
+                fourthColumn   = QString::number(filesizecount/1048576.0, 'f', 1)+ " Mo" ;
             }
 
-            displayTextData({""}, secondColumn, thirdColumn, fourthColumn, fifthColumn, sixthColumn, (z.hasNext())? QColor("navy"): ((j.hasNext())? QColor("orange") :QColor("red")));
+            displayTextData({""}, secondColumn, thirdColumn, fourthColumn, (z.hasNext())? QColor("navy"): ((j.hasNext())? QColor("orange") :QColor("red")));
 
         }
     }
