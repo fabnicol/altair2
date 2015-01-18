@@ -115,6 +115,7 @@ private:
     const QString  makeDataString( );
     const QString  makeSystemString( );
     QList<QStringList> processSecondLevelData(QList<QStringList> &L, bool isFile=true);
+    QList<QUrl> parseUrlsDragged(QList<QUrl>& urlsDragged);
     FStringList parseEntry(const QDomNode &, QTreeWidgetItem *parent=0);
 
     void refreshRowPresentation();
