@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<projet>
+ <data>
+  <XHL profondeur="2">
+   <année>
+     <fichier>/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS38/2013/28381200600023-2013-ETAT_PAYE-01.xhl</fichier>
+     <fichier>/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS38/2013/28381200600023-A-001-2013-ETAT_PAYE-03.xhl</fichier>
+     <fichier>/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS38/2013/28381200600023-A-001-2013-ETAT_PAYE-05.xhl</fichier>
+     <fichier>/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS38/2013/28381200600023-A-001-2013-ETAT_PAYE-06.xhl</fichier>
+     <fichier>/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS38/2013/28381200600023-A-001-2013-ETAT_PAYE-07.xhl</fichier>
+     <fichier>/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS38/2013/28381200600023-A-001-2013-ETAT_PAYE-08.xhl</fichier>
+     <fichier>/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS38/2013/28381200600023-A-001-2013-ETAT_PAYE-09.xhl</fichier>
+     <fichier>/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS38/2013/28381200600023-A-001-2013-ETAT_PAYE-10.xhl</fichier>
+     <fichier>/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS38/2013/28381200600023-A-001-2013-ETAT_PAYE-11.xhl</fichier>
+     <fichier>/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS38/2013/28381200600023-A-001-2013-ETAT_PAYE-12.xhl</fichier>
+     <fichier>/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS38/2013/28381200600023-A-2013-ETAT_PAYE-02.xhl</fichier>
+     <fichier>/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS38/2013/28381200600023-A-2013-ETAT_PAYE-04.xhl</fichier>
+   </année>
+  </XHL>
+ </data>
+ <systeme>
+  <fileManagerDisplay profondeur="0">
+   oui
+  </fileManagerDisplay>
+  <projectManagerDisplay profondeur="0">
+   oui
+  </projectManagerDisplay>
+  <fullScreenDisplay profondeur="0">
+   non
+  </fullScreenDisplay>
+  <outputTextEdit profondeur="0">
+   oui
+  </outputTextEdit>
+  <fileToolBar profondeur="0">
+   non
+  </fileToolBar>
+  <editToolBar profondeur="0">
+   non
+  </editToolBar>
+  <processToolBar profondeur="0">
+   non
+  </processToolBar>
+  <optionsToolBar profondeur="0">
+   non
+  </optionsToolBar>
+  <aboutToolBar profondeur="0">
+   non
+  </aboutToolBar>
+  <saveProjectBehavior profondeur="0">
+   oui
+  </saveProjectBehavior>
+  <loadProjectBehavior profondeur="0">
+   oui
+  </loadProjectBehavior>
+  <base profondeur="0">
+   /home/fab/Dev/altair/Tests/Exemple/Donnees/R-Altair
+  </base>
+  <baseType profondeur="0">
+     
+  </baseType>
+  <maxLigne profondeur="0">
+     
+  </maxLigne>
+  <separateur profondeur="0">
+     
+  </separateur>
+  <decimal profondeur="0">
+     
+  </decimal>
+  <processType profondeur="0">
+   '6'
+  </processType>
+  <nAgent profondeur="0">
+     
+  </nAgent>
+  <nLine profondeur="0">
+     
+  </nLine>
+  <genererNumLigne profondeur="0">
+   non
+  </genererNumLigne>
+  <genererTable profondeur="0">
+   oui
+  </genererTable>
+  <log profondeur="0">
+     
+  </log>
+  <genererLog profondeur="0">
+   non
+  </genererLog>
+  <ecoRAM profondeur="0">
+   oui
+  </ecoRAM>
+ </systeme>
+ <recent>
+  <fichier>/home/fab/Dev/altair/Interface_linux/défaut.alt</fichier>
+ </recent>
+</projet>

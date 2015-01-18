@@ -20,8 +20,8 @@
 #define TREE_DIR  3
 
 #define Max(X,Y) ((X>Y)? X : Y)
-#define Q(X) QMessageBox::about(nullptr, "", X);
-#define q(X) QMessageBox::about(nullptr, "", QString::number(X));
+#define Q(X) QMessageBox::about(nullptr, "test", X);
+#define q(X) QMessageBox::about(nullptr, "test", QString::number(X));
 #define v(X) (*FString(#X))
 #if !defined(Q_OS_WIN) && !defined (Q_OS_LINUX)
 #error "This application will only compile for Windows or GNU/Linux operating systems."
