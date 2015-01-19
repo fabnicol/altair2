@@ -18,7 +18,7 @@ public:
   /* Hash::wrapper  is used for storing information for xml project parsing/writing.
    *It converts a string label like "audioMenu" into a pointer to an FStringList object that contains a set of file paths
    * (or more generally, text phrases) grouped into a QStringList for each associated file in a list of files */
-  static QHash<QString, FStringList *> wrapper;
+  static QHash<QString, FStringList*> wrapper;
   
   /* Count total number of elements in FListFrame */
   static QHash<QString, int>  counter;
@@ -104,8 +104,6 @@ public:
 
 class FStringList : public QList<QStringList>
 {
-private:
-  QStringList q;
 
 public:
 
@@ -141,6 +139,7 @@ public:
 
   /* copy constructor */
   FStringList(const FStringList  & L):QList<QStringList>(L)  { }
+              
 };
 
 class FStringListIterator : public QListIterator<QStringList>

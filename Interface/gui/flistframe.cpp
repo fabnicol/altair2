@@ -383,7 +383,7 @@ void FListFrame::deleteGroups(QList<int> &L)
 
 void FListFrame::addStringListToHash(const QStringList & stringList, int size)
 {
-    (*Hash::wrapper[frameHashKey])[currentIndex] << stringList;
+    (*Hash::wrapper[frameHashKey])[currentIndex] = std::move(stringList);
     Hash::counter[frameHashKey] += size;
     updateIndexInfo();
     if (row == 0) 
@@ -402,6 +402,7 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList, int si
 
  fileListWidget->currentListWidget->addItems(stringList);
  fileListWidget->currentListWidget->setCurrentRow(row + size);
+ // Pour la dernière occurrence de stringList on peut s'autoriser une Move semantics dans addStringListToHash. 
  addStringListToHash(stringList, size);
   
  return true;
@@ -413,7 +414,7 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList, int si
 QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
 {
     
-    QStringList stringsToBeAdded;
+    QStringList stringsToBeAdded=QStringList();
     QStringListIterator i(stringList);
     if (importType != flags::importFiles) return QStringList();
 
@@ -429,17 +430,16 @@ QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
                 QFileInfoList entries = dir.entryInfoList(QDir::NoDotAndDotDot|QDir::Files|QDir::Dirs);
                 // Recursion
                   // Utilisation d'une rvalue 
-                QList<QString> &&tempStrings=QStringList();
+                QStringList &&tempStrings=QStringList();
                 for (QFileInfo & embeddedFileInfo: entries)
                 {
                      tempStrings <<  embeddedFileInfo.absoluteFilePath();
                 }
                 
                   // Move semantics : gain de temps et de mémoire (>= Qt5.4)
-                
-                const QStringList constStringList = QStringList(tempStrings);
-                
-                stringsToBeAdded << parseTreeForFilePaths(constStringList);
+                  // temStrings est coerced dans le type const QStringList sans copie de données
+                                
+                stringsToBeAdded << parseTreeForFilePaths(tempStrings);
                            
               }
             else
@@ -467,7 +467,7 @@ void FListFrame::on_importFromMainTree_clicked()
 
  if (indexList.isEmpty()) return;
  
- QStringList stringsToBeAdded;
+ QStringList&& stringsToBeAdded=QStringList();
  int stringListSize=0;
  
  if (importType == flags::importFiles)

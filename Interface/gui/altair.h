@@ -6,7 +6,6 @@
 #include "common.h"
 #include <QtXml>
 #include "altair-gui.h"
-#include "probe.h"
 
 class FProgressBar;
 class MainWindow;
@@ -21,7 +20,7 @@ public:
     void setCurrentFile(const QString &fileName);
     MainWindow *parent;
     enum { MaxRecentFiles = 5 };
-    static int RefreshFlag;
+    static std::uint16_t RefreshFlag;
     static int dialVolume;
     QFileSystemModel *model = nullptr;
     QTreeWidget *managerWidget= new QTreeWidget;
@@ -58,6 +57,7 @@ public:
     int fileRank=0;
 
     qint64 size() { return Altair::totalSize[0]; }
+    void refreshProjectManagerValues(std::uint16_t = manager::refreshAllZones );
 
 public slots:
 
@@ -129,7 +129,7 @@ private:
     void refreshTreeView();
 
     void DomParser(QIODevice*);
-    void refreshProjectManagerValues(int= refreshAllZones );
+    
     bool refreshProjectManager();
     void msg (const QString & text);
     void printMsg(qint64 new_value, const QString &str);
@@ -137,7 +137,6 @@ private:
 
     inline int removeFileTreeElement(int);
     int applyFunctionToSelectedFiles(int (Altair::*f)(int));
-    StandardComplianceProbe  *probe;
 
  protected:
 

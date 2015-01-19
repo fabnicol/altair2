@@ -13,7 +13,7 @@
 #include "tags.h"
 
 
-int Altair::RefreshFlag=0;
+std::uint16_t Altair::RefreshFlag = interfaceStatus::hasUnsavedOptions;
 qint64   Altair::totalSize[]={0,0};
 
 class Hash;
@@ -25,6 +25,7 @@ void Altair::initialize()
     
     Hash::description["année"]=QStringList("Fichiers .xhl");
     Hash::description["recent"]=QStringList("Récent");
+    Abstract::initializeFStringListHash("NBulletins");
 
 }
 
@@ -182,13 +183,14 @@ Altair::Altair()
     mainLayout->addLayout(progressLayout);
 
     QStringList labels;
-    labels << tr("") << tr("Chemin") << tr("Taille\nFichier") << tr("Total");
+    labels << tr("") << tr("Chemin") << tr("Taille\nFichier") << tr("Total") << tr("Nombre\nBulletins");
     managerWidget->hide();
     managerWidget->setHeaderLabels(labels);
     managerWidget->setColumnWidth(0,300);
     managerWidget->setColumnWidth(1,300);
     managerWidget->setColumnWidth(2,50);
     managerWidget->setColumnWidth(3,80);
+    managerWidget->setColumnWidth(4,120);
     managerWidget->setContextMenuPolicy(Qt::ContextMenuPolicy::NoContextMenu);
     managerLayout->addWidget(managerWidget);
 
@@ -266,7 +268,7 @@ void Altair::on_openProjectButton_clicked()
 
     if (projectName.isEmpty()) return;
 
-    RefreshFlag |=ParseXml;
+    RefreshFlag = RefreshFlag  | interfaceStatus::parseXml;
     initializeProject();
 }
 
@@ -282,7 +284,7 @@ void Altair::openProjectFile()
 {
     closeProject();
     projectName=qobject_cast<QAction *>(sender())->data().toString();
-    RefreshFlag |=ParseXml;
+    RefreshFlag = RefreshFlag | interfaceStatus::parseXml;
     initializeProject();
 }
 
@@ -294,8 +296,8 @@ void Altair::initializeProject(const bool cleardata)
         clearProjectData();
     }
 
-    options::RefreshFlag = options::RefreshFlag|UpdateOptionTabs ;
-    RefreshFlag |= UpdateTree ;
+    options::RefreshFlag = options::RefreshFlag | interfaceStatus::optionTabs;
+    RefreshFlag = RefreshFlag | interfaceStatus::tree;
 
     QTextEdit* editor = parent->getEditor();
 
@@ -331,7 +333,10 @@ void Altair::closeProject()
 
 void Altair::clearProjectData()
 {
-    RefreshFlag = RefreshFlag|UpdateMainTabs|UpdateOptionTabs|UpdateTree;
+    RefreshFlag =  RefreshFlag
+                     | interfaceStatus::mainTabs
+                     | interfaceStatus::optionTabs
+                     | interfaceStatus::tree;
 
     int R=project[0]->getRank();
 
@@ -351,7 +356,7 @@ void Altair::clearProjectData()
 
     QMessageBox::StandardButton choice=QMessageBox::Cancel;
 
-    if (options::RefreshFlag ==  hasUnsavedOptions)
+    if (options::RefreshFlag ==  interfaceStatus::hasUnsavedOptions)
     {
         choice=QMessageBox::information(this, "Nouveaux paramètres",
                                         "Ce projet contient de nouveaux paramètres.\nAppuyer sur OK pour les sauvegarder,\nsinon sur Non\nou sur Annuler pour quitter.\n",
@@ -363,7 +368,7 @@ void Altair::clearProjectData()
             break;
 
         case QMessageBox::No :
-            options::RefreshFlag = KeepOptionTabs;
+            options::RefreshFlag = interfaceStatus::keepOptionTabs;
             break;
 
         case QMessageBox::Cancel :
@@ -465,7 +470,9 @@ void Altair::on_moveUpItemButton_clicked()
     if (row == 0) return;
     fileSizeDataBase[0][currentIndex].swap(row, row-1);
 
-    RefreshFlag |= SaveTree|UpdateTree;
+    RefreshFlag = RefreshFlag 
+                 | interfaceStatus::saveTree
+                 | interfaceStatus::tree;
     updateProject();
     refreshRowPresentation();
 }
@@ -477,7 +484,9 @@ void Altair::on_moveDownItemButton_clicked()
     if (row == project[0]->getCurrentWidget()->count() -1) return;
 
     fileSizeDataBase[0][currentIndex].swap(row, row+1);
-    RefreshFlag |= SaveTree | UpdateTree;
+    RefreshFlag = RefreshFlag 
+                 | interfaceStatus::saveTree
+                 | interfaceStatus::tree;
     updateProject();
     refreshRowPresentation();
 }
@@ -485,7 +494,9 @@ void Altair::on_moveDownItemButton_clicked()
 
 void Altair::on_deleteItem_clicked()
 {
-    RefreshFlag |= SaveTree | UpdateTree;
+    RefreshFlag = RefreshFlag 
+                 | interfaceStatus::saveTree
+                 | interfaceStatus::tree;
     updateProject();
     updateIndexInfo();
     displayTotalSize();
@@ -549,8 +560,9 @@ void Altair::requestSaveProject()
 
 void Altair::updateProject(bool requestSave)
 {
-    RefreshFlag = SaveTree|UpdateTree ;
-
+    RefreshFlag = RefreshFlag 
+                 | interfaceStatus::saveTree
+                 | interfaceStatus::tree;
     xhlFilterButton->setToolTip("Show audio files with extension ");
 
     if (parent->isDefaultSaveProjectChecked() || requestSave)
@@ -587,13 +599,13 @@ void Altair::assignVariables()
     if (w.hasNext())
     {
         FAbstractWidget* widget=w.next();
-        if (Altair::RefreshFlag&UpdateMainTabs)
+        if (Altair::RefreshFlag&interfaceStatus::mainTabs)
         {
             widget->setWidgetFromXml(*Hash::wrapper[widget->getHashKey()]);
         }
     }
 
-    if (options::RefreshFlag&UpdateOptionTabs)
+    if (options::RefreshFlag&interfaceStatus::optionTabs)
         while (w.hasNext())
         {
             FAbstractWidget* widget=w.next();
@@ -616,12 +628,12 @@ bool Altair::refreshProjectManager()
     checkEmptyProjectName();
     QFile file(projectName);
 
-    if ((RefreshFlag&UpdateTreeMask) == UpdateTree)
+    if ((RefreshFlag&interfaceStatus::treeMask) == interfaceStatus::tree)
     {
         managerWidget->clear();
     }
 
-    if ((RefreshFlag&SaveTreeMask) == SaveTree)
+    if ((RefreshFlag&interfaceStatus::saveTreeMask) == interfaceStatus::saveTree)
     {
         if (!file.isOpen())
             file.open(QIODevice::ReadWrite);
@@ -631,14 +643,14 @@ bool Altair::refreshProjectManager()
 
     // Step 2: parsing on opening .dvp project  (=update tree +refresh tabs) or adding/deleting tab files (=update tree)
 
-    if ((RefreshFlag&UpdateTreeMask) == UpdateTree)
+    if ((RefreshFlag&interfaceStatus::treeMask) == interfaceStatus::tree)
     {
         QPalette palette;
         palette.setColor(QPalette::AlternateBase,QColor("silver"));
         managerWidget->setPalette(palette);
         managerWidget->setAlternatingRowColors(true);
 
-        if ((RefreshFlag&ParseXmlMask) == ParseXml)  // refresh display by parsing xml file again
+        if ((RefreshFlag & interfaceStatus::parseXmlMask) == interfaceStatus::parseXml)  // refresh display by parsing xml file again
         {
 
             if (!file.isOpen())
@@ -657,14 +669,20 @@ bool Altair::refreshProjectManager()
         }
         else  // refresh display using containers without parsing xml file
         {
-            refreshProjectManagerValues(refreshProjectInteractiveMode | refreshAudioZone | refreshSystemZone);
+            refreshProjectManagerValues(manager::refreshProjectInteractiveMode 
+                                        | manager::refreshXHLZone
+                                        | manager::refreshSystemZone);
         }
 
 
     }
 
     if (file.isOpen()) file.close();
-    RefreshFlag &= hasSavedOptionsMask|SaveTreeMask|UpdateTreeMask|UpdateTabMask ;
+    RefreshFlag =  RefreshFlag
+                       & (interfaceStatus::hasSavedOptionsMask
+                                              | interfaceStatus::saveTreeMask
+                                              | interfaceStatus::treeMask
+                                              | interfaceStatus::tabMask) ;
 
     //altairCommandStr=parent->dialog->outputTab->applicationLineEdit->text();
     return true;

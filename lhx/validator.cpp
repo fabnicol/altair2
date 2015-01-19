@@ -63,27 +63,27 @@ static inline bool Bulletin(const char* tag, xmlNodePtr* cur, int l, info_t* inf
     if (test)
     {
         ligne_l = xmlGetProp(*cur, (const xmlChar *) "V");
-
-        if (ligne_l == NULL)
-        {
-            ligne_l = (xmlChar*) strdup(NA_STRING);
-        }
-        else if (ligne_l[0] == '\0')
-        {
-            xmlFree(ligne_l);
-            ligne_l = (xmlChar*) strdup(NA_STRING);
-        }
-
-        /* sanitisation */
-
-            else
-                for (int i = 0; i < xmlStrlen(ligne_l); i++)
-                    if (ligne_l[i] == info->separateur)
-                        ligne_l[i] = '_';
-
         if (info->drapeau_cont)
             *cur = (*cur)? (*cur)->next: NULL;
     }
+
+    if (ligne_l == NULL || ! test)
+    {
+        ligne_l = (xmlChar*) strdup(NA_STRING);
+    }
+    else
+    if (ligne_l[0] == '\0')
+    {
+        xmlFree(ligne_l);
+        ligne_l = (xmlChar*) strdup(NA_STRING);
+    }
+  /* sanitisation */
+
+    else
+        for (int i = 0; i < xmlStrlen(ligne_l); i++)
+            if (ligne_l[i] == info->separateur)
+                ligne_l[i] = '_';
+
     return test;
 }
 
@@ -92,10 +92,15 @@ static inline void _Bulletin(const char* tag, xmlNodePtr* cur,  int l, info_t* i
     if (! Bulletin(tag, cur, l, info))
     {
         if (*cur)
+        {
             fprintf(stderr, "Erreur : Trouvé %s au lieu de %s \n", (*cur)->name, tag);
+            fprintf(stderr, "Erreur : dans le fichier %s \n  pour le matricule %s\n",
+                            info->threads->argv[info->fichier_courant],
+                            info->Table[info->NCumAgentXml][Matricule]);
+        }
         else
         {
-            fprintf(stderr, "Erreur : Noeud courant null au stade de la vérification de %s\n", tag);
+            fprintf(stderr, "Erreur : Noeud courant null au stade de la vérification de %s, fichier %s\n", tag, info->threads->argv[info->fichier_courant]);
             for (int l=0; l < Service; l++) fprintf(stderr, "info->Table[info->NCumAgentXml][%d]=%s\n", l, info->Table[info->NCumAgentXml][l]);
         }
     }

@@ -67,7 +67,7 @@ public:
 
     options(Altair* parent=0);
     standardPage* standardTab;
-    static int RefreshFlag;
+    static std::uint16_t RefreshFlag;
     QListWidget *contentsWidget;
     void clearOptionData();
 
