@@ -121,8 +121,8 @@ Section
   SetOutPath $INSTDIR\${exemple}
   File /r  ${exemple}\Docs
   File /r  ${exemple}\Projets
-  File     ${exemple}\Altair.bmp     ${exemple}\Altair.ico      ${exemple}\altair.R    ${exemple}\bibliotheque.fonctions.paie.R ${exemple}\générer.codes.R  ${exemple}\installation.R 
-  File     ${exemple}\histogrammes.R ${exemple}\neptune.512.ico ${exemple}\neptune.bmp ${exemple}\neptune.ico                   ${exemple}\prologue.R       ${exemple}\style.css
+  File     ${exemple}\Altair.bmp     ${exemple}\Altair.ico      ${exemple}\*.R         ${exemple}\*.Rmd 
+  File     ${exemple}\neptune.512.ico ${exemple}\neptune.bmp ${exemple}\neptune.ico      ${exemple}\style.css
   SetOutPath $INSTDIR\${exemple}\Donnees\xhl
   File /r  ${exemple}\Donnees\xhl\Anonyme
   File /r  ${exemple}\Donnees\xhl\Anonyme2

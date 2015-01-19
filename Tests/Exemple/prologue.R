@@ -36,7 +36,7 @@ sauvegarder.bases.origine    <- F
 générer.table.effectifs      <- F
 générer.table.élus           <- T
 tester.matricules            <- TRUE
-produire.rapport             <- F
+produire.rapport             <- T
 analyse.statique.totale      <- F
 
 seuil.troncature         <- 1 # jours

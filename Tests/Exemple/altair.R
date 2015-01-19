@@ -500,6 +500,9 @@ invisible(lapply(années.analyse.statique, function(x) {
                  }
                }))
 
+#'  
+#'[Lien vers la base des rémunérations](Bases/Rémunérations/Analyse.rémunérations.csv)  
+#'   
 
 ########### INSEE DGCL ###############################
 #'   
