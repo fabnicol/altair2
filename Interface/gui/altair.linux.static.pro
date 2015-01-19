@@ -23,7 +23,7 @@ VPATH = .
 #win32:LIBS += -L../win32
 #linux:LIBS += -L../linux
 
-DEFINES += DEBUG QT_NO_OPENGL STATIC
+DEFINES += DEBUG QT_NO_OPENGL STATIC 
 
 win32: DEFINES += LOCAL_BINPATH 
 
@@ -43,8 +43,7 @@ SOURCES += \
     browser.cpp \ 
     xmlparser.cpp \
     highlighter.cpp \
-    run.cpp \
-    probe.cpp
+    run.cpp
 
 HEADERS  += \
     options.h \
@@ -60,8 +59,7 @@ HEADERS  += \
     highlighter.h \
     tags.h \
     templates.h \
-    altair-gui.h \
-    probe.h
+    altair-gui.h
 
 
 RESOURCES += \

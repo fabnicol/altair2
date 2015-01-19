@@ -404,7 +404,7 @@ void FCheckBox::refreshWidgetDisplay()
 
 const FString FCheckBox::setXmlFromWidget()
 {
-    *Hash::wrapper[getHashKey()]=FStringList(commandLineList[0].fromBool(this->isChecked()));
+    *Hash::wrapper[getHashKey()]=commandLineList[0].fromBool(this->isChecked());
     return commandLineList[0].toQStringRef();
 }
 

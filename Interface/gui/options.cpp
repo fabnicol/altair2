@@ -259,13 +259,13 @@ void standardPage::selectLogOutput()
 }
 
 
-int options::RefreshFlag;
+std::uint16_t options::RefreshFlag;
 
 options::options(Altair* parent)
 {
     /* plain old data types must be 0-initialised even though the class instance was new-initialised. */
         
-    options::RefreshFlag=UpdateOptionTabs;
+    options::RefreshFlag = interfaceStatus::optionTabs;
 
     pagesWidget = new QStackedWidget;
     standardTab = new standardPage;
@@ -279,7 +279,7 @@ options::options(Altair* parent)
             &QDialogButtonBox::accepted,
             [this,parent]
             {
-                options::RefreshFlag =  hasUnsavedOptions;
+                options::RefreshFlag =  interfaceStatus::hasUnsavedOptions;
                 accept();
                 parent->updateProject(true);
             });
@@ -307,7 +307,7 @@ void options::clearOptionData()
 {
     Hash::wrapper.clear();
   
-    options::RefreshFlag = UpdateOptionTabs;
+    options::RefreshFlag = interfaceStatus::optionTabs;
 }
 
 

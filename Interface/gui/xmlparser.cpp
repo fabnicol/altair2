@@ -82,7 +82,7 @@ void Altair::writeProjectFile()
 
     out << " </recent>\n</projet>\n";
     out.flush();
-    options::RefreshFlag=hasSavedOptions;
+    options::RefreshFlag=interfaceStatus::hasSavedOptions;
 }
 
 namespace XmlMethod
@@ -182,6 +182,7 @@ void displayTextData(const QStringList &firstColumn,
                      const QString &secondColumn="",
                      const QString &thirdColumn="",
                      const QString &fourthColumn="",
+                     const QString &fifthColumn="",
                      const QColor &color=QColor("blue"))
 {
     static QString last;
@@ -204,15 +205,19 @@ void displayTextData(const QStringList &firstColumn,
     }
     else
     {
-        if (!thirdColumn.isEmpty()) item2->setText(2, thirdColumn);
-        if (!thirdColumn.isEmpty()) item2->setText(3, fourthColumn);
+        if (!thirdColumn.isEmpty())  item2->setText(2, thirdColumn);
+        if (!fourthColumn.isEmpty()) item2->setText(3, fourthColumn);
+        if (!fifthColumn.isEmpty())  item2->setText(4, fifthColumn);
+        
         if (color.isValid())
         {
             item2->setTextColor(2, color);
             item2->setTextColor(3, color);
         }
+        
         item2->setTextAlignment(2, Qt::AlignRight);
         item2->setTextAlignment(3, Qt::AlignLeft);
+        item2->setTextAlignment(4, Qt::AlignCenter);
     }
 
     item2->setText(1, secondColumn);
@@ -226,36 +231,39 @@ void displayTextData(const QStringList &firstColumn,
 
 inline qint64 displaySecondLevelData(    const QStringList &tags,
                                          const QList<QStringList> &stackedInfo,
-                                         const QList<QStringList> &stackedSizeInfo)
+                                         const QList<QStringList> &stackedSizeInfo,
+                                         const QList<QStringList> &nBulletins)
 {
-    int k=0, count=0, l;
+    int q=0, count=0, l;
     qint64 filesizecount=0;
     QString  firstColumn, root=tags.at(0), secondColumn=tags.at(1),
-            thirdColumn, fourthColumn;
+            thirdColumn, fourthColumn, fifthColumn;
 
-    QListIterator<QStringList> i(stackedInfo), j(stackedSizeInfo);
+    QListIterator<QStringList> i(stackedInfo), j(stackedSizeInfo), k(nBulletins);
 
-    while ((i.hasNext()) && (j.hasNext()))
+    while (i.hasNext() && j.hasNext() && k.hasNext())
     {
         if (!root.isEmpty())
         {
-            firstColumn = root + " "+QString::number(++k);
+            firstColumn = root + " "+QString::number(++q);
         }
 
         displayTextData({firstColumn});
 
-        QStringListIterator w(i.next()), z(j.next());
+        QStringListIterator w(i.next()), y(j.next()), z(k.next());
         l=0;
-        while ((w.hasNext()) && (z.hasNext()))
+        while (w.hasNext() && y.hasNext())
         {
             ++count;
             if (!tags.at(1).isEmpty())
                 secondColumn =  tags.at(1) +" " +QString::number(++l) + "/"+ QString::number(count) +": ";
-            secondColumn += w.next()  ;
+                        
+            secondColumn += w.next();
+            fifthColumn =  (z.hasNext())? z.next() : "";  
 
-            if ((stackedSizeInfo.size() > 0) && (z.hasNext()))
+            if ((stackedSizeInfo.size() > 0) && (y.hasNext()))
             {
-                QStringList units=z.next().split(" ");
+                QStringList units=y.next().split(" ");
                 qint64 msize=units.at(0).toLongLong();
                 filesizecount += msize;
                 // force coertion into float or double using .0
@@ -263,10 +271,10 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
                 fourthColumn   = QString::number(filesizecount/1048576.0, 'f', 1)+ " Mo" ;
             }
 
-            displayTextData({""}, secondColumn, thirdColumn, fourthColumn, (z.hasNext())? QColor("navy"): ((j.hasNext())? QColor("orange") :QColor("red")));
-
+            displayTextData({""}, secondColumn, thirdColumn, fourthColumn, fifthColumn, (y.hasNext())? QColor("navy"): ((j.hasNext())? QColor("orange") :QColor("red")));
         }
     }
+    
     return filesizecount;
 }
 
@@ -328,9 +336,10 @@ void Altair::DomParser(QIODevice* file)
 
         while (!subnode.isNull())
         {
-            const FStringList &str=parseEntry(subnode);
+            FStringList &&str = parseEntry(subnode);
+              
             if (!str.at(0).at(0).isEmpty())
-                *(Hash::wrapper[subnode.toElement().tagName()]=new FStringList) =   str;
+                *(Hash::wrapper[subnode.toElement().tagName()] = new FStringList) =  str;
             subnode=subnode.nextSibling();
         }
 
@@ -342,7 +351,7 @@ void Altair::DomParser(QIODevice* file)
     /* this assigns values to widgets (line edits, checkboxes, list widgets etc.)
    * in the Options dialog and ensures fills in main tab widget */
 
-    //if ((Altair::RefreshFlag&UpdateTabMask) == (UpdateMainTabs|UpdateOptionTabs))
+    //if ((Altair::RefreshFlag&interfaceStatus::tabMask) == (interfaceStatus::mainTabs|interfaceStatus::optionTabs))
     //{
 
     assignVariables();
@@ -404,7 +413,6 @@ FStringList Altair::parseEntry(const QDomNode &node, QTreeWidgetItem *itemParent
     return FStringList();
 }
 
-
 inline QList<QStringList> Altair::processSecondLevelData(QList<QStringList> &L, bool isFile)
 {
     QListIterator<QStringList> i(L);
@@ -418,17 +426,16 @@ inline QList<QStringList> Altair::processSecondLevelData(QList<QStringList> &L, 
         while (w.hasNext())
         {
             QString text=w.next();
+
             if (isFile & QFileInfo(text).isFile())  // double check on file status. First check is for processing speed, so that QFileInfo is only called when necessary
             {
                 // computing filesizes
-                probe=new StandardComplianceProbe(text);
-                stackedSizeInfo1 <<  QString::number((long) QFileInfo(text).size())+" "
-                                     + /*probe->getnAgent()*/" " + " "
-                                     + /*probe->getChar2()*/" " +" "
-                                     + /*probe->getChar3()*/" " ;
+                
+                stackedSizeInfo1 <<  QString::number((long) QFileInfo(text).size())+" ";
+                                    
             }
         }
-
+        
         stackedSizeInfo2 << stackedSizeInfo1;
         group_index++;
     }
@@ -436,11 +443,9 @@ inline QList<QStringList> Altair::processSecondLevelData(QList<QStringList> &L, 
     return stackedSizeInfo2;
 }
 
-
-
-void Altair::refreshProjectManagerValues(int refreshProjectManagerFlag)
+void Altair::refreshProjectManagerValues(std::uint16_t refreshProjectManagerFlag)
 {
-    if ((refreshProjectManagerFlag & refreshProjectInteractiveMask) == refreshProjectInteractiveMode)
+    if ((refreshProjectManagerFlag & manager::refreshProjectInteractiveMask) == manager::refreshProjectInteractiveMode)
     {
         updateIndexInfo();
         fileSizeDataBase[0] = processSecondLevelData(*Hash::wrapper["XHL"]);
@@ -450,24 +455,32 @@ void Altair::refreshProjectManagerValues(int refreshProjectManagerFlag)
     item->setText(0, "Fichiers xhl");
     item->setExpanded(true);
     XmlMethod::itemParent=item;
-
-    bool test=(refreshProjectManagerFlag & refreshProjectAudioZoneMask) ==
-            refreshAudioZone;
-
-
-
-    if (test)
+   
+    if ((refreshProjectManagerFlag & manager::refreshProjectXHLZoneMask) ==  manager::refreshXHLZone)
+    {
+        fileSizeDataBase[0]=processSecondLevelData(*Hash::wrapper["XHL"]);
+        
         Altair::totalSize[0]=XmlMethod::displaySecondLevelData(
-        {"année", "fichier"},
-                    *Hash::wrapper["XHL"],
-                fileSizeDataBase[0]=processSecondLevelData(*Hash::wrapper["XHL"]));
+                               {"année", "fichier"},
+                               *Hash::wrapper["XHL"],
+                                fileSizeDataBase[0],
+                               *Hash::wrapper["NBulletins"]);
+    }
 
+    if ((refreshProjectManagerFlag & manager::refreshNBulletinsMask) ==  manager::refreshNBulletins)
+    {
+        for (int i=0; i < Hash::wrapper["NBulletins"]->size(); ++i)
+            for (int j=0; i < Hash::wrapper["NBulletins"]->at(i).size(); ++j)
+               XmlMethod::displayTextData({""}, "", "", "", Hash::wrapper["NBulletins"]->at(i).at(j));
+    }
+                                                
+        
     item=new QTreeWidgetItem(managerWidget);
     item->setText(0, "Logiciel");
     item->setExpanded(true);
     XmlMethod::itemParent=item;
 
-    if ((refreshProjectManagerFlag & refreshProjectSystemZoneMask) == refreshSystemZone)
+    if ((refreshProjectManagerFlag & manager::refreshProjectSystemZoneMask) == manager::refreshSystemZone)
     {
 
         for (int k=2; k <Abstract::abstractWidgetList.count(); k++)
@@ -484,6 +497,6 @@ void Altair::refreshProjectManagerValues(int refreshProjectManagerFlag)
         }
     }
 
-    options::RefreshFlag|=hasSavedOptions;
+    options::RefreshFlag = options::RefreshFlag  | interfaceStatus::hasSavedOptions;
 
 }
