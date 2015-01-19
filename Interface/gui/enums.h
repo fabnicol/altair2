@@ -36,8 +36,6 @@ public:
         statusMask=widgetMask|enabledMask|commandLineToggleMask  //0xFFF0
     };
 
-
-
     friend int operator | (int  x, flags::status y) {return x | static_cast<int>(y);}
     friend flags::status operator & (int  x, flags::status y) {return y & static_cast<flags::status>(x);}
     friend flags::status operator & (flags::status  x, flags::status y) {return static_cast<flags::status>(static_cast<int>(y) & static_cast<int>(x));}
@@ -52,33 +50,38 @@ public:
 
 enum actionType {Select, OpenFolder, BrowseFile};
 
-enum  {
-  hasUnsavedOptions=0x0,
-  hasSavedOptions=0x1,
-  hasSavedOptionsMask=0xF,
-  UpdateTree=0x0010,
-  UpdateTreeMask=0x00F0,
-  SaveTree=0x0100,
-  SaveTreeMask=0x0F00,
-  UpdateMainTabs=0x1000,
-  UpdateTabMask=0x7000,
-  UpdateOptionTabs=0x2000,
-  KeepOptionTabs=0x4000,
-  ParseXml=0xF000,
-  ParseXmlMask=0xF000
+class interfaceStatus  {
+  public:
+    
+  static constexpr std::uint16_t hasUnsavedOptions=0x0;
+  static constexpr std::uint16_t hasSavedOptions=0x1;
+  static constexpr std::uint16_t hasSavedOptionsMask=0xF;
+  static constexpr std::uint16_t tree=0x0010;
+  static constexpr std::uint16_t treeMask=0x00F0;
+  static constexpr std::uint16_t saveTree=0x0100;
+  static constexpr std::uint16_t saveTreeMask=0x0F00;
+  static constexpr std::uint16_t mainTabs=0x1000;
+  static constexpr std::uint16_t tabMask=0x7000;
+  static constexpr std::uint16_t optionTabs=0x2000;
+  static constexpr std::uint16_t keepOptionTabs=0x4000;
+  static constexpr std::uint16_t parseXml=0xF000;
+  static constexpr std::uint16_t parseXmlMask=0xF000;
 };
 
-enum {
-    refreshProjectManagerFlag=0x000,
-    refreshProjectAudioZoneMask=0x00F,
-    refreshProjectVideoZoneMask=0x0F0,
-    refreshProjectSystemZoneMask=0xF00,
-    refreshProjectInteractiveMask=0xF000,
-    refreshAudioZone=0x001,
-    refreshVideoZone=0x010,
-    refreshSystemZone=0x100,
-    refreshProjectInteractiveMode=0x1000,
-    refreshAllZones=refreshAudioZone|refreshVideoZone|refreshSystemZone
+class manager  {
+  
+public:
+    
+    static constexpr std::uint16_t refreshProjectManagerFlag=0x000;
+    static constexpr std::uint16_t refreshProjectXHLZoneMask=0x00F;
+    static constexpr std::uint16_t refreshNBulletinsMask=0x0F0;
+    static constexpr std::uint16_t refreshProjectSystemZoneMask=0xF00;
+    static constexpr std::uint16_t refreshProjectInteractiveMask=0xF000;
+    static constexpr std::uint16_t refreshXHLZone=0x001;
+    static constexpr std::uint16_t refreshNBulletins=0x010;
+    static constexpr std::uint16_t refreshSystemZone=0x100;
+    static constexpr std::uint16_t refreshProjectInteractiveMode=0x1000;
+    static constexpr std::uint16_t refreshAllZones = manager::refreshXHLZone| manager::refreshNBulletins | manager::refreshSystemZone;
 };
 
 enum exitCode {exitFailure=EXIT_FAILURE, noAudioFiles=10, isoTooSmall=11, mkisofsSanityCheck=12, shouldLaunchRAltairAlone=13};
