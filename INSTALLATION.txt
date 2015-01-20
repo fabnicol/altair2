@@ -41,7 +41,7 @@ Choisir l'installateur .core pour une installation sur portables multicoeurs (co
     ou Tests\Exemple\Donnees\xhl\Anonyme2
    
 11. Ouvrir le dialogue des paramètres. 
-    Renseigner le répertoire de sortie de la base .csv produite par Altair.
+    Renseigner le répertoire de sortie de la base .csv produite par Altaïr.
     A ce stade, le répertoire doit être :
    
        Tests\Exemple\Donnees\R-Altair   

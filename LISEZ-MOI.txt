@@ -1,5 +1,5 @@
 
-                        ALTAIR
+                        Altaïr
 
             Analyse des lignes de traitement, 
    attributions indemnitaires et rémunérations diverses
@@ -17,7 +17,7 @@ Installation
 Voir fichier Installation.txt au dialogue suivant.
 
 
-Interface Altair
+Interface Altaïr
 ----------------
 
   Cliquer sur l'icône "A" bleue sur le Bureau ou dans le menu Démarrer 
@@ -29,7 +29,7 @@ Interface Altair
 Interface RStudio
 -----------------
 
-  L'interface Altair permet le lancement de l'interface RStudio pour afficher 
+  L'interface Altaïr permet le lancement de l'interface RStudio pour afficher 
   le script  en langage R et lancer son exécution.
 
   Pour afficher les rapports de démonstration directement parl'interface,
