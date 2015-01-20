@@ -3,14 +3,14 @@
 !include "x64.nsh"
 !include "${NSISDIR}\Contrib\Modern UI\System.nsh"
  
-!define version  "2014.10"
-!define VER_MAJOR 2014
-!define VER_MINOR 10
+!define version  "2015.02"
+!define VER_MAJOR 2015
+!define VER_MINOR 02
 !define VER_REVISION 0
 !define VER_BUILD  0
 !define prodname "Altair"
 !define nbits celeron
-!define setup    "${prodname}-${version}.win.${nbits}.installer.exe"
+!define setup    "Altaïr-${version}.win.${nbits}.installer.exe"
 !define exemple   "${prodname}\Tests\Exemple"
 !define icon     neptune.ico
 !define RStudio  "RStudio-0.99.175.exe" 
@@ -48,15 +48,15 @@
 !insertmacro MUI_LANGUAGE "French" 
 
  LangString  wizard1 ${LANG_FRENCH}  "Installation du logiciel Analyse des lignes de traitement, attributions indemnitaires et rémunérations diverses. Appuyer sur suivant pour continuer."
- LangString  wizard2 ${LANG_FRENCH}  "Installation du logiciel ${prodname} version ${version}"
+ LangString  wizard2 ${LANG_FRENCH}  "Installation du logiciel Altaïr version ${version}"
  LangString title1 ${LANG_FRENCH}   "Lisez-moi"
- LangString text1 ${LANG_FRENCH}  "${prodname} ${version} va être installé dans $INSTDIR. Cliquer sur Compléments pour des précisions sur l'installation."
+ LangString text1 ${LANG_FRENCH}  "Altaïr ${version} va être installé dans $INSTDIR. Cliquer sur Compléments pour des précisions sur l'installation."
  LangString title2 ${LANG_FRENCH}   "Installation"
  LangString text2 ${LANG_FRENCH}  "Compléments d'information sur l'installation. Cliquer sur Terminer pour lancer l'installation du logiciel et de ses dépendances."
  LangString Désinstaller ${LANG_FRENCH}     "désinstallation du logiciel ${prodname} "
  LangString completed ${LANG_FRENCH}    "Installation terminée"
- LangString Sec1Name ${LANG_FRENCH} "prodname"
- LangString DESC_sec1 ${LANG_FRENCH} "Installer prodname"
+ LangString Sec1Name ${LANG_FRENCH} "Altaïr"
+ LangString DESC_sec1 ${LANG_FRENCH} "Installer Altaïr"
  LangString Sec2Name ${LANG_FRENCH} "R"
  LangString Sec3Name ${LANG_FRENCH} "RStudio"
  LangString Sec4Name ${LANG_FRENCH} "MikTex"
@@ -67,11 +67,11 @@
  LangString DESC_sec5 ${LANG_FRENCH} "Installer le gestionnaire de versions GIT"
 
  
- LangString Message  ${LANG_FRENCH} "Appuyer sur Oui pour installer ${prodname}"
+ LangString Message  ${LANG_FRENCH} "Appuyer sur Oui pour installer Altaïr"
   
  LicenseLangString myLicenseData ${LANG_FRENCH} "${prodname}\LICENCE"
  LicenseData $(myLicenseData)
- LangString Name ${LANG_FRENCH}  "${prodname}"
+ LangString Name ${LANG_FRENCH}  "Altaïr"
  Name $(Name)
 
 ; MUI macros   
@@ -274,7 +274,7 @@ SectionEnd
 
 
 Function .onInstSuccess
-  MessageBox MB_OK "Installation réussie de ${prodname}-${version}."
+  MessageBox MB_OK "Installation réussie de Altaïr-${version}."
 FunctionEnd
  
  
@@ -301,6 +301,6 @@ Section "Uninstall"
    
 SectionEnd
 
-BrandingText "${prodname}-${version}"
+BrandingText "Altaïr-${version}"
 
 ; eof
