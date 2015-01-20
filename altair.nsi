@@ -13,7 +13,7 @@
 !define setup    "${prodname}-${version}.win.${nbits}.installer.exe"
 !define exemple   "${prodname}\Tests\Exemple"
 !define icon     neptune.ico
-!define RStudio  "RStudio-0.98.1091.exe" 
+!define RStudio  "RStudio-0.99.175.exe" 
 !define R        "R-3.1.2-win.exe"
 !define RVERSION 3.1
 !define Miktex   "setup-2.9.4503-x64.exe"

@@ -132,10 +132,10 @@ Tableau.vertical2(c("Agrégats",
 
 ```{r }
 
-filtre.fonctionnaire <- function (X) X[ !is.na(X)  & X > minimum.positif ]
-
 AR <- Analyse.rémunérations.exercice[Statut == "TITULAIRE" | Statut == "STAGIAIRE", colonnes.sélectionnées, with=FALSE]
 attach(AR)
+
+filtre.fonctionnaire <- function (X) AR[traitement.indiciaire > minimum.positif & !is.na(X)  & X > minimum.positif, X]
 
 if (longueur.non.na(filtre.fonctionnaire(Montant.brut.annuel.eqtp) > 0)) 
   hist(filtre.fonctionnaire(Montant.brut.annuel.eqtp)/1000,
@@ -197,7 +197,7 @@ if (longueur.non.na(filtre.fonctionnaire(part.rémunération.indemnitaire[part.r
 ```{r }
 
 if (longueur.non.na(filtre.fonctionnaire(part.rémunération.indemnitaire[part.rémunération.indemnitaire > 30]) > 0)) 
-  hist(filtre.fonctionnaire(part.rémunération.indemnitaire[part.rémunération.indemnitaire > 30]),
+  hist(filtre.fonctionnaire(pmin(100, part.rémunération.indemnitaire[part.rémunération.indemnitaire > 30], na.rm=TRUE)),
        xlab = "Part des indemnités imposables (> 30 %)  dans la rémunération brute en %\n",
        ylab = "Effectif",
        main = "Part indemnitaire de la rémunération annuelle des fonctionnaires en " %+% année,
@@ -476,11 +476,11 @@ if (longueur.non.na(temp))
        col = "grey")
 
 AR <- Analyse.rémunérations.exercice[Statut != "ELU"
-                                             &  Statut != "TITULAIRE"
-                                             &  Statut != "STAGIAIRE"
-                                             & Filtre_actif_non_annexe == TRUE,
-                                             colonnes.sélectionnées, 
-                                             with=FALSE]
+                                         &  Statut != "TITULAIRE"
+                                         &  Statut != "STAGIAIRE"
+                                         & Filtre_actif_non_annexe == TRUE,
+                                         colonnes.sélectionnées, 
+                                         with=FALSE]
 ```
 
   

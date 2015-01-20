@@ -581,14 +581,10 @@ void MainWindow::configureOptions()
                                                                             "projectManagerDisplay",
                                                                             {"Interface", "Afficher le gestionnaire de projet"});
 
-
     defaultFullScreenLayout=new FCheckBox("Plein écran",
                                                         flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
                                                         "fullScreenDisplay",
                                                         {"Interface", "Plein écran au lancement"});
-
-
-    
 
     defaultOutputTextEditBox=new FCheckBox("Afficher les messages",
                                                                    flags::status::enabledChecked|flags::commandLineType::noCommandLine,
@@ -651,7 +647,6 @@ void MainWindow::configureOptions()
     
 #define buildToolBar(bar, text) \
   bar = addToolBar(tr(text));\
-  bar->setVisible(false);\
   bar->setIconSize(QSize(48,48)); 
       
     buildToolBar(fileToolBar, "&File") 
@@ -671,7 +666,9 @@ void MainWindow::configureOptions()
     for (int i=0; i< displayToolBarList.size(); i++)
     {
         displayToolBarsLayout->addWidget(displayToolBarCBoxList[i]);
+
         connect(displayToolBarCBoxList[i], SIGNAL(toggled(bool)), displayToolBarList[i], SLOT(setVisible(bool)));
+        displayToolBarCBoxList[i]->setChecked(true);
     }
  
     displayGroupBox->setLayout(displayDocksLayout);
@@ -808,12 +805,12 @@ void MainWindow::feedConsoleWithHtml()
    QString consoleText=readData.replace("\n","<br>" );
    consoleDialog->insertHtml(consoleText);
    consoleDialog->moveCursor(QTextCursor::End);
-   static bool done;
-   if (! done && altair->fileRank > 1)
-   {
-       altair->refreshProjectManagerValues(manager::refreshNBulletins);
-       done=true;
-   }
+//   static bool done;
+//   if (! done && altair->fileRank > 1)
+//   {
+//       altair->refreshProjectManagerValues(manager::refreshNBulletins);
+//       done=true;
+//   }
 }
 
 void MainWindow::feedConsole()

@@ -21,5 +21,5 @@ Maintainer: Olaf Mersmann <olafm@p-value.net>
 NeedsCompilation: yes
 Repository: CRAN
 Date/Publication: 2014-09-28 18:38:41
-Built: R 3.1.2; x86_64-w64-mingw32; 2014-12-11 00:30:40 UTC; windows
+Built: R 3.1.2; x86_64-w64-mingw32; 2014-12-02 00:19:55 UTC; windows
 Archs: i386, x64
