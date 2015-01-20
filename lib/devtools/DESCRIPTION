@@ -21,11 +21,11 @@ License: GPL (>= 2)
 RemoteType: github
 RemoteHost: api.github.com
 RemoteRepo: devtools
-RemoteUsername: hadley
+RemoteUsername: Hadley
 RemoteRef: master
 RemoteSha: 4d0964a1cb5b3371f3b5e3628cede3a979f36c90
 GithubRepo: devtools
-GithubUsername: hadley
+GithubUsername: Hadley
 GithubRef: master
 GithubSHA1: 4d0964a1cb5b3371f3b5e3628cede3a979f36c90
 Author: Hadley Wickham [aut, cre],
@@ -34,5 +34,5 @@ Author: Hadley Wickham [aut, cre],
   R Core team [ctb] (Some namespace and vignette code extracted from base
     R)
 Maintainer: Hadley Wickham <hadley@rstudio.com>
-Built: R 3.1.2; x86_64-w64-mingw32; 2015-01-19 13:25:13 UTC; windows
+Built: R 3.1.2; x86_64-w64-mingw32; 2015-01-20 00:10:16 UTC; windows
 Archs: x64
