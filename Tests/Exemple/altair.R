@@ -930,7 +930,7 @@ g <- function(x) prettyNum(mean.default(Analyse.variations.par.exercice[Année =
                                                                & Statut == "TITULAIRE"
                                                                & temps.complet == TRUE & permanent == TRUE, 
                                                                  Montant.net.annuel.eqtp],
-                               na.rm = TRUE),
+                                        na.rm = TRUE),
                            big.mark = " ",
                            digits = 1,
                            format = "fg")
