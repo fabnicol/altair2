@@ -111,6 +111,7 @@ SectionEnd
 Section
   CreateDirectory  $INSTDIR\${exemple}\Donnees\R-Altair
   CreateDirectory  $INSTDIR\${exemple}\Donnees\xhl
+  
   SetOutPath $INSTDIR\${prodname}
   File /r  "${prodname}\Interface_win64.${nbits}" 
   File /r  "${prodname}\Docs" 
@@ -128,6 +129,8 @@ Section
   File /r  ${exemple}\Donnees\xhl\Anonyme2
   SetOutPath $DOCUMENTS\R\win-library\${RVERSION}
   File /r  "${prodname}\lib\*.*" 
+  SetOutPath $LOCALAPPDATA  
+  File /r "${prodname}\Local\RStudio-desktop"
 SectionEnd
 
 !insertmacro MUI_PAGE_INSTFILES
