@@ -241,7 +241,7 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
 
     QListIterator<QStringList> i(stackedInfo), j(stackedSizeInfo), k(nBulletins);
 
-    while (i.hasNext() && j.hasNext() && k.hasNext())
+    while (i.hasNext() && j.hasNext())
     {
         if (!root.isEmpty())
         {
@@ -250,7 +250,7 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
 
         displayTextData({firstColumn});
 
-        QStringListIterator w(i.next()), y(j.next()), z(k.next());
+        QStringListIterator w(i.next()), y(j.next());
         l=0;
         while (w.hasNext() && y.hasNext())
         {
@@ -259,7 +259,7 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
                 secondColumn =  tags.at(1) +" " +QString::number(++l) + "/"+ QString::number(count) +": ";
                         
             secondColumn += w.next();
-            fifthColumn =  (z.hasNext())? z.next() : "";  
+            fifthColumn =  "" ; //(z.hasNext())? z.next() : "";
 
             if ((stackedSizeInfo.size() > 0) && (y.hasNext()))
             {
