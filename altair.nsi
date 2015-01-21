@@ -113,7 +113,7 @@ Section
   CreateDirectory  $INSTDIR\${exemple}\Donnees\xhl
   
   SetOutPath $INSTDIR\${prodname}
-  File /r  "${prodname}\Interface_win64.${nbits}" 
+  File /r  "${prodname}\Interface_win64" 
   File /r  "${prodname}\Docs" 
   File /r  "${prodname}\Outils" 
   File /r  "${prodname}\win.${nbits}" 
@@ -155,7 +155,7 @@ SilentInstall normal
 InstallDir "C:\Users\Public"
 InstallDirRegKey HKLM "${regkey}" ""
 
-Icon "${prodname}\Interface_win64.${nbits}\${icon}"
+Icon "${prodname}\Interface_win64\${icon}"
 
 RequestExecutionLevel user
 AutoCloseWindow false
@@ -195,13 +195,13 @@ Section -post
 
  !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
  
-  SetOutPath "$INSTDIR\${prodname}\Interface_win64.${nbits}"
-  CreateShortCut "$DESKTOP\${prodname}.lnk" "$INSTDIR\${prodname}\Interface_win64.${nbits}\${prodname}.exe"  "" "$INSTDIR\${prodname}\Interface_win64.${nbits}\${icon}"
-  WriteRegStr HKLM "${prodname}\Shell\open\command\" "" "$INSTDIR\${prodname}\Interface_win64.${nbits}\${prodname}.exe"
+  SetOutPath "$INSTDIR\${prodname}\Interface_win64"
+  CreateShortCut "$DESKTOP\${prodname}.lnk" "$INSTDIR\${prodname}\Interface_win64\${prodname}.exe"  "" "$INSTDIR\${prodname}\Interface_win64\${icon}"
+  WriteRegStr HKLM "${prodname}\Shell\open\command\" "" "$INSTDIR\${prodname}\Interface_win64\${prodname}.exe"
   
   CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
   CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Désinstaller.lnk" "$INSTDIR\Désinstaller.exe" "" "$INSTDIR\Désinstaller.exe" 0
-  CreateShortCut "$SMPROGRAMS\$StartMenuFolder\${prodname}.lnk" "$INSTDIR\${prodname}\Interface_win64.${nbits}\${prodname}.exe" "" "$INSTDIR\${prodname}\Interface_win64.${nbits}\${icon}" 0
+  CreateShortCut "$SMPROGRAMS\$StartMenuFolder\${prodname}.lnk" "$INSTDIR\${prodname}\Interface_win64\${prodname}.exe" "" "$INSTDIR\${prodname}\Interface_win64\${icon}" 0
   
  ; WriteRegStr HKLM "${prodname}\DefaultIcon" "${prodname}" "$INSTDIR\${prodname}\Interface_w${nbits}\${icon}"
  
@@ -222,7 +222,7 @@ Section -post
   WriteRegStr HKLM "SOFTWARE\${prodname}" "Install_Dir" "$INSTDIR"
 
   WriteRegStr HKLM "${REG_UNINST_KEY}" "DisplayName" "${prodname}"
-  WriteRegStr HKLM "${REG_UNINST_KEY}" "DisplayIcon" "$INSTDIR\${prodname}\Interface_win64.${nbits}\${icon}"
+  WriteRegStr HKLM "${REG_UNINST_KEY}" "DisplayIcon" "$INSTDIR\${prodname}\Interface_win64\${icon}"
   WriteRegStr HKLM "${REG_UNINST_KEY}" "DisplayVersion" "${version}"
   WriteRegDWORD HKLM "${REG_UNINST_KEY}" "NoModify" "1"
   WriteRegDWORD HKLM "${REG_UNINST_KEY}" "NoRepair" "1"
