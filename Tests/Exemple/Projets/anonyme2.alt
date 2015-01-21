@@ -88,19 +88,19 @@
    oui
   </outputTextEdit>
   <fileToolBar profondeur="0">
-   non
+   oui
   </fileToolBar>
   <editToolBar profondeur="0">
-   non
+   oui
   </editToolBar>
   <processToolBar profondeur="0">
-   non
+   oui
   </processToolBar>
   <optionsToolBar profondeur="0">
-   non
+   oui
   </optionsToolBar>
   <aboutToolBar profondeur="0">
-   non
+   oui
   </aboutToolBar>
   <saveProjectBehavior profondeur="0">
    oui
@@ -149,6 +149,6 @@
   </ecoRAM>
  </systeme>
  <recent>
-  <fichier>C:/Users/Public/Altair/Tests/Exemple/Projets/anonyme2.alt</fichier>
+  <fichier>C:/Dev/altair/Tests/Exemple/Projets/anonyme2.alt</fichier>
  </recent>
 </projet>
