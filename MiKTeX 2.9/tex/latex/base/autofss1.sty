@@ -1,0 +1,116 @@
+%%
+%% This is file `autofss1.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% ltfssbas.dtx  (with options: `def1')
+%% ltfsstrc.dtx  (with options: `def1')
+%% 
+%% This is a generated file.
+%% 
+%% Copyright 1993-2014
+%% The LaTeX3 Project and any individual authors listed elsewhere
+%% in this file.
+%% 
+%% This file was generated from file(s) of the LaTeX base system.
+%% --------------------------------------------------------------
+%% 
+%% It may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either version 1.3c
+%% of this license or (at your option) any later version.
+%% The latest version of this license is in
+%%    http://www.latex-project.org/lppl.txt
+%% and version 1.3c or later is part of all distributions of LaTeX
+%% version 2005/12/01 or later.
+%% 
+%% This file has the LPPL maintenance status "maintained".
+%% 
+%% This file may only be distributed together with a copy of the LaTeX
+%% base system. You may however distribute the LaTeX base system without
+%% such generated files.
+%% 
+%% The list of all files belonging to the LaTeX base distribution is
+%% given in the file `manifest.txt'. See also `legal.txt' for additional
+%% information.
+%% 
+%% The list of derived (unpacked) files belonging to the distribution
+%% and covered by LPPL is defined by the unpacking scripts (with
+%% extension .ins) which are part of the distribution.
+%%% From File: ltfssbas.dtx
+%% Copyright (C) 1989-2002 Frank Mittelbach and Rainer Sch\"opf
+\ProvidesFile{autofss1.sty}
+         [2002/10/02 v3.0x NFSS autoload file 1]
+\gdef\no@alphabet@error#1{\relax \ifmmode
+    \@latex@error{Math\space alphabet\space identifier\space
+          \noexpand#1is\space undefined\space in\space math\space
+           version\space `\math@version'}%
+        {Your\space requested\space math\space alphabet\space
+         is\space undefined\space in\space the\space current\space
+          math\space version.^^JCheck\space the\space spelling\space
+          or\space use\space the\space \noexpand\SetMathAlphabet\space
+          command.}
+     \fi}
+\gdef\calculate@math@sizes{%
+  \@font@info{Calculating\space math\space sizes\space for\space
+              size\space <\f@size>}%
+  \dimen@\f@size \p@
+  \@tempdimb \defaultscriptratio \dimen@
+  \dimen@ \defaultscriptscriptratio \dimen@
+  \expandafter\xdef\csname S@\f@size\endcsname{%
+    \gdef\noexpand\tf@size{\f@size}%
+    \gdef\noexpand\sf@size{\strip@pt\@tempdimb}%
+    \gdef\noexpand\ssf@size{\strip@pt\dimen@}%
+    \noexpand\math@fontstrue}}
+%%% From File: ltfsstrc.dtx
+%% Copyright (C) 1989-97 by Frank Mittelbach and Rainer Sch\"opf.
+%% Copyright (C) 1994-97 by LaTeX3 project. All rights reserved.
+\gdef\try@size@substitution{%
+  \@tempdimb \maxdimen
+  \let \best@size \@empty
+  \expandafter \try@simples \font@info <\number\@M>\@nil<\@nnil
+}
+\gdef\try@simples#1<#2>{%
+  \tryif@simple#2->\tryif@simple}
+\gdef\tryif@simple#1-#2\tryif@simple{%
+  \let \reserved@f \try@simples
+  \if>#2%
+    \dimen@ #1\p@
+    \ifdim \dimen@<\@M\p@
+      \ifdim \f@size\p@<\dimen@
+        \@tempdimc \dimen@
+        \advance\@tempdimc -\f@size\p@
+      \else
+        \@tempdimc \f@size\p@
+        \advance\@tempdimc -\dimen@
+      \fi
+      \ifdim \@tempdimc<\@tempdimb
+        \@tempdimb \@tempdimc
+        \def \best@size{#1}%
+      \fi
+    \else
+  \ifx \external@font\@empty
+    \ifx \best@size\@empty
+    \else
+      \ifdim \@tempdimb>\font@submax \relax
+        \xdef \font@submax {\the\@tempdimb}%
+      \fi
+      \let \f@user@size \f@size
+      \let \f@size \best@size
+      \ifdim \@tempdimb>\fontsubfuzz\relax
+        \@font@warning{Font\space shape\space
+            `\curr@fontshape'\space in\space size\space
+             <\f@user@size>\space not\space available\MessageBreak
+             size\space <\f@size>\space substituted}%
+      \fi
+      \try@simple@size
+      \do@subst@correction
+    \fi
+ \fi
+      \let \reserved@f \remove@to@nnil
+    \fi
+  \fi
+  \reserved@f}
+\endinput
+%%
+%% End of file `autofss1.sty'.

@@ -1,0 +1,164 @@
+%%
+%% This is file `autotabg.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% lttab.dtx  (with options: `def')
+%% 
+%% This is a generated file.
+%% 
+%% Copyright 1993-2014
+%% The LaTeX3 Project and any individual authors listed elsewhere
+%% in this file.
+%% 
+%% This file was generated from file(s) of the LaTeX base system.
+%% --------------------------------------------------------------
+%% 
+%% It may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either version 1.3c
+%% of this license or (at your option) any later version.
+%% The latest version of this license is in
+%%    http://www.latex-project.org/lppl.txt
+%% and version 1.3c or later is part of all distributions of LaTeX
+%% version 2005/12/01 or later.
+%% 
+%% This file has the LPPL maintenance status "maintained".
+%% 
+%% This file may only be distributed together with a copy of the LaTeX
+%% base system. You may however distribute the LaTeX base system without
+%% such generated files.
+%% 
+%% The list of all files belonging to the LaTeX base distribution is
+%% given in the file `manifest.txt'. See also `legal.txt' for additional
+%% information.
+%% 
+%% The list of derived (unpacked) files belonging to the distribution
+%% and covered by LPPL is defined by the unpacking scripts (with
+%% extension .ins) which are part of the distribution.
+%%% From File: lttab.dtx
+\ProvidesFile{autotabg.sty}
+                  [1998/11/13 v1.1m tabbing autoload file]
+\newif\if@rjfield
+\gdef\@startline{%
+     \ifnum \@nxttabmar >\@hightab
+       \@badtab
+       \global\@nxttabmar \@hightab
+     \fi
+     \global\@curtabmar \@nxttabmar
+     \global\@curtab \@curtabmar
+     \global\setbox\@curline \hbox {}%
+     \@startfield
+     \strut}
+\gdef\@stopline{%
+  \unskip
+  \@stopfield
+  \if@rjfield
+    \global\@rjfieldfalse
+    \@tempdima\@totalleftmargin
+    \advance\@tempdima\linewidth
+    \hb@xt@\@tempdima{%
+      \@itemfudge\hskip\dimen\@curtabmar
+      \box\@curline
+      \hfil
+      \box\@curfield}%
+  \else
+    \@addfield
+    \hbox{\@itemfudge\hskip\dimen\@curtabmar\box\@curline}%
+  \fi}
+\gdef\@startfield{%
+  \global\setbox\@curfield\hbox\bgroup\color@begingroup}
+\gdef\@stopfield{%
+  \color@endgroup\egroup}
+\gdef\@contfield{%
+  \global\setbox\@curfield\hbox\bgroup\color@begingroup
+  \unhbox\@curfield}
+\gdef\@addfield{\global\setbox\@curline\hbox{\unhbox
+     \@curline\unhbox\@curfield}}
+\gdef\@ifatmargin{\ifdim \wd\@curline =\z@}
+\gdef\@tabcr{\@stopline \@ifstar{\penalty \@M \@xtabcr}\@xtabcr}
+\gdef\@xtabcr{\@ifnextchar[\@itabcr{\@startline\ignorespaces}}
+\gdef\@itabcr[#1]{\vskip #1\@startline\ignorespaces}
+\gdef\kill{\@stopfield\@startline\ignorespaces}
+\gdef\tabbing{\lineskip \z@skip\let\>\@rtab\let\<\@ltab\let\=\@settab
+     \let\+\@tabplus\let\-\@tabminus\let\`\@tabrj\let\'\@tablab
+     \let\\=\@tabcr
+     \@hightab\@firsttab
+     \global\@nxttabmar\@firsttab
+     \dimen\@firsttab\@totalleftmargin
+     \global\@tabpush\z@ \global\@rjfieldfalse
+     \trivlist \item\relax
+     \if@minipage\else\vskip\parskip\fi
+     \setbox\@tabfbox\hbox{%
+       \rlap{\hskip\@totalleftmargin\indent\the\everypar}}%
+     \def\@itemfudge{\box\@tabfbox}%
+     \@startline\ignorespaces}
+\gdef\endtabbing{%
+  \@stopline\ifnum\@tabpush >\z@ \@badpoptabs \fi\endtrivlist}
+\gdef\@rtab{\@stopfield\@addfield\ifnum \@curtab<\@hightab
+      \global\advance\@curtab \@ne \else\@badtab\fi
+      \@tempdima\dimen\@curtab
+      \advance\@tempdima -\dimen\@curtabmar
+      \advance\@tempdima -\wd\@curline
+      \global\setbox\@curline\hbox{\unhbox\@curline\hskip\@tempdima}%
+      \@startfield\ignorespaces}
+\gdef\@settab{\@stopfield\@addfield
+  \ifnum \@curtab <\@maxtab
+    \ifnum\@curtab =\@hightab
+      \advance\@hightab \@ne
+    \fi
+    \global\advance\@curtab \@ne
+  \else
+    \@latex@error{Tab overflow}\@ehd
+  \fi
+  \dimen\@curtab \dimen\@curtabmar
+  \advance\dimen\@curtab \wd\@curline
+  \@startfield
+  \ignorespaces}
+\gdef\@ltab{\@ifatmargin\ifnum\@curtabmar >\@firsttab
+      \global\advance\@curtab \m@ne \global\advance\@curtabmar\m@ne\else
+      \@badtab\fi\else
+      \@latex@error{\string\<\space in mid line}\@ehd\fi\ignorespaces}
+\gdef\@tabplus{%
+  \ifnum\@nxttabmar<\@hightab
+    \global\advance\@nxttabmar\@ne
+  \else
+    \@badtab
+  \fi
+  \ignorespaces}
+\gdef\@tabminus{%
+  \ifnum\@nxttabmar>\@firsttab
+    \global\advance\@nxttabmar\m@ne
+  \else
+    \@badtab
+  \fi
+  \ignorespaces}
+\gdef\@tabrj{%
+  \@stopfield\@addfield\global\@rjfieldtrue\@startfield\ignorespaces}
+\gdef\@tablab{%
+  \@stopfield
+  \global\setbox\@curline\hbox{%
+    \box\@curline
+    \hskip-\wd\@curfield \hskip-\tabbingsep
+    \box\@curfield
+    \hskip\tabbingsep}%
+  \@startfield
+  \ignorespaces}
+\gdef\pushtabs{%
+  \@stopfield\@addfield\global\advance\@tabpush \@ne \begingroup
+       \@contfield}
+\gdef\poptabs{\@stopfield\@addfield
+  \ifnum \@tabpush >\z@
+    \endgroup
+    \global\advance\@tabpush \m@ne
+    \ifnum \@curtab >\@hightab
+      \global \@curtab \@hightab
+      \@badtab
+    \fi
+  \else
+    \@badpoptabs
+  \fi
+  \@contfield}
+\endinput
+%%
+%% End of file `autotabg.sty'.
