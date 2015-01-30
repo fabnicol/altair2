@@ -191,7 +191,8 @@ Function .onInit
 
   Delete $TEMP\spltmp.bmp
   
- ; StrCpy $1 ${Minimale}
+  StrCpy $1 "Minimale"
+  Call .onSelChange
   
 FunctionEnd
 
@@ -295,8 +296,8 @@ SectionEnd
 
   Section  $(Sec6Name) sec6
     SetOutPath $INSTDIR\${xhl}
-    File /r  ${xhl}\Anonyme
-    File /r  ${xhl}\Anonyme2
+   ; File /r  ${xhl}\Anonyme
+   ; File /r  ${xhl}\Anonyme2
   SectionEnd
  
 
