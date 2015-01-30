@@ -1,10 +1,10 @@
-
+!include "Sections.nsh"
 !include "MUI2.nsh"
 !include "x64.nsh"
 !include "${NSISDIR}\Contrib\Modern UI\System.nsh"
 !include "StrFunc.nsh"
 !include "EnvVarUpdate.nsh"
-
+  
 ; Numéros de version 
 
 !define version  "2015.02"
@@ -73,17 +73,16 @@
  LangString uninst_completed ${LANG_FRENCH} "Désinstallation terminée"
  LangString Sec1Name ${LANG_FRENCH}  "Altaïr"
  LangString DESC_sec1 ${LANG_FRENCH} "Installer Altaïr"
- LangString Sec2Name ${LANG_FRENCH}  "R"
- LangString Sec3Name ${LANG_FRENCH}  "RStudio"
- LangString Sec4Name ${LANG_FRENCH}  "MikTex"
+ LangString AdvancedName ${LANG_FRENCH}  "Installation avancée"
+ LangString MinimaleName ${LANG_FRENCH}  "Installation minimale"
  LangString Sec6Name ${LANG_FRENCH}  "Exemples"
  ;LangString Sec5Name ${LANG_FRENCH} "Git"
- LangString DESC_sec2 ${LANG_FRENCH} "Installer le langage R"
- LangString DESC_sec3 ${LANG_FRENCH} "Installer l'interface RStudio"
- LangString DESC_sec4 ${LANG_FRENCH} "Installer le système MikTex (création de documents pdf)"
- LangString DESC_sec5 ${LANG_FRENCH} "Installer le gestionnaire de versions GIT"
+ LangString DESC_Advanced ${LANG_FRENCH} "Installer la version avancée (Altaïr, R, RStudio et MiKTeX)"
+ LangString DESC_Minimale ${LANG_FRENCH} "Installer la version minimale (Altaïr, R)"
+ 
+ ;LangString DESC_sec5 ${LANG_FRENCH} "Installer le gestionnaire de versions GIT"
  LangString DESC_sec6 ${LANG_FRENCH} "Installer les exemples"
- LangString DESC_sec7 ${LANG_FRENCH} "Installer le système MikTex (création de documents pdf)"
+ 
  
  LangString Message  ${LANG_FRENCH}  "Appuyer sur Oui pour installer Altaïr"
   
@@ -147,23 +146,6 @@ Section
   SetOutPath $DOCUMENTS\R\win-library\${Rversion_major}
   File /r  "${prodname}\lib\*.*" 
   
-  SetOutPath $LOCALAPPDATA  
-  File /r "${prodname}\Local\RStudio-desktop"
-  File /r "${prodname}\Local\MiKTeX"
-  
-  SetOutPath $APPDATA\RStudio  
-  File  "${prodname}\Roaming\RStudio\*.*"
-  
-  SetOutPath $APPDATA
-  File /r "${prodname}\Roaming\MiKTeX"
-  
-	; This is important to have $APPDATA variable
-	; point to ProgramData folder
-	; instead of current user's Roaming folder
-	
-  SetShellVarContext all
-  SetOutPath $APPDATA
-  File /r "${prodname}\ProgramData\MiKTeX"
   
 SectionEnd
 
@@ -209,9 +191,13 @@ Function .onInit
 
   Delete $TEMP\spltmp.bmp
   
+ ; StrCpy $1 ${Minimale}
+  
 FunctionEnd
 
-
+; Functions
+ 
+ 
 Function Launch_LISEZ
   SetOutPath $INSTDIR
   File  "${notefile}"  
@@ -224,11 +210,10 @@ Function Launch_INSTALLATION
   Exec '"notepad" "$INSTDIR\INSTALLATION.txt"'
 FunctionEnd
 
-
 Section -post 
 
  !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
- 
+  SetShellVarContext current
   SetOutPath       "$INSTDIR\${prodname}\Interface_win64"
   CreateShortCut   "$DESKTOP\${prodname}.lnk" "$INSTDIR\${prodname}\Interface_win64\${prodname}.exe"  "" "$INSTDIR\${prodname}\Interface_win64\${icon}"
   WriteRegStr HKLM "${prodname}\Shell\open\command\" "" "$INSTDIR\${prodname}\Interface_win64\${prodname}.exe"
@@ -277,63 +262,61 @@ Section -post
 SectionEnd
 
 
- ; Section  $(Sec2Name) sec2 
-  ; SetOutPath $INSTDIR\${prodname}\Paquets
-  ; File "${prodname}\Paquets\${R}"
-  ; ExecShell "" "$INSTDIR\${prodname}\Paquets\${R}"
- ; SectionEnd
+ Section /o $(AdvancedName) Advanced
+    SetOutPath $INSTDIR\${prodname}
+    File /r  "${prodname}\${RDir}"
+    File /r  "${prodname}\${MiktexDir}"
+	${EnvVarUpdate} $0 "PATH" "A" "HKCU" "$INSTDIR\${prodname}\${MiktexDir}\miktex\bin\x64" ; appends to the user path
+    File /r  "${prodname}\${RStudioDir}"
+	SetOutPath $LOCALAPPDATA  
+    File /r "${prodname}\Local\RStudio-desktop"
+    File /r "${prodname}\Local\MiKTeX"
+  
+    SetOutPath $APPDATA\RStudio  
+    File  "${prodname}\Roaming\RStudio\*.*"
+  
+    SetOutPath $APPDATA
+    File /r "${prodname}\Roaming\MiKTeX"
+  
+	; This is important to have $APPDATA variable
+	; point to ProgramData folder
+	; instead of current user's Roaming folder
+	
+    SetShellVarContext all
+	SetOutPath $APPDATA
+	File /r "${prodname}\ProgramData\MiKTeX"
+	SetShellVarContext current
+ SectionEnd
 
- ; Section  $(Sec3Name) sec3 
-  ; SetOutPath $INSTDIR\${prodname}\Paquets
-  ; File "${prodname}\Paquets\${RStudio}"
-  ; ExecShell "" "$INSTDIR\${prodname}\Paquets\${RStudio}"
- ; SectionEnd
-
- ; Section  $(Sec4Name) sec4
-  ; SetOutPath $INSTDIR\${prodname}\Paquets
-  ; File "${prodname}\Paquets\${Miktex}"
-  ; ExecShell "" "$INSTDIR\${prodname}\Paquets\${Miktex}"
- ; SectionEnd
- 
-; Section  $(Sec5Name) sec5
-;  SetOutPath $INSTDIR\${prodname}\Paquets
-;  File "${prodname}\Paquets\Git-1.9.2-preview20140411.exe"  
-;  ExecShell "" "$INSTDIR\${prodname}\Paquets\Git-1.9.2-preview20140411.exe"
-; SectionEnd
-
-
- Section  $(Sec2Name) sec2 
+ Section   $(MinimaleName) Minimale 
     SetOutPath $INSTDIR\${prodname}
     File /r  "${prodname}\${RDir}"
  SectionEnd
 
- Section  $(Sec3Name) sec3 
-    SetOutPath $INSTDIR\${prodname}
-    File /r  "${prodname}\${RStudioDir}"
- SectionEnd
-
   Section  $(Sec6Name) sec6
     SetOutPath $INSTDIR\${xhl}
-   ; File /r  ${xhl}\Anonyme
-    ;File /r  ${xhl}\Anonyme2
+    File /r  ${xhl}\Anonyme
+    File /r  ${xhl}\Anonyme2
   SectionEnd
+ 
 
-  Section  $(Sec7Name) sec7
-    SetOutPath $INSTDIR\${prodname}
-    File /r  "${prodname}\${MiktexDir}"
-	${EnvVarUpdate} $0 "PATH" "A" "HKCU" "$INSTDIR\${prodname}\${MiktexDir}\miktex\bin\x64" ; appends to the user path
-  SectionEnd
-  
+Function .onSelChange
+  !insertmacro StartRadioButtons $1
+    !insertmacro RadioButton ${Advanced}
+    !insertmacro RadioButton ${Minimale}
+!insertmacro EndRadioButtons
+FunctionEnd
+
+ 
  !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
    !insertmacro MUI_DESCRIPTION_TEXT ${sec1} $(DESC_sec1)
-   !insertmacro MUI_DESCRIPTION_TEXT ${sec2} $(DESC_sec2)
-   !insertmacro MUI_DESCRIPTION_TEXT ${sec3} $(DESC_sec3)
+   !insertmacro MUI_DESCRIPTION_TEXT ${Advanced} $(DESC_Advanced)
+   !insertmacro MUI_DESCRIPTION_TEXT ${Minimale} $(DESC_Minimale)
   ; !insertmacro MUI_DESCRIPTION_TEXT ${sec4} $(DESC_sec4)
   ; !insertmacro MUI_DESCRIPTION_TEXT ${sec5} $(DESC_sec5)
    !insertmacro MUI_DESCRIPTION_TEXT ${sec6} $(DESC_sec6)
-   !insertmacro MUI_DESCRIPTION_TEXT ${sec7} $(DESC_sec7)
+  ; !insertmacro MUI_DESCRIPTION_TEXT ${sec7} $(DESC_sec7)
  !insertmacro MUI_FUNCTION_DESCRIPTION_END
-
 
 Function .onInstSuccess
   MessageBox MB_OK "Installation réussie de Altaïr-${version}."
@@ -351,7 +334,7 @@ Section "Uninstall"
   DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\${prodname}"
   DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\${prodname}"
   
-  ${EnvVarUpdate} $0 "PATH" "R" "HKCU" "$INSTDIR\${prodname}\${MiktexDir}\miktex\bin\x64" ; appends to the user path
+  ${un.EnvVarUpdate} $0 "PATH" "R" "HKCU" "$INSTDIR\${prodname}\${MiktexDir}\miktex\bin\x64" ; appends to the user path
 
   Delete "$DESKTOP\${prodname}.lnk"
   Delete "$INSTDIR\Désinstaller.exe"
@@ -363,7 +346,7 @@ Section "Uninstall"
   Delete "$INSTDIR\${prodname}\*.*"
   RMDir /r "$INSTDIR\${prodname}"
   
-  ;SetShellVarContext all
+  SetShellVarContext all
   RMDir /r "$APPDATA\MiKTeX"
   
   SetShellVarContext current
