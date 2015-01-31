@@ -1,0 +1,6 @@
+setwd("C:/Users/Public/Altair/Tests/Exemple")
+source.with.encoding('C:/Dev/altair/Tests/Exemple/altair.R', encoding='UTF-8')
+.libPath()
+.libPaths()
+source.with.encoding('C:/Dev/altair/Tests/Exemple/altair.R', encoding='UTF-8')
+source.with.encoding('C:/Dev/altair/Tests/Exemple/altair.R', encoding='UTF-8', echo=TRUE)
