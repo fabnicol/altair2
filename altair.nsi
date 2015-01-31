@@ -36,6 +36,9 @@
 !define Désinstaller "Désinstaller.exe"
 !define notefile     "${prodname}\LISEZ-MOI.txt"
 !define installfile  "${prodname}\INSTALLATION.txt"
+!define GitDir       "${prodname}\Git"
+!define git          "${prodname}\.git"
+
 !define REG_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${prodname}"
 !define MEMENTO_REGISTRY_ROOT HKLM
 !define MEMENTO_REGISTRY_KEY "${REG_UNINST_KEY}"
@@ -267,6 +270,9 @@ SectionEnd
     SetOutPath $INSTDIR\${prodname}
     File /r  "${prodname}\${RDir}"
     File /r  "${prodname}\${MiktexDir}"
+	File /r  "${prodname}\${GitDir}"
+	File /r  "${prodname}\${git}"
+	
 	${EnvVarUpdate} $0 "PATH" "A" "HKCU" "$INSTDIR\${prodname}\${MiktexDir}\miktex\bin\x64" ; appends to the user path
     File /r  "${prodname}\${RStudioDir}"
 	SetOutPath $LOCALAPPDATA  
