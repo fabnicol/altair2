@@ -201,10 +201,8 @@ Function .onInit
 
   Pop $0 ; $0 has '1' if the user closed the splash screen early,
          ; '0' if everything closed normally, and '-1' if some error occurred.
-	 
 
   Delete $TEMP\spltmp.bmp
-  
   StrCpy $1 "Minimale"
   Call .onSelChange
   
@@ -303,6 +301,11 @@ SectionEnd
 			
     SetShellVarContext all
 	SetOutPath $APPDATA
+	
+	; This sets us permissions
+	CreateDirectory "$APPDATA\MiKTeX"
+	AccessControl::GrantOnFile "$APPDATA\MiKTeX" "(S-1-5-32-545)" "FullAccess"
+	AccessControl::GrantOnFile "$APPDATA\MiKTeX\*" "(S-1-5-32-545)" "FullAccess"
 	File /r "${prodname}\ProgramData\MiKTeX"
 	SetShellVarContext current
  SectionEnd
