@@ -31,13 +31,12 @@
 !define RDir         "R-${Rversion}"
 !define MiktexDir    "Miktex ${Miktex_version}"
 !define RStudioDir   "RStudio"
+!define GitDir       "Git"
 !define Miktex       "setup-2.9.4503-x64.exe"
 !define startmenu    "$SMPROGRAMS\${prodname}-${version}"
 !define Désinstaller "Désinstaller.exe"
 !define notefile     "${prodname}\LISEZ-MOI.txt"
 !define installfile  "${prodname}\INSTALLATION.txt"
-!define GitDir       "${prodname}\Git"
-!define git          "${prodname}\.git"
 
 !define REG_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${prodname}"
 !define MEMENTO_REGISTRY_ROOT HKLM
@@ -51,6 +50,8 @@
 !define MUI_HEADERIMAGE_BITMAP "${exemple}\${prodname}.bmp"
 !define MUI_WELCOMEFINISHPAGE_BITMAP "${exemple}\neptune.bmp"
 !define MUI_ABORTWARNING
+
+Var git
 
  RequestExecutionLevel admin
  InstallDirRegKey HKLM "SOFTWARE\${prodname}" ""
@@ -70,7 +71,9 @@
  LangString title1 ${LANG_FRENCH}    "Lisez-moi"
  LangString text1 ${LANG_FRENCH}     "Altaïr ${version} va être installé dans $INSTDIR. Cliquer sur Compléments pour des précisions sur l'installation."
  LangString title2 ${LANG_FRENCH}    "Installation"
- LangString text2 ${LANG_FRENCH}     "Compléments d'information sur l'installation. Cliquer sur Terminer pour lancer l'installation du logiciel et de ses dépendances."
+ LangString text2 ${LANG_FRENCH}     "Compléments d'information sur l'installation."
+ LangString title3 ${LANG_FRENCH}    "Installation du gestionnaire de versions local"
+ LangString text3 ${LANG_FRENCH}     "Un dépôt local peut être installé dans $INSTDIR pour suivre l'évolution du code source en temps réel. Cliquer sur Terminer pour lancer l'installation du logiciel et de ses dépendances."
  LangString Désinstaller ${LANG_FRENCH}     "désinstallation du logiciel ${prodname} "
  LangString completed ${LANG_FRENCH} "Terminé."
  LangString uninst_completed ${LANG_FRENCH} "Désinstallation terminée"
@@ -80,7 +83,7 @@
  LangString MinimaleName ${LANG_FRENCH}  "Installation minimale"
  LangString Sec6Name ${LANG_FRENCH}  "Exemples"
  ;LangString Sec5Name ${LANG_FRENCH} "Git"
- LangString DESC_Advanced ${LANG_FRENCH} "Installer la version avancée (Altaïr, R, RStudio et MiKTeX)"
+ LangString DESC_Advanced ${LANG_FRENCH} "Installer la version avancée (Altaïr, Git, R, RStudio et MiKTeX)"
  LangString DESC_Minimale ${LANG_FRENCH} "Installer la version minimale (Altaïr, R)"
  
  ;LangString DESC_sec5 ${LANG_FRENCH} "Installer le gestionnaire de versions GIT"
@@ -114,10 +117,19 @@
 !define MUI_FINISHPAGE_RUN 
 !define MUI_FINISHPAGE_RUN_TEXT     "Lire le fichier INSTALLATION"
 !define MUI_FINISHPAGE_RUN_FUNCTION "Launch_INSTALLATION"
-!define MUI_FINISHPAGE_BUTTON       "Terminer"
+!define MUI_FINISHPAGE_BUTTON       "Suite"
 !define MUI_FINISHPAGE_CANCEL_ENABLED 
 !insertmacro MUI_PAGE_FINISH
 
+	
+!define MUI_FINISHPAGE_TITLE $(title3)
+!define MUI_FINISHPAGE_TEXT  $(text3)
+!define MUI_FINISHPAGE_RUN 
+!define MUI_FINISHPAGE_RUN_TEXT     "Installer le dépôt de code source GIT"
+!define MUI_FINISHPAGE_RUN_FUNCTION "install_git"
+!define MUI_FINISHPAGE_BUTTON       "Terminer"
+!define MUI_FINISHPAGE_CANCEL_ENABLED 
+!insertmacro MUI_PAGE_FINISH
 
 Section
 MessageBox MB_YESNO|MB_ICONINFORMATION $(Message)  IDNO Fin IDYES OK
@@ -143,9 +155,8 @@ Section
   SetOutPath $INSTDIR\${exemple}
   File /r  ${exemple}\Docs
   File /r  ${exemple}\Projets
-  File     ${exemple}\Altair.bmp     ${exemple}\Altair.ico      ${exemple}\*.R         ${exemple}\*.Rmd 
-  File     ${exemple}\neptune.512.ico ${exemple}\neptune.bmp ${exemple}\neptune.ico      ${exemple}\style.css
-  
+  File     ${exemple}\*.*
+    
   SetOutPath $DOCUMENTS\R\win-library\${Rversion_major}
   File /r  "${prodname}\lib\*.*" 
   
@@ -271,9 +282,10 @@ SectionEnd
     File /r  "${prodname}\${RDir}"
     File /r  "${prodname}\${MiktexDir}"
 	File /r  "${prodname}\${GitDir}"
-	File /r  "${prodname}\${git}"
 	
-	${EnvVarUpdate} $0 "PATH" "A" "HKCU" "$INSTDIR\${prodname}\${MiktexDir}\miktex\bin\x64" ; appends to the user path
+	${EnvVarUpdate} $0 "PATH" "A" "HKCU" "$INSTDIR\${prodname}\${MiktexDir}\miktex\bin\x64"
+	${EnvVarUpdate} $0 "PATH" "A" "HKCU" "$INSTDIR\${prodname}\${GitDir}\bin" 
+	
     File /r  "${prodname}\${RStudioDir}"
 	SetOutPath $LOCALAPPDATA  
     File /r "${prodname}\Local\RStudio-desktop"
@@ -288,7 +300,7 @@ SectionEnd
 	; This is important to have $APPDATA variable
 	; point to ProgramData folder
 	; instead of current user's Roaming folder
-	
+			
     SetShellVarContext all
 	SetOutPath $APPDATA
 	File /r "${prodname}\ProgramData\MiKTeX"
@@ -325,11 +337,35 @@ FunctionEnd
   ; !insertmacro MUI_DESCRIPTION_TEXT ${sec7} $(DESC_sec7)
  !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
+ Function install_git
+   MessageBox MB_YESNO|MB_ICONINFORMATION "Une connexion Internet est nécessaire. Cliquer sur Oui si elle est activée, sur Non pour refuser l'installation. Le code source du dépôt git sera installé dans $INSTDIR\${prodname}.git" IDYES true IDNO false
+
+   true:
+	 DetailPrint "Le code source du dépôt git sera installé dans $INSTDIR\${prodname}.git"   
+  	 StrCpy $git "1"
+	 Return
+   false:
+     DetailPrint "Le code source du dépôt git ne sera pas installé."
+	 StrCpy $git "0"
+ FunctionEnd
+ 
+ Function un.install_git
+   MessageBox MB_YESNO|MB_ICONINFORMATION "Désinstallation du dépôt git ?" IDYES true IDNO false
+
+   true:
+     DetailPrint "Le code source du dépôt git sera désinstallé."
+     RMDir /r "$INSTDIR\${prodname}.git"
+	 Return
+   false:	 
+     DetailPrint "Le code source du dépôt git ne sera pas désinstallé."
+ FunctionEnd
+  
 Function .onInstSuccess
-  MessageBox MB_OK "Installation réussie de Altaïr-${version}."
+	${If} $git == "1"
+	    ExecWait '"$INSTDIR\${prodname}\git_altair.bat"' ; Exec est inadéquat ici.
+	${EndIf}
 FunctionEnd
- 
- 
+  
 Function un.onUninstSuccess
   MessageBox MB_OK "Désinstallation réussie."
 FunctionEnd
@@ -341,7 +377,8 @@ Section "Uninstall"
   DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\${prodname}"
   DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\${prodname}"
   
-  ${un.EnvVarUpdate} $0 "PATH" "R" "HKCU" "$INSTDIR\${prodname}\${MiktexDir}\miktex\bin\x64" ; appends to the user path
+  ${un.EnvVarUpdate} $0 "PATH" "R" "HKCU" "$INSTDIR\${prodname}\${MiktexDir}\miktex\bin\x64" 
+  ${un.EnvVarUpdate} $0 "PATH" "R" "HKCU" "$INSTDIR\${prodname}\${GitDir}\bin"  
 
   Delete "$DESKTOP\${prodname}.lnk"
   Delete "$INSTDIR\Désinstaller.exe"
@@ -362,7 +399,8 @@ Section "Uninstall"
   RMDir /r "$LOCALAPPDATA\MiKTeX"
   RMDir /r "$APPDATA\RStudio"
   RMDir /r "$APPDATA\MiKTeX"
-  
+
+  Call  un.install_git
 SectionEnd
 
 BrandingText "Altaïr-${version}"
