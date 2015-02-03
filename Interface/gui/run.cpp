@@ -116,6 +116,7 @@ void Altair::runRAltair()
     outputTextEdit->append(tr(STATE_HTML_TAG "Ligne de commande : %1").arg(RAltairCommandStr));
     QDir dir=QDir::current();
     dir.setCurrent(RAltairDirStr);
+    process->setWorkingDirectory(RAltairDirStr);
     process->start(RAltairCommandStr);
 }
 
