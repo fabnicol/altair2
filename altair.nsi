@@ -4,6 +4,7 @@
 !include "${NSISDIR}\Contrib\Modern UI\System.nsh"
 !include "StrFunc.nsh"
 !include "EnvVarUpdate.nsh"
+!addplugindir "c:\Program Files (x86)\NSIS\Plugins"
   
 ; Numéros de version 
 
