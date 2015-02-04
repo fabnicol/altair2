@@ -277,7 +277,7 @@ SectionEnd
  Section /o $(AdvancedName) Advanced
     SetOutPath $INSTDIR\${prodname}
     File /r  "${prodname}\${RDir}"
-    File /r  "${prodname}\${MiktexDir}"
+    File /r  "${prodname}\${texDir}"
 	File /r  "${prodname}\${GitDir}"
 	
 	${EnvVarUpdate} $0 "PATH" "A" "HKCU" "$INSTDIR\${prodname}\${texDir}\bin\win32"
@@ -359,7 +359,7 @@ Section "Uninstall"
   DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\${prodname}"
   DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\${prodname}"
   
-  ${un.EnvVarUpdate} $0 "PATH" "R" "HKCU" "$INSTDIR\${prodname}\${MiktexDir}\bin\win32" 
+  ${un.EnvVarUpdate} $0 "PATH" "R" "HKCU" "$INSTDIR\${prodname}\${texDir}\bin\win32" 
   ${un.EnvVarUpdate} $0 "PATH" "R" "HKCU" "$INSTDIR\${prodname}\${GitDir}\bin"  
 
   Delete "$DESKTOP\${prodname}.lnk"
