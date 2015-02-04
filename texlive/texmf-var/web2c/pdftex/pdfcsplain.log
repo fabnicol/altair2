@@ -1,0 +1,121 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/W32TeX) (INITEX)  4 FEB 2015 14:01
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+ encTeX v. Jun. 2004, reencoding enabled
+**csplain-utf8.ini
+(c:/texlive/texmf-dist/tex/csplain/base/csplain-utf8.ini
+(c:/texlive/texmf-dist/tex/csplain/base/csplain.ini
+(c:/texlive/texmf-dist/tex/csplain/base/csfonts.tex)
+(c:/texlive/texmf-dist/tex/plain/base/plain.tex
+Preloading the plain format: codes, registers,
+\maxdimen=\dimen10
+\hideskip=\skip10
+\centering=\skip11
+\p@=\dimen11
+\z@=\dimen12
+\z@skip=\skip12
+\voidb@x=\box10
+ parameters,
+\smallskipamount=\skip13
+\medskipamount=\skip14
+\bigskipamount=\skip15
+\normalbaselineskip=\skip16
+\normallineskip=\skip17
+\normallineskiplimit=\dimen13
+\jot=\dimen14
+\interdisplaylinepenalty=\count23
+\interfootnotelinepenalty=\count24
+ fonts, more fonts,
+\itfam=\fam4
+\slfam=\fam5
+\bffam=\fam6
+\ttfam=\fam7
+
+macros,
+\strutbox=\box11
+\mscount=\count25
+\tabs=\box12
+\tabsyet=\box13
+\tabsdone=\box14
+ math definitions,
+\rootbox=\box15
+\p@renwd=\dimen15
+ output routines,
+\headline=\toks10
+\footline=\toks11
+\footins=\insert254
+\topins=\insert253
+ hyphenation
+(c:/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex))
+(c:/texlive/texmf-dist/tex/csplain/base/csfontsm.tex)
+(c:/texlive/texmf-dist/tex/csplain/base/il2code.tex
+Font encoding set to ISO-8859-2.)
+(c:/texlive/texmf-dist/tex/csplain/base/hyphen.lan
+\numpatterns=\count26
+
+eTeX's \savinghyphcodes detected - \lccode settings per pattern are saved.
+Loading US English hyphenation patterns in ASCII encoding, \enPatt=0 (en).
+(c:/texlive/texmf-dist/tex/csplain/base/hyphen.ex
+Enhyphex.tex English exception words.)
+Loading Czech hyphenation patterns in ISO-8859-2 encoding, \csILtwo=5 (cs).
+(c:/texlive/texmf-dist/tex/csplain/base/czhyphen.tex)
+(c:/texlive/texmf-dist/tex/csplain/base/czhyphen.ex)
+Loading Slovak hyphenation patterns in ISO-8859-2 encoding, \skILtwo=6 (sk).
+(c:/texlive/texmf-dist/tex/csplain/base/skhyphen.tex)
+(c:/texlive/texmf-dist/tex/csplain/base/skhyphen.ex)
+Loading Czech hyphenation patterns in Cork encoding, \csCork=15 (cs).
+(c:/texlive/texmf-dist/tex/csplain/base/t1code.tex Font encoding set to Cork.)
+(c:/texlive/texmf-dist/tex/csplain/base/czhyphen.tex)
+(c:/texlive/texmf-dist/tex/csplain/base/czhyphen.ex)
+Loading Slovak hyphenation patterns in Cork encoding, \skCork=16 (sk).
+(c:/texlive/texmf-dist/tex/csplain/base/t1code.tex Font encoding set to Cork.)
+(c:/texlive/texmf-dist/tex/csplain/base/skhyphen.tex)
+(c:/texlive/texmf-dist/tex/csplain/base/skhyphen.ex)
+5 patterns preloaded: \enPatt =0 \csILtwo =5 \skILtwo =6 \csCork =15 \skCork =1
+6  Defaults: \language=0, \cmaccents, \nonfrenchspacing,
+ISO-8859-2 font encoding) (c:/texlive/texmf-dist/tex/csplain/base/plaina4.tex
+\hsize=159.2 mm \vsize=239.2 mm)
+(c:/texlive/texmf-dist/tex/csplain/base/csenc-u.tex
+(c:/texlive/texmf-dist/tex/generic/enctex/utf8unkn.tex))
+jobname=pdf*, PDF output initialised.
+(c:/texlive/texmf-dist/tex/generic/config/pdftexconfig.tex) ) )
+Beginning to dump on file pdfcsplain.fmt
+ (preloaded format=pdfcsplain 2015.2.4)
+3112 strings of total length 45161
+8826 memory locations dumped; current usage is 116&7608
+1395 multiletter control sequences
+\font\nullfont=nullfont
+\font\tenrm=csr10
+\font\sevenrm=csr7
+\font\fiverm=csr5
+\font\teni=cmmi10
+\font\seveni=cmmi7
+\font\fivei=cmmi5
+\font\tensy=cmsy10
+\font\sevensy=cmsy7
+\font\fivesy=cmsy5
+\font\tenex=cmex10
+\font\tenbf=csbx10
+\font\sevenbf=csbx7
+\font\fivebf=csbx5
+\font\tentt=cstt10
+\font\tensl=cssl10
+\font\tenit=csti10
+\font\tenbi=csbxti10
+7624 words of font info for 17 preloaded fonts
+37 hyphenation exceptions
+Hyphenation trie of length 18892 has 803 ops out of 35111
+  248 for language 16
+  63 for language 15
+  248 for language 6
+  63 for language 5
+  181 for language 0
+0 words of pdfTeX memory
+0 indirect objects
+No pages of output.
+PDF statistics:
+ 0 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+
