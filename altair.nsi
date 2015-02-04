@@ -4,7 +4,7 @@
 !include "${NSISDIR}\Contrib\Modern UI\System.nsh"
 !include "StrFunc.nsh"
 !include "EnvVarUpdate.nsh"
-!addplugindir "c:\Program Files (x86)\NSIS\Plugins"
+;!addplugindir "c:\Program Files (x86)\NSIS\Plugins"
   
 ; Numéros de version 
 
@@ -17,7 +17,6 @@
 !define Rversion_major "3.1"
 !define Rversion     ${Rversion_major}.${Rversion_minor}
 !define RStudio_version "0.99.179"
-!define Miktex_version  "2.9"
 
 ; autres définitions
 
@@ -30,10 +29,9 @@
 !define RStudio      "RStudio-${RStudio_version}.exe" 
 !define R            "R-${Rversion}-win.exe"
 !define RDir         "R-${Rversion}"
-!define MiktexDir    "Miktex ${Miktex_version}"
+!define texDir       "texlive"
 !define RStudioDir   "RStudio"
 !define GitDir       "Git"
-!define Miktex       "setup-2.9.4503-x64.exe"
 !define startmenu    "$SMPROGRAMS\${prodname}-${version}"
 !define Désinstaller "Désinstaller.exe"
 !define notefile     "${prodname}\LISEZ-MOI.txt"
@@ -84,7 +82,7 @@ Var git
  LangString MinimaleName ${LANG_FRENCH}  "Installation minimale"
  LangString Sec6Name ${LANG_FRENCH}  "Exemples"
  ;LangString Sec5Name ${LANG_FRENCH} "Git"
- LangString DESC_Advanced ${LANG_FRENCH} "Installer la version avancée (Altaïr, Git, R, RStudio et MiKTeX)"
+ LangString DESC_Advanced ${LANG_FRENCH} "Installer la version avancée (Altaïr, Git, R, RStudio et Texlive)"
  LangString DESC_Minimale ${LANG_FRENCH} "Installer la version minimale (Altaïr, R)"
  
  ;LangString DESC_sec5 ${LANG_FRENCH} "Installer le gestionnaire de versions GIT"
@@ -282,33 +280,16 @@ SectionEnd
     File /r  "${prodname}\${MiktexDir}"
 	File /r  "${prodname}\${GitDir}"
 	
-	${EnvVarUpdate} $0 "PATH" "A" "HKCU" "$INSTDIR\${prodname}\${MiktexDir}\miktex\bin\x64"
+	${EnvVarUpdate} $0 "PATH" "A" "HKCU" "$INSTDIR\${prodname}\${texDir}\bin\win32"
 	${EnvVarUpdate} $0 "PATH" "A" "HKCU" "$INSTDIR\${prodname}\${GitDir}\bin" 
 	
     File /r  "${prodname}\${RStudioDir}"
 	SetOutPath $LOCALAPPDATA  
     File /r "${prodname}\Local\RStudio-desktop"
-    File /r "${prodname}\Local\MiKTeX"
   
     SetOutPath $APPDATA\RStudio  
     File  "${prodname}\Roaming\RStudio\*.*"
   
-    SetOutPath $APPDATA
-    File /r "${prodname}\Roaming\MiKTeX"
-  
-	; This is important to have $APPDATA variable
-	; point to ProgramData folder
-	; instead of current user's Roaming folder
-			
-    SetShellVarContext all
-	SetOutPath $APPDATA
-	
-	; This sets us permissions
-	CreateDirectory "$APPDATA\MiKTeX"
-	AccessControl::GrantOnFile "$APPDATA\MiKTeX" "(S-1-5-32-545)" "FullAccess"
-	AccessControl::GrantOnFile "$APPDATA\MiKTeX\*" "(S-1-5-32-545)" "FullAccess"
-	File /r "${prodname}\ProgramData\MiKTeX"
-	SetShellVarContext current
  SectionEnd
 
  Section   $(MinimaleName) Minimale 
@@ -335,10 +316,7 @@ FunctionEnd
    !insertmacro MUI_DESCRIPTION_TEXT ${sec1} $(DESC_sec1)
    !insertmacro MUI_DESCRIPTION_TEXT ${Advanced} $(DESC_Advanced)
    !insertmacro MUI_DESCRIPTION_TEXT ${Minimale} $(DESC_Minimale)
-  ; !insertmacro MUI_DESCRIPTION_TEXT ${sec4} $(DESC_sec4)
-  ; !insertmacro MUI_DESCRIPTION_TEXT ${sec5} $(DESC_sec5)
    !insertmacro MUI_DESCRIPTION_TEXT ${sec6} $(DESC_sec6)
-  ; !insertmacro MUI_DESCRIPTION_TEXT ${sec7} $(DESC_sec7)
  !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
  Function install_git
@@ -381,7 +359,7 @@ Section "Uninstall"
   DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\${prodname}"
   DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\${prodname}"
   
-  ${un.EnvVarUpdate} $0 "PATH" "R" "HKCU" "$INSTDIR\${prodname}\${MiktexDir}\miktex\bin\x64" 
+  ${un.EnvVarUpdate} $0 "PATH" "R" "HKCU" "$INSTDIR\${prodname}\${MiktexDir}\bin\win32" 
   ${un.EnvVarUpdate} $0 "PATH" "R" "HKCU" "$INSTDIR\${prodname}\${GitDir}\bin"  
 
   Delete "$DESKTOP\${prodname}.lnk"
@@ -394,15 +372,8 @@ Section "Uninstall"
   Delete "$INSTDIR\${prodname}\*.*"
   RMDir /r "$INSTDIR\${prodname}"
   
-  SetShellVarContext all
-  RMDir /r "$APPDATA\MiKTeX"
-  
-  SetShellVarContext current
-  
   RMDir /r "$LOCALAPPDATA\RStudio-desktop"
-  RMDir /r "$LOCALAPPDATA\MiKTeX"
   RMDir /r "$APPDATA\RStudio"
-  RMDir /r "$APPDATA\MiKTeX"
 
   Call  un.install_git
 SectionEnd
