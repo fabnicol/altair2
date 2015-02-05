@@ -110,17 +110,32 @@ void Altair::run()
 
 void Altair::runRAltair()
 {
-    outputType="R";           
+    outputType="LHX";
     outputTextEdit->append(tr(STATE_HTML_TAG "Création du rapport R-Altair..."));
-    
-    outputTextEdit->append(tr(STATE_HTML_TAG "Ligne de commande : %1").arg(RAltairCommandStr));
     QDir dir=QDir::current();
     dir.setCurrent(RAltairDirStr);
     process->setWorkingDirectory(RAltairDirStr);
+    process->setProcessChannelMode(QProcess::MergedChannels);
+#ifdef MINIMAL
+    outputTextEdit->append(tr(STATE_HTML_TAG "Ligne de commande : %1").arg(RAltairCommandStr + " " + RAltairDirStr + QDir::separator() + "rapport_msword.R"));
+    process->start(RAltairCommandStr + " " + RAltairDirStr + QDir::separator() + "rapport_msword.R");
+    if (process->waitForStarted())
+    {
+        QMessageBox::information(this,"Lancement",
+                    "Lancement du traitement des données ...Veuillez patienter.<br>\
+                       Vous pouvez suivre l'exécution du traitement dans la console<br>(Configurer > Configurer l'interface > Afficher les messages).",
+                    QMessageBox::Cancel);
+    }
+    else
+    {
+        QMessageBox::critical(this, "Erreur", "Echec du traitement des données. Recommencer en mode avancé ou en mode expert.", QMessageBox::Cancel);
+    }
+
+#else
+    outputTextEdit->append(tr(STATE_HTML_TAG "Ligne de commande : %1").arg(RAltairCommandStr));
     process->start(RAltairCommandStr);
+#endif
 }
-
-
 
 void Altair::processFinished(exitCode code)
 {
