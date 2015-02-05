@@ -200,7 +200,7 @@ void FListFrame::on_clearList_clicked(int currentIndex)
 
   widgetContainer[currentIndex]->clear();
 
-  /* warning : use *[], not ->value, to modifie any list content, even subordinate */
+  /* Warning : use *[], not ->value, to modifie any list content, even subordinate */
 
   int count = (*Hash::wrapper[frameHashKey])[currentIndex].count();
   

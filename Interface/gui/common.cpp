@@ -58,7 +58,7 @@ if (file.open(QIODevice::ReadOnly | QIODevice::Text))
       j++;
   }
 }
-else QMessageBox::warning(this, tr("Attention"), tr("Impossible d'ouvrir les bulles: ") + path );
+else Warning0(tr("Attention"), tr("Impossible d'ouvrir les bulles: ") + path );
 file.close();
 return j;
 
@@ -96,7 +96,7 @@ void common::openDir(QString path)
   if (path.isEmpty()) return;
   if (!QFileInfo(path).isDir())
     {
-      QMessageBox::warning(this, "", path + " n'est pas un répertoire.");
+      Warning0("", path + " n'est pas un répertoire.");
       return;
     }
 
@@ -116,17 +116,18 @@ qint64 size=common::getDirectorySize(path, "*");
 
 if (size)
 {
-    if (QMessageBox::warning(0, QString("Répertoire"), QString("Le répertoire %1 n'est pas vide (Taille %2B). Ecraser et recréer ? ").arg(path,QString::number(size)), QMessageBox::Ok | QMessageBox::Cancel)
-            == QMessageBox::Ok)
+    int result=-1;
+    if ((result = Warning(QString("Répertoire"), QString("Le répertoire %1 n'est pas vide (Taille %2B). Ecraser et recréer ? ").arg(path,QString::number(size))))
+            == 0)
     {
         QDir targetDirObject(path);
-        if (!targetDirObject.removeRecursively())    QMessageBox::information(0, QString("Supprimer le répertoire de création des bases"),
-                                                       QString("Le répertoire n'a pas été supprimé' %1").arg(QDir::toNativeSeparators(path)));
+        if (!targetDirObject.removeRecursively())    Warning0(QString("Supprimer le répertoire de création des bases"),
+                                                              QString("Le répertoire n'a pas été supprimé' %1").arg(QDir::toNativeSeparators(path)));
 
         else
         if (targetDirObject.mkpath(path) == false)
         {
-            QMessageBox::warning(0, QString("Répertoire"), QString("Le répertoire %1 n'a pas été créé").arg(path), QMessageBox::Ok);
+            Warning0(QString("Répertoire"), QString("Le répertoire %1 n'a pas été créé").arg(path));
             return false;
         }
     }

@@ -1,2 +1,0 @@
-Filtre dans l'application lhx les . correspondant à des variables numériques (ex NBI)
-qui sont importées des xhl en locale anglaisee et ne sont pas filtrées à l'export en locale fr.
