@@ -1,11 +1,7 @@
 #ifndef COMMON_H
 #define COMMON_H
-
 #include <QtWidgets>
-
-
 #include "fwidgets.h"
-
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -13,8 +9,6 @@
 #ifndef VERSION
 #define VERSION " 15.02"
 #endif
-
-
 
 #define TREE_FILE 2
 #define TREE_DIR  3
@@ -68,15 +62,16 @@ const QString openDirDialog();
 protected :
   QString  videoFilePath;
   static FString    htmlLogPath;
-  
+  const QString   systemPathPrefix="/../";
+
 #ifdef Q_OS_WIN
     #ifndef CORE
          const QString   System="win.celeron";
     #else
-         const QString   System="win.core";
+         constQString   System="win.core";
     #endif
      const QString   systemSuffix=".exe";
-     const QString   systemPathPrefix="/../";
+
       #ifndef LOCAL_BINPATH
       #define LOCAL_BINPATH
      #endif
@@ -84,23 +79,26 @@ protected :
     #ifdef Q_OS_LINUX
         const QString System="linux";
         const QString   systemSuffix="";
-        const QString   systemPathPrefix="/../";
         #ifndef PREFIX
          #define PREFIX "/usr"
         #endif
     #endif
 #endif
-
-
 #ifdef LOCAL_BINPATH
  /* insert executable at root of windows package */
   const QString execPath= QDir::toNativeSeparators(QDir::cleanPath(QCoreApplication::applicationDirPath()+systemPathPrefix+System));
   const QString sharedir= generateDatadirPath();
  
   QString altairCommandStr=execPath+ QDir::separator()+("lhx"+ QString(systemSuffix));
-  QString RAltairDirStr = QDir::toNativeSeparators(QDir::cleanPath(QCoreApplication::applicationDirPath()+systemPathPrefix+ "RStudio"));
-  QString RAltairCommandStr=RAltairDirStr+ QDir::separator()+ "bin" + QDir::separator()+ "rstudio"+ QString(systemSuffix);
-   
+
+    #ifdef MINIMAL
+      QString RAltairDirStr = QDir::toNativeSeparators(QDir::cleanPath(QCoreApplication::applicationDirPath()+ systemPathPrefix+ "R/bin/x64" ));
+      QString RAltairCommandStr=RAltairDirStr + QDir::separator() + "Rscript" + QString(systemSuffix);
+    #else
+      QString RAltairDirStr = QDir::toNativeSeparators(QDir::cleanPath(QCoreApplication::applicationDirPath()+ systemPathPrefix+ "RStudio"));
+      QString RAltairCommandStr=RAltairDirStr + QDir::separator() + "bin" + QDir::separator() + "rstudio" + QString(systemSuffix);
+    #endif
+
 #else
 
    QString execPath=PREFIX+QString("/bin");

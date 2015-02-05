@@ -41,7 +41,12 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 MainWindow::MainWindow(char* projectName)
 {
-  setGeometry(QRect(200, 200,1150,400));
+  #ifdef MINIMAL
+    setGeometry(QRect(200, 200,600,400));
+  #else
+    setGeometry(QRect(200, 200,1150,400));
+  #endif
+
   raise();
   recentFiles=QStringList()<<QString("defaut") ;
 
@@ -90,7 +95,6 @@ MainWindow::MainWindow(char* projectName)
   managerDockWidget->setWidget(altair->managerWidget);
   managerDockWidget->setMinimumHeight((unsigned) (height()*0.3));
   managerDockWidget->setFeatures(QDockWidget::AllDockWidgetFeatures);
-  managerDockWidget->show();
   addDockWidget(Qt::RightDockWidgetArea, managerDockWidget);
   
   Abstract::initializeFStringListHashes();
@@ -577,7 +581,9 @@ void MainWindow::configureOptions()
                                                                            {"Interface", "Afficher le gestionnaire de fichiers"});
 
     defaultProjectManagerWidgetLayoutBox=new FCheckBox("Afficher le gestionnaire de projet",
+                                                   #ifndef MINIMAL
                                                                             flags::status::enabledChecked|flags::commandLineType::noCommandLine,
+                                                   #endif
                                                                             "projectManagerDisplay",
                                                                             {"Interface", "Afficher le gestionnaire de projet"});
 
@@ -587,7 +593,9 @@ void MainWindow::configureOptions()
                                                         {"Interface", "Plein écran au lancement"});
 
     defaultOutputTextEditBox=new FCheckBox("Afficher les messages",
+                                       #ifndef MINIMAL
                                                                    flags::status::enabledChecked|flags::commandLineType::noCommandLine,
+                                       #endif
                                                                    "outputTextEdit",
                                                                    {"Interface", "Afficher les messages"});
     
@@ -597,7 +605,9 @@ void MainWindow::configureOptions()
                                                                 {"Interface", "Afficher la barre d'outils de fichiers"});
     
     defaultEditToolBarBox=new FCheckBox("Afficher la barre d'outils d'édition",
+                                    #ifndef MINIMAL
                                                                 flags::status::enabledChecked|flags::commandLineType::noCommandLine,
+                                    #endif
                                                                 "editToolBar",
                                                                 {"Interface", "Display Edit toolBar"});
     
@@ -670,7 +680,10 @@ void MainWindow::configureOptions()
         connect(displayToolBarCBoxList[i], SIGNAL(toggled(bool)), displayToolBarList[i], SLOT(setVisible(bool)));
         displayToolBarCBoxList[i]->setChecked(true);
     }
- 
+#ifdef MINIMAL
+    defaultFileToolBarBox->setChecked(false);
+    defaultEditToolBarBox->setChecked(false);
+#endif
     displayGroupBox->setLayout(displayDocksLayout);
     behaviorGroupBox->setLayout(behaviourLayout);
     displayToolBarsGroupBox->setLayout(displayToolBarsLayout);
@@ -711,6 +724,16 @@ void MainWindow::configureOptions()
     connect(defaultLoadProjectBehavior, &FCheckBox::toggled, [this] {if (defaultLoadProjectBehavior->isChecked()) 
                                                                             altair->RefreshFlag = altair->RefreshFlag 
                                                                                                   | interfaceStatus::parseXml;});
+
+#ifdef MINIMAL
+  defaultProjectManagerWidgetLayoutBox->setChecked(false);
+  defaultFileManagerWidgetLayoutBox->setChecked(false);
+  defaultOutputTextEditBox->setChecked(false);
+#else
+  defaultProjectManagerWidgetLayoutBox->setChecked(true);
+  defaultFileManagerWidgetLayoutBox->setChecked(true);
+  defaultOutputTextEditBox->setChecked(true);
+#endif
 
     setWindowTitle(tr("Configuration"));
     setWindowIcon(QIcon(":/images/altair.png"));
