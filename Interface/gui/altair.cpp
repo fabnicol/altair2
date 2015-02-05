@@ -102,12 +102,22 @@ Altair::Altair()
     refreshModel();
     refreshTreeView();
 
+    bool visibility =
+                        #ifdef MINIMAL
+                           false;
+                        #else
+                           true;
+                        #endif
+
+
+
     xhlFilterButton->setToolTip("Rafraîchir l'arborescence");
     const QIcon iconAudioFilter = QIcon(QString::fromUtf8( ":/images/application-xml.png"));
     xhlFilterButton->setIcon(iconAudioFilter);
     xhlFilterButton->setIconSize(QSize(22, 22));
     xhlFilterButton->setCheckable(true);
     xhlFilterButton->setAutoFillBackground(true);
+    xhlFilterButton->setVisible(visibility);
 
     project[0]=new FListFrame(nullptr,      // no parent widget
                               fileTreeView,                   // files may be imported from this tree view
@@ -125,11 +135,13 @@ Altair::Altair()
     const QIcon iconCreate = QIcon(QString::fromUtf8( ":/images/folder-new.png"));
     mkdirButton->setIcon(iconCreate);
     mkdirButton->setIconSize(QSize(22, 22));
+    mkdirButton->setVisible(visibility);
 
     removeFileTreeElementsButton->setToolTip(tr("Effacer le répertoire ou le fichier..."));
     const QIcon iconremoveFileTreeElements = QIcon(QString::fromUtf8( ":/images/edit-delete.png"));
     removeFileTreeElementsButton->setIcon(iconremoveFileTreeElements);
     removeFileTreeElementsButton->setIconSize(QSize(22, 22));
+    removeFileTreeElementsButton->setVisible(visibility);
 
     progress=new FProgressBar(this, &Altair::killProcess);
 
@@ -163,6 +175,7 @@ Altair::Altair()
         displayTotalSize();
         showFilenameOnly();
     });
+    project[0]->importFromMainTree->setVisible(visibility);
     connect(project[0]->moveUpItemButton, SIGNAL(clicked()), this, SLOT(on_moveUpItemButton_clicked()));
     connect(project[0]->moveDownItemButton, SIGNAL(clicked()), this, SLOT(on_moveDownItemButton_clicked()));
     connect(project[0]->retrieveItemButton, SIGNAL(clicked()), this, SLOT(on_deleteItem_clicked()));

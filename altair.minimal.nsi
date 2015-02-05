@@ -8,7 +8,10 @@
   
 ; Numéros de version 
 
+; pour une version minimal définir minimal par "" sinon "_min"
+
 !define version  "2015.02"
+!define minimal "_min"
 !define VER_MAJOR 2015
 !define VER_MINOR 02
 !define VER_REVISION 0
@@ -22,6 +25,7 @@
 !define setup        "Altaïr-${version}.win.${nbits}.installer.exe"
 !define exemple      "${prodname}\Tests\Exemple"
 !define xhl          "${exemple}\Donnees\xhl"
+!define Interface    Interface_win64${minimal}
 !define icon         neptune.ico
 !define RDir         "R"
 !define texDir       "texlive"
@@ -139,7 +143,7 @@ Section
   CreateDirectory  $INSTDIR\${xhl}
   
   SetOutPath $INSTDIR\${prodname}
-  File /r  "${prodname}\Interface_win64" 
+  File /r  "${prodname}\${Interface}" 
   File /r  "${prodname}\Docs" 
   File /r  "${prodname}\Outils" 
   File /r  "${prodname}\win.${nbits}" 
@@ -179,7 +183,7 @@ SilentInstall normal
 InstallDir "C:\Users\Public"
 InstallDirRegKey HKLM "${regkey}" ""
 
-Icon "${prodname}\Interface_win64\${icon}"
+Icon "${prodname}\${Interface}\${icon}"
 
 RequestExecutionLevel user
 AutoCloseWindow false
@@ -221,13 +225,13 @@ Section -post
 
  !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   SetShellVarContext current
-  SetOutPath       "$INSTDIR\${prodname}\Interface_win64"
-  CreateShortCut   "$DESKTOP\${prodname}.lnk" "$INSTDIR\${prodname}\Interface_win64\${prodname}.exe"  "" "$INSTDIR\${prodname}\Interface_win64\${icon}"
-  WriteRegStr HKLM "${prodname}\Shell\open\command\" "" "$INSTDIR\${prodname}\Interface_win64\${prodname}.exe"
+  SetOutPath       "$INSTDIR\${prodname}\${Interface}"
+  CreateShortCut   "$DESKTOP\${prodname}.lnk" "$INSTDIR\${prodname}\${Interface}\${prodname}.exe"  "" "$INSTDIR\${prodname}\${Interface}\${icon}"
+  WriteRegStr HKLM "${prodname}\Shell\open\command\" "" "$INSTDIR\${prodname}\${Interface}\${prodname}.exe"
   
   CreateDirectory  "$SMPROGRAMS\$StartMenuFolder"
   CreateShortCut   "$SMPROGRAMS\$StartMenuFolder\Désinstaller.lnk" "$INSTDIR\Désinstaller.exe" "" "$INSTDIR\Désinstaller.exe" 0
-  CreateShortCut   "$SMPROGRAMS\$StartMenuFolder\${prodname}.lnk" "$INSTDIR\${prodname}\Interface_win64\${prodname}.exe" "" "$INSTDIR\${prodname}\Interface_win64\${icon}" 0
+  CreateShortCut   "$SMPROGRAMS\$StartMenuFolder\${prodname}.lnk" "$INSTDIR\${prodname}\${Interface}\${prodname}.exe" "" "$INSTDIR\${prodname}\${Interface}\${icon}" 0
   
  ; WriteRegStr HKLM "${prodname}\DefaultIcon" "${prodname}" "$INSTDIR\${prodname}\Interface_w${nbits}\${icon}"
  
@@ -248,7 +252,7 @@ Section -post
   WriteRegStr HKLM "SOFTWARE\${prodname}" "Install_Dir" "$INSTDIR"
 
   WriteRegStr HKLM   "${REG_UNINST_KEY}" "DisplayName" "${prodname}"
-  WriteRegStr HKLM   "${REG_UNINST_KEY}" "DisplayIcon" "$INSTDIR\${prodname}\Interface_win64\${icon}"
+  WriteRegStr HKLM   "${REG_UNINST_KEY}" "DisplayIcon" "$INSTDIR\${prodname}\${Interface}\${icon}"
   WriteRegStr HKLM   "${REG_UNINST_KEY}" "DisplayVersion" "${version}"
   WriteRegDWORD HKLM "${REG_UNINST_KEY}" "NoModify" "1"
   WriteRegDWORD HKLM "${REG_UNINST_KEY}" "NoRepair" "1"
