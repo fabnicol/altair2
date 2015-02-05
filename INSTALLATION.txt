@@ -1,115 +1,56 @@
-
-Guide d'installation
+ï»¿Guide d'installation
 --------------------
 
 Choisir l'installateur .celeron pour une installation sur portables standard.
 Choisir l'installateur .core pour une installation sur portables multicoeurs (core2, corei3 et plus).
 
-1.  Copier l'installateur sur le bureau et l'exécuter.
+1.  Copier l'installateur sur le bureau et l'exÃ©cuter.
 
-2.  Choisir le chemin d'installation par défaut c:\Users\Public
-
-3.  Installer les dépendances logicielles R-3.1.2, RStudio et Miktex.
-
-4.  Installation de R-3.1.2 : utiliser les chemins d'installations par défaut.
-    Décocher la case "32 bits" lorsque le choix entre plusieurs plateformes (32 bits, 64 bits... est proposé)
-  
-5.  Installation de RStudio : utiliser les chemins d'installations par défaut.
-
-6.  Attention, lorsqu'un premier installateur dépendant a été exécuté, pour passer au suivant, il faut
-    parfois cliquer sur la barre d'état de Windows (en bas de l'écran).
-	
-7.  Installation de Miktex : attention à choisir les bonnes options.
-    a) cocher la case "I accept..." du premier dialogue, en bas à gauche
-	  b) puis cocher "Install Miktex" au dialogue suivant
-    c) laisser le bouton radio à "Basic Miktex" au dialogue suivant
-	  d) laisser le choix de l'utilisateur à "Anyone..." au dialogue suivant
-    e) puis préciser le répertoire dans lequel seront prises les feuilles de style :
-	     à ce stade il est important de sélectionner (bouton Browse) le répertoire Miktex du DVD
-    f) laisser le dialogue "Install missing packages on the fly" dans sa valeur par défaut "Ask me first"
-        
-8.  Installer vcredist_x64.exe de Microsoft. Ce sont des bibliothèques dynamiques qui permettent d'exécuter 
-    les programmes compilés avec le compilateur Microsoft MSVC2013.
+2.  Choisir le chemin d'installation par dÃ©faut c:\Users\Public
+      
+3.  Installer vc_redistx64.exe de Microsoft. Ce sont des bibliothÃ¨ques dynamiques qui permettent d'exÃ©cuter 
+    les programmes compilÃ©s avec le compilateur Microsoft MSVC2013.
    
-9.  Exécuter l'interface.
-    Configurer l'interface en cochant toutes les cases sauf plein écran.
+4.  ExÃ©cuter l'interface : Configurer > 
+    Configurer l'interface en cochant les cases correspondant aux Ã©lÃ©ments souhaitÃ©s.
    
-10. Ouvrir un nouveau projet (Fichiers > Nouveau projet)
-    Importer dans le projet un des deux répertoires :
+5.  Ouvrir un nouveau projet (Fichiers > Nouveau projet)
+    Importer dans le projet un des deux rÃ©pertoires :
    
        Tests\Exemple\Donnees\xhl\Anonyme
     ou Tests\Exemple\Donnees\xhl\Anonyme2
    
-11. Ouvrir le dialogue des paramètres. 
-    Renseigner le répertoire de sortie de la base .csv produite par Altaïr.
-    A ce stade, le répertoire doit être :
-   
-       Tests\Exemple\Donnees\R-Altair   
-   
-    Vérifier le nombre de fils d'exécution dans le menu déroulant en bas du dialogue.
-    Sur un portable récent il est possible de sélectionner "2" comme nombre de fils d'exécution pour accélérer 
-    le traitement. Sur un portable performant (corei5 et plus) , il est possible de sélectionner jusqu'à 
-    "6" ou "7" fils d'exécution. Pour exécuter en fond de tâche au contraire, laisser sur "1".
+6.  Ouvrir le dialogue des paramÃ¨tres. 
+      
+    VÃ©rifier le nombre de fils d'exÃ©cution dans le menu dÃ©roulant en bas du dialogue.
+    Sur un portable rÃ©cent il est possible de sÃ©lectionner "4" comme nombre de fils d'exÃ©cution pour accÃ©lÃ©rer 
+    le traitement. Sur un portable performant (corei5 et plus) , il est possible de sÃ©lectionner jusqu'Ã  
+    "6" ou "7" fils d'exÃ©cution. Pour exÃ©cuter en fond de tÃ¢che au contraire, laisser sur "1".
    
     Valider.
+
+RÃ©alisation d'un test
+---------------------
+
+Pour s'assurer de la bonne installation, mieux vaut faire un test. ProcÃ©der comme suit :
    
-12. Cliquer sur le bouton "csv" de la barre d'outils.    
-    Attendre une à trois minutes.
+1.  Cliquer sur le bouton "csv" de la barre d'outils (il a l'apparence d'une grille).    
+    Attendre une Ã  trois minutes.
    
-13. Lorsque la barre de progression est à 100 % et que le dialogue des messages confirme "Terminé..."
-    appuyer sur le bouton bleu "A" de la barre d'outils, qui lance l'interface RStudio.
+2.  Lorsque la barre de progression est Ã  100 % et stable Ã  ce niveau et/ou que le dialogue des messages 
+    confirme "TerminÃ©...", appuyer sur le bouton bleu "A" de la barre d'outils.
+    
+    Pour l'installation minimale, le rapport MS-Word s'affichera si aucun problÃ¨me n'est intervenu, au terme du
+    processus d'analyse des donnÃ©es.
 
-    Aller dans l'arborescence "Files"" dans le quart inférieur droit de l'interface et sélectionner le projet
-    altair.Rproj.
-
-    Changer les paramètres d'édition de code par défaut : Tools > Global options > Default text encoding > Change > UTF-8
-         Tools > Global options > Default text encoding > Change > UTF-8
-
+    Pour l'installation avancÃ©e, l'interface RStudio s'affiche. Dans ce cas :
    
-14. Vérifier que l'on a dans le quart supérieur gauche de l'interface un script altair.R. Sinon aller le 
-    chercher en cliquant sur le fichier altair.R dans l'arborescence des fichiers et répertoires dans le quart 
-    inférieur droit (onglet Files). Le fichier est localisé sous le répetoire Tests\Exemple.
+3.  VÃ©rifier que l'on a dans le quart supÃ©rieur gauche de l'interface un script altair.R. Sinon aller le 
+    chercher en cliquant sur le fichier altair.R dans l'arborescence des fichiers et rÃ©pertoires dans le quart 
+    infÃ©rieur droit (panneau Files). Le fichier est localisÃ© sous le rÃ©petoire Tests\Exemple.
    
-    Appuyer sur le bouton qui ressemble à un cahier ("Notebook") dans la barre d'outils. Vers la fin de 
-    l'exécution du script une série de dialogues apparaît qui demandent d'importer des feuilles de style.
-    Sélectionner la première fois le répertoire du DVD Miktex-...  en appuyant sur "Change" puis, dans le dialogue  
-    suivant, sur "Packages shall be installed from a directory", puis au suivant en vérifiant que le répertoire Miktex 
-    du DVD est bien sélectionné. Appuyer enfin sur le bouton "Install" avec un écusson d'administrateur. Cinq à dix
-    validations seront requises.
+    Appuyer sur le bouton qui ressemble Ã  un cahier ("Notebook") dans la barre d'outils. Un choix entre diffÃ©rents
+    format de rapport est proposÃ© (html, MS-Word et pdf).
    
-15. Lorsque le pdf apparaît, l'installation est terminée. Veiller à refermer RStudio en laissant le script altair.R 
-    sélectionné dans la partie supérieure gauche.    
-
-
-Dépendances
------------
-
-Les logiciels auxiliaires suivants sont inclus dans l'installation :
-
- * Langage R : http://r-project.org
- * Interface RStudio : http://rstudio.com
- * Système LaTex pour Windows, version MikTex : 
-     http://http://miktex.org/download
-
-L'installateur principal lance trois installateurs auxiliaires recueillis auprès
-des sites indiqués ci-dessus. Chacune de ces installations peut nécessiter une
-élévation des droits, en fonction du dossier d'installation retenu et de la 
-configuration de la plateforme.
-
-Les bibliothèques auxiliaires installées par l'installateur sont conservées dans le 
-répertoire utilisateur\Documents\R\win-library\3.1 et ne doivent pas être détruits.
-
-
-LaTex/MikTex
-------------
-
-MikTex n'est utile que pour pouvoir produire des rapports au format .pdf.
-Sans cette dépendance, l'application produit seulement des rapports au format 
-.html ou .docx.
-
-Lors de la première exécution du script altair.R, des feuilles de style doivent
-être installées depuis le répertoire MikTex du DVD d'installation si un rapport pdf 
-est souhaité.
-
-L'installation est alors complète : les paquets auxiliaires ne seront plus
-téléchargés ultérieurement.
+4. Veiller Ã  refermer RStudio en laissant le script altair.R sÃ©lectionnÃ© dans la partie supÃ©rieure gauche.    
+   

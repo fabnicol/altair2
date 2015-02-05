@@ -21,6 +21,11 @@
 #error "This application will only compile for Windows or GNU/Linux operating systems."
 #endif
 
+
+#define  Warning(title, text)   QMessageBox::warning(0, title, text,  "Oui", "Non")
+#define  Warning0(title, text)   QMessageBox::warning(0, title, text, "Fermer")
+
+
 class common : public QDialog, public flags
 {
   Q_OBJECT
@@ -65,10 +70,10 @@ protected :
   const QString   systemPathPrefix="/../";
 
 #ifdef Q_OS_WIN
-    #ifndef CORE
+    #ifdef CELERON
          const QString   System="win.celeron";
     #else
-         constQString   System="win.core";
+         const QString   System="win.core";
     #endif
      const QString   systemSuffix=".exe";
 
@@ -93,6 +98,7 @@ protected :
 
     #ifdef MINIMAL
       QString RAltairDirStr = QDir::toNativeSeparators(QDir::cleanPath(QCoreApplication::applicationDirPath()+ systemPathPrefix+ "R/bin/x64" ));
+      // Passer les '/' soit à QDir::toNativeSeparators() soit utiliser QDir::separator() sous Windows.
       QString RAltairCommandStr=RAltairDirStr + QDir::separator() + "Rscript" + QString(systemSuffix);
     #else
       QString RAltairDirStr = QDir::toNativeSeparators(QDir::cleanPath(QCoreApplication::applicationDirPath()+ systemPathPrefix+ "RStudio"));

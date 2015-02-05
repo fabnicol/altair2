@@ -16,7 +16,7 @@ standardPage::standardPage()
     QGroupBox *baseBox= new QGroupBox(tr("Base .csv"));
     QGridLayout *baseLayout= new QGridLayout;
 
-    baseLineEdit= new FLineEdit(generateDatadirPath("Base"),
+    baseLineEdit= new FLineEdit(QDir::toNativeSeparators(QDir::cleanPath(QCoreApplication::applicationDirPath()+ systemPathPrefix+ "Tests/Exemple/Donnees/R-Altair" )),
                                         "base",
                                        {"Base", "Répertoire de la base .csv"},
                                         "D");
@@ -96,7 +96,7 @@ standardPage::standardPage()
 
     processTypeWidget->setFixedWidth(40);
     processTypeWidget->setFixedHeight(30);
-    processTypeWidget->setCurrentIndex(0);
+    processTypeWidget->setCurrentIndex(3);
     processTypeWidget->setToolTip(tr("Sélectionner le nombre de fils d'exécution"));
 
     QLabel* nLineLabel = new QLabel("Nombre maximum d'agents par mois  ");
@@ -128,7 +128,7 @@ standardPage::standardPage()
 
     QLabel* logLineLabel = new QLabel("Chemin du Log");
 
-    logLineEdit= new FLineEdit(generateDatadirPath("Log"),
+    logLineEdit= new FLineEdit("",
                                         "log",
                                        {"Générer un log d'exécution", "chemin du log"},
                                         "L");
@@ -223,7 +223,7 @@ void standardPage::on_openBaseDirButton_clicked()
     QDir targetDirObject(path);
     if (targetDirObject.mkpath(path) == false)
     {
-        QMessageBox::warning(0, QString("Répertoire"), QString("Le répertoire %1 n'a pas été créé").arg(path), QMessageBox::Ok);
+        Warning0(QString("Répertoire"), QString("Le répertoire %1 n'a pas été créé").arg(path));
         return;
     }
     common::openDir(path);
@@ -236,7 +236,7 @@ void standardPage::on_openLogDirButton_clicked()
     QDir targetDirObject(path);
     if (targetDirObject.mkpath(path) == false)
     {
-        QMessageBox::warning(0, QString("Répertoire"), QString("Le répertoire %1 n'a pas été créé").arg(path), QMessageBox::Ok);
+        Warning0(QString("Répertoire"), QString("Le répertoire %1 n'a pas été créé").arg(path));
         return;
     }
     common::openDir(path);
@@ -273,7 +273,7 @@ options::options(Altair* parent)
 
     closeButton = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     closeButton->button(QDialogButtonBox::Ok)->setText("Accepter");
-    closeButton->button(QDialogButtonBox::Cancel)->setText("Annuler");    
+    closeButton->button(QDialogButtonBox::Cancel)->setText("Annuler");
     
     connect(closeButton,
             &QDialogButtonBox::accepted,

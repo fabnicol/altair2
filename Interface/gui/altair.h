@@ -34,7 +34,7 @@ public:
 
     QTextEdit *outputTextEdit = new QTextEdit;
 
-    void initializeProject(const bool cleardata=true);
+    bool clearInterfaceAndParseProject(const bool cleardata=true);
     
     void checkEmptyProjectName()
       {
@@ -61,7 +61,7 @@ public:
 
 public slots:
 
-   void updateProject(bool=false);
+   bool updateProject(bool=false);
    void on_openProjectButton_clicked();
    void on_newProjectButton_clicked();
 
@@ -128,7 +128,7 @@ private:
     void refreshModel();
     void refreshTreeView();
 
-    void DomParser(QIODevice*);
+    void parseProjectFile(QIODevice*);
     
     bool refreshProjectManager();
     void msg (const QString & text);

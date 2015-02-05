@@ -42,7 +42,7 @@ void Altair::run()
 
     if (path.isEmpty())
     {
-        QMessageBox::warning(this, "Répertoire de sortie", "Le répertoire de création des bases " + path +" n'a pas été indiqué, renseigner le dialogue des paramètres.");
+        Warning0( "Répertoire de sortie", "Le répertoire de création des bases " + path +" n'a pas été indiqué, renseigner le dialogue des paramètres.");
         processFinished(exitCode::shouldLaunchRAltairAlone);
         return;
     }
@@ -57,15 +57,15 @@ void Altair::run()
 
     if (!targetDirObject.removeRecursively())
     {
-        QMessageBox::information(0, QString("Supprimer le répertoire au lancement"),
-                                    QString("Il n'a pas été possible de nettoyer le répertoire %1 au lancement de LHX.\nNettoyer le répertoire et relancer.").arg(QDir::toNativeSeparators(path)));
+        Warning0(QString("Supprimer le répertoire au lancement"),
+                 QString("Il n'a pas été possible de nettoyer le répertoire %1 au lancement de LHX.\nNettoyer le répertoire et relancer.").arg(QDir::toNativeSeparators(path)));
         processFinished(exitCode::shouldLaunchRAltairAlone);
         return;
     }
     else
     if (targetDirObject.mkpath(path) == false)
     {
-        QMessageBox::warning(0, QString("Répertoire"), QString("Le répertoire de sortie %1 n'a pas pu être créé. Relancer après avoir réglé le problème.").arg(path), QMessageBox::Ok);
+        Warning0(QString("Répertoire"), QString("Le répertoire de sortie %1 n'a pas pu être créé. Relancer après avoir réglé le problème.").arg(path));
         return;
     }
 
@@ -124,11 +124,11 @@ void Altair::runRAltair()
         QMessageBox::information(this,"Lancement",
                     "Lancement du traitement des données ...Veuillez patienter.<br>\
                        Vous pouvez suivre l'exécution du traitement dans la console<br>(Configurer > Configurer l'interface > Afficher les messages).",
-                    QMessageBox::Cancel);
+                    "Fermer");
     }
     else
     {
-        QMessageBox::critical(this, "Erreur", "Echec du traitement des données. Recommencer en mode avancé ou en mode expert.", QMessageBox::Cancel);
+        QMessageBox::critical(this, "Erreur", "Echec du traitement des données. Recommencer en mode avancé ou en mode expert.", "Fermer");
     }
 
 #else

@@ -31,7 +31,7 @@ void FAbstractConnection::meta_connect(const FAbstractWidget* w,  const Q2ListWi
                 // This does not always work automatically through Qt parenting as it normally should, so it is necessary to reimplement enabling dependencies
                 // e.g. for QLabels
 
-                if (!component->isEnabled())
+                if (!component->isEnabled() || (component->metaObject()->className() == QString("FCheckBox") &&  ! static_cast<FCheckBox*>(component)->isChecked()))
                     item->setEnabled(false);
 
                  connect(component, SIGNAL(toggled(bool)), item, SLOT(setEnabled(bool)));
@@ -129,7 +129,7 @@ const QStringList FAbstractWidget::commandLineStringList()
 {
     /* If command line option is ill-formed, or if a corresponding checkbox is unchecked (or negatively checked)
   * or if an argument-taking option has no-argument, return empty */
-//QMessageBox::warning(nullptr, "", optionLabel+":"+QString::number(commandLineType & flags::::widgetMask));
+//Warning(nullptr, "", optionLabel+":"+QString::number(commandLineType & flags::::widgetMask));
 
     if (
                optionLabel.isEmpty() 
@@ -418,6 +418,7 @@ void FCheckBox::setWidgetFromXml(const FStringList &s)
     if (this->enabledObjects || this->disabledObjects) this->setChecked(true);
 
     this->setChecked(commandLineList[0].isTrue());
+    emit(toggled(this->isChecked()));
 }
 
 FComboBox::FComboBox(const QStringList &labelList,
@@ -510,6 +511,7 @@ FLineEdit::FLineEdit(const QString &defaultString, int status, const QString &ha
     widgetDepth="0";
 
     FCore({this}, defaultString, status, hashKey, description, commandLine);
+    this->setText(defaultString);
 }
 
 
