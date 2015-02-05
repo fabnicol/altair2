@@ -16,7 +16,7 @@ inline const QString Altair::makeParserString(int start, int end)
 
         if  (widget->getHashKey().isEmpty())
         {
-            QMessageBox::warning(this, tr("Erreur"), tr("Erreur d'analyse XML du projet"));
+            Warning0(tr("Erreur"), tr("Erreur d'analyse XML du projet"));
             continue;
         }
 
@@ -298,9 +298,9 @@ inline void displayFirstLevelData( const QString &tag,  const QString &style, co
 }  // end of XmlMethod namespace
 
 
-void Altair::DomParser(QIODevice* file)
+void Altair::parseProjectFile(QIODevice* file)
 {
-    // Beware: to be able to interactively modify managerWidget in the DomParser child class constructor,
+    // Beware: to be able to interactively modify managerWidget in the parseProjectFile child class constructor,
     // pass it as a parameter to the constructor otherwise the protected parent member will be accessible yet unaltered
     file->seek(0);
 
@@ -311,7 +311,7 @@ void Altair::DomParser(QIODevice* file)
     QDomDocument doc;
     if (!doc.setContent(file, true, &errorStr, &errorLine, &errorColumn))
     {
-        QMessageBox::warning(0, tr("DOM Parser"), tr("Parse error at line %1, " "column %2:\n%3").arg(errorLine).arg(errorColumn).arg(errorStr));
+        Warning0(tr("Décodage XML"), tr("Erreur de décodage ligne %1, " "colonne %2:\n%3").arg(errorLine).arg(errorColumn).arg(errorStr));
         return;
     }
 

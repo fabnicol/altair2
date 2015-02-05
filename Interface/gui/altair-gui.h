@@ -55,7 +55,7 @@ class MainWindow : public QMainWindow
    QTabWidget *bottomTabWidget;
 
    QTextEdit* getEditor() {return editor;}
-   bool isDefaultSaveProjectChecked() { return defaultSaveProjectBehavior->isChecked(); }
+   bool isDefaultSaveProjectChecked() { return defaultSaveProjectBehaviorBox->isChecked(); }
    void saveProjectAs();
    
   private slots:
@@ -80,6 +80,7 @@ class MainWindow : public QMainWindow
    QHash<QString, QAction*> actionHash;
    void feedConsole();
    bool readFile(const QString &fileName);
+   bool projectFileStatus;
    Altair *altair;
    QMainWindow *editWidget;
    //QTimer *timer;
@@ -88,6 +89,7 @@ class MainWindow : public QMainWindow
    void createToolBars();
    void createFontDataBase();
    void loadFile(const QString &fileName);
+   void adjustDisplay(bool);
 
    inline void connectShowActions();
 
@@ -143,21 +145,21 @@ class MainWindow : public QMainWindow
    QDialog *contentsWidget;
    QDialogButtonBox *closeButton;
 
-   FCheckBox *defaultFullScreenLayout,
-                        *defaultRAltairActivation,
+   FCheckBox *defaultFullScreenLayoutBox,
+                        *defaultRAltairActivationBox,
                         *defaultProjectManagerWidgetLayoutBox,
                         *defaultFileManagerWidgetLayoutBox,
                         *defaultMessageLayoutBox,
                         *defaultOutputTextEditBox,
-                        *defaultLoadProjectBehavior,
+                        *defaultLoadProjectBehaviorBox,
                         *defaultFileToolBarBox,
                         *defaultEditToolBarBox,
                         *defaultProcessToolBarBox,
                         *defaultOptionsToolBarBox,
                         *defaultAboutToolBarBox,
-                        *defaultSaveProjectBehavior;
+                        *defaultSaveProjectBehaviorBox;
 
-   QList<FCheckBox*> displayWidgetList, behaviorWidgetList, displayToolBarCBoxList;
+   QList<FCheckBox*> displayWidgetListBox, behaviorWidgetListBox, displayToolBarCBoxListBox;
    
    QTextEdit *editor=nullptr;
    Highlighter *highlighter;

@@ -50,8 +50,8 @@ int Altair::applyFunctionToSelectedFiles(int (Altair::*f)(int))
 
         if (!result)
         {
-            QMessageBox::warning(this, tr("Parcourir"),
-                                 tr("%1 n'est pas un fichier ou un répertoire.").arg(model->fileInfo(index).fileName()));
+            Warning0(tr("Parcourir"),
+                    tr("%1 n'est pas un fichier ou un répertoire.").arg(model->fileInfo(index).fileName()));
             return 0;
         }
 
@@ -264,12 +264,8 @@ void Altair::on_newProjectButton_clicked()
     if (projectFile.exists()) projectFile.remove();
 
     parent->saveProjectAs();
-
-    initializeProject();
-
-
+    //clearInterfaceAndParseProject();
     outputTextEdit->append(PARAMETER_HTML_TAG "Nouveau projet créé sous " + projectName);
-
 }
 
 
@@ -282,7 +278,9 @@ void Altair::on_openProjectButton_clicked()
     if (projectName.isEmpty()) return;
 
     RefreshFlag = RefreshFlag  | interfaceStatus::parseXml;
-    initializeProject();
+    clearInterfaceAndParseProject();
+    // resetting interfaceStatus::parseXml bits to 0
+    RefreshFlag = RefreshFlag & (~interfaceStatus::parseXml);
 }
 
 
@@ -298,11 +296,17 @@ void Altair::openProjectFile()
     closeProject();
     projectName=qobject_cast<QAction *>(sender())->data().toString();
     RefreshFlag = RefreshFlag | interfaceStatus::parseXml;
-    initializeProject();
+
+    // only case in which XML is parsed
+
+    clearInterfaceAndParseProject();
+
+    // resetting interfaceStatus::parseXml bits to 0
+    RefreshFlag = RefreshFlag & (~interfaceStatus::parseXml);
 }
 
 
-void Altair::initializeProject(const bool cleardata)
+bool Altair::clearInterfaceAndParseProject(const bool cleardata)
 {
     if (cleardata)
     {
@@ -315,11 +319,11 @@ void Altair::initializeProject(const bool cleardata)
     QTextEdit* editor = parent->getEditor();
 
     if (editor) editor->clear();
-
-    refreshProjectManager();
-
     checkEmptyProjectName();
     setCurrentFile(projectName);
+
+    return refreshProjectManager();
+
 }
 
 void Altair::closeProject()
@@ -367,24 +371,25 @@ void Altair::clearProjectData()
 
     managerWidget->clear();
 
-    QMessageBox::StandardButton choice=QMessageBox::Cancel;
+    int choice = 2;
 
     if (options::RefreshFlag ==  interfaceStatus::hasUnsavedOptions)
     {
-        choice=QMessageBox::information(this, "Nouveaux paramètres",
-                                        "Ce projet contient de nouveaux paramètres.\nAppuyer sur OK pour les sauvegarder,\nsinon sur Non\nou sur Annuler pour quitter.\n",
-                                        QMessageBox::Ok|QMessageBox::No|QMessageBox::Cancel);
+        choice=QMessageBox::information(this,
+                                        "Nouveaux paramètres",
+                                        "Ce projet contient de nouveaux paramètres.\nAppuyer sur OK pour les sauvegarder,\nsinon sur Non\nou sur Fermer pour quitter.\n",
+                                        "Oui", "Non", "Fermer");
         switch (choice)
         {
-        case QMessageBox::Ok  :
+        case 0  :
             // parent->dialog->clearOptionData();
             break;
 
-        case QMessageBox::No :
+        case 1 :
             options::RefreshFlag = interfaceStatus::keepOptionTabs;
             break;
 
-        case QMessageBox::Cancel :
+        case 2 :
         default:
             return;
             break;
@@ -469,10 +474,8 @@ void Altair::updateIndexChangeInfo()
 
 void Altair::updateIndexInfo()
 {
-
     currentIndex=project[0]->getCurrentIndex();
     row=project[0]->getCurrentRow();
-
     // row = -1 if nothing selected
 }
 
@@ -522,13 +525,12 @@ void Altair::createDirectory()
     if (!index.isValid())
         return;
 
-    QString dirName = QInputDialog::getText(this, tr("Create Directory"), tr("Directory name"));
+    QString dirName = QInputDialog::getText(this, tr("Répertoire"), tr("Nom du répertoire"));
 
     if (!dirName.isEmpty())
     {
         if (!model->mkdir(index, dirName).isValid())
-            QMessageBox::information(this, tr("Create Directory"),
-                                     tr("Failed to create the directory"));
+            Warning0(tr("Répertoire"), tr("Le répertoire n'a pas été créé"));
     }
 }
 
@@ -558,8 +560,7 @@ void Altair::removeFileTreeElements()
     result=applyFunctionToSelectedFiles(&Altair::removeFileTreeElement);
 
     if (!result)
-        QMessageBox::information(this, tr("Supprimer"),
-                                 tr("Le fichier n'a pas pu être supprimé."));
+        Warning0(tr("Supprimer"), tr("Le fichier n'a pas pu être supprimé."));
 }
 
 
@@ -571,7 +572,7 @@ void Altair::requestSaveProject()
 }
 
 
-void Altair::updateProject(bool requestSave)
+bool Altair::updateProject(bool requestSave)
 {
     RefreshFlag = RefreshFlag 
                  | interfaceStatus::saveTree
@@ -581,7 +582,7 @@ void Altair::updateProject(bool requestSave)
     if (parent->isDefaultSaveProjectChecked() || requestSave)
         writeProjectFile();
 
-    refreshProjectManager();
+    return refreshProjectManager();
 }
 
 /* Remember that the first two elements of the FAvstractWidgetList are DVD-A and DVD-V respectively, which cuts down parsing time */
@@ -640,6 +641,7 @@ bool Altair::refreshProjectManager()
     // Step 1: prior to parsing
     checkEmptyProjectName();
     QFile file(projectName);
+    bool result = true;
 
     if ((RefreshFlag&interfaceStatus::treeMask) == interfaceStatus::tree)
     {
@@ -649,15 +651,19 @@ bool Altair::refreshProjectManager()
     if ((RefreshFlag&interfaceStatus::saveTreeMask) == interfaceStatus::saveTree)
     {
         if (!file.isOpen())
-            file.open(QIODevice::ReadWrite);
+            result = file.open(QIODevice::ReadWrite);
         else
-            file.seek(0);
+            result = file.seek(0);
+        if (!result) return false;
     }
+
+    qint64 filesize = file.size() ;
 
     // Step 2: parsing on opening .dvp project  (=update tree +refresh tabs) or adding/deleting tab files (=update tree)
 
     if ((RefreshFlag&interfaceStatus::treeMask) == interfaceStatus::tree)
     {
+
         QPalette palette;
         palette.setColor(QPalette::AlternateBase,QColor("silver"));
         managerWidget->setPalette(palette);
@@ -671,13 +677,13 @@ bool Altair::refreshProjectManager()
             else
                 file.seek(0);
 
-            if (file.size() == 0)
+            if (filesize == 0)
             {
-                outputTextEdit->append(WARNING_HTML_TAG "fichier vide !");
+                outputTextEdit->append(WARNING_HTML_TAG " Pas de projet en cours (défault.alt est vide).");
                 return false;
             }
 
-            DomParser(&file);
+            parseProjectFile(&file);
 
         }
         else  // refresh display using containers without parsing xml file
@@ -695,10 +701,11 @@ bool Altair::refreshProjectManager()
                        & (interfaceStatus::hasSavedOptionsMask
                                               | interfaceStatus::saveTreeMask
                                               | interfaceStatus::treeMask
-                                              | interfaceStatus::tabMask) ;
+                                              | interfaceStatus::tabMask
+                                              | interfaceStatus::parseXmlMask) ;
 
-    //altairCommandStr=parent->dialog->outputTab->applicationLineEdit->text();
-    return true;
+
+    return (filesize !=  0);
 
 }
 
@@ -706,7 +713,6 @@ bool Altair::refreshProjectManager()
 
 void Altair::dragEnterEvent(QDragEnterEvent *event)
 {
-
     if (event->source() != this)
     {
         event->setDropAction(Qt::CopyAction);
@@ -716,7 +722,6 @@ void Altair::dragEnterEvent(QDragEnterEvent *event)
 
 void Altair::dragMoveEvent(QDragMoveEvent *event)
 {
-
     if (event->source() != this)
     {
         event->setDropAction(Qt::CopyAction);

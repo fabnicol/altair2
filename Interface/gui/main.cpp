@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
     char* s;
     if (argc > 1) s=argv[1];
     else s=(char*)"";
-    QLocale::setDefault(QLocale("French"));
+
     MainWindow *mainWin=new MainWindow(s);
   
     mainWin->show();
