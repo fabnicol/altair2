@@ -1,0 +1,2 @@
+1. convertir les sorties windows (uniquement) des bases de données dans R-Altair par iconv -f UTF-8 -t WINDOWS-1252 > base.csv
+2. Corriger le bug de la première ligne de l'export de l'ensemble des types de catégorie.
