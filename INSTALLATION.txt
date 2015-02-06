@@ -11,16 +11,21 @@ Choisir l'installateur .core pour une installation sur portables multicoeurs (co
 3.  Installer vc_redistx64.exe de Microsoft. Ce sont des bibliothèques dynamiques qui permettent d'exécuter 
     les programmes compilés avec le compilateur Microsoft MSVC2013.
    
-4.  Exécuter l'interface : Configurer > 
-    Configurer l'interface en cochant les cases correspondant aux éléments souhaités.
+4.  Exécuter l'interface en cliquant sur l'icône de lancement A.
    
-5.  Ouvrir un nouveau projet (Fichiers > Nouveau projet)
-    Importer dans le projet un des deux répertoires :
+
+Réalisation d'un test
+---------------------
+
+Pour s'assurer de la bonne installation, mieux vaut faire un test. Procéder comme suit :
+
+1.  Importer un des deux répertoires par glisser-déposer dans l'onglet central :
    
        Tests\Exemple\Donnees\xhl\Anonyme
     ou Tests\Exemple\Donnees\xhl\Anonyme2
    
-6.  Ouvrir le dialogue des paramètres. 
+2.  Optionnellement :
+    Ouvrir le dialogue des paramètres. 
       
     Vérifier le nombre de fils d'exécution dans le menu déroulant en bas du dialogue.
     Sur un portable récent il est possible de sélectionner "4" comme nombre de fils d'exécution pour accélérer 
@@ -28,29 +33,27 @@ Choisir l'installateur .core pour une installation sur portables multicoeurs (co
     "6" ou "7" fils d'exécution. Pour exécuter en fond de tâche au contraire, laisser sur "1".
    
     Valider.
-
-Réalisation d'un test
----------------------
-
-Pour s'assurer de la bonne installation, mieux vaut faire un test. Procéder comme suit :
    
-1.  Cliquer sur le bouton "csv" de la barre d'outils (il a l'apparence d'une grille).    
+3.  Cliquer sur le bouton "csv" de la barre d'outils (il a l'apparence d'une grille).    
     Attendre une à trois minutes.
    
-2.  Lorsque la barre de progression est à 100 % et stable à ce niveau et/ou que le dialogue des messages 
+4.  Lorsque la barre de progression est à 100 % et stable à ce niveau et/ou que le dialogue des messages 
     confirme "Terminé...", appuyer sur le bouton bleu "A" de la barre d'outils.
     
     Pour l'installation minimale, le rapport MS-Word s'affichera si aucun problème n'est intervenu, au terme du
-    processus d'analyse des données.
+    processus d'analyse des données. Il est possible d'afficher des détails d'exécution de l'analyse des données
+    en cliquant sur l'onglet Console, qui apparaît en sélectionnant l'option :
+
+        Configurer > Configurer l'interface > afficher les messages
 
     Pour l'installation avancée, l'interface RStudio s'affiche. Dans ce cas :
    
-3.  Vérifier que l'on a dans le quart supérieur gauche de l'interface un script altair.R. Sinon aller le 
+5.  Vérifier que l'on a dans le quart supérieur gauche de l'interface un script altair.R. Sinon aller le 
     chercher en cliquant sur le fichier altair.R dans l'arborescence des fichiers et répertoires dans le quart 
     inférieur droit (panneau Files). Le fichier est localisé sous le répetoire Tests\Exemple.
    
     Appuyer sur le bouton qui ressemble à un cahier ("Notebook") dans la barre d'outils. Un choix entre différents
     format de rapport est proposé (html, MS-Word et pdf).
    
-4. Veiller à refermer RStudio en laissant le script altair.R sélectionné dans la partie supérieure gauche.    
+6. Veiller à refermer RStudio en laissant le script altair.R sélectionné dans la partie supérieure gauche.    
    
