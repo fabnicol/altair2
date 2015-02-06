@@ -8,6 +8,8 @@
   
 ; Numéros de version 
 
+; pour une version minimal définir minimal par "" sinon "_min"
+
 !define version  "2015.02"
 !define VER_MAJOR 2015
 !define VER_MINOR 02
@@ -18,10 +20,12 @@
 ; autres définitions
 
 !define prodname     "Altair"
-!define nbits        celeron
+!define nbits        core
 !define setup        "Altaïr-${version}.win.${nbits}.installer.exe"
 !define exemple      "${prodname}\Tests\Exemple"
 !define xhl          "${exemple}\Donnees\xhl"
+!define Interface.minimal    Interface_win64_min
+!define Interface    Interface_win64
 !define icon         neptune.ico
 !define RDir         "R"
 !define texDir       "texlive"
@@ -44,17 +48,21 @@
 !define MUI_HEADERIMAGE_BITMAP "${exemple}\${prodname}.bmp"
 !define MUI_WELCOMEFINISHPAGE_BITMAP "${exemple}\neptune.bmp"
 !define MUI_ABORTWARNING
-
-Var git
-
- RequestExecutionLevel admin
- InstallDirRegKey HKLM "SOFTWARE\${prodname}" ""
- 
- Var StartMenuFolder
-
 !define MUI_STARTMENUPAGE_REGISTRY_ROOT "HKCU" 
 !define MUI_STARTMENUPAGE_REGISTRY_KEY "Software\Modern UI Test" 
 !define MUI_STARTMENUPAGE_REGISTRY_VALUENAME "Start Menu Folder"
+
+ Var git
+ Var StartMenuFolder
+ Var minimal
+ 
+ Section
+ StrCpy $minimal "_min"
+ SectionEnd
+ 
+ RequestExecutionLevel admin
+ InstallDirRegKey HKLM "SOFTWARE\${prodname}" ""
+ 
   
 !insertmacro MUI_PAGE_STARTMENU Application $StartMenuFolder
 !insertmacro MUI_PAGE_WELCOME  
@@ -76,11 +84,9 @@ Var git
  LangString AdvancedName ${LANG_FRENCH}  "Installation avancée"
  LangString MinimaleName ${LANG_FRENCH}  "Installation minimale"
  LangString Sec6Name ${LANG_FRENCH}  "Exemples"
- ;LangString Sec5Name ${LANG_FRENCH} "Git"
+ 
  LangString DESC_Advanced ${LANG_FRENCH} "Installer la version avancée (Altaïr, Git, R, RStudio et Texlive)"
  LangString DESC_Minimale ${LANG_FRENCH} "Installer la version minimale (Altaïr, R)"
- 
- ;LangString DESC_sec5 ${LANG_FRENCH} "Installer le gestionnaire de versions GIT"
  LangString DESC_sec6 ${LANG_FRENCH} "Installer les exemples"
  
  
@@ -100,6 +106,7 @@ Var git
 !define MUI_FINISHPAGE_TITLE $(title1)
 !define MUI_FINISHPAGE_TEXT  $(text1)
 !define MUI_FINISHPAGE_RUN 
+!define MUI_FINISHPAGE_RUN_NOTCHECKED
 !define MUI_FINISHPAGE_RUN_TEXT     "Lire le fichier LISEZ-MOI"
 !define MUI_FINISHPAGE_RUN_FUNCTION "Launch_LISEZ"
 !define MUI_FINISHPAGE_BUTTON       "Compléments"
@@ -109,53 +116,24 @@ Var git
 !define MUI_FINISHPAGE_TITLE $(title2)
 !define MUI_FINISHPAGE_TEXT  $(text2)
 !define MUI_FINISHPAGE_RUN 
+!define MUI_FINISHPAGE_RUN_NOTCHECKED
 !define MUI_FINISHPAGE_RUN_TEXT     "Lire le fichier INSTALLATION"
 !define MUI_FINISHPAGE_RUN_FUNCTION "Launch_INSTALLATION"
 !define MUI_FINISHPAGE_BUTTON       "Suite"
 !define MUI_FINISHPAGE_CANCEL_ENABLED 
 !insertmacro MUI_PAGE_FINISH
 
-	
+
 !define MUI_FINISHPAGE_TITLE $(title3)
 !define MUI_FINISHPAGE_TEXT  $(text3)
 !define MUI_FINISHPAGE_RUN 
+!define MUI_FINISHPAGE_RUN_NOTCHECKED
 !define MUI_FINISHPAGE_RUN_TEXT     "Installer le dépôt de code source GIT"
 !define MUI_FINISHPAGE_RUN_FUNCTION "install_git"
 !define MUI_FINISHPAGE_BUTTON       "Terminer"
 !define MUI_FINISHPAGE_CANCEL_ENABLED 
 !insertmacro MUI_PAGE_FINISH
 
-Section
-MessageBox MB_YESNO|MB_ICONINFORMATION $(Message)  IDNO Fin IDYES OK
-Fin:  Delete "$INSTDIR\${prodname}\*.*"
-      RMDir /r "$INSTDIR\${prodname}"
-      Abort
-OK:
-SectionEnd
-
-
-Section
-  CreateDirectory  $INSTDIR\${exemple}\Donnees\R-Altair
-  CreateDirectory  $INSTDIR\${xhl}
-  
-  SetOutPath $INSTDIR\${prodname}
-  File /r  "${prodname}\Interface_win64" 
-  File /r  "${prodname}\Docs" 
-  File /r  "${prodname}\Outils" 
-  File /r  "${prodname}\win.${nbits}" 
-  File /r  "${prodname}\.Rproj.user" 
-  File     "${prodname}\*.*" 
-  
-  SetOutPath $INSTDIR\${exemple}
-  File /r  ${exemple}\Docs
-  File /r  ${exemple}\Projets
-  File     ${exemple}\*.*
-    
-  SetOutPath $DOCUMENTS\R\win-library\${Rversion_major}
-  File /r  "${prodname}\lib\*.*" 
-  
-  
-SectionEnd
 
 !insertmacro MUI_PAGE_INSTFILES
 !insertmacro MUI_UNPAGE_INSTFILES
@@ -179,12 +157,42 @@ SilentInstall normal
 InstallDir "C:\Users\Public"
 InstallDirRegKey HKLM "${regkey}" ""
 
-Icon "${prodname}\Interface_win64\${icon}"
+Icon "${prodname}\${Interface}\${icon}"
 
 RequestExecutionLevel user
 AutoCloseWindow false
 ShowInstDetails show
 
+
+Section
+MessageBox MB_YESNO|MB_ICONINFORMATION $(Message)  IDNO Fin IDYES OK
+Fin:  Delete "$INSTDIR\${prodname}\*.*"
+      RMDir /r "$INSTDIR\${prodname}"
+      Abort
+OK:
+SectionEnd
+
+
+Section
+  CreateDirectory  $INSTDIR\${exemple}\Donnees\R-Altair
+  CreateDirectory  $INSTDIR\${xhl}
+  SetDetailsPrint both
+  SetOutPath $INSTDIR\${prodname}
+  File /r  "${prodname}\Docs" 
+  File /r  "${prodname}\Outils" 
+  File /r  "${prodname}\win.${nbits}" 
+  File /r  "${prodname}\.Rproj.user" 
+  File     "${prodname}\*.*" 
+  
+  SetOutPath $INSTDIR\${exemple}
+  File /r  ${exemple}\Docs
+  File /r  ${exemple}\Projets
+  File     ${exemple}\*.*
+    
+  SetOutPath $DOCUMENTS\R\win-library\${Rversion_major}
+  File /r  "${prodname}\lib\*.*" 
+  
+SectionEnd
 
 Function .onInit
  
@@ -217,60 +225,11 @@ Function Launch_INSTALLATION
   Exec '"notepad" "$INSTDIR\INSTALLATION.txt"'
 FunctionEnd
 
-Section -post 
-
- !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
-  SetShellVarContext current
-  SetOutPath       "$INSTDIR\${prodname}\Interface_win64"
-  CreateShortCut   "$DESKTOP\${prodname}.lnk" "$INSTDIR\${prodname}\Interface_win64\${prodname}.exe"  "" "$INSTDIR\${prodname}\Interface_win64\${icon}"
-  WriteRegStr HKLM "${prodname}\Shell\open\command\" "" "$INSTDIR\${prodname}\Interface_win64\${prodname}.exe"
-  
-  CreateDirectory  "$SMPROGRAMS\$StartMenuFolder"
-  CreateShortCut   "$SMPROGRAMS\$StartMenuFolder\Désinstaller.lnk" "$INSTDIR\Désinstaller.exe" "" "$INSTDIR\Désinstaller.exe" 0
-  CreateShortCut   "$SMPROGRAMS\$StartMenuFolder\${prodname}.lnk" "$INSTDIR\${prodname}\Interface_win64\${prodname}.exe" "" "$INSTDIR\${prodname}\Interface_win64\${icon}" 0
-  
- ; WriteRegStr HKLM "${prodname}\DefaultIcon" "${prodname}" "$INSTDIR\${prodname}\Interface_w${nbits}\${icon}"
- 
- ; WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${prodname}" "DisplayName" "${prodname} (désinstallation)"
- ; WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${prodname}" "UninstallString" "$\"$INSTDIR\Désinstaller.exe$\""
-    
-  SetDetailsPrint textonly
-  DetailPrint "Création des clés d'enregistrement..."
-  SetDetailsPrint listonly
-
-  SetOutPath $INSTDIR
-
-  WriteRegDword HKLM "SOFTWARE\${prodname}" "VersionMajor" "${VER_MAJOR}"
-  WriteRegDword HKLM "SOFTWARE\${prodname}" "VersionMinor" "${VER_MINOR}"
-  WriteRegDword HKLM "SOFTWARE\${prodname}" "VersionRevision" "${VER_REVISION}"
-  WriteRegDword HKLM "SOFTWARE\${prodname}" "VersionBuild" "${VER_BUILD}"
-  
-  WriteRegStr HKLM "SOFTWARE\${prodname}" "Install_Dir" "$INSTDIR"
-
-  WriteRegStr HKLM   "${REG_UNINST_KEY}" "DisplayName" "${prodname}"
-  WriteRegStr HKLM   "${REG_UNINST_KEY}" "DisplayIcon" "$INSTDIR\${prodname}\Interface_win64\${icon}"
-  WriteRegStr HKLM   "${REG_UNINST_KEY}" "DisplayVersion" "${version}"
-  WriteRegDWORD HKLM "${REG_UNINST_KEY}" "NoModify" "1"
-  WriteRegDWORD HKLM "${REG_UNINST_KEY}" "NoRepair" "1"
-  WriteRegExpandStr HKLM "${REG_UNINST_KEY}" "UninstallString" "$\"$INSTDIR\Désinstaller.exe$\""
-  WriteRegExpandStr HKLM "${REG_UNINST_KEY}" "InstallLocation" "$INSTDIR"
-
-  WriteRegDWORD HKLM "${REG_UNINST_KEY}" "VersionMajor" "${VER_MAJOR}"
-  WriteRegDWORD HKLM "${REG_UNINST_KEY}" "VersionMinor" "${VER_MINOR}"
-  ;WriteRegStr HKLM "${REG_UNINST_KEY}" "URLInfoAbout" "http://github.com/fabnicol/altair"
-  ;WriteRegStr HKLM "${REG_UNINST_KEY}" "HelpLink" "http://github.com/fabnicol/altair"
-
-  WriteUninstaller "$INSTDIR\Désinstaller.exe"
-  
-  SetDetailsPrint both
- 
-!insertmacro MUI_STARTMENU_WRITE_END
-
-SectionEnd
 
 
  Section /o $(AdvancedName) Advanced
     SetOutPath $INSTDIR\${prodname}
+    File /r  "${prodname}\${Interface}" 
     File /r  "${prodname}\${RDir}"
     File /r  "${prodname}\${texDir}"
 	File /r  "${prodname}\${GitDir}"
@@ -284,18 +243,22 @@ SectionEnd
   
     SetOutPath $APPDATA\RStudio  
     File  "${prodname}\Roaming\RStudio\*.*"
-  
+	
+	 StrCpy $minimal ""
+
  SectionEnd
 
  Section   $(MinimaleName) Minimale 
     SetOutPath $INSTDIR\${prodname}
+    File /r  "${prodname}\${Interface.minimal}" 
     File /r  "${prodname}\${RDir}"
+	 StrCpy $minimal "_min"
  SectionEnd
 
   Section  $(Sec6Name) sec6
     SetOutPath $INSTDIR\${xhl}
-   ; File /r  ${xhl}\Anonyme
-   ; File /r  ${xhl}\Anonyme2
+    File /r  ${xhl}\Anonyme
+    File /r  ${xhl}\Anonyme2
   SectionEnd
  
 
@@ -313,7 +276,58 @@ FunctionEnd
    !insertmacro MUI_DESCRIPTION_TEXT ${Minimale} $(DESC_Minimale)
    !insertmacro MUI_DESCRIPTION_TEXT ${sec6} $(DESC_sec6)
  !insertmacro MUI_FUNCTION_DESCRIPTION_END
+  
+ 
+Section 
 
+ 
+ !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
+  SetShellVarContext current
+  
+  SetOutPath       "$INSTDIR\${prodname}\${Interface}$minimal"
+  CreateShortCut   "$DESKTOP\${prodname}.lnk" "$INSTDIR\${prodname}\${Interface}$minimal\${prodname}.exe"  "" "$INSTDIR\${prodname}\${Interface}$minimal\${icon}"
+  WriteRegStr HKLM "${prodname}\Shell\open\command\" "" "$INSTDIR\${prodname}\${Interface}$minimal\${prodname}.exe"
+  
+  CreateDirectory  "$SMPROGRAMS\$StartMenuFolder"
+  CreateShortCut   "$SMPROGRAMS\$StartMenuFolder\Désinstaller.lnk" "$INSTDIR\Désinstaller.exe" "" "$INSTDIR\Désinstaller.exe" 0
+  CreateShortCut   "$SMPROGRAMS\$StartMenuFolder\${prodname}.lnk" "$INSTDIR\${prodname}\${Interface}$minimal\${prodname}.exe" "" "$INSTDIR\${prodname}\${Interface}$minimal\${icon}" 0
+  
+ ; WriteRegStr HKLM "${prodname}\DefaultIcon" "${prodname}" "$INSTDIR\${prodname}\Interface_w${nbits}\${icon}"
+ ; WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${prodname}" "DisplayName" "${prodname} (désinstallation)"
+ ; WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${prodname}" "UninstallString" "$\"$INSTDIR\Désinstaller.exe$\""
+    
+  SetDetailsPrint textonly
+  DetailPrint "Création des clés d'enregistrement..."
+  SetDetailsPrint listonly
+
+  SetOutPath $INSTDIR
+  WriteRegDword HKLM "SOFTWARE\${prodname}" "VersionMajor" "${VER_MAJOR}"
+  WriteRegDword HKLM "SOFTWARE\${prodname}" "VersionMinor" "${VER_MINOR}"
+  WriteRegDword HKLM "SOFTWARE\${prodname}" "VersionRevision" "${VER_REVISION}"
+  WriteRegDword HKLM "SOFTWARE\${prodname}" "VersionBuild" "${VER_BUILD}"
+
+  WriteRegStr HKLM "SOFTWARE\${prodname}" "Install_Dir" "$INSTDIR"
+
+  WriteRegStr HKLM   "${REG_UNINST_KEY}" "DisplayName" "${prodname}"
+  WriteRegStr HKLM   "${REG_UNINST_KEY}" "DisplayIcon" "$INSTDIR\${prodname}\${Interface}$minimal\${icon}"
+  WriteRegStr HKLM   "${REG_UNINST_KEY}" "DisplayVersion" "${version}"
+  WriteRegDWORD HKLM "${REG_UNINST_KEY}" "NoModify" "1"
+  WriteRegDWORD HKLM "${REG_UNINST_KEY}" "NoRepair" "1"
+  WriteRegExpandStr HKLM "${REG_UNINST_KEY}" "UninstallString" "$\"$INSTDIR\Désinstaller.exe$\""
+  WriteRegExpandStr HKLM "${REG_UNINST_KEY}" "InstallLocation" "$INSTDIR"
+
+  WriteRegDWORD HKLM "${REG_UNINST_KEY}" "VersionMajor" "${VER_MAJOR}"
+  WriteRegDWORD HKLM "${REG_UNINST_KEY}" "VersionMinor" "${VER_MINOR}"
+  ;WriteRegStr HKLM "${REG_UNINST_KEY}" "URLInfoAbout" "http://github.com/fabnicol/altair"
+  ;WriteRegStr HKLM "${REG_UNINST_KEY}" "HelpLink" "http://github.com/fabnicol/altair"
+
+  WriteUninstaller "$INSTDIR\Désinstaller.exe"
+
+ 
+!insertmacro MUI_STARTMENU_WRITE_END
+
+SectionEnd
+ 
  Function install_git
    MessageBox MB_YESNO|MB_ICONINFORMATION "Une connexion Internet est nécessaire. Cliquer sur Oui si elle est activée, sur Non pour refuser l'installation. Le code source du dépôt git sera installé dans $INSTDIR\${prodname}.git" IDYES true IDNO false
 
