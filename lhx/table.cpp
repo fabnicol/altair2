@@ -17,22 +17,6 @@ int64_t generer_table_standard(const char* chemin_table, info_t* info)
 
 /* Il doit y avoir BESOIN_MEMOIRE_ENTETE + 6 champs plus Type, soit 18 + 6 +1 = 23 champs et 24 séparateurs + saut de ligne = 48 char + \0*/
 
-static inline FILE* ouvrir_nouvelle_base(info_t* info, unsigned* rang_fichier_base, FILE* base)
-{
-    if (fclose(base) == EOF)
-    {
-        perror("Erreur : Problème fermeture fichier base");
-        exit(-902);
-    }
-
-    if (*rang_fichier_base >= 1000)
-    {
-        fprintf(stderr, "%s", "Erreur : Ne peut générer que 999 bases au plus\n");
-        exit(-904);
-    }
-
-    return ouvrir_fichier_base(info, ++*rang_fichier_base);
-}
 
 
 #define VAR(X) Info[i].Table[agent][X]
@@ -197,8 +181,9 @@ void boucle_ecriture(info_t* Info)
     char sep = Info[0].separateur;
     char* annee_courante = (char*) Info[0].Table[0][Annee];
     unsigned rang_fichier_base = 1;
-    FILE* base = NULL;
-    FILE* bulletins = NULL;
+    static FILE* base = NULL;
+    static FILE* bulletins = NULL;
+    static FILE* fichier_base[nbType] = {NULL};
 
     // Un peu low-level C, mais beaucoup plus rapide que de coder un fprintf pour chaque item.
     // Gain d'exécution : 30s pour fprintf par item
@@ -206,11 +191,41 @@ void boucle_ecriture(info_t* Info)
 
     bulletins = ouvrir_fichier_bulletins(Info);
 
-    if (Info[0].taille_base == TOUTES_CATEGORIES)
-        for (int rang = 11; rang >= 1; rang--)
-            base = ouvrir_fichier_base(Info, rang);
-    else
-        base = ouvrir_fichier_base(Info, rang_fichier_base);
+    switch (Info[0].taille_base)
+    {
+
+        case MONOLITHIQUE :
+                 base = ouvrir_fichier_base(Info, 0);
+                 break;
+
+        case PAR_ANNEE :
+                 base = ouvrir_fichier_base(Info, atoi(annee_courante));
+                 break;
+
+        case PAR_TRAITEMENT          :
+        case PAR_INDEMNITE_RESIDENCE :
+        case PAR_SFT                 :
+        case PAR_AVANTAGE_NATURE     :
+        case PAR_INDEMNITE           :
+        case PAR_REM_DIVERSES        :
+        case PAR_DEDUCTION           :
+        case PAR_ACOMPTE             :
+        case PAR_RAPPEL              :
+        case PAR_RETENUE             :
+        case PAR_COTISATION          :
+                                       base = ouvrir_fichier_base(Info, -Info[0].taille_base - 2);
+                                       break;
+
+        case TOUTES_CATEGORIES  :
+                 for (int d = 0; d < nbType; d++) fichier_base[d] = ouvrir_fichier_base(Info, d + 1);
+                 break;
+
+        default : base = ouvrir_fichier_base(Info, rang_fichier_base + nbType + 1);
+                 // cas où une vraie taille de base en lignes est entrée.
+
+    }
+
+
 
     for (int i = 0; i < Info[0].nbfil; i++)
     {
@@ -224,9 +239,15 @@ void boucle_ecriture(info_t* Info)
 
             if (Info[i].taille_base == PAR_ANNEE  && strcmp((const char*)VAR(Annee), annee_courante))
             {
-                base = ouvrir_nouvelle_base(&Info[i], &rang_fichier_base, base);
+                if (fclose(base) == EOF)
+                {
+                    perror("Erreur : Problème fermeture fichier base");
+                    exit(-902);
+                }
+
                 fprintf(stderr, "Année : %s Table générée.\n", annee_courante);
                 annee_courante = (char*) VAR(Annee);
+                base = ouvrir_fichier_base(&Info[i], atoi(annee_courante));
             }
 
             unsigned l = Info[i].minimum_memoire_p_ligne;
@@ -238,14 +259,27 @@ void boucle_ecriture(info_t* Info)
             {
                 bool nouveau_type = false;
 
-                if (Info[i].taille_base > MONOLITHIQUE && compteur + ligne == rang_fichier_base*Info[i].taille_base -1)
+                if (Info[i].taille_base > MONOLITHIQUE   // soit : il existe un nombre de lignes maximal par base
+                    && (compteur  == rang_fichier_base * Info[i].taille_base))
                 {
                     fprintf(stderr, "Table n° %d de %d lignes générée, lignes %d à %d.\n",
                             rang_fichier_base,
                             Info[i].taille_base,
                             (rang_fichier_base-1) * Info[i].taille_base +1,
                             rang_fichier_base * Info[i].taille_base);
-                    base = ouvrir_nouvelle_base(&Info[i], &rang_fichier_base, base);
+                            if (fclose(base) == EOF)
+                            {
+                                perror("Erreur : Problème fermeture fichier base");
+                                exit(-902);
+                            }
+                            ++rang_fichier_base;
+                            if (rang_fichier_base >= 1000)
+                            {
+                                fprintf(stderr, "%s", "Erreur : Ne peut générer que 999 bases au plus\n");
+                                exit(-904);
+                            }
+
+                            base = ouvrir_fichier_base(&Info[i], rang_fichier_base + nbType + 1);
                 }
 
                 if (l + 6 == allocation_memoire)
@@ -286,8 +320,7 @@ void boucle_ecriture(info_t* Info)
                         compteur++;
                         if (nouveau_type)
                         {
-                            fclose(base);
-                            base = ajouter_au_fichier_base(Info, valeur_drapeau_categorie);
+                            base = fichier_base[valeur_drapeau_categorie - 1];
                         }
 
                         ECRIRE_LIGNE_l(i, agent, l, type, base, format_base, sep, Info, compteur);
@@ -303,6 +336,11 @@ void boucle_ecriture(info_t* Info)
 
         if (i) Info[0].nbLigne += Info[i].nbLigne;
     }
+
+    // Dans les autres cas, les bases ont déjà été refermées sauf une (cas par année et par taille maximale)
+    if (Info[0].taille_base == TOUTES_CATEGORIES)
+        for (int d = 0; d < nbType - 1; d++)
+            fclose(fichier_base[d]);
 
     if (base)
     {
