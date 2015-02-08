@@ -62,8 +62,8 @@ fichier.personnels          <- "Catégories des personnels"
 nom.fichier.personnels      <- paste0(fichier.personnels, ".csv")
 nom.fichier.paie            <- paste0(racine, "Lignes de paye")
 nom.bulletin.paie           <- paste0(racine, "Bulletins de paye")
-nom.table                   <- paste0(racine, "Table_1.csv")
-nom.bulletins                   <- paste0(racine, "Bulletins_1.csv")
+nom.table                   <- paste0(racine, "Table.csv")
+nom.bulletins                   <- paste0(racine, "Bulletins.csv")
 
 # DOSSIERS
 # Attention, si l'on lance la génération de document pour la première fois sans répertoire Bases existant, on aura un write error.
@@ -81,7 +81,7 @@ if (setOSWindows) {
   iconv <- file.path(chemin.dossier.outils, paste0("iconv", exec.root))
   sed   <- file.path(chemin.dossier.outils, paste0("sed", exec.root))
 } else {
-  iconv <- "iconv"  
+  iconv <- "iconv"
   sed   <- "sed"
 }
 
@@ -118,7 +118,7 @@ colonnes.input <- c("Année", "Mois", "Nom", "Prénom", "Matricule",
                     "Libellé", "Code", "Base", "Taux", "Nb.Unité",
                     "Montant", "Type", "Emploi", "Grade", "Nir")
 
-colonnes.classes.input    <- c("integer", "integer", "character", "character", "character", 
+colonnes.classes.input    <- c("integer", "integer", "character", "character", "character",
                                "character", "character", "numeric", "numeric", "numeric",
                                "character",  "numeric", "numeric", "numeric", "numeric",
                                "character",  "character", "numeric", "numeric", "numeric",
@@ -129,7 +129,7 @@ colonnes.bulletins.input <- c("Année", "Mois", "Nom", "Prénom", "Matricule",
                               "Indice", "Brut", "Net", "Net.à.Payer", "NBI",
                               "Emploi", "Grade", "Nir")
 
-colonnes.bulletins.classes.input <- c("integer", "integer", "character", "character", "character", 
+colonnes.bulletins.classes.input <- c("integer", "integer", "character", "character", "character",
                                       "character", "character", "numeric", "numeric", "numeric",
                                       "character",  "numeric", "numeric", "numeric", "numeric",
                                       "character", "character", "character")
@@ -144,7 +144,7 @@ date.format                      <- "%d/%m/%Y"
 codes.NBI <- c("1012", "101B", "101M", "4652", "4672")
 
 
-# A priori les deux modes de lectures de tables (rapide et standard) lisent aussi bien le Windows ANSI/ISO-8859-1 que 
+# A priori les deux modes de lectures de tables (rapide et standard) lisent aussi bien le Windows ANSI/ISO-8859-1 que
 # l'UTF-8 à condition que le Windows ANSI soit encodé par Excel ou l'éditeur de RStudio.
 
 encodage.entrée <- "ISO-8859-1"

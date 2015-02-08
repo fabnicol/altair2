@@ -17,7 +17,29 @@ char* ecrire_chemin_base(const char* chemin_base, int rang_fichier_base)
     char chemin[s + 1 + 3];   // chemin_base + _ + 3 chiffres
     int cut = s - strlen(CSV);
     strncpy(chemin, chemin_base, cut);
-    sprintf(chemin + cut, "_%d%s", rang_fichier_base, CSV);
+
+    /*  si rang_fichier_base == 0, base monolithique
+        si rang_fichier_base compris entre 1 et nbType, base par catégorie
+        si rang_fichier_base supérieur à nbType, base par année (les années sont très supérieures au nombre de type maximum ! */
+    int test = (int) (rang_fichier_base + nbType -1) / nbType;
+
+    switch (test)
+    {
+        /* rang_ fichier_base == 0  -->   Table.csv */
+        case 0 :
+                  sprintf(chemin + cut, "%s", CSV);
+                  break;
+
+        /* 1 <= rang_ fichier_base <= nbType  --> Table_TraitBrut.csv etc. */
+        case 1 :
+                  sprintf(chemin + cut, "_%s%s", type_remuneration[rang_fichier_base-1], CSV);
+                  break;
+
+        /* nbType < rang_fichier_base   --> Table_2008.csv etc. */
+        default :
+                  sprintf(chemin + cut, "_%d%s", rang_fichier_base - nbType - 1, CSV);
+    }
+
     return(strdup(chemin));
 }
 
@@ -40,11 +62,11 @@ void ecrire_entete0(info_t* info, FILE* base, const char* entete[], int N)
   fprintf(base, "%s\n", entete[i]);
 }
 
-FILE* ajouter_au_fichier_base(info_t* info, int rang)
+#if 0
+FILE* ouvrir_fichier_base_append(info_t* info, int rang)
 {
     char* chemin = ecrire_chemin_base(info[0].chemin_base, rang);
     FILE* base = fopen(chemin, "a");
-    fseek(base, 0, SEEK_END);
     if (base == NULL)
     {
         fprintf(stderr, "%s\n", "Erreur : Impossible d'ouvrir le fichier de sortie.");
@@ -52,11 +74,11 @@ FILE* ajouter_au_fichier_base(info_t* info, int rang)
     }
     return base;
 }
-
+#endif // 0
 
 FILE* ouvrir_fichier_bulletins(info_t* info)
 {
-    return ouvrir_fichier_base0(info, 1, BULLETINS);
+    return ouvrir_fichier_base0(info, 0, BULLETINS);
 }
 
 

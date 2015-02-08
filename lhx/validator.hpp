@@ -51,6 +51,7 @@ typedef struct
 #define PAR_RAPPEL       -11
 #define PAR_RETENUE      -12
 #define PAR_COTISATION   -13
+
 #define TOUTES_CATEGORIES -14
 
 typedef enum {Annee, Mois, Nom, Prenom, Matricule, NIR, Statut, EmploiMetier, Grade, Indice,
@@ -124,7 +125,7 @@ typedef struct
 
 #define REMONTER_UN_NIVEAU     cur = (cur)? cur->parent: NULL;    cur = (cur)? cur->next: NULL; // if ((! NO_DEBUG) && cur) fprintf(stderr, "Remontée au niveau %s\n", cur->name);
 
-static const char* type_remuneration[]   = {
+static constexpr char* type_remuneration[]   = {
                                             "TraitBrut",
                                             "IndemResid",
                                             "SupFam",
@@ -140,7 +141,7 @@ static const char* type_remuneration[]   = {
                                             };
 
 
-static const int nbType                  = sizeof(type_remuneration)/sizeof(char*);
+static constexpr int nbType                  = sizeof(type_remuneration)/sizeof(char*);
 
 static const char* type_remuneration_traduit[nbType] = {
                                                            "T",   // Traitement
