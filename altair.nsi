@@ -164,36 +164,6 @@ AutoCloseWindow false
 ShowInstDetails show
 
 
-Section
-MessageBox MB_YESNO|MB_ICONINFORMATION $(Message)  IDNO Fin IDYES OK
-Fin:  Delete "$INSTDIR\${prodname}\*.*"
-      RMDir /r "$INSTDIR\${prodname}"
-      Abort
-OK:
-SectionEnd
-
-
-Section
-  CreateDirectory  $INSTDIR\${exemple}\Donnees\R-Altair
-  CreateDirectory  $INSTDIR\${xhl}
-  SetDetailsPrint both
-  SetOutPath $INSTDIR\${prodname}
-  File /r  "${prodname}\Docs" 
-  File /r  "${prodname}\Outils" 
-  File /r  "${prodname}\win.${nbits}" 
-  File /r  "${prodname}\.Rproj.user" 
-  File     "${prodname}\*.*" 
-  
-  SetOutPath $INSTDIR\${exemple}
-  File /r  ${exemple}\Docs
-  File /r  ${exemple}\Projets
-  File     ${exemple}\*.*
-    
-  SetOutPath $DOCUMENTS\R\win-library\${Rversion_major}
-  File /r  "${prodname}\lib\*.*" 
-  
-SectionEnd
-
 Function .onInit
  
   SetOutPath $TEMP	
@@ -209,8 +179,6 @@ Function .onInit
   Call .onSelChange
   
 FunctionEnd
-
-; Functions
  
  
 Function Launch_LISEZ
@@ -225,7 +193,26 @@ Function Launch_INSTALLATION
   Exec '"notepad" "$INSTDIR\INSTALLATION.txt"'
 FunctionEnd
 
-
+Section
+  CreateDirectory  $INSTDIR\${exemple}\Donnees\R-Altair
+  CreateDirectory  $INSTDIR\${exemple}\Projets
+  CreateDirectory  $INSTDIR\${xhl}
+  SetDetailsPrint both
+  SetOutPath $INSTDIR\${prodname}
+  File /r  "${prodname}\Docs" 
+  File /r  "${prodname}\Outils" 
+  File /r  "${prodname}\win.${nbits}" 
+  File /r  "${prodname}\.Rproj.user" 
+  File     "${prodname}\*.*" 
+  
+  SetOutPath $INSTDIR\${exemple}
+  File /r  ${exemple}\Docs
+  File     ${exemple}\*.*
+    
+  SetOutPath $DOCUMENTS\R\win-library\${Rversion_major}
+  File /r  "${prodname}\lib\*.*" 
+  
+SectionEnd
 
  Section /o $(AdvancedName) Advanced
     SetOutPath $INSTDIR\${prodname}
@@ -233,18 +220,22 @@ FunctionEnd
     File /r  "${prodname}\${RDir}"
     File /r  "${prodname}\${texDir}"
 	File /r  "${prodname}\${GitDir}"
-	
-	${EnvVarUpdate} $0 "PATH" "A" "HKCU" "$INSTDIR\${prodname}\${texDir}\bin\win32"
-	${EnvVarUpdate} $0 "PATH" "A" "HKCU" "$INSTDIR\${prodname}\${GitDir}\bin" 
-	
     File /r  "${prodname}\${RStudioDir}"
+	
+	SetOutPath $INSTDIR\${exemple}\Projets
+	File  "${exemple}\Projets\anonyme.alt"
+	File  "${exemple}\Projets\anonyme2.alt"
+	
 	SetOutPath $LOCALAPPDATA  
     File /r "${prodname}\Local\RStudio-desktop"
   
     SetOutPath $APPDATA\RStudio  
     File  "${prodname}\Roaming\RStudio\*.*"
 	
-	 StrCpy $minimal ""
+	${EnvVarUpdate} $0 "PATH" "A" "HKCU" "$INSTDIR\${prodname}\${texDir}\bin\win32"
+	${EnvVarUpdate} $0 "PATH" "A" "HKCU" "$INSTDIR\${prodname}\${GitDir}\bin" 
+		
+	StrCpy $minimal ""
 
  SectionEnd
 
@@ -252,7 +243,12 @@ FunctionEnd
     SetOutPath $INSTDIR\${prodname}
     File /r  "${prodname}\${Interface.minimal}" 
     File /r  "${prodname}\${RDir}"
-	 StrCpy $minimal "_min"
+	
+	SetOutPath $INSTDIR\${exemple}\Projets
+    File  "${exemple}\Projets\anonyme.minimal.alt"
+	File  "${exemple}\Projets\anonyme2.minimal.alt"
+	
+    StrCpy $minimal "_min"
  SectionEnd
 
   Section  $(Sec6Name) sec6

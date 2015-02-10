@@ -199,7 +199,7 @@ void boucle_ecriture(info_t* Info)
                  break;
 
         case PAR_ANNEE :
-                 base = ouvrir_fichier_base(Info, atoi(annee_courante));
+                 base = ouvrir_fichier_base(Info, atoi(annee_courante) + nbType + 1);
                  break;
 
         case PAR_TRAITEMENT          :
@@ -247,7 +247,7 @@ void boucle_ecriture(info_t* Info)
 
                 fprintf(stderr, "Année : %s Table générée.\n", annee_courante);
                 annee_courante = (char*) VAR(Annee);
-                base = ouvrir_fichier_base(&Info[i], atoi(annee_courante));
+                base = ouvrir_fichier_base(&Info[i], atoi(annee_courante) + nbType + 1);
             }
 
             unsigned l = Info[i].minimum_memoire_p_ligne;
