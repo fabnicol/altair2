@@ -250,9 +250,10 @@ FunctionEnd
 
  Section   $(MinimaleName) Minimale 
     SetOutPath $INSTDIR\${prodname}
-    File /r  "${prodname}\${Interface.minimal}" 
     File /r  "${prodname}\${RDir}"
-	 StrCpy $minimal "_min"
+	CreateDirectory $INSTDIR\${RStudioDir}\bin\pandoc
+	SetOutPath $INSTDIR\${RStudioDir}\bin\pandoc
+	File ${prodname}\${RStudioDir}\bin\pandoc\pandoc.exe
  SectionEnd
 
   Section  $(Sec6Name) sec6
