@@ -240,12 +240,9 @@ void MainWindow::createActions()
   saveAction = new QAction(tr("&Enregistrer"), this);
   saveAction->setShortcut(QKeySequence("Ctrl+S"));
   saveAction->setIcon(style()->standardIcon(QStyle::SP_DialogSaveButton));
-  
-  // Qt 5?3?2 onwards 
+
   connect(saveAction, &QAction::triggered, this, &MainWindow::f);
   
-  //connect(saveAction, &QAction::triggered, [&] {altair->updateProject(true);});
-
   saveAsAction = new QAction(tr("En&registrer le projet comme..."), this);
   saveAsAction->setIcon(QIcon(":/images/document-save-as.png"));
   connect(saveAsAction, SIGNAL(triggered()), altair, SLOT(requestSaveProject()));
@@ -831,13 +828,11 @@ void MainWindow::feedConsoleWithHtml()
                         case 'C':
                         case 'L':
                         case 'M':
-                            buffer= buffer.replace(reg, (QString)PROCESSING_HTML_TAG "\\1 \\2"); break;
+                             buffer= buffer.replace(reg, (QString)PROCESSING_HTML_TAG "\\1 \\2");
+                            break;
                         case 'T' :
                         case 'B' :
-                            if (reg.cap(1).at(1).toLatin1() == 'r')
-                                buffer=buffer.replace(reg, (QString)  ERROR_HTML_TAG "\\1 \\2");
-                            else
-                                buffer=buffer.replace(reg, (QString)  PARAMETER_HTML_TAG "\\1 \\2");
+                             buffer=buffer.replace(reg, (QString)  PARAMETER_HTML_TAG "\\1 \\2");
                             break;
                         case 'P' :
                         case 'F' :   
@@ -850,7 +845,12 @@ void MainWindow::feedConsoleWithHtml()
                             
                             break;
                         case 'E' :
-                            buffer=buffer.replace(reg, (QString) ERROR_HTML_TAG "\\1 \\2"); break;
+                            buffer=buffer.replace(reg, (QString) ERROR_HTML_TAG "\\1 \\2");
+                            #ifdef MINIMAL
+                            Warning("Erreur", "Le décodage a rencontré une erreur.\nVisualiser le log dans la console (Configurer > Configurer l'interface > Afficher les messages).\n\
+Il est également possible d'activer un rapport détaillé (Configurer > Options > Générer le log)");
+                            #endif
+                           break;
                     }
                 }
 
