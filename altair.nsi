@@ -241,14 +241,18 @@ SectionEnd
 
  Section   $(MinimaleName) Minimale 
     SetOutPath $INSTDIR\${prodname}
-    File /r  "${prodname}\${Interface.minimal}" 
     File /r  "${prodname}\${RDir}"
-	
+    File /r  "${prodname}\${Interface.minimal}" 
 	SetOutPath $INSTDIR\${exemple}\Projets
     File  "${exemple}\Projets\anonyme.minimal.alt"
 	File  "${exemple}\Projets\anonyme2.minimal.alt"
 	
     StrCpy $minimal "_min"
+
+	CreateDirectory $INSTDIR\${prodname}\${RStudioDir}\bin\pandoc
+	SetOutPath $INSTDIR\${prodname}\${RStudioDir}\bin\pandoc
+	File ${prodname}\${RStudioDir}\bin\pandoc\pandoc.exe
+
  SectionEnd
 
   Section  $(Sec6Name) sec6
