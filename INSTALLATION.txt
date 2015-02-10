@@ -19,12 +19,12 @@ Réalisation d'un test
 
 Pour s'assurer de la bonne installation, mieux vaut faire un test. Procéder comme suit :
 
-1.  Importer un des deux répertoires par glisser-déposer dans l'onglet central :
-   
-       Tests\Exemple\Donnees\xhl\Anonyme
-    ou Tests\Exemple\Donnees\xhl\Anonyme2
-   
+1.  Sélectionner Fichier > Ouvrir le projet alt > un fichier .alt dans la série
+      C:\Users\Public\Altair\Tests\Exemple\Projets\*.alt
+    Les projets de type *.minimal.alt sont plus adaptés à une interface minimale.
+
 2.  Optionnellement :
+
     Ouvrir le dialogue des paramètres. 
       
     Vérifier le nombre de fils d'exécution dans le menu déroulant en bas du dialogue.
@@ -52,8 +52,8 @@ Pour s'assurer de la bonne installation, mieux vaut faire un test. Procéder com
     chercher en cliquant sur le fichier altair.R dans l'arborescence des fichiers et répertoires dans le quart 
     inférieur droit (panneau Files). Le fichier est localisé sous le répetoire Tests\Exemple.
    
-    Appuyer sur le bouton qui ressemble à un cahier ("Notebook") dans la barre d'outils. Un choix entre différents
-    format de rapport est proposé (html, MS-Word et pdf).
+    Appuyer sur le bouton qui ressemble à un cahier ("Notebook") dans la barre d'outils. 
+    Un choix entre différents formats de rapport est proposé (html, MS-Word et pdf).
    
 6. Veiller à refermer RStudio en laissant le script altair.R sélectionné dans la partie supérieure gauche.    
    

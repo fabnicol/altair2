@@ -3,11 +3,22 @@ sur le bureau ou dans le menu démarrer.
 Sélectionner Fichier > Ouvrir le projet .alt 
 puis :
 
-  Tests\Exemple\Projets\anonyme.alt
+  Tests\Exemple\Projets\anonyme[2].alt 
 
 ou :
 
-    Tests\Exemple\Projets\anonyme2.alt
+    Tests\Exemple\Projets\anonyme.minimal[2].alt
+    pour l'interface minimale.
+
+OU BIEN :
+
+Importer un des deux répertoires  :
+   
+    Tests\Exemple\Donnees\xhl\Anonyme
+    ou Tests\Exemple\Donnees\xhl\Anonyme2
+   
+par glisser-déposer depuis le gestionnaire de fichiers Windows vers l'onglet 
+central de l'application.
 
 Les fichiers du projet sont affichés dans les onglets centraux ainsi que 
 dans le gestionnaire de projets à droite de l'interface.
