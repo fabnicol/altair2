@@ -72,7 +72,7 @@ Tableau.vertical2(c("Agrégats",
                     masses.élus["rémunération.indemnitaire.imposable"],
                     masses.élus["autres.rémunérations"]))
 ```
-   
+
     
 **Définitions :**   
 
@@ -294,7 +294,7 @@ Résumé(c("Traitement indiciaire",
                                                                                              autres.rémunérations)],
        extra = "length")
 ```
-   
+
  
 &nbsp;*Tableau `r incrément()`*   
    

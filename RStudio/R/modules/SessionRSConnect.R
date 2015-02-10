@@ -16,6 +16,11 @@
 .rs.addFunction("scalarListFromFrame", function(frame)
 {
    ret <- list()
+
+   # return an empty list when no entries exist
+   if (is.null(frame))
+     return(ret)
+
    cols <- names(frame)
 
    # take apart the frame and compose a list of scalars from each row
@@ -29,26 +34,95 @@
    return(ret)
 })
 
+.rs.addFunction("scalarListFromList", function(l) {
+   if (is.null(l))
+     NULL
+   else
+     lapply(l, function(x) { if (is.null(x)) x else .rs.scalar(x) })
+})
 
 .rs.addJsonRpcHandler("get_rsconnect_account_list", function() {
-   accounts <- rsconnect::accounts(server = "shinyapps.io")
-   if (is.null(accounts))
-      character()
-   else
-      accounts$name
+   accounts <- list()
+   # safely return an empty list--we want to consider there to be 0 connected
+   # accounts when the rsconnect package is not installed or broken 
+   # (vs. raising an error)
+   tryCatch({
+     accounts <- .rs.scalarListFromFrame(rsconnect::accounts())
+   }, error = function(e) { })
+   accounts
 })
 
-.rs.addJsonRpcHandler("remove_rsconnect_account", function(account) {
-   rsconnect::removeAccount(account, server = "shinyapps.io")
+.rs.addJsonRpcHandler("remove_rsconnect_account", function(account, server) {
+   rsconnect::removeAccount(account, server)
 })
 
-.rs.addJsonRpcHandler("get_rsconnect_app_list", function(account) {
-   .rs.scalarListFromFrame(rsconnect::applications(account,
-                                                   server = "shinyapps.io"))
+.rs.addJsonRpcHandler("get_rsconnect_app_list", function(account, server) {
+   .rs.scalarListFromFrame(rsconnect::applications(account, server))
 })
 
 .rs.addJsonRpcHandler("get_rsconnect_deployments", function(dir) {
    .rs.scalarListFromFrame(rsconnect::deployments(dir))
+})
+
+.rs.addJsonRpcHandler("validate_server_url", function(url) {
+   .rs.scalarListFromList(rsconnect:::validateServerUrl(url))
+})
+
+.rs.addJsonRpcHandler("get_auth_token", function(name) {
+   .rs.scalarListFromList(rsconnect:::getAuthToken(name))
+})
+
+.rs.addJsonRpcHandler("get_user_from_token", function(url, token, privateKey) {
+   user <- rsconnect:::getUserFromRawToken(url, token, privateKey)
+   .rs.scalarListFromList(user)
+})
+
+.rs.addJsonRpcHandler("register_user_token", function(serverName, accountName,
+   userId, token, privateKey) {
+  rsconnect:::registerUserToken(serverName, accountName, userId, token, 
+                                privateKey)
+})
+
+.rs.addJsonRpcHandler("get_rsconnect_lint_results", function(target) {
+   err <- ""
+   results <- NULL
+   basePath <- ""
+
+   # validate and lint the requested target
+   if (!file.exists(target)) {
+     err <- paste("The file or directory ", target, " does not exist.")
+   } else {
+     tryCatch({
+       info <- file.info(target)
+       if (info$isdir) {
+         # a directory was specified--lint the whole thing
+         basePath <- target
+         results <- rsconnect::lint(basePath)
+       } else {
+         # a single file was specified--lint just that file
+         basePath <- dirname(target)
+         results <- rsconnect::lint(basePath, basename(target))
+       }
+    }, error = function(e) {
+      err <<- e$message
+    })
+  }
+
+  # empty or missing results; no need to do further work
+  if (identical(length(results), 0) || !rsconnect:::hasLint(results)) {
+    return(list(
+      has_lint = .rs.scalar(FALSE),
+      error_message = .rs.scalar(err)))
+  }
+
+  # we have a list of lint results; convert them to markers and emit them to
+  # the Markers pane
+  rsconnect:::showRstudioSourceMarkers(basePath, results)
+  
+  # return the result to the client
+  list(
+    has_lint = .rs.scalar(TRUE), 
+    error_message = .rs.scalar(err)) 
 })
 
 .rs.addFunction("maxDirectoryList", function(dir, root, cur_size, max_size, 
@@ -113,6 +187,12 @@
     dir_size = .rs.scalar(dirlist$cur_size))
 })
 
+.rs.addFunction("enableRStudioConnectUI", function(enable) {
+  .rs.enqueClientEvent("enable_rstudio_connect", enable);
+  message("RStudio Connect UI ", if (enable) "enabled" else "disabled", ".")
+  invisible(enable)
+})
+
 .rs.addJsonRpcHandler("get_deployment_files", function(dir) {
    .rs.rsconnectDeployList(dir)
 })
@@ -125,3 +205,4 @@
    cmd <- parse(text=accountCmd)
    eval(cmd, envir = globalenv())
 })
+
