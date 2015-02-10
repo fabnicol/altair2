@@ -55,10 +55,10 @@
     col_vals <- ""
     col_search_type <- ""
     # ensure that the column contains some scalar values we can examine 
-    # (treat vector-valued columns as of unknown type)
-    if (length(x[[idx]]) > 0 && length(x[1,idx]) == 1)
+    # (treat vector-valued columns as of unknown type) 
+    if (length(x[[idx]]) > 0 && length(x[[idx]][1]) == 1)
     {
-      val <- x[1,idx]
+      val <- x[[idx]][1]
       if (is.factor(val))
       {
         col_type <- "factor"
@@ -83,8 +83,8 @@
         minmax_vals <- x[[idx]][is.finite(x[[idx]])]
         if (length(minmax_vals) > 1)
         {
-          col_min <- min(minmax_vals)
-          col_max <- max(minmax_vals)
+          col_min <- round(min(minmax_vals), 5)
+          col_max <- round(max(minmax_vals), 5)
           if (col_min < col_max) 
           {
             col_type <- "numeric"
@@ -121,6 +121,38 @@
 {
   rownames <- row.names(x)
   rownames[start:min(length(rownames), start+len)]
+})
+
+# wrappers for nrow/ncol which will report the class of object for which we
+# fail to get dimensions along with the original error
+.rs.addFunction("nrow", function(x)
+{
+  rows <- 0
+  tryCatch({
+    rows <- nrow(x)
+  }, error = function(e) {
+    stop("Failed to determine rows for object of class '", class(x), "': ", 
+         e$message)
+  })
+  if (is.null(rows))
+    0
+  else
+    rows
+})
+
+.rs.addFunction("ncol", function(x)
+{
+  cols <- 0
+  tryCatch({
+    cols <- ncol(x)
+  }, error = function(e) {
+    stop("Failed to determine columns for object of class '", class(x), "': ", 
+         e$message)
+  })
+  if (is.null(cols))
+    0
+  else
+    cols
 })
 
 .rs.addFunction("toDataFrame", function(x, name) {
@@ -221,6 +253,18 @@
   return(x)
 })
 
+# returns envName as an environment, or NULL if the conversion failed
+.rs.addFunction("safeAsEnvironment", function(envName)
+{
+  env <- NULL
+  tryCatch(
+  {
+    env <- as.environment(envName)
+  }, 
+  error = function(e) { })
+  env
+})
+
 .rs.addFunction("findDataFrame", function(envName, objName, cacheKey, cacheDir) 
 {
   env <- NULL
@@ -236,16 +280,9 @@
     }
     else 
     {
-      # some other environment
-      tryCatch(
-      {
-        env <- as.environment(envName)
-      }, 
-      error = function(e)
-      {
-        # if we couldn't find the environment any more, use the empty one
-        env <<- emptyenv()
-      })
+      env <- .rs.safeAsEnvironment(envName)
+      if (is.null(env))
+        env <- emptyenv()
     }
 
     # if the object exists in this environment, return it (avoid creating a
@@ -308,6 +345,25 @@
    env
 })
 
+# attempts to determine whether the View(...) function the user has an 
+# override (i.e. it's not the handler RStudio uses)
+.rs.addFunction("isViewOverride", function() {
+   # check to see if View has been overridden: find the View() call in the 
+   # stack and examine the function being evaluated there
+   for (i in seq_along(sys.calls()))
+   {
+     if (identical(deparse(sys.call(i)[[1]]), "View"))
+     {
+       # the first statement in the override function should be a call to 
+       # .rs.callAs
+       return(!identical(deparse(body(sys.function(i))[[1]]), ".rs.callAs"))
+     }
+   }
+   # if we can't find View on the callstack, presume the common case (no
+   # override)
+   FALSE
+})
+
 
 .rs.registerReplaceHook("View", "utils", function(original, x, title) 
 {
@@ -318,10 +374,18 @@
    name <- ""
    env <- emptyenv()
 
-   # if the argument is the name of a variable, we can monitor it in its
-   # environment, and don't need to make a copy for viewing
-   if (is.name(substitute(x)))
+
+   if (.rs.isViewOverride()) 
    {
+     # if the View() invoked wasn't our own, we have no way of knowing what's
+     # been done to the data since the user invoked View() on it, so just view
+     # a snapshot of the data
+     name <- title
+   }
+   else if (is.name(substitute(x)))
+   {
+     # if the argument is the name of a variable, we can monitor it in its
+     # environment, and don't need to make a copy for viewing
      name <- deparse(substitute(x))
      env <- .rs.findViewingEnv(name)
    }
