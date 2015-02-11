@@ -57,7 +57,7 @@ public:
  QGroupBox *controlButtonBox=new QGroupBox, *tabBox=new QGroupBox;
 
  /* accessors */
- int getRank() {return widgetContainer.count()-1;}
+ int getRank() {return widgetContainer.size()-1;}
  const QString &getHashKey() const {return frameHashKey;}
  
  void setStatus(flags::status status) {fileListWidget->status=status;}
@@ -75,7 +75,7 @@ public:
  }
 
 inline QList<QListWidget*>  getWidgetContainer() {return widgetContainer;}
-inline int getWidgetContainerCount() {return widgetContainer.count();}
+inline int getWidgetContainerCount() {return widgetContainer.size();}
 inline int getWidgetContainerCount(int g) {return widgetContainer[g]->count();}
 inline QListWidget*  getWidgetContainer(int rank) {if (rank < widgetContainer.count()) return widgetContainer[rank]; else return nullptr;}
 inline QListWidget*  getCurrentWidget() { return widgetContainer.at(this->mainTabWidget->currentIndex());}

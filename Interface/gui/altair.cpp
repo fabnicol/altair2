@@ -328,12 +328,14 @@ bool Altair::clearInterfaceAndParseProject(const bool cleardata)
 
 void Altair::closeProject()
 {
+    int projectDimension = project[0]->getRank();
+
     clearProjectData();
 
     Altair::totalSize[0]=0;
     displayTotalSize();
 
-    for  (int i = project[0]->getRank()+1; i >=0;   i--)
+    for  (int i = projectDimension; i >=0;   i--)
     {
         project[0]->mainTabWidget->removeTab(i);
     }
