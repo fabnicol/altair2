@@ -111,7 +111,7 @@ void Altair::run()
 void Altair::runRAltair()
 {
     outputType="LHX";
-    outputTextEdit->append(tr(STATE_HTML_TAG "Création du rapport R-Altair..."));
+    outputTextEdit->append(tr(STATE_HTML_TAG "Création du rapport d'analyse des données..."));
     QDir dir=QDir::current();
     dir.setCurrent(RAltairDirStr);
     process->setWorkingDirectory(RAltairDirStr);
