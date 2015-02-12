@@ -20,9 +20,10 @@
 ; autres définitions
 
 !define prodname     "Altaïr"
+!define prodname.simple "Altair"
 !define nbits        core
 !define setup        "Altaïr-${version}.win.${nbits}.installer.exe"
-!define exemple      "${prodname}\Tests\Exemple"
+!define exemple      "${prodname.simple}\Tests\Exemple"
 !define xhl          "${exemple}\Donnees\xhl"
 !define Interface.minimal    Interface_win64_min
 !define Interface    Interface_win64
@@ -33,8 +34,8 @@
 !define GitDir       "Git"
 !define startmenu    "$SMPROGRAMS\${prodname}-${version}"
 !define Désinstaller "Désinstaller.exe"
-!define notefile     "${prodname}\LISEZ-MOI.txt"
-!define installfile  "${prodname}\INSTALLATION.txt"
+!define notefile     "${prodname.simple}\LISEZ-MOI.txt"
+!define installfile  "${prodname.simple}\INSTALLATION.txt"
 
 !define REG_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${prodname}"
 !define MEMENTO_REGISTRY_ROOT HKLM
@@ -92,14 +93,14 @@
  
  LangString Message  ${LANG_FRENCH}  "Appuyer sur Oui pour installer Altaïr"
   
- LicenseLangString myLicenseData ${LANG_FRENCH} "${prodname}\LICENCE"
+ LicenseLangString myLicenseData ${LANG_FRENCH} "${prodname.simple}\LICENCE"
  LicenseData $(myLicenseData)
  LangString Name ${LANG_FRENCH}  "Altaïr"
  Name $(Name)
 
 ; MUI macros   
 
-!insertmacro MUI_PAGE_LICENSE "${prodname}\LICENCE"
+!insertmacro MUI_PAGE_LICENSE "${prodname.simple}\LICENCE"
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_COMPONENTS
 
@@ -157,7 +158,7 @@ SilentInstall normal
 InstallDir "C:\Users\Public"
 InstallDirRegKey HKLM "${regkey}" ""
 
-Icon "${prodname}\${Interface}\${icon}"
+Icon "${prodname.simple}\${Interface}\${icon}"
 
 RequestExecutionLevel user
 AutoCloseWindow false
@@ -167,7 +168,7 @@ ShowInstDetails show
 Function .onInit
  
   SetOutPath $TEMP	
-  File /oname=spltmp.bmp "${prodname}\spltmp.bmp"
+  File /oname=spltmp.bmp "${prodname.simple}\spltmp.bmp"
 
   advsplash::show 2300 600 400 -1 $TEMP\spltmp
 
@@ -198,60 +199,60 @@ Section
   CreateDirectory  $INSTDIR\${exemple}\Projets
   CreateDirectory  $INSTDIR\${xhl}
   SetDetailsPrint both
-  SetOutPath $INSTDIR\${prodname}
-  File /r  "${prodname}\Docs" 
-  File /r  "${prodname}\Outils" 
-  File /r  "${prodname}\win.${nbits}" 
-  File /r  "${prodname}\.Rproj.user" 
-  File     "${prodname}\*.*" 
+  SetOutPath $INSTDIR\${prodname.simple}
+  File /r  "${prodname.simple}\Docs" 
+  File /r  "${prodname.simple}\Outils" 
+  File /r  "${prodname.simple}\win.${nbits}" 
+  File /r  "${prodname.simple}\.Rproj.user" 
+  File     "${prodname.simple}\*.*" 
   
   SetOutPath $INSTDIR\${exemple}
   File /r  ${exemple}\Docs
   File     ${exemple}\*.*
     
   SetOutPath $DOCUMENTS\R\win-library\${Rversion_major}
-  File /r  "${prodname}\lib\*.*" 
+  File /r  "${prodname.simple}\lib\*.*" 
   
 SectionEnd
 
  Section /o $(AdvancedName) Advanced
-    SetOutPath $INSTDIR\${prodname}
-    File /r  "${prodname}\${Interface}" 
-    File /r  "${prodname}\${RDir}"
-    File /r  "${prodname}\${texDir}"
-	File /r  "${prodname}\${GitDir}"
-    File /r  "${prodname}\${RStudioDir}"
+    SetOutPath $INSTDIR\${prodname.simple}
+    File /r  "${prodname.simple}\${Interface}" 
+    File /r  "${prodname.simple}\${RDir}"
+    File /r  "${prodname.simple}\${texDir}"
+	File /r  "${prodname.simple}\${GitDir}"
+    File /r  "${prodname.simple}\${RStudioDir}"
 	
 	SetOutPath $INSTDIR\${exemple}\Projets
 	File  "${exemple}\Projets\anonyme.alt"
 	File  "${exemple}\Projets\anonyme2.alt"
 	
 	SetOutPath $LOCALAPPDATA  
-    File /r "${prodname}\Local\RStudio-desktop"
+    File /r "${prodname.simple}\Local\RStudio-desktop"
   
     SetOutPath $APPDATA\RStudio  
-    File  "${prodname}\Roaming\RStudio\*.*"
+    File  "${prodname.simple}\Roaming\RStudio\*.*"
 	
-	${EnvVarUpdate} $0 "PATH" "A" "HKCU" "$INSTDIR\${prodname}\${texDir}\bin\win32"
-	${EnvVarUpdate} $0 "PATH" "A" "HKCU" "$INSTDIR\${prodname}\${GitDir}\bin" 
+	${EnvVarUpdate} $0 "PATH" "A" "HKCU" "$INSTDIR\${prodname.simple}\${texDir}\bin\win32"
+	${EnvVarUpdate} $0 "PATH" "A" "HKCU" "$INSTDIR\${prodname.simple}\${GitDir}\bin" 
 		
 	StrCpy $minimal ""
 
  SectionEnd
 
  Section   $(MinimaleName) Minimale 
-    SetOutPath $INSTDIR\${prodname}
-    File /r  "${prodname}\${RDir}"
-    File /r  "${prodname}\${Interface.minimal}" 
+    SetOutPath $INSTDIR\${prodname.simple}
+    File /r  "${prodname.simple}\${RDir}"
+    File /r  "${prodname.simple}\${Interface.minimal}" 
 	SetOutPath $INSTDIR\${exemple}\Projets
     File  "${exemple}\Projets\anonyme.minimal.alt"
 	File  "${exemple}\Projets\anonyme2.minimal.alt"
 	
     StrCpy $minimal "_min"
 
-	CreateDirectory $INSTDIR\${prodname}\${RStudioDir}\bin\pandoc
-	SetOutPath $INSTDIR\${prodname}\${RStudioDir}\bin\pandoc
-	File ${prodname}\${RStudioDir}\bin\pandoc\pandoc.exe
+	CreateDirectory $INSTDIR\${prodname.simple}\${RStudioDir}\bin\pandoc
+	SetOutPath $INSTDIR\${prodname.simple}\${RStudioDir}\bin\pandoc
+	File ${prodname.simple}\${RStudioDir}\bin\pandoc\pandoc.exe
 
  SectionEnd
 
@@ -284,13 +285,13 @@ Section
  !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   SetShellVarContext current
   
-  SetOutPath       "$INSTDIR\${prodname}\${Interface}$minimal"
-  CreateShortCut   "$DESKTOP\${prodname}.lnk" "$INSTDIR\${prodname}\${Interface}$minimal\${prodname}.exe"  "" "$INSTDIR\${prodname}\${Interface}$minimal\${icon}"
-  WriteRegStr HKLM "${prodname}\Shell\open\command\" "" "$INSTDIR\${prodname}\${Interface}$minimal\${prodname}.exe"
+  SetOutPath       "$INSTDIR\${prodname.simple}\${Interface}$minimal"
+  CreateShortCut   "$DESKTOP\${prodname}.lnk" "$INSTDIR\${prodname.simple}\${Interface}$minimal\${prodname}.exe"  "" "$INSTDIR\${prodname.simple}\${Interface}$minimal\${icon}"
+  WriteRegStr HKLM "${prodname}\Shell\open\command\" "" "$INSTDIR\${prodname.simple}\${Interface}$minimal\${prodname}.exe"
   
   CreateDirectory  "$SMPROGRAMS\$StartMenuFolder"
   CreateShortCut   "$SMPROGRAMS\$StartMenuFolder\Désinstaller.lnk" "$INSTDIR\Désinstaller.exe" "" "$INSTDIR\Désinstaller.exe" 0
-  CreateShortCut   "$SMPROGRAMS\$StartMenuFolder\${prodname}.lnk" "$INSTDIR\${prodname}\${Interface}$minimal\${prodname}.exe" "" "$INSTDIR\${prodname}\${Interface}$minimal\${icon}" 0
+  CreateShortCut   "$SMPROGRAMS\$StartMenuFolder\${prodname}.lnk" "$INSTDIR\${prodname.simple}\${Interface}$minimal\${prodname}.exe" "" "$INSTDIR\${prodname.simple}\${Interface}$minimal\${icon}" 0
   
  ; WriteRegStr HKLM "${prodname}\DefaultIcon" "${prodname}" "$INSTDIR\${prodname}\Interface_w${nbits}\${icon}"
  ; WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${prodname}" "DisplayName" "${prodname} (désinstallation)"
@@ -309,7 +310,7 @@ Section
   WriteRegStr HKLM "SOFTWARE\${prodname}" "Install_Dir" "$INSTDIR"
 
   WriteRegStr HKLM   "${REG_UNINST_KEY}" "DisplayName" "${prodname}"
-  WriteRegStr HKLM   "${REG_UNINST_KEY}" "DisplayIcon" "$INSTDIR\${prodname}\${Interface}$minimal\${icon}"
+  WriteRegStr HKLM   "${REG_UNINST_KEY}" "DisplayIcon" "$INSTDIR\${prodname.simple}\${Interface}$minimal\${icon}"
   WriteRegStr HKLM   "${REG_UNINST_KEY}" "DisplayVersion" "${version}"
   WriteRegDWORD HKLM "${REG_UNINST_KEY}" "NoModify" "1"
   WriteRegDWORD HKLM "${REG_UNINST_KEY}" "NoRepair" "1"
@@ -329,10 +330,10 @@ Section
 SectionEnd
  
  Function install_git
-   MessageBox MB_YESNO|MB_ICONINFORMATION "Une connexion Internet est nécessaire. Cliquer sur Oui si elle est activée, sur Non pour refuser l'installation. Le code source du dépôt git sera installé dans $INSTDIR\${prodname}.git" IDYES true IDNO false
+   MessageBox MB_YESNO|MB_ICONINFORMATION "Une connexion Internet est nécessaire. Cliquer sur Oui si elle est activée, sur Non pour refuser l'installation. Le code source du dépôt git sera installé dans $INSTDIR\${prodname.simple}.git" IDYES true IDNO false
 
    true:
-	 DetailPrint "Le code source du dépôt git sera installé dans $INSTDIR\${prodname}.git"   
+	 DetailPrint "Le code source du dépôt git sera installé dans $INSTDIR\${prodname.simple}.git"   
   	 StrCpy $git "1"
 	 Return
    false:
@@ -345,7 +346,7 @@ SectionEnd
 
    true:
      DetailPrint "Le code source du dépôt git sera désinstallé."
-     RMDir /r "$INSTDIR\${prodname}.git"
+     RMDir /r "$INSTDIR\${prodname.simple}.git"
 	 Return
    false:	 
      DetailPrint "Le code source du dépôt git ne sera pas désinstallé."
@@ -353,7 +354,7 @@ SectionEnd
   
 Function .onInstSuccess
 	${If} $git == "1"
-	    ExecWait '"$INSTDIR\${prodname}\git_altaïr.bat"' ; Exec est inadéquat ici.
+	    ExecWait '"$INSTDIR\${prodname.simple}\git_altaïr.bat"' ; Exec est inadéquat ici.
 	${EndIf}
 FunctionEnd
   
@@ -368,8 +369,8 @@ Section "Uninstall"
   DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\${prodname}"
   DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\${prodname}"
   
-  ${un.EnvVarUpdate} $0 "PATH" "R" "HKCU" "$INSTDIR\${prodname}\${texDir}\bin\win32" 
-  ${un.EnvVarUpdate} $0 "PATH" "R" "HKCU" "$INSTDIR\${prodname}\${GitDir}\bin"  
+  ${un.EnvVarUpdate} $0 "PATH" "R" "HKCU" "$INSTDIR\${prodname.simple}\${texDir}\bin\win32" 
+  ${un.EnvVarUpdate} $0 "PATH" "R" "HKCU" "$INSTDIR\${prodname.simple}\${GitDir}\bin"  
 
   Delete "$DESKTOP\${prodname}.lnk"
   Delete "$INSTDIR\Désinstaller.exe"
@@ -378,8 +379,8 @@ Section "Uninstall"
   Delete "$SMPROGRAMS\$StartMenuFolder\*.*"
   RMDir  "$SMPROGRAMS\$StartMenuFolder"
 
-  Delete "$INSTDIR\${prodname}\*.*"
-  RMDir /r "$INSTDIR\${prodname}"
+  Delete "$INSTDIR\${prodname.simple}\*.*"
+  RMDir /r "$INSTDIR\${prodname.simple}"
   
   RMDir /r "$LOCALAPPDATA\RStudio-desktop"
   RMDir /r "$APPDATA\RStudio"
