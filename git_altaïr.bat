@@ -1,5 +1,5 @@
 @echo off
-echo Installation de la copie locale de l'entrepot Altair 
+echo Installation de la copie locale de l'entrepot Altaïr 
 echo Gestionnaire de version: git 1.9.2 sous c:\Users\Public\Altair\Git
 set courant=%~dp0
 cd %courant%
