@@ -8,7 +8,7 @@
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
 
 
-racine                      <- "R-Altair/"
+racine                      <- "R-Altaïr/"
 # "Ville Annecy Paye BP-"
 # "UTF-8.PDC-"
 # "RAG_2009_2012-"
