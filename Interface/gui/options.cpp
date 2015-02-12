@@ -16,7 +16,7 @@ standardPage::standardPage()
     QGroupBox *baseBox= new QGroupBox(tr("Base .csv"));
     QGridLayout *baseLayout= new QGridLayout;
 
-    baseLineEdit= new FLineEdit(QDir::toNativeSeparators(QDir::cleanPath(QCoreApplication::applicationDirPath()+ systemPathPrefix+ "Tests/Exemple/Donnees/R-Altair" )),
+    baseLineEdit= new FLineEdit(QDir::toNativeSeparators(QDir::cleanPath(QCoreApplication::applicationDirPath()+ systemPathPrefix+ "Tests/Exemple/Donnees/R-Altaïr" )),
                                         "base",
                                        {"Base", "Répertoire de la base .csv"},
                                         "D");

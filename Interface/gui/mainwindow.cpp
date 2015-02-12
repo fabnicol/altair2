@@ -121,7 +121,7 @@ MainWindow::MainWindow(char* projectName)
   addDockWidget(Qt::BottomDockWidgetArea, bottomDockWidget);
 
   setWindowIcon(QIcon(":/images/altair.png"));
-  setWindowTitle("Interface  Altair"+ QString(VERSION));
+  setWindowTitle("Interface  Altaïr"+ QString(VERSION));
 
   dialog=new options(altair);
   dialog->setParent(altair, Qt::Window);
@@ -252,7 +252,7 @@ void MainWindow::createActions()
   closeAction->setIcon(QIcon(":/images/document-close.png"));
   connect(closeAction, SIGNAL(triggered()), altair, SLOT(closeProject()));
 
-  RAction = new QAction(tr("&Lancer l'analyse R-Altair."), this);
+  RAction = new QAction(tr("&Lancer l'analyse des données"), this);
   RAction->setShortcut(QKeySequence("Ctrl+R"));
   RAction->setIcon(QIcon(":/images/altair.png"));
   connect(RAction, SIGNAL(triggered()), altair, SLOT(runRAltair()));
