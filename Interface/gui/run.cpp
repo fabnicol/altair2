@@ -84,7 +84,7 @@ void Altair::run()
     command=args.join(" ");
     outputTextEdit->append(STATE_HTML_TAG + tr("Ligne de commande : ")+ altairCommandStr+ " "+command);
     
-    outputType="LHX";
+    outputType="L";
     
     process->setProcessChannelMode(QProcess::MergedChannels);
     process->setWorkingDirectory(execPath);
@@ -110,21 +110,22 @@ void Altair::run()
 
 void Altair::runRAltair()
 {
-    outputType="LHX";
+
     outputTextEdit->append(tr(STATE_HTML_TAG "Création du rapport d'analyse des données..."));
     QDir dir=QDir::current();
     dir.setCurrent(RAltairDirStr);
     process->setWorkingDirectory(RAltairDirStr);
     process->setProcessChannelMode(QProcess::MergedChannels);
 #ifdef MINIMAL
+    outputType="R";
     outputTextEdit->append(tr(STATE_HTML_TAG "Ligne de commande : %1").arg(RAltairCommandStr + " " + RAltairDirStr + QDir::separator() + "rapport_msword.R"));
+    progress->rewind();
     process->start(RAltairCommandStr + " " + RAltairDirStr + QDir::separator() + "rapport_msword.R");
     if (process->waitForStarted())
     {
-        QMessageBox::information(this,"Lancement",
+         outputTextEdit->append(tr(STATE_HTML_TAG \
                     "Lancement du traitement des données ...Veuillez patienter.<br>\
-                       Vous pouvez suivre l'exécution du traitement dans la console<br>(Configurer > Configurer l'interface > Afficher les messages).",
-                    "Fermer");
+                       Vous pouvez suivre l'exécution du traitement dans la console<br>(Configurer > Configurer l'interface > Afficher les messages)."));
     }
     else
     {
@@ -132,6 +133,7 @@ void Altair::runRAltair()
     }
 
 #else
+
     outputTextEdit->append(tr(STATE_HTML_TAG "Ligne de commande : %1").arg(RAltairCommandStr));
     process->start(RAltairCommandStr);
 #endif
@@ -143,12 +145,12 @@ void Altair::processFinished(exitCode code)
     switch(code)
     {
     case exitCode::exitFailure : 
-        outputTextEdit->append(ERROR_HTML_TAG  +outputType + tr(": crash exit"));
+        outputTextEdit->append(ERROR_HTML_TAG + QString((outputType == "L") ? " Décodage des bases " : " Analyse des données ") + tr(": plantage de l'application' ."));
         progress->stop();
         return;
         
     case exitCode::noAudioFiles :  
-        outputTextEdit->append(ERROR_HTML_TAG  +outputType + tr(": Pas de fichier xhl."));
+        outputTextEdit->append(ERROR_HTML_TAG  + QString((outputType == "L") ? " Décodage des bases " : " Analyse des données ") + tr(": Pas de fichier xhl."));
         progress->stop();
         return;
         
@@ -162,16 +164,14 @@ void Altair::processFinished(exitCode code)
     
     qint64 fsSize=1;
     
-    if (outputType == "LHX")
+    if (outputType == "L")
     {
         outputTextEdit->append(PARAMETER_HTML_TAG  + tr(" Répertoire de sortie : %1").arg(v(base)));
         
         fsSize=getDirectorySize(v(base), "*.*");
         
         outputTextEdit->append(tr(PROCESSING_HTML_TAG "Taille de la base : ")+ QString::number(fsSize) + " Octets ("+ QString::number(((float)fsSize)/(1024.0*1024.0), 'f', 2)+ " Mo)");
-        
-        //if (v(launchRAltairAlone).isTrue())
-        //  runRAltair();
+
     }
 }
 
@@ -179,7 +179,7 @@ void Altair::processFinished(exitCode code)
 void Altair::killProcess()
 {
     process->kill();
-    outputTextEdit->append(PROCESSING_HTML_TAG+ outputType + tr(" en arrêt (SIGKILL)"));
+    outputTextEdit->append(PROCESSING_HTML_TAG+ QString((outputType == "L") ? " Décodage des bases " : " Analyse des données ") + tr(" en arrêt (SIGKILL)"));
     progress->stop();
 }
 

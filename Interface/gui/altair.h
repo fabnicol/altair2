@@ -204,6 +204,8 @@ public:
     QTimer *timer= new QTimer(this);
     QProgressBar *bar=new QProgressBar ;
     int startshift = 8;
+    inline void computeLHXProgressBar();
+    inline void computeRProgressBar();
 
     Altair* parent;
 
