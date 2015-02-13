@@ -801,22 +801,14 @@ void MainWindow::showMainWidget()
 }
 
 
-void MainWindow::feedConsoleWithHtml()
+void MainWindow::feedLHXConsoleWithHtml()
 {
-    QString  readData;
-
-     /* it is necessary to integrate a 'delayed display'
-      * cut-and-paste capability */
 
     QRegExp reg("^(Fichier n.*[0-9]+|Population|Total|Table|Lib..?ration|Base|Premier|Erreur|Creation|Maximum|Coh.+\\s)([^\n]+)");
     QRegExp reg2("Fichier n.*([0-9]+)") ;
-
     QString result;
-         
-  
-     if (altair->outputType == "LHX")
-     {
-            while (altair->process->canReadLine())
+
+        while (altair->process->canReadLine())
             {
                 QString buffer=altair->process->readLine();
 
@@ -855,33 +847,41 @@ Il est également possible d'activer un rapport détaillé (Configurer > Options
                 }
 
    
-                if (!readData.isEmpty())
-                {
-                    consoleDialog->insertHtml(readData.replace("\n","<br>" ));
-                    readData.clear();
-                }
-                else
-                {
                     consoleDialog->insertHtml(buffer.replace("\n", "<br>"));
-                }
 
             }
-    }
-   
-   QString consoleText=readData.replace("\n","<br>" );
-   consoleDialog->insertHtml(consoleText);
-   consoleDialog->moveCursor(QTextCursor::End);
-
 }
+
+void MainWindow::feedRConsoleWithHtml()
+{
+    QRegExp reg("([0-9]+).*%");
+    while (altair->process->canReadLine())
+    {
+        QString buffer=QString::fromLocal8Bit(altair->process->readLine());
+
+        if (buffer.contains(reg))
+        {
+                        altair->fileRank=reg.cap(1).toInt();
+                       // q(altair->fileRank);
+        }
+
+        consoleDialog->insertHtml(buffer.replace("\n", "<br>"));
+    }
+
+   consoleDialog->moveCursor(QTextCursor::End);
+}
+
+
 
 void MainWindow::feedConsole()
 {
 
-        consoleDialog->insertHtml(QString("<br>" PROCESSING_HTML_TAG " ") +altair->outputType+"...<br>");
+        consoleDialog->insertHtml(QString("<br>" PROCESSING_HTML_TAG " ") + ((altair->outputType == "L") ? " Décodage des bases " : " Analyse des données ") +"...<br>");
         consoleDialog->moveCursor(QTextCursor::End);
 
         connect(altair->process, &QProcess::readyReadStandardOutput, [&] {
-                feedConsoleWithHtml();
+                if (altair->outputType[0] == 'L') feedLHXConsoleWithHtml();
+                else feedRConsoleWithHtml();
             });
 
  }

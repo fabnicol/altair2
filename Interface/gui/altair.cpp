@@ -783,6 +783,54 @@ void FProgressBar::stop()
 
 
 
+inline void FProgressBar::computeLHXProgressBar()
+{
+ QString dir = Hash::wrapper["base"]->toQString();
+ qint64 dirSize = parent->getDirectorySize(dir, "*.csv");
+ if (parent->process->state() != QProcess::Running) return;
+
+ if (dirSize < 1)
+ {
+  int level = this->parent->fileRank * Hash::wrapper["processType"]->toInt();
+  setValue((level >= startshift)? level : std::min(bar->maximum(), std::max(qCeil(value() + 0.1), startshift)));
+
+  if (value() == maximum()) setValue(startshift);
+
+ }
+ else
+ {
+      qreal share;
+
+      setRange(0, parent->size());
+
+      if (parent->size() > 1) {
+          share = static_cast<qreal>(dirSize) * 1.5 / static_cast<qreal>(parent->size());
+          if (share > 1) share = 1;
+
+          parent->outputTextEdit->append((QString)PROCESSING_HTML_TAG + QString::number(static_cast<int>(share*100)) + " % des bases de données.");
+      }
+
+      setValue(std::max(startshift, static_cast<int>(share * maximum())));
+
+      if (value() == maximum()) setValue(startshift);
+  }
+
+}
+
+inline void FProgressBar::computeRProgressBar()
+{
+
+      setRange(0, 100);
+
+      parent->outputTextEdit->append((QString)PROCESSING_HTML_TAG + QString::number(static_cast<int>(parent->fileRank)) + " % de l'analyse des données.");
+
+      setValue(parent->fileRank);
+
+      if (parent->fileRank == 100) setValue(startshift);
+
+}
+
+
 FProgressBar::FProgressBar(Altair* parent,
                            SlotFunction  killFunction)
 {
@@ -801,39 +849,12 @@ FProgressBar::FProgressBar(Altair* parent,
 
     connect(timer,
             &QTimer::timeout,
-            [this, parent] {
-             QString dir = Hash::wrapper["base"]->toQString();
-             qint64 dirSize = parent->getDirectorySize(dir, "*.csv");
-             if (parent->process->state() != QProcess::Running) return;
-
-             if (dirSize < 1) {
-              int level = this->parent->fileRank * Hash::wrapper["processType"]->toInt();
-              setValue((level >= startshift)? level : std::min(bar->maximum(), std::max(qCeil(value() + 0.1), startshift)));
-
-              if (value() == maximum()) setValue(startshift);
-
-
-
-             }
-             else {
-                  qreal share;
-
-                  setRange(0, parent->size());
-
-                  if (parent->size() > 1) {
-                      share = static_cast<qreal>(dirSize) * 1.5 / static_cast<qreal>(parent->size());
-                      if (share > 1) share = 1;
-
-                      parent->outputTextEdit->append((QString)PROCESSING_HTML_TAG + QString::number(static_cast<int>(share*100)) + " % des bases de données.");
-                  }
-
-                  bar->setValue(std::max(startshift, static_cast<int>(share * maximum())));
-
-                  if (value() == maximum()) setValue(startshift);
-              }
-
-            }
-    );
+            [parent,this] {
+                 if (parent->outputType[0] == 'L')
+                  computeLHXProgressBar();
+                 else
+                  computeRProgressBar();
+    });
     
     connect(killButton, &QToolButton::clicked, parent, killFunction);
     connect(parent->process, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(stop()));
