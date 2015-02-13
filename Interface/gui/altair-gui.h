@@ -163,7 +163,8 @@ class MainWindow : public QMainWindow
    
    QTextEdit *editor=nullptr;
    Highlighter *highlighter;
-   void feedConsoleWithHtml();
+   void feedLHXConsoleWithHtml();
+   void feedRConsoleWithHtml();
 
 
 };
