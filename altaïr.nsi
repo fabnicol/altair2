@@ -60,11 +60,10 @@
  Section
  StrCpy $minimal "_min"
  SectionEnd
- 
- RequestExecutionLevel admin
- InstallDirRegKey HKLM "SOFTWARE\${prodname}" ""
- 
-  
+
+ InstallDir "C:\Users\Public" 
+ InstallDirRegKey HKLM "SOFTWARE\${prodname}" "Install_Dir"
+   
 !insertmacro MUI_PAGE_STARTMENU Application $StartMenuFolder
 !insertmacro MUI_PAGE_WELCOME  
 !insertmacro MUI_LANGUAGE "French" 
@@ -142,9 +141,9 @@
 UninstallText  $(uninstall)
 CompletedText  $(completed)
 
-ShowInstDetails show
-ShowUninstDetails show
-RequestExecutionLevel user
+;ShowInstDetails show
+;ShowUninstDetails show
+;RequestExecutionLevel user
 
 Caption ""
 
@@ -155,15 +154,10 @@ SetDatablockOptimize on
 CRCCheck on
 SilentInstall normal
 
-InstallDir "C:\Users\Public"
-InstallDirRegKey HKLM "${regkey}" ""
-
 Icon "${prodname.simple}\${Interface}\${icon}"
 
-RequestExecutionLevel user
+RequestExecutionLevel admin
 AutoCloseWindow false
-ShowInstDetails show
-
 
 Function .onInit
  
@@ -287,43 +281,32 @@ Section
   
   SetOutPath       "$INSTDIR\${prodname.simple}\${Interface}$minimal"
   CreateShortCut   "$DESKTOP\${prodname}.lnk" "$INSTDIR\${prodname.simple}\${Interface}$minimal\${prodname}.exe"  "" "$INSTDIR\${prodname.simple}\${Interface}$minimal\${icon}"
-  WriteRegStr HKLM "${prodname}\Shell\open\command\" "" "$INSTDIR\${prodname.simple}\${Interface}$minimal\${prodname}.exe"
+  ;WriteRegStr HKLM "${prodname}\Shell\open\command\" "" "$INSTDIR\${prodname.simple}\${Interface}$minimal\${prodname}.exe"
   
   CreateDirectory  "$SMPROGRAMS\$StartMenuFolder"
   CreateShortCut   "$SMPROGRAMS\$StartMenuFolder\Désinstaller.lnk" "$INSTDIR\Désinstaller.exe" "" "$INSTDIR\Désinstaller.exe" 0
   CreateShortCut   "$SMPROGRAMS\$StartMenuFolder\${prodname}.lnk" "$INSTDIR\${prodname.simple}\${Interface}$minimal\${prodname}.exe" "" "$INSTDIR\${prodname.simple}\${Interface}$minimal\${icon}" 0
   
- ; WriteRegStr HKLM "${prodname}\DefaultIcon" "${prodname}" "$INSTDIR\${prodname}\Interface_w${nbits}\${icon}"
- ; WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${prodname}" "DisplayName" "${prodname} (désinstallation)"
- ; WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${prodname}" "UninstallString" "$\"$INSTDIR\Désinstaller.exe$\""
-    
   SetDetailsPrint textonly
   DetailPrint "Création des clés d'enregistrement..."
   SetDetailsPrint listonly
 
+  WriteRegStr HKLM "${prodname}\DefaultIcon" "${prodname}" "$INSTDIR\${prodname.simple}\${Interface}\${icon}"
+  WriteRegStr HKLM SOFTWARE\${prodname} \
+     "Install_Dir" "$INSTDIR"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${prodname}" \
+     "DisplayName" "${prodname} (désinstallation)"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${prodname}" \
+     "UninstallString" "$\"$INSTDIR\Désinstaller.exe$\""
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${prodname}" "NoModify" "1"
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${prodname}" "NoRepair" "1"
+	  
   SetOutPath $INSTDIR
-  WriteRegDword HKLM "SOFTWARE\${prodname}" "VersionMajor" "${VER_MAJOR}"
-  WriteRegDword HKLM "SOFTWARE\${prodname}" "VersionMinor" "${VER_MINOR}"
-  WriteRegDword HKLM "SOFTWARE\${prodname}" "VersionRevision" "${VER_REVISION}"
-  WriteRegDword HKLM "SOFTWARE\${prodname}" "VersionBuild" "${VER_BUILD}"
 
-  WriteRegStr HKLM "SOFTWARE\${prodname}" "Install_Dir" "$INSTDIR"
-
-  WriteRegStr HKLM   "${REG_UNINST_KEY}" "DisplayName" "${prodname}"
-  WriteRegStr HKLM   "${REG_UNINST_KEY}" "DisplayIcon" "$INSTDIR\${prodname.simple}\${Interface}$minimal\${icon}"
-  WriteRegStr HKLM   "${REG_UNINST_KEY}" "DisplayVersion" "${version}"
-  WriteRegDWORD HKLM "${REG_UNINST_KEY}" "NoModify" "1"
-  WriteRegDWORD HKLM "${REG_UNINST_KEY}" "NoRepair" "1"
-  WriteRegExpandStr HKLM "${REG_UNINST_KEY}" "UninstallString" "$\"$INSTDIR\Désinstaller.exe$\""
-  WriteRegExpandStr HKLM "${REG_UNINST_KEY}" "InstallLocation" "$INSTDIR"
-
-  WriteRegDWORD HKLM "${REG_UNINST_KEY}" "VersionMajor" "${VER_MAJOR}"
-  WriteRegDWORD HKLM "${REG_UNINST_KEY}" "VersionMinor" "${VER_MINOR}"
   ;WriteRegStr HKLM "${REG_UNINST_KEY}" "URLInfoAbout" "http://github.com/fabnicol/altair"
   ;WriteRegStr HKLM "${REG_UNINST_KEY}" "HelpLink" "http://github.com/fabnicol/altair"
 
   WriteUninstaller "$INSTDIR\Désinstaller.exe"
-
  
 !insertmacro MUI_STARTMENU_WRITE_END
 
@@ -366,8 +349,9 @@ Section "Uninstall"
  
  !insertmacro MUI_STARTMENU_GETFOLDER Application $StartMenuFolder
  
-  DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\${prodname}"
-  DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\${prodname}"
+  DeleteRegKey HKLM "SOFTWARE\${prodname}"
+  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${prodname}"	
+  DeleteRegKey HKLM "${prodname}\DefaultIcon"
   
   ${un.EnvVarUpdate} $0 "PATH" "R" "HKCU" "$INSTDIR\${prodname.simple}\${texDir}\bin\win32" 
   ${un.EnvVarUpdate} $0 "PATH" "R" "HKCU" "$INSTDIR\${prodname.simple}\${GitDir}\bin"  
