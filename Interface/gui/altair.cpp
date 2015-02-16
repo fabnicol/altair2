@@ -119,15 +119,15 @@ Altair::Altair()
     xhlFilterButton->setAutoFillBackground(true);
     xhlFilterButton->setVisible(visibility);
 
-    project[0]=new FListFrame(nullptr,      // no parent widget
+    project[0]=new FListFrame(this,
                               fileTreeView,                   // files may be imported from this tree view
                               importFiles,                     // FListFrame type
                               "XHL",                          // superordinate xml tag
-    {"Décodeur de fichiers XHL", ""},                   // project manager widget on-screen tag
+                              {"Décodeur de fichiers XHL", ""},                   // project manager widget on-screen tag
                               "g",                                  // command line label
                               flags::commandLineType::altairCommandLine|flags::status::hasListCommandLine|flags::status::enabled,  // command line characteristic features
-    {" ", " -g "},                       // command line separators
-    {"fichier", "année"},                // subordinate xml tags
+                              {" ", " -g "},                       // command line separators
+                              {"fichier", "année"},                // subordinate xml tags
                               common::TabWidgetTrait::NO_EMBEDDING_TAB_WIDGET);                      //tab icon
 
 
@@ -173,7 +173,7 @@ Altair::Altair()
             [this]{
         updateProject();
         displayTotalSize();
-        showFilenameOnly();
+
     });
     project[0]->importFromMainTree->setVisible(visibility);
     connect(project[0]->moveUpItemButton, SIGNAL(clicked()), this, SLOT(on_moveUpItemButton_clicked()));
@@ -238,20 +238,10 @@ void Altair::refreshRowPresentation(uint j)
 
     for (int r=0; (r < widget->count()) && (r < Hash::wrapper["XHL"]->at(j).size()); r++ )
     {
-        widget->item(r)->setToolTip(fileSizeDataBase[0].at(j).at(r)+QString("octets"));
         widget->item(r)->setText(Hash::wrapper.value("XHL")->at(j).at(r).section('/',-1));
         widget->item(r)->setTextColor(QColor("navy"));
-
     }
 }
-
-//TODO insert button somewhere or right-click option, and back to sort by name
-void Altair::showFilenameOnly()
-{
-    updateIndexInfo();
-    refreshRowPresentation(currentIndex);
-}
-
 
 
 void Altair::on_newProjectButton_clicked()
@@ -757,7 +747,7 @@ void Altair::dropEvent(QDropEvent *event)
         updateIndexInfo();
         if (false == project[0]->addParsedTreeToListWidget(stringsDragged, size)) return;
         updateProject();
-        showFilenameOnly();
+
     }
 
 }

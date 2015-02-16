@@ -4,11 +4,11 @@
 #include "fstring.h"
 #include "flistframe.h"
 #include "common.h"
-#include <QtXml>
 #include "altair-gui.h"
 
 class FProgressBar;
 class MainWindow;
+class FListFrame;
 
 class Altair : public common
 {
@@ -27,7 +27,7 @@ public:
     QTreeView *fileTreeView= new QTreeView;
     QString projectName;
     QString curFile;
-    FListFrame *project[2];
+    FListFrame *project[1];
     QPushButton *xhlFilterButton=new QPushButton;
     QToolButton *mkdirButton= new QToolButton;
     QToolButton *removeFileTreeElementsButton= new QToolButton;
@@ -58,6 +58,7 @@ public:
 
     qint64 size() { return Altair::totalSize[0]; }
     void refreshProjectManagerValues(std::uint16_t = manager::refreshAllZones );
+    void refreshRowPresentation(uint);
 
 public slots:
 
@@ -118,10 +119,10 @@ private:
     FStringList parseEntry(const QDomNode &, QTreeWidgetItem *parent=0);
 
     void refreshRowPresentation();
-    void refreshRowPresentation(uint);
+
     void setIndexedProperties(QModelIndexList* indexList);
     void setDialogFromProject();
-    void showFilenameOnly();
+
     void updateIndexInfo();
     void updateIndexChangeInfo();
     void displayTotalSize();
@@ -129,7 +130,7 @@ private:
     void refreshTreeView();
 
     void parseProjectFile(QIODevice*);
-    
+
     bool refreshProjectManager();
     void msg (const QString & text);
     void printMsg(qint64 new_value, const QString &str);

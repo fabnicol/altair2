@@ -3,6 +3,10 @@
 QHash<QString,QStringList>    Hash::description;
 QHash<QString, FStringList* >   Hash::wrapper;
 QHash<QString, int>  Hash::counter;
+QHash<QString, QString>  Hash::Annee;
+QHash<QString, QString>  Hash::Mois;
+QHash<QString, QString>  Hash::Siret;
+
 
 FString   FString::operator & (FString  s)
 {
@@ -203,11 +207,13 @@ inline QStringList setDistributedTags(const QString & tag,const QStringList &pro
   QStringList taggedList;
   taggedList =  (tagged.isEmpty()) ? QStringList("") : tagged;
   QStringListIterator i(taggedList);
+  QStringListIterator j(properties);
   QStringList S=QStringList();
   while (i.hasNext())
     {
-      QString item=i.next();
-      S << QString("<") + tag+ (properties.isEmpty() ? "": " ")+  properties.join(" ") + QString(">")+ item +QString("</")+tag+QString(">");
+      const QString item = i.next();
+      const QString prop = j.hasNext()? j.next():"";
+      S << QString("<") + tag+ (properties.isEmpty() ? "": " V=\"")+  prop + ((! prop.isEmpty())? "\"" : "") + QString(">")+ item +QString("</")+tag+QString(">");
     }
   return S;
 }

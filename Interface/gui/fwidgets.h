@@ -151,6 +151,7 @@ public:
 
   QListWidget* currentListWidget;
   void setSeparator(QStringList sep) { separator=sep;}
+  void setTabLabels(const QStringList& labels) { tabLabels = labels;}
 
   QStringList separator;
     
@@ -161,6 +162,7 @@ private:
 
   QHash<QString, QString> *listWidgetTranslationHash;
   const FString& translate(const FStringList &s);
+  QStringList tabLabels = QStringList();
 
 signals:
   void  open_tabs_signal(int);

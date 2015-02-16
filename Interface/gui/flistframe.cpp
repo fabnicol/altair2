@@ -1,7 +1,9 @@
 #include "flistframe.h"
 #include "common.h"
 
+
 #include <QMessageBox>
+
 
 FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_type, const QString &hashKey,
                          const QStringList &description, const QString &command_line, int cli_type, const QStringList &separator, const QStringList &xml_tags,
@@ -9,7 +11,12 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
                          QStringList* terms, QStringList* translation, bool showAddItemButtonValue)
 
 {
+ Hash::Annee.reserve(144);
+ Hash::Mois.reserve(144);
+ Hash::Siret.reserve(144);
+
  setAcceptDrops(true);
+ altair = static_cast<Altair*>(parent);
  Hash::counter[hashKey]=0;
  currentIndex=0;  // necessary for project parsing
  showAddItemButton=showAddItemButtonValue;
@@ -282,8 +289,18 @@ void FListFrame::on_moveDownItemButton_clicked()
 
 void FListFrame::addNewTab()
 {
-    int r=getRank();
-    mainTabWidget->insertTab(r ,widgetContainer.at(r) , tags[1] + " "+ QString::number(r+1));
+    addNewTab(getRank());
+}
+
+void FListFrame::addNewTab(int r)
+{
+    QString label ;
+    if (Hash::Annee.isEmpty())
+        label = tags[1] + " "+ QString::number(r+1);
+    else
+        label = tabLabels.at(r);
+
+    mainTabWidget->insertTab(r ,widgetContainer.at(r), label);
     mainTabWidget->setCurrentIndex(r);
 }
 
@@ -320,13 +337,18 @@ void FListFrame::addGroups(int n)
    }
 }
 
-void FListFrame::deleteAllGroups()
+void FListFrame::deleteAllGroups(bool insertFirstGroup)
 {
     mainTabWidget->clear();
     Hash::counter[frameHashKey]=0;
     Hash::wrapper[frameHashKey]->clear();
+    Hash::Annee.clear();
+    Hash::Mois.clear();
+    Hash::Siret.clear();
+    tabLabels.clear();
+
     widgetContainer.clear();
-    addGroup();
+    if (insertFirstGroup) addGroup();
 }
 
 void FListFrame::deleteGroup(int r, int R)
@@ -334,6 +356,14 @@ void FListFrame::deleteGroup(int r, int R)
     mainTabWidget->removeTab(r);
 
      Hash::counter[frameHashKey] -=  Hash::wrapper[frameHashKey]->at(r).count();
+
+     for (const QString& s : Hash::wrapper[frameHashKey]->at(r))
+     {
+         Hash::Annee.remove(s);
+         Hash::Mois.remove(s);
+         Hash::Siret.remove(s);
+     }
+
      Hash::wrapper[frameHashKey]->removeAt(r);
 
     if (r < R)
@@ -381,6 +411,55 @@ void FListFrame::deleteGroups(QList<int> &L)
 #endif
 
 
+
+void FListFrame::parseXhlFile(const QStringList& stringList)
+{
+
+    for (const QString& fileName : stringList)
+        parseXhlFile(fileName);
+}
+
+void FListFrame::parseXhlFile(const QString& fileName)
+{
+
+    QFile file(fileName);
+    bool result = file.open(QIODevice::ReadOnly);
+
+    if (result == false || file.size()== 0)
+    {
+        altair->outputTextEdit->append(WARNING_HTML_TAG " Fichier vide.");
+        return;
+    }
+
+    file.seek(0);
+
+    const QByteArray buffer = file.read(1500);
+
+    const QString string = QString(buffer);
+
+    if (! string.contains("DocumentPaye"))
+    {
+        altair->outputTextEdit->append(WARNING_HTML_TAG " Fichier " + fileName + " non conforme à la spécification astre:DocumentPaye");
+        return;
+    }
+
+    QRegExp reg("(?:Annee) V=\"([0-9]+)\".*(?:Mois) V=\"([0-9]+)\".*(?:Siret) V=\"([0-9A-Z]+)\"");
+
+
+    if (string.contains(reg))
+    {
+        Hash::Annee[fileName] = reg.cap(1);
+        Hash::Mois[fileName]  = reg.cap(2);
+        Hash::Siret[fileName] = reg.cap(3);
+    }
+
+
+   file.close();
+   return;
+
+}
+
+
 void FListFrame::addStringListToHash(const QStringList & stringList, int size)
 {
     (*Hash::wrapper[frameHashKey])[currentIndex] = std::move(stringList);
@@ -396,15 +475,56 @@ void FListFrame::addStringListToHash(const QStringList & stringList, int size)
 
 bool FListFrame::addStringListToListWidget(const QStringList& stringList, int size)
 {
+    deleteAllGroups(false);
 
- updateIndexInfo();
- if ((size == 0) || (currentIndex >= (*Hash::wrapper[frameHashKey]).count() )) return false;
+    parseXhlFile(stringList);
 
- fileListWidget->currentListWidget->addItems(stringList);
- fileListWidget->currentListWidget->setCurrentRow(row + size);
- // Pour la dernière occurrence de stringList on peut s'autoriser une Move semantics dans addStringListToHash. 
- addStringListToHash(stringList, size);
-  
+    for (const QString& fileName : stringList)
+    {
+        const QString annee = Hash::Annee[fileName];
+        if (! tabLabels.contains(annee))
+        {
+            tabLabels  += annee;
+         }
+    }
+
+    tabLabels.sort();
+
+    int periodSize = tabLabels.size();
+
+    if (periodSize)
+    {
+        altair->outputTextEdit->append(STATE_HTML_TAG + QString(" Nombre d'années détectées : ") + QString::number(periodSize) + " années, " + tabLabels.join(", "));
+        for (int rank = 0; rank < periodSize; rank++)
+        {
+            fileListWidget->currentListWidget = new QListWidget;
+            widgetContainer << fileListWidget->currentListWidget;
+            (*Hash::wrapper[frameHashKey]) << Hash::Annee.keys(tabLabels.at(rank));
+            Hash::counter[frameHashKey]++;
+            fileListWidget->currentListWidget->addItems(Hash::wrapper[frameHashKey]->at(rank));
+            addNewTab(rank);
+            altair->refreshRowPresentation(rank);
+
+//            if (row == 0)
+//            {
+//                emit(is_ntabs_changed(currentIndex+1)); // emits signal of number of tabs/QListWidgets opened
+//            }
+//            emit(is_ntracks_changed(Hash::counter[frameHashKey]));
+
+        }
+
+        mainTabWidget->setCurrentIndex(periodSize);
+
+        fileListWidget->currentListWidget->setCurrentRow(Hash::wrapper[frameHashKey]->at(periodSize-1).size());
+  //      updateIndexInfo();
+
+    }
+
+  fileListWidget->setTabLabels(tabLabels);
+  updateIndexInfo();
+ //if ((size == 0) || (currentIndex >= (*Hash::wrapper[frameHashKey]).count() )) return false;
+
+
  return true;
 }
 
@@ -467,7 +587,7 @@ void FListFrame::on_importFromMainTree_clicked()
 
  if (indexList.isEmpty()) return;
  
- QStringList&& stringsToBeAdded=QStringList();
+ QStringList&& stringsToBeAdded = QStringList();
  int stringListSize=0;
  
  if (importType == flags::importFiles)
