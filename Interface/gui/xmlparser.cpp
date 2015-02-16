@@ -328,7 +328,7 @@ void Altair::parseProjectFile(QIODevice* file)
 
     Altair::totalSize[0]=0;
 
-    for (QString maintag : {"data", "systeme", "recent"})
+    for (const QString& maintag : {"data", "systeme", "recent"})
     {
         if (node.toElement().tagName() != maintag) return;
 
@@ -348,15 +348,8 @@ void Altair::parseProjectFile(QIODevice* file)
 
     refreshProjectManagerValues();
 
-    /* this assigns values to widgets (line edits, checkboxes, list widgets etc.)
-   * in the Options dialog and ensures fills in main tab widget */
-
-    //if ((Altair::RefreshFlag&interfaceStatus::tabMask) == (interfaceStatus::mainTabs|interfaceStatus::optionTabs))
-    //{
 
     assignVariables();
-
-    // adds extra information to main window and sets alternating row colors
 
     Hash::counter["XHL"] = 0 ;
 
@@ -377,14 +370,11 @@ void Altair::parseProjectFile(QIODevice* file)
     emit(project[0]->is_ntracks_changed(Hash::counter["XHL"]));
 
 
-    //}
 
     /* resets recent files using the ones listed in the dvp project file */
 
     parent->updateRecentFileActions();
 
-    /* used to connect to slides, soundtracks and other option list widgets in Options dialog :
-   * these will be activated depending on main tab widget information */
 }
 
 
