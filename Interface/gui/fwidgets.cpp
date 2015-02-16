@@ -343,7 +343,12 @@ const FString FListWidget::setXmlFromWidget()
             commandLineList[0]=Hash::wrapper[hashKey]->join(separator);
     }
 
-    return Hash::wrapper[hashKey]->setTags(tags);
+    FStringList* properties = new FStringList;
+
+    *properties <<  (QStringList());
+    *properties <<  tabLabels;
+
+    return Hash::wrapper[hashKey]->setTags(tags, properties);
 }
 
 

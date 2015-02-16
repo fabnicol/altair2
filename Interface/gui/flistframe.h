@@ -1,12 +1,16 @@
 #ifndef FLISTFRAME_H
 #define FLISTFRAME_H
 
+#include "altair.h"
 #include "fwidgets.h"
 #include "fstring.h"
 #include "common.h"
+#include "altair.h"
+#include <QtXml>
 #include <QToolButton>
 #include <QFileSystemModel>
 
+class Altair;
 class FListWidget;
 class QToolDirButton;
 
@@ -23,6 +27,7 @@ private:
 #endif
 
  QList<QListWidget*> widgetContainer;
+ QStringList tabLabels;
  FListWidget* fileListWidget;
  QString frameHashKey;
 
@@ -33,10 +38,13 @@ private:
  bool isListConnected=false;
  bool isTotalConnected=false;
  bool activateOnStart=false;
- void deleteAllGroups();
+ void deleteAllGroups(bool =false);
  QStringList parseTreeForFilePaths(const QStringList& stringList);
  bool addStringListToListWidget(const QStringList&, int size);
  void addStringListToHash(const QStringList & stringList, int size);
+ void parseXhlFile(const QString& fileName);
+ void parseXhlFile(const QStringList& stringList);
+ Altair* altair;
  
 public:
  
@@ -85,6 +93,7 @@ void setControlButtonBoxVisible(bool x) {controlButtonBox->setVisible(x);}
 inline int getCurrentIndex() { return this->mainTabWidget->currentIndex(); }
 inline int getCurrentRow() { return getCurrentWidget()->currentRow(); }
 
+void addNewTab(int r);
 void addNewTab();
 
 bool addParsedTreeToListWidget(const QStringList& stringList, int size) { return addStringListToListWidget(parseTreeForFilePaths(stringList), size); }
