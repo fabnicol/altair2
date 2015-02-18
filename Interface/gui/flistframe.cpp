@@ -11,9 +11,9 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
                          QStringList* terms, QStringList* translation, bool showAddItemButtonValue)
 
 {
- Hash::Annee.reserve(144);
- Hash::Mois.reserve(144);
- Hash::Siret.reserve(144);
+ Hash::Annee.reserve(288);
+ Hash::Mois.reserve(288);
+ Hash::Siret.reserve(288);
 
  setAcceptDrops(true);
  altair = static_cast<Altair*>(parent);
@@ -419,6 +419,9 @@ void FListFrame::parseXhlFile(const QStringList& stringList)
         parseXhlFile(fileName);
 }
 
+#include "elemParser.hpp"
+struct Header* elemPar;
+
 void FListFrame::parseXhlFile(const QString& fileName)
 {
 
@@ -435,6 +438,7 @@ void FListFrame::parseXhlFile(const QString& fileName)
 
     const QByteArray buffer = file.read(1500);
 
+#ifdef REGEX_PARSING_FOR_HEADERS
     const QString string = QString(buffer);
 
     if (! string.contains("DocumentPaye"))
@@ -453,6 +457,18 @@ void FListFrame::parseXhlFile(const QString& fileName)
         Hash::Siret[fileName] = reg.cap(3);
     }
 
+#else
+
+   elemPar  = elem_parser(buffer.constData());
+   if (elemPar->test)
+   {
+       Hash::Annee[fileName] = QString(elemPar->annee);
+       Hash::Mois[fileName]  = QString(elemPar->mois);
+       Hash::Siret[fileName] = QString(elemPar->siret);
+   }
+
+   free(elemPar);
+#endif
 
    file.close();
    return;

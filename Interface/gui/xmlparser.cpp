@@ -362,7 +362,7 @@ void Altair::parseProjectFile(QIODevice* file)
                 assignGroupFiles(group_index);
             r++;
         }
-        refreshRowPresentation(group_index);
+        //refreshRowPresentation(group_index);
 
         Hash::counter["XHL"] += r;
     }
