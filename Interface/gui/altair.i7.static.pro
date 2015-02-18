@@ -45,7 +45,8 @@ SOURCES += \
     xmlparser.cpp \
     highlighter.cpp \
     run.cpp \
-    probe.cpp
+    probe.cpp \
+    elemParser.cpp
 
 HEADERS  += \
     options.h \
@@ -62,7 +63,8 @@ HEADERS  += \
     tags.h \
     templates.h \
     altair-gui.h \
-    probe.h
+    probe.h \
+    elemParser.hpp
 
 
 RESOURCES += \
