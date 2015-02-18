@@ -11,9 +11,9 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
                          QStringList* terms, QStringList* translation, bool showAddItemButtonValue)
 
 {
- Hash::Annee.reserve(288);
- Hash::Mois.reserve(288);
- Hash::Siret.reserve(288);
+// Hash::Annee.reserve(576);
+// Hash::Mois.reserve(576);
+// Hash::Siret.reserve(576);
 
  setAcceptDrops(true);
  altair = static_cast<Altair*>(parent);
@@ -345,6 +345,9 @@ void FListFrame::deleteAllGroups(bool insertFirstGroup)
     Hash::Annee.clear();
     Hash::Mois.clear();
     Hash::Siret.clear();
+    Hash::Annee.reserve(576);
+    Hash::Mois.reserve(576);
+    Hash::Siret.reserve(576);
     tabLabels.clear();
 
     widgetContainer.clear();
@@ -620,23 +623,7 @@ void FListFrame::on_importFromMainTree_clicked()
      if (stringListSize) 
          addParsedTreeToListWidget(stringsToBeAdded, stringListSize);
     }
- else
- if (importType == flags::importNames)
-    {
-     for (const QModelIndex& index : indexList)
-       {
-         QString name=index.data().toString();
-         //
-         if (! name.isEmpty()) 
-         {
-             stringListSize++;
-             stringsToBeAdded << name;
-         }
-       }
-     
-     if (stringListSize) 
-         addStringListToListWidget(stringsToBeAdded, stringListSize);
-    }
+
 }
 
 void  FListFrame::setSlotListSize(int s) 
