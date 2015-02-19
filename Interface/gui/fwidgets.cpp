@@ -13,7 +13,7 @@ void applyHashToStringList(QStringList *L, QHash<QString, QString> *H,  const QS
 }
 
 
-void FAbstractConnection::meta_connect(const FAbstractWidget* w,  const Q2ListWidget *enabledObjects,  const Q2ListWidget *disabledObjects)
+void FAbstractConnection::meta_connect(FAbstractWidget* w,  const Q2ListWidget *enabledObjects,  const Q2ListWidget *disabledObjects)
 {
     if ((enabledObjects != nullptr) &&  (!enabledObjects->isEmpty()) )
     {
