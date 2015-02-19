@@ -22,7 +22,7 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
  showAddItemButton=showAddItemButtonValue;
  importType=import_type;
  tags=xml_tags;
-  fileTreeView=tree;
+ fileTreeView=tree;
  
  frameHashKey=hashKey;
 
@@ -494,7 +494,20 @@ void FListFrame::addStringListToHash(const QStringList & stringList, int size)
 
 bool FListFrame::addStringListToListWidget(const QStringList& stringList, int size)
 {
-    deleteAllGroups(false);
+    QStringList existingTabLabels;
+
+    for (int j = 0; j < getWidgetContainerCount(); j++)
+    {
+
+        const QString str = mainTabWidget->tabText(j);
+        if (str == "année 1" || str.isEmpty())
+        {
+            mainTabWidget->removeTab(j);
+            delete(mainTabWidget->widget(j));
+        }
+        else
+          existingTabLabels << str;
+    }
 
     parseXhlFile(stringList);
 
@@ -504,46 +517,58 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList, int si
         if (! tabLabels.contains(annee))
         {
             tabLabels  += annee;
-         }
+        }
     }
 
-    tabLabels.sort();
 
-    int periodSize = tabLabels.size();
+    int rank = 0;
 
-    if (periodSize)
+    QStringList allLabels = tabLabels + existingTabLabels;
+    allLabels.removeDuplicates();
+    allLabels.sort();
+
+    if (! allLabels.isEmpty())
     {
-        altair->outputTextEdit->append(STATE_HTML_TAG + QString(" Nombre d'années détectées : ") + QString::number(periodSize) + " années, " + tabLabels.join(", "));
-        for (int rank = 0; rank < periodSize; rank++)
-        {
-            fileListWidget->currentListWidget = new QListWidget;
-            widgetContainer << fileListWidget->currentListWidget;
-            (*Hash::wrapper[frameHashKey]) << Hash::Annee.keys(tabLabels.at(rank));
-            Hash::counter[frameHashKey]++;
-            fileListWidget->currentListWidget->addItems(Hash::wrapper[frameHashKey]->at(rank));
-            addNewTab(rank);
-            altair->refreshRowPresentation(rank);
+        altair->outputTextEdit->append(STATE_HTML_TAG + QString(" Nombre d'années détectées : ") + QString::number(allLabels.size()) + " années, " + tabLabels.join(", "));
 
-//            if (row == 0)
-//            {
-//                emit(is_ntabs_changed(currentIndex+1)); // emits signal of number of tabs/QListWidgets opened
-//            }
-//            emit(is_ntracks_changed(Hash::counter[frameHashKey]));
+        for (const QString& annee : allLabels)
+        {
+
+            QStringList keys = Hash::Annee.keys(annee);
+            keys.sort();
+
+            if (! existingTabLabels.contains(annee))
+            {
+                widgetContainer.insert(rank, new QListWidget);
+                Hash::wrapper[frameHashKey]->insert(rank, keys);
+                Hash::counter[frameHashKey]++;
+                addNewTab(rank);
+            }
+            else
+            {
+                (*Hash::wrapper[frameHashKey])[rank] =  keys ;
+            }
+
+            static_cast<QListWidget*>(mainTabWidget->widget(rank))->clear();
+            static_cast<QListWidget*>(mainTabWidget->widget(rank))->addItems(keys);
+
+            altair->refreshRowPresentation(rank);
+            ++rank;
 
         }
 
-        mainTabWidget->setCurrentIndex(periodSize);
+        mainTabWidget->setCurrentIndex(rank - 1);
 
-        fileListWidget->currentListWidget->setCurrentRow(Hash::wrapper[frameHashKey]->at(periodSize-1).size());
-  //      updateIndexInfo();
+  }
 
-    }
-
-  fileListWidget->setTabLabels(tabLabels);
   updateIndexInfo();
- //if ((size == 0) || (currentIndex >= (*Hash::wrapper[frameHashKey]).count() )) return false;
-
-
+  if (row == 0)
+    {
+        emit(is_ntabs_changed(currentIndex+1)); // emits signal of number of tabs/QListWidgets opened
+    }
+   emit(is_ntracks_changed(Hash::counter[frameHashKey]));
+  fileListWidget->setTabLabels(allLabels);
+  fileListWidget->currentListWidget->setCurrentRow(Hash::wrapper[frameHashKey]->at(rank - 1).size());
  return true;
 }
 
