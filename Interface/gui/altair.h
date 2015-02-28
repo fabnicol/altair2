@@ -28,9 +28,6 @@ public:
     QString projectName;
     QString curFile;
     FListFrame *project[1];
-    QPushButton *xhlFilterButton=new QPushButton;
-    QToolButton *mkdirButton= new QToolButton;
-    QToolButton *removeFileTreeElementsButton= new QToolButton;
 
     QTextEdit *outputTextEdit = new QTextEdit;
 
@@ -41,6 +38,7 @@ public:
          if (projectName.isEmpty())
             projectName=QDir::currentPath() + "/défaut.alt";
       }
+
 
     void startDrag();
  /* void mousePressEvent(QMouseEvent *event);
@@ -65,14 +63,10 @@ public slots:
    bool updateProject(bool=false);
    void on_openProjectButton_clicked();
    void on_newProjectButton_clicked();
+   void on_deleteItem_clicked();
 
 private slots:
     
-    void on_moveUpItemButton_clicked();
-    void on_moveDownItemButton_clicked();
-    void on_deleteItem_clicked();
-    void removeFileTreeElements();
-    void createDirectory();
     void run();
     void runRAltair();
     void processFinished(int code) { processFinished(static_cast<exitCode>(code));}
@@ -81,7 +75,6 @@ private slots:
     void deleteGroup();
     void killProcess();
     void on_helpButton_clicked();
-    void on_xhlFilterButton_clicked(bool active=false);
     void requestSaveProject();
     void writeProjectFile();
     void assignGroupFiles( const int group_index);
@@ -100,16 +93,15 @@ private:
      QHash <int,  QList<QStringList>  > fileSizeDataBase;
 
     QIcon iconShowMaximized, iconShowNormal;
-    
+
     FProgressBar *progress;
     QVBoxLayout *mainLayout= new QVBoxLayout;
     QVBoxLayout *progressLayout= new QVBoxLayout;
     QVBoxLayout *managerLayout= new QVBoxLayout;
     QHBoxLayout *allLayout= new QHBoxLayout;
-
     void assignVariables();
     void clearProjectData();
-    QStringList createCommandLineString(flags::commandLineType commandLineType);
+    QStringList createCommandLineString();
     void initialize();
     const QString  makeParserString(int start, int end=Abstract::abstractWidgetList.size()-1);
     const QString  makeDataString( );
@@ -117,27 +109,19 @@ private:
     QList<QStringList> processSecondLevelData(QList<QStringList> &L, bool isFile=true);
     QList<QUrl> parseUrlsDragged(QList<QUrl>& urlsDragged);
     FStringList parseEntry(const QDomNode &, QTreeWidgetItem *parent=0);
-
     void refreshRowPresentation();
-
     void setIndexedProperties(QModelIndexList* indexList);
     void setDialogFromProject();
-
     void updateIndexInfo();
     void updateIndexChangeInfo();
     void displayTotalSize();
     void refreshModel();
     void refreshTreeView();
-
     void parseProjectFile(QIODevice*);
-
     bool refreshProjectManager();
     void msg (const QString & text);
     void printMsg(qint64 new_value, const QString &str);
     void printBaseSize(qint64 new_value = 0);
-
-    inline int removeFileTreeElement(int);
-    int applyFunctionToSelectedFiles(int (Altair::*f)(int));
 
  protected:
 
