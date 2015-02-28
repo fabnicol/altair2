@@ -22,7 +22,7 @@ struct Header* elem_parser(const char* buffer)
     }
 
    errno = 0;
-   int i = 0;
+   int i = 230;  //350+
    bool test = false;
 
    while (i < MAX_COUNT)

@@ -1,6 +1,8 @@
 #include "fwidgets.h"
 #include "common.h"
 #include "templates.h"
+#include "flistframe.h"
+
 /* using above function with controlled object encapsulation */
 
 void applyHashToStringList(QStringList *L, QHash<QString, QString> *H,  const QStringList *M)
@@ -198,7 +200,8 @@ void Abstract::refreshOptionFields()
     }
 }
 
-FListWidget::FListWidget(const QString& hashKey,
+FListWidget::FListWidget(QWidget* par,
+                         const QString& hashKey,
                          int commandLineType,
                          const QStringList& description,
                          const QString& commandLine,
@@ -212,7 +215,7 @@ FListWidget::FListWidget(const QString& hashKey,
     setAcceptDrops(true);
 
     widgetDepth="2";
-
+    parent = par;
     Abstract::initializeFStringListHash(hashKey);
 
     setObjectName(hashKey+" "+description.join(" "));
@@ -277,13 +280,15 @@ void FListWidget::setWidgetFromXml(const FStringList &s)
         int size=s.size()-1;
 
         /* add as many groups as there are QStringLists in excess of 1 and fill in the tabs with files */
-         emit(open_tabs_signal(size)) ;
+         static_cast<FListFrame*>(parent)->addGroups(size) ;
+
     }
     else
     {
         commandLineList={""};
         return;
     }
+
 
     /* for command-line */
     /* if a Hash has been activated, strings are saved in Xml projects
