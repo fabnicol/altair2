@@ -39,4 +39,7 @@ tables                  Display all objects of class 'data.table'
 test.data.table         Runs a set of tests.
 timetaken               Pretty print of time taken
 transform.data.table    Data table utilities
+transpose               Efficient transpose of list
 truelength              Over-allocation access
+tstrsplit               strsplit and transpose the resulting list
+                        efficiently
