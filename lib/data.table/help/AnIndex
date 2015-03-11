@@ -108,6 +108,7 @@ setorderv	setorder
 shift	shift
 SJ	J
 split.IDate	IDateTime
+strsplit	tstrsplit
 subset	subset.data.table
 subset.data.table	subset.data.table
 tables	tables
@@ -115,9 +116,12 @@ test.data.table	test.data.table
 timetaken	timetaken
 transform	transform.data.table
 transform.data.table	transform.data.table
+transpose	transpose
 truelength	truelength
+tstrsplit	tstrsplit
 unique	duplicated
 unique.data.table	duplicated
+uniqueN	duplicated
 wday	IDateTime
 week	IDateTime
 within	transform.data.table
