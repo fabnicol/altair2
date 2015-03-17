@@ -22,15 +22,14 @@ VPATH = .
 #win32:LIBS += -L../win32
 #linux:LIBS += -L../linux
 
-DEFINES += DEBUG QT_NO_OPENGL  STATIC
-# REGEX_PARSING_FOR_HEADERS
+DEFINES += DEBUG QT_NO_OPENGL  STATIC REGEX_PARSING_FOR_HEADERS
 
 windows:RC_ICONS = neptune.ico
 
 #linux: DEFINES += LOCAL_BINPATH
 
-QMAKE_CXXFLAGS += -std=c++11 -march=core2 -O3
-#QMAKE_CXXFLAGS += /Ox /MP
+#QMAKE_CXXFLAGS += -std=c++11 -march=core2 -O3
+QMAKE_CXXFLAGS += /Ox /MP
 
 SOURCES += \
     options.cpp \
