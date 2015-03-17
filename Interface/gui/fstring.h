@@ -115,6 +115,7 @@ public:
   FStringList(const QString& s) : QList<QStringList>()  { this->append(QStringList(s)); }
   FStringList(const FString &s):FStringList(s.toQString()) {}
   FStringList(const FString *s):FStringList(s->toQString()) {}
+  FStringList(QStringList &L): QList<QStringList>() {this->append(L);}
   FStringList(const QStringList &L): QList<QStringList>() {this->append(L);}
   FStringList(const  QList<QStringList> &s) : QList<QStringList>(s) {}
   FStringList(const  QList<QVariant> &s) : QList<QStringList>()

@@ -5,7 +5,6 @@
 #include "fstring.h"
 #include "tags.h"
 
-
 #define Q2ListWidget QList<QList<QWidget*> >
 #define Q2ListIterator QListIterator<QList<QWidget*> >
 
@@ -46,8 +45,8 @@ class FAbstractConnection : QObject
 
 public:
 
-  static void meta_connect(const FAbstractWidget* w,  const Q2ListWidget *enabledObjects,  const Q2ListWidget *disabledObjects=nullptr);
-  static void meta_connect(const FAbstractWidget* w,  const QList<QWidget*> *enabledObjects=nullptr,  const QList<QWidget*> *disabledObjects=nullptr)
+  static void meta_connect(FAbstractWidget* w,  const Q2ListWidget *enabledObjects,  const Q2ListWidget *disabledObjects=nullptr);
+  static void meta_connect(FAbstractWidget* w,  const QList<QWidget*> *enabledObjects=nullptr,  const QList<QWidget*> *disabledObjects=nullptr)
   {
      meta_connect(w, &(*(new Q2ListWidget) << *enabledObjects),  &(*(new Q2ListWidget) << *disabledObjects));
   }
@@ -69,7 +68,8 @@ struct Abstract
     static void initializeFStringListHash(const QString &hashKey)
     {
         Hash::wrapper[hashKey]=new FStringList;
-        *Hash::wrapper[hashKey] << QStringList();
+//        *Hash::wrapper[hashKey] << QStringList();
+//        Hash::counter[hashKey]=0;
     }
 
     static void initializeFStringListHashes()
@@ -96,7 +96,7 @@ public:
   /* Refreshes widget state from current value of commandLineList member to ensure coherence betwenn internal object state and on-screen display */
  virtual void refreshWidgetDisplay()=0 ;
  const QString& getHashKey() const {return hashKey; }
- const QList<QWidget*>& getComponentList() const { return componentList;}
+ QList<QWidget*>& getComponentList() { return componentList;}
  const QString& getDepth() const {return widgetDepth; }
  const QStringList& getDescription() const { return description; }
 
@@ -135,13 +135,12 @@ class FListWidget : public QWidget, public FAbstractWidget
   friend class FAbstractWidget;
 
 public:
-  FListWidget()  {}
+//  FListWidget()  {
+//      currentListWidget = new QListWidget;
+//  }
 
-  FListWidget(const QString& hashKey,int commandLineType, const QStringList& description,const QString& commandLine,const QStringList& sep,
-              const QStringList &taglist,  const QList<QString> *terms=nullptr, const QList<QString> *translation=nullptr, QWidget* controlledWidget=nullptr);
-
-  FListWidget(const QString& hashKey,int commandLineType, const QStringList& description,const QString& commandLine,const QStringList& sep,
-              const QStringList &taglist, const QList<QWidget*> &enabledObjects, const QList<QString> *terms=nullptr, const QList<QString> *translation=nullptr, QWidget* controlledWidget=nullptr);
+  FListWidget(QWidget* parent, const QString& hashKey=QString(),int commandLineType=0, const QStringList& description=QStringList(),const QString& commandLine=QString(),const QStringList& sep=QStringList(),
+              const QStringList &taglist=QStringList(),  const QList<QString> *terms=nullptr, const QList<QString> *translation=nullptr, QWidget* controlledWidget=nullptr);
 
   void setWidgetFromXml(const FStringList & );
   const FString setXmlFromWidget();
@@ -152,20 +151,20 @@ public:
   QListWidget* currentListWidget;
   void setSeparator(QStringList sep) { separator=sep;}
   void setTabLabels(const QStringList& labels) { tabLabels = labels;}
-
+  void clearTabLabels() { tabLabels.clear();}
+  QStringList getTabLabels() { return tabLabels;}
   QStringList separator;
     
 private:
   QStringList tags;
-  //template <typename T, typename U> friend void createHash(QHash<T, U > *H, QList<T> *L, QList<U> *M);
+  QWidget* parent;
+
   friend  void applyHashToStringList(QStringList *L, QHash<QString, QString> *H,  const QStringList *M);
 
   QHash<QString, QString> *listWidgetTranslationHash;
   const FString& translate(const FStringList &s);
   QStringList tabLabels = QStringList();
 
-signals:
-  void  open_tabs_signal(int);
 
 };
 
