@@ -23,7 +23,7 @@ FString   FString::operator & (bool  s)
 
 void   FString::operator &= (bool  s)
 {
-  x = x & s;
+  x = x & (int) s;
   if (x == 1) p="oui";
   else p="non";
 }
@@ -176,8 +176,10 @@ const FString  FStringList::join(const QStringList &separator) const
    switch(separator.length())
     {
      case 0:
-      for (int i=0; i < size() ; i++)
-        str += this->at(i).join("");
+      for (int j=0; j < size() ; j++)
+      {
+        str += this->at(j).join("");
+      }
       return FString(str);
 
     case 1:

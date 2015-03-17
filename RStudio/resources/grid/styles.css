@@ -56,6 +56,9 @@ table.dataTable th div:first-child {
     border: none;
 }
 
+table.dataTable {
+    display: block;
+}
 
 #errorWrapper {
     margin-left: auto;
@@ -204,6 +207,16 @@ th:focus {
     outline: none;
 }
 
+.colLabel {
+    font-size: 10px;
+    font-weight: normal;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    margin-top: 2px;
+    max-width: 300px;
+}
+
 .numSlider {
     font-size: 9px;
     width: 150px;
@@ -273,7 +286,11 @@ div.DTS div.DTS_Loading.showLoading {
 }
 
 #rsGridData tbody tr.even, 
-#rsGridData tbody tr.odd 
-{
+#rsGridData tbody tr.odd {
     height: 23px;
 }
+
+#rsGridData {
+    display: block;
+}
+

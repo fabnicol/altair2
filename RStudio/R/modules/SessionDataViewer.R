@@ -24,7 +24,7 @@
 .rs.addFunction("formatDataColumn", function(x, start, len, ...)
 {
    # extract the visible part of the column
-   col <- x[start:min(length(x), start+len)]
+   col <- x[start:min(NROW(x), start+len)]
 
    if (is.numeric(col)) {
      # show numbers as doubles
@@ -40,6 +40,15 @@
 {
   colNames <- names(x)
 
+  # get the variable labels, if any--labels may be provided either by this 
+  # global attribute or by a 'label' attribute on an individual column (as in
+  # e.g. Hmisc), which takes precedence if both are present
+  colLabels <- attr(x, "variable.labels", exact = TRUE)
+  if (!is.character(colLabels)) 
+  {
+    colLabels <- character()
+  }
+
   # truncate to maximum displayed number of columns
   colNames <- colNames[1:min(length(colNames), maxCols)]
 
@@ -54,6 +63,16 @@
     col_max <- 0
     col_vals <- ""
     col_search_type <- ""
+
+    # extract label, if any, or use global label, if any
+    label <- attr(x[[idx]], "label", exact = TRUE)
+    if (is.character(label))
+      col_label <- label
+    else if (idx <= length(colLabels))
+      col_label <- colLabels[[idx]]
+    else 
+      col_label <- ""
+
     # ensure that the column contains some scalar values we can examine 
     # (treat vector-valued columns as of unknown type) 
     if (length(x[[idx]]) > 0 && length(x[[idx]][1]) == 1)
@@ -104,6 +123,7 @@
       col_min         = .rs.scalar(col_min),
       col_max         = .rs.scalar(col_max),
       col_search_type = .rs.scalar(col_search_type),
+      col_label       = .rs.scalar(col_label),
       col_vals        = col_vals
     )
   })
@@ -113,6 +133,7 @@
       col_min         = .rs.scalar(0),
       col_max         = .rs.scalar(0),
       col_search_type = .rs.scalar("none"),
+      col_label       = .rs.scalar(""),
       col_vals        = ""
     )), colAttrs)
 })
@@ -129,7 +150,7 @@
 {
   rows <- 0
   tryCatch({
-    rows <- nrow(x)
+    rows <- NROW(x)
   }, error = function(e) {
     stop("Failed to determine rows for object of class '", class(x), "': ", 
          e$message)
@@ -144,7 +165,7 @@
 {
   cols <- 0
   tryCatch({
-    cols <- ncol(x)
+    cols <- NCOL(x)
   }, error = function(e) {
     stop("Failed to determine columns for object of class '", class(x), "': ", 
          e$message)
@@ -157,7 +178,15 @@
 
 .rs.addFunction("toDataFrame", function(x, name) {
   if (is.data.frame(x))
-    return(x)
+  {
+    # check for nested frames and flatten them if needed
+    frameCols <- .rs.frameCols(x)
+    if (length(frameCols) > 0) {
+      return(.rs.flattenFrame(x, frameCols))
+    } else {
+      return(x)
+    }
+  }
   frame <- NULL
   # attempt to coerce to a data frame--this can throw errors in the case where
   # we're watching a named object in an environment and the user replaces an
@@ -169,13 +198,67 @@
   error = function(e)
   {
   })
+  # as.data.frame uses the name of its argument to label unlabeled columns, so
+  # label these back to the original name
   if (!is.null(frame))
     names(frame)[names(frame) == "x"] <- name
   frame
 })
 
+.rs.addFunction("frameCols", function(x) {
+  which(vapply(x, is.data.frame, TRUE))
+})
+
+.rs.addFunction("flattenFrame", function(x, framecols) {
+  while (length(framecols) > 0) {
+    framecol <- framecols[1]
+    newcols <- ncol(x[[framecol]])
+    if (identical(newcols, 0)) 
+    {
+      # remove columns consisting of empty frames
+      x[[framecol]] <- NULL
+    }
+    else
+    {
+      # recursive--are any columns in the nested frame themselves frames?
+      nestedFrameCols <- .rs.frameCols(x[[framecol]]) 
+      if (length(nestedFrameCols) > 0) {
+        x[[framecol]] <- .rs.flattenFrame(x[[framecol]], nestedFrameCols)
+      }
+
+      # apply column names
+      cols <- x[[framecol]]
+      if (length(names(framecols)) > 0) {
+        names(cols) <- paste(names(framecol)[[1]], names(cols), sep = ".")
+      }
+
+      # replace other columns in place
+      x <- cbind(x[0:(framecol-1)], cols, x[(framecol+1):ncol(x)])
+    }
+
+    # pop this frame off the list and adjust the other indices to account for
+    # the columns we just added, if any
+    framecols <- framecols[-1] + (max(newcols, 1) - 1) 
+  }
+  x
+})
+
 .rs.addFunction("applyTransform", function(x, filtered, search, col, dir) 
 {
+  # mark encoding on character inputs if not already marked
+  filtered <- vapply(filtered, function(colfilter) {
+    if (Encoding(colfilter) == "unknown") 
+      Encoding(colfilter) <- "UTF-8"
+    colfilter
+  }, "")
+  if (Encoding(search) == "unknown")
+    Encoding(search) <- "UTF-8"
+  
+  # flatten the data frame if needed 
+  frameCols <- .rs.frameCols(x)
+  if (length(frameCols) > 0) 
+    x <- .rs.flattenFrame(x, frameCols)
+
   # coerce argument to data frame--data.table objects (for example) report that
   # they're data frames, but don't actually support the subsetting operations
   # needed for search/sort/filter without an explicit cast
@@ -211,13 +294,13 @@
       else if (identical(filtertype, "numeric"))
       {
         # apply numeric filter, range ("2-32") or equality ("15")
-        filterval <- as.numeric(strsplit(filterval, "-")[[1]])
+        filterval <- as.numeric(strsplit(filterval, "_")[[1]])
         if (length(filterval) > 1)
           # range filter
-          x <- x[x[[i]] >= filterval[1] & x[[i]] <= filterval[2], , drop = FALSE]
+          x <- x[is.finite(x[[i]]) & x[[i]] >= filterval[1] & x[[i]] <= filterval[2], , drop = FALSE]
         else
           # equality filter
-          x <- x[x[[i]] == filterval, , drop = FALSE]
+          x <- x[is.finite(x[[i]]) & x[[i]] == filterval, , drop = FALSE]
       }
     }
   }

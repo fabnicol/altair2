@@ -1,38 +1,6 @@
 #include "altair.h"
 
 
-
-/* AUTHOR NOTE
-
-
-
-
-mainWindow.cpp  - Main Window for altair-author-gui
-
-This application uses Qt5.1 . Check Qt's licensing details on http://qt.nokia.com
-
-
-Copyright Fabrice Nicol <fabnicol@users.sourceforge.net> Feb 2009,2011-2013
-
-The latest version can be found at http://dvd-audio.sourceforge.net
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-
-*/
-
-
 // createFontDataBase looks to be fast enough to be run on each launch.
 // Should it slow down application launch on some platform, one option could be to launch it just once then on user demand
 
@@ -98,7 +66,6 @@ MainWindow::MainWindow(char* projectName)
   addDockWidget(Qt::RightDockWidgetArea, managerDockWidget);
   
   Abstract::initializeFStringListHashes();
-
   Abstract::refreshOptionFields();
 
   configureOptions();
@@ -361,9 +328,6 @@ void MainWindow::on_displayFileTreeViewButton_clicked(bool isHidden)
 {
    fileTreeViewDockWidget->setVisible(isHidden);
    altair->project[0]->importFromMainTree->setVisible(isHidden);
-   altair->removeFileTreeElementsButton->setVisible(isHidden);
-   altair->xhlFilterButton->setVisible(isHidden);
-   altair->mkdirButton->setVisible(isHidden);
 
  }
 

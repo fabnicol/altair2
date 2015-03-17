@@ -32,6 +32,23 @@ var cachedFilterValues = [];
 // the height of the table at the last time we adjusted it to fit its window
 var lastHeight = 0;
 
+// scroll handlers; these are detached when the data viewer is hidden 
+var detachedHandlers = [];
+var lastScrollPos = 0;
+
+var isHeaderWidthMismatched = function() {
+  // find the elements to measure (they may not exist)
+  var rs = document.getElementById("rsGridData");
+  if (!rs || !rs.firstChild.clientWidth || !rs.firstChild.clientWidth > 0)
+    return false;
+  var sh = document.getElementsByClassName("dataTables_scrollHeadInner");
+  if (sh.length === 0 || !sh[0].firstChild  || !sh[0].firstChild.firstChild)
+    return false;
+
+  // match the widths
+  return rs.firstChild.clientWidth !== sh[0].firstChild.firstChild.clientWidth;
+};
+
 // update search/filter value cache
 var updateCachedSearchFilter = function() {
   if (table) {
@@ -75,7 +92,9 @@ var showError = function(msg) {
   document.getElementById("errorWrapper").style.display = "block";
   document.getElementById("errorMask").style.display = "block";
   document.getElementById("error").textContent = msg;
-  document.getElementById("rsGridData").style.display = "none";
+  var rsGridData = document.getElementById("rsGridData");
+  if (rsGridData)
+    rsGridData.style.display = "none";
 };
 
 // simple HTML escaping (avoid XSS in data)
@@ -136,14 +155,49 @@ var renderTextCell = function(data, type, row, meta) {
          '</div>';
 };
 
+// restores scroll information lost on tab switch
+var restoreScrollHandlers = function() {
+  var scrollBody = $(".dataTables_scrollBody");
+  if (scrollBody) {
+    // reattach handlers
+    for (var i = 0; i < detachedHandlers.length; i++) {
+      scrollBody.on("scroll", detachedHandlers[i]);
+    }
+
+    // restore position
+    if (lastScrollPos)
+      scrollBody.scrollTop(lastScrollPos);
+  }
+
+  // clean state
+  detachedHandlers = [];
+  lastScrollPos = 0;
+};
+
+var syncWidth = function() {
+  // shrink container to width of first row; reschedule size if first row
+  // hasn't been drawn yet
+  var rsGridData = document.getElementById("rsGridData");
+  if (!rsGridData || !rsGridData.firstChild ||
+      rsGridData.firstChild.clientWidth === 0) {
+    return false;
+  }
+  rsGridData.style.width = rsGridData.firstChild.clientWidth + "px";
+  return true;
+};
+
 // applies a new size to the table--called on init, on tab activate (from
 // RStudio), and when the window size changes
 var sizeDataTable = function(force) {
+  // reattach any detached scroll handlers
+  restoreScrollHandlers();
+
   // don't apply a zero height
   if (window.innerHeight < 1) {
     return;
   }
 
+  // ignore if height hasn't changed
   if (lastHeight === window.innerHeight && !force) {
     return;
   }
@@ -160,7 +214,7 @@ var sizeDataTable = function(force) {
 
   // apply new size
   table.settings().scroller().measure(false);
-  table.columns.adjust().draw();
+  table.draw();
 };
 
 var debouncedDataTableSize = debounce(sizeDataTable, 75);
@@ -190,6 +244,9 @@ var preDrawCallback = function() {
     }
   }, 100);
 
+  // synchronize table with content
+  syncWidth();
+
   // prior to drawing, update cached search/filter values
   updateCachedSearchFilter();
 };
@@ -198,6 +255,18 @@ var postDrawCallback = function() {
   var indicator = $(".DTS_Loading");
   if (indicator)  {
       indicator.removeClass("showLoading");
+  }
+
+  // Check to see whether the header widths are out of sync after drawing --
+  // unfortunately this is a possibility since DataTables doesn't know the
+  // width of the table until after the draw is complete. If the widths don't
+  // match, we resize the main table body to match its content, then do an
+  // in-place redraw of the scrolling-related elements (header, etc.), using an
+  // internal API (without which a redraw would also page in data from the
+  // server, etc).
+  if (isHeaderWidthMismatched()) {
+    syncWidth();
+    $.fn.dataTableExt.internal._fnScrollDraw(table.settings()[0]);
   }
   window.clearTimeout(loadingTimer);
 };
@@ -222,8 +291,8 @@ var createNumericFilterUI = function(idx, col, onDismiss) {
     var min = col.col_min.toString();
     var max = col.col_max.toString();
     var val = parseSearchVal(idx);
-    if (val.indexOf("-") > 0) {
-      var range = val.split("-");
+    if (val.indexOf("_") > 0) {
+      var range = val.split("_");
       min = range[0];
       max = range[1];
     } else if (!isNaN(parseFloat(val))) {
@@ -245,7 +314,7 @@ var createNumericFilterUI = function(idx, col, onDismiss) {
       var searchText = 
         minVal.textContent === min && maxVal.textContent === max ? 
           "" :
-          minVal.textContent + "-" + maxVal.textContent;
+          minVal.textContent + "_" + maxVal.textContent;
       if (searchText.length > 0) {
         searchText = "numeric|" + searchText;
       }
@@ -467,11 +536,20 @@ var createHeader = function(idx, col) {
   var title = document.createElement("div");
   title.textContent = col.col_name;
   th.appendChild(title);
-  th.title = col.col_type;
+  th.title = "column " + idx + ": " + col.col_type;
   if (col.col_type === "numeric") {
     th.title += " with range " + col.col_min + " - " + col.col_max;
   } else if (col.col_type === "factor") {
     th.title += " with " + col.col_vals.length + " levels";
+  }
+
+  // add the column label, if it has one
+  if (col.col_label && col.col_label.length > 0) {
+    var label = document.createElement("div");
+    label.className = "colLabel";  
+    label.textContent = col.col_label;
+    label.title = col.col_label;
+    th.appendChild(label);
   }
 
   return th;
@@ -524,6 +602,7 @@ var initDataTable = function(result) {
   $("#rsGridData").dataTable({
     "processing": true,
     "serverSide": true,
+    "autoWidth": false,
     "pagingType": "full_numbers",
     "pageLength": 25,
     "scrollY": scrollHeight + "px",
@@ -542,9 +621,13 @@ var initDataTable = function(result) {
       }, {
       "targets": textCols,
       "render": renderTextCell
+      }, {
+      "targets": "_all",
+      "width": "4em"
       }],
     "ajax": {
       "url": "../grid_data", 
+      "type": "POST",
       "data": function(d) {
         d.env = env;
         d.obj = obj;
@@ -568,6 +651,11 @@ var initDataTable = function(result) {
   });
 
   table = $("#rsGridData").DataTable();
+
+  // datatables has a bug wherein it sometimes thinks an LTR browser is RTL if
+  // the LTR browser is at >100% zoom; this causes layout problems, so force
+  // into LTR mode as we don't support RTL here.
+  $.fn.dataTableSettings[0].oBrowser.bScrollbarLeft = false;
 
   // listen for size changes
   debouncedDataTableSize();
@@ -604,6 +692,8 @@ var bootstrap = function() {
   cachedSearch = "";
   cachedFilterValues = [];
   lastHeight = 0;
+  lastScrollPos = 0;
+  detachedHandlers = [];
 
   // when datatables is initialized on an element, it adds a bunch of goo 
   // around the element to handle scrolling, etc.--we need to pull the whole
@@ -627,7 +717,9 @@ var bootstrap = function() {
 
   // call the server to get data shape
   $.ajax({
-        url: "../grid_data?show=cols&" + window.location.search.substring(1)})
+        url: "../grid_data",
+        data: "show=cols&" + window.location.search.substring(1),
+        type: "POST"})
     .done(function(result) {
       $(document).ready(function() {
         document.body.appendChild(newEle);
@@ -658,6 +750,13 @@ var bootstrap = function() {
 // called from RStudio to toggle the filter UI 
 window.setFilterUIVisible = function(visible) {
   var thead = document.getElementById("data_cols");
+
+  // it's possible the dable is getting redrawn right now; if it is, ignore
+  // this request.
+  if (thead === null || table === null || cols === null) {
+    return false;
+  }
+
   if (!visible) {
     // clear all the filter data
     table.columns().search("");
@@ -680,10 +779,14 @@ window.setFilterUIVisible = function(visible) {
     }
   }
   sizeDataTable(true);
+  return true;
 };
 
 // called from RStudio when the underlying object changes
 window.refreshData = function(structureChanged, sizeChanged) {
+  // restore any scroll handlers (this can get called on tab activate)
+  restoreScrollHandlers();
+
   if (structureChanged) {
     // structure changed--this necessitates a full refresh
     bootstrap();
@@ -708,8 +811,37 @@ window.applySearch = function(text) {
   debouncedSearch(text);
 };
 
-window.applySizeChange = function() {
-  debouncedDataTableSize();
+window.onActivate = function() {
+  // resize the table once animation finishes
+  debouncedDataTableSize(false);
+};
+
+window.onDeactivate = function() {
+  // In Firefox, the browser scrolls the viewport to the top when the tab is
+  // reactivated before any of our own event handlers fire. This triggers the
+  // scroller to redraw the table from the server starting from the first row,
+  // as though the user had scrolled the viewport to the top.
+  // 
+  // It isn't possible to suppress this event, so when the tab is deactivated,
+  // we unwire all the event handlers from the scrolling region, and reattach
+  // them on activate.
+  
+  // save current scroll position
+  var scrollBody = $(".dataTables_scrollBody");
+  if (scrollBody === null || scrollBody.length === 0) {
+    return;
+  }
+  lastScrollPos = scrollBody.scrollTop();
+
+  // save all the of the scroll event handlers 
+  detachedHandlers = [];
+  var scrollEvents = $._data(scrollBody[0], "events");
+  jQuery.each(scrollEvents.scroll, function(k, v) {
+    detachedHandlers.push(v.handler);
+  });
+
+  // detach all scroll event handlers
+  scrollBody.off("scroll");
 };
 
 // start the first request
