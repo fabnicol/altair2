@@ -66,24 +66,21 @@ const QString openDirDialog();
 
 protected :
   QString  videoFilePath;
-  static FString    htmlLogPath;
-  const QString   systemPathPrefix="/../";
+  static FString  htmlLogPath;
+  const QString   systemPathPrefix = "/../";
 
 #ifdef Q_OS_WIN
-    #ifdef CELERON
-         const QString   System="win.celeron";
-    #else
-         const QString   System="win.core";
-    #endif
-     const QString   systemSuffix=".exe";
+
+      const QString   System = "win";
+      const QString   systemSuffix = ".exe";
 
       #ifndef LOCAL_BINPATH
       #define LOCAL_BINPATH
      #endif
 #else
     #ifdef Q_OS_LINUX
-        const QString System="linux";
-        const QString   systemSuffix="";
+        const QString System = "linux";
+        const QString   systemSuffix = "";
         #ifndef PREFIX
          #define PREFIX "/usr"
         #endif
@@ -91,27 +88,27 @@ protected :
 #endif
 #ifdef LOCAL_BINPATH
  /* insert executable at root of windows package */
-  const QString execPath= QDir::toNativeSeparators(QDir::cleanPath(QCoreApplication::applicationDirPath()+systemPathPrefix+System));
-  const QString sharedir= generateDatadirPath();
+  const QString execPath = QDir::toNativeSeparators(QDir::cleanPath(QCoreApplication::applicationDirPath()+systemPathPrefix+System));
+  const QString sharedir = generateDatadirPath();
  
   QString altairCommandStr=execPath+ QDir::separator()+("lhx"+ QString(systemSuffix));
 
     #ifdef MINIMAL
       QString RAltairDirStr = QDir::toNativeSeparators(QDir::cleanPath(QCoreApplication::applicationDirPath()+ systemPathPrefix+ "R/bin/x64" ));
       // Passer les '/' soit à QDir::toNativeSeparators() soit utiliser QDir::separator() sous Windows.
-      QString RAltairCommandStr=RAltairDirStr + QDir::separator() + "Rscript" + QString(systemSuffix);
+      QString RAltairCommandStr = RAltairDirStr + QDir::separator() + "Rscript" + QString(systemSuffix);
     #else
       QString RAltairDirStr = QDir::toNativeSeparators(QDir::cleanPath(QCoreApplication::applicationDirPath()+ systemPathPrefix+ "RStudio"));
-      QString RAltairCommandStr=RAltairDirStr + QDir::separator() + "bin" + QDir::separator() + "rstudio" + QString(systemSuffix);
+      QString RAltairCommandStr = RAltairDirStr + QDir::separator() + "bin" + QDir::separator() + "rstudio" + QString(systemSuffix);
     #endif
 
 #else
 
-   QString execPath=PREFIX+QString("/bin");
-   QString sharedir=PREFIX+QString("/share/applications/altair");
-   QString RAltairCommandStr=PREFIX+QString("/lib/rstudio/bin/rstudio");
+   QString execPath = PREFIX+QString("/bin");
+   QString sharedir = PREFIX+QString("/share/applications/altair");
+   QString RAltairCommandStr = PREFIX+QString("/lib/rstudio/bin/rstudio");
    QString RAltairDirStr = QString("/lib/rstudio/bin");
-   QString altairCommandStr=PREFIX+QString("/bin/lhx");
+   QString altairCommandStr = PREFIX+QString("/bin/lhx");
 
 #endif
  
