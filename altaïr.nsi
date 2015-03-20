@@ -21,8 +21,8 @@
 
 !define prodname     "Altaïr"
 !define prodname.simple "Altair"
-!define nbits        core
-!define setup        "Altaïr-${version}.win.${nbits}.installer.exe"
+!define processeur        core
+!define setup        "Altaïr-${version}.win.${processeur}.installer.exe"
 !define exemple      "${prodname.simple}\Tests\Exemple"
 !define xhl          "${exemple}\Donnees\xhl"
 !define Interface.minimal    Interface_win64_min
@@ -192,13 +192,17 @@ Section
   CreateDirectory  $INSTDIR\${exemple}\Donnees\R-Altaïr
   CreateDirectory  $INSTDIR\${exemple}\Projets
   CreateDirectory  $INSTDIR\${xhl}
+  CreateDirectory  $INSTDIR\${prodname.simple}\win
+  
   SetDetailsPrint both
   SetOutPath $INSTDIR\${prodname.simple}
   File /r  "${prodname.simple}\Docs" 
   File /r  "${prodname.simple}\Outils" 
-  File /r  "${prodname.simple}\win.${nbits}" 
   File /r  "${prodname.simple}\.Rproj.user" 
   File     "${prodname.simple}\*.*" 
+  
+  SetOutPath $INSTDIR\${prodname.simple}\win
+  File   "${prodname.simple}\win${processeur}\*.*" 
   
   SetOutPath $INSTDIR\${exemple}
   File /r  ${exemple}\Docs
