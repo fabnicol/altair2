@@ -13,7 +13,7 @@ void StandardComplianceProbe::getXhlCharacteristics(const QString &filename)
 
       QString extension=filename.split(".").last();
 
-      if (extension == "xhl")
+      if (extension[0] == 'x' && (extension[1] == 'h' || extension[1] == 'm') && extension[2] == 'l')  // xhl ou xml
       {
 
         decoderCompliance=xhlCharacteristics::isCompliant;

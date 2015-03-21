@@ -3,9 +3,6 @@
         <file>images/application-exit.png</file>
         <file>images/arrow-down.png</file>
         <file>images/arrow-up.png</file>
-        <file>images/burn.png</file>
-        <file>images/configure.png</file>
-        <file>images/clear-msg.png</file>
         <file>images/document-import.png</file>
         <file>images/altair.png</file>
         <file>images/edit-delete.png</file>
@@ -20,35 +17,22 @@
         <file>images/show-normal.png</file>
         <file>images/show-maximized.png</file>
         <file>images/encode.png</file>
-        <file>images/output.png</file>
         <file>images/about.png</file>
         <file>images/document-save-as.png</file>
         <file>images/edit-clear.png</file>
         <file>images/document-close.png</file>
-        <file>images/arrow-right.png</file>
-        <file>images/apply.png</file>
-        <file>images/64x64/text-rtf.png</file>
         <file>images/display-output.png</file>
         <file>images/manager.png</file>
         <file>images/warning.png</file>
         <file>images/msg.png</file>
         <file>images/error.png</file>
         <file>images/accessories-text-editor.png</file>
-        <file>images/arrow-left.png</file>
         <file>images/document-open-folder.png</file>
         <file>images/document-open.png</file>
-        <file>images/drive-optical.png</file>
-        <file>images/editcut.png</file>
-        <file>images/input.png</file>
-        <file>images/list-add.png</file>
-        <file>images/output-new.png</file>
-        <file>images/stop.png</file>
         <file>images/window-close.png</file>
         <file>images/configure-toolbars.png</file>
-        <file>images/debug.png</file>
         <file>images/project-open.png</file>
         <file>whatsthis.info</file>
-        <file>images/64x64/drive-optical.png</file>
         <file>images/application-xml.png</file>
         <file>images/64x64/system-file-manager.png</file>
         <file>images/csv.png</file>

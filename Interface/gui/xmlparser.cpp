@@ -250,10 +250,12 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
                                          const QList<QStringList> &stackedSizeInfo,
                                          const QList<QStringList> &nBulletins)
 {
-    int q=0, count=0, l;
+    int q=0, count=0, tagcount=0, l;
     qint64 filesizecount=0;
     QString  firstColumn, root=tags.at(0), secondColumn=tags.at(1),
             thirdColumn, fourthColumn, fifthColumn;
+
+    int tagListSize = tags.size();
 
     QListIterator<QStringList> i(stackedInfo), j(stackedSizeInfo), k(nBulletins);
 
@@ -261,7 +263,7 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
     {
         if (!root.isEmpty())
         {
-            firstColumn = root + " "+QString::number(++q);
+            if (tagcount < tagListSize) firstColumn = tags.at(tagcount++);
         }
 
         displayTextData({firstColumn});
@@ -272,7 +274,7 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
         {
             ++count;
             if (!tags.at(1).isEmpty())
-                secondColumn =  tags.at(1) +" " +QString::number(++l) + "/"+ QString::number(count) +": ";
+                secondColumn =  "fichier " + QString::number(++l) + "/"+ QString::number(count) +": ";
                         
             secondColumn += w.next();
             fifthColumn =  "" ; //(z.hasNext())? z.next() : "";
@@ -406,7 +408,7 @@ FStringList Altair::parseEntry(const QDomNode &node, QTreeWidgetItem *itemParent
 
     XmlMethod::stackData(node, tags, level, textData, tabLabels);
 
-    Q(tabLabels.join(" "))
+
    // project[0]->setTabLabels(tabLabels);
 
     if ((level == 0) &&(tags[0] == "fichier"))
@@ -470,7 +472,7 @@ void Altair::refreshProjectManagerValues(std::uint16_t refreshProjectManagerFlag
         fileSizeDataBase[0]=processSecondLevelData(*Hash::wrapper["XHL"]);
         
         Altair::totalSize[0]=XmlMethod::displaySecondLevelData(
-                               {"année", "fichier"},
+                                project[0]->getTabLabels(),
                                *Hash::wrapper["XHL"],
                                 fileSizeDataBase[0],
                                *Hash::wrapper["NBulletins"]);

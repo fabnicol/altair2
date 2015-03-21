@@ -227,15 +227,10 @@ void FListFrame::addNewTab()
     addNewTab(getRank());
 }
 
-void FListFrame::addNewTab(int r)
+void FListFrame::addNewTab(int r, const QString& label)
 {
     if (r < 0) return;
-    QString label ;
-    QStringList tabLabels = getTabLabels();
-    if (Hash::Annee.isEmpty())
-        label = tags[1] + " "+ QString::number(r+1);
-    else  if (!tabLabels.isEmpty())
-              label = tabLabels.at(r);
+
 
     mainTabWidget->insertTab(r ,widgetContainer.at(r), label);
     mainTabWidget->setCurrentIndex(r);
@@ -408,17 +403,10 @@ void FListFrame::parseXhlFile(const QString& fileName)
     file.seek(0);
 
     const QByteArray buffer = file.read(1500);
-
 #ifdef REGEX_PARSING_FOR_HEADERS
     const QString string = QString(buffer);
 
-    if (! string.contains("DocumentPaye"))
-    {
-        altair->outputTextEdit->append(WARNING_HTML_TAG " Fichier " + fileName + " non conforme à la spécification astre:DocumentPaye");
-        return;
-    }
-
-    QRegExp reg("(?:Annee) V=\"([0-9]+)\".*(?:Mois) V=\"([0-9]+)\".*(?:Siret) V=\"([0-9A-Z]+)\"");
+    QRegExp reg("DocumentPaye.*(?:Annee) V=\"([0-9]+)\".*(?:Mois) V=\"([0-9]+)\".*(?:Siret) V=\"([0-9A-Z]+)\"");
 
     if (string.contains(reg))
     {
@@ -426,6 +414,12 @@ void FListFrame::parseXhlFile(const QString& fileName)
         Hash::Mois[fileName]  = reg.cap(2);
         Hash::Siret[fileName] = reg.cap(3);
     }
+    else
+    {
+        altair->outputTextEdit->append(WARNING_HTML_TAG " Fichier " + fileName + " non conforme à la spécification astre:DocumentPaye");
+        return;
+    }
+
 
 #else
 
@@ -459,12 +453,12 @@ void FListFrame::addStringListToHash(const QStringList & stringList, int size)
 }
 
 
-bool FListFrame::addStringListToListWidget(const QStringList& stringList, int size)
+bool FListFrame::addStringListToListWidget(const QStringList& stringList)
 {
     QStringList existingTabLabels;
-mainTabWidget->clear();
-clearTabLabels();
-q(getWidgetContainerCount())
+    mainTabWidget->clear();
+    clearTabLabels();
+
     for (int j = 0; j < getWidgetContainerCount(); j++)
     {
 
@@ -477,7 +471,6 @@ q(getWidgetContainerCount())
         else
           existingTabLabels << str;
     }
-
 
     parseXhlFile(stringList);
 
@@ -494,12 +487,10 @@ q(getWidgetContainerCount())
 
     tabLabels.sort();
     int rank = 0;
-
     QStringList allLabels = tabLabels + existingTabLabels;
     allLabels.removeDuplicates();
     allLabels.sort();
 
-Q(allLabels.join(" "))
     if (! allLabels.isEmpty())
     {
         altair->outputTextEdit->append(STATE_HTML_TAG + QString(" Nombre d'années détectées : ") + QString::number(allLabels.size()) + " années, " + tabLabels.join(", "));
@@ -515,7 +506,7 @@ Q(allLabels.join(" "))
                 widgetContainer.insert(rank, new QListWidget);
                 Hash::wrapper[frameHashKey]->insert(rank, keys);
                 Hash::counter[frameHashKey]++;
-                addNewTab(rank);
+                addNewTab(rank, annee);
             }
             else
             {
@@ -620,7 +611,7 @@ void FListFrame::on_importFromMainTree_clicked()
          }
        }
      if (stringListSize) 
-         addParsedTreeToListWidget(stringsToBeAdded, stringListSize);
+         addParsedTreeToListWidget(stringsToBeAdded);
     }
 
 }
