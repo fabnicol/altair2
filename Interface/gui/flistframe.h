@@ -42,7 +42,7 @@ private:
  bool activateOnStart=false;
 
  QStringList parseTreeForFilePaths(const QStringList& stringList);
- bool addStringListToListWidget(const QStringList&, int size);
+ bool addStringListToListWidget(const QStringList&);
  void addStringListToHash(const QStringList & stringList, int size);
  void parseXhlFile(const QString& fileName);
  void parseXhlFile(const QStringList& stringList);
@@ -90,10 +90,10 @@ void setSeparator(QStringList sep) { fileListWidget->separator[0]=sep[0]; fileLi
 void setOptionLabel(QString option) {fileListWidget->optionLabel=option;}
 void setTabLabels(QStringList& tabLabels) { fileListWidget->setTabLabels(tabLabels);}
 
-void addNewTab(int r);
+void addNewTab(int r, const QString& label="");
 void addNewTab();
 void deleteAllGroups(bool insertNewGroup = false, bool eraseAllData = true);
-bool addParsedTreeToListWidget(const QStringList& stringList, int size) { return addStringListToListWidget(parseTreeForFilePaths(stringList), size); }
+bool addParsedTreeToListWidget(const QStringList& stringList) { return addStringListToListWidget(parseTreeForFilePaths(stringList)); }
 void list_connect(FComboBox* w);
 void list_connect(FListFrame* w);
 void total_connect(FListFrame* w);

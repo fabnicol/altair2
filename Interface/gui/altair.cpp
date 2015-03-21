@@ -602,7 +602,7 @@ void Altair::dropEvent(QDropEvent *event)
         if (size == 0) return;
        
         updateIndexInfo();
-        if (false == project[0]->addParsedTreeToListWidget(stringsDragged, size)) return;
+        if (false == project[0]->addParsedTreeToListWidget(stringsDragged)) return;
         updateProject();
 
     }
