@@ -22,7 +22,7 @@ VPATH = .
 #win32:LIBS += -L../win32
 #linux:LIBS += -L../linux
 
-DEFINES += DEBUG QT_NO_OPENGL  STATIC REGEX_PARSING_FOR_HEADERS
+DEFINES += DEBUG QT_NO_OPENGL  STATIC
 
 windows:RC_ICONS = neptune.ico
 
@@ -45,7 +45,6 @@ SOURCES += \
     xmlparser.cpp \
     highlighter.cpp \
     run.cpp \
-    probe.cpp \
     elemParser.cpp
 
 HEADERS  += \
@@ -63,7 +62,6 @@ HEADERS  += \
     tags.h \
     templates.h \
     altair-gui.h \
-    probe.h \
     elemParser.hpp
 
 

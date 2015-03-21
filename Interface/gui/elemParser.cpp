@@ -1,4 +1,4 @@
-
+#ifndef REGEX_PARSING_FOR_HEADERS
 #include "elemParser.hpp"
 #include <stdio.h>
 #include <stdlib.h>
@@ -22,7 +22,7 @@ struct Header* elem_parser(const char* buffer)
     }
 
    errno = 0;
-   int i = 230;  //350+
+   int i = NB_CHAR_SAUT_ENTETE;  //350+
    bool test = false;
 
    while (i < MAX_COUNT)
@@ -52,7 +52,7 @@ struct Header* elem_parser(const char* buffer)
     }
 
    if (! test)
-       fprintf(stderr, "%s", "Erreur d'encodage numérique sur Année\n");
+       fprintf(stderr, "%s %s", "Erreur d'encodage numérique sur Année : \n", elemPar->annee);
 
    bool test2 = true;
 
@@ -120,3 +120,4 @@ struct Header* elem_parser(const char* buffer)
     return elemPar;
 }
 //}
+#endif
