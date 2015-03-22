@@ -23,6 +23,7 @@ VPATH = .
 #linux:LIBS += -L../linux
 
 DEFINES += DEBUG QT_NO_OPENGL  STATIC
+#MINIMAL
 
 windows:RC_ICONS = neptune.ico
 
