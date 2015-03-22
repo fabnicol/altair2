@@ -34,7 +34,7 @@ void Altair::run()
     }
     if (Hash::wrapper["XHL"]->at(0).at(0).isEmpty())
     {
-        Q("Charger un projet !")
+        QMessageBox::warning(nullptr, "Projet", "Charger un projet !");
         processFinished(exitCode::shouldLaunchRAltairAlone);
         return;
     }
@@ -50,7 +50,7 @@ void Altair::run()
 
     if (!targetDirObject.exists())
     {
-        Q("Le répertoire " + path +" n'existe pas. Veuillez le créer manuellement par sécurité.")
+        QMessageBox::critical(nullptr, "Répertoire des bases", "Le répertoire " + path +" n'existe pas. Veuillez le créer manuellement par sécurité.");
         processFinished(exitCode::shouldLaunchRAltairAlone);
         return;
     }
