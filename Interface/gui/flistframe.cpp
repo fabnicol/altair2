@@ -11,9 +11,9 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
                          QStringList* terms, QStringList* translation, bool showAddItemButtonValue)
 
 {
-// Hash::Annee.reserve(576);
-// Hash::Mois.reserve(576);
-// Hash::Siret.reserve(576);
+// Hash::Annee.reserve(1152);
+// Hash::Mois.reserve(1152);
+// Hash::Siret.reserve(1152);
 
  setAcceptDrops(true);
  altair = static_cast<Altair*>(parent);
@@ -128,7 +128,7 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
  connect(deleteGroupButton, SIGNAL(clicked()), this, SLOT(deleteGroup()));
  connect(importFromMainTree, SIGNAL(clicked()), this,  SLOT(on_importFromMainTree_clicked()));
  connect(clearListButton, SIGNAL(clicked()), this, SLOT(on_clearList_clicked()));
-           
+ connect(retrieveItemButton, SIGNAL(clicked()), this, SLOT(on_deleteItem_clicked()));
  connect(addItemButton, &QToolButton::clicked,  [&]{
                                                      updateIndexInfo();
                                                      QListWidgetItem *item;
@@ -199,6 +199,7 @@ void FListFrame::on_deleteItem_clicked()
   QModelIndexList L=currentListWidget->selectionModel()->selectedRows();
   int size=L.size();
   int  rank=0, localrow=0;
+
   while (rank < size)
   {
       localrow=L[rank].row() - rank;
@@ -241,8 +242,8 @@ void FListFrame::addGroup()
  
         currentListWidget=new QListWidget;
         fileListWidget->currentListWidget = currentListWidget;
-        currentListWidget->setSelectionMode(QAbstractItemView::ExtendedSelection);
-        currentListWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+        currentListWidget->setSelectionMode(QAbstractItemView::ContiguousSelection);
+      //  currentListWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
         if (showAddItemButton) 
         {
             currentListWidget->setEditTriggers(QAbstractItemView::AllEditTriggers);

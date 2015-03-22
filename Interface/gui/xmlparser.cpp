@@ -212,7 +212,7 @@ void displayTextData(const QStringList &firstColumn,
 
     last= firstColumn.at(0);
 
-    if ((secondColumn.isEmpty()) && (firstColumn.count() ==1)) return;
+    if ((secondColumn.isEmpty()) && (firstColumn.count() == 1)) return;
 
     QTreeWidgetItem* item2 = new QTreeWidgetItem(item);
     if (firstColumn.count() > 1)
@@ -250,7 +250,7 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
                                          const QList<QStringList> &stackedSizeInfo,
                                          const QList<QStringList> &nBulletins)
 {
-    int q=0, count=0, tagcount=0, l;
+    int count=0, tagcount=0, l;
     qint64 filesizecount=0;
     QString  firstColumn, root=tags.at(0), secondColumn=tags.at(1),
             thirdColumn, fourthColumn, fifthColumn;
@@ -270,12 +270,13 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
 
         QStringListIterator w(i.next()), y(j.next());
         l=0;
+
         while (w.hasNext() && y.hasNext())
         {
             ++count;
             if (!tags.at(1).isEmpty())
                 secondColumn =  "fichier " + QString::number(++l) + "/"+ QString::number(count) +": ";
-                        
+
             secondColumn += w.next();
             fifthColumn =  "" ; //(z.hasNext())? z.next() : "";
 
@@ -354,10 +355,9 @@ void Altair::parseProjectFile(QIODevice* file)
 
         while (!subnode.isNull())
         {
-            FStringList &&str = parseEntry(subnode);
-              
+            FStringList &&str=parseEntry(subnode);
             if (!str.at(0).at(0).isEmpty())
-                *(Hash::wrapper[subnode.toElement().tagName()] = new FStringList) =  str;
+                *(Hash::wrapper[subnode.toElement().tagName()] = new FStringList) =   str;
             subnode=subnode.nextSibling();
         }
 
@@ -391,6 +391,10 @@ void Altair::parseProjectFile(QIODevice* file)
 
     parent->updateRecentFileActions();
 
+    refreshProjectManagerValues(manager::refreshProjectInteractiveMode
+                                | manager::refreshXHLZone
+                                | manager::refreshSystemZone);
+
 }
 
 
@@ -408,11 +412,13 @@ FStringList Altair::parseEntry(const QDomNode &node, QTreeWidgetItem *itemParent
 
     XmlMethod::stackData(node, tags, level, textData, tabLabels);
 
-
    // project[0]->setTabLabels(tabLabels);
 
     if ((level == 0) &&(tags[0] == "fichier"))
         parent->recentFiles.append(textData.toString());
+
+    if (level == 2)
+        project[0]->setTabLabels(tabLabels);
 
     switch (level)
     {
@@ -456,6 +462,7 @@ inline QList<QStringList> Altair::processSecondLevelData(QList<QStringList> &L, 
 
 void Altair::refreshProjectManagerValues(std::uint16_t refreshProjectManagerFlag)
 {
+    managerWidget->clear();
     if ((refreshProjectManagerFlag & manager::refreshProjectInteractiveMask) == manager::refreshProjectInteractiveMode)
     {
         updateIndexInfo();
@@ -466,17 +473,12 @@ void Altair::refreshProjectManagerValues(std::uint16_t refreshProjectManagerFlag
     item->setText(0, "Fichiers xhl");
     item->setExpanded(true);
     XmlMethod::itemParent=item;
-   
-    if ((refreshProjectManagerFlag & manager::refreshProjectXHLZoneMask) ==  manager::refreshXHLZone)
-    {
-        fileSizeDataBase[0]=processSecondLevelData(*Hash::wrapper["XHL"]);
-        
-        Altair::totalSize[0]=XmlMethod::displaySecondLevelData(
-                                project[0]->getTabLabels(),
-                               *Hash::wrapper["XHL"],
-                                fileSizeDataBase[0],
-                               *Hash::wrapper["NBulletins"]);
-    }
+
+    Altair::totalSize[0]=XmlMethod::displaySecondLevelData(
+                            project[0]->getTabLabels(),
+                           *Hash::wrapper["XHL"],
+                            fileSizeDataBase[0],
+                           *Hash::wrapper["NBulletins"]);
 
     if ((refreshProjectManagerFlag & manager::refreshNBulletinsMask) ==  manager::refreshNBulletins)
     {
@@ -491,10 +493,7 @@ void Altair::refreshProjectManagerValues(std::uint16_t refreshProjectManagerFlag
     item->setExpanded(true);
     XmlMethod::itemParent=item;
 
-    if ((refreshProjectManagerFlag & manager::refreshProjectSystemZoneMask) == manager::refreshSystemZone)
-    {
-
-        for (int k=2; k <Abstract::abstractWidgetList.count(); k++)
+    for (int k=2; k <Abstract::abstractWidgetList.count(); k++)
         {
 
             QString key=Abstract::abstractWidgetList[k]->getHashKey();
@@ -506,8 +505,7 @@ void Altair::refreshProjectManagerValues(std::uint16_t refreshProjectManagerFlag
             else if (Abstract::abstractWidgetList[k]->getDepth() == "1")
                 XmlMethod::displayFirstLevelData(Hash::description[key].at(0),   "bouton", Hash::wrapper[key]->at(0));
         }
-    }
 
-    options::RefreshFlag = options::RefreshFlag  | interfaceStatus::hasSavedOptions;
+
 
 }

@@ -221,8 +221,8 @@ FListWidget::FListWidget(QWidget* par,
     setObjectName(hashKey+" "+description.join(" "));
 
     currentListWidget=new QListWidget;
-    currentListWidget->setSelectionMode(QAbstractItemView::ExtendedSelection);
-    currentListWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+    currentListWidget->setSelectionMode(QAbstractItemView::ContiguousSelection);
+    //currentListWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
     componentList=QList<QWidget*>() << currentListWidget;
 
     componentList[0]->setToolTip(description.at(1));
@@ -279,9 +279,17 @@ void FListWidget::setWidgetFromXml(const FStringList &s)
     {
         int size=s.size()-1;
 
+        if (tabLabels.size() != size + 1) {
+                   Q("Erreur de décodage des titres d'onglet  : tabLabels est de taille " +
+                   QString::number(tabLabels.size()) + " et la FStringList est de taille " + QString::number(size + 1))
+                   return;
+        }
+
         /* add as many groups as there are QStringLists in excess of 1 and fill in the tabs with files */
          static_cast<FListFrame*>(parent)->addGroups(size) ;
 
+         for (int j =0; j <= size; j++)
+             static_cast<FListFrame*>(parent)->mainTabWidget->setTabText(j, tabLabels[j]);
     }
     else
     {
