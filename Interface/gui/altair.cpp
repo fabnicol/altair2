@@ -409,9 +409,10 @@ void Altair::updateIndexInfo()
 
 void Altair::on_deleteItem_clicked()
 {
-    RefreshFlag = RefreshFlag 
-                 | interfaceStatus::saveTree
-                 | interfaceStatus::tree;
+    RefreshFlag = RefreshFlag & ~interfaceStatus::parseXml;
+    RefreshFlag = RefreshFlag | interfaceStatus::saveTree
+                              | interfaceStatus::tree;
+
     updateProject();
     updateIndexInfo();
     displayTotalSize();
@@ -431,6 +432,7 @@ bool Altair::updateProject(bool requestSave)
     RefreshFlag = RefreshFlag 
                  | interfaceStatus::saveTree
                  | interfaceStatus::tree;
+
 
     if (parent->isDefaultSaveProjectChecked() || requestSave)
         writeProjectFile();
@@ -542,7 +544,7 @@ bool Altair::refreshProjectManager()
         }
         else  // refresh display using containers without parsing xml file
         {
-            refreshProjectManagerValues(manager::refreshProjectInteractiveMode 
+            refreshProjectManagerValues(manager::refreshProjectInteractiveMode
                                         | manager::refreshXHLZone
                                         | manager::refreshSystemZone);
         }

@@ -10,7 +10,7 @@
 
 ; pour une version minimal définir minimal par "" sinon "_min"
 
-!define version  "2015.02"
+!define version  "2015.04"
 !define VER_MAJOR 2015
 !define VER_MINOR 02
 !define VER_REVISION 0
@@ -202,7 +202,7 @@ Section
   File     "${prodname.simple}\*.*" 
   
   SetOutPath $INSTDIR\${prodname.simple}\win
-  File   "${prodname.simple}\win${processeur}\*.*" 
+  File   "${prodname.simple}\win.${processeur}\*.*" 
   
   SetOutPath $INSTDIR\${exemple}
   File /r  ${exemple}\Docs
