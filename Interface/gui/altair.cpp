@@ -253,9 +253,11 @@ void Altair::closeProject()
 {
     int projectDimension = project[0]->getRank();
 
-    //clearProjectData();
-
+    clearProjectData();
     Altair::totalSize[0] = 0;
+
+    updateProject();
+
     displayTotalSize();
 
     for  (int i = projectDimension; i >= 0;   i--)
@@ -296,8 +298,9 @@ void Altair::clearProjectData()
 
     fileSizeDataBase[0].clear();
 
-    managerWidget->clear();
-
+    refreshProjectManagerValues(manager::refreshProjectInteractiveMode
+                                | manager::refreshXHLZone
+                                | manager::refreshSystemZone);
     int choice = 2;
 
     if (options::RefreshFlag ==  interfaceStatus::hasUnsavedOptions)

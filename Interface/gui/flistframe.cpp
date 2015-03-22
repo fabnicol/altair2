@@ -168,11 +168,11 @@ void FListFrame::total_connect(FListFrame* w)
 
 void FListFrame::on_clearList_clicked(int currentIndex)
 {
-    if (currentIndex == -1)
-    {
-       updateIndexInfo();
-       currentIndex=this->currentIndex;
-    }
+  if (currentIndex == -1)
+   {
+      updateIndexInfo();
+      currentIndex=this->currentIndex;
+   }
 
   if (Hash::wrapper[frameHashKey]->count() < currentIndex+1) return;
 
@@ -282,16 +282,14 @@ void FListFrame::deleteAllGroups(bool insertFirstGroup, bool eraseAllData)
 
     if (eraseAllData)
     {
-//      for (FStringList* fstr : Hash::wrapper.values())
-//           delete(fstr);
-
-      Abstract::initializeFStringListHashes();
+          for (const QString& hashKey: Hash::wrapper.keys()) Hash::wrapper[hashKey]->clear();
     }
     else
     {
 //      delete(Hash::wrapper[frameHashKey]);
       Abstract::initializeFStringListHash(frameHashKey);
     }
+
 
     Hash::Annee.clear();
     Hash::Mois.clear();

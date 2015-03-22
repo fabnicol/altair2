@@ -321,6 +321,8 @@ void Altair::parseProjectFile(QIODevice* file)
 {
     // Beware: to be able to interactively modify managerWidget in the parseProjectFile child class constructor,
     // pass it as a parameter to the constructor otherwise the protected parent member will be accessible yet unaltered
+
+
     file->seek(0);
 
     QString errorStr;
@@ -369,6 +371,8 @@ void Altair::parseProjectFile(QIODevice* file)
     assignVariables();
 
     Hash::counter["XHL"] = 0 ;
+
+    if (project[0]->getRank() == 0) return;
 
     for (int group_index=0; group_index<= project[0]->getRank(); group_index++)
     {
@@ -463,6 +467,10 @@ inline QList<QStringList> Altair::processSecondLevelData(QList<QStringList> &L, 
 void Altair::refreshProjectManagerValues(std::uint16_t refreshProjectManagerFlag)
 {
     managerWidget->clear();
+    QStringList& tags = project[0]->getTabLabels();
+
+    if (tags.isEmpty() || Hash::wrapper["XHL"]->isEmpty()) return;
+
     if ((refreshProjectManagerFlag & manager::refreshProjectInteractiveMask) == manager::refreshProjectInteractiveMode)
     {
         updateIndexInfo();
@@ -475,7 +483,7 @@ void Altair::refreshProjectManagerValues(std::uint16_t refreshProjectManagerFlag
     XmlMethod::itemParent=item;
 
     Altair::totalSize[0]=XmlMethod::displaySecondLevelData(
-                            project[0]->getTabLabels(),
+                            tags,
                            *Hash::wrapper["XHL"],
                             fileSizeDataBase[0],
                            *Hash::wrapper["NBulletins"]);
