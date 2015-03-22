@@ -280,8 +280,8 @@ void FListWidget::setWidgetFromXml(const FStringList &s)
         int size=s.size()-1;
 
         if (tabLabels.size() != size + 1) {
-                   Q("Erreur de décodage des titres d'onglet  : tabLabels est de taille " +
-                   QString::number(tabLabels.size()) + " et la FStringList est de taille " + QString::number(size + 1))
+                   QMessageBox::warning(nullptr, "Onglets", "Erreur de décodage des titres d'onglet  : tabLabels est de taille " +
+                                         QString::number(tabLabels.size()) + " et la FStringList est de taille " + QString::number(size + 1));
                    return;
         }
 
