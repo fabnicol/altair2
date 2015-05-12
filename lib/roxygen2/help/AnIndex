@@ -21,3 +21,4 @@ roxygenize	roxygenize
 S3method	namespace_roclet
 source_package	source_package
 update_collate	update_collate
+vignette_roclet	vignette_roclet

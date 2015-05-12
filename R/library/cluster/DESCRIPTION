@@ -1,11 +1,11 @@
 Package: cluster
-Version: 1.15.3
-Date: 2014-09-04
+Version: 2.0.1
+Date: 2015-01-31
 Priority: recommended
 Title: Cluster Analysis Extended Rousseeuw et al.
-Description: Cluster Analysis Methods.  Much extended the original from
+Description: Cluster analysis methods.  Much extended the original from
 	Peter Rousseeuw, Anja Struyf and Mia Hubert,
-	based on Kaufman and Rousseeuw (1990)
+	based on Kaufman and Rousseeuw (1990).
 Maintainer: Martin Maechler <maechler@stat.math.ethz.ch>
 Authors@R: c(person("Martin","Maechler", role=c("aut","cre"), email="maechler@stat.math.ethz.ch")
  ,person("Peter", "Rousseeuw", role="aut", email="rousse@uia.ua.ac.be",
@@ -17,7 +17,7 @@ Authors@R: c(person("Martin","Maechler", role=c("aut","cre"), email="maechler@st
  ,person("Matthias", "Studer", role="ctb")
  ,person("Pierre", "Roudier", role="ctb")
  )
-Depends: R (>= 2.12.0), stats, utils
+Depends: R (>= 2.15.0), stats, utils
 Imports: graphics, grDevices
 Suggests: MASS
 SuggestsNote: two small examples using MASS' cov.rob() and mvrnorm()
@@ -26,7 +26,7 @@ LazyData: yes
 ByteCompile: yes
 BuildResaveData: no
 License: GPL (>= 2)
-Packaged: 2014-09-04 19:39:16 UTC; maechler
+Packaged: 2015-01-31 19:19:48 UTC; maechler
 Author: Martin Maechler [aut, cre],
   Peter Rousseeuw [aut] (Fortran original),
   Anja Struyf [aut] (S original),
@@ -36,6 +36,6 @@ Author: Martin Maechler [aut, cre],
   Pierre Roudier [ctb]
 NeedsCompilation: yes
 Repository: CRAN
-Date/Publication: 2014-09-04 23:05:10
-Built: R 3.1.2; x86_64-w64-mingw32; 2014-10-31 11:12:23 UTC; windows
+Date/Publication: 2015-01-31 23:10:41
+Built: R 3.2.0; x86_64-w64-mingw32; 2015-04-17 11:49:23 UTC; windows
 Archs: i386, x64

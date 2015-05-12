@@ -23,7 +23,7 @@ if((Sys.getenv("USER")=="maechler" || nzchar(Sys.getenv("R_MATRIX_CHECK_EXTRA"))
 
     } else { ## do things
 
-    pdf("other-pkg-graph.pdf")
+    if(!dev.interactive(orNone=TRUE)) pdf("other-pkg-graph.pdf")
 
     ## 0) Simplest non-trivial graph: has no weights:
     g0 <- graphNEL(paste(1:2), edgeL=list("1"="2"), "directed")
@@ -32,7 +32,7 @@ if((Sys.getenv("USER")=="maechler" || nzchar(Sys.getenv("R_MATRIX_CHECK_EXTRA"))
     g. <- as(m0, "graph") ## failed in Matrix <= 1.1-0
     m. <- as(g., "Matrix")
     stopifnot( identical(m., m0) ) ## but (g0, g.) differ: the latter has '1' weights
-    
+
     ## 1) undirected
 
     V <- LETTERS[1:4]
@@ -138,7 +138,7 @@ if(isTRUE(try(require(SparseM)))) { # may be there and fail
 	M3 <- as(A.csr,               "Matrix") # dgC
 	M4 <- as(A.csc,               "Matrix") # dgC
 	M5 <- as(as(M, "matrix.coo"), "Matrix") # dgT
-	uniqT <- Matrix:::uniqTsparse
+	uniqT <- uniqTsparse
 	stopifnot(identical4(uniqT(T), uniqT(T.), uniqT(T3), uniqT(M5)),
 		  identical3(M, M3, M4))
 

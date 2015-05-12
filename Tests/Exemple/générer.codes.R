@@ -1,50 +1,40 @@
-générer.base.codes <- function(B) {
-  message("Génération de la base des codes de paie et des libellés.")
+gÃ©nÃ©rer.base.codes <- function(B) {
+  message("GÃ©nÃ©ration de la base des codes de paie et des libellÃ©s.")
   
-  if (table.rapide) {
-    
-    codes.paiement.généré <<- unique(B[ , c(étiquette.code, étiquette.libellé, "Type"), with = FALSE])
-    
-  } else {
-    
-    codes.paiement.généré <<- unique(B[ , c(étiquette.code, étiquette.libellé)])
-  }
+  codes.paiement.gÃ©nÃ©rÃ© <<- unique(B[ , c(Ã©tiquette.code, Ã©tiquette.libellÃ©, "Type"), with = FALSE])
   
-  codes.paiement.généré <<- cbind(codes.paiement.généré[mixedorder(codes.paiement.généré$Code), ], character(nrow(codes.paiement.généré)))
+  codes.paiement.gÃ©nÃ©rÃ© <<- cbind(codes.paiement.gÃ©nÃ©rÃ©[mixedorder(codes.paiement.gÃ©nÃ©rÃ©$Code), ], character(nrow(codes.paiement.gÃ©nÃ©rÃ©)))
   
-  if (!import.direct) 
-    names(codes.paiement.généré)[3] <- étiquette.Type.rémunération
-  else
-    names(codes.paiement.généré)[4] <- "Hors Brut"
-  
-  class(codes.paiement.généré) <- "data.frame"
-  codes.paiement.généré$Libellé <- iconv(codes.paiement.généré$Libellé, from = "UTF-8", to=encodage.entrée, mark = FALSE)
-  nom.fichier.codes <- racine %+% "codes.paiement.généré"
-  Sauv.base(chemin.dossier.données, "codes.paiement.généré", nom.fichier.codes)
+  names(codes.paiement.gÃ©nÃ©rÃ©)[3] <- Ã©tiquette.Type.rÃ©munÃ©ration
+
+  class(codes.paiement.gÃ©nÃ©rÃ©) <- "data.frame"
+  codes.paiement.gÃ©nÃ©rÃ©$LibellÃ© <- iconv(codes.paiement.gÃ©nÃ©rÃ©$LibellÃ©, from = "UTF-8", to=encodage.entrÃ©e, mark = FALSE)
+  nom.fichier.codes <- racine %+% "codes.paiement.gÃ©nÃ©rÃ©"
+  Sauv.base(chemin.dossier.donnÃ©es, "codes.paiement.gÃ©nÃ©rÃ©", nom.fichier.codes)
   
   #'---
   #'
   #'# Tableau des codes de paiement
   #'
-  #'##  Renseigner le type de rémunération
+  #'##  Renseigner le type de rÃ©munÃ©ration
   #'
   #'Utiliser les codes : TRAITEMENT, INDEMNITAIRE, ELU, VACATIONS, AUTRES
   #'
   
-  kable(codes.paiement.généré, row.names = FALSE)
+  kable(codes.paiement.gÃ©nÃ©rÃ©, row.names = FALSE)
   
   #'
   
   
-  if (file.exists(file.path(chemin.dossier.données, nom.fichier.codes %+% ".csv")))
-    message("Génération des codes : voir fichier Données/" %+% nom.fichier.codes %+% ".csv")  else
-      message("Les codes n'ont pas été générés.")
+  if (file.exists(file.path(chemin.dossier.donnÃ©es, nom.fichier.codes %+% ".csv")))
+    message("GÃ©nÃ©ration des codes : voir fichier DonnÃ©es/" %+% nom.fichier.codes %+% ".csv")  else
+      message("Les codes n'ont pas Ã©tÃ© gÃ©nÃ©rÃ©s.")
   
   
-  message("Le programme est arrêté après génération de la base de codes et libellés.
-  Relancer Altair après avoir renseigné la troisième colonne
-  et placé le fichier sous le répertoire Données avec le nom " %+% nom.fichier.codes.paiement)
+  message("Le programme est arrÃªtÃ© aprÃ¨s gÃ©nÃ©ration de la base de codes et libellÃ©s.
+  Relancer Altair aprÃ¨s avoir renseignÃ© la troisiÃ¨me colonne
+  et placÃ© le fichier sous le rÃ©pertoire DonnÃ©es avec le nom " %+% nom.fichier.codes.paiement)
   
-  if (générer.codes) stop("Codes générés", call. = FALSE, domain = NULL)
+  if (gÃ©nÃ©rer.codes) stop("Codes gÃ©nÃ©rÃ©s", call. = FALSE, domain = NULL)
   
 }

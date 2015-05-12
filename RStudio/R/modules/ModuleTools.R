@@ -15,22 +15,22 @@
 
 .rs.addFunction("enqueClientEvent", function(type, data = NULL)
 {
-   .Call("rs_enqueClientEvent", type, data)
+   .Call(.rs.routines$rs_enqueClientEvent, type, data)
 })
 
 .rs.addFunction("showErrorMessage", function(title, message)
 {
-   .Call("rs_showErrorMessage", title, message)
+   .Call(.rs.routines$rs_showErrorMessage, title, message)
 })
 
 .rs.addFunction("logErrorMessage", function(message)
 {
-   .Call("rs_logErrorMessage", message)
+   .Call(.rs.routines$rs_logErrorMessage, message)
 })
 
 .rs.addFunction("logWarningMessage", function(message)
 {
-   .Call("rs_logWarningMessage", message)
+   .Call(.rs.routines$rs_logWarningMessage, message)
 })
 
 .rs.addFunction("getSignature", function(obj)
@@ -110,7 +110,7 @@
   .rs.isPackageInstalled(name) && (.rs.getPackageVersion(name) >= version)
 })
 
-.rs.addFunction("packageCRANVersionAvailable", function(name, version) {
+.rs.addFunction("packageCRANVersionAvailable", function(name, version, source) {
   # get the specified CRAN repo
   repo <- NA
   repos <- getOption("repos")
@@ -132,8 +132,9 @@
   }
 
   # get the available packages and extract the version information
+  type <- ifelse(source, "source", getOption("pkgType"))
   pkgs <- available.packages(
-            contriburl = contrib.url(repo, getOption("pkgType")))
+            contriburl = contrib.url(repo, type = type))
   if (!(name %in% row.names(pkgs))) {
     return(list(version = "", satisfied = FALSE))
   }
@@ -192,7 +193,7 @@
    
   if (.rs.isPackageInstalled(name))
   {
-     f <- utils::packageDescription(name, fields=c("Repository", "GithubSHA1"))
+     f <- utils::packageDescription(name, fields=c("Origin", "GithubSHA1"))
      identical(f$Origin, "RStudioIDE") && !identical(f$GithubSHA1, sha1)
   }
   else
@@ -205,7 +206,7 @@
 {
   pkgDir <- find.package(name)
   .rs.forceUnloadPackage(name)
-  .Call("rs_installPackage",  archive, dirname(pkgDir))
+  .Call(.rs.routines$rs_installPackage,  archive, dirname(pkgDir))
 })
 
 
@@ -250,7 +251,7 @@
 .rs.addFunction("restartR", function(afterRestartCommand = "") {
    afterRestartCommand <- paste(as.character(afterRestartCommand),
                                 collapse = "\n")
-   .Call("rs_restartR", afterRestartCommand)
+   .Call(.rs.routines$rs_restartR, afterRestartCommand)
 })
 
 

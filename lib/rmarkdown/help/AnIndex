@@ -3,6 +3,7 @@ beamer_presentation	beamer_presentation
 compile_notebook	compile_notebook
 default_output_format	default_output_format
 draft	draft
+find_external_resources	find_external_resources
 html_document	html_document
 html_document_base	html_document_base
 html_fragment	html_fragment
@@ -28,6 +29,7 @@ pandoc_self_contained_html	pandoc_self_contained_html
 pandoc_template	pandoc_template
 pandoc_toc_args	pandoc_args
 pandoc_variable_arg	pandoc_args
+pandoc_version	pandoc_available
 pdf_document	pdf_document
 relative_to	relative_to
 render	render

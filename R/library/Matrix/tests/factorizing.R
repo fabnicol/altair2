@@ -123,7 +123,7 @@ a <- matrix(round(10 * runif(90)), 10,9); a[a < 7.5] <- 0
 qD <- chkQR(a) ## using base qr
 qS <- chkQR(A) ## using Matrix "sparse qr" -- "structurally rank deficient!
 validObject(qS)# with the validity now (2012-11-18) -- ok, also for "bad" case
-chk.qr.D.S(qD, qS, y = 10 + 1:nrow(A), force=TRUE)
+chk.qr.D.S(qD, qS, y = 10 + 1:nrow(A), force=TRUE)# 6 warnings: "structurally rank deficient"
 try( ## NOTE: *Both* checks  currently fail here:
     chkQR(A, Qinv.chk=TRUE, QtQ.chk=TRUE)
 )
@@ -133,12 +133,12 @@ oo <- options(Matrix.quiet.qr.R = TRUE, Matrix.verbose = TRUE)
 set.seed(101)
 
 for(N in 1:(if(doExtras) 1008 else 24)) {
-    A <- rSparseMatrix(8,5, nnz = rpois(1, lambda=16))
+    A <- rsparsematrix(8,5, nnz = rpois(1, lambda=16))
     cat(sprintf("%4d -", N))
     checkQR.DS.both(A, Qinv.chk= NA, QtQ.chk=NA)
     ##                          --- => FALSE if struct. rank deficient
 }
-
+unique(warnings())
 
 ## Look at single "hard" cases: --------------------------------------
 
@@ -208,7 +208,7 @@ try( checkQR.DS.both(A5, FALSE,  TRUE) )
 
 
 for(N in 1:(if(doExtras) 2^12 else 128)) {
-    A <- round(100*rSparseMatrix(5,3, nnz = min(15,rpois(1, lambda=10))))
+    A <- round(100*rsparsematrix(5,3, nnz = min(15,rpois(1, lambda=10))))
     if(any(apply(A, 2, function(x) all(x == 0)))) ## "column of all 0"
         next
     cat(sprintf("%4d -", N))
@@ -398,9 +398,9 @@ nT. <- as(AT <- as(A., "TsparseMatrix"),"nMatrix")
 stopifnot(all(nT.@i <= nT.@j),
 	  identical(qr(A1.8), qr(as(A1.8, "dgCMatrix"))))
 CA <- Cholesky(A.)
-stopifnot(isValid(CAinv <- solve(CA), "dsCMatrix"))
+stopifnotValid(CAinv <- solve(CA), "dsCMatrix")
 MA <- as(CA, "Matrix") # with a confusing warning -- FIXME!
-isValid(MAinv <- solve(MA), "dtCMatrix")
+stopifnotValid(MAinv <- solve(MA), "dtCMatrix")
 ## comparing MAinv with some solve(CA, system="...") .. *not* trivial? - TODO
 ##
 CAinv2 <- solve(CA, Diagonal(nrow(A.)))
@@ -596,8 +596,8 @@ stopifnot(all.equal(C, diag((5:1)^-2)))
 n <- 1e6 # was 595362
 A <- chol( D <- Diagonal(n) )
 stopifnot(identical(A,D)) # A remains (unit)diagonal
-is(tA <- as(A,"triangularMatrix"))
-isValid(tA, "dsparseMatrix")# currently is dtTMatrix
+is(tA <- as(A,"triangularMatrix"))# currently a dtTMatrix
+stopifnotValid(tA, "dsparseMatrix")
 CA <- as(tA, "CsparseMatrix")
 
 selectMethod(solve, c("dtCMatrix","missing"))
