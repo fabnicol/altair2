@@ -15,7 +15,7 @@
 !define VER_MINOR 02
 !define VER_REVISION 0
 !define VER_BUILD  0
-!define Rversion_major "3.1"
+!define Rversion_major "3.2
 
 ; autres définitions
 

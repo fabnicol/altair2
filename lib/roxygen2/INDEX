@@ -6,3 +6,4 @@ roxygen                 In-line documentation for R.
 roxygenize              Process a package with the Rd, namespace and
                         collate roclets.
 update_collate          Update Collate field in DESCRIPTION.
+vignette_roclet         Re-build outdated vignettes.

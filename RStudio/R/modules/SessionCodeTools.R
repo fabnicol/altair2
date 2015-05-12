@@ -237,7 +237,7 @@
 
 .rs.addFunction("getPendingInput", function()
 {
-   .Call("rs_getPendingInput")
+   .Call(.rs.routines$rs_getPendingInput)
 })
 
 .rs.addFunction("doStripSurrounding", function(string, complements)
@@ -328,6 +328,23 @@
    
 })
 
+.rs.addFunction("resolveAliasedSymbol", function(object)
+{
+   if (!is.function(object))
+      return(object)
+   
+   if (is.primitive(object))
+      return(object)
+   
+   body <- body(object)
+   env <- environment(object)
+   
+   if (length(body) && .rs.isSymbolCalled(body[[1]], ".rs.callAs"))
+      return(env$original)
+   
+   return(object)
+})
+
 .rs.addFunction("getAnywhere", function(name, envir = parent.frame())
 {
    result <- NULL
@@ -354,7 +371,7 @@
          )
          
          if (!is.null(object))
-            return(object)
+            return(.rs.resolveAliasedSymbol(object))
       }
       
       # Otherwise, maybe envir is the name of a package -- search there
@@ -366,7 +383,7 @@
          )
          
          if (!is.null(object))
-            return(object)
+            return(.rs.resolveAliasedSymbol(object))
       }
    }
    
@@ -390,7 +407,7 @@
       )
    }
    
-   result
+   .rs.resolveAliasedSymbol(result)
    
 })
 
@@ -450,7 +467,7 @@
          )
       )
       
-      object <- if (!(length(evaled)) && length(output))
+      object <- if (length(output))
          output
       else
          evaled
@@ -552,7 +569,7 @@
 
 .rs.addFunction("isSubsequence", function(strings, string)
 {
-   .Call("rs_isSubsequence", strings, string)
+   .Call(.rs.routines$rs_isSubsequence, strings, string)
 })
 
 .rs.addFunction("whichIsSubsequence", function(strings, string)
@@ -562,7 +579,7 @@
 
 .rs.addFunction("selectIsSubsequence", function(strings, string)
 {
-   .subset(strings, .rs.isSubsequence(strings))
+   .subset(strings, .rs.isSubsequence(strings, string))
 })
 
 .rs.addFunction("escapeForRegex", function(regex)
@@ -571,9 +588,19 @@
 })
 
 .rs.addFunction("objectsOnSearchPath", function(token = "",
-                                                caseInsensitive = FALSE)
+                                                caseInsensitive = FALSE,
+                                                excludeGlobalEnv = FALSE)
 {
    search <- search()
+   startIdx <- 1
+   range <- 1:length(search)
+   
+   if (excludeGlobalEnv)
+   {
+      startIdx <- 2
+      search <- search[-1]
+      range <- range[-1]
+   }
    
    if (nzchar(token))
    {
@@ -582,13 +609,13 @@
          token <- .rs.asCaseInsensitiveRegex(token)
       pattern <- paste("^", token, sep = "")
       
-      objects <- lapply(1:length(search), function(i) {
+      objects <- lapply(range, function(i) {
          ls(pos = i, all.names = TRUE, pattern = pattern)
       })
    }
    else
    {
-      objects <- lapply(1:length(search), function(i) {
+      objects <- lapply(range, function(i) {
          ls(pos = i, all.names = TRUE)
       })
    }
@@ -633,12 +660,12 @@
 
 .rs.addFunction("packageNameForSourceFile", function(filePath)
 {
-   .Call("rs_packageNameForSourceFile", filePath)
+   .Call(.rs.routines$rs_packageNameForSourceFile, filePath)
 })
 
 .rs.addFunction("isRScriptInPackageBuildTarget", function(filePath)
 {
-   .Call("rs_isRScriptInPackageBuildTarget", filePath)
+   .Call(.rs.routines$rs_isRScriptInPackageBuildTarget, filePath)
 })
 
 .rs.addFunction("namedVectorAsList", function(vector)
@@ -712,17 +739,17 @@
 
 .rs.addFunction("scoreMatches", function(strings, string)
 {
-   .Call("rs_scoreMatches", strings, string)
+   .Call(.rs.routines$rs_scoreMatches, strings, string)
 })
 
 .rs.addFunction("getProjectDirectory", function()
 {
-   .Call("rs_getProjectDirectory")
+   .Call(.rs.routines$rs_getProjectDirectory)
 })
 
 .rs.addFunction("hasFileMonitor", function()
 {
-   .Call("rs_hasFileMonitor")
+   .Call(.rs.routines$rs_hasFileMonitor)
 })
 
 .rs.addFunction("listIndexedFiles", function(term = "",
@@ -732,7 +759,7 @@
    if (is.null(.rs.getProjectDirectory()))
       return(NULL)
    
-   .Call("rs_listIndexedFiles",
+   .Call(.rs.routines$rs_listIndexedFiles,
          term,
          suppressWarnings(.rs.normalizePath(inDirectory)),
          as.integer(maxCount))
@@ -745,7 +772,7 @@
    if (is.null(inDirectory))
       return(character())
    
-   .Call("rs_listIndexedFolders", term, inDirectory, maxCount)
+   .Call(.rs.routines$rs_listIndexedFolders, term, inDirectory, maxCount)
 })
 
 .rs.addFunction("listIndexedFilesAndFolders", function(term = "",
@@ -755,7 +782,7 @@
    if (is.null(inDirectory))
       return(character())
    
-   .Call("rs_listIndexedFilesAndFolders", term, inDirectory, maxCount)
+   .Call(.rs.routines$rs_listIndexedFilesAndFolders, term, inDirectory, maxCount)
 })
 
 .rs.addFunction("doGetIndex", function(term = "",
@@ -846,6 +873,10 @@
 ## 
 ## NOTE: Function may be used by async R process; must not call back into
 ## 'rs_' compiled code!
+##
+## NOTE: lists are considered as objects if they are named, and as arrays if
+## they are not. If you have an empty list that you want to treat as an object,
+## you must give it a names attribute.
 .rs.addFunction("toJSON", function(object)
 {
    AsIs <- inherits(object, "AsIs") || inherits(object, ".rs.scalar")
@@ -889,7 +920,7 @@
       }
       else if (is.logical(object))
       {
-         object <- tolower(object)
+
          object[is.na(object)] <- 'null'
       }
       
@@ -900,7 +931,46 @@
    }
 })
 
-.rs.addFunction("getAsyncExports", function(...)
+.rs.addFunction("recordFunctionInformation", function(node,
+                                                      missingEnv,
+                                                      symbolsUsedEnv)
+{
+   if (is.call(node) && length(node) == 2)
+   {
+      head <- node[[1]]
+      second <- node[[2]]
+      if (.rs.isSymbolCalled(head, "missing") &&
+          is.symbol(second))
+      {
+         missingEnv[[as.character(second)]] <- TRUE
+      }
+   }
+   
+   ## TODO: Obviously not perfect because of NSE.
+   if (is.symbol(node) && !identical(node, quote(expr = )))
+      symbolsUsedEnv[[as.character(node)]] <- TRUE
+})
+
+.rs.addFunction("emptyNamedList", function()
+{
+   `names<-`(list(), character())
+})
+
+.rs.addFunction("emptyFunctionInfo", function()
+{
+   list(
+      formal_names = character(),
+      formal_info  = list(),
+      performs_nse = I(0L)
+   )
+})
+
+# NOTE: This function is used in asynchronous R processes and so
+# cannot call back into any RStudio compiled code! Even further,
+# `SessionAsyncPackageInformation.cpp` decodes fields based on
+# their names, so if you re-name a field here you must modify the
+# extraction implementation there as well.
+.rs.addFunction("getPackageInformation", function(...)
 {
    invisible(lapply(list(...), function(x) {
       tryCatch({
@@ -908,25 +978,64 @@
          # Explicitly load the library, and do everything we can to hide any
          # package startup messages (because we don't want to put non-JSON
          # on stdout)
-         invisible(capture.output(suppressPackageStartupMessages(
-            library(x, character.only = TRUE, quietly = TRUE)
-         )))
+         invisible(capture.output(suppressPackageStartupMessages(suppressWarnings(
+            success <- library(x, character.only = TRUE, quietly = TRUE, logical.return = TRUE)
+         ))))
+         
+         if (!success)
+            return(.rs.emptyFunctionInfo())
          
          # Get the exported items in the NAMESPACE (for search path + `::`
-         # completions), and then everything else (for `:::` completions)
+         # completions).
          ns <- asNamespace(x)
          exports <- getNamespaceExports(ns)
          objects <- mget(exports, ns, inherits = TRUE)
+         isFunction <- vapply(objects, FUN.VALUE = logical(1), USE.NAMES = FALSE, is.function)
+         functions <- objects[isFunction]
          
          # Figure out the completion types for these objects
-         types <- unlist(lapply(objects, .rs.getCompletionType))
+         types <- vapply(objects, FUN.VALUE = numeric(1), USE.NAMES = FALSE, .rs.getCompletionType)
          
-         # Find the functions -- for these, we want to return the argument
-         # names (since we want to enable function argument completions)
-         isFunction <- unlist(lapply(objects, is.function))
-         functions <- objects[isFunction]
-         functions <- lapply(functions, function(f) {
-            names(formals(f))
+         # Find the functions, and generate information on each formal
+         # (does it have a default argument; is missingness handled; etc)
+         functionInfo <- lapply(functions, function(f) {
+            
+            formals <- formals(f)
+            if (!length(formals))
+               return(.rs.emptyFunctionInfo())
+            
+            formalNames <- names(formals)
+            hasDefault <- vapply(formals, FUN.VALUE = integer(1), USE.NAMES = FALSE, function(x) {
+               !identical(x, quote(expr =))
+            })
+            
+            # Record which symbols in the function body handle missingness,
+            # to check if missingness of default arguments is handled
+            missingEnv <- new.env(parent = emptyenv())
+            usedSymbolsEnv <- new.env(parent = emptyenv())
+            .rs.recursiveWalk(body(f), function(node) {
+               .rs.recordFunctionInformation(node, missingEnv, usedSymbolsEnv)
+            })
+            
+            # Figure out which functions perform NSE. TODO: Figure out which
+            # arguments are actually involved in NSE.
+            performsNse <- as.integer(
+               .rs.recursiveSearch(body(f), .rs.performsNonstandardEvaluation)
+            )
+            
+            formalInfo <- lapply(seq_along(formalNames), function(i) {
+               as.integer(c(
+                  hasDefault[[i]],
+                  formalNames[[i]] == "..." || exists(formalNames[[i]], envir = missingEnv),
+                  exists(formalNames[[i]], envir = usedSymbolsEnv)
+               ))
+            })
+            
+            list(
+               formal_names = formalNames,
+               formal_info  = formalInfo,
+               performs_nse = I(performsNse)
+            )
          })
          
          # Generate the output
@@ -934,13 +1043,81 @@
             package = I(x),
             exports = exports,
             types = types,
-            functions = functions
+            function_info = functionInfo
          )
          
          # Write the JSON to stdout; parent processes
          cat(.rs.toJSON(output), sep = "\n")
+         
+         # Return output for debug purposes
+         output
+         
       }, error = function(e) NULL)
    }))
+})
+
+.rs.setVar("nse.primitives", c(
+   "quote", "substitute", "match.call", "eval.parent",
+   "enquote", "bquote", "evalq", "lazy_dots"
+))
+
+.rs.addFunction("performsNonstandardEvaluation", function(functionBody)
+{
+   # Allow callers to just pass in functions
+   if (is.function(functionBody))
+      functionBody <- body(functionBody)
+   
+   nsePrimitives <- .rs.getVar("nse.primitives")
+   .rs.recursiveSearch(functionBody,
+                       .rs.performsNonstandardEvaluationImpl,
+                       nsePrimitives = nsePrimitives)
+})
+
+.rs.addFunction("performsNonstandardEvaluationImpl", function(node, nsePrimitives)
+{
+   # Check if this is a call to an NSE primitive.
+   if (is.call(node))
+   {
+      head <- node[[1]]
+      if (!is.symbol(head))
+         return(FALSE)
+      
+      headString <- as.character(head)
+      if (headString %in% nsePrimitives)
+         return(TRUE)
+      
+      # Check if this is a call to an NSE primitive, qualified through
+      # `::` or `:::`.
+      if (headString %in% c("::", ":::") && length(node) == 3)
+      {
+         export <- node[[3]]
+         if (as.character(export) %in% nsePrimitives)
+            return(TRUE)
+      }
+   }
+   
+   return(FALSE)
+})
+
+.rs.addFunction("recursiveSearch", function(`_node`, fn, ...)
+{
+   if (fn(`_node`, ...)) return(TRUE)
+   
+   if (is.call(`_node`))
+      for (i in seq_along(`_node`))
+         if (.rs.recursiveSearch(`_node`[[i]], fn, ...))
+            return(TRUE)
+   
+   return(FALSE)
+})
+
+.rs.addFunction("recursiveWalk", function(`_node`, fn, ...)
+{
+   fn(`_node`, ...)
+   
+   if (is.call(`_node`))
+      for (i in seq_along(`_node`))
+         .rs.recursiveWalk(`_node`[[i]], fn, ...)
 })
 
 .rs.addFunction("trimWhitespace", function(x)
@@ -956,4 +1133,367 @@
    common <- min(indents)
    result <- paste(substring(splat, common, nchar(string)), collapse = "\n")
    .rs.trimWhitespace(sprintf(result, ...))
+})
+
+.rs.addFunction("parseNamespaceImports", function(path)
+{
+   output <- list(
+      import = character(),
+      importFrom = list()
+   )
+   
+   if (!file.exists(path))
+      return(output)
+   
+   parsed = tryCatch(
+      suppressWarnings(parse(path)),
+      error = function(e) NULL
+   )
+   
+   if (is.null(parsed))
+      return(output)
+   
+   # Loop over parsed entries and fill 'output'
+   for (i in seq_along(parsed))
+   {
+      directive <- parsed[[i]]
+      if (length(directive) < 2) next
+      
+      directiveName <- as.character(directive[[1]])
+      pkgName <- as.character(directive[[2]])
+      
+      if (directiveName == "import")
+      {
+         output$import <- sort(unique(c(output$import, pkgName)))
+         next
+      }
+      
+      if (directiveName == "importFrom")
+      {
+         exports <- character(length(directive) - 2)
+         for (i in 3:length(directive))
+            exports[[i - 2]] <- as.character(directive[[i]])
+         output$importFrom[[pkgName]] <- sort(unique(c(output$importFrom[[pkgName]], exports)))
+         next
+      }
+   }
+   
+   output
+   
+})
+
+.rs.addFunction("isSymbolCalled", function(maybeSymbol, name)
+{
+   is.symbol(maybeSymbol) && as.character(maybeSymbol) == name
+})
+
+.rs.addJsonRpcHandler("get_set_class_slots", function(setClassCallString)
+{
+   onFail <- list()
+   parsed <- tryCatch(
+      suppressWarnings(parse(text = setClassCallString))[[1]],
+      error = function(e) NULL
+   )
+   
+   if (is.null(parsed))
+      return(onFail)
+   
+   matched <- tryCatch(
+      match.call(methods::setClass, parsed),
+      error = function(e) NULL
+   )
+   
+   if (is.null(parsed))
+      return(onFail)
+   
+   # NOTE: Previously, R has used 'representation' to 
+   # store the information about slots; it is now 
+   # deprecated (from 3.0.0) and the use of 'slots' is
+   # encouraged. We'll check for 'slots' first, then
+   # fall back to representation if necessary.
+   # 
+   # NOTE: Okay to define a class with no slots / fields.
+   field <- if ("slots" %in% names(matched))
+      matched[["slots"]]
+   else if ("representation" %in% names(matched))
+      matched[["representation"]]
+   else
+      list()
+   
+   if (!("Class" %in% names(matched)))
+      return(onFail)
+   
+   Class <- matched[["Class"]]
+   
+   slots <- if (length(field))
+      names(field)[-1]
+   else
+      character()
+   
+   types <- if (length(field))
+      unlist(lapply(2:length(field), function(i) {
+         tryCatch(as.character(field[[i]]), error = function(e) "")
+      }))
+   else
+      character()
+   
+   result <- list(
+      Class = Class,
+      slots = slots,
+      types = types
+   )
+   return(result)
+})
+
+.rs.addFunction("tryParseCall", function(text)
+{
+   tryCatch(
+      suppressWarnings(parse(text = text))[[1]],
+      error = function(e) NULL
+   )
+})
+
+.rs.addFunction("tryMatchCall", function(method, call)
+{
+   tryCatch(
+      suppressWarnings(match.call(method, call)),
+      error = function(e) NULL
+   )
+})
+
+.rs.addFunction("extractElement", function(object,
+                                           name,
+                                           default = NULL)
+{
+   if (name %in% names(object))
+      object[[name]]
+   else
+      default
+})
+
+.rs.addJsonRpcHandler("get_set_generic_call", function(call)
+{
+   parsed <- .rs.tryParseCall(call)
+   if (is.null(parsed))
+      return(list())
+   
+   matched <- .rs.tryMatchCall(methods::setGeneric, parsed)
+   if (is.null(matched))
+      return(list())
+   
+   generic <- .rs.extractElement(matched, "name", "")
+   parameters <- character()
+   if ("def" %in% names(matched))
+   {
+      def <- matched[["def"]]
+      if (as.character(def[[1]]) == "function" &&
+          length(def) > 1)
+      {
+         parameters <- names(def[[2]])
+      }
+   }
+   
+   list(
+      generic = generic,
+      parameters = parameters
+   )
+})
+
+.rs.addJsonRpcHandler("get_set_method_call", function(call)
+{
+   parsed <- .rs.tryParseCall(call)
+   if (is.null(parsed))
+      return(list())
+   
+   matched <- .rs.tryMatchCall(methods::setMethod, parsed)
+   if (is.null(matched))
+      return(list())
+   
+   generic <- .rs.extractElement(matched, "f", "")
+   parameter.names <- character()
+   parameter.types <- character()
+   
+   signature <- .rs.extractElement(matched, "signature")
+   if (!is.null(signature))
+   {
+      if (is.call(signature) &&
+          length(signature) > 1)
+      {
+         parameter.names <- names(signature)[-1]
+         parameter.types <- unlist(lapply(2:length(signature), function(i) {
+            if (is.character(signature[[i]]))
+               signature[[i]]
+            else
+               ""
+         }))
+      }
+      else if (is.character(signature))
+      {
+         parameter.names <- signature
+      }
+   }
+   
+   list(
+      generic = generic,
+      parameter.names = parameter.names,
+      parameter.types = parameter.types
+   )
+   
+})
+
+.rs.addJsonRpcHandler("get_set_ref_class_call", function(call)
+{
+   parsed <- .rs.tryParseCall(call)
+   if (is.null(parsed))
+      return(list())
+   
+   matched <- .rs.tryMatchCall(methods::setRefClass, parsed)
+   if (is.null(matched))
+      return(list())
+   
+   Class <- .rs.extractElement(matched, "Class", "")
+   
+   field.names <- character()
+   field.types <- character()
+   fields <- .rs.extractElement(matched, "fields")
+   
+   if (length(fields) > 1)
+   {
+      field.names <- names(fields)[-1]
+      field.types <- unlist(lapply(2:length(fields), function(i) {
+         if (is.character(fields[[i]]))
+            fields[[i]]
+         else
+            ""
+      }))
+   }
+   
+   methods <- .rs.extractElement(matched, "methods")
+   method.names <- if (length(methods))
+      names(methods)[-1]
+   else
+      character()
+
+   list(
+      Class = Class,
+      field.names = field.names,
+      field.types = field.types,
+      method.names = method.names
+   )
+   
+})
+
+.rs.addFunction("getSetRefClassSymbols", function(callString)
+{
+   parsed <- .rs.rpc.get_set_ref_class_call(callString)
+   as.character(c(
+      parsed$field.names,
+      parsed$method.name
+   ))
+})
+
+.rs.addFunction("getR6ClassSymbols", function(callString)
+{
+   parsed <- .rs.tryParseCall(callString)
+   if (is.null(parsed)) return(character())
+   
+   symbols <- c("self", "public", "private", "super")
+   public <- .rs.extractElement(parsed, "public")
+   if (!is.null(public))
+      symbols <- c(symbols, names(public)[-1])
+   
+   symbols
+})
+
+.rs.addFunction("registerNativeRoutines", function()
+{
+   pos <- match("tools:rstudio", search())
+   if (is.na(pos))
+      return()
+   
+   if (exists(".rs.routines", pos))
+      return()
+   
+   routineEnv <- new.env(parent = emptyenv())
+   routines <- tryCatch(
+      getDLLRegisteredRoutines("(embedding)"),
+      error = function(e) NULL
+   )
+   
+   if (is.null(routines))
+      return(NULL)
+   
+   .CallRoutines <- routines[[".Call"]]
+   lapply(.CallRoutines, function(routine) {
+      routineEnv[[routine$name]] <- routine
+   })
+   assign(".rs.routines", routineEnv, pos = which(search() == "tools:rstudio"))
+   routineEnv
+})
+
+.rs.addFunction("setEncodingUnknownToUTF8", function(object)
+{
+   if (is.character(object) && Encoding(object) == "unknown")
+      Encoding(object) <- "UTF-8"
+   else if (is.list(object))
+      return(lapply(object, .rs.setEncodingUnknownToUTF8))
+   
+   object
+})
+
+.rs.addFunction("makePrimitiveWrapper", function(x) {
+   eval(parse(text = capture.output(x)), envir = parent.frame(1))
+})
+
+.rs.addFunction("extractNativeSymbols", function(DLL, collapse = TRUE)
+{
+   info <- getDLLRegisteredRoutines(DLL)
+   result <- lapply(info, function(routine) {
+      as.character(names(routine))
+   })
+   
+   if (collapse)
+      result <- as.character(unlist(result))
+   
+   result
+})
+
+.rs.addFunction("getNativeSymbols", function(package)
+{
+   loadedDLLs <- getLoadedDLLs()
+   if (package %in% names(loadedDLLs))
+      return(.rs.extractNativeSymbols(loadedDLLs[[package]]))
+   
+   reExtension <- paste("\\", .Platform$dynlib.ext, "$", sep = "")
+   
+   # Try loading the DLL temporarily so we can extract the symbols.
+   # Note that the shared object name does not necessarily match that
+   # of the package; e.g. `data.table` munges the object name.
+   libPath <- system.file("libs", package = package)
+   dllNames <- sub(
+      reExtension,
+      "",
+      list.files(libPath, pattern = reExtension)
+   )
+   
+   as.character(unlist(lapply(dllNames, function(name) {
+      
+      # TODO: Are there side-effects of this call that we want to avoid? If so
+      # we might want to execute this in a separate R process.
+      DLL <- try(
+         library.dynam(name, package = package, lib.loc = .libPaths()),
+         silent = TRUE
+      )
+      
+      if (inherits(DLL, "try-error"))
+         return(character())
+      
+      dllPath <- DLL[["path"]]
+      on.exit({
+         library.dynam.unload(name, libpath = system.file(package = package))
+      }, add = TRUE)
+      
+      return(.rs.extractNativeSymbols(DLL))
+   })))
+   
 })
