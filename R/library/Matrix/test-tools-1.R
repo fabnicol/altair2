@@ -40,7 +40,7 @@ assertError <- function(expr, verbose=getOption("verbose")) {
     t.res <- tryCatch(expr, error = function(e) e)
     if(!inherits(t.res, "error"))
 	stop(d.expr, "\n\t did not give an error", call. = FALSE)
-    cat("Asserted Error:", conditionMessage(t.res),"\n")
+    if(verbose) cat("Asserted Error:", conditionMessage(t.res),"\n")
     invisible(t.res)
 }
 
@@ -129,7 +129,24 @@ tryCatch.W.E <- function(expr)
 }
 
 
+##' Is 'x' a valid object of class 'class' ?
 isValid <- function(x, class) isTRUE(validObject(x, test=TRUE)) && is(x, class)
+
+##' Signal an error (\code{\link{stop}}), if \code{x} is not a valid object
+##' of class \code{class}.
+##'
+##' @title Stop if Not a Valid Object of Given Class
+##' @param x any \R object
+##' @param class character string specifying a class name
+##' @return \emph{invisibly}, the value of \code{\link{validObject}(x)}, i.e.,
+##'   \code{TRUE}; otherwise an error will have been signalled
+##' @author Martin Maechler, March 2015
+stopifnotValid <- function(x, class) {
+    if(!is(x, class))
+	stop(sprintf("%s is not of class \"%s\"",
+		     deparse(substitute(x)), class), call. = FALSE)
+    invisible(validObject(x))
+}
 
 ## Some (sparse) Lin.Alg. algorithms return 0 instead of NA, e.g.
 ## qr.coef(<sparseQR>, y).
@@ -199,9 +216,9 @@ relErrV <- function(target, current) {
 pkgRversion <- function(pkgname)
     sub("^R ([0-9.]+).*", "\\1", packageDescription(pkgname)[["Built"]])
 
-showSys.time <- function(expr) {
+showSys.time <- function(expr, ...) {
     ## prepend 'Time' for R CMD Rdiff
-    st <- system.time(expr)
+    st <- system.time(expr, ...)
     writeLines(paste("Time", capture.output(print(st))))
     invisible(st)
 }
@@ -231,7 +248,7 @@ assert.EQ <- function(target, current, tol = if(showOnly) 0 else 1e-15,
     T <- isTRUE(ae <- all.equal(target, current, tolerance = tol, ...))
     if(showOnly) return(ae) else if(giveRE && T) { ## don't show if stop() later:
 	ae0 <- if(tol == 0) ae else all.equal(target, current, tolerance = 0, ...)
-	if(!isTRUE(ae0)) cat(ae0,"\n")
+	if(!isTRUE(ae0)) writeLines(ae0)
     }
     if(!T) stop("all.equal() |-> ", paste(ae, collapse=sprintf("%-19s","\n")))
 }
@@ -246,10 +263,11 @@ assert.EQ. <- function(target, current,
 
 ### ------- Part II  -- related to matrices, but *not* "Matrix" -----------
 
-add.simpleDimnames <- function(m) {
+add.simpleDimnames <- function(m, named=FALSE) {
     stopifnot(length(d <- dim(m)) == 2)
-    dimnames(m) <- list(if(d[1]) paste0("r", seq_len(d[1])),
-                        if(d[2]) paste0("c", seq_len(d[2])))
+    dimnames(m) <- setNames(list(if(d[1]) paste0("r", seq_len(d[1])),
+				 if(d[2]) paste0("c", seq_len(d[2]))),
+			    if(named) c("Row", "Col"))
     m
 }
 

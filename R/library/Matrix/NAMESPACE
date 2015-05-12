@@ -27,7 +27,8 @@ importFrom("methods",
 
 
 ## Generics and functions defined in this package
-export("Cholesky", ".SuiteSparse_version",
+export("%&%",
+       "Cholesky", ".SuiteSparse_version",
        "Diagonal", ".symDiagonal", ".sparseDiagonal",
        "Hilbert", "KhatriRao",
        "Matrix",
@@ -44,16 +45,19 @@ export("Cholesky", ".SuiteSparse_version",
        "condest", "onenormest",
        "det",# << "identical" as base - but with correct determinant()
        ## "mkDet", # <- useful in other packages (Rmpfr, gmp) .. hmm --> 'stats' ?
-       ".dsy2mat", ".dxC2mat", ".T2Cmat", "..2dge",
+       ## FIXME: why exactly these and not e.g. dsp2dsy and many more?
+       ".dsy2mat", ".dsy2dsp", ".dxC2mat", ".T2Cmat", "..2dge", ".dense2sy",
+       ".C2nC", ".nC2d", ".nC2l",
        ".diag.dsC",# -> R/dsCMatrix.R --has FIXME
-       "diagN2U", "diagU2N", ".diagU2N", ".diag2tT", ".diag2sT",
+       ".solve.dgC.chol", ".solve.dgC.qr",
+       "diagN2U", "diagU2N", ".diagU2N", ".diag2tT", ".diag2sT", ".diag2mat",
        "drop0",
        "expand",
        "expm",
        "facmul", "fac2sparse", "fac2Sparse",
        "forceSymmetric",
-       ## 'graph' package (and class) related:
-       "T2graph", "graph2T",
+       "T2graph", "graph2T", ## <- 'graph' package (and class) related
+       "anyDuplicatedT", "uniqTsparse",
        "isTriangular",
        "isDiagonal",
        "isLDL",
@@ -85,6 +89,7 @@ if(getRversion() < "2.15.0")
     export(".M.classEnv")
 
 ## substitute for using  cbind() / rbind()
+## .Deprecated() for R version >= 3.2.0 [2015-04]:
 export("cBind",
        "rBind")
 
@@ -97,9 +102,9 @@ exportClasses(
 	      "number",
 	      "xsparseVector", # the class union of all 'x' slot sparseVector's
               ## not exported (but exporting does not help for method dispatch bug!)
-              ## "numLike", 
-              ## "xMatrix", 
-              ## "mMatrix", 
+              ## "numLike",
+              ## "xMatrix",
+              ## "mMatrix",
 
     ## all others:
 ## LOGIC      "logic",
