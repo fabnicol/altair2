@@ -14,7 +14,7 @@ struct Header {
 #endif
 #define NB_CHAR_SAUT_ENTETE 140
 #define SHIFT_MOIS_ANNEE 5 // 8
-#define SHIFT_SIRET_MOIS 750 // 840
+#define SHIFT_SIRET_MOIS 300 // 840
 struct Header* elem_parser(const char*);
 //}
 #endif

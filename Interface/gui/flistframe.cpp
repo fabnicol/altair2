@@ -11,9 +11,9 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
                          QStringList* terms, QStringList* translation, bool showAddItemButtonValue)
 
 {
-// Hash::Annee.reserve(1152);
-// Hash::Mois.reserve(1152);
-// Hash::Siret.reserve(1152);
+ Hash::Annee.reserve(1152);
+ Hash::Mois.reserve(1152);
+ Hash::Siret.reserve(1152);
 
  setAcceptDrops(true);
  altair = static_cast<Altair*>(parent);

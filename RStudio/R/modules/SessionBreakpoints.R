@@ -507,7 +507,7 @@
    params$fun <- fun
 
    # Register the function with RStudio (may set breakpoints)
-   .Call(.rs.routines$rs_registerShinyFunction, params)
+   .Call("rs_registerShinyFunction", params)
 })
 
 .rs.addJsonRpcHandler("get_function_steps", function(
@@ -522,3 +522,4 @@
 .rs.addFunction("haveAdvancedSteppingCommands", function() {
    getRversion() >= "3.1" && .rs.haveRequiredRSvnRev(63400)
 })
+
