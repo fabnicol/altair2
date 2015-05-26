@@ -17,7 +17,8 @@
 {
    fun <- deparse(call[[1]])
    return (fun == "source" ||
-           fun == "debugSource")
+           fun == "debugSource" ||
+           fun == "source.with.encoding")
 })
 
 .rs.addFunction("recordTraceback", function(userOnly)

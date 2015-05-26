@@ -1274,10 +1274,10 @@ incrémenter.chapitre()
 #'**Dans cette partie, l'ensemble de la base de paye est étudié.**  
 #'Les agents non actifs ou dont le poste est annexe sont réintroduits dans le périmètre.   
 
-if (N <- length(unique(Paie[Statut != "TITULAIRE"
+if (N <- uniqueN(Paie[Statut != "TITULAIRE"
                             & Statut != "STAGIAIRE"
                             & NBI != 0, 
-                              Matricule])))
+                              Matricule]))
   cat("Il existe ", N, "non titulaire", ifelse(N>1, "s", ""), " percevant une NBI.")
 
 NBI.aux.non.titulaires <- Paie[Statut != "TITULAIRE"
@@ -1487,7 +1487,7 @@ if (! résultat.ifts.manquant && ! résultat.iat.manquant) {
   nombre.mois.cumuls <- nrow(unique(personnels.iat.ifts[ , .(Matricule, Année, Mois)], 
                                     by = NULL))
   
-  nombre.agents.cumulant.iat.ifts <- length(unique(personnels.iat.ifts$Matricule))
+  nombre.agents.cumulant.iat.ifts <- uniqueN(personnels.iat.ifts$Matricule)
   
   personnels.iat.ifts <- personnels.iat.ifts[order(Année, Mois, Matricule)]
 }
@@ -1609,7 +1609,7 @@ if (! résultat.ifts.manquant && ! résultat.pfr.manquant) {
   
   nombre.mois.cumuls <- nrow(unique(personnels.pfr.ifts[ , .(Matricule, Année, Mois)], by = NULL))
   
-  nombre.agents.cumulant.pfr.ifts <- length(unique(personnels.pfr.ifts$Matricule))
+  nombre.agents.cumulant.pfr.ifts <- uniqueN(personnels.pfr.ifts$Matricule)
   
   personnels.pfr.ifts <- personnels.pfr.ifts[order(Année, Mois, Matricule)]
 }
@@ -1641,12 +1641,12 @@ if (nombre.agents.cumulant.pfr.ifts) {
 
 Dépassement.seuil.180h <- unique(Bulletins.paie[cumHSup > 180, 
                                                   .(Matricule, Année, "Cumul heures sup" = cumHSup, Emploi, Grade, Service)])
-nb.agents.dépassement  <- length(unique(Dépassement.seuil.180h$Matricule))
+nb.agents.dépassement  <- uniqueN(Dépassement.seuil.180h$Matricule)
 
 if  (nb.agents.dépassement)  {
   cat("Le seuil de 180 heures supplémentaires maximum est dépassé par ", nb.agents.dépassement, " agents.\n")
   Dépassement.seuil.220h <- Dépassement.seuil.180h["Cumul heures sup" > 220]
-  nb.agents.dépassement.220h <- length(unique(Dépassement.seuil.220h$Matricule))  
+  nb.agents.dépassement.220h <- uniqueN(Dépassement.seuil.220h$Matricule) 
   
   if  (nb.agents.dépassement.220h) cat(" Le seuil de 220 heures supplémentaires maximum est dépassé par ", nb.agents.dépassement.220h, " agents.\n") 
 }
