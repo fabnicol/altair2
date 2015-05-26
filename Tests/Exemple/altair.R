@@ -1715,7 +1715,7 @@ if (! is.null(HS.sup.25)) message("Heures sup controlées")
 Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"), nombre.Lignes.paie.HS.sup.25, nombre.ihts.anormales)
 
 #'
-#'[Lien vers la base de données Heures suplémentaires en excès du seuil de 25h/mois: matricules](Bases/Réglementation/HS.sup.25.csv)     
+#'[Lien vers la base de données Heures supplémentaires en excès du seuil de 25h/mois: matricules](Bases/Réglementation/HS.sup.25.csv)     
 #'[Lien vers la base de données cumuls en excès des seuils annuels](Bases/Réglementation/Dépassement.seuil.180h.csv)    
 #'[Lien vers la base de données IHTS anormales](Bases/Réglementation/ihts.anormales.csv)      
 #'
