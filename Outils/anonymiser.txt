@@ -8,8 +8,10 @@ Pour anonymiser des bases xhl :
    Copier le script Anonymiser.sh et l'exécutable bash.exe dans ce répertoire Nouveau dossier à la racine,
    contigus au(x) dossier(s) contenant les bases, comme sur l'image.
 
-3. Clic droit sur le script Anonymiser.sh > Ouvrir avec ... > sélectionner bash.exe dans le répertoire
-   Nouveau dossier 
+3. Cliquer sur bash.exe puis rentrer :
+
+   set PATH=%PATH%;C:\Utilisateurs\Public\Altair\Git\bin 
+   bash Anonymiser.sh
 
 4. Attendre que le dialogue de la console qui s'ouvre arrive à son terme.
 
