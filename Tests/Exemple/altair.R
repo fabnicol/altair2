@@ -1673,7 +1673,7 @@ HS.sup.25 <- Paie[Heures.Sup. > 25, colonnes, with=FALSE]
 
 HS.sup.indiciaire.mensuel <- HS.sup.25[Type == "T", .(Matricule, Année, Mois, Montant)]
 
-HS.sup.25 <-  HS.sup.25[Type %chin% c("I", "T", "R", "S", "IR")
+HS.sup.25 <-  HS.sup.25[Type %chin% c("I", "T", "R", "S", "IR", "A")
                           & ! grepl(".*SMIC.*",
                                     Libellé, 
                                     ignore.case = TRUE)
