@@ -131,12 +131,33 @@ if (charger.bases) {
   importer.bases.via.xhl2csv("Paie")
   importer.bases.via.xhl2csv("Bulletins.paie", nom.bulletins, colClasses =  colonnes.bulletins.classes.input, colNames = colonnes.bulletins.input)
   
+  # dans le cas où l'on ne lance le programme que pour certaines années, il préciser début.période sous revue et fin.période .sous.revue
+  # dans le fichier prologue.R. Sinon le programme travaille sur l'ensemble des années disponibles.
+  
+  if (extraire.années) {
+    Paie <- Paie[Année >= début.période.sous.revue & Année <= fin.période.sous.revue, ]
+    Bulletins.paie <- Bulletins.paie[Année >= début.période.sous.revue & Année <= fin.période.sous.revue, ]
+  }
+  
+  
   Paie[is.na(Grade),  Grade  := ""]
   Paie[is.na(Statut), Statut := "AUTRE_STATUT"]
   Paie[is.na(NBI),    NBI    := 0]
   Bulletins.paie[is.na(Grade),  Grade  := ""]
   Bulletins.paie[is.na(Statut), Statut := "AUTRE_STATUT"]
   Bulletins.paie[is.na(NBI),    NBI    := 0]
+}
+
+période                 <- début.période.sous.revue:fin.période.sous.revue
+durée.sous.revue        <- fin.période.sous.revue - début.période.sous.revue + 1
+
+if (! analyse.statique.totale) {
+  
+  années.analyse.statique <- c(début.période.sous.revue, fin.période.sous.revue)
+  
+} else {
+  
+  années.analyse.statique <- période
 }
 
 setkey(Paie, Matricule, Année, Mois)
@@ -154,38 +175,30 @@ if (! extraire.années) {
 
 avant.redressement <- 0
 après.redressement <- 0
-
+  
 if (éliminer.duplications) {
   avant.redressement <- nrow(Paie)
   duplications.vecteur <- duplicated(Paie, by=NULL)
   duplications.paie <- Paie[duplications.vecteur]
   Paie <- Paie[! duplications.vecteur] 
-  
-  sauv.bases(chemin.dossier.bases, "duplications.paie")
+  if (sauvegarder.bases.origine)
+      sauv.bases(chemin.dossier.bases, "duplications.paie")
   après.redressement <- nrow(Paie)
+  
+  avant.redressement.bull <- nrow(Bulletins.paie)
+  duplications.vecteur   <- duplicated(Bulletins.paie, by=NULL)
+  duplications.paie.bull <- Bulletins.paie[duplications.vecteur]
+  Bulletins.paie <- Bulletins.paie[! duplications.vecteur] 
+  if (sauvegarder.bases.origine) {
+    sauv.bases(chemin.dossier.bases, "duplications.paie")
+    sauv.bases(chemin.dossier.bases, "duplications.paie.bull")
+  }
+  après.redressement.bull <- nrow(Bulletins.paie)
   rm(duplications.vecteur)
-}
-
-# dans le cas où l'on ne lance le programme que pour certaines années, il préciser début.période sous revue et fin.période .sous.revue
-# dans le fichier prologue.R. Sinon le programme travaille sur l'ensemble des années disponibles.
-
-if (extraire.années) {
-  Paie <- Paie[Paie$Année >= début.période.sous.revue & Paie$Année <= fin.période.sous.revue, ]
-}
-
-période                 <- début.période.sous.revue:fin.période.sous.revue
-durée.sous.revue        <- fin.période.sous.revue - début.période.sous.revue + 1
-
-if (! analyse.statique.totale) {
   
-  années.analyse.statique <- c(début.période.sous.revue, fin.période.sous.revue)
+} 
   
-} else {
-  
-  années.analyse.statique <- période
-}
 
-message("Contrôle des noms de colonne des bulletins de paie : normal.")
 
 # Lors de la PREMIERE utilisation d'Altair, paramétrer générer.codes <- TRUE dans prologue.R
 # pour générer les fichier des codes de paiement sous le dossier des bases (par défaut "Données").

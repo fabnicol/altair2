@@ -490,7 +490,7 @@ colonnes.sélectionnées <- c("traitement.indiciaire",
 invisible(lapply(années.analyse.statique, function(x) {
                  année <<- x
                  incrémenter.chapitre()
-                 if (! produire.rapport) {
+                 if (! générer.rapport) {
                    
                    source('analyse.statique.R', encoding = encodage.code.source) 
                    
@@ -1278,7 +1278,7 @@ if (N <- uniqueN(Paie[Statut != "TITULAIRE"
                             & Statut != "STAGIAIRE"
                             & NBI != 0, 
                               Matricule]))
-  cat("Il existe ", N, "non titulaire", ifelse(N>1, "s", ""), " percevant une NBI.")
+  cat("Il existe ", FR(N), "non titulaire", ifelse(N>1, "s", ""), " percevant une NBI.")
 
 NBI.aux.non.titulaires <- Paie[Statut != "TITULAIRE"
                                & Statut != "STAGIAIRE"
@@ -1360,7 +1360,7 @@ Tableau(
 
 if (! is.null(nombre.fonctionnaires.et.vacations)) {
   cat("Il y a ",
-      nombre.fonctionnaires.et.vacations,
+      FR(nombre.fonctionnaires.et.vacations),
       "fonctionnaire(s) effectuant des vacations pour son propre établissement. Les bulletins concernés sont donnés en lien." )
 }  else  {
   cat("Pas de vacation détectée.")
@@ -1644,11 +1644,11 @@ Dépassement.seuil.180h <- unique(Bulletins.paie[cumHSup > 180,
 nb.agents.dépassement  <- uniqueN(Dépassement.seuil.180h$Matricule)
 
 if  (nb.agents.dépassement)  {
-  cat("Le seuil de 180 heures supplémentaires maximum est dépassé par ", nb.agents.dépassement, " agents.\n")
+  cat("Le seuil de 180 heures supplémentaires maximum est dépassé par ", FR(nb.agents.dépassement), " agents.\n")
   Dépassement.seuil.220h <- Dépassement.seuil.180h["Cumul heures sup" > 220]
   nb.agents.dépassement.220h <- uniqueN(Dépassement.seuil.220h$Matricule) 
   
-  if  (nb.agents.dépassement.220h) cat(" Le seuil de 220 heures supplémentaires maximum est dépassé par ", nb.agents.dépassement.220h, " agents.\n") 
+  if  (nb.agents.dépassement.220h) cat(" Le seuil de 220 heures supplémentaires maximum est dépassé par ", FR(nb.agents.dépassement.220h), " agents.\n") 
 }
 
 colonnes <- c(étiquette.matricule,
@@ -1784,17 +1784,28 @@ if (sauvegarder.bases.analyse)
 #'## Fiabilité du traitement statistique  
 #'### Eliminations des doublons  
 #'  
-if (après.redressement != avant.redressement) {
-      
-  cat("Retraitement de la base : ")
 
+if (éliminer.duplications) {
+  if (après.redressement != avant.redressement) {
+        
+    cat("Retraitement de la base de lignes de paie : ")
+  
+  } else {
+    cat("Aucune duplication de ligne de paie n'a été détectée. ")
+  }
+ 
 } else {
-  cat("Aucune duplication de ligne détectée. ")
+  
+    if (anyDuplicated(Paie) || anyDuplicated(Bulletins.paie)) {
+      cat("Attention : Altaïr a détecté des lignes dupliquées alors qu'aucun retraitement des lignes dupliquées n'est prévu par défaut.")
+    } else {
+      cat("Aucune duplication de ligne n'a été détectée. ")
+    }
 }
 
 #'  
 if (après.redressement != avant.redressement)
-  cat("Elimination de ", avant.redressement - après.redressement, " lignes dupliquées")
+  cat("Elimination de ", FR(avant.redressement - après.redressement), " lignes dupliquées")
 
 #'   
 base.heures.nulles.salaire.nonnull     <- Bulletins.paie[Heures == 0  & (Net.à.Payer != 0 | Brut != 0)]
@@ -1804,10 +1815,10 @@ nligne.base.heures.nulles.salaire.nonnull     <- nrow(base.heures.nulles.salaire
 nligne.base.quotité.indéfinie.salaire.nonnull <- nrow(base.quotité.indéfinie.salaire.nonnull)
 #'  
 if (nligne.base.heures.nulles.salaire.nonnull)
-   cat("Nombre de bulletins de paye de salaires (net ou brut) versés pour un champ Heures = 0 : ", nligne.base.heures.nulles.salaire.nonnull)
+   cat("Nombre de bulletins de paye de salaires (net ou brut) versés pour un champ Heures = 0 : ", FR(nligne.base.heures.nulles.salaire.nonnull))
 #'   
 if (nligne.base.quotité.indéfinie.salaire.nonnull)
-   cat("\nNombre de bulletins de paye de salaires (net ou brut) versés pour une quotité de travail indéfinie : ", nligne.base.heures.nulles.salaire.nonnull)
+   cat("\nNombre de bulletins de paye de salaires (net ou brut) versés pour une quotité de travail indéfinie : ", FR(nligne.base.heures.nulles.salaire.nonnull))
 #'   
 #'[Lien vers la base de données des salaires versés pour Heures=0](Bases/Fiabilité/base.heures.nulles.salaire.nonnull.csv)   
 #'[Lien vers la base de données des salaires versés à quotité indéfinie](Bases/Fiabilité/base.quotité.indéfinie.salaire.nonnull.csv)   
