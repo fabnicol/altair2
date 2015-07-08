@@ -8,6 +8,8 @@
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
 
 
+générer.rapport             <- T
+
 racine                      <- "R-Altaïr/"
 # "Ville Annecy Paye BP-"
 # "UTF-8.PDC-"
@@ -17,15 +19,15 @@ racine                      <- "R-Altaïr/"
 # "UTF-8.RAG_2009_2012-"
 # "RAG_2009_2012-"
 
-extraire.années      <- F
-    début.période.sous.revue    <- 2011
-    fin.période.sous.revue      <- 2013
+extraire.années      <- T
+    début.période.sous.revue    <- 2010
+    fin.période.sous.revue      <- 2014
 
 setOSWindows            <- Sys.info()["sysname"] != "Linux"
 exec.root               <- ifelse(setOSWindows, ".exe", "")
 
-éliminer.duplications   <- F
-enlever.quotités.nulles <- F
+éliminer.duplications   <- T
+enlever.quotités.nulles <- T
 enlever.quotités.na     <- F
 écreter.quotités        <- T
 générer.codes           <- FALSE
@@ -36,7 +38,6 @@ sauvegarder.bases.origine    <- F
 générer.table.effectifs      <- F
 générer.table.élus           <- T
 tester.matricules            <- TRUE
-produire.rapport             <- T
 analyse.statique.totale      <- F
 
 seuil.troncature         <- 1 # jours

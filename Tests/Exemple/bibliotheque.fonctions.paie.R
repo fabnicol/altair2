@@ -478,3 +478,4 @@ incrémenter.chapitre <- function() {
   invisible(chapitre)
 }
 
+FR <- function(x) formatC(x, big.mark = " ")
