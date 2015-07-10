@@ -173,7 +173,7 @@ assign(envir = .rs.Env, ".rs.getVar", function(name)
 
 .rs.addGlobalFunction( "RStudioGD", function()
 {
-   .Call("rs_createGD")
+   .Call(.rs.routines$rs_createGD)
 })
 
 # set our graphics device as the default and cause it to be created/set
@@ -186,6 +186,23 @@ assign(envir = .rs.Env, ".rs.getVar", function(name)
 .rs.addFunction( "activateGraphicsDevice", function()
 {
    invisible(.Call("rs_activateGD"))
+})
+
+.rs.addFunction( "newDesktopGraphicsDevice", function()
+{
+   sysName <- Sys.info()[['sysname']]
+   if (identical(sysName, "Windows"))
+      windows()
+   else if (identical(sysName, "Darwin"))
+      quartz()
+   else if (capabilities("X11"))
+      X11()
+   else {
+      warning("Unable to create a new graphics device ",
+              "(RStudio device already active and only a ",
+              "single RStudio device is supported)", 
+              call. = FALSE)
+   }
 })
 
 # record an object to a file
@@ -270,7 +287,7 @@ assign(envir = .rs.Env, ".rs.getVar", function(name)
 # generate a uuid
 .rs.addFunction( "createUUID", function()
 {
-  .Call("rs_createUUID")
+  .Call(.rs.routines$rs_createUUID)
 })
 
 # check the current R architecture
@@ -288,7 +305,7 @@ assign(envir = .rs.Env, ".rs.getVar", function(name)
       else
          fileTitle <- header[[i]]
 
-      .Call("rs_showFile", fileTitle, files[[i]], delete.file)
+      .Call(.rs.routines$rs_showFile, fileTitle, files[[i]], delete.file)
    }
 })
 

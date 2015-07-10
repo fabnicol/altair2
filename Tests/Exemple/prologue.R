@@ -26,8 +26,8 @@ extraire.années      <- T
 setOSWindows            <- Sys.info()["sysname"] != "Linux"
 exec.root               <- ifelse(setOSWindows, ".exe", "")
 
-éliminer.duplications   <- T
-enlever.quotités.nulles <- T
+éliminer.duplications   <- F
+enlever.quotités.nulles <- F
 enlever.quotités.na     <- F
 écreter.quotités        <- T
 générer.codes           <- FALSE

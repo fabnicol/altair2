@@ -1,5 +1,6 @@
 ASCIIfy                 Convert Characters to ASCII
 ELISA                   Data from an ELISA assay
+asc                     Convert between characters and ASCII codes
 ask                     Display a prompt and collect the user's
                         response
 binsearch               Binary Search
@@ -28,6 +29,7 @@ permute                 Randomly Permute the Elements of a Vector
 quantcut                Create a Factor Variable Using the Quantiles of
                         a Continuous Variable
 rdirichlet              Functions for the Dirichlet Distribution
+roman2int               Convert Roman Numerals to Integers
 running                 Apply a Function Over Adjacent Subsets of a
                         Vector
 scat                    Display debugging text
@@ -36,3 +38,5 @@ setTCPNoDelay           Modify the TCP\_NODELAY ('de-Nagle') flag for
 smartbind               Efficient rbind of data frames, even if the
                         column names don't match
 stars.pval              Generate significance stars from p-values
+unByteCode              Convert a Byte-Code Function to an
+                        Interpreted-Code Function

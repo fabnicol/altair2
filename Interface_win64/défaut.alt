@@ -2,7 +2,76 @@
 <projet>
  <data>
   <XHL profondeur="2">
-   <année><fichier></fichier></année>
+   <année V="2010">
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2010/24810073700019-2010-ETAT_PAYE-01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2010/24810073700019-2010-ETAT_PAYE-02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2010/24810073700019-2010-ETAT_PAYE-03.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2010/24810073700019-2010-ETAT_PAYE-04.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2010/24810073700019-2010-ETAT_PAYE-05.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2010/24810073700019-2010-ETAT_PAYE-06.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2010/24810073700019-2010-ETAT_PAYE-07.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2010/24810073700019-2010-ETAT_PAYE-08.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2010/24810073700019-2010-ETAT_PAYE-09.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2010/24810073700019-2010-ETAT_PAYE-10.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2010/24810073700019-2010-ETAT_PAYE-11.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2010/24810073700019-2010-ETAT_PAYE-12.xhl</fichier>
+   </année>
+   <année V="2011">
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2011/1/XML/24810073700019-2011-ETAT_PAYE-01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2011/10/XML/24810073700019-2011-ETAT_PAYE-10.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2011/11/XML/24810073700019-2011-ETAT_PAYE-11.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2011/12/XML/24810073700019-2011-ETAT_PAYE-12.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2011/2/XML/24810073700019-2011-ETAT_PAYE-02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2011/3/XML/24810073700019-2011-ETAT_PAYE-03.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2011/4/XML/24810073700019-2011-ETAT_PAYE-04.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2011/5/XML/24810073700019-2011-ETAT_PAYE-05.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2011/6/XML/24810073700019-2011-ETAT_PAYE-06.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2011/7/XML/24810073700019-2011-ETAT_PAYE-07.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2011/8/XML/24810073700019-2011-ETAT_PAYE-08.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2011/9/XML/24810073700019-2011-ETAT_PAYE-09.xhl</fichier>
+   </année>
+   <année V="2012">
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2012/1/XML/24810073700019-2012-ETAT_PAYE-01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2012/10/XML/24810073700019-2012-ETAT_PAYE-10.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2012/11/XML/24810073700019-2012-ETAT_PAYE-11.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2012/12/XML/24810073700019-2012-ETAT_PAYE-12.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2012/2/XML/24810073700019-2012-ETAT_PAYE-02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2012/3/XML/24810073700019-2012-ETAT_PAYE-03.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2012/4/XML/24810073700019-2012-ETAT_PAYE-04.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2012/5/XML/24810073700019-2012-ETAT_PAYE-05.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2012/6/XML/24810073700019-2012-ETAT_PAYE-06.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2012/7/XML/24810073700019-2012-ETAT_PAYE-07.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2012/8/XML/24810073700019-2012-ETAT_PAYE-08.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2012/9/XML/24810073700019-2012-ETAT_PAYE-09.xhl</fichier>
+   </année>
+   <année V="2013">
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2013/1/24810073700019-2013-ETAT_PAYE-01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2013/10/24810073700019-2013-ETAT_PAYE-10.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2013/11/24810073700019-2013-ETAT_PAYE-11.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2013/12/24810073700019-2013-ETAT_PAYE-12.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2013/2/24810073700019-2013-ETAT_PAYE-02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2013/3/24810073700019-2013-ETAT_PAYE-03.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2013/4/24810073700019-2013-ETAT_PAYE-04.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2013/5/24810073700019-2013-ETAT_PAYE-05.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2013/6/24810073700019-2013-ETAT_PAYE-06.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2013/7/24810073700019-2013-ETAT_PAYE-07.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2013/8/24810073700019-2013-ETAT_PAYE-08.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2013/9/24810073700019-2013-ETAT_PAYE-09.xhl</fichier>
+   </année>
+   <année V="2014">
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2014/1/24810073700019-2014-ETAT_PAYE-01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2014/10/24810073700019-2014-ETAT_PAYE-10.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2014/11/24810073700019-2014-ETAT_PAYE-11.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2014/12/24810073700019-2014-ETAT_PAYE-12.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2014/2/24810073700019-2014-ETAT_PAYE-02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2014/3/24810073700019-2014-ETAT_PAYE-03.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2014/4/24810073700019-2014-ETAT_PAYE-04.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2014/5/24810073700019-2014-ETAT_PAYE-05.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2014/6/24810073700019-2014-ETAT_PAYE-06.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2014/7/24810073700019-2014-ETAT_PAYE-07.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2014/8/24810073700019-2014-ETAT_PAYE-08.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Paye_C2A/2014/9/24810073700019-2014-ETAT_PAYE-09.xhl</fichier>
+   </année>
   </XHL>
  </data>
  <systeme>

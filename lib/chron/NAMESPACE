@@ -2,8 +2,8 @@ useDynLib("chron")
 
 import("stats")
 
-importFrom("graphics", "Axis", "axis", "barplot", "hist", "par", "plot",
-           "plot.default") 
+importFrom("graphics", "Axis", "axis", "barplot", "hist", "par",
+           "plot", "plot.default", "plot.new", "plot.window", "rect")
 
 export(".Holidays",
        "as.chron",
@@ -51,6 +51,7 @@ S3method("cut", "dates")
 S3method("format", "dates")
 S3method("print", "dates")
 S3method("pretty", "dates")
+S3method("seq", "dates")
 S3method("unique", "dates")
 S3method("xtfrm", "dates")
 
