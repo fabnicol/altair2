@@ -1,7 +1,9 @@
+/*jshint browser:true, strict:false, curly:false, indent:3*/
+
 /*
  * gridviewer.js
  *
- * Copyright (C) 2009-14 by RStudio, Inc.
+ * Copyright (C) 2009-15 by RStudio, Inc.
  *
  * Unless you have received this program directly from RStudio pursuant
  * to the terms of a commercial license agreement with RStudio, then
@@ -99,6 +101,11 @@ var showError = function(msg) {
 
 // simple HTML escaping (avoid XSS in data)
 var escapeHtml = function(html) {
+  // handle special cells
+  if (typeof(html) === "number")
+    return html.toString();
+
+  // in other types, replace special characters
   var replacements = {
     "<":  "&lt;",
     ">":  "&gt;",
@@ -118,6 +125,11 @@ var highlightSearchMatch = function(data, search, pos) {
 // literally; when search is active, highlights the portion of the text that
 // matches the search
 var renderCellContents = function(data, type, row, meta) {
+
+  // usually data is a string; 0 is a special value signifying NA 
+  if (data === 0) {
+    return '<span class="naCell">NA</span>';
+  }
 
   // if row matches because of a global search, highlight that
   if (cachedSearch.length > 0) {
@@ -353,13 +365,13 @@ var createFactorFilterUI = function(idx, col, onDismiss) {
   };
   invokeFilterPopup(ele, function(popup) {
     var list = document.createElement("div");
-    list.className = "factorList";
+    list.className = "choiceList";
     var val = parseSearchVal(idx);
     var current = val.length > 0 ? parseInt(val) : 0;
     for (var i = 0; i < col.col_vals.length; i++) {
       var opt = document.createElement("div");
       opt.textContent = col.col_vals[i];
-      opt.className = "factorListItem";
+      opt.className = "choiceListItem";
       opt.addEventListener("click", setValHandler(i + 1, col.col_vals[i]));
       list.appendChild(opt);
     }
@@ -399,6 +411,37 @@ var createTextFilterUI = function(idx, col, onDismiss) {
     evt.stopPropagation();
   });
   ele.appendChild(input);
+  return ele;
+};
+
+var createBooleanFilterUI = function(idx, col, onDismiss) {
+  var ele = document.createElement("div");
+  var display = document.createElement("span");
+  display.innerHTML = "&nbsp;";
+  ele.appendChild(display);
+
+  var setBoolValHandler = function(text) {
+      return function(evt) {
+        var searchText = "boolean|" + text;
+        table.columns(idx).search(searchText).draw();
+        display.textContent = text;
+      };
+  };
+
+  invokeFilterPopup(ele, function(popup) {
+    var list = document.createElement("div");
+    list.className = "choiceList";
+    var values = ["TRUE", "FALSE"];
+    for (logical in values) {
+      var opt = document.createElement("div");
+      opt.textContent = values[logical];
+      opt.className = "choiceListItem";
+      opt.addEventListener("click", setBoolValHandler(values[logical]));
+      list.appendChild(opt);
+    }
+    popup.appendChild(list);
+  }, onDismiss, false);
+
   return ele;
 };
 
@@ -505,6 +548,8 @@ var createFilterUI = function(idx, col) {
       ui = createFactorFilterUI(idx, col, onDismiss);
     } else if (col.col_search_type === "character") {
       ui = createTextFilterUI(idx, col, onDismiss);
+    } else if (col.col_search_type === "boolean") {
+      ui = createBooleanFilterUI(idx, col, onDismiss);
     }
     if (ui) {
       ui.className += " filterValue";
@@ -769,7 +814,8 @@ window.setFilterUIVisible = function(visible) {
     var th = thead.children[i];
     if (col.col_search_type === "numeric" || 
         col.col_search_type === "character" ||
-        col.col_search_type === "factor")  {
+        col.col_search_type === "factor" ||
+        col.col_search_type === "boolean")  {
       if (visible) {
         var filter = createFilterUI(i, col);
         th.appendChild(filter);

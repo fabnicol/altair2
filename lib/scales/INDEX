@@ -12,6 +12,8 @@ brewer_pal              Color Brewer palette (discrete).
 cbreaks                 Compute breaks for continuous scale.
 censor                  Censor any values outside of range.
 col2hcl                 Modify standard R colour in hcl colour space.
+col_numeric             Color mapping
+colour_ramp             Fast color interpolation
 comma_format            Comma formatter: format number with commas
                         separating thousands.
 cscale                  Continuous scale.
@@ -47,6 +49,8 @@ math_format             Add arbitrary expression to a label. The symbol
                         that will be replace by the label value is
                         '.x'.
 muted                   Mute standard colour.
+ordinal_format          Ordinal formatter: add ordinal suffixes (-st,
+                        -nd, -rd, -th) to numbers.
 package-scales          Generic plot scaling methods
 parse_format            Parse a text label to produce expressions for
                         plotmath.
@@ -77,5 +81,8 @@ trans_breaks            Pretty breaks on transformed scale.
 trans_format            Format labels after transformation.
 trans_new               Create a new transformation object.
 trans_range             Compute range of transformed values.
+unit_format             Add units to the labels
+wrap_format             Wrap text to a specified width, adding newlines
+                        for spaces if text exceeds the width
 zero_range              Determine if range of vector is close to zero,
                         with a specified tolerance

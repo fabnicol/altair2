@@ -10,6 +10,11 @@ brewer_pal	brewer_pal
 cbreaks	cbreaks
 censor	censor
 col2hcl	col2hcl
+colour_ramp	colour_ramp
+col_bin	col_numeric
+col_factor	col_numeric
+col_numeric	col_numeric
+col_quantile	col_numeric
 comma	comma_format
 comma_format	comma_format
 ContinuousRange	Range-class
@@ -45,6 +50,8 @@ log_trans	log_trans
 manual_pal	manual_pal
 math_format	math_format
 muted	muted
+ordinal	ordinal_format
+ordinal_format	ordinal_format
 package-scales	package-scales
 parse_format	parse_format
 percent	percent_format
@@ -76,4 +83,6 @@ trans_breaks	trans_breaks
 trans_format	trans_format
 trans_new	trans_new
 trans_range	trans_range
+unit_format	unit_format
+wrap_format	wrap_format
 zero_range	zero_range

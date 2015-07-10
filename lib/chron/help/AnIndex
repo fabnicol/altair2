@@ -52,6 +52,7 @@ print.dates	dates
 print.times	dates
 quantile.times	dates
 quarters.default	days
+round.times	trunc.times
 scale_x_chron	scale
 scale_y_chron	scale
 seconds	hours
