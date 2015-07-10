@@ -12,6 +12,10 @@ packrat                 Packrat: Reproducible dependency management
 packrat-external        Managing External Libraries
 packrat-mode            Packrat Mode
 packrat-options         Get/set packrat project options
+repos_create            Create a Local, CRAN-like Repository
+repos_upload            Upload a Package to a Local CRAN-like
+                        Repository
+repository-management   Add a Repository
 restore                 Apply the most recent snapshot to the library
 search_path             Get Packages on the Search Path
 snapshot                Capture and store the packages and versions in

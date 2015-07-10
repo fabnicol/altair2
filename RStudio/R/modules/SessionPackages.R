@@ -54,12 +54,12 @@ if (identical(as.character(Sys.info()["sysname"]), "Darwin") &&
    
    notifyPackageLoaded <- function(pkgname, ...)
    {
-      .Call("rs_packageLoaded", pkgname)
+      .Call(.rs.routines$rs_packageLoaded, pkgname)
    }
 
    notifyPackageUnloaded <- function(pkgname, ...)
    {
-      .Call("rs_packageUnloaded", pkgname)
+      .Call(.rs.routines$rs_packageUnloaded, pkgname)
    }
    
    sapply(.packages(TRUE), function(packageName) 
@@ -133,7 +133,7 @@ if (identical(as.character(Sys.info()["sysname"]), "Darwin") &&
       # do housekeeping after we execute the original
       on.exit({
          .rs.updatePackageEvents()
-         .Call("rs_packageLibraryMutated")
+         .Call(.rs.routines$rs_packageLibraryMutated)
          .rs.restorePreviousPath()
       })
 
@@ -159,12 +159,12 @@ if (identical(as.character(Sys.info()["sysname"]), "Darwin") &&
 
 .rs.addFunction( "addRToolsToPath", function()
 {
-    .Call("rs_addRToolsToPath")
+    .Call(.rs.routines$rs_addRToolsToPath)
 })
 
 .rs.addFunction( "restorePreviousPath", function()
 {
-    .Call("rs_restorePreviousPath")
+    .Call(.rs.routines$rs_restorePreviousPath)
 })
 
 .rs.addFunction( "uniqueLibraryPaths", function()
@@ -494,7 +494,7 @@ if (identical(as.character(Sys.info()["sysname"]), "Darwin") &&
 
 .rs.addFunction("enqueLoadedPackageUpdates", function(installCmd)
 {
-   .Call("rs_enqueLoadedPackageUpdates", installCmd)
+   .Call(.rs.routines$rs_enqueLoadedPackageUpdates, installCmd)
 })
 
 .rs.addJsonRpcHandler("loaded_package_updates_required", function(pkgs)
@@ -509,12 +509,12 @@ if (identical(as.character(Sys.info()["sysname"]), "Darwin") &&
 
 .rs.addFunction("getCachedAvailablePackages", function(contribUrl)
 {
-   .Call("rs_getCachedAvailablePackages", contribUrl)
+   .Call(.rs.routines$rs_getCachedAvailablePackages, contribUrl)
 })
 
 .rs.addFunction("downloadAvailablePackages", function(contribUrl)
 {
-   .Call("rs_downloadAvailablePackages", contribUrl)
+   .Call(.rs.routines$rs_downloadAvailablePackages, contribUrl)
 })
 
 .rs.addJsonRpcHandler("package_skeleton", function(packageName,
@@ -522,6 +522,10 @@ if (identical(as.character(Sys.info()["sysname"]), "Darwin") &&
                                                    sourceFiles,
                                                    usingRcpp)
 {
+   # sourceFiles is passed in as a list -- convert back to
+   # character vector
+   sourceFiles <- as.character(sourceFiles)
+   
    # Make sure we expand the aliased path if necessary
    # (note this is a no-op if there is no leading '~')
    packageDirectory <- path.expand(packageDirectory)
@@ -599,6 +603,15 @@ if (identical(as.character(Sys.info()["sysname"]), "Darwin") &&
       License = License,
       LazyData = "TRUE"
    )
+   
+   # If we filled in an 'Authors@R' field for Authors (e.g. provided for new
+   # 'devtools'), then name this field as such.
+   if (isTRUE(grepl("^\\s*(?:as\\.person|person|c)\\(", DESCRIPTION[["Maintainer"]], perl = TRUE)))
+   {
+      maintainerIdx <- which(names(DESCRIPTION) == "Maintainer")
+      names(DESCRIPTION)[[maintainerIdx]] <- "Authors@R"
+      DESCRIPTION[["Author"]] <- NULL
+   }
    
    # Create a NAMESPACE file
    NAMESPACE <- c(
@@ -826,7 +839,7 @@ if (identical(as.character(Sys.info()["sysname"]), "Darwin") &&
    else if (length(sourceFiles))
    {
       # Copy the source files to the appropriate sub-directory
-      sourceFileExtensions <- gsub(".*\\.", "", sourceFiles, perl = TRUE)
+      sourceFileExtensions <- tolower(gsub(".*\\.", "", sourceFiles, perl = TRUE))
       sourceDirs <- .rs.swap(
          sourceFileExtensions,
          "R" = c("r", "q", "s"),
@@ -837,17 +850,27 @@ if (identical(as.character(Sys.info()["sysname"]), "Darwin") &&
          default = ""
       )
       
-      copyPaths <- gsub("/+", "", file.path(
+      copyPaths <- gsub("/+", "/", file.path(
          packageDirectory,
          sourceDirs,
          basename(sourceFiles)
       ))
       
       dirPaths <- dirname(copyPaths)
-      dir.create(dirPaths, recursive = TRUE)
       
-      success <- file.copy(sourceFiles,
-                           copyPaths)
+      success <- unlist(lapply(dirPaths, function(path) {
+         
+         if (isTRUE(file.info(path)$isdir))
+            return(TRUE)
+         
+         dir.create(path, recursive = TRUE, showWarnings = FALSE)
+         
+      }))
+      
+      if (!all(success))
+         return(.rs.error("Failed to create package directory structure"))
+      
+      success <- file.copy(sourceFiles, copyPaths)
       
       if (!all(success))
          return(.rs.error("Failed to copy one or more source files"))
@@ -904,7 +927,7 @@ if (identical(as.character(Sys.info()["sysname"]), "Darwin") &&
    # NOTE: this file is not always generated (e.g. people who have implicitly opted
    # into using devtools won't need the template file)
    if (file.exists(file.path(packageDirectory, "R", "hello.R")))
-      .Call("rs_addFirstRunDoc", RprojPath, "R/hello.R")
+      .Call(.rs.routines$rs_addFirstRunDoc, RprojPath, "R/hello.R")
 
    ## NOTE: This must come last to ensure the other package
    ## infrastructure bits have been generated; otherwise
@@ -915,7 +938,7 @@ if (identical(as.character(Sys.info()["sysname"]), "Darwin") &&
    {
       Rcpp::compileAttributes(packageDirectory)
       if (file.exists(file.path(packageDirectory, "src/rcpp_hello.cpp")))
-         .Call("rs_addFirstRunDoc", RprojPath, "src/rcpp_hello.cpp")
+         .Call(.rs.routines$rs_addFirstRunDoc, RprojPath, "src/rcpp_hello.cpp")
    }
    
    .rs.success()

@@ -44,6 +44,7 @@ source("import.R", encoding = encodage.code.source)
 #'`r format(Sys.Date(), "%a %d %b %Y")`
 #'
 ###########  Analyse des rémunérations  ########
+# Nécessairement après import.R
 
 source("analyse.rémunérations.R", encoding = encodage.code.source)
 

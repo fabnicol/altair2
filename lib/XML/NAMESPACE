@@ -1,6 +1,7 @@
 # Avoided if we are using Windows so that we can specify the directory to find the libxml DLL.
 #  useDynLib(XML)
 
+importFrom(utils, menu)
 import(methods)
 
 export(
@@ -508,4 +509,6 @@ export(getXIncludes, xmlXIncludes)
 export(getHTMLExternalFiles)
 
 export(xmlCleanNamespaces)
+
+S3method(toString, XMLNode)
 

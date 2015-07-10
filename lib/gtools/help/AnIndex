@@ -1,10 +1,13 @@
 addLast	gtools-defunct
+asc	asc
 ASCIIfy	ASCIIfy
 ask	ask
 assert	gtools-defunct
+assignEdgewise	unByteCode
 binsearch	binsearch
 capture	gtools-defunct
 checkRVersion	checkRVersion
+chr	asc
 combinations	combinations
 ddirichlet	dirichlet
 defmacro	defmacro
@@ -30,6 +33,7 @@ permutations	combinations
 permute	permute
 quantcut	quantcut
 rdirichlet	dirichlet
+roman2int	roman2int
 running	running
 scat	scat
 setTCPNoDelay	setTCPNoDelay
@@ -37,3 +41,5 @@ smartbind	smartbind
 sprint	gtools-defunct
 stars.pval	stars.pval
 strmacro	defmacro
+unByteCode	unByteCode
+unByteCodeAssign	unByteCode

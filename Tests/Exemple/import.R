@@ -286,6 +286,7 @@ if (charger.bases) {
   Bulletins.paie[ ,   `:=`(Statut.sortie   = Statut[length(Net.à.Payer)],
                            nb.jours        = calcul.nb.jours.mois(Mois, Année[1]),
                            nb.mois         = length(Mois),
+                           cumHeures       = sum(Heures, na.rm = TRUE),
                            quotité.moyenne = round(mean.default(quotité, na.rm = TRUE), digits = 1)),
                  key=c("Matricule", "Année")]
   
@@ -338,6 +339,7 @@ if (charger.bases) {
   Paie <- merge(unique(Bulletins.paie[ , c("Matricule", 
                                            "Année",
                                            "Mois",
+                                           "cumHeures",
                                            "quotité",
                                            "quotité.moyenne",
                                            "Montant.net.eqtp",
