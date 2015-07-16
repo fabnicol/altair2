@@ -25,8 +25,11 @@
 					<Add option="-D__STDC_FORMAT_MACROS" />
 				</Compiler>
 				<Linker>
+					<Add library="..\..\mingw64\lib\libxml2.a" />
 					<Add library="..\..\mingw64\bin\libwinpthread-1.dll" />
-					<Add library="..\..\mingw64\bin\libxml2-2.dll" />
+					<Add library="..\..\mingw64\lib\libxml2.dll.a" />
+					<Add library="..\..\mingw64\lib\libz.a" />
+					<Add library="..\..\mingw64\lib\libz.dll.a" />
 				</Linker>
 			</Target>
 			<Target title="Release">
