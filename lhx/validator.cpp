@@ -207,6 +207,8 @@ static inline int lignePaye(xmlNodePtr cur, info_t* info)
         if (! xmlStrcmp(cur->name, (const xmlChar*) "Commentaire"))
         {
             cur = cur->next;
+            t=0;
+            rembobiner=false; // 'Rembobinage gratuit'
             continue;
         }
 
