@@ -331,7 +331,12 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
 #ifdef TOLERANT
     cur = atteindreNoeud("Service", cur);
 #else
-    while (cur && xmlStrcmp(cur->name, (const xmlChar*)"Service")) cur = cur->next;
+    while (cur && xmlStrcmp(cur->name, (const xmlChar*)"Service"))
+    {
+       if (xmlStrcmp(cur->name, (const xmlChar*)"NBI") == 0) goto nbi;
+       else
+        cur = cur->next;
+    }
 #endif
     _BULLETIN(Service)
 #ifdef TOLERANT
@@ -340,7 +345,8 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
     cur_save = cur;
     cur = atteindreNoeud("NBI", cur);
 #endif
-    BULLETIN_(NBI)
+    nbi :
+      BULLETIN_(NBI)
 
 #ifdef TOLERANT
     cur = cur_save;
