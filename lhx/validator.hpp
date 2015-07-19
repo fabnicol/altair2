@@ -125,7 +125,7 @@ typedef struct
 
 #define REMONTER_UN_NIVEAU     cur = (cur)? cur->parent: NULL;    cur = (cur)? cur->next: NULL; // if ((! NO_DEBUG) && cur) fprintf(stderr, "Remontée au niveau %s\n", cur->name);
 
-static constexpr char* type_remuneration[]   = {
+static const char* type_remuneration[]   = {
                                             "TraitBrut",
                                             "IndemResid",
                                             "SupFam",

@@ -111,7 +111,7 @@ bool FString::isBoolean()
   return ((x == 0) | (x == 1));
 }
 
-const FStringList& FString::split(const QString &sep) const
+const FStringList FString::split(const QString &sep) const
 {
    QStringList Q=QStringList();
   for (int i=0; i < sep.size(); i++)
@@ -120,7 +120,7 @@ const FStringList& FString::split(const QString &sep) const
 }
 
 
-const FStringList& FString::split(const QStringList &separator) const
+const FStringList FString::split(const QStringList &separator) const
 {
   if (this->isEmpty()) return FStringList();
 
@@ -151,7 +151,7 @@ const FStringList& FString::split(const QStringList &separator) const
 
 
 
-const QStringList& FStringList::join()
+const QStringList FStringList::join()
 {
   // Flattens FStringList into QStringList
 

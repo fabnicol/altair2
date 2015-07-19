@@ -12,7 +12,7 @@ CONFIG  += ordered static
 
 TEMPLATE = app
 
-QT       += core gui xml widgets
+QT       += core gui xml widgets 
 # webkitwidgets
 QT       -= opengl
 
@@ -21,16 +21,15 @@ TARGET = Altair
 VPATH = .
 
 #win32:LIBS += -L../win32
-#linux:LIBS += -L../linux
+linux:LIBS += -L../linux
 
-DEFINES += DEBUG QT_NO_OPENGL WIN_64 STATIC
+DEFINES += DEBUG QT_NO_OPENGL WIN_64 STATIC REGEX_PARSING_FOR_HEADERS LOCAL_BINPATH
+#windows:RC_ICONS = neptune.ico
 
-windows:RC_ICONS = neptune.ico
+linux: DEFINES += LOCAL_BINPATH
 
-#linux: DEFINES += LOCAL_BINPATH
-
-#QMAKE_CXXFLAGS += -std=c++11 -march=core2 -O3
-QMAKE_CXXFLAGS += /Ox /MP
+QMAKE_CXXFLAGS += -std=c++11 -march=corei7 -O3
+#QMAKE_CXXFLAGS += /Ox /MP
 
 SOURCES += \
     options.cpp \
@@ -46,7 +45,8 @@ SOURCES += \
     xmlparser.cpp \
     highlighter.cpp \
     run.cpp \
-    probe.cpp
+    probe.cpp \
+    elemParser.cpp
 
 HEADERS  += \
     options.h \
@@ -63,7 +63,8 @@ HEADERS  += \
     tags.h \
     templates.h \
     altair-gui.h \
-    probe.h
+    probe.h \
+    elemParser.hpp
 
 
 RESOURCES += \

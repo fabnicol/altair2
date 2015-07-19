@@ -31,7 +31,7 @@ public:
 
     QTextEdit *outputTextEdit = new QTextEdit;
 
-    bool clearInterfaceAndParseProject(const bool cleardata=true);
+    bool clearInterfaceAndParseProject();
     
     void checkEmptyProjectName()
       {
