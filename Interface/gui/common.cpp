@@ -21,7 +21,7 @@ qint64 common::getDirectorySize(const QString &path, const QString &extension)
 
 /* Disregard compiler whinig here, a spurious argument is used to ensure a higher-order approach to FProgressBar */
 
-qint64 common::getFileSize(const QString &fullFilePath, const QString & voidstring)
+qint64 common::getFileSize(const QString &fullFilePath)
 {
     return QFileInfo(fullFilePath).size();
 }
@@ -110,7 +110,7 @@ QString path=QFileDialog::getExistingDirectory(this, QString("Sélection du rép
                                                QDir::currentPath(),
                                                QFileDialog::ShowDirsOnly
                                                | QFileDialog::DontResolveSymlinks);
-if (path.isEmpty()) return false;
+if (path.isEmpty()) return QString();
 
 qint64 size=common::getDirectorySize(path, "*");
 
@@ -128,7 +128,7 @@ if (size)
         if (targetDirObject.mkpath(path) == false)
         {
             Warning0(QString("Répertoire"), QString("Le répertoire %1 n'a pas été créé").arg(path));
-            return false;
+            return QString();
         }
     }
 }

@@ -61,7 +61,7 @@ public:
 static void writeFile(QString & path, const QStringList &list, QFlags<QIODevice::OpenModeFlag> flag= QFile::WriteOnly | QFile::Truncate) ;
 void setWhatsThisText(QWidget* widget, int start, int stop);
 void openDir(QString path);
-qint64 getFileSize(const QString &, const QString& ="");
+qint64 getFileSize(const QString &);
 const QString openDirDialog();
 
 
