@@ -90,8 +90,8 @@ public:
   }
 
 
-  const FStringList& split(const QString &) const;
-  const FStringList& split(const QStringList &separator) const;
+  const FStringList split(const QString &) const;
+  const FStringList split(const QStringList &separator) const;
 
   short toBool();
   bool isBoolean();
@@ -132,8 +132,8 @@ public:
 
   FStringList(const QString& a, const QString& b, const QString& c):QList<QStringList>()  { this->append(QStringList() << a << b << c);}
   const FString join(const QStringList &) const ;
-  const FString& join(const char* s) const {return join(QStringList((QString(s)))); }
-  const QStringList& join() ;
+  const FString join(const char* s) const {return join(QStringList((QString(s)))); }
+  const QStringList join() ;
   QString setEmptyTags(const QStringList &)const;
   const QString setTags(const QStringList &tags, const FStringList *properties=nullptr) const;
   FString toFString() const {if (this == nullptr) return ""; else return ((this->isEmpty()) || this->at(0).isEmpty())?  "" : FString(this->at(0).at(0)); }

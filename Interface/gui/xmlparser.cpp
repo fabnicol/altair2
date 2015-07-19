@@ -90,15 +90,13 @@ namespace XmlMethod
 
 QTreeWidgetItem *itemParent=nullptr;
 
-inline void stackData(const QDomNode & node, QStringList tags, int level, QVariant &textData, QStringList& tabLabels = QStringList())
+inline void stackData(const QDomNode & node, QStringList tags, int level, QVariant &textData)
 {
     QDomNode  childNode=node.firstChild();
 
-    QList<QVariant> stackedInfo;
     QStringList strL;
     QString str;
-    QString annee;
-
+    
     switch(level)
     {
     /* parses < tag> text </tag> */
@@ -157,37 +155,43 @@ inline void stackData(const QDomNode & node, QStringList tags, int level, QVaria
                        </tags[0]>
         */
 
-    case 2:
-        tags[0]=node.toElement().tagName();
+  }
+}
 
-        childNode=node.firstChild();
+inline void stackData(const QDomNode & node, QStringList tags, QVariant &textData, QStringList& tabLabels)
+{
+    QDomNode  childNode=node.firstChild();
+    QList<QVariant> stackedInfo;
+    QString annee;
 
-        while (!childNode.isNull())
+    tags[0]=node.toElement().tagName();
+    childNode=node.firstChild();
+
+    while (!childNode.isNull())
+    {
+        if (childNode.toElement().tagName() == "année")
         {
-            if (childNode.toElement().tagName() == "année")
-            {
-                  annee = childNode.toElement().attribute("V");
-                  tabLabels += annee;
-            }
-
-            QStringList L={QString(), QString()};
-            QVariant M;
-            stackData(childNode, L,1, M);
-            const QStringList SL = M.toStringList();
-            for (const QString& s :  SL)
-            {
-                Hash::Annee[s] = annee;
-            }
-
-            stackedInfo << SL;
-            tags[1]=L.at(0);
-            tags[2]=L.at(1);
-            childNode=childNode.nextSibling();
+              annee = childNode.toElement().attribute("V");
+              tabLabels += annee;
         }
 
-        textData= QVariant(stackedInfo);
-        break;
+        QStringList L={QString(), QString()};
+        QVariant M;
+        stackData(childNode, L,1, M);
+        const QStringList SL = M.toStringList();
+        for (const QString& s :  SL)
+        {
+            Hash::Annee[s] = annee;
+        }
+
+        stackedInfo << SL;
+        tags[1]=L.at(0);
+        tags[2]=L.at(1);
+        childNode=childNode.nextSibling();
     }
+
+    textData= QVariant(stackedInfo);
+    
 }
 
 /* computes sizes and sends filenames to main tab Widget */
@@ -413,22 +417,21 @@ FStringList Altair::parseEntry(const QDomNode &node, QTreeWidgetItem *itemParent
     XmlMethod::itemParent = itemParent;
 
     QStringList tabLabels;
-
-    XmlMethod::stackData(node, tags, level, textData, tabLabels);
-
-   // project[0]->setTabLabels(tabLabels);
-
-    if ((level == 0) &&(tags[0] == "fichier"))
-        parent->recentFiles.append(textData.toString());
-
-    if (level == 2)
-        project[0]->setTabLabels(tabLabels);
-
+        
     switch (level)
     {
-        case 0:  return FStringList(textData.toString());
-        case 1:  return FStringList(textData.toStringList());
-        case 2:  return FStringList(textData.toList());
+        case 0: 
+                XmlMethod::stackData(node, tags, 0, textData);
+                if (tags[0] == "fichier")
+                    parent->recentFiles.append(textData.toString());
+                return FStringList(textData.toString());
+        case 1:
+                XmlMethod::stackData(node, tags, 1, textData);
+                return FStringList(textData.toStringList());
+        case 2: 
+                XmlMethod::stackData(node, tags, textData, tabLabels);
+                project[0]->setTabLabels(tabLabels);
+                return FStringList(textData.toList());
     }
 
     return FStringList();
@@ -467,7 +470,7 @@ inline QList<QStringList> Altair::processSecondLevelData(QList<QStringList> &L, 
 void Altair::refreshProjectManagerValues(std::uint16_t refreshProjectManagerFlag)
 {
     managerWidget->clear();
-    QStringList& tags = project[0]->getTabLabels();
+    const QStringList& tags = project[0]->getTabLabels();
 
     if (tags.isEmpty() || Hash::wrapper["XHL"]->isEmpty()) return;
 

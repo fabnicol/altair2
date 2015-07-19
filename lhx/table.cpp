@@ -11,7 +11,7 @@
 int64_t generer_table_standard(const char* chemin_table, info_t* info)
 {
 
-
+return 0;
 
 }
 
@@ -225,8 +225,6 @@ void boucle_ecriture(info_t* Info)
 
     }
 
-
-
     for (int i = 0; i < Info[0].nbfil; i++)
     {
         for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; agent++)
@@ -251,7 +249,9 @@ void boucle_ecriture(info_t* Info)
             }
 
             unsigned l = Info[i].minimum_memoire_p_ligne;
-            char* type =  (char*) type_remuneration_traduit[0]; //
+
+            char type[3]={0};
+            strcpy(type, type_remuneration_traduit[0]);
 
             int allocation_memoire = (Info[i].minimum_memoire_p_ligne + nbType + Info[i].NLigne[agent]*6) * sizeof(xmlChar*);
 
@@ -293,7 +293,7 @@ void boucle_ecriture(info_t* Info)
                 while (VAR(l) && (test_drapeau_categorie = VAR(l)[0]) >= 1 && (test_drapeau_categorie <= nbType))
                 {
                     valeur_drapeau_categorie = test_drapeau_categorie;
-                    type =  (char*) type_remuneration_traduit[valeur_drapeau_categorie - 1];
+                    strcpy(type, type_remuneration_traduit[valeur_drapeau_categorie - 1]);
                     nouveau_type = true;
                     l++;
                 }

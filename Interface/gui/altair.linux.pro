@@ -27,7 +27,7 @@ DEFINES += DEBUG QT_NO_OPENGL STATIC
 
 win32: DEFINES += LOCAL_BINPATH 
 
-QMAKE_CXXFLAGS += -std=c++11 -march=core2 -O3
+QMAKE_CXXFLAGS += -std=c++11 -march=corei7 -O3
 #QMAKE_CXXFLAGS += /Ox /MP
 
 SOURCES += \
@@ -36,15 +36,8 @@ SOURCES += \
     fwidgets.cpp \
     fstring.cpp \
     flistframe.cpp \
-    altair.cpp \
-    common.cpp \
-    forms.cpp \
-    main.cpp \
-    browser.cpp \ 
-    xmlparser.cpp \
-    highlighter.cpp \
-    run.cpp \
-    probe.cpp
+    altair.cpp 
+  
 
 HEADERS  += \
     options.h \
@@ -53,15 +46,7 @@ HEADERS  += \
     flistframe.h \
     common.h \
     altair.h \
-    enums.h \
-    forms.h \
-    browser.h \
-    altair.h \
-    highlighter.h \
-    tags.h \
-    templates.h \
-    altair-gui.h \
-    probe.h
+   
 
 
 RESOURCES += \

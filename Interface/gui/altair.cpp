@@ -208,7 +208,7 @@ void Altair::on_openProjectButton_clicked()
     if (projectName.isEmpty()) return;
 
     RefreshFlag = RefreshFlag  | interfaceStatus::parseXml;
-    clearInterfaceAndParseProject(false);
+    clearInterfaceAndParseProject();
     // resetting interfaceStatus::parseXml bits to 0
     RefreshFlag = RefreshFlag & (~interfaceStatus::parseXml);
 }
@@ -222,14 +222,14 @@ void Altair::openProjectFile()
 
     // only case in which XML is parsed
 
-    clearInterfaceAndParseProject(false);
+    clearInterfaceAndParseProject();
 
     // resetting interfaceStatus::parseXml bits to 0
     RefreshFlag = RefreshFlag & (~interfaceStatus::parseXml);
 }
 
 
-bool Altair::clearInterfaceAndParseProject(const bool cleardata)
+bool Altair::clearInterfaceAndParseProject()
 {
 //    if (cleardata)
 //    {
@@ -651,7 +651,7 @@ inline void FProgressBar::computeLHXProgressBar()
  }
  else
  {
-      qreal share;
+      qreal share=0;
 
       setRange(0, parent->size());
 

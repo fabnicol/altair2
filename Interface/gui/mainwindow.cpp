@@ -439,7 +439,7 @@ void MainWindow::on_editProjectButton_clicked()
                                                         | interfaceStatus::parseXml;
                                     // resetting interfaceStatus::parseXml bits to 0
 
-                                    altair->clearInterfaceAndParseProject(true);
+                                    altair->clearInterfaceAndParseProject();
                                     Altair::RefreshFlag = Altair::RefreshFlag & (~interfaceStatus::parseXml);
                                   });
 
