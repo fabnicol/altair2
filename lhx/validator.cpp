@@ -333,7 +333,11 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
 #else
     while (cur && xmlStrcmp(cur->name, (const xmlChar*)"Service"))
     {
-       if (xmlStrcmp(cur->name, (const xmlChar*)"NBI") == 0) goto nbi;
+       if (xmlStrcmp(cur->name, (const xmlChar*)"NBI") == 0)
+       {
+           info->Table[info->NCumAgentXml][Service]= (xmlChar*) strdup(NA_STRING);
+           goto nbi;
+       }
        else
         cur = cur->next;
     }
