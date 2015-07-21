@@ -95,13 +95,13 @@
    ,
   </decimal>
   <processType profondeur="0">
-   '1'
+   '4'
   </processType>
   <nAgent profondeur="0">
-   800
+   400
   </nAgent>
   <nLine profondeur="0">
-   3500
+   400
   </nLine>
   <genererNumLigne profondeur="0">
    non
@@ -113,10 +113,10 @@
    C:/Dev/altair/Interface_win64/altair.log
   </log>
   <genererLog profondeur="0">
-   oui
+   non
   </genererLog>
   <ecoRAM profondeur="0">
-   oui
+   non
   </ecoRAM>
  </systeme>
  <recent>

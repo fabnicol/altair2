@@ -8,7 +8,7 @@
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
 
 
-générer.rapport             <- T
+générer.rapport             <- F
 
 racine                      <- "R-Altaïr/"
 # "Ville Annecy Paye BP-"
@@ -19,8 +19,8 @@ racine                      <- "R-Altaïr/"
 # "UTF-8.RAG_2009_2012-"
 # "RAG_2009_2012-"
 
-extraire.années      <- T
-    début.période.sous.revue    <- 2010
+extraire.années      <- F
+    début.période.sous.revue    <- 2013
     fin.période.sous.revue      <- 2014
 
 setOSWindows            <- Sys.info()["sysname"] != "Linux"
@@ -173,7 +173,7 @@ modalité.autres                <- "AUTRES"         # notamment les remboursemen
 expression.rég.heures.sup <- "(?:^|\\s)iht?[sc]|i(?:(?=n)n\\w*|)\\.?\\s*\\bh(?:(?=o)o\\w*|)\\.?.*\\bs(?:(?=u)u\\w*|)\\.?\\b|h(?:(?=e)e\\w*|)\\.?\\s*\\b(?:(?=s)s\\w*|(?:(?=c)c\\w*|))\\.?\\b"
 expression.rég.iat        <- "(?:^|\\s)iat|i(?:(?=n)n\\w*|)\\.?\\s*\\ba(?:(?=d)d\\w*|)\\.?\\s*\\b(?:et\\s*\\b)?t(?:(?=e)e\\w*|)\\.?\\b"
 expression.rég.ifts       <- "(?:^|\\s)ifts|i(?:(?=n)n\\w*|)\\.?\\s*\\bf\\w*\\.?\\s*\\bt(?:(?=r)r\\w*|)\\.?\\s*\\bs(?:(?=u)u\\w*|)\\.?\\b"
-expression.rég.pfr        <- "(?:^|\\s)pfr|p(?:(?=r)r\\w*|)\\.?\\s*\\bf(?:(?=o)o\\w*|)\\.?\\s*\\br(?:(?<=[eé])s\\w*|)\\.?\\s*\\b|p(?:(?=r)r\\w*|)\\.?\\s*\\br(?:(?<=[eé])s\\w*|)\\.?\\b"
+expression.rég.pfr        <- "(?:^|\\s)pfr|p(?:(?=r)r\\w*|)\\.?\\s*\\bf(?:(?=o)o\\w*|)\\.?\\s*(?:et|)\\s*\\br(?:(?<=[eé])s\\w*|)\\.?\\s*\\b|p(?:(?=r)r\\w*|)\\.?\\s*\\br(?:(?<=[eé])s\\w*|)\\.?\\b"
 expression.rég.pfi        <- "(?:^|\\s)pfi|p(?:(?=r)r\\w*|)\\.?\\s*\\bf(?:(?=o)o\\w*|)\\.?\\s*\\bi(?:(?=n)n\\w*|)\\.?\\b"
 expression.rég.population <- "\\bASS(\\b|A).*"
 expression.rég.élus       <- "maire|pr[eé]sident|.*([eé]lu[s]?|adj.*maire|v\\w*.*\\s+pr[eé]sident|cons\\w*.*\\s+muni|cons\\w*.*\\s+commun)"

@@ -137,6 +137,9 @@ if (charger.bases) {
   if (extraire.années) {
     Paie <- Paie[Année >= début.période.sous.revue & Année <= fin.période.sous.revue, ]
     Bulletins.paie <- Bulletins.paie[Année >= début.période.sous.revue & Année <= fin.période.sous.revue, ]
+  } else {
+    début.période.sous.revue <- min(Paie[[1]])
+    fin.période.sous.revue   <- max(Paie[[1]])
   }
   
   
@@ -162,12 +165,6 @@ if (! analyse.statique.totale) {
 
 setkey(Paie, Matricule, Année, Mois)
 setkey(Bulletins.paie, Matricule, Année, Mois)
-
-if (! extraire.années) {
-  début.période.sous.revue <- min(Paie[[1]])
-  fin.période.sous.revue   <- max(Paie[[1]])
-}
-
 
 
 # Le format est jour/mois/année avec deux chiffres-séparateur-deux chiffres-séparateur-4 chiffres.
