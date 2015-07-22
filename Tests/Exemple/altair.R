@@ -1691,7 +1691,7 @@ traitement.indiciaire.mensuel <- HS.sup.indiciaire.mensuel[ ,  sum(Montant, na.r
                                                                by="Matricule,Année,Mois"]
 names(traitement.indiciaire.mensuel)[4] <- "Traitement indiciaire mensuel" 
   
-HS.sup.25 <- merge(HS.sup.25, traitement.indiciaire.mensuel)
+HS.sup.25 <- merge(HS.sup.25, traitement.indiciaire.mensuel, by=c("Matricule", "Année", "Mois"))
 
 HS.sup.25 <- merge(HS.sup.25, Analyse.rémunérations[ , .(Matricule, Année, traitement.indiciaire)], 
                                                        by=c("Matricule", "Année"))

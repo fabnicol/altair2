@@ -336,6 +336,7 @@ if (charger.bases) {
   Paie <- merge(unique(Bulletins.paie[ , c("Matricule", 
                                            "Année",
                                            "Mois",
+                                           "Service",
                                            "cumHeures",
                                            "quotité",
                                            "quotité.moyenne",
@@ -349,11 +350,10 @@ if (charger.bases) {
                                            "Sexe",
                                            "nb.jours",
                                            "nb.mois",
-                                           #                                  "nb.années",
                                            "indicatrice.quotité.pp",
                                            "permanent"), with=FALSE], by=NULL),
                 Paie, 
-                by=c("Matricule","Année","Mois"))
+                by=c("Matricule","Année","Mois","Service"))
   
   matricules <- unique(Bulletins.paie[ ,
                                       c("Année",
