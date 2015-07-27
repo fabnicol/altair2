@@ -13,16 +13,17 @@ CONFIG  += ordered static
 TEMPLATE = app
 
 QT       += core gui xml widgets 
+QT       -= opengl
 
 TARGET = altair-gui
 
 VPATH = .
 
-DEFINES += DEBUG STATIC
+DEFINES += DEBUG STATIC QT_NO_OPENGL
 
 #linux: DEFINES += LOCAL_BINPATH
 
-QMAKE_CXXFLAGS += -std=c++11 -march=core2 -O3
+QMAKE_CXXFLAGS += -std=c++11 -march=corei7-avx -O3
 
 SOURCES += \
     options.cpp \

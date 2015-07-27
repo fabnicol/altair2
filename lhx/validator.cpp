@@ -264,7 +264,6 @@ static inline int lignePaye(xmlNodePtr cur, info_t* info)
 static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
 {
     DEBUG("Parsage")
-    int ligne = 0;
 
     if (cur == NULL) return 0;
     cur = atteindreNoeud("Agent", cur);
@@ -365,6 +364,9 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
 #else
     cur = cur->next;
 #endif
+
+    int ligne = 0;
+
     if (cur)
     {
         xmlNodePtr cur_save = cur;
@@ -374,13 +376,13 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
             DESCENDRE_UN_NIVEAU
             ligne = lignePaye(cur, info);
         }
-        else
+
+        if (ligne == 0)
         {
-            // Rémuneration tag vide
-            ligne = 1 ;
             for (int k=0; k < 6; k++)
                 info->Table[info->NCumAgentXml][info->minimum_memoire_p_ligne + k] = (xmlChar*) strdup(NA_STRING);
         }
+
         cur = cur_save->next;
     }
     else
@@ -401,6 +403,9 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
 
     info->drapeau_cont=false; // fin du niveau PayeIndivMensuel
     BULLETIN_(MtNetAPayer)
+
+    // Rémuneration tag vide
+    if (ligne == 0) ligne = 1 ;
 
     return ligne;
 }

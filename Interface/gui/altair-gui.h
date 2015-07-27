@@ -57,7 +57,8 @@ class MainWindow : public QMainWindow
    QTextEdit* getEditor() {return editor;}
    bool isDefaultSaveProjectChecked() { return defaultSaveProjectBehaviorBox->isChecked(); }
    void saveProjectAs();
-   
+   QTextEdit *consoleDialog;
+      
   private slots:
 
    void on_displayFileTreeViewButton_clicked();
@@ -92,8 +93,6 @@ class MainWindow : public QMainWindow
    void adjustDisplay(bool);
 
    inline void connectShowActions();
-
-   QTextEdit *consoleDialog;
 
    QDockWidget* fileTreeViewDockWidget;
    QDockWidget* bottomDockWidget;
