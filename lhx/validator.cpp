@@ -451,8 +451,8 @@ static void parseFile(info_t* info)
         exit(-503);
     }
 
-    cur = atteindreNoeud("DonneesIndiv", cur);
-
+  while((cur = atteindreNoeud("DonneesIndiv", cur)) != NULL)
+  {
     while(! xmlStrcmp(cur->name, (const xmlChar*) "DonneesIndiv"))
     {
         xmlNodePtr cur_save = cur;
@@ -470,7 +470,10 @@ static void parseFile(info_t* info)
             }
 
             cur = atteindreNoeud("PayeIndivMensuel", cur);
+
             xmlNodePtr cur_save =  cur;
+
+            if (cur_save == NULL) break;
 
             DESCENDRE_UN_NIVEAU
 
@@ -524,8 +527,10 @@ static void parseFile(info_t* info)
             info->NCumAgentXml++;
         }
 
+        if (cur_save == NULL) break;
         cur = cur_save->next;
     }
+  }
 
     xmlFree(mois_fichier);
     xmlFree(annee_fichier);
