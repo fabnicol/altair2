@@ -71,35 +71,6 @@ nom.table      <- nom.table[file.exists(chemin(nom.table))]
 # Le mode rapide n'est disponible que avec des csv à séparateurs virgule
 # Il permet d'économiser environ 8s par million de ligne lues sur une dizaine de champs
 
-Import.Lignes.paie <- function()  {
-  
-  res <- NULL
-  res2 <- NULL
-  
-  res <- try(Read.csv("Lignes.paie",
-                      lignes.paie,
-                      colClasses = lignes.paie.classes.input,
-                      colNames = lignes.paie.input.fallback,
-                      séparateur.liste = séparateur.liste.entrée,
-                      séparateur.décimal = séparateur.décimal.entrée,
-                      drop=1:3,
-                      rapide = TRUE),
-             silent = TRUE)
-  
-  if (inherits(res, 'try-error')) {
-    res2 <- try(Read.csv("Lignes.paie",
-                         lignes.paie,
-                         colClasses = lignes.paie.classes.input.fallback,
-                         colNames = lignes.paie.input.fallback,
-                         séparateur.liste = séparateur.liste.entrée,
-                         séparateur.décimal = séparateur.décimal.entrée,
-                         rapide = TRUE),
-                silent = TRUE)
-  }
-  
-  c(res, res2)
-}
-
 
 importer.bases.via.xhl2csv <- function(base, table = nom.table, colClasses = colonnes.classes.input, colNames =  colonnes.input) {
   
@@ -128,7 +99,7 @@ importer.bases.via.xhl2csv <- function(base, table = nom.table, colClasses = col
 
 
 if (charger.bases) {
-  importer.bases.via.xhl2csv("Paie")
+  importer.bases.via.xhl2csv("Paie",colClasses =  colonnes.classes.input)
   importer.bases.via.xhl2csv("Bulletins.paie", nom.bulletins, colClasses =  colonnes.bulletins.classes.input, colNames = colonnes.bulletins.input)
   
   # dans le cas où l'on ne lance le programme que pour certaines années, il préciser début.période sous revue et fin.période .sous.revue
@@ -213,9 +184,9 @@ if (charger.bases) {
   
   Paie[ , Filtre_actif := any(Montant[Type == "T" & Heures > minimum.positif] > minimum.actif, na.rm = TRUE), by="Matricule,Année"]
   
-  Paie[ , `:=`(delta = sum(Montant * (Type %chin% c("I", "T", "S", "IR", "AC","A", "R", "AV")),
-                           na.rm=TRUE) - Brut),
-       by="Matricule,Année,Mois"]
+  Paie[ , delta := 0, by="Matricule,Année,Mois"]
+  
+  Paie[Type %chin% c("I", "T", "S", "IR", "AC","A", "R", "AV") , delta := sum(Montant,  na.rm=TRUE) - Brut, by="Matricule,Année,Mois"]
   
   #Bulletins.paie <- unique(Paie[ , .(Matricule, Nom, Année, Mois, Temps.de.travail, Heures,  Statut, Emploi, Grade, Brut, Net.à.Payer, Nir)], by = NULL)
   
