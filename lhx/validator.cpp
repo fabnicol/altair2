@@ -35,6 +35,32 @@ static inline xmlNodePtr atteindreNoeud(const char* noeud, xmlNodePtr cur)
     return cur;
 }
 
+static inline xmlNodePtr atteindreNoeudArret(const char* noeud, xmlNodePtr cur, const char* arret)
+{
+    while (cur && xmlIsBlankNode(cur))
+    {
+        cur = cur -> next;
+    }
+
+    while (cur != NULL)
+    {
+        if (xmlStrcmp(cur->name, (const xmlChar *) noeud))
+        {
+            if (xmlStrcmp(cur->name, (const xmlChar *) arret))
+                cur = cur->next;
+            else
+                return NULL;
+        }
+        else
+        {
+            AFFICHER_NOEUD(noeud)
+            break;
+        }
+    }
+    return cur;
+}
+
+
 static inline void  verifier_taille(const int nbLignePaye, info_t* info)
 {
     if (nbLignePaye >= info->nbLigneUtilisateur)
@@ -456,11 +482,10 @@ static void parseFile(info_t* info)
         exit(-503);
     }
 
-  while((cur = atteindreNoeud("DonneesIndiv", cur)) != NULL)
+  while((cur = atteindreNoeudArret("DonneesIndiv", cur, "Nomenclatures")) != NULL)
   {
-    while(! xmlStrcmp(cur->name, (const xmlChar*) "DonneesIndiv"))
-    {
         xmlNodePtr cur_save = cur;
+        xmlNodePtr cur_save2 = NULL;
 
         DESCENDRE_UN_NIVEAU
 
@@ -476,9 +501,9 @@ static void parseFile(info_t* info)
 
             cur = atteindreNoeud("PayeIndivMensuel", cur);
 
-            xmlNodePtr cur_save =  cur;
+            cur_save2 =  cur;
 
-            if (cur_save == NULL) break;
+            if (cur_save2 == NULL) break;
 
             DESCENDRE_UN_NIVEAU
 
@@ -524,7 +549,7 @@ static void parseFile(info_t* info)
             }
             // Ici il est normal que cur = NULL
 
-            cur = cur_save->next;
+            cur = cur_save2->next;
 
             AFFICHER_NOEUD(cur->name)
 
@@ -532,9 +557,7 @@ static void parseFile(info_t* info)
             info->NCumAgentXml++;
         }
 
-        if (cur_save == NULL) break;
         cur = cur_save->next;
-    }
   }
 
     xmlFree(mois_fichier);
