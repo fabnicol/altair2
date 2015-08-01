@@ -1,11 +1,11 @@
 b550b2c6aa8b6547482dc99e87039d94 *COPYING
-e390425e073a8fdf1733b5fd6e00f682 *DESCRIPTION
+3bd5376759ce0367915e577b54c2a3f5 *DESCRIPTION
 4d535ece5a1bee884f555381a7f2938b *INDEX
 e5e3b1817d3584f55e2cc6d20df4df02 *Meta/Rd.rds
 f565bd39ca2422933d9e02ed30cf7d3a *Meta/hsearch.rds
 407b0031da7a7c1cd00e45006e02b18b *Meta/links.rds
 e8e6ea8bb3b7cb654dc38187087e2db8 *Meta/nsInfo.rds
-15ebd4f04465d948d6842a40fc06cb03 *Meta/package.rds
+c0d77dad400fb7944c9acfc9e4a17408 *Meta/package.rds
 67f8db33ebc98649ed5c91f2d3c15556 *NAMESPACE
 51eb7b75cc8f6a808925a84ba913db4f *NEWS
 59a0b73ba11a11a27ef15b768cc63169 *NOTICE
@@ -14,9 +14,9 @@ ebf0fc819595d631b8bf280c4b049940 *R/rmarkdown
 2e7d4369d2983a7736fe9a40d8bbcc72 *R/rmarkdown.rdx
 623c529ca38d88c33a291c6d3201c3c0 *help/AnIndex
 c3cc2ecce3b76d45975edb682850a4ec *help/aliases.rds
-315b69f349e527b51ca329dbbca7afc2 *help/paths.rds
-0fc2a42bf9d2643ca39316f6832f7a8e *help/rmarkdown.rdb
-ed6525ac49dcc3f083a01489a380359e *help/rmarkdown.rdx
+8d1f44d4551a7de2c9d0446c38f740c5 *help/paths.rds
+e3f79a794ac39199e100d672fe016be8 *help/rmarkdown.rdb
+c5705586eded1a939633504249ea9398 *help/rmarkdown.rdx
 0aeceba3c851f2827e624467528a2644 *html/00Index.html
 0629445e5f3de06acbaf6e4013c7deca *html/R.css
 1f1e4ab0e88ebf79ebc7621014066895 *rmarkdown/templates/html_vignette/resources/vignette.css
