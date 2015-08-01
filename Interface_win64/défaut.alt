@@ -2,61 +2,301 @@
 <projet>
  <data>
   <XHL profondeur="2">
+   <année V="2009">
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_200901.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_200902.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_200903.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_200904.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_200905.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_200906.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_200907.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_200908.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_200909.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_200910.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_200911.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_200912.xhl</fichier>
+   </année>
+   <année V="2010">
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Crèche_familiale_21740010000038_2010_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Crèche_familiale_21740010000038_2010_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Crèche_familiale_21740010000038_2010_03.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Crèche_familiale_21740010000038_2010_04.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Crèche_familiale_21740010000038_2010_05.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Crèche_familiale_21740010000038_2010_06.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Crèche_familiale_21740010000038_2010_07.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Crèche_familiale_21740010000038_2010_08.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Crèche_familiale_21740010000038_2010_09.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Crèche_familiale_21740010000038_2010_10.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Crèche_familiale_21740010000038_2010_11.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Crèche_familiale_21740010000038_2010_12.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Camping_2010_03.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Camping_2010_04.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Camping_2010_05.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Camping_2010_06.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Camping_2010_07.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Camping_2010_08.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Camping_2010_09.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Camping_2010_10.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Camping_2010_11.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2010_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2010_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2010_03.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2010_04.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2010_05.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2010_06.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2010_07.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2010_08.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2010_09.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2010_10.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2010_11.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2010_12.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2010_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2010_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2010_03.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2010_04.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2010_05.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2010_06.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2010_07.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2010_08.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2010_09.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2010_10.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2010_11.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2010_12.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2010_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2010_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2010_03.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2010_04.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2010_05.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2010_06.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2010_07.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2010_08.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2010_09.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2010_10.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2010_11.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2010_12.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201001.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201002.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201003.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201004.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201005.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201006.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201007.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201008.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201009.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201010.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201011.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201012.xhl</fichier>
+   </année>
    <année V="2011">
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/annee_2011_xemelios/VILLE_de_MEGEVE_21740173600012_201101.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/annee_2011_xemelios/VILLE_de_MEGEVE_21740173600012_201102.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/annee_2011_xemelios/VILLE_de_MEGEVE_21740173600012_201103_01.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/annee_2011_xemelios/VILLE_de_MEGEVE_21740173600012_201104_01.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/annee_2011_xemelios/VILLE_de_MEGEVE_21740173600012_201105.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/annee_2011_xemelios/VILLE_de_MEGEVE_21740173600012_201106.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/annee_2011_xemelios/VILLE_de_MEGEVE_21740173600012_201107.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/annee_2011_xemelios/VILLE_de_MEGEVE_21740173600012_201108.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/annee_2011_xemelios/VILLE_de_MEGEVE_21740173600012_201109.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/annee_2011_xemelios/VILLE_de_MEGEVE_21740173600012_201110.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/annee_2011_xemelios/VILLE_de_MEGEVE_21740173600012_201111.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/annee_2011_xemelios/VILLE_de_MEGEVE_21740173600012_201112.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Crèche_familiale_21740010000038_2011_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Crèche_familiale_21740010000038_2011_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Crèche_familiale_21740010000038_2011_03.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Crèche_familiale_21740010000038_2011_04.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Crèche_familiale_21740010000038_2011_05.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Crèche_familiale_21740010000038_2011_06.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Crèche_familiale_21740010000038_2011_07.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Crèche_familiale_21740010000038_2011_08.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Crèche_familiale_21740010000038_2011_09.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Crèche_familiale_21740010000038_2011_10.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Crèche_familiale_21740010000038_2011_11.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Crèche_familiale_21740010000038_2011_12.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Camping_2011_04.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Camping_2011_05.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Camping_2011_06.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Camping_2011_07.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Camping_2011_08.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Camping_2011_09.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Camping_2011_10.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Camping_2011_11.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2011_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2011_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2011_03.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2011_04.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2011_05.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2011_06.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2011_07.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2011_08.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2011_09.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2011_10.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2011_11.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2011_12.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2011_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2011_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2011_03.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2011_04.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2011_06.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2011_07.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2011_08.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2011_09.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2011_10.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2011_11.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2011_12.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2011_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2011_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2011_03.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2011_04.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2011_05.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2011_06.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2011_07.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2011_08.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2011_09.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2011_10.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2011_11.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2011_12.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201101.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201102.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201103.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201104.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201105.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201106.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201107.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201108.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201109.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201110.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201111.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201112.xhl</fichier>
    </année>
    <année V="2012">
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/xemelios_annee_2012/VILLE_de_MEGEVE_21740173600012_201201.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/xemelios_annee_2012/VILLE_de_MEGEVE_21740173600012_201202.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/xemelios_annee_2012/VILLE_de_MEGEVE_21740173600012_201203.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/xemelios_annee_2012/VILLE_de_MEGEVE_21740173600012_201204.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/xemelios_annee_2012/VILLE_de_MEGEVE_21740173600012_201205.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/xemelios_annee_2012/VILLE_de_MEGEVE_21740173600012_201206.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/xemelios_annee_2012/VILLE_de_MEGEVE_21740173600012_201207.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/xemelios_annee_2012/VILLE_de_MEGEVE_21740173600012_201208.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/xemelios_annee_2012/VILLE_de_MEGEVE_21740173600012_201209.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/xemelios_annee_2012/VILLE_de_MEGEVE_21740173600012_201210.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/xemelios_annee_2012/VILLE_de_MEGEVE_21740173600012_201211.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/xemelios_annee_2012/VILLE_de_MEGEVE_21740173600012_201212.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Creche_familiale_21740010000038_2012_03.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Creche_familiale_21740010000038_2012_04.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Creche_familiale_21740010000038_2012_05.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Creche_familiale_21740010000038_2012_06.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Creche_familiale_21740010000038_2012_07.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Creche_familiale_21740010000038_2012_08.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Creche_familiale_21740010000038_2012_09.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Creche_familiale_21740010000038_2012_10.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Creche_familiale_21740010000038_2012_11.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Creche_familiale_21740010000038_2012_12.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Crèche_familiale_21740010000038_2012.01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Crèche_familiale_21740010000038_2012_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Camping_2012_04.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Camping_2012_05.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Camping_2012_06.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Camping_2012_07.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Camping_2012_08.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Camping_2012_09.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings 2012_12.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2012_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2012_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2012_03.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2012_04.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2012_05.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2012_06.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2012_07.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2012_08.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2012_09.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2012_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2012_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2012_03.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2012_04.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2012_05.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2012_06.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2012_07.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2012_08.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2012_09.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B camping_2012_10.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B camping_2012_11.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B camping_2012_12.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B parkings 2012_11.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B parkings_2012_10.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2012_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2012_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2012_03.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2012_04.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2012_05.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2012_06.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2012_07.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2012_08.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2012_09.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2012_10.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2012_11.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2012_12.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B restauration_2012_10.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B restauration_2012_11.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B restauration_2012_12.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201201.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201202.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201203.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201204.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201205.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201206.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201207.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201208.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201209.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201210.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201211.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201212.xhl</fichier>
    </année>
    <année V="2013">
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/xemelios_annee_2013/21740173600012-2013-ETAT_PAYE-07.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/xemelios_annee_2013/21740173600012-2013-ETAT_PAYE-08.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/xemelios_annee_2013/21740173600012-2013-ETAT_PAYE-09.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/xemelios_annee_2013/21740173600012-2013-ETAT_PAYE-10.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/xemelios_annee_2013/21740173600012-2013-ETAT_PAYE-11.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/xemelios_annee_2013/21740173600012-2013-ETAT_PAYE-12.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/xemelios_annee_2013/VILLE_de_MEGEVE_21740173600012_201301.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/xemelios_annee_2013/VILLE_de_MEGEVE_21740173600012_201302.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/xemelios_annee_2013/VILLE_de_MEGEVE_21740173600012_201303.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/xemelios_annee_2013/VILLE_de_MEGEVE_21740173600012_201304.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/xemelios_annee_2013/VILLE_de_MEGEVE_21740173600012_201305.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/xemelios_annee_2013/VILLE_de_MEGEVE_21740173600012_201306.xhl</fichier>
-   </année>
-   <année V="2014">
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/2014_commune_regroupee/21740173600012-2014-ETAT_PAYE-01.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/2014_commune_regroupee/21740173600012-2014-ETAT_PAYE-02.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/2014_commune_regroupee/21740173600012-2014-ETAT_PAYE-03.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/2014_commune_regroupee/21740173600012-2014-ETAT_PAYE-04.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/2014_commune_regroupee/21740173600012-2014-ETAT_PAYE-05.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/2014_commune_regroupee/21740173600012-2014-ETAT_PAYE-06.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/2014_commune_regroupee/21740173600012-2014-ETAT_PAYE-07.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/2014_commune_regroupee/21740173600012-2014-ETAT_PAYE-08.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/2014_commune_regroupee/21740173600012-2014-ETAT_PAYE-09.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/2014_commune_regroupee/21740173600012-2014-ETAT_PAYE-10.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/2014_commune_regroupee/21740173600012-2014-ETAT_PAYE-11.xhl</fichier>
-     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Mégève/bases_anonymous/2014_commune_regroupee/21740173600012-2014-ETAT_PAYE-12.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Creche_familiale_21740010000038_2013_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Creche_familiale_21740010000038_2013_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Creche_familiale_21740010000038_2013_03.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Creche_familiale_21740010000038_2013_04.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Creche_familiale_21740010000038_2013_05.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Creche_familiale_21740010000038_2013_06.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Creche_familiale_21740010000038_2013_07.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Creche_familiale_21740010000038_2013_08.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Creche_familiale_21740010000038_2013_09.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Creche_familiale_21740010000038_2013_10.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Creche_familiale_21740010000038_2013_11.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Creche_familiale_21740010000038_2013_12.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Camping_2013_04.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Camping_2013_05.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Camping_2013_06.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Camping_2013_07.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Camping_2013_08.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Camping_2013_09.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Camping_2013_10.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Camping_2013_11.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Camping_2013_12.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2013_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2013_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2013_03.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2013_04.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2013_05.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2013_06.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2013_07.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2013_08.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2013_09.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2013_10.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2013_11.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Parkings_2013_12.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2013_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2013_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2013_03.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2013_04.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2013_05.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2013_06.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2013_07.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2013_08.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2013_09.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2013_10.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2013_11.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B Restauration_2013_12.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2013_01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2013_02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2013_03.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2013_04.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2013_05.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2013_06.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2013_07.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2013_08.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2013_09.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2013_10.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2013_11.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye Annecy/Ville_d'Annecy_21740010000012_B principal_2013_12.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201301.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201302.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201303.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201304.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201305.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201306.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201307.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201308.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201309.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201310.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201311.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Annecy/Paye C2A/C2A_24740042700115_201312.xhl</fichier>
    </année>
   </XHL>
  </data>
