@@ -6,7 +6,7 @@ greaterThan(QT_MAJOR_VERSION, 5)
 
 # Ensure that library is built before application
 
-CONFIG  += ordered
+CONFIG  += ordered static
 
 #use at least Qt5.1 with g++-4.8 for windows
 
