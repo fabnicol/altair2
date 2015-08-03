@@ -1,2 +1,3 @@
-1. convertir les sorties windows (uniquement) des bases de donn�es dans R-Altair par iconv -f UTF-8 -t WINDOWS-1252 > base.csv
-2. corriger le bug de fermeture par bouton rouge croix 
+1. convertir les sorties windows (uniquement) des bases de données dans R-Altair par iconv -f UTF-8 -t WINDOWS-1252 > base.csv
+2. Linux : vérifier le paramètre de lancement global de rstdio; donner une possibilité de compilation dynamique
+3. Linux : problème de l'image Altaïr.png et des noms accentués des fichiers de Bases qui ne sont pas reconnus
