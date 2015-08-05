@@ -1,0 +1,52 @@
+# depslib dependency file v1.0
+1430846534 source:c:\dev\altair\lhx\fonctions_auxiliaires.cpp
+	"fonctions_auxiliaires.hpp"
+	<string.h>
+	<stdint.h>
+
+1430846534 c:\dev\altair\lhx\fonctions_auxiliaires.hpp
+	<limits.h>
+	<errno.h>
+	<inttypes.h>
+	"validator.hpp"
+
+1437382567 c:\dev\altair\lhx\validator.hpp
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+	<stdint.h>
+	<stdbool.h>
+	<limits.h>
+	<locale.h>
+	<errno.h>
+	<pthread.h>
+	<math.h>
+	<libxml/xmlmemory.h>
+	<libxml/parser.h>
+	<inttypes.h>
+	<Windows.h>
+
+1430846534 source:c:\dev\altair\lhx\main.cpp
+	<unistd.h>
+	"validator.hpp"
+	"fonctions_auxiliaires.hpp"
+	"table.hpp"
+
+1430846534 c:\dev\altair\lhx\table.hpp
+	"validator.hpp"
+
+1437382567 source:c:\dev\altair\lhx\table.cpp
+	"table.hpp"
+	"fonctions_auxiliaires.hpp"
+	<inttypes.h>
+
+1438077134 source:c:\dev\altair\lhx\validator.cpp
+	"validator.hpp"
+	"fonctions_auxiliaires.hpp"
+	"table.hpp"
+	<regex.h>
+	<regex>
+	<string>
+	<iostream>
+	<ctype.h>
+
