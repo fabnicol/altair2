@@ -477,14 +477,9 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
 
     for (const QString& fileName : stringList)
     {
-        const QString annee = Hash::Annee[fileName];
-        if (! tabLabels.contains(annee))
-        {
-            tabLabels  += annee;
-        }
+            tabLabels  +=   Hash::Annee[fileName];
     }
 
-    tabLabels.sort();
     int rank = 0;
     QStringList allLabels = tabLabels + existingTabLabels;
     allLabels.removeDuplicates();
@@ -492,7 +487,7 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
 
     if (! allLabels.isEmpty())
     {
-        altair->outputTextEdit->append(STATE_HTML_TAG + QString(" Nombre d'années détectées : ") + QString::number(allLabels.size()) + " années, " + tabLabels.join(", "));
+        altair->outputTextEdit->append(STATE_HTML_TAG + QString(" Nombre d'années détectées : ") + QString::number(allLabels.size()) + " années, " + allLabels.join(", "));
 
         for (const QString& annee : allLabels)
         {
