@@ -379,9 +379,15 @@ void FListFrame::clearWidgetContainer()
 
 void FListFrame::parseXhlFile(const QStringList& stringList)
 {
-
+  int rank = 0;
     for (const QString& fileName : stringList)
+    {
         parseXhlFile(fileName);
+#ifdef DEBUG
+        altair->outputTextEdit->append(PROCESSING_HTML_TAG " Analyse du fichier n°" + QString::number(++rank));
+#endif
+        altair->getProgressBar()->setValue(rank);
+    }
 }
 
 #include "elemParser.hpp"
@@ -389,9 +395,11 @@ struct Header* elemPar;
 
 void FListFrame::parseXhlFile(const QString& fileName)
 {
-
     QFile file(fileName);
+
     bool result = file.open(QIODevice::ReadOnly);
+    if (! file.isOpen())
+             altair->outputTextEdit->append(ERROR_HTML_TAG " Erreur à l'ouverture du fichier.");
 
     if (result == false || file.size()== 0)
     {
@@ -434,6 +442,12 @@ void FListFrame::parseXhlFile(const QString& fileName)
 #endif
 
    file.close();
+
+   if (file.isOpen())
+            altair->outputTextEdit->append(ERROR_HTML_TAG " Erreur à la fermeture du fichier.");
+
+   if (file.error() != QFileDevice::NoError)
+         altair->outputTextEdit->append(WARNING_HTML_TAG " Erreur de fichier.");
    return;
 
 }
@@ -460,7 +474,6 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
 
     for (int j = 0; j < getWidgetContainerCount(); j++)
     {
-
         const QString str = mainTabWidget->tabText(j);
         if (str == "année 1" || str.isEmpty())
         {
@@ -471,18 +484,25 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
           existingTabLabels << str;
     }
 
+    altair->outputTextEdit->append(STATE_HTML_TAG " Parcours des entêtes de fichier " );
+    int stringListSize = stringList.size();
+    altair->getProgressBar()->setRange(0, stringListSize);
+    altair->getProgressBar()->rewind();
     parseXhlFile(stringList);
+    altair->getProgressBar()->hide();
 
     QStringList tabLabels = getTabLabels();
 
+    altair->outputTextEdit->append(STATE_HTML_TAG " Calcul des labels " );
+
     for (const QString& fileName : stringList)
-    {
             tabLabels  +=   Hash::Annee[fileName];
-    }
 
     int rank = 0;
     QStringList allLabels = tabLabels + existingTabLabels;
+    altair->outputTextEdit->append(STATE_HTML_TAG " Elimination des doublons " );
     allLabels.removeDuplicates();
+    altair->outputTextEdit->append(STATE_HTML_TAG " Tri des labels " );
     allLabels.sort();
 
     if (! allLabels.isEmpty())
@@ -501,22 +521,24 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
                 Hash::wrapper[frameHashKey]->insert(rank, keys);
                 Hash::counter[frameHashKey]++;
                 addNewTab(rank, annee);
+                altair->outputTextEdit->append(STATE_HTML_TAG " Ajout de l'onglet " + annee);
             }
             else
             {
                 (*Hash::wrapper[frameHashKey])[rank] =  keys ;
+                altair->outputTextEdit->append(STATE_HTML_TAG " Ajout des fichiers de l'onglet au conteneur principal ");
             }
 
             static_cast<QListWidget*>(mainTabWidget->widget(rank))->clear();
+            altair->outputTextEdit->append(STATE_HTML_TAG " Ajout des fichiers de l'onglet " + annee);
             static_cast<QListWidget*>(mainTabWidget->widget(rank))->addItems(keys);
 
             altair->refreshRowPresentation(rank);
             ++rank;
-
         }
 
         mainTabWidget->setCurrentIndex(rank - 1);
-  }
+     }
 
   updateIndexInfo();
   if (row == 0)
@@ -577,6 +599,8 @@ QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
 void FListFrame::on_importFromMainTree_clicked()
 {
  
+ altair->outputTextEdit->append(STATE_HTML_TAG " Lancement de l'analyse " );
+
  if (isListConnected || isTotalConnected)
    {
      if(getSlotListSize() == 0)
@@ -593,6 +617,10 @@ void FListFrame::on_importFromMainTree_clicked()
  QStringList&& stringsToBeAdded = QStringList();
  int stringListSize=0;
  
+ altair->outputTextEdit->append(STATE_HTML_TAG " Parcours de l'arbre " );
+
+
+
  if (importType == flags::importFiles)
     {
      for (const QModelIndex& index : indexList)
@@ -604,6 +632,9 @@ void FListFrame::on_importFromMainTree_clicked()
              stringsToBeAdded << path;
          }
        }
+
+     altair->outputTextEdit->append(STATE_HTML_TAG " Ajout des chemins à la liste centrale" );
+
      if (stringListSize) 
          addParsedTreeToListWidget(stringsToBeAdded);
     }

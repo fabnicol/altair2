@@ -58,6 +58,8 @@ public:
     void refreshProjectManagerValues(std::uint16_t = manager::refreshAllZones );
     void refreshRowPresentation(uint);
 
+    FProgressBar* getProgressBar() { return progress; }
+
 public slots:
 
    bool updateProject(bool=false);
