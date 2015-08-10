@@ -203,6 +203,7 @@ void displayTextData(const QStringList &firstColumn,
                      const QString &thirdColumn="",
                      const QString &fourthColumn="",
                      const QString &fifthColumn="",
+                     const QString &sixthColumn="",
                      const QColor &color=QColor("blue"))
 {
     static QString last;
@@ -228,7 +229,8 @@ void displayTextData(const QStringList &firstColumn,
         if (!thirdColumn.isEmpty())  item2->setText(2, thirdColumn);
         if (!fourthColumn.isEmpty()) item2->setText(3, fourthColumn);
         if (!fifthColumn.isEmpty())  item2->setText(4, fifthColumn);
-        
+        if (!sixthColumn.isEmpty())  item2->setText(5, sixthColumn);
+
         if (color.isValid())
         {
             item2->setTextColor(2, color);
@@ -238,6 +240,7 @@ void displayTextData(const QStringList &firstColumn,
         item2->setTextAlignment(2, Qt::AlignRight);
         item2->setTextAlignment(3, Qt::AlignLeft);
         item2->setTextAlignment(4, Qt::AlignCenter);
+        item2->setTextAlignment(5, Qt::AlignCenter);
     }
 
     item2->setText(1, secondColumn);
@@ -256,12 +259,17 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
 {
     int count=0, tagcount=0, l;
     qint64 filesizecount=0;
-    QString  firstColumn, root=tags.at(0), secondColumn=tags.at(1),
-            thirdColumn, fourthColumn, fifthColumn;
+    QString firstColumn,
+            root=tags.at(0),
+            secondColumn=tags.at(1),
+            thirdColumn,
+            fourthColumn,
+            fifthColumn,
+            sixthColumn;
 
     int tagListSize = tags.size();
 
-    QListIterator<QStringList> i(stackedInfo), j(stackedSizeInfo), k(nBulletins);
+    QListIterator<QStringList> i(stackedInfo), j(stackedSizeInfo);
 
     while (i.hasNext() && j.hasNext())
     {
@@ -280,10 +288,10 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
             ++count;
             if (!tags.at(1).isEmpty())
                 secondColumn =  "fichier " + QString::number(++l) + "/"+ QString::number(count) +": ";
-
-            secondColumn += w.next();
-            fifthColumn =  "" ; //(z.hasNext())? z.next() : "";
-
+            const QString filename = w.next();
+            secondColumn += filename;
+            fifthColumn =  Hash::Mois[filename] ;
+            sixthColumn =  Hash::Siret[filename] + " " + Hash::Etablissement[filename] ;
             if ((stackedSizeInfo.size() > 0) && (y.hasNext()))
             {
                 QStringList units=y.next().split(" ");
@@ -294,7 +302,13 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
                 fourthColumn   = QString::number(filesizecount/1048576.0, 'f', 1)+ " Mo" ;
             }
 
-            displayTextData({""}, secondColumn, thirdColumn, fourthColumn, fifthColumn, (y.hasNext())? QColor("navy"): ((j.hasNext())? QColor("orange") :QColor("red")));
+            displayTextData({""},
+                            secondColumn,
+                            thirdColumn,
+                            fourthColumn,
+                            fifthColumn,
+                            sixthColumn,
+                            (y.hasNext())? QColor("navy"): ((j.hasNext())? QColor("orange") :QColor("red")));
         }
     }
     
