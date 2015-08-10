@@ -22,7 +22,7 @@ VPATH = .
 #win32:LIBS += -L../win32
 #linux:LIBS += -L../linux
 
-DEFINES += DEBUG QT_NO_OPENGL  STATIC REGEX_PARSING_FOR_HEADERS
+DEFINES += DEBUG QT_NO_OPENGL  STATIC  REGEX_PARSING_FOR_HEADERS
 #MINIMAL
 
 windows:RC_ICONS = neptune.ico
@@ -68,11 +68,3 @@ HEADERS  += \
 
 RESOURCES += \
     ../share/altair-gui/altair-gui.qrc
-
-   
-
-
-
-
-
-
