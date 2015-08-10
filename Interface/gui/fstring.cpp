@@ -6,6 +6,7 @@ QHash<QString, int>  Hash::counter;
 QHash<QString, QString>  Hash::Annee;
 QHash<QString, QString>  Hash::Mois;
 QHash<QString, QString>  Hash::Siret;
+QHash<QString, QString>  Hash::Etablissement;
 
 
 FString   FString::operator & (FString  s)
