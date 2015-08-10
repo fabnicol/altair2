@@ -383,7 +383,7 @@ void FListFrame::parseXhlFile(const QStringList& stringList)
     for (const QString& fileName : stringList)
     {
         parseXhlFile(fileName);
-#ifdef DEBUG
+#ifdef DEBUG_INPUT_FILES
         altair->outputTextEdit->append(PROCESSING_HTML_TAG " Analyse du fichier n°" + QString::number(++rank));
 #endif
         altair->getProgressBar()->setValue(rank);
@@ -395,9 +395,9 @@ struct Header* elemPar;
 
 void FListFrame::parseXhlFile(const QString& fileName)
 {
-    QFile file(fileName);
+   QFile file(fileName);
 
-    bool result = file.open(QIODevice::ReadOnly);
+    bool result = file.open(QIODevice::ReadOnly | QIODevice::Unbuffered);
     if (! file.isOpen())
              altair->outputTextEdit->append(ERROR_HTML_TAG " Erreur à l'ouverture du fichier.");
 
@@ -410,6 +410,7 @@ void FListFrame::parseXhlFile(const QString& fileName)
     file.seek(0);
 
     const QByteArray buffer = file.read(1500);
+
 #ifdef REGEX_PARSING_FOR_HEADERS
     const QString string = QString(buffer);
 
@@ -431,7 +432,7 @@ void FListFrame::parseXhlFile(const QString& fileName)
 #else
 
    elemPar  = elem_parser(buffer.constData());
-   if (elemPar->test)
+   //if (elemPar->test)
    {
        Hash::Annee[fileName] = QString(elemPar->annee);
        Hash::Mois[fileName]  = QString(elemPar->mois);
@@ -449,20 +450,6 @@ void FListFrame::parseXhlFile(const QString& fileName)
    if (file.error() != QFileDevice::NoError)
          altair->outputTextEdit->append(WARNING_HTML_TAG " Erreur de fichier.");
    return;
-
-}
-
-
-void FListFrame::addStringListToHash(const QStringList & stringList, int size)
-{
-    (*Hash::wrapper[frameHashKey])[currentIndex] = std::move(stringList);
-    Hash::counter[frameHashKey] += size;
-    updateIndexInfo();
-    if (row == 0) 
-    {
-        emit(is_ntabs_changed(currentIndex+1)); // emits signal of number of tabs/QListWidgets opened
-    }
-    emit(is_ntracks_changed(Hash::counter[frameHashKey]));
 }
 
 
@@ -487,7 +474,7 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
     altair->outputTextEdit->append(STATE_HTML_TAG " Parcours des entêtes de fichier " );
     int stringListSize = stringList.size();
     altair->getProgressBar()->setRange(0, stringListSize);
-    altair->getProgressBar()->rewind();
+    altair->getProgressBar()->reset();
     parseXhlFile(stringList);
     altair->getProgressBar()->hide();
 

@@ -62,10 +62,10 @@ static void writeFile(QString & path, const QStringList &list, QFlags<QIODevice:
 void setWhatsThisText(QWidget* widget, int start, int stop);
 void openDir(QString path);
 qint64 getFileSize(const QString &);
-const QString openDirDialog();
+const QString openDirDialog(flags::directory checkEmptyness = directory::noCheck);
 
 
-protected :
+public :
   QString  videoFilePath;
   static FString  htmlLogPath;
   const QString   systemPathPrefix = "/../";
@@ -89,7 +89,7 @@ protected :
 #endif
 #ifdef LOCAL_BINPATH
  /* insert executable at root of windows package */
-  const QString execPath = QDir::toNativeSeparators(QDir::cleanPath(QCoreApplication::applicationDirPath()+systemPathPrefix+System));
+  QString execPath = QDir::toNativeSeparators(QDir::cleanPath(QCoreApplication::applicationDirPath()+systemPathPrefix+System));
   const QString sharedir = generateDatadirPath();
  
   QString altairCommandStr=execPath+ QDir::separator()+("lhx"+ QString(systemSuffix));

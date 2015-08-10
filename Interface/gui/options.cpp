@@ -13,7 +13,7 @@ extern template void createHash(QHash<QString, QString>*, const QList<QString>*,
 standardPage::standardPage()
 {
 
-    QGroupBox *baseBox= new QGroupBox(tr("Base .csv"));
+    QGroupBox *baseBox= new QGroupBox(tr("Répertoires"));
     QGridLayout *baseLayout= new QGridLayout;
 
     baseLineEdit= new FLineEdit(QDir::toNativeSeparators(QDir::cleanPath(QCoreApplication::applicationDirPath()+ systemPathPrefix+ "Tests/Exemple/Donnees/R-Altaïr" )),
@@ -27,12 +27,27 @@ standardPage::standardPage()
     baseButton= new QToolDirButton(tr("Sélectionner le répertoire de la base de données .csv\nen sortie de l'application"));
     
     QToolDirButton *openBaseButton=new QToolDirButton(tr("Ouvrir le répertoire "), actionType::OpenFolder);
-    
+
+    xhlLineEdit= new FLineEdit(execPath+ QDir::separator()+ "win",
+                                          "xhlDir",
+                                          {"Application noyau", "Répertoire de l'application noyau xhl"});
+
+    QLabel *xhlLabel= new QLabel(tr("Répertoire de l'application noyau"));
+
+
+    QToolDirButton *xhlButton= new QToolDirButton(tr("Sélectionner le répertoire de l'application noyau xhl"));
+
+    QToolDirButton *openXhlButton=new QToolDirButton(tr("Ouvrir le répertoire "), actionType::OpenFolder);
+
     baseLayout->addWidget(baseLineEdit,   1, 0);
     baseLayout->addWidget(baseLabel,      0, 0);
     baseLayout->addWidget(baseButton,     1, 1);
     baseLayout->addWidget(openBaseButton, 1, 2);
-            
+    baseLayout->addWidget(xhlLineEdit,    3, 0);
+    baseLayout->addWidget(xhlLabel,       2, 0);
+    baseLayout->addWidget(xhlButton,      3, 1);
+    baseLayout->addWidget(openXhlButton,  3, 2);
+
     baseBox->setLayout(baseLayout);
     
     baseTypeBox=new QGroupBox(tr("Type de base en sortie"));
@@ -201,53 +216,60 @@ standardPage::standardPage()
             this, SLOT(on_processTypeWidgetChanged(int)));
     
     connect(openBaseButton,
-            SIGNAL(clicked()),
-            this, SLOT(on_openBaseDirButton_clicked()));
+            &QToolButton::clicked,
+            [&]{ on_openDirButton_clicked(baseLineEdit);});
     
+    connect(openXhlButton,
+            &QToolButton::clicked,
+            [=]{ on_openDirButton_clicked(xhlLineEdit);});
+
     connect(openLogButton,
-            SIGNAL(clicked()),
-            this, SLOT(on_openLogDirButton_clicked()));
+            &QToolButton::clicked,
+            [&]{ on_openDirButton_clicked(logLineEdit);});
 
     connect(baseButton,
-            SIGNAL(clicked()),
-            this, SLOT(selectBaseOutput()));
+            &QToolButton::clicked,
+            [&]{ selectBaseOutput(baseLineEdit, directory::checkEmptyness);});
+
+    connect(xhlButton,
+            &QToolButton::clicked,
+            [&]{ selectBaseOutput(xhlLineEdit); });
 
     connect(logButton,
             SIGNAL(clicked()),
             this, SLOT(selectLogOutput()));
 }
 
-void standardPage::on_openBaseDirButton_clicked()
+void standardPage::on_openDirButton_clicked(const FLineEdit* line)
 {
-    QString path=baseLineEdit->text();
-    QDir targetDirObject(path);
-    if (targetDirObject.mkpath(path) == false)
+    const QString &path= line->text();
+    QFileInfo info(path);
+    if (info.isDir() == false)
     {
-        Warning0(QString("Répertoire"), QString("Le répertoire %1 n'a pas été créé").arg(path));
-        return;
+        if (info.isFile() == false)
+        {
+            Warning0(QString("Répertoire"), QString("Le répertoire ou le fichier %1 n'a pas été créé").arg(path));
+            return;
+        }
+        else
+        if (info.completeSuffix() != QString("log"))
+        {
+            Warning0(QString("Log"), QString("Le fichier de log %1 n'a pas été créé").arg(path));
+            return;
+        }
+        else
+            common::openDir(info.path());
     }
+    else
     common::openDir(path);
 }
 
-void standardPage::on_openLogDirButton_clicked()
-{
-    QString path=logLineEdit->text();
-    path = QFileInfo(path).path();
-    QDir targetDirObject(path);
-    if (targetDirObject.mkpath(path) == false)
-    {
-        Warning0(QString("Répertoire"), QString("Le répertoire %1 n'a pas été créé").arg(path));
-        return;
-    }
-    common::openDir(path);
-}
 
-
-void standardPage::selectBaseOutput()
+void standardPage::selectBaseOutput(FLineEdit* line, flags::directory checkEmptyness)
 {
    QString path;
-   if ((path=common::openDirDialog()) == NULL) return;
-   baseLineEdit->setText(path);
+   if ((path=common::openDirDialog(checkEmptyness)) == NULL) return;
+   line->setText(path);
 }
 
 void standardPage::selectLogOutput()
@@ -281,6 +303,9 @@ options::options(Altair* parent)
             {
                 options::RefreshFlag =  interfaceStatus::hasUnsavedOptions;
                 accept();
+                parent->execPath = standardTab->xhlLineEdit->text();
+                parent->altairCommandStr =  parent->execPath +  QDir::separator() + ("lhx"+ QString(systemSuffix));
+
                 parent->updateProject(true);
             });
 

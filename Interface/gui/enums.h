@@ -9,7 +9,7 @@ public:
     enum {importFiles, importNames, typeIn, isEmbedded};
 
     enum class font : std::uint8_t {boldTitle, regularTitle, italicTitle};
-
+    enum class directory : bool {noCheck = false, checkEmptyness = true } ;
     enum class commandLineType : std::uint8_t {altairCommandLine,
                                                defaultCommandLine=altairCommandLine,
                                                RAltairFiles,

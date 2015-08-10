@@ -43,7 +43,7 @@ private:
 
  QStringList parseTreeForFilePaths(const QStringList& stringList);
  bool addStringListToListWidget(const QStringList&);
- void addStringListToHash(const QStringList & stringList, int size);
+
  void parseXhlFile(const QString& fileName);
  void parseXhlFile(const QStringList& stringList);
  Altair* altair;
