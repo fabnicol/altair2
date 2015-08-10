@@ -90,6 +90,9 @@ void Altair::run()
     process->setWorkingDirectory(execPath);
     outputTextEdit->append(PROCESSING_HTML_TAG + tr("Démarrage dans ") + execPath);
     progress->setRange(0, Hash::counter["XHL"]-1);
+#ifdef DEBUG
+    outputTextEdit->append(PROCESSING_HTML_TAG + tr("Amplitude de la barre de progression : ") + QString::number(Hash::counter["XHL"]));
+#endif
     fileRank=0;
     progress->rewind();
     process->start(altairCommandStr,  args);

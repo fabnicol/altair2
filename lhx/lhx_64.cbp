@@ -39,7 +39,7 @@
 				<Option compiler="gcc" />
 				<Option parameters="-h" />
 				<Compiler>
-					<Add option="-march=core2" />
+					<Add option="-march=corei7-avx" />
 					<Add option="-O3" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />

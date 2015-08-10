@@ -18,8 +18,7 @@ class standardPage : public common
 
 public :
     standardPage();
-    //FLineEdit* aspectRatioLineEdit;
-    //FLineEdit* baseTypeLineEdit;
+    FLineEdit *xhlLineEdit;
 
 private:
     FComboBox
@@ -46,15 +45,13 @@ private:
       *economeCheckBox;
 
     FString
-      //aspectRatioMsg,
       standardMsg;
 
  private slots :
 
     void on_processTypeWidgetChanged(int){}
-    void on_openBaseDirButton_clicked();
-    void selectBaseOutput();
-    void on_openLogDirButton_clicked();
+    void on_openDirButton_clicked(const FLineEdit*);
+    void selectBaseOutput(FLineEdit*, flags::directory = directory::noCheck);
     void selectLogOutput();
 };
 
