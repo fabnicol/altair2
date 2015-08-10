@@ -14,6 +14,7 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
  Hash::Annee.reserve(1152);
  Hash::Mois.reserve(1152);
  Hash::Siret.reserve(1152);
+ Hash::Etablissement.reserve(1152);
 
  setAcceptDrops(true);
  altair = static_cast<Altair*>(parent);
@@ -294,9 +295,11 @@ void FListFrame::deleteAllGroups(bool insertFirstGroup, bool eraseAllData)
     Hash::Annee.clear();
     Hash::Mois.clear();
     Hash::Siret.clear();
+    Hash::Etablissement.clear();
     Hash::Annee.reserve(576);
     Hash::Mois.reserve(576);
     Hash::Siret.reserve(576);
+    Hash::Etablissement.reserve(576);
     clearTabLabels();
 
   //  widgetContainer.clear();
@@ -383,11 +386,13 @@ void FListFrame::parseXhlFile(const QStringList& stringList)
     for (const QString& fileName : stringList)
     {
         parseXhlFile(fileName);
+        ++rank;
 #ifdef DEBUG_INPUT_FILES
-        altair->outputTextEdit->append(PROCESSING_HTML_TAG " Analyse du fichier n°" + QString::number(++rank));
+        altair->outputTextEdit->append(PROCESSING_HTML_TAG " Analyse du fichier n°" + QString::number(rank));
 #endif
         altair->getProgressBar()->setValue(rank);
     }
+
 }
 
 #include "elemParser.hpp"
@@ -414,13 +419,14 @@ void FListFrame::parseXhlFile(const QString& fileName)
 #ifdef REGEX_PARSING_FOR_HEADERS
     const QString string = QString(buffer);
 
-    QRegExp reg("DocumentPaye.*(?:Annee) V=\"([0-9]+)\".*(?:Mois) V=\"([0-9]+)\".*(?:Siret) V=\"([0-9A-Z]+)\"");
+    QRegExp reg("DocumentPaye.*(?:Annee) V=\"([0-9]+)\".*(?:Mois) V=\"([0-9]+)\".*(?:Etablissement|Employeur).*(?:Nom) V=\"([a-zA-Z _.,'-]+)\".*(?:Siret) V=\"([0-9A-Z]+)\"");
 
     if (string.contains(reg))
     {
         Hash::Annee[fileName] = reg.cap(1);
         Hash::Mois[fileName]  = reg.cap(2);
-        Hash::Siret[fileName] = reg.cap(3);
+        Hash::Etablissement[fileName]  = reg.cap(3);
+        Hash::Siret[fileName] = reg.cap(4);
     }
     else
     {
@@ -475,6 +481,7 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
     int stringListSize = stringList.size();
     altair->getProgressBar()->setRange(0, stringListSize);
     altair->getProgressBar()->reset();
+    altair->getProgressBar()->show();
     parseXhlFile(stringList);
     altair->getProgressBar()->hide();
 
@@ -496,6 +503,8 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
     {
         altair->outputTextEdit->append(STATE_HTML_TAG + QString(" Nombre d'années détectées : ") + QString::number(allLabels.size()) + " années, " + allLabels.join(", "));
 
+        #define listWidget static_cast<QListWidget*>(mainTabWidget->widget(rank))
+
         for (const QString& annee : allLabels)
         {
 
@@ -516,15 +525,46 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
                 altair->outputTextEdit->append(STATE_HTML_TAG " Ajout des fichiers de l'onglet au conteneur principal ");
             }
 
-            static_cast<QListWidget*>(mainTabWidget->widget(rank))->clear();
+            listWidget->clear();
             altair->outputTextEdit->append(STATE_HTML_TAG " Ajout des fichiers de l'onglet " + annee);
-            static_cast<QListWidget*>(mainTabWidget->widget(rank))->addItems(keys);
+            listWidget->addItems(keys);
 
             altair->refreshRowPresentation(rank);
             ++rank;
         }
 
         mainTabWidget->setCurrentIndex(rank - 1);
+
+        QStringList pairs;
+        QStringListIterator j(Hash::Etablissement.values());
+        QStringListIterator i(Hash::Siret.values());
+        while (i.hasNext() && j.hasNext())
+        {
+            pairs << i.next() + " " + j.next();
+        }
+        pairs.removeDuplicates();
+
+        int siretCount = pairs.size();
+
+        QStringList tabList ;
+        for (int i=0; i < siretCount ; i++)
+            tabList <<  pairs[i].left(40);
+
+        addNewTab(rank, "Siret");
+        widgetContainer.insert(rank, new QListWidget);
+        Hash::wrapper[frameHashKey]->insert(rank, altair->siretList);
+        Hash::counter[frameHashKey]++;
+        altair->outputTextEdit->append(STATE_HTML_TAG " Ajout de l'onglet Siret");
+        listWidget->clear();
+        listWidget->addItems(tabList);
+
+        QList<QString> colorList = {"red", "purple", "orange", "yellow", "green", "turquoise", "blue", "navy", "violet", "silver", "grey", "black"};
+        for (int i=0; i < siretCount & i < colorList.size(); i++)
+            listWidget->item(i)->setTextColor(colorList.at(i));
+
+        ++rank;
+
+       #undef listWidget
      }
 
   updateIndexInfo();
