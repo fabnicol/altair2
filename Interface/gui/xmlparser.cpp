@@ -204,6 +204,7 @@ void displayTextData(const QStringList &firstColumn,
                      const QString &fourthColumn="",
                      const QString &fifthColumn="",
                      const QString &sixthColumn="",
+                     const QString &seventhColumn="",
                      const QColor &color=QColor("blue"))
 {
     static QString last;
@@ -231,21 +232,23 @@ void displayTextData(const QStringList &firstColumn,
     }
     else
     {
-        if (!thirdColumn.isEmpty())  item2->setText(2, thirdColumn);
-        if (!fourthColumn.isEmpty()) item2->setText(3, fourthColumn);
-        if (!fifthColumn.isEmpty())  item2->setText(4, fifthColumn);
-        if (!sixthColumn.isEmpty())  item2->setText(5, sixthColumn);
+        if (!thirdColumn.isEmpty())   item2->setText(2, thirdColumn);
+        if (!fourthColumn.isEmpty())  item2->setText(3, fourthColumn);
+        if (!fifthColumn.isEmpty())   item2->setText(4, fifthColumn);
+        if (!sixthColumn.isEmpty())   item2->setText(5, sixthColumn);
+        if (!seventhColumn.isEmpty()) item2->setText(6, seventhColumn);
 
         if (color.isValid())
         {
-            item2->setTextColor(2, color);
             item2->setTextColor(3, color);
+            item2->setTextColor(4, color);
         }
         
-        item2->setTextAlignment(2, Qt::AlignRight);
-        item2->setTextAlignment(3, Qt::AlignLeft);
+        item2->setTextAlignment(2, Qt::AlignLeft);
+        item2->setTextAlignment(3, Qt::AlignRight);
         item2->setTextAlignment(4, Qt::AlignCenter);
-        item2->setTextAlignment(5, Qt::AlignCenter);
+        item2->setTextAlignment(5, Qt::AlignLeft);
+        item2->setTextAlignment(6, Qt::AlignCenter);
     }
 
     item2->setText(1, secondColumn);
@@ -259,8 +262,7 @@ void displayTextData(const QStringList &firstColumn,
 
 inline qint64 displaySecondLevelData(    const QStringList &tags,
                                          const QList<QStringList> &stackedInfo,
-                                         const QList<QStringList> &stackedSizeInfo,
-                                         const QList<QStringList> &nBulletins)
+                                         const QList<QStringList> &stackedSizeInfo)
 {
     int count=0, tagcount=0, l;
     qint64 filesizecount=0;
@@ -270,7 +272,8 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
             thirdColumn,
             fourthColumn,
             fifthColumn,
-            sixthColumn;
+            sixthColumn,
+            seventhColumn;
 
     int tagListSize = tags.size();
 
@@ -292,19 +295,20 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
         {
             ++count;
             if (!tags.at(1).isEmpty())
-                secondColumn =  "fichier " + QString::number(++l) + "/"+ QString::number(count) +": ";
+                thirdColumn =  "fichier " + QString::number(++l) + "/"+ QString::number(count) +": ";
             const QString filename = w.next();
-            secondColumn += filename;
-            fifthColumn =  Hash::Mois[filename] ;
+            thirdColumn += filename;
+            secondColumn =  Hash::Mois[filename];
             sixthColumn =  Hash::Siret[filename] + " " + Hash::Etablissement[filename] ;
+            seventhColumn =  Hash::Budget[filename];
             if ((stackedSizeInfo.size() > 0) && (y.hasNext()))
             {
                 QStringList units=y.next().split(" ");
                 qint64 msize=units.at(0).toLongLong();
                 filesizecount += msize;
                 // force coertion into float or double using .0
-                thirdColumn    = QString::number(msize/1048576.0, 'f', 1); 
-                fourthColumn   = QString::number(filesizecount/1048576.0, 'f', 1)+ " Mo" ;
+                fourthColumn    = QString::number(msize/1048576.0, 'f', 1);
+                fifthColumn   = QString::number(filesizecount/1048576.0, 'f', 1)+ " Mo" ;
             }
 
             displayTextData({""},
@@ -313,6 +317,7 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
                             fourthColumn,
                             fifthColumn,
                             sixthColumn,
+                            seventhColumn,
                             (y.hasNext())? QColor("navy"): ((j.hasNext())? QColor("orange") :QColor("red")));
         }
     }
@@ -507,8 +512,7 @@ void Altair::refreshProjectManagerValues(std::uint16_t refreshProjectManagerFlag
     Altair::totalSize[0]=XmlMethod::displaySecondLevelData(
                             tags,
                            *Hash::wrapper["XHL"],
-                            fileSizeDataBase[0],
-                           *Hash::wrapper["NBulletins"]);
+                            fileSizeDataBase[0]);
 
     if ((refreshProjectManagerFlag & manager::refreshNBulletinsMask) ==  manager::refreshNBulletins)
     {

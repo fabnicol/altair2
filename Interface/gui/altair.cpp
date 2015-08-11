@@ -43,11 +43,6 @@ void Altair::refreshModel()
     model->setNameFilters({"*.xhl"});
 }
 
-#ifdef PRERELEASE_PATH
-  #define STEP_UP "/.."
-#else
-  #define STEP_UP ""
-#endif
 
 void Altair::refreshTreeView()
 {
@@ -141,15 +136,16 @@ Altair::Altair()
     mainLayout->addLayout(progressLayout);
 
     QStringList labels;
-    labels << tr("") << tr("Chemin") << tr("Taille\nFichier") << tr("Total") << tr("Mois") << tr("Siret");
+    labels << tr("") << tr("Mois") << tr("Chemin")  << tr("Taille\nFichier") << tr("Total") << tr("Siret") << tr("Budget");
     managerWidget->hide();
     managerWidget->setHeaderLabels(labels);
     managerWidget->setColumnWidth(0,300);
-    managerWidget->setColumnWidth(1,300);
-    managerWidget->setColumnWidth(2,50);
-    managerWidget->setColumnWidth(3,80);
-    managerWidget->setColumnWidth(4,20);
-    managerWidget->setColumnWidth(5,80);
+    managerWidget->setColumnWidth(1,50);
+    managerWidget->setColumnWidth(2,300);
+    managerWidget->setColumnWidth(3,50);
+    managerWidget->setColumnWidth(4,60);
+    managerWidget->setColumnWidth(5,220);
+    managerWidget->setColumnWidth(6,90);
     managerWidget->setContextMenuPolicy(Qt::ContextMenuPolicy::NoContextMenu);
     managerLayout->addWidget(managerWidget);
 
