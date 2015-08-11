@@ -414,24 +414,29 @@ void FListFrame::parseXhlFile(const QString& fileName)
 
     file.seek(0);
 
-    const QByteArray buffer = file.read(1500);
+    char buffer[1500];
+    file.read(buffer, 1500);
 
 #ifdef REGEX_PARSING_FOR_HEADERS
-    const QString string = QString(buffer);
+    const QString string = QString::fromLatin1(buffer);
 
-    QRegExp reg("DocumentPaye.*(?:Annee) V=\"([0-9]+)\".*(?:Mois) V=\"([0-9]+)\".*(?:Etablissement|Employeur).*(?:Nom) V=\"([a-zA-Z _.,'-]+)\".*(?:Siret) V=\"([0-9A-Z]+)\"");
+    QRegExp reg("DocumentPaye.*(?:Annee) V=\"([0-9]+)\".*(?:Mois) V=\"([0-9]+)\".*(?:Etablissement|Employeur).*(?:Nom) V=\"([^\"]+)\".*(?:Siret) V=\"([0-9A-Z]+)\"");
 
     if (string.contains(reg))
     {
         Hash::Annee[fileName] = reg.cap(1);
         Hash::Mois[fileName]  = reg.cap(2);
-        Hash::Etablissement[fileName]  = reg.cap(3);
+        Hash::Etablissement[fileName]  = reg.cap(3).replace("&#39;", "\'");
         Hash::Siret[fileName] = reg.cap(4);
     }
     else
     {
         altair->outputTextEdit->append(WARNING_HTML_TAG " Fichier " + fileName + " non conforme à la spécification astre:DocumentPaye");
-        return;
+        Hash::Annee[fileName] = "";
+        Hash::Mois[fileName]  = "";
+        Hash::Etablissement[fileName]  = "";
+        Hash::Siret[fileName] = "";
+
     }
 
 

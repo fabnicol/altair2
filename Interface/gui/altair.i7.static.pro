@@ -23,7 +23,7 @@ VPATH = .
 #win32:LIBS += -L../win32
 #linux:LIBS += -L../linux
 
-DEFINES += DEBUG QT_NO_OPENGL  STATIC  REGEX_PARSING_FOR_HEADERS
+DEFINES += DEBUG QT_NO_OPENGL  STATIC  REGEX_PARSING_FOR_HEADERS PRERELEASE_PATH
 #MINIMAL
 
 windows:RC_ICONS = neptune.ico
@@ -32,7 +32,7 @@ windows:RC_ICONS = neptune.ico
 
 linux:   QMAKE_CXXFLAGS += -std=c++11 -march=corei7-avx -O3
 #windows: QMAKE_CXXFLAGS += /Ox /MP
-windows: QMAKE_CXXFLAGS += -O3 -march=core2 -std=gnu++11
+windows: QMAKE_CXXFLAGS +=  -march=corei7 -std=gnu++11
 
 SOURCES += \
     options.cpp \
