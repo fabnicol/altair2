@@ -113,12 +113,12 @@ public:
   virtual bool isAbstractEnabled() =0 ;
   bool isAbstractDisabled() {return !isAbstractEnabled();}
   QString optionLabel;
-
+    QList<FString> commandLineList;
 protected:
   QString hashKey;
   QString widgetDepth;
   QStringList description;
-  QList<FString> commandLineList;
+
   QList<QWidget*> componentList;
 
   inline void FCore(const QList<QWidget*>& , FString, int, const QString&, const QStringList& , const QString&, const QList<QWidget*>& =QList<QWidget*>(), const QList<QWidget*>& =QList<QWidget*>());
