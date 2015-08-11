@@ -25,6 +25,7 @@ public:
 
   static QHash<QString, QString> Annee;
   static QHash<QString, QString> Mois;
+  static QHash<QString, QString> Budget;
   static QHash<QString, QString> Siret;
   static QHash<QString, QString> Etablissement;
 
