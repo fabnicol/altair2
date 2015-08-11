@@ -10,6 +10,9 @@
 #define VERSION " 15.04"
 #endif
 
+#ifndef STEP_UP
+#define STEP_UP ""
+#endif
 
 #define TREE_FILE 2
 #define TREE_DIR  3

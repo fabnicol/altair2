@@ -11,10 +11,6 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
                          QStringList* terms, QStringList* translation, bool showAddItemButtonValue)
 
 {
- Hash::Annee.reserve(1152);
- Hash::Mois.reserve(1152);
- Hash::Siret.reserve(1152);
- Hash::Etablissement.reserve(1152);
 
  setAcceptDrops(true);
  altair = static_cast<Altair*>(parent);
@@ -296,10 +292,8 @@ void FListFrame::deleteAllGroups(bool insertFirstGroup, bool eraseAllData)
     Hash::Mois.clear();
     Hash::Siret.clear();
     Hash::Etablissement.clear();
-    Hash::Annee.reserve(576);
-    Hash::Mois.reserve(576);
-    Hash::Siret.reserve(576);
-    Hash::Etablissement.reserve(576);
+    Hash::Budget.clear();
+
     clearTabLabels();
 
   //  widgetContainer.clear();
@@ -420,22 +414,29 @@ void FListFrame::parseXhlFile(const QString& fileName)
 #ifdef REGEX_PARSING_FOR_HEADERS
     const QString string = QString::fromLatin1(buffer);
 
-    QRegExp reg("DocumentPaye.*(?:Annee) V=\"([0-9]+)\".*(?:Mois) V=\"([0-9]+)\".*(?:Etablissement|Employeur).*(?:Nom) V=\"([^\"]+)\".*(?:Siret) V=\"([0-9A-Z]+)\"");
+    QRegExp reg("DocumentPaye.*(?:Annee) V=\"([0-9]+)\".*(?:Mois) V=\"([0-9]+)\".*/>(.*)(?:Etablissement|Employeur).*(?:Nom) V=\"([^\"]+)\".*(?:Siret) V=\"([0-9A-Z]+)\"");
+    reg.setPatternSyntax(QRegExp::RegExp2);
+    QRegExp reg2(".*Budget.*Libelle V=\"([^\"]*)\".*");
 
     if (string.contains(reg))
     {
         Hash::Annee[fileName] = reg.cap(1);
         Hash::Mois[fileName]  = reg.cap(2);
-        Hash::Etablissement[fileName]  = reg.cap(3).replace("&#39;", "\'");
-        Hash::Siret[fileName] = reg.cap(4);
+        QString budgetCapture = reg.cap(3);
+        if (budgetCapture.contains(reg2))
+           Hash::Budget[fileName] = reg2.cap(1) ;
+        else
+            Hash::Budget[fileName] = "Non renseigné" ;
+        Hash::Etablissement[fileName]  = reg.cap(4).replace("&#39;", "\'");
+        Hash::Siret[fileName] = reg.cap(5);
     }
     else
     {
         altair->outputTextEdit->append(WARNING_HTML_TAG " Fichier " + fileName + " non conforme à la spécification astre:DocumentPaye");
-        Hash::Annee[fileName] = "";
-        Hash::Mois[fileName]  = "";
-        Hash::Etablissement[fileName]  = "";
-        Hash::Siret[fileName] = "";
+        Hash::Annee[fileName] = "Inconnu";
+        Hash::Mois[fileName]  = "Inconnu";
+        Hash::Etablissement[fileName]  = "Inconnu";
+        Hash::Siret[fileName] = "Inconnu";
 
     }
 
@@ -553,20 +554,53 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
 
         QStringList tabList ;
         for (int i=0; i < siretCount ; i++)
-            tabList <<  pairs[i].left(40);
+            tabList <<  pairs[i].left(60);
 
-        addNewTab(rank, "Siret");
         widgetContainer.insert(rank, new QListWidget);
-        Hash::wrapper[frameHashKey]->insert(rank, altair->siretList);
+        addNewTab(rank, "Siret");
+        Hash::wrapper[frameHashKey]->insert(rank, pairs);
         Hash::counter[frameHashKey]++;
         altair->outputTextEdit->append(STATE_HTML_TAG " Ajout de l'onglet Siret");
         listWidget->clear();
         listWidget->addItems(tabList);
 
-        QList<QString> colorList = {"red", "purple", "orange", "yellow", "green", "turquoise", "blue", "navy", "violet", "silver", "grey", "black"};
-        for (int i=0; i < siretCount & i < colorList.size(); i++)
-            listWidget->item(i)->setTextColor(colorList.at(i));
+/* amongst :
+ * aliceblue antiquewhite aqua aquamarine azure beige bisque black blanchedalmond blue blueviolet brown burlywood cadetblue chartreuse
+ * chocolate coral cornflowerblue cornsilk crimson cyan darkblue darkcyan darkgoldenrod darkgray darkgreen darkgrey darkkhaki darkmagenta
+ * darkolivegreen darkorange darkorchid darkred darksalmon darkseagreen darkslateblue darkslategray darkslategrey darkturquoise darkviolet
+ * deeppink deepskyblue dimgray dimgrey dodgerblue firebrick floralwhite forestgreen fuchsia gainsboro ghostwhite gold goldenrod gray green
+ *  greenyellow grey honeydew hotpink indianred indigo ivory khaki lavender lavenderblush lawngreen lemonchiffon lightblue lightcoral lightcyan
+ *  lightgoldenrodyellow lightgray lightgreen lightgrey lightpink lightsalmon lightseagreen lightskyblue lightslategray lightslategrey lightsteelblue
+ *  lightyellow lime limegreen linen magenta maroon mediumaquamarine mediumblue mediumorchid mediumpurple mediumseagreen mediumslateblue
+ *  mediumspringgreen mediumturquoise mediumvioletred midnightblue mintcream mistyrose moccasin navajowhite navy oldlace olive olivedrab
+ *  orange orangered orchid palegoldenrod palegreen paleturquoise palevioletred papayawhip peachpuff peru pink plum powderblue purple red
+ * rosybrown royalblue saddlebrown salmon sandybrown seagreen seashell sienna silver skyblue slateblue slategray slategrey snow springgreen steelblue
+ *  tan teal thistle tomato transparent turquoise violet wheat white whitesmoke yellow yellowgreen */
 
+        QList<QString> colorList = { "tomato", "orange" , "yellowgreen", "green",  "darkcyan", "blue", "navy", "darkslateblue", "black"};
+        const int colorListSize = colorList.size();
+        for (int i=0; i < siretCount; i++)
+            listWidget->item(i)->setTextColor(colorList.at(i % colorListSize));
+        ++rank;
+
+        pairs.clear();
+        tabList.clear();
+        pairs = Hash::Budget.values();
+        pairs.removeDuplicates();
+        int budgetCount = pairs.size();
+        for (int i=0; i < budgetCount ; i++)
+            tabList <<  pairs[i].left(60);
+
+        widgetContainer.insert(rank, new QListWidget);
+        addNewTab(rank, "Budget");
+        Hash::wrapper[frameHashKey]->insert(rank, pairs);
+        Hash::counter[frameHashKey]++;
+        altair->outputTextEdit->append(STATE_HTML_TAG " Ajout de l'onglet Budget");
+        listWidget->clear();
+        listWidget->addItems(tabList);
+
+        for (int i=0; i < budgetCount; i++)
+            listWidget->item(i)->setTextColor(colorList.at(i % colorListSize));
         ++rank;
 
        #undef listWidget

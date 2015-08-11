@@ -51,7 +51,6 @@ public:
     QProcess ejectProcess;
     QString fileTreeFile;
     QString outputType;
-    QStringList siretList;
 
     int fileRank=0;
 

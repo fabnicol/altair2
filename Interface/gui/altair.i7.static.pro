@@ -1,5 +1,7 @@
 greaterThan(QT_MAJOR_VERSION, 5)
 
+# Penser à spécifier un répertoire d'exécution sous QtCreator pour Windows juste au-dessu de release ou debug
+
 # Windows : do not use shadow builds
 # Note for deployment: mind to place share files into datadir local directory (eg .local/altair-author-gui/...)
 # after installing.
@@ -23,7 +25,7 @@ VPATH = .
 #win32:LIBS += -L../win32
 #linux:LIBS += -L../linux
 
-DEFINES += DEBUG QT_NO_OPENGL  STATIC  REGEX_PARSING_FOR_HEADERS PRERELEASE_PATH
+DEFINES += DEBUG QT_NO_OPENGL  STATIC  REGEX_PARSING_FOR_HEADERS
 #MINIMAL
 
 windows:RC_ICONS = neptune.ico
@@ -32,7 +34,7 @@ windows:RC_ICONS = neptune.ico
 
 linux:   QMAKE_CXXFLAGS += -std=c++11 -march=corei7-avx -O3
 #windows: QMAKE_CXXFLAGS += /Ox /MP
-windows: QMAKE_CXXFLAGS +=  -march=corei7 -std=gnu++11
+windows: QMAKE_CXXFLAGS +=   -std=gnu++11
 
 SOURCES += \
     options.cpp \
