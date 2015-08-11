@@ -43,6 +43,11 @@ void Altair::refreshModel()
     model->setNameFilters({"*.xhl"});
 }
 
+#ifdef PRERELEASE_PATH
+  #define STEP_UP "/.."
+#else
+  #define STEP_UP ""
+#endif
 
 void Altair::refreshTreeView()
 {
@@ -58,7 +63,7 @@ void Altair::refreshTreeView()
     fileTreeView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     fileTreeView->setSelectionBehavior(QAbstractItemView::SelectItems);
 
-    QModelIndex index = model->index(QDir::currentPath());
+    QModelIndex index = model->index(QDir::currentPath() + STEP_UP +  "/../../Tests/Exemple/Donnees/xhl");
     fileTreeView->expand(index);
     fileTreeView->scrollTo(index);
 }
