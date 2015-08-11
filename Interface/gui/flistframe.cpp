@@ -414,7 +414,7 @@ void FListFrame::parseXhlFile(const QString& fileName)
 #ifdef REGEX_PARSING_FOR_HEADERS
     const QString string = QString::fromLatin1(buffer);
 
-    QRegExp reg("DocumentPaye.*(?:Annee) V=\"([0-9]+)\".*(?:Mois) V=\"([0-9]+)\".*/>(.*)(?:Etablissement|Employeur).*(?:Nom) V=\"([^\"]+)\".*(?:Siret) V=\"([0-9A-Z]+)\"");
+    QRegExp reg("DocumentPaye.*(?:Annee) V=\"([0-9]+)\".*(?:Mois) V=\"([0-9]+)\"(.*)(?:Etablissement|Employeur).*(?:Nom) V=\"([^\"]+)\".*(?:Siret) V=\"([0-9A-Z]+)\"");
     reg.setPatternSyntax(QRegExp::RegExp2);
     QRegExp reg2(".*Budget.*Libelle V=\"([^\"]*)\".*");
 
