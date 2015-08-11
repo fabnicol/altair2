@@ -71,7 +71,7 @@ const QString openDirDialog(flags::directory checkEmptyness = directory::noCheck
 public :
   QString  videoFilePath;
   static FString  htmlLogPath;
-  const QString   systemPathPrefix = "/../";
+  const QString   systemPathPrefix = "/../../../";
 
 #ifdef Q_OS_WIN
 
