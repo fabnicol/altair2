@@ -1,0 +1,163 @@
+<?xml version="1.0"?>
+<projet>
+ <data>
+  <XHL profondeur="2">
+   <année V="2009">
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2009-ETAT_PAYE-01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2009-ETAT_PAYE-02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2009-ETAT_PAYE-03.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2009-ETAT_PAYE-04.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2009-ETAT_PAYE-05.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2009-ETAT_PAYE-06.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2009-ETAT_PAYE-07.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2009-ETAT_PAYE-08.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2009-ETAT_PAYE-09.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2009-ETAT_PAYE-10.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2009-ETAT_PAYE-11.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2009-ETAT_PAYE-12.xhl</fichier>
+   </année>
+   <année V="2010">
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2010-ETAT_PAYE-01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2010-ETAT_PAYE-02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2010-ETAT_PAYE-03.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2010-ETAT_PAYE-04.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2010-ETAT_PAYE-05.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2010-ETAT_PAYE-06.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2010-ETAT_PAYE-07.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2010-ETAT_PAYE-08.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2010-ETAT_PAYE-09.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2010-ETAT_PAYE-10.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2010-ETAT_PAYE-11.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2010-ETAT_PAYE-12.xhl</fichier>
+   </année>
+   <année V="2011">
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2011-ETAT_PAYE-01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2011-ETAT_PAYE-02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2011-ETAT_PAYE-03.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2011-ETAT_PAYE-04.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2011-ETAT_PAYE-05.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2011-ETAT_PAYE-06.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2011-ETAT_PAYE-07.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2011-ETAT_PAYE-08.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2011-ETAT_PAYE-09.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2011-ETAT_PAYE-10.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2011-ETAT_PAYE-11.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2011-ETAT_PAYE-12.xhl</fichier>
+   </année>
+   <année V="2012">
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2012-ETAT_PAYE-01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2012-ETAT_PAYE-02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2012-ETAT_PAYE-03.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2012-ETAT_PAYE-04.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2012-ETAT_PAYE-05.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2012-ETAT_PAYE-06.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2012-ETAT_PAYE-07.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2012-ETAT_PAYE-08.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2012-ETAT_PAYE-09.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2012-ETAT_PAYE-10.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2012-ETAT_PAYE-11.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2012-ETAT_PAYE-12.xhl</fichier>
+   </année>
+   <année V="2013">
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2013-ETAT_PAYE-01.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2013-ETAT_PAYE-02.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2013-ETAT_PAYE-03.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2013-ETAT_PAYE-04.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2013-ETAT_PAYE-05.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2013-ETAT_PAYE-06.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2013-ETAT_PAYE-07.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2013-ETAT_PAYE-08.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2013-ETAT_PAYE-09.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2013-ETAT_PAYE-10.xhl</fichier>
+     <fichier>C:/Dev/altair/Tests/Exemple/Donnees/xhl/Amplepuis/21690006800018-2013-ETAT_PAYE-11.xhl</fichier>
+   </année>
+   <année V=">
+     <fichier>21690006800018 MAIRIE D'AMPLEPUIS</fichier>
+   </année>
+   <année V=">
+     <fichier>Budget AMPLE COM</fichier>
+     <fichier>Multi budgets</fichier>
+   </année>
+  </XHL>
+ </data>
+ <systeme>
+  <fileManagerDisplay profondeur="0">
+   oui
+  </fileManagerDisplay>
+  <projectManagerDisplay profondeur="0">
+   oui
+  </projectManagerDisplay>
+  <fullScreenDisplay profondeur="0">
+   non
+  </fullScreenDisplay>
+  <outputTextEdit profondeur="0">
+   oui
+  </outputTextEdit>
+  <fileToolBar profondeur="0">
+   oui
+  </fileToolBar>
+  <editToolBar profondeur="0">
+   oui
+  </editToolBar>
+  <processToolBar profondeur="0">
+   oui
+  </processToolBar>
+  <optionsToolBar profondeur="0">
+   oui
+  </optionsToolBar>
+  <aboutToolBar profondeur="0">
+   oui
+  </aboutToolBar>
+  <saveProjectBehavior profondeur="0">
+   oui
+  </saveProjectBehavior>
+  <loadProjectBehavior profondeur="0">
+   oui
+  </loadProjectBehavior>
+  <base profondeur="0">
+   C:\Dev\altair\Interface_win64\Tests\Exemple\Donnees\R-Altaïr
+  </base>
+  <xhlDir profondeur="0">
+   C:\Dev\altair\Interface_win64\win\win
+  </xhlDir>
+  <baseType profondeur="0">
+     
+  </baseType>
+  <maxLigne profondeur="0">
+     
+  </maxLigne>
+  <separateur profondeur="0">
+   ;
+  </separateur>
+  <decimal profondeur="0">
+   ,
+  </decimal>
+  <processType profondeur="0">
+   '4'
+  </processType>
+  <nAgent profondeur="0">
+     
+  </nAgent>
+  <nLine profondeur="0">
+     
+  </nLine>
+  <genererNumLigne profondeur="0">
+   non
+  </genererNumLigne>
+  <genererTable profondeur="0">
+   oui
+  </genererTable>
+  <log profondeur="0">
+     
+  </log>
+  <genererLog profondeur="0">
+   non
+  </genererLog>
+  <ecoRAM profondeur="0">
+   oui
+  </ecoRAM>
+ </systeme>
+ <recent>
+  <fichier>C:/Dev/altair/Interface/build-altair.i7.static-Desktop-Debug/défaut.alt</fichier>
+ </recent>
+</projet>

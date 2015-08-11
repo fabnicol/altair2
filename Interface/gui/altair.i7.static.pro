@@ -34,7 +34,7 @@ windows:RC_ICONS = neptune.ico
 
 linux:   QMAKE_CXXFLAGS += -std=c++11 -march=corei7-avx -O3
 #windows: QMAKE_CXXFLAGS += /Ox /MP
-windows: QMAKE_CXXFLAGS +=   -std=gnu++11
+windows: QMAKE_CXXFLAGS +=  -O3 -march=core2 -std=gnu++11
 
 SOURCES += \
     options.cpp \
