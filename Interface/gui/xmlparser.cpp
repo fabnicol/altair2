@@ -7,11 +7,12 @@ inline const QString Altair::makeParserString(int start, int end)
 {
 
     QStringList L=QStringList();
-
-    for (int j = start; j <= end; j++)
+    int listsize = Abstract::abstractWidgetList.size();
+    for (int j = start; j <= end & j < listsize; j++)
     {
 
         FAbstractWidget* widget = Abstract::abstractWidgetList.at(j);
+        if (widget == nullptr) return "";
         QString hK = widget->getHashKey();
 
         if  (widget->getHashKey().isEmpty())
@@ -51,6 +52,7 @@ void Altair::writeProjectFile()
     checkEmptyProjectName();
     projectFile.setFileName(projectName);
     QErrorMessage *errorMessageDialog = new QErrorMessage(this);
+    Q(projectName)
     if (!projectFile.open(QIODevice::WriteOnly))
     {
         errorMessageDialog->showMessage(tr("Impossible d'ouvrir le fichier du projet\n")+ qPrintable(projectFile.errorString()));
@@ -215,9 +217,7 @@ void displayTextData(const QStringList &firstColumn,
         item = new QTreeWidgetItem(XmlMethod::itemParent);
         item->setText(0, firstColumn.at(0));
         item->setExpanded(true);
-       // Q(last)
-       // Q(firstColumn.at(0))
-    }
+     }
 
     last= firstColumn.at(0);
 
@@ -266,9 +266,10 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
 {
     int count=0, tagcount=0, l;
     qint64 filesizecount=0;
+
     QString firstColumn,
             root=tags.at(0),
-            secondColumn=tags.at(1),
+            secondColumn=" ",
             thirdColumn,
             fourthColumn,
             fifthColumn,
@@ -286,7 +287,7 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
             if (tagcount < tagListSize) firstColumn = tags.at(tagcount++);
         }
 
-        displayTextData({firstColumn});
+       displayTextData({firstColumn});
 
         QStringListIterator w(i.next()), y(j.next());
         l=0;
@@ -294,8 +295,7 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
         while (w.hasNext() && y.hasNext())
         {
             ++count;
-            if (!tags.at(1).isEmpty())
-                thirdColumn =  "fichier " + QString::number(++l) + "/"+ QString::number(count) +": ";
+            thirdColumn =  "fichier " + QString::number(++l) + "/"+ QString::number(count) +": ";
             const QString filename = w.next();
             thirdColumn += filename;
             secondColumn =  Hash::Mois[filename];
@@ -470,7 +470,7 @@ inline QList<QStringList> Altair::processSecondLevelData(QList<QStringList> &L, 
     while (i.hasNext())
     {
         QStringListIterator w(i.next());
-        QStringList stackedSizeInfo1;
+        QStringList stackedSizeInfo1=QStringList();
         while (w.hasNext())
         {
             QString text=w.next();
@@ -483,7 +483,7 @@ inline QList<QStringList> Altair::processSecondLevelData(QList<QStringList> &L, 
                                     
             }
         }
-        
+
         stackedSizeInfo2 << stackedSizeInfo1;
         group_index++;
     }
@@ -494,14 +494,16 @@ inline QList<QStringList> Altair::processSecondLevelData(QList<QStringList> &L, 
 void Altair::refreshProjectManagerValues(std::uint16_t refreshProjectManagerFlag)
 {
     managerWidget->clear();
-    const QStringList& tags = project[0]->getTabLabels();
+  QStringList tags = project[0]->getTabLabels();
 
     if (tags.isEmpty() || Hash::wrapper["XHL"]->isEmpty()) return;
 
     if ((refreshProjectManagerFlag & manager::refreshProjectInteractiveMask) == manager::refreshProjectInteractiveMode)
     {
         updateIndexInfo();
+
         fileSizeDataBase[0] = processSecondLevelData(*Hash::wrapper["XHL"]);
+
     }
 
     QTreeWidgetItem *item=new QTreeWidgetItem(managerWidget);
@@ -513,7 +515,7 @@ void Altair::refreshProjectManagerValues(std::uint16_t refreshProjectManagerFlag
                             tags,
                            *Hash::wrapper["XHL"],
                             fileSizeDataBase[0]);
-
+    Altair::totalSize[0]+=1;
     if ((refreshProjectManagerFlag & manager::refreshNBulletinsMask) ==  manager::refreshNBulletins)
     {
         for (int i=0; i < Hash::wrapper["NBulletins"]->size(); ++i)
