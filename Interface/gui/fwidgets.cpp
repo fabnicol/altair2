@@ -339,6 +339,7 @@ const FString FListWidget::setXmlFromWidget()
             commandLineList.clear();
             if (hashKey == "XHL")
             {
+                if (Hash::wrapper[hashKey]->size() < 2) return "";
                 Hash::wrapper[hashKey]->removeLast();
                 Hash::wrapper[hashKey]->removeLast();
             }

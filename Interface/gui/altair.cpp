@@ -258,10 +258,6 @@ void Altair::closeProject()
     clearProjectData();
     Altair::totalSize[0] = 0;
 
-    updateProject();
-
-    displayTotalSize();
-
     for  (int i = projectDimension; i >= 0;   i--)
     {
         project[0]->mainTabWidget->removeTab(i);
@@ -270,7 +266,6 @@ void Altair::closeProject()
     project[0]->addNewTab();
 
     QFile projectFile(projectName);
-
     projectFile.close();
 
     projectName="";
@@ -441,7 +436,7 @@ bool Altair::updateProject(bool requestSave)
 
     if (parent->isDefaultSaveProjectChecked() || requestSave)
         writeProjectFile();
-
+//return true;
     return refreshProjectManager();
 }
 
