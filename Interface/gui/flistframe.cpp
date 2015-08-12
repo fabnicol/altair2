@@ -267,7 +267,7 @@ void FListFrame::addGroups(int n)
          widgetContainer[j]->addItems((*Hash::wrapper[frameHashKey])[j]);
       }
 
-    //mainTabWidget->setTabText(0, getTabLabels().at(0));
+
 }
 
 void FListFrame::deleteAllGroups(bool insertFirstGroup, bool eraseAllData)
@@ -519,9 +519,11 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
 
             if (! existingTabLabels.contains(annee))
             {
+
                 widgetContainer.insert(rank, new QListWidget);
                 Hash::wrapper[frameHashKey]->insert(rank, keys);
                 Hash::counter[frameHashKey]++;
+
                 addNewTab(rank, annee);
                 altair->outputTextEdit->append(STATE_HTML_TAG " Ajout de l'onglet " + annee);
             }
