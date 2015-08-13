@@ -104,7 +104,7 @@ QUrl url("file:///" + path);
 QDesktopServices::openUrl(url);
 }
 
-const QString common::openDirDialog()
+const QString common::openDirDialog(flags::directory checkEmptyness)
 {
 QString path=QFileDialog::getExistingDirectory(this, QString("Sélection du répertoire"),
                                                QDir::currentPath(),
@@ -112,28 +112,30 @@ QString path=QFileDialog::getExistingDirectory(this, QString("Sélection du rép
                                                | QFileDialog::DontResolveSymlinks);
 if (path.isEmpty()) return QString();
 
-qint64 size=common::getDirectorySize(path, "*");
-
-if (size)
+if (checkEmptyness == flags::directory::checkEmptyness)
 {
-    int result=-1;
-    if ((result = Warning(QString("Répertoire"), QString("Le répertoire %1 n'est pas vide (Taille %2B). Ecraser et recréer ? ").arg(path,QString::number(size))))
-            == 0)
-    {
-        QDir targetDirObject(path);
-        if (!targetDirObject.removeRecursively())    Warning0(QString("Supprimer le répertoire de création des bases"),
-                                                              QString("Le répertoire n'a pas été supprimé' %1").arg(QDir::toNativeSeparators(path)));
+    qint64 size=common::getDirectorySize(path, "*");
 
-        else
-        if (targetDirObject.mkpath(path) == false)
+    if (size)
+    {
+        int result=-1;
+        if ((result = Warning(QString("Répertoire"), QString("Le répertoire %1 n'est pas vide (Taille %2B). Ecraser et recréer ? ").arg(path,QString::number(size))))
+                == 0)
         {
-            Warning0(QString("Répertoire"), QString("Le répertoire %1 n'a pas été créé").arg(path));
-            return QString();
+            QDir targetDirObject(path);
+            if (!targetDirObject.removeRecursively())    Warning0(QString("Supprimer le répertoire de création des bases"),
+                                                                  QString("Le répertoire n'a pas été supprimé' %1").arg(QDir::toNativeSeparators(path)));
+
+            else
+            if (targetDirObject.mkpath(path) == false)
+            {
+                Warning0(QString("Répertoire"), QString("Le répertoire %1 n'a pas été créé").arg(path));
+                return QString();
+            }
         }
     }
 }
-
-return path;
+return QDir::toNativeSeparators(path);
 }
 
 

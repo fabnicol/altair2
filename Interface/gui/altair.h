@@ -58,6 +58,8 @@ public:
     void refreshProjectManagerValues(std::uint16_t = manager::refreshAllZones );
     void refreshRowPresentation(uint);
 
+    FProgressBar* getProgressBar() { return progress; }
+
 public slots:
 
    bool updateProject(bool=false);
@@ -106,6 +108,7 @@ private:
     const QString  makeParserString(int start, int end=Abstract::abstractWidgetList.size()-1);
     const QString  makeDataString( );
     const QString  makeSystemString( );
+
     QList<QStringList> processSecondLevelData(QList<QStringList> &L, bool isFile=true);
     QList<QUrl> parseUrlsDragged(QList<QUrl>& urlsDragged);
     FStringList parseEntry(const QDomNode &, QTreeWidgetItem *parent=0);
