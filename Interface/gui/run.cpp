@@ -12,8 +12,14 @@ QStringList Altair::createCommandLineString()
     while (w.hasPrevious())
     {
         FAbstractWidget* item=w.previous();
-        
-        const QStringList commandLineChunk=item->commandLineStringList();
+        QStringList commandLineChunk=item->commandLineStringList();
+        if (item->getHashKey() == "XHL")
+        {
+            outputTextEdit->append(item->commandLineList[0].toQString());
+            outputTextEdit->append(item->commandLineList[1].toQString());
+            outputTextEdit->append(item->commandLineList[2].toQString());
+        }
+
         if (!commandLineChunk.isEmpty() && !commandLineChunk[0].isEmpty())
             commandLine +=  commandLineChunk;
     }
@@ -90,6 +96,9 @@ void Altair::run()
     process->setWorkingDirectory(execPath);
     outputTextEdit->append(PROCESSING_HTML_TAG + tr("Démarrage dans ") + execPath);
     progress->setRange(0, Hash::counter["XHL"]-1);
+#ifdef DEBUG
+    outputTextEdit->append(PROCESSING_HTML_TAG + tr("Amplitude de la barre de progression : ") + QString::number(Hash::counter["XHL"]));
+#endif
     fileRank=0;
     progress->rewind();
     process->start(altairCommandStr,  args);

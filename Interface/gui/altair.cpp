@@ -58,7 +58,7 @@ void Altair::refreshTreeView()
     fileTreeView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     fileTreeView->setSelectionBehavior(QAbstractItemView::SelectItems);
 
-    QModelIndex index = model->index(QDir::currentPath());
+    QModelIndex index = model->index(QDir::currentPath() + STEP_UP +  "/../../Tests/Exemple/Donnees/xhl");
     fileTreeView->expand(index);
     fileTreeView->scrollTo(index);
 }
@@ -136,14 +136,16 @@ Altair::Altair()
     mainLayout->addLayout(progressLayout);
 
     QStringList labels;
-    labels << tr("") << tr("Chemin") << tr("Taille\nFichier") << tr("Total") << tr("Nombre\nBulletins");
+    labels << tr("") << tr("Mois") << tr("Chemin")  << tr("Taille\nFichier") << tr("Total") << tr("Siret") << tr("Budget");
     managerWidget->hide();
     managerWidget->setHeaderLabels(labels);
     managerWidget->setColumnWidth(0,300);
-    managerWidget->setColumnWidth(1,300);
-    managerWidget->setColumnWidth(2,50);
-    managerWidget->setColumnWidth(3,80);
-    managerWidget->setColumnWidth(4,120);
+    managerWidget->setColumnWidth(1,50);
+    managerWidget->setColumnWidth(2,300);
+    managerWidget->setColumnWidth(3,50);
+    managerWidget->setColumnWidth(4,60);
+    managerWidget->setColumnWidth(5,220);
+    managerWidget->setColumnWidth(6,90);
     managerWidget->setContextMenuPolicy(Qt::ContextMenuPolicy::NoContextMenu);
     managerLayout->addWidget(managerWidget);
 
@@ -256,10 +258,6 @@ void Altair::closeProject()
     clearProjectData();
     Altair::totalSize[0] = 0;
 
-    updateProject();
-
-    displayTotalSize();
-
     for  (int i = projectDimension; i >= 0;   i--)
     {
         project[0]->mainTabWidget->removeTab(i);
@@ -268,7 +266,6 @@ void Altair::closeProject()
     project[0]->addNewTab();
 
     QFile projectFile(projectName);
-
     projectFile.close();
 
     projectName="";
@@ -439,7 +436,7 @@ bool Altair::updateProject(bool requestSave)
 
     if (parent->isDefaultSaveProjectChecked() || requestSave)
         writeProjectFile();
-
+//return true;
     return refreshProjectManager();
 }
 

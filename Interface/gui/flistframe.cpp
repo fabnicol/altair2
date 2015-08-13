@@ -11,9 +11,6 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
                          QStringList* terms, QStringList* translation, bool showAddItemButtonValue)
 
 {
- Hash::Annee.reserve(1152);
- Hash::Mois.reserve(1152);
- Hash::Siret.reserve(1152);
 
  setAcceptDrops(true);
  altair = static_cast<Altair*>(parent);
@@ -270,7 +267,7 @@ void FListFrame::addGroups(int n)
          widgetContainer[j]->addItems((*Hash::wrapper[frameHashKey])[j]);
       }
 
-    //mainTabWidget->setTabText(0, getTabLabels().at(0));
+
 }
 
 void FListFrame::deleteAllGroups(bool insertFirstGroup, bool eraseAllData)
@@ -294,9 +291,9 @@ void FListFrame::deleteAllGroups(bool insertFirstGroup, bool eraseAllData)
     Hash::Annee.clear();
     Hash::Mois.clear();
     Hash::Siret.clear();
-    Hash::Annee.reserve(576);
-    Hash::Mois.reserve(576);
-    Hash::Siret.reserve(576);
+    Hash::Etablissement.clear();
+    Hash::Budget.clear();
+
     clearTabLabels();
 
   //  widgetContainer.clear();
@@ -379,9 +376,17 @@ void FListFrame::clearWidgetContainer()
 
 void FListFrame::parseXhlFile(const QStringList& stringList)
 {
-
+  int rank = 0;
     for (const QString& fileName : stringList)
+    {
         parseXhlFile(fileName);
+        ++rank;
+#ifdef DEBUG_INPUT_FILES
+        altair->outputTextEdit->append(PROCESSING_HTML_TAG " Analyse du fichier n°" + QString::number(rank));
+#endif
+        altair->getProgressBar()->setValue(rank);
+    }
+
 }
 
 #include "elemParser.hpp"
@@ -389,9 +394,11 @@ struct Header* elemPar;
 
 void FListFrame::parseXhlFile(const QString& fileName)
 {
+   QFile file(fileName);
 
-    QFile file(fileName);
-    bool result = file.open(QIODevice::ReadOnly);
+    bool result = file.open(QIODevice::ReadOnly | QIODevice::Unbuffered);
+    if (! file.isOpen())
+             altair->outputTextEdit->append(ERROR_HTML_TAG " Erreur à l'ouverture du fichier.");
 
     if (result == false || file.size()== 0)
     {
@@ -401,29 +408,43 @@ void FListFrame::parseXhlFile(const QString& fileName)
 
     file.seek(0);
 
-    const QByteArray buffer = file.read(1500);
-#ifdef REGEX_PARSING_FOR_HEADERS
-    const QString string = QString(buffer);
+    char buffer[1500];
+    file.read(buffer, 1500);
 
-    QRegExp reg("DocumentPaye.*(?:Annee) V=\"([0-9]+)\".*(?:Mois) V=\"([0-9]+)\".*(?:Siret) V=\"([0-9A-Z]+)\"");
+#ifdef REGEX_PARSING_FOR_HEADERS
+    const QString string = QString::fromLatin1(buffer);
+
+    QRegExp reg("DocumentPaye.*(?:Annee) V=\"([0-9]+)\".*(?:Mois) V=\"([0-9]+)\"(.*)(?:Etablissement|Employeur).*(?:Nom) V=\"([^\"]+)\".*(?:Siret) V=\"([0-9A-Z]+)\"");
+    reg.setPatternSyntax(QRegExp::RegExp2);
+    QRegExp reg2(".*Budget.*Libelle V=\"([^\"]*)\".*");
 
     if (string.contains(reg))
     {
         Hash::Annee[fileName] = reg.cap(1);
         Hash::Mois[fileName]  = reg.cap(2);
-        Hash::Siret[fileName] = reg.cap(3);
+        QString budgetCapture = reg.cap(3);
+        if (budgetCapture.contains(reg2))
+           Hash::Budget[fileName] = reg2.cap(1) ;
+        else
+            Hash::Budget[fileName] = "Non renseigné" ;
+        Hash::Etablissement[fileName]  = reg.cap(4).replace("&#39;", "\'");
+        Hash::Siret[fileName] = reg.cap(5);
     }
     else
     {
         altair->outputTextEdit->append(WARNING_HTML_TAG " Fichier " + fileName + " non conforme à la spécification astre:DocumentPaye");
-        return;
+        Hash::Annee[fileName] = "Inconnu";
+        Hash::Mois[fileName]  = "Inconnu";
+        Hash::Etablissement[fileName]  = "Inconnu";
+        Hash::Siret[fileName] = "Inconnu";
+
     }
 
 
 #else
 
    elemPar  = elem_parser(buffer.constData());
-   if (elemPar->test)
+   //if (elemPar->test)
    {
        Hash::Annee[fileName] = QString(elemPar->annee);
        Hash::Mois[fileName]  = QString(elemPar->mois);
@@ -434,21 +455,13 @@ void FListFrame::parseXhlFile(const QString& fileName)
 #endif
 
    file.close();
+
+   if (file.isOpen())
+            altair->outputTextEdit->append(ERROR_HTML_TAG " Erreur à la fermeture du fichier.");
+
+   if (file.error() != QFileDevice::NoError)
+         altair->outputTextEdit->append(WARNING_HTML_TAG " Erreur de fichier.");
    return;
-
-}
-
-
-void FListFrame::addStringListToHash(const QStringList & stringList, int size)
-{
-    (*Hash::wrapper[frameHashKey])[currentIndex] = std::move(stringList);
-    Hash::counter[frameHashKey] += size;
-    updateIndexInfo();
-    if (row == 0) 
-    {
-        emit(is_ntabs_changed(currentIndex+1)); // emits signal of number of tabs/QListWidgets opened
-    }
-    emit(is_ntracks_changed(Hash::counter[frameHashKey]));
 }
 
 
@@ -460,7 +473,6 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
 
     for (int j = 0; j < getWidgetContainerCount(); j++)
     {
-
         const QString str = mainTabWidget->tabText(j);
         if (str == "année 1" || str.isEmpty())
         {
@@ -471,28 +483,33 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
           existingTabLabels << str;
     }
 
+    altair->outputTextEdit->append(STATE_HTML_TAG " Parcours des entêtes de fichier " );
+    int stringListSize = stringList.size();
+    altair->getProgressBar()->setRange(0, stringListSize);
+    altair->getProgressBar()->reset();
+    altair->getProgressBar()->show();
     parseXhlFile(stringList);
+    altair->getProgressBar()->hide();
 
     QStringList tabLabels = getTabLabels();
 
-    for (const QString& fileName : stringList)
-    {
-        const QString annee = Hash::Annee[fileName];
-        if (! tabLabels.contains(annee))
-        {
-            tabLabels  += annee;
-        }
-    }
+    altair->outputTextEdit->append(STATE_HTML_TAG " Calcul des labels " );
 
-    tabLabels.sort();
+    for (const QString& fileName : stringList)
+            tabLabels  +=   Hash::Annee[fileName];
+
     int rank = 0;
     QStringList allLabels = tabLabels + existingTabLabels;
+    altair->outputTextEdit->append(STATE_HTML_TAG " Elimination des doublons " );
     allLabels.removeDuplicates();
+    altair->outputTextEdit->append(STATE_HTML_TAG " Tri des labels " );
     allLabels.sort();
 
     if (! allLabels.isEmpty())
     {
-        altair->outputTextEdit->append(STATE_HTML_TAG + QString(" Nombre d'années détectées : ") + QString::number(allLabels.size()) + " années, " + tabLabels.join(", "));
+        altair->outputTextEdit->append(STATE_HTML_TAG + QString(" Nombre d'années détectées : ") + QString::number(allLabels.size()) + " années, " + allLabels.join(", "));
+
+        #define listWidget static_cast<QListWidget*>(mainTabWidget->widget(rank))
 
         for (const QString& annee : allLabels)
         {
@@ -502,26 +519,94 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
 
             if (! existingTabLabels.contains(annee))
             {
+
                 widgetContainer.insert(rank, new QListWidget);
                 Hash::wrapper[frameHashKey]->insert(rank, keys);
                 Hash::counter[frameHashKey]++;
+
                 addNewTab(rank, annee);
+                altair->outputTextEdit->append(STATE_HTML_TAG " Ajout de l'onglet " + annee);
             }
             else
             {
                 (*Hash::wrapper[frameHashKey])[rank] =  keys ;
+                altair->outputTextEdit->append(STATE_HTML_TAG " Ajout des fichiers de l'onglet au conteneur principal ");
             }
 
-            static_cast<QListWidget*>(mainTabWidget->widget(rank))->clear();
-            static_cast<QListWidget*>(mainTabWidget->widget(rank))->addItems(keys);
+            listWidget->clear();
+            altair->outputTextEdit->append(STATE_HTML_TAG " Ajout des fichiers de l'onglet " + annee);
+            listWidget->addItems(keys);
 
             altair->refreshRowPresentation(rank);
             ++rank;
-
         }
 
         mainTabWidget->setCurrentIndex(rank - 1);
-  }
+
+        QStringList pairs;
+        QStringListIterator j(Hash::Etablissement.values());
+        QStringListIterator i(Hash::Siret.values());
+        while (i.hasNext() && j.hasNext())
+        {
+            pairs << i.next() + " " + j.next();
+        }
+        pairs.removeDuplicates();
+
+        int siretCount = pairs.size();
+
+        QStringList tabList ;
+        for (int i=0; i < siretCount ; i++)
+            tabList <<  pairs[i].left(60);
+
+        widgetContainer.insert(rank, new QListWidget);
+        addNewTab(rank, "Siret");
+        Hash::wrapper[frameHashKey]->insert(rank, pairs);
+        Hash::counter[frameHashKey]++;
+        altair->outputTextEdit->append(STATE_HTML_TAG " Ajout de l'onglet Siret");
+        listWidget->clear();
+        listWidget->addItems(tabList);
+
+/* amongst :
+ * aliceblue antiquewhite aqua aquamarine azure beige bisque black blanchedalmond blue blueviolet brown burlywood cadetblue chartreuse
+ * chocolate coral cornflowerblue cornsilk crimson cyan darkblue darkcyan darkgoldenrod darkgray darkgreen darkgrey darkkhaki darkmagenta
+ * darkolivegreen darkorange darkorchid darkred darksalmon darkseagreen darkslateblue darkslategray darkslategrey darkturquoise darkviolet
+ * deeppink deepskyblue dimgray dimgrey dodgerblue firebrick floralwhite forestgreen fuchsia gainsboro ghostwhite gold goldenrod gray green
+ *  greenyellow grey honeydew hotpink indianred indigo ivory khaki lavender lavenderblush lawngreen lemonchiffon lightblue lightcoral lightcyan
+ *  lightgoldenrodyellow lightgray lightgreen lightgrey lightpink lightsalmon lightseagreen lightskyblue lightslategray lightslategrey lightsteelblue
+ *  lightyellow lime limegreen linen magenta maroon mediumaquamarine mediumblue mediumorchid mediumpurple mediumseagreen mediumslateblue
+ *  mediumspringgreen mediumturquoise mediumvioletred midnightblue mintcream mistyrose moccasin navajowhite navy oldlace olive olivedrab
+ *  orange orangered orchid palegoldenrod palegreen paleturquoise palevioletred papayawhip peachpuff peru pink plum powderblue purple red
+ * rosybrown royalblue saddlebrown salmon sandybrown seagreen seashell sienna silver skyblue slateblue slategray slategrey snow springgreen steelblue
+ *  tan teal thistle tomato transparent turquoise violet wheat white whitesmoke yellow yellowgreen */
+
+        QList<QString> colorList = { "tomato", "orange" , "yellowgreen", "green",  "darkcyan", "blue", "navy", "darkslateblue", "black"};
+        const int colorListSize = colorList.size();
+        for (int i=0; i < siretCount; i++)
+            listWidget->item(i)->setTextColor(colorList.at(i % colorListSize));
+        ++rank;
+
+        pairs.clear();
+        tabList.clear();
+        pairs = Hash::Budget.values();
+        pairs.removeDuplicates();
+        int budgetCount = pairs.size();
+        for (int i=0; i < budgetCount ; i++)
+            tabList <<  pairs[i].left(60);
+
+        widgetContainer.insert(rank, new QListWidget);
+        addNewTab(rank, "Budget");
+        Hash::wrapper[frameHashKey]->insert(rank, pairs);
+        Hash::counter[frameHashKey]++;
+        altair->outputTextEdit->append(STATE_HTML_TAG " Ajout de l'onglet Budget");
+        listWidget->clear();
+        listWidget->addItems(tabList);
+
+        for (int i=0; i < budgetCount; i++)
+            listWidget->item(i)->setTextColor(colorList.at(i % colorListSize));
+        ++rank;
+
+       #undef listWidget
+     }
 
   updateIndexInfo();
   if (row == 0)
@@ -582,6 +667,8 @@ QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
 void FListFrame::on_importFromMainTree_clicked()
 {
  
+ altair->outputTextEdit->append(STATE_HTML_TAG " Lancement de l'analyse " );
+
  if (isListConnected || isTotalConnected)
    {
      if(getSlotListSize() == 0)
@@ -598,6 +685,10 @@ void FListFrame::on_importFromMainTree_clicked()
  QStringList&& stringsToBeAdded = QStringList();
  int stringListSize=0;
  
+ altair->outputTextEdit->append(STATE_HTML_TAG " Parcours de l'arbre " );
+
+
+
  if (importType == flags::importFiles)
     {
      for (const QModelIndex& index : indexList)
@@ -609,6 +700,9 @@ void FListFrame::on_importFromMainTree_clicked()
              stringsToBeAdded << path;
          }
        }
+
+     altair->outputTextEdit->append(STATE_HTML_TAG " Ajout des chemins à la liste centrale" );
+
      if (stringListSize) 
          addParsedTreeToListWidget(stringsToBeAdded);
     }
