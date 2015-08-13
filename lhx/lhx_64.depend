@@ -1,16 +1,28 @@
 # depslib dependency file v1.0
+<<<<<<< HEAD
+1438603248 source:/home/fab/Dev/altair/lhx/fonctions_auxiliaires.cpp
+=======
 1430846534 source:c:\dev\altair\lhx\fonctions_auxiliaires.cpp
+>>>>>>> FETCH_HEAD
 	"fonctions_auxiliaires.hpp"
 	<string.h>
 	<stdint.h>
 
+<<<<<<< HEAD
+1438603248 /home/fab/Dev/altair/lhx/fonctions_auxiliaires.hpp
+=======
 1430846534 c:\dev\altair\lhx\fonctions_auxiliaires.hpp
+>>>>>>> FETCH_HEAD
 	<limits.h>
 	<errno.h>
 	<inttypes.h>
 	"validator.hpp"
 
+<<<<<<< HEAD
+1438603248 /home/fab/Dev/altair/lhx/validator.hpp
+=======
 1437382567 c:\dev\altair\lhx\validator.hpp
+>>>>>>> FETCH_HEAD
 	<stdio.h>
 	<string.h>
 	<stdlib.h>
@@ -26,21 +38,157 @@
 	<inttypes.h>
 	<Windows.h>
 
+<<<<<<< HEAD
+1422789757 /usr/include/libxml2/libxml/xmlmemory.h
+	<stdio.h>
+	<libxml/xmlversion.h>
+	<libxml/threads.h>
+	<libxml/globals.h>
+
+1422789757 /usr/include/libxml2/libxml/xmlversion.h
+	<libxml/xmlexports.h>
+	<ansidecl.h>
+
+1422789757 /usr/include/libxml2/libxml/xmlexports.h
+
+1422789757 /usr/include/libxml2/libxml/threads.h
+	<libxml/xmlversion.h>
+	<libxml/globals.h>
+
+1422789757 /usr/include/libxml2/libxml/globals.h
+	<libxml/xmlversion.h>
+	<libxml/parser.h>
+	<libxml/xmlerror.h>
+	<libxml/SAX.h>
+	<libxml/SAX2.h>
+	<libxml/xmlmemory.h>
+	<libxml/threads.h>
+
+1422789757 /usr/include/libxml2/libxml/parser.h
+	<stdarg.h>
+	<libxml/xmlversion.h>
+	<libxml/tree.h>
+	<libxml/dict.h>
+	<libxml/hash.h>
+	<libxml/valid.h>
+	<libxml/entities.h>
+	<libxml/xmlerror.h>
+	<libxml/xmlstring.h>
+	<libxml/encoding.h>
+	<libxml/xmlIO.h>
+	<libxml/globals.h>
+
+1422789757 /usr/include/libxml2/libxml/tree.h
+	<stdio.h>
+	<limits.h>
+	<libxml/xmlversion.h>
+	<libxml/xmlstring.h>
+	<libxml/xmlregexp.h>
+	<libxml/xmlmemory.h>
+
+1422789757 /usr/include/libxml2/libxml/xmlstring.h
+	<stdarg.h>
+	<libxml/xmlversion.h>
+
+1422789757 /usr/include/libxml2/libxml/xmlregexp.h
+	<libxml/xmlversion.h>
+	<libxml/tree.h>
+	<libxml/dict.h>
+
+1422789757 /usr/include/libxml2/libxml/dict.h
+	<limits.h>
+	<libxml/xmlversion.h>
+	<libxml/tree.h>
+
+1422789757 /usr/include/libxml2/libxml/hash.h
+	<libxml/xmlversion.h>
+	<libxml/parser.h>
+	<libxml/dict.h>
+
+1422789757 /usr/include/libxml2/libxml/valid.h
+	<libxml/xmlversion.h>
+	<libxml/xmlerror.h>
+	<libxml/tree.h>
+	<libxml/list.h>
+	<libxml/xmlautomata.h>
+	<libxml/xmlregexp.h>
+
+1422789757 /usr/include/libxml2/libxml/xmlerror.h
+	<libxml/parser.h>
+
+1422789757 /usr/include/libxml2/libxml/list.h
+	<libxml/xmlversion.h>
+
+1422789757 /usr/include/libxml2/libxml/xmlautomata.h
+	<libxml/xmlversion.h>
+	<libxml/tree.h>
+	<libxml/xmlregexp.h>
+
+1422789757 /usr/include/libxml2/libxml/entities.h
+	<libxml/xmlversion.h>
+	<libxml/tree.h>
+
+1422789757 /usr/include/libxml2/libxml/encoding.h
+	<libxml/xmlversion.h>
+	<iconv.h>
+	<unicode/ucnv.h>
+	<libxml/tree.h>
+
+1422789757 /usr/include/libxml2/libxml/xmlIO.h
+	<stdio.h>
+	<libxml/xmlversion.h>
+	<libxml/globals.h>
+	<libxml/tree.h>
+	<libxml/parser.h>
+	<libxml/encoding.h>
+
+1422789757 /usr/include/libxml2/libxml/SAX.h
+	<stdio.h>
+	<stdlib.h>
+	<libxml/xmlversion.h>
+	<libxml/parser.h>
+	<libxml/xlink.h>
+
+1422789757 /usr/include/libxml2/libxml/xlink.h
+	<libxml/xmlversion.h>
+	<libxml/tree.h>
+
+1422789757 /usr/include/libxml2/libxml/SAX2.h
+	<stdio.h>
+	<stdlib.h>
+	<libxml/xmlversion.h>
+	<libxml/parser.h>
+	<libxml/xlink.h>
+
+1438603248 source:/home/fab/Dev/altair/lhx/main.cpp
+=======
 1430846534 source:c:\dev\altair\lhx\main.cpp
+>>>>>>> FETCH_HEAD
 	<unistd.h>
 	"validator.hpp"
 	"fonctions_auxiliaires.hpp"
 	"table.hpp"
 
+<<<<<<< HEAD
+1438603248 /home/fab/Dev/altair/lhx/table.hpp
+	"validator.hpp"
+
+1438603248 source:/home/fab/Dev/altair/lhx/table.cpp
+=======
 1430846534 c:\dev\altair\lhx\table.hpp
 	"validator.hpp"
 
 1437382567 source:c:\dev\altair\lhx\table.cpp
+>>>>>>> FETCH_HEAD
 	"table.hpp"
 	"fonctions_auxiliaires.hpp"
 	<inttypes.h>
 
+<<<<<<< HEAD
+1438603248 source:/home/fab/Dev/altair/lhx/validator.cpp
+=======
 1438077134 source:c:\dev\altair\lhx\validator.cpp
+>>>>>>> FETCH_HEAD
 	"validator.hpp"
 	"fonctions_auxiliaires.hpp"
 	"table.hpp"
