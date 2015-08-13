@@ -28,9 +28,9 @@ standardPage::standardPage()
     
     QToolDirButton *openBaseButton=new QToolDirButton(tr("Ouvrir le répertoire "), actionType::OpenFolder);
 
-    xhlLineEdit= new FLineEdit(execPath+ QDir::separator()+ "win",
-                                          "xhlDir",
-                                          {"Application noyau", "Répertoire de l'application noyau xhl"});
+    xhlLineEdit= new FLineEdit(execPath,
+                               "xhlDir",
+                               {"Application noyau", "Répertoire de l'application noyau xhl"});
 
     QLabel *xhlLabel= new QLabel(tr("Répertoire de l'application noyau"));
 
