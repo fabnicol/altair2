@@ -58,7 +58,7 @@ void Altair::refreshTreeView()
     fileTreeView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     fileTreeView->setSelectionBehavior(QAbstractItemView::SelectItems);
 
-    QModelIndex index = model->index(QDir::currentPath() + STEP_UP +  "/../../Tests/Exemple/Donnees/xhl");
+    QModelIndex index = model->index(path_access("Tests/Exemple/Donnees/xhl"));
     fileTreeView->expand(index);
     fileTreeView->scrollTo(index);
 }

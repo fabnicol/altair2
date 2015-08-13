@@ -11,7 +11,7 @@
 #endif
 
 #ifndef STEP_UP
-#define STEP_UP ""
+#define STEP_UP "/../../"
 #endif
 
 #define TREE_FILE 2
@@ -24,7 +24,6 @@
 #if !defined(Q_OS_WIN) && !defined (Q_OS_LINUX)
 #error "This application will only compile for Windows or GNU/Linux operating systems."
 #endif
-
 
 #define  Warning(title, text)   QMessageBox::warning(0, title, text,  "Oui", "Non")
 #define  Warning0(title, text)   QMessageBox::warning(0, title, text, "Fermer")
@@ -67,6 +66,8 @@ void openDir(QString path);
 qint64 getFileSize(const QString &);
 const QString openDirDialog(flags::directory checkEmptyness = directory::noCheck);
 
+inline const QString path_access(const QString& s) {return QDir::toNativeSeparators(QDir::cleanPath(QCoreApplication::applicationDirPath()+ systemPathPrefix +  s)); }
+
 
 public :
   QString  videoFilePath;
@@ -92,17 +93,16 @@ public :
 #endif
 #ifdef LOCAL_BINPATH
  /* insert executable at root of windows package */
-  QString execPath = QDir::toNativeSeparators(QDir::cleanPath(QCoreApplication::applicationDirPath()+systemPathPrefix+System));
+  QString execPath = path_access(System);
   const QString sharedir = generateDatadirPath();
- 
   QString altairCommandStr=execPath+ QDir::separator()+("lhx"+ QString(systemSuffix));
 
     #ifdef MINIMAL
-      QString RAltairDirStr = QDir::toNativeSeparators(QDir::cleanPath(QCoreApplication::applicationDirPath()+ systemPathPrefix+ "R/bin/x64" ));
+      QString RAltairDirStr = path_access("R/bin/x64");
       // Passer les '/' soit à QDir::toNativeSeparators() soit utiliser QDir::separator() sous Windows.
       QString RAltairCommandStr = RAltairDirStr + QDir::separator() + "Rscript" + QString(systemSuffix);
     #else
-      QString RAltairDirStr = QDir::toNativeSeparators(QDir::cleanPath(QCoreApplication::applicationDirPath()+ systemPathPrefix+ "RStudio"));
+      QString RAltairDirStr = path_access("RStudio");
       QString RAltairCommandStr = RAltairDirStr + QDir::separator() + "bin" + QDir::separator() + "rstudio" + QString(systemSuffix);
     #endif
 
