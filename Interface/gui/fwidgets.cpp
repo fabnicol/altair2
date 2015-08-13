@@ -176,8 +176,10 @@ const QStringList FAbstractWidget::commandLineStringList()
                     else
                     {
                        if (commandLineList[0] != "  ")
-                        strL= (optionLabel.size() == 1)? QStringList() << "-"+optionLabel << commandLineList[0].toQString()
+                       {
+                           strL= (optionLabel.size() == 1)? QStringList() << "-"+optionLabel << commandLineList[0].toQString()
                                                         :QStringList("--"+optionLabel+"="+commandLineList[0].toQString());
+                       }
                     }
                 }
             }
@@ -335,6 +337,13 @@ const FString FListWidget::setXmlFromWidget()
         if ((this->status & flags::status::widgetMask)  == flags::status::hasListCommandLine)
         {
             commandLineList.clear();
+            if (hashKey == "XHL")
+            {
+                if (Hash::wrapper[hashKey]->size() < 2) return "";
+                Hash::wrapper[hashKey]->removeLast();
+                Hash::wrapper[hashKey]->removeLast();
+            }
+
             FStringListIterator i(Hash::wrapper[hashKey]);
 
             while (i.hasNext())

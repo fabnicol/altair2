@@ -1,5 +1,7 @@
 greaterThan(QT_MAJOR_VERSION, 5)
 
+# Penser à spécifier un répertoire d'exécution sous QtCreator pour Windows juste au-dessu de release ou debug
+
 # Windows : do not use shadow builds
 # Note for deployment: mind to place share files into datadir local directory (eg .local/altair-author-gui/...)
 # after installing.
@@ -7,6 +9,7 @@ greaterThan(QT_MAJOR_VERSION, 5)
 # Ensure that library is built before application
 
 CONFIG  += ordered
+#static
 
 #use at least Qt5.1 with g++-4.8 for windows
 
@@ -22,7 +25,7 @@ VPATH = .
 #win32:LIBS += -L../win32
 linux:LIBS += -L../linux
 
-DEFINES += DEBUG QT_NO_OPENGL  STATIC REGEX_PARSING_FOR_HEADERS
+DEFINES += DEBUG QT_NO_OPENGL  STATIC  REGEX_PARSING_FOR_HEADERS
 #MINIMAL
 
 windows:RC_ICONS = neptune.ico
@@ -30,7 +33,7 @@ windows:RC_ICONS = neptune.ico
 #linux: DEFINES += LOCAL_BINPATH
 
 linux:   QMAKE_CXXFLAGS += -std=c++11 -march=core2 -O3
-windows: QMAKE_CXXFLAGS += /Ox /MP
+windows: QMAKE_CXXFLAGS +=  -Og -march=core2 -std=gnu++11
 
 SOURCES += \
     options.cpp \
@@ -68,11 +71,3 @@ HEADERS  += \
 
 RESOURCES += \
     ../share/altair-gui/altair-gui.qrc
-
-   
-
-
-
-
-
-

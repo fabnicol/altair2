@@ -1,16 +1,28 @@
 # depslib dependency file v1.0
+<<<<<<< HEAD
 1438603248 source:/home/fab/Dev/altair/lhx/fonctions_auxiliaires.cpp
+=======
+1430846534 source:c:\dev\altair\lhx\fonctions_auxiliaires.cpp
+>>>>>>> FETCH_HEAD
 	"fonctions_auxiliaires.hpp"
 	<string.h>
 	<stdint.h>
 
+<<<<<<< HEAD
 1438603248 /home/fab/Dev/altair/lhx/fonctions_auxiliaires.hpp
+=======
+1430846534 c:\dev\altair\lhx\fonctions_auxiliaires.hpp
+>>>>>>> FETCH_HEAD
 	<limits.h>
 	<errno.h>
 	<inttypes.h>
 	"validator.hpp"
 
+<<<<<<< HEAD
 1438603248 /home/fab/Dev/altair/lhx/validator.hpp
+=======
+1437382567 c:\dev\altair\lhx\validator.hpp
+>>>>>>> FETCH_HEAD
 	<stdio.h>
 	<string.h>
 	<stdlib.h>
@@ -26,6 +38,7 @@
 	<inttypes.h>
 	<Windows.h>
 
+<<<<<<< HEAD
 1422789757 /usr/include/libxml2/libxml/xmlmemory.h
 	<stdio.h>
 	<libxml/xmlversion.h>
@@ -148,20 +161,34 @@
 	<libxml/xlink.h>
 
 1438603248 source:/home/fab/Dev/altair/lhx/main.cpp
+=======
+1430846534 source:c:\dev\altair\lhx\main.cpp
+>>>>>>> FETCH_HEAD
 	<unistd.h>
 	"validator.hpp"
 	"fonctions_auxiliaires.hpp"
 	"table.hpp"
 
+<<<<<<< HEAD
 1438603248 /home/fab/Dev/altair/lhx/table.hpp
 	"validator.hpp"
 
 1438603248 source:/home/fab/Dev/altair/lhx/table.cpp
+=======
+1430846534 c:\dev\altair\lhx\table.hpp
+	"validator.hpp"
+
+1437382567 source:c:\dev\altair\lhx\table.cpp
+>>>>>>> FETCH_HEAD
 	"table.hpp"
 	"fonctions_auxiliaires.hpp"
 	<inttypes.h>
 
+<<<<<<< HEAD
 1438603248 source:/home/fab/Dev/altair/lhx/validator.cpp
+=======
+1438077134 source:c:\dev\altair\lhx\validator.cpp
+>>>>>>> FETCH_HEAD
 	"validator.hpp"
 	"fonctions_auxiliaires.hpp"
 	"table.hpp"
