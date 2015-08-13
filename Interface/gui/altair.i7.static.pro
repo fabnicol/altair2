@@ -23,7 +23,7 @@ TARGET = Altair
 VPATH = .
 
 #win32:LIBS += -L../win32
-#linux:LIBS += -L../linux
+linux:LIBS += -L../linux
 
 DEFINES += DEBUG QT_NO_OPENGL  STATIC  REGEX_PARSING_FOR_HEADERS
 #MINIMAL
@@ -32,8 +32,7 @@ windows:RC_ICONS = neptune.ico
 
 #linux: DEFINES += LOCAL_BINPATH
 
-linux:   QMAKE_CXXFLAGS += -std=c++11 -march=corei7-avx -O3
-#windows: QMAKE_CXXFLAGS += /Ox /MP
+linux:   QMAKE_CXXFLAGS += -std=c++11 -march=core2 -O3
 windows: QMAKE_CXXFLAGS +=  -Og -march=core2 -std=gnu++11
 
 SOURCES += \
