@@ -52,7 +52,7 @@ void Altair::writeProjectFile()
     checkEmptyProjectName();
     projectFile.setFileName(projectName);
     QErrorMessage *errorMessageDialog = new QErrorMessage(this);
-    Q(projectName)
+
     if (!projectFile.open(QIODevice::WriteOnly))
     {
         errorMessageDialog->showMessage(tr("Impossible d'ouvrir le fichier du projet\n")+ qPrintable(projectFile.errorString()));

@@ -337,16 +337,17 @@ const FString FListWidget::setXmlFromWidget()
         if ((this->status & flags::status::widgetMask)  == flags::status::hasListCommandLine)
         {
             commandLineList.clear();
-            if (hashKey == "XHL")
-            {
-                if (Hash::wrapper[hashKey]->size() < 2) return "";
-                Hash::wrapper[hashKey]->removeLast();
-                Hash::wrapper[hashKey]->removeLast();
-            }
 
             FStringListIterator i(Hash::wrapper[hashKey]);
+            int L = Hash::wrapper[hashKey]->size();
+            if (hashKey == "XHL")
+            {
+              if (L < 2) return "";
+              else L -=2;
+            }
 
-            while (i.hasNext())
+
+            for (int l=0; l < L; l++)
             {
                 QStringList str=i.next();
                 if (str.isEmpty()) continue;
@@ -359,6 +360,7 @@ const FString FListWidget::setXmlFromWidget()
 
                 }
             }
+
         }
 
         else
