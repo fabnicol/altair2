@@ -28,8 +28,9 @@ windows:RC_ICONS = neptune.ico
 
 linux: DEFINES += LOCAL_BINPATH
 
-#QMAKE_CXXFLAGS += -std=c++11 -march=corei7 -O3
-QMAKE_CXXFLAGS += /Ox /MP
+linux: QMAKE_CXXFLAGS += -std=c++11 -march=corei7 -O3 
+windows: QMAKE_CXXFLAGS += /Ox /MP
+linux: QMAKE_LFLAGS += -s
 
 SOURCES += \
     options.cpp \
