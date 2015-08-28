@@ -1,0 +1,13 @@
+{
+    "path" : "C:/Dev/altair/Tests/Exemple",
+    "sortOrder" : [
+        {
+            "ascending" : true,
+            "columnIndex" : 2
+        },
+        {
+            "ascending" : false,
+            "columnIndex" : 3
+        }
+    ]
+}

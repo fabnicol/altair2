@@ -33,7 +33,10 @@ windows:RC_ICONS = neptune.ico
 #linux: DEFINES += LOCAL_BINPATH
 
 linux:   QMAKE_CXXFLAGS += -std=c++11 -march=core2 -O3
+<<<<<<< HEAD
 linux:   QMAKE_LFLAGS += -s
+=======
+>>>>>>> FETCH_HEAD
 #windows: QMAKE_CXXFLAGS +=  -Og -march=core2 -std=gnu++11
 windows: QMAKE_CXXFLAGS +=  /Ox /MP
 
