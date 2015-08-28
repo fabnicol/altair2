@@ -1,0 +1,13 @@
+1. convertir les sorties windows (uniquement) des bases de données dans R-Altair par iconv -f UTF-8 -t WINDOWS-1252 > base.csv
+
+2. Linux : 
+    problème de l'image Altaïr.png et des noms accentués des fichiers de Bases qui ne sont pas reconnus
+     Echec du lancement de LHX, ligne de commande /home/fab/Dev/altair/linux/win/lhx
+     Mauvais alignement sous linux des options par défaut du dialogue pour R-Altair et lhx (FLineEdit)
+
+3. Enregistrement et lecture des projets : 
+    décalage de 2 rangs dans le nombre de tabs à l'enregistrement.
+    importation de projet ne crée pas d'affichage dans le project manager
+    problème de la sauvegarde des budgets dans le projet
+    segfault à l'enregistrement dans certains cas, sans dut e liés à ce qui précède.
+   
