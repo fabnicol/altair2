@@ -1,0 +1,9 @@
+Particularités de compilation
+-----------------------------
+
+Sous linux, selon les plateformes, si le compilateur de référence n'est pas au moins
+g++ version 5.2.2 dans les chemins par défauts de ldconfig.so.conf, alors il peut être 
+nécessaire d'antéposer la commande LD_LIBRARY_PATH=. à la commande de lancement 
+/.../Altair
+
+
