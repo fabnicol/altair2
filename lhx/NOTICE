@@ -1,0 +1,399 @@
+Programme sous licence CECILL 2.1 écrit par Fabrice Nicol
+
+1. Utilisation
+--------------
+
+xhl2csv OPTIONS fichiers.xhl
+
+OPTIONS :
+-n argument obligatoire : nombre maximum de bulletins mensuels attendus [calcul exact par défaut]
+-N argument obligatoire : nombre maximum de lignes de paye attendues [calcul exact par défaut]
+-t argument optionnel   : type de base en sortie, soit 'standard', soit 'bulletins' [défaut bulletins].
+-T argument obligatoire : nombre de lignes maximum par base .csv [défaut illimité]. Au plus 999 tables seront générées.
+-T AN                   : générer une table par année.
+-T A/AC/AV/C/D/I/IR/RE/S/T : générer une table pour chaque catégorie de ligne :
+                          A rémunérations diverse
+                          AC acompte
+                          AV avantage en nature
+                          C cotisation
+                          D déduction
+                          I indemnités
+                          IR indemnité de résidence
+                          RE retenue
+                          S supplément familial
+                          T traitement brut
+                          X toutes catégories
+-o argument obligatoire : fichier.csv, chemin complet du fichier de sortie [défaut 'Table.csv' avec -t].
+-D argument obligatoire : répertoire complet du fichier de sortie [défaut '.' avec -t].
+-d argument obligatoire : séparateur décimal [défaut , avec -t].
+-s argument obligatoire : séparateur de champs [défaut ; avec -t]. Ne pas utiliser '_'.
+-j argument obligatoire : nombre de fils d'exécution (1 à 10).
+-l sans argument        : générer une colonne de numéros de ligne intitulée 'R'.
+-M sans argument        : ne pas libérer la mémoire réservée en fin de programme.
+-m sans argument        : calculer les maxima d'agents et de lignes de paye.
+-L argument obligatoire : chemin du log d'exécution du test de cohérence entre analyseurs C et XML.
+-R argument obligatoire : expression régulière pour la recherche des élus (codés : ELU dans le champ Statut.
+
+2. Historique
+-------------
+5  janvier 2015
+   Basculement des valeurs par défaut des séparateurs (champ et décimal)
+   aux valeurs de la locale française fr_FR.1252. Rendu possible pour
+   les versions de data.table supérieures à 1.9.5
+
+26-29 octobre 2014
+    Ajout des options -N, -m, -R, -T.
+    Ajout de la fonctionnalité d'exportation des catégories de ligne de paye
+    (voir 5. infra)
+
+17 octobre 2014
+   Mise au point des options suivante :
+    [pas d'utilisation de -n] Mode économique en
+    ressources RAM.
+
+10 octobre 2014
+   Mise au point des options suivantes :
+   -n, -s, -d, -t, -j (multithreading)
+
+15 septembre 2014
+   Lancement du sous-projet comme partie intégrante du
+   projet Altair.
+
+
+3. Schéma XML
+-------------
+
+Ce programme est conçu pour analyser les schémas de paye définis par le site internet de l'application Xémélios :
+    http://xemelios.org/schemas/cfg-paye/doc/index47.html
+
+
+<xs:complexType name="TRemunerationPaye">
+  <xs:sequence>
+    <xs:element name="TraitBrut" type="TLignePaye" minOccurs="0" maxOccurs="unbounded">
+      <xs:annotation>
+        <xs:documentation>Traitement(s) Brut(s) principaux (plusieurs traitements en cas d'affectations multiples) - le traitement principal indiciaire doit être le premier élément mentionné dans la liste - éléments de traitement formant à la rémunération régulière hors indemnités, avantage en nature, supplément familial, rappel de rémunération</xs:documentation>
+      </xs:annotation>
+    </xs:element>
+    <xs:element name="IndemResid" type="TLignePaye" minOccurs="0" maxOccurs="unbounded">
+      <xs:annotation>
+        <xs:documentation>Indemnité de Résidence</xs:documentation>
+      </xs:annotation>
+    </xs:element>
+    <xs:element name="SupFam" type="TLignePaye" minOccurs="0" maxOccurs="unbounded">
+      <xs:annotation>
+        <xs:documentation>Supplément Familial</xs:documentation>
+      </xs:annotation>
+    </xs:element>
+    <xs:element name="AvantageNature" type="TLignePaye" minOccurs="0" maxOccurs="unbounded">
+      <xs:annotation>
+        <xs:documentation>Avantage(s) en nature</xs:documentation>
+      </xs:annotation>
+    </xs:element>
+    <xs:element name="Indemnite" type="TLignePaye" minOccurs="0" maxOccurs="unbounded">
+      <xs:annotation>
+        <xs:documentation>Indemnités diverses</xs:documentation>
+      </xs:annotation>
+    </xs:element>
+    <xs:element name="RemDivers" type="TLignePaye" minOccurs="0" maxOccurs="unbounded">
+      <xs:annotation>
+        <xs:documentation>Autres éléments de rémunérations (ne relevant pas des autres catégories)</xs:documentation>
+      </xs:annotation>
+    </xs:element>
+    <xs:element name="Deduction" type="TLignePaye" minOccurs="0" maxOccurs="unbounded">
+      <xs:annotation>
+        <xs:documentation>Deduction(s) sur rémunération Brute (y compris charges sociales - part salariale)</xs:documentation>
+      </xs:annotation>
+    </xs:element>
+    <xs:element name="Acompte" type="TLignePaye" minOccurs="0" maxOccurs="unbounded">
+      <xs:annotation>
+        <xs:documentation>Acompte(s) sur rémunération</xs:documentation>
+      </xs:annotation>
+    </xs:element>
+    <xs:element name="Rappel" type="TLignePaye" minOccurs="0" maxOccurs="unbounded">
+      <xs:annotation>
+        <xs:documentation>Rappel(s) sur rémunération (hors charges sociales part patronales et salariales)</xs:documentation>
+      </xs:annotation>
+    </xs:element>
+    <xs:element name="Retenue" type="TLignePaye" minOccurs="0" maxOccurs="unbounded">
+      <xs:annotation>
+        <xs:documentation>Retenue(s) sur rémunération Net</xs:documentation>
+      </xs:annotation>
+    </xs:element>
+    <xs:element name="Cotisation" type="TLignePaye" minOccurs="0" maxOccurs="unbounded">
+      <xs:annotation>
+        <xs:documentation>Charges sociales (part patronale)</xs:documentation>
+      </xs:annotation>
+    </xs:element>
+    <xs:element name="Commentaire" type="TLigneCommentaire" minOccurs="0" maxOccurs="unbounded">
+      <xs:annotation>
+        <xs:documentation>Commentaire entre différents éléments de rémunérations</xs:documentation>
+      </xs:annotation>
+    </xs:element>
+  </xs:sequence>
+</xs:complexType>
+
+4. Définition des éléments
+--------------------------
+
+TraitBrut
+---------
+
+	Traitement(s) Brut(s) principaux (plusieurs traitements en cas d'affectations multiples)
+	 le traitement principal indiciaire doit être le premier élément mentionné dans la liste - éléments de traitement
+	 formant à la rémunération régulière hors  indemnités, avantage en nature, supplément familial,  rappel de rémunération
+
+ <TraitBrut>
+  <Libelle V="">{1,1}</Libelle>
+  <Code V="">{1,1}</Code>
+  <Base V="">{0,1}</Base>
+  <Taux V="">{0,1}</Taux>
+  <NbUnite V="">{0,1}</NbUnite>
+  <Mt V="">{1,1}</Mt>
+  <PeriodeRef>{0,1}</PeriodeRef>
+  <CodeCaisse V="">{0,1}</CodeCaisse>
+  <Ordre V="">{1,1}</Ordre>
+</TraitBrut>
+
+Indemnité de résidence
+----------------------
+
+<IndemResid>
+  <Libelle V="">{1,1}</Libelle>
+  <Code V="">{1,1}</Code>
+  <Base V="">{0,1}</Base>
+  <Taux V="">{0,1}</Taux>
+  <NbUnite V="">{0,1}</NbUnite>
+  <Mt V="">{1,1}</Mt>
+  <PeriodeRef>{0,1}</PeriodeRef>
+  <CodeCaisse V="">{0,1}</CodeCaisse>
+  <Ordre V="">{1,1}</Ordre>
+</IndemResid>
+
+Supplément familial
+-------------------
+
+<SupFam>
+  <Libelle V="">{1,1}</Libelle>
+  <Code V="">{1,1}</Code>
+  <Base V="">{0,1}</Base>
+  <Taux V="">{0,1}</Taux>
+  <NbUnite V="">{0,1}</NbUnite>
+  <Mt V="">{1,1}</Mt>
+  <PeriodeRef>{0,1}</PeriodeRef>
+  <CodeCaisse V="">{0,1}</CodeCaisse>
+  <Ordre V="">{1,1}</Ordre>
+</SupFam>
+
+Avantage en nature
+------------------
+
+<AvantageNature>
+  <Libelle V="">{1,1}</Libelle>
+  <Code V="">{1,1}</Code>
+  <Base V="">{0,1}</Base>
+  <Taux V="">{0,1}</Taux>
+  <NbUnite V="">{0,1}</NbUnite>
+  <Mt V="">{1,1}</Mt>
+  <PeriodeRef>{0,1}</PeriodeRef>
+  <CodeCaisse V="">{0,1}</CodeCaisse>
+  <Ordre V="">{1,1}</Ordre>
+</AvantageNature>
+
+Indemnités diverses
+-------------------
+
+<Indemnite>
+  <Libelle V="">{1,1}</Libelle>
+  <Code V="">{1,1}</Code>
+  <Base V="">{0,1}</Base>
+  <Taux V="">{0,1}</Taux>
+  <NbUnite V="">{0,1}</NbUnite>
+  <Mt V="">{1,1}</Mt>
+  <PeriodeRef>{0,1}</PeriodeRef>
+  <CodeCaisse V="">{0,1}</CodeCaisse>
+  <Ordre V="">{1,1}</Ordre>
+</Indemnite>
+
+Rémunérations diverses
+----------------------
+
+<RemDivers>
+  <Libelle V="">{1,1}</Libelle>
+  <Code V="">{1,1}</Code>
+  <Base V="">{0,1}</Base>
+  <Taux V="">{0,1}</Taux>
+  <NbUnite V="">{0,1}</NbUnite>
+  <Mt V="">{1,1}</Mt>
+  <PeriodeRef>{0,1}</PeriodeRef>
+  <CodeCaisse V="">{0,1}</CodeCaisse>
+  <Ordre V="">{1,1}</Ordre>
+</RemDivers>
+
+Déductions sur rémunérations brutes
+-----------------------------------
+
+y compris charges sociales (part salariale)
+
+<Deduction>
+  <Libelle V="">{1,1}</Libelle>
+  <Code V="">{1,1}</Code>
+  <Base V="">{0,1}</Base>
+  <Taux V="">{0,1}</Taux>
+  <NbUnite V="">{0,1}</NbUnite>
+  <Mt V="">{1,1}</Mt>
+  <PeriodeRef>{0,1}</PeriodeRef>
+  <CodeCaisse V="">{0,1}</CodeCaisse>
+  <Ordre V="">{1,1}</Ordre>
+</Deduction>
+
+Acompte
+-------
+
+<Acompte>
+  <Libelle V="">{1,1}</Libelle>
+  <Code V="">{1,1}</Code>
+  <Base V="">{0,1}</Base>
+  <Taux V="">{0,1}</Taux>
+  <NbUnite V="">{0,1}</NbUnite>
+  <Mt V="">{1,1}</Mt>
+  <PeriodeRef>{0,1}</PeriodeRef>
+  <CodeCaisse V="">{0,1}</CodeCaisse>
+  <Ordre V="">{1,1}</Ordre>
+</Acompte>
+
+Rappels sur rémunérations
+-------------------------
+hors charges sociales, parts patronale et salariale
+
+<Rappel>
+  <Libelle V="">{1,1}</Libelle>
+  <Code V="">{1,1}</Code>
+  <Base V="">{0,1}</Base>
+  <Taux V="">{0,1}</Taux>
+  <NbUnite V="">{0,1}</NbUnite>
+  <Mt V="">{1,1}</Mt>
+  <PeriodeRef>{0,1}</PeriodeRef>
+  <CodeCaisse V="">{0,1}</CodeCaisse>
+  <Ordre V="">{1,1}</Ordre>
+</Rappel>
+
+Retenue sur rémunération nette
+------------------------------
+
+<Retenue>
+  <Libelle V="">{1,1}</Libelle>
+  <Code V="">{1,1}</Code>
+  <Base V="">{0,1}</Base>
+  <Taux V="">{0,1}</Taux>
+  <NbUnite V="">{0,1}</NbUnite>
+  <Mt V="">{1,1}</Mt>
+  <PeriodeRef>{0,1}</PeriodeRef>
+  <CodeCaisse V="">{0,1}</CodeCaisse>
+  <Ordre V="">{1,1}</Ordre>
+</Retenue>
+
+Charges sociales
+----------------
+
+Part patronale
+
+<Cotisation>
+  <Libelle V="">{1,1}</Libelle>
+  <Code V="">{1,1}</Code>
+  <Base V="">{0,1}</Base>
+  <Taux V="">{0,1}</Taux>
+  <NbUnite V="">{0,1}</NbUnite>
+  <Mt V="">{1,1}</Mt>
+  <PeriodeRef>{0,1}</PeriodeRef>
+  <CodeCaisse V="">{0,1}</CodeCaisse>
+  <Ordre V="">{1,1}</Ordre>
+</Cotisation>
+
+
+5. Codage de la TABLE
+---------------------
+
+Par souci d'économie, les codes suivants sont définis pour le Type de la ligne de paye
+
+                                            Code XML            Code Base
+
+
+                                            "TraitBrut"         T
+                                            "IndemResid"        IR
+                                            "SupFam"            S
+                                            "AvantageNature"    AV
+                                            "Indemnite"         I
+                                            "RemDivers"         A
+                                            "Deduction"         D
+                                            "Acompte"           AC
+                                            "Rappel"            R
+                                            "Retenue"           RE
+                                            "Cotisation"        C
+                                            "Commentaire"       CO
+
+
+Méthode de vérification de la cohérence Montant brut (Bulletins de paie) et rémunérations brutes des lignes de paie
+-------------------------------------------------------------------------------------------------------------------
+
+La rémunération brute doit être :
+
+ Brut = TraitBrut [y.c NBI] + IndemResid + SupFam + Indemnite + RemDivers + Rappels + Acompte + Avantage en nature
+          - [Indemnités non soumises à cotisations] - Rappels de cotisations, retenues et déductions
+ soit :
+
+ delta = Brut - Somme des Montants de Type  T | IR | S | I | A | AC | AV  et qui ne sont pas du type  (I | R dans liste d'exclusion)
+
+ En principe delta =0.
+
+ Il convient pour arriver à ce résultat de déterminer les listes d'exclusion, qui ne sont pas données par Xémélios.
+
+ Pour les indemnités
+ -------------------
+
+ - IJSS et autres indemnités journalières ;
+
+ - Remboursements de frais ou indemnités forfaitaires (transports, frais professionnels) ;
+
+ - Autres indemnités non imposables éventuelles ;
+
+ - Cas des "indemnités calculées", qui ne s'ajoutent pas au traitement mais qui en résultent par soustraction.
+      Exemple d'indemnités d'élus calculées comme le Traitement brut soumis à Retenue pour écrêtement : c'est une anomalie qui peut
+      être traitée en intégrant l'indemnité d'élu à la liste d'exclusions.
+
+
+ Les indemnités d'élus sont non imposables, au delà d'un seuil d'exonération (1466 € net en 2012)
+ lorsqu'un prélèvement à la source est effectué(article 204-0 bis du code général des impôts).
+ Mais elles sont soumises à cotisations sociales.
+ Elle doivent donc faire partie du calcul du Montant Brut (mais pas du montant imposable).
+ Des anomalies fréquentes sont relevées sur ce point, qui peuvent être détectées à partir de la variable delta.
+
+ Cas des "traitements virtuels"
+ -----------------------------
+
+ Pour calculer la liquidation de retenues, cotisations ou déductions sans versement de salaire :
+      Exemple d'un fonctionnaire détaché pour lequel un Traitement brut est mentionné, alors qu'il n'est pas versé (retenue compensatoire)
+ La lignes de traitement ne sert donc qu'à liquider les cotisations CNRACL dans ce cas de figure. La somme se retouve au Brut mais pas au Net.
+ Pour comparer au compte de gestion (qui ne comprend pas cette somme) il faudra retraiter manuellement le résultat du logiciel.
+
+ 6. Performances
+ ---------------
+
+ Les performances suivantes ont été calculées à partir de la version du 25 octobre 2014 sur un processeur Intel x86 32 bit
+ Core2 Quad Q9550 2.86 Ghz, doté de 6 Go de RAM sous GNU/Linux Kubuntu 14.04
+
+ Pour 1 million de lignes de paie, les résultats sont donnés en secondes sous la forme (sans exportation de la base / avec exportation).
+
+ ________________________________________________________________________________
+                    Mode économique en mémoire  | Mode avec préallocation
+  Options                                       | de la mémoire (-n xxx -N yyy)
+ ________________________________________________________________________________
+
+ 4 fils d'exécution :
+   -j 4                        12,5 / 17        |            8 / 11
+ ________________________________________________________________________________
+
+ 1 seul processus              26,5 / 30,5      |         20,5 / 23,5
+ ________________________________________________________________________________
+
+
+
