@@ -1,0 +1,4 @@
+1422362073755:source.with.encoding('C:/Users/Public/Altair/Tests/Exemple/altair.R', encoding='UTF-8')
+1423049190077:Sys.getenv("PATH")
+1423049212467:Sys.getenv("RSTUDIO_PDFLATEX")
+1423049233603:Sys.setenv("RSTUDIO_PDFLATEX"="")
