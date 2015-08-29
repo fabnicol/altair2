@@ -37,13 +37,16 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Option parameters="-M -N 77 -n 1171 -t -j 8 -D ~/Dev/altair/Tests/Exemple/Donnees/R-Altair ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2010/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2011/*.xhl   ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2012/*.xhl   " />
+				<Option projectCompilerOptionsRelation="2" />
 				<Compiler>
-					<Add option="-march=core2" />
+					<Add option="-fomit-frame-pointer" />
+					<Add option="-fexpensive-optimizations" />
 					<Add option="-O3" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
 					<Add option="-fexceptions" />
 					<Add option="-std=gnu++11" />
+					<Add option="-march=native" />
 					<Add option="-D__GNUC_EXTENSION" />
 					<Add option="-D_REENTRANT" />
 					<Add option="-D_GNU_SOURCE" />

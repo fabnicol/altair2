@@ -11,3 +11,5 @@
     problème de la sauvegarde des budgets dans le projet
     segfault à l'enregistrement dans certains cas, sans dut e liés à ce qui précède.
    
+4.Bug de dépendance de "Economiser la RAM" et de "Générer la table". Si on ne veut plus
+  générer la table il faut décocher l'autre case manuelleemnt alors qu'il faudrait automatiser.

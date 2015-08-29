@@ -19,7 +19,7 @@ racine                      <- "R-Altaïr/"
 # "UTF-8.RAG_2009_2012-"
 # "RAG_2009_2012-"
 
-extraire.années      <- T
+extraire.années      <- F
     début.période.sous.revue    <- 2013
     fin.période.sous.revue      <- 2014
 

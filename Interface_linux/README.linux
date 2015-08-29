@@ -7,3 +7,13 @@ nécessaire d'antéposer la commande LD_LIBRARY_PATH=. à la commande de lanceme
 /.../Altair
 
 
+Installation
+------------
+
+Application : /opt/local/bin/Altair 
+Icone :       /usr/share/icons/hicolor/32x32/apps/Altaïr.xpm
+Documents, images etc  : /opt/local/share/altair/*
+avec un lien symbolique :
+  cd /usr/share/applications
+  sudo ln -s /opt/local/share/applications/Altaïr.desktop Altaïr.desktop
+  cd -
