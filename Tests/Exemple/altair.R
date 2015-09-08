@@ -8,7 +8,7 @@
 #'css: style.css
 #'---
 #'   
-#'![Image_Altair](../../Altaïr.png)
+##![Image_Altair](../../Altaïr.png)
 #'   
 #'   
 #'# Démonstrateur Altaïr version 15.02   

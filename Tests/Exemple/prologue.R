@@ -8,7 +8,7 @@
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
 
 
-générer.rapport             <- F
+générer.rapport             <- T
 
 racine                      <- "R-Altaïr/"
 # "Ville Annecy Paye BP-"
