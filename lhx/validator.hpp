@@ -9,7 +9,6 @@
 #include <limits.h>
 #include <locale.h>
 #include <errno.h>
-#include <pthread.h>
 #include <math.h>
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
@@ -18,7 +17,6 @@
 
 typedef struct
 {
-    pthread_t thread_id;
     int       thread_num;
     char** argv;
     unsigned argc;

@@ -8,6 +8,9 @@
 //extern "C" {
 //#endif
 #include <unistd.h>
+#include <iostream>
+#include <vector>
+#include <thread>
 #include "validator.hpp"
 #include "fonctions_auxiliaires.hpp"
 #include "table.hpp"
@@ -341,9 +344,10 @@ int main(int argc, char **argv)
         {
             if ((info.nbfil = lire_argument(argc, argv[start +1])) > 0)
             {
-                if (info.nbfil > 10 || info.nbfil < 1)
+
+                if (info.nbfil > 16 || info.nbfil < 1)
                 {
-                    perror("Erreur : Le nombre de fils d'exécution doit être compris entre 2 et 10.");
+                    perror("Erreur : Le nombre de fils d'exécution doit être compris entre 2 et 16.");
                     exit(-111);
                 }
 
@@ -443,7 +447,7 @@ int main(int argc, char **argv)
 
         if ((argc - start) % info.nbfil) info.nbfil++;  // on en crée un de plus pour le reste
 
-        pthread_t thread_clients[info.nbfil];
+        std::vector<std::thread> t(info.nbfil);
 
         // Allocation dynamique nécessaire (à expliquer)
 
@@ -521,21 +525,19 @@ int main(int argc, char **argv)
 
             start += nbfichier_par_fil;
 
-            int ret = pthread_create(
-                          &thread_clients[i],
-                          NULL,
-                          decoder_fichier,
-                          (void*) &Info[i]);
+            std::thread th{decoder_fichier, (void*) &Info[i]};
+            t[i] = std::move(th);
 
-            if (ret)
+
+            if (errno)
             {
-                fprintf (stderr, "%s", strerror(ret));
+                fprintf (stderr, "%s", strerror(errno));
             }
         }
 
         for (int i = 0; i < info.nbfil; i++)
         {
-            pthread_join (thread_clients[i], NULL);
+            t[i].join ();
         }
 
         free(info.chemin_log);

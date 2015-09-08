@@ -182,7 +182,7 @@
 	<inttypes.h>
 	"validator.hpp"
 
-1440801596 /home/fab/Dev/altair/lhx/validator.hpp
+1441675800 /home/fab/Dev/altair/lhx/validator.hpp
 	<stdio.h>
 	<string.h>
 	<stdlib.h>
@@ -191,15 +191,17 @@
 	<limits.h>
 	<locale.h>
 	<errno.h>
-	<pthread.h>
 	<math.h>
 	<libxml/xmlmemory.h>
 	<libxml/parser.h>
 	<inttypes.h>
 	<Windows.h>
 
-1440801596 source:/home/fab/Dev/altair/lhx/main.cpp
+1441675901 source:/home/fab/Dev/altair/lhx/main.cpp
 	<unistd.h>
+	<iostream>
+	<vector>
+	<thread>
 	"validator.hpp"
 	"fonctions_auxiliaires.hpp"
 	"table.hpp"
