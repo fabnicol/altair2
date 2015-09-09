@@ -21,7 +21,7 @@ return 0;
 
 #define VAR(X) Info[i].Table[agent][X]
 
-static inline void __attribute__((always_inline)) ECRIRE_LIGNE_l(int i, uint32_t agent, int l, char* type, FILE* base, char* format_base, char sep, info_t* Info, int rang)
+static inline void  ECRIRE_LIGNE_l(int i, uint32_t agent, int l, char* type, FILE* base, char* format_base, char sep, info_t* Info, int rang)
 {
 if (Info[0].generer_rang)
     fprintf(base, format_base,
@@ -82,7 +82,7 @@ else
 }
 
 
-static inline void __attribute__((always_inline)) ECRIRE_LIGNE_BULLETIN(int i, uint32_t agent, FILE* bulletins, char* format_bulletins, char sep, info_t* Info, int rang)
+static inline void  ECRIRE_LIGNE_BULLETIN(int i, uint32_t agent, FILE* bulletins, char* format_bulletins, char sep, info_t* Info, int rang)
 {
 if (Info[0].generer_rang)
  fprintf(bulletins, format_bulletins,
@@ -136,8 +136,8 @@ void boucle_ecriture(info_t* Info)
     int TAILLE_FORMAT = (Info[0].minimum_memoire_p_ligne + 6 + 1) * 4 + ((Info[0].generer_rang)? 4 : 0);
     int TAILLE_FORMAT_BULLETINS = Info[0].minimum_memoire_p_ligne * 4 + ((Info[0].generer_rang)? 4 : 0);
 
-    char format_base[TAILLE_FORMAT];
-    char format_bulletins[TAILLE_FORMAT_BULLETINS];
+    char* format_base = (char*) calloc(TAILLE_FORMAT, sizeof(char));
+    char* format_bulletins = (char*) calloc(TAILLE_FORMAT_BULLETINS, sizeof(char));
 
    if (Info[0].generer_rang)
    {
@@ -183,7 +183,7 @@ void boucle_ecriture(info_t* Info)
     unsigned rang_fichier_base = 1;
     static FILE* base = NULL;
     static FILE* bulletins = NULL;
-    static FILE* fichier_base[nbType] = {NULL};
+    static FILE** fichier_base = (FILE**) calloc(nbType, sizeof(FILE*));
 
     // Un peu low-level C, mais beaucoup plus rapide que de coder un fprintf pour chaque item.
     // Gain d'exécution : 30s pour fprintf par item

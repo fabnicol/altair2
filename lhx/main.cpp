@@ -7,7 +7,7 @@
 //#ifdef __cplusplus
 //extern "C" {
 //#endif
-#include <unistd.h>
+//#include <unistd.h>
 #include <iostream>
 #include <vector>
 #include <thread>
@@ -626,7 +626,7 @@ int main(int argc, char **argv)
 
     if (maxima) free((uint32_t*) maxima);
 
-    if (Info[0].nbfil > 1) free(Info);
+    //if (Info[0].nbfil > 1) free(Info);
 
     return valeur_de_retour;
 }
