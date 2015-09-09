@@ -1,7 +1,7 @@
 #ifndef VALIDATOR_HPP_INCLUDED
 #define VALIDATOR_HPP_INCLUDED
 
-#include <stdio.h>
+//#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -14,6 +14,11 @@
 #include <libxml/parser.h>
 #include <inttypes.h>
 
+#ifdef  GCC
+#define GCC_INLINE __attribute__((always_inline))
+#else
+#define GCC_INLINE
+#endif
 
 typedef struct
 {
@@ -139,9 +144,9 @@ static const char* type_remuneration[]   = {
                                             };
 
 
-static constexpr int nbType                  = sizeof(type_remuneration)/sizeof(char*);
+static int nbType                  = sizeof(type_remuneration)/sizeof(char*);
 
-static const char* type_remuneration_traduit[nbType] = {
+static const char* type_remuneration_traduit[] = {
                                                            "T",   // Traitement
                                                            "IR", // Indemnité de résidence
                                                            "S",  // Supplément familial
@@ -156,7 +161,7 @@ static const char* type_remuneration_traduit[nbType] = {
                                                            "CO" //Commentaire
                                                        };
 
-static const xmlChar drapeau[nbType][2]  = {{1,0}, {2,0}, {3,0}, {4,0}, {5,0}, {6,0}, {7,0}, {8,0}, {9,0}, {10,0}, {11,0}, {12,0}};
+static const xmlChar drapeau[][2]  = {{1,0}, {2,0}, {3,0}, {4,0}, {5,0}, {6,0}, {7,0}, {8,0}, {9,0}, {10,0}, {11,0}, {12,0}};
 
 static const char* entete_char[]={"R", "Année", "Mois", "Nom", "Prénom", "Matricule", "Service", "Statut", "Temps.de.travail",
                                   "Heures.Sup.", "Heures", "Indice", "Brut", "Net", "Net.à.Payer", "NBI", "Libellé", "Code",
