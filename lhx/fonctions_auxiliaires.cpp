@@ -14,7 +14,7 @@
 char* ecrire_chemin_base(const char* chemin_base, int rang_fichier_base)
 {
     int s = strlen(chemin_base);
-    char chemin[s + 1 + 3];   // chemin_base + _ + 3 chiffres
+    char* chemin = (char*) calloc(s + 1 + 3, sizeof(char));   // chemin_base + _ + 3 chiffres
     int cut = s - strlen(CSV);
     strncpy(chemin, chemin_base, cut);
 
