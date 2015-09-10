@@ -1,5 +1,5 @@
 #include "fstring.h"
-
+#include "common.h"
 QHash<QString,QStringList>    Hash::description;
 QHash<QString, FStringList* >   Hash::wrapper;
 QHash<QString, int>  Hash::counter;
@@ -205,19 +205,48 @@ const FString  FStringList::join(const QStringList &separator) const
    return ("");
 }
 
+// version simplifiée
 
-inline QStringList setDistributedTags(const QString & tag,const QStringList &properties, const QStringList &tagged)
+inline QStringList setDistributedTags(const QString & tag, const QStringList &tagged)
 {
   QStringList taggedList;
   taggedList =  (tagged.isEmpty()) ? QStringList("") : tagged;
   QStringListIterator i(taggedList);
-  QStringListIterator j(properties);
   QStringList S=QStringList();
   while (i.hasNext())
     {
       const QString item = i.next();
-      const QString prop = j.hasNext()? j.next():"";
-      S << QString("<") + tag+ (properties.isEmpty() ? "": " V=\"")+  prop + ((! prop.isEmpty())? "\"" : "") + QString(">")+ item +QString("</")+tag+QString(">");
+      QString str =  QString("<") + tag ;
+      str += QString(">")+ item +QString("</")+tag+QString(">");
+      S << str;
+    }
+  return S;
+}
+
+
+// version à liste de propriétés
+
+inline QStringList setDistributedTags(const QString & tag,const FStringList &properties, const QStringList &tagged)
+{
+  QStringList taggedList;
+  taggedList =  (tagged.isEmpty()) ? QStringList("") : tagged;
+  QStringListIterator i(taggedList);
+
+  FStringListIterator j(properties);
+  QStringList S=QStringList();
+
+  while (i.hasNext() && j.hasNext())
+    {
+      const QString item = i.next();
+      const QStringList prop = j.next();
+      QStringListIterator w(prop);
+      QString str =  QString("<") + tag ;
+      const QStringList propStringLabels = {"V", "S", "B", "E"};  // Année ou Mois, Siret, Budget, Etablissement
+      QStringListIterator z(propStringLabels);
+      while (w.hasNext() && z.hasNext())
+          str += " " + z.next() + "=\""+  w.next() +  "\"";
+      str += QString(">")+ item +QString("</")+tag+QString(">");
+      S << str;
     }
   return S;
 }
@@ -236,7 +265,7 @@ QString FStringList::setEmptyTags(const QStringList & tags) const
 }
 
 
-const QString FStringList::setTags(const QStringList  &tags, const FStringList *properties ) const
+const QString FStringList::setTags(const QStringList  &tags, const QList<FStringList> *properties ) const
 {
   if ((this == nullptr) ||  this->hasNoString())
   {
@@ -261,9 +290,11 @@ const QString FStringList::setTags(const QStringList  &tags, const FStringList *
       if  (tagged.isEmpty()) continue;
       QString str;
       if (properties)
+      {
         str="     "+ setDistributedTags(tags[0], properties->at(i), tagged).join("\n     ");
+      }
       else
-        str="     "+ setDistributedTags(tags[0], QStringList(), tagged).join("\n     ");
+        str="     "+ setDistributedTags(tags[0], tagged).join("\n     ");
       S << "\n"   + str   + "\n   ";
     }
 
@@ -280,7 +311,7 @@ const QString FStringList::setTags(const QStringList  &tags, const FStringList *
       if (properties)
           str=setDistributedTags(tags[1],  properties->at(size()),  S).join("\n   ");
      else
-          str=setDistributedTags(tags[1],  QStringList(),  S).join("\n   ");
+          str=setDistributedTags(tags[1],  S).join("\n   ");
       }
 
    return (str);
