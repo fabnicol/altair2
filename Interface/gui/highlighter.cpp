@@ -77,9 +77,9 @@ Highlighter::Highlighter(QTextDocument *parent)
 
     createRulePattern(QColor("turquoise"), QFont::Bold, {"\\bV.*\\b"});
 
-    createRulePattern(QColor("maroon"), QFont::Bold, {"\\bannée\\b", "\\btitleset\\b" });
+    createRulePattern(QColor("maroon"), QFont::Bold, {"\\bonglet\\b", "\\btitleset\\b" });
 
-    createRulePattern(QColor("orange"), QFont::Bold, {"\\bfichier\\b", "\\bslide\\b"});
+    createRulePattern(QColor("orange"), QFont::Bold, {"\\bitem\\b", "\\bslide\\b"});
 
     createRulePattern(Qt::darkGreen, QFont::Black, {"\".*\""});
 
