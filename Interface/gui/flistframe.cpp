@@ -443,7 +443,7 @@ void FListFrame::parseXhlFile(const QString& fileName)
 
 #else
 
-   elemPar  = elem_parser(buffer.constData());
+   elemPar  = elem_parser(const_cast<char*>(buffer));
    //if (elemPar->test)
    {
        Hash::Annee[fileName] = QString(elemPar->annee);
@@ -474,7 +474,7 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
     for (int j = 0; j < getWidgetContainerCount(); j++)
     {
         const QString str = mainTabWidget->tabText(j);
-        if (str == "année 1" || str.isEmpty())
+        if (str == "onglet 1" || str.isEmpty())
         {
             mainTabWidget->removeTab(j);
             delete(mainTabWidget->widget(j));
@@ -615,7 +615,7 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
     }
    emit(is_ntracks_changed(Hash::counter[frameHashKey]));
 
-  fileListWidget->setTabLabels(allLabels);
+  fileListWidget->setTabLabels(allLabels << "Siret" << "Budget");
   currentListWidget->setCurrentRow(Hash::wrapper[frameHashKey]->at(rank - 1).size());
 
  return true;

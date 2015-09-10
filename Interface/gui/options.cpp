@@ -8,7 +8,7 @@
 #include "altair.h"
 #include "templates.h"
 
-extern template void createHash(QHash<QString, QString>*, const QList<QString>*, const QList<QString>*);
+extern template void createHash(QHash<QString, QString>&, const QList<QString>*, const QList<QString>*);
 
 standardPage::standardPage()
 {

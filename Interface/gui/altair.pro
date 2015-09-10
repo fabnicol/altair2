@@ -22,12 +22,10 @@ VPATH = .
 #win32:LIBS += -L../win32
 #linux:LIBS += -L../linux
 
-DEFINES += DEBUG QT_NO_OPENGL WIN_32
+DEFINES += DEBUG QT_NO_OPENGL LOCAL_BINPATH
 
-#linux: DEFINES += LOCAL_BINPATH
-
-QMAKE_CXXFLAGS += -std=c++11 -march=core2 -O3
-#QMAKE_CXXFLAGS += /Ox /MP
+linux: QMAKE_CXXFLAGS += -std=gnu++11 -march=native -O3
+windows: QMAKE_CXXFLAGS += /Ox /MP
 
 SOURCES += \
     options.cpp \
