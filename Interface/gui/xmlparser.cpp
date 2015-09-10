@@ -92,7 +92,7 @@ namespace XmlMethod
 
 QTreeWidgetItem *itemParent=nullptr;
 
-inline void stackData(const QDomNode & node, QStringList tags, int level, QVariant &textData)
+inline void stackData(const QDomNode & node, int level, QVariant &textData)
 {
     QDomNode  childNode=node.firstChild();
 
@@ -105,7 +105,7 @@ inline void stackData(const QDomNode & node, QStringList tags, int level, QVaria
 
     case 0:
 
-        tags[0] = node.toElement().tagName();
+    //    tags[0] = node.toElement().tagName();
         str.clear();
         while ((!childNode.isNull()) && (childNode.nodeType() == QDomNode::TextNode))
         {
@@ -127,14 +127,19 @@ inline void stackData(const QDomNode & node, QStringList tags, int level, QVaria
 
     case 1:
 /* Add properties collection here to read month */
-        tags[0]=node.toElement().tagName();
+      //  tags[0]=node.toElement().tagName();
 
         while (!childNode.isNull())
         {
             QVariant strV;
 
-            stackData(childNode, QStringList(tags[1]), 0, strV);
-            strL << strV.toString();
+            stackData(childNode, 0, strV);
+            QString str = strV.toString();
+            strL << str;
+            Hash::Mois[str] = childNode.toElement().attribute("V");
+            Hash::Siret[str] = childNode.toElement().attribute("S");
+            Hash::Budget[str] = childNode.toElement().attribute("B");
+            Hash::Etablissement[str] = childNode.toElement().attribute("E");
             childNode=childNode.nextSibling();
         }
         textData=QVariant(strL);
@@ -143,16 +148,16 @@ inline void stackData(const QDomNode & node, QStringList tags, int level, QVaria
         /*
          *   parses
          *            <tags[0]>
-         *               <tags[1]>
-                             <tags[2]>  text </tags[2]>
+         *               <tags[1] V=tags[3]>
+                             <tags[2] V=tags[4] S=tags[5] B=tags[6] E=tags[7]>  text </tags[2]>
                              ....
-                             <tags[2]> text </tags[2]>
+                             <tags[2] V=tags[4] S=tags[5] B=tags[6] E=tags[7]> text </tags[2]>
                          </tags[1]>
                          ...
-                         <tags[1]>
-                             <tags[2]>  text </tags[2]>
+                         <tags[1] V=tags[3]>
+                             <tags[2]  V=tags[4] S=tags[5] B=tags[6] E=tags[7]>  text </tags[2]>
                              ....
-                             <tags[2]> text </tags[2]>
+                             <tags[2]  V=tags[4] S=tags[5] B=tags[6] E=tags[7]> text </tags[2]>
                          </tags[1]>
                        </tags[0]>
         */
@@ -160,13 +165,13 @@ inline void stackData(const QDomNode & node, QStringList tags, int level, QVaria
   }
 }
 
-inline void stackData(const QDomNode & node, QStringList tags, QVariant &textData, QStringList& tabLabels)
+inline void stackData(const QDomNode & node, QVariant &textData, QStringList& tabLabels)
 {
     QDomNode  childNode=node.firstChild();
     QList<QVariant> stackedInfo;
     QString annee;
 
-    tags[0]=node.toElement().tagName();
+//    tags[0]=node.toElement().tagName();
     childNode=node.firstChild();
 
     while (!childNode.isNull())
@@ -178,9 +183,8 @@ inline void stackData(const QDomNode & node, QStringList tags, QVariant &textDat
               tabLabels += annee;
         }
 
-        QStringList L={QString(), QString()};
         QVariant M;
-        stackData(childNode, L,1, M);
+        stackData(childNode, 1, M);
         const QStringList SL = M.toStringList();
         for (const QString& s :  SL)
         {
@@ -188,8 +192,6 @@ inline void stackData(const QDomNode & node, QStringList tags, QVariant &textDat
         }
 
         stackedInfo << SL;
-        tags[1]=L.at(0);
-        tags[2]=L.at(1);
         childNode=childNode.nextSibling();
     }
 
@@ -440,7 +442,6 @@ FStringList Altair::parseEntry(const QDomNode &node, QTreeWidgetItem *itemParent
 {
 
     QVariant textData;
-    QStringList tags={QString(),QString(),QString()} ;
     int level=node.toElement().attribute("profondeur").toInt();
 
     XmlMethod::itemParent = itemParent;
@@ -450,15 +451,15 @@ FStringList Altair::parseEntry(const QDomNode &node, QTreeWidgetItem *itemParent
     switch (level)
     {
         case 0: 
-                XmlMethod::stackData(node, tags, 0, textData);
-                if (tags[0] == "item")
+                XmlMethod::stackData(node, 0, textData);
+                if (node.toElement().tagName() == "item")
                     parent->recentFiles.append(textData.toString());
                 return FStringList(textData.toString());
         case 1:
-                XmlMethod::stackData(node, tags, 1, textData);
+                XmlMethod::stackData(node, 1, textData);
                 return FStringList(textData.toStringList());
         case 2: 
-                XmlMethod::stackData(node, tags, textData, tabLabels);
+                XmlMethod::stackData(node, textData, tabLabels);
                 project[0]->setTabLabels(tabLabels);
                 return FStringList(textData.toList());
     }

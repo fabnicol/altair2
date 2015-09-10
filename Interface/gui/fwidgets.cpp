@@ -355,12 +355,30 @@ const FString FListWidget::setXmlFromWidget()
             commandLineList[0]=Hash::wrapper[hashKey]->join(separator);
     }
 
-    FStringList* properties = new FStringList;
+    QList<FStringList>* properties = new QList<FStringList>;
     FStringListIterator i(Hash::wrapper[hashKey]);
     while (i.hasNext())
-       *properties <<  applyHashToStringList(Hash::Mois, i.next());
-    
-    *properties <<  tabLabels;
+    {
+      QStringListIterator w(i.next());
+      FStringList fstrl;
+      while (w.hasNext())
+      {
+          QString str = w.next();
+          fstrl  << (QStringList() << Hash::Mois[str] << Hash::Siret[str] << Hash::Budget[str] << Hash::Etablissement[str]);
+      }
+
+      //on réordonne
+
+      *properties <<  fstrl;
+
+    }
+
+    QStringListIterator k(tabLabels);
+    FStringList fstrl;
+    while (k.hasNext())
+         fstrl <<  QStringList(k.next());
+
+    *properties << fstrl;
 
     return Hash::wrapper[hashKey]->setTags(tags, properties);
 }
