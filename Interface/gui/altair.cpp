@@ -89,7 +89,7 @@ Altair::Altair()
                               "g",                                  // command line label
                               flags::commandLineType::altairCommandLine|flags::status::hasListCommandLine|flags::status::enabled,  // command line characteristic features
                               {" ", " -g "},                       // command line separators
-                              {"fichier", "année"},                // subordinate xml tags
+                              {"item", "onglet"},                // subordinate xml tags
                               common::TabWidgetTrait::NO_EMBEDDING_TAB_WIDGET);                      //tab icon
 
 
@@ -465,29 +465,27 @@ void Altair::assignVariables()
 {
     QListIterator<FAbstractWidget*> w(Abstract::abstractWidgetList);
 
-
     if (w.hasNext())
     {
         FAbstractWidget* widget=w.next();
-        if (Altair::RefreshFlag&interfaceStatus::mainTabs)
+        if (Altair::RefreshFlag & interfaceStatus::mainTabs)
         {
             widget->setWidgetFromXml(*Hash::wrapper[widget->getHashKey()]);
         }
     }
 
-    if (options::RefreshFlag&interfaceStatus::optionTabs)
+    if (options::RefreshFlag & interfaceStatus::optionTabs)
         while (w.hasNext())
         {
             FAbstractWidget* widget=w.next();
             widget->setWidgetFromXml(*Hash::wrapper[widget->getHashKey()]);
         }
-
 }
 
 void Altair::assignGroupFiles(const int group_index)
 {
     static int last_group;
-    if (group_index-last_group) outputTextEdit->append(STATE_HTML_TAG "Ajout de l'année " + QString::number(group_index+1));
+    if (group_index-last_group) outputTextEdit->append(STATE_HTML_TAG "Ajout de l'onglet " + QString::number(group_index+1));
     last_group=group_index;
 }
 
