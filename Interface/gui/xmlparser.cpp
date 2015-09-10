@@ -80,7 +80,7 @@ void Altair::writeProjectFile()
     QStringListIterator w(parent->recentFiles);
     QString str;
     while (w.hasNext() && QFileInfo(str=w.next()).isFile())
-        out    <<  "  <fichier>" << str << "</fichier>\n";
+        out    <<  "  <item>" << str << "</item>\n";
 
     out << " </recent>\n</projet>\n";
     out.flush();
@@ -126,7 +126,7 @@ inline void stackData(const QDomNode & node, QStringList tags, int level, QVaria
         */
 
     case 1:
-
+/* Add properties collection here to read month */
         tags[0]=node.toElement().tagName();
 
         while (!childNode.isNull())
@@ -171,9 +171,10 @@ inline void stackData(const QDomNode & node, QStringList tags, QVariant &textDat
 
     while (!childNode.isNull())
     {
-        if (childNode.toElement().tagName() == "année")
+        if (childNode.toElement().tagName() == "onglet")
         {
               annee = childNode.toElement().attribute("V");
+//              if (annee[0] != '2') break;
               tabLabels += annee;
         }
 
@@ -220,8 +221,9 @@ void displayTextData(const QStringList &firstColumn,
      }
 
     last= firstColumn.at(0);
-
-    if ((secondColumn.isEmpty()) && (firstColumn.count() == 1)) return;
+   
+    if ((thirdColumn.isEmpty()) && (firstColumn.count() == 1)) return;
+    
     if (item == nullptr) return;
 
     QTreeWidgetItem* item2 = new QTreeWidgetItem(item);
@@ -252,6 +254,7 @@ void displayTextData(const QStringList &firstColumn,
     }
 
     item2->setText(1, secondColumn);
+    
 }
 
 
@@ -264,7 +267,7 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
                                          const QList<QStringList> &stackedInfo,
                                          const QList<QStringList> &stackedSizeInfo)
 {
-    int count=0, tagcount=0, l;
+    int count=0, tagcount=0, yearcount=0,l;
     qint64 filesizecount=0;
 
     QString firstColumn,
@@ -287,6 +290,7 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
             if (tagcount < tagListSize) firstColumn = tags.at(tagcount++);
         }
 
+       if (firstColumn[0] != '2') break;
        displayTextData({firstColumn});
 
         QStringListIterator w(i.next()), y(j.next());
@@ -295,6 +299,7 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
         while (w.hasNext() && y.hasNext())
         {
             ++count;
+            
             thirdColumn =  "fichier " + QString::number(++l) + "/"+ QString::number(count) +": ";
             const QString filename = w.next();
             thirdColumn += filename;
@@ -446,7 +451,7 @@ FStringList Altair::parseEntry(const QDomNode &node, QTreeWidgetItem *itemParent
     {
         case 0: 
                 XmlMethod::stackData(node, tags, 0, textData);
-                if (tags[0] == "fichier")
+                if (tags[0] == "item")
                     parent->recentFiles.append(textData.toString());
                 return FStringList(textData.toString());
         case 1:
@@ -501,9 +506,7 @@ void Altair::refreshProjectManagerValues(std::uint16_t refreshProjectManagerFlag
     if ((refreshProjectManagerFlag & manager::refreshProjectInteractiveMask) == manager::refreshProjectInteractiveMode)
     {
         updateIndexInfo();
-
         fileSizeDataBase[0] = processSecondLevelData(*Hash::wrapper["XHL"]);
-
     }
 
     QTreeWidgetItem *item=new QTreeWidgetItem(managerWidget);
@@ -522,7 +525,6 @@ void Altair::refreshProjectManagerValues(std::uint16_t refreshProjectManagerFlag
             for (int j=0; i < Hash::wrapper["NBulletins"]->at(i).size(); ++j)
                XmlMethod::displayTextData({""}, "", "", "", Hash::wrapper["NBulletins"]->at(i).at(j));
     }
-                                                
         
     item=new QTreeWidgetItem(managerWidget);
     item->setText(0, "Logiciel");
