@@ -5,7 +5,7 @@
 
 /* using above function with controlled object encapsulation */
 
-QStringList  applyHashToStringList(const QHash<QString, QString> &H,  const QStringList &M)
+QStringList  applyHashToStringList(QHash<QString, QString> &H,  QStringList &M)
 {
     QStringList L;
     QStringListIterator j(M);
