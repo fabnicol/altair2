@@ -247,7 +247,7 @@ const QString FStringList::setTags(const QStringList  &tags, const FStringList *
 
     // deactivated
 
-  if ((properties) && (properties->size() != 2) )
+  if ((properties) && (properties->size() != size() + 1) )
       return setEmptyTags(tags);
    // deactivated
 
@@ -260,8 +260,8 @@ const QString FStringList::setTags(const QStringList  &tags, const FStringList *
       QStringList tagged=this->at(i);
       if  (tagged.isEmpty()) continue;
       QString str;
-      if  (properties)
-        str="     "+ setDistributedTags(tags[0], properties->at(0), tagged).join("\n     ");
+      if (properties)
+        str="     "+ setDistributedTags(tags[0], properties->at(i), tagged).join("\n     ");
       else
         str="     "+ setDistributedTags(tags[0], QStringList(), tagged).join("\n     ");
       S << "\n"   + str   + "\n   ";
@@ -278,7 +278,7 @@ const QString FStringList::setTags(const QStringList  &tags, const FStringList *
       {
 
       if (properties)
-          str=setDistributedTags(tags[1],  properties->at(1),  S).join("\n   ");
+          str=setDistributedTags(tags[1],  properties->at(size()),  S).join("\n   ");
      else
           str=setDistributedTags(tags[1],  QStringList(),  S).join("\n   ");
       }
