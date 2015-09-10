@@ -159,9 +159,9 @@ private:
   QStringList tags;
   QWidget* parent;
 
-  friend  void applyHashToStringList(QStringList *L, QHash<QString, QString> *H,  const QStringList *M);
+  friend  QStringList applyHashToStringList(QHash<QString, QString> &H,  QStringList &M);
 
-  QHash<QString, QString> *listWidgetTranslationHash;
+  QHash<QString, QString> listWidgetTranslationHash;
   const FString& translate(const FStringList &s);
   QStringList tabLabels = QStringList();
 
@@ -230,7 +230,7 @@ public:
   bool isAbstractEnabled() {return this->isEnabled();}
 
   QStringList *signalList;
-  QHash<QString, QString> *comboBoxTranslationHash=nullptr;
+  QHash<QString, QString> comboBoxTranslationHash;
 
 private slots:
   void fromCurrentIndex(const QString&);
