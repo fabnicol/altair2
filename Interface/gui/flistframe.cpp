@@ -582,7 +582,10 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
         QList<QString> colorList = { "tomato", "orange" , "yellowgreen", "green",  "darkcyan", "blue", "navy", "darkslateblue", "black"};
         const int colorListSize = colorList.size();
         for (int i=0; i < siretCount; i++)
+        {
             listWidget->item(i)->setTextColor(colorList.at(i % colorListSize));
+            Hash::Mois[tabList.at(i)] = "nul";
+        }
         ++rank;
 
         pairs.clear();
@@ -602,7 +605,10 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
         listWidget->addItems(tabList);
 
         for (int i=0; i < budgetCount; i++)
+         {
             listWidget->item(i)->setTextColor(colorList.at(i % colorListSize));
+            Hash::Mois[tabList.at(i)] = "nul";
+        }
         ++rank;
 
        #undef listWidget
