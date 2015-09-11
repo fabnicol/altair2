@@ -217,7 +217,7 @@ void boucle_ecriture(info_t* Info)
                                        break;
 
         case TOUTES_CATEGORIES  :
-                 for (int d = 0; d < nbType; d++) fichier_base[d] = ouvrir_fichier_base(Info, d + 1);
+                 for (int d = 0; d < nbType; ++d) fichier_base[d] = ouvrir_fichier_base(Info, d + 1);
                  break;
 
         default : base = ouvrir_fichier_base(Info, rang_fichier_base + nbType + 1);
@@ -225,13 +225,13 @@ void boucle_ecriture(info_t* Info)
 
     }
 
-    for (int i = 0; i < Info[0].nbfil; i++)
+    for (int i = 0; i < Info[0].nbfil; ++i)
     {
-        for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; agent++)
+        for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; ++agent)
         {
             /* BOUCLER SUR L */
 
-            compteur_lignes_bulletins++;
+            ++compteur_lignes_bulletins;
 
             ECRIRE_LIGNE_BULLETIN(i, agent, bulletins, format_bulletins, sep, Info, compteur_lignes_bulletins);
 
@@ -295,12 +295,12 @@ void boucle_ecriture(info_t* Info)
                     valeur_drapeau_categorie = test_drapeau_categorie;
                     strcpy(type, type_remuneration_traduit[valeur_drapeau_categorie - 1]);
                     nouveau_type = true;
-                    l++;
+                    ++l;
                 }
 
                 if (Info[0].taille_base > PAR_TRAITEMENT)
                 {
-                    compteur++;
+                    ++compteur;
 
                     ECRIRE_LIGNE_l(i, agent, l, type, base, format_base, sep, Info, compteur);
                 }
@@ -310,14 +310,14 @@ void boucle_ecriture(info_t* Info)
                     {
                         if (valeur_drapeau_categorie + 2 == -Info[0].taille_base)
                         {
-                            compteur++;
+                            ++compteur;
 
                             ECRIRE_LIGNE_l(i, agent, l, type, base, format_base, sep, Info, compteur);
                         }
                     }
                     else
                     {
-                        compteur++;
+                        ++compteur;
                         if (nouveau_type)
                         {
                             base = fichier_base[valeur_drapeau_categorie - 1];
@@ -328,7 +328,7 @@ void boucle_ecriture(info_t* Info)
                 }
 
                 l += 6;
-                ligne++;
+                ++ligne;
             }
 
             ligne = 0;
@@ -339,7 +339,7 @@ void boucle_ecriture(info_t* Info)
 
     // Dans les autres cas, les bases ont déjà été refermées sauf une (cas par année et par taille maximale)
     if (Info[0].taille_base == TOUTES_CATEGORIES)
-        for (int d = 0; d < nbType - 1; d++)
+        for (int d = 0; d < nbType - 1; ++d)
             fclose(fichier_base[d]);
 
     if (base)
