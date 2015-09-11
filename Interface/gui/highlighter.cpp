@@ -75,13 +75,13 @@ Highlighter::Highlighter(QTextDocument *parent)
 
     createRulePattern(Qt::darkBlue, QFont::Bold, {"\\bprofondeur\\b"});
 
-    createRulePattern(QColor("turquoise"), QFont::Bold, {"\\bV.*\\b"});
+    createRulePattern(QColor("turquoise"), QFont::Bold, {"\\b(V|S|B|E)=[^ ]*\\b"});
 
-    createRulePattern(QColor("maroon"), QFont::Bold, {"\\bannée\\b", "\\btitleset\\b" });
+    createRulePattern(QColor("maroon"), QFont::Bold, {"\\bonglet\\b" });
 
-    createRulePattern(QColor("orange"), QFont::Bold, {"\\bfichier\\b", "\\bslide\\b"});
+    createRulePattern(QColor("orange"), QFont::Bold, {"\\bitem\\b" });
 
-    createRulePattern(Qt::darkGreen, QFont::Black, {"\".*\""});
+    createRulePattern(Qt::darkGreen, QFont::Black, {"\"[^\"]*\""});
 
     createRulePattern(Qt::red, QFont::Black, {"<[/]?", ">", "data>", "systeme>", "recent>", "projet>", "<\\?xml"});
 }
