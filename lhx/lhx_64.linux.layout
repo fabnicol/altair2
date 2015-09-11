@@ -2,9 +2,14 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Release" />
-	<File name="validator.hpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="fonctions_auxiliaires.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="403" topLine="0" />
+			<Cursor1 position="7753" topLine="214" />
+		</Cursor>
+	</File>
+	<File name="validator.hpp" open="1" top="1" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4039" topLine="123" />
 		</Cursor>
 	</File>
 	<File name="validator.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -17,20 +22,15 @@
 			<Cursor1 position="190" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="main.cpp" open="1" top="1" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="18562" topLine="597" />
-		</Cursor>
-	</File>
 	<File name="table.hpp" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="261" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="fonctions_auxiliaires.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="main.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="7753" topLine="217" />
+			<Cursor1 position="18562" topLine="438" />
 		</Cursor>
 	</File>
-	<EditorTabsLayout layout="0465be3055ee3a8c00147a5d00000002=0;hashtest.cpp:fonctions_auxiliaires.cpp,1;hashtest.cpp:validator.cpp,*2;hashtest.cpp:main.cpp,3;hashtest.cpp:validator.hpp,4;hashtest.cpp:fonctions_auxiliaires.hpp,5;hashtest.cpp:table.hpp@layout2|name=dummy;caption=;state=2098174;dir=3;layer=0;row=0;pos=0;prop=100000;bestw=855;besth=315;minw=855;minh=315;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|name=0465be3055ee3a8c00147a5d00000002;caption=;state=2098172;dir=5;layer=0;row=0;pos=0;prop=100000;bestw=200;besth=200;minw=-1;minh=-1;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|dock_size(5,0,0)=202|" />
+	<EditorTabsLayout layout="05ce0a5055f0aa42002a81ff00000002=0;hashtest.cpp:fonctions_auxiliaires.cpp,1;hashtest.cpp:validator.cpp,2;hashtest.cpp:main.cpp,*3;hashtest.cpp:validator.hpp,4;hashtest.cpp:fonctions_auxiliaires.hpp,5;hashtest.cpp:table.hpp@layout2|name=dummy;caption=;state=2098174;dir=3;layer=0;row=0;pos=0;prop=100000;bestw=818;besth=337;minw=818;minh=337;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|name=05ce0a5055f0aa42002a81ff00000002;caption=;state=2098172;dir=5;layer=0;row=0;pos=0;prop=100000;bestw=200;besth=200;minw=-1;minh=-1;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|dock_size(5,0,0)=202|" />
 </CodeBlocks_layout_file>

@@ -80,7 +80,7 @@ void Altair::writeProjectFile()
     QStringListIterator w(parent->recentFiles);
     QString str;
     while (w.hasNext() && QFileInfo(str=w.next()).isFile())
-        out    <<  "  <fichier>" << str << "</fichier>\n";
+        out    <<  "  <item>" << str << "</item>\n";
 
     out << " </recent>\n</projet>\n";
     out.flush();
@@ -92,7 +92,7 @@ namespace XmlMethod
 
 QTreeWidgetItem *itemParent=nullptr;
 
-inline void stackData(const QDomNode & node, QStringList tags, int level, QVariant &textData)
+inline void stackData(const QDomNode & node, int level, QVariant &textData)
 {
     QDomNode  childNode=node.firstChild();
 
@@ -105,7 +105,7 @@ inline void stackData(const QDomNode & node, QStringList tags, int level, QVaria
 
     case 0:
 
-        tags[0] = node.toElement().tagName();
+    //    tags[0] = node.toElement().tagName();
         str.clear();
         while ((!childNode.isNull()) && (childNode.nodeType() == QDomNode::TextNode))
         {
@@ -126,15 +126,20 @@ inline void stackData(const QDomNode & node, QStringList tags, int level, QVaria
         */
 
     case 1:
-
-        tags[0]=node.toElement().tagName();
+/* Add properties collection here to read month */
+      //  tags[0]=node.toElement().tagName();
 
         while (!childNode.isNull())
         {
             QVariant strV;
 
-            stackData(childNode, QStringList(tags[1]), 0, strV);
-            strL << strV.toString();
+            stackData(childNode, 0, strV);
+            QString str = strV.toString();
+            strL << str;
+            Hash::Mois[str] = childNode.toElement().attribute("V");
+            Hash::Siret[str] = childNode.toElement().attribute("S");
+            Hash::Budget[str] = childNode.toElement().attribute("B");
+            Hash::Etablissement[str] = childNode.toElement().attribute("E");
             childNode=childNode.nextSibling();
         }
         textData=QVariant(strL);
@@ -143,16 +148,16 @@ inline void stackData(const QDomNode & node, QStringList tags, int level, QVaria
         /*
          *   parses
          *            <tags[0]>
-         *               <tags[1]>
-                             <tags[2]>  text </tags[2]>
+         *               <tags[1] V=tags[3]>
+                             <tags[2] V=tags[4] S=tags[5] B=tags[6] E=tags[7]>  text </tags[2]>
                              ....
-                             <tags[2]> text </tags[2]>
+                             <tags[2] V=tags[4] S=tags[5] B=tags[6] E=tags[7]> text </tags[2]>
                          </tags[1]>
                          ...
-                         <tags[1]>
-                             <tags[2]>  text </tags[2]>
+                         <tags[1] V=tags[3]>
+                             <tags[2]  V=tags[4] S=tags[5] B=tags[6] E=tags[7]>  text </tags[2]>
                              ....
-                             <tags[2]> text </tags[2]>
+                             <tags[2]  V=tags[4] S=tags[5] B=tags[6] E=tags[7]> text </tags[2]>
                          </tags[1]>
                        </tags[0]>
         */
@@ -160,26 +165,26 @@ inline void stackData(const QDomNode & node, QStringList tags, int level, QVaria
   }
 }
 
-inline void stackData(const QDomNode & node, QStringList tags, QVariant &textData, QStringList& tabLabels)
+inline void stackData(const QDomNode & node, QVariant &textData, QStringList& tabLabels)
 {
     QDomNode  childNode=node.firstChild();
     QList<QVariant> stackedInfo;
     QString annee;
 
-    tags[0]=node.toElement().tagName();
+//    tags[0]=node.toElement().tagName();
     childNode=node.firstChild();
 
     while (!childNode.isNull())
     {
-        if (childNode.toElement().tagName() == "année")
+        if (childNode.toElement().tagName() == "onglet")
         {
               annee = childNode.toElement().attribute("V");
+//              if (annee[0] != '2') break;
               tabLabels += annee;
         }
 
-        QStringList L={QString(), QString()};
         QVariant M;
-        stackData(childNode, L,1, M);
+        stackData(childNode, 1, M);
         const QStringList SL = M.toStringList();
         for (const QString& s :  SL)
         {
@@ -187,8 +192,6 @@ inline void stackData(const QDomNode & node, QStringList tags, QVariant &textDat
         }
 
         stackedInfo << SL;
-        tags[1]=L.at(0);
-        tags[2]=L.at(1);
         childNode=childNode.nextSibling();
     }
 
@@ -220,8 +223,9 @@ void displayTextData(const QStringList &firstColumn,
      }
 
     last= firstColumn.at(0);
-
-    if ((secondColumn.isEmpty()) && (firstColumn.count() == 1)) return;
+   
+    if ((thirdColumn.isEmpty()) && (firstColumn.count() == 1)) return;
+    
     if (item == nullptr) return;
 
     QTreeWidgetItem* item2 = new QTreeWidgetItem(item);
@@ -252,6 +256,7 @@ void displayTextData(const QStringList &firstColumn,
     }
 
     item2->setText(1, secondColumn);
+    
 }
 
 
@@ -264,7 +269,7 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
                                          const QList<QStringList> &stackedInfo,
                                          const QList<QStringList> &stackedSizeInfo)
 {
-    int count=0, tagcount=0, l;
+    int count=0, tagcount=0, yearcount=0,l;
     qint64 filesizecount=0;
 
     QString firstColumn,
@@ -287,6 +292,7 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
             if (tagcount < tagListSize) firstColumn = tags.at(tagcount++);
         }
 
+       if (firstColumn[0] != '2') break;
        displayTextData({firstColumn});
 
         QStringListIterator w(i.next()), y(j.next());
@@ -295,6 +301,7 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
         while (w.hasNext() && y.hasNext())
         {
             ++count;
+            
             thirdColumn =  "fichier " + QString::number(++l) + "/"+ QString::number(count) +": ";
             const QString filename = w.next();
             thirdColumn += filename;
@@ -435,7 +442,6 @@ FStringList Altair::parseEntry(const QDomNode &node, QTreeWidgetItem *itemParent
 {
 
     QVariant textData;
-    QStringList tags={QString(),QString(),QString()} ;
     int level=node.toElement().attribute("profondeur").toInt();
 
     XmlMethod::itemParent = itemParent;
@@ -445,15 +451,15 @@ FStringList Altair::parseEntry(const QDomNode &node, QTreeWidgetItem *itemParent
     switch (level)
     {
         case 0: 
-                XmlMethod::stackData(node, tags, 0, textData);
-                if (tags[0] == "fichier")
+                XmlMethod::stackData(node, 0, textData);
+                if (node.toElement().tagName() == "item")
                     parent->recentFiles.append(textData.toString());
                 return FStringList(textData.toString());
         case 1:
-                XmlMethod::stackData(node, tags, 1, textData);
+                XmlMethod::stackData(node, 1, textData);
                 return FStringList(textData.toStringList());
         case 2: 
-                XmlMethod::stackData(node, tags, textData, tabLabels);
+                XmlMethod::stackData(node, textData, tabLabels);
                 project[0]->setTabLabels(tabLabels);
                 return FStringList(textData.toList());
     }
@@ -501,9 +507,7 @@ void Altair::refreshProjectManagerValues(std::uint16_t refreshProjectManagerFlag
     if ((refreshProjectManagerFlag & manager::refreshProjectInteractiveMask) == manager::refreshProjectInteractiveMode)
     {
         updateIndexInfo();
-
         fileSizeDataBase[0] = processSecondLevelData(*Hash::wrapper["XHL"]);
-
     }
 
     QTreeWidgetItem *item=new QTreeWidgetItem(managerWidget);
@@ -522,7 +526,6 @@ void Altair::refreshProjectManagerValues(std::uint16_t refreshProjectManagerFlag
             for (int j=0; i < Hash::wrapper["NBulletins"]->at(i).size(); ++j)
                XmlMethod::displayTextData({""}, "", "", "", Hash::wrapper["NBulletins"]->at(i).at(j));
     }
-                                                
         
     item=new QTreeWidgetItem(managerWidget);
     item->setText(0, "Logiciel");
