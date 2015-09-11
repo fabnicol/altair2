@@ -40,7 +40,7 @@ char* ecrire_chemin_base(const char* chemin_base, int rang_fichier_base)
                   sprintf(chemin + cut, "_%d%s", rang_fichier_base - nbType - 1, CSV);
     }
 
-    return(strdup(chemin));
+    return(_strdup(chemin));
 }
 
 void ecrire_entete_bulletins(info_t* info, FILE* base)

@@ -60,14 +60,14 @@ int main(int argc, char **argv)
 
     int start = 1;
     char type_table[50]= {0};
-    strcpy(type_table, "bulletins");
+    strcpy_s(type_table, "bulletins");
     bool generer_table = false;
     bool liberer_memoire = true;
 
     char* chemin_base=(char*) calloc(500, sizeof(char));
     char* chemin_bulletins=(char*) calloc(500, sizeof(char));
-    sprintf(chemin_base, "%s%s", NOM_BASE, CSV);
-    sprintf(chemin_bulletins, "%s%s", NOM_BASE_BULLETINS, CSV);
+    sprintf_s(chemin_base, 500, "%s%s", NOM_BASE, CSV);
+    sprintf_s(chemin_bulletins, 500, "%s%s", NOM_BASE_BULLETINS, CSV);
 
     thread_t mon_thread;
 
@@ -83,7 +83,7 @@ int main(int argc, char **argv)
         NULL,             //    uint16_t *NLigne;
         &mon_thread,      //    thread_t threads;
         NULL,             //    chemin log
-        (char*) strdup(EXPRESSION_REG_ELUS),
+        (char*) _strdup(EXPRESSION_REG_ELUS),
         chemin_base,
         chemin_bulletins,
         MAX_LIGNES_PAYE,  // nbLigneUtilisateur
@@ -150,7 +150,7 @@ int main(int argc, char **argv)
             generer_table = true;
             if (! strcmp(argv[start + 1], "standard"))
             {
-                strncpy(type_table, argv[start + 1], 50*sizeof(char));
+                strncpy_s(type_table, argv[start + 1], 50*sizeof(char));
                 start += 2;
                 continue;
             }
