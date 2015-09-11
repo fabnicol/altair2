@@ -183,7 +183,7 @@
    ,
   </decimal>
   <processType profondeur="0">
-   '2'
+   '8'
   </processType>
   <nAgent profondeur="0">
      
@@ -208,6 +208,5 @@
   </ecoRAM>
  </systeme>
  <recent>
-  <item>C:/Dev/altair/Interface/build-altair.static-Desktop-Release/défaut.alt</item>
  </recent>
 </projet>
