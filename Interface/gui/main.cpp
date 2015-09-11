@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
       }
 
     if (res == false)
-        QMessageBox::critical(nullptr, "Error", "Traductions qt non chargées", QMessageBox::Ok|QMessageBox::No|QMessageBox::Cancel);
+        QMessageBox::critical(nullptr, "Erreur", "Traductions qt non chargées", QMessageBox::Cancel);
 
     QTranslator qtBaseTranslator;
     if (res = qtBaseTranslator.load(locale, "qtbase", "_", translationsPath))
@@ -57,7 +57,16 @@ int main(int argc, char *argv[])
     }
 
     if (res == false)
-        QMessageBox::critical(nullptr, "Error", "Traductions qtbase non chargées", QMessageBox::Ok|QMessageBox::No|QMessageBox::Cancel);
+        QMessageBox::critical(nullptr, "Erreur", "Traductions qtbase non chargées", QMessageBox::Cancel);
+
+    QTranslator qtXmlTranslator;
+    if (res = qtXmlTranslator.load(locale, "qtxmlpatterns", "_", translationsPath))
+    {
+        res=app.installTranslator(&qtXmlTranslator);
+    }
+
+    if (res == false)
+        QMessageBox::critical(nullptr, "Erreur", "Traductions qtxmlpatterns non chargées", QMessageBox::Cancel);
 
     char* s;
     if (argc > 1) s=argv[1];
