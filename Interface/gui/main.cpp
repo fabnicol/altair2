@@ -28,7 +28,8 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 
 #include <QApplication>
-
+#include <QTranslator>
+#include <QLibraryInfo>
 #include "altair-gui.h"
 
 
@@ -36,6 +37,37 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     
+    QString translationsPath(QCoreApplication::applicationDirPath() + "/translations");
+    QLocale locale = QLocale::system();
+
+    QTranslator qtTranslator;
+    bool res=false;
+    if (res = qtTranslator.load(locale, "qt", "_", translationsPath))
+      {
+        res=app.installTranslator(&qtTranslator);
+      }
+
+    if (res == false)
+        QMessageBox::critical(nullptr, "Erreur", "Traductions qt non chargées", QMessageBox::Cancel);
+
+    QTranslator qtBaseTranslator;
+    if (res = qtBaseTranslator.load(locale, "qtbase", "_", translationsPath))
+    {
+        res=app.installTranslator(&qtBaseTranslator);
+    }
+
+    if (res == false)
+        QMessageBox::critical(nullptr, "Erreur", "Traductions qtbase non chargées", QMessageBox::Cancel);
+
+    QTranslator qtXmlTranslator;
+    if (res = qtXmlTranslator.load(locale, "qtxmlpatterns", "_", translationsPath))
+    {
+        res=app.installTranslator(&qtXmlTranslator);
+    }
+
+    if (res == false)
+        QMessageBox::critical(nullptr, "Erreur", "Traductions qtxmlpatterns non chargées", QMessageBox::Cancel);
+
     char* s;
     if (argc > 1) s=argv[1];
     else s=(char*)"";
