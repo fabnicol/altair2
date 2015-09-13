@@ -13,17 +13,24 @@ CONFIG  += ordered static
 TEMPLATE = app
 
 QT       += core gui xml widgets 
+# webkitwidgets
+# Compile QT with -static -no-opengl
 QT       -= opengl
 
-TARGET = altair-gui
+TARGET = Altair
 
 VPATH = .
 
-DEFINES += DEBUG STATIC QT_NO_OPENGL
+DEFINES += QT_NO_OPENGL \
+           STATIC  \ 
+           LOCAL_BINPATH \
+           REGEX_PARSING_FOR_HEADERS
 
-#linux: DEFINES += LOCAL_BINPATH
+windows:RC_ICONS = neptune.ico
 
-QMAKE_CXXFLAGS += -std=c++11 -march=corei7-avx -O3
+linux: QMAKE_CXXFLAGS += -std=gnu++11 -march=native -O3 
+windows: QMAKE_CXXFLAGS += /Ox /MP
+linux: QMAKE_LFLAGS += -s
 
 SOURCES += \
     options.cpp \
@@ -39,8 +46,7 @@ SOURCES += \
     xmlparser.cpp \
     highlighter.cpp \
     run.cpp \
-    console.cpp \ 
-    probe.cpp
+    elemParser.cpp
 
 HEADERS  += \
     options.h \
@@ -54,15 +60,14 @@ HEADERS  += \
     browser.h \
     altair.h \
     highlighter.h \
-    console.h \
     tags.h \
     templates.h \
     altair-gui.h \
-    probe.h
+    elemParser.hpp
 
 
 RESOURCES += \
-    ../share/altair-gui/altair-gui.qrc 
+    ../share/altair-gui/altair-gui.qrc
 
    
 

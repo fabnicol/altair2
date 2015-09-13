@@ -5,13 +5,14 @@
 
 /* using above function with controlled object encapsulation */
 
-void applyHashToStringList(QStringList *L, QHash<QString, QString> *H,  const QStringList *M)
+QStringList  applyHashToStringList(const QHash<QString, QString> &H,  const QStringList &M)
 {
-    if ((H == nullptr) || (M == nullptr) || (L == nullptr)) return;
-    QStringListIterator j(*M);
-
+    QStringList L;
+    QStringListIterator j(M);
     while (j.hasNext())
-        *L << (*H) [j.next()];
+        L << H[j.next()];
+   
+    return L;
 }
 
 
@@ -238,11 +239,8 @@ FListWidget::FListWidget(QWidget* par,
     /* if a Hash has been activated, build the terms-translation Hash table so that translated terms
    * can be translated back to original terms later on, so as to get the correct command line string chunks */
 
-    if ((terms == nullptr) || (translation == nullptr))
-        listWidgetTranslationHash=nullptr;
-    else
+    if ((terms != nullptr) || (translation != nullptr))
     {
-        listWidgetTranslationHash=new QHash<QString, QString>;
         createHash(listWidgetTranslationHash, translation, terms);
     }
 
@@ -260,13 +258,8 @@ const FString& FListWidget::translate(const FStringList &s)
     {
         L << QStringList();
         QStringList translation=QStringList();
-        QStringList terms=  QStringList();
-
         translation=i.next();
-        applyHashToStringList(&terms, listWidgetTranslationHash, &translation) ;
-
-        L[j++]=terms;
-
+        L[j++]= std::move(applyHashToStringList(listWidgetTranslationHash, translation));
     }
 
     return commandLineList[0]=L.join(separator);
@@ -281,7 +274,8 @@ void FListWidget::setWidgetFromXml(const FStringList &s)
     {
         int size=s.size()-1;
 
-        if (tabLabels.size() != size + 1) {
+        if (tabLabels.size() != size + 1) 
+        {
                    QMessageBox::warning(nullptr, "Onglets", "Erreur de décodage des titres d'onglet  : tabLabels est de taille " +
                                          QString::number(tabLabels.size()) + " et la FStringList est de taille " + QString::number(size + 1));
                    return;
@@ -305,7 +299,7 @@ void FListWidget::setWidgetFromXml(const FStringList &s)
     * as "translated" items to be displayed straightaway in list widgets
     * command lines, in this case, need to be translated back to original terms */
 
-    if (listWidgetTranslationHash)
+    if (!listWidgetTranslationHash.isEmpty())
         commandLineList= QList<FString>() << translate(s);
     else
     {
@@ -330,7 +324,7 @@ const FString FListWidget::setXmlFromWidget()
 {
     if (!Hash::wrapper.contains(hashKey)) return FStringList().setEmptyTags(tags);
 
-    if (listWidgetTranslationHash)
+    if (!listWidgetTranslationHash.isEmpty())
         commandLineList=QList<FString>() << translate(*Hash::wrapper[hashKey]);
     else
     {
@@ -340,12 +334,6 @@ const FString FListWidget::setXmlFromWidget()
 
             FStringListIterator i(Hash::wrapper[hashKey]);
             int L = Hash::wrapper[hashKey]->size();
-            if (hashKey == "XHL")
-            {
-              if (L < 2) return "";
-              else L -=2;
-            }
-
 
             for (int l=0; l < L; l++)
             {
@@ -368,8 +356,10 @@ const FString FListWidget::setXmlFromWidget()
     }
 
     FStringList* properties = new FStringList;
-
-    *properties <<  (QStringList());
+    FStringListIterator i(Hash::wrapper[hashKey]);
+    while (i.hasNext())
+       *properties <<  applyHashToStringList(Hash::Mois, i.next());
+    
     *properties <<  tabLabels;
 
     return Hash::wrapper[hashKey]->setTags(tags, properties);
@@ -480,8 +470,7 @@ FComboBox::FComboBox(const QStringList &labelList,
 
     /* if a Hash has been activated, build the terms-translation Hash table so that translated terms
    * can be translated back to original terms later on, so as to get the correct command line string chunks */
-    comboBoxTranslationHash=new QHash<QString, QString>;
-
+    
     if ((!labelList.isEmpty()) && (!translation.isEmpty()))
     {
         createHash(comboBoxTranslationHash, &labelList, &translation);
@@ -492,7 +481,7 @@ FComboBox::FComboBox(const QStringList &labelList,
 
 void FComboBox::fromCurrentIndex(const QString &text)
 {
-    commandLineList[0]= (comboBoxTranslationHash && !comboBoxTranslationHash->isEmpty())? comboBoxTranslationHash->value(text) : text;
+    commandLineList[0]= (!comboBoxTranslationHash.isEmpty())? comboBoxTranslationHash.value(text) : text;
     if (commandLineList[0].isEmpty()) commandLineList[0]="  ";
     signalList->clear();
     for (int i=0; i < text.toInt() ; i++)
@@ -505,8 +494,8 @@ void FComboBox::refreshWidgetDisplay()
     FString str = commandLineList[0];
     if (str.isFilled())
     {
-        if (comboBoxTranslationHash && !comboBoxTranslationHash->isEmpty()) 
-            str = comboBoxTranslationHash->key(str);
+        if (!comboBoxTranslationHash.isEmpty()) 
+            str = comboBoxTranslationHash.key(str);
         
         if (findText(str.remove('\'')) != -1)
             setCurrentIndex(findText(str));
@@ -522,7 +511,7 @@ const FString FComboBox::setXmlFromWidget()
 {
     QString str=currentText();
     *Hash::wrapper[getHashKey()]=FStringList(str);
-    commandLineList[0]=  (comboBoxTranslationHash && !comboBoxTranslationHash->isEmpty())? comboBoxTranslationHash->value(str) : "'"+str+"'";
+    commandLineList[0]=  (!comboBoxTranslationHash.isEmpty())? comboBoxTranslationHash.value(str) : "'"+str+"'";
     if (commandLineList[0].isEmpty()) commandLineList[0]="  ";
     return commandLineList[0].toQStringRef();
 }
