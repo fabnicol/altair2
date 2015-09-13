@@ -5,7 +5,7 @@
 //#include <stdio.h>
 //#include <inttypes.h>
 //#include <stdlib.h>
-
+#define _CRT_SECURE_NO_WARNINGS
 #include "validator.hpp"
 
 #define BASE 0

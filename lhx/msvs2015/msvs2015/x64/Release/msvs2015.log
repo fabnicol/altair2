@@ -1,0 +1,23 @@
+﻿Build started 11/09/2015 23:35:10.
+     1>Project "C:\Dev\altair\lhx\msvs2015\msvs2015\msvs2015.vcxproj" on node 2 (Rebuild target(s)).
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (x64\Release\) contains files shared from another project (msvs2015.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /IC:\Dev\altair\lhx\include /Zi /nologo /W1 /WX- /O2 /Oi /D TOLERANT /D GCC_REGEX /D NO_DEBUG /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"x64\Release\\" /Fd"x64\Release\vc140.pdb" /Gd /TP /errorReport:prompt ..\..\copyfile.cpp ..\..\fonctions_auxiliaires.cpp ..\..\main.cpp ..\..\table.cpp ..\..\validator.cpp
+         copyfile.cpp
+         fonctions_auxiliaires.cpp
+         main.cpp
+         table.cpp
+         validator.cpp
+         Generating Code...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Dev\altair\lhx\msvs2015\x64\Release\lhx_2015.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:C:\Dev\altair\lhx\lib libxml2.dll.a kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Dev\altair\lhx\msvs2015\x64\Release\lhx_2015.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Dev\altair\lhx\msvs2015\x64\Release\lhx_2015.lib" /MACHINE:X64 x64\Release\copyfile.obj
+         x64\Release\fonctions_auxiliaires.obj
+         x64\Release\main.obj
+         x64\Release\table.obj
+         x64\Release\validator.obj
+         msvs2015.vcxproj -> C:\Dev\altair\lhx\msvs2015\x64\Release\lhx_2015.exe
+     1>Done Building Project "C:\Dev\altair\lhx\msvs2015\msvs2015\msvs2015.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:02.46
