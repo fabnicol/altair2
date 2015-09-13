@@ -23,18 +23,18 @@ static inline const uint32_t* calculer_maxima(const info_t* Info)
 
     if (once || maximum == NULL) return NULL;  // no-op)
 
-    for (int i = 0; i < Info[0].nbfil; i++)
+    for (int i = 0; i < Info[0].nbfil; ++i)
     {
-        for (unsigned j = 0; j < Info[i].threads->argc; j++)
+        for (unsigned j = 0; j < Info[i].threads->argc; ++j)
             if (Info[i].NAgent[j] > maximum[0])
                maximum[0] = Info[i].NAgent[j];
 
-        for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; agent++)
+        for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; ++agent)
             if (Info[i].NLigne[agent] > maximum[1])
                 maximum[1] = Info[i].NLigne[agent];
     }
 
-    once++;
+    ++once;
     return(maximum);
 }
 
@@ -60,14 +60,14 @@ int main(int argc, char **argv)
 
     int start = 1;
     char type_table[50]= {0};
-    strcpy(type_table, "bulletins");
+    strcpy_s(type_table, "bulletins");
     bool generer_table = false;
     bool liberer_memoire = true;
 
     char* chemin_base=(char*) calloc(500, sizeof(char));
     char* chemin_bulletins=(char*) calloc(500, sizeof(char));
-    sprintf(chemin_base, "%s%s", NOM_BASE, CSV);
-    sprintf(chemin_bulletins, "%s%s", NOM_BASE_BULLETINS, CSV);
+    sprintf_s(chemin_base, 500, "%s%s", NOM_BASE, CSV);
+    sprintf_s(chemin_bulletins, 500, "%s%s", NOM_BASE_BULLETINS, CSV);
 
     thread_t mon_thread;
 
@@ -150,20 +150,20 @@ int main(int argc, char **argv)
             generer_table = true;
             if (! strcmp(argv[start + 1], "standard"))
             {
-                strncpy(type_table, argv[start + 1], 50*sizeof(char));
+                strncpy_s(type_table, argv[start + 1], 50*sizeof(char));
                 start += 2;
                 continue;
             }
             else
             {
-                start++;
+                ++start;
                 continue;
             }
         }
         else if (! strcmp(argv[start], "-l"))
         {
             info.generer_rang = true ;
-            start++;
+            ++start;
             continue;
         }
         else if (! strcmp(argv[start], "-T"))
@@ -310,13 +310,13 @@ int main(int argc, char **argv)
         else if (! strcmp(argv[start], "-M"))
         {
             liberer_memoire = false;
-            start++;
+            ++start;
             continue;
         }
         else if (! strcmp(argv[start], "-m"))
         {
             info.calculer_maxima = true;
-            start++;
+            ++start;
             continue;
         }
         else if (! strcmp(argv[start], "-D"))
@@ -345,9 +345,9 @@ int main(int argc, char **argv)
             if ((info.nbfil = lire_argument(argc, argv[start +1])) > 0)
             {
 
-                if (info.nbfil > 16 || info.nbfil < 1)
+                if (info.nbfil < 1)
                 {
-                    perror("Erreur : Le nombre de fils d'exécution doit être compris entre 2 et 16.");
+                    perror("Erreur : Le nombre de fils d'exécution doit être compris au moins égal à 2.");
                     exit(-111);
                 }
 
@@ -409,12 +409,12 @@ int main(int argc, char **argv)
         info.threads->argc = argc -start;
         info.threads->argv = (char**) malloc((argc -start)* sizeof(char*));
         int shift = 0;
-        for (int j = start; j + shift < argc; j++)
+        for (int j = start; j + shift < argc; ++j)
         {
             if (! strcmp(argv[j + shift], "-g"))
             {
               info.threads->argc--;
-              shift++;
+              ++shift;
             }
 
             info.threads->argv[j-start] = argv[j + shift];
@@ -445,7 +445,7 @@ int main(int argc, char **argv)
             info.nbfil = 2;
         }
 
-        if ((argc - start) % info.nbfil) info.nbfil++;  // on en crée un de plus pour le reste
+        if ((argc - start) % info.nbfil) ++info.nbfil;  // on en crée un de plus pour le reste
 
         std::vector<std::thread> t(info.nbfil);
 
@@ -460,7 +460,7 @@ int main(int argc, char **argv)
 
         fprintf(stderr, "Creation des fils clients.\n");
 
-        for (int i = 0; i < info.nbfil; i++)
+        for (int i = 0; i < info.nbfil; ++i)
         {
 
             Info[i].nbLigne = 0;
@@ -511,12 +511,12 @@ int main(int argc, char **argv)
             }
 
             int shift = 0;
-            for (int j = start; j <  nbfichier_par_fil + start && j + shift < argc; j++)
+            for (int j = start; j <  nbfichier_par_fil + start && j + shift < argc; ++j)
             {
                 if (! strcmp(argv[j + shift], "-g"))
                 {
                   Info[i].threads->argc--;
-                  shift++;
+                  ++shift;
                 }
                 Info[i].threads->argv[j - start] = strdup(argv[j + shift]);
             }
@@ -535,7 +535,7 @@ int main(int argc, char **argv)
             }
         }
 
-        for (int i = 0; i < info.nbfil; i++)
+        for (int i = 0; i < info.nbfil; ++i)
         {
             t[i].join ();
         }
@@ -589,13 +589,13 @@ int main(int argc, char **argv)
 
     fprintf(stderr, "%s", "\nLibération de la mémoire...\n");
 
-    for (int i = 0; i < Info[0].nbfil; i++)
+    for (int i = 0; i < Info[0].nbfil; ++i)
     {
-        for (unsigned agent = 0; agent < Info[i].NCumAgent; agent++)
+        for (unsigned agent = 0; agent < Info[i].NCumAgent; ++agent)
         {
             int utilisation_memoire =  Info[i].minimum_memoire_p_ligne + nbType + Info[i].NLigne[agent]*6;
 
-            for (int j = 0; j < utilisation_memoire; j++)
+            for (int j = 0; j < utilisation_memoire; ++j)
                 if (Info[i].Table[agent][j])
                     xmlFree(Info[i].Table[agent][j]);
 

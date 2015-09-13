@@ -56,7 +56,7 @@ void ecrire_entete(info_t* info, FILE* base)
 void ecrire_entete0(info_t* info, FILE* base, const char* entete[], int N)
 {
   int i;
-  for (i = !info->generer_rang; i < N - 1; i++)
+  for (i = !info->generer_rang; i < N - 1; ++i)
       fprintf(base, "%s%c", entete[i], info[0].separateur);
 
   fprintf(base, "%s\n", entete[i]);
@@ -160,7 +160,7 @@ int calculer_memoire_requise(info_t* info)
     fprintf(stderr, "Premier scan des fichiers pour déterminer les besoins mémoire ... ");
 
     /* par convention  un agent avec rémunération non renseignées (balise sans fils) a une ligne */
-    for (unsigned i = 0; i < info->threads->argc ; i++)
+    for (unsigned i = 0; i < info->threads->argc ; ++i)
     {
         FILE* c;
         errno = 0;
@@ -199,7 +199,7 @@ int calculer_memoire_requise(info_t* info)
             {
                 // info->NAgent[i]++;
                 info->NLigne[info->NCumAgent]=1;
-                info->NCumAgent++;
+                ++info->NCumAgent;
 
                 continue;  // Balise simple vide
             }
@@ -218,7 +218,7 @@ int calculer_memoire_requise(info_t* info)
 
                     if (info->NLigne[info->NCumAgent] == 0) info->NLigne[info->NCumAgent] = 1;
                     //info->NAgent[i]++;
-                    info->NCumAgent++;
+                    ++info->NCumAgent;
                     break;
                 }
                 else
