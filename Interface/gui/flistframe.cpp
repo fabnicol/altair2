@@ -132,6 +132,11 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
                                                      currentListWidget->addItem(item=new QListWidgetItem);
                                                      item->setFlags(item->flags () | Qt::ItemIsEditable); });
 
+ deleteAction = new QAction(tr("Exclure"), this);
+ deleteAction->setIcon(QIcon(":/images/retrieve.png"));
+ addAction = new QAction(tr("Inclure"), this);
+ addAction->setIcon(QIcon(":/images/include.png"));
+
  connect(parent, SIGNAL(customContextMenuRequested(const QPoint&)),
          fileListWidget, SLOT(showContextMenu()));
 
@@ -195,7 +200,7 @@ void FListFrame::on_deleteItem_clicked()
 
   if (Hash::wrapper[frameHashKey]->at(currentIndex).isEmpty() && (importType != flags::typeIn) ) return;
   if (row <0) return;
-  emit(isControlButtonClicked());
+
   QModelIndexList L=currentListWidget->selectionModel()->selectedRows();
   int size=L.size();
   int  rank=0, localrow=0;
@@ -242,8 +247,8 @@ void FListFrame::addGroup()
  
         currentListWidget=new QListWidget;
         fileListWidget->currentListWidget = currentListWidget;
-        currentListWidget->setSelectionMode(QAbstractItemView::ContiguousSelection);
-      //  currentListWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+        currentListWidget->setSelectionMode(QAbstractItemView::ExtendedSelection);
+        currentListWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
         if (showAddItemButton) 
         {
             currentListWidget->setEditTriggers(QAbstractItemView::AllEditTriggers);
@@ -483,6 +488,8 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
             delete(mainTabWidget->widget(j));
         }
         else
+        // Ne pas inclure les onglets Siret et Budget
+        if (str[0] != 'S'  && str[0] != 'B')
           existingTabLabels << str;
     }
 

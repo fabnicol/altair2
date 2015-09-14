@@ -8,6 +8,7 @@ QHash<QString, QString>  Hash::Mois;
 QHash<QString, QString>  Hash::Budget;
 QHash<QString, QString>  Hash::Siret;
 QHash<QString, QString>  Hash::Etablissement;
+QHash<QString, bool>     Hash::Suppression;
 
 
 FString   FString::operator & (FString  s)
