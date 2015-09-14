@@ -28,6 +28,7 @@ public:
   static QHash<QString, QString> Budget;
   static QHash<QString, QString> Siret;
   static QHash<QString, QString> Etablissement;
+  static QHash<QString, bool>    Suppression;
 
 };
 
