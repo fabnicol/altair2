@@ -131,7 +131,10 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
                                                      QListWidgetItem *item;
                                                      currentListWidget->addItem(item=new QListWidgetItem);
                                                      item->setFlags(item->flags () | Qt::ItemIsEditable); });
-  
+
+ connect(parent, SIGNAL(customContextMenuRequested(const QPoint&)),
+         fileListWidget, SLOT(showContextMenu()));
+
 }
 
 

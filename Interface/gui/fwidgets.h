@@ -165,6 +165,8 @@ private:
   const FString& translate(const FStringList &s);
   QStringList tabLabels = QStringList();
 
+private slots:
+  void showContextMenu();
 
 };
 

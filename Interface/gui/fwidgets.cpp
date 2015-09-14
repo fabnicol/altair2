@@ -245,6 +245,31 @@ FListWidget::FListWidget(QWidget* par,
     }
 
 
+
+
+}
+
+void FListWidget::showContextMenu()
+{
+        QAction* deleteAction = new QAction(tr("Exclure"), this);
+        deleteAction->setIcon(QIcon(":/images/retrieve.png"));
+        QAction* addAction = new QAction(tr("Inclure"), this);
+        addAction->setIcon(QIcon(":/images/include.png"));
+
+        QMenu myMenu;
+        myMenu.addActions({deleteAction, addAction});
+
+        QAction* selectedItem = myMenu.exec(QCursor::pos());
+        if (selectedItem)
+        {
+            // something was chosen, do stuff
+
+        }
+        else
+        {
+            // nothing was chosen
+        }
+
 }
 
 
