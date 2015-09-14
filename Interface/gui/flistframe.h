@@ -27,8 +27,8 @@ private:
 #endif
 
  QList<QListWidget*> widgetContainer;
- FListWidget* fileListWidget;
- QListWidget* currentListWidget;
+ FListWidget *fileListWidget;
+ QListWidget *currentListWidget;
  QString frameHashKey;
 
  void addGroup();
@@ -48,7 +48,7 @@ private:
  Altair* altair;
  
 public:
- 
+ QAction *deleteAction, *addAction;
  QToolButton *importFromMainTree=new QToolButton,
                         *retrieveItemButton=new QToolButton,
                         *clearListButton=new QToolButton,
@@ -77,10 +77,12 @@ inline QList<QListWidget*>  getWidgetContainer() {return widgetContainer;}
 inline int getWidgetContainerCount() {return widgetContainer.size();}
 inline int getWidgetContainerCount(int g) {return widgetContainer[g]->count();}
 inline QListWidget*  getWidgetContainer(int rank) {if (rank < widgetContainer.count()) return widgetContainer[rank]; else return nullptr;}
-inline QListWidget*  getCurrentWidget() { return widgetContainer.at(this->mainTabWidget->currentIndex());}
+inline int getCurrentIndex() { return this->mainTabWidget->currentIndex(); }
+inline QListWidget*  getCurrentWidget() { return widgetContainer.at(getCurrentIndex());}
+inline QString  getCurrentLabel() { return this->mainTabWidget->tabText(getCurrentIndex());}
+inline QString  getLabel(int index) { return this->mainTabWidget->tabText(index);}
 QGroupBox* getControlButtonBox() { return controlButtonBox;}
 void setControlButtonBoxVisible(bool x) {controlButtonBox->setVisible(x);}
-inline int getCurrentIndex() { return this->mainTabWidget->currentIndex(); }
 inline int getCurrentRow() { return getCurrentWidget()->currentRow(); }
 
 void setStatus(flags::status status) {fileListWidget->status=status;}
@@ -126,7 +128,7 @@ protected:
 signals:
     void is_ntabs_changed(int);
     void is_ntracks_changed(int);
-    void isControlButtonClicked();
+
 
 };
 

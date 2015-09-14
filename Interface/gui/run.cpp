@@ -13,13 +13,6 @@ QStringList Altair::createCommandLineString()
     {
         FAbstractWidget* item=w.previous();
         QStringList commandLineChunk=item->commandLineStringList();
-        if (item->getHashKey() == "XHL")
-        {
-            outputTextEdit->append(item->commandLineList[0].toQString());
-            outputTextEdit->append(item->commandLineList[1].toQString());
-            outputTextEdit->append(item->commandLineList[2].toQString());
-        }
-
         if (!commandLineChunk.isEmpty() && !commandLineChunk[0].isEmpty())
             commandLine +=  commandLineChunk;
     }

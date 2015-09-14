@@ -224,8 +224,8 @@ FListWidget::FListWidget(QWidget* par,
     setObjectName(hashKey+" "+description.join(" "));
 
     currentListWidget=new QListWidget;
-    currentListWidget->setSelectionMode(QAbstractItemView::ContiguousSelection);
-    //currentListWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+    currentListWidget->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    currentListWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
     componentList=QList<QWidget*>() << currentListWidget;
 
     componentList[0]->setToolTip(description.at(1));
@@ -244,32 +244,81 @@ FListWidget::FListWidget(QWidget* par,
         createHash(listWidgetTranslationHash, translation, terms);
     }
 
-
-
-
 }
 
 void FListWidget::showContextMenu()
 {
-        QAction* deleteAction = new QAction(tr("Exclure"), this);
-        deleteAction->setIcon(QIcon(":/images/retrieve.png"));
-        QAction* addAction = new QAction(tr("Inclure"), this);
-        addAction->setIcon(QIcon(":/images/include.png"));
-
         QMenu myMenu;
+        QAction *deleteAction = static_cast<FListFrame*>(parent)->deleteAction;
+        QAction *addAction = static_cast<FListFrame*>(parent)->addAction;
         myMenu.addActions({deleteAction, addAction});
+        currentListWidget = static_cast<FListFrame*>(parent)->getCurrentWidget();
+        QString currentLabel = static_cast<FListFrame*>(parent)->getCurrentLabel();
+
 
         QAction* selectedItem = myMenu.exec(QCursor::pos());
-        if (selectedItem)
-        {
-            // something was chosen, do stuff
+        if (selectedItem == nullptr) return;
 
-        }
+        QModelIndexList L=currentListWidget->selectionModel()->selectedRows();
+        int  localrow=0;
+        if (currentListWidget->count() == 0) return;
+        QListWidgetItem *item;
+
+        if (selectedItem == deleteAction)
+        {
+            for (const QModelIndex &index :  L)
+            {
+                localrow = index.row();
+                item = currentListWidget->item(localrow);
+                QFont font = item->font();
+                font.setStrikeOut(true);
+                item->setFont(font);
+                item->setTextColor("red");
+                const QString &str = (currentLabel == "Budget")? item->text() :  item->text().section(' ', 0, 0);
+                Hash::Suppression[str] = true;
+
+            }
+
+          }
         else
+        if (selectedItem == addAction)
         {
-            // nothing was chosen
+           for (const QModelIndex &index :  L)
+           {
+               localrow = index.row();
+               item = currentListWidget->item(localrow);
+               QFont font = item->font();
+               font.setStrikeOut(false);
+               item->setFont(font);
+               item->setTextColor("green");
+               const QString &str = (currentLabel == "Budget")? item->text() :  item->text().section(' ', 0, 0);
+               Hash::Suppression[str] = false;
+
+           }
+
         }
 
+        //QList<QString> suppressedFiles = Hash::Suppression.keys(true);
+
+        for (int j = 0; j < Hash::wrapper["XHL"]->size() - 2 ; ++j)
+        {
+
+                 (*Hash::wrapper["XHL"])[j] = Hash::Annee.keys(static_cast<FListFrame*>(parent)->getLabel(j));
+        }
+
+        for (int j = 0; j < Hash::wrapper["XHL"]->size() - 2; ++j)
+        {
+            for (int i = 0; i < Hash::wrapper["XHL"]->at(j).size(); ++i)
+            {
+                const QString & str = Hash::wrapper["XHL"]->at(j).at(i);
+                if (Hash::Suppression[Hash::Budget[str]]
+                    ||
+                    Hash::Suppression[Hash::Siret[str]])
+                    (*Hash::wrapper["XHL"])[j].removeAt(i);
+            }
+        }
+
+        currentListWidget->setCurrentRow(localrow);
 }
 
 
@@ -331,13 +380,12 @@ void FListWidget::setWidgetFromXml(const FStringList &s)
         if ((this->status & flags::status::widgetMask) == flags::status::hasListCommandLine)
         {
             commandLineList.clear();
-            FStringListIterator i(Hash::wrapper[hashKey]);
-            while (i.hasNext())
+
+            for (const QStringList &strL : *Hash::wrapper[hashKey])
             {
-                commandLineList << separator[1] ;
-                QStringListIterator j(i.next());
-                while (j.hasNext())
-                    commandLineList << j.next();
+                if (strL.isEmpty()) continue;
+                for (const QString &s : strL)
+                    commandLineList << s;
             }
         }
         else
@@ -356,46 +404,34 @@ const FString FListWidget::setXmlFromWidget()
         if ((this->status & flags::status::widgetMask)  == flags::status::hasListCommandLine)
         {
             commandLineList.clear();
-
-            FStringListIterator i(Hash::wrapper[hashKey]);
-            int L = Hash::wrapper[hashKey]->size();
-
-            for (int l=0; l < L; l++)
+            int size = Hash::wrapper[hashKey]->size();
+            // Pour éviter d'inclure les onglets Siret et Budget dans la ligne de commande
+            for (int k = 0; k < size - 2; ++k)
             {
-                QStringList str=i.next();
-                if (str.isEmpty()) continue;
-                commandLineList << separator[1] ;
-                QStringListIterator j(str);
-                while (j.hasNext())
-                {
-                    QString s=j.next();
+                const QStringList strL = Hash::wrapper[hashKey]->at(k);
+                if (strL.isEmpty()) continue;
+                for (const QString &s : strL)
                     commandLineList << s;
-
-                }
             }
 
         }
-
         else
             commandLineList[0]=Hash::wrapper[hashKey]->join(separator);
     }
 
     QList<FStringList>* properties = new QList<FStringList>;
-    FStringListIterator i(Hash::wrapper[hashKey]);
-    while (i.hasNext())
+
+    for (const QStringList &strL :  *Hash::wrapper[hashKey])
     {
-      QStringListIterator w(i.next());
       FStringList fstrl;
-      while (w.hasNext())
+      for (const QString &str : strL)
       {
-          QString str = w.next();
           fstrl  << (QStringList() << Hash::Mois[str] << Hash::Siret[str] << Hash::Budget[str] << Hash::Etablissement[str]);
       }
 
       //on réordonne
 
       *properties <<  fstrl;
-
     }
 
     QStringListIterator k(tabLabels);

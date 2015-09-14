@@ -324,22 +324,35 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
 #ifdef TOLERANT
     cur = cur_save;
 #endif
+
+	cur = atteindreNoeud("NbEnfants", cur);
+	_BULLETIN(NbEnfants)
+#ifdef TOLERANT
     cur = atteindreNoeud("Statut", cur);
+#else
+    cur = cur->next;
+#endif
 
     _BULLETIN(Statut)
     /* dans certains schémas on peut avoir ici des balises */
-    cur = atteindreNoeud("EmploiMetier", cur);
+
 #ifdef TOLERANT
     cur = cur_save;
-    cur = atteindreNoeud("EmploiMetier", cur);
 #endif
+
+    cur = atteindreNoeud("EmploiMetier", cur);
+
     _BULLETIN(EmploiMetier)
 
 #ifdef TOLERANT
     cur = cur_save;
     cur = atteindreNoeud("Grade", cur);
+#else
+    cur = cur->next;
 #endif
+
     _BULLETIN(Grade)
+
 #ifdef TOLERANT
     cur = cur_save;
     cur = atteindreNoeud("Indice", cur);
@@ -373,6 +386,8 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
     cur = cur->xmlChildrenNode;
     cur_save = cur;
     cur = atteindreNoeud("NBI", cur);
+#else
+	cur = cur->next;
 #endif
     nbi :
       BULLETIN_(NBI)
@@ -380,6 +395,9 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
 #ifdef TOLERANT
     cur = cur_save;
     cur = atteindreNoeud("QuotiteTrav", cur);
+#else
+    cur = cur->next;
+    cur = cur->next;
 #endif
 
     /* obligatoire, substitution du séparateur décimal */

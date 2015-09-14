@@ -1,16 +1,14 @@
-﻿Build started 11/09/2015 23:35:10.
+﻿Build started 12/09/2015 00:35:32.
      1>Project "C:\Dev\altair\lhx\msvs2015\msvs2015\msvs2015.vcxproj" on node 2 (Rebuild target(s)).
-     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (x64\Release\) contains files shared from another project (msvs2015.vcxproj).  This can lead to incorrect clean and rebuild behavior.
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /IC:\Dev\altair\lhx\include /Zi /nologo /W1 /WX- /O2 /Oi /D TOLERANT /D GCC_REGEX /D NO_DEBUG /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"x64\Release\\" /Fd"x64\Release\vc140.pdb" /Gd /TP /errorReport:prompt ..\..\copyfile.cpp ..\..\fonctions_auxiliaires.cpp ..\..\main.cpp ..\..\table.cpp ..\..\validator.cpp
+         C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2016\windows\bin\Intel64\icl.exe /c /Qm64 /IC:\Dev\altair\lhx\include /Zi /nologo /W1 /Ox /Oi /Qipo /Qftz /D __INTEL_COMPILER=1600 /D TBB_USE_THREADING_TOOLS /D MKL_ILP64 /D _IPP_SEQUENTIAL_DYNAMIC /D _DAAL_PAR_STATIC /D TOLERANT /D GCC_REGEX /D NO_DEBUG /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /EHsc /MD /GS /Gy /Qoffload-option,mic,compiler,"-mkl=parallel  -tbb" /Qopenmp-offload- /Zc:wchar_t /Zc:forScope /Fo"x64\Release\\" /Fd"x64\Release\vc140.pdb" /TP ..\..\copyfile.cpp ..\..\fonctions_auxiliaires.cpp ..\..\main.cpp ..\..\table.cpp ..\..\validator.cpp
          copyfile.cpp
          fonctions_auxiliaires.cpp
          main.cpp
          table.cpp
          validator.cpp
-         Generating Code...
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Dev\altair\lhx\msvs2015\x64\Release\lhx_2015.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:C:\Dev\altair\lhx\lib libxml2.dll.a kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Dev\altair\lhx\msvs2015\x64\Release\lhx_2015.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Dev\altair\lhx\msvs2015\x64\Release\lhx_2015.lib" /MACHINE:X64 x64\Release\copyfile.obj
+         C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2016\windows\bin\Intel64\xilink.exe -qm64 /OUT:"C:\Dev\altair\lhx\msvs2015\x64\Release\lhx_2015.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:C:\Dev\altair\lhx\lib mkl_intel_ilp64_dll.lib mkl_tbb_thread_dll.lib mkl_core_dll.lib tbb.lib libxml2.dll.a kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Dev\altair\lhx\msvs2015\x64\Release\lhx_2015.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /qoffload-ldopts="-tbb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Dev\altair\lhx\msvs2015\x64\Release\lhx_2015.lib" /MACHINE:X64 x64\Release\copyfile.obj
          x64\Release\fonctions_auxiliaires.obj
          x64\Release\main.obj
          x64\Release\table.obj
@@ -20,4 +18,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:02.46
+Time Elapsed 00:00:07.07
