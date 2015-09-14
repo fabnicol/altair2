@@ -42,8 +42,8 @@ MainWindow::MainWindow(char* projectName)
   setCentralWidget(altair);
 
   altair->addActions(actionList);
-  altair->setContextMenuPolicy(Qt::ActionsContextMenu);
-  altair->setContextMenuPolicy(Qt::ActionsContextMenu);
+  //altair->setContextMenuPolicy(Qt::ActionsContextMenu);
+
 
   bottomDockWidget=new QDockWidget;
   bottomTabWidget=new QTabWidget;
