@@ -27,7 +27,6 @@ private:
 #endif
 
  QList<QListWidget*> widgetContainer;
-
  FListWidget* fileListWidget;
  QListWidget* currentListWidget;
  QString frameHashKey;

@@ -152,6 +152,8 @@ Altair::Altair()
     allLayout->addLayout(mainLayout);
     allLayout->addLayout(managerLayout);
 
+    setContextMenuPolicy(Qt::CustomContextMenu);
+
     setLayout(allLayout);
     setWindowTitle(tr("altair-author"));
     const QIcon altairIcon=QIcon(QString::fromUtf8( ":/images/altair.png"));
