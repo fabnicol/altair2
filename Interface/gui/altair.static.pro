@@ -6,7 +6,7 @@ greaterThan(QT_MAJOR_VERSION, 5)
 
 # Ensure that library is built before application
 
-CONFIG  += ordered static
+CONFIG  += ordered #static
 
 #use at least Qt5.1 with g++-4.8 for windows
 
@@ -28,7 +28,7 @@ DEFINES += QT_NO_OPENGL \
 
 windows:RC_ICONS = neptune.ico
 
-linux: QMAKE_CXXFLAGS += -std=gnu++11 -march=native -O3 
+linux: QMAKE_CXXFLAGS += -std=gnu++11 -march=native -O3
 windows: QMAKE_CXXFLAGS += /Ox /MP
 linux: QMAKE_LFLAGS += -s
 

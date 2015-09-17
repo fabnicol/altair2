@@ -48,7 +48,7 @@ private:
  Altair* altair;
  
 public:
- QAction *deleteAction, *addAction;
+ //QAction *deleteAction, *addAction;
  QToolButton *importFromMainTree=new QToolButton,
                         *retrieveItemButton=new QToolButton,
                         *clearListButton=new QToolButton,
