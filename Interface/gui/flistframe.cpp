@@ -137,12 +137,13 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
  addAction = new QAction(tr("Inclure"), this);
  addAction->setIcon(QIcon(":/images/include.png"));
 
- connect(parent, SIGNAL(customContextMenuRequested(const QPoint&)),
-         fileListWidget, SLOT(showContextMenu()));
+ connect(reinterpret_cast<QWidget*>(parent), &QWidget::customContextMenuRequested,
+                         [&] {
+                                 fileListWidget->showContextMenu();
+                                 altair->updateProject();
+                             });
 
 }
-
-
 
 void FListFrame::list_connect(FComboBox* w)
 {
@@ -703,25 +704,23 @@ void FListFrame::on_importFromMainTree_clicked()
  
  altair->outputTextEdit->append(STATE_HTML_TAG " Parcours de l'arbre " );
 
-
-
  if (importType == flags::importFiles)
     {
-     for (const QModelIndex& index : indexList)
-       {
-         const QString path = model->filePath(index);
-         if (! path.isEmpty()) 
-         {
-             stringListSize++;
-             stringsToBeAdded << path;
-         }
-       }
+        for (const QModelIndex& index : indexList)
+          {
+             const QString path = model->filePath(index);
+             if (! path.isEmpty())
+             {
+                 stringListSize++;
+                 stringsToBeAdded << path;
+             }
+          }
 
-     altair->outputTextEdit->append(STATE_HTML_TAG " Ajout des chemins à la liste centrale" );
+         altair->outputTextEdit->append(STATE_HTML_TAG " Ajout des chemins à la liste centrale" );
 
-     if (stringListSize) 
-         addParsedTreeToListWidget(stringsToBeAdded);
-    }
+         if (stringListSize)
+             addParsedTreeToListWidget(stringsToBeAdded);
+     }
 
 }
 

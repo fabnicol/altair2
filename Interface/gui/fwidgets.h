@@ -147,6 +147,7 @@ public:
 
   void refreshWidgetDisplay();
   bool isAbstractEnabled() {return this->isEnabled();}
+  void showContextMenu();
 
   QListWidget* currentListWidget;
   void setSeparator(QStringList sep) { separator=sep;}
@@ -154,7 +155,7 @@ public:
   void clearTabLabels() { tabLabels.clear();}
   QStringList getTabLabels() { return tabLabels;}
   QStringList separator;
-    
+
 private:
   QStringList tags;
   QWidget* parent;
@@ -164,9 +165,6 @@ private:
   QHash<QString, QString> listWidgetTranslationHash;
   const FString& translate(const FStringList &s);
   QStringList tabLabels = QStringList();
-
-private slots:
-  void showContextMenu();
 
 };
 
