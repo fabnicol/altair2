@@ -249,79 +249,91 @@ FListWidget::FListWidget(QWidget* par,
 void FListWidget::showContextMenu()
 {
         QMenu myMenu;
+        QAction* selectedItem = myMenu.exec(QCursor::pos());
+        if (selectedItem == nullptr) return;
+
         QAction *deleteAction = static_cast<FListFrame*>(parent)->deleteAction;
         QAction *addAction = static_cast<FListFrame*>(parent)->addAction;
         myMenu.addActions({deleteAction, addAction});
         currentListWidget = static_cast<FListFrame*>(parent)->getCurrentWidget();
         QString currentLabel = static_cast<FListFrame*>(parent)->getCurrentLabel();
 
-
-        QAction* selectedItem = myMenu.exec(QCursor::pos());
-        if (selectedItem == nullptr) return;
-
         QModelIndexList L=currentListWidget->selectionModel()->selectedRows();
-        int  localrow=0;
+
         if (currentListWidget->count() == 0) return;
-        QListWidgetItem *item;
 
-        if (selectedItem == deleteAction)
+        int size = Hash::wrapper["XHL"]->size();
+        int localrow = 0;
+        bool isDeleteAction = (selectedItem == deleteAction);
+
+        for (const QModelIndex &index :  L)
         {
-            for (const QModelIndex &index :  L)
-            {
-                localrow = index.row();
-                item = currentListWidget->item(localrow);
-                QFont font = item->font();
-                font.setStrikeOut(true);
-                item->setFont(font);
-                item->setTextColor("red");
-                const QString &str = (currentLabel == "Budget")? item->text() :  item->text().section(' ', 0, 0);
-                Hash::Suppression[str] = true;
+            QString str;
+            QListWidgetItem *item = currentListWidget->item(localrow = index.row());
+            QFont font = item->font();
 
+            if (currentLabel != "Budget")
+            {
+                str = item->text().section(' ', 0, 0);
+                if (size > 2)
+                {
+                    if (isDeleteAction)
+                        (*Hash::wrapper["XHL"])[size - 2].removeOne(item->text());
+                    else
+                    {
+                        (*Hash::wrapper["XHL"])[size - 2] << item->text();
+                        (*Hash::wrapper["XHL"])[size - 2].removeDuplicates();
+                    }
+                 }
+            }
+            else
+            {
+                str =  item->text();
+
+                if (size > 1)
+                {
+                    if (isDeleteAction)
+                        (*Hash::wrapper["XHL"])[size - 1].removeOne(str);
+                    else
+                    {
+                        (*Hash::wrapper["XHL"])[size - 1] << item->text();
+                        (*Hash::wrapper["XHL"])[size - 1].removeDuplicates();
+                    }
+                 }
             }
 
-          }
-        else
-        if (selectedItem == addAction)
-        {
-           for (const QModelIndex &index :  L)
-           {
-               localrow = index.row();
-               item = currentListWidget->item(localrow);
-               QFont font = item->font();
-               font.setStrikeOut(false);
-               item->setFont(font);
-               item->setTextColor("green");
-               const QString &str = (currentLabel == "Budget")? item->text() :  item->text().section(' ', 0, 0);
-               Hash::Suppression[str] = false;
-
-           }
-
+            font.setStrikeOut(isDeleteAction);
+            item->setFont(font);
+            item->setTextColor(isDeleteAction ? "red" : "green");
+            Hash::Suppression[str] = isDeleteAction ;
         }
-
-        //QList<QString> suppressedFiles = Hash::Suppression.keys(true);
 
         for (int j = 0; j < Hash::wrapper["XHL"]->size() - 2 ; ++j)
         {
+            (*Hash::wrapper["XHL"])[j] =
+                    QStringList(Hash::Annee.keys(static_cast<FListFrame*>(parent)->getLabel(j)));
 
-                 (*Hash::wrapper["XHL"])[j] = Hash::Annee.keys(static_cast<FListFrame*>(parent)->getLabel(j));
-        }
+            (*Hash::wrapper["XHL"])[j].sort();
 
-        for (int j = 0; j < Hash::wrapper["XHL"]->size() - 2; ++j)
-        {
-            for (int i = 0; i < Hash::wrapper["XHL"]->at(j).size(); ++i)
+            QStringList L;
+            for (const QString & str : (*Hash::wrapper["XHL"])[j])
             {
-                const QString & str = Hash::wrapper["XHL"]->at(j).at(i);
-                if (Hash::Suppression[Hash::Budget[str]]
-                    ||
-                    Hash::Suppression[Hash::Siret[str]])
-                    (*Hash::wrapper["XHL"])[j].removeAt(i);
+                //Q(str + " "+ Hash::Budget[str] + " " + QString::number(Hash::Suppression[Hash::Budget[str]]))
+                if (! Hash::Suppression[Hash::Budget[str]]
+                    &&
+                    ! Hash::Suppression[Hash::Siret[str]])
+
+                {
+                     L << str;
+                }
             }
+
+            (*Hash::wrapper["XHL"])[j] = L;
+
         }
 
         currentListWidget->setCurrentRow(localrow);
 }
-
-
 
 const FString& FListWidget::translate(const FStringList &s)
 {
