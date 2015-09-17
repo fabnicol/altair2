@@ -132,10 +132,7 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
                                                      currentListWidget->addItem(item=new QListWidgetItem);
                                                      item->setFlags(item->flags () | Qt::ItemIsEditable); });
 
- deleteAction = new QAction(tr("Exclure"), this);
- deleteAction->setIcon(QIcon(":/images/retrieve.png"));
- addAction = new QAction(tr("Inclure"), this);
- addAction->setIcon(QIcon(":/images/include.png"));
+
 
  connect(reinterpret_cast<QWidget*>(parent), &QWidget::customContextMenuRequested,
                          [&] {

@@ -248,13 +248,16 @@ FListWidget::FListWidget(QWidget* par,
 
 void FListWidget::showContextMenu()
 {
+        QAction *deleteAction = new QAction(tr("Exclure"), this);
+        deleteAction->setIcon(QIcon(":/images/retrieve.png"));
+        QAction *addAction = new QAction(tr("Inclure"), this);
+        addAction->setIcon(QIcon(":/images/include.png"));
         QMenu myMenu;
+
+        myMenu.addActions({deleteAction, addAction});
         QAction* selectedItem = myMenu.exec(QCursor::pos());
         if (selectedItem == nullptr) return;
 
-        QAction *deleteAction = static_cast<FListFrame*>(parent)->deleteAction;
-        QAction *addAction = static_cast<FListFrame*>(parent)->addAction;
-        myMenu.addActions({deleteAction, addAction});
         currentListWidget = static_cast<FListFrame*>(parent)->getCurrentWidget();
         QString currentLabel = static_cast<FListFrame*>(parent)->getCurrentLabel();
 
