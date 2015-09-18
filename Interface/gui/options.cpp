@@ -331,6 +331,7 @@ options::options(Altair* parent)
 void options::clearOptionData()
 {
     Hash::wrapper.clear();
+    Hash::Reference.clear();
   
     options::RefreshFlag = interfaceStatus::optionTabs;
 }
