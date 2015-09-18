@@ -29,6 +29,7 @@ public:
   static QHash<QString, QString> Siret;
   static QHash<QString, QString> Etablissement;
   static QHash<QString, bool>    Suppression;
+  static QHash<int, QStringList> Reference;
 
 };
 

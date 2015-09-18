@@ -68,8 +68,6 @@ struct Abstract
     static void initializeFStringListHash(const QString &hashKey)
     {
         Hash::wrapper[hashKey]=new FStringList;
-//        *Hash::wrapper[hashKey] << QStringList();
-//        Hash::counter[hashKey]=0;
     }
 
     static void initializeFStringListHashes()
