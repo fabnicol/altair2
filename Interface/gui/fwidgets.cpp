@@ -248,94 +248,107 @@ FListWidget::FListWidget(QWidget* par,
 
 void FListWidget::showContextMenu()
 {
+
+        currentListWidget = static_cast<FListFrame*>(parent)->getCurrentWidget();
+        int currentIndex = static_cast<FListFrame*>(parent)->getCurrentIndex();
+
+        QModelIndexList L = currentListWidget->selectionModel()->selectedRows();
+
+        if (currentListWidget->count() == 0) return;
+
         QAction *deleteAction = new QAction(tr("Exclure"), this);
         deleteAction->setIcon(QIcon(":/images/retrieve.png"));
         QAction *addAction = new QAction(tr("Inclure"), this);
         addAction->setIcon(QIcon(":/images/include.png"));
+
         QMenu myMenu;
+        const int size = Hash::wrapper["XHL"]->size();
 
         myMenu.addActions({deleteAction, addAction});
+
+#ifdef USE_RIGHT_CLICK
+        QAction *deleteGroupAction = new QAction(tr("Enlever l'onglet courant"), this);
+        const QIcon iconDelete = QIcon(QString::fromUtf8( ":/images/tab-close-other.png"));
+        deleteGroupAction->setIcon(iconDelete);
+
+        if (currentIndex < size - 2)
+            myMenu.addActions({deleteGroupAction});
+#endif
+
         QAction* selectedItem = myMenu.exec(QCursor::pos());
         if (selectedItem == nullptr) return;
 
-        currentListWidget = static_cast<FListFrame*>(parent)->getCurrentWidget();
-        QString currentLabel = static_cast<FListFrame*>(parent)->getCurrentLabel();
-
-        QModelIndexList L=currentListWidget->selectionModel()->selectedRows();
-
-        if (currentListWidget->count() == 0) return;
-
-        int size = Hash::wrapper["XHL"]->size();
-        int localrow = 0;
-        bool isDeleteAction = (selectedItem == deleteAction);
-
-        for (const QModelIndex &index :  L)
+        if (currentIndex >= size -2)
         {
-            QString str;
-            QListWidgetItem *item = currentListWidget->item(localrow = index.row());
-            QFont font = item->font();
+            int localrow = 0;
+            bool isDeleteAction = (selectedItem == deleteAction);
 
-            if (currentLabel != "Budget")
+            for (const QModelIndex &index :  L)
             {
-                str = item->text().section(' ', 0, 0);
-                if (size > 2)
+                QString str;
+                QListWidgetItem *item = currentListWidget->item(localrow = index.row());
+                QFont font = item->font();
+
+                if (isDeleteAction)
+                    (*Hash::wrapper["XHL"])[currentIndex].removeOne(item->text());
+                else
                 {
-                    if (isDeleteAction)
-                        (*Hash::wrapper["XHL"])[size - 2].removeOne(item->text());
-                    else
-                    {
-                        (*Hash::wrapper["XHL"])[size - 2] << item->text();
-                        (*Hash::wrapper["XHL"])[size - 2].removeDuplicates();
-                    }
-                 }
-            }
-            else
-            {
-                str =  item->text();
-
-                if (size > 1)
-                {
-                    if (isDeleteAction)
-                        (*Hash::wrapper["XHL"])[size - 1].removeOne(str);
-                    else
-                    {
-                        (*Hash::wrapper["XHL"])[size - 1] << item->text();
-                        (*Hash::wrapper["XHL"])[size - 1].removeDuplicates();
-                    }
-                 }
-            }
-
-            font.setStrikeOut(isDeleteAction);
-            item->setFont(font);
-            item->setTextColor(isDeleteAction ? "red" : "green");
-            Hash::Suppression[str] = isDeleteAction ;
-        }
-
-        for (int j = 0; j < Hash::wrapper["XHL"]->size() - 2 ; ++j)
-        {
-            (*Hash::wrapper["XHL"])[j] =
-                    QStringList(Hash::Annee.keys(static_cast<FListFrame*>(parent)->getLabel(j)));
-
-            (*Hash::wrapper["XHL"])[j].sort();
-
-            QStringList L;
-            for (const QString & str : (*Hash::wrapper["XHL"])[j])
-            {
-                //Q(str + " "+ Hash::Budget[str] + " " + QString::number(Hash::Suppression[Hash::Budget[str]]))
-                if (! Hash::Suppression[Hash::Budget[str]]
-                    &&
-                    ! Hash::Suppression[Hash::Siret[str]])
-
-                {
-                     L << str;
+                    (*Hash::wrapper["XHL"])[currentIndex] << item->text();
+                    (*Hash::wrapper["XHL"])[currentIndex].removeDuplicates();
                 }
+
+                if (currentIndex
+
+                   ==  size - 2)
+
+                    str = item->text().section(' ', 0, 0);
+                else
+                if  (currentIndex
+
+                   == size - 1)
+
+                    str =  item->text();
+
+
+                Hash::Suppression[str] = isDeleteAction ;
+
+                font.setStrikeOut(isDeleteAction);
+                item->setFont(font);
+                item->setTextColor(isDeleteAction ? "red" : "green");
             }
 
-            (*Hash::wrapper["XHL"])[j] = L;
+            for (int j = 0; j < Hash::wrapper["XHL"]->size() - 2 ; ++j)
+            {
+                (*Hash::wrapper["XHL"])[j] =
+                        QStringList(Hash::Annee.keys(static_cast<FListFrame*>(parent)->getLabel(j)));
 
+                (*Hash::wrapper["XHL"])[j].sort();
+
+                QStringList L;
+                for (const QString & str : (*Hash::wrapper["XHL"])[j])
+                {
+                    //Q(str + " "+ Hash::Budget[str] + " " + QString::number(Hash::Suppression[Hash::Budget[str]]))
+                    if (! Hash::Suppression[Hash::Budget[str]]
+                        &&
+                        ! Hash::Suppression[Hash::Siret[str]])
+
+                    {
+                         L << str;
+                    }
+                }
+
+                (*Hash::wrapper["XHL"])[j] = L;
+
+            }
+
+            currentListWidget->setCurrentRow(localrow);
+        }
+        else
+        {
+            if (selectedItem == deleteGroupAction)
+                static_cast<FListFrame*>(parent)->deleteGroup();
         }
 
-        currentListWidget->setCurrentRow(localrow);
 }
 
 const FString& FListWidget::translate(const FStringList &s)

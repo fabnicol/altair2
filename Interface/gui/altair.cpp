@@ -119,7 +119,6 @@ Altair::Altair()
     });
     project[0]->importFromMainTree->setVisible(visibility);
     connect(project[0]->retrieveItemButton, SIGNAL(clicked()), this, SLOT(on_deleteItem_clicked()));
-    connect(project[0]->clearListButton, &QToolButton::clicked, [this] { updateProject(); displayTotalSize(); });
 
     projectLayout->addWidget(project[0]->tabBox, 0,2);
     updownLayout->addWidget(project[0]->getControlButtonBox(), 0,0);
