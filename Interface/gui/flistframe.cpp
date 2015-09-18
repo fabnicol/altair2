@@ -8,7 +8,7 @@
 FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_type, const QString &hashKey,
                          const QStringList &description, const QString &command_line, int cli_type, const QStringList &separator, const QStringList &xml_tags,
                          common::TabWidgetTrait mainTabWidgetRank, QIcon *icon, QTabWidget *parentTabWidget,
-                         QStringList* terms, QStringList* translation, bool showAddItemButtonValue)
+                         QStringList* terms, QStringList* translation)
 
 {
 
@@ -16,7 +16,7 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
  altair = static_cast<Altair*>(parent);
 
  currentIndex=0;  // necessary for project parsing
- showAddItemButton=showAddItemButtonValue;
+
  importType=import_type;
  tags=xml_tags;
  fileTreeView=tree;
@@ -76,7 +76,7 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
  importFromMainTree->setIcon(importIcon);
  importFromMainTree->setIconSize(QSize(22, 22));
 
-
+#ifndef USE_RIGHT_CLICK
  deleteGroupButton->setToolTip(tr("Enlever l'onglet courant"));
  const QIcon iconDelete = QIcon(QString::fromUtf8( ":/images/tab-close-other.png"));
  deleteGroupButton->setIcon(iconDelete);
@@ -88,57 +88,37 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
  retrieveItemButton->setIcon(iconRetrieve);
  retrieveItemButton->setIconSize(QSize(22, 22));
 
- clearListButton->setToolTip(tr("Effacer tout"));
- const QIcon clearIcon = QIcon(QString::fromUtf8( ":/images/edit-clear.png"));
- clearListButton->setIcon(clearIcon);
- clearListButton->setIconSize(QSize(22,22));
-
- addItemButton=new QToolButton;
- addItemButton->setToolTip(tr("Ajouter un fichier"));
- const QIcon addItemIcon = QIcon(QString::fromUtf8( ":/images/list-add.png"));
- addItemButton->setIcon(addItemIcon);
- addItemButton->setIconSize(QSize(22,22));
- 
  QGridLayout *controlButtonLayout=new QGridLayout;
 
- if (showAddItemButton) 
-     controlButtonLayout->addWidget(addItemButton, 1+ showAddItemButton,1,1,1,Qt::AlignCenter);
- controlButtonLayout->addWidget(retrieveItemButton, 2+ showAddItemButton,1,1,1,Qt::AlignCenter);
- controlButtonLayout->setRowMinimumHeight(4+ showAddItemButton, 50);
- controlButtonLayout->addWidget(clearListButton, 4+ showAddItemButton, 1,1,1, Qt::AlignTop);
- controlButtonLayout->addWidget(deleteGroupButton, 6+ showAddItemButton,1,1,1,Qt::AlignCenter);
+ controlButtonLayout->addWidget(retrieveItemButton, 2,1,1,1,Qt::AlignCenter);
+ controlButtonLayout->setRowMinimumHeight(4, 50);
+ controlButtonLayout->addWidget(clearListButton, 4, 1,1,1, Qt::AlignTop);
+ controlButtonLayout->addWidget(deleteGroupButton, 6,1,1,1,Qt::AlignCenter);
   
  controlButtonBox->setLayout(controlButtonLayout);
  controlButtonBox->setFlat(true);
+ connect(deleteGroupButton, SIGNAL(clicked()),  this, SLOT(deleteGroup()));
+ connect(retrieveItemButton, SIGNAL(clicked()), this, SLOT(on_deleteItem_clicked()));
+
+#endif
 
  QVBoxLayout *tabLayout=new QVBoxLayout;
  tabLayout->addWidget(embeddingTabWidget);
  tabBox->setLayout(tabLayout);
  tabBox->setFlat(true);
 
-  if (importType == flags::typeIn)
+ if (importType == flags::typeIn)
  {
      currentListWidget->setEditTriggers(QAbstractItemView::AllEditTriggers);
  }
 
- 
- connect(deleteGroupButton, SIGNAL(clicked()), this, SLOT(deleteGroup()));
  connect(importFromMainTree, SIGNAL(clicked()), this,  SLOT(on_importFromMainTree_clicked()));
- connect(clearListButton, SIGNAL(clicked()), this, SLOT(on_clearList_clicked()));
- connect(retrieveItemButton, SIGNAL(clicked()), this, SLOT(on_deleteItem_clicked()));
- connect(addItemButton, &QToolButton::clicked,  [&]{
-                                                     updateIndexInfo();
-                                                     QListWidgetItem *item;
-                                                     currentListWidget->addItem(item=new QListWidgetItem);
-                                                     item->setFlags(item->flags () | Qt::ItemIsEditable); });
-
-
-
  connect(reinterpret_cast<QWidget*>(parent), &QWidget::customContextMenuRequested,
                          [&] {
                                  fileListWidget->showContextMenu();
                                  altair->updateProject();
                              });
+
 
 }
 
@@ -168,29 +148,6 @@ void FListFrame::total_connect(FListFrame* w)
     setSlotListSize(0);
 }
 
-
-void FListFrame::on_clearList_clicked(int currentIndex)
-{
-  if (currentIndex == -1)
-   {
-      updateIndexInfo();
-      currentIndex=this->currentIndex;
-   }
-
-  if (Hash::wrapper[frameHashKey]->count() < currentIndex+1) return;
-
-  widgetContainer[currentIndex]->clear();
-
-  /* Warning : use *[], not ->value, to modifie any list content, even subordinate */
-
-  int count = (*Hash::wrapper[frameHashKey])[currentIndex].count();
-  
-  Hash::counter[frameHashKey] -= count;
-  (*Hash::wrapper[frameHashKey])[currentIndex].clear();
-
-  updateIndexInfo();
-  emit(is_ntracks_changed(Hash::counter[frameHashKey]));
-}
 
 void FListFrame::on_deleteItem_clicked()
 {
@@ -247,11 +204,7 @@ void FListFrame::addGroup()
         fileListWidget->currentListWidget = currentListWidget;
         currentListWidget->setSelectionMode(QAbstractItemView::ExtendedSelection);
         currentListWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
-        if (showAddItemButton) 
-        {
-            currentListWidget->setEditTriggers(QAbstractItemView::AllEditTriggers);
-        }
-        
+
         widgetContainer << currentListWidget;
         if (getRank() ==  Hash::wrapper[frameHashKey]->size())
         {
@@ -279,7 +232,14 @@ void FListFrame::addGroups(int n)
 void FListFrame::deleteAllGroups(bool insertFirstGroup, bool eraseAllData)
 {
    // mainTabWidget->clear();
-    on_clearList_clicked(0);
+
+    widgetContainer[0]->clear();
+
+    int count = (*Hash::wrapper[frameHashKey])[0].count();
+    Hash::counter[frameHashKey] -= count;
+    (*Hash::wrapper[frameHashKey])[0].clear();
+
+    updateIndexInfo();
 
     /* cleanly wipe out main Hash */
 
