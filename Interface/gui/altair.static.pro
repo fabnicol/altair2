@@ -24,7 +24,8 @@ VPATH = .
 DEFINES += QT_NO_OPENGL \
            STATIC  \ 
            LOCAL_BINPATH \
-           REGEX_PARSING_FOR_HEADERS
+           REGEX_PARSING_FOR_HEADERS \
+           USE_RIGHT_CLICK
 
 windows:RC_ICONS = neptune.ico
 

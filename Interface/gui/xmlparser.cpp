@@ -8,7 +8,7 @@ inline const QString Altair::makeParserString(int start, int end)
 
     QStringList L=QStringList();
     int listsize = Abstract::abstractWidgetList.size();
-    for (int j = start; j <= end & j < listsize; j++)
+    for (int j = start; j <= end && j < listsize; j++)
     {
 
         FAbstractWidget* widget = Abstract::abstractWidgetList.at(j);
@@ -269,7 +269,7 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
                                          const QList<QStringList> &stackedInfo,
                                          const QList<QStringList> &stackedSizeInfo)
 {
-    int count=0, tagcount=0, yearcount=0,l;
+    int count=0, tagcount=0, l;
     qint64 filesizecount=0;
 
     QString firstColumn,
