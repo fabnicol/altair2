@@ -35,7 +35,6 @@ private:
  void clearTabLabels() {fileListWidget->clearTabLabels();}
 
  int row, currentIndex,  slotListSize;
- bool showAddItemButton=false;
  bool isListConnected=false;
  bool isTotalConnected=false;
  bool activateOnStart=false;
@@ -48,11 +47,9 @@ private:
  Altair* altair;
  
 public:
- QAction *deleteAction, *addAction;
+
  QToolButton *importFromMainTree=new QToolButton,
                         *retrieveItemButton=new QToolButton,
-                        *clearListButton=new QToolButton,
-                        *addItemButton=new QToolButton,
                         *deleteGroupButton=new QToolButton;
  
  QTabWidget *mainTabWidget, *embeddingTabWidget;
@@ -105,7 +102,7 @@ inline int  getSlotListSize() {  return (isListConnected == true || isTotalConne
 FListFrame(QObject* parent,  QAbstractItemView * fileTreeView, short import_type, const QString &hashKey,
             const QStringList &description, const QString &command_line, int commandLineType, const QStringList &separator, const QStringList &xml_tags,
             common::TabWidgetTrait mainTabWidgetRank=common::TabWidgetTrait::NO_EMBEDDING_TAB_WIDGET, QIcon* icon=nullptr, QTabWidget* parentTabWidget=nullptr,
-           QStringList* terms=nullptr, QStringList* translation=nullptr, bool showAddItemB =false);
+           QStringList* terms=nullptr, QStringList* translation=nullptr);
 
 
 public slots:
@@ -113,7 +110,6 @@ public slots:
     void deleteGroup();
     void deleteGroup(int r, int R);
     void on_deleteItem_clicked();
-    void on_clearList_clicked(int currentIndex=-1);
     void  setSlotListSize(int s) ;
     void addGroups(int);
 

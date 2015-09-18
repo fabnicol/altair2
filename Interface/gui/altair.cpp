@@ -119,7 +119,6 @@ Altair::Altair()
     });
     project[0]->importFromMainTree->setVisible(visibility);
     connect(project[0]->retrieveItemButton, SIGNAL(clicked()), this, SLOT(on_deleteItem_clicked()));
-    connect(project[0]->clearListButton, &QToolButton::clicked, [this] { updateProject(); displayTotalSize(); });
 
     projectLayout->addWidget(project[0]->tabBox, 0,2);
     updownLayout->addWidget(project[0]->getControlButtonBox(), 0,0);
@@ -179,10 +178,12 @@ void Altair::refreshRowPresentation(uint j)
     widget->setPalette(palette);
     widget->setAlternatingRowColors(true);
     widget->setFont(font);
-
-    for (int r=0; (r < widget->count()) && (r < Hash::wrapper["XHL"]->at(j).size()); r++ )
+    QStringList strL = Hash::wrapper["XHL"]->at(j);
+    strL.sort();
+    int size = strL.size();
+    for (int r=0; (r < widget->count()) && (r < size); r++ )
     {
-        widget->item(r)->setText(Hash::wrapper.value("XHL")->at(j).at(r).section('/',-1));
+        widget->item(r)->setText(strL.at(r).section('/',-1));
         widget->item(r)->setTextColor(QColor("navy"));
     }
 }

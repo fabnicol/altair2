@@ -8,7 +8,7 @@
 FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_type, const QString &hashKey,
                          const QStringList &description, const QString &command_line, int cli_type, const QStringList &separator, const QStringList &xml_tags,
                          common::TabWidgetTrait mainTabWidgetRank, QIcon *icon, QTabWidget *parentTabWidget,
-                         QStringList* terms, QStringList* translation, bool showAddItemButtonValue)
+                         QStringList* terms, QStringList* translation)
 
 {
 
@@ -16,7 +16,7 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
  altair = static_cast<Altair*>(parent);
 
  currentIndex=0;  // necessary for project parsing
- showAddItemButton=showAddItemButtonValue;
+
  importType=import_type;
  tags=xml_tags;
  fileTreeView=tree;
@@ -55,7 +55,7 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
        {
            embeddingTabWidget->insertTab(static_cast<int>(mainTabWidgetRank), mainTabWidget, *icon, "");
            embeddingTabWidget->setIconSize(QSize(48,48));
-           embeddingTabWidget->setMovable(true);
+           embeddingTabWidget->setMovable(false);
            embeddingTabWidget->setTabToolTip(static_cast<int>(mainTabWidgetRank), description.at(0));
        }
      else
@@ -70,13 +70,13 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
 
 
  mainTabWidget->addTab(currentListWidget, xml_tags[1]+" 1");
- mainTabWidget->setMovable(true);
+ mainTabWidget->setMovable(false);
 
  const QIcon importIcon = QIcon(QString::fromUtf8( ":/images/document-import.png"));
  importFromMainTree->setIcon(importIcon);
  importFromMainTree->setIconSize(QSize(22, 22));
 
-
+#ifndef USE_RIGHT_CLICK
  deleteGroupButton->setToolTip(tr("Enlever l'onglet courant"));
  const QIcon iconDelete = QIcon(QString::fromUtf8( ":/images/tab-close-other.png"));
  deleteGroupButton->setIcon(iconDelete);
@@ -88,60 +88,37 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
  retrieveItemButton->setIcon(iconRetrieve);
  retrieveItemButton->setIconSize(QSize(22, 22));
 
- clearListButton->setToolTip(tr("Effacer tout"));
- const QIcon clearIcon = QIcon(QString::fromUtf8( ":/images/edit-clear.png"));
- clearListButton->setIcon(clearIcon);
- clearListButton->setIconSize(QSize(22,22));
-
- addItemButton=new QToolButton;
- addItemButton->setToolTip(tr("Ajouter un fichier"));
- const QIcon addItemIcon = QIcon(QString::fromUtf8( ":/images/list-add.png"));
- addItemButton->setIcon(addItemIcon);
- addItemButton->setIconSize(QSize(22,22));
- 
  QGridLayout *controlButtonLayout=new QGridLayout;
 
- if (showAddItemButton) 
-     controlButtonLayout->addWidget(addItemButton, 1+ showAddItemButton,1,1,1,Qt::AlignCenter);
- controlButtonLayout->addWidget(retrieveItemButton, 2+ showAddItemButton,1,1,1,Qt::AlignCenter);
- controlButtonLayout->setRowMinimumHeight(4+ showAddItemButton, 50);
- controlButtonLayout->addWidget(clearListButton, 4+ showAddItemButton, 1,1,1, Qt::AlignTop);
- controlButtonLayout->addWidget(deleteGroupButton, 6+ showAddItemButton,1,1,1,Qt::AlignCenter);
+ controlButtonLayout->addWidget(retrieveItemButton, 2,1,1,1,Qt::AlignCenter);
+ controlButtonLayout->setRowMinimumHeight(4, 50);
+ controlButtonLayout->addWidget(clearListButton, 4, 1,1,1, Qt::AlignTop);
+ controlButtonLayout->addWidget(deleteGroupButton, 6,1,1,1,Qt::AlignCenter);
   
  controlButtonBox->setLayout(controlButtonLayout);
  controlButtonBox->setFlat(true);
+ connect(deleteGroupButton, SIGNAL(clicked()),  this, SLOT(deleteGroup()));
+ connect(retrieveItemButton, SIGNAL(clicked()), this, SLOT(on_deleteItem_clicked()));
+
+#endif
 
  QVBoxLayout *tabLayout=new QVBoxLayout;
  tabLayout->addWidget(embeddingTabWidget);
  tabBox->setLayout(tabLayout);
  tabBox->setFlat(true);
 
-  if (importType == flags::typeIn)
+ if (importType == flags::typeIn)
  {
      currentListWidget->setEditTriggers(QAbstractItemView::AllEditTriggers);
  }
 
- 
- connect(deleteGroupButton, SIGNAL(clicked()), this, SLOT(deleteGroup()));
  connect(importFromMainTree, SIGNAL(clicked()), this,  SLOT(on_importFromMainTree_clicked()));
- connect(clearListButton, SIGNAL(clicked()), this, SLOT(on_clearList_clicked()));
- connect(retrieveItemButton, SIGNAL(clicked()), this, SLOT(on_deleteItem_clicked()));
- connect(addItemButton, &QToolButton::clicked,  [&]{
-                                                     updateIndexInfo();
-                                                     QListWidgetItem *item;
-                                                     currentListWidget->addItem(item=new QListWidgetItem);
-                                                     item->setFlags(item->flags () | Qt::ItemIsEditable); });
-
- deleteAction = new QAction(tr("Exclure"), this);
- deleteAction->setIcon(QIcon(":/images/retrieve.png"));
- addAction = new QAction(tr("Inclure"), this);
- addAction->setIcon(QIcon(":/images/include.png"));
-
  connect(reinterpret_cast<QWidget*>(parent), &QWidget::customContextMenuRequested,
                          [&] {
                                  fileListWidget->showContextMenu();
                                  altair->updateProject();
                              });
+
 
 }
 
@@ -171,29 +148,6 @@ void FListFrame::total_connect(FListFrame* w)
     setSlotListSize(0);
 }
 
-
-void FListFrame::on_clearList_clicked(int currentIndex)
-{
-  if (currentIndex == -1)
-   {
-      updateIndexInfo();
-      currentIndex=this->currentIndex;
-   }
-
-  if (Hash::wrapper[frameHashKey]->count() < currentIndex+1) return;
-
-  widgetContainer[currentIndex]->clear();
-
-  /* Warning : use *[], not ->value, to modifie any list content, even subordinate */
-
-  int count = (*Hash::wrapper[frameHashKey])[currentIndex].count();
-  
-  Hash::counter[frameHashKey] -= count;
-  (*Hash::wrapper[frameHashKey])[currentIndex].clear();
-
-  updateIndexInfo();
-  emit(is_ntracks_changed(Hash::counter[frameHashKey]));
-}
 
 void FListFrame::on_deleteItem_clicked()
 {
@@ -250,11 +204,7 @@ void FListFrame::addGroup()
         fileListWidget->currentListWidget = currentListWidget;
         currentListWidget->setSelectionMode(QAbstractItemView::ExtendedSelection);
         currentListWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
-        if (showAddItemButton) 
-        {
-            currentListWidget->setEditTriggers(QAbstractItemView::AllEditTriggers);
-        }
-        
+
         widgetContainer << currentListWidget;
         if (getRank() ==  Hash::wrapper[frameHashKey]->size())
         {
@@ -282,7 +232,14 @@ void FListFrame::addGroups(int n)
 void FListFrame::deleteAllGroups(bool insertFirstGroup, bool eraseAllData)
 {
    // mainTabWidget->clear();
-    on_clearList_clicked(0);
+
+    widgetContainer[0]->clear();
+
+    int count = (*Hash::wrapper[frameHashKey])[0].count();
+    Hash::counter[frameHashKey] -= count;
+    (*Hash::wrapper[frameHashKey])[0].clear();
+
+    updateIndexInfo();
 
     /* cleanly wipe out main Hash */
 
@@ -302,6 +259,7 @@ void FListFrame::deleteAllGroups(bool insertFirstGroup, bool eraseAllData)
     Hash::Siret.clear();
     Hash::Etablissement.clear();
     Hash::Budget.clear();
+    Hash::Reference.clear();
 
     clearTabLabels();
 
@@ -324,12 +282,9 @@ void FListFrame::deleteGroup(int r, int R)
 
      Hash::wrapper[frameHashKey]->removeAt(r);
 
-    if (r < R)
+    for (int j=currentIndex; j < R - 1 ; ++j)
       {
-        for (int j=currentIndex; j < R+1 ; j++)
-          {
-            mainTabWidget->setTabText(j,  tags[1] + " " + QString::number(j+1));
-          }
+        mainTabWidget->setTabText(j,  Hash::Annee[Hash::wrapper[frameHashKey]->at(j).at(0)]);
       }
 
     if (r < widgetContainer.size()) widgetContainer.removeAt(r);
@@ -343,7 +298,7 @@ void FListFrame::deleteGroup()
  updateIndexInfo();
  int R=getRank();
  if (R < 1) return;
- deleteGroup(currentIndex, R);
+ deleteGroup(currentIndex, R-2);
 }
 
 #if 0
@@ -722,6 +677,11 @@ void FListFrame::on_importFromMainTree_clicked()
              addParsedTreeToListWidget(stringsToBeAdded);
      }
 
+ for(int j = 0; j < getRank()-2; ++j)
+ {
+     Hash::Reference[j] = Hash::wrapper["XHL"]->at(j);
+     Hash::Reference[j].sort();
+ }
 }
 
 void  FListFrame::setSlotListSize(int s) 
