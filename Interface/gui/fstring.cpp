@@ -9,7 +9,7 @@ QHash<QString, QString>  Hash::Budget;
 QHash<QString, QString>  Hash::Siret;
 QHash<QString, QString>  Hash::Etablissement;
 QHash<QString, bool>     Hash::Suppression;
-QHash<int, QStringList>     Hash::Reference;
+QList<QStringList>     Hash::Reference;
 
 
 FString   FString::operator & (FString  s)

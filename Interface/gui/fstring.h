@@ -8,31 +8,6 @@ class FString;
 class FStringList;
 
 
-class Hash : public QHash<QString, QString>
-{
-public:
-
-  /* Hash::description converts a string like "targetDir" into its (sentence-like) description for display in project manager (first column)*/
-  static QHash<QString,QStringList> description;
-
-  /* Hash::wrapper  is used for storing information for xml project parsing/writing.
-   *It converts a string label like "audioMenu" into a pointer to an FStringList object that contains a set of file paths
-   * (or more generally, text phrases) grouped into a QStringList for each associated file in a list of files */
-  static QHash<QString, FStringList*> wrapper;
-  
-  /* Count total number of elements in FListFrame */
-  static QHash<QString, int>  counter;
-
-  static QHash<QString, QString> Annee;
-  static QHash<QString, QString> Mois;
-  static QHash<QString, QString> Budget;
-  static QHash<QString, QString> Siret;
-  static QHash<QString, QString> Etablissement;
-  static QHash<QString, bool>    Suppression;
-  static QHash<int, QStringList> Reference;
-
-};
-
 class FString : public QString
 {
 private:
@@ -159,5 +134,39 @@ public:
   FStringListIterator(const FStringList *list) : QListIterator(*list) {}
  };
 
+
+
+class Hash : public QHash<QString, QString>
+{
+public:
+
+  /* Hash::description converts a string like "targetDir" into its (sentence-like) description for display in project manager (first column)*/
+  static QHash<QString,QStringList> description;
+
+  /* Hash::wrapper  is used for storing information for xml project parsing/writing.
+   *It converts a string label like "audioMenu" into a pointer to an FStringList object that contains a set of file paths
+   * (or more generally, text phrases) grouped into a QStringList for each associated file in a list of files */
+  static QHash<QString, FStringList*> wrapper;
+
+  /* Count total number of elements in FListFrame */
+  static QHash<QString, int>  counter;
+
+  static QHash<QString, QString> Annee;
+  static QHash<QString, QString> Mois;
+  static QHash<QString, QString> Budget;
+  static QHash<QString, QString> Siret;
+  static QHash<QString, QString> Etablissement;
+  static QHash<QString, bool>    Suppression;
+  static QList<QStringList> Reference;
+  static inline void createReference(int rank)
+  {
+      for(int j = 0; j <= rank && j < wrapper["XHL"]->size(); ++j)
+      {
+          (*wrapper["XHL"])[j].sort();
+          Reference << wrapper["XHL"]->at(j);
+      }
+  }
+
+};
 
 #endif // FSTRING_H
