@@ -31,6 +31,7 @@ windows:RC_ICONS = neptune.ico
 
 linux: QMAKE_CXXFLAGS += -std=gnu++11 -march=native -O3
 windows: QMAKE_CXXFLAGS += /Ox /MP
+#windows: QMAKE_CXXFLAGS += -std=gnu++11
 linux: QMAKE_LFLAGS += -s
 
 SOURCES += \
@@ -71,6 +72,9 @@ RESOURCES += \
     ../share/altair-gui/altair-gui.qrc
 
    
+
+DISTFILES += \
+    ../../A_FAIRE.txt
 
 
 

@@ -252,8 +252,6 @@ void FListWidget::showContextMenu()
         currentListWidget = static_cast<FListFrame*>(parent)->getCurrentWidget();
         int currentIndex = static_cast<FListFrame*>(parent)->getCurrentIndex();
 
-        QModelIndexList L = currentListWidget->selectionModel()->selectedRows();
-
         if (currentListWidget->count() == 0) return;
 
         QAction *deleteAction = new QAction(tr("Exclure"), this);
@@ -292,14 +290,14 @@ void FListWidget::showContextMenu()
             int localrow = 0;
             bool isDeleteAction = (selectedItem == deleteAction);
 
-            for (const QModelIndex &index :  L)
+            for (const QModelIndex &index :  currentListWidget->selectionModel()->selectedRows())
             {
                 QString str;
                 QListWidgetItem *item = currentListWidget->item(localrow = index.row());
 
-                  QFont font = item->font();
+                QFont font = item->font();
 
-                str = (currentIndex ==  size - 2)? item->text().section(' ', 0, 0) : Hash::wrapper["XHL"]->at(currentIndex).at(localrow);
+                str = Hash::Reference.at(currentIndex).at(localrow);
 
                 Hash::Suppression[str] = isDeleteAction ;
 
@@ -308,26 +306,26 @@ void FListWidget::showContextMenu()
                 item->setTextColor(isDeleteAction ? "red" : "green");
             }
 
-            for (int j = 0; j < Hash::wrapper["XHL"]->size() - 2 ; ++j)
-            {
-                (*Hash::wrapper["XHL"])[j] = Hash::Reference[j];
 
-                QStringList L;
+            for (int j = 0; j < Hash::wrapper["XHL"]->size() && j < Hash::Reference.size(); ++j)
+            {
+                (*Hash::wrapper["XHL"])[j] = Hash::Reference.at(j);
+
+                QStringList strL;
                 for (const QString & str : (*Hash::wrapper["XHL"])[j])
                 {
                      if (! Hash::Suppression[Hash::Budget[str]]
                          &&
-                         ! Hash::Suppression[Hash::Siret[str]]
+                         ! Hash::Suppression[Hash::Siret[str] + " " + Hash::Etablissement[str]]
                          &&
                          ! Hash::Suppression[str])
                         {
 
-                                 L << str;
+                                 strL << str;
                         }
                 }
 
-                (*Hash::wrapper["XHL"])[j] = L;
-
+                (*Hash::wrapper["XHL"])[j] = strL;
             }
 
             currentListWidget->setCurrentRow(localrow);

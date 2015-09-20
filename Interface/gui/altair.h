@@ -125,6 +125,7 @@ private:
     void msg (const QString & text);
     void printMsg(qint64 new_value, const QString &str);
     void printBaseSize(qint64 new_value = 0);
+    inline void openProjectFileCommonCode();
 
  protected:
 

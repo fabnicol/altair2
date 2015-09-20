@@ -12,7 +12,7 @@ MainWindow::MainWindow(char* projectName)
   #ifdef MINIMAL
     setGeometry(QRect(200, 200,600,400));
   #else
-    setGeometry(QRect(200, 200,1150,400));
+    setGeometry(QRect(200, 200,1150,700));
   #endif
 
   raise();
@@ -824,7 +824,6 @@ void MainWindow::feedRConsoleWithHtml()
         if (buffer.contains(reg))
         {
                         altair->fileRank=reg.cap(1).toInt();
-                       // q(altair->fileRank);
         }
 
         consoleDialog->insertHtml(buffer.replace("\n", "<br>"));

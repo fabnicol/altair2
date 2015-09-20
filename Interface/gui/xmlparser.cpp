@@ -287,13 +287,11 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
 
     while (i.hasNext() && j.hasNext())
     {
-        if (!root.isEmpty())
-        {
-            if (tagcount < tagListSize) firstColumn = tags.at(tagcount++);
-        }
+        if (!root.isEmpty() && tagcount < tagListSize)
+                firstColumn = tags.at(tagcount++);
 
-       if (firstColumn[0] != '2') break;
-       displayTextData({firstColumn});
+        if (firstColumn[0] != '2') break;
+        displayTextData({firstColumn});
 
         QStringListIterator w(i.next()), y(j.next());
         l=0;
@@ -301,7 +299,7 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
         while (w.hasNext() && y.hasNext())
         {
             ++count;
-            
+
             thirdColumn =  "fichier " + QString::number(++l) + "/"+ QString::number(count) +": ";
             const QString filename = w.next();
             thirdColumn += filename;
@@ -426,6 +424,8 @@ void Altair::parseProjectFile(QIODevice* file)
     emit(project[0]->is_ntabs_changed(Hash::wrapper["XHL"]->size()));
     emit(project[0]->is_ntracks_changed(Hash::counter["XHL"]));
 
+    Hash::createReference(project[0]->getRank());
+
     /* resets recent files using the ones listed in the dvp project file */
 
     parent->updateRecentFileActions();
@@ -500,7 +500,7 @@ inline QList<QStringList> Altair::processSecondLevelData(QList<QStringList> &L, 
 void Altair::refreshProjectManagerValues(std::uint16_t refreshProjectManagerFlag)
 {
     managerWidget->clear();
-  QStringList tags = project[0]->getTabLabels();
+    QStringList tags = project[0]->getTabLabels();
 
     if (tags.isEmpty() || Hash::wrapper["XHL"]->isEmpty()) return;
 
