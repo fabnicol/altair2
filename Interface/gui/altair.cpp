@@ -79,8 +79,6 @@ Altair::Altair()
                            true;
                         #endif
 
-
-
     project[0]=new FListFrame(this,
                               fileTreeView,                   // files may be imported from this tree view
                               importFiles,                     // FListFrame type
@@ -92,9 +90,6 @@ Altair::Altair()
                               {"item", "onglet"},                // subordinate xml tags
                               common::TabWidgetTrait::NO_EMBEDDING_TAB_WIDGET);                      //tab icon
 
-
-
-
     progress=new FProgressBar(this, &Altair::killProcess);
 
     progress->setToolTip(tr("Décodage"));
@@ -103,14 +98,11 @@ Altair::Altair()
     outputTextEdit->setAcceptDrops(false);
     outputTextEdit->setMinimumHeight(200);
 
-    QGridLayout *projectLayout = new QGridLayout;
-    QGridLayout *updownLayout = new QGridLayout;
-
     connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int)));
 
     project[0]->model=model;
     project[0]->slotList=nullptr;
-    connect(project[0]->deleteGroupButton, SIGNAL(clicked()), this, SLOT(deleteGroup()));
+
     connect(project[0]->importFromMainTree, &QToolButton::clicked,
             [this]{
         updateProject();
@@ -118,17 +110,21 @@ Altair::Altair()
 
     });
     project[0]->importFromMainTree->setVisible(visibility);
+#ifndef USE_RIGHT_CLICK
+    connect(project[0]->deleteGroupButton, SIGNAL(clicked()), this, SLOT(deleteGroup()));
     connect(project[0]->retrieveItemButton, SIGNAL(clicked()), this, SLOT(on_deleteItem_clicked()));
+#endif
+    QGridLayout *projectLayout = new QGridLayout;
+    projectLayout->addWidget(project[0]->importFromMainTree, 0, 1);
+    projectLayout->addWidget(project[0]->mainTabWidget, 0, 2);
 
-    projectLayout->addWidget(project[0]->tabBox, 0,2);
-    updownLayout->addWidget(project[0]->getControlButtonBox(), 0,0);
-
-    projectLayout->addWidget(project[0]->importFromMainTree, 0,1);
-
+#ifndef USE_RIGHT_CLICK
+    QGridLayout *updownLayout = new QGridLayout;
+    updownLayout->addWidget(project[0]->getControlButtonBox(), 0, 0);
     updownLayout->setRowMinimumHeight(1, 40);
     updownLayout->setRowMinimumHeight(3, 40);
-
-    projectLayout->addLayout(updownLayout, 0,3);
+    projectLayout->addLayout(updownLayout, 0, 3);
+#endif
 
     mainLayout->addLayout(projectLayout);
     progressLayout->addLayout(progress->layout);
@@ -203,19 +199,23 @@ void Altair::on_newProjectButton_clicked()
     outputTextEdit->append(PARAMETER_HTML_TAG "Nouveau projet créé sous " + projectName);
 }
 
+inline void     Altair::openProjectFileCommonCode()
+{
+    RefreshFlag = RefreshFlag  | interfaceStatus::parseXml;
+    clearInterfaceAndParseProject();
+    // resetting interfaceStatus::parseXml bits to 0
+    RefreshFlag = RefreshFlag & (~interfaceStatus::parseXml);
 
+    Hash::createReference(project[0]->getRank());
+
+}
 
 void Altair::on_openProjectButton_clicked()
 {
    // closeProject();
     projectName=QFileDialog::getOpenFileName(this,  tr("Ouvrir le projet"), QDir::currentPath(),  tr("projet altair (*.alt)"));
-
     if (projectName.isEmpty()) return;
-
-    RefreshFlag = RefreshFlag  | interfaceStatus::parseXml;
-    clearInterfaceAndParseProject();
-    // resetting interfaceStatus::parseXml bits to 0
-    RefreshFlag = RefreshFlag & (~interfaceStatus::parseXml);
+    openProjectFileCommonCode();
 }
 
 
@@ -224,13 +224,7 @@ void Altair::openProjectFile()
   //  closeProject();
     projectName=qobject_cast<QAction *>(sender())->data().toString();
     RefreshFlag = RefreshFlag | interfaceStatus::parseXml;
-
-    // only case in which XML is parsed
-
-    clearInterfaceAndParseProject();
-
-    // resetting interfaceStatus::parseXml bits to 0
-    RefreshFlag = RefreshFlag & (~interfaceStatus::parseXml);
+    openProjectFileCommonCode();
 }
 
 
@@ -264,6 +258,7 @@ void Altair::closeProject()
     for  (int i = projectDimension; i >= 0;   i--)
     {
         project[0]->mainTabWidget->removeTab(i);
+        project[0]->getWidgetContainer().removeAt(i);
     }
 
     project[0]->addNewTab();
@@ -552,6 +547,7 @@ bool Altair::refreshProjectManager()
     }
 
     if (file.isOpen()) file.close();
+
     RefreshFlag =  RefreshFlag
                        & (interfaceStatus::hasSavedOptionsMask
                                               | interfaceStatus::saveTreeMask
@@ -606,6 +602,9 @@ void Altair::dropEvent(QDropEvent *event)
        
         updateIndexInfo();
         if (false == project[0]->addParsedTreeToListWidget(stringsDragged)) return;
+
+        Hash::createReference(project[0]->getRank());
+
         updateProject();
 
     }

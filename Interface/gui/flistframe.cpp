@@ -104,8 +104,7 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
 
  QVBoxLayout *tabLayout=new QVBoxLayout;
  tabLayout->addWidget(embeddingTabWidget);
- tabBox->setLayout(tabLayout);
- tabBox->setFlat(true);
+
 
  if (importType == flags::typeIn)
  {
@@ -267,26 +266,27 @@ void FListFrame::deleteAllGroups(bool insertFirstGroup, bool eraseAllData)
     if (insertFirstGroup) addGroup();
 }
 
-void FListFrame::deleteGroup(int r, int R)
+void FListFrame::deleteGroup(int r)
 {
     mainTabWidget->removeTab(r);
 
-     Hash::counter[frameHashKey] -=  Hash::wrapper[frameHashKey]->at(r).count();
+    Hash::counter[frameHashKey] -=  Hash::wrapper[frameHashKey]->at(r).count();
 
-     for (const QString& s : Hash::wrapper[frameHashKey]->at(r))
+    for (const QString& s : Hash::wrapper[frameHashKey]->at(r))
      {
          Hash::Annee.remove(s);
          Hash::Mois.remove(s);
          Hash::Siret.remove(s);
      }
 
-     Hash::wrapper[frameHashKey]->removeAt(r);
+    Hash::wrapper[frameHashKey]->removeAt(r);
+    QStringList tabLabels = fileListWidget->getTabLabels();
 
-    for (int j=currentIndex; j < R - 1 ; ++j)
-      {
-        mainTabWidget->setTabText(j,  Hash::Annee[Hash::wrapper[frameHashKey]->at(j).at(0)]);
-      }
+    if (r < Hash::Reference.size())
+            Hash::Reference.removeAt(r);
 
+    tabLabels.removeAt(r);
+    fileListWidget->setTabLabels(tabLabels);
     if (r < widgetContainer.size()) widgetContainer.removeAt(r);
     updateIndexInfo();
     emit(is_ntabs_changed(currentIndex+1)); // emits signal of number of tabs/QListWidgets opened
@@ -296,32 +296,9 @@ void FListFrame::deleteGroup(int r, int R)
 void FListFrame::deleteGroup()
 {
  updateIndexInfo();
- int R=getRank();
- if (R < 1) return;
- deleteGroup(currentIndex, R-2);
+ deleteGroup(currentIndex);
 }
 
-#if 0
-void FListFrame::deleteGroups(QList<int> &L)
-{
-
- foreach (int j,  L)
-   {
-     mainTabWidget->removeTab(j);
-     Hash::wrapper[frameHashKey]->removeAt(j);
-     getRank()--;
-   }
-
- if (L[0] <getRank())
-   {
-
-     for (int j=L[0]; j < getRank() +1 ; j++)
-       {
-         mainTabWidget->setTabText(j,  tags[1] + " " + QString::number(j+1));
-       }
-   }
-}
-#endif
 
 void FListFrame::initializeWidgetContainer()
 {
@@ -418,6 +395,7 @@ void FListFrame::parseXhlFile(const QString& fileName)
    free(elemPar);
 #endif
 
+
    file.close();
 
    if (file.isOpen())
@@ -434,6 +412,7 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
     QStringList existingTabLabels;
     mainTabWidget->clear();
     clearTabLabels();
+    widgetContainer.clear();
 
     for (int j = 0; j < getWidgetContainerCount(); j++)
     {
@@ -475,7 +454,8 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
     {
         altair->outputTextEdit->append(STATE_HTML_TAG + QString(" Nombre d'années détectées : ") + QString::number(allLabels.size()) + " années, " + allLabels.join(", "));
 
-        #define listWidget static_cast<QListWidget*>(mainTabWidget->widget(rank))
+        //#define listWidget static_cast<QListWidget*>(mainTabWidget->widget(rank))
+       #define listWidget   widgetContainer[rank]
 
         for (const QString& annee : allLabels)
         {
@@ -516,6 +496,7 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
         {
             pairs << i.next() + " " + j.next();
         }
+        pairs.sort();
         pairs.removeDuplicates();
 
         int siretCount = pairs.size();
@@ -557,6 +538,7 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
         pairs.clear();
         tabList.clear();
         pairs = Hash::Budget.values();
+        pairs.sort();
         pairs.removeDuplicates();
         int budgetCount = pairs.size();
         for (int i=0; i < budgetCount ; i++)
@@ -635,7 +617,6 @@ QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
     return stringsToBeAdded; 
 }
 
-
 void FListFrame::on_importFromMainTree_clicked()
 {
  
@@ -677,11 +658,7 @@ void FListFrame::on_importFromMainTree_clicked()
              addParsedTreeToListWidget(stringsToBeAdded);
      }
 
- for(int j = 0; j < getRank()-2; ++j)
- {
-     Hash::Reference[j] = Hash::wrapper["XHL"]->at(j);
-     Hash::Reference[j].sort();
- }
+ Hash::createReference(getRank());
 }
 
 void  FListFrame::setSlotListSize(int s) 

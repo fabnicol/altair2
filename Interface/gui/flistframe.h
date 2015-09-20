@@ -48,16 +48,18 @@ private:
  
 public:
 
- QToolButton *importFromMainTree=new QToolButton,
-                        *retrieveItemButton=new QToolButton,
+ QToolButton *importFromMainTree=new QToolButton;
+ #ifndef USE_RIGHT_CLICK
+ QToolButton                       *retrieveItemButton=new QToolButton,
                         *deleteGroupButton=new QToolButton;
- 
+ #endif
+
  QTabWidget *mainTabWidget, *embeddingTabWidget;
  QAbstractItemView *fileTreeView;
  QStringList* slotList= new QStringList;
 
  QFileSystemModel *model=new QFileSystemModel;
- QGroupBox *controlButtonBox=new QGroupBox, *tabBox=new QGroupBox;
+ QGroupBox *controlButtonBox=new QGroupBox;
 
  /* accessors */
 
@@ -108,7 +110,7 @@ FListFrame(QObject* parent,  QAbstractItemView * fileTreeView, short import_type
 public slots:
 
     void deleteGroup();
-    void deleteGroup(int r, int R);
+    void deleteGroup(int r);
     void on_deleteItem_clicked();
     void  setSlotListSize(int s) ;
     void addGroups(int);

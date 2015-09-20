@@ -3,9 +3,8 @@
 2. Linux : 
     problème de l'image Altaïr.png et des noms accentués des fichiers de Bases qui ne sont pas reconnus
   
-3.Bug de dépendance de "Economiser la RAM" et de "Générer la table". Si on ne veut plus
+3. Bug de dépendance de "Economiser la RAM" et de "Générer la table". Si on ne veut plus
   générer la table il faut décocher l'autre case manuelleemnt alors qu'il faudrait automatiser.
 
 4. Nouveau prroblème de pluri-importation de différents contrôles
 
-5.Affichage du manager déficient si suppression de groupe
