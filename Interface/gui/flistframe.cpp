@@ -114,7 +114,7 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
  connect(importFromMainTree, SIGNAL(clicked()), this,  SLOT(on_importFromMainTree_clicked()));
  connect(reinterpret_cast<QWidget*>(parent), &QWidget::customContextMenuRequested,
                          [&] {
-                                 fileListWidget->showContextMenu();
+                                 this->showContextMenu();
                                  altair->updateProject();
                              });
 
@@ -428,7 +428,9 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
           existingTabLabels << str;
     }
 
-    altair->outputTextEdit->append(STATE_HTML_TAG " Parcours des entêtes de fichier " );
+    #ifdef DEBUG
+     altair->outputTextEdit->append(STATE_HTML_TAG " Parcours des entêtes de fichier " );
+    #endif
     int stringListSize = stringList.size();
     altair->getProgressBar()->setRange(0, stringListSize);
     altair->getProgressBar()->reset();
@@ -437,17 +439,19 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
     altair->getProgressBar()->hide();
 
     QStringList tabLabels = getTabLabels();
-
-    altair->outputTextEdit->append(STATE_HTML_TAG " Calcul des labels " );
-
+    #ifdef DEBUG
+      altair->outputTextEdit->append(STATE_HTML_TAG " Calcul des labels " );
+    #endif
     for (const QString& fileName : stringList)
             tabLabels  +=   Hash::Annee[fileName];
 
     int rank = 0;
     QStringList allLabels = tabLabels + existingTabLabels;
-    altair->outputTextEdit->append(STATE_HTML_TAG " Elimination des doublons " );
     allLabels.removeDuplicates();
-    altair->outputTextEdit->append(STATE_HTML_TAG " Tri des labels " );
+    #ifdef DEBUG
+      altair->outputTextEdit->append(STATE_HTML_TAG " Elimination des doublons " );
+      altair->outputTextEdit->append(STATE_HTML_TAG " Tri des labels " );
+    #endif
     allLabels.sort();
 
     if (! allLabels.isEmpty())
@@ -459,7 +463,6 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
 
         for (const QString& annee : allLabels)
         {
-
             QStringList keys = Hash::Annee.keys(annee);
             keys.sort();
 
@@ -471,16 +474,22 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
                 Hash::counter[frameHashKey]++;
 
                 addNewTab(rank, annee);
-                altair->outputTextEdit->append(STATE_HTML_TAG " Ajout de l'onglet " + annee);
+                #ifdef DEBUG
+                  altair->outputTextEdit->append(STATE_HTML_TAG " Ajout de l'onglet " + annee);
+                #endif
             }
             else
             {
                 (*Hash::wrapper[frameHashKey])[rank] =  keys ;
-                altair->outputTextEdit->append(STATE_HTML_TAG " Ajout des fichiers de l'onglet au conteneur principal ");
+                #ifdef DEBUG
+                  altair->outputTextEdit->append(STATE_HTML_TAG " Ajout des fichiers de l'onglet au conteneur principal ");
+                #endif
             }
 
             listWidget->clear();
-            altair->outputTextEdit->append(STATE_HTML_TAG " Ajout des fichiers de l'onglet " + annee);
+            #ifdef DEBUG
+              altair->outputTextEdit->append(STATE_HTML_TAG " Ajout des fichiers de l'onglet " + annee);
+            #endif
             listWidget->addItems(keys);
 
             altair->refreshRowPresentation(rank);
@@ -509,7 +518,9 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
         addNewTab(rank, "Siret");
         Hash::wrapper[frameHashKey]->insert(rank, pairs);
         Hash::counter[frameHashKey]++;
-        altair->outputTextEdit->append(STATE_HTML_TAG " Ajout de l'onglet Siret");
+        #ifdef DEBUG
+          altair->outputTextEdit->append(STATE_HTML_TAG " Ajout de l'onglet Siret");
+        #endif
         listWidget->clear();
         listWidget->addItems(tabList);
 
@@ -548,7 +559,9 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
         addNewTab(rank, "Budget");
         Hash::wrapper[frameHashKey]->insert(rank, pairs);
         Hash::counter[frameHashKey]++;
-        altair->outputTextEdit->append(STATE_HTML_TAG " Ajout de l'onglet Budget");
+        #ifdef DEBUG
+          altair->outputTextEdit->append(STATE_HTML_TAG " Ajout de l'onglet Budget");
+        #endif
         listWidget->clear();
         listWidget->addItems(tabList);
 
@@ -567,7 +580,8 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
     {
         emit(is_ntabs_changed(currentIndex+1)); // emits signal of number of tabs/QListWidgets opened
     }
-   emit(is_ntracks_changed(Hash::counter[frameHashKey]));
+
+  emit(is_ntracks_changed(Hash::counter[frameHashKey]));
 
   fileListWidget->setTabLabels(allLabels << "Siret" << "Budget");
   currentListWidget->setCurrentRow(Hash::wrapper[frameHashKey]->at(rank - 1).size());
@@ -637,8 +651,9 @@ void FListFrame::on_importFromMainTree_clicked()
  
  QStringList&& stringsToBeAdded = QStringList();
  int stringListSize=0;
- 
+#ifdef DEBUG
  altair->outputTextEdit->append(STATE_HTML_TAG " Parcours de l'arbre " );
+#endif
 
  if (importType == flags::importFiles)
     {
@@ -651,8 +666,9 @@ void FListFrame::on_importFromMainTree_clicked()
                  stringsToBeAdded << path;
              }
           }
-
+        #ifdef DEBUG
          altair->outputTextEdit->append(STATE_HTML_TAG " Ajout des chemins à la liste centrale" );
+        #endif
 
          if (stringListSize)
              addParsedTreeToListWidget(stringsToBeAdded);
@@ -666,4 +682,111 @@ void  FListFrame::setSlotListSize(int s)
     slotListSize=s; 
     mainTabWidget->setEnabled(s > 0);
     if (s== 0) deleteAllGroups();
+}
+
+void FListFrame::showContextMenu()
+{
+
+        updateIndexInfo();
+
+        if (currentListWidget->count() == 0) return;
+
+        QAction *deleteAction = new QAction(tr("Exclure"), this);
+        deleteAction->setIcon(QIcon(":/images/retrieve.png"));
+        QAction *addAction = new QAction(tr("Inclure"), this);
+        addAction->setIcon(QIcon(":/images/include.png"));
+
+        QMenu myMenu;
+        const int size = Hash::wrapper["XHL"]->size();
+
+        myMenu.addActions({deleteAction, addAction});
+
+#ifdef USE_RIGHT_CLICK
+        QAction *deleteGroupAction = new QAction(tr("Enlever l'onglet courant"), this);
+        const QIcon iconDelete = QIcon(QString::fromUtf8( ":/images/tab-close-other.png"));
+        deleteGroupAction->setIcon(iconDelete);
+
+        if (currentIndex < size - 2)
+            myMenu.addActions({deleteGroupAction});
+#endif
+
+        QAction* selectedItem = myMenu.exec(QCursor::pos());
+        if (selectedItem == nullptr) return;
+        if (currentIndex < size -2)
+        {
+            if (selectedItem == deleteGroupAction)
+            {
+                deleteGroup();
+                return;
+            }
+
+            (*Hash::wrapper["XHL"])[currentIndex] = Hash::Reference[currentIndex];
+
+        }
+
+            int localrow = 0;
+            bool isDeleteAction = (selectedItem == deleteAction);
+            QFont font;
+            for (const QModelIndex &index :  currentListWidget->selectionModel()->selectedRows())
+            {
+                QString str;
+                QListWidgetItem *item = currentListWidget->item(localrow = index.row());
+
+                font = item->font();
+
+                str = Hash::Reference.at(currentIndex).at(localrow);
+
+                Hash::Suppression[str] = isDeleteAction ;
+
+                font.setStrikeOut(isDeleteAction);
+                item->setFont(font);
+                item->setTextColor(isDeleteAction ? "red" : "green");
+            }
+
+
+            if (Hash::Reference.size() != size || Hash::Reference.size() != size)
+            {
+                QMessageBox::critical(nullptr, "Erreur", "Incohérence des tailles des tables de référence.", QMessageBox::Cancel);
+                return;
+            }
+
+            for (int j = 0; j < size; ++j)
+            {
+                QStringList strL;
+                const QListWidget *listWidget = widgetContainer.at(j);
+                int size_j = Hash::Reference.at(j).size();
+                if (size_j != listWidget->count())
+                {
+                    QMessageBox::critical(nullptr, "Erreur", "Incohérence des tailles de la table de référence et du widget " + QString::number(j) + ".", QMessageBox::Cancel);
+                    return;
+                }
+
+                for (int k = 0; k < size_j; ++k)
+                {
+
+                    QListWidgetItem *item = listWidget->item(k);
+                    const QString str = Hash::Reference.at(j).at(k);
+                    if (! Hash::Suppression[Hash::Budget[str]]
+                         &&
+                         ! Hash::Suppression[Hash::Siret[str] + " " + Hash::Etablissement[str]]
+                         &&
+                         ! Hash::Suppression[str])
+                        {
+                                strL << str;
+                                font.setStrikeOut(false);
+                                item->setFont(font);
+                                item->setTextColor("green");
+                        }
+                        else
+                        {
+                                font.setStrikeOut(true);
+                                item->setFont(font);
+                                item->setTextColor("red");
+                        }
+                }
+
+                (*Hash::wrapper["XHL"])[j] = strL;
+            }
+
+            currentListWidget->setCurrentRow(localrow);
 }

@@ -483,7 +483,9 @@ void Altair::assignVariables()
 void Altair::assignGroupFiles(const int group_index)
 {
     static int last_group;
+#ifdef DEBUG
     if (group_index-last_group) outputTextEdit->append(STATE_HTML_TAG "Ajout de l'onglet " + QString::number(group_index+1));
+#endif
     last_group=group_index;
 }
 
@@ -670,9 +672,9 @@ inline void FProgressBar::computeRProgressBar()
 {
 
       setRange(0, 100);
-
+#ifdef DEBUG
       parent->outputTextEdit->append((QString)PROCESSING_HTML_TAG + QString::number(static_cast<int>(parent->fileRank)) + " % de l'analyse des données.");
-
+#endif
       setValue(parent->fileRank);
 
       if (parent->fileRank == 100) setValue(startshift);

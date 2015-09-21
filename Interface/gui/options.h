@@ -18,7 +18,7 @@ class standardPage : public common
 
 public :
     standardPage();
-    FLineEdit *xhlLineEdit;
+    FLineEdit *lhxLineEdit,  *baseLineEdit;
 
 private:
     FComboBox
@@ -26,7 +26,6 @@ private:
       *processTypeWidget;
     
     FLineEdit 
-     *baseLineEdit,
      *logLineEdit,
      *maxNLigneLineEdit,
      *nLineEdit,
