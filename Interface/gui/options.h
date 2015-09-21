@@ -27,8 +27,6 @@ private:
     
     FLineEdit 
      *baseLineEdit,
-     *sepLineEdit,
-     *decLineEdit,
      *logLineEdit,
      *maxNLigneLineEdit,
      *nLineEdit,

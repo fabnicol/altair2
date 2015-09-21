@@ -315,11 +315,13 @@ void MainWindow::createActions()
 void MainWindow::configure()
 {
      contentsWidget->setVisible(true);
+     contentsWidget->raise();
 }
 
 void MainWindow::on_optionsButton_clicked()
 {
   dialog->setVisible(!dialog->isVisible());
+  dialog->raise();
 }
 
 void MainWindow::on_displayFileTreeViewButton_clicked(bool isHidden)

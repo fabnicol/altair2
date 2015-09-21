@@ -11,8 +11,8 @@ QStringList Altair::createCommandLineString()
     
     while (w.hasPrevious())
     {
-        FAbstractWidget* item=w.previous();
-        QStringList commandLineChunk=item->commandLineStringList();
+        FAbstractWidget* item = w.previous();
+        QStringList commandLineChunk = item->commandLineStringList();
         if (!commandLineChunk.isEmpty() && !commandLineChunk[0].isEmpty())
             commandLine +=  commandLineChunk;
     }
@@ -70,18 +70,29 @@ void Altair::run()
 
     outputTextEdit->append(PROCESSING_HTML_TAG + tr("Validation du répertoire de sortie ") + path);
        
-    QStringList args;
+    QStringList args0, args1;
     QString command;
     
     progress->show();
     
-    args <<  "-m" << createCommandLineString();
+    args0 <<  "-m" << "-d" << "\",\"" << "-s" << "\";\"";
+    args1 << createCommandLineString();
     
     outputTextEdit->append(STATE_HTML_TAG + tr("Décodage des fichiers .xhl..."));
     outputTextEdit->append(PROCESSING_HTML_TAG + tr("Taille totale des fichiers ")+QString::number(Altair::totalSize[0]/(1024*1024)) +tr(" Mo"));
     
-    command=args.join(" ");
-    outputTextEdit->append(STATE_HTML_TAG + tr("Ligne de commande : ")+ altairCommandStr+ " "+command);
+    command=args0.join(" ") + " " ;
+    QStringListIterator i(args1);
+    while (i.hasNext())
+    {
+        const QString str = i.next();
+        if (QFileInfo(str).isFile() ||  QFileInfo(str).isDir())
+            command += "\""+str+"\" ";
+        else
+            command += " "+str+" ";
+    }
+
+    outputTextEdit->append(STATE_HTML_TAG + tr("Ligne de commande : ")+ altairCommandStr+ " " + command);
     
     outputType="L";
     
@@ -94,7 +105,7 @@ void Altair::run()
 #endif
     fileRank=0;
     progress->rewind();
-    process->start(altairCommandStr,  args);
+    process->start(altairCommandStr,  args0 << args1);
 
     if (process->waitForStarted())
     {

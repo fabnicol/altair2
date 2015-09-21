@@ -147,8 +147,10 @@ const QStringList FAbstractWidget::commandLineStringList()
         {
             QListIterator<FString> i(commandLineList);
             while (i.hasNext())
-                if (!i.peekNext().isEmpty()) strL <<  i.next().trimmed();
-               else i.next();
+                if (!i.peekNext().isEmpty())
+                    strL <<  i.next().trimmed();
+                else
+                    i.next();
 
         }
         else
@@ -156,13 +158,13 @@ const QStringList FAbstractWidget::commandLineStringList()
           if (commandLineList[0].isTrue() | commandLineList[0].isMultimodal())
             {
                 if  (optionLabel.size() == 1)
-                   strL= QStringList("-"+optionLabel);
+                   strL = QStringList("-"+optionLabel);
                 else
                 {
                     if (optionLabel.at(0) == '^')
-                        strL=QStringList(optionLabel.mid(1).trimmed());
+                      strL = QStringList(optionLabel.mid(1).trimmed());
                     else
-                      strL=QStringList ("--" +optionLabel);
+                      strL = QStringList ("--" +optionLabel);
                 }
             }
          else
@@ -172,13 +174,13 @@ const QStringList FAbstractWidget::commandLineStringList()
                     if (optionLabel.at(0) == '^')
                     {
                         if (commandLineList[0] != "  ")
-                           strL=QStringList(optionLabel.mid(1).trimmed()+"="+commandLineList[0].toQString());
+                           strL = QStringList(optionLabel.mid(1).trimmed()+"="+commandLineList[0].toQString());
                     }
                     else
                     {
                        if (commandLineList[0] != "  ")
                        {
-                           strL= (optionLabel.size() == 1)? QStringList() << "-"+optionLabel << commandLineList[0].toQString()
+                           strL = (optionLabel.size() == 1)? QStringList() << "-"+optionLabel << commandLineList[0].toQString()
                                                         :QStringList("--"+optionLabel+"="+commandLineList[0].toQString());
                        }
                     }
@@ -289,13 +291,13 @@ void FListWidget::showContextMenu()
 
             int localrow = 0;
             bool isDeleteAction = (selectedItem == deleteAction);
-
+            QFont font;
             for (const QModelIndex &index :  currentListWidget->selectionModel()->selectedRows())
             {
                 QString str;
                 QListWidgetItem *item = currentListWidget->item(localrow = index.row());
 
-                QFont font = item->font();
+                font = item->font();
 
                 str = Hash::Reference.at(currentIndex).at(localrow);
 
@@ -306,22 +308,46 @@ void FListWidget::showContextMenu()
                 item->setTextColor(isDeleteAction ? "red" : "green");
             }
 
+            QList<QListWidget*>  widgetContainer = static_cast<FListFrame*>(parent)->getWidgetContainer();
 
-            for (int j = 0; j < Hash::wrapper["XHL"]->size() && j < Hash::Reference.size(); ++j)
+            if (Hash::Reference.size() != size || Hash::Reference.size() != size)
             {
-                (*Hash::wrapper["XHL"])[j] = Hash::Reference.at(j);
+                QMessageBox::critical(nullptr, "Erreur", "Incohérence des tailles des tables de référence.", QMessageBox::Cancel);
+                return;
+            }
 
+            for (int j = 0; j < size; ++j)
+            {
                 QStringList strL;
-                for (const QString & str : (*Hash::wrapper["XHL"])[j])
+                const QListWidget *listWidget = widgetContainer.at(j);
+                int size_j = Hash::Reference.at(j).size();
+                if (size_j != listWidget->count())
                 {
-                     if (! Hash::Suppression[Hash::Budget[str]]
+                    QMessageBox::critical(nullptr, "Erreur", "Incohérence des tailles de la table de référence et du widget " + QString::number(j) + ".", QMessageBox::Cancel);
+                    return;
+                }
+
+                for (int k = 0; k < size_j; ++k)
+                {
+
+                    QListWidgetItem *item = listWidget->item(k);
+                    const QString str = Hash::Reference.at(j).at(k);
+                    if (! Hash::Suppression[Hash::Budget[str]]
                          &&
                          ! Hash::Suppression[Hash::Siret[str] + " " + Hash::Etablissement[str]]
                          &&
                          ! Hash::Suppression[str])
                         {
-
-                                 strL << str;
+                                strL << str;
+                                font.setStrikeOut(false);
+                                item->setFont(font);
+                                item->setTextColor("green");
+                        }
+                        else
+                        {
+                                font.setStrikeOut(true);
+                                item->setFont(font);
+                                item->setTextColor("red");
                         }
                 }
 

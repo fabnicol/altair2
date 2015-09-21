@@ -89,20 +89,6 @@ standardPage::standardPage()
                                       "T");
     maxNLigneLineEdit->setFixedWidth(60);
     
-    QLabel* sepLabel = new QLabel("Séparateur de champs ");
-    sepLineEdit = new FLineEdit(";",
-                                "separateur",
-                               {"Séparateurs", "Séparateur de champ"},
-                                "s");
-    sepLineEdit->setFixedWidth(15);
-    
-    QLabel* decLabel = new QLabel("Séparateur décimal  ");
-    decLineEdit = new FLineEdit(",",
-                                "decimal",
-                               {"Séparateurs", "Séparateur décimal"},
-                                "d");
-    decLineEdit->setFixedWidth(15);
-    
     QLabel* processTypeLabel = new QLabel("Nombre de fils d'exécution  ");
     processTypeWidget=new FComboBox(range3,
                                  "processType",
@@ -174,10 +160,6 @@ standardPage::standardPage()
     v1Layout->addWidget(baseTypeWidget,    1,1,Qt::AlignLeft);
     v1Layout->addWidget(maxNLigneLabel,    2,0,Qt::AlignRight);
     v1Layout->addWidget(maxNLigneLineEdit, 2,1,Qt::AlignLeft);
-    v1Layout->addWidget(sepLabel,          3,0,Qt::AlignRight);
-    v1Layout->addWidget(sepLineEdit,       3,1,Qt::AlignLeft);
-    v1Layout->addWidget(decLabel,          4,0,Qt::AlignRight);
-    v1Layout->addWidget(decLineEdit,       4,1,Qt::AlignLeft);
     v1Layout->addWidget(rangCheckBox,      5,1,Qt::AlignRight);
     v1Layout->addWidget(rangLabel,         5,0,Qt::AlignRight);
     
