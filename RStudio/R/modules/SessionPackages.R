@@ -62,7 +62,14 @@ if (identical(as.character(Sys.info()["sysname"]), "Darwin") &&
       .Call(.rs.routines$rs_packageUnloaded, pkgname)
    }
    
-   sapply(.packages(TRUE), function(packageName) 
+   # NOTE: `list.dirs()` was introduced with R 2.13 but was buggy until 3.0
+   # (the 'full.names' argument was not properly respected)
+   pkgNames <- if (getRversion() >= "3.0.0")
+      base::list.dirs(.libPaths(), full.names = FALSE, recursive = FALSE)
+   else
+      .packages(TRUE)
+   
+   sapply(pkgNames, function(packageName)
    {
       if ( !(packageName %in% .rs.hookedPackages) )
       {
@@ -625,8 +632,7 @@ if (identical(as.character(Sys.info()["sysname"]), "Darwin") &&
       Package = packageName,
       Type = "Package",
       Title = "What the Package Does (Title Case)",
-      Version = "0.1",
-      Date = as.character(Sys.Date()),
+      Version = "0.1.0",
       Author = Author,
       Maintainer = Maintainer,
       Description = "More about what it does (maybe more than one line)",
@@ -978,9 +984,14 @@ if (identical(as.character(Sys.info()["sysname"]), "Darwin") &&
 
 .rs.addFunction("secureDownloadMethod", function()
 {
+   # Function to determine whether R checks for 404 in libcurl calls
+   libcurlHandles404 <- function() {
+      getRversion() >= "3.3" && .rs.haveRequiredRSvnRev(69197)
+   }
+
    # Check whether we are running R 3.2 and whether we have libcurl
    isR32 <- getRversion() >= "3.2"
-   haveLibcurl <- isR32 && capabilities("libcurl")
+   haveLibcurl <- isR32 && capabilities("libcurl") && libcurlHandles404()
    
    # Utility function to bind to libcurl or a fallback utility (e.g. wget)
    posixMethod <- function(utility) {
@@ -1115,6 +1126,8 @@ if (identical(as.character(Sys.info()["sysname"]), "Darwin") &&
       secureMethod <- .rs.secureDownloadMethod()
       if (nzchar(secureMethod)) {
          options(download.file.method = secureMethod) 
+         if (secureMethod == "curl")
+            options(download.file.extra = .rs.downloadFileExtraWithCurlArgs())
       }
       else {
          .rs.insecureDownloadWarning(
@@ -1125,3 +1138,11 @@ if (identical(as.character(Sys.info()["sysname"]), "Darwin") &&
    }
 })
    
+
+.rs.addFunction("downloadFileExtraWithCurlArgs", function() {
+   curlArgs <- "-L -f"
+   existingArgs <- getOption("download.file.extra")
+   if (!is.null(existingArgs) && !grepl(curlArgs, existingArgs, fixed = TRUE))
+      curlArgs <- paste(existingArgs, curlArgs)
+   curlArgs
+})
