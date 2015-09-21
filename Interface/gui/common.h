@@ -60,7 +60,15 @@ public:
     QString pathstr=QString(path);
     return readFile(pathstr, start, stop, width);
   }
-static void writeFile(QString & path, const QStringList &list, QFlags<QIODevice::OpenModeFlag> flag= QFile::WriteOnly | QFile::Truncate) ;
+
+static bool zip (const QString& filename , const QString& zipfilename);
+static bool unzip (const QString& filename , const QString& zipfilename);
+static bool IOControl(const QString& in, const QString& out, const QString& comment="");
+static bool copyFile(const QString &in, const QString &out, const QString& comment = "");
+static bool copyDir(const QString &in, const QString &out, const QString& comment = "");
+static bool zipDir (const QString& inPath , const QString& outPath);
+static bool unzipDir (const QString& inPath , const QString& outPath);
+
 void setWhatsThisText(QWidget* widget, int start, int stop);
 void openDir(QString path);
 qint64 getFileSize(const QString &);
