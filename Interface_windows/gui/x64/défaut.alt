@@ -128,6 +128,15 @@
      <item V="12" S="24380090100015" B="BUDGET PRINCIPAL" E="GRENOBLE ALPES METROPOLE">C:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2012/METRO_201212_01_00.xhl</item>
      <item V="12" S="24380090100023" B="ASSAINISSEMENT" E="REGIE ASSAINISSEMENT">C:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2012/METRO_201212_02_00.xhl</item>
    </onglet>
+   <onglet V="Siret">
+     <item V="nul" S="" B="" E="">24380090100015 GRENOBLE ALPES METROPOLE</item>
+     <item V="nul" S="" B="" E="">24380090100023 REGIE ASSAINISSEMENT</item>
+   </onglet>
+   <onglet V="Budget">
+     <item V="nul" S="" B="" E="">BUDGET PRINCIPAL</item>
+     <item V="nul" S="" B="" E="">ASSAINISSEMENT</item>
+     <item V="nul" S="" B="" E="">Multi budgets</item>
+   </onglet>
   </XHL>
  </data>
  <systeme>
