@@ -71,7 +71,9 @@ class MainWindow : public QMainWindow
    void showMainWidget(bool);
    void configure();
    void configureOptions();
-
+   bool exportProject(QString str="");
+   bool archiveProject(QString str="");
+   bool restoreProject(QString str="");
 
   private :
   
@@ -116,9 +118,12 @@ class MainWindow : public QMainWindow
    QAction *optionsToolBarAction;
    QAction *aboutToolBarAction;
    
-   QAction *recentFileActions[MaxRecentFiles];
+   QList<QAction*> recentFileActions;
    QAction *separatorAction;
    QAction *newAction;
+   QAction *exportAction;
+   QAction *archiveAction;
+   QAction *restoreAction;
    QAction *openAction;
    QAction *saveAsAction;
    QAction *saveAction;

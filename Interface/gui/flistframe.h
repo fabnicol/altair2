@@ -44,6 +44,7 @@ private:
 
  void parseXhlFile(const QString& fileName);
  void parseXhlFile(const QStringList& stringList);
+ void showContextMenu();
  Altair* altair;
  
 public:

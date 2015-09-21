@@ -28,9 +28,9 @@ standardPage::standardPage()
     
     QToolDirButton *openBaseButton=new QToolDirButton(tr("Ouvrir le répertoire "), actionType::OpenFolder);
 
-    xhlLineEdit= new FLineEdit(execPath,
-                               "xhlDir",
-                               {"Application noyau", "Répertoire de l'application noyau xhl"});
+    lhxLineEdit= new FLineEdit(execPath,
+                               "lhxDir",
+                               {"Application noyau", "Répertoire de l'application noyau lhx"});
 
     QLabel *xhlLabel= new QLabel(tr("Répertoire de l'application noyau"));
 
@@ -43,7 +43,7 @@ standardPage::standardPage()
     baseLayout->addWidget(baseLabel,      0, 0);
     baseLayout->addWidget(baseButton,     1, 1);
     baseLayout->addWidget(openBaseButton, 1, 2);
-    baseLayout->addWidget(xhlLineEdit,    3, 0);
+    baseLayout->addWidget(lhxLineEdit,    3, 0);
     baseLayout->addWidget(xhlLabel,       2, 0);
     baseLayout->addWidget(xhlButton,      3, 1);
     baseLayout->addWidget(openXhlButton,  3, 2);
@@ -203,7 +203,7 @@ standardPage::standardPage()
     
     connect(openXhlButton,
             &QToolButton::clicked,
-            [=]{ on_openDirButton_clicked(xhlLineEdit);});
+            [=]{ on_openDirButton_clicked(lhxLineEdit);});
 
     connect(openLogButton,
             &QToolButton::clicked,
@@ -215,7 +215,7 @@ standardPage::standardPage()
 
     connect(xhlButton,
             &QToolButton::clicked,
-            [&]{ selectBaseOutput(xhlLineEdit); });
+            [&]{ selectBaseOutput(lhxLineEdit); });
 
     connect(logButton,
             SIGNAL(clicked()),
@@ -285,7 +285,7 @@ options::options(Altair* parent)
             {
                 options::RefreshFlag =  interfaceStatus::hasUnsavedOptions;
                 accept();
-                parent->execPath = standardTab->xhlLineEdit->text();
+                parent->execPath = standardTab->lhxLineEdit->text();
                 parent->altairCommandStr =  parent->execPath +  QDir::separator() + ("lhx"+ QString(systemSuffix));
 
                 parent->updateProject(true);

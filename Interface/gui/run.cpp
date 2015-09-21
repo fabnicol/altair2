@@ -67,8 +67,9 @@ void Altair::run()
         Warning0(QString("Répertoire"), QString("Le répertoire de sortie %1 n'a pas pu être créé. Relancer après avoir réglé le problème.").arg(path));
         return;
     }
-
+#ifdef DEBUG
     outputTextEdit->append(PROCESSING_HTML_TAG + tr("Validation du répertoire de sortie ") + path);
+#endif
        
     QStringList args0, args1;
     QString command;
@@ -92,15 +93,16 @@ void Altair::run()
             command += " "+str+" ";
     }
 
-    outputTextEdit->append(STATE_HTML_TAG + tr("Ligne de commande : ")+ altairCommandStr+ " " + command);
+    parent->consoleDialog->append(STATE_HTML_TAG + tr("Ligne de commande : ")+ altairCommandStr+ " " + command);
     
     outputType="L";
     
     process->setProcessChannelMode(QProcess::MergedChannels);
     process->setWorkingDirectory(execPath);
-    outputTextEdit->append(PROCESSING_HTML_TAG + tr("Démarrage dans ") + execPath);
     progress->setRange(0, Hash::counter["XHL"]-1);
+
 #ifdef DEBUG
+    outputTextEdit->append(PROCESSING_HTML_TAG + tr("Démarrage dans ") + execPath);
     outputTextEdit->append(PROCESSING_HTML_TAG + tr("Amplitude de la barre de progression : ") + QString::number(Hash::counter["XHL"]));
 #endif
     fileRank=0;
@@ -131,7 +133,9 @@ void Altair::runRAltair()
     process->setProcessChannelMode(QProcess::MergedChannels);
 #ifdef MINIMAL
     outputType="R";
-    outputTextEdit->append(tr(STATE_HTML_TAG "Ligne de commande : %1").arg(RAltairCommandStr + " " + RAltairDirStr + QDir::separator() + "rapport_msword.R"));
+    #ifdef DEBUG
+      outputTextEdit->append(tr(STATE_HTML_TAG "Ligne de commande : %1").arg(RAltairCommandStr + " " + RAltairDirStr + QDir::separator() + "rapport_msword.R"));
+    #endif
     progress->rewind();
     process->start(RAltairCommandStr + " " + RAltairDirStr + QDir::separator() + "rapport_msword.R");
     if (process->waitForStarted())
@@ -146,8 +150,9 @@ void Altair::runRAltair()
     }
 
 #else
-
+  #ifdef DEBUG
     outputTextEdit->append(tr(STATE_HTML_TAG "Ligne de commande : %1").arg(RAltairCommandStr));
+   #endif
     process->start(RAltairCommandStr);
 #endif
 }
