@@ -29,6 +29,6 @@ Author: José Pinheiro [aut] (S version),
   R-core [aut, cre]
 Maintainer: R-core <R-core@R-project.org>
 Repository: CRAN
-Date/Publication: 2015-06-29 17:15:22
-Built: R 3.2.1; x86_64-w64-mingw32; 2015-07-31 03:10:47 UTC; windows
+Date/Publication: 2015-06-29 17:14:37
+Built: R 3.2.2; x86_64-w64-mingw32; 2015-08-14 10:09:27 UTC; windows
 Archs: i386, x64
