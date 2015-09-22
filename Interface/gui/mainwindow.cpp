@@ -46,6 +46,9 @@ MainWindow::MainWindow(char* projectName)
   bottomDockWidget=new QDockWidget;
   bottomTabWidget=new QTabWidget;
   consoleDialog=  new QTextEdit;
+  consoleDialog->setReadOnly(true);
+
+  connect(consoleDialog, SIGNAL(copyAvailable(bool)), consoleDialog, SLOT(copy()));
   bottomTabWidget->addTab(altair->outputTextEdit, tr("Messages"));
   bottomTabWidget->addTab(consoleDialog, tr("Console"));
   bottomTabWidget->setCurrentIndex(0);
@@ -576,8 +579,6 @@ bool MainWindow::restoreProject(QString subDirStr)
         subDirStr = QFileDialog::getExistingDirectory(this, tr("Restorer le rapport depuis le répertoire..."), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
 
     if (! QFileInfo(subDirStr).isDir()) return false;
-
-    //QString subDirStr =
 
     altair->updateProject();
     QString projectRootDir = QDir::toNativeSeparators(QDir::cleanPath(v(base) + "/../.."));

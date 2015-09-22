@@ -99,11 +99,11 @@ void Altair::run()
     
     process->setProcessChannelMode(QProcess::MergedChannels);
     process->setWorkingDirectory(execPath);
-    progress->setRange(0, Hash::counter["XHL"]-1);
+    progress->setRange(0, 60);
 
 #ifdef DEBUG
     outputTextEdit->append(PROCESSING_HTML_TAG + tr("Démarrage dans ") + execPath);
-    outputTextEdit->append(PROCESSING_HTML_TAG + tr("Amplitude de la barre de progression : ") + QString::number(Hash::counter["XHL"]));
+
 #endif
     fileRank=0;
     progress->rewind();

@@ -148,9 +148,6 @@ public:
    * (or more generally, text phrases) grouped into a QStringList for each associated file in a list of files */
   static QHash<QString, FStringList*> wrapper;
 
-  /* Count total number of elements in FListFrame */
-  static QHash<QString, int>  counter;
-
   static QHash<QString, QString> Annee;
   static QHash<QString, QString> Mois;
   static QHash<QString, QString> Budget;
