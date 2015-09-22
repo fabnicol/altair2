@@ -7,7 +7,7 @@
 #include "config.h"
 #endif
 #ifndef VERSION
-#define VERSION " 15.04"
+#define VERSION " 15.10"
 #endif
 
 #ifndef STEP_UP

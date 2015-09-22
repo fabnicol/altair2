@@ -22,6 +22,8 @@ inline const QString Altair::makeParserString(int start, int end)
         }
 
         QString xml = widget->setXmlFromWidget().toQString();
+        if (hK == "XHL" && xml.isEmpty()) continue;
+
         QString widgetDepth = widget->getDepth();
 
         L <<  "  <" + hK + " profondeur=\"" + widgetDepth +  "\">\n   "
@@ -31,7 +33,6 @@ inline const QString Altair::makeParserString(int start, int end)
     }
 
     return L.join("");
-
 }
 
 
@@ -403,7 +404,6 @@ void Altair::parseProjectFile(QIODevice* file)
 
     assignVariables();
 
-    Hash::counter["XHL"] = 0 ;
     int projectRank = project[0]->getRank();
     if (projectRank == 0) return;
 
@@ -419,10 +419,9 @@ void Altair::parseProjectFile(QIODevice* file)
 
         refreshRowPresentation(group_index);
         // Ne pas inclure les onglets Siret et Budget
-        if (projectRank - group_index > 2) Hash::counter["XHL"] += r;
+
     }
     emit(project[0]->is_ntabs_changed(Hash::wrapper["XHL"]->size()));
-    emit(project[0]->is_ntracks_changed(Hash::counter["XHL"]));
 
     Hash::createReference(project[0]->getRank());
 

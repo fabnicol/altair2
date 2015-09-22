@@ -166,7 +166,6 @@ void FListFrame::on_deleteItem_clicked()
       if  (importType != flags::typeIn) 
       {
           (*Hash::wrapper[frameHashKey])[currentIndex].removeAt(localrow);
-          Hash::counter[frameHashKey]--;
       }
       
       rank++;
@@ -178,7 +177,6 @@ void FListFrame::on_deleteItem_clicked()
    if (localrow <= 0 && (*Hash::wrapper[frameHashKey])[currentIndex].isEmpty()) deleteGroup();
    updateIndexInfo();
    emit(is_ntabs_changed(currentIndex+1)); // emits signal of number of tabs/QListWidgets opened
-   emit(is_ntracks_changed(Hash::counter[frameHashKey]));
 }
 
 
@@ -234,10 +232,6 @@ void FListFrame::deleteAllGroups(bool insertFirstGroup, bool eraseAllData)
 
     widgetContainer[0]->clear();
 
-    int count = (*Hash::wrapper[frameHashKey])[0].count();
-    Hash::counter[frameHashKey] -= count;
-    (*Hash::wrapper[frameHashKey])[0].clear();
-
     updateIndexInfo();
 
     /* cleanly wipe out main Hash */
@@ -248,7 +242,7 @@ void FListFrame::deleteAllGroups(bool insertFirstGroup, bool eraseAllData)
     }
     else
     {
-//      delete(Hash::wrapper[frameHashKey]);
+      Hash::wrapper[frameHashKey]->clear();
       Abstract::initializeFStringListHash(frameHashKey);
     }
 
@@ -270,8 +264,6 @@ void FListFrame::deleteGroup(int r)
 {
     mainTabWidget->removeTab(r);
 
-    Hash::counter[frameHashKey] -=  Hash::wrapper[frameHashKey]->at(r).count();
-
     for (const QString& s : Hash::wrapper[frameHashKey]->at(r))
      {
          Hash::Annee.remove(s);
@@ -290,7 +282,6 @@ void FListFrame::deleteGroup(int r)
     if (r < widgetContainer.size()) widgetContainer.removeAt(r);
     updateIndexInfo();
     emit(is_ntabs_changed(currentIndex+1)); // emits signal of number of tabs/QListWidgets opened
-    emit(is_ntracks_changed(Hash::counter[frameHashKey]));
 }
 
 void FListFrame::deleteGroup()
@@ -471,7 +462,6 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
 
                 widgetContainer.insert(rank, new QListWidget);
                 Hash::wrapper[frameHashKey]->insert(rank, keys);
-                Hash::counter[frameHashKey]++;
 
                 addNewTab(rank, annee);
                 #ifdef DEBUG
@@ -517,7 +507,7 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
         widgetContainer.insert(rank, new QListWidget);
         addNewTab(rank, "Siret");
         Hash::wrapper[frameHashKey]->insert(rank, pairs);
-        Hash::counter[frameHashKey]++;
+
         #ifdef DEBUG
           altair->outputTextEdit->append(STATE_HTML_TAG " Ajout de l'onglet Siret");
         #endif
@@ -558,7 +548,7 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
         widgetContainer.insert(rank, new QListWidget);
         addNewTab(rank, "Budget");
         Hash::wrapper[frameHashKey]->insert(rank, pairs);
-        Hash::counter[frameHashKey]++;
+
         #ifdef DEBUG
           altair->outputTextEdit->append(STATE_HTML_TAG " Ajout de l'onglet Budget");
         #endif
@@ -581,7 +571,6 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
         emit(is_ntabs_changed(currentIndex+1)); // emits signal of number of tabs/QListWidgets opened
     }
 
-  emit(is_ntracks_changed(Hash::counter[frameHashKey]));
 
   fileListWidget->setTabLabels(allLabels << "Siret" << "Budget");
   currentListWidget->setCurrentRow(Hash::wrapper[frameHashKey]->at(rank - 1).size());
@@ -634,6 +623,8 @@ QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
 void FListFrame::on_importFromMainTree_clicked()
 {
  
+ altair->closeProject();
+
  altair->outputTextEdit->append(STATE_HTML_TAG " Lancement de l'analyse " );
 
  if (isListConnected || isTotalConnected)

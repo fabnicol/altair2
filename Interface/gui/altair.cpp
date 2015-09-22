@@ -97,6 +97,7 @@ Altair::Altair()
     outputTextEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     outputTextEdit->setAcceptDrops(false);
     outputTextEdit->setMinimumHeight(200);
+    outputTextEdit->setReadOnly(true);
 
     connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int)));
 
@@ -201,7 +202,9 @@ void Altair::on_newProjectButton_clicked()
 
 inline void     Altair::openProjectFileCommonCode()
 {
+
     RefreshFlag = RefreshFlag  | interfaceStatus::parseXml;
+
     clearInterfaceAndParseProject();
     // resetting interfaceStatus::parseXml bits to 0
     RefreshFlag = RefreshFlag & (~interfaceStatus::parseXml);
@@ -212,7 +215,8 @@ inline void     Altair::openProjectFileCommonCode()
 
 void Altair::on_openProjectButton_clicked()
 {
-   // closeProject();
+    //if (! Hash::wrapper["XHL"]->isEmpty() && ! Hash::wrapper["XHL"]->at(0).isEmpty()) return;
+    closeProject();
     projectName=QFileDialog::getOpenFileName(this,  tr("Ouvrir le projet"), QDir::currentPath(),  tr("projet altair (*.alt)"));
     if (projectName.isEmpty()) return;
     openProjectFileCommonCode();
@@ -221,7 +225,8 @@ void Altair::on_openProjectButton_clicked()
 
 void Altair::openProjectFile()
 {
-  //  closeProject();
+    //if (! Hash::wrapper["XHL"]->isEmpty() && ! Hash::wrapper["XHL"]->at(0).isEmpty()) return;
+    closeProject();
     projectName=qobject_cast<QAction *>(sender())->data().toString();
     RefreshFlag = RefreshFlag | interfaceStatus::parseXml;
     openProjectFileCommonCode();
@@ -230,17 +235,13 @@ void Altair::openProjectFile()
 
 bool Altair::clearInterfaceAndParseProject()
 {
-//    if (cleardata)
-//    {
-//        clearProjectData();
-//    }
-
     options::RefreshFlag = options::RefreshFlag | interfaceStatus::optionTabs;
     RefreshFlag = RefreshFlag | interfaceStatus::tree;
 
     QTextEdit* editor = parent->getEditor();
 
     if (editor) editor->clear();
+
     checkEmptyProjectName();
     setCurrentFile(projectName);
 
@@ -277,17 +278,6 @@ void Altair::clearProjectData()
                      | interfaceStatus::optionTabs
                      | interfaceStatus::tree;
 
-//    int R=project[0]->getRank();
-
-//    for (int i=1; 2*i <= R+1; i++)
-//    {
-//        /* i <= R-i+1, majorant = nombre de groupes restants */
-//        project[0]->deleteGroup(i, R-i+1);
-//    }
-
-//    project[0]->on_clearList_clicked();
-
-//    project[0]->clearWidgetContainer();
 
     project[0]->deleteAllGroups();
 
@@ -324,8 +314,6 @@ void Altair::clearProjectData()
 
     project[0]->embeddingTabWidget->setCurrentIndex(0);
     project[0]->initializeWidgetContainer();
-
-
 }
 
 void Altair::on_helpButton_clicked()
@@ -603,6 +591,7 @@ void Altair::dropEvent(QDropEvent *event)
         if (size == 0) return;
        
         updateIndexInfo();
+        closeProject();
         if (false == project[0]->addParsedTreeToListWidget(stringsDragged)) return;
 
         Hash::createReference(project[0]->getRank());

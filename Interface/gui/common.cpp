@@ -297,6 +297,7 @@ bool common::unzipDir (const QString& inPath , const QString& outPath)
 
 bool common::unzip (const QString& zipfilename , const QString& filename)
 {
+    IOControl(zipfilename, filename);
     QFile infile(zipfilename);
     QFile outfile(filename);
     qint64 n=0;

@@ -66,6 +66,7 @@ public slots:
    void on_openProjectButton_clicked();
    void on_newProjectButton_clicked();
    void on_deleteItem_clicked();
+   void closeProject();
 
 private slots:
     
@@ -81,7 +82,6 @@ private slots:
     void writeProjectFile();
     void assignGroupFiles( const int group_index);
     void openProjectFile();
-    void closeProject();
 
 private:
 
