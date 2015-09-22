@@ -33,6 +33,9 @@ encodage.code.source <- "UTF-8" #"ISO-8859-15"
 try(setwd("Tests/Exemple"), silent = TRUE)
 
 source("prologue.R", encoding = encodage.code.source)
+if (corriger.environnement.système)
+  Sys.setenv(PATH=paste0(Sys.getenv("PATH"), ";", Sys.getenv("R_HOME"), "/../texlive/bin/win32"))
+
 source(file.path(chemin.dossier, "bibliotheque.fonctions.paie.R"), encoding = encodage.code.source)
 source("import.R", encoding = encodage.code.source)
 

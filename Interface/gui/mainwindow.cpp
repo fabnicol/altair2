@@ -16,7 +16,7 @@ MainWindow::MainWindow(char* projectName)
   #endif
 
   raise();
-  recentFiles=QStringList()<<QString("defaut") ;
+  recentFiles = QStringList() ;
 
   altair=new Altair;
   altair->parent=this;
@@ -122,18 +122,19 @@ QMutableStringListIterator i(recentFiles);
  }
 
 
- for (int j=0 ; j<MaxRecentFiles ; ++j)
+ for (int j  =0 ; j < MaxRecentFiles ; ++j)
  {
    if (j < recentFiles.count())
    {
      QString  text = tr("&%1 %2").arg(j+1).arg(strippedName(recentFiles[j]));
+
      recentFileActions[j]->setText(text);
      recentFileActions[j]->setData(QVariant(recentFiles[j]));
      recentFileActions[j]->setVisible(true);
    } else
 
    {
-    recentFileActions[j]->setVisible(false);
+     recentFileActions[j]->setVisible(false);
    }
 
  }
@@ -476,18 +477,19 @@ void MainWindow::on_editProjectButton_clicked()
 void MainWindow::saveProjectAs()
 {
     QString newstr=QFileDialog::getSaveFileName(this, tr("Enregistrer le projet comme..."), QDir::currentPath(), tr("projet altair (*.alt)"));
-    if (newstr.isEmpty()) return;
-    if (newstr == altair->projectName)
-    {
-        actionHash["Enregistrer"]->trigger();
-        return;
-    }
+    if (newstr.isEmpty())
+                return;
 
     if  (QFileInfo(newstr).isFile())
     {
-          int result = Warning(tr("Ecraser le fichier ?"), tr("Ce fichier va être écrasé.\nAppuyer sur Oui pour confirmer, Non pour quitter."));
+          QMessageBox::StandardButton result = QMessageBox::warning(nullptr, "Ecraser le fichier ?", "Ce fichier va être écrasé.\nAppuyer sur Oui pour confirmer.",
+                                            QMessageBox::Ok | QMessageBox::Cancel);
 
-          if (result != 0)   return;
+
+          if (result != QMessageBox::Ok)
+          {
+              return;
+          }
           else
           {
                  QFile newfile(newstr);
@@ -495,9 +497,7 @@ void MainWindow::saveProjectAs()
           }
     }
 
-    altair->projectName=newstr;
-
-    QFile* file = new QFile(altair->projectName);
+    QFile* file = new QFile(newstr);
 
     if (file->open(QFile::WriteOnly | QFile::Truncate | QFile::Text))
     {
@@ -506,7 +506,11 @@ void MainWindow::saveProjectAs()
     file->close();
     Altair::RefreshFlag =  Altair::RefreshFlag
                             | interfaceStatus::tree;
-    //altair->clearInterfaceAndParseProject(true);
+
+    altair->setCurrentFile(newstr);
+    // attention dans cet ordre !
+    altair->projectName=newstr;
+
 }
 
 

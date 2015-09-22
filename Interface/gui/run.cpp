@@ -76,13 +76,13 @@ void Altair::run()
     
     progress->show();
     
-    args0 <<  "-m" << "-d" << "\",\"" << "-s" << "\";\"";
+    args0 <<  "-m" << "-d" << "," << "-s" << ";";
     args1 << createCommandLineString();
     
     outputTextEdit->append(STATE_HTML_TAG + tr("Décodage des fichiers .xhl..."));
     outputTextEdit->append(PROCESSING_HTML_TAG + tr("Taille totale des fichiers ")+QString::number(Altair::totalSize[0]/(1024*1024)) +tr(" Mo"));
     
-    command=args0.join(" ") + " " ;
+    command = QString("-m -d \",\" -s \";\" ") ;
     QStringListIterator i(args1);
     while (i.hasNext())
     {
