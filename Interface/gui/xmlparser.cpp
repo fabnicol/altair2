@@ -76,14 +76,9 @@ void Altair::writeProjectFile()
 
     out << Altair::makeSystemString();
 
-    out << " </systeme>\n <recent>\n";
+    out << " </systeme>\n";
 
-    QStringListIterator w(parent->recentFiles);
-    QString str;
-    while (w.hasNext() && QFileInfo(str=w.next()).isFile())
-        out    <<  "  <item>" << str << "</item>\n";
-
-    out << " </recent>\n</projet>\n";
+    out << "</projet>\n";
     out.flush();
     options::RefreshFlag=interfaceStatus::hasSavedOptions;
 }
@@ -374,8 +369,6 @@ void Altair::parseProjectFile(QIODevice* file)
 
     if (root.tagName() != "projet") return;
 
-    parent->recentFiles.clear();
-
     QDomNode node= root.firstChild();
 
     /* this stacks data into relevant list structures, processes information
@@ -383,7 +376,7 @@ void Altair::parseProjectFile(QIODevice* file)
 
     Altair::totalSize[0]=0;
 
-    for (const QString& maintag : {"data", "systeme", "recent"})
+    for (const QString& maintag : {"data", "systeme"})
     {
         if (node.toElement().tagName() != maintag) return;
 
@@ -425,10 +418,6 @@ void Altair::parseProjectFile(QIODevice* file)
 
     Hash::createReference(project[0]->getRank());
 
-    /* resets recent files using the ones listed in the dvp project file */
-
-    parent->updateRecentFileActions();
-
     refreshProjectManagerValues(manager::refreshProjectInteractiveMode
                                 | manager::refreshXHLZone
                                 | manager::refreshSystemZone);
@@ -451,8 +440,6 @@ FStringList Altair::parseEntry(const QDomNode &node, QTreeWidgetItem *itemParent
     {
         case 0: 
                 XmlMethod::stackData(node, 0, textData);
-                if (node.toElement().tagName() == "item")
-                    parent->recentFiles.append(textData.toString());
                 return FStringList(textData.toString());
         case 1:
                 XmlMethod::stackData(node, 1, textData);

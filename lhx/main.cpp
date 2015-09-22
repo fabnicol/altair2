@@ -150,7 +150,7 @@ int main(int argc, char **argv)
             generer_table = true;
             if (! strcmp(argv[start + 1], "standard"))
             {
-                strncpy_s(type_table, argv[start + 1], 50*sizeof(char));
+                strncpy(type_table, argv[start + 1], 50*sizeof(char));
                 start += 2;
                 continue;
             }

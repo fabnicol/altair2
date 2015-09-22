@@ -33,8 +33,8 @@ knitr::opts_chunk$set(fig.width = 7.5, echo = FALSE, warning = FALSE, message = 
 #  que à chaque code donné on a associé un et un seul type de rémunération ("INDEMNITAIRE", "TRAITEMENT", etc.)
 # Pour le mode rapide, convertir les fichiers base en UTF-8 SANS BOM (par exemple, notepad++ après Excel)
 
-
-fichier.personnels.existe <- file.exists(chemin(nom.fichier.personnels))
+ 
+fichier.personnels.existe <- (charger.catégories.personnel == TRUE) & file.exists(chemin(nom.fichier.personnels))
 
 if (fichier.personnels.existe) {
   base.personnels.catégorie <- read.csv.skip(nom.fichier.personnels, séparateur.liste = séparateur.liste.entrée, séparateur.décimal = séparateur.décimal.entrée)
