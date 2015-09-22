@@ -20,8 +20,8 @@ racine                      <- "R-Altaïr/"
 # "RAG_2009_2012-"
 
 extraire.années      <- F
-    début.période.sous.revue    <- 2013
-    fin.période.sous.revue      <- 2014
+  début.période.sous.revue    <- 2013
+  fin.période.sous.revue      <- 2014
 
 setOSWindows            <- Sys.info()["sysname"] != "Linux"
 exec.root               <- ifelse(setOSWindows, ".exe", "")
