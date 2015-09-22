@@ -24,7 +24,6 @@ void Altair::initialize()
     adjustSize();
     
     Hash::description["année"]=QStringList("Fichiers .xhl");
-    Hash::description["recent"]=QStringList("Récent");
     Abstract::initializeFStringListHash("NBulletins");
 
 }
@@ -205,6 +204,8 @@ inline void     Altair::openProjectFileCommonCode()
 
     RefreshFlag = RefreshFlag  | interfaceStatus::parseXml;
 
+    checkEmptyProjectName();
+    setCurrentFile(projectName);
     clearInterfaceAndParseProject();
     // resetting interfaceStatus::parseXml bits to 0
     RefreshFlag = RefreshFlag & (~interfaceStatus::parseXml);
@@ -241,9 +242,6 @@ bool Altair::clearInterfaceAndParseProject()
     QTextEdit* editor = parent->getEditor();
 
     if (editor) editor->clear();
-
-    checkEmptyProjectName();
-    setCurrentFile(projectName);
 
     return refreshProjectManager();
 
@@ -422,7 +420,9 @@ bool Altair::updateProject(bool requestSave)
 
     if (parent->isDefaultSaveProjectChecked() || requestSave)
         writeProjectFile();
-//return true;
+
+    setCurrentFile(projectName);
+
     return refreshProjectManager();
 }
 
@@ -431,19 +431,17 @@ bool Altair::updateProject(bool requestSave)
 
 void Altair::setCurrentFile(const QString &fileName)
 {
-    curFile =fileName;
     setWindowModified(false);
 
-    QString shownName = "Sans titre";
-
-    if (!curFile.isEmpty())
+    if (! fileName.isEmpty())
     {
-        shownName =parent->strippedName(curFile);
-        parent->recentFiles.prepend(curFile);
+        if (parent->recentFiles.isEmpty() || parent->recentFiles.at(0) != fileName)
+          parent->recentFiles.prepend(fileName);
         parent->updateRecentFileActions();
+
     }
 
-    parent->settings->setValue("defaut", QVariant(curFile));
+    parent->settings->setValue("defaut", QVariant(fileName));
 }
 
 

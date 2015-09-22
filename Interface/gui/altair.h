@@ -26,7 +26,6 @@ public:
     QTreeWidget *managerWidget= new QTreeWidget;
     QTreeView *fileTreeView= new QTreeView;
     QString projectName;
-    QString curFile;
     FListFrame *project[1];
 
     QTextEdit *outputTextEdit = new QTextEdit;

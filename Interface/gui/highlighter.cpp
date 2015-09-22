@@ -83,7 +83,7 @@ Highlighter::Highlighter(QTextDocument *parent)
 
     createRulePattern(Qt::darkGreen, QFont::Black, {"\"[^\"]*\""});
 
-    createRulePattern(Qt::red, QFont::Black, {"<[/]?", ">", "data>", "systeme>", "recent>", "projet>", "<\\?xml"});
+    createRulePattern(Qt::red, QFont::Black, {"<[/]?", ">", "data>", "systeme>", "projet>", "<\\?xml"});
 }
 
 void Highlighter::highlightBlock(const QString &text)
