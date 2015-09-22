@@ -21,6 +21,6 @@ Author: Matt Wand [aut],
   Brian Ripley [trl, cre, ctb] (R port and updates)
 Maintainer: Brian Ripley <ripley@stats.ox.ac.uk>
 Repository: CRAN
-Date/Publication: 2015-06-29 17:15:14
-Built: R 3.2.1; x86_64-w64-mingw32; 2015-07-31 02:33:48 UTC; windows
+Date/Publication: 2015-06-29 17:14:29
+Built: R 3.2.2; x86_64-w64-mingw32; 2015-08-14 10:11:07 UTC; windows
 Archs: i386, x64
