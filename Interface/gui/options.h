@@ -18,7 +18,6 @@ class standardPage : public common
 
 public :
     standardPage();
-    FLineEdit *lhxLineEdit,  *baseLineEdit;
 
 private:
     FComboBox
@@ -47,7 +46,6 @@ private:
  private slots :
 
     void on_processTypeWidgetChanged(int){}
-    void on_openDirButton_clicked(const FLineEdit*);
     void selectBaseOutput(FLineEdit*, flags::directory = directory::noCheck);
     void selectLogOutput();
 };
