@@ -133,15 +133,15 @@
      <item V="nul" S="" B="" E="">24380090100023 REGIE ASSAINISSEMENT</item>
    </onglet>
    <onglet V="Budget">
-     <item V="nul" S="" B="" E="">BUDGET PRINCIPAL</item>
      <item V="nul" S="" B="" E="">ASSAINISSEMENT</item>
+     <item V="nul" S="" B="" E="">BUDGET PRINCIPAL</item>
      <item V="nul" S="" B="" E="">Multi budgets</item>
    </onglet>
   </XHL>
  </data>
  <systeme>
   <fileManagerDisplay profondeur="0">
-   oui
+   non
   </fileManagerDisplay>
   <projectManagerDisplay profondeur="0">
    oui
@@ -153,19 +153,19 @@
    oui
   </outputTextEdit>
   <fileToolBar profondeur="0">
-   oui
+   non
   </fileToolBar>
   <editToolBar profondeur="0">
-   oui
+   non
   </editToolBar>
   <processToolBar profondeur="0">
-   oui
+   non
   </processToolBar>
   <optionsToolBar profondeur="0">
-   oui
+   non
   </optionsToolBar>
   <aboutToolBar profondeur="0">
-   oui
+   non
   </aboutToolBar>
   <saveProjectBehavior profondeur="0">
    oui
@@ -176,21 +176,15 @@
   <base profondeur="0">
    C:\Dev\altair\Tests\Exemple\Donnees\R-Altaïr
   </base>
-  <xhlDir profondeur="0">
-   C:\Dev\altair\win
-  </xhlDir>
+  <lhxDir profondeur="0">
+     
+  </lhxDir>
   <baseType profondeur="0">
      
   </baseType>
   <maxLigne profondeur="0">
      
   </maxLigne>
-  <separateur profondeur="0">
-   ;
-  </separateur>
-  <decimal profondeur="0">
-   ,
-  </decimal>
   <processType profondeur="0">
    '8'
   </processType>
@@ -216,6 +210,4 @@
    oui
   </ecoRAM>
  </systeme>
- <recent>
- </recent>
 </projet>
