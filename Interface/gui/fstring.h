@@ -157,6 +157,7 @@ public:
   static QList<QStringList> Reference;
   static inline void createReference(int rank)
   {
+      Reference.clear();
       for(int j = 0; j <= rank && j < wrapper["XHL"]->size(); ++j)
       {
           (*wrapper["XHL"])[j].sort();
