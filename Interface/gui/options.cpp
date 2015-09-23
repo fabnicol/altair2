@@ -7,6 +7,7 @@
 #include "browser.h"
 #include "altair.h"
 #include "templates.h"
+#include "flineframe.hpp"
 
 extern template void createHash(QHash<QString, QString>&, const QList<QString>*, const QList<QString>*);
 
@@ -14,41 +15,22 @@ standardPage::standardPage()
 {
 
     QGroupBox *baseBox= new QGroupBox(tr("Répertoires"));
-    QGridLayout *baseLayout= new QGridLayout;
 
-    baseLineEdit= new FLineEdit(QDir::toNativeSeparators(QDir::cleanPath(QCoreApplication::applicationDirPath()+ systemPathPrefix+ "Tests/Exemple/Donnees/R-Altaïr" )),
-                                        "base",
-                                       {"Base", "Répertoire de la base .csv"},
-                                        "D");
-
-    QLabel *baseLabel= new QLabel(tr("Répertoire de la base"));
-    QToolDirButton *baseButton;
-
-    baseButton= new QToolDirButton(tr("Sélectionner le répertoire de la base de données .csv\nen sortie de l'application"));
-    
-    QToolDirButton *openBaseButton=new QToolDirButton(tr("Ouvrir le répertoire "), actionType::OpenFolder);
-
-    lhxLineEdit= new FLineEdit(execPath,
-                               "lhxDir",
-                               {"Application noyau", "Répertoire de l'application noyau lhx"});
-
-    QLabel *xhlLabel= new QLabel(tr("Répertoire de l'application noyau"));
+    FLineFrame donneesCSV = FLineFrame("s données csv",
+                                       QDir::toNativeSeparators(QDir::cleanPath(QCoreApplication::applicationDirPath()+ systemPathPrefix+ "Tests/Exemple/Donnees/R-Altaïr" )),
+                                       "base",
+                                       std::make_pair(0,0),
+                                       "D");
 
 
-    QToolDirButton *xhlButton= new QToolDirButton(tr("Sélectionner le répertoire de l'application noyau xhl"));
+    FLineFrame applicationNoyau = FLineFrame(
+                " l'application noyau",
+                QDir::toNativeSeparators(QDir::cleanPath(QCoreApplication::applicationDirPath()+ systemPathPrefix+ "Tests/Exemple/Donnees/R-Altaïr" )),
+                "base",
+                std::make_pair(0,0),
+                "D");
 
-    QToolDirButton *openXhlButton=new QToolDirButton(tr("Ouvrir le répertoire "), actionType::OpenFolder);
-
-    baseLayout->addWidget(baseLineEdit,   1, 0);
-    baseLayout->addWidget(baseLabel,      0, 0);
-    baseLayout->addWidget(baseButton,     1, 1);
-    baseLayout->addWidget(openBaseButton, 1, 2);
-    baseLayout->addWidget(lhxLineEdit,    3, 0);
-    baseLayout->addWidget(xhlLabel,       2, 0);
-    baseLayout->addWidget(xhlButton,      3, 1);
-    baseLayout->addWidget(openXhlButton,  3, 2);
-
-    baseBox->setLayout(baseLayout);
+    baseBox->setLayout(donneesCSV.layout());
     
     baseTypeBox=new QGroupBox(tr("Type de base en sortie"));
     processTypeBox=new QGroupBox(tr("Mode d'exécution"));
@@ -197,62 +179,15 @@ standardPage::standardPage()
             SIGNAL(currentIndexChanged(int)),
             this, SLOT(on_processTypeWidgetChanged(int)));
     
-    connect(openBaseButton,
-            &QToolButton::clicked,
-            [&]{ on_openDirButton_clicked(baseLineEdit);});
-    
-    connect(openXhlButton,
-            &QToolButton::clicked,
-            [=]{ on_openDirButton_clicked(lhxLineEdit);});
-
-    connect(openLogButton,
-            &QToolButton::clicked,
-            [&]{ on_openDirButton_clicked(logLineEdit);});
-
-    connect(baseButton,
-            &QToolButton::clicked,
-            [&]{ selectBaseOutput(baseLineEdit, directory::checkEmptyness);});
-
-    connect(xhlButton,
-            &QToolButton::clicked,
-            [&]{ selectBaseOutput(lhxLineEdit); });
 
     connect(logButton,
             SIGNAL(clicked()),
             this, SLOT(selectLogOutput()));
 }
 
-void standardPage::on_openDirButton_clicked(const FLineEdit* line)
-{
-    const QString &path= line->text();
-    QFileInfo info(path);
-    if (info.isDir() == false)
-    {
-        if (info.isFile() == false)
-        {
-            Warning0(QString("Répertoire"), QString("Le répertoire ou le fichier %1 n'a pas été créé").arg(path));
-            return;
-        }
-        else
-        if (info.completeSuffix() != QString("log"))
-        {
-            Warning0(QString("Log"), QString("Le fichier de log %1 n'a pas été créé").arg(path));
-            return;
-        }
-        else
-            common::openDir(info.path());
-    }
-    else
-    common::openDir(path);
-}
 
 
-void standardPage::selectBaseOutput(FLineEdit* line, flags::directory checkEmptyness)
-{
-   QString path;
-   if ((path=common::openDirDialog(checkEmptyness)) == NULL) return;
-   line->setText(path);
-}
+
 
 void standardPage::selectLogOutput()
 {

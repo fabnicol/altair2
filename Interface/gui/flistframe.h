@@ -21,10 +21,7 @@ Q_OBJECT
 
 private:
 
-  inline void updateIndexInfo();
-#if 0
-  void deleteGroups(QList<int> &L);
-#endif
+ inline void updateIndexInfo();
 
  QList<QListWidget*> widgetContainer;
  FListWidget *fileListWidget;

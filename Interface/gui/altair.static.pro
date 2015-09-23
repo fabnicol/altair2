@@ -48,7 +48,8 @@ SOURCES += \
     xmlparser.cpp \
     highlighter.cpp \
     run.cpp \
-    elemParser.cpp
+    elemParser.cpp \
+    flineframe.cpp
 
 HEADERS  += \
     options.h \
@@ -65,7 +66,8 @@ HEADERS  += \
     tags.h \
     templates.h \
     altair-gui.h \
-    elemParser.hpp
+    elemParser.hpp \
+    flineframe.hpp
 
 
 RESOURCES += \

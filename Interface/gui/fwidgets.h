@@ -244,11 +244,13 @@ class FLineEdit : public QLineEdit, public FAbstractWidget
 public:
   FLineEdit(const QString &defaultstring, int status, const QString &hashKey, const QStringList &description, const QString &commandLine);
   FLineEdit(const QString &defaultstring, const QString &hashKey, const QStringList &description, const QString &commandLine):
-  FLineEdit(defaultstring, flags::status::defaultStatus|flags::commandLineType::defaultCommandLine, hashKey, description, commandLine){}
+     FLineEdit(defaultstring, flags::status::defaultStatus|flags::commandLineType::defaultCommandLine, hashKey, description, commandLine){}
 
   FLineEdit(const QString &defaultstring, const QString &hashKey, const QStringList &description):
-  FLineEdit(defaultstring, flags::status::defaultStatus|flags::commandLineType::noCommandLine, hashKey, description, ""){}
-  
+     FLineEdit(defaultstring, flags::status::defaultStatus|flags::commandLineType::noCommandLine, hashKey, description, ""){}
+
+  FLineEdit(): FLineEdit("", "noDesc", {"", ""}) {}
+
   void setWidgetFromXml(const FStringList&);
   const FString setXmlFromWidget();
   void refreshWidgetDisplay();
