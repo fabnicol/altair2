@@ -735,9 +735,14 @@ void FListFrame::showContextMenu()
             }
 
 
-            if (Hash::Reference.size() != size || Hash::Reference.size() != size)
+            if (Hash::Reference.size() != size || getRank()+1 != size)
             {
-                QMessageBox::critical(nullptr, "Erreur", "Incohérence des tailles des tables de référence.", QMessageBox::Cancel);
+                QMessageBox::critical(nullptr, "Erreur", "Incohérence des tailles des tables de référence : \n\
+ Référence : " + QString::number(Hash::Reference.size()) +
+ "\nWrapper size : " + QString::number(size) +
+ "\nWidget size : " + QString::number(getRank()+1),
+                                      QMessageBox::Cancel);
+
                 return;
             }
 
