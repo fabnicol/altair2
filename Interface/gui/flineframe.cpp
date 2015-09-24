@@ -3,31 +3,42 @@
 #include <QWidget>
 #include "fwidgets.h"
 #include "enums.h"
-
-FLineFrame::FLineFrame(const QString& titre,
+#if 1
+FLineFrame::FLineFrame(const QStringList& titre,
                        const QString& defaut,
                        const QString& xmlTag,
-                       std::pair<int, int> coord,
+                       const QList<int>& coord,
+                       QGridLayout* inputLayout,
                        const QString& commandline,
                        flags::directory check)
 {
-    QGridLayout *baseLayout= new QGridLayout;
-    if (baseLayout == nullptr) return;
-    int row = coord.first;
-    int column = coord.second;
-    const QStringList qstrl = QStringList() << titre << "Répertoire de" + titre;
+    if (inputLayout == nullptr)
+       frameLayout= new QGridLayout;
+    else
+        frameLayout = inputLayout;
 
-    lineEdit = commandline.isEmpty()?  new FLineEdit(defaut, xmlTag, qstrl) : new FLineEdit(defaut, xmlTag, qstrl, commandline);
-    label = new QLabel("Répertoire de" + titre);
-    sButton = new QToolDirButton("Sélectionner le répertoire de" + titre);
+    if (frameLayout == nullptr) return;
+    int row = coord.at(0);
+    int column = coord.at(1);
+
+    if (titre.size() < 2) return;
+
+    if (commandline.isEmpty())
+        lineEdit =  new FLineEdit(defaut, xmlTag, titre);
+    else
+        lineEdit = new FLineEdit(defaut, xmlTag, titre, commandline);
+
+    label = new QLabel(titre.at(1));
+    sButton = new QToolDirButton("Sélectionner le répertoire");
     oButton = new QToolDirButton("Ouvrir le répertoire ", actionType::OpenFolder);
 
-    baseLayout->addWidget(lineEdit,    row + 1, column);
-    baseLayout->addWidget(label,       row, column);
-    baseLayout->addWidget(sButton,     row + 1, column + 1);
-    baseLayout->addWidget(oButton,     row + 1, column + 2);
+    componentList = {sButton, oButton, label, lineEdit};
+    frameLayout->addWidget(lineEdit,    row + 1, column);
+    frameLayout->addWidget(label,       row, column);
+    frameLayout->addWidget(sButton,     row + 1, column + 1);
+    frameLayout->addWidget(oButton,     row + 1, column + 2);
 
-    connect(oButton,
+    QObject::connect(oButton,
             &QToolButton::clicked,
             [&]{
                     const QString &path= lineEdit->text();
@@ -41,13 +52,13 @@ FLineFrame::FLineFrame(const QString& titre,
                         }
 
                         else
-                            common::openDir(info.path());
+                            this->openDir(info.path());
                     }
                     else
                     openDir(path);
                });
 
-    connect(oButton,
+    QObject::connect(sButton,
             &QToolButton::clicked,
             [&]{
                    QString path;
@@ -56,3 +67,4 @@ FLineFrame::FLineFrame(const QString& titre,
                });
 
 }
+#endif

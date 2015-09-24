@@ -15,22 +15,21 @@ standardPage::standardPage()
 {
 
     QGroupBox *baseBox= new QGroupBox(tr("Répertoires"));
+    donneesCSV = new FLineFrame({"Données csv", "Répertoire des données"},
+                                   path_access("Tests/Exemple/Donnees/R-Altaïr" ),
+                                   "base",
+                                   {0,0},
+                                   nullptr,
+                                   "D");
 
-    FLineFrame donneesCSV = FLineFrame("s données csv",
-                                       QDir::toNativeSeparators(QDir::cleanPath(QCoreApplication::applicationDirPath()+ systemPathPrefix+ "Tests/Exemple/Donnees/R-Altaïr" )),
-                                       "base",
-                                       std::make_pair(0,0),
-                                       "D");
+    applicationNoyau = new FLineFrame(
+                {"Application noyau LHX", "Répertoire de l'application noyau" },
+                path_access(System),
+                "lhxDir",
+                {2,0},
+                donneesCSV->getLayout());
 
-
-    FLineFrame applicationNoyau = FLineFrame(
-                " l'application noyau",
-                QDir::toNativeSeparators(QDir::cleanPath(QCoreApplication::applicationDirPath()+ systemPathPrefix+ "Tests/Exemple/Donnees/R-Altaïr" )),
-                "base",
-                std::make_pair(0,0),
-                "D");
-
-    baseBox->setLayout(donneesCSV.layout());
+    baseBox->setLayout(applicationNoyau->getLayout());
     
     baseTypeBox=new QGroupBox(tr("Type de base en sortie"));
     processTypeBox=new QGroupBox(tr("Mode d'exécution"));
@@ -109,22 +108,23 @@ standardPage::standardPage()
                                 {"Générer la table .csv", "type standard"},
                                 "t");
 
-    QLabel* logLineLabel = new QLabel("Chemin du Log");
 
-    logLineEdit= new FLineEdit("",
-                                        "log",
-                                       {"Générer un log d'exécution", "chemin du log"},
-                                        "L");
+    QGridLayout *v1Layout = new QGridLayout;
+    QGridLayout *v2Layout = new QGridLayout;
 
-    QToolDirButton* logButton= new QToolDirButton(tr("Sélectionner le log\nen sortie de l'application noyau"));
+    logFrame = new FLineFrame({"Log","Répertoire du log"},
+                              "",
+                              "log",
+                              {7,1},
+                              v2Layout,
+                              "L");
 
-    QToolDirButton *openLogButton=new QToolDirButton(tr("Ouvrir le répertoire du log"), actionType::OpenFolder);
 
     logCheckBox=new FCheckBox("Générer le log  ",
                               flags::status::enabledUnchecked | flags::commandLineType::noCommandLine,
                                 "genererLog",
                                 {"Générer un log d'exécution", "application noyau"},
-                               {logLineLabel, logLineEdit, logButton, openLogButton});
+                               logFrame->getComponentList());
 
     economeCheckBox=new FCheckBox("Economiser la RAM  ",
                                   flags::status::enabledChecked | flags::commandLineType::altairCommandLine,
@@ -134,10 +134,6 @@ standardPage::standardPage()
                                  {NULL},
                                  { nLineLabel, NLineLabel, nLineEdit, NLineEdit});
 
-
-    QGridLayout *v1Layout = new QGridLayout;
-    QGridLayout *v2Layout = new QGridLayout;
-    
     v1Layout->addWidget(baseTypeLabel,     1,0,Qt::AlignRight);
     v1Layout->addWidget(baseTypeWidget,    1,1,Qt::AlignLeft);
     v1Layout->addWidget(maxNLigneLabel,    2,0,Qt::AlignRight);
@@ -154,10 +150,6 @@ standardPage::standardPage()
     v2Layout->addWidget(processTypeLabel,  5,0,Qt::AlignRight);
     v2Layout->addWidget(processTypeWidget, 5,1,Qt::AlignLeft);
     v2Layout->addWidget(logCheckBox,       6,0,Qt::AlignLeft);
-    v2Layout->addWidget(logLineLabel,      7,1,Qt::AlignLeft);
-    v2Layout->addWidget(logLineEdit,       8,1,Qt::AlignLeft);
-    v2Layout->addWidget(logButton,         8,2);
-    v2Layout->addWidget(openLogButton,     8,3);
 
     baseTypeBox->setLayout(v1Layout);
     processTypeBox->setLayout(v2Layout);
@@ -178,23 +170,7 @@ standardPage::standardPage()
     connect(processTypeWidget,
             SIGNAL(currentIndexChanged(int)),
             this, SLOT(on_processTypeWidgetChanged(int)));
-    
 
-    connect(logButton,
-            SIGNAL(clicked()),
-            this, SLOT(selectLogOutput()));
-}
-
-
-
-
-
-void standardPage::selectLogOutput()
-{
-   QString path;
-   if ((path=QFileDialog::getSaveFileName(this, "Sélectionner le log",
-                                          QDir::currentPath()+QDir::separator()+"altair.log", "Log (*.log)")) == NULL) return;
-   logLineEdit->setText(path);
 }
 
 
@@ -220,7 +196,7 @@ options::options(Altair* parent)
             {
                 options::RefreshFlag =  interfaceStatus::hasUnsavedOptions;
                 accept();
-                parent->execPath = standardTab->lhxLineEdit->text();
+                parent->execPath = standardTab->donneesCSV->getText();
                 parent->altairCommandStr =  parent->execPath +  QDir::separator() + ("lhx"+ QString(systemSuffix));
 
                 parent->updateProject(true);

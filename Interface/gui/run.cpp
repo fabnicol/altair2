@@ -98,11 +98,11 @@ void Altair::run()
     outputType="L";
     
     process->setProcessChannelMode(QProcess::MergedChannels);
-    process->setWorkingDirectory(execPath);
+    process->setWorkingDirectory(common::execPath);
     progress->setRange(0, 60);
 
 #ifdef DEBUG
-    outputTextEdit->append(PROCESSING_HTML_TAG + tr("Démarrage dans ") + execPath);
+    outputTextEdit->append(PROCESSING_HTML_TAG + tr("Démarrage dans ") + common::execPath);
 
 #endif
     fileRank=0;
