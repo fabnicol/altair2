@@ -1,7 +1,7 @@
 #ifndef OPTIONS_H
 #define OPTIONS_H
 
-
+#include "flineframe.hpp"
 #include "flistframe.h"
 #include "common.h"
 
@@ -11,6 +11,7 @@ class Altair;
 class RAltairPage;
 class QToolDirButton;
 class FListFrame;
+class FLineFrame;
 
 class standardPage : public common
 {
@@ -18,6 +19,7 @@ class standardPage : public common
 
 public :
     standardPage();
+    FLineFrame *donneesCSV, *applicationNoyau, *logFrame;
 
 private:
     FComboBox
@@ -25,7 +27,6 @@ private:
       *processTypeWidget;
     
     FLineEdit 
-     *logLineEdit,
      *maxNLigneLineEdit,
      *nLineEdit,
      *NLineEdit;
@@ -46,8 +47,7 @@ private:
  private slots :
 
     void on_processTypeWidgetChanged(int){}
-    void selectBaseOutput(FLineEdit*, flags::directory = directory::noCheck);
-    void selectLogOutput();
+
 };
 
 

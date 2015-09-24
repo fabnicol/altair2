@@ -248,16 +248,13 @@ public:
 
   FLineEdit(const QString &defaultstring, const QString &hashKey, const QStringList &description):
      FLineEdit(defaultstring, flags::status::defaultStatus|flags::commandLineType::noCommandLine, hashKey, description, ""){}
-
-  FLineEdit(): FLineEdit("", "noDesc", {"", ""}) {}
-
+  FLineEdit() {}
   void setWidgetFromXml(const FStringList&);
   const FString setXmlFromWidget();
   void refreshWidgetDisplay();
   bool isAbstractEnabled() {return this->isEnabled();}
 
 private:
-
 
 };
 
