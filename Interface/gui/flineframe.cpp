@@ -29,7 +29,9 @@ FLineFrame::FLineFrame(const QStringList& titre,
         lineEdit = new FLineEdit(defaut, xmlTag, titre, commandline);
 
     label = new QLabel(titre.at(1));
-    sButton = new QToolDirButton("Sélectionner le répertoire");
+    sButton = new QToolDirButton(QString("Sélectionner le ")+ ((pathCategory == flags::flineframe::isDirectoryPath)?
+                                                     "répertoire" : "fichier") );
+
     oButton = new QToolDirButton("Ouvrir le répertoire ", actionType::OpenFolder);
 
     componentList = {sButton, oButton, label, lineEdit};
@@ -41,30 +43,54 @@ FLineFrame::FLineFrame(const QStringList& titre,
     QObject::connect(oButton,
             &QToolButton::clicked,
             [&]{
-                    const QString &path= lineEdit->text();
-                    QFileInfo info(path);
-                    if (info.isDir() == false)
-                    {
-                        if (info.isFile() == false)
+                    QString path= lineEdit->text();
+                    const QFileInfo info(path);
+                        if (pathCategory == flags::flineframe::isDirectoryPath && ! info.isDir())
                         {
-                            Warning0(QString("Répertoire"), QString("Le répertoire ou le fichier %1 n'a pas été créé").arg(path));
+                            Warning0(QString("Répertoire"), QString("Le répertoire %1 n'a pas été créé").arg(path));
                             return;
                         }
+                        if (pathCategory == flags::flineframe::isFilePath)
+                        {
+                              path = info.path();
+                        }
 
-                        else
-                            this->openDir(info.path());
-                    }
-                    else
-                    openDir(path);
+                        openDir(path);
                });
 
     QObject::connect(sButton,
             &QToolButton::clicked,
-            [&]{
+            [&, titre]{
                    QString path;
-                   if ((path = openDirDialog(check)) == nullptr) return;
-                   lineEdit->setText(path);
-               });
+                   QFileInfo info(path);
+                   if (pathCategory == flags::flineframe::isDirectoryPath)
+                   {
+                       if ((path = openDirDialog(check)) == nullptr) return;
+                   }
+                   else
+                       if (pathCategory == flags::flineframe::isFilePath)
+                       {
+                           QString dirpath;
 
+                          if (info.isFile())
+                          {
+                              dirpath = info.path();
+                          }
+                          else
+                          if (info.isDir())
+                          {
+                              dirpath = path;
+                          }
+                          else
+                              dirpath = QDir::currentPath();
+
+                          path = QFileDialog::getSaveFileName(nullptr, titre.at(1), dirpath, "Fichier Log (*.log)");
+
+                          if (path.isNull() || path.isEmpty())
+                           return;
+                       }
+
+                    lineEdit->setText(path);
+               });
 }
 #endif

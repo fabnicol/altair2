@@ -4,6 +4,8 @@
 #include "fwidgets.h"
 #include "fstring.h"
 #include "common.h"
+#include "enums.h"
+
 #if 1
 class FLineFrame : public FLineEdit, public common
 {
@@ -25,8 +27,12 @@ QString getText(){ return lineEdit->text();}
 QGridLayout* getLayout(){ return frameLayout;}
 // on a dû la réimplémenter pour des raisons obscures. Pourtant FLineEdit dérive de FAbstractWidget...
 QList<QWidget*> getComponentList() {return componentList;}
+void setPathCategory(flags::flineframe t)
+     {
+       pathCategory = t;
+       sButton->setText("Sélectionner le fichier");
+     }
 
-//QLayout* getLayout {return layout
 private:
 
 QGridLayout* frameLayout;
@@ -35,6 +41,7 @@ QLabel *label;
 QToolDirButton *sButton;
 QToolDirButton *oButton;
 QList<QWidget*> componentList;
+flags::flineframe pathCategory;
 };
 #endif
 #endif
