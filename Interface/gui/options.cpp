@@ -112,13 +112,14 @@ standardPage::standardPage()
     QGridLayout *v1Layout = new QGridLayout;
     QGridLayout *v2Layout = new QGridLayout;
 
-    logFrame = new FLineFrame({"Log","Répertoire du log"},
+    logFrame = new FLineFrame({"Log","Chemin du fichier du log"},
                               "",
                               "log",
                               {7,1},
                               v2Layout,
                               "L");
 
+    logFrame->setPathCategory(flags::flineframe::isFilePath);
 
     logCheckBox=new FCheckBox("Générer le log  ",
                               flags::status::enabledUnchecked | flags::commandLineType::noCommandLine,
@@ -196,7 +197,7 @@ options::options(Altair* parent)
             {
                 options::RefreshFlag =  interfaceStatus::hasUnsavedOptions;
                 accept();
-                parent->execPath = standardTab->donneesCSV->getText();
+                parent->execPath = standardTab->applicationNoyau->getText();
                 parent->altairCommandStr =  parent->execPath +  QDir::separator() + ("lhx"+ QString(systemSuffix));
 
                 parent->updateProject(true);

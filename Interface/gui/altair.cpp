@@ -103,12 +103,19 @@ Altair::Altair()
     project[0]->model=model;
     project[0]->slotList=nullptr;
 
+    ///// Ce qui suit présupose que les connexions déclenchées par le click
+    // sont préalablement traitées par FListFrame (ce qui est le cas)
+
     connect(project[0]->importFromMainTree, &QToolButton::clicked,
             [this]{
         updateProject();
         displayTotalSize();
-
+        checkAnnumSpan();
     });
+
+    /////
+
+
     project[0]->importFromMainTree->setVisible(visibility);
 #ifndef USE_RIGHT_CLICK
     connect(project[0]->deleteGroupButton, SIGNAL(clicked()), this, SLOT(deleteGroup()));
@@ -546,6 +553,46 @@ bool Altair::refreshProjectManager()
     return (filesize !=  0);
 }
 
+void Altair::checkAnnumSpan()
+{
+    const QStringList monthRef = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"};
+    int r = project[0]->getRank() - 1;
+
+    for (int i = 0; i < r; ++i)
+    {
+        QStringList monthList;
+
+        for (const QString& fileName : Hash::wrapper["XHL"]->at(i))
+            monthList << Hash::Mois[fileName];
+
+        monthList.removeDuplicates();
+
+        QStringListIterator w(monthList);
+
+        while (w.hasNext())
+        {
+            QString month = w.next();
+
+            if (month.at(0) == '0')
+                month.remove(0, 1);
+        }
+
+        monthList.removeDuplicates();
+        monthList.sort();
+
+        QStringListIterator z(monthRef);
+        while (z.hasNext())
+        {
+            QString currentMonth;
+            if (! monthList.contains(currentMonth = z.next()))
+             QMessageBox::critical(nullptr, "Données incomplètes",
+                                            "Il manque des données mensuelles pour l'année " + project[0]->getTabLabels().at(i) +
+                                            " mois "+ currentMonth,
+                                            QMessageBox::Ok);
+        }
+    }
+}
+
 
 void Altair::dragEnterEvent(QDragEnterEvent *event)
 {
@@ -591,6 +638,7 @@ void Altair::dropEvent(QDropEvent *event)
         updateIndexInfo();
         closeProject();
         if (false == project[0]->addParsedTreeToListWidget(stringsDragged)) return;
+        checkAnnumSpan();
 
         Hash::createReference(project[0]->getRank());
 

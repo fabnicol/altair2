@@ -151,8 +151,8 @@ public:
   static QHash<QString, QString> Annee;
   static QHash<QString, QString> Mois;
   static QHash<QString, QString> Budget;
-  static QHash<QString, QString> Siret;
-  static QHash<QString, QString> Etablissement;
+  static QHash<QString, QStringList> Siret;
+  static QHash<QString, QStringList> Etablissement;
   static QHash<QString, bool>    Suppression;
   static QList<QStringList> Reference;
   static inline void createReference(int rank)

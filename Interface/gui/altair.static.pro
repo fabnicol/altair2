@@ -25,7 +25,8 @@ DEFINES += QT_NO_OPENGL \
            STATIC  \ 
            LOCAL_BINPATH \
            REGEX_PARSING_FOR_HEADERS \
-           USE_RIGHT_CLICK
+           USE_RIGHT_CLICK \
+           BUFFER_SIZE = 50000
 
 windows:RC_ICONS = neptune.ico
 
