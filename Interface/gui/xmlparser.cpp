@@ -133,9 +133,11 @@ inline void stackData(const QDomNode & node, int level, QVariant &textData)
             QString str = strV.toString();
             strL << str;
             Hash::Mois[str] = childNode.toElement().attribute("V");
-            Hash::Siret[str] = childNode.toElement().attribute("S");
+            Hash::Siret[str] << childNode.toElement().attribute("S");
             Hash::Budget[str] = childNode.toElement().attribute("B");
-            Hash::Etablissement[str] = childNode.toElement().attribute("E");
+            Hash::Etablissement[str] << childNode.toElement().attribute("E");
+            Hash::Siret[str] << childNode.toElement().attribute("S2");
+            Hash::Etablissement[str] << childNode.toElement().attribute("E2");
             childNode=childNode.nextSibling();
         }
         textData=QVariant(strL);
@@ -300,7 +302,13 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
             const QString filename = w.next();
             thirdColumn += filename;
             secondColumn =  Hash::Mois[filename];
-            sixthColumn =  Hash::Siret[filename] + " " + Hash::Etablissement[filename] ;
+            sixthColumn =  Hash::Siret[filename].at(0) + " " + Hash::Etablissement[filename].at(0);
+
+            if (Hash::Siret[filename].size() == 2)
+                sixthColumn += " "+ Hash::Siret[filename].at(1);
+            if (Hash::Etablissement[filename].size() == 2)
+                sixthColumn += " " + Hash::Etablissement[filename].at(1);
+
             seventhColumn =  Hash::Budget[filename];
             if ((stackedSizeInfo.size() > 0) && (y.hasNext()))
             {

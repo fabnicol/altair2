@@ -48,7 +48,7 @@ public:
 
  QToolButton *importFromMainTree=new QToolButton;
  #ifndef USE_RIGHT_CLICK
- QToolButton                       *retrieveItemButton=new QToolButton,
+ QToolButton            *retrieveItemButton=new QToolButton,
                         *deleteGroupButton=new QToolButton;
  #endif
 
@@ -61,7 +61,13 @@ public:
 
  /* accessors */
 
- QStringList  getTabLabels() { return fileListWidget->getTabLabels();}
+ inline QStringList getTabLabels(){
+                                        QStringList labels;
+                                        int r = getRank();
+                                        for (int i=0; i <= r; ++i)
+                                             labels << mainTabWidget->tabText(i);
+                                        return labels;
+                                   }
 
  int getRank() {return widgetContainer.size()-1;}
  const QString &getHashKey() const {return frameHashKey;}
@@ -106,7 +112,6 @@ FListFrame(QObject* parent,  QAbstractItemView * fileTreeView, short import_type
 
 
 public slots:
-
     void deleteGroup();
     void deleteGroup(int r);
     void on_deleteItem_clicked();
@@ -114,7 +119,6 @@ public slots:
     void addGroups(int);
 
 protected slots:
-
     void on_importFromMainTree_clicked();
 
 protected:
@@ -124,8 +128,6 @@ protected:
 signals:
     void is_ntabs_changed(int);
     void is_ntracks_changed(int);
-
-
 };
 
 inline void FListFrame::updateIndexInfo()

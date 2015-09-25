@@ -14,6 +14,10 @@
 #define STEP_UP "/../../"
 #endif
 
+#ifndef BUFFER_SIZE
+#define BUFFER_SIZE 1500
+#endif
+
 #define TREE_FILE 2
 #define TREE_DIR  3
 

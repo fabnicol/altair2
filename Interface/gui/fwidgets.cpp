@@ -352,7 +352,10 @@ const FString FListWidget::setXmlFromWidget()
       FStringList fstrl;
       for (const QString &str : strL)
       {
-          fstrl  << (QStringList() << Hash::Mois[str] << Hash::Siret[str] << Hash::Budget[str] << Hash::Etablissement[str]);
+          QStringList qstrl = QStringList() << Hash::Mois[str] << Hash::Siret[str].at(0) << Hash::Budget[str] << Hash::Etablissement[str].at(0);
+          if (Hash::Siret[str].size() == 2 && Hash::Etablissement[str].size() == 2)
+              qstrl  << Hash::Siret[str].at(1) << Hash::Etablissement[str].at(1);
+          fstrl  << qstrl;
       }
 
       //on réordonne

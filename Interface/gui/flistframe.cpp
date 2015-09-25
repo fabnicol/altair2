@@ -340,11 +340,11 @@ void FListFrame::parseXhlFile(const QString& fileName)
 
     file.seek(0);
 
-    char buffer[1500];
-    file.read(buffer, 1500);
+    QByteArray buffer0 = file.readAll();
+
+    const QString string = QString::fromLatin1(buffer0, BUFFER_SIZE);
 
 #ifdef REGEX_PARSING_FOR_HEADERS
-    const QString string = QString::fromLatin1(buffer);
 
     QRegExp reg("DocumentPaye.*(?:Annee) V=\"([0-9]+)\".*(?:Mois) V=\"([0-9]+)\"(.*)(?:Etablissement|Employeur).*(?:Nom) V=\"([^\"]+)\".*(?:Siret) V=\"([0-9A-Z]+)\"");
     reg.setPatternSyntax(QRegExp::RegExp2);
@@ -358,18 +358,39 @@ void FListFrame::parseXhlFile(const QString& fileName)
         if (budgetCapture.contains(reg2))
            Hash::Budget[fileName] = reg2.cap(1) ;
         else
-            Hash::Budget[fileName] = "Non renseigné" ;
-        Hash::Etablissement[fileName]  = reg.cap(4).replace("&#39;", "\'");
-        Hash::Siret[fileName] = reg.cap(5);
+           Hash::Budget[fileName] = "Non renseigné" ;
+        Hash::Etablissement[fileName]  << reg.cap(4).replace("&#39;", "\'");
+        Hash::Siret[fileName] << reg.cap(5);
     }
     else
     {
         altair->outputTextEdit->append(WARNING_HTML_TAG " Fichier " + fileName + " non conforme à la spécification astre:DocumentPaye");
         Hash::Annee[fileName] = "Inconnu";
         Hash::Mois[fileName]  = "Inconnu";
-        Hash::Etablissement[fileName]  = "Inconnu";
-        Hash::Siret[fileName] = "Inconnu";
+        Hash::Etablissement[fileName]  << "Inconnu";
+        Hash::Siret[fileName] << "Inconnu";
 
+    }
+
+    if (Hash::Budget[fileName].left(5).toUpper() == "MULTI" && Hash::Budget[fileName].right(7).toUpper() == "BUDGETS")
+    {
+        int pos = buffer0.indexOf("<DonneesIndiv>");
+
+        const QString string = QString::fromLatin1(buffer0.mid(pos, BUFFER_SIZE));
+
+        QRegExp reg3("(?:Etablissement|Employeur).*(?:Nom) V=\"([^\"]+)\".*(?:Siret) V=\"([0-9A-Z]+)\"");
+        reg3.setPatternSyntax(QRegExp::RegExp2);
+
+        if (string.contains(reg3))
+        {
+            Hash::Etablissement[fileName]  << reg3.cap(1).replace("&#39;", "\'");
+            Hash::Siret[fileName] << reg3.cap(2);
+        }
+        else
+        {
+            Hash::Etablissement[fileName]  << "Etablissement/Employer 2 inconnu";
+            Hash::Siret[fileName] << "Siret 2 nconnu";
+        }
     }
 
 
@@ -380,7 +401,7 @@ void FListFrame::parseXhlFile(const QString& fileName)
    {
        Hash::Annee[fileName] = QString(elemPar->annee);
        Hash::Mois[fileName]  = QString(elemPar->mois);
-       Hash::Siret[fileName] = QString(elemPar->siret);
+       Hash::Siret[fileName] << QString(elemPar->siret);
    }
 
    free(elemPar);
@@ -430,6 +451,7 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
     altair->getProgressBar()->hide();
 
     QStringList tabLabels = getTabLabels();
+
     #ifdef DEBUG
       altair->outputTextEdit->append(STATE_HTML_TAG " Calcul des labels " );
     #endif
@@ -489,12 +511,22 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
         mainTabWidget->setCurrentIndex(rank - 1);
 
         QStringList pairs;
-        QStringListIterator j(Hash::Etablissement.values());
-        QStringListIterator i(Hash::Siret.values());
+        FStringListIterator j(Hash::Etablissement.values());
+        FStringListIterator i(Hash::Siret.values());
         while (i.hasNext() && j.hasNext())
         {
-            pairs << i.next() + " " + j.next();
+            QStringList etab = i.next();
+            QStringList siret = j.next();
+
+            pairs << etab.at(0) + " " + siret.at(0);
+
+            if (etab.size() == 2 && siret.size() == 2)
+            {
+                pairs << etab.at(1) + " " + siret.at(1);
+            }
+
         }
+
         pairs.sort();
         pairs.removeDuplicates();
 
@@ -532,7 +564,6 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
         for (int i=0; i < siretCount; i++)
         {
             listWidget->item(i)->setTextColor(colorList.at(i % colorListSize));
-            Hash::Mois[tabList.at(i)] = "nul";
         }
         ++rank;
 
@@ -558,7 +589,6 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
         for (int i=0; i < budgetCount; i++)
          {
             listWidget->item(i)->setTextColor(colorList.at(i % colorListSize));
-            Hash::Mois[tabList.at(i)] = "nul";
         }
         ++rank;
 
@@ -662,7 +692,9 @@ void FListFrame::on_importFromMainTree_clicked()
         #endif
 
          if (stringListSize)
+         {
              addParsedTreeToListWidget(stringsToBeAdded);
+         }
      }
 
  Hash::createReference(getRank());
@@ -762,9 +794,12 @@ void FListFrame::showContextMenu()
 
                     QListWidgetItem *item = listWidget->item(k);
                     const QString str = Hash::Reference.at(j).at(k);
+
                     if (! Hash::Suppression[Hash::Budget[str]]
                          &&
-                         ! Hash::Suppression[Hash::Siret[str] + " " + Hash::Etablissement[str]]
+                         ! Hash::Suppression[Hash::Siret[str].at(0) + " " + Hash::Etablissement[str].at(0)]
+                         &&
+                         (Hash::Siret[str].size() < 2 || ! Hash::Suppression[Hash::Siret[str].at(1) + " " + Hash::Etablissement[str].at(1)])
                          &&
                          ! Hash::Suppression[str])
                         {
