@@ -340,7 +340,7 @@ void FListFrame::parseXhlFile(const QString& fileName)
 
     file.seek(0);
 
-    QByteArray buffer0 = file.readAll();
+    QByteArray buffer0 = file.read(BUFFER_SIZE);
 
     const QString string = QString::fromLatin1(buffer0, BUFFER_SIZE);
 
@@ -376,28 +376,42 @@ void FListFrame::parseXhlFile(const QString& fileName)
     if (Hash::Budget[fileName].left(5).toUpper() == "MULTI" && Hash::Budget[fileName].right(7).toUpper() == "BUDGETS")
     {
        int pos = -1;
-       buffer0 = buffer0.mid(560);
-       while ((pos = buffer0.indexOf("<DonneesIndiv>")) != -1)
+       buffer0.clear();
+       file.seek(0);
+       buffer0 = file.readAll();
+       pos = buffer0.indexOf("<DonneesIndiv>");
+       pos += 15;
+       buffer0 = buffer0.mid(pos);
+
+       if (buffer0.size() + pos == file.size())
        {
-          const QString string = QString::fromLatin1(buffer0.mid(pos, BUFFER_SIZE));
-          Q(QString::number(pos) + " " + string)
-
-          QRegExp reg3("(?:Etablissement|Employeur).*(?:Nom) V=\"([^\"]+)\".*(?:Siret) V=\"([0-9A-Z]+)\"");
-          reg3.setPatternSyntax(QRegExp::RegExp2);
-
-          if (string.contains(reg3))
+           while ((pos = buffer0.indexOf("<DonneesIndiv>")) != -1)
            {
-              Hash::Etablissement[fileName]  << reg3.cap(1).replace("&#39;", "\'");
-              Hash::Siret[fileName] << reg3.cap(2);
-           }
-           else
-           {
-              Hash::Etablissement[fileName]  << "Etablissement/Employer inconnu";
-              Hash::Siret[fileName] << "Siret inconnu";
-           }
+              const QString string = QString::fromLatin1(buffer0.mid(pos, BUFFER_SIZE));
 
-           buffer0 = buffer0.mid(pos + 15);
-      }
+              QRegExp reg3("(?:Etablissement|Employeur).*(?:Nom) V=\"([^\"]+)\".*(?:Siret) V=\"([0-9A-Z]+)\"");
+              reg3.setPatternSyntax(QRegExp::RegExp2);
+
+              if (string.contains(reg3))
+               {
+                  QString s1 = reg3.cap(1).replace("&#39;", "\'");
+                  QString s2 = reg3.cap(2);
+                  if (! Hash::Etablissement[fileName].contains(s1))
+                      Hash::Etablissement[fileName]  << s1;
+                  if (! Hash::Etablissement[fileName].contains(s2))
+                      Hash::Siret[fileName] << s2;
+               }
+               else
+               {
+                  Hash::Etablissement[fileName]  << "Etablissement/Employer inconnu";
+                  Hash::Siret[fileName] << "Siret inconnu";
+               }
+
+               buffer0 = buffer0.mid(pos + 15);
+          }
+       }
+       else
+           QMessageBox::warning(nullptr, "Erreur", "Erreur de lecture du fichier " + fileName, QMessageBox::Ok);
     }
 
 #else
@@ -604,7 +618,6 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
         emit(is_ntabs_changed(currentIndex+1)); // emits signal of number of tabs/QListWidgets opened
     }
 
-
   fileListWidget->setTabLabels(allLabels << "Siret" << "Budget");
   currentListWidget->setCurrentRow(Hash::wrapper[frameHashKey]->at(rank - 1).size());
 
@@ -649,7 +662,6 @@ QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
               if (info.isFile() && info.suffix() == "xhl")
                   stringsToBeAdded << currentString;
     }
-    
     return stringsToBeAdded; 
 }
 
@@ -712,9 +724,7 @@ void  FListFrame::setSlotListSize(int s)
 
 void FListFrame::showContextMenu()
 {
-
         updateIndexInfo();
-
         if (currentListWidget->count() == 0) return;
 
         QAction *deleteAction = new QAction(tr("Exclure"), this);
@@ -749,7 +759,6 @@ void FListFrame::showContextMenu()
             (*Hash::wrapper["XHL"])[currentIndex] = Hash::Reference[currentIndex];
 
         }
-
             int localrow = 0;
             bool isDeleteAction = (selectedItem == deleteAction);
             QFont font;
@@ -768,7 +777,6 @@ void FListFrame::showContextMenu()
                 item->setFont(font);
                 item->setTextColor(isDeleteAction ? "red" : "green");
             }
-
 
             if (Hash::Reference.size() != size || getRank()+1 != size)
             {
@@ -799,29 +807,32 @@ void FListFrame::showContextMenu()
                     QListWidgetItem *item = listWidget->item(k);
                     const QString str = Hash::Reference.at(j).at(k);
                     bool test_for_multi_case = true;
-                    if (Hash::Siret[str].size() > 1 && Hash::Etablissement[str].size() > 1)
-                      for (int j = 1; j < Hash::Siret[str].size() && j < Hash::Etablissement[str].size(); ++j)
-                             test_for_multi_case  = ! Hash::Suppression[Hash::Siret[str].at(j) + " " + Hash::Etablissement[str].at(j)] &&  test_for_multi_case;
+                    if (j < size - 2 && Hash::Siret[str].size() > 1 && Hash::Etablissement[str].size() > 1)
+                      for (int l = 1; l < Hash::Siret[str].size() && l < Hash::Etablissement[str].size(); ++l)
+                              test_for_multi_case  = ! Hash::Suppression[Hash::Siret[str].at(l) + " " + Hash::Etablissement[str].at(l)]
+                                                     &&  test_for_multi_case;
 
-                    if (! Hash::Suppression[Hash::Budget[str]]
-                         &&
-                         ! Hash::Suppression[Hash::Siret[str].at(0) + " " + Hash::Etablissement[str].at(0)]
-                         &&
-                         ((Hash::Siret[str].size() == 1 && Hash::Etablissement[str].size() == 1) || test_for_multi_case)
-                         &&
-                         ! Hash::Suppression[str])
-                        {
+                    bool restrictions_on_xhl_files =  true;
+                    if (j < size - 2)
+                         restrictions_on_xhl_files =  ! Hash::Suppression[Hash::Budget[str]]
+                                                &&
+                                               ! Hash::Suppression[Hash::Siret[str].at(0) + " " + Hash::Etablissement[str].at(0)]
+                                                &&
+                                                ((Hash::Siret[str].size() == 1 && Hash::Etablissement[str].size() == 1) || test_for_multi_case);
+
+                    if (restrictions_on_xhl_files && ! Hash::Suppression[str])
+                            {
                                 strL << str;
                                 font.setStrikeOut(false);
                                 item->setFont(font);
                                 item->setTextColor("green");
-                        }
-                        else
-                        {
+                            }
+                            else
+                            {
                                 font.setStrikeOut(true);
                                 item->setFont(font);
                                 item->setTextColor("red");
-                        }
+                            }
                 }
 
                 (*Hash::wrapper["XHL"])[j] = strL;

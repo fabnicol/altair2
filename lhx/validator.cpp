@@ -461,7 +461,7 @@ static void parseFile(info_t* info)
     xmlDocPtr doc;
     xmlNodePtr cur = NULL;
     info->NAgent[info->fichier_courant] = 0;
-    xmlChar *annee_fichier = NULL, *mois_fichier = NULL;
+    xmlChar *annee_fichier = NULL, *mois_fichier = NULL, *etab_fichier = NULL, *siret_fichier = NULL, *budget_fichier = NULL;
 
     doc = xmlParseFile(info->threads->argv[info->fichier_courant]);
 
@@ -500,6 +500,19 @@ static void parseFile(info_t* info)
         exit(-503);
     }
 
+    cur = atteindreNoeud("Budget", cur);
+
+    if (cur != NULL)
+    {
+        budget_fichier = xmlGetProp(cur, (const xmlChar *) "V");
+        cur = (cur)? cur->next : NULL;
+    }
+    else
+    {
+        fprintf(stderr, "%s\n", "Erreur : Budget non détectable");
+        exit(-504);
+    }
+
   while((cur = atteindreNoeudArret("DonneesIndiv", cur, "Nomenclatures")) != NULL)
   {
         xmlNodePtr cur_save = cur;
@@ -517,6 +530,40 @@ static void parseFile(info_t* info)
                 exit(1005);
             }
 
+//            cur = atteindreNoeud("Etablissement", cur);
+//            if (cur == NULL) cur = atteindreNoeud("Employeur", cur);
+//            cur_save2 =  cur;
+//            if (cur_save2 == NULL) break;
+//
+//            DESCENDRE_UN_NIVEAU
+//
+//            cur = atteindreNoeud("Nom", cur);
+//            if (cur != NULL)
+//            {
+//                etab_fichier = xmlGetProp(cur, (const xmlChar *) "V");
+//                cur = (cur)? cur->next : NULL;
+//            }
+//            else
+//            {
+//                fprintf(stderr, "%s\n", "Erreur : Etablissement/Employeur non détectable");
+//                exit(-505);
+//            }
+//
+//            cur=cur_save2;
+
+//            cur = atteindreNoeud("Siret", cur);
+//
+//            if (cur != NULL)
+//            {
+//                siret_fichier = xmlGetProp(cur, (const xmlChar *) "V");
+//                cur = (cur)? cur->next : NULL;
+//            }
+//            else
+//            {
+//                fprintf(stderr, "%s Année %d Mois %d\n", "Erreur : Siret non détectable", info->Table[info->NCumAgentXml][Annee], info->Table[info->NCumAgentXml][Mois]);
+//                //exit(-506);
+//            }
+
             cur = atteindreNoeud("PayeIndivMensuel", cur);
 
             cur_save2 =  cur;
@@ -527,6 +574,9 @@ static void parseFile(info_t* info)
 
             info->Table[info->NCumAgentXml][Annee] = xmlStrdup(annee_fichier);
             info->Table[info->NCumAgentXml][Mois]  = xmlStrdup(mois_fichier);
+            info->Table[info->NCumAgentXml][Budget] = xmlStrdup(budget_fichier);
+            info->Table[info->NCumAgentXml][Etablissement]  = xmlStrdup(etab_fichier);
+            info->Table[info->NCumAgentXml][Siret]  = xmlStrdup(siret_fichier);
 
             int32_t ligne_p = parseBulletin(cur, info);
             info->drapeau_cont = true;
