@@ -372,27 +372,33 @@ void FListFrame::parseXhlFile(const QString& fileName)
 
     }
 
+
     if (Hash::Budget[fileName].left(5).toUpper() == "MULTI" && Hash::Budget[fileName].right(7).toUpper() == "BUDGETS")
     {
-        int pos = buffer0.indexOf("<DonneesIndiv>");
+       int pos = -1;
+       buffer0 = buffer0.mid(560);
+       while ((pos = buffer0.indexOf("<DonneesIndiv>")) != -1)
+       {
+          const QString string = QString::fromLatin1(buffer0.mid(pos, BUFFER_SIZE));
+          Q(QString::number(pos) + " " + string)
 
-        const QString string = QString::fromLatin1(buffer0.mid(pos, BUFFER_SIZE));
+          QRegExp reg3("(?:Etablissement|Employeur).*(?:Nom) V=\"([^\"]+)\".*(?:Siret) V=\"([0-9A-Z]+)\"");
+          reg3.setPatternSyntax(QRegExp::RegExp2);
 
-        QRegExp reg3("(?:Etablissement|Employeur).*(?:Nom) V=\"([^\"]+)\".*(?:Siret) V=\"([0-9A-Z]+)\"");
-        reg3.setPatternSyntax(QRegExp::RegExp2);
+          if (string.contains(reg3))
+           {
+              Hash::Etablissement[fileName]  << reg3.cap(1).replace("&#39;", "\'");
+              Hash::Siret[fileName] << reg3.cap(2);
+           }
+           else
+           {
+              Hash::Etablissement[fileName]  << "Etablissement/Employer inconnu";
+              Hash::Siret[fileName] << "Siret inconnu";
+           }
 
-        if (string.contains(reg3))
-        {
-            Hash::Etablissement[fileName]  << reg3.cap(1).replace("&#39;", "\'");
-            Hash::Siret[fileName] << reg3.cap(2);
-        }
-        else
-        {
-            Hash::Etablissement[fileName]  << "Etablissement/Employer 2 inconnu";
-            Hash::Siret[fileName] << "Siret 2 nconnu";
-        }
+           buffer0 = buffer0.mid(pos + 15);
+      }
     }
-
 
 #else
 
@@ -517,12 +523,9 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
         {
             QStringList etab = i.next();
             QStringList siret = j.next();
-
-            pairs << etab.at(0) + " " + siret.at(0);
-
-            if (etab.size() == 2 && siret.size() == 2)
+            for (int j = 0; j < etab.size() && j < siret.size(); ++j)
             {
-                pairs << etab.at(1) + " " + siret.at(1);
+                pairs << etab.at(j) + " " + siret.at(j);
             }
 
         }
@@ -789,17 +792,22 @@ void FListFrame::showContextMenu()
                     return;
                 }
 
+                // On barre dès qu'au moins un Siret du fichier est barré
+
                 for (int k = 0; k < size_j; ++k)
                 {
-
                     QListWidgetItem *item = listWidget->item(k);
                     const QString str = Hash::Reference.at(j).at(k);
+                    bool test_for_multi_case = true;
+                    if (Hash::Siret[str].size() > 1 && Hash::Etablissement[str].size() > 1)
+                      for (int j = 1; j < Hash::Siret[str].size() && j < Hash::Etablissement[str].size(); ++j)
+                             test_for_multi_case  = ! Hash::Suppression[Hash::Siret[str].at(j) + " " + Hash::Etablissement[str].at(j)] &&  test_for_multi_case;
 
                     if (! Hash::Suppression[Hash::Budget[str]]
                          &&
                          ! Hash::Suppression[Hash::Siret[str].at(0) + " " + Hash::Etablissement[str].at(0)]
                          &&
-                         (Hash::Siret[str].size() < 2 || ! Hash::Suppression[Hash::Siret[str].at(1) + " " + Hash::Etablissement[str].at(1)])
+                         ((Hash::Siret[str].size() == 1 && Hash::Etablissement[str].size() == 1) || test_for_multi_case)
                          &&
                          ! Hash::Suppression[str])
                         {

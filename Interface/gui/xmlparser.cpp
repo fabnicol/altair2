@@ -132,12 +132,28 @@ inline void stackData(const QDomNode & node, int level, QVariant &textData)
             stackData(childNode, 0, strV);
             QString str = strV.toString();
             strL << str;
-            Hash::Mois[str] = childNode.toElement().attribute("V");
-            Hash::Siret[str] << childNode.toElement().attribute("S");
-            Hash::Budget[str] = childNode.toElement().attribute("B");
-            Hash::Etablissement[str] << childNode.toElement().attribute("E");
-            Hash::Siret[str] << childNode.toElement().attribute("S2");
-            Hash::Etablissement[str] << childNode.toElement().attribute("E2");
+            QDomElement element = childNode.toElement();
+            Hash::Mois[str] = element.attribute("V");
+            Hash::Siret[str] << element.attribute("S");
+            Hash::Budget[str] = element.attribute("B");
+            Hash::Etablissement[str] << element.attribute("E");
+            QDomNamedNodeMap attribs = element.attributes();
+            int i = 2;
+            QString attr;
+
+            while (attribs.contains(attr = "S" + QString::number(i)))
+            {
+                   Hash::Siret[str] << childNode.toElement().attribute(attr);
+                   ++i;
+            }
+            i = 2;
+
+            while (attribs.contains(attr = "E" + QString::number(i)))
+            {
+                   Hash::Etablissement[str] << childNode.toElement().attribute(attr);
+                   ++i;
+            }
+
             childNode=childNode.nextSibling();
         }
         textData=QVariant(strL);
@@ -302,12 +318,12 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
             const QString filename = w.next();
             thirdColumn += filename;
             secondColumn =  Hash::Mois[filename];
-            sixthColumn =  Hash::Siret[filename].at(0) + " " + Hash::Etablissement[filename].at(0);
-
-            if (Hash::Siret[filename].size() == 2)
-                sixthColumn += " "+ Hash::Siret[filename].at(1);
-            if (Hash::Etablissement[filename].size() == 2)
-                sixthColumn += " " + Hash::Etablissement[filename].at(1);
+            sixthColumn = "";
+            for (int j = 0; j < Hash::Siret[filename].size() && j < Hash::Etablissement[filename].size(); ++j)
+            {
+                sixthColumn += ((j > 0)? "\n" : "") + Hash::Siret[filename].at(j);
+                sixthColumn += " " + Hash::Etablissement[filename].at(j);
+            }
 
             seventhColumn =  Hash::Budget[filename];
             if ((stackedSizeInfo.size() > 0) && (y.hasNext()))

@@ -138,7 +138,7 @@ Altair::Altair()
     mainLayout->addLayout(progressLayout);
 
     QStringList labels;
-    labels << tr("") << tr("Mois") << tr("Chemin")  << tr("Taille\nFichier") << tr("Total") << tr("Siret") << tr("Budget");
+    labels << tr("") << tr("Mois") << tr("Chemin")  << tr("Taille\nFichier") << tr("Total") << tr("Siret Etablissement") << tr("Budget");
     managerWidget->hide();
     managerWidget->setHeaderLabels(labels);
     managerWidget->setColumnWidth(0,300);
@@ -332,7 +332,6 @@ void Altair::on_helpButton_clicked()
 void Altair::addGroup()
 {
     updateIndexInfo();
-
 }
 
 
@@ -387,15 +386,12 @@ void Altair::updateIndexChangeInfo()
     firstSelection=false;
 }
 
-
 void Altair::updateIndexInfo()
 {
     currentIndex=project[0]->getCurrentIndex();
     row=project[0]->getCurrentRow();
     // row = -1 if nothing selected
 }
-
-
 
 
 void Altair::on_deleteItem_clicked()
@@ -567,14 +563,14 @@ void Altair::checkAnnumSpan()
 
         monthList.removeDuplicates();
 
-        QStringListIterator w(monthList);
+        QMutableListIterator<QString> w(monthList);
 
         while (w.hasNext())
         {
             QString month = w.next();
 
             if (month.at(0) == '0')
-                month.remove(0, 1);
+                w.setValue(month.remove(0, 1));
         }
 
         monthList.removeDuplicates();
@@ -589,6 +585,7 @@ void Altair::checkAnnumSpan()
                                             "Il manque des données mensuelles pour l'année " + project[0]->getTabLabels().at(i) +
                                             " mois "+ currentMonth,
                                             QMessageBox::Ok);
+
         }
     }
 }
@@ -615,7 +612,6 @@ void Altair::dragMoveEvent(QDragMoveEvent *event)
 
 void Altair::dropEvent(QDropEvent *event)
 {
-
     if (event->source() != this)
     {
 
@@ -643,11 +639,8 @@ void Altair::dropEvent(QDropEvent *event)
         Hash::createReference(project[0]->getRank());
 
         updateProject();
-
     }
-
 }
-
 
 
 void FProgressBar::stop()
@@ -666,7 +659,6 @@ void FProgressBar::stop()
     timer->stop();
     killButton->setDisabled(true);
 }
-
 
 
 inline void FProgressBar::computeLHXProgressBar()
