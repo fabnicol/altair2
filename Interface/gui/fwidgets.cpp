@@ -352,9 +352,11 @@ const FString FListWidget::setXmlFromWidget()
       FStringList fstrl;
       for (const QString &str : strL)
       {
-          QStringList qstrl = QStringList() << Hash::Mois[str] << Hash::Siret[str].at(0) << Hash::Budget[str] << Hash::Etablissement[str].at(0);
-          if (Hash::Siret[str].size() == 2 && Hash::Etablissement[str].size() == 2)
-              qstrl  << Hash::Siret[str].at(1) << Hash::Etablissement[str].at(1);
+          QStringList qstrl = QStringList() << Hash::Mois[str] << (Hash::Siret[str].isEmpty()? "": Hash::Siret[str].at(0))
+                                                               << Hash::Budget[str] << (Hash::Etablissement[str].isEmpty()? "" :Hash::Etablissement[str].at(0));
+          if (Hash::Siret[str].size() > 1 && Hash::Etablissement[str].size() > 1)
+              for (int j = 1; j < Hash::Siret[str].size() && j < Hash::Etablissement[str].size(); ++j)
+                   qstrl  << Hash::Siret[str].at(j) << Hash::Etablissement[str].at(j);
           fstrl  << qstrl;
       }
 
