@@ -94,6 +94,7 @@ int main(int argc, char **argv)
         true,             // par défaut lire la balise adjacente
         false,            // calculer les maxima de lignes et d'agents
         false,            // numéroter les lignes
+        true,             //    alléger la base
         BESOIN_MEMOIRE_ENTETE,// besoin mémoire minimum hors lecture de lignes : devra être incréméenté,
         1                 // nbfil
     };
@@ -143,6 +144,7 @@ int main(int argc, char **argv)
             printf("%s\n", "-m sans argument        : calculer les maxima d'agents et de lignes de paye.");
             printf("%s\n", "-L argument obligatoire : chemin du log d'exécution du test de cohérence entre analyseurs C et XML.");
             printf("%s\n", "-R argument obligatoire : expression régulière pour la recherche des élus (codés : ELU dans le champ Statut.");
+            printf("%s\n", "-S sans argument        : supprimer la sortie Budget, Etablissement, Siret (allège les bases).");
             exit(0);
         }
         else if (! strcmp(argv[start], "-t"))
@@ -150,7 +152,7 @@ int main(int argc, char **argv)
             generer_table = true;
             if (! strcmp(argv[start + 1], "standard"))
             {
-                strncpy_s(type_table, argv[start + 1], 50*sizeof(char));
+                strncpy(type_table, argv[start + 1], 50*sizeof(char));
                 start += 2;
                 continue;
             }
@@ -391,6 +393,19 @@ int main(int argc, char **argv)
             start += 2;
             continue;
         }
+        else if (! strcmp(argv[start], "-S"))
+        {
+            if (argc > start +2)
+            {
+                info.select_siret = false;
+            }
+            else
+            {
+                exit(-116);
+            }
+            ++start;
+            continue;
+        }
         else if (argv[start][0] == '-')
         {
             fprintf(stderr, "Erreur : Option inconnue %s\n", argv[start]);
@@ -482,6 +497,10 @@ int main(int argc, char **argv)
             if (info.expression_reg_elus)
             {
                 Info[i].expression_reg_elus = strdup(info.expression_reg_elus);
+            }
+            if (info.select_siret)
+            {
+                Info[i].select_siret = info.select_siret;
             }
             if (info.chemin_base)
             {
@@ -612,6 +631,7 @@ int main(int argc, char **argv)
             free(Info[i].chemin_log);
         if (Info[i].expression_reg_elus)
             free(Info[i].expression_reg_elus);
+
         if (Info[i].chemin_base)
             free(Info[i].chemin_base);
         if (Info[i].chemin_bulletins)

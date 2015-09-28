@@ -68,8 +68,6 @@ struct Abstract
     static void initializeFStringListHash(const QString &hashKey)
     {
         Hash::wrapper[hashKey]=new FStringList;
-//        *Hash::wrapper[hashKey] << QStringList();
-//        Hash::counter[hashKey]=0;
     }
 
     static void initializeFStringListHashes()
@@ -154,7 +152,7 @@ public:
   void clearTabLabels() { tabLabels.clear();}
   QStringList getTabLabels() { return tabLabels;}
   QStringList separator;
-    
+
 private:
   QStringList tags;
   QWidget* parent;
@@ -246,18 +244,17 @@ class FLineEdit : public QLineEdit, public FAbstractWidget
 public:
   FLineEdit(const QString &defaultstring, int status, const QString &hashKey, const QStringList &description, const QString &commandLine);
   FLineEdit(const QString &defaultstring, const QString &hashKey, const QStringList &description, const QString &commandLine):
-  FLineEdit(defaultstring, flags::status::defaultStatus|flags::commandLineType::defaultCommandLine, hashKey, description, commandLine){}
+     FLineEdit(defaultstring, flags::status::defaultStatus|flags::commandLineType::defaultCommandLine, hashKey, description, commandLine){}
 
   FLineEdit(const QString &defaultstring, const QString &hashKey, const QStringList &description):
-  FLineEdit(defaultstring, flags::status::defaultStatus|flags::commandLineType::noCommandLine, hashKey, description, ""){}
-  
+     FLineEdit(defaultstring, flags::status::defaultStatus|flags::commandLineType::noCommandLine, hashKey, description, ""){}
+  FLineEdit() {}
   void setWidgetFromXml(const FStringList&);
   const FString setXmlFromWidget();
   void refreshWidgetDisplay();
   bool isAbstractEnabled() {return this->isEnabled();}
 
 private:
-
 
 };
 

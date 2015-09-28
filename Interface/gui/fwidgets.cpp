@@ -147,8 +147,10 @@ const QStringList FAbstractWidget::commandLineStringList()
         {
             QListIterator<FString> i(commandLineList);
             while (i.hasNext())
-                if (!i.peekNext().isEmpty()) strL <<  i.next().trimmed();
-               else i.next();
+                if (!i.peekNext().isEmpty())
+                    strL <<  i.next().trimmed();
+                else
+                    i.next();
 
         }
         else
@@ -156,13 +158,13 @@ const QStringList FAbstractWidget::commandLineStringList()
           if (commandLineList[0].isTrue() | commandLineList[0].isMultimodal())
             {
                 if  (optionLabel.size() == 1)
-                   strL= QStringList("-"+optionLabel);
+                   strL = QStringList("-"+optionLabel);
                 else
                 {
                     if (optionLabel.at(0) == '^')
-                        strL=QStringList(optionLabel.mid(1).trimmed());
+                      strL = QStringList(optionLabel.mid(1).trimmed());
                     else
-                      strL=QStringList ("--" +optionLabel);
+                      strL = QStringList ("--" +optionLabel);
                 }
             }
          else
@@ -172,13 +174,13 @@ const QStringList FAbstractWidget::commandLineStringList()
                     if (optionLabel.at(0) == '^')
                     {
                         if (commandLineList[0] != "  ")
-                           strL=QStringList(optionLabel.mid(1).trimmed()+"="+commandLineList[0].toQString());
+                           strL = QStringList(optionLabel.mid(1).trimmed()+"="+commandLineList[0].toQString());
                     }
                     else
                     {
                        if (commandLineList[0] != "  ")
                        {
-                           strL= (optionLabel.size() == 1)? QStringList() << "-"+optionLabel << commandLineList[0].toQString()
+                           strL = (optionLabel.size() == 1)? QStringList() << "-"+optionLabel << commandLineList[0].toQString()
                                                         :QStringList("--"+optionLabel+"="+commandLineList[0].toQString());
                        }
                     }
@@ -224,8 +226,8 @@ FListWidget::FListWidget(QWidget* par,
     setObjectName(hashKey+" "+description.join(" "));
 
     currentListWidget=new QListWidget;
-    currentListWidget->setSelectionMode(QAbstractItemView::ContiguousSelection);
-    //currentListWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+    currentListWidget->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    currentListWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
     componentList=QList<QWidget*>() << currentListWidget;
 
     componentList[0]->setToolTip(description.at(1));
@@ -244,9 +246,7 @@ FListWidget::FListWidget(QWidget* par,
         createHash(listWidgetTranslationHash, translation, terms);
     }
 
-
 }
-
 
 
 const FString& FListWidget::translate(const FStringList &s)
@@ -306,13 +306,12 @@ void FListWidget::setWidgetFromXml(const FStringList &s)
         if ((this->status & flags::status::widgetMask) == flags::status::hasListCommandLine)
         {
             commandLineList.clear();
-            FStringListIterator i(Hash::wrapper[hashKey]);
-            while (i.hasNext())
+
+            for (const QStringList &strL : *Hash::wrapper[hashKey])
             {
-                commandLineList << separator[1] ;
-                QStringListIterator j(i.next());
-                while (j.hasNext())
-                    commandLineList << j.next();
+                if (strL.isEmpty()) continue;
+                for (const QString &s : strL)
+                    commandLineList << s;
             }
         }
         else
@@ -331,46 +330,39 @@ const FString FListWidget::setXmlFromWidget()
         if ((this->status & flags::status::widgetMask)  == flags::status::hasListCommandLine)
         {
             commandLineList.clear();
-
-            FStringListIterator i(Hash::wrapper[hashKey]);
-            int L = Hash::wrapper[hashKey]->size();
-
-            for (int l=0; l < L; l++)
+            int size = Hash::wrapper[hashKey]->size();
+            // Pour éviter d'inclure les onglets Siret et Budget dans la ligne de commande
+            for (int k = 0; k < size - 2; ++k)
             {
-                QStringList str=i.next();
-                if (str.isEmpty()) continue;
-                commandLineList << separator[1] ;
-                QStringListIterator j(str);
-                while (j.hasNext())
-                {
-                    QString s=j.next();
+                const QStringList strL = Hash::wrapper[hashKey]->at(k);
+                if (strL.isEmpty()) continue;
+                for (const QString &s : strL)
                     commandLineList << s;
-
-                }
             }
 
         }
-
         else
             commandLineList[0]=Hash::wrapper[hashKey]->join(separator);
     }
 
     QList<FStringList>* properties = new QList<FStringList>;
-    FStringListIterator i(Hash::wrapper[hashKey]);
-    while (i.hasNext())
+
+    for (const QStringList &strL :  *Hash::wrapper[hashKey])
     {
-      QStringListIterator w(i.next());
       FStringList fstrl;
-      while (w.hasNext())
+      for (const QString &str : strL)
       {
-          QString str = w.next();
-          fstrl  << (QStringList() << Hash::Mois[str] << Hash::Siret[str] << Hash::Budget[str] << Hash::Etablissement[str]);
+          QStringList qstrl = QStringList() << Hash::Mois[str] << (Hash::Siret[str].isEmpty()? "": Hash::Siret[str].at(0))
+                                                               << Hash::Budget[str] << (Hash::Etablissement[str].isEmpty()? "" :Hash::Etablissement[str].at(0));
+          if (Hash::Siret[str].size() > 1 && Hash::Etablissement[str].size() > 1)
+              for (int j = 1; j < Hash::Siret[str].size() && j < Hash::Etablissement[str].size(); ++j)
+                   qstrl  << Hash::Siret[str].at(j) << Hash::Etablissement[str].at(j);
+          fstrl  << qstrl;
       }
 
       //on réordonne
 
       *properties <<  fstrl;
-
     }
 
     QStringListIterator k(tabLabels);

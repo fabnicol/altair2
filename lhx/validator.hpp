@@ -22,13 +22,12 @@
 
 typedef struct
 {
-    int       thread_num;
-    char** argv;
+    int      thread_num;
+    char**   argv;
     unsigned argc;
-
 } thread_t;
 
-#define BESOIN_MEMOIRE_ENTETE  18  /* nb d'éléments de l'enum ci-dessous */
+#define BESOIN_MEMOIRE_ENTETE  22  /* nb d'éléments de l'enum ci-dessous */
 #define EXPRESSION_REG_ELUS "^maire.*|^pr..?sident.*|^[eé]lus?|.*(?:\\badj.*\\bmaire\\b|\\bv.*\\bpr..?sident\\b|\\bcons.*\\bmuni|\\bcons.*\\bcomm|\\bcons.*\\bd..?l..?gu).*"
 #define EXPRESSION_REG_VACATIONS ".*\\bvacat.*|.*\\bvac\\.?\\b.*"  // vac.* peut être vérifié par 'vacances'
 #define EXPRESSION_REG_ASSISTANTES_MATERNELLES ".*\\bass.*\\bmater.*"
@@ -57,7 +56,7 @@ typedef struct
 
 #define TOUTES_CATEGORIES -14
 
-typedef enum {Annee, Mois, Nom, Prenom, Matricule, NIR, Statut, EmploiMetier, Grade, Indice,
+typedef enum {Annee, Mois, Budget, Etablissement, Siret, Nom, Prenom, Matricule, NIR, NbEnfants, Statut, EmploiMetier, Grade, Indice,
           Service, NBI, QuotiteTrav, NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer
          } Entete;
 
@@ -87,6 +86,7 @@ typedef struct
     bool drapeau_cont;
     bool calculer_maxima;
     bool generer_rang;
+    bool select_siret;
     uint8_t minimum_memoire_p_ligne;
     int nbfil;
 } info_t;
@@ -163,11 +163,11 @@ static const char* type_remuneration_traduit[] = {
 
 static const xmlChar drapeau[][2]  = {{1,0}, {2,0}, {3,0}, {4,0}, {5,0}, {6,0}, {7,0}, {8,0}, {9,0}, {10,0}, {11,0}, {12,0}};
 
-static const char* entete_char[]={"R", "Année", "Mois", "Nom", "Prénom", "Matricule", "Service", "Statut", "Temps.de.travail",
+static const char* entete_char[]={"R", "Année", "Mois", "Budget", "Etablissement", "Siret", "Nom", "Prénom", "Matricule", "Service", "Nb.Enfants", "Statut", "Temps.de.travail",
                                   "Heures.Sup.", "Heures", "Indice", "Brut", "Net", "Net.à.Payer", "NBI", "Libellé", "Code",
                                   "Base", "Taux", "Nb.Unité", "Montant", "Type", "Emploi", "Grade", "Nir"};
 
-static const char* entete_char_bulletins[]={"R", "Année", "Mois", "Nom", "Prénom", "Matricule", "Service", "Statut", "Temps.de.travail",
+static const char* entete_char_bulletins[]={"R", "Année", "Mois", "Budget", "Etablissement", "Siret", "Nom", "Prénom", "Matricule", "Service", "Nb.Enfants", "Statut", "Temps.de.travail",
                                   "Heures.Sup.", "Heures", "Indice", "Brut", "Net", "Net.à.Payer", "NBI", "Emploi", "Grade", "Nir"};
 
 void* decoder_fichier(void* tinfo);
