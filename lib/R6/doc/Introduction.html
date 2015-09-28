@@ -445,7 +445,7 @@ s1$getx()
 # Original is unaffected by changes to the clone
 s$getx()
 #&gt; [1] 1</code></pre>
-<p>If you don’t want a <code>clone</code> method to be added, you can use <code>cloneable=FALSE</code> when creating the class. If any loaded R6 object has a <code>clone</code> method, that function uses 43.4 kB, but for each additional object, the <code>clone</code> method costs a trivial amount of space (112 bytes).</p>
+<p>If you don’t want a <code>clone</code> method to be added, you can use <code>cloneable=FALSE</code> when creating the class. If any loaded R6 object has a <code>clone</code> method, that function uses 43.2 kB, but for each additional object, the <code>clone</code> method costs a trivial amount of space (112 bytes).</p>
 <div id="deep-cloning" class="section level4">
 <h4>Deep cloning</h4>
 <p>If there are any fields which are objects with reference sematics (environments, R6 objects, reference class objects), the copy will get a reference to the same object. This is sometimes desirable, but often it is not.</p>
@@ -573,8 +573,8 @@ A$new()
 gc()
 #&gt; [1] &quot;Finalizer has been called!&quot;
 #&gt;          used (Mb) gc trigger (Mb) max used (Mb)
-#&gt; Ncells 395320 21.2     750400 40.1   592000 31.7
-#&gt; Vcells 613232  4.7    1308461 10.0   938435  7.2</code></pre>
+#&gt; Ncells 398548 21.3     750400 40.1   592000 31.7
+#&gt; Vcells 617228  4.8    1308461 10.0   911867  7.0</code></pre>
 <p>In the example above, we used <code>onexit=TRUE</code>, so that the finalizer will alsobe called when R exits. This is useful in some cases, like database connections, but it isn’t necessary for others, like open files, since they will be closed anyway when the R process exits.</p>
 </div>
 </div>

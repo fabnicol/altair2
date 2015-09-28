@@ -8,7 +8,7 @@ inline const QString Altair::makeParserString(int start, int end)
 
     QStringList L=QStringList();
     int listsize = Abstract::abstractWidgetList.size();
-    for (int j = start; j <= end & j < listsize; j++)
+    for (int j = start; j <= end && j < listsize; j++)
     {
 
         FAbstractWidget* widget = Abstract::abstractWidgetList.at(j);
@@ -22,6 +22,8 @@ inline const QString Altair::makeParserString(int start, int end)
         }
 
         QString xml = widget->setXmlFromWidget().toQString();
+        if (hK == "XHL" && xml.isEmpty()) continue;
+
         QString widgetDepth = widget->getDepth();
 
         L <<  "  <" + hK + " profondeur=\"" + widgetDepth +  "\">\n   "
@@ -31,7 +33,6 @@ inline const QString Altair::makeParserString(int start, int end)
     }
 
     return L.join("");
-
 }
 
 
@@ -75,14 +76,9 @@ void Altair::writeProjectFile()
 
     out << Altair::makeSystemString();
 
-    out << " </systeme>\n <recent>\n";
+    out << " </systeme>\n";
 
-    QStringListIterator w(parent->recentFiles);
-    QString str;
-    while (w.hasNext() && QFileInfo(str=w.next()).isFile())
-        out    <<  "  <item>" << str << "</item>\n";
-
-    out << " </recent>\n</projet>\n";
+    out << "</projet>\n";
     out.flush();
     options::RefreshFlag=interfaceStatus::hasSavedOptions;
 }
@@ -136,10 +132,28 @@ inline void stackData(const QDomNode & node, int level, QVariant &textData)
             stackData(childNode, 0, strV);
             QString str = strV.toString();
             strL << str;
-            Hash::Mois[str] = childNode.toElement().attribute("V");
-            Hash::Siret[str] = childNode.toElement().attribute("S");
-            Hash::Budget[str] = childNode.toElement().attribute("B");
-            Hash::Etablissement[str] = childNode.toElement().attribute("E");
+            QDomElement element = childNode.toElement();
+            Hash::Mois[str] = element.attribute("V");
+            Hash::Siret[str] << element.attribute("S");
+            Hash::Budget[str] = element.attribute("B");
+            Hash::Etablissement[str] << element.attribute("E");
+            QDomNamedNodeMap attribs = element.attributes();
+            int i = 2;
+            QString attr;
+
+            while (attribs.contains(attr = "S" + QString::number(i)))
+            {
+                   Hash::Siret[str] << childNode.toElement().attribute(attr);
+                   ++i;
+            }
+            i = 2;
+
+            while (attribs.contains(attr = "E" + QString::number(i)))
+            {
+                   Hash::Etablissement[str] << childNode.toElement().attribute(attr);
+                   ++i;
+            }
+
             childNode=childNode.nextSibling();
         }
         textData=QVariant(strL);
@@ -269,7 +283,7 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
                                          const QList<QStringList> &stackedInfo,
                                          const QList<QStringList> &stackedSizeInfo)
 {
-    int count=0, tagcount=0, yearcount=0,l;
+    int count=0, tagcount=0, l;
     qint64 filesizecount=0;
 
     QString firstColumn,
@@ -287,13 +301,11 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
 
     while (i.hasNext() && j.hasNext())
     {
-        if (!root.isEmpty())
-        {
-            if (tagcount < tagListSize) firstColumn = tags.at(tagcount++);
-        }
+        if (!root.isEmpty() && tagcount < tagListSize)
+                firstColumn = tags.at(tagcount++);
 
-       if (firstColumn[0] != '2') break;
-       displayTextData({firstColumn});
+        if (firstColumn[0] != '2') break;
+        displayTextData({firstColumn});
 
         QStringListIterator w(i.next()), y(j.next());
         l=0;
@@ -301,12 +313,18 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
         while (w.hasNext() && y.hasNext())
         {
             ++count;
-            
+
             thirdColumn =  "fichier " + QString::number(++l) + "/"+ QString::number(count) +": ";
             const QString filename = w.next();
             thirdColumn += filename;
             secondColumn =  Hash::Mois[filename];
-            sixthColumn =  Hash::Siret[filename] + " " + Hash::Etablissement[filename] ;
+            sixthColumn = "";
+            for (int j = 0; j < Hash::Siret[filename].size() && j < Hash::Etablissement[filename].size(); ++j)
+            {
+                sixthColumn += ((j > 0)? "\n" : "") + Hash::Siret[filename].at(j);
+                sixthColumn += " " + Hash::Etablissement[filename].at(j);
+            }
+
             seventhColumn =  Hash::Budget[filename];
             if ((stackedSizeInfo.size() > 0) && (y.hasNext()))
             {
@@ -375,8 +393,6 @@ void Altair::parseProjectFile(QIODevice* file)
 
     if (root.tagName() != "projet") return;
 
-    parent->recentFiles.clear();
-
     QDomNode node= root.firstChild();
 
     /* this stacks data into relevant list structures, processes information
@@ -384,7 +400,7 @@ void Altair::parseProjectFile(QIODevice* file)
 
     Altair::totalSize[0]=0;
 
-    for (const QString& maintag : {"data", "systeme", "recent"})
+    for (const QString& maintag : {"data", "systeme"})
     {
         if (node.toElement().tagName() != maintag) return;
 
@@ -405,11 +421,10 @@ void Altair::parseProjectFile(QIODevice* file)
 
     assignVariables();
 
-    Hash::counter["XHL"] = 0 ;
+    int projectRank = project[0]->getRank();
+    if (projectRank == 0) return;
 
-    if (project[0]->getRank() == 0) return;
-
-    for (int group_index=0; group_index<= project[0]->getRank(); group_index++)
+    for (int group_index=0; group_index<= projectRank ; group_index++)
     {
         int r=0;
         for (QString text : Hash::wrapper["XHL"]->at(group_index))
@@ -420,15 +435,12 @@ void Altair::parseProjectFile(QIODevice* file)
         }
 
         refreshRowPresentation(group_index);
+        // Ne pas inclure les onglets Siret et Budget
 
-        Hash::counter["XHL"] += r;
     }
     emit(project[0]->is_ntabs_changed(Hash::wrapper["XHL"]->size()));
-    emit(project[0]->is_ntracks_changed(Hash::counter["XHL"]));
 
-    /* resets recent files using the ones listed in the dvp project file */
-
-    parent->updateRecentFileActions();
+    Hash::createReference(project[0]->getRank());
 
     refreshProjectManagerValues(manager::refreshProjectInteractiveMode
                                 | manager::refreshXHLZone
@@ -452,8 +464,6 @@ FStringList Altair::parseEntry(const QDomNode &node, QTreeWidgetItem *itemParent
     {
         case 0: 
                 XmlMethod::stackData(node, 0, textData);
-                if (node.toElement().tagName() == "item")
-                    parent->recentFiles.append(textData.toString());
                 return FStringList(textData.toString());
         case 1:
                 XmlMethod::stackData(node, 1, textData);
@@ -500,7 +510,7 @@ inline QList<QStringList> Altair::processSecondLevelData(QList<QStringList> &L, 
 void Altair::refreshProjectManagerValues(std::uint16_t refreshProjectManagerFlag)
 {
     managerWidget->clear();
-  QStringList tags = project[0]->getTabLabels();
+    QStringList tags = project[0]->getTabLabels();
 
     if (tags.isEmpty() || Hash::wrapper["XHL"]->isEmpty()) return;
 

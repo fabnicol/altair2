@@ -21,22 +21,17 @@ Q_OBJECT
 
 private:
 
-  inline void updateIndexInfo();
-#if 0
-  void deleteGroups(QList<int> &L);
-#endif
+ inline void updateIndexInfo();
 
  QList<QListWidget*> widgetContainer;
-
- FListWidget* fileListWidget;
- QListWidget* currentListWidget;
+ FListWidget *fileListWidget;
+ QListWidget *currentListWidget;
  QString frameHashKey;
 
  void addGroup();
  void clearTabLabels() {fileListWidget->clearTabLabels();}
 
  int row, currentIndex,  slotListSize;
- bool showAddItemButton=false;
  bool isListConnected=false;
  bool isTotalConnected=false;
  bool activateOnStart=false;
@@ -46,26 +41,33 @@ private:
 
  void parseXhlFile(const QString& fileName);
  void parseXhlFile(const QStringList& stringList);
+ void showContextMenu();
  Altair* altair;
  
 public:
- 
- QToolButton *importFromMainTree=new QToolButton,
-                        *retrieveItemButton=new QToolButton,
-                        *clearListButton=new QToolButton,
-                        *addItemButton=new QToolButton,
+
+ QToolButton *importFromMainTree=new QToolButton;
+ #ifndef USE_RIGHT_CLICK
+ QToolButton            *retrieveItemButton=new QToolButton,
                         *deleteGroupButton=new QToolButton;
- 
+ #endif
+
  QTabWidget *mainTabWidget, *embeddingTabWidget;
  QAbstractItemView *fileTreeView;
  QStringList* slotList= new QStringList;
 
  QFileSystemModel *model=new QFileSystemModel;
- QGroupBox *controlButtonBox=new QGroupBox, *tabBox=new QGroupBox;
+ QGroupBox *controlButtonBox=new QGroupBox;
 
  /* accessors */
 
- QStringList  getTabLabels() { return fileListWidget->getTabLabels();}
+ inline QStringList getTabLabels(){
+                                        QStringList labels;
+                                        int r = getRank();
+                                        for (int i=0; i <= r; ++i)
+                                             labels << mainTabWidget->tabText(i);
+                                        return labels;
+                                   }
 
  int getRank() {return widgetContainer.size()-1;}
  const QString &getHashKey() const {return frameHashKey;}
@@ -78,10 +80,12 @@ inline QList<QListWidget*>  getWidgetContainer() {return widgetContainer;}
 inline int getWidgetContainerCount() {return widgetContainer.size();}
 inline int getWidgetContainerCount(int g) {return widgetContainer[g]->count();}
 inline QListWidget*  getWidgetContainer(int rank) {if (rank < widgetContainer.count()) return widgetContainer[rank]; else return nullptr;}
-inline QListWidget*  getCurrentWidget() { return widgetContainer.at(this->mainTabWidget->currentIndex());}
+inline int getCurrentIndex() { return this->mainTabWidget->currentIndex(); }
+inline QListWidget*  getCurrentWidget() { return widgetContainer.at(getCurrentIndex());}
+inline QString  getCurrentLabel() { return this->mainTabWidget->tabText(getCurrentIndex());}
+inline QString  getLabel(int index) { return this->mainTabWidget->tabText(index);}
 QGroupBox* getControlButtonBox() { return controlButtonBox;}
 void setControlButtonBoxVisible(bool x) {controlButtonBox->setVisible(x);}
-inline int getCurrentIndex() { return this->mainTabWidget->currentIndex(); }
 inline int getCurrentRow() { return getCurrentWidget()->currentRow(); }
 
 void setStatus(flags::status status) {fileListWidget->status=status;}
@@ -104,20 +108,17 @@ inline int  getSlotListSize() {  return (isListConnected == true || isTotalConne
 FListFrame(QObject* parent,  QAbstractItemView * fileTreeView, short import_type, const QString &hashKey,
             const QStringList &description, const QString &command_line, int commandLineType, const QStringList &separator, const QStringList &xml_tags,
             common::TabWidgetTrait mainTabWidgetRank=common::TabWidgetTrait::NO_EMBEDDING_TAB_WIDGET, QIcon* icon=nullptr, QTabWidget* parentTabWidget=nullptr,
-           QStringList* terms=nullptr, QStringList* translation=nullptr, bool showAddItemB =false);
+           QStringList* terms=nullptr, QStringList* translation=nullptr);
 
 
 public slots:
-
     void deleteGroup();
-    void deleteGroup(int r, int R);
+    void deleteGroup(int r);
     void on_deleteItem_clicked();
-    void on_clearList_clicked(int currentIndex=-1);
     void  setSlotListSize(int s) ;
     void addGroups(int);
 
 protected slots:
-
     void on_importFromMainTree_clicked();
 
 protected:
@@ -127,8 +128,6 @@ protected:
 signals:
     void is_ntabs_changed(int);
     void is_ntracks_changed(int);
-    void isControlButtonClicked();
-
 };
 
 inline void FListFrame::updateIndexInfo()

@@ -43,23 +43,30 @@ char* ecrire_chemin_base(const char* chemin_base, int rang_fichier_base)
     return(strdup(chemin));
 }
 
-void ecrire_entete_bulletins(info_t* info, FILE* base)
+void ecrire_entete_bulletins(info_t* info, std::ofstream& base)
 {
   ecrire_entete0(info, base, entete_char_bulletins, sizeof(entete_char_bulletins)/sizeof(char*));
 }
 
-void ecrire_entete(info_t* info, FILE* base)
+void ecrire_entete(info_t* info, std::ofstream& base)
 {
   ecrire_entete0(info, base, entete_char, sizeof(entete_char)/sizeof(char*));
 }
 
-void ecrire_entete0(info_t* info, FILE* base, const char* entete[], int N)
+void ecrire_entete0(info_t* info, std::ofstream& base, const char* entete[], int N)
 {
   int i;
-  for (i = !info->generer_rang; i < N - 1; ++i)
-      fprintf(base, "%s%c", entete[i], info[0].separateur);
+  if (info->select_siret)
+    for (i = !info->generer_rang; i < N - 1; ++i)
+      base << entete[i] << info[0].separateur;
+  else
+    for (i = !info->generer_rang; i < N - 1; ++i)
+    {
+        if (i != Budget +1 && i!= Siret +1 && i != Etablissement + 1)
+            base << entete[i] << info[0].separateur;
+    }
 
-  fprintf(base, "%s\n", entete[i]);
+  base << entete[i] << "\n";
 }
 
 #if 0
@@ -76,18 +83,18 @@ FILE* ouvrir_fichier_base_append(info_t* info, int rang)
 }
 #endif // 0
 
-FILE* ouvrir_fichier_bulletins(info_t* info)
+void ouvrir_fichier_bulletins(info_t* info, std::ofstream& base)
 {
-    return ouvrir_fichier_base0(info, 0, BULLETINS);
+    return ouvrir_fichier_base0(info, 0, BULLETINS, base);
 }
 
 
-FILE* ouvrir_fichier_base(info_t* info, int rang)
+void ouvrir_fichier_base(info_t* info, int rang, std::ofstream& base)
 {
-    return ouvrir_fichier_base0(info, rang, BASE);
+    return ouvrir_fichier_base0(info, rang, BASE, base);
 }
 
-FILE* ouvrir_fichier_base0(info_t* info, int rang, int type)
+void ouvrir_fichier_base0(info_t* info, int rang, int type, std::ofstream& base)
 {
     char* chemin_base = NULL;
     if (type == BASE)
@@ -96,19 +103,20 @@ FILE* ouvrir_fichier_base0(info_t* info, int rang, int type)
         chemin_base = info[0].chemin_bulletins;
 
     char* chemin = ecrire_chemin_base(chemin_base, rang);
-    FILE* base = fopen(chemin, "w");
-    fseek(base, 0, SEEK_SET);
-    if (base == NULL)
+    base.open(chemin_base);
+    base.seekp(0);
+    if (! base.good())
     {
         fprintf(stderr, "%s\n", "Erreur : Impossible d'ouvrir le fichier de sortie.");
         exit(-1000);
     }
+
     if (type == BASE)
         ecrire_entete(info, base);
     else
         ecrire_entete_bulletins(info, base);
 
-    return base;
+    return;
 }
 
 int32_t lire_argument(int argc, char* c_str)

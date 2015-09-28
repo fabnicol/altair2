@@ -24,7 +24,6 @@ void Altair::initialize()
     adjustSize();
     
     Hash::description["année"]=QStringList("Fichiers .xhl");
-    Hash::description["recent"]=QStringList("Récent");
     Abstract::initializeFStringListHash("NBulletins");
 
 }
@@ -79,8 +78,6 @@ Altair::Altair()
                            true;
                         #endif
 
-
-
     project[0]=new FListFrame(this,
                               fileTreeView,                   // files may be imported from this tree view
                               importFiles,                     // FListFrame type
@@ -92,9 +89,6 @@ Altair::Altair()
                               {"item", "onglet"},                // subordinate xml tags
                               common::TabWidgetTrait::NO_EMBEDDING_TAB_WIDGET);                      //tab icon
 
-
-
-
     progress=new FProgressBar(this, &Altair::killProcess);
 
     progress->setToolTip(tr("Décodage"));
@@ -102,41 +96,49 @@ Altair::Altair()
     outputTextEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     outputTextEdit->setAcceptDrops(false);
     outputTextEdit->setMinimumHeight(200);
-
-    QGridLayout *projectLayout = new QGridLayout;
-    QGridLayout *updownLayout = new QGridLayout;
+    outputTextEdit->setReadOnly(true);
 
     connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int)));
 
     project[0]->model=model;
     project[0]->slotList=nullptr;
-    connect(project[0]->deleteGroupButton, SIGNAL(clicked()), this, SLOT(deleteGroup()));
+
+    ///// Ce qui suit présupose que les connexions déclenchées par le click
+    // sont préalablement traitées par FListFrame (ce qui est le cas)
+
     connect(project[0]->importFromMainTree, &QToolButton::clicked,
             [this]{
         updateProject();
         displayTotalSize();
-
+        checkAnnumSpan();
     });
+
+    /////
+
+
     project[0]->importFromMainTree->setVisible(visibility);
+#ifndef USE_RIGHT_CLICK
+    connect(project[0]->deleteGroupButton, SIGNAL(clicked()), this, SLOT(deleteGroup()));
     connect(project[0]->retrieveItemButton, SIGNAL(clicked()), this, SLOT(on_deleteItem_clicked()));
-    connect(project[0]->clearListButton, &QToolButton::clicked, [this] { updateProject(); displayTotalSize(); });
+#endif
+    QGridLayout *projectLayout = new QGridLayout;
+    projectLayout->addWidget(project[0]->importFromMainTree, 0, 1);
+    projectLayout->addWidget(project[0]->mainTabWidget, 0, 2);
 
-    projectLayout->addWidget(project[0]->tabBox, 0,2);
-    updownLayout->addWidget(project[0]->getControlButtonBox(), 0,0);
-
-    projectLayout->addWidget(project[0]->importFromMainTree, 0,1);
-
+#ifndef USE_RIGHT_CLICK
+    QGridLayout *updownLayout = new QGridLayout;
+    updownLayout->addWidget(project[0]->getControlButtonBox(), 0, 0);
     updownLayout->setRowMinimumHeight(1, 40);
     updownLayout->setRowMinimumHeight(3, 40);
-
-    projectLayout->addLayout(updownLayout, 0,3);
+    projectLayout->addLayout(updownLayout, 0, 3);
+#endif
 
     mainLayout->addLayout(projectLayout);
     progressLayout->addLayout(progress->layout);
     mainLayout->addLayout(progressLayout);
 
     QStringList labels;
-    labels << tr("") << tr("Mois") << tr("Chemin")  << tr("Taille\nFichier") << tr("Total") << tr("Siret") << tr("Budget");
+    labels << tr("") << tr("Mois") << tr("Chemin")  << tr("Taille\nFichier") << tr("Total") << tr("Siret Etablissement") << tr("Budget");
     managerWidget->hide();
     managerWidget->setHeaderLabels(labels);
     managerWidget->setColumnWidth(0,300);
@@ -151,6 +153,8 @@ Altair::Altair()
 
     allLayout->addLayout(mainLayout);
     allLayout->addLayout(managerLayout);
+
+    setContextMenuPolicy(Qt::CustomContextMenu);
 
     setLayout(allLayout);
     setWindowTitle(tr("altair-author"));
@@ -177,10 +181,12 @@ void Altair::refreshRowPresentation(uint j)
     widget->setPalette(palette);
     widget->setAlternatingRowColors(true);
     widget->setFont(font);
-
-    for (int r=0; (r < widget->count()) && (r < Hash::wrapper["XHL"]->at(j).size()); r++ )
+    QStringList strL = Hash::wrapper["XHL"]->at(j);
+    strL.sort();
+    int size = strL.size();
+    for (int r=0; (r < widget->count()) && (r < size); r++ )
     {
-        widget->item(r)->setText(Hash::wrapper.value("XHL")->at(j).at(r).section('/',-1));
+        widget->item(r)->setText(strL.at(r).section('/',-1));
         widget->item(r)->setTextColor(QColor("navy"));
     }
 }
@@ -200,52 +206,49 @@ void Altair::on_newProjectButton_clicked()
     outputTextEdit->append(PARAMETER_HTML_TAG "Nouveau projet créé sous " + projectName);
 }
 
-
-
-void Altair::on_openProjectButton_clicked()
+inline void     Altair::openProjectFileCommonCode()
 {
-   // closeProject();
-    projectName=QFileDialog::getOpenFileName(this,  tr("Ouvrir le projet"), QDir::currentPath(),  tr("projet altair (*.alt)"));
-
-    if (projectName.isEmpty()) return;
 
     RefreshFlag = RefreshFlag  | interfaceStatus::parseXml;
+
+    checkEmptyProjectName();
+    setCurrentFile(projectName);
     clearInterfaceAndParseProject();
     // resetting interfaceStatus::parseXml bits to 0
     RefreshFlag = RefreshFlag & (~interfaceStatus::parseXml);
+
+    Hash::createReference(project[0]->getRank());
+
+}
+
+void Altair::on_openProjectButton_clicked()
+{
+    //if (! Hash::wrapper["XHL"]->isEmpty() && ! Hash::wrapper["XHL"]->at(0).isEmpty()) return;
+    closeProject();
+    projectName=QFileDialog::getOpenFileName(this,  tr("Ouvrir le projet"), QDir::currentPath(),  tr("projet altair (*.alt)"));
+    if (projectName.isEmpty()) return;
+    openProjectFileCommonCode();
 }
 
 
 void Altair::openProjectFile()
 {
-  //  closeProject();
+    //if (! Hash::wrapper["XHL"]->isEmpty() && ! Hash::wrapper["XHL"]->at(0).isEmpty()) return;
+    closeProject();
     projectName=qobject_cast<QAction *>(sender())->data().toString();
     RefreshFlag = RefreshFlag | interfaceStatus::parseXml;
-
-    // only case in which XML is parsed
-
-    clearInterfaceAndParseProject();
-
-    // resetting interfaceStatus::parseXml bits to 0
-    RefreshFlag = RefreshFlag & (~interfaceStatus::parseXml);
+    openProjectFileCommonCode();
 }
 
 
 bool Altair::clearInterfaceAndParseProject()
 {
-//    if (cleardata)
-//    {
-//        clearProjectData();
-//    }
-
     options::RefreshFlag = options::RefreshFlag | interfaceStatus::optionTabs;
     RefreshFlag = RefreshFlag | interfaceStatus::tree;
 
     QTextEdit* editor = parent->getEditor();
 
     if (editor) editor->clear();
-    checkEmptyProjectName();
-    setCurrentFile(projectName);
 
     return refreshProjectManager();
 
@@ -261,6 +264,7 @@ void Altair::closeProject()
     for  (int i = projectDimension; i >= 0;   i--)
     {
         project[0]->mainTabWidget->removeTab(i);
+        project[0]->getWidgetContainer().removeAt(i);
     }
 
     project[0]->addNewTab();
@@ -279,17 +283,6 @@ void Altair::clearProjectData()
                      | interfaceStatus::optionTabs
                      | interfaceStatus::tree;
 
-//    int R=project[0]->getRank();
-
-//    for (int i=1; 2*i <= R+1; i++)
-//    {
-//        /* i <= R-i+1, majorant = nombre de groupes restants */
-//        project[0]->deleteGroup(i, R-i+1);
-//    }
-
-//    project[0]->on_clearList_clicked();
-
-//    project[0]->clearWidgetContainer();
 
     project[0]->deleteAllGroups();
 
@@ -326,8 +319,6 @@ void Altair::clearProjectData()
 
     project[0]->embeddingTabWidget->setCurrentIndex(0);
     project[0]->initializeWidgetContainer();
-
-
 }
 
 void Altair::on_helpButton_clicked()
@@ -341,7 +332,6 @@ void Altair::on_helpButton_clicked()
 void Altair::addGroup()
 {
     updateIndexInfo();
-
 }
 
 
@@ -396,15 +386,12 @@ void Altair::updateIndexChangeInfo()
     firstSelection=false;
 }
 
-
 void Altair::updateIndexInfo()
 {
     currentIndex=project[0]->getCurrentIndex();
     row=project[0]->getCurrentRow();
     // row = -1 if nothing selected
 }
-
-
 
 
 void Altair::on_deleteItem_clicked()
@@ -436,7 +423,9 @@ bool Altair::updateProject(bool requestSave)
 
     if (parent->isDefaultSaveProjectChecked() || requestSave)
         writeProjectFile();
-//return true;
+
+    setCurrentFile(projectName);
+
     return refreshProjectManager();
 }
 
@@ -445,19 +434,17 @@ bool Altair::updateProject(bool requestSave)
 
 void Altair::setCurrentFile(const QString &fileName)
 {
-    curFile =fileName;
     setWindowModified(false);
 
-    QString shownName = "Sans titre";
-
-    if (!curFile.isEmpty())
+    if (! fileName.isEmpty())
     {
-        shownName =parent->strippedName(curFile);
-        parent->recentFiles.prepend(curFile);
+        if (parent->recentFiles.isEmpty() || parent->recentFiles.at(0) != fileName)
+          parent->recentFiles.prepend(fileName);
         parent->updateRecentFileActions();
+
     }
 
-    parent->settings->setValue("defaut", QVariant(curFile));
+    parent->settings->setValue("defaut", QVariant(fileName));
 }
 
 
@@ -485,7 +472,9 @@ void Altair::assignVariables()
 void Altair::assignGroupFiles(const int group_index)
 {
     static int last_group;
+#ifdef DEBUG
     if (group_index-last_group) outputTextEdit->append(STATE_HTML_TAG "Ajout de l'onglet " + QString::number(group_index+1));
+#endif
     last_group=group_index;
 }
 
@@ -549,6 +538,7 @@ bool Altair::refreshProjectManager()
     }
 
     if (file.isOpen()) file.close();
+
     RefreshFlag =  RefreshFlag
                        & (interfaceStatus::hasSavedOptionsMask
                                               | interfaceStatus::saveTreeMask
@@ -557,6 +547,47 @@ bool Altair::refreshProjectManager()
                                               | interfaceStatus::parseXmlMask) ;
 
     return (filesize !=  0);
+}
+
+void Altair::checkAnnumSpan()
+{
+    const QStringList monthRef = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"};
+    int r = project[0]->getRank() - 1;
+
+    for (int i = 0; i < r; ++i)
+    {
+        QStringList monthList;
+
+        for (const QString& fileName : Hash::wrapper["XHL"]->at(i))
+            monthList << Hash::Mois[fileName];
+
+        monthList.removeDuplicates();
+
+        QMutableListIterator<QString> w(monthList);
+
+        while (w.hasNext())
+        {
+            QString month = w.next();
+
+            if (month.at(0) == '0')
+                w.setValue(month.remove(0, 1));
+        }
+
+        monthList.removeDuplicates();
+        monthList.sort();
+
+        QStringListIterator z(monthRef);
+        while (z.hasNext())
+        {
+            QString currentMonth;
+            if (! monthList.contains(currentMonth = z.next()))
+             QMessageBox::critical(nullptr, "Données incomplètes",
+                                            "Il manque des données mensuelles pour l'année " + project[0]->getTabLabels().at(i) +
+                                            " mois "+ currentMonth,
+                                            QMessageBox::Ok);
+
+        }
+    }
 }
 
 
@@ -581,7 +612,6 @@ void Altair::dragMoveEvent(QDragMoveEvent *event)
 
 void Altair::dropEvent(QDropEvent *event)
 {
-
     if (event->source() != this)
     {
 
@@ -602,13 +632,15 @@ void Altair::dropEvent(QDropEvent *event)
         if (size == 0) return;
        
         updateIndexInfo();
+        closeProject();
         if (false == project[0]->addParsedTreeToListWidget(stringsDragged)) return;
+        checkAnnumSpan();
+
+        Hash::createReference(project[0]->getRank());
+
         updateProject();
-
     }
-
 }
-
 
 
 void FProgressBar::stop()
@@ -627,7 +659,6 @@ void FProgressBar::stop()
     timer->stop();
     killButton->setDisabled(true);
 }
-
 
 
 inline void FProgressBar::computeLHXProgressBar()
@@ -668,9 +699,9 @@ inline void FProgressBar::computeRProgressBar()
 {
 
       setRange(0, 100);
-
+#ifdef DEBUG
       parent->outputTextEdit->append((QString)PROCESSING_HTML_TAG + QString::number(static_cast<int>(parent->fileRank)) + " % de l'analyse des données.");
-
+#endif
       setValue(parent->fileRank);
 
       if (parent->fileRank == 100) setValue(startshift);

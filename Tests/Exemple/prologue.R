@@ -8,7 +8,7 @@
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
 
 
-générer.rapport             <- T
+générer.rapport             <- F
 
 racine                      <- "R-Altaïr/"
 # "Ville Annecy Paye BP-"
@@ -20,17 +20,19 @@ racine                      <- "R-Altaïr/"
 # "RAG_2009_2012-"
 
 extraire.années      <- F
-    début.période.sous.revue    <- 2013
-    fin.période.sous.revue      <- 2014
+  début.période.sous.revue    <- 2013
+  fin.période.sous.revue      <- 2014
 
 setOSWindows            <- Sys.info()["sysname"] != "Linux"
 exec.root               <- ifelse(setOSWindows, ".exe", "")
+
 
 éliminer.duplications   <- F
 enlever.quotités.nulles <- F
 enlever.quotités.na     <- F
 écreter.quotités        <- T
 générer.codes           <- FALSE
+charger.catégories.personnel <- FALSE
 extraire.population     <- FALSE
 charger.bases           <- T
 sauvegarder.bases.analyse    <- T
@@ -39,6 +41,7 @@ générer.table.effectifs      <- F
 générer.table.élus           <- T
 tester.matricules            <- TRUE
 analyse.statique.totale      <- F
+corriger.environnement.système <- T
 
 seuil.troncature         <- 1 # jours
 taux.tolérance.homonymie <- 2  # en %
@@ -114,24 +117,24 @@ colonnes.requises           <- c(union(clé.fusion, étiquette.matricule),
                                  "Temps.de.travail")
 
 colonnes.input <- c("Année", "Mois", "Nom", "Prénom", "Matricule",
-                    "Service", "Statut", "Temps.de.travail", "Heures.Sup.", "Heures",
+                    "Service", "NbEnfants", "Statut", "Temps.de.travail", "Heures.Sup.", "Heures",
                     "Indice", "Brut", "Net", "Net.à.Payer", "NBI",
                     "Libellé", "Code", "Base", "Taux", "Nb.Unité",
                     "Montant", "Type", "Emploi", "Grade", "Nir")
 
 colonnes.classes.input    <- c("integer", "integer", "character", "character", "character",
-                               "character", "character", "numeric", "numeric", "numeric",
+                               "character", "character", "character", "numeric", "numeric", "numeric",
                                "character",  "numeric", "numeric", "numeric", "numeric",
                                "character",  "character", "numeric", "numeric", "numeric",
                                "numeric", "character", "character", "character", "character")
 
 colonnes.bulletins.input <- c("Année", "Mois", "Nom", "Prénom", "Matricule",
-                              "Service", "Statut", "Temps.de.travail", "Heures.Sup.", "Heures",
+                              "Service", "NbEnfants", "Statut", "Temps.de.travail", "Heures.Sup.", "Heures",
                               "Indice", "Brut", "Net", "Net.à.Payer", "NBI",
                               "Emploi", "Grade", "Nir")
 
 colonnes.bulletins.classes.input <- c("integer", "integer", "character", "character", "character",
-                                      "character", "character", "numeric", "numeric", "numeric",
+                                      "character", "character", "character", "numeric", "numeric", "numeric",
                                       "character",  "numeric", "numeric", "numeric", "numeric",
                                       "character", "character", "character")
 
@@ -142,7 +145,7 @@ date.format                      <- "%d/%m/%Y"
 #libellés.élus               <- c("Elu", "Elus", "élu", "élus", "maire", "président", "adjoint au maire", "vice-président", "vice président")
 
 ########## Problématique ##############
-codes.NBI <- c("1012", "101B", "101M", "4652", "4672")
+#codes.NBI <- c("1012", "101B", "101M", "4652", "4672")
 
 
 # A priori les deux modes de lectures de tables (rapide et standard) lisent aussi bien le Windows ANSI/ISO-8859-1 que

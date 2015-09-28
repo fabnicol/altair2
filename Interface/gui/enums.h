@@ -6,6 +6,7 @@ class flags
 {
 public:
     enum {flush=0xF00};
+    enum class flineframe {isFilePath, isDirectoryPath};
     enum {importFiles, importNames, typeIn, isEmbedded};
 
     enum class font : std::uint8_t {boldTitle, regularTitle, italicTitle};
