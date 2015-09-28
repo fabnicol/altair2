@@ -62,7 +62,7 @@ void ecrire_entete0(info_t* info, std::ofstream& base, const char* entete[], int
   else
     for (i = !info->generer_rang; i < N - 1; ++i)
     {
-        if (i != Budget && i!= Siret && i != Etablissement)
+        if (i != Budget +1 && i!= Siret +1 && i != Etablissement + 1)
             base << entete[i] << info[0].separateur;
     }
 
