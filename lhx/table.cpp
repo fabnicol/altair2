@@ -25,7 +25,7 @@ return 0;
 static inline void  ECRIRE_LIGNE_l(int i, uint32_t agent, int l, char* type, std::ofstream& base, char sep, info_t* Info, int rang)
 {
 
-if (! base.is_open()) return;
+//if (! base.is_open()) return;
 
 if (Info[0].generer_rang)
     base <<  rang << sep;
@@ -70,7 +70,7 @@ if (Info[0].select_siret)
 static inline void  ECRIRE_LIGNE_BULLETIN(int i, uint32_t agent, std::ofstream& bulletins, char sep, info_t* Info, int rang)
 {
 
-if (! bulletins.is_open()) return;
+//if (! bulletins.is_open()) return;
 
 if (Info[0].generer_rang)
   bulletins <<  rang << sep;
