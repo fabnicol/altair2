@@ -8,7 +8,7 @@
 FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_type, const QString &hashKey,
                          const QStringList &description, const QString &command_line, int cli_type, const QStringList &separator, const QStringList &xml_tags,
                          common::TabWidgetTrait mainTabWidgetRank, QIcon *icon, QTabWidget *parentTabWidget,
-                         QStringList* terms, QStringList* translation, bool showAddItemButtonValue)
+                         QStringList* terms, QStringList* translation)
 
 {
 
@@ -16,7 +16,7 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
  altair = static_cast<Altair*>(parent);
 
  currentIndex=0;  // necessary for project parsing
- showAddItemButton=showAddItemButtonValue;
+
  importType=import_type;
  tags=xml_tags;
  fileTreeView=tree;
@@ -55,7 +55,7 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
        {
            embeddingTabWidget->insertTab(static_cast<int>(mainTabWidgetRank), mainTabWidget, *icon, "");
            embeddingTabWidget->setIconSize(QSize(48,48));
-           embeddingTabWidget->setMovable(true);
+           embeddingTabWidget->setMovable(false);
            embeddingTabWidget->setTabToolTip(static_cast<int>(mainTabWidgetRank), description.at(0));
        }
      else
@@ -70,13 +70,13 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
 
 
  mainTabWidget->addTab(currentListWidget, xml_tags[1]+" 1");
- mainTabWidget->setMovable(true);
+ mainTabWidget->setMovable(false);
 
  const QIcon importIcon = QIcon(QString::fromUtf8( ":/images/document-import.png"));
  importFromMainTree->setIcon(importIcon);
  importFromMainTree->setIconSize(QSize(22, 22));
 
-
+#ifndef USE_RIGHT_CLICK
  deleteGroupButton->setToolTip(tr("Enlever l'onglet courant"));
  const QIcon iconDelete = QIcon(QString::fromUtf8( ":/images/tab-close-other.png"));
  deleteGroupButton->setIcon(iconDelete);
@@ -88,53 +88,38 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
  retrieveItemButton->setIcon(iconRetrieve);
  retrieveItemButton->setIconSize(QSize(22, 22));
 
- clearListButton->setToolTip(tr("Effacer tout"));
- const QIcon clearIcon = QIcon(QString::fromUtf8( ":/images/edit-clear.png"));
- clearListButton->setIcon(clearIcon);
- clearListButton->setIconSize(QSize(22,22));
-
- addItemButton=new QToolButton;
- addItemButton->setToolTip(tr("Ajouter un fichier"));
- const QIcon addItemIcon = QIcon(QString::fromUtf8( ":/images/list-add.png"));
- addItemButton->setIcon(addItemIcon);
- addItemButton->setIconSize(QSize(22,22));
- 
  QGridLayout *controlButtonLayout=new QGridLayout;
 
- if (showAddItemButton) 
-     controlButtonLayout->addWidget(addItemButton, 1+ showAddItemButton,1,1,1,Qt::AlignCenter);
- controlButtonLayout->addWidget(retrieveItemButton, 2+ showAddItemButton,1,1,1,Qt::AlignCenter);
- controlButtonLayout->setRowMinimumHeight(4+ showAddItemButton, 50);
- controlButtonLayout->addWidget(clearListButton, 4+ showAddItemButton, 1,1,1, Qt::AlignTop);
- controlButtonLayout->addWidget(deleteGroupButton, 6+ showAddItemButton,1,1,1,Qt::AlignCenter);
+ controlButtonLayout->addWidget(retrieveItemButton, 2,1,1,1,Qt::AlignCenter);
+ controlButtonLayout->setRowMinimumHeight(4, 50);
+ controlButtonLayout->addWidget(clearListButton, 4, 1,1,1, Qt::AlignTop);
+ controlButtonLayout->addWidget(deleteGroupButton, 6,1,1,1,Qt::AlignCenter);
   
  controlButtonBox->setLayout(controlButtonLayout);
  controlButtonBox->setFlat(true);
+ connect(deleteGroupButton, SIGNAL(clicked()),  this, SLOT(deleteGroup()));
+ connect(retrieveItemButton, SIGNAL(clicked()), this, SLOT(on_deleteItem_clicked()));
+
+#endif
 
  QVBoxLayout *tabLayout=new QVBoxLayout;
  tabLayout->addWidget(embeddingTabWidget);
- tabBox->setLayout(tabLayout);
- tabBox->setFlat(true);
 
-  if (importType == flags::typeIn)
+
+ if (importType == flags::typeIn)
  {
      currentListWidget->setEditTriggers(QAbstractItemView::AllEditTriggers);
  }
 
- 
- connect(deleteGroupButton, SIGNAL(clicked()), this, SLOT(deleteGroup()));
  connect(importFromMainTree, SIGNAL(clicked()), this,  SLOT(on_importFromMainTree_clicked()));
- connect(clearListButton, SIGNAL(clicked()), this, SLOT(on_clearList_clicked()));
- connect(retrieveItemButton, SIGNAL(clicked()), this, SLOT(on_deleteItem_clicked()));
- connect(addItemButton, &QToolButton::clicked,  [&]{
-                                                     updateIndexInfo();
-                                                     QListWidgetItem *item;
-                                                     currentListWidget->addItem(item=new QListWidgetItem);
-                                                     item->setFlags(item->flags () | Qt::ItemIsEditable); });
-  
+ connect(reinterpret_cast<QWidget*>(parent), &QWidget::customContextMenuRequested,
+                         [&] {
+                                 this->showContextMenu();
+                                 altair->updateProject();
+                             });
+
+
 }
-
-
 
 void FListFrame::list_connect(FComboBox* w)
 {
@@ -163,36 +148,13 @@ void FListFrame::total_connect(FListFrame* w)
 }
 
 
-void FListFrame::on_clearList_clicked(int currentIndex)
-{
-  if (currentIndex == -1)
-   {
-      updateIndexInfo();
-      currentIndex=this->currentIndex;
-   }
-
-  if (Hash::wrapper[frameHashKey]->count() < currentIndex+1) return;
-
-  widgetContainer[currentIndex]->clear();
-
-  /* Warning : use *[], not ->value, to modifie any list content, even subordinate */
-
-  int count = (*Hash::wrapper[frameHashKey])[currentIndex].count();
-  
-  Hash::counter[frameHashKey] -= count;
-  (*Hash::wrapper[frameHashKey])[currentIndex].clear();
-
-  updateIndexInfo();
-  emit(is_ntracks_changed(Hash::counter[frameHashKey]));
-}
-
 void FListFrame::on_deleteItem_clicked()
 {
   updateIndexInfo();
 
   if (Hash::wrapper[frameHashKey]->at(currentIndex).isEmpty() && (importType != flags::typeIn) ) return;
   if (row <0) return;
-  emit(isControlButtonClicked());
+
   QModelIndexList L=currentListWidget->selectionModel()->selectedRows();
   int size=L.size();
   int  rank=0, localrow=0;
@@ -204,7 +166,6 @@ void FListFrame::on_deleteItem_clicked()
       if  (importType != flags::typeIn) 
       {
           (*Hash::wrapper[frameHashKey])[currentIndex].removeAt(localrow);
-          Hash::counter[frameHashKey]--;
       }
       
       rank++;
@@ -216,7 +177,6 @@ void FListFrame::on_deleteItem_clicked()
    if (localrow <= 0 && (*Hash::wrapper[frameHashKey])[currentIndex].isEmpty()) deleteGroup();
    updateIndexInfo();
    emit(is_ntabs_changed(currentIndex+1)); // emits signal of number of tabs/QListWidgets opened
-   emit(is_ntracks_changed(Hash::counter[frameHashKey]));
 }
 
 
@@ -239,13 +199,9 @@ void FListFrame::addGroup()
  
         currentListWidget=new QListWidget;
         fileListWidget->currentListWidget = currentListWidget;
-        currentListWidget->setSelectionMode(QAbstractItemView::ContiguousSelection);
-      //  currentListWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
-        if (showAddItemButton) 
-        {
-            currentListWidget->setEditTriggers(QAbstractItemView::AllEditTriggers);
-        }
-        
+        currentListWidget->setSelectionMode(QAbstractItemView::ExtendedSelection);
+        currentListWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+
         widgetContainer << currentListWidget;
         if (getRank() ==  Hash::wrapper[frameHashKey]->size())
         {
@@ -273,7 +229,10 @@ void FListFrame::addGroups(int n)
 void FListFrame::deleteAllGroups(bool insertFirstGroup, bool eraseAllData)
 {
    // mainTabWidget->clear();
-    on_clearList_clicked(0);
+
+    widgetContainer[0]->clear();
+
+    updateIndexInfo();
 
     /* cleanly wipe out main Hash */
 
@@ -283,7 +242,7 @@ void FListFrame::deleteAllGroups(bool insertFirstGroup, bool eraseAllData)
     }
     else
     {
-//      delete(Hash::wrapper[frameHashKey]);
+      Hash::wrapper[frameHashKey]->clear();
       Abstract::initializeFStringListHash(frameHashKey);
     }
 
@@ -293,6 +252,7 @@ void FListFrame::deleteAllGroups(bool insertFirstGroup, bool eraseAllData)
     Hash::Siret.clear();
     Hash::Etablissement.clear();
     Hash::Budget.clear();
+    Hash::Reference.clear();
 
     clearTabLabels();
 
@@ -300,64 +260,36 @@ void FListFrame::deleteAllGroups(bool insertFirstGroup, bool eraseAllData)
     if (insertFirstGroup) addGroup();
 }
 
-void FListFrame::deleteGroup(int r, int R)
+void FListFrame::deleteGroup(int r)
 {
     mainTabWidget->removeTab(r);
 
-     Hash::counter[frameHashKey] -=  Hash::wrapper[frameHashKey]->at(r).count();
-
-     for (const QString& s : Hash::wrapper[frameHashKey]->at(r))
+    for (const QString& s : Hash::wrapper[frameHashKey]->at(r))
      {
          Hash::Annee.remove(s);
          Hash::Mois.remove(s);
          Hash::Siret.remove(s);
      }
 
-     Hash::wrapper[frameHashKey]->removeAt(r);
+    Hash::wrapper[frameHashKey]->removeAt(r);
+    QStringList tabLabels = fileListWidget->getTabLabels();
 
-    if (r < R)
-      {
-        for (int j=currentIndex; j < R+1 ; j++)
-          {
-            mainTabWidget->setTabText(j,  tags[1] + " " + QString::number(j+1));
-          }
-      }
+    if (r < Hash::Reference.size())
+            Hash::Reference.removeAt(r);
 
+    tabLabels.removeAt(r);
+    fileListWidget->setTabLabels(tabLabels);
     if (r < widgetContainer.size()) widgetContainer.removeAt(r);
     updateIndexInfo();
     emit(is_ntabs_changed(currentIndex+1)); // emits signal of number of tabs/QListWidgets opened
-    emit(is_ntracks_changed(Hash::counter[frameHashKey]));
 }
 
 void FListFrame::deleteGroup()
 {
  updateIndexInfo();
- int R=getRank();
- if (R < 1) return;
- deleteGroup(currentIndex, R);
+ deleteGroup(currentIndex);
 }
 
-#if 0
-void FListFrame::deleteGroups(QList<int> &L)
-{
-
- foreach (int j,  L)
-   {
-     mainTabWidget->removeTab(j);
-     Hash::wrapper[frameHashKey]->removeAt(j);
-     getRank()--;
-   }
-
- if (L[0] <getRank())
-   {
-
-     for (int j=L[0]; j < getRank() +1 ; j++)
-       {
-         mainTabWidget->setTabText(j,  tags[1] + " " + QString::number(j+1));
-       }
-   }
-}
-#endif
 
 void FListFrame::initializeWidgetContainer()
 {
@@ -408,11 +340,11 @@ void FListFrame::parseXhlFile(const QString& fileName)
 
     file.seek(0);
 
-    char buffer[1500];
-    file.read(buffer, 1500);
+    QByteArray buffer0 = file.read(BUFFER_SIZE);
+
+    const QString string = QString::fromLatin1(buffer0, BUFFER_SIZE);
 
 #ifdef REGEX_PARSING_FOR_HEADERS
-    const QString string = QString::fromLatin1(buffer);
 
     QRegExp reg("DocumentPaye.*(?:Annee) V=\"([0-9]+)\".*(?:Mois) V=\"([0-9]+)\"(.*)(?:Etablissement|Employeur).*(?:Nom) V=\"([^\"]+)\".*(?:Siret) V=\"([0-9A-Z]+)\"");
     reg.setPatternSyntax(QRegExp::RegExp2);
@@ -426,20 +358,65 @@ void FListFrame::parseXhlFile(const QString& fileName)
         if (budgetCapture.contains(reg2))
            Hash::Budget[fileName] = reg2.cap(1) ;
         else
-            Hash::Budget[fileName] = "Non renseigné" ;
-        Hash::Etablissement[fileName]  = reg.cap(4).replace("&#39;", "\'");
-        Hash::Siret[fileName] = reg.cap(5);
+           Hash::Budget[fileName] = "Non renseigné" ;
+        Hash::Etablissement[fileName]  << reg.cap(4).replace("&#39;", "\'");
+        Hash::Siret[fileName] << reg.cap(5);
     }
     else
     {
         altair->outputTextEdit->append(WARNING_HTML_TAG " Fichier " + fileName + " non conforme à la spécification astre:DocumentPaye");
         Hash::Annee[fileName] = "Inconnu";
         Hash::Mois[fileName]  = "Inconnu";
-        Hash::Etablissement[fileName]  = "Inconnu";
-        Hash::Siret[fileName] = "Inconnu";
+        Hash::Etablissement[fileName]  << "Inconnu";
+        Hash::Siret[fileName] << "Inconnu";
 
     }
 
+
+    if (Hash::Budget[fileName].left(5).toUpper() == "MULTI" && Hash::Budget[fileName].right(7).toUpper() == "BUDGETS")
+    {
+       int pos = -1;
+       buffer0.clear();
+       file.seek(0);
+       buffer0 = file.readAll();
+       pos = buffer0.indexOf("<DonneesIndiv>");
+       Hash::SiretPos[fileName] << pos;
+       pos += 15;
+       buffer0 = buffer0.mid(pos);
+       qint64 filesize = file.size();
+       if (buffer0.size() + pos == filesize)
+       {
+           while ((pos = buffer0.indexOf("<DonneesIndiv>")) != -1)
+           {
+              Hash::SiretPos[fileName] << pos;
+              const QString string = QString::fromLatin1(buffer0.mid(pos, BUFFER_SIZE));
+
+              QRegExp reg3("(?:Etablissement|Employeur).*(?:Nom) V=\"([^\"]+)\".*(?:Siret) V=\"([0-9A-Z]+)\"");
+              reg3.setPatternSyntax(QRegExp::RegExp2);
+
+              if (string.contains(reg3))
+               {
+                  QString s1 = reg3.cap(1).replace("&#39;", "\'");
+                  QString s2 = reg3.cap(2);
+                  if (! Hash::Etablissement[fileName].contains(s1))
+                      Hash::Etablissement[fileName]  << s1;
+                  if (! Hash::Etablissement[fileName].contains(s2))
+                      Hash::Siret[fileName] << s2;
+               }
+               else
+               {
+                  Hash::Etablissement[fileName]  << "Etablissement/Employer inconnu";
+                  Hash::Siret[fileName] << "Siret inconnu";
+               }
+
+               buffer0 = buffer0.mid(pos + 15);
+          }
+
+           Hash::SiretPos[fileName] << filesize;
+       }
+       else
+           QMessageBox::warning(nullptr, "Erreur", "Erreur de lecture du fichier " + fileName, QMessageBox::Ok);
+    }
 
 #else
 
@@ -448,11 +425,12 @@ void FListFrame::parseXhlFile(const QString& fileName)
    {
        Hash::Annee[fileName] = QString(elemPar->annee);
        Hash::Mois[fileName]  = QString(elemPar->mois);
-       Hash::Siret[fileName] = QString(elemPar->siret);
+       Hash::Siret[fileName] << QString(elemPar->siret);
    }
 
    free(elemPar);
 #endif
+
 
    file.close();
 
@@ -470,6 +448,7 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
     QStringList existingTabLabels;
     mainTabWidget->clear();
     clearTabLabels();
+    widgetContainer.clear();
 
     for (int j = 0; j < getWidgetContainerCount(); j++)
     {
@@ -480,10 +459,14 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
             delete(mainTabWidget->widget(j));
         }
         else
+        // Ne pas inclure les onglets Siret et Budget
+        if (str[0] != 'S'  && str[0] != 'B')
           existingTabLabels << str;
     }
 
-    altair->outputTextEdit->append(STATE_HTML_TAG " Parcours des entêtes de fichier " );
+    #ifdef DEBUG
+     altair->outputTextEdit->append(STATE_HTML_TAG " Parcours des entêtes de fichier " );
+    #endif
     int stringListSize = stringList.size();
     altair->getProgressBar()->setRange(0, stringListSize);
     altair->getProgressBar()->reset();
@@ -493,27 +476,30 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
 
     QStringList tabLabels = getTabLabels();
 
-    altair->outputTextEdit->append(STATE_HTML_TAG " Calcul des labels " );
-
+    #ifdef DEBUG
+      altair->outputTextEdit->append(STATE_HTML_TAG " Calcul des labels " );
+    #endif
     for (const QString& fileName : stringList)
             tabLabels  +=   Hash::Annee[fileName];
 
     int rank = 0;
     QStringList allLabels = tabLabels + existingTabLabels;
-    altair->outputTextEdit->append(STATE_HTML_TAG " Elimination des doublons " );
     allLabels.removeDuplicates();
-    altair->outputTextEdit->append(STATE_HTML_TAG " Tri des labels " );
+    #ifdef DEBUG
+      altair->outputTextEdit->append(STATE_HTML_TAG " Elimination des doublons " );
+      altair->outputTextEdit->append(STATE_HTML_TAG " Tri des labels " );
+    #endif
     allLabels.sort();
 
     if (! allLabels.isEmpty())
     {
         altair->outputTextEdit->append(STATE_HTML_TAG + QString(" Nombre d'années détectées : ") + QString::number(allLabels.size()) + " années, " + allLabels.join(", "));
 
-        #define listWidget static_cast<QListWidget*>(mainTabWidget->widget(rank))
+        //#define listWidget static_cast<QListWidget*>(mainTabWidget->widget(rank))
+       #define listWidget   widgetContainer[rank]
 
         for (const QString& annee : allLabels)
         {
-
             QStringList keys = Hash::Annee.keys(annee);
             keys.sort();
 
@@ -522,19 +508,24 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
 
                 widgetContainer.insert(rank, new QListWidget);
                 Hash::wrapper[frameHashKey]->insert(rank, keys);
-                Hash::counter[frameHashKey]++;
 
                 addNewTab(rank, annee);
-                altair->outputTextEdit->append(STATE_HTML_TAG " Ajout de l'onglet " + annee);
+                #ifdef DEBUG
+                  altair->outputTextEdit->append(STATE_HTML_TAG " Ajout de l'onglet " + annee);
+                #endif
             }
             else
             {
                 (*Hash::wrapper[frameHashKey])[rank] =  keys ;
-                altair->outputTextEdit->append(STATE_HTML_TAG " Ajout des fichiers de l'onglet au conteneur principal ");
+                #ifdef DEBUG
+                  altair->outputTextEdit->append(STATE_HTML_TAG " Ajout des fichiers de l'onglet au conteneur principal ");
+                #endif
             }
 
             listWidget->clear();
-            altair->outputTextEdit->append(STATE_HTML_TAG " Ajout des fichiers de l'onglet " + annee);
+            #ifdef DEBUG
+              altair->outputTextEdit->append(STATE_HTML_TAG " Ajout des fichiers de l'onglet " + annee);
+            #endif
             listWidget->addItems(keys);
 
             altair->refreshRowPresentation(rank);
@@ -544,12 +535,20 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
         mainTabWidget->setCurrentIndex(rank - 1);
 
         QStringList pairs;
-        QStringListIterator j(Hash::Etablissement.values());
-        QStringListIterator i(Hash::Siret.values());
+        FStringListIterator j(Hash::Etablissement.values());
+        FStringListIterator i(Hash::Siret.values());
         while (i.hasNext() && j.hasNext())
         {
-            pairs << i.next() + " " + j.next();
+            QStringList etab = i.next();
+            QStringList siret = j.next();
+            for (int j = 0; j < etab.size() && j < siret.size(); ++j)
+            {
+                pairs << etab.at(j) + " " + siret.at(j);
+            }
+
         }
+
+        pairs.sort();
         pairs.removeDuplicates();
 
         int siretCount = pairs.size();
@@ -561,8 +560,10 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
         widgetContainer.insert(rank, new QListWidget);
         addNewTab(rank, "Siret");
         Hash::wrapper[frameHashKey]->insert(rank, pairs);
-        Hash::counter[frameHashKey]++;
-        altair->outputTextEdit->append(STATE_HTML_TAG " Ajout de l'onglet Siret");
+
+        #ifdef DEBUG
+          altair->outputTextEdit->append(STATE_HTML_TAG " Ajout de l'onglet Siret");
+        #endif
         listWidget->clear();
         listWidget->addItems(tabList);
 
@@ -584,13 +585,13 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
         for (int i=0; i < siretCount; i++)
         {
             listWidget->item(i)->setTextColor(colorList.at(i % colorListSize));
-            Hash::Mois[tabList.at(i)] = "nul";
         }
         ++rank;
 
         pairs.clear();
         tabList.clear();
         pairs = Hash::Budget.values();
+        pairs.sort();
         pairs.removeDuplicates();
         int budgetCount = pairs.size();
         for (int i=0; i < budgetCount ; i++)
@@ -599,15 +600,16 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
         widgetContainer.insert(rank, new QListWidget);
         addNewTab(rank, "Budget");
         Hash::wrapper[frameHashKey]->insert(rank, pairs);
-        Hash::counter[frameHashKey]++;
-        altair->outputTextEdit->append(STATE_HTML_TAG " Ajout de l'onglet Budget");
+
+        #ifdef DEBUG
+          altair->outputTextEdit->append(STATE_HTML_TAG " Ajout de l'onglet Budget");
+        #endif
         listWidget->clear();
         listWidget->addItems(tabList);
 
         for (int i=0; i < budgetCount; i++)
          {
             listWidget->item(i)->setTextColor(colorList.at(i % colorListSize));
-            Hash::Mois[tabList.at(i)] = "nul";
         }
         ++rank;
 
@@ -619,7 +621,6 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
     {
         emit(is_ntabs_changed(currentIndex+1)); // emits signal of number of tabs/QListWidgets opened
     }
-   emit(is_ntracks_changed(Hash::counter[frameHashKey]));
 
   fileListWidget->setTabLabels(allLabels << "Siret" << "Budget");
   currentListWidget->setCurrentRow(Hash::wrapper[frameHashKey]->at(rank - 1).size());
@@ -665,14 +666,14 @@ QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
               if (info.isFile() && info.suffix() == "xhl")
                   stringsToBeAdded << currentString;
     }
-    
     return stringsToBeAdded; 
 }
-
 
 void FListFrame::on_importFromMainTree_clicked()
 {
  
+ altair->closeProject();
+
  altair->outputTextEdit->append(STATE_HTML_TAG " Lancement de l'analyse " );
 
  if (isListConnected || isTotalConnected)
@@ -690,29 +691,32 @@ void FListFrame::on_importFromMainTree_clicked()
  
  QStringList&& stringsToBeAdded = QStringList();
  int stringListSize=0;
- 
+#ifdef DEBUG
  altair->outputTextEdit->append(STATE_HTML_TAG " Parcours de l'arbre " );
-
-
+#endif
 
  if (importType == flags::importFiles)
     {
-     for (const QModelIndex& index : indexList)
-       {
-         const QString path = model->filePath(index);
-         if (! path.isEmpty()) 
+        for (const QModelIndex& index : indexList)
+          {
+             const QString path = model->filePath(index);
+             if (! path.isEmpty())
+             {
+                 stringListSize++;
+                 stringsToBeAdded << path;
+             }
+          }
+        #ifdef DEBUG
+         altair->outputTextEdit->append(STATE_HTML_TAG " Ajout des chemins à la liste centrale" );
+        #endif
+
+         if (stringListSize)
          {
-             stringListSize++;
-             stringsToBeAdded << path;
+             addParsedTreeToListWidget(stringsToBeAdded);
          }
-       }
+     }
 
-     altair->outputTextEdit->append(STATE_HTML_TAG " Ajout des chemins à la liste centrale" );
-
-     if (stringListSize) 
-         addParsedTreeToListWidget(stringsToBeAdded);
-    }
-
+ Hash::createReference(getRank());
 }
 
 void  FListFrame::setSlotListSize(int s) 
@@ -720,4 +724,129 @@ void  FListFrame::setSlotListSize(int s)
     slotListSize=s; 
     mainTabWidget->setEnabled(s > 0);
     if (s== 0) deleteAllGroups();
+}
+
+void FListFrame::showContextMenu()
+{
+        updateIndexInfo();
+        if (currentListWidget->count() == 0) return;
+
+        QAction *deleteAction = new QAction(tr("Exclure"), this);
+        deleteAction->setIcon(QIcon(":/images/retrieve.png"));
+        QAction *addAction = new QAction(tr("Inclure"), this);
+        addAction->setIcon(QIcon(":/images/include.png"));
+
+        QMenu myMenu;
+        const int size = Hash::wrapper["XHL"]->size();
+
+        myMenu.addActions({deleteAction, addAction});
+
+#ifdef USE_RIGHT_CLICK
+        QAction *deleteGroupAction = new QAction(tr("Enlever l'onglet courant"), this);
+        const QIcon iconDelete = QIcon(QString::fromUtf8( ":/images/tab-close-other.png"));
+        deleteGroupAction->setIcon(iconDelete);
+
+        if (currentIndex < size - 2)
+            myMenu.addActions({deleteGroupAction});
+#endif
+
+        QAction* selectedItem = myMenu.exec(QCursor::pos());
+        if (selectedItem == nullptr) return;
+        if (currentIndex < size -2)
+        {
+            if (selectedItem == deleteGroupAction)
+            {
+                deleteGroup();
+                return;
+            }
+
+            (*Hash::wrapper["XHL"])[currentIndex] = Hash::Reference[currentIndex];
+
+        }
+            int localrow = 0;
+            bool isDeleteAction = (selectedItem == deleteAction);
+            QFont font;
+            for (const QModelIndex &index :  currentListWidget->selectionModel()->selectedRows())
+            {
+                QString str;
+                QListWidgetItem *item = currentListWidget->item(localrow = index.row());
+
+                font = item->font();
+
+                str = Hash::Reference.at(currentIndex).at(localrow);
+
+                Hash::Suppression[str] = isDeleteAction ;
+
+                font.setStrikeOut(isDeleteAction);
+                item->setFont(font);
+                item->setTextColor(isDeleteAction ? "red" : "green");
+            }
+
+            if (Hash::Reference.size() != size || getRank()+1 != size)
+            {
+                QMessageBox::critical(nullptr, "Erreur", "Incohérence des tailles des tables de référence : \n\
+ Référence : " + QString::number(Hash::Reference.size()) +
+ "\nWrapper size : " + QString::number(size) +
+ "\nWidget size : " + QString::number(getRank()+1),
+                                      QMessageBox::Cancel);
+
+                return;
+            }
+
+            for (int j = 0; j < size; ++j)
+            {
+                QStringList strL;
+                const QListWidget *listWidget = widgetContainer.at(j);
+                int size_j = Hash::Reference.at(j).size();
+                if (size_j != listWidget->count())
+                {
+                    QMessageBox::critical(nullptr, "Erreur", "Incohérence des tailles de la table de référence et du widget " + QString::number(j) + ".", QMessageBox::Cancel);
+                    return;
+                }
+
+                // On barre dès qu'au moins un Siret du fichier est barré
+
+                for (int k = 0; k < size_j; ++k)
+                {
+                    QListWidgetItem *item = listWidget->item(k);
+                    const QString str = Hash::Reference.at(j).at(k);
+                    bool test_for_multi_case = true;
+                    if (j < size - 2 && Hash::Siret[str].size() > 1 && Hash::Etablissement[str].size() > 1)
+                      for (int l = 1; l < Hash::Siret[str].size() && l < Hash::Etablissement[str].size(); ++l)
+                              test_for_multi_case  = ! Hash::Suppression[Hash::Siret[str].at(l) + " " + Hash::Etablissement[str].at(l)]
+                                                     &&  test_for_multi_case;
+
+                    bool restrictions_on_xhl_files =  true;
+                    if (j < size - 2)
+                         restrictions_on_xhl_files =  ! Hash::Suppression[Hash::Budget[str]]
+                                                &&
+                                               ! Hash::Suppression[Hash::Siret[str].at(0) + " " + Hash::Etablissement[str].at(0)]
+                                                &&
+                                                ((Hash::Siret[str].size() == 1 && Hash::Etablissement[str].size() == 1) || test_for_multi_case);
+
+                    if (restrictions_on_xhl_files && ! Hash::Suppression[str])
+                            {
+                                strL << str;
+                                font.setStrikeOut(false);
+                                font.setItalic(false);
+                                item->setFont(font);
+                                item->setTextColor("green");
+                            }
+                            else
+                            {
+                                if (test_for_multi_case == false)
+                                {
+                                        font.setItalic(true);
+                                }
+
+                                font.setStrikeOut(true);
+                                item->setFont(font);
+                                item->setTextColor("red");
+                            }
+                }
+
+                (*Hash::wrapper["XHL"])[j] = strL;
+            }
+
+            currentListWidget->setCurrentRow(localrow);
 }

@@ -12,11 +12,11 @@ MainWindow::MainWindow(char* projectName)
   #ifdef MINIMAL
     setGeometry(QRect(200, 200,600,400));
   #else
-    setGeometry(QRect(200, 200,1150,400));
+    setGeometry(QRect(200, 200,1150,700));
   #endif
 
   raise();
-  recentFiles=QStringList()<<QString("defaut") ;
+  recentFiles = QStringList() ;
 
   altair=new Altair;
   altair->parent=this;
@@ -42,12 +42,13 @@ MainWindow::MainWindow(char* projectName)
   setCentralWidget(altair);
 
   altair->addActions(actionList);
-  altair->setContextMenuPolicy(Qt::ActionsContextMenu);
-  altair->setContextMenuPolicy(Qt::ActionsContextMenu);
 
   bottomDockWidget=new QDockWidget;
   bottomTabWidget=new QTabWidget;
   consoleDialog=  new QTextEdit;
+  consoleDialog->setReadOnly(true);
+
+  connect(consoleDialog, SIGNAL(copyAvailable(bool)), consoleDialog, SLOT(copy()));
   bottomTabWidget->addTab(altair->outputTextEdit, tr("Messages"));
   bottomTabWidget->addTab(consoleDialog, tr("Console"));
   bottomTabWidget->setCurrentIndex(0);
@@ -121,18 +122,19 @@ QMutableStringListIterator i(recentFiles);
  }
 
 
- for (int j=0 ; j<MaxRecentFiles ; ++j)
+ for (int j  =0 ; j < MaxRecentFiles ; ++j)
  {
    if (j < recentFiles.count())
    {
      QString  text = tr("&%1 %2").arg(j+1).arg(strippedName(recentFiles[j]));
+
      recentFileActions[j]->setText(text);
      recentFileActions[j]->setData(QVariant(recentFiles[j]));
      recentFileActions[j]->setVisible(true);
    } else
 
    {
-    recentFileActions[j]->setVisible(false);
+     recentFileActions[j]->setVisible(false);
    }
 
  }
@@ -155,35 +157,22 @@ void MainWindow::createMenus()
  optionsMenu = menuBar()->addMenu("&Configurer");
  aboutMenu = menuBar()->addMenu("&Aide");
 
- fileMenu->addAction(newAction);
- fileMenu->addAction(openAction);
- fileMenu->addAction(saveAction);
- fileMenu->addAction(saveAsAction);
- fileMenu->addAction(closeAction);
-
+ fileMenu->addActions({newAction, openAction, saveAction,
+                       saveAsAction, exportAction, archiveAction,
+                       restoreAction, closeAction});
  separatorAction=fileMenu->addSeparator();
- for (int i=0; i<MaxRecentFiles ; ++i)
-    fileMenu->addAction(recentFileActions[i]);
+ fileMenu->addActions(recentFileActions);
  fileMenu->addSeparator();
  fileMenu->addAction(exitAction);
 
- editMenu->addAction(displayAction);
- editMenu->addAction(displayOutputAction);
- editMenu->addAction(displayFileTreeViewAction);
- editMenu->addAction(displayManagerAction);
- editMenu->addAction(clearOutputTextAction);
- editMenu->addAction(editProjectAction);
+ editMenu->addActions({displayAction, displayOutputAction, displayFileTreeViewAction,
+                       displayManagerAction, clearOutputTextAction, editProjectAction});
 
- processMenu->addAction(RAction);
- processMenu->addAction(lhxAction);
+ processMenu->addActions({RAction, lhxAction});
 
- optionsMenu->addAction(optionsAction);
- optionsMenu->addAction(configureAction);
+ optionsMenu->addActions({optionsAction, configureAction});
 
- aboutMenu->addAction(helpAction);
- aboutMenu->addAction(aboutAction);
- aboutMenu->addAction(licenceAction);
-
+ aboutMenu->addActions({helpAction, aboutAction,licenceAction});
 }
 
 void MainWindow::f()
@@ -213,6 +202,18 @@ void MainWindow::createActions()
   saveAsAction = new QAction(tr("En&registrer le projet comme..."), this);
   saveAsAction->setIcon(QIcon(":/images/document-save-as.png"));
   connect(saveAsAction, SIGNAL(triggered()), altair, SLOT(requestSaveProject()));
+
+  exportAction = new QAction(tr("E&xporter le rapport vers..."), this);
+  exportAction->setIcon(QIcon(":/images/export.png"));
+  connect(exportAction, SIGNAL(triggered()), this, SLOT(exportProject()));
+
+  archiveAction = new QAction(tr("Archiver le rapport vers..."), this);
+  archiveAction->setIcon(QIcon(":/images/archive.png"));
+  connect(archiveAction, SIGNAL(triggered()), this, SLOT(archiveProject()));
+
+  restoreAction = new QAction(tr("Désarchiver le rapport"), this);
+  restoreAction->setIcon(QIcon(":/images/restore.png"));
+  connect(restoreAction, SIGNAL(triggered()), this, SLOT(restoreProject()));
 
   closeAction = new QAction(tr("&Fermer le projet .alt"), this);
   closeAction->setShortcut(QKeySequence("Ctrl+W"));
@@ -294,7 +295,7 @@ void MainWindow::createActions()
 
   for (int i=0; i < MaxRecentFiles ; i++)
   {
-    recentFileActions[i] = new QAction(this);
+    recentFileActions << new QAction(this);
     recentFileActions[i]->setVisible(false);
     connect(recentFileActions[i], SIGNAL(triggered()), altair, SLOT(openProjectFile()));
   }
@@ -306,7 +307,7 @@ void MainWindow::createActions()
       separator[i]->setSeparator(true);
     }
 
-  actionList << newAction << openAction << saveAction << saveAsAction << closeAction << exitAction << separator[0] <<
+  actionList << newAction << openAction << saveAction << saveAsAction << exportAction << archiveAction << restoreAction << closeAction << exitAction << separator[0] <<
                 RAction << lhxAction << displayOutputAction << displayFileTreeViewAction <<
                 displayManagerAction <<  separator[4] <<
                 clearOutputTextAction <<  editProjectAction << separator[3] << configureAction <<
@@ -317,11 +318,13 @@ void MainWindow::createActions()
 void MainWindow::configure()
 {
      contentsWidget->setVisible(true);
+     contentsWidget->raise();
 }
 
 void MainWindow::on_optionsButton_clicked()
 {
   dialog->setVisible(!dialog->isVisible());
+  dialog->raise();
 }
 
 void MainWindow::on_displayFileTreeViewButton_clicked(bool isHidden)
@@ -349,28 +352,17 @@ void MainWindow::on_openManagerWidgetButton_clicked()
 
 void MainWindow::createToolBars()
 {
- fileToolBar->addAction(newAction);
- fileToolBar->addAction(openAction);
- fileToolBar->addAction(saveAction);
- fileToolBar->addAction(saveAsAction);
- fileToolBar->addAction(closeAction);
- fileToolBar->addAction(exitAction);
+ fileToolBar->addActions({newAction, saveAction, saveAsAction, exportAction, archiveAction, restoreAction, closeAction, exitAction});
  fileToolBar->addSeparator();
 
- editToolBar->addAction(displayAction);
- editToolBar->addAction(displayOutputAction);
- editToolBar->addAction(displayFileTreeViewAction);
- editToolBar->addAction(displayManagerAction);
- editToolBar->addAction(editProjectAction);
+ editToolBar->addActions({displayAction, displayOutputAction, displayFileTreeViewAction,
+                          displayManagerAction, editProjectAction});
 
- processToolBar->addAction(RAction);
- processToolBar->addAction(lhxAction);
+ processToolBar->addActions({RAction, lhxAction});
 
- optionsToolBar->addAction(optionsAction);
- optionsToolBar->addAction(configureAction);
+ optionsToolBar->addActions({optionsAction, configureAction});
 
- aboutToolBar->addAction(helpAction);
- aboutToolBar->addAction(aboutAction);
+ aboutToolBar->addActions({helpAction, aboutAction});
 }
 
 void MainWindow::on_editProjectButton_clicked()
@@ -485,18 +477,19 @@ void MainWindow::on_editProjectButton_clicked()
 void MainWindow::saveProjectAs()
 {
     QString newstr=QFileDialog::getSaveFileName(this, tr("Enregistrer le projet comme..."), QDir::currentPath(), tr("projet altair (*.alt)"));
-    if (newstr.isEmpty()) return;
-    if (newstr == altair->projectName)
-    {
-        actionHash["Enregistrer"]->trigger();
-        return;
-    }
+    if (newstr.isEmpty())
+                return;
 
     if  (QFileInfo(newstr).isFile())
     {
-          int result = Warning(tr("Ecraser le fichier ?"), tr("Ce fichier va être écrasé.\nAppuyer sur Oui pour confirmer, Non pour quitter."));
+          QMessageBox::StandardButton result = QMessageBox::warning(nullptr, "Ecraser le fichier ?", "Ce fichier va être écrasé.\nAppuyer sur Oui pour confirmer.",
+                                            QMessageBox::Ok | QMessageBox::Cancel);
 
-          if (result != 0)   return;
+
+          if (result != QMessageBox::Ok)
+          {
+              return;
+          }
           else
           {
                  QFile newfile(newstr);
@@ -504,9 +497,7 @@ void MainWindow::saveProjectAs()
           }
     }
 
-    altair->projectName=newstr;
-
-    QFile* file = new QFile(altair->projectName);
+    QFile* file = new QFile(newstr);
 
     if (file->open(QFile::WriteOnly | QFile::Truncate | QFile::Text))
     {
@@ -515,8 +506,106 @@ void MainWindow::saveProjectAs()
     file->close();
     Altair::RefreshFlag =  Altair::RefreshFlag
                             | interfaceStatus::tree;
-    //altair->clearInterfaceAndParseProject(true);
+
+    altair->setCurrentFile(newstr);
+    // attention dans cet ordre !
+    altair->projectName=newstr;
+
 }
+
+
+bool MainWindow::exportProject(QString dirStr)
+{
+    if (dirStr.isEmpty())
+        dirStr = QFileDialog::getExistingDirectory(this, tr("Exporter le rapport vers le répertoire..."), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
+
+    if (! QFileInfo(dirStr).isDir()) return false;
+
+    QString subDirStr = QDir::toNativeSeparators(dirStr.append("/Altaïr"));
+
+    altair->updateProject();
+    QString projectRootDir = QDir::toNativeSeparators(QDir::cleanPath(v(base) + "/../.."));
+    QString docxReportFilePath = projectRootDir + "/altair.docx";
+    QString pdfReportFilePath = projectRootDir + "/altair.pdf";
+    bool result = true;
+
+    result = common::copyFile(docxReportFilePath, subDirStr + "/altaïr.docx", "Le rapport Altaïr Word");
+
+    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr Word a été exporté sous : " + subDirStr);
+
+    result = common::copyFile(pdfReportFilePath, subDirStr + "/altaïr.pdf", "Le rapport Altaïr PDF");
+
+    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr PDF a été exporté sous : " + subDirStr);
+
+    common::copyDir(projectRootDir + "/Docs", subDirStr + "/Docs");
+    result = common::copyDir(projectRootDir + "/Bases", subDirStr + "/Bases");
+
+    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Les bases ont été exportées sous : " + subDirStr + QDir::separator() + "Bases");
+    return result;
+}
+
+bool MainWindow::archiveProject(QString dirStr)
+{
+    if (dirStr.isEmpty())
+        dirStr = QFileDialog::getExistingDirectory(this, tr("Exporter le rapport vers le répertoire..."), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
+
+    if (! QFileInfo(dirStr).isDir()) return false;
+
+    QString subDirStr = QDir::toNativeSeparators(dirStr.append("/Archives Altaïr/" +
+                                                               QDate::currentDate().toString("dd MM yyyy")
+                                                               + "-" + QTime::currentTime().toString("hh mm ss")));
+
+    altair->updateProject();
+    QString projectRootDir = QDir::toNativeSeparators(QDir::cleanPath(v(base) + "/../.."));
+    QString docxReportFilePath = projectRootDir + "/altair.docx";
+    QString pdfReportFilePath = projectRootDir + "/altair.pdf";
+    bool result = true;
+
+    result = common::zip(docxReportFilePath, subDirStr + "/altaïr.docx.arch");
+
+    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr Word a été archivé sous : " + subDirStr);
+
+    result = common::zip(pdfReportFilePath, subDirStr + "/altaïr.pdf.arch");
+
+    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr PDF a été archivé sous : " + subDirStr);
+
+    common::zipDir(projectRootDir + "/Docs", subDirStr + "/Docs");
+    result = common::zipDir(projectRootDir + "/Bases", subDirStr + "/Bases");
+
+    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Les bases ont été archivées sous : " + subDirStr + QDir::separator() + "Bases");
+
+  return result;
+}
+
+bool MainWindow::restoreProject(QString subDirStr)
+{
+    if (subDirStr.isEmpty())
+        subDirStr = QFileDialog::getExistingDirectory(this, tr("Restorer le rapport depuis le répertoire..."), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
+
+    if (! QFileInfo(subDirStr).isDir()) return false;
+
+    altair->updateProject();
+    QString projectRootDir = QDir::toNativeSeparators(QDir::cleanPath(v(base) + "/../.."));
+    QString docxReportFilePath = projectRootDir + "/altair.docx";
+    QString pdfReportFilePath = projectRootDir + "/altair.pdf";
+    bool result = true;
+
+    result = common::unzip(subDirStr + "/altaïr.docx.arch", docxReportFilePath);
+
+    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr Word a été décompressé sous : " + projectRootDir);
+
+    result = common::unzip(subDirStr + "/altaïr.pdf.arch", pdfReportFilePath);
+
+    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr PDF a été décompressé sous : " + projectRootDir);
+
+    common::unzipDir(subDirStr + "/Docs", projectRootDir + "/Docs");
+    result = common::unzipDir(subDirStr + "/Bases", projectRootDir + "/Bases");
+
+    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Les bases ont été décompressées sous : " + projectRootDir + QDir::separator() + "Bases");
+
+  return result;
+}
+
 
 void MainWindow::configureOptions()
 {
@@ -826,7 +915,6 @@ void MainWindow::feedRConsoleWithHtml()
         if (buffer.contains(reg))
         {
                         altair->fileRank=reg.cap(1).toInt();
-                       // q(altair->fileRank);
         }
 
         consoleDialog->insertHtml(buffer.replace("\n", "<br>"));

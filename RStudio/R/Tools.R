@@ -14,7 +14,8 @@
 #
 
 # target environment for rstudio supplemental tools
-.rs.Env <- attach(NULL,name="tools:rstudio")
+.rs.Env <- attach(NULL, name="tools:rstudio")
+assign(".rs.toolsEnv", envir = .rs.Env, function() { .rs.Env })
 
 # environment for completion hooks
 assign(".rs.RCompletionHooksEnv", new.env(parent = emptyenv()), envir = .rs.Env)
@@ -635,8 +636,6 @@ assign(envir = .rs.Env, ".rs.getVar", function(name)
    }
 })
 
-
 .rs.addFunction("rVersionString", function() {
    as.character(getRversion())
 })
-

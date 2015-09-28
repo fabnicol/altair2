@@ -80,6 +80,7 @@ na.omit	na.omit.data.table
 na.omit.data.table	na.omit.data.table
 Ops.data.table	data.table
 order	setorder
+patterns	patterns
 print.ITime	IDateTime
 quarter	IDateTime
 rank	frank

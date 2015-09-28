@@ -7,6 +7,7 @@
 #include "browser.h"
 #include "altair.h"
 #include "templates.h"
+#include "flineframe.hpp"
 
 extern template void createHash(QHash<QString, QString>&, const QList<QString>*, const QList<QString>*);
 
@@ -14,41 +15,21 @@ standardPage::standardPage()
 {
 
     QGroupBox *baseBox= new QGroupBox(tr("Répertoires"));
-    QGridLayout *baseLayout= new QGridLayout;
+    donneesCSV = new FLineFrame({"Données csv", "Répertoire des données"},
+                                   path_access("Tests/Exemple/Donnees/R-Altaïr" ),
+                                   "base",
+                                   {0,0},
+                                   nullptr,
+                                   "D");
 
-    baseLineEdit= new FLineEdit(QDir::toNativeSeparators(QDir::cleanPath(QCoreApplication::applicationDirPath()+ systemPathPrefix+ "Tests/Exemple/Donnees/R-Altaïr" )),
-                                        "base",
-                                       {"Base", "Répertoire de la base .csv"},
-                                        "D");
+    applicationNoyau = new FLineFrame(
+                {"Application noyau LHX", "Répertoire de l'application noyau" },
+                path_access(System),
+                "lhxDir",
+                {2,0},
+                donneesCSV->getLayout());
 
-    QLabel *baseLabel= new QLabel(tr("Répertoire de la base"));
-    QToolDirButton *baseButton;
-
-    baseButton= new QToolDirButton(tr("Sélectionner le répertoire de la base de données .csv\nen sortie de l'application"));
-    
-    QToolDirButton *openBaseButton=new QToolDirButton(tr("Ouvrir le répertoire "), actionType::OpenFolder);
-
-    xhlLineEdit= new FLineEdit(execPath,
-                               "xhlDir",
-                               {"Application noyau", "Répertoire de l'application noyau xhl"});
-
-    QLabel *xhlLabel= new QLabel(tr("Répertoire de l'application noyau"));
-
-
-    QToolDirButton *xhlButton= new QToolDirButton(tr("Sélectionner le répertoire de l'application noyau xhl"));
-
-    QToolDirButton *openXhlButton=new QToolDirButton(tr("Ouvrir le répertoire "), actionType::OpenFolder);
-
-    baseLayout->addWidget(baseLineEdit,   1, 0);
-    baseLayout->addWidget(baseLabel,      0, 0);
-    baseLayout->addWidget(baseButton,     1, 1);
-    baseLayout->addWidget(openBaseButton, 1, 2);
-    baseLayout->addWidget(xhlLineEdit,    3, 0);
-    baseLayout->addWidget(xhlLabel,       2, 0);
-    baseLayout->addWidget(xhlButton,      3, 1);
-    baseLayout->addWidget(openXhlButton,  3, 2);
-
-    baseBox->setLayout(baseLayout);
+    baseBox->setLayout(applicationNoyau->getLayout());
     
     baseTypeBox=new QGroupBox(tr("Type de base en sortie"));
     processTypeBox=new QGroupBox(tr("Mode d'exécution"));
@@ -89,20 +70,6 @@ standardPage::standardPage()
                                       "T");
     maxNLigneLineEdit->setFixedWidth(60);
     
-    QLabel* sepLabel = new QLabel("Séparateur de champs ");
-    sepLineEdit = new FLineEdit(";",
-                                "separateur",
-                               {"Séparateurs", "Séparateur de champ"},
-                                "s");
-    sepLineEdit->setFixedWidth(15);
-    
-    QLabel* decLabel = new QLabel("Séparateur décimal  ");
-    decLineEdit = new FLineEdit(",",
-                                "decimal",
-                               {"Séparateurs", "Séparateur décimal"},
-                                "d");
-    decLineEdit->setFixedWidth(15);
-    
     QLabel* processTypeLabel = new QLabel("Nombre de fils d'exécution  ");
     processTypeWidget=new FComboBox(range3,
                                  "processType",
@@ -141,22 +108,24 @@ standardPage::standardPage()
                                 {"Générer la table .csv", "type standard"},
                                 "t");
 
-    QLabel* logLineLabel = new QLabel("Chemin du Log");
 
-    logLineEdit= new FLineEdit("",
-                                        "log",
-                                       {"Générer un log d'exécution", "chemin du log"},
-                                        "L");
+    QGridLayout *v1Layout = new QGridLayout;
+    QGridLayout *v2Layout = new QGridLayout;
 
-    QToolDirButton* logButton= new QToolDirButton(tr("Sélectionner le log\nen sortie de l'application noyau"));
+    logFrame = new FLineFrame({"Log","Chemin du fichier du log"},
+                              "",
+                              "log",
+                              {7,1},
+                              v2Layout,
+                              "L");
 
-    QToolDirButton *openLogButton=new QToolDirButton(tr("Ouvrir le répertoire du log"), actionType::OpenFolder);
+    logFrame->setPathCategory(flags::flineframe::isFilePath);
 
     logCheckBox=new FCheckBox("Générer le log  ",
                               flags::status::enabledUnchecked | flags::commandLineType::noCommandLine,
                                 "genererLog",
                                 {"Générer un log d'exécution", "application noyau"},
-                               {logLineLabel, logLineEdit, logButton, openLogButton});
+                               logFrame->getComponentList());
 
     economeCheckBox=new FCheckBox("Economiser la RAM  ",
                                   flags::status::enabledChecked | flags::commandLineType::altairCommandLine,
@@ -166,18 +135,10 @@ standardPage::standardPage()
                                  {NULL},
                                  { nLineLabel, NLineLabel, nLineEdit, NLineEdit});
 
-
-    QGridLayout *v1Layout = new QGridLayout;
-    QGridLayout *v2Layout = new QGridLayout;
-    
     v1Layout->addWidget(baseTypeLabel,     1,0,Qt::AlignRight);
     v1Layout->addWidget(baseTypeWidget,    1,1,Qt::AlignLeft);
     v1Layout->addWidget(maxNLigneLabel,    2,0,Qt::AlignRight);
     v1Layout->addWidget(maxNLigneLineEdit, 2,1,Qt::AlignLeft);
-    v1Layout->addWidget(sepLabel,          3,0,Qt::AlignRight);
-    v1Layout->addWidget(sepLineEdit,       3,1,Qt::AlignLeft);
-    v1Layout->addWidget(decLabel,          4,0,Qt::AlignRight);
-    v1Layout->addWidget(decLineEdit,       4,1,Qt::AlignLeft);
     v1Layout->addWidget(rangCheckBox,      5,1,Qt::AlignRight);
     v1Layout->addWidget(rangLabel,         5,0,Qt::AlignRight);
     
@@ -190,10 +151,6 @@ standardPage::standardPage()
     v2Layout->addWidget(processTypeLabel,  5,0,Qt::AlignRight);
     v2Layout->addWidget(processTypeWidget, 5,1,Qt::AlignLeft);
     v2Layout->addWidget(logCheckBox,       6,0,Qt::AlignLeft);
-    v2Layout->addWidget(logLineLabel,      7,1,Qt::AlignLeft);
-    v2Layout->addWidget(logLineEdit,       8,1,Qt::AlignLeft);
-    v2Layout->addWidget(logButton,         8,2);
-    v2Layout->addWidget(openLogButton,     8,3);
 
     baseTypeBox->setLayout(v1Layout);
     processTypeBox->setLayout(v2Layout);
@@ -214,70 +171,7 @@ standardPage::standardPage()
     connect(processTypeWidget,
             SIGNAL(currentIndexChanged(int)),
             this, SLOT(on_processTypeWidgetChanged(int)));
-    
-    connect(openBaseButton,
-            &QToolButton::clicked,
-            [&]{ on_openDirButton_clicked(baseLineEdit);});
-    
-    connect(openXhlButton,
-            &QToolButton::clicked,
-            [=]{ on_openDirButton_clicked(xhlLineEdit);});
 
-    connect(openLogButton,
-            &QToolButton::clicked,
-            [&]{ on_openDirButton_clicked(logLineEdit);});
-
-    connect(baseButton,
-            &QToolButton::clicked,
-            [&]{ selectBaseOutput(baseLineEdit, directory::checkEmptyness);});
-
-    connect(xhlButton,
-            &QToolButton::clicked,
-            [&]{ selectBaseOutput(xhlLineEdit); });
-
-    connect(logButton,
-            SIGNAL(clicked()),
-            this, SLOT(selectLogOutput()));
-}
-
-void standardPage::on_openDirButton_clicked(const FLineEdit* line)
-{
-    const QString &path= line->text();
-    QFileInfo info(path);
-    if (info.isDir() == false)
-    {
-        if (info.isFile() == false)
-        {
-            Warning0(QString("Répertoire"), QString("Le répertoire ou le fichier %1 n'a pas été créé").arg(path));
-            return;
-        }
-        else
-        if (info.completeSuffix() != QString("log"))
-        {
-            Warning0(QString("Log"), QString("Le fichier de log %1 n'a pas été créé").arg(path));
-            return;
-        }
-        else
-            common::openDir(info.path());
-    }
-    else
-    common::openDir(path);
-}
-
-
-void standardPage::selectBaseOutput(FLineEdit* line, flags::directory checkEmptyness)
-{
-   QString path;
-   if ((path=common::openDirDialog(checkEmptyness)) == NULL) return;
-   line->setText(path);
-}
-
-void standardPage::selectLogOutput()
-{
-   QString path;
-   if ((path=QFileDialog::getSaveFileName(this, "Sélectionner le log",
-                                          QDir::currentPath()+QDir::separator()+"altair.log", "Log (*.log)")) == NULL) return;
-   logLineEdit->setText(path);
 }
 
 
@@ -303,7 +197,7 @@ options::options(Altair* parent)
             {
                 options::RefreshFlag =  interfaceStatus::hasUnsavedOptions;
                 accept();
-                parent->execPath = standardTab->xhlLineEdit->text();
+                parent->execPath = standardTab->applicationNoyau->getText();
                 parent->altairCommandStr =  parent->execPath +  QDir::separator() + ("lhx"+ QString(systemSuffix));
 
                 parent->updateProject(true);
@@ -331,6 +225,7 @@ options::options(Altair* parent)
 void options::clearOptionData()
 {
     Hash::wrapper.clear();
+    Hash::Reference.clear();
   
     options::RefreshFlag = interfaceStatus::optionTabs;
 }

@@ -26,7 +26,6 @@ public:
     QTreeWidget *managerWidget= new QTreeWidget;
     QTreeView *fileTreeView= new QTreeView;
     QString projectName;
-    QString curFile;
     FListFrame *project[1];
 
     QTextEdit *outputTextEdit = new QTextEdit;
@@ -66,6 +65,7 @@ public slots:
    void on_openProjectButton_clicked();
    void on_newProjectButton_clicked();
    void on_deleteItem_clicked();
+   void closeProject();
 
 private slots:
     
@@ -81,7 +81,6 @@ private slots:
     void writeProjectFile();
     void assignGroupFiles( const int group_index);
     void openProjectFile();
-    void closeProject();
 
 private:
 
@@ -125,6 +124,8 @@ private:
     void msg (const QString & text);
     void printMsg(qint64 new_value, const QString &str);
     void printBaseSize(qint64 new_value = 0);
+    inline void openProjectFileCommonCode();
+    void checkAnnumSpan();
 
  protected:
 

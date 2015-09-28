@@ -78,6 +78,8 @@ sqrt_trans	sqrt_trans
 squish	squish
 squish_infinite	squish_infinite
 time_trans	time_trans
+train_continuous	train_continuous
+train_discrete	train_discrete
 trans	trans_new
 trans_breaks	trans_breaks
 trans_format	trans_format

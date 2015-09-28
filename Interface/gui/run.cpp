@@ -11,15 +11,8 @@ QStringList Altair::createCommandLineString()
     
     while (w.hasPrevious())
     {
-        FAbstractWidget* item=w.previous();
-        QStringList commandLineChunk=item->commandLineStringList();
-        if (item->getHashKey() == "XHL")
-        {
-            outputTextEdit->append(item->commandLineList[0].toQString());
-            outputTextEdit->append(item->commandLineList[1].toQString());
-            outputTextEdit->append(item->commandLineList[2].toQString());
-        }
-
+        FAbstractWidget* item = w.previous();
+        QStringList commandLineChunk = item->commandLineStringList();
         if (!commandLineChunk.isEmpty() && !commandLineChunk[0].isEmpty())
             commandLine +=  commandLineChunk;
     }
@@ -74,34 +67,75 @@ void Altair::run()
         Warning0(QString("Répertoire"), QString("Le répertoire de sortie %1 n'a pas pu être créé. Relancer après avoir réglé le problème.").arg(path));
         return;
     }
-
+#ifdef DEBUG
     outputTextEdit->append(PROCESSING_HTML_TAG + tr("Validation du répertoire de sortie ") + path);
-       
-    QStringList args;
+#endif
+
+    // Organiser les fichiers temporaires de siret
+
+    for (int i = 0; i < Hash::wrapper["XHL"]->size(); ++i)
+    {
+        for (const QString& str : Hash::wrapper["XHL"]->at(i))
+        {
+
+            if (Hash::Siret[str].size() == 1 || Hash::Etablissement[str].size() == 1 || ! Hash::SiretPos.contains(str)) continue;
+
+            for (int l = 0; l < Hash::Siret[str].size() && l < Hash::Etablissement[str].size(); ++l )
+            {
+                if (Hash::Suppression[Hash::Siret[str].at(l) + " " + Hash::Etablissement[str].at(l)])
+                    continue;
+                QFile file(str);
+                file.open(QIODevice::ReadOnly);
+
+                file.seek(Hash::SiretPos[str].at(l));
+
+                QByteArray array = file.read(Hash::SiretPos[str].at(l+1) - Hash::SiretPos[str].at(l));
+                QTemporaryFile tempfile(QDir::tempPath());
+                tempfile.open();
+                tempfile.write(array);
+                 (*Hash::wrapper["XHL"])[i] << tempfile.fileName();
+                tempfile.close();
+            }
+        }
+    }
+
+    QStringList args0, args1;
     QString command;
     
     progress->show();
     
-    args <<  "-m" << createCommandLineString();
+    args0 <<  "-m" << "-d" << "," << "-s" << ";";
+    args1 << createCommandLineString();
     
     outputTextEdit->append(STATE_HTML_TAG + tr("Décodage des fichiers .xhl..."));
     outputTextEdit->append(PROCESSING_HTML_TAG + tr("Taille totale des fichiers ")+QString::number(Altair::totalSize[0]/(1024*1024)) +tr(" Mo"));
     
-    command=args.join(" ");
-    outputTextEdit->append(STATE_HTML_TAG + tr("Ligne de commande : ")+ altairCommandStr+ " "+command);
+    command = QString("-m -d \",\" -s \";\" ") ;
+    QStringListIterator i(args1);
+    while (i.hasNext())
+    {
+        const QString str = i.next();
+        if (QFileInfo(str).isFile() ||  QFileInfo(str).isDir())
+            command += "\""+str+"\" ";
+        else
+            command += " "+str+" ";
+    }
+
+    parent->consoleDialog->append(STATE_HTML_TAG + tr("Ligne de commande : ")+ altairCommandStr+ " " + command);
     
     outputType="L";
     
     process->setProcessChannelMode(QProcess::MergedChannels);
-    process->setWorkingDirectory(execPath);
-    outputTextEdit->append(PROCESSING_HTML_TAG + tr("Démarrage dans ") + execPath);
-    progress->setRange(0, Hash::counter["XHL"]-1);
+    process->setWorkingDirectory(common::execPath);
+    progress->setRange(0, 60);
+
 #ifdef DEBUG
-    outputTextEdit->append(PROCESSING_HTML_TAG + tr("Amplitude de la barre de progression : ") + QString::number(Hash::counter["XHL"]));
+    outputTextEdit->append(PROCESSING_HTML_TAG + tr("Démarrage dans ") + common::execPath);
+
 #endif
     fileRank=0;
     progress->rewind();
-    process->start(altairCommandStr,  args);
+    process->start(altairCommandStr,  args0 << args1);
 
     if (process->waitForStarted())
     {
@@ -127,7 +161,9 @@ void Altair::runRAltair()
     process->setProcessChannelMode(QProcess::MergedChannels);
 #ifdef MINIMAL
     outputType="R";
-    outputTextEdit->append(tr(STATE_HTML_TAG "Ligne de commande : %1").arg(RAltairCommandStr + " " + RAltairDirStr + QDir::separator() + "rapport_msword.R"));
+    #ifdef DEBUG
+      outputTextEdit->append(tr(STATE_HTML_TAG "Ligne de commande : %1").arg(RAltairCommandStr + " " + RAltairDirStr + QDir::separator() + "rapport_msword.R"));
+    #endif
     progress->rewind();
     process->start(RAltairCommandStr + " " + RAltairDirStr + QDir::separator() + "rapport_msword.R");
     if (process->waitForStarted())
@@ -142,8 +178,9 @@ void Altair::runRAltair()
     }
 
 #else
-
+  #ifdef DEBUG
     outputTextEdit->append(tr(STATE_HTML_TAG "Ligne de commande : %1").arg(RAltairCommandStr));
+   #endif
     process->start(RAltairCommandStr);
 #endif
 }

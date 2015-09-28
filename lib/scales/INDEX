@@ -77,6 +77,8 @@ sqrt_trans              Square-root transformation.
 squish                  Squish values into range.
 squish_infinite         Squish infinite values to range.
 time_trans              Transformation for times (class POSIXt).
+train_continuous        Train (update) a continuous scale
+train_discrete          Train (update) a discrete scale
 trans_breaks            Pretty breaks on transformed scale.
 trans_format            Format labels after transformation.
 trans_new               Create a new transformation object.
