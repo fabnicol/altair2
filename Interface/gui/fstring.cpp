@@ -9,6 +9,7 @@ QHash<QString, QStringList>  Hash::Siret;
 QHash<QString, QStringList>  Hash::Etablissement;
 QHash<QString, bool>     Hash::Suppression;
 QList<QStringList>     Hash::Reference;
+QHash<QString, QList<int> > Hash::SiretPos;
 
 
 FString   FString::operator & (FString  s)

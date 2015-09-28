@@ -76,7 +76,6 @@ typedef struct
     thread_t* threads;
     char* chemin_log;
     char* expression_reg_elus;
-    char* select_siret;
     char* chemin_base;
     char* chemin_bulletins;
     uint16_t nbLigneUtilisateur;
@@ -87,6 +86,7 @@ typedef struct
     bool drapeau_cont;
     bool calculer_maxima;
     bool generer_rang;
+    bool select_siret;
     uint8_t minimum_memoire_p_ligne;
     int nbfil;
 } info_t;

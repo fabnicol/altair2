@@ -84,7 +84,6 @@ int main(int argc, char **argv)
         &mon_thread,      //    thread_t threads;
         NULL,             //    chemin log
         (char*) strdup(EXPRESSION_REG_ELUS),
-        NULL,             //    liste de siret exclus
         chemin_base,
         chemin_bulletins,
         MAX_LIGNES_PAYE,  // nbLigneUtilisateur
@@ -95,6 +94,7 @@ int main(int argc, char **argv)
         true,             // par défaut lire la balise adjacente
         false,            // calculer les maxima de lignes et d'agents
         false,            // numéroter les lignes
+        true,             //    alléger la base
         BESOIN_MEMOIRE_ENTETE,// besoin mémoire minimum hors lecture de lignes : devra être incréméenté,
         1                 // nbfil
     };
@@ -144,7 +144,7 @@ int main(int argc, char **argv)
             printf("%s\n", "-m sans argument        : calculer les maxima d'agents et de lignes de paye.");
             printf("%s\n", "-L argument obligatoire : chemin du log d'exécution du test de cohérence entre analyseurs C et XML.");
             printf("%s\n", "-R argument obligatoire : expression régulière pour la recherche des élus (codés : ELU dans le champ Statut.");
-            printf("%s\n", "-S argument obligatoire : liste fichier,siret1,siret2,... de sirets supprimés lors le scan du fichier.");
+            printf("%s\n", "-S sans argument        : supprimer la sortie Budget, Etablissement, Siret (allège les bases).");
             exit(0);
         }
         else if (! strcmp(argv[start], "-t"))
@@ -397,15 +397,13 @@ int main(int argc, char **argv)
         {
             if (argc > start +2)
             {
-                free(info.select_siret);
-                info.select_siret = strdup(argv[start + 1]);
+                info.select_siret = false;
             }
             else
             {
-                perror("Erreur : Il manque la liste de siret.");
                 exit(-116);
             }
-            start += 2;
+            ++start;
             continue;
         }
         else if (argv[start][0] == '-')
@@ -502,7 +500,7 @@ int main(int argc, char **argv)
             }
             if (info.select_siret)
             {
-                Info[i].select_siret = strdup(info.select_siret);
+                Info[i].select_siret = info.select_siret;
             }
             if (info.chemin_base)
             {
@@ -633,8 +631,7 @@ int main(int argc, char **argv)
             free(Info[i].chemin_log);
         if (Info[i].expression_reg_elus)
             free(Info[i].expression_reg_elus);
-        if (Info[i].select_siret)
-            free(Info[i].select_siret);
+
         if (Info[i].chemin_base)
             free(Info[i].chemin_base);
         if (Info[i].chemin_bulletins)
