@@ -152,6 +152,7 @@ public:
   static QHash<QString, QString> Mois;
   static QHash<QString, QString> Budget;
   static QHash<QString, QStringList> Siret;
+  static QHash<QString, QList<int> > SiretPos;
   static QHash<QString, QStringList> Etablissement;
   static QHash<QString, bool>    Suppression;
   static QList<QStringList> Reference;
