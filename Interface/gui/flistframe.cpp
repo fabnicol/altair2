@@ -380,13 +380,15 @@ void FListFrame::parseXhlFile(const QString& fileName)
        file.seek(0);
        buffer0 = file.readAll();
        pos = buffer0.indexOf("<DonneesIndiv>");
+       Hash::SiretPos[fileName] << pos;
        pos += 15;
        buffer0 = buffer0.mid(pos);
-
-       if (buffer0.size() + pos == file.size())
+       qint64 filesize = file.size();
+       if (buffer0.size() + pos == filesize)
        {
            while ((pos = buffer0.indexOf("<DonneesIndiv>")) != -1)
            {
+              Hash::SiretPos[fileName] << pos;
               const QString string = QString::fromLatin1(buffer0.mid(pos, BUFFER_SIZE));
 
               QRegExp reg3("(?:Etablissement|Employeur).*(?:Nom) V=\"([^\"]+)\".*(?:Siret) V=\"([0-9A-Z]+)\"");
@@ -409,6 +411,8 @@ void FListFrame::parseXhlFile(const QString& fileName)
 
                buffer0 = buffer0.mid(pos + 15);
           }
+
+           Hash::SiretPos[fileName] << filesize;
        }
        else
            QMessageBox::warning(nullptr, "Erreur", "Erreur de lecture du fichier " + fileName, QMessageBox::Ok);
@@ -824,11 +828,17 @@ void FListFrame::showContextMenu()
                             {
                                 strL << str;
                                 font.setStrikeOut(false);
+                                font.setItalic(false);
                                 item->setFont(font);
                                 item->setTextColor("green");
                             }
                             else
                             {
+                                if (test_for_multi_case == false)
+                                {
+                                        font.setItalic(true);
+                                }
+
                                 font.setStrikeOut(true);
                                 item->setFont(font);
                                 item->setTextColor("red");
