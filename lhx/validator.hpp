@@ -146,6 +146,7 @@ static const char* type_remuneration[]   = {
 
 static int nbType                  = sizeof(type_remuneration)/sizeof(char*);
 
+
 static const char* type_remuneration_traduit[] = {
                                                            "T",   // Traitement
                                                            "IR", // Indemnité de résidence
