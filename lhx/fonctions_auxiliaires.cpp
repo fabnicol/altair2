@@ -14,7 +14,7 @@
 char* ecrire_chemin_base(const char* chemin_base, int rang_fichier_base)
 {
     int s = strlen(chemin_base);
-    char* chemin = (char*) calloc(s + 1 + 3, sizeof(char));   // chemin_base + _ + 3 chiffres
+    char* chemin = new char[s + 1 + 3];   // chemin_base + _ + 3 chiffres
     int cut = s - strlen(CSV);
     strncpy(chemin, chemin_base, cut);
 
@@ -40,7 +40,7 @@ char* ecrire_chemin_base(const char* chemin_base, int rang_fichier_base)
                   sprintf(chemin + cut, "_%d%s", rang_fichier_base - nbType - 1, CSV);
     }
 
-    return(strdup(chemin));
+    return(chemin);
 }
 
 void ecrire_entete_bulletins(const info_t &info, std::ofstream& base)
@@ -96,7 +96,7 @@ void ouvrir_fichier_base(const info_t &info, int rang, std::ofstream& base)
 
 void ouvrir_fichier_base0(const info_t &info, int rang, int type, std::ofstream& base)
 {
-    char* chemin_base = NULL;
+    std::string chemin_base = "";
     if (type == BASE)
         chemin_base = info.chemin_base;
     else
@@ -107,7 +107,7 @@ void ouvrir_fichier_base0(const info_t &info, int rang, int type, std::ofstream&
     base.seekp(0);
     if (! base.good())
     {
-        fprintf(stderr, "%s\n", "Erreur : Impossible d'ouvrir le fichier de sortie.");
+        std::cerr << "Erreur : Impossible d'ouvrir le fichier de sortie.\n";
         exit(-1000);
     }
 
@@ -163,7 +163,7 @@ int32_t lire_argument(int argc, char* c_str)
 int calculer_memoire_requise(info_t& info)
 {
     errno = 0;
-    info.NLigne = (uint16_t*) calloc(info.threads->argc, MAX_NB_AGENTS * sizeof(uint16_t));  // nm total de bulletins
+    info.NLigne = new uint16_t[info.threads->argc * MAX_NB_AGENTS] ;  // nm total de bulletins
     info.NCumAgent = 0;
     std::cerr << "Premier scan des fichiers pour déterminer les besoins mémoire ... \n";
 
