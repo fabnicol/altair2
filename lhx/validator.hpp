@@ -171,6 +171,6 @@ static const char* entete_char[]={"R", "Année", "Mois", "Budget", "Etablissemen
 static const char* entete_char_bulletins[]={"R", "Année", "Mois", "Budget", "Etablissement", "Siret", "Nom", "Prénom", "Matricule", "Service", "Nb.Enfants", "Statut", "Temps.de.travail",
                                   "Heures.Sup.", "Heures", "Indice", "Brut", "Net", "Net.à.Payer", "NBI", "Emploi", "Grade", "Nir"};
 
-void* decoder_fichier(void* tinfo);
+void* decoder_fichier(info_t& tinfo);
 
 #endif // VALIDATOR_HPP_INCLUDED

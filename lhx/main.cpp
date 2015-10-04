@@ -427,60 +427,23 @@ int main(int argc, char **argv)
 
     // fprintf(stderr, "Besoin de mémoire requise minimum par bulletin : %d x sizeof(xmlChar*)\n", info.minimum_memoire_p_ligne);
 
+    int nbfichier_par_fil = (int) (argc - start) / info.nbfil;
+    if (nbfichier_par_fil == 0)
+    {
+        std::cerr << "Erreur : Trop de fils pour le nombre de fichiers ; exécution avec -j 2\n";
+        info.nbfil = 2;
+    }
+
+    if ((argc - start) % info.nbfil) ++info.nbfil;  // on en crée un de plus pour le reste
 
     std::vector<info_t> Info(info.nbfil);
+    std::vector<std::thread> t;
 
-    if (info.nbfil == 1 || (argc -start < 2))
+    if (info.nbfil > 1)
     {
-        Info[0].threads->argc = argc -start;
-        Info[0].threads->argv = (char**) malloc((argc -start)* sizeof(char*));
-        int shift = 0;
-        for (int j = start; j + shift < argc; ++j)
-        {
-            if (! strcmp(argv[j + shift], "-g"))
-            {
-              Info[0].threads->argc--;
-              ++shift;
-            }
-
-            Info[0].threads->argv[j-start] = argv[j + shift];
-        }
-
-
-        decoder_fichier((void*) &Info);
-
-        if (Info[0].reduire_consommation_memoire && Info[0].NCumAgent != Info[0].NCumAgentXml)
-        {
-            std::cerr << "Erreur : Incohérence des cumuls de nombre d'agents\n";
-            exit(-123);
-        }
-        else
-        {
-            std::cerr << "Cohérence des cumuls de nombre d'agents vérifiée.\n";
-        }
-
+        t.resize(info.nbfil);
     }
-    else
-    {
-        int nbfichier_par_fil = (int) (argc - start) / info.nbfil;
-        if (nbfichier_par_fil == 0)
-        {
-            std::cerr << "Erreur : Trop de fils pour le nombre de fichiers ; exécution avec -j 2\n";
-            info.nbfil = 2;
-        }
 
-        if ((argc - start) % info.nbfil) ++info.nbfil;  // on en crée un de plus pour le reste
-
-        std::vector<std::thread> t(info.nbfil);
-
-        // Allocation dynamique nécessaire (à expliquer)
-
-
-//        if (Info == NULL)
-//        {
-//            perror("Erreur : Allocation de info");
-//            exit(-144);
-//        }
 
         std::cerr << "Creation des fils clients.\n";
 
@@ -554,8 +517,16 @@ int main(int argc, char **argv)
 
             start += nbfichier_par_fil;
 
-            std::thread th{decoder_fichier, (void*) &Info[i]};
-            t[i] = std::move(th);
+            if (info.nbfil > 1)
+            {
+                std::thread th{decoder_fichier, std::ref(Info[i])};
+                t[i] = std::move(th);
+
+            }
+            else
+            {
+                decoder_fichier(std::ref(Info[0]));
+            }
 
 
             if (errno)
@@ -564,14 +535,15 @@ int main(int argc, char **argv)
             }
         }
 
-        for (int i = 0; i < info.nbfil; ++i)
-        {
-            t[i].join ();
-        }
+        if (info.nbfil > 1)
+            for (int i = 0; i < info.nbfil; ++i)
+            {
+                t[i].join ();
+            }
 
-        free(info.chemin_log);
-        free(info.expression_reg_elus);
-    }
+    free(info.chemin_log);
+    free(info.expression_reg_elus);
+
 
     const uint32_t*   maxima = NULL;
 

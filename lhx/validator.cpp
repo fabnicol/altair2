@@ -684,13 +684,10 @@ using namespace std;
 
 #endif // defined
 
-void* decoder_fichier(void* tinfo)
+void* decoder_fichier(info_t& info)
 {
     /* environ 6000 bulletins par seconde en processus sumple, et 15000 en multithread ; rajoute 1/3 du temps */
 
-
-
-    info_t info = *((info_t*) tinfo);
     #if  defined GCC_REGEX //&& !defined __WIN32__ && !defined GCC_4_8
 
      regex pat {"élu"/*info->expression_reg_elus*/,  regex_constants::icase};
