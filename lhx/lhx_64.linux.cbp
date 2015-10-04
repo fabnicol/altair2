@@ -33,11 +33,10 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="-M -N 77 -n 1171 -t -j 8 -D ~/Dev/altair/Tests/Exemple/Donnees/R-Altair ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2010/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2011/*.xhl   ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2012/*.xhl   " />
+				<Option parameters="-M -t -j 8 -D ~/Dev/altair/Tests/Exemple/Donnees/R-Altaïr ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2010/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2011/*.xhl   ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2012/*.xhl   " />
 				<Option projectCompilerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-fomit-frame-pointer" />
-					<Add option="-fexpensive-optimizations" />
 					<Add option="-O3" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
@@ -50,6 +49,7 @@
 					<Add option="-D__STDC_LIMIT_MACROS" />
 					<Add option="-D__STDC_FORMAT_MACROS" />
 					<Add option="-DNO_DEBUG" />
+					<Add option="-DTOLERANT" />
 					<Add directory="/usr/include/libxml2" />
 				</Compiler>
 				<Linker>

@@ -43,27 +43,27 @@ char* ecrire_chemin_base(const char* chemin_base, int rang_fichier_base)
     return(strdup(chemin));
 }
 
-void ecrire_entete_bulletins(info_t* info, std::ofstream& base)
+void ecrire_entete_bulletins(const info_t &info, std::ofstream& base)
 {
   ecrire_entete0(info, base, entete_char_bulletins, sizeof(entete_char_bulletins)/sizeof(char*));
 }
 
-void ecrire_entete(info_t* info, std::ofstream& base)
+void ecrire_entete(const info_t &info, std::ofstream& base)
 {
   ecrire_entete0(info, base, entete_char, sizeof(entete_char)/sizeof(char*));
 }
 
-void ecrire_entete0(info_t* info, std::ofstream& base, const char* entete[], int N)
+void ecrire_entete0(const info_t &info, std::ofstream& base, const char* entete[], int N)
 {
   int i;
-  if (info->select_siret)
-    for (i = !info->generer_rang; i < N - 1; ++i)
-      base << entete[i] << info[0].separateur;
+  if (info.select_siret)
+    for (i = !info.generer_rang; i < N - 1; ++i)
+      base << entete[i] << info.separateur;
   else
-    for (i = !info->generer_rang; i < N - 1; ++i)
+    for (i = !info.generer_rang; i < N - 1; ++i)
     {
         if (i != Budget +1 && i!= Siret +1 && i != Etablissement + 1)
-            base << entete[i] << info[0].separateur;
+            base << entete[i] << info.separateur;
     }
 
   base << entete[i] << "\n";
@@ -83,26 +83,26 @@ FILE* ouvrir_fichier_base_append(info_t* info, int rang)
 }
 #endif // 0
 
-void ouvrir_fichier_bulletins(info_t* info, std::ofstream& base)
+void ouvrir_fichier_bulletins(const info_t &info, std::ofstream& base)
 {
     return ouvrir_fichier_base0(info, 0, BULLETINS, base);
 }
 
 
-void ouvrir_fichier_base(info_t* info, int rang, std::ofstream& base)
+void ouvrir_fichier_base(const info_t &info, int rang, std::ofstream& base)
 {
     return ouvrir_fichier_base0(info, rang, BASE, base);
 }
 
-void ouvrir_fichier_base0(info_t* info, int rang, int type, std::ofstream& base)
+void ouvrir_fichier_base0(const info_t &info, int rang, int type, std::ofstream& base)
 {
     char* chemin_base = NULL;
     if (type == BASE)
-        chemin_base = info[0].chemin_base;
+        chemin_base = info.chemin_base;
     else
-        chemin_base = info[0].chemin_bulletins;
+        chemin_base = info.chemin_bulletins;
 
-    char* chemin = ecrire_chemin_base(chemin_base, rang);
+
     base.open(chemin_base);
     base.seekp(0);
     if (! base.good())
@@ -160,24 +160,24 @@ int32_t lire_argument(int argc, char* c_str)
     }
 }
 
-int calculer_memoire_requise(info_t* info)
+int calculer_memoire_requise(info_t& info)
 {
     errno = 0;
-    info->NLigne = (uint16_t*) calloc(info->threads->argc, MAX_NB_AGENTS * sizeof(uint16_t));  // nm total de bulletins
-    info->NCumAgent = 0;
-    fprintf(stderr, "Premier scan des fichiers pour déterminer les besoins mémoire ... ");
+    info.NLigne = (uint16_t*) calloc(info.threads->argc, MAX_NB_AGENTS * sizeof(uint16_t));  // nm total de bulletins
+    info.NCumAgent = 0;
+    std::cerr << "Premier scan des fichiers pour déterminer les besoins mémoire ... \n";
 
     /* par convention  un agent avec rémunération non renseignées (balise sans fils) a une ligne */
-    for (unsigned i = 0; i < info->threads->argc ; ++i)
+    for (unsigned i = 0; i < info.threads->argc ; ++i)
     {
         FILE* c;
         errno = 0;
-        c = fopen(info->threads->argv[i], "r");
+        c = fopen(info.threads->argv[i], "r");
         if (c) fseek(c, 0, SEEK_SET);
         else if(c == NULL)
         {
             perror("Erreur : Erreur : Ouverture Fichiers.");    // cautious no-op
-            fprintf(stderr, "%s\n", info->threads->argv[i]);
+            std::cerr << info.threads->argv[i] << std::endl;
             exit(-120);
         }
 
@@ -206,8 +206,8 @@ int calculer_memoire_requise(info_t* info)
             if  ((d = fgetc(c)) == '/')
             {
                 // info->NAgent[i]++;
-                info->NLigne[info->NCumAgent]=1;
-                ++info->NCumAgent;
+                info.NLigne[info.NCumAgent]=1;
+                ++info.NCumAgent;
 
                 continue;  // Balise simple vide
             }
@@ -224,9 +224,9 @@ int calculer_memoire_requise(info_t* info)
                     else if ((d = fgetc(c)) != 'u')   continue;
                     else if ((d = fgetc(c)) != 'n')   continue;
 
-                    if (info->NLigne[info->NCumAgent] == 0) info->NLigne[info->NCumAgent] = 1;
+                    if (info.NLigne[info.NCumAgent] == 0) info.NLigne[info.NCumAgent] = 1;
                     //info->NAgent[i]++;
-                    ++info->NCumAgent;
+                    ++info.NCumAgent;
                     break;
                 }
                 else
@@ -241,7 +241,7 @@ int calculer_memoire_requise(info_t* info)
                             else
                             {
                                 if ((d = fgetc(c)) != ' ')   continue;
-                                info->NLigne[info->NCumAgent]++;
+                                info.NLigne[info.NCumAgent]++;
                             }
                         }
                     }
@@ -252,7 +252,7 @@ int calculer_memoire_requise(info_t* info)
         fclose(c);
     }
 
-    info->NLigne = (uint16_t*) realloc(info->NLigne, info->NCumAgent * sizeof(uint16_t));
+    info.NLigne = (uint16_t*) realloc(info.NLigne, info.NCumAgent * sizeof(uint16_t));
 
     return errno;
 }

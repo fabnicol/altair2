@@ -17,7 +17,7 @@
 #include "fonctions_auxiliaires.hpp"
 #include "table.hpp"
 
-static inline const uint32_t* calculer_maxima(const info_t* Info)
+static inline const uint32_t* calculer_maxima(const std::vector<info_t> &Info)
 {
     static int once;
 
@@ -53,7 +53,7 @@ int main(int argc, char **argv)
 
     if (argc < 2)
     {
-        fprintf(stderr, "%s\n", "Erreur : Il faut au moins un fichier à analyser.");
+        std::cerr << "Erreur : Il faut au moins un fichier à analyser.\n" ;
         return -2;
     }
 
@@ -117,14 +117,14 @@ int main(int argc, char **argv)
         }
         else if (! strcmp(argv[start], "-h"))
         {
-            printf("%s\n", "Usage :  xhl2csv OPTIONS fichiers.xhl");
-            puts("OPTIONS :");
-            printf("%s\n", "-n argument obligatoire : nombre maximum de bulletins mensuels attendus [calcul exact par défaut]");
-            printf("%s\n", "-N argument obligatoire : nombre maximum de lignes de paye attendues [calcul exact par défaut]");
-            printf("%s\n", "-t argument optionnel   : type de base en sortie, soit 'standard', soit 'bulletins' [défaut bulletins].");
-            printf("%s\n", "-T argument obligatoire : nombre de lignes maximum par base .csv [défaut illimité]. Au plus 999 tables seront générées.");
-            printf("%s\n", "-T AN                    : générer une table par année");
-            printf("%s\n", "-T A/AC/AV/C/D/I/IR/RE/S/T : générer une table pour chaque catégorie de ligne : \
+   std::cout <<  "Usage :  xhl2csv OPTIONS fichiers.xhl" << std::endl
+             <<  "OPTIONS :" << std::endl
+             <<  "-n argument obligatoire : nombre maximum de bulletins mensuels attendus [calcul exact par défaut]" << std::endl
+             <<  "-N argument obligatoire : nombre maximum de lignes de paye attendues [calcul exact par défaut]" << std::endl
+             <<  "-t argument optionnel   : type de base en sortie, soit 'standard', soit 'bulletins' [défaut bulletins]." << std::endl
+             <<  "-T argument obligatoire : nombre de lignes maximum par base .csv [défaut illimité]. Au plus 999 tables seront générées." << std::endl
+             <<  "-T AN                    : générer une table par année" << std::endl
+             <<  "-T A/AC/AV/C/D/I/IR/RE/S/T : générer une table pour chaque catégorie de ligne : \
                           A rémunérations diverse \n \
                           AC acompte \n \
                           AV avantage en nature \n \
@@ -135,18 +135,18 @@ int main(int argc, char **argv)
                           RE retenue \n \
                           S supplément familial \n \
                           T traitement brut \n \
-                          X toutes catégories\n");
-            printf("%s\n", "-o argument obligatoire : fichier.csv, chemin complet du fichier de sortie [défaut 'Table.csv' avec -t].");
-            printf("%s\n", "-D argument obligatoire : répertoire complet du fichier de sortie [défaut '.' avec -t].");
-            printf("%s\n", "-d argument obligatoire : séparateur décimal [défaut ',' avec -t].");
-            printf("%s\n", "-s argument obligatoire : séparateur de champs [défaut ';' avec -t]. Ne pas utiliser '_'.");
-            printf("%s\n", "-j argument obligatoire : nombre de fils d'exécution (1 à 10).");
-            printf("%s\n", "-l sans argument        : générer une colonne de numéros de ligne intitulée 'R'.");
-            printf("%s\n", "-M sans argument        : ne pas libérer la mémoire réservée en fin de programme.");
-            printf("%s\n", "-m sans argument        : calculer les maxima d'agents et de lignes de paye.");
-            printf("%s\n", "-L argument obligatoire : chemin du log d'exécution du test de cohérence entre analyseurs C et XML.");
-            printf("%s\n", "-R argument obligatoire : expression régulière pour la recherche des élus (codés : ELU dans le champ Statut.");
-            printf("%s\n", "-S sans argument        : supprimer la sortie Budget, Etablissement, Siret (allège les bases).");
+                          X toutes catégories\n" << std::endl
+             <<  "-o argument obligatoire : fichier.csv, chemin complet du fichier de sortie [défaut 'Table.csv' avec -t]." << std::endl
+             <<  "-D argument obligatoire : répertoire complet du fichier de sortie [défaut '.' avec -t]." << std::endl
+             <<  "-d argument obligatoire : séparateur décimal [défaut ',' avec -t]." << std::endl
+             <<  "-s argument obligatoire : séparateur de champs [défaut ';' avec -t]. Ne pas utiliser '_'." << std::endl
+             <<  "-j argument obligatoire : nombre de fils d'exécution (1 à 10)." << std::endl
+             <<  "-l sans argument        : générer une colonne de numéros de ligne intitulée 'R'." << std::endl
+             <<  "-M sans argument        : ne pas libérer la mémoire réservée en fin de programme." << std::endl
+             <<  "-m sans argument        : calculer les maxima d'agents et de lignes de paye." << std::endl
+             <<  "-L argument obligatoire : chemin du log d'exécution du test de cohérence entre analyseurs C et XML." << std::endl
+             <<  "-R argument obligatoire : expression régulière pour la recherche des élus (codés : ELU dans le champ Statut." << std::endl
+             <<  "-S sans argument        : supprimer la sortie Budget, Etablissement, Siret (allège les bases)." << std::endl;
             exit(0);
         }
         else if (! strcmp(argv[start], "-t"))
@@ -174,7 +174,7 @@ int main(int argc, char **argv)
         {
            if (start + 1 == argc)
             {
-                fprintf(stderr, "%s\n", "Erreur : Option -T suivi d'un argument obligatoire (nombre de lignes).");
+                std::cerr << "Erreur : Option -T suivi d'un argument obligatoire (nombre de lignes).\n" ;
                 exit(-100);
             }
 
@@ -255,7 +255,7 @@ int main(int argc, char **argv)
         {
             if (start + 1 == argc)
             {
-                fprintf(stderr, "%s\n", "Erreur : Option -s suivi d'un argument obligatoire (séparateur de champs).");
+                std::cerr << "Erreur : Option -s suivi d'un argument obligatoire (séparateur de champs).\n";
                 exit(-100);
             }
             info.separateur = argv[start + 1][0];
@@ -273,7 +273,7 @@ int main(int argc, char **argv)
         {
             if (start + 1 == argc)
             {
-                fprintf(stderr, "%s\n", "Erreur : Option -g suivi d'un argument obligatoire.");
+                std::cerr << "Erreur : Option -g suivi d'un argument obligatoire.\n";
                 exit(-100);
             }
 
@@ -284,7 +284,7 @@ int main(int argc, char **argv)
         {
             if (start + 1 == argc)
             {
-                fprintf(stderr, "%s\n", "Erreur : Option -d suivi d'un argument obligatoire (séparateur décimal).");
+                std::cerr << "Erreur : Option -d suivi d'un argument obligatoire (séparateur décimal).\n";
                 exit(-100);
             }
             info.decimal = argv[start + 1][0];
@@ -295,18 +295,21 @@ int main(int argc, char **argv)
         {
             if (start + 1 == argc)
             {
-                fprintf(stderr, "%s\n", "Erreur : Option -o suivi d'un argument obligatoire (nom de  fichier).");
+                std::cerr << "Erreur : Option -o suivi d'un argument obligatoire (nom de  fichier).\n";
                 exit(-100);
             }
 
             strncpy(info.chemin_base, argv[start + 1], 500*sizeof(char));
-            FILE* base;
-            if (NULL == (base = fopen(info.chemin_base, "w")))
+
+            std::ofstream base;
+            base.open(info.chemin_base);
+            if (! base.good())
             {
                 perror("Erreur : La base de données ne peut être créée, vérifier l'existence du dossier.");
                 exit(-113);
             }
-            fclose(base);
+
+            base.close();
             unlink(info.chemin_base);
             start += 2;
             continue;
@@ -327,17 +330,18 @@ int main(int argc, char **argv)
         {
             sprintf(info.chemin_base, "%s/%s%s", argv[start + 1], NOM_BASE, CSV);
             sprintf(info.chemin_bulletins, "%s/%s%s", argv[start + 1], NOM_BASE_BULLETINS, CSV);
-            FILE* base;
-            if (NULL == (base = fopen(info.chemin_base, "w")))
-            {
-                fprintf(stderr, "Erreur : La base de données %s ne peut être créée, vérifier l'existence du dossier.\n", info.chemin_base);
+            std::ofstream base;
+            base.open(info.chemin_base);
 
+            if (! base.good())
+            {
+                std::cerr << "Erreur : La base de données " << info.chemin_base << " ne peut être créée, vérifier l'existence du dossier.\n" ;
                 exit(-113);
             }
             else
             {
                 // Necessaire sous Windows, no-op sous *.nix
-                fclose(base);
+                base.close();
                 unlink(info.chemin_base);
             }
 
@@ -362,7 +366,9 @@ int main(int argc, char **argv)
         else if (! strcmp(argv[start], "-L"))
         {
             if (argc > start +2) info.chemin_log = strdup(argv[start + 1]);
-            if (NULL == fopen(info.chemin_log, "w"))
+            std::ofstream base;
+            base.open(info.chemin_log);
+            if (! base.good())
             {
                 perror("Erreur : Le log ne peut être créé, vérifier l'existence du dossier.");
                 exit(-114);
@@ -374,7 +380,7 @@ int main(int argc, char **argv)
         {
             if ((info.nbLigneUtilisateur = lire_argument(argc, argv[start +1])) > 1)
             {
-               fprintf(stderr, "Nombre maximum de lignes de paye redéfini à %d\n", info.nbLigneUtilisateur);
+               std::cerr << "Nombre maximum de lignes de paye redéfini à : " << info.nbLigneUtilisateur << std::endl;
             }
 
             start += 2;
@@ -410,7 +416,7 @@ int main(int argc, char **argv)
         }
         else if (argv[start][0] == '-')
         {
-            fprintf(stderr, "Erreur : Option inconnue %s\n", argv[start]);
+            std::cerr << "Erreur : Option inconnue " << argv[start] << std::endl;
             exit(-100);
         }
         else break;
@@ -418,39 +424,40 @@ int main(int argc, char **argv)
 
     xmlInitMemory();
     xmlInitParser();
-    info_t* Info;
+
     // fprintf(stderr, "Besoin de mémoire requise minimum par bulletin : %d x sizeof(xmlChar*)\n", info.minimum_memoire_p_ligne);
+
+
+    std::vector<info_t> Info(info.nbfil);
 
     if (info.nbfil == 1 || (argc -start < 2))
     {
-        info.threads->argc = argc -start;
-        info.threads->argv = (char**) malloc((argc -start)* sizeof(char*));
+        Info[0].threads->argc = argc -start;
+        Info[0].threads->argv = (char**) malloc((argc -start)* sizeof(char*));
         int shift = 0;
         for (int j = start; j + shift < argc; ++j)
         {
             if (! strcmp(argv[j + shift], "-g"))
             {
-              info.threads->argc--;
+              Info[0].threads->argc--;
               ++shift;
             }
 
-            info.threads->argv[j-start] = argv[j + shift];
+            Info[0].threads->argv[j-start] = argv[j + shift];
         }
 
-        Info =&info;
 
-        decoder_fichier((void*) Info);
+        decoder_fichier((void*) &Info);
 
-        if (info.reduire_consommation_memoire && info.NCumAgent != info.NCumAgentXml)
+        if (Info[0].reduire_consommation_memoire && Info[0].NCumAgent != Info[0].NCumAgentXml)
         {
-            fprintf(stderr, "%s\n", "Erreur : Incohérence des cumuls de nombre d'agents");
+            std::cerr << "Erreur : Incohérence des cumuls de nombre d'agents\n";
             exit(-123);
         }
         else
         {
-            fprintf(stderr, "%s\n", "Cohérence des cumuls de nombre d'agents vérifiée.");
+            std::cerr << "Cohérence des cumuls de nombre d'agents vérifiée.\n";
         }
-
 
     }
     else
@@ -458,7 +465,7 @@ int main(int argc, char **argv)
         int nbfichier_par_fil = (int) (argc - start) / info.nbfil;
         if (nbfichier_par_fil == 0)
         {
-            fprintf(stderr, "%s\n", "Erreur : Trop de fils pour le nombre de fichiers ; exécution avec -j 2");
+            std::cerr << "Erreur : Trop de fils pour le nombre de fichiers ; exécution avec -j 2\n";
             info.nbfil = 2;
         }
 
@@ -468,14 +475,14 @@ int main(int argc, char **argv)
 
         // Allocation dynamique nécessaire (à expliquer)
 
-        Info = (info_t* ) calloc(info.nbfil, sizeof(info_t));
-        if (Info == NULL)
-        {
-            perror("Erreur : Allocation de info");
-            exit(-144);
-        }
 
-        fprintf(stderr, "Creation des fils clients.\n");
+//        if (Info == NULL)
+//        {
+//            perror("Erreur : Allocation de info");
+//            exit(-144);
+//        }
+
+        std::cerr << "Creation des fils clients.\n";
 
         for (int i = 0; i < info.nbfil; ++i)
         {
@@ -542,7 +549,8 @@ int main(int argc, char **argv)
                 Info[i].threads->argv[j - start] = strdup(argv[j + shift]);
             }
 
-            fprintf(stderr, "Thread i=%d/%d Nombre de fichiers : %d\n", i+1, info.nbfil, Info[i].threads->argc);
+            std::cerr << "Thread i=" << i+1 << "/" << info.nbfil << std::endl
+                      << "Nombre de fichiers : " << Info[i].threads->argc << std::endl;
 
             start += nbfichier_par_fil;
 
@@ -552,7 +560,7 @@ int main(int argc, char **argv)
 
             if (errno)
             {
-                fprintf (stderr, "%s", strerror(errno));
+                std::cerr << strerror(errno);
             }
         }
 
@@ -572,20 +580,23 @@ int main(int argc, char **argv)
       maxima = calculer_maxima(Info);
       if (maxima)
       {
-        fprintf(stderr, "\nMaximum de lignes : %d  \n", maxima[1]);
-        fprintf(stderr, "\nMaximum d'agents  : %d  \n\n", maxima[0]);
+        std::cerr <<  "\nMaximum de lignes : " << maxima[1] << std::endl
+                  << "\nMaximum d'agents  : " << maxima[0] << std::endl;
       }
     }
+
+    //std::cerr << "GENERER TABLE " << generer_table <<"\n";
 
     if (Info[0].chemin_log)
     {
       if (maxima == NULL) maxima = calculer_maxima(Info);
-      FILE* LOG = fopen(Info[0].chemin_log, "a");
-      if (LOG && maxima)
+      std::ofstream LOG;
+      LOG.open(Info[0].chemin_log, std::ios::app);
+      if (LOG.good() && maxima)
         {
-            fprintf(LOG, "\nMaximum de lignes : %d  \n", maxima[1]);
-            fprintf(LOG, "\nMaximum d'agent   : %d  \n", maxima[0]);
-            fclose(LOG);
+            LOG << "\nMaximum de lignes : " << maxima[1] << std::endl;
+            LOG << "\nMaximum d'agent   : " << maxima[0] << std::endl;
+            LOG.close();
         }
     }
 
@@ -608,7 +619,7 @@ int main(int argc, char **argv)
 
     if (! liberer_memoire) return 0;
 
-    fprintf(stderr, "%s", "\nLibération de la mémoire...\n");
+    std::cerr << "\nLibération de la mémoire...\n";
 
     for (int i = 0; i < Info[0].nbfil; ++i)
     {
