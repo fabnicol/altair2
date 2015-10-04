@@ -12,7 +12,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="-M   -t -j 2 -D /home/fab/Dev/altair/Tests/Exemple/Donnees/R-Altair /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2011/*.xhl  /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2012/*.xhl /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2013/*.xhl " />
+				<Option parameters="-M   -t -j 1 -D /home/fab/Dev/altair/Tests/Exemple/Donnees/R-Altair /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2011/*.xhl  /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2012/*.xhl /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2013/*.xhl " />
 				<Compiler>
 					<Add option="-g" />
 					<Add option="-std=gnu++11" />
@@ -33,7 +33,7 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="-M -t -j 8 -D ~/Dev/altair/Tests/Exemple/Donnees/R-Altaïr ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2010/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2011/*.xhl   ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2012/*.xhl   " />
+				<Option parameters="-t -j 8 -D ~/Dev/altair/Tests/Exemple/Donnees/R-Altair ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2010/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2011/*.xhl   ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2012/*.xhl   " />
 				<Option projectCompilerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-fomit-frame-pointer" />
