@@ -7,7 +7,9 @@
 //#ifdef __cplusplus
 //extern "C" {
 //#endif
-//#include <unistd.h>
+#ifdef __linux__
+#include <unistd.h>
+#endif
 #include <iostream>
 #include <vector>
 #include <thread>
@@ -60,14 +62,14 @@ int main(int argc, char **argv)
 
     int start = 1;
     char type_table[50]= {0};
-    strcpy_s(type_table, "bulletins");
+    strcpy(type_table, "bulletins");
     bool generer_table = false;
     bool liberer_memoire = true;
 
     char* chemin_base=(char*) calloc(500, sizeof(char));
     char* chemin_bulletins=(char*) calloc(500, sizeof(char));
-    sprintf_s(chemin_base, 500, "%s%s", NOM_BASE, CSV);
-    sprintf_s(chemin_bulletins, 500, "%s%s", NOM_BASE_BULLETINS, CSV);
+    sprintf(chemin_base,  "%s%s", NOM_BASE, CSV);
+    sprintf(chemin_bulletins, "%s%s", NOM_BASE_BULLETINS, CSV);
 
     thread_t mon_thread;
 
