@@ -5,7 +5,7 @@
 #include "table.hpp"
 #include "fonctions_auxiliaires.hpp"
 #include <inttypes.h>
-
+#include <cstring>
 
 
 int64_t generer_table_standard(const char* chemin_table, std::vector<info_t> &info)
@@ -114,7 +114,7 @@ void boucle_ecriture(std::vector<info_t>& Info)
     unsigned rang_fichier_base = 1;
     static std::ofstream base;
     static std::ofstream bulletins;
-    static std::ofstream* fichier_base = (std::ofstream*) calloc(nbType, sizeof(std::ofstream));
+    static std::ofstream* fichier_base = new std::ofstream[nbType];
 
     // Un peu low-level C, mais beaucoup plus rapide que de coder un fprintf pour chaque item.
     // Gain d'exécution : 30s pour fprintf par item

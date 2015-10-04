@@ -2,7 +2,7 @@
 #define VALIDATOR_HPP_INCLUDED
 
 //#include <stdio.h>
-#include <string.h>
+#include <string>
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdbool.h>
@@ -74,10 +74,10 @@ typedef struct
     int32_t  taille_base;
     uint16_t *NLigne;
     thread_t* threads;
-    char* chemin_log;
-    char* expression_reg_elus;
-    char* chemin_base;
-    char* chemin_bulletins;
+    std::string chemin_log;
+    std::string expression_reg_elus;
+    std::string chemin_base;
+    std::string chemin_bulletins;
     uint16_t nbLigneUtilisateur;
     uint16_t fichier_courant;
     char decimal;
@@ -94,7 +94,7 @@ typedef struct
 
 
 #ifndef NA_STRING
- #define NA_STRING  "NA"
+ #define NA_STRING  (xmlChar*) "NA"
 #endif
 #ifndef MAX_LIGNES_PAYE
  #define MAX_LIGNES_PAYE 1000

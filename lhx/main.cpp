@@ -13,6 +13,7 @@
 #include <iostream>
 #include <vector>
 #include <thread>
+#include <cstring>
 #include "validator.hpp"
 #include "fonctions_auxiliaires.hpp"
 #include "table.hpp"
@@ -21,7 +22,7 @@ static inline const uint32_t* calculer_maxima(const std::vector<info_t> &Info)
 {
     static int once;
 
-    uint32_t* maximum= (uint32_t*) calloc(2, 4);
+    uint32_t* maximum= new uint32_t[2];
 
     if (once || maximum == NULL) return NULL;  // no-op)
 
@@ -61,31 +62,28 @@ int main(int argc, char **argv)
     xmlKeepBlanksDefault(0);
 
     int start = 1;
-    char type_table[50]= {0};
-    strcpy(type_table, "bulletins");
+    std::string type_table = "bulletins";
     bool generer_table = false;
     bool liberer_memoire = true;
 
-    char* chemin_base=(char*) calloc(500, sizeof(char));
-    char* chemin_bulletins=(char*) calloc(500, sizeof(char));
-    sprintf(chemin_base,  "%s%s", NOM_BASE, CSV);
-    sprintf(chemin_bulletins, "%s%s", NOM_BASE_BULLETINS, CSV);
+    std::string chemin_base = NOM_BASE CSV;
+    std::string chemin_bulletins = NOM_BASE_BULLETINS CSV;
 
     thread_t mon_thread;
 
     info_t info =
     {
-        NULL,             //    bulletinPtr* Table;
+        nullptr,             //    bulletinPtr* Table;
         0,                //    uint64_t nbLigne;
-        NULL,             //    int32_t  *NAgent;
+        nullptr,             //    int32_t  *NAgent;
         0,                //    uint32_t nbAgentUtilisateur
         0,                //    uint32_t NCumAgent;
         0,                //    uint32_t NCumAgentXml;
         MONOLITHIQUE,                //    taille base : non limitée par défaut
-        NULL,             //    uint16_t *NLigne;
+        nullptr,             //    uint16_t *NLigne;
         &mon_thread,      //    thread_t threads;
-        NULL,             //    chemin log
-        (char*) strdup(EXPRESSION_REG_ELUS),
+        "",             //    chemin log
+        EXPRESSION_REG_ELUS,
         chemin_base,
         chemin_bulletins,
         MAX_LIGNES_PAYE,  // nbLigneUtilisateur
@@ -154,7 +152,7 @@ int main(int argc, char **argv)
             generer_table = true;
             if (! strcmp(argv[start + 1], "standard"))
             {
-                strncpy(type_table, argv[start + 1], 50*sizeof(char));
+                type_table = argv[start + 1];
                 start += 2;
                 continue;
             }
@@ -299,7 +297,7 @@ int main(int argc, char **argv)
                 exit(-100);
             }
 
-            strncpy(info.chemin_base, argv[start + 1], 500*sizeof(char));
+            info.chemin_base = argv[start + 1];
 
             std::ofstream base;
             base.open(info.chemin_base);
@@ -310,7 +308,7 @@ int main(int argc, char **argv)
             }
 
             base.close();
-            unlink(info.chemin_base);
+            unlink(info.chemin_base.c_str());
             start += 2;
             continue;
         }
@@ -328,8 +326,8 @@ int main(int argc, char **argv)
         }
         else if (! strcmp(argv[start], "-D"))
         {
-            sprintf(info.chemin_base, "%s/%s%s", argv[start + 1], NOM_BASE, CSV);
-            sprintf(info.chemin_bulletins, "%s/%s%s", argv[start + 1], NOM_BASE_BULLETINS, CSV);
+            info.chemin_base = argv[start + 1] + std::string("/" NOM_BASE CSV);
+            info.chemin_bulletins = argv[start + 1] + std::string("/" NOM_BASE_BULLETINS CSV);
             std::ofstream base;
             base.open(info.chemin_base);
 
@@ -342,7 +340,7 @@ int main(int argc, char **argv)
             {
                 // Necessaire sous Windows, no-op sous *.nix
                 base.close();
-                unlink(info.chemin_base);
+                unlink(info.chemin_base.c_str());
             }
 
             start += 2;
@@ -365,7 +363,7 @@ int main(int argc, char **argv)
         }
         else if (! strcmp(argv[start], "-L"))
         {
-            if (argc > start +2) info.chemin_log = strdup(argv[start + 1]);
+            if (argc > start +2) info.chemin_log = argv[start + 1];
             std::ofstream base;
             base.open(info.chemin_log);
             if (! base.good())
@@ -390,8 +388,7 @@ int main(int argc, char **argv)
         {
             if (argc > start +2)
             {
-                free(info.expression_reg_elus);
-                info.expression_reg_elus = strdup(argv[start + 1]);
+                info.expression_reg_elus = argv[start + 1];
             }
             else
             {
@@ -458,31 +455,14 @@ int main(int argc, char **argv)
             Info[i].taille_base = info.taille_base;
             Info[i].NLigne = NULL;
 
-            Info[i].threads = (thread_t *) malloc(sizeof(thread_t));
+            Info[i].threads = new thread_t;
             Info[i].threads->thread_num = i;
             Info[i].threads->argc = (argc - start < nbfichier_par_fil)? argc - start: nbfichier_par_fil;
-
-            if (info.chemin_log)
-            {
-                Info[i].chemin_log = strdup(info.chemin_log);
-            }
-            if (info.expression_reg_elus)
-            {
-                Info[i].expression_reg_elus = strdup(info.expression_reg_elus);
-            }
-            if (info.select_siret)
-            {
-                Info[i].select_siret = info.select_siret;
-            }
-            if (info.chemin_base)
-            {
-                Info[i].chemin_base = strdup(info.chemin_base);
-            }
-            if (info.chemin_bulletins)
-            {
-                Info[i].chemin_bulletins = strdup(info.chemin_bulletins);
-            }
-
+            Info[i].chemin_log = info.chemin_log;
+            Info[i].expression_reg_elus = info.expression_reg_elus;
+            Info[i].select_siret = info.select_siret;
+            Info[i].chemin_base = info.chemin_base;
+            Info[i].chemin_bulletins = info.chemin_bulletins;
             Info[i].nbLigneUtilisateur = info.nbLigneUtilisateur;
             Info[i].fichier_courant = 0;
             Info[i].decimal = info.decimal;
@@ -494,7 +474,7 @@ int main(int argc, char **argv)
             Info[i].minimum_memoire_p_ligne = info.minimum_memoire_p_ligne;
             Info[i].nbfil = info.nbfil;
 
-            Info[i].threads->argv = (char**) malloc(nbfichier_par_fil * sizeof(char*));
+            Info[i].threads->argv = new char*[nbfichier_par_fil];
             if (Info[i].threads->argv == NULL)
             {
                 perror("Erreur : Allocation de threads");
@@ -509,7 +489,7 @@ int main(int argc, char **argv)
                   Info[i].threads->argc--;
                   ++shift;
                 }
-                Info[i].threads->argv[j - start] = strdup(argv[j + shift]);
+                Info[i].threads->argv[j - start] = argv[j + shift];
             }
 
             std::cerr << "Thread i=" << i+1 << "/" << info.nbfil << std::endl
@@ -541,9 +521,6 @@ int main(int argc, char **argv)
                 t[i].join ();
             }
 
-    free(info.chemin_log);
-    free(info.expression_reg_elus);
-
 
     const uint32_t*   maxima = NULL;
 
@@ -559,8 +536,7 @@ int main(int argc, char **argv)
 
     //std::cerr << "GENERER TABLE " << generer_table <<"\n";
 
-    if (Info[0].chemin_log)
-    {
+
       if (maxima == NULL) maxima = calculer_maxima(Info);
       std::ofstream LOG;
       LOG.open(Info[0].chemin_log, std::ios::app);
@@ -570,21 +546,20 @@ int main(int argc, char **argv)
             LOG << "\nMaximum d'agent   : " << maxima[0] << std::endl;
             LOG.close();
         }
-    }
+
 
     xmlCleanupParser();
 
     if (generer_table)
     {
-        if (! strcmp(type_table, "standard"))
-            generer_table_standard(Info[0].chemin_base, Info);
-        else if (! strcmp(type_table, "bulletins"))
+
+        //  if type_table, "bulletins"
               boucle_ecriture(Info);
-        else
-        {
-            fprintf(stderr, "Type %s inconnu.\n", type_table);
-            exit(-501);
-        }
+//        else
+//        {
+//            fprintf(stderr, "Type %s inconnu.\n", type_table);
+//            exit(-501);
+//        }
     }
 
     /* libération de la mémoire */
@@ -601,35 +576,27 @@ int main(int argc, char **argv)
 
             for (int j = 0; j < utilisation_memoire; ++j)
                 if (Info[i].Table[agent][j])
-                    xmlFree(Info[i].Table[agent][j]);
+                    if (Info[i].Table[agent][j] != nullptr)
+                        xmlFree(Info[i].Table[agent][j]);
 
-            xmlFree(Info[i].Table[agent]);
+            delete [] (Info[i].Table[agent]);
         }
 
-        free(Info[i].NLigne);
-        free(Info[i].NAgent);
-        free(Info[i].threads->argv);
+        delete [] (Info[i].NLigne);
+        delete [] (Info[i].NAgent);
+        delete [] (Info[i].threads->argv);
 
-        xmlFree(Info[i].Table);
+        delete [] (Info[i].Table);
 
-        if (Info[i].chemin_log)
-            free(Info[i].chemin_log);
-        if (Info[i].expression_reg_elus)
-            free(Info[i].expression_reg_elus);
-
-        if (Info[i].chemin_base)
-            free(Info[i].chemin_base);
-        if (Info[i].chemin_bulletins)
-            free(Info[i].chemin_bulletins);
         if (Info[0].nbfil > 1)
         {
-            free(Info[i].threads);
+            delete [] (Info[i].threads);
         }
     }
 
     int valeur_de_retour = (maxima)? 2 * maxima[0] + 3 * maxima[1]: 0;
 
-    if (maxima) free((uint32_t*) maxima);
+    if (maxima) delete [] ((uint32_t*) maxima);
 
     //if (Info[0].nbfil > 1) free(Info);
 
