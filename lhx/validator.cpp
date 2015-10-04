@@ -5,13 +5,11 @@
 
 /* Constantes de compilation pouvant être redéfinies : NA_STRING, MAX_LIGNES_PAYE, MAX_NB_AGENTS, NO_DEBUG, NO_REGEXP */
 
-//
-//#ifdef __cplusplus
-//extern "C" {
-//#endif
+#include <iomanip>
 #include "validator.hpp"
 #include "fonctions_auxiliaires.hpp"
 #include "table.hpp"
+
 
 static inline xmlNodePtr atteindreNoeud(const char* noeud, xmlNodePtr cur)
 {
@@ -95,13 +93,13 @@ static inline bool Bulletin(const char* tag, xmlNodePtr* cur, int l, info_t& inf
 
     if (ligne_l == NULL || ! test)
     {
-        ligne_l = (xmlChar*) strdup(NA_STRING);
+        ligne_l = (xmlChar*) xmlStrdup(NA_STRING);
     }
     else
     if (ligne_l[0] == '\0')
     {
         xmlFree(ligne_l);
-        ligne_l = (xmlChar*) strdup(NA_STRING);
+        ligne_l = (xmlChar*) xmlStrdup(NA_STRING);
     }
   /* sanitisation */
 
@@ -153,7 +151,7 @@ static inline void _Bulletin_(const char* tag, xmlNodePtr* cur,  int l, info_t& 
 {
     if (! Bulletin(tag, cur, l,  info))
     {
-        ligne_l = (xmlChar*) strdup(NA_STRING);
+        ligne_l = (xmlChar*) xmlStrdup(NA_STRING);
 
     }
 
@@ -373,7 +371,7 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t& info)
     {
        if (xmlStrcmp(cur->name, (const xmlChar*)"NBI") == 0)
        {
-           info.Table[info.NCumAgentXml][Service]= (xmlChar*) strdup(NA_STRING);
+           info.Table[info.NCumAgentXml][Service]= (xmlChar*) xmlStrdup(NA_STRING);
            goto nbi;
        }
        else
@@ -424,7 +422,7 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t& info)
         if (ligne == 0)
         {
             for (int k=0; k < 6; ++k)
-                info.Table[info.NCumAgentXml][info.minimum_memoire_p_ligne + k] = (xmlChar*) strdup(NA_STRING);
+                info.Table[info.NCumAgentXml][info.minimum_memoire_p_ligne + k] = (xmlChar*) xmlStrdup(NA_STRING);
         }
 
         cur = cur_save->next;
@@ -458,6 +456,7 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t& info)
 
 static void parseFile(info_t& info)
 {
+    std::ofstream log;
     xmlDocPtr doc;
     xmlNodePtr cur = NULL;
     info.NAgent[info.fichier_courant] = 0;
@@ -466,6 +465,11 @@ static void parseFile(info_t& info)
     doc = xmlParseFile(info.threads->argv[info.fichier_courant]);
 
     if (doc == NULL) return;
+
+    if (! info.chemin_log.empty())
+       {
+         log.open(info.chemin_log, std::ios::app);
+       }
 
     cur = xmlDocGetRootElement(doc);
 
@@ -584,7 +588,7 @@ static void parseFile(info_t& info)
 
             if (info.reduire_consommation_memoire)
             {
-                if (ligne_p != info.NLigne[info.NCumAgentXml] && info.chemin_log == NULL)
+                if (ligne_p != info.NLigne[info.NCumAgentXml])
                 {
                     fprintf(stderr, "Incohérence des décomptes de lignes entre le contrôle C : %d et l'analyse Libxml2 : %d\nPour l'agent %s, Année %s Mois %s\n",
                             info.NLigne[info.NCumAgentXml],
@@ -600,26 +604,21 @@ static void parseFile(info_t& info)
 
             info.nbLigne += ligne_p;
 
-            if (info.chemin_log)
+            if (! info.chemin_log.empty())
             {
-//                std::ofstream log;
-//                log.open(info.chemin_log, std::ios::app);
-//                int diff = info.NLigne[info.NCumAgentXml]-ligne_p;
-//                if (log.good()))
-
-                FILE* log=fopen(info.chemin_log, "a+");
                 int diff = info.NLigne[info.NCumAgentXml]-ligne_p;
-                fprintf(log, "Année %s | Mois %2s | Matricule %6s | Rang global %6d | Rang dans fichier %5d | Analyseur C : N.ligne %6d | Xml : N.ligne %6d | Différence %4d\n",
-                        info.Table[info.NCumAgentXml][Annee],
-                        info.Table[info.NCumAgentXml][Mois],
-                        info.Table[info.NCumAgentXml][Matricule],
-                        info.NCumAgentXml,
-                        info.NAgent[info.fichier_courant],
-                        info.NLigne[info.NCumAgentXml],
-                        ligne_p,
-                        diff);
-
-                fclose(log);
+                if (log.good())
+                #define P  " | "
+                log << "Année " << P
+                    << info.Table[info.NCumAgentXml][Annee] << P
+                    << "Mois "  << std::setw(2) << info.Table[info.NCumAgentXml][Mois] << P
+                    << "Matricule " << std::setw(6) <<  info.Table[info.NCumAgentXml][Matricule] << P
+                    << "Rang global " << std::setw(6) <<  info.NCumAgentXml << P
+                    << "Rang dans fichier " << std::setw(5) <<  info.NAgent[info.fichier_courant] << P
+                    << "Analyseur C : " << std::setw(6) << info.NLigne[info.NCumAgentXml] << P
+                    << "Xml : " << std::setw(6) << ligne_p << P
+                    << "Différence " << std::setw(4) << diff << std::endl;
+                #undef P
             }
             // Ici il est normal que cur = NULL
 
@@ -641,6 +640,9 @@ static void parseFile(info_t& info)
 
 
     xmlFreeDoc(doc);
+    if (log.is_open())
+       log.close();
+
 }
 
  /* Les expressions régulières correctes ne sont disponibles sur MINGW GCC qu'à partir du build 4.9.2 */
@@ -710,7 +712,7 @@ void* decoder_fichier(info_t& info)
     else
     {
         info.NCumAgent = info.nbAgentUtilisateur * info.threads->argc;
-        info.NLigne = (uint16_t*) malloc(info.NCumAgent * sizeof(uint16_t));
+        info.NLigne = new uint16_t[info.NCumAgent];
         if (info.NLigne)
         {
             for (unsigned i = 0 ; i < info.NCumAgent; ++i)
@@ -723,8 +725,8 @@ void* decoder_fichier(info_t& info)
         }
     }
 
-    info.NAgent = (uint32_t*)  calloc(info.threads->argc, sizeof(int32_t));
-    info.Table  = (xmlChar***) malloc(info.NCumAgent *  sizeof(xmlChar**));
+    info.NAgent = new uint32_t[info.threads->argc];
+    info.Table  = new xmlChar**[info.NCumAgent];
 
     if (info.Table == NULL)
     {
