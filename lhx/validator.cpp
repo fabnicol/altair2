@@ -61,15 +61,15 @@ static inline xmlNodePtr atteindreNoeudArret(const char* noeud, xmlNodePtr cur, 
 }
 
 
-static inline void  verifier_taille(const int nbLignePaye, info_t* info)
+static inline void  verifier_taille(const int nbLignePaye, info_t& info)
 {
-    if (nbLignePaye >= info->nbLigneUtilisateur)
+    if (nbLignePaye >= info.nbLigneUtilisateur)
     {
         fprintf(stderr, "\n\
                 En excès du nombre de lignes de paye autorisé (%d).\n\
                 Omettre -n ... et utiliser -L fichier_log pour détecter le maximum de lignes de paye dans les fichiers.\n\
                 Utiliser -N ce_maximum ou bien recompiler en augmentant MAX_LIGNES_PAYE, à condition de disposer d'assez de mémoire.\n",
-                info->nbLigneUtilisateur);
+                info.nbLigneUtilisateur);
 
         exit(-10);
     }
@@ -77,19 +77,19 @@ static inline void  verifier_taille(const int nbLignePaye, info_t* info)
 
 /* obligatoire */
 
-#define ligne_l  info->Table[info->NCumAgentXml][l]
+#define ligne_l  info.Table[info.NCumAgentXml][l]
 
 /* Remplace les occurrences d'un caractère séparateur à l'intérieur d'un champ par le caractère '_' qui ne doit donc jamais
    être séparateur de champ (c'est bien rare !) */
 
-static inline bool Bulletin(const char* tag, xmlNodePtr* cur, int l, info_t* info)
+static inline bool Bulletin(const char* tag, xmlNodePtr* cur, int l, info_t& info)
 {
     bool test = (cur != NULL && *cur != NULL && (! xmlStrcmp((*cur)->name,  (const xmlChar*) tag)));
 
     if (test)
     {
         ligne_l = xmlGetProp(*cur, (const xmlChar *) "V");
-        if (info->drapeau_cont)
+        if (info.drapeau_cont)
             *cur = (*cur)? (*cur)->next: NULL;
     }
 
@@ -107,13 +107,13 @@ static inline bool Bulletin(const char* tag, xmlNodePtr* cur, int l, info_t* inf
 
     else
         for (int i = 0; i < xmlStrlen(ligne_l); ++i)
-            if (ligne_l[i] == info->separateur)
+            if (ligne_l[i] == info.separateur)
                 ligne_l[i] = '_';
 
     return test;
 }
 
-static inline void _Bulletin(const char* tag, xmlNodePtr* cur,  int l, info_t* info)
+static inline void _Bulletin(const char* tag, xmlNodePtr* cur,  int l,  info_t& info)
 {
     if (! Bulletin(tag, cur, l, info))
     {
@@ -121,13 +121,13 @@ static inline void _Bulletin(const char* tag, xmlNodePtr* cur,  int l, info_t* i
         {
             fprintf(stderr, "Erreur : Trouvé %s au lieu de %s \n", (*cur)->name, tag);
             fprintf(stderr, "Erreur : dans le fichier %s \n  pour le matricule %s\n",
-                            info->threads->argv[info->fichier_courant],
-                            info->Table[info->NCumAgentXml][Matricule]);
+                            info.threads->argv[info.fichier_courant],
+                            info.Table[info.NCumAgentXml][Matricule]);
         }
         else
         {
-            fprintf(stderr, "Erreur : Noeud courant null au stade de la vérification de %s, fichier %s\n", tag, info->threads->argv[info->fichier_courant]);
-            for (int l=0; l < Service; ++l) fprintf(stderr, "info->Table[info->NCumAgentXml][%d]=%s\n", l, info->Table[info->NCumAgentXml][l]);
+            fprintf(stderr, "Erreur : Noeud courant null au stade de la vérification de %s, fichier %s\n", tag, info.threads->argv[info.fichier_courant]);
+            for (int l=0; l < Service; ++l) fprintf(stderr, "info.Table[info.NCumAgentXml][%d]=%s\n", l, info.Table[info.NCumAgentXml][l]);
         }
     }
 
@@ -149,7 +149,7 @@ static inline void substituer_separateur_decimal(xmlChar* ligne, const char deci
 
 /* optionnel */
 
-static inline void _Bulletin_(const char* tag, xmlNodePtr* cur,  int l, info_t* info)
+static inline void _Bulletin_(const char* tag, xmlNodePtr* cur,  int l, info_t& info)
 {
     if (! Bulletin(tag, cur, l,  info))
     {
@@ -157,22 +157,22 @@ static inline void _Bulletin_(const char* tag, xmlNodePtr* cur,  int l, info_t* 
 
     }
 
-    if (info->decimal != '.') substituer_separateur_decimal(ligne_l, info->decimal);
+    if (info.decimal != '.') substituer_separateur_decimal(ligne_l, info.decimal);
 
 }
 
 /* obligatoire et avec substitution séparateur décimal */
 
-static inline void Bulletin_(const char* tag, xmlNodePtr* cur, int l, info_t* info)
+static inline void Bulletin_(const char* tag, xmlNodePtr* cur, int l, info_t& info)
 {
     _Bulletin(tag, cur, l, info) ;
-    if (info->decimal != '.')  substituer_separateur_decimal(ligne_l, info->decimal);
+    if (info.decimal != '.')  substituer_separateur_decimal(ligne_l, info.decimal);
 
 }
 
-static inline int lignePaye(xmlNodePtr cur, info_t* info)
+static inline int lignePaye(xmlNodePtr cur, info_t& info)
 {
-    int l = info->minimum_memoire_p_ligne;
+    int l = info.minimum_memoire_p_ligne;
 
     int nbLignePaye = 0;
     unsigned int t = 0;
@@ -209,7 +209,7 @@ static inline int lignePaye(xmlNodePtr cur, info_t* info)
                 fprintf(stderr, "Erreur : En excès du nombre de types de lignes de paye autorisé (%d)\n", nbType);
                 if (cur) fprintf(stderr, "Erreur : Type litigieux %s aux alentours du matricule %s \n",
                                      cur->name,
-                                     info->Table[info->NCumAgentXml][Matricule]);
+                                     info.Table[info.NCumAgentXml][Matricule]);
                 else fprintf(stderr, "%s", "Erreur : Pointeur noeud courant nul\n");
                 exit(-11);
             }
@@ -225,7 +225,7 @@ static inline int lignePaye(xmlNodePtr cur, info_t* info)
             ++l;
         }
 
-        if (! info->reduire_consommation_memoire)
+        if (! info.reduire_consommation_memoire)
         {
             verifier_taille(nbLignePaye, info);
         }
@@ -287,7 +287,7 @@ static inline int lignePaye(xmlNodePtr cur, info_t* info)
 
 #define _BULLETIN_(X)  _Bulletin_(#X, &cur, X, info);
 
-static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
+static uint64_t  parseBulletin(xmlNodePtr cur, info_t& info)
 {
     DEBUG("Parsage")
 
@@ -306,7 +306,7 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
     cur = atteindreNoeud("Nom", cur);
 
     /* passer à la balise adjacente après lecture */
-    info->drapeau_cont = true;
+    info.drapeau_cont = true;
     _BULLETIN(Nom)
 
 #ifdef TOLERANT
@@ -359,12 +359,12 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
 #else
     cur = cur->next;
 #endif
-    info->drapeau_cont = false; /* ne pas lire la balise adjacente : fin du niveau subordonné Agent*/
+    info.drapeau_cont = false; /* ne pas lire la balise adjacente : fin du niveau subordonné Agent*/
     _BULLETIN(Indice)
 
     REMONTER_UN_NIVEAU
 
-    info->drapeau_cont = true;
+    info.drapeau_cont = true;
 
 #ifdef TOLERANT
     cur = atteindreNoeud("Service", cur);
@@ -373,7 +373,7 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
     {
        if (xmlStrcmp(cur->name, (const xmlChar*)"NBI") == 0)
        {
-           info->Table[info->NCumAgentXml][Service]= (xmlChar*) strdup(NA_STRING);
+           info.Table[info.NCumAgentXml][Service]= (xmlChar*) strdup(NA_STRING);
            goto nbi;
        }
        else
@@ -424,7 +424,7 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
         if (ligne == 0)
         {
             for (int k=0; k < 6; ++k)
-                info->Table[info->NCumAgentXml][info->minimum_memoire_p_ligne + k] = (xmlChar*) strdup(NA_STRING);
+                info.Table[info.NCumAgentXml][info.minimum_memoire_p_ligne + k] = (xmlChar*) strdup(NA_STRING);
         }
 
         cur = cur_save->next;
@@ -445,7 +445,7 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
     BULLETIN_(MtBrut)
     BULLETIN_(MtNet)
 
-    info->drapeau_cont=false; // fin du niveau PayeIndivMensuel
+    info.drapeau_cont=false; // fin du niveau PayeIndivMensuel
     BULLETIN_(MtNetAPayer)
 
     // Rémuneration tag vide
@@ -456,14 +456,14 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t* info)
 
 /* agent_total est une variable de contrôle pour info->NCumAgent */
 
-static void parseFile(info_t* info)
+static void parseFile(info_t& info)
 {
     xmlDocPtr doc;
     xmlNodePtr cur = NULL;
-    info->NAgent[info->fichier_courant] = 0;
+    info.NAgent[info.fichier_courant] = 0;
     xmlChar *annee_fichier = NULL, *mois_fichier = NULL, *etab_fichier = NULL, *siret_fichier = NULL, *budget_fichier = NULL;
 
-    doc = xmlParseFile(info->threads->argv[info->fichier_courant]);
+    doc = xmlParseFile(info.threads->argv[info.fichier_courant]);
 
     if (doc == NULL) return;
 
@@ -549,18 +549,18 @@ static void parseFile(info_t* info)
             }
             else
             {
-                fprintf(stderr, "%s Année %d Mois %d\n", "Erreur : Siret non détectable", info->Table[info->NCumAgentXml][Annee], info->Table[info->NCumAgentXml][Mois]);
+                fprintf(stderr, "%s Année %d Mois %d\n", "Erreur : Siret non détectable", info.Table[info.NCumAgentXml][Annee], info.Table[info.NCumAgentXml][Mois]);
                 exit(-506);
             }
             cur=cur_save2;
 
         while(cur != NULL)
         {
-            if (info->NCumAgentXml == info->NCumAgent)
+            if (info.NCumAgentXml == info.NCumAgent)
             {
                 fprintf(stderr,
                         "Erreur : Incohérence de l'allocation mémoire ex-ante %d B et ex-post %d B : sortie pour éviter une erreur de segmentation.\n",
-                        info->NCumAgent, info->NCumAgentXml);
+                        info.NCumAgent, info.NCumAgentXml);
                 exit(1005);
             }
 
@@ -573,44 +573,49 @@ static void parseFile(info_t* info)
 
             DESCENDRE_UN_NIVEAU
 
-            info->Table[info->NCumAgentXml][Annee] = xmlStrdup(annee_fichier);
-            info->Table[info->NCumAgentXml][Mois]  = xmlStrdup(mois_fichier);
-            info->Table[info->NCumAgentXml][Budget] = xmlStrdup(budget_fichier);
-            info->Table[info->NCumAgentXml][Etablissement]  = xmlStrdup(etab_fichier);
-            info->Table[info->NCumAgentXml][Siret]  = xmlStrdup(siret_fichier);
+            info.Table[info.NCumAgentXml][Annee] = xmlStrdup(annee_fichier);
+            info.Table[info.NCumAgentXml][Mois]  = xmlStrdup(mois_fichier);
+            info.Table[info.NCumAgentXml][Budget] = xmlStrdup(budget_fichier);
+            info.Table[info.NCumAgentXml][Etablissement]  = xmlStrdup(etab_fichier);
+            info.Table[info.NCumAgentXml][Siret]  = xmlStrdup(siret_fichier);
 
             int32_t ligne_p = parseBulletin(cur, info);
-            info->drapeau_cont = true;
+            info.drapeau_cont = true;
 
-            if (info->reduire_consommation_memoire)
+            if (info.reduire_consommation_memoire)
             {
-                if (ligne_p != info->NLigne[info->NCumAgentXml] && info->chemin_log == NULL)
+                if (ligne_p != info.NLigne[info.NCumAgentXml] && info.chemin_log == NULL)
                 {
                     fprintf(stderr, "Incohérence des décomptes de lignes entre le contrôle C : %d et l'analyse Libxml2 : %d\nPour l'agent %s, Année %s Mois %s\n",
-                            info->NLigne[info->NCumAgentXml],
+                            info.NLigne[info.NCumAgentXml],
                             ligne_p,
-                            info->Table[info->NCumAgentXml][Matricule],
-                            info->Table[info->NCumAgentXml][Annee],
-                            info->Table[info->NCumAgentXml][Mois]);
+                            info.Table[info.NCumAgentXml][Matricule],
+                            info.Table[info.NCumAgentXml][Annee],
+                            info.Table[info.NCumAgentXml][Mois]);
                     exit(-1278);
                 }
             }
             else
-                info->NLigne[info->NCumAgentXml] = ligne_p;
+                info.NLigne[info.NCumAgentXml] = ligne_p;
 
-            info->nbLigne += ligne_p;
+            info.nbLigne += ligne_p;
 
-            if (info->chemin_log)
+            if (info.chemin_log)
             {
-                FILE* log=fopen(info->chemin_log, "a+");
-                int diff = info->NLigne[info->NCumAgentXml]-ligne_p;
+//                std::ofstream log;
+//                log.open(info.chemin_log, std::ios::app);
+//                int diff = info.NLigne[info.NCumAgentXml]-ligne_p;
+//                if (log.good()))
+
+                FILE* log=fopen(info.chemin_log, "a+");
+                int diff = info.NLigne[info.NCumAgentXml]-ligne_p;
                 fprintf(log, "Année %s | Mois %2s | Matricule %6s | Rang global %6d | Rang dans fichier %5d | Analyseur C : N.ligne %6d | Xml : N.ligne %6d | Différence %4d\n",
-                        info->Table[info->NCumAgentXml][Annee],
-                        info->Table[info->NCumAgentXml][Mois],
-                        info->Table[info->NCumAgentXml][Matricule],
-                        info->NCumAgentXml,
-                        info->NAgent[info->fichier_courant],
-                        info->NLigne[info->NCumAgentXml],
+                        info.Table[info.NCumAgentXml][Annee],
+                        info.Table[info.NCumAgentXml][Mois],
+                        info.Table[info.NCumAgentXml][Matricule],
+                        info.NCumAgentXml,
+                        info.NAgent[info.fichier_courant],
+                        info.NLigne[info.NCumAgentXml],
                         ligne_p,
                         diff);
 
@@ -622,8 +627,8 @@ static void parseFile(info_t* info)
 
             AFFICHER_NOEUD(cur->name)
 
-            ++info->NAgent[info->fichier_courant];
-            ++info->NCumAgentXml;
+            ++info.NAgent[info.fichier_courant];
+            ++info.NCumAgentXml;
         }
 
         cur = cur_save->next;
@@ -631,12 +636,8 @@ static void parseFile(info_t* info)
 
     xmlFree(mois_fichier);
     xmlFree(annee_fichier);
-    fprintf(stderr, "Fichier n°%d:\nPopulation du fichier  %s :\n %4d bulletins    Total : %4d bulletins  %4" PRIu64 " lignes cumulées.\n",
-            info->fichier_courant + 1,
-            info->threads->argv[info->fichier_courant],
-            info->NAgent[info->fichier_courant],
-            info->NCumAgentXml,
-            info->nbLigne);
+    std::cerr << "Fichier n°" << info.fichier_courant + 1 << " :\nPopulation du fichier  " <<  info.threads->argv[info.fichier_courant] << ":\n"
+              <<  info.NAgent[info.fichier_courant] << " bulletins    Total : " <<  info.NCumAgentXml << "bulletins  " << info.nbLigne <<" lignes cumulées.\n";
 
 
     xmlFreeDoc(doc);
@@ -689,7 +690,7 @@ void* decoder_fichier(void* tinfo)
 
 
 
-    info_t* info = (info_t*) tinfo;
+    info_t info = *((info_t*) tinfo);
     #if  defined GCC_REGEX //&& !defined __WIN32__ && !defined GCC_4_8
 
      regex pat {"élu"/*info->expression_reg_elus*/,  regex_constants::icase};
@@ -700,7 +701,7 @@ void* decoder_fichier(void* tinfo)
 
     xmlKeepBlanksDefault(0);
 
-    if (info->reduire_consommation_memoire)
+    if (info.reduire_consommation_memoire)
     {
         int err = calculer_memoire_requise(info);
         if (err)
@@ -711,45 +712,45 @@ void* decoder_fichier(void* tinfo)
     }
     else
     {
-        info->NCumAgent = info->nbAgentUtilisateur * info->threads->argc;
-        info->NLigne = (uint16_t*) malloc(info->NCumAgent * sizeof(uint16_t));
-        if (info->NLigne)
+        info.NCumAgent = info.nbAgentUtilisateur * info.threads->argc;
+        info.NLigne = (uint16_t*) malloc(info.NCumAgent * sizeof(uint16_t));
+        if (info.NLigne)
         {
-            for (unsigned i = 0 ; i < info->NCumAgent; ++i)
-                 info->NLigne[i] = info->nbLigneUtilisateur;
+            for (unsigned i = 0 ; i < info.NCumAgent; ++i)
+                 info.NLigne[i] = info.nbLigneUtilisateur;
         }
         else
         {
-            perror("Erreur : Problème d'allocation mémoire de info->NLigne");
+            perror("Erreur : Problème d'allocation mémoire de info.NLigne");
             exit(1003);
         }
     }
 
-    info->NAgent = (uint32_t*)  calloc(info->threads->argc, sizeof(int32_t));
-    info->Table  = (xmlChar***) malloc(info->NCumAgent *  sizeof(xmlChar**));
+    info.NAgent = (uint32_t*)  calloc(info.threads->argc, sizeof(int32_t));
+    info.Table  = (xmlChar***) malloc(info.NCumAgent *  sizeof(xmlChar**));
 
-    if (info->Table == NULL)
+    if (info.Table == NULL)
     {
         perror("Erreur : Mémoire insuffisante");
         exit(-18);
     }
 
-    for (unsigned agent = 0; agent < info->NCumAgent; ++agent)
+    for (unsigned agent = 0; agent < info.NCumAgent; ++agent)
     {
-        info->Table[agent] = (xmlChar**) calloc(info->minimum_memoire_p_ligne + nbType + (info->NLigne[agent])*6, sizeof(xmlChar*));
-        if (info->Table[agent] == NULL)
+        info.Table[agent] = (xmlChar**) calloc(info.minimum_memoire_p_ligne + nbType + (info.NLigne[agent])*6, sizeof(xmlChar*));
+        if (info.Table[agent] == NULL)
         {
             fprintf(stderr,
                     "Erreur : Erreur d'allocation de drapeau I. pour l'agent %d et pour %d B\n",
                      agent,
-                     info->minimum_memoire_p_ligne + nbType + (info->NLigne[agent]) * 6);
+                     info.minimum_memoire_p_ligne + nbType + (info.NLigne[agent]) * 6);
             exit(-63);
         }
     }
 
-    for (unsigned i = 0; i < info->threads->argc ; ++i)
+    for (unsigned i = 0; i < info.threads->argc ; ++i)
     {
-        info->fichier_courant = i;
+        info.fichier_courant = i;
         parseFile(info);
     }
 
@@ -760,8 +761,8 @@ void* decoder_fichier(void* tinfo)
         V     pour un vacataire
         A     pour une assistante maternelle */
 
-#define VAR(X) info->Table[agent][X]
-    for (unsigned agent = 0; agent < info->NCumAgentXml; ++agent)
+#define VAR(X) info.Table[agent][X]
+    for (unsigned agent = 0; agent < info.NCumAgentXml; ++agent)
     {
         /* Les élus peuvent être identifiés soit dans le service soit dans l'emploi métier */
 
@@ -788,11 +789,11 @@ void* decoder_fichier(void* tinfo)
         /* les vacations peuvent être indiquées comme telles dans les libellés de paie mais pas dans les emplois métiers.
            On les récupère en parcourant les libellés */
 
-        if (info->reduire_consommation_memoire)
+        if (info.reduire_consommation_memoire)
         {
             /* inutile de boucler sur la partie vide du tableau... */
 
-            for (int j = info->minimum_memoire_p_ligne ; j < info->NLigne[agent]; ++j)
+            for (int j = info.minimum_memoire_p_ligne ; j < info.NLigne[agent]; ++j)
                 if (regex_match((const char*) VAR(j), pat2))
                 {
                     xmlFree(VAR(Grade));
@@ -801,7 +802,7 @@ void* decoder_fichier(void* tinfo)
         }
         else
         {
-            for (int j = info->minimum_memoire_p_ligne ; j < info->NLigne[agent] && info->Table[agent][j] != NULL; ++j)
+            for (int j = info.minimum_memoire_p_ligne ; j < info.NLigne[agent] && info.Table[agent][j] != NULL; ++j)
                 if (regex_match((const char*) VAR(j), pat2))
                 {
                     xmlFree(VAR(Grade));

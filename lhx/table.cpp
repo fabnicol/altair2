@@ -8,7 +8,7 @@
 
 
 
-int64_t generer_table_standard(const char* chemin_table, info_t* info)
+int64_t generer_table_standard(const char* chemin_table, std::vector<info_t> &info)
 {
 
 return 0;
@@ -22,10 +22,10 @@ return 0;
 
 #define VAR(X) Info[i].Table[agent][X]
 
-static inline void  ECRIRE_LIGNE_l(int i, uint32_t agent, int l, char* type, std::ofstream& base, char sep, info_t* Info, int rang)
+static inline void  ECRIRE_LIGNE_l(int i, uint32_t agent, int l, char* type, std::ofstream& base, char sep, std::vector<info_t> &Info, int rang)
 {
 
-//if (! base.is_open()) return;
+if (! base.is_open()) return;
 
 if (Info[0].generer_rang)
     base <<  rang << sep;
@@ -67,10 +67,10 @@ if (Info[0].select_siret)
 }
 
 
-static inline void  ECRIRE_LIGNE_BULLETIN(int i, uint32_t agent, std::ofstream& bulletins, char sep, info_t* Info, int rang)
+static inline void  ECRIRE_LIGNE_BULLETIN(int i, uint32_t agent, std::ofstream& bulletins, char sep, std::vector<info_t> &Info, int rang)
 {
 
-//if (! bulletins.is_open()) return;
+if (! bulletins.is_open()) return;
 
 if (Info[0].generer_rang)
   bulletins <<  rang << sep;
@@ -104,7 +104,7 @@ if (Info[0].generer_rang)
             << VAR(NIR) << "\n";
 }
 
-void boucle_ecriture(info_t* Info)
+void boucle_ecriture(std::vector<info_t>& Info)
 {
     int ligne = 0;
     uint64_t compteur = 0;
@@ -120,17 +120,17 @@ void boucle_ecriture(info_t* Info)
     // Gain d'exécution : 30s pour fprintf par item
     //                    22s sur une ligne
 
-    ouvrir_fichier_bulletins(Info, bulletins);
+    ouvrir_fichier_bulletins(Info[0], bulletins);
 
     switch (Info[0].taille_base)
     {
 
         case MONOLITHIQUE :
-                 ouvrir_fichier_base(Info, 0, base);
+                 ouvrir_fichier_base(Info[0], 0, base);
                  break;
 
         case PAR_ANNEE :
-                 ouvrir_fichier_base(Info, atoi(annee_courante) + nbType + 1, base);
+                 ouvrir_fichier_base(Info[0], atoi(annee_courante) + nbType + 1, base);
                  break;
 
         case PAR_TRAITEMENT          :
@@ -144,15 +144,15 @@ void boucle_ecriture(info_t* Info)
         case PAR_RAPPEL              :
         case PAR_RETENUE             :
         case PAR_COTISATION          :
-                                       ouvrir_fichier_base(Info, -Info[0].taille_base - 2, base);
+                                       ouvrir_fichier_base(Info[0], -Info[0].taille_base - 2, base);
                                        break;
 
         case TOUTES_CATEGORIES  :
                  for (int d = 0; d < nbType; ++d)
-                     ouvrir_fichier_base(Info, d + 1, fichier_base[d]);
+                     ouvrir_fichier_base(Info[0], d + 1, fichier_base[d]);
                  break;
 
-        default : ouvrir_fichier_base(Info, rang_fichier_base + nbType + 1, base);
+        default : ouvrir_fichier_base(Info[0], rang_fichier_base + nbType + 1, base);
                  // cas où une vraie taille de base en lignes est entrée.
 
     }
@@ -178,7 +178,7 @@ void boucle_ecriture(info_t* Info)
 
                 fprintf(stderr, "Année : %s Table générée.\n", annee_courante);
                 annee_courante = (char*) VAR(Annee);
-                ouvrir_fichier_base(&Info[i], atoi(annee_courante) + nbType + 1, base);
+                ouvrir_fichier_base(Info[i], atoi(annee_courante) + nbType + 1, base);
             }
 
             unsigned l = Info[i].minimum_memoire_p_ligne;
@@ -213,7 +213,7 @@ void boucle_ecriture(info_t* Info)
                                 exit(-904);
                             }
 
-                            ouvrir_fichier_base(&Info[i], rang_fichier_base + nbType + 1, base);
+                            ouvrir_fichier_base(Info[i], rang_fichier_base + nbType + 1, base);
                 }
 
                 if (l + 6 == allocation_memoire)
