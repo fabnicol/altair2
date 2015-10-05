@@ -282,7 +282,7 @@ int calculer_memoire_requise(info_t& info)
 
             if  (data[d] != '<') continue;
             if  (data[++d] != 'R') continue;
-            if  (data[++d) != 'e') continue;
+            if  (data[++d] != 'e') continue;
             if  (data[++d] != 'm') continue;
             if  (data[++d] != 'u') continue;
             if  (data[++d] != 'n') continue;
