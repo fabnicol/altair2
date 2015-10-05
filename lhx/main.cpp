@@ -14,10 +14,14 @@
 #include <vector>
 #include <thread>
 #include <map>
+#include <chrono>
 #include <cstring>
 #include "validator.hpp"
 #include "fonctions_auxiliaires.hpp"
 #include "table.hpp"
+
+typedef std::chrono::high_resolution_clock Clock;
+
 
 static inline const uint32_t* calculer_maxima(const std::vector<info_t> &Info)
 {
@@ -44,7 +48,8 @@ static inline const uint32_t* calculer_maxima(const std::vector<info_t> &Info)
 
 int main(int argc, char **argv)
 {
-    
+    auto startofprogram = Clock::now();
+
 #if defined _WIN32 | defined _WIN64
     setlocale(LC_NUMERIC, "French_France.1252"); // Windows ne gère pas UTF-8 en locale
 #elif defined __linux__
@@ -116,7 +121,7 @@ int main(int argc, char **argv)
         }
         else if (! strcmp(argv[start], "-h"))
         {
-            std::cout <<  "Usage :  xhl2csv OPTIONS fichiers.xhl" << std::endl
+            std::cout <<  "Usage :  lhx OPTIONS fichiers.xhl" << std::endl
                       <<  "OPTIONS :" << std::endl
                       <<  "-n argument obligatoire : nombre maximum de bulletins mensuels attendus [calcul exact par défaut]" << std::endl
                       <<  "-N argument obligatoire : nombre maximum de lignes de paye attendues [calcul exact par défaut]" << std::endl
@@ -377,7 +382,6 @@ int main(int argc, char **argv)
     xmlInitMemory();
     xmlInitParser();
     
-    
     int nbfichier_par_fil = (int) (argc - start) / info.nbfil;
     if (nbfichier_par_fil == 0)
     {
@@ -450,8 +454,7 @@ int main(int argc, char **argv)
         {
             t[i].join ();
         }
-    
-    
+     
     const uint32_t*   maxima = nullptr;
     
     if (Info[0].calculer_maxima)
@@ -463,7 +466,6 @@ int main(int argc, char **argv)
                        << "\nMaximum d'agents  : " << maxima[0] << std::endl;
         }
     }
-    
     
     if (maxima == nullptr) maxima = calculer_maxima(Info);
     std::ofstream LOG;
@@ -477,6 +479,12 @@ int main(int argc, char **argv)
     
     xmlCleanupParser();
     
+    auto endofcalculus = Clock::now();
+    
+    std::cerr << "Durée de calcul : " 
+              << std::chrono::duration_cast<std::chrono::milliseconds>(endofcalculus - startofprogram).count()
+              << " millisecondes" << std::endl;
+    
     if (generer_table)
     {
         boucle_ecriture(Info);
@@ -484,7 +492,8 @@ int main(int argc, char **argv)
     
     /* libération de la mémoire */
     
-    if (! liberer_memoire) return 0;
+    int valeur_de_retour = 0;
+    if (! liberer_memoire) goto duration;
     
     std::cerr << "\nLibération de la mémoire...\n";
     
@@ -502,10 +511,9 @@ int main(int argc, char **argv)
             delete [] (Info[i].Table[agent]);
         }
         
-        
         delete [] (Info[i].NAgent);
         delete [] (Info[i].threads->argv);
-        
+  
         delete [] (Info[i].Table);
         
         if (Info[0].nbfil > 1)
@@ -514,9 +522,17 @@ int main(int argc, char **argv)
         }
     }
     
-    int valeur_de_retour = (maxima)? 2 * maxima[0] + 3 * maxima[1]: 0;
+    valeur_de_retour = (maxima)? 2 * maxima[0] + 3 * maxima[1]: 0;
     
     if (maxima) delete [] (maxima);
+    
+    duration:
+    
+    auto endofprogram = Clock::now();
+    
+    std::cerr << "Durée d'exécution : " 
+              << std::chrono::duration_cast<std::chrono::milliseconds>(endofprogram - startofprogram).count()
+              << " millisecondes" << std::endl;
     
     return valeur_de_retour;
 }

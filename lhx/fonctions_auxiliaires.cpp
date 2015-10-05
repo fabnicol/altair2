@@ -179,7 +179,7 @@ int calculer_memoire_requise(info_t& info)
         std::ifstream c;
         c.open(info.threads->argv[i]);
         if (c.good())
-            c.seekg(0);
+            c.seekg(0, c.beg);
         else 
         {
             perror("Erreur : Erreur : Ouverture Fichiers.");    // cautious no-op
@@ -221,7 +221,7 @@ int calculer_memoire_requise(info_t& info)
             {
                // std::cout << d;
                 if (c.get() != '<') continue;
-                if ((d == c.get())  != 'C')
+                if ((d = c.get())  != 'C')
                 {
                     if (d != '/') continue;
                     else if (c.get()  != 'R')   continue;
@@ -254,7 +254,7 @@ int calculer_memoire_requise(info_t& info)
                 }
             }
         }
-
+        c.clear();
         c.close();
         
 #endif

@@ -55,7 +55,7 @@ FLineFrame::FLineFrame(const QStringList& titre,
                               path = info.path();
                         }
 
-                        openDir(path);
+                        common::openDir(path);
                });
 
     QObject::connect(sButton,
@@ -65,7 +65,7 @@ FLineFrame::FLineFrame(const QStringList& titre,
                    QFileInfo info(path);
                    if (pathCategory == flags::flineframe::isDirectoryPath)
                    {
-                       if ((path = openDirDialog(check)) == nullptr) return;
+                       if ((path = common::openDirDialog(check)) == nullptr) return;
                    }
                    else
                        if (pathCategory == flags::flineframe::isFilePath)

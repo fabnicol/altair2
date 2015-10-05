@@ -7,7 +7,7 @@
 #include "enums.h"
 
 #if 1
-class FLineFrame : public FLineEdit, public common
+class FLineFrame : public FLineEdit
 {
 Q_OBJECT
 

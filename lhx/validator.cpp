@@ -460,7 +460,11 @@ static void parseFile(info_t& info)
     xmlDocPtr doc;
     xmlNodePtr cur = nullptr;
     info.NAgent[info.fichier_courant] = 0;
-    xmlChar *annee_fichier = nullptr, *mois_fichier = nullptr, *etab_fichier = nullptr, *siret_fichier = nullptr, *budget_fichier = nullptr;
+    xmlChar *annee_fichier = nullptr,
+            *mois_fichier = nullptr, 
+            *etab_fichier = nullptr,
+            *siret_fichier = nullptr,
+            *budget_fichier = nullptr;
 
     doc = xmlParseFile(info.threads->argv[info.fichier_courant]);
 

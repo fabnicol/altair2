@@ -33,36 +33,48 @@ OPTIONS :
 -m sans argument        : calculer les maxima d'agents et de lignes de paye.
 -L argument obligatoire : chemin du log d'exécution du test de cohérence entre analyseurs C et XML.
 -R argument obligatoire : expression régulière pour la recherche des élus (codés : ELU dans le champ Statut.
+-S sans argument        : supprimer la sortie Budget, Etablissement, Siret (allège les bases).
 
 2. Historique
 -------------
+
 5  octobre 2015
-   Transposition sous C++ d'une partie du code. Optimisations diverses.
-   Amélioration des temps d'exécution : sous linux, 27s sur le HP Celeron
-   et moins de 10s (-j 8) sur le corei7 Haswell pour 1 550 000 lignes de table.
+
+   Transposition sous C++11 d'une partie du code. Optimisations diverses.
+   Possibilité de memory mapping sous unix. Amélioration des Regexp :
+   détection des élus, vacataires. Logging.
+   Amélioration des temps d'exécution : sous linux, 27s sur HP Celeron 
+   (bicoeur) et moins de 9s (-j 7) sur corei7 Haswell-5820K (3.30 GHz x 6)
+   pour 1 563 000 lignes de table.
+   Adjonction de nouveaux champs : Enfants, Siret, Etablissement, Budget.
    
 5  janvier 2015
+
    Basculement des valeurs par défaut des séparateurs (champ et décimal)
    aux valeurs de la locale française fr_FR.1252. Rendu possible pour
    les versions de data.table supérieures à 1.9.5
 
 26-29 octobre 2014
+
     Ajout des options -N, -m, -R, -T.
     Ajout de la fonctionnalité d'exportation des catégories de ligne de paye
     (voir 5. infra)
 
 17 octobre 2014
+
    Mise au point des options suivante :
     [pas d'utilisation de -n] Mode économique en
     ressources RAM.
 
 10 octobre 2014
+
    Mise au point des options suivantes :
    -n, -s, -d, -t, -j (multithreading)
 
 15 septembre 2014
+
    Lancement du sous-projet comme partie intégrante du
-   projet Altair.
+   projet Altaïr.
 
 
 3. Schéma XML
@@ -383,7 +395,7 @@ La rémunération brute doit être :
  6. Performances
  ---------------
 
- Les performances suivantes ont été calculées à partir de la version du 25 octobre 2014 sur un processeur Intel x86 32 bit
+ Les performances suivantes ont été calculées à partir de la version du 25 octobre 2014 sur un processeur Intel 64 bits
  Core2 Quad Q9550 2.86 Ghz, doté de 6 Go de RAM sous GNU/Linux Kubuntu 14.04
 
  Pour 1 million de lignes de paie, les résultats sont donnés en secondes sous la forme (sans exportation de la base / avec exportation).
@@ -400,5 +412,26 @@ La rémunération brute doit être :
  1 seul processus              26,5 / 30,5      |         20,5 / 23,5
  ________________________________________________________________________________
 
+ Les performances suivantes ont été calculées à partir de la version du 5 octobre 2015 sur un processeur Intel corei7 5820K 64 bits
+ 3.30 Ghz, 6 coeurs, doté de 8 Go de RAM DDR4 sous GNU/Linux Debian, mêmes conventions pour 1 million de lignes :
+ 
+ ________________________________________________________________________________
+                    Mode économique en mémoire  | Mode avec préallocation
+  Options                                       | de la mémoire (-n xxx -N yyy)
+ ________________________________________________________________________________
 
+ 7 fils d'exécution :
+   -j 7                        4,4 / 5,8        |            4,7 / 6,3
+ ________________________________________________________________________________
 
+ 1 seul processus              11,5 / 12,9      |         11,1 / 12,5
+ ________________________________________________________________________________
+
+La préallocation de la mémoire n'a plus d'intérêt opérationnel avec les versions postérieures au mois d'octobre 2015 tout au moins
+pour les plateformes à puissance de calcul élevées, en raison des optimisations réalisées sur la procédure d'allocation dynamique.
+
+En tenant compte du temps d'exécution des entrées-sorties, il est estimé sur cette plateforme que le temps de calcul pur est de l'ordre
+de 2 secondes par million de lignes de paye analysées (7 fils d'exécution).
+
+Sous linux, la compilation sous directive MMPAP_PARSING permet d'améliorer les performances d'environ 10 % sur des plateformes lentes
+(Celeron) mais dégrade légèrement les résultats sur corei7 DDR4 (+/- 5%).
