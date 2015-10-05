@@ -50,7 +50,7 @@ public:
   static QString generateDatadirPath(const char* path="");
   static QString generateDatadirPath(const QString &path);
 
-  qint64 getDirectorySize(const QString &path, const QString &extension="");
+  static qint64 getDirectorySize(const QString &path, const QString &extension="");
 
   int readFile(QString &path, QStringList &list, int start=0, int stop=-1, int width=0);
   int readFile(const char* path, QStringList &list, int start=0, int stop=-1, int width=0)
@@ -74,9 +74,9 @@ static bool zipDir (const QString& inPath , const QString& outPath);
 static bool unzipDir (const QString& inPath , const QString& outPath);
 
 void setWhatsThisText(QWidget* widget, int start, int stop);
-void openDir(QString path);
+static void openDir(QString path);
 qint64 getFileSize(const QString &);
-const QString openDirDialog(flags::directory checkEmptyness = directory::noCheck);
+static const QString openDirDialog(flags::directory checkEmptyness = directory::noCheck);
 
 inline const QString path_access(const QString& s) {return QDir::toNativeSeparators(QDir::cleanPath(QCoreApplication::applicationDirPath()+ systemPathPrefix +  s)); }
 
