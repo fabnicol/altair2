@@ -18,7 +18,7 @@ static inline xmlNodePtr atteindreNoeud(const char* noeud, xmlNodePtr cur)
         cur = cur -> next;
     }
 
-    while (cur != NULL)
+    while (cur != nullptr)
     {
         if (xmlStrcmp(cur->name, (const xmlChar *) noeud))
         {
@@ -40,14 +40,14 @@ static inline xmlNodePtr atteindreNoeudArret(const char* noeud, xmlNodePtr cur, 
         cur = cur -> next;
     }
 
-    while (cur != NULL)
+    while (cur != nullptr)
     {
         if (xmlStrcmp(cur->name, (const xmlChar *) noeud))
         {
             if (xmlStrcmp(cur->name, (const xmlChar *) arret))
                 cur = cur->next;
             else
-                return NULL;
+                return nullptr;
         }
         else
         {
@@ -82,16 +82,16 @@ static inline void  verifier_taille(const int nbLignePaye, info_t& info)
 
 static inline bool Bulletin(const char* tag, xmlNodePtr* cur, int l, info_t& info)
 {
-    bool test = (cur != NULL && *cur != NULL && (! xmlStrcmp((*cur)->name,  (const xmlChar*) tag)));
+    bool test = (cur != nullptr && *cur != nullptr && (! xmlStrcmp((*cur)->name,  (const xmlChar*) tag)));
 
     if (test)
     {
         ligne_l = xmlGetProp(*cur, (const xmlChar *) "V");
         if (info.drapeau_cont)
-            *cur = (*cur)? (*cur)->next: NULL;
+            *cur = (*cur)? (*cur)->next: nullptr;
     }
 
-    if (ligne_l == NULL || ! test)
+    if (ligne_l == nullptr || ! test)
     {
         ligne_l = (xmlChar*) xmlStrdup(NA_STRING);
     }
@@ -181,7 +181,7 @@ static inline int lignePaye(xmlNodePtr cur, info_t& info)
     /* Besoins en mémoire : 18 [champs hors ligne] + nombre de lignes + flags (maximum nbType) */
     bool rembobiner = false;
 
-    while (cur != NULL)
+    while (cur != nullptr)
     {
         bool new_type = false;
 
@@ -271,7 +271,7 @@ static inline int lignePaye(xmlNodePtr cur, info_t& info)
 
         REMONTER_UN_NIVEAU
 
-        // Lorsque on a épuisé tous les types licites on a nécessairement cur = NULL
+        // Lorsque on a épuisé tous les types licites on a nécessairement cur = nullptr
     }
 
 #undef ligne_l
@@ -289,10 +289,10 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t& info)
 {
     DEBUG("Parsage")
 
-    if (cur == NULL) return 0;
+    if (cur == nullptr) return 0;
     cur = atteindreNoeud("Agent", cur);
 
-    if (cur == NULL)
+    if (cur == nullptr)
     {
         fprintf(stderr, "%s\n", "Erreur : Impossible d'atteindre \"Agent\"");
         return 0;
@@ -458,13 +458,13 @@ static void parseFile(info_t& info)
 {
     std::ofstream log;
     xmlDocPtr doc;
-    xmlNodePtr cur = NULL;
+    xmlNodePtr cur = nullptr;
     info.NAgent[info.fichier_courant] = 0;
-    xmlChar *annee_fichier = NULL, *mois_fichier = NULL, *etab_fichier = NULL, *siret_fichier = NULL, *budget_fichier = NULL;
+    xmlChar *annee_fichier = nullptr, *mois_fichier = nullptr, *etab_fichier = nullptr, *siret_fichier = nullptr, *budget_fichier = nullptr;
 
     doc = xmlParseFile(info.threads->argv[info.fichier_courant]);
 
-    if (doc == NULL) return;
+    if (doc == nullptr) return;
 
     if (! info.chemin_log.empty())
        {
@@ -473,7 +473,7 @@ static void parseFile(info_t& info)
 
     cur = xmlDocGetRootElement(doc);
 
-    if (cur == NULL)
+    if (cur == nullptr)
     {
         fprintf(stderr,"Erreur : document vide\n");
         xmlFreeDoc(doc);
@@ -483,10 +483,10 @@ static void parseFile(info_t& info)
 
     cur = atteindreNoeud("Annee", cur);
 
-    if (cur != NULL)
+    if (cur != nullptr)
     {
         annee_fichier = xmlGetProp(cur, (const xmlChar *) "V");
-        cur = (cur)? cur->next : NULL;
+        cur = (cur)? cur->next : nullptr;
     }
     else
     {
@@ -494,7 +494,7 @@ static void parseFile(info_t& info)
         exit(-502);
     }
 
-    if (cur != NULL)
+    if (cur != nullptr)
     {
         mois_fichier = xmlGetProp(cur, (const xmlChar *) "V");
     }
@@ -506,7 +506,7 @@ static void parseFile(info_t& info)
 
     cur = atteindreNoeud("Budget", cur);
 
-    if (cur != NULL)
+    if (cur != nullptr)
     {
         DESCENDRE_UN_NIVEAU
         budget_fichier = xmlGetProp(cur, (const xmlChar *) "V");
@@ -518,25 +518,25 @@ static void parseFile(info_t& info)
         exit(-504);
     }
 
-  while((cur = atteindreNoeudArret("DonneesIndiv", cur, "Nomenclatures")) != NULL)
+  while((cur = atteindreNoeudArret("DonneesIndiv", cur, "Nomenclatures")) != nullptr)
   {
         xmlNodePtr cur_save = cur;
-        xmlNodePtr cur_save2 = NULL;
+        xmlNodePtr cur_save2 = nullptr;
 
         DESCENDRE_UN_NIVEAU
 
             cur = atteindreNoeud("Etablissement", cur);
-            if (cur == NULL) cur = atteindreNoeud("Employeur", cur);
+            if (cur == nullptr) cur = atteindreNoeud("Employeur", cur);
             cur_save2 =  cur;
-            if (cur_save2 == NULL) break;
+            if (cur_save2 == nullptr) break;
 
             DESCENDRE_UN_NIVEAU
 
             cur = atteindreNoeud("Nom", cur);
-            if (cur != NULL)
+            if (cur != nullptr)
             {
                 etab_fichier = xmlGetProp(cur, (const xmlChar *) "V");
-                cur = (cur)? cur->next : NULL;
+                cur = (cur)? cur->next : nullptr;
             }
             else
             {
@@ -546,10 +546,10 @@ static void parseFile(info_t& info)
 
             cur = atteindreNoeud("Siret", cur);
 
-            if (cur != NULL)
+            if (cur != nullptr)
             {
                 siret_fichier = xmlGetProp(cur, (const xmlChar *) "V");
-                cur = (cur)? cur->next : NULL;
+                cur = (cur)? cur->next : nullptr;
             }
             else
             {
@@ -558,22 +558,23 @@ static void parseFile(info_t& info)
             }
             cur=cur_save2;
 
-        while(cur != NULL)
+        while(cur != nullptr)
         {
-            if (info.NCumAgentXml == info.NCumAgent)
-            {
-                fprintf(stderr,
-                        "Erreur : Incohérence de l'allocation mémoire ex-ante %d B et ex-post %d B : sortie pour éviter une erreur de segmentation.\n",
-                        info.NCumAgent, info.NCumAgentXml);
-                exit(1005);
-            }
+//            if (info.NCumAgentXml != info.NCumAgent)
+//            {
+//                std::cerr << "Erreur : Incohérence de l'allocation mémoire ex-ante " << info.NCumAgent 
+//                          << " B et ex-post " <<  info.NCumAgentXml << " B : sortie pour éviter une erreur de segmentation.\n";
+//                std::cerr << "Fichier : " << info.threads->argv[info.fichier_courant] << std::endl;
+                        
+//                exit(1005);
+//            }
 
 
             cur = atteindreNoeud("PayeIndivMensuel", cur);
 
             cur_save2 =  cur;
 
-            if (cur_save2 == NULL) break;
+            if (cur_save2 == nullptr) break;
 
             DESCENDRE_UN_NIVEAU
 
@@ -620,7 +621,7 @@ static void parseFile(info_t& info)
                     << "Différence " << std::setw(4) << diff << std::endl;
                 #undef P
             }
-            // Ici il est normal que cur = NULL
+            // Ici il est normal que cur = nullptr
 
             cur = cur_save2->next;
 
@@ -654,12 +655,12 @@ bool regex_match(const char *string, const char *pattern)
 {
     int status;
     regex_t re;
-    if (string == NULL) return false;
+    if (string == nullptr) return false;
     if (regcomp(&re, pattern, REG_EXTENDED|REG_NOSUB|REG_ICASE|REG_NEWLINE) != 0)
     {
         return(false); /* Report error. */
     }
-    status = regexec(&re, string, (size_t) 0, NULL, 0);
+    status = regexec(&re, string, (size_t) 0, nullptr, 0);
     regfree(&re);
     if (status != 0)
     {
@@ -712,8 +713,8 @@ void* decoder_fichier(info_t& info)
     else
     {
         info.NCumAgent = info.nbAgentUtilisateur * info.threads->argc;
-        info.NLigne = new uint16_t[info.NCumAgent];
-        if (info.NLigne)
+        info.NLigne.resize(info.NCumAgent);
+        if (! info.NLigne.empty())
         {
             for (unsigned i = 0 ; i < info.NCumAgent; ++i)
                  info.NLigne[i] = info.nbLigneUtilisateur;
@@ -728,7 +729,7 @@ void* decoder_fichier(info_t& info)
     info.NAgent = new uint32_t[info.threads->argc];
     info.Table  = new xmlChar**[info.NCumAgent];
 
-    if (info.Table == NULL)
+    if (info.Table == nullptr)
     {
         perror("Erreur : Mémoire insuffisante");
         exit(-18);
@@ -737,7 +738,7 @@ void* decoder_fichier(info_t& info)
     for (unsigned agent = 0; agent < info.NCumAgent; ++agent)
     {
         info.Table[agent] = (xmlChar**) calloc(info.minimum_memoire_p_ligne + nbType + (info.NLigne[agent])*6, sizeof(xmlChar*));
-        if (info.Table[agent] == NULL)
+        if (info.Table[agent] == nullptr)
         {
             fprintf(stderr,
                     "Erreur : Erreur d'allocation de drapeau I. pour l'agent %d et pour %d B\n",
@@ -801,7 +802,7 @@ void* decoder_fichier(info_t& info)
         }
         else
         {
-            for (int j = info.minimum_memoire_p_ligne ; j < info.NLigne[agent] && info.Table[agent][j] != NULL; ++j)
+            for (int j = info.minimum_memoire_p_ligne ; j < info.NLigne[agent] && info.Table[agent][j] != nullptr; ++j)
                 if (regex_match((const char*) VAR(j), pat2))
                 {
                     xmlFree(VAR(Grade));
@@ -812,7 +813,7 @@ void* decoder_fichier(info_t& info)
 
 
 #undef VAR
-    return NULL;
+    return nullptr;
 }
 //
 //#ifdef __cplusplus

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 3.4.2, 2015-10-04T22:31:55. -->
+<!-- Written by QtCreator 3.4.2, 2015-10-05T04:11:59. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -63,7 +63,7 @@
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{0d9185bf-69c8-4538-b6b0-8dc6c978c35e}</value>
    <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">1</value>
    <value type="int" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
-   <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">2</value>
+   <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">1</value>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.0">
     <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/fab/Dev/altair/lhx/build-lhx_linux-qt5_5-Debug</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">

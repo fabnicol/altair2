@@ -4,14 +4,24 @@
  */
 
 
-//#ifdef __cplusplus
-//extern "C" {
-//#endif
-#include "fonctions_auxiliaires.hpp"
-#include <string.h>
-#include <stdint.h>
 
-char* ecrire_chemin_base(const char* chemin_base, int rang_fichier_base)
+
+#include <cstring>
+#include <cstdint>
+#include <iostream>
+#include <sys/mman.h>
+#include "fonctions_auxiliaires.hpp"
+#ifdef MMAP_PARSING
+#include <fcntl.h>
+#ifdef __linux__
+#include <unistd.h>
+#endif
+#include <sys/stat.h>
+#include <assert.h>
+#endif
+
+#if 0
+ char* ecrire_chemin_base(const char* chemin_base, int rang_fichier_base)
 {
     int s = strlen(chemin_base);
     char* chemin = new char[s + 1 + 3];   // chemin_base + _ + 3 chiffres
@@ -42,7 +52,8 @@ char* ecrire_chemin_base(const char* chemin_base, int rang_fichier_base)
 
     return(chemin);
 }
-
+#endif
+ 
 void ecrire_entete_bulletins(const info_t &info, std::ofstream& base)
 {
   ecrire_entete0(info, base, entete_char_bulletins, sizeof(entete_char_bulletins)/sizeof(char*));
@@ -69,19 +80,6 @@ void ecrire_entete0(const info_t &info, std::ofstream& base, const char* entete[
   base << entete[i] << "\n";
 }
 
-#if 0
-FILE* ouvrir_fichier_base_append(info_t* info, int rang)
-{
-    char* chemin = ecrire_chemin_base(info[0].chemin_base, rang);
-    FILE* base = fopen(chemin, "a");
-    if (base == NULL)
-    {
-        fprintf(stderr, "%s\n", "Erreur : Impossible d'ouvrir le fichier de sortie.");
-        exit(-1000);
-    }
-    return base;
-}
-#endif // 0
 
 void ouvrir_fichier_bulletins(const info_t &info, std::ofstream& base)
 {
@@ -137,15 +135,15 @@ int32_t lire_argument(int argc, char* c_str)
 
         if (end == c_str)
         {
-            fprintf(stderr, "Erreur : %s: pas un décimal\n", c_str);
+            std::cerr << "Erreur : " << c_str << ": pas un décimal\n";
         }
         else if (sl > INT32_MAX)
         {
-            fprintf(stderr, "Erreur : %ld entier excédant la limite des entiers à 16 bits\n", sl);
+            std::cerr << "Erreur : " <<  sl << " entier excédant la limite des entiers à 16 bits\n";
         }
         else if (sl < 0)
         {
-            fprintf(stderr, "Erreur : %ld l'entier doit être positif\n", sl);
+            std::cerr << "Erreur : " << sl <<". L'entier doit être positif\n";
         }
         else
         {
@@ -155,7 +153,7 @@ int32_t lire_argument(int argc, char* c_str)
     }
     else
     {
-        fprintf(stderr, "%s\n", "Erreur : Préciser le nombre de bulletins mensuels attendus (majorant du nombre).");
+        std::cerr << "Erreur : Préciser le nombre de bulletins mensuels attendus (majorant du nombre).\n";
         return(-1);
     }
 }
@@ -163,18 +161,24 @@ int32_t lire_argument(int argc, char* c_str)
 int calculer_memoire_requise(info_t& info)
 {
     errno = 0;
-    info.NLigne = new uint16_t[info.threads->argc * MAX_NB_AGENTS] ;  // nm total de bulletins
+    info.NLigne.reserve(info.threads->argc * MAX_NB_AGENTS) ;  // nm total de bulletins
+
     info.NCumAgent = 0;
     std::cerr << "Premier scan des fichiers pour déterminer les besoins mémoire ... \n";
 
     /* par convention  un agent avec rémunération non renseignées (balise sans fils) a une ligne */
     for (unsigned i = 0; i < info.threads->argc ; ++i)
     {
-        FILE* c;
+        
         errno = 0;
-        c = fopen(info.threads->argv[i], "r");
-        if (c) fseek(c, 0, SEEK_SET);
-        else if(c == NULL)
+        
+
+#ifdef FGETC_PARSING
+        
+        std::ifstream c;
+        c.open(info.threads->argv[i]);
+        if (c.good()) c.seekg(0);
+        else 
         {
             perror("Erreur : Erreur : Ouverture Fichiers.");    // cautious no-op
             std::cerr << info.threads->argv[i] << std::endl;
@@ -186,43 +190,43 @@ int calculer_memoire_requise(info_t& info)
             perror("Erreur : Fichier .xhl");
             exit(-122);
         }
-        int d = 0;
-
-        while (d != EOF && (d = fgetc(c)) != EOF)
+        
+        char d = 0;
+        while (! c.eof() && (c.get(d)))
         {
             if  (d != '<') continue;
-            if  ((d = fgetc(c)) != 'R') continue;
-            if  ((d = fgetc(c)) != 'e') continue;
-            if  ((d = fgetc(c)) != 'm') continue;
-            if  ((d = fgetc(c)) != 'u') continue;
-            if  ((d = fgetc(c)) != 'n') continue;
-            if  ((d = fgetc(c)) != 'e') continue;
-            if  ((d = fgetc(c)) != 'r') continue;
-            if  ((d = fgetc(c)) != 'a') continue;
-            if  ((d = fgetc(c)) != 't') continue;
-            if  ((d = fgetc(c)) != 'i') continue;
-            if  ((d = fgetc(c)) != 'o') continue;
-            if  ((d = fgetc(c)) != 'n') continue;
-            if  ((d = fgetc(c)) == '/')
+            if  (c.get(d), d != 'R') continue;
+            if  (c.get(d), d != 'e') continue;
+            if  (c.get(d), d != 'm') continue;
+            if  (c.get(d), d != 'u') continue;
+            if  (c.get(d), d != 'n') continue;
+            if  (c.get(d), d != 'e') continue;
+            if  (c.get(d), d != 'r') continue;
+            if  (c.get(d), d != 'a') continue;
+            if  (c.get(d), d != 't') continue;
+            if  (c.get(d), d != 'i') continue;
+            if  (c.get(d), d != 'o') continue;
+            if  (c.get(d), d != 'n') continue;
+            if  (c.get(d), d  == '/')
             {
                 // info->NAgent[i]++;
-                info.NLigne[info.NCumAgent]=1;
+                info.NLigne[info.NCumAgent] = 1;
                 ++info.NCumAgent;
 
                 continue;  // Balise simple vide
             }
 
-            while (d != EOF && (d = fgetc(c)) != EOF)
+            while (c.get(d), !c.eof())
             {
                 if (d != '<') continue;
-                if ((d = fgetc(c)) != 'C')
+                if (c.get(d), d  != 'C')
                 {
                     if (d != '/') continue;
-                    else if ((d = fgetc(c)) != 'R')   continue;
-                    else if ((d = fgetc(c)) != 'e')   continue;
-                    else if ((d = fgetc(c)) != 'm')   continue;
-                    else if ((d = fgetc(c)) != 'u')   continue;
-                    else if ((d = fgetc(c)) != 'n')   continue;
+                    else if (c.get(d), d  != 'R')   continue;
+                    else if (c.get(d), d  != 'e')   continue;
+                    else if (c.get(d), d  != 'm')   continue;
+                    else if (c.get(d), d  != 'u')   continue;
+                    else if (c.get(d), d  != 'n')   continue;
 
                     if (info.NLigne[info.NCumAgent] == 0) info.NLigne[info.NCumAgent] = 1;
                     //info->NAgent[i]++;
@@ -231,17 +235,17 @@ int calculer_memoire_requise(info_t& info)
                 }
                 else
                 {
-                    if ((d = fgetc(c)) != 'o') continue;
+                    if (c.get(d), d!= 'o') continue;
                     else
                     {
-                        if ((d = fgetc(c)) != 'd')   continue;
+                        if (c.get(d), d != 'd')   continue;
                         else
                         {
-                            if ((d = fgetc(c)) != 'e')   continue;
+                            if (c.get(d), d != 'e')   continue;
                             else
                             {
-                                if ((d = fgetc(c)) != ' ')   continue;
-                                info.NLigne[info.NCumAgent]++;
+                                if (c.get(d), d!= ' ')   continue;
+                                ++info.NLigne[info.NCumAgent];
                             }
                         }
                     }
@@ -249,14 +253,103 @@ int calculer_memoire_requise(info_t& info)
             }
         }
 
-        fclose(c);
+        c.close();
+        
+#endif
+#ifdef MMAP_PARSING
+
+        //std::cerr << "Mappage en mémoire de " << info.threads->argv[i] << "...\n";
+        struct stat st;
+        stat(info.threads->argv[i], &st);
+        const size_t file_size =  st.st_size;
+        void *dat;
+        int fd = open(info.threads->argv[i], O_RDONLY);
+       // std::cerr << "Taille : " << file_size << std::endl;
+        assert(fd != -1);
+        dat = mmap(NULL, file_size,  PROT_READ, MAP_PRIVATE | MAP_POPULATE, fd, 0);
+        assert(dat != NULL);
+        //write(1, dat, file_size);
+        char* data = (char*) dat;
+       // std::cerr << "Mapping OK\n";
+        size_t d = 0;
+        char C;
+        
+        while (++d < file_size)
+        {
+            C = data[d];
+            
+            if  (C != '<') continue;
+            if  ((C = data[++d]) != 'R') continue;
+            if  ((C = data[++d]) != 'e') continue;
+            if  ((C = data[++d]) != 'm') continue;
+            if  ((C = data[++d]) != 'u') continue;
+            if  ((C = data[++d]) != 'n') continue;
+            if  ((C = data[++d]) != 'e') continue;
+            if  ((C = data[++d]) != 'r') continue;
+            if  ((C = data[++d]) != 'a') continue;
+            if  ((C = data[++d]) != 't') continue;
+            if  ((C = data[++d]) != 'i') continue;
+            if  ((C = data[++d]) != 'o') continue;
+            if  ((C = data[++d]) != 'n') continue;
+            if  ((C = data[++d]) == '/')
+            {
+                // info->NAgent[i]++;
+                info.NLigne[info.NCumAgent]=1;
+                ++info.NCumAgent;
+
+                continue;  // Balise simple vide
+            }
+
+            while (++d < file_size)
+            {
+                C = data[d];
+                if (C != '<') continue;
+                if ((C = data[++d]) != 'C')
+                {
+                    if (C != '/') continue;
+                    else if ((C = data[++d]) != 'R')   continue;
+                    else if ((C = data[++d]) != 'e')   continue;
+                    else if ((C = data[++d]) != 'm')   continue;
+                    else if ((C = data[++d]) != 'u')   continue;
+                    else if ((C = data[++d]) != 'n')   continue;
+
+                    if (info.NLigne[info.NCumAgent] == 0) info.NLigne[info.NCumAgent] = 1;
+                    //info->NAgent[i]++;
+                    ++info.NCumAgent;
+                    break;
+                }
+                else
+                {
+                    if ((C = data[++d]) != 'o') continue;
+                    else
+                    {
+                        if ((C = data[++d]) != 'd')   continue;
+                        else
+                        {
+                            if ((C = data[++d]) != 'e')   continue;
+                            else
+                            {
+                                if ((C = data[++d]) != ' ')   continue;
+                                
+                                ++info.NLigne[info.NCumAgent];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        
+        
+        munmap(data, file_size);
+        close(fd);
+#endif        
+        
     }
 
-    info.NLigne = (uint16_t*) realloc(info.NLigne, info.NCumAgent * sizeof(uint16_t));
+    /* A ETUDIER */
+    //info.NLigne.resize(info.NCumAgent);
 
     return errno;
 }
 
-//#ifdef __cplusplus
-//}
-//#endif // __cplusplus
