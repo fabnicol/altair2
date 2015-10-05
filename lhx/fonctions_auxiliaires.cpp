@@ -9,15 +9,18 @@
 #include <cstring>
 #include <cstdint>
 #include <iostream>
-#include <sys/mman.h>
 #include "fonctions_auxiliaires.hpp"
 #ifdef MMAP_PARSING
-#include <fcntl.h>
 #ifdef __linux__
+#include <fcntl.h>
+#include <sys/mman.h>
 #include <unistd.h>
-#endif
+
 #include <sys/stat.h>
 #include <assert.h>
+#else
+#error "La compilation MMAP ne peut se faire que sous unix."
+#endif
 #endif
 
 #if 0
@@ -235,7 +238,7 @@ int calculer_memoire_requise(info_t& info)
                 }
                 else
                 {
-                    if (c.get(d), d!= 'o') continue;
+                    if (c.get(d), d != 'o') continue;
                     else
                     {
                         if (c.get(d), d != 'd')   continue;
@@ -244,7 +247,7 @@ int calculer_memoire_requise(info_t& info)
                             if (c.get(d), d != 'e')   continue;
                             else
                             {
-                                if (c.get(d), d!= ' ')   continue;
+                                if (c.get(d), d != ' ')   continue;
                                 ++info.NLigne[info.NCumAgent];
                             }
                         }
@@ -276,42 +279,38 @@ int calculer_memoire_requise(info_t& info)
         
         while (++d < file_size)
         {
-            C = data[d];
-            
-            if  (C != '<') continue;
-            if  ((C = data[++d]) != 'R') continue;
-            if  ((C = data[++d]) != 'e') continue;
-            if  ((C = data[++d]) != 'm') continue;
-            if  ((C = data[++d]) != 'u') continue;
-            if  ((C = data[++d]) != 'n') continue;
-            if  ((C = data[++d]) != 'e') continue;
-            if  ((C = data[++d]) != 'r') continue;
-            if  ((C = data[++d]) != 'a') continue;
-            if  ((C = data[++d]) != 't') continue;
-            if  ((C = data[++d]) != 'i') continue;
-            if  ((C = data[++d]) != 'o') continue;
-            if  ((C = data[++d]) != 'n') continue;
-            if  ((C = data[++d]) == '/')
+
+            if  (data[d] != '<') continue;
+            if  (data[++d] != 'R') continue;
+            if  (data[++d) != 'e') continue;
+            if  (data[++d] != 'm') continue;
+            if  (data[++d] != 'u') continue;
+            if  (data[++d] != 'n') continue;
+            if  (data[++d] != 'e') continue;
+            if  (data[++d] != 'r') continue;
+            if  (data[++d] != 'a') continue;
+            if  (data[++d] != 't') continue;
+            if  (data[++d] != 'i') continue;
+            if  (data[++d] != 'o') continue;
+            if  (data[++d] != 'n') continue;
+            if  (data[++d] == '/')
             {
-                // info->NAgent[i]++;
                 info.NLigne[info.NCumAgent]=1;
                 ++info.NCumAgent;
-
                 continue;  // Balise simple vide
             }
 
             while (++d < file_size)
             {
-                C = data[d];
-                if (C != '<') continue;
+                if (data[d] != '<') continue;
                 if ((C = data[++d]) != 'C')
                 {
                     if (C != '/') continue;
-                    else if ((C = data[++d]) != 'R')   continue;
-                    else if ((C = data[++d]) != 'e')   continue;
-                    else if ((C = data[++d]) != 'm')   continue;
-                    else if ((C = data[++d]) != 'u')   continue;
-                    else if ((C = data[++d]) != 'n')   continue;
+                    else if (data[++d] != 'R')   continue;
+                    else if (data[++d] != 'e')   continue;
+                    else if (data[++d] != 'm')   continue;
+                    else if (data[++d] != 'u')   continue;
+                    else if (data[++d] != 'n')   continue;
 
                     if (info.NLigne[info.NCumAgent] == 0) info.NLigne[info.NCumAgent] = 1;
                     //info->NAgent[i]++;
@@ -320,16 +319,16 @@ int calculer_memoire_requise(info_t& info)
                 }
                 else
                 {
-                    if ((C = data[++d]) != 'o') continue;
+                    if (data[++d] != 'o') continue;
                     else
                     {
-                        if ((C = data[++d]) != 'd')   continue;
+                        if (data[++d] != 'd')   continue;
                         else
                         {
-                            if ((C = data[++d]) != 'e')   continue;
+                            if (data[++d] != 'e')   continue;
                             else
                             {
-                                if ((C = data[++d]) != ' ')   continue;
+                                if (data[++d] != ' ')   continue;
                                 
                                 ++info.NLigne[info.NCumAgent];
                             }
