@@ -195,7 +195,7 @@ QDesktopServices::openUrl(url);
 
 const QString common::openDirDialog(flags::directory checkEmptyness)
 {
-QString path=QFileDialog::getExistingDirectory(this, QString("Sélection du répertoire"),
+QString path=QFileDialog::getExistingDirectory(nullptr, QString("Sélection du répertoire"),
                                                QDir::currentPath(),
                                                QFileDialog::ShowDirsOnly
                                                | QFileDialog::DontResolveSymlinks);
