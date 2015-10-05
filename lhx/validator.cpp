@@ -595,12 +595,17 @@ static void parseFile(info_t& info)
             {
                 if (ligne_p != info.NLigne[info.NCumAgentXml])
                 {
-                    fprintf(stderr, "Incohérence des décomptes de lignes entre le contrôle C : %d et l'analyse Libxml2 : %d\nPour l'agent %s, Année %s Mois %s\n",
-                            info.NLigne[info.NCumAgentXml],
-                            ligne_p,
-                            info.Table[info.NCumAgentXml][Matricule],
-                            info.Table[info.NCumAgentXml][Annee],
-                            info.Table[info.NCumAgentXml][Mois]);
+                    std::cerr << "Incohérence des décomptes de lignes entre le contrôle C : "
+                              << info.NLigne[info.NCumAgentXml]
+                              << "et l'analyse Libxml2 : "
+                              << ligne_p
+                              << "\nPour l'agent "
+                              << info.Table[info.NCumAgentXml][Matricule]
+                              << " Année "
+                              << info.Table[info.NCumAgentXml][Annee]
+                              << " Mois "
+                              << info.Table[info.NCumAgentXml][Mois];
+
                     exit(-1278);
                 }
             }
@@ -744,10 +749,12 @@ void* decoder_fichier(info_t& info)
         info.Table[agent] = (xmlChar**) calloc(info.minimum_memoire_p_ligne + nbType + (info.NLigne[agent])*6, sizeof(xmlChar*));
         if (info.Table[agent] == nullptr)
         {
-            fprintf(stderr,
-                    "Erreur : Erreur d'allocation de drapeau I. pour l'agent %d et pour %d B\n",
-                     agent,
-                     info.minimum_memoire_p_ligne + nbType + (info.NLigne[agent]) * 6);
+            std::cerr <<  "Erreur : Erreur d'allocation de drapeau I. pour l'agent "
+                      <<  agent
+                      <<  "et pour "
+                      <<  info.minimum_memoire_p_ligne + nbType + (info.NLigne[agent]) * 6
+                      <<  " B\n";
+
             exit(-63);
         }
     }
@@ -819,8 +826,4 @@ void* decoder_fichier(info_t& info)
 #undef VAR
     return nullptr;
 }
-//
-//#ifdef __cplusplus
-//}
-//#endif
 
