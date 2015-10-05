@@ -11,6 +11,10 @@ DEFINES += GCC_REGEX \
 	__STDC_FORMAT_MACROS \
 	NO_DEBUG \
 	TOLERANT \
+FGETC_PARSING
+#MMAP_PARSING        
+
+        
 
 QMAKE_CXXFLAGS = -pipe -m64 -std=gnu++11 -march=native -fexceptions -fomit-frame-pointer -O3 -fexpensive-optimizations  
 
