@@ -170,17 +170,16 @@ int calculer_memoire_requise(info_t& info)
     std::cerr << "Premier scan des fichiers pour déterminer les besoins mémoire ... \n";
 
     /* par convention  un agent avec rémunération non renseignées (balise sans fils) a une ligne */
-    for (unsigned i = 0; i < info.threads->argc ; ++i)
+    for (unsigned i = 0; i < info.threads->argc; ++i)
     {
-        
         errno = 0;
         
-
 #ifdef FGETC_PARSING
         
         std::ifstream c;
         c.open(info.threads->argv[i]);
-        if (c.good()) c.seekg(0);
+        if (c.good())
+            c.seekg(0);
         else 
         {
             perror("Erreur : Erreur : Ouverture Fichiers.");    // cautious no-op
@@ -195,41 +194,41 @@ int calculer_memoire_requise(info_t& info)
         }
         
         char d = 0;
-        while (! c.eof() && (c.get(d)))
+        while (! c.eof())
         {
-            if  (d != '<') continue;
-            if  (c.get(d), d != 'R') continue;
-            if  (c.get(d), d != 'e') continue;
-            if  (c.get(d), d != 'm') continue;
-            if  (c.get(d), d != 'u') continue;
-            if  (c.get(d), d != 'n') continue;
-            if  (c.get(d), d != 'e') continue;
-            if  (c.get(d), d != 'r') continue;
-            if  (c.get(d), d != 'a') continue;
-            if  (c.get(d), d != 't') continue;
-            if  (c.get(d), d != 'i') continue;
-            if  (c.get(d), d != 'o') continue;
-            if  (c.get(d), d != 'n') continue;
-            if  (c.get(d), d  == '/')
+           // std::cout << d;
+            if  (c.get() != '<') continue;
+            if  (c.get() != 'R') continue;
+            if  (c.get() != 'e') continue;
+            if  (c.get() != 'm') continue;
+            if  (c.get() != 'u') continue;
+            if  (c.get() != 'n') continue;
+            if  (c.get() != 'e') continue;
+            if  (c.get() != 'r') continue;
+            if  (c.get() != 'a') continue;
+            if  (c.get() != 't') continue;
+            if  (c.get() != 'i') continue;
+            if  (c.get() != 'o') continue;
+            if  (c.get() != 'n') continue;
+            if  (c.get()  == '/')
             {
-                // info->NAgent[i]++;
                 info.NLigne[info.NCumAgent] = 1;
                 ++info.NCumAgent;
-
                 continue;  // Balise simple vide
             }
 
-            while (c.get(d), !c.eof())
+            while (! c.eof())
             {
-                if (d != '<') continue;
-                if (c.get(d), d  != 'C')
+               // std::cout << d;
+                if (c.get() != '<') continue;
+                if ((d == c.get())  != 'C')
                 {
                     if (d != '/') continue;
-                    else if (c.get(d), d  != 'R')   continue;
-                    else if (c.get(d), d  != 'e')   continue;
-                    else if (c.get(d), d  != 'm')   continue;
-                    else if (c.get(d), d  != 'u')   continue;
-                    else if (c.get(d), d  != 'n')   continue;
+                    else if (c.get()  != 'R')   continue;
+                    else if (c.get()  != 'e')   continue;
+                    else if (c.get()  != 'm')   continue;
+                    else if (c.get()  != 'u')   continue;
+                    else if (c.get()  != 'n')   continue;
 
                     if (info.NLigne[info.NCumAgent] == 0) info.NLigne[info.NCumAgent] = 1;
                     //info->NAgent[i]++;
@@ -238,16 +237,16 @@ int calculer_memoire_requise(info_t& info)
                 }
                 else
                 {
-                    if (c.get(d), d != 'o') continue;
+                    if (c.get() != 'o') continue;
                     else
                     {
-                        if (c.get(d), d != 'd')   continue;
+                        if (c.get() != 'd')   continue;
                         else
                         {
-                            if (c.get(d), d != 'e')   continue;
+                            if (c.get() != 'e')   continue;
                             else
                             {
-                                if (c.get(d), d != ' ')   continue;
+                                if (c.get() != ' ')   continue;
                                 ++info.NLigne[info.NCumAgent];
                             }
                         }
@@ -277,10 +276,10 @@ int calculer_memoire_requise(info_t& info)
         size_t d = 0;
         char C;
         
-        while (++d < file_size)
+        while (d < file_size - 14)
         {
 
-            if  (data[d] != '<') continue;
+            if  (data[++d] != '<') continue;
             if  (data[++d] != 'R') continue;
             if  (data[++d] != 'e') continue;
             if  (data[++d] != 'm') continue;
@@ -300,9 +299,9 @@ int calculer_memoire_requise(info_t& info)
                 continue;  // Balise simple vide
             }
 
-            while (++d < file_size)
+            while (d < file_size - 1)
             {
-                if (data[d] != '<') continue;
+                if (data[++d] != '<') continue;
                 if ((C = data[++d]) != 'C')
                 {
                     if (C != '/') continue;
