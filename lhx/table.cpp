@@ -1,18 +1,17 @@
-//#ifdef __cplusplus
-//extern "C" {
-//#endif // __cplusplus
 
-#include "table.hpp"
-#include "fonctions_auxiliaires.hpp"
+
 #include <inttypes.h>
 #include <cstring>
+#include <array>
+#include "table.hpp"
+#include "fonctions_auxiliaires.hpp"
 
 
 int64_t generer_table_standard(const char* chemin_table, std::vector<info_t> &info)
 {
-
-return 0;
-
+    
+    return 0;
+    
 }
 
 /* Il doit y avoir BESOIN_MEMOIRE_ENTETE + 6 champs plus Type, soit 18 + 6 +1 = 23 champs et 24 séparateurs + saut de ligne = 48 char + \0*/
@@ -22,87 +21,131 @@ return 0;
 
 #define VAR(X) Info[i].Table[agent][X]
 
-static inline void  ECRIRE_LIGNE_l(int i, uint32_t agent, int l, char* type, std::ofstream& base, char sep, std::vector<info_t> &Info, int rang)
+static inline void ECRIRE_LIGNE_l_COMMUN(int i, uint32_t agent, int l, char* type, std::ofstream& base, char sep, std::vector<info_t> &Info, int rang)
 {
+    base   << VAR(Nom) << sep
+           << VAR(Prenom) << sep
+           << VAR(Matricule) << sep
+           << VAR(Service) << sep
+           << VAR(NbEnfants) << sep
+           << VAR(Statut) << sep
+           << VAR(QuotiteTrav) << sep
+           << VAR(NbHeureSup) << sep
+           << VAR(NbHeureTotal) << sep
+           << VAR(Indice) << sep
+           << VAR(MtBrut) << sep
+           << VAR(MtNet) << sep
+           << VAR(MtNetAPayer) << sep
+           << VAR(NBI) << sep
+           << VAR(l) << sep
+           << VAR(l+1) << sep
+           << VAR(l+2) << sep
+           << VAR(l+3) << sep
+           << VAR(l+4) << sep
+           << VAR(l+5) << sep
+           << type << sep
+           << VAR(EmploiMetier) << sep
+           << VAR(Grade) << sep
+           << VAR(NIR) << "\n";
+}
 
-if (! base.is_open()) return;
-
-if (Info[0].generer_rang)
+static inline void  ECRIRE_LIGNE_l_GENERER_RANG(int i, uint32_t agent, int l, char* type, std::ofstream& base, char sep, std::vector<info_t> &Info, int rang)
+{
     base <<  rang << sep;
-
     base  << VAR(Annee) << sep
           << VAR(Mois) << sep;
+    
+    if (Info[0].select_siret)
+    {
+        base  << VAR(Budget) << sep
+              << VAR(Etablissement) << sep
+              << VAR(Siret) << sep;
+    }
+    
+    ECRIRE_LIGNE_l_COMMUN(i, agent, l, type, base, sep, Info, rang);
+}
 
-if (Info[0].select_siret)
+static inline void  ECRIRE_LIGNE_l_SIRET(int i, uint32_t agent, int l, char* type, std::ofstream& base, char sep, std::vector<info_t> &Info, int rang)
 {
+    base  << VAR(Annee) << sep
+          << VAR(Mois) << sep;
+    
     base  << VAR(Budget) << sep
           << VAR(Etablissement) << sep
           << VAR(Siret) << sep;
+    
+    ECRIRE_LIGNE_l_COMMUN(i, agent, l, type, base, sep, Info, rang);
+    
 }
 
-   base   << VAR(Nom) << sep
-          << VAR(Prenom) << sep
-          << VAR(Matricule) << sep
-          << VAR(Service) << sep
-          << VAR(NbEnfants) << sep
-          << VAR(Statut) << sep
-          << VAR(QuotiteTrav) << sep
-          << VAR(NbHeureSup) << sep
-          << VAR(NbHeureTotal) << sep
-          << VAR(Indice) << sep
-          << VAR(MtBrut) << sep
-          << VAR(MtNet) << sep
-          << VAR(MtNetAPayer) << sep
-          << VAR(NBI) << sep
-          << VAR(l) << sep
-          << VAR(l+1) << sep
-          << VAR(l+2) << sep
-          << VAR(l+3) << sep
-          << VAR(l+4) << sep
-          << VAR(l+5) << sep
-          << type << sep
-          << VAR(EmploiMetier) << sep
-          << VAR(Grade) << sep
-          << VAR(NIR) << "\n";
+static inline void  ECRIRE_LIGNE_l(int i, uint32_t agent, int l, char* type, std::ofstream& base, char sep, std::vector<info_t> &Info, int rang)
+{
+    base  << VAR(Annee) << sep
+          << VAR(Mois) << sep;
+    
+    ECRIRE_LIGNE_l_COMMUN(i, agent, l, type, base, sep, Info, rang);
 }
 
+static inline void ECRIRE_LIGNE_BULLETIN_COMMUN(int i, uint32_t agent, std::ofstream& bulletins, char sep, std::vector<info_t> &Info, int rang)
+{
+    bulletins << VAR(Nom) << sep
+              << VAR(Prenom) << sep
+              << VAR(Matricule) << sep
+              << VAR(Service) << sep
+              << VAR(NbEnfants) << sep
+              << VAR(Statut) << sep
+              << VAR(QuotiteTrav) << sep
+              << VAR(NbHeureSup) << sep
+              << VAR(NbHeureTotal) << sep
+              << VAR(Indice) << sep
+              << VAR(MtBrut) << sep
+              << VAR(MtNet) << sep
+              << VAR(MtNetAPayer) << sep
+              << VAR(NBI) << sep
+              << VAR(EmploiMetier) << sep
+              << VAR(Grade) << sep
+              << VAR(NIR) << "\n";
+}
+
+static inline void  ECRIRE_LIGNE_BULLETIN_GENERER_RANG(int i, uint32_t agent, std::ofstream& bulletins, char sep, std::vector<info_t> &Info, int rang)
+{
+    bulletins <<  rang << sep;
+    
+    bulletins << VAR(Annee) << sep
+              << VAR(Mois) << sep;
+    
+    if (Info[0].select_siret)
+    {
+        bulletins  << VAR(Budget) << sep
+                   << VAR(Etablissement) << sep
+                   << VAR(Siret) << sep;
+    }
+    
+    ECRIRE_LIGNE_BULLETIN_COMMUN(i, agent, bulletins, sep, Info, rang);
+}
+
+static inline void  ECRIRE_LIGNE_BULLETIN_SIRET(int i, uint32_t agent, std::ofstream& bulletins, char sep, std::vector<info_t> &Info, int rang)
+{
+    
+    bulletins << VAR(Annee) << sep
+              << VAR(Mois) << sep;
+    
+    bulletins  << VAR(Budget) << sep
+               << VAR(Etablissement) << sep
+               << VAR(Siret) << sep;
+
+    ECRIRE_LIGNE_BULLETIN_COMMUN(i, agent, bulletins, sep, Info, rang);
+}
 
 static inline void  ECRIRE_LIGNE_BULLETIN(int i, uint32_t agent, std::ofstream& bulletins, char sep, std::vector<info_t> &Info, int rang)
 {
-
-if (! bulletins.is_open()) return;
-
-if (Info[0].generer_rang)
-  bulletins <<  rang << sep;
-
-  bulletins << VAR(Annee) << sep
-            << VAR(Mois) << sep;
-
- if (Info[0].select_siret)
- {
- bulletins  << VAR(Budget) << sep
-            << VAR(Etablissement) << sep
-            << VAR(Siret) << sep;
- }
-
-  bulletins << VAR(Nom) << sep
-            << VAR(Prenom) << sep
-            << VAR(Matricule) << sep
-            << VAR(Service) << sep
-            << VAR(NbEnfants) << sep
-            << VAR(Statut) << sep
-            << VAR(QuotiteTrav) << sep
-            << VAR(NbHeureSup) << sep
-            << VAR(NbHeureTotal) << sep
-            << VAR(Indice) << sep
-            << VAR(MtBrut) << sep
-            << VAR(MtNet) << sep
-            << VAR(MtNetAPayer) << sep
-            << VAR(NBI) << sep
-            << VAR(EmploiMetier) << sep
-            << VAR(Grade) << sep
-            << VAR(NIR) << "\n";
+    
+    bulletins << VAR(Annee) << sep
+              << VAR(Mois) << sep;
+    
+    ECRIRE_LIGNE_BULLETIN_COMMUN(i, agent, bulletins, sep, Info, rang);
 }
+
 
 void boucle_ecriture(std::vector<info_t>& Info)
 {
@@ -114,116 +157,133 @@ void boucle_ecriture(std::vector<info_t>& Info)
     unsigned rang_fichier_base = 1;
     static std::ofstream base;
     static std::ofstream bulletins;
-    static std::ofstream* fichier_base = new std::ofstream[nbType];
-
-    // Un peu low-level C, mais beaucoup plus rapide que de coder un fprintf pour chaque item.
-    // Gain d'exécution : 30s pour fprintf par item
-    //                    22s sur une ligne
-
+    static std::array<std::ofstream, nbType> fichier_base;
+    
     ouvrir_fichier_bulletins(Info[0], bulletins);
-
+    
     switch (Info[0].taille_base)
     {
-
-        case MONOLITHIQUE :
-                 ouvrir_fichier_base(Info[0], 0, base);
-                 break;
-
-        case PAR_ANNEE :
-                 ouvrir_fichier_base(Info[0], atoi(annee_courante) + nbType + 1, base);
-                 break;
-
-        case PAR_TRAITEMENT          :
-        case PAR_INDEMNITE_RESIDENCE :
-        case PAR_SFT                 :
-        case PAR_AVANTAGE_NATURE     :
-        case PAR_INDEMNITE           :
-        case PAR_REM_DIVERSES        :
-        case PAR_DEDUCTION           :
-        case PAR_ACOMPTE             :
-        case PAR_RAPPEL              :
-        case PAR_RETENUE             :
-        case PAR_COTISATION          :
-                                       ouvrir_fichier_base(Info[0], -Info[0].taille_base - 2, base);
-                                       break;
-
-        case TOUTES_CATEGORIES  :
-                 for (int d = 0; d < nbType; ++d)
-                     ouvrir_fichier_base(Info[0], d + 1, fichier_base[d]);
-                 break;
-
-        default : ouvrir_fichier_base(Info[0], rang_fichier_base + nbType + 1, base);
-                 // cas où une vraie taille de base en lignes est entrée.
-
+    
+    case MONOLITHIQUE :
+        ouvrir_fichier_base(Info[0], 0, base);
+        break;
+        
+    case PAR_ANNEE :
+        ouvrir_fichier_base(Info[0], atoi(annee_courante) + nbType + 1, base);
+        break;
+        
+    case PAR_TRAITEMENT          :
+    case PAR_INDEMNITE_RESIDENCE :
+    case PAR_SFT                 :
+    case PAR_AVANTAGE_NATURE     :
+    case PAR_INDEMNITE           :
+    case PAR_REM_DIVERSES        :
+    case PAR_DEDUCTION           :
+    case PAR_ACOMPTE             :
+    case PAR_RAPPEL              :
+    case PAR_RETENUE             :
+    case PAR_COTISATION          :
+        ouvrir_fichier_base(Info[0], -Info[0].taille_base - 2, base);
+        break;
+        
+    case TOUTES_CATEGORIES  :
+          for (int d = 0; d < nbType; ++d)
+            ouvrir_fichier_base(Info[0], d + 1, fichier_base[d]);
+        break;
+        
+    default : ouvrir_fichier_base(Info[0], rang_fichier_base + nbType + 1, base);
+        // cas où une vraie taille de base en lignes est entrée.
+        
     }
-
+    
+    if (! base.is_open()) return;
+    if (! bulletins.is_open()) return;
+    
+    static void (*ecrire_ligne_table)(int, uint32_t, int, char*, std::ofstream&, char, std::vector<info_t> &, int);
+    static void (*ecrire_ligne_bulletin)(int i, uint32_t agent, std::ofstream& bulletins, char sep, std::vector<info_t> &Info, int rang);
+    
+    if (Info[0].generer_rang)
+    {
+        ecrire_ligne_table = ECRIRE_LIGNE_l_GENERER_RANG;
+        ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETIN_GENERER_RANG;
+    }
+    else
+        if (Info[0].select_siret)
+        {
+            ecrire_ligne_table = ECRIRE_LIGNE_l_SIRET;
+            ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETIN_SIRET;
+        }
+        else
+        {
+            ecrire_ligne_table = ECRIRE_LIGNE_l;
+            ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETIN;
+        }
+    
+    
     for (int i = 0; i < Info[0].nbfil; ++i)
     {
         for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; ++agent)
         {
-            /* BOUCLER SUR L */
-
+            
             ++compteur_lignes_bulletins;
-
-            ECRIRE_LIGNE_BULLETIN(i, agent, bulletins, sep, Info, compteur_lignes_bulletins);
-
+            
+            ecrire_ligne_bulletin(i, agent, bulletins, sep, Info, compteur_lignes_bulletins);
+            
             if (Info[i].taille_base == PAR_ANNEE  && strcmp((const char*)VAR(Annee), annee_courante))
             {
                 base.close();
-                if (! base.good())
-                {
-                    perror("Erreur : Problème fermeture fichier base");
-                    exit(-902);
-                }
-
-                fprintf(stderr, "Année : %s Table générée.\n", annee_courante);
+                
+                std::cerr << "Année : " << annee_courante << " Table générée.\n";
                 annee_courante = (char*) VAR(Annee);
                 ouvrir_fichier_base(Info[i], atoi(annee_courante) + nbType + 1, base);
+                if (! base.is_open()) return;
             }
-
+            
             unsigned l = Info[i].minimum_memoire_p_ligne;
-
+            
             char type[3]={0};
             strcpy(type, type_remuneration_traduit[0]);
-
+            
             int allocation_memoire = (Info[i].minimum_memoire_p_ligne + nbType + Info[i].NLigne[agent]*6) * sizeof(xmlChar*);
-
+            
             while (ligne < Info[i].NLigne[agent])
             {
                 bool nouveau_type = false;
-
+                
                 if (Info[i].taille_base > MONOLITHIQUE   // soit : il existe un nombre de lignes maximal par base
-                    && (compteur  == rang_fichier_base * Info[i].taille_base))
+                        && (compteur  == rang_fichier_base * Info[i].taille_base))
                 {
-                    fprintf(stderr, "Table n° %d de %d lignes générée, lignes %d à %d.\n",
-                            rang_fichier_base,
-                            Info[i].taille_base,
-                            (rang_fichier_base-1) * Info[i].taille_base +1,
-                            rang_fichier_base * Info[i].taille_base);
-                            base.close();
-                            if (! base.good())
-                            {
-                                perror("Erreur : Problème fermeture fichier base");
-                                exit(-902);
-                            }
-                            ++rang_fichier_base;
-                            if (rang_fichier_base >= 1000)
-                            {
-                                fprintf(stderr, "%s", "Erreur : Ne peut générer que 999 bases au plus\n");
-                                exit(-904);
-                            }
-
-                            ouvrir_fichier_base(Info[i], rang_fichier_base + nbType + 1, base);
+                    std::cerr << "Table n°" << rang_fichier_base << " de " << Info[i].taille_base 
+                              << "lignes générée, lignes "  << (rang_fichier_base - 1) * Info[i].taille_base + 1
+                              << " à " << rang_fichier_base * Info[i].taille_base << " .\n";
+                    
+                    base.close();
+                    if (! base.good())
+                    {
+                        perror("Erreur : Problème fermeture fichier base");
+                        exit(-902);
+                    }
+                    
+                    ++rang_fichier_base;
+                    
+                    if (rang_fichier_base >= 1000)
+                    {
+                        std::cerr << "Erreur : Ne peut générer que 999 bases au plus\n";
+                        exit(-904);
+                    }
+                    
+                    ouvrir_fichier_base(Info[i], rang_fichier_base + nbType + 1, base);
+                    if (! base.is_open()) return;
                 }
-
+                
                 if (l + 6 == allocation_memoire)
                 {
                     std::cerr << "Max lignes de paye atteint (" << allocation_memoire << ") ! \n";
                     exit(-1002);
                 }
-
+                
                 int valeur_drapeau_categorie = 0, test_drapeau_categorie = 0;
-
+                
                 while (VAR(l) && (test_drapeau_categorie = VAR(l)[0]) >= 1 && (test_drapeau_categorie <= nbType))
                 {
                     valeur_drapeau_categorie = test_drapeau_categorie;
@@ -231,12 +291,11 @@ void boucle_ecriture(std::vector<info_t>& Info)
                     nouveau_type = true;
                     ++l;
                 }
-
+                
                 if (Info[0].taille_base > PAR_TRAITEMENT)
                 {
                     ++compteur;
-
-                    ECRIRE_LIGNE_l(i, agent, l, type, base, sep, Info, compteur);
+                    ecrire_ligne_table(i, agent, l, type, base, sep, Info, compteur);
                 }
                 else
                 {
@@ -245,8 +304,7 @@ void boucle_ecriture(std::vector<info_t>& Info)
                         if (valeur_drapeau_categorie + 2 == -Info[0].taille_base)
                         {
                             ++compteur;
-
-                            ECRIRE_LIGNE_l(i, agent, l, type, base, sep, Info, compteur);
+                            ecrire_ligne_table(i, agent, l, type, base, sep, Info, compteur);
                         }
                     }
                     else
@@ -254,27 +312,29 @@ void boucle_ecriture(std::vector<info_t>& Info)
                         ++compteur;
                         if (nouveau_type)
                         {
-                          ECRIRE_LIGNE_l(i, agent, l, type, fichier_base[valeur_drapeau_categorie - 1], sep, Info, compteur);
+                            ecrire_ligne_table(i, agent, l, type, fichier_base[valeur_drapeau_categorie - 1], sep, Info, compteur);
                         }
-
+                        
                     }
                 }
-
+                
                 l += 6;
                 ++ligne;
             }
-
+            
             ligne = 0;
         }
-
+        
         if (i) Info[0].nbLigne += Info[i].nbLigne;
     }
-
+    
     // Dans les autres cas, les bases ont déjà été refermées sauf une (cas par année et par taille maximale)
     if (Info[0].taille_base == TOUTES_CATEGORIES)
         for (int d = 0; d < nbType - 1; ++d)
+        {
             fichier_base[d].close();
-
+        }
+    
     if (base)
     {
         base.close();
@@ -283,66 +343,63 @@ void boucle_ecriture(std::vector<info_t>& Info)
         case  MONOLITHIQUE            :
             goto message;
         case  PAR_TRAITEMENT          :
-            puts("Catégorie : Traitement.");
+            std::cout << "Catégorie : Traitement.\n";
             goto message;
         case  PAR_INDEMNITE_RESIDENCE :
-            puts("Catégorie : Indemnité de résidence.");
+            std::cout << "Catégorie : Indemnité de résidence.\n";
             goto message;
         case  PAR_SFT                 :
-            puts("Catégorie : Supplément familial de traitement.");
+            std::cout << "Catégorie : Supplément familial de traitement.\n";
             goto message;
         case  PAR_AVANTAGE_NATURE     :
-            puts("Catégorie : Avantage en nature.");
+            std::cout << "Catégorie : Avantage en nature.\n";
             goto message;
         case  PAR_INDEMNITE           :
-            puts("Catégorie : Indemnité.");
+            std::cout << "Catégorie : Indemnité.\n";
             goto message;
         case  PAR_REM_DIVERSES        :
-            puts("Catégorie : Rémunérations diverses.");
+            std::cout << "Catégorie : Rémunérations diverses.\n";
             goto message;
         case  PAR_DEDUCTION           :
-            puts("Catégorie : Déduction.");
+            std::cout << "Catégorie : Déduction.\n";
             goto message;
         case  PAR_ACOMPTE             :
-            puts("Catégorie : Acompte.");
+            std::cout << "Catégorie : Acompte.\n";
             goto message;
         case  PAR_RAPPEL              :
-            puts("Catégorie : Rappel.");
+            std::cout << "Catégorie : Rappel.\n";
             goto message;
         case  PAR_RETENUE             :
-            puts("Catégorie : Retenue.");
+            std::cout << "Catégorie : Retenue.\n";
             goto message;
         case  PAR_COTISATION          :
-            puts("Catégorie : Cotisation.");
+            std::cout << "Catégorie : Cotisation.\n";
             goto message;
         case  TOUTES_CATEGORIES       :
-            puts("Toutes catégories.");
-            fprintf(stderr, "Total de %" PRIu64 " lignes générée dans 11 bases.\n", compteur);
+            std::cout << "Toutes catégories.\n";
+            std::cerr << "Total de " << compteur << " lignes générée dans 11 bases.\n";
             break;
-
+            
         case PAR_ANNEE    :
-            fprintf(stderr, "Année : %s Table générée.\n", annee_courante);
+            std::cerr << "Année : " << annee_courante << " Table générée.\n";
             break;
         default :  /* Taille définie par l'utilisateur */
             std::cerr << "Table n°" << rang_fichier_base << " de " <<  compteur - (rang_fichier_base-1) * Info[0].taille_base
                       << " lignes, lignes " << (rang_fichier_base-1) * Info[0].taille_base +1 << " à " << compteur << ".\n";
         }
-
+        
         return;
-
+        
 message :
-        fprintf(stderr, "Table de %" PRIu64 " lignes.\n", compteur);
+        std::cerr << "Table de " << compteur << " lignes.\n";
     }
-
+    
     if (bulletins)
     {
         bulletins.close();
-        fprintf(stderr, "Base des bulletins de paye de %" PRIu32 " lignes.\n", compteur_lignes_bulletins);
+        std::cerr << "Base des bulletins de paye de " << compteur_lignes_bulletins << " lignes.\n";
     }
-
+    
 }
 #undef VAR
-//#ifdef __cplusplus
-//}
-//#endif // __cplusplus
 

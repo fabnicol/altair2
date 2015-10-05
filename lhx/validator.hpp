@@ -1,18 +1,18 @@
 #ifndef VALIDATOR_HPP_INCLUDED
 #define VALIDATOR_HPP_INCLUDED
 
-//#include <stdio.h>
 #include <string>
-#include <stdlib.h>
-#include <stdint.h>
-#include <stdbool.h>
-#include <limits.h>
-#include <locale.h>
-#include <errno.h>
-#include <math.h>
+#include <cstdlib>
+#include <cstdint>
+#include <cstdbool>
+#include <climits>
+#include <clocale>
+#include <cerrno>
+#include <cmath>
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
-#include <inttypes.h>
+#include <cinttypes>
+#include <vector>
 
 #ifdef  GCC
 #define GCC_INLINE __attribute__((always_inline))
@@ -72,7 +72,7 @@ typedef struct
     uint32_t NCumAgent;
     uint32_t NCumAgentXml;
     int32_t  taille_base;
-    uint16_t *NLigne;
+    std::vector<uint16_t> NLigne;
     thread_t* threads;
     std::string chemin_log;
     std::string expression_reg_elus;
@@ -124,9 +124,9 @@ typedef struct
 /* pas de contrôle d'existence de noeud : version affaiblie de la macro précédente */
 
 
-#define DESCENDRE_UN_NIVEAU    cur = (cur)? cur->xmlChildrenNode: NULL;  //if ((! NO_DEBUG) && cur) fprintf(stderr, "Descente au niveau %s\n", cur->name);  // cur = (cur)? cur-> next: NULL;
+#define DESCENDRE_UN_NIVEAU    cur = (cur)? cur->xmlChildrenNode: nullptr;  //if ((! NO_DEBUG) && cur) fprintf(stderr, "Descente au niveau %s\n", cur->name);  // cur = (cur)? cur-> next: nullptr;
 
-#define REMONTER_UN_NIVEAU     cur = (cur)? cur->parent: NULL;    cur = (cur)? cur->next: NULL; // if ((! NO_DEBUG) && cur) fprintf(stderr, "Remontée au niveau %s\n", cur->name);
+#define REMONTER_UN_NIVEAU     cur = (cur)? cur->parent: nullptr;    cur = (cur)? cur->next: nullptr; // if ((! NO_DEBUG) && cur) fprintf(stderr, "Remontée au niveau %s\n", cur->name);
 
 static const char* type_remuneration[]   = {
                                             "TraitBrut",
@@ -144,7 +144,7 @@ static const char* type_remuneration[]   = {
                                             };
 
 
-static int nbType                  = sizeof(type_remuneration)/sizeof(char*);
+static const int nbType                  = sizeof(type_remuneration)/sizeof(char*);
 
 
 static const char* type_remuneration_traduit[] = {
