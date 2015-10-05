@@ -18,16 +18,16 @@ FGETC_PARSING
 linux: QMAKE_CXXFLAGS = -pipe -m64 -std=gnu++11 -march=native -fexceptions -fomit-frame-pointer -O3 -fexpensive-optimizations
 
 # sous MSVC
-# windows : QMAKE_CXXFLAGS =/Ox /MP
+#windows : QMAKE_CXXFLAGS =/Ox /MP
 # sous MINGW/GCC
 
-#QMAKE_CXXFLAGS = -pipe -m64 -std=gnu++11 -march=native -fexceptions -fomit-frame-pointer -O3 -fexpensive-optimizations
+QMAKE_CXXFLAGS = -pipe -m64 -std=gnu++11 -march=native -fexceptions -fomit-frame-pointer -O3 -fexpensive-optimizations
 
 linux: INCLUDEPATH += /usr/include/libxml2
-windows: INCLUDEPATH += E:/Dev/mingw64/include
+windows: INCLUDEPATH += E:/mingw64/include
 
 linux: LIBS = -L/usr/lib/x86_64-linux-gnu -lxml2 -pthread
-windows: LIBS = E:/Dev/mingw64/lib/libxml2.dll.a
+windows: LIBS = E:/mingw64/lib/libxml2.dll.a
 
 SOURCES += \ 
     ../fonctions_auxiliaires.cpp \
