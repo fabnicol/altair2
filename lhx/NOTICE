@@ -3,7 +3,7 @@ Programme sous licence CECILL 2.1 écrit par Fabrice Nicol
 1. Utilisation
 --------------
 
-xhl2csv OPTIONS fichiers.xhl
+lhx OPTIONS fichiers.xhl
 
 OPTIONS :
 -n argument obligatoire : nombre maximum de bulletins mensuels attendus [calcul exact par défaut]
@@ -36,6 +36,11 @@ OPTIONS :
 
 2. Historique
 -------------
+5  octobre 2015
+   Transposition sous C++ d'une partie du code. Optimisations diverses.
+   Amélioration des temps d'exécution : sous linux, 27s sur le HP Celeron
+   et moins de 10s (-j 8) sur le corei7 Haswell pour 1 550 000 lignes de table.
+   
 5  janvier 2015
    Basculement des valeurs par défaut des séparateurs (champ et décimal)
    aux valeurs de la locale française fr_FR.1252. Rendu possible pour
