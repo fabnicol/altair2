@@ -7,12 +7,6 @@
 #include "fonctions_auxiliaires.hpp"
 
 
-int64_t generer_table_standard(const char* chemin_table, std::vector<info_t> &info)
-{
-    
-    return 0;
-    
-}
 
 /* Il doit y avoir BESOIN_MEMOIRE_ENTETE + 6 champs plus Type, soit 18 + 6 +1 = 23 champs et 24 séparateurs + saut de ligne = 48 char + \0*/
 
@@ -21,7 +15,7 @@ int64_t generer_table_standard(const char* chemin_table, std::vector<info_t> &in
 
 #define VAR(X) Info[i].Table[agent][X]
 
-static inline void ECRIRE_LIGNE_l_COMMUN(int i, uint32_t agent, int l, char* type, std::ofstream& base, char sep, std::vector<info_t> &Info, int rang)
+static inline void GCC_INLINE ECRIRE_LIGNE_l_COMMUN(int i, uint32_t agent, int l, char* type, std::ofstream& base, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
 {
     base   << VAR(Nom) << sep
            << VAR(Prenom) << sep
@@ -49,7 +43,7 @@ static inline void ECRIRE_LIGNE_l_COMMUN(int i, uint32_t agent, int l, char* typ
            << VAR(NIR) << "\n";
 }
 
-static inline void  ECRIRE_LIGNE_l_GENERER_RANG(int i, uint32_t agent, int l, char* type, std::ofstream& base, char sep, std::vector<info_t> &Info, int rang)
+static inline void GCC_INLINE ECRIRE_LIGNE_l_GENERER_RANG(int i, uint32_t agent, int l, char* type, std::ofstream& base, char sep, std::vector<info_t> &Info, int rang)
 {
     base <<  rang << sep;
     base  << VAR(Annee) << sep
@@ -65,7 +59,7 @@ static inline void  ECRIRE_LIGNE_l_GENERER_RANG(int i, uint32_t agent, int l, ch
     ECRIRE_LIGNE_l_COMMUN(i, agent, l, type, base, sep, Info, rang);
 }
 
-static inline void  ECRIRE_LIGNE_l_SIRET(int i, uint32_t agent, int l, char* type, std::ofstream& base, char sep, std::vector<info_t> &Info, int rang)
+static inline void GCC_INLINE ECRIRE_LIGNE_l_SIRET(int i, uint32_t agent, int l, char* type, std::ofstream& base, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
 {
     base  << VAR(Annee) << sep
           << VAR(Mois) << sep;
@@ -78,7 +72,7 @@ static inline void  ECRIRE_LIGNE_l_SIRET(int i, uint32_t agent, int l, char* typ
     
 }
 
-static inline void  ECRIRE_LIGNE_l(int i, uint32_t agent, int l, char* type, std::ofstream& base, char sep, std::vector<info_t> &Info, int rang)
+static inline void GCC_INLINE ECRIRE_LIGNE_l(int i, uint32_t agent, int l, char* type, std::ofstream& base, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
 {
     base  << VAR(Annee) << sep
           << VAR(Mois) << sep;
@@ -86,7 +80,7 @@ static inline void  ECRIRE_LIGNE_l(int i, uint32_t agent, int l, char* type, std
     ECRIRE_LIGNE_l_COMMUN(i, agent, l, type, base, sep, Info, rang);
 }
 
-static inline void ECRIRE_LIGNE_BULLETIN_COMMUN(int i, uint32_t agent, std::ofstream& bulletins, char sep, std::vector<info_t> &Info, int rang)
+static inline void GCC_INLINE ECRIRE_LIGNE_BULLETIN_COMMUN(int i, uint32_t agent, std::ofstream& bulletins, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
 {
     bulletins << VAR(Nom) << sep
               << VAR(Prenom) << sep
@@ -107,7 +101,7 @@ static inline void ECRIRE_LIGNE_BULLETIN_COMMUN(int i, uint32_t agent, std::ofst
               << VAR(NIR) << "\n";
 }
 
-static inline void  ECRIRE_LIGNE_BULLETIN_GENERER_RANG(int i, uint32_t agent, std::ofstream& bulletins, char sep, std::vector<info_t> &Info, int rang)
+static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETIN_GENERER_RANG(int i, uint32_t agent, std::ofstream& bulletins, char sep, std::vector<info_t> &Info, int rang)
 {
     bulletins <<  rang << sep;
     
@@ -124,7 +118,7 @@ static inline void  ECRIRE_LIGNE_BULLETIN_GENERER_RANG(int i, uint32_t agent, st
     ECRIRE_LIGNE_BULLETIN_COMMUN(i, agent, bulletins, sep, Info, rang);
 }
 
-static inline void  ECRIRE_LIGNE_BULLETIN_SIRET(int i, uint32_t agent, std::ofstream& bulletins, char sep, std::vector<info_t> &Info, int rang)
+static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETIN_SIRET(int i, uint32_t agent, std::ofstream& bulletins, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
 {
     
     bulletins << VAR(Annee) << sep
@@ -137,7 +131,7 @@ static inline void  ECRIRE_LIGNE_BULLETIN_SIRET(int i, uint32_t agent, std::ofst
     ECRIRE_LIGNE_BULLETIN_COMMUN(i, agent, bulletins, sep, Info, rang);
 }
 
-static inline void  ECRIRE_LIGNE_BULLETIN(int i, uint32_t agent, std::ofstream& bulletins, char sep, std::vector<info_t> &Info, int rang)
+static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETIN(int i, uint32_t agent, std::ofstream& bulletins, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
 {
     
     bulletins << VAR(Annee) << sep
@@ -244,7 +238,7 @@ void boucle_ecriture(std::vector<info_t>& Info)
             char type[3]={0};
             strcpy(type, type_remuneration_traduit[0]);
             
-            int allocation_memoire = (Info[i].minimum_memoire_p_ligne + nbType + Info[i].NLigne[agent]*6) * sizeof(xmlChar*);
+            unsigned allocation_memoire = (Info[i].minimum_memoire_p_ligne + nbType + Info[i].NLigne[agent]*6) * sizeof(xmlChar*);
             
             while (ligne < Info[i].NLigne[agent])
             {
@@ -377,15 +371,17 @@ void boucle_ecriture(std::vector<info_t>& Info)
             goto message;
         case  TOUTES_CATEGORIES       :
             std::cout << "Toutes catégories.\n";
-            std::cerr << "Total de " << compteur << " lignes générée dans 11 bases.\n";
+            std::cout << "Total de " << compteur << " lignes générée dans 11 bases.\n";
             break;
             
         case PAR_ANNEE    :
-            std::cerr << "Année : " << annee_courante << " Table générée.\n";
+            std::cout << "Année : " << annee_courante << " Table générée.\n";
             break;
         default :  /* Taille définie par l'utilisateur */
-            std::cerr << "Table n°" << rang_fichier_base << " de " <<  compteur - (rang_fichier_base-1) * Info[0].taille_base
-                      << " lignes, lignes " << (rang_fichier_base-1) * Info[0].taille_base +1 << " à " << compteur << ".\n";
+            std::cout << "Table n°" << rang_fichier_base
+                      << " de " <<  compteur - (rang_fichier_base-1) * Info[0].taille_base
+                      << " lignes, lignes " << (rang_fichier_base-1) * Info[0].taille_base +1
+                      << " à " << compteur << ".\n";
         }
         
         return;

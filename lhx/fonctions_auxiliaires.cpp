@@ -103,6 +103,7 @@ void ouvrir_fichier_base0(const info_t &info, int rang, int type, std::ofstream&
     else
         chemin_base = info.chemin_bulletins;
 
+    /* Il manque l'usage de rang */
 
     base.open(chemin_base);
     base.seekp(0);
@@ -169,7 +170,7 @@ int calculer_memoire_requise(info_t& info)
 
 #ifdef PREALLOCATE_ON_HEAP
 
-    /* C++ style vector allocation *//
+    /* C++ style vector allocation */
 
 #define tab info.NLigne
         info.NLigne.resize(info.threads->argc * MAX_NB_AGENTS);

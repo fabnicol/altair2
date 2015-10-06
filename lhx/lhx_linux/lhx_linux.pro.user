@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 3.5.0, 2015-10-06T19:04:54. -->
+<!-- Written by QtCreator 3.5.0, 2015-10-07T01:02:45. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
-  <value type="QByteArray">{a34b2f57-e0ea-4de8-bd91-18421c26953c}</value>
+  <value type="QByteArray">{14980bbd-efb7-447b-8cbe-bc9115b189b6}</value>
  </data>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
@@ -58,14 +58,14 @@
  <data>
   <variable>ProjectExplorer.Project.Target.0</variable>
   <valuemap type="QVariantMap">
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Desktop</value>
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Desktop</value>
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{47770286-ec37-461b-bb06-fea1e066152b}</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">qt5.6 static</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">qt5.6 static</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{101258cc-3e5d-4c0c-b8e1-3d06f786f58d}</value>
    <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">1</value>
    <value type="int" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
    <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">0</value>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.0">
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Dev/altair/lhx/build-lhx_linux-Desktop-Debug</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Dev/altair/lhx/build-lhx_linux-qt5_6_static-Debug</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
@@ -120,7 +120,7 @@
     <value type="bool" key="Qt4ProjectManager.Qt4BuildConfiguration.UseShadowBuild">true</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.1">
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Dev/altair/lhx/build-lhx_linux-Desktop-Release</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Dev/altair/lhx/build-lhx_linux-qt5_6_static-Release</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
@@ -225,11 +225,13 @@
      <value type="int">14</value>
     </valuelist>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
-    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes">
+     <value type="QString">PATH=C:\Build\qt5\qtbase\lib;C:\Build\qt5\qtbase\bin;C:\Qt\Qt5.5.0.dynamic.build.x86\x86_64-5.2.0-release-posix-seh-rt_v4-rev0\mingw64\bin;C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\intel64_win\compiler;C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\ia32_win\compiler;C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\amd64;C:\Python27\;C:\Python27\Scripts;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\libnvvp;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\Microsoft SQL Server\110\Tools\Binn\;C:\Program Files (x86)\Microsoft SDKs\TypeScript\1.0\;C:\Program Files (x86)\NVIDIA Corporation\DDS Utilities;C:\Program Files (x86)\Common Files\Acronis\SnapAPI\;C:\Strawberry\c\bin;C:\Strawberry\perl\site\bin;C:\Strawberry\perl\bin;C:\WINDOWS\system32\config\systemprofile\.dnx\bin;C:\Program Files\Microsoft DNX\Dnvm\;C:\Program Files (x86)\Calibre2\;C:\Program Files (x86)\QuickTime\QTSystem\;c:\dev\altair\texlive\bin\win32;C:\Users\Fab\AppData\Roaming\Python\Scripts;C:\Program Files (x86)\Common Files\Acronis\TibMounter64;E:\mingw64\bin</value>
+    </valuelist>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">lhx_linux</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Dev/altair/lhx/lhx_linux/lhx_linux.pro</value>
-    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments"> -t -j 2  -D c:\dev\altair\tests\exemple\donnees\R-altair c:\dev\altair\tests\exemple\donnees\xhl\Metro\2008\*.xhl  c:\dev\altair\tests\exemple\donnees\xhl\Metro\2009\*.xhl  c:\dev\altair\tests\exemple\donnees\xhl\Metro\2010\*.xhl  c:\dev\altair\tests\exemple\donnees\xhl\Metro\2011\*.xhl  c:\dev\altair\tests\exemple\donnees\xhl\Metro\2012\*.xhl</value>
+    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments">-t -m -j 7 -D c:/dev/altair/tests/exemple/donnees/r-altair c:/dev/altair/tests/exemple/donnees/xhl/Metro/2008/*.xhl  c:/dev/altair/tests/exemple/donnees/xhl/Metro/2009/*.xhl  c:/dev/altair/tests/exemple/donnees/xhl/Metro/2010/*.xhl c:/dev/altair/tests/exemple/donnees/xhl/Metro/2011/*.xhl c:/dev/altair/tests/exemple/donnees/xhl/Metro/2012/*.xhl</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">lhx_linux.pro</value>
     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseTerminal">true</value>

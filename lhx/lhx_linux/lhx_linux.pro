@@ -10,6 +10,7 @@ DEFINES += __GNUC_EXTENSION \
            __STDC_LIMIT_MACROS \
            __STDC_FORMAT_MACROS
 
+DEFINES += STRICT
 
 DEFINES += GCC_REGEX \                      # Utiliser les expressions régulières de C++
         NO_DEBUG \                          # ne pas générer de messages de débogage avancé
@@ -32,6 +33,7 @@ windows: INCLUDEPATH += E:/mingw64/include
 
 linux: LIBS = -L/usr/lib/x86_64-linux-gnu -lxml2 -pthread
 windows: LIBS = E:/mingw64/lib/libxml2.dll.a
+windows: VPATH += E:/mingw64/bin
 
 SOURCES += \ 
     ../fonctions_auxiliaires.cpp \
