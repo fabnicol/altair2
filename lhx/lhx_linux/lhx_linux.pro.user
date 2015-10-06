@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 3.5.0, 2015-10-06T16:50:16. -->
+<!-- Written by QtCreator 3.5.0, 2015-10-06T19:04:54. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -229,7 +229,7 @@
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">lhx_linux</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Dev/altair/lhx/lhx_linux/lhx_linux.pro</value>
-    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments">-T &quot;T&quot; -t -j 2  -D c:\dev\altair\tests\exemple\donnees\R-altair c:\dev\altair\tests\exemple\donnees\xhl\Metro\2008\*.xhl  c:\dev\altair\tests\exemple\donnees\xhl\Metro\2009\*.xhl  c:\dev\altair\tests\exemple\donnees\xhl\Metro\2010\*.xhl  c:\dev\altair\tests\exemple\donnees\xhl\Metro\2011\*.xhl  c:\dev\altair\tests\exemple\donnees\xhl\Metro\2012\*.xhl</value>
+    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments"> -t -j 2  -D c:\dev\altair\tests\exemple\donnees\R-altair c:\dev\altair\tests\exemple\donnees\xhl\Metro\2008\*.xhl  c:\dev\altair\tests\exemple\donnees\xhl\Metro\2009\*.xhl  c:\dev\altair\tests\exemple\donnees\xhl\Metro\2010\*.xhl  c:\dev\altair\tests\exemple\donnees\xhl\Metro\2011\*.xhl  c:\dev\altair\tests\exemple\donnees\xhl\Metro\2012\*.xhl</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">lhx_linux.pro</value>
     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseTerminal">true</value>
