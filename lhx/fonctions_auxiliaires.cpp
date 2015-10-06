@@ -167,7 +167,20 @@ int calculer_memoire_requise(info_t& info)
 
     // Attention reserve() ne va pas initialiser les membres à 0 sous Windows. Utiliser resize() ici.
 
-    info.NLigne.resize(info.threads->argc * MAX_NB_AGENTS);
+#ifdef PREALLOCATE_ON_HEAP
+
+    /* C++ style vector allocation *//
+
+#define tab info.NLigne
+        info.NLigne.resize(info.threads->argc * MAX_NB_AGENTS);
+#else
+
+  /* C style vector allocation */
+
+    uint16_t tab[info.threads->argc * MAX_NB_AGENTS];
+   // memset(tab, 0, info.threads->argc * MAX_NB_AGENTS) peut éventuellement être utile pour certains compilateurs anciens.
+
+#endif
 
     char d = 0;
 
@@ -219,7 +232,7 @@ int calculer_memoire_requise(info_t& info)
 #endif
             if  (c.get()  == '/')
             {
-                info.NLigne[info.NCumAgent] = 1;
+                tab[info.NCumAgent] = 1;
                 ++info.NCumAgent;
                 continue;  // Balise simple vide
             }
@@ -236,8 +249,8 @@ int calculer_memoire_requise(info_t& info)
                     else if (c.get()  != 'u')   continue;
                     else if (c.get()  != 'n')   continue;
 
-                    if (info.NLigne[info.NCumAgent] == 0)
-                        info.NLigne[info.NCumAgent] = 1;
+                    if (tab[info.NCumAgent] == 0)
+                        tab[info.NCumAgent] = 1;
 
                     ++info.NCumAgent;
                     break;
@@ -254,7 +267,7 @@ int calculer_memoire_requise(info_t& info)
                             else
                             {
                                 if (c.get() != ' ')   continue;
-                                ++info.NLigne[info.NCumAgent];
+                                ++tab[info.NCumAgent];
                             }
                         }
                     }
@@ -263,7 +276,13 @@ int calculer_memoire_requise(info_t& info)
         }
         c.clear();
         c.close();
-        
+
+#ifdef PREALLOCATE_ON_HEAP
+#undef tab
+#else
+        info.NLigne.assign(tab, tab+info.NCumAgent);
+#endif
+
 #endif
 #ifdef MMAP_PARSING
 
@@ -353,8 +372,9 @@ int calculer_memoire_requise(info_t& info)
     }
 
     /* A ETUDIER */
-
+#ifdef PREALLOCATE_ON_HEAP
     info.NLigne.resize(info.NCumAgent+1);
+#endif
 
     return errno;
 }
