@@ -30,6 +30,17 @@ static inline xmlNodePtr atteindreNoeud(const char* noeud, xmlNodePtr cur)
             break;
         }
     }
+
+    #ifdef STRICT
+
+      if (cur == nullptr)
+      {
+          std::cerr << "Impossible d'atteindre " << cur->name << std::end;
+          exit(-1);
+      }
+
+    #endif
+
     return cur;
 }
 
@@ -63,11 +74,10 @@ static inline void  verifier_taille(const int nbLignePaye, info_t& info)
 {
     if (nbLignePaye >= info.nbLigneUtilisateur)
     {
-        fprintf(stderr, "\n\
-                En excès du nombre de lignes de paye autorisé (%d).\n\
+        std::cerr << "\n\
+                En excès du nombre de lignes de paye autorisé (" << info.nbLigneUtilisateur << ").\n\
                 Omettre -n ... et utiliser -L fichier_log pour détecter le maximum de lignes de paye dans les fichiers.\n\
-                Utiliser -N ce_maximum ou bien recompiler en augmentant MAX_LIGNES_PAYE, à condition de disposer d'assez de mémoire.\n",
-                info.nbLigneUtilisateur);
+                Utiliser -N ce_maximum ou bien recompiler en augmentant MAX_LIGNES_PAYE, à condition de disposer d'assez de mémoire.\n";
 
         exit(-10);
     }
@@ -80,7 +90,7 @@ static inline void  verifier_taille(const int nbLignePaye, info_t& info)
 /* Remplace les occurrences d'un caractère séparateur à l'intérieur d'un champ par le caractère '_' qui ne doit donc jamais
    être séparateur de champ (c'est bien rare !) */
 
-static inline bool Bulletin(const char* tag, xmlNodePtr* cur, int l, info_t& info)
+static inline bool GCC_INLINE Bulletin(const char* tag, xmlNodePtr* cur, int l, info_t& info)
 {
     bool test = (cur != nullptr && *cur != nullptr && (! xmlStrcmp((*cur)->name,  (const xmlChar*) tag)));
 
@@ -111,24 +121,34 @@ static inline bool Bulletin(const char* tag, xmlNodePtr* cur, int l, info_t& inf
     return test;
 }
 
-static inline void _Bulletin(const char* tag, xmlNodePtr* cur,  int l,  info_t& info)
+static inline void GCC_INLINE _Bulletin(const char* tag, xmlNodePtr* cur,  int l,  info_t& info)
 {
     if (! Bulletin(tag, cur, l, info))
     {
         if (*cur)
         {
-            fprintf(stderr, "Erreur : Trouvé %s au lieu de %s \n", (*cur)->name, tag);
-            fprintf(stderr, "Erreur : dans le fichier %s \n  pour le matricule %s\n",
-                            info.threads->argv[info.fichier_courant],
-                            info.Table[info.NCumAgentXml][Matricule]);
+            std::cerr << "Erreur : Trouvé " << (*cur)->name << " au lieu de " << tag << std::endl;
+            std::cerr << "Erreur : dans le fichier " << info.threads->argv[info.fichier_courant] << " \n  pour le matricule "
+                      << info.Table[info.NCumAgentXml][Matricule] << std::endl;
+            #ifdef STRICT
+              exit(-1);
+            #endif
+
         }
         else
         {
-            fprintf(stderr, "Erreur : Noeud courant null au stade de la vérification de %s, fichier %s\n", tag, info.threads->argv[info.fichier_courant]);
-            for (int l=0; l < Service; ++l) fprintf(stderr, "info.Table[info.NCumAgentXml][%d]=%s\n", l, info.Table[info.NCumAgentXml][l]);
+            std::cerr << "Erreur : Noeud courant null au stade de la vérification de "
+                      << tag
+                      << ", fichier " <<  info.threads->argv[info.fichier_courant] << std::endl;
+
+            for (int l=0; l < Service; ++l)
+                std::cerr << "info.Table[" << info.NCumAgentXml << "][" << l << "]=" << info.Table[info.NCumAgentXml][l] << std::endl;
+
+            #ifdef STRICT
+              exit(-1);
+            #endif
         }
     }
-
 }
 
 /* A tester : la substitution du caractère décimal , au . de la locale anglaise utilisé par Xémélios (hélas)
@@ -139,7 +159,7 @@ static inline void _Bulletin(const char* tag, xmlNodePtr* cur,  int l,  info_t& 
    A ce stade nous stockons tous les champs lus en char, pour écriture identique en .csv dans la table, avec substition
    'manuelle' de la virgule au point dans la chaîne en output. */
 
-static inline void substituer_separateur_decimal(xmlChar* ligne, const char decimal)
+static inline void GCC_INLINE substituer_separateur_decimal(xmlChar* ligne, const char decimal)
 {
     for (int i = 0; i < xmlStrlen(ligne); ++i)
         if (ligne[i] == '.') ligne[i] = decimal;
@@ -147,21 +167,20 @@ static inline void substituer_separateur_decimal(xmlChar* ligne, const char deci
 
 /* optionnel */
 
-static inline void _Bulletin_(const char* tag, xmlNodePtr* cur,  int l, info_t& info)
+static inline void GCC_INLINE _Bulletin_(const char* tag, xmlNodePtr* cur,  int l, info_t& info)
 {
     if (! Bulletin(tag, cur, l,  info))
     {
         ligne_l = (xmlChar*) xmlStrdup(NA_STRING);
-
     }
-
+    else
     if (info.decimal != '.') substituer_separateur_decimal(ligne_l, info.decimal);
 
 }
 
 /* obligatoire et avec substitution séparateur décimal */
 
-static inline void Bulletin_(const char* tag, xmlNodePtr* cur, int l, info_t& info)
+static inline void GCC_INLINE Bulletin_(const char* tag, xmlNodePtr* cur, int l, info_t& info)
 {
     _Bulletin(tag, cur, l, info) ;
     if (info.decimal != '.')  substituer_separateur_decimal(ligne_l, info.decimal);
@@ -204,11 +223,12 @@ static inline int lignePaye(xmlNodePtr cur, info_t& info)
 
                 /* On ne rembobine qu'une seule fois. Si l'essai échoue, on déclenche une exception */
 
-                fprintf(stderr, "Erreur : En excès du nombre de types de lignes de paye autorisé (%d)\n", nbType);
-                if (cur) fprintf(stderr, "Erreur : Type litigieux %s aux alentours du matricule %s \n",
-                                     cur->name,
-                                     info.Table[info.NCumAgentXml][Matricule]);
-                else fprintf(stderr, "%s", "Erreur : Pointeur noeud courant nul\n");
+                std::cerr << "Erreur : En excès du nombre de types de lignes de paye autorisé (" << nbType << ").\n";
+                if (cur)
+                    std::cerr << "Erreur : Type litigieux " << cur->name << " aux alentours du matricule " << info.Table[info.NCumAgentXml][Matricule] << std::endl;
+                else
+                    std::cerr << "Erreur : Pointeur noeud courant nul" << std::endl;
+
                 exit(-11);
             }
 
@@ -294,7 +314,7 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t& info)
 
     if (cur == nullptr)
     {
-        fprintf(stderr, "%s\n", "Erreur : Impossible d'atteindre \"Agent\"");
+        std::cerr << "Erreur : Impossible d'atteindre \"Agent\"\n";
         return 0;
     }
 
@@ -387,8 +407,8 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t& info)
 #else
 	cur = cur->next;
 #endif
-    nbi :
-      BULLETIN_(NBI)
+
+    BULLETIN_(NBI)
 
 #ifdef TOLERANT
     cur = cur_save;
@@ -479,7 +499,7 @@ static void parseFile(info_t& info)
 
     if (cur == nullptr)
     {
-        fprintf(stderr,"Erreur : document vide\n");
+        std::cerr << "Erreur : document vide\n";
         xmlFreeDoc(doc);
     }
 
@@ -494,7 +514,7 @@ static void parseFile(info_t& info)
     }
     else
     {
-        fprintf(stderr, "%s\n", "Erreur : Année non détectable");
+        std::cerr << "Erreur : Année non détectable\n";
         exit(-502);
     }
 
@@ -504,7 +524,7 @@ static void parseFile(info_t& info)
     }
     else
     {
-        fprintf(stderr, "%s\n", "Erreur : Mois non détectable");
+        std::cerr << "Erreur : Mois non détectable\n";
         exit(-503);
     }
 
@@ -518,7 +538,7 @@ static void parseFile(info_t& info)
     }
     else
     {
-        fprintf(stderr, "%s\n", "Erreur : Budget non détectable");
+        std::cerr << "Erreur : Budget non détectable\n";
         exit(-504);
     }
 
@@ -544,7 +564,7 @@ static void parseFile(info_t& info)
             }
             else
             {
-                fprintf(stderr, "%s\n", "Erreur : Etablissement/Employeur non détectable");
+                std::cerr << "Erreur : Etablissement/Employeur non détectable\n";
                 exit(-505);
             }
 
@@ -557,22 +577,15 @@ static void parseFile(info_t& info)
             }
             else
             {
-                fprintf(stderr, "%s Année %d Mois %d\n", "Erreur : Siret non détectable", info.Table[info.NCumAgentXml][Annee], info.Table[info.NCumAgentXml][Mois]);
+                std::cerr << "Année " << info.Table[info.NCumAgentXml][Annee]
+                          << "Mois "  << info.Table[info.NCumAgentXml][Mois]
+                          << "\nErreur : Siret non détectable\n";
                 exit(-506);
             }
             cur=cur_save2;
 
         while(cur != nullptr)
         {
-//            if (info.NCumAgentXml != info.NCumAgent)
-//            {
-//                std::cerr << "Erreur : Incohérence de l'allocation mémoire ex-ante " << info.NCumAgent 
-//                          << " B et ex-post " <<  info.NCumAgentXml << " B : sortie pour éviter une erreur de segmentation.\n";
-//                std::cerr << "Fichier : " << info.threads->argv[info.fichier_courant] << std::endl;
-                        
-//                exit(1005);
-//            }
-
 
             cur = atteindreNoeud("PayeIndivMensuel", cur);
 
@@ -645,6 +658,7 @@ static void parseFile(info_t& info)
 
     xmlFree(mois_fichier);
     xmlFree(annee_fichier);
+
     std::cerr << "Fichier n°" << info.fichier_courant + 1 << " :\nPopulation du fichier  " <<  info.threads->argv[info.fichier_courant] << ":\n"
               <<  info.NAgent[info.fichier_courant] << " bulletins    Total : " <<  info.NCumAgentXml << "bulletins  " << info.nbLigne <<" lignes cumulées.\n";
 
@@ -763,6 +777,16 @@ void* decoder_fichier(info_t& info)
     {
         info.fichier_courant = i;
         parseFile(info);
+    }
+
+    if (info.NCumAgentXml != info.NCumAgent)
+    {
+        std::cerr << "Erreur : Incohérence de l'allocation mémoire ex-ante " << info.NCumAgent
+                  << " unités et ex-post " <<  info.NCumAgentXml << " unités d'information.\n"
+                  << "Sortie pour éviter une erreur de segmentation.\n";
+        std::cerr << "Fichier : " << info.threads->argv[info.fichier_courant] << std::endl;
+
+        exit(1005);
     }
 
     // attention, pas info<-NCumAgent ici
