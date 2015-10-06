@@ -164,9 +164,13 @@ int32_t lire_argument(int argc, char* c_str)
 int calculer_memoire_requise(info_t& info)
 {
     errno = 0;
-    info.NLigne.reserve(info.threads->argc * MAX_NB_AGENTS) ;  // nm total de bulletins
 
-    info.NCumAgent = 0;
+    // Attention reserve() ne va pas initialiser les membres à 0 sous Windows. Utiliser resize() ici.
+
+    info.NLigne.resize(info.threads->argc * MAX_NB_AGENTS);
+
+    char d = 0;
+
     std::cerr << "Premier scan des fichiers pour déterminer les besoins mémoire ... \n";
 
     /* par convention  un agent avec rémunération non renseignées (balise sans fils) a une ligne */
@@ -193,16 +197,18 @@ int calculer_memoire_requise(info_t& info)
             exit(-122);
         }
         
-        char d = 0;
         while (! c.eof())
         {
-           // std::cout << d;
             if  (c.get() != '<') continue;
             if  (c.get() != 'R') continue;
             if  (c.get() != 'e') continue;
             if  (c.get() != 'm') continue;
             if  (c.get() != 'u') continue;
             if  (c.get() != 'n') continue;
+
+#ifndef FULL_PREALLOCATION_TEST
+            c.get(),c.get(),c.get(),c.get(),c.get(),c.get(),c.get();
+#else
             if  (c.get() != 'e') continue;
             if  (c.get() != 'r') continue;
             if  (c.get() != 'a') continue;
@@ -210,6 +216,7 @@ int calculer_memoire_requise(info_t& info)
             if  (c.get() != 'i') continue;
             if  (c.get() != 'o') continue;
             if  (c.get() != 'n') continue;
+#endif
             if  (c.get()  == '/')
             {
                 info.NLigne[info.NCumAgent] = 1;
@@ -219,7 +226,6 @@ int calculer_memoire_requise(info_t& info)
 
             while (! c.eof())
             {
-               // std::cout << d;
                 if (c.get() != '<') continue;
                 if ((d = c.get())  != 'C')
                 {
@@ -230,8 +236,9 @@ int calculer_memoire_requise(info_t& info)
                     else if (c.get()  != 'u')   continue;
                     else if (c.get()  != 'n')   continue;
 
-                    if (info.NLigne[info.NCumAgent] == 0) info.NLigne[info.NCumAgent] = 1;
-                    //info->NAgent[i]++;
+                    if (info.NLigne[info.NCumAgent] == 0)
+                        info.NLigne[info.NCumAgent] = 1;
+
                     ++info.NCumAgent;
                     break;
                 }
@@ -346,7 +353,8 @@ int calculer_memoire_requise(info_t& info)
     }
 
     /* A ETUDIER */
-    //info.NLigne.resize(info.NCumAgent);
+
+    info.NLigne.resize(info.NCumAgent+1);
 
     return errno;
 }

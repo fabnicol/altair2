@@ -409,7 +409,8 @@ int main(int argc, char **argv)
         Info[i].threads->thread_num = i;
         Info[i].threads->argc = (argc - start < nbfichier_par_fil)? argc - start: nbfichier_par_fil;
         Info[i].threads->argv = new char*[nbfichier_par_fil];
-        
+
+
         if (Info[i].threads->argv == nullptr)
         {
             perror("Erreur : Allocation de threads");
