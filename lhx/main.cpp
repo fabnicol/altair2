@@ -188,7 +188,7 @@ int main(int argc, char **argv)
             hashTable["A"]  = PAR_REM_DIVERSES;
             hashTable["AC"] = PAR_ACOMPTE;
             hashTable["AV"] = PAR_AVANTAGE_NATURE;
-            hashTable["C"]  =  PAR_COTISATION;
+            hashTable["C"]  = PAR_COTISATION;
             hashTable["D"]  = PAR_DEDUCTION;
             hashTable["I"]  = PAR_INDEMNITE;
             hashTable["IR"] = PAR_INDEMNITE_RESIDENCE;
@@ -197,10 +197,10 @@ int main(int argc, char **argv)
             hashTable["R"]  = PAR_RAPPEL;
             hashTable["X"]  = TOUTES_CATEGORIES;
             
-            if (hashTable.find(argv[start +1]) != hashTable.end())
-                info.taille_base = hashTable[argv[start +1]];
+            if (hashTable.find(argv[start + 1]) != hashTable.end())
+                info.taille_base = hashTable[argv[start + 1]];
             else
-                if ((info.taille_base = lire_argument(argc, argv[start +1])) < 0 || info.taille_base > INT32_MAX -1)
+                if ((info.taille_base = lire_argument(argc, argv[start + 1])) < 0 || info.taille_base > INT32_MAX -1)
                                 {
                                     perror("Erreur : Le nombre de lignes doit être compris entre 0 et INT64_MAX");
                                     exit(-908);

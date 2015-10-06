@@ -14,10 +14,12 @@
 #include <cinttypes>
 #include <vector>
 
-#ifdef  GCC
+#ifdef  __GNUG__
 #define GCC_INLINE __attribute__((always_inline))
+#define GCC_UNUSED __attribute__((__unused__))
 #else
 #define GCC_INLINE
+#define GCC_UNUSED
 #endif
 
 typedef struct
@@ -104,21 +106,22 @@ typedef struct
 #endif
 
 #ifndef NO_DEBUG
-#define DEBUG(X) fprintf(stderr, "%s\n", X);
-#define AFFICHER_NOEUD(X)       { char msg[50]={0}; \
-                                  sprintf(msg, "atteint %s\n", X);\
-                                  DEBUG(msg) }
+    #define DEBUG(X) std::cerr << X << std::endl;
+    #define AFFICHER_NOEUD(X)       { char msg[50]={0}; \
+                                      sprintf(msg, "atteint %s\n", X);\
+                                      DEBUG(msg) }
 
-#define NO_DEBUG 0
+    #define NO_DEBUG 0
 #else
-#define NO_DEBUG 1
-#define DEBUG(X)
-#define AFFICHER_NOEUD(X)
+    #undef NO_DEBUG
+    #define NO_DEBUG 1
+    #define DEBUG(X)
+    #define AFFICHER_NOEUD(X)
 #endif
 #if !NO_DEBUG
-#ifdef __WIN32__
-#include <Windows.h>
-#endif
+    #ifdef __WIN32__
+    #include <Windows.h>
+    #endif
 #endif
 
 /* pas de contrôle d'existence de noeud : version affaiblie de la macro précédente */

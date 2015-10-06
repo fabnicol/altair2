@@ -1,7 +1,7 @@
-﻿Build started 12/09/2015 00:35:32.
+﻿Build started 06/10/2015 23:08:31.
      1>Project "C:\Dev\altair\lhx\msvs2015\msvs2015\msvs2015.vcxproj" on node 2 (Rebuild target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2016\windows\bin\Intel64\icl.exe /c /Qm64 /IC:\Dev\altair\lhx\include /Zi /nologo /W1 /Ox /Oi /Qipo /Qftz /D __INTEL_COMPILER=1600 /D TBB_USE_THREADING_TOOLS /D MKL_ILP64 /D _IPP_SEQUENTIAL_DYNAMIC /D _DAAL_PAR_STATIC /D TOLERANT /D GCC_REGEX /D NO_DEBUG /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /EHsc /MD /GS /Gy /Qoffload-option,mic,compiler,"-mkl=parallel  -tbb" /Qopenmp-offload- /Zc:wchar_t /Zc:forScope /Fo"x64\Release\\" /Fd"x64\Release\vc140.pdb" /TP ..\..\copyfile.cpp ..\..\fonctions_auxiliaires.cpp ..\..\main.cpp ..\..\table.cpp ..\..\validator.cpp
+         C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2016\windows\bin\Intel64\icl.exe /c /Qm64 /IC:\Dev\altair\lhx\include /Zi /nologo /W1 /Ox /Oi /Qipo /Qftz /D __INTEL_COMPILER=1600 /D TBB_USE_THREADING_TOOLS /D MKL_ILP64 /D _IPP_SEQUENTIAL_DYNAMIC /D _DAAL_PAR_STATIC /D FULL_PREALLOCATION_TEST /D PREALLOCATE_ON_HEAP /D FGETC_PARSING /D TOLERANT /D GCC_REGEX /D NO_DEBUG /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /EHsc /MD /GS /Gy /Qoffload-option,mic,compiler,"-mkl=parallel  -tbb" /Qopenmp-offload- /Zc:wchar_t /Zc:forScope /Fo"x64\Release\\" /Fd"x64\Release\vc140.pdb" /TP ..\..\copyfile.cpp ..\..\fonctions_auxiliaires.cpp ..\..\main.cpp ..\..\table.cpp ..\..\validator.cpp
          copyfile.cpp
          fonctions_auxiliaires.cpp
          main.cpp
@@ -18,4 +18,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:07.07
+Time Elapsed 00:00:08.18
