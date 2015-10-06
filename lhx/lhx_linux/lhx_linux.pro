@@ -12,7 +12,8 @@ DEFINES += GCC_REGEX \
 	__STDC_FORMAT_MACROS \
 	NO_DEBUG \
 	TOLERANT \
-FGETC_PARSING
+        FULL_PREALLOCATION_TEST \
+        FGETC_PARSING
 #MMAP_PARSING
 
 linux: QMAKE_CXXFLAGS = -pipe -m64 -std=gnu++11 -march=native -fexceptions -fomit-frame-pointer -O3 -fexpensive-optimizations
@@ -21,7 +22,7 @@ linux: QMAKE_CXXFLAGS = -pipe -m64 -std=gnu++11 -march=native -fexceptions -fomi
 #windows : QMAKE_CXXFLAGS =/Ox /MP
 # sous MINGW/GCC
 
-QMAKE_CXXFLAGS = -pipe -m64 -std=gnu++11 -march=native -fexceptions -fomit-frame-pointer -O3 -fexpensive-optimizations
+QMAKE_CXXFLAGS = -pipe -m64 -std=gnu++11 -march=core2 -fexceptions -fomit-frame-pointer -O3 -fexpensive-optimizations
 
 linux: INCLUDEPATH += /usr/include/libxml2
 windows: INCLUDEPATH += E:/mingw64/include
