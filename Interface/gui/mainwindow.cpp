@@ -857,9 +857,7 @@ void MainWindow::showMainWidget()
 void MainWindow::feedLHXConsoleWithHtml()
 {
 
-    QRegExp reg("^(Fichier n.*[0-9]+|Population|Total|Table|Lib..?ration|Base|Premier|Erreur|Creation|Maximum|Coh.+\\s)([^\n]+)");
-    QRegExp reg2("Fichier n.*([0-9]+)") ;
-    QString result;
+    QRegExp reg("^(.MSG.|.INF.|Erreur)\\s([^\n]+)");
 
         while (altair->process->canReadLine())
             {
@@ -867,29 +865,15 @@ void MainWindow::feedLHXConsoleWithHtml()
 
                 if (buffer.contains(reg))
                 {
-
-                    switch (reg.cap(1).at(0).toLatin1())
+                    switch (reg.cap(1).at(1).toLatin1())
                     {
-                        case 'C':
-                        case 'L':
-                        case 'M':
-                             buffer= buffer.replace(reg, (QString)PROCESSING_HTML_TAG "\\1 \\2");
+                      case 'I' :
+                            buffer= buffer.replace(reg, (QString)PROCESSING_HTML_TAG "\\1 \\2");
                             break;
-                        case 'T' :
-                        case 'B' :
-                             buffer=buffer.replace(reg, (QString)  PARAMETER_HTML_TAG "\\1 \\2");
-                            break;
-                        case 'P' :
-                        case 'F' :   
+                      case 'M' :
                             buffer=buffer.replace(reg, (QString) STATE_HTML_TAG "\\1 \\2");
-                            result = reg.cap(1);
-                            if (result.contains(reg2))
-                            {
-                                altair->fileRank=reg2.cap(1).toInt();
-                            }
-                            
                             break;
-                        case 'E' :
+                      case 'r' :
                             buffer=buffer.replace(reg, (QString) ERROR_HTML_TAG "\\1 \\2");
                             #ifdef MINIMAL
                             Warning("Erreur", "Le décodage a rencontré une erreur.\nVisualiser le log dans la console (Configurer > Configurer l'interface > Afficher les messages).\n\
@@ -898,24 +882,20 @@ Il est également possible d'activer un rapport détaillé (Configurer > Options
                            break;
                     }
                 }
-
    
-                    consoleDialog->insertHtml(buffer.replace("\n", "<br>"));
+                consoleDialog->insertHtml(buffer.replace("\n", "<br>"));
 
             }
 }
 
+
 void MainWindow::feedRConsoleWithHtml()
 {
-    QRegExp reg("([0-9]+).*%");
     while (altair->process->canReadLine())
     {
         QString buffer=QString::fromLocal8Bit(altair->process->readLine());
-
-        if (buffer.contains(reg))
-        {
-                        altair->fileRank=reg.cap(1).toInt();
-        }
+        altair->fileRank = altair->rankFile.readLine().toInt();
+        if (altair->fileRank == 0) altair->fileRank = 1;
 
         consoleDialog->insertHtml(buffer.replace("\n", "<br>"));
     }

@@ -8,7 +8,7 @@
 
 
 
-/* Il doit y avoir BESOIN_MEMOIRE_ENTETE + 6 champs plus Type, soit 18 + 6 +1 = 23 champs et 24 sÃ©parateurs + saut de ligne = 48 char + \0*/
+/* Il doit y avoir BESOIN_MEMOIRE_ENTETE + 6 champs plus Type, soit 18 + 6 +1 = 23 champs et 24 séparateurs + saut de ligne = 48 char + \0*/
 
 #include <iostream>
 #include <fstream>
@@ -154,8 +154,10 @@ void boucle_ecriture(std::vector<info_t>& Info)
     static std::array<std::ofstream, nbType> fichier_base;
     
     ouvrir_fichier_bulletins(Info[0], bulletins);
-    
-    switch (Info[0].taille_base)
+
+    int32_t taille_base = Info[0].taille_base;
+
+    switch (taille_base)
     {
     
     case MONOLITHIQUE :
@@ -177,7 +179,7 @@ void boucle_ecriture(std::vector<info_t>& Info)
     case PAR_RAPPEL              :
     case PAR_RETENUE             :
     case PAR_COTISATION          :
-        ouvrir_fichier_base(Info[0], -Info[0].taille_base - 2, base);
+        ouvrir_fichier_base(Info[0], - taille_base - 2, base);
         break;
         
     case TOUTES_CATEGORIES  :
@@ -186,7 +188,7 @@ void boucle_ecriture(std::vector<info_t>& Info)
         break;
         
     default : ouvrir_fichier_base(Info[0], rang_fichier_base + nbType + 1, base);
-        // cas oÃ¹ une vraie taille de base en lignes est entrÃ©e.
+        // cas où une vraie taille de base en lignes est entrée.
         
     }
     
@@ -212,49 +214,51 @@ void boucle_ecriture(std::vector<info_t>& Info)
             ecrire_ligne_table = ECRIRE_LIGNE_l;
             ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETIN;
         }
-    
-    
+
+
     for (int i = 0; i < Info[0].nbfil; ++i)
     {
+
         for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; ++agent)
         {
-            
+
+            unsigned l = Info[i].minimum_memoire_p_ligne;
+            uint16_t NLigneAgent = Info[i].NLigne[agent];
+
             ++compteur_lignes_bulletins;
             
             ecrire_ligne_bulletin(i, agent, bulletins, sep, Info, compteur_lignes_bulletins);
             
-            if (Info[i].taille_base == PAR_ANNEE  && strcmp((const char*)VAR(Annee), annee_courante))
+            if (taille_base == PAR_ANNEE  && strcmp((const char*)VAR(Annee), annee_courante))
             {
                 base.close();
                 
-                std::cerr << "AnnÃ©e : " << annee_courante << " Table gÃ©nÃ©rÃ©e.\n";
+                std::cerr << "Année : " << annee_courante << " Table générée.\n";
                 annee_courante = (char*) VAR(Annee);
                 ouvrir_fichier_base(Info[i], atoi(annee_courante) + nbType + 1, base);
                 if (! base.is_open()) return;
             }
-            
-            unsigned l = Info[i].minimum_memoire_p_ligne;
-            
+
             char type[3]={0};
             strcpy(type, type_remuneration_traduit[0]);
             
-            unsigned allocation_memoire = (Info[i].minimum_memoire_p_ligne + nbType + Info[i].NLigne[agent]*6) * sizeof(xmlChar*);
+            unsigned allocation_memoire = (l + nbType + NLigneAgent * 6) * sizeof(xmlChar*);
             
-            while (ligne < Info[i].NLigne[agent])
+            while (ligne < NLigneAgent)
             {
                 bool nouveau_type = false;
                 
-                if (Info[i].taille_base > MONOLITHIQUE   // soit : il existe un nombre de lignes maximal par base
-                        && (compteur  == rang_fichier_base * Info[i].taille_base))
+                if (taille_base > MONOLITHIQUE   // soit : il existe un nombre de lignes maximal par base
+                        && (compteur  == rang_fichier_base * taille_base))
                 {
-                    std::cerr << "Table nÂ°" << rang_fichier_base << " de " << Info[i].taille_base 
-                              << "lignes gÃ©nÃ©rÃ©e, lignes "  << (rang_fichier_base - 1) * Info[i].taille_base + 1
-                              << " Ã  " << rang_fichier_base * Info[i].taille_base << " .\n";
+                    std::cerr << "Table n°" << rang_fichier_base << " de " << taille_base
+                              << "lignes générée, lignes "  << (rang_fichier_base - 1) * taille_base + 1
+                              << " à " << rang_fichier_base * taille_base << " .\n";
                     
                     base.close();
                     if (! base.good())
                     {
-                        perror("Erreur : ProblÃ¨me fermeture fichier base");
+                        perror("Erreur : Problème fermeture fichier base");
                         exit(-902);
                     }
                     
@@ -262,7 +266,7 @@ void boucle_ecriture(std::vector<info_t>& Info)
                     
                     if (rang_fichier_base >= 1000)
                     {
-                        std::cerr << "Erreur : Ne peut gÃ©nÃ©rer que 999 bases au plus\n";
+                        std::cerr << "Erreur : Ne peut générer que 999 bases au plus\n";
                         exit(-904);
                     }
                     
@@ -272,7 +276,7 @@ void boucle_ecriture(std::vector<info_t>& Info)
                 
                 if (l + 6 == allocation_memoire)
                 {
-                    std::cerr << "Max lignes de paye atteint (" << allocation_memoire << ") ! \n";
+                    std::cerr << "Erreur : Max lignes de paye atteint (" << allocation_memoire << ") ! \n";
                     exit(-1002);
                 }
                 
@@ -286,14 +290,14 @@ void boucle_ecriture(std::vector<info_t>& Info)
                     ++l;
                 }
                 
-                if (Info[0].taille_base > PAR_TRAITEMENT)
+                if (taille_base > PAR_TRAITEMENT)
                 {
                     ++compteur;
                     ecrire_ligne_table(i, agent, l, type, base, sep, Info, compteur);
                 }
                 else
                 {
-                    if (Info[0].taille_base != TOUTES_CATEGORIES)
+                    if (taille_base != TOUTES_CATEGORIES)
                     {
                         if (valeur_drapeau_categorie + 2 == -Info[0].taille_base)
                         {
@@ -322,8 +326,8 @@ void boucle_ecriture(std::vector<info_t>& Info)
         if (i) Info[0].nbLigne += Info[i].nbLigne;
     }
     
-    // Dans les autres cas, les bases ont dÃ©jÃ  Ã©tÃ© refermÃ©es sauf une (cas par annÃ©e et par taille maximale)
-    if (Info[0].taille_base == TOUTES_CATEGORIES)
+    // Dans les autres cas, les bases ont déjà été refermées sauf une (cas par année et par taille maximale)
+    if (taille_base == TOUTES_CATEGORIES)
         for (int d = 0; d < nbType - 1; ++d)
         {
             fichier_base[d].close();
@@ -332,68 +336,68 @@ void boucle_ecriture(std::vector<info_t>& Info)
     if (base)
     {
         base.close();
-        switch (Info[0].taille_base)
+        switch (taille_base)
         {
         case  MONOLITHIQUE            :
             goto message;
         case  PAR_TRAITEMENT          :
-            std::cout << "CatÃ©gorie : Traitement.\n";
+            std::cout << "[MSG] Catégorie : Traitement.\n";
             goto message;
         case  PAR_INDEMNITE_RESIDENCE :
-            std::cout << "CatÃ©gorie : IndemnitÃ© de rÃ©sidence.\n";
+            std::cout << "[MSG] Catégorie : Indemnité de résidence.\n";
             goto message;
         case  PAR_SFT                 :
-            std::cout << "CatÃ©gorie : SupplÃ©ment familial de traitement.\n";
+            std::cout << "[MSG] Catégorie : Supplément familial de traitement.\n";
             goto message;
         case  PAR_AVANTAGE_NATURE     :
-            std::cout << "CatÃ©gorie : Avantage en nature.\n";
+            std::cout << "[MSG] Catégorie : Avantage en nature.\n";
             goto message;
         case  PAR_INDEMNITE           :
-            std::cout << "CatÃ©gorie : IndemnitÃ©.\n";
+            std::cout << "[MSG] Catégorie : Indemnité.\n";
             goto message;
         case  PAR_REM_DIVERSES        :
-            std::cout << "CatÃ©gorie : RÃ©munÃ©rations diverses.\n";
+            std::cout << "[MSG] Catégorie : Rémunérations diverses.\n";
             goto message;
         case  PAR_DEDUCTION           :
-            std::cout << "CatÃ©gorie : DÃ©duction.\n";
+            std::cout << "[MSG] Catégorie : Déduction.\n";
             goto message;
         case  PAR_ACOMPTE             :
-            std::cout << "CatÃ©gorie : Acompte.\n";
+            std::cout << "[MSG] Catégorie : Acompte.\n";
             goto message;
         case  PAR_RAPPEL              :
-            std::cout << "CatÃ©gorie : Rappel.\n";
+            std::cout << "[MSG] Catégorie : Rappel.\n";
             goto message;
         case  PAR_RETENUE             :
-            std::cout << "CatÃ©gorie : Retenue.\n";
+            std::cout << "[MSG] Catégorie : Retenue.\n";
             goto message;
         case  PAR_COTISATION          :
-            std::cout << "CatÃ©gorie : Cotisation.\n";
+            std::cout << "[MSG] Catégorie : Cotisation.\n";
             goto message;
         case  TOUTES_CATEGORIES       :
-            std::cout << "Toutes catÃ©gories.\n";
-            std::cout << "Total de " << compteur << " lignes gÃ©nÃ©rÃ©e dans 11 bases.\n";
+            std::cout << "[MSG] Toutes catégories.\n";
+            std::cout << "[MSG] Total de " << compteur << " lignes générée dans 11 bases.\n";
             break;
             
         case PAR_ANNEE    :
-            std::cout << "AnnÃ©e : " << annee_courante << " Table gÃ©nÃ©rÃ©e.\n";
+            std::cout << "Année : " << annee_courante << " Table générée.\n";
             break;
-        default :  /* Taille dÃ©finie par l'utilisateur */
-            std::cout << "Table nÂ°" << rang_fichier_base
-                      << " de " <<  compteur - (rang_fichier_base-1) * Info[0].taille_base
-                      << " lignes, lignes " << (rang_fichier_base-1) * Info[0].taille_base +1
-                      << " Ã  " << compteur << ".\n";
+        default :  /* Taille définie par l'utilisateur */
+            std::cout << "[MSG] Table n°" << rang_fichier_base
+                      << " de " <<  compteur - (rang_fichier_base-1) * taille_base
+                      << " lignes, lignes " << (rang_fichier_base-1) * taille_base + 1
+                      << " à " << compteur << ".\n";
         }
         
         return;
         
 message :
-        std::cerr << "Table de " << compteur << " lignes.\n";
+        std::cerr << "[MSG] Table de " << compteur << " lignes.\n";
     }
     
     if (bulletins)
     {
         bulletins.close();
-        std::cerr << "Base des bulletins de paye de " << compteur_lignes_bulletins << " lignes.\n";
+        std::cerr << "[MSG] Base des bulletins de paye de " << compteur_lignes_bulletins << " lignes.\n";
     }
     
 }
