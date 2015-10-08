@@ -104,7 +104,7 @@ void Altair::run()
     
     progress->show();
     
-    args0 <<  "-m" << "-d" << "," << "-s" << ";";
+    args0 <<  "-m" << "-d" << "," << "-s" << ";" << "-rank" << sharedir + "/rank";
     args1 << createCommandLineString();
     
     outputTextEdit->append(STATE_HTML_TAG + tr("Décodage des fichiers .xhl..."));
@@ -136,6 +136,14 @@ void Altair::run()
     fileRank=0;
     progress->rewind();
     process->start(altairCommandStr,  args0 << args1);
+    rankFile.setFileName(sharedir + "/rank");
+    if (! rankFile.exists())
+        rankFile.open(QIODevice::WriteOnly);
+
+    if (rankFile.isOpen())
+        rankFile.close();
+
+    rankFile.open(QIODevice::ReadOnly);
 
     if (process->waitForStarted())
     {
@@ -146,6 +154,7 @@ void Altair::run()
     else
     {
         outputTextEdit->append(PROCESSING_HTML_TAG + tr("Echec du lancement de LHX, ligne de commande ")+ altairCommandStr);
+        rankFile.close();
     }
 
 }
@@ -187,7 +196,7 @@ void Altair::runRAltair()
 
 void Altair::processFinished(exitCode code)
 {
-    
+    rankFile.close();
     switch(code)
     {
     case exitCode::exitFailure : 
@@ -227,6 +236,7 @@ void Altair::killProcess()
     process->kill();
     outputTextEdit->append(PROCESSING_HTML_TAG+ QString((outputType == "L") ? " Décodage des bases " : " Analyse des données ") + tr(" en arrêt (SIGKILL)"));
     progress->stop();
+    rankFile.close();
 }
 
 void Altair::printMsg(qint64 new_value, const QString &str)
