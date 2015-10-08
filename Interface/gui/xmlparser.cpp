@@ -319,10 +319,10 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
             thirdColumn += filename;
             secondColumn =  Hash::Mois[filename];
             sixthColumn = "";
-            for (int j = 0; j < Hash::Siret[filename].size() && j < Hash::Etablissement[filename].size(); ++j)
+            for (int s = 0; s < Hash::Siret[filename].size() && s < Hash::Etablissement[filename].size(); ++s)
             {
-                sixthColumn += ((j > 0)? "\n" : "") + Hash::Siret[filename].at(j);
-                sixthColumn += " " + Hash::Etablissement[filename].at(j);
+                sixthColumn += ((s > 0)? "\n" : "") + Hash::Siret[filename].at(s);
+                sixthColumn += " " + Hash::Etablissement[filename].at(s);
             }
 
             seventhColumn =  Hash::Budget[filename];

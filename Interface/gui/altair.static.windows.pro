@@ -31,8 +31,8 @@ DEFINES += QT_NO_OPENGL \
 windows:RC_ICONS = neptune.ico
 
 linux: QMAKE_CXXFLAGS += -std=gnu++11 -march=native -O3
-windows: QMAKE_CXXFLAGS += /Ox /MP
-#windows: QMAKE_CXXFLAGS += -std=gnu++11
+#windows: QMAKE_CXXFLAGS += /Ox /MP
+windows: QMAKE_CXXFLAGS += -std=gnu++11 -march=native -O3
 linux: QMAKE_LFLAGS += -s
 
 SOURCES += \
