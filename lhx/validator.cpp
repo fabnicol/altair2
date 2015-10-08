@@ -1,11 +1,12 @@
-/*  Programme Ã©crit par Fabrice NICOL sous licence CECILL 3
- *  Attention : lorsqu'il est Ã©ditÃ©, le prÃ©sent code doit Ãªtre converti soit en UTF-8 soit en ISO-5589-1 (Latin-1)avant d'Ãªtre compilÃ©.
- *  En entrÃ©e d'Altair prÃ©ciser encodage.entrÃ©e en conformitÃ© avec l'encodage du prÃ©sent fichier, qui sera celui de la base gÃ©nÃ©rÃ©e.
+/*  Programme écrit par Fabrice NICOL sous licence CECILL 3
+ *  Attention : lorsqu'il est édité, le présent code doit être converti soit en UTF-8 soit en ISO-5589-1 (Latin-1)avant d'être compilé.
+ *  En entrée d'Altair préciser encodage.entrée en conformité avec l'encodage du présent fichier, qui sera celui de la base générée.
  */
 
-/* Constantes de compilation pouvant Ãªtre redÃ©finies : NA_STRING, MAX_LIGNES_PAYE, MAX_NB_AGENTS, NO_DEBUG, NO_REGEXP */
+/* Constantes de compilation pouvant être redéfinies : NA_STRING, MAX_LIGNES_PAYE, MAX_NB_AGENTS, NO_DEBUG, NO_REGEXP */
 
 #include <iomanip>
+#include <iostream>
 #include "validator.hpp"
 #include "fonctions_auxiliaires.hpp"
 #include "table.hpp"
@@ -35,7 +36,7 @@ static inline xmlNodePtr atteindreNoeud(const char* noeud, xmlNodePtr cur)
 
       if (cur == nullptr)
       {
-          std::cerr << "Impossible d'atteindre " << cur->name << std::end;
+          std::cerr << "Erreur : Impossible d'atteindre " << cur->name << std::endl;
           exit(-1);
       }
 
@@ -75,9 +76,9 @@ static inline void  verifier_taille(const int nbLignePaye, info_t& info)
     if (nbLignePaye >= info.nbLigneUtilisateur)
     {
         std::cerr << "\n\
-                En excÃ¨s du nombre de lignes de paye autorisÃ© (" << info.nbLigneUtilisateur << ").\n\
-                Omettre -n ... et utiliser -L fichier_log pour dÃ©tecter le maximum de lignes de paye dans les fichiers.\n\
-                Utiliser -N ce_maximum ou bien recompiler en augmentant MAX_LIGNES_PAYE, Ã  condition de disposer d'assez de mÃ©moire.\n";
+                En excès du nombre de lignes de paye autorisé (" << info.nbLigneUtilisateur << ").\n\
+                Omettre -n ... et utiliser -L fichier_log pour détecter le maximum de lignes de paye dans les fichiers.\n\
+                Utiliser -N ce_maximum ou bien recompiler en augmentant MAX_LIGNES_PAYE, à condition de disposer d'assez de mémoire.\n";
 
         exit(-10);
     }
@@ -87,8 +88,8 @@ static inline void  verifier_taille(const int nbLignePaye, info_t& info)
 
 #define ligne_l  info.Table[info.NCumAgentXml][l]
 
-/* Remplace les occurrences d'un caractÃ¨re sÃ©parateur Ã  l'intÃ©rieur d'un champ par le caractÃ¨re '_' qui ne doit donc jamais
-   Ãªtre sÃ©parateur de champ (c'est bien rare !) */
+/* Remplace les occurrences d'un caractère séparateur à l'intérieur d'un champ par le caractère '_' qui ne doit donc jamais
+   être séparateur de champ (c'est bien rare !) */
 
 static inline bool GCC_INLINE Bulletin(const char* tag, xmlNodePtr* cur, int l, info_t& info)
 {
@@ -127,7 +128,7 @@ static inline void GCC_INLINE _Bulletin(const char* tag, xmlNodePtr* cur,  int l
     {
         if (*cur)
         {
-            std::cerr << "Erreur : TrouvÃ© " << (*cur)->name << " au lieu de " << tag << std::endl;
+            std::cerr << "Erreur : Trouvé " << (*cur)->name << " au lieu de " << tag << std::endl;
             std::cerr << "Erreur : dans le fichier " << info.threads->argv[info.fichier_courant] << " \n  pour le matricule "
                       << info.Table[info.NCumAgentXml][Matricule] << std::endl;
             #ifdef STRICT
@@ -137,7 +138,7 @@ static inline void GCC_INLINE _Bulletin(const char* tag, xmlNodePtr* cur,  int l
         }
         else
         {
-            std::cerr << "Erreur : Noeud courant null au stade de la vÃ©rification de "
+            std::cerr << "Erreur : Noeud courant null au stade de la vérification de "
                       << tag
                       << ", fichier " <<  info.threads->argv[info.fichier_courant] << std::endl;
 
@@ -151,13 +152,13 @@ static inline void GCC_INLINE _Bulletin(const char* tag, xmlNodePtr* cur,  int l
     }
 }
 
-/* A tester : la substitution du caractÃ¨re dÃ©cimal , au . de la locale anglaise utilisÃ© par XÃ©mÃ©lios (hÃ©las)
-   reste nÃ©cessaire tant que nous utiliserons un stockage uniforme en chaÃ®nes de caractÃ¨res.
-   Si un jour nous dÃ©cidons d'utilisr strold pour convertir les chaÃ®nes de caractÃ¨re numÃ©riques en float, nous
-   gagnerons de la place en stockage temporaire (peut Ãªtre utile pour les gros fichiers) et alors printf et setlocale
-   feront le travail de substitution de la virgule au point lors de l'Ã©criture de la base.
-   A ce stade nous stockons tous les champs lus en char, pour Ã©criture identique en .csv dans la table, avec substition
-   'manuelle' de la virgule au point dans la chaÃ®ne en output. */
+/* A tester : la substitution du caractère décimal , au . de la locale anglaise utilisé par Xémélios (hélas)
+   reste nécessaire tant que nous utiliserons un stockage uniforme en chaînes de caractères.
+   Si un jour nous décidons d'utilisr strold pour convertir les chaînes de caractère numériques en float, nous
+   gagnerons de la place en stockage temporaire (peut être utile pour les gros fichiers) et alors printf et setlocale
+   feront le travail de substitution de la virgule au point lors de l'écriture de la base.
+   A ce stade nous stockons tous les champs lus en char, pour écriture identique en .csv dans la table, avec substition
+   'manuelle' de la virgule au point dans la chaîne en output. */
 
 static inline void GCC_INLINE substituer_separateur_decimal(xmlChar* ligne, const char decimal)
 {
@@ -178,7 +179,7 @@ static inline void GCC_INLINE _Bulletin_(const char* tag, xmlNodePtr* cur,  int 
 
 }
 
-/* obligatoire et avec substitution sÃ©parateur dÃ©cimal */
+/* obligatoire et avec substitution séparateur décimal */
 
 static inline void GCC_INLINE Bulletin_(const char* tag, xmlNodePtr* cur, int l, info_t& info)
 {
@@ -194,10 +195,10 @@ static inline int lignePaye(xmlNodePtr cur, info_t& info)
     int nbLignePaye = 0;
     unsigned int t = 0;
 
-    ligne_l = (xmlChar*) xmlStrdup(drapeau[t]);  // +1 pour Ã©viter la confusion avec \0 des chaines vides
+    ligne_l = (xmlChar*) xmlStrdup(drapeau[t]);  // +1 pour éviter la confusion avec \0 des chaines vides
     ++l;
 
-    /* Besoins en mÃ©moire : 18 [champs hors ligne] + nombre de lignes + flags (maximum nbType) */
+    /* Besoins en mémoire : 18 [champs hors ligne] + nombre de lignes + flags (maximum nbType) */
     bool rembobiner = false;
 
     while (cur != nullptr)
@@ -209,9 +210,9 @@ static inline int lignePaye(xmlNodePtr cur, info_t& info)
 			++t;
             if (t == nbType)
             {
-                /* En principe les Ã©lÃ©ments constitutifs des enregistrements <RemunÃ©ration>....</Remuneration> sont enregistrÃ©s
-                   dans l'ordre du tableau type_remuneration. Toutefois quelques cas de dÃ©sordre sont observÃ©s. Dans ces cas lÃ  on peut
-                   "rembobiner le tableau". On Ã©vite toutefois de faire une recherche ensembliste systÃ©matique, qui Ã©viterait cela mais
+                /* En principe les éléments constitutifs des enregistrements <Remunération>....</Remuneration> sont enregistrés
+                   dans l'ordre du tableau type_remuneration. Toutefois quelques cas de désordre sont observés. Dans ces cas là on peut
+                   "rembobiner le tableau". On évite toutefois de faire une recherche ensembliste systématique, qui éviterait cela mais
                    freinerait 99,9 % des recherches */
 
                 if (rembobiner == false)
@@ -221,9 +222,9 @@ static inline int lignePaye(xmlNodePtr cur, info_t& info)
                     continue;
                 }
 
-                /* On ne rembobine qu'une seule fois. Si l'essai Ã©choue, on dÃ©clenche une exception */
+                /* On ne rembobine qu'une seule fois. Si l'essai échoue, on déclenche une exception */
 
-                std::cerr << "Erreur : En excÃ¨s du nombre de types de lignes de paye autorisÃ© (" << nbType << ").\n";
+                std::cerr << "Erreur : En excès du nombre de types de lignes de paye autorisé (" << nbType << ").\n";
                 if (cur)
                     std::cerr << "Erreur : Type litigieux " << cur->name << " aux alentours du matricule " << info.Table[info.NCumAgentXml][Matricule] << std::endl;
                 else
@@ -239,7 +240,7 @@ static inline int lignePaye(xmlNodePtr cur, info_t& info)
 
         if (new_type && t < nbType)
         {
-            ligne_l = (xmlChar*) xmlStrdup(drapeau[t]);  // +1 pour Ã©viter la confusion avec \0 des chaines vides
+            ligne_l = (xmlChar*) xmlStrdup(drapeau[t]);  // +1 pour éviter la confusion avec \0 des chaines vides
             ++l;
         }
 
@@ -257,7 +258,7 @@ static inline int lignePaye(xmlNodePtr cur, info_t& info)
         }
 
         DESCENDRE_UN_NIVEAU
-        /* LibellÃ©, obligatoire */
+        /* Libellé, obligatoire */
 
         cur = atteindreNoeud("Libelle", cur);
 
@@ -278,7 +279,7 @@ static inline int lignePaye(xmlNodePtr cur, info_t& info)
         _Bulletin_("Taux", &cur, l, info);
 		++l;
 
-        /* Nombre d'unitÃ©s, s'il existe */
+        /* Nombre d'unités, s'il existe */
         _Bulletin_("NbUnite", &cur, l, info);
 		++l;
 
@@ -291,7 +292,7 @@ static inline int lignePaye(xmlNodePtr cur, info_t& info)
 
         REMONTER_UN_NIVEAU
 
-        // Lorsque on a Ã©puisÃ© tous les types licites on a nÃ©cessairement cur = nullptr
+        // Lorsque on a épuisé tous les types licites on a nécessairement cur = nullptr
     }
 
 #undef ligne_l
@@ -320,10 +321,10 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t& info)
 
     DESCENDRE_UN_NIVEAU
 
-    /* dans certains sxhÃ©mas on peut ne pas avoir la civilitÃ© */
+    /* dans certains sxhémas on peut ne pas avoir la civilité */
     cur = atteindreNoeud("Nom", cur);
 
-    /* passer Ã  la balise adjacente aprÃ¨s lecture */
+    /* passer à la balise adjacente après lecture */
     info.drapeau_cont = true;
     _BULLETIN(Nom)
 
@@ -333,7 +334,7 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t& info)
     xmlNodePtr cur_save = cur;
 
 #endif
-    /* Dans certains cas on peut avoir un complÃ©ment de nom */
+    /* Dans certains cas on peut avoir un complément de nom */
     cur = atteindreNoeud("Prenom", cur);
     _BULLETIN(Prenom)
     _BULLETIN(Matricule)
@@ -352,7 +353,7 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t& info)
 #endif
 
     _BULLETIN(Statut)
-    /* dans certains schÃ©mas on peut avoir ici des balises */
+    /* dans certains schémas on peut avoir ici des balises */
 
 #ifdef TOLERANT
     cur = cur_save;
@@ -377,7 +378,7 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t& info)
 #else
     cur = cur->next;
 #endif
-    info.drapeau_cont = false; /* ne pas lire la balise adjacente : fin du niveau subordonnÃ© Agent*/
+    info.drapeau_cont = false; /* ne pas lire la balise adjacente : fin du niveau subordonné Agent*/
     _BULLETIN(Indice)
 
     REMONTER_UN_NIVEAU
@@ -418,7 +419,7 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t& info)
     cur = cur->next;
 #endif
 
-    /* obligatoire, substitution du sÃ©parateur dÃ©cimal */
+    /* obligatoire, substitution du séparateur décimal */
     BULLETIN_(QuotiteTrav)
 
 #ifdef TOLERANT
@@ -449,16 +450,16 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t& info)
     }
     else
     {
-        perror("Erreur : RÃ©munÃ©ration introuvable.");
+        perror("Erreur : Rémunération introuvable.");
         exit(-4);
     }
 
-    /* non obligatoire , substitution du sparateur dÃ©cimal */
+    /* non obligatoire , substitution du sparateur décimal */
 
     _BULLETIN_(NbHeureTotal)
     cur = atteindreNoeud("NbHeureSup", cur);
 
-    /* obligatoire, substitution du sparateur dÃ©cimal */
+    /* obligatoire, substitution du sparateur décimal */
     BULLETIN_(NbHeureSup)
     BULLETIN_(MtBrut)
     BULLETIN_(MtNet)
@@ -466,13 +467,13 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t& info)
     info.drapeau_cont=false; // fin du niveau PayeIndivMensuel
     BULLETIN_(MtNetAPayer)
 
-    // RÃ©muneration tag vide
+    // Rémuneration tag vide
     if (ligne == 0) ligne = 1 ;
 
     return ligne;
 }
 
-/* agent_total est une variable de contrÃ´le pour info->NCumAgent */
+/* agent_total est une variable de contrôle pour info->NCumAgent */
 
 static void parseFile(info_t& info)
 {
@@ -514,7 +515,7 @@ static void parseFile(info_t& info)
     }
     else
     {
-        std::cerr << "Erreur : AnnÃ©e non dÃ©tectable\n";
+        std::cerr << "Erreur : Année non détectable\n";
         exit(-502);
     }
 
@@ -524,7 +525,7 @@ static void parseFile(info_t& info)
     }
     else
     {
-        std::cerr << "Erreur : Mois non dÃ©tectable\n";
+        std::cerr << "Erreur : Mois non détectable\n";
         exit(-503);
     }
 
@@ -538,7 +539,7 @@ static void parseFile(info_t& info)
     }
     else
     {
-        std::cerr << "Erreur : Budget non dÃ©tectable\n";
+        std::cerr << "Erreur : Budget non détectable\n";
         exit(-504);
     }
 
@@ -564,7 +565,7 @@ static void parseFile(info_t& info)
             }
             else
             {
-                std::cerr << "Erreur : Etablissement/Employeur non dÃ©tectable\n";
+                std::cerr << "Erreur : Etablissement/Employeur non détectable\n";
                 exit(-505);
             }
 
@@ -577,9 +578,9 @@ static void parseFile(info_t& info)
             }
             else
             {
-                std::cerr << "AnnÃ©e " << info.Table[info.NCumAgentXml][Annee]
-                          << "Mois "  << info.Table[info.NCumAgentXml][Mois]
-                          << "\nErreur : Siret non dÃ©tectable\n";
+                std::cerr  << "\nErreur : Siret non détectable\n";
+                std::cerr << "Année " << info.Table[info.NCumAgentXml][Annee]
+                          << "Mois "  << info.Table[info.NCumAgentXml][Mois];
                 exit(-506);
             }
             cur=cur_save2;
@@ -608,13 +609,13 @@ static void parseFile(info_t& info)
             {
                 if (ligne_p != info.NLigne[info.NCumAgentXml])
                 {
-                    std::cerr << "IncohÃ©rence des dÃ©comptes de lignes entre le contrÃ´le C : "
+                    std::cerr << "Erreur : Incohérence des décomptes de lignes entre le contrôle C : "
                               << info.NLigne[info.NCumAgentXml]
                               << "et l'analyse Libxml2 : "
                               << ligne_p
                               << "\nPour l'agent "
                               << info.Table[info.NCumAgentXml][Matricule]
-                              << " AnnÃ©e "
+                              << " Année "
                               << info.Table[info.NCumAgentXml][Annee]
                               << " Mois "
                               << info.Table[info.NCumAgentXml][Mois];
@@ -632,7 +633,7 @@ static void parseFile(info_t& info)
                 int diff = info.NLigne[info.NCumAgentXml]-ligne_p;
                 if (log.good())
                 #define P  " | "
-                log << "AnnÃ©e " << P
+                log << "Année " << P
                     << info.Table[info.NCumAgentXml][Annee] << P
                     << "Mois "  << std::setw(2) << info.Table[info.NCumAgentXml][Mois] << P
                     << "Matricule " << std::setw(6) <<  info.Table[info.NCumAgentXml][Matricule] << P
@@ -640,7 +641,7 @@ static void parseFile(info_t& info)
                     << "Rang dans fichier " << std::setw(5) <<  info.NAgent[info.fichier_courant] << P
                     << "Analyseur C : " << std::setw(6) << info.NLigne[info.NCumAgentXml] << P
                     << "Xml : " << std::setw(6) << ligne_p << P
-                    << "DiffÃ©rence " << std::setw(4) << diff << std::endl;
+                    << "Différence " << std::setw(4) << diff << std::endl;
                 #undef P
             }
             // Ici il est normal que cur = nullptr
@@ -659,8 +660,8 @@ static void parseFile(info_t& info)
     xmlFree(mois_fichier);
     xmlFree(annee_fichier);
 
-    std::cerr << "Fichier nÂ°" << info.fichier_courant + 1 << " :\nPopulation du fichier  " <<  info.threads->argv[info.fichier_courant] << ":\n"
-              <<  info.NAgent[info.fichier_courant] << " bulletins    Total : " <<  info.NCumAgentXml << "bulletins  " << info.nbLigne <<" lignes cumulÃ©es.\n";
+    std::cerr << "[MSG] Fichier n°" << info.fichier_courant + 1 << " :\n[MSG] Population du fichier  " <<  info.threads->argv[info.fichier_courant] << ":\n[MSG] "
+              <<  info.NAgent[info.fichier_courant] << " bulletins    Total : " <<  info.NCumAgentXml << "bulletins  " << info.nbLigne <<" lignes cumulées.\n";
 
 
     xmlFreeDoc(doc);
@@ -669,7 +670,7 @@ static void parseFile(info_t& info)
 
 }
 
- /* Les expressions rÃ©guliÃ¨res correctes ne sont disponibles sur MINGW GCC qu'Ã  partir du build 4.9.2 */
+ /* Les expressions régulières correctes ne sont disponibles sur MINGW GCC qu'à partir du build 4.9.2 */
 
 #if !defined GCC_REGEX && (defined __WIN32__ || defined GCC_4_8)
 #include <regex.h>
@@ -701,22 +702,29 @@ const char* pat2 = EXPRESSION_REG_VACATIONS;
 #include <string>
 #include <iostream>
 #include <ctype.h>
+#include <mutex>
 
 using namespace std;
 #else
-#error "C++11 doit Ãªtre utilisÃ©."
+#error "C++11 doit être utilisé."
 #endif
 
 
 #endif // defined
 
+extern int rankNumber;
+extern std::ofstream rankFile;
+std::mutex mut;
+
 void* decoder_fichier(info_t& info)
 {
     /* environ 6000 bulletins par seconde en processus sumple, et 15000 en multithread ; rajoute 1/3 du temps */
 
+    int temp_rank = 1;
+
     #if  defined GCC_REGEX //&& !defined __WIN32__ && !defined GCC_4_8
 
-     regex pat {"Ã©lu"/*info->expression_reg_elus*/,  regex_constants::icase};
+     regex pat {"élu"/*info->expression_reg_elus*/,  regex_constants::icase};
      regex pat2 {EXPRESSION_REG_VACATIONS, regex_constants::icase};
      regex pat3 {EXPRESSION_REG_ASSISTANTES_MATERNELLES, regex_constants::icase};
 
@@ -729,7 +737,7 @@ void* decoder_fichier(info_t& info)
         int err = calculer_memoire_requise(info);
         if (err)
         {
-            perror("Erreur : Calcul de la mÃ©moire requise");
+            perror("Erreur : Calcul de la mémoire requise");
             exit(-1001);
         }
     }
@@ -744,7 +752,7 @@ void* decoder_fichier(info_t& info)
         }
         else
         {
-            perror("Erreur : ProblÃ¨me d'allocation mÃ©moire de info.NLigne");
+            perror("Erreur : Problème d'allocation mémoire de info.NLigne");
             exit(1003);
         }
     }
@@ -754,7 +762,7 @@ void* decoder_fichier(info_t& info)
 
     if (info.Table == nullptr)
     {
-        perror("Erreur : MÃ©moire insuffisante");
+        perror("Erreur : Mémoire insuffisante");
         exit(-18);
     }
 
@@ -777,29 +785,40 @@ void* decoder_fichier(info_t& info)
     {
         info.fichier_courant = i;
         parseFile(info);
+        if (mut.try_lock())
+        {
+            rankNumber += temp_rank;
+            temp_rank = 1;
+            rankFile << rankNumber << std::endl;
+        }
+        else
+            ++temp_rank;
+
+        mut.unlock();
     }
 
     if (info.NCumAgentXml != info.NCumAgent)
     {
-        std::cerr << "Erreur : IncohÃ©rence de l'allocation mÃ©moire ex-ante " << info.NCumAgent
-                  << " unitÃ©s et ex-post " <<  info.NCumAgentXml << " unitÃ©s d'information.\n"
-                  << "Sortie pour Ã©viter une erreur de segmentation.\n";
+        std::cerr << "Erreur : Incohérence de l'allocation mémoire ex-ante " << info.NCumAgent
+                  << " unités et ex-post " <<  info.NCumAgentXml << " unités d'information.\n"
+                  << "Sortie pour éviter une erreur de segmentation.\n";
         std::cerr << "Fichier : " << info.threads->argv[info.fichier_courant] << std::endl;
 
         exit(1005);
     }
 
+
     // attention, pas info<-NCumAgent ici
 
-    /* Le champ statut est modifiÃ© comme suit :
-        ELU   pour un Ã©lu
+    /* Le champ statut est modifié comme suit :
+        ELU   pour un élu
         V     pour un vacataire
         A     pour une assistante maternelle */
 
 #define VAR(X) info.Table[agent][X]
     for (unsigned agent = 0; agent < info.NCumAgentXml; ++agent)
     {
-        /* Les Ã©lus peuvent Ãªtre identifiÃ©s soit dans le service soit dans l'emploi mÃ©tier */
+        /* Les élus peuvent être identifiés soit dans le service soit dans l'emploi métier */
 
         if (regex_match((const char*) VAR(EmploiMetier), pat) || regex_match((const char*) VAR(Service), pat))
         {
@@ -821,8 +840,8 @@ void* decoder_fichier(info_t& info)
                 VAR(Grade) = (xmlChar*) xmlStrdup((const xmlChar*)"A");
             }
 
-        /* les vacations peuvent Ãªtre indiquÃ©es comme telles dans les libellÃ©s de paie mais pas dans les emplois mÃ©tiers.
-           On les rÃ©cupÃ¨re en parcourant les libellÃ©s */
+        /* les vacations peuvent être indiquées comme telles dans les libellés de paie mais pas dans les emplois métiers.
+           On les récupère en parcourant les libellés */
 
         if (info.reduire_consommation_memoire)
         {

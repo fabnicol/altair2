@@ -47,6 +47,7 @@ public:
     void dropEvent(QDropEvent *event);
     QPoint startPos;
     QProcess* process = new QProcess;
+    QFile rankFile;
     QProcess ejectProcess;
     QString fileTreeFile;
     QString outputType;
