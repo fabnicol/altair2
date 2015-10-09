@@ -29,11 +29,11 @@ linux: QMAKE_CXXFLAGS = -pipe -m64 -std=gnu++11 -march=native -fexceptions -fomi
 QMAKE_CXXFLAGS = -pipe -m64 -std=gnu++11 -march=native -fexceptions -fomit-frame-pointer -O3 -fexpensive-optimizations
 
 linux: INCLUDEPATH += /usr/include/libxml2
-windows: INCLUDEPATH += E:/mingw64/include
+windows: INCLUDEPATH += $(USERPROFILE)/Dev/mingw64-5.2.0/include
 
 linux: LIBS = -L/usr/lib/x86_64-linux-gnu -lxml2 -pthread
-windows: LIBS = E:/mingw64/lib/libxml2.dll.a
-windows: VPATH += E:/mingw64/bin
+windows: LIBS = $(USERPROFILE)/Dev/mingw64-5.2.0/lib/libxml2.dll.a
+windows: VPATH += $(USERPROFILE)/Dev/mingw64-5.2.0/bin
 
 SOURCES += \ 
     ../fonctions_auxiliaires.cpp \

@@ -6,7 +6,7 @@ QStringList Altair::createCommandLineString()
 {
     QListIterator<FAbstractWidget*> w(Abstract::abstractWidgetList);
     QStringList commandLine;
-    
+
     w.toBack();
     fileCount = 0;
     while (w.hasPrevious())
@@ -23,8 +23,9 @@ QStringList Altair::createCommandLineString()
 
 void Altair::run()
 {
-    updateProject(true);   // crucial otherwise some dynamic settings in the option dialog 
+    updateProject(true);   // crucial otherwise some dynamic settings in the option dialog
     //may not get through to command line
+
 
 
     if (Altair::totalSize[0] == 0)
@@ -42,7 +43,7 @@ void Altair::run()
 
     if (path.isEmpty())
     {
-        Warning0( "RÃ©pertoire de sortie", "Le rÃ©pertoire de crÃ©ation des bases " + path +" n'a pas Ã©tÃ© indiquÃ©, renseigner le dialogue des paramÃ¨tres.");
+        Warning0( "Répertoire de sortie", "Le répertoire de création des bases " + path +" n'a pas été indiqué, renseigner le dialogue des paramètres.");
         processFinished(exitCode::shouldLaunchRAltairAlone);
         return;
     }
@@ -50,26 +51,26 @@ void Altair::run()
 
     if (!targetDirObject.exists())
     {
-        QMessageBox::critical(nullptr, "RÃ©pertoire des bases", "Le rÃ©pertoire " + path +" n'existe pas. Veuillez le crÃ©er manuellement par sÃ©curitÃ©.");
+        QMessageBox::critical(nullptr, "Répertoire des bases", "Le répertoire " + path +" n'existe pas. Veuillez le créer manuellement par sécurité.");
         processFinished(exitCode::shouldLaunchRAltairAlone);
         return;
     }
 
     if (!targetDirObject.removeRecursively())
     {
-        Warning0(QString("Supprimer le rÃ©pertoire au lancement"),
-                 QString("Il n'a pas Ã©tÃ© possible de nettoyer le rÃ©pertoire %1 au lancement de LHX.\nNettoyer le rÃ©pertoire et relancer.").arg(QDir::toNativeSeparators(path)));
+        Warning0(QString("Supprimer le répertoire au lancement"),
+                 QString("Il n'a pas été possible de nettoyer le répertoire %1 au lancement de LHX.\nNettoyer le répertoire et relancer.").arg(QDir::toNativeSeparators(path)));
         processFinished(exitCode::shouldLaunchRAltairAlone);
         return;
     }
     else
     if (targetDirObject.mkpath(path) == false)
     {
-        Warning0(QString("RÃ©pertoire"), QString("Le rÃ©pertoire de sortie %1 n'a pas pu Ãªtre crÃ©Ã©. Relancer aprÃ¨s avoir rÃ©glÃ© le problÃ¨me.").arg(path));
+        Warning0(QString("Répertoire"), QString("Le répertoire de sortie %1 n'a pas pu être créé. Relancer après avoir réglé le problème.").arg(path));
         return;
     }
 #ifdef DEBUG
-    outputTextEdit->append(PROCESSING_HTML_TAG + tr("Validation du rÃ©pertoire de sortie ") + path);
+    outputTextEdit->append(PROCESSING_HTML_TAG + tr("Validation du répertoire de sortie ") + path);
 #endif
 
     // Organiser les fichiers temporaires de siret
@@ -102,15 +103,15 @@ void Altair::run()
 #endif
     QStringList args0, args1;
     QString command;
-    
+
     progress->show();
-    
+
     args0 <<  "-m" << "-d" << "," << "-s" << ";" << "-rank" << sharedir + "/rank";
     args1 << createCommandLineString();
-    
-    outputTextEdit->append(STATE_HTML_TAG + tr("DÃ©codage des fichiers .xhl..."));
+
+    outputTextEdit->append(STATE_HTML_TAG + tr("Décodage des fichiers .xhl..."));
     outputTextEdit->append(PROCESSING_HTML_TAG + tr("Taille totale des fichiers ")+QString::number(Altair::totalSize[0]/(1024*1024)) +tr(" Mo"));
-    
+
     command = QString("-m -d \",\" -s \";\" -rank ") + sharedir + "/rank" ;
     QStringListIterator i(args1);
     while (i.hasNext())
@@ -123,16 +124,16 @@ void Altair::run()
     }
 
     parent->consoleDialog->append(STATE_HTML_TAG + tr("Ligne de commande : ")+ altairCommandStr+ " " + command);
-    
+
     outputType="L";
-    
+
     process->setProcessChannelMode(QProcess::MergedChannels);
     process->setWorkingDirectory(common::execPath);
 
     progress->setCount(fileCount);
 
 #ifdef DEBUG
-    outputTextEdit->append(PROCESSING_HTML_TAG + tr("DÃ©marrage dans ") + common::execPath);
+    outputTextEdit->append(PROCESSING_HTML_TAG + tr("Démarrage dans ") + common::execPath);
 
 #endif
     fileRank=0;
@@ -145,19 +146,19 @@ void Altair::run()
     if (rankFile.isOpen())
         rankFile.close();
 
-    rankFile.open(QIODevice::ReadOnly);
+
 
     if (process->waitForStarted())
     {
         outputTextEdit->append(PROCESSING_HTML_TAG + tr("Lancement de LHX...Veuillez patienter\n"));
         if (Hash::wrapper["ecoRAM"]->toFString().isTrue())
-            outputTextEdit->append(PROCESSING_HTML_TAG + tr("En mode Ã©conome de mÃ©moire, le lancement effectif peut Ãªtre retardÃ© de plusieurs dizaines de secondes.\n"));
+            outputTextEdit->append(PROCESSING_HTML_TAG + tr("En mode économe de mémoire, le lancement effectif peut être retardé de plusieurs dizaines de secondes.\n"));
     }
     else
     {
         outputTextEdit->append(PROCESSING_HTML_TAG + tr("Echec du lancement de LHX, ligne de commande ")+ altairCommandStr);
-        rankFile.close();
-    }
+     }
+
 
 }
 
@@ -165,7 +166,7 @@ void Altair::run()
 void Altair::runRAltair()
 {
 
-    outputTextEdit->append(tr(STATE_HTML_TAG "CrÃ©ation du rapport d'analyse des donnÃ©es..."));
+    outputTextEdit->append(tr(STATE_HTML_TAG "Création du rapport d'analyse des données..."));
     QDir dir=QDir::current();
     dir.setCurrent(RAltairDirStr);
     process->setWorkingDirectory(RAltairDirStr);
@@ -180,12 +181,12 @@ void Altair::runRAltair()
     if (process->waitForStarted())
     {
          outputTextEdit->append(tr(STATE_HTML_TAG \
-                    "Lancement du traitement des donnÃ©es ...Veuillez patienter.<br>\
-                       Vous pouvez suivre l'exÃ©cution du traitement dans la console<br>(Configurer > Configurer l'interface > Afficher les messages)."));
+                    "Lancement du traitement des données ...Veuillez patienter.<br>\
+                       Vous pouvez suivre l'exécution du traitement dans la console<br>(Configurer > Configurer l'interface > Afficher les messages)."));
     }
     else
     {
-        QMessageBox::critical(this, "Erreur", "Echec du traitement des donnÃ©es. Recommencer en mode avancÃ© ou en mode expert.", "Fermer");
+        QMessageBox::critical(this, "Erreur", "Echec du traitement des données. Recommencer en mode avancé ou en mode expert.", "Fermer");
     }
 
 #else
@@ -198,35 +199,34 @@ void Altair::runRAltair()
 
 void Altair::processFinished(exitCode code)
 {
-    rankFile.close();
     switch(code)
     {
-    case exitCode::exitFailure : 
-        outputTextEdit->append(ERROR_HTML_TAG + QString((outputType == "L") ? " DÃ©codage des bases " : " Analyse des donnÃ©es ") + tr(": plantage de l'application' ."));
+    case exitCode::exitFailure :
+        outputTextEdit->append(ERROR_HTML_TAG + QString((outputType == "L") ? " Décodage des bases " : " Analyse des données ") + tr(": plantage de l'application' ."));
         progress->stop();
         return;
-        
-    case exitCode::noAudioFiles :  
-        outputTextEdit->append(ERROR_HTML_TAG  + QString((outputType == "L") ? " DÃ©codage des bases " : " Analyse des donnÃ©es ") + tr(": Pas de fichier xhl."));
+
+    case exitCode::noAudioFiles :
+        outputTextEdit->append(ERROR_HTML_TAG  + QString((outputType == "L") ? " Décodage des bases " : " Analyse des données ") + tr(": Pas de fichier xhl."));
         progress->stop();
         return;
-        
+
     default :
-        outputTextEdit->append(PROCESSING_HTML_TAG  + tr(" TerminÃ©."));
-        
+        outputTextEdit->append(PROCESSING_HTML_TAG  + tr(" Terminé."));
+
     }
-    
-    
+
+
     if (process->exitStatus() == QProcess::CrashExit) return;
-    
+
     qint64 fsSize=1;
-    
+
     if (outputType == "L")
     {
-        outputTextEdit->append(PARAMETER_HTML_TAG  + tr(" RÃ©pertoire de sortie : %1").arg(v(base)));
-        
+        outputTextEdit->append(PARAMETER_HTML_TAG  + tr(" Répertoire de sortie : %1").arg(v(base)));
+
         fsSize=getDirectorySize(v(base), "*.*");
-        
+
         outputTextEdit->append(tr(PROCESSING_HTML_TAG "Taille de la base : ")+ QString::number(fsSize) + " Octets ("+ QString::number(((float)fsSize)/(1024.0*1024.0), 'f', 2)+ " Mo)");
 
     }
@@ -236,7 +236,7 @@ void Altair::processFinished(exitCode code)
 void Altair::killProcess()
 {
     process->kill();
-    outputTextEdit->append(PROCESSING_HTML_TAG+ QString((outputType == "L") ? " DÃ©codage des bases " : " Analyse des donnÃ©es ") + tr(" en arrÃªt (SIGKILL)"));
+    outputTextEdit->append(PROCESSING_HTML_TAG+ QString((outputType == "L") ? " Décodage des bases " : " Analyse des données ") + tr(" en arrêt (SIGKILL)"));
     progress->stop();
     rankFile.close();
 }
@@ -247,10 +247,10 @@ void Altair::printMsg(qint64 new_value, const QString &str)
     if (new_value < 1024*1024*1024)
         outputTextEdit->append(tr(STATE_HTML_TAG) + str + QString::number(new_value) +" B ("+QString::number(new_value/(1024*1024))+ " Mo)");
     else
-        outputTextEdit->append(tr(WARNING_HTML_TAG) + "La taille du projet est supÃ©rieurs Ã  1 Go");
+        outputTextEdit->append(tr(WARNING_HTML_TAG) + "La taille du projet est supérieurs à  1 Go");
 }
 
 void Altair::printBaseSize(qint64 new_value)
 {
-    if (new_value > 1024) printMsg(new_value, "CrÃ©ation de la base ...");
+    if (new_value > 1024) printMsg(new_value, "Création de la base ...");
 }
