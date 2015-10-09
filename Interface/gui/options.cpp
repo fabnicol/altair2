@@ -46,7 +46,7 @@ standardPage::standardPage()
            << "D"  << "RE";
 
     QStringList range3=QStringList();
-    for (int i=1; i < 9; i++) range3 << QString::number(i);
+    for (int i=1; i < 12; i++) range3 << QString::number(i);
     
     QLabel* baseTypeLabel = new QLabel("Type de base  ");
     baseTypeWidget=new FComboBox(range,

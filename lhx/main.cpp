@@ -22,6 +22,7 @@
 
 typedef std::chrono::high_resolution_clock Clock;
 std::ofstream rankFile;
+char* rankFilePath;
 int rankNumber = 1;
 
 static inline const uint32_t* calculer_maxima(const std::vector<info_t> &Info)
@@ -374,7 +375,8 @@ int main(int argc, char **argv)
                     remove(argv[start + 1]);
                 }
 
-                rankFile.open(argv[start + 1], std::ios::app);
+                rankFilePath = argv[start + 1];
+                rankFile.open(rankFilePath, std::ios::in | std::ios::out| std::ios::trunc);
                 rankFile << 1 << std::endl;
 
             }

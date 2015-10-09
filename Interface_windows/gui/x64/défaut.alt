@@ -9,9 +9,9 @@
      <item V="2" S="24380090100023" B="ASSAINISSEMENT" E="REGIE ASSAINISSEMENT">C:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/METRO_200802_02_00.xhl</item>
      <item V="3" S="24380090100015" B="BUDGET PRINCIPAL" E="GRENOBLE ALPES METROPOLE">C:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/METRO_200803_01_00.xhl</item>
      <item V="3" S="24380090100023" B="ASSAINISSEMENT" E="REGIE ASSAINISSEMENT">C:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/METRO_200803_02_00.xhl</item>
-     <item V="4" S="24380090100015" B="Multi budgets" E="GRENOBLE ALPES METROPOLE">C:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/METRO_200804_99_00.xhl</item>
-     <item V="5" S="24380090100015" B="Multi budgets" E="GRENOBLE ALPES METROPOLE">C:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/METRO_200805_99_00.xhl</item>
-     <item V="6" S="24380090100015" B="Multi budgets" E="GRENOBLE ALPES METROPOLE">C:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/METRO_200806_99_00.xhl</item>
+     <item V="4" S="24380090100015" B="Multi budgets" E="GRENOBLE ALPES METROPOLE" S2="24380090100023" E2="REGIE ASSAINISSEMENT">C:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/METRO_200804_99_00.xhl</item>
+     <item V="5" S="24380090100015" B="Multi budgets" E="GRENOBLE ALPES METROPOLE" S2="24380090100023" E2="REGIE ASSAINISSEMENT">C:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/METRO_200805_99_00.xhl</item>
+     <item V="6" S="24380090100015" B="Multi budgets" E="GRENOBLE ALPES METROPOLE" S2="24380090100023" E2="REGIE ASSAINISSEMENT">C:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/METRO_200806_99_00.xhl</item>
      <item V="7" S="24380090100015" B="BUDGET PRINCIPAL" E="GRENOBLE ALPES METROPOLE">C:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/METRO_200807_01_00.xhl</item>
      <item V="7" S="24380090100023" B="ASSAINISSEMENT" E="REGIE ASSAINISSEMENT">C:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/METRO_200807_02_00.xhl</item>
      <item V="8" S="24380090100015" B="BUDGET PRINCIPAL" E="GRENOBLE ALPES METROPOLE">C:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/METRO_200808_01_00.xhl</item>
@@ -24,6 +24,18 @@
      <item V="11" S="24380090100023" B="ASSAINISSEMENT" E="REGIE ASSAINISSEMENT">C:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/METRO_200811_02_00.xhl</item>
      <item V="12" S="24380090100015" B="BUDGET PRINCIPAL" E="GRENOBLE ALPES METROPOLE">C:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/METRO_200812_01_00.xhl</item>
      <item V="12" S="24380090100023" B="ASSAINISSEMENT" E="REGIE ASSAINISSEMENT">C:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/METRO_200812_02_00.xhl</item>
+     <item V="" S="" B="" E="">C:/Users/Fab/AppData/Local/Temp.Hp1092</item>
+     <item V="" S="" B="" E="">C:/Users/Fab/AppData/Local/Temp.gq1092</item>
+     <item V="" S="" B="" E="">C:/Users/Fab/AppData/Local/Temp.Uh1092</item>
+     <item V="" S="" B="" E="">C:/Users/Fab/AppData/Local/Temp.em1092</item>
+     <item V="" S="" B="" E="">C:/Users/Fab/AppData/Local/Temp.Ya1092</item>
+     <item V="" S="" B="" E="">C:/Users/Fab/AppData/Local/Temp.Nl1092</item>
+     <item V="" S="" B="" E="">C:/Users/Fab/AppData/Local/Temp.cr1092</item>
+     <item V="" S="" B="" E="">C:/Users/Fab/AppData/Local/Temp.sv1092</item>
+     <item V="" S="" B="" E="">C:/Users/Fab/AppData/Local/Temp.xC1092</item>
+     <item V="" S="" B="" E="">C:/Users/Fab/AppData/Local/Temp.Gg1092</item>
+     <item V="" S="" B="" E="">C:/Users/Fab/AppData/Local/Temp.wB1092</item>
+     <item V="" S="" B="" E="">C:/Users/Fab/AppData/Local/Temp.fK1092</item>
    </onglet>
    <onglet V="2009">
      <item V="1" S="24380090100015" B="BUDGET PRINCIPAL" E="GRENOBLE ALPES METROPOLE">C:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/METRO_200901_01_00.xhl</item>
@@ -36,7 +48,7 @@
      <item V="4" S="24380090100023" B="ASSAINISSEMENT" E="REGIE ASSAINISSEMENT">C:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/METRO_200904_02_00.xhl</item>
      <item V="5" S="24380090100015" B="BUDGET PRINCIPAL" E="GRENOBLE ALPES METROPOLE">C:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/METRO_200905_01_00.xhl</item>
      <item V="5" S="24380090100023" B="ASSAINISSEMENT" E="REGIE ASSAINISSEMENT">C:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/METRO_200905_02_00.xhl</item>
-     <item V="6" S="24380090100015" B="Multi budgets" E="GRENOBLE ALPES METROPOLE">C:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/METRO_200906_99_00.xhl</item>
+     <item V="6" S="24380090100015" B="Multi budgets" E="GRENOBLE ALPES METROPOLE" S2="24380090100023" E2="REGIE ASSAINISSEMENT">C:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/METRO_200906_99_00.xhl</item>
      <item V="7" S="24380090100015" B="BUDGET PRINCIPAL" E="GRENOBLE ALPES METROPOLE">C:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/METRO_200907_01_00.xhl</item>
      <item V="7" S="24380090100023" B="ASSAINISSEMENT" E="REGIE ASSAINISSEMENT">C:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/METRO_200907_02_00.xhl</item>
      <item V="8" S="24380090100015" B="BUDGET PRINCIPAL" E="GRENOBLE ALPES METROPOLE">C:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/METRO_200908_01_00.xhl</item>
@@ -49,6 +61,10 @@
      <item V="11" S="24380090100023" B="ASSAINISSEMENT" E="REGIE ASSAINISSEMENT">C:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/METRO_200911_02_00.xhl</item>
      <item V="12" S="24380090100015" B="BUDGET PRINCIPAL" E="GRENOBLE ALPES METROPOLE">C:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/METRO_200912_01_00.xhl</item>
      <item V="12" S="24380090100023" B="ASSAINISSEMENT" E="REGIE ASSAINISSEMENT">C:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/METRO_200912_02_00.xhl</item>
+     <item V="" S="" B="" E="">C:/Users/Fab/AppData/Local/Temp.fl1092</item>
+     <item V="" S="" B="" E="">C:/Users/Fab/AppData/Local/Temp.Xd1092</item>
+     <item V="" S="" B="" E="">C:/Users/Fab/AppData/Local/Temp.qn1092</item>
+     <item V="" S="" B="" E="">C:/Users/Fab/AppData/Local/Temp.uD1092</item>
    </onglet>
    <onglet V="2010">
      <item V="1" S="24380090100015" B="BUDGET PRINCIPAL" E="GRENOBLE ALPES METROPOLE">C:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2010/METRO_201001_01_00.xhl</item>
@@ -129,49 +145,49 @@
      <item V="12" S="24380090100023" B="ASSAINISSEMENT" E="REGIE ASSAINISSEMENT">C:/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2012/METRO_201212_02_00.xhl</item>
    </onglet>
    <onglet V="Siret">
-     <item V="nul" S="" B="" E="">24380090100015 GRENOBLE ALPES METROPOLE</item>
-     <item V="nul" S="" B="" E="">24380090100023 REGIE ASSAINISSEMENT</item>
+     <item V="" S="" B="" E="">24380090100015 GRENOBLE ALPES METROPOLE</item>
+     <item V="" S="" B="" E="">24380090100023 REGIE ASSAINISSEMENT</item>
    </onglet>
    <onglet V="Budget">
-     <item V="nul" S="" B="" E="">ASSAINISSEMENT</item>
-     <item V="nul" S="" B="" E="">BUDGET PRINCIPAL</item>
-     <item V="nul" S="" B="" E="">Multi budgets</item>
+     <item V="" S="" B="" E="">ASSAINISSEMENT</item>
+     <item V="" S="" B="" E="">BUDGET PRINCIPAL</item>
+     <item V="" S="" B="" E="">Multi budgets</item>
    </onglet>
   </XHL>
  </data>
  <systeme>
   <fileManagerDisplay profondeur="0">
-   non
+   oui
   </fileManagerDisplay>
   <projectManagerDisplay profondeur="0">
-   non
+   oui
   </projectManagerDisplay>
   <fullScreenDisplay profondeur="0">
    non
   </fullScreenDisplay>
   <outputTextEdit profondeur="0">
-   non
+   oui
   </outputTextEdit>
   <fileToolBar profondeur="0">
-   non
+   oui
   </fileToolBar>
   <editToolBar profondeur="0">
-   non
+   oui
   </editToolBar>
   <processToolBar profondeur="0">
-   non
+   oui
   </processToolBar>
   <optionsToolBar profondeur="0">
-   non
+   oui
   </optionsToolBar>
   <aboutToolBar profondeur="0">
-   non
+   oui
   </aboutToolBar>
   <saveProjectBehavior profondeur="0">
-   non
+   oui
   </saveProjectBehavior>
   <loadProjectBehavior profondeur="0">
-   non
+   oui
   </loadProjectBehavior>
   <base profondeur="0">
    C:\Dev\altair\Tests\Exemple\Donnees\R-Altaïr
