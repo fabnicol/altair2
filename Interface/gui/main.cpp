@@ -30,6 +30,7 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #include <QApplication>
 #include <QTranslator>
 #include <QLibraryInfo>
+#include <QTextCodec>
 #include "altair-gui.h"
 
 
@@ -40,6 +41,7 @@ int main(int argc, char *argv[])
     QString translationsPath(QCoreApplication::applicationDirPath() + "/translations");
     QLocale locale = QLocale::system();
 
+    QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
     QTranslator qtTranslator;
     bool res=false;
     if ((res = qtTranslator.load(locale, "qt", "_", translationsPath)))
