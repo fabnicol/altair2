@@ -1,4 +1,4 @@
-#include <mutex>
+
 #include "altair.h"
 
 
@@ -90,7 +90,7 @@ MainWindow::MainWindow(char* projectName)
   addDockWidget(Qt::BottomDockWidgetArea, bottomDockWidget);
 
   setWindowIcon(QIcon(":/images/altair.png"));
-  setWindowTitle("Interface  Altaïr"+ QString(VERSION));
+  setWindowTitle("Interface  AltaÃ¯r"+ QString(VERSION));
 
   dialog=new options(altair);
   dialog->setParent(altair, Qt::Window);
@@ -212,7 +212,7 @@ void MainWindow::createActions()
   archiveAction->setIcon(QIcon(":/images/archive.png"));
   connect(archiveAction, SIGNAL(triggered()), this, SLOT(archiveProject()));
 
-  restoreAction = new QAction(tr("Désarchiver le rapport"), this);
+  restoreAction = new QAction(tr("DÃ©sarchiver le rapport"), this);
   restoreAction->setIcon(QIcon(":/images/restore.png"));
   connect(restoreAction, SIGNAL(triggered()), this, SLOT(restoreProject()));
 
@@ -221,12 +221,12 @@ void MainWindow::createActions()
   closeAction->setIcon(QIcon(":/images/document-close.png"));
   connect(closeAction, SIGNAL(triggered()), altair, SLOT(closeProject()));
 
-  RAction = new QAction(tr("&Lancer l'analyse des données"), this);
+  RAction = new QAction(tr("&Lancer l'analyse des donnÃ©es"), this);
   RAction->setShortcut(QKeySequence("Ctrl+R"));
   RAction->setIcon(QIcon(":/images/altair.png"));
   connect(RAction, SIGNAL(triggered()), altair, SLOT(runRAltair()));
 
-  lhxAction = new QAction(tr("Créer la base de données .csv"), this);
+  lhxAction = new QAction(tr("CrÃ©er la base de donnÃ©es .csv"), this);
   lhxAction->setShortcut(QKeySequence("Ctrl+B"));
   lhxAction->setIcon(QIcon(":/images/csv.png"));
   connect(lhxAction, SIGNAL(triggered()), altair, SLOT(run()));
@@ -245,7 +245,7 @@ void MainWindow::createActions()
   helpAction->setIcon(QIcon(":/images/help-contents.png"));
   connect(helpAction, SIGNAL(triggered()), altair, SLOT(on_helpButton_clicked()));
 
-  displayAction = new QAction(tr("&Plein écran/Réduire"), this);
+  displayAction = new QAction(tr("&Plein Ã©cran/RÃ©duire"), this);
   displayAction->setIcon(QIcon(":/images/show-maximized.png"));
   connect(displayAction, SIGNAL(triggered()), this, SLOT(showMainWidget()));
 
@@ -483,7 +483,7 @@ void MainWindow::saveProjectAs()
 
     if  (QFileInfo(newstr).isFile())
     {
-          QMessageBox::StandardButton result = QMessageBox::warning(nullptr, "Ecraser le fichier ?", "Ce fichier va être écrasé.\nAppuyer sur Oui pour confirmer.",
+          QMessageBox::StandardButton result = QMessageBox::warning(nullptr, "Ecraser le fichier ?", "Ce fichier va Ãªtre Ã©crasÃ©.\nAppuyer sur Oui pour confirmer.",
                                             QMessageBox::Ok | QMessageBox::Cancel);
 
 
@@ -518,11 +518,11 @@ void MainWindow::saveProjectAs()
 bool MainWindow::exportProject(QString dirStr)
 {
     if (dirStr.isEmpty())
-        dirStr = QFileDialog::getExistingDirectory(this, tr("Exporter le rapport vers le répertoire..."), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
+        dirStr = QFileDialog::getExistingDirectory(this, tr("Exporter le rapport vers le rÃ©pertoire..."), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
 
     if (! QFileInfo(dirStr).isDir()) return false;
 
-    QString subDirStr = QDir::toNativeSeparators(dirStr.append("/Altaïr"));
+    QString subDirStr = QDir::toNativeSeparators(dirStr.append("/AltaÃ¯r"));
 
     altair->updateProject();
     QString projectRootDir = QDir::toNativeSeparators(QDir::cleanPath(v(base) + "/../.."));
@@ -530,29 +530,29 @@ bool MainWindow::exportProject(QString dirStr)
     QString pdfReportFilePath = projectRootDir + "/altair.pdf";
     bool result = true;
 
-    result = common::copyFile(docxReportFilePath, subDirStr + "/altaïr.docx", "Le rapport Altaïr Word");
+    result = common::copyFile(docxReportFilePath, subDirStr + "/altaÃ¯r.docx", "Le rapport AltaÃ¯r Word");
 
-    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr Word a été exporté sous : " + subDirStr);
+    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport AltaÃ¯r Word a Ã©tÃ© exportÃ© sous : " + subDirStr);
 
-    result = common::copyFile(pdfReportFilePath, subDirStr + "/altaïr.pdf", "Le rapport Altaïr PDF");
+    result = common::copyFile(pdfReportFilePath, subDirStr + "/altaÃ¯r.pdf", "Le rapport AltaÃ¯r PDF");
 
-    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr PDF a été exporté sous : " + subDirStr);
+    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport AltaÃ¯r PDF a Ã©tÃ© exportÃ© sous : " + subDirStr);
 
     common::copyDir(projectRootDir + "/Docs", subDirStr + "/Docs");
     result = common::copyDir(projectRootDir + "/Bases", subDirStr + "/Bases");
 
-    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Les bases ont été exportées sous : " + subDirStr + QDir::separator() + "Bases");
+    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Les bases ont Ã©tÃ© exportÃ©es sous : " + subDirStr + QDir::separator() + "Bases");
     return result;
 }
 
 bool MainWindow::archiveProject(QString dirStr)
 {
     if (dirStr.isEmpty())
-        dirStr = QFileDialog::getExistingDirectory(this, tr("Exporter le rapport vers le répertoire..."), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
+        dirStr = QFileDialog::getExistingDirectory(this, tr("Exporter le rapport vers le rÃ©pertoire..."), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
 
     if (! QFileInfo(dirStr).isDir()) return false;
 
-    QString subDirStr = QDir::toNativeSeparators(dirStr.append("/Archives Altaïr/" +
+    QString subDirStr = QDir::toNativeSeparators(dirStr.append("/Archives AltaÃ¯r/" +
                                                                QDate::currentDate().toString("dd MM yyyy")
                                                                + "-" + QTime::currentTime().toString("hh mm ss")));
 
@@ -562,18 +562,18 @@ bool MainWindow::archiveProject(QString dirStr)
     QString pdfReportFilePath = projectRootDir + "/altair.pdf";
     bool result = true;
 
-    result = common::zip(docxReportFilePath, subDirStr + "/altaïr.docx.arch");
+    result = common::zip(docxReportFilePath, subDirStr + "/altaÃ¯r.docx.arch");
 
-    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr Word a été archivé sous : " + subDirStr);
+    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport AltaÃ¯r Word a Ã©tÃ© archivÃ© sous : " + subDirStr);
 
-    result = common::zip(pdfReportFilePath, subDirStr + "/altaïr.pdf.arch");
+    result = common::zip(pdfReportFilePath, subDirStr + "/altaÃ¯r.pdf.arch");
 
-    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr PDF a été archivé sous : " + subDirStr);
+    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport AltaÃ¯r PDF a Ã©tÃ© archivÃ© sous : " + subDirStr);
 
     common::zipDir(projectRootDir + "/Docs", subDirStr + "/Docs");
     result = common::zipDir(projectRootDir + "/Bases", subDirStr + "/Bases");
 
-    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Les bases ont été archivées sous : " + subDirStr + QDir::separator() + "Bases");
+    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Les bases ont Ã©tÃ© archivÃ©es sous : " + subDirStr + QDir::separator() + "Bases");
 
   return result;
 }
@@ -581,7 +581,7 @@ bool MainWindow::archiveProject(QString dirStr)
 bool MainWindow::restoreProject(QString subDirStr)
 {
     if (subDirStr.isEmpty())
-        subDirStr = QFileDialog::getExistingDirectory(this, tr("Restorer le rapport depuis le répertoire..."), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
+        subDirStr = QFileDialog::getExistingDirectory(this, tr("Restorer le rapport depuis le rÃ©pertoire..."), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
 
     if (! QFileInfo(subDirStr).isDir()) return false;
 
@@ -591,18 +591,18 @@ bool MainWindow::restoreProject(QString subDirStr)
     QString pdfReportFilePath = projectRootDir + "/altair.pdf";
     bool result = true;
 
-    result = common::unzip(subDirStr + "/altaïr.docx.arch", docxReportFilePath);
+    result = common::unzip(subDirStr + "/altaÃ¯r.docx.arch", docxReportFilePath);
 
-    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr Word a été décompressé sous : " + projectRootDir);
+    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport AltaÃ¯r Word a Ã©tÃ© dÃ©compressÃ© sous : " + projectRootDir);
 
-    result = common::unzip(subDirStr + "/altaïr.pdf.arch", pdfReportFilePath);
+    result = common::unzip(subDirStr + "/altaÃ¯r.pdf.arch", pdfReportFilePath);
 
-    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr PDF a été décompressé sous : " + projectRootDir);
+    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport AltaÃ¯r PDF a Ã©tÃ© dÃ©compressÃ© sous : " + projectRootDir);
 
     common::unzipDir(subDirStr + "/Docs", projectRootDir + "/Docs");
     result = common::unzipDir(subDirStr + "/Bases", projectRootDir + "/Bases");
 
-    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Les bases ont été décompressées sous : " + projectRootDir + QDir::separator() + "Bases");
+    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Les bases ont Ã©tÃ© dÃ©compressÃ©es sous : " + projectRootDir + QDir::separator() + "Bases");
 
   return result;
 }
@@ -645,10 +645,10 @@ void MainWindow::configureOptions()
                                                                             "projectManagerDisplay",
                                                                             {"Interface", "Afficher le gestionnaire de projet"});
 
-    defaultFullScreenLayoutBox=new FCheckBox("Plein écran",
+    defaultFullScreenLayoutBox=new FCheckBox("Plein Ã©cran",
                                                         flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
                                                         "fullScreenDisplay",
-                                                        {"Interface", "Plein écran au lancement"});
+                                                        {"Interface", "Plein Ã©cran au lancement"});
 
     defaultOutputTextEditBox=new FCheckBox("Afficher les messages",
                                        #ifdef MINIMAL
@@ -668,7 +668,7 @@ void MainWindow::configureOptions()
                                                                 "fileToolBar",
                                                                 {"Interface", "Afficher la barre d'outils de fichiers"});
     
-    defaultEditToolBarBox=new FCheckBox("Afficher la barre d'outils d'édition",
+    defaultEditToolBarBox=new FCheckBox("Afficher la barre d'outils d'Ã©dition",
                                     #ifdef MINIMAL
                                                                 flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
                                     #else
@@ -715,7 +715,7 @@ void MainWindow::configureOptions()
                                                                                "saveProjectBehavior",
                                                                                {"Interface", "Sauvegarder le projet .alt automatiquement"});
 
-    defaultLoadProjectBehaviorBox=new FCheckBox("Charger le projet par défaut au lancement",
+    defaultLoadProjectBehaviorBox=new FCheckBox("Charger le projet par dÃ©faut au lancement",
                                               #ifdef MINIMAL
                                                                             flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
                                               #else
@@ -783,7 +783,7 @@ void MainWindow::configureOptions()
                                 
                                     if (    (isDefaultSaveProjectChecked())
                                          || (QMessageBox::Yes == Warning(tr("Sauvegarder le projet"),
-                                                                         tr("Le projet n'a pas été sauvegardé.\nAppuyer sur Oui pour le sauvegarder\nou sur Non pour fermer le dialogue sans sauvegarder le projet.")))
+                                                                         tr("Le projet n'a pas Ã©tÃ© sauvegardÃ©.\nAppuyer sur Oui pour le sauvegarder\nou sur Non pour fermer le dialogue sans sauvegarder le projet.")))
                                         )
                                         altair->updateProject();
                                          
@@ -820,7 +820,7 @@ void MainWindow::adjustDisplay(bool projectFileStatus)
         for (FCheckBox* a :  displayWidgetListBox +  behaviorWidgetListBox + displayToolBarCBoxListBox)
             a->setChecked(true);
 
-        // Peut être modifié pour ajuster le comportement par défaut minimal ici :
+        // Peut Ãªtre modifiÃ© pour ajuster le comportement par dÃ©faut minimal ici :
 
 #ifdef MINIMAL
         for (FCheckBox* a :  displayWidgetListBox +  behaviorWidgetListBox + displayToolBarCBoxListBox)
@@ -854,38 +854,25 @@ void MainWindow::showMainWidget()
       showMainWidget(this->windowState() != Qt::WindowFullScreen);
 }
 
-//std::mutex mut;
 
 void MainWindow::feedLHXConsoleWithHtml()
 {
 
     QRegExp reg("^(.MSG.|.INF.|Erreur)\\s([^\n]+)");
-    QByteArray ba;
+    int baInt = 0;
+
 
         while (altair->process->canReadLine())
             {
-  //          if (mut.try_lock())
-    //        {
-               if (altair->rankFile.open(QFile::ReadOnly)) {
 
 
-                       ba = altair->rankFile.readLine();
-
-
-                           altair->outputTextEdit->append(ba);
-                           altair->rankFile.close();
-
-               }
-
-      //      }
-        //    mut.unlock();
-            int baInt = ba.toInt();
-            if (! ba.isEmpty() && baInt >= 1)
+            if (altair->rankFile.open(QFile::ReadOnly))
             {
-                altair->fileRank = baInt;
-                //altair->outputTextEdit->append(QString::number(altair->fileRank));
+                    baInt = altair->rankFile.readLine().toInt();
+                    altair->rankFile.close();
             }
-            if (altair->fileRank <= 0) altair->fileRank = 1;
+            altair->fileRank = (baInt >= 1)? baInt : 1;
+            consoleDialog->append(QString::number(baInt) + "\n");
 
                QString buffer=altair->process->readLine();
 
@@ -902,8 +889,8 @@ void MainWindow::feedLHXConsoleWithHtml()
                       case 'r' :
                             buffer=buffer.replace(reg, (QString) ERROR_HTML_TAG "\\1 \\2");
                             #ifdef MINIMAL
-                            Warning("Erreur", "Le décodage a rencontré une erreur.\nVisualiser le log dans la console (Configurer > Configurer l'interface > Afficher les messages).\n\
-Il est également possible d'activer un rapport détaillé (Configurer > Options > Générer le log)");
+                            Warning("Erreur", "Le dÃ©codage a rencontrÃ© une erreur.\nVisualiser le log dans la console (Configurer > Configurer l'interface > Afficher les messages).\n\
+Il est Ã©galement possible d'activer un rapport dÃ©taillÃ© (Configurer > Options > GÃ©nÃ©rer le log)");
                             #endif
                            break;
                     }
@@ -947,7 +934,7 @@ void MainWindow::feedRConsoleWithHtml()
 void MainWindow::feedConsole()
 {
 
-        consoleDialog->insertHtml(QString("<br>" PROCESSING_HTML_TAG " ") + ((altair->outputType == "L") ? " Décodage des bases " : " Analyse des données ") +"...<br>");
+        consoleDialog->insertHtml(QString("<br>" PROCESSING_HTML_TAG " ") + ((altair->outputType == "L") ? " DÃ©codage des bases " : " Analyse des donnÃ©es ") +"...<br>");
         consoleDialog->moveCursor(QTextCursor::End);
 
         connect(altair->process, &QProcess::readyReadStandardOutput, [&] {

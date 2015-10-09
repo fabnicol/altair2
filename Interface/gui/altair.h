@@ -195,7 +195,7 @@ public:
     QToolButton* killButton=new QToolButton;
     QTimer *timer= new QTimer(this);
     QProgressBar *bar=new QProgressBar ;
-    int startshift = 8;
+    int startshift = 3;
     inline void computeLHXProgressBar();
     inline void computeRProgressBar();
 

@@ -1,12 +1,10 @@
-/*  Programme écrit par Fabrice NICOL sous licence CECILL 3
- *  Attention : lorsqu'il est édité, le présent code doit être converti soit en UTF-8 soit en ISO-5589-1 (Latin-1)avant d'être compilé.
- *  En entrée d'Altair préciser encodage.entrée en conformité avec l'encodage du présent fichier, qui sera celui de la base générée.
+/*  Programme Ã©crit par Fabrice NICOL sous licence CECILL 3
+ *  Attention : lorsqu'il est Ã©ditÃ©, le prÃ©sent code doit Ãªtre converti soit en UTF-8 soit en ISO-5589-1 (Latin-1)avant d'Ãªtre compilÃ©.
+ *  En entrÃ©e d'Altair prÃ©ciser encodage.entrÃ©e en conformitÃ© avec l'encodage du prÃ©sent fichier, qui sera celui de la base gÃ©nÃ©rÃ©e.
  */
 
 
-//#ifdef __cplusplus
-//extern "C" {
-//#endif
+#include <mutex>
 #ifdef __linux__
 #include <unistd.h>
 #endif
@@ -23,7 +21,7 @@
 typedef std::chrono::high_resolution_clock Clock;
 std::ofstream rankFile;
 char* rankFilePath;
-int rankNumber = 1;
+std::mutex mut;
 
 static inline const uint32_t* calculer_maxima(const std::vector<info_t> &Info)
 {
@@ -53,16 +51,16 @@ int main(int argc, char **argv)
     auto startofprogram = Clock::now();
 
 #if defined _WIN32 | defined _WIN64
-    setlocale(LC_NUMERIC, "French_France.1252"); // Windows ne gère pas UTF-8 en locale
+    setlocale(LC_NUMERIC, "French_France.1252"); // Windows ne gÃ¨re pas UTF-8 en locale
 #elif defined __linux__
     setlocale(LC_NUMERIC, "fr_FR.utf8");
 #else
-#error "Programme conçu pour Windows ou linux"
+#error "Programme conÃ§u pour Windows ou linux"
 #endif
 
     if (argc < 2)
     {
-        std::cerr << "Erreur : Il faut au moins un fichier à analyser.\n" ;
+        std::cerr << "Erreur : Il faut au moins un fichier Ã  analyser.\n" ;
         return -2;
     }
 
@@ -87,7 +85,7 @@ int main(int argc, char **argv)
         0,                //    uint32_t nbAgentUtilisateur
         0,                //    uint32_t NCumAgent;
         0,                //    uint32_t NCumAgentXml;
-        MONOLITHIQUE,                //    taille base : non limitée par défaut
+        MONOLITHIQUE,                //    taille base : non limitÃ©e par dÃ©faut
         std::vector<uint16_t>(),             //    std::vector<uint16_t> NLigne;
         &mon_thread,      //    thread_t threads;
         "",             //    chemin log
@@ -98,12 +96,12 @@ int main(int argc, char **argv)
         0,                //    uint16_t fichier_courant
         ',',              //    const char decimal;
         ';',              //    const char separateur;
-        true,             // réduire coso mémoire
-        true,             // par défaut lire la balise adjacente
+        true,             // rÃ©duire coso mÃ©moire
+        true,             // par dÃ©faut lire la balise adjacente
         false,            // calculer les maxima de lignes et d'agents
-        false,            // numéroter les lignes
-        true,             //    alléger la base
-        BESOIN_MEMOIRE_ENTETE,// besoin mémoire minimum hors lecture de lignes : devra être incréméenté,
+        false,            // numÃ©roter les lignes
+        true,             //    allÃ©ger la base
+        BESOIN_MEMOIRE_ENTETE,// besoin mÃ©moire minimum hors lecture de lignes : devra Ãªtre incrÃ©mÃ©entÃ©,
         1                 // nbfil
     };
 
@@ -114,7 +112,7 @@ int main(int argc, char **argv)
             info.reduire_consommation_memoire = false;
             if ((info.nbAgentUtilisateur = lire_argument(argc, argv[start + 1])) < 1)
             {
-                std::cerr << "Erreur : Préciser le nombre de bulletins mensuels attendus (majorant du nombre).\n";
+                std::cerr << "Erreur : PrÃ©ciser le nombre de bulletins mensuels attendus (majorant du nombre).\n";
                 exit(-1);
             }
             start += 2;
@@ -125,34 +123,34 @@ int main(int argc, char **argv)
         {
             std::cout <<  "Usage :  lhx OPTIONS fichiers.xhl" << std::endl
                       <<  "OPTIONS :" << std::endl
-                      <<  "-n argument obligatoire : nombre maximum de bulletins mensuels attendus [calcul exact par défaut]" << std::endl
-                      <<  "-N argument obligatoire : nombre maximum de lignes de paye attendues [calcul exact par défaut]" << std::endl
-                      <<  "-t argument optionnel   : type de base en sortie, soit 'standard', soit 'bulletins' [défaut bulletins]." << std::endl
-                      <<  "-T argument obligatoire : nombre de lignes maximum par base .csv [défaut illimité]. Au plus 999 tables seront générées." << std::endl
-                      <<  "-T AN                    : générer une table par année" << std::endl
-                      <<  "-T A/AC/AV/C/D/I/IR/RE/S/T : générer une table pour chaque catégorie de ligne : \
-                              A rémunérations diverse \n \
+                      <<  "-n argument obligatoire : nombre maximum de bulletins mensuels attendus [calcul exact par dÃ©faut]" << std::endl
+                      <<  "-N argument obligatoire : nombre maximum de lignes de paye attendues [calcul exact par dÃ©faut]" << std::endl
+                      <<  "-t argument optionnel   : type de base en sortie, soit 'standard', soit 'bulletins' [dÃ©faut bulletins]." << std::endl
+                      <<  "-T argument obligatoire : nombre de lignes maximum par base .csv [dÃ©faut illimitÃ©]. Au plus 999 tables seront gÃ©nÃ©rÃ©es." << std::endl
+                      <<  "-T AN                    : gÃ©nÃ©rer une table par annÃ©e" << std::endl
+                      <<  "-T A/AC/AV/C/D/I/IR/RE/S/T : gÃ©nÃ©rer une table pour chaque catÃ©gorie de ligne : \
+                              A rÃ©munÃ©rations diverse \n \
                               AC acompte \n \
                               AV avantage en nature \n \
                               C cotisation \n \
-                              D déduction \n \
-                              I indemnités \n \
-                              IR indemnité de résidence \n \
+                              D dÃ©duction \n \
+                              I indemnitÃ©s \n \
+                              IR indemnitÃ© de rÃ©sidence \n \
                               RE retenue \n \
-                              S supplément familial \n \
+                              S supplÃ©ment familial \n \
                               T traitement brut \n \
-                              X toutes catégories\n" << std::endl
-                      <<  "-o argument obligatoire : fichier.csv, chemin complet du fichier de sortie [défaut 'Table.csv' avec -t]." << std::endl
-                      <<  "-D argument obligatoire : répertoire complet du fichier de sortie [défaut '.' avec -t]." << std::endl
-                      <<  "-d argument obligatoire : séparateur décimal [défaut ',' avec -t]." << std::endl
-                      <<  "-s argument obligatoire : séparateur de champs [défaut ';' avec -t]. Ne pas utiliser '_'." << std::endl
-                      <<  "-j argument obligatoire : nombre de fils d'exécution (1 à 10)." << std::endl
-                      <<  "-l sans argument        : générer une colonne de numéros de ligne intitulée 'R'." << std::endl
-                      <<  "-M sans argument        : ne pas libérer la mémoire réservée en fin de programme." << std::endl
+                              X toutes catÃ©gories\n" << std::endl
+                      <<  "-o argument obligatoire : fichier.csv, chemin complet du fichier de sortie [dÃ©faut 'Table.csv' avec -t]." << std::endl
+                      <<  "-D argument obligatoire : rÃ©pertoire complet du fichier de sortie [dÃ©faut '.' avec -t]." << std::endl
+                      <<  "-d argument obligatoire : sÃ©parateur dÃ©cimal [dÃ©faut ',' avec -t]." << std::endl
+                      <<  "-s argument obligatoire : sÃ©parateur de champs [dÃ©faut ';' avec -t]. Ne pas utiliser '_'." << std::endl
+                      <<  "-j argument obligatoire : nombre de fils d'exÃ©cution (1 Ã  10)." << std::endl
+                      <<  "-l sans argument        : gÃ©nÃ©rer une colonne de numÃ©ros de ligne intitulÃ©e 'R'." << std::endl
+                      <<  "-M sans argument        : ne pas libÃ©rer la mÃ©moire rÃ©servÃ©e en fin de programme." << std::endl
                       <<  "-m sans argument        : calculer les maxima d'agents et de lignes de paye." << std::endl
-                      <<  "-L argument obligatoire : chemin du log d'exécution du test de cohérence entre analyseurs C et XML." << std::endl
-                      <<  "-R argument obligatoire : expression régulière pour la recherche des élus (codés : ELU dans le champ Statut." << std::endl
-                      <<  "-S sans argument        : supprimer la sortie Budget, Etablissement, Siret (allège les bases)." << std::endl;
+                      <<  "-L argument obligatoire : chemin du log d'exÃ©cution du test de cohÃ©rence entre analyseurs C et XML." << std::endl
+                      <<  "-R argument obligatoire : expression rÃ©guliÃ¨re pour la recherche des Ã©lus (codÃ©s : ELU dans le champ Statut." << std::endl
+                      <<  "-S sans argument        : supprimer la sortie Budget, Etablissement, Siret (allÃ¨ge les bases)." << std::endl;
             exit(0);
         }
         else if (! strcmp(argv[start], "-t"))
@@ -207,7 +205,7 @@ int main(int argc, char **argv)
             else
                 if ((info.taille_base = lire_argument(argc, argv[start + 1])) < 0 || info.taille_base > INT32_MAX -1)
                                 {
-                                    perror("Erreur : Le nombre de lignes doit être compris entre 0 et INT64_MAX");
+                                    perror("Erreur : Le nombre de lignes doit Ãªtre compris entre 0 et INT64_MAX");
                                     exit(-908);
                                 }
             start += 2;
@@ -217,14 +215,14 @@ int main(int argc, char **argv)
         {
             if (start + 1 == argc)
             {
-                std::cerr << "Erreur : Option -s suivi d'un argument obligatoire (séparateur de champs).\n";
+                std::cerr << "Erreur : Option -s suivi d'un argument obligatoire (sÃ©parateur de champs).\n";
                 exit(-100);
             }
             info.separateur = argv[start + 1][0];
 
             if (info.separateur == '_')
             {
-                perror("Erreur : Le séparateur ne doit pas être '_'");
+                perror("Erreur : Le sÃ©parateur ne doit pas Ãªtre '_'");
                 exit(-909);
             }
 
@@ -246,7 +244,7 @@ int main(int argc, char **argv)
         {
             if (start + 1 == argc)
             {
-                std::cerr << "Erreur : Option -d suivi d'un argument obligatoire (séparateur décimal).\n";
+                std::cerr << "Erreur : Option -d suivi d'un argument obligatoire (sÃ©parateur dÃ©cimal).\n";
                 exit(-100);
             }
             info.decimal = argv[start + 1][0];
@@ -267,7 +265,7 @@ int main(int argc, char **argv)
             base.open(info.chemin_base);
             if (! base.good())
             {
-                perror("Erreur : La base de données ne peut être créée, vérifier l'existence du dossier.");
+                perror("Erreur : La base de donnÃ©es ne peut Ãªtre crÃ©Ã©e, vÃ©rifier l'existence du dossier.");
                 exit(-113);
             }
 
@@ -297,8 +295,8 @@ int main(int argc, char **argv)
 
             if (! base.good())
             {
-                std::cerr << "Erreur : La base de données "
-                          << info.chemin_base << " ne peut être créée, vérifier l'existence du dossier.\n" ;
+                std::cerr << "Erreur : La base de donnÃ©es "
+                          << info.chemin_base << " ne peut Ãªtre crÃ©Ã©e, vÃ©rifier l'existence du dossier.\n" ;
                 exit(-113);
             }
             else
@@ -318,7 +316,7 @@ int main(int argc, char **argv)
 
                 if (info.nbfil < 1)
                 {
-                    perror("Erreur : Le nombre de fils d'exécution doit être compris au moins égal à 2.");
+                    perror("Erreur : Le nombre de fils d'exÃ©cution doit Ãªtre compris au moins Ã©gal Ã  2.");
                     exit(-111);
                 }
 
@@ -333,7 +331,7 @@ int main(int argc, char **argv)
             base.open(info.chemin_log);
             if (! base.good())
             {
-                perror("Erreur : Le log ne peut être créé, vérifier l'existence du dossier.");
+                perror("Erreur : Le log ne peut Ãªtre crÃ©Ã©, vÃ©rifier l'existence du dossier.");
                 exit(-114);
             }
             start += 2;
@@ -343,7 +341,7 @@ int main(int argc, char **argv)
         {
             if ((info.nbLigneUtilisateur = lire_argument(argc, argv[start +1])) > 1)
             {
-                std::cerr << "[MSG] Nombre maximum de lignes de paye redéfini à : " << info.nbLigneUtilisateur << std::endl;
+                std::cerr << "[MSG] Nombre maximum de lignes de paye redÃ©fini Ã  : " << info.nbLigneUtilisateur << std::endl;
             }
 
             start += 2;
@@ -357,7 +355,7 @@ int main(int argc, char **argv)
             }
             else
             {
-                perror("Erreur : Il manque l'expression régulière.");
+                perror("Erreur : Il manque l'expression rÃ©guliÃ¨re.");
                 exit(-115);
             }
             start += 2;
@@ -413,11 +411,11 @@ int main(int argc, char **argv)
     int nbfichier_par_fil = (int) (argc - start) / info.nbfil;
     if (nbfichier_par_fil == 0)
     {
-        std::cerr << "Erreur : Trop de fils pour le nombre de fichiers ; exécution avec -j 2\n";
+        std::cerr << "Erreur : Trop de fils pour le nombre de fichiers ; exÃ©cution avec -j 2\n";
         info.nbfil = 2;
     }
 
-    if ((argc - start) % info.nbfil) ++info.nbfil;  // on en crée un de plus pour le reste
+    if ((argc - start) % info.nbfil) ++info.nbfil;  // on en crÃ©e un de plus pour le reste
 
     std::vector<info_t> Info(info.nbfil);
     std::vector<std::thread> t;
@@ -427,7 +425,7 @@ int main(int argc, char **argv)
         t.resize(info.nbfil);
     }
 
-    std::cerr << "[INF] Création des fils clients.\n";
+    std::cerr << "[INF] CrÃ©ation des fils clients.\n";
 
     for (int i = 0; i < info.nbfil; ++i)
     {
@@ -510,7 +508,7 @@ int main(int argc, char **argv)
 
     auto endofcalculus = Clock::now();
 
-    std::cerr << "[INF] Durée de calcul : "
+    std::cerr << "[INF] DurÃ©e de calcul : "
               << std::chrono::duration_cast<std::chrono::milliseconds>(endofcalculus - startofprogram).count()
               << " millisecondes" << std::endl;
 
@@ -519,12 +517,12 @@ int main(int argc, char **argv)
         boucle_ecriture(Info);
     }
 
-    /* libération de la mémoire */
+    /* libÃ©ration de la mÃ©moire */
 
     int valeur_de_retour = 0;
     if (! liberer_memoire) goto duration;
 
-    std::cerr << "\n[INF] Libération de la mémoire...\n";
+    std::cerr << "\n[INF] LibÃ©ration de la mÃ©moire...\n";
 
     for (int i = 0; i < Info[0].nbfil; ++i)
     {
@@ -559,7 +557,7 @@ int main(int argc, char **argv)
 
     auto endofprogram = Clock::now();
 
-    std::cerr << "[INF] Durée d'exécution : "
+    std::cerr << "[INF] DurÃ©e d'exÃ©cution : "
               << std::chrono::duration_cast<std::chrono::milliseconds>(endofprogram - startofprogram).count()
               << " millisecondes" << std::endl;
 

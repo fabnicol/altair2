@@ -21,6 +21,9 @@ TARGET = Altair
 
 VPATH = .
 
+DEFINES += OVERVALUE_DIRSIZE_SHARE_COEFFICIENT=1.5 \
+           COMMANDLINE_CONSOLE_OUTPUT
+
 DEFINES += QT_NO_OPENGL \
            STATIC  \ 
            LOCAL_BINPATH \
@@ -33,7 +36,7 @@ windows:RC_ICONS = neptune.ico
 linux: QMAKE_CXXFLAGS += -std=gnu++11 -march=native -O3
 #windows: QMAKE_CXXFLAGS += /Ox /MP
 windows: QMAKE_CXXFLAGS += -std=gnu++11 -march=native -O3
-linux: QMAKE_LFLAGS += -s
+
 
 SOURCES += \
     options.cpp \
