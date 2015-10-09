@@ -376,8 +376,9 @@ int main(int argc, char **argv)
                 }
 
                 rankFilePath = argv[start + 1];
-                rankFile.open(rankFilePath, std::ios::in | std::ios::out| std::ios::trunc);
+                rankFile.open(rankFilePath, std::ios::out| std::ios::trunc);
                 rankFile << 1 << std::endl;
+                rankFile.close();
 
             }
 
