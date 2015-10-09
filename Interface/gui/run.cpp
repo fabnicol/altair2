@@ -8,15 +8,16 @@ QStringList Altair::createCommandLineString()
     QStringList commandLine;
     
     w.toBack();
-    
+    fileCount = 0;
     while (w.hasPrevious())
     {
         FAbstractWidget* item = w.previous();
         QStringList commandLineChunk = item->commandLineStringList();
         if (!commandLineChunk.isEmpty() && !commandLineChunk[0].isEmpty())
             commandLine +=  commandLineChunk;
+        if (item->getHashKey() == "XHL") fileCount = commandLineChunk.size();
     }
-    
+
     return commandLine;
 }
 
@@ -72,7 +73,7 @@ void Altair::run()
 #endif
 
     // Organiser les fichiers temporaires de siret
-
+#if 0
     for (int i = 0; i < Hash::wrapper["XHL"]->size(); ++i)
     {
         for (const QString& str : Hash::wrapper["XHL"]->at(i))
@@ -98,7 +99,7 @@ void Altair::run()
             }
         }
     }
-
+#endif
     QStringList args0, args1;
     QString command;
     
@@ -110,7 +111,7 @@ void Altair::run()
     outputTextEdit->append(STATE_HTML_TAG + tr("Décodage des fichiers .xhl..."));
     outputTextEdit->append(PROCESSING_HTML_TAG + tr("Taille totale des fichiers ")+QString::number(Altair::totalSize[0]/(1024*1024)) +tr(" Mo"));
     
-    command = QString("-m -d \",\" -s \";\" ") ;
+    command = QString("-m -d \",\" -s \";\" -rank ") + sharedir + "/rank" ;
     QStringListIterator i(args1);
     while (i.hasNext())
     {
@@ -127,7 +128,8 @@ void Altair::run()
     
     process->setProcessChannelMode(QProcess::MergedChannels);
     process->setWorkingDirectory(common::execPath);
-    progress->setRange(0, 60);
+
+    progress->setCount(fileCount);
 
 #ifdef DEBUG
     outputTextEdit->append(PROCESSING_HTML_TAG + tr("Démarrage dans ") + common::execPath);

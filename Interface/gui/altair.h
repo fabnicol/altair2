@@ -52,7 +52,7 @@ public:
     QString fileTreeFile;
     QString outputType;
 
-    int fileRank=0;
+    int fileRank = 1;
 
     qint64 size() { return Altair::totalSize[0]; }
     void refreshProjectManagerValues(std::uint16_t = manager::refreshAllZones );
@@ -86,13 +86,14 @@ private slots:
 private:
 
     bool hasIndexChanged;
-    int myTimerId=0;
-    int row=0;
-    uint currentIndex=0;
-    qint64 value=0;
+    int myTimerId = 0;
+    int fileCount = 0;
+    int row = 0;
+    uint currentIndex = 0;
+    qint64 value = 0;
     static qint64 totalSize[2];
 
-     QHash <int,  QList<QStringList>  > fileSizeDataBase;
+    QHash <int,  QList<QStringList>  > fileSizeDataBase;
 
     QIcon iconShowMaximized, iconShowNormal;
 
@@ -180,13 +181,14 @@ public:
     void setInterval(int i) { timer->setInterval(i);}
     void setRange(int x, int y) { bar->setRange(x, y); }
     void setValue(int x) { bar->setValue(x); }
+    void setCount(int x) { bar->setRange(0, x); }
     void reset() {bar->reset();}
     int  value() { return bar -> value();}
     int maximum() { return bar->maximum();}
     void rewind()
     {
         show();
-        setInterval(1200);
+        setInterval(120);
      }
 
  private:

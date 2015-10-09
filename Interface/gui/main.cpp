@@ -42,16 +42,16 @@ int main(int argc, char *argv[])
 
     QTranslator qtTranslator;
     bool res=false;
-    if (res = qtTranslator.load(locale, "qt", "_", translationsPath))
+    if ((res = qtTranslator.load(locale, "qt", "_", translationsPath)))
       {
-        res=app.installTranslator(&qtTranslator);
+        res = app.installTranslator(&qtTranslator);
       }
 
     if (res == false)
         QMessageBox::critical(nullptr, "Erreur", "Traductions qt non chargées", QMessageBox::Cancel);
 
     QTranslator qtBaseTranslator;
-    if (res = qtBaseTranslator.load(locale, "qtbase", "_", translationsPath))
+    if ((res = qtBaseTranslator.load(locale, "qtbase", "_", translationsPath)))
     {
         res=app.installTranslator(&qtBaseTranslator);
     }
@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
         QMessageBox::critical(nullptr, "Erreur", "Traductions qtbase non chargées", QMessageBox::Cancel);
 
     QTranslator qtXmlTranslator;
-    if (res = qtXmlTranslator.load(locale, "qtxmlpatterns", "_", translationsPath))
+    if ((res = qtXmlTranslator.load(locale, "qtxmlpatterns", "_", translationsPath)))
     {
         res=app.installTranslator(&qtXmlTranslator);
     }
