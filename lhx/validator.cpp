@@ -790,8 +790,8 @@ void* decoder_fichier(info_t& info)
         {
             rankNumber += temp_rank;
             temp_rank = 1;
-            rankFile.open(rankFilePath, std::ios::app);
-            rankFile << rankNumber << std::endl;
+            rankFile.open(rankFilePath, std::ios::out|std::ios::trunc);
+            rankFile << rankNumber ;
             rankFile.close();
         }
         else
