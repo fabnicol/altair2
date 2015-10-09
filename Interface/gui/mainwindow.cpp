@@ -861,17 +861,26 @@ void MainWindow::feedLHXConsoleWithHtml()
 
         while (altair->process->canReadLine())
             {
-                QString buffer=altair->process->readLine();
+            const QByteArray ba = altair->rankFile.readLine(4);
+            int baInt = ba.toInt();
+            if (! ba.isEmpty() && baInt >= 1)
+            {
+                altair->fileRank = baInt;
+                altair->outputTextEdit->append(QString::number(altair->fileRank));
+                if (altair->fileRank <= 0) altair->fileRank = 1;
+            }
+
+               QString buffer=altair->process->readLine();
 
                 if (buffer.contains(reg))
                 {
                     switch (reg.cap(1).at(1).toLatin1())
                     {
                       case 'I' :
-                            buffer= buffer.replace(reg, (QString)PROCESSING_HTML_TAG "\\1 \\2");
+                            buffer= buffer.replace(reg, (QString)PROCESSING_HTML_TAG "\\2");
                             break;
                       case 'M' :
-                            buffer=buffer.replace(reg, (QString) STATE_HTML_TAG "\\1 \\2");
+                            buffer=buffer.replace(reg, (QString) STATE_HTML_TAG "\\2");
                             break;
                       case 'r' :
                             buffer=buffer.replace(reg, (QString) ERROR_HTML_TAG "\\1 \\2");
@@ -885,19 +894,32 @@ Il est également possible d'activer un rapport détaillé (Configurer > Options
    
                 consoleDialog->insertHtml(buffer.replace("\n", "<br>"));
 
+
             }
 }
 
 
 void MainWindow::feedRConsoleWithHtml()
 {
+    static int skip;
+
     while (altair->process->canReadLine())
     {
         QString buffer=QString::fromLocal8Bit(altair->process->readLine());
-        altair->fileRank = altair->rankFile.readLine().toInt();
-        if (altair->fileRank == 0) altair->fileRank = 1;
-
         consoleDialog->insertHtml(buffer.replace("\n", "<br>"));
+       // ++skip;
+        //if (skip == 10)
+        {
+            const QByteArray ba = altair->rankFile.readLine(4);
+            Q(QString(ba))
+            if (! ba.isEmpty())
+            {
+                altair->fileRank = ba.toInt();
+                if (altair->fileRank <= 0) altair->fileRank = 1;
+            }
+
+            skip = 0;
+        }
     }
 
    consoleDialog->moveCursor(QTextCursor::End);

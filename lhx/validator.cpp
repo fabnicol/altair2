@@ -714,6 +714,7 @@ using namespace std;
 
 extern int rankNumber;
 extern std::ofstream rankFile;
+extern char* rankFilePath;
 std::mutex mut;
 
 void* decoder_fichier(info_t& info)
@@ -789,7 +790,9 @@ void* decoder_fichier(info_t& info)
         {
             rankNumber += temp_rank;
             temp_rank = 1;
+            rankFile.open(rankFilePath, std::ios::app);
             rankFile << rankNumber << std::endl;
+            rankFile.close();
         }
         else
             ++temp_rank;

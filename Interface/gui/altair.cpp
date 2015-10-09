@@ -471,11 +471,13 @@ void Altair::assignVariables()
 
 void Altair::assignGroupFiles(const int group_index)
 {
-    static int last_group;
+
 #ifdef DEBUG
+    static int last_group;
     if (group_index-last_group) outputTextEdit->append(STATE_HTML_TAG "Ajout de l'onglet " + QString::number(group_index+1));
-#endif
+
     last_group=group_index;
+#endif
 }
 
 
@@ -669,7 +671,8 @@ inline void FProgressBar::computeLHXProgressBar()
 
  if (dirSize < 1)
  {
-  int level = this->parent->fileRank * Hash::wrapper["processType"]->toInt();
+  int level = this->parent->fileRank;
+  parent->outputTextEdit->append(QString::number(level) + "/" + QString::number(bar->maximum()));
   setValue((level >= startshift)? level : std::min(bar->maximum(), std::max(qCeil(value() + 0.1), startshift)));
 
   if (value() == maximum()) setValue(startshift);
