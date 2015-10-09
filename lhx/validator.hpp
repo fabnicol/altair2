@@ -29,16 +29,16 @@ typedef struct
     unsigned argc;
 } thread_t;
 
-#define BESOIN_MEMOIRE_ENTETE  22  /* nb d'éléments de l'enum ci-dessous */
-#define EXPRESSION_REG_ELUS "^maire.*|^pr..?sident.*|^[eé]lus?|.*(?:\\badj.*\\bmaire\\b|\\bv.*\\bpr..?sident\\b|\\bcons.*\\bmuni|\\bcons.*\\bcomm|\\bcons.*\\bd..?l..?gu).*"
-#define EXPRESSION_REG_VACATIONS ".*\\bvacat.*|.*\\bvac\\.?\\b.*"  // vac.* peut être vérifié par 'vacances'
+#define BESOIN_MEMOIRE_ENTETE  22  /* nb d'Ã©lÃ©ments de l'enum ci-dessous */
+#define EXPRESSION_REG_ELUS "^maire.*|^pr..?sident.*|^[eÃ©]lus?|.*(?:\\badj.*\\bmaire\\b|\\bv.*\\bpr..?sident\\b|\\bcons.*\\bmuni|\\bcons.*\\bcomm|\\bcons.*\\bd..?l..?gu).*"
+#define EXPRESSION_REG_VACATIONS ".*\\bvacat.*|.*\\bvac\\.?\\b.*"  // vac.* peut Ãªtre vÃ©rifiÃ© par 'vacances'
 #define EXPRESSION_REG_ASSISTANTES_MATERNELLES ".*\\bass.*\\bmater.*"
 
 #define NOM_BASE "Table"
 #define NOM_BASE_BULLETINS "Bulletins"
 #define CSV  ".csv"
 
-/* Les définitions ci-après doivent être négatives */
+/* Les dÃ©finitions ci-aprÃ¨s doivent Ãªtre nÃ©gatives */
 
 
 #define MONOLITHIQUE -1
@@ -124,12 +124,12 @@ typedef struct
     #endif
 #endif
 
-/* pas de contrôle d'existence de noeud : version affaiblie de la macro précédente */
+/* pas de contrÃ´le d'existence de noeud : version affaiblie de la macro prÃ©cÃ©dente */
 
 
 #define DESCENDRE_UN_NIVEAU    cur = (cur)? cur->xmlChildrenNode: nullptr;  //if ((! NO_DEBUG) && cur) fprintf(stderr, "Descente au niveau %s\n", cur->name);  // cur = (cur)? cur-> next: nullptr;
 
-#define REMONTER_UN_NIVEAU     cur = (cur)? cur->parent: nullptr;    cur = (cur)? cur->next: nullptr; // if ((! NO_DEBUG) && cur) fprintf(stderr, "Remontée au niveau %s\n", cur->name);
+#define REMONTER_UN_NIVEAU     cur = (cur)? cur->parent: nullptr;    cur = (cur)? cur->next: nullptr; // if ((! NO_DEBUG) && cur) fprintf(stderr, "RemontÃ©e au niveau %s\n", cur->name);
 
 static const char* type_remuneration[]   = {
                                             "TraitBrut",
@@ -152,12 +152,12 @@ static const int nbType                  = sizeof(type_remuneration)/sizeof(char
 
 static const char* type_remuneration_traduit[] = {
                                                            "T",   // Traitement
-                                                           "IR", // Indemnité de résidence
-                                                           "S",  // Supplément familial
+                                                           "IR", // IndemnitÃ© de rÃ©sidence
+                                                           "S",  // SupplÃ©ment familial
                                                            "AV", // Avantage en nature
-                                                           "I",  // Indemnité
-                                                           "A", //Autres rémunérations
-                                                           "D", //Déduction
+                                                           "I",  // IndemnitÃ©
+                                                           "A", //Autres rÃ©munÃ©rations
+                                                           "D", //DÃ©duction
                                                            "AC", //Acompte
                                                            "R", // Rappel
                                                            "RE", //Retenue
@@ -167,12 +167,12 @@ static const char* type_remuneration_traduit[] = {
 
 static const xmlChar drapeau[][2]  = {{1,0}, {2,0}, {3,0}, {4,0}, {5,0}, {6,0}, {7,0}, {8,0}, {9,0}, {10,0}, {11,0}, {12,0}};
 
-static const char* entete_char[]={"R", "Année", "Mois", "Budget", "Etablissement", "Siret", "Nom", "Prénom", "Matricule", "Service", "Nb.Enfants", "Statut", "Temps.de.travail",
-                                  "Heures.Sup.", "Heures", "Indice", "Brut", "Net", "Net.à.Payer", "NBI", "Libellé", "Code",
-                                  "Base", "Taux", "Nb.Unité", "Montant", "Type", "Emploi", "Grade", "Nir"};
+static const char* entete_char[]={"R", "AnnÃ©e", "Mois", "Budget", "Etablissement", "Siret", "Nom", "PrÃ©nom", "Matricule", "Service", "Nb.Enfants", "Statut", "Temps.de.travail",
+                                  "Heures.Sup.", "Heures", "Indice", "Brut", "Net", "Net.Ã .Payer", "NBI", "LibellÃ©", "Code",
+                                  "Base", "Taux", "Nb.UnitÃ©", "Montant", "Type", "Emploi", "Grade", "Nir"};
 
-static const char* entete_char_bulletins[]={"R", "Année", "Mois", "Budget", "Etablissement", "Siret", "Nom", "Prénom", "Matricule", "Service", "Nb.Enfants", "Statut", "Temps.de.travail",
-                                  "Heures.Sup.", "Heures", "Indice", "Brut", "Net", "Net.à.Payer", "NBI", "Emploi", "Grade", "Nir"};
+static const char* entete_char_bulletins[]={"R", "AnnÃ©e", "Mois", "Budget", "Etablissement", "Siret", "Nom", "PrÃ©nom", "Matricule", "Service", "Nb.Enfants", "Statut", "Temps.de.travail",
+                                  "Heures.Sup.", "Heures", "Indice", "Brut", "Net", "Net.Ã .Payer", "NBI", "Emploi", "Grade", "Nir"};
 
 void* decoder_fichier(info_t& tinfo);
 

@@ -668,34 +668,44 @@ inline void FProgressBar::computeLHXProgressBar()
  QString dir = Hash::wrapper["base"]->toQString();
  qint64 dirSize = parent->getDirectorySize(dir, "*.csv");
  if (parent->process->state() != QProcess::Running) return;
+ int maxi = maximum();
+ static bool old;
 
  if (dirSize < 1)
  {
-  int level = this->parent->fileRank;
-  parent->outputTextEdit->append(QString::number(level) + "/" + QString::number(bar->maximum()));
-  setValue((level >= startshift)? level : std::min(bar->maximum(), std::max(qCeil(value() + 0.1), startshift)));
+  int level = std::max(this->parent->fileRank, value());
 
-  if (value() == maximum()) setValue(startshift);
+  setValue((level >= startshift)? level : std::min(maxi, std::max(qCeil(value() + 0.3), startshift)));
+
+  if (value() == maxi) setValue(startshift);
 
  }
  else
  {
       qreal share=0;
-
-      setRange(0, parent->size());
-
-      if (parent->size() > 1) {
-          share = static_cast<qreal>(dirSize) * 1.5 / static_cast<qreal>(parent->size());
-          if (share > 1) share = 1;
-
-          parent->outputTextEdit->append((QString)PROCESSING_HTML_TAG + QString::number(static_cast<int>(share*100)) + " % des bases de données.");
+      if (! old)
+      {
+        setRange(0, parent->size());
+        parent->outputTextEdit->append((QString)PROCESSING_HTML_TAG + "Enregistrement des bases de données...");
       }
 
-      setValue(std::max(startshift, static_cast<int>(share * maximum())));
+      if (parent->size() > 1)
+      {
+          share = static_cast<qreal>(dirSize) * OVERVALUE_DIRSIZE_SHARE_COEFFICIENT / static_cast<qreal>(parent->size());
+          if (share > 1) share = 1;
 
-      if (value() == maximum()) setValue(startshift);
+#ifdef REPORT_DATABASE_PROGRESS
+          parent->outputTextEdit->append((QString)PROCESSING_HTML_TAG + QString::number(static_cast<int>(share*100)) + " % des bases de données.");
+#endif
+
+      }
+      else share = 0;
+
+      setValue(std::max(startshift, static_cast<int>(share * maxi)));
+
+      if (value() == maxi) setValue(startshift);
+      old = true;
   }
-
 }
 
 inline void FProgressBar::computeRProgressBar()
