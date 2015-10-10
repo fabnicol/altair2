@@ -8,34 +8,33 @@ greaterThan(QT_MAJOR_VERSION, 5)
 
 CONFIG  += ordered #static
 
-#use at least Qt5.1 with g++-4.8 for windows
+#use at least Qt5.1 with g++-4.9.2 for windows
 
 TEMPLATE = app
 
-QT       += core gui xml widgets 
-# webkitwidgets
+QT       += core gui xml widgets  webkitwidgets
+
 # Compile QT with -static -no-opengl
+
 QT       -= opengl
 
 TARGET = Altair
 
 VPATH = .
 
-DEFINES += OVERVALUE_DIRSIZE_SHARE_COEFFICIENT=1.5 \
-           COMMANDLINE_CONSOLE_OUTPUT
+DEFINES += OVERVALUE_DIRSIZE_SHARE_COEFFICIENT=1.5 \    # Une estimation du ration taille des fichiers xhl/taille des bases csv
+           COMMANDLINE_CONSOLE_OUTPUT                   # Générer la ligne de commande en console (verbeux)
 
 DEFINES += QT_NO_OPENGL \
-           STATIC  \ 
-           LOCAL_BINPATH \
-           REGEX_PARSING_FOR_HEADERS \
-           USE_RIGHT_CLICK
+           LOCAL_BINPATH \                              # chemins d'exécution définis par rapport à l'emplacement de l'exécutable
+           REGEX_PARSING_FOR_HEADERS \                  # utiliser les expressions régulières de c++ (g++ 5.1 au moins)
+           USE_RIGHT_CLICK                              # utiliser un clic droit sur les fichiers pour ajouter, supprimer etc.
 
 
 windows:RC_ICONS = neptune.ico
 
-linux: QMAKE_CXXFLAGS += -std=gnu++11 -march=native -O3
-#windows: QMAKE_CXXFLAGS += /Ox /MP
-windows: QMAKE_CXXFLAGS += -std=gnu++11 -march=native -O3
+QMAKE_CXXFLAGS += -std=gnu++11                         # obligatoire
+QMAKE_CXXFLAGS += -march=native -O3 -pipe -m64         # facultatif
 
 
 SOURCES += \
