@@ -1,10 +1,6 @@
 #ifndef FONCTIONS_AUXILIAIRES_HPP_INCLUDED
 #define FONCTIONS_AUXILIAIRES_HPP_INCLUDED
-//#include <limits.h>
-//#include <errno.h>
-//#include <stdio.h>
-//#include <inttypes.h>
-//#include <stdlib.h>
+
 #define _CRT_SECURE_NO_WARNINGS
 #include "validator.hpp"
 
