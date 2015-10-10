@@ -1,0 +1,25 @@
+﻿Build started 06/10/2015 23:02:18.
+     1>Project "C:\Dev\altair\lhx\msvs2013\lhx_msvs2013\lhx_msvs2013.vcxproj" on node 2 (Rebuild target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /IC:\Dev\altair\lhx\include /Zi /nologo /W1 /WX- /sdl- /Ox /Ob2 /Oi /Ot /Oy- /GL /D FGETC_PARSING /D PREALLOCATE_ON_HEAP /D FULL_PREALLOCATION_TEST /D TOLERANT /D NO_DEBUG /D GCC_REGEX /D _MBCS /D _MBCS /Gm- /EHsc /MD /GS /Gy /Zc:wchar_t /Zc:forScope /Fo"x64\Release\\" /Fd"x64\Release\vc120.pdb" /Gd /TP /errorReport:prompt ..\..\..\..\..\..\..\Dev\altair\lhx\copyfile.cpp ..\..\..\..\..\..\..\Dev\altair\lhx\fonctions_auxiliaires.cpp ..\..\..\..\..\..\..\Dev\altair\lhx\main.cpp ..\..\..\..\..\..\..\Dev\altair\lhx\table.cpp ..\..\..\..\..\..\..\Dev\altair\lhx\validator.cpp
+         copyfile.cpp
+         fonctions_auxiliaires.cpp
+         main.cpp
+         table.cpp
+         validator.cpp
+     1>..\..\..\..\..\..\..\Dev\altair\lhx\validator.cpp(560): warning C4313: 'fprintf'  : '%d' in format string conflicts with argument 2 of type 'xmlChar *'
+     1>..\..\..\..\..\..\..\Dev\altair\lhx\validator.cpp(560): warning C4313: 'fprintf'  : '%d' in format string conflicts with argument 3 of type 'xmlChar *'
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Dev\altair\lhx\msvs2013\x64\Release\lhx_msvs2013.exe" /NOLOGO /LIBPATH:C:\Dev\altair\lhx\lib mkl_intel_lp64_dll.lib mkl_tbb_thread_dll.lib mkl_core_dll.lib tbb.lib libxml2.dll.a kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Dev\altair\lhx\msvs2013\x64\Release\lhx_msvs2013.pdb" /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Dev\altair\lhx\msvs2013\x64\Release\lhx_msvs2013.lib" /MACHINE:X64 x64\Release\copyfile.obj
+         x64\Release\fonctions_auxiliaires.obj
+         x64\Release\main.obj
+         x64\Release\table.obj
+         x64\Release\validator.obj
+         Generating code
+         Finished generating code
+         lhx_msvs2013.vcxproj -> C:\Dev\altair\lhx\msvs2013\x64\Release\lhx_msvs2013.exe
+     1>Done Building Project "C:\Dev\altair\lhx\msvs2013\lhx_msvs2013\lhx_msvs2013.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:03.35
