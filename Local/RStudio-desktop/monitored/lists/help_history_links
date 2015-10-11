@@ -1,15 +1,2 @@
-help/library/base/html/file.path.html,R: Construct Path to File
-help/library/devtools/html/00Index.html,R: Tools to make developing R code easier
-help/library/devtools/html/install.html,R: Install a local development package.
-help/library/data.table/html/fread.html,R: Fast and friendly file finagler
-help/library/rstudio/html/rstudio-package.html,R: Tools and Utilities for RStudio
-help/library/rstudio/html/viewer.html,R: View local web content within RStudio
-help/library/rstudio/html/00Index.html,R: Tools and Utilities for RStudio
-help/library/utils/html/write.table.html,R: Data Output
-help/library/base/html/readLines.html,R: Read Text Lines from a Connection
-help/library/knitr/html/spin.html,R: Spin goat's hair into wool
-help/library/knitr/html/pandoc.html,R: A Pandoc wrapper to convert Markdown documents to other...
-help/library/devtools/html/install_github.html,R: Attempts to install a package directly from github.
-help/library/devtools/html/00Index.html,R: Tools to Make Developing R Packages Easier
-help/library/data.table/html/00Index.html,R: Extension of data.frame
-help/library/data.table/html/data.table.html,R: Enhanced data.frame
+help/library/data.table/html/00Index.html,R: Extension of Data.frame
+help/doc/home/,Home
