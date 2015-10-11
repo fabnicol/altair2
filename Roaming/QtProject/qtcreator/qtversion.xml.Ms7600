@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE QtCreatorQtVersions>
+<!-- Written by QtCreator 3.5.0, 2015-10-11T02:22:58. -->
+<qtcreator>
+ <data>
+  <variable>QtVersion.0</variable>
+  <valuemap type="QVariantMap">
+   <value type="int" key="Id">5</value>
+   <value type="QString" key="Name">Qt %{Qt:Version} (qt5)</value>
+   <value type="QString" key="QMakePath">C:/Build/qt5/qtbase/bin/qmake.exe</value>
+   <value type="QString" key="QtVersion.Type">Qt4ProjectManager.QtVersion.Desktop</value>
+   <value type="bool" key="isAutodetected">false</value>
+  </valuemap>
+ </data>
+ <data>
+  <variable>QtVersion.1</variable>
+  <valuemap type="QVariantMap">
+   <value type="int" key="Id">15</value>
+   <value type="QString" key="Name">Qt %{Qt:Version} (qt-5.5.0-x64-mingw510r0-seh-rev0)</value>
+   <value type="QString" key="QMakePath">C:/Users/Public/Dev/qt-5.5.0-x64-mingw510r0-seh-rev0/bin/qmake.exe</value>
+   <value type="QString" key="QtVersion.Type">Qt4ProjectManager.QtVersion.Desktop</value>
+   <value type="bool" key="isAutodetected">false</value>
+  </valuemap>
+ </data>
+ <data>
+  <variable>Version</variable>
+  <value type="int">1</value>
+ </data>
+</qtcreator>
