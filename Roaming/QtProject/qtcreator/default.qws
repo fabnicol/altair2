@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorSession>
-<!-- Written by QtCreator 3.5.0, 2015-10-11T02:16:57. -->
+<!-- Written by QtCreator 3.5.0, 2015-10-11T05:18:12. -->
 <qtcreator>
  <data>
   <variable>Color</variable>
@@ -8,19 +8,17 @@
  </data>
  <data>
   <variable>EditorSettings</variable>
-  <value type="QByteArray">AAAAD0VkaXRvck1hbmFnZXJWNAAAAAEAAABOAEMAOgAvAFUAcwBlAHIAcwAvAFAAdQBiAGwAaQBjAC8ARABlAHYALwBhAGwAdABhAGkAcgAvAGwAaAB4AC8AbQBhAGkAbgAuAGMAcABwAAAADAAAAAAcAAAAAQAAAAAAAAAAAAAAEwAAAA0AAAABAAAAAAAAAAEAAABOAEMAOgAvAFUAcwBlAHIAcwAvAFAAdQBiAGwAaQBjAC8ARABlAHYALwBhAGwAdABhAGkAcgAvAGwAaAB4AC8AbQBhAGkAbgAuAGMAcABwAAAAEABtAGEAaQBuAC4AYwBwAHAAAAATQ3BwRWRpdG9yLkMrK0VkaXRvcgAAAK0AAAANY3VycmVudGVkaXRvcgAAAE4AQwA6AC8AVQBzAGUAcgBzAC8AUAB1AGIAbABpAGMALwBEAGUAdgAvAGEAbAB0AGEAaQByAC8AbABoAHgALwBtAGEAaQBuAC4AYwBwAHAAAAAmAEMAcABwAEUAZABpAHQAbwByAC4AQwArACsARQBkAGkAdABvAHIAAAAcAAAAAQAAAAAAAAAAAAAAEwAAAA0AAAABAAAAAA==</value>
+  <value type="QByteArray">AAAAD0VkaXRvck1hbmFnZXJWNAAAAAAAAAAAAAAACQAAAAVlbXB0eQ==</value>
  </data>
  <data>
   <variable>ProjectDependencies</variable>
-  <valuemap type="QVariantMap">
-   <valuelist type="QVariantList" key="C:/Users/Public/Dev/altair/Interface/gui/altair.static.windows.pro"/>
-  </valuemap>
+  <valuemap type="QVariantMap"/>
  </data>
  <data>
   <variable>ProjectList</variable>
   <valuelist type="QVariantList">
-   <value type="QString">C:/Users/Public/Dev/altair/Interface/gui/altair.static.windows.pro</value>
    <value type="QString">C:/Users/Public/Dev/altair/lhx/lhx.pro</value>
+   <value type="QString">C:/Users/Public/Dev/altair/Interface/gui/altair.static.windows.pro</value>
   </valuelist>
  </data>
  <data>
@@ -56,11 +54,23 @@
    </valuelist>
    <valuelist type="QVariantList">
     <value type="QString">C:/Users/Public/Dev/altair/Interface/gui</value>
+    <value type="QString">En-têtes</value>
+   </valuelist>
+   <valuelist type="QVariantList">
+    <value type="QString">C:/Users/Public/Dev/altair/Interface/gui</value>
     <value type="QString">Sources</value>
    </valuelist>
    <valuelist type="QVariantList">
     <value type="QString">C:/Users/Public/Dev/altair/lhx/lhx.pro</value>
     <value type="QString">lhx</value>
+   </valuelist>
+   <valuelist type="QVariantList">
+    <value type="QString">C:/Users/Public/Dev/altair/lhx</value>
+    <value type="QString">En-têtes</value>
+   </valuelist>
+   <valuelist type="QVariantList">
+    <value type="QString">C:/Users/Public/Dev/altair/lhx</value>
+    <value type="QString">Sources</value>
    </valuelist>
   </valuelist>
  </data>
