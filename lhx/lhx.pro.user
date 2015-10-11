@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 3.5.0, 2015-10-10T02:13:26. -->
+<!-- Written by QtCreator 3.5.0, 2015-10-11T02:24:33. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -146,7 +146,7 @@
      </valuemap>
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.2">
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
-      <value type="QString" key="ProjectExplorer.ProcessStep.Arguments">/C copy /Y /B C:\Users\Public\Dev\altair\lhx\build-lhx_windows-qt5_5_mingw64_5_2-Release\release\lhx_windows.exe C:\Users\Public\Dev\altair\win\lhx.exe</value>
+      <value type="QString" key="ProjectExplorer.ProcessStep.Arguments">/C copy /Y /B C:\Users\Public\Dev\altair\lhx\build-lhx_windows-qt5_5_mingw64_5_2-Release\release\lhx.exe C:\Users\Public\Dev\altair\win\lhx.exe</value>
       <value type="QString" key="ProjectExplorer.ProcessStep.Command">c:/windows/system32/cmd.exe</value>
       <value type="QString" key="ProjectExplorer.ProcessStep.WorkingDirectory">%{buildDir}</value>
       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Étape personnalisée</value>
