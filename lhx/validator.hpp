@@ -34,7 +34,7 @@ typedef struct
 #define EXPRESSION_REG_ASSISTANTES_MATERNELLES ".*\\bass.*\\bmater.*"
 
 #define NOM_BASE "Table"
-#define NOM_BASEBULLETIN_OBLIGATOIRES "Bulletins"
+#define NOM_BASE_BULLETINS "Bulletins"
 #define CSV  ".csv"
 
 /* Les définitions ci-après doivent être négatives */
