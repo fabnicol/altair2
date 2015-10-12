@@ -29,13 +29,12 @@ typedef struct
     unsigned argc;
 } thread_t;
 
-#define BESOIN_MEMOIRE_ENTETE  22  /* nb d'éléments de l'enum ci-dessous */
 #define EXPRESSION_REG_ELUS "^maire.*|^pr..?sident.*|^[eé]lus?|.*(?:\\badj.*\\bmaire\\b|\\bv.*\\bpr..?sident\\b|\\bcons.*\\bmuni|\\bcons.*\\bcomm|\\bcons.*\\bd..?l..?gu).*"
 #define EXPRESSION_REG_VACATIONS ".*\\bvacat.*|.*\\bvac\\.?\\b.*"  // vac.* peut être vérifié par 'vacances'
 #define EXPRESSION_REG_ASSISTANTES_MATERNELLES ".*\\bass.*\\bmater.*"
 
 #define NOM_BASE "Table"
-#define NOM_BASE_BULLETINS "Bulletins"
+#define NOM_BASEBULLETIN_OBLIGATOIRES "Bulletins"
 #define CSV  ".csv"
 
 /* Les définitions ci-après doivent être négatives */
@@ -58,6 +57,8 @@ typedef struct
 
 #define TOUTES_CATEGORIES -14
 
+
+#define BESOIN_MEMOIRE_ENTETE  22  /* nb d'éléments de l'enum ci-dessous */
 typedef enum {Annee, Mois, Budget, Etablissement, Siret, Nom, Prenom, Matricule, NIR, NbEnfants, Statut, EmploiMetier, Grade, Indice,
           Service, NBI, QuotiteTrav, NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer
          } Entete;
@@ -108,7 +109,7 @@ typedef struct
 #ifndef NO_DEBUG
     #define DEBUG(X) std::cerr << X << std::endl;
     #define AFFICHER_NOEUD(X)       { char msg[50]={0}; \
-                                      sprintf(msg, "atteint %s\n", X);\
+                                      sprintf(msg, "atteint %s\n", (const char*) X);\
                                       DEBUG(msg) }
 
     #define NO_DEBUG 0
@@ -124,12 +125,14 @@ typedef struct
     #endif
 #endif
 
+#define NODE_FOUND  0
+#define NODE_NOT_FOUND 1
+#define LINE_MEMORY_EXCEPTION 2
+#define NO_NEXT_ITEM 3
+
 /* pas de contrôle d'existence de noeud : version affaiblie de la macro précédente */
 
 
-#define DESCENDRE_UN_NIVEAU    cur = (cur)? cur->xmlChildrenNode: nullptr;  //if ((! NO_DEBUG) && cur) fprintf(stderr, "Descente au niveau %s\n", cur->name);  // cur = (cur)? cur-> next: nullptr;
-
-#define REMONTER_UN_NIVEAU     cur = (cur)? cur->parent: nullptr;    cur = (cur)? cur->next: nullptr; // if ((! NO_DEBUG) && cur) fprintf(stderr, "Remontée au niveau %s\n", cur->name);
 
 static const char* type_remuneration[]   = {
                                             "TraitBrut",

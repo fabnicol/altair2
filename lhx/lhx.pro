@@ -14,9 +14,10 @@ DEFINES += STRICT
 
 DEFINES += GCC_REGEX \                      # Utiliser les expressions régulières de C++
         NO_DEBUG \                          # ne pas générer de messages de débogage avancé
-        TOLERANT \                          # ordre des balises : tolérance envers des permutations de même niveau
+        TOLERANT_TAG_HIERARCHY \            # ordre des balises : tolérance envers des permutations de même niveau
         FULL_PREALLOCATION_TEST \           # calcul des besoins de mémoire : précision maximale (sinon : moindre)
         PREALLOCATE_ON_HEAP \               # préallouer le vecteur sur le tas pour le tableau des allocations de mémoire (sinon : tableau C sur la pile)
+        DECIMAL_NON_EN \                    # compilation pour des séparateurs décimaux différents de '.'
         FGETC_PARSING                       # parcourir les fichiers par ifstream (C++)
 #MMAP_PARSING                               # parcourir les fichiers par mappage mémoire (C, unix).
 
