@@ -1,18 +1,25 @@
 greaterThan(QT_MAJOR_VERSION, 5)
 
-
+# sous linux mieux vaut compiler en statique en raison du nombre de dépendances
 # utiliser au moins Qt5.1 et g++-4.9.2 sous windows
 
 CONFIG  += ordered static
 
+
+
 TEMPLATE = app
 
-QT       += core gui xml widgets webkitwidgets
+QT       += core gui xml widgets #webkitwidgets
+
+# Compile QT with -static -no-opengl
+
 QT       -= opengl
 
 TARGET = Altair
 
 VPATH = .
+
+DEFINES += STATIC
 
 DEFINES += OVERVALUE_DIRSIZE_SHARE_COEFFICIENT=1.5 \    # Une estimation du ration taille des fichiers xhl/taille des bases csv
            COMMANDLINE_CONSOLE_OUTPUT                   # Générer la ligne de commande en console (verbeux)

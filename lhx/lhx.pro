@@ -36,16 +36,16 @@ windows: LIBS = $(PUBLIC)/Dev/mingw64-5.2/lib/libxml2.dll.a
 #windows: VPATH += $(USERPROFILE)/Dev/mingw64-5.2.0/bin
 
 SOURCES += \ 
-    ../fonctions_auxiliaires.cpp \
-    ../main.cpp \
-    ../table.cpp \
-    ../validator.cpp
+    fonctions_auxiliaires.cpp \
+    main.cpp \
+    table.cpp \
+    validator.cpp
 
 #include(deployment.pri)
 #qtcAddDeployment()
 
 HEADERS += \
-    ../fonctions_auxiliaires.hpp \
-    ../table.hpp \
-    ../validator.hpp
+    fonctions_auxiliaires.hpp \
+    table.hpp \
+    validator.hpp
 
