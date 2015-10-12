@@ -73,7 +73,7 @@ int main(int argc, char **argv)
     bool liberer_memoire = true;
 
     std::string chemin_base = NOM_BASE CSV;
-    std::string chemin_bulletins = NOM_BASEBULLETIN_OBLIGATOIRES CSV;
+    std::string chemin_bulletins = NOM_BASE_BULLETINS CSV;
 
     thread_t mon_thread;
 
@@ -289,7 +289,7 @@ int main(int argc, char **argv)
         else if (! strcmp(argv[start], "-D"))
         {
             info.chemin_base = argv[start + 1] + std::string("/" NOM_BASE CSV);
-            info.chemin_bulletins = argv[start + 1] + std::string("/" NOM_BASEBULLETIN_OBLIGATOIRES CSV);
+            info.chemin_bulletins = argv[start + 1] + std::string("/" NOM_BASE_BULLETINS CSV);
             std::ofstream base;
             base.open(info.chemin_base);
 

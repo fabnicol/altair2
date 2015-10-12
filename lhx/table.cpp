@@ -80,7 +80,7 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l(int i, uint32_t agent, int l, char*
     ECRIRE_LIGNE_l_COMMUN(i, agent, l, type, base, sep, Info, rang);
 }
 
-static inline void GCC_INLINE ECRIRE_LIGNEBULLETIN_OPTIONNEL_COMMUN(int i, uint32_t agent, std::ofstream& bulletins, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
+static inline void GCC_INLINE ECRIRE_LIGNEBULLETIN_OBLIGATOIRE_NUMERIQUEOPTIONNEL_COMMUN(int i, uint32_t agent, std::ofstream& bulletins, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
 {
     bulletins << VAR(Nom) << sep
               << VAR(Prenom) << sep
@@ -101,7 +101,7 @@ static inline void GCC_INLINE ECRIRE_LIGNEBULLETIN_OPTIONNEL_COMMUN(int i, uint3
               << VAR(NIR) << "\n";
 }
 
-static inline void GCC_INLINE  ECRIRE_LIGNEBULLETIN_OPTIONNEL_GENERER_RANG(int i, uint32_t agent, std::ofstream& bulletins, char sep, std::vector<info_t> &Info, int rang)
+static inline void GCC_INLINE  ECRIRE_LIGNEBULLETIN_OBLIGATOIRE_NUMERIQUEOPTIONNEL_GENERER_RANG(int i, uint32_t agent, std::ofstream& bulletins, char sep, std::vector<info_t> &Info, int rang)
 {
     bulletins <<  rang << sep;
     
@@ -115,10 +115,10 @@ static inline void GCC_INLINE  ECRIRE_LIGNEBULLETIN_OPTIONNEL_GENERER_RANG(int i
                    << VAR(Siret) << sep;
     }
     
-    ECRIRE_LIGNEBULLETIN_OPTIONNEL_COMMUN(i, agent, bulletins, sep, Info, rang);
+    ECRIRE_LIGNEBULLETIN_OBLIGATOIRE_NUMERIQUEOPTIONNEL_COMMUN(i, agent, bulletins, sep, Info, rang);
 }
 
-static inline void GCC_INLINE  ECRIRE_LIGNEBULLETIN_OPTIONNEL_SIRET(int i, uint32_t agent, std::ofstream& bulletins, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
+static inline void GCC_INLINE  ECRIRE_LIGNEBULLETIN_OBLIGATOIRE_NUMERIQUEOPTIONNEL_SIRET(int i, uint32_t agent, std::ofstream& bulletins, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
 {
     
     bulletins << VAR(Annee) << sep
@@ -128,16 +128,16 @@ static inline void GCC_INLINE  ECRIRE_LIGNEBULLETIN_OPTIONNEL_SIRET(int i, uint3
                << VAR(Etablissement) << sep
                << VAR(Siret) << sep;
 
-    ECRIRE_LIGNEBULLETIN_OPTIONNEL_COMMUN(i, agent, bulletins, sep, Info, rang);
+    ECRIRE_LIGNEBULLETIN_OBLIGATOIRE_NUMERIQUEOPTIONNEL_COMMUN(i, agent, bulletins, sep, Info, rang);
 }
 
-static inline void GCC_INLINE  ECRIRE_LIGNEBULLETIN_OBLIGATOIRE(int i, uint32_t agent, std::ofstream& bulletins, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
+static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETINS(int i, uint32_t agent, std::ofstream& bulletins, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
 {
     
     bulletins << VAR(Annee) << sep
               << VAR(Mois) << sep;
     
-    ECRIRE_LIGNEBULLETIN_OPTIONNEL_COMMUN(i, agent, bulletins, sep, Info, rang);
+    ECRIRE_LIGNEBULLETIN_OBLIGATOIRE_NUMERIQUEOPTIONNEL_COMMUN(i, agent, bulletins, sep, Info, rang);
 }
 
 
@@ -201,18 +201,18 @@ void boucle_ecriture(std::vector<info_t>& Info)
     if (Info[0].generer_rang)
     {
         ecrire_ligne_table = ECRIRE_LIGNE_l_GENERER_RANG;
-        ecrire_ligne_bulletin = ECRIRE_LIGNEBULLETIN_OPTIONNEL_GENERER_RANG;
+        ecrire_ligne_bulletin = ECRIRE_LIGNEBULLETIN_OBLIGATOIRE_NUMERIQUEOPTIONNEL_GENERER_RANG;
     }
     else
         if (Info[0].select_siret)
         {
             ecrire_ligne_table = ECRIRE_LIGNE_l_SIRET;
-            ecrire_ligne_bulletin = ECRIRE_LIGNEBULLETIN_OPTIONNEL_SIRET;
+            ecrire_ligne_bulletin = ECRIRE_LIGNEBULLETIN_OBLIGATOIRE_NUMERIQUEOPTIONNEL_SIRET;
         }
         else
         {
             ecrire_ligne_table = ECRIRE_LIGNE_l;
-            ecrire_ligne_bulletin = ECRIRE_LIGNEBULLETIN_OBLIGATOIRE;
+            ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETINS;
         }
 
 
