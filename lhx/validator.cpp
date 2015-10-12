@@ -12,7 +12,7 @@
 #include "table.hpp"
 
 
-static inline xmlNodePtr atteindreNoeud(const char* noeud, xmlNodePtr cur)
+static inline xmlNodePtr GCC_INLINE atteindreNoeud(const xmlChar * noeud, xmlNodePtr cur)
 {
     while (cur && xmlIsBlankNode(cur))
     {
@@ -21,31 +21,30 @@ static inline xmlNodePtr atteindreNoeud(const char* noeud, xmlNodePtr cur)
 
     while (cur != nullptr)
     {
-        if (xmlStrcmp(cur->name, (const xmlChar *) noeud))
+        if (xmlStrcmp(cur->name,  noeud))  // cur->name != noeud
         {
             cur = cur->next;
         }
         else
         {
-            AFFICHER_NOEUD(noeud)
+            AFFICHER_NOEUD(noeud)  // cur->name == oeud
             break;
         }
     }
 
-    #ifdef STRICT
-
       if (cur == nullptr)
       {
-          std::cerr << "Erreur : Impossible d'atteindre " << cur->name << std::endl;
-          exit(-1);
+           std::cerr << "Erreur : Impossible d'atteindre " << cur->name << std::endl;
+          #ifdef STRICT
+            exit(-1);
+          #endif
+
       }
 
-    #endif
-
-    return cur;
+     return cur;  // soit un pointer vers le bon noeud, soit nullptr
 }
 
-static inline xmlNodePtr atteindreNoeudArret(const char* noeud, xmlNodePtr cur, const char* arret)
+static inline xmlNodePtr GCC_INLINE atteindreNoeudArret(const char* noeud, xmlNodePtr cur, const char* arret)
 {
     while (cur && xmlIsBlankNode(cur))
     {
@@ -54,7 +53,7 @@ static inline xmlNodePtr atteindreNoeudArret(const char* noeud, xmlNodePtr cur, 
 
     while (cur != nullptr)
     {
-        if (xmlStrcmp(cur->name, (const xmlChar *) noeud))
+        if (xmlStrcmp(cur->name, (const xmlChar *) noeud))  // cur->name != noeud
         {
             if (xmlStrcmp(cur->name, (const xmlChar *) arret))
                 cur = cur->next;
@@ -71,7 +70,7 @@ static inline xmlNodePtr atteindreNoeudArret(const char* noeud, xmlNodePtr cur, 
 }
 
 
-static inline void  verifier_taille(const int nbLignePaye, info_t& info)
+static inline void GCC_INLINE  verifier_taille(const int nbLignePaye, info_t& info)
 {
     if (nbLignePaye >= info.nbLigneUtilisateur)
     {
@@ -88,68 +87,116 @@ static inline void  verifier_taille(const int nbLignePaye, info_t& info)
 
 #define ligne_l  info.Table[info.NCumAgentXml][l]
 
+
+/* utilité d'affichage de l'environnement xhl en cas de problème de conformité des données */
+
+static inline void GCC_INLINE afficher_environnement_xhl(const info_t& info)
+{
+    std::cerr << "Fichier \t" <<  info.threads->argv[info.fichier_courant] << std::endl
+              << "Matricule \t"    << info.Table[info.NCumAgentXml][Matricule] << std::endl;
+    for (int l=0; l < BESOIN_MEMOIRE_ENTETE; ++l)
+      std::cerr << "info.Table[" << info.NCumAgentXml << "][" << l << "]=" << info.Table[info.NCumAgentXml][l] << std::endl;
+
+}
+
+static inline void GCC_INLINE assigner_ligne_l_NA(info_t& info)
+{
+    if (ligne_l == nullptr)
+    {
+        ligne_l =  xmlStrdup(NA_STRING);
+    }
+    else
+    {
+        xmlFree(ligne_l);
+        ligne_l = xmlStrdup(NA_STRING);
+    }
+}
+
+
 /* Remplace les occurrences d'un caractère séparateur à l'intérieur d'un champ par le caractère '_' qui ne doit donc jamais
    être séparateur de champ (c'est bien rare !) */
 
-static inline bool GCC_INLINE Bulletin(const char* tag, xmlNodePtr* cur, int l, info_t& info)
+static inline int GCC_INLINE Bulletin(const xmlChar*  tag, xmlNodePtr& cur, int l, info_t& info)
 {
-    bool test = (cur != nullptr && *cur != nullptr && (! xmlStrcmp((*cur)->name,  (const xmlChar*) tag)));
+    // attention faire en sorte que cur ne soit JAMAIS nul en entrée ou en sortie
 
-    if (test)
+    const xmlNodePtr nextcur = std::move(atteindreNoeud(tag, cur));
+
+    if ( nullptr == nextcur)
     {
-        ligne_l = xmlGetProp(*cur, (const xmlChar *) "V");
+        return NODE_NOT_FOUND;
+    }
+
+// On a à présent la garantie que cur->name correspond à tag
+
+        ligne_l = xmlGetProp(nextcur, (const xmlChar *) "V");
+        if (ligne_l == nullptr)
+            return LINE_MEMORY_EXCEPTION;
+
+// dans les cas où false est retourné, la référence à cur n'a pas été modifiée et est donc non nulle
+
         if (info.drapeau_cont)
-            *cur = (*cur)? (*cur)->next: nullptr;
-    }
+        {
+            if (nextcur->next != nullptr)
+                cur = nextcur->next;
+            else
+                return NO_NEXT_ITEM;  // pour garantir que cur ne devient pas nul.
+        }
 
-    if (ligne_l == nullptr || ! test)
-    {
-        ligne_l = (xmlChar*) xmlStrdup(NA_STRING);
-    }
-    else
-    if (ligne_l[0] == '\0')
-    {
-        xmlFree(ligne_l);
-        ligne_l = (xmlChar*) xmlStrdup(NA_STRING);
-    }
-  /* sanitisation */
+    /* sanitisation */
 
-    else
-        for (int i = 0; i < xmlStrlen(ligne_l); ++i)
+        const int size = xmlStrlen(ligne_l);
+        for (int i = 0; i < size; ++i)
             if (ligne_l[i] == info.separateur)
-                ligne_l[i] = '_';
+                ligne_l[i] = '_'; 
 
-    return test;
+        return NODE_FOUND;
+
 }
 
-static inline void GCC_INLINE _Bulletin(const char* tag, xmlNodePtr* cur,  int l,  info_t& info)
+/* obligatoire, mais possibilité de fallback si STRICT n'est pas défini */
+
+//             std::cerr << "Erreur : Noeud courant null au stade de la vérification de " << tag << std::endl;
+
+static inline bool GCC_INLINE bulletin_obligatoire(const char* tag, xmlNodePtr& cur, int l,  info_t& info)
 {
-    if (! Bulletin(tag, cur, l, info))
+
+    // attention faire en sorte que cur ne soit JAMAIS nul
+
+    switch (Bulletin(tag, cur, l, info))
     {
-        if (*cur)
-        {
-            std::cerr << "Erreur : Trouvé " << (*cur)->name << " au lieu de " << tag << std::endl;
-            std::cerr << "Erreur : dans le fichier " << info.threads->argv[info.fichier_courant] << " \n  pour le matricule "
-                      << info.Table[info.NCumAgentXml][Matricule] << std::endl;
-            #ifdef STRICT
-              exit(-1);
-            #endif
+        // on sait que cur ne sera jamais nul
+        case NODE_FOUND : return true;
 
-        }
-        else
-        {
-            std::cerr << "Erreur : Noeud courant null au stade de la vérification de "
-                      << tag
-                      << ", fichier " <<  info.threads->argv[info.fichier_courant] << std::endl;
+        case NODE_NOT_FOUND :
+                std::cerr << "Erreur : Impossible d'atteindre " << tag << " à partir de " << cur->name << std::endl;
+                assigner_ligne_l_NA(info);
+                break;
 
-            for (int l=0; l < Service; ++l)
-                std::cerr << "info.Table[" << info.NCumAgentXml << "][" << l << "]=" << info.Table[info.NCumAgentXml][l] << std::endl;
+        case LINE_MEMORY_EXCEPTION :
+                std::cerr << "Erreur : Allocation mémoire impossible pour la ligne " << l << std::endl;
+                assigner_ligne_l_NA(info);
+                break;
 
-            #ifdef STRICT
-              exit(-1);
-            #endif
-        }
+        case NO_NEXT_ITEM :
+                std::cerr << "Erreur : Pas d'item successeur pour le noeud " << tag <<  std::endl;
+                break;
+
     }
+
+        afficher_environnement_xhl(info) ;
+
+        #ifdef STRICT
+          exit(-1);
+        #else
+          if (nullptr != cur->next)
+          {
+              cur = cur->next;
+              return true;
+          }
+          else
+          return false;
+        #endif
 }
 
 /* A tester : la substitution du caractère décimal , au . de la locale anglaise utilisé par Xémélios (hélas)
@@ -162,30 +209,108 @@ static inline void GCC_INLINE _Bulletin(const char* tag, xmlNodePtr* cur,  int l
 
 static inline void GCC_INLINE substituer_separateur_decimal(xmlChar* ligne, const char decimal)
 {
-    for (int i = 0; i < xmlStrlen(ligne); ++i)
+    const int size = xmlStrlen(ligne);
+    for (int i = 0; i < size; ++i)
         if (ligne[i] == '.') ligne[i] = decimal;
 }
 
 /* optionnel */
 
-static inline void GCC_INLINE _Bulletin_(const char* tag, xmlNodePtr* cur,  int l, info_t& info)
+
+static inline bool GCC_INLINE bulletin_optionnel_numerique(const char* tag, xmlNodePtr* cur,  int l, info_t& info)
 {
-    if (! Bulletin(tag, cur, l,  info))
+    // attention faire en sorte que cur ne soit JAMAIS nul
+
+    switch (Bulletin(tag, cur, l, info))
     {
-        ligne_l = (xmlChar*) xmlStrdup(NA_STRING);
+        // on sait que cur ne sera jamais nul
+        case NODE_FOUND :
+             #ifndef DECIMAL_NON_EN
+               if (info.decimal != '.')
+             #endif
+                substituer_separateur_decimal(ligne_l, info.decimal);
+             return true;
+
+        case NODE_NOT_FOUND :
+             assigner_ligne_l_NA(info);
+             return true;
+
+        case LINE_MEMORY_EXCEPTION :
+             std::cerr << "Erreur : Allocation mémoire impossible pour la ligne " << l << std::endl;
+             assigner_ligne_l_NA(info);
+             break;
+
+        case NO_NEXT_ITEM :
+             std::cerr << "Erreur : Pas d'item successeur pour le noeud " << tag <<  std::endl;
+             #ifndef DECIMAL_NON_EN
+              if (info.decimal != '.')
+             #endif
+               substituer_separateur_decimal(ligne_l, info.decimal);
+             break;
     }
-    else
-    if (info.decimal != '.') substituer_separateur_decimal(ligne_l, info.decimal);
+
+        afficher_environnement_xhl(info) ;
+
+        #ifdef STRICT
+          exit(-1);
+        #else
+          if (nullptr != cur->next)
+          {
+              cur = cur->next;
+              return true;
+          }
+          else
+          return false;
+        #endif
 
 }
 
 /* obligatoire et avec substitution séparateur décimal */
 
-static inline void GCC_INLINE Bulletin_(const char* tag, xmlNodePtr* cur, int l, info_t& info)
+static inline bool GCC_INLINE bulletin_obligatoire_numerique(const char* tag, xmlNodePtr* cur, int l, info_t& info)
 {
-    _Bulletin(tag, cur, l, info) ;
-    if (info.decimal != '.')  substituer_separateur_decimal(ligne_l, info.decimal);
+    // attention faire en sorte que cur ne soit JAMAIS nul
 
+    switch (Bulletin(tag, cur, l, info))
+    {
+        // on sait que cur ne sera jamais nul
+        case NODE_FOUND :
+            #ifndef DECIMAL_NON_EN
+               if (info.decimal != '.')
+            #endif
+               substituer_separateur_decimal(ligne_l, info.decimal);
+             return true;
+
+        case NODE_NOT_FOUND :
+             assigner_ligne_l_NA(info);
+             return true;
+
+        case LINE_MEMORY_EXCEPTION :
+             std::cerr << "Erreur : Allocation mémoire impossible pour la ligne " << l << std::endl;
+             assigner_ligne_l_NA(info);
+             break;
+
+        case NO_NEXT_ITEM :
+             std::cerr << "Erreur : Pas d'item successeur pour le noeud " << tag <<  std::endl;
+             #ifndef DECIMAL_NON_EN
+              if (info.decimal != '.')
+             #endif
+                   substituer_separateur_decimal(ligne_l, info.decimal);
+             break;
+    }
+        afficher_environnement_xhl(info) ;
+
+        #ifdef STRICT
+          exit(-1);
+        #else
+          if (nullptr != cur->next)
+          {
+              cur = cur->next;
+              return true;
+          }
+          else
+          return false;
+        #endif
 }
 
 static inline int lignePaye(xmlNodePtr cur, info_t& info)
@@ -198,7 +323,7 @@ static inline int lignePaye(xmlNodePtr cur, info_t& info)
     ligne_l = (xmlChar*) xmlStrdup(drapeau[t]);  // +1 pour éviter la confusion avec \0 des chaines vides
     ++l;
 
-    /* Besoins en mémoire : 18 [champs hors ligne] + nombre de lignes + flags (maximum nbType) */
+    /* Besoins en mémoire : BESOIN_MEMOIRE_ENTETE [champs hors ligne] + nombre de lignes + flags (maximum nbType) */
     bool rembobiner = false;
 
     while (cur != nullptr)
@@ -241,8 +366,11 @@ static inline int lignePaye(xmlNodePtr cur, info_t& info)
         if (new_type && t < nbType)
         {
             ligne_l = (xmlChar*) xmlStrdup(drapeau[t]);  // +1 pour éviter la confusion avec \0 des chaines vides
+            // on ne teste pas ligne_l != nullptr ici mais en principe on devrait
             ++l;
         }
+
+        // ici on pourrait in fine se passer de ce test par compilation séparée
 
         if (! info.reduire_consommation_memoire)
         {
@@ -254,45 +382,51 @@ static inline int lignePaye(xmlNodePtr cur, info_t& info)
             cur = cur->next;
             t=0;
             rembobiner=false; // 'Rembobinage gratuit'
-            continue;
+            continue; // garantit incidemment que cur != nullptr dans la boucle
         }
 
-        DESCENDRE_UN_NIVEAU
+        // cur n'est pas nul à ce point
+
+        cur =  cur->xmlChildrenNode;
+
+        if (cur == nullptr) break;
+
+        // cur n'est pas nul à ce point et ne devient jamais nul ci-après
+
         /* Libellé, obligatoire */
 
-        cur = atteindreNoeud("Libelle", cur);
+        if (bulletin_obligatoire("Libelle", cur, l, info)
 
-        _Bulletin("Libelle", &cur, l, info);
-        ++l;
         /* Code, obligatoire */
-        cur = atteindreNoeud("Code", cur);
-        _Bulletin("Code", &cur, l, info);
 
-		++l;
+           && bulletin_obligatoire("Code", cur, l, info)
 
         /* Base, si elle existe */
 
-        _Bulletin_("Base", &cur,  l, info);
-		++l;
+           && bulletin_optionnel_numerique("Base", cur,  l, info)
 
         /* Taux, s'il existe */
-        _Bulletin_("Taux", &cur, l, info);
-		++l;
+
+           && bulletin_optionnel_numerique("Taux", cur, l, info)
 
         /* Nombre d'unités, s'il existe */
-        _Bulletin_("NbUnite", &cur, l, info);
-		++l;
 
-        /* Montant , obligatoire */
-        cur = atteindreNoeud("Mt", cur);
+           && bulletin_optionnel_numerique("NbUnite", cur, l, info)
 
-        Bulletin_("Mt", &cur, l, info);
+        /* Montant, obligatoire */
+
+           && bulletin_obligatoire_numérique("Mt", cur, l, info));   // no-op
+
+        // cur ne sera pas nul à ce point
+
 		++l;
         ++nbLignePaye;
 
-        REMONTER_UN_NIVEAU
+        cur =  cur->parent->next;
+        // le parent ne peut être nul
 
-        // Lorsque on a épuisé tous les types licites on a nécessairement cur = nullptr
+        // attention si du code est rajouté ici il doit l'être sous garde cur != nullptr
+        // Lorsque on a épuisé tous les types licites on a nécessairement cur = nullptr et la boucle s'arrête
     }
 
 #undef ligne_l
@@ -300,17 +434,18 @@ static inline int lignePaye(xmlNodePtr cur, info_t& info)
     return nbLignePaye;
 }
 
-#define _BULLETIN(X) _Bulletin(#X, &cur, X, info);
+#define BULLETIN_OBLIGATOIRE(X) bulletin_obligatoire(#X, &cur, X, info)
 
-#define BULLETIN_(X)  Bulletin_(#X, &cur, X, info);
+#define BULLETIN_(X)  Bulletin_(#X, &cur, X, info)
 
-#define _BULLETIN_(X)  _Bulletin_(#X, &cur, X, info);
+#define BULLETIN_OPTIONNEL_NUMERIQUE(X)  bulletin_optionnel_numerique(#X, &cur, X, info)
 
 static uint64_t  parseBulletin(xmlNodePtr cur, info_t& info)
 {
     DEBUG("Parsage")
 
     if (cur == nullptr) return 0;
+
     cur = atteindreNoeud("Agent", cur);
 
     if (cur == nullptr)
@@ -319,88 +454,58 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t& info)
         return 0;
     }
 
-    DESCENDRE_UN_NIVEAU
+    // cur n'est pas nul à ce point
 
-    /* dans certains sxhémas on peut ne pas avoir la civilité */
-    cur = atteindreNoeud("Nom", cur);
-
-    /* passer à la balise adjacente après lecture */
-    info.drapeau_cont = true;
-    _BULLETIN(Nom)
-
-#ifdef TOLERANT
-    cur = cur->parent;
-    cur = cur->xmlChildrenNode;
+    cur =  cur->xmlChildrenNode;
+#ifdef TOLERANT_TAG_HIERARCHY
     xmlNodePtr cur_save = cur;
-
-#endif
-    /* Dans certains cas on peut avoir un complément de nom */
-    cur = atteindreNoeud("Prenom", cur);
-    _BULLETIN(Prenom)
-    _BULLETIN(Matricule)
-    _BULLETIN(NIR)
-
-#ifdef TOLERANT
-    cur = cur_save;
 #endif
 
-	cur = atteindreNoeud("NbEnfants", cur);
-	_BULLETIN(NbEnfants)
-#ifdef TOLERANT
-    cur = atteindreNoeud("Statut", cur);
-#else
-    cur = cur->next;
-#endif
+    if (cur == nullptr) return 0;
 
-    _BULLETIN(Statut)
-    /* dans certains schémas on peut avoir ici des balises */
+    /* dans certains schémas on peut ne pas avoir la civilité */
+    /* passer à la balise adjacente après lecture */
 
-#ifdef TOLERANT
-    cur = cur_save;
-#endif
+    info.drapeau_cont = true;
+    bool result = true;
 
-    cur = atteindreNoeud("EmploiMetier", cur);
+    /* result va garantir notamment que le pointeur cur filé implicitement est non nul */
 
-    _BULLETIN(EmploiMetier)
+    if (result = (BULLETIN_OBLIGATOIRE(Nom)
+        && BULLETIN_OBLIGATOIRE(Prenom)
+        && BULLETIN_OBLIGATOIRE(Matricule)
+        && BULLETIN_OBLIGATOIRE(NIR))); // no-op
 
-#ifdef TOLERANT
-    cur = cur_save;
-    cur = atteindreNoeud("Grade", cur);
-#else
-    cur = cur->next;
-#endif
+    #ifdef TOLERANT_TAG_HIERARCHY       // on refait le parcours depuis le haut en cas d'ordre inexact des balises
+        cur = cur_save;
+    #endif
 
-    _BULLETIN(Grade)
+    if (result = (result                  // garde spécifique
+        && BULLETIN_OBLIGATOIRE(NbEnfants)
+        && BULLETIN_OBLIGATOIRE(Statut)
+        && BULLETIN_OBLIGATOIRE(EmploiMetier))); // no-op
 
-#ifdef TOLERANT
-    cur = cur_save;
-    cur = atteindreNoeud("Indice", cur);
-#else
-    cur = cur->next;
-#endif
-    info.drapeau_cont = false; /* ne pas lire la balise adjacente : fin du niveau subordonné Agent*/
-    _BULLETIN(Indice)
+    #ifdef TOLERANT_TAG_HIERARCHY
+        cur = cur_save;
+    #endif
 
-    REMONTER_UN_NIVEAU
+    if (result = (result && BULLETIN_OBLIGATOIRE(Grade))); // no-op
+
+    #ifdef TOLERANT_TAG_HIERARCHY
+        cur = cur_save;
+    #endif
+
+    /* ne pas lire la balise adjacente : fin du niveau subordonné Agent*/
+
+    info.drapeau_cont = false;
+
+    if (result && BULLETIN_OBLIGATOIRE(Indice));
 
     info.drapeau_cont = true;
 
-#ifdef TOLERANT
-    cur = atteindreNoeud("Service", cur);
-#else
-    while (cur && xmlStrcmp(cur->name, (const xmlChar*)"Service"))
-    {
-       if (xmlStrcmp(cur->name, (const xmlChar*)"NBI") == 0)
-       {
-           info.Table[info.NCumAgentXml][Service]= (xmlChar*) xmlStrdup(NA_STRING);
-           goto nbi;
-       }
-       else
-        cur = cur->next;
-    }
-#endif
-    _BULLETIN(Service)
-#ifdef TOLERANT
+    if (cur != nullptr && BULLETIN_OBLIGATOIRE(Service)
+
+#ifdef TOLERANT_TAG_HIERARCHY
     cur = cur->parent;
     cur = cur->xmlChildrenNode;
     cur_save = cur;
@@ -411,7 +516,7 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t& info)
 
     BULLETIN_(NBI)
 
-#ifdef TOLERANT
+#ifdef TOLERANT_TAG_HIERARCHY
     cur = cur_save;
     cur = atteindreNoeud("QuotiteTrav", cur);
 #else
@@ -422,7 +527,7 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t& info)
     /* obligatoire, substitution du séparateur décimal */
     BULLETIN_(QuotiteTrav)
 
-#ifdef TOLERANT
+#ifdef TOLERANT_TAG_HIERARCHY
     cur = atteindreNoeud("Remuneration", cur);
 #else
     cur = cur->next;
@@ -456,7 +561,7 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t& info)
 
     /* non obligatoire , substitution du sparateur décimal */
 
-    _BULLETIN_(NbHeureTotal)
+    BULLETIN_OPTIONNEL_(NbHeureTotal)
     cur = atteindreNoeud("NbHeureSup", cur);
 
     /* obligatoire, substitution du sparateur décimal */
