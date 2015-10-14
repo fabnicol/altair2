@@ -7,8 +7,10 @@ CONFIG  += ordered static
 
 TEMPLATE = app
 
-QT       += core gui xml widgets webkitwidgets
+QT       += core gui xml widgets
+#webkitwidgets
 QT       -= opengl
+QT       -= openssl
 
 TARGET = Altair
 
@@ -18,6 +20,7 @@ DEFINES += OVERVALUE_DIRSIZE_SHARE_COEFFICIENT=1.5 \    # Une estimation du rati
            COMMANDLINE_CONSOLE_OUTPUT                   # Générer la ligne de commande en console (verbeux)
 
 DEFINES += QT_NO_OPENGL \
+           STATIC\
            LOCAL_BINPATH \                              # chemins d'exécution définis par rapport à l'emplacement de l'exécutable
            REGEX_PARSING_FOR_HEADERS \                  # utiliser les expressions régulières de c++ (g++ 5.1 au moins)
            USE_RIGHT_CLICK                              # utiliser un clic droit sur les fichiers pour ajouter, supprimer etc.
