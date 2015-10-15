@@ -21,6 +21,14 @@ DEFINES += GCC_REGEX \                      # Utiliser les expressions réguliè
         FGETC_PARSING                       # parcourir les fichiers par ifstream (C++)
 #MMAP_PARSING                               # parcourir les fichiers par mappage mémoire (C, unix).
 
+DEVROOT = $$PWD/../..
+
+# Insérer ici le nom du répertoire contenant dans include/ et lib/ les dépendances système
+# Ce compilateur doit être adjacent aux sources sous Windows
+
+COMPILER_DIR = mingw64-52
+
+# Options de compilation
 
 # sous MSVC
 # windows : QMAKE_CXXFLAGS =/Ox /MP
@@ -29,20 +37,18 @@ DEFINES += GCC_REGEX \                      # Utiliser les expressions réguliè
 QMAKE_CXXFLAGS = -pipe -m64 -std=gnu++11 -march=native -fexceptions -fomit-frame-pointer -O3 -fexpensive-optimizations
 
 linux: INCLUDEPATH += /usr/include/libxml2
-windows: INCLUDEPATH += $(PUBLIC)/Dev/mingw64-5.2/include
+windows: INCLUDEPATH += $$DEVROOT/$$COMPILER_DIR/include
 
-linux: LIBS = -L/usr/lib/x86_64-linux-gnu -lxml2 -pthread
-windows: LIBS = $(PUBLIC)/Dev/mingw64-5.2/lib/libxml2.dll.a
-#windows: VPATH += $(USERPROFILE)/Dev/mingw64-5.2.0/bin
+linux: LIBS = -L/usr/lib/lib64 -L/usr/lib/x86_64-linux-gnu -lxml2 -pthread
+windows: LIBS = -L$$DEVROOT/$$COMPILER_DIR/lib -lxml2 -pthread
+
+windows: QMAKE_LFLAGS += -s
 
 SOURCES += \ 
     fonctions_auxiliaires.cpp \
     main.cpp \
     table.cpp \
     validator.cpp
-
-#include(deployment.pri)
-#qtcAddDeployment()
 
 HEADERS += \
     fonctions_auxiliaires.hpp \
