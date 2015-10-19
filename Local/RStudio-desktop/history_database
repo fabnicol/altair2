@@ -1,3 +1,0 @@
-1444525516595:source('C:/Users/Public/Dev/altair/Tests/Exemple/altair.R', encoding = 'UTF-8')
-1444525718142:install.packages("rmarkdown")
-1444525723646:install.packages(c("class", "foreign", "MASS", "nlme", "nnet", "spatial"), lib="C:/Users/Public/Dev/altair/R/library")
