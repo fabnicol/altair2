@@ -7,8 +7,6 @@
   
 ; Numéros de version 
 
-; pour une version minimal définir minimal par "" sinon "_min"
-
 !define version  "2015.10"
 !define VER_MAJOR 2015
 !define VER_MINOR 02
@@ -17,24 +15,28 @@
 
 ; autres définitions
 
-!define prodname     "Altaïr SDK"
+!define prodname     "Altaïr-SDK"
 !define setup        "${prodname}-${version}.installer.exe"
 !define icon         neptune.ico
 !define startmenu    "$SMPROGRAMS\${prodname}-${version}"
 !define Désinstaller "Désinstaller.exe"
 !define notefile     "${prodname}\LISEZ-MOI.txt"
+!define qtcreator    qtcreator-3.5.0
+!define texDir       "texlive"
+!define GitDir       "Git"
+!define RToolsDir    "Rtools"
 
 !define REG_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${prodname}"
 !define MEMENTO_REGISTRY_ROOT HKLM
 !define MEMENTO_REGISTRY_KEY "${REG_UNINST_KEY}"
 
-!define MUI_ICON     "${icon}"
+!define MUI_ICON     "${prodname}\${icon}"
 !define MUI_WELCOMEFINISHPAGE
 !define MUI_WELCOMEPAGE_TEXT  $(wizard1)
 !define MUI_WELCOMEPAGE_TITLE $(wizard2)
 !define MUI_HEADERIMAGE
-!define MUI_HEADERIMAGE_BITMAP "${prodname}.bmp"
-!define MUI_WELCOMEFINISHPAGE_BITMAP "neptune.bmp"
+!define MUI_HEADERIMAGE_BITMAP "${prodname}\${prodname}.bmp"
+!define MUI_WELCOMEFINISHPAGE_BITMAP "${prodname}\neptune.bmp"
 !define MUI_ABORTWARNING
 !define MUI_STARTMENUPAGE_REGISTRY_ROOT "HKCU" 
 !define MUI_STARTMENUPAGE_REGISTRY_KEY "Software\Modern UI Test" 
@@ -57,10 +59,8 @@
  LangString Désinstaller ${LANG_FRENCH}     "Désinstallation de la plateforme ${prodname} "
  LangString completed ${LANG_FRENCH} "Terminé."
  LangString uninst_completed ${LANG_FRENCH} "Désinstallation terminée"
- LangString Sec1Name ${LANG_FRENCH}  "Altaïr SDK"
+ LangString Sec1Name ${LANG_FRENCH}  "${prodname}"
  LangString DESC_sec1 ${LANG_FRENCH} "Installer Altaïr"
- LangString Sec6Name ${LANG_FRENCH}  "Exemples"
- LangString DESC_sec6 ${LANG_FRENCH} "Installer les exemples"
  LangString Message  ${LANG_FRENCH}  "Appuyer sur Oui pour installer ${prodname}"
  LicenseLangString myLicenseData ${LANG_FRENCH} "${prodname}\LICENCE"
  LicenseData $(myLicenseData)
@@ -79,7 +79,7 @@
 !define MUI_FINISHPAGE_RUN_NOTCHECKED
 !define MUI_FINISHPAGE_RUN_TEXT     "Lire le fichier LISEZ-MOI"
 !define MUI_FINISHPAGE_RUN_FUNCTION "Launch_LISEZ"
-!define MUI_FINISHPAGE_BUTTON       "Compléments"
+!define MUI_FINISHPAGE_BUTTON       "Terminer"
 !define MUI_FINISHPAGE_CANCEL_ENABLED 
 !insertmacro MUI_PAGE_FINISH
 
@@ -103,13 +103,13 @@ SilentInstall normal
 
 Icon "${prodname}\${icon}"
 
-RequestExecutionLevel admin
+RequestExecutionLevel user
 AutoCloseWindow false
 
 Function .onInit
  
   SetOutPath $TEMP	
-  File /oname=spltmp.bmp "${prodname.simple}\spltmp.bmp"
+  File /oname=spltmp.bmp "${prodname}\spltmp.bmp"
 
   advsplash::show 2300 600 400 -1 $TEMP\spltmp
 
@@ -118,8 +118,7 @@ Function .onInit
 
   Delete $TEMP\spltmp.bmp
   StrCpy $1 "Minimale"
-  Call .onSelChange
-  
+    
 FunctionEnd
  
  
@@ -132,55 +131,65 @@ FunctionEnd
 Section
   
   SetDetailsPrint both
-  SetOutPath $INSTDIR\${prodname}
+  SetOutPath $INSTDIR
   File     "${prodname}\*.*" 
-
+  SetOutPath $INSTDIR
+  File /r ${prodname}\altair
+  File /r ${prodname}\altair
+    
+  SetOutPath $APPDATA
+  File /r ${prodname}\altair\Roaming\QtProject
+  File /r ${prodname}\altair\Roaming\RStudio
+  File /r ${prodname}\altair\Roaming\Notepad++
   
+  SetOutPath $LOCALAPPDATA
+  File /r ${prodname}\altair\Local\RStudio-desktop
+  
+  ${EnvVarUpdate} $0 "PATH" "A" "HKCU" "$INSTDIR\${prodname}\altair\${texDir}\bin\win32"
+  ${EnvVarUpdate} $0 "PATH" "A" "HKCU" "$INSTDIR\${prodname}\altair\${GitDir}\bin" 
+  ${EnvVarUpdate} $0 "PATH" "A" "HKCU" "$INSTDIR\${prodname}\altair\${RToolsDir}\bin" 
+	
 SectionEnd
 
-  Section  $(Sec6Name) sec6
-    SetOutPath $INSTDIR\${xhl}
-    File /r  ${xhl}\Anonyme
-    File /r  ${xhl}\Anonyme2
-	
-    ExecWait '"$INSTDIR\${prodname}\directx.exe"'    
-	ExecWait '"$INSTDIR\${prodname}\mingw64-5.2.exe"'    
-	ExecWait '"$INSTDIR\${prodname}\qtcreator-3.5.0.exe"'    
+  Section  $(Sec1Name) sec1
+    SetOutPath $INSTDIR
+	ExecWait '"$INSTDIR\NSIS.exe"'
+	ExecWait '"$INSTDIR\Notepad++.exe"'
+	ExecWait '"$INSTDIR\Rtools.exe"'
+	;ExecWait '"$INSTDIR\directx.exe"'
+	ExecWait '"$INSTDIR\mingw64-5.2.exe"'
+	ExecWait '"$INSTDIR\msys64.exe"'
+	ExecWait '"$INSTDIR\qt-5.5.0-x64-mingw510r0-seh-rev0.exe"'
+	ExecWait '"$INSTDIR\qt-5.5.0-x64-mingw52-static-runtime.exe"'
+	ExecWait '"$INSTDIR\qtcreator-3.5.0.exe"'
+    ExecWait '"$INSTDIR\redist.exe"'
+	Delete   "$INSTDIR\*.exe"
 	
   SectionEnd
- 
-
-Function .onSelChange
-  !insertmacro StartRadioButtons $1
-!insertmacro EndRadioButtons
-FunctionEnd
 
  
  !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
    !insertmacro MUI_DESCRIPTION_TEXT ${sec1} $(DESC_sec1)
-   !insertmacro MUI_DESCRIPTION_TEXT ${sec6} $(DESC_sec6)
  !insertmacro MUI_FUNCTION_DESCRIPTION_END
-  
  
 Section 
 
  
- !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
+  !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   SetShellVarContext current
   
-  ;SetOutPath       "$INSTDIR\${prodname}\${Interface}$minimal"
-  ;CreateShortCut   "$DESKTOP\${prodname}.lnk" "$INSTDIR\${prodname.simple}\${Interface}$minimal\${prodname}.exe"  "" "$INSTDIR\${prodname.simple}\${Interface}$minimal\${icon}"
-  ;WriteRegStr HKLM "${prodname}\Shell\open\command\" "" "$INSTDIR\${prodname.simple}\${Interface}$minimal\${prodname}.exe"
+  SetOutPath       "$INSTDIR\${qtcreator}"
+  CreateShortCut   "$DESKTOP\${prodname}.lnk" "$INSTDIR\${qtcreator}\bin\qtcreator.exe"  "" "$INSTDIR\${icon}"
+  WriteRegStr HKLM "${prodname}\Shell\open\command\" "" "$INSTDIR\${qtcreator}\bin\qtcreator.exe"
   
   CreateDirectory  "$SMPROGRAMS\$StartMenuFolder"
   CreateShortCut   "$SMPROGRAMS\$StartMenuFolder\Désinstaller.lnk" "$INSTDIR\Désinstaller.exe" "" "$INSTDIR\Désinstaller.exe" 0
-  CreateShortCut   "$SMPROGRAMS\$StartMenuFolder\${prodname}.lnk" "$INSTDIR\${prodname.simple}\${Interface}$minimal\${prodname}.exe" "" "$INSTDIR\${prodname.simple}\${Interface}$minimal\${icon}" 0
-  
+    
   SetDetailsPrint textonly
   DetailPrint "Création des clés d'enregistrement..."
   SetDetailsPrint listonly
 
-  WriteRegStr HKLM "${prodname}\DefaultIcon" "${prodname}" "$INSTDIR\${prodname.simple}\${Interface}\${icon}"
+  WriteRegStr HKLM "${prodname}\DefaultIcon" "${prodname}" "$INSTDIR\${icon}"
   WriteRegStr HKLM SOFTWARE\${prodname} \
      "Install_Dir" "$INSTDIR"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${prodname}" \
@@ -202,6 +211,13 @@ Section
 SectionEnd
  
  
+Function .onInstSuccess
+  
+   SetOutPath $INSTDIR\altair
+   ExecWait '"$INSTDIR\altair\git_reset_hard.bat"'
+   
+FunctionEnd
+
 Section "Uninstall"
  
  !insertmacro MUI_STARTMENU_GETFOLDER Application $StartMenuFolder
@@ -210,17 +226,21 @@ Section "Uninstall"
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${prodname}"	
   DeleteRegKey HKLM "${prodname}\DefaultIcon"
   
+  ${un.EnvVarUpdate} $0 "PATH" "R" "HKCU" "$INSTDIR\${prodname}\altair\${texDir}\bin\win32" 
+  ${un.EnvVarUpdate} $0 "PATH" "R" "HKCU" "$INSTDIR\${prodname}\altair\${GitDir}\bin"  
+  ${un.EnvVarUpdate} $0 "PATH" "R" "HKCU" "$INSTDIR\${prodname}\altair\${RToolsDir}\bin"  
+  
   Delete "$DESKTOP\${prodname}.lnk"
   Delete "$INSTDIR\Désinstaller.exe"
   Delete "$INSTDIR\LISEZ-MOI.txt"
   Delete "$SMPROGRAMS\$StartMenuFolder\*.*"
   RMDir  "$SMPROGRAMS\$StartMenuFolder"
-
-  Delete "$INSTDIR\${prodname}\*.*"
-  RMDir /r "$INSTDIR\${prodname}"
-  
-
-  Call  un.install_git
+  RMDir /r $APPDATA\QtProject
+  RMDir /r $APPDATA\RStudio
+  RMDir /r $APPDATA\Notepad++
+  Delete "$INSTDIR\*.*"
+  RMDir /r "$INSTDIR\"
+   
 SectionEnd
 
 BrandingText "${prodname}-${version}"
