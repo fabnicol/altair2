@@ -1644,7 +1644,7 @@ assign(x = ".rs.acCompletionTypes",
    
    # Inject 'params' into the global env to provide for completions in
    # parameterized R Markdown documents
-   if (length(string) && string[[1]] == "params" && .rs.injectKnitrParamsObject(documentId))
+   if (.rs.injectKnitrParamsObject(documentId))
       on.exit(.rs.removeKnitrParamsObject(), add = TRUE)
    
    # Get the currently active frame
