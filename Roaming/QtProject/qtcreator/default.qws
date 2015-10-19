@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorSession>
-<!-- Written by QtCreator 3.5.0, 2015-10-11T05:18:12. -->
+<!-- Written by QtCreator 3.5.0, 2015-10-19T18:34:03. -->
 <qtcreator>
  <data>
   <variable>Color</variable>
@@ -8,22 +8,26 @@
  </data>
  <data>
   <variable>EditorSettings</variable>
-  <value type="QByteArray">AAAAD0VkaXRvck1hbmFnZXJWNAAAAAAAAAAAAAAACQAAAAVlbXB0eQ==</value>
+  <value type="QByteArray">AAAAD0VkaXRvck1hbmFnZXJWNAAAAAIAAACAAEMAOgAvAFUAcwBlAHIAcwAvAFAAdQBiAGwAaQBjAC8ARABlAHYALwBhAGwAdABhAGkAcgAvAEkAbgB0AGUAcgBmAGEAYwBlAC8AZwB1AGkALwBhAGwAdABhAGkAcgAuAHcAaQBuAGQAbwB3AHMALgBwAHIAbwAuAHUAcwBlAHIAAAAMAAAAABgAAAABAAAAAAAAAAAAAAABAAAAAAAAAAAAAAB2AEMAOgAvAFUAcwBlAHIAcwAvAFAAdQBiAGwAaQBjAC8ARABlAHYALwBhAGwAdABhAGkAcgAvAEkAbgB0AGUAcgBmAGEAYwBlAC8AZwB1AGkALwBhAGwAdABhAGkAcgAuAHcAaQBuAGQAbwB3AHMALgBwAHIAbwAAAAwAAAAAGAAAAAEAAAAAAAAAAAAAABcAAAASAAAAAAAAAAEAAAB2AEMAOgAvAFUAcwBlAHIAcwAvAFAAdQBiAGwAaQBjAC8ARABlAHYALwBhAGwAdABhAGkAcgAvAEkAbgB0AGUAcgBmAGEAYwBlAC8AZwB1AGkALwBhAGwAdABhAGkAcgAuAHcAaQBuAGQAbwB3AHMALgBwAHIAbwAAACQAYQBsAHQAYQBpAHIALgB3AGkAbgBkAG8AdwBzAC4AcAByAG8AAAARUXQ0LnByb0ZpbGVFZGl0b3IAAADNAAAADWN1cnJlbnRlZGl0b3IAAAB2AEMAOgAvAFUAcwBlAHIAcwAvAFAAdQBiAGwAaQBjAC8ARABlAHYALwBhAGwAdABhAGkAcgAvAEkAbgB0AGUAcgBmAGEAYwBlAC8AZwB1AGkALwBhAGwAdABhAGkAcgAuAHcAaQBuAGQAbwB3AHMALgBwAHIAbwAAACIAUQB0ADQALgBwAHIAbwBGAGkAbABlAEUAZABpAHQAbwByAAAAGAAAAAEAAAAAAAAAAAAAABcAAAASAAAAAA==</value>
  </data>
  <data>
   <variable>ProjectDependencies</variable>
-  <valuemap type="QVariantMap"/>
+  <valuemap type="QVariantMap">
+   <valuelist type="QVariantList" key="C:/Users/Public/Dev/altair/Interface/gui/altair.windows.pro">
+    <value type="QString">C:/Users/Public/Dev/altair/lhx/lhx.pro</value>
+   </valuelist>
+  </valuemap>
  </data>
  <data>
   <variable>ProjectList</variable>
   <valuelist type="QVariantList">
    <value type="QString">C:/Users/Public/Dev/altair/lhx/lhx.pro</value>
-   <value type="QString">C:/Users/Public/Dev/altair/Interface/gui/altair.static.windows.pro</value>
+   <value type="QString">C:/Users/Public/Dev/altair/Interface/gui/altair.windows.pro</value>
   </valuelist>
  </data>
  <data>
   <variable>StartupProject</variable>
-  <value type="QString">C:/Users/Public/Dev/altair/Interface/gui/altair.static.windows.pro</value>
+  <value type="QString">C:/Users/Public/Dev/altair/Interface/gui/altair.windows.pro</value>
  </data>
  <data>
   <variable>value-ActiveMode</variable>
@@ -49,8 +53,8 @@
     <value type="QString">session</value>
    </valuelist>
    <valuelist type="QVariantList">
-    <value type="QString">C:/Users/Public/Dev/altair/Interface/gui/altair.static.windows.pro</value>
-    <value type="QString">altair.static.windows</value>
+    <value type="QString">C:/Users/Public/Dev/altair/Interface/gui/altair.windows.pro</value>
+    <value type="QString">altair.windows</value>
    </valuelist>
    <valuelist type="QVariantList">
     <value type="QString">C:/Users/Public/Dev/altair/Interface/gui</value>
