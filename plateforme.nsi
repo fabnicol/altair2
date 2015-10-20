@@ -147,7 +147,7 @@ Section
   
   ${EnvVarUpdate} $0 "PATH" "A" "HKCU" "$INSTDIR\${prodname}\altair\${texDir}\bin\win32"
   ${EnvVarUpdate} $0 "PATH" "A" "HKCU" "$INSTDIR\${prodname}\altair\${GitDir}\bin" 
-  ${EnvVarUpdate} $0 "PATH" "A" "HKCU" "$INSTDIR\${prodname}\altair\${RToolsDir}\bin" 
+  ${EnvVarUpdate} $0 "PATH" "A" "HKCU" "$INSTDIR\${prodname}\${RToolsDir}\bin" 
 	
 SectionEnd
 
