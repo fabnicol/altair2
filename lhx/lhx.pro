@@ -26,7 +26,7 @@ DEVROOT = $$PWD/../..
 # Insérer ici le nom du répertoire contenant dans include/ et lib/ les dépendances système
 # Ce compilateur doit être adjacent aux sources sous Windows
 
-COMPILER_DIR = mingw64-52
+COMPILER_DIR = mingw64-5.2
 
 # Options de compilation
 
@@ -40,7 +40,7 @@ linux: INCLUDEPATH += /usr/include/libxml2
 windows: INCLUDEPATH += $$DEVROOT/$$COMPILER_DIR/include
 
 linux: LIBS = -L/usr/lib/lib64 -L/usr/lib/x86_64-linux-gnu -lxml2 -pthread
-windows: LIBS = -L$$DEVROOT/$$COMPILER_DIR/lib -lxml2 -pthread
+windows: LIBS = -L$$DEVROOT/$$COMPILER_DIR/lib -lxml2.dll -pthread
 
 windows: QMAKE_LFLAGS += -s
 
