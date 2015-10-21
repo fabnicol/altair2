@@ -6,4 +6,5 @@ cp lhx/*.* Altaïr-SDK/altair/lhx
 cp lhx/LICENCE Altaïr-SDK/altair/lhx
 mkdir -p Altaïr-SDK/altair/Tests/Exemple
 cp Tests/Exemple/*.* Altaïr-SDK/altair/Tests/Exemple
+cp Paquets/*.*  Altaïr-SDK
 echo "Terminé"
