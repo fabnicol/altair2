@@ -15,7 +15,7 @@
 !define VER_MINOR 02
 !define VER_REVISION 0
 !define VER_BUILD  0
-!define Rversion_major "3.2
+!define Rversion_major "3.2"
 
 ; autres définitions
 
@@ -25,8 +25,8 @@
 !define setup        "Altaïr-${version}.win.${processeur}.installer.exe"
 !define exemple      "${prodname.simple}\Tests\Exemple"
 !define xhl          "${exemple}\Donnees\xhl"
-!define Interface.minimal    Interface_win64_min
-!define Interface    Interface_win64
+!define Interface.minimal    Interface_windows_min
+!define Interface    Interface_windows
 !define icon         neptune.ico
 !define RDir         "R"
 !define texDir       "texlive"
@@ -133,7 +133,6 @@
 !define MUI_FINISHPAGE_BUTTON       "Terminer"
 !define MUI_FINISHPAGE_CANCEL_ENABLED 
 !insertmacro MUI_PAGE_FINISH
-
 
 !insertmacro MUI_PAGE_INSTFILES
 !insertmacro MUI_UNPAGE_INSTFILES
