@@ -139,51 +139,8 @@ Function Launch_LISEZ
   Exec '"notepad" "$INSTDIR\LISEZ-MOI.txt"'
 FunctionEnd
 
-Section
-  
-  SetDetailsPrint both
-  SetOutPath $INSTDIR
-  File     "${prodname}\*.*" 
-  SetOutPath $INSTDIR
-  File /r ${prodname}\altair
-      
-  SetOutPath $APPDATA
-  File /r ${prodname}\altair\Roaming\QtProject
-  File /r ${prodname}\altair\Roaming\RStudio
-  File /r ${prodname}\altair\Roaming\Notepad++
-  
-  SetOutPath $LOCALAPPDATA
-  File /r ${prodname}\altair\Local\RStudio-desktop
-  
-  ${EnvVarUpdate} $0 "PATH" "A" "HKCU" "$INSTDIR\${prodname}\altair\${texDir}\bin\win32"
-  ${EnvVarUpdate} $0 "PATH" "A" "HKCU" "$INSTDIR\${prodname}\altair\${GitDir}\bin" 
-  ${EnvVarUpdate} $0 "PATH" "A" "HKCU" "$INSTDIR\${prodname}\${RToolsDir}\bin" 
-	
-SectionEnd
-
-  Section  $(Sec1Name) sec1
-    SetOutPath $INSTDIR
-	ExecWait '"$INSTDIR\NSIS.exe"'
-	ExecWait '"$INSTDIR\Notepad++.exe"'
-	ExecWait '"$INSTDIR\Rtools.exe"'
-	;ExecWait '"$INSTDIR\directx.exe"'
-	ExecWait '"$INSTDIR\mingw64-5.2.exe"'
-	ExecWait '"$INSTDIR\msys64.exe"'
-	ExecWait '"$INSTDIR\qt-5.5.0-x64-mingw510r0-seh-rev0.exe"'
-	ExecWait '"$INSTDIR\qt-5.5.0-x64-mingw52-static-runtime.exe"'
-	ExecWait '"$INSTDIR\qtcreator-3.5.0.exe"'
-    ExecWait '"$INSTDIR\redist.exe"'
-	Delete   "$INSTDIR\*.exe"
-	
-  SectionEnd
-
  
- !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
-   !insertmacro MUI_DESCRIPTION_TEXT ${sec1} $(DESC_sec1)
- !insertmacro MUI_FUNCTION_DESCRIPTION_END
- 
- 
-Section
+Section  $(Sec1Name) sec1
   SetDetailsPrint both
   SetOutPath $INSTDIR
   File     "${prodname}\*.*" 
@@ -203,7 +160,7 @@ Section
   
 SectionEnd
 
- Section /o $(AdvancedName) Advanced
+ Section  $(AdvancedName) Advanced
 
     SetOutPath $INSTDIR
 	ExecWait '"$INSTDIR\NSIS.exe"'
@@ -223,7 +180,7 @@ SectionEnd
 
  SectionEnd
 
- Section   $(MinimaleName) Minimale 
+ Section /o  $(MinimaleName) Minimale 
     SetOutPath $INSTDIR
 
 	ExecWait '"$INSTDIR\mingw64-5.2.exe"'
