@@ -160,7 +160,7 @@ Section  $(Sec1Name) sec1
   
 SectionEnd
 
- Section  $(AdvancedName) Advanced
+ Section /o $(AdvancedName) Advanced
 
     SetOutPath $INSTDIR
 	ExecWait '"$INSTDIR\NSIS.exe"'
@@ -180,7 +180,7 @@ SectionEnd
 
  SectionEnd
 
- Section /o  $(MinimaleName) Minimale 
+ Section   $(MinimaleName) Minimale 
     SetOutPath $INSTDIR
 
 	ExecWait '"$INSTDIR\mingw64-5.2.exe"'
