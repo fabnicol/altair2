@@ -189,13 +189,13 @@ int calculer_memoire_requise(info_t& info)
     /* par convention  un agent avec rémunération non renseignées (balise sans fils) a une ligne */
     for (unsigned i = 0; i < info.threads->argc; ++i)
     {
-        errno = 0;
+
         std::cerr << "Fichier " << i;
         generate_rank_signal();
 
 
 #ifdef FGETC_PARSING
-        
+                errno = 0;
         std::ifstream c;
         c.open(info.threads->argv[i]);
         if (c.good())
@@ -378,7 +378,7 @@ int calculer_memoire_requise(info_t& info)
 #ifdef PREALLOCATE_ON_HEAP
     info.NLigne.resize(info.NCumAgent+1);
 #endif
-exit(0);
+//exit(0);
     return errno;
 }
 

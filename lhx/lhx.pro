@@ -10,7 +10,7 @@ DEFINES += __GNUC_EXTENSION \
            __STDC_LIMIT_MACROS \
            __STDC_FORMAT_MACROS
 
-DEFINES += STRICT
+#DEFINES += STRICT
 
 DEFINES += GCC_REGEX \                      # Utiliser les expressions régulières de C++
         NO_DEBUG \                          # ne pas générer de messages de débogage avancé
@@ -42,7 +42,7 @@ windows: INCLUDEPATH += $$DEVROOT/$$COMPILER_DIR/include
 linux: LIBS = -L/usr/lib/lib64 -L/usr/lib/x86_64-linux-gnu -lxml2 -pthread
 windows: LIBS = -L$$DEVROOT/$$COMPILER_DIR/lib -lxml2.dll -pthread
 
-windows: QMAKE_LFLAGS += -s
+#windows: QMAKE_LFLAGS += -s
 
 SOURCES += \ 
     fonctions_auxiliaires.cpp \

@@ -35,7 +35,7 @@ static inline xmlNodePtr GCC_INLINE atteindreNoeud(const xmlChar * noeud, xmlNod
 
       if (cur == nullptr)
       {
-           std::cerr << "Erreur : Impossible d'atteindre " << cur->name << std::endl;
+           std::cerr << "Erreur : Impossible d'atteindre " << noeud << std::endl;
           #ifdef STRICT
             exit(-1);
           #endif
