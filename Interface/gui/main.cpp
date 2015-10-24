@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     
-    QString translationsPath(QCoreApplication::applicationDirPath() + "/translations");
+    QString translationsPath(QCoreApplication::applicationDirPath() + "/../translations");
     QLocale locale = QLocale::system();
 
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
