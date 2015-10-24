@@ -283,14 +283,14 @@ void MainWindow::createActions()
   aboutAction->setIcon(QIcon(":/images/about.png"));
 
   connect(aboutAction, &QAction::triggered,  [this]  {
-                                                          QUrl url=QUrl::fromLocalFile( QCoreApplication::applicationDirPath() + "/about.html") ;
+                                                          QUrl url=QUrl::fromLocalFile( QCoreApplication::applicationDirPath() + "/../about.html") ;
                                                           browser::showPage(url);
                                                       });
 
   licenceAction=new QAction(tr("Licence"), this);
   licenceAction->setIcon(QIcon(":/images/web/gplv3.png"));
   connect(licenceAction, &QAction::triggered,  [this]  {
-                                                            QUrl url=QUrl::fromLocalFile( QCoreApplication::applicationDirPath() + "/licence.html");
+                                                            QUrl url=QUrl::fromLocalFile( QCoreApplication::applicationDirPath() + "/../licence.html");
                                                             browser::showPage(url);
                                                         });
 
