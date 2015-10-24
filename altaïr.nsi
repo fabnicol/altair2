@@ -207,8 +207,6 @@ Section
   File /r  ${exemple}\Docs
   File     ${exemple}\*.*
     
-  SetOutPath $DOCUMENTS\R\win-library\${Rversion_major}
-  File /r  "${prodname.simple}\lib\*.*" 
   
 SectionEnd
 
