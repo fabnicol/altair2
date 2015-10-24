@@ -92,6 +92,8 @@ rep.ITime	IDateTime
 rleid	rleid
 rleidv	rleid
 round.IDate	IDateTime
+rowid	rowid
+rowidv	rowid
 seq.IDate	IDateTime
 set	assign
 set2key	setkey
