@@ -3,12 +3,18 @@ greaterThan(QT_MAJOR_VERSION, 5)
 
 # utiliser au moins Qt5.1 et g++-4.9.2 sous windows
 
-CONFIG  += ordered static
+CONFIG  += ordered
+CONFIG(debug, debug|release) {
+  QMAKE_LFLAGS   += -L$$(QTDIR)/bin   # ne devrait pas en principe être rajouté mais...qmake est capricieux !
+} else {
+  CONFIG += static
+}
 
 TEMPLATE = app
 
 QT       += core gui xml widgets
-#webkitwidgets
+            #webkitwidgets : à décommenter si STATIC n'est pas défini c-dessous. Nécessite libWebKitWidgets
+
 QT       -= opengl
 QT       -= openssl
 
@@ -30,8 +36,7 @@ windows:RC_ICONS = neptune.ico
 
 QMAKE_CXXFLAGS += -std=gnu++11                         # obligatoire
 QMAKE_CXXFLAGS += -march=native -O3 -pipe -m64         # facultatif
-if (! debug)
-   QMAKE_LFLAGS   += -s
+
 
 SOURCES += \
     options.cpp \
