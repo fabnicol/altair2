@@ -347,7 +347,7 @@ TESTDT = data.table(NULL)
 test(122, TESTDT[1], TESTDT)
 test(123, TESTDT[0], TESTDT)
 test(124, TESTDT[1:10], TESTDT)
-test(125, TESTDT["k"], error="x must be keyed")
+test(125, TESTDT["k"], error="the columns to join by must be specified either using")
 # test 126 no longer needed now that test() has 'error' argument
 
 TESTDT = data.table(a=3L,v=2L,key="a")  # testing 1-row table
@@ -1200,7 +1200,7 @@ test(415, x:=1, error="defined for use in j, once only and in particular ways")
 
 # Somehow never tested that X[Y] is error if X is unkeyed.
 DT = data.table(a=1:3,b=4:6)
-test(416, DT[J(2)], error="x must be keyed")
+test(416, DT[J(2)], error="the columns to join by must be specified either using")
 
 # Test shallow copy warning from := adding a column, and (TO DO) only when X is NAMED.
 DT = data.table(a=1:3,b=4:6)
@@ -2292,7 +2292,8 @@ if ("package:xts" %in% search()) {  # e.g. when run via R CMD check
 } else {
     cat("Test 841 not run. If required call library(xts) first.\n")
     # So these won't run from R CMD check (deliberately, for now) ...
-    test(842, last(list("a",1:2,89)), 89)  # xts's last returns a one item list here. Would prefer it to return the item itself.
+    ans = if ("package:gdata" %in% search()) list(89) else 89
+    test(842, last(list("a",1:2,89)), ans)  # xts's last and gdata::last returns a one item list here. Would prefer it to return the item itself.
     DT = data.table(a=1:3)
     test(842.1, last(DT), DT[3L])
     # xts's last returns a 3L atomic here for 1 column data.frame, strangely. We wish for the last row, consistently. I tried
@@ -2935,10 +2936,10 @@ if ("package:reshape2" %in% search()) {
 
     # bug #699 - melt segfaults when vars are not in dt
     x = data.table(a=c(1,2),b=c(2,3),c=c(3,4))
-    test(1316.1, melt(x, id="d"), error="Column 'd' not found in 'data'")
-    test(1316.2, melt(x, measure="d"), error="Column 'd' not found in 'data'")
-    test(1316.3, melt(x, id="a", measure="d"), error="Column 'd' not found in 'data'")
-    test(1316.4, melt(x, id="d", measure="a"), error="Column 'd' not found in 'data'")
+    test(1316.1, melt(x, id="d"), error="One or more values")
+    test(1316.2, melt(x, measure="d"), error="One or more values")
+    test(1316.3, melt(x, id="a", measure="d"), error="One or more values")
+    test(1316.4, melt(x, id="d", measure="a"), error="One or more values")
 
     # fix for #780.
     DT = data.table(x=rep(c("a","b","c"),each=3), y=c(1,3,6), v=1:9)
@@ -2959,6 +2960,18 @@ if ("package:reshape2" %in% search()) {
     ## to ensure there's no segfault...
     ans <- melt(dt, measure.vars=names(dt), na.rm=TRUE)
     test(1509, ans, ans)
+
+    # improper levels fix, #1359
+    dt = data.table(id=1:3, x=NA_character_, y=c('a', NA_character_, 'c'))
+    test(1563, melt(dt, id.var="id", na.rm=TRUE), data.table(id=c(1L,3L), variable=factor(c("y", "y")), value=c("a", "c")))
+
+    # fixing segfault due to negative id and measure vars that I detected by accident
+    dt = data.table(x=1:5, y=6:10, z=11:15)
+    test(1569.1, melt(dt, id=-1, measure=NULL), error="One or more values in 'id.vars'")
+    test(1569.2, melt(dt, id=-1, measure=-1), error="One or more values in 'id.vars'")
+    test(1569.3, melt(dt, id=NULL, measure=-1), error="One or more values in 'measure.vars'")
+    test(1569.4, melt(dt, id=5, measure=-1), error="One or more values in 'id.vars'")
+    test(1569.5, melt(dt, id=1, measure=-1), error="One or more values in 'measure.vars'")
 }
 
 # sorting and grouping of Inf, -Inf, NA and NaN,  #4684, #4815 & #4883
@@ -5378,11 +5391,11 @@ test(1378.1, dim(fread("russellCRLF.csv")), c(19,4))
 f = paste("file://",getwd(),"/russellCRLF.csv",sep="")
 # simulates a http:// request as far as file.download() and unlink() goes, without internet
 # download.file() in fread() changes the input data from \r\n to \n, on Windows.
-test(1378.2, dim(fread(f)), c(19,4))
+test(1378.2, dim(fread(f, showProgress=FALSE)), c(19,4))
 
 f = paste("file://",getwd(),"/russellCRCRLF.csv",sep="")
 # actually has 3 \r in the file, download.file() from file:// changes that to \r\r\n, so we can simulate download.file from http: in text mode.
-test(1378.3, fread(f), error="Line ending is .*r.*r.*n. R's download.file() appears to add the extra .*r in text mode on Windows. Please download again in binary mode (mode='wb') which might be faster too. Alternatively, pass the URL directly to fread and it will download the file in binary mode for you.")
+test(1378.3, fread(f, showProgress=FALSE), error="Line ending is .*r.*r.*n. R's download.file() appears to add the extra .*r in text mode on Windows. Please download again in binary mode (mode='wb') which might be faster too. Alternatively, pass the URL directly to fread and it will download the file in binary mode for you.")
 #====================================
 
 
@@ -6948,6 +6961,112 @@ test(1557.1, dt[, paste0("index", 1:i), with=FALSE], dt[, index1:index2, with=FA
 test(1557.2, dt[, paste0("index", 1:i), with=FALSE], dt[, 1:2, with=FALSE])
 test(1557.3, dt[, 5:4, with=FALSE], dt[, i:s, with=FALSE])
 test(1557.4, dt[, .SD, .SDcols=paste0("index", 1:i)], dt[, .SD, .SDcols=index1:index2])
+
+# fix for #1354
+test(1558, as.ITime(NA), setattr(NA_integer_, 'class', 'ITime'))
+
+if (!"package:xts" %in% search()) {
+    # #1347, xts issue from Joshua
+    x = as.Date(1:5, origin="2015-01-01")
+    test(1559.1, last(x), tail(x, 1L))
+} else {
+    test(1559.2, last(.xts(1:3,1:3)), .xts(1:3, 1:3)[3, ])
+}
+
+# fix for #1352
+dt1 = data.table(a=1:5, b=6:10, c=11:15)
+dt2 = data.table(a=3:6, b=8:11, d=1L)
+by_cols = c(x="a", y="b")
+test(1560, merge(dt1,dt2, by=by_cols, sort=FALSE), dt1[dt2, nomatch=0L, on=unname(by_cols)])
+
+# FR #1353
+DT = data.table(x=c(20,10,10,30,30,20), y=c("a", "a", "a", "b", "b", "b"), z=1:6)
+
+test(1561.1, rowid(DT$x), as.integer(c(1,1,2,1,2,2)))
+test(1561.2, rowidv(DT, cols="x"), as.integer(c(1,1,2,1,2,2)))
+test(1561.3, rowid(DT$x, prefix="group"), paste("group", as.integer(c(1,1,2,1,2,2)), sep=""))
+test(1561.4, rowid(DT$x, DT$y), as.integer(c(1,1,2,1,2,1)))
+test(1561.5, rowidv(DT, cols=c("x","y")), as.integer(c(1,1,2,1,2,1)))
+# convenient usage with dcast
+test(1561.6, dcast(DT, x ~ rowid(x, prefix="group"), value.var="z"), data.table(x=c(10,20,30), group1=c(2L,1L,4L), group2=c(3L,6L,5L), key="x"))
+
+# Fix for #1346
+DT = data.table(id=1:3, g1=4:6, g2=7:9)
+test(1562, melt(DT, measure=patterns("^g[12]"), variable.factor=FALSE), data.table(id=1:3, variable=rep(c("g1","g2"),each=3L), value=4:9))
+
+# tet 1563 added for melt above, fix for #1359.
+
+# fix for #1341
+dt <- data.table(a = 1:10)
+test(1564.1, truelength(dt[, .SD]), 100L)
+test(1564.2, truelength(dt[a==5, .SD]), 100L)
+test(1564.3, dt[a==5, .SD][, b := 1L], data.table(a=5L, b=1L))
+
+# Fix for #1251, DT[, .N, by=a] and DT[, .(.N), by=a] uses GForce now
+dt = data.table(a=sample(3,20,TRUE), b=1:10)
+optim = getOption("datatable.optimize") # save old optim value
+options(datatable.optimize = Inf)
+ans1 = dt[, .N, by=a]
+ans2 = capture.output(dt[, .N, by=a, verbose=TRUE])
+test(1565.1, length(grep("GForce optimized j to", ans2))>0L, TRUE) # make sure GForce optimisation works
+options(datatable.optimize = 1L) # make sure result is right
+test(1565.2, ans1, dt[, .N, by=a])
+# restore optim level
+options(datatable.optimize = optim)
+
+# Fix for #1212
+set.seed(123)
+dt <- data.table(a=c("abc", "def", "ghi"), b=runif(3))[, c:=list(list(data.table(d=runif(1), e=runif(1))))]
+test(1566.1, dt[, c], dt[, get("c")])
+test(1566.2, dt[, .(c=c)], dt[, .(c=get("c"))])
+test(1566.3, address(dt$c) == address(dt[, get("c")]), FALSE)
+
+# Fix for #1207
+d1 <- data.table(a = character(), b = list())
+test(1567.1, d1[, b, by=a], d1)
+test(1567.2, d1[, b, keyby=a], data.table(d1, key="a"))
+
+# Fix for #1334
+dt = data.table(x=ordered(rep(1:3,each=5)),y=ordered(rep(c("B","A","C"),5),levels=c("B","A","C")),z=1:15)
+test(1568, dt[, sum(z), keyby=.(I(x), I(y))], data.table(I=I(ordered(rep(1:3,each=3))), I.1=I(ordered(rep(c("B","A","C"),3),levels=c("B","A","C"))),V1=c(5L, 7L, 3L, 17L, 8L, 15L, 13L, 25L, 27L), key=c("I", "I.1")))
+
+# Test 1569 is written under melt above.
+
+# fix for #1378, merge resets class
+X = data.table(a=1:3, b=4:6)
+Y = data.table(a=1L, c=5L)
+setattr(Y, 'class', c("custom","data.table","data.frame"))
+test(1570.1, class(merge(X, Y, all=TRUE, by="a")), class(X))
+test(1570.2, class(merge(Y, X, all=TRUE, by="a")), class(X))
+
+# #1379, tstrsplit gains names argument
+X = data.table(a=c("ABC", "DEFG"))
+test(1571, names(tstrsplit(X$a, "", fixed=TRUE, give.names=TRUE)), paste("V", 1:4, sep=""))
+
+# fix for #1367, quote="" argument in use. Using embedded quotes in the example below reads the 
+# first two columns as one. I couldn't find a way to avoid introducing quote argument.
+test(1572, fread('"abcd efgh." ijkl.\tmnop "qrst uvwx."\t45\n', quote=""), 
+           setDT(read.table(text='"abcd efgh." ijkl.\tmnop "qrst uvwx."\t45\n', sep="\t", stringsAsFactors=FALSE, quote="")))
+
+# Fix for #1384, fread with empty new line, initial checks failed due to extra spaces.
+test(1573, fread('a,b
+       1,2
+       '), data.table(a=1L, b=2L))
+
+# Fix for #1375
+X = data.table(a=1:3,b=4:6,c=c("foo","bar","baz"))
+test(1574.1, X[.(5), on="b"], X[2])
+
+X = data.table(A=1:3,b=4:6,c=c("foo","bar","baz"))
+Y = data.table(A=2:4, B=5:7)
+test(1574.2, X[Y, on=c("A",b="B")], X[Y, on=c(A="A", b="B")])
+test(1574.3, X[Y, on=c(b="B", "A")], X[Y, on=c(b="B", A="A")])
+
+# fix for #1376
+X = data.table(a=1:3,b=4:6,c=c("foo","bar","baz"))
+Y = data.table(A=2:4, B=5:7)
+test(1575.1, X[Y, on=c(A="a")], error="not found in x")
+test(1575.2, X[Y, on=c(a="a")], error="not found in i")
 
 ##########################
 

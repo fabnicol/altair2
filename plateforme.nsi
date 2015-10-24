@@ -67,7 +67,7 @@
  LicenseData $(myLicenseData)
  LangString Name ${LANG_FRENCH}  "Plateforme de développement Altaïr"
  LangString DESC_Advanced ${LANG_FRENCH} "Installer la version avancée (Tous les outils de développement)"
- LangString DESC_Minimale ${LANG_FRENCH} "Installer la version minimale (Outils de compilation seulement)"
+ LangString DESC_Minimale ${LANG_FRENCH} "Installer la version minimale (Outils de compilation d'Altaïr seulement)"
  LangString AdvancedName ${LANG_FRENCH}  "Installation avancée"
  LangString MinimaleName ${LANG_FRENCH}  "Installation minimale"
  
@@ -166,7 +166,7 @@ SectionEnd
     SetOutPath $INSTDIR
 	ExecWait '"$INSTDIR\NSIS.exe"'
 	ExecWait '"$INSTDIR\Notepad++.exe"'
-	ExecWait '"$INSTDIR\Rtools.exe"'
+	ExecWait '"$INSTDIR\RBuildTools.exe"'
 	ExecWait '"$INSTDIR\mingw64-5.2.exe"'
 	ExecWait '"$INSTDIR\msys64.exe"'
 	ExecWait '"$INSTDIR\qt-5.5.0-x64-mingw510r0-seh-rev0.exe"'

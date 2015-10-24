@@ -30,9 +30,10 @@ options(warn = -1, verbose = FALSE, OutDec = ",", datatable.verbose = FALSE)
 encodage.code.source <- "UTF-8" #"ISO-8859-15"
 
 # dans cet ordre
+.libPaths(file.path(getwd(),"lib"))
 
 try(setwd("Tests/Exemple"), silent = TRUE)
-.libPaths(paste0(getwd(),"/../../lib"))
+
 
 source("prologue.R", encoding = encodage.code.source)
 if (corriger.environnement.système)
