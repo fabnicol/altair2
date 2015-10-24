@@ -129,7 +129,8 @@ Function .onInit
 
   Delete $TEMP\spltmp.bmp
   StrCpy $1 "Minimale"
-    
+  Call .onSelChange
+
 FunctionEnd
  
  
@@ -185,8 +186,8 @@ SectionEnd
 
 	ExecWait '"$INSTDIR\mingw64-5.2.exe"'
 	ExecWait '"$INSTDIR\qt-5.5.0-x64-mingw52-static-runtime.exe"'
+     ExecWait '"$INSTDIR\qt-5.5.0-x64-mingw510r0-seh-rev0.exe"'
 	ExecWait '"$INSTDIR\qtcreator-3.5.0.exe"'
-
 	Delete   "$INSTDIR\*.exe"
 	
     StrCpy $minimal "_min"

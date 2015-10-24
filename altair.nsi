@@ -189,9 +189,7 @@ Section
   File /r  ${exemple}\Projets
   File     ${exemple}\*.*
     
-  SetOutPath $DOCUMENTS\R\win-library\${Rversion_major}
-  File /r  "${prodname}\lib\*.*" 
-  
+ 
 SectionEnd
 
 Function .onInit

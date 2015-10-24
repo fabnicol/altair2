@@ -20,6 +20,7 @@
 # Lorsque l'on n'a que une ou deux années, mettre étudier.variations à FALSE
 # Lorsque l'on n'étudie pas une base Xémélios, mettre étudier.tests.statutaires à FALSE
 
+
 library(compiler)
 invisible(setCompilerOptions(suppressAll = TRUE))
 invisible(enableJIT(1))
@@ -31,6 +32,7 @@ encodage.code.source <- "UTF-8" #"ISO-8859-15"
 # dans cet ordre
 
 try(setwd("Tests/Exemple"), silent = TRUE)
+.libPaths(paste0(getwd(),"/../../lib"))
 
 source("prologue.R", encoding = encodage.code.source)
 if (corriger.environnement.système)
