@@ -12,7 +12,7 @@ DEFINES += __GNUC_EXTENSION \
 
 #DEFINES += STRICT
 
-DEFINES += GCC_REGEX \                      # Utiliser les expressions régulières de C++
+DEFINES += NO_REGEX \#GCC_REGEX \                      # Utiliser les expressions régulières de C++
         NO_DEBUG \                          # ne pas générer de messages de débogage avancé
 #        TOLERANT_TAG_HIERARCHY \            # ordre des balises : tolérance envers des permutations de même niveau
         FULL_PREALLOCATION_TEST \           # calcul des besoins de mémoire : précision maximale (sinon : moindre)
@@ -34,13 +34,13 @@ COMPILER_DIR = mingw64-5.2
 # windows : QMAKE_CXXFLAGS =/Ox /MP
 # sous MINGW/GCC
 
-QMAKE_CXXFLAGS = -pipe -m64 -std=gnu++11 -march=native -fexceptions -fomit-frame-pointer -O3 -fexpensive-optimizations
+QMAKE_CXXFLAGS = -pipe -m64 -std=gnu++11 -march=native -fno-inline -O3 -fexpensive-optimizations -pg  #-fomit-frame-pointer
 
 linux: INCLUDEPATH += /usr/include/libxml2
 windows: INCLUDEPATH += $$DEVROOT/$$COMPILER_DIR/include
 
 linux: LIBS = -L/usr/lib/lib64 -L/usr/lib/x86_64-linux-gnu -lxml2 -pthread
-windows: LIBS = -L$$DEVROOT/$$COMPILER_DIR/lib -lxml2.dll -pthread
+windows: LIBS = -L$$DEVROOT/$$COMPILER_DIR/lib -lxml2.dll -pthread -pg
 
 #windows: QMAKE_LFLAGS += -s
 
