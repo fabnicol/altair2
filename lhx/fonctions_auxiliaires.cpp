@@ -184,13 +184,12 @@ int calculer_memoire_requise(info_t& info)
 
     char d = 0;
 
-    std::cerr << "[INF] Premier scan des fichiers pour déterminer les besoins mémoire ... \n";
+    std::cerr << "\n\n[INF] Premier scan des fichiers pour déterminer les besoins mémoire ... \n";
 
     /* par convention  un agent avec rémunération non renseignées (balise sans fils) a une ligne */
     for (unsigned i = 0; i < info.threads->argc; ++i)
     {
 
-        std::cerr << "Fichier " << i;
         generate_rank_signal();
 
 
@@ -202,14 +201,14 @@ int calculer_memoire_requise(info_t& info)
             c.seekg(0, c.beg);
         else 
         {
-            perror("Erreur : Erreur : Ouverture Fichiers.");    // cautious no-op
-            std::cerr << info.threads->argv[i] << std::endl;
+            perror("Erreur : Ouverture du fichier  ");    // cautious no-op
+            std::cerr << info.threads->argv[i] << "\n";
             exit(-120);
         }
 
         if (errno)
         {
-            perror("Erreur : Fichier .xhl");
+            perror("Erreur : Fichier .xhl\n");
             exit(-122);
         }
         
@@ -295,7 +294,7 @@ int calculer_memoire_requise(info_t& info)
         const size_t file_size =  st.st_size;
         void *dat;
         int fd = open(info.threads->argv[i], O_RDONLY);
-       // std::cerr << "Taille : " << file_size << std::endl;
+       // std::cerr << "Taille : " << file_size << "\n";
         assert(fd != -1);
         dat = mmap(NULL, file_size,  PROT_READ, MAP_PRIVATE | MAP_POPULATE, fd, 0);
         assert(dat != NULL);

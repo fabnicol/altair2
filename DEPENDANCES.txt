@@ -16,7 +16,7 @@ Aucune élévation des droits n'est nécessessaire si le chemin d'installation par
 défaut est retenu.
 
 Les bibliothèques auxiliaires installées par l'installateur sont conservées dans le 
-répertoire utilisateur\Documents\R\win-library\3.1 et ne doivent pas être détruites.
+répertoire altair\lib
 
 * Version minimale
 
