@@ -121,13 +121,13 @@ int main(int argc, char **argv)
         }
         else if (! strcmp(argv[start], "-h"))
         {
-            std::cout <<  "Usage :  lhx OPTIONS fichiers.xhl" << std::endl
-                      <<  "OPTIONS :" << std::endl
-                      <<  "-n argument obligatoire : nombre maximum de bulletins mensuels attendus [calcul exact par défaut]" << std::endl
-                      <<  "-N argument obligatoire : nombre maximum de lignes de paye attendues [calcul exact par défaut]" << std::endl
-                      <<  "-t argument optionnel   : type de base en sortie, soit 'standard', soit 'bulletins' [défaut bulletins]." << std::endl
-                      <<  "-T argument obligatoire : nombre de lignes maximum par base .csv [défaut illimité]. Au plus 999 tables seront générées." << std::endl
-                      <<  "-T AN                    : générer une table par année" << std::endl
+            std::cout <<  "Usage :  lhx OPTIONS fichiers.xhl" << "\n"
+                      <<  "OPTIONS :" << "\n"
+                      <<  "-n argument obligatoire : nombre maximum de bulletins mensuels attendus [calcul exact par défaut]" << "\n"
+                      <<  "-N argument obligatoire : nombre maximum de lignes de paye attendues [calcul exact par défaut]" << "\n"
+                      <<  "-t argument optionnel   : type de base en sortie, soit 'standard', soit 'bulletins' [défaut bulletins]." << "\n"
+                      <<  "-T argument obligatoire : nombre de lignes maximum par base .csv [défaut illimité]. Au plus 999 tables seront générées." << "\n"
+                      <<  "-T AN                    : générer une table par année" << "\n"
                       <<  "-T A/AC/AV/C/D/I/IR/RE/S/T : générer une table pour chaque catégorie de ligne : \
                               A rémunérations diverse \n \
                               AC acompte \n \
@@ -139,18 +139,18 @@ int main(int argc, char **argv)
                               RE retenue \n \
                               S supplément familial \n \
                               T traitement brut \n \
-                              X toutes catégories\n" << std::endl
-                      <<  "-o argument obligatoire : fichier.csv, chemin complet du fichier de sortie [défaut 'Table.csv' avec -t]." << std::endl
-                      <<  "-D argument obligatoire : répertoire complet du fichier de sortie [défaut '.' avec -t]." << std::endl
-                      <<  "-d argument obligatoire : séparateur décimal [défaut ',' avec -t]." << std::endl
-                      <<  "-s argument obligatoire : séparateur de champs [défaut ';' avec -t]. Ne pas utiliser '_'." << std::endl
-                      <<  "-j argument obligatoire : nombre de fils d'exécution (1 à 10)." << std::endl
-                      <<  "-l sans argument        : générer une colonne de numéros de ligne intitulée 'R'." << std::endl
-                      <<  "-M sans argument        : ne pas libérer la mémoire réservée en fin de programme." << std::endl
-                      <<  "-m sans argument        : calculer les maxima d'agents et de lignes de paye." << std::endl
-                      <<  "-L argument obligatoire : chemin du log d'exécution du test de cohérence entre analyseurs C et XML." << std::endl
-                      <<  "-R argument obligatoire : expression régulière pour la recherche des élus (codés : ELU dans le champ Statut." << std::endl
-                      <<  "-S sans argument        : supprimer la sortie Budget, Etablissement, Siret (allège les bases)." << std::endl;
+                              X toutes catégories\n" << "\n"
+                      <<  "-o argument obligatoire : fichier.csv, chemin complet du fichier de sortie [défaut 'Table.csv' avec -t]." << "\n"
+                      <<  "-D argument obligatoire : répertoire complet du fichier de sortie [défaut '.' avec -t]." << "\n"
+                      <<  "-d argument obligatoire : séparateur décimal [défaut ',' avec -t]." << "\n"
+                      <<  "-s argument obligatoire : séparateur de champs [défaut ';' avec -t]. Ne pas utiliser '_'." << "\n"
+                      <<  "-j argument obligatoire : nombre de fils d'exécution (1 à 10)." << "\n"
+                      <<  "-l sans argument        : générer une colonne de numéros de ligne intitulée 'R'." << "\n"
+                      <<  "-M sans argument        : ne pas libérer la mémoire réservée en fin de programme." << "\n"
+                      <<  "-m sans argument        : calculer les maxima d'agents et de lignes de paye." << "\n"
+                      <<  "-L argument obligatoire : chemin du log d'exécution du test de cohérence entre analyseurs C et XML." << "\n"
+                      <<  "-R argument obligatoire : expression régulière pour la recherche des élus (codés : ELU dans le champ Statut." << "\n"
+                      <<  "-S sans argument        : supprimer la sortie Budget, Etablissement, Siret (allège les bases)." << "\n";
             exit(0);
         }
         else if (! strcmp(argv[start], "-t"))
@@ -341,7 +341,7 @@ int main(int argc, char **argv)
         {
             if ((info.nbLigneUtilisateur = lire_argument(argc, argv[start +1])) > 1)
             {
-                std::cerr << "[MSG] Nombre maximum de lignes de paye redéfini à : " << info.nbLigneUtilisateur << std::endl;
+                std::cerr << "[MSG] Nombre maximum de lignes de paye redéfini à : " << info.nbLigneUtilisateur << "\n";
             }
 
             start += 2;
@@ -375,7 +375,7 @@ int main(int argc, char **argv)
 
                 rankFilePath = argv[start + 1];
                 rankFile.open(rankFilePath, std::ios::out| std::ios::trunc);
-                rankFile << 1 << std::endl;
+                rankFile << 1 << "\n";
                 rankFile.close();
 
             }
@@ -399,7 +399,7 @@ int main(int argc, char **argv)
         }
         else if (argv[start][0] == '-')
         {
-            std::cerr << "Erreur : Option inconnue " << argv[start] << std::endl;
+            std::cerr << "Erreur : Option inconnue " << argv[start] << "\n";
             exit(-100);
         }
         else break;
@@ -425,7 +425,7 @@ int main(int argc, char **argv)
         t.resize(info.nbfil);
     }
 
-    std::cerr << "[INF] Création des fils clients.\n";
+    std::cerr << "\n[INF] Création des fils clients.\n";
 
     for (int i = 0; i < info.nbfil; ++i)
     {
@@ -454,8 +454,8 @@ int main(int argc, char **argv)
             Info[i].threads->argv[j - start] = argv[j + shift];
         }
 
-        std::cerr << "Thread i=" << i+1 << "/" << info.nbfil << std::endl
-                  << "Nombre de fichiers : " << Info[i].threads->argc << std::endl;
+        std::cerr << "\n\nThread i=" << i+1 << "/" << info.nbfil
+                  << "\n\nNombre de fichiers : " << Info[i].threads->argc << "\n";
 
         start += nbfichier_par_fil;
 
@@ -472,7 +472,7 @@ int main(int argc, char **argv)
 
         if (errno)
         {
-            std::cerr << strerror(errno);
+            std::cerr << "\n" << strerror(errno) << "\n";
         }
     }
 
@@ -489,8 +489,8 @@ int main(int argc, char **argv)
         maxima = calculer_maxima(Info);
         if (maxima)
         {
-            std::cerr <<  "\n[MSG] Maximum de lignes : " << maxima[1] << std::endl
-                       << "\n[MSG] Maximum d'agents  : " << maxima[0] << std::endl;
+            std::cerr <<  "\n[MSG] Maximum de lignes : " << maxima[1] << "\n"
+                       << "\n[MSG] Maximum d'agents  : " << maxima[0] << "\n";
         }
     }
 
@@ -499,8 +499,8 @@ int main(int argc, char **argv)
     LOG.open(Info[0].chemin_log, std::ios::app);
     if (LOG.good() && maxima)
     {
-        LOG << "\n[MSG] Maximum de lignes : " << maxima[1] << std::endl;
-        LOG << "\n[MSG] Maximum d'agent   : " << maxima[0] << std::endl;
+        LOG << "\n[MSG] Maximum de lignes : " << maxima[1] << "\n";
+        LOG << "\n[MSG] Maximum d'agent   : " << maxima[0] << "\n";
         LOG.close();
     }
 
@@ -508,9 +508,9 @@ int main(int argc, char **argv)
 
     auto endofcalculus = Clock::now();
 
-    std::cerr << "[INF] Durée de calcul : "
+    std::cerr << "\n[INF] Durée de calcul : "
               << std::chrono::duration_cast<std::chrono::milliseconds>(endofcalculus - startofprogram).count()
-              << " millisecondes" << std::endl;
+              << " millisecondes" << "\n";
 
     if (generer_table)
     {
@@ -557,9 +557,9 @@ int main(int argc, char **argv)
 
     auto endofprogram = Clock::now();
 
-    std::cerr << "[INF] Durée d'exécution : "
+    std::cerr << "\n[INF] Durée d'exécution : "
               << std::chrono::duration_cast<std::chrono::milliseconds>(endofprogram - startofprogram).count()
-              << " millisecondes" << std::endl;
+              << " millisecondes" << "\n";
 
     if (rankFile.is_open()) rankFile.close();
 

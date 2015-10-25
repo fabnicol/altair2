@@ -28,7 +28,8 @@ extern char* rankFilePath;
 
 inline void GCC_INLINE  generate_rank_signal()
 {
-        static int temp_rank;
+
+    static int temp_rank;
 
         ++temp_rank;
 
@@ -41,9 +42,9 @@ inline void GCC_INLINE  generate_rank_signal()
             }
 
             rankFile.close();
+            mut.unlock();
         }
 
-        mut.unlock();
 }
 
 #endif // FONCTIONS_AUXILIAIRES_HPP_INCLUDED

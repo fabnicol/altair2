@@ -15,7 +15,7 @@
 #include <vector>
 
 #ifdef  __GNUG__
-#define GCC_INLINE __attribute__((always_inline))
+#define GCC_INLINE //__attribute__((always_inline))
 #define GCC_UNUSED __attribute__((__unused__))
 #else
 #define GCC_INLINE
@@ -107,7 +107,7 @@ typedef struct
 #endif
 
 #ifndef NO_DEBUG
-    #define DEBUG(X) std::cerr << X << std::endl;
+    #define DEBUG(X) std::cerr << "\n" << X << "\n";
     #define AFFICHER_NOEUD(X)       { char msg[50]={0}; \
                                       sprintf(msg, "atteint %s\n", (const char*) X);\
                                       DEBUG(msg) }
