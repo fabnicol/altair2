@@ -22,13 +22,13 @@ void ecrire_entete(const info_t &info, std::ofstream& base);
 void ecrire_entete0(const info_t &info, std::ofstream& base, const char* entete[], int N);
 void ouvrir_fichier_bulletins(const info_t &info, std::ofstream& base);
 
-extern std::mutex mut;
+//extern std::mutex mut;
 extern std::ofstream rankFile;
 extern char* rankFilePath;
 
 inline void GCC_INLINE  generate_rank_signal()
 {
-
+#if 0
     static int temp_rank;
 
         ++temp_rank;
@@ -44,7 +44,7 @@ inline void GCC_INLINE  generate_rank_signal()
             rankFile.close();
             mut.unlock();
         }
-
+#endif
 }
 
 #endif // FONCTIONS_AUXILIAIRES_HPP_INCLUDED

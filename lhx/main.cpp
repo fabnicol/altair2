@@ -21,7 +21,7 @@
 typedef std::chrono::high_resolution_clock Clock;
 std::ofstream rankFile;
 char* rankFilePath;
-std::mutex mut;
+//std::mutex mut;
 
 static inline const uint32_t* calculer_maxima(const std::vector<info_t> &Info)
 {
@@ -512,10 +512,12 @@ int main(int argc, char **argv)
               << std::chrono::duration_cast<std::chrono::milliseconds>(endofcalculus - startofprogram).count()
               << " millisecondes" << "\n";
 
-    if (generer_table)
-    {
-        boucle_ecriture(Info);
-    }
+   #if 0
+//    if (generer_table)
+//    {
+//        boucle_ecriture(Info);
+//    }
+   #endif
 
     /* libération de la mémoire */
 
