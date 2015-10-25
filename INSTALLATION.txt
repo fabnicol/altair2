@@ -1,17 +1,11 @@
 ﻿Guide d'installation
 --------------------
 
-Choisir l'installateur .celeron pour une installation sur portables standard.
-Choisir l'installateur .core pour une installation sur portables multicoeurs (core2, corei3 et plus).
-
 1.  Copier l'installateur sur le bureau et l'exécuter.
 
-2.  Choisir le chemin d'installation par défaut c:\Users\Public
-      
-3.  Installer vc_redistx64.exe de Microsoft. Ce sont des bibliothèques dynamiques qui permettent d'exécuter 
-    les programmes compilés avec le compilateur Microsoft MSVC2013.
-   
-4.  Exécuter l'interface en cliquant sur l'icône de lancement A.
+2.  Choisir le chemin d'installation par défaut
+ 
+3.  Exécuter l'interface en cliquant sur l'icône de lancement A.
    
 
 Réalisation d'un test

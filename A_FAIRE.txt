@@ -6,5 +6,3 @@
 3. Bug de dépendance de "Economiser la RAM" et de "Générer la table". Si on ne veut plus
   générer la table il faut décocher l'autre case manuelleemnt alors qu'il faudrait automatiser.
 
-4. Fixer les Recent Files
-
