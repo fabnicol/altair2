@@ -14,28 +14,26 @@
 
 
 
-static inline xmlNodePtr GCC_INLINE atteindreNoeud(const xmlChar * noeud, xmlNodePtr cur, bool opt = true)
+static inline xmlNodePtr GCC_INLINE atteindreNoeud(const xmlChar * noeud, xmlNodePtr cur, bool opt = true, int normalJump = 0)
 {
+   #if 0
     while (cur && xmlIsBlankNode(cur))
     {
         cur = cur -> next;
     }
+   #endif
 
-    while (cur != nullptr)
+    for (int i = 0; i < normalJump; ++i)
+           cur = cur->next;
+
+    while (cur != nullptr && xmlStrcmp(cur->name,  noeud))
     {
-        if (xmlStrcmp(cur->name,  noeud))  // cur->name != noeud
-        {
-            cur = cur->next;
-        }
-        else
-        {
-            AFFICHER_NOEUD(noeud)  // cur->name == oeud
-            break;
-        }
+           cur = cur->next;
     }
 
       if (cur == nullptr)
       {
+          AFFICHER_NOEUD(noeud)  // cur->name == oeud
           //while (! mut.try_lock());
           if (opt)
              std::cerr << "Erreur : Impossible d'atteindre " << noeud << "\n";
@@ -49,9 +47,9 @@ static inline xmlNodePtr GCC_INLINE atteindreNoeud(const xmlChar * noeud, xmlNod
      return cur;  // soit un pointer vers le bon noeud, soit nullptr
 }
 
-static inline xmlNodePtr GCC_INLINE atteindreNoeud(const char* noeud, xmlNodePtr cur, bool  opt = true)
+static inline xmlNodePtr GCC_INLINE atteindreNoeud(const char* noeud, xmlNodePtr cur, bool  opt = true, int normalJump = 0)
   { 
-    return atteindreNoeud(reinterpret_cast<const xmlChar*>(noeud),  cur, opt);
+    return atteindreNoeud(reinterpret_cast<const xmlChar*>(noeud),  cur, opt, normalJump);
   }
 
 static inline xmlNodePtr GCC_INLINE atteindreNoeudArret(const char* noeud, xmlNodePtr cur, const char* arret)
@@ -102,6 +100,7 @@ static inline void GCC_INLINE  verifier_taille(const int nbLignePaye, info_t& in
 
 static  void afficher_environnement_xhl(const info_t& info)
 {
+#if 0
     if (mut.try_lock())
     {
         std::cerr << "\nFichier   " <<  info.threads->argv[info.fichier_courant] << "\n"
@@ -112,7 +111,7 @@ static  void afficher_environnement_xhl(const info_t& info)
     }
     else
         afficher_environnement_xhl(info);
-
+#endif
 }
 
 static inline void GCC_INLINE assigner_ligne_l_NA(xmlChar* ligneL)
@@ -132,11 +131,11 @@ static inline void GCC_INLINE assigner_ligne_l_NA(xmlChar* ligneL)
 /* Remplace les occurrences d'un caractère séparateur à l'intérieur d'un champ par le caractère '_' qui ne doit donc jamais
    être séparateur de champ (c'est bien rare !) */
 
-static inline int GCC_INLINE Bulletin(const xmlChar*  tag, xmlNodePtr& cur, int l, info_t& info, bool opt = true)
+static inline int GCC_INLINE Bulletin(const xmlChar*  tag, xmlNodePtr& cur, int l, info_t& info, bool opt = true, int normalJump = 0)
 {
     // attention faire en sorte que cur ne soit JAMAIS nul en entrée ou en sortie
 
-    const xmlNodePtr nextcur = std::move(atteindreNoeud(tag, cur, opt));
+    const xmlNodePtr nextcur = std::move(atteindreNoeud(tag, cur, opt, normalJump));
 
     if ( nullptr == nextcur)
     {
@@ -174,12 +173,12 @@ static inline int GCC_INLINE Bulletin(const xmlChar*  tag, xmlNodePtr& cur, int 
 
 //             std::cerr << "Erreur : Noeud courant null au stade de la vérification de " << tag << "\n";
 
-static inline bool GCC_INLINE bulletin_obligatoire(const xmlChar* tag, xmlNodePtr& cur, int l,  info_t& info)
+static inline bool GCC_INLINE bulletin_obligatoire(const xmlChar* tag, xmlNodePtr& cur, int l,  info_t& info, int normalJump = 0)
 {
 
     // attention faire en sorte que cur ne soit JAMAIS nul
 
-    switch (Bulletin(tag, cur, l, info))
+    switch (Bulletin(tag, cur, l, info, normalJump))
     {
         // on sait que cur ne sera jamais nul
         case NODE_FOUND : return true;
@@ -216,9 +215,9 @@ static inline bool GCC_INLINE bulletin_obligatoire(const xmlChar* tag, xmlNodePt
 }
 
 
-static inline bool GCC_INLINE bulletin_obligatoire(const char* tag, xmlNodePtr& cur, int l,  info_t& info)
+static inline bool GCC_INLINE bulletin_obligatoire(const char* tag, xmlNodePtr& cur, int l,  info_t& info, int normalJump = 0)
 {
-    return bulletin_obligatoire(reinterpret_cast<const xmlChar*>(tag), cur, l, info);
+    return bulletin_obligatoire(reinterpret_cast<const xmlChar*>(tag), cur, l, info, normalJump);
 }
 
 /* A tester : la substitution du caractère décimal , au . de la locale anglaise utilisé par Xémélios (hélas)
@@ -239,11 +238,11 @@ static inline void GCC_INLINE substituer_separateur_decimal(xmlChar* ligne, cons
 /* optionnel */
 
 
-static inline bool GCC_INLINE bulletin_optionnel_numerique(const xmlChar* tag, xmlNodePtr& cur,  int l, info_t& info)
+static inline bool GCC_INLINE bulletin_optionnel_numerique(const xmlChar* tag, xmlNodePtr& cur,  int l, info_t& info, int normalJump = 0)
 {
     // attention faire en sorte que cur ne soit JAMAIS nul
 
-    switch (Bulletin(tag, cur, l, info, false))
+    switch (Bulletin(tag, cur, l, info, false, normalJump))
     {
         // on sait que cur ne sera jamais nul
         case NODE_FOUND :
@@ -287,18 +286,18 @@ static inline bool GCC_INLINE bulletin_optionnel_numerique(const xmlChar* tag, x
 
 }
 
-static inline bool GCC_INLINE bulletin_optionnel_numerique(const char* tag, xmlNodePtr& cur,  int l, info_t& info)
+static inline bool GCC_INLINE bulletin_optionnel_numerique(const char* tag, xmlNodePtr& cur,  int l, info_t& info, int normalJump = 0)
 {
-    return bulletin_optionnel_numerique(reinterpret_cast<const xmlChar*>(tag), cur, l, info);
+    return bulletin_optionnel_numerique(reinterpret_cast<const xmlChar*>(tag), cur, l, info, normalJump);
 }
 
 /* obligatoire et avec substitution séparateur décimal */
 
-static inline bool GCC_INLINE bulletin_obligatoire_numerique(const xmlChar* tag, xmlNodePtr& cur, int l, info_t& info)
+static inline bool GCC_INLINE bulletin_obligatoire_numerique(const xmlChar* tag, xmlNodePtr& cur, int l, info_t& info, int normalJump = 0)
 {
     // attention faire en sorte que cur ne soit JAMAIS nul
 
-    switch (Bulletin(tag, cur, l, info))
+    switch (Bulletin(tag, cur, l, info, normalJump))
     {
         // on sait que cur ne sera jamais nul
         case NODE_FOUND :
@@ -341,9 +340,9 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique(const xmlChar* tag,
 }
 
 
-static inline bool GCC_INLINE bulletin_obligatoire_numerique(const char* tag, xmlNodePtr& cur,  int l, info_t& info)
+static inline bool GCC_INLINE bulletin_obligatoire_numerique(const char* tag, xmlNodePtr& cur,  int l, info_t& info, int normalJump = 0)
 {
-    return bulletin_obligatoire_numerique(reinterpret_cast<const xmlChar*>(tag), cur, l, info);
+    return bulletin_obligatoire_numerique(reinterpret_cast<const xmlChar*>(tag), cur, l, info, normalJump);
 }
 
 static inline int lignePaye(xmlNodePtr cur, info_t& info)
@@ -467,11 +466,14 @@ static inline int lignePaye(xmlNodePtr cur, info_t& info)
     return nbLignePaye;
 }
 
-#define BULLETIN_OBLIGATOIRE(X) bulletin_obligatoire(reinterpret_cast<const xmlChar*>(#X), cur, X, info)
+#define BULLETIN_OBLIGATOIRE_(X, normalJump) bulletin_obligatoire(reinterpret_cast<const xmlChar*>(#X), cur, X, info, normalJump)
+#define BULLETIN_OBLIGATOIRE(X) BULLETIN_OBLIGATOIRE_(X, 0)
 
-#define BULLETIN_OBLIGATOIRE_NUMERIQUE(X)  bulletin_obligatoire_numerique(reinterpret_cast<const xmlChar*>(#X), cur, X, info)
+#define BULLETIN_OBLIGATOIRE_NUMERIQUE_(X, normalJump)  bulletin_obligatoire_numerique(reinterpret_cast<const xmlChar*>(#X), cur, X, info, normalJump)
+#define BULLETIN_OBLIGATOIRE_NUMERIQUE(X) BULLETIN_OBLIGATOIRE_NUMERIQUE_(X, 0)
 
-#define BULLETIN_OPTIONNEL_NUMERIQUE(X)  bulletin_optionnel_numerique(#X, cur, X, info)
+#define BULLETIN_OPTIONNEL_NUMERIQUE_(X, normalJump)  bulletin_optionnel_numerique(#X, cur, X, info, normalJump)
+#define BULLETIN_OPTIONNEL_NUMERIQUE(X)  BULLETIN_OPTIONNEL_NUMERIQUE_(X, 0)
 
 static uint64_t  parseBulletin(xmlNodePtr cur, info_t& info)
 {
@@ -517,9 +519,9 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t& info)
     #endif
 
     if ((result = (result                  // garde spécifique
-        && BULLETIN_OBLIGATOIRE(NbEnfants)
+        && BULLETIN_OBLIGATOIRE_(NbEnfants, 1)
         && BULLETIN_OBLIGATOIRE(Statut)
-        && BULLETIN_OBLIGATOIRE(EmploiMetier)))) {} // no-op
+        && BULLETIN_OBLIGATOIRE_(EmploiMetier, 1)))) {} // no-op
 
     #ifdef TOLERANT_TAG_HIERARCHY
         cur = cur_save;
@@ -535,7 +537,7 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t& info)
 
     info.drapeau_cont = false;
 
-    if (result && BULLETIN_OBLIGATOIRE(Indice)) {}
+    if (result && BULLETIN_OBLIGATOIRE_(Indice, 1)) {}
 
     /* on remonte d'un niveau */
 
@@ -578,9 +580,8 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t& info)
     {
         xmlNodePtr cur_save = cur;
 
-        if (xmlChildElementCount(cur))
+        if ((cur =  cur->xmlChildrenNode) != nullptr)
         {
-            cur =  cur->xmlChildrenNode;
             ligne = lignePaye(cur, info);
         }
 
@@ -614,7 +615,7 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t& info)
     //cur = atteindreNoeud("NbHeureSup", cur);
 
     /* obligatoire, substitution du sparateur décimal */
-    BULLETIN_OPTIONNEL_NUMERIQUE(NbHeureSup);
+    BULLETIN_OPTIONNEL_NUMERIQUE_(NbHeureSup, 1);
     BULLETIN_OBLIGATOIRE_NUMERIQUE(MtBrut);
     BULLETIN_OBLIGATOIRE_NUMERIQUE(MtNet);
 
@@ -828,7 +829,7 @@ static void parseFile(info_t& info)
 
  /* Les expressions régulières correctes ne sont disponibles sur MINGW GCC qu'à partir du build 4.9.2 */
 
-#if !defined GCC_REGEX && (defined __WIN32__ || defined GCC_4_8)
+#if !defined GCC_REGEX && !defined NO_REGEX && (defined __WIN32__ || defined GCC_4_8)
 #include <regex.h>
 
 bool regex_match(const char *string, const char *pattern)
@@ -875,7 +876,7 @@ void* decoder_fichier(info_t& info)
 
 
 
-    #if  defined GCC_REGEX //&& !defined __WIN32__ && !defined GCC_4_8
+    #if  defined GCC_REGEX && !defined NO_REGEX //&& !defined __WIN32__ && !defined GCC_4_8
 
      regex pat {"élu"/*info->expression_reg_elus*/,  regex_constants::icase};
      regex pat2 {EXPRESSION_REG_VACATIONS, regex_constants::icase};
@@ -959,10 +960,12 @@ void* decoder_fichier(info_t& info)
         V     pour un vacataire
         A     pour une assistante maternelle */
 
+#if !defined NO_REGEX
 #define VAR(X) info.Table[agent][X]
     for (unsigned agent = 0; agent < info.NCumAgentXml; ++agent)
     {
         /* Les élus peuvent être identifiés soit dans le service soit dans l'emploi métier */
+
 
         if (regex_match((const char*) VAR(EmploiMetier), pat) || regex_match((const char*) VAR(Service), pat))
         {
@@ -1011,6 +1014,7 @@ void* decoder_fichier(info_t& info)
 
 
 #undef VAR
+#endif
     return nullptr;
 }
 

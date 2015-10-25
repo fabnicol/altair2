@@ -139,7 +139,7 @@ static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETINS(int i, uint32_t agent, std
     
     ECRIRE_LIGNEBULLETIN_OBLIGATOIRE_NUMERIQUEOPTIONNEL_COMMUN(i, agent, bulletins, sep, Info, rang);
 }
-
+#if 0
 
 void boucle_ecriture(std::vector<info_t>& Info)
 {
@@ -401,5 +401,6 @@ message :
     }
     
 }
+#endif
 #undef VAR
 
