@@ -34,13 +34,13 @@ COMPILER_DIR = mingw64-5.2
 # windows : QMAKE_CXXFLAGS =/Ox /MP
 # sous MINGW/GCC
 
-QMAKE_CXXFLAGS = -pipe -m64 -std=gnu++11 -march=native -fno-inline -O3 -fexpensive-optimizations -pg  #-fomit-frame-pointer
+QMAKE_CXXFLAGS = -pipe -m64 -std=gnu++11 -march=native -fno-inline -fexceptions -frtti  -O3 -fexpensive-optimizations -fomit-frame-pointer
 
 linux: INCLUDEPATH += /usr/include/libxml2
 windows: INCLUDEPATH += $$DEVROOT/$$COMPILER_DIR/include
 
 linux: LIBS = -L/usr/lib/lib64 -L/usr/lib/x86_64-linux-gnu -lxml2 -pthread
-windows: LIBS = -L$$DEVROOT/$$COMPILER_DIR/lib -lxml2.dll -pthread -pg
+windows: LIBS = -L$$DEVROOT/$$COMPILER_DIR/lib -lxml2.dll -pthread
 
 #windows: QMAKE_LFLAGS += -s
 

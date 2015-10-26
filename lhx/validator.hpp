@@ -58,6 +58,8 @@ typedef struct
 #define TOUTES_CATEGORIES -14
 
 
+
+#define INDEX_MAX_CONNNES 5    // nombre de type de champ de ligne de paye (Libellé, Code, Taux, Base, ...) moins 1.
 #define BESOIN_MEMOIRE_ENTETE  22  /* nb d'éléments de l'enum ci-dessous */
 typedef enum {Annee, Mois, Budget, Etablissement, Siret, Nom, Prenom, Matricule, NIR, NbEnfants, Statut, EmploiMetier, Grade, Indice,
           Service, NBI, QuotiteTrav, NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer
@@ -91,6 +93,7 @@ typedef struct
     bool generer_rang;
     bool select_siret;
     uint8_t minimum_memoire_p_ligne;
+    uint16_t memoire_p_ligne;
     int nbfil;
 } info_t;
 
