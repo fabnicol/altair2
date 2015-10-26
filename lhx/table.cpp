@@ -247,7 +247,7 @@ void boucle_ecriture(std::vector<info_t>& Info)
             char type[3]={0};
             strcpy(type, type_remuneration_traduit[0]);
             
-            unsigned allocation_memoire = (l + nbType + NLigneAgent * 6) * sizeof(xmlChar*);
+            unsigned allocation_memoire = (l + nbType + NLigneAgent * (INDEX_MAX_CONNNES + 1)) * sizeof(xmlChar*);
             
             while (ligne < NLigneAgent)
             {
@@ -279,7 +279,7 @@ void boucle_ecriture(std::vector<info_t>& Info)
                     if (! base.is_open()) return;
                 }
                 
-                if (l + 6 == allocation_memoire)
+                if (l + INDEX_MAX_CONNNES + 1 == allocation_memoire)
                 {
                     std::cerr << "Erreur : Max lignes de paye atteint (" << allocation_memoire << ") ! \n";
                     exit(-1002);
@@ -321,7 +321,7 @@ void boucle_ecriture(std::vector<info_t>& Info)
                     }
                 }
                 
-                l += 6;
+                l += INDEX_MAX_CONNNES + 1;
                 ++ligne;
             }
             
