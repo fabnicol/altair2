@@ -25,7 +25,7 @@
  char* ecrire_chemin_base(const char* chemin_base, int rang_fichier_base)
 {
     int s = strlen(chemin_base);
-    char* chemin = new char[s + 1 + 3];   // chemin_base + _ + 3 chiffres
+    char* chemin = new char[s + 1 + 3]();   // chemin_base + _ + 3 chiffres
     int cut = s - strlen(CSV);
     strncpy(chemin, chemin_base, cut);
 
@@ -171,7 +171,7 @@ int calculer_memoire_requise(info_t& info)
 
     /* C++ style vector allocation */
 
-#define tab info.NLigne
+    #define tab info.NLigne
         info.NLigne.resize(info.threads->argc * MAX_NB_AGENTS);
 #else
 
@@ -282,7 +282,7 @@ int calculer_memoire_requise(info_t& info)
 #ifdef PREALLOCATE_ON_HEAP
 #undef tab
 #else
-        info.NLigne.assign(tab, tab+info.NCumAgent);
+        info.NLigne.assign(tab, tab + info.NCumAgent);
 #endif
 
 #endif
@@ -377,7 +377,7 @@ int calculer_memoire_requise(info_t& info)
 #ifdef PREALLOCATE_ON_HEAP
     info.NLigne.resize(info.NCumAgent+1);
 #endif
-//exit(0);
+
     return errno;
 }
 

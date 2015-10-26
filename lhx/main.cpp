@@ -21,7 +21,7 @@
 typedef std::chrono::high_resolution_clock Clock;
 std::ofstream rankFile;
 char* rankFilePath;
-//std::mutex mut;
+std::mutex mut;
 
 static inline const uint32_t* calculer_maxima(const std::vector<info_t> &Info)
 {
@@ -101,7 +101,12 @@ int main(int argc, char **argv)
         false,            // calculer les maxima de lignes et d'agents
         false,            // numéroter les lignes
         true,             //    alléger la base
-        BESOIN_MEMOIRE_ENTETE,// besoin mémoire minimum hors lecture de lignes : devra être incréméenté,
+        BESOIN_MEMOIRE_ENTETE,// besoin mémoire minimum hors lecture de lignes : devra être incrémenté,
+        info.minimum_memoire_p_ligne  // chaque agent a au moins BESOIN_MEMOIRE_ENTETE champs du bulletins de paye en colonnes
+                                     // sans la table ces champs sont répétés à chaque ligne de paye.
+        + nbType // espace pour les drapeaux de séparation des champs (taille de type_remuneration). Nécessaire pour l'algorithme
+        + (MAX_LIGNES_PAYE)*(INDEX_MAX_CONNNES + 1),   // nombre de lignes de paye x nombre maximum de types de balises distincts de lignes de paye
+                                                       // soit N+1 pour les écritures du type Var(l+i), i=0,...,N dans ECRIRE_LIGNE_l_COMMUN
         1                 // nbfil
     };
 
@@ -112,7 +117,7 @@ int main(int argc, char **argv)
             info.reduire_consommation_memoire = false;
             if ((info.nbAgentUtilisateur = lire_argument(argc, argv[start + 1])) < 1)
             {
-                std::cerr << "Erreur : Préciser le nombre de bulletins mensuels attendus (majorant du nombre).\n";
+                std::cerr << "Erreur : Préciser le nombre de bulletins mensuels attendus (majorant du nombre) avec -N xxx .\n";
                 exit(-1);
             }
             start += 2;
@@ -344,7 +349,19 @@ int main(int argc, char **argv)
                 std::cerr << "[MSG] Nombre maximum de lignes de paye redéfini à : " << info.nbLigneUtilisateur << "\n";
             }
 
+            info.reduire_consommation_memoire = false;
+            if ((info.nbAgentUtilisateur = lire_argument(argc, argv[start + 1])) < 1)
+            {
+                std::cerr << "Erreur : Préciser le nombre de nombre maximum d'agents par mois attendus (majorant du nombre) avec -n xxx\n";
+                exit(-1);
+            }
+
             start += 2;
+            info.memoire_p_ligne = info.minimum_memoire_p_ligne  // chaque agent a au moins BESOIN_MEMOIRE_ENTETE champs du bulletins de paye en colonnes
+                                                                                  // sans la table ces champs sont répétés à chaque ligne de paye.
+                                        + nbType // espace pour les drapeaux de séparation des champs (taille de type_remuneration). Nécessaire pour l'algorithme
+                                        + (info.nbLigneUtilisateur)*(INDEX_MAX_CONNNES + 1);   // nombre de lignes de paye x nombre maximum de types de balises distincts de lignes de paye
+                                                                                                        // soit N+1 pour les écritures du type Var(l+i), i=0,...,N dans ECRIRE_LIGNE_l_COMMUN
             continue;
         }
         else if (! strcmp(argv[start], "-R"))
@@ -495,6 +512,8 @@ int main(int argc, char **argv)
     }
 
     if (maxima == nullptr) maxima = calculer_maxima(Info);
+
+#if 0
     std::ofstream LOG;
     LOG.open(Info[0].chemin_log, std::ios::app);
     if (LOG.good() && maxima)
@@ -503,6 +522,7 @@ int main(int argc, char **argv)
         LOG << "\n[MSG] Maximum d'agent   : " << maxima[0] << "\n";
         LOG.close();
     }
+#endif
 
     xmlCleanupParser();
 
@@ -512,12 +532,11 @@ int main(int argc, char **argv)
               << std::chrono::duration_cast<std::chrono::milliseconds>(endofcalculus - startofprogram).count()
               << " millisecondes" << "\n";
 
-   #if 0
-//    if (generer_table)
-//    {
-//        boucle_ecriture(Info);
-//    }
-   #endif
+
+    if (generer_table)
+    {
+        boucle_ecriture(Info);
+    }
 
     /* libération de la mémoire */
 

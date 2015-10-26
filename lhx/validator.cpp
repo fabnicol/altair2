@@ -12,7 +12,7 @@
 #include "fonctions_auxiliaires.hpp"
 #include "table.hpp"
 
-
+extern std::mutex mut;
 
 static inline xmlNodePtr GCC_INLINE atteindreNoeud(const xmlChar * noeud, xmlNodePtr cur, bool opt = true, int normalJump = 0)
 {
@@ -34,7 +34,7 @@ static inline xmlNodePtr GCC_INLINE atteindreNoeud(const xmlChar * noeud, xmlNod
       if (cur == nullptr)
       {
           AFFICHER_NOEUD(noeud)  // cur->name == oeud
-          //while (! mut.try_lock());
+
           if (opt)
              std::cerr << "Erreur : Impossible d'atteindre " << noeud << "\n";
           //mut.unlock();
@@ -100,7 +100,7 @@ static inline void GCC_INLINE  verifier_taille(const int nbLignePaye, info_t& in
 
 static  void afficher_environnement_xhl(const info_t& info)
 {
-#if 0
+
     if (mut.try_lock())
     {
         std::cerr << "\nFichier   " <<  info.threads->argv[info.fichier_courant] << "\n"
@@ -111,20 +111,12 @@ static  void afficher_environnement_xhl(const info_t& info)
     }
     else
         afficher_environnement_xhl(info);
-#endif
+
 }
 
 static inline void GCC_INLINE assigner_ligne_l_NA(xmlChar* ligneL)
 {
-    if (ligneL == nullptr)
-    {
         ligneL =  xmlStrdup(NA_STRING);
-    }
-    else
-    {
-        xmlFree(ligneL);
-        ligneL = xmlStrdup(NA_STRING);
-    }
 }
 
 
@@ -185,12 +177,12 @@ static inline bool GCC_INLINE bulletin_obligatoire(const xmlChar* tag, xmlNodePt
 
         case NODE_NOT_FOUND :
                 std::cerr << "Erreur : Impossible d'atteindre " << tag << " à partir de " << cur->name << "\n";
-                assigner_ligne_l_NA(ligne_l);
+                ligne_l = xmlStrdup(NA_STRING);
                 break;
 
         case LINE_MEMORY_EXCEPTION :
                 std::cerr << "Erreur : Allocation mémoire impossible pour la ligne " << l << "\n";
-                assigner_ligne_l_NA(ligne_l);
+                ligne_l = xmlStrdup(NA_STRING);
                 break;
 
         case NO_NEXT_ITEM :
@@ -253,12 +245,14 @@ static inline bool GCC_INLINE bulletin_optionnel_numerique(const xmlChar* tag, x
              return true;
 
         case NODE_NOT_FOUND :
-             assigner_ligne_l_NA(ligne_l);
+             ligne_l = xmlStrdup(NA_STRING);
+
+
              return true;
 
         case LINE_MEMORY_EXCEPTION :
              std::cerr << "Erreur : Allocation mémoire impossible pour la ligne " << l << "\n";
-             assigner_ligne_l_NA(ligne_l);
+             ligne_l = xmlStrdup(NA_STRING);
              break;
 
         case NO_NEXT_ITEM :
@@ -308,12 +302,12 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique(const xmlChar* tag,
              return true;
 
         case NODE_NOT_FOUND :
-             assigner_ligne_l_NA(ligne_l);
+             ligne_l = xmlStrdup(NA_STRING);
              return true;
 
         case LINE_MEMORY_EXCEPTION :
              std::cerr << "Erreur : Allocation mémoire impossible pour la ligne " << l << "\n";
-             assigner_ligne_l_NA(ligne_l);
+             ligne_l = xmlStrdup(NA_STRING);
              break;
 
         case NO_NEXT_ITEM :
@@ -911,8 +905,8 @@ void* decoder_fichier(info_t& info)
         }
     }
 
-    info.NAgent = new uint32_t[info.threads->argc];
-    info.Table  = new xmlChar**[info.NCumAgent];
+    info.NAgent = new uint32_t[info.threads->argc]();
+    info.Table  = new xmlChar**[info.NCumAgent]();
 
     if (info.Table == nullptr)
     {
@@ -922,7 +916,15 @@ void* decoder_fichier(info_t& info)
 
     for (unsigned agent = 0; agent < info.NCumAgent; ++agent)
     {
-        info.Table[agent] = (xmlChar**) calloc(info.minimum_memoire_p_ligne + nbType + (info.NLigne[agent])*6, sizeof(xmlChar*));
+        info.memoire_p_ligne  = info.minimum_memoire_p_ligne  // chaque agent a au moins BESOIN_MEMOIRE_ENTETE champs du bulletins de paye en colonnes
+                                                              // sans la table ces champs sont répétés à chaque ligne de paye.
+                                    + nbType // espace pour les drapeaux de séparation des champs (taille de type_remuneration). Nécessaire pour l'algorithme
+                                    + (info.NLigne[agent])*(INDEX_MAX_CONNNES + 1);   // nombre de lignes de paye x nombre maximum de types de balises distincts de lignes de paye
+                                                                                      // soit N+1 pour les écritures du type Var(l+i), i=0,...,N dans ECRIRE_LIGNE_l_COMMUN
+
+        info.Table[agent] = new xmlChar* [info.memoire_p_ligne]; // ne pas oublier d'initialiser à nullptr !
+        memset(info.Table[agent], 0, info.memoire_p_ligne * sizeof(xmlChar*));
+
         if (info.Table[agent] == nullptr)
         {
             std::cerr <<  "Erreur : Erreur d'allocation de drapeau I. pour l'agent "

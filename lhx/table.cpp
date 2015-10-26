@@ -7,9 +7,6 @@
 #include "fonctions_auxiliaires.hpp"
 
 
-
-/* Il doit y avoir BESOIN_MEMOIRE_ENTETE + 6 champs plus Type, soit 18 + 6 +1 = 23 champs et 24 séparateurs + saut de ligne = 48 char + \0*/
-
 #include <iostream>
 #include <fstream>
 
@@ -32,11 +29,11 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l_COMMUN(int i, uint32_t agent, int l
            << VAR(MtNetAPayer) << sep
            << VAR(NBI) << sep
            << VAR(l) << sep
-           << VAR(l+1) << sep
-           << VAR(l+2) << sep
-           << VAR(l+3) << sep
-           << VAR(l+4) << sep
-           << VAR(l+5) << sep
+           << VAR(l + 1) << sep
+           << VAR(l + 2) << sep
+           << VAR(l + 3) << sep
+           << VAR(l + 4) << sep
+           << VAR(l + INDEX_MAX_CONNNES) << sep     // Il doit y avoir au plus INDEX_MAX_COLONNES + 1 types de colonnes de lignes de paye différents
            << type << sep
            << VAR(EmploiMetier) << sep
            << VAR(Grade) << sep
@@ -139,7 +136,7 @@ static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETINS(int i, uint32_t agent, std
     
     ECRIRE_LIGNEBULLETIN_OBLIGATOIRE_NUMERIQUEOPTIONNEL_COMMUN(i, agent, bulletins, sep, Info, rang);
 }
-#if 0
+
 
 void boucle_ecriture(std::vector<info_t>& Info)
 {
@@ -192,9 +189,17 @@ void boucle_ecriture(std::vector<info_t>& Info)
         
     }
     
-    if (! base.is_open()) return;
-    if (! bulletins.is_open()) return;
-    
+    if (! base.is_open())
+    {
+       std::cerr << "Erreur : impossible d'ouvrir la base de lignes de paye.\n";
+       return;
+    }
+    if (! bulletins.is_open())
+    {
+       std::cerr << "Erreur : impossible d'ouvrir la base de bulletins de paye.\n";
+       return;
+    }
+
     static void (*ecrire_ligne_table)(int, uint32_t, int, char*, std::ofstream&, char, std::vector<info_t> &, int);
     static void (*ecrire_ligne_bulletin)(int i, uint32_t agent, std::ofstream& bulletins, char sep, std::vector<info_t> &Info, int rang);
     
@@ -333,8 +338,8 @@ void boucle_ecriture(std::vector<info_t>& Info)
             fichier_base[d].close();
         }
     
-    if (base)
-    {
+//    if (base.good())
+//    {
         base.close();
         switch (taille_base)
         {
@@ -392,15 +397,15 @@ void boucle_ecriture(std::vector<info_t>& Info)
         
 message :
         std::cerr << "[MSG] Table de " << compteur << " lignes.\n";
-    }
+    //}
     
-    if (bulletins)
+    if (bulletins.good())
     {
         bulletins.close();
         std::cerr << "[MSG] Base des bulletins de paye de " << compteur_lignes_bulletins << " lignes.\n";
     }
     
 }
-#endif
+
 #undef VAR
 
