@@ -1,9 +1,9 @@
 greaterThan(QT_MAJOR_VERSION, 5)
 
 if (win32|linux) {
-  message("SystÃ¨me d'exploitation :  $$(OS)")
+  message("Système d'exploitation :  $$(OS)")
 } else {
-  error("Le systÃ¨me d'exploitation doit Ãªtre soit Windows soit linux")
+  error("Le système d'exploitation doit être soit Windows soit linux")
 }
 
 windows {
@@ -20,14 +20,14 @@ linux {
 if (!isEmpty(GIT_VERSION)) {
     message( "Version de git : $$GIT_VERSION" )
 } else {
-  #  error( "Git doit Ãªtre installÃ©" )
+  #  error( "Git doit être installé" )
 }
 
 
 if (!isEmpty(CXX_VERSION)){
     message( "Version du compilateur : $$CXX_VERSION" )
 } else {
-    error( "Le compilateur doit Ãªtre GNU g++, dont la version doit Ãªtre au moins 5.1" )
+    error( "Le compilateur doit être GNU g++, dont la version doit être au moins 5.1" )
 }
 
 
@@ -45,23 +45,23 @@ DEFINES += __GNUC_EXTENSION \
 
 #DEFINES += STRICT
 
-DEFINES += NO_REGEX \#GCC_REGEX \                      # Utiliser les expressions rÃ©guliÃ¨res de C++
-        NO_DEBUG \                          # ne pas gÃ©nÃ©rer de messages de dÃ©bogage avancÃ©
-#        TOLERANT_TAG_HIERARCHY \            # ordre des balises : tolÃ©rance envers des permutations de mÃªme niveau
-        FULL_PREALLOCATION_TEST \           # calcul des besoins de mÃ©moire : prÃ©cision maximale (sinon : moindre)
-        PREALLOCATE_ON_HEAP \               # prÃ©allouer le vecteur sur le tas pour le tableau des allocations de mÃ©moire (sinon : tableau C sur la pile)
-        DECIMAL_NON_EN \                    # compilation pour des sÃ©parateurs dÃ©cimaux diffÃ©rents de '.'
+DEFINES += NO_REGEX \#GCC_REGEX \                      # Utiliser les expressions régulières de C++
+        NO_DEBUG \                          # ne pas générer de messages de débogage avancé
+#        TOLERANT_TAG_HIERARCHY \            # ordre des balises : tolérance envers des permutations de même niveau
+        FULL_PREALLOCATION_TEST \           # calcul des besoins de mémoire : précision maximale (sinon : moindre)
+        PREALLOCATE_ON_HEAP \               # préallouer le vecteur sur le tas pour le tableau des allocations de mémoire (sinon : tableau C sur la pile)
+        DECIMAL_NON_EN \                    # compilation pour des séparateurs décimaux différents de '.'
         FGETC_PARSING                       # parcourir les fichiers par ifstream (C++)
-#MMAP_PARSING                               # parcourir les fichiers par mappage mÃ©moire (C, unix).
+#MMAP_PARSING                               # parcourir les fichiers par mappage mémoire (C, unix).
 
 DEVROOT = $$PWD/../..
 
-# InsÃ©rer ici le nom du rÃ©pertoire contenant dans include/ et lib/ les dÃ©pendances systÃ¨me
-# Ce compilateur doit Ãªtre adjacent aux sources sous Windows
+# Insérer ici le nom du répertoire contenant dans include/ et lib/ les dépendances système
+# Ce compilateur doit être adjacent aux sources sous Windows
 
 QMAKE_CXXFLAGS = -pipe -m64 -std=gnu++11 -march=native -fno-inline -fexceptions -frtti  -O3 -fexpensive-optimizations -fomit-frame-pointer
 
-# Sous linux penser Ã  installer libxml2-dev. Ceci n'est pas testÃ©.
+# Sous linux penser à installer libxml2-dev. Ceci n'est pas testé.
 
 windows {
 
