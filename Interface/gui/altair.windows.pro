@@ -1,7 +1,37 @@
 greaterThan(QT_MAJOR_VERSION, 5)
+# Mettre Git\bin dans le PATH systématiquement
+# utiliser au moins Qt5 et g++-5.1 sous windows
+
+if (win32|linux) {
+  message("Système d'e'xploitation :  $$(OS)")
+} else {
+  error("Le système d'exploitation doit être soit Windows soit linux")
+}
+
+windows {
+  GIT_VERSION = $$system(git --version | find \"git version\")
+  CXX_VERSION = $$system($$QMAKE_CXX --version | findstr \"5.[0-9]\")
+}
+
+linux {
+  GIT_VERSION = $$system(git --version | grep -e 'git version')
+  CXX_VERSION = $$system($$QMAKE_CXX --version | grep -e '5.[0-9]')
+}
+
+if (!isEmpty(GIT_VERSION)) {
+    message( "Version de git : $$GIT_VERSION" )
+} else {
+#    error( "Git doit être installé" )
+}
 
 
-# utiliser au moins Qt5.1 et g++-4.9.2 sous windows
+if (!isEmpty(CXX_VERSION)){
+    message( "Version du compilateur : $$CXX_VERSION" )
+} else {
+    error( "Le compilateur doit être GNU g++, dont la version doit être au moins 5.1" )
+}
+
+
 
 CONFIG  += ordered
 CONFIG(debug, debug|release) {
@@ -26,7 +56,7 @@ DEFINES += OVERVALUE_DIRSIZE_SHARE_COEFFICIENT=1.5 \    # Une estimation du rati
            COMMANDLINE_CONSOLE_OUTPUT                   # Générer la ligne de commande en console (verbeux)
 
 DEFINES += QT_NO_OPENGL \
-           STATIC\
+           STATIC\                                      # à utiliser pour lancer le navigateur internet par défaut plustôt qu'un navigateur interne
            LOCAL_BINPATH \                              # chemins d'exécution définis par rapport à l'emplacement de l'exécutable
            REGEX_PARSING_FOR_HEADERS \                  # utiliser les expressions régulières de c++ (g++ 5.1 au moins)
            USE_RIGHT_CLICK                              # utiliser un clic droit sur les fichiers pour ajouter, supprimer etc.
@@ -35,7 +65,7 @@ DEFINES += QT_NO_OPENGL \
 windows:RC_ICONS = neptune.ico
 
 QMAKE_CXXFLAGS += -std=gnu++11                         # obligatoire
-QMAKE_CXXFLAGS += -march=native -O3 -pipe -m64         # facultatif
+QMAKE_CXXFLAGS += -march=native -O3 -fomit-frame-pointer -pipe -m64         # facultatif
 
 
 SOURCES += \
