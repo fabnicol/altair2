@@ -7,7 +7,7 @@ QtModule {
 
     hasLibrary: true
     staticLibsDebug: []
-    staticLibsRelease: ["C:/Users/Public/Dev/qt-5.5.0-x64-mingw52-static-runtime/lib/libQt5Core.a", "ole32", "uuid", "ws2_32", "advapi32", "shell32", "user32", "kernel32", "mpr", "z", "qtpcre", "setupapi", "advapi32"]
+    staticLibsRelease: []
     dynamicLibsDebug: []
     dynamicLibsRelease: []
     linkerFlagsDebug: []
@@ -18,10 +18,10 @@ QtModule {
     frameworkPathsRelease: []
     libNameForLinkerDebug: "Qt5SerialPortd"
     libNameForLinkerRelease: "Qt5SerialPort"
-    libFilePathDebug: ""
-    libFilePathRelease: "C:/Users/Public/Dev/qt-5.5.0-x64-mingw52-static-runtime/lib/libQt5SerialPort.a"
+    libFilePathDebug: "C:/Qt/qt-5.5.0-x64-mingw510r0-seh-rev0/qt-5.5.0-x64-mingw510r0-seh-rev0/lib/libQt5SerialPortd.a"
+    libFilePathRelease: "C:/Qt/qt-5.5.0-x64-mingw510r0-seh-rev0/qt-5.5.0-x64-mingw510r0-seh-rev0/lib/libQt5SerialPort.a"
     cpp.defines: ["QT_SERIALPORT_LIB"]
-    cpp.includePaths: ["C:/Users/Public/Dev/qt-5.5.0-x64-mingw52-static-runtime/include", "C:/Users/Public/Dev/qt-5.5.0-x64-mingw52-static-runtime/include/QtSerialPort"]
-    cpp.libraryPaths: ["C:/Users/Public/Dev/qt-5.5.0-x64-mingw52-static-runtime/lib"]
-    isStaticLibrary: true
+    cpp.includePaths: ["C:/Qt/qt-5.5.0-x64-mingw510r0-seh-rev0/qt-5.5.0-x64-mingw510r0-seh-rev0/include", "C:/Qt/qt-5.5.0-x64-mingw510r0-seh-rev0/qt-5.5.0-x64-mingw510r0-seh-rev0/include/QtSerialPort"]
+    cpp.libraryPaths: []
+    
 }

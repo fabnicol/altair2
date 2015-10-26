@@ -858,7 +858,7 @@ void MainWindow::showMainWidget()
 void MainWindow::feedLHXConsoleWithHtml()
 {
 
-    QRegExp reg("^(.MSG.|.INF.|Erreur)\\s([^\n]+)");
+    QRegExp reg("^(.MSG.|.INF.|Erreur :)\\s([^\n]+)");
     int baInt = 0;
 
 

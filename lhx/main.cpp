@@ -549,7 +549,7 @@ int main(int argc, char **argv)
     {
         for (unsigned agent = 0; agent < Info[i].NCumAgent; ++agent)
         {
-            int utilisation_memoire =  Info[i].minimum_memoire_p_ligne + nbType + Info[i].NLigne[agent]*6;
+            int utilisation_memoire =  Info[i].minimum_memoire_p_ligne + nbType + Info[i].NLigne[agent]*(INDEX_MAX_CONNNES + 1);
 
             for (int j = 0; j < utilisation_memoire; ++j)
                 if (Info[i].Table[agent][j])
