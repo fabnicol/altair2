@@ -1,6 +1,6 @@
-/*  Programme Ã©crit par Fabrice NICOL sous licence CECILL 3
- *  Attention : lorsqu'il est Ã©ditÃ©, le prÃ©sent code doit Ãªtre converti soit en UTF-8 soit en ISO-5589-1 (Latin-1)avant d'Ãªtre compilÃ©.
- *  En entrÃ©e d'Altair prÃ©ciser encodage.entrÃ©e en conformitÃ© avec l'encodage du prÃ©sent fichier, qui sera celui de la base gÃ©nÃ©rÃ©e.
+/*  Programme écrit par Fabrice NICOL sous licence CECILL 3
+ *  Attention : lorsqu'il est édité, le présent code doit être converti soit en UTF-8 soit en ISO-5589-1 (Latin-1)avant d'être compilé.
+ *  En entrée d'Altair préciser encodage.entrée en conformité avec l'encodage du présent fichier, qui sera celui de la base générée.
  */
 
 #include <mutex>
@@ -30,8 +30,8 @@
     strncpy(chemin, chemin_base, cut);
 
     /*  si rang_fichier_base == 0, base monolithique
-        si rang_fichier_base compris entre 1 et nbType, base par catÃ©gorie
-        si rang_fichier_base supÃ©rieur Ã  nbType, base par annÃ©e (les annÃ©es sont trÃ¨s supÃ©rieures au nombre de type maximum ! */
+        si rang_fichier_base compris entre 1 et nbType, base par catégorie
+        si rang_fichier_base supérieur à nbType, base par année (les années sont très supérieures au nombre de type maximum ! */
     int test = (int) (rang_fichier_base + nbType -1) / nbType;
 
     switch (test)
@@ -137,15 +137,15 @@ int32_t lire_argument(int argc, char* c_str)
 
         if (end == c_str)
         {
-            std::cerr << "Erreur : " << c_str << ": pas un dÃ©cimal\n";
+            std::cerr << "Erreur : " << c_str << ": pas un décimal\n";
         }
         else if (sl > INT32_MAX)
         {
-            std::cerr << "Erreur : " <<  sl << " entier excÃ©dant la limite des entiers Ã  16 bits\n";
+            std::cerr << "Erreur : " <<  sl << " entier excédant la limite des entiers à 16 bits\n";
         }
         else if (sl < 0)
         {
-            std::cerr << "Erreur : " << sl <<". L'entier doit Ãªtre positif\n";
+            std::cerr << "Erreur : " << sl <<". L'entier doit être positif\n";
         }
         else
         {
@@ -155,7 +155,7 @@ int32_t lire_argument(int argc, char* c_str)
     }
     else
     {
-        std::cerr << "Erreur : PrÃ©ciser le nombre de bulletins mensuels attendus (majorant du nombre).\n";
+        std::cerr << "Erreur : Préciser le nombre de bulletins mensuels attendus (majorant du nombre).\n";
         return(-1);
     }
 }
@@ -165,7 +165,7 @@ int calculer_memoire_requise(info_t& info)
 {
     errno = 0;
 
-    // Attention reserve() ne va pas initialiser les membres Ã  0 sous Windows. Utiliser resize() ici.
+    // Attention reserve() ne va pas initialiser les membres à 0 sous Windows. Utiliser resize() ici.
 
 #ifdef PREALLOCATE_ON_HEAP
 
@@ -178,15 +178,15 @@ int calculer_memoire_requise(info_t& info)
   /* C style vector allocation */
 
     uint16_t tab[info.threads->argc * MAX_NB_AGENTS];
-   // memset(tab, 0, info.threads->argc * MAX_NB_AGENTS) peut Ã©ventuellement Ãªtre utile pour certains compilateurs anciens.
+   // memset(tab, 0, info.threads->argc * MAX_NB_AGENTS) peut éventuellement être utile pour certains compilateurs anciens.
 
 #endif
 
     char d = 0;
 
-    std::cerr << "\n\n[INF] Premier scan des fichiers pour dÃ©terminer les besoins mÃ©moire ... \n";
+    std::cerr << "\n\n[INF] Premier scan des fichiers pour déterminer les besoins mémoire ... \n";
 
-    /* par convention  un agent avec rÃ©munÃ©ration non renseignÃ©es (balise sans fils) a une ligne */
+    /* par convention  un agent avec rémunération non renseignées (balise sans fils) a une ligne */
     for (unsigned i = 0; i < info.threads->argc; ++i)
     {
 
@@ -288,7 +288,7 @@ int calculer_memoire_requise(info_t& info)
 #endif
 #ifdef MMAP_PARSING
 
-        //std::cerr << "Mappage en mÃ©moire de " << info.threads->argv[i] << "...\n";
+        //std::cerr << "Mappage en mémoire de " << info.threads->argv[i] << "...\n";
         struct stat st;
         stat(info.threads->argv[i], &st);
         const size_t file_size =  st.st_size;

@@ -33,7 +33,7 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l_COMMUN(int i, uint32_t agent, int l
            << VAR(l + 2) << sep
            << VAR(l + 3) << sep
            << VAR(l + 4) << sep
-           << VAR(l + INDEX_MAX_CONNNES) << sep     // Il doit y avoir au plus INDEX_MAX_COLONNES + 1 types de colonnes de lignes de paye diffÃ©rents
+           << VAR(l + INDEX_MAX_CONNNES) << sep     // Il doit y avoir au plus INDEX_MAX_COLONNES + 1 types de colonnes de lignes de paye différents
            << type << sep
            << VAR(EmploiMetier) << sep
            << VAR(Grade) << sep
@@ -185,7 +185,7 @@ void boucle_ecriture(std::vector<info_t>& Info)
         break;
         
     default : ouvrir_fichier_base(Info[0], rang_fichier_base + nbType + 1, base);
-        // cas oÃ¹ une vraie taille de base en lignes est entrÃ©e.
+        // cas où une vraie taille de base en lignes est entrée.
         
     }
     
@@ -238,7 +238,7 @@ void boucle_ecriture(std::vector<info_t>& Info)
             {
                 base.close();
                 
-                std::cerr << "AnnÃ©e : " << annee_courante << " Table gÃ©nÃ©rÃ©e.\n";
+                std::cerr << "Année : " << annee_courante << " Table générée.\n";
                 annee_courante = (char*) VAR(Annee);
                 ouvrir_fichier_base(Info[i], atoi(annee_courante) + nbType + 1, base);
                 if (! base.is_open()) return;
@@ -256,14 +256,14 @@ void boucle_ecriture(std::vector<info_t>& Info)
                 if (taille_base > MONOLITHIQUE   // soit : il existe un nombre de lignes maximal par base
                         && (compteur  == rang_fichier_base * taille_base))
                 {
-                    std::cerr << "Table nÂ°" << rang_fichier_base << " de " << taille_base
-                              << "lignes gÃ©nÃ©rÃ©e, lignes "  << (rang_fichier_base - 1) * taille_base + 1
-                              << " Ã  " << rang_fichier_base * taille_base << " .\n";
+                    std::cerr << "Table n°" << rang_fichier_base << " de " << taille_base
+                              << "lignes générée, lignes "  << (rang_fichier_base - 1) * taille_base + 1
+                              << " à " << rang_fichier_base * taille_base << " .\n";
                     
                     base.close();
                     if (! base.good())
                     {
-                        perror("Erreur : ProblÃ¨me fermeture fichier base");
+                        perror("Erreur : Problème fermeture fichier base");
                         exit(-902);
                     }
                     
@@ -271,7 +271,7 @@ void boucle_ecriture(std::vector<info_t>& Info)
                     
                     if (rang_fichier_base >= 1000)
                     {
-                        std::cerr << "Erreur : Ne peut gÃ©nÃ©rer que 999 bases au plus\n";
+                        std::cerr << "Erreur : Ne peut générer que 999 bases au plus\n";
                         exit(-904);
                     }
                     
@@ -331,7 +331,7 @@ void boucle_ecriture(std::vector<info_t>& Info)
         if (i) Info[0].nbLigne += Info[i].nbLigne;
     }
     
-    // Dans les autres cas, les bases ont dÃ©jÃ  Ã©tÃ© refermÃ©es sauf une (cas par annÃ©e et par taille maximale)
+    // Dans les autres cas, les bases ont déjà été refermées sauf une (cas par année et par taille maximale)
     if (taille_base == TOUTES_CATEGORIES)
         for (int d = 0; d < nbType - 1; ++d)
         {
@@ -346,51 +346,51 @@ void boucle_ecriture(std::vector<info_t>& Info)
         case  MONOLITHIQUE            :
             goto message;
         case  PAR_TRAITEMENT          :
-            std::cout << "[MSG] CatÃ©gorie : Traitement.\n";
+            std::cout << "[MSG] Catégorie : Traitement.\n";
             goto message;
         case  PAR_INDEMNITE_RESIDENCE :
-            std::cout << "[MSG] CatÃ©gorie : IndemnitÃ© de rÃ©sidence.\n";
+            std::cout << "[MSG] Catégorie : Indemnité de résidence.\n";
             goto message;
         case  PAR_SFT                 :
-            std::cout << "[MSG] CatÃ©gorie : SupplÃ©ment familial de traitement.\n";
+            std::cout << "[MSG] Catégorie : Supplément familial de traitement.\n";
             goto message;
         case  PAR_AVANTAGE_NATURE     :
-            std::cout << "[MSG] CatÃ©gorie : Avantage en nature.\n";
+            std::cout << "[MSG] Catégorie : Avantage en nature.\n";
             goto message;
         case  PAR_INDEMNITE           :
-            std::cout << "[MSG] CatÃ©gorie : IndemnitÃ©.\n";
+            std::cout << "[MSG] Catégorie : Indemnité.\n";
             goto message;
         case  PAR_REM_DIVERSES        :
-            std::cout << "[MSG] CatÃ©gorie : RÃ©munÃ©rations diverses.\n";
+            std::cout << "[MSG] Catégorie : Rémunérations diverses.\n";
             goto message;
         case  PAR_DEDUCTION           :
-            std::cout << "[MSG] CatÃ©gorie : DÃ©duction.\n";
+            std::cout << "[MSG] Catégorie : Déduction.\n";
             goto message;
         case  PAR_ACOMPTE             :
-            std::cout << "[MSG] CatÃ©gorie : Acompte.\n";
+            std::cout << "[MSG] Catégorie : Acompte.\n";
             goto message;
         case  PAR_RAPPEL              :
-            std::cout << "[MSG] CatÃ©gorie : Rappel.\n";
+            std::cout << "[MSG] Catégorie : Rappel.\n";
             goto message;
         case  PAR_RETENUE             :
-            std::cout << "[MSG] CatÃ©gorie : Retenue.\n";
+            std::cout << "[MSG] Catégorie : Retenue.\n";
             goto message;
         case  PAR_COTISATION          :
-            std::cout << "[MSG] CatÃ©gorie : Cotisation.\n";
+            std::cout << "[MSG] Catégorie : Cotisation.\n";
             goto message;
         case  TOUTES_CATEGORIES       :
-            std::cout << "[MSG] Toutes catÃ©gories.\n";
-            std::cout << "[MSG] Total de " << compteur << " lignes gÃ©nÃ©rÃ©e dans 11 bases.\n";
+            std::cout << "[MSG] Toutes catégories.\n";
+            std::cout << "[MSG] Total de " << compteur << " lignes générée dans 11 bases.\n";
             break;
             
         case PAR_ANNEE    :
-            std::cout << "AnnÃ©e : " << annee_courante << " Table gÃ©nÃ©rÃ©e.\n";
+            std::cout << "Année : " << annee_courante << " Table générée.\n";
             break;
-        default :  /* Taille dÃ©finie par l'utilisateur */
-            std::cout << "[MSG] Table nÂ°" << rang_fichier_base
+        default :  /* Taille définie par l'utilisateur */
+            std::cout << "[MSG] Table n°" << rang_fichier_base
                       << " de " <<  compteur - (rang_fichier_base-1) * taille_base
                       << " lignes, lignes " << (rang_fichier_base-1) * taille_base + 1
-                      << " Ã  " << compteur << ".\n";
+                      << " à " << compteur << ".\n";
         }
         
         return;

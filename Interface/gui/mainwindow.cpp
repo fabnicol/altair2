@@ -874,7 +874,7 @@ void MainWindow::feedLHXConsoleWithHtml()
             altair->fileRank = (baInt >= 1)? baInt : 1;
             consoleDialog->append(QString::number(baInt) + "\n");
 
-               QString buffer=altair->process->readLine();
+               QString buffer = QString::fromLatin1(altair->process->readLine());
 
                 if (buffer.contains(reg))
                 {
@@ -887,7 +887,7 @@ void MainWindow::feedLHXConsoleWithHtml()
                             buffer=buffer.replace(reg, (QString) STATE_HTML_TAG "\\2");
                             break;
                       case 'r' :
-                            buffer=buffer.replace(reg, (QString) ERROR_HTML_TAG "\\1 \\2");
+                            buffer=buffer.replace(reg, (QString) ERROR_HTML_TAG "\\2");
                             #ifdef MINIMAL
                             Warning("Erreur", "Le décodage a rencontré une erreur.\nVisualiser le log dans la console (Configurer > Configurer l'interface > Afficher les messages).\n\
 Il est également possible d'activer un rapport détaillé (Configurer > Options > Générer le log)");
