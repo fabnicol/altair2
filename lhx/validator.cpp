@@ -474,8 +474,6 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t& info)
 
     xmlNodePtr cur_parent = nullptr;
 
-    if (cur == nullptr) return 0;
-
     cur = atteindreNoeud("Agent", cur);
 
     if (cur == nullptr)
@@ -487,13 +485,14 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t& info)
     // cur n'est pas nul à ce point
 
     cur_parent = cur;
-    cur =  cur->xmlChildrenNode;
+    cur = cur->xmlChildrenNode;
     
+    if (cur == nullptr ||  xmlIsBlankNode(cur)) return 0;
+
 #ifdef TOLERANT_TAG_HIERARCHY
     xmlNodePtr cur_save = cur;
 #endif
 
-    if (cur == nullptr) return 0;
 
     /* dans certains schémas on peut ne pas avoir la civilité */
     /* passer à la balise adjacente après lecture */
@@ -574,14 +573,17 @@ static uint64_t  parseBulletin(xmlNodePtr cur, info_t& info)
     {
         xmlNodePtr cur_save = cur;
 
-        if ((cur =  cur->xmlChildrenNode) != nullptr)
+        if ((cur =  cur->xmlChildrenNode) != nullptr && ! xmlIsBlankNode(cur))
         {
             ligne = lignePaye(cur, info);
         }
 
+        /* si la balise <Remuneration/> est fermante ou si <Remuneration>....</Remuneration> ne contient pas de ligne de paye codée
+         * alors on attribue quand même une ligne, codée NA sur tous les champs */
+
         if (ligne == 0)
         {
-            for (int k=0; k < 6; ++k)
+            for (int k = 0; k <= INDEX_MAX_CONNNES; ++k)
                 info.Table[info.NCumAgentXml][info.minimum_memoire_p_ligne + k] = (xmlChar*) xmlStrdup(NA_STRING);
         }
 
@@ -734,6 +736,7 @@ static void parseFile(info_t& info)
                           << "Mois "  << info.Table[info.NCumAgentXml][Mois];
                 exit(-506);
             }
+
             cur=cur_save2;
 
         while(cur != nullptr)
@@ -743,9 +746,13 @@ static void parseFile(info_t& info)
 
             cur_save2 =  cur;
 
-            if (cur_save2 == nullptr) break;
+            if (cur == nullptr)
+                break;
 
             cur =  cur->xmlChildrenNode;
+
+            if (cur == nullptr || xmlIsBlankNode(cur))  //pas de champs fils de PayeIndivMensuel : on doit sauter sans compter de ligne
+                break;
 
             info.Table[info.NCumAgentXml][Annee] = xmlStrdup(annee_fichier);
             info.Table[info.NCumAgentXml][Mois]  = xmlStrdup(mois_fichier);
@@ -930,7 +937,7 @@ void* decoder_fichier(info_t& info)
             std::cerr <<  "Erreur : Erreur d'allocation de drapeau I. pour l'agent "
                       <<  agent
                       <<  "et pour "
-                      <<  info.minimum_memoire_p_ligne + nbType + (info.NLigne[agent]) * 6
+                      <<  info.minimum_memoire_p_ligne + nbType + (info.NLigne[agent]) * (INDEX_MAX_CONNNES + 1)
                       <<  " B\n";
 
             exit(-63);

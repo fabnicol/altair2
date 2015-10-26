@@ -63,8 +63,8 @@ Module {
     property string libNameForLinkerRelease: "Qt5Core"
     property string libNameForLinker: qtBuildVariant === "debug"
                                       ? libNameForLinkerDebug : libNameForLinkerRelease
-    property string libFilePathDebug: ""
-    property string libFilePathRelease: ""
+    property string libFilePathDebug: "C:/Qt/qt-5.5.0-x64-mingw510r0-seh-rev0/qt-5.5.0-x64-mingw510r0-seh-rev0/lib/libQt5Cored.a"
+    property string libFilePathRelease: "C:/Qt/qt-5.5.0-x64-mingw510r0-seh-rev0/qt-5.5.0-x64-mingw510r0-seh-rev0/lib/libQt5Core.a"
     property string libFilePath: qtBuildVariant === "debug"
                                       ? libFilePathDebug : libFilePathRelease
 
@@ -87,7 +87,7 @@ Module {
         return defines;
     }
     cpp.includePaths: {
-        var paths = ["C:/Users/Public/Dev/qt-5.5.0-x64-mingw510r0-seh-rev0/include", "C:/Users/Public/Dev/qt-5.5.0-x64-mingw510r0-seh-rev0/include/QtCore"];
+        var paths = ["C:/Qt/qt-5.5.0-x64-mingw510r0-seh-rev0/qt-5.5.0-x64-mingw510r0-seh-rev0/include", "C:/Qt/qt-5.5.0-x64-mingw510r0-seh-rev0/qt-5.5.0-x64-mingw510r0-seh-rev0/include/QtCore"];
         paths.push(mkspecPath, generatedFilesDir);
         return paths;
     }
@@ -104,7 +104,7 @@ Module {
             libs.push(libFilePath);
         if (qbs.targetOS.contains('windows') && !product.consoleApplication) {
             libs = libs.concat(qtBuildVariant === "debug"
-                               ? ["C:/Users/Public/Dev/qt-5.5.0-x64-mingw510r0-seh-rev0/lib/libqtmaind.a"] : ["C:/Users/Public/Dev/qt-5.5.0-x64-mingw510r0-seh-rev0/lib/libqtmain.a"]);
+                               ? ["C:/Qt/qt-5.5.0-x64-mingw510r0-seh-rev0/qt-5.5.0-x64-mingw510r0-seh-rev0/lib/libqtmaind.a"] : ["C:/Qt/qt-5.5.0-x64-mingw510r0-seh-rev0/qt-5.5.0-x64-mingw510r0-seh-rev0/lib/libqtmain.a"]);
         }
         libs = libs.concat(staticLibs);
         return libs;

@@ -184,6 +184,11 @@ int calculer_memoire_requise(info_t& info)
 
     char d = 0;
 
+    /* on compte un agent par balise <Remuneration/> ou par couple valide de balise <Remuneration>...</Remuneration> (fermeture contrôlée)
+     * alors :
+     *   on compte un agent en plus (++info.NCumAgent) avec un nombre de ligne égal au moins à un, même si pas de ligne de paye codée.
+     *   Si il existe N lignes de paye codées, alors info.NLigne[info.NCumAgent] = N. */
+
     std::cerr << "\n\n[INF] Premier scan des fichiers pour déterminer les besoins mémoire ... \n";
 
     /* par convention  un agent avec rémunération non renseignées (balise sans fils) a une ligne */
@@ -194,26 +199,23 @@ int calculer_memoire_requise(info_t& info)
 
 
 #ifdef FGETC_PARSING
-                errno = 0;
+
         std::ifstream c;
         c.open(info.threads->argv[i]);
         if (c.good())
             c.seekg(0, c.beg);
         else 
         {
-            perror("Erreur : Ouverture du fichier  ");    // cautious no-op
-            std::cerr << info.threads->argv[i] << "\n";
+            std::cerr <<  "Erreur : Ouverture du fichier  " << info.threads->argv[i] << "\n";
             exit(-120);
         }
 
-        if (errno)
-        {
-            perror("Erreur : Fichier .xhl\n");
-            exit(-122);
-        }
-        
+        errno = 0;
+
         while (! c.eof())
         {
+            bool remuneration_xml_open = false;
+
             if  (c.get() != '<') continue;
             if  (c.get() != 'R') continue;
             if  (c.get() != 'e') continue;
@@ -232,10 +234,14 @@ int calculer_memoire_requise(info_t& info)
             if  (c.get() != 'o') continue;
             if  (c.get() != 'n') continue;
 #endif
+            remuneration_xml_open = true;
+
             if  (c.get()  == '/')
             {
                 tab[info.NCumAgent] = 1;
                 ++info.NCumAgent;
+
+                remuneration_xml_open = false;
                 continue;  // Balise simple vide
             }
 
@@ -250,6 +256,8 @@ int calculer_memoire_requise(info_t& info)
                     else if (c.get()  != 'm')   continue;
                     else if (c.get()  != 'u')   continue;
                     else if (c.get()  != 'n')   continue;
+
+                    remuneration_xml_open = false;
 
                     if (tab[info.NCumAgent] == 0)
                         tab[info.NCumAgent] = 1;
@@ -275,7 +283,21 @@ int calculer_memoire_requise(info_t& info)
                     }
                 }
             }
+
+            if (remuneration_xml_open == true)
+            {
+                std::cerr << "Erreur XML : la balise Remuneration n'est pas refermée pour le fichier " << info.threads->argv[i]
+                          << "\npour l'agent n°"   << info.NCumAgent + 1 << "\n";
+                exit(0);
+#ifndef STRICT
+                continue;
+#else
+                exit(-100);
+#endif
+            }
+
         }
+
         c.clear();
         c.close();
 
