@@ -10,6 +10,20 @@
 #include <iostream>
 #include <fstream>
 
+static const char* type_remuneration_traduit[] = {
+                                                           "T",   // Traitement
+                                                           "IR", // Indemnité de résidence
+                                                           "S",  // Supplément familial
+                                                           "AV", // Avantage en nature
+                                                           "I",  // Indemnité
+                                                           "A", //Autres rémunérations
+                                                           "D", //Déduction
+                                                           "AC", //Acompte
+                                                           "R", // Rappel
+                                                           "RE", //Retenue
+                                                           "C", //Cotisation
+                                                           "CO" //Commentaire
+                                                   };
 #define VAR(X) Info[i].Table[agent][X]
 
 static inline void GCC_INLINE ECRIRE_LIGNE_l_COMMUN(int i, uint32_t agent, int l, char* type, std::ofstream& base, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)

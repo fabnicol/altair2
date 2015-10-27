@@ -59,7 +59,7 @@ DEVROOT = $$PWD/../..
 # Insérer ici le nom du répertoire contenant dans include/ et lib/ les dépendances système
 # Ce compilateur doit être adjacent aux sources sous Windows
 
-QMAKE_CXXFLAGS = -pipe -m64 -std=gnu++11 -march=native -fno-inline -fexceptions -frtti  -O3 -fexpensive-optimizations -fomit-frame-pointer
+QMAKE_CXXFLAGS = -pipe -m64 -std=gnu++11 -march=native   -O3 -fexpensive-optimizations -fomit-frame-pointer
 
 # Sous linux penser à installer libxml2-dev. Ceci n'est pas testé.
 
@@ -79,10 +79,12 @@ SOURCES += \
     fonctions_auxiliaires.cpp \
     main.cpp \
     table.cpp \
-    validator.cpp
+    validator.cpp \
+    ligne_paye.cpp
 
 HEADERS += \
     fonctions_auxiliaires.hpp \
     table.hpp \
-    validator.hpp
+    validator.hpp \
+    ligne_paye.hpp
 

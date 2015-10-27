@@ -31,9 +31,9 @@ QtModule {
         }
     }
 
-    property string defaultQpaPlugin: ""
+    property string defaultQpaPlugin: "qwindows"
     staticLibsDebug: []
-    staticLibsRelease: []
+    staticLibsRelease: ["gdi32", "comdlg32", "oleaut32", "imm32", "winmm", "C:/Users/Public/Dev/qt-5.5.0-x64-mingw52-static-runtime/lib/libQt5Core.a", "ole32", "uuid", "ws2_32", "advapi32", "shell32", "user32", "kernel32", "mpr", "z", "qtpcre", "qtharfbuzzng", "z"]
     dynamicLibsDebug: []
     dynamicLibsRelease: []
     linkerFlagsDebug: []
@@ -44,12 +44,12 @@ QtModule {
     frameworkPathsRelease: []
     libNameForLinkerDebug: "Qt5Guid"
     libNameForLinkerRelease: "Qt5Gui"
-    libFilePathDebug: "C:/Users/Public/Dev/qt-5.5.0-x64-mingw510r0-seh-rev0/qt-5.5.0-x64-mingw510r0-seh-rev0/lib/libQt5Guid.a"
-    libFilePathRelease: "C:/Users/Public/Dev/qt-5.5.0-x64-mingw510r0-seh-rev0/qt-5.5.0-x64-mingw510r0-seh-rev0/lib/libQt5Gui.a"
+    libFilePathDebug: ""
+    libFilePathRelease: "C:/Users/Public/Dev/qt-5.5.0-x64-mingw52-static-runtime/lib/libQt5Gui.a"
 
     cpp.defines: ["QT_GUI_LIB"]
-    cpp.includePaths: ["C:/Users/Public/Dev/qt-5.5.0-x64-mingw510r0-seh-rev0/qt-5.5.0-x64-mingw510r0-seh-rev0/include", "C:/Users/Public/Dev/qt-5.5.0-x64-mingw510r0-seh-rev0/qt-5.5.0-x64-mingw510r0-seh-rev0/include/QtGui", "C:/Users/Public/Dev/qt-5.5.0-x64-mingw510r0-seh-rev0/qt-5.5.0-x64-mingw510r0-seh-rev0/include/QtANGLE"]
-    cpp.libraryPaths: []
+    cpp.includePaths: ["C:/Users/Public/Dev/qt-5.5.0-x64-mingw52-static-runtime/include", "C:/Users/Public/Dev/qt-5.5.0-x64-mingw52-static-runtime/include/QtGui"]
+    cpp.libraryPaths: ["C:/Users/Public/Dev/qt-5.5.0-x64-mingw52-static-runtime/lib", "C:/Users/Public/Dev/qt-5.5.0-x64-mingw52-static-runtime/lib"]
 
     Properties {
         condition: Qt.core.staticBuild && qbs.targetOS.contains("ios")
@@ -57,6 +57,6 @@ QtModule {
                                      "Foundation", "CoreFoundation"])
     }
     cpp.frameworks: base
-    
+    isStaticLibrary: true
 }
 
