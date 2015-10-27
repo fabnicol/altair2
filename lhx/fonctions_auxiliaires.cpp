@@ -6,6 +6,7 @@
 #include <mutex>
 #include <cstring>
 #include <cstdint>
+#include <iomanip>
 #include <iostream>
 #include "fonctions_auxiliaires.hpp"
 #ifdef MMAP_PARSING
@@ -20,6 +21,71 @@
 #error "La compilation MMAP ne peut se faire que sous unix."
 #endif
 #endif
+
+
+static const char* entete_char[]={"R", u8"Année", "Mois", "Budget", "Etablissement", "Siret", "Nom", u8"Prénom", "Matricule", "Service", "Nb.Enfants", "Statut", "Temps.de.travail",
+                                  "Heures.Sup.", "Heures", "Indice", "Brut", "Net", u8"Net.à.Payer", "NBI", u8"Libellé", "Code",
+                                  "Base", "Taux", u8"Nb.Unité", "Montant", "Type", "Emploi", "Grade", "Nir"};
+
+static const char* entete_char_bulletins[]={"R", u8"Année", "Mois", "Budget", "Etablissement", "Siret", "Nom", u8"Prénom", "Matricule", "Service", "Nb.Enfants", "Statut", "Temps.de.travail",
+                                  "Heures.Sup.", "Heures", "Indice", "Brut", "Net", u8"Net.à.Payer", "NBI", "Emploi", "Grade", "Nir"};
+
+#ifdef __WIN32__
+#include <direct.h>
+#include <string>
+#include <windows.h>
+
+// The directory path returned by native GetCurrentDirectory() no end backslash
+std::string getexecpath()
+{
+    const unsigned long maxDir = 260;
+    wchar_t currentDir[maxDir];
+    GetCurrentDirectory(maxDir, currentDir);
+    std::wstring ws(currentDir);
+    std::string str(ws.begin(), ws.end());
+    return str;
+}
+
+#else
+#if defined(__linux__)
+
+#include <unistd.h>
+#define GetCurrentDir getcwd
+std::string getexepath()
+{
+
+    char szTmp[32];
+    sprintf(szTmp, "/proc/%d/exe", getpid());
+    int bytes = MIN(readlink(szTmp, pBuf, len), len - 1);
+    if(bytes >= 0)
+        pBuf[bytes] = '\0';
+    return bytes;
+}
+
+#endif
+#endif
+
+void ecrire_log(const info_t& info, std::ofstream& log, int diff)
+{
+    if (! info.chemin_log.empty())
+    {
+
+        if (log.good())
+        #define P  " | "
+        log << "Année " << P
+            << info.Table[info.NCumAgentXml][Annee] << P
+            << "Mois "  << std::setw(2) << info.Table[info.NCumAgentXml][Mois] << P
+            << "Matricule " << std::setw(6) <<  info.Table[info.NCumAgentXml][Matricule] << P
+            << "Rang global " << std::setw(6) <<  info.NCumAgentXml << P
+            << "Rang dans fichier " << std::setw(5) <<  info.NAgent[info.fichier_courant] << P
+            << "Analyseur C " << std::setw(6) << info.NLigne[info.NCumAgentXml] << P
+            << "Xml " << std::setw(6) << info.NLigne[info.NCumAgentXml] - diff << P
+            << "Différence " << std::setw(4) << diff << "\n";
+        #undef P
+    }
+}
+
+
 
 #if 0
  char* ecrire_chemin_base(const char* chemin_base, int rang_fichier_base)

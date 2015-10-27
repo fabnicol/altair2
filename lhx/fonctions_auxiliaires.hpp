@@ -26,10 +26,16 @@ void ouvrir_fichier_bulletins(const info_t &info, std::ofstream& base);
 extern std::ofstream rankFile;
 extern char* rankFilePath;
 
-inline void GCC_INLINE  generate_rank_signal()
+std::string getexecpath();
+
+void ecrire_log(const info_t& info, std::ofstream& log, int diff);
+
+inline void GCC_INLINE  generate_rank_signal(bool reset = false)
 {
 #if 0
     static int temp_rank;
+
+    if (reset) temp_rank = -1;
 
         ++temp_rank;
 

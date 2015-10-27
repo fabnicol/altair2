@@ -1,11 +1,11 @@
 greaterThan(QT_MAJOR_VERSION, 5)
-# Mettre Git\bin dans le PATH systÃ©matiquement
+# Mettre Git\bin dans le PATH systématiquement
 # utiliser au moins Qt5 et g++-5.1 sous windows
 
 if (win32|linux) {
-  message("SystÃ¨me d'e'xploitation :  $$(OS)")
+  message("Système d'exploitation :  $$(OS)")
 } else {
-  error("Le systÃ¨me d'exploitation doit Ãªtre soit Windows soit linux")
+  error("Le système d'exploitation doit être soit Windows soit linux")
 }
 
 windows {
@@ -21,21 +21,21 @@ linux {
 if (!isEmpty(GIT_VERSION)) {
     message( "Version de git : $$GIT_VERSION" )
 } else {
-#    error( "Git doit Ãªtre installÃ©" )
+#    error( "Git doit être installé" )
 }
 
 
 if (!isEmpty(CXX_VERSION)){
     message( "Version du compilateur : $$CXX_VERSION" )
 } else {
-    error( "Le compilateur doit Ãªtre GNU g++, dont la version doit Ãªtre au moins 5.1" )
+    error( "Le compilateur doit être GNU g++, dont la version doit être au moins 5.1" )
 }
 
 
 
 CONFIG  += ordered
 CONFIG(debug, debug|release) {
-  QMAKE_LFLAGS   += -L$$(QTDIR)/bin   # ne devrait pas en principe Ãªtre rajoutÃ© mais...qmake est capricieux !
+  QMAKE_LFLAGS   += -L$$(QTDIR)/bin   # ne devrait pas en principe être rajouté mais...qmake est capricieux !
 } else {
   CONFIG += static
 }
@@ -43,7 +43,7 @@ CONFIG(debug, debug|release) {
 TEMPLATE = app
 
 QT       += core gui xml widgets
-            #webkitwidgets : Ã  dÃ©commenter si STATIC n'est pas dÃ©fini c-dessous. NÃ©cessite libWebKitWidgets
+            #webkitwidgets : à décommenter si STATIC n'est pas défini c-dessous. Nécessite libWebKitWidgets
 
 QT       -= opengl
 QT       -= openssl
@@ -53,12 +53,12 @@ TARGET = Altair
 VPATH = .
 
 DEFINES += OVERVALUE_DIRSIZE_SHARE_COEFFICIENT=1.5 \    # Une estimation du ration taille des fichiers xhl/taille des bases csv
-           COMMANDLINE_CONSOLE_OUTPUT                   # GÃ©nÃ©rer la ligne de commande en console (verbeux)
+           COMMANDLINE_CONSOLE_OUTPUT                   # Générer la ligne de commande en console (verbeux)
 
 DEFINES += QT_NO_OPENGL \
-           STATIC\                                      # Ã  utiliser pour lancer le navigateur internet par dÃ©faut plustÃ´t qu'un navigateur interne
-           LOCAL_BINPATH \                              # chemins d'exÃ©cution dÃ©finis par rapport Ã  l'emplacement de l'exÃ©cutable
-           REGEX_PARSING_FOR_HEADERS \                  # utiliser les expressions rÃ©guliÃ¨res de c++ (g++ 5.1 au moins)
+           STATIC\                                      # à utiliser pour lancer le navigateur internet par défaut plustôt qu'un navigateur interne
+           LOCAL_BINPATH \                              # chemins d'exécution définis par rapport à l'emplacement de l'exécutable
+           REGEX_PARSING_FOR_HEADERS \                  # utiliser les expressions régulières de c++ (g++ 5.1 au moins)
            USE_RIGHT_CLICK                              # utiliser un clic droit sur les fichiers pour ajouter, supprimer etc.
 
 

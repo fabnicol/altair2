@@ -102,10 +102,6 @@ int main(int argc, char **argv)
         false,            // numéroter les lignes
         true,             //    alléger la base
         BESOIN_MEMOIRE_ENTETE,// besoin mémoire minimum hors lecture de lignes : devra être incrémenté,
-        info.minimum_memoire_p_ligne  // chaque agent a au moins BESOIN_MEMOIRE_ENTETE champs du bulletins de paye en colonnes
-                                     // sans la table ces champs sont répétés à chaque ligne de paye.
-        + nbType // espace pour les drapeaux de séparation des champs (taille de type_remuneration). Nécessaire pour l'algorithme
-        + (MAX_LIGNES_PAYE)*(INDEX_MAX_CONNNES + 1),   // nombre de lignes de paye x nombre maximum de types de balises distincts de lignes de paye
                                                        // soit N+1 pour les écritures du type Var(l+i), i=0,...,N dans ECRIRE_LIGNE_l_COMMUN
         1                 // nbfil
     };
@@ -357,11 +353,6 @@ int main(int argc, char **argv)
             }
 
             start += 2;
-            info.memoire_p_ligne = info.minimum_memoire_p_ligne  // chaque agent a au moins BESOIN_MEMOIRE_ENTETE champs du bulletins de paye en colonnes
-                                                                                  // sans la table ces champs sont répétés à chaque ligne de paye.
-                                        + nbType // espace pour les drapeaux de séparation des champs (taille de type_remuneration). Nécessaire pour l'algorithme
-                                        + (info.nbLigneUtilisateur)*(INDEX_MAX_CONNNES + 1);   // nombre de lignes de paye x nombre maximum de types de balises distincts de lignes de paye
-                                                                                                        // soit N+1 pour les écritures du type Var(l+i), i=0,...,N dans ECRIRE_LIGNE_l_COMMUN
             continue;
         }
         else if (! strcmp(argv[start], "-R"))
