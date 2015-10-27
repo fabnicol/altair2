@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
     else s=(char*)"";
 
     MainWindow *mainWin=new MainWindow(s);
-  
+    QObject::connect(mainWin, &MainWindow::exitSignal, [&] { app.quit();});
     mainWin->show();
     return app.exec();
 }

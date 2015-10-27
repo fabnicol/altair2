@@ -170,6 +170,8 @@ class MainWindow : public QMainWindow
    void feedLHXConsoleWithHtml();
    void feedRConsoleWithHtml();
 
+signals:
+   void exitSignal();
 
 };
 
