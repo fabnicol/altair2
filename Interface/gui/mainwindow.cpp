@@ -196,7 +196,7 @@ void MainWindow::createActions()
 
   saveAction = new QAction(tr("&Enregistrer"), this);
   saveAction->setShortcut(QKeySequence("Ctrl+S"));
-  saveAction->setIcon(style()->standardIcon(QStyle::SP_DialogSaveButton));
+  saveAction->setIcon(QIcon(":/images/document-save.png"));
 
   connect(saveAction, &QAction::triggered, this, &MainWindow::f);
   
@@ -277,7 +277,7 @@ void MainWindow::createActions()
   exitAction = new QAction(tr("&Quitter"), this);
   exitAction->setIcon(QIcon(":/images/application-exit.png"));
   exitAction->setShortcut(QKeySequence("Ctrl+Q"));
-  connect(exitAction, &QAction::triggered,  [this] { exit(1);});
+  connect(exitAction, &QAction::triggered,  [this] { emit(exitSignal());});
 
   aboutAction=new QAction(tr("&Au sujet de"), this);
   aboutAction->setIcon(QIcon(":/images/about.png"));
