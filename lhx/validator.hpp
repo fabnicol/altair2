@@ -31,15 +31,15 @@ typedef struct
     unsigned argc;
 } thread_t;
 
-#define EXPRESSION_REG_ELUS "^maire.*|^pr..?sident.*|^[eé]lus?|.*(?:\\badj.*\\bmaire\\b|\\bv.*\\bpr..?sident\\b|\\bcons.*\\bmuni|\\bcons.*\\bcomm|\\bcons.*\\bd..?l..?gu).*"
-#define EXPRESSION_REG_VACATIONS ".*\\bvacat.*|.*\\bvac\\.?\\b.*"  // vac.* peut être vérifié par 'vacances'
+#define EXPRESSION_REG_ELUS "^maire.*|^pr..?sident.*|^[e�]lus?|.*(?:\\badj.*\\bmaire\\b|\\bv.*\\bpr..?sident\\b|\\bcons.*\\bmuni|\\bcons.*\\bcomm|\\bcons.*\\bd..?l..?gu).*"
+#define EXPRESSION_REG_VACATIONS ".*\\bvacat.*|.*\\bvac\\.?\\b.*"  // vac.* peut �tre v�rifi� par 'vacances'
 #define EXPRESSION_REG_ASSISTANTES_MATERNELLES ".*\\bass.*\\bmater.*"
 
 #define NOM_BASE "Table"
 #define NOM_BASE_BULLETINS "Bulletins"
 #define CSV  ".csv"
 
-/* Les définitions ci-après doivent être négatives */
+/* Les d�finitions ci-apr�s doivent �tre n�gatives */
 
 
 #define MONOLITHIQUE -1
@@ -61,8 +61,8 @@ typedef struct
 
 
 
-#define INDEX_MAX_CONNNES 5    // nombre de type de champ de ligne de paye (Libellé, Code, Taux, Base, ...) moins 1.
-#define BESOIN_MEMOIRE_ENTETE  22  /* nb d'éléments de l'enum ci-dessous */
+#define INDEX_MAX_CONNNES 5    // nombre de type de champ de ligne de paye (Libell�, Code, Taux, Base, ...) moins 1.
+#define BESOIN_MEMOIRE_ENTETE  22  /* nb d'�l�ments de l'enum ci-dessous */
 typedef enum {Annee, Mois, Budget, Etablissement, Siret, Nom, Prenom, Matricule, NIR, NbEnfants, Statut, EmploiMetier, Grade, Indice,
           Service, NBI, QuotiteTrav, NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer
          } Entete;
@@ -95,10 +95,13 @@ typedef struct
     bool generer_rang;
     bool select_siret;
     uint8_t minimum_memoire_p_ligne;
-    uint16_t memoire_p_ligne;
     int nbfil;
 } info_t;
 
+#define RESET true
+#define RETRY -1
+#define SKIP_FILE 1
+#define NO_AGENT -1
 
 
 #ifndef NA_STRING
@@ -135,7 +138,7 @@ typedef struct
 #define LINE_MEMORY_EXCEPTION 2
 #define NO_NEXT_ITEM 3
 
-/* pas de contrôle d'existence de noeud : version affaiblie de la macro précédente */
+/* pas de contr�le d'existence de noeud : version affaiblie de la macro pr�c�dente */
 
 
 
@@ -158,30 +161,12 @@ static const char* type_remuneration[]   = {
 static const int nbType                  = sizeof(type_remuneration)/sizeof(char*);
 
 
-static const char* type_remuneration_traduit[] = {
-                                                           "T",   // Traitement
-                                                           "IR", // Indemnité de résidence
-                                                           "S",  // Supplément familial
-                                                           "AV", // Avantage en nature
-                                                           "I",  // Indemnité
-                                                           "A", //Autres rémunérations
-                                                           "D", //Déduction
-                                                           "AC", //Acompte
-                                                           "R", // Rappel
-                                                           "RE", //Retenue
-                                                           "C", //Cotisation
-                                                           "CO" //Commentaire
-                                                       };
-
 static const xmlChar drapeau[][2]  = {{1,0}, {2,0}, {3,0}, {4,0}, {5,0}, {6,0}, {7,0}, {8,0}, {9,0}, {10,0}, {11,0}, {12,0}};
 
-static const char* entete_char[]={"R", u8"Année", "Mois", "Budget", "Etablissement", "Siret", "Nom", u8"Prénom", "Matricule", "Service", "Nb.Enfants", "Statut", "Temps.de.travail",
-                                  "Heures.Sup.", "Heures", "Indice", "Brut", "Net", u8"Net.à.Payer", "NBI", u8"Libellé", "Code",
-                                  "Base", "Taux", u8"Nb.Unité", "Montant", "Type", "Emploi", "Grade", "Nir"};
 
-static const char* entete_char_bulletins[]={"R", u8"Année", "Mois", "Budget", "Etablissement", "Siret", "Nom", u8"Prénom", "Matricule", "Service", "Nb.Enfants", "Statut", "Temps.de.travail",
-                                  "Heures.Sup.", "Heures", "Indice", "Brut", "Net", u8"Net.à.Payer", "NBI", "Emploi", "Grade", "Nir"};
 
 void* decoder_fichier(info_t& tinfo);
+
+
 
 #endif // VALIDATOR_HPP_INCLUDED

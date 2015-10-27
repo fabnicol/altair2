@@ -21,7 +21,7 @@ QtModule {
     libFilePathDebug: ""
     libFilePathRelease: ""
     cpp.defines: []
-    cpp.includePaths: ["C:/Users/Public/Dev/qt-5.5.0-x64-mingw510r0-seh-rev0/qt-5.5.0-x64-mingw510r0-seh-rev0/include/QtGui/5.5.0", "C:/Users/Public/Dev/qt-5.5.0-x64-mingw510r0-seh-rev0/qt-5.5.0-x64-mingw510r0-seh-rev0/include/QtGui/5.5.0/QtGui"]
+    cpp.includePaths: ["C:/Users/Public/Dev/qt-5.5.0-x64-mingw52-static-runtime/include/QtGui/5.5.0", "C:/Users/Public/Dev/qt-5.5.0-x64-mingw52-static-runtime/include/QtGui/5.5.0/QtGui"]
     cpp.libraryPaths: []
-    
+    isStaticLibrary: true
 }
