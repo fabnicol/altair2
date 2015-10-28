@@ -670,7 +670,7 @@ inline void FProgressBar::computeLHXProgressBar()
  if (parent->process->state() != QProcess::Running) return;
  int maxi = maximum();
  static bool old;
- static float minorIncrement = 0;
+ static float minorIncrement;
 
  if (dirSize < 1)
  {
@@ -707,7 +707,7 @@ inline void FProgressBar::computeLHXProgressBar()
 
       setValue(std::max(startshift, static_cast<int>(share * maxi)));
 
-      if (value() == maxi) setValue(startshift);
+      if (value() == maxi) reset();
       old = true;
   }
 }
