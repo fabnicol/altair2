@@ -91,10 +91,9 @@ static inline int GCC_INLINE Bulletin(const xmlChar*  tag, xmlNodePtr& cur, int 
 // On a à présent la garantie que cur->name correspond à tag
 
         ligne_l = xmlGetProp(nextcur, (const xmlChar *) "V");
+
         if (ligne_l == nullptr)
             return LINE_MEMORY_EXCEPTION;
-
-// dans les cas où false est retourné, la référence à cur n'a pas été modifiée et est donc non nulle
 
         if (info.drapeau_cont)
         {
@@ -111,7 +110,7 @@ static inline int GCC_INLINE Bulletin(const xmlChar*  tag, xmlNodePtr& cur, int 
             if (ligne_l[i] == info.separateur)
                 ligne_l[i] = '_';
 
-        return NODE_FOUND;
+       return NODE_FOUND;
 
 }
 
@@ -184,7 +183,7 @@ static inline void GCC_INLINE substituer_separateur_decimal(xmlChar* ligne, cons
 /* optionnel */
 
 
-static inline bool GCC_INLINE bulletin_optionnel_numerique(const xmlChar* tag, xmlNodePtr& cur,  int l, info_t& info, int normalJump = 0)
+static inline bool GCC_INLINE bulletin_optionnel_numerique(const xmlChar* tag, xmlNodePtr& cur, int l, info_t& info, int normalJump = 0)
 {
     // attention faire en sorte que cur ne soit JAMAIS nul
 
@@ -234,7 +233,7 @@ static inline bool GCC_INLINE bulletin_optionnel_numerique(const xmlChar* tag, x
 
 }
 
-static inline bool GCC_INLINE bulletin_optionnel_numerique(const char* tag, xmlNodePtr& cur,  int l, info_t& info, int normalJump = 0)
+static inline bool GCC_INLINE bulletin_optionnel_numerique(const char* tag, xmlNodePtr& cur, int l, info_t& info, int normalJump = 0)
 {
     return bulletin_optionnel_numerique(reinterpret_cast<const xmlChar*>(tag), cur, l, info, normalJump);
 }
@@ -361,13 +360,13 @@ static inline int lignePaye(xmlNodePtr cur, info_t& info)
         {
             cur = cur->next;
             t=0;
-            rembobiner=false; // 'Rembobinage gratuit'
+            rembobiner = false; // 'Rembobinage gratuit'
             continue; // garantit incidemment que cur != nullptr dans la boucle
         }
 
         // cur n'est pas nul à ce point
-
-        cur =  cur->xmlChildrenNode;
+        //std::cerr << "^" << cur->name <<"++\n";
+        cur = cur->xmlChildrenNode;
 
         if (cur == nullptr) break;
 
@@ -375,31 +374,36 @@ static inline int lignePaye(xmlNodePtr cur, info_t& info)
 
         /* Libellé, obligatoire */
 
-        if (bulletin_obligatoire("Libelle", cur, l, info)
-
+        bulletin_obligatoire("Libelle", cur, l, info);
+        //std::cerr << l << "  *" << ligne_l << "*\n";
+        ++l;
         /* Code, obligatoire */
 
-           && bulletin_obligatoire("Code", cur, l, info)
-
+        bulletin_obligatoire("Code", cur, l, info);
+        //std::cerr << l << "  *" << ligne_l << "*\n";
+        ++l;
         /* Base, si elle existe */
 
-           && bulletin_optionnel_numerique("Base", cur,  l, info)
-
+        bulletin_optionnel_numerique("Base", cur,  l, info);
+        //std::cerr << l << "  *" << ligne_l << "*\n";
+        ++l;
         /* Taux, s'il existe */
 
-           && bulletin_optionnel_numerique("Taux", cur, l, info)
-
+        bulletin_optionnel_numerique("Taux", cur, l, info);
+        //std::cerr << l << "  *" << ligne_l << "*\n";
+        ++l;
         /* Nombre d'unités, s'il existe */
 
-           && bulletin_optionnel_numerique("NbUnite", cur, l, info)
-
+        bulletin_optionnel_numerique("NbUnite", cur, l, info);
+        //std::cerr << l << "  *" << ligne_l << "*\n";
+        ++l;
         /* Montant, obligatoire */
 
-           && bulletin_obligatoire_numerique("Mt", cur, l, info)) {}
-
+        bulletin_obligatoire_numerique("Mt", cur, l, info);
+        //std::cerr << l << "  *" << ligne_l << "*\n";
+        ++l;
         // cur ne sera pas nul à ce point
 
-        ++l;
         ++nbLignePaye;
 
         cur =  cur->parent->next;
@@ -451,8 +455,6 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, std::ofstream& log)
             log_to_be_closed = true;
             log.open(temp_logpath, std::ios::app);
         }
-
-
 
         if (log.good())
         {

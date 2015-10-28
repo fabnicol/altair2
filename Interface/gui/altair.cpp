@@ -670,19 +670,23 @@ inline void FProgressBar::computeLHXProgressBar()
  if (parent->process->state() != QProcess::Running) return;
  int maxi = maximum();
  static bool old;
+ static float minorIncrement = 0;
 
  if (dirSize < 1)
  {
-  int level = std::max(this->parent->fileRank, value());
-
-  setValue((level >= startshift)? level : std::min(maxi, std::max(qCeil(value() + 0.3), startshift)));
-
+  int level = std::min(maxi, std::max(this->parent->fileRank, value()));
+  level = std::max(startshift, level);
+  minorIncrement += 0.1;
+  setValue(std::max(level, qCeil((float) startshift + minorIncrement)));
+  parent->outputTextEdit->append((QString)PROCESSING_HTML_TAG + " " +QString::number(level));
   if (value() == maxi) setValue(startshift);
+  old = false;
 
  }
  else
  {
       qreal share=0;
+      minorIncrement = 0;
       if (! old)
       {
         setRange(0, parent->size());

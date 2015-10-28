@@ -214,16 +214,11 @@ void FListFrame::addGroup()
 
 void FListFrame::addGroups(int n)
 {
-
     for (int j=0; j <= n; j++)
       {
-
          if (j) addGroup();
-
          widgetContainer[j]->addItems((*Hash::wrapper[frameHashKey])[j]);
       }
-
-
 }
 
 void FListFrame::deleteAllGroups(bool insertFirstGroup, bool eraseAllData)
@@ -238,7 +233,9 @@ void FListFrame::deleteAllGroups(bool insertFirstGroup, bool eraseAllData)
 
     if (eraseAllData)
     {
-          for (const QString& hashKey: Hash::wrapper.keys()) Hash::wrapper[hashKey]->clear();
+          for (const QString& hashKey: Hash::wrapper.keys())
+              if (Hash::wrapper[hashKey])
+                  Hash::wrapper[hashKey]->clear();
     }
     else
     {

@@ -157,7 +157,7 @@ public:
 
     void show()
     {
-        start();
+        start(0);
         bar->reset();
         killButton->show();
         bar->show();
@@ -188,8 +188,8 @@ public:
     void rewind()
     {
         show();
-        setInterval(120);
-     }
+        setInterval(40);
+    }
 
  private:
     QToolButton* killButton=new QToolButton;
