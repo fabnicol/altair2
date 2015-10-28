@@ -22,7 +22,7 @@ class Hash;
 void Altair::initialize()
 {
     adjustSize();
-    
+
     Hash::description["année"]=QStringList("Fichiers .xhl");
     Abstract::initializeFStringListHash("NBulletins");
 
@@ -416,7 +416,7 @@ void Altair::requestSaveProject()
 
 bool Altair::updateProject(bool requestSave)
 {
-    RefreshFlag = RefreshFlag 
+    RefreshFlag = RefreshFlag
                  | interfaceStatus::saveTree
                  | interfaceStatus::tree;
 
@@ -620,8 +620,8 @@ void Altair::dropEvent(QDropEvent *event)
         QList<QUrl> urlsDragged=event->mimeData()->urls();
         QStringList stringsDragged;
         int size = 0;
-        
-        for (const QUrl& url : urlsDragged) 
+
+        for (const QUrl& url : urlsDragged)
         {
             const QString path = url.toLocalFile();
             if (! path.isEmpty())
@@ -630,9 +630,9 @@ void Altair::dropEvent(QDropEvent *event)
                 size ++;
             }
         }
-                
+
         if (size == 0) return;
-       
+
         updateIndexInfo();
         closeProject();
         if (false == project[0]->addParsedTreeToListWidget(stringsDragged)) return;
@@ -655,7 +655,8 @@ void FProgressBar::stop()
         }
         else
         {
-            rewind();
+                show();
+                setInterval(40);
         }
 
     timer->stop();
@@ -677,8 +678,9 @@ void FProgressBar::computeLHXParsingProgressBar()
 
     if (level > qCeil(0.97 * maximum()))
     {
-        reset();
-        emit(parsingFinished());
+        bar->reset();
+        bar->setRange(0, 100);
+        internalState = State::WritingReady;
     }
 }
 
@@ -716,8 +718,8 @@ FProgressBar::FProgressBar(Altair* parent,
                            SlotFunction  killFunction)
 {
     bar->hide();
-
     killButton->hide();
+
     const QIcon iconKill = QIcon(QString::fromUtf8( ":/images/process-stop.png"));
     killButton->setIcon(iconKill);
     killButton->setIconSize(QSize(22,22));
@@ -726,7 +728,7 @@ FProgressBar::FProgressBar(Altair* parent,
     layout->addWidget(killButton);
     layout->addWidget(bar);
 
-    this->parent=parent;
+    this->parent = parent;  // ne pas utiliser parent sans this-> dans les closures.
 
     internalState = State::Parsing;
 
@@ -753,15 +755,14 @@ FProgressBar::FProgressBar(Altair* parent,
                  }
                  else
                   computeRProgressBar();});
-    
-    connect(parent->process, &QProcess::started,  [&] {
-                                                         setCount( (1 + (v(ecoRAM).isTrue())) * parent->getFileCount());
-                                                         show();
-                                                      });
+
+    connect(this->parent->process, SIGNAL(started()), this, SLOT(show()));
 
     connect(killButton, &QToolButton::clicked, parent, killFunction);
-    connect(parent->process, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(stop()));
-    connect(this, &FProgressBar::parsingFinished, [&] {
-        internalState = State::WritingReady;
-    });
+    connect(this->parent->process, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(stop()));
+
+    connect(this->parent, SIGNAL(setProgressBar(int,int)), this, SLOT(setValue(int, int)));
+    connect(this->parent, SIGNAL(setProgressBar(int)), this, SLOT(setValue(int)));
+    connect(this->parent, SIGNAL(hideProgressBar()), this, SLOT(hide()));
+
 }

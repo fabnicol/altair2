@@ -233,8 +233,9 @@ void boucle_ecriture(std::vector<info_t>& Info)
        return;
     }
 
-    int NCumLignes = 0, compteur_progression_increment = 0;
-    float progression =  0;
+    int NCumLignes = 0;
+    int progression = 0;
+    int step = 0;
 
     for (int i = 0; i < Info[0].nbfil; ++i)
     {
@@ -350,18 +351,15 @@ void boucle_ecriture(std::vector<info_t>& Info)
             }
             
             ligne = 0;
+            ++step;
+            progression = std::ceil((float) compteur  / (float) NCumLignes * 100);
 
-            ++compteur_progression_increment;
-
-            progression +=  compteur / NCumLignes * 100;
-
-            if (compteur_progression_increment > std::ceil(PROGRESSION_INCREMENT_RATIO * NCumLignes))
+            if (step * 100 > 5 * NCumLignes)
             {
-                compteur_progression_increment = 0;
-                generate_rank_signal();
+                generate_rank_signal(progression);
+                step = 0;
             }
-
-        }
+       }
     }
     
     // Dans les autres cas, les bases ont déjà été refermées sauf une (cas par année et par taille maximale)
