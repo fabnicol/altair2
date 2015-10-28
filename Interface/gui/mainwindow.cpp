@@ -863,16 +863,14 @@ void MainWindow::feedLHXConsoleWithHtml()
 
 
         while (altair->process->canReadLine())
-            {
-
-
+         {
             if (altair->rankFile.open(QFile::ReadOnly))
             {
                     baInt = altair->rankFile.readLine().toInt();
                     altair->rankFile.close();
             }
             altair->fileRank = (baInt >= 1)? baInt : 1;
-            consoleDialog->append(QString::number(baInt) + "\n");
+            //consoleDialog->append(QString::number(baInt) + "\n");
 
                QString buffer = QString::fromLatin1(altair->process->readLine());
 
@@ -895,9 +893,13 @@ Il est également possible d'activer un rapport détaillé (Configurer > Options
                            break;
                     }
                 }
-   
-                consoleDialog->insertHtml(buffer.replace("\n", "<br>"));
 
+                /* Pour le parsage de la première phase d'analyse on envoie " \n" sur stderr.
+                 * il faut donc nettoyer ces signaux.
+                 * Ce nettoyage est de toute façon une bonne mesure sanitaire générale */
+
+                if (! buffer.trimmed().isEmpty())
+                   consoleDialog->insertHtml(buffer.replace("\n", "<br>"));
 
             }
 }

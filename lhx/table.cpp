@@ -233,6 +233,16 @@ void boucle_ecriture(std::vector<info_t>& Info)
        return;
     }
 
+    int NCumLignes = 0, compteur_progression_increment = 0;
+    float progression =  0;
+
+    for (int i = 0; i < Info[0].nbfil; ++i)
+    {
+        for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; ++agent)
+        {
+            NCumLignes += Info[i].nbLigne;
+        }
+    }
 
 
     for (int i = 0; i < Info[0].nbfil; ++i)
@@ -340,9 +350,18 @@ void boucle_ecriture(std::vector<info_t>& Info)
             }
             
             ligne = 0;
+
+            ++compteur_progression_increment;
+
+            progression +=  compteur / NCumLignes * 100;
+
+            if (compteur_progression_increment > std::ceil(PROGRESSION_INCREMENT_RATIO * NCumLignes))
+            {
+                compteur_progression_increment = 0;
+                generate_rank_signal();
+            }
+
         }
-        
-        if (i) Info[0].nbLigne += Info[i].nbLigne;
     }
     
     // Dans les autres cas, les bases ont déjà été refermées sauf une (cas par année et par taille maximale)
@@ -352,8 +371,8 @@ void boucle_ecriture(std::vector<info_t>& Info)
             fichier_base[d].close();
         }
     
-//    if (base.good())
-//    {
+    if (base.good())
+    {
         base.close();
         switch (taille_base)
         {
@@ -411,7 +430,7 @@ void boucle_ecriture(std::vector<info_t>& Info)
         
 message :
         std::cerr << "[MSG] Table de " << compteur << " lignes.\n";
-    //}
+    }
     
     if (bulletins.good())
     {

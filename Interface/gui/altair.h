@@ -60,6 +60,8 @@ public:
 
     FProgressBar* getProgressBar() { return progress; }
 
+    inline int getFileCount() {return fileCount;}
+
 public slots:
 
    bool updateProject(bool=false);
@@ -196,14 +198,20 @@ public:
     QTimer *timer= new QTimer(this);
     QProgressBar *bar=new QProgressBar ;
     int startshift = 3;
-    inline void computeLHXProgressBar();
     inline void computeRProgressBar();
+    inline void computeLHXParsingProgressBar();
+    inline void computeLHXWritingProgressBar(bool = false);
+
+    enum class  State {Parsing, WritingReady, WritingStarted};
+    State internalState;
 
     Altair* parent;
 
   public slots:
     void stop();
 
+   signals:
+    void parsingFinished();
 };
 
 

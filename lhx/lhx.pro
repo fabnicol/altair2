@@ -37,6 +37,8 @@ CONFIG -= app_bundle
 CONFIG -= qt
 VPATH = .
 
+DEFINES += PROGRESSION_INCREMENT_RATIO=2
+
 DEFINES += __GNUC_EXTENSION \
            _REENTRANT \
            _GNU_SOURCE \
