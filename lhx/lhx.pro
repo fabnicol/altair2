@@ -51,6 +51,8 @@ DEFINES += NO_REGEX \#GCC_REGEX \                      # Utiliser les expression
         FULL_PREALLOCATION_TEST \           # calcul des besoins de mémoire : précision maximale (sinon : moindre)
         PREALLOCATE_ON_HEAP \               # préallouer le vecteur sur le tas pour le tableau des allocations de mémoire (sinon : tableau C sur la pile)
         DECIMAL_NON_EN \                    # compilation pour des séparateurs décimaux différents de '.'
+        GENERATE_RANK_SIGNAL \              # chaque fois qu'un fichier est traité, un signal externe est émis (rang dans un fichier rank sous AppData\Local\Altair).
+                             \              # n'est utile que lorsqu'une interface graphique est connectée. peut ralentir l'application de 1 à 5 %.
         FGETC_PARSING                       # parcourir les fichiers par ifstream (C++)
 #MMAP_PARSING                               # parcourir les fichiers par mappage mémoire (C, unix).
 
@@ -59,16 +61,23 @@ DEVROOT = $$PWD/../..
 # Insérer ici le nom du répertoire contenant dans include/ et lib/ les dépendances système
 # Ce compilateur doit être adjacent aux sources sous Windows
 
-QMAKE_CXXFLAGS = -pipe -m64 -std=gnu++11 -march=native   -O3 -fexpensive-optimizations -fomit-frame-pointer
+QMAKE_CXXFLAGS = -pipe -m64 -std=gnu++11 -march=native
 
 # Sous linux penser à installer libxml2-dev. Ceci n'est pas testé.
+
+CONFIG(debug) {
+    QMAKE_CXXFLAGS +=  -O0
+} else {
+    QMAKE_LFLAGS += -s
+    QMAKE_CXXFLAGS += -O3 -fexpensive-optimizations -fomit-frame-pointer
+}
 
 windows {
 
   COMPILER_DIR = mingw64-5.2
   INCLUDEPATH += $$DEVROOT/$$COMPILER_DIR/include
   LIBS = -L$$DEVROOT/$$COMPILER_DIR/lib -lxml2.dll -pthread
-  release: QMAKE_LFLAGS += -s
+
 
 } else {
   INCLUDEPATH += /usr/include/libxml2

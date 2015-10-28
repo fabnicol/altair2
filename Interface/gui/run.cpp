@@ -162,7 +162,7 @@ void Altair::run()
 
     if (process->waitForStarted())
     {
-        outputTextEdit->append(PROCESSING_HTML_TAG + tr("Lancement de LHX...Veuillez patienter\n"));
+        outputTextEdit->append(PROCESSING_HTML_TAG + tr("Analyse des bases de paye...Veuillez patienter\n"));
         if (Hash::wrapper["ecoRAM"]->toFString().isTrue())
             outputTextEdit->append(PROCESSING_HTML_TAG + tr("En mode économe de mémoire, le lancement effectif peut être retardé de plusieurs dizaines de secondes.\n"));
     }

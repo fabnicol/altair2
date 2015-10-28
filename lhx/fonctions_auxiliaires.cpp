@@ -261,9 +261,6 @@ int calculer_memoire_requise(info_t& info)
     for (unsigned i = 0; i < info.threads->argc; ++i)
     {
 
-        generate_rank_signal();
-
-
 #ifdef FGETC_PARSING
 
         std::ifstream c;
