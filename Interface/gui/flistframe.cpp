@@ -313,7 +313,7 @@ void FListFrame::parseXhlFile(const QStringList& stringList)
 #ifdef DEBUG_INPUT_FILES
         altair->outputTextEdit->append(PROCESSING_HTML_TAG " Analyse du fichier n°" + QString::number(rank));
 #endif
-        altair->getProgressBar()->setValue(rank);
+        emit(altair->setProgressBar(rank));
     }
 
 }
@@ -465,11 +465,11 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
      altair->outputTextEdit->append(STATE_HTML_TAG " Parcours des entêtes de fichier " );
     #endif
     int stringListSize = stringList.size();
-    altair->getProgressBar()->setRange(0, stringListSize);
-    altair->getProgressBar()->reset();
-    altair->getProgressBar()->show();
+    emit(altair->setProgressBar(0, stringListSize));
+
     parseXhlFile(stringList);
-    altair->getProgressBar()->hide();
+
+    emit(altair->hideProgressBar());
 
     QStringList tabLabels = getTabLabels();
 
