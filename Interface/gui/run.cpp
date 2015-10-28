@@ -26,8 +26,6 @@ void Altair::run()
     updateProject(true);   // crucial otherwise some dynamic settings in the option dialog
     //may not get through to command line
 
-
-
     if (Altair::totalSize[0] == 0)
     {
         processFinished(exitCode::shouldLaunchRAltairAlone);
@@ -137,8 +135,6 @@ void Altair::run()
     process->setProcessChannelMode(QProcess::MergedChannels);
     process->setWorkingDirectory(common::execPath);
 
-
-
 #ifdef DEBUG
     outputTextEdit->append(PROCESSING_HTML_TAG + tr("Démarrage dans ") + common::execPath);
 
@@ -149,7 +145,6 @@ void Altair::run()
 
     process->start(altairCommandStr,  args0 << args1);
 
-
     rankFile.setFileName(sharedir + "/rank");
     if (! rankFile.exists())
         rankFile.open(QIODevice::WriteOnly);
@@ -157,9 +152,12 @@ void Altair::run()
     if (rankFile.isOpen())
         rankFile.close();
 
+    emit(setProgressBar(0, fileCount));
+
     if (process->waitForStarted())
     {
         outputTextEdit->append(PROCESSING_HTML_TAG + tr("Analyse des bases de paye...Veuillez patienter\n"));
+
         if (Hash::wrapper["ecoRAM"]->toFString().isTrue())
             outputTextEdit->append(PROCESSING_HTML_TAG + tr("En mode économe de mémoire, le lancement effectif peut être retardé de plusieurs dizaines de secondes.\n"));
     }
@@ -184,7 +182,7 @@ void Altair::runRAltair()
     #ifdef DEBUG
       outputTextEdit->append(tr(STATE_HTML_TAG "Ligne de commande : %1").arg(RAltairCommandStr + " " + RAltairDirStr + QDir::separator() + "rapport_msword.R"));
     #endif
-    progress->rewind();
+    emit(setProgressBar(0, 100));
     process->start(RAltairCommandStr + " " + RAltairDirStr + QDir::separator() + "rapport_msword.R");
     if (process->waitForStarted())
     {

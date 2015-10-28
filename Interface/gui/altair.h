@@ -139,6 +139,9 @@ private:
 signals:
 
   void hasIndexChangedSignal();
+  void setProgressBar(int, int);
+  void setProgressBar(int);
+  void hideProgressBar();
 
 };
 
@@ -155,8 +158,33 @@ public:
     FProgressBar(Altair* parent,
                  SlotFunction  killFunction=nullptr);
    
+    //QHBoxLayout* getLayout() {return layout;}
     QHBoxLayout* layout=new QHBoxLayout;
+    void setToolTip(const QString & tip) { bar->setToolTip(tip); }
 
+    int  value() { return bar -> value();}
+    int maximum() { return bar->maximum();}
+
+ private:
+
+
+    QToolButton* killButton=new QToolButton;
+    QTimer *timer= new QTimer(this);
+    QProgressBar *bar=new QProgressBar ;
+    int startshift = 3;
+    inline void computeRProgressBar();
+    inline void computeLHXParsingProgressBar();
+    inline void computeLHXWritingProgressBar(bool = false);
+
+    enum class  State {Parsing, WritingReady, WritingStarted};
+    State internalState;
+
+    Altair* parent;
+
+    void setInterval(int i) { timer->setInterval(i);}
+    void setRange(int x, int y) { bar->setRange(x, y); }
+
+    void setCount(int x) { bar->setRange(0, x); }
     void show()
     {
         start(0);
@@ -179,39 +207,14 @@ public:
         bar->reset();
     }
 
-    void setToolTip(const QString & tip) { bar->setToolTip(tip); }
-    void setInterval(int i) { timer->setInterval(i);}
-    void setRange(int x, int y) { bar->setRange(x, y); }
+  private slots:
+    inline void setValue(int x, int y) { bar->setValue(x); bar->setMaximum(y);}
     void setValue(int x) { bar->setValue(x); }
-    void setCount(int x) { bar->setRange(0, x); }
-    void reset() {bar->reset();}
-    int  value() { return bar -> value();}
-    int maximum() { return bar->maximum();}
-    void rewind()
-    {
-        show();
-        setInterval(40);
-    }
-
- private:
-    QToolButton* killButton=new QToolButton;
-    QTimer *timer= new QTimer(this);
-    QProgressBar *bar=new QProgressBar ;
-    int startshift = 3;
-    inline void computeRProgressBar();
-    inline void computeLHXParsingProgressBar();
-    inline void computeLHXWritingProgressBar(bool = false);
-
-    enum class  State {Parsing, WritingReady, WritingStarted};
-    State internalState;
-
-    Altair* parent;
 
   public slots:
     void stop();
 
-   signals:
-    void parsingFinished();
+
 };
 
 
