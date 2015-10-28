@@ -104,8 +104,6 @@ void Altair::run()
     QStringList args0, args1;
     QString command;
 
-    progress->show();
-
     args0 <<  "-m" << "-d" << "," << "-s" << ";" << "-rank" << sharedir + "/rank";
     args1 << createCommandLineString();
 
@@ -139,14 +137,13 @@ void Altair::run()
     process->setProcessChannelMode(QProcess::MergedChannels);
     process->setWorkingDirectory(common::execPath);
 
-    progress->setCount(fileCount);
+
 
 #ifdef DEBUG
     outputTextEdit->append(PROCESSING_HTML_TAG + tr("Démarrage dans ") + common::execPath);
 
 #endif
     fileRank=0;
-    progress->rewind();
 
     /* Lancement */
 
@@ -214,7 +211,6 @@ void Altair::processFinished(exitCode code)
     {
     case exitCode::exitFailure :
         outputTextEdit->append(ERROR_HTML_TAG + QString((outputType == "L") ? " Décodage des bases " : " Analyse des données ") + tr(": plantage de l'application' ."));
-        progress->stop();
         return;
 
     case exitCode::noAudioFiles :
@@ -248,7 +244,6 @@ void Altair::killProcess()
 {
     process->kill();
     outputTextEdit->append(PROCESSING_HTML_TAG+ QString((outputType == "L") ? " Décodage des bases " : " Analyse des données ") + tr(" en arrêt (SIGKILL)"));
-    progress->stop();
     rankFile.close();
 }
 
