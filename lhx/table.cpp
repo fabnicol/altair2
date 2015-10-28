@@ -91,7 +91,7 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l(int i, uint32_t agent, int l, char*
     ECRIRE_LIGNE_l_COMMUN(i, agent, l, type, base, sep, Info, rang);
 }
 
-static inline void GCC_INLINE ECRIRE_LIGNEBULLETIN_OBLIGATOIRE_NUMERIQUEOPTIONNEL_COMMUN(int i, uint32_t agent, std::ofstream& bulletins, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
+static inline void GCC_INLINE ECRIRE_LIGNE_BULLETIN_COMMUN(int i, uint32_t agent, std::ofstream& bulletins, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
 {
     bulletins << VAR(Nom) << sep
               << VAR(Prenom) << sep
@@ -112,7 +112,7 @@ static inline void GCC_INLINE ECRIRE_LIGNEBULLETIN_OBLIGATOIRE_NUMERIQUEOPTIONNE
               << VAR(NIR) << "\n";
 }
 
-static inline void GCC_INLINE  ECRIRE_LIGNEBULLETIN_OBLIGATOIRE_NUMERIQUEOPTIONNEL_GENERER_RANG(int i, uint32_t agent, std::ofstream& bulletins, char sep, std::vector<info_t> &Info, int rang)
+static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETIN_GENERER_RANG(int i, uint32_t agent, std::ofstream& bulletins, char sep, std::vector<info_t> &Info, int rang)
 {
     bulletins <<  rang << sep;
     
@@ -126,10 +126,10 @@ static inline void GCC_INLINE  ECRIRE_LIGNEBULLETIN_OBLIGATOIRE_NUMERIQUEOPTIONN
                    << VAR(Siret) << sep;
     }
     
-    ECRIRE_LIGNEBULLETIN_OBLIGATOIRE_NUMERIQUEOPTIONNEL_COMMUN(i, agent, bulletins, sep, Info, rang);
+    ECRIRE_LIGNE_BULLETIN_COMMUN(i, agent, bulletins, sep, Info, rang);
 }
 
-static inline void GCC_INLINE  ECRIRE_LIGNEBULLETIN_OBLIGATOIRE_NUMERIQUEOPTIONNEL_SIRET(int i, uint32_t agent, std::ofstream& bulletins, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
+static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETIN_SIRET(int i, uint32_t agent, std::ofstream& bulletins, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
 {
     
     bulletins << VAR(Annee) << sep
@@ -139,7 +139,7 @@ static inline void GCC_INLINE  ECRIRE_LIGNEBULLETIN_OBLIGATOIRE_NUMERIQUEOPTIONN
                << VAR(Etablissement) << sep
                << VAR(Siret) << sep;
 
-    ECRIRE_LIGNEBULLETIN_OBLIGATOIRE_NUMERIQUEOPTIONNEL_COMMUN(i, agent, bulletins, sep, Info, rang);
+    ECRIRE_LIGNE_BULLETIN_COMMUN(i, agent, bulletins, sep, Info, rang);
 }
 
 static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETINS(int i, uint32_t agent, std::ofstream& bulletins, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
@@ -148,9 +148,11 @@ static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETINS(int i, uint32_t agent, std
     bulletins << VAR(Annee) << sep
               << VAR(Mois) << sep;
     
-    ECRIRE_LIGNEBULLETIN_OBLIGATOIRE_NUMERIQUEOPTIONNEL_COMMUN(i, agent, bulletins, sep, Info, rang);
+    ECRIRE_LIGNE_BULLETIN_COMMUN(i, agent, bulletins, sep, Info, rang);
 }
 
+static void (*ecrire_ligne_table)(int, uint32_t, int, char*, std::ofstream&, char, std::vector<info_t> &, int);
+static void (*ecrire_ligne_bulletin)(int i, uint32_t, std::ofstream& , char, std::vector<info_t>& , int );
 
 void boucle_ecriture(std::vector<info_t>& Info)
 {
@@ -168,38 +170,55 @@ void boucle_ecriture(std::vector<info_t>& Info)
 
     int32_t taille_base = Info[0].taille_base;
 
+    if (Info[0].generer_rang)
+    {
+        ecrire_ligne_table = ECRIRE_LIGNE_l_GENERER_RANG;
+        ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETIN_GENERER_RANG;
+    }
+    else
+    if (Info[0].select_siret)
+    {
+        ecrire_ligne_table = ECRIRE_LIGNE_l_SIRET;
+        ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETIN_SIRET;
+    }
+    else
+    {
+        ecrire_ligne_table = ECRIRE_LIGNE_l;
+        ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETINS;
+    }
+
     switch (taille_base)
     {
     
-    case MONOLITHIQUE :
-        ouvrir_fichier_base(Info[0], 0, base);
-        break;
-        
-    case PAR_ANNEE :
-        ouvrir_fichier_base(Info[0], atoi(annee_courante) + nbType + 1, base);
-        break;
-        
-    case PAR_TRAITEMENT          :
-    case PAR_INDEMNITE_RESIDENCE :
-    case PAR_SFT                 :
-    case PAR_AVANTAGE_NATURE     :
-    case PAR_INDEMNITE           :
-    case PAR_REM_DIVERSES        :
-    case PAR_DEDUCTION           :
-    case PAR_ACOMPTE             :
-    case PAR_RAPPEL              :
-    case PAR_RETENUE             :
-    case PAR_COTISATION          :
-        ouvrir_fichier_base(Info[0], - taille_base - 2, base);
-        break;
-        
-    case TOUTES_CATEGORIES  :
-          for (int d = 0; d < nbType; ++d)
-            ouvrir_fichier_base(Info[0], d + 1, fichier_base[d]);
-        break;
-        
-    default : ouvrir_fichier_base(Info[0], rang_fichier_base + nbType + 1, base);
-        // cas où une vraie taille de base en lignes est entrée.
+        case MONOLITHIQUE :
+            ouvrir_fichier_base(Info[0], 0, base);
+            break;
+
+        case PAR_ANNEE :
+            ouvrir_fichier_base(Info[0], atoi(annee_courante) + nbType + 1, base);
+            break;
+
+        case PAR_TRAITEMENT          :
+        case PAR_INDEMNITE_RESIDENCE :
+        case PAR_SFT                 :
+        case PAR_AVANTAGE_NATURE     :
+        case PAR_INDEMNITE           :
+        case PAR_REM_DIVERSES        :
+        case PAR_DEDUCTION           :
+        case PAR_ACOMPTE             :
+        case PAR_RAPPEL              :
+        case PAR_RETENUE             :
+        case PAR_COTISATION          :
+            ouvrir_fichier_base(Info[0], - taille_base - 2, base);
+            break;
+
+        case TOUTES_CATEGORIES  :
+              for (int d = 0; d < nbType; ++d)
+                ouvrir_fichier_base(Info[0], d + 1, fichier_base[d]);
+            break;
+
+        default : ouvrir_fichier_base(Info[0], rang_fichier_base + nbType + 1, base);
+            // cas où une vraie taille de base en lignes est entrée.
         
     }
     
@@ -214,25 +233,6 @@ void boucle_ecriture(std::vector<info_t>& Info)
        return;
     }
 
-    static void (*ecrire_ligne_table)(int, uint32_t, int, char*, std::ofstream&, char, std::vector<info_t> &, int);
-    static void (*ecrire_ligne_bulletin)(int i, uint32_t agent, std::ofstream& bulletins, char sep, std::vector<info_t> &Info, int rang);
-    
-    if (Info[0].generer_rang)
-    {
-        ecrire_ligne_table = ECRIRE_LIGNE_l_GENERER_RANG;
-        ecrire_ligne_bulletin = ECRIRE_LIGNEBULLETIN_OBLIGATOIRE_NUMERIQUEOPTIONNEL_GENERER_RANG;
-    }
-    else
-        if (Info[0].select_siret)
-        {
-            ecrire_ligne_table = ECRIRE_LIGNE_l_SIRET;
-            ecrire_ligne_bulletin = ECRIRE_LIGNEBULLETIN_OBLIGATOIRE_NUMERIQUEOPTIONNEL_SIRET;
-        }
-        else
-        {
-            ecrire_ligne_table = ECRIRE_LIGNE_l;
-            ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETINS;
-        }
 
 
     for (int i = 0; i < Info[0].nbfil; ++i)
@@ -309,7 +309,7 @@ void boucle_ecriture(std::vector<info_t>& Info)
                     ++l;
                 }
                 
-                if (taille_base > PAR_TRAITEMENT)
+                if (taille_base == PAR_ANNEE || taille_base == MONOLITHIQUE)
                 {
                     ++compteur;
                     ecrire_ligne_table(i, agent, l, type, base, sep, Info, compteur);

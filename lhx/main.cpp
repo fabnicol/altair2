@@ -20,7 +20,7 @@
 
 typedef std::chrono::high_resolution_clock Clock;
 std::ofstream rankFile;
-char* rankFilePath;
+std::string rankFilePath = "";
 std::mutex mut;
 
 static inline const uint32_t* calculer_maxima(const std::vector<info_t> &Info)
@@ -128,7 +128,7 @@ int main(int argc, char **argv)
                       <<  "-N argument obligatoire : nombre maximum de lignes de paye attendues [calcul exact par défaut]" << "\n"
                       <<  "-t argument optionnel   : type de base en sortie, soit 'standard', soit 'bulletins' [défaut bulletins]." << "\n"
                       <<  "-T argument obligatoire : nombre de lignes maximum par base .csv [défaut illimité]. Au plus 999 tables seront générées." << "\n"
-                      <<  "-T AN                    : générer une table par année" << "\n"
+                      <<  "-T AN                   : générer une table par année" << "\n"
                       <<  "-T A/AC/AV/C/D/I/IR/RE/S/T : générer une table pour chaque catégorie de ligne : \
                               A rémunérations diverse \n \
                               AC acompte \n \
@@ -151,7 +151,16 @@ int main(int argc, char **argv)
                       <<  "-m sans argument        : calculer les maxima d'agents et de lignes de paye." << "\n"
                       <<  "-L argument obligatoire : chemin du log d'exécution du test de cohérence entre analyseurs C et XML." << "\n"
                       <<  "-R argument obligatoire : expression régulière pour la recherche des élus (codés : ELU dans le champ Statut." << "\n"
-                      <<  "-S sans argument        : supprimer la sortie Budget, Etablissement, Siret (allège les bases)." << "\n";
+                      <<  "-S sans argument        : supprimer la sortie Budget, Etablissement, Siret (allège les bases)." << "\n"
+                      <<  "-rank argument optionnel : générer le fichier du rang de la base de paye en cours dans le fichier en option\n"
+                     #if defined _WIN32 | defined _WIN64
+                      <<  "                           ou à défaut dans %USERPROFILE%\\AppData\\Altair\\rank.\n";
+                     #else
+                        #if defined __linux__
+                          <<  "                           ou à défaut dans ~/.local/share/Altair/rank.\n";
+                        #endif
+                     #endif
+
             exit(0);
         }
         else if (! strcmp(argv[start], "-t"))
@@ -371,24 +380,31 @@ int main(int argc, char **argv)
         }
         else if (! strcmp(argv[start], "-rank"))
         {
+            int hasArg = 0;
             if (argc > start +2)
             {
+                if (argv[start + 1][0] == '-')
+                    rankFilePath = std::string(std::getenv("USERPROFILE")) + "/AppData/rank";
+                else
+                {
+                    rankFilePath = argv[start + 1];
+                    hasArg = 1;
+                }
+
                 std::ifstream testFile;
-                testFile.open(argv[start + 1]);
+                testFile.open(rankFilePath);
                 if (testFile.is_open())
                 {
                     testFile.close();
-                    remove(argv[start + 1]);
+                    remove(rankFilePath.c_str());
                 }
 
-                rankFilePath = argv[start + 1];
                 rankFile.open(rankFilePath, std::ios::out| std::ios::trunc);
                 rankFile << 1 << "\n";
                 rankFile.close();
-
             }
 
-            start += 2;
+            start += 1 + hasArg;
             continue;
         }
 
@@ -504,16 +520,17 @@ int main(int argc, char **argv)
 
     if (maxima == nullptr) maxima = calculer_maxima(Info);
 
-#if 0
-    std::ofstream LOG;
-    LOG.open(Info[0].chemin_log, std::ios::app);
-    if (LOG.good() && maxima)
+    if (! Info[0].chemin_log.empty())
     {
-        LOG << "\n[MSG] Maximum de lignes : " << maxima[1] << "\n";
-        LOG << "\n[MSG] Maximum d'agent   : " << maxima[0] << "\n";
-        LOG.close();
+        std::ofstream LOG;
+        LOG.open(Info[0].chemin_log, std::ios::app);
+        if (LOG.good() && maxima)
+        {
+            LOG << "\n[MSG] Maximum de lignes : " << maxima[1] << "\n";
+            LOG << "\n[MSG] Maximum d'agent   : " << maxima[0] << "\n";
+            LOG.close();
+        }
     }
-#endif
 
     xmlCleanupParser();
 

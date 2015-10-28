@@ -192,7 +192,11 @@ static int parseFile(info_t& info)
             info.Table[info.NCumAgentXml][Etablissement]  = xmlStrdup(etab_fichier);
             info.Table[info.NCumAgentXml][Siret]  = xmlStrdup(siret_fichier);
 
+            /* LECTURE DES LIGNES DE PAYE STRICTO SENSU */
+
             int32_t ligne_p = parseLignesPaye(cur, info, log);
+
+            /*  */
 
             info.drapeau_cont = true;
 
@@ -411,20 +415,19 @@ void* decoder_fichier(info_t& info)
         }
     }
 
+    //generate_rank_signal(RESET);
 
     for (unsigned i = 0; i < info.threads->argc ; ++i)
     {
         if (i == 0)
         {
-            /* première allocation ou réallocation à la suite d'un ioncident */
+            /* première allocation ou réallocation à la suite d'un incident */
 
             allouer_memoire_table(info);
-            generate_rank_signal(RESET);
+
         }
-        else
-        {
-            generate_rank_signal();
-        }
+
+        generate_rank_signal();
 
         info.fichier_courant = i;
         switch(parseFile(info))

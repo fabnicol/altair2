@@ -113,7 +113,7 @@ standardPage::standardPage()
     QGridLayout *v2Layout = new QGridLayout;
 
     logFrame = new FLineFrame({"Log","Chemin du fichier du log"},
-                              "",
+                              QDir::toNativeSeparators(common::generateDatadirPath() + "/altair.log"),
                               "log",
                               {7,1},
                               v2Layout,
