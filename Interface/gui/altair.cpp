@@ -663,56 +663,42 @@ void FProgressBar::stop()
 }
 
 
-inline void FProgressBar::computeLHXProgressBar()
+void FProgressBar::computeLHXParsingProgressBar()
 {
- QString dir = Hash::wrapper["base"]->toQString();
- qint64 dirSize = parent->getDirectorySize(dir, "*.csv");
- if (parent->process->state() != QProcess::Running) return;
- int maxi = maximum();
- static bool old;
- static float minorIncrement;
+    if (parent->process->state() != QProcess::Running) return;
 
- if (dirSize < 1)
- {
-  int level = std::min(maxi, std::max(this->parent->fileRank, value()));
-  level = std::max(startshift, level);
-  minorIncrement += 0.1;
-  setValue(std::max(level, qCeil((float) startshift + minorIncrement)));
-  parent->outputTextEdit->append((QString)PROCESSING_HTML_TAG + " " +QString::number(level));
-  if (value() == maxi) setValue(startshift);
-  old = false;
+    int level = std::min(maximum(), std::max(this->parent->fileRank, value()));
 
- }
- else
- {
-      qreal share=0;
-      minorIncrement = 0;
-      if (! old)
-      {
-        setRange(0, parent->size());
-        parent->outputTextEdit->append((QString)PROCESSING_HTML_TAG + "Enregistrement des bases de données...");
-      }
+    setValue(level);
 
-      if (parent->size() > 1)
-      {
-          share = static_cast<qreal>(dirSize) * OVERVALUE_DIRSIZE_SHARE_COEFFICIENT / static_cast<qreal>(parent->size());
-          if (share > 1) share = 1;
-
-#ifdef REPORT_DATABASE_PROGRESS
-          parent->outputTextEdit->append((QString)PROCESSING_HTML_TAG + QString::number(static_cast<int>(share*100)) + " % des bases de données.");
+#ifndef NO_DEBUG
+    parent->outputTextEdit->append((QString)PROCESSING_HTML_TAG + " " +QString::number(level));
 #endif
 
-      }
-      else share = 0;
-
-      setValue(std::max(startshift, static_cast<int>(share * maxi)));
-
-      if (value() == maxi) reset();
-      old = true;
-  }
+    if (level > qCeil(0.97 * maximum()))
+    {
+        reset();
+        emit(parsingFinished());
+    }
 }
 
-inline void FProgressBar::computeRProgressBar()
+void FProgressBar::computeLHXWritingProgressBar(bool print_message)
+{
+    if (print_message)
+    {
+      parent->outputTextEdit->append((QString)PROCESSING_HTML_TAG + "Enregistrement des bases de données...");
+    }
+
+    internalState = State::WritingStarted;
+
+#ifdef REPORT_DATABASE_PROGRESS
+        parent->outputTextEdit->append((QString)PROCESSING_HTML_TAG + QString::number() + " % des bases de données.");
+#endif
+
+}
+
+
+void FProgressBar::computeRProgressBar()
 {
 
       setRange(0, 100);
@@ -742,15 +728,40 @@ FProgressBar::FProgressBar(Altair* parent,
 
     this->parent=parent;
 
+    internalState = State::Parsing;
+
     connect(timer,
             &QTimer::timeout,
-            [parent,this] {
-                 if (parent->outputType[0] == 'L')
-                  computeLHXProgressBar();
+            [&] {
+
+                 if (this->parent->outputType[0] == 'L')
+                 {
+                  switch (internalState)
+                  {
+                       case State::Parsing:
+                          computeLHXParsingProgressBar();
+                          break;
+
+                       case State::WritingReady:
+                          computeLHXWritingProgressBar(true);
+                          break;
+
+                       case State::WritingStarted:
+                          computeLHXWritingProgressBar(false);
+                          break;
+                  }
+                 }
                  else
-                  computeRProgressBar();
-    });
+                  computeRProgressBar();});
     
+    connect(parent->process, &QProcess::started,  [&] {
+                                                         setCount( (1 + (v(ecoRAM).isTrue())) * parent->getFileCount());
+                                                         show();
+                                                      });
+
     connect(killButton, &QToolButton::clicked, parent, killFunction);
     connect(parent->process, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(stop()));
+    connect(this, &FProgressBar::parsingFinished, [&] {
+        internalState = State::WritingReady;
+    });
 }
