@@ -44,7 +44,7 @@ static inline xmlNodePtr GCC_INLINE atteindreNoeudArret(const char* noeud, xmlNo
     return cur;
 }
 
-
+void afficher_environnement_xhl(const info_t& info);
 
 #endif // LIGNE_PAYE
 

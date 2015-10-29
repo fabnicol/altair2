@@ -106,7 +106,7 @@ void Altair::run()
     args1 << createCommandLineString();
 
 
-    outputTextEdit->append(PROCESSING_HTML_TAG + tr("Taille totale des fichiers ")+QString::number(Altair::totalSize[0]/(1024*1024)) +tr(" Mo"));
+    outputTextEdit->append(PROCESSING_HTML_TAG + tr("Importation des bases de paye (")+QString::number(Altair::totalSize[0]/(1024*1024)) +tr(" Mo)..."));
 
     command = QString("-m -d \",\" -s \";\" -rank ") + sharedir + "/rank" ;
     QStringListIterator i(args1);
@@ -128,7 +128,7 @@ void Altair::run()
         outputTextEdit->append((QString)PROCESSING_HTML_TAG + "Lancement [allocation de la mémoire de travail]...");
     }
     else
-           outputTextEdit->append((QString)PROCESSING_HTML_TAG + "Lancement de l'anayse des bases de paye...");
+           outputTextEdit->append((QString)PROCESSING_HTML_TAG + "Lancement de l'analyse des bases de paye...");
 
     outputType="L";
 
