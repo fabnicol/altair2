@@ -105,7 +105,7 @@ void Altair::run()
     args0 <<  "-m" << "-d" << "," << "-s" << ";" << "-rank" << sharedir + "/rank";
     args1 << createCommandLineString();
 
-    outputTextEdit->append(STATE_HTML_TAG + tr("Décodage des fichiers .xhl..."));
+
     outputTextEdit->append(PROCESSING_HTML_TAG + tr("Taille totale des fichiers ")+QString::number(Altair::totalSize[0]/(1024*1024)) +tr(" Mo"));
 
     command = QString("-m -d \",\" -s \";\" -rank ") + sharedir + "/rank" ;
@@ -120,7 +120,7 @@ void Altair::run()
     }
 
 #ifdef COMMANDLINE_CONSOLE_OUTPUT
-    parent->consoleDialog->append(STATE_HTML_TAG + tr("Ligne de commande : ")+ altairCommandStr+ " " + command);
+    parent->consoleDialog->append(PROCESSING_HTML_TAG + tr("Ligne de commande : ")+ altairCommandStr+ " " + command);
 #endif
 
     if (v(ecoRam).isTrue())
@@ -152,7 +152,7 @@ void Altair::run()
     if (rankFile.isOpen())
         rankFile.close();
 
-    emit(setProgressBar(0, fileCount));
+    emit(setProgressBar(0, (1 + v(ecoRAM).isTrue())* fileCount));
 
     if (process->waitForStarted())
     {
@@ -232,7 +232,7 @@ void Altair::processFinished(exitCode code)
 
         fsSize=getDirectorySize(v(base), "*.*");
 
-        outputTextEdit->append(tr(PROCESSING_HTML_TAG "Taille de la base : ")+ QString::number(fsSize) + " Octets ("+ QString::number(((float)fsSize)/(1024.0*1024.0), 'f', 2)+ " Mo)");
+        outputTextEdit->append(tr(STATE_HTML_TAG "Taille de la base : ")+ QString::number(fsSize) + " Octets ("+ QString::number(((float)fsSize)/(1024.0*1024.0), 'f', 2)+ " Mo)");
 
     }
 }

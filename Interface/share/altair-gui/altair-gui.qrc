@@ -40,5 +40,7 @@
         <file>images/export.png</file>
         <file>images/archive.png</file>
         <file>images/restore.png</file>
+        <file>images/information.png</file>
+        <file>images/parameter.png</file>
     </qresource>
 </RCC>

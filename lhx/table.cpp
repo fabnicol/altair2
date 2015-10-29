@@ -233,18 +233,19 @@ void boucle_ecriture(std::vector<info_t>& Info)
        return;
     }
 
-    int NCumLignes = 0;
-    int progression = 0;
-    int step = 0;
+    #ifdef GENERATE_RANK_SIGNAL
+        uint64_t NCumLignes = 0;
+        int progression = 0;
+        unsigned int step = 0;
 
-    for (int i = 0; i < Info[0].nbfil; ++i)
-    {
-        for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; ++agent)
+        for (int i = 0; i < Info[0].nbfil; ++i)
         {
-            NCumLignes += Info[i].nbLigne;
+                NCumLignes += Info[i].nbLigne;
         }
-    }
 
+
+           generate_rank_signal(0);
+    #endif
 
     for (int i = 0; i < Info[0].nbfil; ++i)
     {
@@ -351,14 +352,20 @@ void boucle_ecriture(std::vector<info_t>& Info)
             }
             
             ligne = 0;
-            ++step;
-            progression = std::ceil((float) compteur  / (float) NCumLignes * 100);
 
-            if (step * 100 > 5 * NCumLignes)
+#ifdef GENERATE_RANK_SIGNAL
+            progression = std::ceil((float) (compteur * 100) / (float) NCumLignes );
+
+            ++step;
+
+            if (step > Info[i].NCumAgentXml / 5)
             {
+
                 generate_rank_signal(progression);
+                std::cerr << " \n";
                 step = 0;
             }
+#endif
        }
     }
     

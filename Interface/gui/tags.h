@@ -2,7 +2,7 @@
 #define TAGS_H
 
 
-#define PARAMETER_HTML_TAG "<img src=\":/images/configure.png\"  height=\"16\" width=\"16\"/> "
+#define PARAMETER_HTML_TAG "<img src=\":/images/parameter.png\" /> "
 #define STATE_HTML_TAG "<img src=\":/images/msg.png\"/> "
 #define ERROR_HTML_TAG "<img src=\":/images/error.png\"/> "
 #define WARNING_HTML_TAG "<img src=\":/images/warning.png\"/> "

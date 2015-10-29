@@ -158,8 +158,7 @@ public:
     FProgressBar(Altair* parent,
                  SlotFunction  killFunction=nullptr);
    
-    //QHBoxLayout* getLayout() {return layout;}
-    QHBoxLayout* layout=new QHBoxLayout;
+    QHBoxLayout* getLayout() {return layout;}
     void setToolTip(const QString & tip) { bar->setToolTip(tip); }
 
     int  value() { return bar -> value();}
@@ -167,7 +166,7 @@ public:
 
  private:
 
-
+    QHBoxLayout* layout=new QHBoxLayout;
     QToolButton* killButton=new QToolButton;
     QTimer *timer= new QTimer(this);
     QProgressBar *bar=new QProgressBar ;
