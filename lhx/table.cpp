@@ -253,7 +253,7 @@ void boucle_ecriture(std::vector<info_t>& Info)
         for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; ++agent)
         {
 
-            unsigned l = Info[i].minimum_memoire_p_ligne;
+            unsigned l = BESOIN_MEMOIRE_ENTETE;
             uint16_t NLigneAgent = Info[i].NLigne[agent];
 
             ++compteur_lignes_bulletins;

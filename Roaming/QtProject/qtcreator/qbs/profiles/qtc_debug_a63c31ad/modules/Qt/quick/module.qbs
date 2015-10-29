@@ -18,15 +18,15 @@ QtModule {
     frameworkPathsRelease: []
     libNameForLinkerDebug: "Qt5Quickd"
     libNameForLinkerRelease: "Qt5Quick"
-    libFilePathDebug: "C:/Users/Public/Dev/qt-5.5.0-x64-mingw510r0-seh-rev0/qt-5.5.0-x64-mingw510r0-seh-rev0/lib/libQt5Quickd.a"
-    libFilePathRelease: "C:/Users/Public/Dev/qt-5.5.0-x64-mingw510r0-seh-rev0/qt-5.5.0-x64-mingw510r0-seh-rev0/lib/libQt5Quick.a"
+    libFilePathDebug: "C:/Users/Public/Dev/qt-5.5.0-x64-mingw510r0-seh-rev0/lib/libQt5Quickd.a"
+    libFilePathRelease: "C:/Users/Public/Dev/qt-5.5.0-x64-mingw510r0-seh-rev0/lib/libQt5Quick.a"
     cpp.defines: {
         var result = ["QT_QUICK_LIB"];
         if (qmlDebugging)
             result.push("QT_QML_DEBUG");
         return result;
     }
-    cpp.includePaths: ["C:/Users/Public/Dev/qt-5.5.0-x64-mingw510r0-seh-rev0/qt-5.5.0-x64-mingw510r0-seh-rev0/include", "C:/Users/Public/Dev/qt-5.5.0-x64-mingw510r0-seh-rev0/qt-5.5.0-x64-mingw510r0-seh-rev0/include/QtQuick"]
+    cpp.includePaths: ["C:/Users/Public/Dev/qt-5.5.0-x64-mingw510r0-seh-rev0/include", "C:/Users/Public/Dev/qt-5.5.0-x64-mingw510r0-seh-rev0/include/QtQuick"]
     cpp.libraryPaths: []
     property bool qmlDebugging: false
     property string qmlPath

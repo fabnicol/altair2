@@ -65,13 +65,16 @@ static  void afficher_environnement_xhl(const info_t& info)
     {
         std::cerr << "\nFichier   " <<  info.threads->argv[info.fichier_courant] << "\n"
                   << "Matricule   "    << info.Table[info.NCumAgentXml][Matricule] << "\n";
-        for (int l=0; l < BESOIN_MEMOIRE_ENTETE; ++l)
-          std::cerr << "info.Table[" << info.NCumAgentXml << "][" << l << "]=" << info.Table[info.NCumAgentXml][l] << "\n";
+        for (int l = 0; l < 5; ++l)
+        {
+         if (nullptr != info.Table[info.NCumAgentXml][l])
+            std::cerr << "** info.Table[" << info.NCumAgentXml << "][" << l << "]=" << info.Table[info.NCumAgentXml][l] << "\n";
+        }
+
         mut.unlock();
     }
     else
         afficher_environnement_xhl(info);
-
 }
 
 /* Remplace les occurrences d'un caractère séparateur à l'intérieur d'un champ par le caractère '_' qui ne doit donc jamais
@@ -294,7 +297,7 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique(const char* tag, xm
 
 static inline int lignePaye(xmlNodePtr cur, info_t& info)
 {
-    int l = info.minimum_memoire_p_ligne;
+    int l = BESOIN_MEMOIRE_ENTETE;
 
     int nbLignePaye = 0;
     unsigned int t = 0;
@@ -507,8 +510,8 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, std::ofstream& log)
 
     if ((result = (BULLETIN_OBLIGATOIRE(Nom)
         && BULLETIN_OBLIGATOIRE(Prenom)
-        && BULLETIN_OBLIGATOIRE(Matricule)
-        && BULLETIN_OBLIGATOIRE(NIR)))) {} // no-op
+        && BULLETIN_OBLIGATOIRE(Matricule)))) {}
+        result = BULLETIN_OBLIGATOIRE(NIR);
 
     #ifdef TOLERANT_TAG_HIERARCHY       // on refait le parcours depuis le haut en cas d'ordre inexact des balises
         cur = cur_save;
@@ -533,11 +536,21 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, std::ofstream& log)
 
     info.drapeau_cont = false;
 
-    if (result && BULLETIN_OBLIGATOIRE_(Indice, 1)) {}
+    if ((result = (result && BULLETIN_OBLIGATOIRE_(Indice, 1)))) {}
+
+    if (!result)
+    {
+        std::cerr << "Erreur : Problème de conformité des données [512]\n";
+#ifdef STRICT
+        exit(-512);
+#endif
+    }
 
     /* on remonte d'un niveau */
 
     cur = cur_parent;
+    if (!result) std::cerr << "Erreur : Remontée d'un niveau\n";
+
     #ifdef TOLERANT_TAG_HIERARCHY
       cur_save = cur;
     #endif
@@ -594,7 +607,10 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, std::ofstream& log)
         if (ligne == 0)
         {
             for (int k = 0; k <= INDEX_MAX_CONNNES; ++k)
-                info.Table[info.NCumAgentXml][info.minimum_memoire_p_ligne + k] = (xmlChar*) xmlStrdup(NA_STRING);
+              {
+                info.Table[info.NCumAgentXml][BESOIN_MEMOIRE_ENTETE + k] = (xmlChar*) xmlStrdup(NA_STRING);
+              }
+                info.Memoire_p_ligne[info.NCumAgentXml] = BESOIN_MEMOIRE_ENTETE + INDEX_MAX_CONNNES + 1;
         }
 
         cur = cur_save->next;
@@ -617,16 +633,24 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, std::ofstream& log)
     /* obligatoire , substitution du sparateur décimal */
 
 
-    BULLETIN_OPTIONNEL_NUMERIQUE(NbHeureTotal);
+    result = BULLETIN_OPTIONNEL_NUMERIQUE(NbHeureTotal);
     //cur = atteindreNoeud("NbHeureSup", cur);
 
     /* obligatoire, substitution du sparateur décimal */
-    BULLETIN_OPTIONNEL_NUMERIQUE_(NbHeureSup, 1);
-    BULLETIN_OBLIGATOIRE_NUMERIQUE(MtBrut);
-    BULLETIN_OBLIGATOIRE_NUMERIQUE(MtNet);
+    result = result && BULLETIN_OPTIONNEL_NUMERIQUE_(NbHeureSup, 1);
+    result = result && BULLETIN_OBLIGATOIRE_NUMERIQUE(MtBrut);
+    result = result && BULLETIN_OBLIGATOIRE_NUMERIQUE(MtNet);
 
     info.drapeau_cont=false; // fin du niveau PayeIndivMensuel
-    BULLETIN_OBLIGATOIRE_NUMERIQUE(MtNetAPayer);
+    result = result && BULLETIN_OBLIGATOIRE_NUMERIQUE(MtNetAPayer);
+
+    if (!result)
+    {
+        std::cerr << "Erreur : Problème de conformité des données [513]\n";
+#ifdef STRICT
+        exit(-513);
+#endif
+    }
 
     // Rémuneration tag vide
     if (ligne == 0) ligne = 1 ;
