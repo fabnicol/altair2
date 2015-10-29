@@ -152,7 +152,9 @@ int main(int argc, char **argv)
                       <<  "-L argument obligatoire : chemin du log d'exécution du test de cohérence entre analyseurs C et XML." << "\n"
                       <<  "-R argument obligatoire : expression régulière pour la recherche des élus (codés : ELU dans le champ Statut." << "\n"
                       <<  "-S sans argument        : supprimer la sortie Budget, Etablissement, Siret (allège les bases)." << "\n"
+              #ifdef GENERATE_RANK_SIGNAL
                       <<  "-rank argument optionnel : générer le fichier du rang de la base de paye en cours dans le fichier en option\n"
+              #endif
                      #if defined _WIN32 | defined _WIN64
                       <<  "                           ou à défaut dans %USERPROFILE%\\AppData\\Altair\\rank.\n";
                      #else
@@ -378,6 +380,7 @@ int main(int argc, char **argv)
             start += 2;
             continue;
         }
+#ifdef GENERATE_RANK_SIGNAL
         else if (! strcmp(argv[start], "-rank"))
         {
             int hasArg = 0;
@@ -407,7 +410,7 @@ int main(int argc, char **argv)
             start += 1 + hasArg;
             continue;
         }
-
+#endif
         else if (! strcmp(argv[start], "-S"))
         {
             if (argc > start +2)

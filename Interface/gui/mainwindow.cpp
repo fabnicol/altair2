@@ -861,7 +861,6 @@ void MainWindow::feedLHXConsoleWithHtml()
     QRegExp reg("^(.MSG.|.INF.|Erreur :)\\s([^\n]+)");
     int baInt = 0;
 
-
         while (altair->process->canReadLine())
          {
             if (altair->rankFile.open(QFile::ReadOnly))
@@ -870,7 +869,6 @@ void MainWindow::feedLHXConsoleWithHtml()
                     altair->rankFile.close();
             }
             altair->fileRank = (baInt >= 1)? baInt : 1;
-            //consoleDialog->append(QString::number(baInt) + "\n");
 
                QString buffer = QString::fromLatin1(altair->process->readLine());
 
@@ -907,25 +905,20 @@ Il est également possible d'activer un rapport détaillé (Configurer > Options
 
 void MainWindow::feedRConsoleWithHtml()
 {
-    static int skip;
 
     while (altair->process->canReadLine())
     {
         QString buffer=QString::fromLocal8Bit(altair->process->readLine());
         consoleDialog->insertHtml(buffer.replace("\n", "<br>"));
-       // ++skip;
-        //if (skip == 10)
-        {
-            const QByteArray ba = altair->rankFile.readLine(4);
-            Q(QString(ba))
-            if (! ba.isEmpty())
-            {
-                altair->fileRank = ba.toInt();
-                if (altair->fileRank <= 0) altair->fileRank = 1;
-            }
 
-            skip = 0;
+        const QByteArray ba = altair->rankFile.readLine(4);
+
+        if (! ba.isEmpty())
+        {
+            altair->fileRank = ba.toInt();
+            if (altair->fileRank <= 0) altair->fileRank = 1;
         }
+
     }
 
    consoleDialog->moveCursor(QTextCursor::End);

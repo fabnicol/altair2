@@ -110,7 +110,8 @@ RESOURCES += \
    
 
 DISTFILES += \
-    ../../A_FAIRE.txt
+    ../../A_FAIRE.txt \
+    ../share/altair-gui/images/information.png
 
 
 

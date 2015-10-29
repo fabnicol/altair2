@@ -134,7 +134,7 @@ Altair::Altair()
 #endif
 
     mainLayout->addLayout(projectLayout);
-    progressLayout->addLayout(progress->layout);
+    progressLayout->addLayout(progress->getLayout());
     mainLayout->addLayout(progressLayout);
 
     QStringList labels;
@@ -672,15 +672,9 @@ void FProgressBar::computeLHXParsingProgressBar()
 
     setValue(level);
 
-#ifndef NO_DEBUG
-    parent->outputTextEdit->append((QString)PROCESSING_HTML_TAG + " " +QString::number(level));
-#endif
-
-    if (level > qCeil(0.97 * maximum()))
+    if(level > 0.95 * maximum() && QDir(v("base")).entryInfoList(QDir::NoDotAndDotDot|QDir::AllEntries).count() > 0)
     {
-        bar->reset();
-        bar->setRange(0, 100);
-        internalState = State::WritingReady;
+           internalState = State::WritingReady;
     }
 }
 
@@ -689,9 +683,16 @@ void FProgressBar::computeLHXWritingProgressBar(bool print_message)
     if (print_message)
     {
       parent->outputTextEdit->append((QString)PROCESSING_HTML_TAG + "Enregistrement des bases de données...");
+      bar->setValue(0);
+      bar->setRange(0, 100);
     }
 
     internalState = State::WritingStarted;
+
+    if (parent->fileRank >= 100) parent->fileRank = 0;
+
+    setValue(std::max(parent->fileRank, value()));
+
 
 #ifdef REPORT_DATABASE_PROGRESS
         parent->outputTextEdit->append((QString)PROCESSING_HTML_TAG + QString::number() + " % des bases de données.");
@@ -757,13 +758,8 @@ FProgressBar::FProgressBar(Altair* parent,
                   computeRProgressBar();});
 
     connect(this->parent->process, SIGNAL(started()), this, SLOT(showProgressBar()));
-
     connect(killButton, &QToolButton::clicked, parent, killFunction);
     connect(this->parent->process, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(stop()));
-   // connect(parent->process, &QProcess::started,  [&] {
-     //                                                        showProgressBar();
-       //                                                });
-
     connect(this->parent, SIGNAL(setProgressBar(int,int)), this, SLOT(setValue(int, int)));
     connect(this->parent, SIGNAL(setProgressBar(int)), this, SLOT(setValue(int)));
     connect(this->parent, SIGNAL(hideProgressBar()), this, SLOT(hide()));
