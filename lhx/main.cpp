@@ -101,9 +101,8 @@ int main(int argc, char **argv)
         false,            // calculer les maxima de lignes et d'agents
         false,            // numéroter les lignes
         true,             //    alléger la base
-        BESOIN_MEMOIRE_ENTETE,// besoin mémoire minimum hors lecture de lignes : devra être incrémenté,
-                                                       // soit N+1 pour les écritures du type Var(l+i), i=0,...,N dans ECRIRE_LIGNE_l_COMMUN
-        1                 // nbfil
+        1,                 // nbfil
+        nullptr  // besoin de mémoire effectif
     };
 
     while (start < argc)
@@ -556,24 +555,25 @@ int main(int argc, char **argv)
 
     std::cerr << "\n[INF] Libération de la mémoire...\n";
 
+    /* En cas de problème d'allocation mémoire le mieux est encore de ne pas désallouer car on ne connait pas exacteemnt l'état
+     * de la mémoire dynamique */
+
     for (int i = 0; i < Info[0].nbfil; ++i)
     {
         for (unsigned agent = 0; agent < Info[i].NCumAgent; ++agent)
         {
-            int utilisation_memoire =  Info[i].minimum_memoire_p_ligne + nbType + Info[i].NLigne[agent]*(INDEX_MAX_CONNNES + 1);
 
-            for (int j = 0; j < utilisation_memoire; ++j)
-                if (Info[i].Table[agent][j])
+            for (int j = 0; j < Info[i].Memoire_p_ligne[agent]; ++j)
                     if (Info[i].Table[agent][j] != nullptr)
-                        xmlFree(Info[i].Table[agent][j]);
+                        {}//delete [] (Info[i].Table[agent][j]);
 
-            delete [] (Info[i].Table[agent]);
+            //delete [] (Info[i].Table[agent]);
         }
 
         delete [] (Info[i].NAgent);
         delete [] (Info[i].threads->argv);
-
         delete [] (Info[i].Table);
+        delete [] (Info[i].Memoire_p_ligne);
 
         if (Info[0].nbfil > 1)
         {

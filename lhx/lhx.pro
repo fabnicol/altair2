@@ -63,12 +63,13 @@ DEVROOT = $$PWD/../..
 # Insérer ici le nom du répertoire contenant dans include/ et lib/ les dépendances système
 # Ce compilateur doit être adjacent aux sources sous Windows
 
-QMAKE_CXXFLAGS = -pipe -m64 -std=gnu++11 -march=native
+QMAKE_CXXFLAGS = -pipe -m64 -std=gnu++11 -march=native -fexceptions -frtti -mthreads
+QMAKE_LFLAGS += -mthreads
 
 # Sous linux penser à installer libxml2-dev. Ceci n'est pas testé.
 
 CONFIG(debug) {
-    QMAKE_CXXFLAGS +=  -O0
+    QMAKE_CXXFLAGS +=  -O1
 } else {
     QMAKE_LFLAGS += -s
     QMAKE_CXXFLAGS += -O3 -fexpensive-optimizations -fomit-frame-pointer
