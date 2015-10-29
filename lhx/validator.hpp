@@ -94,8 +94,8 @@ typedef struct
     bool calculer_maxima;
     bool generer_rang;
     bool select_siret;
-    uint8_t minimum_memoire_p_ligne;
     int nbfil;
+    int* Memoire_p_ligne;
 } info_t;
 
 #define RESET true

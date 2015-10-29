@@ -313,7 +313,7 @@ using namespace std;
 
 static inline  int GCC_INLINE memoire_p_ligne(const info_t& info, const unsigned agent)
 {
-    return info.minimum_memoire_p_ligne  // chaque agent a au moins BESOIN_MEMOIRE_ENTETE champs du bulletins de paye en colonnes
+    return BESOIN_MEMOIRE_ENTETE  // chaque agent a au moins BESOIN_MEMOIRE_ENTETE champs du bulletins de paye en colonnes
                                                       // sans la table ces champs sont répétés à chaque ligne de paye.
                             + nbType // espace pour les drapeaux de séparation des champs (taille de type_remuneration). Nécessaire pour l'algorithme
                             + (info.NLigne[agent])*(INDEX_MAX_CONNNES + 1);   // nombre de lignes de paye x nombre maximum de types de balises distincts de lignes de paye
@@ -323,13 +323,21 @@ static inline  int GCC_INLINE memoire_p_ligne(const info_t& info, const unsigned
 
 static inline void GCC_INLINE allouer_memoire_table(info_t& info)
 {
+    info.Memoire_p_ligne = new int[info.NCumAgent]();
+
+    for (int agent = 0; agent < info.NCumAgent; ++agent)
+    {
+          info.Memoire_p_ligne[agent] = memoire_p_ligne(info, agent);
+    }
+
+
     if (info.NAgent != nullptr) delete[] info.NAgent;
     if (info.Table != nullptr)
     {
         for (unsigned agent = 0; agent < info.NCumAgent; ++agent)
         {
 
-            for (int i = 0; i < memoire_p_ligne(info, agent); ++i)
+            for (int i = 0; i < info.Memoire_p_ligne[agent] ; ++i)
             {
                 if (info.Table[agent][i] != nullptr) xmlFree(info.Table[agent][i]);
             }
@@ -360,14 +368,14 @@ static inline void GCC_INLINE allouer_memoire_table(info_t& info)
     for (unsigned agent = 0; agent < info.NCumAgent; ++agent)
     {
 
-        info.Table[agent] = new xmlChar* [memoire_p_ligne(info, agent)](); // ne pas oublier d'initialiser à nullptr !
+        info.Table[agent] = new xmlChar* [info.Memoire_p_ligne[agent]](); // ne pas oublier d'initialiser à nullptr !
 
         if (info.Table[agent] == nullptr)
         {
             std::cerr <<  "Erreur : Erreur d'allocation de drapeau I. pour l'agent "
                       <<  agent
                       <<  "et pour "
-                      <<  memoire_p_ligne(info, agent)
+                      <<  info.Memoire_p_ligne[agent]
                       <<  " B\n";
 
             exit(-63);
@@ -503,7 +511,7 @@ void* decoder_fichier(info_t& info)
         {
             /* inutile de boucler sur la partie vide du tableau... */
 
-            for (int j = info.minimum_memoire_p_ligne ; j < info.NLigne[agent]; ++j)
+            for (int j = BESOIN_MEMOIRE_ENTETE; j < info.NLigne[agent]; ++j)
                 if (regex_match((const char*) VAR(j), pat2))
                 {
                     xmlFree(VAR(Grade));
@@ -512,7 +520,7 @@ void* decoder_fichier(info_t& info)
         }
         else
         {
-            for (int j = info.minimum_memoire_p_ligne ; j < info.NLigne[agent] && info.Table[agent][j] != nullptr; ++j)
+            for (int j = BESOIN_MEMOIRE_ENTETE ; j < info.NLigne[agent] && info.Table[agent][j] != nullptr; ++j)
                 if (regex_match((const char*) VAR(j), pat2))
                 {
                     xmlFree(VAR(Grade));
