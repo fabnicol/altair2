@@ -58,17 +58,17 @@ static inline void GCC_INLINE  verifier_taille(const int nbLignePaye, info_t& in
 
 /* utilité d'affichage de l'environnement xhl en cas de problème de conformité des données */
 
-static  void afficher_environnement_xhl(const info_t& info)
+void afficher_environnement_xhl(const info_t& info)
 {
 
     if (mut.try_lock())
     {
-        std::cerr << "\nFichier   " <<  info.threads->argv[info.fichier_courant] << "\n"
-                  << "Matricule   "    << info.Table[info.NCumAgentXml][Matricule] << "\n";
-        for (int l = 0; l < 5; ++l)
+        std::cerr << "\nFichier   " <<  info.threads->argv[info.fichier_courant] << "\n";
+
+        for (int l = 0; l < info.Memoire_p_ligne[info.NCumAgentXml]; ++l)
         {
          if (nullptr != info.Table[info.NCumAgentXml][l])
-            std::cerr << "** info.Table[" << info.NCumAgentXml << "][" << l << "]=" << info.Table[info.NCumAgentXml][l] << "\n";
+            std::cerr << "** info.Table[" << info.NCumAgentXml << "][" << Tableau_entete[l] << "]=" << info.Table[info.NCumAgentXml][l] << "\n";
         }
 
         mut.unlock();

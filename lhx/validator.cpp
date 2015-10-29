@@ -19,10 +19,26 @@ extern  inline uint64_t  GCC_INLINE parseLignesPaye(xmlNodePtr cur, info_t& info
 
 static int parseFile(info_t& info)
 {
+   /* REFERENCE */
+   /*
+        <DocumentPaye xmlns="http://www.minefi.gouv.fr/cp/helios/pes_v2/paye_1_1">
+          <IdVer V="">{1,1}</IdVer>
+          <Annee V="">{1,1}</Annee>
+          <Mois V="">{1,1}</Mois>
+          <Train V="">{0,1}</Train>
+          <Budget>{0,1}</Budget>
+          <Employeur>{1,1}</Employeur>
+          <DonneesIndiv>{1,unbounded}</DonneesIndiv>
+          <Nomenclatures>{1,1}</Nomenclatures>
+          <RepartitionParNature>{1,1}</RepartitionParNature>
+        </DocumentPaye>
+    */
+
     std::ofstream log;
     xmlDocPtr doc;
     xmlNodePtr cur = nullptr;
     info.NAgent[info.fichier_courant] = 0;
+    xmlNodePtr cur_save = cur;
     xmlChar *annee_fichier = nullptr,
             *mois_fichier = nullptr, 
             *etab_fichier = nullptr,
@@ -68,6 +84,8 @@ static int parseFile(info_t& info)
         if (log.is_open())
            log.close();
 #ifdef STRICT
+        if (log.is_open())
+           log.close();
         exit(-502);
 #else
         return SKIP_FILE;
@@ -81,9 +99,10 @@ static int parseFile(info_t& info)
     else
     {
         std::cerr << "Erreur : Mois non détectable\n";
+
+#ifdef STRICT
         if (log.is_open())
            log.close();
-#ifdef STRICT
         exit(-503);
 #else
         return SKIP_FILE;
@@ -103,73 +122,107 @@ static int parseFile(info_t& info)
     }
     else
     {
-        std::cerr << "Erreur : Budget non détectable\n";
-        if (log.is_open())
-           log.close();
-#ifdef STRICT
-        exit(-504);
-#else
-        return SKIP_FILE;
-#endif
+        std::cerr << "[MSG] Budget non détectable\n";
+    }
 
+    cur_save = cur;
+
+    if (nullptr == (cur = atteindreNoeud("Employeur", cur)))
+    {
+#ifdef STRICT
+        std::cerr << "Erreur :  non conformité aux normes. Le rattachement comptable de l'agent est incertain !\n";
+        exit(-515);
+#endif
+        afficher_environnement_xhl(info);
+        cur = cur_save;
     }
 
   while((cur = atteindreNoeudArret("DonneesIndiv", cur, "Nomenclatures")) != nullptr)
   {
-        xmlNodePtr cur_save = cur;
         xmlNodePtr cur_save2 = nullptr;
 
-        cur =  cur->xmlChildrenNode;
+        cur =  cur->xmlChildrenNode;  // Niveau Etablissement et PayeIndivMensuel
+        cur_save2 = cur;
+
+        if (cur == nullptr || xmlIsBlankNode(cur))
+        {
+            std::cerr << "Erreur :  pas de données individuelles de paye (PayeIndivMensuel)\n";
+            afficher_environnement_xhl(info);
+#ifdef STRICT
+            if (log.is_open())
+               log.close();
+            exit(-515);
+#else
+            return SKIP_FILE;
+#endif
+        }
+
+        /* Les données sur l'établissement sont optionnelles */
+
+        /* REFERENCE
+         *
+         * <DonneesIndiv>
+         *   <Etablissement>{0,1}</Etablissement>
+         *   <PayeIndivMensuel>{1,unbounded}</PayeIndivMensuel>
+         * </DonneesIndiv>
+         *
+         */
 
             cur = atteindreNoeud("Etablissement", cur);
-            if (cur == nullptr) cur = atteindreNoeud("Employeur", cur);
-            cur_save2 =  cur;
-            if (cur_save2 == nullptr) break;
-
-            cur =  cur->xmlChildrenNode;
-
-            cur = atteindreNoeud("Nom", cur);
-            if (cur != nullptr)
+            if (cur == nullptr )
             {
-                etab_fichier = xmlGetProp(cur, (const xmlChar *) "V");
-                cur = (cur)? cur->next : nullptr;
+
+                    std::cerr << "[MSG]  Pas d'information sur l'établissement. Le rattachement comptable de l'agent est incertain !\n";
+                    afficher_environnement_xhl(info);
+                    cur = cur_save2;
             }
             else
             {
-                std::cerr << "Erreur : Etablissement/Employeur non détectable\n";
-                if (log.is_open())
-                   log.close();
-#ifdef STRICT
-        exit(-505);
-#else
-        return SKIP_FILE;
-#endif
 
+                /* On recherhce le nom, le siret de l'établissement */
+
+                cur =  cur->xmlChildrenNode;
+
+                if (cur == nullptr || xmlIsBlankNode(cur))
+                {
+                    std::cerr << "Erreur :  pas de données sur le nom de l'établissement\n";
+                    afficher_environnement_xhl(info);
+                }
+
+                cur = atteindreNoeud("Nom", cur);
+                if (cur != nullptr)
+                {
+                    etab_fichier = xmlGetProp(cur, (const xmlChar *) "V");
+                    cur = (cur)? cur->next : nullptr;
+                }
+                else
+                {
+                    std::cerr << "Erreur : Etablissement/Employeur non identifié (pas de nom).\n";
+                    etab_fichier = xmlStrdup(NA_STRING);
+
+                }
+
+                cur = atteindreNoeud("Siret", cur);
+
+                if (cur != nullptr)
+                {
+                    siret_fichier = xmlGetProp(cur, (const xmlChar *) "V");
+                    cur = (cur)? cur->next : nullptr;
+                }
+                else
+                {
+                    std::cerr  << "Erreur : Siret non identifié.\n";
+                    std::cerr << "Année " << annee_fichier
+                              << " Mois "  << mois_fichier << "\n";
+                    siret_fichier = xmlStrdup(NA_STRING);
+
+                }
             }
 
-            cur = atteindreNoeud("Siret", cur);
 
-            if (cur != nullptr)
-            {
-                siret_fichier = xmlGetProp(cur, (const xmlChar *) "V");
-                cur = (cur)? cur->next : nullptr;
-            }
-            else
-            {
-                std::cerr  << "Erreur : Siret non détectable\n";
-                std::cerr << "Année " << info.Table[info.NCumAgentXml][Annee]
-                          << "Mois "  << info.Table[info.NCumAgentXml][Mois];
-                if (log.is_open())
-                   log.close();
-#ifdef STRICT
-        exit(-506);
-#else
-        return SKIP_FILE;
-#endif
+        /* on remonte d'un niveau */
 
-            }
-
-            cur=cur_save2;
+        cur = cur_save2;
 
         while(cur != nullptr)
         {
@@ -323,6 +376,8 @@ static inline  int GCC_INLINE memoire_p_ligne(const info_t& info, const unsigned
 
 static inline void GCC_INLINE allouer_memoire_table(info_t& info)
 {
+    // utiliser NCumAgent ici et pas NCumAgentXml
+
     info.Memoire_p_ligne = new int[info.NCumAgent]();
 
     for (int agent = 0; agent < info.NCumAgent; ++agent)
