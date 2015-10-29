@@ -661,6 +661,7 @@ void FProgressBar::stop()
 
     timer->stop();
     killButton->setDisabled(true);
+    internalState = State::Parsing;
 }
 
 
@@ -672,7 +673,7 @@ void FProgressBar::computeLHXParsingProgressBar()
 
     setValue(level);
 
-    if(level > 0.95 * maximum() && QDir(v("base")).entryInfoList(QDir::NoDotAndDotDot|QDir::AllEntries).count() > 0)
+    if(level > 0.95 * maximum() && QDir(v(base)).entryList({"*.csv"}, QDir::Files).count() > 0)
     {
            internalState = State::WritingReady;
     }

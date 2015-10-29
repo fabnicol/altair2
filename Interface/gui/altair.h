@@ -211,6 +211,7 @@ public:
         bar->reset();
         killButton->show();
         bar->show();
+        internalState = State::Parsing;
     }
 
 };

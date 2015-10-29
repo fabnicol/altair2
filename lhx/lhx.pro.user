@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 3.5.0, 2015-10-29T14:26:41. -->
+<!-- Written by QtCreator 3.5.0, 2015-10-29T17:37:51. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -8,7 +8,7 @@
  </data>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
-  <value type="int">1</value>
+  <value type="int">0</value>
  </data>
  <data>
   <variable>ProjectExplorer.Project.EditorSettings</variable>
@@ -63,7 +63,7 @@
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{103d3f28-2bba-44b7-b12b-602b142579ba}</value>
    <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">1</value>
    <value type="int" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
-   <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">0</value>
+   <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">1</value>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.0">
     <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Users/Public/Dev/altair/lhx/build</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
@@ -250,7 +250,58 @@
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
    </valuemap>
-   <value type="int" key="ProjectExplorer.Target.RunConfigurationCount">1</value>
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.1">
+    <valuelist type="QVariantList" key="Analyzer.Valgrind.AddedSuppressionFiles"/>
+    <value type="bool" key="Analyzer.Valgrind.Callgrind.CollectBusEvents">false</value>
+    <value type="bool" key="Analyzer.Valgrind.Callgrind.CollectSystime">false</value>
+    <value type="bool" key="Analyzer.Valgrind.Callgrind.EnableBranchSim">false</value>
+    <value type="bool" key="Analyzer.Valgrind.Callgrind.EnableCacheSim">false</value>
+    <value type="bool" key="Analyzer.Valgrind.Callgrind.EnableEventToolTips">true</value>
+    <value type="double" key="Analyzer.Valgrind.Callgrind.MinimumCostRatio">0.01</value>
+    <value type="double" key="Analyzer.Valgrind.Callgrind.VisualisationMinimumCostRatio">10</value>
+    <value type="bool" key="Analyzer.Valgrind.FilterExternalIssues">true</value>
+    <value type="int" key="Analyzer.Valgrind.LeakCheckOnFinish">1</value>
+    <value type="int" key="Analyzer.Valgrind.NumCallers">25</value>
+    <valuelist type="QVariantList" key="Analyzer.Valgrind.RemovedSuppressionFiles"/>
+    <value type="int" key="Analyzer.Valgrind.SelfModifyingCodeDetection">1</value>
+    <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
+    <value type="bool" key="Analyzer.Valgrind.ShowReachable">false</value>
+    <value type="bool" key="Analyzer.Valgrind.TrackOrigins">true</value>
+    <value type="QString" key="Analyzer.Valgrind.ValgrindExecutable">valgrind</value>
+    <valuelist type="QVariantList" key="Analyzer.Valgrind.VisibleErrorKinds">
+     <value type="int">0</value>
+     <value type="int">1</value>
+     <value type="int">2</value>
+     <value type="int">3</value>
+     <value type="int">4</value>
+     <value type="int">5</value>
+     <value type="int">6</value>
+     <value type="int">7</value>
+     <value type="int">8</value>
+     <value type="int">9</value>
+     <value type="int">10</value>
+     <value type="int">11</value>
+     <value type="int">12</value>
+     <value type="int">13</value>
+     <value type="int">14</value>
+    </valuelist>
+    <value type="int" key="PE.EnvironmentAspect.Base">2</value>
+    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+    <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.Arguments">-m -d &quot;,&quot; -s &quot;;&quot; -rank C:/Users/fnicol/AppData/Local/Altaïr/rank -t -t -j '5'' -D &quot;C:\Users\Public\Dev\altair\Tests\Exemple\Donnees\R-Altaïr&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200801_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200801_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200802_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200802_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200803_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200803_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200804_99_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200805_99_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200806_99_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200807_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200807_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200808_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200808_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200809_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200809_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200810_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200810_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200811_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200811_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200812_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200812_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200901_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200901_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200902_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200902_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200903_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200903_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200904_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200904_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200905_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200905_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200906_99_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200907_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200907_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200908_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200908_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200909_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200909_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200910_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200910_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200911_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200911_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200912_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200912_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201001_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201001_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201002_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201002_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201003_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201003_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201004_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201004_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201005_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201005_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201006_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201006_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201007_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201007_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201008_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201008_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201009_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201009_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201010_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201010_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201011_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201011_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201012_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201012_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201101_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201101_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201102_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201102_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201103_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201103_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201104_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201104_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201105_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201105_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201106_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201106_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201107_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201107_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201108_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201108_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201109_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201109_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201110_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201110_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201111_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201111_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201112_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201112_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201201_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201201_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201202_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201202_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201203_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201203_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201204_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201204_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201205_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201205_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201206_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201206_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201207_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201207_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201208_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201208_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201209_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201209_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201210_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201210_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201211_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201211_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201212_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201212_02_00.xhl&quot; </value>
+    <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.Executable">C:/Users/Public/Dev/altair/win/lhx.exe</value>
+    <value type="bool" key="ProjectExplorer.CustomExecutableRunConfiguration.UseTerminal">true</value>
+    <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.WorkingDirectory">%{buildDir}</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Exécuter C:\Users\Public\Dev\altair\win\lhx.exe</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ProjectExplorer.CustomExecutableRunConfiguration</value>
+    <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
+    <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
+    <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
+    <value type="bool" key="RunConfiguration.UseMultiProcess">false</value>
+    <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
+    <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+   </valuemap>
+   <value type="int" key="ProjectExplorer.Target.RunConfigurationCount">2</value>
   </valuemap>
  </data>
  <data>
