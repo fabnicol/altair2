@@ -185,13 +185,6 @@ public:
     void setRange(int x, int y) { bar->setRange(x, y); }
 
     void setCount(int x) { bar->setRange(0, x); }
-    void show()
-    {
-        start(0);
-        bar->reset();
-        killButton->show();
-        bar->show();
-    }
 
     void start(int timeout=0)
     {
@@ -213,7 +206,13 @@ public:
 
   public slots:
     void stop();
-
+    void showProgressBar()
+    {
+        start(0);
+        bar->reset();
+        killButton->show();
+        bar->show();
+    }
 
 };
 
