@@ -260,9 +260,10 @@ int calculer_memoire_requise(info_t& info)
     /* par convention  un agent avec rémunération non renseignées (balise sans fils) a une ligne */
     for (unsigned i = 0; i < info.threads->argc; ++i)
     {
-
-        generate_rank_signal();
-        std::cerr <<  " \n";
+         #ifdef GENERATE_RANK_SIGNAL
+           generate_rank_signal();
+           std::cerr <<  " \n";
+         #endif
 
 #ifdef FGETC_PARSING
 

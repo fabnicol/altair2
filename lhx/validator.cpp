@@ -415,8 +415,6 @@ void* decoder_fichier(info_t& info)
         }
     }
 
-    //generate_rank_signal(RESET);
-
     for (unsigned i = 0; i < info.threads->argc ; ++i)
     {
         if (i == 0)
@@ -427,8 +425,9 @@ void* decoder_fichier(info_t& info)
 
         }
 
+#ifdef GENERATE_RANK_SIGNAL
         generate_rank_signal();
-
+#endif
         info.fichier_courant = i;
         switch(parseFile(info))
         {

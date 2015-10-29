@@ -59,9 +59,6 @@ inline void GCC_INLINE  generate_rank_signal(int progression)
 {
     if (rankFilePath.empty()) return;
 
-    while (! mut.try_lock()) {}
-    do
-    {
         rankFile.open(rankFilePath, std::ios::out|std::ios::trunc);
         if (rankFile.is_open())
         {
@@ -69,8 +66,6 @@ inline void GCC_INLINE  generate_rank_signal(int progression)
         }
 
         rankFile.close();
-        mut.unlock();
-    } while(false);
 }
 
 
