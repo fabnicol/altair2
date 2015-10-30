@@ -24,6 +24,13 @@
 #define GCC_UNUSED
 #endif
 
+#ifndef GUI_TAG_MESSAGES
+  #define  STATE_HTML_TAG  "[MSG]"
+  #define  PROCESSING_HTML_TAG  "[MSG]"
+  #define  ERROR_HTML_TAG  "[ERR]"
+  #define  WARNING_HTML_TAG  "[ATT]"
+#endif
+
 typedef struct
 {
     int      thread_num;

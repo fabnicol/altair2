@@ -656,7 +656,6 @@ void FProgressBar::stop()
         else
         {
                 showProgressBar();
-                setInterval(40);
         }
 
     timer->stop();
@@ -764,5 +763,5 @@ FProgressBar::FProgressBar(Altair* parent,
     connect(this->parent, SIGNAL(setProgressBar(int,int)), this, SLOT(setValue(int, int)));
     connect(this->parent, SIGNAL(setProgressBar(int)), this, SLOT(setValue(int)));
     connect(this->parent, SIGNAL(hideProgressBar()), this, SLOT(hide()));
-
+    connect(this->parent, &Altair::showProgressBar, [this] { bar->show(); });
 }

@@ -857,8 +857,6 @@ void MainWindow::showMainWidget()
 
 void MainWindow::feedLHXConsoleWithHtml()
 {
-
-    QRegExp reg("^(.MSG.|.INF.|Erreur :)\\s([^\n]+)");
     int baInt = 0;
 
         while (altair->process->canReadLine())
@@ -872,33 +870,12 @@ void MainWindow::feedLHXConsoleWithHtml()
 
                QString buffer = QString::fromLatin1(altair->process->readLine());
 
-                if (buffer.contains(reg))
-                {
-                    switch (reg.cap(1).at(1).toLatin1())
-                    {
-                      case 'I' :
-                            buffer= buffer.replace(reg, (QString)PROCESSING_HTML_TAG "\\2");
-                            break;
-                      case 'M' :
-                            buffer=buffer.replace(reg, (QString) STATE_HTML_TAG "\\2");
-                            break;
-                      case 'r' :
-                            buffer=buffer.replace(reg, (QString) ERROR_HTML_TAG "\\2");
-                            #ifdef MINIMAL
-                            Warning("Erreur", "Le décodage a rencontré une erreur.\nVisualiser le log dans la console (Configurer > Configurer l'interface > Afficher les messages).\n\
-Il est également possible d'activer un rapport détaillé (Configurer > Options > Générer le log)");
-                            #endif
-                           break;
-                    }
-                }
-
                 /* Pour le parsage de la première phase d'analyse on envoie " \n" sur stderr.
                  * il faut donc nettoyer ces signaux.
                  * Ce nettoyage est de toute façon une bonne mesure sanitaire générale */
 
                 if (! buffer.trimmed().isEmpty())
                    consoleDialog->insertHtml(buffer.replace("\n", "<br>"));
-
             }
 }
 
