@@ -218,10 +218,13 @@ static int parseFile(info_t& info)
         cur = cur_save;
     }
 
-  while((cur = atteindreNoeudArret("DonneesIndiv", cur, "Nomenclatures")) != nullptr)
-  {
-        xmlNodePtr cur_save2 = nullptr;
+  cur = atteindreNoeud("DonneesIndiv", cur);
 
+  while(cur != nullptr)
+  {
+        cur_save = cur;
+
+        xmlNodePtr cur_save2 = nullptr;
         cur =  cur->xmlChildrenNode;  // Niveau Employeur et PayeIndivMensuel
         cur_save2 = cur;
 
@@ -389,7 +392,7 @@ static int parseFile(info_t& info)
             }
 
             /* ici on sait que cur->xmlChildrenNode est non vide */
-
+            cur_save2 = cur;
             cur = cur->xmlChildrenNode;  // Niveau Agent
 
             info.Table[info.NCumAgentXml][Annee] = xmlStrdup(annee_fichier);
@@ -417,11 +420,13 @@ static int parseFile(info_t& info)
                               << "et l'analyse Libxml2 : "
                               << ligne_p
                               << "\nPour l'agent "
+                              << "de rang  " << info.NCumAgentXml << " dans le fichier\n"
                               << info.Table[info.NCumAgentXml][Matricule]
                               << " Année "
                               << info.Table[info.NCumAgentXml][Annee]
                               << " Mois "
-                              << info.Table[info.NCumAgentXml][Mois];
+                              << info.Table[info.NCumAgentXml][Mois]
+                              << "\n"   ;
 
                      ecrire_log(info, log, diff);
                      if (log.is_open())
@@ -434,7 +439,7 @@ static int parseFile(info_t& info)
                         info.NLigne[info.NCumAgentXml] = ligne_p;
 
                     /* il faut tout réallouer */
-
+exit(0);
                    return RETRY;
 #endif
                 }
@@ -456,7 +461,8 @@ static int parseFile(info_t& info)
             ++info.NCumAgentXml;
         }
 
-        cur = cur_save->next;
+        cur = cur_save->next;  // next DonneesIndiv
+        if (cur == nullptr || xmlStrcmp(cur->name, (const xmlChar*) "Do")) break;   // on ne va pas envoyer un message d'absence de DonneesIndiv si on a fini la boucle...
   }
 
     xmlFree(mois_fichier);
