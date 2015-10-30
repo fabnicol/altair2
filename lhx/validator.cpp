@@ -34,6 +34,16 @@ static int parseFile(info_t& info)
         </DocumentPaye>
     */
 
+    /* Note sur les modes d'exécution :
+     * Le mode == strict == envoie une exception dès la première non-conformité,
+     * sauf exceptions contraires signalées en commentaire.
+     * Le mode == tolérant == arrête l'exécution du fichier et passe suivant.
+     * Cela peut poser des problèmes de (ré)allocation/réservation/libération de mémoire
+     * Le mode == souple == continue l'exécution le plus possible dans le même fichier.
+     * Le mode strict fait l'objet d'une compilation séparée. Les modes tolérant ou souple
+     * choisis au cas par cas en fonction d'une évaluation plus ou moins subjective de la gravité
+     * de la non-conformité. */
+
     std::ofstream log;
     xmlDocPtr doc;
     xmlNodePtr cur = nullptr;
@@ -41,7 +51,7 @@ static int parseFile(info_t& info)
     xmlNodePtr cur_save = cur;
     xmlChar *annee_fichier = nullptr,
             *mois_fichier = nullptr, 
-            *etab_fichier = nullptr,
+            *employeur_fichier = nullptr,
             *siret_fichier = nullptr,
             *budget_fichier = nullptr;
 
@@ -64,6 +74,7 @@ static int parseFile(info_t& info)
     {
         std::cerr << "Erreur : document vide\n";
         xmlFreeDoc(doc);
+        std::cerr << "[INF] Poursuite du traitement (mode tolérant).\n";
         if (log.is_open())
            log.close();
         return SKIP_FILE;
@@ -88,6 +99,8 @@ static int parseFile(info_t& info)
            log.close();
         exit(-502);
 #else
+        /* Il faudra sans doute ajuster les différences entre le parsing C et l'analyse Xml, qui vont diverger */
+        std::cerr << "[INF] Poursuite du traitement (mode tolérant).\n";
         return SKIP_FILE;
 #endif
     }
@@ -105,6 +118,8 @@ static int parseFile(info_t& info)
            log.close();
         exit(-503);
 #else
+        /* Il faudra sans doute ajuster les différences entre le parsing C et l'analyse Xml, qui vont diverger */
+        std::cerr << "[INF] Poursuite du traitement (mode tolérant).\n";
         return SKIP_FILE;
 #endif
 
@@ -114,26 +129,92 @@ static int parseFile(info_t& info)
 
     if (cur != nullptr)
     {
+        cur_save = cur;
         cur =  cur->xmlChildrenNode;
         budget_fichier = xmlGetProp(cur, (const xmlChar *) "V");
-        cur = cur->parent;
-        cur = cur->next;
-        // si cur == nullptr on aura un arrêt de la boucle.
+        cur = cur_save->next;
     }
     else
     {
+        budget_fichier = xmlStrdup(NA_STRING);
         std::cerr << "[MSG] Budget non détectable\n";
+        std::cerr << "[INF] Poursuite du traitement (mode souple).\n";
     }
 
     cur_save = cur;
 
+    /* REFERENCE */
+
+   /* <Employeur>
+    *      <Nom V="">{1,1}</Nom>
+    *      <APE V="">{1,1}</APE>
+    *      <Adresse>{1,1}</Adresse>
+    *      <NumUrssaf V="">{1,1}</NumUrssaf>
+    *      <Siret V="">{1,1}</Siret>
+    * </Employeur>
+    */
+
+
     if (nullptr == (cur = atteindreNoeud("Employeur", cur)))
     {
-#ifdef STRICT
-        std::cerr << "Erreur :  non conformité aux normes. Le rattachement comptable de l'agent est incertain !\n";
-        exit(-515);
-#endif
+        std::cerr << "Erreur :  non conformité aux normes. L'employeur devrait normalement pouvoir être détecté.\n";
         afficher_environnement_xhl(info);
+#ifdef STRICT
+        if (log.is_open())
+           log.close();
+        exit(-515);
+#endif                 
+        std::cerr << "[INF] Poursuite du traitement (mode souple).\n";
+        siret_fichier = xmlStrdup(NA_STRING);
+        employeur_fichier = xmlStrdup(NA_STRING);
+        cur = cur_save;
+    }
+    else
+    {
+     cur_save = cur;
+        /* On recherche le nom, le siret de l'employeur */
+     do {
+            cur =  cur->xmlChildrenNode;
+
+            if (cur == nullptr || xmlIsBlankNode(cur))
+            {
+                std::cerr << "Erreur :  pas de données sur le nom de l'employeur\n";
+                afficher_environnement_xhl(info);
+                employeur_fichier = xmlStrdup(NA_STRING);
+                siret_fichier = xmlStrdup(NA_STRING);
+                break;
+            }
+
+            cur = atteindreNoeud("Nom", cur);
+            if (cur != nullptr)
+            {
+                employeur_fichier = xmlGetProp(cur, (const xmlChar *) "V");
+                cur = (cur)? cur->next : nullptr;
+            }
+            else
+            {
+                std::cerr << "Erreur : Employeur non identifié (pas de nom).\n";
+                employeur_fichier = xmlStrdup(NA_STRING);
+            }
+
+            if (cur != nullptr) cur = atteindreNoeud("Siret", cur);
+
+            if (cur != nullptr)
+            {
+                siret_fichier = xmlGetProp(cur, (const xmlChar *) "V");
+            }
+            else
+            {
+                std::cerr  << "Erreur : Siret de l'empoyeur non identifié.\n";
+                std::cerr << "Année " << annee_fichier
+                          << " Mois "  << mois_fichier << "\n";
+                siret_fichier = xmlStrdup(NA_STRING);
+            }
+
+        } while (false);
+
+        /* on remonte d'un niveau */
+
         cur = cur_save;
     }
 
@@ -141,7 +222,7 @@ static int parseFile(info_t& info)
   {
         xmlNodePtr cur_save2 = nullptr;
 
-        cur =  cur->xmlChildrenNode;  // Niveau Etablissement et PayeIndivMensuel
+        cur =  cur->xmlChildrenNode;  // Niveau Employeur et PayeIndivMensuel
         cur_save2 = cur;
 
         if (cur == nullptr || xmlIsBlankNode(cur))
@@ -153,6 +234,7 @@ static int parseFile(info_t& info)
                log.close();
             exit(-515);
 #else
+            /* Il faudra sans doute ajuster les différences entre le parsing C et l'analyse Xml, qui vont diverger */
             return SKIP_FILE;
 #endif
         }
@@ -169,9 +251,8 @@ static int parseFile(info_t& info)
          */
 
             cur = atteindreNoeud("Etablissement", cur);
-            if (cur == nullptr )
+            if (cur == nullptr)
             {
-
                     std::cerr << "[MSG]  Pas d'information sur l'établissement. Le rattachement comptable de l'agent est incertain !\n";
                     afficher_environnement_xhl(info);
                     cur = cur_save2;
@@ -179,70 +260,142 @@ static int parseFile(info_t& info)
             else
             {
 
-                /* On recherhce le nom, le siret de l'établissement */
+                /* REFERENCE */
+                /*
+                 * <Etablissement>
+                 *   <Nom V="">{1,1}</Nom>
+                 *   <NumUrssaf V="">{1,1}</NumUrssaf>
+                 *   <Adresse>{1,1}</Adresse>
+                 *   <Siret V="">{1,1}</Siret>
+                 * </Etablissement>
+                */
 
-                cur =  cur->xmlChildrenNode;
+                /* Altaïr a ici deux modes : strict, le non-repect de la norme entraine une exception
+                 * ou souple : on continue l'exécution en considérant que bien que le nom/siret soit obligatoire,
+                 * l'ensemble du champ lui-même est en fait optionnel. [la norme est quelque peu inconsistante sur ce point]
+                 */
 
-                if (cur == nullptr || xmlIsBlankNode(cur))
-                {
-                    std::cerr << "Erreur :  pas de données sur le nom de l'établissement\n";
-                    afficher_environnement_xhl(info);
-                }
+                cur_save2 = cur;
 
-                cur = atteindreNoeud("Nom", cur);
-                if (cur != nullptr)
-                {
-                    etab_fichier = xmlGetProp(cur, (const xmlChar *) "V");
-                    cur = (cur)? cur->next : nullptr;
-                }
-                else
-                {
-                    std::cerr << "Erreur : Etablissement/Employeur non identifié (pas de nom).\n";
-                    etab_fichier = xmlStrdup(NA_STRING);
+                /* On recherche le nom, le siret de l'établissement */
+             do {
+                    cur =  cur->xmlChildrenNode;
 
-                }
+                    if (cur == nullptr || xmlIsBlankNode(cur))
+                    {
+                        std::cerr << "Erreur :  pas de données sur le nom de l'employeur\n";
+                        afficher_environnement_xhl(info);
+#ifdef STRICT
+                        if (log.open()) log.close();
+                        exit(-517);
+#endif
+                        std::cerr << "[INF] Poursuite du traitement (mode souple).\n";
+                        employeur_fichier = xmlStrdup(NA_STRING);
+                        siret_fichier = xmlStrdup(NA_STRING);
+                        break;
+                    }
 
-                cur = atteindreNoeud("Siret", cur);
+                    cur = atteindreNoeud("Nom", cur);
+                    if (cur != nullptr)
+                    {
+                        employeur_fichier = xmlGetProp(cur, (const xmlChar *) "V");
+                        cur = (cur)? cur->next : nullptr;
+                    }
+                    else
+                    {
+                        std::cerr << "Erreur : Employeur non identifié (pas de nom).\n";
+                        afficher_environnement_xhl(info);
+#ifdef STRICT
+                        if (log.open()) log.close();
+                        exit(-517);
+#endif
+                        employeur_fichier = xmlStrdup(NA_STRING);
+                        std::cerr << "[INF] Poursuite du traitement (mode souple).\n";
+                    }
 
-                if (cur != nullptr)
-                {
-                    siret_fichier = xmlGetProp(cur, (const xmlChar *) "V");
-                    cur = (cur)? cur->next : nullptr;
-                }
-                else
-                {
-                    std::cerr  << "Erreur : Siret non identifié.\n";
-                    std::cerr << "Année " << annee_fichier
-                              << " Mois "  << mois_fichier << "\n";
-                    siret_fichier = xmlStrdup(NA_STRING);
+                    if (cur != nullptr) cur = atteindreNoeud("Siret", cur);
 
-                }
+                    if (cur != nullptr)
+                    {
+                        siret_fichier = xmlGetProp(cur, (const xmlChar *) "V");
+                    }
+                    else
+                    {
+#ifdef STRICT
+                        if (log.open()) log.close();
+                        exit(-517);
+#endif
+                        std::cerr  << "Erreur : Siret de l'empoyeur non identifié.\n";
+                        afficher_environnement_xhl(info);
+                        siret_fichier = xmlStrdup(NA_STRING);
+                    }
+
+                } while (false);
+
+                /* on remonte d'un niveau */
+
+                cur = cur_save2;
             }
 
+        /* REFERENCE */
 
-        /* on remonte d'un niveau */
+       /* <PayeIndivMensuel>
+              <Agent>{1,1}</Agent>
+              <Evenement>{0,unbounded}</Evenement>
+              <Service V="">{1,1}</Service>
+              <NBI V="">{1,unbounded}</NBI>
+              <QuotiteTrav V="">{1,1}</QuotiteTrav>
+              <Periode>{1,1}</Periode>
+              <Remuneration>{1,1}</Remuneration>
+              <NbHeureTotal V="">{0,1}</NbHeureTotal>
+              <TauxHor V="">{0,1}</TauxHor>
+              <NbHeureSup V="">{1,1}</NbHeureSup>
+              <MtBrut V="">{1,1}</MtBrut>
+              <MtNet V="">{1,1}</MtNet>
+              <MtNetAPayer V="">{1,1}</MtNetAPayer>
+              <DatePaiement V="">{1,1}</DatePaiement>
+              <MtImposable V="">{1,1}</MtImposable>
+              <CumulMtImposable V="">{1,1}</CumulMtImposable>
+              <CumulMtBrut V="">{1,1}</CumulMtBrut>
+              <CumulBaseSS V="">{1,1}</CumulBaseSS>
+              <RepartitionBudget>{0,unbounded}</RepartitionBudget>
+              <PJRef>{0,unbounded}</PJRef>
+           </PayeIndivMensuel>
+       */
 
-        cur = cur_save2;
 
         while(cur != nullptr)
         {
 
+            cur_save2 =  cur;
             cur = atteindreNoeud("PayeIndivMensuel", cur);
 
-            cur_save2 =  cur;
+            if (cur == nullptr || cur->xmlChildrenNode == nullptr || xmlIsBlankNode(cur->xmlChildrenNode))
+            {
+                    std::cerr << "Erreur : Pas d'information sur les lignes de paye.\n";
+                    afficher_environnement_xhl(info);
+#ifdef STRICT
+                    if (log.open()) log.close();
+                    exit(-518);
+#endif
+                    std::cerr << "[INF] Poursuite du traitement (mode souple).\n";
+                    /* Ici on ne risque pas d'avoir une divergence entre le parsage C et Xml */
+                    if (cur == nullptr)
+                        cur = cur_save2->next;
+                    else
+                        cur = cur->next;
 
-            if (cur == nullptr)
-                break;
+                    continue;
+            }
 
-            cur =  cur->xmlChildrenNode;
+            /* ici on sait que cur->xmlChildrenNode est non vide */
 
-            if (cur == nullptr || xmlIsBlankNode(cur))  //pas de champs fils de PayeIndivMensuel : on doit sauter sans compter de ligne
-                break;
+            cur = cur->xmlChildrenNode;  // Niveau Agent
 
             info.Table[info.NCumAgentXml][Annee] = xmlStrdup(annee_fichier);
             info.Table[info.NCumAgentXml][Mois]  = xmlStrdup(mois_fichier);
             info.Table[info.NCumAgentXml][Budget] = xmlStrdup(budget_fichier);
-            info.Table[info.NCumAgentXml][Etablissement]  = xmlStrdup(etab_fichier);
+            info.Table[info.NCumAgentXml][Employeur]  = xmlStrdup(employeur_fichier);
             info.Table[info.NCumAgentXml][Siret]  = xmlStrdup(siret_fichier);
 
             /* LECTURE DES LIGNES DE PAYE STRICTO SENSU */
