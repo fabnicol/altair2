@@ -18,7 +18,7 @@ extern std::mutex mut;
 
 xmlNodePtr GCC_INLINE atteindreNoeud(const char* noeud, xmlNodePtr cur, bool  opt = true, int normalJump = 0);
 
-
+#if 0
 static inline xmlNodePtr GCC_INLINE atteindreNoeudArret(const char* noeud, xmlNodePtr cur, const char* arret)
 {
     while (cur && xmlIsBlankNode(cur))
@@ -43,6 +43,7 @@ static inline xmlNodePtr GCC_INLINE atteindreNoeudArret(const char* noeud, xmlNo
     }
     return cur;
 }
+#endif
 
 void afficher_environnement_xhl(const info_t& info);
 

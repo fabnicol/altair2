@@ -368,7 +368,7 @@ static inline int lignePaye(xmlNodePtr cur, info_t& info)
         }
 
         // cur n'est pas nul à ce point
-        //std::cerr << "^" << cur->name <<"++\n";
+
         cur = cur->xmlChildrenNode;
 
         if (cur == nullptr) break;
@@ -378,32 +378,32 @@ static inline int lignePaye(xmlNodePtr cur, info_t& info)
         /* Libellé, obligatoire */
 
         bulletin_obligatoire("Libelle", cur, l, info);
-        //std::cerr << l << "  *" << ligne_l << "*\n";
+
         ++l;
         /* Code, obligatoire */
 
         bulletin_obligatoire("Code", cur, l, info);
-        //std::cerr << l << "  *" << ligne_l << "*\n";
+
         ++l;
         /* Base, si elle existe */
 
         bulletin_optionnel_numerique("Base", cur,  l, info);
-        //std::cerr << l << "  *" << ligne_l << "*\n";
+
         ++l;
         /* Taux, s'il existe */
 
         bulletin_optionnel_numerique("Taux", cur, l, info);
-        //std::cerr << l << "  *" << ligne_l << "*\n";
+
         ++l;
         /* Nombre d'unités, s'il existe */
 
         bulletin_optionnel_numerique("NbUnite", cur, l, info);
-        //std::cerr << l << "  *" << ligne_l << "*\n";
+
         ++l;
         /* Montant, obligatoire */
 
         bulletin_obligatoire_numerique("Mt", cur, l, info);
-        //std::cerr << l << "  *" << ligne_l << "*\n";
+
         ++l;
         // cur ne sera pas nul à ce point
 
@@ -533,12 +533,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, std::ofstream& log)
 
     /* result va garantir notamment que le pointeur cur filé implicitement est non nul */
 
-    std::cerr << cur->name <<"$\n";
-
     if ((result = BULLETIN_OBLIGATOIRE(Nom))) {}
-
-    std::cerr << cur->prev->name << "  " << xmlGetProp(cur->prev, (const xmlChar *) "V");
-
 
     if ((result = result
         && BULLETIN_OBLIGATOIRE(Prenom)
@@ -660,7 +655,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, std::ofstream& log)
 
 
     result = BULLETIN_OPTIONNEL_NUMERIQUE(NbHeureTotal);
-       std::cerr << cur->name <<"HS\n";
+
     //cur = atteindreNoeud("NbHeureSup", cur);
 
     /* obligatoire, substitution du sparateur décimal */
