@@ -63,13 +63,13 @@ typedef struct
 
 #define INDEX_MAX_CONNNES 5    // nombre de type de champ de ligne de paye (Libellé, Code, Taux, Base, ...) moins 1.
 #define BESOIN_MEMOIRE_ENTETE  22  /* nb d'éléments de l'enum ci-dessous */
-typedef enum {Annee, Mois, Budget, Etablissement, Siret, Nom, Prenom, Matricule, NIR, NbEnfants,
+typedef enum {Annee, Mois, Budget, Employeur, Siret, Nom, Prenom, Matricule, NIR, NbEnfants,
               Statut, EmploiMetier, Grade, Indice,
               Service, NBI, QuotiteTrav, NbHeureTotal,
               NbHeureSup, MtBrut, MtNet, MtNetAPayer
          } Entete;
 
-constexpr const char* Tableau_entete[] = {"Annee", "Mois", "Budget", "Etablissement", "Siret", "Nom", "Prenom", "Matricule", "NIR", "NbEnfants",
+constexpr const char* Tableau_entete[] = {"Annee", "Mois", "Budget", "Employeur", "Siret", "Nom", "Prenom", "Matricule", "NIR", "NbEnfants",
                                     "Statut", "EmploiMetier", "Grade", "Indice",
                                      "Service", "NBI", "QuotiteTrav", "NbHeureTotal",
                                       "NbHeureSup", "MtBrut", "MtNet", "MtNetAPayer"};

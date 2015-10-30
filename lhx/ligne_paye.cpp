@@ -436,11 +436,31 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, std::ofstream& log)
 
     xmlNodePtr cur_parent = cur;
 
+    /* REFERENCE */
+    /*
+     * <Agent>
+          <Civilite V="">{0,1}</Civilite>
+          <Nom V="">{1,1}</Nom>
+          <ComplNom V="">{0,1}</ComplNom>
+          <Prenom V="">{0,1}</Prenom>
+          <Matricule V="">{1,1}</Matricule>
+          <NIR V="">{1,1}</NIR>
+          <Adresse>{1,1}</Adresse>
+          <NbEnfants V="">{1,1}</NbEnfants>
+          <Statut V="">{1,1}</Statut>
+          <RefNomenStatutaire>{0,1}</RefNomenStatutaire>
+          <EmploiMetier V="">{1,1}</EmploiMetier>
+          <Grade V="">{1,1}</Grade>
+          <Echelon V="">{1,1}</Echelon>
+          <Indice V="">{1,1}</Indice>
+          <CptBancaire>{0,1}</CptBancaire>
+        </Agent>
+    */
+
     cur = atteindreNoeud("Agent", cur);
 
     if (cur == nullptr)
     {
-        std::cerr << "Erreur : Impossible d'atteindre \"Agent\"\n";
 
         std::string temp_logpath =getexecpath();
 
@@ -469,7 +489,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, std::ofstream& log)
                 << "Année " << info.Table[info.NCumAgentXml][Annee] << "\n"
                 << "Mois "  << info.Table[info.NCumAgentXml][Mois]  << "\n\n";
 
-            if (info.NCumAgentXml)
+            if (info.NCumAgentXml && info.Memoire_p_ligne[info.NCumAgentXml - 1] > Matricule && info.Table[info.NCumAgentXml - 1][Matricule] != nullptr)
                 log << "Matricule précédent : " << info.Table[info.NCumAgentXml - 1][Matricule] << "\n\n";
 
             log.flush();
@@ -479,6 +499,11 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, std::ofstream& log)
         }
         else
             std::cerr << "Erreur :  Impossible d'écrire le log des erreurs.\n";
+
+#ifdef STRICT
+        if (log.is_open()) log.close();
+        exit(-520);
+#endif
 
         for (int l : {Nom, Prenom, Matricule, NIR, EmploiMetier, NbEnfants, Grade, Indice})
         {
@@ -508,9 +533,17 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, std::ofstream& log)
 
     /* result va garantir notamment que le pointeur cur filé implicitement est non nul */
 
-    if ((result = (BULLETIN_OBLIGATOIRE(Nom)
+    std::cerr << cur->name <<"$\n";
+
+    if ((result = BULLETIN_OBLIGATOIRE(Nom))) {}
+
+    std::cerr << cur->prev->name << "  " << xmlGetProp(cur->prev, (const xmlChar *) "V");
+
+
+    if ((result = result
         && BULLETIN_OBLIGATOIRE(Prenom)
-        && BULLETIN_OBLIGATOIRE(Matricule)))) {}
+        && BULLETIN_OBLIGATOIRE(Matricule))) {}
+
         result = BULLETIN_OBLIGATOIRE(NIR);
 
     #ifdef TOLERANT_TAG_HIERARCHY       // on refait le parcours depuis le haut en cas d'ordre inexact des balises
@@ -615,14 +648,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, std::ofstream& log)
 
         cur = cur_save->next;
 
-#if 0
-        if (strcmp((char*) cur->name, "NbHeureTotal"))
-        {
-            std::cerr << cur->name << "\n";
-            afficher_environnement_xhl(info);
-            exit(1);
-        }
-#endif
+
     }
     else
     {
@@ -634,6 +660,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, std::ofstream& log)
 
 
     result = BULLETIN_OPTIONNEL_NUMERIQUE(NbHeureTotal);
+       std::cerr << cur->name <<"HS\n";
     //cur = atteindreNoeud("NbHeureSup", cur);
 
     /* obligatoire, substitution du sparateur décimal */
