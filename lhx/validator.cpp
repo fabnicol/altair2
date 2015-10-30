@@ -12,6 +12,8 @@
 #include "fonctions_auxiliaires.hpp"
 #include "table.hpp"
 #include "ligne_paye.hpp"
+#include "tags.h"
+
 extern std::mutex mut;
 extern  inline uint64_t  GCC_INLINE parseLignesPaye(xmlNodePtr cur, info_t& info, std::ofstream& log);
 
@@ -52,6 +54,7 @@ static int parseFile(info_t& info)
     xmlChar *annee_fichier = nullptr,
             *mois_fichier = nullptr, 
             *employeur_fichier = nullptr,
+            *etablissement_fichier = nullptr,
             *siret_fichier = nullptr,
             *budget_fichier = nullptr;
 
@@ -59,7 +62,7 @@ static int parseFile(info_t& info)
 
     if (doc == nullptr)
     {
-        std::cerr << "Erreur :  problème d'allocation mémoire pour le scan XML.\n";
+        std::cerr << ERROR_HTML_TAG " problème d'allocation mémoire pour le scan XML.\n";
         return SKIP_FILE;
     }
 
@@ -72,9 +75,9 @@ static int parseFile(info_t& info)
 
     if (cur == nullptr)
     {
-        std::cerr << "Erreur : document vide\n";
+        std::cerr << ERROR_HTML_TAG "document vide\n";
         xmlFreeDoc(doc);
-        std::cerr << "[INF] Poursuite du traitement (mode tolérant).\n";
+        std::cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode tolérant).\n";
         if (log.is_open())
            log.close();
         return SKIP_FILE;
@@ -87,11 +90,28 @@ static int parseFile(info_t& info)
     if (cur != nullptr)
     {
         annee_fichier = xmlGetProp(cur, (const xmlChar *) "V");
+        int annee = atoi((const char*) annee_fichier);
+
+        /* Altaïr est écrit pour durer 100 ans :) */
+
+        if (annee <= 2000 || annee >= 2100)
+        {
+            std::cerr << ERROR_HTML_TAG " pas de données sur l'année.\n";
+
+#ifdef STRICT
+            if (log.open()) log.close();
+            exit(-517);
+#endif
+            /* Il faudra sans doute ajuster les différences entre le parsing C et l'analyse Xml, qui vont diverger */
+            std::cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode tolérant).\n";
+            return SKIP_FILE;
+        }
+
         cur = (cur)? cur->next : nullptr;
     }
     else
     {
-        std::cerr << "Erreur : Année non détectable\n";
+        std::cerr << ERROR_HTML_TAG "Année non détectable\n";
         if (log.is_open())
            log.close();
 #ifdef STRICT
@@ -100,7 +120,7 @@ static int parseFile(info_t& info)
         exit(-502);
 #else
         /* Il faudra sans doute ajuster les différences entre le parsing C et l'analyse Xml, qui vont diverger */
-        std::cerr << "[INF] Poursuite du traitement (mode tolérant).\n";
+        std::cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode tolérant).\n";
         return SKIP_FILE;
 #endif
     }
@@ -108,10 +128,24 @@ static int parseFile(info_t& info)
     if (cur != nullptr)
     {
         mois_fichier = xmlGetProp(cur, (const xmlChar *) "V");
+        int mois = atoi((const char*) mois_fichier);
+        if (mois <= 0 || mois > 12)
+        {
+            std::cerr << ERROR_HTML_TAG " pas de données sur le mois.\n";
+
+#ifdef STRICT
+            if (log.open()) log.close();
+            exit(-517);
+#endif
+            /* Il faudra sans doute ajuster les différences entre le parsing C et l'analyse Xml, qui vont diverger */
+            std::cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode tolérant).\n";
+            return SKIP_FILE;
+        }
+
     }
     else
     {
-        std::cerr << "Erreur : Mois non détectable\n";
+        std::cerr << ERROR_HTML_TAG "Mois non détectable\n";
 
 #ifdef STRICT
         if (log.is_open())
@@ -119,12 +153,13 @@ static int parseFile(info_t& info)
         exit(-503);
 #else
         /* Il faudra sans doute ajuster les différences entre le parsing C et l'analyse Xml, qui vont diverger */
-        std::cerr << "[INF] Poursuite du traitement (mode tolérant).\n";
+        std::cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode tolérant).\n";
         return SKIP_FILE;
 #endif
 
     }
 
+    cur_save = cur;
     cur = atteindreNoeud("Budget", cur);
 
     if (cur != nullptr)
@@ -132,13 +167,21 @@ static int parseFile(info_t& info)
         cur_save = cur;
         cur =  cur->xmlChildrenNode;
         budget_fichier = xmlGetProp(cur, (const xmlChar *) "V");
+        if (budget_fichier[0] == '\0')
+        {
+            xmlFree(budget_fichier);
+            budget_fichier = xmlStrdup(NA_STRING);
+            std::cerr << STATE_HTML_TAG "Aucune information sur le budget [optionnel].\n";
+            std::cerr << PROCESSING_HTML_TAG "TAG Poursuite du traitement (mode souple).\n";
+        }
         cur = cur_save->next;
     }
     else
     {
         budget_fichier = xmlStrdup(NA_STRING);
-        std::cerr << "[MSG] Budget non détectable\n";
-        std::cerr << "[INF] Poursuite du traitement (mode souple).\n";
+        std::cerr << STATE_HTML_TAG "Aucune information sur le budget [optionnel].\n";
+        std::cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple).\n";
+        cur = cur_save;
     }
 
     cur_save = cur;
@@ -154,17 +197,16 @@ static int parseFile(info_t& info)
     * </Employeur>
     */
 
-
     if (nullptr == (cur = atteindreNoeud("Employeur", cur)))
     {
-        std::cerr << "Erreur :  non conformité aux normes. L'employeur devrait normalement pouvoir être détecté.\n";
+        std::cerr << ERROR_HTML_TAG " non conformité aux normes. L'employeur devrait normalement pouvoir être détecté.\n";
         afficher_environnement_xhl(info);
 #ifdef STRICT
         if (log.is_open())
            log.close();
         exit(-515);
 #endif                 
-        std::cerr << "[INF] Poursuite du traitement (mode souple).\n";
+        std::cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple).\n";
         siret_fichier = xmlStrdup(NA_STRING);
         employeur_fichier = xmlStrdup(NA_STRING);
         cur = cur_save;
@@ -178,7 +220,7 @@ static int parseFile(info_t& info)
 
             if (cur == nullptr || xmlIsBlankNode(cur))
             {
-                std::cerr << "Erreur :  pas de données sur le nom de l'employeur\n";
+                std::cerr << ERROR_HTML_TAG " pas de données sur le nom de l'employeur\n";
                 afficher_environnement_xhl(info);
                 employeur_fichier = xmlStrdup(NA_STRING);
                 siret_fichier = xmlStrdup(NA_STRING);
@@ -193,7 +235,7 @@ static int parseFile(info_t& info)
             }
             else
             {
-                std::cerr << "Erreur : Employeur non identifié (pas de nom).\n";
+                std::cerr << ERROR_HTML_TAG "Employeur non identifié (pas de nom).\n";
                 employeur_fichier = xmlStrdup(NA_STRING);
             }
 
@@ -202,10 +244,22 @@ static int parseFile(info_t& info)
             if (cur != nullptr)
             {
                 siret_fichier = xmlGetProp(cur, (const xmlChar *) "V");
+                if (employeur_fichier[0] == '\0')
+                {
+                    std::cerr << ERROR_HTML_TAG " pas de données sur le nom de l'employeur\n";
+                    afficher_environnement_xhl(info);
+#ifdef STRICT
+                    if (log.open()) log.close();
+                    exit(-517);
+#endif
+                    std::cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple).\n";
+                    employeur_fichier = xmlStrdup(NA_STRING);
+
+                }
             }
             else
             {
-                std::cerr  << "Erreur : Siret de l'empoyeur non identifié.\n";
+                std::cerr  << ERROR_HTML_TAG "Siret de l'empoyeur non identifié.\n";
                 std::cerr << "Année " << annee_fichier
                           << " Mois "  << mois_fichier << "\n";
                 siret_fichier = xmlStrdup(NA_STRING);
@@ -219,6 +273,7 @@ static int parseFile(info_t& info)
     }
 
   cur = atteindreNoeud("DonneesIndiv", cur);
+  static int warning_count;
 
   while(cur != nullptr)
   {
@@ -230,7 +285,7 @@ static int parseFile(info_t& info)
 
         if (cur == nullptr || xmlIsBlankNode(cur))
         {
-            std::cerr << "Erreur :  pas de données individuelles de paye (PayeIndivMensuel)\n";
+            std::cerr << ERROR_HTML_TAG " pas de données individuelles de paye (PayeIndivMensuel)\n";
             afficher_environnement_xhl(info);
 #ifdef STRICT
             if (log.is_open())
@@ -256,9 +311,8 @@ static int parseFile(info_t& info)
             cur = atteindreNoeud("Etablissement", cur);
             if (cur == nullptr)
             {
-                    std::cerr << "[MSG]  Pas d'information sur l'établissement. Le rattachement comptable de l'agent est incertain !\n";
-                    afficher_environnement_xhl(info);
-                    cur = cur_save2;
+                warning_msg("Etablissement", info);
+                cur = cur_save2;
             }
             else
             {
@@ -286,14 +340,14 @@ static int parseFile(info_t& info)
 
                     if (cur == nullptr || xmlIsBlankNode(cur))
                     {
-                        std::cerr << "Erreur :  pas de données sur le nom de l'employeur\n";
+                        std::cerr << ERROR_HTML_TAG " pas de données sur le nom de l'établissement\n";
                         afficher_environnement_xhl(info);
 #ifdef STRICT
                         if (log.open()) log.close();
                         exit(-517);
 #endif
-                        std::cerr << "[INF] Poursuite du traitement (mode souple).\n";
-                        employeur_fichier = xmlStrdup(NA_STRING);
+                        std::cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple).\n";
+                        etablissement_fichier = xmlStrdup(NA_STRING);
                         siret_fichier = xmlStrdup(NA_STRING);
                         break;
                     }
@@ -301,19 +355,33 @@ static int parseFile(info_t& info)
                     cur = atteindreNoeud("Nom", cur);
                     if (cur != nullptr)
                     {
-                        employeur_fichier = xmlGetProp(cur, (const xmlChar *) "V");
+                        etablissement_fichier = xmlGetProp(cur, (const xmlChar *) "V");
+                        if (etablissement_fichier[0] == '\0')
+                        {
+                            std::cerr << ERROR_HTML_TAG " pas de données sur le nom de l'établissement\n";
+                            afficher_environnement_xhl(info);
+    #ifdef STRICT
+                            if (log.open()) log.close();
+                            exit(-517);
+    #endif
+                            std::cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple).\n";
+                            xmlFree(employeur_fichier);
+                            etablissement_fichier = xmlStrdup(NA_STRING);
+
+                        }
+
                         cur = (cur)? cur->next : nullptr;
                     }
                     else
                     {
-                        std::cerr << "Erreur : Employeur non identifié (pas de nom).\n";
+                        std::cerr << ERROR_HTML_TAG "Etablissement non identifié (pas de nom).\n";
                         afficher_environnement_xhl(info);
 #ifdef STRICT
                         if (log.open()) log.close();
                         exit(-517);
 #endif
-                        employeur_fichier = xmlStrdup(NA_STRING);
-                        std::cerr << "[INF] Poursuite du traitement (mode souple).\n";
+                        etablissement_fichier = xmlStrdup(NA_STRING);
+                        std::cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple).\n";
                     }
 
                     if (cur != nullptr) cur = atteindreNoeud("Siret", cur);
@@ -321,6 +389,18 @@ static int parseFile(info_t& info)
                     if (cur != nullptr)
                     {
                         siret_fichier = xmlGetProp(cur, (const xmlChar *) "V");
+                        if (siret_fichier[0] == '\0')
+                        {
+                            std::cerr << ERROR_HTML_TAG " pas de données sur le Siret de l'employeur\n";
+                            afficher_environnement_xhl(info);
+    #ifdef STRICT
+                            if (log.open()) log.close();
+                            exit(-517);
+    #endif
+                            std::cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple).\n";
+                            xmlFree(siret_fichier);
+                            siret_fichier = xmlStrdup(NA_STRING);
+                        }
                     }
                     else
                     {
@@ -328,7 +408,7 @@ static int parseFile(info_t& info)
                         if (log.open()) log.close();
                         exit(-517);
 #endif
-                        std::cerr  << "Erreur : Siret de l'empoyeur non identifié.\n";
+                        std::cerr  << ERROR_HTML_TAG "Siret de l'empoyeur non identifié.\n";
                         afficher_environnement_xhl(info);
                         siret_fichier = xmlStrdup(NA_STRING);
                     }
@@ -375,13 +455,13 @@ static int parseFile(info_t& info)
 
             if (cur == nullptr || cur->xmlChildrenNode == nullptr || xmlIsBlankNode(cur->xmlChildrenNode))
             {
-                    std::cerr << "Erreur : Pas d'information sur les lignes de paye.\n";
+                    std::cerr << ERROR_HTML_TAG "Pas d'information sur les lignes de paye [non-conformité à la norme].\n";
                     afficher_environnement_xhl(info);
 #ifdef STRICT
                     if (log.open()) log.close();
                     exit(-518);
 #endif
-                    std::cerr << "[INF] Poursuite du traitement (mode souple).\n";
+                    std::cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple).\n";
                     /* Ici on ne risque pas d'avoir une divergence entre le parsage C et Xml */
                     if (cur == nullptr)
                         cur = cur_save2->next;
@@ -415,7 +495,7 @@ static int parseFile(info_t& info)
             {
                 if (diff != 0)
                 {
-                    std::cerr << "Erreur : Incohérence des décomptes de lignes entre le contrôle C : "
+                    std::cerr << ERROR_HTML_TAG "Incohérence des décomptes de lignes entre le contrôle C : "
                               << info.NLigne[info.NCumAgentXml]
                               << "et l'analyse Libxml2 : "
                               << ligne_p
@@ -462,15 +542,14 @@ exit(0);
         }
 
         cur = cur_save->next;  // next DonneesIndiv
-        if (cur == nullptr || xmlStrcmp(cur->name, (const xmlChar*) "Do")) break;   // on ne va pas envoyer un message d'absence de DonneesIndiv si on a fini la boucle...
+        if (cur == nullptr || xmlStrcmp(cur->name, (const xmlChar*) "DonneesIndiv")) break;   // on ne va pas envoyer un message d'absence de DonneesIndiv si on a fini la boucle...
   }
 
     xmlFree(mois_fichier);
     xmlFree(annee_fichier);
 
-    std::cerr << "[MSG] Fichier n°" << info.fichier_courant + 1 << " :\n[MSG] Population du fichier  " <<  info.threads->argv[info.fichier_courant] << ":\n[MSG] "
-              <<  info.NAgent[info.fichier_courant] << " bulletins    Total : " <<  info.NCumAgentXml << "bulletins  " << info.nbLigne <<" lignes cumulées.\n";
-
+    std::cerr << STATE_HTML_TAG "Fichier n°" << info.fichier_courant + 1 << " :\n" STATE_HTML_TAG "Chemin : " <<  info.threads->argv[info.fichier_courant] << "\n"
+              << STATE_HTML_TAG << "Total : " <<  info.NCumAgentXml << "bulletins  " << info.nbLigne <<" lignes cumulées.\n";
 
     xmlFreeDoc(doc);
     if (log.is_open())
@@ -568,14 +647,14 @@ static inline void GCC_INLINE allouer_memoire_table(info_t& info)
 
     if (info.NAgent == nullptr)
     {
-        std::cerr << "Erreur : Mémoire insuffisante pour la table du nombre d'agents\n";
+        std::cerr << ERROR_HTML_TAG "Mémoire insuffisante pour la table du nombre d'agents\n";
         exit(-19);
     }
 
 
     if (info.Table == nullptr)
     {
-        std::cerr << "Erreur : Mémoire insuffisante pour la table de lignes de paye\n";
+        std::cerr << ERROR_HTML_TAG "Mémoire insuffisante pour la table de lignes de paye\n";
         exit(-18);
     }
 
@@ -586,7 +665,7 @@ static inline void GCC_INLINE allouer_memoire_table(info_t& info)
 
         if (info.Table[agent] == nullptr)
         {
-            std::cerr <<  "Erreur : Erreur d'allocation de drapeau I. pour l'agent "
+            std::cerr <<  ERROR_HTML_TAG "Erreur d'allocation de drapeau I. pour l'agent "
                       <<  agent
                       <<  "et pour "
                       <<  info.Memoire_p_ligne[agent]
@@ -617,7 +696,7 @@ void* decoder_fichier(info_t& info)
         int err = calculer_memoire_requise(info);
         if (err)
         {
-            std ::cerr << "Erreur : Calcul de la mémoire requise\n";
+            std ::cerr << ERROR_HTML_TAG "Calcul de la mémoire requise\n";
             exit(-1001);
         }
     }
@@ -632,7 +711,7 @@ void* decoder_fichier(info_t& info)
         }
         else
         {
-            perror("Erreur : Problème d'allocation mémoire de info.NLigne");
+            perror(ERROR_HTML_TAG "Problème d'allocation mémoire de info.NLigne");
             exit(1003);
         }
     }
@@ -656,17 +735,17 @@ void* decoder_fichier(info_t& info)
           case RETRY:
             i = 0;
             /* on réalloue tout depuis le début à la site d'un incident */
-            std::cerr << "Erreur :  Il est nécessaire de réallouer la mémoire à la suite d'un incident dû aux données...\n";
+            std::cerr << ERROR_HTML_TAG " Il est nécessaire de réallouer la mémoire à la suite d'un incident dû aux données...\n";
             continue;
 
           case SKIP_FILE:
-            std::cerr << "Erreur :  Le fichier  " << info.threads->argv[info.fichier_courant] << " n'a pas pu être traité\n"
+            std::cerr << ERROR_HTML_TAG " Le fichier  " << info.threads->argv[info.fichier_courant] << " n'a pas pu être traité\n"
                       << "   Fichier suivant...\n";
             continue;
 
           default :
             #ifndef NO_DEBUG
-               std::cerr << "[INF] Fichier " << info.threads->argv[info.fichier_courant]  << "  traité\n";
+               std::cerr << PROCESSING_HTML_TAG "Fichier " << info.threads->argv[info.fichier_courant]  << "  traité\n";
             #endif
                break;
         }
@@ -675,7 +754,7 @@ void* decoder_fichier(info_t& info)
 
     if (info.NCumAgentXml != info.NCumAgent)
     {
-        std::cerr << "Erreur : Incohérence de l'allocation mémoire ex-ante " << info.NCumAgent
+        std::cerr << ERROR_HTML_TAG "Incohérence de l'allocation mémoire ex-ante " << info.NCumAgent
                   << " unités et ex-post " <<  info.NCumAgentXml << " unités d'information.\n"
                   << "Sortie pour éviter une erreur de segmentation.\n";
         std::cerr << "\nFichier : " << info.threads->argv[info.fichier_courant] << "\n";

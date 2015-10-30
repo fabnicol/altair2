@@ -17,6 +17,7 @@
 #include "validator.hpp"
 #include "fonctions_auxiliaires.hpp"
 #include "table.hpp"
+#include "tags.h"
 
 typedef std::chrono::high_resolution_clock Clock;
 std::ofstream rankFile;
@@ -451,7 +452,7 @@ int main(int argc, char **argv)
         t.resize(info.nbfil);
     }
 
-    std::cerr << "\n[INF] Création des fils clients.\n";
+    std::cerr << "\n" PROCESSING_HTML_TAG "Création des fils clients.\n";
 
     for (int i = 0; i < info.nbfil; ++i)
     {
@@ -538,7 +539,7 @@ int main(int argc, char **argv)
 
     auto endofcalculus = Clock::now();
 
-    std::cerr << "\n[INF] Durée de calcul : "
+    std::cerr << "\n" PROCESSING_HTML_TAG "Durée de calcul : "
               << std::chrono::duration_cast<std::chrono::milliseconds>(endofcalculus - startofprogram).count()
               << " millisecondes" << "\n";
 
@@ -553,7 +554,7 @@ int main(int argc, char **argv)
     int valeur_de_retour = 0;
     if (! liberer_memoire) goto duration;
 
-    std::cerr << "\n[INF] Libération de la mémoire...\n";
+    std::cerr << "\n" PROCESSING_HTML_TAG "Libération de la mémoire...\n";
 
     /* En cas de problème d'allocation mémoire le mieux est encore de ne pas désallouer car on ne connait pas exacteemnt l'état
      * de la mémoire dynamique */
@@ -589,7 +590,7 @@ int main(int argc, char **argv)
 
     auto endofprogram = Clock::now();
 
-    std::cerr << "\n[INF] Durée d'exécution : "
+    std::cerr << "\n" PROCESSING_HTML_TAG "Durée d'exécution : "
               << std::chrono::duration_cast<std::chrono::milliseconds>(endofprogram - startofprogram).count()
               << " millisecondes" << "\n";
 

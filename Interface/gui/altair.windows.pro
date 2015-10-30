@@ -52,8 +52,11 @@ TARGET = Altair
 
 VPATH = .
 
-DEFINES += OVERVALUE_DIRSIZE_SHARE_COEFFICIENT=1.5 \    # Une estimation du ration taille des fichiers xhl/taille des bases csv
-           COMMANDLINE_CONSOLE_OUTPUT                   # Générer la ligne de commande en console (verbeux)
+DEFINES += PROGRESSBAR_TIMEOUT=500    # Intervalle d'incrémentation de la barre de progression en millisecondes
+                            # Un timeout plus élevé diminue l'overhead mais rend la la progression moins fluide.
+                            # Le minimum (timeout = 0) donne des progressions fluides mais augmente de 10 % la durée d'exec.
+
+DEFINES += COMMANDLINE_CONSOLE_OUTPUT                   # Générer la ligne de commande en console (verbeux)
 
 DEFINES += QT_NO_OPENGL \
            STATIC\                                      # à utiliser pour lancer le navigateur internet par défaut plustôt qu'un navigateur interne
@@ -111,7 +114,7 @@ RESOURCES += \
 
 DISTFILES += \
     ../../A_FAIRE.txt \
-    ../share/altair-gui/images/information.png
+
 
 
 

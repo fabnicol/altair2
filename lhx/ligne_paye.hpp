@@ -13,10 +13,11 @@
 
 #include "fonctions_auxiliaires.hpp"
 #include "table.hpp"
+#include "tags.h"
 
 extern std::mutex mut;
 
-xmlNodePtr GCC_INLINE atteindreNoeud(const char* noeud, xmlNodePtr cur, bool  opt = true, int normalJump = 0);
+xmlNodePtr GCC_INLINE atteindreNoeud(const char* noeud, xmlNodePtr cur, int normalJump = 0);
 
 #if 0
 static inline xmlNodePtr GCC_INLINE atteindreNoeudArret(const char* noeud, xmlNodePtr cur, const char* arret)
@@ -46,6 +47,42 @@ static inline xmlNodePtr GCC_INLINE atteindreNoeudArret(const char* noeud, xmlNo
 #endif
 
 void afficher_environnement_xhl(const info_t& info);
+
+inline void warning_msg(const char* noeud, const info_t& info)
+{
+       /* pour des raisons pratiques il peut être nécessaire de limiter le nombre de sorties de ce type */
+
+    static int warning_count;
+    static char* fichier_last = nullptr;
+
+      #ifdef WARNING_LIMIT
+       if (warning_count < WARNING_LIMIT)
+       {
+           ++warning_count;
+           std::cerr << WARNING_HTML_TAG "Impossible d'atteindre " << noeud << "\n";
+           afficher_environnement_xhl(info);
+       }
+       else
+           if (warning_count == WARNING_LIMIT)
+           {
+               std::cerr << WARNING_HTML_TAG "Impossible d'atteindre " << noeud << ". Messages d'avertissement supprimés par la suite.\n";
+               warning_count = WARNING_LIMIT + 1;
+              afficher_environnement_xhl(info);
+           }
+
+       if (fichier_last !=  nullptr && strcmp(info.threads->argv[info.fichier_courant], fichier_last) != 0)
+           warning_count = 0;
+
+       /* on remet à zéro le maximum d'avertissements à chaque nouveau fichier */
+
+       fichier_last = info.threads->argv[info.fichier_courant];
+
+      #else
+           std::cerr << WARNING_HTML_TAG "Impossible d'atteindre " << noeud << "\n";
+           afficher_environnement_xhl(info);
+      #endif
+
+}
 
 #endif // LIGNE_PAYE
 

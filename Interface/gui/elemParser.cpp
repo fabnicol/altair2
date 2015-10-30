@@ -10,7 +10,7 @@
 struct Header* elem_parser(const char* buffer)
 {
    #ifdef DEBUG_MSG
-    fprintf(stderr, "[INF] Premier scan du fichier pour vérifier les années, mois et siret... \n");
+    fprintf(stderr, PROCESSING_HTML_TAG "Premier scan du fichier pour vérifier les années, mois et siret... \n");
    #endif
 
     Header* elemPar = (Header*) calloc(1, sizeof(Header));

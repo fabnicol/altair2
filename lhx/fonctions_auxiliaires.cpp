@@ -9,6 +9,8 @@
 #include <iomanip>
 #include <iostream>
 #include "fonctions_auxiliaires.hpp"
+#include "tags.h"
+
 #ifdef MMAP_PARSING
 #ifdef __linux__
 #include <fcntl.h>
@@ -255,7 +257,7 @@ int calculer_memoire_requise(info_t& info)
      *   on compte un agent en plus (++info.NCumAgent) avec un nombre de ligne égal au moins à un, même si pas de ligne de paye codée.
      *   Si il existe N lignes de paye codées, alors info.NLigne[info.NCumAgent] = N. */
 
-    std::cerr << "\n\n[INF] Premier scan des fichiers pour déterminer les besoins mémoire ... \n";
+    std::cerr << "\n" PROCESSING_HTML_TAG "Premier scan des fichiers pour déterminer les besoins mémoire ... \n";
 
     /* par convention  un agent avec rémunération non renseignées (balise sans fils) a une ligne */
     for (unsigned i = 0; i < info.threads->argc; ++i)
