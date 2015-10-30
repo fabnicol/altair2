@@ -142,6 +142,7 @@ signals:
   void setProgressBar(int, int);
   void setProgressBar(int);
   void hideProgressBar();
+  void showProgressBar();
 
 };
 
@@ -185,7 +186,7 @@ public:
 
     void setCount(int x) { bar->setRange(0, x); }
 
-    void start(int timeout=0)
+    void start(int timeout = PROGRESSBAR_TIMEOUT)
     {
         timer->start(timeout);
         killButton->setEnabled(true);
@@ -207,7 +208,7 @@ public:
     void stop();
     void showProgressBar()
     {
-        start(0);
+        start();
         bar->reset();
         killButton->show();
         bar->show();

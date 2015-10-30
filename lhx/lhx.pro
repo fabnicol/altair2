@@ -37,7 +37,10 @@ CONFIG -= app_bundle
 CONFIG -= qt
 VPATH = .
 
-DEFINES += PROGRESSION_INCREMENT_RATIO=2
+DEFINES += GUI_TAG_MESSAGES    # définir pour que les sorties des messages soient formatées pour que l'interface graphique les transforme en icône.
+
+DEFINES += PROGRESSION_INCREMENT_RATIO=2  \
+           WARNING_LIMIT=10   # nombre maximum d'avertissement par fichier
 
 DEFINES += __GNUC_EXTENSION \
            _REENTRANT \
@@ -75,6 +78,8 @@ CONFIG(debug) {
     QMAKE_CXXFLAGS += -O3 -fexpensive-optimizations -fomit-frame-pointer
 }
 
+INCLUDEPATH += ../Interface/gui
+
 windows {
 
   COMPILER_DIR = mingw64-5.2
@@ -98,5 +103,6 @@ HEADERS += \
     fonctions_auxiliaires.hpp \
     table.hpp \
     validator.hpp \
-    ligne_paye.hpp
+    ligne_paye.hpp \
+    ../Interface/gui/tags.h
 

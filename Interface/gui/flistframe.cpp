@@ -465,6 +465,7 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
      altair->outputTextEdit->append(STATE_HTML_TAG " Parcours des entêtes de fichier " );
     #endif
     int stringListSize = stringList.size();
+    emit(altair->showProgressBar());
     emit(altair->setProgressBar(0, stringListSize));
 
     parseXhlFile(stringList);

@@ -1,6 +1,6 @@
 #include "ligne_paye.hpp"
 
-static inline xmlNodePtr GCC_INLINE atteindreNoeud(const xmlChar * noeud, xmlNodePtr cur, bool opt = true, int normalJump = 0)
+static inline xmlNodePtr GCC_INLINE atteindreNoeud(const xmlChar * noeud, xmlNodePtr cur, int normalJump = 0)
 {
    #if 0
     while (cur && xmlIsBlankNode(cur))
@@ -19,23 +19,15 @@ static inline xmlNodePtr GCC_INLINE atteindreNoeud(const xmlChar * noeud, xmlNod
 
       if (cur == nullptr)
       {
-          AFFICHER_NOEUD(noeud)  // cur->name == oeud
-
-          if (opt)
-             std::cerr << "Erreur : Impossible d'atteindre " << noeud << "\n";
-          //mut.unlock();
-          #ifdef STRICT
-            exit(-1);
-          #endif
-
+          AFFICHER_NOEUD(noeud)  // cur->name == noeud
       }
 
      return cur;  // soit un pointer vers le bon noeud, soit nullptr
 }
 
-xmlNodePtr GCC_INLINE atteindreNoeud(const char* noeud, xmlNodePtr cur, bool  opt, int normalJump)
+xmlNodePtr GCC_INLINE atteindreNoeud(const char* noeud, xmlNodePtr cur, int normalJump)
   {
-    return atteindreNoeud(reinterpret_cast<const xmlChar*>(noeud),  cur, opt, normalJump);
+    return atteindreNoeud(reinterpret_cast<const xmlChar*>(noeud),  cur, normalJump);
   }
 
 static inline void GCC_INLINE  verifier_taille(const int nbLignePaye, info_t& info)
@@ -63,12 +55,12 @@ void afficher_environnement_xhl(const info_t& info)
 
     if (mut.try_lock())
     {
-        std::cerr << "\nFichier   " <<  info.threads->argv[info.fichier_courant] << "\n";
+        std::cerr << "<img src=\":/images/warning.png\"/> Fichier analysé " <<  info.threads->argv[info.fichier_courant] << "\n";
 
         for (int l = 0; l < info.Memoire_p_ligne[info.NCumAgentXml]; ++l)
         {
          if (nullptr != info.Table[info.NCumAgentXml][l])
-            std::cerr << "** info.Table[" << info.NCumAgentXml << "][" << Tableau_entete[l] << "]=" << info.Table[info.NCumAgentXml][l] << "\n";
+            std::cerr << "info.Table[" << info.NCumAgentXml << "][" << Tableau_entete[l] << "]=" << info.Table[info.NCumAgentXml][l] << "\n";
         }
 
         mut.unlock();
@@ -80,11 +72,11 @@ void afficher_environnement_xhl(const info_t& info)
 /* Remplace les occurrences d'un caractère séparateur à l'intérieur d'un champ par le caractère '_' qui ne doit donc jamais
    être séparateur de champ (c'est bien rare !) */
 
-static inline int GCC_INLINE Bulletin(const xmlChar*  tag, xmlNodePtr& cur, int l, info_t& info, bool opt = true, int normalJump = 0)
+static inline int GCC_INLINE Bulletin(const xmlChar*  tag, xmlNodePtr& cur, int l, info_t& info, int normalJump = 0)
 {
     // attention faire en sorte que cur ne soit JAMAIS nul en entrée ou en sortie
 
-    const xmlNodePtr nextcur = std::move(atteindreNoeud(tag, cur, opt, normalJump));
+    const xmlNodePtr nextcur = std::move(atteindreNoeud(tag, cur, normalJump));
 
     if ( nullptr == nextcur)
     {
@@ -119,7 +111,7 @@ static inline int GCC_INLINE Bulletin(const xmlChar*  tag, xmlNodePtr& cur, int 
 
 /* obligatoire, mais possibilité de fallback si STRICT n'est pas défini */
 
-//             std::cerr << "Erreur : Noeud courant null au stade de la vérification de " << tag << "\n";
+//             std::cerr << ERROR_HTML_TAG "Noeud courant null au stade de la vérification de " << tag << "\n";
 
 static inline bool GCC_INLINE bulletin_obligatoire(const xmlChar* tag, xmlNodePtr& cur, int l,  info_t& info, int normalJump = 0)
 {
@@ -132,17 +124,17 @@ static inline bool GCC_INLINE bulletin_obligatoire(const xmlChar* tag, xmlNodePt
         case NODE_FOUND : return true;
 
         case NODE_NOT_FOUND :
-                std::cerr << "Erreur : Impossible d'atteindre " << tag << " à partir de " << cur->name << "\n";
+                std::cerr << ERROR_HTML_TAG "Impossible d'atteindre " << tag << " à partir de " << cur->name << "\n";
                 ligne_l = xmlStrdup(NA_STRING);
                 break;
 
         case LINE_MEMORY_EXCEPTION :
-                std::cerr << "Erreur : Allocation mémoire impossible pour la ligne " << l << "\n";
+                std::cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << "\n";
                 ligne_l = xmlStrdup(NA_STRING);
                 break;
 
         case NO_NEXT_ITEM :
-                std::cerr << "Erreur : Pas d'item successeur pour le noeud " << tag <<  "\n";
+                std::cerr << ERROR_HTML_TAG "Pas d'item successeur pour le noeud " << tag <<  "\n";
                 break;
 
     }
@@ -190,7 +182,7 @@ static inline bool GCC_INLINE bulletin_optionnel_numerique(const xmlChar* tag, x
 {
     // attention faire en sorte que cur ne soit JAMAIS nul
 
-    switch (Bulletin(tag, cur, l, info, false, normalJump))
+    switch (Bulletin(tag, cur, l, info, normalJump))
     {
         // on sait que cur ne sera jamais nul
         case NODE_FOUND :
@@ -207,12 +199,12 @@ static inline bool GCC_INLINE bulletin_optionnel_numerique(const xmlChar* tag, x
              return true;
 
         case LINE_MEMORY_EXCEPTION :
-             std::cerr << "Erreur : Allocation mémoire impossible pour la ligne " << l << "\n";
+             std::cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << "\n";
              ligne_l = xmlStrdup(NA_STRING);
              break;
 
         case NO_NEXT_ITEM :
-             std::cerr << "Erreur : Pas d'item successeur pour le noeud " << tag <<  "\n";
+             std::cerr << ERROR_HTML_TAG "Pas d'item successeur pour le noeud " << tag <<  "\n";
              #ifndef DECIMAL_NON_EN
               if (info.decimal != '.')
              #endif
@@ -262,12 +254,12 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique(const xmlChar* tag,
              return true;
 
         case LINE_MEMORY_EXCEPTION :
-             std::cerr << "Erreur : Allocation mémoire impossible pour la ligne " << l << "\n";
+             std::cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << "\n";
              ligne_l = xmlStrdup(NA_STRING);
              break;
 
         case NO_NEXT_ITEM :
-             std::cerr << "Erreur : Pas d'item successeur pour le noeud " << tag <<  "\n";
+             std::cerr << ERROR_HTML_TAG "Pas d'item successeur pour le noeud " << tag <<  "\n";
              #ifndef DECIMAL_NON_EN
               if (info.decimal != '.')
              #endif
@@ -294,6 +286,33 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique(const char* tag, xm
 {
     return bulletin_obligatoire_numerique(reinterpret_cast<const xmlChar*>(tag), cur, l, info, normalJump);
 }
+
+
+/* REFERENCE */
+/*
+<PayeIndivMensuel>
+  <Agent>{1,1}</Agent>
+  <Evenement>{0,unbounded}</Evenement>
+  <Service V="">{1,1}</Service>
+  <NBI V="">{1,unbounded}</NBI>
+  <QuotiteTrav V="">{1,1}</QuotiteTrav>
+  <Periode>{1,1}</Periode>
+  <Remuneration>{1,1}</Remuneration>
+  <NbHeureTotal V="">{0,1}</NbHeureTotal>
+  <TauxHor V="">{0,1}</TauxHor>
+  <NbHeureSup V="">{1,1}</NbHeureSup>
+  <MtBrut V="">{1,1}</MtBrut>
+  <MtNet V="">{1,1}</MtNet>
+  <MtNetAPayer V="">{1,1}</MtNetAPayer>
+  <DatePaiement V="">{1,1}</DatePaiement>
+  <MtImposable V="">{1,1}</MtImposable>
+  <CumulMtImposable V="">{1,1}</CumulMtImposable>
+  <CumulMtBrut V="">{1,1}</CumulMtBrut>
+  <CumulBaseSS V="">{1,1}</CumulBaseSS>
+  <RepartitionBudget>{0,unbounded}</RepartitionBudget>
+  <PJRef>{0,unbounded}</PJRef>
+</PayeIndivMensuel>
+*/
 
 static inline int lignePaye(xmlNodePtr cur, info_t& info)
 {
@@ -331,11 +350,11 @@ static inline int lignePaye(xmlNodePtr cur, info_t& info)
 
                 /* On ne rembobine qu'une seule fois. Si l'essai échoue, on déclenche une exception */
 
-                std::cerr << "Erreur : En excès du nombre de types de lignes de paye autorisé (" << nbType << ").\n";
+                std::cerr << ERROR_HTML_TAG "En excès du nombre de types de lignes de paye autorisé (" << nbType << ").\n";
                 if (cur)
-                    std::cerr << "Erreur : Type litigieux " << cur->name << " aux alentours du matricule " << info.Table[info.NCumAgentXml][Matricule] << "\n";
+                    std::cerr << ERROR_HTML_TAG "Type litigieux " << cur->name << " aux alentours du matricule " << info.Table[info.NCumAgentXml][Matricule] << "\n";
                 else
-                    std::cerr << "Erreur : Pointeur noeud courant nul" << "\n";
+                    std::cerr << ERROR_HTML_TAG "Pointeur noeud courant nul" << "\n";
 
                 exit(-11);
             }
@@ -430,32 +449,32 @@ static inline int lignePaye(xmlNodePtr cur, info_t& info)
 #define BULLETIN_OPTIONNEL_NUMERIQUE_(X, normalJump)  bulletin_optionnel_numerique(#X, cur, X, info, normalJump)
 #define BULLETIN_OPTIONNEL_NUMERIQUE(X)  BULLETIN_OPTIONNEL_NUMERIQUE_(X, 0)
 
+/* REFERENCE */
+/*
+ * <Agent>
+      <Civilite V="">{0,1}</Civilite>
+      <Nom V="">{1,1}</Nom>
+      <ComplNom V="">{0,1}</ComplNom>
+      <Prenom V="">{0,1}</Prenom>
+      <Matricule V="">{1,1}</Matricule>
+      <NIR V="">{1,1}</NIR>
+      <Adresse>{1,1}</Adresse>
+      <NbEnfants V="">{1,1}</NbEnfants>
+      <Statut V="">{1,1}</Statut>
+      <RefNomenStatutaire>{0,1}</RefNomenStatutaire>
+      <EmploiMetier V="">{1,1}</EmploiMetier>
+      <Grade V="">{1,1}</Grade>
+      <Echelon V="">{1,1}</Echelon>
+      <Indice V="">{1,1}</Indice>
+      <CptBancaire>{0,1}</CptBancaire>
+    </Agent>
+*/
+
 uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, std::ofstream& log)
 {
     bool result = true;
 
     xmlNodePtr cur_parent = cur;
-
-    /* REFERENCE */
-    /*
-     * <Agent>
-          <Civilite V="">{0,1}</Civilite>
-          <Nom V="">{1,1}</Nom>
-          <ComplNom V="">{0,1}</ComplNom>
-          <Prenom V="">{0,1}</Prenom>
-          <Matricule V="">{1,1}</Matricule>
-          <NIR V="">{1,1}</NIR>
-          <Adresse>{1,1}</Adresse>
-          <NbEnfants V="">{1,1}</NbEnfants>
-          <Statut V="">{1,1}</Statut>
-          <RefNomenStatutaire>{0,1}</RefNomenStatutaire>
-          <EmploiMetier V="">{1,1}</EmploiMetier>
-          <Grade V="">{1,1}</Grade>
-          <Echelon V="">{1,1}</Echelon>
-          <Indice V="">{1,1}</Indice>
-          <CptBancaire>{0,1}</CptBancaire>
-        </Agent>
-    */
 
     cur = atteindreNoeud("Agent", cur);
 
@@ -464,7 +483,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, std::ofstream& log)
 
         std::string temp_logpath =getexecpath();
 
-        std::cerr << "Erreur : Agent non identifié. Consulter le fichier erreur.log sous " << temp_logpath  << " pour avoir les détails de l'incident.\n";
+        std::cerr << ERROR_HTML_TAG "Agent non identifié. Consulter le fichier erreur.log sous " << temp_logpath  << " pour avoir les détails de l'incident.\n";
 
         if (info.chemin_log.empty())
         {
@@ -485,7 +504,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, std::ofstream& log)
             log.flush();
             log.seekp(std::ios_base::end);
 
-            log << "\n\nErreur : L'agent est non identifié pour le fichier : " << info.threads->argv[info.fichier_courant] << "\n"
+            log << "\n\nERROR_HTML_TAG L'agent est non identifié pour le fichier : " << info.threads->argv[info.fichier_courant] << "\n"
                 << "Année " << info.Table[info.NCumAgentXml][Annee] << "\n"
                 << "Mois "  << info.Table[info.NCumAgentXml][Mois]  << "\n\n";
 
@@ -498,7 +517,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, std::ofstream& log)
             if (log_to_be_closed) log.close();
         }
         else
-            std::cerr << "Erreur :  Impossible d'écrire le log des erreurs.\n";
+            std::cerr << ERROR_HTML_TAG " Impossible d'écrire le log des erreurs.\n";
 
 #ifdef STRICT
         if (log.is_open()) log.close();
@@ -548,7 +567,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, std::ofstream& log)
     if ((result = (result                  // garde spécifique
         && BULLETIN_OBLIGATOIRE_(NbEnfants, 1)
         && BULLETIN_OBLIGATOIRE(Statut)
-        && BULLETIN_OBLIGATOIRE_(EmploiMetier, 1)))) {} // no-op
+        && BULLETIN_OBLIGATOIRE(EmploiMetier)))) {} // no-op
 
     #ifdef TOLERANT_TAG_HIERARCHY
         cur = cur_save;
@@ -568,7 +587,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, std::ofstream& log)
 
     if (!result)
     {
-        std::cerr << "Erreur : Problème de conformité des données [512]\n";
+        std::cerr << ERROR_HTML_TAG "Problème de conformité des données [512]\n";
 #ifdef STRICT
         exit(-512);
 #endif
@@ -577,7 +596,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, std::ofstream& log)
     /* on remonte d'un niveau */
 
     cur = cur_parent;
-    if (!result) std::cerr << "Erreur : Remontée d'un niveau\n";
+    if (!result) std::cerr << ERROR_HTML_TAG "Remontée d'un niveau\n";
 
     #ifdef TOLERANT_TAG_HIERARCHY
       cur_save = cur;
@@ -647,7 +666,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, std::ofstream& log)
     }
     else
     {
-        perror("Erreur : Rémunération introuvable.");
+        perror(ERROR_HTML_TAG "Rémunération introuvable.");
         exit(-4);
     }
 
@@ -668,7 +687,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, std::ofstream& log)
 
     if (!result)
     {
-        std::cerr << "Erreur : Problème de conformité des données [513]\n";
+        std::cerr << ERROR_HTML_TAG "Problème de conformité des données [513]\n";
 #ifdef STRICT
         exit(-513);
 #endif
