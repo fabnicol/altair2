@@ -135,22 +135,36 @@ standardPage::standardPage()
                                  {NULL},
                                  { nLineLabel, NLineLabel, nLineEdit, NLineEdit});
 
-    v1Layout->addWidget(baseTypeLabel,     1,0,Qt::AlignRight);
-    v1Layout->addWidget(baseTypeWidget,    1,1,Qt::AlignLeft);
-    v1Layout->addWidget(maxNLigneLabel,    2,0,Qt::AlignRight);
-    v1Layout->addWidget(maxNLigneLineEdit, 2,1,Qt::AlignLeft);
-    v1Layout->addWidget(rangCheckBox,      5,1,Qt::AlignRight);
-    v1Layout->addWidget(rangLabel,         5,0,Qt::AlignRight);
-    
-    v2Layout->addWidget(tableCheckBox,     1,0,Qt::AlignLeft);
-    v2Layout->addWidget(economeCheckBox,   2,0,Qt::AlignLeft);
-    v2Layout->addWidget(nLineEdit,         3,1,Qt::AlignLeft);
-    v2Layout->addWidget(nLineLabel,        3,0,Qt::AlignRight);
-    v2Layout->addWidget(NLineEdit,         4,1,Qt::AlignLeft);
-    v2Layout->addWidget(NLineLabel,        4,0,Qt::AlignRight);
-    v2Layout->addWidget(processTypeLabel,  5,0,Qt::AlignRight);
-    v2Layout->addWidget(processTypeWidget, 5,1,Qt::AlignLeft);
-    v2Layout->addWidget(logCheckBox,       6,0,Qt::AlignLeft);
+    consoleCheckBox=new FCheckBox("Activer la console  ",
+                                  flags::status::enabledChecked | flags::commandLineType::noCommandLine,
+                                  "activerConsole",
+                                  {"Interface", "Utiliser l'onglet console"});
+
+    economeCheckBox=new FCheckBox("Economiser la RAM  ",
+                                  flags::status::enabledChecked | flags::commandLineType::altairCommandLine,
+                                  "ecoRAM",
+                                 {"Mode économe en mémoire", ""},
+                                  "t",
+                                 {NULL},
+                                 { nLineLabel, NLineLabel, nLineEdit, NLineEdit});
+
+    v1Layout->addWidget(baseTypeLabel,     1, 0, Qt::AlignRight);
+    v1Layout->addWidget(baseTypeWidget,    1, 1, Qt::AlignLeft);
+    v1Layout->addWidget(maxNLigneLabel,    2, 0, Qt::AlignRight);
+    v1Layout->addWidget(maxNLigneLineEdit, 2, 1, Qt::AlignLeft);
+    v1Layout->addWidget(rangCheckBox,      5, 1, Qt::AlignRight);
+    v1Layout->addWidget(rangLabel,         5, 0, Qt::AlignRight);
+
+    v2Layout->addWidget(tableCheckBox,     1, 0, Qt::AlignLeft);
+    v2Layout->addWidget(economeCheckBox,   2, 0, Qt::AlignLeft);
+    v2Layout->addWidget(nLineEdit,         3, 1, Qt::AlignLeft);
+    v2Layout->addWidget(nLineLabel,        3, 0, Qt::AlignRight);
+    v2Layout->addWidget(NLineEdit,         4, 1, Qt::AlignLeft);
+    v2Layout->addWidget(NLineLabel,        4, 0, Qt::AlignRight);
+    v2Layout->addWidget(processTypeLabel,  5, 0, Qt::AlignRight);
+    v2Layout->addWidget(processTypeWidget, 5, 1, Qt::AlignLeft);
+    v2Layout->addWidget(consoleCheckBox,   6, 0, Qt::AlignLeft);
+    v2Layout->addWidget(logCheckBox,       7, 0, Qt::AlignLeft);
 
     baseTypeBox->setLayout(v1Layout);
     processTypeBox->setLayout(v2Layout);
@@ -163,14 +177,12 @@ standardPage::standardPage()
     mainLayout->addWidget(baseTypeBox, 3, 0);
     mainLayout->addSpacing(20);
     mainLayout->addWidget(processTypeBox, 5, 0);
-    
+
     economeCheckBox->setChecked(true);
     tableCheckBox->setChecked(true);
+   // consoleCheckBox->setChecked(true);
 
     setLayout(mainLayout);
-    connect(processTypeWidget,
-            SIGNAL(currentIndexChanged(int)),
-            this, SLOT(on_processTypeWidgetChanged(int)));
 
 }
 

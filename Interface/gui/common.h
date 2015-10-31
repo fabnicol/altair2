@@ -6,22 +6,8 @@
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
-#ifndef VERSION
-#define VERSION " 15.10"
-#endif
 
-#ifndef STEP_UP
-#define STEP_UP "/../../"
-#endif
 
-#ifndef BUFFER_SIZE
-#define BUFFER_SIZE 1500
-#endif
-
-#define TREE_FILE 2
-#define TREE_DIR  3
-
-#define Max(X,Y) ((X>Y)? X : Y)
 #define Q(X) QMessageBox::about(nullptr, "test", X);
 #define q(X) QMessageBox::about(nullptr, "test", QString::number(X));
 #define v(X) (*FString(#X))
@@ -88,16 +74,16 @@ public :
 
 #ifdef Q_OS_WIN
 
-      const QString   System = "win";
-      const QString   systemSuffix = ".exe";
+      QString   System = "win";
+      QString   systemSuffix = ".exe";
 
       #ifndef LOCAL_BINPATH
       #define LOCAL_BINPATH
      #endif
 #else
     #ifdef Q_OS_LINUX
-        const QString System = "linux";
-        const QString   systemSuffix = "";
+        constexpr QString System = "linux";
+        constexpr QString   systemSuffix = "";
         #ifndef PREFIX
          #define PREFIX "/usr"
         #endif
@@ -107,7 +93,7 @@ public :
  /* insert executable at root of windows package */
   QString execPath = path_access(System);
   const QString sharedir = generateDatadirPath();
-  QString altairCommandStr=execPath+ QDir::separator()+("lhx"+ QString(systemSuffix));
+  QString altairCommandStr = execPath + QDir::separator()+("lhx"+ QString(systemSuffix));
 
     #ifdef MINIMAL
       QString RAltairDirStr = path_access("R/bin/x64");
@@ -120,11 +106,11 @@ public :
 
 #else
 
-   QString execPath = PREFIX+QString("/bin");
-   QString sharedir = PREFIX+QString("/share/applications/altair");
-   QString RAltairCommandStr = PREFIX+QString("/lib/rstudio/bin/rstudio");
-   QString RAltairDirStr = QString("/lib/rstudio/bin");
-   QString altairCommandStr = PREFIX+QString("/bin/lhx");
+   constexpr QString execPath = PREFIX+QString("/bin");
+   constexpr QString sharedir = PREFIX+QString("/share/applications/altair");
+   constexpr QString RAltairCommandStr = PREFIX+QString("/lib/rstudio/bin/rstudio");
+   constexpr QString RAltairDirStr = QString("/lib/rstudio/bin");
+   constexpr QString altairCommandStr = PREFIX+QString("/bin/lhx");
 
 #endif
  

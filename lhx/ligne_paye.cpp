@@ -1,5 +1,6 @@
 #include "ligne_paye.hpp"
 
+
 static inline xmlNodePtr GCC_INLINE atteindreNoeud(const xmlChar * noeud, xmlNodePtr cur, int normalJump = 0)
 {
    #if 0

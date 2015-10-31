@@ -1,6 +1,6 @@
 #include "flistframe.h"
 #include "common.h"
-
+#include "enums.h"
 
 #include <QMessageBox>
 

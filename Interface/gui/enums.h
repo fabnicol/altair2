@@ -2,21 +2,36 @@
 #define ENUMS_H
 #include <cstdint>
 
+#ifndef VERSION
+    static constexpr const char* VERSION = " 15.10";
+#endif
+
+#ifndef STEP_UP
+    static constexpr const char* STEP_UP = "/../../";
+#endif
+
+#ifndef BUFFER_SIZE
+    static constexpr int BUFFER_SIZE = 1500;
+#endif
+
+    enum exitCode {exitFailure=EXIT_FAILURE, noAudioFiles=10, isoTooSmall=11, mkisofsSanityCheck=12, shouldLaunchRAltairAlone=13};
+
 class flags
 {
 public:
-    enum {flush=0xF00};
+
     enum class flineframe {isFilePath, isDirectoryPath};
     enum {importFiles, importNames, typeIn, isEmbedded};
 
     enum class font : std::uint8_t {boldTitle, regularTitle, italicTitle};
     enum class directory : bool {noCheck = false, checkEmptyness = true } ;
-    enum class commandLineType : std::uint8_t {altairCommandLine,
-                                               defaultCommandLine=altairCommandLine,
-                                               RAltairFiles,
-                                               noCommandLine,
-                                               commandLinewidgetDepthMask=0xF,
-                                               commandLineMask=0xF,
+    enum class commandLineType : std::uint8_t {
+                                                 altairCommandLine = 0x01,
+                                                 defaultCommandLine=altairCommandLine,
+                                                 RAltairFiles = 0x02,
+                                                 noCommandLine = 0x03,
+                                                 commandLinewidgetDepthMask=0xF,
+                                                 commandLineMask=0xF,
                                               };
 
     enum class status : std::uint16_t {
@@ -51,46 +66,42 @@ public:
 
 enum actionType {Select, OpenFolder, BrowseFile};
 
-#ifdef _WIN32
-#define CONSTEXPR const
-#else
-#define CONSTEXPR constexpr
-#endif
+
 
 class interfaceStatus  {
   public:
     
-  static CONSTEXPR  std::uint16_t hasUnsavedOptions=0x0;
-  static CONSTEXPR std::uint16_t hasSavedOptions=0x1;
-  static CONSTEXPR std::uint16_t hasSavedOptionsMask=0xF;
-  static CONSTEXPR std::uint16_t tree=0x0010;
-  static CONSTEXPR std::uint16_t treeMask=0x00F0;
-  static CONSTEXPR std::uint16_t saveTree=0x0100;
-  static CONSTEXPR std::uint16_t saveTreeMask=0x0F00;
-  static CONSTEXPR std::uint16_t mainTabs=0x1000;
-  static CONSTEXPR std::uint16_t tabMask=0x7000;
-  static CONSTEXPR std::uint16_t optionTabs=0x2000;
-  static CONSTEXPR std::uint16_t keepOptionTabs=0x4000;
-  static CONSTEXPR std::uint16_t parseXml=0xF000;
-  static CONSTEXPR std::uint16_t parseXmlMask=0xF000;
+  static constexpr  std::uint16_t hasUnsavedOptions=0x0;
+  static constexpr std::uint16_t hasSavedOptions=0x1;
+  static constexpr std::uint16_t hasSavedOptionsMask=0xF;
+  static constexpr std::uint16_t tree=0x0010;
+  static constexpr std::uint16_t treeMask=0x00F0;
+  static constexpr std::uint16_t saveTree=0x0100;
+  static constexpr std::uint16_t saveTreeMask=0x0F00;
+  static constexpr std::uint16_t mainTabs=0x1000;
+  static constexpr std::uint16_t tabMask=0x7000;
+  static constexpr std::uint16_t optionTabs=0x2000;
+  static constexpr std::uint16_t keepOptionTabs=0x4000;
+  static constexpr std::uint16_t parseXml=0xF000;
+  static constexpr std::uint16_t parseXmlMask=0xF000;
 };
 
 class manager  {
   
 public:
     
-    static CONSTEXPR std::uint16_t refreshProjectManagerFlag=0x000;
-    static CONSTEXPR std::uint16_t refreshProjectXHLZoneMask=0x00F;
-    static CONSTEXPR std::uint16_t refreshNBulletinsMask=0x0F0;
-    static CONSTEXPR std::uint16_t refreshProjectSystemZoneMask=0xF00;
-    static CONSTEXPR std::uint16_t refreshProjectInteractiveMask=0xF000;
-    static CONSTEXPR std::uint16_t refreshXHLZone=0x001;
-    static CONSTEXPR std::uint16_t refreshNBulletins=0x010;
-    static CONSTEXPR std::uint16_t refreshSystemZone=0x100;
-    static CONSTEXPR std::uint16_t refreshProjectInteractiveMode=0x1000;
-    static CONSTEXPR std::uint16_t refreshAllZones = manager::refreshXHLZone| manager::refreshNBulletins | manager::refreshSystemZone;
+    static constexpr std::uint16_t refreshProjectManagerFlag=0x000;
+    static constexpr std::uint16_t refreshProjectXHLZoneMask=0x00F;
+    static constexpr std::uint16_t refreshNBulletinsMask=0x0F0;
+    static constexpr std::uint16_t refreshProjectSystemZoneMask=0xF00;
+    static constexpr std::uint16_t refreshProjectInteractiveMask=0xF000;
+    static constexpr std::uint16_t refreshXHLZone=0x001;
+    static constexpr std::uint16_t refreshNBulletins=0x010;
+    static constexpr std::uint16_t refreshSystemZone=0x100;
+    static constexpr std::uint16_t refreshProjectInteractiveMode=0x1000;
+    static constexpr std::uint16_t refreshAllZones = manager::refreshXHLZone| manager::refreshNBulletins | manager::refreshSystemZone;
 };
 
-enum exitCode {exitFailure=EXIT_FAILURE, noAudioFiles=10, isoTooSmall=11, mkisofsSanityCheck=12, shouldLaunchRAltairAlone=13};
+
 
 #endif // ENUMS_H

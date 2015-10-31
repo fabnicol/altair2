@@ -61,7 +61,7 @@ int main(int argc, char **argv)
 
     if (argc < 2)
     {
-        std::cerr << "Erreur : Il faut au moins un fichier à analyser.\n" ;
+        std::cerr << ERROR_HTML_TAG "Il faut au moins un fichier à analyser.\n" ;
         return -2;
     }
 
@@ -73,8 +73,8 @@ int main(int argc, char **argv)
     bool generer_table = false;
     bool liberer_memoire = true;
 
-    std::string chemin_base = NOM_BASE CSV;
-    std::string chemin_bulletins = NOM_BASE_BULLETINS CSV;
+    std::string chemin_base = NOM_BASE + std::string(CSV);
+    std::string chemin_bulletins = NOM_BASE_BULLETINS + std::string(CSV);
 
     thread_t mon_thread;
 
@@ -86,7 +86,8 @@ int main(int argc, char **argv)
         0,                //    uint32_t nbAgentUtilisateur
         0,                //    uint32_t NCumAgent;
         0,                //    uint32_t NCumAgentXml;
-        MONOLITHIQUE,                //    taille base : non limitée par défaut
+        0, // taille base
+        BaseType::MONOLITHIQUE,                //    type base
         std::vector<uint16_t>(),             //    std::vector<uint16_t> NLigne;
         &mon_thread,      //    thread_t threads;
         "",             //    chemin log
@@ -113,7 +114,7 @@ int main(int argc, char **argv)
             info.reduire_consommation_memoire = false;
             if ((info.nbAgentUtilisateur = lire_argument(argc, argv[start + 1])) < 1)
             {
-                std::cerr << "Erreur : Préciser le nombre de bulletins mensuels attendus (majorant du nombre) avec -N xxx .\n";
+                std::cerr << ERROR_HTML_TAG "Préciser le nombre de bulletins mensuels attendus (majorant du nombre) avec -N xxx .\n";
                 exit(-1);
             }
             start += 2;
@@ -190,51 +191,58 @@ int main(int argc, char **argv)
         {
             if (start + 1 == argc)
             {
-                std::cerr << "Erreur : Option -T suivi d'un argument obligatoire (nombre de lignes).\n" ;
+                std::cerr << ERROR_HTML_TAG "Option -T suivi d'un argument obligatoire (nombre de lignes).\n" ;
                 exit(-100);
             }
 
-            std::map<std::string, int> hashTable;
+            std::map<std::string, BaseType> hashTable;
 
-            hashTable["AN"] = PAR_ANNEE;
-            hashTable["A"]  = PAR_REM_DIVERSES;
-            hashTable["AC"] = PAR_ACOMPTE;
-            hashTable["AV"] = PAR_AVANTAGE_NATURE;
-            hashTable["C"]  = PAR_COTISATION;
-            hashTable["D"]  = PAR_DEDUCTION;
-            hashTable["I"]  = PAR_INDEMNITE;
-            hashTable["IR"] = PAR_INDEMNITE_RESIDENCE;
-            hashTable["S"]  = PAR_SFT;
-            hashTable["T"]  = PAR_TRAITEMENT;
-            hashTable["R"]  = PAR_RAPPEL;
-            hashTable["X"]  = TOUTES_CATEGORIES;
+            hashTable["AN"] = BaseType::PAR_ANNEE;
+            hashTable["A"]  = BaseType::PAR_REM_DIVERSES;
+            hashTable["AC"] = BaseType::PAR_ACOMPTE;
+            hashTable["AV"] = BaseType::PAR_AVANTAGE_NATURE;
+            hashTable["C"]  = BaseType::PAR_COTISATION;
+            hashTable["D"]  = BaseType::PAR_DEDUCTION;
+            hashTable["I"]  = BaseType::PAR_INDEMNITE;
+            hashTable["IR"] = BaseType::PAR_INDEMNITE_RESIDENCE;
+            hashTable["S"]  = BaseType::PAR_SFT;
+            hashTable["T"]  = BaseType::PAR_TRAITEMENT;
+            hashTable["R"]  = BaseType::PAR_RAPPEL;
+            hashTable["X"]  = BaseType::TOUTES_CATEGORIES;
 
             if (hashTable.find(argv[start + 1]) != hashTable.end())
             {
-                info.taille_base = hashTable[argv[start + 1]];
-
+                info.type_base = hashTable[argv[start + 1]];
             }
             else
-                if ((info.taille_base = lire_argument(argc, argv[start + 1])) < 0 || info.taille_base > INT32_MAX -1)
-                                {
-                                    perror("Erreur : Le nombre de lignes doit être compris entre 0 et INT64_MAX");
+            {
+                int32_t size_read = lire_argument(argc, argv[start + 1]);
+
+                if (size_read < 0 || size_read > INT32_MAX -1)
+                     {
+                                    std::cerr << ERROR_HTML_TAG "Le nombre de lignes doit être compris entre 0 et INT64_MAX\n";
                                     exit(-908);
-                                }
+                     }
+                else
+                    info.taille_base = size_read;
+            }
+
             start += 2;
             continue;
+
         }
         else if (! strcmp(argv[start], "-s"))
         {
             if (start + 1 == argc)
             {
-                std::cerr << "Erreur : Option -s suivi d'un argument obligatoire (séparateur de champs).\n";
+                std::cerr << ERROR_HTML_TAG "Option -s suivi d'un argument obligatoire (séparateur de champs).\n";
                 exit(-100);
             }
             info.separateur = argv[start + 1][0];
 
             if (info.separateur == '_')
             {
-                perror("Erreur : Le séparateur ne doit pas être '_'");
+                perror(ERROR_HTML_TAG "Le séparateur ne doit pas être '_'");
                 exit(-909);
             }
 
@@ -245,7 +253,7 @@ int main(int argc, char **argv)
         {
             if (start + 1 == argc)
             {
-                std::cerr << "Erreur : Option -g suivi d'un argument obligatoire.\n";
+                std::cerr << ERROR_HTML_TAG "Option -g suivi d'un argument obligatoire.\n";
                 exit(-100);
             }
 
@@ -256,7 +264,7 @@ int main(int argc, char **argv)
         {
             if (start + 1 == argc)
             {
-                std::cerr << "Erreur : Option -d suivi d'un argument obligatoire (séparateur décimal).\n";
+                std::cerr << ERROR_HTML_TAG "Option -d suivi d'un argument obligatoire (séparateur décimal).\n";
                 exit(-100);
             }
             info.decimal = argv[start + 1][0];
@@ -267,7 +275,7 @@ int main(int argc, char **argv)
         {
             if (start + 1 == argc)
             {
-                std::cerr << "Erreur : Option -o suivi d'un argument obligatoire (nom de  fichier).\n";
+                std::cerr << ERROR_HTML_TAG "Option -o suivi d'un argument obligatoire (nom de  fichier).\n";
                 exit(-100);
             }
 
@@ -277,7 +285,7 @@ int main(int argc, char **argv)
             base.open(info.chemin_base);
             if (! base.good())
             {
-                perror("Erreur : La base de données ne peut être créée, vérifier l'existence du dossier.");
+                perror(ERROR_HTML_TAG "La base de données ne peut être créée, vérifier l'existence du dossier.");
                 exit(-113);
             }
 
@@ -300,14 +308,14 @@ int main(int argc, char **argv)
         }
         else if (! strcmp(argv[start], "-D"))
         {
-            info.chemin_base = argv[start + 1] + std::string("/" NOM_BASE CSV);
-            info.chemin_bulletins = argv[start + 1] + std::string("/" NOM_BASE_BULLETINS CSV);
+            info.chemin_base = argv[start + 1] + std::string("/") + std::string(NOM_BASE);
+            info.chemin_bulletins = argv[start + 1] + std::string("/") + std::string(NOM_BASE_BULLETINS);
             std::ofstream base;
             base.open(info.chemin_base);
 
             if (! base.good())
             {
-                std::cerr << "Erreur : La base de données "
+                std::cerr << ERROR_HTML_TAG "La base de données "
                           << info.chemin_base << " ne peut être créée, vérifier l'existence du dossier.\n" ;
                 exit(-113);
             }
@@ -328,7 +336,7 @@ int main(int argc, char **argv)
 
                 if (info.nbfil < 1)
                 {
-                    perror("Erreur : Le nombre de fils d'exécution doit être compris au moins égal à 2.");
+                    perror(ERROR_HTML_TAG "Le nombre de fils d'exécution doit être compris au moins égal à 2.");
                     exit(-111);
                 }
 
@@ -343,7 +351,7 @@ int main(int argc, char **argv)
             base.open(info.chemin_log);
             if (! base.good())
             {
-                perror("Erreur : Le log ne peut être créé, vérifier l'existence du dossier.");
+                perror(ERROR_HTML_TAG "Le log ne peut être créé, vérifier l'existence du dossier.");
                 exit(-114);
             }
             start += 2;
@@ -359,7 +367,7 @@ int main(int argc, char **argv)
             info.reduire_consommation_memoire = false;
             if ((info.nbAgentUtilisateur = lire_argument(argc, argv[start + 1])) < 1)
             {
-                std::cerr << "Erreur : Préciser le nombre de nombre maximum d'agents par mois attendus (majorant du nombre) avec -n xxx\n";
+                std::cerr << ERROR_HTML_TAG "Préciser le nombre de nombre maximum d'agents par mois attendus (majorant du nombre) avec -n xxx\n";
                 exit(-1);
             }
 
@@ -374,7 +382,7 @@ int main(int argc, char **argv)
             }
             else
             {
-                perror("Erreur : Il manque l'expression régulière.");
+                perror(ERROR_HTML_TAG "Il manque l'expression régulière.");
                 exit(-115);
             }
             start += 2;
@@ -426,7 +434,7 @@ int main(int argc, char **argv)
         }
         else if (argv[start][0] == '-')
         {
-            std::cerr << "Erreur : Option inconnue " << argv[start] << "\n";
+            std::cerr << ERROR_HTML_TAG "Option inconnue " << argv[start] << "\n";
             exit(-100);
         }
         else break;
@@ -438,7 +446,7 @@ int main(int argc, char **argv)
     int nbfichier_par_fil = (int) (argc - start) / info.nbfil;
     if (nbfichier_par_fil == 0)
     {
-        std::cerr << "Erreur : Trop de fils pour le nombre de fichiers ; exécution avec -j 2\n";
+        std::cerr << ERROR_HTML_TAG "Trop de fils pour le nombre de fichiers ; exécution avec -j 2\n";
         info.nbfil = 2;
     }
 
@@ -466,7 +474,7 @@ int main(int argc, char **argv)
 
         if (Info[i].threads->argv == nullptr)
         {
-            perror("Erreur : Allocation de threads");
+            perror(ERROR_HTML_TAG "Allocation de threads");
             exit(-145);
         }
 
