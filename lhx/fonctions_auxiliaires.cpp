@@ -128,7 +128,7 @@ void ecrire_entete_bulletins(const info_t &info, std::ofstream& base)
   ecrire_entete0(info, base, entete_char_bulletins, sizeof(entete_char_bulletins)/sizeof(char*));
 }
 
-void ecrire_entete(const info_t &info, std::ofstream& base)
+void ecrire_entete_table(const info_t &info, std::ofstream& base)
 {
   ecrire_entete0(info, base, entete_char, sizeof(entete_char)/sizeof(char*));
 }
@@ -149,38 +149,104 @@ void ecrire_entete0(const info_t &info, std::ofstream& base, const char* entete[
   base << entete[i] << "\n";
 }
 
-
 void ouvrir_fichier_bulletins(const info_t &info, std::ofstream& base)
 {
-    return ouvrir_fichier_base0(info, 0, BULLETINS, base);
+    ouvrir_fichier_base0(info, BaseCategorie::BULLETINS, BaseType::MONOLITHIQUE, base);
 }
 
-
-void ouvrir_fichier_base(const info_t &info, int rang, std::ofstream& base)
+void ouvrir_fichier_base(const info_t &info, BaseType type, std::ofstream& base)
 {
-    return ouvrir_fichier_base0(info, rang, BASE, base);
+    ouvrir_fichier_base0(info, BaseCategorie::BASE, type, base);
 }
 
-void ouvrir_fichier_base0(const info_t &info, int rang, int type, std::ofstream& base)
+void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType type, std::ofstream& base)
 {
     std::string chemin_base = "";
-    if (type == BASE)
-        chemin_base = info.chemin_base;
-    else
-        chemin_base = info.chemin_bulletins;
+    std::string  index = "-";
 
-    /* Il manque l'usage de rang */
+    static int rang;
+    std::array<std::string, 12> types_extension = { "traitements",
+                                                     "indemnités-résidence",
+                                                     "sft",
+                                                     "avantages-nature",
+                                                     "indemnités",
+                                                     "divers",
+                                                     "déductions",
+                                                     "acompte",
+                                                     "rappels",
+                                                     "retenues",
+                                                     "cotisations",
+                                                     "commentaires" };
+
+    if (categorie == BaseCategorie::BULLETINS)
+    {
+        chemin_base = info.chemin_bulletins + std::string(CSV);
+    }
+    else
+    {
+
+        chemin_base = info.chemin_base;      // sans l'extension csv
+
+        switch (type) // OK en C++14
+        {
+           case BaseType::PAR_ANNEE:
+               index = index + std::to_string(++rang) +  std::string(CSV);
+               chemin_base = chemin_base + index;
+               break;
+
+           case BaseType::PAR_COMMENTAIRE:
+
+           case BaseType::PAR_COTISATION:
+             ++rang;
+
+           case BaseType::PAR_RETENUE:
+            ++rang;
+
+           case BaseType::PAR_RAPPEL:
+            ++rang;
+
+           case BaseType::PAR_ACOMPTE:
+             ++rang;
+
+           case BaseType::PAR_DEDUCTION:
+             ++rang;
+
+           case BaseType::PAR_REM_DIVERSES:
+             ++rang;
+
+           case BaseType::PAR_INDEMNITE:
+             ++rang;
+
+           case BaseType::PAR_AVANTAGE_NATURE:
+             ++rang;
+
+           case BaseType::PAR_SFT:
+             ++rang;
+
+           case BaseType::PAR_INDEMNITE_RESIDENCE:
+             ++rang;
+
+           case BaseType::PAR_TRAITEMENT:
+             ++rang;
+            break;
+
+           case BaseType::TOUTES_CATEGORIES:
+                    ++rang;
+        }
+
+        chemin_base = chemin_base + std::string("-") + types_extension[rang-1] + CSV;
+    }
 
     base.open(chemin_base);
     base.seekp(0);
     if (! base.good())
     {
-        std::cerr << "Erreur : Impossible d'ouvrir le fichier de sortie.\n";
+        std::cerr << ERROR_HTML_TAG "Impossible d'ouvrir le fichier de sortie " << chemin_base << "\n";
         exit(-1000);
     }
 
-    if (type == BASE)
-        ecrire_entete(info, base);
+    if (categorie == BaseCategorie::BASE)
+        ecrire_entete_table(info, base);
     else
         ecrire_entete_bulletins(info, base);
 
@@ -205,15 +271,15 @@ int32_t lire_argument(int argc, char* c_str)
 
         if (end == c_str)
         {
-            std::cerr << "Erreur : " << c_str << ": pas un décimal\n";
+            std::cerr << ERROR_HTML_TAG "" << c_str << ": pas un décimal\n";
         }
         else if (sl > INT32_MAX)
         {
-            std::cerr << "Erreur : " <<  sl << " entier excédant la limite des entiers à 16 bits\n";
+            std::cerr << ERROR_HTML_TAG "" <<  sl << " entier excédant la limite des entiers à 16 bits\n";
         }
         else if (sl < 0)
         {
-            std::cerr << "Erreur : " << sl <<". L'entier doit être positif\n";
+            std::cerr << ERROR_HTML_TAG "" << sl <<". L'entier doit être positif\n";
         }
         else
         {
@@ -223,7 +289,7 @@ int32_t lire_argument(int argc, char* c_str)
     }
     else
     {
-        std::cerr << "Erreur : Préciser le nombre de bulletins mensuels attendus (majorant du nombre).\n";
+        std::cerr << ERROR_HTML_TAG "Préciser le nombre de bulletins mensuels attendus (majorant du nombre).\n";
         return(-1);
     }
 }
@@ -275,7 +341,7 @@ int calculer_memoire_requise(info_t& info)
             c.seekg(0, c.beg);
         else 
         {
-            std::cerr <<  "Erreur : Ouverture du fichier  " << info.threads->argv[i] << "\n";
+            std::cerr <<  ERROR_HTML_TAG "Ouverture du fichier  " << info.threads->argv[i] << "\n";
             exit(-120);
         }
 

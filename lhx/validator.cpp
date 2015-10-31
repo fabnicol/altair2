@@ -273,7 +273,6 @@ static int parseFile(info_t& info)
     }
 
   cur = atteindreNoeud("DonneesIndiv", cur);
-  static int warning_count;
 
   while(cur != nullptr)
   {
@@ -618,7 +617,7 @@ static inline void GCC_INLINE allouer_memoire_table(info_t& info)
 
     info.Memoire_p_ligne = new int[info.NCumAgent]();
 
-    for (int agent = 0; agent < info.NCumAgent; ++agent)
+    for (unsigned agent = 0; agent < info.NCumAgent; ++agent)
     {
           info.Memoire_p_ligne[agent] = memoire_p_ligne(info, agent);
     }
