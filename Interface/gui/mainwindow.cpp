@@ -1,6 +1,6 @@
 
 #include "altair.h"
-
+#include "enums.h"
 
 // createFontDataBase looks to be fast enough to be run on each launch.
 // Should it slow down application launch on some platform, one option could be to launch it just once then on user demand
@@ -707,20 +707,12 @@ void MainWindow::configureOptions()
     QGroupBox* behaviorGroupBox =new QGroupBox(tr("Sauvegarder/Lancer"));
 
     defaultSaveProjectBehaviorBox=new FCheckBox("Sauvegarder le projet .alt automatiquement",
-                                             #ifdef MINIMAL
                                                                 flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
-                                             #else
-                                                                flags::status::enabledChecked|flags::commandLineType::noCommandLine,
-                                             #endif
-                                                                               "saveProjectBehavior",
-                                                                               {"Interface", "Sauvegarder le projet .alt automatiquement"});
+                                                                "saveProjectBehavior",
+                                                                {"Interface", "Sauvegarder le projet .alt automatiquement"});
 
     defaultLoadProjectBehaviorBox=new FCheckBox("Charger le projet par défaut au lancement",
-                                              #ifdef MINIMAL
-                                                                            flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
-                                              #else
-                                                                            flags::status::enabledChecked|flags::commandLineType::noCommandLine,
-                                              #endif
+                                                                              flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
                                                                             "loadProjectBehavior",
                                                                             {"Interface", "Charger le projet .alt au lancement"});
 

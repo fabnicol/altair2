@@ -38,39 +38,45 @@ typedef struct
     unsigned argc;
 } thread_t;
 
-#define EXPRESSION_REG_ELUS "^maire.*|^pr..?sident.*|^[eé]lus?|.*(?:\\badj.*\\bmaire\\b|\\bv.*\\bpr..?sident\\b|\\bcons.*\\bmuni|\\bcons.*\\bcomm|\\bcons.*\\bd..?l..?gu).*"
-#define EXPRESSION_REG_VACATIONS ".*\\bvacat.*|.*\\bvac\\.?\\b.*"  // vac.* peut être vérifié par 'vacances'
-#define EXPRESSION_REG_ASSISTANTES_MATERNELLES ".*\\bass.*\\bmater.*"
-
-#define NOM_BASE "Table"
-#define NOM_BASE_BULLETINS "Bulletins"
-#define CSV  ".csv"
+static constexpr auto EXPRESSION_REG_ELUS = "^maire.*|^pr..?sident.*|^[eé]lus?|.*(?:\\badj.*\\bmaire\\b|\\bv.*\\bpr..?sident\\b|\\bcons.*\\bmuni|\\bcons.*\\bcomm|\\bcons.*\\bd..?l..?gu).*",
+                      EXPRESSION_REG_VACATIONS = ".*\\bvacat.*|.*\\bvac\\.?\\b.*",                 // vac.* peut être vérifié par 'vacances'
+                      EXPRESSION_REG_ASSISTANTES_MATERNELLES = ".*\\bass.*\\bmater.*",
+                      NOM_BASE = "Table",
+                      NOM_BASE_BULLETINS = "Bulletins",
+                      CSV = ".csv";
 
 /* Les définitions ci-après doivent être négatives */
 
+enum class BaseCategorie : int {
+                                 BASE = 0,
+                                 BULLETINS = 1
+                               };
 
-#define MONOLITHIQUE -1
-#define PAR_ANNEE -2
-
-#define PAR_TRAITEMENT   -3
-#define PAR_INDEMNITE_RESIDENCE -4
-#define PAR_SFT          -5
-#define PAR_AVANTAGE_NATURE -6
-#define PAR_INDEMNITE    -7
-#define PAR_REM_DIVERSES -8
-#define PAR_DEDUCTION    -9
-#define PAR_ACOMPTE      -10
-#define PAR_RAPPEL       -11
-#define PAR_RETENUE      -12
-#define PAR_COTISATION   -13
-
-#define TOUTES_CATEGORIES -14
-
-
+enum class BaseType : int
+                  {
+                    MONOLITHIQUE        = -1,
+                    PAR_ANNEE           = -2,
+                    PAR_TRAITEMENT      =  -3,
+                    PAR_INDEMNITE_RESIDENCE = -4,
+                    PAR_SFT             = -5,
+                    PAR_AVANTAGE_NATURE = -6,
+                    PAR_INDEMNITE       = -7,
+                    PAR_REM_DIVERSES    = -8,
+                    PAR_DEDUCTION       = -9,
+                    PAR_ACOMPTE         = -10,
+                    PAR_RAPPEL          = -11,
+                    PAR_RETENUE         = -12,
+                    PAR_COTISATION      = -13,
+                    PAR_COMMENTAIRE     = -14,
+                    TOUTES_CATEGORIES   = -15
+                  };
 
 #define INDEX_MAX_CONNNES 5    // nombre de type de champ de ligne de paye (Libellé, Code, Taux, Base, ...) moins 1.
 #define BESOIN_MEMOIRE_ENTETE  22  /* nb d'éléments de l'enum ci-dessous */
-typedef enum {Annee, Mois, Budget, Employeur, Siret, Nom, Prenom, Matricule, NIR, NbEnfants,
+
+typedef enum {
+              Annee, Mois, Budget, Employeur, Siret,
+              Nom, Prenom, Matricule, NIR, NbEnfants,
               Statut, EmploiMetier, Grade, Indice,
               Service, NBI, QuotiteTrav, NbHeureTotal,
               NbHeureSup, MtBrut, MtNet, MtNetAPayer
@@ -92,7 +98,8 @@ typedef struct
     uint32_t nbAgentUtilisateur;
     uint32_t NCumAgent;
     uint32_t NCumAgentXml;
-    int32_t  taille_base;
+    uint32_t taille_base;
+    BaseType  type_base;
     std::vector<uint16_t> NLigne;
     thread_t* threads;
     std::string chemin_log;
@@ -108,7 +115,7 @@ typedef struct
     bool calculer_maxima;
     bool generer_rang;
     bool select_siret;
-    int nbfil;
+    int  nbfil;
     int* Memoire_p_ligne;
 } info_t;
 
@@ -176,7 +183,7 @@ static const int nbType                  = sizeof(type_remuneration)/sizeof(char
 
 
 static const xmlChar drapeau[][2]  = {{1,0}, {2,0}, {3,0}, {4,0}, {5,0}, {6,0}, {7,0}, {8,0}, {9,0}, {10,0}, {11,0}, {12,0}};
-
+/* A chaque valeur de drapeau[i][0] doit correspondre un type différent de rémunération type_remuneration[i] */
 
 
 void* decoder_fichier(info_t& tinfo);

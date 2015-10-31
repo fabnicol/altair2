@@ -39,14 +39,12 @@ private:
       *tableCheckBox,
       *rangCheckBox,
       *logCheckBox,
+      *consoleCheckBox,
       *economeCheckBox;
 
     FString
       standardMsg;
 
- private slots :
-
-    void on_processTypeWidgetChanged(int){}
 
 };
 
