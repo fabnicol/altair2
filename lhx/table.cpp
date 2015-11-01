@@ -271,7 +271,7 @@ void boucle_ecriture(std::vector<info_t>& Info)
                     base.close();
                     if (! base.good())
                     {
-                        perror(ERROR_HTML_TAG "Problème fermeture fichier base");
+                        std::cerr << ERROR_HTML_TAG "Problème fermeture fichier base\n";
                         exit(-902);
                     }
                     
@@ -361,48 +361,48 @@ void boucle_ecriture(std::vector<info_t>& Info)
         case  BaseType::MONOLITHIQUE            :
             goto message;
         case  BaseType::PAR_TRAITEMENT          :
-            std::cout << "[MSG] Catégorie : Traitement.\n";
+            std::cout << STATE_HTML_TAG "Catégorie : Traitement.\n";
             goto message;
         case  BaseType::PAR_INDEMNITE_RESIDENCE :
-            std::cout << "[MSG] Catégorie : Indemnité de résidence.\n";
+            std::cout << STATE_HTML_TAG "Catégorie : Indemnité de résidence.\n";
             goto message;
         case  BaseType::PAR_SFT                 :
-            std::cout << "[MSG] Catégorie : Supplément familial de traitement.\n";
+            std::cout << STATE_HTML_TAG "Catégorie : Supplément familial de traitement.\n";
             goto message;
         case  BaseType::PAR_AVANTAGE_NATURE     :
-            std::cout << "[MSG] Catégorie : Avantage en nature.\n";
+            std::cout << STATE_HTML_TAG "Catégorie : Avantage en nature.\n";
             goto message;
         case  BaseType::PAR_INDEMNITE           :
-            std::cout << "[MSG] Catégorie : Indemnité.\n";
+            std::cout << STATE_HTML_TAG "Catégorie : Indemnité.\n";
             goto message;
         case  BaseType::PAR_REM_DIVERSES        :
-            std::cout << "[MSG] Catégorie : Rémunérations diverses.\n";
+            std::cout << STATE_HTML_TAG "Catégorie : Rémunérations diverses.\n";
             goto message;
         case  BaseType::PAR_DEDUCTION           :
-            std::cout << "[MSG] Catégorie : Déduction.\n";
+            std::cout << STATE_HTML_TAG "Catégorie : Déduction.\n";
             goto message;
         case  BaseType::PAR_ACOMPTE             :
-            std::cout << "[MSG] Catégorie : Acompte.\n";
+            std::cout << STATE_HTML_TAG "Catégorie : Acompte.\n";
             goto message;
         case  BaseType::PAR_RAPPEL              :
-            std::cout << "[MSG] Catégorie : Rappel.\n";
+            std::cout << STATE_HTML_TAG "Catégorie : Rappel.\n";
             goto message;
         case  BaseType::PAR_RETENUE             :
-            std::cout << "[MSG] Catégorie : Retenue.\n";
+            std::cout << STATE_HTML_TAG "Catégorie : Retenue.\n";
             goto message;
         case  BaseType::PAR_COTISATION          :
-            std::cout << "[MSG] Catégorie : Cotisation.\n";
+            std::cout << STATE_HTML_TAG "Catégorie : Cotisation.\n";
             goto message;
         case  BaseType::TOUTES_CATEGORIES       :
-            std::cout << "[MSG] Toutes catégories.\n";
-            std::cout << "[MSG] Total de " << compteur << " lignes générée dans 11 bases.\n";
+            std::cout << STATE_HTML_TAG "Toutes catégories.\n";
+            std::cout << STATE_HTML_TAG "Total de " << compteur << " lignes générée dans 11 bases.\n";
             break;
             
         case BaseType::PAR_ANNEE    :
             std::cout << "Année : " << annee_courante << " Table générée.\n";
             break;
         default :  /* Taille définie par l'utilisateur */
-            std::cout << "[MSG] Table n°" << rang_fichier_base
+            std::cout << STATE_HTML_TAG "Table n°" << rang_fichier_base
                       << " de " <<  compteur - (rang_fichier_base-1) * taille_base
                       << " lignes, lignes " << (rang_fichier_base-1) * taille_base + 1
                       << " à " << compteur << ".\n";
@@ -411,13 +411,13 @@ void boucle_ecriture(std::vector<info_t>& Info)
         return;
         
 message :
-        std::cerr << "[MSG] Table de " << compteur << " lignes.\n";
+        std::cerr << STATE_HTML_TAG "Table de " << compteur << " lignes.\n";
     }
     
     if (bulletins.good())
     {
         bulletins.close();
-        std::cerr << "[MSG] Base des bulletins de paye de " << compteur_lignes_bulletins << " lignes.\n";
+        std::cerr << STATE_HTML_TAG "Base des bulletins de paye de " << compteur_lignes_bulletins << " lignes.\n";
     }
     
 }
