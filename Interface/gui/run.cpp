@@ -143,6 +143,21 @@ void Altair::run()
 
     /* Lancement */
 
+    /* nécessaire pour avoir l'état réel de certains champs de contrôle comme activerConsole */
+    updateProject(true);
+
+    if (v(activerConsole).isTrue())
+    {
+        connect(process,   &QProcess::started,     [&]  {  parent->feedConsole(); });
+
+    }
+    else
+    {
+         QTimer *timer = new QTimer(this);
+         connect(timer, &QTimer::timeout, [&] { readRankSignal();});
+         timer->start(500);
+    }
+
     process->start(altairCommandStr,  args0 << args1);
 
     rankFile.setFileName(sharedir + "/rank");

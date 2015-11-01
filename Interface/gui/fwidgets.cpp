@@ -102,14 +102,19 @@ inline void FAbstractWidget::FCore(const QList<QWidget*>& w, FString defaultComm
     this->disabledObjects=disabledObjects;
 
     w.at(0)->setToolTip(description.at(1));
+
     w.at(0)->setEnabled((commandLineType & flags::status::enabledMask) ==  flags::status::enabled);
+    if ((commandLineType & flags::status::widgetMask) ==  flags::status::checked)
+       static_cast<FCheckBox*>(w.at(0))->setChecked((commandLineType & flags::status::widgetMask) ==  flags::status::checked);
+
+    if ((status & flags::status::widgetMask) == flags::status::multimodal) { this->commandLineList[0].setMultimodal(); }
+    this->status=static_cast<flags::status>(commandLineType & static_cast<int>(flags::status::statusMask));
 
     this->commandLineList= QList<FString>() << defaultCommandLine;
     this->componentList= w;
-    if ((status & flags::status::widgetMask) == flags::status::multimodal) { this->commandLineList[0].setMultimodal(); }
     this->hashKey=hashKey;
     this->commandLineType=static_cast<flags::commandLineType>(commandLineType & static_cast<int>(flags::commandLineType::commandLineMask));
-    this->status=static_cast<flags::status>(commandLineType & static_cast<int>(flags::status::statusMask));
+    this->optionLabel=option;
 
     if (!hashKey.isEmpty())
             {
@@ -119,10 +124,12 @@ inline void FAbstractWidget::FCore(const QList<QWidget*>& w, FString defaultComm
                     Hash::description[hashKey]=description;
                 }
             }
-    this->optionLabel=option;
+
     Hash::wrapper[hashKey] = new FStringList;
     *Hash::wrapper[hashKey]  << (QStringList() << QString());
+
     Abstract::abstractWidgetList.append(this);
+
     FAbstractConnection::meta_connect(this, this->enabledObjects, this->disabledObjects);
 
 }

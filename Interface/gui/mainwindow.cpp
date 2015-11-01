@@ -2,10 +2,7 @@
 #include "altair.h"
 #include "enums.h"
 
-// createFontDataBase looks to be fast enough to be run on each launch.
 // Should it slow down application launch on some platform, one option could be to launch it just once then on user demand
-
-
 
 
 MainWindow::MainWindow(char* projectName)
@@ -22,8 +19,6 @@ MainWindow::MainWindow(char* projectName)
   altair=new Altair;
   altair->parent=this;
   altair->projectName=projectName;
-
-  connect(altair->process,   &QProcess::started,     [&]  {  feedConsole(); });
 
   createActions();
   createMenus();
@@ -669,11 +664,7 @@ void MainWindow::configureOptions()
                                                                 {"Interface", "Afficher la barre d'outils de fichiers"});
     
     defaultEditToolBarBox=new FCheckBox("Afficher la barre d'outils d'édition",
-                                    #ifdef MINIMAL
                                                                 flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
-                                    #else
-                                                                flags::status::enabledChecked|flags::commandLineType::noCommandLine,
-                                    #endif
                                                                 "editToolBar",
                                                                 {"Interface", "Display Edit toolBar"});
     
@@ -696,18 +687,14 @@ void MainWindow::configureOptions()
                                                                 {"Interface", "Afficher les options"});
     
     defaultAboutToolBarBox=new FCheckBox("Afficher la barre d'A propos",
-                                     #ifdef MINIMAL
                                                                 flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
-                                     #else
-                                                                flags::status::enabledChecked|flags::commandLineType::noCommandLine,
-                                     #endif
                                                                 "aboutToolBar",
                                                                 {"Interface", "Afficher la barre A propos"});
     
     QGroupBox* behaviorGroupBox =new QGroupBox(tr("Sauvegarder/Lancer"));
 
     defaultSaveProjectBehaviorBox=new FCheckBox("Sauvegarder le projet .alt automatiquement",
-                                                                flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
+                                                                flags::status::enabledChecked|flags::commandLineType::noCommandLine,
                                                                 "saveProjectBehavior",
                                                                 {"Interface", "Sauvegarder le projet .alt automatiquement"});
 
@@ -798,7 +785,6 @@ void MainWindow::configureOptions()
                                                                             altair->RefreshFlag = altair->RefreshFlag 
                                                                                                   | interfaceStatus::parseXml;});
 
-
     setWindowTitle(tr("Configuration"));
     setWindowIcon(QIcon(":/images/altair.png"));
 
@@ -810,7 +796,12 @@ void MainWindow::adjustDisplay(bool projectFileStatus)
     {
 
         for (FCheckBox* a :  displayWidgetListBox +  behaviorWidgetListBox + displayToolBarCBoxListBox)
-            a->setChecked(true);
+        {
+            a->toggle();
+            a->toggle();
+            // Ceci pour lancer très simplement les signaux et slots afin d'activer les effets sur l'interface
+            // correspondant à la configuration
+        }
 
         // Peut être modifié pour ajuster le comportement par défaut minimal ici :
 
@@ -820,8 +811,6 @@ void MainWindow::adjustDisplay(bool projectFileStatus)
                 a != defaultOptionsToolBarBox &&
                 a != defaultAboutToolBarBox)
                    a->setChecked(false);
-#else
-        defaultFullScreenLayoutBox->setChecked(false);
 #endif
     }
 }
@@ -849,16 +838,9 @@ void MainWindow::showMainWidget()
 
 void MainWindow::feedLHXConsoleWithHtml()
 {
-    int baInt = 0;
-
         while (altair->process->canReadLine())
          {
-            if (altair->rankFile.open(QFile::ReadOnly))
-            {
-                    baInt = altair->rankFile.readLine().toInt();
-                    altair->rankFile.close();
-            }
-            altair->fileRank = (baInt >= 1)? baInt : 1;
+              altair->readRankSignal();
 
                QString buffer = QString::fromLatin1(altair->process->readLine());
 
@@ -868,9 +850,10 @@ void MainWindow::feedLHXConsoleWithHtml()
 
                 if (! buffer.trimmed().isEmpty())
                    consoleDialog->insertHtml(buffer.replace("\n", "<br>"));
-            }
-}
+          }
 
+      consoleDialog->moveCursor(QTextCursor::End);
+}
 
 void MainWindow::feedRConsoleWithHtml()
 {
@@ -889,10 +872,7 @@ void MainWindow::feedRConsoleWithHtml()
         }
 
     }
-
-   consoleDialog->moveCursor(QTextCursor::End);
 }
-
 
 
 void MainWindow::feedConsole()
