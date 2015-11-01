@@ -58,7 +58,9 @@ class MainWindow : public QMainWindow
    bool isDefaultSaveProjectChecked() { return defaultSaveProjectBehaviorBox->isChecked(); }
    void saveProjectAs();
    QTextEdit *consoleDialog;
-      
+   void feedConsole();
+
+
   private slots:
 
    void on_displayFileTreeViewButton_clicked();
@@ -75,22 +77,21 @@ class MainWindow : public QMainWindow
    bool archiveProject(QString str="");
    bool restoreProject(QString str="");
 
+
   private :
   
    
    void f();
    
    QHash<QString, QAction*> actionHash;
-   void feedConsole();
+
    bool readFile(const QString &fileName);
    bool projectFileStatus;
    Altair *altair;
    QMainWindow *editWidget;
-   //QTimer *timer;
    void createActions();
    void createMenus();
    void createToolBars();
-   void createFontDataBase();
    void loadFile(const QString &fileName);
    void adjustDisplay(bool);
 
@@ -169,6 +170,8 @@ class MainWindow : public QMainWindow
    Highlighter *highlighter;
    void feedLHXConsoleWithHtml();
    void feedRConsoleWithHtml();
+
+
 
 signals:
    void exitSignal();

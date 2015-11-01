@@ -178,11 +178,8 @@ standardPage::standardPage()
     mainLayout->addSpacing(20);
     mainLayout->addWidget(processTypeBox, 5, 0);
 
-    economeCheckBox->setChecked(true);
-    tableCheckBox->setChecked(true);
-   // consoleCheckBox->setChecked(true);
-
     setLayout(mainLayout);
+
 
 }
 
@@ -213,6 +210,7 @@ options::options(Altair* parent)
                 parent->altairCommandStr =  parent->execPath +  QDir::separator() + ("lhx"+ QString(systemSuffix));
 
                 parent->updateProject(true);
+
             });
 
     connect(closeButton, SIGNAL(rejected()), this, SLOT(reject()));

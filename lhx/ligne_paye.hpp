@@ -17,7 +17,7 @@
 
 extern std::mutex mut;
 
-xmlNodePtr GCC_INLINE atteindreNoeud(const char* noeud, xmlNodePtr cur, int normalJump = 0);
+
 
 #if 0
 static inline xmlNodePtr GCC_INLINE atteindreNoeudArret(const char* noeud, xmlNodePtr cur, const char* arret)
@@ -83,6 +83,25 @@ inline void warning_msg(const char* noeud, const info_t& info)
       #endif
 
 }
+
+
+
+
+static inline void GCC_INLINE  verifier_taille(const int nbLignePaye, info_t& info)
+{
+    if (nbLignePaye >= info.nbLigneUtilisateur)
+    {
+        std::cerr << "\n\
+                En excès du nombre de lignes de paye autorisé (" << info.nbLigneUtilisateur << ").\n\
+                Omettre -n ... et utiliser -L fichier_log pour détecter le maximum de lignes de paye dans les fichiers.\n\
+                Utiliser -N ce_maximum ou bien recompiler en augmentant MAX_LIGNES_PAYE, à condition de disposer d'assez de mémoire.\n";
+
+        exit(-10);
+    }
+}
+
+
+
 
 #endif // LIGNE_PAYE
 
