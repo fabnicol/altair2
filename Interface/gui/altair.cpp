@@ -436,15 +436,15 @@ void Altair::setCurrentFile(const QString &fileName)
 {
     setWindowModified(false);
 
-//    if (! fileName.isEmpty())
-//    {
-//        if (parent->recentFiles.isEmpty() || parent->recentFiles.at(0) != fileName)
-//          parent->recentFiles.prepend(fileName);
-//        parent->updateRecentFileActions();
+    if (! fileName.isEmpty())
+    {
+        if (parent->recentFiles.isEmpty() || parent->recentFiles.at(0) != fileName)
+          parent->recentFiles.prepend(fileName);
+        parent->updateRecentFileActions();
 
-//    }
+    }
 
-//    parent->settings->setValue("defaut", QVariant(fileName));
+    parent->settings->setValue("defaut", QVariant(fileName));
 }
 
 

@@ -28,17 +28,17 @@ MainWindow::MainWindow(char* projectName)
   createActions();
   createMenus();
 
-//  settings = new QSettings("altair", "Fabrice Nicol");
+  settings = new QSettings("altair", "Free Software Inc");
 
-//  if ((settings->value("defaut").isValid())
-//                &&
-//     (!settings->value("defaut").toString().isEmpty()))
-//        altair->setCurrentFile(settings->value("defaut").toString());
-//  else
-//    {
-//        altair->setCurrentFile(projectName);
-//        settings->setValue("defaut", projectName);
-//    }
+  if ((settings->value("defaut").isValid())
+                &&
+     (!settings->value("defaut").toString().isEmpty()))
+        altair->setCurrentFile(settings->value("defaut").toString());
+  else
+    {
+        altair->setCurrentFile(projectName);
+        settings->setValue("defaut",projectName);
+    }
 
   setCentralWidget(altair);
 
@@ -50,7 +50,6 @@ MainWindow::MainWindow(char* projectName)
   consoleDialog->setReadOnly(true);
 
   connect(consoleDialog, SIGNAL(copyAvailable(bool)), consoleDialog, SLOT(copy()));
-
   bottomTabWidget->addTab(altair->outputTextEdit, tr("Messages"));
   bottomTabWidget->addTab(consoleDialog, tr("Console"));
   bottomTabWidget->setCurrentIndex(0);
@@ -98,8 +97,8 @@ MainWindow::MainWindow(char* projectName)
 
   Altair::RefreshFlag =  Altair::RefreshFlag  | interfaceStatus::parseXml;
 
-//  if (settings->value(defaultLoadProjectBehaviorBox->getHashKey()) == true)
-//      projectFileStatus = altair->clearInterfaceAndParseProject();
+  if (settings->value(defaultLoadProjectBehaviorBox->getHashKey()) == true)
+      projectFileStatus = altair->clearInterfaceAndParseProject();
 
   adjustDisplay(projectFileStatus);
 
@@ -128,10 +127,10 @@ QMutableStringListIterator i(recentFiles);
  {
    if (j < recentFiles.count())
    {
-     //QString  text = tr("&%1 %2").arg(j+1).arg(strippedName(recentFiles[j]));
+     QString  text = tr("&%1 %2").arg(j+1).arg(strippedName(recentFiles[j]));
 
-//     recentFileActions[j]->setText(text);
-     //recentFileActions[j]->setData(QVariant(recentFiles[j]));
+     recentFileActions[j]->setText(text);
+     recentFileActions[j]->setData(QVariant(recentFiles[j]));
      recentFileActions[j]->setVisible(true);
    } else
 
@@ -286,7 +285,7 @@ void MainWindow::createActions()
   connect(aboutAction, &QAction::triggered,  [this]  {
                                                           QUrl url=QUrl::fromLocalFile( QCoreApplication::applicationDirPath() + "/../about.html") ;
                                                           browser::showPage(url);
-                                                     });
+                                                      });
 
   licenceAction=new QAction(tr("Licence"), this);
   licenceAction->setIcon(QIcon(":/images/web/gplv3.png"));
@@ -700,7 +699,7 @@ void MainWindow::configureOptions()
                                      #ifdef MINIMAL
                                                                 flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
                                      #else
-                                                                flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
+                                                                flags::status::enabledChecked|flags::commandLineType::noCommandLine,
                                      #endif
                                                                 "aboutToolBar",
                                                                 {"Interface", "Afficher la barre A propos"});
@@ -772,7 +771,7 @@ void MainWindow::configureOptions()
     connect(closeButton, &QDialogButtonBox::accepted,
                         [this]  {
 
-                                    //settings->setValue(defaultLoadProjectBehaviorBox->getHashKey(), defaultLoadProjectBehaviorBox->isChecked());
+                                    settings->setValue(defaultLoadProjectBehaviorBox->getHashKey(), defaultLoadProjectBehaviorBox->isChecked());
                                 
                                     if (    (isDefaultSaveProjectChecked())
                                          || (QMessageBox::Yes == Warning(tr("Sauvegarder le projet"),
@@ -869,11 +868,7 @@ void MainWindow::feedLHXConsoleWithHtml()
 
                 if (! buffer.trimmed().isEmpty())
                    consoleDialog->insertHtml(buffer.replace("\n", "<br>"));
-
-                //consoleDialog->moveCursor(QTextCursor::End);
-         }
-
-      consoleDialog->moveCursor(QTextCursor::End);
+            }
 }
 
 
