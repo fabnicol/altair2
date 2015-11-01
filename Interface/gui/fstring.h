@@ -6,14 +6,14 @@
 
 class FString;
 class FStringList;
-
+class Hash;
 
 class FString : public QString
 {
 private:
  int x;
  QString p;
- void testBool(QString &s, flags::status flag=flags::status::defaultStatus)
+ inline void testBool(QString &s, flags::status flag=flags::status::defaultStatus)
  {
  if (s.isEmpty())
    x=2;
@@ -32,34 +32,139 @@ private:
 
 public:
 
-  FString  operator | (FString   );
-  FString  operator ! ();
-  FString  operator & (FString  );
-  FString  operator & (bool );
-  void  operator &= (FString  );
-  void  operator &= (bool );
-  FString  operator * ();
 
-  FString()
+  inline FString   operator & (FString  s)
+  {
+    if (x * s.x == 1) return "oui";
+    else return "non";
+  }
+
+
+  inline FString   operator & (bool  s)
+  {
+    if (x * s ==1) return "oui";
+    else return "non";
+  }
+
+  void   operator &= (bool  s)
+  {
+    x = x & (int) s;
+    if (x == 1) p="oui";
+    else p="non";
+  }
+
+  void   operator &= (FString  s)
+  {
+    x = x & s.x;
+    if (x ==1) p="oui";
+    else p="non";
+  }
+
+
+  FString   operator | (FString  s)
+  {
+    if ((x == 1) || (s.x == 1) )return "oui";
+    else return "non";
+  }
+
+  FString   operator ! ()
+  {
+    switch (x)
+      {
+        case  1:  return "non"; break;
+        case  0:  return "oui"; break;
+        default:  return "non";
+      }
+  }
+
+  QString toQString() const
+  {
+    return p;
+  }
+
+
+  QString& toQStringRef()
+  {
+    return p;
+  }
+
+
+
+  short toBool()
+  {
+    if ( x > 1) return 0;
+    else return x;
+  }
+
+  void toggle()
+  {
+    if (x == 1) x = 0;
+    else
+        if (x == 0) x =1;
+
+    if (x) p = "oui"; else p = "non";
+  }
+
+
+  bool isFilled()
+  {
+    return (!p.isEmpty());
+  }
+
+  const FString  fromBool(bool value)
+  {
+    x=value;
+    if (value) p="oui"; else p="non";
+    return FString(p);
+  }
+
+  bool isTrue()
+  {
+      return (p == "oui");
+  }
+
+  bool isMultimodal()
+  {
+    return (x == static_cast<int>(flags::status::multimodal));
+  }
+
+  void setMultimodal()
+  {
+    x = static_cast<int>(flags::status::multimodal);
+  }
+
+  bool isFalse()
+  {
+      return (p == "non");
+  }
+
+  bool isBoolean()
+  {
+    return ((x == 0) | (x == 1));
+  }
+
+  inline FString()
   {
     x=2;
     p="";
   }
 
-  FString(QString s, flags::status flag=flags::status::defaultStatus):QString(s)
+  inline FString(QString s, flags::status flag=flags::status::defaultStatus):QString(s)
   {
     p=s;
     testBool(s, flag);
   }
 
-  FString(const char* s):FString(QString(s))  {  }
+  inline FString(const char* s):FString(QString(s))  {  }
 
-  FString(bool value)
+  inline FString(bool value)
   {
     x=value;
     if (value) p="oui"; else p="non";
     this->append(p); // caution! does not work otherwise
   }
+
+  FString  operator * ();
 
   /* copy constructor */
   FString(const FString  & v):QString(v.p)
@@ -72,16 +177,8 @@ public:
   const FStringList split(const QString &) const;
   const FStringList split(const QStringList &separator) const;
 
-  short toBool();
-  bool isBoolean();
-  bool isFalse();
-  bool isTrue();
-  bool isMultimodal();
-  void setMultimodal();
-  bool isFilled();
-  const FString fromBool(bool);
-  QString toQString() const;
-  QString& toQStringRef();
+
+
 };
 
 
@@ -169,3 +266,4 @@ public:
 };
 
 #endif // FSTRING_H
+

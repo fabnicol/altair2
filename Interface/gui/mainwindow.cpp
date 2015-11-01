@@ -668,7 +668,7 @@ void MainWindow::configureOptions()
                                                                 "editToolBar",
                                                                 {"Interface", "Display Edit toolBar"});
     
-    defaultProcessToolBarBox=new FCheckBox("Afficher la barre d'outils de processus",
+    defaultProcessToolBarBox = new FCheckBox("Afficher la barre d'outils de processus",
                                        #ifdef MINIMAL
                                                                 flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
                                        #else
@@ -677,7 +677,7 @@ void MainWindow::configureOptions()
                                                                 "processToolBar",
                                                                 {"Interface", "Afficher la barre d'outils de processus"});
     
-    defaultOptionsToolBarBox=new FCheckBox("Afficher la barre d'options",
+    defaultOptionsToolBarBox = new FCheckBox("Afficher la barre d'options",
                                        #ifdef MINIMAL
                                                                 flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
                                        #else
@@ -686,22 +686,28 @@ void MainWindow::configureOptions()
                                                                 "optionsToolBar",
                                                                 {"Interface", "Afficher les options"});
     
-    defaultAboutToolBarBox=new FCheckBox("Afficher la barre d'A propos",
+    defaultAboutToolBarBox = new FCheckBox("Afficher la barre d'A propos",
                                                                 flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
                                                                 "aboutToolBar",
                                                                 {"Interface", "Afficher la barre A propos"});
     
-    QGroupBox* behaviorGroupBox =new QGroupBox(tr("Sauvegarder/Lancer"));
+    QGroupBox* behaviorGroupBox = new QGroupBox(tr("Sauvegarder/Lancer"));
 
-    defaultSaveProjectBehaviorBox=new FCheckBox("Sauvegarder le projet .alt automatiquement",
+    defaultSaveProjectBehaviorBox = new FCheckBox("Sauvegarder le projet .alt automatiquement",
                                                                 flags::status::enabledChecked|flags::commandLineType::noCommandLine,
                                                                 "saveProjectBehavior",
                                                                 {"Interface", "Sauvegarder le projet .alt automatiquement"});
 
-    defaultLoadProjectBehaviorBox=new FCheckBox("Charger le projet par défaut au lancement",
+    defaultLoadProjectBehaviorBox = new FCheckBox("Charger le projet par défaut au lancement",
                                                                               flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
                                                                             "loadProjectBehavior",
                                                                             {"Interface", "Charger le projet .alt au lancement"});
+
+
+    defaultMaximumConsoleOutput = new FCheckBox("Limiter la sortie de la console",
+                                                                            flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
+                                                                            "limitConsoleOutput",
+                                                                            {"Interface", "Limiter le nombre de lignes en sortie de la console"});
 
     displayWidgetListBox  <<  defaultFileManagerWidgetLayoutBox
                        << defaultProjectManagerWidgetLayoutBox
@@ -710,7 +716,8 @@ void MainWindow::configureOptions()
 
 
     behaviorWidgetListBox   << defaultSaveProjectBehaviorBox
-                         << defaultLoadProjectBehaviorBox;
+                         << defaultLoadProjectBehaviorBox
+                         << defaultMaximumConsoleOutput;
     
     displayToolBarCBoxListBox <<  defaultFileToolBarBox
                        <<  defaultEditToolBarBox
@@ -780,10 +787,25 @@ void MainWindow::configureOptions()
     connect(defaultProjectManagerWidgetLayoutBox, SIGNAL(toggled(bool)), this, SLOT(on_openManagerWidgetButton_clicked(bool)));
     
     connect(defaultFullScreenLayoutBox, SIGNAL(toggled(bool)), this, SLOT(showMainWidget(bool)));
+    connect(defaultMaximumConsoleOutput, &FCheckBox::toggled, [this]{v(limitConsoleOutput).toggle();});
     connect(defaultOutputTextEditBox, &FCheckBox::toggled, [this] {bottomDockWidget->setVisible(defaultOutputTextEditBox->isChecked());});
     connect(defaultLoadProjectBehaviorBox, &FCheckBox::toggled, [this] {  if (defaultLoadProjectBehaviorBox->isChecked())
                                                                             altair->RefreshFlag = altair->RefreshFlag 
                                                                                                   | interfaceStatus::parseXml;});
+
+    connect(defaultMaximumConsoleOutput, &FCheckBox::toggled, [this] {
+        QTimer *timer = new QTimer(this);
+        if (v(limitConsoleOutput).isTrue())
+        {
+            connect(timer, &QTimer::timeout, [&] { altair->readRankSignal();});
+            connect(altair->process, SIGNAL(finished(int)), timer, SLOT(stop()));
+            timer->start(500);
+        } else
+        {
+            timer->stop();
+        }
+
+    });
 
     setWindowTitle(tr("Configuration"));
     setWindowIcon(QIcon(":/images/altair.png"));
@@ -838,7 +860,14 @@ void MainWindow::showMainWidget()
 
 void MainWindow::feedLHXConsoleWithHtml()
 {
-        while (altair->process->canReadLine())
+    static uint32_t counter;
+
+    if (v(limitConsoleOutput).isTrue())
+            //&& counter > v(consoleMaximumOutput).toInt())
+
+        return;
+
+    while (altair->process->canReadLine())
          {
               altair->readRankSignal();
 
@@ -849,7 +878,11 @@ void MainWindow::feedLHXConsoleWithHtml()
                  * Ce nettoyage est de toute façon une bonne mesure sanitaire générale */
 
                 if (! buffer.trimmed().isEmpty())
-                   consoleDialog->insertHtml(buffer.replace("\n", "<br>"));
+                {
+                       consoleDialog->insertHtml(buffer.replace("\n", "<br>"));
+
+                   ++counter;
+                }
           }
 
       consoleDialog->moveCursor(QTextCursor::End);
@@ -885,6 +918,8 @@ void MainWindow::feedConsole()
                 if (altair->outputType[0] == 'L') feedLHXConsoleWithHtml();
                 else feedRConsoleWithHtml();
             });
+
+
 
  }
 

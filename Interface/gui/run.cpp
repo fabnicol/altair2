@@ -153,9 +153,11 @@ void Altair::run()
     }
     else
     {
-         QTimer *timer = new QTimer(this);
-         connect(timer, &QTimer::timeout, [&] { readRankSignal();});
-         timer->start(500);
+
+        QTimer *timer = new QTimer(this);
+        connect(timer, &QTimer::timeout, [&] { readRankSignal();});
+        connect(process, SIGNAL(finished(int)), timer, SLOT(stop()));
+        timer->start(500);
     }
 
     process->start(altairCommandStr,  args0 << args1);
