@@ -162,7 +162,8 @@ class MainWindow : public QMainWindow
                         *defaultProcessToolBarBox,
                         *defaultOptionsToolBarBox,
                         *defaultAboutToolBarBox,
-                        *defaultSaveProjectBehaviorBox;
+                        *defaultSaveProjectBehaviorBox,
+                        *defaultMaximumConsoleOutput;
 
    QList<FCheckBox*> displayWidgetListBox, behaviorWidgetListBox, displayToolBarCBoxListBox;
    
