@@ -751,7 +751,7 @@ void* decoder_fichier(info_t& info)
 
     }
 
-    if (info.NCumAgentXml != info.NCumAgent)
+    if (info.reduire_consommation_memoire && info.NCumAgentXml != info.NCumAgent)
     {
         std::cerr << ERROR_HTML_TAG "Incohérence de l'allocation mémoire ex-ante " << info.NCumAgent
                   << " unités et ex-post " <<  info.NCumAgentXml << " unités d'information.\n"

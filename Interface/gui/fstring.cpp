@@ -12,108 +12,11 @@ QList<QStringList>     Hash::Reference;
 QHash<QString, QList<int> > Hash::SiretPos;
 
 
-FString   FString::operator & (FString  s)
-{
-  if (x * s.x == 1) return "oui";
-  else return "non";
-}
-
-
-FString   FString::operator & (bool  s)
-{
-  if (x * s ==1) return "oui";
-  else return "non";
-}
-
-void   FString::operator &= (bool  s)
-{
-  x = x & (int) s;
-  if (x == 1) p="oui";
-  else p="non";
-}
-
-void   FString::operator &= (FString  s)
-{
-  x = x & s.x;
-  if (x ==1) p="oui";
-  else p="non";
-}
-
-
-FString   FString::operator | (FString  s)
-{
-  if ((x == 1) || (s.x == 1) )return "oui";
-  else return "non";
-}
-
-FString   FString::operator ! ()
-{
-  switch (x)
-    {
-      case  1:  return "non"; break;
-      case  0:  return "oui"; break;
-      default:  return "non";
-    }
-}
-
-QString FString::toQString() const
-{
-  return p;
-}
-
-
-QString& FString::toQStringRef()
-{
-  return p;
-}
-
 FString  FString::operator * ()
 {
   return Hash::wrapper[p]->toFString();
 }
 
-short FString::toBool()
-{
-  if ( x > 1) return 0;
-  else return x;
-}
-
-bool FString::isFilled()
-{
-  return (!p.isEmpty());
-}
-
-const FString  FString::fromBool(bool value)
-{
-  x=value;
-  if (value) p="oui"; else p="non";
-  return FString(p);
-}
-
-bool FString::isTrue()
-{
-    return (p == "oui");
-}
-
-bool FString::isMultimodal()
-{
-  return (x == static_cast<int>(flags::status::multimodal));
-}
-
-void FString::setMultimodal()
-{
-  x = static_cast<int>(flags::status::multimodal);
-}
-
-bool FString::isFalse()
-{
-    return (p == "non");
-}
-
-bool FString::isBoolean()
-{
-  return ((x == 0) | (x == 1));
-}
 
 const FStringList FString::split(const QString &sep) const
 {
