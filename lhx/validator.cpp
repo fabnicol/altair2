@@ -15,7 +15,7 @@
 #include "tags.h"
 
 extern std::mutex mut;
-extern  inline uint64_t  GCC_INLINE parseLignesPaye(xmlNodePtr cur, info_t& info, std::ofstream& log);
+extern  inline uint64_t   parseLignesPaye(xmlNodePtr cur, info_t& info, std::ofstream& log);
 
 /* agent_total est une variable de contrôle pour info->NCumAgent */
 

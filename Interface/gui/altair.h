@@ -61,6 +61,20 @@ public:
     FProgressBar* getProgressBar() { return progress; }
 
     inline int getFileCount() {return fileCount;}
+    inline void __attribute__((always_inline)) readRankSignal()
+    {
+
+            int baInt = 0;
+
+            if (rankFile.open(QFile::ReadOnly))
+            {
+                    baInt = rankFile.readLine().toInt();
+                    rankFile.close();
+            }
+
+            fileRank = (baInt >= 1)? baInt : 1;
+
+    }
 
 public slots:
 

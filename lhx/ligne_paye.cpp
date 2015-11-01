@@ -1,48 +1,7 @@
 #include "ligne_paye.hpp"
+#include "validator.hpp"
 
 
-static inline xmlNodePtr GCC_INLINE atteindreNoeud(const xmlChar * noeud, xmlNodePtr cur, int normalJump = 0)
-{
-   #if 0
-    while (cur && xmlIsBlankNode(cur))
-    {
-        cur = cur -> next;
-    }
-   #endif
-
-    for (int i = 0; i < normalJump; ++i)
-           cur = cur->next;
-
-    while (cur != nullptr && xmlStrcmp(cur->name,  noeud))
-    {
-           cur = cur->next;
-    }
-
-      if (cur == nullptr)
-      {
-          AFFICHER_NOEUD(noeud)  // cur->name == noeud
-      }
-
-     return cur;  // soit un pointer vers le bon noeud, soit nullptr
-}
-
-xmlNodePtr GCC_INLINE atteindreNoeud(const char* noeud, xmlNodePtr cur, int normalJump)
-  {
-    return atteindreNoeud(reinterpret_cast<const xmlChar*>(noeud),  cur, normalJump);
-  }
-
-static inline void GCC_INLINE  verifier_taille(const int nbLignePaye, info_t& info)
-{
-    if (nbLignePaye >= info.nbLigneUtilisateur)
-    {
-        std::cerr << "\n\
-                En excès du nombre de lignes de paye autorisé (" << info.nbLigneUtilisateur << ").\n\
-                Omettre -n ... et utiliser -L fichier_log pour détecter le maximum de lignes de paye dans les fichiers.\n\
-                Utiliser -N ce_maximum ou bien recompiler en augmentant MAX_LIGNES_PAYE, à condition de disposer d'assez de mémoire.\n";
-
-        exit(-10);
-    }
-}
 
 /* obligatoire */
 
@@ -73,7 +32,7 @@ void afficher_environnement_xhl(const info_t& info)
 /* Remplace les occurrences d'un caractère séparateur à l'intérieur d'un champ par le caractère '_' qui ne doit donc jamais
    être séparateur de champ (c'est bien rare !) */
 
-static inline int GCC_INLINE Bulletin(const xmlChar*  tag, xmlNodePtr& cur, int l, info_t& info, int normalJump = 0)
+static inline int GCC_INLINE Bulletin(const char*  tag, xmlNodePtr& cur, int l, info_t& info, int normalJump = 0)
 {
     // attention faire en sorte que cur ne soit JAMAIS nul en entrée ou en sortie
 
@@ -114,7 +73,7 @@ static inline int GCC_INLINE Bulletin(const xmlChar*  tag, xmlNodePtr& cur, int 
 
 //             std::cerr << ERROR_HTML_TAG "Noeud courant null au stade de la vérification de " << tag << "\n";
 
-static inline bool GCC_INLINE bulletin_obligatoire(const xmlChar* tag, xmlNodePtr& cur, int l,  info_t& info, int normalJump = 0)
+static inline bool GCC_INLINE bulletin_obligatoire(const char* tag, xmlNodePtr& cur, int l,  info_t& info, int normalJump = 0)
 {
 
     // attention faire en sorte que cur ne soit JAMAIS nul
@@ -156,11 +115,6 @@ static inline bool GCC_INLINE bulletin_obligatoire(const xmlChar* tag, xmlNodePt
 }
 
 
-static inline bool GCC_INLINE bulletin_obligatoire(const char* tag, xmlNodePtr& cur, int l,  info_t& info, int normalJump = 0)
-{
-    return bulletin_obligatoire(reinterpret_cast<const xmlChar*>(tag), cur, l, info, normalJump);
-}
-
 /* A tester : la substitution du caractère décimal , au . de la locale anglaise utilisé par Xémélios (hélas)
    reste nécessaire tant que nous utiliserons un stockage uniforme en chaînes de caractères.
    Si un jour nous décidons d'utilisr strold pour convertir les chaînes de caractère numériques en float, nous
@@ -179,7 +133,7 @@ static inline void GCC_INLINE substituer_separateur_decimal(xmlChar* ligne, cons
 /* optionnel */
 
 
-static inline bool GCC_INLINE bulletin_optionnel_numerique(const xmlChar* tag, xmlNodePtr& cur, int l, info_t& info, int normalJump = 0)
+static inline bool GCC_INLINE bulletin_optionnel_numerique(const char* tag, xmlNodePtr& cur, int l, info_t& info, int normalJump = 0)
 {
     // attention faire en sorte que cur ne soit JAMAIS nul
 
@@ -229,14 +183,10 @@ static inline bool GCC_INLINE bulletin_optionnel_numerique(const xmlChar* tag, x
 
 }
 
-static inline bool GCC_INLINE bulletin_optionnel_numerique(const char* tag, xmlNodePtr& cur, int l, info_t& info, int normalJump = 0)
-{
-    return bulletin_optionnel_numerique(reinterpret_cast<const xmlChar*>(tag), cur, l, info, normalJump);
-}
 
 /* obligatoire et avec substitution séparateur décimal */
 
-static inline bool GCC_INLINE bulletin_obligatoire_numerique(const xmlChar* tag, xmlNodePtr& cur, int l, info_t& info, int normalJump = 0)
+static inline bool GCC_INLINE bulletin_obligatoire_numerique(const char* tag, xmlNodePtr& cur, int l, info_t& info, int normalJump = 0)
 {
     // attention faire en sorte que cur ne soit JAMAIS nul
 
@@ -282,11 +232,6 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique(const xmlChar* tag,
         #endif
 }
 
-
-static inline bool GCC_INLINE bulletin_obligatoire_numerique(const char* tag, xmlNodePtr& cur,  int l, info_t& info, int normalJump = 0)
-{
-    return bulletin_obligatoire_numerique(reinterpret_cast<const xmlChar*>(tag), cur, l, info, normalJump);
-}
 
 
 /* REFERENCE */
@@ -441,10 +386,10 @@ static inline int lignePaye(xmlNodePtr cur, info_t& info)
     return nbLignePaye;
 }
 
-#define BULLETIN_OBLIGATOIRE_(X, normalJump) bulletin_obligatoire(reinterpret_cast<const xmlChar*>(#X), cur, X, info, normalJump)
+#define BULLETIN_OBLIGATOIRE_(X, normalJump) bulletin_obligatoire(#X, cur, X, info, normalJump)
 #define BULLETIN_OBLIGATOIRE(X) BULLETIN_OBLIGATOIRE_(X, 0)
 
-#define BULLETIN_OBLIGATOIRE_NUMERIQUE_(X, normalJump)  bulletin_obligatoire_numerique(reinterpret_cast<const xmlChar*>(#X), cur, X, info, normalJump)
+#define BULLETIN_OBLIGATOIRE_NUMERIQUE_(X, normalJump)  bulletin_obligatoire_numerique(#X, cur, X, info, normalJump)
 #define BULLETIN_OBLIGATOIRE_NUMERIQUE(X) BULLETIN_OBLIGATOIRE_NUMERIQUE_(X, 0)
 
 #define BULLETIN_OPTIONNEL_NUMERIQUE_(X, normalJump)  bulletin_optionnel_numerique(#X, cur, X, info, normalJump)

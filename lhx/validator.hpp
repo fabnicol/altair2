@@ -17,7 +17,7 @@
 #include <vector>
 
 #ifdef  __GNUG__
-#define GCC_INLINE //__attribute__((always_inline))
+#define GCC_INLINE __attribute__((always_inline))
 #define GCC_UNUSED __attribute__((__unused__))
 #else
 #define GCC_INLINE
@@ -187,6 +187,32 @@ static const xmlChar drapeau[][2]  = {{1,0}, {2,0}, {3,0}, {4,0}, {5,0}, {6,0}, 
 
 
 void* decoder_fichier(info_t& tinfo);
+
+
+inline xmlNodePtr GCC_INLINE atteindreNoeud(const char * noeud, xmlNodePtr cur, int normalJump = 0)
+{
+   #if 0
+    while (cur && xmlIsBlankNode(cur))
+    {
+        cur = cur -> next;
+    }
+   #endif
+
+    for (int i = 0; i < normalJump; ++i)
+           cur = cur->next;
+
+    while (cur != nullptr && xmlStrcmp(cur->name,  (const xmlChar*) noeud))
+    {
+           cur = cur->next;
+    }
+
+      if (cur == nullptr)
+      {
+          AFFICHER_NOEUD(noeud)  // cur->name == noeud
+      }
+
+     return cur;  // soit un pointer vers le bon noeud, soit nullptr
+}
 
 
 
