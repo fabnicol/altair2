@@ -361,7 +361,7 @@ int main(int argc, char **argv)
         {
             if ((info.nbLigneUtilisateur = lire_argument(argc, argv[start +1])) > 1)
             {
-                std::cerr << "[MSG] Nombre maximum de lignes de paye redéfini à : " << info.nbLigneUtilisateur << "\n";
+                std::cerr << STATE_HTML_TAG " Nombre maximum de lignes de paye redéfini à : " << info.nbLigneUtilisateur << "\n";
             }
 
             info.reduire_consommation_memoire = false;
@@ -524,8 +524,8 @@ int main(int argc, char **argv)
         maxima = calculer_maxima(Info);
         if (maxima)
         {
-            std::cerr <<  "\n[MSG] Maximum de lignes : " << maxima[1] << "\n"
-                       << "\n[MSG] Maximum d'agents  : " << maxima[0] << "\n";
+            std::cerr <<  STATE_HTML_TAG " Maximum de lignes : " << maxima[1] << "\n"
+                       << STATE_HTML_TAG " Maximum d'agents  : " << maxima[0] << "\n";
         }
     }
 
@@ -537,8 +537,8 @@ int main(int argc, char **argv)
         LOG.open(Info[0].chemin_log, std::ios::app);
         if (LOG.good() && maxima)
         {
-            LOG << "\n[MSG] Maximum de lignes : " << maxima[1] << "\n";
-            LOG << "\n[MSG] Maximum d'agent   : " << maxima[0] << "\n";
+            LOG << STATE_HTML_TAG " Maximum de lignes : " << maxima[1] << "\n";
+            LOG << STATE_HTML_TAG " Maximum d'agent   : " << maxima[0] << "\n";
             LOG.close();
         }
     }
