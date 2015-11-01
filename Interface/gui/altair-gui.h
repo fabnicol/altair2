@@ -44,7 +44,7 @@ class MainWindow : public QMainWindow
   public :
    MainWindow(char*);
    options* dialog;
-   //QSettings  *settings;
+   QSettings  *settings;
 
    enum { MaxRecentFiles = 5 };
    QStringList recentFiles;
