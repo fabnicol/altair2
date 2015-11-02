@@ -67,6 +67,44 @@ std::string getexepath()
 #endif
 #endif
 
+
+
+/* utilité d'affichage de l'environnement xhl en cas de problème de conformité des données */
+
+errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur)
+{
+    long lineN = 0;
+    if (mut.try_lock())
+    {
+        std::cerr << "<img src=\":/images/warning.png\"/> Fichier analysé " <<  info.threads->argv[info.fichier_courant] << ENDL;
+         lineN = xmlGetLineNo(cur);
+
+        if (lineN == -1)
+        {
+            std::cerr << "<img src=\":/images/information.png\"/> Une balise est manquante dans le fichier." << ENDL;
+        }
+        else
+            std::cerr << "<img src=\":/images/information.png\"/> Ligne n°" << lineN << ENDL;
+
+        for (int l = 0; l < info.Memoire_p_ligne[info.NCumAgentXml]; ++l)
+        {
+         if (nullptr != info.Table[info.NCumAgentXml][l])
+            std::cerr << "info.Table[" << info.NCumAgentXml << "][" << Tableau_entete[l] << "]=" << info.Table[info.NCumAgentXml][l] << ENDL;
+        }
+
+        mut.unlock();
+    }
+#ifdef WAIT_FOR_LOCK
+    else
+        afficher_environnement_xhl(info, cur);
+#endif
+
+    errorLine_t s = {lineN, std::string("Fichier : ") + std::string(info.threads->argv[info.fichier_courant])
+                             + std::string(" -- Balise : ") + ((cur)? std::string((const char*)cur->name) : std::string("NA"))};
+    return s;
+}
+
+
 void ecrire_log(const info_t& info, std::ofstream& log, int diff)
 {
     if (! info.chemin_log.empty())
@@ -189,10 +227,14 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
 
         switch (type) // OK en C++14
         {
+           case BaseType::MONOLITHIQUE:
+              chemin_base = chemin_base + CSV;
+            break;
+
            case BaseType::PAR_ANNEE:
                index = index + std::to_string(++rang) +  std::string(CSV);
                chemin_base = chemin_base + index;
-               break;
+             break;
 
            case BaseType::PAR_COMMENTAIRE:
 
@@ -228,20 +270,22 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
 
            case BaseType::PAR_TRAITEMENT:
              ++rang;
+            chemin_base = chemin_base + std::string("-") + types_extension[rang-1] + CSV;
             break;
 
            case BaseType::TOUTES_CATEGORIES:
-                    ++rang;
+            ++rang;
+            chemin_base = chemin_base + std::string("-") + types_extension[rang-1] + CSV;
         }
 
-        chemin_base = chemin_base + std::string("-") + types_extension[rang-1] + CSV;
+
     }
 
     base.open(chemin_base);
     base.seekp(0);
     if (! base.good())
     {
-        std::cerr << ERROR_HTML_TAG "Impossible d'ouvrir le fichier de sortie " << chemin_base << "\n";
+        std::cerr << ERROR_HTML_TAG "Impossible d'ouvrir le fichier de sortie " << chemin_base << ENDL;
         exit(-1000);
     }
 
@@ -271,15 +315,15 @@ int32_t lire_argument(int argc, char* c_str)
 
         if (end == c_str)
         {
-            std::cerr << ERROR_HTML_TAG "" << c_str << ": pas un décimal\n";
+            std::cerr << ERROR_HTML_TAG "" << c_str << ": pas un décimal" ENDL;
         }
         else if (sl > INT32_MAX)
         {
-            std::cerr << ERROR_HTML_TAG "" <<  sl << " entier excédant la limite des entiers à 16 bits\n";
+            std::cerr << ERROR_HTML_TAG "" <<  sl << " entier excédant la limite des entiers à 16 bits" ENDL;
         }
         else if (sl < 0)
         {
-            std::cerr << ERROR_HTML_TAG "" << sl <<". L'entier doit être positif\n";
+            std::cerr << ERROR_HTML_TAG "" << sl <<". L'entier doit être positif" ENDL;
         }
         else
         {
@@ -289,7 +333,7 @@ int32_t lire_argument(int argc, char* c_str)
     }
     else
     {
-        std::cerr << ERROR_HTML_TAG "Préciser le nombre de bulletins mensuels attendus (majorant du nombre).\n";
+        std::cerr << ERROR_HTML_TAG "Préciser le nombre de bulletins mensuels attendus (majorant du nombre)." ENDL;
         return(-1);
     }
 }
@@ -323,14 +367,14 @@ int calculer_memoire_requise(info_t& info)
      *   on compte un agent en plus (++info.NCumAgent) avec un nombre de ligne égal au moins à un, même si pas de ligne de paye codée.
      *   Si il existe N lignes de paye codées, alors info.NLigne[info.NCumAgent] = N. */
 
-    std::cerr << "\n" PROCESSING_HTML_TAG "Premier scan des fichiers pour déterminer les besoins mémoire ... \n";
+    std::cerr << ENDL PROCESSING_HTML_TAG "Premier scan des fichiers pour déterminer les besoins mémoire ... " ENDL;
 
     /* par convention  un agent avec rémunération non renseignées (balise sans fils) a une ligne */
     for (unsigned i = 0; i < info.threads->argc; ++i)
     {
          #ifdef GENERATE_RANK_SIGNAL
            generate_rank_signal();
-           std::cerr <<  " \n";
+           std::cerr <<  " \n" ;
          #endif
 
 #ifdef FGETC_PARSING
@@ -341,7 +385,7 @@ int calculer_memoire_requise(info_t& info)
             c.seekg(0, c.beg);
         else 
         {
-            std::cerr <<  ERROR_HTML_TAG "Ouverture du fichier  " << info.threads->argv[i] << "\n";
+            std::cerr <<  ERROR_HTML_TAG "Ouverture du fichier  " << info.threads->argv[i] << ENDL;
             exit(-120);
         }
 
@@ -422,7 +466,7 @@ int calculer_memoire_requise(info_t& info)
             if (remuneration_xml_open == true)
             {
                 std::cerr << "Erreur XML : la balise Remuneration n'est pas refermée pour le fichier " << info.threads->argv[i]
-                          << "\npour l'agent n°"   << info.NCumAgent + 1 << "\n";
+                          << ENDL "pour l'agent n°"   << info.NCumAgent + 1 << ENDL;
                 exit(0);
 #ifndef STRICT
                 continue;
@@ -445,19 +489,19 @@ int calculer_memoire_requise(info_t& info)
 #endif
 #ifdef MMAP_PARSING
 
-        //std::cerr << "Mappage en mémoire de " << info.threads->argv[i] << "...\n";
+        //std::cerr << "Mappage en mémoire de " << info.threads->argv[i] << "..."ENDL;
         struct stat st;
         stat(info.threads->argv[i], &st);
         const size_t file_size =  st.st_size;
         void *dat;
         int fd = open(info.threads->argv[i], O_RDONLY);
-       // std::cerr << "Taille : " << file_size << "\n";
+       // std::cerr << "Taille : " << file_size << ENDL;
         assert(fd != -1);
         dat = mmap(NULL, file_size,  PROT_READ, MAP_PRIVATE | MAP_POPULATE, fd, 0);
         assert(dat != NULL);
         //write(1, dat, file_size);
         char* data = (char*) dat;
-       // std::cerr << "Mapping OK\n";
+       // std::cerr << "Mapping OK"ENDL;
         size_t d = 0;
         char C;
         

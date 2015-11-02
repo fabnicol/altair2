@@ -92,6 +92,7 @@ constexpr const char* Tableau_entete[] = {"Annee", "Mois", "Budget", "Employeur"
 
 typedef struct
 {
+
     xmlChar*** Table;
     uint64_t nbLigne;
     uint32_t  *NAgent;
@@ -191,7 +192,7 @@ void* decoder_fichier(info_t& tinfo);
 
 inline xmlNodePtr GCC_INLINE atteindreNoeud(const char * noeud, xmlNodePtr cur, int normalJump = 0)
 {
-   #if 0
+   #if 1
     while (cur && xmlIsBlankNode(cur))
     {
         cur = cur -> next;
