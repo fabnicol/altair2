@@ -38,31 +38,39 @@ void ecrire_log(const info_t& info, std::ofstream& log, int diff);
 
 #ifdef GENERATE_RANK_SIGNAL
 
-inline void GCC_INLINE  generate_rank_signal(bool reset = false)
+static int rang_global;
+
+inline void reset_rank_signal()
+{
+    rang_global = 0;
+}
+
+inline void  generate_rank_signal()
 {
     if (rankFilePath.empty()) return;
 
     while (! mut.try_lock()) {}
+    //static int temp_rank;
     do
     {
-        static int temp_rank;
-        if (reset) temp_rank = 0;
-
-        ++temp_rank;
-
         rankFile.open(rankFilePath, std::ios::out|std::ios::trunc);
         if (rankFile.is_open())
         {
-           rankFile << temp_rank ;
+           rankFile << ++rang_global ;
+           //rang_global = temp_rank;
         }
 
         rankFile.close();
+
+
         mut.unlock();
 
     } while(false);
+
 }
 
-inline void GCC_INLINE  generate_rank_signal(int progression)
+
+inline void generate_rank_signal(int progression)
 {
     if (rankFilePath.empty()) return;
 

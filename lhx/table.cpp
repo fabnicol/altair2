@@ -228,7 +228,9 @@ void boucle_ecriture(std::vector<info_t>& Info)
         NCumLignes += Info[i].nbLigne;
     }
 
-    generate_rank_signal(0);
+    reset_rank_signal();
+    generate_rank_signal();
+
 #endif
 
     for (int i = 0; i < Info[0].nbfil; ++i)
@@ -255,7 +257,6 @@ void boucle_ecriture(std::vector<info_t>& Info)
 
             char type[3]={0};
             strcpy(type, type_remuneration_traduit[0]);
-            
 
             while (ligne < NLigneAgent)
             {
@@ -286,7 +287,6 @@ void boucle_ecriture(std::vector<info_t>& Info)
                     ouvrir_fichier_base(Info[i], type_base, base);
                     if (! base.is_open()) return;
                 }
-                
 
                 int valeur_drapeau_categorie = 0, test_drapeau_categorie = 0;
                 
@@ -330,6 +330,7 @@ void boucle_ecriture(std::vector<info_t>& Info)
             
             ligne = 0;
 
+#ifdef GUI_TAG_MESSAGES
 #ifdef GENERATE_RANK_SIGNAL
             progression = std::ceil((float) (compteur * 100) / (float) NCumLignes );
 
@@ -342,6 +343,7 @@ void boucle_ecriture(std::vector<info_t>& Info)
                 std::cerr << " \n";
                 step = 0;
             }
+#endif
 #endif
         }
     }

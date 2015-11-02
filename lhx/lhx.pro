@@ -1,5 +1,15 @@
 greaterThan(QT_MAJOR_VERSION, 5)
 
+# Pour une sortie en mode console pure, enlever guiOutput ci-dessous. Sinon l'output console prépare
+# l'input de la "console de l'interface graphique"
+
+CONFIG += console #guiOutput
+CONFIG -= app_bundle
+CONFIG -= qt
+VPATH = .
+
+TEMPLATE = app
+
 if (win32|linux) {
   message("Système d'exploitation :  $$(OS)")
 } else {
@@ -31,16 +41,9 @@ if (!isEmpty(CXX_VERSION)){
 }
 
 
-TEMPLATE = app
-CONFIG += console
-CONFIG -= app_bundle
-CONFIG -= qt
-VPATH = .
-
-DEFINES += ENDL=\"\\\"<br>\\\\n\\\"\"         #  "<br>" pour une utilisation GUI, "\n" en ligne de commande.
-                                         #ENDL=\"\\\\n\"
-
-DEFINES += GUI_TAG_MESSAGES    # définir pour que les sorties des messages soient formatées pour que l'interface graphique les transforme en icône.
+CONFIG(guiOutput) {
+  DEFINES +=  GUI_TAG_MESSAGES                   # définir pour que les sorties des messages soient formatées pour que l'interface graphique les transforme en icône.
+}
 
 DEFINES += PROGRESSION_INCREMENT_RATIO=2  \
            WARNING_LIMIT=10   # nombre maximum d'avertissement par fichier
@@ -65,6 +68,8 @@ DEFINES += \#NO_REGEX \                       # Pas d'analyse du texte par expre
                              \              # n'est utile que lorsqu'une interface graphique est connectée. peut ralentir l'application de 1 à 5 %.
         FGETC_PARSING                       # parcourir les fichiers par ifstream (C++)
 #MMAP_PARSING                               # parcourir les fichiers par mappage mémoire (C, unix).
+
+
 
 DEVROOT = $$PWD/../..
 
