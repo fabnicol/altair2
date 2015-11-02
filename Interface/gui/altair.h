@@ -63,7 +63,7 @@ public:
     inline int getFileCount() {return fileCount;}
     inline void __attribute__((always_inline)) readRankSignal()
     {
-
+            if (! rankFile.exists()) return;
             int baInt = 0;
 
             if (rankFile.open(QFile::ReadOnly))

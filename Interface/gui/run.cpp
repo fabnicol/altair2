@@ -160,14 +160,15 @@ void Altair::run()
         timer->start(500);
     }
 
-    process->start(altairCommandStr,  args0 << args1);
-
     rankFile.setFileName(sharedir + "/rank");
+
     if (! rankFile.exists())
         rankFile.open(QIODevice::WriteOnly);
 
     if (rankFile.isOpen())
         rankFile.close();
+
+    process->start(altairCommandStr,  args0 << args1);
 
     emit(setProgressBar(0, (1 + v(ecoRAM).isTrue())* fileCount));
 

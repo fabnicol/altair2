@@ -76,7 +76,7 @@ class MainWindow : public QMainWindow
    bool exportProject(QString str="");
    bool archiveProject(QString str="");
    bool restoreProject(QString str="");
-
+   void resetCounter();
 
   private :
   
@@ -87,6 +87,9 @@ class MainWindow : public QMainWindow
 
    bool readFile(const QString &fileName);
    bool projectFileStatus;
+   uint32_t consoleCounter = 0;
+
+
    Altair *altair;
    QMainWindow *editWidget;
    void createActions();

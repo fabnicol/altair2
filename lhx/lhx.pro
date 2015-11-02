@@ -37,6 +37,9 @@ CONFIG -= app_bundle
 CONFIG -= qt
 VPATH = .
 
+DEFINES += ENDL=\"\\\"<br>\\\\n\\\"\"         #  "<br>" pour une utilisation GUI, "\n" en ligne de commande.
+                                         #ENDL=\"\\\\n\"
+
 DEFINES += GUI_TAG_MESSAGES    # définir pour que les sorties des messages soient formatées pour que l'interface graphique les transforme en icône.
 
 DEFINES += PROGRESSION_INCREMENT_RATIO=2  \
@@ -48,11 +51,13 @@ DEFINES += __GNUC_EXTENSION \
            __STDC_LIMIT_MACROS \
            __STDC_FORMAT_MACROS
 
-#DEFINES += STRICT
-
-DEFINES += NO_REGEX \#GCC_REGEX \                      # Utiliser les expressions régulières de C++
+                                            # DEFINES += STRICT  pour un validateur qui retourne à la première erreur.
+DEFINES += \#NO_REGEX \                       # Pas d'analyse du texte par expression régulière
+        GCC_REGEX \                        # Utiliser les expressions régulières de C++
+        WAIT_FOR_LOCK  \                    # insiter jusqu'à acquérir les mutex dans les fils d'exécution. Peut entraîner des "output freeze" en cas de forte
+                        \                   # charge I/O.
         NO_DEBUG \                          # ne pas générer de messages de débogage avancé
-#        TOLERANT_TAG_HIERARCHY \            # ordre des balises : tolérance envers des permutations de même niveau
+#        TOLERANT_TAG_HIERARCHY \           # ordre des balises : tolérance envers des permutations de même niveau
         FULL_PREALLOCATION_TEST \           # calcul des besoins de mémoire : précision maximale (sinon : moindre)
         PREALLOCATE_ON_HEAP \               # préallouer le vecteur sur le tas pour le tableau des allocations de mémoire (sinon : tableau C sur la pile)
         DECIMAL_NON_EN \                    # compilation pour des séparateurs décimaux différents de '.'

@@ -138,7 +138,7 @@ standardPage::standardPage()
     consoleCheckBox=new FCheckBox("Activer la console  ",
                                   flags::status::enabledChecked | flags::commandLineType::noCommandLine,
                                   "activerConsole",
-                                  {"Interface", "Utiliser l'onglet console"});
+                                  {"Interface", "Utiliser l'onglet console."});
 
     economeCheckBox=new FCheckBox("Economiser la RAM  ",
                                   flags::status::enabledChecked | flags::commandLineType::altairCommandLine,
@@ -179,8 +179,6 @@ standardPage::standardPage()
     mainLayout->addWidget(processTypeBox, 5, 0);
 
     setLayout(mainLayout);
-
-
 }
 
 
