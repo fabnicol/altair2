@@ -63,17 +63,17 @@ static inline bool GCC_INLINE bulletin_obligatoire(const char* tag, xmlNodePtr& 
         case NODE_FOUND : return true;
 
         case NODE_NOT_FOUND :
-                std::cerr << ERROR_HTML_TAG "Impossible d'atteindre " << tag << " à partir de " << cur->name << ENDL;
+                if (verbeux) std::cerr << ERROR_HTML_TAG "Impossible d'atteindre " << tag << " à partir de " << cur->name << ENDL;
                 ligne_l = xmlStrdup(NA_STRING);
                 break;
 
         case LINE_MEMORY_EXCEPTION :
-                std::cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
+                if (verbeux) std::cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
                 ligne_l = xmlStrdup(NA_STRING);
                 break;
 
         case NO_NEXT_ITEM :
-                std::cerr << ERROR_HTML_TAG "Pas d'item successeur pour le noeud " << tag <<  ENDL;
+                if (verbeux) std::cerr << ERROR_HTML_TAG "Pas d'item successeur pour le noeud " << tag <<  ENDL;
                 break;
 
     }
@@ -133,12 +133,12 @@ static inline bool GCC_INLINE bulletin_optionnel_numerique(const char* tag, xmlN
              return true;
 
         case LINE_MEMORY_EXCEPTION :
-             std::cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
+             if (verbeux) std::cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
              ligne_l = xmlStrdup(NA_STRING);
              break;
 
         case NO_NEXT_ITEM :
-             std::cerr << ERROR_HTML_TAG "Pas d'item successeur pour le noeud " << tag <<  ENDL;
+             if (verbeux) std::cerr << ERROR_HTML_TAG "Pas d'item successeur pour le noeud " << tag <<  ENDL;
              #ifndef DECIMAL_NON_EN
               if (info.decimal != '.')
              #endif
@@ -184,7 +184,7 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique(const char* tag, xm
              return true;
 
         case LINE_MEMORY_EXCEPTION :
-             std::cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
+             if (verbeux) std::cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
              ligne_l = xmlStrdup(NA_STRING);
              break;
 
@@ -526,7 +526,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, std::ofstream& log)
     /* on remonte d'un niveau */
 
     cur = cur_parent;
-    if (!result) std::cerr << ERROR_HTML_TAG "Remontée d'un niveau" ENDL;
+    if (!result && verbeux) std::cerr << ERROR_HTML_TAG "Remontée d'un niveau" ENDL;
 
     #ifdef TOLERANT_TAG_HIERARCHY
       cur_save = cur;
@@ -615,7 +615,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, std::ofstream& log)
 
     if (!result)
     {
-        std::cerr << ERROR_HTML_TAG "Problème de conformité des données [513]" ENDL;
+        std::cerr << ERROR_HTML_TAG "Problème de conformité des données sur les champs des bulletins de paye." ENDL;
 #ifdef STRICT
         exit(-513);
 #endif

@@ -37,6 +37,8 @@ static const char* entete_char_bulletins[]={"R", u8"Année", "Mois", "Budget", "E
 #include <string>
 #include <windows.h>
 
+extern bool verbeux;
+
 // The directory path returned by native GetCurrentDirectory() no end backslash
 std::string getexecpath()
 {
@@ -76,20 +78,20 @@ errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur)
     long lineN = 0;
     if (mut.try_lock())
     {
-        std::cerr << "<img src=\":/images/warning.png\"/> Fichier analysé " <<  info.threads->argv[info.fichier_courant] << ENDL;
+        std::cerr << WARNING_HTML_TAG "Fichier analysé " <<  info.threads->argv[info.fichier_courant] << ENDL;
          lineN = xmlGetLineNo(cur);
 
         if (lineN == -1)
         {
-            std::cerr << "<img src=\":/images/information.png\"/> Une balise est manquante dans le fichier." << ENDL;
+            std::cerr << WARNING_HTML_TAG "Une balise est manquante dans le fichier." << ENDL;
         }
         else
-            std::cerr << "<img src=\":/images/information.png\"/> Ligne n°" << lineN << ENDL;
+            std::cerr << WARNING_HTML_TAG "Ligne n°" << lineN << ENDL;
 
         for (int l = 0; l < info.Memoire_p_ligne[info.NCumAgentXml]; ++l)
         {
-         if (nullptr != info.Table[info.NCumAgentXml][l])
-            std::cerr << "info.Table[" << info.NCumAgentXml << "][" << Tableau_entete[l] << "]=" << info.Table[info.NCumAgentXml][l] << ENDL;
+          if (nullptr != info.Table[info.NCumAgentXml][l])
+              std::cerr << "info.Table[" << info.NCumAgentXml << "][" << Tableau_entete[l] << "]=" << info.Table[info.NCumAgentXml][l] << ENDL;
         }
 
         mut.unlock();
@@ -367,15 +369,16 @@ int calculer_memoire_requise(info_t& info)
      *   on compte un agent en plus (++info.NCumAgent) avec un nombre de ligne égal au moins à un, même si pas de ligne de paye codée.
      *   Si il existe N lignes de paye codées, alors info.NLigne[info.NCumAgent] = N. */
 
-    std::cerr << ENDL PROCESSING_HTML_TAG "Premier scan des fichiers pour déterminer les besoins mémoire ... " ENDL;
 
     /* par convention  un agent avec rémunération non renseignées (balise sans fils) a une ligne */
     for (unsigned i = 0; i < info.threads->argc; ++i)
     {
+      #ifdef GUI_TAG_MESSAGES
          #ifdef GENERATE_RANK_SIGNAL
            generate_rank_signal();
            std::cerr <<  " \n" ;
          #endif
+      #endif
 
 #ifdef FGETC_PARSING
 
@@ -385,7 +388,7 @@ int calculer_memoire_requise(info_t& info)
             c.seekg(0, c.beg);
         else 
         {
-            std::cerr <<  ERROR_HTML_TAG "Ouverture du fichier  " << info.threads->argv[i] << ENDL;
+            if (verbeux) std::cerr <<  ERROR_HTML_TAG "Ouverture du fichier  " << info.threads->argv[i] << ENDL;
             exit(-120);
         }
 

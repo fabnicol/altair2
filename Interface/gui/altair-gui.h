@@ -58,8 +58,9 @@ class MainWindow : public QMainWindow
    bool isDefaultSaveProjectChecked() { return defaultSaveProjectBehaviorBox->isChecked(); }
    void saveProjectAs();
    QTextEdit *consoleDialog;
-   void feedConsole();
-
+   void feedLHXConsoleWithHtml();
+   void feedRConsoleWithHtml();
+   uint32_t getConsoleCounter() { return consoleCounter; }
 
   private slots:
 
@@ -166,16 +167,13 @@ class MainWindow : public QMainWindow
                         *defaultOptionsToolBarBox,
                         *defaultAboutToolBarBox,
                         *defaultSaveProjectBehaviorBox,
-                        *defaultMaximumConsoleOutput;
+                        *defaultMaximumConsoleOutputBox,
+                        *defaultQuietBox;
 
-   QList<FCheckBox*> displayWidgetListBox, behaviorWidgetListBox, displayToolBarCBoxListBox;
+   QList<FCheckBox*> displayWidgetListBox, behaviorWidgetListBox, displayToolBarCBoxListBox, outputListBox;
    
    QTextEdit *editor=nullptr;
    Highlighter *highlighter;
-   void feedLHXConsoleWithHtml();
-   void feedRConsoleWithHtml();
-
-
 
 signals:
    void exitSignal();

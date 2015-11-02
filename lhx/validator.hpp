@@ -24,12 +24,6 @@
 #define GCC_UNUSED
 #endif
 
-#ifndef GUI_TAG_MESSAGES
-  #define  STATE_HTML_TAG  "[MSG]"
-  #define  PROCESSING_HTML_TAG  "[MSG]"
-  #define  ERROR_HTML_TAG  "[ERR]"
-  #define  WARNING_HTML_TAG  "[ATT]"
-#endif
 
 typedef struct
 {
@@ -120,7 +114,7 @@ typedef struct
     int* Memoire_p_ligne;
 } info_t;
 
-#define RESET true
+
 #define RETRY -1
 #define SKIP_FILE 1
 #define NO_AGENT -1

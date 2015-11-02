@@ -670,13 +670,28 @@ void FProgressBar::computeLHXParsingProgressBar()
 {
     if (parent->process->state() != QProcess::Running) return;
 
-    int level = std::min(maximum(), std::max(this->parent->fileRank, value()));
+    int level = std::min(maximum(), this->parent->fileRank);
+
+    if (level < value())
+    {
+        bar->reset();
+        if (internalState == State::Parsing)
+            parent->outputTextEdit->append((QString)PROCESSING_HTML_TAG + "Décodage des bases...");
+    }
 
     setValue(level);
 
-    if(level > 0.95 * maximum() && QDir(v(base)).entryList({"*.csv"}, QDir::Files).count() > 0)
+    if(QDir(v(base)).entryList({"*.csv"}, QDir::Files).count() > 0)
     {
            internalState = State::WritingReady;
+    }
+
+    if (QFileInfo(parent->stateFile).exists())
+    {
+        bar->reset();
+        if (internalState == State::Parsing)
+            parent->outputTextEdit->append((QString)PROCESSING_HTML_TAG + "Décodage des bases...");
+        parent->stateFile.remove();
     }
 }
 

@@ -37,7 +37,8 @@ void Altair::run()
         processFinished(exitCode::shouldLaunchRAltairAlone);
         return;
     }
-    QString path=Hash::wrapper["base"]->toQString();
+
+    QString path=v(base);
 
     if (path.isEmpty())
     {
@@ -119,16 +120,17 @@ void Altair::run()
             command += " "+str+" ";
     }
 
-#ifdef COMMANDLINE_CONSOLE_OUTPUT
-    parent->consoleDialog->append(PROCESSING_HTML_TAG + tr("Ligne de commande : ")+ altairCommandStr+ " " + command);
-#endif
-
-    if (v(ecoRam).isTrue())
+    if (v(quiet).isFalse())
     {
-        outputTextEdit->append((QString)PROCESSING_HTML_TAG + "Lancement [allocation de la mémoire de travail]...");
+        parent->consoleDialog->append(PROCESSING_HTML_TAG + tr("Ligne de commande : ")+ altairCommandStr+ " " + command);
+
+        if (v(ecoRAM).isTrue())
+        {
+            outputTextEdit->append((QString)PROCESSING_HTML_TAG + "Lancement [allocation de la mémoire de travail]...");
+        }
+        else
+               outputTextEdit->append((QString)PROCESSING_HTML_TAG + "Lancement de l'analyse des bases de paye...");
     }
-    else
-           outputTextEdit->append((QString)PROCESSING_HTML_TAG + "Lancement de l'analyse des bases de paye...");
 
     outputType="L";
 
@@ -146,21 +148,8 @@ void Altair::run()
     /* nécessaire pour avoir l'état réel de certains champs de contrôle comme activerConsole */
     updateProject(true);
 
-    if (v(activerConsole).isTrue())
-    {
-        connect(process,   &QProcess::started,     [&]  {  parent->feedConsole(); });
-
-    }
-    else
-    {
-
-        QTimer *timer = new QTimer(this);
-        connect(timer, &QTimer::timeout, [&] { readRankSignal();});
-        connect(process, SIGNAL(finished(int)), timer, SLOT(stop()));
-        timer->start(500);
-    }
-
     rankFile.setFileName(sharedir + "/rank");
+    stateFile.setFileName(sharedir + "/processing");
 
     if (! rankFile.exists())
         rankFile.open(QIODevice::WriteOnly);
@@ -170,19 +159,55 @@ void Altair::run()
 
     process->start(altairCommandStr,  args0 << args1);
 
-    emit(setProgressBar(0, (1 + v(ecoRAM).isTrue())* fileCount));
-
     if (process->waitForStarted())
     {
         outputTextEdit->append(PROCESSING_HTML_TAG + tr("Analyse des bases de paye...Veuillez patienter\n"));
 
-        if (Hash::wrapper["ecoRAM"]->toFString().isTrue())
-            outputTextEdit->append(PROCESSING_HTML_TAG + tr("En mode économe de mémoire, le lancement effectif peut être retardé de plusieurs dizaines de secondes.\n"));
+        if (v(ecoRAM).isTrue())
+            outputTextEdit->append(PROCESSING_HTML_TAG + tr("Mode économe en mémoire.\n"));
+
+
+        if (v(activerConsole).isTrue())
+        {
+            parent->consoleDialog->insertHtml(QString("<br>" PROCESSING_HTML_TAG " ") + ((outputType == "L") ? " Décodage des bases " : " Analyse des données ") +"...<br>");
+            parent->consoleDialog->moveCursor(QTextCursor::End);
+
+            connect(process, &QProcess::readyReadStandardOutput, [&] {
+
+                if (v(limitConsoleOutput).isTrue())
+                {
+                    if (parent->getConsoleCounter() > MAXIMUM_CONSOLE_OUTPUT) return;
+                }
+
+                if (v(activerConsole).isFalse())
+                    return;
+
+                if (outputType[0] == 'L')
+                {
+                    parent->feedLHXConsoleWithHtml();
+                }
+                else parent->feedRConsoleWithHtml();  // add counter
+            });
+
+        }
+        else
+        {
+
+            QTimer *timer = new QTimer(this);
+            connect(timer, &QTimer::timeout, [&] { readRankSignal();});
+            connect(process, SIGNAL(finished(int)), timer, SLOT(stop()));
+            timer->start(500);
+        }
+
+
+
+        emit(setProgressBar(0, fileCount));
+
     }
     else
     {
         outputTextEdit->append(PROCESSING_HTML_TAG + tr("Echec du lancement de LHX, ligne de commande ")+ altairCommandStr);
-     }
+    }
 
 }
 
