@@ -15,6 +15,7 @@
 #include "table.hpp"
 #include "tags.h"
 
+extern bool verbeux;
 extern std::mutex mut;
 extern std::vector<errorLine_t> errorLineStack;
 
@@ -57,7 +58,7 @@ inline void warning_msg(const char* noeud, const info_t& info, const xmlNodePtr 
        if (warning_count < WARNING_LIMIT)
        {
            ++warning_count;
-           std::cerr << WARNING_HTML_TAG "Impossible d'atteindre " << noeud << ENDL;
+           if (verbeux) std::cerr << WARNING_HTML_TAG "Impossible d'atteindre " << noeud << ENDL;
            errorLineStack.emplace_back(afficher_environnement_xhl(info, cur));
        }
        else
@@ -76,7 +77,7 @@ inline void warning_msg(const char* noeud, const info_t& info, const xmlNodePtr 
        fichier_last = info.threads->argv[info.fichier_courant];
 
       #else
-           std::cerr << WARNING_HTML_TAG "Impossible d'atteindre " << noeud << ENDL;
+           if (verbeux) std::cerr << WARNING_HTML_TAG "Impossible d'atteindre " << noeud << ENDL;
            errorLineStack.emplace_back(afficher_environnement_xhl(info, cur));
       #endif
 

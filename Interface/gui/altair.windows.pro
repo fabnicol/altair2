@@ -52,13 +52,14 @@ TARGET = Altair
 
 VPATH = .
 
-DEFINES += PROGRESSBAR_TIMEOUT=250    # Intervalle d'incrémentation de la barre de progression en millisecondes
+DEFINES += PROGRESSBAR_TIMEOUT=0    # Intervalle d'incrémentation de la barre de progression en millisecondes
                             # Un timeout plus élevé diminue l'overhead mais rend la la progression moins fluide.
                             # Le minimum (timeout = 0) donne des progressions fluides mais augmente de 10 % la durée d'exec.
 
 DEFINES += MAXIMUM_CONSOLE_OUTPUT=800   #Pour limiter le volume de lignes de la cosole et éviter des plantages ou ralentissements en cas de verbosité excessive
 
-DEFINES += COMMANDLINE_CONSOLE_OUTPUT                   # Générer la ligne de commande en console (verbeux)
+DEFINES += COMMANDLINE_CONSOLE_OUTPUT          \        # Générer la ligne de commande en console (verbeux)
+           GUI_OUTPUT                                   # Balises d'identification des lignes de la console : mode GUI
 
 DEFINES += QT_NO_OPENGL \
            STATIC\                                      # à utiliser pour lancer le navigateur internet par défaut plustôt qu'un navigateur interne

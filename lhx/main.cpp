@@ -19,11 +19,11 @@
 #include "table.hpp"
 #include "tags.h"
 
+bool verbeux = true;
 typedef std::chrono::high_resolution_clock Clock;
 std::ofstream rankFile;
 std::string rankFilePath = "";
 std::mutex mut;
-
 std::vector<errorLine_t> errorLineStack;
 
 static inline const uint32_t* calculer_maxima(const std::vector<info_t> &Info)
@@ -155,18 +155,28 @@ int main(int argc, char **argv)
                       <<  "-L argument obligatoire : chemin du log d'exécution du test de cohérence entre analyseurs C et XML." << "\n"
                       <<  "-R argument obligatoire : expression régulière pour la recherche des élus (codés : ELU dans le champ Statut." << "\n"
                       <<  "-S sans argument        : supprimer la sortie Budget, Etablissement, Siret (allège les bases)." << "\n"
+                      <<  "-q sans argument        : limiter la verbosité." << "\n";
+
               #ifdef GENERATE_RANK_SIGNAL
-                      <<  "-rank argument optionnel : générer le fichier du rang de la base de paye en cours dans le fichier en option\n"
-              #endif
+
+                      std::cerr  <<  "-rank argument optionnel : générer le fichier du rang de la base de paye en cours dans le fichier.\n";
+
                      #if defined _WIN32 | defined _WIN64
-                      <<  "                           ou à défaut dans %USERPROFILE%\\AppData\\Altair\\rank.\n";
+                      std::cerr  <<  "                           ou à défaut dans %USERPROFILE%\\AppData\\Altair\\rank.\n";
                      #else
                         #if defined __linux__
-                          <<  "                           ou à défaut dans ~/.local/share/Altair/rank.\n";
+                          std::cerr  <<  "                           ou à défaut dans ~/.local/share/Altair/rank.\n";
                         #endif
                      #endif
+              #endif
 
             exit(0);
+        }
+        else if (! strcmp(argv[start], "-q"))
+        {
+            verbeux = false;
+            ++start;
+            continue;
         }
         else if (! strcmp(argv[start], "-t"))
         {
@@ -409,7 +419,6 @@ int main(int argc, char **argv)
                 if (testFile.is_open())
                 {
                     testFile.close();
-                    remove(rankFilePath.c_str());
                 }
 
                 rankFile.open(rankFilePath, std::ios::out| std::ios::trunc);
@@ -421,6 +430,31 @@ int main(int argc, char **argv)
             continue;
         }
 #endif
+         else if (! strcmp(argv[start], "-state"))
+         {
+            int hasArg = 0;
+            std::string stateFilePath;
+            if (argc > start +2)
+            {
+                if (argv[start + 1][0] == '-')
+                    stateFilePath = std::string(std::getenv("USERPROFILE")) + "/AppData/processing";
+                else
+                {
+                    stateFilePath = argv[start + 1];
+                    hasArg = 1;
+                }
+
+                std::ifstream testFile;
+                testFile.open(stateFilePath);
+                if (testFile.is_open())
+                {
+                    testFile.close();
+                }
+            }
+
+            start += 1 + hasArg;
+            continue;
+        }
         else if (! strcmp(argv[start], "-S"))
         {
             if (argc > start +2)
@@ -445,14 +479,15 @@ int main(int argc, char **argv)
     xmlInitMemory();
     xmlInitParser();
 
-    int nbfichier_par_fil = (int) (argc - start) / info.nbfil;
+    int nb_total_fichiers = argc - start;
+    int nbfichier_par_fil = (int) nb_total_fichiers / info.nbfil;
     if (nbfichier_par_fil == 0)
     {
         std::cerr << ERROR_HTML_TAG "Trop de fils pour le nombre de fichiers ; exécution avec -j 2" ENDL;
         info.nbfil = 2;
     }
 
-    if ((argc - start) % info.nbfil) ++info.nbfil;  // on en crée un de plus pour le reste
+    if (nb_total_fichiers % info.nbfil) ++info.nbfil;  // on en crée un de plus pour le reste
 
     std::vector<info_t> Info(info.nbfil);
     std::vector<std::thread> t;
@@ -462,7 +497,7 @@ int main(int argc, char **argv)
         t.resize(info.nbfil);
     }
 
-    std::cerr << ENDL PROCESSING_HTML_TAG "Création des fils clients." ENDL;
+    if (verbeux) std::cerr << ENDL PROCESSING_HTML_TAG "Création des fils clients." ENDL;
 
     for (int i = 0; i < info.nbfil; ++i)
     {
@@ -470,7 +505,7 @@ int main(int argc, char **argv)
 
         Info[i].threads = new thread_t;
         Info[i].threads->thread_num = i;
-        Info[i].threads->argc = (argc - start < nbfichier_par_fil)? argc - start: nbfichier_par_fil;
+        Info[i].threads->argc = (nb_total_fichiers < nbfichier_par_fil)? nb_total_fichiers : nbfichier_par_fil;
         Info[i].threads->argv = new char*[nbfichier_par_fil];
 
 
@@ -483,18 +518,18 @@ int main(int argc, char **argv)
         int shift = 0;
         for (int j = start; j <  nbfichier_par_fil + start && j + shift < argc; ++j)
         {
-            if (! strcmp(argv[j + shift], "-g"))
-            {
-                Info[i].threads->argc--;
-                ++shift;
-            }
+            Info[i].threads->argc--;
+            ++shift;
+
             Info[i].threads->argv[j - start] = argv[j + shift];
         }
 
-        std::cerr <<  "Thread i=" << i+1 << "/" << info.nbfil
-                  << " Nombre de fichiers : " << Info[i].threads->argc << ENDL;
+        if (verbeux) std::cerr <<  "Thread i=" << i+1 << "/" << info.nbfil
+                               << " Nombre de fichiers : " << Info[i].threads->argc << ENDL;
 
         start += nbfichier_par_fil;
+        if (verbeux && Info[0].reduire_consommation_memoire)
+           std::cerr << ENDL PROCESSING_HTML_TAG "Premier scan des fichiers pour déterminer les besoins mémoire ... " ENDL;
 
         if (info.nbfil > 1)
         {
@@ -526,8 +561,8 @@ int main(int argc, char **argv)
         maxima = calculer_maxima(Info);
         if (maxima)
         {
-            std::cerr <<  STATE_HTML_TAG " Maximum de lignes : " << maxima[1] << ENDL
-                       << STATE_HTML_TAG " Maximum d'agents  : " << maxima[0] << ENDL;
+            std::cerr <<  STATE_HTML_TAG "Maximum de lignes : " << maxima[1] << ENDL
+                       << STATE_HTML_TAG "Maximum d'agents  : " << maxima[0] << ENDL;
         }
     }
 
@@ -539,8 +574,8 @@ int main(int argc, char **argv)
         LOG.open(Info[0].chemin_log, std::ios::app);
         if (LOG.good() && maxima)
         {
-            LOG << STATE_HTML_TAG " Maximum de lignes : " << maxima[1] << "\n";
-            LOG << STATE_HTML_TAG " Maximum d'agent   : " << maxima[0] << "\n";
+            LOG << STATE_HTML_TAG "Maximum de lignes : " << maxima[1] << "\n";
+            LOG << STATE_HTML_TAG "Maximum d'agent   : " << maxima[0] << "\n";
             LOG.close();
         }
     }
@@ -556,20 +591,24 @@ int main(int argc, char **argv)
 
     if (generer_table)
     {
-        boucle_ecriture(Info);
+      std::cerr << ENDL << PROCESSING_HTML_TAG "Exportation des bases de données au format CSV..." << ENDL;
+      boucle_ecriture(Info);
     }
 
     /* Résumé des erreurs rencontrées */
 
-    std::cerr << WARNING_HTML_TAG "<g>Récapitulatif des erreurs rencontrées</g>" << ENDL;
-    for (const errorLine_t& e :  errorLineStack)
+    if (errorLineStack.size() > 0)
     {
-        std::cerr << e.filePath;
-        if (e.lineN != -1)
-            std::cerr << " -- Ligne n°" << e.lineN << ENDL;
-        else
-            std::cerr << " -- Ligne inconnue." << ENDL;
+        std::cerr << WARNING_HTML_TAG "<g>Récapitulatif des erreurs rencontrées</g>" << ENDL;
+        for (const errorLine_t& e :  errorLineStack)
+        {
+            std::cerr << e.filePath;
+            if (e.lineN != -1)
+                std::cerr << " -- Ligne n°" << e.lineN << ENDL;
+            else
+                std::cerr << " -- Ligne inconnue." << ENDL;
 
+        }
     }
 
     if (! Info[0].chemin_log.empty())
@@ -591,7 +630,7 @@ int main(int argc, char **argv)
     int valeur_de_retour = 0;
     if (! liberer_memoire) goto duration;
 
-    std::cerr << ENDL << PROCESSING_HTML_TAG "Libération de la mémoire..." << ENDL;
+   if (verbeux)  std::cerr << ENDL << PROCESSING_HTML_TAG "Libération de la mémoire..." << ENDL;
 
     /* En cas de problème d'allocation mémoire le mieux est encore de ne pas désallouer car on ne connait pas exacteemnt l'état
      * de la mémoire dynamique */

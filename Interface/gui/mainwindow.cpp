@@ -617,11 +617,6 @@ void MainWindow::configureOptions()
     closeButton = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     closeButton->button(QDialogButtonBox::Ok)->setText("Accepter");
     closeButton->button(QDialogButtonBox::Cancel)->setText("Annuler");    
-    
-    QGridLayout *layout=new QGridLayout;
-    QVBoxLayout *displayDocksLayout=new QVBoxLayout;
-    QVBoxLayout *displayToolBarsLayout=new QVBoxLayout;
-    QVBoxLayout *behaviourLayout=new QVBoxLayout;
 
     defaultFileManagerWidgetLayoutBox=new FCheckBox("Afficher le gestionnaire de fichiers",
                                                     #ifdef MINIMAL
@@ -705,27 +700,37 @@ void MainWindow::configureOptions()
                                                                             {"Interface", "Charger le projet .alt au lancement"});
 
 
-    defaultMaximumConsoleOutput = new FCheckBox("Limiter la sortie de la console",
+    QGroupBox *outputGroupBox= new QGroupBox(tr("Console"));
+
+    defaultMaximumConsoleOutputBox = new FCheckBox("Limiter la sortie de la console",
                                                                             flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
                                                                             "limitConsoleOutput",
                                                                             {"Interface", "Limiter le nombre de lignes en sortie de la console"});
 
-    displayWidgetListBox  <<  defaultFileManagerWidgetLayoutBox
-                       << defaultProjectManagerWidgetLayoutBox
-                       << defaultOutputTextEditBox
-                       << defaultFullScreenLayoutBox;
+    defaultQuietBox = new FCheckBox("Limiter la verbosité",
+                                       "quiet",
+                                       {"Interface", "Limiter la verbosité de la console"},
+                                        "q");
+
+    displayWidgetListBox   <<  defaultFileManagerWidgetLayoutBox
+                           << defaultProjectManagerWidgetLayoutBox
+                           << defaultOutputTextEditBox
+                           << defaultFullScreenLayoutBox;
 
 
-    behaviorWidgetListBox   << defaultSaveProjectBehaviorBox
-                         << defaultLoadProjectBehaviorBox
-                         << defaultMaximumConsoleOutput;
+    behaviorWidgetListBox  << defaultSaveProjectBehaviorBox
+                           << defaultLoadProjectBehaviorBox;
+
     
-    displayToolBarCBoxListBox <<  defaultFileToolBarBox
-                       <<  defaultEditToolBarBox
-                       <<  defaultProcessToolBarBox
-                       <<  defaultOptionsToolBarBox
-                       <<  defaultAboutToolBarBox;
+    displayToolBarCBoxListBox  <<  defaultFileToolBarBox
+                               <<  defaultEditToolBarBox
+                               <<  defaultProcessToolBarBox
+                               <<  defaultOptionsToolBarBox
+                               <<  defaultAboutToolBarBox;
     
+    outputListBox << defaultMaximumConsoleOutputBox
+                  << defaultQuietBox;
+
     QList<QToolBar*> displayToolBarList ;
     
 #define buildToolBar(bar, text) \
@@ -744,22 +749,34 @@ void MainWindow::configureOptions()
                        << optionsToolBar 
                        << aboutToolBar;                                  
 
+    QGridLayout *layout=new QGridLayout;
+    QVBoxLayout *displayDocksLayout=new QVBoxLayout;
+    QVBoxLayout *displayToolBarsLayout=new QVBoxLayout;
+    QVBoxLayout *behaviourLayout=new QVBoxLayout;
+    QVBoxLayout *outputLayout=new QVBoxLayout;
+
+
     for (FCheckBox* a : displayWidgetListBox)    displayDocksLayout->addWidget(a);
     for (FCheckBox* a : behaviorWidgetListBox)   behaviourLayout->addWidget(a);
+    for (FCheckBox* a : outputListBox)           outputLayout->addWidget(a);
+
     for (int i=0; i< displayToolBarList.size(); i++)
     {
         displayToolBarsLayout->addWidget(displayToolBarCBoxListBox[i]);
 
         connect(displayToolBarCBoxListBox[i], SIGNAL(toggled(bool)), displayToolBarList[i], SLOT(setVisible(bool)));
-       // displayToolBarCBoxListBox[i]->setChecked(true);
+
     }
 
     displayGroupBox->setLayout(displayDocksLayout);
     behaviorGroupBox->setLayout(behaviourLayout);
     displayToolBarsGroupBox->setLayout(displayToolBarsLayout);
+    outputGroupBox->setLayout(outputLayout);
+
     layout->addWidget(displayGroupBox, 0,0);
     layout->addWidget(behaviorGroupBox, 1, 0);
     layout->addWidget(displayToolBarsGroupBox, 0, 1);
+    layout->addWidget(outputGroupBox, 1, 1);
     layout->addWidget(closeButton, 2, 0);
     contentsWidget->setLayout(layout);
     
@@ -788,13 +805,13 @@ void MainWindow::configureOptions()
     connect(defaultProjectManagerWidgetLayoutBox, SIGNAL(toggled(bool)), this, SLOT(on_openManagerWidgetButton_clicked(bool)));
     
     connect(defaultFullScreenLayoutBox, SIGNAL(toggled(bool)), this, SLOT(showMainWidget(bool)));
-    connect(defaultMaximumConsoleOutput, &FCheckBox::toggled, [this]{v(limitConsoleOutput).toggle();});
+    connect(defaultMaximumConsoleOutputBox, &FCheckBox::toggled, [this]{v(limitConsoleOutput).toggle();});
     connect(defaultOutputTextEditBox, &FCheckBox::toggled, [this] {bottomDockWidget->setVisible(defaultOutputTextEditBox->isChecked());});
     connect(defaultLoadProjectBehaviorBox, &FCheckBox::toggled, [this] {  if (defaultLoadProjectBehaviorBox->isChecked())
                                                                             altair->RefreshFlag = altair->RefreshFlag 
                                                                                                   | interfaceStatus::parseXml;});
 
-    connect(defaultMaximumConsoleOutput, &FCheckBox::toggled, [this] {
+    connect(defaultMaximumConsoleOutputBox, &FCheckBox::toggled, [this] {
         QTimer *timer = new QTimer(this);
         if (v(limitConsoleOutput).isTrue())
         {
@@ -901,29 +918,4 @@ void MainWindow::resetCounter()
     consoleCounter = 0;
 }
 
-void MainWindow::feedConsole()
-{
-        consoleDialog->insertHtml(QString("<br>" PROCESSING_HTML_TAG " ") + ((altair->outputType == "L") ? " Décodage des bases " : " Analyse des données ") +"...<br>");
-        consoleDialog->moveCursor(QTextCursor::End);
-
-        connect(altair->process, &QProcess::readyReadStandardOutput, [&] {
-
-                if (v(limitConsoleOutput).isTrue())
-                {
-                    if (consoleCounter > MAXIMUM_CONSOLE_OUTPUT) return;
-                }
-
-                if (v(activerConsole).isFalse())
-                    return;
-
-                if (altair->outputType[0] == 'L')
-                {
-                    feedLHXConsoleWithHtml();
-                }
-                else feedRConsoleWithHtml();  // add counter
-            });
-
-
-
- }
 

@@ -48,6 +48,7 @@ public:
     QPoint startPos;
     QProcess* process = new QProcess;
     QFile rankFile;
+    QFile stateFile;
     QProcess ejectProcess;
     QString fileTreeFile;
     QString outputType;
