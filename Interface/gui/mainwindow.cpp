@@ -44,7 +44,6 @@ MainWindow::MainWindow(char* projectName)
   consoleDialog=  new QTextEdit;
   consoleDialog->setReadOnly(true);
 
-  connect(consoleDialog, SIGNAL(copyAvailable(bool)), consoleDialog, SLOT(copy()));
   bottomTabWidget->addTab(altair->outputTextEdit, tr("Messages"));
   bottomTabWidget->addTab(consoleDialog, tr("Console"));
   bottomTabWidget->setCurrentIndex(0);
@@ -74,8 +73,6 @@ MainWindow::MainWindow(char* projectName)
   const QIcon clearOutputText = QIcon(QString::fromUtf8( ":/images/edit-clear.png"));
   clearBottomTabWidgetButton->setIcon(clearOutputText);
 
-  connect(clearBottomTabWidgetButton, &QToolButton::clicked, [this] { on_clearOutputTextButton_clicked();});
-
   QGroupBox *stackedBottomWidget=new QGroupBox;
   QHBoxLayout *stackedBottomWidgetLayout=new QHBoxLayout;
   stackedBottomWidgetLayout->addWidget(clearBottomTabWidgetButton);
@@ -99,6 +96,10 @@ MainWindow::MainWindow(char* projectName)
 
   // resetting interfaceStatus::parseXml bits to 0
   Altair::RefreshFlag = Altair::RefreshFlag & (~interfaceStatus::parseXml);
+
+  connect(clearBottomTabWidgetButton, &QToolButton::clicked, [this] { on_clearOutputTextButton_clicked();});
+  connect(consoleDialog, SIGNAL(copyAvailable(bool)), consoleDialog, SLOT(copy()));
+  connect(altair->process, SIGNAL(finished(int)), this, SLOT(resetCounter()));
 
 }
 
@@ -799,7 +800,7 @@ void MainWindow::configureOptions()
         {
             connect(timer, &QTimer::timeout, [&] { altair->readRankSignal();});
             connect(altair->process, SIGNAL(finished(int)), timer, SLOT(stop()));
-            timer->start(500);
+            timer->start(PROGRESSBAR_TIMEOUT);
         } else
         {
             timer->stop();
@@ -860,33 +861,20 @@ void MainWindow::showMainWidget()
 
 void MainWindow::feedLHXConsoleWithHtml()
 {
-    static uint32_t counter;
-
-    if (v(limitConsoleOutput).isTrue())
-            //&& counter > v(consoleMaximumOutput).toInt())
-
-        return;
+// Pour la compilation de LHX définir DEFINES += ENDL=\"\\\"<br>\\\\n\\\"\" dans le projet qmake
 
     while (altair->process->canReadLine())
          {
-              altair->readRankSignal();
+               altair->readRankSignal();
 
                QString buffer = QString::fromLatin1(altair->process->readLine());
 
-                /* Pour le parsage de la première phase d'analyse on envoie " \n" sur stderr.
-                 * il faut donc nettoyer ces signaux.
-                 * Ce nettoyage est de toute façon une bonne mesure sanitaire générale */
-
-                if (! buffer.trimmed().isEmpty())
-                {
-                       consoleDialog->insertHtml(buffer.replace("\n", "<br>"));
-
-                   ++counter;
-                }
+               consoleDialog->insertHtml(buffer);
+              ++consoleCounter;
           }
 
       consoleDialog->moveCursor(QTextCursor::End);
-}
+   }
 
 void MainWindow::feedRConsoleWithHtml()
 {
@@ -908,15 +896,31 @@ void MainWindow::feedRConsoleWithHtml()
 }
 
 
+void MainWindow::resetCounter()
+{
+    consoleCounter = 0;
+}
+
 void MainWindow::feedConsole()
 {
-
         consoleDialog->insertHtml(QString("<br>" PROCESSING_HTML_TAG " ") + ((altair->outputType == "L") ? " Décodage des bases " : " Analyse des données ") +"...<br>");
         consoleDialog->moveCursor(QTextCursor::End);
 
         connect(altair->process, &QProcess::readyReadStandardOutput, [&] {
-                if (altair->outputType[0] == 'L') feedLHXConsoleWithHtml();
-                else feedRConsoleWithHtml();
+
+                if (v(limitConsoleOutput).isTrue())
+                {
+                    if (consoleCounter > MAXIMUM_CONSOLE_OUTPUT) return;
+                }
+
+                if (v(activerConsole).isFalse())
+                    return;
+
+                if (altair->outputType[0] == 'L')
+                {
+                    feedLHXConsoleWithHtml();
+                }
+                else feedRConsoleWithHtml();  // add counter
             });
 
 

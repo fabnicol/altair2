@@ -24,6 +24,8 @@ std::ofstream rankFile;
 std::string rankFilePath = "";
 std::mutex mut;
 
+std::vector<errorLine_t> errorLineStack;
+
 static inline const uint32_t* calculer_maxima(const std::vector<info_t> &Info)
 {
     static int once;
@@ -191,7 +193,7 @@ int main(int argc, char **argv)
         {
             if (start + 1 == argc)
             {
-                std::cerr << ERROR_HTML_TAG "Option -T suivi d'un argument obligatoire (nombre de lignes).\n" ;
+                std::cerr << ERROR_HTML_TAG "Option -T suivi d'un argument obligatoire (nombre de lignes)." ENDL ;
                 exit(-100);
             }
 
@@ -219,10 +221,10 @@ int main(int argc, char **argv)
                 int32_t size_read = lire_argument(argc, argv[start + 1]);
 
                 if (size_read < 0 || size_read > INT32_MAX -1)
-                     {
-                                    std::cerr << ERROR_HTML_TAG "Le nombre de lignes doit être compris entre 0 et INT64_MAX\n";
-                                    exit(-908);
-                     }
+                {
+                    std::cerr << ERROR_HTML_TAG "Le nombre de lignes doit être compris entre 0 et INT64_MAX" ENDL;
+                    exit(-908);
+                }
                 else
                     info.taille_base = size_read;
             }
@@ -235,7 +237,7 @@ int main(int argc, char **argv)
         {
             if (start + 1 == argc)
             {
-                std::cerr << ERROR_HTML_TAG "Option -s suivi d'un argument obligatoire (séparateur de champs).\n";
+                std::cerr << ERROR_HTML_TAG "Option -s suivi d'un argument obligatoire (séparateur de champs)." ENDL;
                 exit(-100);
             }
             info.separateur = argv[start + 1][0];
@@ -253,7 +255,7 @@ int main(int argc, char **argv)
         {
             if (start + 1 == argc)
             {
-                std::cerr << ERROR_HTML_TAG "Option -g suivi d'un argument obligatoire.\n";
+                std::cerr << ERROR_HTML_TAG "Option -g suivi d'un argument obligatoire." ENDL;
                 exit(-100);
             }
 
@@ -264,7 +266,7 @@ int main(int argc, char **argv)
         {
             if (start + 1 == argc)
             {
-                std::cerr << ERROR_HTML_TAG "Option -d suivi d'un argument obligatoire (séparateur décimal).\n";
+                std::cerr << ERROR_HTML_TAG "Option -d suivi d'un argument obligatoire (séparateur décimal)." ENDL;
                 exit(-100);
             }
             info.decimal = argv[start + 1][0];
@@ -275,7 +277,7 @@ int main(int argc, char **argv)
         {
             if (start + 1 == argc)
             {
-                std::cerr << ERROR_HTML_TAG "Option -o suivi d'un argument obligatoire (nom de  fichier).\n";
+                std::cerr << ERROR_HTML_TAG "Option -o suivi d'un argument obligatoire (nom de  fichier)." ENDL;
                 exit(-100);
             }
 
@@ -316,7 +318,7 @@ int main(int argc, char **argv)
             if (! base.good())
             {
                 std::cerr << ERROR_HTML_TAG "La base de données "
-                          << info.chemin_base << " ne peut être créée, vérifier l'existence du dossier.\n" ;
+                          << info.chemin_base << " ne peut être créée, vérifier l'existence du dossier." ENDL ;
                 exit(-113);
             }
             else
@@ -361,13 +363,13 @@ int main(int argc, char **argv)
         {
             if ((info.nbLigneUtilisateur = lire_argument(argc, argv[start +1])) > 1)
             {
-                std::cerr << STATE_HTML_TAG " Nombre maximum de lignes de paye redéfini à : " << info.nbLigneUtilisateur << "\n";
+                std::cerr << STATE_HTML_TAG " Nombre maximum de lignes de paye redéfini à : " << info.nbLigneUtilisateur << ENDL;
             }
 
             info.reduire_consommation_memoire = false;
             if ((info.nbAgentUtilisateur = lire_argument(argc, argv[start + 1])) < 1)
             {
-                std::cerr << ERROR_HTML_TAG "Préciser le nombre de nombre maximum d'agents par mois attendus (majorant du nombre) avec -n xxx\n";
+                std::cerr << ERROR_HTML_TAG "Préciser le nombre de nombre maximum d'agents par mois attendus (majorant du nombre) avec -n xxx" ENDL;
                 exit(-1);
             }
 
@@ -434,7 +436,7 @@ int main(int argc, char **argv)
         }
         else if (argv[start][0] == '-')
         {
-            std::cerr << ERROR_HTML_TAG "Option inconnue " << argv[start] << "\n";
+            std::cerr << ERROR_HTML_TAG "Option inconnue " << argv[start] << ENDL;
             exit(-100);
         }
         else break;
@@ -446,7 +448,7 @@ int main(int argc, char **argv)
     int nbfichier_par_fil = (int) (argc - start) / info.nbfil;
     if (nbfichier_par_fil == 0)
     {
-        std::cerr << ERROR_HTML_TAG "Trop de fils pour le nombre de fichiers ; exécution avec -j 2\n";
+        std::cerr << ERROR_HTML_TAG "Trop de fils pour le nombre de fichiers ; exécution avec -j 2" ENDL;
         info.nbfil = 2;
     }
 
@@ -460,7 +462,7 @@ int main(int argc, char **argv)
         t.resize(info.nbfil);
     }
 
-    std::cerr << "\n" PROCESSING_HTML_TAG "Création des fils clients.\n";
+    std::cerr << ENDL PROCESSING_HTML_TAG "Création des fils clients." ENDL;
 
     for (int i = 0; i < info.nbfil; ++i)
     {
@@ -489,8 +491,8 @@ int main(int argc, char **argv)
             Info[i].threads->argv[j - start] = argv[j + shift];
         }
 
-        std::cerr << "\n\nThread i=" << i+1 << "/" << info.nbfil
-                  << "\n\nNombre de fichiers : " << Info[i].threads->argc << "\n";
+        std::cerr <<  "Thread i=" << i+1 << "/" << info.nbfil
+                  << " Nombre de fichiers : " << Info[i].threads->argc << ENDL;
 
         start += nbfichier_par_fil;
 
@@ -507,7 +509,7 @@ int main(int argc, char **argv)
 
         if (errno)
         {
-            std::cerr << "\n" << strerror(errno) << "\n";
+            std::cerr << ENDL << strerror(errno) << ENDL;
         }
     }
 
@@ -524,8 +526,8 @@ int main(int argc, char **argv)
         maxima = calculer_maxima(Info);
         if (maxima)
         {
-            std::cerr <<  STATE_HTML_TAG " Maximum de lignes : " << maxima[1] << "\n"
-                       << STATE_HTML_TAG " Maximum d'agents  : " << maxima[0] << "\n";
+            std::cerr <<  STATE_HTML_TAG " Maximum de lignes : " << maxima[1] << ENDL
+                       << STATE_HTML_TAG " Maximum d'agents  : " << maxima[0] << ENDL;
         }
     }
 
@@ -547,9 +549,9 @@ int main(int argc, char **argv)
 
     auto endofcalculus = Clock::now();
 
-    std::cerr << "\n" PROCESSING_HTML_TAG "Durée de calcul : "
+    std::cerr << ENDL << PROCESSING_HTML_TAG "Durée de calcul : "
               << std::chrono::duration_cast<std::chrono::milliseconds>(endofcalculus - startofprogram).count()
-              << " millisecondes" << "\n";
+              << " millisecondes" << ENDL;
 
 
     if (generer_table)
@@ -557,12 +559,39 @@ int main(int argc, char **argv)
         boucle_ecriture(Info);
     }
 
+    /* Résumé des erreurs rencontrées */
+
+    std::cerr << WARNING_HTML_TAG "<g>Récapitulatif des erreurs rencontrées</g>" << ENDL;
+    for (const errorLine_t& e :  errorLineStack)
+    {
+        std::cerr << e.filePath;
+        if (e.lineN != -1)
+            std::cerr << " -- Ligne n°" << e.lineN << ENDL;
+        else
+            std::cerr << " -- Ligne inconnue." << ENDL;
+
+    }
+
+    if (! Info[0].chemin_log.empty())
+    {
+        std::ofstream LOG;
+        LOG.open(Info[0].chemin_log, std::ios::app);
+        if (LOG.good())
+            for (const errorLine_t& e :  errorLineStack)
+            {
+                if (e.lineN != -1)
+                    LOG << " -- Ligne n°" << e.lineN << ENDL;
+                else
+                    LOG << " -- Ligne inconnue." << ENDL;
+            }
+    }
+
     /* libération de la mémoire */
 
     int valeur_de_retour = 0;
     if (! liberer_memoire) goto duration;
 
-    std::cerr << "\n" PROCESSING_HTML_TAG "Libération de la mémoire...\n";
+    std::cerr << ENDL << PROCESSING_HTML_TAG "Libération de la mémoire..." << ENDL;
 
     /* En cas de problème d'allocation mémoire le mieux est encore de ne pas désallouer car on ne connait pas exacteemnt l'état
      * de la mémoire dynamique */
@@ -573,8 +602,8 @@ int main(int argc, char **argv)
         {
 
             for (int j = 0; j < Info[i].Memoire_p_ligne[agent]; ++j)
-                    if (Info[i].Table[agent][j] != nullptr)
-                        {}//delete [] (Info[i].Table[agent][j]);
+                if (Info[i].Table[agent][j] != nullptr)
+                {}//delete [] (Info[i].Table[agent][j]);
 
             //delete [] (Info[i].Table[agent]);
         }
@@ -594,13 +623,13 @@ int main(int argc, char **argv)
 
     if (maxima) delete [] (maxima);
 
-    duration:
+duration:
 
     auto endofprogram = Clock::now();
 
-    std::cerr << "\n" PROCESSING_HTML_TAG "Durée d'exécution : "
+    std::cerr << ENDL << PROCESSING_HTML_TAG "Durée d'exécution : "
               << std::chrono::duration_cast<std::chrono::milliseconds>(endofprogram - startofprogram).count()
-              << " millisecondes" << "\n";
+              << " millisecondes" << ENDL;
 
     if (rankFile.is_open()) rankFile.close();
 

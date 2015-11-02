@@ -16,7 +16,7 @@
 #include "tags.h"
 
 extern std::mutex mut;
-
+extern std::vector<errorLine_t> errorLineStack;
 
 
 #if 0
@@ -46,9 +46,7 @@ static inline xmlNodePtr GCC_INLINE atteindreNoeudArret(const char* noeud, xmlNo
 }
 #endif
 
-void afficher_environnement_xhl(const info_t& info);
-
-inline void warning_msg(const char* noeud, const info_t& info)
+inline void warning_msg(const char* noeud, const info_t& info, const xmlNodePtr cur)
 {
        /* pour des raisons pratiques il peut être nécessaire de limiter le nombre de sorties de ce type */
 
@@ -59,15 +57,15 @@ inline void warning_msg(const char* noeud, const info_t& info)
        if (warning_count < WARNING_LIMIT)
        {
            ++warning_count;
-           std::cerr << WARNING_HTML_TAG "Impossible d'atteindre " << noeud << "\n";
-           afficher_environnement_xhl(info);
+           std::cerr << WARNING_HTML_TAG "Impossible d'atteindre " << noeud << ENDL;
+           errorLineStack.emplace_back(afficher_environnement_xhl(info, cur));
        }
        else
            if (warning_count == WARNING_LIMIT)
            {
-               std::cerr << WARNING_HTML_TAG "Impossible d'atteindre " << noeud << ". Messages d'avertissement supprimés par la suite.\n";
+               std::cerr << WARNING_HTML_TAG "Impossible d'atteindre " << noeud << ". Messages d'avertissement supprimés par la suite."  ENDL;
                warning_count = WARNING_LIMIT + 1;
-              afficher_environnement_xhl(info);
+              errorLineStack.emplace_back(afficher_environnement_xhl(info, cur));
            }
 
        if (fichier_last !=  nullptr && strcmp(info.threads->argv[info.fichier_courant], fichier_last) != 0)
@@ -78,23 +76,20 @@ inline void warning_msg(const char* noeud, const info_t& info)
        fichier_last = info.threads->argv[info.fichier_courant];
 
       #else
-           std::cerr << WARNING_HTML_TAG "Impossible d'atteindre " << noeud << "\n";
-           afficher_environnement_xhl(info);
+           std::cerr << WARNING_HTML_TAG "Impossible d'atteindre " << noeud << ENDL;
+           errorLineStack.emplace_back(afficher_environnement_xhl(info, cur));
       #endif
 
 }
-
-
-
 
 static inline void GCC_INLINE  verifier_taille(const int nbLignePaye, info_t& info)
 {
     if (nbLignePaye >= info.nbLigneUtilisateur)
     {
-        std::cerr << "\n\
-                En excès du nombre de lignes de paye autorisé (" << info.nbLigneUtilisateur << ").\n\
-                Omettre -n ... et utiliser -L fichier_log pour détecter le maximum de lignes de paye dans les fichiers.\n\
-                Utiliser -N ce_maximum ou bien recompiler en augmentant MAX_LIGNES_PAYE, à condition de disposer d'assez de mémoire.\n";
+        std::cerr << "\
+                En excès du nombre de lignes de paye autorisé (" << info.nbLigneUtilisateur << ")."  ENDL
+                "Omettre -n ... et utiliser -L fichier_log pour détecter le maximum de lignes de paye dans les fichiers."  ENDL
+                "Utiliser -N ce_maximum ou bien recompiler en augmentant MAX_LIGNES_PAYE, à condition de disposer d'assez de mémoire."  ENDL;
 
         exit(-10);
     }
