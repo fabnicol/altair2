@@ -3,7 +3,7 @@ greaterThan(QT_MAJOR_VERSION, 5)
 # Pour une sortie en mode console pure, enlever guiOutput ci-dessous. Sinon l'output console prépare
 # l'input de la "console de l'interface graphique"
 
-CONFIG += console #guiOutput
+CONFIG += console guiOutput
 CONFIG -= app_bundle
 CONFIG -= qt
 VPATH = .
@@ -45,8 +45,7 @@ CONFIG(guiOutput) {
   DEFINES +=  GUI_TAG_MESSAGES                   # définir pour que les sorties des messages soient formatées pour que l'interface graphique les transforme en icône.
 }
 
-DEFINES += PROGRESSION_INCREMENT_RATIO=2  \
-           WARNING_LIMIT=10   # nombre maximum d'avertissement par fichier
+DEFINES +=  WARNING_LIMIT=10   # nombre maximum d'avertissement par fichier
 
 DEFINES += __GNUC_EXTENSION \
            _REENTRANT \

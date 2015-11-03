@@ -15,13 +15,13 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
  setAcceptDrops(true);
  altair = static_cast<Altair*>(parent);
 
- currentIndex=0;  // necessary for project parsing
+ currentIndex = 0;  // necessary for project parsing
 
- importType=import_type;
- tags=xml_tags;
- fileTreeView=tree;
+ importType = import_type;
+ tags = xml_tags;
+ fileTreeView = tree;
  
- frameHashKey=hashKey;
+ frameHashKey = hashKey;
 
  fileListWidget = new FListWidget(this,
                                   hashKey,
@@ -32,6 +32,8 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
                                   tags,
                                   terms,
                                   translation);
+
+ connect(fileListWidget, SIGNAL(forceCloseProject()), altair, SLOT(closeProject()));
 
  currentListWidget = fileListWidget->currentListWidget;
 
@@ -50,7 +52,7 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
          embeddingTabWidget = parentTabWidget;
        }
 
-     mainTabWidget=new QTabWidget(embeddingTabWidget);
+     mainTabWidget = new QTabWidget(embeddingTabWidget);
      if (icon)
        {
            embeddingTabWidget->insertTab(static_cast<int>(mainTabWidgetRank), mainTabWidget, *icon, "");
