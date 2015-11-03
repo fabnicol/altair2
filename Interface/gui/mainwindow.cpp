@@ -878,20 +878,16 @@ void MainWindow::showMainWidget()
 
 void MainWindow::feedLHXConsoleWithHtml()
 {
-// Pour la compilation de LHX définir DEFINES += ENDL=\"\\\"<br>\\\\n\\\"\" dans le projet qmake
 
-    while (altair->process->canReadLine())
-         {
-               altair->readRankSignal();
+    altair->readRankSignal();
 
-               QString buffer = QString::fromLatin1(altair->process->readLine());
+    QString buffer = QString::fromLatin1(altair->process->readAllStandardOutput());
 
-               consoleDialog->insertHtml(buffer);
-              ++consoleCounter;
-          }
+    consoleDialog->insertHtml(buffer);
+    ++consoleCounter;
 
-      consoleDialog->moveCursor(QTextCursor::End);
-   }
+    consoleDialog->moveCursor(QTextCursor::End);
+}
 
 void MainWindow::feedRConsoleWithHtml()
 {

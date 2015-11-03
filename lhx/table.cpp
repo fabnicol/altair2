@@ -363,48 +363,48 @@ void boucle_ecriture(std::vector<info_t>& Info)
         case  BaseType::MONOLITHIQUE            :
             goto message;
         case  BaseType::PAR_TRAITEMENT          :
-            std::cout << STATE_HTML_TAG "Catégorie : Traitement."  ENDL;
+            std::cerr << STATE_HTML_TAG "Catégorie : Traitement."  ENDL;
             goto message;
         case  BaseType::PAR_INDEMNITE_RESIDENCE :
-            std::cout << STATE_HTML_TAG "Catégorie : Indemnité de résidence."  ENDL;
+            std::cerr << STATE_HTML_TAG "Catégorie : Indemnité de résidence."  ENDL;
             goto message;
         case  BaseType::PAR_SFT                 :
-            std::cout << STATE_HTML_TAG "Catégorie : Supplément familial de traitement."  ENDL;
+            std::cerr << STATE_HTML_TAG "Catégorie : Supplément familial de traitement."  ENDL;
             goto message;
         case  BaseType::PAR_AVANTAGE_NATURE     :
-            std::cout << STATE_HTML_TAG "Catégorie : Avantage en nature."  ENDL;
+            std::cerr << STATE_HTML_TAG "Catégorie : Avantage en nature."  ENDL;
             goto message;
         case  BaseType::PAR_INDEMNITE           :
-            std::cout << STATE_HTML_TAG "Catégorie : Indemnité."  ENDL;
+            std::cerr << STATE_HTML_TAG "Catégorie : Indemnité."  ENDL;
             goto message;
         case  BaseType::PAR_REM_DIVERSES        :
-            std::cout << STATE_HTML_TAG "Catégorie : Rémunérations diverses."  ENDL;
+            std::cerr << STATE_HTML_TAG "Catégorie : Rémunérations diverses."  ENDL;
             goto message;
         case  BaseType::PAR_DEDUCTION           :
-            std::cout << STATE_HTML_TAG "Catégorie : Déduction."  ENDL;
+            std::cerr << STATE_HTML_TAG "Catégorie : Déduction."  ENDL;
             goto message;
         case  BaseType::PAR_ACOMPTE             :
-            std::cout << STATE_HTML_TAG "Catégorie : Acompte."  ENDL;
+            std::cerr << STATE_HTML_TAG "Catégorie : Acompte."  ENDL;
             goto message;
         case  BaseType::PAR_RAPPEL              :
-            std::cout << STATE_HTML_TAG "Catégorie : Rappel."  ENDL;
+            std::cerr << STATE_HTML_TAG "Catégorie : Rappel."  ENDL;
             goto message;
         case  BaseType::PAR_RETENUE             :
-            std::cout << STATE_HTML_TAG "Catégorie : Retenue."  ENDL;
+            std::cerr << STATE_HTML_TAG "Catégorie : Retenue."  ENDL;
             goto message;
         case  BaseType::PAR_COTISATION          :
-            std::cout << STATE_HTML_TAG "Catégorie : Cotisation."  ENDL;
+            std::cerr << STATE_HTML_TAG "Catégorie : Cotisation."  ENDL;
             goto message;
         case  BaseType::TOUTES_CATEGORIES       :
-            std::cout << STATE_HTML_TAG "Toutes catégories."  ENDL;
-            std::cout << STATE_HTML_TAG "Total de " << compteur << " lignes générée dans 11 bases."  ENDL;
+            std::cerr << STATE_HTML_TAG "Toutes catégories."  ENDL;
+            std::cerr << STATE_HTML_TAG "Total de " << compteur << " lignes générée dans 11 bases."  ENDL;
             break;
 
         case BaseType::PAR_ANNEE    :
-            std::cout << "Année : " << annee_courante << " Table générée."  ENDL;
+            std::cerr << "Année : " << annee_courante << " Table générée."  ENDL;
             break;
         default :  /* Taille définie par l'utilisateur */
-            std::cout << STATE_HTML_TAG "Table n°" << rang_fichier_base
+            std::cerr << STATE_HTML_TAG "Table n°" << rang_fichier_base
                       << " de " <<  compteur - (rang_fichier_base-1) * taille_base
                       << " lignes, lignes " << (rang_fichier_base-1) * taille_base + 1
                       << " à " << compteur << "."  ENDL;

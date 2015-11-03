@@ -51,22 +51,27 @@ inline void warning_msg(const char* noeud, const info_t& info, const xmlNodePtr 
 {
        /* pour des raisons pratiques il peut être nécessaire de limiter le nombre de sorties de ce type */
 
+
+
     static int warning_count;
     static char* fichier_last = nullptr;
+
+    std::lock_guard<std::mutex> guard(mut);
 
       #ifdef WARNING_LIMIT
        if (warning_count < WARNING_LIMIT)
        {
            ++warning_count;
            if (verbeux) std::cerr << WARNING_HTML_TAG "Impossible d'atteindre " << noeud << ENDL;
-           errorLineStack.emplace_back(afficher_environnement_xhl(info, cur));
+             errorLineStack.emplace_back(afficher_environnement_xhl(info, cur));
+
        }
        else
            if (warning_count == WARNING_LIMIT)
            {
                std::cerr << WARNING_HTML_TAG "Impossible d'atteindre " << noeud << ". Messages d'avertissement supprimés par la suite."  ENDL;
                warning_count = WARNING_LIMIT + 1;
-              errorLineStack.emplace_back(afficher_environnement_xhl(info, cur));
+               errorLineStack.emplace_back(afficher_environnement_xhl(info, cur));
            }
 
        if (fichier_last !=  nullptr && strcmp(info.threads->argv[info.fichier_courant], fichier_last) != 0)
@@ -78,7 +83,7 @@ inline void warning_msg(const char* noeud, const info_t& info, const xmlNodePtr 
 
       #else
            if (verbeux) std::cerr << WARNING_HTML_TAG "Impossible d'atteindre " << noeud << ENDL;
-           errorLineStack.emplace_back(afficher_environnement_xhl(info, cur));
+             errorLineStack.emplace_back(afficher_environnement_xhl(info, cur));
       #endif
 
 }
