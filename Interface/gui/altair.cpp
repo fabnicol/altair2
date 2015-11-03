@@ -29,7 +29,6 @@ void Altair::initialize()
 }
 
 
-
 void Altair::refreshModel()
 {
     if (model) delete(model);
@@ -112,6 +111,7 @@ Altair::Altair()
         displayTotalSize();
         checkAnnumSpan();
     });
+
 
     /////
 
@@ -471,16 +471,6 @@ void Altair::assignVariables()
         }
 }
 
-void Altair::assignGroupFiles(const int group_index)
-{
-
-#ifdef DEBUG
-    static int last_group;
-    if (group_index-last_group) outputTextEdit->append(STATE_HTML_TAG "Ajout de l'onglet " + QString::number(group_index+1));
-
-    last_group=group_index;
-#endif
-}
 
 
 bool Altair::refreshProjectManager()
@@ -672,26 +662,11 @@ void FProgressBar::computeLHXParsingProgressBar()
 
     int level = std::min(maximum(), this->parent->fileRank);
 
-    if (level < value())
-    {
-        bar->reset();
-        if (internalState == State::Parsing)
-            parent->outputTextEdit->append((QString)PROCESSING_HTML_TAG + "Décodage des bases...");
-    }
-
     setValue(level);
 
     if(QDir(v(base)).entryList({"*.csv"}, QDir::Files).count() > 0)
     {
            internalState = State::WritingReady;
-    }
-
-    if (QFileInfo(parent->stateFile).exists())
-    {
-        bar->reset();
-        if (internalState == State::Parsing)
-            parent->outputTextEdit->append((QString)PROCESSING_HTML_TAG + "Décodage des bases...");
-        parent->stateFile.remove();
     }
 }
 
@@ -709,7 +684,6 @@ void FProgressBar::computeLHXWritingProgressBar(bool print_message)
     if (parent->fileRank >= 100) parent->fileRank = 0;
 
     setValue(std::max(parent->fileRank, value()));
-
 
 #ifdef REPORT_DATABASE_PROGRESS
         parent->outputTextEdit->append((QString)PROCESSING_HTML_TAG + QString::number() + " % des bases de données.");

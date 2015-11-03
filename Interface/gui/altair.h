@@ -97,7 +97,6 @@ private slots:
     void on_helpButton_clicked();
     void requestSaveProject();
     void writeProjectFile();
-    void assignGroupFiles( const int group_index);
     void openProjectFile();
 
 private:

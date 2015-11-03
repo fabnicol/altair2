@@ -15,11 +15,11 @@
 
 #else
 
-  #define  STATE_HTML_TAG  "[MSG]"
-  #define  PARAMETER_HTML_TAG "[PAR]"
-  #define  PROCESSING_HTML_TAG  "[MSG]"
-  #define  ERROR_HTML_TAG  "[ERR]"
-  #define  WARNING_HTML_TAG  "[ATT]"
+  #define  STATE_HTML_TAG  "[MSG] "
+  #define  PARAMETER_HTML_TAG "[PAR] "
+  #define  PROCESSING_HTML_TAG  "[INF] "
+  #define  ERROR_HTML_TAG  "[ERR] "
+  #define  WARNING_HTML_TAG  "[ATT] "
   #define  ENDL "\n"
 
 #endif

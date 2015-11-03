@@ -163,7 +163,8 @@ private:
   const FString& translate(const FStringList &s);
   QStringList tabLabels = QStringList();
 
-
+signals:
+  void forceCloseProject();
 };
 
 

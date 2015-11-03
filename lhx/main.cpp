@@ -109,6 +109,8 @@ int main(int argc, char **argv)
         nullptr  // besoin de mémoire effectif
     };
 
+    /* Analyse de la ligne de commande */
+
     while (start < argc)
     {
         if (! strcmp(argv[start], "-n"))
@@ -430,31 +432,7 @@ int main(int argc, char **argv)
             continue;
         }
 #endif
-         else if (! strcmp(argv[start], "-state"))
-         {
-            int hasArg = 0;
-            std::string stateFilePath;
-            if (argc > start +2)
-            {
-                if (argv[start + 1][0] == '-')
-                    stateFilePath = std::string(std::getenv("USERPROFILE")) + "/AppData/processing";
-                else
-                {
-                    stateFilePath = argv[start + 1];
-                    hasArg = 1;
-                }
 
-                std::ifstream testFile;
-                testFile.open(stateFilePath);
-                if (testFile.is_open())
-                {
-                    testFile.close();
-                }
-            }
-
-            start += 1 + hasArg;
-            continue;
-        }
         else if (! strcmp(argv[start], "-S"))
         {
             if (argc > start +2)
@@ -476,18 +454,35 @@ int main(int argc, char **argv)
         else break;
     }
 
+    /* Fin de l'analyse de la ligne de commande */
+
     xmlInitMemory();
     xmlInitParser();
 
+    /* on sait que info.nbfill >= 1 */
+
+    init:
+
     int nb_total_fichiers = argc - start;
-    int nbfichier_par_fil = (int) nb_total_fichiers / info.nbfil;
-    if (nbfichier_par_fil == 0)
+
+    if (info.nbfil > nb_total_fichiers /2 + 2)
     {
         std::cerr << ERROR_HTML_TAG "Trop de fils pour le nombre de fichiers ; exécution avec -j 2" ENDL;
         info.nbfil = 2;
+        goto init;
     }
 
-    if (nb_total_fichiers % info.nbfil) ++info.nbfil;  // on en crée un de plus pour le reste
+    std::vector<int> nb_fichier_par_fil;
+
+    int remainder = nb_total_fichiers % info.nbfil;
+
+    for (int i = 0; i < info.nbfil; ++i)
+    {
+         nb_fichier_par_fil.emplace_back(nb_total_fichiers / info.nbfil + (remainder > 0));
+         --remainder;
+    }
+
+    /* on répartir le reste de manière équilibrée sur les premiers fils */
 
     std::vector<info_t> Info(info.nbfil);
     std::vector<std::thread> t;
@@ -497,45 +492,47 @@ int main(int argc, char **argv)
         t.resize(info.nbfil);
     }
 
-    if (verbeux) std::cerr << ENDL PROCESSING_HTML_TAG "Création des fils clients." ENDL;
+    if (verbeux)
+    {
+        std::cerr << PROCESSING_HTML_TAG "Création de " << info.nbfil << " fils clients." ENDL;
+    }
+
+
+    if (verbeux && Info[0].reduire_consommation_memoire)
+       std::cerr << ENDL PROCESSING_HTML_TAG "Premier scan des fichiers pour déterminer les besoins mémoire ... " ENDL;
 
     for (int i = 0; i < info.nbfil; ++i)
     {
         Info[i] = info;
-
         Info[i].threads = new thread_t;
         Info[i].threads->thread_num = i;
-        Info[i].threads->argc = (nb_total_fichiers < nbfichier_par_fil)? nb_total_fichiers : nbfichier_par_fil;
-        Info[i].threads->argv = new char*[nbfichier_par_fil];
 
+        Info[i].threads->argc = nb_fichier_par_fil[i];
+        Info[i].threads->argv = new char*[nb_fichier_par_fil[i]]();
 
         if (Info[i].threads->argv == nullptr)
         {
-            perror(ERROR_HTML_TAG "Allocation de threads");
+            perror(ERROR_HTML_TAG "Problème issu de l'allocation des threads");
             exit(-145);
         }
 
-        int shift = 0;
-        for (int j = start; j <  nbfichier_par_fil + start && j + shift < argc; ++j)
+        for (int j = start; j <  nb_fichier_par_fil[i] + start; ++j)
         {
-            Info[i].threads->argc--;
-            ++shift;
-
-            Info[i].threads->argv[j - start] = argv[j + shift];
+            Info[i].threads->argv[j - start] = argv[j];
         }
 
-        if (verbeux) std::cerr <<  "Thread i=" << i+1 << "/" << info.nbfil
-                               << " Nombre de fichiers : " << Info[i].threads->argc << ENDL;
+        if (verbeux)
+            std::cerr <<  PROCESSING_HTML_TAG "Thread i=" << i+1 << "/" << info.nbfil
+                      << " Nombre de fichiers : " << nb_fichier_par_fil[i] << ENDL;
 
-        start += nbfichier_par_fil;
-        if (verbeux && Info[0].reduire_consommation_memoire)
-           std::cerr << ENDL PROCESSING_HTML_TAG "Premier scan des fichiers pour déterminer les besoins mémoire ... " ENDL;
+        start += nb_fichier_par_fil[i];
+
+        errno = 0;
 
         if (info.nbfil > 1)
         {
             std::thread th{decoder_fichier, std::ref(Info[i])};
             t[i] = std::move(th);
-
         }
         else
         {
