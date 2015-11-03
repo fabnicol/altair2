@@ -31,7 +31,7 @@ void Altair::initialize()
 
 void Altair::refreshModel()
 {
-    if (model) delete(model);
+    delete(model);
     model = new QFileSystemModel;
     model->setReadOnly(false);
     model->setRootPath(QDir::homePath());

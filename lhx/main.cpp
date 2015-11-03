@@ -127,7 +127,7 @@ int main(int argc, char **argv)
         }
         else if (! strcmp(argv[start], "-h"))
         {
-            std::cout <<  "Usage :  lhx OPTIONS fichiers.xhl" << "\n"
+            std::cerr <<  "Usage :  lhx OPTIONS fichiers.xhl" << "\n"
                       <<  "OPTIONS :" << "\n"
                       <<  "-n argument obligatoire : nombre maximum de bulletins mensuels attendus [calcul exact par défaut]" << "\n"
                       <<  "-N argument obligatoire : nombre maximum de lignes de paye attendues [calcul exact par défaut]" << "\n"
@@ -596,7 +596,7 @@ int main(int argc, char **argv)
 
     if (errorLineStack.size() > 0)
     {
-        std::cerr << WARNING_HTML_TAG "<g>Récapitulatif des erreurs rencontrées</g>" << ENDL;
+        std::cerr << WARNING_HTML_TAG "<b>Récapitulatif des erreurs rencontrées</b>" << ENDL;
         for (const errorLine_t& e :  errorLineStack)
         {
             std::cerr << e.filePath;
@@ -636,12 +636,10 @@ int main(int argc, char **argv)
     {
         for (unsigned agent = 0; agent < Info[i].NCumAgent; ++agent)
         {
-
             for (int j = 0; j < Info[i].Memoire_p_ligne[agent]; ++j)
-                if (Info[i].Table[agent][j] != nullptr)
-                {}//delete [] (Info[i].Table[agent][j]);
+                  delete [] (Info[i].Table[agent][j]);
 
-            //delete [] (Info[i].Table[agent]);
+            delete [] (Info[i].Table[agent]);
         }
 
         delete [] (Info[i].NAgent);

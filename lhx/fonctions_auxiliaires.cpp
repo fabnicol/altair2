@@ -76,31 +76,25 @@ std::string getexepath()
 errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur)
 {
     long lineN = 0;
-    if (mut.try_lock())
-    {
-        std::cerr << WARNING_HTML_TAG "Fichier analysé " <<  info.threads->argv[info.fichier_courant] << ENDL;
-         lineN = xmlGetLineNo(cur);
-
-        if (lineN == -1)
+    std::cerr << WARNING_HTML_TAG "Fichier analysé " <<  info.threads->argv[info.fichier_courant] << ENDL;
+    lineN = xmlGetLineNo(cur);
+    if (lineN == -1)
         {
             std::cerr << WARNING_HTML_TAG "Une balise est manquante dans le fichier." << ENDL;
         }
         else
             std::cerr << WARNING_HTML_TAG "Ligne n°" << lineN << ENDL;
 
-        for (int l = 0; l < info.Memoire_p_ligne[info.NCumAgentXml]; ++l)
+    /* Tableau_entete va être en shared memory concurrent read access (no lock here) */
+#if 1
+    for (int l = 0; l < info.Memoire_p_ligne[info.NCumAgentXml]; ++l)
         {
           if (nullptr != info.Table[info.NCumAgentXml][l])
-              std::cerr << "info.Table[" << info.NCumAgentXml << "][" << Tableau_entete[l] << "]=" << info.Table[info.NCumAgentXml][l] << ENDL;
+              std::cerr << WARNING_HTML_TAG "info.Table " << info.NCumAgentXml << "  "
+                        //<< Tableau_entete[l]
+                           << " =" << info.Table[info.NCumAgentXml][l] << ENDL;
         }
-
-        mut.unlock();
-    }
-#ifdef WAIT_FOR_LOCK
-    else
-        afficher_environnement_xhl(info, cur);
 #endif
-
     errorLine_t s = {lineN, std::string("Fichier : ") + std::string(info.threads->argv[info.fichier_courant])
                              + std::string(" -- Balise : ") + ((cur)? std::string((const char*)cur->name) : std::string("NA"))};
     return s;

@@ -45,7 +45,7 @@ CONFIG(guiOutput) {
   DEFINES +=  GUI_TAG_MESSAGES                   # définir pour que les sorties des messages soient formatées pour que l'interface graphique les transforme en icône.
 }
 
-DEFINES +=  WARNING_LIMIT=10   # nombre maximum d'avertissement par fichier
+DEFINES +=  WARNING_LIMIT=5   # nombre maximum d'avertissement par fichier
 
 DEFINES += __GNUC_EXTENSION \
            _REENTRANT \
@@ -75,8 +75,7 @@ DEVROOT = $$PWD/../..
 # Insérer ici le nom du répertoire contenant dans include/ et lib/ les dépendances système
 # Ce compilateur doit être adjacent aux sources sous Windows
 
-QMAKE_CXXFLAGS = -pipe -m64 -std=gnu++14 -march=native -fexceptions -frtti -mthreads
-QMAKE_LFLAGS += -mthreads
+QMAKE_CXXFLAGS = -pipe -m64 -std=gnu++14 -march=native
 
 # Sous linux penser à installer libxml2-dev. Ceci n'est pas testé.
 
