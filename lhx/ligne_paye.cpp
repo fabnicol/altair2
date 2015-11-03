@@ -78,7 +78,11 @@ static inline bool GCC_INLINE bulletin_obligatoire(const char* tag, xmlNodePtr& 
 
     }
 
+    if (mut.try_lock())
+    {
         afficher_environnement_xhl(info, cur) ;
+        mut.unlock();
+    }
 
         #ifdef STRICT
           exit(-1);
@@ -146,7 +150,11 @@ static inline bool GCC_INLINE bulletin_optionnel_numerique(const char* tag, xmlN
              break;
     }
 
+    if (mut.try_lock())
+    {
         afficher_environnement_xhl(info, cur) ;
+        mut.unlock();
+    }
 
         #ifdef STRICT
           exit(-1);
@@ -196,7 +204,11 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique(const char* tag, xm
                    substituer_separateur_decimal(ligne_l, info.decimal);
              break;
     }
+    if (mut.try_lock())
+    {
         afficher_environnement_xhl(info, cur) ;
+        mut.unlock();
+    }
 
         #ifdef STRICT
           exit(-1);
