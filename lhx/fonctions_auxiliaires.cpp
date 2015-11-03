@@ -388,7 +388,8 @@ int calculer_memoire_requise(info_t& info)
             c.seekg(0, c.beg);
         else 
         {
-            if (verbeux) std::cerr <<  ERROR_HTML_TAG "Ouverture du fichier  " << info.threads->argv[i] << ENDL;
+            if (verbeux)
+                std::cerr <<  ERROR_HTML_TAG "Problème à l'ouverture du fichier  " << info.threads->argv[i] << ENDL;
             exit(-120);
         }
 

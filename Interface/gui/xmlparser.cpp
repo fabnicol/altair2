@@ -426,18 +426,10 @@ void Altair::parseProjectFile(QIODevice* file)
 
     for (int group_index=0; group_index<= projectRank ; group_index++)
     {
-        int r=0;
-        for (QString text : Hash::wrapper["XHL"]->at(group_index))
-        {
-            if (!text.isEmpty())
-                assignGroupFiles(group_index);
-            r++;
-        }
-
         refreshRowPresentation(group_index);
         // Ne pas inclure les onglets Siret et Budget
-
     }
+
     emit(project[0]->is_ntabs_changed(Hash::wrapper["XHL"]->size()));
 
     Hash::createReference(project[0]->getRank());

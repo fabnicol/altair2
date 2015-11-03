@@ -313,12 +313,27 @@ void FListWidget::setWidgetFromXml(const FStringList &s)
         if ((this->status & flags::status::widgetMask) == flags::status::hasListCommandLine)
         {
             commandLineList.clear();
-
-            for (const QStringList &strL : *Hash::wrapper[hashKey])
+            int size = Hash::wrapper[hashKey]->size();
+            for (int i = 0; i < size; ++i)
             {
+                QStringList strL = Hash::wrapper[hashKey]->at(i);
+
                 if (strL.isEmpty()) continue;
                 for (const QString &s : strL)
-                    commandLineList << s;
+                {
+                    if (i >= size - 2 || QFileInfo(s).exists())
+                        commandLineList << s;
+                    else
+                    {
+                        QMessageBox::critical(nullptr,
+                                              "Erreur d'importation du projet .alt",
+                                              "Le fichier " + s + " n'existe pas. Importation annulée.",
+                                              QMessageBox::Ok);
+                        emit(forceCloseProject());
+                       return;
+                    }
+
+                }
             }
         }
         else
