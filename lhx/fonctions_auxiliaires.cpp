@@ -32,12 +32,12 @@ static const char* entete_char[]={"R", u8"Année", "Mois", "Budget", "Etablisseme
 static const char* entete_char_bulletins[]={"R", u8"Année", "Mois", "Budget", "Etablissement", "Siret", "Nom", u8"Prénom", "Matricule", "Service", "Nb.Enfants", "Statut", "Temps.de.travail",
                                   "Heures.Sup.", "Heures", "Indice", "Brut", "Net", u8"Net.à.Payer", "NBI", "Emploi", "Grade", "Nir"};
 
+extern bool verbeux;
+
 #ifdef __WIN32__
 #include <direct.h>
 #include <string>
 #include <windows.h>
-
-extern bool verbeux;
 
 // The directory path returned by native GetCurrentDirectory() no end backslash
 std::string getexecpath()
@@ -55,15 +55,16 @@ std::string getexecpath()
 
 #include <unistd.h>
 #define GetCurrentDir getcwd
-std::string getexepath()
+std::string getexecpath()
 {
 
-    char szTmp[32];
-    sprintf(szTmp, "/proc/%d/exe", getpid());
-    int bytes = MIN(readlink(szTmp, pBuf, len), len - 1);
+    char szTmp[32]={0};
+    char pBuf[1000]={0};
+    int len = sprintf(szTmp, "/proc/%d/exe", getpid());
+    int bytes = std::min((int) readlink(szTmp, pBuf, len), len - 1);
     if(bytes >= 0)
         pBuf[bytes] = '\0';
-    return bytes;
+    return std::string(pBuf);
 }
 
 #endif

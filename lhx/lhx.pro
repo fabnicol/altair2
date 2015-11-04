@@ -22,7 +22,7 @@ windows {
 }
 
 linux {
-  GIT_VERSION = $$system(git --version | grep -e 'git version')
+  GIT_VERSION = $$system(git --version | grep -e \'git version\')
   CXX_VERSION = $$system($$QMAKE_CXX --version | grep -e '5.[0-9]')
 }
 
