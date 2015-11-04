@@ -78,11 +78,9 @@ static inline bool GCC_INLINE bulletin_obligatoire(const char* tag, xmlNodePtr& 
 
     }
 
-    if (mut.try_lock())
-    {
-        afficher_environnement_xhl(info, cur) ;
-        mut.unlock();
-    }
+    /* Ne pas mettre de lock ici, il y en a un dans warning_msg */
+
+    warning_msg(tag, info, cur);
 
         #ifdef STRICT
           exit(-1);
@@ -132,8 +130,6 @@ static inline bool GCC_INLINE bulletin_optionnel_numerique(const char* tag, xmlN
 
         case NODE_NOT_FOUND :
              ligne_l = xmlStrdup(NA_STRING);
-
-
              return true;
 
         case LINE_MEMORY_EXCEPTION :
@@ -150,11 +146,9 @@ static inline bool GCC_INLINE bulletin_optionnel_numerique(const char* tag, xmlN
              break;
     }
 
-    if (mut.try_lock())
-    {
-        afficher_environnement_xhl(info, cur) ;
-        mut.unlock();
-    }
+    /* Ne pas mettre de lock ici, il y en a un dans warning_msg */
+
+    warning_msg(tag, info, cur);
 
         #ifdef STRICT
           exit(-1);
@@ -204,11 +198,10 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique(const char* tag, xm
                    substituer_separateur_decimal(ligne_l, info.decimal);
              break;
     }
-    if (mut.try_lock())
-    {
-        afficher_environnement_xhl(info, cur) ;
-        mut.unlock();
-    }
+
+   /* Ne pas mettre de lock ici, il y en a un dans warning_msg */
+
+    warning_msg(tag, info, cur);
 
         #ifdef STRICT
           exit(-1);
@@ -560,6 +553,8 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, std::ofstream& log)
 #endif
 
     BULLETIN_OBLIGATOIRE_NUMERIQUE(NBI);
+
+    /* Problème : on ne traite pas les unbounded NBI ici mais dans les lignes de paye */
 
 #ifdef TOLERANT_TAG_HIERARCHY
     cur = cur_save;

@@ -123,13 +123,6 @@ void Altair::run()
     if (v(quiet).isFalse())
     {
         parent->consoleDialog->append(PROCESSING_HTML_TAG + tr("Ligne de commande : ")+ altairCommandStr+ " " + command);
-
-        if (v(ecoRAM).isTrue())
-        {
-            outputTextEdit->append((QString)PROCESSING_HTML_TAG + "Lancement [allocation de la mémoire de travail]...");
-        }
-        else
-               outputTextEdit->append((QString)PROCESSING_HTML_TAG + "Lancement de l'analyse des bases de paye...");
     }
 
     outputType="L";
@@ -161,10 +154,10 @@ void Altair::run()
 
     if (process->waitForStarted())
     {
-        outputTextEdit->append(PROCESSING_HTML_TAG + tr("Analyse des bases de paye...Veuillez patienter\n"));
-
         if (v(ecoRAM).isTrue())
-            outputTextEdit->append(PROCESSING_HTML_TAG + tr("Mode économe en mémoire.\n"));
+            outputTextEdit->append(PROCESSING_HTML_TAG + tr("Préallocation des ressources...\n"));
+        else
+            outputTextEdit->append(PROCESSING_HTML_TAG + tr("Analyse des bases de paye...Veuillez patienter\n"));
 
 
         if (v(activerConsole).isTrue())
