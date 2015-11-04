@@ -5,6 +5,7 @@
 #include <QModelIndex>
 #include <QtXml>
 #include <QSettings>
+#include <mutex>
 #include "fstring.h"
 #include "altair.h"
 #include "options.h"
@@ -341,8 +342,8 @@ void Altair::displayTotalSize()
 {
     static qint64 comp;
     qint64 tot=Altair::totalSize[0];
-    if (tot != comp)
-        outputTextEdit->append(STATE_HTML_TAG "Taille du projet :  " + QString::number(tot) + " B ("+QString::number(tot/(1024*1024))+" Mo)");
+    if (tot != comp && v(quiet).isFalse())
+        outputTextEdit->append(STATE_HTML_TAG "Taille des bases de paye :  " + QString::number(tot) + " B ("+QString::number(tot/(1024*1024))+" Mo)");
     comp=tot;
 }
 
@@ -662,12 +663,19 @@ void FProgressBar::computeLHXParsingProgressBar()
 
     int level = std::min(maximum(), this->parent->fileRank);
 
-    setValue(level);
-
     if(QDir(v(base)).entryList({"*.csv"}, QDir::Files).count() > 0)
     {
            internalState = State::WritingReady;
+           return;
     }
+
+    if (value() - level > 4/5* maximum())
+    {
+        parent->outputTextEdit->append((QString)PROCESSING_HTML_TAG + "Analyse des bases de données...");
+    }
+
+    setValue(level);
+
 }
 
 void FProgressBar::computeLHXWritingProgressBar(bool print_message)
