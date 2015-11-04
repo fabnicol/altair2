@@ -47,7 +47,7 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l_COMMUN(int i, uint32_t agent, int l
            << VAR(l + 2) << sep
            << VAR(l + 3) << sep
            << VAR(l + 4) << sep
-           << VAR(l + INDEX_MAX_CONNNES) << sep     // Il doit y avoir au plus INDEX_MAX_COLONNES + 1 types de colonnes de lignes de paye différents
+           << VAR(l + INDEX_MAX_COLONNNES) << sep     // Il doit y avoir au plus INDEX_MAX_COLONNES + 1 types de colonnes de lignes de paye différents
            << type << sep
            << VAR(EmploiMetier) << sep
            << VAR(Grade) << sep
@@ -324,7 +324,7 @@ void boucle_ecriture(std::vector<info_t>& Info)
                     }
                 }
                 
-                l += INDEX_MAX_CONNNES + 1;
+                l += INDEX_MAX_COLONNNES + 1;
                 ++ligne;
             }
             

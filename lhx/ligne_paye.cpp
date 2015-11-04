@@ -244,7 +244,7 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique(const char* tag, xm
 </PayeIndivMensuel>
 */
 
-static inline int lignePaye(xmlNodePtr cur, info_t& info)
+static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
 {
     int l = BESOIN_MEMOIRE_ENTETE;
 
@@ -367,7 +367,7 @@ static inline int lignePaye(xmlNodePtr cur, info_t& info)
 
 #undef ligne_l
 
-    return nbLignePaye;
+    return  { nbLignePaye, l};
 }
 
 #define BULLETIN_OBLIGATOIRE_(X, normalJump) bulletin_obligatoire(#X, cur, X, info, normalJump)
@@ -574,7 +574,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, std::ofstream& log)
 
 #endif
 
-    int ligne = 0;
+    int ligne = 0, memoire_p_ligne_allouee = 0;
 
     if (cur)
     {
@@ -582,7 +582,9 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, std::ofstream& log)
 
         if ((cur =  cur->xmlChildrenNode) != nullptr && ! xmlIsBlankNode(cur))
         {
-            ligne = lignePaye(cur, info);
+            LineCount result = lignePaye(cur, info);
+            ligne = result.nbLignePaye;
+            memoire_p_ligne_allouee = result.memoire_p_ligne_allouee;
         }
 
         /* si la balise <Remuneration/> est fermante ou si <Remuneration>....</Remuneration> ne contient pas de ligne de paye codée
@@ -590,12 +592,14 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, std::ofstream& log)
 
         if (ligne == 0)
         {
-            for (int k = 0; k <= INDEX_MAX_CONNNES; ++k)
+            for (int k = 0; k <= INDEX_MAX_COLONNNES; ++k)
               {
                 info.Table[info.NCumAgentXml][BESOIN_MEMOIRE_ENTETE + k] = (xmlChar*) xmlStrdup(NA_STRING);
               }
-                info.Memoire_p_ligne[info.NCumAgentXml] = BESOIN_MEMOIRE_ENTETE + INDEX_MAX_CONNNES + 1;
+                info.Memoire_p_ligne[info.NCumAgentXml] = BESOIN_MEMOIRE_ENTETE + INDEX_MAX_COLONNNES + 1;
         }
+        else
+            info.Memoire_p_ligne[info.NCumAgentXml] = memoire_p_ligne_allouee;
 
         cur = cur_save->next;
     }
