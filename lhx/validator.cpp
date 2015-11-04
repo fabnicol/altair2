@@ -348,7 +348,7 @@ static int parseFile(info_t& info)
         if (cur == nullptr)
         {
             cur = cur_save2;
-            warning_msg("la balise Etablissement", info, cur);
+            std::cerr << STATE_HTML_TAG "Pas d'information sur l'Etablissement\n";
         }
         else
         {
@@ -508,11 +508,11 @@ static int parseFile(info_t& info)
             cur_save2 = cur;
             cur = cur->xmlChildrenNode;  // Niveau Agent
 
-            info.Table[info.NCumAgentXml][Annee] = xmlStrdup(annee_fichier);
-            info.Table[info.NCumAgentXml][Mois]  = xmlStrdup(mois_fichier);
-            info.Table[info.NCumAgentXml][Budget] = xmlStrdup(budget_fichier);
-            info.Table[info.NCumAgentXml][Employeur]  = xmlStrdup(employeur_fichier);
-            info.Table[info.NCumAgentXml][Siret]  = xmlStrdup(siret_fichier);
+            info.Table[info.NCumAgentXml][Annee] = annee_fichier;
+            info.Table[info.NCumAgentXml][Mois]  = mois_fichier;
+            info.Table[info.NCumAgentXml][Budget] = budget_fichier;
+            info.Table[info.NCumAgentXml][Employeur]  = employeur_fichier;
+            info.Table[info.NCumAgentXml][Siret]  = siret_fichier;
 
             /* LECTURE DES LIGNES DE PAYE STRICTO SENSU */
 
@@ -578,9 +578,6 @@ static int parseFile(info_t& info)
         if (cur == nullptr || xmlStrcmp(cur->name, (const xmlChar*) "DonneesIndiv")) break;   // on ne va pas envoyer un message d'absence de DonneesIndiv si on a fini la boucle...
     }
 
-    xmlFree(mois_fichier);
-    xmlFree(annee_fichier);
-
 #ifdef GENERATE_RANK_SIGNAL
         generate_rank_signal();
 #endif
@@ -601,6 +598,7 @@ static int parseFile(info_t& info)
         }
     }
 
+    xmlFree(etablissement_fichier);
     xmlFreeDoc(doc);
     if (log.is_open())
         log.close();

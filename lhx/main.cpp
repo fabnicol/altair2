@@ -637,13 +637,14 @@ int main(int argc, char **argv)
         for (unsigned agent = 0; agent < Info[i].NCumAgent; ++agent)
         {
             for (int j = 0; j < Info[i].Memoire_p_ligne[agent]; ++j)
-                  delete [] (Info[i].Table[agent][j]);
+                  xmlFree(Info[i].Table[agent][j]);
 
             delete [] (Info[i].Table[agent]);
         }
 
         delete [] (Info[i].NAgent);
         delete [] (Info[i].threads->argv);
+        delete (Info[i].threads);
         delete [] (Info[i].Table);
         delete [] (Info[i].Memoire_p_ligne);
 

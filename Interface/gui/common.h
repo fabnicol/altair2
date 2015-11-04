@@ -82,8 +82,8 @@ public :
      #endif
 #else
     #ifdef Q_OS_LINUX
-        constexpr QString System = "linux";
-        constexpr QString   systemSuffix = "";
+        QString System = "linux";
+        QString   systemSuffix = "";
         #ifndef PREFIX
          #define PREFIX "/usr"
         #endif
