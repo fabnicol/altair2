@@ -213,8 +213,8 @@ static int parseFile(info_t& info)
         exit(-515);
 #endif                 
         if (verbeux) std::cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
-        siret_fichier = xmlStrdup(NA_STRING);
         employeur_fichier = xmlStrdup(NA_STRING);
+        siret_fichier = xmlStrdup(NA_STRING);
         cur = cur_save;
     }
     else
@@ -262,7 +262,8 @@ static int parseFile(info_t& info)
                     exit(-517);
 #endif
                    if (verbeux)  std::cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
-                    siret_fichier = xmlStrdup(NA_STRING);
+                   xmlFree(siret_fichier);
+                   siret_fichier = xmlStrdup(NA_STRING);
 
                 }
             }
@@ -375,8 +376,7 @@ static int parseFile(info_t& info)
                     exit(-517);
 #endif
                     if (verbeux) std::cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
-                    etablissement_fichier = xmlStrdup(NA_STRING);
-                    siret_fichier = xmlStrdup(NA_STRING);
+
                     break;
                 }
 
@@ -392,10 +392,11 @@ static int parseFile(info_t& info)
                         exit(-517);
 #endif
                         if (verbeux) std::cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
-                        xmlFree(etablissement_fichier);
                     }
 
+                    xmlFree(etablissement_fichier);
                     cur = (cur)? cur->next : nullptr;
+
                 }
                 else
                 {
@@ -411,8 +412,8 @@ static int parseFile(info_t& info)
 
                 if (cur != nullptr)
                 {
-                    siret_fichier = xmlGetProp(cur, (const xmlChar *) "V");
-                    if (siret_fichier[0] == '\0')
+                    etablissement_fichier = xmlGetProp(cur, (const xmlChar *) "V");
+                    if (etablissement_fichier[0] == '\0')
                     {
                         warning_msg("les données de Siret de l'établissement [non-conformité]", info, cur);
 #ifdef STRICT
@@ -420,9 +421,9 @@ static int parseFile(info_t& info)
                         exit(-517);
 #endif
                         if (verbeux) std::cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
-                        xmlFree(siret_fichier);
-                        siret_fichier = xmlStrdup(NA_STRING);
+
                     }
+                    xmlFree(etablissement_fichier);
                 }
                 else
                 {
@@ -431,7 +432,6 @@ static int parseFile(info_t& info)
                     exit(-517);
 #endif
                     warning_msg("les données de Siret de l'établissement [non-conformité]", info, cur);
-                    siret_fichier = xmlStrdup(NA_STRING);
                 }
 
             } while (false);
@@ -643,7 +643,7 @@ static inline  int GCC_INLINE memoire_p_ligne(const info_t& info, const unsigned
     return BESOIN_MEMOIRE_ENTETE  // chaque agent a au moins BESOIN_MEMOIRE_ENTETE champs du bulletins de paye en colonnes
             // sans la table ces champs sont répétés à chaque ligne de paye.
             + nbType // espace pour les drapeaux de séparation des champs (taille de type_remuneration). Nécessaire pour l'algorithme
-            + (info.NLigne[agent])*(INDEX_MAX_CONNNES + 1);   // nombre de lignes de paye x nombre maximum de types de balises distincts de lignes de paye
+            + (info.NLigne[agent])*(INDEX_MAX_COLONNNES + 1);   // nombre de lignes de paye x nombre maximum de types de balises distincts de lignes de paye
     // soit N+1 pour les écritures du type Var(l+i), i=0,...,N dans ECRIRE_LIGNE_l_COMMUN
 }
 
@@ -666,7 +666,7 @@ static inline void GCC_INLINE allouer_memoire_table(info_t& info)
         {
             for (int i = 0; i < info.Memoire_p_ligne[agent] ; ++i)
             {
-                if (info.Table[agent][i] != nullptr) xmlFree(info.Table[agent][i]);
+                xmlFree(info.Table[agent][i]);
             }
 
             if (info.Table[agent]) delete info.Table[agent];
