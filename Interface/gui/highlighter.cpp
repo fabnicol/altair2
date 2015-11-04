@@ -53,6 +53,7 @@ inline void Highlighter::createRulePattern(const QColor& color,  QFont::Weight w
     for (const QString& a : list)
     {
         rule.pattern = QRegExp(a);
+        rule.pattern.setPatternSyntax(QRegExp::RegExp2);
         highlightingRules.append(rule);
     }
 }
@@ -75,7 +76,9 @@ Highlighter::Highlighter(QTextDocument *parent)
 
     createRulePattern(Qt::darkBlue, QFont::Bold, {"\\bprofondeur\\b"});
 
-    createRulePattern(QColor("turquoise"), QFont::Bold, {"\\b(V|S|B|E)=[^ ]*\\b"});
+    createRulePattern(QColor("turquoise"), QFont::Bold, {"\\b(V|S|B|E)(?:=[^ ])\\b"});
+
+    createRulePattern(QColor("blue"), QFont::Light, {">[^><]*\\.xhl<" });
 
     createRulePattern(QColor("maroon"), QFont::Bold, {"\\bonglet\\b" });
 

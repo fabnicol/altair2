@@ -65,7 +65,7 @@ enum class BaseType : int
                     TOUTES_CATEGORIES   = -15
                   };
 
-#define INDEX_MAX_CONNNES 5    // nombre de type de champ de ligne de paye (Libellé, Code, Taux, Base, ...) moins 1.
+#define INDEX_MAX_COLONNNES 5    // nombre de type de champ de ligne de paye (Libellé, Code, Taux, Base, ...) moins 1.
 #define BESOIN_MEMOIRE_ENTETE  22  /* nb d'éléments de l'enum ci-dessous */
 
 typedef enum {
@@ -113,6 +113,12 @@ typedef struct
     int  nbfil;
     int* Memoire_p_ligne;
 } info_t;
+
+typedef struct {
+     int nbLignePaye;
+     int memoire_p_ligne_allouee;
+
+} LineCount;
 
 
 #define RETRY -1
