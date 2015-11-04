@@ -493,7 +493,7 @@ bool FListFrame::addStringListToListWidget(const QStringList& stringList)
 
     if (! allLabels.isEmpty())
     {
-        altair->outputTextEdit->append(STATE_HTML_TAG + QString(" Nombre d'années détectées : ") + QString::number(allLabels.size()) + " années, " + allLabels.join(", "));
+        altair->outputTextEdit->append(STATE_HTML_TAG + QString("Nombre d'années détectées : ") + QString::number(allLabels.size()) + " années, " + allLabels.join(", "));
 
         //#define listWidget static_cast<QListWidget*>(mainTabWidget->widget(rank))
        #define listWidget   widgetContainer[rank]
@@ -674,7 +674,7 @@ void FListFrame::on_importFromMainTree_clicked()
  
  altair->closeProject();
 
- altair->outputTextEdit->append(STATE_HTML_TAG " Lancement de l'analyse " );
+ altair->outputTextEdit->append(STATE_HTML_TAG "Bases de paye ajoutées au projet." );
 
  if (isListConnected || isTotalConnected)
    {

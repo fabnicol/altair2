@@ -91,9 +91,8 @@ errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur)
     for (int l = 0; l < info.Memoire_p_ligne[info.NCumAgentXml]; ++l)
         {
           if (nullptr != info.Table[info.NCumAgentXml][l])
-              std::cerr << WARNING_HTML_TAG "info.Table " << info.NCumAgentXml << "  "
-                        //<< Tableau_entete[l]
-                           << " =" << info.Table[info.NCumAgentXml][l] << ENDL;
+              std::cerr << WARNING_HTML_TAG "Balise de paye : " << Tableau_entete[l]
+                        << "  " << info.Table[info.NCumAgentXml][l] << ENDL;
         }
 #endif
     errorLine_t s = {lineN, std::string("Fichier : ") + std::string(info.threads->argv[info.fichier_courant])

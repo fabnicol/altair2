@@ -254,20 +254,15 @@ static int parseFile(info_t& info)
             if (cur != nullptr)
             {
                 siret_fichier = xmlGetProp(cur, (const xmlChar *) "V");
-                if (employeur_fichier[0] == '\0')
+                if (siret_fichier[0] == '\0')
                 {
-                    std::cerr << ERROR_HTML_TAG "Pas de données sur le nom de l'employeur [non-conformité à la norme]." ENDL;
-                    if (mut.try_lock())
-                    {
-                       errorLineStack.emplace_back(afficher_environnement_xhl(info, cur));
-                       mut.unlock();
-                    }
+                    warning_msg("la balise Siret", info, cur);
 #ifdef STRICT
                     if (log.open()) log.close();
                     exit(-517);
 #endif
                    if (verbeux)  std::cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
-                    employeur_fichier = xmlStrdup(NA_STRING);
+                    siret_fichier = xmlStrdup(NA_STRING);
 
                 }
             }
@@ -292,11 +287,8 @@ static int parseFile(info_t& info)
     if (cur == nullptr || xmlIsBlankNode(cur))
     {
         std::cerr << ERROR_HTML_TAG "Pas de données individuelles de paye [DonneesIndiv, non conformité à la norme]." ENDL;
-        if (mut.try_lock())
-        {
-          errorLineStack.emplace_back(afficher_environnement_xhl(info, cur));
-          mut.unlock();
-        }
+        warning_msg("la balise DonneesIndiv", info, cur);
+
 #ifdef STRICT
         if (log.is_open())
             log.close();
@@ -400,9 +392,7 @@ static int parseFile(info_t& info)
                         exit(-517);
 #endif
                         if (verbeux) std::cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
-                        xmlFree(employeur_fichier);
-                        etablissement_fichier = xmlStrdup(NA_STRING);
-
+                        xmlFree(etablissement_fichier);
                     }
 
                     cur = (cur)? cur->next : nullptr;
@@ -414,7 +404,6 @@ static int parseFile(info_t& info)
                     if (log.open()) log.close();
                     exit(-517);
 #endif
-                    etablissement_fichier = xmlStrdup(NA_STRING);
                     if (verbeux) std::cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
                 }
 
@@ -508,11 +497,11 @@ static int parseFile(info_t& info)
             cur_save2 = cur;
             cur = cur->xmlChildrenNode;  // Niveau Agent
 
-            info.Table[info.NCumAgentXml][Annee] = annee_fichier;
-            info.Table[info.NCumAgentXml][Mois]  = mois_fichier;
-            info.Table[info.NCumAgentXml][Budget] = budget_fichier;
-            info.Table[info.NCumAgentXml][Employeur]  = employeur_fichier;
-            info.Table[info.NCumAgentXml][Siret]  = siret_fichier;
+            info.Table[info.NCumAgentXml][Annee] = std::move(annee_fichier);
+            info.Table[info.NCumAgentXml][Mois]  = std::move(mois_fichier);
+            info.Table[info.NCumAgentXml][Budget] = std::move(budget_fichier);
+            info.Table[info.NCumAgentXml][Employeur]  = std::move(employeur_fichier);
+            info.Table[info.NCumAgentXml][Siret]  = std::move(siret_fichier);
 
             /* LECTURE DES LIGNES DE PAYE STRICTO SENSU */
 
@@ -598,7 +587,7 @@ static int parseFile(info_t& info)
         }
     }
 
-    xmlFree(etablissement_fichier);
+
     xmlFreeDoc(doc);
     if (log.is_open())
         log.close();
