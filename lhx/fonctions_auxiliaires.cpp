@@ -10,6 +10,7 @@
 #include <iostream>
 #include "fonctions_auxiliaires.hpp"
 #include "tags.h"
+#include "entete.hpp"
 
 #ifdef MMAP_PARSING
 #ifdef __linux__
@@ -24,13 +25,6 @@
 #endif
 #endif
 
-
-static const char* entete_char[]={"R", u8"Année", "Mois", "Budget", "Etablissement", "Siret", "Nom", u8"Prénom", "Matricule", "Service", "Nb.Enfants", "Statut", "Temps.de.travail",
-                                  "Heures.Sup.", "Heures", "Indice", "Brut", "Net", u8"Net.à.Payer", "NBI", u8"Libellé", "Code",
-                                  "Base", "Taux", u8"Nb.Unité", "Montant", "Type", "Emploi", "Grade", "Nir"};
-
-static const char* entete_char_bulletins[]={"R", u8"Année", "Mois", "Budget", "Etablissement", "Siret", "Nom", u8"Prénom", "Matricule", "Service", "Nb.Enfants", "Statut", "Temps.de.travail",
-                                  "Heures.Sup.", "Heures", "Indice", "Brut", "Net", u8"Net.à.Payer", "NBI", "Emploi", "Grade", "Nir"};
 
 extern bool verbeux;
 
