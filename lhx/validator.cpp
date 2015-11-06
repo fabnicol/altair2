@@ -341,7 +341,7 @@ static int parseFile(info_t& info)
         if (cur == nullptr)
         {
             cur = cur_save2;
-            std::cerr << STATE_HTML_TAG "Pas d'information sur l'Etablissement\n";
+            std::cerr << STATE_HTML_TAG "Pas d'information sur l'Etablissement" ENDL;
         }
         else
         {

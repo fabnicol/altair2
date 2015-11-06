@@ -13,25 +13,21 @@ Q_OBJECT
 
 public:
 
-//FLineFrame() : FLineFrame("","","NoDesc") {}
 FLineFrame(const QStringList& ={"", ""},
            const QString& ="",
            const QString& ="",
            const QList<int>& pair = {0,0},
            QGridLayout* inputLayout = nullptr,
            const QString& commandLine ="",
-           flags::directory check = directory::checkEmptyness);
+           flags::directory check = directory::checkEmptyness,
+           flags::flineframe category = flags::flineframe::isDirectoryPath);
 
 
 QString getText(){ return lineEdit->text();}
 QGridLayout* getLayout(){ return frameLayout;}
 // on a dû la réimplémenter pour des raisons obscures. Pourtant FLineEdit dérive de FAbstractWidget...
 QList<QWidget*> getComponentList() {return componentList;}
-void setPathCategory(flags::flineframe t)
-     {
-       pathCategory = t;
-       sButton->setText("Sélectionner le fichier");
-     }
+void setPathCategory(flags::flineframe t)     {    pathCategory = t;    }
 
 private:
 

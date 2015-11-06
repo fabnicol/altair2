@@ -189,8 +189,8 @@ void common::openDir(QString path)
       return;
     }
 
-QUrl url("file:///" + path);
-QDesktopServices::openUrl(url);
+QDesktopServices::openUrl(QUrl::fromLocalFile(path));
+
 }
 
 const QString common::openDirDialog(flags::directory checkEmptyness)
