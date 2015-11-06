@@ -355,7 +355,7 @@ void boucle_ecriture(std::vector<info_t>& Info)
             fichier_base[d].close();
         }
     
-    if (base.good())
+   if (base.good())
     {
         base.close();
         switch (type_base)

@@ -53,6 +53,12 @@ static int parseFile(info_t& info)
     xmlNodePtr cur = nullptr;
     info.NAgent[info.fichier_courant] = 0;
     xmlNodePtr cur_save = cur;
+    xmlChar *annee_fichier = nullptr,
+            *mois_fichier = nullptr, 
+            *employeur_fichier = nullptr,
+            *etablissement_fichier = nullptr,
+            *siret_fichier = nullptr,
+            *budget_fichier = nullptr;
 
     doc = xmlParseFile(info.threads->argv[info.fichier_courant]);
 
@@ -85,8 +91,8 @@ static int parseFile(info_t& info)
 
     if (cur != nullptr)
     {
-        info.Table[info.NCumAgentXml][Annee]  = xmlGetProp(cur, (const xmlChar *) "V");
-        int annee = atoi((const char*) info.Table[info.NCumAgentXml][Annee] );
+        annee_fichier = xmlGetProp(cur, (const xmlChar *) "V");
+        int annee = atoi((const char*) annee_fichier);
 
         /* Altaïr est écrit pour durer 100 ans :) */
 
@@ -123,8 +129,8 @@ static int parseFile(info_t& info)
 
     if (cur != nullptr)
     {
-        info.Table[info.NCumAgentXml][Mois] = xmlGetProp(cur, (const xmlChar *) "V");
-        int mois = atoi((const char*) info.Table[info.NCumAgentXml][Mois]);
+        mois_fichier = xmlGetProp(cur, (const xmlChar *) "V");
+        int mois = atoi((const char*) mois_fichier);
         if (mois <= 0 || mois > 12)
         {
             std::cerr << ERROR_HTML_TAG " pas de données sur le mois." ENDL;
@@ -162,11 +168,11 @@ static int parseFile(info_t& info)
     {
         cur_save = cur;
         cur =  cur->xmlChildrenNode;
-        info.Table[info.NCumAgentXml][Budget]  = xmlGetProp(cur, (const xmlChar *) "V");
-        if (info.Table[info.NCumAgentXml][Budget] [0] == '\0')
+        budget_fichier = xmlGetProp(cur, (const xmlChar *) "V");
+        if (budget_fichier[0] == '\0')
         {
-            xmlFree(info.Table[info.NCumAgentXml][Budget]);
-            info.Table[info.NCumAgentXml][Budget]  = xmlStrdup(NA_STRING);
+            xmlFree(budget_fichier);
+            budget_fichier = xmlStrdup(NA_STRING);
             std::lock_guard<std::mutex> lock(mut);
             if (verbeux) std::cerr << STATE_HTML_TAG "Aucune information sur le budget [optionnel]." ENDL;
             if (verbeux) std::cerr << PROCESSING_HTML_TAG "Poursuite du traitement." ENDL;
@@ -176,7 +182,7 @@ static int parseFile(info_t& info)
     }
     else
     {
-        info.Table[info.NCumAgentXml][Budget]  = xmlStrdup(NA_STRING);
+        budget_fichier = xmlStrdup(NA_STRING);
         std::lock_guard<std::mutex> lock(mut);
         if (verbeux) std::cerr << STATE_HTML_TAG "Aucune information sur le budget [optionnel]." ENDL;
         if (verbeux) std::cerr << PROCESSING_HTML_TAG "Poursuite du traitement." ENDL;
@@ -207,8 +213,8 @@ static int parseFile(info_t& info)
         exit(-515);
 #endif                 
         if (verbeux) std::cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
-        info.Table[info.NCumAgentXml][Employeur] = xmlStrdup(NA_STRING);
-        info.Table[info.NCumAgentXml][Siret]   = xmlStrdup(NA_STRING);
+        employeur_fichier = xmlStrdup(NA_STRING);
+        siret_fichier = xmlStrdup(NA_STRING);
         cur = cur_save;
     }
     else
@@ -226,29 +232,29 @@ static int parseFile(info_t& info)
                   errorLineStack.emplace_back(afficher_environnement_xhl(info, cur));
                   mut.unlock();
                 }
-                info.Table[info.NCumAgentXml][Employeur] = xmlStrdup(NA_STRING);
-                info.Table[info.NCumAgentXml][Siret]   = xmlStrdup(NA_STRING);
+                employeur_fichier = xmlStrdup(NA_STRING);
+                siret_fichier = xmlStrdup(NA_STRING);
                 break;
             }
 
             cur = atteindreNoeud("Nom", cur);
             if (cur != nullptr)
             {
-                info.Table[info.NCumAgentXml][Employeur] = xmlGetProp(cur, (const xmlChar *) "V");
+                employeur_fichier = xmlGetProp(cur, (const xmlChar *) "V");
                 cur = (cur)? cur->next : nullptr;
             }
             else
             {
                 std::cerr << ERROR_HTML_TAG "Employeur non identifié [non-conformité à la norme]." ENDL;
-                info.Table[info.NCumAgentXml][Employeur] = xmlStrdup(NA_STRING);
+                employeur_fichier = xmlStrdup(NA_STRING);
             }
 
             if (cur != nullptr) cur = atteindreNoeud("Siret", cur);
 
             if (cur != nullptr)
             {
-                info.Table[info.NCumAgentXml][Siret]   = xmlGetProp(cur, (const xmlChar *) "V");
-                if (info.Table[info.NCumAgentXml][Siret]  [0] == '\0')
+                siret_fichier = xmlGetProp(cur, (const xmlChar *) "V");
+                if (siret_fichier[0] == '\0')
                 {
                     warning_msg("la balise Siret", info, cur);
 #ifdef STRICT
@@ -256,8 +262,8 @@ static int parseFile(info_t& info)
                     exit(-517);
 #endif
                    if (verbeux)  std::cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
-                   xmlFree(info.Table[info.NCumAgentXml][Siret]  );
-                   info.Table[info.NCumAgentXml][Siret]   = xmlStrdup(NA_STRING);
+                   xmlFree(siret_fichier);
+                   siret_fichier = xmlStrdup(NA_STRING);
 
                 }
             }
@@ -265,9 +271,9 @@ static int parseFile(info_t& info)
             {
                 std::cerr  << ERROR_HTML_TAG "Siret de l'empoyeur non identifié [non-conformité à la norme]." ENDL;
                if (verbeux)  std::cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
-                std::cerr << "Année " << info.Table[info.NCumAgentXml][Annee]
-                          << " Mois "  << info.Table[info.NCumAgentXml][Mois] << ENDL;
-                info.Table[info.NCumAgentXml][Siret]   = xmlStrdup(NA_STRING);
+                std::cerr << "Année " << annee_fichier
+                          << " Mois "  << mois_fichier << ENDL;
+                siret_fichier = xmlStrdup(NA_STRING);
             }
 
         } while (false);
@@ -377,8 +383,7 @@ static int parseFile(info_t& info)
                 cur = atteindreNoeud("Nom", cur);
                 if (cur != nullptr)
                 {
-
-                    xmlChar* etablissement_fichier = xmlGetProp(cur, (const xmlChar *) "V");
+                    etablissement_fichier = xmlGetProp(cur, (const xmlChar *) "V");
                     if (etablissement_fichier[0] == '\0')
                     {
                         warning_msg("les données nominales de l'établissement [non-conformité]", info, cur);
@@ -407,7 +412,7 @@ static int parseFile(info_t& info)
 
                 if (cur != nullptr)
                 {
-                    xmlChar* etablissement_fichier = xmlGetProp(cur, (const xmlChar *) "V");
+                    etablissement_fichier = xmlGetProp(cur, (const xmlChar *) "V");
                     if (etablissement_fichier[0] == '\0')
                     {
                         warning_msg("les données de Siret de l'établissement [non-conformité]", info, cur);
@@ -492,8 +497,13 @@ static int parseFile(info_t& info)
             cur_save2 = cur;
             cur = cur->xmlChildrenNode;  // Niveau Agent
 
+            info.Table[info.NCumAgentXml][Annee] = xmlStrdup(annee_fichier);
+            info.Table[info.NCumAgentXml][Mois]  = xmlStrdup(mois_fichier);
+            info.Table[info.NCumAgentXml][Budget] = xmlStrdup(budget_fichier);
+            info.Table[info.NCumAgentXml][Employeur]  = xmlStrdup(employeur_fichier);
+            info.Table[info.NCumAgentXml][Siret]  = xmlStrdup(siret_fichier);
 
-           /* LECTURE DES LIGNES DE PAYE STRICTO SENSU */
+             /* LECTURE DES LIGNES DE PAYE STRICTO SENSU */
 
             int32_t ligne_p = parseLignesPaye(cur, info, log);
 
@@ -650,20 +660,20 @@ static inline void GCC_INLINE allouer_memoire_table(info_t& info)
     }
 
     delete[] info.NAgent;
-//    if (info.Table != nullptr)
-//    {
-//        for (unsigned agent = 0; agent < info.NCumAgent; ++agent)
-//        {
-//            for (int i = 0; i < info.Memoire_p_ligne[agent] ; ++i)
-//            {
-//                xmlFree(info.Table[agent][i]);
-//            }
+    if (info.Table != nullptr)
+    {
+        for (unsigned agent = 0; agent < info.NCumAgent; ++agent)
+        {
+            for (int i = 0; i < info.Memoire_p_ligne[agent] ; ++i)
+            {
+                xmlFree(info.Table[agent][i]);
+            }
 
-//            if (info.Table[agent]) delete info.Table[agent];
+            if (info.Table[agent]) delete info.Table[agent];
 
-//        }
-//        delete[] info.Table;
-//    }
+        }
+        delete[] info.Table;
+    }
 
     info.NAgent = new uint32_t[info.threads->argc]();
     info.Table  = new xmlChar**[info.NCumAgent]();
