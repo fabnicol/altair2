@@ -648,10 +648,6 @@ int main(int argc, char **argv)
         delete [] (Info[i].Table);
         delete [] (Info[i].Memoire_p_ligne);
 
-        if (Info[0].nbfil > 1)
-        {
-            delete [] (Info[i].threads);
-        }
     }
 
     valeur_de_retour = (maxima)? 2 * maxima[0] + 3 * maxima[1]: 0;
