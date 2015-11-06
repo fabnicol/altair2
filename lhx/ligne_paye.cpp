@@ -434,7 +434,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, std::ofstream& log)
             log.flush();
             log.seekp(std::ios_base::end);
 
-            log << "\n\nERROR_HTML_TAG L'agent est non identifié pour le fichier : " << info.threads->argv[info.fichier_courant] << "\n"
+            log << "\n\nErreur : L'agent est non identifié pour le fichier : " << info.threads->argv[info.fichier_courant] << "\n"
                 << "Année " << info.Table[info.NCumAgentXml][Annee] << "\n"
                 << "Mois "  << info.Table[info.NCumAgentXml][Mois]  << "\n\n";
 
@@ -454,7 +454,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, std::ofstream& log)
         exit(-520);
 #endif
 
-        for (int l : {Nom, Prenom, Matricule, NIR, EmploiMetier, NbEnfants, Grade, Indice})
+        for (int l : {Nom, Prenom, Matricule, NIR, EmploiMetier, Statut, NbEnfants, Grade, Indice})
         {
            info.Table[info.NCumAgentXml][l] = xmlStrdup((xmlChar*)"*");
         }

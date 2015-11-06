@@ -3,14 +3,15 @@
 #include <QWidget>
 #include "fwidgets.h"
 #include "enums.h"
-#if 1
+
 FLineFrame::FLineFrame(const QStringList& titre,
                        const QString& defaut,
                        const QString& xmlTag,
                        const QList<int>& coord,
                        QGridLayout* inputLayout,
                        const QString& commandline,
-                       flags::directory check)
+                       flags::directory check,
+                       flags::flineframe category)
 {
     if (inputLayout == nullptr)
        frameLayout= new QGridLayout;
@@ -29,6 +30,7 @@ FLineFrame::FLineFrame(const QStringList& titre,
         lineEdit = new FLineEdit(defaut, xmlTag, titre, commandline);
 
     label = new QLabel(titre.at(1));
+    pathCategory = category;
     sButton = new QToolDirButton(QString("Sélectionner le ")+ ((pathCategory == flags::flineframe::isDirectoryPath)?
                                                      "répertoire" : "fichier") );
 
@@ -93,4 +95,4 @@ FLineFrame::FLineFrame(const QStringList& titre,
                     lineEdit->setText(path);
                });
 }
-#endif
+

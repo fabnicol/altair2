@@ -1,6 +1,6 @@
 greaterThan(QT_MAJOR_VERSION, 5)
 
-# Pour une sortie en mode console pure, enlever guiOutput ci-dessous. Sinon l'output console prépare
+# Pour une sortie en mode console pure, enlever guiOutput ci-dessous. Sinon l'output console prï¿½pare
 # l'input de la "console de l'interface graphique"
 
 CONFIG += console guiOutput
@@ -11,9 +11,9 @@ VPATH = .
 TEMPLATE = app
 
 if (win32|linux) {
-  message("Système d'exploitation :  $$(OS)")
+  message("Systï¿½me d'exploitation :  $$(OS)")
 } else {
-  error("Le système d'exploitation doit être soit Windows soit linux")
+  error("Le systï¿½me d'exploitation doit ï¿½tre soit Windows soit linux")
 }
 
 windows {
@@ -30,19 +30,19 @@ linux {
 if (!isEmpty(GIT_VERSION)) {
     message( "Version de git : $$GIT_VERSION" )
 } else {
-  #  error( "Git doit être installé" )
+  #  error( "Git doit ï¿½tre installï¿½" )
 }
 
 
 if (!isEmpty(CXX_VERSION)){
     message( "Version du compilateur : $$CXX_VERSION" )
 } else {
-    error( "Le compilateur doit être GNU g++, dont la version doit être au moins 5.1" )
+    error( "Le compilateur doit ï¿½tre GNU g++, dont la version doit ï¿½tre au moins 5.1" )
 }
 
 
 CONFIG(guiOutput) {
-  DEFINES +=  GUI_TAG_MESSAGES                   # définir pour que les sorties des messages soient formatées pour que l'interface graphique les transforme en icône.
+  DEFINES +=  GUI_TAG_MESSAGES                   # dï¿½finir pour que les sorties des messages soient formatï¿½es pour que l'interface graphique les transforme en icï¿½ne.
 }
 
 DEFINES +=  WARNING_LIMIT=5   # nombre maximum d'avertissement par fichier
@@ -53,31 +53,31 @@ DEFINES += __GNUC_EXTENSION \
            __STDC_LIMIT_MACROS \
            __STDC_FORMAT_MACROS
 
-                                            # DEFINES += STRICT  pour un validateur qui retourne à la première erreur.
-DEFINES += \#NO_REGEX \                       # Pas d'analyse du texte par expression régulière
-        GCC_REGEX \                        # Utiliser les expressions régulières de C++
-        WAIT_FOR_LOCK  \                    # insiter jusqu'à acquérir les mutex dans les fils d'exécution. Peut entraîner des "output freeze" en cas de forte
+                                            # DEFINES += STRICT  pour un validateur qui retourne ï¿½ la premiï¿½re erreur.
+DEFINES += \#NO_REGEX \                       # Pas d'analyse du texte par expression rï¿½guliï¿½re
+        GCC_REGEX \                        # Utiliser les expressions rï¿½guliï¿½res de C++
+        WAIT_FOR_LOCK  \                    # insiter jusqu'ï¿½ acquï¿½rir les mutex dans les fils d'exï¿½cution. Peut entraï¿½ner des "output freeze" en cas de forte
                         \                   # charge I/O.
-        NO_DEBUG \                          # ne pas générer de messages de débogage avancé
-#        TOLERANT_TAG_HIERARCHY \           # ordre des balises : tolérance envers des permutations de même niveau
-        FULL_PREALLOCATION_TEST \           # calcul des besoins de mémoire : précision maximale (sinon : moindre)
-        PREALLOCATE_ON_HEAP \               # préallouer le vecteur sur le tas pour le tableau des allocations de mémoire (sinon : tableau C sur la pile)
-        DECIMAL_NON_EN \                    # compilation pour des séparateurs décimaux différents de '.'
-        GENERATE_RANK_SIGNAL \              # chaque fois qu'un fichier est traité, un signal externe est émis (rang dans un fichier rank sous AppData\Local\Altair).
-                             \              # n'est utile que lorsqu'une interface graphique est connectée. peut ralentir l'application de 1 à 5 %.
+        NO_DEBUG \                          # ne pas gï¿½nï¿½rer de messages de dï¿½bogage avancï¿½
+#        TOLERANT_TAG_HIERARCHY \           # ordre des balises : tolï¿½rance envers des permutations de mï¿½me niveau
+        FULL_PREALLOCATION_TEST \           # calcul des besoins de mï¿½moire : prï¿½cision maximale (sinon : moindre)
+        PREALLOCATE_ON_HEAP \               # prï¿½allouer le vecteur sur le tas pour le tableau des allocations de mï¿½moire (sinon : tableau C sur la pile)
+        DECIMAL_NON_EN \                    # compilation pour des sï¿½parateurs dï¿½cimaux diffï¿½rents de '.'
+        GENERATE_RANK_SIGNAL \              # chaque fois qu'un fichier est traitï¿½, un signal externe est ï¿½mis (rang dans un fichier rank sous AppData\Local\Altair).
+                             \              # n'est utile que lorsqu'une interface graphique est connectï¿½e. peut ralentir l'application de 1 ï¿½ 5 %.
         FGETC_PARSING                       # parcourir les fichiers par ifstream (C++)
-#MMAP_PARSING                               # parcourir les fichiers par mappage mémoire (C, unix).
+#MMAP_PARSING                               # parcourir les fichiers par mappage mï¿½moire (C, unix).
 
 
 
 DEVROOT = $$PWD/../..
 
-# Insérer ici le nom du répertoire contenant dans include/ et lib/ les dépendances système
-# Ce compilateur doit être adjacent aux sources sous Windows
+# Insï¿½rer ici le nom du rï¿½pertoire contenant dans include/ et lib/ les dï¿½pendances systï¿½me
+# Ce compilateur doit ï¿½tre adjacent aux sources sous Windows
 
 QMAKE_CXXFLAGS = -pipe -m64 -std=gnu++14 -march=native
 
-# Sous linux penser à installer libxml2-dev. Ceci n'est pas testé.
+# Sous linux penser ï¿½ installer libxml2-dev. Ceci n'est pas testï¿½.
 
 CONFIG(debug) {
     QMAKE_CXXFLAGS +=  -O1
@@ -112,5 +112,6 @@ HEADERS += \
     table.hpp \
     validator.hpp \
     ligne_paye.hpp \
-    ../Interface/gui/tags.h
+    ../Interface/gui/tags.h \
+    entete.hpp
 
