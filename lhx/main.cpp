@@ -156,7 +156,7 @@ int main(int argc, char **argv)
                       <<  "-m sans argument        : calculer les maxima d'agents et de lignes de paye." << "\n"
                       <<  "-L argument obligatoire : chemin du log d'exécution du test de cohérence entre analyseurs C et XML." << "\n"
                       <<  "-R argument obligatoire : expression régulière pour la recherche des élus (codés : ELU dans le champ Statut." << "\n"
-                      <<  "-S sans argument        : supprimer la sortie Budget, Etablissement, Siret (allège les bases)." << "\n"
+                      <<  "-S sans argument        : supprimer la sortie Budget, Employeur, Siret, Etablissement (allège les bases)." << "\n"
                       <<  "-q sans argument        : limiter la verbosité." << "\n";
 
               #ifdef GENERATE_RANK_SIGNAL
@@ -627,7 +627,10 @@ int main(int argc, char **argv)
     int valeur_de_retour = 0;
     if (! liberer_memoire) goto duration;
 
-   if (verbeux)  std::cerr << ENDL << PROCESSING_HTML_TAG "Libération de la mémoire..." << ENDL;
+   if (verbeux)
+       std::cerr << ENDL
+                     << PROCESSING_HTML_TAG "Libération de la mémoire..."
+                     << ENDL;
 
     /* En cas de problème d'allocation mémoire le mieux est encore de ne pas désallouer car on ne connait pas exacteemnt l'état
      * de la mémoire dynamique */
@@ -637,7 +640,10 @@ int main(int argc, char **argv)
         for (unsigned agent = 0; agent < Info[i].NCumAgent; ++agent)
         {
             for (int j = 0; j < Info[i].Memoire_p_ligne[agent]; ++j)
-                  xmlFree(Info[i].Table[agent][j]);
+            {
+              //if (j > Etablissement)
+                xmlFree(Info[i].Table[agent][j]);
+            }
 
             delete [] (Info[i].Table[agent]);
         }

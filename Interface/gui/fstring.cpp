@@ -7,6 +7,7 @@ QHash<QString, QString>  Hash::Mois;
 QHash<QString, QString>  Hash::Budget;
 QHash<QString, QStringList>  Hash::Siret;
 QHash<QString, QStringList>  Hash::Etablissement;
+QHash<QString, QString>  Hash::Employeur;
 QHash<QString, bool>     Hash::Suppression;
 QList<QStringList>     Hash::Reference;
 QHash<QString, QList<int> > Hash::SiretPos;
@@ -146,10 +147,10 @@ inline QStringList setDistributedTags(const QString & tag,const FStringList &pro
       const QStringList prop = j.next();
       QStringListIterator w(prop);
       QString str =  QString("<") + tag ;
-      QStringList propStringLabels = {"V", "S", "B", "E" };  // Année ou Mois, Siret, Budget, Etablissement
-      if (prop.size() > 4)
+      QStringList propStringLabels = {"V", "S", "B", "E", "EM" };  // Année ou Mois, Siret, Budget, Etablissement, Employeur
+      if (prop.size() > 5)
          for (int i = 2; i <= prop.size() - 3; ++i)
-              propStringLabels << "S" + QString::number(i) << "E" + QString::number(i);
+              propStringLabels << "S" + QString::number(i) << "E" + QString::number(i) << "EM" + QString::number(i);
 
       QStringListIterator z(propStringLabels);
       while (w.hasNext() && z.hasNext())

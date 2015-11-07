@@ -144,6 +144,7 @@ private:
     void printBaseSize(qint64 new_value = 0);
     inline void openProjectFileCommonCode();
     void checkAnnumSpan();
+    void normaliseMultiBudgetFiles(const QStringList& list);
 
  protected:
 

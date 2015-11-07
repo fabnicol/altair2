@@ -76,7 +76,7 @@ Highlighter::Highlighter(QTextDocument *parent)
 
     createRulePattern(Qt::darkBlue, QFont::Bold, {"\\bprofondeur\\b"});
 
-    createRulePattern(QColor("turquoise"), QFont::Bold, {"\\b(V|S|B|E)(?:=[^ ])\\b"});
+    createRulePattern(QColor("turquoise"), QFont::Bold, {"\\b(V|S|B|E|EM)(?:=[^ ])\\b"});
 
     createRulePattern(QColor("blue"), QFont::Light, {">[^><]*\\.xhl<" });
 
