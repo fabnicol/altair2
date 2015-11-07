@@ -251,6 +251,7 @@ public:
   static QHash<QString, QStringList> Siret;
   static QHash<QString, QList<int> > SiretPos;
   static QHash<QString, QStringList> Etablissement;
+  static QHash<QString, QString> Employeur;
   static QHash<QString, bool>    Suppression;
   static QList<QStringList> Reference;
   static inline void createReference(int rank)

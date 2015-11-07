@@ -193,6 +193,16 @@ QDesktopServices::openUrl(QUrl::fromLocalFile(path));
 
 }
 
+const QString common::remAccents(QString str, bool toUpper)
+{
+    QRegExp rem("[éèê]");
+    str.replace(rem, "e").replace("à", "a").replace("ô","o").replace("\'", " ");
+    if (toUpper)
+        return str.toUpper();
+
+    return str;
+}
+
 const QString common::openDirDialog(flags::directory checkEmptyness)
 {
 QString path=QFileDialog::getExistingDirectory(nullptr, QString("Sélection du répertoire"),

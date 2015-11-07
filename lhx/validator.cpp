@@ -300,12 +300,14 @@ static int parseFile(info_t& info)
 #endif
     }
 
+
+    bool siret_etablissement =  false;
+
     while(cur != nullptr)
     {
         cur_save = cur;
-
         xmlNodePtr cur_save2 = nullptr;
-        cur =  cur->xmlChildrenNode;  // Niveau Employeur et PayeIndivMensuel
+        cur =  cur->xmlChildrenNode;  // Niveau Etablissement et PayeIndivMensuel
         cur_save2 = cur;
 
         if (cur == nullptr || xmlIsBlankNode(cur))
@@ -342,6 +344,7 @@ static int parseFile(info_t& info)
         {
             cur = cur_save2;
             std::cerr << STATE_HTML_TAG "Pas d'information sur l'Etablissement" ENDL;
+            etablissement_fichier = xmlStrdup(NA_STRING);
         }
         else
         {
@@ -364,7 +367,7 @@ static int parseFile(info_t& info)
             cur_save2 = cur;
 
             /* On recherche le nom, le siret de l'établissement */
-            do {
+      do {
                 cur =  cur->xmlChildrenNode;
 
                 if (cur == nullptr || xmlIsBlankNode(cur))
@@ -376,11 +379,13 @@ static int parseFile(info_t& info)
                     exit(-517);
 #endif
                     if (verbeux) std::cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
-
+                    etablissement_fichier = xmlStrdup(NA_STRING);
+                    /* on garde le siret de l'employeur */
                     break;
                 }
 
                 cur = atteindreNoeud("Nom", cur);
+
                 if (cur != nullptr)
                 {
                     etablissement_fichier = xmlGetProp(cur, (const xmlChar *) "V");
@@ -392,9 +397,10 @@ static int parseFile(info_t& info)
                         exit(-517);
 #endif
                         if (verbeux) std::cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
+                        xmlFree(etablissement_fichier);
+                        etablissement_fichier = xmlStrdup(NA_STRING);
                     }
 
-                    xmlFree(etablissement_fichier);
                     cur = (cur)? cur->next : nullptr;
 
                 }
@@ -406,14 +412,20 @@ static int parseFile(info_t& info)
                     exit(-517);
 #endif
                     if (verbeux) std::cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
+                    etablissement_fichier = xmlStrdup(NA_STRING);
+
+                    /* on garde le siret de l'employeur */
                 }
 
-                if (cur != nullptr) cur = atteindreNoeud("Siret", cur);
+                if (cur != nullptr)
+                    cur = atteindreNoeud("Siret", cur);
 
+                siret_etablissement =  true;
                 if (cur != nullptr)
                 {
-                    etablissement_fichier = xmlGetProp(cur, (const xmlChar *) "V");
-                    if (etablissement_fichier[0] == '\0')
+                    xmlFree(siret_fichier);
+                    siret_fichier = xmlGetProp(cur, (const xmlChar *) "V");
+                    if (siret_fichier[0] == '\0')
                     {
                         warning_msg("les données de Siret de l'établissement [non-conformité]", info, cur);
 #ifdef STRICT
@@ -421,9 +433,9 @@ static int parseFile(info_t& info)
                         exit(-517);
 #endif
                         if (verbeux) std::cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
-
+                        xmlFree(siret_fichier);
+                        siret_fichier = xmlStrdup(NA_STRING);
                     }
-                    xmlFree(etablissement_fichier);
                 }
                 else
                 {
@@ -432,6 +444,7 @@ static int parseFile(info_t& info)
                     exit(-517);
 #endif
                     warning_msg("les données de Siret de l'établissement [non-conformité]", info, cur);
+                    siret_fichier = xmlStrdup(NA_STRING);
                 }
 
             } while (false);
@@ -501,9 +514,13 @@ static int parseFile(info_t& info)
             info.Table[info.NCumAgentXml][Mois]  = xmlStrdup(mois_fichier);
             info.Table[info.NCumAgentXml][Budget] = xmlStrdup(budget_fichier);
             info.Table[info.NCumAgentXml][Employeur]  = xmlStrdup(employeur_fichier);
-            info.Table[info.NCumAgentXml][Siret]  = xmlStrdup(siret_fichier);
 
-             /* LECTURE DES LIGNES DE PAYE STRICTO SENSU */
+            /* Nota : le Siret est, si l'établissement existe, celui de l'établissement, sinon celui de l'Employeur */
+
+            info.Table[info.NCumAgentXml][Siret]  = xmlStrdup(siret_fichier);
+            info.Table[info.NCumAgentXml][Etablissement]  = xmlStrdup(etablissement_fichier);
+
+            /* LECTURE DES LIGNES DE PAYE STRICTO SENSU */
 
             int32_t ligne_p = parseLignesPaye(cur, info, log);
 
@@ -563,6 +580,10 @@ static int parseFile(info_t& info)
             ++info.NCumAgentXml;
         }
 
+        xmlFree(etablissement_fichier);
+        /* si pas d'établissement (NA_STRING) alors on utilise le siret de l'empoyeur, donc
+         * ne pas libérer dans ce cas ! */
+
         cur = cur_save->next;  // next DonneesIndiv
         if (cur == nullptr || xmlStrcmp(cur->name, (const xmlChar*) "DonneesIndiv")) break;   // on ne va pas envoyer un message d'absence de DonneesIndiv si on a fini la boucle...
     }
@@ -588,7 +609,14 @@ static int parseFile(info_t& info)
     }
 
 
+    if (siret_etablissement )
+            xmlFree(siret_fichier);
+    xmlFree(annee_fichier);
+    xmlFree(mois_fichier);
+    xmlFree(budget_fichier);
+    xmlFree(employeur_fichier);
     xmlFreeDoc(doc);
+
     if (log.is_open())
         log.close();
 
@@ -640,17 +668,20 @@ using namespace std;
 
 static inline  int GCC_INLINE memoire_p_ligne(const info_t& info, const unsigned agent)
 {
+    /* Attention on peut "rembobiner" les types dans la limite de TYPE_LOOP_LIMIT, ce qui implique que l'on doit allouer ex ante TYPE_LOOP_LIMIT fois nbType
+     *  pour les drapeux de séparation des catégories */
+
     return BESOIN_MEMOIRE_ENTETE  // chaque agent a au moins BESOIN_MEMOIRE_ENTETE champs du bulletins de paye en colonnes
-            // sans la table ces champs sont répétés à chaque ligne de paye.
-            + nbType // espace pour les drapeaux de séparation des champs (taille de type_remuneration). Nécessaire pour l'algorithme
-            + (info.NLigne[agent])*(INDEX_MAX_COLONNNES + 1);   // nombre de lignes de paye x nombre maximum de types de balises distincts de lignes de paye
-    // soit N+1 pour les écritures du type Var(l+i), i=0,...,N dans ECRIRE_LIGNE_l_COMMUN
+                                                        // sans la table ces champs sont répétés à chaque ligne de paye.
+            + nbType  *  TYPE_LOOP_LIMIT                   // espace pour les drapeaux de séparation des champs (taille de type_remuneration).
+            + (info.NLigne[agent]) * (INDEX_MAX_COLONNNES + 1);   // nombre de lignes de paye x nombre maximum de types de balises distincts de lignes de paye
+                                                                                                     // soit INDEX_MAX_COLONNES = N pour les écritures du type Var(l+i), i=0,...,N dans ECRIRE_LIGNE_l_COMMUN
 }
 
 
 static inline void GCC_INLINE allouer_memoire_table(info_t& info)
 {
-    // utiliser NCumAgent ici et pas NCumAgentXml
+    // utiliser NCumAgent ici et pas NCumAgentXml, puisqu'il s'agit d'une préallocation
 
     info.Memoire_p_ligne = new int[info.NCumAgent]();
 

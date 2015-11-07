@@ -141,7 +141,7 @@ Altair::Altair()
     mainLayout->addLayout(progressLayout);
 
     QStringList labels;
-    labels << tr("") << tr("Mois") << tr("Chemin")  << tr("Taille\nFichier") << tr("Total") << tr("Siret Etablissement") << tr("Budget");
+    labels << tr("") << tr("Mois") << tr("Chemin")  << tr("Taille\nFichier") << tr("Total") << tr("Employeur Siret Etablissement") << tr("Budget");
     managerWidget->hide();
     managerWidget->setHeaderLabels(labels);
     managerWidget->setColumnWidth(0,300);
@@ -547,7 +547,7 @@ bool Altair::refreshProjectManager()
 void Altair::checkAnnumSpan()
 {
     const QStringList monthRef = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"};
-    int r = project[0]->getRank() - 1;
+    int r = project[0]->getRank() - 2;
 
     for (int i = 0; i < r; ++i)
     {
@@ -583,6 +583,37 @@ void Altair::checkAnnumSpan()
 
         }
     }
+}
+
+void Altair::normaliseMultiBudgetFiles(const QStringList& list)
+{
+#if 0
+    for (int i = 0; i < Hash::wrapper["XHL"]->size(); ++i)
+    {
+        for (const QString& str : Hash::wrapper["XHL"]->at(i))
+        {
+
+            if (Hash::Siret[str].size() == 1 || Hash::Etablissement[str].size() == 1 || ! Hash::SiretPos.contains(str)) continue;
+
+            for (int l = 0; l < Hash::Siret[str].size() && l < Hash::Etablissement[str].size(); ++l )
+            {
+                if (Hash::Suppression[Hash::Siret[str].at(l) + " " + Hash::Etablissement[str].at(l)])
+                    continue;
+                QFile file(str);
+                file.open(QIODevice::ReadOnly);
+
+                file.seek(Hash::SiretPos[str].at(l));
+
+                QByteArray array = file.read(Hash::SiretPos[str].at(l+1) - Hash::SiretPos[str].at(l));
+                QTemporaryFile tempfile(QDir::tempPath());
+                tempfile.open();
+                tempfile.write(array);
+                 (*Hash::wrapper["XHL"])[i] << tempfile.fileName();
+                tempfile.close();
+            }
+        }
+    }
+#endif
 }
 
 
@@ -628,11 +659,8 @@ void Altair::dropEvent(QDropEvent *event)
 
         updateIndexInfo();
         closeProject();
-        if (false == project[0]->addParsedTreeToListWidget(stringsDragged)) return;
+        project[0]->addParsedTreeToListWidget(stringsDragged);
         checkAnnumSpan();
-
-        Hash::createReference(project[0]->getRank());
-
         updateProject();
     }
 }

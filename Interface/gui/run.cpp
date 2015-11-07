@@ -72,34 +72,6 @@ void Altair::run()
     outputTextEdit->append(PROCESSING_HTML_TAG + tr("Validation du répertoire de sortie ") + path);
 #endif
 
-    // Organiser les fichiers temporaires de siret
-#if 0
-    for (int i = 0; i < Hash::wrapper["XHL"]->size(); ++i)
-    {
-        for (const QString& str : Hash::wrapper["XHL"]->at(i))
-        {
-
-            if (Hash::Siret[str].size() == 1 || Hash::Etablissement[str].size() == 1 || ! Hash::SiretPos.contains(str)) continue;
-
-            for (int l = 0; l < Hash::Siret[str].size() && l < Hash::Etablissement[str].size(); ++l )
-            {
-                if (Hash::Suppression[Hash::Siret[str].at(l) + " " + Hash::Etablissement[str].at(l)])
-                    continue;
-                QFile file(str);
-                file.open(QIODevice::ReadOnly);
-
-                file.seek(Hash::SiretPos[str].at(l));
-
-                QByteArray array = file.read(Hash::SiretPos[str].at(l+1) - Hash::SiretPos[str].at(l));
-                QTemporaryFile tempfile(QDir::tempPath());
-                tempfile.open();
-                tempfile.write(array);
-                 (*Hash::wrapper["XHL"])[i] << tempfile.fileName();
-                tempfile.close();
-            }
-        }
-    }
-#endif
     QStringList args0, args1;
     QString command;
 

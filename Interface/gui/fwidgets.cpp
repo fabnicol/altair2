@@ -321,7 +321,7 @@ void FListWidget::setWidgetFromXml(const FStringList &s)
                 if (strL.isEmpty()) continue;
                 for (const QString &s : strL)
                 {
-                    if (i >= size - 2 || QFileInfo(s).exists())
+                    if (i >= size - 3 || QFileInfo(s).exists())
                         commandLineList << s;
                     else
                     {
@@ -354,7 +354,7 @@ const FString FListWidget::setXmlFromWidget()
             commandLineList.clear();
             int size = Hash::wrapper[hashKey]->size();
             // Pour éviter d'inclure les onglets Siret et Budget dans la ligne de commande
-            for (int k = 0; k < size - 2; ++k)
+            for (int k = 0; k < size - 3; ++k)
             {
                 const QStringList strL = Hash::wrapper[hashKey]->at(k);
                 if (strL.isEmpty()) continue;
@@ -374,11 +374,17 @@ const FString FListWidget::setXmlFromWidget()
       FStringList fstrl;
       for (const QString &str : strL)
       {
-          QStringList qstrl = QStringList() << Hash::Mois[str] << (Hash::Siret[str].isEmpty()? "": Hash::Siret[str].at(0))
-                                                               << Hash::Budget[str] << (Hash::Etablissement[str].isEmpty()? "" :Hash::Etablissement[str].at(0));
-          if (Hash::Siret[str].size() > 1 && Hash::Etablissement[str].size() > 1)
+          QStringList qstrl = QStringList() << Hash::Mois[str]
+                                                         << (Hash::Siret[str].isEmpty()? "": Hash::Siret[str].at(0))
+                                                         << Hash::Budget[str]
+                                                         << (Hash::Etablissement[str].isEmpty()? "" :Hash::Etablissement[str].at(0));
+
+          if  (Hash::Siret[str].size() > 1 && Hash::Etablissement[str].size() > 1)
               for (int j = 1; j < Hash::Siret[str].size() && j < Hash::Etablissement[str].size(); ++j)
                    qstrl  << Hash::Siret[str].at(j) << Hash::Etablissement[str].at(j);
+
+          qstrl << Hash::Employeur[str];
+
           fstrl  << qstrl;
       }
 

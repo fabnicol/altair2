@@ -64,7 +64,8 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l_GENERER_RANG(int i, uint32_t agent,
     {
         base  << VAR(Budget) << sep
               << VAR(Employeur) << sep
-              << VAR(Siret) << sep;
+              << VAR(Siret) << sep
+              << VAR(Etablissement) << sep;
     }
     
     ECRIRE_LIGNE_l_COMMUN(i, agent, l, type, base, sep, Info, rang);
@@ -77,8 +78,9 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l_SIRET(int i, uint32_t agent, int l,
     
     base  << VAR(Budget) << sep
           << VAR(Employeur) << sep
-          << VAR(Siret) << sep;
-    
+          << VAR(Siret) << sep
+          << VAR(Etablissement) << sep;
+
     ECRIRE_LIGNE_l_COMMUN(i, agent, l, type, base, sep, Info, rang);
     
 }
@@ -123,7 +125,8 @@ static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETIN_GENERER_RANG(int i, uint32_
     {
         bulletins  << VAR(Budget) << sep
                    << VAR(Employeur) << sep
-                   << VAR(Siret) << sep;
+                   << VAR(Siret) << sep
+                   << VAR(Etablissement) << sep;
     }
     
     ECRIRE_LIGNE_BULLETIN_COMMUN(i, agent, bulletins, sep, Info, rang);
@@ -137,7 +140,8 @@ static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETIN_SIRET(int i, uint32_t agent
     
     bulletins  << VAR(Budget) << sep
                << VAR(Employeur) << sep
-               << VAR(Siret) << sep;
+               << VAR(Siret) << sep
+               << VAR(Etablissement) << sep;
 
     ECRIRE_LIGNE_BULLETIN_COMMUN(i, agent, bulletins, sep, Info, rang);
 }
