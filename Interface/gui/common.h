@@ -35,8 +35,9 @@ public:
   static QString tempdir;
   static QString generateDatadirPath(const char* path="");
   static QString generateDatadirPath(const QString &path);
-
   static qint64 getDirectorySize(const QString &path, const QString &extension="");
+
+  static const QString remAccents(QString str, bool toUpper = true);
 
   int readFile(QString &path, QStringList &list, int start=0, int stop=-1, int width=0);
   int readFile(const char* path, QStringList &list, int start=0, int stop=-1, int width=0)

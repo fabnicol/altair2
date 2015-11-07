@@ -37,11 +37,13 @@ private:
  bool activateOnStart=false;
 
  QStringList parseTreeForFilePaths(const QStringList& stringList);
- bool addStringListToListWidget(const QStringList&);
+ void addStringListToListWidget(const QStringList&);
 
  void parseXhlFile(const QString& fileName);
  void parseXhlFile(const QStringList& stringList);
  void showContextMenu();
+ void setStrikeOutFileNames(flags::colors);
+
  Altair* altair;
  
 public:
@@ -97,7 +99,7 @@ void setTabLabels(QStringList& tabLabels) { fileListWidget->setTabLabels(tabLabe
 void addNewTab(int r, const QString& label="");
 void addNewTab();
 void deleteAllGroups(bool insertNewGroup = false, bool eraseAllData = true);
-bool addParsedTreeToListWidget(const QStringList& stringList) { return addStringListToListWidget(parseTreeForFilePaths(stringList)); }
+void addParsedTreeToListWidget(const QStringList& stringList);
 void list_connect(FComboBox* w);
 void list_connect(FListFrame* w);
 void total_connect(FListFrame* w);
@@ -109,7 +111,6 @@ FListFrame(QObject* parent,  QAbstractItemView * fileTreeView, short import_type
             const QStringList &description, const QString &command_line, int commandLineType, const QStringList &separator, const QStringList &xml_tags,
             common::TabWidgetTrait mainTabWidgetRank=common::TabWidgetTrait::NO_EMBEDDING_TAB_WIDGET, QIcon* icon=nullptr, QTabWidget* parentTabWidget=nullptr,
            QStringList* terms=nullptr, QStringList* translation=nullptr);
-
 
 public slots:
     void deleteGroup();

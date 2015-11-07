@@ -137,6 +137,7 @@ inline void stackData(const QDomNode & node, int level, QVariant &textData)
             Hash::Siret[str] << element.attribute("S");
             Hash::Budget[str] = element.attribute("B");
             Hash::Etablissement[str] << element.attribute("E");
+            Hash::Employeur[str] = element.attribute("EM");
             QDomNamedNodeMap attribs = element.attributes();
             int i = 2;
             QString attr;
@@ -321,7 +322,8 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
             sixthColumn = "";
             for (int s = 0; s < Hash::Siret[filename].size() && s < Hash::Etablissement[filename].size(); ++s)
             {
-                sixthColumn += ((s > 0)? "\n" : "") + Hash::Siret[filename].at(s);
+                sixthColumn += ((s > 0)? "\n" : "") + Hash::Employeur[filename];
+                sixthColumn += " " + Hash::Siret[filename].at(s);
                 sixthColumn += " " + Hash::Etablissement[filename].at(s);
             }
 

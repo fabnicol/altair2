@@ -103,6 +103,5 @@ static inline void GCC_INLINE  verifier_taille(const int nbLignePaye, info_t& in
 
 
 
-
 #endif // LIGNE_PAYE
 

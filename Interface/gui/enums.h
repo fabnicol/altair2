@@ -22,7 +22,7 @@ public:
 
     enum class flineframe {isFilePath, isDirectoryPath};
     enum {importFiles, importNames, typeIn, isEmbedded};
-
+    enum class colors {yes, no};
     enum class font : std::uint8_t {boldTitle, regularTitle, italicTitle};
     enum class directory : bool {noCheck = false, checkEmptyness = true } ;
     enum class commandLineType : std::uint8_t {
