@@ -30,7 +30,10 @@ options(warn = -1, verbose = FALSE, OutDec = ",", datatable.verbose = FALSE)
 encodage.code.source <- "UTF-8" #"ISO-8859-15"
 
 # dans cet ordre
-.libPaths(file.path(getwd(),"lib"))
+
+library_path <- ifelse(grepl("linux", Sys.getenv("R_PLATFORM"), fixed = TRUE), "lib_linux", "lib")
+
+.libPaths(file.path(getwd(), library_path))
 
 try(setwd("Tests/Exemple"), silent = TRUE)
 

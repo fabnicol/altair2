@@ -28,6 +28,7 @@ repos_create	repos_create
 repos_list	repository-management
 repos_remove	repository-management
 repos_set	repository-management
+repos_set_local	repository-management
 repos_upload	repos_upload
 restore	restore
 search_path	search_path

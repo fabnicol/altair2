@@ -1,0 +1,4 @@
+base64                  Encode and decode base64
+crypto digest           Vectorized hashing functions
+openssl                 R bindings for the OpenSSL library
+rand_bytes              Generate random bytes and numbers with OpenSSL

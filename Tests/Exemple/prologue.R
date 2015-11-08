@@ -7,8 +7,6 @@
 
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
 
-
-
 générer.rapport             <- F
 
 racine                      <- "R-Altaïr/"
