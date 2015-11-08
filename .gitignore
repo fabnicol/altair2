@@ -3,5 +3,5 @@
 figure/*
 *.xlsx
 packrat/lib*/
-
+.o
 .Rproj.user

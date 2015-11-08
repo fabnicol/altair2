@@ -86,4 +86,4 @@ Maintainer: Hadley Wickham <h.wickham@gmail.com>
 NeedsCompilation: no
 Repository: CRAN
 Date/Publication: 2015-03-17 17:49:38
-Built: R 3.2.1; ; 2015-08-02 23:36:56 UTC; unix
+Built: R 3.2.2; ; 2015-11-08 11:42:39 UTC; unix

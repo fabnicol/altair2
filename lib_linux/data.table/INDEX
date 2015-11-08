@@ -21,6 +21,8 @@ melt.data.table         Fast melt for data.table
 merge                   Merge Two Data Tables
 na.omit.data.table      Remove rows with missing values on columns
                         specified
+patterns                Regex patterns to extract columns from
+                        data.table
 rbindlist               Makes one data.table from a list of many
 rleid                   Generate run-length type group id
 setDF                   Convert a data.table to data.frame by reference
