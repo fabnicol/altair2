@@ -50,14 +50,16 @@ inline void  generate_rank_signal()
     if (rankFilePath.empty()) return;
 
     while (! mut.try_lock()) {}
-    //static int temp_rank;
+    static int temp_rank;
     do
     {
         rankFile.open(rankFilePath, std::ios::out|std::ios::trunc);
         if (rankFile.is_open())
         {
-           rankFile << ++rang_global ;
-           //rang_global = temp_rank;
+            if (rang_global)
+                rang_global = temp_rank;
+            rankFile << ++rang_global ;
+            temp_rank =rang_global;
         }
 
         rankFile.close();
