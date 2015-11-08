@@ -1,0 +1,15 @@
+openssl-package	openssl
+base64	base64
+base64_decode	base64
+base64_encode	base64
+crypto digest	hash
+md4	hash
+md5	hash
+openssl	openssl
+pseudo_rand_bytes	rand_bytes
+rand_bytes	rand_bytes
+rand_num	rand_bytes
+ripemd160	hash
+sha1	hash
+sha256	hash
+sha512	hash
