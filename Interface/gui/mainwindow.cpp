@@ -232,7 +232,7 @@ void MainWindow::createActions()
   connect(lhxAction, SIGNAL(triggered()), altair, SLOT(run()));
 
   openBaseDirAction = new QAction(tr("Ouvrir le répertoire des bases"), this);
-  openBaseDirAction ->setIcon(QIcon(":/images/directory.svg"));
+  openBaseDirAction ->setIcon(QIcon(":/images/directory.png"));
   connect(openBaseDirAction, &QAction::triggered, [&] { common::openDir(dialog->standardTab->donneesCSV->getText());  });
 
   optionsAction = new QAction(tr("&Options"), this);
