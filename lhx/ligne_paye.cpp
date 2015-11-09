@@ -5,7 +5,6 @@
 
 /* obligatoire */
 
-#define ligne_l  info.Table[info.NCumAgentXml][l]
 
 #define NA_ASSIGN(X)      info.Table[info.NCumAgentXml][X] = (xmlChar*) xmlStrdup(NA_STRING);
 
@@ -26,9 +25,12 @@ static inline int GCC_INLINE Bulletin(const char*  tag, xmlNodePtr& cur, int l, 
 
 // On a à présent la garantie que cur->name correspond à tag
 
-        ligne_l = xmlGetProp(nextcur, (const xmlChar *) "V");
 
-        if (ligne_l == nullptr)
+        if ((info.Table[info.NCumAgentXml][l]
+            // = UTF8toISO8859_1(xmlGetProp(nextcur, (const xmlChar *) "V")))
+               = xmlGetProp(nextcur, (const xmlChar *) "V"))
+                  == nullptr)
+
             return LINE_MEMORY_EXCEPTION;
 
         if (info.drapeau_cont)
@@ -41,10 +43,10 @@ static inline int GCC_INLINE Bulletin(const char*  tag, xmlNodePtr& cur, int l, 
 
     /* sanitisation */
 
-        const int size = xmlStrlen(ligne_l);
+        const int size = xmlStrlen(info.Table[info.NCumAgentXml][l]);
         for (int i = 0; i < size; ++i)
-            if (ligne_l[i] == info.separateur)
-                ligne_l[i] = '_';
+            if (info.Table[info.NCumAgentXml][l][i] == info.separateur)
+                info.Table[info.NCumAgentXml][l][i] = '_';
 
        return NODE_FOUND;
 
@@ -66,12 +68,12 @@ static inline bool GCC_INLINE bulletin_obligatoire(const char* tag, xmlNodePtr& 
 
         case NODE_NOT_FOUND :
                 if (verbeux) std::cerr << ERROR_HTML_TAG "Impossible d'atteindre " << tag << " à partir de " << cur->name << ENDL;
-                ligne_l = xmlStrdup(NA_STRING);
+                NA_ASSIGN(l);
                 break;
 
         case LINE_MEMORY_EXCEPTION :
                 if (verbeux) std::cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
-                ligne_l = xmlStrdup(NA_STRING);
+                NA_ASSIGN(l);
                 break;
 
         case NO_NEXT_ITEM :
@@ -127,16 +129,17 @@ static inline bool GCC_INLINE bulletin_optionnel_numerique(const char* tag, xmlN
              #ifndef DECIMAL_NON_EN
                if (info.decimal != '.')
              #endif
-                substituer_separateur_decimal(ligne_l, info.decimal);
+                substituer_separateur_decimal(info.Table[info.NCumAgentXml][l], info.decimal);
              return true;
 
         case NODE_NOT_FOUND :
-             ligne_l = xmlStrdup(NA_STRING);
+             NA_ASSIGN(l);
              return true;
 
         case LINE_MEMORY_EXCEPTION :
-             if (verbeux) std::cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
-             ligne_l = xmlStrdup(NA_STRING);
+             if (verbeux)
+                 std::cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
+             NA_ASSIGN(l);
              break;
 
         case NO_NEXT_ITEM :
@@ -144,7 +147,7 @@ static inline bool GCC_INLINE bulletin_optionnel_numerique(const char* tag, xmlN
              #ifndef DECIMAL_NON_EN
               if (info.decimal != '.')
              #endif
-               substituer_separateur_decimal(ligne_l, info.decimal);
+               substituer_separateur_decimal(info.Table[info.NCumAgentXml][l], info.decimal);
              break;
     }
 
@@ -180,16 +183,16 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique(const char* tag, xm
             #ifndef DECIMAL_NON_EN
                if (info.decimal != '.')
             #endif
-               substituer_separateur_decimal(ligne_l, info.decimal);
+               substituer_separateur_decimal(info.Table[info.NCumAgentXml][l], info.decimal);
              return true;
 
         case NODE_NOT_FOUND :
-             ligne_l = xmlStrdup(NA_STRING);
+             NA_ASSIGN(l);
              return true;
 
         case LINE_MEMORY_EXCEPTION :
              if (verbeux) std::cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
-             ligne_l = xmlStrdup(NA_STRING);
+             NA_ASSIGN(l);
              break;
 
         case NO_NEXT_ITEM :
@@ -197,7 +200,7 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique(const char* tag, xm
              #ifndef DECIMAL_NON_EN
               if (info.decimal != '.')
              #endif
-                   substituer_separateur_decimal(ligne_l, info.decimal);
+                substituer_separateur_decimal(info.Table[info.NCumAgentXml][l], info.decimal);
              break;
     }
 
@@ -254,7 +257,7 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
 
     unsigned int t = 0;
 
-    ligne_l = (xmlChar*) xmlStrdup(drapeau[t]);  // +1 pour éviter la confusion avec \0 des chaines vides
+    info.Table[info.NCumAgentXml][l] = (xmlChar*) xmlStrdup(drapeau[t]);  // +1 pour éviter la confusion avec \0 des chaines vides
     ++l;
 
     /* Besoins en mémoire : BESOIN_MEMOIRE_ENTETE [champs hors ligne] + nombre de lignes + flags (maximum nbType * nb de rembobinages) */
@@ -301,8 +304,8 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
 
         if (new_type && t < nbType)
         {
-            ligne_l = (xmlChar*) xmlStrdup(drapeau[t]);  // +1 pour éviter la confusion avec \0 des chaines vides
-            if (ligne_l == nullptr)
+              // +1 pour éviter la confusion avec \0 des chaines vides
+            if ((info.Table[info.NCumAgentXml][l] = (xmlChar*) xmlStrdup(drapeau[t])) == nullptr)
             {
                 if (verbeux) std::cerr << ERROR_HTML_TAG "Erreur dans l'allocation des drapeaux de catégories." << ENDL;
                 #ifdef STRICT
@@ -380,7 +383,6 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
         // Lorsque on a épuisé tous les types licites on a nécessairement cur = nullptr et la boucle s'arrête
     }
 
-#undef ligne_l
 
     return  { nbLignePaye, l};
 }
