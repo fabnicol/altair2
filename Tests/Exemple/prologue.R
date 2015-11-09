@@ -7,7 +7,7 @@
 
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
 
-générer.rapport             <- F
+
 
 racine                      <- "R-Altaïr/"
 # "Ville Annecy Paye BP-"
@@ -22,9 +22,7 @@ extraire.années      <- F
   début.période.sous.revue    <- 2013
   fin.période.sous.revue      <- 2014
 
-setOSWindows            <- Sys.info()["sysname"] != "Linux"
 exec.root               <- ifelse(setOSWindows, ".exe", "")
-
 
 éliminer.duplications   <- F
 enlever.quotités.nulles <- F
@@ -40,7 +38,7 @@ générer.table.effectifs      <- F
 générer.table.élus           <- T
 tester.matricules            <- TRUE
 analyse.statique.totale      <- F
-corriger.environnement.système <- T
+corriger.environnement.système <- (setOSWindows == TRUE)
 
 seuil.troncature         <- 1 # jours
 taux.tolérance.homonymie <- 2  # en %
@@ -66,7 +64,7 @@ nom.fichier.personnels      <- paste0(fichier.personnels, ".csv")
 nom.fichier.paie            <- paste0(racine, "Lignes de paye")
 nom.bulletin.paie           <- paste0(racine, "Bulletins de paye")
 nom.table                   <- paste0(racine, "Table.csv")
-nom.bulletins                   <- paste0(racine, "Bulletins.csv")
+nom.bulletins               <- paste0(racine, "Bulletins.csv")
 
 # DOSSIERS
 # Attention, si l'on lance la génération de document pour la première fois sans répertoire Bases existant, on aura un write error.
@@ -115,24 +113,28 @@ colonnes.requises           <- c(union(clé.fusion, étiquette.matricule),
                                  "Nir",
                                  "Temps.de.travail")
 
-colonnes.input <- c("Année", "Mois", "Nom", "Prénom", "Matricule",
+colonnes.input <- c("Année", "Mois", "Budget", "Employeur", "Siret",
+                    "Etablissement", "Nom", "Prénom", "Matricule",
                     "Service", "NbEnfants", "Statut", "Temps.de.travail", "Heures.Sup.", "Heures",
                     "Indice", "Brut", "Net", "Net.à.Payer", "NBI",
                     "Libellé", "Code", "Base", "Taux", "Nb.Unité",
                     "Montant", "Type", "Emploi", "Grade", "Nir")
 
-colonnes.classes.input    <- c("integer", "integer", "character", "character", "character",
+colonnes.classes.input    <- c("integer", "integer",  "character", "character", "character",
+                               "character", "character", "character", "character",
                                "character", "character", "character", "numeric", "numeric", "numeric",
                                "character",  "numeric", "numeric", "numeric", "numeric",
                                "character",  "character", "numeric", "numeric", "numeric",
                                "numeric", "character", "character", "character", "character")
 
-colonnes.bulletins.input <- c("Année", "Mois", "Nom", "Prénom", "Matricule",
+colonnes.bulletins.input <- c("Année", "Mois", "Budget", "Employeur", "Siret", 
+                              "Etablissement", "Nom", "Prénom", "Matricule",
                               "Service", "NbEnfants", "Statut", "Temps.de.travail", "Heures.Sup.", "Heures",
                               "Indice", "Brut", "Net", "Net.à.Payer", "NBI",
                               "Emploi", "Grade", "Nir")
 
 colonnes.bulletins.classes.input <- c("integer", "integer", "character", "character", "character",
+                                      "character", "character", "character", "character",
                                       "character", "character", "character", "numeric", "numeric", "numeric",
                                       "character",  "numeric", "numeric", "numeric", "numeric",
                                       "character", "character", "character")
@@ -150,7 +152,7 @@ date.format                      <- "%d/%m/%Y"
 # A priori les deux modes de lectures de tables (rapide et standard) lisent aussi bien le Windows ANSI/ISO-8859-1 que
 # l'UTF-8 à condition que le Windows ANSI soit encodé par Excel ou l'éditeur de RStudio.
 
-encodage.entrée <- "ISO-8859-1"
+encodage.entrée <- "UTF-8"
   # "WINDOWS-1252"
   # "UTF-8"
   # "ISO-8859-1"

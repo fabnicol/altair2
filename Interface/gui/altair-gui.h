@@ -136,6 +136,7 @@ class MainWindow : public QMainWindow
    QAction *RAction;
    QAction *configureAction;
    QAction *lhxAction;
+   QAction *openBaseDirAction;
    QAction *decodeAction;
    QAction *aboutAction;
    QAction *licenceAction;

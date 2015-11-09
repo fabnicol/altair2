@@ -78,7 +78,11 @@ MainWindow::MainWindow(char* projectName)
   stackedBottomWidgetLayout->addWidget(clearBottomTabWidgetButton);
   stackedBottomWidgetLayout->addWidget(bottomTabWidget);
   stackedBottomWidget->setLayout(stackedBottomWidgetLayout);
+#ifndef MINIMAL
+  bottomDockWidget->setMinimumHeight(400);
+ #endif
   bottomDockWidget->setWidget(stackedBottomWidget);
+
   addDockWidget(Qt::BottomDockWidgetArea, bottomDockWidget);
 
   setWindowIcon(QIcon(":/images/altair.png"));
@@ -165,7 +169,7 @@ void MainWindow::createMenus()
  editMenu->addActions({displayAction, displayOutputAction, displayFileTreeViewAction,
                        displayManagerAction, clearOutputTextAction, editProjectAction});
 
- processMenu->addActions({RAction, lhxAction});
+ processMenu->addActions({RAction, lhxAction, openBaseDirAction});
 
  optionsMenu->addActions({optionsAction, configureAction});
 
@@ -226,6 +230,10 @@ void MainWindow::createActions()
   lhxAction->setShortcut(QKeySequence("Ctrl+B"));
   lhxAction->setIcon(QIcon(":/images/csv.png"));
   connect(lhxAction, SIGNAL(triggered()), altair, SLOT(run()));
+
+  openBaseDirAction = new QAction(tr("Ouvrir le répertoire des bases"), this);
+  openBaseDirAction ->setIcon(QIcon(":/images/directory.svg"));
+  connect(openBaseDirAction, &QAction::triggered, [&] { common::openDir(dialog->standardTab->donneesCSV->getText());  });
 
   optionsAction = new QAction(tr("&Options"), this);
   optionsAction->setShortcut(QKeySequence("Ctrl+P"));
@@ -305,7 +313,7 @@ void MainWindow::createActions()
     }
 
   actionList << newAction << openAction << saveAction << saveAsAction << exportAction << archiveAction << restoreAction << closeAction << exitAction << separator[0] <<
-                RAction << lhxAction << displayOutputAction << displayFileTreeViewAction <<
+                RAction << lhxAction << openBaseDirAction << displayOutputAction << displayFileTreeViewAction <<
                 displayManagerAction <<  separator[4] <<
                 clearOutputTextAction <<  editProjectAction << separator[3] << configureAction <<
                 optionsAction << helpAction << aboutAction ;
@@ -355,7 +363,7 @@ void MainWindow::createToolBars()
  editToolBar->addActions({displayAction, displayOutputAction, displayFileTreeViewAction,
                           displayManagerAction, editProjectAction});
 
- processToolBar->addActions({RAction, lhxAction});
+ processToolBar->addActions({RAction, lhxAction, openBaseDirAction});
 
  optionsToolBar->addActions({optionsAction, configureAction});
 
@@ -857,7 +865,17 @@ void MainWindow::adjustDisplay(bool projectFileStatus)
 
 void MainWindow::showMainWidget(bool full)
 {
+  static QSize bottomsize;
+  static QSize managersize;
+  static QSize filetreesize;
   if (full)
+  {
+      bottomsize =  bottomDockWidget->size();
+      filetreesize = fileTreeViewDockWidget->size();
+      managersize = managerDockWidget->size();
+  }
+
+   if (full)
   {
       setWindowState(Qt::WindowFullScreen);
       displayAction->setIcon(QIcon(":/images/show-normal.png"));

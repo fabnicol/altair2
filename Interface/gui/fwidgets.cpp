@@ -104,8 +104,6 @@ inline void FAbstractWidget::FCore(const QList<QWidget*>& w, FString defaultComm
     w.at(0)->setToolTip(description.at(1));
 
     w.at(0)->setEnabled((commandLineType & flags::status::enabledMask) ==  flags::status::enabled);
-    if ((commandLineType & flags::status::widgetMask) ==  flags::status::checked)
-       static_cast<FCheckBox*>(w.at(0))->setChecked((commandLineType & flags::status::widgetMask) ==  flags::status::checked);
 
     if ((status & flags::status::widgetMask) == flags::status::multimodal) { this->commandLineList[0].setMultimodal(); }
     this->status=static_cast<flags::status>(commandLineType & static_cast<int>(flags::status::statusMask));
@@ -131,6 +129,9 @@ inline void FAbstractWidget::FCore(const QList<QWidget*>& w, FString defaultComm
     Abstract::abstractWidgetList.append(this);
 
     FAbstractConnection::meta_connect(this, this->enabledObjects, this->disabledObjects);
+
+    if ((commandLineType & flags::status::widgetMask) ==  flags::status::checked)
+       static_cast<FCheckBox*>(w.at(0))->toggle();
 
 }
 
