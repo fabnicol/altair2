@@ -11,6 +11,7 @@ if (win32|linux) {
 windows {
   GIT_VERSION = $$system(git --version | find \"git version\")
   CXX_VERSION = $$system($$QMAKE_CXX --version | findstr \"5.[0-9]\")
+  DEFINES += LOCAL_BINPATH
 }
 
 linux {
@@ -63,7 +64,7 @@ DEFINES += COMMANDLINE_CONSOLE_OUTPUT          \        # Générer la ligne de co
 
 DEFINES += QT_NO_OPENGL \
            STATIC\                                      # à utiliser pour lancer le navigateur internet par défaut plustôt qu'un navigateur interne
-           LOCAL_BINPATH \                              # chemins d'exécution définis par rapport à l'emplacement de l'exécutable
+         #  LOCAL_BINPATH \                             # chemins d'exécution définis par rapport à l'emplacement de l'exécutable
            REGEX_PARSING_FOR_HEADERS \                  # utiliser les expressions régulières de c++ (g++ 5.1 au moins)
            USE_RIGHT_CLICK                              # utiliser un clic droit sur les fichiers pour ajouter, supprimer etc.
 
