@@ -8,7 +8,7 @@
 #'css: style.css
 #'---
 #'   
-#'![Image_Altair](Altaïr.png)
+#'![Image_Altair](Altair.png)
 #'   
 #'   
 #'# Démonstrateur Altaïr version 15.02   
@@ -28,17 +28,24 @@ invisible(enableJIT(1))
 options(warn = -1, verbose = FALSE, OutDec = ",", datatable.verbose = FALSE)
 
 encodage.code.source <- "UTF-8" #"ISO-8859-15"
+setOSWindows            <- Sys.info()["sysname"] != "Linux"
+currentDir              <- getwd()
+générer.rapport         <- (basename(currentDir) != "altair") 
 
 # dans cet ordre
 
-library_path <- ifelse(grepl("linux", Sys.getenv("R_PLATFORM"), fixed = TRUE), "lib_linux", "lib")
+library_path <- ifelse(setOSWindows, "lib", "lib_linux")
 
-.libPaths(file.path(getwd(), library_path))
+if (générer.rapport) {
+  .libPaths(file.path(getwd(), "..", "..", library_path))
+} else {
+  .libPaths(file.path(getwd(), library_path))
+}
 
 try(setwd("Tests/Exemple"), silent = TRUE)
 
-
 source("prologue.R", encoding = encodage.code.source)
+
 if (corriger.environnement.système)
   Sys.setenv(PATH=paste0(Sys.getenv("PATH"), ";", Sys.getenv("R_HOME"), "/../texlive/bin/win32"))
 
@@ -1901,4 +1908,4 @@ if (sauvegarder.bases.origine)
              "Bulletins.paie")
 
 
-
+setwd(currentDir)

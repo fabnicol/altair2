@@ -1,8 +1,5 @@
-﻿1. convertir les sorties windows (uniquement) des bases de données dans R-Altair par iconv -f UTF-8 -t WINDOWS-1252 > base.csv
+﻿1. Linux :
+    problème des noms accentués des fichiers de Bases qui ne sont pas reconnus
 
-2. Linux : 
-    problème de l'image Altaïr.png et des noms accentués des fichiers de Bases qui ne sont pas reconnus
-  
-3. Bug de dépendance de "Economiser la RAM" et de "Générer la table". Si on ne veut plus
-  générer la table il faut décocher l'autre case manuelleemnt alors qu'il faudrait automatiser.
+3. Encodage et décodage défectueux des projets .alt pour les multi-budgets
 
