@@ -20,10 +20,10 @@ RemoteHost: api.github.com
 RemoteRepo: data.table
 RemoteUsername: Rdatatable
 RemoteRef: master
-RemoteSha: aa40b6202643ad00c11b38bb39c0b509277fb301
+RemoteSha: caab62a5ae6e55a1655e784bf025a21d1397ab43
 GithubRepo: data.table
 GithubUsername: Rdatatable
 GithubRef: master
-GithubSHA1: aa40b6202643ad00c11b38bb39c0b509277fb301
-Built: R 3.2.2; x86_64-w64-mingw32; 2015-10-24 12:50:59 UTC; windows
+GithubSHA1: caab62a5ae6e55a1655e784bf025a21d1397ab43
+Built: R 3.2.2; x86_64-w64-mingw32; 2015-11-09 18:50:53 UTC; windows
 Archs: x64

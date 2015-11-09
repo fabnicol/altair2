@@ -5,22 +5,14 @@
 if (!exists("test.data.table",.GlobalEnv,inherits=FALSE)) {
     require(data.table)   # in dev the package should not be loaded
     options(warn=0)  # use require() so it warns but doesn't halt if not available
-    require(plyr)
-    require(ggplot2)
-    require(hexbin)
-    require(nlme)
-    require(xts)
-    require(bit64)
-    require(gdata)
-    require(GenomicRanges)
-    require(caret)
-    require(knitr)
-    require(plm)
+    inst_pkgs = rownames(installed.packages())
+    sugg_pkgs = c("plyr","ggplot2","hexbin","nlme","xts","bit64","gdata","GenomicRanges","caret","knitr","plm")
+    lapply(sugg_pkgs, function(pkg) if(pkg %in% inst_pkgs) require(pkg, character.only=TRUE))
     # reshape2 ahead of reshape ...
     try(detach(package:reshape2),silent=TRUE)
     try(detach(package:reshape),silent=TRUE)
-    library(reshape2, pos="package:base", logical.return=TRUE)
-    library(reshape, pos="package:base", logical.return=TRUE)
+    if("reshape2" %in% inst_pkgs) library(reshape2, pos="package:base", logical.return=TRUE)
+    if("reshape" %in% inst_pkgs) library(reshape, pos="package:base", logical.return=TRUE)
     .devtesting=FALSE
 } else {
     # Matt has suppressMessages(require(bit64)) in .Rprofile
@@ -7068,8 +7060,164 @@ Y = data.table(A=2:4, B=5:7)
 test(1575.1, X[Y, on=c(A="a")], error="not found in x")
 test(1575.2, X[Y, on=c(a="a")], error="not found in i")
 
+# work around for issue introduced in v1.9.4, #1396
+X = data.table(x=5:1, y=6:10)
+setattr(X, 'index', integer(0))
+setattr(attr(X, 'index'), 'x', 5:1) # auto indexed attribute as created from v1.9.4
+ans = capture.output(X[, z := 1:5, verbose=TRUE])
+test(1576, ans[4], "Dropping index 'x' as it doesn't have '__' at the beginning of index name. It is very likely created using v1.9.4 of data.table.")
+
+# fix for #1408
+X = fread("a|b|c|d
+          this|is|row|1
+          this|is|row|2
+          this|NA|NA|3
+          this|is|row|4", stringsAsFactors = TRUE)
+test(1577.1, is.na(X[3, b]), TRUE)
+test(1577.2, levels(X$b), "is")
+X = fread("a|b|c|d
+          this|NA|row|1
+          this|NA|row|2
+          this|NA|NA|3
+          this|NA|row|4", colClasses="character", stringsAsFactors = TRUE)
+test(1577.3, levels(X$b), character(0))
+
+# FR #530, skip blank lines
+input = "a,b\n\n1,3\n2,4"
+test(1578.1, fread(input), data.table(V1=1:2, V2=3:4))
+test(1578.2, fread(input, blank.lines.skip=TRUE), data.table( a=1:2,  b=3:4))
+input = "a,b\n\n\n1,3\n2,4"
+test(1578.3, fread(input, blank.lines.skip=TRUE), data.table( a=1:2,  b=3:4))
+input = "a,b\n\n\n1,3\n\n2,4\n\n"
+test(1578.4, fread(input, blank.lines.skip=TRUE), data.table( a=1:2,  b=3:4))
+
+test(1578.5, fread("530_fread.txt", skip=47L), data.table(V1=1:2, V2=3:4))
+test(1578.6, fread("530_fread.txt", skip=47L, blank.lines.skip=TRUE), data.table(a=1:2, b=3:4))
+
+# gforce optimisations
+dt = data.table(x  = sample(letters, 300, TRUE), 
+                i1 = sample(-10:10, 300, TRUE),
+                i2 = sample(c(-10:10, NA), 300, TRUE),
+                d1 = as.numeric(sample(-10:10, 300, TRUE)),
+                d2 = as.numeric(sample(c(NA, NaN, -10:10), 300, TRUE)))
+if ('package:bit64' %in% search()) {
+    dt[, `:=`(d3 = as.integer64(sample(-10:10, 300, TRUE)))]
+    dt[, `:=`(d4 = as.integer64(sample(c(-10:10,NA), 300, TRUE)))]
+}
+
+# make sure gforce is on
+optim = getOption("datatable.optimize")
+options(datatable.optimize=2L)
+
+# testing gforce::gmedian
+test(1579.1, dt[, lapply(.SD, median), by=x], 
+             dt[, lapply(.SD, function(x) median(as.numeric(x))), by=x])
+test(1579.2, dt[, lapply(.SD, median, na.rm=TRUE), by=x], 
+             dt[, lapply(.SD, function(x) median(as.numeric(x), na.rm=TRUE)), by=x])
+test(1579.3, dt[, lapply(.SD, median), keyby=x], 
+             dt[, lapply(.SD, function(x) median(as.numeric(x))), keyby=x])
+test(1579.4, dt[, lapply(.SD, median, na.rm=TRUE), keyby=x], 
+             dt[, lapply(.SD, function(x) median(as.numeric(x), na.rm=TRUE)), keyby=x])
+ans = capture.output(dt[, lapply(.SD, median), by=x, verbose=TRUE])
+test(1579.5, any(grepl("GForce optimized", ans)), TRUE)
+
+# testing gforce::ghead and gforce::gtail 
+# head(.SD, 1) and tail(.SD, 1) optimisation
+test(1579.6,  dt[, head(.SD,1),  by=x],    dt[, utils::head(.SD,1),  by=x])
+test(1579.7,  dt[, head(.SD,1),  by=x],    dt[, utils::head(.SD,1),  by=x])
+test(1579.8,  dt[, head(.SD,1),  keyby=x], dt[, utils::head(.SD,1),  keyby=x])
+test(1579.9,  dt[, head(.SD,1),  keyby=x], dt[, utils::head(.SD,1),  keyby=x])
+test(1579.10, dt[, head(.SD,1L), by=x],    dt[, utils::head(.SD,1L), by=x])
+test(1579.11, dt[, head(.SD,1L), by=x],    dt[, utils::head(.SD,1L), by=x])
+test(1579.12, dt[, head(.SD,1L), keyby=x], dt[, utils::head(.SD,1L), keyby=x])
+test(1579.13, dt[, head(.SD,1L), keyby=x], dt[, utils::head(.SD,1L), keyby=x])
+
+test(1579.6,  dt[, tail(.SD,1),  by=x],    dt[, utils::tail(.SD,1),  by=x])
+test(1579.7,  dt[, tail(.SD,1),  by=x],    dt[, utils::tail(.SD,1),  by=x])
+test(1579.8,  dt[, tail(.SD,1),  keyby=x], dt[, utils::tail(.SD,1),  keyby=x])
+test(1579.9,  dt[, tail(.SD,1),  keyby=x], dt[, utils::tail(.SD,1),  keyby=x])
+test(1579.10, dt[, tail(.SD,1L), by=x],    dt[, utils::tail(.SD,1L), by=x])
+test(1579.11, dt[, tail(.SD,1L), by=x],    dt[, utils::tail(.SD,1L), by=x])
+test(1579.12, dt[, tail(.SD,1L), keyby=x], dt[, utils::tail(.SD,1L), keyby=x])
+test(1579.13, dt[, tail(.SD,1L), keyby=x], dt[, utils::tail(.SD,1L), keyby=x])
+
+mysub <- function(x, n) x[n]
+test(1579.14, dt[, .SD[2],  by=x],    dt[, mysub(.SD,2),  by=x])
+test(1579.15, dt[, .SD[2],  by=x],    dt[, mysub(.SD,2),  by=x])
+test(1579.16, dt[, .SD[2],  keyby=x], dt[, mysub(.SD,2),  keyby=x])
+test(1579.17, dt[, .SD[2],  keyby=x], dt[, mysub(.SD,2),  keyby=x])
+test(1579.18, dt[, .SD[2L], by=x],    dt[, mysub(.SD,2L), by=x])
+test(1579.19, dt[, .SD[2L], by=x],    dt[, mysub(.SD,2L), by=x])
+test(1579.20, dt[, .SD[2L], keyby=x], dt[, mysub(.SD,2L), keyby=x])
+test(1579.21, dt[, .SD[2L], keyby=x], dt[, mysub(.SD,2L), keyby=x])
+
+ans = capture.output(dt[, .SD[2], by=x, verbose=TRUE])
+test(1579.22, any(grepl("GForce optimized", ans)), TRUE)
+
+options(datatable.optimize=optim)
+
+# test for #1419, rleid doesn't remove names attribute
+x = c("a"=TRUE, "b"=FALSE)
+nx = copy(names(x))
+r = rleid(x)
+test(1580, nx, names(x))
+
+# FR #971, partly addressed (only subsets in 'i')
+# make sure GForce kicks in and the results are identical
+dt = dt[, .(x, d1, d2)]
+optim = getOption("datatable.optimize")
+
+options(datatable.optimize=1L)
+opt1 <- capture.output(ans1 <- dt[x %in% letters[15:20], 
+                               c(.N, lapply(.SD, sum, na.rm=TRUE), 
+                                     lapply(.SD, min, na.rm=TRUE), 
+                                     lapply(.SD, max, na.rm=TRUE), 
+                                     lapply(.SD, mean, na.rm=TRUE), 
+                                     lapply(.SD, median, na.rm=TRUE)
+                                ), by=x, verbose=TRUE])
+options(datatable.optimize=2L)
+opt2 <- capture.output(ans2 <- dt[x %in% letters[15:20], 
+                               c(.N, lapply(.SD, sum, na.rm=TRUE), 
+                                     lapply(.SD, min, na.rm=TRUE), 
+                                     lapply(.SD, max, na.rm=TRUE), 
+                                     lapply(.SD, mean, na.rm=TRUE), 
+                                     lapply(.SD, median, na.rm=TRUE)
+                                ), by=x, verbose=TRUE])
+test(1581.1, ans1, ans2)
+test(1581.2, any(grepl("^Starting dogroups", opt1)), TRUE)
+test(1581.3, any(grepl("^GForce optimized j", opt2)), TRUE)
+
+# subsets in 'i' for head and tail
+options(datatable.optimize=1L)
+opt1 <- capture.output(ans1 <- dt[x %in% letters[15:20], head(.SD,1), by=x, verbose=TRUE])
+options(datatable.optimize=2L)
+opt2 <- capture.output(ans2 <- dt[x %in% letters[15:20], head(.SD,1), by=x, verbose=TRUE])
+test(1581.4, ans1, ans2)
+test(1581.5, any(grepl("^Starting dogroups", opt1)), TRUE)
+test(1581.6, any(grepl("^GForce optimized j", opt2)), TRUE)
+
+options(datatable.optimize=1L)
+opt1 <- capture.output(ans1 <- dt[x %in% letters[15:20], tail(.SD,1), by=x, verbose=TRUE])
+options(datatable.optimize=2L)
+opt2 <- capture.output(ans2 <- dt[x %in% letters[15:20], tail(.SD,1), by=x, verbose=TRUE])
+test(1581.7, ans1, ans2)
+test(1581.8, any(grepl("^Starting dogroups", opt1)), TRUE)
+test(1581.9, any(grepl("^GForce optimized j", opt2)), TRUE)
+
+options(datatable.optimize=1L)
+opt1 <- capture.output(ans1 <- dt[x %in% letters[15:20], .SD[2], by=x, verbose=TRUE])
+options(datatable.optimize=2L)
+opt2 <- capture.output(ans2 <- dt[x %in% letters[15:20], .SD[2], by=x, verbose=TRUE])
+test(1581.10, ans1, ans2)
+test(1581.11, any(grepl("^Starting dogroups", opt1)), TRUE)
+test(1581.12, any(grepl("^GForce optimized j", opt2)), TRUE)
+
+options(datatable.optimize=optim)
+
+
 ##########################
 
+# TODO: Tests involving GForce functions needs to be run with optimisation level 1 and 2, so that both functions are tested all the time.
 
 # TO DO: Add test for fixed bug #5519 - dcast returned error when a package imported data.table, but dint happen when "depends" on data.table. This is fixed (commit 1263 v1.9.3), but not sure how to add test.
 

@@ -85,6 +85,51 @@ inline void generate_rank_signal(int progression)
         rankFile.close();
 }
 
+#include <libxml/parser.h>
+
+#if 0
+static inline xmlChar* GCC_INLINE  UTF8toISO8859_1(const unsigned char* in)
+{
+
+    const char *encoding = "ISO-8859-1";
+    unsigned char* out;
+    int ret, size, out_size, temp;
+    xmlCharEncodingHandlerPtr handler;
+
+    size = (int) strlen((const char*) in) + 1;
+    out_size = size * 2 - 1;
+    out = (unsigned char*) malloc((size_t)out_size);
+
+    if (out)
+    {
+        handler = xmlFindCharEncodingHandler(encoding);
+
+        if (!handler)
+        {
+            free(out);
+            out = NULL;
+        }
+
+         temp = size-1;
+         ret = handler->input(out, &out_size, in, &temp);
+         if (ret || temp - size + 1)
+         {
+            free(out);
+            out = NULL;
+         } else {
+            out = (unsigned char*) realloc(out,out_size+1);
+            out[out_size]=0; /*null terminating out*/
+
+         }
+     }
+
+    return ((xmlChar*) out);
+}
+#endif
+
+
+
+
 #endif
 
 #endif // FONCTIONS_AUXILIAIRES_HPP_INCLUDED

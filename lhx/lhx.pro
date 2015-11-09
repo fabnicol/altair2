@@ -53,7 +53,8 @@ TEMPLATE = app
 
 
 DEFINES +=  WARNING_LIMIT=5  \  # nombre maximum d'avertissement par fichier
-                     TYPE_LOOP_LIMIT=10   # nombre de "rembobinages des drapeaux de catégories (voir ligne_paye.cpp,
+            TYPE_LOOP_LIMIT=10 \  # nombre de "rembobinages des drapeaux de catégories (voir ligne_paye.cpp,
+            MAX_STRING_LENGTH=200  #taille maximum des strings pour la conversion latin-1
 
 DEFINES += __GNUC_EXTENSION \
            _REENTRANT \

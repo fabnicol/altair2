@@ -133,23 +133,10 @@ read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, étiquet
                       header = TRUE,
                       skip = champ.détection.1,
                       colClasses = classes,
+                      encoding = ifelse(setOSWindows, "Latin-1", "UTF-8"),
                       showProgress = FALSE))
 
-#  code marqué comme obsolète     : avait pour vocation de convertir des séparateurs fr en séparateur en
 
-#     if (inherits(T, "try-error") && grepl("The supplied 'sep' was not found", T, fixed = TRUE)) {
-#       message("Conversion des séparateurs...")
-#       en.séparateurs(chem)
-#       message("Séparateurs convertis.")
-#       T <- read.csv.skip (x, 
-#                     encodage,
-#                     classes,
-#                     étiquettes,
-#                     drop,
-#                     rapide,
-#                     séparateur.liste,
-#                     séparateur.décimal)
-#     }
   }
 
 if (!is.null(étiquettes)) names(T) <- étiquettes
