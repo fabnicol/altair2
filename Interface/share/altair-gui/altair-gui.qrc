@@ -35,12 +35,12 @@
         <file>images/project-open.png</file>
         <file>whatsthis.info</file>
         <file>images/application-xml.png</file>
-        <file>images/64x64/system-file-manager.png</file>
         <file>images/csv.png</file>
         <file>images/export.png</file>
         <file>images/archive.png</file>
         <file>images/restore.png</file>
         <file>images/information.png</file>
         <file>images/parameter.png</file>
+        <file>images/directory.svg</file>
     </qresource>
 </RCC>

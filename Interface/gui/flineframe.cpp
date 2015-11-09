@@ -63,8 +63,8 @@ FLineFrame::FLineFrame(const QStringList& titre,
     QObject::connect(sButton,
             &QToolButton::clicked,
             [&, titre]{
-                   QString path;
-                   QFileInfo info(path);
+                   QString path= lineEdit->text();
+                   const QFileInfo info(path);
                    if (pathCategory == flags::flineframe::isDirectoryPath)
                    {
                        if ((path = common::openDirDialog(check)) == nullptr) return;
