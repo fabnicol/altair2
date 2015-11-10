@@ -14,6 +14,24 @@ extern template void createHash(QHash<QString, QString>&, const QList<QString>*,
 standardPage::standardPage()
 {
 
+    QLabel* maxNLigneLabel;
+    QList<QString> range=QList<QString>(), range2=QList<QString>();
+    range << "Standard" << "Par année" << "Toutes catégories" << "Traitement" << "Indemnité"
+          << "SFT"      << "Rémunérations diverses"           << "Rappel"     << "Acompte"
+          << "Avantage en nature" << "Indemnité de résidence" << "Cotisations"
+          << "Déductions"         << "Retenue";
+
+    range2 << ""   << "AN" << "X" << "T" << "I"
+           << "S"  << "A"  << "R" << "AC"
+           << "AV" << "IR" << "C"
+           << "D"  << "RE";
+
+    maxNLigneLabel = new QLabel("Nombre maximum de lignes  ");
+    maxNLigneLineEdit = new FLineEdit("",
+                                      "maxLigne",
+                                     {"Données csv", "Nombre maximum de lignes"},
+                                      "T");
+
     QGroupBox *baseBox= new QGroupBox(tr("Répertoires"));
     donneesCSV = new FLineFrame({"Données csv", "Répertoire des données"},
                                    path_access("Tests/Exemple/Donnees/R-Altaïr" ),
@@ -21,6 +39,29 @@ standardPage::standardPage()
                                    {0,0},
                                    nullptr,
                                    "D");
+    QLabel* baseTypeLabel = new QLabel("Type de base  ");
+    baseTypeWidget=new FComboBox(range,
+                                 "baseType",
+                                 {"Données csv", "Type de base par catégorie"},
+                                  "T");
+
+    rangCheckBox=new FCheckBox("Numéroter les lignes",
+                               "genererNumLigne",
+                               {"Données csv", "numéroter les lignes"},
+                               "l");
+
+    etabCheckBox=new FCheckBox("Ne pas exporter les informations\nsur l'établissement",
+                                flags::status::enabledChecked | flags::commandLineType::altairCommandLine,
+                                "conserverEtab",
+                                {"Données csv", "conserver les champs Budget, Employeur, Siret, Etablissement"},
+                                "S");
+
+    tableCheckBox=new FCheckBox("Créer la base de données",
+                                flags::status::enabledChecked | flags::commandLineType::altairCommandLine,
+                                "genererTable",
+                                {"Données csv", "créer la base des lignes et bulletins de paye"},
+                                "t",
+                                {etabCheckBox, rangCheckBox, baseTypeLabel, baseTypeWidget, maxNLigneLabel, maxNLigneLineEdit});
 
     applicationNoyau = new FLineFrame(
                 {"Application noyau LHX", "Répertoire de l'application noyau" },
@@ -34,25 +75,11 @@ standardPage::standardPage()
     baseTypeBox=new QGroupBox(tr("Type de base en sortie"));
     processTypeBox=new QGroupBox(tr("Mode d'exécution"));
 
-    QList<QString> range=QList<QString>(), range2=QList<QString>();
-    range << "Standard" << "Par année" << "Toutes catégories" << "Traitement" << "Indemnité"
-          << "SFT"      << "Rémunérations diverses"           << "Rappel"     << "Acompte"
-          << "Avantage en nature" << "Indemnité de résidence" << "Cotisations"
-          << "Déductions"         << "Retenue";
-
-    range2 << ""   << "AN" << "X" << "T" << "I"
-           << "S"  << "A"  << "R" << "AC"
-           << "AV" << "IR" << "C"
-           << "D"  << "RE";
 
     QStringList range3=QStringList();
     for (int i=1; i < 12; i++) range3 << QString::number(i);
     
-    QLabel* baseTypeLabel = new QLabel("Type de base  ");
-    baseTypeWidget=new FComboBox(range,
-                                 "baseType",
-                                 {"Type de base", "Par catégorie"},
-                                  "T");
+
 
     createHash(baseTypeWidget->comboBoxTranslationHash, &range, &range2);
     baseTypeWidget->status=flags::status::defaultStatus;
@@ -63,11 +90,7 @@ standardPage::standardPage()
     baseTypeWidget->setCurrentIndex(0);
     baseTypeWidget->setToolTip(tr("Sélectionner le type de base en sortie"));
 
-    QLabel* maxNLigneLabel = new QLabel("Nombre maximum de lignes  ");
-    maxNLigneLineEdit = new FLineEdit("", 
-                                      "maxLigne",
-                                     {"Type de base", "Nombre maximum de lignes"},
-                                      "T");
+
     maxNLigneLineEdit->setFixedWidth(60);
     
     QLabel* processTypeLabel = new QLabel("Nombre de fils d'exécution  ");
@@ -94,28 +117,14 @@ standardPage::standardPage()
                            {"Nombre maximum de ligne de paye par agent", ""},
                             "N");
     NLineEdit->setFixedWidth(40);
-    
-    QLabel* rangLabel = new QLabel("Numéroter les lignes");
-
-    rangCheckBox=new FCheckBox("",
-                                "genererNumLigne",
-                                {"Générer la table .csv", "numéroter les lignes"},
-                                "l");
-
-    tableCheckBox=new FCheckBox("Générer la table  ",
-                                flags::status::enabledChecked | flags::commandLineType::altairCommandLine,
-                                "genererTable",
-                                {"Générer la table .csv", "type standard"},
-                                "t");
-
 
     QGridLayout *v1Layout = new QGridLayout;
     QGridLayout *v2Layout = new QGridLayout;
 
-    logFrame = new FLineFrame({"Log","Chemin du fichier du log"},
+    logFrame = new FLineFrame({"Générer un log d'exécution", "Chemin du fichier du log"},
                               QDir::toNativeSeparators(common::generateDatadirPath() + "/altair.log"),
                               "log",
-                              {7,1},
+                              {9,1},
                               v2Layout,
                               "L");
 
@@ -127,44 +136,36 @@ standardPage::standardPage()
                                 {"Générer un log d'exécution", "application noyau"},
                                logFrame->getComponentList());
 
-    economeCheckBox=new FCheckBox("Economiser la RAM  ",
-                                  flags::status::enabledChecked | flags::commandLineType::altairCommandLine,
-                                  "ecoRAM",
-                                 {"Mode économe en mémoire", ""},
-                                  "t",
-                                 {NULL},
-                                 { nLineLabel, NLineLabel, nLineEdit, NLineEdit});
-
     consoleCheckBox=new FCheckBox("Activer la console  ",
                                   flags::status::enabledChecked | flags::commandLineType::noCommandLine,
                                   "activerConsole",
-                                  {"Interface", "Utiliser l'onglet console."});
+                                  {"Générer un log d'exécution", "Utiliser l'onglet console"});
 
     economeCheckBox=new FCheckBox("Economiser la RAM  ",
-                                  flags::status::enabledChecked | flags::commandLineType::altairCommandLine,
+                                  flags::status::enabledChecked | flags::commandLineType::noCommandLine,
                                   "ecoRAM",
                                  {"Mode économe en mémoire", ""},
-                                  "t",
                                  {NULL},
                                  { nLineLabel, NLineLabel, nLineEdit, NLineEdit});
 
-    v1Layout->addWidget(baseTypeLabel,     1, 0, Qt::AlignRight);
-    v1Layout->addWidget(baseTypeWidget,    1, 1, Qt::AlignLeft);
-    v1Layout->addWidget(maxNLigneLabel,    2, 0, Qt::AlignRight);
-    v1Layout->addWidget(maxNLigneLineEdit, 2, 1, Qt::AlignLeft);
-    v1Layout->addWidget(rangCheckBox,      5, 1, Qt::AlignRight);
-    v1Layout->addWidget(rangLabel,         5, 0, Qt::AlignRight);
 
-    v2Layout->addWidget(tableCheckBox,     1, 0, Qt::AlignLeft);
-    v2Layout->addWidget(economeCheckBox,   2, 0, Qt::AlignLeft);
-    v2Layout->addWidget(nLineEdit,         3, 1, Qt::AlignLeft);
-    v2Layout->addWidget(nLineLabel,        3, 0, Qt::AlignRight);
-    v2Layout->addWidget(NLineEdit,         4, 1, Qt::AlignLeft);
-    v2Layout->addWidget(NLineLabel,        4, 0, Qt::AlignRight);
-    v2Layout->addWidget(processTypeLabel,  5, 0, Qt::AlignRight);
-    v2Layout->addWidget(processTypeWidget, 5, 1, Qt::AlignLeft);
-    v2Layout->addWidget(consoleCheckBox,   6, 0, Qt::AlignLeft);
-    v2Layout->addWidget(logCheckBox,       7, 0, Qt::AlignLeft);
+    v1Layout->addWidget(tableCheckBox,     1, 0, Qt::AlignLeft);
+    v1Layout->addWidget(etabCheckBox,      2, 0, Qt::AlignLeft);
+    v1Layout->addWidget(baseTypeLabel,     3, 0, Qt::AlignRight);
+    v1Layout->addWidget(baseTypeWidget,    3, 1, Qt::AlignLeft);
+    v1Layout->addWidget(maxNLigneLabel,    4, 0, Qt::AlignRight);
+    v1Layout->addWidget(maxNLigneLineEdit, 4, 1, Qt::AlignLeft);
+    v1Layout->addWidget(rangCheckBox,      5, 0, Qt::AlignLeft);
+
+    v2Layout->addWidget(economeCheckBox,   3, 0, Qt::AlignLeft);
+    v2Layout->addWidget(nLineEdit,         4, 1, Qt::AlignLeft);
+    v2Layout->addWidget(nLineLabel,        4, 0, Qt::AlignRight);
+    v2Layout->addWidget(NLineEdit,         5, 1, Qt::AlignLeft);
+    v2Layout->addWidget(NLineLabel,        5, 0, Qt::AlignRight);
+    v2Layout->addWidget(processTypeLabel,  6, 0, Qt::AlignRight);
+    v2Layout->addWidget(processTypeWidget, 6, 1, Qt::AlignLeft);
+    v2Layout->addWidget(consoleCheckBox,   7, 0, Qt::AlignLeft);
+    v2Layout->addWidget(logCheckBox,       8, 0, Qt::AlignLeft);
 
     baseTypeBox->setLayout(v1Layout);
     processTypeBox->setLayout(v2Layout);

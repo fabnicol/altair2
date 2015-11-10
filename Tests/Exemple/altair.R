@@ -28,13 +28,13 @@ invisible(enableJIT(1))
 options(warn = -1, verbose = FALSE, OutDec = ",", datatable.verbose = FALSE)
 
 encodage.code.source <- "UTF-8" #"ISO-8859-15"
-setOSWindows            <- Sys.info()["sysname"] != "Linux"
+
 currentDir              <- getwd()
 générer.rapport         <- (basename(currentDir) != "altair") 
 
 # dans cet ordre
 
-library_path <- ifelse(setOSWindows, "lib", "lib_linux")
+library_path <- if (setOSWindows) "lib" else "lib_linux"
 
 if (générer.rapport) {
   .libPaths(file.path(getwd(), "..", "..", library_path))

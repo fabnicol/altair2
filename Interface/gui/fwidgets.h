@@ -25,7 +25,7 @@ public:
             break;
 
         case actionType::OpenFolder :
-            setIcon(QIcon(":images/64x64/system-file-manager.png"));
+            setIcon(QIcon(":images/directory.png"));
             break;
 
         case actionType::BrowseFile :

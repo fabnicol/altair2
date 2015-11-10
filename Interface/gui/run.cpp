@@ -76,12 +76,15 @@ void Altair::run()
     QString command;
 
     args0 <<  "-m" << "-d" << "," << "-s" << ";" << "-rank" << sharedir + "/rank";
-    args1 << createCommandLineString();
+    if (v(conserverEtab).isTrue())
+           args0 << "-S";
 
+    args1 << createCommandLineString();
 
     outputTextEdit->append(PROCESSING_HTML_TAG + tr("Importation des bases de paye (")+QString::number(Altair::totalSize[0]/(1024*1024)) +tr(" Mo)..."));
 
     command = QString("-m -d \",\" -s \";\" -rank ") + sharedir + "/rank" ;
+
     QStringListIterator i(args1);
     while (i.hasNext())
     {
@@ -181,20 +184,19 @@ void Altair::runRAltair()
 {
 
     outputTextEdit->append(tr(STATE_HTML_TAG "Création du rapport d'analyse des données..."));
-    QDir dir=QDir::current();
-    dir.setCurrent(RAltairDirStr);
-    process->setWorkingDirectory(RAltairDirStr);
+
+    process->setWorkingDirectory(path_access("Tests/Exemple"));
+
     process->setProcessChannelMode(QProcess::MergedChannels);
 #ifdef MINIMAL
     outputType="R";
-    #ifdef DEBUG
-      outputTextEdit->append(tr(STATE_HTML_TAG "Ligne de commande : %1").arg(RAltairCommandStr + " " + RAltairDirStr + QDir::separator() + "rapport_msword.R"));
-    #endif
     emit(setProgressBar(0, 100));
-    process->start(RAltairCommandStr + " " + RAltairDirStr + QDir::separator() + "rapport_msword.R");
+
+    process->start(RAltairCommandStr + " " + "C:/Users/Public/Dev/altair/Tests/Exemple/rapport_msword.R");
     if (process->waitForStarted())
     {
-         outputTextEdit->append(tr(STATE_HTML_TAG \
+        outputTextEdit->append(RAltairCommandStr + " " + path_access("Tests/Exemple/rapport_msword.R"));
+        outputTextEdit->append(tr(STATE_HTML_TAG \
                     "Lancement du traitement des données ...Veuillez patienter.<br>\
                        Vous pouvez suivre l'exécution du traitement dans la console<br>(Configurer > Configurer l'interface > Afficher les messages)."));
     }
@@ -216,7 +218,7 @@ void Altair::processFinished(exitCode code)
     switch(code)
     {
     case exitCode::exitFailure :
-        outputTextEdit->append(ERROR_HTML_TAG + QString((outputType == "L") ? " Décodage des bases " : " Analyse des données ") + tr(": plantage de l'application' ."));
+        outputTextEdit->append(ERROR_HTML_TAG + QString((outputType == "L") ? " Décodage des bases " : " Analyse des données ") + tr(": plantage de l'application."));
         return;
 
     case exitCode::noAudioFiles :
