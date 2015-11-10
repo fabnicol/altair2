@@ -7,7 +7,7 @@
 
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
 
-
+setOSWindows            <- Sys.info()["sysname"] != "Linux"
 
 racine                      <- "R-Altaïr/"
 # "Ville Annecy Paye BP-"
@@ -22,7 +22,7 @@ extraire.années      <- F
   début.période.sous.revue    <- 2013
   fin.période.sous.revue      <- 2014
 
-exec.root               <- ifelse(setOSWindows, ".exe", "")
+exec.root               <- if (setOSWindows) ".exe" else ""
 
 éliminer.duplications   <- F
 enlever.quotités.nulles <- F
@@ -39,6 +39,8 @@ générer.table.élus           <- T
 tester.matricules            <- TRUE
 analyse.statique.totale      <- F
 corriger.environnement.système <- (setOSWindows == TRUE)
+intégrer.localisation <- FALSE   # Veut on gardet Budget Employeur Siret Etablissement ?
+
 
 seuil.troncature         <- 1 # jours
 taux.tolérance.homonymie <- 2  # en %
@@ -113,28 +115,35 @@ colonnes.requises           <- c(union(clé.fusion, étiquette.matricule),
                                  "Nir",
                                  "Temps.de.travail")
 
-colonnes.input <- c("Année", "Mois", "Budget", "Employeur", "Siret",
-                    "Etablissement", "Nom", "Prénom", "Matricule",
+localisation <- if (intégrer.localisation) c("Budget", "Employeur", "Siret", "Etablissement") else NULL
+localisation.classes <- if (intégrer.localisation) c("character", "character", "character", "character") else NULL
+
+colonnes.input <- c("Année", "Mois", 
+                    localisation,
+                    "Nom", "Prénom", "Matricule",
                     "Service", "NbEnfants", "Statut", "Temps.de.travail", "Heures.Sup.", "Heures",
                     "Indice", "Brut", "Net", "Net.à.Payer", "NBI",
                     "Libellé", "Code", "Base", "Taux", "Nb.Unité",
                     "Montant", "Type", "Emploi", "Grade", "Nir")
 
-colonnes.classes.input    <- c("integer", "integer",  "character", "character", "character",
-                               "character", "character", "character", "character",
+colonnes.classes.input    <- c("integer", "integer",  
+                               localisation.classes,
+                               "character", "character", "character",
                                "character", "character", "character", "numeric", "numeric", "numeric",
                                "character",  "numeric", "numeric", "numeric", "numeric",
                                "character",  "character", "numeric", "numeric", "numeric",
                                "numeric", "character", "character", "character", "character")
 
-colonnes.bulletins.input <- c("Année", "Mois", "Budget", "Employeur", "Siret", 
-                              "Etablissement", "Nom", "Prénom", "Matricule",
+colonnes.bulletins.input <- c("Année", "Mois", 
+                              localisation,
+                              "Nom", "Prénom", "Matricule",
                               "Service", "NbEnfants", "Statut", "Temps.de.travail", "Heures.Sup.", "Heures",
                               "Indice", "Brut", "Net", "Net.à.Payer", "NBI",
                               "Emploi", "Grade", "Nir")
 
-colonnes.bulletins.classes.input <- c("integer", "integer", "character", "character", "character",
-                                      "character", "character", "character", "character",
+colonnes.bulletins.classes.input <- c("integer", "integer",
+                                      localisation.classes,
+                                      "character", "character", "character",
                                       "character", "character", "character", "numeric", "numeric", "numeric",
                                       "character",  "numeric", "numeric", "numeric", "numeric",
                                       "character", "character", "character")

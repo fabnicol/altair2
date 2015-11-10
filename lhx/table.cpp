@@ -418,7 +418,8 @@ void boucle_ecriture(std::vector<info_t>& Info)
         
 message :
         std::cerr << STATE_HTML_TAG "Table de " << compteur << " lignes."  ENDL;
-#ifdef __WIN32__
+
+#if defined(__WIN32__) && defined(USE_ICONV)
         convertir(Info[0].chemin_base);
 #endif
     }
@@ -429,7 +430,7 @@ message :
 
         std::cerr << STATE_HTML_TAG "Base des bulletins de paye de " << compteur_lignes_bulletins << " lignes."  ENDL;
 
-#ifdef __WIN32__
+#if defined(__WIN32__) && defined(USE_ICONV)
          convertir(Info[0].chemin_bulletins);
 #endif
     }

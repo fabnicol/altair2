@@ -27,7 +27,6 @@ static inline int GCC_INLINE Bulletin(const char*  tag, xmlNodePtr& cur, int l, 
 
 
         if ((info.Table[info.NCumAgentXml][l]
-            // = UTF8toISO8859_1(xmlGetProp(nextcur, (const xmlChar *) "V")))
                = xmlGetProp(nextcur, (const xmlChar *) "V"))
                   == nullptr)
 
@@ -43,10 +42,36 @@ static inline int GCC_INLINE Bulletin(const char*  tag, xmlNodePtr& cur, int l, 
 
     /* sanitisation */
 
-        const int size = xmlStrlen(info.Table[info.NCumAgentXml][l]);
+        int size = xmlStrlen(info.Table[info.NCumAgentXml][l]);
         for (int i = 0; i < size; ++i)
+        {
+
             if (info.Table[info.NCumAgentXml][l][i] == info.separateur)
+            {
                 info.Table[info.NCumAgentXml][l][i] = '_';
+            }
+
+    /* Gros hack de pseudo-conversion UTF-8 vers Latin-1, qui permet d'économiser les 40 % de surcoût d'exécution
+     * lié à l'utilisation d'iconv pour retraiter les fichiers de sortie (fonction convertir(const char*))
+     * Ce hack est presque sans coût. Il se base sur les hypothèses suivantes :
+     *   a) pas de caractères spéciaux multioctets
+     *   b) seuls sont convertis : à, â, ç, è, é, ê, ë, î, ï, ô, û ... et les majuscules correspondantes càd
+     * dont le code UTF-8 commence par 0xC3. Il suffit d'ajouter 0x40 sur les quatre bits hauts de l'octet. */
+
+#if defined(__WIN32__) && !defined(USE_ICONV)
+
+            if (i > 0 && info.Table[info.NCumAgentXml][l][i] == 0xC3)
+            {
+
+                info.Table[info.NCumAgentXml][l][i] = ((info.Table[info.NCumAgentXml][l][i + 1] & 0xF0) + 0x40) | (info.Table[info.NCumAgentXml][l][i + 1] & 0x0F);
+                 for (int j = i + 1; info.Table[info.NCumAgentXml][l][j] != 0; ++j)
+                 {
+                     info.Table[info.NCumAgentXml][l][j] = info.Table[info.NCumAgentXml][l][j + 1];
+                 }
+                 --size;
+            }
+#endif
+         }
 
        return NODE_FOUND;
 

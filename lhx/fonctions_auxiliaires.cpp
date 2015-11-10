@@ -10,7 +10,12 @@
 #include <iostream>
 #include "fonctions_auxiliaires.hpp"
 #include "tags.h"
+
+#ifdef __WIN32__
+#include "entete-latin1.hpp"
+#else
 #include "entete.hpp"
+#endif
 
 #ifdef MMAP_PARSING
 #ifdef __linux__
@@ -208,12 +213,20 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
 
     if (categorie == BaseCategorie::BULLETINS)
     {
-        chemin_base = info.chemin_bulletins + std::string(CSV);
+        chemin_base = info.chemin_bulletins
+        #if defined(__WIN32__) && defined (USE_ICONV)
+                + ".temp"
+        #endif
+                + std::string(CSV);
     }
     else
     {
 
-        chemin_base = info.chemin_base;      // sans l'extension csv
+        chemin_base = info.chemin_base
+        #if defined(__WIN32__) && defined (USE_ICONV)
+                + ".temp"
+        #endif
+                ;      // sans l'extension csv
 
         switch (type) // OK en C++14
         {

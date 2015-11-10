@@ -25,5 +25,5 @@ GithubRepo: data.table
 GithubUsername: Rdatatable
 GithubRef: master
 GithubSHA1: caab62a5ae6e55a1655e784bf025a21d1397ab43
-Built: R 3.2.2; x86_64-w64-mingw32; 2015-11-09 18:50:53 UTC; windows
+Built: R 3.2.2; x86_64-w64-mingw32; 2015-11-10 00:49:38 UTC; windows
 Archs: x64
