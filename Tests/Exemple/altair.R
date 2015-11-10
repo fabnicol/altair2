@@ -34,16 +34,9 @@ générer.rapport         <- (basename(currentDir) != "altair")
 
 # dans cet ordre
 
-library_path <- if (setOSWindows) "lib" else "lib_linux"
-
-if (générer.rapport) {
-  .libPaths(file.path(getwd(), "..", "..", library_path))
-} else {
-  .libPaths(file.path(getwd(), library_path))
-}
-
 try(setwd("Tests/Exemple"), silent = TRUE)
 
+source("syspaths.R", encoding = encodage.code.source)
 source("prologue.R", encoding = encodage.code.source)
 
 if (corriger.environnement.système)
@@ -1772,16 +1765,22 @@ names(rémunérations.élu) <- c(union(clé.fusion, "Nom"),
 rémunérations.élu <- na.omit(rémunérations.élu)
 
 #'   
-if (générer.table.élus)
-{
-    if (nrow(rémunérations.élu) > 0)
-      kable(rémunérations.élu, row.names = FALSE)
-} else {
+if (générer.table.élus)   {
   
+    if (nrow(rémunérations.élu) > 0) {
+      
+      kable(rémunérations.élu, row.names = FALSE)
+      
+    } else {
+  
+      cat("Tableau des indemnités d'élu : pas de données.")
+    } 
+} else {
+
    cat("Tableau des indemnités d'élu : non générée.")
 }
 
-#'   
+
 if (sauvegarder.bases.analyse)
   Sauv.base(file.path(chemin.dossier.bases, "Effectifs"),
             "matricules",
@@ -1789,6 +1788,126 @@ if (sauvegarder.bases.analyse)
 
 #'[Lien vers la base de données Rémunérations des élus](Bases/Réglementation/rémunérations.élu.csv)
 #'
+
+#'## `r chapitre`.8 Lien avec le compte de gestion
+ 
+
+cumul.lignes.paie <- Paie[Type %chin% c("T", "I", "R", "IR", "S", "A", "AC") , 
+                        .(Total = sum(Montant, na.rm = TRUE)), keyby="Année,Type,Libellé,Code"]
+
+cumul.lignes.paie <- cumul.lignes.paie[Total != 0]
+
+cumul.lignes.paie[  Type == "R",
+                   Type := "Rappels"
+               ][
+                   Type == "T", 
+                   Type := "Traitements"
+               ][
+                   Type == "I", 
+                   Type := "Indemnités"
+               ][
+                   Type == "IR",
+                   Type := "Indem. Résidence"
+               ][ 
+                   Type == "S",
+                   Type := "Supplément familial"
+               ][
+                   Type == "A",
+                   Type := "Rém. diverses"
+               ][
+                   Type == "AC", 
+                   Type := "Acomptes"
+                   
+               ][ , Total2  := formatC(Total, big.mark = " ", format = "f", decimal.mark = ",", digits = 2)]
+
+
+cumul.total.lignes.paie <- cumul.lignes.paie[ , .(`Cumul annuel`= formatC(sum(Total, na.rm = TRUE), big.mark = " ", format = "f", decimal.mark = ",", digits = 2)), 
+                                                keyby = "Année,Type"]
+
+setnames(cumul.lignes.paie[ , Total := NULL], "Total2", "Total")
+
+L <- split(cumul.lignes.paie, cumul.lignes.paie$Année)
+
+#'  
+#'### Somme des lignes de paye par exercice, catégorie de ligne de paye et libellé   
+#'  
+
+if (afficher.cumuls.détaillés.lignes.paie) {
+  for (i in 1:durée.sous.revue) {
+    cat("\nAnnée ", début.période.sous.revue + i - 1)
+    print(kable(L[[i]][, .(Catégorie = Type, Code, Libellé, Total)], row.names = FALSE, align = 'c'))
+  }
+} else {
+  
+  cat("\nLa base des cumuls détaillés des lignes de paie est disponible en lien ci-après.\n")
+}
+
+L <- split(cumul.total.lignes.paie, cumul.total.lignes.paie$Année)
+
+#'  
+#'### Cumul des lignes de paye par exercice et catégorie de ligne de paye   
+#'  
+
+for (i in 1:durée.sous.revue) {
+  cat("\nAnnée ", début.période.sous.revue + i - 1)
+  print(kable(L[[i]][, .(Catégorie = Type, `Cumul annuel`)], row.names = FALSE, align = 'c'))
+}
+
+rm(L)
+
+#'  
+#'[Lien vers la base détaillée des cumuls des lignes de paie](Bases/Réglementation/cumul.lignes.paie.csv)
+#'  
+#'[Lien vers la base agrégée des cumuls des lignes de paie](Bases/Réglementation/cumul.total.lignes.paie.csv)
+#'  
+
+#'  
+#'*Avertissement : les rappels comprennent également les rappels de cotisations et déductions diverses.*    
+#'   
+
+#'
+#'## `r chapitre`.9 Contrôle du supplément familial de traitement   
+#'  
+
+# on prévoit 25 enfants...
+
+# limitations : pas de vérification des cas de divorce etc., ni des cas de cumuls
+#               pas de vérification non plus de la licéité des versements à des contractuels exclus par l'article 1er 
+#               du décret n°85-1148 du 24 octobre 1985 modifié relatif à la rémunération des personnels civils et militaires
+#               de l'Etat, des personnels des collectivités territoriales et des personnels des établissements publics d'hospitalisation. 
+
+sft.fixe <- c(un = 2.29, deux = 10.67, trois = 15.24, 15.24 + 4.57 * 1:25)
+
+sft.prop <- c(un = 0, deux = 3, trois = 8, 8 + 6 * 1:25)
+
+            h <- hist(Bulletins.paie[Temps.de.travail == 100, cumHeures], nclass = 1000)
+        max.h <- which.max(h$counts)
+        delta <- (h$mids[max.h + 1] - h$mids[max.h - 1])/2
+temps.complet <- floor(h$mids[max.h])
+
+
+sft <- function(x, indice, durée)   {
+    
+    if (is.na(x) || x <= 0 || is.na(indice)) return(0)
+  
+    # on ne fait pas le contrôle sur les hors échelle à ce stade
+  
+    if (grepl("H.*(E|é).*[A-F]", indice, ignore.case = TRUE)) indice <- 717
+
+    part.proportionnelle <- sft.prop[x] * as.numeric(max(449, min(indice, 717))) 
+              delta.part.fixe  <- sft.fixe[x] - sft.fixe[1]           
+
+    valeur <- durée/temps.complet * (part.proportionnelle + delta.part.fixe) + sft.fixe[1]
+    
+    if (is.na(valeur)) valeur = 0
+    
+    return(valeur)
+
+  }
+
+Bulletins.paie[ , SFT.controle := sft(NbEnfants, Indice, cumHeures)]
+       
+
 #'# Annexe
 #'## Liens complémentaires
 #'
@@ -1894,7 +2013,9 @@ if (sauvegarder.bases.analyse) {
              "personnels.iat.ifts",
              "rémunérations.élu",
              "RI.et.vacations",
-             "traitement.et.vacations")
+             "traitement.et.vacations",
+             "cumul.lignes.paie",
+             "cumul.total.lignes.paie")
   
   sauv.bases(file.path(chemin.dossier.bases, "Fiabilité"),
               "base.heures.nulles.salaire.nonnull",
@@ -1907,5 +2028,5 @@ if (sauvegarder.bases.origine)
              "Paie",
              "Bulletins.paie")
 
-
-setwd(currentDir)
+if (! générer.rapport)
+   setwd(currentDir)

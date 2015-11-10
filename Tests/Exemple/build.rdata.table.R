@@ -18,9 +18,10 @@ library(devtools)
 if (grepl(rtoolspath, localPath, ignore.case=TRUE) == FALSE) {
 
   Sys.setenv(PATH = paste(localPath, file.path(wd, "..", rtoolspath), sep=";"))
-  
-  install_github("Rdatatable/data.table", build_vignettes = FALSE)
-}
+}  
+
+install_github("Rdatatable/data.table", build_vignettes = FALSE, configure.args = c("CFLAGS=-O3", "-march=native"))
+
 
 # Restoring previous system path to avoid cluttering
 
