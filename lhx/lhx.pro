@@ -1,3 +1,5 @@
+# Encodage : CP-1252
+
 greaterThan(QT_MAJOR_VERSION, 5)
 
 
@@ -75,8 +77,9 @@ DEFINES += \#NO_REGEX \                       # Pas d'analyse du texte par expre
         GENERATE_RANK_SIGNAL \              # chaque fois qu'un fichier est traité, un signal externe est émis (rang dans un fichier rank sous AppData\Local\Altair).
                              \              # n'est utile que lorsqu'une interface graphique est connectée. peut ralentir l'application de 1 à 5 %.
         FGETC_PARSING                       # parcourir les fichiers par ifstream (C++)
-#MMAP_PARSING                               # parcourir les fichiers par mappage mémoire (C, unix).
-
+# MMAP_PARSING                              # parcourir les fichiers par mappage mémoire (C, unix).
+# USE_ICONV                                 # pour Windows uniquement, si l'on n'est pas satisfait du hack de pseudo-conversion UTF-8 vers Latin-1
+                                            # alors on peut utiliser iconv pour une conversion plus propre.
 
 
 DEVROOT = $$PWD/../..
@@ -96,11 +99,12 @@ windows {
   COMPILER_DIR = mingw64-5.2
   INCLUDEPATH += $$DEVROOT/$$COMPILER_DIR/include
   LIBS = -L$$DEVROOT/$$COMPILER_DIR/lib -lxml2.dll -pthread
-
+  HEADERS += entete-latin1.hpp
 
 } else {
   INCLUDEPATH += /usr/include/libxml2
   LIBS = -L/usr/lib/lib64 -L/usr/lib/x86_64-linux-gnu -lxml2 -pthread
+  HEADERS += entete.hpp
 }
 
 SOURCES += \ 
