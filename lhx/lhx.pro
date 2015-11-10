@@ -70,6 +70,8 @@ DEFINES += \#NO_REGEX \                       # Pas d'analyse du texte par expre
         WAIT_FOR_LOCK  \                    # insiter jusqu'à acquérir les mutex dans les fils d'exécution. Peut entraîner des "output freeze" en cas de forte
                         \                   # charge I/O.
         NO_DEBUG \                          # ne pas générer de messages de débogage avancé
+#       USE_ICONV \                         # pour Windows uniquement, si l'on n'est pas satisfait du hack de pseudo-conversion UTF-8 vers Latin-1
+                   \                        # alors on peut utiliser iconv pour une conversion plus propre.
 #        TOLERANT_TAG_HIERARCHY \           # ordre des balises : tolérance envers des permutations de même niveau
         FULL_PREALLOCATION_TEST \           # calcul des besoins de mémoire : précision maximale (sinon : moindre)
         PREALLOCATE_ON_HEAP \               # préallouer le vecteur sur le tas pour le tableau des allocations de mémoire (sinon : tableau C sur la pile)
@@ -78,8 +80,7 @@ DEFINES += \#NO_REGEX \                       # Pas d'analyse du texte par expre
                              \              # n'est utile que lorsqu'une interface graphique est connectée. peut ralentir l'application de 1 à 5 %.
         FGETC_PARSING                       # parcourir les fichiers par ifstream (C++)
 # MMAP_PARSING                              # parcourir les fichiers par mappage mémoire (C, unix).
-# USE_ICONV                                 # pour Windows uniquement, si l'on n'est pas satisfait du hack de pseudo-conversion UTF-8 vers Latin-1
-                                            # alors on peut utiliser iconv pour une conversion plus propre.
+
 
 
 DEVROOT = $$PWD/../..

@@ -7,7 +7,7 @@
 
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
 
-setOSWindows            <- Sys.info()["sysname"] != "Linux"
+
 
 racine                      <- "R-Altaïr/"
 # "Ville Annecy Paye BP-"
@@ -40,7 +40,7 @@ tester.matricules            <- TRUE
 analyse.statique.totale      <- F
 corriger.environnement.système <- (setOSWindows == TRUE)
 intégrer.localisation <- FALSE   # Veut on gardet Budget Employeur Siret Etablissement ?
-
+afficher.cumuls.détaillés.lignes.paie <- FALSE
 
 seuil.troncature         <- 1 # jours
 taux.tolérance.homonymie <- 2  # en %
