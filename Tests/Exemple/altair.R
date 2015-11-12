@@ -1912,13 +1912,21 @@ if (verif.temps.complet()) {
   
   cat("\nLa durée du travail prise en compte dans la base de données est de 1820 h par an.\n")
   
-  nb.heures.temps.complet <- 1820
+  nb.heures.temps.complet <- 1820 / 12
   
 } else {
   
   nb.heures.temps.complet <- floor(nb.heures.temps.complet)
   
-  cat("\nLa durée du travail prise en compte dans la base de données est de ", nb.heures.temps.complet, " h par an.\n")
+  cat("\nLa durée du travail prise en compte dans la base de données est de ", nb.heures.temps.complet, " h par mois.\n")
+  
+  if (nb.heures.temps.complet > 1.1 * 1820/12 || nb.heures.temps.complet < 0.9 * 1820/12)
+  {
+    semaine.de.travail <- nb.heures.temps.complet * 12 / 52
+    
+    cat("\nAttention !\nLe temps de travail hebdomadaire s'écarte significativement de la durée légale : ", 
+        round(semaine.de.travail,1), " h par semaine.\n")
+  }
   
 }
 
@@ -1941,17 +1949,12 @@ sft <- function(x, indice, nbi, durée, année, mois)   {
     
     part.proportionnelle <- (x != 0) * sft.prop[x] * max(449, min(indice, 717)) * PointMensuelIM[année - 2007, mois]  
     
-    # pour tenir compte de l'intervalle de confiance sur le calcul du temps complet de référence
-    # on assimile à un temps complet lorsque l'écart est inférieur à 1h / environ 150 h
-              
     # on prend en compte les quotités spécifiques de temps partiel
     
-    if (abs(durée - nb.heures.temps.complet) < 1) {
-        coef <- 1
-    } else if (durée == 90) {
-        coef <- 0.91429   # 32/35 
+    if (durée == 90) {
+           coef <- 0.91429   # 32/35 
     } else if (durée == 80) {
-        coef <- 0.85714   # 6/7   
+           coef <- 0.85714   # 6/7   
     } else coef <- durée/100
                     
     if (x != 1) {
@@ -1973,7 +1976,6 @@ sft <- function(x, indice, nbi, durée, année, mois)   {
 
   }
 
-
 Paie.sans.enfant <- Paie[is.na(NbEnfants) | NbEnfants == 0]
 
 Paie.sans.enfant.réduit <- Paie.sans.enfant[ , .(SFT.versé = sum(Montant[Type == "S"], na.rm = TRUE)), keyby="Matricule,Année,Mois"] 
@@ -1982,7 +1984,6 @@ Paie.sans.enfant.réduit <- Paie.sans.enfant.réduit[SFT.versé > 0, ]
 
 nb.écart.paiements.sft.sans.enfant <- nrow(Paie.sans.enfant.réduit)
 
-  
 if (nb.écart.paiements.sft.sans.enfant > 0){
   
   cat("\nPour les agents n'ayant pas d'enfant signalé en base, il a été détecté ",
@@ -2005,7 +2006,6 @@ if (nb.écart.paiements.sft.sans.enfant > 0){
 
 Paie.enfants <- Paie[!is.na(NbEnfants) & NbEnfants > 0 & !is.na(Indice) & !is.na(Heures)]
 
-
 Paie.enfants.réduit <- Paie.enfants[ , .(SFT.versé = sum(Montant[Type == "S"], na.rm = TRUE), 
                                         #Traitement = sum(Montant[Type == "T"], na.rm = TRUE),
                                         Temps.de.travail = Temps.de.travail[1],
@@ -2015,7 +2015,7 @@ Paie.enfants.réduit <- Paie.enfants[ , .(SFT.versé = sum(Montant[Type == "S"],
                                         keyby="Matricule,Année,Mois"]
 
 SFT.controle <- with(Paie.enfants.réduit, 
-                 mapply(sft, NbEnfants, Indice, NBI, Temps.de.travail, Année, Mois, USE.NAMES = FALSE))
+                     mapply(sft, NbEnfants, Indice, NBI, Temps.de.travail, Année, Mois, USE.NAMES = FALSE))
 
 Paie.enfants.réduit <- cbind(Paie.enfants.réduit, SFT.controle)
 
@@ -2028,19 +2028,21 @@ Paie.enfants.réduit[ , delta.SFT := SFT.versé - SFT.controle]
 
 # On accepte un tolérance fixée dans prologue.R à tolérance.sft <- 1 euro
 
-controle.sft <- Paie.enfants.réduit[delta.SFT > tolérance.sft, .(round(delta.SFT, 2),
-                                                             SFT.versé,
-                                                             round(SFT.controle, 2),
-                                                             Matricule, 
-                                                             Année,
-                                                             Mois,
-                                                             Indice,
-                                                             NBI,
-                                                             Temps.de.travail,
-                                                             NbEnfants)]
-setorder(controle.sft, -delta.SFT, Matricule, Année, Mois)
+controle.sft <- Paie.enfants.réduit[delta.SFT > tolérance.sft, 
+                                      .(round(delta.SFT, 2),
+                                       SFT.versé,
+                                       round(SFT.controle, 2),
+                                       Matricule, 
+                                       Année,
+                                       Mois,
+                                       Indice,
+                                       NBI,
+                                       Temps.de.travail,
+                                       NbEnfants)]
 
 nb.écart.paiements.sft <- nrow(controle.sft)
+
+if (nb.écart.paiements.sft) setorder(controle.sft, -delta.SFT, Matricule, Année, Mois)
 
 if (nb.écart.paiements.sft > 0){
     
@@ -2061,7 +2063,6 @@ if (nb.écart.paiements.sft > 0){
 #'  
 #'[Lien vers la base des écarts de paiement sur SFT](Bases/Réglementation/controle.sft.csv)
 #'  
-
 
 message("Analyse du SFT")
 
