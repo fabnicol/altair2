@@ -55,19 +55,38 @@ void Altair::run()
         return;
     }
 
-    if (!targetDirObject.removeRecursively())
+    const QStringList& files = targetDirObject.entryList(QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot);
+
+    if (! files.isEmpty())
     {
-        Warning0(QString("Supprimer le répertoire au lancement"),
-                 QString("Il n'a pas été possible de nettoyer le répertoire %1 au lancement de LHX.\nNettoyer le répertoire et relancer.").arg(QDir::toNativeSeparators(path)));
-        processFinished(exitCode::shouldLaunchRAltairAlone);
-        return;
+        if (files.first() != "Bulletins.csv" && files.first() != "Table.csv")
+        {
+            if (QMessageBox::Cancel
+                  == QMessageBox::warning(this, QString("Attention"),
+                                                tr("Vous allez supprimer le répertoire %1\npour regénérer les bases. ").arg(QDir::toNativeSeparators(path)),
+                                                QMessageBox::Ok|QMessageBox::Cancel))
+                {
+
+                    processFinished(exitCode::shouldLaunchRAltairAlone);
+                    return;
+                }
+        }
+
+        if (!targetDirObject.removeRecursively())
+        {
+            Warning0(QString("Supprimer le répertoire au lancement"),
+                     QString("Il n'a pas été possible de nettoyer le répertoire %1 au lancement de LHX.\nNettoyer le répertoire et relancer.").arg(QDir::toNativeSeparators(path)));
+            processFinished(exitCode::shouldLaunchRAltairAlone);
+            return;
+        }
+        else
+        if (targetDirObject.mkpath(path) == false)
+        {
+            Warning0(QString("Répertoire"), QString("Le répertoire de sortie %1 n'a pas pu être créé. Relancer après avoir réglé le problème.").arg(path));
+            return;
+        }
     }
-    else
-    if (targetDirObject.mkpath(path) == false)
-    {
-        Warning0(QString("Répertoire"), QString("Le répertoire de sortie %1 n'a pas pu être créé. Relancer après avoir réglé le problème.").arg(path));
-        return;
-    }
+
 #ifdef DEBUG
     outputTextEdit->append(PROCESSING_HTML_TAG + tr("Validation du répertoire de sortie ") + path);
 #endif

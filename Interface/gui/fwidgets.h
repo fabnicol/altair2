@@ -176,15 +176,22 @@ class FCheckBox : public QCheckBox,  public FAbstractWidget
 
 public:
 
-  FCheckBox(const QString &boxLabel, int status, const QString &hashKey, const QStringList &description, const char* commandLineString,
-                       const QList<QWidget*> &enabledObjects=QList<QWidget*>(), const QList<QWidget*> &disabledObjects=QList<QWidget*>());
+  FCheckBox(const QString &boxLabel, int status, const QString &hashKey, const QStringList &description, const QString& commandLineString,
+                       const QList<QWidget*> &enabledObjects, const QList<QWidget*> &disabledObjects);
+
+  FCheckBox(const QString &boxLabel, int status, const QString &hashKey, const QStringList &description, const QString& commandLineString):
+                FCheckBox(boxLabel, status, hashKey, description, commandLineString, {nullptr}, {nullptr}){}
+
+  FCheckBox(const QString &boxLabel, int status, const QString &hashKey, const QStringList &description, const QString& commandLineString,
+                       const QList<QWidget*> &enabledObjects):
+                FCheckBox(boxLabel, status, hashKey, description, commandLineString, enabledObjects, {nullptr}){}
 
   FCheckBox(const QString &boxLabel, int status, const QString &hashKey, const QStringList &description,
                        const QList<QWidget*> &enabledObjects=QList<QWidget*>(), const QList<QWidget*> &disabledObjects=QList<QWidget*>()):
-                        FCheckBox(boxLabel,  status, hashKey, description, "",enabledObjects, disabledObjects) {}
+                         FCheckBox(boxLabel,  status, hashKey, description, "",enabledObjects, disabledObjects) {}
 
 
-  FCheckBox(const QString &boxLabel, const QString &hashKey, const QStringList& description, const char* commandLineString,
+  FCheckBox(const QString &boxLabel, const QString &hashKey, const QStringList& description, const QString& commandLineString,
             const QList<QWidget*> &enabledObjects=QList<QWidget*>(), const QList<QWidget*> &disabledObjects=QList<QWidget*>()):
     FCheckBox(boxLabel, flags::status::enabledUnchecked|flags::commandLineType::defaultCommandLine, hashKey, description, commandLineString,
                          enabledObjects, disabledObjects){}
@@ -192,7 +199,7 @@ public:
   FCheckBox(const QString &boxLabel, const QString &hashKey, const QStringList& description,
             const QList<QWidget*> &enabledObjects=QList<QWidget*>()):
       FCheckBox(boxLabel, flags::status::enabledUnchecked|flags::commandLineType::defaultCommandLine, hashKey, description, "",
-                         enabledObjects){}
+                enabledObjects, {nullptr}){}
 
   void setWidgetFromXml(const FStringList& );
   const FString setXmlFromWidget();

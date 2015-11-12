@@ -41,6 +41,7 @@ analyse.statique.totale      <- F
 corriger.environnement.système <- (setOSWindows == TRUE)
 intégrer.localisation <- FALSE   # Veut on gardet Budget Employeur Siret Etablissement ?
 afficher.cumuls.détaillés.lignes.paie <- FALSE
+afficher.table.écarts.sft <- FALSE
 
 seuil.troncature         <- 1 # jours
 taux.tolérance.homonymie <- 2  # en %
@@ -49,6 +50,7 @@ minimum.positif          <- 0.5
 minimum.quotité          <- 0.1
 minimum.actif            <- 100
 population_minimale_calcul_médiane  <- 3
+tolérance.sft <- 1
 
 séparateur.liste.entrée     <- ";"
 séparateur.décimal.entrée   <- ","
@@ -129,7 +131,7 @@ colonnes.input <- c("Année", "Mois",
 colonnes.classes.input    <- c("integer", "integer",  
                                localisation.classes,
                                "character", "character", "character",
-                               "character", "character", "character", "numeric", "numeric", "numeric",
+                               "character", "numeric", "character", "numeric", "numeric", "numeric",
                                "character",  "numeric", "numeric", "numeric", "numeric",
                                "character",  "character", "numeric", "numeric", "numeric",
                                "numeric", "character", "character", "character", "character")
@@ -144,7 +146,7 @@ colonnes.bulletins.input <- c("Année", "Mois",
 colonnes.bulletins.classes.input <- c("integer", "integer",
                                       localisation.classes,
                                       "character", "character", "character",
-                                      "character", "character", "character", "numeric", "numeric", "numeric",
+                                      "character", "numeric", "character", "numeric", "numeric", "numeric",
                                       "character",  "numeric", "numeric", "numeric", "numeric",
                                       "character", "character", "character")
 
@@ -192,3 +194,5 @@ expression.rég.population <- "\\bASS(\\b|A).*"
 expression.rég.élus       <- "maire|pr[eé]sident|.*([eé]lu[s]?|adj.*maire|v\\w*.*\\s+pr[eé]sident|cons\\w*.*\\s+muni|cons\\w*.*\\s+commun)"
 expression.rég.nbi        <- "(?:\\s|^)nbi|(?:n(?:(?=o)o\\w*|)\\.?\\s*\\b)?b(?:(?=o)o\\w*|)\\.?\\s*\\bi(?:(?=n)n\\w*|)\\.?\\b"
 
+# point d'indice majoré
+source("point.im.R")

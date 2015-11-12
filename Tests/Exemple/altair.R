@@ -209,7 +209,7 @@ kable(tableau.effectifs, row.names = TRUE, align='c')
 #'**Nota:**   
 #'*(a) Nombre de matricules distincts ayant eu au moins un bulletin de paie dans l'année, en fonction ou non.Peut correspondre à des régularisations, des personnels hors position d'activité ou des ayants droit (reversion, etc.)*   
 #'*(b) Titulaires ou stagiaires*   
-#'*(c) Sur la base des libellés d'emploi et des libellés de lignes de paye. La détection peut être lacunaire*   
+#'*(c) Sur la base des libellés d'emploi et des libellés de lignes de paie. La détection peut être lacunaire*   
 #'*(d) ETP  : Equivalent temps plein = rémunération . quotité*  
 #'*(e) ETPT : Equivalent temps plein travaillé = ETP . 12/nombre de mois travaillés dans l'année*  
 #'*(f) Personnes en place : présentes en N et N-1 avec la même quotité, postes actifs et non annexes uniquement.*     
@@ -1281,7 +1281,7 @@ incrémenter.chapitre()
 #'# `r chapitre`. Tests réglementaires   
 #'## `r chapitre`.1 Contrôle des heures supplémentaires, des NBI et primes informatiques   
 #'   
-#'**Dans cette partie, l'ensemble de la base de paye est étudié.**  
+#'**Dans cette partie, l'ensemble de la base de paie est étudié.**  
 #'Les agents non actifs ou dont le poste est annexe sont réintroduits dans le périmètre.   
 
 if (N <- uniqueN(Paie[Statut != "TITULAIRE"
@@ -1379,7 +1379,7 @@ if (! is.null(nombre.fonctionnaires.et.vacations)) {
 
 #'
 #'[Lien vers les matricules des fonctionnaires concernés](Bases/Réglementation/matricules.fonctionnaires.et.vacations.csv)
-#'[Lien vers les bulletins de paye correspondants](Bases/Réglementation/lignes.fonctionnaires.et.vacations.csv)
+#'[Lien vers les bulletins de paie correspondants](Bases/Réglementation/lignes.fonctionnaires.et.vacations.csv)
 #'
 #'## `r chapitre`.3 Contrôles sur les cumuls traitement indiciaire, indemnités et vacations des contractuels
 
@@ -1572,7 +1572,7 @@ nombre.lignes.ifts.et.contractuel <- nrow(ifts.et.contractuel)
 #'    
 
 if (! résultat.ifts.manquant) {
-   Tableau(c("Nombre de lignes de paye de contractuels percevant des IFTS", "Nombre de lignes IFTS pour IB < 380"), nombre.lignes.ifts.et.contractuel, nombre.lignes.ifts.anormales)
+   Tableau(c("Nombre de lignes de paie de contractuels percevant des IFTS", "Nombre de lignes IFTS pour IB < 380"), nombre.lignes.ifts.et.contractuel, nombre.lignes.ifts.anormales)
 }
 
 #'
@@ -1829,13 +1829,13 @@ setnames(cumul.lignes.paie[ , Total := NULL], "Total2", "Total")
 L <- split(cumul.lignes.paie, cumul.lignes.paie$Année)
 
 #'  
-#'### Somme des lignes de paye par exercice, catégorie de ligne de paye et libellé   
+#'### Somme des lignes de paie par exercice, catégorie de ligne de paie et libellé   
 #'  
 
 if (afficher.cumuls.détaillés.lignes.paie) {
   for (i in 1:durée.sous.revue) {
     cat("\nAnnée ", début.période.sous.revue + i - 1)
-    print(kable(L[[i]][, .(Catégorie = Type, Code, Libellé, Total)], row.names = FALSE, align = 'c'))
+    print(kable(L[[i]][, .(Catégorie = Type, Code, Libellé, Total)], row.names = FALSE, align = 'r'))
   }
 } else {
   
@@ -1845,12 +1845,12 @@ if (afficher.cumuls.détaillés.lignes.paie) {
 L <- split(cumul.total.lignes.paie, cumul.total.lignes.paie$Année)
 
 #'  
-#'### Cumul des lignes de paye par exercice et catégorie de ligne de paye   
+#'### Cumul des lignes de paie par exercice et catégorie de ligne de paie   
 #'  
 
 for (i in 1:durée.sous.revue) {
   cat("\nAnnée ", début.période.sous.revue + i - 1)
-  print(kable(L[[i]][, .(Catégorie = Type, `Cumul annuel`)], row.names = FALSE, align = 'c'))
+  print(kable(L[[i]][, .(Catégorie = Type, `Cumul annuel`)], row.names = FALSE, align = 'r'))
 }
 
 rm(L)
@@ -1869,43 +1869,204 @@ rm(L)
 #'## `r chapitre`.9 Contrôle du supplément familial de traitement   
 #'  
 
-# on prévoit 25 enfants...
+# on prévoit 15 enfants...
 
 # limitations : pas de vérification des cas de divorce etc., ni des cas de cumuls
 #               pas de vérification non plus de la licéité des versements à des contractuels exclus par l'article 1er 
 #               du décret n°85-1148 du 24 octobre 1985 modifié relatif à la rémunération des personnels civils et militaires
 #               de l'Etat, des personnels des collectivités territoriales et des personnels des établissements publics d'hospitalisation. 
 
-sft.fixe <- c(un = 2.29, deux = 10.67, trois = 15.24, 15.24 + 4.57 * 1:25)
+# part fixe mensuelle
 
-sft.prop <- c(un = 0, deux = 3, trois = 8, 8 + 6 * 1:25)
+sft.fixe <- c(un = 2.29, deux = 10.67, trois = 15.24, 15.24 + 4.57 * 1:12)
 
-            h <- hist(Bulletins.paie[Temps.de.travail == 100, cumHeures], nclass = 1000)
-        max.h <- which.max(h$counts)
-        delta <- (h$mids[max.h + 1] - h$mids[max.h - 1])/2
-temps.complet <- floor(h$mids[max.h])
+# part variable en proportion du traitement indiciaire
 
+sft.prop <- c(un = 0, deux = 3, trois = 8, 8 + 6 * 1:12) / 100 
 
-sft <- function(x, indice, durée)   {
-    
-    if (is.na(x) || x <= 0 || is.na(indice)) return(0)
+part.proportionnelle.minimale <- outer(PointMensuelIM, sft.prop * 449)
+
+# calcul du temps complet mensuel de référence en h/mois
+
+quotité.temps.partiel <- function(temps.de.travail) {
   
-    # on ne fait pas le contrôle sur les hors échelle à ce stade
+  if (x == 90) return(0.91429)  # 32/35 
+  if (x == 80) return(0.85714)  # 6/7   
+  return(x/100)
+   
+}
+
+verif.temps.complet <- function() {
   
-    if (grepl("H.*(E|é).*[A-F]", indice, ignore.case = TRUE)) indice <- 717
+              h <- hist(Bulletins.paie[Temps.de.travail == 100, Heures], nclass = 20000, plot = FALSE)
+          max.h <- which.max(h$counts)
+          delta <- (h$mids[max.h + 1] - h$mids[max.h - 1])/2
+  nb.heures.temps.complet <<- floor(h$mids[max.h])
+  
+    return(abs(nb.heures.temps.complet - 1820 / 12) < 1 + delta)
+}
 
-    part.proportionnelle <- sft.prop[x] * as.numeric(max(449, min(indice, 717))) 
-              delta.part.fixe  <- sft.fixe[x] - sft.fixe[1]           
+message("Vérification de la durée légale théorique du travail (1820 h = 35h x 52 semaines soit 151,67 h/mois)")
 
-    valeur <- durée/temps.complet * (part.proportionnelle + delta.part.fixe) + sft.fixe[1]
+if (verif.temps.complet()) {
+  
+  cat("\nLa durée du travail prise en compte dans la base de données est de 1820 h par an.\n")
+  
+  nb.heures.temps.complet <- 1820
+  
+} else {
+  
+  nb.heures.temps.complet <- floor(nb.heures.temps.complet)
+  
+  cat("\nLa durée du travail prise en compte dans la base de données est de ", nb.heures.temps.complet, " h par an.\n")
+  
+}
+
+sft <- function(x, indice, nbi, durée, année, mois)   {
+
+#    if (is.na(x) || x <= 0 || is.na(indice)) return(0)
+  
+    if (is.na(durée) || is.na(x) || is.na(indice)) return(0)
+  
+    if (grepl("H.*(E|é).*[A-F]", indice, perl = TRUE, ignore.case = TRUE)) {
+      
+        indice <- 717
+        
+    } else {
     
-    if (is.na(valeur)) valeur = 0
+        indice <- as.numeric(indice)
+    }
+  
+    indice <- sum(indice, nbi, na.rm = TRUE)
+    
+    part.proportionnelle <- (x != 0) * sft.prop[x] * max(449, min(indice, 717)) * PointMensuelIM[année - 2007, mois]  
+    
+    # pour tenir compte de l'intervalle de confiance sur le calcul du temps complet de référence
+    # on assimile à un temps complet lorsque l'écart est inférieur à 1h / environ 150 h
+              
+    # on prend en compte les quotités spécifiques de temps partiel
+    
+    if (abs(durée - nb.heures.temps.complet) < 1) {
+        coef <- 1
+    } else if (durée == 90) {
+        coef <- 0.91429   # 32/35 
+    } else if (durée == 80) {
+        coef <- 0.85714   # 6/7   
+    } else coef <- durée/100
+                    
+    if (x != 1) {
+      
+     valeur <- coef * (part.proportionnelle + sft.fixe[x]) 
+     
+    } else {
+      
+     valeur <- coef * part.proportionnelle + sft.fixe[x]
+    }
+    
+    # vérification du plancher des attributions minimales à temps plein
+    
+    if (x != 1) valeur <- max(valeur, part.proportionnelle.minimale[ , , x][année - 2007, mois] + sft.fixe[x])
+    
+    #if (is.na(valeur)) valeur <- 0
     
     return(valeur)
 
   }
 
-Bulletins.paie[ , SFT.controle := sft(NbEnfants, Indice, cumHeures)]
+
+Paie.sans.enfant <- Paie[is.na(NbEnfants) | NbEnfants == 0]
+
+Paie.sans.enfant.réduit <- Paie.sans.enfant[ , .(SFT.versé = sum(Montant[Type == "S"], na.rm = TRUE)), keyby="Matricule,Année,Mois"] 
+
+Paie.sans.enfant.réduit <- Paie.sans.enfant.réduit[SFT.versé > 0, ]
+
+nb.écart.paiements.sft.sans.enfant <- nrow(Paie.sans.enfant.réduit)
+
+  
+if (nb.écart.paiements.sft.sans.enfant > 0){
+  
+  cat("\nPour les agents n'ayant pas d'enfant signalé en base, il a été détecté ",
+      nb.écart.paiements.sft.sans.enfant,
+      " bulletin", ifelse(nb.écart.paiements.sft.sans.enfant == 1, "", "s"),
+      " de paie présentant un paiement du SFT apparemment anormal.\n", sep="")  
+  
+  if (afficher.table.écarts.sft)
+    kable(Paie.sans.enfant.réduit, row.names = FALSE, align = 'c')
+  
+} else {
+  
+  cat("\nPour les agents n'ayant pas d'enfant signalé en base, il n'a été détecté aucun paiement de SFT.\n")
+  
+}
+
+#'  
+#'[Lien vers la base des paiements de SFT à agents sans enfant signalé](Bases/Réglementation/Paie.sans.enfant.réduit.csv)
+#'  
+
+Paie.enfants <- Paie[!is.na(NbEnfants) & NbEnfants > 0 & !is.na(Indice) & !is.na(Heures)]
+
+
+Paie.enfants.réduit <- Paie.enfants[ , .(SFT.versé = sum(Montant[Type == "S"], na.rm = TRUE), 
+                                        #Traitement = sum(Montant[Type == "T"], na.rm = TRUE),
+                                        Temps.de.travail = Temps.de.travail[1],
+                                        Indice = Indice[1],
+                                        NBI = NBI[1],
+                                        NbEnfants = NbEnfants[1]),
+                                        keyby="Matricule,Année,Mois"]
+
+SFT.controle <- with(Paie.enfants.réduit, 
+                 mapply(sft, NbEnfants, Indice, NBI, Temps.de.travail, Année, Mois, USE.NAMES = FALSE))
+
+Paie.enfants.réduit <- cbind(Paie.enfants.réduit, SFT.controle)
+
+Paie.enfants.réduit[ , delta.SFT := SFT.versé - SFT.controle]
+
+## Attention ne pas intégrer au sein d'un même `:=`(...) deux définitions en coréférence avec if ... else 
+# ou alors utiliser ifelse()  [bug de data.table]
+
+#Paie.enfants.réduit[ , ecart := if (SFT.controle > 1) delta / SFT.controle else NA]
+
+# On accepte un tolérance fixée dans prologue.R à tolérance.sft <- 1 euro
+
+controle.sft <- Paie.enfants.réduit[delta.SFT > tolérance.sft, .(round(delta.SFT, 2),
+                                                             SFT.versé,
+                                                             round(SFT.controle, 2),
+                                                             Matricule, 
+                                                             Année,
+                                                             Mois,
+                                                             Indice,
+                                                             NBI,
+                                                             Temps.de.travail,
+                                                             NbEnfants)]
+setorder(controle.sft, -delta.SFT, Matricule, Année, Mois)
+
+nb.écart.paiements.sft <- nrow(controle.sft)
+
+if (nb.écart.paiements.sft > 0){
+    
+  cat("\nPour les agents ayant au moins un enfant, il a été détecté ",
+      nb.écart.paiements.sft,
+      " bulletin", ifelse(nb.écart.paiements.sft == 1, "", "s"),
+      " de paie présentant un écart de paiement du SFT supérieur à ", tolérance.sft, " euro.\n", sep="")  
+
+  if (afficher.table.écarts.sft)
+     kable(controle.sft, row.names = FALSE, align = 'c')
+    
+} else {
+  
+  cat("\nPour les agents ayant au moins un enfant, il n'a été détecté aucun écart de paiement sur SFT supérieur à ", tolérance.sft, " euro.\n")
+      
+}
+
+#'  
+#'[Lien vers la base des écarts de paiement sur SFT](Bases/Réglementation/controle.sft.csv)
+#'  
+
+
+message("Analyse du SFT")
+
+# data.table here overallocates memory hence inefficient !
+# Bulletins.paie[NbEnfants > 0 , SFT.controle := sft(NbEnfants, Indice, Heures, Année, Mois)]
        
 
 #'# Annexe
@@ -1951,10 +2112,10 @@ nligne.base.heures.nulles.salaire.nonnull     <- nrow(base.heures.nulles.salaire
 nligne.base.quotité.indéfinie.salaire.nonnull <- nrow(base.quotité.indéfinie.salaire.nonnull)
 #'  
 if (nligne.base.heures.nulles.salaire.nonnull)
-   cat("Nombre de bulletins de paye de salaires (net ou brut) versés pour un champ Heures = 0 : ", FR(nligne.base.heures.nulles.salaire.nonnull))
+   cat("Nombre de bulletins de paie de salaires (net ou brut) versés pour un champ Heures = 0 : ", FR(nligne.base.heures.nulles.salaire.nonnull))
 #'   
 if (nligne.base.quotité.indéfinie.salaire.nonnull)
-   cat("\nNombre de bulletins de paye de salaires (net ou brut) versés pour une quotité de travail indéfinie : ", FR(nligne.base.heures.nulles.salaire.nonnull))
+   cat("\nNombre de bulletins de paie de salaires (net ou brut) versés pour une quotité de travail indéfinie : ", FR(nligne.base.heures.nulles.salaire.nonnull))
 #'   
 #'[Lien vers la base de données des salaires versés pour Heures=0](Bases/Fiabilité/base.heures.nulles.salaire.nonnull.csv)   
 #'[Lien vers la base de données des salaires versés à quotité indéfinie](Bases/Fiabilité/base.quotité.indéfinie.salaire.nonnull.csv)   
@@ -2015,7 +2176,9 @@ if (sauvegarder.bases.analyse) {
              "RI.et.vacations",
              "traitement.et.vacations",
              "cumul.lignes.paie",
-             "cumul.total.lignes.paie")
+             "cumul.total.lignes.paie",
+             "controle.sft",
+             "Paie.sans.enfant.réduit")
   
   sauv.bases(file.path(chemin.dossier.bases, "Fiabilité"),
               "base.heures.nulles.salaire.nonnull",
@@ -2027,6 +2190,6 @@ if (sauvegarder.bases.origine)
   sauv.bases(file.path(chemin.dossier.bases, "Paiements"),
              "Paie",
              "Bulletins.paie")
-
 if (! générer.rapport)
+
    setwd(currentDir)
