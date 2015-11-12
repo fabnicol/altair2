@@ -60,10 +60,18 @@ static inline int GCC_INLINE Bulletin(const char*  tag, xmlNodePtr& cur, int l, 
 
 #if defined(__WIN32__) && !defined(USE_ICONV)
 
-            if (i > 0 && info.Table[info.NCumAgentXml][l][i] == 0xC3)
+            if (info.Table[info.NCumAgentXml][l][i] == 0xC3)
             {
 
                 info.Table[info.NCumAgentXml][l][i] = ((info.Table[info.NCumAgentXml][l][i + 1] & 0xF0) + 0x40) | (info.Table[info.NCumAgentXml][l][i + 1] & 0x0F);
+                 for (int j = i + 1; info.Table[info.NCumAgentXml][l][j] != 0; ++j)
+                 {
+                     info.Table[info.NCumAgentXml][l][j] = info.Table[info.NCumAgentXml][l][j + 1];
+                 }
+                 --size;
+            } else if (info.Table[info.NCumAgentXml][l][i] == 0xC2)
+            {
+                info.Table[info.NCumAgentXml][l][i] = info.Table[info.NCumAgentXml][l][i + 1];
                  for (int j = i + 1; info.Table[info.NCumAgentXml][l][j] != 0; ++j)
                  {
                      info.Table[info.NCumAgentXml][l][j] = info.Table[info.NCumAgentXml][l][j + 1];
