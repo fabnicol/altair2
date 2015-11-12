@@ -145,8 +145,8 @@ standardPage::standardPage()
                                   flags::status::enabledChecked | flags::commandLineType::noCommandLine,
                                   "ecoRAM",
                                  {"Mode économe en mémoire", ""},
-                                 {NULL},
-                                 { nLineLabel, NLineLabel, nLineEdit, NLineEdit});
+                                 QList<QWidget*>(),   // attention {nullptr} serait ambigu
+                                 {nLineLabel, NLineLabel, nLineEdit, NLineEdit});
 
 
     v1Layout->addWidget(tableCheckBox,     1, 0, Qt::AlignLeft);

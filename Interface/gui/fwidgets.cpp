@@ -34,8 +34,11 @@ void FAbstractConnection::meta_connect(FAbstractWidget* w,  const Q2ListWidget *
                 // This does not always work automatically through Qt parenting as it normally should, so it is necessary to reimplement enabling dependencies
                 // e.g. for QLabels
 
-                if (!component->isEnabled() || (component->metaObject()->className() == QString("FCheckBox") &&  ! static_cast<FCheckBox*>(component)->isChecked()))
+                if (! component->isEnabled())
                     item->setEnabled(false);
+                else
+                    if (component->metaObject()->className() == QString("FCheckBox"))
+                        item->setEnabled(static_cast<FCheckBox*>(component)->isChecked());
 
                  connect(component, SIGNAL(toggled(bool)), item, SLOT(setEnabled(bool)));
 
@@ -68,6 +71,12 @@ void FAbstractConnection::meta_connect(FAbstractWidget* w,  const Q2ListWidget *
                 QWidget* item=j.next();
 
                 if ((item == nullptr) || (component==nullptr)) continue;
+
+                if (! component->isEnabled())
+                    item->setEnabled(false);
+                else
+                    if (component->metaObject()->className() == QString("FCheckBox"))
+                        item->setEnabled(! static_cast<FCheckBox*>(component)->isChecked());
 
                 connect(component, SIGNAL(toggled(bool)), item , SLOT(setDisabled(bool)));
 
@@ -223,7 +232,6 @@ FListWidget::FListWidget(QWidget* par,
                          const QList<QString> *terms,
                          const QList<QString>*translation,
                          QWidget* controlledWidget)
-
 {
     setAcceptDrops(true);
 
@@ -262,6 +270,7 @@ const FString& FListWidget::translate(const FStringList &s)
     FStringListIterator i(s)  ;
     FStringList L=FStringList();
     int j=0;
+
     while (i.hasNext())
     {
         L << QStringList();
@@ -414,7 +423,7 @@ void FListWidget::refreshWidgetDisplay()
 
 
 
-FCheckBox::FCheckBox(const QString &boxLabel, int status, const QString &hashKey, const QStringList &description, const char* commandLineString,
+FCheckBox::FCheckBox(const QString &boxLabel, int status, const QString &hashKey, const QStringList &description, const QString& commandLineString,
                      const QList<QWidget*> &enabledObjects, const QList<QWidget*> &disabledObjects) : QCheckBox(boxLabel)
 {
     setLayoutDirection(Qt::RightToLeft);
