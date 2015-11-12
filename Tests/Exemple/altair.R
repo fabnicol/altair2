@@ -1350,6 +1350,60 @@ Tableau(
 #'**Nota :**   
 #'NBI: nouvelle bonification indiciaire   
 #'PFI: prime de fonctions informatiques   
+#'
+
+T1 <- Bulletins.paie[ , .(nbi.cumul.indiciaire=sum(NBI, na.rm = TRUE)), by="Matricule,Année"] 
+T1 <- T1[nbi.cumul.indiciaire > 0] 
+
+T2 <- Paie[grepl(expression.rég.nbi, Libellé, perl=TRUE, ignore.case=TRUE) == TRUE 
+           & Type %chin% c("T", "I")
+           & NBI != 0,
+           .(nbi.cumul.montants = sum(Montant, na.rm=TRUE)), keyby="Matricule,Année"]
+
+T2 <- T2[nbi.cumul.montants != 0]
+
+T <- merge(T1, T2, by=c("Matricule", "Année"))
+
+cumuls.nbi <- T[, .(cumul.annuel.indiciaire = sum(nbi.cumul.indiciaire, na.rm = TRUE),
+      cumul.annuel.montants = sum(nbi.cumul.montants, na.rm = TRUE)), keyby="Année"]
+
+T <- T[, ratio := nbi.cumul.montants/nbi.cumul.indiciaire]
+
+T <- T[, nbi.anormale := (abs(ratio) < 4 | abs(ratio) > 6)]
+
+lignes.nbi.anormales <- T[nbi.anormale == TRUE, .(Matricule, Année, nbi.cumul.indiciaire, nbi.cumul.montants)]
+
+montants.nbi.anormales <- sum(lignes.nbi.anormales$nbi.cumul.montants, na.rm = TRUE)
+
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
+Tableau(
+  c("Rémunérations de NBI anormales, par agent et par exercice",
+    "Montants correspondants"),
+  nrow(lignes.nbi.anormales),
+  formatC(montants.nbi.anormales, big.mark = " ", format="f", digits=0))
+
+rm(T, T1, T2)
+#'   
+#'[Lien vers la base de données NBI anormales](Bases/Fiabilité/lignes.nbi.anormales.csv)   
+#'   
+#'**Nota :**   
+#'*Est considéré comme manifestement anormal un total annuel de rémunérations NBI correspondant à un point d'indice net mensuel inférieur à 4 euros ou supérieur à 6 euros.*    
+#'*Les rappels ne sont pas pris en compte dans les montants versés. Certains écarts peuvent être régularisés en les prenant en compte*     
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
+Tableau.vertical2(c("Année", "cumul des indices de NBI", "Cumul des montants versés (hors rappels)"), 
+                  cumuls.nbi$Année, cumuls.nbi$cumul.annuel.indiciaire, cumuls.nbi$cumul.annuel.montants)
+
+
+#'   
+#'[Lien vers la base de données des cumuls annuels de NBI](Bases/Fiabilité/cumuls.nbi.csv)   
+#'   
+
 #'  
 #'## `r chapitre`.2 Contrôle des vacations pour les fonctionnaires
 
@@ -1381,7 +1435,7 @@ if (! is.null(nombre.fonctionnaires.et.vacations)) {
 #'[Lien vers les matricules des fonctionnaires concernés](Bases/Réglementation/matricules.fonctionnaires.et.vacations.csv)
 #'[Lien vers les bulletins de paie correspondants](Bases/Réglementation/lignes.fonctionnaires.et.vacations.csv)
 #'
-#'## `r chapitre`.3 Contrôles sur les cumuls traitement indiciaire, indemnités et vacations des contractuels
+#'## `r chapitre`.3 Contrôles sur les cumuls traitement indiciaire, indemnités et vacations des contractuels    
 
 # Vacations et régime indemnitaire
 
@@ -1436,11 +1490,11 @@ if (! is.null(nombre.fonctionnaires.et.vacations)) {
 #'**Contractuels effectuant des vacations (CEV)**
 #'
 
-
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+  
 if (exists("nombre.contractuels.et.vacations")) {
-  #'  
-  #'&nbsp;*Tableau `r incrément()`*   
-  #'    
   
   Tableau(c("Nombre de CEV",
             "Nombre de lignes",
@@ -1451,6 +1505,7 @@ if (exists("nombre.contractuels.et.vacations")) {
             nombre.Lignes.paie.RI.et.vacations,
             nombre.Lignes.paie.traitement.et.vacations)
 }
+  
 #'  
 #'[Lien vers le bulletins des CEV](Bases/Réglementation/lignes.contractuels.et.vacations.csv)   
 #'[Lien vers la base de données Matricules des CEV](Bases/Réglementation/matricules.contractuels.et.vacations.csv)  
@@ -1459,7 +1514,7 @@ if (exists("nombre.contractuels.et.vacations")) {
 #'  
 #'
 #'
-#'## `r chapitre`.4 Contrôle sur les indemnités IAT et IFTS
+#'## `r chapitre`.4 Contrôle sur les indemnités IAT et IFTS      
 
 #IAT et IFTS
 
@@ -1828,29 +1883,27 @@ setnames(cumul.lignes.paie[ , Total := NULL], "Total2", "Total")
 
 L <- split(cumul.lignes.paie, cumul.lignes.paie$Année)
 
-#'  
-#'### Somme des lignes de paie par exercice, catégorie de ligne de paie et libellé   
-#'  
+  
 
 if (afficher.cumuls.détaillés.lignes.paie) {
   for (i in 1:durée.sous.revue) {
-    cat("\nAnnée ", début.période.sous.revue + i - 1)
+    cat("\nTableau ", incrément(), " Année ", début.période.sous.revue + i - 1)
     print(kable(L[[i]][, .(Catégorie = Type, Code, Libellé, Total)], row.names = FALSE, align = 'r'))
+    incrément()
   }
-} else {
-  
-  cat("\nLa base des cumuls détaillés des lignes de paie est disponible en lien ci-après.\n")
 }
 
 L <- split(cumul.total.lignes.paie, cumul.total.lignes.paie$Année)
 
 #'  
-#'### Cumul des lignes de paie par exercice et catégorie de ligne de paie   
+#'Cumul des lignes de paie par exercice et catégorie de ligne de paie   
 #'  
 
+
 for (i in 1:durée.sous.revue) {
-  cat("\nAnnée ", début.période.sous.revue + i - 1)
+  cat("\nTableau ", incrément(), " Année ", début.période.sous.revue + i - 1)
   print(kable(L[[i]][, .(Catégorie = Type, `Cumul annuel`)], row.names = FALSE, align = 'r'))
+
 }
 
 rm(L)
@@ -2029,9 +2082,9 @@ Paie.enfants.réduit[ , delta.SFT := SFT.versé - SFT.controle]
 # On accepte un tolérance fixée dans prologue.R à tolérance.sft <- 1 euro
 
 controle.sft <- Paie.enfants.réduit[delta.SFT > tolérance.sft, 
-                                      .(round(delta.SFT, 2),
+                                      .(delta.SFT = round(delta.SFT, 2),
                                        SFT.versé,
-                                       round(SFT.controle, 2),
+                                       SFT.controle = round(SFT.controle, 2),
                                        Matricule, 
                                        Année,
                                        Mois,
@@ -2183,7 +2236,9 @@ if (sauvegarder.bases.analyse) {
   
   sauv.bases(file.path(chemin.dossier.bases, "Fiabilité"),
               "base.heures.nulles.salaire.nonnull",
-              "base.quotité.indéfinie.salaire.nonnull")
+              "base.quotité.indéfinie.salaire.nonnull",
+              "lignes.nbi.anormales",
+              "cumuls.nbi")
   
 }
 
