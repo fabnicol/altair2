@@ -507,7 +507,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, std::ofstream& log)
 
         for (int l : {Nom, Prenom, Matricule, NIR, EmploiMetier, Statut, NbEnfants, Grade, Indice})
         {
-           info.Table[info.NCumAgentXml][l] = xmlStrdup((xmlChar*)"*");
+           info.Table[info.NCumAgentXml][l] = xmlStrdup((xmlChar*)"");
         }
 
         cur = cur_parent;
