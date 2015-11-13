@@ -52,8 +52,7 @@ source("import.R", encoding = encodage.code.source)
 #+ echo = FALSE
 #'`r format(Sys.Date(), "%a %d %b %Y")`
 #'
-###########  Analyse des rémunérations  ########
-# Nécessairement après import.R
+
 
 source("analyse.rémunérations.R", encoding = encodage.code.source)
 
@@ -495,7 +494,7 @@ colonnes.sélectionnées <- c("traitement.indiciaire",
                             clé.fusion)
 
 
-########### Analyse statique ########################
+########### Analyse statique des rémunérations ########################
 
 invisible(lapply(années.analyse.statique, function(x) {
                  année <<- x
@@ -514,7 +513,7 @@ invisible(lapply(années.analyse.statique, function(x) {
 #'[Lien vers la base des rémunérations](Bases/Rémunérations/Analyse.rémunérations.csv)  
 #'   
 
-########### INSEE DGCL ###############################
+########### Comparatif INSEE DGCL ###############################
 #'   
 #'## `r chapitre`.4 Comparaisons source INSEE/DGCL   
 #'   
@@ -558,7 +557,7 @@ Tableau.vertical2(
 
 incrémenter.chapitre()
 
-########### Analyse dynamique ########################
+########### Analyse dynamique des rémunérations ########################
 #'
 #'# `r chapitre`. Rémunérations nettes : évolutions sur la période `r début.période.sous.revue` - `r fin.période.sous.revue`    
 #'
@@ -1273,10 +1272,11 @@ Tableau.vertical2(c("Type de collectivité", "SMPT net 2011 (&euro;)", "SMPT net
 
 incrémenter.chapitre()
 
+#'
+########### TESTS STATUTAIRES ########################
+#'
 
-#'
-########### Tests statutaires ########################
-#'
+#### NBI ####
 
 #'# `r chapitre`. Tests réglementaires   
 #'## `r chapitre`.1 Contrôle des heures supplémentaires, des NBI et primes informatiques   
@@ -1400,6 +1400,7 @@ Tableau.vertical2(c("Année", "cumul des indices de NBI", "Cumul des montants ve
                   cumuls.nbi$Année, cumuls.nbi$cumul.annuel.indiciaire, cumuls.nbi$cumul.annuel.montants)
 
 
+#### VACATIONS ####
 #'   
 #'[Lien vers la base de données des cumuls annuels de NBI](Bases/Fiabilité/cumuls.nbi.csv)   
 #'   
@@ -1512,7 +1513,9 @@ if (exists("nombre.contractuels.et.vacations")) {
 #'[Lien vers la base de données Cumul régime indemnitaire et vacations de CEV](Bases/Réglementation/RI.et.vacations.csv)  
 #'[Lien vers la base de données Lignes de traitement indiciaire pour CEV](Bases/Réglementation/traitement.et.vacations.csv)  
 #'  
-#'
+
+#### IAT/IFTS ####  
+  
 #'
 #'## `r chapitre`.4 Contrôle sur les indemnités IAT et IFTS      
 
@@ -1549,8 +1552,8 @@ if (! résultat.ifts.manquant && ! résultat.iat.manquant) {
                               & (ifts.logical == TRUE | iat.logical == TRUE),
                                 .(Matricule, Année, Mois, Code, Libellé, Montant, Type, Emploi, Grade, Service)]
   
-  nombre.mois.cumuls <- nrow(unique(personnels.iat.ifts[ , .(Matricule, Année, Mois)], 
-                                    by = NULL))
+  nombre.mois.cumuls <- uniqueN(personnels.iat.ifts[ , .(Matricule, Année, Mois)], 
+                                    by = NULL)
   
   nombre.agents.cumulant.iat.ifts <- uniqueN(personnels.iat.ifts$Matricule)
   
@@ -1638,8 +1641,10 @@ if (! résultat.ifts.manquant) {
 #'IB < 380 : fonctionnaire percevant un indice brut inférieur à 380
 #'
 
+#### PFR ####
+
 #'
-#'## `r chapitre`.5 Contrôle de la prime de fonctions et de résultats (PFR) et de la prime de responsabilité (PR)     
+#'## `r chapitre`.5 Contrôle de la prime de fonctions et de résultats (PFR)   
 #'   
 résultat.pfr.manquant <- FALSE
 nombre.agents.cumulant.pfr.ifts <- 0
@@ -1650,14 +1655,12 @@ nombre.agents.cumulant.pfr.ifts <- 0
 
 Paie[ , pfr.logical := grepl(expression.rég.pfr, Paie$Libellé, ignore.case=TRUE, perl=TRUE)]
 
-codes.pfr  <- list( "codes PFR" = unique(Paie[pfr.logical == TRUE][ , Code]))
-
+codes.pfr  <- list("codes PFR" = unique(Paie[pfr.logical == TRUE, Code]))
 
 if (length(codes.pfr) == 0) {
   cat("Il n'a pas été possible d'identifier la PFR par expression régulière.")
   résultat.pfr.manquant <- TRUE
 }
-
 
 if (! résultat.ifts.manquant && ! résultat.pfr.manquant) {
   
@@ -1672,7 +1675,7 @@ if (! résultat.ifts.manquant && ! résultat.pfr.manquant) {
                               & (pfr.logical == TRUE | ifts.logical == TRUE),
                               .(Matricule, Année, Mois, Code, Libellé, Montant, Type, Emploi, Grade, Service)]
   
-  nombre.mois.cumuls <- nrow(unique(personnels.pfr.ifts[ , .(Matricule, Année, Mois)], by = NULL))
+  nombre.mois.cumuls <- uniqueN(personnels.pfr.ifts[ , .(Matricule, Année, Mois)], by = NULL)
   
   nombre.agents.cumulant.pfr.ifts <- uniqueN(personnels.pfr.ifts$Matricule)
   
@@ -1683,19 +1686,56 @@ if (! résultat.ifts.manquant && ! résultat.pfr.manquant) {
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'      
-if (nombre.agents.cumulant.pfr.ifts) {
-  Tableau(c("Codes IFTS", "Nombre de personnels percevant PFR/PR et IFTS"),
+
+  Tableau(c("Codes IFTS", "Codes PFR", "Nombre de personnels percevant simultanément PFR et IFTS"),
           sep.milliers = "",
+          paste(unlist(codes.ifts), collapse = " "),
           paste(unlist(codes.pfr), collapse = " "),
           nombre.agents.cumulant.pfr.ifts)
-} else {
-  cat("Tests PFR/IFTS sans résultat positif.")
-}
-
 #'   
-#'[Codes PFR retenus](Bases/Réglementation/codes.pfr.csv)   
 #'[Lien vers la base de données cumuls pfr/ifts](Bases/Réglementation/personnels.pfr.ifts.csv)    
 #'
+
+  P <- Paie[Code %chin% union(unlist(codes.pfr), unlist(codes.ifts)), .(Attrib.PFR = any(pfr.logical), Cumul.PFR.IFTS = sum(Montant, na.rm = TRUE)), by="Nom,Matricule,Année"]
+  P.any <- P[, .(attrib.any = any(Attrib.PFR)), by="Nom,Matricule"]
+  P <- merge(P, P.any, by=c("Nom", "Matricule"))
+  P <- P[attrib.any == TRUE]
+  
+  bénéficiaires.PFR <- P[, attrib.any := NULL]
+  bénéficiaires.PFR <- P[, Attrib.PFR := NULL]
+  
+  rm(P)
+
+  bénéficiaires.PFR.Variation <- bénéficiaires.PFR[ , .(Années = paste(Année, collapse=", "), 
+                                  `Variation (%)`= round((Cumul.PFR.IFTS[length(Année)]/Cumul.PFR.IFTS[1] - 1) * 100, 1),
+                                   `Moyenne géométrique annuelle(%)`= round(((Cumul.PFR.IFTS[length(Année)]/Cumul.PFR.IFTS[1])^(1/(length(Année) - 1)) - 1) * 100, 1)),
+                                   by="Nom,Matricule"]
+  
+  bénéficiaires.PFR.Variation <- bénéficiaires.PFR.Variation[`Variation (%)` != 0.00]
+
+#'   
+#'[Lien vers la base de données agrégat PFR-IFTS](Bases/Rémunérations/bénéficiaires.PFR.csv)    
+#'
+#'   
+#'[Lien vers la base de données variations agrégat PFR-IFTS](Bases/Rémunérations/bénéficiaires.PFR.Variation.csv)    
+#'
+
+#'  
+#'&nbsp;*Tableau `r incrément()`* : Valeurs de l'agrégat (PFR ou IFTS) pour les bénéficiaires de la PFR   
+#'          
+
+  bénéficiaires.PFR$Cumul.PFR.IFTS <- formatC(bénéficiaires.PFR$Cumul.PFR.IFTS, big.mark = " ", format="fg")
+  setnames(bénéficiaires.PFR, "Cumul.PFR.IFTS", "Cumul PFR ou IFTS")
+  kable(bénéficiaires.PFR, align = 'r', row.names = FALSE)
+  
+#'  
+#'&nbsp;*Tableau `r incrément()`* : Variations de l'agrégat (PFR ou IFTS) pour les bénéficiaires de la PFR
+#'          
+  
+  kable(bénéficiaires.PFR.Variation, align = 'r', row.names = FALSE)
+  
+#'         
+#### HEURES SUP ####
 #'
 #'## `r chapitre`.6 Contrôle sur les heures supplémentaires
 
@@ -1788,6 +1828,7 @@ Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"), n
 #'HS en excès : au-delà de 25 heures par mois
 #'IHTS anormales : non attribuées à des fonctionnaires de catégorie B ou C.
 
+#### ELUS ####
 
 #' 
 #'## `r chapitre`.7 Contrôle sur les indemnités des élus
@@ -1843,6 +1884,8 @@ if (sauvegarder.bases.analyse)
 
 #'[Lien vers la base de données Rémunérations des élus](Bases/Réglementation/rémunérations.élu.csv)
 #'
+
+#### COMPTE DE GESTION ####
 
 #'## `r chapitre`.8 Lien avec le compte de gestion
  
@@ -1917,6 +1960,8 @@ rm(L)
 #'  
 #'*Avertissement : les rappels comprennent également les rappels de cotisations et déductions diverses.*    
 #'   
+
+#### SFT ####
 
 #'
 #'## `r chapitre`.9 Contrôle du supplément familial de traitement   
@@ -2122,6 +2167,7 @@ message("Analyse du SFT")
 # data.table here overallocates memory hence inefficient !
 # Bulletins.paie[NbEnfants > 0 , SFT.controle := sft(NbEnfants, Indice, Heures, Année, Mois)]
        
+#### ANNEXE ####
 
 #'# Annexe
 #'## Liens complémentaires
@@ -2200,7 +2246,9 @@ if (sauvegarder.bases.analyse) {
              "masses.premier.personnels",
              "masses.premier.élus",
              "masses.dernier.personnels",
-             "masses.dernier.élus")
+             "masses.dernier.élus",
+             "bénéficiaires.PFR",
+             "bénéficiaires.PFR.Variation")
 
   sauv.bases(file.path(chemin.dossier.bases, "Effectifs"),
              "Bulletins.paie.nir.total.hors.élus",
