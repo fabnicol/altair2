@@ -146,7 +146,7 @@ après.redressement <- 0
 if (éliminer.duplications) {
   avant.redressement <- nrow(Paie)
   duplications.vecteur <- duplicated(Paie, by=NULL)
-  duplications.paie <- Paie[duplications.vecteur]
+  duplications.paie <- Paie[duplications.vecteur & Montant != 0]
   Paie <- Paie[! duplications.vecteur] 
   if (sauvegarder.bases.origine)
       sauv.bases(chemin.dossier.bases, "duplications.paie")
@@ -154,7 +154,7 @@ if (éliminer.duplications) {
   
   avant.redressement.bull <- nrow(Bulletins.paie)
   duplications.vecteur   <- duplicated(Bulletins.paie, by=NULL)
-  duplications.paie.bull <- Bulletins.paie[duplications.vecteur]
+  duplications.paie.bull <- Bulletins.paie[duplications.vecteur & Montant != 0]
   Bulletins.paie <- Bulletins.paie[! duplications.vecteur] 
   if (sauvegarder.bases.origine) {
     sauv.bases(chemin.dossier.bases, "duplications.paie")

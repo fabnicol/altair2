@@ -1395,10 +1395,20 @@ rm(T, T1, T2)
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
+attach(cumuls.nbi)
 
-Tableau.vertical2(c("Année", "cumul des indices de NBI", "Cumul des montants versés (hors rappels)"), 
-                  cumuls.nbi$Année, cumuls.nbi$cumul.annuel.indiciaire, cumuls.nbi$cumul.annuel.montants)
+Tableau.vertical2(c("Année", "Cumuls des NBI", "Montants versés*", "Point d'INM apparent", "Point d'INM moyen", "Contrôle"), 
+                  Année, 
+                  cumul.annuel.indiciaire,
+                  cumul.annuel.montants,
+                  a <- cumul.annuel.montants/cumul.annuel.indiciaire,
+                  b <- PointMensuelIMMoyen[Année-2007],
+                  ifelse(abs(b - a) > 0.3, "Rouge", ifelse(abs(b - a) > 0.15, "Orange", "Vert")))
+#'
+#'*Hors rappels sur rémunérations*   
+#'
 
+detach(cumuls.nbi)
 
 #### VACATIONS ####
 #'   
@@ -1565,10 +1575,17 @@ if (! résultat.ifts.manquant && ! résultat.iat.manquant) {
 #'&nbsp;*Tableau `r incrément()`*   
 #'      
 if (nombre.agents.cumulant.iat.ifts) {
-  Tableau(c("Codes IFTS", "Nombre de personnels percevant IAT et IFTS"),
-          sep.milliers = "",
-          paste(unlist(codes.ifts), collapse=" "),
-          nombre.agents.cumulant.iat.ifts)
+  if (length(codes.ifts) < 10) {
+    Tableau(c("Codes IFTS"),
+            sep.milliers = "",
+            paste(unlist(codes.ifts), collapse=" "))
+  } else {
+    
+    cat ("Nombre de personnels percevant IAT et IFTS : ", paste(unlist(codes.ifts), collapse=" "), "\n")
+  }
+  
+  Tableau(c("Nombre de personnels percevant IAT et IFTS"), nombre.agents.cumulant.iat.ifts)
+       
 } else {
   cat("Tests IAT/IFTS sans résultat positif.")
 }
@@ -1686,39 +1703,79 @@ if (! résultat.ifts.manquant && ! résultat.pfr.manquant) {
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'      
-
-  Tableau(c("Codes IFTS", "Codes PFR", "Nombre de personnels percevant simultanément PFR et IFTS"),
+if (length(codes.ifts) < 6 & length(codes.pfr) < 6) {
+  Tableau(c("Codes IFTS", "Codes PFR", "Agents cumulant PFR et IFTS"),
           sep.milliers = "",
           paste(unlist(codes.ifts), collapse = " "),
           paste(unlist(codes.pfr), collapse = " "),
           nombre.agents.cumulant.pfr.ifts)
+} else {
+  
+  Tableau("Agents cumulant PFR et IFTS",
+          nombre.agents.cumulant.pfr.ifts)
+  
+}
+
+
 #'   
 #'[Lien vers la base de données cumuls pfr/ifts](Bases/Réglementation/personnels.pfr.ifts.csv)    
 #'
 
-  P <- Paie[Code %chin% union(unlist(codes.pfr), unlist(codes.ifts)), .(Attrib.PFR = any(pfr.logical), Cumul.PFR.IFTS = sum(Montant, na.rm = TRUE)), by="Nom,Matricule,Année"]
+  P <- Paie[Code %chin% union(unlist(codes.pfr), unlist(codes.ifts)),
+            .(Attrib.PFR = any(pfr.logical), Cumul.PFR.IFTS = sum(Montant, na.rm = TRUE), Grade = Grade[1]), 
+            by="Nom,Matricule,Année"]
+  
   P.any <- P[, .(attrib.any = any(Attrib.PFR)), by="Nom,Matricule"]
+  
   P <- merge(P, P.any, by=c("Nom", "Matricule"))
   P <- P[attrib.any == TRUE]
   
-  bénéficiaires.PFR <- P[ , attrib.any := NULL]
-  bénéficiaires.PFR <- P[ , Attrib.PFR := NULL]
-  
+  bénéficiaires.PFR <- P[, attrib.any := NULL]
+  bénéficiaires.PFR <- P[, Attrib.PFR := NULL]
   rm(P)
+  
+  # Plafonds annuels (plafonds mensuels reste à implémenter)
+  # AG 58 800
+  # ADTHC 55 200
+  # ADT   49 800
+  # D/ATP 25 800
+  # SM/AT 20 100
 
+#'  
+#'&nbsp;*Tableau `r incrément()` : rappel des plafonds annuels de la PFR*   
+#'      
+  
+  Tableau(c("Adm. général", "Adm. HC", "Adm.", "Direct./Attaché princ.", "Secr. mairie/Attaché"),
+          sapply(PFR.plafonds <<- list( admin.g = 58800, admin.hc = 55200, admin = 49800, attaché.p = 25800, attaché = 20100), 
+                 function(x) formatC(x, format = "fg", big.mark = " ")))
+  #'   
+  
+  e <- c(expression.rég.admin.g, expression.rég.admin.hc, expression.rég.admin, expression.rég.attaché.p, expression.rég.attaché)
+  
+  test.PFR <- function(i, grade, cumul) { grepl(e[i], grade, perl = TRUE, ignore.case = TRUE) & (cumul > PFR.plafonds[[i]]) }
+  test.PFR.all <- function(grade, cumul) any(sapply(1:length(e), function(i) test.PFR(i, grade, cumul)))
+  
+  dépassements.PFR.boolean <- mapply(test.PFR.all, bénéficiaires.PFR$Grade, bénéficiaires.PFR$Cumul.PFR.IFTS, USE.NAMES=FALSE)
+
+  dépassements.PFR.plafonds <- data.frame()
+  
+  if (length(dépassements.PFR.boolean) > 0)
+    dépassements.PFR.plafonds <- bénéficiaires.PFR[dépassements.PFR.boolean]
+  
+  if (nrow(dépassements.PFR.plafonds) > 0) {
+    
+    cat("\nLes plafonds annuels de la PFR sont dépassés pour ", nrow(dépassements.PFR.plafonds), " cumuls annuels.\n")
+    kable(dépassements.PFR.plafonds, align = 'r', row.names = FALSE)
+  } else {
+    cat("\nLes plafonds annuels de la PFR de sont pas dépassés.\n")
+  }
+    
   bénéficiaires.PFR.Variation <- bénéficiaires.PFR[ , .(Années = paste(Année, collapse=", "), 
                                   `Variation (%)`= round((Cumul.PFR.IFTS[length(Année)]/Cumul.PFR.IFTS[1] - 1) * 100, 1),
                                    `Moyenne géométrique annuelle(%)`= round(((Cumul.PFR.IFTS[length(Année)]/Cumul.PFR.IFTS[1])^(1/(length(Année) - 1)) - 1) * 100, 1)),
                                    by="Nom,Matricule"]
   
   bénéficiaires.PFR.Variation <- bénéficiaires.PFR.Variation[`Variation (%)` != 0.00]
-
-#'   
-#'[Lien vers la base de données agrégat PFR-IFTS](Bases/Rémunérations/bénéficiaires.PFR.csv)    
-#'
-#'   
-#'[Lien vers la base de données variations agrégat PFR-IFTS](Bases/Rémunérations/bénéficiaires.PFR.Variation.csv)    
-#'
 
 #'  
 #'&nbsp;*Tableau `r incrément()`* : Valeurs de l'agrégat (PFR ou IFTS) pour les bénéficiaires de la PFR   
@@ -1742,6 +1799,15 @@ if (! résultat.ifts.manquant && ! résultat.pfr.manquant) {
   }
   
 #'         
+
+#'   
+#'[Lien vers la base de données agrégat PFR-IFTS](Bases/Rémunérations/bénéficiaires.PFR.csv)    
+#'
+#'   
+#'[Lien vers la base de données variations agrégat PFR-IFTS](Bases/Rémunérations/bénéficiaires.PFR.Variation.csv)    
+#'
+
+  
 #### HEURES SUP ####
 #'
 #'## `r chapitre`.6 Contrôle sur les heures supplémentaires
@@ -2003,12 +2069,31 @@ quotité.temps.partiel <- function(temps.de.travail) {
 
 verif.temps.complet <- function() {
   
-              h <- hist(Bulletins.paie[Temps.de.travail == 100, Heures], nclass = 20000, plot = FALSE)
-          max.h <- which.max(h$counts)
-          delta <- (h$mids[max.h + 1] - h$mids[max.h - 1])/2
-  nb.heures.temps.complet <<- floor(h$mids[max.h])
+  # dans certains cas on a presque jamais la variable Heures renseignée... sauf pour quelques temps partiels
+
+          h <- hist(Bulletins.paie[Temps.de.travail == 100, Heures], nclass = 20000, plot = FALSE)
+      max.h <- which.max(h$counts)
+      
+      if (max.h > 1) {
+        
+        delta <- (h$mids[max.h + 1] - h$mids[max.h - 1])/2
+        
+        if (is.na(delta)) delta <<- 1 #Présomption
+          
+        nb.heures.temps.complet <<- floor(h$mids[max.h])
+
+      } else {
+
+          return(TRUE) # présomption
+      }
   
-    return(abs(nb.heures.temps.complet - 1820 / 12) < 1 + delta)
+    valeur <- (abs(nb.heures.temps.complet - 151.67) < 1 + delta)  
+    
+    if (is.na(valeur))  {
+      valeur <- TRUE # présomption
+    }
+
+    return(valeur)
 }
 
 message("Vérification de la durée légale théorique du travail (1820 h = 35h x 52 semaines soit 151,67 h/mois)")
@@ -2017,7 +2102,7 @@ if (verif.temps.complet()) {
   
   cat("\nLa durée du travail prise en compte dans la base de données est de 1820 h par an.\n")
   
-  nb.heures.temps.complet <- 1820 / 12
+  nb.heures.temps.complet <- 151.67  #  1820 / 12
   
 } else {
   
@@ -2025,8 +2110,7 @@ if (verif.temps.complet()) {
   
   cat("\nLa durée du travail prise en compte dans la base de données est de ", nb.heures.temps.complet, " h par mois.\n")
   
-  if (nb.heures.temps.complet > 1.1 * 1820/12 || nb.heures.temps.complet < 0.9 * 1820/12)
-  {
+  if (nb.heures.temps.complet > 1.1 * 151.67 || nb.heures.temps.complet < 0.9 * 151.67)  {
     semaine.de.travail <- nb.heures.temps.complet * 12 / 52
     
     cat("\nAttention !\nLe temps de travail hebdomadaire s'écarte significativement de la durée légale : ", 
@@ -2038,6 +2122,8 @@ if (verif.temps.complet()) {
 sft <- function(x, indice, nbi, durée, année, mois)   {
 
 #    if (is.na(x) || x <= 0 || is.na(indice)) return(0)
+  
+    if (x > 15) return(-1)
   
     if (is.na(durée) || is.na(x) || is.na(indice)) return(0)
   
@@ -2073,7 +2159,9 @@ sft <- function(x, indice, nbi, durée, année, mois)   {
     
     # vérification du plancher des attributions minimales à temps plein
     
-    if (x != 1) valeur <- max(valeur, part.proportionnelle.minimale[ , , x][année - 2007, mois] + sft.fixe[x])
+    if (x != 1) 
+            valeur <- max(valeur, part.proportionnelle.minimale[ , , x][année - 2007, mois] + sft.fixe[x])
+    
     
     #if (is.na(valeur)) valeur <- 0
     
@@ -2178,10 +2266,7 @@ message("Analyse du SFT")
 
 #'# Annexe
 #'## Liens complémentaires
-#'
-#'[Lien vers la base de données des bulletins et lignes de paie](Bases/Paiements/Bulletins.paie.csv)
-#'[Lien vers la base de données fusionnées des bulletins et lignes de paie](Bases/Paiements/Paie.csv)
-#'
+
 #'
 #'[Lien vers le fichier des personnels](Bases/Effectifs/Catégories des personnels.csv)
 #'  
