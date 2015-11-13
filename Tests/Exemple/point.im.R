@@ -10,6 +10,7 @@ PointIM <- matrix(c(
 
 PointMensuelIM <- PointIM / 12
 
+PointMensuelIMMoyen <- apply(PointMensuelIM, 1, mean)
 
 # pour avoir la valeur du point d'indice retrancher 2007 à l'année :
 #   PointIM[année - 2007, mois]
