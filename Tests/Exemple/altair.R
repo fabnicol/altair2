@@ -1701,8 +1701,8 @@ if (! résultat.ifts.manquant && ! résultat.pfr.manquant) {
   P <- merge(P, P.any, by=c("Nom", "Matricule"))
   P <- P[attrib.any == TRUE]
   
-  bénéficiaires.PFR <- P[, attrib.any := NULL]
-  bénéficiaires.PFR <- P[, Attrib.PFR := NULL]
+  bénéficiaires.PFR <- P[ , attrib.any := NULL]
+  bénéficiaires.PFR <- P[ , Attrib.PFR := NULL]
   
   rm(P)
 
@@ -1724,15 +1724,22 @@ if (! résultat.ifts.manquant && ! résultat.pfr.manquant) {
 #'&nbsp;*Tableau `r incrément()`* : Valeurs de l'agrégat (PFR ou IFTS) pour les bénéficiaires de la PFR   
 #'          
 
-  bénéficiaires.PFR$Cumul.PFR.IFTS <- formatC(bénéficiaires.PFR$Cumul.PFR.IFTS, big.mark = " ", format="fg")
-  setnames(bénéficiaires.PFR, "Cumul.PFR.IFTS", "Cumul PFR ou IFTS")
-  kable(bénéficiaires.PFR, align = 'r', row.names = FALSE)
+  if (nrow(bénéficiaires.PFR)) {
+    bénéficiaires.PFR$Cumul.PFR.IFTS <- formatC(bénéficiaires.PFR$Cumul.PFR.IFTS, big.mark = " ", format="fg")
+    setnames(bénéficiaires.PFR, "Cumul.PFR.IFTS", "Cumul PFR ou IFTS")
+    kable(bénéficiaires.PFR, align = 'r', row.names = FALSE)
+  } else {
+    cat("\nAucun de bénéficiaire de la PFR détecté.\n")
+  }
   
 #'  
 #'&nbsp;*Tableau `r incrément()`* : Variations de l'agrégat (PFR ou IFTS) pour les bénéficiaires de la PFR
 #'          
-  
-  kable(bénéficiaires.PFR.Variation, align = 'r', row.names = FALSE)
+  if (nrow(bénéficiaires.PFR.Variation)) {
+    kable(bénéficiaires.PFR.Variation, align = 'r', row.names = FALSE)
+  } else {
+    cat("\nAucun tableau de variation.\n")
+  }
   
 #'         
 #### HEURES SUP ####
@@ -2230,7 +2237,7 @@ if (nligne.base.quotité.indéfinie.salaire.nonnull)
 if (générer.table.effectifs) {
   kable(matricules, row.names = FALSE) 
 } else  {
-  cat("Non généré  [anonymisation]")
+  cat("\nNon généré  [anonymisation]\n")
 }
 
 # ------------------------------------------------------------------------------------------------------------------

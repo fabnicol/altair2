@@ -188,7 +188,7 @@ modalité.autres                <- "AUTRES"         # notamment les remboursemen
 expression.rég.heures.sup <- "(?:^|\\s)iht?[sc]|i(?:(?=n)n\\w*|)\\.?\\s*\\bh(?:(?=o)o\\w*|)\\.?.*\\bs(?:(?=u)u\\w*|)\\.?\\b|h(?:(?=e)e\\w*|)\\.?\\s*\\b(?:(?=s)s\\w*|(?:(?=c)c\\w*|))\\.?\\b"
 expression.rég.iat        <- "(?:^|\\s)iat|i(?:(?=n)n\\w*|)\\.?\\s*\\ba(?:(?=d)d\\w*|)\\.?\\s*\\b(?:et\\s*\\b)?t(?:(?=e)e\\w*|)\\.?\\b"
 expression.rég.ifts       <- "(?:^|\\s)ifts|i(?:(?=n)n\\w*|)\\.?\\s*\\bf\\w*\\.?\\s*\\bt(?:(?=r)r\\w*|)\\.?\\s*\\bs(?:(?=u)u\\w*|)\\.?\\b"
-expression.rég.pfr        <- "(?:^|\\s)pfr|p(?:(?=r)r\\w*|)\\.?\\s*\\bf(?:(?=o)o\\w*|)\\.?\\s*(?:et|)\\s*\\br(?:.?.?su\\w*|)\\.?\\s*\\b|p(?:(?=r)r\\w*|)\\.?\\s*\\br(?:.?.?su\\w*|)\\.?\\b"
+expression.rég.pfr        <- "(?:^|\\s)pfr|p(?:(?=r)r\\w*|)\\.?\\s*\\bf(?:(?=o)o\\w*|)\\.?\\s*(?:et|)\\s*\\br(?:.?.?su\\w*|)\\.?\\s*\\b"
 expression.rég.pfi        <- "(?:^|\\s)pfi|p(?:(?=r)r\\w*|)\\.?\\s*\\bf(?:(?=o)o\\w*|)\\.?\\s*\\bi(?:(?=n)n\\w*|)\\.?\\b"
 expression.rég.population <- "\\bASS(\\b|A).*"
 expression.rég.élus       <- "maire|pr[eé]sident|.*([eé]lu[s]?|adj.*maire|v\\w*.*\\s+pr[eé]sident|cons\\w*.*\\s+muni|cons\\w*.*\\s+commun)"
