@@ -46,7 +46,7 @@ public:
     void dragEnterEvent(QDragEnterEvent *event);
     void dropEvent(QDropEvent *event);
     QPoint startPos;
-    QProcess* process = new QProcess;
+    QProcess process;
     QFile rankFile;
     QFile stateFile;
     QProcess ejectProcess;

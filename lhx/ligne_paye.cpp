@@ -71,7 +71,12 @@ static inline int GCC_INLINE Bulletin(const char*  tag, xmlNodePtr& cur, int l, 
                  --size;
             } else if (info.Table[info.NCumAgentXml][l][i] == 0xC2)
             {
+
                 info.Table[info.NCumAgentXml][l][i] = info.Table[info.NCumAgentXml][l][i + 1];
+                /* Le caractère ° (degré) est bien codé en Latin-1 comme 0xB0, mais il y an problème avec le paquet texlive
+                 * inputenc pour la conversion pdf. On remplace donc par e (0x65) */
+
+                //if (info.Table[info.NCumAgentXml][l][i] == 0xB0) info.Table[info.NCumAgentXml][l][i] = 0x65;
                  for (int j = i + 1; info.Table[info.NCumAgentXml][l][j] != 0; ++j)
                  {
                      info.Table[info.NCumAgentXml][l][j] = info.Table[info.NCumAgentXml][l][j + 1];

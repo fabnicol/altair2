@@ -98,7 +98,7 @@ Altair::Altair()
     outputTextEdit->setMinimumHeight(200);
     outputTextEdit->setReadOnly(true);
 
-    connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int)));
+    connect(&process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int)));
 
     project[0]->model=model;
     project[0]->slotList=nullptr;
@@ -668,9 +668,9 @@ void Altair::dropEvent(QDropEvent *event)
 
 void FProgressBar::stop()
 {
-    if (parent->process->state() == QProcess::Running
+    if (parent->process.state() == QProcess::Running
         ||
-        (parent->process->exitStatus() == QProcess::NormalExit))
+        (parent->process.exitStatus() == QProcess::NormalExit))
         {
             if (bar->value() < bar->maximum()) bar->setValue(bar->maximum());
         }
@@ -687,7 +687,7 @@ void FProgressBar::stop()
 
 void FProgressBar::computeLHXParsingProgressBar()
 {
-    if (parent->process->state() != QProcess::Running) return;
+    if (parent->process.state() != QProcess::Running) return;
 
     int level = std::min(maximum(), this->parent->fileRank);
 
@@ -784,9 +784,9 @@ FProgressBar::FProgressBar(Altair* parent,
                  else
                   computeRProgressBar();});
 
-    connect(this->parent->process, SIGNAL(started()), this, SLOT(showProgressBar()));
+    connect(&(this->parent->process), SIGNAL(started()), this, SLOT(showProgressBar()));
     connect(killButton, &QToolButton::clicked, parent, killFunction);
-    connect(this->parent->process, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(stop()));
+    connect(&this->parent->process, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(stop()));
     connect(this->parent, SIGNAL(setProgressBar(int,int)), this, SLOT(setValue(int, int)));
     connect(this->parent, SIGNAL(setProgressBar(int)), this, SLOT(setValue(int)));
     connect(this->parent, SIGNAL(hideProgressBar()), this, SLOT(hide()));

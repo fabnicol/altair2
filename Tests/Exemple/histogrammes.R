@@ -8,7 +8,7 @@ if (longueur.non.na(filtre.fonctionnaire(Montant.brut.annuel.eqtp) > 0))
        xlab = "En milliers d'euros EQTP\n",
        ylab = "Effectif",
        xlim = c(0, 40),
-       main = "RÃ©munÃ©ration brute annuelle des fonctionnaires en " %+% annÃ©e,
+       main = "Rémunération brute annuelle des fonctionnaires en " %+% année,
        col = "blue",
        breaks = 250)
 
@@ -19,52 +19,52 @@ if (longueur.non.na(filtre.fonctionnaire(Montant.brut.annuel.eqtp[Montant.brut.a
        xlab = "En milliers d'euros EQTP\n",
        ylab = "Effectif",
        xlim = c(40, 120),
-       main = "RÃ©munÃ©ration brute annuelle des fonctionnaires en " %+% annÃ©e,
+       main = "Rémunération brute annuelle des fonctionnaires en " %+% année,
        col = "blue",
        breaks = 250)
 
 #'   
 #'    
 #'    
-if (longueur.non.na(filtre.fonctionnaire(rÃ©munÃ©ration.indemnitaire.imposable.eqtp[rÃ©munÃ©ration.indemnitaire.imposable.eqtp < 10000]) > 0))
-  hist(filtre.fonctionnaire(rÃ©munÃ©ration.indemnitaire.imposable.eqtp[rÃ©munÃ©ration.indemnitaire.imposable.eqtp < 10000])/1000,
+if (longueur.non.na(filtre.fonctionnaire(rémunération.indemnitaire.imposable.eqtp[rémunération.indemnitaire.imposable.eqtp < 10000]) > 0))
+  hist(filtre.fonctionnaire(rémunération.indemnitaire.imposable.eqtp[rémunération.indemnitaire.imposable.eqtp < 10000])/1000,
        xlab = "En milliers d'euros EQTP\n",
        ylab = "Effectif",
        xlim = c(0, 10),
-       main = "RÃ©munÃ©ration indemnitaire imposable annuelle des fonctionnaires en " %+% annÃ©e,
+       main = "Rémunération indemnitaire imposable annuelle des fonctionnaires en " %+% année,
        col = "blue",
        breaks = 150)
 #'   
 #'   
 #'   
-if (longueur.non.na(filtre.fonctionnaire(rÃ©munÃ©ration.indemnitaire.imposable.eqtp[rÃ©munÃ©ration.indemnitaire.imposable.eqtp > 10000]) > 0))
-  hist(filtre.fonctionnaire(rÃ©munÃ©ration.indemnitaire.imposable.eqtp[rÃ©munÃ©ration.indemnitaire.imposable.eqtp > 10000])/1000,
+if (longueur.non.na(filtre.fonctionnaire(rémunération.indemnitaire.imposable.eqtp[rémunération.indemnitaire.imposable.eqtp > 10000]) > 0))
+  hist(filtre.fonctionnaire(rémunération.indemnitaire.imposable.eqtp[rémunération.indemnitaire.imposable.eqtp > 10000])/1000,
        xlab = "En milliers d'euros EQTP\n",
        ylab = "Effectif",
        xlim = c(10, 60),
-       main = "RÃ©munÃ©ration indemnitaire imposable annuelle des fonctionnaires en " %+% annÃ©e,
+       main = "Rémunération indemnitaire imposable annuelle des fonctionnaires en " %+% année,
        col = "blue",
        breaks = 150)
 #'   
 #'   
 #'   
 
-if (longueur.non.na(filtre.fonctionnaire(part.rÃ©munÃ©ration.indemnitaire[part.rÃ©munÃ©ration.indemnitaire < 30]) > 0)) 
-  hist(filtre.fonctionnaire(part.rÃ©munÃ©ration.indemnitaire[part.rÃ©munÃ©ration.indemnitaire < 30]),
-       xlab = "Part des indemnitÃ©s imposables (< 30 %) dans la rÃ©munÃ©ration brute en %\n",
+if (longueur.non.na(filtre.fonctionnaire(part.rémunération.indemnitaire[part.rémunération.indemnitaire < 30]) > 0)) 
+  hist(filtre.fonctionnaire(part.rémunération.indemnitaire[part.rémunération.indemnitaire < 30]),
+       xlab = "Part des indemnités imposables (< 30 %) dans la rémunération brute en %\n",
        ylab = "Effectif",
-       main = "Part indemnitaire de la rÃ©munÃ©ration annuelle des fonctionnaires en " %+% annÃ©e,
+       main = "Part indemnitaire de la rémunération annuelle des fonctionnaires en " %+% année,
        xlim = c(0,30),
        col = "blue",
        breaks = 250)
 #'   
 #'   
 #'   
-if (longueur.non.na(filtre.fonctionnaire(part.rÃ©munÃ©ration.indemnitaire[part.rÃ©munÃ©ration.indemnitaire > 30]) > 0)) 
-  hist(filtre.fonctionnaire(part.rÃ©munÃ©ration.indemnitaire[part.rÃ©munÃ©ration.indemnitaire > 30]),
-       xlab = "Part des indemnitÃ©s imposables (> 30 %)  dans la rÃ©munÃ©ration brute en %\n",
+if (longueur.non.na(filtre.fonctionnaire(part.rémunération.indemnitaire[part.rémunération.indemnitaire > 30]) > 0)) 
+  hist(filtre.fonctionnaire(part.rémunération.indemnitaire[part.rémunération.indemnitaire > 30]),
+       xlab = "Part des indemnités imposables (> 30 %)  dans la rémunération brute en %\n",
        ylab = "Effectif",
-       main = "Part indemnitaire de la rÃ©munÃ©ration annuelle des fonctionnaires en " %+% annÃ©e,
+       main = "Part indemnitaire de la rémunération annuelle des fonctionnaires en " %+% année,
        xlim = c(30,100),
        col = "blue",
        include.lowest=TRUE,
