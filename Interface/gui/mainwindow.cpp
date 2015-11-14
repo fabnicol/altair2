@@ -103,7 +103,7 @@ MainWindow::MainWindow(char* projectName)
 
   connect(clearBottomTabWidgetButton, &QToolButton::clicked, [this] { on_clearOutputTextButton_clicked();});
   connect(consoleDialog, SIGNAL(copyAvailable(bool)), consoleDialog, SLOT(copy()));
-  connect(altair->process, SIGNAL(finished(int)), this, SLOT(resetCounter()));
+  connect(&(altair->process), SIGNAL(finished(int)), this, SLOT(resetCounter()));
 
 }
 
@@ -549,14 +549,25 @@ bool MainWindow::exportProject(QString dirStr)
     return result;
 }
 
-bool MainWindow::archiveProject(QString dirStr)
+bool MainWindow::archiveProject()
 {
-    if (dirStr.isEmpty())
-        dirStr = QFileDialog::getExistingDirectory(this, tr("Exporter le rapport vers le répertoire..."), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
+    QString dirName;
+    QFileDialog dialog(this);
+    dialog.setFileMode(QFileDialog::AnyFile);
+    dialog.setViewMode(QFileDialog::List);
+    dialog.setOption(QFileDialog::ShowDirsOnly, true);
+    dialog.setWindowTitle("Exporter le rapport vers le répertoire...");
+    dialog.setDirectory("c:/Users/Public/Dev/altair/Archives");
+    if (dialog.exec())
+        dirName = dialog.selectedFiles().at(0);
 
-    if (! QFileInfo(dirStr).isDir()) return false;
+    if (! QFileInfo(dirName).isDir())
+    {
+        QDir dir;
+        dir.mkpath(dirName);
+    }
 
-    QString subDirStr = QDir::toNativeSeparators(dirStr.append("/Archives Altaïr/" +
+    QString subDirStr = QDir::toNativeSeparators(dirName.append("/Archives Altaïr/" +
                                                                QDate::currentDate().toString("dd MM yyyy")
                                                                + "-" + QTime::currentTime().toString("hh mm ss")));
 
@@ -824,7 +835,7 @@ void MainWindow::configureOptions()
         if (v(limitConsoleOutput).isTrue())
         {
             connect(timer, &QTimer::timeout, [&] { altair->readRankSignal();});
-            connect(altair->process, SIGNAL(finished(int)), timer, SLOT(stop()));
+            connect(&(altair->process), SIGNAL(finished(int)), timer, SLOT(stop()));
             timer->start(PROGRESSBAR_TIMEOUT);
         } else
         {
@@ -899,7 +910,7 @@ void MainWindow::feedLHXConsoleWithHtml()
 
     altair->readRankSignal();
 
-    QString buffer = QString::fromLatin1(altair->process->readAllStandardOutput());
+    QString buffer = QString::fromLatin1(altair->process.readAllStandardOutput());
 
     consoleDialog->insertHtml(buffer);
     ++consoleCounter;
@@ -910,9 +921,9 @@ void MainWindow::feedLHXConsoleWithHtml()
 void MainWindow::feedRConsoleWithHtml()
 {
 
-    while (altair->process->canReadLine())
+    while (altair->process.canReadLine())
     {
-        QString buffer=QString::fromLocal8Bit(altair->process->readLine());
+        QString buffer=QString::fromLocal8Bit(altair->process.readLine());
         consoleDialog->insertHtml(buffer.replace("\n", "<br>"));
 
         const QByteArray ba = altair->rankFile.readLine(4);

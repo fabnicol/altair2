@@ -156,7 +156,10 @@
 })
 
 .rs.addJsonRpcHandler("validate_server_url", function(url) {
-   .rs.scalarListFromList(rsconnect:::validateServerUrl(url))
+   # suppress output when validating server URL (timeouts otherwise emitted to
+   # console)
+   capture.output(serverInfo <- rsconnect:::validateServerUrl(url))
+   .rs.scalarListFromList(serverInfo)
 })
 
 .rs.addJsonRpcHandler("get_auth_token", function(name) {
@@ -189,6 +192,10 @@
          # a directory was specified--lint the whole thing
          basePath <- target
          results <- rsconnect::lint(basePath)
+       } else if (tolower(tools::file_ext(target)) == "r") {
+         # a single-file Shiny app--lint the directory (with file hint)
+         basePath <- dirname(target)
+         results <- rsconnect::lint(basePath, appPrimaryDoc = basename(target))
        } else {
          # a single file was specified--lint just that file
          basePath <- dirname(target)
@@ -334,6 +341,16 @@
   invisible(enable)
 })
 
+.rs.addFunction("hasConnectAccount", function() {
+   tryCatch({
+      # check for any non-shinyapps.io accounts
+      accounts <- rsconnect::accounts()
+      accounts <- subset(accounts, server != "shinyapps.io")
+      nrow(accounts) > 0
+   }, error = function(e) { FALSE })
+})
+
+
 .rs.addJsonRpcHandler("get_deployment_files", function(target, asMultipleDoc) {
   .rs.rsconnectDeployList(target, asMultipleDoc)
 })
@@ -375,20 +392,12 @@
   # rather than rendered)
   renderFunction <- .rs.getCustomRenderFunction(target)
 
-  # attempt to see whether a Connect account is available to publish this doc
-  hasConnectAccount <- FALSE
-   tryCatch({
-     # rsconnect comes with a cloud server configured by default; presume any
-     # additional servers are Connect
-     hasConnectAccount <- nrow(rsconnect::servers()) > 1
-   }, error = function(e) { })
-
   list(
     is_multi_rmd        = .rs.scalar(length(rmds) > 1), 
     is_shiny_rmd        = .rs.scalar(renderFunction == "rmarkdown::run"),
     is_self_contained   = .rs.scalar(selfContained),
     title               = .rs.scalar(title),
-    has_connect_account = .rs.scalar(hasConnectAccount))
+    has_connect_account = .rs.scalar(.rs.hasConnectAccount()))
 })
 
 # indicates whether there appear to be accounts registered on the system that

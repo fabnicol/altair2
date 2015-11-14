@@ -75,7 +75,7 @@ class MainWindow : public QMainWindow
    void configure();
    void configureOptions();
    bool exportProject(QString str="");
-   bool archiveProject(QString str="");
+   bool archiveProject();
    bool restoreProject(QString str="");
    void resetCounter();
 

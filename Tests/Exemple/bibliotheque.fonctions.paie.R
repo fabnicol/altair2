@@ -5,46 +5,46 @@
 library(MASS)
 
 chemin <-  function(fichier)
-  file.path(chemin.dossier.donn√©es, fichier)
+  file.path(chemin.dossier.donnÈes, fichier)
 
-file2utf8 <- function(nom, encodage.in = encodage.entr√©e)  {
+file2utf8 <- function(nom, encodage.in = encodage.entrÈe)  {
   
  chem <- chemin(nom)
  err <- system2(iconv, c("-f", encodage.in, "-t", "UTF-8", shQuote(chem), "-o", "temp"))
  if (! err)  err <- system2("mv", c("temp", shQuote(chem))) else stop("Erreur d'encodage avec iconv")
- if (! err)  message("Conversion r√©ussie") else stop("Erreur de copie fichier apr√®s encodage avec iconv")
+ if (! err)  message("Conversion rÈussie") else stop("Erreur de copie fichier aprËs encodage avec iconv")
 }
 
-#obsol√®te
-# en.s√©parateurs <- function(chem)  {
+#obsolËte
+# en.sÈparateurs <- function(chem)  {
 # 
 #   commande <- sed %+% " -e s/,/\\./g -e s/;/,/g -i " %+% shQuote(chem)
 #   shell(commande)
 # }
 
-# fr.s√©parateurs <- function(chem)  {
+# fr.sÈparateurs <- function(chem)  {
 #   
 #   commande <- sed %+% " -e s/,/;/g -e s/\\./,/g -i " %+% shQuote(chem)
 #   shell(commande)
 # }
 
 
-# Trouve le num√©ro de la ligne √† laquelle se situe la liste des noms de variables
+# Trouve le numÈro de la ligne ‡ laquelle se situe la liste des noms de variables
 # en recherchant soit le mot "Matricule" soit une expression du type "Code..."
-# Il faudra d√©duire ce "skip" du read.csv pour r√©cup√©rer proprement les noms de variable
+# Il faudra dÈduire ce "skip" du read.csv pour rÈcupÈrer proprement les noms de variable
 
-# Pour cela on scanne les 25 premi√®res lignes de la table une premi√®re fois
+# Pour cela on scanne les 25 premiËres lignes de la table une premiËre fois
 
 
-trouver.valeur.skip <-  function(chemin.table, encodage, classes = NA, s√©parateur.liste = s√©parateur.liste.entr√©e, s√©parateur.d√©cimal = s√©parateur.d√©cimal.entr√©e)
+trouver.valeur.skip <-  function(chemin.table, encodage, classes = NA, sÈparateur.liste = sÈparateur.liste.entrÈe, sÈparateur.dÈcimal = sÈparateur.dÈcimal.entrÈe)
   max(
     sapply(
-      read.csv(chemin.table, sep=s√©parateur.liste, dec=s√©parateur.d√©cimal, nrows = 25, fileEncoding = encodage.entr√©e, colClasses = classes),
+      read.csv(chemin.table, sep=sÈparateur.liste, dec=sÈparateur.dÈcimal, nrows = 25, fileEncoding = encodage.entrÈe, colClasses = classes),
       function(x)
       {
-        m <- match(champ.d√©tection.1, x, nomatch = 0 )
+        m <- match(champ.dÈtection.1, x, nomatch = 0 )
         if (m == 0)
-          m <- pmatch(champ.d√©tection.2, x, nomatch = 0, duplicates.ok = FALSE )
+          m <- pmatch(champ.dÈtection.2, x, nomatch = 0, duplicates.ok = FALSE )
         return(m)
       }
     ))
@@ -52,36 +52,36 @@ trouver.valeur.skip <-  function(chemin.table, encodage, classes = NA, s√©parate
 
 # selectionner.cle.matricule <-  function(Base1, Base2)
 # {
-#   if (fusionner.nom.pr√©nom) {
+#   if (fusionner.nom.prÈnom) {
 #      subset(Base1,
-#            select = c("Nom", "Pr√©nom", √©tiquette.matricule, setdiff(names(Base1),names(Base2))))
+#            select = c("Nom", "PrÈnom", Ètiquette.matricule, setdiff(names(Base1),names(Base2))))
 #     } else {
 #      subset(Base1,
-#          select = c(√©tiquette.matricule, setdiff(names(Base1), names(Base2))))
+#          select = c(Ètiquette.matricule, setdiff(names(Base1), names(Base2))))
 #     }
 # }
 
-s√©lectionner.cl√© <-  function(base1, base2)
+sÈlectionner.clÈ <-  function(base1, base2)
 {
   Base1 <- get(base1)
   Base2 <- get(base2)
 
-  if (fusionner.nom.pr√©nom) {
+  if (fusionner.nom.prÈnom) {
 
-    Set1 <- c("Mois", "Ann√©e", √©tiquette.matricule, setdiff(names(Base1), names(Base2)))
-    Set2 <- setdiff(names(Base2), c("Nom", "Pr√©nom", √©tiquette.matricule))
+    Set1 <- c("Mois", "AnnÈe", Ètiquette.matricule, setdiff(names(Base1), names(Base2)))
+    Set2 <- setdiff(names(Base2), c("Nom", "PrÈnom", Ètiquette.matricule))
 
     assign(base1,
-           subset(Base1, select = c("Nom", "Pr√©nom", Set1)),
+           subset(Base1, select = c("Nom", "PrÈnom", Set1)),
            envir = .GlobalEnv)
 
     assign(base1,
-           cbind(as.data.frame(convertir.nom.pr√©nom.majuscules(Base1[, c("Nom", "Pr√©nom")])),
+           cbind(as.data.frame(convertir.nom.prÈnom.majuscules(Base1[, c("Nom", "PrÈnom")])),
                  Base1[, Set1]),
            envir = .GlobalEnv)
 
     assign(base2,
-           cbind(as.data.frame(convertir.nom.pr√©nom.majuscules(Base2[, c("Nom", "Pr√©nom")])),
+           cbind(as.data.frame(convertir.nom.prÈnom.majuscules(Base2[, c("Nom", "PrÈnom")])),
                  Base2[, Set2]),
            envir = .GlobalEnv)
 
@@ -90,7 +90,7 @@ s√©lectionner.cl√© <-  function(base1, base2)
   } else {
 
     assign(base1, subset(Base1,
-                         select = c(√©tiquette.matricule,"Mois","Ann√©e",
+                         select = c(Ètiquette.matricule,"Mois","AnnÈe",
                          setdiff(names(Base1), names(Base2)))), envir = .GlobalEnv)
 
   }
@@ -98,8 +98,8 @@ s√©lectionner.cl√© <-  function(base1, base2)
 
 
 
-read.csv.skip <- function(x, encodage = encodage.entr√©e, classes = NA, √©tiquettes = NULL, drop = NULL,
-                          rapide = FALSE, s√©parateur.liste = s√©parateur.liste.entr√©e, s√©parateur.d√©cimal = s√©parateur.d√©cimal.entr√©e,
+read.csv.skip <- function(x, encodage = encodage.entrÈe, classes = NA, Ètiquettes = NULL, drop = NULL,
+                          rapide = FALSE, sÈparateur.liste = sÈparateur.liste.entrÈe, sÈparateur.dÈcimal = sÈparateur.dÈcimal.entrÈe,
                           convertir.encodage = TRUE)
 {
   chem <- chemin(x)
@@ -107,10 +107,10 @@ read.csv.skip <- function(x, encodage = encodage.entr√©e, classes = NA, √©tiquet
 
     T <- read.csv(chem,
                    comment.char = "",
-                   sep = s√©parateur.liste,
-                   dec = s√©parateur.d√©cimal,
+                   sep = sÈparateur.liste,
+                   dec = sÈparateur.dÈcimal,
                    colClasses = classes,
-                   skip = trouver.valeur.skip(chem, encodage, s√©parateur.liste = s√©parateur.liste, s√©parateur.d√©cimal = s√©parateur.d√©cimal),
+                   skip = trouver.valeur.skip(chem, encodage, sÈparateur.liste = sÈparateur.liste, sÈparateur.dÈcimal = sÈparateur.dÈcimal),
                    encoding = encodage)
 
     if (!is.null(drop)) { T <- T[-(drop)] }
@@ -118,20 +118,20 @@ read.csv.skip <- function(x, encodage = encodage.entr√©e, classes = NA, √©tiquet
   } else {
     
     if (encodage != "UTF-8" && convertir.encodage) {
-      message("La table en entr√©e doit √™tre encod√©e en UTF-8")
-      if (convertir.encodage) message("Conversion via iconv du format " %+% encodage %+% " au format UTF-8...") else stop("Arr√™t : convertir l'encodage de la table en UTF-8.")
+      message("La table en entrÈe doit Ítre encodÈe en UTF-8")
+      if (convertir.encodage) message("Conversion via iconv du format " %+% encodage %+% " au format UTF-8...") else stop("ArrÍt : convertir l'encodage de la table en UTF-8.")
       file2utf8(x, encodage.in = encodage)
     }
       
-    # data.table n'admet d'argument dec qu'√† partir de la version 1.9.5 
+    # data.table n'admet d'argument dec qu'‡ partir de la version 1.9.5 
     
     if (is.na(classes)) classes = NULL
     
     T <- try(data.table::fread(chem,
-                      sep = s√©parateur.liste,
-                      dec = s√©parateur.d√©cimal,
+                      sep = sÈparateur.liste,
+                      dec = sÈparateur.dÈcimal,
                       header = TRUE,
-                      skip = champ.d√©tection.1,
+                      skip = champ.dÈtection.1,
                       colClasses = classes,
                       encoding = ifelse(setOSWindows, "Latin-1", "UTF-8"),
                       showProgress = FALSE))
@@ -139,13 +139,13 @@ read.csv.skip <- function(x, encodage = encodage.entr√©e, classes = NA, √©tiquet
 
   }
 
-if (!is.null(√©tiquettes)) names(T) <- √©tiquettes
+if (!is.null(Ètiquettes)) names(T) <- Ètiquettes
 
 
 return(T)
 }
 
-Sauv.base <- function(chemin.dossier, nom, nom.sauv, encodage = encodage.sortie, sep = s√©parateur.liste.sortie, dec = s√©parateur.d√©cimal.sortie)
+Sauv.base <- function(chemin.dossier, nom, nom.sauv, encodage = encodage.sortie, sep = sÈparateur.liste.sortie, dec = sÈparateur.dÈcimal.sortie)
 {
   message("Sauvegarde de ", nom)
   write.table(get(nom),
@@ -161,7 +161,7 @@ sauv.bases <- function(dossier, ...)
 {
   if (!see_if(is.dir(dossier)))
   {
-    stop("Pas de dossier de travail sp√©cifi√©")
+    stop("Pas de dossier de travail spÈcifiÈ")
   }
 
   tmp <- as.list(match.call())
@@ -175,8 +175,8 @@ sauv.bases <- function(dossier, ...)
 # car la fonction anonyme ne comporte que de variables locales
 
 Read.csv <- function(base.string, vect.chemin, charger = charger.bases, colClasses = NA, colNames = NULL,
-                     drop = NULL, s√©parateur.liste = s√©parateur.liste.entr√©e, s√©parateur.d√©cimal = s√©parateur.d√©cimal.entr√©e,
-                     rapide = FALSE, convertir.encodage = TRUE, encodage = encodage.entr√©e)  {
+                     drop = NULL, sÈparateur.liste = sÈparateur.liste.entrÈe, sÈparateur.dÈcimal = sÈparateur.dÈcimal.entrÈe,
+                     rapide = FALSE, convertir.encodage = TRUE, encodage = encodage.entrÈe)  {
 
     if (charger.bases) {
 
@@ -184,9 +184,9 @@ Read.csv <- function(base.string, vect.chemin, charger = charger.bases, colClass
                do.call(rbind, lapply(vect.chemin,
                                      read.csv.skip,
                                         classes = colClasses,
-                                        √©tiquettes = colNames,
-                                        s√©parateur.liste = s√©parateur.liste,
-                                        s√©parateur.d√©cimal = s√©parateur.d√©cimal,
+                                        Ètiquettes = colNames,
+                                        sÈparateur.liste = sÈparateur.liste,
+                                        sÈparateur.dÈcimal = sÈparateur.dÈcimal,
                                         drop = drop,
                                         convertir.encodage = convertir.encodage,
                                         encodage = encodage,
@@ -196,11 +196,11 @@ Read.csv <- function(base.string, vect.chemin, charger = charger.bases, colClass
 }
 
 
-R√©sum√© <- function(x,y, align = 'r', extra = 0, ...)  {
+RÈsumÈ <- function(x,y, align = 'r', extra = 0, ...)  {
     
      Y <- na.omit(y)
 
-     S <- cbind(c("Minimum", "1er quartile", "M√©diane", "Moyenne", "3√®me quartile", "Maximum"),
+     S <- cbind(c("Minimum", "1er quartile", "MÈdiane", "Moyenne", "3Ëme quartile", "Maximum"),
                 prettyNum(sub("[M13].*:", "", summary(Y, ...)), big.mark = " "))
      
      if (! missing(extra))
@@ -291,59 +291,59 @@ Tableau.vertical2 <- function(colnames, rownames, ...)
 }
 
 
-#   julian.date.d√©but.p√©riode <- julian(as.Date(paste0("01/01/", d√©but.p√©riode.sous.revue), date.format))
-#   julian.exercice.suivant.premier <- julian(as.Date(paste0("01/01/",(d√©but.p√©riode.sous.revue+1)), date.format))
-#   julian.date.fin.p√©riode   <- julian(as.Date(paste0("01/01/", fin.p√©riode.sous.revue+1), date.format))
-#   julian.exercice.dernier <- julian(as.Date(paste0("01/01/",fin.p√©riode.sous.revue), date.format))
+#   julian.date.dÈbut.pÈriode <- julian(as.Date(paste0("01/01/", dÈbut.pÈriode.sous.revue), date.format))
+#   julian.exercice.suivant.premier <- julian(as.Date(paste0("01/01/",(dÈbut.pÈriode.sous.revue+1)), date.format))
+#   julian.date.fin.pÈriode   <- julian(as.Date(paste0("01/01/", fin.pÈriode.sous.revue+1), date.format))
+#   julian.exercice.dernier <- julian(as.Date(paste0("01/01/",fin.pÈriode.sous.revue), date.format))
 # 
-# calcul.nb.jours <- function(entr√©e, sortie)
+# calcul.nb.jours <- function(entrÈe, sortie)
 # {
 # 
-#   julian.entr√©e <-
-#     ifelse(entr√©e == "",
-#            julian.date.d√©but.p√©riode,
-#            max(julian.date.d√©but.p√©riode, julian(as.Date(entr√©e, date.format))))
+#   julian.entrÈe <-
+#     ifelse(entrÈe == "",
+#            julian.date.dÈbut.pÈriode,
+#            max(julian.date.dÈbut.pÈriode, julian(as.Date(entrÈe, date.format))))
 # 
 #   julian.sortie <-
 #     ifelse(sortie == "",
-#            julian.date.fin.p√©riode,
-#            min(julian.date.fin.p√©riode, julian(as.Date(sortie, date.format))))
+#            julian.date.fin.pÈriode,
+#            min(julian.date.fin.pÈriode, julian(as.Date(sortie, date.format))))
 # 
-#   return (julian.sortie - julian.entr√©e)
+#   return (julian.sortie - julian.entrÈe)
 # }
 # 
-# calcul.nb.jours.mois.deprecated <- function(mois.entr√©e, mois.sortie, ann√©e)
+# calcul.nb.jours.mois.deprecated <- function(mois.entrÈe, mois.sortie, annÈe)
 # {
 # 
-#   # calcul exact pour une p√©riode continue 
+#   # calcul exact pour une pÈriode continue 
 #     
-#   if (mois.sortie < mois.entr√©e) return(0);
+#   if (mois.sortie < mois.entrÈe) return(0);
 # 
 #   if (mois.sortie == 12)
 #   {
-#      ann√©e.sortie <- ann√©e +1
+#      annÈe.sortie <- annÈe +1
 #      mois.sortie = 1
 #   }
 #   else
 #   {
-#     ann√©e.sortie <- ann√©e
+#     annÈe.sortie <- annÈe
 #     mois.sortie <- mois.sortie + 1
 #   }
 # 
 #    as.numeric(as.Date(paste0("01",
 #                                   formatC(mois.sortie, width = 2, flag = "0"),
-#                                   ann√©e.sortie),
+#                                   annÈe.sortie),
 #                       "%d%m%Y")
 #               - as.Date(paste0("01",
-#                                    formatC(mois.entr√©e, width = 2, flag = "0"),
-#                                    ann√©e),
+#                                    formatC(mois.entrÈe, width = 2, flag = "0"),
+#                                    annÈe),
 #                             "%d%m%Y"))
 # }
 
 v.jmois  <-  c(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
 v.jmois.leap  <-  c(31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
 
-calcul.nb.jours.mois <- function(Mois, ann√©e)   if ((ann√©e - 2008) %%4 == 0) {
+calcul.nb.jours.mois <- function(Mois, annÈe)   if ((annÈe - 2008) %%4 == 0) {
     return(sum(v.jmois.leap[Mois])) 
     } else {
     return(sum(v.jmois[Mois]))
@@ -363,22 +363,22 @@ installer.paquet <- function(paquet, rigoureusement = FALSE)
     install.packages(Paquet)
     if (length(find.package(Paquet, quiet = TRUE)) !=0 )
     {
-      message(Paquet, " a √©t√© install√©.")
+      message(Paquet, " a ÈtÈ installÈ.")
       return(invisible(1))
     }
     else
     {
-      message(Paquet, " n'a pas √©t√© install√©.")
+      message(Paquet, " n'a pas ÈtÈ installÈ.")
       if (rigoureusement == TRUE)
       {
-        message("Arr√™t: le paquet ", Paquet, " n'a pas pu √™tre install√©.")
+        message("ArrÍt: le paquet ", Paquet, " n'a pas pu Ítre installÈ.")
         stop("Fin")
       }
       return(invisible(0))
     }
   }
   else
-    message(Paquet, " est d√©j√† install√©.")
+    message(Paquet, " est dÈj‡ installÈ.")
   return(invisible(0))
 }
 
@@ -392,21 +392,21 @@ installer.paquets <- function(..., rigoureusement = FALSE)
   invisible(do.call(sum, lapply(tmp, function(x) installer.paquet(x, rigoureusement))))
 }
 
-convertir.nom.pr√©nom.majuscules <- function(S)
+convertir.nom.prÈnom.majuscules <- function(S)
 {
 
-  S[ , c("Nom", "Pr√©nom")] <- apply(S[ , c("Nom", "Pr√©nom")],
+  S[ , c("Nom", "PrÈnom")] <- apply(S[ , c("Nom", "PrÈnom")],
                                     2,
                                     function(x)
-                                      toupper(chartr("√©√®√¥√¢√ß√´","eeoaice", x)))
+                                      toupper(chartr("ÈËÙ‚ÁÎ","eeoaice", x)))
 
 
 }
 
-#Age fin d√©cembre de l'Ann√©e en ann√©es r√©volues si n√© au XX√®me si√®cle
-# On trouve quelques valeurs aberrantes correspondant √† des NIr non conventionnels par ex 8041620130028
-extraire.nir <- function(Base, Ann√©e)  {
-  age <- Ann√©e - (as.numeric(substr(as.character(
+#Age fin dÈcembre de l'AnnÈe en annÈes rÈvolues si nÈ au XXËme siËcle
+# On trouve quelques valeurs aberrantes correspondant ‡ des NIr non conventionnels par ex 8041620130028
+extraire.nir <- function(Base, AnnÈe)  {
+  age <- AnnÈe - (as.numeric(substr(as.character(
   format(Base[ , Nir], scientific = FALSE)),
   2, 3))
   + 1900)
@@ -416,51 +416,51 @@ extraire.nir <- function(Base, Ann√©e)  {
 
 # tester.homogeneite.matricules(Base)
 
-#  Teste si, dans une base, la proportion d'enregistrements Noms-Pr√©noms dont les matricules ne sont pas identiques
-#  reste inf√©rieure √† une marge de tol√©rance fix√©e (taux.tol√©rance.homonymie)
-#  utilit√© : tester si l'appariement sur Nom-Pr√©nom au lieu de matricule sera acceptable
+#  Teste si, dans une base, la proportion d'enregistrements Noms-PrÈnoms dont les matricules ne sont pas identiques
+#  reste infÈrieure ‡ une marge de tolÈrance fixÈe (taux.tolÈrance.homonymie)
+#  utilitÈ : tester si l'appariement sur Nom-PrÈnom au lieu de matricule sera acceptable
 
 tester.homogeneite.matricules <- function(Base) {
 
-  message("Contr√¥le sur la coh√©rence de l'association Nom-Pr√©nom-Matricule (homonymies et changements de matricule)")
-  S <- convertir.nom.pr√©nom.majuscules(Base[ , c("Nom", "Pr√©nom", "Matricule")])
+  message("ContrÙle sur la cohÈrence de l'association Nom-PrÈnom-Matricule (homonymies et changements de matricule)")
+  S <- convertir.nom.prÈnom.majuscules(Base[ , c("Nom", "PrÈnom", "Matricule")])
 
   with.matr    <-   nrow(unique(S))
-  without.matr <-   nrow(unique(S[ , c("Nom", "Pr√©nom")]))
+  without.matr <-   nrow(unique(S[ , c("Nom", "PrÈnom")]))
 
   message("Matricules distincts: ", with.matr)
-  message("Noms-Pr√©noms distincs: ", without.matr)
+  message("Noms-PrÈnoms distincs: ", without.matr)
 
-  if (with.matr  >   (1 + taux.tol√©rance.homonymie/100) * without.matr)
+  if (with.matr  >   (1 + taux.tolÈrance.homonymie/100) * without.matr)
   {
-     message(paste0("R√©sultats trop diff√©rents (", taux.tol√©rance.homonymie, " % de marge tol√©r√©e). Changement de r√©gime de matricule."))
-     if (fusionner.nom.pr√©nom == FALSE)
-       stop("Vous pouvez essayer de fusionner sur Nom, Pr√©nom en sp√©cifiant fusionner.nom.pr√©nom <- TRUE dans prologue.R", call. = FALSE)
+     message(paste0("RÈsultats trop diffÈrents (", taux.tolÈrance.homonymie, " % de marge tolÈrÈe). Changement de rÈgime de matricule."))
+     if (fusionner.nom.prÈnom == FALSE)
+       stop("Vous pouvez essayer de fusionner sur Nom, PrÈnom en spÈcifiant fusionner.nom.prÈnom <- TRUE dans prologue.R", call. = FALSE)
   }
 }
 
 longueur.non.na <- function(v) length(v[!is.na(v)])
 
-# op√©rateurs infixe
+# opÈrateurs infixe
 
-# concat√©ner deux strings
+# concatÈner deux strings
 
 `%+%` <- function(x, y) paste0(x,  y)
 
 `%*%` <- function(x, y) if (is.na(x) | is.na(y)) return(0) else return(x*y)
 
-# num√©rotation des tableaux
+# numÈrotation des tableaux
 
-num√©ro.tableau <- 0
+numÈro.tableau <- 0
 
-incr√©ment <- function() { 
-  num√©ro.tableau <<- num√©ro.tableau + 1 
-  num√©ro.tableau
+incrÈment <- function() { 
+  numÈro.tableau <<- numÈro.tableau + 1 
+  numÈro.tableau
 }
 
 chapitre <- 0
 
-incr√©menter.chapitre <- function() {
+incrÈmenter.chapitre <- function() {
   chapitre <<- chapitre + 1
   invisible(chapitre)
 }

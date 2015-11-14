@@ -1,7 +1,7 @@
-This is TeX, Version 3.14159265 (TeX Live 2014/W32TeX) (INITEX)  4 FEB 2015 14:01
-**tex.ini
-(c:/texlive/texmf-dist/tex/plain/config/tex.ini
-(c:/texlive/texmf-dist/tex/plain/base/plain.tex
+This is TeX, Version 3.14159265 (TeX Live 2015/W32TeX) (INITEX)  14 NOV 2015 19:00
+**c:/Users/Public/Dev/altair/texlive/texmf-dist/tex/plain/config/tex.ini
+(c:/Users/Public/Dev/altair/texlive/texmf-dist/tex/plain/config/tex.ini
+(c:/Users/Public/Dev/altair/texlive/texmf-dist/tex/plain/base/plain.tex
 Preloading the plain format: codes, registers,
 \maxdimen=\dimen10
 \hideskip=\skip10
@@ -41,10 +41,11 @@ macros,
 \footins=\insert254
 \topins=\insert253
  hyphenation
-(c:/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex)) )
+(c:/Users/Public/Dev/altair/texlive/texmf-dist/tex/generic/hyphen/hyphen.tex)) 
+)
 Beginning to dump on file tex.fmt
- (preloaded format=tex 2015.2.4)
-2027 strings of total length 29223
+ (preloaded format=tex 2015.11.14)
+2027 strings of total length 29441
 4990 memory locations dumped; current usage is 110&4877
 926 multiletter control sequences
 \font\nullfont=nullfont
