@@ -121,8 +121,8 @@ void Altair::run()
 
     outputType="L";
 
-    process->setProcessChannelMode(QProcess::MergedChannels);
-    process->setWorkingDirectory(common::execPath);
+    process.setProcessChannelMode(QProcess::MergedChannels);
+    process.setWorkingDirectory(common::execPath);
 
 #ifdef DEBUG
     outputTextEdit->append(PROCESSING_HTML_TAG + tr("Démarrage dans ") + common::execPath);
@@ -144,9 +144,9 @@ void Altair::run()
     if (rankFile.isOpen())
         rankFile.close();
 
-    process->start(altairCommandStr,  args0 << args1);
+    process.start(altairCommandStr,  args0 << args1);
 
-    if (process->waitForStarted())
+    if (process.waitForStarted())
     {
         if (v(ecoRAM).isTrue())
             outputTextEdit->append(PROCESSING_HTML_TAG + tr("Préallocation des ressources...\n"));
@@ -159,7 +159,7 @@ void Altair::run()
             parent->consoleDialog->insertHtml(QString("<br>" PROCESSING_HTML_TAG " ") + ((outputType == "L") ? " Décodage des bases " : " Analyse des données ") +"...<br>");
             parent->consoleDialog->moveCursor(QTextCursor::End);
 
-            connect(process, &QProcess::readyReadStandardOutput, [&] {
+            connect(&process, &QProcess::readyReadStandardOutput, [&] {
 
                 if (v(limitConsoleOutput).isTrue())
                 {
@@ -182,7 +182,7 @@ void Altair::run()
 
             QTimer *timer = new QTimer(this);
             connect(timer, &QTimer::timeout, [&] { readRankSignal();});
-            connect(process, SIGNAL(finished(int)), timer, SLOT(stop()));
+            connect(&process, SIGNAL(finished(int)), timer, SLOT(stop()));
             timer->start(500);
         }
 
@@ -204,15 +204,15 @@ void Altair::runRAltair()
 
     outputTextEdit->append(tr(STATE_HTML_TAG "Création du rapport d'analyse des données..."));
 
-    process->setWorkingDirectory(path_access("Tests/Exemple"));
+    process.setWorkingDirectory(path_access("Tests/Exemple"));
 
-    process->setProcessChannelMode(QProcess::MergedChannels);
+    process.setProcessChannelMode(QProcess::MergedChannels);
 #ifdef MINIMAL
     outputType="R";
     emit(setProgressBar(0, 100));
 
-    process->start(RAltairCommandStr + " " + "C:/Users/Public/Dev/altair/Tests/Exemple/rapport_msword.R");
-    if (process->waitForStarted())
+    process.start(RAltairCommandStr + " " + "C:/Users/Public/Dev/altair/Tests/Exemple/rapport_msword.R");
+    if (process.waitForStarted())
     {
         outputTextEdit->append(RAltairCommandStr + " " + path_access("Tests/Exemple/rapport_msword.R"));
         outputTextEdit->append(tr(STATE_HTML_TAG \
@@ -228,7 +228,7 @@ void Altair::runRAltair()
   #ifdef DEBUG
     outputTextEdit->append(tr(STATE_HTML_TAG "Ligne de commande : %1").arg(RAltairCommandStr));
    #endif
-    process->start(RAltairCommandStr);
+    process.start(RAltairCommandStr);
 #endif
 }
 
@@ -251,7 +251,7 @@ void Altair::processFinished(exitCode code)
     }
 
 
-    if (process->exitStatus() == QProcess::CrashExit) return;
+    if (process.exitStatus() == QProcess::CrashExit) return;
 
     qint64 fsSize=1;
 
@@ -269,14 +269,14 @@ void Altair::processFinished(exitCode code)
 
 void Altair::killProcess()
 {
-    process->kill();
+    process.kill();
     outputTextEdit->append(PROCESSING_HTML_TAG+ QString((outputType == "L") ? " Décodage des bases " : " Analyse des données ") + tr(" en arrêt (SIGKILL)"));
     rankFile.close();
 }
 
 void Altair::printMsg(qint64 new_value, const QString &str)
 {
-    if (process->state() != QProcess::Running)        return;
+    if (process.state() != QProcess::Running)        return;
     if (new_value < 1024*1024*1024)
         outputTextEdit->append(tr(STATE_HTML_TAG) + str + QString::number(new_value) +" B ("+QString::number(new_value/(1024*1024))+ " Mo)");
     else

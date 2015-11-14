@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
-# $Id: install-tl 36087 2015-01-18 23:22:31Z karl $
+# $Id: install-tl 37482 2015-05-23 16:21:35Z karl $
 # 
-# Copyright 2007-2014
+# Copyright 2007-2015
 # Reinhard Kotucha, Norbert Preining, Karl Berry, Siep Kroonenberg.
 # This file is licensed under the GNU General Public License version 2
 # or any later version.
@@ -19,7 +19,7 @@
 #   thingy as described in the Perl/Tk book in the chapter that can be
 #   found on the net)   (Werner 28.10.08)
 
-my $svnrev = '$Revision: 36087 $';
+my $svnrev = '$Revision: 37482 $';
 $svnrev =~ m/: ([0-9]+) /;
 $::installerrevision = $1;
 
@@ -734,6 +734,17 @@ sub do_installation {
     $localtlpdb->root("$vars{'TEXDIR'}");
   }
   if (!$vars{'in_place'}) {
+    # have to do top-level release-texlive.txt as a special file, so
+    # tl-update-images can insert the final version number without
+    # having to remake any packages.  But if the source does not exist,
+    # or the destination already exists, don't worry about it (even
+    # though these cases should never arise); it's not that important.
+    #
+    if (-e "$::installerdir/release-texlive.txt"
+        && ! -e "$vars{TEXDIR}/release-texlive.txt") {
+      copy("$::installerdir/release-texlive.txt", "$vars{TEXDIR}/");
+    }
+    
     calc_depends();
     save_options_into_tlpdb();
     do_install_packages();
@@ -908,12 +919,18 @@ operations might be disturbed.\n\n";
   # $localtlpdb and this is simple code, so do it directly, i.e., duplicate
   # the code from the various generate-*.pl scripts
 
-  info("writing fmtutil.cnf to $TEXMFSYSVAR/web2c/fmtutil.cnf\n");
-  TeXLive::TLUtils::create_fmtutil($usedtlpdb,
-    "$TEXMFSYSVAR/web2c/fmtutil.cnf",
-    "$TEXMFLOCAL/web2c/fmtutil-local.cnf");
-
   mkdirhier "$TEXDIR/texmf-dist/web2c";
+  info("writing fmtutil.cnf to $TEXDIR/texmf-dist/web2c/fmtutil.cnf\n");
+  TeXLive::TLUtils::create_fmtutil($usedtlpdb,
+    "$TEXDIR/texmf-dist/web2c/fmtutil.cnf");
+
+  # warn if fmtutil-local.cnf is presetn
+  if (-r "$TEXMFLOCAL/web2c/fmtutil-local.cnf") {
+    tlwarn("Old configuration file $TEXMFLOCAL/web2c/fmtutil-local.cnf found.\n");
+    tlwarn("fmtutil now reads *all* fmtutil.cnf files, so probably the easiest way\nis to rename the above file to $TEXMFLOCAL/web2c/fmtutil.cnf\n");
+  }
+    
+
   info("writing updmap.cfg to $TEXDIR/texmf-dist/web2c/updmap.cfg\n");
   TeXLive::TLUtils::create_updmap ($usedtlpdb,
     "$TEXDIR/texmf-dist/web2c/updmap.cfg");
