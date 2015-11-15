@@ -74,7 +74,7 @@ int main(int argc, char **argv)
     std::string type_table = "bulletins";
     bool generer_table = false;
     bool liberer_memoire = true;
-
+    std::vector<const char*> cl;  /* pour les lignes de commandes incluses dans un fichier */
     std::string chemin_base = NOM_BASE + std::string(CSV);
     std::string chemin_bulletins = NOM_BASE_BULLETINS + std::string(CSV);
 
@@ -111,12 +111,15 @@ int main(int argc, char **argv)
 
     /* Analyse de la ligne de commande */
 
+    std::vector<char*> commandline_tab;
+    commandline_tab.assign(argv, argv + argc);
+
     while (start < argc)
     {
-        if (! strcmp(argv[start], "-n"))
+        if (! strcmp(commandline_tab[start], "-n"))
         {
             info.reduire_consommation_memoire = false;
-            if ((info.nbAgentUtilisateur = lire_argument(argc, argv[start + 1])) < 1)
+            if ((info.nbAgentUtilisateur = lire_argument(argc, commandline_tab[start + 1])) < 1)
             {
                 std::cerr << ERROR_HTML_TAG "Préciser le nombre de bulletins mensuels attendus (majorant du nombre) avec -N xxx .\n";
                 exit(-1);
@@ -125,7 +128,7 @@ int main(int argc, char **argv)
             continue;
 
         }
-        else if (! strcmp(argv[start], "-h"))
+        else if (! strcmp(commandline_tab[start], "-h"))
         {
             std::cerr <<  "Usage :  lhx OPTIONS fichiers.xhl" << "\n"
                       <<  "OPTIONS :" << "\n"
@@ -157,7 +160,8 @@ int main(int argc, char **argv)
                       <<  "-L argument obligatoire : chemin du log d'exécution du test de cohérence entre analyseurs C et XML." << "\n"
                       <<  "-R argument obligatoire : expression régulière pour la recherche des élus (codés : ELU dans le champ Statut." << "\n"
                       <<  "-S sans argument        : supprimer la sortie Budget, Employeur, Siret, Etablissement (allège les bases)." << "\n"
-                      <<  "-q sans argument        : limiter la verbosité." << "\n";
+                      <<  "-q sans argument        : limiter la verbosité." << "\n"
+                      <<  "-f argument obligatoire : la ligne de commande est dans le fichier en argument, chaque élément à la ligne." << "\n";
 
               #ifdef GENERATE_RANK_SIGNAL
 
@@ -174,18 +178,18 @@ int main(int argc, char **argv)
 
             exit(0);
         }
-        else if (! strcmp(argv[start], "-q"))
+        else if (! strcmp(commandline_tab[start], "-q"))
         {
             verbeux = false;
             ++start;
             continue;
         }
-        else if (! strcmp(argv[start], "-t"))
+        else if (! strcmp(commandline_tab[start], "-t"))
         {
             generer_table = true;
-            if (! strcmp(argv[start + 1], "standard"))
+            if (! strcmp(commandline_tab[start + 1], "standard"))
             {
-                type_table = argv[start + 1];
+                type_table = commandline_tab[start + 1];
                 start += 2;
                 continue;
             }
@@ -195,13 +199,13 @@ int main(int argc, char **argv)
                 continue;
             }
         }
-        else if (! strcmp(argv[start], "-l"))
+        else if (! strcmp(commandline_tab[start], "-l"))
         {
             info.generer_rang = true ;
             ++start;
             continue;
         }
-        else if (! strcmp(argv[start], "-T"))
+        else if (! strcmp(commandline_tab[start], "-T"))
         {
             if (start + 1 == argc)
             {
@@ -224,13 +228,13 @@ int main(int argc, char **argv)
             hashTable["R"]  = BaseType::PAR_RAPPEL;
             hashTable["X"]  = BaseType::TOUTES_CATEGORIES;
 
-            if (hashTable.find(argv[start + 1]) != hashTable.end())
+            if (hashTable.find(commandline_tab[start + 1]) != hashTable.end())
             {
-                info.type_base = hashTable[argv[start + 1]];
+                info.type_base = hashTable[commandline_tab[start + 1]];
             }
             else
             {
-                int32_t size_read = lire_argument(argc, argv[start + 1]);
+                int32_t size_read = lire_argument(argc, commandline_tab[start + 1]);
 
                 if (size_read < 0 || size_read > INT32_MAX -1)
                 {
@@ -245,14 +249,14 @@ int main(int argc, char **argv)
             continue;
 
         }
-        else if (! strcmp(argv[start], "-s"))
+        else if (! strcmp(commandline_tab[start], "-s"))
         {
             if (start + 1 == argc)
             {
                 std::cerr << ERROR_HTML_TAG "Option -s suivi d'un argument obligatoire (séparateur de champs)." ENDL;
                 exit(-100);
             }
-            info.separateur = argv[start + 1][0];
+            info.separateur = commandline_tab[start + 1][0];
 
             if (info.separateur == '_')
             {
@@ -263,29 +267,18 @@ int main(int argc, char **argv)
             start += 2;
             continue;
         }
-        else if (! strcmp(argv[start], "-g"))  // no-op pour l'interface graphique
-        {
-            if (start + 1 == argc)
-            {
-                std::cerr << ERROR_HTML_TAG "Option -g suivi d'un argument obligatoire." ENDL;
-                exit(-100);
-            }
-
-            start += 1;
-            continue;
-        }
-        else if (! strcmp(argv[start], "-d"))
+        else if (! strcmp(commandline_tab[start], "-d"))
         {
             if (start + 1 == argc)
             {
                 std::cerr << ERROR_HTML_TAG "Option -d suivi d'un argument obligatoire (séparateur décimal)." ENDL;
                 exit(-100);
             }
-            info.decimal = argv[start + 1][0];
+            info.decimal = commandline_tab[start + 1][0];
             start += 2;
             continue;
         }
-        else if (! strcmp(argv[start], "-o"))
+        else if (! strcmp(commandline_tab[start], "-o"))
         {
             if (start + 1 == argc)
             {
@@ -293,7 +286,7 @@ int main(int argc, char **argv)
                 exit(-100);
             }
 
-            info.chemin_base = argv[start + 1];
+            info.chemin_base = commandline_tab[start + 1];
 
             std::ofstream base;
             base.open(info.chemin_base);
@@ -308,22 +301,22 @@ int main(int argc, char **argv)
             start += 2;
             continue;
         }
-        else if (! strcmp(argv[start], "-M"))
+        else if (! strcmp(commandline_tab[start], "-M"))
         {
             liberer_memoire = false;
             ++start;
             continue;
         }
-        else if (! strcmp(argv[start], "-m"))
+        else if (! strcmp(commandline_tab[start], "-m"))
         {
             info.calculer_maxima = true;
             ++start;
             continue;
         }
-        else if (! strcmp(argv[start], "-D"))
+        else if (! strcmp(commandline_tab[start], "-D"))
         {
-            info.chemin_base = argv[start + 1] + std::string("/") + std::string(NOM_BASE);
-            info.chemin_bulletins = argv[start + 1] + std::string("/") + std::string(NOM_BASE_BULLETINS);
+            info.chemin_base = commandline_tab[start + 1] + std::string("/") + std::string(NOM_BASE);
+            info.chemin_bulletins = commandline_tab[start + 1] + std::string("/") + std::string(NOM_BASE_BULLETINS);
             std::ofstream base;
             base.open(info.chemin_base);
 
@@ -343,9 +336,9 @@ int main(int argc, char **argv)
             start += 2;
             continue;
         }
-        else if (! strcmp(argv[start], "-j"))
+        else if (! strcmp(commandline_tab[start], "-j"))
         {
-            if ((info.nbfil = lire_argument(argc, argv[start +1])) > 0)
+            if ((info.nbfil = lire_argument(argc, commandline_tab[start +1])) > 0)
             {
 
                 if (info.nbfil < 1)
@@ -358,9 +351,9 @@ int main(int argc, char **argv)
             start += 2;
             continue;
         }
-        else if (! strcmp(argv[start], "-L"))
+        else if (! strcmp(commandline_tab[start], "-L"))
         {
-            if (argc > start +2) info.chemin_log = argv[start + 1];
+            if (argc > start +2) info.chemin_log = commandline_tab[start + 1];
             std::ofstream base;
             base.open(info.chemin_log);
             if (! base.good())
@@ -371,15 +364,15 @@ int main(int argc, char **argv)
             start += 2;
             continue;
         }
-        else if (! strcmp(argv[start], "-N"))
+        else if (! strcmp(commandline_tab[start], "-N"))
         {
-            if ((info.nbLigneUtilisateur = lire_argument(argc, argv[start +1])) > 1)
+            if ((info.nbLigneUtilisateur = lire_argument(argc, commandline_tab[start +1])) > 1)
             {
                 std::cerr << STATE_HTML_TAG " Nombre maximum de lignes de paye redéfini à : " << info.nbLigneUtilisateur << ENDL;
             }
 
             info.reduire_consommation_memoire = false;
-            if ((info.nbAgentUtilisateur = lire_argument(argc, argv[start + 1])) < 1)
+            if ((info.nbAgentUtilisateur = lire_argument(argc, commandline_tab[start + 1])) < 1)
             {
                 std::cerr << ERROR_HTML_TAG "Préciser le nombre de nombre maximum d'agents par mois attendus (majorant du nombre) avec -n xxx" ENDL;
                 exit(-1);
@@ -388,11 +381,11 @@ int main(int argc, char **argv)
             start += 2;
             continue;
         }
-        else if (! strcmp(argv[start], "-R"))
+        else if (! strcmp(commandline_tab[start], "-R"))
         {
             if (argc > start +2)
             {
-                info.expression_reg_elus = argv[start + 1];
+                info.expression_reg_elus = commandline_tab[start + 1];
             }
             else
             {
@@ -403,16 +396,16 @@ int main(int argc, char **argv)
             continue;
         }
 #ifdef GENERATE_RANK_SIGNAL
-        else if (! strcmp(argv[start], "-rank"))
+        else if (! strcmp(commandline_tab[start], "-rank"))
         {
             int hasArg = 0;
             if (argc > start +2)
             {
-                if (argv[start + 1][0] == '-')
+                if (commandline_tab[start + 1][0] == '-')
                     rankFilePath = std::string(std::getenv("USERPROFILE")) + "/AppData/rank";
                 else
                 {
-                    rankFilePath = argv[start + 1];
+                    rankFilePath = commandline_tab[start + 1];
                     hasArg = 1;
                 }
 
@@ -433,7 +426,7 @@ int main(int argc, char **argv)
         }
 #endif
 
-        else if (! strcmp(argv[start], "-S"))
+        else if (! strcmp(commandline_tab[start], "-S"))
         {
             if (argc > start +2)
             {
@@ -446,9 +439,70 @@ int main(int argc, char **argv)
             ++start;
             continue;
         }
-        else if (argv[start][0] == '-')
+        else if (! strcmp(commandline_tab[start], "-f"))
         {
-            std::cerr << ERROR_HTML_TAG "Option inconnue " << argv[start] << ENDL;
+            char* fichier;
+            if (argc >= start + 2)
+            {
+                fichier = commandline_tab[start + 1];
+            }
+            else
+            {
+                std::cerr << ERROR_HTML_TAG "Il manque le fichier de ligne de commande.\n";
+                exit(-119);
+            }
+
+            std::ifstream f;
+            f.open(fichier);
+            if (! f.good())
+            {
+                std::cerr << ERROR_HTML_TAG "Impossible d'ouvrir le fichier " << fichier << ".\n";
+                exit(-119);
+            }
+
+            char ligne[2048]={0};
+            int i=0;
+            while (f.good())
+            {
+                f.getline(ligne, 2048);
+
+                if (f.rdstate() != std::fstream::eofbit && ligne != nullptr)
+                {
+                    cl.emplace_back(strdup(ligne));
+                }
+                ++i;
+            }
+
+            f.close();
+            if (! cl.empty())
+            {
+                argc = cl.size() + 1;
+
+                commandline_tab.resize(argc);
+
+                for (int i = 0; i < argc - 1; ++i)
+                {
+
+                    commandline_tab[i + 1] = const_cast<char*>(cl.at(i));
+
+                    if (std::string(cl.at(i)) == "-f")
+                    {
+                        std::cerr << ERROR_HTML_TAG "La ligne de commande -f ne peut pas être incluse dans un fichier par -f [risque de boucle infinie].\n";
+                    }
+                }
+
+
+                /* on relance ...*/
+
+                start = 1;
+                continue;
+            }
+
+            //break;
+        }
+        else if (commandline_tab[start][0] == '-')
+        {
+            std::cerr << ERROR_HTML_TAG "Option inconnue " << commandline_tab[start] << ENDL;
             exit(-100);
         }
         else break;
@@ -478,7 +532,7 @@ int main(int argc, char **argv)
 
     for (int i = 0; i < info.nbfil; ++i)
     {
-         nb_fichier_par_fil.emplace_back(nb_total_fichiers / info.nbfil + (remainder > 0));
+         nb_fichier_par_fil.push_back(nb_total_fichiers / info.nbfil + (remainder > 0));
          --remainder;
     }
 
@@ -497,10 +551,6 @@ int main(int argc, char **argv)
         std::cerr << PROCESSING_HTML_TAG "Création de " << info.nbfil << " fils clients." ENDL;
     }
 
-
-    if (verbeux && Info[0].reduire_consommation_memoire)
-       std::cerr << ENDL PROCESSING_HTML_TAG "Premier scan des fichiers pour déterminer les besoins mémoire ... " ENDL;
-
     for (int i = 0; i < info.nbfil; ++i)
     {
         Info[i] = info;
@@ -518,7 +568,7 @@ int main(int argc, char **argv)
 
         for (int j = start; j <  nb_fichier_par_fil[i] + start; ++j)
         {
-            Info[i].threads->argv[j - start] = argv[j];
+            Info[i].threads->argv[j - start] = commandline_tab[j];
         }
 
         if (verbeux)
@@ -544,6 +594,9 @@ int main(int argc, char **argv)
             std::cerr << ENDL << strerror(errno) << ENDL;
         }
     }
+
+    if (verbeux && Info[0].reduire_consommation_memoire)
+       std::cerr << ENDL PROCESSING_HTML_TAG "Premier scan des fichiers pour déterminer les besoins mémoire ... " ENDL;
 
     if (info.nbfil > 1)
         for (int i = 0; i < info.nbfil; ++i)
@@ -659,6 +712,7 @@ int main(int argc, char **argv)
     valeur_de_retour = (maxima)? 2 * maxima[0] + 3 * maxima[1]: 0;
 
     if (maxima) delete [] (maxima);
+
 
 duration:
 

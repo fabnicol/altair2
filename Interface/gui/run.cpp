@@ -144,7 +144,12 @@ void Altair::run()
     if (rankFile.isOpen())
         rankFile.close();
 
-    process.start(altairCommandStr,  args0 << args1);
+    QFile f("C:/Users/Public/Dev/altair/lhx/cl");
+    f.open(QFile::WriteOnly|QFile::Truncate);
+    f.write((args0 << args1).join("\n").replace('"',"").toLatin1());
+    f.close();
+    //process.start(altairCommandStr,  args0 << args1);
+    process.start(altairCommandStr,  QStringList() << "-f" << "C:/Users/Public/Dev/altair/lhx/cl");
 
     if (process.waitForStarted())
     {
