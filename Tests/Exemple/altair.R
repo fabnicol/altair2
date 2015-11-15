@@ -47,8 +47,7 @@ source("prologue.R", encoding = encodage.code.source)
 if (corriger.environnement.système) {
   
   Sys.setenv(PATH=paste0(Sys.getenv("PATH"), "c:\\Users\\Public\\Dev\\altair\\texlive\\miktex\\bin\\x64;"))
-  message("****", Sys.getenv("PATH"))
-  #stop("OK")
+  
 }
 
 cat("****", Sys.getenv("PATH"))
