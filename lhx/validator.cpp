@@ -745,9 +745,9 @@ void* decoder_fichier(info_t& info)
 {
     /* environ 6000 bulletins par seconde en processus sumple, et 15000 en multithread ; rajoute 1/3 du temps */
 
-#if  defined GCC_REGEX && !defined NO_REGEX //&& !defined __WIN32__ && !defined GCC_4_8
+#if  defined GCC_REGEX && !defined NO_REGEX
 
-    regex pat {"élu"/*info->expression_reg_elus*/,  regex_constants::icase};
+    regex pat {EXPRESSION_REG_ELUS,  regex_constants::icase};
     regex pat2 {EXPRESSION_REG_VACATIONS, regex_constants::icase};
     regex pat3 {EXPRESSION_REG_ASSISTANTES_MATERNELLES, regex_constants::icase};
 
