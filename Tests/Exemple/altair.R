@@ -20,6 +20,11 @@
 # Lorsque l'on n'a que une ou deux années, mettre étudier.variations à FALSE
 # Lorsque l'on n'étudie pas une base Xémélios, mettre étudier.tests.statutaires à FALSE
 
+# On ne peut pas inférer sur quotite Trav (Temps.de.travail) de manière générale
+# Mais on peut exclure les cas dans lesquels Temps de travail est non fiable puis déduire en inférence sur ce qui reste
+# critère d'exclusion envisageable pour les stats de rémunérations à quotités :
+# Paie[Indice == "" & Type %chin% c("T", "I", "A", "AC") & Heures == 0 | Statut %chin% c("ELU", "v", "A")]
+# sur le reste on peut inférer Heures 
 
 library(compiler)
 invisible(setCompilerOptions(suppressAll = TRUE))
@@ -39,8 +44,14 @@ try(setwd("Tests/Exemple"), silent = TRUE)
 source("syspaths.R", encoding = encodage.code.source)
 source("prologue.R", encoding = encodage.code.source)
 
-if (corriger.environnement.système)
-  Sys.setenv(PATH=paste0(Sys.getenv("PATH"), ";", Sys.getenv("R_HOME"), "/../texlive/bin/win32"))
+if (corriger.environnement.système) {
+  
+  Sys.setenv(PATH=paste0(Sys.getenv("PATH"), "c:\\Users\\Public\\Dev\\altair\\texlive\\miktex\\bin\\x64;"))
+  message("****", Sys.getenv("PATH"))
+  #stop("OK")
+}
+
+cat("****", Sys.getenv("PATH"))
 
 source(file.path(chemin.dossier, "bibliotheque.fonctions.paie.R"), encoding = encodage.code.source)
 source("import.R", encoding = encodage.code.source)
@@ -523,10 +534,11 @@ invisible(lapply(années.analyse.statique, function(x) {
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-Tableau.vertical2(c("Agrégat", "Salaires bruts 2011 (&euro;)", "Salaires bruts 2012 (&euro;)"),
+Tableau.vertical2(c("Agrégat (&euro;)", "Salaires bruts 2011", "Salaires bruts 2012", "Salaires bruts 2013"),
                   c("Ensemble", "Titulaires", "Autres salariés"),
                   12 * c(2159, 2223, 1903),
-                  12 * c(2195, 2259, NA))
+                  12 * c(2195, 2259, NA),
+                  12 * c(2218, 2287, 2030))
 
 #'   
 #'**Eléments de la rémunération brute pour les titulaires de la FPT entre 2010 et 2012**      
@@ -536,17 +548,19 @@ Tableau.vertical2(c("Agrégat", "Salaires bruts 2011 (&euro;)", "Salaires bruts 2
 #'    
 
 Tableau.vertical2(
-  c("Rém. annuelles", "2010 (&euro;)", "Primes (%)", "2011 (&euro;)", "Primes (%)", "2012 (&euro;)", "Primes (%)"),
+  c("Rém. annuelles", "2010", "Primes", "2011", "Primes", "2012", "Primes", "2013", "Primes"),
   c("Salaire brut",
     "Traitement brut",
     "Primes et rémunérations annexes",
     "y compris IR et SFT"),
   c(26305, 20350,	"", 5955),
-  c("", 22.6, "", "" ),
+  c("", "22,6 %", "", "" ),
   c(26660, 20562, "", 6098),
-  c("", 22.9, "", "" ),
+  c("", "22,9 %", "", "" ),
   c(12*2259, 12*1727, "", 12*532),
-  c("", 23.6, "", "" ))
+  c("", "23,6 %", "", "" ),
+  c(12*2287, 12*1755, "", 12*532),
+  c("", "23,6 %", "", "" ))
 #'   
 #'*Champ : France. Salariés en équivalent-temps plein (EQTP) des collectivités territoriales (y compris bénéficiaires de contrats aidés, hors assistantes maternelles).*   												
 #'*Les primes sont cumulées au supplément familial de traitement (SFT) et à l'indemnité de résidence (IR). Le cumul est rapporté à la rémunération brute totale.*    
@@ -767,11 +781,13 @@ Résumé("Dernière année",
 #'  
 #'&nbsp;*Tableau `r incrément()`*       
 
+#### INSEE/DGCL DYN  ####
   
-Tableau.vertical2(c("Agrégat",  "Salaires nets 2011 (&euro;)", "Salaires nets 2012 (&euro;)"),
+Tableau.vertical2(c("Agrégat",  "Salaires nets 2011 (&euro;)", "Salaires nets 2012 (&euro;)", "Salaires nets 2013 (&euro;)"),
                   c("Ensemble", "Titulaires", "Autres salariés"),
                   12*c(1823, 1886, 1572),
-                  12*c(1848, 1910, NA))
+                  12*c(1848, 1910, NA),
+                  12*c(1852, 1910, NA))
 
 #'*Champ : France. Salariés en équivalent-temps plein (EQTP) des collectivités territoriales (y compris bénéficiaires de contrats aidés, hors assistantes maternelles).*     			
 
@@ -1226,12 +1242,12 @@ Résumé(c("Variation normalisée (%)",
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-Tableau.vertical2(c("Année", "2008-2009", "2009-2010", "2010-2011", "2011-1012", "2008-2012", "Moy. 2008-2012", "Médiane 2007-2011"),
+Tableau.vertical2(c("Année", "2008-09", "2009-10", "2010-11", "2011-12", "2012-13", "2008-12", "Moy. 2008-12", "Méd. 2007-11"),
                   c("SMPT brut", "SMPT net", "RMPP brute", "RMPP nette"),         
-                  t(data.frame(c("2,5", "1,3", "1,5", "1,7", "7,2", "1,8", ""),
-                  c("3,0", "1,4", "1,3", "1,4", "7,3", "1,8", "13,4"),
-                  c("3,3", "2,5", "2,5", "2,7", "11,5", "2,8", ""),
-                  c("3,3", "2,5", "2,3", "2,4", "10,9", "2,6", ""))))
+                  t(data.frame(c("2,5", "1,3", "1,5", "1,7", "1,1", "7,2", "1,8", ""),
+                  c("3,0", "1,4", "1,3", "1,4", "0,8", "7,3", "1,8", "13,4"),
+                  c("3,3", "2,5", "2,5", "2,7", "1,9", "11,5", "2,8", ""),
+                  c("3,3", "2,5", "2,3", "2,4", "1,6", "10,9", "2,6", ""))))
 
 
 #'*Source : fichier général de l'État (FGE), DADS, SIASP, Insee, Drees. Traitement Insee, Drees, DGCL*    
@@ -1247,7 +1263,7 @@ Tableau.vertical2(c("Année", "2008-2009", "2009-2010", "2010-2011", "2011-1012",
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-Tableau.vertical2(c("Type de collectivité", "SMPT net 2011 (&euro;)", "SMPT net 2012 (&euro;)", "Évolution annuelle moy. 2007-2011 (%)"),
+Tableau.vertical2(c("Collectivité", "SMPT net 2011", "SMPT net 2012", "SMPT net 2013",  "Evol. Moy. 2007-2011 (%)"),
   c("Communes",
     "CCAS et caisses des écoles",
     "EPCI à fiscalité propre",
@@ -1259,6 +1275,7 @@ Tableau.vertical2(c("Type de collectivité", "SMPT net 2011 (&euro;)", "SMPT net 
     "Ensemble (moyenne)"),	
    c(20784, 19415, 22882, 21299, 24487, 29811, 22432, 24680, 21873),
   12*c(1760, 1643, 1924, 1807, 2062, 2495, 1903,  2058, 1848),
+  12*c(1758, 1649, 1932, 1819, 2071, 2515, 1917,  2069, 1851),
    c("2,5", "2,4", "3,1", "3,0", "3,9", "3,4", "3,8", "3,2", "2,9"))
 
 #'
@@ -2413,6 +2430,7 @@ if (sauvegarder.bases.origine)
   sauv.bases(file.path(chemin.dossier.bases, "Paiements"),
              "Paie",
              "Bulletins.paie")
-if (! générer.rapport)
 
-   setwd(currentDir)
+#if (! générer.rapport)
+ #  setwd(currentDir)
+message(getwd())
