@@ -683,15 +683,15 @@ static inline void GCC_INLINE allouer_memoire_table(info_t& info)
 {
     // utiliser NCumAgent ici et pas NCumAgentXml, puisqu'il s'agit d'une préallocation
 
-    info.Memoire_p_ligne = new int[info.NCumAgent]();
+    info.Memoire_p_ligne.resize(info.NCumAgent);
 
     for (unsigned agent = 0; agent < info.NCumAgent; ++agent)
     {
         info.Memoire_p_ligne[agent] = memoire_p_ligne(info, agent);
     }
 
-    delete[] info.NAgent;
-    if (info.Table != nullptr)
+
+    if (info.Table.size() > 0 && info.Table.size() == info.NCumAgent)
     {
         for (unsigned agent = 0; agent < info.NCumAgent; ++agent)
         {
@@ -700,24 +700,21 @@ static inline void GCC_INLINE allouer_memoire_table(info_t& info)
                 xmlFree(info.Table[agent][i]);
             }
 
-            if (info.Table[agent]) delete info.Table[agent];
-
         }
-        delete[] info.Table;
     }
 
-    info.NAgent = new uint32_t[info.threads->argc]();
-    info.Table  = new xmlChar**[info.NCumAgent]();
+    info.NAgent.resize(info.threads->argc);
+    info.Table.resize(info.NCumAgent);
     info.NCumAgentXml = 0;
 
-    if (info.NAgent == nullptr)
+    if (info.NAgent.empty())
     {
         std::cerr << ERROR_HTML_TAG "Mémoire insuffisante pour la table du nombre d'agents" ENDL;
         exit(-19);
     }
 
 
-    if (info.Table == nullptr)
+    if (info.Table.empty())
     {
         std::cerr << ERROR_HTML_TAG "Mémoire insuffisante pour la table de lignes de paye" ENDL;
         exit(-18);
@@ -726,9 +723,9 @@ static inline void GCC_INLINE allouer_memoire_table(info_t& info)
     for (unsigned agent = 0; agent < info.NCumAgent; ++agent)
     {
 
-        info.Table[agent] = new xmlChar* [info.Memoire_p_ligne[agent]](); // ne pas oublier d'initialiser à nullptr !
+        info.Table[agent].resize(info.Memoire_p_ligne[agent]); // ne pas oublier d'initialiser à nullptr !
 
-        if (verbeux && info.Table[agent] == nullptr)
+        if (verbeux && info.Table[agent].empty())
         {
             std::cerr <<  ERROR_HTML_TAG "Erreur d'allocation de drapeau I. pour l'agent "
                       <<  agent
