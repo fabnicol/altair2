@@ -28,7 +28,7 @@
 typedef struct
 {
     int      thread_num;
-    char**   argv;
+    std::vector<char*>   argv;
     unsigned argc;
 } thread_t;
 
@@ -86,9 +86,9 @@ constexpr const char* Tableau_entete[] = {
 typedef struct
 {
 
-    xmlChar*** Table;
+    std::vector<std::vector<xmlChar*>> Table;
     uint64_t nbLigne;
-    uint32_t  *NAgent;
+    std::vector<uint32_t> NAgent;
     uint32_t nbAgentUtilisateur;
     uint32_t NCumAgent;
     uint32_t NCumAgentXml;
@@ -110,7 +110,7 @@ typedef struct
     bool generer_rang;
     bool select_siret;
     int  nbfil;
-    int* Memoire_p_ligne;
+    std::vector<int> Memoire_p_ligne;
 } info_t;
 
 typedef struct {

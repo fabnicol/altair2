@@ -36,6 +36,8 @@ errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur)
 
 void ecrire_log(const info_t& info, std::ofstream& log, int diff);
 
+void calculer_maxima(const std::vector<info_t> &Info, std::ofstream* LOG = nullptr);
+
 #ifdef GENERATE_RANK_SIGNAL
 
 static int rang_global;

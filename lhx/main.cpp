@@ -26,28 +26,6 @@ std::string rankFilePath = "";
 std::mutex mut;
 std::vector<errorLine_t> errorLineStack;
 
-static inline const uint32_t* calculer_maxima(const std::vector<info_t> &Info)
-{
-    static int once;
-
-    uint32_t* maximum= new uint32_t[2] {0, 0};
-
-    if (once || maximum == nullptr) return nullptr;  // no-op)
-
-    for (int i = 0; i < Info[0].nbfil; ++i)
-    {
-        for (unsigned j = 0; j < Info[i].threads->argc; ++j)
-            if (Info[i].NAgent[j] > maximum[0])
-                maximum[0] = Info[i].NAgent[j];
-
-        for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; ++agent)
-            if (Info[i].NLigne[agent] > maximum[1])
-                maximum[1] = Info[i].NLigne[agent];
-    }
-
-    ++once;
-    return(maximum);
-}
 
 int main(int argc, char **argv)
 {
@@ -82,9 +60,9 @@ int main(int argc, char **argv)
 
     info_t info =
     {
-        nullptr,             //    bulletinPtr* Table;
+        {{}},             //    bulletinPtr* Table;
         0,                //    uint64_t nbLigne;
-        nullptr,             //    int32_t  *NAgent;
+        {},             //    int32_t  *NAgent;
         0,                //    uint32_t nbAgentUtilisateur
         0,                //    uint32_t NCumAgent;
         0,                //    uint32_t NCumAgentXml;
@@ -106,7 +84,7 @@ int main(int argc, char **argv)
         false,            // numéroter les lignes
         true,             //    alléger la base
         1,                 // nbfil
-        nullptr  // besoin de mémoire effectif
+        {}  // besoin de mémoire effectif
     };
 
     /* Analyse de la ligne de commande */
@@ -551,33 +529,33 @@ int main(int argc, char **argv)
         std::cerr << PROCESSING_HTML_TAG "Création de " << info.nbfil << " fils clients." ENDL;
     }
 
+    std::vector<thread_t> v_thread_t(info.nbfil);
+
     for (int i = 0; i < info.nbfil; ++i)
     {
         Info[i] = info;
-        Info[i].threads = new thread_t;
+
+        Info[i].threads = &v_thread_t[i];
         Info[i].threads->thread_num = i;
 
         Info[i].threads->argc = nb_fichier_par_fil[i];
-        Info[i].threads->argv = new char*[nb_fichier_par_fil[i]]();
 
-        if (Info[i].threads->argv == nullptr)
+        Info[i].threads->argv = std::vector<char*>(&commandline_tab[start], &commandline_tab[start + nb_fichier_par_fil[i]]);
+        start += nb_fichier_par_fil[i];
+
+        if (Info[i].threads->argv.size() != (unsigned) nb_fichier_par_fil[i])
         {
-            perror(ERROR_HTML_TAG "Problème issu de l'allocation des threads");
+            std::cerr << ERROR_HTML_TAG "Problème issu de l'allocation des threads" << ENDL ;
             exit(-145);
         }
 
-        for (int j = start; j <  nb_fichier_par_fil[i] + start; ++j)
-        {
-            Info[i].threads->argv[j - start] = commandline_tab[j];
-        }
-
         if (verbeux)
-            std::cerr <<  PROCESSING_HTML_TAG "Thread i=" << i+1 << "/" << info.nbfil
-                      << " Nombre de fichiers : " << nb_fichier_par_fil[i] << ENDL;
-
-        start += nb_fichier_par_fil[i];
+            std::cerr <<  PROCESSING_HTML_TAG " File d'exécution i = " << i+1 << "/" << info.nbfil
+                      << " Nombre de fichiers dans ce fil : " << nb_fichier_par_fil[i] << ENDL;
 
         errno = 0;
+
+        /* Lancement des fils d'exécution */
 
         if (info.nbfil > 1)
         {
@@ -604,30 +582,18 @@ int main(int argc, char **argv)
             t[i].join ();
         }
 
-    const uint32_t*   maxima = nullptr;
 
     if (Info[0].calculer_maxima)
     {
-        maxima = calculer_maxima(Info);
-        if (maxima)
-        {
-            std::cerr <<  STATE_HTML_TAG "Maximum de lignes : " << maxima[1] << ENDL
-                       << STATE_HTML_TAG "Maximum d'agents  : " << maxima[0] << ENDL;
-        }
+        calculer_maxima(Info);
     }
-
-    if (maxima == nullptr) maxima = calculer_maxima(Info);
 
     if (! Info[0].chemin_log.empty())
     {
         std::ofstream LOG;
         LOG.open(Info[0].chemin_log, std::ios::app);
-        if (LOG.good() && maxima)
-        {
-            LOG << STATE_HTML_TAG "Maximum de lignes : " << maxima[1] << "\n";
-            LOG << STATE_HTML_TAG "Maximum d'agent   : " << maxima[0] << "\n";
-            LOG.close();
-        }
+        calculer_maxima(Info, &LOG);
+        LOG.close();
     }
 
     xmlCleanupParser();
@@ -677,8 +643,7 @@ int main(int argc, char **argv)
 
     /* libération de la mémoire */
 
-    int valeur_de_retour = 0;
-    if (! liberer_memoire) goto duration;
+   if (! liberer_memoire) goto duration;
 
    if (verbeux)
        std::cerr << ENDL
@@ -694,25 +659,10 @@ int main(int argc, char **argv)
         {
             for (int j = 0; j < Info[i].Memoire_p_ligne[agent]; ++j)
             {
-              //if (j > Etablissement)
                 xmlFree(Info[i].Table[agent][j]);
             }
-
-            delete [] (Info[i].Table[agent]);
         }
-
-        delete [] (Info[i].NAgent);
-        delete [] (Info[i].threads->argv);
-        delete (Info[i].threads);
-        delete [] (Info[i].Table);
-        delete [] (Info[i].Memoire_p_ligne);
-
     }
-
-    valeur_de_retour = (maxima)? 2 * maxima[0] + 3 * maxima[1]: 0;
-
-    if (maxima) delete [] (maxima);
-
 
 duration:
 
@@ -724,6 +674,6 @@ duration:
 
     if (rankFile.is_open()) rankFile.close();
 
-    return valeur_de_retour;
+    return errno;
 }
 
