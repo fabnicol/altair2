@@ -341,6 +341,33 @@ int32_t lire_argument(int argc, char* c_str)
     }
 }
 
+void calculer_maxima(const std::vector<info_t> &Info, std::ofstream* LOG)
+{
+    uint32_t maximum[2] = {0, 0};
+
+    for (int i = 0; i < Info[0].nbfil; ++i)
+    {
+        for (unsigned j = 0; j < Info[i].threads->argc; ++j)
+            if (Info[i].NAgent[j] > maximum[0])
+                maximum[0] = Info[i].NAgent[j];
+
+        for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; ++agent)
+            if (Info[i].NLigne[agent] > maximum[1])
+                maximum[1] = Info[i].NLigne[agent] + 1;
+    }
+
+/* TODO: Eclaircir le off-by-one sur NLigne */
+
+        std::cerr <<  STATE_HTML_TAG "Maximum de lignes : " << maximum[1] << ENDL
+                   << STATE_HTML_TAG "Maximum d'agents  : " << maximum[0] << ENDL;
+        if (LOG != nullptr &&  LOG->good())
+        {
+           *LOG  <<  STATE_HTML_TAG "Maximum de lignes : " << maximum[1] << ENDL
+                 << STATE_HTML_TAG "Maximum d'agents  : " << maximum[0] << ENDL;
+        }
+
+}
+
 
 int calculer_memoire_requise(info_t& info)
 {
@@ -384,6 +411,7 @@ int calculer_memoire_requise(info_t& info)
 #ifdef FGETC_PARSING
 
         std::ifstream c;
+
         c.open(info.threads->argv[i]);
         if (c.good())
             c.seekg(0, c.beg);
