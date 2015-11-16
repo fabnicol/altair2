@@ -4,7 +4,7 @@
 #  include <windows.h>
 # endif
 
-IDI_ICON1	ICON	DISCARDABLE	"C:\\Users\\Public\\Dev\\altair\\Interface\\gui\\neptune.ico"
+IDI_ICON1	ICON	DISCARDABLE	"C:/Users/Public/Dev/altair/Interface/gui/neptune.ico"
 
 VS_VERSION_INFO VERSIONINFO
 	FILEVERSION 0,0,0,0

@@ -920,20 +920,20 @@ void MainWindow::feedLHXConsoleWithHtml()
 
 void MainWindow::feedRConsoleWithHtml()
 {
+    QRegExp reg("([0-9]+).*%");
+    while (altair->process.canReadLine())
 
     while (altair->process.canReadLine())
     {
         QString buffer=QString::fromLocal8Bit(altair->process.readLine());
-        consoleDialog->insertHtml(buffer.replace("\n", "<br>"));
 
-        const QByteArray ba = altair->rankFile.readLine(4);
-
-        if (! ba.isEmpty())
+        if (buffer.contains(reg))
         {
-            altair->fileRank = ba.toInt();
+            altair->fileRank = reg.cap(1).toInt();
             if (altair->fileRank <= 0) altair->fileRank = 1;
         }
-
+        consoleDialog->insertHtml(buffer.replace("\n", "<br>"));
+        consoleDialog->moveCursor(QTextCursor::End);
     }
 }
 

@@ -1,1 +1,568 @@
-1445550697493:source('C:/Users/Public/Dev/altair/Tests/Exemple/altair.R', encoding = 'UTF-8')
+0:source('C:/Users/Public/Dev/altair/Tests/Exemple/altair.R', encoding = 'UTF-8')
+0:getwd()
+0:Sys.getenv("PATH")
+0:Sys.getenv("PATH")
+0:Sys.getenv("PATH")
+0:Sys.getenv("PATH")
+0:.Sys.getenv
+0:?Sys.getenv
+0:Sys.getenv("PATH")
+0:Sys.getenv("PATH")
+1447528915462:Sys;getenv("PATH")
+1447528918808:Sys.getenv("PATH")
+1447529143102:Sys.getenv("PATH")
+1447529347779:source('C:/Users/Public/Dev/altair/Tests/Exemple/altair.R')
+1447530249554:Sys.getenv(("PATH"))
+1447531515299:source('C:/Users/Public/Dev/altair/Tests/Exemple/altair.R')
+1447531607010:source('C:/Users/Public/Dev/altair/Tests/Exemple/build.rdata.table.R')
+1447531652664:source('C:/Users/Public/Dev/altair/Tests/Exemple/altair.R')
+1447531813851:Bulletins.paie[Heures == 0 & Temps.de.travail != 0, .(Statut, Emploi, Grade, Service, Temps.de.travail)]
+1447531901697:Bulletins.paie[Heures == 0 & Temps.de.travail != 0 & Emploi != "CONSEILER MUNICIPAL", .(Statut, Emploi, Grade, Service, Temps.de.travail)]
+1447531927522:Bulletins.paie[Heures == 0 & Temps.de.travail != 0 & Emploi != "CONSEILLER MUNICIPAL", .(Statut, Emploi, Grade, Service, Temps.de.travail)]
+1447531963679:Bulletins.paie[Heures == 0 & Temps.de.travail != 0 & grepl("MUNICIPAL", Emploi) == FALSE, .(Statut, Emploi, Grade, Service, Temps.de.travail)]
+1447531981417:Bulletins.paie[Heures == 0 & Temps.de.travail != 0 & grepl("MUNICIPAL|MAIRE", Emploi, perl=TRUE) == FALSE, .(Statut, Emploi, Grade, Service, Temps.de.travail)]
+1447532008131:Bulletins.paie[Heures == 0 & Temps.de.travail != 0 & grepl("MUNICIPAL|MAIRE", Emploi, perl=TRUE) == FALSE, .(Statut, Emploi, Grade, Service, Temps.de.travail, Montant)]
+1447532015164:Bulletins.paie[Heures == 0 & Temps.de.travail != 0 & grepl("MUNICIPAL|MAIRE", Emploi, perl=TRUE) == FALSE, .(Statut, Emploi, Grade, Service, Temps.de.travail, Brut)]
+1447532059700:Bulletins.paie[Heures == 0 & Temps.de.travail != 0 & grepl("MUNICIPAL|MAIRE", Emploi, perl=TRUE) == FALSE & Montant != 0, .(Statut, Emploi, Grade, Service, Temps.de.travail, Brut)]
+1447532069416:Bulletins.paie[Heures == 0 & Temps.de.travail != 0 & grepl("MUNICIPAL|MAIRE", Emploi, perl=TRUE) == FALSE & Brut != 0, .(Statut, Emploi, Grade, Service, Temps.de.travail, Brut)]
+1447532079828:Bulletins.paie[Heures == 0 & Temps.de.travail != 0 & grepl("MUNICIPAL|MAIRE", Emploi, perl=TRUE) == FALSE & Brut != 0, .(Statut, Emploi, Grade, Service, Temps.de.travail)]
+1447532278842:Bulletins.paie[Heures == 0 & Temps.de.travail != 0 & grepl("MUNICIPAL|MAIRE", Emploi, perl=TRUE) == FALSE & Brut != 0, .(Statut, Emploi, Grade, Service, Temps.de.travail,Matricule)][6, Matricule]
+1447532293402:Paie[Matricule == "0369"]
+1447532914740:Paie[Matricule == "0369" & Brut != 0 & Heures == 0, ]
+1447532991444:data.frame(Paie[Matricule == "0369" & Brut != 0 & Heures == 0, ])
+1447534235669:Bulletins.paie[Heures == 0 & Temps.de.travail != 0 & grepl("MUNICIPAL|MAIRE", Emploi, perl=TRUE) == FALSE & Brut != 0, .(Statut, Emploi, Grade, Service, Temps.de.travail,Matricule)][6, Matricule]
+1447534245884:Bulletins.paie[Heures == 0 & Temps.de.travail != 0 & grepl("MUNICIPAL|MAIRE", Emploi, perl=TRUE) == FALSE & Brut != 0, .(Statut, Emploi, Grade, Service, Temps.de.travail)]
+1447534269476:Bulletins.paie[Heures == 0 & Temps.de.travail != 0 & grepl("MUNICIPAL|MAIRE", Emploi, perl=TRUE) == FALSE & Brut != 0, ]
+1447534492557:Paie[Heures == 0 & Temps.de.travail != 0 & grepl("MUNICIPAL|MAIRE", Emploi, perl=TRUE) == FALSE & Brut != 0, .(Statut, Emploi, Grade, Service, Temps.de.travail, Type)]
+1447534535094:data.frame(Paie[Heures == 0 & Temps.de.travail != 0 & grepl("MUNICIPAL|MAIRE", Emploi, perl=TRUE) == FALSE & Brut != 0  , .(Statut, Emploi, Grade, Service, Temps.de.travail, Type)])
+1447534591366:data.frame(Paie[Heures == 0 & Temps.de.travail != 0 & grepl("MUNICIPAL|MAIRE", Emploi, perl=TRUE) == FALSE & Brut != 0 & ! Type %chin% c("C", "D") , .(Statut, Emploi, Grade, Service, Temps.de.travail, Type)])
+1447534640075:data.frame(Paie[Heures == 0 & Temps.de.travail != 0 & grepl("MUNICIPAL|MAIRE", Emploi, perl=TRUE) == FALSE & Brut != 0 & ! Type %chin% c("C", "D", "R") , .(Statut, Emploi, Grade, Service, Temps.de.travail, Type)])
+1447534707177:unique(data.frame(Paie[Heures == 0 & Temps.de.travail != 0 & grepl("MUNICIPAL|MAIRE", Emploi, perl=TRUE) == FALSE & Brut != 0 & ! Type %chin% c("C", "D", "R") , .(Statut, Emploi, Grade, Service, Temps.de.travail, Type)])[,Matricule])
+1447534717834:unique(data.frame(Paie[Heures == 0 & Temps.de.travail != 0 & grepl("MUNICIPAL|MAIRE", Emploi, perl=TRUE) == FALSE & Brut != 0 & ! Type %chin% c("C", "D", "R") , .(Statut, Emploi, Grade, Service, Temps.de.travail, Type, Matricule)])[,Matricule])
+1447534744369:unique(data.frame(Paie[Heures == 0 & Temps.de.travail != 0 & grepl("MUNICIPAL|MAIRE", Emploi, perl=TRUE) == FALSE & Brut != 0 & ! Type %chin% c("C", "D", "R") , .(Statut, Emploi, Grade, Service, Temps.de.travail, Type, Matricule)][,Matricule]))
+1447534820267:data.frame(Paie[Heures == 0 & Temps.de.travail != 0 & grepl("MUNICIPAL|MAIRE", Emploi, perl=TRUE) == FALSE & Brut != 0 & ! Type %chin% c("C", "D", "R") & Matricule == "3139", .(Statut, Emploi, Grade, Service, Temps.de.travail, Type)])
+1447534835618:data.frame(Paie[Heures == 0 & Temps.de.travail != 0 & grepl("MUNICIPAL|MAIRE", Emploi, perl=TRUE) == FALSE & Brut != 0 & ! Type %chin% c("C", "D", "R") & Matricule == "3139", ])
+1447534974204:data.frame(Paie[Heures == 0 & Temps.de.travail != 0 & grepl("MUNICIPAL|MAIRE", Emploi, perl=TRUE) == FALSE & Brut != 0 & ! Type %chin% c("C", "D", "R") & Matricule == "3164", ])
+1447535059822:data.frame(Paie[Heures == 0 & Temps.de.travail != 0 & grepl("MUNICIPAL|MAIRE", Emploi, perl=TRUE) == FALSE & Brut != 0 & ! Type %chin% c("C", "D", "R") & Matricule == "4396", ])
+1447535158829:data.frame(Paie[Heures == 0 & Temps.de.travail != 0 & grepl("MUNICIPAL|MAIRE", Emploi, perl=TRUE) == FALSE & Brut != 0 & ! Type %chin% c("C", "D", "R") & Matricule == "9628", ])
+1447536351849:Sys.getenv("PATH")
+1447536417064:setOSWindows
+1447536426056:source('C:/Users/Public/Dev/altair/Tests/Exemple/altair.R')
+1447536437948:setOSWindows
+1447536447142:corriger.environnement.système
+1447536480935:Sys.getenv("R_HOME")
+1447536507934:Sys.getenv("PATH")
+1447536641808:?message
+1447537151887:source('C:/Users/Public/Dev/altair/Tests/Exemple/altair.R')
+1447537166291:source('C:/Users/Public/Dev/altair/Tests/Exemple/rapport_msword.R')
+1447537185229:setwd("C:/Users/Public/Dev/altair")
+1447537187563:source('C:/Users/Public/Dev/altair/Tests/Exemple/rapport_msword.R')
+1447537224097:source('C:/Users/Public/Dev/altair/Tests/Exemple/rapport_msword.R')
+1447537233369:source("C:/Users/Public/Dev/altair/Tests/Exemple/syspaths.R", encoding=encodage.code.source)
+1447537236053:source("C:/Users/Public/Dev/altair/Tests/Exemple/prologue.R", encoding=encodage.code.source)
+1447537247842:getwd()
+1447537278593:source("C:/Users/Public/Dev/altair/Tests/Exemple/syspaths.R", encoding=encodage.code.source)
+1447537282023:source("C:/Users/Public/Dev/altair/Tests/Exemple/prologue.R", encoding=encodage.code.source)
+1447537356586:source("C:/Users/Public/Dev/altair/Tests/Exemple/prologue.R", encoding=encodage.code.source)
+1447537408131:library(knitr)
+1447537437944:writeLines(iconv(readLines("C:/Users/Public/Dev/altair/Tests/Exemple/altair.R"), from = encodage.code.source, to = "WINDOWS-1252"), "C:/Users/Public/Dev/altair/Tests/Exemple/altair.ansi.R")
+1447537440795:spin("altair.ansi.R")
+1447537464709:spin("C:/Users/Public/Dev/altair/Tests/Exemple/altair.ansi.R")
+1447537476382:.libPaths(file.path("C:/Users/Public/Dev/altair", library_path))
+1447537479882:spin("C:/Users/Public/Dev/altair/Tests/Exemple/altair.ansi.R")
+1447537499505:writeLines(iconv(readLines("C:/Users/Public/Dev/altair/Tests/Exemple/altair.ansi.md"), from = "WINDOWS-1252", to = "UTF-8"), "C:/Users/Public/Dev/altair/Tests/Exemple/altair.utf8.md", useBytes=TRUE)
+1447537559375:spin("C:/Users/Public/Dev/altair/Tests/Exemple/altair.ansi.R")
+1447537606649:?ansi
+1447537611308:?spin
+1447537658811:getwd()
+1447537690494:writeLines(iconv(readLines("altair.ansi.md"), from = "WINDOWS-1252", to = "UTF-8"), "C:/Users/Public/Dev/altair/Tests/Exemple/altair.utf8.md", useBytes=TRUE)
+1447537709209:system("C:/Users/Public/Dev/altair/RStudio/bin/pandoc/pandoc.exe C:/Users/Public/Dev/altair/Tests/Exemple/altair.utf8.md --to docx --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output C:/Users/Public/Dev/altair/Tests/Exemple/altaïr.docx --highlight-style tango")
+1447537815898:system("C:/Users/Public/Dev/altair/RStudio/bin/pandoc/pandoc.exe +RTS -K512m -RTS altair.utf8.md --to latex --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altair.pdf --template C:\Users\Fab\Documents\R\win-library\3.2\rmarkdown\rmd\latex\default.tex --highlight-style tango --latex-engine pdflatex --variable geometry:margin=1in" )
+1447537860946:system("C:/Users/Public/Dev/altair/RStudio/bin/pandoc/pandoc.exe +RTS -K512m -RTS altair.utf8.md --to latex --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altair.pdf --template C:/Users/Fab/Documents/R/win-library/3.2/rmarkdown/rmd/latex/default.tex --highlight-style tango --latex-engine pdflatex --variable geometry:margin=1in" )
+1447537886818:getwd()
+1447537932246:system("C:/Users/Public/Dev/altair/RStudio/bin/pandoc/pandoc.exe +RTS -K512m -RTS c:/Users/Public/Dev/altair/Tests/Exemple/altair.utf8.md --to latex --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altair.pdf --template C:/Users/Fab/Documents/R/win-library/3.2/rmarkdown/rmd/latex/default.tex --highlight-style tango --latex-engine pdflatex --variable geometry:margin=1in" )
+1447538312868:system("C:/Users/Public/Dev/altair/RStudio/bin/pandoc/pandoc.exe +RTS -K512m -RTS c:/Users/Public/Dev/altair/Tests/Exemple/altair.utf8.md --to latex --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altair.pdf --template C:/Users/Fab/Documents/R/win-library/3.2/rmarkdown/rmd/latex/default.tex --highlight-style tango --latex-engine C:/Users/Public/Dev/altair/texlive/bin/win32/pdflatex.exe --variable geometry:margin=1in" )
+1447554473654:source('C:/Users/Public/Dev/altair/Tests/Exemple/altair.R')
+1447556587787:source('C:/Users/Public/Dev/altair/Tests/Exemple/altair.R')
+1447557940571:source('C:/Users/Public/Dev/altair/Tests/Exemple/altair.R')
+1447559180151:source('C:/Users/Public/Dev/altair/Tests/Exemple/altair.R')
+1447559190710:setwd("C:/Users/Public/Dev/altair")
+1447559192586:setwd("C:/Users/Public/Dev/altair")
+1447559193898:source('C:/Users/Public/Dev/altair/Tests/Exemple/altair.R')
+1447559236553:nrow(Bulletins.paie[Indice == 0])
+1447559241399:Bulletins.paie[Indice == 0]
+1447559251368:Bulletins.paie[Indice == NA]
+1447559260459:Bulletins.paie[is.na(Indice)]
+1447559267119:Bulletins.paie[, Indice]
+1447559274741:length(Bulletins.paie[, Indice])
+1447559288742:nrow(Bulletins.paie[, ])
+1447559295959:unique(Bulletins.paie[, Indice])
+1447559320492:Bulletins.paie[Indice == "", ]
+1447559328304:nrow(Bulletins.paie[Indice == "", ])
+1447559332932:nrow(Bulletins.paie[, ])
+1447559340276:1522/11081
+1447559441526:nrow(Paie[Indice == "" & Type %chin% c("T", "I", "A", "AC")])
+1447559461803:nrow(Paie[Indice == "" & Type %chin% c("T", "I")])
+1447559466151:nrow(Paie[Indice == "" & Type %chin% c("T", "I", "A", "AC")])
+1447559481526:nrow(Paie[Type %chin% c("T", "I", "A", "AC")])
+1447559496682:11131/95051
+1447559531460:Paie[Indice == "" & Type %chin% c("T", "I", "A", "AC"), Heures]
+1447559539527:unique(Paie[Indice == "" & Type %chin% c("T", "I", "A", "AC"), Heures])
+1447559545960:hist(Paie[Indice == "" & Type %chin% c("T", "I", "A", "AC"), Heures])
+1447559589088:hist(Paie[Indice == "" & Type %chin% c("T", "I", "A", "AC"), Temps.de.travail])
+1447559599632:unique(Paie[Indice == "" & Type %chin% c("T", "I", "A", "AC"), Temps.de.travail])
+1447559650554:hist(Paie[Indice == "" & Type %chin% c("T", "I", "A", "AC") & Heures == 0])
+1447559658339:nrow(Paie[Indice == "" & Type %chin% c("T", "I", "A", "AC") & Heures == 0])
+1447559717630:unique(Paie[Indice == "" & Type %chin% c("T", "I", "A", "AC") & Heures == 0, Matricule])
+1447559728400:uniqueN(Paie[Indice == "" & Type %chin% c("T", "I", "A", "AC") & Heures == 0, Matricule])
+1447559748028:Paie[Indice == "" & Type %chin% c("T", "I", "A", "AC") & Heures == 0, .(Matricule, Nom, Prénom)]
+1447559762152:unique(Paie[Indice == "" & Type %chin% c("T", "I", "A", "AC") & Heures == 0, .(Matricule, Nom, Prénom, Statut, Emploi, Grade)]
+1447559767804:)
+1447559826335:unique(Paie[Indice == "" & Type %chin% c("T", "I", "A", "AC") & Heures == 0 & Statut != "ELU", .(Matricule, Nom, Prénom, Statut, Emploi, Grade)]
+1447559828303:)
+1447560082740:Paie[Indice == "" & Type %chin% c("T", "I", "A", "AC") & Heures == 0 & Statut != "ELU", .(Matricule, Nom, Prénom, Statut, Emploi, Grade, Temps.de.travail)]
+1447560116965:Paie[Indice == "" & Type %chin% c("T", "I", "A", "AC") & Heures == 0 & Statut != "ELU", .(Nom, Prénom, Statut, Emploi, Grade, Temps.de.travail, Heures)]
+1447635903758:source('C:/Users/Public/Dev/altair/Tests/Exemple/rapport_msword.R')
+1447636084651:setwd(file.path(Sys.getenv("R_HOME"), "Tests/Exemple"))
+1447636091977:Sys.getenv("R_HOME")
+1447636100572:setwd(file.path(Sys.getenv("R_HOME"), "../Tests/Exemple"))
+1447636669583:source('C:/Users/Public/Dev/altair/Tests/Exemple/altair.R')
+1447636735002:Dépassement.seuil.180h <- unique(Bulletins.paie[cumHSup > 180,
+1447636735005:.(Matricule, Année, "Cumul heures sup" = cumHSup, Emploi, Grade, Service)])
+1447636735011:nb.agents.dépassement  <- uniqueN(Dépassement.seuil.180h$Matricule)
+1447636739988:nb.agents.dépassement
+1447636746480:Dépassement.seuil.180h
+1447636763632:Bulletins.paie[cumHSup > 180,
+1447636763635:.(Matricule, Année, "Cumul heures sup" = cumHSup, Emploi, Grade, Service)]
+1447636775825:HS.sup.25 <- Paie[Heures.Sup. > 25, colonnes, with=FALSE]
+1447636778738:HS.sup.25
+1447636828850:nrow(Paie)
+1447636856607:summary(Paie$Heures.Sup.)
+1447636880292:source('C:/Users/Public/Dev/altair/Tests/Exemple/import.R')
+1447636913354:HS.sup.25 <- Paie[Heures.Sup. > 25, colonnes, with=FALSE]
+1447636916613:HS.sup.25
+1447637113587:source('C:/Users/Public/Dev/altair/Tests/Exemple/altair.R')
+1447638349351:setwd("C:/Users/Public/Dev/altair")
+1447638353260:source('C:/Users/Public/Dev/altair/Tests/Exemple/altair.R')
+1447638416608:Paie[grepl("directeur", Emploi, ignore.case=TRUE), Emploi]
+1447638429011:Paie[grepl("directeur.*serv.*", Emploi, ignore.case=TRUE), Emploi]
+1447638446635:Paie[grepl("directeur.*serv.*", Emploi, ignore.case=TRUE), .(Matricule, Nom, Emploi)]
+1447638454325:unique(Paie[grepl("directeur.*serv.*", Emploi, ignore.case=TRUE), .(Matricule, Nom, Emploi)])
+1447638541572:unique(Paie[grepl("directeur.*serv.*", Emploi, ignore.case=TRUE) & Type %chin% c("I"), .(Matricule, Nom, Emploi, Libelle)])
+1447638549229:unique(Paie[grepl("directeur.*serv.*", Emploi, ignore.case=TRUE) & Type %chin% c("I"), .(Matricule, Nom, Emploi, Libellé)])
+1447638905881:nombre.agents.cumulant.iat.ifts
+1447638913947:codes.ifts
+1447638923045:length(codes.ifts) < 10
+1447638937322:Tableau(c("Codes IFTS"),
+1447638937326:sep.milliers = "",
+1447638937328:paste(unlist(codes.ifts), collapse=" "))
+1447638950448:Tableau(c("Nombre de personnels percevant IAT et IFTS"), nombre.agents.cumulant.iat.ifts)
+1447639064947:if (nombre.agents.cumulant.iat.ifts) {
+1447639064950:if (length(codes.ifts) < 10) {
+1447639064953:Tableau(c("Codes IFTS"),
+1447639064955:sep.milliers = "",
+1447639064957:paste(unlist(codes.ifts), collapse=" "))
+1447639064960:} else {
+1447639064962:cat ("Nombre de personnels percevant IAT et IFTS : ", paste(unlist(codes.ifts), collapse=" "), "\n")
+1447639064964:}
+1447639064967:Tableau(c("Nombre de personnels percevant IAT et IFTS"), nombre.agents.cumulant.iat.ifts)
+1447639064969:} else {
+1447639064971:cat("Tests IAT/IFTS sans résultat positif.")
+1447639064973:}
+1447639106856:if (length(codes.ifts) < 10) {
+1447639106859:Tableau(c("Codes IFTS"),
+1447639106861:sep.milliers = "",
+1447639106863:paste(unlist(codes.ifts), collapse=" "))
+1447639106866:} else {
+1447639106868:cat ("Nombre de personnels percevant IAT et IFTS : ", paste(unlist(codes.ifts), collapse=" "), "\n")
+1447639106870:}
+1447639174949:if (nombre.agents.cumulant.iat.ifts) {
+1447639174952:if (length(codes.ifts) < 10) {
+1447639174954:Tableau(c("Codes IFTS"),
+1447639174956:sep.milliers = "",
+1447639174958:paste(unlist(codes.ifts), collapse=" "))
+1447639174960:} else {
+1447639174962:cat ("Nombre de personnels percevant IAT et IFTS : ", paste(unlist(codes.ifts), collapse=" "), "\n")
+1447639174965:}
+1447639174967:}
+1447639174971:# Pour de mystérieuses raisons liées à Tableau() il faut répéter la condition.
+1447639174973:if (nombre.agents.cumulant.iat.ifts) {
+1447639174975:Tableau(c("Nombre de personnels percevant IAT et IFTS"), nombre.agents.cumulant.iat.ifts)
+1447639174977:} else {
+1447639174980:cat("Tests IAT/IFTS sans résultat positif.")
+1447639174982:}
+1447639568669:source('C:/Users/Public/Dev/altair/Tests/Exemple/rapport_msword.R')
+1447639713725:gsub("\", "/", C:\Users\Public\Dev\altair\texlive\miktex\bin\x64\pdflatex.exe")
+1447639723196:gsub("\", "/", "C:\Users\Public\Dev\altair\texlive\miktex\bin\x64\pdflatex.exe")
+1447639734133:gsub("\\", "/", "C:\Users\Public\Dev\altair\texlive\miktex\bin\x64\pdflatex.exe")
+1447639778974:system("C:/Users/Public/Dev/altair/RStudio/bin/pandoc/pandoc.exe +RTS -K512m -RTS c:/Users/Public/Dev/altair/Tests/Exemple/altair.utf8.md --to latex --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altair.pdf --template C:/Users/Fab/Documents/R/win-library/3.2/rmarkdown/rmd/latex/default.tex --highlight-style tango --latex-engine C:/Users/Public/Dev/altair/texlive/miktex/bin/x64/pdflatex.exe --variable geometry:margin=1in" )
+1447639884469:system("C:/Users/Public/Dev/altair/RStudio/bin/pandoc/pandoc.exe +RTS -K512m -RTS c:/Users/Public/Dev/altair/Tests/Exemple/altair.utf8.md --to latex --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altair.pdf --template C:/Users/Fab/Documents/R/win-library/3.2/rmarkdown/rmd/latex/default.tex --highlight-style tango --latex-engine C:/Users/Public/Dev/altair/texlive/miktex/bin/x64/pdflatex.exe --variable geometry:margin=1in" )
+1447639989099:system("C:/Users/Public/Dev/altair/RStudio/bin/pandoc/pandoc.exe +RTS -K512m -RTS c:/Users/Public/Dev/altair/Tests/Exemple/altair.utf8.md --to latex --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altair.pdf --template C:/Users/Public/Dev/altair/lib/rmarkdown/rmd/latex/default.tex  --highlight-style tango --latex-engine C:/Users/Public/Dev/altair/texlive/miktex/bin/x64/pdflatex.exe --variable geometry:margin=1in" )
+1447640019095:spin("C:/Users/Public/Dev/altair/Tests/Exemple/altair.ansi.R")
+1447640060742:writeLines(iconv(readLines("altair.ansi.md"), from = "WINDOWS-1252", to = "UTF-8"), "C:/Users/Public/Dev/altair/Tests/Exemple/altair.utf8.md", useBytes=TRUE)
+1447640172945:system("C:/Users/Public/Dev/altair/RStudio/bin/pandoc/pandoc.exe +RTS -K512m -RTS c:/Users/Public/Dev/altair/Tests/Exemple/altair.utf8.md --to latex --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altair.pdf --template C:/Users/Public/Dev/altair/lib/rmarkdown/rmd/latex/default.tex  --highlight-style tango --latex-engine C:/Users/Public/Dev/altair/texlive/miktex/bin/x64/pdflatex.exe --variable geometry:margin=1in" )
+1447640195725:system("C:/Users/Public/Dev/altair/RStudio/bin/pandoc/pandoc.exe +RTS -K512m -RTS c:/Users/Public/Dev/altair/Tests/Exemple/altair.utf8.md --to latex --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altair.pdf --template C:/Users/Public/Dev/altair/lib/rmarkdown/rmd/latex/default.tex  --highlight-style tango --latex-engine C:/Users/Public/Dev/altair/texlive/miktex/bin/x64/pdflatex.exe --variable geometry:margin=1in" )
+1447640307320:source('C:/Users/Public/Dev/altair/Tests/Exemple/rapport_msword.R', encoding = 'WINDOWS-1252')
+1447640326474:system("C:/Users/Public/Dev/altair/RStudio/bin/pandoc/pandoc.exe +RTS -K512m -RTS c:/Users/Public/Dev/altair/Tests/Exemple/altair.utf8.md --to latex --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altair.pdf --template C:/Users/Fab/Documents/R/win-library/3.2/rmarkdown/rmd/latex/default.tex --highlight-style tango --latex-engine C:/Users/Public/Dev/altair/texlive/miktex/bin/x64/pdflatex.exe --variable geometry:margin=1in" )
+1447640577262:system("C:/Users/Public/Dev/altair/RStudio/bin/pandoc/pandoc.exe +RTS -K512m -RTS c:/Users/Public/Dev/altair/Tests/Exemple/altair.utf8.md --to latex --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altair.pdf --template C:/Users/Fab/Documents/R/win-library/3.2/rmarkdown/rmd/latex/default.tex --highlight-style tango --latex-engine C:/Users/Public/Dev/altair/texlive/miktex/bin/x64/pdflatex.exe --variable geometry:margin=1in --variable papersize:A4" )
+1447640675944:system("C:/Users/Public/Dev/altair/RStudio/bin/pandoc/pandoc.exe +RTS -K512m -RTS c:/Users/Public/Dev/altair/Tests/Exemple/altair.utf8.md --to latex --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altair.pdf --template C:/Users/Fab/Documents/R/win-library/3.2/rmarkdown/rmd/latex/default.tex --highlight-style tango --latex-engine C:/Users/Public/Dev/altair/texlive/miktex/bin/x64/pdflatex.exe --variable geometry:margin=1in --variable papersize=A4" )
+1447640689461:system("C:/Users/Public/Dev/altair/RStudio/bin/pandoc/pandoc.exe +RTS -K512m -RTS c:/Users/Public/Dev/altair/Tests/Exemple/altair.utf8.md --to latex --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altair.pdf --template C:/Users/Fab/Documents/R/win-library/3.2/rmarkdown/rmd/latex/default.tex --highlight-style tango --latex-engine C:/Users/Public/Dev/altair/texlive/miktex/bin/x64/pdflatex.exe --variable geometry:margin=1in --variable papersize=A4" )
+1447640786764:system("C:/Users/Public/Dev/altair/RStudio/bin/pandoc/pandoc.exe +RTS -K512m -RTS c:/Users/Public/Dev/altair/Tests/Exemple/altair.utf8.md --to latex --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altair.pdf --template C:/Users/Fab/Documents/R/win-library/3.2/rmarkdown/rmd/latex/default.tex --highlight-style tango --latex-engine C:/Users/Public/Dev/altair/texlive/miktex/bin/x64/pdflatex.exe --variable geometry:margin=1in -V papersize=A4" )
+1447641063292:system("C:/Users/Public/Dev/altair/RStudio/bin/pandoc/pandoc.exe +RTS -K512m -RTS c:/Users/Public/Dev/altair/Tests/Exemple/altair.utf8.md --to latex --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altair.pdf --template C:/Users/Fab/Documents/R/win-library/3.2/rmarkdown/rmd/latex/default.tex --highlight-style tango --latex-engine C:/Users/Public/Dev/altair/texlive/miktex/bin/x64/pdflatex.exe --variable geometry:margin=1in -V papersize=A4" )
+1447641273741:system("C:/Users/Public/Dev/altair/RStudio/bin/pandoc/pandoc.exe -V papersize=A4 +RTS -K512m -RTS c:/Users/Public/Dev/altair/Tests/Exemple/altair.utf8.md --to latex --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altair.pdf --template C:/Users/Fab/Documents/R/win-library/3.2/rmarkdown/rmd/latex/default.tex --highlight-style tango --latex-engine C:/Users/Public/Dev/altair/texlive/miktex/bin/x64/pdflatex.exe --variable geometry:margin=1in" )
+1447641294630:system("C:/Users/Public/Dev/altair/RStudio/bin/pandoc/pandoc.exe -V papersize=A4 +RTS -K512m -RTS c:/Users/Public/Dev/altair/Tests/Exemple/altair.utf8.md --to latex --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altair.pdf --template C:/Users/Fab/Documents/R/win-library/3.2/rmarkdown/rmd/latex/default.tex --highlight-style tango --latex-engine C:/Users/Public/Dev/altair/texlive/miktex/bin/x64/pdflatex.exe --variable geometry:margin=1in" )
+1447641565553:system("C:/Users/Public/Dev/altair/RStudio/bin/pandoc/pandoc.exe -V papersize=A4 +RTS -K512m -RTS c:/Users/Public/Dev/altair/Tests/Exemple/altair.utf8.md --to latex --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altair.pdf --template C:/Users/Fab/Documents/R/win-library/3.2/rmarkdown/rmd/latex/default.tex --highlight-style tango --latex-engine C:/Users/Public/Dev/altair/texlive/miktex/bin/x64/pdflatex.exe --variable geometry:margin=1in" )
+1447641580844:writeLines(iconv(readLines("altair.ansi.md"), from = "WINDOWS-1252", to = "UTF-8"), "C:/Users/Public/Dev/altair/Tests/Exemple/altair.utf8.md", useBytes=TRUE)
+1447641585699:system("C:/Users/Public/Dev/altair/RStudio/bin/pandoc/pandoc.exe -V papersize=A4 +RTS -K512m -RTS c:/Users/Public/Dev/altair/Tests/Exemple/altair.utf8.md --to latex --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altair.pdf --template C:/Users/Fab/Documents/R/win-library/3.2/rmarkdown/rmd/latex/default.tex --highlight-style tango --latex-engine C:/Users/Public/Dev/altair/texlive/miktex/bin/x64/pdflatex.exe --variable geometry:margin=1in" )
+1447641768805:invisible(Sys.setenv(PATH = paste0(Sys.getenv("PATH"), "c:\\Users\\Public\\Dev\\altair\\texlive\\miktex\\bin\\x64;")))
+1447641791524:encodage.code.source <- "ISO-8859-1"
+1447641791527:initwd <- getwd()
+1447641791530:setwd(file.path(Sys.getenv("R_HOME"), "../Tests/Exemple"))
+1447641791532:source("C:/Users/Public/Dev/altair/Tests/Exemple/syspaths.R", encoding=encodage.code.source)
+1447641791537:source("C:/Users/Public/Dev/altair/Tests/Exemple/prologue.R", encoding=encodage.code.source)
+1447641791542:library_path <- if (setOSWindows) "lib" else "lib_linux"
+1447641791542:.libPaths(file.path("C:/Users/Public/Dev/altair", library_path))
+1447641791542:writeLines(iconv(readLines("C:/Users/Public/Dev/altair/Tests/Exemple/altair.R"), from = encodage.code.source, to = "WINDOWS-1252"), "C:/Users/Public/Dev/altair/Tests/Exemple/altair.ansi.R")
+1447641791558:library(knitr)
+1447641791558:spin("C:/Users/Public/Dev/altair/Tests/Exemple/altair.ansi.R")
+1447641813831:writeLines(iconv(readLines("altair.ansi.md"), from = "WINDOWS-1252", to = "UTF-8"), "C:/Users/Public/Dev/altair/Tests/Exemple/altair.utf8.md", useBytes=TRUE)
+1447641820231:system("C:/Users/Public/Dev/altair/RStudio/bin/pandoc/pandoc.exe -V papersize=A4 +RTS -K512m -RTS c:/Users/Public/Dev/altair/Tests/Exemple/altair.utf8.md --to latex --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altair.pdf --template C:/Users/Fab/Documents/R/win-library/3.2/rmarkdown/rmd/latex/default.tex --highlight-style tango --latex-engine C:/Users/Public/Dev/altair/texlive/miktex/bin/x64/pdflatex.exe --variable geometry:margin=1in" )
+1447641977853:shell("start acrord32.exe C:/Users/Public/Dev/altair/Tests/Exemple/altaïr.pdf")
+1447641992166:shell("start acrord32.exe C:/Users/Public/Dev/altair/Tests/Exemple/altaïr.pdf")
+1447642012884:shell("start acrord32.exe C:/Users/Public/Dev/altair/Tests/Exemple/altair.pdf")
+1447642077588:source('C:/Users/Public/Dev/altair/Tests/Exemple/rapport_msword.R')
+1447642132977:source('C:/Users/Public/Dev/altair/Tests/Exemple/rapport_pdf.R')
+1447642248664:source('C:/Users/Public/Dev/altair/Tests/Exemple/rapport_msword_et_pdf.R')
+1447642428271:source('C:/Users/Public/Dev/altair/Tests/Exemple/rapport_msword.R')
+1447642462774:source('C:/Users/Public/Dev/altair/Tests/Exemple/rapport_msword_et_pdf.R')
+1447642522821:getwd()
+1447642532917:setwd("C:/Users/Public/Dev/altair")
+1447642536455:getwd()
+1447642542291:source('C:/Users/Public/Dev/altair/Tests/Exemple/rapport_msword.R')
+1447642574634:getwd()
+1447643336060:class(Paie$Temps.de.travail)
+1447644828039:as.numeric("HEA")
+1447644832049:is.numeric("HEA")
+1447644836198:is.numeric("100")
+1447644839883:as.numeric("100")
+1447645895724:nrow(Paie[(Heures == 0 | is.na(Heures))
+1447645895724:& Indice != "" & !is.na(Indice)
+1447645895724:& Statut != "ELU" & Grade != "V" & Grade!= "A"
+1447645895724:& Temps.de.travail != 0 & !is.na(Temps.de.travail),
+1447645895724:Heures := round(Temps.de.travail * nb.heures.temps.complet / 100, 1)])
+1447645916486:source('C:/Users/Public/Dev/altair/Tests/Exemple/import.R')
+1447645944762:Q <- Paie[(Heures == 0 | is.na(Heures))
+1447645944764:& Indice != "" & !is.na(Indice)
+1447645944766:& Statut != "ELU" & Grade != "V" & Grade!= "A"
+1447645944768:& Temps.de.travail != 0 & !is.na(Temps.de.travail),
+1447645944770:Heures := round(Temps.de.travail * nb.heures.temps.complet / 100, 1)]
+1447645950225:nrow(Q)
+1447645987510:Paie[(Heures == 0 | is.na(Heures))
+1447645987514:& Indice != "" & !is.na(Indice)
+1447645987516:& Statut != "ELU" & Grade != "V" & Grade!= "A"
+1447645987518:& Temps.de.travail != 0 & !is.na(Temps.de.travail),
+1447645991100:]☻
+1447645993200:]
+1447645995388:Paie[(Heures == 0 | is.na(Heures))
+1447645995388:& Indice != "" & !is.na(Indice)
+1447645995388:& Statut != "ELU" & Grade != "V" & Grade!= "A"
+1447645995388:& Temps.de.travail != 0 & !is.na(Temps.de.travail),
+1447645997539:]
+1447646014224:source('C:/Users/Public/Dev/altair/Tests/Exemple/import.R')
+1447646029633:Paie[(Heures == 0 | is.na(Heures))
+1447646029640:& Indice != "" & !is.na(Indice)
+1447646029643:& Statut != "ELU" & Grade != "V" & Grade!= "A"
+1447646029645:& Temps.de.travail != 0 & !is.na(Temps.de.travail),
+1447646035081:]
+1447646049475:nrow(Paie[(Heures == 0 | is.na(Heures))
+1447646049475:& Indice != "" & !is.na(Indice)
+1447646049475:& Statut != "ELU" & Grade != "V" & Grade!= "A"
+1447646049475:& Temps.de.travail != 0 & !is.na(Temps.de.travail),])
+1447646267835:Paie[(Heures == 0 | is.na(Heures))
+1447646267838:& Indice != "" & !is.na(Indice)
+1447646267841:& Statut != "ELU" & Grade != "V" & Grade!= "A"
+1447646267843:& Temps.de.travail != 0 & !is.na(Temps.de.travail), `:=`(indic = TRUE,
+1447646267845:Heures = round(Temps.de.travail * nb.heures.temps.complet / 100, 1))]
+1447646282135:nrow(Paie[indic == TRUE])
+1447646890446:source('C:/Users/Public/Dev/altair/Tests/Exemple/import.R')
+1447646906318:P1 <- Paie[(Heures == 0 | is.na(Heures))
+1447646906318:& Indice != "" & !is.na(Indice)
+1447646906318:& Statut != "ELU" & Grade != "V" & Grade!= "A"
+1447646906318:& Temps.de.travail != 0 & !is.na(Temps.de.travail)
+1447646906318:& Type == "T"
+1447646906318:& grepl(".*salaire|trait.*", Libellé, perl=TRUE, ignore.case=TRUE), `:=`(indic = TRUE,
+1447646906334:Heures = if (!is.na(as.numeric(Indice)) & is.finite(Montant/as.numeric(Indice))) Montant / as.numeric(Indice) else NA)]
+1447646913287:P2 <- P1[, Heures := Heures[1], by="Matricule,Année,Mois"]
+1447646916018:P <- merge(P2, P1[ , Heures := NULL], by=c("Matricule", "Année", "Mois"))
+1447646961958:P2
+1447647002041:P2 <- P1[, Heures := Heures[1], by="Matricule,Année,Mois"]
+1447647007194:P1 <- Paie[(Heures == 0 | is.na(Heures))
+1447647007197:& Indice != "" & !is.na(Indice)
+1447647007199:& Statut != "ELU" & Grade != "V" & Grade!= "A"
+1447647007202:& Temps.de.travail != 0 & !is.na(Temps.de.travail)
+1447647007204:& Type == "T"
+1447647007206:& grepl(".*salaire|trait.*", Libellé, perl=TRUE, ignore.case=TRUE), `:=`(indic = TRUE,
+1447647007208:Heures = if (!is.na(as.numeric(Indice)) & is.finite(Montant/as.numeric(Indice))) Montant / as.numeric(Indice) else NA)]
+1447647007212:message("Correction compte tenu des temps complets vérifiés sur ", nrow(Paie[indic == TRUE]), " lignes de paie")
+1447647007228:# le traitement est le premier dans l'ordre, on aligne les calculs dessus
+1447647007228:P2 <- P1[, Heures := Heures[1], by="Matricule,Année,Mois"]
+1447647011600:source('C:/Users/Public/Dev/altair/Tests/Exemple/import.R')
+1447647024857:P1 <- Paie[(Heures == 0 | is.na(Heures))
+1447647024860:& Indice != "" & !is.na(Indice)
+1447647024860:& Statut != "ELU" & Grade != "V" & Grade!= "A"
+1447647024860:& Temps.de.travail != 0 & !is.na(Temps.de.travail)
+1447647024860:& Type == "T"
+1447647024860:& grepl(".*salaire|trait.*", Libellé, perl=TRUE, ignore.case=TRUE), `:=`(indic = TRUE,
+1447647024860:Heures = if (!is.na(as.numeric(Indice)) & is.finite(Montant/as.numeric(Indice))) Montant / as.numeric(Indice) else NA)]
+1447647027707:message("Correction compte tenu des temps complets vérifiés sur ", nrow(Paie[indic == TRUE]), " lignes de paie")
+1447647027722:# le traitement est le premier dans l'ordre, on aligne les calculs dessus
+1447647027722:P2 <- P1[, Heures := Heures[1], by="Matricule,Année,Mois"]
+1447647035854:P <- merge(P2, P1[ , Heures := NULL])
+1447647048975:nrow(P2)
+1447647051006:nrow(P1)
+1447647091826:Paie <- P2
+1447647094600:rm(P1, P2)
+1447647098823:Bulletins.paie <- merge(Bulletins.paie, unique(Paie[, .(Matricule, Année, Mois, Heures)], by=NULL))
+1447647125102:Paienames())
+1447647142042:names(Paie)
+1447647197714:source('C:/Users/Public/Dev/altair/Tests/Exemple/import.R')
+1447647210116:P1 <- Paie[(Heures == 0 | is.na(Heures))
+1447647210119:& Indice != "" & !is.na(Indice)
+1447647210122:& Statut != "ELU" & Grade != "V" & Grade!= "A"
+1447647210124:& Temps.de.travail != 0 & !is.na(Temps.de.travail)
+1447647210127:& Type == "T"
+1447647210129:& grepl(".*salaire|trait.*", Libellé, perl=TRUE, ignore.case=TRUE), `:=`(indic = TRUE,
+1447647210131:Heures = if (!is.na(as.numeric(Indice)) & is.finite(Montant/as.numeric(Indice))) Montant / as.numeric(Indice) else NA)]
+1447647219308:names(Paie1)
+1447647223410:names(P1)
+1447647242401:P2 <- P1[, Heures := Heures[1], by="Matricule,Année,Mois"]
+1447647247524:names(P2)
+1447647266928:Paie <- P2
+1447647289492:"Heures" %in% names(P2)
+1447647296035:"Heures" %in% names(Paie)
+1447647300369:Paie <- P2
+1447647302934:rm(P1, P2)
+1447647307524:"Heures" %in% names(Paie)
+1447647323743:unique(Paie[, .(Matricule, Année, Mois, Heures)], by=NULL)
+1447647337691:nrow(Bulletins.paie)
+1447647376277:Bulletins.paie <- merge(Bulletins.paie[, Heures := NULL], unique(Paie[, .(Matricule, Année, Mois, Heures)], by=NULL))
+1447647386939:Bulletins.paie <- merge(Bulletins.paie[, Heures := NULL], unique(Paie[, .(Matricule, Année, Mois)], by=NULL))
+1447647427527:Bulletins.paie$Heures <- unique(Paie[, .(Matricule, Année, Mois, Heures)][, Heures], by=NULL)
+1447647636904:P1 <- Paie[(Heures == 0 | is.na(Heures))
+1447647636907:& Indice != "" & !is.na(Indice)
+1447647636909:& Statut != "ELU" & Grade != "V" & Grade!= "A"
+1447647636911:& Temps.de.travail != 0 & !is.na(Temps.de.travail)
+1447647636914:& Type == "T"
+1447647636915:& grepl(".*salaire|trait.*", Libellé, perl=TRUE, ignore.case=TRUE), `:=`(indic = TRUE,
+1447647636918:Heures = if (!is.na(as.numeric(Indice)) & is.finite(Montant/as.numeric(Indice))) Montant / as.numeric(Indice) else NA)]
+1447647639751:message("Correction compte tenu des temps complets vérifiés sur ", nrow(Paie[indic == TRUE]), " lignes de paie")
+1447647639767:# le traitement est le premier dans l'ordre, on aligne les calculs dessus
+1447647639767:P2 <- P1[, Heures := Heures[1], by="Matricule,Année,Mois"]
+1447647639814:Paie <- P2
+1447647639814:rm(P1, P2)
+1447647639830:v <- unique(Paie[, .(Matricule, Année, Mois, Heures)][, Heures], by=NULL)
+1447647639876:if (length(v) ==  nrow(Bulletins.paie))
+1447647639892:Bulletins.paie$Heures <- v
+1447647639892:else  {
+1447647639892:message("Abandon de la correction spécifique")
+1447647639892:}
+1447647658994:if (length(v) ==  nrow(Bulletins.paie)) {
+1447647658997:Bulletins.paie$Heures <- v
+1447647658999:} else  {
+1447647659001:message("Abandon de la correction spécifique")
+1447647659003:}
+1447647667905:source('C:/Users/Public/Dev/altair/Tests/Exemple/import.R')
+1447647694382:sum(Paue$Heures, na.rm=TRUE)
+1447647700072:sum(Paie$Heures, na.rm=TRUE)
+1447647709635:P1 <- Paie[(Heures == 0 | is.na(Heures))
+1447647709638:& Indice != "" & !is.na(Indice)
+1447647709641:& Statut != "ELU" & Grade != "V" & Grade!= "A"
+1447647709643:& Temps.de.travail != 0 & !is.na(Temps.de.travail)
+1447647709645:& Type == "T"
+1447647709645:& grepl(".*salaire|trait.*", Libellé, perl=TRUE, ignore.case=TRUE), `:=`(indic = TRUE,
+1447647709645:Heures = if (!is.na(as.numeric(Indice)) & is.finite(Montant/as.numeric(Indice))) Montant / as.numeric(Indice) else NA)]
+1447647712486:message("Correction compte tenu des temps complets vérifiés sur ", nrow(Paie[indic == TRUE]), " lignes de paie")
+1447647712501:# le traitement est le premier dans l'ordre, on aligne les calculs dessus
+1447647712501:P2 <- P1[, Heures := Heures[1], by="Matricule,Année,Mois"]
+1447647712611:Paie <- P2
+1447647712626:rm(P1, P2)
+1447647712626:v <- unique(Paie[, .(Matricule, Année, Mois, Heures)][, Heures], by=NULL)
+1447647712673:if (length(v) ==  nrow(Bulletins.paie)) {
+1447647712673:Bulletins.paie$Heures <- v
+1447647712673:} else  {
+1447647712673:message("Abandon de la correction spécifique")
+1447647712673:}
+1447647742547:length(v)
+1447647798342:v <- unique(Paie[, .(Matricule, Année, Mois, Heures)], by=NULL)[, Heures]
+1447647800896:length(v)
+1447647806930:if (length(v) ==  nrow(Bulletins.paie)) {
+1447647806933:Bulletins.paie$Heures <- v
+1447647806935:} else  {
+1447647806938:message("Abandon de la correction spécifique")
+1447647806940:}
+1447647816927:sum(Paie$Heures, na.rm=TRUE)
+1447647882147:Paie[indic == TRUE]
+1447647889868:Paie[indic == TRUE, heures]
+1447647892772:Paie[indic == TRUE, Heures]
+1447647914024:Paie[indic == TRUE, Montant]
+1447647919678:Paie[indic == TRUE, Inidice]
+1447647922464:Paie[indic == TRUE, Indice]
+1447647945258:Paie[indic == TRUE, Montant / Indice]
+1447647953114:Paie[indic == TRUE, Montant / as.numeric(Indice)]
+1447647991024:Paie[indic == TRUE, Heures]
+1447648035665:Paie[(Heures == 0 | is.na(Heures))
+1447648035668:& Indice != "" & !is.na(Indice)
+1447648035670:& Statut != "ELU" & Grade != "V" & Grade!= "A"
+1447648035672:& Temps.de.travail != 0 & !is.na(Temps.de.travail)
+1447648035674:& Type == "T"
+1447648035676:& grepl(".*salaire|trait.*", Libellé, perl=TRUE, ignore.case=TRUE), `:=`(indic = TRUE,
+1447648035678:Heures = if (!is.na(as.numeric(Indice)) & is.finite(Montant/as.numeric(Indice))) Montant / as.numeric(Indice) else NA)]
+1447648044261:Paie[indic == TRUE, Heures]
+1447648087805:P1 <- Paie[(Heures == 0 | is.na(Heures))
+1447648087808:& Indice != "" & !is.na(Indice)
+1447648087810:& Statut != "ELU" & Grade != "V" & Grade!= "A"
+1447648087812:& Temps.de.travail != 0 & !is.na(Temps.de.travail)
+1447648087815:& Type == "T"
+1447648087817:& grepl(".*salaire|trait.*", Libellé, perl=TRUE, ignore.case=TRUE), indic := TRUE]
+1447648094649:P1[indic == TRUE, Heures := if (!is.na(as.numeric(Indice)) & is.finite(Montant/as.numeric(Indice))) Montant / as.numeric(Indice) else NA)]
+1447648105776:P1[indic == TRUE, Heures := if (!is.na(as.numeric(Indice)) & is.finite(Montant/as.numeric(Indice))) Montant / as.numeric(Indice) else NA]
+1447648109348:P2 <- P1[, Heures := Heures[1], by="Matricule,Année,Mois"]
+1447648120465:P2 <- P1[, Heures := Heures[1], by="Matricule,Année,Mois"]
+1447648132963:P2[indic == TRUE, Heures]
+1447648140932:P1[indic == TRUE, Heures]
+1447648147711:P1 <- Paie[(Heures == 0 | is.na(Heures))
+1447648147713:& Indice != "" & !is.na(Indice)
+1447648147715:& Statut != "ELU" & Grade != "V" & Grade!= "A"
+1447648147717:& Temps.de.travail != 0 & !is.na(Temps.de.travail)
+1447648147719:& Type == "T"
+1447648147721:& grepl(".*salaire|trait.*", Libellé, perl=TRUE, ignore.case=TRUE), indic := TRUE]
+1447648153036:P1[indic == TRUE, Heures]
+1447648163648:Paie[(Heures == 0 | is.na(Heures))
+1447648163651:& Indice != "" & !is.na(Indice)
+1447648163654:& Statut != "ELU" & Grade != "V" & Grade!= "A"
+1447648163656:& Temps.de.travail != 0 & !is.na(Temps.de.travail)
+1447648163658:& Type == "T"
+1447648163661:& grepl(".*salaire|trait.*", Libellé, perl=TRUE, ignore.case=TRUE), indic := TRUE]
+1447648174684:Paie[indic == TRUE, Heures]
+1447648207772:P1[indic == TRUE, Heures := if (!is.na(as.numeric(Indice)) & is.finite(Montant/as.numeric(Indice))) Montant / as.numeric(Indice) else NA]
+1447648211149:Paie[indic == TRUE, Heures]
+1447648236910:P1[indic == TRUE, Heures := ifelse(!is.na(as.numeric(Indice)) & is.finite(Montant/as.numeric(Indice)), Montant / as.numeric(Indice),NA)]
+1447648243189:Paie[indic == TRUE, Heures]
+1447648450526:P1 <- Paie[(Heures == 0 | is.na(Heures))
+1447648450529:& Indice != "" & !is.na(Indice)
+1447648450531:& Statut != "ELU" & Grade != "V" & Grade!= "A"
+1447648450534:& Temps.de.travail != 0 & !is.na(Temps.de.travail)
+1447648450535:& Type == "T"
+1447648450535:& grepl(".*salaire|trait.*", Libellé, perl=TRUE, ignore.case=TRUE), indic := TRUE]
+1447648453366:# attention ifelse pas if...else
+1447648453366:P1[indic == TRUE, Heures := ifelse(!is.na(as.numeric(Indice)) & is.finite(Montant/as.numeric(Indice)),
+1447648453366:Montant / (as.numeric(Indice) * PointMensuelIM[Année - 2007, Mois]) * 100 * 151.67, NA)]
+1447648453382:message("Correction, compte tenu des temps complets vérifiés, sur ", nrow(Paie[indic == TRUE]), " lignes de paie")
+1447648453397:# le traitement est le premier dans l'ordre, on aligne les calculs dessus
+1447648453397:P2 <- P1[, Heures := Heures[1], by="Matricule,Année,Mois"]
+1447648453444:Paie <- P2
+1447648453444:rm(P1, P2)
+1447648453444:v <- unique(Paie[, .(Matricule, Année, Mois, Heures)], by=NULL)[, Heures]
+1447648453491:if (length(v) ==  nrow(Bulletins.paie)) {
+1447648453491:Bulletins.paie$Heures <- v
+1447648453491:} else  {
+1447648453491:message("Abandon de la correction spécifique")
+1447648453507:}
+1447648459462:Paie[indic == TRUE, Heures]
+1447648480557:P1 <- Paie[(Heures == 0 | is.na(Heures))
+1447648480559:& Indice != "" & !is.na(Indice)
+1447648480561:& Statut != "ELU" & Grade != "V" & Grade!= "A"
+1447648480563:& Temps.de.travail != 0 & !is.na(Temps.de.travail)
+1447648480565:& Type == "T"
+1447648480567:& grepl(".*salaire|trait.*", Libellé, perl=TRUE, ignore.case=TRUE), indic := TRUE]
+1447648483405:# attention ifelse pas if...else
+1447648483405:P1[indic == TRUE, Heures := ifelse(!is.na(as.numeric(Indice)) & is.finite(Montant/as.numeric(Indice)),
+1447648483405:Montant / (as.numeric(Indice) * PointMensuelIM[Année - 2007, Mois]) * 151.67, NA)]
+1447648483420:message("Correction, compte tenu des temps complets vérifiés, sur ", nrow(Paie[indic == TRUE]), " lignes de paie")
+1447648483420:# le traitement est le premier dans l'ordre, on aligne les calculs dessus
+1447648483436:P2 <- P1[, Heures := Heures[1], by="Matricule,Année,Mois"]
+1447648483483:Paie <- P2
+1447648483483:rm(P1, P2)
+1447648483483:v <- unique(Paie[, .(Matricule, Année, Mois, Heures)], by=NULL)[, Heures]
+1447648483530:if (length(v) ==  nrow(Bulletins.paie)) {
+1447648483530:Bulletins.paie$Heures <- v
+1447648483530:} else  {
+1447648483530:message("Abandon de la correction spécifique")
+1447648483530:}
+1447648486868:Paie[indic == TRUE, Heures]
+1447648513965:P1[indic == TRUE, Heures]
+1447648523189:source('C:/Users/Public/Dev/altair/Tests/Exemple/import.R')
+1447648557805:P1 <- Paie[(Heures == 0 | is.na(Heures))
+1447648557807:& Indice != "" & !is.na(Indice)
+1447648557809:& Statut != "ELU" & Grade != "V" & Grade!= "A"
+1447648557812:& Temps.de.travail != 0 & !is.na(Temps.de.travail)
+1447648557812:& Type == "T"
+1447648557812:& grepl(".*salaire|trait.*", Libellé, perl=TRUE, ignore.case=TRUE), indic := TRUE]
+1447648560676:# attention ifelse pas if...else
+1447648560676:P1[indic == TRUE, Heures := ifelse(!is.na(as.numeric(Indice)) & is.finite(Montant/as.numeric(Indice)),
+1447648560676:Montant / (as.numeric(Indice) * PointMensuelIM[Année - 2007, Mois]) * 151.67, NA)]
+1447648560692:message("Correction, compte tenu des temps complets vérifiés, sur ", nrow(Paie[indic == TRUE]), " lignes de paie")
+1447648560692:# le traitement est le premier dans l'ordre, on aligne les calculs dessus
+1447648560692:P2 <- P1[, Heures := Heures[1], by="Matricule,Année,Mois"]
+1447648560801:Paie <- P2
+1447648560801:rm(P1, P2)
+1447648560801:v <- unique(Paie[, .(Matricule, Année, Mois, Heures)], by=NULL)[, Heures]
+1447648560848:if (length(v) ==  nrow(Bulletins.paie)) {
+1447648560848:Bulletins.paie$Heures <- v
+1447648560864:} else  {
+1447648560864:message("Abandon de la correction spécifique")
+1447648560864:}
+1447648566119:P1[indic == TRUE, Heures]
+1447648569119:Paie[indic == TRUE, Heures]
+1447648659467:source('C:/Users/Public/Dev/altair/Tests/Exemple/altair.R')
+1447648724070:getwd()
+1447648999507:source('C:/Users/Public/Dev/altair/Tests/Exemple/altair.R')
+1447649028693:getwd()
+1447649044639:currentDir
+1447649059255:setwd("C:/Users/Public/Dev/altair")
+1447649063856:currentDir
+1447649066481:getwd()
+1447649068856:source('C:/Users/Public/Dev/altair/Tests/Exemple/altair.R')
+1447649099232:source('C:/Users/Public/Dev/altair/Tests/Exemple/rapport_msword.R')
+1447649130297:source('C:/Users/Public/Dev/altair/Tests/Exemple/rapport_pdf.R')
+1447649143357:source('C:/Users/Public/Dev/altair/Tests/Exemple/rapport_pdf.R')
+1447649158698:source('C:/Users/Public/Dev/altair/Tests/Exemple/rapport_pdf.R')
+1447649250607:source('C:/Users/Public/Dev/altair/Tests/Exemple/rapport_pdf.R')
+1447649284399:source('C:/Users/Public/Dev/altair/Tests/Exemple/rapport_msword.R')
+1447649291171:source('C:/Users/Public/Dev/altair/Tests/Exemple/altair.R')
+1447649367651:getwd()
+1447649448751:source('C:/Users/Public/Dev/altair/Tests/Exemple/rapport_msword.R')
+1447649489774:source('C:/Users/Public/Dev/altair/Tests/Exemple/rapport_msword.R')
+1447649525347:source('C:/Users/Public/Dev/altair/Tests/Exemple/rapport_msword.R')
+1447649594492:source('C:/Users/Public/Dev/altair/Tests/Exemple/rapport_msword.R')
+1447649645904:source('C:/Users/Public/Dev/altair/Tests/Exemple/rapport_pdf.R')
+1447649797211:source('C:/Users/Public/Dev/altair/Tests/Exemple/rapport_msword.R')
+1447649985053:source('C:/Users/Public/Dev/altair/Tests/Exemple/altair.R')
+1447650015229:getwd()
+1447650026695:currentDir
+1447650073839:source('C:/Users/Public/Dev/altair/Tests/Exemple/rapport_msword.R')
+1447650186822:source('C:/Users/Public/Dev/altair/Tests/Exemple/rapport_msword.R')
+1447650282428:source('C:/Users/Public/Dev/altair/Tests/Exemple/rapport_msword.R')
+1447650398166:source('C:/Users/Public/Dev/altair/Tests/Exemple/rapport_msword.R')
+1447650495559:source('C:/Users/Public/Dev/altair/Tests/Exemple/rapport_msword.R')
+1447650681677:source('C:/Users/Public/Dev/altair/Tests/Exemple/rapport_msword.R')
+1447650816427:source('C:/Users/Public/Dev/altair/Tests/Exemple/rapport_msword.R')
+1447651040544:source('C:/Users/Public/Dev/altair/Tests/Exemple/rapport_msword.R')
+1447651391717:source('C:/Users/Public/Dev/altair/Tests/Exemple/altair.R')
+1447651523106:Analyse.rémunérations.exercice
+1447651537822:masses.élus
+1447651673323:Analyse.rémunérations
+1447651682635:Analyse.rémunérations[Statut == "ELU"]
+1447651993945:?spin
+1447652039133:spin("analyse.statique.R", format="Rmd")
+1447652048631:getwd()
+1447652064569:setwd("C:/Users/Public/Dev/altair/Tests/Exemple")
+1447652067636:spin("analyse.statique.R", format="Rmd")
+1447652112818:?knit
+1447652169788:knit("analyse.statique.R", tangle=TRUE)
+1447652383760:source('C:/Users/Public/Dev/altair/Tests/Exemple/rapport_msword.R')
+1447652817101:source('C:/Users/Public/Dev/altair/Tests/Exemple/altair.R')
+1447652853194:source('C:/Users/Public/Dev/altair/Tests/Exemple/rapport_msword.R')
+1447652956288:source('C:/Users/Public/Dev/altair/Tests/Exemple/rapport_pdf.R')
+1447654558231:source('C:/Users/Public/Dev/altair/Tests/Exemple/rapport_msword.R')
+1447654605446:source('C:/Users/Public/Dev/altair/Tests/Exemple/rapport_pdf.R')

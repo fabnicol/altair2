@@ -1,1 +1,7 @@
-help/doc/home/,Home
+help/library/base/html/message.html,R: Diagnostic Messages
+help/library/base/html/try.html,R: Try an Expression Allowing Error Recovery
+help/library/NULL/help/merge,merge
+help/library/data.table/html/00Index.html,R: Extension of Data.frame
+help/library/data.table/html/merge.html,R: Merge two data.tables
+help/library/knitr/html/spin.html,R: Spin goat's hair into wool
+help/library/knitr/html/knit.html,R: Knit a document

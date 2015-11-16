@@ -25,6 +25,7 @@ extraire.années      <- F
 exec.root               <- if (setOSWindows) ".exe" else ""
 
 éliminer.duplications   <- F
+redresser.heures        <- TRUE
 enlever.quotités.nulles <- F
 enlever.quotités.na     <- F
 écreter.quotités        <- T

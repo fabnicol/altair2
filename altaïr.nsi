@@ -10,7 +10,7 @@
 
 ; pour une version minimal définir minimal par "" sinon "_min"
 
-!define version  "2015.04"
+!define version  "2015.10"
 !define VER_MAJOR 2015
 !define VER_MINOR 02
 !define VER_REVISION 0
@@ -191,6 +191,7 @@ Section
   CreateDirectory  $INSTDIR\${exemple}\Donnees\R-Altaïr
   CreateDirectory  $INSTDIR\${exemple}\Projets
   CreateDirectory  $INSTDIR\${xhl}
+  CreateDirectory  $INSTDIR\${prodname.simple}\lib
   CreateDirectory  $INSTDIR\${prodname.simple}\win
   
   SetDetailsPrint both
@@ -198,10 +199,11 @@ Section
   File /r  "${prodname.simple}\Docs" 
   File /r  "${prodname.simple}\Outils" 
   File /r  "${prodname.simple}\.Rproj.user" 
+  File /r  "${prodname.simple}\lib" 
   File     "${prodname.simple}\*.*" 
   
   SetOutPath $INSTDIR\${prodname.simple}\win
-  File   "${prodname.simple}\win.${processeur}\*.*" 
+  File   "${prodname.simple}\win\*.*" 
   
   SetOutPath $INSTDIR\${exemple}
   File /r  ${exemple}\Docs
@@ -281,12 +283,12 @@ Section
   SetShellVarContext current
   
   SetOutPath       "$INSTDIR\${prodname.simple}\${Interface}$minimal"
-  CreateShortCut   "$DESKTOP\${prodname}.lnk" "$INSTDIR\${prodname.simple}\${Interface}$minimal\${prodname}.exe"  "" "$INSTDIR\${prodname.simple}\${Interface}$minimal\${icon}"
+  CreateShortCut   "$DESKTOP\${prodname}.lnk" "$INSTDIR\${prodname.simple}\${Interface}$minimal\gui\x64\${prodname}.exe"  "" "$INSTDIR\${prodname.simple}\${Interface}$minimal\${icon}"
   ;WriteRegStr HKLM "${prodname}\Shell\open\command\" "" "$INSTDIR\${prodname.simple}\${Interface}$minimal\${prodname}.exe"
   
   CreateDirectory  "$SMPROGRAMS\$StartMenuFolder"
   CreateShortCut   "$SMPROGRAMS\$StartMenuFolder\Désinstaller.lnk" "$INSTDIR\Désinstaller.exe" "" "$INSTDIR\Désinstaller.exe" 0
-  CreateShortCut   "$SMPROGRAMS\$StartMenuFolder\${prodname}.lnk" "$INSTDIR\${prodname.simple}\${Interface}$minimal\${prodname}.exe" "" "$INSTDIR\${prodname.simple}\${Interface}$minimal\${icon}" 0
+  CreateShortCut   "$SMPROGRAMS\$StartMenuFolder\${prodname}.lnk" "$INSTDIR\${prodname.simple}\${Interface}$minimal\gui\x64\${prodname}.exe" "" "$INSTDIR\${prodname.simple}\${Interface}$minimal\${icon}" 0
   
   SetDetailsPrint textonly
   DetailPrint "Création des clés d'enregistrement..."
