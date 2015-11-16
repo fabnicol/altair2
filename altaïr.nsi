@@ -155,7 +155,7 @@ SilentInstall normal
 
 Icon "${prodname.simple}\${Interface}\${icon}"
 
-RequestExecutionLevel admin
+RequestExecutionLevel user
 AutoCloseWindow false
 
 Function .onInit
@@ -216,7 +216,7 @@ SectionEnd
     SetOutPath $INSTDIR\${prodname.simple}
     File /r  "${prodname.simple}\${Interface}" 
     File /r  "${prodname.simple}\${RDir}"
-    File /r  "${prodname.simple}\${texDir}"
+   ; File /r  "${prodname.simple}\${texDir}"
 	File /r  "${prodname.simple}\${GitDir}"
     File /r  "${prodname.simple}\${RStudioDir}"
 	
@@ -230,7 +230,7 @@ SectionEnd
     SetOutPath $APPDATA\RStudio  
     File  "${prodname.simple}\Roaming\RStudio\*.*"
 	
-	${EnvVarUpdate} $0 "PATH" "A" "HKCU" "$INSTDIR\${prodname.simple}\${texDir}\bin\win32"
+	;${EnvVarUpdate} $0 "PATH" "A" "HKCU" "$INSTDIR\${prodname.simple}\${texDir}\miktex\bin\x64"
 	${EnvVarUpdate} $0 "PATH" "A" "HKCU" "$INSTDIR\${prodname.simple}\${GitDir}\bin" 
 		
 	StrCpy $minimal ""
@@ -356,7 +356,7 @@ Section "Uninstall"
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${prodname}"	
   DeleteRegKey HKLM "${prodname}\DefaultIcon"
   
-  ${un.EnvVarUpdate} $0 "PATH" "R" "HKCU" "$INSTDIR\${prodname.simple}\${texDir}\bin\win32" 
+ ; ${un.EnvVarUpdate} $0 "PATH" "R" "HKCU" "$INSTDIR\${prodname.simple}\${texDir}\miktex\bin\x64" 
   ${un.EnvVarUpdate} $0 "PATH" "R" "HKCU" "$INSTDIR\${prodname.simple}\${GitDir}\bin"  
 
   Delete "$DESKTOP\${prodname}.lnk"

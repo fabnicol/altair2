@@ -42,12 +42,11 @@ Pour s'assurer de la bonne installation, mieux vaut faire un test. Procéder com
 
     Pour l'installation avancée, l'interface RStudio s'affiche. Dans ce cas :
    
-5.  Vérifier que l'on a dans le quart supérieur gauche de l'interface un script altair.R. Sinon aller le 
-    chercher en cliquant sur le fichier altair.R dans l'arborescence des fichiers et répertoires dans le quart 
-    inférieur droit (panneau Files). Le fichier est localisé sous le répetoire Tests\Exemple.
+5.  Vérifier que l'on a dans le quart supérieur gauche de l'interface un script rapport_msword.R. Sinon aller le 
+    chercher en cliquant sur le fichier rapport_msword.R dans l'arborescence des fichiers et répertoires dans le
+	quart inférieur droit (panneau Files). Le fichier est localisé sous le répetoire Tests\Exemple.
    
-    Appuyer sur le bouton qui ressemble à un cahier ("Notebook") dans la barre d'outils. 
-    Un choix entre différents formats de rapport est proposé (html, MS-Word et pdf).
-   
-6. Veiller à refermer RStudio en laissant le script altair.R sélectionné dans la partie supérieure gauche.    
+    Appuyer sur l'icône "Source" dans la barre d'outils. 
+       
+6. Veiller à refermer RStudio en laissant le script rapport_msword.R sélectionné dans la partie supérieure gauche.    
    
