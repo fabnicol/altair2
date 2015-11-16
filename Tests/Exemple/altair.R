@@ -20,11 +20,6 @@
 # Lorsque l'on n'a que une ou deux années, mettre étudier.variations à FALSE
 # Lorsque l'on n'étudie pas une base Xémélios, mettre étudier.tests.statutaires à FALSE
 
-# On ne peut pas inférer sur quotite Trav (Temps.de.travail) de manière générale
-# Mais on peut exclure les cas dans lesquels Temps de travail est non fiable puis déduire en inférence sur ce qui reste
-# critère d'exclusion envisageable pour les stats de rémunérations à quotités :
-# Paie[Indice == "" & Type %chin% c("T", "I", "A", "AC") & Heures == 0 | Statut %chin% c("ELU", "v", "A")]
-# sur le reste on peut inférer Heures 
 
 library(compiler)
 invisible(setCompilerOptions(suppressAll = TRUE))
@@ -46,14 +41,14 @@ source("prologue.R", encoding = encodage.code.source)
 
 if (corriger.environnement.système) {
   
-  Sys.setenv(PATH=paste0(Sys.getenv("PATH"), "c:\\Users\\Public\\Dev\\altair\\texlive\\miktex\\bin\\x64;"))
+  invisible(Sys.setenv(PATH = paste0(Sys.getenv("PATH"), "c:\\Users\\Public\\Dev\\altair\\texlive\\miktex\\bin\\x64;")))
   
 }
 
-cat("****", Sys.getenv("PATH"))
 
 source(file.path(chemin.dossier, "bibliotheque.fonctions.paie.R"), encoding = encodage.code.source)
 source("import.R", encoding = encodage.code.source)
+
 
 #'
 #'<p class = "centered"><b>Exercices `r paste(début.période.sous.revue, "à", fin.période.sous.revue)` </b></p>
@@ -63,6 +58,14 @@ source("import.R", encoding = encodage.code.source)
 #'`r format(Sys.Date(), "%a %d %b %Y")`
 #'    
 
+
+cat("\nLa durée du travail prise en compte dans la base de données est de ", nb.heures.temps.complet, " h par mois.\n")  
+if (nb.heures.temps.complet > 1.1 * 151.67 || nb.heures.temps.complet < 0.9 * 151.67)  {
+  semaine.de.travail <<- nb.heures.temps.complet * 12 / 52
+  
+  cat("\nAttention !\nLe temps de travail hebdomadaire s'écarte significativement de la durée légale : ", 
+      round(semaine.de.travail,1), " h par semaine.\n")
+}
 
 source("analyse.rémunérations.R", encoding = encodage.code.source)
 
@@ -1592,15 +1595,20 @@ if (! résultat.ifts.manquant && ! résultat.iat.manquant) {
 #'      
 if (nombre.agents.cumulant.iat.ifts) {
   if (length(codes.ifts) < 10) {
-    Tableau(c("Codes IFTS"),
+    Tableau(c("Codes IFTS", " "),
             sep.milliers = "",
-            paste(unlist(codes.ifts), collapse=" "))
+            paste(unlist(codes.ifts), collapse=" "), " ")
   } else {
     
     cat ("Nombre de personnels percevant IAT et IFTS : ", paste(unlist(codes.ifts), collapse=" "), "\n")
   }
+}
+
+# Pour de mystérieuses raisons liées à Tableau() il faut répéter la condition.
+
+if (nombre.agents.cumulant.iat.ifts) {
   
-  Tableau(c("Nombre de personnels percevant IAT et IFTS"), nombre.agents.cumulant.iat.ifts)
+  Tableau(c("Nombre de personnels percevant IAT et IFTS", " "), nombre.agents.cumulant.iat.ifts, " ")
        
 } else {
   cat("Tests IAT/IFTS sans résultat positif.")
@@ -1719,19 +1727,21 @@ if (! résultat.ifts.manquant && ! résultat.pfr.manquant) {
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'      
-if (length(codes.ifts) < 6 & length(codes.pfr) < 6) {
-  Tableau(c("Codes IFTS", "Codes PFR", "Agents cumulant PFR et IFTS"),
+if (length(codes.pfr) < 6) {
+  Tableau(c("Codes PFR", "Agents cumulant PFR et IFTS"),
           sep.milliers = "",
-          paste(unlist(codes.ifts), collapse = " "),
           paste(unlist(codes.pfr), collapse = " "),
           nombre.agents.cumulant.pfr.ifts)
 } else {
   
-  Tableau("Agents cumulant PFR et IFTS",
-          nombre.agents.cumulant.pfr.ifts)
+  cat("Codes PFR : ", paste(unlist(codes.pfr), collapse = " "), "\n")
   
 }
 
+if (length(codes.pfr) > 5) {
+  Tableau("Agents cumulant PFR et IFTS",
+          nombre.agents.cumulant.pfr.ifts)
+}
 
 #'   
 #'[Lien vers la base de données cumuls pfr/ifts](Bases/Réglementation/personnels.pfr.ifts.csv)    
@@ -1835,6 +1845,7 @@ if (length(codes.ifts) < 6 & length(codes.pfr) < 6) {
 
 Dépassement.seuil.180h <- unique(Bulletins.paie[cumHSup > 180, 
                                                   .(Matricule, Année, "Cumul heures sup" = cumHSup, Emploi, Grade, Service)])
+  
 nb.agents.dépassement  <- uniqueN(Dépassement.seuil.180h$Matricule)
 
 if  (nb.agents.dépassement)  {
@@ -1909,13 +1920,13 @@ if (! is.null(HS.sup.25)) message("Heures sup controlées")
 Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"), nombre.Lignes.paie.HS.sup.25, nombre.ihts.anormales)
 
 #'
-#'[Lien vers la base de données Heures supplémentaires en excès du seuil de 25h/mois: matricules](Bases/Réglementation/HS.sup.25.csv)     
+#'[Lien vers la base de données Heures supplémentaires en excès du seuil de 25h/mois](Bases/Réglementation/HS.sup.25.csv)     
 #'[Lien vers la base de données cumuls en excès des seuils annuels](Bases/Réglementation/Dépassement.seuil.180h.csv)    
 #'[Lien vers la base de données IHTS anormales](Bases/Réglementation/ihts.anormales.csv)      
 #'
-#'**Nota :**
-#'HS en excès : au-delà de 25 heures par mois
-#'IHTS anormales : non attribuées à des fonctionnaires de catégorie B ou C.
+#'**Nota :**   
+#'HS en excès : au-delà de 25 heures par mois     
+#'IHTS anormales : non attribuées à des fonctionnaires de catégorie B ou C.     
 
 #### ELUS ####
 
@@ -2073,67 +2084,6 @@ sft.prop <- c(un = 0, deux = 3, trois = 8, 8 + 6 * 1:12) / 100
 
 part.proportionnelle.minimale <- outer(PointMensuelIM, sft.prop * 449)
 
-# calcul du temps complet mensuel de référence en h/mois
-
-quotité.temps.partiel <- function(temps.de.travail) {
-  
-  if (x == 90) return(0.91429)  # 32/35 
-  if (x == 80) return(0.85714)  # 6/7   
-  return(x/100)
-   
-}
-
-verif.temps.complet <- function() {
-  
-  # dans certains cas on a presque jamais la variable Heures renseignée... sauf pour quelques temps partiels
-
-          h <- hist(Bulletins.paie[Temps.de.travail == 100, Heures], nclass = 20000, plot = FALSE)
-      max.h <- which.max(h$counts)
-      
-      if (max.h > 1) {
-        
-        delta <- (h$mids[max.h + 1] - h$mids[max.h - 1])/2
-        
-        if (is.na(delta)) delta <<- 1 #Présomption
-          
-        nb.heures.temps.complet <<- floor(h$mids[max.h])
-
-      } else {
-
-          return(TRUE) # présomption
-      }
-  
-    valeur <- (abs(nb.heures.temps.complet - 151.67) < 1 + delta)  
-    
-    if (is.na(valeur))  {
-      valeur <- TRUE # présomption
-    }
-
-    return(valeur)
-}
-
-message("Vérification de la durée légale théorique du travail (1820 h = 35h x 52 semaines soit 151,67 h/mois)")
-
-if (verif.temps.complet()) {
-  
-  cat("\nLa durée du travail prise en compte dans la base de données est de 1820 h par an.\n")
-  
-  nb.heures.temps.complet <- 151.67  #  1820 / 12
-  
-} else {
-  
-  nb.heures.temps.complet <- floor(nb.heures.temps.complet)
-  
-  cat("\nLa durée du travail prise en compte dans la base de données est de ", nb.heures.temps.complet, " h par mois.\n")
-  
-  if (nb.heures.temps.complet > 1.1 * 151.67 || nb.heures.temps.complet < 0.9 * 151.67)  {
-    semaine.de.travail <- nb.heures.temps.complet * 12 / 52
-    
-    cat("\nAttention !\nLe temps de travail hebdomadaire s'écarte significativement de la durée légale : ", 
-        round(semaine.de.travail,1), " h par semaine.\n")
-  }
-  
-}
 
 sft <- function(x, indice, nbi, durée, année, mois)   {
 
@@ -2430,6 +2380,7 @@ if (sauvegarder.bases.origine)
              "Paie",
              "Bulletins.paie")
 
-#if (! générer.rapport)
- #  setwd(currentDir)
+if (! générer.rapport)
+   setwd(currentDir)
+
 message(getwd())

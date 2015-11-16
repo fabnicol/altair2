@@ -53,6 +53,8 @@ TARGET = Altair
 
 VPATH = .
 
+DEFINES += MINIMAL
+
 DEFINES += PROGRESSBAR_TIMEOUT=400    # Intervalle d'incrémentation de la barre de progression en millisecondes
                             # Un timeout plus élevé diminue l'overhead mais rend la la progression moins fluide.
                             # Le minimum (timeout = 0) donne des progressions fluides mais augmente de 10 % la durée d'exec.

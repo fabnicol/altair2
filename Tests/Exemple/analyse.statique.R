@@ -17,12 +17,6 @@ masses.personnels <- colSums(Analyse.rémunérations.exercice[Statut != "ELU",
                                                                               total.lignes.paie,
                                                                               autres.rémunérations)])
 
-masses.élus <- colSums(Analyse.rémunérations.exercice[Statut == "ELU",
-                                                                      .(Montant.brut.annuel,
-                                                                        rémunération.indemnitaire.imposable,
-                                                                        indemnités.élu,
-                                                                        total.lignes.paie,
-                                                                        autres.rémunérations)])
 
 #'### Cumuls des rémunérations brutes pour l'exercice `r année`
 #'  
@@ -44,23 +38,6 @@ Tableau.vertical2(c("Agrégats",
                     masses.personnels["autres.rémunérations"],
                     masses.personnels["rémunération.indemnitaire.imposable"]/masses.personnels["Montant.brut.annuel"] * 100))
 
-#'  
-#'*Elus*    
-#'  
-#'  
-#'&nbsp;*Tableau `r incrément()`*   
-#'    
-
-Tableau.vertical2(c("Agrégats",
-                    "k&euro;"),
-                  c("Brut annuel (bulletins)",
-                    "Brut annuel (lignes), dont :",
-                    "\\ \\ Primes :",
-                    "\\ \\ Autres rémunérations"),
-                  c(masses.élus["Montant.brut.annuel"],
-                    masses.élus["total.lignes.paie"],
-                    masses.élus["rémunération.indemnitaire.imposable"],
-                    masses.élus["autres.rémunérations"]))
 
 #'  
 #'**Définitions :**
@@ -93,21 +70,6 @@ Tableau.vertical2(c("Agrégats",
 #'
 #'à comparer aux soldes des comptes 641 et 648 du compte de gestion.
 #'
-#'Somme des rémunérations brutes versées (élus) :  
-#'  
-#'  
-#'&nbsp;*Tableau `r incrément()`*   
-#'    
-
-Tableau.vertical2(c("Agrégats",
-                    "k&euro;"),
-                  c("Bulletins de paie ",
-                    "Lignes de paie ",
-                    "Différence "),
-                  c(masses.élus["Montant.brut.annuel"],
-                    masses.élus["total.lignes.paie"],
-                    masses.élus["Montant.brut.annuel"] -
-                      masses.élus["total.lignes.paie"]))
 
 #'   
 #'## `r chapitre`.2 Masse salariale brute des fonctionnaires

@@ -233,7 +233,7 @@ void Altair::runRAltair()
   #ifdef DEBUG
     outputTextEdit->append(tr(STATE_HTML_TAG "Ligne de commande : %1").arg(RAltairCommandStr));
    #endif
-    process.start(RAltairCommandStr);
+    process.start(RAltairCommandStr, QStringList() << path_access("altaïr.Rproj"));
 #endif
 }
 
