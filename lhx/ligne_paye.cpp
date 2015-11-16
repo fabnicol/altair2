@@ -725,15 +725,15 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, std::ofstream& log)
 
     result = BULLETIN_OPTIONNEL_NUMERIQUE(NbHeureTotal);
 
-    //cur = atteindreNoeud("NbHeureSup", cur);
+    cur = atteindreNoeud("NbHeureSup", cur);
 
-    /* obligatoire, substitution du sparateur décimal */
-    result = result && BULLETIN_OPTIONNEL_NUMERIQUE_(NbHeureSup, 1);
-    result = result && BULLETIN_OBLIGATOIRE_NUMERIQUE(MtBrut);
-    result = result && BULLETIN_OBLIGATOIRE_NUMERIQUE(MtNet);
+    /* obligatoire, substitution du sparateur décimal. Attention : utiliser des bitwise, pas des logical && sinon le deuxième opérande peut ne pas être évalué */
+    result = result & BULLETIN_OPTIONNEL_NUMERIQUE(NbHeureSup);
+    result = result & BULLETIN_OBLIGATOIRE_NUMERIQUE(MtBrut);
+    result = result & BULLETIN_OBLIGATOIRE_NUMERIQUE(MtNet);
 
     info.drapeau_cont=false; // fin du niveau PayeIndivMensuel
-    result = result && BULLETIN_OBLIGATOIRE_NUMERIQUE(MtNetAPayer);
+    result = result & BULLETIN_OBLIGATOIRE_NUMERIQUE(MtNetAPayer);
 
     if (!result)
     {

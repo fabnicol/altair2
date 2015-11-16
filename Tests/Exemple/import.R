@@ -165,7 +165,126 @@ if (éliminer.duplications) {
   
 } 
   
+# On ne peut pas inférer sur quotite Trav (Temps.de.travail) de manière générale
+# Mais on peut exclure les cas dans lesquels Temps de travail est non fiable puis déduire en inférence sur ce qui reste
+# critère d'exclusion envisageable pour les stats de rémunérations à quotités :
+# Paie[Indice == "" & Type %chin% c("T", "I", "A", "AC") & Heures == 0 | Statut %chin% c("ELU", "v", "A")]
+# sur le reste on peut inférer Heures 
 
+
+setnames(Paie, "Heures", "Heures.orig")
+setnames(Bulletins.paie, "Heures", "Heures.orig")
+Paie[ , Heures := Heures.orig]
+Bulletins.paie[ , Heures := Heures.orig]
+
+# calcul du temps complet mensuel de référence en h/mois
+
+quotité.temps.partiel <- function(temps.de.travail) {
+  
+  if (x == 90) return(0.91429)  # 32/35 
+  if (x == 80) return(0.85714)  # 6/7   
+  return(x/100)
+  
+}
+
+verif.temps.complet <- function() {
+  
+  # dans certains cas on a presque jamais la variable Heures renseignée... sauf pour quelques temps partiels
+  
+  h <- hist(Bulletins.paie[Temps.de.travail == 100, Heures], nclass = 20000, plot = FALSE)
+  max.h <- which.max(h$counts)
+  
+  if (max.h > 1) {
+    
+    delta <- (h$mids[max.h + 1] - h$mids[max.h - 1])/2
+    
+    if (is.na(delta)) delta <<- 1 #Présomption
+    
+    nb.heures.temps.complet <<- floor(h$mids[max.h])
+    
+  } else {
+    
+    return(TRUE) # présomption
+  }
+  
+  valeur <- (abs(nb.heures.temps.complet - 151.67) < 1 + delta)  
+  
+  if (is.na(valeur))  {
+    valeur <- TRUE # présomption
+  }
+  
+  return(valeur)
+}
+
+message("Vérification de la durée légale théorique du travail (1820 h = 35h x 52 semaines soit 151,67 h/mois)")
+
+test.temps.complet <- verif.temps.complet()
+
+if (test.temps.complet) {
+
+  nb.heures.temps.complet <<- 151.67  #  1820 / 12
+  
+} else {
+  
+  nb.heures.temps.complet <<- floor(nb.heures.temps.complet)
+
+}
+
+# si l'on a une cohérence du calcul des heures de travail par semaine alors peut se baser dessus :
+
+if (redresser.heures) {
+if (test.temps.complet) {
+  
+  
+  Paie[(Heures == 0 | is.na(Heures))
+       & Indice != "" & !is.na(Indice) 
+       & Statut != "ELU" & Grade != "V" & Grade!= "A"
+       & Temps.de.travail != 0 & !is.na(Temps.de.travail), `:=`(indic = TRUE, 
+                                                                Heures = round(Temps.de.travail * nb.heures.temps.complet / 100, 1))]
+  
+  message("Correction, compte tenu des temps complets vérifiés, sur ", nrow(Paie[indic == TRUE]), " lignes de paie")
+  
+  Bulletins.paie[(Heures == 0 | is.na(Heures))
+                 & Indice != "" & !is.na(Indice) 
+                 & Statut != "ELU" & Grade != "V" & Grade!= "A"
+                 & Temps.de.travail != 0 & !is.na(Temps.de.travail), 
+                 Heures := round(Temps.de.travail * nb.heures.temps.complet / 100, 1)]
+  
+} else {
+  
+  # on présume alors que les traitements sont correctement liquidés... il faudrait mettre un drapeau sur cette présomption  
+  
+  P1 <- Paie[(Heures == 0 | is.na(Heures))
+             & Indice != "" & !is.na(Indice) 
+             & Statut != "ELU" & Grade != "V" & Grade!= "A"
+             & Temps.de.travail != 0 & !is.na(Temps.de.travail)
+             & Type == "T"
+             & grepl(".*salaire|trait.*", Libellé, perl=TRUE, ignore.case=TRUE), indic := TRUE]
+  
+  # attention ifelse pas if...else
+  
+  P1[indic == TRUE, Heures := ifelse(!is.na(as.numeric(Indice)) & is.finite(Montant/as.numeric(Indice)), 
+                                     Montant / (as.numeric(Indice) * PointMensuelIM[Année - 2007, Mois]) * 151.67, NA)]
+  
+  message("Correction, compte tenu des temps complets vérifiés, sur ", nrow(Paie[indic == TRUE]), " lignes de paie")
+  
+  # le traitement est le premier dans l'ordre, on aligne les calculs dessus
+  
+  P2 <- P1[, Heures := Heures[1], by="Matricule,Année,Mois"]
+  
+  Paie <- P2
+  
+  rm(P1, P2)
+  
+  v <- unique(Paie[, .(Matricule, Année, Mois, Heures)], by=NULL)[, Heures]
+  
+  if (length(v) ==  nrow(Bulletins.paie)) {
+    Bulletins.paie$Heures <- v
+  } else  {
+    message("Abandon de la correction spécifique")
+  }
+ }
+}
 
 # Lors de la PREMIERE utilisation d'Altair, paramétrer générer.codes <- TRUE dans prologue.R
 # pour générer les fichier des codes de paiement sous le dossier des bases (par défaut "Données").
@@ -340,8 +459,6 @@ if (charger.bases) {
   }
   
   matricules <- matricules[order(Matricule,  Année), ]
-  
-  
   
   
   
