@@ -50,22 +50,23 @@ Interface RStudio
 2. Affichage du script dans l'interface RStudio
 
   Au lancement de l'interface RStudio, vérifier que l'onglet actif est bien le 
-  fichier  'altair.R'  dans la fenêtre supérieure gauche. 
+  fichier  'rapport_msword.R'  dans la fenêtre supérieure gauche. 
   Sinon, dans la fenêtre inférieure droite, cliquer sur le fichier 
 
-               Altair\Tests\Exemple\altair.R
+               Altair\Tests\Exemple\rapport_msword.R
 
   Pour les lancements suivants de l'interface RStudio, cette opération de 
   sélection de fichier ne sera plus nécessaire.
 
 3. Production d'un nouveau rapport par exécution du script.
 
-  Appuyer sur l'icône "carnet de notes" à la droite de l'icône 
-  "baguette magique" et à la gauche de 'Run', ou cliquer sur le menu
-  Code > Source, ou appluyer simultanément sur Ctrl + Majuscule + S
-
-  Choisir le type de rapport (.html, .pdf, ou MS Word) dans le dialogue de
-  l'interface graphique.
+  Appuyer sur l'icône "Source" à la droite du quadrant supérieur gauche de l'interface,
+  en vérifiant que l'onglet actif de ce quadrant est bien le fichier rapport_msword.R.
+  
+  Ce qui précède est également valable pour un rapport pdf avec le fichier rapport_pdf.R,
+  qui doit alors être sélectionné dans le quadrant supérieur gauche. Il est également
+  possible de produire les deux types de rapport en même temps avec le fichier 
+  rapport_msword_pdf.R
 
   Le rapport d'exécution est généré dans le dossier :
 
@@ -90,8 +91,10 @@ L'auteur remercie les personnes suivantes pour leur contribution aux tests et
 		Vitalia Le Boudec
 		Nicole Rossetti
 		Cyril Janvier
-
-vérificateurs à la chambre régionale des comptes d'Auvergne, Rhône-Alpes,
+		Xavier Boschet
+		David Lemen
+		
+vérificateurs des chambres régionales des comptes d'Auvergne, Rhône-Alpes, et de Bretagne
 ainsi que Jean-Pierre Rousselle, magistrat, et Jérémie Ballet-Baz
 (Centre d'appui métier, Cour des comptes). 
 

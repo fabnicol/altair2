@@ -254,16 +254,16 @@ if (test.temps.complet) {
   
   # on présume alors que les traitements sont correctement liquidés... il faudrait mettre un drapeau sur cette présomption  
   
-  P1 <- Paie[(Heures == 0 | is.na(Heures))
+  P1 <- Paie[, indic := (Heures == 0 | is.na(Heures))
              & Indice != "" & !is.na(Indice) 
              & Statut != "ELU" & Grade != "V" & Grade!= "A"
              & Temps.de.travail != 0 & !is.na(Temps.de.travail)
              & Type == "T"
-             & grepl(".*salaire|trait.*", Libellé, perl=TRUE, ignore.case=TRUE), indic := TRUE]
+             & grepl(".*salaire|trait.*", Libellé, perl=TRUE, ignore.case=TRUE)]
   
   # attention ifelse pas if...else
   
-  P1[indic == TRUE, Heures := ifelse(!is.na(as.numeric(Indice)) & is.finite(Montant/as.numeric(Indice)), 
+  P1[indic == TRUE , Heures := ifelse(!is.na(as.numeric(Indice)) & is.finite(Montant/as.numeric(Indice)), 
                                      Montant / (as.numeric(Indice) * PointMensuelIM[Année - 2007, Mois]) * 151.67, NA)]
   
   message("Correction, compte tenu des temps complets vérifiés, sur ", nrow(Paie[indic == TRUE]), " lignes de paie")
@@ -276,12 +276,16 @@ if (test.temps.complet) {
   
   rm(P1, P2)
   
-  v <- unique(Paie[, .(Matricule, Année, Mois, Heures)], by=NULL)[, Heures]
+  M <- unique(Paie[, .(Matricule, Année, Mois, Heures)], by=NULL)
   
-  if (length(v) ==  nrow(Bulletins.paie)) {
-    Bulletins.paie$Heures <- v
+  if (nrow(M) ==  nrow(Bulletins.paie)) {
+    Bulletins.paie$Heures <- M$Heures
   } else  {
-    message("Abandon de la correction spécifique")
+    #message("Abandon de la correction spécifique")
+    # je ne comprends pa spourquoi data.table cloche ici
+    
+    Bulletins.paie <- as.data.table(merge(as.data.frame(Bulletins.paie), as.data.frame(M)))
+    
   }
  }
 }

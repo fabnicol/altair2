@@ -1,3 +1,4 @@
+# encoder ce script en windows-1252
 encodage.code.source <- "ISO-8859-1"
 initwd <- getwd()
 if (corriger.environnement.système) {
@@ -21,7 +22,5 @@ writeLines(iconv(readLines("altair.ansi.md"), from = "WINDOWS-1252", to = "UTF-8
 system(paste(file.path(Sys.getenv("R_HOME"), "../RStudio/bin/pandoc/pandoc.exe"), "-V papersize=A4 +RTS -K512m -RTS altair.utf8.md --to latex --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altair.pdf --template ", file.path(Sys.getenv("R_HOME"), "..", "lib/rmarkdown/rmd/latex/default.tex"), " --highlight-style tango --latex-engine ", file.path(Sys.getenv("R_HOME"), "..", "texlive/miktex/bin/x64/pdflatex.exe"), " --variable geometry:margin=1in" ))
 shell("start acrord32.exe altair.pdf")
 
-system(paste(file.path(Sys.getenv("R_HOME"), "../RStudio/bin/pandoc/pandoc.exe"), "altair.utf8.md --to docx --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altaïr.docx --highlight-style tango")) 
-shell("start winword altaïr.docx")
 setwd(initwd)
 
