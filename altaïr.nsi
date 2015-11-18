@@ -12,7 +12,7 @@
 
 !define version  "2015.10"
 !define VER_MAJOR 2015
-!define VER_MINOR 02
+!define VER_MINOR 10
 !define VER_REVISION 0
 !define VER_BUILD  0
 !define Rversion_major "3.2"
@@ -171,6 +171,7 @@ Function .onInit
   Delete $TEMP\spltmp.bmp
   StrCpy $1 "Minimale"
   Call .onSelChange
+  Call .onSelChange
   
 FunctionEnd
  
@@ -193,6 +194,8 @@ Section
   CreateDirectory  $INSTDIR\${xhl}
   CreateDirectory  $INSTDIR\${prodname.simple}\lib
   CreateDirectory  $INSTDIR\${prodname.simple}\win
+  CreateDirectory  $INSTDIR\${prodname.simple}\lhx
+  CreateDirectory $LOCALAPPDATA\${prodname}  
   
   SetDetailsPrint both
   SetOutPath $INSTDIR\${prodname.simple}
@@ -208,7 +211,8 @@ Section
   SetOutPath $INSTDIR\${exemple}
   File /r  ${exemple}\Docs
   File     ${exemple}\*.*
-    
+
+  ; C:\Users\XXX\AppData\Altaïr  
   
 SectionEnd
 
@@ -277,7 +281,6 @@ FunctionEnd
   
  
 Section 
-
  
  !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   SetShellVarContext current
