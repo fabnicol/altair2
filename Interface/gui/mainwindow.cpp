@@ -557,7 +557,7 @@ bool MainWindow::archiveProject()
     dialog.setViewMode(QFileDialog::List);
     dialog.setOption(QFileDialog::ShowDirsOnly, true);
     dialog.setWindowTitle("Exporter le rapport vers le répertoire...");
-    dialog.setDirectory("c:/Users/Public/Dev/altair/Archives");
+    dialog.setDirectory("c:/Users/Public/Altair/Archives");
     if (dialog.exec())
         dirName = dialog.selectedFiles().at(0);
 

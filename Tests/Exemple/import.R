@@ -165,17 +165,6 @@ if (éliminer.duplications) {
   
 } 
   
-# On ne peut pas inférer sur quotite Trav (Temps.de.travail) de manière générale
-# Mais on peut exclure les cas dans lesquels Temps de travail est non fiable puis déduire en inférence sur ce qui reste
-# critère d'exclusion envisageable pour les stats de rémunérations à quotités :
-# Paie[Indice == "" & Type %chin% c("T", "I", "A", "AC") & Heures == 0 | Statut %chin% c("ELU", "v", "A")]
-# sur le reste on peut inférer Heures 
-
-
-setnames(Paie, "Heures", "Heures.orig")
-setnames(Bulletins.paie, "Heures", "Heures.orig")
-Paie[ , Heures := Heures.orig]
-Bulletins.paie[ , Heures := Heures.orig]
 
 # calcul du temps complet mensuel de référence en h/mois
 
@@ -233,8 +222,19 @@ if (test.temps.complet) {
 # si l'on a une cohérence du calcul des heures de travail par semaine alors peut se baser dessus :
 
 if (redresser.heures) {
-if (test.temps.complet) {
   
+  # On ne peut pas inférer sur quotite Trav (Temps.de.travail) de manière générale
+  # Mais on peut exclure les cas dans lesquels Temps de travail est non fiable puis déduire en inférence sur ce qui reste
+  # critère d'exclusion envisageable pour les stats de rémunérations à quotités :
+  # Paie[Indice == "" & Type %chin% c("T", "I", "A", "AC") & Heures == 0 | Statut %chin% c("ELU", "v", "A")]
+  # sur le reste on peut inférer Heures 
+  
+  setnames(Paie, "Heures", "Heures.orig")
+  setnames(Bulletins.paie, "Heures", "Heures.orig")
+  Paie[ , Heures := Heures.orig]
+  Bulletins.paie[ , Heures := Heures.orig]
+  
+if (test.temps.complet) {
   
   Paie[(Heures == 0 | is.na(Heures))
        & Indice != "" & !is.na(Indice) 
@@ -242,7 +242,7 @@ if (test.temps.complet) {
        & Temps.de.travail != 0 & !is.na(Temps.de.travail), `:=`(indic = TRUE, 
                                                                 Heures = round(Temps.de.travail * nb.heures.temps.complet / 100, 1))]
   
-  message("Correction, compte tenu des temps complets vérifiés, sur ", nrow(Paie[indic == TRUE]), " lignes de paie")
+  message("Correction (méthode 1), compte tenu des temps complets vérifiés, sur ", nrow(Paie[indic == TRUE]), " lignes de paie")
   
   Bulletins.paie[(Heures == 0 | is.na(Heures))
                  & Indice != "" & !is.na(Indice) 
@@ -254,39 +254,29 @@ if (test.temps.complet) {
   
   # on présume alors que les traitements sont correctement liquidés... il faudrait mettre un drapeau sur cette présomption  
   
-  P1 <- Paie[, indic := (Heures == 0 | is.na(Heures))
+  Paie[, indic := (Heures == 0 | is.na(Heures))
              & Indice != "" & !is.na(Indice) 
              & Statut != "ELU" & Grade != "V" & Grade!= "A"
              & Temps.de.travail != 0 & !is.na(Temps.de.travail)
-             & Type == "T"
+             & Type == "T" & Montant > 0
              & grepl(".*salaire|trait.*", Libellé, perl=TRUE, ignore.case=TRUE)]
   
   # attention ifelse pas if...else
   
-  P1[indic == TRUE , Heures := ifelse(!is.na(as.numeric(Indice)) & is.finite(Montant/as.numeric(Indice)), 
+  Paie[indic == TRUE , Heures := ifelse(!is.na(as.numeric(Indice)) & is.finite(Montant/as.numeric(Indice)), 
                                      Montant / (as.numeric(Indice) * PointMensuelIM[Année - 2007, Mois]) * 151.67, NA)]
   
-  message("Correction, compte tenu des temps complets vérifiés, sur ", nrow(Paie[indic == TRUE]), " lignes de paie")
+  message("Correction (méthode 2), compte tenu des temps complets vérifiés, sur ", nrow(Paie[indic == TRUE]), " lignes de paie")
+
+  Bulletins.paie <- merge(unique(Paie[ , .(Matricule, 
+                                           Année,
+                                           Mois,
+                                           Service,
+                                           Statut,
+                                           Heures)], by=NULL),
+                Bulletins.paie[, Heures := NULL], 
+                by = c("Matricule","Année","Mois","Service", "Statut"))
   
-  # le traitement est le premier dans l'ordre, on aligne les calculs dessus
-  
-  P2 <- P1[, Heures := Heures[1], by="Matricule,Année,Mois"]
-  
-  Paie <- P2
-  
-  rm(P1, P2)
-  
-  M <- unique(Paie[, .(Matricule, Année, Mois, Heures)], by=NULL)
-  
-  if (nrow(M) ==  nrow(Bulletins.paie)) {
-    Bulletins.paie$Heures <- M$Heures
-  } else  {
-    #message("Abandon de la correction spécifique")
-    # je ne comprends pa spourquoi data.table cloche ici
-    
-    Bulletins.paie <- as.data.table(merge(as.data.frame(Bulletins.paie), as.data.frame(M)))
-    
-  }
  }
 }
 
@@ -430,6 +420,7 @@ if (charger.bases) {
                                            "Année",
                                            "Mois",
                                            "Service",
+                                           "Statut",
                                            "cumHeures",
                                            "quotité",
                                            "quotité.moyenne",
@@ -446,7 +437,7 @@ if (charger.bases) {
                                            "indicatrice.quotité.pp",
                                            "permanent"), with=FALSE], by=NULL),
                 Paie, 
-                by=c("Matricule","Année","Mois","Service"))
+                by=c("Matricule","Année","Mois","Service", "Statut"))
   
   matricules <- unique(Bulletins.paie[ ,
                                       c("Année",
