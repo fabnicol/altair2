@@ -144,12 +144,13 @@ void Altair::run()
     if (rankFile.isOpen())
         rankFile.close();
 
-    QFile f("C:/Users/Public/Dev/altair/lhx/cl");
+    QString path_access_cl = path_access("lhx/cl");
+    QFile f(path_access_cl);
     f.open(QFile::WriteOnly|QFile::Truncate);
     f.write((args0 << args1).join("\n").replace('"',"").toLatin1());
     f.close();
     //process.start(altairCommandStr,  args0 << args1);
-    process.start(altairCommandStr,  QStringList() << "-f" << "C:/Users/Public/Dev/altair/lhx/cl");
+    process.start(altairCommandStr,  QStringList() << "-f" << path_access_cl);
 
     if (process.waitForStarted())
     {
@@ -215,11 +216,11 @@ void Altair::runRAltair()
 #ifdef MINIMAL
     outputType="R";
     emit(setProgressBar(0, 100));
-
-    process.start(RAltairCommandStr + " " + "C:/Users/Public/Dev/altair/Tests/Exemple/rapport_msword.R");
+    QString  path_access_rapport_msword = path_access("Tests/Exemple/rapport_msword.R");
+    process.start(RAltairCommandStr + " " + path_access_rapport_msword);
     if (process.waitForStarted())
     {
-        outputTextEdit->append(RAltairCommandStr + " " + path_access("Tests/Exemple/rapport_msword.R"));
+        outputTextEdit->append(RAltairCommandStr + " " + path_access_rapport_msword);
         outputTextEdit->append(tr(STATE_HTML_TAG \
                     "Lancement du traitement des données ...Veuillez patienter.<br>\
                        Vous pouvez suivre l'exécution du traitement dans la console<br>(Configurer > Configurer l'interface > Afficher les messages)."));
