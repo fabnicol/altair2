@@ -1812,7 +1812,7 @@ if (length(codes.pfr) > 5) {
     setnames(bénéficiaires.PFR, "Cumul.PFR.IFTS", "Cumul PFR ou IFTS")
     kable(bénéficiaires.PFR, align = 'r', row.names = FALSE)
   } else {
-    cat("\nAucun de bénéficiaire de la PFR détecté.\n")
+    cat("\nAucun bénéficiaire de la PFR détecté.\n")
   }
   
 #'  
@@ -2236,9 +2236,8 @@ message("Analyse du SFT")
 #'
 #'[Lien vers le fichier des personnels](Bases/Effectifs/Catégories des personnels.csv)
 #'  
-#'## Fiabilité du traitement statistique  
-#'### Eliminations des doublons  
-#'  
+#'## Fiabilité du traitement statistique   
+#'*Doublons*      
 
 if (éliminer.duplications) {
   if (après.redressement != avant.redressement) {
@@ -2275,8 +2274,22 @@ if (nrow.bull.heures/nrow.bull  < 0.1)
 
 if (nrow.bull.quotités/nrow.bull < 0.1)
   message("Attention moins de 10 % des quotités sont renseignées")
+#'     
+cat("Nombre de bulletins : ", FR(nrow.bull))
+#'     
+if (redresser.heures) {
+  if (nredressements > 0) {
+    cat("Les heures de travail ont été redressées avec la méthode ", ifelse(test.temps.complet, "des quotités.\n", "de l'interpolation indiciaire\n")) 
+  }
+} else {
+   cat("Les heures de travail n'ont pas été redressées.")
+}
+#'    
+cat(" Nombre de bulletins de paie redressés :", FR(nredressements)) 
+#'    
+cat(" Pourcentage de redressements :", round((nredressements)/nrow.bull*100, 2), "% des bulletins de paie.")
 #'  
-cat("\nPourcentage d'heures renseignées :", round(nrow.bull.heures/nrow.bull*100, 1), "%")
+cat("\nPourcentage d'heures renseignées (après redressement éventuel):", round(nrow.bull.heures/nrow.bull*100, 1), "%")
 #'   
 cat("\nPourcentage de quotités renseignées :", round(nrow.bull.quotités/nrow.bull*100, 1), "%")
 #'   
@@ -2288,7 +2301,7 @@ cat("\nNombre de bulletins à quotités sans heures : ", n <- nrow(Bulletins.paie[
 #'   
 cat("\nNombre de bulletins apparemment inactifs : ", n <- nrow(Bulletins.paie[Heures == 0 & Temps.de.travail == 0]), "[", round(n/nrow.bull*100, 1), "%]")
 #'   
-cat("\nNombre de bulletins non renseignés : ", n <- nrow(Bulletins.paie[is.na(Heures) | is.na(Temps.de.travail)]), "[", round(n/nrow.bull*100, 1), "%]")
+cat("\nNombre de bulletins non renseignés pour les heures ou les quotités: ", n <- nrow(Bulletins.paie[is.na(Heures) | is.na(Temps.de.travail)]), "[", round(n/nrow.bull*100, 1), "%]")
 #'   
 base.heures.nulles.salaire.nonnull     <- Bulletins.paie[Heures == 0  & (Net.à.Payer != 0 | Brut != 0)]
 base.quotité.indéfinie.salaire.nonnull <- Bulletins.paie[MHeures == 0 & (Net.à.Payer != 0 | Brut != 0)]
@@ -2297,10 +2310,10 @@ nligne.base.heures.nulles.salaire.nonnull     <- nrow(base.heures.nulles.salaire
 nligne.base.quotité.indéfinie.salaire.nonnull <- nrow(base.quotité.indéfinie.salaire.nonnull)
 #'  
 if (nligne.base.heures.nulles.salaire.nonnull)
-   cat("Nombre de bulletins de paie de salaires (net ou brut) versés pour un champ Heures = 0 : ", FR(nligne.base.heures.nulles.salaire.nonnull))
+   cat("Nombre de bulletins de paie de salaires versés pour un champ Heures = 0 : ", FR(n <<- nligne.base.heures.nulles.salaire.nonnull), "[", round(n/nrow.bull * 100, 1), "%]")
 #'   
 if (nligne.base.quotité.indéfinie.salaire.nonnull)
-   cat("\nNombre de bulletins de paie de salaires (net ou brut) versés pour une quotité de travail indéfinie : ", FR(nligne.base.heures.nulles.salaire.nonnull))
+   cat("\nNombre de bulletins de paie de salaires versés pour une quotité de travail indéfinie : ", FR(nligne.base.heures.nulles.salaire.nonnull))
 #'   
 #'[Lien vers la base de données des salaires versés pour Heures=0](Bases/Fiabilité/base.heures.nulles.salaire.nonnull.csv)   
 #'[Lien vers la base de données des salaires versés à quotité indéfinie](Bases/Fiabilité/base.quotité.indéfinie.salaire.nonnull.csv)   

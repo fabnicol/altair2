@@ -1,11 +1,11 @@
 greaterThan(QT_MAJOR_VERSION, 5)
-# Mettre Git\bin dans le PATH systématiquement
+# Mettre Git\bin dans le PATH systÃ©matiquement
 # utiliser au moins Qt5 et g++-5.1 sous windows
 
 if (win32|linux) {
-  message("Système d'exploitation :  $$(OS)")
+  message("SystÃ¨me d'exploitation :  $$(OS)")
 } else {
-  error("Le système d'exploitation doit être soit Windows soit linux")
+  error("Le systÃ¨me d'exploitation doit Ãªtre soit Windows soit linux")
 }
 
 windows {
@@ -22,21 +22,21 @@ linux {
 if (!isEmpty(GIT_VERSION)) {
     message( "Version de git : $$GIT_VERSION" )
 } else {
-#    error( "Git doit être installé" )
+#    error( "Git doit Ãªtre installÃ©" )
 }
 
 
 if (!isEmpty(CXX_VERSION)){
     message( "Version du compilateur : $$CXX_VERSION" )
 } else {
-    error( "Le compilateur doit être GNU g++, dont la version doit être au moins 5.1" )
+    error( "Le compilateur doit Ãªtre GNU g++, dont la version doit Ãªtre au moins 5.1" )
 }
 
 
 
 CONFIG  += ordered
 CONFIG(debug, debug|release) {
-  QMAKE_LFLAGS   += -L$$(QTDIR)/bin   # ne devrait pas en principe être rajouté mais...qmake est capricieux !
+  QMAKE_LFLAGS   += -L$$(QTDIR)/bin   # ne devrait pas en principe Ãªtre rajoutÃ© mais...qmake est capricieux !
 } else {
   CONFIG += static
 }
@@ -44,7 +44,7 @@ CONFIG(debug, debug|release) {
 TEMPLATE = app
 
 QT       += core gui xml widgets
-            #webkitwidgets : à décommenter si STATIC n'est pas défini c-dessous. Nécessite libWebKitWidgets
+            #webkitwidgets : Ã  dÃ©commenter si STATIC n'est pas dÃ©fini c-dessous. NÃ©cessite libWebKitWidgets
 
 QT       -= opengl
 QT       -= openssl
@@ -55,27 +55,28 @@ VPATH = .
 
 #DEFINES += MINIMAL
 
-DEFINES += PROGRESSBAR_TIMEOUT=400    # Intervalle d'incrémentation de la barre de progression en millisecondes
-                            # Un timeout plus élevé diminue l'overhead mais rend la la progression moins fluide.
-                            # Le minimum (timeout = 0) donne des progressions fluides mais augmente de 10 % la durée d'exec.
+DEFINES += PROGRESSBAR_TIMEOUT=400    # Intervalle d'incrÃ©mentation de la barre de progression en millisecondes
+                            # Un timeout plus Ã©levÃ© diminue l'overhead mais rend la la progression moins fluide.
+                            # Le minimum (timeout = 0) donne des progressions fluides mais augmente de 10 % la durÃ©e d'exec.
 
-DEFINES += MAXIMUM_CONSOLE_OUTPUT=800   #Pour limiter le volume de lignes de la cosole et éviter des plantages ou ralentissements en cas de verbosité excessive
+DEFINES += MAXIMUM_CONSOLE_OUTPUT=800   #Pour limiter le volume de lignes de la cosole et Ã©viter des plantages ou ralentissements en cas de verbositÃ© excessive
 
-DEFINES += COMMANDLINE_CONSOLE_OUTPUT          \        # Générer la ligne de commande en console (verbeux)
+DEFINES += COMMANDLINE_CONSOLE_OUTPUT          \        # GÃ©nÃ©rer la ligne de commande en console (verbeux)
            GUI_OUTPUT                                   # Balises d'identification des lignes de la console : mode GUI
 
 DEFINES += QT_NO_OPENGL \
-           STATIC\                                      # à utiliser pour lancer le navigateur internet par défaut plustôt qu'un navigateur interne
-         #  LOCAL_BINPATH \                             # chemins d'exécution définis par rapport à l'emplacement de l'exécutable
-           REGEX_PARSING_FOR_HEADERS \                  # utiliser les expressions régulières de c++ (g++ 5.1 au moins)
+           STATIC\                                      # Ã  utiliser pour lancer le navigateur internet par dÃ©faut plustÃ´t qu'un navigateur interne
+         #  LOCAL_BINPATH \                             # chemins d'exÃ©cution dÃ©finis par rapport Ã  l'emplacement de l'exÃ©cutable
+           REGEX_PARSING_FOR_HEADERS \                  # utiliser les expressions rÃ©guliÃ¨res de c++ (g++ 5.1 au moins)
            USE_RIGHT_CLICK                              # utiliser un clic droit sur les fichiers pour ajouter, supprimer etc.
 
 
 windows:RC_ICONS = neptune.ico
 
 QMAKE_CXXFLAGS += -std=gnu++11                         # obligatoire
-QMAKE_CXXFLAGS += -march=native -O3 -fomit-frame-pointer -fexpensive-optimizations -pipe -m64         # facultatif
-
+QMAKE_CXXFLAGS += -O3 -fomit-frame-pointer -fexpensive-optimizations -pipe -m64         # facultatif
+#QMAKE_CXXFLAGS += -march=native
+QMAKE_CXXFLAGS += -march=core2
 
 SOURCES += \
     options.cpp \
