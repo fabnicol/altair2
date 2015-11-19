@@ -207,7 +207,7 @@ verif.temps.complet <- function() {
 
 message("Vérification de la durée légale théorique du travail (1820 h = 35h x 52 semaines soit 151,67 h/mois)")
 
-test.temps.complet <- verif.temps.complet()
+test.temps.complet <<- verif.temps.complet()
 
 if (test.temps.complet) {
 
@@ -242,19 +242,21 @@ if (test.temps.complet) {
        & Temps.de.travail != 0 & !is.na(Temps.de.travail), `:=`(indic = TRUE, 
                                                                 Heures = round(Temps.de.travail * nb.heures.temps.complet / 100, 1))]
   
-  message("Correction (méthode 1), compte tenu des temps complets vérifiés, sur ", nrow(Paie[indic == TRUE]), " lignes de paie")
   
   Bulletins.paie[(Heures == 0 | is.na(Heures))
                  & Indice != "" & !is.na(Indice) 
                  & Statut != "ELU" & Grade != "V" & Grade!= "A"
                  & Temps.de.travail != 0 & !is.na(Temps.de.travail), 
-                 Heures := round(Temps.de.travail * nb.heures.temps.complet / 100, 1)]
+                 `:=`(indic = TRUE, 
+                      Heures = round(Temps.de.travail * nb.heures.temps.complet / 100, 1))]
+  
+  message("Correction (méthode 1), compte tenu des temps complets vérifiés, sur ", nredressements <<- nrow(Bulletins.paie[indic == TRUE]), " bulletins de paie")
   
 } else {
   
   # on présume alors que les traitements sont correctement liquidés... il faudrait mettre un drapeau sur cette présomption  
   
-  Paie[, indic := (Heures == 0 | is.na(Heures))
+  Paie[ , indic := (Heures == 0 | is.na(Heures))
              & Indice != "" & !is.na(Indice) 
              & Statut != "ELU" & Grade != "V" & Grade!= "A"
              & Temps.de.travail != 0 & !is.na(Temps.de.travail)
@@ -266,17 +268,17 @@ if (test.temps.complet) {
   Paie[indic == TRUE , Heures := ifelse(!is.na(as.numeric(Indice)) & is.finite(Montant/as.numeric(Indice)), 
                                      Montant / (as.numeric(Indice) * PointMensuelIM[Année - 2007, Mois]) * 151.67, NA)]
   
-  message("Correction (méthode 2), compte tenu des temps complets vérifiés, sur ", nrow(Paie[indic == TRUE]), " lignes de paie")
-
   Bulletins.paie <- merge(unique(Paie[ , .(Matricule, 
                                            Année,
                                            Mois,
                                            Service,
                                            Statut,
-                                           Heures)], by=NULL),
+                                           Heures,
+                                           indic)], by=NULL),
                 Bulletins.paie[, Heures := NULL], 
                 by = c("Matricule","Année","Mois","Service", "Statut"))
   
+  message("Correction (méthode 2), compte tenu des temps complets vérifiés, sur ", nredressements <<- nrow(Bulletins.paie[indic == TRUE]), " lignes de paie")
  }
 }
 
