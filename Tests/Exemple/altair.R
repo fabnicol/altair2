@@ -11,7 +11,7 @@
 #'![Image_Altair](Altair.png)
 #'   
 #'   
-#'# Démonstrateur Altaïr version 15.02   
+#'# Démonstrateur Altaïr version 15.10   
 
 #+ echo = FALSE, warning = TRUE, message = FALSE
 
