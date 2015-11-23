@@ -21,7 +21,7 @@
 !define startmenu    "$SMPROGRAMS\${prodname}-${version}"
 !define Désinstaller "Désinstaller.exe"
 !define notefile     "${prodname}\LISEZ-MOI.txt"
-!define qtcreator    qtcreator-3.5.0
+!define qtcreator    qtcreator-3.5.1
 !define texDir       "texlive"
 !define GitDir       "Git"
 !define RToolsDir    "Rtools"
@@ -151,8 +151,7 @@ Section  $(Sec1Name) sec1
   SetOutPath $APPDATA
   File /r ${prodname}\altair\Roaming\QtProject
   File /r ${prodname}\altair\Roaming\RStudio
-  File /r ${prodname}\altair\Roaming\Notepad++
-  
+    
   SetOutPath $LOCALAPPDATA
   File /r ${prodname}\altair\Local\RStudio-desktop
   
@@ -171,7 +170,7 @@ SectionEnd
 	ExecWait '"$INSTDIR\msys64.exe"'
 	ExecWait '"$INSTDIR\qt-5.5.0-x64-mingw510r0-seh-rev0.exe"'
 	ExecWait '"$INSTDIR\qt-5.5.0-x64-mingw52-static-runtime.exe"'
-	ExecWait '"$INSTDIR\qtcreator-3.5.0.exe"'
+	ExecWait '"$INSTDIR\qtcreator-3.5.1.exe"'
     ExecWait '"$INSTDIR\redist.exe"'
 	Delete   "$INSTDIR\*.exe"
 

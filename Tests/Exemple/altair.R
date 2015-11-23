@@ -41,7 +41,7 @@ source("prologue.R", encoding = encodage.code.source)
 
 if (corriger.environnement.système) {
   
-  invisible(Sys.setenv(PATH = paste0(Sys.getenv("PATH"), "c:\\Users\\Public\\Dev\\altair\\texlive\\miktex\\bin\\x64;")))
+  invisible(Sys.setenv(PATH = paste0(Sys.getenv("PATH"), "c:\\Users\\Public\\Dev\\altair\\texlive\\miktex\\bin;")))
   
 }
 
@@ -2299,9 +2299,7 @@ cat("\nNombre de bulletins à heures sans quotités : ", n <- nrow(Bulletins.paie[
 #'   
 cat("\nNombre de bulletins à quotités sans heures : ", n <- nrow(Bulletins.paie[Heures == 0 & Temps.de.travail != 0]), "[", round(n/nrow.bull*100, 1), "%]")
 #'   
-cat("\nNombre de bulletins apparemment inactifs : ", n <- nrow(Bulletins.paie[Heures == 0 & Temps.de.travail == 0]), "[", round(n/nrow.bull*100, 1), "%]")
-#'   
-cat("\nNombre de bulletins non renseignés pour les heures ou les quotités: ", n <- nrow(Bulletins.paie[is.na(Heures) | is.na(Temps.de.travail)]), "[", round(n/nrow.bull*100, 1), "%]")
+cat("\nNombre de bulletins apparemment inactifs : ", n <- nrow(Bulletins.paie[(Heures == 0 | is.na(Heures)) & (Temps.de.travail == 0 | is.na(Temps.de.travail))]), "[", round(n/nrow.bull*100, 1), "%]")  
 #'   
 base.heures.nulles.salaire.nonnull     <- Bulletins.paie[Heures == 0  & (Net.à.Payer != 0 | Brut != 0)]
 base.quotité.indéfinie.salaire.nonnull <- Bulletins.paie[MHeures == 0 & (Net.à.Payer != 0 | Brut != 0)]

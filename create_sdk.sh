@@ -8,7 +8,7 @@ then
 fi
 mkdir -p Altaïr-SDK/altair
 var=0
-for term in LICENCE dlls Docs Git Interface Interface_windows Interface_windows_min lib Local Outils R R64 Roaming RStudio RBuildTools win  ".Rproj.user"
+for term in LICENCE dlls Docs Git Interface Interface_windows Interface_windows_min lib Local Outils R R64 Roaming RStudio RStudio-project RBuildTools texlive win  ".Rproj.user" 
 do
 	((var++))
 	echo -ne "$var/20: copie de $term en cours...               "\\r
@@ -17,7 +17,7 @@ done
 echo "20/20 : copie de lhx"
 mkdir Altaïr-SDK/altair/lhx
 cp lhx/*.* Altaïr-SDK/altair/lhx
-cp lhx/LICENCE Altaïr-SDK/altair/lhx
+#cp lhx/LICENCE Altaïr-SDK/altair/lhx
 echo "Sous répertoires copiés hormis les exemples"
 cp -rf  *.*  Altaïr-SDK/altair
 echo "Fichiers racine copiés"
@@ -29,4 +29,5 @@ mkdir Altaïr-SDK/altair/Tests/Exemple/Donnees/R-Altaïr
 echo "Exemples copiés"
 cp Paquets/*  Altaïr-SDK
 echo "Paquets copiés"
+pause 
 echo "Terminé"
