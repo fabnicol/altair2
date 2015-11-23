@@ -201,9 +201,9 @@ Section
   SetOutPath $INSTDIR\${prodname.simple}
   File /r  "${prodname.simple}\Docs" 
   File /r  "${prodname.simple}\Outils" 
-  File /r  "${prodname.simple}\.Rproj.user" 
   File /r  "${prodname.simple}\lib" 
   File     "${prodname.simple}\*.*" 
+  File /r  "${prodname.simple}\RStudio-project\.Rproj.user" 
   
   SetOutPath $INSTDIR\${prodname.simple}\win
   File   "${prodname.simple}\win\*.*" 
