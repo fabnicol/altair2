@@ -4,7 +4,7 @@ rtoolspath <- "RBuildTools/3.3/bin"
 wd <- getwd()
 if (grepl("altair$", wd, ignore.case=TRUE) == FALSE)
 {
-  stop("le rÃ©pertoire de travail doit Ãªtre .../altair")  
+  stop("le répertoire de travail doit être .../altair")  
 }
 
 .libPaths("lib")
