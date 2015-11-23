@@ -22,7 +22,7 @@
 !define prodname     "Altaïr"
 !define prodname.simple "Altair"
 !define processeur       "_core2"
-!define setup        "Altaïr-${version}.win.installer.exe"
+!define setup        "Altaïr-${version}.win$processeur.installer.exe"
 !define exemple      "${prodname.simple}\Tests\Exemple"
 !define xhl          "${exemple}\Donnees\xhl"
 !define Interface.minimal    Interface_windows_min

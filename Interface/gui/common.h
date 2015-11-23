@@ -17,7 +17,7 @@
 
 #define  Warning(title, text)   QMessageBox::warning(0, title, text,  "Oui", "Non")
 #define  Warning0(title, text)   QMessageBox::warning(0, title, text, "Fermer")
-
+#define REQUIRE true
 
 class common : public QDialog, public flags
 {
@@ -54,8 +54,8 @@ public:
 
 static bool zip (const QString& filename , const QString& zipfilename);
 static bool unzip (const QString& filename , const QString& zipfilename);
-static bool IOControl(const QString& in, const QString& out, const QString& comment="");
-static bool copyFile(const QString &in, const QString &out, const QString& comment = "");
+static bool IOControl(const QString& in, const QString& out, const QString& comment="", bool require = false);
+static bool copyFile(const QString &in, const QString &out, const QString& comment = "", bool require = false);
 static bool copyDir(const QString &in, const QString &out, const QString& comment = "");
 static bool zipDir (const QString& inPath , const QString& outPath);
 static bool unzipDir (const QString& inPath , const QString& outPath);

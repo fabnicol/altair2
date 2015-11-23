@@ -58,12 +58,12 @@ QString string=L.join("\n");
 return string;
 }
 
-bool common::IOControl(const QString& in, const QString& out, const QString& comment)
+bool common::IOControl(const QString& in, const QString& out, const QString& comment, bool require)
 {
     QFile inFile(in);
     if (! inFile.exists())
     {
-        QMessageBox::critical(nullptr, "Erreur", in + " n'a pas été trouvé.", QMessageBox::Cancel);
+        if (require == true) QMessageBox::critical(nullptr, "Erreur", in + " n'a pas été trouvé.", QMessageBox::Cancel);
         return false;
     }
 
@@ -123,14 +123,14 @@ bool common::IOControl(const QString& in, const QString& out, const QString& com
 }
 
 
-bool common::copyFile(const QString &in, const QString &out, const QString& comment)
+bool common::copyFile(const QString &in, const QString &out, const QString& comment, bool require)
 {
-    if (false == IOControl(in, out, comment))
+    if (false == IOControl(in, out, comment, require))
         return false;
 
     QFile inFile(in);
 
-    if (inFile.copy(out) == false)
+    if (inFile.copy(out) == false && require == true)
     {
         if (! comment.isEmpty()) QMessageBox::critical(nullptr, "Erreur", comment + " n'a pas été copié.",
                                                        QMessageBox::Cancel);

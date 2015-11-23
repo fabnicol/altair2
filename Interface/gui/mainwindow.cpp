@@ -530,15 +530,15 @@ bool MainWindow::exportProject(QString dirStr)
 
     altair->updateProject();
     QString projectRootDir = QDir::toNativeSeparators(QDir::cleanPath(v(base) + "/../.."));
-    QString docxReportFilePath = projectRootDir + "/altair.docx";
-    QString pdfReportFilePath = projectRootDir + "/altair.pdf";
+    QString docxReportFilePath = projectRootDir + QDir::separator() + "altaïr.docx";
+    QString pdfReportFilePath = projectRootDir + QDir::separator() + "altaïr.pdf";
     bool result = true;
 
-    result = common::copyFile(docxReportFilePath, subDirStr + "/altaïr.docx", "Le rapport Altaïr Word");
+    result = common::copyFile(docxReportFilePath, subDirStr + QDir::separator() + "altaïr.docx", "Le rapport Altaïr Word", REQUIRE);
 
     if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr Word a été exporté sous : " + subDirStr);
 
-    result = common::copyFile(pdfReportFilePath, subDirStr + "/altaïr.pdf", "Le rapport Altaïr PDF");
+    result = common::copyFile(pdfReportFilePath, subDirStr + QDir::separator() + "altaïr.pdf", "Le rapport Altaïr PDF");
 
     if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr PDF a été exporté sous : " + subDirStr);
 
@@ -551,21 +551,7 @@ bool MainWindow::exportProject(QString dirStr)
 
 bool MainWindow::archiveProject()
 {
-    QString dirName;
-    QFileDialog dialog(this);
-    dialog.setFileMode(QFileDialog::AnyFile);
-    dialog.setViewMode(QFileDialog::List);
-    dialog.setOption(QFileDialog::ShowDirsOnly, true);
-    dialog.setWindowTitle("Exporter le rapport vers le répertoire...");
-    dialog.setDirectory("c:/Users/Public/Altair/Archives");
-    if (dialog.exec())
-        dirName = dialog.selectedFiles().at(0);
-
-    if (! QFileInfo(dirName).isDir())
-    {
-        QDir dir;
-        dir.mkpath(dirName);
-    }
+    QString dirName = QFileDialog::getExistingDirectory(this, tr("Exporter le rapport vers le répertoire..."), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
 
     QString subDirStr = QDir::toNativeSeparators(dirName.append("/Archives Altaïr/" +
                                                                QDate::currentDate().toString("dd MM yyyy")
@@ -573,15 +559,15 @@ bool MainWindow::archiveProject()
 
     altair->updateProject();
     QString projectRootDir = QDir::toNativeSeparators(QDir::cleanPath(v(base) + "/../.."));
-    QString docxReportFilePath = projectRootDir + "/altair.docx";
-    QString pdfReportFilePath = projectRootDir + "/altair.pdf";
+    QString docxReportFilePath = projectRootDir +  QDir::separator() + "altaïr.docx";
+    QString pdfReportFilePath = projectRootDir +  QDir::separator()  + "altaïr.pdf";
     bool result = true;
 
-    result = common::zip(docxReportFilePath, subDirStr + "/altaïr.docx.arch");
+    result = common::zip(docxReportFilePath, subDirStr + QDir::separator() + "altaïr.docx.arch");
 
     if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr Word a été archivé sous : " + subDirStr);
 
-    result = common::zip(pdfReportFilePath, subDirStr + "/altaïr.pdf.arch");
+    result = common::zip(pdfReportFilePath, subDirStr + QDir::separator() + "altaïr.pdf.arch");
 
     if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr PDF a été archivé sous : " + subDirStr);
 
@@ -602,8 +588,8 @@ bool MainWindow::restoreProject(QString subDirStr)
 
     altair->updateProject();
     QString projectRootDir = QDir::toNativeSeparators(QDir::cleanPath(v(base) + "/../.."));
-    QString docxReportFilePath = projectRootDir + "/altair.docx";
-    QString pdfReportFilePath = projectRootDir + "/altair.pdf";
+    QString docxReportFilePath = projectRootDir + "/altaïr.docx";
+    QString pdfReportFilePath = projectRootDir + "/altaïr.pdf";
     bool result = true;
 
     result = common::unzip(subDirStr + "/altaïr.docx.arch", docxReportFilePath);
