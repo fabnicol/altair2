@@ -293,15 +293,15 @@ int main(int argc, char **argv)
         }
         else if (! strcmp(commandline_tab[start], "-D"))
         {
-            info.chemin_base = commandline_tab[start + 1] + std::string("/") + std::string(NOM_BASE);
+            info.chemin_base = commandline_tab[start + 1] + std::string("/") + std::string(NOM_BASE) ;
             info.chemin_bulletins = commandline_tab[start + 1] + std::string("/") + std::string(NOM_BASE_BULLETINS);
             std::ofstream base;
-            base.open(info.chemin_base);
+            base.open(info.chemin_base, std::ios::trunc);
 
-            if (! base.good())
+            if (! base.is_open())
             {
                 std::cerr << ERROR_HTML_TAG "La base de données "
-                          << info.chemin_base << " ne peut être créée, vérifier l'existence du dossier." ENDL ;
+                          << info.chemin_base  + std::string(CSV) << " ne peut être créée, vérifier l'existence du dossier." ENDL ;
                 exit(-113);
             }
             else
