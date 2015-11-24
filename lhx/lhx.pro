@@ -46,7 +46,7 @@ CONFIG(guiOutput) {
 
 CONFIG (release) {
     QMAKE_LFLAGS += -s
-    QMAKE_CXXFLAGS += -O3 -fexpensive-optimizations -fomit-frame-pointer
+    QMAKE_CXXFLAGS = -O3 -fexpensive-optimizations -fomit-frame-pointer
 }
 
 VPATH = .

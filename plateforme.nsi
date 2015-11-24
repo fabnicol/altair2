@@ -143,17 +143,19 @@ FunctionEnd
  
 Section  $(Sec1Name) sec1
   SetDetailsPrint both
+  CreateDirectory $LOCALAPPDATA\${prodname}  
+  
   SetOutPath $INSTDIR
   File     "${prodname}\*.*" 
   SetOutPath $INSTDIR
   File /r ${prodname}\altair
       
   SetOutPath $APPDATA
-  File /r ${prodname}\altair\Roaming\QtProject
-  File /r ${prodname}\altair\Roaming\RStudio
+  File /r ${prodname}\altair\Roaming.dev\QtProject
+  File /r ${prodname}\altair\Roaming.dev\RStudio
     
   SetOutPath $LOCALAPPDATA
-  File /r ${prodname}\altair\Local\RStudio-desktop
+  File /r ${prodname}\altair\Local.dev\RStudio-desktop
   
   ${EnvVarUpdate} $0 "PATH" "A" "HKCU" "$INSTDIR\${prodname}\altair\${texDir}\bin\win32"
   ${EnvVarUpdate} $0 "PATH" "A" "HKCU" "$INSTDIR\${prodname}\altair\${GitDir}\bin" 
@@ -277,6 +279,9 @@ Section "Uninstall"
   RMDir /r $APPDATA\QtProject
   RMDir /r $APPDATA\RStudio
   RMDir /r $APPDATA\Notepad++
+  RMDir /r $LOCALAPPDATA\RStudio-desktop
+  RMDir /r $LOCALAPPDATA\${prodname}  
+  
   Delete "$INSTDIR\*.*"
   RMDir /r "$INSTDIR\"
    
