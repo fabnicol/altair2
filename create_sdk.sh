@@ -8,7 +8,7 @@ then
 fi
 mkdir -p Altaïr-SDK/altair
 var=0
-for term in LICENCE dlls Docs Git Interface Interface_windows Interface_windows_min lib Local Outils R R64 Roaming RStudio RStudio-project RBuildTools texlive win  ".Rproj.user" 
+for term in LICENCE dlls Docs Git Interface Interface_windows Interface_windows_min lib Local Local.dev Outils R R64 Roaming Roaming.dev RStudio RStudio-project RBuildTools texlive win  ".Rproj.user" 
 do
 	((var++))
 	echo -ne "$var/20: copie de $term en cours...               "\\r
