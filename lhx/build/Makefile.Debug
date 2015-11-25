@@ -149,7 +149,8 @@ debug/fonctions_auxiliaires.o: ../fonctions_auxiliaires.cpp ../fonctions_auxilia
 		../../../mingw64-5.2/include/libxml/xlink.h \
 		../../../mingw64-5.2/include/libxml/SAX2.h \
 		../../Interface/gui/tags.h \
-		../entete-latin1.hpp
+		../entete-latin1.hpp \
+		../entete.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\fonctions_auxiliaires.o ..\fonctions_auxiliaires.cpp
 
 debug/main.o: ../main.cpp ../validator.hpp \

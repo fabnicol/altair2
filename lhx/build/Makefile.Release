@@ -12,8 +12,8 @@ MAKEFILE      = Makefile.Release
 CC            = gcc
 CXX           = g++
 DEFINES       = -DUNICODE -DGUI_TAG_MESSAGES -DWARNING_LIMIT=5 -DTYPE_LOOP_LIMIT=10 -DMAX_STRING_LENGTH=200 -D__GNUC_EXTENSION -D_REENTRANT -D_GNU_SOURCE -D__STDC_LIMIT_MACROS -D__STDC_FORMAT_MACROS -DGCC_REGEX -DWAIT_FOR_LOCK -DNO_DEBUG -DFULL_PREALLOCATION_TEST -DPREALLOCATE_ON_HEAP -DDECIMAL_NON_EN -DGENERATE_RANK_SIGNAL -DFGETC_PARSING
-CFLAGS        = -fno-keep-inline-dllexport $(DEFINES)
-CXXFLAGS      = -O3 -fexpensive-optimizations -fomit-frame-pointer -pipe -m64 -std=gnu++14 -march=native $(DEFINES)
+CFLAGS        = -pipe -fno-keep-inline-dllexport -O2 -Wall -Wextra $(DEFINES)
+CXXFLAGS      = -O3 -fexpensive-optimizations -fomit-frame-pointer -pipe -m64 -std=gnu++14 -march=native -O2 -frtti -Wall -Wextra -fexceptions -mthreads $(DEFINES)
 INCPATH       = -I..\..\lhx -I. -I..\..\Interface\gui -I..\..\..\mingw64-5.2\include -I..\..\..\qt-5.5.0-x64-mingw52-static-runtime\mkspecs\win32-g++ 
 LINKER      =        g++
 LFLAGS        =        -s -Wl,-s -Wl,-subsystem,console -static -mthreads
@@ -149,7 +149,8 @@ release/fonctions_auxiliaires.o: ../fonctions_auxiliaires.cpp ../fonctions_auxil
 		../../../mingw64-5.2/include/libxml/xlink.h \
 		../../../mingw64-5.2/include/libxml/SAX2.h \
 		../../Interface/gui/tags.h \
-		../entete-latin1.hpp
+		../entete-latin1.hpp \
+		../entete.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\fonctions_auxiliaires.o ..\fonctions_auxiliaires.cpp
 
 release/main.o: ../main.cpp ../validator.hpp \
