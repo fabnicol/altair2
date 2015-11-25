@@ -89,7 +89,7 @@ DEVROOT = $$PWD/../..
 # Ce compilateur doit être adjacent aux sources sous Windows
 
 QMAKE_CXXFLAGS += -pipe -m64 -std=gnu++14
-QMAKE_CXXFLAGS += -march=native
+QMAKE_CXXFLAGS += -march=native -Wextra
 #QMAKE_CXXFLAGS += -march=core2
 
 # Sous linux penser à installer libxml2-dev. Ceci n'est pas testé.

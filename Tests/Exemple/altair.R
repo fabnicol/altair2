@@ -517,8 +517,11 @@ invisible(lapply(années.analyse.statique, function(x) {
                    source('analyse.statique.R', encoding = encodage.code.source) 
                    
                  } else {
-                                      
-                   cat(knit_child(text = readLines(file.path(chemin.dossier,'analyse.statique.Rmd'), encoding = encodage.code.source), quiet=TRUE), sep = '\n')
+                   if (setOSWindows)  {                 
+                      cat(knit_child(text = readLines(file.path(chemin.dossier,'analyse.statique.Rmd'), encoding = encodage.code.source), quiet=TRUE), sep = '\n')
+                   } else {
+                     cat(knit_child(text = readLines(file.path(chemin.dossier,'analyse.statique.utf8.Rmd'), encoding = "UTF-8"), quiet=TRUE), sep = '\n')
+                   }
                  }
                }))
 
