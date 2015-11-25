@@ -28,7 +28,7 @@
 typedef struct
 {
     int      thread_num;
-    std::vector<char*>   argv;
+    std::vector<std::string>   argv;
     unsigned argc;
 } thread_t;
 

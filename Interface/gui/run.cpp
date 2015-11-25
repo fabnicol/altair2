@@ -1,6 +1,7 @@
 #include "altair.h"
 #include "fwidgets.h"
 
+/* fichier à encoder en UTF-8 */
 
 QStringList Altair::createCommandLineString()
 {
@@ -50,6 +51,7 @@ void Altair::run()
 
     if (!targetDirObject.exists())
     {
+        Q(path)
         QMessageBox::critical(nullptr, "Répertoire des bases", "Le répertoire " + path +" n'existe pas. Veuillez le créer manuellement par sécurité.");
         processFinished(exitCode::shouldLaunchRAltairAlone);
         return;
