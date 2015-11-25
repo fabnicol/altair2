@@ -9,7 +9,7 @@
 
 
 
-racine                      <- "R-Altaïr/"
+racine                      <- ifelse(setOSWindows, "R-Altaïr/", "R-Altair/")
 # "Ville Annecy Paye BP-"
 # "UTF-8.PDC-"
 # "RAG_2009_2012-"

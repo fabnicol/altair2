@@ -60,7 +60,7 @@ static int parseFile(info_t& info)
             *siret_fichier = nullptr,
             *budget_fichier = nullptr;
 
-    doc = xmlParseFile(info.threads->argv[info.fichier_courant]);
+    doc = xmlParseFile(info.threads->argv[info.fichier_courant].c_str());
 
     if (doc == nullptr)
     {
