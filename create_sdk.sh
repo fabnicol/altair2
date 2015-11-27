@@ -1,5 +1,6 @@
 export PS1='$'
 echo "Début de la création du SDK..."
+echo "Avez vous nettoyé le build de l'interface ? Sinon sortir"
 if test -e Altaïr-SDK
 then
 	echo "Effacement du répertoire SDK"
