@@ -1,5 +1,5 @@
 Pour la plateforme de développement penser à ajouter à la main les deu chemins suivants au PATH :
-$ALTAIR/texlive/bin/win32
+
 $ALTAIR/Git/bin
 
 où $ALTAIR est le présent dossier.

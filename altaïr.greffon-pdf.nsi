@@ -119,10 +119,7 @@ Section
       
   SetDetailsPrint both
   
-  SetOutPath $INSTDIR\${Exemple}
-  File   "${Exemple}\rapport_pdf.R" 
-  File   "${Exemple}\rapport_msword_et_pdf.R" 
- 
+  
   SetOutPath $INSTDIR\${prodname.simple}
   File  /r "${prodname.simple}\texlive"
           
