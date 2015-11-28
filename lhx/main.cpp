@@ -440,14 +440,16 @@ int main(int argc, char **argv)
             }
 
             std::string ligne;
-            while (f.good())
+            if (f.good())
             {
+              while(f.rdstate() != std::fstream::eofbit)
+              {
                 std::getline(f, ligne);
 
-                if (f.rdstate() != std::fstream::eofbit && ! ligne.empty())
-                {
-                    cl.push_back(ligne);
-                }
+                if (! ligne.empty())
+                       cl.push_back(ligne);
+              }
+
             }
 
             f.close();
