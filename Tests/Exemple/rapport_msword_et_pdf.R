@@ -1,7 +1,7 @@
 # encoder ce script en windows-1252
 encodage.code.source <- "ISO-8859-1"
 initwd <- getwd()
-
+setOSWindows  <- Sys.info()["sysname"] != "Linux"
 
 if (setOSWindows) {
   setwd(file.path(Sys.getenv("R_HOME"), "../Tests/Exemple"))
