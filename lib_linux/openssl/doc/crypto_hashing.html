@@ -9,7 +9,7 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="date" content="2015-05-09" />
+<meta name="date" content="2015-11-18" />
 
 <title>Cryptographic Hashing in R</title>
 
@@ -62,7 +62,7 @@ img {
 
 <div id="header">
 <h1 class="title">Cryptographic Hashing in R</h1>
-<h4 class="date"><em>2015-05-09</em></h4>
+<h4 class="date"><em>2015-11-18</em></h4>
 </div>
 
 
@@ -70,7 +70,7 @@ img {
 <pre class="r"><code>md5(&quot;foo&quot;)</code></pre>
 <pre><code>[1] &quot;acbd18db4cc2f85cedef654fccc4a4d8&quot;</code></pre>
 <pre class="r"><code>md5(charToRaw(&quot;foo&quot;))</code></pre>
-<pre><code> [1] ac bd 18 db 4c c2 f8 5c ed ef 65 4f cc c4 a4 d8</code></pre>
+<pre><code>md5 ac:bd:18:db:4c:c2:f8:5c:ed:ef:65:4f:cc:c4:a4:d8 </code></pre>
 <p>Functions are fully vectorized for the case of character vectors: a vector with n strings will return n hashes.</p>
 <pre class="r"><code># Vectorized for strings
 md5(c(&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;))</code></pre>
@@ -80,8 +80,7 @@ md5(c(&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;))</code></pre>
 <pre class="r"><code># Stream-hash a file
 myfile &lt;- system.file(&quot;CITATION&quot;)
 md5(file(myfile))</code></pre>
-<pre><code>Hashing....</code></pre>
-<pre><code> [1] e4 4f 1b 99 e3 2f 27 e0 a7 e6 a0 0a 36 07 0e 1b</code></pre>
+<pre><code>md5 16:a3:1a:bf:39:26:86:31:f2:0e:14:78:bf:64:d6:59 </code></pre>
 <p>Same for URLs. The hash of the <a href="http://cran.us.r-project.org/bin/windows/base/old/3.1.1/R-3.1.1-win.exe"><code>R-3.1.1-win.exe</code></a> below should match the one in <a href="http://cran.us.r-project.org/bin/windows/base/old/3.1.1/md5sum.txt"><code>md5sum.txt</code></a></p>
 <pre class="r"><code># Stream-hash from a network connection
 md5(url(&quot;http://cran.us.r-project.org/bin/windows/base/old/3.1.1/R-3.1.1-win.exe&quot;))</code></pre>
@@ -94,9 +93,9 @@ digest(&quot;foo&quot;, &quot;md5&quot;, serialize = FALSE)</code></pre>
 <pre><code>[1] &quot;acbd18db4cc2f85cedef654fccc4a4d8&quot;</code></pre>
 <pre class="r"><code># Other way around
 digest(cars, skip = 0)</code></pre>
-<pre><code>[1] &quot;310a2ceeffc1930c91d7a101d596356d&quot;</code></pre>
+<pre><code>[1] &quot;f570e46a98dc6fcd1455b9eb80c185f9&quot;</code></pre>
 <pre class="r"><code>md5(serialize(cars, NULL))</code></pre>
-<pre><code> [1] 31 0a 2c ee ff c1 93 0c 91 d7 a1 01 d5 96 35 6d</code></pre>
+<pre><code>md5 f5:70:e4:6a:98:dc:6f:cd:14:55:b9:eb:80:c1:85:f9 </code></pre>
 </div>
 
 

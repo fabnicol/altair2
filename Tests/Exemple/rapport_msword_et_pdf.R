@@ -27,7 +27,7 @@ if (setOSWindows) {
   spin("altair.utf8.R")
   system(paste("/usr/bin/pandoc", "altair.utf8.md --to odt --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altaïr.odt --highlight-style tango")) 
   system("/usr/bin/lowriter altaïr.odt")
-  system(paste("/usr/bin/pandoc", "altair.utf8.md -V papersize=A4 +RTS -K512m -RTS altair.utf8.md --to latex --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altaïr.pdf --template ../../lib_linux/rmarkdown/rmd/latex/default.tex --highlight-style tango --latex-engine pdflatex --variable geometry:margin=1in"))
+  system(paste("/usr/bin/pandoc", "-V papersize=A4 +RTS -K512m -RTS altair.utf8.md --to latex --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altaïr.pdf --template ../../lib_linux/rmarkdown/rmd/latex/default.tex --highlight-style tango --latex-engine pdflatex --variable geometry:margin=1in"))
   system("/usr/bin/okular altaïr.pdf")
 }
 
