@@ -32,13 +32,16 @@ if (!isEmpty(CXX_VERSION)){
     error( "Le compilateur doit être GNU g++, dont la version doit être au moins 5.1" )
 }
 
+QMAKE_CFLAGS =
 
-
-CONFIG  += ordered
+CONFIG  += ordered static
 CONFIG(debug, debug|release) {
   QMAKE_LFLAGS   += -L$$(QTDIR)/bin   # ne devrait pas en principe être rajouté mais...qmake est capricieux !
+
 } else {
   CONFIG += static
+  QMAKE_CXXFLAGS += -O3 -fomit-frame-pointer -fexpensive-optimizations
+  QMAKE_LFLAGS += -s
 }
 
 TEMPLATE = app
@@ -72,7 +75,7 @@ DEFINES += QT_NO_OPENGL \
 windows:RC_ICONS = neptune.ico
 
 QMAKE_CXXFLAGS += -std=gnu++11                         # obligatoire
-QMAKE_CXXFLAGS += -march=native -O3 -fomit-frame-pointer -fexpensive-optimizations -pipe -m64         # facultatif
+QMAKE_CXXFLAGS += -march=native  -pipe -m64         # facultatif
 
 
 SOURCES += \

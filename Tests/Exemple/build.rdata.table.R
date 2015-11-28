@@ -1,4 +1,5 @@
 
+if (setOSWindows) {
 rtoolspath <- "RBuildTools/3.3/bin"
 
 wd <- getwd()
@@ -26,3 +27,10 @@ install_github("Rdatatable/data.table", build_vignettes = FALSE, configure.args 
 # Restoring previous system path to avoid cluttering
 
 Sys.setenv(PATH = localPath)
+
+} else {
+
+.libPaths("lib_linux")
+library(devtools)
+install_github("Rdatatable/data.table", configure.args = c("CFLAGS=-O3", "-march=native"))
+}
