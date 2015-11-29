@@ -14,6 +14,8 @@
 #include <map>
 #include <chrono>
 #include <cstring>
+#include <locale>
+#include <codecvt>
 #include "validator.hpp"
 #include "fonctions_auxiliaires.hpp"
 #include "table.hpp"
@@ -26,16 +28,24 @@ std::string rankFilePath = "";
 std::mutex mut;
 std::vector<errorLine_t> errorLineStack;
 
+std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+
+inline bool compare_command_line_chunk(const std::vector<std::wstring>& tab, const char* chunk, int start)
+{
+  return (tab[start][0] == '-' && tab[start][1] == chunk[1]);
+}
+
 
 int main(int argc, char **argv)
 {
     auto startofprogram = Clock::now();
 
 #if defined _WIN32 | defined _WIN64
-    setlocale(LC_ALL, "French_France.1252"); // Windows ne gère pas UTF-8 en locale
+    //setlocale(LC_ALL, "French_France.1252"); // Windows ne gère pas UTF-8 en locale
+    std::locale::global(std::locale("French_France.1252"));
 #elif defined __linux__
     //setlocale(LC_ALL, "fr_FR.utf8");
-    setlocale(LC_ALL, "French_France.1252");
+   std::locale::global(std::locale("fr_FR.utf8"));
 #else
 #error "Programme conçu pour Windows ou linux"
 #endif
@@ -50,7 +60,7 @@ int main(int argc, char **argv)
             xmlKeepBlanksDefault(0);
 
     int start = 1;
-    std::string type_table = "bulletins";
+    std::wstring type_table(L"bulletins");
     bool generer_table = false;
     bool liberer_memoire = true;
     std::vector<std::string> cl;  /* pour les lignes de commandes incluses dans un fichier */
@@ -90,15 +100,17 @@ int main(int argc, char **argv)
 
     /* Analyse de la ligne de commande */
 
-    std::vector<std::string> commandline_tab;
+    std::vector<std::wstring> commandline_tab;
     commandline_tab.assign(argv, argv + argc);
+
+    #define compare_chunk(X) compare_command_line_chunk(commandline_tab, X, start)
 
     while (start < argc)
     {
-        if (commandline_tab[start] == "-n")
+        if (compare_chunk("-n"))
         {
             info.reduire_consommation_memoire = false;
-            if ((info.nbAgentUtilisateur = lire_argument(argc, const_cast<char*>(commandline_tab[start + 1].c_str()))) < 1)
+            if ((info.nbAgentUtilisateur = lire_argument(argc, const_cast<char*>(converter.to_bytes(commandline_tab[start + 1]).c_str()))) < 1)
             {
                 std::cerr << ERROR_HTML_TAG "Préciser le nombre de bulletins mensuels attendus (majorant du nombre) avec -N xxx .\n";
                 exit(-1);
@@ -107,7 +119,7 @@ int main(int argc, char **argv)
             continue;
 
         }
-        else if (commandline_tab[start] ==  "-h")
+        else if (compare_chunk("-h"))
         {
             std::cerr <<  "Usage :  lhx OPTIONS fichiers.xhl" << "\n"
                       <<  "OPTIONS :" << "\n"
@@ -157,16 +169,16 @@ int main(int argc, char **argv)
 
             exit(0);
         }
-        else if (commandline_tab[start] ==  "-q")
+        else if (compare_chunk("-q"))
         {
             verbeux = false;
             ++start;
             continue;
         }
-        else if (commandline_tab[start] == "-t")
+        else if (compare_chunk( "-t"))
         {
             generer_table = true;
-            if (commandline_tab[start + 1] == "standard")
+            if (strcmp(argv[start + 1], "standard") == 0)
             {
                 type_table = commandline_tab[start + 1];
                 start += 2;
@@ -178,13 +190,13 @@ int main(int argc, char **argv)
                 continue;
             }
         }
-        else if (commandline_tab[start] ==  "-l")
+        else if (compare_chunk("-l"))
         {
             info.generer_rang = true ;
             ++start;
             continue;
         }
-        else if (commandline_tab[start] == "-T")
+        else if (compare_chunk("-T"))
         {
             if (start + 1 == argc)
             {
@@ -207,13 +219,13 @@ int main(int argc, char **argv)
             hashTable["R"]  = BaseType::PAR_RAPPEL;
             hashTable["X"]  = BaseType::TOUTES_CATEGORIES;
 
-            if (hashTable.find(commandline_tab[start + 1]) != hashTable.end())
+            if (hashTable.find(converter.to_bytes(commandline_tab[start + 1])) != hashTable.end())
             {
-                info.type_base = hashTable[commandline_tab[start + 1]];
+                info.type_base = hashTable[converter.to_bytes(commandline_tab[start + 1])];
             }
             else
             {
-                int32_t size_read = lire_argument(argc, const_cast<char*>(commandline_tab[start + 1].c_str()));
+                int32_t size_read = lire_argument(argc, const_cast<char*>(converter.to_bytes(commandline_tab[start + 1]).c_str()));
 
                 if (size_read < 0 || size_read > INT32_MAX -1)
                 {
@@ -228,7 +240,7 @@ int main(int argc, char **argv)
             continue;
 
         }
-        else if (commandline_tab[start] == "-s")
+        else if (compare_chunk( "-s"))
         {
             if (start + 1 == argc)
             {
@@ -246,7 +258,7 @@ int main(int argc, char **argv)
             start += 2;
             continue;
         }
-        else if (commandline_tab[start] == "-d")
+        else if (compare_chunk( "-d"))
         {
             if (start + 1 == argc)
             {
@@ -257,7 +269,7 @@ int main(int argc, char **argv)
             start += 2;
             continue;
         }
-        else if (commandline_tab[start] == "-o")
+        else if (compare_chunk( "-o"))
         {
             if (start + 1 == argc)
             {
@@ -268,7 +280,7 @@ int main(int argc, char **argv)
             info.chemin_base = commandline_tab[start + 1];
 
             std::ofstream base;
-            base.open(info.chemin_base);
+            base.wopen(info.chemin_base);
             if (! base.good())
             {
                 perror(ERROR_HTML_TAG "La base de données ne peut être créée, vérifier l'existence du dossier.");
@@ -280,19 +292,19 @@ int main(int argc, char **argv)
             start += 2;
             continue;
         }
-        else if (commandline_tab[start] == "-M")
+        else if (compare_chunk( "-M"))
         {
             liberer_memoire = false;
             ++start;
             continue;
         }
-        else if (commandline_tab[start] == "-m")
+        else if (compare_chunk( "-m"))
         {
             info.calculer_maxima = true;
             ++start;
             continue;
         }
-        else if (commandline_tab[start] == "-D")
+        else if (compare_chunk( "-D"))
         {
             info.chemin_base = commandline_tab[start + 1] + std::string("/") + std::string(NOM_BASE) ;
             info.chemin_bulletins = commandline_tab[start + 1] + std::string("/") + std::string(NOM_BASE_BULLETINS);
@@ -315,7 +327,7 @@ int main(int argc, char **argv)
             start += 2;
             continue;
         }
-        else if (commandline_tab[start] == "-j")
+        else if (compare_chunk( "-j"))
         {
             if ((info.nbfil = lire_argument(argc, const_cast<char*>(commandline_tab[start +1].c_str()))) > 0)
             {
@@ -330,7 +342,7 @@ int main(int argc, char **argv)
             start += 2;
             continue;
         }
-        else if (commandline_tab[start] == "-L")
+        else if (compare_chunk( "-L"))
         {
             if (argc > start +2) info.chemin_log = commandline_tab[start + 1];
             std::ofstream base;
@@ -343,7 +355,7 @@ int main(int argc, char **argv)
             start += 2;
             continue;
         }
-        else if (commandline_tab[start] == "-N")
+        else if (compare_chunk( "-N"))
         {
             if ((info.nbLigneUtilisateur = lire_argument(argc, const_cast<char*>(commandline_tab[start +1].c_str()))) > 1)
             {
@@ -360,7 +372,7 @@ int main(int argc, char **argv)
             start += 2;
             continue;
         }
-        else if (commandline_tab[start] == "-R")
+        else if (compare_chunk( "-R"))
         {
             if (argc > start +2)
             {
@@ -375,7 +387,7 @@ int main(int argc, char **argv)
             continue;
         }
 #ifdef GENERATE_RANK_SIGNAL
-        else if (commandline_tab[start] == "-rank")
+        else if (compare_chunk( "-rank"))
         {
             int hasArg = 0;
             if (argc > start +2)
@@ -405,7 +417,7 @@ int main(int argc, char **argv)
         }
 #endif
 
-        else if (commandline_tab[start] == "-S")
+        else if (compare_chunk( "-S"))
         {
             if (argc > start +2)
             {
@@ -418,7 +430,7 @@ int main(int argc, char **argv)
             ++start;
             continue;
         }
-        else if (commandline_tab[start] == "-f")
+        else if (compare_chunk( "-f"))
         {
             const char* fichier;
             if (argc >= start + 2)
