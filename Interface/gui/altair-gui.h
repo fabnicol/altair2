@@ -81,9 +81,7 @@ class MainWindow : public QMainWindow
 
   private :
   
-   
-   void f();
-   
+
    QHash<QString, QAction*> actionHash;
 
    bool readFile(const QString &fileName);

@@ -176,21 +176,6 @@ void MainWindow::createMenus()
  aboutMenu->addActions({helpAction, aboutAction,licenceAction});
 }
 
-void MainWindow::f()
-{
-    altair->updateProject(true);
-    QFile file(altair->projectName);
-
-    if (file.open(QFile::WriteOnly | QFile::Truncate | QFile::Text))
-    {
-       if (editor) file.write(editor->document()->toPlainText().toUtf8()) ;
-    }
-    file.close();
-    Altair::RefreshFlag =  Altair::RefreshFlag
-                            | interfaceStatus::tree;
-
-
-}
 
 void MainWindow::createActions()
 {
@@ -208,8 +193,7 @@ void MainWindow::createActions()
   saveAction = new QAction(tr("&Enregistrer"), this);
   saveAction->setShortcut(QKeySequence("Ctrl+S"));
   saveAction->setIcon(QIcon(":/images/document-save.png"));
-
-  connect(saveAction, &QAction::triggered, this, &MainWindow::f);
+  connect(saveAction, &QAction::triggered, [this] { altair->updateProject(true); });
   
   saveAsAction = new QAction(tr("En&registrer le projet comme..."), this);
   saveAsAction->setIcon(QIcon(":/images/document-save-as.png"));
