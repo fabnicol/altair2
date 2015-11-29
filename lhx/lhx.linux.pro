@@ -4,9 +4,9 @@ greaterThan(QT_MAJOR_VERSION, 5)
 
 
 if (win32|linux) {
-  message("Système d'exploitation :  $$(OS)")
+  message("SystÃ¨me d'exploitation :  $$(OS)")
 } else {
-  error("Le système d'exploitation doit être soit Windows soit linux")
+  error("Le systÃ¨me d'exploitation doit Ãªtre soit Windows soit linux")
 }
 
 windows {
@@ -23,17 +23,17 @@ linux {
 if (!isEmpty(GIT_VERSION)) {
     message( "Version de git : $$GIT_VERSION" )
 } else {
-  #  error( "Git doit être installé" )
+  #  error( "Git doit Ãªtre installÃ©" )
 }
 
 
 if (!isEmpty(CXX_VERSION)){
     message( "Version du compilateur : $$CXX_VERSION" )
 } else {
-    error( "Le compilateur doit être GNU g++, dont la version doit être au moins 5.1" )
+    error( "Le compilateur doit Ãªtre GNU g++, dont la version doit Ãªtre au moins 5.1" )
 }
 
-# Pour une sortie en mode console pure, enlever guiOutput ci-dessous. Sinon l'output console prépare
+# Pour une sortie en mode console pure, enlever guiOutput ci-dessous. Sinon l'output console prÃ©pare
 # l'input de la "console de l'interface graphique"
 
 CONFIG += console guiOutput
@@ -41,7 +41,7 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 CONFIG(guiOutput) {
-  DEFINES +=  GUI_TAG_MESSAGES                   # définir pour que les sorties des messages soient formatées pour que l'interface graphique les transforme en icône.
+  DEFINES +=  GUI_TAG_MESSAGES                   # dÃ©finir pour que les sorties des messages soient formatÃ©es pour que l'interface graphique les transforme en icÃ´ne.
 }
 
 CONFIG (release) {
@@ -55,7 +55,7 @@ TEMPLATE = app
 
 
 DEFINES +=  WARNING_LIMIT=5  \  # nombre maximum d'avertissement par fichier
-            TYPE_LOOP_LIMIT=10 \  # nombre de "rembobinages des drapeaux de catégories (voir ligne_paye.cpp,
+            TYPE_LOOP_LIMIT=10 \  # nombre de "rembobinages des drapeaux de catÃ©gories (voir ligne_paye.cpp,
             MAX_STRING_LENGTH=200  #taille maximum des strings pour la conversion latin-1
 
 DEFINES += __GNUC_EXTENSION \
@@ -64,35 +64,35 @@ DEFINES += __GNUC_EXTENSION \
            __STDC_LIMIT_MACROS \
            __STDC_FORMAT_MACROS
 
-                                            # DEFINES += STRICT  pour un validateur qui retourne à la première erreur.
-DEFINES += \#NO_REGEX \                       # Pas d'analyse du texte par expression régulière
-        GCC_REGEX \                        # Utiliser les expressions régulières de C++
-        WAIT_FOR_LOCK  \                    # insiter jusqu'à acquérir les mutex dans les fils d'exécution. Peut entraîner des "output freeze" en cas de forte
+                                            # DEFINES += STRICT  pour un validateur qui retourne Ã  la premiÃ¨re erreur.
+DEFINES += \#NO_REGEX \                       # Pas d'analyse du texte par expression rÃ©guliÃ¨re
+        GCC_REGEX \                        # Utiliser les expressions rÃ©guliÃ¨res de C++
+        WAIT_FOR_LOCK  \                    # insiter jusqu'Ã  acquÃ©rir les mutex dans les fils d'exÃ©cution. Peut entraÃ®ner des "output freeze" en cas de forte
                         \                   # charge I/O.
-        NO_DEBUG \                          # ne pas générer de messages de débogage avancé
+        NO_DEBUG \                          # ne pas gÃ©nÃ©rer de messages de dÃ©bogage avancÃ©
 #       USE_ICONV \                         # pour Windows uniquement, si l'on n'est pas satisfait du hack de pseudo-conversion UTF-8 vers Latin-1
                    \                        # alors on peut utiliser iconv pour une conversion plus propre.
-#        TOLERANT_TAG_HIERARCHY \           # ordre des balises : tolérance envers des permutations de même niveau
-        FULL_PREALLOCATION_TEST \           # calcul des besoins de mémoire : précision maximale (sinon : moindre)
-        PREALLOCATE_ON_HEAP \               # préallouer le vecteur sur le tas pour le tableau des allocations de mémoire (sinon : tableau C sur la pile)
-        DECIMAL_NON_EN \                    # compilation pour des séparateurs décimaux différents de '.'
-        GENERATE_RANK_SIGNAL \              # chaque fois qu'un fichier est traité, un signal externe est émis (rang dans un fichier rank sous AppData\Local\Altair).
-                             \              # n'est utile que lorsqu'une interface graphique est connectée. peut ralentir l'application de 1 à 5 %.
+#        TOLERANT_TAG_HIERARCHY \           # ordre des balises : tolÃ©rance envers des permutations de mÃªme niveau
+        FULL_PREALLOCATION_TEST \           # calcul des besoins de mÃ©moire : prÃ©cision maximale (sinon : moindre)
+        PREALLOCATE_ON_HEAP \               # prÃ©allouer le vecteur sur le tas pour le tableau des allocations de mÃ©moire (sinon : tableau C sur la pile)
+        DECIMAL_NON_EN \                    # compilation pour des sÃ©parateurs dÃ©cimaux diffÃ©rents de '.'
+        GENERATE_RANK_SIGNAL \              # chaque fois qu'un fichier est traitÃ©, un signal externe est Ã©mis (rang dans un fichier rank sous AppData\Local\Altair).
+                             \              # n'est utile que lorsqu'une interface graphique est connectÃ©e. peut ralentir l'application de 1 Ã  5 %.
         FGETC_PARSING                       # parcourir les fichiers par ifstream (C++)
-# MMAP_PARSING                              # parcourir les fichiers par mappage mémoire (C, unix).
+# MMAP_PARSING                              # parcourir les fichiers par mappage mÃ©moire (C, unix).
 
 
 
 DEVROOT = $$PWD/../..
 
-# Insérer ici le nom du répertoire contenant dans include/ et lib/ les dépendances système
-# Ce compilateur doit être adjacent aux sources sous Windows
+# InsÃ©rer ici le nom du rÃ©pertoire contenant dans include/ et lib/ les dÃ©pendances systÃ¨me
+# Ce compilateur doit Ãªtre adjacent aux sources sous Windows
 
 QMAKE_CXXFLAGS += -pipe -m64 -std=gnu++14
 QMAKE_CXXFLAGS += -march=native -Wextra
 #QMAKE_CXXFLAGS += -march=core2
 
-# Sous linux penser à installer libxml2-dev. Ceci n'est pas testé.
+# Sous linux penser Ã  installer libxml2-dev. Ceci n'est pas testÃ©.
 
 
 INCLUDEPATH += ../Interface/gui
