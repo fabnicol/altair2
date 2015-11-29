@@ -175,6 +175,7 @@ class MainWindow : public QMainWindow
    
    QTextEdit *editor=nullptr;
    Highlighter *highlighter;
+   QFile projectFile;
 
 signals:
    void exitSignal();

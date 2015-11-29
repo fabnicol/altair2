@@ -179,6 +179,17 @@ void MainWindow::createMenus()
 void MainWindow::f()
 {
     altair->updateProject(true);
+    QFile file(altair->projectName);
+
+    if (file.open(QFile::WriteOnly | QFile::Truncate | QFile::Text))
+    {
+       if (editor) file.write(editor->document()->toPlainText().toUtf8()) ;
+    }
+    file.close();
+    Altair::RefreshFlag =  Altair::RefreshFlag
+                            | interfaceStatus::tree;
+
+
 }
 
 void MainWindow::createActions()
@@ -372,7 +383,6 @@ void MainWindow::createToolBars()
 
 void MainWindow::on_editProjectButton_clicked()
 {
-
     if (altair->projectName.isEmpty()) return;
     editWidget = new QMainWindow(this);
     editWidget->setWindowTitle(tr("Edition du projet ")+altair->projectName.left(8)+"..."+altair->projectName.right(12));
@@ -402,12 +412,12 @@ void MainWindow::on_editProjectButton_clicked()
 
     if (altair->projectName.isEmpty()) return;
 
-   QFile  *file=new QFile(altair->projectName);
+    projectFile.setFileName(altair->projectName);
 
-   if (file->open(QFile::ReadWrite| QFile::Text))
+   if (projectFile.open(QFile::ReadWrite| QFile::Text))
    {
-       editor->setPlainText(file->readAll());
-       file->close();
+       editor->setPlainText(projectFile.readAll());
+       projectFile.close();
    }
    // do not capture file by reference!
    connect(actionHash["Nouveau"],
@@ -416,9 +426,8 @@ void MainWindow::on_editProjectButton_clicked()
 
    connect(actionHash["Ouvrir"],
                  &QAction::triggered,
-                 [file, this]
+                 [this]
                                   {
-                                     file->~QFile();
                                      altair->on_openProjectButton_clicked() ;
                                      editWidget->~QMainWindow();
                                      on_editProjectButton_clicked();
@@ -426,18 +435,16 @@ void MainWindow::on_editProjectButton_clicked()
 
    connect(actionHash["Enregistrer"],
                  &QAction::triggered,
-                 [file, this]
+                 [this]
                                  {
-                                    file->open(QFile::Truncate |QFile::WriteOnly| QFile::Text);
-                                    file->write(editor->document()->toPlainText().toUtf8()) ;
-                                    file->close();
-                                    Altair::RefreshFlag =  Altair::RefreshFlag
-                                                        | interfaceStatus::tree
-                                                        | interfaceStatus::parseXml;
-                                    // resetting interfaceStatus::parseXml bits to 0
-
+                                    projectFile.open(QFile::Truncate |QFile::WriteOnly| QFile::Text);
+                                    projectFile.write(editor->document()->toPlainText().toUtf8()) ;
+                                    projectFile.close();
+                                    altair->closeProject();
+                                    altair->RefreshFlag = altair->RefreshFlag | interfaceStatus::parseXml;
                                     altair->clearInterfaceAndParseProject();
-                                    Altair::RefreshFlag = Altair::RefreshFlag & (~interfaceStatus::parseXml);
+                                    // resetting interfaceStatus::parseXml bits to 0
+                                    altair->RefreshFlag = altair->RefreshFlag & (~interfaceStatus::parseXml);
                                   });
 
    connect(actionHash["Enregistrer comme..."],
@@ -446,14 +453,14 @@ void MainWindow::on_editProjectButton_clicked()
 
    connect(actionHash["Actualiser"],
                  &QAction::triggered,
-                 [file, this]
+                 [this]
                                  {
                                     altair->updateProject(true);
-                                    if (file->open(QFile::ReadWrite |  QFile::Text))
+                                    if (projectFile.open(QFile::ReadWrite |  QFile::Text))
                                        {
                                            editor->clear();
-                                           editor->setPlainText(file->readAll());
-                                           file->close();
+                                           editor->setPlainText(projectFile.readAll());
+                                           projectFile.close();
                                        }
                                   });
 
@@ -467,9 +474,8 @@ void MainWindow::on_editProjectButton_clicked()
 
    connect(actionHash["Quitter"],
                  &QAction::triggered,
-                 [file, this]
+                 [this]
                                   {
-                                     file->~QFile();
                                      editWidget->~QMainWindow() ;
                                    });
    editWidget->setCentralWidget(editor);
@@ -502,13 +508,13 @@ void MainWindow::saveProjectAs()
           }
     }
 
-    QFile* file = new QFile(newstr);
+    QFile file(newstr);
 
-    if (file->open(QFile::WriteOnly | QFile::Truncate | QFile::Text))
+    if (file.open(QFile::WriteOnly | QFile::Truncate | QFile::Text))
     {
-       if (editor) file->write(editor->document()->toPlainText().toUtf8()) ;
+       if (editor) file.write(editor->document()->toPlainText().toUtf8()) ;
     }
-    file->close();
+    file.close();
     Altair::RefreshFlag =  Altair::RefreshFlag
                             | interfaceStatus::tree;
 
@@ -623,14 +629,7 @@ void MainWindow::configureOptions()
     closeButton->button(QDialogButtonBox::Ok)->setText("Accepter");
     closeButton->button(QDialogButtonBox::Cancel)->setText("Annuler");    
 
-    defaultFileManagerWidgetLayoutBox=new FCheckBox("Afficher le gestionnaire de fichiers",
-                                                    #ifdef MINIMAL
-                                                                            flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
-                                                    #else
-                                                                            flags::status::enabledChecked|flags::commandLineType::noCommandLine,
-                                                    #endif
-                                                                            "fileManagerDisplay",
-                                                                           {"Interface", "Afficher le gestionnaire de fichiers"});
+
 
     defaultProjectManagerWidgetLayoutBox=new FCheckBox("Afficher le gestionnaire de projet",
                                                    #ifdef MINIMAL
@@ -640,6 +639,15 @@ void MainWindow::configureOptions()
                                                    #endif
                                                                             "projectManagerDisplay",
                                                                             {"Interface", "Afficher le gestionnaire de projet"});
+
+    defaultFileManagerWidgetLayoutBox=new FCheckBox("Afficher le gestionnaire de fichiers",
+                                                    #ifdef MINIMAL
+                                                                            flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
+                                                    #else
+                                                                            flags::status::enabledChecked|flags::commandLineType::noCommandLine,
+                                                    #endif
+                                                                            "fileManagerDisplay",
+                                                                           {"Interface", "Afficher le gestionnaire de fichiers"});
 
     defaultFullScreenLayoutBox=new FCheckBox("Plein écran",
                                                         flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
@@ -667,7 +675,7 @@ void MainWindow::configureOptions()
     defaultEditToolBarBox=new FCheckBox("Afficher la barre d'outils d'édition",
                                                                 flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
                                                                 "editToolBar",
-                                                                {"Interface", "Display Edit toolBar"});
+                                                                {"Interface", "Afficher la barre d'outils d'édition"});
     
     defaultProcessToolBarBox = new FCheckBox("Afficher la barre d'outils de processus",
                                        #ifdef MINIMAL
@@ -812,9 +820,7 @@ void MainWindow::configureOptions()
     connect(defaultFullScreenLayoutBox, SIGNAL(toggled(bool)), this, SLOT(showMainWidget(bool)));
     connect(defaultMaximumConsoleOutputBox, &FCheckBox::toggled, [this]{v(limitConsoleOutput).toggle();});
     connect(defaultOutputTextEditBox, &FCheckBox::toggled, [this] {bottomDockWidget->setVisible(defaultOutputTextEditBox->isChecked());});
-    connect(defaultLoadProjectBehaviorBox, &FCheckBox::toggled, [this] {  if (defaultLoadProjectBehaviorBox->isChecked())
-                                                                            altair->RefreshFlag = altair->RefreshFlag 
-                                                                                                  | interfaceStatus::parseXml;});
+
 
     connect(defaultMaximumConsoleOutputBox, &FCheckBox::toggled, [this] {
         QTimer *timer = new QTimer(this);
