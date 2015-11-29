@@ -410,15 +410,14 @@ int calculer_memoire_requise(info_t& info)
 
 #ifdef FGETC_PARSING
 
-        std::ifstream c;
+        std::ifstream c(info.threads->argv[i]);
 
-        c.open(info.threads->argv[i]);
-        if (c.good())
-            c.seekg(0, c.beg);
+        if (c.is_open())
+            c.seekg(0, std::ios::beg);
         else 
         {
             if (verbeux)
-                std::cerr <<  ERROR_HTML_TAG "Problème à l'ouverture du fichier * " << info.threads->argv[i] << " *" << ENDL;
+                std::cerr <<  ERROR_HTML_TAG "Problème à l'ouverture du fichier *" << info.threads->argv[i] << "*" << ENDL;
             exit(-120);
         }
 
