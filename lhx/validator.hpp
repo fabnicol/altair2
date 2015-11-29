@@ -96,10 +96,10 @@ typedef struct
     BaseType  type_base;
     std::vector<uint16_t> NLigne;
     thread_t* threads;
-    std::string chemin_log;
+    std::wstring chemin_log;
     std::string expression_reg_elus;
-    std::string chemin_base;
-    std::string chemin_bulletins;
+    std::wstring chemin_base;
+    std::wstring chemin_bulletins;
     uint16_t nbLigneUtilisateur;
     uint16_t fichier_courant;
     char decimal;
