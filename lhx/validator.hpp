@@ -35,6 +35,10 @@ typedef struct
 static constexpr auto EXPRESSION_REG_ELUS = "^maire.*|^pr..?sident.*|^[eé]lus?|.*(?:\\badj.*\\bmaire\\b|\\bv.*\\bpr..?sident\\b|\\bcons.*\\bmuni|\\bcons.*\\bcomm|\\bcons.*\\bd..?l..?gu).*",
                       EXPRESSION_REG_VACATIONS = ".*\\bvacat.*|.*\\bvac\\.?\\b.*",                 // vac.* peut être vérifié par 'vacances'
                       EXPRESSION_REG_ASSISTANTES_MATERNELLES = ".*\\bass.*\\bmater.*",
+                      EXPRESSION_REG_ADJOINTS = "adj\\S*.*(?:adm|ani|tech|pat)?\\S*.*|op[eé].*phy.*",
+                      EXPRESSION_REG_AGENTS = "(?:(?:agent|agt\\.?).*(?:soc|ma[îi]|poli|sp[eé])|atsem).*",
+                      EXPRESSION_REG_CAT_A = "(?:adminis|attach|biblio|conserv|conseil|d\\.?g\\.?s\\.?(t\\.?)?|d\\.?g\\.?a\\.?|direct|ing[eé]n|m[eé]de|pharm|prof|psy|puer|puér|sage|secr.*mai)\\S*\\b.*",
+                      EXPRESSION_REG_CAT_B = "(?:r[eé]dac|tech|anim|[eé]duc|assist|monit|contr[oô].*tra)\\S*\\b.*",
                       NOM_BASE = "Table",
                       NOM_BASE_BULLETINS = "Bulletins",
                       CSV = ".csv";
@@ -66,13 +70,13 @@ enum class BaseType : int
                   };
 
 #define INDEX_MAX_COLONNNES 5    // nombre de type de champ de ligne de paye (Libellé, Code, Taux, Base, ...) moins 1.
-#define BESOIN_MEMOIRE_ENTETE  23  /* nb d'éléments de l'enum ci-dessous */
+#define BESOIN_MEMOIRE_ENTETE  24  /* nb d'éléments de l'enum ci-dessous */
 
 typedef enum {
               Annee, Mois, Budget, Employeur, Siret, Etablissement,
               Nom, Prenom, Matricule, NIR, NbEnfants, Statut,
               EmploiMetier, Grade, Indice, Service, NBI, QuotiteTrav,
-              NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer
+              NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer, Categorie
          } Entete;
 
 constexpr const char* Tableau_entete[] = {
@@ -96,10 +100,10 @@ typedef struct
     BaseType  type_base;
     std::vector<uint16_t> NLigne;
     thread_t* threads;
-    std::wstring chemin_log;
+    std::string chemin_log;
     std::string expression_reg_elus;
-    std::wstring chemin_base;
-    std::wstring chemin_bulletins;
+    std::string chemin_base;
+    std::string chemin_bulletins;
     uint16_t nbLigneUtilisateur;
     uint16_t fichier_courant;
     char decimal;
