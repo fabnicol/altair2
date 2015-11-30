@@ -1,7 +1,8 @@
 @echo off
-echo Installation de la copie locale de l'entrepot Altaïr 
-echo Gestionnaire de version: git 1.9.2 sous c:\Users\Public\Altair\Git
+echo Installation de la copie locale de l'entrepot 
+echo Gestionnaire de version sous c:\Users\Public\Altair\Git
 set courant=%~dp0
+%courant%\Git\bin\git.exe --version
 cd %courant%
 cd ..
 set /p login="Entrez votre login de session : "
