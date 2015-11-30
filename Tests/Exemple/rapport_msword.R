@@ -26,6 +26,6 @@ if (setOSWindows) {
   system("/usr/bin/lowriter altaïr.odt")
   
 }
-
+unlink("figure", recursive=TRUE)
 setwd(initwd)
 
