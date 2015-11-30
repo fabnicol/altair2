@@ -747,6 +747,10 @@ void* decoder_fichier(info_t& info)
     regex pat {EXPRESSION_REG_ELUS,  regex_constants::icase};
     regex pat2 {EXPRESSION_REG_VACATIONS, regex_constants::icase};
     regex pat3 {EXPRESSION_REG_ASSISTANTES_MATERNELLES, regex_constants::icase};
+    regex pat_adjoints {EXPRESSION_REG_ADJOINTS, regex_constants::icase};
+    regex pat_agents {EXPRESSION_REG_AGENTS, regex_constants::icase};
+    regex pat_cat_a {EXPRESSION_REG_CAT_A, regex_constants::icase};
+    regex pat_cat_b {EXPRESSION_REG_CAT_B, regex_constants::icase};
 
 #endif
 
@@ -859,6 +863,24 @@ void* decoder_fichier(info_t& info)
                     xmlFree(VAR(Grade));
                     VAR(Grade) = (xmlChar*) xmlStrdup((const xmlChar*)"A");
                 }
+
+        if (regex_match((const char*) VAR(Grade), pat_adjoints)
+            || regex_match((const char*) VAR(Grade), pat_agents))
+        {
+            VAR(Categorie) = (xmlChar*)"C";
+        }
+        else if (regex_match((const char*) VAR(Grade), pat_cat_a))
+        {
+            VAR(Categorie) = (xmlChar*)"A";
+        }
+        else if (regex_match((const char*) VAR(Grade), pat_cat_b))
+        {
+            VAR(Categorie) = (xmlChar*)"B";
+        }
+        else
+        {
+                VAR(Categorie) = (xmlChar*) NA_STRING;
+        }
 
         /* les vacations peuvent être indiquées comme telles dans les libellés de paie mais pas dans les emplois métiers.
            On les récupère en parcourant les libellés */

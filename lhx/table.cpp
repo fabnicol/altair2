@@ -51,6 +51,7 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l_COMMUN(int i, uint32_t agent, int l
            << type << sep
            << VAR(EmploiMetier) << sep
            << VAR(Grade) << sep
+           << VAR(Categorie) << sep
            << VAR(NIR) << "\n";
 }
 
@@ -111,6 +112,7 @@ static inline void GCC_INLINE ECRIRE_LIGNE_BULLETIN_COMMUN(int i, uint32_t agent
               << VAR(NBI) << sep
               << VAR(EmploiMetier) << sep
               << VAR(Grade) << sep
+              << VAR(Categorie) << sep
               << VAR(NIR) << "\n";
 }
 
@@ -148,7 +150,6 @@ static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETIN_SIRET(int i, uint32_t agent
 
 static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETINS(int i, uint32_t agent, std::ofstream& bulletins, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
 {
-    
     bulletins << VAR(Annee) << sep
               << VAR(Mois) << sep;
     
