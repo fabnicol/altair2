@@ -503,6 +503,7 @@ colonnes.sélectionnées <- c("traitement.indiciaire",
                             "part.rémunération.indemnitaire",
                             "Statut",
                             "Grade",
+                            "Catégorie",
                             "Filtre_actif_non_annexe",
                             clé.fusion)
 
@@ -1301,7 +1302,7 @@ incrémenter.chapitre()
 #### NBI ####
 
 #'# `r chapitre`. Tests réglementaires   
-#'## `r chapitre`.1 Contrôle des heures supplémentaires, des NBI et primes informatiques   
+#'## `r chapitre`.1 Contrôle des NBI et primes informatiques   
 #'   
 #'**Dans cette partie, l'ensemble de la base de paie est étudié.**  
 #'Les agents non actifs ou dont le poste est annexe sont réintroduits dans le périmètre.   
@@ -1909,10 +1910,17 @@ names(HS.sup.25) <- sub("traitement.indiciaire", "Traitement indiciaire annuel",
 
 nombre.Lignes.paie.HS.sup.25 <- nrow(HS.sup.25)
 
-ihts.anormales <- data.frame(NULL)
+ihts.anormales <- Paie[grepl(expression.rég.heures.sup,
+                                    Libellé,
+                                    ignore.case = TRUE,
+                                    perl=TRUE)
+                       & Montant != 0
+                       & Catégorie == "A"
+                       & Type %chin% c("R", "I", "T", "A"),
+                       .(Matricule, Année, Mois, Statut, Grade, Heures.Sup., Libellé, Code, Type, Montant)]
 
-if (fichier.personnels.existe)
-  nombre.ihts.anormales <- nrow(ihts.anormales) else nombre.ihts.anormales <- NA
+
+nombre.ihts.anormales <- nrow(ihts.anormales) 
 
 if (! is.null(HS.sup.25)) message("Heures sup controlées")
 #'
@@ -1929,7 +1937,7 @@ Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"), no
 #'
 #'**Nota :**   
 #'HS en excès : au-delà de 25 heures par mois     
-#'IHTS anormales : non attribuées à des fonctionnaires de catégorie B ou C.     
+#'IHTS anormales : attribuées à des fonctionnaires ou non-titulaires de catégorie A ou assimilés.     
 
 #### ELUS ####
 

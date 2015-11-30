@@ -43,6 +43,7 @@ corriger.environnement.système <- (setOSWindows == TRUE)
 intégrer.localisation <- FALSE   # Veut on gardet Budget Employeur Siret Etablissement ?
 afficher.cumuls.détaillés.lignes.paie <- FALSE
 afficher.table.écarts.sft <- FALSE
+analyse.par.catégorie     <- TRUE
 
 seuil.troncature         <- 1 # jours
 taux.tolérance.homonymie <- 2  # en %
