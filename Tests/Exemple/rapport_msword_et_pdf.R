@@ -31,6 +31,6 @@ if (setOSWindows) {
   system("/usr/bin/okular altaïr.pdf")
 }
 
-
+unlink("figure", recursive=TRUE)
 setwd(initwd)
 
