@@ -1,0 +1,15 @@
+*.old
+.directory
+figure/*
+*.xlsx
+packrat/lib*/
+*.o
+.Rproj.user
+/**/moc*.cpp
+Tests/Exemple/Donnees/R-Altaïr/*.csv
+.Rhistory
+/**/release
+/**/debug
+/Altaïr-SDK
+/**/Altaïr
+

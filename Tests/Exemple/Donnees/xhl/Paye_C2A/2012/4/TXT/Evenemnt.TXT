@@ -1,0 +1,27 @@
+24;61360;JOURSMAL;Changement de traitement pour maladie;Changement de traitement pour maladie
+25;61824;JOURSMAL;Changement de traitement pour maladie;Changement de traitement pour maladie
+34;61808;CHANGECH;Changement d'échelon;Changement d'échelon
+36;61809;CHANGECH;Changement d'échelon;Changement d'échelon
+38;61804;CHANGECH;Changement d'échelon;Changement d'échelon
+40;61758;JOURSMAL;Changement de traitement pour maladie;Changement de traitement pour maladie
+42;61799;NVLENFANT;Nouvel enfant à charge;Nouvel enfant à charge
+43;61797;NVLENFANT;Nouvel enfant à charge;Nouvel enfant à charge
+44;61562;SUPENFANT;Suppression enfant à charge;Suppression enfant à charge
+45;61800;NVLENFANT;Nouvel enfant à charge;Nouvel enfant à charge
+18;33515;CHANGNBH;Changement du nombre d'heures;Changement du nombre d'heures
+19;33516;CHANGNBH;Changement du nombre d'heures;Changement du nombre d'heures
+21;61342;JOURSMAL;Changement de traitement pour maladie;Changement de traitement pour maladie
+22;61353;JOURSMAL;Changement de traitement pour maladie;Changement de traitement pour maladie
+23;61355;JOURSMAL;Changement de traitement pour maladie;Changement de traitement pour maladie
+26;61810;CHANGECH;Changement d'échelon;Changement d'échelon
+27;61811;CHANGECH;Changement d'échelon;Changement d'échelon
+28;61797;JOURSMAL;Changement de traitement pour maladie;Changement de traitement pour maladie
+29;61820;CHANGRADE;Changement de grade;Changement de grade
+30;61775;CHANGECH;Changement d'échelon;Changement d'échelon
+31;61427;JOURSMAL;Changement de traitement pour maladie;Changement de traitement pour maladie
+32;61807;CHANGECH;Changement d'échelon;Changement d'échelon
+35;61812;CHANGECH;Changement d'échelon;Changement d'échelon
+37;61683;JOURSMAL;Changement de traitement pour maladie;Changement de traitement pour maladie
+39;61743;JOURSMAL;Changement de traitement pour maladie;Changement de traitement pour maladie
+41;61813;CHANGECH;Changement d'échelon;Changement d'échelon
+33;61535;JOURSMAL;Changement de traitement pour maladie;Changement de traitement pour maladie
