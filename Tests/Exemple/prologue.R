@@ -127,7 +127,7 @@ colonnes.input <- c("Année", "Mois",
                     "Service", "NbEnfants", "Statut", "Temps.de.travail", "Heures.Sup.", "Heures",
                     "Indice", "Brut", "Net", "Net.à.Payer", "NBI",
                     "Libellé", "Code", "Base", "Taux", "Nb.Unité",
-                    "Montant", "Type", "Emploi", "Grade", "Nir")
+                    "Montant", "Type", "Emploi", "Grade", "Catégorie", "Nir")
 
 colonnes.classes.input    <- c("integer", "integer",  
                                localisation.classes,
@@ -135,21 +135,21 @@ colonnes.classes.input    <- c("integer", "integer",
                                "character", "numeric", "character", "numeric", "numeric", "numeric",
                                "character",  "numeric", "numeric", "numeric", "numeric",
                                "character",  "character", "numeric", "numeric", "numeric",
-                               "numeric", "character", "character", "character", "character")
+                               "numeric", "character", "character", "character", "character", "character")
 
 colonnes.bulletins.input <- c("Année", "Mois", 
                               localisation,
                               "Nom", "Prénom", "Matricule",
                               "Service", "NbEnfants", "Statut", "Temps.de.travail", "Heures.Sup.", "Heures",
                               "Indice", "Brut", "Net", "Net.à.Payer", "NBI",
-                              "Emploi", "Grade", "Nir")
+                              "Emploi", "Grade", "Catégorie", "Nir")
 
 colonnes.bulletins.classes.input <- c("integer", "integer",
                                       localisation.classes,
                                       "character", "character", "character",
                                       "character", "numeric", "character", "numeric", "numeric", "numeric",
                                       "character",  "numeric", "numeric", "numeric", "numeric",
-                                      "character", "character", "character")
+                                      "character", "character", "character", "character")
 
 date.format                      <- "%d/%m/%Y"
 
