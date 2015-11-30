@@ -37,7 +37,7 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-app.setFont(QFont("Verdana"));
+    app.setFont(QFont("Verdana", 10));
     QString translationsPath(QCoreApplication::applicationDirPath() + "/../translations");
     QLocale locale = QLocale::system();
 
