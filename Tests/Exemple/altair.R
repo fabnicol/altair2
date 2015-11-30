@@ -30,7 +30,7 @@ options(warn = -1, verbose = FALSE, OutDec = ",", datatable.verbose = FALSE)
 encodage.code.source <- "ISO-8859-1"
 
 currentDir              <- getwd()
-générer.rapport         <- (basename(currentDir) != "altair") 
+générer.rapport         <- ! grepl("altair", basename(currentDir), ignore.case = TRUE) 
 
 # dans cet ordre
 
