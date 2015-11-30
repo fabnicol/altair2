@@ -1,0 +1,19 @@
+{
+    "collab_server" : "",
+    "contents" : "# encoder ce script en windows-1252\nencodage.code.source <- \"ISO-8859-1\"\ninitwd <- getwd()\nsetOSWindows  <- Sys.info()[\"sysname\"] != \"Linux\"\n\nif (setOSWindows) {\n setwd(file.path(Sys.getenv(\"R_HOME\"), \"../Tests/Exemple\"))\n  source(\"syspaths.R\", encoding=encodage.code.source)\n  source(\"prologue.R\", encoding=encodage.code.source)\n  writeLines(iconv(readLines(\"altair.R\"), from = encodage.code.source, to = \"WINDOWS-1252\"), \"altair.ansi.R\")  \n  library(knitr)\n  spin(\"altair.ansi.R\")\n  writeLines(iconv(readLines(\"altair.ansi.md\"), from = \"WINDOWS-1252\", to = \"UTF-8\"), \"altair.utf8.md\", useBytes=TRUE)\n  system(paste(file.path(Sys.getenv(\"R_HOME\"), \"../RStudio/bin/pandoc/pandoc.exe\"), \"altair.utf8.md --to docx --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altaïr.docx --highlight-style tango\")) \n  shell(\"start winword altaïr.docx\")\n  \n} else {\n  \n  setwd(\"Tests/Exemple\")\n  source(\"syspaths.R\", encoding=encodage.code.source)\n  source(\"prologue.R\", encoding=encodage.code.source)\n  writeLines(iconv(readLines(\"altair.R\"), from = encodage.code.source, to = \"UTF-8\"), \"altair.utf8.R\")  \n  library(knitr)\n  spin(\"altair.utf8.R\")\n  system(paste(\"/usr/bin/pandoc\", \"altair.utf8.md --to odt --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altaïr.odt --highlight-style tango\")) \n  system(\"/usr/bin/lowriter altaïr.odt\")\n  \n}\n\nsetwd(initwd)\n\n",
+    "created" : 1448923277220.000,
+    "dirty" : false,
+    "encoding" : "ISO8859-1",
+    "folds" : "",
+    "hash" : "2281711708",
+    "id" : "7D0C0DCC",
+    "lastKnownWriteTime" : 1448922843,
+    "path" : "C:/Users/Public/Altair/Tests/Exemple/rapport_msword.R",
+    "project_path" : "Tests/Exemple/rapport_msword.R",
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
