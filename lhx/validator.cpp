@@ -848,38 +848,49 @@ void* decoder_fichier(info_t& info)
         {
             xmlFree(VAR(Statut)) ;
             VAR(Statut) = (xmlChar*) xmlStrdup((const xmlChar*)"ELU");
+            VAR(Categorie) = (xmlChar*) NA_STRING;
         }
         else
+        {
             /* vacataires */
+
             if (regex_match((const char*) VAR(EmploiMetier), pat2))
             {
                 xmlFree(VAR(Grade));
                 VAR(Grade) = (xmlChar*) xmlStrdup((const xmlChar*)"V");
             }
-            else
-                /* assistantes maternelles */
-                if (regex_match((const char*) VAR(EmploiMetier), pat3))
-                {
-                    xmlFree(VAR(Grade));
-                    VAR(Grade) = (xmlChar*) xmlStrdup((const xmlChar*)"A");
-                }
 
-        if (regex_match((const char*) VAR(Grade), pat_adjoints)
-            || regex_match((const char*) VAR(Grade), pat_agents))
-        {
-            VAR(Categorie) = (xmlChar*)"C";
-        }
-        else if (regex_match((const char*) VAR(Grade), pat_cat_a))
-        {
-            VAR(Categorie) = (xmlChar*)"A";
-        }
-        else if (regex_match((const char*) VAR(Grade), pat_cat_b))
-        {
-            VAR(Categorie) = (xmlChar*)"B";
-        }
-        else
-        {
-                VAR(Categorie) = (xmlChar*) NA_STRING;
+            /* assistantes maternelles */
+
+            else if (regex_match((const char*) VAR(EmploiMetier), pat3))
+            {
+                xmlFree(VAR(Grade));
+                VAR(Grade) = (xmlChar*) xmlStrdup((const xmlChar*)"A");
+            }
+
+            /* identification des catégories A, B, C */
+
+                /* gestion de mémoire : ne pas allouer avec xmlStrdup et ne pas libérer
+                 * à la fin de main.cpp dans la double boucle de libération de mémoire car
+                 * A, B, C, NA ne sont pas alloués sur le tas. */
+
+            if (regex_match((const char*) VAR(Grade), pat_adjoints)
+                || regex_match((const char*) VAR(Grade), pat_agents))
+            {
+                VAR(Categorie) = (xmlChar*)"C";
+            }
+            else if (regex_match((const char*) VAR(Grade), pat_cat_a))
+            {
+                VAR(Categorie) = (xmlChar*)"A";
+            }
+            else if (regex_match((const char*) VAR(Grade), pat_cat_b))
+            {
+                VAR(Categorie) = (xmlChar*)"B";
+            }
+            else
+            {
+                 VAR(Categorie) = (xmlChar*) NA_STRING;
+            }
         }
 
         /* les vacations peuvent être indiquées comme telles dans les libellés de paie mais pas dans les emplois métiers.
