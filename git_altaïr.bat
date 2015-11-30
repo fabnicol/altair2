@@ -18,4 +18,6 @@ echo Clonage en cours...
 cd altair.git
 %courant%\Git\bin\git.exe checkout distribution
 echo Fin de l'installation.
+xcopy /I /Y /E C:\Users\Public\Altair\Roaming\RStudio  %USERPROFILE%\AppData\Roaming\RStudio
+xcopy /I /Y /E C:\Users\Public\Altair\Local\RStudio-desktop  %USERPROFILE%\AppData\Local\RStudio-desktop
 cd %courant%
