@@ -35,10 +35,10 @@ typedef struct
 static constexpr auto EXPRESSION_REG_ELUS = "^maire.*|^pr..?sident.*|^[eé]lus?|.*(?:\\badj.*\\bmaire\\b|\\bv.*\\bpr..?sident\\b|\\bcons.*\\bmuni|\\bcons.*\\bcomm|\\bcons.*\\bd..?l..?gu).*",
   EXPRESSION_REG_VACATIONS = ".*\\bvacat.*|.*\\bvac\\.?\\b.*",                 // vac.* peut être vérifié par 'vacances'
   EXPRESSION_REG_ASSISTANTES_MATERNELLES = ".*\\bass.*\\bmater.*",
-  EXPRESSION_REG_ADJOINTS = ".*(?:adj.*(?:adm|ani|tech|pat)|op[eé].*(a\\.?p\\.?s\\.?|act)|aux.*(pu[eé]r|soin)|gard(ien|.*ch)|brigadier|receveur|sapeur|capor|sous.*off).*",
-  EXPRESSION_REG_AGENTS = ".*(?:(?:agent|agt\\.?).*(?:soc|ma[îi]|poli|p\\.?m\\.?|sp[eé])|(?:agent|agt\\.?)?.*atsem).*",
-  EXPRESSION_REG_CAT_A = ".*(?:adminis|attach|biol|biblio|cadre.*san|cap.*t|com.*t|.*colon|conserv|conseil|d\\S*\\.?\\s*g\\S*\\.?|direct|ing[eé]n|m[eé]de|pharm|prof|psy|puer|puér|sage|secr.*mai[v[eé]t[eé]r]|infirm\\S*\\s*terr.*so|infirm\\S*\\s*enc.*s.*p).*",
-  EXPRESSION_REG_CAT_B = ".*(?:r[eé]dac|tech|anim|[eé]duc|ass.*(?:ens|cons|pat|bib|socio.*[eé]d)|monit|contr[oô].*t(?:er|ra)|chef.*p.*m|lieut[^c\\s]*\\b).*|infirm\\S*\\s*terr\\S*\\s*$",
+  EXPRESSION_REG_ADJOINTS = "\\W*(?:adj.*(?:adm|ani|tech|pat)|op[eé].*(a\\.?p\\.?s\\.?|act)|aux.*(pu[eé]r|soin)|gard(ien|.*ch)|brigadier|receveur|sapeur|capor|sous.*off).*",
+  EXPRESSION_REG_AGENTS = "\\W*(?:(?:agent|agt\\.?).*(?:soc|ma[îi]|poli|p\\.?m\\.?|sp[eé])|(?:agent|agt\\.?)?.*atsem).*",
+  EXPRESSION_REG_CAT_A = "\\W*(?:adminis|attach|biol|biblio|cadre.*san|cap.*t|com.*t|.*colon|conserv|conseil|d\\S*\\.?\\s*g\\S*\\.?|direct|ing[eé]n|m[eé]de|pharm|prof|psy|puer|puér|sage|secr.*mai[v[eé]t[eé]r]|infirm\\S*\\s*terr.*so|infirm\\S*\\s*enc.*s.*p).*",
+  EXPRESSION_REG_CAT_B = "\\W*(?:r[eé]dac|tech|anim|[eé]duc|ass.*(?:ens|cons|pat|bib|socio.*[eé]d)|monit|contr[oô].*t(?:er|ra)|chef.*p.*m|lieut[^c\\s]*\\b).*|infirm\\S*\\s*terr\\S*\\s*$",
   NOM_BASE = "Table",
   NOM_BASE_BULLETINS = "Bulletins",
   CSV = ".csv";
