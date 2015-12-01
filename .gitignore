@@ -1,4 +1,4 @@
-*.old
+﻿*.old
 .directory
 figure/*
 *.xlsx
@@ -13,3 +13,4 @@ Tests/Exemple/Donnees/R-Altaïr/*.csv
 /Altaïr-SDK
 /**/Altaïr
 /**/*.alt
+lhx/*
