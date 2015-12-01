@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+<projet>
+ <data>
+  <XHL profondeur="2">
+   <année>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/2009-01.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/2009-02.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/2009-03.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/2009-04.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/2009-05.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/2009-06.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/2009-07.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/2009-08.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/2009-09.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/2009-10.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/2009-11.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/2009-12.xhl</fichier>
+   </année>
+   <année>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2010/2010-01.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2010/2010-02.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2010/2010-03.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2010/2010-04.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2010/2010-05.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2010/2010-06.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2010/2010-07.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2010/2010-08.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2010/2010-09.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2010/2010-10.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2010/2010-11.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2010/2010-12.xhl</fichier>
+   </année>
+   <année>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2011/01.2011.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2011/02.2011.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2011/03.2011.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2011/04.2011.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2011/05.2011.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2011/06.2011.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2011/07.2011.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2011/08.2011.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2011/09.2011.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2011/10.2011.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2011/11.2011.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2011/12.2011.xhl</fichier>
+   </année>
+   <année>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2012/2012-01VILLE.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2012/2012-02VILLE.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2012/2012-03VILLE.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2012/2012-04VILLE.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2012/2012-05VILLE.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2012/2012-06VILLE.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2012/2012-07VILLE.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2012/2012-08VILLE.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2012/2012-09VILLE.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2012/2012-10VILLE.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2012/2012-11VILLE.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2012/2012-12VILLE.xhl</fichier>
+   </année>
+   <année>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2013/2013-01VILLE.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2013/2013-02VILLE.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2013/2013-03VILLE.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2013/2013-04VILLE.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2013/2013-05VILLE.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2013/2013-06VILLE.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2013/2013-07VILLE.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2013/2013-08VILLE.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2013/2013-09VILLE.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2013/2013-10VILLE.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2013/2013-11VILLE.xhl</fichier>
+     <fichier>C:/Users/Public/Altair/Tests/Exemple/Donnees/xhl/Anonyme2/2013/2013-12VILLE.xhl</fichier>
+   </année>
+  </XHL>
+ </data>
+ <systeme>
+  <fileManagerDisplay profondeur="0">
+   non
+  </fileManagerDisplay>
+  <projectManagerDisplay profondeur="0">
+   non
+  </projectManagerDisplay>
+  <fullScreenDisplay profondeur="0">
+   non
+  </fullScreenDisplay>
+  <outputTextEdit profondeur="0">
+   oui
+  </outputTextEdit>
+  <fileToolBar profondeur="0">
+   non
+  </fileToolBar>
+  <editToolBar profondeur="0">
+   non
+  </editToolBar>
+  <processToolBar profondeur="0">
+   oui
+  </processToolBar>
+  <optionsToolBar profondeur="0">
+   oui
+  </optionsToolBar>
+  <aboutToolBar profondeur="0">
+   oui
+  </aboutToolBar>
+  <saveProjectBehavior profondeur="0">
+   non
+  </saveProjectBehavior>
+  <loadProjectBehavior profondeur="0">
+   oui
+  </loadProjectBehavior>
+  <base profondeur="0">
+   C:/Users/Public/Altair/Tests/Exemple/Donnees/R-Altaïr
+  </base>
+  <baseType profondeur="0">
+     
+  </baseType>
+  <maxLigne profondeur="0">
+     
+  </maxLigne>
+  <separateur profondeur="0">
+     
+  </separateur>
+  <decimal profondeur="0">
+     
+  </decimal>
+  <processType profondeur="0">
+   '4'
+  </processType>
+  <nAgent profondeur="0">
+     
+  </nAgent>
+  <nLine profondeur="0">
+     
+  </nLine>
+  <genererNumLigne profondeur="0">
+   non
+  </genererNumLigne>
+  <genererTable profondeur="0">
+   oui
+  </genererTable>
+  <log profondeur="0">
+     
+  </log>
+  <genererLog profondeur="0">
+   non
+  </genererLog>
+  <ecoRAM profondeur="0">
+   oui
+  </ecoRAM>
+ </systeme>
+ <recent>
+ </recent>
+</projet>
