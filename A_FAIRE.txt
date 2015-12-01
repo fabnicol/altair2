@@ -1,0 +1,5 @@
+﻿1. Linux :
+    problème des noms accentués des fichiers de Bases qui ne sont pas reconnus
+
+3. Encodage et décodage défectueux des projets .alt pour les multi-budgets
+

@@ -1,0 +1,75 @@
+-*-coding: koi8-r;-*-
+
+1) the following command shows useless (because of \lefthyphenmin=2)
+or incorrect patterns which set hyphenation after the first letter:
+
+grep '^\..[0-9]' ruhyph*.tex
+
+ruhyphas.tex:
+.×8Ó8Ô8Ò8
+.Ï5×Ø4
+.Ï4Ô×ÅÒÄ
+.Ï4Ô×ÅÒÖÄ
+
+2) the following command shows useless (because of \righthyphenmin=2)
+or incorrect patterns which set hyphenation before the last letter:
+
+grep '[0-9].\.$' ruhyph*.tex
+
+ruhyphas.tex:
+.ÕÌØ5Å.
+.Ä×Ï5Å6Ë.
+
+3) the patterns for the whole words shown by the command
+
+grep '^\..*\.$' ruhyph*.tex
+
+are also questionable (probably it is better to store them in
+\hyphenation list). Such patterns occur in ruhyphas.tex and
+ruhyphzn.tex.
+
+4) the following command will show patterns which contain letter
+combinations absent in the full dictionary:
+
+./reduce-patt < ruhyphXX.tex | diff - ruhyphXX.tex | perl -n -e 'print if (s/^> //)'
+
+where XX should be replaced accordingly, and it is assumed that the
+script `reduce-patt' refers to the full lowercased wordlist (e.g.
+generated from the rus-ispell dictionary by Alexander Lebedev).
+
+There may be 3 reasons for such `wrong' patterns:
+
+  a) there are no existing words which could be influenced by these
+     patterns. In this case, such patterns should be removed.
+
+  b) the pattern corresponds to the word with letter `cyre', but
+     the orthographically-correct word uses the letter `cyryo'.
+     In this case, the pattern should be leaved, because it
+     corresponds to the (relatively common) case when `cyryo' is
+     replaced by `cyre'.
+
+  c) the patterns are correct (correspond to existing words), but
+     the dictionary does not contain such words. In this case, the
+     dictionary should be supplemented.
+
+5) to ensure that there will be absolutely no -xx breaks for English
+words when the combined Russian-English hyphenation is used, a changed
+English patterns should be used, with removed `strange' patterns
+matching the regexp "[0-9][a-z][a-z]\." (see the file enrhm2.tex).
+
+6) [not a bug] should the main hyphenation files be sorted using
+`sorthyph' script?
+
+7) Known cases of bad hyphenation (to be fixed by authors of
+corresponding patterns). All found hyphenation positions are shown.
+Bad positions are marked with `='. Please send additional examples of
+bad hyphenation for various patterns in this collection to email
+addresses given at the end of README. See also some other examples
+in the release notes of Alexander Lebedev's patterns in the file
+README.ruhyphal.
+
+ruhyphas.tex:
+
+  ÓÉÎ-È-ÒÏÔ=ÒÏÎ-ÎÙÊ
+  ÍÅ=ÖÁ=ÔÏÍ-ÎÙÊ
+  ÐÏÄ-Ô×ÅÒÖ=ÄÁ-ÀÔ
