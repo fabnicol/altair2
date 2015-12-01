@@ -5,7 +5,6 @@ cd %courant%
 %courant%\Git\bin\git.exe rm -rf  --cached Tests\Exemple\Donnees\R-Al*
 %courant%\Git\bin\git.exe rm -rf --cached .Rproj.user
 %courant%\Git\bin\git.exe rm -f  --cached lhx\cl
-%courant%\Git\bin\git.exe commit -am "local mods"
-%courant%\Git\bin\git.exe git push -f
+%courant%\Git\bin\git.exe commit -a  -m "local mods"
 REM END OF FILE
 
