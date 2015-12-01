@@ -5,3 +5,5 @@ cd %courant%
 %courant%\Git\bin\git.exe rm -rf  --cached Tests\Exemple\Donnees\*
 %courant%\Git\bin\git.exe rm -rf --cached .Rproj.user
 %courant%\Git\bin\git.exe rm -f  --cached lhx\cl
+REM END OF FILE
+
