@@ -1,0 +1,19 @@
+{
+    "collab_server" : "",
+    "contents" : "# encoder ce script en windows-1252\nencodage.code.source <- \"ISO-8859-1\"\ninitwd <- getwd()\nsetOSWindows  <- Sys.info()[\"sysname\"] != \"Linux\"\n\nif (setOSWindows) {\n  setwd(file.path(Sys.getenv(\"R_HOME\"), \"../Tests/Exemple\"))\n  source(\"syspaths.R\", encoding=encodage.code.source)\n  source(\"prologue.R\", encoding=encodage.code.source)\n  writeLines(iconv(readLines(\"altair.R\"), from = encodage.code.source, to = \"WINDOWS-1252\"), \"altair.ansi.R\")  \n  library(knitr)\n  spin(\"altair.ansi.R\")\n  writeLines(iconv(readLines(\"altair.ansi.md\"), from = \"WINDOWS-1252\", to = \"UTF-8\"), \"altair.utf8.md\", useBytes=TRUE)\n  system(paste(file.path(Sys.getenv(\"R_HOME\"), \"../RStudio/bin/pandoc/pandoc.exe\"), \"altair.utf8.md --to docx --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altaïr.docx --highlight-style tango\")) \n  shell(\"start winword altaïr.docx\")\n  \n  system(paste(file.path(Sys.getenv(\"R_HOME\"), \"../RStudio/bin/pandoc/pandoc.exe\"), \"-V papersize=A4 +RTS -K512m -RTS altair.utf8.md --to latex --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altaïr.pdf --template \", file.path(Sys.getenv(\"R_HOME\"), \"..\", \"lib/rmarkdown/rmd/latex/default.tex\"), \" --highlight-style tango --latex-engine \", file.path(Sys.getenv(\"R_HOME\"), \"..\", \"texlive/miktex/bin/pdflatex.exe\"), \" --variable geometry:margin=1in\" ))\n  shell(\"start acrord32.exe altaïr.pdf\")\n  \n} else {\n  \n  setwd(\"Tests/Exemple\")\n  source(\"syspaths.R\", encoding=encodage.code.source)\n  source(\"prologue.R\", encoding=encodage.code.source)\n  writeLines(iconv(readLines(\"altair.R\"), from = encodage.code.source, to = \"UTF-8\"), \"altair.utf8.R\")  \n  library(knitr)\n  spin(\"altair.utf8.R\")\n  system(paste(\"/usr/bin/pandoc\", \"altair.utf8.md --to odt --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altaïr.odt --highlight-style tango\")) \n  system(\"/usr/bin/lowriter altaïr.odt\")\n  system(paste(\"/usr/bin/pandoc\", \"-V papersize=A4 +RTS -K512m -RTS altair.utf8.md --to latex --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altaïr.pdf --template ../../lib_linux/rmarkdown/rmd/latex/default.tex --highlight-style tango --latex-engine pdflatex --variable geometry:margin=1in\"))\n  system(\"/usr/bin/okular altaïr.pdf\")\n}\n\nunlink(\"figure\", recursive=TRUE)\nsetwd(initwd)\n\n",
+    "created" : 1448932916244.000,
+    "dirty" : false,
+    "encoding" : "ISO8859-1",
+    "folds" : "",
+    "hash" : "1341297185",
+    "id" : "83CF9619",
+    "lastKnownWriteTime" : 1448929028,
+    "path" : "C:/Users/Public/Altair/Tests/Exemple/rapport_msword_et_pdf.R",
+    "project_path" : "Tests/Exemple/rapport_msword_et_pdf.R",
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
