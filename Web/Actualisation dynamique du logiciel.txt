@@ -23,12 +23,12 @@ Suivre les séquences suivantes dans l'ordre :
 Actualisations ultérieures
 --------------------------
 
-Dans l'interface RStudio, sélectionner l'onglet Git dans le quadrant supérieur gauche.
+Dans l'interface RStudio, sélectionner l'onglet Git dans le quadrant supérieur droit.
 Cliquer sur l'icône "Pull" une ou deux fois par mois.
 Le code et l'exécutable sont alors automatiquement actualisés.
 
 Avertissement
 ------------- 
 
-Cette distribution actualisée par gestionnaire de versions requiert 4Go d'espace disque 
+Cette distribution actualisée par gestionnaire de versions requiert 4,8 Go d'espace disque 
 et ne fonctionne qu'avec des processeurs de niveau minimal corei3.
