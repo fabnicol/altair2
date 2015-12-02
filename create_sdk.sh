@@ -1,11 +1,20 @@
 export PS1='$'
 echo "Début de la création du SDK..."
+echo "Avez vous nettoyé le build de l'interface ? Sinon sortir"
 if test -e Altaïr-SDK
 then
 	echo "Effacement du répertoire SDK"
 	rm -rf Altaïr-SDK
 	echo "Effacement terminé"
 fi
+rm -rf Interface/build/release Interface/build/debug 
+for file in Interface/build/* 
+do
+  if test $file != "about.html" -a $file != "GUI.html" -a $file !="licence.html"
+  then 
+     rm $file
+  fi
+done
 mkdir -p Altaïr-SDK/altair
 var=0
 for term in LICENCE dlls Docs Git Interface Interface_windows Interface_windows_min lib Local Local.dev Outils R R64 Roaming Roaming.dev RStudio RStudio-project RBuildTools texlive win  ".Rproj.user" 

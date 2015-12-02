@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 3.5.1, 2015-11-24T03:14:01. -->
+<!-- Written by QtCreator 3.5.1, 2015-11-30T18:43:00. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -61,7 +61,7 @@
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">qt5.5 static</value>
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">qt5.5 static</value>
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{103d3f28-2bba-44b7-b12b-602b142579ba}</value>
-   <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">1</value>
+   <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">0</value>
    <value type="int" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
    <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">1</value>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.0">
@@ -89,7 +89,16 @@
       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments"></value>
       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
      </valuemap>
-     <value type="int" key="ProjectExplorer.BuildStepList.StepsCount">2</value>
+     <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.2">
+      <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+      <value type="QString" key="ProjectExplorer.ProcessStep.Arguments">/C copy /Y /B C:\Users\Public\Dev\altair\lhx\build\debug\lhx.exe C:\Users\Public\Dev\altair\win\lhx.exe</value>
+      <value type="QString" key="ProjectExplorer.ProcessStep.Command">c:/windows/system32/cmd.exe</value>
+      <value type="QString" key="ProjectExplorer.ProcessStep.WorkingDirectory">%{buildDir}</value>
+      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Étape personnalisée</value>
+      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+      <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ProjectExplorer.ProcessStep</value>
+     </valuemap>
+     <value type="int" key="ProjectExplorer.BuildStepList.StepsCount">3</value>
      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Compiler</value>
      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
      <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ProjectExplorer.BuildSteps.Build</value>
@@ -287,7 +296,7 @@
     </valuelist>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.Arguments">-f &quot;C:\Users\Public\Dev\altair\lhx\cl&quot;</value>
+    <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.Arguments">-m -d &quot;,&quot; -s &quot;;&quot; -rank C:/Users/Fab/AppData/Local/Altaïr/rank -j '1'' -t -S -D &quot;C:\Users\Public\Dev\altair\Tests\Exemple\Donnees\R-Altaïr&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/METRO_200801_01_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/METRO_200801_02_00.xhl&quot; &quot;C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/METRO_200802_01_00.xhl&quot; </value>
     <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.Executable">C:/Users/Public/Dev/altair/win/lhx.exe</value>
     <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.WorkingDirectory">%{buildDir}</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Exécuter C:\Users\Public\Dev\altair\win\lhx.exe</value>

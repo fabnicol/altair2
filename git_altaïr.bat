@@ -1,7 +1,8 @@
 @echo off
-echo Installation de la copie locale de l'entrepot Altaïr 
-echo Gestionnaire de version: git 1.9.2 sous c:\Users\Public\Altair\Git
+echo Installation de la copie locale de l'entrepot 
+echo Gestionnaire de version sous c:\Users\Public\Altair\Git
 set courant=%~dp0
+%courant%\Git\bin\git.exe --version
 cd %courant%
 cd ..
 set /p login="Entrez votre login de session : "
@@ -17,4 +18,6 @@ echo Clonage en cours...
 cd altair.git
 %courant%\Git\bin\git.exe checkout distribution
 echo Fin de l'installation.
+xcopy /I /Y /E C:\Users\Public\Altair\Roaming\RStudio  %USERPROFILE%\AppData\Roaming\RStudio
+xcopy /I /Y /E C:\Users\Public\Altair\Local\RStudio-desktop  %USERPROFILE%\AppData\Local\RStudio-desktop
 cd %courant%

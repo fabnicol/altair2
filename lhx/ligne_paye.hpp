@@ -54,7 +54,7 @@ inline void warning_msg(const char* noeud, const info_t& info, const xmlNodePtr 
 
 
     static int warning_count;
-    static char* fichier_last = nullptr;
+    static std::string fichier_last = "";
 
     std::lock_guard<std::mutex> guard(mut);
 
@@ -74,7 +74,7 @@ inline void warning_msg(const char* noeud, const info_t& info, const xmlNodePtr 
                errorLineStack.emplace_back(afficher_environnement_xhl(info, cur));
            }
 
-       if (fichier_last !=  nullptr && strcmp(info.threads->argv[info.fichier_courant], fichier_last) != 0)
+       if (fichier_last !=  "" && info.threads->argv[info.fichier_courant] != fichier_last)
            warning_count = 0;
 
        /* on remet à zéro le maximum d'avertissements à chaque nouveau fichier */

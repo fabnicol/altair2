@@ -77,6 +77,8 @@ public:
 
     }
 
+        bool refreshProjectManager();
+
 public slots:
 
    bool updateProject(bool=false);
@@ -138,7 +140,6 @@ private:
     void refreshModel();
     void refreshTreeView();
     void parseProjectFile(QIODevice*);
-    bool refreshProjectManager();
     void msg (const QString & text);
     void printMsg(qint64 new_value, const QString &str);
     void printBaseSize(qint64 new_value = 0);
