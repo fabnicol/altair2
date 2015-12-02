@@ -17,7 +17,7 @@ echo [https] >> %courant%\Git\etc\gitconfig
 echo     proxy = %login%:%password%@%proxy%:%port% >> %courant%\Git\etc\gitconfig
 %courant%\Git\bin\git.exe clean -d -f -x 
 %courant%\Git\bin\git.exe remote add -t distribution-dev origin https://github.com/fabnicol/altair.git
-%courant%\Git\bin\git.exe fetch origin distribution-dev
+%courant%\Git\bin\git.exe fetch --depth=1 origin distribution-dev
 %courant%\Git\bin\git.exe merge -s recursive -X theirs FETCH_HEAD
 %courant%\Git\bin\git.exe rm -rf  --cached Tests\Exemple\Donnees\R-Al*
 %courant%\Git\bin\git.exe rm -rf --cached .Rproj.user
