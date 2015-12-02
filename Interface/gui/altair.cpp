@@ -239,7 +239,7 @@ void Altair::openProjectFile()
     //if (! Hash::wrapper["XHL"]->isEmpty() && ! Hash::wrapper["XHL"]->at(0).isEmpty()) return;
     closeProject();
     projectName=qobject_cast<QAction *>(sender())->data().toString();
-    RefreshFlag = RefreshFlag | interfaceStatus::parseXml;
+
     openProjectFileCommonCode();
 }
 

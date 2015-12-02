@@ -81,9 +81,7 @@ class MainWindow : public QMainWindow
 
   private :
   
-   
-   void f();
-   
+
    QHash<QString, QAction*> actionHash;
 
    bool readFile(const QString &fileName);
@@ -175,6 +173,7 @@ class MainWindow : public QMainWindow
    
    QTextEdit *editor=nullptr;
    Highlighter *highlighter;
+   QFile projectFile;
 
 signals:
    void exitSignal();

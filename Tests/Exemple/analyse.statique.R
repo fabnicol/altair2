@@ -78,7 +78,10 @@ Tableau.vertical2(c("Agrégats",
 #'
 filtre.fonctionnaire <- function (X) X[ !is.na(X)  & X > minimum.positif ]
 
-AR <- Analyse.rémunérations.exercice[Statut == "TITULAIRE" | Statut == "STAGIAIRE", colonnes.sélectionnées, with=FALSE]
+AR <- Analyse.rémunérations.exercice[Statut == "TITULAIRE" | Statut == "STAGIAIRE", 
+                                     colonnes.sélectionnées,
+                                     with=FALSE]
+
 attach(AR)
 source("histogrammes.R", encoding = encodage.code.source)
 histogrammes()
@@ -186,11 +189,13 @@ ARA <- data.table::data.table(NULL)
 ARB <- data.table::data.table(NULL)
 ARC <- data.table::data.table(NULL)
 
-if (fichier.personnels.existe) {
-  ARA <- AR[Catégorie == 'A'& Grade != "V" & Grade != "A" & Statut != "ELU" & Filtre_actif_non_annexe == TRUE, ]
-  #'  
-  #'&nbsp;*Tableau `r incrément()`*   
-  #'    
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
+if (analyse.par.catégorie) {
+
+  ARA <- AR[Catégorie == "A" & Grade != "V" & Grade != "A" & Statut != "ELU" & Filtre_actif_non_annexe == TRUE, ]
   
   Résumé(c("Traitement indiciaire",
            "Primes",
@@ -198,35 +203,37 @@ if (fichier.personnels.existe) {
          ARA[ , .(traitement.indiciaire,
                   rémunération.indemnitaire.imposable,
                   autres.rémunérations)])
-} else
-  cat("Pas de statistique en l'absence de fichier des catégories.\n")
-
+} else {
+  cat("Pas de statistiques par catégorie.\n")
+}
 #'
 
-if (fichier.personnels.existe) {
-  #'  
-  #'&nbsp;*Tableau `r incrément()`*   
-  #'    
-  
+
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+if (analyse.par.catégorie) {  
   Résumé(c("Total rémunérations", 
            "Total rémunérations EQTP", 
            "Part de la rémunération indemnitaire"),
          ARA[ , .(Montant.brut.annuel,
                   Montant.brut.annuel.eqtp,
                   part.rémunération.indemnitaire)])
-}
 
+} else {
+  cat("Pas de statistiques par catégorie.\n")
+}
 #'
 #'**Effectif : `r nrow(ARA)`**  
 #'
 #'**Catégorie B**
 #'
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
 
-if (fichier.personnels.existe) {
-  ARB <- AR[Catégorie == 'B' & Grade != "V" & Grade != "A" & Statut != "ELU" & Filtre_actif_non_annexe == TRUE, ]
-  #'  
-  #'&nbsp;*Tableau `r incrément()`*   
-  #'    
+if (analyse.par.catégorie) {
+  ARB <- AR[Catégorie == "B" & Grade != "V" & Grade != "A" & Statut != "ELU" & Filtre_actif_non_annexe == TRUE, ]
   
   Résumé(c("Traitement indiciaire",
            "Primes",
@@ -234,15 +241,15 @@ if (fichier.personnels.existe) {
          ARB[, .(traitement.indiciaire,
                  rémunération.indemnitaire.imposable,
                  autres.rémunérations)])
-} else
-  cat("Pas de statistique en l'absence de fichier des catégories.\n")
-
+} else {
+  cat("Pas de statistiques par catégorie.\n")
+}
 #'
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
 
-if (fichier.personnels.existe) {
-  #'  
-  #'&nbsp;*Tableau `r incrément()`*   
-  #'    
+if (analyse.par.catégorie) {
   
   Résumé(c("Total rémunérations",
            "Total rémunérations EQTP",
@@ -250,6 +257,8 @@ if (fichier.personnels.existe) {
          ARB[, .(Montant.brut.annuel,
                  Montant.brut.annuel.eqtp,
                  part.rémunération.indemnitaire)])
+} else {
+  cat("Pas de statistiques par catégorie.\n")
 }
 
 #'
@@ -258,12 +267,12 @@ if (fichier.personnels.existe) {
 #'**Catégorie C**
 #'
 
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
 
-if (fichier.personnels.existe) {
-  ARC <- AR[Catégorie == 'C'& Grade != "V" & Grade != "A" & Statut != "ELU" & Filtre_actif_non_annexe == TRUE, ]
-  #'  
-  #'&nbsp;*Tableau `r incrément()`*   
-  #'    
+if (analyse.par.catégorie) {
+  ARC <- AR[Catégorie == "C" & Grade != "V" & Grade != "A" & Statut != "ELU" & Filtre_actif_non_annexe == TRUE, ]
   
   Résumé(c("Traitement indiciaire",
            "Primes",
@@ -271,15 +280,16 @@ if (fichier.personnels.existe) {
          ARC[ , .(traitement.indiciaire,
                   rémunération.indemnitaire.imposable,
                   autres.rémunérations)])
-} else
-  cat("Pas de statistique en l'absence de fichier des catégories.\n")
+} else {
+  cat("Pas de statistique par catégorie.\n")
+}
 
 #'
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
 
-if (fichier.personnels.existe) {
-  #'  
-  #'&nbsp;*Tableau `r incrément()`*   
-  #'    
+if (analyse.par.catégorie) {
   
   Résumé(c("Total rémunérations",
            "Total rémunérations EQTP",
@@ -287,6 +297,8 @@ if (fichier.personnels.existe) {
          ARC[ , .(Montant.brut.annuel,
                   Montant.brut.annuel.eqtp,
                   part.rémunération.indemnitaire) ])
+} else {
+  cat("Pas de statistiques par catégorie.\n")
 }
 
 #'**Effectif : `r nrow(ARC)`**

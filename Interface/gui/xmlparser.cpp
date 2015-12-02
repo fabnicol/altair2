@@ -58,8 +58,8 @@ void Altair::writeProjectFile()
     {
         errorMessageDialog->showMessage(tr("Impossible d'ouvrir le fichier du projet\n")+ qPrintable(projectFile.errorString()));
         QLabel *errorLabel = new QLabel;
-        errorLabel->setText(tr("Si cette case est décochée, ce message "
-                               "ne s'affichera plus à nouveau."));
+        errorLabel->setText(tr("Si cette case est dÃ©cochÃ©e, ce message "
+                               "ne s'affichera plus Ã  nouveau."));
         return;
     }
 
@@ -387,7 +387,7 @@ void Altair::parseProjectFile(QIODevice* file)
     QDomDocument doc;
     if (!doc.setContent(file, true, &errorStr, &errorLine, &errorColumn))
     {
-        Warning0(tr("Décodage XML"), tr("Erreur de décodage ligne %1, " "colonne %2:\n%3").arg(errorLine).arg(errorColumn).arg(errorStr));
+        Warning0(tr("DÃ©codage XML"), tr("Erreur de dÃ©codage ligne %1, " "colonne %2:\n%3").arg(errorLine).arg(errorColumn).arg(errorStr));
         return;
     }
 
@@ -420,21 +420,21 @@ void Altair::parseProjectFile(QIODevice* file)
     }
 
     //refreshProjectManagerValues();
-
+    project[0]->mainTabWidget->clear();
     assignVariables();
-
-    int projectRank = project[0]->getRank();
+    //Hash::wrapper["XHL"]->removeAll(QStringList());
+    int projectRank = Hash::wrapper["XHL"]->size();
     if (projectRank == 0) return;
 
-    for (int group_index=0; group_index<= projectRank ; group_index++)
+    for (int group_index=0; group_index< projectRank ; group_index++)
     {
         refreshRowPresentation(group_index);
         // Ne pas inclure les onglets Siret et Budget
     }
 
-    emit(project[0]->is_ntabs_changed(Hash::wrapper["XHL"]->size()));
+    emit(project[0]->is_ntabs_changed(projectRank));
 
-    Hash::createReference(project[0]->getRank());
+    Hash::createReference(projectRank);
 
     refreshProjectManagerValues(manager::refreshProjectInteractiveMode
                                 | manager::refreshXHLZone
@@ -536,7 +536,7 @@ void Altair::refreshProjectManagerValues(std::uint16_t refreshProjectManagerFlag
     item->setExpanded(true);
     XmlMethod::itemParent=item;
 
-    for (int k=2; k <Abstract::abstractWidgetList.count(); k++)
+    for (int k=1; k <Abstract::abstractWidgetList.count(); k++)
         {
 
             QString key=Abstract::abstractWidgetList[k]->getHashKey();

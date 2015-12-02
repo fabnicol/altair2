@@ -17,6 +17,7 @@ Analyse.rémunérations <- Paie[ , .(Nir          = Nir[1],
                                    quotité.moyenne = quotité.moyenne[1],
                                    Emploi       = Emploi[1],
                                    Grade        = Grade[1],
+                                   Catégorie    = Catégorie[1],
                                    temps.complet = all(quotité == 1),
                                    Service      = Service[1],
                                    traitement.indiciaire   = sum(Montant[Type == "T"], na.rm = TRUE),
@@ -65,6 +66,7 @@ Analyse.variations.par.exercice <- Analyse.rémunérations[Grade != "A"
                                                            "rémunération.indemnitaire.imposable.eqtp",
                                                            "Statut",
                                                            "Grade",
+                                                           "Catégorie",
                                                            "nb.jours",
                                                            "temps.complet",
                                                            "ind.quotité",
@@ -84,7 +86,6 @@ sélectionner.exercice.analyse.rémunérations <- function(année) {
                                             by = clé.fusion,
                                             all = FALSE)
     
-    if (! "Catégorie" %in% colonnes.sélectionnées) colonnes.sélectionnées <- c(colonnes.sélectionnées, "Catégorie")
   }
   
   Analyse.rémunérations.exercice
