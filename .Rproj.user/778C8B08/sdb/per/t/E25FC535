@@ -1,13 +1,13 @@
 {
     "collab_server" : "",
-    "contents" : "# encoder ce script en windows-1252\nencodage.code.source <- \"ISO-8859-1\"\ninitwd <- getwd()\n\nsetwd(file.path(Sys.getenv(\"R_HOME\"), \"../Tests/Exemple\"))\nsource(\"syspaths.R\", encoding=encodage.code.source)\nsource(\"prologue.R\", encoding=encodage.code.source)\n\nlibrary_path <- if (setOSWindows) \"lib\" else \"lib_linux\"\n\n.libPaths(file.path(Sys.getenv(\"R_HOME\"), \"..\", library_path))\n\nwriteLines(iconv(readLines(\"altair.R\"), from = encodage.code.source, to = \"WINDOWS-1252\"), \"altair.ansi.R\")\nlibrary(knitr)\nspin(\"altair.ansi.R\")\nwriteLines(iconv(readLines(\"altair.ansi.md\"), from = \"WINDOWS-1252\", to = \"UTF-8\"), \"altair.utf8.md\", useBytes=TRUE)\n\nsystem(paste(file.path(Sys.getenv(\"R_HOME\"), \"../RStudio/bin/pandoc/pandoc.exe\"), \"altair.utf8.md --to docx --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altaïr.docx --highlight-style tango\")) \nshell(\"start winword altaïr.docx\")\n\nsetwd(initwd)\n\n",
+    "contents" : "# encoder ce script en windows-1252\nencodage.code.source <- \"ISO-8859-1\"\ninitwd <- getwd()\nsetOSWindows  <- Sys.info()[\"sysname\"] != \"Linux\"\n\nif (setOSWindows) {\n setwd(file.path(Sys.getenv(\"R_HOME\"), \"../Tests/Exemple\"))\n  source(\"syspaths.R\", encoding=encodage.code.source)\n  source(\"prologue.R\", encoding=encodage.code.source)\n  writeLines(iconv(readLines(\"altair.R\"), from = encodage.code.source, to = \"WINDOWS-1252\"), \"altair.ansi.R\")  \n  library(knitr)\n  spin(\"altair.ansi.R\")\n  writeLines(iconv(readLines(\"altair.ansi.md\"), from = \"WINDOWS-1252\", to = \"UTF-8\"), \"altair.utf8.md\", useBytes=TRUE)\n  system(paste(file.path(Sys.getenv(\"R_HOME\"), \"../RStudio/bin/pandoc/pandoc.exe\"), \"altair.utf8.md --to docx --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altaïr.docx --highlight-style tango\")) \n  shell(\"start winword altaïr.docx\")\n  \n} else {\n  \n  setwd(\"Tests/Exemple\")\n  source(\"syspaths.R\", encoding=encodage.code.source)\n  source(\"prologue.R\", encoding=encodage.code.source)\n  writeLines(iconv(readLines(\"altair.R\"), from = encodage.code.source, to = \"UTF-8\"), \"altair.utf8.R\")  \n  library(knitr)\n  spin(\"altair.utf8.R\")\n  system(paste(\"/usr/bin/pandoc\", \"altair.utf8.md --to odt --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altaïr.odt --highlight-style tango\")) \n  system(\"/usr/bin/lowriter altaïr.odt\")\n  \n}\nunlink(\"figure\", recursive=TRUE)\nsetwd(initwd)\n\n",
     "created" : 1448144400350.000,
     "dirty" : false,
     "encoding" : "ISO8859-1",
     "folds" : "",
-    "hash" : "452997325",
+    "hash" : "3622285127",
     "id" : "E25FC535",
-    "lastKnownWriteTime" : 1448332436,
+    "lastKnownWriteTime" : 1449015927,
     "path" : "C:/Users/Public/Dev/altair/Tests/Exemple/rapport_msword.R",
     "project_path" : "Tests/Exemple/rapport_msword.R",
     "properties" : {
