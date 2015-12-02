@@ -10,11 +10,12 @@ set /p proxy="Entrez le proxy [P pour 10.163.251.190]: "
 set /p port="Entrez le port [P pour 8080]: "
 if "%proxy%" ==  "P" set proxy=10.163.251.190
 if "%port%"  ==  "P" set port=8080
-REM copy /Y %courant%\Git\etc\gitconfig %courant%\Git\etc\gitconfig.save
-echo [https] >> %courant%\Git\etc\gitconfig
-echo     proxy = %login%:%password%@%proxy%:%port% >> %courant%\Git\etc\gitconfig
-%courant%\Git\bin\git.exe add -f %courant%\Git\etc\gitconfig
-%courant%\Git\bin\git.exe commit -a   -m "local mods"
+%courant%\Git\bin\git.exe config --global http.proxy http://%login%:%password%@%proxy%:%port% 
+%courant%\Git\bin\git.exe config --global https.proxy https://%login%:%password%@%proxy%:%port% 
+%courant%\Git\bin\git.exe config --global credential.helper.cache  wincred 
+%courant%\Git\bin\git.exe config --global credential.helper  wincred 
+%courant%\Git\bin\git.exe config --global user.name  "Fabrice Nicol"
+%courant%\Git\bin\git.exe config --global user.email   fabrnicol@gmail.com 
 %courant%\Git\bin\git.exe clean -d -f -x 
 %courant%\Git\bin\git.exe remote add -t distribution-dev origin https://github.com/fabnicol/altair.git
 %courant%\Git\bin\git.exe fetch --depth=1 origin distribution-dev
@@ -24,9 +25,9 @@ xcopy /I /Y /E %courant%\Local.dev\RStudio-desktop  %USERPROFILE%\AppData\Local\
 %courant%\Git\bin\git.exe rm -rf  --cached Tests\Exemple\Donnees\R-Al*
 %courant%\Git\bin\git.exe rm -rf --cached .Rproj.user
 %courant%\Git\bin\git.exe rm -f  --cached lhx\cl
-del %courant%\Git\etc\gitconfig
-REM copy /Y %courant%\Git\etc\gitconfig.save %courant%\Git\etc\gitconfig
 %courant%\Git\bin\git.exe commit -a  -m "local mods"
+%courant%\Git\bin\git.exe config --global http.proxy 
+%courant%\Git\bin\git.exe config --global https.proxy 
 REM END OF FILE
 
 
