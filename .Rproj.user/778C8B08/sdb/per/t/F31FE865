@@ -1,0 +1,19 @@
+{
+    "collab_server" : "",
+    "contents" : "# encoder ce script en windows-1252\nencodage.code.source <- \"ISO-8859-1\"\ninitwd <- getwd()\n\ninvisible(Sys.setenv(PATH = paste0(Sys.getenv(\"PATH\"), \";\", file.path(Sys.getenv(\"R_HOME\"), \"../texlive/miktex/bin;\"))))\n  \n\nsetwd(file.path(Sys.getenv(\"R_HOME\"), \"../Tests/Exemple\"))\nsource(\"syspaths.R\", encoding=encodage.code.source)\nsource(\"prologue.R\", encoding=encodage.code.source)\n\nlibrary_path <- if (setOSWindows) \"lib\" else \"lib_linux\"\n\n.libPaths(file.path(Sys.getenv(\"R_HOME\"), \"..\", library_path))\n\nwriteLines(iconv(readLines(\"altair.R\"), from = encodage.code.source, to = \"WINDOWS-1252\"), \"altair.ansi.R\")\nlibrary(knitr)\nspin(\"altair.ansi.R\")\nwriteLines(iconv(readLines(\"altair.ansi.md\"), from = \"WINDOWS-1252\", to = \"UTF-8\"), \"altair.utf8.md\", useBytes=TRUE)\n\nsystem(paste(file.path(Sys.getenv(\"R_HOME\"), \"../RStudio/bin/pandoc/pandoc.exe\"), \"-V papersize=A4 +RTS -K512m -RTS altair.utf8.md --to latex --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altaïr.pdf --template \", file.path(Sys.getenv(\"R_HOME\"), \"..\", \"lib/rmarkdown/rmd/latex/default.tex\"), \" --highlight-style tango --latex-engine \", file.path(Sys.getenv(\"R_HOME\"), \"..\", \"texlive/miktex/bin/pdflatex.exe\"), \" --variable geometry:margin=1in\" ))\nshell(\"start acrord32.exe altaïr.pdf\")\n\nsetwd(initwd)\n\n",
+    "created" : 1448141047361.000,
+    "dirty" : false,
+    "encoding" : "ISO8859-1",
+    "folds" : "",
+    "hash" : "2332175143",
+    "id" : "F31FE865",
+    "lastKnownWriteTime" : 1448332436,
+    "path" : "C:/Users/Public/Dev/altair/Tests/Exemple/rapport_pdf.r",
+    "project_path" : "Tests/Exemple/rapport_pdf.r",
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
