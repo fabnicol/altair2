@@ -35,7 +35,7 @@ public:
     void checkEmptyProjectName()
       {
          if (projectName.isEmpty())
-            projectName=QDir::currentPath() + "/défaut.alt";
+            projectName=QDir::currentPath() + QString("/défaut.alt");
       }
 
 
@@ -86,7 +86,7 @@ public slots:
    void on_newProjectButton_clicked();
    void on_deleteItem_clicked();
    void closeProject();
-   inline void openProjectFileCommonCode();
+   void openProjectFileCommonCode();
 
 private slots:
     
