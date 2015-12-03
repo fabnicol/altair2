@@ -209,7 +209,7 @@ void Altair::on_newProjectButton_clicked()
     outputTextEdit->append(PARAMETER_HTML_TAG "Nouveau projet créé sous " + projectName);
 }
 
-inline void     Altair::openProjectFileCommonCode()
+void     Altair::openProjectFileCommonCode()
 {
 
     RefreshFlag = RefreshFlag  | interfaceStatus::parseXml;
