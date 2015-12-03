@@ -30,7 +30,7 @@ options(warn = -1, verbose = FALSE, OutDec = ",", datatable.verbose = FALSE)
 encodage.code.source <- "ISO-8859-1"
 
 currentDir              <- getwd()
-générer.rapport         <- (basename(currentDir) != "altair") 
+générer.rapport         <- ! grepl("altair", basename(currentDir), ignore.case = TRUE) 
 
 # dans cet ordre
 
@@ -503,6 +503,7 @@ colonnes.sélectionnées <- c("traitement.indiciaire",
                             "part.rémunération.indemnitaire",
                             "Statut",
                             "Grade",
+                            "Catégorie",
                             "Filtre_actif_non_annexe",
                             clé.fusion)
 
@@ -517,8 +518,11 @@ invisible(lapply(années.analyse.statique, function(x) {
                    source('analyse.statique.R', encoding = encodage.code.source) 
                    
                  } else {
-                                      
-                   cat(knit_child(text = readLines(file.path(chemin.dossier,'analyse.statique.Rmd'), encoding = encodage.code.source), quiet=TRUE), sep = '\n')
+                   if (setOSWindows)  {                 
+                      cat(knit_child(text = readLines(file.path(chemin.dossier,'analyse.statique.Rmd'), encoding = encodage.code.source), quiet=TRUE), sep = '\n')
+                   } else {
+                     cat(knit_child(text = readLines(file.path(chemin.dossier,'analyse.statique.utf8.Rmd'), encoding = "UTF-8"), quiet=TRUE), sep = '\n')
+                   }
                  }
                }))
 
@@ -863,8 +867,33 @@ g <- function(x) prettyNum(mean.default(Analyse.variations.par.exercice[Année ==
                    digits = 1,
                    format = "fg")
 
+f.X <- function(x, CAT) {
+  
+  masse.salariale.nette[x - début.période.sous.revue + 1] <<-  sum(Analyse.variations.par.exercice[Année == x
+                                                                                                   & (Statut == "TITULAIRE" | Statut == "STAGIAIRE")
+                                                                                                   & Catégorie == CAT, 
+                                                                                                   Montant.net.annuel.eqtp],
+                                                                   na.rm = TRUE) / 1000
+  
+  prettyNum(masse.salariale.nette[x - début.période.sous.revue + 1],
+            big.mark = " ",
+            digits = 5,
+            format = "fg")
+}
+
+g.X <- function(x, CAT) prettyNum(mean.default(Analyse.variations.par.exercice[Année == x 
+                                                                        & (Statut == "TITULAIRE" | Statut == "STAGIAIRE")
+                                                                        & Catégorie == CAT, 
+                                                                        Montant.net.annuel.eqtp],
+                                        na.rm = TRUE),
+                           big.mark = " ",
+                           digits = 1,
+                           format = "fg")
+
 
 #'**Salaire net moyen par tête (SMPT net) en EQTP**       
+#'**Ensemble**  
+#'    
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
@@ -874,7 +903,44 @@ Tableau.vertical(c(étiquette.année, "Rém. nette totale (k&euro;)", "SMPT net en 
                  f,
                  g)
 
+#'   
+#'**Catégorie A**  
 #'
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
+Tableau.vertical(c(étiquette.année, "Rém. nette totale (k&euro;)", "SMPT net en EQTP (&euro;)"),
+                 période,
+                 extra = "variation",
+                 function(x) f.X(x, "A"),
+                 function(x) g.X(x, "A"))
+
+#'   
+#'**Catégorie B**    
+#'     
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
+Tableau.vertical(c(étiquette.année, "Rém. nette totale (k&euro;)", "SMPT net en EQTP (&euro;)"),
+                 période,
+                 extra = "variation",
+                 function(x) f.X(x, "B"),
+                 function(x) g.X(x, "B"))
+
+#'   
+#'**Catégorie C**     
+#'    
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
+Tableau.vertical(c(étiquette.année, "Rém. nette totale (k&euro;)", "SMPT net en EQTP (&euro;)"),
+                 période,
+                 extra = "variation",
+                 function(x) f.X(x, "C"),
+                 function(x) g.X(x, "C"))
+
+#'    
+
 f <- function(x) {
   y <- x - début.période.sous.revue
   
@@ -1298,7 +1364,7 @@ incrémenter.chapitre()
 #### NBI ####
 
 #'# `r chapitre`. Tests réglementaires   
-#'## `r chapitre`.1 Contrôle des heures supplémentaires, des NBI et primes informatiques   
+#'## `r chapitre`.1 Contrôle des NBI et primes informatiques   
 #'   
 #'**Dans cette partie, l'ensemble de la base de paie est étudié.**  
 #'Les agents non actifs ou dont le poste est annexe sont réintroduits dans le périmètre.   
@@ -1623,12 +1689,14 @@ if (nombre.agents.cumulant.iat.ifts) {
 #IFTS et IB >= 380 (IM >= 350)
 #'  
 if (! résultat.ifts.manquant) {
-    lignes.ifts.anormales <- na.omit(Paie[as.integer(Indice) < 350   
+    lignes.ifts.anormales <- na.omit(Paie[as.integer(Indice) < 350
+                                          & Catégorie != "A"
                                           & ifts.logical == TRUE,
                                             c(clé.fusion,
                                               étiquette.année,
                                               "Mois",
                                               "Statut",
+                                              "Catégorie",
                                               étiquette.code,
                                               étiquette.libellé,
                                               "Indice",
@@ -1656,6 +1724,7 @@ if (! résultat.ifts.manquant) {
                                  étiquette.année,
                                  "Mois",
                                  "Statut",
+                                 "Catégorie",
                                  étiquette.code,
                                  étiquette.libellé,
                                  "Indice",
@@ -1695,6 +1764,19 @@ nombre.agents.cumulant.pfr.ifts <- 0
 # le cumul de la PFR et de l'IFTS est irrrégulier
 
 Paie[ , pfr.logical := grepl(expression.rég.pfr, Paie$Libellé, ignore.case=TRUE, perl=TRUE)]
+
+PFR.non.catA <- Paie[Catégorie != "A" & pfr.logical == TRUE, .(Matricule, Nom, Prénom, Année, Mois)]
+
+if ((N.PFR.non.catA <<- nrow(PFR.non.catA)) > 0) {
+  cat(N.PFR.non.catA, "attributaires de la PFR ne sont pas identifiés en catégorie A.")
+  kable(PFR.non.catA, align = 'r', row.names = FALSE)
+  
+} else {
+  cat("Tous les attributaires de la PFR sont identifiés en catégorie A.")
+}
+
+#'   
+#'   
 
 codes.pfr  <- list("codes PFR" = unique(Paie[pfr.logical == TRUE, Code]))
 
@@ -1906,10 +1988,17 @@ names(HS.sup.25) <- sub("traitement.indiciaire", "Traitement indiciaire annuel",
 
 nombre.Lignes.paie.HS.sup.25 <- nrow(HS.sup.25)
 
-ihts.anormales <- data.frame(NULL)
+ihts.anormales <- Paie[grepl(expression.rég.heures.sup,
+                                    Libellé,
+                                    ignore.case = TRUE,
+                                    perl=TRUE)
+                       & Montant != 0
+                       & Catégorie == "A"
+                       & Type %chin% c("R", "I", "T", "A"),
+                       .(Matricule, Année, Mois, Statut, Grade, Heures.Sup., Libellé, Code, Type, Montant)]
 
-if (fichier.personnels.existe)
-  nombre.ihts.anormales <- nrow(ihts.anormales) else nombre.ihts.anormales <- NA
+
+nombre.ihts.anormales <- nrow(ihts.anormales) 
 
 if (! is.null(HS.sup.25)) message("Heures sup controlées")
 #'
@@ -1926,7 +2015,7 @@ Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"), no
 #'
 #'**Nota :**   
 #'HS en excès : au-delà de 25 heures par mois     
-#'IHTS anormales : non attribuées à des fonctionnaires de catégorie B ou C.     
+#'IHTS anormales : attribuées à des fonctionnaires ou non-titulaires de catégorie A ou assimilés.     
 
 #### ELUS ####
 

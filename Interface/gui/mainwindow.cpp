@@ -18,6 +18,7 @@ MainWindow::MainWindow(char* projectName)
 
   altair=new Altair;
   altair->parent=this;
+
   altair->projectName=projectName;
 
   createActions();
@@ -80,13 +81,13 @@ MainWindow::MainWindow(char* projectName)
   stackedBottomWidget->setLayout(stackedBottomWidgetLayout);
 #ifndef MINIMAL
   bottomDockWidget->setMinimumHeight(400);
- #endif
+#endif
   bottomDockWidget->setWidget(stackedBottomWidget);
 
   addDockWidget(Qt::BottomDockWidgetArea, bottomDockWidget);
 
   setWindowIcon(QIcon(":/images/altair.png"));
-  setWindowTitle("Interface  Altaïr"+ QString(VERSION));
+  setWindowTitle("Interface  AltaÃ¯r"+ QString(VERSION));
 
   dialog=new options(altair);
   dialog->setParent(altair, Qt::Window);
@@ -104,6 +105,11 @@ MainWindow::MainWindow(char* projectName)
   connect(clearBottomTabWidgetButton, &QToolButton::clicked, [this] { on_clearOutputTextButton_clicked();});
   connect(consoleDialog, SIGNAL(copyAvailable(bool)), consoleDialog, SLOT(copy()));
   connect(&(altair->process), SIGNAL(finished(int)), this, SLOT(resetCounter()));
+
+  if (! altair->projectName.isEmpty())
+  {
+      altair->openProjectFileCommonCode();
+  }
 
 }
 
@@ -176,10 +182,6 @@ void MainWindow::createMenus()
  aboutMenu->addActions({helpAction, aboutAction,licenceAction});
 }
 
-void MainWindow::f()
-{
-    altair->updateProject(true);
-}
 
 void MainWindow::createActions()
 {
@@ -197,8 +199,7 @@ void MainWindow::createActions()
   saveAction = new QAction(tr("&Enregistrer"), this);
   saveAction->setShortcut(QKeySequence("Ctrl+S"));
   saveAction->setIcon(QIcon(":/images/document-save.png"));
-
-  connect(saveAction, &QAction::triggered, this, &MainWindow::f);
+  connect(saveAction, &QAction::triggered, [this] { altair->updateProject(true); });
   
   saveAsAction = new QAction(tr("En&registrer le projet comme..."), this);
   saveAsAction->setIcon(QIcon(":/images/document-save-as.png"));
@@ -212,7 +213,7 @@ void MainWindow::createActions()
   archiveAction->setIcon(QIcon(":/images/archive.png"));
   connect(archiveAction, SIGNAL(triggered()), this, SLOT(archiveProject()));
 
-  restoreAction = new QAction(tr("Désarchiver le rapport"), this);
+  restoreAction = new QAction(tr("DÃ©sarchiver le rapport"), this);
   restoreAction->setIcon(QIcon(":/images/restore.png"));
   connect(restoreAction, SIGNAL(triggered()), this, SLOT(restoreProject()));
 
@@ -221,17 +222,17 @@ void MainWindow::createActions()
   closeAction->setIcon(QIcon(":/images/document-close.png"));
   connect(closeAction, SIGNAL(triggered()), altair, SLOT(closeProject()));
 
-  RAction = new QAction(tr("&Lancer l'analyse des données"), this);
+  RAction = new QAction(tr("&Lancer l'analyse des donnÃ©es"), this);
   RAction->setShortcut(QKeySequence("Ctrl+R"));
   RAction->setIcon(QIcon(":/images/altair.png"));
   connect(RAction, SIGNAL(triggered()), altair, SLOT(runRAltair()));
 
-  lhxAction = new QAction(tr("Créer la base de données .csv"), this);
+  lhxAction = new QAction(tr("CrÃ©er la base de donnÃ©es .csv"), this);
   lhxAction->setShortcut(QKeySequence("Ctrl+B"));
   lhxAction->setIcon(QIcon(":/images/csv.png"));
   connect(lhxAction, SIGNAL(triggered()), altair, SLOT(run()));
 
-  openBaseDirAction = new QAction(tr("Ouvrir le répertoire des bases"), this);
+  openBaseDirAction = new QAction(tr("Ouvrir le rÃ©pertoire des bases"), this);
   openBaseDirAction ->setIcon(QIcon(":/images/directory.png"));
   connect(openBaseDirAction, &QAction::triggered, [&] { common::openDir(dialog->standardTab->donneesCSV->getText());  });
 
@@ -249,7 +250,7 @@ void MainWindow::createActions()
   helpAction->setIcon(QIcon(":/images/help-contents.png"));
   connect(helpAction, SIGNAL(triggered()), altair, SLOT(on_helpButton_clicked()));
 
-  displayAction = new QAction(tr("&Plein écran/Réduire"), this);
+  displayAction = new QAction(tr("&Plein Ã©cran/RÃ©duire"), this);
   displayAction->setIcon(QIcon(":/images/show-maximized.png"));
   connect(displayAction, SIGNAL(triggered()), this, SLOT(showMainWidget()));
 
@@ -372,7 +373,6 @@ void MainWindow::createToolBars()
 
 void MainWindow::on_editProjectButton_clicked()
 {
-
     if (altair->projectName.isEmpty()) return;
     editWidget = new QMainWindow(this);
     editWidget->setWindowTitle(tr("Edition du projet ")+altair->projectName.left(8)+"..."+altair->projectName.right(12));
@@ -402,12 +402,12 @@ void MainWindow::on_editProjectButton_clicked()
 
     if (altair->projectName.isEmpty()) return;
 
-   QFile  *file=new QFile(altair->projectName);
+    projectFile.setFileName(altair->projectName);
 
-   if (file->open(QFile::ReadWrite| QFile::Text))
+   if (projectFile.open(QFile::ReadWrite| QFile::Text))
    {
-       editor->setPlainText(file->readAll());
-       file->close();
+       editor->setPlainText(projectFile.readAll());
+       projectFile.close();
    }
    // do not capture file by reference!
    connect(actionHash["Nouveau"],
@@ -416,9 +416,8 @@ void MainWindow::on_editProjectButton_clicked()
 
    connect(actionHash["Ouvrir"],
                  &QAction::triggered,
-                 [file, this]
+                 [this]
                                   {
-                                     file->~QFile();
                                      altair->on_openProjectButton_clicked() ;
                                      editWidget->~QMainWindow();
                                      on_editProjectButton_clicked();
@@ -426,18 +425,16 @@ void MainWindow::on_editProjectButton_clicked()
 
    connect(actionHash["Enregistrer"],
                  &QAction::triggered,
-                 [file, this]
+                 [this]
                                  {
-                                    file->open(QFile::Truncate |QFile::WriteOnly| QFile::Text);
-                                    file->write(editor->document()->toPlainText().toUtf8()) ;
-                                    file->close();
-                                    Altair::RefreshFlag =  Altair::RefreshFlag
-                                                        | interfaceStatus::tree
-                                                        | interfaceStatus::parseXml;
-                                    // resetting interfaceStatus::parseXml bits to 0
-
+                                    projectFile.open(QFile::Truncate |QFile::WriteOnly| QFile::Text);
+                                    projectFile.write(editor->document()->toPlainText().toUtf8()) ;
+                                    projectFile.close();
+                                    altair->closeProject();
+                                    altair->RefreshFlag = altair->RefreshFlag | interfaceStatus::parseXml;
                                     altair->clearInterfaceAndParseProject();
-                                    Altair::RefreshFlag = Altair::RefreshFlag & (~interfaceStatus::parseXml);
+                                    // resetting interfaceStatus::parseXml bits to 0
+                                    altair->RefreshFlag = altair->RefreshFlag & (~interfaceStatus::parseXml);
                                   });
 
    connect(actionHash["Enregistrer comme..."],
@@ -446,14 +443,14 @@ void MainWindow::on_editProjectButton_clicked()
 
    connect(actionHash["Actualiser"],
                  &QAction::triggered,
-                 [file, this]
+                 [this]
                                  {
                                     altair->updateProject(true);
-                                    if (file->open(QFile::ReadWrite |  QFile::Text))
+                                    if (projectFile.open(QFile::ReadWrite |  QFile::Text))
                                        {
                                            editor->clear();
-                                           editor->setPlainText(file->readAll());
-                                           file->close();
+                                           editor->setPlainText(projectFile.readAll());
+                                           projectFile.close();
                                        }
                                   });
 
@@ -467,9 +464,8 @@ void MainWindow::on_editProjectButton_clicked()
 
    connect(actionHash["Quitter"],
                  &QAction::triggered,
-                 [file, this]
+                 [this]
                                   {
-                                     file->~QFile();
                                      editWidget->~QMainWindow() ;
                                    });
    editWidget->setCentralWidget(editor);
@@ -487,7 +483,7 @@ void MainWindow::saveProjectAs()
 
     if  (QFileInfo(newstr).isFile())
     {
-          QMessageBox::StandardButton result = QMessageBox::warning(nullptr, "Ecraser le fichier ?", "Ce fichier va être écrasé.\nAppuyer sur Oui pour confirmer.",
+          QMessageBox::StandardButton result = QMessageBox::warning(nullptr, "Ecraser le fichier ?", "Ce fichier va Ãªtre Ã©crasÃ©.\nAppuyer sur Oui pour confirmer.",
                                             QMessageBox::Ok | QMessageBox::Cancel);
 
 
@@ -502,13 +498,13 @@ void MainWindow::saveProjectAs()
           }
     }
 
-    QFile* file = new QFile(newstr);
+    QFile file(newstr);
 
-    if (file->open(QFile::WriteOnly | QFile::Truncate | QFile::Text))
+    if (file.open(QFile::WriteOnly | QFile::Truncate | QFile::Text))
     {
-       if (editor) file->write(editor->document()->toPlainText().toUtf8()) ;
+       if (editor) file.write(editor->document()->toPlainText().toUtf8()) ;
     }
-    file->close();
+    file.close();
     Altair::RefreshFlag =  Altair::RefreshFlag
                             | interfaceStatus::tree;
 
@@ -522,59 +518,59 @@ void MainWindow::saveProjectAs()
 bool MainWindow::exportProject(QString dirStr)
 {
     if (dirStr.isEmpty())
-        dirStr = QFileDialog::getExistingDirectory(this, tr("Exporter le rapport vers le répertoire..."), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
+        dirStr = QFileDialog::getExistingDirectory(this, tr("Exporter le rapport vers le rÃ©pertoire..."), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
 
     if (! QFileInfo(dirStr).isDir()) return false;
 
-    QString subDirStr = QDir::toNativeSeparators(dirStr.append("/Altaïr"));
+    QString subDirStr = QDir::toNativeSeparators(dirStr.append("/AltaÃ¯r"));
 
     altair->updateProject();
     QString projectRootDir = QDir::toNativeSeparators(QDir::cleanPath(v(base) + "/../.."));
-    QString docxReportFilePath = projectRootDir + QDir::separator() + "altaïr.docx";
-    QString pdfReportFilePath = projectRootDir + QDir::separator() + "altaïr.pdf";
+    QString docxReportFilePath = projectRootDir + QDir::separator() + "altaÃ¯r.docx";
+    QString pdfReportFilePath = projectRootDir + QDir::separator() + "altaÃ¯r.pdf";
     bool result = true;
 
-    result = common::copyFile(docxReportFilePath, subDirStr + QDir::separator() + "altaïr.docx", "Le rapport Altaïr Word", REQUIRE);
+    result = common::copyFile(docxReportFilePath, subDirStr + QDir::separator() + "altaÃ¯r.docx", "Le rapport AltaÃ¯r Word", REQUIRE);
 
-    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr Word a été exporté sous : " + subDirStr);
+    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport AltaÃ¯r Word a Ã©tÃ© exportÃ© sous : " + subDirStr);
 
-    result = common::copyFile(pdfReportFilePath, subDirStr + QDir::separator() + "altaïr.pdf", "Le rapport Altaïr PDF");
+    result = common::copyFile(pdfReportFilePath, subDirStr + QDir::separator() + "altaÃ¯r.pdf", "Le rapport AltaÃ¯r PDF");
 
-    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr PDF a été exporté sous : " + subDirStr);
+    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport AltaÃ¯r PDF a Ã©tÃ© exportÃ© sous : " + subDirStr);
 
     common::copyDir(projectRootDir + "/Docs", subDirStr + "/Docs");
     result = common::copyDir(projectRootDir + "/Bases", subDirStr + "/Bases");
 
-    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Les bases ont été exportées sous : " + subDirStr + QDir::separator() + "Bases");
+    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Les bases ont Ã©tÃ© exportÃ©es sous : " + subDirStr + QDir::separator() + "Bases");
     return result;
 }
 
 bool MainWindow::archiveProject()
 {
-    QString dirName = QFileDialog::getExistingDirectory(this, tr("Exporter le rapport vers le répertoire..."), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
+    QString dirName = QFileDialog::getExistingDirectory(this, tr("Exporter le rapport vers le rÃ©pertoire..."), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
 
-    QString subDirStr = QDir::toNativeSeparators(dirName.append("/Archives Altaïr/" +
+    QString subDirStr = QDir::toNativeSeparators(dirName.append("/Archives AltaÃ¯r/" +
                                                                QDate::currentDate().toString("dd MM yyyy")
                                                                + "-" + QTime::currentTime().toString("hh mm ss")));
 
     altair->updateProject();
     QString projectRootDir = QDir::toNativeSeparators(QDir::cleanPath(v(base) + "/../.."));
-    QString docxReportFilePath = projectRootDir +  QDir::separator() + "altaïr.docx";
-    QString pdfReportFilePath = projectRootDir +  QDir::separator()  + "altaïr.pdf";
+    QString docxReportFilePath = projectRootDir +  QDir::separator() + "altaÃ¯r.docx";
+    QString pdfReportFilePath = projectRootDir +  QDir::separator()  + "altaÃ¯r.pdf";
     bool result = true;
 
-    result = common::zip(docxReportFilePath, subDirStr + QDir::separator() + "altaïr.docx.arch");
+    result = common::zip(docxReportFilePath, subDirStr + QDir::separator() + "altaÃ¯r.docx.arch");
 
-    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr Word a été archivé sous : " + subDirStr);
+    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport AltaÃ¯r Word a Ã©tÃ© archivÃ© sous : " + subDirStr);
 
-    result = common::zip(pdfReportFilePath, subDirStr + QDir::separator() + "altaïr.pdf.arch");
+    result = common::zip(pdfReportFilePath, subDirStr + QDir::separator() + "altaÃ¯r.pdf.arch");
 
-    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr PDF a été archivé sous : " + subDirStr);
+    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport AltaÃ¯r PDF a Ã©tÃ© archivÃ© sous : " + subDirStr);
 
     common::zipDir(projectRootDir + "/Docs", subDirStr + "/Docs");
     result = common::zipDir(projectRootDir + "/Bases", subDirStr + "/Bases");
 
-    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Les bases ont été archivées sous : " + subDirStr + QDir::separator() + "Bases");
+    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Les bases ont Ã©tÃ© archivÃ©es sous : " + subDirStr + QDir::separator() + "Bases");
 
   return result;
 }
@@ -582,28 +578,28 @@ bool MainWindow::archiveProject()
 bool MainWindow::restoreProject(QString subDirStr)
 {
     if (subDirStr.isEmpty())
-        subDirStr = QFileDialog::getExistingDirectory(this, tr("Restorer le rapport depuis le répertoire..."), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
+        subDirStr = QFileDialog::getExistingDirectory(this, tr("Restorer le rapport depuis le rÃ©pertoire..."), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
 
     if (! QFileInfo(subDirStr).isDir()) return false;
 
     altair->updateProject();
     QString projectRootDir = QDir::toNativeSeparators(QDir::cleanPath(v(base) + "/../.."));
-    QString docxReportFilePath = projectRootDir + "/altaïr.docx";
-    QString pdfReportFilePath = projectRootDir + "/altaïr.pdf";
+    QString docxReportFilePath = projectRootDir + "/altaÃ¯r.docx";
+    QString pdfReportFilePath = projectRootDir + "/altaÃ¯r.pdf";
     bool result = true;
 
-    result = common::unzip(subDirStr + "/altaïr.docx.arch", docxReportFilePath);
+    result = common::unzip(subDirStr + "/altaÃ¯r.docx.arch", docxReportFilePath);
 
-    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr Word a été décompressé sous : " + projectRootDir);
+    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport AltaÃ¯r Word a Ã©tÃ© dÃ©compressÃ© sous : " + projectRootDir);
 
-    result = common::unzip(subDirStr + "/altaïr.pdf.arch", pdfReportFilePath);
+    result = common::unzip(subDirStr + "/altaÃ¯r.pdf.arch", pdfReportFilePath);
 
-    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr PDF a été décompressé sous : " + projectRootDir);
+    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport AltaÃ¯r PDF a Ã©tÃ© dÃ©compressÃ© sous : " + projectRootDir);
 
     common::unzipDir(subDirStr + "/Docs", projectRootDir + "/Docs");
     result = common::unzipDir(subDirStr + "/Bases", projectRootDir + "/Bases");
 
-    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Les bases ont été décompressées sous : " + projectRootDir + QDir::separator() + "Bases");
+    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Les bases ont Ã©tÃ© dÃ©compressÃ©es sous : " + projectRootDir + QDir::separator() + "Bases");
 
   return result;
 }
@@ -623,14 +619,7 @@ void MainWindow::configureOptions()
     closeButton->button(QDialogButtonBox::Ok)->setText("Accepter");
     closeButton->button(QDialogButtonBox::Cancel)->setText("Annuler");    
 
-    defaultFileManagerWidgetLayoutBox=new FCheckBox("Afficher le gestionnaire de fichiers",
-                                                    #ifdef MINIMAL
-                                                                            flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
-                                                    #else
-                                                                            flags::status::enabledChecked|flags::commandLineType::noCommandLine,
-                                                    #endif
-                                                                            "fileManagerDisplay",
-                                                                           {"Interface", "Afficher le gestionnaire de fichiers"});
+
 
     defaultProjectManagerWidgetLayoutBox=new FCheckBox("Afficher le gestionnaire de projet",
                                                    #ifdef MINIMAL
@@ -641,10 +630,19 @@ void MainWindow::configureOptions()
                                                                             "projectManagerDisplay",
                                                                             {"Interface", "Afficher le gestionnaire de projet"});
 
-    defaultFullScreenLayoutBox=new FCheckBox("Plein écran",
+    defaultFileManagerWidgetLayoutBox=new FCheckBox("Afficher le gestionnaire de fichiers",
+                                                    #ifdef MINIMAL
+                                                                            flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
+                                                    #else
+                                                                            flags::status::enabledChecked|flags::commandLineType::noCommandLine,
+                                                    #endif
+                                                                            "fileManagerDisplay",
+                                                                           {"Interface", "Afficher le gestionnaire de fichiers"});
+
+    defaultFullScreenLayoutBox=new FCheckBox("Plein Ã©cran",
                                                         flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
                                                         "fullScreenDisplay",
-                                                        {"Interface", "Plein écran au lancement"});
+                                                        {"Interface", "Plein Ã©cran au lancement"});
 
     defaultOutputTextEditBox=new FCheckBox("Afficher les messages",
                                        #ifdef MINIMAL
@@ -664,10 +662,10 @@ void MainWindow::configureOptions()
                                                                 "fileToolBar",
                                                                 {"Interface", "Afficher la barre d'outils de fichiers"});
     
-    defaultEditToolBarBox=new FCheckBox("Afficher la barre d'outils d'édition",
+    defaultEditToolBarBox=new FCheckBox("Afficher la barre d'outils d'Ã©dition",
                                                                 flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
                                                                 "editToolBar",
-                                                                {"Interface", "Display Edit toolBar"});
+                                                                {"Interface", "Afficher la barre d'outils d'Ã©dition"});
     
     defaultProcessToolBarBox = new FCheckBox("Afficher la barre d'outils de processus",
                                        #ifdef MINIMAL
@@ -699,7 +697,7 @@ void MainWindow::configureOptions()
                                                                 "saveProjectBehavior",
                                                                 {"Interface", "Sauvegarder le projet .alt automatiquement"});
 
-    defaultLoadProjectBehaviorBox = new FCheckBox("Charger le projet par défaut au lancement",
+    defaultLoadProjectBehaviorBox = new FCheckBox("Charger le projet par dÃ©faut au lancement",
                                                                               flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
                                                                             "loadProjectBehavior",
                                                                             {"Interface", "Charger le projet .alt au lancement"});
@@ -712,9 +710,9 @@ void MainWindow::configureOptions()
                                                                             "limitConsoleOutput",
                                                                             {"Interface", "Limiter le nombre de lignes en sortie de la console"});
 
-    defaultQuietBox = new FCheckBox("Limiter la verbosité",
+    defaultQuietBox = new FCheckBox("Limiter la verbositÃ©",
                                        "quiet",
-                                       {"Interface", "Limiter la verbosité de la console"},
+                                       {"Interface", "Limiter la verbositÃ© de la console"},
                                         "q");
 
     displayWidgetListBox   <<  defaultFileManagerWidgetLayoutBox
@@ -792,7 +790,7 @@ void MainWindow::configureOptions()
                                 
                                     if (    (isDefaultSaveProjectChecked())
                                          || (QMessageBox::Yes == Warning(tr("Sauvegarder le projet"),
-                                                                         tr("Le projet n'a pas été sauvegardé.\nAppuyer sur Oui pour le sauvegarder\nou sur Non pour fermer le dialogue sans sauvegarder le projet.")))
+                                                                         tr("Le projet n'a pas Ã©tÃ© sauvegardÃ©.\nAppuyer sur Oui pour le sauvegarder\nou sur Non pour fermer le dialogue sans sauvegarder le projet.")))
                                         )
                                         altair->updateProject();
                                          
@@ -812,9 +810,7 @@ void MainWindow::configureOptions()
     connect(defaultFullScreenLayoutBox, SIGNAL(toggled(bool)), this, SLOT(showMainWidget(bool)));
     connect(defaultMaximumConsoleOutputBox, &FCheckBox::toggled, [this]{v(limitConsoleOutput).toggle();});
     connect(defaultOutputTextEditBox, &FCheckBox::toggled, [this] {bottomDockWidget->setVisible(defaultOutputTextEditBox->isChecked());});
-    connect(defaultLoadProjectBehaviorBox, &FCheckBox::toggled, [this] {  if (defaultLoadProjectBehaviorBox->isChecked())
-                                                                            altair->RefreshFlag = altair->RefreshFlag 
-                                                                                                  | interfaceStatus::parseXml;});
+
 
     connect(defaultMaximumConsoleOutputBox, &FCheckBox::toggled, [this] {
         QTimer *timer = new QTimer(this);
@@ -844,11 +840,11 @@ void MainWindow::adjustDisplay(bool projectFileStatus)
         {
             a->toggle();
             a->toggle();
-            // Ceci pour lancer très simplement les signaux et slots afin d'activer les effets sur l'interface
-            // correspondant à la configuration
+            // Ceci pour lancer trÃ¨s simplement les signaux et slots afin d'activer les effets sur l'interface
+            // correspondant Ã  la configuration
         }
 
-        // Peut être modifié pour ajuster le comportement par défaut minimal ici :
+        // Peut Ãªtre modifiÃ© pour ajuster le comportement par dÃ©faut minimal ici :
 
 #ifdef MINIMAL
         for (FCheckBox* a :  displayWidgetListBox +  behaviorWidgetListBox + displayToolBarCBoxListBox)
