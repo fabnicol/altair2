@@ -58,8 +58,8 @@ void Altair::writeProjectFile()
     {
         errorMessageDialog->showMessage(tr("Impossible d'ouvrir le fichier du projet\n")+ qPrintable(projectFile.errorString()));
         QLabel *errorLabel = new QLabel;
-        errorLabel->setText(tr("Si cette case est dÃ©cochÃ©e, ce message "
-                               "ne s'affichera plus Ã  nouveau."));
+        errorLabel->setText(tr("Si cette case est décochée, ce message "
+                               "ne s'affichera plus à nouveau."));
         return;
     }
 

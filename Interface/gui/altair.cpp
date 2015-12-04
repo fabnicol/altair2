@@ -209,7 +209,7 @@ void Altair::on_newProjectButton_clicked()
     outputTextEdit->append(PARAMETER_HTML_TAG "Nouveau projet créé sous " + projectName);
 }
 
-inline void     Altair::openProjectFileCommonCode()
+void  Altair::openProjectFileCommonCode()
 {
 
     RefreshFlag = RefreshFlag  | interfaceStatus::parseXml;
@@ -517,7 +517,7 @@ bool Altair::refreshProjectManager()
 
             if (filesize == 0)
             {
-                outputTextEdit->append(WARNING_HTML_TAG " Pas de projet en cours (défault.alt est vide).");
+                outputTextEdit->append(WARNING_HTML_TAG " Pas de projet en cours (défaut.alt est vide).");
                 return false;
             }
 

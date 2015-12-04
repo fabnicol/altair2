@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_Altair_t {
-    QByteArrayData data[23];
-    char stringdata0[335];
+    QByteArrayData data[24];
+    char stringdata0[361];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -40,18 +40,19 @@ QT_MOC_LITERAL(7, 91, 28), // "on_openProjectButton_clicked"
 QT_MOC_LITERAL(8, 120, 27), // "on_newProjectButton_clicked"
 QT_MOC_LITERAL(9, 148, 21), // "on_deleteItem_clicked"
 QT_MOC_LITERAL(10, 170, 12), // "closeProject"
-QT_MOC_LITERAL(11, 183, 3), // "run"
-QT_MOC_LITERAL(12, 187, 10), // "runRAltair"
-QT_MOC_LITERAL(13, 198, 15), // "processFinished"
-QT_MOC_LITERAL(14, 214, 4), // "code"
-QT_MOC_LITERAL(15, 219, 8), // "exitCode"
-QT_MOC_LITERAL(16, 228, 8), // "addGroup"
-QT_MOC_LITERAL(17, 237, 11), // "deleteGroup"
-QT_MOC_LITERAL(18, 249, 11), // "killProcess"
-QT_MOC_LITERAL(19, 261, 21), // "on_helpButton_clicked"
-QT_MOC_LITERAL(20, 283, 18), // "requestSaveProject"
-QT_MOC_LITERAL(21, 302, 16), // "writeProjectFile"
-QT_MOC_LITERAL(22, 319, 15) // "openProjectFile"
+QT_MOC_LITERAL(11, 183, 25), // "openProjectFileCommonCode"
+QT_MOC_LITERAL(12, 209, 3), // "run"
+QT_MOC_LITERAL(13, 213, 10), // "runRAltair"
+QT_MOC_LITERAL(14, 224, 15), // "processFinished"
+QT_MOC_LITERAL(15, 240, 4), // "code"
+QT_MOC_LITERAL(16, 245, 8), // "exitCode"
+QT_MOC_LITERAL(17, 254, 8), // "addGroup"
+QT_MOC_LITERAL(18, 263, 11), // "deleteGroup"
+QT_MOC_LITERAL(19, 275, 11), // "killProcess"
+QT_MOC_LITERAL(20, 287, 21), // "on_helpButton_clicked"
+QT_MOC_LITERAL(21, 309, 18), // "requestSaveProject"
+QT_MOC_LITERAL(22, 328, 16), // "writeProjectFile"
+QT_MOC_LITERAL(23, 345, 15) // "openProjectFile"
 
     },
     "Altair\0hasIndexChangedSignal\0\0"
@@ -60,10 +61,11 @@ QT_MOC_LITERAL(22, 319, 15) // "openProjectFile"
     "on_openProjectButton_clicked\0"
     "on_newProjectButton_clicked\0"
     "on_deleteItem_clicked\0closeProject\0"
-    "run\0runRAltair\0processFinished\0code\0"
-    "exitCode\0addGroup\0deleteGroup\0killProcess\0"
-    "on_helpButton_clicked\0requestSaveProject\0"
-    "writeProjectFile\0openProjectFile"
+    "openProjectFileCommonCode\0run\0runRAltair\0"
+    "processFinished\0code\0exitCode\0addGroup\0"
+    "deleteGroup\0killProcess\0on_helpButton_clicked\0"
+    "requestSaveProject\0writeProjectFile\0"
+    "openProjectFile"
 };
 #undef QT_MOC_LITERAL
 
@@ -73,7 +75,7 @@ static const uint qt_meta_data_Altair[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      22,   14, // methods
+      23,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -81,30 +83,31 @@ static const uint qt_meta_data_Altair[] = {
        5,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    0,  124,    2, 0x06 /* Public */,
-       3,    2,  125,    2, 0x06 /* Public */,
-       3,    1,  130,    2, 0x06 /* Public */,
-       4,    0,  133,    2, 0x06 /* Public */,
-       5,    0,  134,    2, 0x06 /* Public */,
+       1,    0,  129,    2, 0x06 /* Public */,
+       3,    2,  130,    2, 0x06 /* Public */,
+       3,    1,  135,    2, 0x06 /* Public */,
+       4,    0,  138,    2, 0x06 /* Public */,
+       5,    0,  139,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       6,    1,  135,    2, 0x0a /* Public */,
-       6,    0,  138,    2, 0x2a /* Public | MethodCloned */,
-       7,    0,  139,    2, 0x0a /* Public */,
-       8,    0,  140,    2, 0x0a /* Public */,
-       9,    0,  141,    2, 0x0a /* Public */,
-      10,    0,  142,    2, 0x0a /* Public */,
-      11,    0,  143,    2, 0x08 /* Private */,
-      12,    0,  144,    2, 0x08 /* Private */,
-      13,    1,  145,    2, 0x08 /* Private */,
-      13,    1,  148,    2, 0x08 /* Private */,
-      16,    0,  151,    2, 0x08 /* Private */,
-      17,    0,  152,    2, 0x08 /* Private */,
-      18,    0,  153,    2, 0x08 /* Private */,
-      19,    0,  154,    2, 0x08 /* Private */,
-      20,    0,  155,    2, 0x08 /* Private */,
-      21,    0,  156,    2, 0x08 /* Private */,
-      22,    0,  157,    2, 0x08 /* Private */,
+       6,    1,  140,    2, 0x0a /* Public */,
+       6,    0,  143,    2, 0x2a /* Public | MethodCloned */,
+       7,    0,  144,    2, 0x0a /* Public */,
+       8,    0,  145,    2, 0x0a /* Public */,
+       9,    0,  146,    2, 0x0a /* Public */,
+      10,    0,  147,    2, 0x0a /* Public */,
+      11,    0,  148,    2, 0x0a /* Public */,
+      12,    0,  149,    2, 0x08 /* Private */,
+      13,    0,  150,    2, 0x08 /* Private */,
+      14,    1,  151,    2, 0x08 /* Private */,
+      14,    1,  154,    2, 0x08 /* Private */,
+      17,    0,  157,    2, 0x08 /* Private */,
+      18,    0,  158,    2, 0x08 /* Private */,
+      19,    0,  159,    2, 0x08 /* Private */,
+      20,    0,  160,    2, 0x08 /* Private */,
+      21,    0,  161,    2, 0x08 /* Private */,
+      22,    0,  162,    2, 0x08 /* Private */,
+      23,    0,  163,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void,
@@ -122,8 +125,9 @@ static const uint qt_meta_data_Altair[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Int,   14,
-    QMetaType::Void, 0x80000000 | 15,    2,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::Int,   15,
+    QMetaType::Void, 0x80000000 | 16,    2,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -154,17 +158,18 @@ void Altair::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         case 8: _t->on_newProjectButton_clicked(); break;
         case 9: _t->on_deleteItem_clicked(); break;
         case 10: _t->closeProject(); break;
-        case 11: _t->run(); break;
-        case 12: _t->runRAltair(); break;
-        case 13: _t->processFinished((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 14: _t->processFinished((*reinterpret_cast< exitCode(*)>(_a[1]))); break;
-        case 15: _t->addGroup(); break;
-        case 16: _t->deleteGroup(); break;
-        case 17: _t->killProcess(); break;
-        case 18: _t->on_helpButton_clicked(); break;
-        case 19: _t->requestSaveProject(); break;
-        case 20: _t->writeProjectFile(); break;
-        case 21: _t->openProjectFile(); break;
+        case 11: _t->openProjectFileCommonCode(); break;
+        case 12: _t->run(); break;
+        case 13: _t->runRAltair(); break;
+        case 14: _t->processFinished((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 15: _t->processFinished((*reinterpret_cast< exitCode(*)>(_a[1]))); break;
+        case 16: _t->addGroup(); break;
+        case 17: _t->deleteGroup(); break;
+        case 18: _t->killProcess(); break;
+        case 19: _t->on_helpButton_clicked(); break;
+        case 20: _t->requestSaveProject(); break;
+        case 21: _t->writeProjectFile(); break;
+        case 22: _t->openProjectFile(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -228,13 +233,13 @@ int Altair::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 22)
+        if (_id < 23)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 22;
+        _id -= 23;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 22)
+        if (_id < 23)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 22;
+        _id -= 23;
     }
     return _id;
 }

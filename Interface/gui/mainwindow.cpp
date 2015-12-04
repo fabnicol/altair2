@@ -18,7 +18,7 @@ MainWindow::MainWindow(char* projectName)
 
   altair=new Altair;
   altair->parent=this;
-  altair->projectName=projectName;
+  altair->projectName=QString::fromLatin1(projectName);
 
   createActions();
   createMenus();
@@ -105,6 +105,10 @@ MainWindow::MainWindow(char* projectName)
   connect(consoleDialog, SIGNAL(copyAvailable(bool)), consoleDialog, SLOT(copy()));
   connect(&(altair->process), SIGNAL(finished(int)), this, SLOT(resetCounter()));
 
+  if (projectName[0] != '\0')
+  {
+      altair->openProjectFileCommonCode();
+  }
 }
 
 void MainWindow::on_clearOutputTextButton_clicked()
