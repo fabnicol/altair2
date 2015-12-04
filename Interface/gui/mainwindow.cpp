@@ -107,6 +107,9 @@ MainWindow::MainWindow(char* projectName)
 
   if (projectName[0] != '\0')
   {
+
+      // Paraît étrange... mais c'est pour éviter de lire deux fois le projet
+         altair->closeProject();
       altair->openProjectFileCommonCode();
   }
 }
@@ -787,10 +790,11 @@ void MainWindow::configureOptions()
                                     settings->setValue(defaultLoadProjectBehaviorBox->getHashKey(), defaultLoadProjectBehaviorBox->isChecked());
                                 
                                     if (    (isDefaultSaveProjectChecked())
-                                         || (QMessageBox::Yes == Warning(tr("Sauvegarder le projet"),
-                                                                         tr("Le projet n'a pas été sauvegardé.\nAppuyer sur Oui pour le sauvegarder\nou sur Non pour fermer le dialogue sans sauvegarder le projet.")))
+                                         || (QMessageBox::Yes == QMessageBox::warning(nullptr, tr("Sauvegarder le projet"),
+                                                                         tr("Le projet n'a pas été sauvegardé.\nAppuyer sur Oui pour le sauvegarder\nou sur Non pour fermer le dialogue sans sauvegarder le projet."),
+                                                                                      QMessageBox::Yes|QMessageBox::No))
                                         )
-                                        altair->updateProject();
+                                        altair->updateProject(true);
                                          
                                     contentsWidget->accept();
                                 });

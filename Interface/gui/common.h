@@ -15,8 +15,8 @@
 #error "This application will only compile for Windows or GNU/Linux operating systems."
 #endif
 
-#define  Warning(title, text)   QMessageBox::warning(0, title, text,  "Oui", "Non")
-#define  Warning0(title, text)   QMessageBox::warning(0, title, text, "Fermer")
+#define  Warning(title, text)   QMessageBox::warning(0, title, text)
+#define  Warning0(title, text)   QMessageBox::warning(0, title, text)
 #define REQUIRE true
 
 class common : public QDialog, public flags
