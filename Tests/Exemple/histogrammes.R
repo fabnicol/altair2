@@ -1,4 +1,5 @@
 
+knitr::opts_chunk$set(fig.width = 7.5, echo = FALSE, warning = FALSE, message = FALSE, results = 'asis')
 
 histogrammes <- function()  {
 
@@ -12,8 +13,7 @@ if (longueur.non.na(filtre.fonctionnaire(Montant.brut.annuel.eqtp) > 0))
        breaks = 250)
 
 
-cat("   ")
-
+#'    
 if (longueur.non.na(filtre.fonctionnaire(Montant.brut.annuel.eqtp[Montant.brut.annuel.eqtp > 40000]) > 0)) 
   hist(filtre.fonctionnaire(Montant.brut.annuel.eqtp[Montant.brut.annuel.eqtp > 40000])/1000,
        xlab = "En milliers d'euros EQTP\n",
@@ -23,28 +23,31 @@ if (longueur.non.na(filtre.fonctionnaire(Montant.brut.annuel.eqtp[Montant.brut.a
        col = "blue",
        breaks = 250)
 
-cat("   ")
-
+#'   
+#'    
+#'    
 if (longueur.non.na(filtre.fonctionnaire(rémunération.indemnitaire.imposable.eqtp[rémunération.indemnitaire.imposable.eqtp < 10000]) > 0))
   hist(filtre.fonctionnaire(rémunération.indemnitaire.imposable.eqtp[rémunération.indemnitaire.imposable.eqtp < 10000])/1000,
        xlab = "En milliers d'euros EQTP\n",
        ylab = "Effectif",
        xlim = c(0, 10),
-       main = "Rémunération indemnitaire imposable annuelle des fonctionnaires\n en " %+% année,
+       main = "Rémunération indemnitaire imposable annuelle des fonctionnaires en " %+% année,
        col = "blue",
        breaks = 150)
-cat("   ")
-
+#'   
+#'   
+#'   
 if (longueur.non.na(filtre.fonctionnaire(rémunération.indemnitaire.imposable.eqtp[rémunération.indemnitaire.imposable.eqtp > 10000]) > 0))
   hist(filtre.fonctionnaire(rémunération.indemnitaire.imposable.eqtp[rémunération.indemnitaire.imposable.eqtp > 10000])/1000,
        xlab = "En milliers d'euros EQTP\n",
        ylab = "Effectif",
        xlim = c(10, 60),
-       main = "Rémunération indemnitaire imposable annuelle des fonctionnaires\n en " %+% année,
+       main = "Rémunération indemnitaire imposable annuelle des fonctionnaires en " %+% année,
        col = "blue",
        breaks = 150)
-
-cat("   ")
+#'   
+#'   
+#'   
 
 if (longueur.non.na(filtre.fonctionnaire(part.rémunération.indemnitaire[part.rémunération.indemnitaire < 30]) > 0)) 
   hist(filtre.fonctionnaire(part.rémunération.indemnitaire[part.rémunération.indemnitaire < 30]),
@@ -54,9 +57,9 @@ if (longueur.non.na(filtre.fonctionnaire(part.rémunération.indemnitaire[part.rém
        xlim = c(0,30),
        col = "blue",
        breaks = 250)
-
-cat("   ")
-
+#'   
+#'   
+#'   
 if (longueur.non.na(filtre.fonctionnaire(part.rémunération.indemnitaire[part.rémunération.indemnitaire > 30]) > 0)) 
   hist(filtre.fonctionnaire(part.rémunération.indemnitaire[part.rémunération.indemnitaire > 30]),
        xlab = "Part des indemnités imposables (> 30 %)  dans la rémunération brute en %\n",

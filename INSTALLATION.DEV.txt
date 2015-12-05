@@ -1,0 +1,6 @@
+Pour la plateforme de développement penser à ajouter à la main les deu chemins suivants au PATH :
+
+$ALTAIR/Git/bin
+
+où $ALTAIR est le présent dossier.
+Ces chemins sont automatiquement installés par l'installateur pour l'installation complète.

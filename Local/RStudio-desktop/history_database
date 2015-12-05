@@ -125,39 +125,3 @@
 1447682526563:system(paste(file.path(Sys.getenv("R_HOME"), "../RStudio/bin/pandoc/pandoc.exe"), "-V papersize=A4 +RTS -K512m -RTS altair.utf8.md --to latex --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altair.pdf --template ", file.path(Sys.getenv("R_HOME"), "..", "lib/rmarkdown/rmd/latex/default.tex"), " --highlight-style tango --latex-engine ", file.path(Sys.getenv("R_HOME"), "..", "texlive/miktex/bin/x64/pdflatex.exe"), " --variable geometry:margin=1in" ))
 1447682539229:Sys.getenv(("PATH"))
 1447689411150:source('C:/Users/Public/Altair/Tests/Exemple/rapport_msword.R')
-1448918758351:source('C:/Users/Public/Altair/Tests/Exemple/rapport_msword.R')
-1448918810634:setwd("C:/Users/Public/Altair")
-1448918828944:source('C:/Users/Public/Altair/Tests/Exemple/altair.R')
-1448918893982:currentDir
-1448918909352:génégénérer.rapport
-1448918914069:générer.rapport
-1448918925763:basename(currentDir) != "altair"
-1448918934545:getwd()
-1448918962165:setwd("C:/Users/Public/Altair")
-1448918970297:# Lorsque l'on n'étudie pas une base Xémélios, mettre étudier.tests.statutaires à FALSE
-1448918970301:library(compiler)
-1448918970304:invisible(setCompilerOptions(suppressAll = TRUE))
-1448918970307:invisible(enableJIT(1))
-1448918970310:options(warn = -1, verbose = FALSE, OutDec = ",", datatable.verbose = FALSE)
-1448918970312:encodage.code.source <- "ISO-8859-1"
-1448918970315:currentDir              <- getwd()
-1448918970317:générer.rapport         <- (basename(currentDir) != "altair")
-1448918974508:générer.rapport
-1448918982198:getwd()
-1448918987976:currentDir
-1448918996763:basename(currentDir)
-1448919002508:basename(currentDir) != "altair"
-1448919019103:basename(currentDir) != "Altair"
-1448919085546:grepl("altair", basename(currentDir), ignore.case = TRUE)
-1448919111263:~grepl("altair", basename(currentDir), ignore.case = TRUE)
-1448919115287:~ grepl("altair", basename(currentDir), ignore.case = TRUE)
-1448919119537:! grepl("altair", basename(currentDir), ignore.case = TRUE)
-1448919123287:grepl("altair", basename(currentDir), ignore.case = TRUE)
-1448919147134:setwd("C:/Users/Public/Altair")
-1448919148821:source('C:/Users/Public/Altair/Tests/Exemple/altair.R')
-1448919188008:source('C:/Users/Public/Altair/Tests/Exemple/altair.R', echo=TRUE)
-1448919318733:source('C:/Users/Public/Altair/Tests/Exemple/altair.R', echo=TRUE)
-1448919389256:getwd()
-1448919392419:source('C:/Users/Public/Altair/Tests/Exemple/rapport_msword.R', echo=TRUE)
-1448919455194:getwd()
-1448919465757:source('C:/Users/Public/Altair/Tests/Exemple/rapport_msword_et_pdf.R', echo=TRUE)

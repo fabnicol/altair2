@@ -58,11 +58,3 @@
 2015-11-21 23:09:47,984+0100 INFO  pdflatex - mpm: downloading http://ctan.mines-albi.fr/systems/win32/miktex/tm/packages/mptopdf.tar.lzma...
 2015-11-21 23:09:48,046+0100 INFO  pdflatex - mpm: 37051 bytes, 583.59 KB/Sec
 2015-11-21 23:09:48,046+0100 INFO  pdflatex - mpm: extracting files from mptopdf.tar.lzma...
-2015-12-01 00:16:45,454+0100 FATAL pdflatex - Permission denied: ./figure/unnamed-chunk-24-1.png
-2015-12-01 00:16:45,454+0100 FATAL pdflatex - Info: ./figure/unnamed-chunk-24-1.png
-2015-12-01 00:16:45,454+0100 FATAL pdflatex - Source: Libraries\MiKTeX\Core\win\winFile.cpp
-2015-12-01 00:16:45,454+0100 FATAL pdflatex - Line: 704
-2015-12-01 00:16:45,781+0100 FATAL pdflatex - Permission denied: ./figure/unnamed-chunk-24-1.png
-2015-12-01 00:16:45,782+0100 FATAL pdflatex - Info: ./figure/unnamed-chunk-24-1.png
-2015-12-01 00:16:45,782+0100 FATAL pdflatex - Source: Libraries\MiKTeX\Core\win\winFile.cpp
-2015-12-01 00:16:45,782+0100 FATAL pdflatex - Line: 704
