@@ -21,7 +21,7 @@ css: style.css
 
 
 
-mar. 01 déc. 2015
+sam. 05 déc. 2015
    
 
 
@@ -348,7 +348,7 @@ Somme des rémunérations brutes versées aux personnels (non élus) :
 *Cette section concerne les personnels fonctionnaires titulaires et stagiaires*  
 
 
-![plot of chunk unnamed-chunk-127](figure/unnamed-chunk-127-1.png) ![plot of chunk unnamed-chunk-127](figure/unnamed-chunk-127-2.png) ![plot of chunk unnamed-chunk-127](figure/unnamed-chunk-127-3.png) ![plot of chunk unnamed-chunk-127](figure/unnamed-chunk-127-4.png) ![plot of chunk unnamed-chunk-127](figure/unnamed-chunk-127-5.png) ![plot of chunk unnamed-chunk-127](figure/unnamed-chunk-127-6.png) 
+![plot of chunk unnamed-chunk-131](figure/unnamed-chunk-131-1.png)    ![plot of chunk unnamed-chunk-131](figure/unnamed-chunk-131-2.png)    ![plot of chunk unnamed-chunk-131](figure/unnamed-chunk-131-3.png)    ![plot of chunk unnamed-chunk-131](figure/unnamed-chunk-131-4.png)    ![plot of chunk unnamed-chunk-131](figure/unnamed-chunk-131-5.png)    ![plot of chunk unnamed-chunk-131](figure/unnamed-chunk-131-6.png) 
 
    
 **Nota :**   
@@ -546,7 +546,7 @@ A comparer aux soldes des comptes 6411, 6419 et 648 du compte de gestion.
 *Les assistantes maternelles et les vacataires sont ici inclus, pour les postes non annexes*   
 
 
-![plot of chunk unnamed-chunk-140](figure/unnamed-chunk-140-1.png) 
+![plot of chunk unnamed-chunk-144](figure/unnamed-chunk-144-1.png) 
 
   
 **Nota :**
@@ -554,7 +554,7 @@ Ne sont retenues que les rémunérations supérieures à 1 000 k&euro;.
 Les élus ne sont pas pris en compte.
   
 
-![plot of chunk unnamed-chunk-141](figure/unnamed-chunk-141-1.png) 
+![plot of chunk unnamed-chunk-145](figure/unnamed-chunk-145-1.png) 
 
 
 
@@ -659,7 +659,7 @@ Somme des rémunérations brutes versées aux personnels (non élus) :
 *Cette section concerne les personnels fonctionnaires titulaires et stagiaires*  
 
 
-![plot of chunk unnamed-chunk-150](figure/unnamed-chunk-150-1.png) ![plot of chunk unnamed-chunk-150](figure/unnamed-chunk-150-2.png) ![plot of chunk unnamed-chunk-150](figure/unnamed-chunk-150-3.png) ![plot of chunk unnamed-chunk-150](figure/unnamed-chunk-150-4.png) ![plot of chunk unnamed-chunk-150](figure/unnamed-chunk-150-5.png) ![plot of chunk unnamed-chunk-150](figure/unnamed-chunk-150-6.png) 
+![plot of chunk unnamed-chunk-154](figure/unnamed-chunk-154-1.png)    ![plot of chunk unnamed-chunk-154](figure/unnamed-chunk-154-2.png)    ![plot of chunk unnamed-chunk-154](figure/unnamed-chunk-154-3.png)    ![plot of chunk unnamed-chunk-154](figure/unnamed-chunk-154-4.png)    ![plot of chunk unnamed-chunk-154](figure/unnamed-chunk-154-5.png)    ![plot of chunk unnamed-chunk-154](figure/unnamed-chunk-154-6.png) 
 
    
 **Nota :**   
@@ -857,7 +857,7 @@ A comparer aux soldes des comptes 6411, 6419 et 648 du compte de gestion.
 *Les assistantes maternelles et les vacataires sont ici inclus, pour les postes non annexes*   
 
 
-![plot of chunk unnamed-chunk-163](figure/unnamed-chunk-163-1.png) 
+![plot of chunk unnamed-chunk-167](figure/unnamed-chunk-167-1.png) 
 
   
 **Nota :**
@@ -865,7 +865,7 @@ Ne sont retenues que les rémunérations supérieures à 1 000 k&euro;.
 Les élus ne sont pas pris en compte.
   
 
-![plot of chunk unnamed-chunk-164](figure/unnamed-chunk-164-1.png) 
+![plot of chunk unnamed-chunk-168](figure/unnamed-chunk-168-1.png) 
 
 
 
@@ -1118,6 +1118,8 @@ Seuls sont pris en compte les agents ayant connu au moins un mois actif et ayant
 
 
 **Salaire net moyen par tête (SMPT net) en EQTP**       
+**Ensemble**  
+   
 &nbsp;*Tableau 48*   
    
 
@@ -1130,30 +1132,75 @@ Seuls sont pris en compte les agents ayant connu au moins un mois actif et ayant
 | 2012  |           8 218,6           |               |          20 343           |               |
 | 2013  |           8 183,2           |               |          20 822           |               |
 
+  
+**Catégorie A**  
 
+&nbsp;*Tableau 49*   
+   
+
+
+| Année | Rém. nette totale (k&euro;) | Variation (%) | SMPT net en EQTP (&euro;) | Variation (%) |
+|:-----:|:---------------------------:|:-------------:|:-------------------------:|:-------------:|
+| 2009  |           854,31            |               |          38 832           |               |
+| 2010  |           803,43            |               |          38 259           |               |
+| 2011  |           880,87            |     -25,7     |          38 299           |     -9,18     |
+| 2012  |           763,84            |               |          36 373           |               |
+| 2013  |           634,81            |               |          35 267           |               |
+
+  
+**Catégorie B**    
+    
+&nbsp;*Tableau 50*   
+   
+
+
+| Année | Rém. nette totale (k&euro;) | Variation (%) | SMPT net en EQTP (&euro;) | Variation (%) |
+|:-----:|:---------------------------:|:-------------:|:-------------------------:|:-------------:|
+| 2009  |           1 239,8           |               |          23 843           |               |
+| 2010  |           1 332,9           |               |          23 384           |               |
+| 2011  |           1 390,6           |     24,3      |          23 975           |     5,99      |
+| 2012  |           1 574,9           |               |          23 862           |               |
+| 2013  |           1 541,6           |               |          25 272           |               |
+
+  
+**Catégorie C**     
+   
+&nbsp;*Tableau 51*   
+   
+
+
+| Année | Rém. nette totale (k&euro;) | Variation (%) | SMPT net en EQTP (&euro;) | Variation (%) |
+|:-----:|:---------------------------:|:-------------:|:-------------------------:|:-------------:|
+| 2009  |            5 891            |               |          17 638           |               |
+| 2010  |           5 808,6           |               |          17 602           |               |
+| 2011  |           5 729,8           |     1,57      |          17 794           |     8,38      |
+| 2012  |           5 879,9           |               |          18 549           |               |
+| 2013  |           5 983,2           |               |          19 116           |               |
+
+   
 
 
 
   
 **Effet de noria sur salaires nets et taux de remplacements**       
  
-&nbsp;*Tableau 49*   
+&nbsp;*Tableau 52*   
    
 
 
 | Année | Noria EQTP (&euro;) | En % de la  MSN N-1 | Remplacements EQTP | Taux de remplacements (%) |
 |:-----:|:-------------------:|:-------------------:|:------------------:|:-------------------------:|
-| 2010  |      -6 634,7       |       -0,471        |         6          |            1,5            |
-| 2011  |       13 280        |        0,842        |         5          |            1,3            |
-| 2012  |        5 704        |        0,491        |         7          |            1,9            |
-| 2013  |       -12 989       |       -0,354        |         2          |           0,61            |
+| 2010  |      -6 634,7       |       -0,638        |         6          |            1,5            |
+| 2011  |       13 280        |        1,15         |         5          |            1,3            |
+| 2012  |        5 704        |        0,686        |         7          |            1,9            |
+| 2013  |       -12 989       |       -0,495        |         2          |           0,61            |
 
     
 *MS N-1 : masse salariale nette de l'année n-1.*   
       
 **Distribution et variation sur la période du salaire moyen net par tête (SMPT net) en EQTP**         
  
-&nbsp;*Tableau 50*   
+&nbsp;*Tableau 53*   
    
 
 
@@ -1185,7 +1232,7 @@ Seuls sont pris en compte les agents ayant connu au moins un mois actif et ayant
 **Evolution du SMPT net des titulaires à temps complet**     
   
  
-&nbsp;*Tableau 51*   
+&nbsp;*Tableau 54*   
    
 
 
@@ -1201,7 +1248,7 @@ Seuls sont pris en compte les agents ayant connu au moins un mois actif et ayant
 **Distribution et variation sur la période du salaire moyen net par tête (SMPT net) des titulaires à temps complet**         
       
  
-&nbsp;*Tableau 52*   
+&nbsp;*Tableau 55*   
    
 
 
@@ -1238,7 +1285,7 @@ Seuls sont pris en compte les agents ayant connu au moins un mois actif et ayant
 *L'évolution de la RMPP permet d'étudier le glissement vieillesse-technicité "positif", à effectifs constants sur deux années*      
 *Le GVT positif est dû aux mesures statutaires et individuelles, à l'avancement et aux changements d'activité*  
 
-![plot of chunk unnamed-chunk-51](figure/unnamed-chunk-51-1.png) 
+![plot of chunk unnamed-chunk-54](figure/unnamed-chunk-54-1.png) 
 
 
 
@@ -1249,7 +1296,7 @@ Seuls sont pris en compte les agents ayant connu au moins un mois actif et ayant
 **Evolution de la RMPP nette en EQTP**     
   
  
-&nbsp;*Tableau 53*   
+&nbsp;*Tableau 56*   
    
 
 
@@ -1263,7 +1310,7 @@ Seuls sont pris en compte les agents ayant connu au moins un mois actif et ayant
    
 **Distribution et variation sur la période de la rémunération nette des personnes en place**                
  
-&nbsp;*Tableau 54*   
+&nbsp;*Tableau 57*   
    
 
 
@@ -1281,7 +1328,7 @@ Seuls sont pris en compte les agents ayant connu au moins un mois actif et ayant
 |       Maximum|         56 150|         |
 
  
-&nbsp;*Tableau 55*   
+&nbsp;*Tableau 58*   
    
 
 
@@ -1297,7 +1344,7 @@ Seuls sont pris en compte les agents ayant connu au moins un mois actif et ayant
 
 *Variation individuelle de rémunération nette en EQTP pour les personnels présents la première et la dernière année*   
  
-&nbsp;*Tableau 56*   
+&nbsp;*Tableau 59*   
    
 
 
@@ -1320,7 +1367,7 @@ Seuls sont pris en compte les agents ayant connu au moins un mois actif et ayant
 **Evolution de la RMPP nette en EQTP**     
   
  
-&nbsp;*Tableau 57*   
+&nbsp;*Tableau 60*   
    
 
 
@@ -1334,7 +1381,7 @@ Seuls sont pris en compte les agents ayant connu au moins un mois actif et ayant
    
 **Distribution et variation sur la période de la rémunération nette des fonctionnaires en place**                
  
-&nbsp;*Tableau 58*   
+&nbsp;*Tableau 61*   
    
  
 
@@ -1349,7 +1396,7 @@ Seuls sont pris en compte les agents ayant connu au moins un mois actif et ayant
 |       Maximum|         56 150|         |
 
  
-&nbsp;*Tableau 59*   
+&nbsp;*Tableau 62*   
    
 
 
@@ -1365,7 +1412,7 @@ Seuls sont pris en compte les agents ayant connu au moins un mois actif et ayant
 
 *Variation individuelle de rémunération nette en EQTP pour les personnels présents la première et la dernière année*   
  
-&nbsp;*Tableau 60*   
+&nbsp;*Tableau 63*   
    
 
 
@@ -1388,7 +1435,7 @@ Seuls sont pris en compte les agents ayant connu au moins un mois actif et ayant
 *Variation normalisée :* conforme à la définition INSEE (présente en début et en fin de période avec la même quotité)  
  
 **Commentaire**       
-Les différences éventuelles constatées entre l'évolution de la RMPP au tableau 58 sont dues soit à l'effet de noria soit à l'effet périmètre.    
+Les différences éventuelles constatées entre l'évolution de la RMPP au tableau 61 sont dues soit à l'effet de noria soit à l'effet périmètre.    
      
 [Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.csv)
 
@@ -1397,7 +1444,7 @@ Les différences éventuelles constatées entre l'évolution de la RMPP au table
  
 **Évolution en euros courants du SMPT et de la RMPP dans la FPT (en % et euros courants)**    
  
-&nbsp;*Tableau 61*   
+&nbsp;*Tableau 64*   
    
 
 
@@ -1418,7 +1465,7 @@ La dernière colonne présente la médiane des augmentations du SMPT net pour le
 **Salaires nets annuels et évolution moyenne type de collectivité en &euro; courants  EQTP**    
   
  
-&nbsp;*Tableau 62*   
+&nbsp;*Tableau 65*   
    
 
 
@@ -1463,7 +1510,7 @@ Il existe  1 non titulaire   percevant une NBI.
 
 Primes informatiques potentielles : PRIME FONCTION INFORMATIQUE
  
-&nbsp;*Tableau 63*   
+&nbsp;*Tableau 66*   
    
 
 
@@ -1483,7 +1530,7 @@ PFI: prime de fonctions informatiques
 
 
  
-&nbsp;*Tableau 64*   
+&nbsp;*Tableau 67*   
    
 
 
@@ -1498,7 +1545,7 @@ PFI: prime de fonctions informatiques
 *Est considéré comme manifestement anormal un total annuel de rémunérations NBI correspondant à un point d'indice net mensuel inférieur à 4 euros ou supérieur à 6 euros.*    
 *Les rappels ne sont pas pris en compte dans les montants versés. Certains écarts peuvent être régularisés en les prenant en compte*     
  
-&nbsp;*Tableau 65*   
+&nbsp;*Tableau 68*   
    
 
 
@@ -1540,7 +1587,7 @@ Il y a  0 fonctionnaire(s) effectuant des vacations pour son propre établisseme
 **Contractuels effectuant des vacations (CEV)**
 
  
-&nbsp;*Tableau 66*   
+&nbsp;*Tableau 69*   
    
 
 
@@ -1564,7 +1611,7 @@ Il y a  0 fonctionnaire(s) effectuant des vacations pour son propre établisseme
 
 
  
-&nbsp;*Tableau 67*   
+&nbsp;*Tableau 70*   
      
 
 
@@ -1596,13 +1643,13 @@ Il y a  0 fonctionnaire(s) effectuant des vacations pour son propre établisseme
 
 
  
-&nbsp;*Tableau 68*   
+&nbsp;*Tableau 71*   
    
 
 
 | Nombre de lignes de paie de contractuels percevant des IFTS | Nombre de lignes IFTS pour IB < 380 |
 |:-----------------------------------------------------------:|:-----------------------------------:|
-|                             67                              |                 18                  |
+|                             67                              |                  0                  |
 
 
 [Lien vers la base de données Lignes IFTS pour contractuels](Bases/Réglementation/ifts.et.contractuel.csv)    
@@ -1618,11 +1665,16 @@ IB < 380 : fonctionnaire percevant un indice brut inférieur à 380
 ## 5.5 Contrôle de la prime de fonctions et de résultats (PFR)   
   
 
+Tous les attributaires de la PFR sont identifiés en catégorie A.
+
+  
+  
+
 
 
 
  
-&nbsp;*Tableau 69*   
+&nbsp;*Tableau 72*   
      
 
 
@@ -1637,7 +1689,7 @@ IB < 380 : fonctionnaire percevant un indice brut inférieur à 380
 
 
  
-&nbsp;*Tableau 70 : rappel des plafonds annuels de la PFR*   
+&nbsp;*Tableau 73 : rappel des plafonds annuels de la PFR*   
      
 
 
@@ -1649,14 +1701,14 @@ IB < 380 : fonctionnaire percevant un indice brut inférieur à 380
 Les plafonds annuels de la PFR de sont pas dépassés.
 
  
-&nbsp;*Tableau 71* : Valeurs de l'agrégat (PFR ou IFTS) pour les bénéficiaires de la PFR   
+&nbsp;*Tableau 74* : Valeurs de l'agrégat (PFR ou IFTS) pour les bénéficiaires de la PFR   
          
 
 
 Aucun bénéficiaire de la PFR détecté.
 
  
-&nbsp;*Tableau 72* : Variations de l'agrégat (PFR ou IFTS) pour les bénéficiaires de la PFR
+&nbsp;*Tableau 75* : Variations de l'agrégat (PFR ou IFTS) pour les bénéficiaires de la PFR
          
 
 
@@ -1680,7 +1732,7 @@ Le seuil de 180 heures supplémentaires maximum est dépassé par  59  agents.
 
 
  
-&nbsp;*Tableau 73*   
+&nbsp;*Tableau 76*   
    
 
 
@@ -1795,7 +1847,7 @@ Cumul des lignes de paie par exercice et catégorie de ligne de paie
  
 
 
-Tableau  74  Année  2009
+Tableau  77  Année  2009
 
 |           Catégorie| Cumul annuel|
 |-------------------:|------------:|
@@ -1805,7 +1857,7 @@ Tableau  74  Année  2009
 | Supplément familial|   146 331,98|
 |         Traitements| 9 127 148,03|
 
-Tableau  75  Année  2010
+Tableau  78  Année  2010
 
 |           Catégorie| Cumul annuel|
 |-------------------:|------------:|
@@ -1815,7 +1867,7 @@ Tableau  75  Année  2010
 | Supplément familial|   148 838,36|
 |         Traitements| 9 315 116,31|
 
-Tableau  76  Année  2011
+Tableau  79  Année  2011
 
 |           Catégorie| Cumul annuel|
 |-------------------:|------------:|
@@ -1825,7 +1877,7 @@ Tableau  76  Année  2011
 | Supplément familial|   140 162,84|
 |         Traitements| 9 070 866,33|
 
-Tableau  77  Année  2012
+Tableau  80  Année  2012
 
 |           Catégorie| Cumul annuel|
 |-------------------:|------------:|
@@ -1835,7 +1887,7 @@ Tableau  77  Année  2012
 | Supplément familial|   138 565,19|
 |         Traitements| 8 861 048,17|
 
-Tableau  78  Année  2013
+Tableau  81  Année  2013
 
 |           Catégorie| Cumul annuel|
 |-------------------:|------------:|

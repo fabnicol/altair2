@@ -91,6 +91,7 @@ AR <- Analyse.rémunérations.exercice[Statut == "TITULAIRE" | Statut == "STAGIAIR
 attach(AR)
 source("histogrammes.R", encoding = encodage.code.source)
 histogrammes()
+
 detach(AR)
 ```
 
@@ -109,7 +110,9 @@ if (nrow(AR) > 0) {
   masses.premier <- c(0,0) 
 }
 ```
-
+       
+       
+       
 Somme des rémunérations brutes versées aux personnels titulaires et stagiaires :
 
  
