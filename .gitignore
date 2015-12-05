@@ -3,7 +3,7 @@
 figure/*
 *.xlsx
 packrat/lib*/
-/**/*.o
+*.o
 .Rproj.user
 /**/moc*.cpp
 Tests/Exemple/Donnees/R-Altaïr/*.csv
@@ -12,4 +12,5 @@ Tests/Exemple/Donnees/R-Altaïr/*.csv
 /**/debug
 /Altaïr-SDK
 /**/Altaïr
-Tests/Exemple/Donnees/xhl/*
+/**/*.alt
+lhx/*

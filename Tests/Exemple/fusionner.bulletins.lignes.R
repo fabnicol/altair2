@@ -1,32 +1,32 @@
-# suppression des colonnes Nom PrÃ©nom redondantes
+# suppression des colonnes Nom Prénom redondantes
 
 message("Nettoyage des bases.")
 
-sÃ©lectionner.clÃ©("Bulletins.paie", "Lignes.paie")
+sélectionner.clé("Bulletins.paie", "Lignes.paie")
 
-# Technique : les espaces de noms sont polluÃ©s par la sÃ©lection des clÃ©s, il faut les nettoyer
+# Technique : les espaces de noms sont pollués par la sélection des clés, il faut les nettoyer
 
-# unname(Bulletins.paie$Nom) devrait marcher mais cause une gÃ©nÃ©ration de tableau sous RMarkdown, probablement un bug.
-# utiliser attr Ã  la place.
+# unname(Bulletins.paie$Nom) devrait marcher mais cause une génération de tableau sous RMarkdown, probablement un bug.
+# utiliser attr à la place.
 
 attr(Bulletins.paie$Nom, "names")    <- NULL
-attr(Bulletins.paie$PrÃ©nom, "names") <- NULL
+attr(Bulletins.paie$Prénom, "names") <- NULL
 attr(Lignes.paie$Nom, "names")       <- NULL
-attr(Lignes.paie$PrÃ©nom, "names")    <- NULL
+attr(Lignes.paie$Prénom, "names")    <- NULL
 
-# Extraction de vecteurs reprÃ©sentant les codes de paiement par type de code (indemnitaire, traitement, vacations...)
+# Extraction de vecteurs représentant les codes de paiement par type de code (indemnitaire, traitement, vacations...)
 
 if (exists("Codes.paiement"))
 {
   #W <- rep(0, nrow(Codes.paiement))
   Map(
     function(Data, type) {
-      Tab <- unique(Codes.paiement[Codes.paiement$Type.rÃ©munÃ©ration == type, c(Ã©tiquette.code, "Coefficient")])
+      Tab <- unique(Codes.paiement[Codes.paiement$Type.rémunération == type, c(étiquette.code, "Coefficient")])
       
       if (anyDuplicated(Tab[1]))
-        stop("IncohÃ©rence d'un code utilisÃ© Ã  la fois comme paiement et retenue ou cotisation.")
+        stop("Incohérence d'un code utilisé à la fois comme paiement et retenue ou cotisation.")
       
-      W        <- Codes.paiement$Coefficient*(Codes.paiement$Type.rÃ©munÃ©ration == type)
+      W        <- Codes.paiement$Coefficient*(Codes.paiement$Type.rémunération == type)
       names(W) <- Codes.paiement[["Code"]]
       assign(Data, W, envir = .GlobalEnv)
     },
@@ -34,16 +34,16 @@ if (exists("Codes.paiement"))
     c("Codes.paiement.indemnitaire",
       "Codes.paiement.principal.contractuel",
       "Codes.paiement.traitement",
-      "Codes.paiement.Ã©lu",
+      "Codes.paiement.élu",
       "Codes.paiement.vacations",
       "Codes.paiement.autres"),
     
-    c(modalitÃ©.indemnitaire,
-      modalitÃ©.principal.contractuel,
-      modalitÃ©.traitement,
-      modalitÃ©.Ã©lu,
-      modalitÃ©.vacations,
-      modalitÃ©.autres))
+    c(modalité.indemnitaire,
+      modalité.principal.contractuel,
+      modalité.traitement,
+      modalité.élu,
+      modalité.vacations,
+      modalité.autres))
   
   
   message("Extraction des codes par type de code.")
@@ -52,78 +52,78 @@ if (exists("Codes.paiement"))
   stop("Charger le fichier de codes de paiement.")
 
 # Pour assurer une fusion correcte des bulletins et lignes de paie, il importe que les colonnes communes aux deux fichiers soient
-# exactement celles utilisÃ©es pour la clÃ© d'appariement d'une part, et le tri sous chaque clÃ© d'autre part, autrement dit :
-# la clÃ© (Matricule ou (Nom, PrÃ©nom) selon le cas) + AnnÃ©e + Mois
+# exactement celles utilisées pour la clé d'appariement d'une part, et le tri sous chaque clé d'autre part, autrement dit :
+# la clé (Matricule ou (Nom, Prénom) selon le cas) + Année + Mois
 
-if (! setequal(intersect(names(Lignes.paie), names(Bulletins.paie)), union(c("Mois", "AnnÃ©e"), clÃ©.fusion)))
+if (! setequal(intersect(names(Lignes.paie), names(Bulletins.paie)), union(c("Mois", "Année"), clé.fusion)))
 {
-  if (fusionner.nom.prÃ©nom) {
+  if (fusionner.nom.prénom) {
     
-    stop("L'appariement ne peut se faire par les clÃ©s Nom, PrÃ©nom et Mois")
+    stop("L'appariement ne peut se faire par les clés Nom, Prénom et Mois")
     
   } else {
     
-    stop("L'appariement ne peut se faire par les clÃ©s Matricule et Mois")
+    stop("L'appariement ne peut se faire par les clés Matricule et Mois")
   }
   
 } else {
   
-  message("Pas de redondance des colonnes des bulletins et lignes de paie : la fusion peut Ãªtre rÃ©alisÃ©e.")
+  message("Pas de redondance des colonnes des bulletins et lignes de paie : la fusion peut être réalisée.")
 }
 
-# Alternative en cas de difficultÃ© :
+# Alternative en cas de difficulté :
 #
-# Paie <- do.call(rbind, lapply(pÃ©riode,
+# Paie <- do.call(rbind, lapply(période,
 #                                                     function(x)
-#                                                        merge(Bulletins.paie[Bulletins.paie$AnnÃ©e == x, ],
-#                                                              Lignes.paie[Lignes.paie$AnnÃ©e == x, ],
-#                                                              by=c(Ã©tiquette.matricule, "Mois"))))
+#                                                        merge(Bulletins.paie[Bulletins.paie$Année == x, ],
+#                                                              Lignes.paie[Lignes.paie$Année == x, ],
+#                                                              by=c(étiquette.matricule, "Mois"))))
 
-# Lorsque les bases sont dÃ©jÃ  chargÃ©es, on peut dÃ©sactiver le rechargement par charger.bases <- FALSE
+# Lorsque les bases sont déjà chargées, on peut désactiver le rechargement par charger.bases <- FALSE
 
 if (charger.bases)
 {
  
   
-  # Fusion non parallÃ©lisÃ©e
+  # Fusion non parallélisée
   
   # gain de 24s par l'utilisation de data.table::merge
   
   if (table.rapide)   message("Mode table rapide.") else message("Mode table standard.")
   
-  # Inutile de parallÃ©liser en mode table rapide pour les dimensions de tables courantes (Ã  tester pour les trÃ¨s grosses communes)
+  # Inutile de paralléliser en mode table rapide pour les dimensions de tables courantes (à tester pour les très grosses communes)
   
-  if (table.rapide || durÃ©e.sous.revue < 4)   parallÃ©liser <- FALSE
+  if (table.rapide || durée.sous.revue < 4)   paralléliser <- FALSE
   
-  # On rÃ©serve la parallÃ©lisation Ã  des durÃ©es de pÃ©riode sous revue > 4 ans
+  # On réserve la parallélisation à des durées de période sous revue > 4 ans
   
   
   
-  if (! parallÃ©liser) {
+  if (! paralléliser) {
     
-    # la fonction sera automatiquement dÃ©terminÃ©e par le type du premier argument (data.table ou data.frame)
+    # la fonction sera automatiquement déterminée par le type du premier argument (data.table ou data.frame)
     
-    message("Mode parallÃ¨le non activÃ©.")
+    message("Mode parallèle non activé.")
     
     Paie <- merge(Bulletins.paie,
                                         Lignes.paie,
-                                        by = c(clÃ©.fusion, "AnnÃ©e", "Mois"))
+                                        by = c(clé.fusion, "Année", "Mois"))
     
     if (!is.null(Paie))
-      message(paste("Fusion rÃ©alisÃ©e")) else stop("Echec de fusion" )
+      message(paste("Fusion réalisée")) else stop("Echec de fusion" )
     
     
   } else {
     
-    # Fusion parallÃ©lisÃ©e : gain de plus de moitiÃ© sur 4 coeurs (25,5s --> 9,7s) soit environ 16s de gain sous linux [RAG]
-    #                       sous windows le merge standard est plus rapide (18s) mais la parallÃ©lisation est moins performante,
-    #                       le gain est d'environ 4s Ã  14s, soit 5s de plus que sous linux parallÃ¨le.
+    # Fusion parallélisée : gain de plus de moitié sur 4 coeurs (25,5s --> 9,7s) soit environ 16s de gain sous linux [RAG]
+    #                       sous windows le merge standard est plus rapide (18s) mais la parallélisation est moins performante,
+    #                       le gain est d'environ 4s à 14s, soit 5s de plus que sous linux parallèle.
     # Le merge classique est toutefois loin des performancs de data.table::merge
     
-    message("Mode parallÃ¨le activÃ©.")
+    message("Mode parallèle activé.")
     
     
-    cut <- round(durÃ©e.sous.revue/4)
+    cut <- round(durée.sous.revue/4)
     if (cut == 0) cut = 1
     
     library(parallel)
@@ -134,20 +134,20 @@ if (charger.bases)
                 function(X) {
                   lapply(0:3,
                          function(j) {
-                           if (durÃ©e.sous.revue > j)
-                             X[X$AnnÃ©e >= j * cut +  dÃ©but.pÃ©riode.sous.revue
-                               & X$AnnÃ©e < (j + 1) * cut +  dÃ©but.pÃ©riode.sous.revue, ]})})
+                           if (durée.sous.revue > j)
+                             X[X$Année >= j * cut +  début.période.sous.revue
+                               & X$Année < (j + 1) * cut +  début.période.sous.revue, ]})})
     
     L <- lapply(L, function(x) Filter(Negate(is.null), x))
     
     f <- function(x, y, z)  {
-      tab <- merge(x, y, by = c(clÃ©.fusion, "AnnÃ©e", "Mois"), sort=FALSE)
-      # Le sort du merge classique n'est pas fiable sous parallÃ©lisation
+      tab <- merge(x, y, by = c(clé.fusion, "Année", "Mois"), sort=FALSE)
+      # Le sort du merge classique n'est pas fiable sous parallélisation
       
-      if (clÃ©.fusion[1] != "Matricule") {
-        tab <- tab[order(tab$Nom, tab$PrÃ©nom, tab$AnnÃ©e, tab$Mois), ]
+      if (clé.fusion[1] != "Matricule") {
+        tab <- tab[order(tab$Nom, tab$Prénom, tab$Année, tab$Mois), ]
       } else {
-        tab <- tab[order(tab$Matricule, tab$AnnÃ©e, tab$Mois), ]
+        tab <- tab[order(tab$Matricule, tab$Année, tab$Mois), ]
       }
       
       tab
@@ -156,18 +156,18 @@ if (charger.bases)
     if (setOSWindows) {
       
       cluster <- makePSOCKcluster(cores)
-      clusterExport(cluster, c("clÃ©.fusion"))
+      clusterExport(cluster, c("clé.fusion"))
       
-      L <- clusterMap(cluster, f,  L[[1]],  # Bulletins de paie coupÃ©s en 4, Ã©ventuellement nul
-                      L[[2]])  # Lignes de paie coupÃ©s en 4, Ã©ventuellement nul
+      L <- clusterMap(cluster, f,  L[[1]],  # Bulletins de paie coupés en 4, éventuellement nul
+                      L[[2]])  # Lignes de paie coupés en 4, éventuellement nul
       
       stopCluster(cluster)
       rm(cluster)
       
     }  else  {
       
-      L <- mcMap(f,   L[[1]],  # Bulletins de paie coupÃ©s en 4, Ã©ventuellement nul
-                 L[[2]],  # Lignes de paie coupÃ©s en 4, Ã©ventuellement nul
+      L <- mcMap(f,   L[[1]],  # Bulletins de paie coupés en 4, éventuellement nul
+                 L[[2]],  # Lignes de paie coupés en 4, éventuellement nul
                  mc.cores = cores)
       
     }
@@ -181,12 +181,12 @@ if (charger.bases)
       
     }
     
-    if (parallÃ©liser || ! table.rapide)
+    if (paralléliser || ! table.rapide)
       with(Paie,
-           Paie <- Paie[order(Matricule, AnnÃ©e, Mois), ])
+           Paie <- Paie[order(Matricule, Année, Mois), ])
     
     if (!is.null(L[[1]]) & !is.null(L[[2]]) & !is.null(Paie))
-      message(paste("Fusion rÃ©alisÃ©e")) else stop("Echec de fusion" )
+      message(paste("Fusion réalisée")) else stop("Echec de fusion" )
     
   }
   
@@ -197,22 +197,22 @@ if (charger.bases)
   if (! exists("Codes.paiement.principal.contractuel"))  stop("Pas de fichier des Types de codes [PRINCIPAL.CONTRACTUEL]")
   if (! exists("Codes.paiement.vacations"))     stop("Pas de fichier des Types de codes [VACATAIRE]")
   if (! exists("Codes.paiement.traitement"))    stop("Pas de fichier des Types de codes [TRAITEMENT]")
-  if (! exists("Codes.paiement.Ã©lu"))           stop("Pas de fichier des Types de codes [ELU]")
+  if (! exists("Codes.paiement.élu"))           stop("Pas de fichier des Types de codes [ELU]")
   if (! exists("Codes.paiement.autres"))        stop("Pas de fichier des Types de codes [AUTRES]")
   
   if (extraire.population) {
     
-    Paie <- Paie[grepl(expression.rÃ©g.population, Paie$Service, ignore.case=TRUE), ]
-    Bulletins.paie             <- Bulletins.paie[grepl(expression.rÃ©g.population, Bulletins.paie$Service, ignore.case=TRUE), ]
+    Paie <- Paie[grepl(expression.rég.population, Paie$Service, ignore.case=TRUE), ]
+    Bulletins.paie             <- Bulletins.paie[grepl(expression.rég.population, Bulletins.paie$Service, ignore.case=TRUE), ]
     
-    if (!is.null(Paie) & !is.null(Bulletins.paie)) message("Extraction rÃ©alisÃ©e")
+    if (!is.null(Paie) & !is.null(Bulletins.paie)) message("Extraction réalisée")
     
   }
   
-  # Optimisation : il faut impÃ©rativement limiter le recours aux hash table lookups pour les gros fichiers.
-  # L'optimisation ci-dessous repose sur l'utilisation des informations dÃ©jÃ  calculÃ©es sur les colonnes prÃ©cÃ©dentes pour Ã©viter
-  # de computer Codes....[Code] autant que possible. Gain de temps par rapport Ã  une consultation systÃ©matique : x100 Ã  x200
-  # data.table ne gÃ¨re pas les expressions du type if (...ligne prÃ©cÃ©dente..) mais admet les calculs logiques boolÃ©ens.
+  # Optimisation : il faut impérativement limiter le recours aux hash table lookups pour les gros fichiers.
+  # L'optimisation ci-dessous repose sur l'utilisation des informations déjà calculées sur les colonnes précédentes pour éviter
+  # de computer Codes....[Code] autant que possible. Gain de temps par rapport à une consultation systématique : x100 à x200
+  # data.table ne gère pas les expressions du type if (...ligne précédente..) mais admet les calculs logiques booléens.
   
   if (table.rapide == TRUE) {
     
@@ -223,31 +223,31 @@ if (charger.bases)
                                :=  (montant.traitement.indiciaire == 0)*
                                  Montant * Codes.paiement.indemnitaire[Code]]
     
-    Paie[ ,   montant.rÃ©munÃ©ration.principale.contractuel
+    Paie[ ,   montant.rémunération.principale.contractuel
                                := (montant.traitement.indiciaire == 0
                                    & montant.primes == 0)
                                * Montant * Codes.paiement.principal.contractuel[Code]]
     
-    Paie[ ,   montant.rÃ©munÃ©ration.vacataire
+    Paie[ ,   montant.rémunération.vacataire
                                :=  (montant.traitement.indiciaire == 0
                                     & montant.primes == 0
-                                    & montant.rÃ©munÃ©ration.principale.contractuel == 0)
+                                    & montant.rémunération.principale.contractuel == 0)
                                * Montant * Codes.paiement.vacations[Code]]
     
-    Paie[ ,   montant.autres.rÃ©munÃ©rations
+    Paie[ ,   montant.autres.rémunérations
                                :=  (montant.traitement.indiciaire == 0
-                                    & montant.rÃ©munÃ©ration.principale.contractuel == 0
-                                    & montant.rÃ©munÃ©ration.vacataire == 0
+                                    & montant.rémunération.principale.contractuel == 0
+                                    & montant.rémunération.vacataire == 0
                                     & montant.primes == 0)
                                * Montant * Codes.paiement.autres[Code]]
     
-    Paie[ ,   montant.indemnitÃ©.Ã©lu
+    Paie[ ,   montant.indemnité.élu
                                :=  (montant.traitement.indiciaire  == 0
-                                    & montant.rÃ©munÃ©ration.principale.contractuel == 0
-                                    & montant.rÃ©munÃ©ration.vacataire == 0
+                                    & montant.rémunération.principale.contractuel == 0
+                                    & montant.rémunération.vacataire == 0
                                     & montant.primes == 0
-                                    & montant.autres.rÃ©munÃ©rations == 0)
-                               * Montant * Codes.paiement.Ã©lu[Code]]
+                                    & montant.autres.rémunérations == 0)
+                               * Montant * Codes.paiement.élu[Code]]
     
     ### EQTP  ###
     
@@ -261,34 +261,34 @@ if (charger.bases)
                                          =  (montant.traitement.indiciaire == 0)*
                                            Montant * Codes.paiement.indemnitaire[Code],
                                          
-                                         montant.rÃ©munÃ©ration.principale.contractuel
+                                         montant.rémunération.principale.contractuel
                                          = (montant.traitement.indiciaire == 0
                                             & montant.primes == 0)
                                          * Montant * Codes.paiement.principal.contractuel[Code],
                                          
-                                         montant.rÃ©munÃ©ration.vacataire
+                                         montant.rémunération.vacataire
                                          =  (montant.traitement.indiciaire == 0
                                              & montant.primes == 0
-                                             & montant.rÃ©munÃ©ration.principale.contractuel == 0)
+                                             & montant.rémunération.principale.contractuel == 0)
                                          * Montant * Codes.paiement.vacations[Code],
                                          
-                                         montant.autres.rÃ©munÃ©rations
+                                         montant.autres.rémunérations
                                          =  (montant.traitement.indiciaire == 0
-                                             & montant.rÃ©munÃ©ration.principale.contractuel == 0
-                                             & montant.rÃ©munÃ©ration.vacataire == 0
+                                             & montant.rémunération.principale.contractuel == 0
+                                             & montant.rémunération.vacataire == 0
                                              & montant.primes == 0)
                                          * Montant * Codes.paiement.autres[Code],
                                          
-                                         montant.indemnitÃ©.Ã©lu
+                                         montant.indemnité.élu
                                          =  (montant.traitement.indiciaire  == 0
-                                             & montant.rÃ©munÃ©ration.principale.contractuel == 0
-                                             & montant.rÃ©munÃ©ration.vacataire == 0
+                                             & montant.rémunération.principale.contractuel == 0
+                                             & montant.rémunération.vacataire == 0
                                              & montant.primes == 0
-                                             & montant.autres.rÃ©munÃ©rations == 0)
-                                         * Montant * Codes.paiement.Ã©lu[Code]
+                                             & montant.autres.rémunérations == 0)
+                                         * Montant * Codes.paiement.élu[Code]
                                          
     )
   
   if (inherits(Paie, 'try-error') )
-    stop("Il est probable que le fichier des codes n'est pas exhaustif. Avez-vous (re-)gÃ©nÃ©rÃ© l'ensemble des codes rÃ©cemment ?")
+    stop("Il est probable que le fichier des codes n'est pas exhaustif. Avez-vous (re-)généré l'ensemble des codes récemment ?")
 }
