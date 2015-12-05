@@ -19,13 +19,13 @@ if "%port%"  ==  "P" set port=8080
 %courant%\Git\bin\git.exe clean -d -f -x 
 %courant%\Git\bin\git.exe remote add -t distribution-dev origin https://github.com/fabnicol/altair.git
 %courant%\Git\bin\git.exe fetch --depth=1 origin distribution-dev
-%courant%\Git\bin\git.exe merge -s recursive -X theirs FETCH_HEAD
+%courant%\Git\bin\git.exe merge --quiet -s recursive -X theirs FETCH_HEAD
 xcopy /I /Y /E %courant%\Roaming.dev\RStudio  %USERPROFILE%\AppData\Roaming\RStudio
 xcopy /I /Y /E %courant%\Local.dev\RStudio-desktop  %USERPROFILE%\AppData\Local\RStudio-desktop
 %courant%\Git\bin\git.exe rm -rf  --cached Tests\Exemple\Donnees\R-Al*
 %courant%\Git\bin\git.exe rm -rf --cached .Rproj.user
 %courant%\Git\bin\git.exe rm -f  --cached lhx\cl
-%courant%\Git\bin\git.exe commit -a  -m "local mods"
+%courant%\Git\bin\git.exe commit --quiet -a  -m "local mods"
 %courant%\Git\bin\git.exe config --global http.proxy 
 %courant%\Git\bin\git.exe config --global https.proxy 
 REM END OF FILE

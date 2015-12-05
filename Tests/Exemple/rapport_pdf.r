@@ -2,6 +2,7 @@
 encodage.code.source <- "ISO-8859-1"
 initwd <- getwd()
 setOSWindows  <- Sys.info()["sysname"] != "Linux"
+knitr::opts_chunk$set(fig.width=8, fig.height=4, echo = FALSE, warning = FALSE, message = FALSE, results = 'asis')
 
 if (setOSWindows) {
   invisible(Sys.setenv(PATH = paste0(Sys.getenv("PATH"), ";", file.path(Sys.getenv("R_HOME"), "../texlive/miktex/bin;"))))
@@ -10,6 +11,7 @@ if (setOSWindows) {
   source("prologue.R", encoding=encodage.code.source)
   writeLines(iconv(readLines("altair.R"), from = encodage.code.source, to = "WINDOWS-1252"), "altair.ansi.R")
   library(knitr)
+  
   spin("altair.ansi.R")
   writeLines(iconv(readLines("altair.ansi.md"), from = "WINDOWS-1252", to = "UTF-8"), "altair.utf8.md", useBytes=TRUE)
 
