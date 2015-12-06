@@ -8,7 +8,6 @@
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
 
 
-
 racine                      <- ifelse(setOSWindows, "R-Altaïr/", "R-Altair/")
 # "Ville Annecy Paye BP-"
 # "UTF-8.PDC-"
@@ -44,6 +43,8 @@ intégrer.localisation <- FALSE   # Veut on gardet Budget Employeur Siret Etablis
 afficher.cumuls.détaillés.lignes.paie <- FALSE
 afficher.table.écarts.sft <- FALSE
 analyse.par.catégorie     <- TRUE
+test.delta                <- TRUE
+
 
 seuil.troncature         <- 1 # jours
 taux.tolérance.homonymie <- 2  # en %
@@ -63,6 +64,13 @@ séparateur.décimal.sortie   <- ","
 # conventions de nommage : les noms et chemins sont en minuscules ;
 # les bases commencent par une majuscule. Un nom de fichier est souvent associé
 # à une variable commençant par une majuscule et représentant la base (data.frame ou matrice)
+
+liste.exclusions <- NULL
+
+try ({
+  liste.exclusions <- read.delim("liste.exclusions.txt", encoding=encodage.code.source, stringsAsFactors = FALSE)[[1]]
+}, silent=TRUE)
+
 
 nom.fichier.codes.paiement  <- paste0(racine, "codes.csv")
 fichier.personnels          <- "Catégories des personnels"

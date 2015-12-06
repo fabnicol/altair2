@@ -2,7 +2,7 @@
 #'   
 #'   
 
-Analyse.rémunérations.exercice <- sélectionner.exercice.analyse.rémunérations(année)
+Analyse.rémunérations.exercice <- Analyse.rémunérations[Année == année]
 
 #'    
 #'# `r chapitre`. Rémunérations brutes : analyse pour l'exercice `r année`    

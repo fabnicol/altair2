@@ -43,40 +43,45 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      - [Indemnités non soumises à cotisations] - Rappels de cotisations, retenues et déductions<br>
  soit :</p>
 
-<p>delta = Brut - Somme des Montants de Type  T | IR | S | I | A | AC | AV  et qui ne sont pas du type  (I | R dans liste d'exclusion)</p>
+<p>delta = Brut - Somme des Montants de Type  T | IR | S | I | A | AC | AV  et qui ne sont pas du type  (I | R dans liste d'exclusions)</p>
 
 <p>La principale difficulté consiste à déterminer la liste d'exclusions, c'est-à-dire les montants qui ne figurent pas légitimement dans le champ Brut.</p>
 
-<p>Une fois déterminée cette liste, le test delta peut servir à contrôler systématiquement la cohérence et la régularité des bases de paie</p>
+<p>Une fois déterminée cette liste, le test delta == 0 peut servir à contrôler systématiquement la cohérence et la régularité des bases de paie</p>
 <p>La liste d'exclusion contient notamment, s'agissant des indemnités :</p>
 
 <ul>
 <li><p>IJSS et autres indemnités journalières ;</p></li>
 <li><p>Remboursements de frais ou indemnités forfaitaires (transports, frais professionnels) ;</p></li>
-<li><p>Autres indemnités non imposables éventuelles ;</p></li></ul>
-<p>Interviennent également des cas des "indemnités calculées", qui ne s'ajoutent pas au traitement mais qui en résultent par soustraction.</p>
-<p>Certaines indemnités d'élus sont calculées comme le Traitement brut soumis à Retenue pour écrêtement : c'est une anomalie qui peut être traitée en intégrant l'indemnité d'élu à la liste d'exclusions.</p>
-<p>Les indemnités d'élus sont non imposables, au delà d'un seuil d'exonération (1466 ¤ net en 2012) lorsqu'un prélèvement à la source est effectué(article 204-0 bis du code général des impôts).</p>
+<li><p>Autres indemnités non imposables éventuelles.</p></li>
+</ul>
+<h2>Problèmes couramment rencontrés</h2>
+<ul>
+<li><p>Les "indemnités calculées" : ces indemnités devraient s'ajouter comme lignes de paie de type I.</p>
+<p>En base, ce n'est pas ce qui est fait : elles ne s'ajoutent pas au traitement mais sont calculées par soustraction d'une ligne à une autre.</p>
+<p>Certaines indemnités d'élus sont ainsi calculées comme le Traitement brut soumis à Retenue pour écrêtement : c'est une anomalie qui peut être traitée en intégrant l'indemnité d'élu à la liste d'exclusions. Si l'on calcule en effet la somme du traitement et de l'indemnité, celle-ci est comptée deux fois.</p>
+</li>
+<li><p>Les indemnités non imposables ou non soumises à cotisations, notamment :</p>
+<p>- les indemnités d'élu : elles sont non imposables, au delà d'un seuil d'exonération (1466 &euro; net en 2012) lorsqu'un prélèvement à la source est effectué (article 204-0 bis du code général des impôts).</p>
 <p>Mais elles sont soumises à cotisations sociales. Elle doivent donc faire partie du calcul du Montant Brut (mais pas du montant imposable).</p>
 <p>Des anomalies fréquentes sont relevées sur ce point, qui peuvent être détectées à partir de la variable delta.</p>
-
-<p>Cas des "traitements virtuels"</p>
+<p>-les indemnités de type "remboursement de frais de transport" : </p>
+<p>>ces remboursements devraient figurer comme rappels négatifs. Mais lorsqu'ils sont récurrents, ils sont fréquemment catégorisés comme des indemnités. </p><p>Ces versements sont toutefois non imposables et non soumis à cotisations ; ils doivent donc être sortis du Brut et intégrés à la liste d'exclusions.</p>
+</li>
+<li><p>Cas des "traitements virtuels"</p>
 
 <p>Une autre pratique discutable consiste à calculer la liquidation de retenues, cotisations ou déductions sans versement de salaire dans certains cas :</p>
 <p>Exemple d'un fonctionnaire détaché pour lequel un Traitement brut est mentionné, alors qu'il n'est pas versé (retenue compensatoire)</p>
 <p>La lignes de traitement ne sert donc qu'à liquider les cotisations CNRACL dans ce cas de figure. La somme se retouve au Brut mais pas au Net.</p>
 <p>Pour comparer au compte de gestion (qui ne comprend pas cette somme) il faudra retraiter manuellement le résultat du logiciel.</p>
-
-<h2>Performances</h2>
-
-<p>Les performances suivantes ont été calculées à partir de la version du 25 octobre 2014 sur un processeur Intel x86 32 bit
- Core2 Quad Q9550 2.86 Ghz, doté de 6 Go de RAM sous GNU/Linux Kubuntu 14.04</p>
-
-<p>Pour 1 million de lignes de paie, les résultats sont donnés en secondes sous la forme (sans exportation de la base / avec exportation).</p>
-
-<table border="1" style="width:50%; text-align:center;">
-  <tr><th>Mode d'exécution</th><th>Mode économique en mémoire</th><th>Mode avec préallocation de la mémoire</th></tr>
-  <tr><td>4 fils d'exécution</td><td>     12,5 / 17</td><td>            8 / 11</td></tr>
-  <tr><td>1 seul processus</td><td>              26,5 / 30,5</td><td>        20,5 / 23,5</td></tr>
-</table>
-
+</li>
+<li><p>Cas des lignes "DONT"</p>
+<p>Ces lignes sont des cas de lignes purement informatives, qui ne devraient figurer qu'en commentaire et ne s'ajoutent pas à la rémunération.</p>
+<p>Elles ne sont regrettablement pas identifiées comme telles de manière systématique.</p>
+</li>
+<li><p>Les confusions entre rappels et déductions ou retenues</p>
+<p>Dans certains cas, des lignes comptées en déductions ou retenues (type D ou RE) représentent en fait des rappels négatifs sur rémunérations versées. Ils sont alors omis du calcul de la variable delta, qui n'intègre pas les prélèvements sociaux, et doivent être retranchés manuellement à delta comme équivalant à un rappel sur rémunération.</p>
+<p>Ce cas de figure est notamment attesté pour les reversions de SFT.</p>
+</li>
+</ul>
+<p></p>

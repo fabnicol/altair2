@@ -4,7 +4,7 @@
 <h2>Schéma XML</h2>
 
 <p>Ce programme est conçu pour analyser les schémas de paye définis 
-<a href="http://xemelios.org/schemas/cfg-paye/doc/index47.html">par le site internet de l'application Xémélios </a></p>
+<a href="doc/index.html">par le site internet de l'application Xémélios </a></p>
 
 
 <h2>Définition des éléments</h2>
@@ -43,20 +43,21 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      - [Indemnités non soumises à cotisations] - Rappels de cotisations, retenues et déductions<br>
  soit :</p>
 
-<p>delta = Brut - Somme des Montants de Type  T | IR | S | I | A | AC | AV  et qui ne sont pas du type  (I | R dans liste d'exclusion)</p>
+<p>delta = Brut - Somme des Montants de Type  T | IR | S | I | A | AC | AV  et qui ne sont pas du type  (I | R dans liste d'exclusions)</p>
 
 <p>La principale difficulté consiste à déterminer la liste d'exclusions, c'est-à-dire les montants qui ne figurent pas légitimement dans le champ Brut.</p>
 
-<p>Une fois déterminée cette liste, le test delta peut servir à contrôler systématiquement la cohérence et la régularité des bases de paie</p>
+<p>Une fois déterminée cette liste, le test delta == 0 peut servir à contrôler systématiquement la cohérence et la régularité des bases de paie</p>
 <p>La liste d'exclusion contient notamment, s'agissant des indemnités :</p>
 
 <ul>
 <li><p>IJSS et autres indemnités journalières ;</p></li>
 <li><p>Remboursements de frais ou indemnités forfaitaires (transports, frais professionnels) ;</p></li>
-<li><p>Autres indemnités non imposables éventuelles ;</p></li></ul>
-<p>Interviennent également des cas des "indemnités calculées", qui ne s'ajoutent pas au traitement mais qui en résultent par soustraction.</p>
+<li><p>Autres indemnités non imposables éventuelles.</p></li>
+</ul>
+<p>Interviennent également des cas d'"indemnités calculées", qui ne s'ajoutent pas au traitement mais qui en résultent par soustraction.</p>
 <p>Certaines indemnités d'élus sont calculées comme le Traitement brut soumis à Retenue pour écrêtement : c'est une anomalie qui peut être traitée en intégrant l'indemnité d'élu à la liste d'exclusions.</p>
-<p>Les indemnités d'élus sont non imposables, au delà d'un seuil d'exonération (1466 ¤ net en 2012) lorsqu'un prélèvement à la source est effectué(article 204-0 bis du code général des impôts).</p>
+<p>Les indemnités d'élus sont non imposables, au delà d'un seuil d'exonération (1466 &euro; net en 2012) lorsqu'un prélèvement à la source est effectué(article 204-0 bis du code général des impôts).</p>
 <p>Mais elles sont soumises à cotisations sociales. Elle doivent donc faire partie du calcul du Montant Brut (mais pas du montant imposable).</p>
 <p>Des anomalies fréquentes sont relevées sur ce point, qui peuvent être détectées à partir de la variable delta.</p>
 
@@ -66,17 +67,3 @@
 <p>Exemple d'un fonctionnaire détaché pour lequel un Traitement brut est mentionné, alors qu'il n'est pas versé (retenue compensatoire)</p>
 <p>La lignes de traitement ne sert donc qu'à liquider les cotisations CNRACL dans ce cas de figure. La somme se retouve au Brut mais pas au Net.</p>
 <p>Pour comparer au compte de gestion (qui ne comprend pas cette somme) il faudra retraiter manuellement le résultat du logiciel.</p>
-
-<h2>Performances</h2>
-
-<p>Les performances suivantes ont été calculées à partir de la version du 25 octobre 2014 sur un processeur Intel x86 32 bit
- Core2 Quad Q9550 2.86 Ghz, doté de 6 Go de RAM sous GNU/Linux Kubuntu 14.04</p>
-
-<p>Pour 1 million de lignes de paie, les résultats sont donnés en secondes sous la forme (sans exportation de la base / avec exportation).</p>
-
-<table border="1" style="width:50%; text-align:center;">
-  <tr><th>Mode d'exécution</th><th>Mode économique en mémoire</th><th>Mode avec préallocation de la mémoire</th></tr>
-  <tr><td>4 fils d'exécution</td><td>     12,5 / 17</td><td>            8 / 11</td></tr>
-  <tr><td>1 seul processus</td><td>              26,5 / 30,5</td><td>        20,5 / 23,5</td></tr>
-</table>
-

@@ -2405,22 +2405,37 @@ if (nligne.base.quotité.indéfinie.salaire.nonnull)
 #'[Lien vers la base de données des salaires versés pour Heures=0](Bases/Fiabilité/base.heures.nulles.salaire.nonnull.csv)   
 #'[Lien vers la base de données des salaires versés à quotité indéfinie](Bases/Fiabilité/base.quotité.indéfinie.salaire.nonnull.csv)   
 #'
-#'# Tableau des personnels : renseigner la catégorie
+#'# Tableau des personnels  
 #'
-#'Utiliser les codes : A, B, C, ELU, AUTRES
-#'
-#'En cas de changement de catégorie en cours de période, utiliser la catégorie AUTRES
-#'Cela peut conduire à modifier manuellement le fichier Catégories des personnels.csv
 #'
 if (générer.table.effectifs) {
   kable(matricules, row.names = FALSE) 
 } else  {
-  cat("\nNon généré  [anonymisation]\n")
+  cat("\nNon généré")
 }
 
-# ------------------------------------------------------------------------------------------------------------------
-#  Sauvegardes : enlever les commentaires en mode opérationnel
-##
+#'
+#'# Divergences lignes-bulletins de paie     
+#'   
+#'*Pour exclure certains codes de paie de l'analyse, renseigner le fichier liste.exclusions.txt*  
+#'   
+
+if (test.delta) {
+  if (!is.null(liste.exclusions))
+    message("Une liste de codes exclus pour la vérification de la concordance lignes-bulletins de paie a été jointe sous ", getwd())
+    cat("   ")
+    source("delta.R", encoding=encodage.code.source)
+} else {
+  cat("Base de vérification des écarts lignes de paie-bulletins de paie non générée.")
+}
+
+    
+#'   
+#'[Divergences lignes-bulletins de paie](Bases/Fiabilité/Delta.csv)     
+#'   
+
+
+######### SAUVEGARDES #######
 
 if (sauvegarder.bases.analyse) {
 
@@ -2473,12 +2488,16 @@ if (sauvegarder.bases.analyse) {
               "lignes.nbi.anormales",
               "cumuls.nbi")
   
+  if (test.delta) 
+    sauv.bases(file.path(chemin.dossier.bases, "Fiabilité"), "Delta")
+  
 }
 
 if (sauvegarder.bases.origine)
   sauv.bases(file.path(chemin.dossier.bases, "Paiements"),
              "Paie",
              "Bulletins.paie")
+
 
 if (! générer.rapport)
    setwd(currentDir)
