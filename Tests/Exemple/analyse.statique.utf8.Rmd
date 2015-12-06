@@ -2,7 +2,7 @@
   
 
 ```{r }
-Analyse.rémunérations.exercice <- sélectionner.exercice.analyse.rémunérations(année)
+Analyse.rémunérations.exercice <- Analyse.rémunérations[Année == année]
 ```
 
    
@@ -13,12 +13,11 @@ Analyse.rémunérations.exercice <- sélectionner.exercice.analyse.rémunératio
  
 
 ```{r }
-masses.personnels <- colSums(Analyse.rémunérations.exercice[Statut != "ELU",
-                                                                            .(Montant.brut.annuel,
-                                                                              rémunération.indemnitaire.imposable,
-                                                                              indemnités.élu,
-                                                                              total.lignes.paie,
-                                                                              autres.rémunérations)])
+masses.personnels <- Analyse.rémunérations.exercice[Statut != "ELU",
+                        .(Montant.brut.annuel=sum(Montant.brut.annuel, na.rm = TRUE),                                                            rémunération.indemnitaire.imposable=sum(rémunération.indemnitaire.imposable, na.rm = TRUE),
+                                               indemnités.élu=sum(indemnités.élu, na.rm = TRUE),
+                                            total.lignes.paie=sum(total.lignes.paie, na.rm = TRUE),
+                                         autres.rémunérations=sum(autres.rémunérations, na.rm = TRUE))]
 ```
 
 ### Cumuls des rémunérations brutes pour l'exercice `r année`
@@ -36,11 +35,11 @@ Tableau.vertical2(c("Agrégats",
                     "\\ \\ Primes :",
                     "\\ \\ Autres rémunérations",
                     "Part de primes en %"),
-                  c(masses.personnels["Montant.brut.annuel"],
-                    masses.personnels["total.lignes.paie"],
-                    masses.personnels["rémunération.indemnitaire.imposable"],
-                    masses.personnels["autres.rémunérations"],
-                    masses.personnels["rémunération.indemnitaire.imposable"]/masses.personnels["Montant.brut.annuel"] * 100))
+                  c(masses.personnels$Montant.brut.annuel,
+                    masses.personnels$total.lignes.paie,
+                    masses.personnels$rémunération.indemnitaire.imposable,
+                    masses.personnels$autres.rémunérations,
+                    masses.personnels$rémunération.indemnitaire.imposable/masses.personnels$Montant.brut.annuel * 100))
 ```
 
  
@@ -66,10 +65,10 @@ Tableau.vertical2(c("Agrégats",
                   c("Bulletins de paie ",
                     "Lignes de paie ",
                     "Différence "),
-                  c(masses.personnels["Montant.brut.annuel"],
-                    masses.personnels["total.lignes.paie"],
-                    masses.personnels["Montant.brut.annuel"] -
-                      masses.personnels["total.lignes.paie"]))
+                  c(masses.personnels$Montant.brut.annuel,
+                    masses.personnels$total.lignes.paie,
+                    masses.personnels$Montant.brut.annuel -
+                      masses.personnels$total.lignes.paie))
 ```
 
 
@@ -105,7 +104,7 @@ detach(AR)
 
 ```{r }
 if (nrow(AR) > 0) {
-  masses.premier <- colSums(AR[ ,.(Montant.brut.annuel, rémunération.indemnitaire.imposable, total.lignes.paie, autres.rémunérations)])
+  masses.premier <- AR[ , lapply(.(Montant.brut.annuel, rémunération.indemnitaire.imposable, total.lignes.paie, autres.rémunérations), sum, na.rm = TRUE)]
 } else {
   masses.premier <- c(0,0) 
 }

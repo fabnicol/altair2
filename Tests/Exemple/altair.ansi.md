@@ -367,14 +367,9 @@ Somme des rémunérations brutes versées aux personnels titulaires et stagiaires :
 &nbsp;*Tableau 14*   
    
 
-
-|           Agrégats           |   k&euro;   |
-|------------------------------|-------------|
-|   Brut annuel (bulletins)    | 3 455 355,0 |
-| Brut annuel (lignes), dont : | 6 870 778,9 |
-|         \ \ Primes :         |  668 731,8  |
-|   \ \ Autres rémunérations   |  32 094,0   |
-|     Part de primes en %      |    19,4     |
+```
+## Error in `[.data.table`(masses.premier, "Montant.brut.annuel"): When i is a data.table (or character vector), the columns to join by must be specified either using 'on=' argument (see ?data.table) or by keying x (i.e. sorted, and, marked as sorted, see ?setkey). Keyed joins might have further speed benefits on very large data due to x being sorted in RAM.
+```
 
 
 **Définitions :**
@@ -393,12 +388,9 @@ Somme des rémunérations brutes versées aux personnels (non élus) :
 &nbsp;*Tableau 15*   
    
 
-
-|     Agrégats      |   k&euro;    |
-|-------------------|--------------|
-| Bulletins de paie | 3 455 355,0  |
-|  Lignes de paie   | 6 870 778,9  |
-|    Différence     | -3 415 423,9 |
+```
+## Error in `[.data.table`(masses.premier, "Montant.brut.annuel"): When i is a data.table (or character vector), the columns to join by must be specified either using 'on=' argument (see ?data.table) or by keying x (i.e. sorted, and, marked as sorted, see ?setkey). Keyed joins might have further speed benefits on very large data due to x being sorted in RAM.
+```
 
 
 A comparer aux soldes des comptes 6411, 6419 et 648 du compte de gestion.
@@ -679,14 +671,9 @@ Somme des rémunérations brutes versées aux personnels titulaires et stagiaires :
 &nbsp;*Tableau 28*   
    
 
-
-|           Agrégats           |   k&euro;   |
-|------------------------------|-------------|
-|   Brut annuel (bulletins)    | 4 339 731,2 |
-| Brut annuel (lignes), dont : | 4 295 767,1 |
-|         \ \ Primes :         |  823 806,8  |
-|   \ \ Autres rémunérations   |  16 452,9   |
-|     Part de primes en %      |    19,0     |
+```
+## Error in `[.data.table`(masses.premier, "Montant.brut.annuel"): When i is a data.table (or character vector), the columns to join by must be specified either using 'on=' argument (see ?data.table) or by keying x (i.e. sorted, and, marked as sorted, see ?setkey). Keyed joins might have further speed benefits on very large data due to x being sorted in RAM.
+```
 
 
 **Définitions :**
@@ -705,12 +692,9 @@ Somme des rémunérations brutes versées aux personnels (non élus) :
 &nbsp;*Tableau 29*   
    
 
-
-|     Agrégats      |   k&euro;   |
-|-------------------|-------------|
-| Bulletins de paie | 4 339 731,2 |
-|  Lignes de paie   | 4 295 767,1 |
-|    Différence     |  43 964,1   |
+```
+## Error in `[.data.table`(masses.premier, "Montant.brut.annuel"): When i is a data.table (or character vector), the columns to join by must be specified either using 'on=' argument (see ?data.table) or by keying x (i.e. sorted, and, marked as sorted, see ?setkey). Keyed joins might have further speed benefits on very large data due to x being sorted in RAM.
+```
 
 
 A comparer aux soldes des comptes 6411, 6419 et 648 du compte de gestion.
