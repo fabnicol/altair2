@@ -70,7 +70,9 @@ séparateur.décimal.sortie   <- ","
 liste.exclusions <- NULL
 
 try ({
-  liste.exclusions <- read.delim("liste.exclusions.txt", encoding=encodage.code.source, stringsAsFactors = FALSE)[[1]]
+  chemin.liste.exclusions <- chemin("liste.exclusions.txt")
+  if (file.exists(chemin.liste.exclusions))
+    liste.exclusions <- read.delim(chemin.liste.exclusions, encoding=encodage.code.source, stringsAsFactors = FALSE)[[1]]
 }, silent=TRUE)
 
 
