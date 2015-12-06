@@ -49,23 +49,17 @@ if (corriger.environnement.système) {
 source(file.path(chemin.dossier, "bibliotheque.fonctions.paie.R"), encoding = encodage.code.source)
 source("import.R", encoding = encodage.code.source)
 
-
 #'
 #'<p class = "centered"><b>Exercices `r paste(début.période.sous.revue, "à", fin.période.sous.revue)` </b></p>
 #'<p class = "author">Fabrice Nicol</h1>
 #'
 #+ echo = FALSE
-#'`r format(Sys.Date(), "%a %d %b %Y")`
-#'    
+#'`r format(Sys.Date(), "%a %d %b %Y")`      
+#'      
+#'Période sous revue : `r début.période.sous.revue` - `r fin.période.sous.revue`    
+#'Nombre d'exercices : `r durée.sous.revue`        
+#'     
 
-
-cat("\nLa durée du travail prise en compte dans la base de données est de ", nb.heures.temps.complet, " h par mois.\n")  
-if (nb.heures.temps.complet > 1.1 * 151.67 || nb.heures.temps.complet < 0.9 * 151.67)  {
-  semaine.de.travail <<- nb.heures.temps.complet * 12 / 52
-  
-  cat("\nAttention !\nLe temps de travail hebdomadaire s'écarte significativement de la durée légale : ", 
-      round(semaine.de.travail,1), " h par semaine.\n")
-}
 
 source("analyse.rémunérations.R", encoding = encodage.code.source)
 
@@ -228,7 +222,18 @@ kable(tableau.effectifs, row.names = TRUE, align='c')
 #'*(g) Postes actifs et non annexes :* voir [Compléments méthodologiques](Docs/méthodologie.pdf)    
 #'*&nbsp;&nbsp;&nbsp;Un poste actif est défini par au moins un bulletin de paie comportant un traitement positif pour un volume d'heures de travail mensuel non nul.*             
 #'*&nbsp;&nbsp;&nbsp;Un poste non annexe est défini comme la conjonction de critères horaires et de revenu sur une année. La période minimale de référence est le mois.*   
-#'*Les dix dernières lignes du tableau sont calculées en ne tenant pas compte des élus.*      
+#'*Les dix dernières lignes du tableau sont calculées en ne tenant pas compte des élus.*    
+
+
+cat("\nLa durée du travail prise en compte dans la base de données est de ", nb.heures.temps.complet, " h par mois.\n")  
+if (nb.heures.temps.complet > 1.1 * 151.67 || nb.heures.temps.complet < 0.9 * 151.67)  {
+  semaine.de.travail <<- nb.heures.temps.complet * 12 / 52
+  
+  cat("\nAttention !\nLe temps de travail hebdomadaire s'écarte significativement de la durée légale : ", 
+      round(semaine.de.travail,1), " h par semaine.\n")
+}
+
+#'      
 #'   
 #'[Lien vers la base des effectifs](Bases/Effectifs/tableau.effectifs.csv)
 #'
@@ -2066,11 +2071,6 @@ if (générer.table.élus)   {
 }
 
 
-if (sauvegarder.bases.analyse)
-  Sauv.base(file.path(chemin.dossier.bases, "Effectifs"),
-            "matricules",
-            fichier.personnels)
-
 #'[Lien vers la base de données Rémunérations des élus](Bases/Réglementation/rémunérations.élu.csv)
 #'
 
@@ -2322,8 +2322,6 @@ message("Analyse du SFT")
 #'# Annexe
 #'## Liens complémentaires
 
-#'
-#'[Lien vers le fichier des personnels](Bases/Effectifs/Catégories des personnels.csv)
 #'  
 #'## Fiabilité du traitement statistique   
 #'*Doublons*      
@@ -2408,11 +2406,18 @@ if (nligne.base.quotité.indéfinie.salaire.nonnull)
 #'# Tableau des personnels  
 #'
 #'
-if (générer.table.effectifs) {
-  kable(matricules, row.names = FALSE) 
-} else  {
-  cat("\nNon généré")
-}
+if (afficher.table.effectifs) {
+  kable(grades.catégories, row.names = FALSE) 
+} 
+
+#'
+#'[Lien vers la base des grades et catégories](Bases/Effectifs/grades.catégories.csv)        
+#'   
+
+#'
+#'[Lien vers la base des personnels](Bases/Effectifs/matricules.csv)        
+#'   
+
 
 #'
 #'# Divergences lignes-bulletins de paie     
@@ -2452,6 +2457,8 @@ if (sauvegarder.bases.analyse) {
 
   sauv.bases(file.path(chemin.dossier.bases, "Effectifs"),
              "Bulletins.paie.nir.total.hors.élus",
+             "matricules",
+             "grades.catégories",
              "Bulletins.paie.nir.fonctionnaires",
              "Bulletins.paie.nir.nontit",
              "Bulletins.paie.nir.permanents",

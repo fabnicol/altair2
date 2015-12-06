@@ -29,12 +29,12 @@ enlever.quotités.nulles <- F
 enlever.quotités.na     <- F
 écreter.quotités        <- T
 générer.codes           <- FALSE
-charger.catégories.personnel <- FALSE
+charger.catégories.personnel <- TRUE
 extraire.population     <- FALSE
 charger.bases           <- T
 sauvegarder.bases.analyse    <- T
 sauvegarder.bases.origine    <- F
-générer.table.effectifs      <- F
+afficher.table.effectifs      <- F
 générer.table.élus           <- T
 tester.matricules            <- TRUE
 analyse.statique.totale      <- F
@@ -52,6 +52,8 @@ quantile.cut             <- 1  # en %
 minimum.positif          <- 0.5
 minimum.quotité          <- 0.1
 minimum.actif            <- 100
+minimum.delta            <- 5
+
 population_minimale_calcul_médiane  <- 3
 tolérance.sft <- 1
 
@@ -73,8 +75,6 @@ try ({
 
 
 nom.fichier.codes.paiement  <- paste0(racine, "codes.csv")
-fichier.personnels          <- "Catégories des personnels"
-nom.fichier.personnels      <- paste0(fichier.personnels, ".csv")
 nom.fichier.paie            <- paste0(racine, "Lignes de paye")
 nom.bulletin.paie           <- paste0(racine, "Bulletins de paye")
 nom.table                   <- paste0(racine, "Table.csv")

@@ -834,6 +834,7 @@ void* decoder_fichier(info_t& info)
 
     /* Le champ statut est modifié comme suit :
         ELU   pour un élu
+        et le champ grade :
         V     pour un vacataire
         A     pour une assistante maternelle */
 

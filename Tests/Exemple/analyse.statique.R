@@ -10,13 +10,11 @@ Analyse.rémunérations.exercice <- Analyse.rémunérations[Année == année]
 #'## `r chapitre`.1 Masse salariale brute de l'ensemble des agents     
 #'     
 #'  
-masses.personnels <- colSums(Analyse.rémunérations.exercice[Statut != "ELU",
-                                                                            .(Montant.brut.annuel,
-                                                                              rémunération.indemnitaire.imposable,
-                                                                              indemnités.élu,
-                                                                              total.lignes.paie,
-                                                                              autres.rémunérations)])
-
+masses.personnels <- Analyse.rémunérations.exercice[Statut != "ELU",
+                                                    .(Montant.brut.annuel = sum(Montant.brut.annuel, na.rm = TRUE),                                                                                       rémunération.indemnitaire.imposable = sum(rémunération.indemnitaire.imposable, na.rm = TRUE),
+                                                      indemnités.élu = sum(indemnités.élu, na.rm = TRUE),
+                                                      total.lignes.paie = sum(total.lignes.paie, na.rm = TRUE),
+                                                      autres.rémunérations = sum(autres.rémunérations, na.rm = TRUE))]
 
 #'### Cumuls des rémunérations brutes pour l'exercice `r année`
 #'  
@@ -28,15 +26,15 @@ masses.personnels <- colSums(Analyse.rémunérations.exercice[Statut != "ELU",
 Tableau.vertical2(c("Agrégats",
                     "k&euro;"),
                   c("Brut annuel (bulletins)",
-                    "Brut annuel (lignes), dont :",
-                    "\\ \\ Primes :",
-                    "\\ \\ Autres rémunérations",
+                    "Brut annuel (lignes) :",
+                    "\\ dont \\ Primes :",
+                    "\\ dont \\ Autres rémunérations",
                     "Part de primes en %"),
-                  c(masses.personnels["Montant.brut.annuel"],
-                    masses.personnels["total.lignes.paie"],
-                    masses.personnels["rémunération.indemnitaire.imposable"],
-                    masses.personnels["autres.rémunérations"],
-                    masses.personnels["rémunération.indemnitaire.imposable"]/masses.personnels["Montant.brut.annuel"] * 100))
+                  c(masses.personnels$Montant.brut.annuel,
+                    masses.personnels$total.lignes.paie,
+                    masses.personnels$rémunération.indemnitaire.imposable,
+                    masses.personnels$autres.rémunérations,
+                    masses.personnels$rémunération.indemnitaire.imposable/masses.personnels$Montant.brut.annuel * 100))
 
 
 #'  
@@ -45,7 +43,6 @@ Tableau.vertical2(c("Agrégats",
 #'  *Brut annuel (bulletins)*   : somme du champ *Brut*    
 #'  *Brut annuel (lignes)*      : somme du champ *Montant* des lignes de paye, dont :    
 #'  *Primes*                    : indemnités sauf remboursements, certaines IJSS, indemnités d'élu le cas échéant, Supplément familial de traitement et Indemnité de résidence        
-#'  *Indemnités d'élu*          : toutes rémunérations indemnitaires des élus    
 #'  *Autres rémunérations*      : acomptes, retenues sur brut, rémunérations diverses, rappels   
 #'  
 
@@ -62,10 +59,10 @@ Tableau.vertical2(c("Agrégats",
                   c("Bulletins de paie ",
                     "Lignes de paie ",
                     "Différence "),
-                  c(masses.personnels["Montant.brut.annuel"],
-                    masses.personnels["total.lignes.paie"],
-                    masses.personnels["Montant.brut.annuel"] -
-                      masses.personnels["total.lignes.paie"]))
+                  c(masses.personnels$Montant.brut.annuel,
+                    masses.personnels$total.lignes.paie,
+                    masses.personnels$Montant.brut.annuel -
+                      masses.personnels$total.lignes.paie))
 
 #'
 #'à comparer aux soldes des comptes 641 et 648 du compte de gestion.
@@ -95,9 +92,10 @@ detach(AR)
 #'**Tests de cohérence**
 
 if (nrow(AR) > 0) {
-  masses.premier <- colSums(AR[ ,.(Montant.brut.annuel, rémunération.indemnitaire.imposable, total.lignes.paie, autres.rémunérations)])
+  masses.fonct <- AR[ , lapply(.(Montant.brut.annuel, rémunération.indemnitaire.imposable, total.lignes.paie, autres.rémunérations), sum, na.rm = TRUE)]
+  
 } else {
-  masses.premier <- c(0,0) 
+  masses.fonct <- c(0,0) 
 }
 
 #'Somme des rémunérations brutes versées aux personnels titulaires et stagiaires :
@@ -109,28 +107,27 @@ if (nrow(AR) > 0) {
 Tableau.vertical2(c("Agrégats",
                     "k&euro;"),
                   c("Brut annuel (bulletins)",
-                    "Brut annuel (lignes), dont :",
-                    "\\ \\ Primes :",
-                    "\\ \\ Autres rémunérations",
+                    "Brut annuel (lignes) : ",
+                    "\\ dont \\ \\ primes :",
+                    "\\ dont \\ autres rémunérations :",
                     "Part de primes en %"),
-                  c(masses.premier["Montant.brut.annuel"],
-                    masses.premier["total.lignes.paie"],
-                    masses.premier["rémunération.indemnitaire.imposable"],
-                    masses.premier["autres.rémunérations"],
-                    masses.premier["rémunération.indemnitaire.imposable"]/masses.premier["Montant.brut.annuel"] * 100))
+                  c(masses.fonct[[1]],  
+                    masses.fonct[[3]],
+                    masses.fonct[[2]],
+                    masses.fonct[[4]],
+                    masses.fonct[[2]]/masses.fonct[[1]] * 100))
 
 #'
 #'**Définitions :**
 #'
 #'  *Brut annuel (bulletins)*   : somme du champ *Brut*   
 #'  *Brut annuel (lignes)*      : somme du champ *Montant* des lignes de paye, dont :   
-#'  *Primes*                    : indemnités sauf remboursements, certaines IJSS, indemnités d'élu le cas échéant, Supplément familial de traitement et Indemnité de résidence        
-#'  *Indemnités d'élus*         : toutes rémunérations indemnitaires des élus    
+#'  *Primes*                    : indemnités sauf remboursements, certaines IJSS, Supplément familial de traitement et Indemnité de résidence       
 #'  *Autres rémunérations*      : acomptes, retenues sur brut, rémunérations diverses, rappels   
 #'
 #'**Tests de cohérence**
 #'
-#'Somme des rémunérations brutes versées aux personnels (non élus) :
+#'Somme des rémunérations brutes versées aux personnels (fonctionnaires) :
 #'
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
@@ -141,10 +138,10 @@ Tableau.vertical2(c("Agrégats",
                   c("Bulletins de paie ",
                     "Lignes de paie ",
                     "Différence "),
-                  c(masses.premier["Montant.brut.annuel"],
-                    masses.premier["total.lignes.paie"],
-                    masses.premier["Montant.brut.annuel"] -
-                      masses.premier["total.lignes.paie"]))
+                  c(masses.fonct[[1]],  # Brut
+                    masses.fonct[[3]],  # lignes
+                    masses.fonct[[1]] -
+                      masses.fonct[[3]]))
 
 
 #'

@@ -10,11 +10,8 @@ if (!is.null(liste.exclusions)) {
   # alors ce seul code doit expliquer l'écart delta.
   # Ce n'est pas toujours vrai mais on peut se contenter de cette approximation
   
-  Delta <- Paie[abs(delta) > 3*minimum.positif, .SD[! any(Code %chin% liste.exclusions), 
-                                                   .(Matricule, 
-                                                     Année,
-                                                     Mois, 
-                                                     Statut,
+  Delta <- Paie[abs(delta) > minimum.delta, .SD[! any(Code %chin% liste.exclusions), 
+                                                   .(Statut,
                                                      Emploi,
                                                      Catégorie,
                                                      Service,

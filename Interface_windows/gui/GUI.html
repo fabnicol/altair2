@@ -75,9 +75,11 @@
 <p>La lignes de traitement ne sert donc qu'à liquider les cotisations CNRACL dans ce cas de figure. La somme se retouve au Brut mais pas au Net.</p>
 <p>Pour comparer au compte de gestion (qui ne comprend pas cette somme) il faudra retraiter manuellement le résultat du logiciel.</p>
 </li>
-<li><p>Cas des lignes "DONT"</p>
+<li><p>Cas des lignes de commentaires non identifiées comme telles</p>
 <p>Ces lignes sont des cas de lignes purement informatives, qui ne devraient figurer qu'en commentaire et ne s'ajoutent pas à la rémunération.</p>
 <p>Elles ne sont regrettablement pas identifiées comme telles de manière systématique.</p>
+<p>Le cas le plus problématique est celui du commentaire de type "salaire fiscal", récapitulant le salaire brut, lorsque ce commentaite est catégorisé comme Traitement.</p>
+<p>Dans ce type de ciconstance, le montant total des lignes de paie peut être presque doublé par l'effet de cette erreur de catégorisation.</p>
 </li>
 <li><p>Les confusions entre rappels et déductions ou retenues</p>
 <p>Dans certains cas, des lignes comptées en déductions ou retenues (type D ou RE) représentent en fait des rappels négatifs sur rémunérations versées. Ils sont alors omis du calcul de la variable delta, qui n'intègre pas les prélèvements sociaux, et doivent être retranchés manuellement à delta comme équivalant à un rappel sur rémunération.</p>

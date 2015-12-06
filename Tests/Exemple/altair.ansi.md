@@ -15,17 +15,19 @@ css: style.css
 
 
 
-<p class = "centered"><b>Exercices 2008 à 2012 </b></p>
+<p class = "centered"><b>Exercices 2010 à 2013 </b></p>
 <p class = "author">Fabrice Nicol</h1>
 
 
 
 
-dim. 06 déc. 2015
-   
+dim. 06 déc. 2015      
+     
+Période sous revue : 2010 - 2013    
+Nombre d'exercices : 4        
+    
 
 
-La durée du travail prise en compte dans la base de données est de  151,67  h par mois.
 
 # 1. Statistiques de population
 
@@ -40,30 +42,30 @@ La durée du travail prise en compte dans la base de données est de  151,67  h pa
 &nbsp;*Tableau 1*   
 
 
-|                                                             |  2008   |  2009   |  2010   |  2011   |  2012   |
-|:------------------------------------------------------------|:-------:|:-------:|:-------:|:-------:|:-------:|
-|Total effectifs (a)                                          | 1 119,0 | 1 146,0 | 1 221,0 | 1 215,0 | 1 260,0 |
-|&nbsp;&nbsp;&nbsp;dont présents 12 mois                      |  870,0  |  953,0  |  922,0  |  991,0  | 1 037,0 |
-|&nbsp;&nbsp;&nbsp;dont fonctionnaires (b)                    |  704,0  |  706,0  |  733,0  |  735,0  |  744,0  |
-|&nbsp;&nbsp;&nbsp;dont fonct. présents 12 mois               |  644,0  |  661,0  |  667,0  |  698,0  |  690,0  |
-|&nbsp;&nbsp;&nbsp;dont non titulaires                        |  192,0  |  210,0  |  231,0  |  244,0  |  261,0  |
-|&nbsp;&nbsp;&nbsp;dont élus                                  |  100,0  |  72,0   |  75,0   |  73,0   |  76,0   |
-|&nbsp;&nbsp;&nbsp;dont élus présents 12 mois                 |  37,0   |  67,0   |  69,0   |  72,0   |  71,0   |
-|&nbsp;&nbsp;&nbsp;dont vacataires détectés (c)               |   0,0   |   0,0   |   0,0   |   0,0   |   0,0   |
-|&nbsp;&nbsp;&nbsp;dont assistantes maternelles détectées (c) |   0,0   |   0,0   |   0,0   |   0,0   |   0,0   |
-|Postes non actifs (g)                                        |  58,0   |  89,0   |  118,0  |  66,0   |  92,0   |
-|Postes annexes (g)                                           |  138,0  |  178,0  |  198,0  |  175,0  |  180,0  |
-|Postes actifs non annexes (g)                                |  875,0  |  891,0  |  937,0  |  959,0  |  995,0  |
-|Total ETP/année (d)                                          |  891,7  |  914,6  |  946,5  |  994,1  | 1 005,3 |
-|Total ETPT/année (e)                                         |  819,8  |  846,6  |  860,6  |  908,8  |  915,5  |
-|Total ETPT/année personnes en place (f)(g)                   |   0,0   |  621,1  |  627,5  |  632,6  |  662,5  |
-|Total ETPT/année fonctionnaires (g)                          |  640,2  |  649,6  |  655,8  |  678,6  |  678,0  |
-|Total ETPT/année titulaires à temps complet (g)              |  449,6  |  477,0  |  466,2  |  461,4  |  477,1  |
-|Total ETPT non titulaires (g)                                |  141,8  |  158,3  |  172,3  |  181,4  |  202,8  |
-|Total ETPT autre statut                                      |   0,7   |   0,1   |   4,7   |   6,3   |  10,1   |
-|Total ETPT postes non actifs (g)                             |   0,5   |   0,1   |   0,2   |   0,1   |   0,0   |
-|Total ETPT postes annexes (g)                                |  38,0   |  38,7   |  31,3   |  46,5   |  28,5   |
-|Total ETPT postes actifs non annexes (g)                     |  782,3  |  807,9  |  829,1  |  862,2  |  887,0  |
+|                                                             | 2010  | 2011  | 2012  | 2013  |
+|:------------------------------------------------------------|:-----:|:-----:|:-----:|:-----:|
+|Total effectifs (a)                                          | 386,0 | 391,0 | 407,0 | 448,0 |
+|&nbsp;&nbsp;&nbsp;dont présents 12 mois                      | 224,0 | 227,0 | 237,0 | 260,0 |
+|&nbsp;&nbsp;&nbsp;dont fonctionnaires (b)                    | 150,0 | 163,0 | 171,0 | 179,0 |
+|&nbsp;&nbsp;&nbsp;dont fonct. présents 12 mois               | 137,0 | 146,0 | 154,0 | 165,0 |
+|&nbsp;&nbsp;&nbsp;dont non titulaires                        | 64,0  | 61,0  | 83,0  | 80,0  |
+|&nbsp;&nbsp;&nbsp;dont élus                                  | 17,0  | 17,0  | 17,0  | 14,0  |
+|&nbsp;&nbsp;&nbsp;dont élus présents 12 mois                 | 17,0  | 17,0  | 14,0  | 14,0  |
+|&nbsp;&nbsp;&nbsp;dont vacataires détectés (c)               | 33,0  | 34,0  | 40,0  | 56,0  |
+|&nbsp;&nbsp;&nbsp;dont assistantes maternelles détectées (c) |  0,0  | 13,0  | 15,0  | 14,0  |
+|Postes non actifs (g)                                        | 42,0  | 77,0  | 66,0  | 83,0  |
+|Postes annexes (g)                                           | 148,0 | 160,0 | 139,0 | 182,0 |
+|Postes actifs non annexes (g)                                | 221,0 | 214,0 | 251,0 | 252,0 |
+|Total ETP/année (d)                                          | 254,9 | 221,0 | 252,3 | 266,1 |
+|Total ETPT/année (e)                                         | 211,0 | 183,2 | 219,4 | 224,5 |
+|Total ETPT/année personnes en place (f)(g)                   |  0,0  |  0,0  | 125,6 | 142,9 |
+|Total ETPT/année fonctionnaires (g)                          | 126,4 | 131,2 | 141,8 | 142,0 |
+|Total ETPT/année titulaires à temps complet (g)              | 86,0  | 82,5  | 82,5  | 85,0  |
+|Total ETPT non titulaires (g)                                | 47,1  | 35,4  | 55,4  | 57,7  |
+|Total ETPT autre statut                                      |  0,0  |  0,0  |  1,5  |  3,2  |
+|Total ETPT postes non actifs (g)                             |  0,0  |  0,0  |  0,0  |  0,0  |
+|Total ETPT postes annexes (g)                                | 24,4  | 13,1  | 14,4  | 13,2  |
+|Total ETPT postes actifs non annexes (g)                     | 186,6 | 170,1 | 205,1 | 211,3 |
 
 
 **Nota:**   
@@ -76,7 +78,12 @@ La durée du travail prise en compte dans la base de données est de  151,67  h pa
 *(g) Postes actifs et non annexes :* voir [Compléments méthodologiques](Docs/méthodologie.pdf)    
 *&nbsp;&nbsp;&nbsp;Un poste actif est défini par au moins un bulletin de paie comportant un traitement positif pour un volume d'heures de travail mensuel non nul.*             
 *&nbsp;&nbsp;&nbsp;Un poste non annexe est défini comme la conjonction de critères horaires et de revenu sur une année. La période minimale de référence est le mois.*   
-*Les dix dernières lignes du tableau sont calculées en ne tenant pas compte des élus.*      
+*Les dix dernières lignes du tableau sont calculées en ne tenant pas compte des élus.*    
+
+
+La durée du travail prise en compte dans la base de données est de  151,67  h par mois.
+
+     
   
 [Lien vers la base des effectifs](Bases/Effectifs/tableau.effectifs.csv)
 
@@ -90,37 +97,37 @@ La durée du travail prise en compte dans la base de données est de  151,67  h pa
    
 
 
-|  Statistique  | Âge des personnels <br>au 31/12/2008 | Effectif |
+|  Statistique  | Âge des personnels <br>au 31/12/2010 | Effectif |
 |:-------------:|:------------------------------------:|:--------:|
-|    Minimum    |                  18                  |          |
-| 1er quartile  |                  30                  |          |
-|    Médiane    |                  38                  |          |
-|    Moyenne    |                38,65                 |   941    |
-| 3ème quartile |                  48                  |          |
-|    Maximum    |                  64                  |          |
+|    Minimum    |                  21                  |          |
+| 1er quartile  |                  35                  |          |
+|    Médiane    |                  42                  |          |
+|    Moyenne    |                 43,2                 |          |
+| 3ème quartile |                  51                  |          |
+|    Maximum    |                  77                  |          |
 
  
 
-![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9-1.png) 
+![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-10-1.png) 
 
  
 &nbsp;*Tableau 3*   
    
 
 
-|  Statistique  | Âge des personnels <br>au 31/12/2012 | Effectif |
+|  Statistique  | Âge des personnels <br>au 31/12/2013 | Effectif |
 |:-------------:|:------------------------------------:|:--------:|
-|    Minimum    |                  18                  |          |
-| 1er quartile  |                  31                  |          |
-|    Médiane    |                  40                  |          |
-|    Moyenne    |                40,08                 |          |
-| 3ème quartile |                  49                  |          |
-|    Maximum    |                  66                  |          |
+|    Minimum    |                  19                  |          |
+| 1er quartile  |                  36                  |          |
+|    Médiane    |                  44                  |          |
+|    Moyenne    |                43,97                 |          |
+| 3ème quartile |                  53                  |          |
+|    Maximum    |                  79                  |          |
 
  
  
 
-![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11-1.png) 
+![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-12-1.png) 
 
 
 ### 1.3 Pyramide des âges, personnels non titulaires
@@ -129,34 +136,34 @@ La durée du travail prise en compte dans la base de données est de  151,67  h pa
    
 
 
-|  Statistique  | Âge des personnels non titulaires<br>au 31/12/2008 | Effectif |
+|  Statistique  | Âge des personnels non titulaires<br>au 31/12/2010 | Effectif |
 |:-------------:|:--------------------------------------------------:|:--------:|
-|    Minimum    |                         18                         |          |
-| 1er quartile  |                         21                         |          |
-|    Médiane    |                        26,5                        |          |
-|    Moyenne    |                       31,72                        |   260    |
-| 3ème quartile |                         40                         |          |
-|    Maximum    |                         63                         |          |
+|    Minimum    |                         21                         |          |
+| 1er quartile  |                         33                         |          |
+|    Médiane    |                         44                         |          |
+|    Moyenne    |                       44,13                        |          |
+| 3ème quartile |                         53                         |          |
+|    Maximum    |                         77                         |          |
 
  
 
-![plot of chunk unnamed-chunk-13](figure/unnamed-chunk-13-1.png) 
+![plot of chunk unnamed-chunk-14](figure/unnamed-chunk-14-1.png) 
 
  
 &nbsp;*Tableau 5*   
    
 
 
-|  Statistique  | Âge des personnels non titulaires<br>au 31/12/2012 | Effectif |
+|  Statistique  | Âge des personnels non titulaires<br>au 31/12/2013 | Effectif |
 |:-------------:|:--------------------------------------------------:|:--------:|
-|    Minimum    |                         18                         |          |
-| 1er quartile  |                         23                         |          |
-|    Médiane    |                         27                         |          |
-|    Moyenne    |                       32,23                        |   324    |
-| 3ème quartile |                       40,25                        |          |
-|    Maximum    |                         62                         |          |
+|    Minimum    |                         19                         |          |
+| 1er quartile  |                         33                         |          |
+|    Médiane    |                         42                         |          |
+|    Moyenne    |                       43,81                        |          |
+| 3ème quartile |                         55                         |          |
+|    Maximum    |                         79                         |          |
 
-![plot of chunk unnamed-chunk-14](figure/unnamed-chunk-14-1.png) 
+![plot of chunk unnamed-chunk-15](figure/unnamed-chunk-15-1.png) 
 
  
 [Lien vers la base des âges](Bases/Effectifs/Bulletins.paie.nir.nontit.csv)  
@@ -169,37 +176,37 @@ La durée du travail prise en compte dans la base de données est de  151,67  h pa
    
 
 
-|  Statistique  | Âge des personnels <br>au 31/12/2008 | Effectif |
+|  Statistique  | Âge des personnels <br>au 31/12/2010 | Effectif |
 |:-------------:|:------------------------------------:|:--------:|
-|    Minimum    |                  22                  |          |
-| 1er quartile  |                  34                  |          |
-|    Médiane    |                  41                  |          |
-|    Moyenne    |                41,42                 |   674    |
+|    Minimum    |                  21                  |          |
+| 1er quartile  |                  35                  |          |
+|    Médiane    |                  42                  |          |
+|    Moyenne    |                42,47                 |   144    |
 | 3ème quartile |                  49                  |          |
-|    Maximum    |                  64                  |          |
+|    Maximum    |                  62                  |          |
 
  
 
 
-![plot of chunk unnamed-chunk-16](figure/unnamed-chunk-16-1.png) 
+![plot of chunk unnamed-chunk-17](figure/unnamed-chunk-17-1.png) 
 
  
 &nbsp;*Tableau 7*   
    
 
 
-|  Statistique  | Âge des personnels <br>au 31/12/2012 | Effectif |
+|  Statistique  | Âge des personnels <br>au 31/12/2013 | Effectif |
 |:-------------:|:------------------------------------:|:--------:|
 |    Minimum    |                  23                  |          |
-| 1er quartile  |                  37                  |          |
-|    Médiane    |                  43                  |          |
-|    Moyenne    |                43,78                 |   723    |
+| 1er quartile  |                  38                  |          |
+|    Médiane    |                  45                  |          |
+|    Moyenne    |                44,59                 |   169    |
 | 3ème quartile |                  51                  |          |
-|    Maximum    |                  66                  |          |
+|    Maximum    |                  65                  |          |
 
 
 
-![plot of chunk unnamed-chunk-18](figure/unnamed-chunk-18-1.png) 
+![plot of chunk unnamed-chunk-19](figure/unnamed-chunk-19-1.png) 
 
  
 [Lien vers la base des âges](Bases/Effectifs/Bulletins.paie.nir.fonctionnaires.csv)  
@@ -210,42 +217,42 @@ La durée du travail prise en compte dans la base de données est de  151,67  h pa
    
 
 
-|  Statistique  | Âge des personnels <br>au 31/12/2008 | Effectif |
+|  Statistique  | Âge des personnels <br>au 31/12/2010 | Effectif |
 |:-------------:|:------------------------------------:|:--------:|
-|    Minimum    |                  18                  |          |
-| 1er quartile  |                  30                  |          |
-|    Médiane    |                  38                  |          |
-|    Moyenne    |                38,72                 |   934    |
-| 3ème quartile |                  48                  |          |
-|    Maximum    |                  64                  |          |
+|    Minimum    |                  21                  |          |
+| 1er quartile  |                  35                  |          |
+|    Médiane    |                  42                  |          |
+|    Moyenne    |                 43,2                 |          |
+| 3ème quartile |                  51                  |          |
+|    Maximum    |                  77                  |          |
 
  
 
-![plot of chunk unnamed-chunk-20](figure/unnamed-chunk-20-1.png) 
+![plot of chunk unnamed-chunk-21](figure/unnamed-chunk-21-1.png) 
 
 &nbsp;*Tableau 9*   
    
 
 
-|  Statistique  | Âge des personnels <br>au 31/12/2012 | Effectif |
+|  Statistique  | Âge des personnels <br>au 31/12/2013 | Effectif |
 |:-------------:|:------------------------------------:|:--------:|
-|    Minimum    |                  18                  |          |
-| 1er quartile  |                  32                  |          |
-|    Médiane    |                  40                  |          |
-|    Moyenne    |                 40,2                 |   1047   |
-| 3ème quartile |                  49                  |          |
-|    Maximum    |                  66                  |          |
+|    Minimum    |                  19                  |          |
+| 1er quartile  |                  36                  |          |
+|    Médiane    |                  44                  |          |
+|    Moyenne    |                44,28                 |          |
+| 3ème quartile |                  53                  |          |
+|    Maximum    |                  79                  |          |
 
 
 
-![plot of chunk unnamed-chunk-22](figure/unnamed-chunk-22-1.png) 
+![plot of chunk unnamed-chunk-23](figure/unnamed-chunk-23-1.png) 
 
  
 [Lien vers la base des âges](Bases/Effectifs/Bulletins.paie.nir.permanents.csv)  
  
 ### 1.6 Effectifs des personnels par durée de service
 
-**Personnels en fonction (hors élus) des exercices 2008 à 2012 inclus :**
+**Personnels en fonction (hors élus) des exercices 2010 à 2013 inclus :**
 
  
 &nbsp;*Tableau 10*   
@@ -254,11 +261,11 @@ La durée du travail prise en compte dans la base de données est de  151,67  h pa
 
 | Plus de 2 ans | Moins de 2 ans | Moins d'un an | Moins de six mois |
 |:-------------:|:--------------:|:-------------:|:-----------------:|
-|      945      |      268       |      137      |        57         |
+|      194      |      330       |      103      |        29         |
 
 
 
-![plot of chunk unnamed-chunk-24](figure/unnamed-chunk-24-1.png) 
+![plot of chunk unnamed-chunk-25](figure/unnamed-chunk-25-1.png) 
 
 
 **Effectifs (hors élus)**   
@@ -271,11 +278,11 @@ La durée du travail prise en compte dans la base de données est de  151,67  h pa
    
 
 
-|                  | 2008 | 2009 | 2010 | 2011 | 2012 |
-|:-----------------|:----:|:----:|:----:|:----:|:----:|
-|Plus de deux ans  | 792  | 844  | 910  | 886  | 861  |
-|Moins de deux ans |  83  |  47  |  27  |  73  | 134  |
-|Total             | 875  | 891  | 937  | 959  | 995  |
+|                  | 2010 | 2011 | 2012 | 2013 |
+|:-----------------|:----:|:----:|:----:|:----:|
+|Plus de deux ans  |  0   | 177  | 194  | 190  |
+|Moins de deux ans | 221  |  37  |  55  |  62  |
+|Total             | 221  | 214  | 249  | 252  |
 
 
 
@@ -291,7 +298,7 @@ La durée du travail prise en compte dans la base de données est de  151,67  h pa
 
 
    
-# 2. Rémunérations brutes : analyse pour l'exercice 2008    
+# 2. Rémunérations brutes : analyse pour l'exercice 2010    
    
 ## 2.1 Masse salariale brute de l'ensemble des agents     
     
@@ -299,7 +306,7 @@ La durée du travail prise en compte dans la base de données est de  151,67  h pa
 
 
 
-### Cumuls des rémunérations brutes pour l'exercice 2008
+### Cumuls des rémunérations brutes pour l'exercice 2010
  
 *Personnels (hors élus)*     
  
@@ -307,13 +314,13 @@ La durée du travail prise en compte dans la base de données est de  151,67  h pa
    
 
 
-|           Agrégats           |   k&euro;    |
-|------------------------------|--------------|
-|   Brut annuel (bulletins)    | 23 318 144,6 |
-| Brut annuel (lignes), dont : | 23 365 224,6 |
-|         \ \ Primes :         | 6 347 169,0  |
-|   \ \ Autres rémunérations   |    797,4     |
-|     Part de primes en %      |     27,2     |
+|           Agrégats            |   k&euro;    |
+|-------------------------------|--------------|
+|    Brut annuel (bulletins)    | 5 307 936,4  |
+|    Brut annuel (lignes) :     | 10 485 230,7 |
+|       \ dont \ Primes :       | 1 028 260,9  |
+| \ dont \ Autres rémunérations |   50 427,2   |
+|      Part de primes en %      |     19,4     |
 
  
 **Définitions :**
@@ -321,7 +328,6 @@ La durée du travail prise en compte dans la base de données est de  151,67  h pa
  *Brut annuel (bulletins)*   : somme du champ *Brut*    
  *Brut annuel (lignes)*      : somme du champ *Montant* des lignes de paye, dont :    
  *Primes*                    : indemnités sauf remboursements, certaines IJSS, indemnités d'élu le cas échéant, Supplément familial de traitement et Indemnité de résidence        
- *Indemnités d'élu*          : toutes rémunérations indemnitaires des élus    
  *Autres rémunérations*      : acomptes, retenues sur brut, rémunérations diverses, rappels   
  
 **Tests de cohérence**
@@ -335,9 +341,9 @@ Somme des rémunérations brutes versées aux personnels (non élus) :
 
 |     Agrégats      |   k&euro;    |
 |-------------------|--------------|
-| Bulletins de paie | 23 318 144,6 |
-|  Lignes de paie   | 23 365 224,6 |
-|    Différence     |  -47 079,9   |
+| Bulletins de paie | 5 307 936,4  |
+|  Lignes de paie   | 10 485 230,7 |
+|    Différence     | -5 177 294,3 |
 
 
 à comparer aux soldes des comptes 641 et 648 du compte de gestion.
@@ -348,54 +354,60 @@ Somme des rémunérations brutes versées aux personnels (non élus) :
 *Cette section concerne les personnels fonctionnaires titulaires et stagiaires*  
 
 
-![plot of chunk unnamed-chunk-132](figure/unnamed-chunk-132-1.png) ![plot of chunk unnamed-chunk-132](figure/unnamed-chunk-132-2.png) ![plot of chunk unnamed-chunk-132](figure/unnamed-chunk-132-3.png) ![plot of chunk unnamed-chunk-132](figure/unnamed-chunk-132-4.png) ![plot of chunk unnamed-chunk-132](figure/unnamed-chunk-132-5.png) ![plot of chunk unnamed-chunk-132](figure/unnamed-chunk-132-6.png) 
+![plot of chunk unnamed-chunk-133](figure/unnamed-chunk-133-1.png) ![plot of chunk unnamed-chunk-133](figure/unnamed-chunk-133-2.png) ![plot of chunk unnamed-chunk-133](figure/unnamed-chunk-133-3.png) ![plot of chunk unnamed-chunk-133](figure/unnamed-chunk-133-4.png) ![plot of chunk unnamed-chunk-133](figure/unnamed-chunk-133-5.png) ![plot of chunk unnamed-chunk-133](figure/unnamed-chunk-133-6.png) 
 
    
 **Nota :**   
 *EQTP : Equivalent temps plein = 12 . moyenne du ratio ratio rémunération / quotité*  
    
-**Effectif : 693**
+**Effectif : 149**
 
 **Tests de cohérence**
 
-       
-       
-       
+
+
 Somme des rémunérations brutes versées aux personnels titulaires et stagiaires :
 
  
 &nbsp;*Tableau 14*   
    
 
-```
-## Error in `[.data.table`(masses.premier, "Montant.brut.annuel"): When i is a data.table (or character vector), the columns to join by must be specified either using 'on=' argument (see ?data.table) or by keying x (i.e. sorted, and, marked as sorted, see ?setkey). Keyed joins might have further speed benefits on very large data due to x being sorted in RAM.
-```
+
+|            Agrégats             |   k&euro;   |
+|---------------------------------|-------------|
+|     Brut annuel (bulletins)     | 3 455 355,0 |
+|     Brut annuel (lignes) :      | 6 868 030,9 |
+|       \ dont \ \ primes :       |  668 731,8  |
+| \ dont \ autres rémunérations : |  29 346,0   |
+|       Part de primes en %       |    19,4     |
 
 
 **Définitions :**
 
  *Brut annuel (bulletins)*   : somme du champ *Brut*   
  *Brut annuel (lignes)*      : somme du champ *Montant* des lignes de paye, dont :   
- *Primes*                    : indemnités sauf remboursements, certaines IJSS, indemnités d'élu le cas échéant, Supplément familial de traitement et Indemnité de résidence        
- *Indemnités d'élus*         : toutes rémunérations indemnitaires des élus    
+ *Primes*                    : indemnités sauf remboursements, certaines IJSS, Supplément familial de traitement et Indemnité de résidence       
  *Autres rémunérations*      : acomptes, retenues sur brut, rémunérations diverses, rappels   
 
 **Tests de cohérence**
 
-Somme des rémunérations brutes versées aux personnels (non élus) :
+Somme des rémunérations brutes versées aux personnels (fonctionnaires) :
 
  
 &nbsp;*Tableau 15*   
    
 
-```
-## Error in `[.data.table`(masses.premier, "Montant.brut.annuel"): When i is a data.table (or character vector), the columns to join by must be specified either using 'on=' argument (see ?data.table) or by keying x (i.e. sorted, and, marked as sorted, see ?setkey). Keyed joins might have further speed benefits on very large data due to x being sorted in RAM.
-```
+
+|     Agrégats      |   k&euro;    |
+|-------------------|--------------|
+| Bulletins de paie | 3 455 355,0  |
+|  Lignes de paie   | 6 868 030,9  |
+|    Différence     | -3 412 675,9 |
 
 
 A comparer aux soldes des comptes 6411, 6419 et 648 du compte de gestion.
 
-**Formation et distribution du salaire brut moyen par tête (SMPT) en EQTP pour l'année 2008**     
+**Formation et distribution du salaire brut moyen par tête (SMPT) en EQTP pour l'année 2010**     
  
 &nbsp;*Tableau 16*   
    
@@ -403,12 +415,12 @@ A comparer aux soldes des comptes 6411, 6419 et 648 du compte de gestion.
 
 |   Statistique| Traitement indiciaire|   Primes| Autres rémunérations| Effectif|
 |-------------:|---------------------:|--------:|--------------------:|--------:|
-|       Minimum|                 3 164|    763,5|                    0|         |
-|  1er quartile|                16 221|  4 830,1|                    0|         |
-|       Médiane|                17 915|  5 927,4|                    0|         |
-|       Moyenne|                19 639|  7 270,6|                    0|      683|
-| 3ème quartile|                22 428|  8 281,7|                    0|         |
-|       Maximum|                80 378| 42 553,4|                    0|         |
+|       Minimum|                 7 249|    567,2|                  0,0|         |
+|  1er quartile|                35 888|  2 771,3|                  0,0|         |
+|       Médiane|                39 177|  3 791,3|                  0,0|         |
+|       Moyenne|                43 141|  4 702,7|                209,6|      140|
+| 3ème quartile|                48 885|  4 689,8|                123,6|         |
+|       Maximum|               155 501| 60 297,8|              1 475,8|         |
 
  
 &nbsp;*Tableau 17*   
@@ -417,12 +429,12 @@ A comparer aux soldes des comptes 6411, 6419 et 648 du compte de gestion.
 
 |   Statistique| Total lignes hors rappels| Total brut| SMPT brut en EQTP| Part de la rém. indemnitaire| Effectif|
 |-------------:|-------------------------:|----------:|-----------------:|----------------------------:|--------:|
-|       Minimum|                     4 024|      4 063|                 0|                        9,158|         |
-|  1er quartile|                    21 543|     21 360|            21 639|                       21,751|         |
-|       Médiane|                    24 533|     24 382|            24 780|                       24,628|         |
-|       Moyenne|                    26 909|     26 724|            27 559|                       26,210|      683|
-| 3ème quartile|                    29 412|     29 256|            29 757|                       29,084|         |
-|       Maximum|                   122 739|    119 918|           119 591|                       50,764|         |
+|       Minimum|                     8 735|      4 379|                 0|                        4,744|         |
+|  1er quartile|                    38 820|     19 430|            20 489|                       13,633|         |
+|       Médiane|                    43 503|     21 751|            22 857|                       17,401|         |
+|       Moyenne|                    47 843|     23 950|            25 227|                       18,106|      140|
+| 3ème quartile|                    52 698|     26 349|            27 508|                       20,969|         |
+|       Maximum|                   215 799|    109 277|           109 277|                       55,179|         |
 
   
 *Hors vacataires identifiés, assistantes maternelles, élus locaux et pour les postes actifs non annexes*  
@@ -439,12 +451,12 @@ A comparer aux soldes des comptes 6411, 6419 et 648 du compte de gestion.
 
 |   Statistique| Traitement indiciaire| Primes| Autres rémunérations|
 |-------------:|---------------------:|------:|--------------------:|
-|       Minimum|                 6 227|  2 069|                    0|
-|  1er quartile|                21 733|  8 236|                    0|
-|       Médiane|                26 248| 11 276|                    0|
-|       Moyenne|                27 776| 13 447|                    0|
-| 3ème quartile|                31 878| 15 831|                    0|
-|       Maximum|                80 378| 42 553|                    0|
+|       Minimum|                50 007|  2 160|                    0|
+|  1er quartile|                65 824|  7 045|                    0|
+|       Médiane|                70 007|  8 501|                    0|
+|       Moyenne|                76 348| 12 564|                    0|
+| 3ème quartile|                79 517| 12 601|                    0|
+|       Maximum|               155 501| 60 298|                    0|
 
 
  
@@ -454,15 +466,15 @@ A comparer aux soldes des comptes 6411, 6419 et 648 du compte de gestion.
 
 |   Statistique| Total rémunérations| Total rémunérations EQTP| Part de la rémunération indemnitaire|
 |-------------:|-------------------:|------------------------:|------------------------------------:|
-|       Minimum|               8 322|                    2 406|                                21,89|
-|  1er quartile|              31 465|                   32 031|                                25,67|
-|       Médiane|              36 748|                   36 791|                                31,82|
-|       Moyenne|              40 901|                   41 876|                                31,75|
-| 3ème quartile|              45 234|                   50 424|                                36,43|
-|       Maximum|             119 918|                  119 591|                                47,79|
+|       Minimum|              29 064|                   34 026|                                5,722|
+|  1er quartile|              35 885|                   37 560|                               17,789|
+|       Médiane|              38 812|                   41 290|                               25,612|
+|       Moyenne|              44 548|                   46 646|                               24,773|
+| 3ème quartile|              44 522|                   46 884|                               28,480|
+|       Maximum|             109 277|                  109 277|                               55,179|
 
 
-**Effectif : 107**  
+**Effectif : 15**  
 
 **Catégorie B**
 
@@ -471,14 +483,14 @@ A comparer aux soldes des comptes 6411, 6419 et 648 du compte de gestion.
    
 
 
-|   Statistique| Traitement indiciaire| Primes| Autres rémunérations|
-|-------------:|---------------------:|------:|--------------------:|
-|       Minimum|                 3 821|  1 165|                    0|
-|  1er quartile|                18 646|  5 899|                    0|
-|       Médiane|                21 130|  6 982|                    0|
-|       Moyenne|                21 400|  7 443|                    0|
-| 3ème quartile|                24 827|  8 677|                    0|
-|       Maximum|                32 596| 13 055|                    0|
+|   Statistique| Traitement indiciaire|   Primes| Autres rémunérations|
+|-------------:|---------------------:|--------:|--------------------:|
+|       Minimum|                22 138|    567,2|                0,000|
+|  1er quartile|                38 081|  2 866,7|                0,000|
+|       Médiane|                45 236|  3 715,1|                0,000|
+|       Moyenne|                43 971|  4 086,4|                2,555|
+| 3ème quartile|                49 434|  4 694,7|                0,000|
+|       Maximum|                64 623| 11 656,4|              120,070|
 
 
  
@@ -488,15 +500,15 @@ A comparer aux soldes des comptes 6411, 6419 et 648 du compte de gestion.
 
 |   Statistique| Total rémunérations| Total rémunérations EQTP| Part de la rémunération indemnitaire|
 |-------------:|-------------------:|------------------------:|------------------------------------:|
-|       Minimum|               4 986|                        0|                                16,65|
-|  1er quartile|              24 730|                   25 011|                                23,52|
-|       Médiane|              28 754|                   29 756|                                24,92|
-|       Moyenne|              28 783|                   29 209|                                25,68|
-| 3ème quartile|              33 568|                   34 283|                                26,67|
-|       Maximum|              43 051|                   42 933|                                46,29|
+|       Minimum|              11 956|                        0|                                4,744|
+|  1er quartile|              20 856|                   23 002|                               12,693|
+|       Médiane|              24 342|                   25 926|                               16,023|
+|       Moyenne|              24 057|                   24 823|                               16,581|
+| 3ème quartile|              28 464|                   28 923|                               20,426|
+|       Maximum|              39 280|                   36 015|                               29,675|
 
 
-**Effectif : 91**
+**Effectif : 47**
 
 **Catégorie C**
 
@@ -507,12 +519,12 @@ A comparer aux soldes des comptes 6411, 6419 et 648 du compte de gestion.
 
 |   Statistique| Traitement indiciaire|   Primes| Autres rémunérations|
 |-------------:|---------------------:|--------:|--------------------:|
-|       Minimum|                 3 164|    763,5|                    0|
-|  1er quartile|                16 010|  4 511,2|                    0|
-|       Médiane|                16 895|  5 402,6|                    0|
-|       Moyenne|                17 513|  5 875,5|                    0|
-| 3ème quartile|                19 374|  6 610,3|                    0|
-|       Maximum|                26 268| 15 826,5|                    0|
+|       Minimum|                 7 249|    770,5|                 0,00|
+|  1er quartile|                35 263|  2 624,8|                 0,00|
+|       Médiane|                37 156|  3 543,8|                29,43|
+|       Moyenne|                36 255|  3 562,2|               374,69|
+| 3ème quartile|                39 622|  4 330,9|               878,82|
+|       Maximum|                50 554| 10 426,6|             1 475,76|
 
 
  
@@ -522,14 +534,14 @@ A comparer aux soldes des comptes 6411, 6419 et 648 du compte de gestion.
 
 |   Statistique| Total rémunérations| Total rémunérations EQTP| Part de la rémunération indemnitaire|
 |-------------:|-------------------:|------------------------:|------------------------------------:|
-|       Minimum|               4 063|                    1 745|                                9,158|
-|  1er quartile|              20 845|                   21 265|                               21,412|
-|       Médiane|              22 764|                   23 202|                               23,489|
-|       Moyenne|              23 210|                   24 091|                               25,089|
-| 3ème quartile|              25 949|                   26 646|                               27,582|
-|       Maximum|              38 240|                   42 197|                               50,764|
+|       Minimum|               4 379|                   15 825|                                 8,33|
+|  1er quartile|              18 966|                   19 752|                                14,66|
+|       Médiane|              20 265|                   20 916|                                17,34|
+|       Moyenne|              19 925|                   21 351|                                17,74|
+| 3ème quartile|              21 915|                   22 694|                                19,81|
+|       Maximum|              30 102|                   30 102|                                34,64|
 
-**Effectif : 485**
+**Effectif : 78**
 
 
 ######      <br>
@@ -539,7 +551,7 @@ A comparer aux soldes des comptes 6411, 6419 et 648 du compte de gestion.
 *Les assistantes maternelles et les vacataires sont ici inclus, pour les postes non annexes*   
 
 
-![plot of chunk unnamed-chunk-145](figure/unnamed-chunk-145-1.png) 
+![plot of chunk unnamed-chunk-146](figure/unnamed-chunk-146-1.png) 
 
   
 **Nota :**
@@ -547,28 +559,28 @@ Ne sont retenues que les rémunérations supérieures à 1 000 k&euro;.
 Les élus ne sont pas pris en compte.
   
 
-![plot of chunk unnamed-chunk-146](figure/unnamed-chunk-146-1.png) 
+![plot of chunk unnamed-chunk-147](figure/unnamed-chunk-147-1.png) 
 
 
 
 
 
   
-**Formation et distribution du salaire brut moyen par tête (SMPT) en EQTP pour l'année 2008**     
+**Formation et distribution du salaire brut moyen par tête (SMPT) en EQTP pour l'année 2010**     
   
  
 &nbsp;*Tableau 24*   
    
 
 
-|   Statistique| Primes| Autres rémunérations| Effectif|
-|-------------:|------:|--------------------:|--------:|
-|       Minimum|      0|                0,000|         |
-|  1er quartile|  2 775|                0,000|         |
-|       Médiane|  5 223|                0,000|         |
-|       Moyenne|  6 718|                4,153|      192|
-| 3ème quartile|  7 731|                0,000|         |
-|       Maximum| 43 361|              797,420|         |
+|   Statistique|   Primes| Autres rémunérations| Effectif|
+|-------------:|--------:|--------------------:|--------:|
+|       Minimum|   -898,1|                  0,0|         |
+|  1er quartile|    675,5|                  0,0|         |
+|       Médiane|  2 443,9|                  0,0|         |
+|       Moyenne|  4 072,1|                254,5|       81|
+| 3ème quartile|  4 898,0|                428,4|         |
+|       Maximum| 43 409,2|              1 970,5|         |
 
  
 &nbsp;*Tableau 25*   
@@ -577,12 +589,12 @@ Les élus ne sont pas pris en compte.
 
 |   Statistique| Total rémunérations| Total rémunérations EQTP| Effectif|
 |-------------:|-------------------:|------------------------:|--------:|
-|       Minimum|               3 768|                    2 182|         |
-|  1er quartile|              12 035|                   21 651|         |
-|       Médiane|              22 813|                   25 140|         |
-|       Moyenne|              25 191|                   30 220|      192|
-| 3ème quartile|              30 996|                   35 658|         |
-|       Maximum|              97 650|                   97 383|         |
+|       Minimum|               4 143|                    9 870|         |
+|  1er quartile|               9 148|                   18 793|         |
+|       Médiane|              16 948|                   22 470|         |
+|       Moyenne|              20 137|                   25 939|       81|
+| 3ème quartile|              22 650|                   25 412|         |
+|       Maximum|             103 993|                  103 993|         |
 
 
 
@@ -595,7 +607,7 @@ Les élus ne sont pas pris en compte.
 
 
    
-# 3. Rémunérations brutes : analyse pour l'exercice 2012    
+# 3. Rémunérations brutes : analyse pour l'exercice 2013    
    
 ## 3.1 Masse salariale brute de l'ensemble des agents     
     
@@ -603,7 +615,7 @@ Les élus ne sont pas pris en compte.
 
 
 
-### Cumuls des rémunérations brutes pour l'exercice 2012
+### Cumuls des rémunérations brutes pour l'exercice 2013
  
 *Personnels (hors élus)*     
  
@@ -611,13 +623,13 @@ Les élus ne sont pas pris en compte.
    
 
 
-|           Agrégats           |   k&euro;    |
-|------------------------------|--------------|
-|   Brut annuel (bulletins)    | 27 545 129,5 |
-| Brut annuel (lignes), dont : | 27 658 590,4 |
-|         \ \ Primes :         | 7 673 002,4  |
-|   \ \ Autres rémunérations   |   -3 271,1   |
-|     Part de primes en %      |     27,9     |
+|           Agrégats            |   k&euro;   |
+|-------------------------------|-------------|
+|    Brut annuel (bulletins)    | 6 606 466,5 |
+|    Brut annuel (lignes) :     | 6 372 701,1 |
+|       \ dont \ Primes :       | 1 145 163,5 |
+| \ dont \ Autres rémunérations |  17 876,2   |
+|      Part de primes en %      |    17,3     |
 
  
 **Définitions :**
@@ -625,7 +637,6 @@ Les élus ne sont pas pris en compte.
  *Brut annuel (bulletins)*   : somme du champ *Brut*    
  *Brut annuel (lignes)*      : somme du champ *Montant* des lignes de paye, dont :    
  *Primes*                    : indemnités sauf remboursements, certaines IJSS, indemnités d'élu le cas échéant, Supplément familial de traitement et Indemnité de résidence        
- *Indemnités d'élu*          : toutes rémunérations indemnitaires des élus    
  *Autres rémunérations*      : acomptes, retenues sur brut, rémunérations diverses, rappels   
  
 **Tests de cohérence**
@@ -637,11 +648,11 @@ Somme des rémunérations brutes versées aux personnels (non élus) :
    
 
 
-|     Agrégats      |   k&euro;    |
-|-------------------|--------------|
-| Bulletins de paie | 27 545 129,5 |
-|  Lignes de paie   | 27 658 590,4 |
-|    Différence     |  -113 460,9  |
+|     Agrégats      |   k&euro;   |
+|-------------------|-------------|
+| Bulletins de paie | 6 606 466,5 |
+|  Lignes de paie   | 6 372 701,1 |
+|    Différence     |  233 765,4  |
 
 
 à comparer aux soldes des comptes 641 et 648 du compte de gestion.
@@ -652,54 +663,60 @@ Somme des rémunérations brutes versées aux personnels (non élus) :
 *Cette section concerne les personnels fonctionnaires titulaires et stagiaires*  
 
 
-![plot of chunk unnamed-chunk-155](figure/unnamed-chunk-155-1.png) ![plot of chunk unnamed-chunk-155](figure/unnamed-chunk-155-2.png) ![plot of chunk unnamed-chunk-155](figure/unnamed-chunk-155-3.png) ![plot of chunk unnamed-chunk-155](figure/unnamed-chunk-155-4.png) ![plot of chunk unnamed-chunk-155](figure/unnamed-chunk-155-5.png) ![plot of chunk unnamed-chunk-155](figure/unnamed-chunk-155-6.png) 
+![plot of chunk unnamed-chunk-156](figure/unnamed-chunk-156-1.png) ![plot of chunk unnamed-chunk-156](figure/unnamed-chunk-156-2.png) ![plot of chunk unnamed-chunk-156](figure/unnamed-chunk-156-3.png) ![plot of chunk unnamed-chunk-156](figure/unnamed-chunk-156-4.png) ![plot of chunk unnamed-chunk-156](figure/unnamed-chunk-156-5.png) ![plot of chunk unnamed-chunk-156](figure/unnamed-chunk-156-6.png) 
 
    
 **Nota :**   
 *EQTP : Equivalent temps plein = 12 . moyenne du ratio ratio rémunération / quotité*  
    
-**Effectif : 739**
+**Effectif : 172**
 
 **Tests de cohérence**
 
-       
-       
-       
+
+
 Somme des rémunérations brutes versées aux personnels titulaires et stagiaires :
 
  
 &nbsp;*Tableau 28*   
    
 
-```
-## Error in `[.data.table`(masses.premier, "Montant.brut.annuel"): When i is a data.table (or character vector), the columns to join by must be specified either using 'on=' argument (see ?data.table) or by keying x (i.e. sorted, and, marked as sorted, see ?setkey). Keyed joins might have further speed benefits on very large data due to x being sorted in RAM.
-```
+
+|            Agrégats             |   k&euro;   |
+|---------------------------------|-------------|
+|     Brut annuel (bulletins)     | 4 339 731,2 |
+|     Brut annuel (lignes) :      | 4 295 767,1 |
+|       \ dont \ \ primes :       |  823 806,8  |
+| \ dont \ autres rémunérations : |  16 452,9   |
+|       Part de primes en %       |    19,0     |
 
 
 **Définitions :**
 
  *Brut annuel (bulletins)*   : somme du champ *Brut*   
  *Brut annuel (lignes)*      : somme du champ *Montant* des lignes de paye, dont :   
- *Primes*                    : indemnités sauf remboursements, certaines IJSS, indemnités d'élu le cas échéant, Supplément familial de traitement et Indemnité de résidence        
- *Indemnités d'élus*         : toutes rémunérations indemnitaires des élus    
+ *Primes*                    : indemnités sauf remboursements, certaines IJSS, Supplément familial de traitement et Indemnité de résidence       
  *Autres rémunérations*      : acomptes, retenues sur brut, rémunérations diverses, rappels   
 
 **Tests de cohérence**
 
-Somme des rémunérations brutes versées aux personnels (non élus) :
+Somme des rémunérations brutes versées aux personnels (fonctionnaires) :
 
  
 &nbsp;*Tableau 29*   
    
 
-```
-## Error in `[.data.table`(masses.premier, "Montant.brut.annuel"): When i is a data.table (or character vector), the columns to join by must be specified either using 'on=' argument (see ?data.table) or by keying x (i.e. sorted, and, marked as sorted, see ?setkey). Keyed joins might have further speed benefits on very large data due to x being sorted in RAM.
-```
+
+|     Agrégats      |   k&euro;   |
+|-------------------|-------------|
+| Bulletins de paie | 4 339 731,2 |
+|  Lignes de paie   | 4 295 767,1 |
+|    Différence     |  43 964,1   |
 
 
 A comparer aux soldes des comptes 6411, 6419 et 648 du compte de gestion.
 
-**Formation et distribution du salaire brut moyen par tête (SMPT) en EQTP pour l'année 2012**     
+**Formation et distribution du salaire brut moyen par tête (SMPT) en EQTP pour l'année 2013**     
  
 &nbsp;*Tableau 30*   
    
@@ -707,12 +724,12 @@ A comparer aux soldes des comptes 6411, 6419 et 648 du compte de gestion.
 
 |   Statistique| Traitement indiciaire|   Primes| Autres rémunérations| Effectif|
 |-------------:|---------------------:|--------:|--------------------:|--------:|
-|       Minimum|                 3 342|    874,3|              -329,58|         |
-|  1er quartile|                17 280|  4 941,4|               -54,77|         |
-|       Médiane|                19 189|  6 271,7|                 0,00|         |
-|       Moyenne|                20 978|  7 695,3|               -22,90|      728|
-| 3ème quartile|                23 905|  8 747,9|                 0,00|         |
-|       Maximum|                54 217| 42 719,1|                69,35|         |
+|       Minimum|                 4 570|    589,6|                  0,0|         |
+|  1er quartile|                17 866|  3 006,4|                  0,0|         |
+|       Médiane|                19 313|  3 633,7|                  0,0|         |
+|       Moyenne|                21 545|  5 167,9|                104,1|      158|
+| 3ème quartile|                24 577|  5 418,1|                  0,0|         |
+|       Maximum|                53 327| 62 963,3|              6 600,0|         |
 
  
 &nbsp;*Tableau 31*   
@@ -721,12 +738,12 @@ A comparer aux soldes des comptes 6411, 6419 et 648 du compte de gestion.
 
 |   Statistique| Total lignes hors rappels| Total brut| SMPT brut en EQTP| Part de la rém. indemnitaire| Effectif|
 |-------------:|-------------------------:|----------:|-----------------:|----------------------------:|--------:|
-|       Minimum|                     4 217|      4 234|                 0|                        11,88|         |
-|  1er quartile|                    22 677|     22 667|            23 251|                        21,66|         |
-|       Médiane|                    25 992|     26 017|            26 944|                        24,32|         |
-|       Moyenne|                    28 673|     28 547|            30 320|                        26,04|      728|
-| 3ème quartile|                    31 744|     31 592|            32 636|                        28,95|         |
-|       Maximum|                    94 940|    108 055|           348 542|                        64,86|         |
+|       Minimum|                     5 160|      5 324|                 0|                        5,262|         |
+|  1er quartile|                    21 207|     20 939|            22 198|                       13,999|         |
+|       Médiane|                    24 087|     24 592|            25 255|                       15,876|         |
+|       Moyenne|                    26 713|     26 968|            28 027|                       17,430|      158|
+| 3ème quartile|                    28 202|     28 494|            30 757|                       20,153|         |
+|       Maximum|                   116 290|    119 238|           119 238|                       52,805|         |
 
   
 *Hors vacataires identifiés, assistantes maternelles, élus locaux et pour les postes actifs non annexes*  
@@ -743,12 +760,12 @@ A comparer aux soldes des comptes 6411, 6419 et 648 du compte de gestion.
 
 |   Statistique| Traitement indiciaire| Primes| Autres rémunérations|
 |-------------:|---------------------:|------:|--------------------:|
-|       Minimum|                 5 350|  2 256|              -194,76|
-|  1er quartile|                23 399|  8 374|                 0,00|
-|       Médiane|                27 654| 11 621|                 0,00|
-|       Moyenne|                29 030| 13 603|               -15,57|
-| 3ème quartile|                35 120| 16 412|                 0,00|
-|       Maximum|                54 217| 42 719|                 0,06|
+|       Minimum|                18 883|  2 165|                  0,0|
+|  1er quartile|                28 282|  7 724|                  0,0|
+|       Médiane|                36 172| 10 613|                  0,0|
+|       Moyenne|                35 386| 13 839|                381,7|
+| 3ème quartile|                41 964| 15 384|                159,7|
+|       Maximum|                53 327| 62 963|              6 600,0|
 
 
  
@@ -758,15 +775,15 @@ A comparer aux soldes des comptes 6411, 6419 et 648 du compte de gestion.
 
 |   Statistique| Total rémunérations| Total rémunérations EQTP| Part de la rémunération indemnitaire|
 |-------------:|-------------------:|------------------------:|------------------------------------:|
-|       Minimum|               8 085|                        0|                                21,90|
-|  1er quartile|              32 860|                   35 631|                                25,60|
-|       Médiane|              39 172|                   42 085|                                30,16|
-|       Moyenne|              42 318|                   44 656|                                31,25|
-| 3ème quartile|              48 565|                   50 278|                                37,24|
-|       Maximum|             108 055|                  171 722|                                47,61|
+|       Minimum|              23 415|                        0|                                5,262|
+|  1er quartile|              36 968|                   39 149|                               17,919|
+|       Médiane|              44 561|                   46 703|                               25,904|
+|       Moyenne|              49 133|                   49 806|                               25,537|
+| 3ème quartile|              50 646|                   56 122|                               32,711|
+|       Maximum|             119 238|                  119 238|                               52,805|
 
 
-**Effectif : 142**  
+**Effectif : 21**  
 
 **Catégorie B**
 
@@ -777,12 +794,12 @@ A comparer aux soldes des comptes 6411, 6419 et 648 du compte de gestion.
 
 |   Statistique| Traitement indiciaire| Primes| Autres rémunérations|
 |-------------:|---------------------:|------:|--------------------:|
-|       Minimum|                 4 687|  1 606|              -177,42|
-|  1er quartile|                19 725|  6 126|                 0,00|
-|       Médiane|                22 416|  7 085|                 0,00|
-|       Moyenne|                22 608|  7 589|               -15,22|
-| 3ème quartile|                26 323|  8 569|                 0,00|
-|       Maximum|                34 213| 14 177|                 0,01|
+|       Minimum|                12 486|  1 318|                 0,00|
+|  1er quartile|                19 672|  2 289|                 0,00|
+|       Médiane|                23 480|  4 135|                 0,00|
+|       Moyenne|                22 591|  4 221|                52,68|
+| 3ème quartile|                25 088|  5 808|                28,93|
+|       Maximum|                31 521|  8 761|               297,00|
 
 
  
@@ -792,15 +809,15 @@ A comparer aux soldes des comptes 6411, 6419 et 648 du compte de gestion.
 
 |   Statistique| Total rémunérations| Total rémunérations EQTP| Part de la rémunération indemnitaire|
 |-------------:|-------------------:|------------------------:|------------------------------------:|
-|       Minimum|               6 293|                        0|                                16,54|
-|  1er quartile|              26 002|                   26 896|                                23,00|
-|       Médiane|              30 101|                   31 012|                                24,38|
-|       Moyenne|              30 111|                   30 932|                                25,07|
-| 3ème quartile|              34 538|                   35 290|                                27,09|
-|       Maximum|              47 706|                   47 576|                                35,06|
+|       Minimum|              14 657|                        0|                                6,333|
+|  1er quartile|              25 433|                   26 037|                                9,507|
+|       Médiane|              27 333|                   28 341|                               15,113|
+|       Moyenne|              27 045|                   27 582|                               15,458|
+| 3ème quartile|              30 362|                   31 707|                               20,243|
+|       Maximum|              35 844|                   38 826|                               29,097|
 
 
-**Effectif : 101**
+**Effectif : 55**
 
 **Catégorie C**
 
@@ -809,14 +826,14 @@ A comparer aux soldes des comptes 6411, 6419 et 648 du compte de gestion.
    
 
 
-|   Statistique| Traitement indiciaire|   Primes| Autres rémunérations|
-|-------------:|---------------------:|--------:|--------------------:|
-|       Minimum|                 3 342|    874,3|              -329,58|
-|  1er quartile|                17 180|  4 670,2|               -56,24|
-|       Médiane|                18 134|  5 525,1|                 0,00|
-|       Moyenne|                18 281|  5 988,0|               -26,64|
-| 3ème quartile|                20 100|  6 817,5|                 0,00|
-|       Maximum|                27 254| 13 199,8|                69,35|
+|   Statistique| Traitement indiciaire|  Primes| Autres rémunérations|
+|-------------:|---------------------:|-------:|--------------------:|
+|       Minimum|                 4 570|   589,6|                 0,00|
+|  1er quartile|                17 196| 3 006,4|                 0,00|
+|       Médiane|                18 012| 3 537,8|                 0,00|
+|       Moyenne|                17 298| 3 582,1|                67,55|
+| 3ème quartile|                18 780| 3 906,1|                 0,00|
+|       Maximum|                23 826| 8 866,6|             3 506,44|
 
 
  
@@ -826,14 +843,14 @@ A comparer aux soldes des comptes 6411, 6419 et 648 du compte de gestion.
 
 |   Statistique| Total rémunérations| Total rémunérations EQTP| Part de la rémunération indemnitaire|
 |-------------:|-------------------:|------------------------:|------------------------------------:|
-|       Minimum|               4 234|                        0|                                11,88|
-|  1er quartile|              22 042|                   22 603|                                20,56|
-|       Médiane|              23 859|                   24 293|                                23,31|
-|       Moyenne|              24 190|                   25 996|                                24,72|
-| 3ème quartile|              27 564|                   27 963|                                27,42|
-|       Maximum|              46 796|                  348 542|                                64,86|
+|       Minimum|               5 324|                        0|                                10,85|
+|  1er quartile|              20 088|                   21 013|                                14,68|
+|       Médiane|              21 659|                   23 015|                                15,58|
+|       Moyenne|              21 240|                   22 748|                                16,68|
+| 3ème quartile|              23 532|                   24 347|                                17,77|
+|       Maximum|              29 811|                   39 118|                                36,70|
 
-**Effectif : 485**
+**Effectif : 82**
 
 
 ######      <br>
@@ -843,7 +860,7 @@ A comparer aux soldes des comptes 6411, 6419 et 648 du compte de gestion.
 *Les assistantes maternelles et les vacataires sont ici inclus, pour les postes non annexes*   
 
 
-![plot of chunk unnamed-chunk-168](figure/unnamed-chunk-168-1.png) 
+![plot of chunk unnamed-chunk-169](figure/unnamed-chunk-169-1.png) 
 
   
 **Nota :**
@@ -851,28 +868,28 @@ Ne sont retenues que les rémunérations supérieures à 1 000 k&euro;.
 Les élus ne sont pas pris en compte.
   
 
-![plot of chunk unnamed-chunk-169](figure/unnamed-chunk-169-1.png) 
+![plot of chunk unnamed-chunk-170](figure/unnamed-chunk-170-1.png) 
 
 
 
 
 
   
-**Formation et distribution du salaire brut moyen par tête (SMPT) en EQTP pour l'année 2012**     
+**Formation et distribution du salaire brut moyen par tête (SMPT) en EQTP pour l'année 2013**     
   
  
 &nbsp;*Tableau 38*   
    
 
 
-|   Statistique| Primes| Autres rémunérations| Effectif|
-|-------------:|------:|--------------------:|--------:|
-|       Minimum|      0|               -162,9|         |
-|  1er quartile|  3 187|                  0,0|         |
-|       Médiane|  5 700|                  0,0|         |
-|       Moyenne|  6 794|                 -2,2|      267|
-| 3ème quartile|  7 259|                  0,0|         |
-|       Maximum| 60 095|                678,1|         |
+|   Statistique|   Primes| Autres rémunérations| Effectif|
+|-------------:|--------:|--------------------:|--------:|
+|       Minimum|      0,0|                0,000|         |
+|  1er quartile|    178,2|                0,000|         |
+|       Médiane|  2 156,5|                0,000|         |
+|       Moyenne|  2 990,9|                2,298|       94|
+| 3ème quartile|  5 116,3|                0,000|         |
+|       Maximum| 13 876,1|              216,000|         |
 
  
 &nbsp;*Tableau 39*   
@@ -881,12 +898,12 @@ Les élus ne sont pas pris en compte.
 
 |   Statistique| Total rémunérations| Total rémunérations EQTP| Effectif|
 |-------------:|-------------------:|------------------------:|--------:|
-|       Minimum|              -2 780|                   -5 305|         |
-|  1er quartile|              12 933|                   21 798|         |
-|       Médiane|              21 721|                   24 335|         |
-|       Moyenne|              23 850|                   28 644|      267|
-| 3ème quartile|              26 482|                   33 345|         |
-|       Maximum|             130 660|                  130 303|         |
+|       Minimum|               4 859|                        0|         |
+|  1er quartile|              12 359|                   19 193|         |
+|       Médiane|              20 084|                   22 995|         |
+|       Moyenne|              19 528|                   24 705|       94|
+| 3ème quartile|              23 746|                   25 397|         |
+|       Maximum|              71 487|                  127 800|         |
 
  
 [Lien vers la base des rémunérations](Bases/Rémunérations/Analyse.rémunérations.csv)  
@@ -935,9 +952,9 @@ Les élus ne sont pas pris en compte.
 
 
 
-# 4. Rémunérations nettes : évolutions sur la période 2008 - 2012    
+# 4. Rémunérations nettes : évolutions sur la période 2010 - 2013    
 
-Nombre d'exercices: 5   
+Nombre d'exercices: 4   
  
 **Les données présentées dans cette section sont toutes relatives à des rémunérations nettes en équivalent temps plein (EQTP)**   
 Les élus, les vacataires et les assistantes maternelles ont été retirés de la population étudiée       
@@ -948,17 +965,17 @@ Seuls sont considérés les postes actifs et non annexes
    
 ## 4.1 Distribution de la rémunération nette moyenne sur la période    
 
-![plot of chunk unnamed-chunk-32](figure/unnamed-chunk-32-1.png) 
-
-
-
 ![plot of chunk unnamed-chunk-33](figure/unnamed-chunk-33-1.png) 
+
+
+
+![plot of chunk unnamed-chunk-34](figure/unnamed-chunk-34-1.png) 
 
 
 [Lien vers la base de données synthétique](Bases/Rémunérations/Analyse.variations.synthèse.csv)
 [Lien vers la base de données détaillée par année](Bases/Rémunérations/Analyse.variations.par.exercice.csv)
 
-## 4.2 Evolutions des rémunérations nettes sur la période 2008 - 2012   
+## 4.2 Evolutions des rémunérations nettes sur la période 2010 - 2013   
 
 ### 4.2.1 Ensemble des personnels fonctionnaires et non titulaires (hors élus)
 
@@ -976,11 +993,10 @@ Seuls sont considérés les postes actifs et non annexes
 
 | Année | Rém. nette totale (k&euro;) | Variation (%) | SMPT net (&euro;) | Variation (%) |
 |:-----:|:---------------------------:|:-------------:|:-----------------:|:-------------:|
-| 2008  |           20 245            |               |      23 164       |               |
-| 2009  |           20 791            |               |      23 762       |               |
-| 2010  |           22 255            |      19       |      24 164       |       6       |
-| 2011  |           23 492            |               |      24 833       |               |
-| 2012  |           24 087            |               |      24 554       |               |
+| 2010  |           4 600,2           |               |      21 102       |               |
+| 2011  |           4 507,5           |     21,8      |      21 775       |     9,26      |
+| 2012  |           5 148,2           |               |      21 362       |               |
+| 2013  |           5 602,5           |               |      23 056       |               |
 
   
 **Effet de noria sur salaires nets et taux de remplacements**       
@@ -995,10 +1011,9 @@ Seuls sont considérés les postes actifs et non annexes
 
 | Année | Noria EQTP (&euro;) | En % de la MS N-1 | Remplacements EQTP | Taux de remplacements (%) |
 |:-----:|:-------------------:|:-----------------:|:------------------:|:-------------------------:|
-| 2009  |       -944,73       |      -0,176       |         38         |            4,5            |
-| 2010  |       2 108,6       |       0,364       |         36         |            4,2            |
-| 2011  |      -1 003,2       |      -0,181       |         40         |            4,4            |
-| 2012  |      -9 553,9       |       -1,36       |         33         |            3,7            |
+| 2011  |       673,47        |       2,49        |        170         |            93             |
+| 2012  |      -3 294,4       |       -1,02       |         14         |            6,3            |
+| 2013  |       -600,14       |      -0,162       |         14         |            6,2            |
 
 
 *MS N-1 : masse salariale nette de l'année n-1.*   
@@ -1012,23 +1027,23 @@ Seuls sont considérés les postes actifs et non annexes
 
 |   Statistique| Première année|
 |-------------:|--------------:|
-|       Minimum|          1 368|
-|  1er quartile|         18 040|
-|       Médiane|         20 460|
-|       Moyenne|         23 160|
-| 3ème quartile|         24 880|
-|       Maximum|         97 670|
+|       Minimum|         10 080|
+|  1er quartile|         16 040|
+|       Médiane|         18 540|
+|       Moyenne|         21 100|
+| 3ème quartile|         21 880|
+|       Maximum|         92 590|
 
 
 
 |   Statistique| Dernière année|
 |-------------:|--------------:|
-|       Minimum|          2 868|
-|  1er quartile|         18 730|
-|       Médiane|         21 260|
-|       Moyenne|         24 550|
-| 3ème quartile|         26 400|
-|       Maximum|        285 900|
+|       Minimum|          8 658|
+|  1er quartile|         17 160|
+|       Médiane|         19 740|
+|       Moyenne|         23 060|
+| 3ème quartile|         23 280|
+|       Maximum|        275 900|
 
  
 *Nota :*  La population retenue est constituée des agents qui :   
@@ -1112,11 +1127,10 @@ Seuls sont pris en compte les agents ayant connu au moins un mois actif et ayant
 
 | Année | Rém. nette totale (k&euro;) | Variation (%) | SMPT net en EQTP (&euro;) | Variation (%) |
 |:-----:|:---------------------------:|:-------------:|:-------------------------:|:-------------:|
-| 2008  |           15 533            |               |          22 776           |               |
-| 2009  |           15 758            |               |          23 555           |               |
-| 2010  |           16 721            |     15,1      |          24 163           |     8,84      |
-| 2011  |           17 154            |               |          24 332           |               |
-| 2012  |           17 874            |               |          24 790           |               |
+| 2010  |           2 875,1           |               |          20 986           |               |
+| 2011  |           3 216,7           |     24,3      |          22 653           |     11,3      |
+| 2012  |           3 473,5           |               |          22 702           |               |
+| 2013  |           3 574,6           |               |          23 363           |               |
 
   
 **Catégorie A**  
@@ -1127,11 +1141,10 @@ Seuls sont pris en compte les agents ayant connu au moins un mois actif et ayant
 
 | Année | Rém. nette totale (k&euro;) | Variation (%) | SMPT net en EQTP (&euro;) | Variation (%) |
 |:-----:|:---------------------------:|:-------------:|:-------------------------:|:-------------:|
-| 2008  |           3 710,1           |               |          34 674           |               |
-| 2009  |           3 740,5           |               |          37 034           |               |
-| 2010  |           4 467,5           |     40,8      |          37 860           |     9,17      |
-| 2011  |           4 729,4           |               |          37 239           |               |
-| 2012  |           5 223,6           |               |          37 852           |               |
+| 2010  |           578,02            |               |          38 534           |               |
+| 2011  |           812,31            |     47,6      |          42 753           |     10,7      |
+| 2012  |           791,75            |               |          39 588           |               |
+| 2013  |            853,4            |               |          42 670           |               |
 
   
 **Catégorie B**    
@@ -1142,11 +1155,10 @@ Seuls sont pris en compte les agents ayant connu au moins un mois actif et ayant
 
 | Année | Rém. nette totale (k&euro;) | Variation (%) | SMPT net en EQTP (&euro;) | Variation (%) |
 |:-----:|:---------------------------:|:-------------:|:-------------------------:|:-------------:|
-| 2008  |           2 187,3           |               |          24 303           |               |
-| 2009  |           2 309,5           |               |          25 103           |               |
-| 2010  |           2 365,3           |     15,3      |          25 709           |     4,84      |
-| 2011  |           2 367,9           |               |          25 738           |               |
-| 2012  |           2 522,4           |               |          25 479           |               |
+| 2010  |           952,38            |               |          21 645           |               |
+| 2011  |            1 095            |      28       |          22 346           |     8,34      |
+| 2012  |           1 225,7           |               |          23 127           |               |
+| 2013  |           1 219,5           |               |          23 451           |               |
 
   
 **Catégorie C**     
@@ -1157,11 +1169,10 @@ Seuls sont pris en compte les agents ayant connu au moins un mois actif et ayant
 
 | Année | Rém. nette totale (k&euro;) | Variation (%) | SMPT net en EQTP (&euro;) | Variation (%) |
 |:-----:|:---------------------------:|:-------------:|:-------------------------:|:-------------:|
-| 2008  |           9 635,7           |               |          19 867           |               |
-| 2009  |           9 708,5           |               |          20 396           |               |
-| 2010  |           9 888,1           |     5,11      |          20 515           |     5,33      |
-| 2011  |           10 056            |               |          20 692           |               |
-| 2012  |           10 128            |               |          20 925           |               |
+| 2010  |           1 344,7           |               |          17 240           |               |
+| 2011  |           1 309,5           |     11,7      |          17 695           |     7,54      |
+| 2012  |            1 456            |               |          18 200           |               |
+| 2013  |           1 501,8           |               |          18 540           |               |
 
    
 
@@ -1176,10 +1187,9 @@ Seuls sont pris en compte les agents ayant connu au moins un mois actif et ayant
 
 | Année | Noria EQTP (&euro;) | En % de la  MSN N-1 | Remplacements EQTP | Taux de remplacements (%) |
 |:-----:|:-------------------:|:-------------------:|:------------------:|:-------------------------:|
-| 2009  |      -7 088,8       |       -0,785        |         11         |            1,6            |
-| 2010  |       10 702        |        1,89         |         17         |            2,6            |
-| 2011  |      -8 228,9       |        -1,55        |         19         |            2,7            |
-| 2012  |       7 910,8       |        0,949        |         12         |            1,8            |
+| 2011  |       1 786,2       |        16,8         |        127         |            96             |
+| 2012  |       -57 491       |        -11,4        |         3          |            1,8            |
+| 2013  |       7 951,4       |        1,37         |         3          |            1,8            |
 
     
 *MS N-1 : masse salariale nette de l'année n-1.*   
@@ -1192,23 +1202,23 @@ Seuls sont pris en compte les agents ayant connu au moins un mois actif et ayant
 
 |   Statistique| Première année|
 |-------------:|--------------:|
-|       Minimum|          1 368|
-|  1er quartile|         18 070|
-|       Médiane|         20 460|
-|       Moyenne|         22 780|
-| 3ème quartile|         24 580|
-|       Maximum|         97 670|
+|       Minimum|         11 930|
+|  1er quartile|         16 540|
+|       Médiane|         18 840|
+|       Moyenne|         20 990|
+| 3ème quartile|         22 350|
+|       Maximum|         92 590|
 
 
 
 |   Statistique| Dernière année|
 |-------------:|--------------:|
-|       Minimum|          3 506|
-|  1er quartile|         18 870|
-|       Médiane|         21 760|
-|       Moyenne|         24 790|
-| 3ème quartile|         26 320|
-|       Maximum|        285 900|
+|       Minimum|          8 658|
+|  1er quartile|         17 840|
+|       Médiane|         20 640|
+|       Moyenne|         23 360|
+| 3ème quartile|         24 560|
+|       Maximum|         98 580|
 
    
 
@@ -1224,11 +1234,10 @@ Seuls sont pris en compte les agents ayant connu au moins un mois actif et ayant
 
 | Année | Rémunération nette totale (k&euro;) | Variation (%) | SMPT (&euro;) | Variation (%) |
 |:-----:|:-----------------------------------:|:-------------:|:-------------:|:-------------:|
-| 2008  |               10 641                |               |    23 183     |               |
-| 2009  |               11 632                |               |    24 233     |               |
-| 2010  |               11 517                |     12,7      |    24 504     |     7,36      |
-| 2011  |               11 548                |               |    24 781     |               |
-| 2012  |               11 997                |               |    24 890     |               |
+| 2010  |                1 825                |               |    21 221     |               |
+| 2011  |               1 843,9               |     11,1      |    22 215     |     12,4      |
+| 2012  |               1 947,7               |               |    23 467     |               |
+| 2013  |               2 027,3               |               |    23 851     |               |
 
    
 **Distribution et variation sur la période du salaire moyen net par tête (SMPT net) des titulaires à temps complet**         
@@ -1240,24 +1249,24 @@ Seuls sont pris en compte les agents ayant connu au moins un mois actif et ayant
 
 |   Statistique| Première année|
 |-------------:|--------------:|
-|       Minimum|         15 260|
-|  1er quartile|         18 100|
-|       Médiane|         20 460|
-|       Moyenne|         23 180|
-| 3ème quartile|         24 630|
-|       Maximum|         97 670|
+|       Minimum|         11 930|
+|  1er quartile|         16 500|
+|       Médiane|         18 880|
+|       Moyenne|         21 220|
+| 3ème quartile|         22 530|
+|       Maximum|         92 590|
 
   
 
 
 |   Statistique| Dernière année|
 |-------------:|--------------:|
-|       Minimum|          9 460|
-|  1er quartile|         19 110|
-|       Médiane|         21 830|
-|       Moyenne|         24 890|
-| 3ème quartile|         27 070|
-|       Maximum|         76 170|
+|       Minimum|         14 190|
+|  1er quartile|         17 820|
+|       Médiane|         20 450|
+|       Moyenne|         23 850|
+| 3ème quartile|         23 720|
+|       Maximum|         98 580|
 
 
 [Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.csv)
@@ -1271,7 +1280,7 @@ Seuls sont pris en compte les agents ayant connu au moins un mois actif et ayant
 *L'évolution de la RMPP permet d'étudier le glissement vieillesse-technicité "positif", à effectifs constants sur deux années*      
 *Le GVT positif est dû aux mesures statutaires et individuelles, à l'avancement et aux changements d'activité*  
 
-![plot of chunk unnamed-chunk-54](figure/unnamed-chunk-54-1.png) 
+![plot of chunk unnamed-chunk-55](figure/unnamed-chunk-55-1.png) 
 
 
 
@@ -1288,10 +1297,9 @@ Seuls sont pris en compte les agents ayant connu au moins un mois actif et ayant
 
 | Année | Rémunération nette totale (k&euro;) | Variation (%) | RMPP nette (k&euro;) | Variation (%) |
 |:-----:|:-----------------------------------:|:-------------:|:--------------------:|:-------------:|
-| 2009  |               15 538                |               |        24 742        |               |
-| 2010  |               15 937                |     9,86      |        24 979        |     1,31      |
-| 2011  |               16 218                |               |        25 144        |               |
-| 2012  |               17 070                |               |        25 067        |               |
+| 2011  |                  0                  |               |         NaN          |               |
+| 2012  |               2 979,3               |      Inf      |        22 570        |      NaN      |
+| 2013  |               3 464,8               |               |        23 098        |               |
 
    
 **Distribution et variation sur la période de la rémunération nette des personnes en place**                
@@ -1306,12 +1314,12 @@ Seuls sont pris en compte les agents ayant connu au moins un mois actif et ayant
 
 |   Statistique| Première année| Effectif|
 |-------------:|--------------:|--------:|
-|       Minimum|          4 617|         |
-|  1er quartile|         18 170|         |
-|       Médiane|         20 590|         |
-|       Moyenne|         23 450|      786|
-| 3ème quartile|         24 830|         |
-|       Maximum|         97 670|         |
+|       Minimum|             NA|         |
+|  1er quartile|             NA|         |
+|       Médiane|             NA|         |
+|       Moyenne|            NaN|        0|
+| 3ème quartile|             NA|         |
+|       Maximum|             NA|         |
 
  
 &nbsp;*Tableau 58*   
@@ -1320,12 +1328,12 @@ Seuls sont pris en compte les agents ayant connu au moins un mois actif et ayant
 
 |   Statistique| Dernière année| Effectif|
 |-------------:|--------------:|--------:|
-|       Minimum|          8 850|         |
-|  1er quartile|         18 990|         |
-|       Médiane|         21 610|         |
-|       Moyenne|         24 720|      877|
-| 3ème quartile|         26 490|         |
-|       Maximum|        142 500|         |
+|       Minimum|         11 120|         |
+|  1er quartile|         17 710|         |
+|       Médiane|         20 230|         |
+|       Moyenne|         22 500|      206|
+| 3ème quartile|         23 660|         |
+|       Maximum|         98 580|         |
 
 
 *Variation individuelle de rémunération nette en EQTP pour les personnels présents la première et la dernière année*   
@@ -1334,14 +1342,10 @@ Seuls sont pris en compte les agents ayant connu au moins un mois actif et ayant
    
 
 
-|   Statistique| Variation normalisée (%)| Variation annuelle moyenne normalisée (%)| Effectif|
-|-------------:|------------------------:|-----------------------------------------:|--------:|
-|       Minimum|                  -39,818|                                 -11,9 220|         |
-|  1er quartile|                    1,502|                                   0,3 734|         |
-|       Médiane|                    6,118|                                   1,4 956|         |
-|       Moyenne|                    7,426|                                   1,6 669|      682|
-| 3ème quartile|                   11,473|                                   2,7 524|         |
-|       Maximum|                  101,377|                                  19,1 249|         |
+|  Statistique| Variation normalisée (%)| Variation annuelle moyenne normalisée (%)| Effectif|
+|------------:|------------------------:|-----------------------------------------:|--------:|
+|      Minimum|                  logical|                                   logical|         |
+| 1er quartile|                   NA's:0|                                    NA's:0|         |
 
    
 ### 4.3.2 Titulaires et stagiaires     
@@ -1359,10 +1363,9 @@ Seuls sont pris en compte les agents ayant connu au moins un mois actif et ayant
 
 | Année | Rémunération nette totale (k&euro;) | Variation (%) | RMPP nette (k&euro;) | Variation (%) |
 |:-----:|:-----------------------------------:|:-------------:|:--------------------:|:-------------:|
-| 2009  |               12 932                |               |        23 948        |               |
-| 2010  |               13 199                |     9,11      |        24 263        |     2,11      |
-| 2011  |               13 562                |               |        24 570        |               |
-| 2012  |               14 110                |               |        24 454        |               |
+| 2011  |                  0                  |               |         NaN          |               |
+| 2012  |               2 682,3               |      Inf      |        22 925        |      NaN      |
+| 2013  |               2 726,8               |               |        23 306        |               |
 
    
 **Distribution et variation sur la période de la rémunération nette des fonctionnaires en place**                
@@ -1374,12 +1377,12 @@ Seuls sont pris en compte les agents ayant connu au moins un mois actif et ayant
 
 |   Statistique| Première année| Effectif|
 |-------------:|--------------:|--------:|
-|       Minimum|         10 590|         |
-|  1er quartile|         18 110|         |
-|       Médiane|         20 430|         |
-|       Moyenne|         22 760|      677|
-| 3ème quartile|         24 320|         |
-|       Maximum|         97 670|         |
+|       Minimum|             NA|         |
+|  1er quartile|             NA|         |
+|       Médiane|             NA|         |
+|       Moyenne|            NaN|        0|
+| 3ème quartile|             NA|         |
+|       Maximum|             NA|         |
 
  
 &nbsp;*Tableau 62*   
@@ -1388,12 +1391,12 @@ Seuls sont pris en compte les agents ayant connu au moins un mois actif et ayant
 
 |   Statistique| Dernière année| Effectif|
 |-------------:|--------------:|--------:|
-|       Minimum|          9 570|         |
-|  1er quartile|         18 790|         |
-|       Médiane|         21 740|         |
-|       Moyenne|         24 650|      792|
-| 3ème quartile|         26 320|         |
-|       Maximum|        142 500|         |
+|       Minimum|         11 930|         |
+|  1er quartile|         17 350|         |
+|       Médiane|         20 020|         |
+|       Moyenne|         22 690|      288|
+| 3ème quartile|         23 690|         |
+|       Maximum|         98 580|         |
 
 
 *Variation individuelle de rémunération nette en EQTP pour les personnels présents la première et la dernière année*   
@@ -1402,21 +1405,17 @@ Seuls sont pris en compte les agents ayant connu au moins un mois actif et ayant
    
 
 
-|   Statistique| Variation normalisée (%)| Variation annuelle moyenne normalisée (%)| Effectif|
-|-------------:|------------------------:|-----------------------------------------:|--------:|
-|       Minimum|                  -39,818|                                 -11,9 220|         |
-|  1er quartile|                    1,648|                                   0,4 094|         |
-|       Médiane|                    6,590|                                   1,6 083|         |
-|       Moyenne|                    7,404|                                   1,6 695|      611|
-| 3ème quartile|                   11,474|                                   2,7 527|         |
-|       Maximum|                  101,377|                                  19,1 249|         |
+|  Statistique| Variation normalisée (%)| Variation annuelle moyenne normalisée (%)| Effectif|
+|------------:|------------------------:|-----------------------------------------:|--------:|
+|      Minimum|                  logical|                                   logical|         |
+| 1er quartile|                   NA's:0|                                    NA's:0|         |
 
 
 
 [Lien vers la base de données](Bases/Rémunérations/Analyse.variations.synthèse.csv)
 
 **Nota**   
-*Personnes en place :* en fonction au moins deux années consécutives sur la période 2008 à 2012    
+*Personnes en place :* en fonction au moins deux années consécutives sur la période 2010 à 2013    
 *Variation sur la période d'activité :* entre l'arrivée et le départ de la personne      
 *Variation normalisée :* conforme à la définition INSEE (présente en début et en fin de période avec la même quotité)  
  
@@ -1492,9 +1491,9 @@ Conversion en euros courants, calcul CRC.
 **Dans cette partie, l'ensemble de la base de paie est étudié.**  
 Les agents non actifs ou dont le poste est annexe sont réintroduits dans le périmètre.   
 
-Il existe  1 non titulaire   percevant une NBI.
+Il existe  3 non titulaire s  percevant une NBI.
 
-Primes informatiques potentielles : aucune
+Primes informatiques potentielles : PRIME FONCTION INFORMATIQUE
  
 &nbsp;*Tableau 66*   
    
@@ -1502,7 +1501,7 @@ Primes informatiques potentielles : aucune
 
 | Nombre de lignes NBI pour non titulaires | Nombre de bénéficiaires de PFI |
 |:----------------------------------------:|:------------------------------:|
-|                    12                    |               0                |
+|                    36                    |               12               |
 
   
 [Lien vers la base de données NBI aux non titulaires](Bases/Réglementation/NBI.aux.non.titulaires.csv)   
@@ -1522,7 +1521,7 @@ PFI: prime de fonctions informatiques
 
 | Rémunérations de NBI anormales, par agent et par exercice | Montants correspondants |
 |:---------------------------------------------------------:|:-----------------------:|
-|                            71                             |         33 543          |
+|                            27                             |         15 598          |
 
   
 [Lien vers la base de données NBI anormales](Bases/Fiabilité/lignes.nbi.anormales.csv)   
@@ -1537,11 +1536,10 @@ PFI: prime de fonctions informatiques
 
 | Année | Cumuls des NBI | Montants versés (a) | Point d'INM apparent | Point d'INM moyen | Contrôle |
 |-------|----------------|---------------------|----------------------|-------------------|----------|
-| 2008  |    25 255,0    |      113 463,9      |         4,5          |        4,6        |   Vert   |
-| 2009  |    28 280,0    |      127 491,1      |         4,5          |        4,6        |   Vert   |
-| 2010  |    29 740,0    |      134 382,9      |         4,5          |        4,6        |   Vert   |
-| 2011  |    28 820,0    |      130 786,8      |         4,5          |        4,6        |   Vert   |
-| 2012  |    29 730,0    |      134 716,0      |         4,5          |        4,6        |   Vert   |
+| 2010  |    7 650,0     |      34 760,4       |         4,5          |        4,6        |   Vert   |
+| 2011  |    7 315,0     |      32 979,2       |         4,5          |        4,6        |   Vert   |
+| 2012  |    7 230,0     |      32 487,1       |         4,5          |        4,6        |   Vert   |
+| 2013  |    6 335,0     |      28 193,9       |         4,5          |        4,6        |  Orange  |
 
 
 *(a) Hors rappels sur rémunérations*   
@@ -1579,7 +1577,7 @@ Il y a  0 fonctionnaire(s) effectuant des vacations pour son propre établissemen
 
 | Nombre de CEV | Nombre de lignes | Nombre de lignes indemnitaires | Nombre de lignes de traitement |
 |:-------------:|:----------------:|:------------------------------:|:------------------------------:|
-|       0       |        0         |               0                |               0                |
+|      101      |      17 182      |              220               |              690               |
 
  
 [Lien vers le bulletins des CEV](Bases/Réglementation/lignes.contractuels.et.vacations.csv)   
@@ -1601,15 +1599,15 @@ Il y a  0 fonctionnaire(s) effectuant des vacations pour son propre établissemen
      
 
 
-|             Codes IFTS             |   |
-|:----------------------------------:|:-:|
-| 502N 502A 202N 202R 202A 502R 502V |   |
+|                                                                    Codes IFTS                                                                    |   |
+|:------------------------------------------------------------------------------------------------------------------------------------------------:|:-:|
+| 160001550 160001425 160001500 160008200 160008150 160001400 160001375 3046 160001250 160001600 160001775 160001300 160001200 160001700 160001525 |   |
 
 
 
 | Nombre de personnels percevant IAT et IFTS |   |
 |:------------------------------------------:|:-:|
-|                     11                     |   |
+|                     1                      |   |
 
   
 [Codes IFTS retenus](Bases/Réglementation/codes.ifts.csv)   
@@ -1635,7 +1633,7 @@ Il y a  0 fonctionnaire(s) effectuant des vacations pour son propre établissemen
 
 | Nombre de lignes de paie de contractuels percevant des IFTS | Nombre de lignes IFTS pour IB < 380 |
 |:-----------------------------------------------------------:|:-----------------------------------:|
-|                            2 448                            |                  3                  |
+|                             178                             |                  0                  |
 
 
 [Lien vers la base de données Lignes IFTS pour contractuels](Bases/Réglementation/ifts.et.contractuel.csv)    
@@ -1713,8 +1711,8 @@ Aucun tableau de variation.
 
 ## 5.6 Contrôle sur les heures supplémentaires
 
-Le seuil de 180 heures supplémentaires maximum est dépassé par  50  agents.
- Le seuil de 220 heures supplémentaires maximum est dépassé par  50  agents.
+Le seuil de 180 heures supplémentaires maximum est dépassé par  17  agents.
+ Le seuil de 220 heures supplémentaires maximum est dépassé par  17  agents.
 
 
  
@@ -1724,7 +1722,7 @@ Le seuil de 180 heures supplémentaires maximum est dépassé par  50  agents.
 
 | Nombre de lignes HS en excès | Nombre de lignes IHTS anormales |
 |:----------------------------:|:-------------------------------:|
-|             388              |               75                |
+|             271              |               230               |
 
 
 [Lien vers la base de données Heures supplémentaires en excès du seuil de 25h/mois](Bases/Réglementation/HS.sup.25.csv)     
@@ -1746,403 +1744,73 @@ IHTS anormales : attribuées à des fonctionnaires ou non-titulaires de catégorie 
   
 
 
-|Matricule |Nom                   | Année|Emploi                       | Indemnités | Autres |    Total |
-|:---------|:---------------------|-----:|:----------------------------|-----------:|-------:|---------:|
-|1002 P    |AMPHOUX               |  2008|CONSEILLER COMMUNAUTAIRE     |     2301,44|       0|   2301,44|
-|1002 P    |AMPHOUX               |  2009|CONSEILLER COMMUNAUTAIRE     |     2710,56|       0|   2710,56|
-|1002 P    |AMPHOUX               |  2010|CONSEILLER COMMUNAUTAIRE     |     2730,24|       0|   2730,24|
-|1002 P    |AMPHOUX               |  2011|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1002 P    |AMPHOUX               |  2012|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|108 T     |BAFFERT               |  2008|CONSEILLER COMMUNAUT DELEGUE |    10175,88|       0|  10175,88|
-|108 T     |BAFFERT               |  2009|CONSEILLER COMMUNAUT DELEGUE |    11294,07|       0|  11294,07|
-|108 T     |BAFFERT               |  2010|CONSEILLER COMMUNAUT DELEGUE |    16841,07|       0|  16841,07|
-|108 T     |BAFFERT               |  2011|12EME VICE PRESIDENT         |    18703,20|       0|  18703,20|
-|108 T     |BAFFERT               |  2012|12EME VICE PRESIDENT         |    18703,20|       0|  18703,20|
-|1163 P    |QUEIROS               |  2009|CONSEILLER COMMUNAUT DELEGUE |    11294,07|       0|  11294,07|
-|1163 P    |QUEIROS               |  2010|CONSEILLER COMMUNAUT DELEGUE |    11376,06|       0|  11376,06|
-|1163 P    |QUEIROS               |  2011|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|1163 P    |QUEIROS               |  2012|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|1212 T    |HANFF                 |  2008|CONSEILLER COMMUNAUT DELEGUE |     2684,97|       0|   2684,97|
-|1223 E    |MEUNIER RIVIERE       |  2008|CONSEILLER COMMUNAUTAIRE     |      503,59|       0|    503,59|
-|1319 J    |SIMARD                |  2008|CONSEILLER COMMUNAUT DELEGUE |     7490,91|       0|   7490,91|
-|1319 J    |SIMARD                |  2009|CONSEILLER COMMUNAUT DELEGUE |    11294,07|       0|  11294,07|
-|1319 J    |SIMARD                |  2010|CONSEILLER COMMUNAUT DELEGUE |    11376,06|       0|  11376,06|
-|1319 J    |SIMARD                |  2011|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|1319 J    |SIMARD                |  2012|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|1320 K    |JOIRE                 |  2008|CONSEILLER COMMUNAUTAIRE     |     1797,85|       0|   1797,85|
-|1320 K    |JOIRE                 |  2009|CONSEILLER COMMUNAUTAIRE     |     2710,56|       0|   2710,56|
-|1320 K    |JOIRE                 |  2010|CONSEILLER COMMUNAUTAIRE     |     2730,24|       0|   2730,24|
-|1320 K    |JOIRE                 |  2011|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1320 K    |JOIRE                 |  2012|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1321 L    |JOLY                  |  2008|CONSEILLER COMMUNAUTAIRE     |     1797,85|       0|   1797,85|
-|1321 L    |JOLY                  |  2009|CONSEILLER COMMUNAUTAIRE     |     2710,56|       0|   2710,56|
-|1322 M    |LETEXIER              |  2008|CONSEILLER COMMUNAUTAIRE     |     1797,85|       0|   1797,85|
-|1322 M    |LETEXIER              |  2009|CONSEILLER COMMUNAUTAIRE     |     2710,56|       0|   2710,56|
-|1322 M    |LETEXIER              |  2010|CONSEILLER COMMUNAUTAIRE     |     2730,24|       0|   2730,24|
-|1322 M    |LETEXIER              |  2011|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1322 M    |LETEXIER              |  2012|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1323 N    |MOUREY                |  2008|CONSEILLER COMMUNAUTAIRE     |     1797,85|       0|   1797,85|
-|1323 N    |MOUREY                |  2009|CONSEILLER COMMUNAUTAIRE     |     2710,56|       0|   2710,56|
-|1323 N    |MOUREY                |  2010|CONSEILLER COMMUNAUTAIRE     |     2730,24|       0|   2730,24|
-|1323 N    |MOUREY                |  2011|CONSEILLER COMMUNAUTAIRE     |     7070,76|       0|   7070,76|
-|1323 N    |MOUREY                |  2012|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1324 P    |PERRIER               |  2008|CONSEILLER COMMUNAUTAIRE     |     1797,85|       0|   1797,85|
-|1324 P    |PERRIER               |  2009|CONSEILLER COMMUNAUTAIRE     |     2710,56|       0|   2710,56|
-|1324 P    |PERRIER               |  2010|CONSEILLER COMMUNAUTAIRE     |     2730,24|       0|   2730,24|
-|1324 P    |PERRIER               |  2011|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1324 P    |PERRIER               |  2012|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1325 R    |BARACETTI             |  2008|CONSEILLER COMMUNAUT DELEGUE |     7490,91|       0|   7490,91|
-|1325 R    |BARACETTI             |  2009|CONSEILLER COMMUNAUT DELEGUE |    11294,07|       0|  11294,07|
-|1325 R    |BARACETTI             |  2010|CONSEILLER COMMUNAUT DELEGUE |    11376,06|       0|  11376,06|
-|1325 R    |BARACETTI             |  2011|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|1325 R    |BARACETTI             |  2012|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|1326 S    |TASCA                 |  2008|CONSEILLER COMMUNAUTAIRE     |     1797,85|       0|   1797,85|
-|1326 S    |TASCA                 |  2009|CONSEILLER COMMUNAUTAIRE     |     2710,56|       0|   2710,56|
-|1326 S    |TASCA                 |  2010|CONSEILLER COMMUNAUTAIRE     |     2730,24|       0|   2730,24|
-|1326 S    |TASCA                 |  2011|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1326 S    |TASCA                 |  2012|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1327 T    |YTOURNEL              |  2008|CONSEILLER COMMUNAUTAIRE     |     1797,85|       0|   1797,85|
-|1327 T    |YTOURNEL              |  2009|CONSEILLER COMMUNAUTAIRE     |     2710,56|       0|   2710,56|
-|1327 T    |YTOURNEL              |  2010|CONSEILLER COMMUNAUTAIRE     |     2730,24|       0|   2730,24|
-|1327 T    |YTOURNEL              |  2011|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1327 T    |YTOURNEL              |  2012|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1328 U    |BACHIR CHERIF         |  2008|CONSEILLER COMMUNAUT DELEGUE |    11686,51|       0|  11686,51|
-|1328 U    |BACHIR CHERIF         |  2009|CONSEILLER COMMUNAUT DELEGUE |    18522,30|       0|  18522,30|
-|1328 U    |BACHIR CHERIF         |  2010|11EME VICE PRESIDENT         |    18656,70|       0|  18656,70|
-|1328 U    |BACHIR CHERIF         |  2011|11EME VICE PRESIDENT         |    18703,20|       0|  18703,20|
-|1328 U    |BACHIR CHERIF         |  2012|11EME VICE PRESIDENT         |    18703,20|       0|  18703,20|
-|1329 V    |ECHEVET               |  2008|CONSEILLER COMMUNAUT DELEGUE |     7490,91|       0|   7490,91|
-|1329 V    |ECHEVET               |  2009|CONSEILLER COMMUNAUT DELEGUE |     3752,48|       0|   3752,48|
-|1330 W    |BELLET                |  2008|CONSEILLER COMMUNAUTAIRE     |     1797,85|       0|   1797,85|
-|1330 W    |BELLET                |  2009|CONSEILLER COMMUNAUTAIRE     |     2710,56|       0|   2710,56|
-|1330 W    |BELLET                |  2010|CONSEILLER COMMUNAUTAIRE     |     9219,99|       0|   9219,99|
-|1330 W    |BELLET                |  2011|CONSEILLER COMMUNAUTAIRE     |    11404,44|       0|  11404,44|
-|1330 W    |BELLET                |  2012|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|1331 X    |BLANC TAILLEUR        |  2008|CONSEILLER COMMUNAUTAIRE     |     1797,85|       0|   1797,85|
-|1331 X    |BLANC TAILLEUR        |  2009|CONSEILLER COMMUNAUTAIRE     |     2710,56|       0|   2710,56|
-|1331 X    |BLANC TAILLEUR        |  2010|CONSEILLER COMMUNAUTAIRE     |     2730,24|       0|   2730,24|
-|1331 X    |BLANC TAILLEUR        |  2011|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1331 X    |BLANC TAILLEUR        |  2012|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|1332 Y    |CUSTOT                |  2008|CONSEILLER COMMUNAUTAIRE     |     1797,85|       0|   1797,85|
-|1332 Y    |CUSTOT                |  2009|CONSEILLER COMMUNAUTAIRE     |     2710,56|       0|   2710,56|
-|1332 Y    |CUSTOT                |  2010|CONSEILLER COMMUNAUTAIRE     |     2730,24|       0|   2730,24|
-|1332 Y    |CUSTOT                |  2011|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1332 Y    |CUSTOT                |  2012|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1333 Z    |DUPONT FERRIER        |  2008|CONSEILLER COMMUNAUTAIRE     |     1797,85|       0|   1797,85|
-|1333 Z    |DUPONT FERRIER        |  2009|CONSEILLER COMMUNAUTAIRE     |     2710,56|       0|   2710,56|
-|1333 Z    |DUPONT FERRIER        |  2010|CONSEILLER COMMUNAUTAIRE     |     2730,24|       0|   2730,24|
-|1333 Z    |DUPONT FERRIER        |  2011|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1333 Z    |DUPONT FERRIER        |  2012|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1334 A    |BOISSET               |  2008|CONSEILLER COMMUNAUTAIRE     |     1797,85|       0|   1797,85|
-|1334 A    |BOISSET               |  2009|CONSEILLER COMMUNAUTAIRE     |     2710,56|       0|   2710,56|
-|1334 A    |BOISSET               |  2010|CONSEILLER COMMUNAUTAIRE     |     2730,24|       0|   2730,24|
-|1334 A    |BOISSET               |  2011|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1334 A    |BOISSET               |  2012|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1335 B    |FILIPPI               |  2008|CONSEILLER COMMUNAUTAIRE     |     1797,85|       0|   1797,85|
-|1335 B    |FILIPPI               |  2009|CONSEILLER COMMUNAUTAIRE     |     2710,56|       0|   2710,56|
-|1335 B    |FILIPPI               |  2010|CONSEILLER COMMUNAUTAIRE     |     2730,24|       0|   2730,24|
-|1335 B    |FILIPPI               |  2011|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1335 B    |FILIPPI               |  2012|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1336 C    |GADUEL                |  2008|CONSEILLER COMMUNAUTAIRE     |     1797,85|       0|   1797,85|
-|1336 C    |GADUEL                |  2009|CONSEILLER COMMUNAUTAIRE     |     2710,56|       0|   2710,56|
-|1336 C    |GADUEL                |  2010|CONSEILLER COMMUNAUTAIRE     |     2730,24|       0|   2730,24|
-|1336 C    |GADUEL                |  2011|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1336 C    |GADUEL                |  2012|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1337 D    |GRASSET               |  2008|CONSEILLER COMMUNAUT DELEGUE |     7490,91|       0|   7490,91|
-|1337 D    |GRASSET               |  2009|CONSEILLER COMMUNAUT DELEGUE |    11294,07|       0|  11294,07|
-|1337 D    |GRASSET               |  2010|CONSEILLER COMMUNAUT DELEGUE |    11376,06|       0|  11376,06|
-|1337 D    |GRASSET               |  2011|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|1337 D    |GRASSET               |  2012|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|1338 E    |BERTRAND POUGNAND     |  2008|CONSEILLER COMMUNAUTAIRE     |     1797,85|       0|   1797,85|
-|1338 E    |BERTRAND POUGNAND     |  2009|CONSEILLER COMMUNAUTAIRE     |     2710,56|       0|   2710,56|
-|1338 E    |BERTRAND POUGNAND     |  2010|CONSEILLER COMMUNAUTAIRE     |     2730,24|       0|   2730,24|
-|1338 E    |BERTRAND POUGNAND     |  2011|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1338 E    |BERTRAND POUGNAND     |  2012|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1339 F    |FERRARI               |  2008|11EME VICE PRESIDENT         |    12285,11|       0|  12285,11|
-|1339 F    |FERRARI               |  2009|11EME VICE PRESIDENT         |    18522,30|       0|  18522,30|
-|1339 F    |FERRARI               |  2010|10EME VICE PRESIDENT         |    18656,70|       0|  18656,70|
-|1339 F    |FERRARI               |  2011|10EME VICE PRESIDENT         |    18703,20|       0|  18703,20|
-|1339 F    |FERRARI               |  2012|10EME VICE PRESIDENT         |    18703,20|       0|  18703,20|
-|1340 G    |SEMANAZ               |  2008|CONSEILLER COMMUNAUTAIRE     |     7490,91|       0|   7490,91|
-|1340 G    |SEMANAZ               |  2009|CONSEILLER COMMUNAUTAIRE     |    11294,07|       0|  11294,07|
-|1340 G    |SEMANAZ               |  2010|CONSEILLER COMMUNAUT DELEGUE |    11376,06|       0|  11376,06|
-|1340 G    |SEMANAZ               |  2011|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|1340 G    |SEMANAZ               |  2012|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|1341 H    |FILLOL                |  2008|CONSEILLER COMMUNAUTAIRE     |     1797,85|       0|   1797,85|
-|1341 H    |FILLOL                |  2009|CONSEILLER COMMUNAUTAIRE     |     2710,56|       0|   2710,56|
-|1341 H    |FILLOL                |  2010|CONSEILLER COMMUNAUTAIRE     |     2730,24|       0|   2730,24|
-|1341 H    |FILLOL                |  2011|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1341 H    |FILLOL                |  2012|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1342 J    |MAGNIN                |  2008|CONSEILLER COMMUNAUTAIRE     |     1797,85|       0|   1797,85|
-|1342 J    |MAGNIN                |  2009|CONSEILLER COMMUNAUTAIRE     |     2710,56|       0|   2710,56|
-|1342 J    |MAGNIN                |  2010|CONSEILLER COMMUNAUTAIRE     |      907,80|       0|    907,80|
-|1349 S    |VOIR                  |  2008|CONSEILLER COMMUNAUTAIRE     |     1573,37|       0|   1573,37|
-|1349 S    |VOIR                  |  2009|CONSEILLER COMMUNAUTAIRE     |     2710,56|       0|   2710,56|
-|1349 S    |VOIR                  |  2010|CONSEILLER COMMUNAUTAIRE     |     2730,24|       0|   2730,24|
-|1349 S    |VOIR                  |  2011|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1349 S    |VOIR                  |  2012|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1350 T    |GRASSET               |  2008|14EME VICE PRESIDENT         |    10751,20|       0|  10751,20|
-|1350 T    |GRASSET               |  2009|14EME VICE PRESIDENT         |    18522,30|       0|  18522,30|
-|1350 T    |GRASSET               |  2010|13EME VICE PRESIDENT         |    18656,70|       0|  18656,70|
-|1350 T    |GRASSET               |  2011|13EME VICE PRESIDENT         |    18703,20|       0|  18703,20|
-|1350 T    |GRASSET               |  2012|13EME VICE PRESIDENT         |    18703,20|       0|  18703,20|
-|1351 U    |FALCON DE LONGEVIALLE |  2008|CONSEILLER COMMUNAUT DELEGUE |     6555,60|       0|   6555,60|
-|1351 U    |FALCON DE LONGEVIALLE |  2009|CONSEILLER COMMUNAUT DELEGUE |    11294,07|       0|  11294,07|
-|1351 U    |FALCON DE LONGEVIALLE |  2010|CONSEILLER COMMUNAUT DELEGUE |    11376,06|       0|  11376,06|
-|1351 U    |FALCON DE LONGEVIALLE |  2011|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|1351 U    |FALCON DE LONGEVIALLE |  2012|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|1352 V    |BOMBINO               |  2008|CONSEILLER COMMUNAUTAIRE     |     1573,37|       0|   1573,37|
-|1352 V    |BOMBINO               |  2009|CONSEILLER COMMUNAUTAIRE     |     2710,56|       0|   2710,56|
-|1352 V    |BOMBINO               |  2010|CONSEILLER COMMUNAUTAIRE     |     2730,24|       0|   2730,24|
-|1352 V    |BOMBINO               |  2011|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1352 V    |BOMBINO               |  2012|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1353 W    |NOBLECOURT            |  2008|CONSEILLER COMMUNAUT DELEGUE |     6555,60|       0|   6555,60|
-|1353 W    |NOBLECOURT            |  2009|CONSEILLER COMMUNAUT DELEGUE |    11294,07|       0|  11294,07|
-|1353 W    |NOBLECOURT            |  2010|CONSEILLER COMMUNAUT DELEGUE |    13200,75|       0|  13200,75|
-|1353 W    |NOBLECOURT            |  2011|19EME VICE PRESIDENT         |    18703,20|       0|  18703,20|
-|1353 W    |NOBLECOURT            |  2012|19EME VICE PRESIDENT         |    18703,20|       0|  18703,20|
-|1362 F    |BLACHE                |  2008|CONSEILLER COMMUNAUT DELEGUE |     5620,29|       0|   5620,29|
-|1362 F    |BLACHE                |  2009|CONSEILLER COMMUNAUT DELEGUE |    11294,07|       0|  11294,07|
-|1362 F    |BLACHE                |  2010|CONSEILLER COMMUNAUT DELEGUE |    11376,06|       0|  11376,06|
-|1362 F    |BLACHE                |  2011|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|1362 F    |BLACHE                |  2012|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|1476 E    |TOSCANO               |  2009|CONSEILLER COMMUNAUT DELEGUE |     7541,59|       0|   7541,59|
-|1476 E    |TOSCANO               |  2010|CONSEILLER COMMUNAUT DELEGUE |    11376,06|       0|  11376,06|
-|1476 E    |TOSCANO               |  2011|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|1476 E    |TOSCANO               |  2012|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|1532 R    |KUNTZ                 |  2009|CONSEILLER COMMUNAUTAIRE     |      907,12|       0|    907,12|
-|1532 R    |KUNTZ                 |  2010|CONSEILLER COMMUNAUTAIRE     |     2730,24|       0|   2730,24|
-|1532 R    |KUNTZ                 |  2011|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1532 R    |KUNTZ                 |  2012|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1535 U    |VUAILLAT              |  2009|CONSEILLER COMMUNAUTAIRE     |      907,12|       0|    907,12|
-|1535 U    |VUAILLAT              |  2010|CONSEILLER COMMUNAUTAIRE     |     2730,24|       0|   2730,24|
-|1535 U    |VUAILLAT              |  2011|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1535 U    |VUAILLAT              |  2012|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1536 V    |CHAMUSSY              |  2009|CONSEILLER COMMUNAUTAIRE     |      907,12|       0|    907,12|
-|1536 V    |CHAMUSSY              |  2010|CONSEILLER COMMUNAUTAIRE     |     9219,99|       0|   9219,99|
-|1536 V    |CHAMUSSY              |  2011|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|1536 V    |CHAMUSSY              |  2012|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|1570 G    |CRISTINI              |  2010|CONSEILLER COMMUNAUTAIRE     |     2730,24|       0|   2730,24|
-|1570 G    |CRISTINI              |  2011|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1570 G    |CRISTINI              |  2012|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1577 P    |ODDON                 |  2010|CONSEILLER COMMUNAUTAIRE     |     2503,29|       0|   2503,29|
-|1577 P    |ODDON                 |  2011|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1577 P    |ODDON                 |  2012|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1580 T    |GERBIER               |  2010|CONSEILLER COMMUNAUTAIRE     |     2503,29|       0|   2503,29|
-|1580 T    |GERBIER               |  2011|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1580 T    |GERBIER               |  2012|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|1596 K    |HUGELE                |  2010|CONSEILLER COMMUNAUTAIRE     |     2049,39|       0|   2049,39|
-|1596 K    |HUGELE                |  2011|CONSEILLER COMMUNAUTAIRE     |     7793,04|       0|   7793,04|
-|1596 K    |HUGELE                |  2012|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|1614 E    |MOREAU                |  2010|CONSEILLER COMMUNAUTAIRE     |     1595,49|       0|   1595,49|
-|1614 E    |MOREAU                |  2011|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|1614 E    |MOREAU                |  2012|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|163 C     |ROUX                  |  2008|CONSEILLER COMMUNAUT DELEGUE |    10175,88|       0|  10175,88|
-|163 C     |ROUX                  |  2009|CONSEILLER COMMUNAUT DELEGUE |    11294,07|       0|  11294,07|
-|163 C     |ROUX                  |  2010|CONSEILLER COMMUNAUT DELEGUE |    11376,06|       0|  11376,06|
-|163 C     |ROUX                  |  2011|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|163 C     |ROUX                  |  2012|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|166 F     |PROBY                 |  2008|9EME VICE PRESIDENT          |    16818,66|       0|  16818,66|
-|166 F     |PROBY                 |  2009|10EME VICE PRESIDENT         |    18522,30|       0|  18522,30|
-|166 F     |PROBY                 |  2010|9EME VICE PRESIDENT          |    18656,70|       0|  18656,70|
-|166 F     |PROBY                 |  2011|9EME VICE PRESIDENT          |    18703,20|       0|  18703,20|
-|166 F     |PROBY                 |  2012|9EME VICE PRESIDENT          |    18703,20|       0|  18703,20|
-|179 V     |BLONDE                |  2008|CONSEILLER COMMUNAUT DELEGUE |     2684,97|       0|   2684,97|
-|1867 E    |GAUTHIER              |  2012|CONSEILLER COMMUNAUTAIRE     |     2508,99|       0|   2508,99|
-|1868 F    |PUISSAT               |  2012|CONSEILLER COMMUNAUTAIRE     |     3736,87|       0|   3736,87|
-|1978 A    |SAFAR                 |  2012|CONSEILLER COMMUNAUTAIRE     |     2946,14|       0|   2946,14|
-|1988 L    |VERRI                 |  2012|CONSEILLER COMMUNAUT DELEGUE |      950,37|       0|    950,37|
-|232 C     |SULLI                 |  2008|2EME PREMIER VICE PRESIDENT  |    16818,66|       0|  16818,66|
-|232 C     |SULLI                 |  2009|2EME PREMIER VICE PRESIDENT  |    18522,30|       0|  18522,30|
-|232 C     |SULLI                 |  2010|2EME PREMIER VICE PRESIDENT  |    18656,70|       0|  18656,70|
-|232 C     |SULLI                 |  2011|2EME PREMIER VICE PRESIDENT  |    18703,20|       0|  18703,20|
-|232 C     |SULLI                 |  2012|2EME PREMIER VICE PRESIDENT  |    18703,20|       0|  18703,20|
-|251 Y     |ALBOUY                |  2008|CONSEILLER COMMUNAUTAIRE     |      503,59|       0|    503,59|
-|252 Z     |ARIAS                 |  2008|CONSEILLER COMMUNAUTAIRE     |     2301,44|       0|   2301,44|
-|252 Z     |ARIAS                 |  2009|CONSEILLER COMMUNAUTAIRE     |     2710,56|       0|   2710,56|
-|252 Z     |ARIAS                 |  2010|CONSEILLER COMMUNAUTAIRE     |     2730,24|       0|   2730,24|
-|252 Z     |ARIAS                 |  2011|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|252 Z     |ARIAS                 |  2012|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|255 C     |BAUDEAU               |  2008|CONSEILLER COMMUNAUTAIRE     |      503,59|       0|    503,59|
-|256 D     |BETTO                 |  2008|CONSEILLER COMMUNAUT DELEGUE |     2684,97|       0|   2684,97|
-|257 E     |DESSARTS              |  2008|CONSEILLER COMMUNAUT DELEGUE |    10175,88|       0|  10175,88|
-|257 E     |DESSARTS              |  2009|CONSEILLER COMMUNAUT DELEGUE |    11294,07|       0|  11294,07|
-|257 E     |DESSARTS              |  2010|CONSEILLER COMMUNAUT DELEGUE |    11376,06|       0|  11376,06|
-|257 E     |DESSARTS              |  2011|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|257 E     |DESSARTS              |  2012|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|258 F     |BONZI                 |  2008|CONSEILLER COMMUNAUTAIRE     |      503,59|       0|    503,59|
-|259 G     |BOUHET                |  2008|CONSEILLER COMMUNAUTAIRE     |     7994,50|       0|   7994,50|
-|259 G     |BOUHET                |  2009|CONSEILLER COMMUNAUT DELEGUE |    11294,07|       0|  11294,07|
-|259 G     |BOUHET                |  2010|CONSEILLER COMMUNAUT DELEGUE |    11376,06|       0|  11376,06|
-|259 G     |BOUHET                |  2011|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|259 G     |BOUHET                |  2012|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|260 H     |CAUNE                 |  2008|10EME VICE PRESIDENT         |     4533,55|       0|   4533,55|
-|261 J     |CHIRON                |  2008|CONSEILLER COMMUNAUTAIRE     |     2301,44|       0|   2301,44|
-|261 J     |CHIRON                |  2009|CONSEILLER COMMUNAUTAIRE     |     2710,56|       0|   2710,56|
-|261 J     |CHIRON                |  2010|CONSEILLER COMMUNAUTAIRE     |     2730,24|       0|   2730,24|
-|261 J     |CHIRON                |  2011|CONSEILLER COMMUNAUTAIRE     |     2052,81|       0|   2052,81|
-|263 L     |CHUMIATCHER           |  2008|CONSEILLER COMMUNAUT DELEGUE |     2684,97|       0|   2684,97|
-|264 M     |COEUR                 |  2008|CONSEILLER COMMUNAUTAIRE     |     2301,44|       0|   2301,44|
-|264 M     |COEUR                 |  2009|CONSEILLER COMMUNAUTAIRE     |     2710,56|       0|   2710,56|
-|264 M     |COEUR                 |  2010|CONSEILLER COMMUNAUTAIRE     |     2730,24|       0|   2730,24|
-|264 M     |COEUR                 |  2011|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|264 M     |COEUR                 |  2012|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|265 N     |CONTRERAS             |  2008|CONSEILLER COMMUNAUT DELEGUE |    10175,88|       0|  10175,88|
-|265 N     |CONTRERAS             |  2009|CONSEILLER COMMUNAUT DELEGUE |    11294,07|       0|  11294,07|
-|265 N     |CONTRERAS             |  2010|CONSEILLER COMMUNAUT DELEGUE |    11376,06|       0|  11376,06|
-|265 N     |CONTRERAS             |  2011|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|265 N     |CONTRERAS             |  2012|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|266 P     |DESTOT                |  2008|17EME VICE PRESIDENT         |    27012,82|       0|  36351,61|
-|266 P     |DESTOT                |  2009|17EME VICE PRESIDENT         |    27871,87|       0|  37221,44|
-|266 P     |DESTOT                |  2010|18EME VICE PRESIDENT         |    28067,29|       0|  37477,88|
-|266 P     |DESTOT                |  2011|18EME VICE PRESIDENT         |    28124,20|       0|  37545,20|
-|266 P     |DESTOT                |  2012|18EME VICE PRESIDENT         |    28179,92|       0|  37656,64|
-|267 R     |DJELLAL               |  2008|CONSEILLER COMMUNAUT DELEGUE |    10175,88|       0|  10175,88|
-|267 R     |DJELLAL               |  2009|CONSEILLER COMMUNAUT DELEGUE |    11294,07|       0|  11294,07|
-|267 R     |DJELLAL               |  2010|CONSEILLER COMMUNAUT DELEGUE |    11376,06|       0|  11376,06|
-|267 R     |DJELLAL               |  2011|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|267 R     |DJELLAL               |  2012|CONSEILLER COMMUNAUT DELEGUE |    12438,43|       0|  12438,43|
-|268 S     |DOUTRE-ROUSSEL        |  2008|CONSEILLER COMMUNAUTAIRE     |      503,59|       0|    503,59|
-|269 T     |GARNIER               |  2008|CONSEILLER COMMUNAUT DELEGUE |     2684,97|       0|   2684,97|
-|271 V     |TARDY                 |  2008|11EME VICE PRESIDENT         |    12024,46|       0|  12024,46|
-|271 V     |TARDY                 |  2009|CONSEILLER COMMUNAUT DELEGUE |    11294,07|       0|  11294,07|
-|271 V     |TARDY                 |  2010|CONSEILLER COMMUNAUT DELEGUE |    11376,06|       0|  11376,06|
-|271 V     |TARDY                 |  2011|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|271 V     |TARDY                 |  2012|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|272 W     |GUIGUET               |  2008|CONSEILLER COMMUNAUTAIRE     |     2301,44|       0|   2301,44|
-|272 W     |GUIGUET               |  2009|CONSEILLER COMMUNAUTAIRE     |     2710,56|       0|   2710,56|
-|272 W     |GUIGUET               |  2010|CONSEILLER COMMUNAUTAIRE     |     2730,24|       0|   2730,24|
-|272 W     |GUIGUET               |  2011|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|272 W     |GUIGUET               |  2012|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|273 X     |GUILLET REVOL         |  2008|CONSEILLER COMMUNAUTAIRE     |      503,59|       0|    503,59|
-|274 Y     |ISSINDOU              |  2008|4EME VICE PRESIDENT          |    28051,02|       0|  38428,01|
-|274 Y     |ISSINDOU              |  2009|3EME VICE PRESIDENT          |    29747,41|       0|  40972,52|
-|274 Y     |ISSINDOU              |  2010|2EME VICE PRESIDENT          |    29951,37|       0|  41246,04|
-|274 Y     |ISSINDOU              |  2011|2EME VICE PRESIDENT          |    30066,41|       0|  41429,62|
-|274 Y     |ISSINDOU              |  2012|2EME VICE PRESIDENT          |    24108,64|       0|  32631,28|
-|276 A     |JULLIEN               |  2008|20EME VICE PRESIDENT         |    16818,66|       0|  16818,66|
-|276 A     |JULLIEN               |  2009|17EME VICE PRESIDENT         |    18522,30|       0|  18522,30|
-|276 A     |JULLIEN               |  2010|16EME VICE PRESIDENT         |    18656,70|       0|  18656,70|
-|276 A     |JULLIEN               |  2011|16EME VICE PRESIDENT         |    18703,20|       0|  18703,20|
-|276 A     |JULLIEN               |  2012|16EME VICE PRESIDENT         |    18703,20|       0|  18703,20|
-|277 B     |LACROIX               |  2008|CONSEILLER COMMUNAUT DELEGUE |     2684,97|       0|   2684,97|
-|278 C     |FIORASO               |  2008|1ER PREMIER VICE PRESIDENT   |    16818,66|       0|  16818,66|
-|278 C     |FIORASO               |  2009|1ER PREMIER VICE PRESIDENT   |    18522,30|       0|  18522,30|
-|278 C     |FIORASO               |  2010|1ER PREMIER VICE PRESIDENT   |    18656,70|       0|  18656,70|
-|278 C     |FIORASO               |  2011|1ER PREMIER VICE PRESIDENT   |    18703,20|       0|  18703,20|
-|278 C     |FIORASO               |  2012|1ER PREMIER VICE PRESIDENT   |    10054,88|       0|  10054,88|
-|279 D     |LOPPE                 |  2008|CONSEILLER COMMUNAUT DELEGUE |    10175,88|       0|  10175,88|
-|279 D     |LOPPE                 |  2009|CONSEILLER COMMUNAUT DELEGUE |    11294,07|       0|  11294,07|
-|279 D     |LOPPE                 |  2010|CONSEILLER COMMUNAUT DELEGUE |    11376,06|       0|  11376,06|
-|279 D     |LOPPE                 |  2011|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|279 D     |LOPPE                 |  2012|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|280 E     |MATRAIRE              |  2008|CONSEILLER COMMUNAUTAIRE     |      503,59|       0|    503,59|
-|281 F     |MEITE                 |  2008|CONSEILLER COMMUNAUTAIRE     |      503,59|       0|    503,59|
-|283 H     |MOTTE                 |  2008|6EME VICE PRESIDENT          |    12285,11|       0|  12285,11|
-|283 H     |MOTTE                 |  2009|6EME VICE PRESIDENT          |    18522,30|       0|  18522,30|
-|283 H     |MOTTE                 |  2010|5EME VICE PRESIDENT          |    18656,70|       0|  18656,70|
-|283 H     |MOTTE                 |  2011|5EME VICE PRESIDENT          |    18703,20|       0|  18703,20|
-|283 H     |MOTTE                 |  2012|5EME VICE PRESIDENT          |    18703,20|       0|  18703,20|
-|284 J     |OCTRU                 |  2008|CONSEILLER COMMUNAUTAIRE     |     2301,44|       0|   2301,44|
-|284 J     |OCTRU                 |  2009|CONSEILLER COMMUNAUTAIRE     |     2710,56|       0|   2710,56|
-|284 J     |OCTRU                 |  2010|CONSEILLER COMMUNAUTAIRE     |     2730,24|       0|   2730,24|
-|284 J     |OCTRU                 |  2011|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|284 J     |OCTRU                 |  2012|CONSEILLER COMMUNAUTAIRE     |     2737,08|       0|   2737,08|
-|285 K     |OLLIVIER              |  2008|12EME VICE PRESIDENT         |    16818,66|       0|  16818,66|
-|285 K     |OLLIVIER              |  2009|8EME VICE PRESIDENT          |    18522,30|       0|  18522,30|
-|285 K     |OLLIVIER              |  2010|7EME VICE PRESIDENT          |    18656,70|       0|  18656,70|
-|285 K     |OLLIVIER              |  2011|4EME VICE PRESIDENT          |    18703,20|       0|  18703,20|
-|285 K     |OLLIVIER              |  2012|4EME VICE PRESIDENT          |    18703,20|       0|  18703,20|
-|286 L     |GRANGE                |  2008|CONSEILLER COMMUNAUTAIRE     |      503,59|       0|    503,59|
-|287 M     |REMANDE               |  2008|14EME VICE PRESIDENT         |     4533,55|       0|   4533,55|
-|288 N     |ROUGEMONT             |  2008|CONSEILLER COMMUNAUT DELEGUE |     2684,97|       0|   2684,97|
-|289 P     |UHRY                  |  2008|13EME VICE PRESIDENT         |    16818,66|       0|  16818,66|
-|289 P     |UHRY                  |  2009|5EME VICE PRESIDENT          |    18522,30|       0|  18522,30|
-|289 P     |UHRY                  |  2010|4EME VICE PRESIDENT          |    18656,70|       0|  18656,70|
-|289 P     |UHRY                  |  2011|3EME VICE PRESIDENT          |    18703,20|       0|  18703,20|
-|289 P     |UHRY                  |  2012|3EME VICE PRESIDENT          |    18703,20|       0|  18703,20|
-|290 R     |VIAL                  |  2008|CONSEILLER COMMUNAUT DELEGUE |     2684,97|       0|   2684,97|
-|301 C     |COIGNE                |  2008|CONSEILLER COMMUNAUTAIRE     |     7994,50|       0|   7994,50|
-|301 C     |COIGNE                |  2009|CONSEILLER COMMUNAUT DELEGUE |    11294,07|       0|  11294,07|
-|301 C     |COIGNE                |  2010|CONSEILLER COMMUNAUT DELEGUE |    11376,06|       0|  11376,06|
-|301 C     |COIGNE                |  2011|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|301 C     |COIGNE                |  2012|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|354 K     |FRISTOT               |  2008|CONSEILLER COMMUNAUTAIRE     |      503,59|       0|    503,59|
-|356 M     |KAMOWSKI              |  2008|16EME VICE PRESIDENT         |    16818,66|       0|  16818,66|
-|356 M     |KAMOWSKI              |  2009|15EME VICE PRESIDENT         |    18522,30|       0|  18522,30|
-|356 M     |KAMOWSKI              |  2010|14EME VICE PRESIDENT         |    18656,70|       0|  18656,70|
-|356 M     |KAMOWSKI              |  2011|14EME VICE PRESIDENT         |    18703,20|       0|  18703,20|
-|356 M     |KAMOWSKI              |  2012|14EME VICE PRESIDENT         |    18703,20|       0|  18703,20|
-|371 D     |PUECH                 |  2008|CONSEILLER COMMUNAUTAIRE     |      503,59|       0|    503,59|
-|461 B     |ROUVEYRE              |  2008|CONSEILLER COMMUNAUTAIRE     |      503,59|       0|    503,59|
-|507 B     |BEAUGRAND             |  2008|CONSEILLER COMMUNAUTAIRE     |      503,59|       0|    503,59|
-|508 C     |BECHET                |  2008|CONSEILLER COMMUNAUT DELEGUE |     2684,97|       0|   2684,97|
-|509 D     |ESTEVE                |  2008|CONSEILLER COMMUNAUTAIRE     |      503,59|       0|    503,59|
-|510 E     |DIAZ                  |  2008|19EME VICE PRESIDENT         |    16818,66|       0|  16818,66|
-|510 E     |DIAZ                  |  2009|16EME VICE PRESIDENT         |    18522,30|       0|  18522,30|
-|510 E     |DIAZ                  |  2010|15EME VICE PRESIDENT         |    18656,70|       0|  18656,70|
-|510 E     |DIAZ                  |  2011|15EME VICE PRESIDENT         |    18703,20|       0|  18703,20|
-|510 E     |DIAZ                  |  2012|15EME VICE PRESIDENT         |    18703,20|       0|  18703,20|
-|511 F     |MAYOUSSIER            |  2008|CONSEILLER COMMUNAUT DELEGUE |    14970,08|       0|  14970,08|
-|511 F     |MAYOUSSIER            |  2009|18EME VICE PRESIDENT         |    18522,30|       0|  18522,30|
-|511 F     |MAYOUSSIER            |  2010|17EME VICE PRESIDENT         |    18656,70|       0|  18656,70|
-|511 F     |MAYOUSSIER            |  2011|17EME VICE PRESIDENT         |    18703,20|       0|  18703,20|
-|511 F     |MAYOUSSIER            |  2012|17EME VICE PRESIDENT         |    18703,20|       0|  18703,20|
-|513 H     |PERILLIE              |  2008|18EME VICE PRESIDENT         |     4533,55|       0|   4533,55|
-|518 N     |JULIOT                |  2008|CONSEILLER COMMUNAUTAIRE     |     7994,50|       0|   7994,50|
-|518 N     |JULIOT                |  2009|CONSEILLER COMMUNAUT DELEGUE |    11294,07|       0|  11294,07|
-|518 N     |JULIOT                |  2010|CONSEILLER COMMUNAUT DELEGUE |    11376,06|       0|  11376,06|
-|518 N     |JULIOT                |  2011|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|518 N     |JULIOT                |  2012|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|54 J      |AVRILLIER             |  2008|3EME VICE PRESIDENT          |     4533,55|       0|   4533,55|
-|563 M     |MOULIN                |  2008|15EME VICE PRESIDENT         |    16818,66|       0|  16818,66|
-|563 M     |MOULIN                |  2009|13EME VICE PRESIDENT         |    18522,30|       0|  18522,30|
-|563 M     |MOULIN                |  2010|12EME VICE PRESIDENT         |    18656,70|       0|  18656,70|
-|563 M     |MOULIN                |  2011|7EME VICE PRESIDENT          |    18703,20|       0|  18703,20|
-|563 M     |MOULIN                |  2012|7EME VICE PRESIDENT          |    18703,20|       0|  18703,20|
-|564 N     |REPELLIN              |  2008|5EME VICE PRESIDENT          |    16818,66|       0|  16818,66|
-|564 N     |REPELLIN              |  2009|9EME VICE PRESIDENT          |    18522,30|       0|  18522,30|
-|564 N     |REPELLIN              |  2010|8EME VICE PRESIDENT          |    18656,70|       0|  18656,70|
-|564 N     |REPELLIN              |  2011|8EME VICE PRESIDENT          |    18703,20|       0|  18703,20|
-|564 N     |REPELLIN              |  2012|8EME VICE PRESIDENT          |    18703,20|       0|  18703,20|
-|565 P     |DESCHAMPS             |  2008|CONSEILLER COMMUNAUT DELEGUE |     2684,97|       0|   2684,97|
-|566 R     |BAIETTO               |  2008|7EME VICE PRESIDENT          |    16818,66|       0|  16818,66|
-|566 R     |BAIETTO               |  2009|4EME VICE PRESIDENT          |    18522,30|       0|  18522,30|
-|566 R     |BAIETTO               |  2010|3EME VICE PRESIDENT          |    74738,49|       0|  95297,61|
-|566 R     |BAIETTO               |  2011|PRESIDENT                    |    84892,58|       0| 103639,72|
-|566 R     |BAIETTO               |  2012|PRESIDENT                    |    78577,44|       0|  91009,44|
-|58 N      |BOULARD               |  2008|8EME VICE PRESIDENT          |    16818,66|       0|  16818,66|
-|58 N      |BOULARD               |  2009|7EME VICE PRESIDENT          |    18522,30|       0|  18522,30|
-|58 N      |BOULARD               |  2010|6EME VICE PRESIDENT          |    18656,70|       0|  18656,70|
-|58 N      |BOULARD               |  2011|6EME VICE PRESIDENT          |    18703,20|       0|  18703,20|
-|58 N      |BOULARD               |  2012|6EME VICE PRESIDENT          |    18703,20|       0|  18703,20|
-|59 P      |CUPANI                |  2008|CONSEILLER COMMUNAUT DELEGUE |     2684,97|       0|   2684,97|
-|62 T      |LACHAT                |  2008|CONSEILLER COMMUNAUT DELEGUE |    10175,88|       0|  10175,88|
-|62 T      |LACHAT                |  2009|CONSEILLER COMMUNAUT DELEGUE |    11294,07|       0|  11294,07|
-|62 T      |LACHAT                |  2010|CONSEILLER COMMUNAUT DELEGUE |    11376,06|       0|  11376,06|
-|62 T      |LACHAT                |  2011|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|62 T      |LACHAT                |  2012|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|63 U      |MIGAUD                |  2008|PRESIDENT                    |    88657,58|       0| 121937,40|
-|63 U      |MIGAUD                |  2009|PRESIDENT                    |    98805,00|       0| 132104,40|
-|63 U      |MIGAUD                |  2010|PRESIDENT                    |    16173,42|       0|  21377,44|
-|64 V      |BALLUET               |  2008|CONSEILLER COMMUNAUTAIRE     |      503,59|       0|    503,59|
-|65 W      |POIRIER               |  2008|CONSEILLER COMMUNAUT DELEGUE |    10175,88|       0|  10175,88|
-|65 W      |POIRIER               |  2009|CONSEILLER COMMUNAUT DELEGUE |    11294,07|       0|  11294,07|
-|65 W      |POIRIER               |  2010|CONSEILLER COMMUNAUT DELEGUE |    11376,06|       0|  11376,06|
-|65 W      |POIRIER               |  2011|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|65 W      |POIRIER               |  2012|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|68 Z      |SAVIN                 |  2008|6EME VICE PRESIDENT          |    12024,46|       0|  12024,46|
-|68 Z      |SAVIN                 |  2009|CONSEILLER COMMUNAUT DELEGUE |    11294,07|       0|  11294,07|
-|68 Z      |SAVIN                 |  2010|CONSEILLER COMMUNAUT DELEGUE |    11376,06|       0|  11376,06|
-|68 Z      |SAVIN                 |  2011|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|68 Z      |SAVIN                 |  2012|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|69 A      |VANNIER               |  2008|CONSEILLER COMMUNAUT DELEGUE |     2684,97|       0|   2684,97|
-|70 B      |VICARIO               |  2008|CONSEILLER COMMUNAUT DELEGUE |    10175,88|       0|  10175,88|
-|70 B      |VICARIO               |  2009|CONSEILLER COMMUNAUT DELEGUE |    11294,07|       0|  11294,07|
-|70 B      |VICARIO               |  2010|CONSEILLER COMMUNAUT DELEGUE |    11376,06|       0|  11376,06|
-|70 B      |VICARIO               |  2011|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|70 B      |VICARIO               |  2012|CONSEILLER COMMUNAUT DELEGUE |    11404,44|       0|  11404,44|
-|924 E     |FAUBERT               |  2008|CONSEILLER COMMUNAUTAIRE     |      503,59|       0|    503,59|
+|Matricule |Nom       | Année|Emploi | Indemnités | Autres |   Total |
+|:---------|:---------|-----:|:------|-----------:|-------:|--------:|
+|173001    |DEFIX     |  2010|Elus   |    36721,80|       0| 36721,80|
+|173101    |WAUQUIEZ  |  2010|Elus   |    36721,80|       0| 36721,80|
+|173201    |DECOLIN   |  2010|Elus   |    36721,80|       0| 36721,80|
+|173301    |CHASSAING |  2010|Elus   |    36721,80|       0| 36721,80|
+|173401    |GONCALVES |  2010|Elus   |    36721,80|       0| 36721,80|
+|173501    |MAURIN    |  2010|Elus   |    36721,80|       0| 36721,80|
+|173601    |BAY       |  2010|Elus   |    36721,80|       0| 36721,80|
+|173701    |COURIOL   |  2010|Elus   |    36721,80|       0| 36721,80|
+|173801    |GUIEAU    |  2010|Elus   |    36721,80|       0| 36721,80|
+|173901    |CONVERT   |  2010|Elus   |    36721,80|       0| 36721,80|
+|174001    |PEYRET    |  2010|Elus   |    36721,80|       0| 36721,80|
+|174201    |GIRBON    |  2010|Elus   |    36721,80|       0| 36721,80|
+|174301    |GROS      |  2010|Elus   |    36721,80|       0| 36721,80|
+|174401    |RIGAUD    |  2010|Elus   |    36721,80|       0| 36721,80|
+|182101    |REYNAUD   |  2010|Elus   |    36721,80|       0| 36721,80|
+|301754    |JOUBERT   |  2011|ELU    |    36580,80|       0| 36580,80|
+|301754    |JOUBERT   |  2012|ELU    |    36580,80|       0| 36580,80|
+|301754    |JOUBERT   |  2013|ELU    |    36580,80|       0| 36580,80|
+|301786    |PIERRE    |  2011|ELU    |    18406,68|       0| 18406,68|
+|301786    |PIERRE    |  2012|ELU    |    18406,68|       0| 18406,68|
+|301786    |PIERRE    |  2013|ELU    |    18406,68|       0| 18406,68|
+|301943    |DEFIX     |  2011|ELU    |    18406,68|       0| 18406,68|
+|301943    |DEFIX     |  2012|ELU    |    18406,68|       0| 18406,68|
+|301943    |DEFIX     |  2013|ELU    |    18406,68|       0| 18406,68|
+|301944    |WAUQUIEZ  |  2011|ELU    |    18406,68|       0| 18406,68|
+|301944    |WAUQUIEZ  |  2012|ELU    |    18406,69|       0| 18406,69|
+|301944    |WAUQUIEZ  |  2013|ELU    |    18406,68|       0| 18406,68|
+|301945    |DECOLIN   |  2011|ELU    |    18406,68|       0| 18406,68|
+|301945    |DECOLIN   |  2012|ELU    |    18406,68|       0| 18406,68|
+|301945    |DECOLIN   |  2013|ELU    |    18406,68|       0| 18406,68|
+|301946    |CHASSAING |  2011|ELU    |    18406,68|       0| 18406,68|
+|301946    |CHASSAING |  2012|ELU    |    18406,68|       0| 18406,68|
+|301946    |CHASSAING |  2013|ELU    |    18406,68|       0| 18406,68|
+|301947    |GONCALVES |  2011|ELU    |    18406,68|       0| 18406,68|
+|301947    |GONCALVES |  2012|ELU    |    18406,68|       0| 18406,68|
+|301947    |GONCALVES |  2013|ELU    |    18406,68|       0| 18406,68|
+|301948    |MAURIN    |  2011|ELU    |    18406,68|       0| 18406,68|
+|301948    |MAURIN    |  2012|ELU    |     7669,45|       0|  7669,45|
+|301949    |BAY       |  2011|ELU    |    18406,68|       0| 18406,68|
+|301949    |BAY       |  2012|ELU    |    18406,68|       0| 18406,68|
+|301949    |BAY       |  2013|ELU    |    18406,68|       0| 18406,68|
+|301950    |COURIOL   |  2011|ELU    |    18406,68|       0| 18406,68|
+|301950    |COURIOL   |  2012|ELU    |    18406,68|       0| 18406,68|
+|301950    |COURIOL   |  2013|ELU    |    18406,68|       0| 18406,68|
+|301951    |GUIEAU    |  2011|ELU    |    18406,68|       0| 18406,68|
+|301951    |GUIEAU    |  2012|ELU    |    18406,68|       0| 18406,68|
+|301951    |GUIEAU    |  2013|ELU    |    18406,68|       0| 18406,68|
+|301952    |CONVERT   |  2011|ELU    |    18406,68|       0| 18406,68|
+|301952    |CONVERT   |  2012|ELU    |     9203,34|       0|  9203,34|
+|301953    |PEYRET    |  2011|ELU    |    18406,68|       0| 18406,68|
+|301953    |PEYRET    |  2012|ELU    |    18406,68|       0| 18406,68|
+|301953    |PEYRET    |  2013|ELU    |    18406,68|       0| 18406,68|
+|301954    |GIRBON    |  2011|ELU    |    18406,68|       0| 18406,68|
+|301954    |GIRBON    |  2012|ELU    |     9203,34|       0|  9203,34|
+|301955    |GROS      |  2011|ELU    |    18406,68|       0| 18406,68|
+|301955    |GROS      |  2012|ELU    |    18406,68|       0| 18406,68|
+|301955    |GROS      |  2013|ELU    |    18406,68|       0| 18406,68|
+|301956    |RIGAUD    |  2011|ELU    |    18406,68|       0| 18406,68|
+|301956    |RIGAUD    |  2012|ELU    |    18406,68|       0| 18406,68|
+|301956    |RIGAUD    |  2013|ELU    |    18406,68|       0| 18406,68|
+|301991    |REYNAUD   |  2011|ELU    |    18406,68|       0| 18406,68|
+|301991    |REYNAUD   |  2012|ELU    |    18406,68|       0| 18406,68|
+|301991    |REYNAUD   |  2013|ELU    |    18406,68|       0| 18406,68|
+|60302     |JOUBERT   |  2010|Elus   |    72979,44|       0| 72979,44|
+|64502     |PIERRE    |  2010|Elus   |    36721,80|       0| 36721,80|
 
 [Lien vers la base de données Rémunérations des élus](Bases/Réglementation/rémunérations.élu.csv)
 
@@ -2158,56 +1826,45 @@ Cumul des lignes de paie par exercice et catégorie de ligne de paie
  
 
 
-Tableau  77  Année  2008
+Tableau  77  Année  2010
 
 |           Catégorie|  Cumul annuel|
 |-------------------:|-------------:|
-|          Indemnités|  6 049 892,01|
-|             Rappels|    288 659,23|
-|       Rém. diverses|        797,42|
-| Supplément familial|    349 475,20|
-|         Traitements| 17 674 314,76|
+|          Indemnités|    901 790,04|
+|             Rappels|     94 463,01|
+|       Rém. diverses|     50 427,17|
+| Supplément familial|     76 043,69|
+|         Traitements| 10 117 498,07|
 
-Tableau  78  Année  2009
+Tableau  78  Année  2011
 
-|           Catégorie|  Cumul annuel|
-|-------------------:|-------------:|
-|    Indem. Résidence|      3 095,76|
-|          Indemnités|  6 246 021,01|
-|             Rappels|    448 471,90|
-|       Rém. diverses|        534,22|
-| Supplément familial|    372 638,69|
-|         Traitements| 18 492 771,17|
+|           Catégorie| Cumul annuel|
+|-------------------:|------------:|
+|          Indemnités|   859 785,12|
+|             Rappels|   312 030,48|
+|       Rém. diverses|    11 119,69|
+| Supplément familial|    78 235,58|
+|         Traitements| 4 760 956,27|
 
-Tableau  79  Année  2010
+Tableau  79  Année  2012
 
-|           Catégorie|  Cumul annuel|
-|-------------------:|-------------:|
-|          Indemnités|  6 549 869,92|
-|             Rappels|    461 846,07|
-|       Rém. diverses|     19 660,33|
-| Supplément familial|    379 623,84|
-|         Traitements| 19 150 025,62|
+|           Catégorie| Cumul annuel|
+|-------------------:|------------:|
+|          Indemnités|   916 467,75|
+|             Rappels|   265 409,09|
+|       Rém. diverses|    15 004,19|
+| Supplément familial|    82 448,19|
+|         Traitements| 5 213 570,52|
 
-Tableau  80  Année  2011
+Tableau  80  Année  2013
 
-|           Catégorie|  Cumul annuel|
-|-------------------:|-------------:|
-|          Indemnités|  6 942 832,60|
-|             Rappels|    385 376,55|
-|       Rém. diverses|     17 154,00|
-| Supplément familial|    389 664,80|
-|         Traitements| 20 045 292,29|
-
-Tableau  81  Année  2012
-
-|           Catégorie|  Cumul annuel|
-|-------------------:|-------------:|
-|          Indemnités|  7 317 926,65|
-|             Rappels|    289 032,45|
-|       Rém. diverses|     -3 271,09|
-| Supplément familial|    388 778,18|
-|         Traitements| 20 790 150,77|
+|           Catégorie| Cumul annuel|
+|-------------------:|------------:|
+|          Indemnités| 1 038 625,40|
+|             Rappels|   287 307,26|
+|       Rém. diverses|    17 876,24|
+| Supplément familial|    88 661,84|
+|         Traitements| 5 503 405,22|
 
  
 [Lien vers la base détaillée des cumuls des lignes de paie](Bases/Réglementation/cumul.lignes.paie.csv)
@@ -2225,14 +1882,14 @@ Tableau  81  Année  2012
  
 
 
-Pour les agents n'ayant pas d'enfant signalé en base, il a été détecté 13 bulletins de paie présentant un paiement du SFT apparemment anormal.
+Pour les agents n'ayant pas d'enfant signalé en base, il a été détecté 48 bulletins de paie présentant un paiement du SFT apparemment anormal.
 
  
 [Lien vers la base des paiements de SFT à agents sans enfant signalé](Bases/Réglementation/Paie.sans.enfant.réduit.csv)
  
 
 
-Pour les agents ayant au moins un enfant, il a été détecté 70 bulletins de paie présentant un écart de paiement du SFT supérieur à 1 euro.
+Pour les agents ayant au moins un enfant, il a été détecté 46 bulletins de paie présentant un écart de paiement du SFT supérieur à 1 euro.
 
  
 [Lien vers la base des écarts de paiement sur SFT](Bases/Réglementation/controle.sft.csv)
@@ -2242,8 +1899,6 @@ Pour les agents ayant au moins un enfant, il a été détecté 70 bulletins de paie 
 
 # Annexe
 ## Liens complémentaires
-
-[Lien vers le fichier des personnels](Bases/Effectifs/Catégories des personnels.csv)
  
 ## Fiabilité du traitement statistique   
 *Doublons*      
@@ -2262,7 +1917,7 @@ Attention : Altaïr a détecté des lignes dupliquées alors qu'aucun retraitement d
 
     
 
-Nombre de bulletins :  63 970
+Nombre de bulletins :  14 260
 
     
 
@@ -2270,41 +1925,41 @@ Les heures de travail ont été redressées avec la méthode  des quotités.
 
    
 
- Nombre de bulletins de paie redressés : 5 984
+ Nombre de bulletins de paie redressés : 148
 
    
 
- Pourcentage de redressements : 9,35 % des bulletins de paie.
+ Pourcentage de redressements : 1,04 % des bulletins de paie.
 
  
 
 
-Pourcentage d'heures renseignées (après redressement éventuel): 92,9 %
+Pourcentage d'heures renseignées (après redressement éventuel): 88,1 %
 
   
 
 
-Pourcentage de quotités renseignées : 99,2 %
+Pourcentage de quotités renseignées : 98,2 %
 
   
 
 
-Nombre de bulletins à heures et quotités :  59425 [ 92,9 %]
+Nombre de bulletins à heures et quotités :  12347 [ 86,6 %]
 
   
 
 
-Nombre de bulletins à heures sans quotités :  0 [ 0 %]
+Nombre de bulletins à heures sans quotités :  211 [ 1,5 %]
 
   
 
 
-Nombre de bulletins à quotités sans heures :  4005 [ 6,3 %]
+Nombre de bulletins à quotités sans heures :  1651 [ 11,6 %]
 
   
 
 
-Nombre de bulletins apparemment inactifs :  540 [ 0,8 %]
+Nombre de bulletins apparemment inactifs :  51 [ 0,4 %]
 
   
 
@@ -2312,7 +1967,7 @@ Nombre de bulletins apparemment inactifs :  540 [ 0,8 %]
 
  
 
-Nombre de bulletins de paie de salaires versés pour un champ Heures = 0 :  4 003 [ 6,3 %]
+Nombre de bulletins de paie de salaires versés pour un champ Heures = 0 :  1 646 [ 11,5 %]
 
   
 
@@ -2327,8 +1982,13 @@ Nombre de bulletins de paie de salaires versés pour un champ Heures = 0 :  4 003
 
 
 
-Non généré
 
+
+[Lien vers la base des grades et catégories](Bases/Effectifs/grades.catégories.csv)        
+  
+
+[Lien vers la base des personnels](Bases/Effectifs/matricules.csv)        
+  
 
 # Divergences lignes-bulletins de paie     
   
