@@ -8,7 +8,6 @@
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
 
 
-
 racine                      <- ifelse(setOSWindows, "R-Altaïr/", "R-Altair/")
 # "Ville Annecy Paye BP-"
 # "UTF-8.PDC-"
@@ -30,12 +29,12 @@ enlever.quotités.nulles <- F
 enlever.quotités.na     <- F
 écreter.quotités        <- T
 générer.codes           <- FALSE
-charger.catégories.personnel <- FALSE
+charger.catégories.personnel <- TRUE
 extraire.population     <- FALSE
 charger.bases           <- T
 sauvegarder.bases.analyse    <- T
 sauvegarder.bases.origine    <- F
-générer.table.effectifs      <- F
+afficher.table.effectifs      <- F
 générer.table.élus           <- T
 tester.matricules            <- TRUE
 analyse.statique.totale      <- F
@@ -44,6 +43,8 @@ intégrer.localisation <- FALSE   # Veut on gardet Budget Employeur Siret Etablis
 afficher.cumuls.détaillés.lignes.paie <- FALSE
 afficher.table.écarts.sft <- FALSE
 analyse.par.catégorie     <- TRUE
+test.delta                <- TRUE
+
 
 seuil.troncature         <- 1 # jours
 taux.tolérance.homonymie <- 2  # en %
@@ -51,6 +52,8 @@ quantile.cut             <- 1  # en %
 minimum.positif          <- 0.5
 minimum.quotité          <- 0.1
 minimum.actif            <- 100
+minimum.delta            <- 5
+
 population_minimale_calcul_médiane  <- 3
 tolérance.sft <- 1
 
@@ -64,9 +67,14 @@ séparateur.décimal.sortie   <- ","
 # les bases commencent par une majuscule. Un nom de fichier est souvent associé
 # à une variable commençant par une majuscule et représentant la base (data.frame ou matrice)
 
+liste.exclusions <- NULL
+
+try ({
+  liste.exclusions <- read.delim("liste.exclusions.txt", encoding=encodage.code.source, stringsAsFactors = FALSE)[[1]]
+}, silent=TRUE)
+
+
 nom.fichier.codes.paiement  <- paste0(racine, "codes.csv")
-fichier.personnels          <- "Catégories des personnels"
-nom.fichier.personnels      <- paste0(fichier.personnels, ".csv")
 nom.fichier.paie            <- paste0(racine, "Lignes de paye")
 nom.bulletin.paie           <- paste0(racine, "Bulletins de paye")
 nom.table                   <- paste0(racine, "Table.csv")

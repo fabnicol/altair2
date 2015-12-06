@@ -15,3 +15,5 @@ packrat/lib*/
 Tests/Exemple/Donnees/xhl
 **/debug
 **/release
+lhx/cl
+**/*faut.alt
