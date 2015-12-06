@@ -6,10 +6,10 @@ packrat/lib*/
 /**/*.o
 .Rproj.user
 /**/moc*.cpp
-Tests/Exemple/Donnees/R-Altaïr/*.csv
+**/*xhl
 .Rhistory
 /**/release
 /**/debug
 /Altaïr-SDK
 /**/Altaïr
-Tests/Exemple/Donnees/xhl/*
+**/*csv

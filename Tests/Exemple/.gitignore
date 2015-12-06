@@ -2,4 +2,8 @@
 *.docx
 *png
 *gz
+**/Makefile*
+**/release/*
+**/debug/*
+**/*.o
 
