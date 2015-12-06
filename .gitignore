@@ -1,7 +1,8 @@
 ﻿*.old
 .directory
 figure/*
-*.xlsx
+/**/*xlsx
+/**/*docx
 packrat/lib*/
 /**/*.o
 .Rproj.user
