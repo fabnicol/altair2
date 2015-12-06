@@ -12,4 +12,6 @@ packrat/lib*/
 /**/Altaïr
 **/*pdf
 **/*docx
-
+Tests/Exemple/Donnees/xhl
+**/debug
+**/release
