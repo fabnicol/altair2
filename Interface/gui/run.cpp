@@ -49,10 +49,9 @@ void Altair::run()
     }
     QDir targetDirObject(path);
 
-    if (!targetDirObject.exists())
+    if (! targetDirObject.exists() && ! targetDirObject.mkpath(path))
     {
-        Q(path)
-        QMessageBox::critical(nullptr, "Répertoire des bases", "Le répertoire " + path +" n'existe pas. Veuillez le créer manuellement par sécurité.");
+        QMessageBox::critical(nullptr, "Répertoire des bases", "Le répertoire " + path +" n'a pas pu être créé. Veuillez le faire manuellement.");
         processFinished(exitCode::shouldLaunchRAltairAlone);
         return;
     }
@@ -81,7 +80,7 @@ void Altair::run()
             processFinished(exitCode::shouldLaunchRAltairAlone);
             return;
         }
-        else
+
         if (targetDirObject.mkpath(path) == false)
         {
             Warning0(QString("Répertoire"), QString("Le répertoire de sortie %1 n'a pas pu être créé. Relancer après avoir réglé le problème.").arg(path));

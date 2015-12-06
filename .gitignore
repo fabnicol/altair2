@@ -13,3 +13,4 @@ packrat/lib*/
 /Altaïr-SDK
 /**/Altaïr
 **/*csv
+!Tests/Exemple/Donnees/R-Altaïr
