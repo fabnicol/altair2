@@ -181,7 +181,7 @@ encodage.entrée <-  "ISO-8859-1"
   
 encodage.entrée.xhl2csv <-  "ISO-8859-1"
 
-encodage.sortie <- ifelse(setOSWindows, "ISO-8859-15", encodage.entrée)
+encodage.sortie <- "ISO-8859-15"
 
 modalité.traitement            <- "TRAITEMENT"     # s'applique aussi aux NBI
 modalité.indemnitaire          <- "INDEMNITAIRE"   # hors vacations

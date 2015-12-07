@@ -367,6 +367,8 @@ if (générer.codes)   {
 
 if (! charger.bases) break
   
+  Paie[ , Filtre_actif := FALSE]
+
   Paie[ , Filtre_actif := any(Montant[Type == "T" & Heures > minimum.positif] > minimum.actif, na.rm = TRUE), by="Matricule,Année"]
   
   Paie[ , delta := 0, by="Matricule,Année,Mois"]
@@ -409,15 +411,22 @@ if (! charger.bases) break
   
   # Pour les quotités seules les périodes actives sont prises en compte
   
-  Bulletins.paie[ , MHeures := ifelse(pop_calcul_médiane > population_minimale_calcul_médiane 
-                                      & Filtre_actif == TRUE,
-                                      median(Heures[Temps.de.travail == 100 
-                                                    & Filtre_actif == TRUE
-                                                    & Heures > minimum.positif], na.rm = TRUE),
-                                      M[M$Sexe == Bulletins.paie$Sexe
-                                        & M$Statut == Bulletins.paie$Statut,
-                                        Médiane_Sexe_Statut]),
+  Bulletins.paie[pop_calcul_médiane > population_minimale_calcul_médiane 
+                 & Filtre_actif == TRUE, 
+                    MHeures :=  median(Heures[Temps.de.travail == 100 
+                                                & Filtre_actif == TRUE
+                                                & Heures > minimum.positif], na.rm = TRUE),
                  by="Sexe,Emploi"]
+  
+  Bulletins.paie[pop_calcul_médiane <= population_minimale_calcul_médiane 
+                 | Filtre_actif == FALSE | is.na(Filtre_actif) | is.na(pop_calcul_médiane), 
+                 MHeures :=    M[M$Sexe == Bulletins.paie$Sexe
+                                  & M$Statut == Bulletins.paie$Statut,
+                                    Médiane_Sexe_Statut],
+                 by="Sexe,Emploi"]
+                              
+
+                              
   
   # L'écrêtement des quotités est une contrainte statistiquement discutable qui permet de "stresser" le modèle
   # Par défaut les quotités sont écrêtées pour pouvoir par la suite raisonner en définissant le temps plein comme quotité == 1

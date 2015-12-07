@@ -884,6 +884,9 @@ void* decoder_fichier(info_t& info)
             {
                 VAR(Categorie) = (xmlChar*)"A";
             }
+
+            /* Il faut teste d'abord cat A et seulement ensuite cat B */
+
             else if (regex_match((const char*) VAR(Grade), pat_cat_b))
             {
                 VAR(Categorie) = (xmlChar*)"B";

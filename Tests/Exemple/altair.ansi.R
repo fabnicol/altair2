@@ -30,7 +30,7 @@ options(warn = -1, verbose = FALSE, OutDec = ",", datatable.verbose = FALSE)
 encodage.code.source <- "ISO-8859-1"
 
 currentDir              <- getwd()
-générer.rapport         <- ! grepl("altair", basename(currentDir), ignore.case = TRUE) 
+générer.rapport         <- (basename(currentDir) != "altair") 
 
 # dans cet ordre
 
@@ -49,17 +49,23 @@ if (corriger.environnement.système) {
 source(file.path(chemin.dossier, "bibliotheque.fonctions.paie.R"), encoding = encodage.code.source)
 source("import.R", encoding = encodage.code.source)
 
+
 #'
 #'<p class = "centered"><b>Exercices `r paste(début.période.sous.revue, "à", fin.période.sous.revue)` </b></p>
 #'<p class = "author">Fabrice Nicol</h1>
 #'
 #+ echo = FALSE
-#'`r format(Sys.Date(), "%a %d %b %Y")`      
-#'      
-#'Période sous revue : `r début.période.sous.revue` - `r fin.période.sous.revue`    
-#'Nombre d'exercices : `r durée.sous.revue`        
-#'     
+#'`r format(Sys.Date(), "%a %d %b %Y")`
+#'    
 
+
+cat("\nLa durée du travail prise en compte dans la base de données est de ", nb.heures.temps.complet, " h par mois.\n")  
+if (nb.heures.temps.complet > 1.1 * 151.67 || nb.heures.temps.complet < 0.9 * 151.67)  {
+  semaine.de.travail <<- nb.heures.temps.complet * 12 / 52
+  
+  cat("\nAttention !\nLe temps de travail hebdomadaire s'écarte significativement de la durée légale : ", 
+      round(semaine.de.travail,1), " h par semaine.\n")
+}
 
 source("analyse.rémunérations.R", encoding = encodage.code.source)
 
@@ -222,18 +228,7 @@ kable(tableau.effectifs, row.names = TRUE, align='c')
 #'*(g) Postes actifs et non annexes :* voir [Compléments méthodologiques](Docs/méthodologie.pdf)    
 #'*&nbsp;&nbsp;&nbsp;Un poste actif est défini par au moins un bulletin de paie comportant un traitement positif pour un volume d'heures de travail mensuel non nul.*             
 #'*&nbsp;&nbsp;&nbsp;Un poste non annexe est défini comme la conjonction de critères horaires et de revenu sur une année. La période minimale de référence est le mois.*   
-#'*Les dix dernières lignes du tableau sont calculées en ne tenant pas compte des élus.*    
-
-
-cat("\nLa durée du travail prise en compte dans la base de données est de ", nb.heures.temps.complet, " h par mois.\n")  
-if (nb.heures.temps.complet > 1.1 * 151.67 || nb.heures.temps.complet < 0.9 * 151.67)  {
-  semaine.de.travail <<- nb.heures.temps.complet * 12 / 52
-  
-  cat("\nAttention !\nLe temps de travail hebdomadaire s'écarte significativement de la durée légale : ", 
-      round(semaine.de.travail,1), " h par semaine.\n")
-}
-
-#'      
+#'*Les dix dernières lignes du tableau sont calculées en ne tenant pas compte des élus.*      
 #'   
 #'[Lien vers la base des effectifs](Bases/Effectifs/tableau.effectifs.csv)
 #'
@@ -508,7 +503,6 @@ colonnes.sélectionnées <- c("traitement.indiciaire",
                             "part.rémunération.indemnitaire",
                             "Statut",
                             "Grade",
-                            "Catégorie",
                             "Filtre_actif_non_annexe",
                             clé.fusion)
 
@@ -523,11 +517,8 @@ invisible(lapply(années.analyse.statique, function(x) {
                    source('analyse.statique.R', encoding = encodage.code.source) 
                    
                  } else {
-                   if (setOSWindows)  {                 
-                      cat(knit_child(text = readLines(file.path(chemin.dossier,'analyse.statique.Rmd'), encoding = encodage.code.source), quiet=TRUE), sep = '\n')
-                   } else {
-                     cat(knit_child(text = readLines(file.path(chemin.dossier,'analyse.statique.utf8.Rmd'), encoding = "UTF-8"), quiet=TRUE), sep = '\n')
-                   }
+                                      
+                   cat(knit_child(text = readLines(file.path(chemin.dossier,'analyse.statique.Rmd'), encoding = encodage.code.source), quiet=TRUE), sep = '\n')
                  }
                }))
 
@@ -872,33 +863,8 @@ g <- function(x) prettyNum(mean.default(Analyse.variations.par.exercice[Année ==
                    digits = 1,
                    format = "fg")
 
-f.X <- function(x, CAT) {
-  
-  masse.salariale.nette[x - début.période.sous.revue + 1] <<-  sum(Analyse.variations.par.exercice[Année == x
-                                                                                                   & (Statut == "TITULAIRE" | Statut == "STAGIAIRE")
-                                                                                                   & Catégorie == CAT, 
-                                                                                                   Montant.net.annuel.eqtp],
-                                                                   na.rm = TRUE) / 1000
-  
-  prettyNum(masse.salariale.nette[x - début.période.sous.revue + 1],
-            big.mark = " ",
-            digits = 5,
-            format = "fg")
-}
-
-g.X <- function(x, CAT) prettyNum(mean.default(Analyse.variations.par.exercice[Année == x 
-                                                                        & (Statut == "TITULAIRE" | Statut == "STAGIAIRE")
-                                                                        & Catégorie == CAT, 
-                                                                        Montant.net.annuel.eqtp],
-                                        na.rm = TRUE),
-                           big.mark = " ",
-                           digits = 1,
-                           format = "fg")
-
 
 #'**Salaire net moyen par tête (SMPT net) en EQTP**       
-#'**Ensemble**  
-#'    
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
@@ -908,44 +874,7 @@ Tableau.vertical(c(étiquette.année, "Rém. nette totale (k&euro;)", "SMPT net en 
                  f,
                  g)
 
-#'   
-#'**Catégorie A**  
 #'
-#'&nbsp;*Tableau `r incrément()`*   
-#'    
-
-Tableau.vertical(c(étiquette.année, "Rém. nette totale (k&euro;)", "SMPT net en EQTP (&euro;)"),
-                 période,
-                 extra = "variation",
-                 function(x) f.X(x, "A"),
-                 function(x) g.X(x, "A"))
-
-#'   
-#'**Catégorie B**    
-#'     
-#'&nbsp;*Tableau `r incrément()`*   
-#'    
-
-Tableau.vertical(c(étiquette.année, "Rém. nette totale (k&euro;)", "SMPT net en EQTP (&euro;)"),
-                 période,
-                 extra = "variation",
-                 function(x) f.X(x, "B"),
-                 function(x) g.X(x, "B"))
-
-#'   
-#'**Catégorie C**     
-#'    
-#'&nbsp;*Tableau `r incrément()`*   
-#'    
-
-Tableau.vertical(c(étiquette.année, "Rém. nette totale (k&euro;)", "SMPT net en EQTP (&euro;)"),
-                 période,
-                 extra = "variation",
-                 function(x) f.X(x, "C"),
-                 function(x) g.X(x, "C"))
-
-#'    
-
 f <- function(x) {
   y <- x - début.période.sous.revue
   
@@ -1369,7 +1298,7 @@ incrémenter.chapitre()
 #### NBI ####
 
 #'# `r chapitre`. Tests réglementaires   
-#'## `r chapitre`.1 Contrôle des NBI et primes informatiques   
+#'## `r chapitre`.1 Contrôle des heures supplémentaires, des NBI et primes informatiques   
 #'   
 #'**Dans cette partie, l'ensemble de la base de paie est étudié.**  
 #'Les agents non actifs ou dont le poste est annexe sont réintroduits dans le périmètre.   
@@ -1694,14 +1623,12 @@ if (nombre.agents.cumulant.iat.ifts) {
 #IFTS et IB >= 380 (IM >= 350)
 #'  
 if (! résultat.ifts.manquant) {
-    lignes.ifts.anormales <- na.omit(Paie[as.integer(Indice) < 350
-                                          & Catégorie != "A"
+    lignes.ifts.anormales <- na.omit(Paie[as.integer(Indice) < 350   
                                           & ifts.logical == TRUE,
                                             c(clé.fusion,
                                               étiquette.année,
                                               "Mois",
                                               "Statut",
-                                              "Catégorie",
                                               étiquette.code,
                                               étiquette.libellé,
                                               "Indice",
@@ -1729,7 +1656,6 @@ if (! résultat.ifts.manquant) {
                                  étiquette.année,
                                  "Mois",
                                  "Statut",
-                                 "Catégorie",
                                  étiquette.code,
                                  étiquette.libellé,
                                  "Indice",
@@ -1769,19 +1695,6 @@ nombre.agents.cumulant.pfr.ifts <- 0
 # le cumul de la PFR et de l'IFTS est irrrégulier
 
 Paie[ , pfr.logical := grepl(expression.rég.pfr, Paie$Libellé, ignore.case=TRUE, perl=TRUE)]
-
-PFR.non.catA <- Paie[Catégorie != "A" & pfr.logical == TRUE, .(Matricule, Nom, Prénom, Année, Mois)]
-
-if ((N.PFR.non.catA <<- nrow(PFR.non.catA)) > 0) {
-  cat(N.PFR.non.catA, "attributaires de la PFR ne sont pas identifiés en catégorie A.")
-  kable(PFR.non.catA, align = 'r', row.names = FALSE)
-  
-} else {
-  cat("Tous les attributaires de la PFR sont identifiés en catégorie A.")
-}
-
-#'   
-#'   
 
 codes.pfr  <- list("codes PFR" = unique(Paie[pfr.logical == TRUE, Code]))
 
@@ -1993,17 +1906,10 @@ names(HS.sup.25) <- sub("traitement.indiciaire", "Traitement indiciaire annuel",
 
 nombre.Lignes.paie.HS.sup.25 <- nrow(HS.sup.25)
 
-ihts.anormales <- Paie[grepl(expression.rég.heures.sup,
-                                    Libellé,
-                                    ignore.case = TRUE,
-                                    perl=TRUE)
-                       & Montant != 0
-                       & Catégorie == "A"
-                       & Type %chin% c("R", "I", "T", "A"),
-                       .(Matricule, Année, Mois, Statut, Grade, Heures.Sup., Libellé, Code, Type, Montant)]
+ihts.anormales <- data.frame(NULL)
 
-
-nombre.ihts.anormales <- nrow(ihts.anormales) 
+if (fichier.personnels.existe)
+  nombre.ihts.anormales <- nrow(ihts.anormales) else nombre.ihts.anormales <- NA
 
 if (! is.null(HS.sup.25)) message("Heures sup controlées")
 #'
@@ -2020,7 +1926,7 @@ Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"), no
 #'
 #'**Nota :**   
 #'HS en excès : au-delà de 25 heures par mois     
-#'IHTS anormales : attribuées à des fonctionnaires ou non-titulaires de catégorie A ou assimilés.     
+#'IHTS anormales : non attribuées à des fonctionnaires de catégorie B ou C.     
 
 #### ELUS ####
 
@@ -2070,6 +1976,11 @@ if (générer.table.élus)   {
    cat("Tableau des indemnités d'élu : non générée.")
 }
 
+
+if (sauvegarder.bases.analyse)
+  Sauv.base(file.path(chemin.dossier.bases, "Effectifs"),
+            "matricules",
+            fichier.personnels)
 
 #'[Lien vers la base de données Rémunérations des élus](Bases/Réglementation/rémunérations.élu.csv)
 #'
@@ -2322,6 +2233,8 @@ message("Analyse du SFT")
 #'# Annexe
 #'## Liens complémentaires
 
+#'
+#'[Lien vers le fichier des personnels](Bases/Effectifs/Catégories des personnels.csv)
 #'  
 #'## Fiabilité du traitement statistique   
 #'*Doublons*      
@@ -2403,44 +2316,22 @@ if (nligne.base.quotité.indéfinie.salaire.nonnull)
 #'[Lien vers la base de données des salaires versés pour Heures=0](Bases/Fiabilité/base.heures.nulles.salaire.nonnull.csv)   
 #'[Lien vers la base de données des salaires versés à quotité indéfinie](Bases/Fiabilité/base.quotité.indéfinie.salaire.nonnull.csv)   
 #'
-#'# Tableau des personnels  
+#'# Tableau des personnels : renseigner la catégorie
 #'
+#'Utiliser les codes : A, B, C, ELU, AUTRES
 #'
-if (afficher.table.effectifs) {
-  kable(grades.catégories, row.names = FALSE) 
-} 
-
+#'En cas de changement de catégorie en cours de période, utiliser la catégorie AUTRES
+#'Cela peut conduire à modifier manuellement le fichier Catégories des personnels.csv
 #'
-#'[Lien vers la base des grades et catégories](Bases/Effectifs/grades.catégories.csv)        
-#'   
-
-#'
-#'[Lien vers la base des personnels](Bases/Effectifs/matricules.csv)        
-#'   
-
-
-#'
-#'# Divergences lignes-bulletins de paie     
-#'   
-#'*Pour exclure certains codes de paie de l'analyse, renseigner le fichier liste.exclusions.txt*  
-#'   
-
-if (test.delta) {
-  if (!is.null(liste.exclusions))
-    message("Une liste de codes exclus pour la vérification de la concordance lignes-bulletins de paie a été jointe sous ", getwd())
-    cat("   ")
-    source("delta.R", encoding=encodage.code.source)
-} else {
-  cat("Base de vérification des écarts lignes de paie-bulletins de paie non générée.")
+if (générer.table.effectifs) {
+  kable(matricules, row.names = FALSE) 
+} else  {
+  cat("\nNon généré  [anonymisation]\n")
 }
 
-    
-#'   
-#'[Divergences lignes-bulletins de paie](Bases/Fiabilité/Delta.csv)     
-#'   
-
-
-######### SAUVEGARDES #######
+# ------------------------------------------------------------------------------------------------------------------
+#  Sauvegardes : enlever les commentaires en mode opérationnel
+##
 
 if (sauvegarder.bases.analyse) {
 
@@ -2457,8 +2348,6 @@ if (sauvegarder.bases.analyse) {
 
   sauv.bases(file.path(chemin.dossier.bases, "Effectifs"),
              "Bulletins.paie.nir.total.hors.élus",
-             "matricules",
-             "grades.catégories",
              "Bulletins.paie.nir.fonctionnaires",
              "Bulletins.paie.nir.nontit",
              "Bulletins.paie.nir.permanents",
@@ -2495,16 +2384,12 @@ if (sauvegarder.bases.analyse) {
               "lignes.nbi.anormales",
               "cumuls.nbi")
   
-  if (test.delta) 
-    sauv.bases(file.path(chemin.dossier.bases, "Fiabilité"), "Delta")
-  
 }
 
 if (sauvegarder.bases.origine)
   sauv.bases(file.path(chemin.dossier.bases, "Paiements"),
              "Paie",
              "Bulletins.paie")
-
 
 if (! générer.rapport)
    setwd(currentDir)
