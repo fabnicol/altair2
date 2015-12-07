@@ -128,9 +128,13 @@ importer.bases.via.xhl2csv <- function(base, table = nom.table, colClasses = col
 
 
 if (! charger.bases) break
+
   importer.bases.via.xhl2csv("Paie", colClasses =  colonnes.classes.input)
   importer.bases.via.xhl2csv("Bulletins.paie", nom.bulletins, colClasses =  colonnes.bulletins.classes.input, colNames = colonnes.bulletins.input)
 
+  Bulletins.paie[ , Grade := toupper(Grade)]
+  Paie[ , Grade := toupper(Grade)]
+  
   if (! is.null(Paie) && ! is.null(Bulletins.paie)) {
     message("Chargement de la table bulletins-lignes de Paie.")
   } else {
@@ -485,6 +489,7 @@ if (! charger.bases) break
   # sauv.bases(dossier = chemin.dossier.bases, "delta")
   # stop("test")
   
+ 
   Paie <- merge(unique(Bulletins.paie[ , .(Matricule, 
                                            Année,
                                            Mois,
@@ -510,7 +515,7 @@ if (! charger.bases) break
   
   matricules <- unique(Bulletins.paie[ , .(Année, Nom, Prénom, Matricule, Catégorie, Grade, Emploi)], by = NULL)
   
-  matricules <- matricules[order(Matricule,  Année), ]
+  matricules <- matricules[order(Matricule, Année)]
   
   grades.catégories <- unique(matricules[ , .(Grade, Catégorie)], by = NULL)
-
+  grades.catégories <- grades.catégories[order(Grade)]
