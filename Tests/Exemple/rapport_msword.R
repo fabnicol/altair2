@@ -7,6 +7,7 @@ knitr::opts_chunk$set(fig.width=8, fig.height=4, echo = FALSE, warning = FALSE, 
 if (setOSWindows) {
   setwd(file.path(Sys.getenv("R_HOME"), "../Tests/Exemple"))
   source("syspaths.R", encoding = encodage.code.source)
+  knitr::opts_chunk$set(fig.width=8, fig.height=4, echo = FALSE, warning = FALSE, message = FALSE, results = 'asis')
   source("prologue.R", encoding = encodage.code.source)
   writeLines(
     iconv(readLines("altair.R"), from = encodage.code.source, to = "WINDOWS-1252"),
@@ -32,6 +33,7 @@ if (setOSWindows) {
 } else {
   setwd("Tests/Exemple")
   source("syspaths.R", encoding = encodage.code.source)
+  knitr::opts_chunk$set(fig.width=8, fig.height=4, echo = FALSE, warning = FALSE, message = FALSE, results = 'asis')
   source("prologue.R", encoding = encodage.code.source)
   writeLines(iconv(readLines("altair.R"), from = encodage.code.source, to = "UTF-8"),
              "altair.utf8.R")

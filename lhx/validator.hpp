@@ -36,14 +36,21 @@ static constexpr auto EXPRESSION_REG_ELUS = "^maire.*|^pr..?sident.*|^[eé]lus?|.
   EXPRESSION_REG_VACATIONS = ".*\\bvacat.*|.*\\bvac\\.?\\b.*",                 // vac.* peut être vérifié par 'vacances'
   EXPRESSION_REG_ASSISTANTES_MATERNELLES = ".*\\bass.*\\bmater.*",
   EXPRESSION_REG_ADJOINTS = "\\W*(?:adj.*(?:adm|ani|tech|pat)|op[eé].*(a\\.?p\\.?s\\.?|act)|aux.*(pu[eé]r|soin)|gard(ien|.*ch)|brigadier|receveur|sapeur|capor|sous.*off).*",
-  EXPRESSION_REG_AGENTS = "\\W*(?:(?:agent|agt\\.?).*(?:soc|ma[îi]|poli|p\\.?m\\.?|sp[eé])|(?:agent|agt\\.?)?.*atsem).*",
-  EXPRESSION_REG_CAT_A = "\\W*(?:adminis|attach|biol|biblio|cadre.*san|cap.*t|com.*t|.*colon|conserv|conseil|d\\S*\\.?\\s*g\\S*\\.?|direct|ing[eé]n|m[eé]de|pharm|prof|psy|puer|puér|sage|secr.*mai[v[eé]t[eé]r]|infirm\\S*\\s*terr.*so|infirm\\S*\\s*enc.*s.*p).*",
-  EXPRESSION_REG_CAT_B = "\\W*(?:r[eé]dac|tech|anim|[eé]duc|ass.*(?:ens|cons|pat|bib|socio.*[eé]d)|monit|contr[oô].*t(?:er|ra)|chef.*p.*m|lieut[^c\\s]*\\b).*|infirm\\S*\\s*terr\\S*\\s*$",
-  NOM_BASE = "Table",
+  EXPRESSION_REG_AGENTS = "\\W*(?:(?:agent|agt\\.?).*(?:soc|ma[îi]|poli|p\\.?m\\.?|sp[eé]|pat)|(?:agent|agt\\.?)?.*atsem).*",
+
+ /* Attention il ne faut pas autre chose que \\W* car sinon on peut avoir confusion entre cons[eiller].* et [agent].*cons[ervation].*   */
+ /* cons = conseiller ou conservateur souvent abrégé cons., mai speut être aussi conservation */
+
+  EXPRESSION_REG_CAT_A = "\\W*(?:adminis|attach|biol|biblio|infi.*(?:cad.*san|soi)|cap.*t|com.*t|.*colon|cons\\.?|d\\S*\\.?\\s*g\\S*\\.?|direct|ing[eé]n|m[eé]de|pharm|prof|psy|puer|puér|sage.*f|secr.*mai[v[eé]t[eé]r]|infirm\\S*\\s.*(?:soi|enc.*s|C\\.?S\\.?)).*",
+
+ /* A cause du cas problématique des infirmiers, ex B recatégorisés en A, il faut d'abord tester A puis si échec B */
+
+  EXPRESSION_REG_CAT_B = "\\W*(?:r[eé]dac|tech|anim|[eé]duc|ass\\.?.*(?:ens|cons|pat|bib|socio.*[eé]d|m[ée]d.*t)|monit|contr[oô].*t(?:er|ra)|chef.*p.*m|lieut[^c\\s]*\\b|infirm|r[eé][eé]duc).*",
+
+/* Les définitions ci-après doivent être négatives */  NOM_BASE = "Table",
   NOM_BASE_BULLETINS = "Bulletins",
   CSV = ".csv";
 
-/* Les définitions ci-après doivent être négatives */
 
 enum class BaseCategorie : int {
                                  BASE = 0,

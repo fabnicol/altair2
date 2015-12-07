@@ -2224,9 +2224,8 @@ sft <- function(x, indice, nbi, durée, année, mois)   {
 
   }
 
-Paie.sans.enfant <- Paie[is.na(NbEnfants) | NbEnfants == 0]
 
-Paie.sans.enfant.réduit <- Paie.sans.enfant[ , .(SFT.versé = sum(Montant[Type == "S"], na.rm = TRUE)), keyby="Matricule,Année,Mois"] 
+Paie.sans.enfant.réduit <- Paie[is.na(NbEnfants) | NbEnfants == 0 , .(SFT.versé = sum(Montant[Type == "S"], na.rm = TRUE)), keyby="Matricule,Année,Mois"] 
 
 Paie.sans.enfant.réduit <- Paie.sans.enfant.réduit[SFT.versé > 0, ]
 
@@ -2252,9 +2251,9 @@ if (nb.écart.paiements.sft.sans.enfant > 0){
 #'[Lien vers la base des paiements de SFT à agents sans enfant signalé](Bases/Réglementation/Paie.sans.enfant.réduit.csv)
 #'  
 
-Paie.enfants <- Paie[!is.na(NbEnfants) & NbEnfants > 0 & !is.na(Indice) & !is.na(Heures)]
 
-Paie.enfants.réduit <- Paie.enfants[ , .(SFT.versé = sum(Montant[Type == "S"], na.rm = TRUE), 
+Paie.enfants.réduit <- Paie[!is.na(NbEnfants) & NbEnfants > 0 & !is.na(Indice) & !is.na(Heures),
+                                     .(SFT.versé = sum(Montant[Type == "S"], na.rm = TRUE), 
                                         #Traitement = sum(Montant[Type == "T"], na.rm = TRUE),
                                         Temps.de.travail = Temps.de.travail[1],
                                         Indice = Indice[1],

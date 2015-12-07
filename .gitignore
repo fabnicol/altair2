@@ -18,3 +18,5 @@ packrat/lib*/
 !Tests/Exemple/Donnees/R-Altaïr
 !Tests/Exemple/Altair.png
 lhx/cl
+/**/Makefile*
+/**/*.md
