@@ -422,7 +422,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_synopsis">SYNOPSIS</h2>
 <div class="sectionbody">
 <div class="verseblock">
-<pre class="content"><em>git commit-tree</em> &lt;tree&gt; [(-p &lt;parent&gt;)&#8230;&#8203;] &lt; changelog
+<pre class="content"><em>git commit-tree</em> &lt;tree&gt; [(-p &lt;parent&gt;)&#8230;&#8203;]
 <em>git commit-tree</em> [(-p &lt;parent&gt;)&#8230;&#8203;] [-S[&lt;keyid&gt;]] [(-m &lt;message&gt;)&#8230;&#8203;]
 		  [(-F &lt;file&gt;)&#8230;&#8203;] &lt;tree&gt;</pre>
 </div>
@@ -486,7 +486,9 @@ from the standard input.</p>
 <dt class="hdlist1">-S[&lt;keyid&gt;]</dt>
 <dt class="hdlist1">--gpg-sign[=&lt;keyid&gt;]</dt>
 <dd>
-<p>GPG-sign commit.</p>
+<p>GPG-sign commits. The <code>keyid</code> argument is optional and
+defaults to the committer identity; if specified, it must be
+stuck to the option without a space.</p>
 </dd>
 <dt class="hdlist1">--no-gpg-sign</dt>
 <dd>
@@ -717,7 +719,7 @@ reversible operation.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-10-05 19:42:49 Coordinated Universal Time
+Last updated 2015-11-09 21:07:40 Coordinated Universal Time
 </div>
 </div>
 </body>
