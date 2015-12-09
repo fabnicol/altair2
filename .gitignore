@@ -12,11 +12,10 @@ packrat/lib*/
 .Rhistory
 /**/release
 /**/debug
-/AltaÃ¯r-SDK
-/**/AltaÃ¯r
+/Altaïr-SDK
+/**/Altaïr
 **/*csv
-!Tests/Exemple/Donnees/R-AltaÃ¯r
-!Tests/Exemple/Altair.png
+!Tests/Exemple/Donnees/R-Altaïr
 lhx/cl
 /**/Makefile*
 /**/*.md
