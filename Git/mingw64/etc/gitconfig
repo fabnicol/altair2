@@ -1,0 +1,2 @@
+[http]
+	sslcainfo = C:\\Users\\Public\\Dev\\altair\\Git\\mingw64\\ssl\\certs\\ca-bundle.crt
