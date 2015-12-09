@@ -427,7 +427,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 	   [-F &lt;file&gt; | -m &lt;msg&gt;] [--reset-author] [--allow-empty]
 	   [--allow-empty-message] [--no-verify] [-e] [--author=&lt;author&gt;]
 	   [--date=&lt;date&gt;] [--cleanup=&lt;mode&gt;] [--[no-]status]
-	   [-i | -o] [-S[&lt;key-id&gt;]] [--] [&lt;file&gt;&#8230;&#8203;]</pre>
+	   [-i | -o] [-S[&lt;keyid&gt;]] [--] [&lt;file&gt;&#8230;&#8203;]</pre>
 </div>
 </div>
 </div>
@@ -819,7 +819,9 @@ default commit message.</p>
 <dt class="hdlist1">-S[&lt;keyid&gt;]</dt>
 <dt class="hdlist1">--gpg-sign[=&lt;keyid&gt;]</dt>
 <dd>
-<p>GPG-sign commit.</p>
+<p>GPG-sign commits. The <code>keyid</code> argument is optional and
+defaults to the committer identity; if specified, it must be
+stuck to the option without a space.</p>
 </dd>
 <dt class="hdlist1">--no-gpg-sign</dt>
 <dd>
@@ -1164,7 +1166,7 @@ overwritten by the next invocation of <code>git commit</code>.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-10-05 19:42:49 Coordinated Universal Time
+Last updated 2015-10-30 11:47:04 Coordinated Universal Time
 </div>
 </div>
 </body>

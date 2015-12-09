@@ -3569,6 +3569,13 @@ command. If <em>short</em> is specified, the ref name prefixes <em>refs/heads/</
 specified, the full ref name (including prefix) will be printed.
 This is the same as the log commands <em>--decorate</em> option.</p>
 </dd>
+<dt class="hdlist1">log.follow</dt>
+<dd>
+<p>If <code>true</code>, <code>git log</code> will act as if the <code>--follow</code> option was used when
+a single &lt;path&gt; is given.  This has the same limitations as <code>--follow</code>,
+i.e. it cannot be used to follow multiple files and does not work well
+on non-linear history.</p>
+</dd>
 <dt class="hdlist1">log.showRoot</dt>
 <dd>
 <p>If true, the initial commit will be shown as a big creation event.
@@ -4842,7 +4849,7 @@ with the dump git protocol. Defaults to true.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-10-05 19:42:49 Coordinated Universal Time
+Last updated 2015-10-30 11:47:04 Coordinated Universal Time
 </div>
 </div>
 </body>

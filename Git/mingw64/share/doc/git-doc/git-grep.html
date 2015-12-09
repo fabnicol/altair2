@@ -610,13 +610,16 @@ names of files that contain (or do not contain) matches.
 For better compatibility with <em>git diff</em>, <code>--name-only</code> is a
 synonym for <code>--files-with-matches</code>.</p>
 </dd>
-<dt class="hdlist1">-O [&lt;pager&gt;]</dt>
-<dt class="hdlist1">--open-files-in-pager [&lt;pager&gt;]</dt>
+<dt class="hdlist1">-O[&lt;pager&gt;]</dt>
+<dt class="hdlist1">--open-files-in-pager[=&lt;pager&gt;]</dt>
 <dd>
 <p>Open the matching files in the pager (not the output of <em>grep</em>).
 If the pager happens to be "less" or "vi", and the user
 specified only one pattern, the first file is positioned at
-the first match automatically.</p>
+the first match automatically. The <code>pager</code> argument is
+optional; if specified, it must be stuck to the option
+without a space. If <code>pager</code> is unspecified, the default pager
+will be used (see <code>core.pager</code> in <a href="git-config.html">git-config</a>(1)).</p>
 </dd>
 <dt class="hdlist1">-z</dt>
 <dt class="hdlist1">--null</dt>
@@ -773,7 +776,7 @@ files that have lines that match both.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-10-05 19:42:49 Coordinated Universal Time
+Last updated 2015-10-30 11:47:04 Coordinated Universal Time
 </div>
 </div>
 </body>

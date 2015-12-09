@@ -1,18 +1,2 @@
-[core]
-	symlinks = false
-	autocrlf = true
-[color]
-	diff = auto
-	status = auto
-	branch = auto
-	interactive = true
-[pack]
-	packSizeLimit = 2g
-[help]
-	format = html
 [http]
-	sslCAinfo = /ssl/certs/ca-bundle.crt
-[diff "astextplain"]
-	textconv = astextplain
-[rebase]
-	autosquash = true
+	sslcainfo = C:\\Users\\Public\\Dev\\altair\\Git\\mingw64\\ssl\\certs\\ca-bundle.crt
