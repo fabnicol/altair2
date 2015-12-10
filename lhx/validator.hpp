@@ -28,18 +28,29 @@
 typedef struct
 {
     int      thread_num;
-    std::vector<char*>   argv;
+    std::vector<std::string>   argv;
     unsigned argc;
 } thread_t;
 
 static constexpr auto EXPRESSION_REG_ELUS = "^maire.*|^pr..?sident.*|^[eé]lus?|.*(?:\\badj.*\\bmaire\\b|\\bv.*\\bpr..?sident\\b|\\bcons.*\\bmuni|\\bcons.*\\bcomm|\\bcons.*\\bd..?l..?gu).*",
-                      EXPRESSION_REG_VACATIONS = ".*\\bvacat.*|.*\\bvac\\.?\\b.*",                 // vac.* peut être vérifié par 'vacances'
-                      EXPRESSION_REG_ASSISTANTES_MATERNELLES = ".*\\bass.*\\bmater.*",
-                      NOM_BASE = "Table",
-                      NOM_BASE_BULLETINS = "Bulletins",
-                      CSV = ".csv";
+  EXPRESSION_REG_VACATIONS = ".*\\bvacat.*|.*\\bvac\\.?\\b.*",                 // vac.* peut être vérifié par 'vacances'
+  EXPRESSION_REG_ASSISTANTES_MATERNELLES = ".*\\bass.*\\bmater.*",
+  EXPRESSION_REG_ADJOINTS = "\\W*(?:adj.*(?:adm|ani|tech|pat)|op[eé].*(a\\.?p\\.?s\\.?|act)|aux.*(pu[eé]r|soin)|gard(ien|.*ch)|brigadier|receveur|sapeur|capor|sous.*off).*",
+  EXPRESSION_REG_AGENTS = "\\W*(?:(?:agent|agt\\.?).*(?:soc|ma[îi]|poli|p\\.?m\\.?|sp[eé]|pat)|(?:agent|agt\\.?)?.*atsem).*",
 
-/* Les définitions ci-après doivent être négatives */
+ /* Attention il ne faut pas autre chose que \\W* car sinon on peut avoir confusion entre cons[eiller].* et [agent].*cons[ervation].*   */
+ /* cons = conseiller ou conservateur souvent abrégé cons., mai speut être aussi conservation */
+
+  EXPRESSION_REG_CAT_A = "\\W*(?:adminis|attach|biol|biblio|infi.*(?:cad.*san|soi)|cap.*t|com.*t|.*colon|cons\\.?|d\\S*\\.?\\s*g\\S*\\.?|direct|ing[eé]n|m[eé]de|pharm|prof|psy|puer|puér|sage.*f|secr.*mai[v[eé]t[eé]r]|infirm\\S*\\s.*(?:soi|enc.*s|C\\.?S\\.?)).*",
+
+ /* A cause du cas problématique des infirmiers, ex B recatégorisés en A, il faut d'abord tester A puis si échec B */
+
+  EXPRESSION_REG_CAT_B = "\\W*(?:r[eé]dac|tech|anim|[eé]duc|ass\\.?.*(?:ens|cons|pat|bib|socio.*[eé]d|m[ée]d.*t)|monit|contr[oô].*t(?:er|ra)|chef.*p.*m|lieut[^c\\s]*\\b|infirm|r[eé][eé]duc).*",
+
+/* Les définitions ci-après doivent être négatives */  NOM_BASE = "Table",
+  NOM_BASE_BULLETINS = "Bulletins",
+  CSV = ".csv";
+
 
 enum class BaseCategorie : int {
                                  BASE = 0,
@@ -66,13 +77,13 @@ enum class BaseType : int
                   };
 
 #define INDEX_MAX_COLONNNES 5    // nombre de type de champ de ligne de paye (Libellé, Code, Taux, Base, ...) moins 1.
-#define BESOIN_MEMOIRE_ENTETE  23  /* nb d'éléments de l'enum ci-dessous */
+#define BESOIN_MEMOIRE_ENTETE  24  /* nb d'éléments de l'enum ci-dessous */
 
 typedef enum {
               Annee, Mois, Budget, Employeur, Siret, Etablissement,
               Nom, Prenom, Matricule, NIR, NbEnfants, Statut,
               EmploiMetier, Grade, Indice, Service, NBI, QuotiteTrav,
-              NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer
+              NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer, Categorie
          } Entete;
 
 constexpr const char* Tableau_entete[] = {

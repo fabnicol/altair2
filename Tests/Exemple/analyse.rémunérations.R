@@ -17,6 +17,7 @@ Analyse.rémunérations <- Paie[ , .(Nir          = Nir[1],
                                    quotité.moyenne = quotité.moyenne[1],
                                    Emploi       = Emploi[1],
                                    Grade        = Grade[1],
+                                   Catégorie    = Catégorie[1],
                                    temps.complet = all(quotité == 1),
                                    Service      = Service[1],
                                    traitement.indiciaire   = sum(Montant[Type == "T"], na.rm = TRUE),
@@ -24,7 +25,7 @@ Analyse.rémunérations <- Paie[ , .(Nir          = Nir[1],
                                    indemnité.résidence = sum(Montant[Type == "IR"], na.rm = TRUE),
                                    indemnités   = sum(Montant[Type == "I"], na.rm = TRUE),
                                    rémunérations.diverses = sum(Montant[Type == "A"], na.rm = TRUE),
-                                   autres.rémunérations   = sum(Montant[Type == "AC" | Type == "A" | Type == "AV"], na.rm = TRUE),
+                                   autres.rémunérations   = sum(Montant[Type == "AC" | Type == "A" ], na.rm = TRUE),
                                    rémunération.vacataire = sum(Montant[Type == "VAC"], na.rm = TRUE)),  
                               by = c(clé.fusion, étiquette.année)]
 
@@ -65,6 +66,7 @@ Analyse.variations.par.exercice <- Analyse.rémunérations[Grade != "A"
                                                            "rémunération.indemnitaire.imposable.eqtp",
                                                            "Statut",
                                                            "Grade",
+                                                           "Catégorie",
                                                            "nb.jours",
                                                            "temps.complet",
                                                            "ind.quotité",
@@ -73,23 +75,6 @@ Analyse.variations.par.exercice <- Analyse.rémunérations[Grade != "A"
 
 Analyse.variations.par.exercice[ , indicatrice.année := bitwShiftL(1, Année - début.période.sous.revue) ]
 
-sélectionner.exercice.analyse.rémunérations <- function(année) {
-  
-  Analyse.rémunérations.exercice <- Analyse.rémunérations[Année == année]
-  
-  if (fichier.personnels.existe)
-  {
-    Analyse.rémunérations.exercice <- merge(Analyse.rémunérations.exercice,
-                                            base.personnels.catégorie,
-                                            by = clé.fusion,
-                                            all = FALSE)
-    
-    if (! "Catégorie" %in% colonnes.sélectionnées) colonnes.sélectionnées <- c(colonnes.sélectionnées, "Catégorie")
-  }
-  
-  Analyse.rémunérations.exercice
-  
-}
 
 # On ne retire les quotités nulles et NA que pour l'analyse dynamique de la partie 4 
 # On retire également les Heures nulles na et les Heures < seuil.heures

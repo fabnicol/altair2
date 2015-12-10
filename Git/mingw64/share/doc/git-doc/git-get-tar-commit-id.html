@@ -422,7 +422,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_synopsis">SYNOPSIS</h2>
 <div class="sectionbody">
 <div class="verseblock">
-<pre class="content"><em>git get-tar-commit-id</em> &lt; &lt;tarfile&gt;</pre>
+<pre class="content"><em>git get-tar-commit-id</em></pre>
 </div>
 </div>
 </div>
@@ -430,13 +430,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_description">DESCRIPTION</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Acts as a filter, extracting the commit ID stored in archives created by
-<em>git archive</em>.  It reads only the first 1024 bytes of input, thus its
-runtime is not influenced by the size of &lt;tarfile&gt; very much.</p>
+<p>Read a tar archive created by <em>git archive</em> from the standard input
+and extract the commit ID stored in it.  It reads only the first
+1024 bytes of input, thus its runtime is not influenced by the size
+of the tar archive very much.</p>
 </div>
 <div class="paragraph">
 <p>If no commit ID is found, <em>git get-tar-commit-id</em> quietly exists with a
-return code of 1.  This can happen if &lt;tarfile&gt; had not been created
+return code of 1.  This can happen if the archive had not been created
 using <em>git archive</em> or if the first parameter of <em>git archive</em> had been
 a tree ID instead of a commit ID or tag.</p>
 </div>
@@ -453,7 +454,7 @@ a tree ID instead of a commit ID or tag.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-10-05 19:42:49 Coordinated Universal Time
+Last updated 2015-11-09 21:07:40 Coordinated Universal Time
 </div>
 </div>
 </body>

@@ -148,12 +148,12 @@
   </XHL>
  </data>
  <systeme>
-  <fileManagerDisplay profondeur="0">
-   oui
-  </fileManagerDisplay>
   <projectManagerDisplay profondeur="0">
    oui
   </projectManagerDisplay>
+  <fileManagerDisplay profondeur="0">
+   oui
+  </fileManagerDisplay>
   <fullScreenDisplay profondeur="0">
    non
   </fullScreenDisplay>
@@ -185,7 +185,7 @@
    non
   </limitConsoleOutput>
   <quiet profondeur="0">
-   oui
+   non
   </quiet>
   <maxLigne profondeur="0">
      
@@ -209,7 +209,7 @@
    C:\Users\Public\Dev\altair\win
   </lhxDir>
   <processType profondeur="0">
-   '7'
+   '4'
   </processType>
   <nAgent profondeur="0">
      

@@ -147,14 +147,14 @@ return(T)
 
 Sauv.base <- function(chemin.dossier, nom, nom.sauv, encodage = encodage.sortie, sep = séparateur.liste.sortie, dec = séparateur.décimal.sortie)
 {
-  message("Sauvegarde de ", nom)
+  message("Sauvegarde de ", nom.sauv)
   write.table(get(nom),
-             paste0(chemin.dossier, "/", iconv(nom.sauv, to = encodage, mark = FALSE), ".csv"), 
+             paste0(chemin.dossier, "/", nom.sauv, ".csv"), 
              quote = FALSE,
              sep = sep,
              dec = dec,
              row.names = FALSE,
-             fileEncoding = encodage)
+             fileEncoding = if (setOSWindows) encodage else "UTF-8")
 }
 
 sauv.bases <- function(dossier, ...)
