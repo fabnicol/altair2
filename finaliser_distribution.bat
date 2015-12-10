@@ -16,20 +16,21 @@ if "%port%"  ==  "P" set port=8080
 %courant%\Git\bin\git.exe config --global user.name  "Fabrice Nicol"
 %courant%\Git\bin\git.exe config --global user.email   fabrnicol@gmail.com 
 %courant%\Git\bin\git.exe init
-%courant%\Git\bin\git.exe add -f Git
-%courant%\Git\bin\git.exe commit -am "Start"
-%courant%\Git\bin\git.exe clean -d -f -x 
-%courant%\Git\bin\git.exe remote add -t distribution origin https://github.com/fabnicol/altair.git
-%courant%\Git\bin\git.exe fetch --depth=1 origin distribution
-%courant%\Git\bin\git.exe merge -s recursive -X theirs FETCH_HEAD
-xcopy /I /Y /E %courant%\Roaming\RStudio  %USERPROFILE%\AppData\Roaming\RStudio
-xcopy /I /Y /E %courant%\Local\RStudio-desktop  %USERPROFILE%\AppData\Local\RStudio-desktop
-%courant%\Git\bin\git.exe rm -rf  --cached Tests\Exemple\Donnees\R-Al*
-%courant%\Git\bin\git.exe rm -rf --cached .Rproj.user
-%courant%\Git\bin\git.exe rm -f  --cached lhx\cl
-%courant%\Git\bin\git.exe commit -a  -m "local mods"
-%courant%\Git\bin\git.exe config --global http.proxy 
-%courant%\Git\bin\git.exe config --global https.proxy 
+xcopy /q /I /Y /E Git  Git0
+%courant%\Git0\bin\git.exe add Git0
+%courant%\Git0\bin\git.exe clean  -d -f -x 
+%courant%\Git0\bin\git.exe remote add -t distribution-dev origin https://github.com/fabnicol/altair.git
+%courant%\Git0\bin\git.exe fetch  --depth=1 origin distribution
+%courant%\Git0\bin\git.exe branch -u origin/distribution
+%courant%\Git0\bin\git.exe merge --quiet -s recursive -X theirs FETCH_HEAD
+xcopy /I /Y /E Roaming.dev\RStudio  %USERPROFILE%\AppData\Roaming\RStudio
+xcopy /I /Y /E Local.dev\RStudio-desktop  %USERPROFILE%\AppData\Local\RStudio-desktop
+%courant%\Git\bin\git.exe rm -rf --cached Tests\Exemple\Donnees\R-Al*
+%courant%\Git\bin\git.exe rm -rf --cached Git0
+%courant%\Git\bin\git.exe branch -m distribution
+del lhx\cl
+%courant%\Git\bin\git.exe clean  -d -f -x 
+%courant%\Git\bin\git.exe commit --quiet -a  -m "actualisation Dist--cleanup"
 REM END OF FILE
 
 

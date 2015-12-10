@@ -17,18 +17,18 @@ REM  %courant%\Git\bin\git.exe config --system http.sslcainfo C:\Users\Public\De
 %courant%\Git\bin\git.exe config --global credential.helper  wincred 
 %courant%\Git\bin\git.exe config --global user.name  "Fabrice Nicol"
 %courant%\Git\bin\git.exe config --global user.email   fabrnicol@gmail.com 
-%courant%\Git\bin\git.exe clean -d -f -x 
+%courant%\Git\bin\git.exe clean  -d -f -x 
 %courant%\Git\bin\git.exe remote add -t distribution-dev origin https://github.com/fabnicol/altair.git
-%courant%\Git\bin\git.exe fetch --depth=1 origin distribution-dev
-%courant%\Git\bin\git.exe branch --set-upstream-to=origin/distribution
-xcopy /I /Y /E %courant%\Git  %courant%\Git0
+%courant%\Git\bin\git.exe fetch  --depth=1 origin distribution-dev
+%courant%\Git\bin\git.exe branch -u origin/distribution-dev
+xcopy /q /I /Y /E %courant%\Git  %courant%\Git0
 %courant%\Git0\bin\git.exe merge --quiet -s recursive -X theirs FETCH_HEAD
 xcopy /I /Y /E %courant%\Roaming.dev\RStudio  %USERPROFILE%\AppData\Roaming\RStudio
 xcopy /I /Y /E %courant%\Local.dev\RStudio-desktop  %USERPROFILE%\AppData\Local\RStudio-desktop
-%courant%\Git\bin\git.exe rm -rf  --cached Tests\Exemple\Donnees\R-Al*
-%courant%\Git\bin\git.exe rm -rf --cached .Rproj.user
-%courant%\Git\bin\git.exe rm -f  --cached lhx\cl
-%courant%\Git\bin\git.exe clean -d -f -x 
+%courant%\Git\bin\git.exe rm -rf --cached Tests\Exemple\Donnees\R-Al*
+%courant%\Git\bin\git.exe branch -m distribution-dev
+del lhx\cl
+%courant%\Git\bin\git.exe clean  -d -f -x 
 %courant%\Git\bin\git.exe commit --quiet -a  -m "actualisation Dev--cleanup"
 REM END OF FILE
 
