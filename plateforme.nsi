@@ -143,7 +143,7 @@ FunctionEnd
  
 Section  $(Sec1Name) sec1
   SetDetailsPrint both
-  CreateDirectory $LOCALAPPDATA\${prodname}  
+  CreateDirectory $LOCALAPPDATA\Altaïr
   
   SetOutPath $INSTDIR
   File     "${prodname}\*.*" 
@@ -187,8 +187,8 @@ SectionEnd
 
 	ExecWait '"$INSTDIR\mingw64-5.2.exe"'
 	ExecWait '"$INSTDIR\qt-5.5.0-x64-mingw52-static-runtime.exe"'
-     ExecWait '"$INSTDIR\qt-5.5.0-x64-mingw510r0-seh-rev0.exe"'
-	ExecWait '"$INSTDIR\qtcreator-3.5.0.exe"'
+    ExecWait '"$INSTDIR\qt-5.5.0-x64-mingw510r0-seh-rev0.exe"'
+	ExecWait '"$INSTDIR\qtcreator-3.5.1.exe"'
 	Delete   "$INSTDIR\*.exe"
 	
     StrCpy $minimal "_min"
@@ -280,7 +280,7 @@ Section "Uninstall"
   RMDir /r $APPDATA\RStudio
   RMDir /r $APPDATA\Notepad++
   RMDir /r $LOCALAPPDATA\RStudio-desktop
-  RMDir /r $LOCALAPPDATA\${prodname}  
+  RMDir /r $LOCALAPPDATA\Altaïr
   
   Delete "$INSTDIR\*.*"
   RMDir /r "$INSTDIR\"

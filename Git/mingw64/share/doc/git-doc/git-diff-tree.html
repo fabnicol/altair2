@@ -1183,8 +1183,9 @@ environment overrides). See <a href="git-config.html">git-config</a>(1) for more
 </div>
 <div class="paragraph">
 <p>With an optional <em>&lt;ref&gt;</em> argument, show this notes ref instead of the
-default notes ref(s). The ref is taken to be in <code>refs/notes/</code> if it
-is not qualified.</p>
+default notes ref(s). The ref specifies the full refname when it begins
+with <code>refs/notes/</code>; when it begins with <code>notes/</code>, <code>refs/</code> and otherwise
+<code>refs/notes/</code> is prefixed to form a full name of the ref.</p>
 </div>
 <div class="paragraph">
 <p>Multiple --notes options can be combined to control which notes are
@@ -2323,7 +2324,7 @@ the pathname, but if that is <code>NUL</code>, the record will show two paths.</
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-10-05 19:42:49 Coordinated Universal Time
+Last updated 2015-10-30 11:47:04 Coordinated Universal Time
 </div>
 </div>
 </body>

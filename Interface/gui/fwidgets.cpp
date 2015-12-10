@@ -323,7 +323,9 @@ void FListWidget::setWidgetFromXml(const FStringList &s)
         if ((this->status & flags::status::widgetMask) == flags::status::hasListCommandLine)
         {
             commandLineList.clear();
+           // Hash::wrapper[hashKey]->removeAll(QStringList());
             int size = Hash::wrapper[hashKey]->size();
+
             for (int i = 0; i < size; ++i)
             {
                 QStringList strL = Hash::wrapper[hashKey]->at(i);
@@ -337,7 +339,7 @@ void FListWidget::setWidgetFromXml(const FStringList &s)
                     {
                         QMessageBox::critical(nullptr,
                                               "Erreur d'importation du projet .alt",
-                                              "Le fichier " + s + " n'existe pas. Importation annulée.",
+                                              "Le fichier " + s + " n'existe pas. Importation annulée.\n size= " +QString::number(size) + " i= " + QString::number(i),
                                               QMessageBox::Ok);
                         emit(forceCloseProject());
                        return;

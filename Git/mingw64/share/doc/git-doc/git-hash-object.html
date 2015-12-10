@@ -423,7 +423,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sectionbody">
 <div class="verseblock">
 <pre class="content"><em>git hash-object</em> [-t &lt;type&gt;] [-w] [--path=&lt;file&gt;|--no-filters] [--stdin [--literally]] [--] &lt;file&gt;&#8230;&#8203;
-<em>git hash-object</em> [-t &lt;type&gt;] [-w] --stdin-paths [--no-filters] &lt; &lt;list-of-paths&gt;</pre>
+<em>git hash-object</em> [-t &lt;type&gt;] [-w] --stdin-paths [--no-filters]</pre>
 </div>
 </div>
 </div>
@@ -460,7 +460,8 @@ specified, it defaults to "blob".</p>
 </dd>
 <dt class="hdlist1">--stdin-paths</dt>
 <dd>
-<p>Read file names from stdin instead of from the command-line.</p>
+<p>Read file names from the standard input, one per line, instead
+of from the command-line.</p>
 </dd>
 <dt class="hdlist1">--path</dt>
 <dd>
@@ -502,7 +503,7 @@ bogus objects encountered in the wild.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-10-05 19:42:49 Coordinated Universal Time
+Last updated 2015-11-09 21:07:40 Coordinated Universal Time
 </div>
 </div>
 </body>

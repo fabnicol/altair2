@@ -615,7 +615,9 @@ to automatically remove empty notes.</p>
 <dd>
 <p>Manipulate the notes tree in &lt;ref&gt;.  This overrides
 <em>GIT_NOTES_REF</em> and the "core.notesRef" configuration.  The ref
-is taken to be in <code>refs/notes/</code> if it is not qualified.</p>
+specifies the full refname when it begins with <code>refs/notes/</code>; when it
+begins with <code>notes/</code>, <code>refs/</code> and otherwise <code>refs/notes/</code> is prefixed
+to form a full name of the ref.</p>
 </dd>
 <dt class="hdlist1">--ignore-missing</dt>
 <dd>
@@ -922,7 +924,7 @@ on the <code>notes.rewrite.&lt;command&gt;</code> and <code>notes.rewriteRef</co
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-10-05 19:42:49 Coordinated Universal Time
+Last updated 2015-10-30 11:47:04 Coordinated Universal Time
 </div>
 </div>
 </body>
