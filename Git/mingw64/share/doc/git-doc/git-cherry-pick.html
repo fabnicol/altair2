@@ -423,7 +423,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sectionbody">
 <div class="verseblock">
 <pre class="content"><em>git cherry-pick</em> [--edit] [-n] [-m parent-number] [-s] [-x] [--ff]
-		  [-S[&lt;key-id&gt;]] &lt;commit&gt;&#8230;&#8203;
+		  [-S[&lt;keyid&gt;]] &lt;commit&gt;&#8230;&#8203;
 <em>git cherry-pick</em> --continue
 <em>git cherry-pick</em> --quit
 <em>git cherry-pick</em> --abort</pre>
@@ -546,10 +546,12 @@ effect to your index in a row.</p>
 <dd>
 <p>Add Signed-off-by line at the end of the commit message.</p>
 </dd>
-<dt class="hdlist1">-S[&lt;key-id&gt;]</dt>
-<dt class="hdlist1">--gpg-sign[=&lt;key-id&gt;]</dt>
+<dt class="hdlist1">-S[&lt;keyid&gt;]</dt>
+<dt class="hdlist1">--gpg-sign[=&lt;keyid&gt;]</dt>
 <dd>
-<p>GPG-sign commits.</p>
+<p>GPG-sign commits. The <code>keyid</code> argument is optional and
+defaults to the committer identity; if specified, it must be
+stuck to the option without a space.</p>
 </dd>
 <dt class="hdlist1">--ff</dt>
 <dd>
@@ -738,7 +740,7 @@ context lines.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-10-05 19:42:49 Coordinated Universal Time
+Last updated 2015-10-30 11:47:04 Coordinated Universal Time
 </div>
 </div>
 </body>

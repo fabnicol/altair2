@@ -34,7 +34,11 @@ standardPage::standardPage()
 
     QGroupBox *baseBox= new QGroupBox(tr("Répertoires"));
     donneesCSV = new FLineFrame({"Données csv", "Répertoire des données"},
+                                  #ifdef __linux__
+                                   path_access("Tests/Exemple/Donnees/R-Altair" ),
+                                  #else
                                    path_access("Tests/Exemple/Donnees/R-Altaïr" ),
+                                  #endif
                                    "base",
                                    {0,0},
                                    nullptr,

@@ -33,12 +33,48 @@ knitr::opts_chunk$set(fig.width = 7.5, echo = FALSE, warning = FALSE, message = 
 # Pour le mode rapide, convertir les fichiers base en UTF-8 SANS BOM (par exemple, notepad++ après Excel)
 
  
-fichier.personnels.existe <- (charger.catégories.personnel == TRUE) & file.exists(chemin(nom.fichier.personnels))
+fichier.personnels.existe <- (charger.catégories.personnel == TRUE) & file.exists(chemin("matricules.csv"))
+grades.catégories.existe <- (charger.catégories.personnel == TRUE) & file.exists(chemin("grades.catégories.csv"))
+
+base.personnels.catégorie <- NULL
+base.grades.catégories    <- NULL
 
 if (fichier.personnels.existe) {
-  base.personnels.catégorie <- read.csv.skip(nom.fichier.personnels, séparateur.liste = séparateur.liste.entrée, séparateur.décimal = séparateur.décimal.entrée)
+  base.personnels.catégorie <- data.table::fread(chemin("matricules.csv"),
+                                                 sep = séparateur.liste.entrée,
+                                                 header = TRUE,
+                                                 colClasses = c("numeric", "character", "character",
+                                                                "character", "character", "character", "character"),
+                                                 encoding = ifelse(setOSWindows, "Latin-1", "UTF-8"),
+                                                 showProgress = FALSE) 
+
   message("Chargement du fichier des catégories statutaires des personnels.")
+  if (!is.null(base.personnels.catégorie))
+    message("Importé.")
+  else {
+    message("Impossible d'importer les catégories.")
+    stop(" ")
+  }
 }
+
+if (grades.catégories.existe) {
+  base.grades.catégories <- data.table::fread(chemin("grades.catégories.csv"),
+                                                 sep = séparateur.liste.entrée,
+                                                 header = TRUE,
+                                                 colClasses = c("character", "character"),
+                                                 encoding = ifelse(setOSWindows, "Latin-1", "UTF-8"),
+                                                 showProgress = FALSE) 
+  
+  message("Chargement du fichier des grades et catégories statutaires des personnels.")
+  if (!is.null(base.grades.catégories))
+    message("Importé.")
+  else {
+    message("Impossible d'importer les grades et catégories.")
+    stop(" ")
+  }
+}
+
+
 
 # Lignes de paie
 # On peut lire jusqu'à 50 fichiers csv de lignes de paie qui seront générés au format :
@@ -86,20 +122,57 @@ importer.bases.via.xhl2csv <- function(base, table = nom.table, colClasses = col
   
   if (inherits(res, 'try-error'))
     stop("Problème de lecture de la base de la table bulletins-lignes de Paie")
-  
-  if (!is.null(Paie)) {
-    message("Chargement de la table bulletins-lignes de Paie.")
-  } else {
-    stop("Chargement de la table bulletins-lignes de paie en échec.")
-  }
-  
+
   message("Chargement direct des bulletins et lignes de paie")
 }
 
 
-if (charger.bases) {
-  importer.bases.via.xhl2csv("Paie",colClasses =  colonnes.classes.input)
+if (! charger.bases) break
+
+  importer.bases.via.xhl2csv("Paie", colClasses =  colonnes.classes.input)
   importer.bases.via.xhl2csv("Bulletins.paie", nom.bulletins, colClasses =  colonnes.bulletins.classes.input, colNames = colonnes.bulletins.input)
+
+  Bulletins.paie[ , Grade := toupper(Grade)]
+  Paie[ , Grade := toupper(Grade)]
+  
+  if (! is.null(Paie) && ! is.null(Bulletins.paie)) {
+    message("Chargement de la table bulletins-lignes de Paie.")
+  } else {
+    stop("Impossible de charger les lignes/bulletins de paie.")
+  }
+
+  if (!is.null(base.personnels.catégorie)) {
+  
+    message("Remplacement de la catégorie par la catégorie importée du fichier matricules.csv sous ", chemin.dossier.données)
+    BP <- base.personnels.catégorie[ , , keyby = "Année,Nom,Prénom,Matricule,Grade,Emploi"]
+    vect <- c("Année", "Nom", "Prénom", "Matricule", "Grade", "Emploi")
+    
+    Paie[, Catégorie := NULL]
+    Bulletins.paie[, Catégorie := NULL]
+    
+    Paie <- merge(Paie[ , , keyby = "Année,Nom,Prénom,Matricule,Grade,Emploi"], BP, all = TRUE, by = vect)
+    
+    Bulletins.paie <- merge(Bulletins.paie[ , , keyby="Année,Nom,Prénom,Matricule,Grade,Emploi"], BP, all =TRUE, by = vect)
+  } else {
+  
+    if (!is.null(base.grades.catégories)) {
+      
+      message("Remplacement de la catégorie par la catégorie importée du fichier grades.catégories.csv sous ", chemin.dossier.données)
+      
+      Paie[, Catégorie := NULL]
+      Bulletins.paie[, Catégorie := NULL]
+      BP <- base.grades.catégories[Grade != "V" & Grade != "A", Catégorie, keyby = "Grade"]
+      BP <- rbindlist(list(BP, data.table("V", "NA")))
+      BP <- rbindlist(list(BP, data.table("A", "NA")))
+      
+      Paie <- merge(Paie[ , , keyby = "Grade"], BP, all = TRUE, by = "Grade")
+      
+      Bulletins.paie <- merge(Bulletins.paie[ , , keyby="Grade"], BP, all = TRUE, by = "Grade")
+    }
+  }
+  
+  setkey(Paie, Matricule, Année, Mois)
+  setkey(Bulletins.paie, Matricule, Année, Mois)
   
   # dans le cas où l'on ne lance le programme que pour certaines années, il préciser début.période sous revue et fin.période .sous.revue
   # dans le fichier prologue.R. Sinon le programme travaille sur l'ensemble des années disponibles.
@@ -108,8 +181,8 @@ if (charger.bases) {
     Paie <- Paie[Année >= début.période.sous.revue & Année <= fin.période.sous.revue, ]
     Bulletins.paie <- Bulletins.paie[Année >= début.période.sous.revue & Année <= fin.période.sous.revue, ]
   } else {
-    début.période.sous.revue <- min(Paie[[1]])
-    fin.période.sous.revue   <- max(Paie[[1]])
+    début.période.sous.revue <- min(Bulletins.paie[ , Année])
+    fin.période.sous.revue   <- max(Bulletins.paie[ , Année])
   }
   
   
@@ -119,7 +192,7 @@ if (charger.bases) {
   Bulletins.paie[is.na(Grade),  Grade  := ""]
   Bulletins.paie[is.na(Statut), Statut := "AUTRE_STATUT"]
   Bulletins.paie[is.na(NBI),    NBI    := 0]
-}
+
 
 période                 <- début.période.sous.revue:fin.période.sous.revue
 durée.sous.revue        <- fin.période.sous.revue - début.période.sous.revue + 1
@@ -133,8 +206,6 @@ if (! analyse.statique.totale) {
   années.analyse.statique <- période
 }
 
-setkey(Paie, Matricule, Année, Mois)
-setkey(Bulletins.paie, Matricule, Année, Mois)
 
 
 # Le format est jour/mois/année avec deux chiffres-séparateur-deux chiffres-séparateur-4 chiffres.
@@ -294,8 +365,10 @@ if (générer.codes)   {
   générer.base.codes(Paie) 
 }
 
-if (charger.bases) {
+if (! charger.bases) break
   
+  Paie[ , Filtre_actif := FALSE]
+
   Paie[ , Filtre_actif := any(Montant[Type == "T" & Heures > minimum.positif] > minimum.actif, na.rm = TRUE), by="Matricule,Année"]
   
   Paie[ , delta := 0, by="Matricule,Année,Mois"]
@@ -338,15 +411,22 @@ if (charger.bases) {
   
   # Pour les quotités seules les périodes actives sont prises en compte
   
-  Bulletins.paie[ , MHeures := ifelse(pop_calcul_médiane > population_minimale_calcul_médiane 
-                                      & Filtre_actif == TRUE,
-                                      median(Heures[Temps.de.travail == 100 
-                                                    & Filtre_actif == TRUE
-                                                    & Heures > minimum.positif], na.rm = TRUE),
-                                      M[M$Sexe == Bulletins.paie$Sexe
-                                        & M$Statut == Bulletins.paie$Statut,
-                                        Médiane_Sexe_Statut]),
+  Bulletins.paie[pop_calcul_médiane > population_minimale_calcul_médiane 
+                 & Filtre_actif == TRUE, 
+                    MHeures :=  median(Heures[Temps.de.travail == 100 
+                                                & Filtre_actif == TRUE
+                                                & Heures > minimum.positif], na.rm = TRUE),
                  by="Sexe,Emploi"]
+  
+  Bulletins.paie[pop_calcul_médiane <= population_minimale_calcul_médiane 
+                 | Filtre_actif == FALSE | is.na(Filtre_actif) | is.na(pop_calcul_médiane), 
+                 MHeures :=    M[M$Sexe == Bulletins.paie$Sexe
+                                  & M$Statut == Bulletins.paie$Statut,
+                                    Médiane_Sexe_Statut],
+                 by="Sexe,Emploi"]
+                              
+
+                              
   
   # L'écrêtement des quotités est une contrainte statistiquement discutable qui permet de "stresser" le modèle
   # Par défaut les quotités sont écrêtées pour pouvoir par la suite raisonner en définissant le temps plein comme quotité == 1
@@ -418,45 +498,33 @@ if (charger.bases) {
   # sauv.bases(dossier = chemin.dossier.bases, "delta")
   # stop("test")
   
-  Paie <- merge(unique(Bulletins.paie[ , c("Matricule", 
-                                           "Année",
-                                           "Mois",
-                                           "Service",
-                                           "Statut",
-                                           "cumHeures",
-                                           "quotité",
-                                           "quotité.moyenne",
-                                           "Montant.net.eqtp",
-                                           "Montant.brut.eqtp",
-                                           "Montant.brut.annuel",
-                                           "Montant.brut.annuel.eqtp",
-                                           "Montant.net.annuel",
-                                           "Montant.net.annuel.eqtp",
-                                           "Statut.sortie",
-                                           "Sexe",
-                                           "nb.jours",
-                                           "nb.mois",
-                                           "indicatrice.quotité.pp",
-                                           "permanent"), with=FALSE], by=NULL),
+ 
+  Paie <- merge(unique(Bulletins.paie[ , .(Matricule, 
+                                           Année,
+                                           Mois,
+                                           Service,
+                                           Statut,
+                                           cumHeures,
+                                           quotité,
+                                           quotité.moyenne,
+                                           Montant.net.eqtp,
+                                           Montant.brut.eqtp,
+                                           Montant.brut.annuel,
+                                           Montant.brut.annuel.eqtp,
+                                           Montant.net.annuel,
+                                           Montant.net.annuel.eqtp,
+                                           Statut.sortie,
+                                           Sexe,
+                                           nb.jours,
+                                           nb.mois,
+                                           indicatrice.quotité.pp,
+                                           permanent)], by=NULL),
                 Paie, 
                 by=c("Matricule","Année","Mois","Service", "Statut"))
   
-  matricules <- unique(Bulletins.paie[ ,
-                                      c("Année",
-                                        "Emploi",
-                                        "Nom",
-                                        "Matricule"), 
-                                      with=FALSE], by=NULL)
+  matricules <- unique(Bulletins.paie[ , .(Année, Nom, Prénom, Matricule, Catégorie, Grade, Emploi)], by = NULL)
   
-  if (fichier.personnels.existe) {
-    matricules <- merge(matricules, base.personnels.catégorie, by = clé.fusion, all=TRUE)
-  } else {
-    Catégorie <- character(length = nrow(matricules))
-    matricules <- cbind(matricules, Catégorie)
-  }
+  matricules <- matricules[order(Matricule, Année)]
   
-  matricules <- matricules[order(Matricule,  Année), ]
-  
-  
-  
-} # if (charger.bases)
+  grades.catégories <- unique(matricules[ , .(Grade, Catégorie)], by = NULL)
+  grades.catégories <- grades.catégories[order(Grade)]

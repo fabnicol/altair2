@@ -476,28 +476,19 @@ void FListFrame::parseXhlFile(const QString& fileName)
 
 void FListFrame::addStringListToListWidget(const QStringList& stringList)
 {
-    QStringList existingTabLabels;
-    mainTabWidget->clear();
+
     clearTabLabels();
     widgetContainer.clear();
 
     for (int j = 0; j < getWidgetContainerCount(); j++)
     {
-        const QString str = mainTabWidget->tabText(j);
-        if (str == "onglet 1" || str.isEmpty())
-        {
             mainTabWidget->removeTab(j);
             delete(mainTabWidget->widget(j));
-        }
-        else
-        // Ne pas inclure les onglets Siret et Budget
-        if (str[0] != 'S'  && str[0] != 'B')
-          existingTabLabels << str;
     }
 
-    #ifdef DEBUG
-     altair->outputTextEdit->append(STATE_HTML_TAG " Parcours des entêtes de fichier " );
-    #endif
+    mainTabWidget->clear();
+    Hash::wrapper[frameHashKey]->clear();
+
     int stringListSize = stringList.size();
     emit(altair->showProgressBar());
     emit(altair->setProgressBar(0, stringListSize));
@@ -506,28 +497,20 @@ void FListFrame::addStringListToListWidget(const QStringList& stringList)
 
     emit(altair->hideProgressBar());
 
-    QStringList tabLabels = getTabLabels();
+    QStringList allLabels;
 
-    #ifdef DEBUG
-      altair->outputTextEdit->append(STATE_HTML_TAG " Calcul des labels " );
-    #endif
     for (const QString& fileName : stringList)
-            tabLabels  +=   Hash::Annee[fileName];
+            allLabels  +=   Hash::Annee[fileName];
 
     int rank = 0;
-    QStringList allLabels = tabLabels + existingTabLabels;
+
     allLabels.removeDuplicates();
-    #ifdef DEBUG
-      altair->outputTextEdit->append(STATE_HTML_TAG " Elimination des doublons " );
-      altair->outputTextEdit->append(STATE_HTML_TAG " Tri des labels " );
-    #endif
     allLabels.sort();
 
     if (! allLabels.isEmpty())
     {
-        altair->outputTextEdit->append(STATE_HTML_TAG + QString("Nombre d'années détectées : ") + QString::number(allLabels.size()) + " années, " + allLabels.join(", "));
+        altair->outputTextEdit->append(STATE_HTML_TAG + QString("Nombre d'années détectées : ") + QString::number(allLabels.size()) + " années, " +     allLabels.join(", "));
 
-        //#define listWidget static_cast<QListWidget*>(mainTabWidget->widget(rank))
        #define listWidget   widgetContainer[rank]
 
         for (const QString& annee : allLabels)
@@ -535,29 +518,12 @@ void FListFrame::addStringListToListWidget(const QStringList& stringList)
             QStringList keys = Hash::Annee.keys(annee);
             keys.sort();
 
-            if (! existingTabLabels.contains(annee))
-            {
+            widgetContainer.insert(rank, new QListWidget);
+            Hash::wrapper[frameHashKey]->insert(rank, keys);
 
-                widgetContainer.insert(rank, new QListWidget);
-                Hash::wrapper[frameHashKey]->insert(rank, keys);
-
-                addNewTab(rank, annee);
-                #ifdef DEBUG
-                  altair->outputTextEdit->append(STATE_HTML_TAG " Ajout de l'onglet " + annee);
-                #endif
-            }
-            else
-            {
-                (*Hash::wrapper[frameHashKey])[rank] =  keys ;
-                #ifdef DEBUG
-                  altair->outputTextEdit->append(STATE_HTML_TAG " Ajout des fichiers de l'onglet au conteneur principal ");
-                #endif
-            }
+            addNewTab(rank, annee);
 
             listWidget->clear();
-            #ifdef DEBUG
-              altair->outputTextEdit->append(STATE_HTML_TAG " Ajout des fichiers de l'onglet " + annee);
-            #endif
             listWidget->addItems(keys);
 
             altair->refreshRowPresentation(rank);

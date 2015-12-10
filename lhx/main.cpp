@@ -32,9 +32,11 @@ int main(int argc, char **argv)
     auto startofprogram = Clock::now();
 
 #if defined _WIN32 | defined _WIN64
-    setlocale(LC_NUMERIC, "French_France.1252"); // Windows ne gère pas UTF-8 en locale
+    setlocale(LC_ALL, "French_France.1252"); // Windows ne gère pas UTF-8 en locale
+    //std::locale::global(std::locale("French_France.1252"));
 #elif defined __linux__
-    setlocale(LC_NUMERIC, "fr_FR.utf8");
+    //setlocale(LC_ALL, "fr_FR.utf8");
+   std::locale::global(std::locale("fr_FR.utf8"));
 #else
 #error "Programme conçu pour Windows ou linux"
 #endif
@@ -52,7 +54,7 @@ int main(int argc, char **argv)
     std::string type_table = "bulletins";
     bool generer_table = false;
     bool liberer_memoire = true;
-    std::vector<const char*> cl;  /* pour les lignes de commandes incluses dans un fichier */
+    std::vector<std::string> cl;  /* pour les lignes de commandes incluses dans un fichier */
     std::string chemin_base = NOM_BASE + std::string(CSV);
     std::string chemin_bulletins = NOM_BASE_BULLETINS + std::string(CSV);
 
@@ -89,15 +91,15 @@ int main(int argc, char **argv)
 
     /* Analyse de la ligne de commande */
 
-    std::vector<char*> commandline_tab;
+    std::vector<std::string> commandline_tab;
     commandline_tab.assign(argv, argv + argc);
 
     while (start < argc)
     {
-        if (! strcmp(commandline_tab[start], "-n"))
+        if (commandline_tab[start] == "-n")
         {
             info.reduire_consommation_memoire = false;
-            if ((info.nbAgentUtilisateur = lire_argument(argc, commandline_tab[start + 1])) < 1)
+            if ((info.nbAgentUtilisateur = lire_argument(argc, const_cast<char*>(commandline_tab[start + 1].c_str()))) < 1)
             {
                 std::cerr << ERROR_HTML_TAG "Préciser le nombre de bulletins mensuels attendus (majorant du nombre) avec -N xxx .\n";
                 exit(-1);
@@ -106,7 +108,7 @@ int main(int argc, char **argv)
             continue;
 
         }
-        else if (! strcmp(commandline_tab[start], "-h"))
+        else if (commandline_tab[start] ==  "-h")
         {
             std::cerr <<  "Usage :  lhx OPTIONS fichiers.xhl" << "\n"
                       <<  "OPTIONS :" << "\n"
@@ -156,16 +158,16 @@ int main(int argc, char **argv)
 
             exit(0);
         }
-        else if (! strcmp(commandline_tab[start], "-q"))
+        else if (commandline_tab[start] ==  "-q")
         {
             verbeux = false;
             ++start;
             continue;
         }
-        else if (! strcmp(commandline_tab[start], "-t"))
+        else if (commandline_tab[start] == "-t")
         {
             generer_table = true;
-            if (! strcmp(commandline_tab[start + 1], "standard"))
+            if (commandline_tab[start + 1] == "standard")
             {
                 type_table = commandline_tab[start + 1];
                 start += 2;
@@ -177,13 +179,13 @@ int main(int argc, char **argv)
                 continue;
             }
         }
-        else if (! strcmp(commandline_tab[start], "-l"))
+        else if (commandline_tab[start] ==  "-l")
         {
             info.generer_rang = true ;
             ++start;
             continue;
         }
-        else if (! strcmp(commandline_tab[start], "-T"))
+        else if (commandline_tab[start] == "-T")
         {
             if (start + 1 == argc)
             {
@@ -212,7 +214,7 @@ int main(int argc, char **argv)
             }
             else
             {
-                int32_t size_read = lire_argument(argc, commandline_tab[start + 1]);
+                int32_t size_read = lire_argument(argc, const_cast<char*>(commandline_tab[start + 1].c_str()));
 
                 if (size_read < 0 || size_read > INT32_MAX -1)
                 {
@@ -227,7 +229,7 @@ int main(int argc, char **argv)
             continue;
 
         }
-        else if (! strcmp(commandline_tab[start], "-s"))
+        else if (commandline_tab[start] == "-s")
         {
             if (start + 1 == argc)
             {
@@ -245,7 +247,7 @@ int main(int argc, char **argv)
             start += 2;
             continue;
         }
-        else if (! strcmp(commandline_tab[start], "-d"))
+        else if (commandline_tab[start] == "-d")
         {
             if (start + 1 == argc)
             {
@@ -256,7 +258,7 @@ int main(int argc, char **argv)
             start += 2;
             continue;
         }
-        else if (! strcmp(commandline_tab[start], "-o"))
+        else if (commandline_tab[start] == "-o")
         {
             if (start + 1 == argc)
             {
@@ -279,29 +281,29 @@ int main(int argc, char **argv)
             start += 2;
             continue;
         }
-        else if (! strcmp(commandline_tab[start], "-M"))
+        else if (commandline_tab[start] == "-M")
         {
             liberer_memoire = false;
             ++start;
             continue;
         }
-        else if (! strcmp(commandline_tab[start], "-m"))
+        else if (commandline_tab[start] == "-m")
         {
             info.calculer_maxima = true;
             ++start;
             continue;
         }
-        else if (! strcmp(commandline_tab[start], "-D"))
+        else if (commandline_tab[start] == "-D")
         {
-            info.chemin_base = commandline_tab[start + 1] + std::string("/") + std::string(NOM_BASE);
+            info.chemin_base = commandline_tab[start + 1] + std::string("/") + std::string(NOM_BASE) ;
             info.chemin_bulletins = commandline_tab[start + 1] + std::string("/") + std::string(NOM_BASE_BULLETINS);
             std::ofstream base;
-            base.open(info.chemin_base);
+            base.open(info.chemin_base, std::ofstream::out | std::ofstream::trunc);
 
             if (! base.good())
             {
                 std::cerr << ERROR_HTML_TAG "La base de données "
-                          << info.chemin_base << " ne peut être créée, vérifier l'existence du dossier." ENDL ;
+                          << info.chemin_base  + std::string(CSV) << " ne peut être créée, vérifier l'existence du dossier." ENDL ;
                 exit(-113);
             }
             else
@@ -314,9 +316,9 @@ int main(int argc, char **argv)
             start += 2;
             continue;
         }
-        else if (! strcmp(commandline_tab[start], "-j"))
+        else if (commandline_tab[start] == "-j")
         {
-            if ((info.nbfil = lire_argument(argc, commandline_tab[start +1])) > 0)
+            if ((info.nbfil = lire_argument(argc, const_cast<char*>(commandline_tab[start +1].c_str()))) > 0)
             {
 
                 if (info.nbfil < 1)
@@ -329,7 +331,7 @@ int main(int argc, char **argv)
             start += 2;
             continue;
         }
-        else if (! strcmp(commandline_tab[start], "-L"))
+        else if (commandline_tab[start] == "-L")
         {
             if (argc > start +2) info.chemin_log = commandline_tab[start + 1];
             std::ofstream base;
@@ -342,15 +344,15 @@ int main(int argc, char **argv)
             start += 2;
             continue;
         }
-        else if (! strcmp(commandline_tab[start], "-N"))
+        else if (commandline_tab[start] == "-N")
         {
-            if ((info.nbLigneUtilisateur = lire_argument(argc, commandline_tab[start +1])) > 1)
+            if ((info.nbLigneUtilisateur = lire_argument(argc, const_cast<char*>(commandline_tab[start +1].c_str()))) > 1)
             {
                 std::cerr << STATE_HTML_TAG " Nombre maximum de lignes de paye redéfini à : " << info.nbLigneUtilisateur << ENDL;
             }
 
             info.reduire_consommation_memoire = false;
-            if ((info.nbAgentUtilisateur = lire_argument(argc, commandline_tab[start + 1])) < 1)
+            if ((info.nbAgentUtilisateur = lire_argument(argc, const_cast<char*>(commandline_tab[start + 1].c_str()))) < 1)
             {
                 std::cerr << ERROR_HTML_TAG "Préciser le nombre de nombre maximum d'agents par mois attendus (majorant du nombre) avec -n xxx" ENDL;
                 exit(-1);
@@ -359,7 +361,7 @@ int main(int argc, char **argv)
             start += 2;
             continue;
         }
-        else if (! strcmp(commandline_tab[start], "-R"))
+        else if (commandline_tab[start] == "-R")
         {
             if (argc > start +2)
             {
@@ -374,7 +376,7 @@ int main(int argc, char **argv)
             continue;
         }
 #ifdef GENERATE_RANK_SIGNAL
-        else if (! strcmp(commandline_tab[start], "-rank"))
+        else if (commandline_tab[start] == "-rank")
         {
             int hasArg = 0;
             if (argc > start +2)
@@ -404,7 +406,7 @@ int main(int argc, char **argv)
         }
 #endif
 
-        else if (! strcmp(commandline_tab[start], "-S"))
+        else if (commandline_tab[start] == "-S")
         {
             if (argc > start +2)
             {
@@ -417,12 +419,12 @@ int main(int argc, char **argv)
             ++start;
             continue;
         }
-        else if (! strcmp(commandline_tab[start], "-f"))
+        else if (commandline_tab[start] == "-f")
         {
-            char* fichier;
+            const char* fichier;
             if (argc >= start + 2)
             {
-                fichier = commandline_tab[start + 1];
+                fichier = commandline_tab[start + 1].c_str();
             }
             else
             {
@@ -438,17 +440,17 @@ int main(int argc, char **argv)
                 exit(-119);
             }
 
-            char ligne[2048]={0};
-            int i=0;
-            while (f.good())
+            std::string ligne;
+            if (f.good())
             {
-                f.getline(ligne, 2048);
+              while(f.rdstate() != std::fstream::eofbit)
+              {
+                std::getline(f, ligne);
 
-                if (f.rdstate() != std::fstream::eofbit && ligne != nullptr)
-                {
-                    cl.emplace_back(strdup(ligne));
-                }
-                ++i;
+                if (! ligne.empty())
+                       cl.push_back(ligne);
+              }
+
             }
 
             f.close();
@@ -461,7 +463,7 @@ int main(int argc, char **argv)
                 for (int i = 0; i < argc - 1; ++i)
                 {
 
-                    commandline_tab[i + 1] = const_cast<char*>(cl.at(i));
+                    commandline_tab[i + 1] = cl.at(i);
 
                     if (std::string(cl.at(i)) == "-f")
                     {
@@ -475,7 +477,6 @@ int main(int argc, char **argv)
                 start = 1;
                 continue;
             }
-
             //break;
         }
         else if (commandline_tab[start][0] == '-')
@@ -540,7 +541,7 @@ int main(int argc, char **argv)
 
         Info[i].threads->argc = nb_fichier_par_fil[i];
 
-        Info[i].threads->argv = std::vector<char*>(&commandline_tab[start], &commandline_tab[start + nb_fichier_par_fil[i]]);
+        Info[i].threads->argv = std::vector<std::string>(&commandline_tab[start], &commandline_tab[start + nb_fichier_par_fil[i]]);
         start += nb_fichier_par_fil[i];
 
         if (Info[i].threads->argv.size() != (unsigned) nb_fichier_par_fil[i])
@@ -659,7 +660,7 @@ int main(int argc, char **argv)
         {
             for (int j = 0; j < Info[i].Memoire_p_ligne[agent]; ++j)
             {
-                xmlFree(Info[i].Table[agent][j]);
+                if (j != Categorie) xmlFree(Info[i].Table[agent][j]);
             }
         }
     }
