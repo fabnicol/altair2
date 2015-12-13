@@ -12,6 +12,8 @@ PointMensuelIM <- PointIM / 12
 
 PointMensuelIMMoyen <- apply(PointMensuelIM, 1, mean)
 
+# année >= 2008 et année <= 2015
+
 # pour avoir la valeur du point d'indice retrancher 2007 à l'année :
 #   PointIM[année - 2007, mois]
 

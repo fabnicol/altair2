@@ -25,11 +25,11 @@ xcopy /q /I /Y /E %courant%\Git  %courant%\Git0
 xcopy /I /Y /E %courant%\Roaming.dev\RStudio  %USERPROFILE%\AppData\Roaming\RStudio
 xcopy /I /Y /E %courant%\Local.dev\RStudio-desktop  %USERPROFILE%\AppData\Local\RStudio-desktop
 %courant%\Git\bin\git.exe rm -rf --cached Tests\Exemple\Donnees\R-Al*
-%courant%\Git\bin\git.exe rm -rf --cached .Rproj.user
 %courant%\Git\bin\git.exe branch -m distribution-dev
 %courant%\Git\bin\git.exe branch -u origin/distribution-dev
 del lhx\cl
 %courant%\Git\bin\git.exe clean  -d -f -x 
+%courant%\Git\bin\git.exe rm -rf --cached .Rproj.user
 %courant%\Git\bin\git.exe commit --quiet -a  -m "actualisation Dev--cleanup"
 REM END OF FILE
 
