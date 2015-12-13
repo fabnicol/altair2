@@ -17,23 +17,20 @@ if "%port%"  ==  "P" set port=8080
 %courant%\Git\bin\git.exe config --global user.name  "Fabrice Nicol"
 %courant%\Git\bin\git.exe config --global user.email   fabrnicol@gmail.com 
 %courant%\Git\bin\git.exe init
-xcopy /q /I /Y /E %courant%\Git  %courant%\Git0
-%courant%\Git0\bin\git.exe add %courant%\Git0
-%courant%\Git0\bin\git.exe clean  -d -f -x 
-%courant%\Git0\bin\git.exe remote add -t distribution origin https://github.com/fabnicol/altair.git
-%courant%\Git0\bin\git.exe fetch  --depth=1 origin distribution
+xcopy /q /I /Y /E %courant%\Git %~dp0\Git0
+%~dp0\Git0\bin\git.exe clean  -d -f -x 
+%~dp0\Git0\bin\git.exe remote add -t distribution origin https://github.com/fabnicol/altair.git
+%~dp0\Git0\bin\git.exe fetch  --depth=1 origin distribution
 echo Importation du code en cours...
-%courant%\Git0\bin\git.exe merge --quiet -s recursive -X theirs FETCH_HEAD
-%courant%\Git0\bin\git.exe branch -u origin/distribution
+%~dp0\Git0\bin\git.exe merge --quiet -s recursive -X theirs FETCH_HEAD
+%~dp0\Git0\bin\git.exe branch -u origin/distribution
+del /q %~dp0\Git0
 xcopy /I /Y /E Roaming\RStudio  %USERPROFILE%\AppData\Roaming\RStudio
 xcopy /I /Y /E Local\RStudio-desktop  %USERPROFILE%\AppData\Local\RStudio-desktop
 %courant%\Git\bin\git.exe rm -rf --quiet --cached Tests\Exemple\Donnees\R-Al*
-%courant%\Git\bin\git.exe rm -rf --quiet --cached .Rproj.user
-%courant%\Git\bin\git.exe rm -rf --quiet --cached Git0
-del lhx\cl
+del /q lhx\cl
 %courant%\Git\bin\git.exe clean  -d -f -x 
+%courant%\Git\bin\git.exe rm -rf --quiet --cached .Rproj.user
 cd ..
 echo Fin.
 REM END OF FILE
-
-
