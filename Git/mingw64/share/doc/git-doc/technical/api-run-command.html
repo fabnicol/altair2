@@ -466,6 +466,13 @@ that correspond to the members .no_stdin, .git_cmd,
 The argument dir corresponds the member .dir. The argument env
 corresponds to the member .env.</p>
 </dd>
+<dt class="hdlist1"><code>child_process_clear</code></dt>
+<dd>
+<p>Release the memory associated with the struct child_process.
+Most users of the run-command API don&#8217;t need to call this
+function explicitly because <code>start_command</code> invokes it on
+failure and <code>finish_command</code> calls it automatically already.</p>
+</dd>
 </dl>
 </div>
 <div class="paragraph">
@@ -821,7 +828,7 @@ facility also uses.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-10-05 19:42:49 Coordinated Universal Time
+Last updated 2015-11-09 21:07:40 Coordinated Universal Time
 </div>
 </div>
 </body>

@@ -209,7 +209,7 @@ void Altair::on_newProjectButton_clicked()
     outputTextEdit->append(PARAMETER_HTML_TAG "Nouveau projet créé sous " + projectName);
 }
 
-inline void     Altair::openProjectFileCommonCode()
+void  Altair::openProjectFileCommonCode()
 {
 
     RefreshFlag = RefreshFlag  | interfaceStatus::parseXml;
@@ -239,7 +239,7 @@ void Altair::openProjectFile()
     //if (! Hash::wrapper["XHL"]->isEmpty() && ! Hash::wrapper["XHL"]->at(0).isEmpty()) return;
     closeProject();
     projectName=qobject_cast<QAction *>(sender())->data().toString();
-    RefreshFlag = RefreshFlag | interfaceStatus::parseXml;
+
     openProjectFileCommonCode();
 }
 
@@ -517,7 +517,7 @@ bool Altair::refreshProjectManager()
 
             if (filesize == 0)
             {
-                outputTextEdit->append(WARNING_HTML_TAG " Pas de projet en cours (défault.alt est vide).");
+                outputTextEdit->append(WARNING_HTML_TAG " Pas de projet en cours (défaut.alt est vide).");
                 return false;
             }
 

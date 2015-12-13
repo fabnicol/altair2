@@ -15,8 +15,8 @@
 #error "This application will only compile for Windows or GNU/Linux operating systems."
 #endif
 
-#define  Warning(title, text)   QMessageBox::warning(0, title, text,  "Oui", "Non")
-#define  Warning0(title, text)   QMessageBox::warning(0, title, text, "Fermer")
+#define  Warning(title, text)   QMessageBox::warning(0, title, text)
+#define  Warning0(title, text)   QMessageBox::warning(0, title, text)
 #define REQUIRE true
 
 class common : public QDialog, public flags
@@ -98,11 +98,15 @@ public :
 
     #ifdef MINIMAL
       QString RAltairDirStr = path_access("R/bin/x64");
-      // Passer les '/' soit Ã  QDir::toNativeSeparators() soit utiliser QDir::separator() sous Windows.
+      // Passer les '/' soit Ã  QDir::toNativeSeparators() soit utiliser QDir::separator() sous Windows.
       QString RAltairCommandStr = RAltairDirStr + QDir::separator() + "Rscript" + QString(systemSuffix);
     #else
-      QString RAltairDirStr = path_access("RStudio");
-      QString RAltairCommandStr = RAltairDirStr + QDir::separator() + "bin" + QDir::separator() + "rstudio" + QString(systemSuffix) ;
+      #ifdef __WIN32__
+         QString RAltairDirStr = path_access("RStudio");
+         QString RAltairCommandStr = RAltairDirStr + QDir::separator() + "bin" + QDir::separator() + "rstudio" + QString(systemSuffix) ;
+      #else
+         QString RAltairCommandStr = QString("/usr/bin/rstudio");
+      #endif
     #endif
 
 #else

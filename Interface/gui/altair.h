@@ -35,7 +35,7 @@ public:
     void checkEmptyProjectName()
       {
          if (projectName.isEmpty())
-            projectName=QDir::currentPath() + "/défaut.alt";
+            projectName=QDir::currentPath() + QString("/défaut.alt");
       }
 
 
@@ -77,6 +77,8 @@ public:
 
     }
 
+        bool refreshProjectManager();
+
 public slots:
 
    bool updateProject(bool=false);
@@ -84,6 +86,7 @@ public slots:
    void on_newProjectButton_clicked();
    void on_deleteItem_clicked();
    void closeProject();
+   void openProjectFileCommonCode();
 
 private slots:
     
@@ -138,11 +141,10 @@ private:
     void refreshModel();
     void refreshTreeView();
     void parseProjectFile(QIODevice*);
-    bool refreshProjectManager();
     void msg (const QString & text);
     void printMsg(qint64 new_value, const QString &str);
     void printBaseSize(qint64 new_value = 0);
-    inline void openProjectFileCommonCode();
+
     void checkAnnumSpan();
     void normaliseMultiBudgetFiles(const QStringList& list);
 

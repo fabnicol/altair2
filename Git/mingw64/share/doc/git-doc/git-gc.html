@@ -492,8 +492,11 @@ automatic consolidation of packs.</p>
 <dd>
 <p>Prune loose objects older than date (default is 2 weeks ago,
 overridable by the config variable <code>gc.pruneExpire</code>).
---prune=all prunes loose objects regardless of their age.
---prune is on by default.</p>
+--prune=all prunes loose objects regardless of their age (do
+not use --prune=all unless you know exactly what you are doing.
+Unless the repository is quiescent, you will lose newly created
+objects that haven&#8217;t been anchored with the refs and end up
+corrupting your repository).  --prune is on by default.</p>
 </dd>
 <dt class="hdlist1">--no-prune</dt>
 <dd>
@@ -628,7 +631,7 @@ remove those references.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-10-05 19:42:49 Coordinated Universal Time
+Last updated 2015-11-09 21:07:40 Coordinated Universal Time
 </div>
 </div>
 </body>
