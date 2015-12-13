@@ -2,7 +2,7 @@
 encodage.code.source <- "ISO-8859-1"
 initwd <- getwd()
 setOSWindows  <- Sys.info()["sysname"] != "Linux"
-knitr::opts_chunk$set(fig.width=8, fig.height=4, echo = FALSE, warning = FALSE, message = FALSE, results = 'asis')
+
 
 if (setOSWindows) {
   setwd(file.path(Sys.getenv("R_HOME"), "../Tests/Exemple"))
