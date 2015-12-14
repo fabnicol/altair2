@@ -1,4 +1,4 @@
-ï»¿**/*.old
+**/*.old
 .directory
 figure/*
 **/*.xlsx
@@ -6,12 +6,15 @@ packrat/lib*/
 **/*.o
 .Rproj.user
 /**/moc*.cpp
-**/*csv
+/**/*csv
+/**/*.md
+/**/*.ansi
+/**/*.html
+/**/.docx
 .Rhistory
-/AltaÃ¯r-SDK
-/**/AltaÃ¯r
-**/*pdf
-**/*docx
+/Altaïr-SDK
+/**/Altaïr
+**/*.pdf
 Tests/Exemple/Donnees/xhl
 **/debug
 **/release
