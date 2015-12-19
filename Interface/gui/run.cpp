@@ -73,19 +73,19 @@ void Altair::run()
                 }
         }
 
-        if (!targetDirObject.removeRecursively())
-        {
-            Warning0(QString("Supprimer le répertoire au lancement"),
-                     QString("Il n'a pas été possible de nettoyer le répertoire %1 au lancement de LHX.\nNettoyer le répertoire et relancer.").arg(QDir::toNativeSeparators(path)));
-            processFinished(exitCode::shouldLaunchRAltairAlone);
-            return;
-        }
+        for (const QString& file : files)
+            {
+                const QString filepath = path + "/" + file;
+                if (QFileInfo(filepath).isFile())
+                {
+                      QFile::remove(filepath);
+                }
+                else
+                {
+                    QDir(filepath).removeRecursively();
+                }
+            }
 
-        if (targetDirObject.mkpath(path) == false)
-        {
-            Warning0(QString("Répertoire"), QString("Le répertoire de sortie %1 n'a pas pu être créé. Relancer après avoir réglé le problème.").arg(path));
-            return;
-        }
     }
 
 #ifdef DEBUG
