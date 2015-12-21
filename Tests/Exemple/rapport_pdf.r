@@ -4,6 +4,7 @@ initwd <- getwd()
 setOSWindows  <- Sys.info()["sysname"] != "Linux"
 
 if (setOSWindows) {
+  
   invisible(Sys.setenv(PATH = paste0(Sys.getenv("PATH"), ";", file.path(Sys.getenv("R_HOME"), "../texlive/miktex/bin;"))))
   setwd(file.path(Sys.getenv("R_HOME"), "../Tests/Exemple"))
   source("syspaths.R", encoding=encodage.code.source)

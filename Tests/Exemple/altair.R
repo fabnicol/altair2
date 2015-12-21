@@ -523,7 +523,7 @@ invisible(lapply(années.analyse.statique, function(x) {
                    source('analyse.statique.R', encoding = encodage.code.source) 
                    
                  } else {
-                   if (setOSWindows)  {                 
+                   if (setOSWindows)  {
                       cat(knit_child(text = readLines(file.path(chemin.dossier,'analyse.statique.Rmd'), encoding = encodage.code.source), quiet=TRUE), sep = '\n')
                    } else {
                      cat(knit_child(text = readLines(file.path(chemin.dossier,'analyse.statique.utf8.Rmd'), encoding = "UTF-8"), quiet=TRUE), sep = '\n')
@@ -1644,20 +1644,17 @@ nombre.agents.cumulant.iat.ifts <- 0
 
 if (! résultat.ifts.manquant && ! résultat.iat.manquant) {
   
-  Paie[ , cumul.iat.ifts := any(ifts.logical[Type == "I"]) & any(iat.logical[Type == "I"]), by="Matricule,Année,Mois"]
+  Q <- Paie[Type == "I" , cumul.iat.ifts := any(ifts.logical) & any(iat.logical), by="Année,Mois,Matricule"]
   
   # on exclut les rappels !
   
-  personnels.iat.ifts <- Paie[cumul.iat.ifts == TRUE
+  personnels.iat.ifts <- Q[cumul.iat.ifts == TRUE
                               & (ifts.logical == TRUE | iat.logical == TRUE),
-                                .(Matricule, Année, Mois, Code, Libellé, Montant, Type, Emploi, Grade, Service)]
+                                .(Matricule, Année, Mois, Code, Libellé, Montant, Type, Grade, Catégorie, Service)]
   
-  nombre.mois.cumuls <- uniqueN(personnels.iat.ifts[ , .(Matricule, Année, Mois)], 
-                                    by = NULL)
   
   nombre.agents.cumulant.iat.ifts <- uniqueN(personnels.iat.ifts$Matricule)
   
-  personnels.iat.ifts <- personnels.iat.ifts[order(Année, Mois, Matricule)]
 }
 
 #'
@@ -1671,7 +1668,7 @@ if (nombre.agents.cumulant.iat.ifts) {
             paste(unlist(codes.ifts), collapse=" "), " ")
   } else {
     
-    cat ("Nombre de personnels percevant IAT et IFTS : ", paste(unlist(codes.ifts), collapse=" "), "\n")
+    cat ("Codes IFTS : ", paste(unlist(codes.ifts), collapse=" "), "\n")
   }
 }
 
@@ -1694,7 +1691,7 @@ if (nombre.agents.cumulant.iat.ifts) {
 #IFTS et IB >= 380 (IM >= 350)
 #'  
 if (! résultat.ifts.manquant) {
-    lignes.ifts.anormales <- na.omit(Paie[as.integer(Indice) < 350
+    lignes.ifts.anormales <- na.omit(Paie[as.integer(Indice) < seuil.INM.iat.ifts
                                           & Catégorie != "A"
                                           & ifts.logical == TRUE,
                                             c(clé.fusion,
@@ -1707,7 +1704,7 @@ if (! résultat.ifts.manquant) {
                                               "Indice",
                                               étiquette.montant,
                                               "Service"), 
-                                            with=FALSE])
+                                            with = FALSE])
 } else {
 
     lignes.ifts.anormales <- NULL
@@ -1768,46 +1765,55 @@ nombre.agents.cumulant.pfr.ifts <- 0
 # Le cumul de la PR et de l'IFTS est régulier, de même que celui de la PR et de la PFR
 # le cumul de la PFR et de l'IFTS est irrrégulier
 
+
 Paie[ , pfr.logical := grepl(expression.rég.pfr, Paie$Libellé, ignore.case=TRUE, perl=TRUE)]
-
-PFR.non.catA <- Paie[Catégorie != "A" & pfr.logical == TRUE, .(Matricule, Nom, Prénom, Année, Mois)]
-
-if ((N.PFR.non.catA <<- nrow(PFR.non.catA)) > 0) {
-  cat(N.PFR.non.catA, "attributaires de la PFR ne sont pas identifiés en catégorie A.")
-  kable(PFR.non.catA, align = 'r', row.names = FALSE)
-  
-} else {
-  cat("Tous les attributaires de la PFR sont identifiés en catégorie A.")
-}
-
-#'   
-#'   
 
 codes.pfr  <- list("codes PFR" = unique(Paie[pfr.logical == TRUE, Code]))
 
 if (length(codes.pfr) == 0) {
+  
   cat("Il n'a pas été possible d'identifier la PFR par expression régulière.")
   résultat.pfr.manquant <- TRUE
 }
 
+PFR.non.catA <- Paie[Catégorie != "A" & pfr.logical == TRUE & Type == "I",
+                        .(Catégorie, Grade, Code, Libellé, Montant),
+                        by = "Année,Mois,Matricule"]
+
+#'  
+#'&nbsp;*Tableau `r incrément()`*    
+#'    
+
+if ((N.PFR.non.catA <<- nrow(PFR.non.catA)) > 0) {
+  
+  cat(N.PFR.non.catA, "lignes de paie de type PFR ne sont pas versées à des attributaires en catégorie A.\n")
+  cat("A vérifier dans les délibérations indemnitaires.\n")
+  kable(PFR.non.catA[ ,.(Catégorie, Grade, Montant = sum(Montant, na.rm = TRUE)), by = "Année,Mois,Matricule"], align = 'r', row.names = FALSE)
+  
+} else {
+  
+  cat("Tous les attributaires de la PFR sont identifiés en catégorie A.\n")
+}
+
+#'   
+#'   
+#'[Lien vers la base de données PFR à non catégorie A](Bases/Réglementation/PFR.non.catA.csv)     
+#'
+
+
+
 if (! résultat.ifts.manquant && ! résultat.pfr.manquant) {
   
-  Paie[ , cumul.pfr.ifts := (any(pfr.logical[Type == "I"]) 
-                               & any(ifts.logical[Type == "I"])), 
-         by="Matricule,Année,Mois"]
+  Q <- Paie[Type == "I" , cumul.pfr.ifts := any(pfr.logical) & any(ifts.logical),  by="Matricule,Année,Mois"]
 
   # on exclut les rappels !
   
-  personnels.pfr.ifts <- Paie[cumul.pfr.ifts == TRUE 
-                              & Type == "I"
+  personnels.pfr.ifts <- Q[cumul.pfr.ifts == TRUE 
                               & (pfr.logical == TRUE | ifts.logical == TRUE),
-                              .(Matricule, Année, Mois, Code, Libellé, Montant, Type, Emploi, Grade, Service)]
-  
-  nombre.mois.cumuls <- uniqueN(personnels.pfr.ifts[ , .(Matricule, Année, Mois)], by = NULL)
+                              .(Matricule, Année, Mois, Code, Libellé, Montant, Type, Grade, Catégorie, Service)]
   
   nombre.agents.cumulant.pfr.ifts <- uniqueN(personnels.pfr.ifts$Matricule)
-  
-  personnels.pfr.ifts <- personnels.pfr.ifts[order(Année, Mois, Matricule)]
+  rm(Q)
 }
 
 #'
@@ -1834,18 +1840,19 @@ if (length(codes.pfr) > 5) {
 #'[Lien vers la base de données cumuls pfr/ifts](Bases/Réglementation/personnels.pfr.ifts.csv)    
 #'
 
-  P <- Paie[Code %chin% union(unlist(codes.pfr), unlist(codes.ifts)),
-            .(Attrib.PFR = any(pfr.logical), Cumul.PFR.IFTS = sum(Montant, na.rm = TRUE), Grade = Grade[1]), 
-            by="Nom,Matricule,Année"]
+  Q <- Paie[(ifts.logical == TRUE | pfr.logical == TRUE) & any(pfr.logical),
+            .(Matricule, Année, Mois, Type, Grade, Montant),
+            by = "Matricule"]
   
-  P.any <- P[, .(attrib.any = any(Attrib.PFR)), by="Nom,Matricule"]
+  bénéficiaires.PFR <- Q[ , .(Cumul.PFR.IFTS = sum(Montant, na.rm = TRUE), 
+                              Rappels.PFR.IFTS = sum(Montant[Type == "R"], na.rm = TRUE), 
+                              Nb.mois = uniqueN(Mois),
+                              Grade = Grade[1]), 
+                            by="Matricule,Année"]
+
+  bénéficiaires.PFR <- bénéficiaires.PFR[ , PFR.IFTS.mois := if (Nb.mois > 0) Cumul.PFR.IFTS/Nb.mois else 0]
   
-  P <- merge(P, P.any, by=c("Nom", "Matricule"))
-  P <- P[attrib.any == TRUE]
-  
-  bénéficiaires.PFR <- P[, attrib.any := NULL]
-  bénéficiaires.PFR <- P[, Attrib.PFR := NULL]
-  rm(P)
+  rm(Q)
   
   # Plafonds annuels (plafonds mensuels reste à implémenter)
   # AG 58 800
@@ -1859,16 +1866,20 @@ if (length(codes.pfr) > 5) {
 #'      
   
   Tableau(c("Adm. général", "Adm. HC", "Adm.", "Direct./Attaché princ.", "Secr. mairie/Attaché"),
-          sapply(PFR.plafonds <<- list( admin.g = 58800, admin.hc = 55200, admin = 49800, attaché.p = 25800, attaché = 20100), 
+          sapply(PFR.plafonds, 
                  function(x) formatC(x, format = "fg", big.mark = " ")))
   #'   
   
   e <- c(expression.rég.admin.g, expression.rég.admin.hc, expression.rég.admin, expression.rég.attaché.p, expression.rég.attaché)
   
-  test.PFR <- function(i, grade, cumul) { grepl(e[i], grade, perl = TRUE, ignore.case = TRUE) & (cumul > PFR.plafonds[[i]]) }
+  test.PFR <- function(i, grade, cumul) { grepl(e[i], grade, perl = TRUE, ignore.case = TRUE) & (cumul > PFR.plafonds[i]) }
+  
   test.PFR.all <- function(grade, cumul) any(sapply(1:length(e), function(i) test.PFR(i, grade, cumul)))
   
-  dépassements.PFR.boolean <- mapply(test.PFR.all, bénéficiaires.PFR$Grade, bénéficiaires.PFR$Cumul.PFR.IFTS, USE.NAMES=FALSE)
+  dépassements.PFR.boolean <- mapply(test.PFR.all, 
+                                     bénéficiaires.PFR$Grade, 
+                                     bénéficiaires.PFR$PFR.IFTS.mois, 
+                                     USE.NAMES = FALSE)
 
   dépassements.PFR.plafonds <- data.frame()
   
@@ -1877,16 +1888,19 @@ if (length(codes.pfr) > 5) {
   
   if (nrow(dépassements.PFR.plafonds) > 0) {
     
-    cat("\nLes plafonds annuels de la PFR sont dépassés pour ", nrow(dépassements.PFR.plafonds), " cumuls annuels.\n")
+    cat("\nLes plafonds annuels de la PFR (cat. A) sont dépassés pour ", nrow(dépassements.PFR.plafonds), " cumuls annuels.\n")
     kable(dépassements.PFR.plafonds, align = 'r', row.names = FALSE)
+    
   } else {
-    cat("\nLes plafonds annuels de la PFR de sont pas dépassés.\n")
+    
+    cat("\nLes plafonds annuels de la PFR (cat. A) de sont pas dépassés.\n")
+    
   }
     
   bénéficiaires.PFR.Variation <- bénéficiaires.PFR[ , .(Années = paste(Année, collapse=", "), 
-                                  `Variation (%)`= round((Cumul.PFR.IFTS[length(Année)]/Cumul.PFR.IFTS[1] - 1) * 100, 1),
-                                   `Moyenne géométrique annuelle(%)`= round(((Cumul.PFR.IFTS[length(Année)]/Cumul.PFR.IFTS[1])^(1/(length(Année) - 1)) - 1) * 100, 1)),
-                                   by="Nom,Matricule"]
+                                                      `Variation (%)`= round((PFR.IFTS.mois[length(Année)] / PFR.IFTS.mois[1] - 1) * 100, 1),
+                                                       `Moyenne géométrique annuelle(%)`= round(((PFR.IFTS.mois[length(Année)] / PFR.IFTS.mois[1]) ^ (1 / (length(Année) - 1)) - 1) * 100, 1)),
+                                                      by="Matricule"]
   
   bénéficiaires.PFR.Variation <- bénéficiaires.PFR.Variation[`Variation (%)` != 0.00]
 
@@ -1895,9 +1909,15 @@ if (length(codes.pfr) > 5) {
 #'          
 
   if (nrow(bénéficiaires.PFR)) {
+    
     bénéficiaires.PFR$Cumul.PFR.IFTS <- formatC(bénéficiaires.PFR$Cumul.PFR.IFTS, big.mark = " ", format="fg")
-    setnames(bénéficiaires.PFR, "Cumul.PFR.IFTS", "Cumul PFR ou IFTS")
+    bénéficiaires.PFR$Rappels.PFR.IFTS <- formatC(bénéficiaires.PFR$Rappels.PFR.IFTS, big.mark = " ", format="fg")
+    bénéficiaires.PFR$PFR.IFTS.mois <- formatC(bénéficiaires.PFR$PFR.IFTS.mois, big.mark = " ", format="f", digits = 1)
+    setnames(bénéficiaires.PFR, "Cumul.PFR.IFTS", "PFR + IFTS")
+    setnames(bénéficiaires.PFR, "Rappels.PFR.IFTS", "dt rappels")
+    setnames(bénéficiaires.PFR, "PFR.IFTS.mois", "PFR + IFTS / mois")
     kable(bénéficiaires.PFR, align = 'r', row.names = FALSE)
+    
   } else {
     cat("\nAucun bénéficiaire de la PFR détecté.\n")
   }
@@ -2467,6 +2487,7 @@ if (sauvegarder.bases.analyse) {
              "personnels.iat.ifts",
              "codes.ifts",
              "personnels.pfr.ifts",
+             "PFR.non.catA",
              "codes.pfr",
              "HS.sup.25",
              "Dépassement.seuil.180h",

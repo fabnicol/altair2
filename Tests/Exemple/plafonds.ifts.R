@@ -1,3 +1,11 @@
+# plafonds PFR
+
+PFR.plafonds <- c(58800, 
+                     55200, 
+                     49800, 
+                     25800, 
+                     20100) / 12
+
 # Plafonds d'IFTS par catégorie de grades ou d'emplois
 
 # année >= 2008 et année <= 2015
