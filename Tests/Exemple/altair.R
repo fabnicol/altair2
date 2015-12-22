@@ -2048,6 +2048,11 @@ Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"), no
 #'## `r chapitre`.7 Contrôle sur les indemnités des élus
 #'   
 
+
+
+
+
+
 rémunérations.élu <- Analyse.rémunérations[ indemnités.élu > minimum.positif,
                                             c(clé.fusion,
                                               "Année",

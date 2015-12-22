@@ -28,3 +28,11 @@ PointMensuelIMMoyen <- apply(PointMensuelIM, 1, mean)
 # 1/10/2008	54.8475	
 # 1/03/2008	54.6834	
 # 1/02/2007	54.4113	
+
+# IB 1015 = INM 821
+
+# Décret no 2013-33 du 10 janvier 2013 portant relèvement du minimum de traitement dans la
+# fonction publique et attribution de points d'indice majoré à certains personnels civils et
+# militaires de l'Etat, personnels des collectivités territoriales et des établissements publics de
+# santé
+# Décret n° 82-1105 du 23 décembre 1982 relatif aux indices de la fonction publique. 

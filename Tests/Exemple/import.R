@@ -5,10 +5,6 @@ library(assertthat)
 library(gtools)
 library(data.table)
 
-## Pour les versions de data.table < 1.9.5 
-##  if (séparateur.décimal.entrée != ".")
-##  stop("Pour les tables importées par data.table::fread, le séparateur décimal doit être '.'")
-
 if (séparateur.décimal.entrée == séparateur.liste.entrée)
   stop("Le séparateur décimal en entrée doit être différent du séparateur de colonnes !")
 
@@ -30,7 +26,7 @@ knitr::opts_chunk$set(fig.width = 7.5, echo = FALSE, warning = FALSE, message = 
 # Contrôle de cohérence
 #  on vérifie que chaque code de paie est associé, dans le fichier des codes de paiement (par défaut, racinecodes.csv),
 #  que à chaque code donné on a associé un et un seul type de rémunération ("INDEMNITAIRE", "TRAITEMENT", etc.)
-# Pour le mode rapide, convertir les fichiers base en UTF-8 SANS BOM (par exemple, notepad++ après Excel)
+#  Pour le mode rapide, convertir les fichiers base en UTF-8 SANS BOM (par exemple, notepad++ après Excel)
 
  
 fichier.personnels.existe <- (charger.catégories.personnel == TRUE) & file.exists(chemin("matricules.csv"))
@@ -73,8 +69,6 @@ if (grades.catégories.existe) {
     stop(" ")
   }
 }
-
-
 
 # Lignes de paie
 # On peut lire jusqu'à 50 fichiers csv de lignes de paie qui seront générés au format :

@@ -7,6 +7,7 @@
 
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
 
+source("population.R")
 
 racine                      <- ifelse(setOSWindows, "R-Altaïr/", "R-Altair/")
 # "Ville Annecy Paye BP-"
