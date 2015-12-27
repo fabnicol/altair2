@@ -1,0 +1,19 @@
+Particularités de compilation
+-----------------------------
+
+Sous linux, selon les plateformes, si le compilateur de référence n'est pas au moins
+g++ version 5.2.2 dans les chemins par défauts de ldconfig.so.conf, alors il peut être 
+nécessaire d'antéposer la commande LD_LIBRARY_PATH=. à la commande de lancement 
+/.../Altair
+
+
+Installation
+------------
+
+Application : /opt/local/bin/Altair 
+Icone :       /usr/share/icons/hicolor/32x32/apps/Altaïr.xpm
+Documents, images etc  : /opt/local/share/altair/*
+avec un lien symbolique :
+  cd /usr/share/applications
+  sudo ln -s /opt/local/share/applications/Altaïr.desktop Altaïr.desktop
+  cd -

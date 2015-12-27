@@ -5,11 +5,11 @@
 #Exécuter le présent programme
 #Vérifier l'absence d'erreur
 
-source("prologue.R", encoding = "UTF-8") 
+source("prologue.R") 
 
 # programme principal 
 
-source(file.path(chemin.dossier, "bibliotheque.fonctions.paie.R"), encoding = "UTF-8")
+source(file.path(chemin.dossier, "bibliotheque.fonctions.paie.R"))
 chemin.fichier.personnels <- "Catégories des personnels.csv"
 valeurs.catégories <- c('A', 'B', 'C', 'AUTRES', 'ELU')
 invisible(file.copy(chemin(chemin.fichier.personnels), chemin("Catégories des personnels.tmp.csv"), overwrite = TRUE))

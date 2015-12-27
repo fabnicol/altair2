@@ -1,0 +1,75 @@
+Fichier comsimp2015.txt
+Dessin du fichier « Communes existantes au 1er janvier 2015 » et liste des variables (INSEE 2015)
+
+
+Le fichier des communes au 1er janvier 2015 contient uniquement les communes existantes au 1er janvier de l'année de référence du COG en métropole et dans les DOM. Ce fichier est un extrait du fichier communal précédent.
+Dessin du fichier Communes existantes au 1er janvier 2015
+Longueur	Nom	Désignation en clair
+1	        CDC	Découpage de la commune en cantons
+1	        CHEFLIEU	Chef-lieu d'arrondissement, de département, de région ou bureau centralisateur de canton
+2	        REG	Code région
+3	        DEP	Code département
+3       	COM	Code commune
+1       	AR	Code arrondissement
+2       	CT	Code canton
+1       	TNCC	Type de nom en clair
+5       	ARTMAJ	Article (majuscules)
+70	      NCC	Nom en clair (majuscules)
+5	        ARTMIN	Article (typographie riche)
+70	      NCCENR	Nom en clair (typographie riche)
+
+CHEFLIEU - Chef-lieu d'arrondissement, de département, de région ou bureau centralisateur
+Code chef-lieu
+0	commune non chef-lieu
+1	commune bureau centralisateur de canton
+2	commune chef-lieu d'arrondissement
+3	commune chef-lieu de département
+4	commune chef-lieu de région
+Pour les observations concernant les fractions cantonales, si la commune à laquelle appartient la fraction est bureau centralisateur de ce canton, la variable CHEFLIEU prendra la valeur 1. Si ce n'est pas le cas, elle prendra la valeur 0. Si la commune est au moins une fois bureau centralisateur, la variable CHEFLIEU prendra au moins la valeur 1 pour l'observation de la commune ayant trait au canton non précisé. Si elle est également chef-lieu d'arrondissement, de département, voire de région, elle prendra les valeurs allant de 2 à 4 suivant le cas correspondant. Si la commune est chef-lieu de région ou de département, elle est obligatoirement chef-lieu des échelons supra communaux inférieurs.
+Cette variable apparaît dans les fichiers de niveau communal. Il ne faut pas la confondre avec la variable CHEFLIEU qui donne le code de la commune chef-lieu des autres niveaux géographiques.
+
+REG - Code région
+Code de la région sur 2 positions.
+DEP - Code département
+Il est sur 3 positions afin de prendre en compte les départements des DOM.
+COM - Code commune
+Code de la commune sur 3 positions. Quand il est précédé du code DEP, il forme le code Insee de la commune.
+
+== NOTA : RETRAITEMENT DE DONNEES INSEE ==
+
+Pour les communes des départements d'outre-mer, le premier chiffre a été enlevé par le programmeur pour permettre l'appariement avec le fichier popleg2011.csv
+(populations légales 2011)
+
+== FIN DE NOTA ==
+
+AR - Code arrondissement
+Code de l'arrondissement dans le département.
+CT - Code canton
+Dans le cas des communes découpées en cantons, les différentes fractions cantonales de la commune figurent avec leur numéro de code dans la liste de la commune. Il est également renseigné pour ces communes un numéro de code pour les « cantons non précisés ». Il est généralement utilisé lorsque l'on ne veut pas ou que l'on ne peut pas caractériser une fraction cantonale pour la commune. Le code de canton non précisé ne s'adresse donc qu'à des communes entières. À l'heure actuelle les valeurs des cantons non précisés sont comprises entre 91 et 99.
+
+TNCC - Type de nom en clair
+Type de nom en clair ; cette variable permet d'écrire le nom complet dans le cas d'un libellé avec article, et d'adapter la charnière si le nom est utilisé dans une expression comme « la commune de Marseille », « l'arrondissement du Mans », etc.
+Pour les noms de communes (et donc de canton et d'arrondissement), l'article est obligatoire (« Rochelle » n'existe pas sans article), alors que ce n'est pas le cas pour les noms de département ou de région (« Charente-Maritime » peut être écrit sans article). Pour les département et les	régions, ce code ne sert donc que pour la charnière.
+0	pas d'article et le nom commence par une consonne sauf H muet.	charnière = DE
+1	pas d'article et le nom commence par une voyelle ou un H muet.	charnière = D'
+2	article = LE	charnière = DU
+3	article = LA	charnière = DE LA
+4	article = LES	charnière = DES
+5	article = L'	charnière = DE L'
+6	article = AUX	charnière = DES
+7	article = LAS	charnière = DE LAS
+8	article = LOS	charnière = DE LOS
+Exemple pour une commune :
+Com = 104	Dep = 66	NCC = MASOS	TNCC = 8	charnière = DE LOS	article = LOS
+Nom de la commune = LOS MASOS
+Commune DE LOS MASOS
+ARTMAJ - Article (majuscules)
+L'article est décodé en fonction des modalités du code TNCC et encadré de parenthèses. ARTMAJ est en caractères majuscules et ARTMIN en caractères enrichis.
+ARTMIN - Article (typographie riche)
+L'article est décodé en fonction des modalités du code TNCC et encadré de parenthèses.
+ARTMAJ est en caractères majuscules et ARTMIN en caractères enrichis.
+NCC - Nom en clair (majuscules)
+Libellé en lettres majuscules
+NCCENR - Nom en clair (typographie riche)
+Libellé en typographie riche, majuscules, minuscules, accentuation.
+

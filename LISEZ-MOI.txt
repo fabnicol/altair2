@@ -1,8 +1,9 @@
 
-                        ALTAIR
+                        Altaïr
+                       ________
 
             Analyse des lignes de traitement, 
-   attributions indemnitaires et autres rémunérations
+   attributions indemnitaires et rémunérations diverses
 
 
 Le présent logiciel produit automatiquement des statistiques et des tests
@@ -10,24 +11,140 @@ de cohérence et de conformité comptable et réglementaire, à partir de bases
 de données issues de l'application Xémélios (Direction générale des finances 
 publiques, http://xemelios.org).
 
+
+Installation
+------------
+
+Voir fichier INSTALLATION ou le dialogue suivant.
+
+
+Interface Altaïr
+----------------
+
+Cliquer sur l'icône "A" bleue sur le Bureau ou dans le menu Démarrer 
+dans le répertoire Altair.
+
+Une interface utilisateur s'affiche qui permet d'exécuter l'extraction des
+données de paye des fichiers .xhl pour les convertir en fichiers plats .csv
+
+Pour l'installation avancée, une interface d'exécution du script R est utilisée,
+l'interface RStudio.
+Pour l'installation minimale, cette deuxième interface n'est pas installée.
+
+Interface RStudio
+-----------------
+
+1. L'interface Altaïr permet le lancement de l'interface RStudio pour afficher 
+   le script  en langage R et lancer son exécution.
+
+   Pour afficher les rapports de démonstration directement parl'interface,
+   les logiciels suivants doivent être préinstallés :
+
+    HTML : n'importe quel navigateur enregistré dans le registre comme application
+           par défaut ;
+
+    PDF  : Acrobat Reader d'Adobe;
+    
+    MSWORD : Microsoft Word
+
+2. Affichage du script dans l'interface RStudio
+
+  Au lancement de l'interface RStudio, vérifier que l'onglet actif est bien le 
+  fichier  'rapport_msword.R'  dans la fenêtre supérieure gauche. 
+  Sinon, dans la fenêtre inférieure droite, cliquer sur le fichier 
+
+               Altair\Tests\Exemple\rapport_msword.R
+
+  Pour les lancements suivants de l'interface RStudio, cette opération de 
+  sélection de fichier ne sera plus nécessaire.
+
+3. Production d'un nouveau rapport par exécution du script.
+
+  Appuyer sur l'icône "Source" à la droite du quadrant supérieur gauche de l'interface,
+  en vérifiant que l'onglet actif de ce quadrant est bien le fichier rapport_msword.R.
+  
+  Ce qui précède est également valable pour un rapport pdf avec le fichier rapport_pdf.R,
+  qui doit alors être sélectionné dans le quadrant supérieur gauche. Il est également
+  possible de produire les deux types de rapport en même temps avec le fichier 
+  rapport_msword_pdf.R
+
+  Le rapport d'exécution est généré dans le dossier :
+
+               Altair\Tests\Exemple
+
+  Les bases de données sont produites dans le dossier :
+
+               Altair\Tests\Exemple\Bases
+
+Il est possible de visualiser sous Excel ou Wordpad les bases liées par
+des liens hypertextes dans les rapports (.pdf, .docx, .html)
+
+
 Auteur
 ------
 
 Logiciel écrit par Fabrice Nicol (fabrnicol@gmail.com)
 
-pour :
+L'auteur remercie les personnes suivantes pour leur contribution aux tests et 
+à l'analyse des situations de tests :
 
-Chambre régionale des comptes d'Auvergne, Rhône-Alpes
-
+		Vitalia Le Boudec
+		Nicole Rossetti
+		Cyril Janvier
+		Xavier Boschet
+		David Lemen
+		
+vérificateurs des chambres régionales des comptes d'Auvergne, Rhône-Alpes, et de Bretagne
+ainsi que Jean-Pierre Rousselle, magistrat, et Jérémie Ballet-Baz
+(Centre d'appui métier, Cour des comptes). 
 
 Licence
 -------
 
-Logiciel placé provisoirement sous licence GPLv3 jointe, dans l'attente d'une 
-décision administrative sur ce point.
+L'interface graphique, étant un dérivé d'application libre sous licence GPL,
+est placée sous licence CeCILL (version francisée de la GPL) par voie d'héritage 
+de licence.
 
-L'auteur souhaite que la licence définitive soit de type GPL ou LGPL, à 
-l'instar du logiciel Xémélios.
+Le module noyau LHX, qui convertit les données .xhl des bases de paye en fichiers 
+plats .csv, a été écrit en dehors des activités professionnelles ; il est placé 
+sous la même licence CeCILL jointe (CEA-CNRS-INRIA).
+
+Le module-script R du logiciel est la propriété de l'Etat, ayant été pour partie
+développé parallèlement aux activités professionnelles et en lien direct avec 
+quelques contrôles. 
+
+L'auteur formule le souhait que ce module soit placé sous la même licence CeCILL
+lorsque son développement aura atteint une maturité suffisante, et propose que 
+l'ensemble soit diffusé sur une forge logicielle publique à l'instar du logiciel
+Xémélios de la DGFIP.
+
+
+Mis à disposition du code
+-------------------------
+
+Le code sous licence libre est à ce stade entreposé sur les serveurs suivants,
+en accès réservé à ce jour, accessible sur demande aux titulaires d'un compte 
+github.
+
+L'ensemble du dépôt Git (gestionnaire de contrôle de versions) est accessible
+par l'interface avancée. Il suffit d'installer la version avancée avec 
+téléchargement du dépôt. Une connexion Internet fonctionnelle sera nécessaire.
+Saisir, lorsque la console Windows le demande, vos login et mot de passe de 
+session Windows ainsi que l'adresse de proxy (ou P, si l'adresse par défaut est 
+correcte). 
+
+Le code d'accès du dépôt Git sera demandé. Ce code est disponible sur demande.
+
+Pour actualiser le code en temps réel :
+- sélectionner le projet Altair.git dans le menu déroulant à la droite de 
+  la barre de menu de l'interface RStudio ;
+- cliquer sur le bouton "Pull" de l'onglet "Git" dans le panneau supérieur droit.
+
+Distribution du code
+--------------------
+
+L'ensemble du code et des données de démonstration est anonymisé.
+Aucune donnée n'est entreposée sur les serveurs susmentionnés.
 
 Licences auxiliaires
 --------------------
@@ -36,59 +153,35 @@ Aucune dépendance sous licence propriétaire.
 Voir les licences affichées par les installateurs mentionnés ci-après.
 
 L'installateur Windows a été compilé sous NSIS : http://nsis.sourceforge.net
+à l'aide du fichier altair.nsi
 
-Distribution du code
---------------------
 
-Le code est téléchargeable sur le site :
+Composition du paquet distribué
+-------------------------------
 
-  http://github.com/fabnicol/altair
+Le module Interface graphique est distribué sous forme binaire dans le répertoire
+Interface_windows. Elle a été compilée sous Mingw64 5.2 (dérivé du compilateur GNU G++
+http://mingw-w64.sourceforge.net). 
 
-Cliquer sur "Download Zip" ou utiliser le gestionnaire de versions Git par
-clônage de l'entrepôt :
+Les dépendances logicielles Qt5.5 de l'éditeur Digia, ont été recompilées par l'auteur
+à partir du code source, le compilateur étant le même.
 
-git clone -b windows --single-branch http://github.com/fabnicol/altair.git
+Le module noyau LHX, qui effectue la conversion des données au format .xhl vers les 
+bases de données au format .csv, est distribué sous forme binaire dans le répertoire win,
+et est compilé avec le même compilateur. 
 
-L'ensemble du code et des données de démonstration étant anonymisé, un format 
-d'échange public est préconisé par l'auteur du code.
+Les scripts R sont distribués sous Tests\Exemple
 
-Installation
-------------
+Autres répertoires
+------------------
 
-Voir fichier Installation.txt
-
-Exécution
----------
-
-1. Lancer RStudio
-
-  Cliquer sur l'icône "R" bleue ou lancer rstudio.exe dans RStudio\bin
-
-2. Dans l'interface RStudio
-
-  Vérifier que l'onglet actif est bien le fichier 'exemple.R'. Si ce script
-  ne s'affiche pas il est possible de l'afficher en cliquant sur l'onglet 
-  Fichier de la fenêtre inférieure droite, sous le dossier Tests\Exemple.
-
-  Puis, appuyer sur l'icône "carnet de notes" à la droite de l'icône 
-  "baguette magique" et la gauche de 'Run', ou cliquer sur le menu
-  Code > Source, ou appluyer simultanément sur Ctrl + Majuscule + S
-
-3. Choisir le type de rapport (.html, .pdf, ou MS Word) dans le dialogue de
-   l'interface graphique.
-
-   Le rapport d'exécution est généré dans le dossier Tests\Exemple.
-
-   Les bases de données sont produites dans le sous-dossier Exemple\Bases.
-
-Exemple de production   
----------------------
-
-Voir sous-dossier Tests\Exemple\Rapport ainsi que le dossier des bases
-.csv produites en sortie de l'application.
-
-Il est possible de visualiser sous Excel ou Wordpad les bases liées par
-des liens hypertextes dans les rapports (.pdf, .docx, .html)
+Docs    : méthodologie statistique
+lib     : bibliothèques pour l'exécution des scripts R, pré-téléchargées du
+          réseau universitaire CRAN (http://cran.r-project.org/)
+Outils  : versions compilées d'utilitaires Unix pour Windows, téléchargées du 
+          site GNUWin32 (http://gnuwin32.sourceforge.net)
+R, RStudio, Git et texlive : voir fichier DEPENDANCES
+Tests\Exemple\Données\xhl\Anonyme et Anonyme2 : jeux de données anonymisées.
 
 Historique
 ----------
@@ -97,11 +190,22 @@ Historique
                 de l'Isère (rendu public en 2013)
 
   janvier 2014  Développement du script, première application opérationnelle
+                complète.
 
     avril 2014  Finalisation de la version 1.0 de la plateforme linux
 
       mai 2014  Portage sous Windows, tests, installateur NSIS. Améliorations.
-
-   
-                
+                Tests sur d'autres cas pratiques.
       
+ novembre 2014  Améliorations du script (performances, statistiques).
+                Interface graphique. Application noyau LHX.
+ 
+  février 2015  Correctifs divers sur LHX.
+                Réempaquetage dans un installateur unique et automatisation
+                de l'import du dépôt Git. Améliorations de l'interface.
+                Remplacement de Miktex par Texlive.              
+
+  octobre 2015  Transposition de l'ensemble de la chaîne de compilation sous mingw64
+                Amélioration de l'interface (onglets automatiques, sélection des SIRET)
+                Amélioration de LHX (performance environ x1,5 à x2).
+                Empaquetage de la plateforme de développement.

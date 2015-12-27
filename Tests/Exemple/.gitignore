@@ -1,7 +1,8 @@
 *.pdf
 *.docx
-*png
-*csv
 *gz
-*2
+**/Makefile*
+**/release/*
+**/debug/*
+**/*.o
 

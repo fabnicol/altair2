@@ -1,72 +1,52 @@
-Installation
-------------
+ÔªøGuide d'installation
+--------------------
 
-Les logiciels auxiliaires suivants sont inclus dans l'installation :
+1.  Copier l'installateur sur le bureau et l'ex√©cuter.
 
- * Langage R : http://r-project.org
- * Interface RStudio : http://rstudio.com
- * SystËme LaTex pour Windows, version MikTex : 
-     http://http://miktex.org/download
- * Git, gestionnaire de version (optionnel) : 
-     http://git-scm.com/download/win
+2.  Choisir le chemin d'installation par d√©faut
+ 
+3.  Ex√©cuter l'interface en cliquant sur l'ic√¥ne de lancement A.
+   
 
-Lors de l'installation, choisir les dÈpendances voulues.
+R√©alisation d'un test
+---------------------
 
-L'installateur principal lance (au plus) quatre installateurs recueillis auprËs
-des sites indiquÈs ci-dessus. Chacune de ces installations peut nÈcessiter une
-ÈlÈvation des droits, en fonction du dossier d'installation retenu et de la 
-configuration de la plateforme.
+Pour s'assurer de la bonne installation, mieux vaut faire un test. Proc√©der comme suit :
 
-Lors de la premiËre exÈcution d'un programme .R, un complÈment d'installation
-(paquets R gÈrÈs par r-project.org et ses mirroirs) sera lancÈ. Des paquets 
-techniques seront tÈlÈchargÈs depuis les mirroirs CRAN du projet R pour 
-terminer l'installation des dÈpendances d'exÈcution. Ces paquets ne sont 
-tÈlÈchargÈs qu'une seule fois. 
+1.  S√©lectionner Fichier > Ouvrir le projet alt > un fichier .alt dans la s√©rie
+      C:\Users\Public\Altair\Tests\Exemple\Projets\*.alt
+    Les projets de type *.minimal.alt sont plus adapt√©s √† une interface minimale.
 
-Une connexion internet fonctionnelle est nÈcessaire. 
+2.  Optionnellement :
 
-Le script d'installation de ces paquets ne gËre pas les serveurs mandataires.
-En cas d'Èchec du tÈlÈchargement, tenter de relancer en accËs internet direct.
+    Ouvrir le dialogue des param√®tres. 
+      
+    V√©rifier le nombre de fils d'ex√©cution dans le menu d√©roulant en bas du dialogue.
+    Sur un portable r√©cent il est possible de s√©lectionner "4" comme nombre de fils d'ex√©cution pour acc√©l√©rer 
+    le traitement. Sur un portable performant (corei5 et plus) , il est possible de s√©lectionner jusqu'√† 
+    "6" ou "7" fils d'ex√©cution. Pour ex√©cuter en fond de t√¢che au contraire, laisser sur "1".
+   
+    Valider.
+   
+3.  Cliquer sur le bouton "csv" de la barre d'outils (il a l'apparence d'une grille).    
+    Attendre une √† trois minutes.
+   
+4.  Lorsque la barre de progression est √† 100 % et stable √† ce niveau et/ou que le dialogue des messages 
+    confirme "Termin√©...", appuyer sur le bouton bleu "A" de la barre d'outils.
+    
+    Pour l'installation minimale, le rapport MS-Word s'affichera si aucun probl√®me n'est intervenu, au terme du
+    processus d'analyse des donn√©es. Il est possible d'afficher des d√©tails d'ex√©cution de l'analyse des donn√©es
+    en cliquant sur l'onglet Console, qui appara√Æt en s√©lectionnant l'option :
 
-LaTex/MikTex
-------------
+        Configurer > Configurer l'interface > afficher les messages
 
-MikTex n'est utile que pour pouvoir produire des rapports au format .pdf.
-Sans cette dÈpendance, l'application produit seulement des rapports au format 
-.html ou .docx.
-
-En cas d'installation de MikTex, un complÈment d'installation sera demandÈ
-par ce logiciel ‡ l'occasion de la production du premier rapport pdf. Il s'agit
-d'un petit nombre de feuilles de style LaTeX complÈmentaires. Une connection 
-internet est nÈcessaire ‡ cette occasion. L'installation est alors complËte :
-les paquets auxiliaires ne seront plus tÈlÈchargÈs ultÈrieurement.
-
-Git
----
-
-L'installation de Git est proposÈe pour pouvoir bÈnÈficier des mises ‡ jour 
-du code en temps rÈel, mais n'est pas indispensable pour une utilisation 
-de base.
-
-En cas d'utilisation de Git, il convient de suivre la procÈduire suivante,
-si Git n'a pas prÈalablement ÈtÈ installÈ sur le systËme :
-
-  -> Dans la fenÍtre supÈrieure droite, activer : Git > More > Shell
-  -> Dans la console, entrer les instructions suivantes :
-
-     $ git config --global user.email  fabrnicol@gmail.com
-     $ git config --global user.name   "Fabrice Nicol"
-
-(Remplacer par votre Nom et adresse).
-
-En prÈsence d'un serveur mandataire (proxy), ajouter les deux instructions :
-
-     $ git config --global http.proxy  http:123.156.78.90:5566  
-     $ git config --global https.proxy  https:123.156.78.90:5566
-
-(Remplacer l'adresse de serveur fictive par celle de votre serveur mandataire 
-suivie du port aprËs les deux points).
-
-L'utilisation de Mozilla Firefox est conseillÈe (mais pas obligatoire) afin
-d'Èviter des messages d'erreurs intempestifs d'Internet Explorer.
-
+    Pour l'installation avanc√©e, l'interface RStudio s'affiche. Dans ce cas :
+   
+5.  V√©rifier que l'on a dans le quart sup√©rieur gauche de l'interface un script rapport_msword.R. Sinon aller le 
+    chercher en cliquant sur le fichier rapport_msword.R dans l'arborescence des fichiers et r√©pertoires dans le
+	quart inf√©rieur droit (panneau Files). Le fichier est localis√© sous le r√©petoire Tests\Exemple.
+   
+    Appuyer sur l'ic√¥ne "Source" dans la barre d'outils. 
+       
+6. Veiller √† refermer RStudio en laissant le script rapport_msword.R s√©lectionn√© dans la partie sup√©rieure gauche.    
+   
