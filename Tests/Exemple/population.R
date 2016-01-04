@@ -8,7 +8,7 @@ chef.lieu.arrdt  <- FALSE
 chef.lieu.canton <- FALSE
 station.touristique <- FALSE
 
-# L'interface graphique devra préciser ces 6 variables exogènes à la base de paye.
+# L'interface graphique devra préciser les variables exogènes : surclassement
 
 table.communes <- data.table::fread("comsimp2015.txt", stringsAsFactors = FALSE, colClasses = "character")
 populations.légales.communes.2014 <- data.table::fread("popleg2011.csv", 
