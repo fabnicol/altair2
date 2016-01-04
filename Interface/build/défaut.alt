@@ -185,7 +185,7 @@
    non
   </limitConsoleOutput>
   <quiet profondeur="0">
-   non
+   oui
   </quiet>
   <maxLigne profondeur="0">
      
@@ -218,7 +218,7 @@
      
   </nLine>
   <log profondeur="0">
-   C:\Users\Fab\AppData\Local\Altaïr\altair.log
+   C:\Users\fnicol\AppData\Local\Altaïr\altair.log
   </log>
   <genererLog profondeur="0">
    non
