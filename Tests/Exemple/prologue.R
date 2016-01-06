@@ -7,7 +7,6 @@
 
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
 
-source("population.R")
 
 racine                      <- ifelse(setOSWindows, "R-Altaïr/", "R-Altair/")
 # "Ville Annecy Paye BP-"
@@ -35,7 +34,7 @@ extraire.population     <- FALSE
 charger.bases           <- T
 sauvegarder.bases.analyse    <- T
 sauvegarder.bases.origine    <- F
-afficher.table.effectifs     <- F
+afficher.table.effectifs      <- F
 générer.table.élus           <- T
 tester.matricules            <- TRUE
 analyse.statique.totale      <- F
@@ -57,9 +56,6 @@ minimum.delta            <- 5
 
 population_minimale_calcul_médiane  <- 3
 tolérance.sft <- 1
-
-# seuil à partir duquel on bascule de l'IAT vers l'IFTS (en INM)
-seuil.INM.iat.ifts <- 350
 
 séparateur.liste.entrée     <- ";"
 séparateur.décimal.entrée   <- ","
@@ -205,7 +201,6 @@ expression.rég.heures.sup <- "(?:^|\\s)iht?[sc]|i(?:(?=n)n\\w*|)\\.?\\s*\\bh(?:(
 expression.rég.iat        <- "(?:^|\\s)iat|i(?:(?=n)n\\w*|)\\.?\\s*\\ba(?:(?=d)d\\w*|)\\.?\\s*\\b(?:et\\s*\\b)?t(?:(?=e)e\\w*|)\\.?\\b"
 expression.rég.ifts       <- "(?:^|\\s)ifts|i(?:(?=n)n\\w*|)\\.?\\s*\\bf\\w*\\.?\\s*\\bt(?:(?=r)r\\w*|)\\.?\\s*\\bs(?:(?=u)u\\w*|)\\.?\\b"
 expression.rég.pfr        <- "(?:^|\\s)pfr|p(?:(?=r)r\\w*|)\\.?\\s*\\bf(?:(?=o)o\\w*|)\\.?\\s*(?:et|)\\s*\\br(?:.?.?su\\w*|)\\.?\\s*\\b"
-
 expression.rég.pfi        <- "(?:^|\\s)pfi|p(?:(?=r)r\\w*|)\\.?\\s*\\bf(?:(?=o)o\\w*|)\\.?\\s*\\bi(?:(?=n)n\\w*|)\\.?\\b"
 expression.rég.population <- "\\bASS(\\b|A).*"
 expression.rég.élus       <- "maire|pr[eé]sident|.*([eé]lu[s]?|adj.*maire|v\\w*.*\\s+pr[eé]sident|cons\\w*.*\\s+muni|cons\\w*.*\\s+commun)"
@@ -218,4 +213,3 @@ expression.rég.admin.g    <- "(?:^|\\s)adm\\w*\\.?\\b\\s?g\\w*\\.?\\b"
 
 # point d'indice majoré
 source("point.im.R")
-source("plafonds.ifts.R")
