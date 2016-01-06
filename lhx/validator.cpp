@@ -3,7 +3,7 @@
  *  En entrée d'Altair préciser encodage.entrée en conformité avec l'encodage du présent fichier, qui sera celui de la base générée.
  */
 
-/* Constantes de compilation pouvant être redéfinies : NA_STRING, MAX_LIGNES_PAYE, MAX_NB_AGENTS, NO_DEBUG, NO_REGEXP */
+/* Constantes de compilation pouvant être redéfinies : NA_STRING, MAX_LIGNES_PAYE, MAX_NB_AGENTS, NO_DEBUG*/
 
 #include <iomanip>
 #include <iostream>
@@ -60,7 +60,11 @@ static int parseFile(info_t& info)
             *siret_fichier = nullptr,
             *budget_fichier = nullptr;
 
-    doc = xmlParseFile(info.threads->argv[info.fichier_courant].c_str());
+    #ifdef  STRINGSTREAM_PARSING
+      doc = xmlParseDoc(reinterpret_cast<const xmlChar*>(info.threads->in_memory_file.at(info.fichier_courant).c_str()));
+    #else
+      doc = xmlParseFile(info.threads->argv.at(info.fichier_courant).c_str());
+    #endif
 
     if (doc == nullptr)
     {

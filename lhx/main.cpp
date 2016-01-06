@@ -542,6 +542,7 @@ int main(int argc, char **argv)
         Info[i].threads->argc = nb_fichier_par_fil[i];
 
         Info[i].threads->argv = std::vector<std::string>(&commandline_tab[start], &commandline_tab[start + nb_fichier_par_fil[i]]);
+        Info[i].threads->in_memory_file =std::vector<std::string>(nb_fichier_par_fil[i]);
         start += nb_fichier_par_fil[i];
 
         if (Info[i].threads->argv.size() != (unsigned) nb_fichier_par_fil[i])
