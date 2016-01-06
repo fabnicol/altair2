@@ -73,10 +73,11 @@ DEFINES += QT_NO_OPENGL \
 
 windows:RC_ICONS = neptune.ico
 
+QMAKE_CXXFLAGS_RELEASE -= -O2
 QMAKE_CXXFLAGS += -std=gnu++11                         # obligatoire
 QMAKE_CXXFLAGS += -O3 -fomit-frame-pointer -fexpensive-optimizations -pipe -m64         # facultatif
-QMAKE_CXXFLAGS += -march=native
-#QMAKE_CXXFLAGS += -march=core2
+#QMAKE_CXXFLAGS += -march=native
+QMAKE_CXXFLAGS += -march=core2
 
 SOURCES += \
     options.cpp \
