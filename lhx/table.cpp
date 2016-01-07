@@ -3,6 +3,7 @@
 #include <inttypes.h>
 #include <cstring>
 #include <array>
+#include <sstream>  // attention l'oubli de cette déclaration induit des erreurs de log de compilation
 #include "table.hpp"
 #include "fonctions_auxiliaires.hpp"
 #include "tags.h"
@@ -24,10 +25,21 @@ static const char* type_remuneration_traduit[] = {
     "C", //Cotisation
     "CO" //Commentaire
 };
+
 #define VAR(X) Info[i].Table[agent][X]
 
-static inline void GCC_INLINE ECRIRE_LIGNE_l_COMMUN(int i, uint32_t agent, int l, char* type, std::ofstream& base, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
+// la méthode OFSTREAM est nettement moins performante sous Windows. La performance linux est comparable.
+
+#ifdef OFSTREAM_TABLE_OUTPUT
+  #define table_t std::ofstream
+#else
+  #define table_t std::ostringstream
+#endif
+
+
+static inline void GCC_INLINE ECRIRE_LIGNE_l_COMMUN(int i, uint32_t agent, int l, char* type, table_t& base, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
 {
+
     base   << VAR(Nom) << sep
            << VAR(Prenom) << sep
            << VAR(Matricule) << sep
@@ -52,10 +64,10 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l_COMMUN(int i, uint32_t agent, int l
            << VAR(EmploiMetier) << sep
            << VAR(Grade) << sep
            << VAR(Categorie) << sep
-           << VAR(NIR) << "\n";
+           << std::string((char*)VAR(NIR));
 }
 
-static inline void GCC_INLINE ECRIRE_LIGNE_l_GENERER_RANG(int i, uint32_t agent, int l, char* type, std::ofstream& base, char sep, std::vector<info_t> &Info, int rang)
+static inline void GCC_INLINE ECRIRE_LIGNE_l_GENERER_RANG(int i, uint32_t agent, int l, char* type, table_t& base, char sep, std::vector<info_t> &Info, int rang)
 {
     base <<  rang << sep;
     base  << VAR(Annee) << sep
@@ -72,7 +84,7 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l_GENERER_RANG(int i, uint32_t agent,
     ECRIRE_LIGNE_l_COMMUN(i, agent, l, type, base, sep, Info, rang);
 }
 
-static inline void GCC_INLINE ECRIRE_LIGNE_l_SIRET(int i, uint32_t agent, int l, char* type, std::ofstream& base, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
+static inline void GCC_INLINE ECRIRE_LIGNE_l_SIRET(int i, uint32_t agent, int l, char* type, table_t& base, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
 {
     base  << VAR(Annee) << sep
           << VAR(Mois) << sep;
@@ -86,7 +98,7 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l_SIRET(int i, uint32_t agent, int l,
     
 }
 
-static inline void GCC_INLINE ECRIRE_LIGNE_l(int i, uint32_t agent, int l, char* type, std::ofstream& base, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
+static inline void GCC_INLINE ECRIRE_LIGNE_l(int i, uint32_t agent, int l, char* type, table_t& base, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
 {
     base  << VAR(Annee) << sep
           << VAR(Mois) << sep;
@@ -94,7 +106,7 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l(int i, uint32_t agent, int l, char*
     ECRIRE_LIGNE_l_COMMUN(i, agent, l, type, base, sep, Info, rang);
 }
 
-static inline void GCC_INLINE ECRIRE_LIGNE_BULLETIN_COMMUN(int i, uint32_t agent, std::ofstream& bulletins, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
+static inline void GCC_INLINE ECRIRE_LIGNE_BULLETIN_COMMUN(int i, uint32_t agent, table_t& bulletins, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
 {
     bulletins << VAR(Nom) << sep
               << VAR(Prenom) << sep
@@ -116,7 +128,7 @@ static inline void GCC_INLINE ECRIRE_LIGNE_BULLETIN_COMMUN(int i, uint32_t agent
               << VAR(NIR) << "\n";
 }
 
-static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETIN_GENERER_RANG(int i, uint32_t agent, std::ofstream& bulletins, char sep, std::vector<info_t> &Info, int rang)
+static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETIN_GENERER_RANG(int i, uint32_t agent, table_t& bulletins, char sep, std::vector<info_t> &Info, int rang)
 {
     bulletins <<  rang << sep;
     
@@ -134,7 +146,7 @@ static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETIN_GENERER_RANG(int i, uint32_
     ECRIRE_LIGNE_BULLETIN_COMMUN(i, agent, bulletins, sep, Info, rang);
 }
 
-static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETIN_SIRET(int i, uint32_t agent, std::ofstream& bulletins, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
+static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETIN_SIRET(int i, uint32_t agent, table_t& bulletins, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
 {
     
     bulletins << VAR(Annee) << sep
@@ -148,7 +160,7 @@ static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETIN_SIRET(int i, uint32_t agent
     ECRIRE_LIGNE_BULLETIN_COMMUN(i, agent, bulletins, sep, Info, rang);
 }
 
-static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETINS(int i, uint32_t agent, std::ofstream& bulletins, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
+static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETINS(int i, uint32_t agent, table_t& bulletins, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
 {
     bulletins << VAR(Annee) << sep
               << VAR(Mois) << sep;
@@ -156,8 +168,8 @@ static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETINS(int i, uint32_t agent, std
     ECRIRE_LIGNE_BULLETIN_COMMUN(i, agent, bulletins, sep, Info, rang);
 }
 
-static void (*ecrire_ligne_table)(int, uint32_t, int, char*, std::ofstream&, char, std::vector<info_t> &, int);
-static void (*ecrire_ligne_bulletin)(int i, uint32_t, std::ofstream& , char, std::vector<info_t>& , int );
+static void (*ecrire_ligne_table)(int, uint32_t, int, char*, table_t&, char, std::vector<info_t> &, int);
+static void (*ecrire_ligne_bulletin)(int i, uint32_t, table_t& , char, std::vector<info_t>& , int );
 
 void boucle_ecriture(std::vector<info_t>& Info)
 {
@@ -169,8 +181,20 @@ void boucle_ecriture(std::vector<info_t>& Info)
     unsigned rang_fichier_base = 1;
     static std::ofstream base;
     static std::ofstream bulletins;
-    static std::array<std::ofstream, nbType> fichier_base;
-    
+    static std::array<std::ofstream, nbType> tableau_base;
+
+#ifdef OFSTREAM_TABLE_OUTPUT
+    #define t_base base
+    #define t_bulletins bulletins
+    #define t_tableau_base tableau_base
+#else
+
+   std::ostringstream t_base, t_bulletins;
+
+   static std::array<std::ostringstream, nbType> t_tableau_base;
+
+#endif
+
     ouvrir_fichier_bulletins(Info[0], bulletins);
 
     uint32_t taille_base = Info[0].taille_base;
@@ -198,8 +222,8 @@ void boucle_ecriture(std::vector<info_t>& Info)
     case BaseType::TOUTES_CATEGORIES  :
         for (int d = 0; d < nbType; ++d)
         {
-            ouvrir_fichier_base(Info[0], type_base, fichier_base[d]);
-            if (! fichier_base[d].is_open())
+            ouvrir_fichier_base(Info[0], type_base, tableau_base[d]);
+            if (! tableau_base[d].is_open())
             {
                 std::cerr << ERROR_HTML_TAG "impossible d'ouvrir la base de lignes de paye."  ENDL;
                 exit(2003);
@@ -247,7 +271,7 @@ void boucle_ecriture(std::vector<info_t>& Info)
 
             ++compteur_lignes_bulletins;
             
-            ecrire_ligne_bulletin(i, agent, bulletins, sep, Info, compteur_lignes_bulletins);
+            ecrire_ligne_bulletin(i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
             
             if (type_base == BaseType::PAR_ANNEE
                     && strcmp((const char*)VAR(Annee), annee_courante))
@@ -306,7 +330,7 @@ void boucle_ecriture(std::vector<info_t>& Info)
                 if (type_base == BaseType::PAR_ANNEE || type_base == BaseType::MONOLITHIQUE)
                 {
                     ++compteur;
-                    ecrire_ligne_table(i, agent, l, type, base, sep, Info, compteur);
+                    ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
                 }
                 else
                 {
@@ -315,7 +339,7 @@ void boucle_ecriture(std::vector<info_t>& Info)
                         if (valeur_drapeau_categorie + 2 == - static_cast<int>(Info[0].type_base))
                         {
                             ++compteur;
-                            ecrire_ligne_table(i, agent, l, type, base, sep, Info, compteur);
+                            ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
                         }
                     }
                     else
@@ -323,7 +347,7 @@ void boucle_ecriture(std::vector<info_t>& Info)
                         ++compteur;
                         if (nouveau_type)
                         {
-                            ecrire_ligne_table(i, agent, l, type, fichier_base[valeur_drapeau_categorie - 1], sep, Info, compteur);
+                            ecrire_ligne_table(i, agent, l, type, t_tableau_base[valeur_drapeau_categorie - 1], sep, Info, compteur);
                         }
                         
                     }
@@ -353,11 +377,19 @@ void boucle_ecriture(std::vector<info_t>& Info)
         }
     }
     
+#ifndef OFSTREAM_TABLE_OUTPUT
+        base << t_base.str();
+        bulletins << t_bulletins.str();
+#endif
+
     // Dans les autres cas, les bases ont déjà été refermées sauf une (cas par année et par taille maximale)
     if (type_base == BaseType::TOUTES_CATEGORIES)
         for (int d = 0; d < nbType - 1; ++d)
         {
-            fichier_base[d].close();
+            #ifndef OFSTREAM_TABLE_OUTPUT
+               tableau_base[d] << t_tableau_base[d].str();
+            #endif
+            tableau_base[d].close();
         }
     
    if (base.good())

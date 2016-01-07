@@ -29,6 +29,7 @@ typedef struct
 {
     int      thread_num;
     std::vector<std::string>   argv;
+    std::vector<std::string> in_memory_file;
     unsigned argc;
 } thread_t;
 
@@ -142,6 +143,9 @@ typedef struct {
 #ifndef MAX_LIGNES_PAYE
  #define MAX_LIGNES_PAYE 1000
 #endif
+
+// MAX_NB_AGENTS détermine le nombre maximal d'agents par mois potentiellement traités
+
 #ifndef MAX_NB_AGENTS
  #define MAX_NB_AGENTS 8000
 #endif
