@@ -379,7 +379,9 @@ void boucle_ecriture(std::vector<info_t>& Info)
     
 #ifndef OFSTREAM_TABLE_OUTPUT
         base << t_base.str();
+        std::ostringstream().swap(t_base);
         bulletins << t_bulletins.str();
+        std::ostringstream().swap(t_bulletins);
 #endif
 
     // Dans les autres cas, les bases ont déjà été refermées sauf une (cas par année et par taille maximale)
