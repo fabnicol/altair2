@@ -8,6 +8,7 @@
 #include <cstdint>
 #include <iomanip>
 #include <iostream>
+#include <iterator>
 #include "fonctions_auxiliaires.hpp"
 #include "tags.h"
 
@@ -369,6 +370,20 @@ void calculer_maxima(const std::vector<info_t> &Info, std::ofstream* LOG)
 }
 
 
+template <typename Allocator = std::allocator<char>>
+auto read_stream_into_string(
+    std::ifstream& in,
+    Allocator alloc = {})
+{
+  std::basic_ostringstream<char, std::char_traits<char>, Allocator>
+    ss(std::basic_string<char, std::char_traits<char>, Allocator>(std::move(alloc)));
+
+  if (!(ss << in.rdbuf()))
+    throw std::ios_base::failure{"[ERR] Erreur d'allocation de lecture de fichier.\n"};
+
+  return ss.str();
+}
+
 int calculer_memoire_requise(info_t& info)
 {
     errno = 0;
@@ -380,7 +395,8 @@ int calculer_memoire_requise(info_t& info)
     /* C++ style vector allocation */
 
     #define tab info.NLigne
-        info.NLigne.resize(info.threads->argc * MAX_NB_AGENTS);
+
+        tab.resize(info.threads->argc * MAX_NB_AGENTS);
 #else
 
   /* C style vector allocation */
@@ -403,12 +419,14 @@ int calculer_memoire_requise(info_t& info)
     {
       #ifdef GUI_TAG_MESSAGES
          #ifdef GENERATE_RANK_SIGNAL
+
            generate_rank_signal();
            std::cerr <<  " \n" ;
+
          #endif
       #endif
 
-#ifdef FGETC_PARSING
+      #if defined(FGETC_PARSING) || defined(STRINGSTREAM_PARSING)
 
         std::ifstream c(info.threads->argv[i]);
 
@@ -423,91 +441,201 @@ int calculer_memoire_requise(info_t& info)
 
         errno = 0;
 
-        while (! c.eof())
-        {
-            bool remuneration_xml_open = false;
-
-            if  (c.get() != '<') continue;
-            if  (c.get() != 'R') continue;
-            if  (c.get() != 'e') continue;
-            if  (c.get() != 'm') continue;
-            if  (c.get() != 'u') continue;
-            if  (c.get() != 'n') continue;
-
-#ifndef FULL_PREALLOCATION_TEST
-            c.get(),c.get(),c.get(),c.get(),c.get(),c.get(),c.get();
-#else
-            if  (c.get() != 'e') continue;
-            if  (c.get() != 'r') continue;
-            if  (c.get() != 'a') continue;
-            if  (c.get() != 't') continue;
-            if  (c.get() != 'i') continue;
-            if  (c.get() != 'o') continue;
-            if  (c.get() != 'n') continue;
-#endif
-            remuneration_xml_open = true;
-
-            if  (c.get()  == '/')
-            {
-                tab[info.NCumAgent] = 1;
-                ++info.NCumAgent;
-
-                remuneration_xml_open = false;
-                continue;  // Balise simple vide
-            }
+       #ifdef FGETC_PARSING
 
             while (! c.eof())
             {
-                if (c.get() != '<') continue;
-                if ((d = c.get())  != 'C')
+                bool remuneration_xml_open = false;
+
+                if  (c.get() != '<') continue;
+                if  (c.get() != 'R') continue;
+                if  (c.get() != 'e') continue;
+                if  (c.get() != 'm') continue;
+                if  (c.get() != 'u') continue;
+                if  (c.get() != 'n') continue;
+
+                #ifndef FULL_PREALLOCATION_TEST
+
+                   c.get(),c.get(),c.get(),c.get(),c.get(),c.get(),c.get();
+
+                #else
+
+                   if  (c.get() != 'e') continue;
+                   if  (c.get() != 'r') continue;
+                   if  (c.get() != 'a') continue;
+                   if  (c.get() != 't') continue;
+                   if  (c.get() != 'i') continue;
+                   if  (c.get() != 'o') continue;
+                   if  (c.get() != 'n') continue;
+
+                #endif
+
+                remuneration_xml_open = true;
+
+                if  (c.get()  == '/')
                 {
-                    if (d != '/') continue;
-                    else if (c.get()  != 'R')   continue;
-                    else if (c.get()  != 'e')   continue;
-                    else if (c.get()  != 'm')   continue;
-                    else if (c.get()  != 'u')   continue;
-                    else if (c.get()  != 'n')   continue;
+                    tab[info.NCumAgent] = 1;
+                    ++info.NCumAgent;
 
                     remuneration_xml_open = false;
-
-                    if (tab[info.NCumAgent] == 0)
-                        tab[info.NCumAgent] = 1;
-
-                    ++info.NCumAgent;
-                    break;
+                    continue;  // Balise simple vide
                 }
-                else
+
+                while (! c.eof())
                 {
-                    if (c.get() != 'o') continue;
+                    if (c.get() != '<') continue;
+                    if ((d = c.get())  != 'C')
+                    {
+                        if (d != '/') continue;
+                        else if (c.get()  != 'R')   continue;
+                        else if (c.get()  != 'e')   continue;
+                        else if (c.get()  != 'm')   continue;
+                        else if (c.get()  != 'u')   continue;
+                        else if (c.get()  != 'n')   continue;
+
+                        remuneration_xml_open = false;
+
+                        if (tab[info.NCumAgent] == 0)
+                            tab[info.NCumAgent] = 1;
+
+                        ++info.NCumAgent;
+                        break;
+                    }
                     else
                     {
-                        if (c.get() != 'd')   continue;
+                        if (c.get() != 'o') continue;
                         else
                         {
-                            if (c.get() != 'e')   continue;
+                            if (c.get() != 'd')   continue;
                             else
                             {
-                                if (c.get() != ' ')   continue;
-                                ++tab[info.NCumAgent];
+                                if (c.get() != 'e')   continue;
+                                else
+                                {
+                                    if (c.get() != ' ')   continue;
+                                    ++tab[info.NCumAgent];
+                                }
                             }
                         }
                     }
                 }
+
+                if (remuneration_xml_open == true)
+                {
+                    std::cerr << "Erreur XML : la balise Remuneration n'est pas refermée pour le fichier " << info.threads->argv[i]
+                              << ENDL "pour l'agent n°"   << info.NCumAgent + 1 << ENDL;
+                    exit(0);
+
+                    #ifndef STRICT
+                      continue;
+                    #else
+                      exit(-100);
+                    #endif
+                }
+
             }
 
-            if (remuneration_xml_open == true)
+        #else   // STRINGSTREAM_PARSING
+
+            auto ss = read_stream_into_string(c);
+
+            std::string::iterator iter = ss.begin();
+
+            while (iter != ss.end())
             {
-                std::cerr << "Erreur XML : la balise Remuneration n'est pas refermée pour le fichier " << info.threads->argv[i]
-                          << ENDL "pour l'agent n°"   << info.NCumAgent + 1 << ENDL;
-                exit(0);
-#ifndef STRICT
-                continue;
-#else
-                exit(-100);
-#endif
+                bool remuneration_xml_open = false;
+
+                if  (*++iter != '<') continue;
+                if  (*++iter != 'R') continue;
+                if  (*++iter != 'e') continue;
+                if  (*++iter != 'm') continue;
+                if  (*++iter != 'u') continue;
+                if  (*++iter != 'n') continue;
+
+                #ifndef FULL_PREALLOCATION_TEST
+
+                   iter += 7;
+
+                #else
+
+                   if  (*++iter != 'e') continue;
+                   if  (*++iter != 'r') continue;
+                   if  (*++iter != 'a') continue;
+                   if  (*++iter != 't') continue;
+                   if  (*++iter != 'i') continue;
+                   if  (*++iter != 'o') continue;
+                   if  (*++iter != 'n') continue;
+
+                #endif
+
+                remuneration_xml_open = true;
+
+                if  (*++iter  == '/')
+                {
+                    tab[info.NCumAgent] = 1;
+                    ++info.NCumAgent;
+
+                    remuneration_xml_open = false;
+                    continue;  // Balise simple vide
+                }
+
+                while (iter != ss.end())
+                {
+                    if (*++iter != '<') continue;
+                    if ((d = *++iter)  != 'C')
+                    {
+                        if (d != '/') continue;
+                        else if (*++iter  != 'R')   continue;
+                        else if (*++iter  != 'e')   continue;
+                        else if (*++iter  != 'm')   continue;
+                        else if (*++iter  != 'u')   continue;
+                        else if (*++iter  != 'n')   continue;
+
+                        remuneration_xml_open = false;
+
+                        if (tab[info.NCumAgent] == 0)
+                            tab[info.NCumAgent] = 1;
+
+                        ++info.NCumAgent;
+                        break;
+                    }
+                    else
+                    {
+                        if (*++iter != 'o') continue;
+                        else
+                        {
+                            if (*++iter != 'd')   continue;
+                            else
+                            {
+                                if (*++iter != 'e')   continue;
+                                else
+                                {
+                                    if (*++iter != ' ')   continue;
+                                    ++tab[info.NCumAgent];
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (remuneration_xml_open == true)
+                {
+                    std::cerr << "Erreur XML : la balise Remuneration n'est pas refermée pour le fichier " << info.threads->argv[i]
+                              << ENDL "pour l'agent n°"   << info.NCumAgent + 1 << ENDL;
+                    exit(0);
+
+                    #ifndef STRICT
+                      continue;
+                    #else
+                      exit(-100);
+                    #endif
+                }
+
             }
 
-        }
+            info.threads->in_memory_file[i] = std::move(ss);
+
+        #endif
 
         c.clear();
         c.close();

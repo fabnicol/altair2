@@ -5,7 +5,10 @@
  *  En entrée d'Altair préciser encodage.entrée en conformité avec l'encodage du présent fichier, qui sera celui de la base générée.
  */
 
-/* Constantes de compilation pouvant être redéfinies : NA_STRING, MAX_LIGNES_PAYE, MAX_NB_AGENTS, NO_DEBUG, NO_REGEXP */
+/*
+   Constantes de compilation pouvant être redéfinies : NA_STRING, MAX_LIGNES_PAYE, MAX_NB_AGENTS, NO_DEBUG
+   MAX_NB_AGENTS détermine le nombre maximal d'agents par mois potentiellement traités
+*/
 
 #include <iomanip>
 #include <iostream>
