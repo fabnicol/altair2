@@ -13,9 +13,7 @@ Réalisation d'un test
 
 Pour s'assurer de la bonne installation, mieux vaut faire un test. Procéder comme suit :
 
-1.  Sélectionner Fichier > Ouvrir le projet alt > un fichier .alt dans la série
-      C:\Users\Public\Altair\Tests\Exemple\Projets\*.alt
-    Les projets de type *.minimal.alt sont plus adaptés à une interface minimale.
+1.  Importer des fichiers comme décrit dans le fichier TESTS
 
 2.  Optionnellement :
 

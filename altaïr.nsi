@@ -8,11 +8,12 @@
   
 ; Numéros de version 
 
-; pour une version minimal définir minimal par "" sinon "_min"
+; pour une version minimale définir minimal par "" sinon "_min"
 
-!define version  "2015.10"
-!define VER_MAJOR 2015
-!define VER_MINOR 10
+!define version  "2016.01"
+!define processeur  core
+!define VER_MAJOR 2016
+!define VER_MINOR 01
 !define VER_REVISION 0
 !define VER_BUILD  0
 !define Rversion_major "3.2"
@@ -21,7 +22,6 @@
 
 !define prodname     "Altaïr"
 !define prodname.simple "Altair"
-!define processeur        core
 !define setup        "Altaïr-${version}.win.${processeur}.installer.exe"
 !define exemple      "${prodname.simple}\Tests\Exemple"
 !define xhl          "${exemple}\Donnees\xhl"
@@ -224,10 +224,7 @@ SectionEnd
 	File /r  "${prodname.simple}\${GitDir}"
     File /r  "${prodname.simple}\${RStudioDir}"
 	
-	SetOutPath $INSTDIR\${exemple}\Projets
-	File  "${exemple}\Projets\anonyme.alt"
-	File  "${exemple}\Projets\anonyme2.alt"
-	
+
 	SetOutPath $LOCALAPPDATA  
     File /r "${prodname.simple}\Local\RStudio-desktop"
   
@@ -245,9 +242,6 @@ SectionEnd
     SetOutPath $INSTDIR\${prodname.simple}
     File /r  "${prodname.simple}\${RDir}"
     File /r  "${prodname.simple}\${Interface.minimal}" 
-	SetOutPath $INSTDIR\${exemple}\Projets
-    File  "${exemple}\Projets\anonyme.minimal.alt"
-	File  "${exemple}\Projets\anonyme2.minimal.alt"
 	
     StrCpy $minimal "_min"
 

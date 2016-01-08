@@ -313,12 +313,13 @@ void FListFrame::parseXhlFile(const QStringList& stringList)
     {
         parseXhlFile(fileName);
         ++rank;
-#ifdef DEBUG_INPUT_FILES
-        altair->outputTextEdit->append(PROCESSING_HTML_TAG " Analyse du fichier n°" + QString::number(rank));
-#endif
+
+        #ifdef DEBUG_INPUT_FILES
+           altair->outputTextEdit->append(PROCESSING_HTML_TAG " Analyse du fichier n°" + QString::number(rank));
+        #endif
+
         emit(altair->setProgressBar(rank));
     }
-
 }
 
 #include "elemParser.hpp"
@@ -328,7 +329,7 @@ void FListFrame::parseXhlFile(const QString& fileName)
 {
    QFile file(fileName);
 
-    bool result = file.open(QIODevice::ReadOnly | QIODevice::Unbuffered);
+    bool result = file.open(QIODevice::ReadOnly);
     if (! file.isOpen())
              altair->outputTextEdit->append(ERROR_HTML_TAG " Erreur à l'ouverture du fichier.");
 
@@ -339,9 +340,7 @@ void FListFrame::parseXhlFile(const QString& fileName)
     }
 
     file.seek(0);
-
     QByteArray buffer0 = file.read(BUFFER_SIZE);
-
     const QString string = QString::fromLatin1(buffer0, BUFFER_SIZE);
 
 #ifdef REGEX_PARSING_FOR_HEADERS
