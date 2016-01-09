@@ -537,16 +537,7 @@ int calculer_memoire_requise(info_t& info)
 
         #else   // STRINGSTREAM_PARSING
 
-            std::string ss;
-            ss.reserve(10000000);
-            std::ostringstream   SS(ss);
-
-            if (!(SS << c.rdbuf()))
-               throw std::ios_base::failure{ "[ERR] Erreur d'allocation de lecture de fichier.\n" };
-
-            ss = SS.str();
-
-            SS.str("");
+            auto ss = read_stream_into_string(c);
 
             std::string::iterator iter = ss.begin();
 
@@ -631,6 +622,7 @@ int calculer_memoire_requise(info_t& info)
                 {
                     std::cerr << "Erreur XML : la balise Remuneration n'est pas refermée pour le fichier " << info.threads->argv[i]
                               << ENDL "pour l'agent n°"   << info.NCumAgent + 1 << ENDL;
+                    exit(0);
 
                     #ifndef STRICT
                       continue;

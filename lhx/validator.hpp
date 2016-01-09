@@ -33,20 +33,10 @@ typedef struct
     unsigned argc;
 } thread_t;
 
-#define ADJOINTS "adj.*(?:adm|ani|tech|pat)"
-#define OPERATEURS "op[eé].*(a\\.?p\\.?s\\.?|act)"
-#define AUXILIAIRES "aux.*(pu[eé]r|soin)"
-#define GARDES_MILITAIRES "gard(ien|.*ch)|brigadier|sapeur|capor|sous.*off"
-
-static constexpr auto
-  EXPRESSION_REG_ELUS = "^maire.*|^pr..?sident.*|^[eé]lus?|.*(?:\\badj.*\\bmaire\\b|\\bv.*\\bpr..?sident\\b|\\bcons.*\\bmuni|\\bcons.*\\bcomm|\\bcons.*\\bd..?l..?gu).*",
-
+static constexpr auto EXPRESSION_REG_ELUS = "^maire.*|^pr..?sident.*|^[eé]lus?|.*(?:\\badj.*\\bmaire\\b|\\bv.*\\bpr..?sident\\b|\\bcons.*\\bmuni|\\bcons.*\\bcomm|\\bcons.*\\bd..?l..?gu).*",
   EXPRESSION_REG_VACATIONS = ".*\\bvacat.*|.*\\bvac\\.?\\b.*",                 // vac.* peut être vérifié par 'vacances'
-
   EXPRESSION_REG_ASSISTANTES_MATERNELLES = ".*\\bass.*\\bmater.*",
-
-  EXPRESSION_REG_ADJOINTS = "\\W*(?:" ADJOINTS "|" OPERATEURS "|"  AUXILIAIRES "|" GARDES_MILITAIRES "|" "receveur" ").*",
-
+  EXPRESSION_REG_ADJOINTS = "\\W*(?:adj.*(?:adm|ani|tech|pat)|op[eé].*(a\\.?p\\.?s\\.?|act)|aux.*(pu[eé]r|soin)|gard(ien|.*ch)|brigadier|receveur|sapeur|capor|sous.*off).*",
   EXPRESSION_REG_AGENTS = "\\W*(?:(?:agent|agt\\.?).*(?:soc|ma[îi]|poli|p\\.?m\\.?|sp[eé]|pat)|(?:agent|agt\\.?)?.*atsem).*",
 
  /* Attention il ne faut pas autre chose que \\W* car sinon on peut avoir confusion entre cons[eiller].* et [agent].*cons[ervation].*   */

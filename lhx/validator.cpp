@@ -62,7 +62,6 @@ static int parseFile(info_t& info)
 
     #ifdef  STRINGSTREAM_PARSING
       doc = xmlParseDoc(reinterpret_cast<const xmlChar*>(info.threads->in_memory_file.at(info.fichier_courant).c_str()));
-      //delete[] info.threads->in_memory_file[info.fichier_courant];
     #else
       doc = xmlParseFile(info.threads->argv.at(info.fichier_courant).c_str());
     #endif
@@ -696,7 +695,7 @@ static inline void GCC_INLINE allouer_memoire_table(info_t& info)
     }
 
 
-    if (info.Table.size() == info.NCumAgent)
+    if (info.Table.size() > 0 && info.Table.size() == info.NCumAgent)
     {
         for (unsigned agent = 0; agent < info.NCumAgent; ++agent)
         {
@@ -722,14 +721,13 @@ static inline void GCC_INLINE allouer_memoire_table(info_t& info)
     if (info.Table.empty())
     {
         std::cerr << ERROR_HTML_TAG "Mémoire insuffisante pour la table de lignes de paye" ENDL;
-        std::cerr << ERROR_HTML_TAG "Nombre cumulé d'agents : " << info.NCumAgent <<  ENDL;
         exit(-18);
     }
 
     for (unsigned agent = 0; agent < info.NCumAgent; ++agent)
     {
 
-        info.Table[agent].resize(info.Memoire_p_ligne[agent]);
+        info.Table[agent].resize(info.Memoire_p_ligne[agent]); // ne pas oublier d'initialiser à nullptr !
 
         if (verbeux && info.Table[agent].empty())
         {
