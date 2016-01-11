@@ -25,11 +25,11 @@ if (setOSWindows) {
   
   setwd("Tests/Exemple")
   source("syspaths.R", encoding=encodage.code.source)
-  knitr::opts_chunk$set(fig.width=8, fig.height=4, echo = FALSE, warning = FALSE, message = FALSE, results = 'asis')
+  knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, results = 'asis')
   source("prologue.R", encoding=encodage.code.source)
   writeLines(iconv(readLines("altair.R"), from = encodage.code.source, to = "UTF-8"), "altair.utf8.R")  
-  library(knitr)
-  spin("altair.utf8.R", knit=FALSE)
+  
+  
   rmarkdown::render("altair.utf8.Rmd", output_format = "pdf_document", output_file = "altair.pdf")
   
 # fallback:
@@ -38,8 +38,10 @@ if (setOSWindows) {
 # des particularités étranges d'encodage font que l'output altaïr.pdf de render n'est pas possible (2016/01)
   
   system("mv altair.pdf altaïr.pdf && /usr/bin/okular altaïr.pdf")
-  
+  unlink("altair.utf8_files", recursive = TRUE)
 }
+
+
 
 setwd(initwd)
 
