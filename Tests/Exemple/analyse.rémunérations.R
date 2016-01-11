@@ -1,6 +1,31 @@
 
+source("smic.R", encoding = encodage.code.source)
 
-Vérifier_non_annexe <- function(Montant, Année) if (Année == 2013)  (Montant > 3361) else if (Année == 2012) (Montant > 3322) else if(Année == 2011) (Montant > 3222) else if (Année == 2010) (Montant > 3169) else if (Année == 2009) (Montant > 3132)  else (Montant > 3076)
+période.hors.données.smic <- FALSE
+
+if (début.période.sous.revue < smic.net.première.année.renseignée 
+    || fin.période.sous.revue > smic.net.dernière.année.renseignée) {
+  
+message("Attention la période sous revue n'est pas incluse dans la base de données du smic net mensuel.
+Actualiser le fichier smic.R dans le dossier Tests/Exemple")
+
+  période.hors.données.smic <- TRUE  
+}
+
+# Si la période déborde de la période des données du smic, on prend la moins mauvaise solution qui consiste à retenir la borne la plus proche.
+# On ne renvoie donc jamais logical(0) mais toujours un booléen.
+
+Vérifier_non_annexe <- function(montant, année) {
+                                   if (période.hors.données.smic) {
+                                     if (année < smic.net.première.année.renseignée)
+                                        return(montant > smic.net[Année == smic.net.première.année.renseignée, SMIC_NET])
+                                     else if (année > smic.net.dernière.année.renseignée)   
+                                        return(montant > smic.net[Année == smic.net.dernière.année.renseignée, SMIC_NET])
+                                   } else {
+                                     return(montant > smic.net[Année == année, SMIC_NET]) 
+                                   }
+}
+
 
 Analyse.rémunérations <- Paie[ , .(Nir          = Nir[1],
                                    Montant.net.annuel = Montant.net.annuel[1],
@@ -29,10 +54,20 @@ Analyse.rémunérations <- Paie[ , .(Nir          = Nir[1],
                                    rémunération.vacataire = sum(Montant[Type == "VAC"], na.rm = TRUE)),  
                               by = c(clé.fusion, étiquette.année)]
 
-Analyse.rémunérations[ ,  Filtre_non_annexe := Vérifier_non_annexe(Montant.net.annuel, Année)
-                      & nb.mois > 1 
-                      & cumHeures > 120 
-                      & cumHeures / nb.jours > 1.5]
+# soit le nombre de mois est supérieur à 1, avec un nombre d'heure supérieur à 120 à raison d'une heure trente par jour en moyenne
+# soit la rémunération totale annuelle gagnée est supérieure à 3 fois le smic (Vérifier_non_annexe)
+
+with(Analyse.rémunérations,
+     
+  Filtre_non_annexe <- mapply(Vérifier_non_annexe,
+                                Montant.net.annuel,
+                                Année,
+                                USE.NAMES = FALSE,
+                                SIMPLIFY = TRUE) |
+                                    (nb.mois > minimum.Nmois.non.annexe 
+                                     & cumHeures > minimum.Nheures.non.annexe 
+                                     & cumHeures / nb.jours > minimum.Nheures.jour.non.annexe)
+)
 
 Analyse.rémunérations[ , `:=`(rémunération.indemnitaire.imposable = indemnités + sft + indemnité.résidence + rémunérations.diverses,
                               Filtre_actif_non_annexe = (Filtre_actif == TRUE & Filtre_non_annexe == TRUE))]
@@ -151,76 +186,6 @@ Analyse.variations.synthèse.plus.2.ans  <- data.frame(NULL)
 Analyse.variations.synthèse.moins.2.ans <- data.frame(NULL)
 
 message("Analyse des variations réalisée.")
-
-Bulletins.paie.nir.total.hors.élus <- unique(Bulletins.paie[Année == fin.période.sous.revue
-                                                            & Mois == 12
-                                                            & Statut != "ELU",
-                                                            c(clé.fusion, "Nir"), with=FALSE], by = NULL)
-
-Bulletins.paie.nir.fonctionnaires  <- unique(Bulletins.paie[Année == fin.période.sous.revue
-                                                            & Mois  == 12
-                                                            & (Statut == "TITULAIRE" |
-                                                                 Statut == "STAGIAIRE"),
-                                                            c(clé.fusion, "Nir"), with=FALSE], by = NULL)
-
-Bulletins.paie.nir.nontit  <- unique(Bulletins.paie[Année == fin.période.sous.revue
-                                                    & Mois  == 12
-                                                    & Statut == "NON_TITULAIRE",
-                                                    c(clé.fusion, "Nir"), with=FALSE], by = NULL)
-
-
-Bulletins.paie.nir.permanents  <- unique(Bulletins.paie[Année == fin.période.sous.revue
-                                                        & Mois  == 12
-                                                        & (Statut == "NON_TITULAIRE" | Statut == "STAGIAIRE" | Statut == "TITULAIRE"),
-                                                        c(clé.fusion, "Nir"), with=FALSE], by = NULL)
-
-names(Bulletins.paie.nir.total.hors.élus) <- c(clé.fusion, "Nir")
-
-# Age au 31 décembre de l'exercice dernier.exerciceal de la période sous revue
-# ne pas oublier [ ,...] ici:
-
-années.fonctionnaires   <- extraire.nir(Bulletins.paie.nir.fonctionnaires, fin.période.sous.revue)
-
-années.total.hors.élus  <- extraire.nir(Bulletins.paie.nir.total.hors.élus, fin.période.sous.revue)
-
-années.total.permanents <- extraire.nir(Bulletins.paie.nir.permanents, fin.période.sous.revue)
-
-années.total.nontit     <- extraire.nir(Bulletins.paie.nir.nontit, fin.période.sous.revue)
-
-Bulletins.paie.nir.total.hors.élus.début <- unique(Bulletins.paie[Année == début.période.sous.revue
-                                                                  & Mois == 12
-                                                                  & Statut != "ELU",
-                                                                  c(clé.fusion, "Nir"), with=FALSE], by = NULL)
-
-Bulletins.paie.nir.fonctionnaires.début  <- unique(Bulletins.paie[Année == début.période.sous.revue
-                                                                  & Mois  == 12
-                                                                  & (Statut == "TITULAIRE" |
-                                                                       Statut == "STAGIAIRE"),
-                                                                  c(clé.fusion, "Nir"), with=FALSE], by = NULL)
-
-Bulletins.paie.nir.nontit.début          <- unique(Bulletins.paie[Année == début.période.sous.revue
-                                                                  & Mois == 12
-                                                                  & Statut == "NON_TITULAIRE"   , .(Matricule, Nir)], by = NULL)
-
-Bulletins.paie.nir.permanents.début      <- unique(Bulletins.paie[Année == début.période.sous.revue
-                                                                  & Mois  == 12
-                                                                  & (Statut == "NON_TITULAIRE" | Statut == "STAGIAIRE" | Statut == "TITULAIRE"),
-                                                                  c(clé.fusion, "Nir"), with=FALSE], by = NULL)
-
-
-names(Bulletins.paie.nir.total.hors.élus.début) <- c(clé.fusion, "Nir")
-
-
-# Age au 31 décembre de l'exercice dernier.exerciceal de la période sous revue
-# ne pas oublier [ ,...] ici:
-
-années.fonctionnaires.début   <- extraire.nir(Bulletins.paie.nir.fonctionnaires.début, début.période.sous.revue)
-
-années.total.hors.élus.début  <- extraire.nir(Bulletins.paie.nir.total.hors.élus.début, début.période.sous.revue)
-
-années.total.nontit.début     <- extraire.nir(Bulletins.paie.nir.nontit.début, début.période.sous.revue)
-
-années.total.permanents.début <- extraire.nir(Bulletins.paie.nir.permanents.début, début.période.sous.revue)
 
 message("Analyse démographique réalisée.")
 

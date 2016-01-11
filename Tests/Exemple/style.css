@@ -33,9 +33,10 @@ table
       border-color: navy;
       text-align: center;
       background: white; 
-      margin-top: 20px;
-      margin-bottom:50px;
-      margin-left: 110px;
+      margin-top: 15px;
+      margin-bottom:15px;
+      margin-left: 10px;
+      margin-right: 10px;
   }
  
  td {padding: 5px;}
