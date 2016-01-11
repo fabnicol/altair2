@@ -651,13 +651,25 @@ int calculer_memoire_requise(info_t& info)
 
         //std::cerr << "Mappage en mémoire de " << info.threads->argv[i] << "..."ENDL;
         struct stat st;
-        stat(info.threads->argv[i], &st);
-        const size_t file_size =  st.st_size;
+        stat(info.threads->argv[i].c_str(), &st);
+        const size_t file_size =  st.st_size; 
         void *dat;
-        int fd = open(info.threads->argv[i], O_RDONLY);
+        int fd = open(info.threads->argv[i].c_str(), O_RDONLY);
        // std::cerr << "Taille : " << file_size << ENDL;
         assert(fd != -1);
+
+       /* MADV_SEQUENTIAL
+       *    The application intends to access the pages in the specified range sequentially, from lower to higher addresses.
+       *   MADV_WILLNEED
+       *    The application intends to access the pages in the specified range in the near future. */
+
         dat = mmap(NULL, file_size,  PROT_READ, MAP_PRIVATE | MAP_POPULATE, fd, 0);
+        int ret;
+
+        ret = madvise (dat, 0, MADV_SEQUENTIAL | MADV_WILLNEED);
+        if (ret < 0)
+                perror ("madvise");
+
         assert(dat != NULL);
         //write(1, dat, file_size);
         char* data = (char*) dat;
@@ -727,8 +739,8 @@ int calculer_memoire_requise(info_t& info)
         }
         
         
-        
-        munmap(data, file_size);
+        info.threads->in_memory_file[i] = std::move(data);
+        //munmap(data, file_size);
         close(fd);
 #endif        
         

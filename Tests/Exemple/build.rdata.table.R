@@ -1,3 +1,4 @@
+setOSWindows            <- Sys.info()["sysname"] != "Linux"
 
 if (setOSWindows) {
 rtoolspath <- "RBuildTools/3.3/bin"

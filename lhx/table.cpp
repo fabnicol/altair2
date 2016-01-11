@@ -64,7 +64,7 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l_COMMUN(int i, uint32_t agent, int l
            << VAR(EmploiMetier) << sep
            << VAR(Grade) << sep
            << VAR(Categorie) << sep
-           << std::string((char*)VAR(NIR));
+           << VAR(NIR) << "\n";
 }
 
 static inline void GCC_INLINE ECRIRE_LIGNE_l_GENERER_RANG(int i, uint32_t agent, int l, char* type, table_t& base, char sep, std::vector<info_t> &Info, int rang)

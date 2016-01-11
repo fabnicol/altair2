@@ -38,16 +38,28 @@ if (setOSWindows) {
   writeLines(iconv(readLines("altair.R"), from = encodage.code.source, to = "UTF-8"),
              "altair.utf8.R")
   library(knitr)
-  spin("altair.utf8.R")
+  spin("altair.utf8.R", knit=FALSE)
+  rmarkdown::render("altair.utf8.Rmd", clean = FALSE,  html_document(fig_retina = 6))
+  # produit altair.utf8.html
   
   system(
     paste(
       "/usr/bin/pandoc",
-      "altair.utf8.md --to odt --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altaïr.odt --highlight-style tango"
+      "altair.utf8.html  --to odt --from  html --output altaïr.odt --highlight-style tango"
     )
   )
+  
+# fallback :  
+#  system(
+#    paste(
+#      "/usr/bin/pandoc",
+#      "altair.utf8.knit.md --to odt --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altaïr.odt --highlight-style tango"
+#    )
+ # )
+  
   system("/usr/bin/lowriter altaïr.odt")
   
 }
+
 unlink("figure", recursive = TRUE)
 setwd(initwd)

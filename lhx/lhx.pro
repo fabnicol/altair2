@@ -2,7 +2,6 @@
 
 greaterThan(QT_MAJOR_VERSION, 5)
 
-
 if (win32|linux) {
   message("Système d'exploitation :  $$(OS)")
 } else {
@@ -44,8 +43,11 @@ CONFIG(guiOutput) {
   DEFINES +=  GUI_TAG_MESSAGES                   # définir pour que les sorties des messages soient formatées pour que l'interface graphique les transforme en icône.
 }
 
+QMAKE_CXXFLAGS_RELEASE -= -O2
+
 CONFIG (release) {
     QMAKE_LFLAGS += -s
+
     QMAKE_CXXFLAGS = -O3 -fexpensive-optimizations -fomit-frame-pointer
 }
 

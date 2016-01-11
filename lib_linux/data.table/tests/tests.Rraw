@@ -6490,11 +6490,12 @@ text = "x,y\n1,a\n2,a\n3,b\n4,b\n5,a\n"
 test(1527.3, dt[, y := factor(y)], fread(text, stringsAsFactors=TRUE))
 
 # #1027, check.names argument to fread
-nm1 = names(data.table(a=1:2, a=3:4))
+nm1 = names(fread("a,a\n1,2\n3,4", check.names=FALSE))
 nm2 = names(fread("a,a\n1,2\n3,4", check.names=TRUE))
-nm3 = names(fread("a,a\n1,2\n3,4", check.names=FALSE))
-test(1528.1, make.unique(nm1), nm2)
-test(1528.2, nm1, nm3)
+nm3 = names(fread("a b,a b\n1,2\n3,4", check.names=TRUE))
+test(1528.1, c("a", "a"), nm1)
+test(1528.2, c("a", "a.1"), nm2)
+test(1528.3, c("a.b", "a.b.1"), nm3)
 
 # add tests for between
 x = sample(10, 20, TRUE)
@@ -7216,6 +7217,65 @@ options(datatable.optimize=optim)
 
 # handle NULL value correctly #1429
 test(1582, uniqueN(NULL), 0L)
+
+# bug fix #1461
+dt = data.table(x=c(1,1,1,2,2,2,3,3,3,4,4,4,5), y=c(NaN,1,2, 2,NaN,1, NA,NaN,2, NaN,NA,NaN, NaN))
+optim = getOption("datatable.optimize")
+# make sure gforce is on
+options(datatable.optimize=Inf)
+ans1 = suppressWarnings(dt[, base::min(y, na.rm=TRUE), by=x])
+ans2 = suppressWarnings(dt[, base::max(y, na.rm=TRUE), by=x])
+test(1583.1, dt[, min(y, na.rm=TRUE), by=x], ans1, warning="No non-missing values found")
+test(1583.2, dt[, max(y, na.rm=TRUE), by=x], ans2, warning="No non-missing values found")
+ans3 = suppressWarnings(dt[, base::min(y), by=x])
+ans4 = suppressWarnings(dt[, base::max(y), by=x])
+test(1583.3, dt[, min(y), by=x], ans3)
+test(1583.4, dt[, max(y), by=x], ans4)
+# restore optimisation
+options(datatable.optimize=optim)
+
+# Fixed a minor bug in fread when blank.lines.skip=TRUE
+f1 <- function(x, f=TRUE, b=FALSE) fread(x, fill=f, blank.lines.skip=b, data.table=FALSE)
+f2 <- function(x, f=TRUE, b=FALSE) read.table(x, fill=f, blank.lines.skip=b, sep=",", header=TRUE, stringsAsFactors=FALSE)
+test(1584.1, f1("fread_blank.txt", f=FALSE, b=TRUE), f2("fread_blank.txt", f=FALSE, b=TRUE))
+test(1584.2, f1("fread_blank2.txt", f=FALSE, b=TRUE), f2("fread_blank2.txt", f=FALSE, b=TRUE))
+test(1584.3, f1("fread_blank3.txt", f=FALSE, b=TRUE), f2("fread_blank3.txt", f=FALSE, b=TRUE))
+
+# fread fill=TRUE, #536. Also takes care of #1124.
+test(1585.1, f1("536_fread_fill_1.txt"), f2("536_fread_fill_1.txt"))
+test(1585.2, f1("536_fread_fill_1.txt", b=TRUE), f2("536_fread_fill_1.txt", b=TRUE))
+
+test(1585.3, f1("536_fread_fill_2.txt"), f2("536_fread_fill_2.txt"))
+test(1585.4, f1("536_fread_fill_2.txt", b=TRUE), f2("536_fread_fill_2.txt", b=TRUE))
+
+test(1585.5, f1("536_fread_fill_3_extreme.txt"), f2("536_fread_fill_3_extreme.txt"))
+test(1585.6, f1("536_fread_fill_3_extreme.txt", b=TRUE), f2("536_fread_fill_3_extreme.txt", b=TRUE))
+# no warning about bumping type. when fill=TRUE, column type detection starts at first non-empty line (which makes sense). 
+test(1585.7, f1("536_fread_fill_4.txt"), f2("536_fread_fill_4.txt"))
+test(1585.8, f1("536_fread_fill_4.txt", b=TRUE), f2("536_fread_fill_4.txt", b=TRUE))
+
+# TODO: add a test when fill=FALSE, but blank.lines.skip=TRUE, when the same effect should happen
+# TODO: fix and add test for cases like this:
+# a,b,c
+# 1,2,3
+# 4,5,6
+# 7,8,9,6 # extra column, but we've only detected 3 cols
+# 1,2,3
+# ...
+
+# fix for #721
+text="x,y\n1,a\n2,b\n"
+test(1586.1, fread(text, colClasses=c("integer", "factor")), data.table(x=1:2, y=factor(letters[1:2])))
+test(1586.2, fread(text, colClasses=c(x="factor")), data.table(x=factor(1:2), y=letters[1:2]))
+
+# FR #590
+text="x,y\n2,a\n1,q\n3,c\n"
+test(1587, fread(text, key="y"), setDT(fread(text), key="y"))
+
+# fix for #1361
+dt = data.table(i=1:10, f=as.factor(1:10))
+test(1588.1, dt[f %in% 3:4], dt[3:4])
+test(1588.2, dt[f == 3], dt[3])
 
 ##########################
 
