@@ -60,10 +60,12 @@ static int parseFile(info_t& info)
             *siret_fichier = nullptr,
             *budget_fichier = nullptr;
 
-    #ifdef  STRINGSTREAM_PARSING
+    #if defined(STRINGSTREAM_PARSING)
       doc = xmlParseDoc(reinterpret_cast<const xmlChar*>(info.threads->in_memory_file.at(info.fichier_courant).c_str()));
+    #elif defined (MMAP_PARSING)
+       doc = xmlParseDoc(reinterpret_cast<const xmlChar*>(info.threads->in_memory_file.at(info.fichier_courant).c_str()));
     #else
-      doc = xmlParseFile(info.threads->argv.at(info.fichier_courant).c_str());
+       doc = xmlParseFile(info.threads->argv.at(info.fichier_courant).c_str());
     #endif
 
     if (doc == nullptr)

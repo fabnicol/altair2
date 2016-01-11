@@ -6,7 +6,10 @@
 
 #include <mutex>
 #ifdef __linux__
+#include <fcntl.h>
+#include <sys/mman.h>
 #include <unistd.h>
+#include <sys/stat.h>
 #endif
 #include <iostream>
 #include <vector>
@@ -57,7 +60,7 @@ int main(int argc, char **argv)
     std::vector<std::string> cl;  /* pour les lignes de commandes incluses dans un fichier */
     std::string chemin_base = NOM_BASE + std::string(CSV);
     std::string chemin_bulletins = NOM_BASE_BULLETINS + std::string(CSV);
-
+    uint64_t memory = 0;
     thread_t mon_thread;
 
     info_t info =
@@ -96,17 +99,18 @@ int main(int argc, char **argv)
 
     while (start < argc)
     {
-        if (commandline_tab[start] == "-n")
-        {
-            info.reduire_consommation_memoire = false;
-            if ((info.nbAgentUtilisateur = lire_argument(argc, const_cast<char*>(commandline_tab[start + 1].c_str()))) < 1)
+      if (commandline_tab[start] == "-n")
+       {
+         info.reduire_consommation_memoire = false;
+         info.nbAgentUtilisateur
+           = lire_argument (argc, const_cast<char*>(commandline_tab[start + 1].c_str()));
+         if (info.nbAgentUtilisateur < 1)
             {
-                std::cerr << ERROR_HTML_TAG "Préciser le nombre de bulletins mensuels attendus (majorant du nombre) avec -N xxx .\n";
-                exit(-1);
+              std::cerr << ERROR_HTML_TAG "Préciser le nombre de bulletins mensuels attendus (majorant du nombre) avec -N xxx .\n";
+              exit(-1);
             }
             start += 2;
             continue;
-
         }
         else if (commandline_tab[start] ==  "-h")
         {
@@ -141,7 +145,8 @@ int main(int argc, char **argv)
                       <<  "-R argument obligatoire : expression régulière pour la recherche des élus (codés : ELU dans le champ Statut." << "\n"
                       <<  "-S sans argument        : supprimer la sortie Budget, Employeur, Siret, Etablissement (allège les bases)." << "\n"
                       <<  "-q sans argument        : limiter la verbosité." << "\n"
-                      <<  "-f argument obligatoire : la ligne de commande est dans le fichier en argument, chaque élément à la ligne." << "\n";
+                      <<  "-f argument obligatoire : la ligne de commande est dans le fichier en argument, chaque élément à la ligne." << "\n"
+                      <<  "--mem argument oblig.   : taille des fichiers à analyser en ko << " << "\n";
 
               #ifdef GENERATE_RANK_SIGNAL
 
@@ -320,13 +325,11 @@ int main(int argc, char **argv)
         {
             if ((info.nbfil = lire_argument(argc, const_cast<char*>(commandline_tab[start +1].c_str()))) > 0)
             {
-
                 if (info.nbfil < 1)
                 {
                     perror(ERROR_HTML_TAG "Le nombre de fils d'exécution doit être compris au moins égal à 2.");
                     exit(-111);
                 }
-
             }
             start += 2;
             continue;
@@ -479,15 +482,37 @@ int main(int argc, char **argv)
             }
             //break;
         }
+        else if (commandline_tab[start] == "--mem")
+        {
+          std::cerr << STATE_HTML_TAG "Taille totale des fichiers : " << commandline_tab[start + 1] << "ko" << ENDL;
+          // Taille des fichiers en ko fournie par l'interface graphique, convertie en octets (input en ko)
+          
+          memory = std::stoi(commandline_tab[start + 1], nullptr) * 1024;
+            if (memory > 1)
+              {
+                start += 2;
+                continue;
+              }
+            else
+              {
+                std::cerr << ERROR_HTML_TAG "La donnée de la taille des fichiers en input est erronée." << ENDL;
+                exit(-199);
+              }
+        }
         else if (commandline_tab[start][0] == '-')
         {
-            std::cerr << ERROR_HTML_TAG "Option inconnue " << commandline_tab[start] << ENDL;
-            exit(-100);
+          std::cerr << ERROR_HTML_TAG "Option inconnue " << commandline_tab[start] << ENDL;
+          exit(-100);
         }
         else break;
     }
 
     /* Fin de l'analyse de la ligne de commande */
+
+    //struct stat st;
+    //stat(info.threads->argv[i].c_str(), &st);
+    //const size_t file_size =  st.st_size;
+    
 
     xmlInitMemory();
     xmlInitParser();

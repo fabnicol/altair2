@@ -20,4 +20,4 @@ NeedsCompilation: yes
 Packaged: 2015-04-22 15:26:12 UTC; yihui
 Repository: CRAN
 Date/Publication: 2015-04-22 22:33:46
-Built: R 3.2.1; x86_64-pc-linux-gnu; 2015-08-02 23:35:11 UTC; unix
+Built: R 3.2.2; x86_64-pc-linux-gnu; 2016-01-10 14:54:20 UTC; unix
