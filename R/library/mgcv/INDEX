@@ -81,6 +81,7 @@ model.matrix.gam        Extract model matrix from GAM fit
 mono.con                Monotonicity constraints for a cubic regression
                         spline
 mroot                   Smallest square root of matrix
+multinom                GAM multinomial logistic regression
 mvn                     Multivariate normal additive models
 negbin                  GAM negative binomial families
 new.name                Obtain a name for a new variable that is not
@@ -126,6 +127,8 @@ smooth.construct.ds.smooth.spec
                         Low rank Duchon 1977 splines
 smooth.construct.fs.smooth.spec
                         Factor smooth interactions in GAMs
+smooth.construct.gp.smooth.spec
+                        Low rank Gaussian process smooths
 smooth.construct.mrf.smooth.spec
                         Markov Random Field Smooths
 smooth.construct.ps.smooth.spec

@@ -6,6 +6,7 @@ browsable	browsable
 builder	builder
 code	builder
 copyDependencyToDir	copyDependencyToDir
+css	css
 div	builder
 doRenderTags	renderTags
 em	builder
@@ -24,6 +25,7 @@ htmlDependencies<-	htmlDependencies
 htmlDependency	htmlDependency
 htmlEscape	htmlEscape
 htmlPreserve	htmlPreserve
+htmlTemplate	htmlTemplate
 html_print	html_print
 img	builder
 include	include
@@ -44,6 +46,7 @@ pre	builder
 print.html	print.html
 print.shiny.tag	print.html
 renderDependencies	renderDependencies
+renderDocument	renderDocument
 renderTags	renderTags
 resolveDependencies	resolveDependencies
 restorePreserveChunks	htmlPreserve
@@ -53,11 +56,14 @@ singleton_tools	singleton_tools
 span	builder
 strong	builder
 subtractDependencies	subtractDependencies
+suppressDependencies	suppressDependencies
 surroundSingletons	singleton_tools
 tag	tag
 tagAppendAttributes	tag
 tagAppendChild	tag
 tagAppendChildren	tag
+tagGetAttribute	tag
+tagHasAttribute	tag
 tagList	tag
 tags	builder
 tagSetChildren	tag

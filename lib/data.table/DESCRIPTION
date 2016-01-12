@@ -9,7 +9,7 @@ Suggests: ggplot2 (>= 0.9.0), plyr, reshape, reshape2, testthat (>=
         0.4), hexbin, fastmatch, nlme, xts, bit64, gdata,
         GenomicRanges, caret, knitr, curl, zoo, plm
 Description: Fast aggregation of large data (e.g. 100GB in RAM), fast ordered joins, fast add/modify/delete of columns by group using no copies at all, list columns and a fast file reader (fread). Offers a natural and flexible syntax, for faster development.
-License: GPL (>= 2)
+License: GPL-3 | file LICENSE
 URL: https://github.com/Rdatatable/data.table/wiki
 BugReports: https://github.com/Rdatatable/data.table/issues
 MailingList: datatable-help@lists.r-forge.r-project.org
@@ -20,10 +20,10 @@ RemoteHost: api.github.com
 RemoteRepo: data.table
 RemoteUsername: Rdatatable
 RemoteRef: master
-RemoteSha: 5da3c2af40b661fdfaae2024c5a4a59e812c3552
+RemoteSha: 405f1156feacc9713f619a2796f2ac03321900c5
 GithubRepo: data.table
 GithubUsername: Rdatatable
 GithubRef: master
-GithubSHA1: 5da3c2af40b661fdfaae2024c5a4a59e812c3552
-Built: R 3.2.2; x86_64-w64-mingw32; 2015-11-21 22:27:52 UTC; windows
+GithubSHA1: 405f1156feacc9713f619a2796f2ac03321900c5
+Built: R 3.2.3; x86_64-w64-mingw32; 2016-01-11 18:15:44 UTC; windows
 Archs: x64
