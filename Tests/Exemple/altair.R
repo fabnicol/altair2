@@ -64,7 +64,9 @@ source("import.R", encoding = encodage.code.source)
 
 #'<p style="page-break-after:always;"></p>
 
-source("analyse.rémunérations.R", encoding = encodage.code.source)
+# parallèle :
+  source("analyse.rémunérations.R", encoding = encodage.code.source)
+  source("analyse.bulletins.R", encoding = encodage.code.source)
 
 ########### 1.1 Effectifs ########################
 

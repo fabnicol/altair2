@@ -370,6 +370,19 @@ void calculer_maxima(const std::vector<info_t> &Info, std::ofstream* LOG)
 }
 
 
+template <typename Allocator = std::allocator<char>>
+auto read_stream_into_string(
+    std::ifstream& in,
+    Allocator alloc = {})
+{
+  std::basic_ostringstream<char, std::char_traits<char>, Allocator>
+    ss(std::basic_string<char, std::char_traits<char>, Allocator>(std::move(alloc)));
+
+  if (!(ss << in.rdbuf()))
+    throw std::ios_base::failure{"[ERR] Erreur d'allocation de lecture de fichier.\n"};
+
+  return ss.str();
+}
 
 int calculer_memoire_requise(info_t& info)
 {
@@ -524,17 +537,7 @@ int calculer_memoire_requise(info_t& info)
 
         #else   // STRINGSTREAM_PARSING
 
-            std::string ss;
-           // ss.reserve(10000000);
-            std::ostringstream   SS(ss);
-
-            if (!(SS << c.rdbuf()))
-               throw std::ios_base::failure{ "[ERR] Erreur d'allocation de lecture de fichier.\n" };
-
-            ss = SS.str();
-
-            SS.str("");
-			SS.clear();
+            auto ss = read_stream_into_string(c);
 
             std::string::iterator iter = ss.begin();
 
@@ -619,6 +622,7 @@ int calculer_memoire_requise(info_t& info)
                 {
                     std::cerr << "Erreur XML : la balise Remuneration n'est pas refermée pour le fichier " << info.threads->argv[i]
                               << ENDL "pour l'agent n°"   << info.NCumAgent + 1 << ENDL;
+                    exit(0);
 
                     #ifndef STRICT
                       continue;
@@ -647,13 +651,25 @@ int calculer_memoire_requise(info_t& info)
 
         //std::cerr << "Mappage en mémoire de " << info.threads->argv[i] << "..."ENDL;
         struct stat st;
-        stat(info.threads->argv[i], &st);
-        const size_t file_size =  st.st_size;
+        stat(info.threads->argv[i].c_str(), &st);
+        const size_t file_size =  st.st_size; 
         void *dat;
-        int fd = open(info.threads->argv[i], O_RDONLY);
+        int fd = open(info.threads->argv[i].c_str(), O_RDONLY);
        // std::cerr << "Taille : " << file_size << ENDL;
         assert(fd != -1);
+
+       /* MADV_SEQUENTIAL
+       *    The application intends to access the pages in the specified range sequentially, from lower to higher addresses.
+       *   MADV_WILLNEED
+       *    The application intends to access the pages in the specified range in the near future. */
+
         dat = mmap(NULL, file_size,  PROT_READ, MAP_PRIVATE | MAP_POPULATE, fd, 0);
+        int ret;
+
+        ret = madvise (dat, 0, MADV_SEQUENTIAL | MADV_WILLNEED);
+        if (ret < 0)
+                perror ("madvise");
+
         assert(dat != NULL);
         //write(1, dat, file_size);
         char* data = (char*) dat;
@@ -723,8 +739,8 @@ int calculer_memoire_requise(info_t& info)
         }
         
         
-        
-        munmap(data, file_size);
+        info.threads->in_memory_file[i] = std::move(data);
+        //munmap(data, file_size);
         close(fd);
 #endif        
         
