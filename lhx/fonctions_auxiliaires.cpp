@@ -538,7 +538,7 @@ int calculer_memoire_requise(info_t& info)
         #else   // STRINGSTREAM_PARSING
 
             std::string ss;
-            ss.reserve(10000000);
+           // ss.reserve(10000000);
             std::ostringstream   SS(ss);
 
             if (!(SS << c.rdbuf()))
@@ -547,6 +547,7 @@ int calculer_memoire_requise(info_t& info)
             ss = SS.str();
 
             SS.str("");
+			SS.clear();
 
             std::string::iterator iter = ss.begin();
 

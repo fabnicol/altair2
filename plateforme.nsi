@@ -170,8 +170,7 @@ SectionEnd
 	ExecWait '"$INSTDIR\RBuildTools.exe"'
 	ExecWait '"$INSTDIR\mingw64-5.2.exe"'
 	ExecWait '"$INSTDIR\msys64.exe"'
-	ExecWait '"$INSTDIR\qt-5.5.0-x64-mingw510r0-seh-rev0.exe"'
-	ExecWait '"$INSTDIR\qt-5.5.0-x64-mingw52-static-runtime.exe"'
+	ExecWait '"$INSTDIR\Qt5.5-builds.exe"'
 	ExecWait '"$INSTDIR\qtcreator-3.5.1.exe"'
     ExecWait '"$INSTDIR\redist.exe"'
 	Delete   "$INSTDIR\*.exe"
