@@ -1,8 +1,10 @@
 setOSWindows            <- Sys.info()["sysname"] != "Linux"
 
 if (setOSWindows) {
-rtoolspath <- "RBuildTools/3.3/bin"
 
+  rtoolspath <- "RBuildTools/3.3/bin"
+  rtoolspath2 <- "RBuildTools/3.3/gcc-4.6.3/bin"
+  
 wd <- getwd()
 if (grepl("altair$", wd, ignore.case=TRUE) == FALSE)
 {
@@ -19,7 +21,7 @@ library(devtools)
 
 if (grepl(rtoolspath, localPath, ignore.case=TRUE) == FALSE) {
 
-  Sys.setenv(PATH = paste(localPath, file.path(wd, "..", rtoolspath), sep=";"))
+  Sys.setenv(PATH = paste(localPath, file.path(wd, "..", rtoolspath), file.path(wd, "..", rtoolspath2), sep=";"))
 }  
 
 install_github("Rdatatable/data.table", build_vignettes = FALSE, configure.args = c("CFLAGS=-O3", "-march=native"))

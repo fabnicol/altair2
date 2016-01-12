@@ -48,6 +48,8 @@ if (setOSWindows) {
     )
   )
   shell("start acrord32.exe altaïr.pdf")
+
+  unlink("figure", recursive = TRUE)
   
 } else {
   setwd("Tests/Exemple")
@@ -74,7 +76,8 @@ if (setOSWindows) {
   system("/usr/bin/lowriter altaïr.odt")
 
   system("/usr/bin/okular altaïr.pdf")
+  unlink("altair.utf8_files", recursive = TRUE)  
 }
 
-#unlink("figure", recursive = TRUE)
+
 setwd(initwd)

@@ -29,16 +29,17 @@ if (setOSWindows) {
     )
   )
   shell("start winword altaïr.docx")
+  unlink("figure", recursive = TRUE)
   
 } else {
   setwd("Tests/Exemple")
   source("syspaths.R", encoding = encodage.code.source)
-  knitr::opts_chunk$set(fig.width=8, fig.height=4, echo = FALSE, warning = FALSE, message = FALSE, results = 'asis')
+  knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, results = 'asis')
   source("prologue.R", encoding = encodage.code.source)
   writeLines(iconv(readLines("altair.R"), from = encodage.code.source, to = "UTF-8"),
              "altair.utf8.R")
-  library(knitr)
-  spin("altair.utf8.R", knit=FALSE)
+  library(rmarkdown)
+  
   rmarkdown::render("altair.utf8.Rmd", clean = FALSE,  html_document(fig_retina = 6))
   # produit altair.utf8.html
   
@@ -58,8 +59,8 @@ if (setOSWindows) {
  # )
   
   system("/usr/bin/lowriter altaïr.odt")
-  
+  unlink("altair.utf8_files", recursive = TRUE)  
 }
 
-unlink("figure", recursive = TRUE)
+
 setwd(initwd)
