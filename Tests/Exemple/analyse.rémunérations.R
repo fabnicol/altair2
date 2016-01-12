@@ -15,14 +15,14 @@ Actualiser le fichier smic.R dans le dossier Tests/Exemple")
 # Si la période déborde de la période des données du smic, on prend la moins mauvaise solution qui consiste à retenir la borne la plus proche.
 # On ne renvoie donc jamais logical(0) mais toujours un booléen.
 
-Vérifier_non_annexe <- function(montant, année) {
+Vérifier_non_annexe <- function(montant, a) {
                                    if (période.hors.données.smic) {
-                                     if (année < smic.net.première.année.renseignée)
+                                     if (a < smic.net.première.année.renseignée)
                                         return(montant > smic.net[Année == smic.net.première.année.renseignée, SMIC_NET])
                                      else if (année > smic.net.dernière.année.renseignée)   
                                         return(montant > smic.net[Année == smic.net.dernière.année.renseignée, SMIC_NET])
                                    } else {
-                                     return(montant > smic.net[Année == année, SMIC_NET]) 
+                                     return(montant > smic.net[Année == a, SMIC_NET]) 
                                    }
 }
 
@@ -51,23 +51,50 @@ Analyse.rémunérations <- Paie[ , .(Nir          = Nir[1],
                                    indemnités   = sum(Montant[Type == "I"], na.rm = TRUE),
                                    rémunérations.diverses = sum(Montant[Type == "A"], na.rm = TRUE),
                                    autres.rémunérations   = sum(Montant[Type == "AC" | Type == "A" ], na.rm = TRUE),
-                                   rémunération.vacataire = sum(Montant[Type == "VAC"], na.rm = TRUE)),  
+                                   rémunération.vacataire = sum(Montant[Type == "VAC"], na.rm = TRUE)), 
+                               
                               by = c(clé.fusion, étiquette.année)]
 
 # soit le nombre de mois est supérieur à 1, avec un nombre d'heure supérieur à 120 à raison d'une heure trente par jour en moyenne
 # soit la rémunération totale annuelle gagnée est supérieure à 3 fois le smic (Vérifier_non_annexe)
 
-with(Analyse.rémunérations,
+
+# Alternative classique mais moins rapide (en cas de problème avec data.table) :
+
+if (0) {
+attach(Analyse.rémunérations)
      
-  Filtre_non_annexe <- mapply(Vérifier_non_annexe,
-                                Montant.net.annuel,
-                                Année,
-                                USE.NAMES = FALSE,
-                                SIMPLIFY = TRUE) |
-                                    (nb.mois > minimum.Nmois.non.annexe 
-                                     & cumHeures > minimum.Nheures.non.annexe 
-                                     & cumHeures / nb.jours > minimum.Nheures.jour.non.annexe)
-)
+Analyse.rémunérations$Filtre_non_annexe <- mapply(Vérifier_non_annexe,
+                                                    Montant.net.annuel,
+                                                    Année,
+                                                    USE.NAMES = FALSE,
+                                                    SIMPLIFY = TRUE) |
+                                                        (nb.mois > minimum.Nmois.non.annexe 
+                                                         & cumHeures > minimum.Nheures.non.annexe 
+                                                         & cumHeures / nb.jours > minimum.Nheures.jour.non.annexe)
+
+ 
+detach(Analyse.rémunérations)
+}
+
+# On utilise toutefois data.table
+
+# <!--  A éclaircir 
+
+# Attention il faut trier par groupe `by = Année, sinon `Vérifier_non_annexe(Montant.net.annuel, Année) n'est pas compris comme une
+# fonction de scalaire en la deuxième variable, mais avec un vecteur Année de la longueur de la table en deuxième composante
+# Modifier en smic.net$Année == a (à la data.frame) dans la définition de `Vérifier_non_annexe donne en outre des NA
+# Lorsque la fonction est un pur f(x, y) ce phénomène n'apparaît pas : il faut que le paramètre passé 
+# soit RHS d'un test boléen de recherche sur i pour que le problème apparaisse
+
+  Analyse.rémunérations[ ,  Filtre_non_annexe := Vérifier_non_annexe(Montant.net.annuel, Année) |
+                                                   (nb.mois > minimum.Nmois.non.annexe 
+                                                    & cumHeures > minimum.Nheures.non.annexe 
+                                                    & cumHeures / nb.jours > minimum.Nheures.jour.non.annexe),
+                         
+                            by="Année"]
+#                           ----------      
+#      A éclaircir --> 
 
 Analyse.rémunérations[ , `:=`(rémunération.indemnitaire.imposable = indemnités + sft + indemnité.résidence + rémunérations.diverses,
                               Filtre_actif_non_annexe = (Filtre_actif == TRUE & Filtre_non_annexe == TRUE))]

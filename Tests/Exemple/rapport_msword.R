@@ -40,7 +40,7 @@ if (setOSWindows) {
              "altair.utf8.R")
   library(rmarkdown)
   
-  rmarkdown::render("altair.utf8.Rmd", clean = FALSE,  html_document(fig_retina = 6))
+  rmarkdown::render("altair.utf8.R", clean = FALSE,  html_document(fig_retina = 6))
   # produit altair.utf8.html
   
   system(
