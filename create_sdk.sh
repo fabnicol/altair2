@@ -36,7 +36,7 @@ cp Tests/Exemple/*.* Altaïr-SDK/altair/Tests/Exemple
 cp -rf Tests/Exemple/Donnees/xhl/Anonyme Tests/Exemple/Donnees/xhl/Anonyme2 Altaïr-SDK/altair/Tests/Exemple/Donnees/xhl
 mkdir Altaïr-SDK/altair/Tests/Exemple/Donnees/R-Altaïr 
 echo "Exemples copiés"
-cp Paquets/*  Altaïr-SDK
+cp ../Paquets/*  Altaïr-SDK
 echo "Paquets copiés"
 pause 
 echo "Terminé"
