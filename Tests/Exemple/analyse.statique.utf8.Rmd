@@ -1,16 +1,18 @@
   
   
+<!-- rmarkdown v1 -->
 
 ```{r }
 Analyse.rémunérations.exercice <- Analyse.rémunérations[Année == année]
 ```
+  
+######  
+  
 
-   
 # `r chapitre`. Rémunérations brutes : analyse pour l'exercice `r année`    
    
 ## `r chapitre`.1 Masse salariale brute de l'ensemble des agents     
     
- 
 
 ```{r }
 masses.personnels <- Analyse.rémunérations.exercice[Statut != "ELU",
@@ -196,6 +198,9 @@ Résumé(c("Total lignes hors rappels",
 
   
 *Hors vacataires identifiés, assistantes maternelles, élus locaux et pour les postes actifs non annexes*  
+  
+######  
+  
 
 **Catégorie A**
 

@@ -64,7 +64,7 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l_COMMUN(int i, uint32_t agent, int l
            << VAR(EmploiMetier) << sep
            << VAR(Grade) << sep
            << VAR(Categorie) << sep
-           << std::string((char*)VAR(NIR));
+           << VAR(NIR) << "\n";
 }
 
 static inline void GCC_INLINE ECRIRE_LIGNE_l_GENERER_RANG(int i, uint32_t agent, int l, char* type, table_t& base, char sep, std::vector<info_t> &Info, int rang)
@@ -379,9 +379,7 @@ void boucle_ecriture(std::vector<info_t>& Info)
     
 #ifndef OFSTREAM_TABLE_OUTPUT
         base << t_base.str();
-        std::ostringstream().swap(t_base);
         bulletins << t_bulletins.str();
-        std::ostringstream().swap(t_bulletins);
 #endif
 
     // Dans les autres cas, les bases ont déjà été refermées sauf une (cas par année et par taille maximale)

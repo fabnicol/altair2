@@ -1,0 +1,67 @@
+Format: 1.8
+Date: Tue, 22 Sep 2015 16:31:48 +0800
+Source: libxml2
+Binary: libxml2 libxml2-utils libxml2-utils-dbg libxml2-dev libxml2-dbg libxml2-doc python-libxml2 python-libxml2-dbg libxml2-udeb
+Architecture: amd64 all
+Version: 2.9.2+zdfsg1-4
+Distribution: unstable
+Urgency: medium
+Maintainer: Debian XML/SGML Group <debian-xml-sgml-pkgs@lists.alioth.debian.org>
+Changed-By: Aron Xu <aron@debian.org>
+Description:
+ libxml2    - GNOME XML library
+ libxml2-dbg - Debugging symbols for the GNOME XML library
+ libxml2-dev - Development files for the GNOME XML library
+ libxml2-doc - Documentation for the GNOME XML library
+ libxml2-udeb - GNOME XML library - minimal runtime (udeb)
+ libxml2-utils - XML utilities
+ libxml2-utils-dbg - XML utilities (debug extension)
+ python-libxml2 - Python bindings for the GNOME XML library
+ python-libxml2-dbg - Python bindings for the GNOME XML library (debug extension)
+Closes: 754424 766884 768089 781232 782782 783010 798642
+Changes:
+ libxml2 (2.9.2+zdfsg1-4) unstable; urgency=medium
+ .
+   * Revert everything in N'ACKed NMU revert to 2.9.1.
+     - Resolving regression, Closes: #754424
+     - Drop the following NMU, not needed in 2.9.2, Closes: #781232
+     - Drop not approved patch for GNOME #746048
+   * Revert icu dbg drop, but don't hardcode version,
+     thanks Matthias Klose <doko>, Closes: #798642
+   * Cherry pick upstream post release patches:
+     - Fix for regression triggered by CVE-2014-3660, Closes: #768089
+     - Fix for the spurious ID already defined error, Closes: #766884
+     - Fix for CVE-2015-1819, Closes: #782782
+     - Fix for GNOME #744980, Closes: #783010
+     - Several fixes for memory related issues.
+Checksums-Sha1:
+ 965800d51b9c45515880cff2a19230179af78183 1721178 libxml2-dbg_2.9.2+zdfsg1-4_amd64.deb
+ 0d3cb1aeb0c2b5d5eab89e70ca9d2f5744f596bd 804504 libxml2-dev_2.9.2+zdfsg1-4_amd64.deb
+ fd9ed661ecef05e9b4c5bd196cef0bd724c9bf29 826990 libxml2-doc_2.9.2+zdfsg1-4_all.deb
+ 85c74909009792f214f653863bd7b30b2426567e 627166 libxml2-udeb_2.9.2+zdfsg1-4_amd64.udeb
+ f6852e28d28e698d6126a607261fbf66ba459fb7 137830 libxml2-utils-dbg_2.9.2+zdfsg1-4_amd64.deb
+ 5910b2faf7d953df85882825105e28bb7ce750d5 102156 libxml2-utils_2.9.2+zdfsg1-4_amd64.deb
+ a759bc25aeaff53f03ca470cb4246cca36525884 911042 libxml2_2.9.2+zdfsg1-4_amd64.deb
+ 8cf65bc50571d20885688bbdbdd1eb6507ff462b 327894 python-libxml2-dbg_2.9.2+zdfsg1-4_amd64.deb
+ 43c074cea97c92eddda19e98feccc2bbb76e11bf 203880 python-libxml2_2.9.2+zdfsg1-4_amd64.deb
+Checksums-Sha256:
+ dd5a0f90ade4e91fd3ec6781ce63cdb590d0c936fa540cc92fbf8e8ae7687160 1721178 libxml2-dbg_2.9.2+zdfsg1-4_amd64.deb
+ c354a0b55f8436823c008f37d754bac23d0e0d72d04c3e2861acf762926a5320 804504 libxml2-dev_2.9.2+zdfsg1-4_amd64.deb
+ d8807b284553e7d2d67376508f56e9d9a15b6dd830d0ba07f7e5e0933f8f69a3 826990 libxml2-doc_2.9.2+zdfsg1-4_all.deb
+ fcd9cc4b1c822f6de7f4dc24dd1de9859b63864888bce748cc30b291cdd93b4b 627166 libxml2-udeb_2.9.2+zdfsg1-4_amd64.udeb
+ 3d62916ea9ccfffa571a055265fb045fe35d14eb3b0bf70f2c0839df1bd62bc0 137830 libxml2-utils-dbg_2.9.2+zdfsg1-4_amd64.deb
+ 52a2800307a8ee2b3da1afc11ece9cb7957c591a48fd63725321da5039f7cc00 102156 libxml2-utils_2.9.2+zdfsg1-4_amd64.deb
+ b85c435466afa492d64bb4232cf66e189a9eb0596df1d14289901de5db6c3b80 911042 libxml2_2.9.2+zdfsg1-4_amd64.deb
+ 1831a47a409fcfb70ecbdc2ac95b492ac694d3c6c83351409d7e4eeb3cf4dc09 327894 python-libxml2-dbg_2.9.2+zdfsg1-4_amd64.deb
+ 55beaadc7609d3db01f59698b796f27abda7d42a52299ce94db0b3ec16164882 203880 python-libxml2_2.9.2+zdfsg1-4_amd64.deb
+Files:
+ 59dc7dd96f60fabf6a137981d10d8fd9 1721178 debug extra libxml2-dbg_2.9.2+zdfsg1-4_amd64.deb
+ 08a607ced7de155e1350bbcf2f91337d 804504 libdevel optional libxml2-dev_2.9.2+zdfsg1-4_amd64.deb
+ a80e4698652eefc73f22933d08ba9047 826990 doc optional libxml2-doc_2.9.2+zdfsg1-4_all.deb
+ c872d8b861e3641c5f9ed62c99d8b9f4 627166 debian-installer optional libxml2-udeb_2.9.2+zdfsg1-4_amd64.udeb
+ 2daf539981fcc352d9432cfde197ef67 137830 debug extra libxml2-utils-dbg_2.9.2+zdfsg1-4_amd64.deb
+ 18f63543e03a08fcbf45b691aa7a0c42 102156 text optional libxml2-utils_2.9.2+zdfsg1-4_amd64.deb
+ f4bfcc33c6c3409fea74c080a5cd38a1 911042 libs standard libxml2_2.9.2+zdfsg1-4_amd64.deb
+ 6c8be6ccb42b61da00cafb418bae8c7e 327894 debug extra python-libxml2-dbg_2.9.2+zdfsg1-4_amd64.deb
+ c051caf7bd3c21286f141bcd9d2d325f 203880 python optional python-libxml2_2.9.2+zdfsg1-4_amd64.deb
+Package-Type: udeb

@@ -81,7 +81,7 @@ DEFINES += \#NO_REGEX \                       # Pas d'analyse du texte par expre
         GENERATE_RANK_SIGNAL \              # chaque fois qu'un fichier est traité, un signal externe est émis (rang dans un fichier rank sous AppData\Local\Altair).
                              \              # n'est utile que lorsqu'une interface graphique est connectée. peut ralentir l'application de 1 à 5 %.
 #       FGETC_PARSING                       # parcourir les fichiers par ifstream (C++)
-        STRINGSTREAM_PARSING \              # mise en mémoire vive des fichiers de paye par ostringstream (plus de mémoire vive ; accélère beaucoup le 1er traitement sous Windows)
+        STRINGSTREAM_PARSING                # mise en mémoire vive des fichiers de paye par ostringstream (plus de mémoire vive ; accélère beaucoup le 1er traitement sous Windows)
 #       MMAP_PARSING                        # parcourir les fichiers par mappage mémoire (C, unix uniquement, aucun avantage évident).
 #        OFSTREAM_TABLE_OUTPUT               # enregistrer les lignes de paye ligne à ligne sur la base. Plus robuste et moins de mémoire mais plus lent sous Windows
 
@@ -96,7 +96,7 @@ DEVROOT = $$PWD/../..
 
 QMAKE_CXXFLAGS_RELEASE -= -O2
 QMAKE_CXXFLAGS += -pipe -m64 -std=gnu++14
-QMAKE_CXXFLAGS += -march=core-avx2
+QMAKE_CXXFLAGS += -march=native
 #QMAKE_CXXFLAGS += -march=core2
 
 # Sous linux penser à installer libxml2-dev. Ceci n'est pas testé.

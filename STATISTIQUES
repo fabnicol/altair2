@@ -1,0 +1,31 @@
+                        STATISTIQUES D'EXECUTION
+
+Statistiques réalisées sur 15,445 millions de lignes de paye.
+
+Mode IO classique (FGETC_PARSING)
+
+MONO-PROCESSUS
+--------------
+
+Consommation moyenne de mémoire disque par ligne de paye : 203 octets
+Consommation moyenne de mémoire disque par bulletins de paye : 164 octets
+
+Nombre moyen de lignes de paye par bulletin de paye : 26 lignes
+Durée de traitement (mono-processus) : 11 minutes 33 secondes sous Haswell (8Go de RAM + HDD standard). 
+
+consommation moyenne de mémoire d'un agent sur 12 mois : 65 300 octets.
+
+Ratio mémoire des bulletins / mémoire des lignes : 2,9 %
+
+Consommation de mémoire swap observée : 4 Go maximum.
+Consommation mémoire maximum observée (RAM + swap) : 11,5 Go.
+
+Taux de compression LZMA : 3,3 %a
+
+Multithreading
+--------------
+
+La consommation mémoire augmente d'environ 10 % à 4 fils.
+Les fichiers de sortie sont identiques.
+Temps global d'exécution comparable sous 4 fils.
+

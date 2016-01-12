@@ -370,19 +370,6 @@ void calculer_maxima(const std::vector<info_t> &Info, std::ofstream* LOG)
 }
 
 
-template <typename Allocator = std::allocator<char>>
-auto read_stream_into_string(
-    std::ifstream& in,
-    Allocator alloc = {})
-{
-  std::basic_ostringstream<char, std::char_traits<char>, Allocator>
-    ss(std::basic_string<char, std::char_traits<char>, Allocator>(std::move(alloc)));
-
-  if (!(ss << in.rdbuf()))
-    throw std::ios_base::failure{"[ERR] Erreur d'allocation de lecture de fichier.\n"};
-
-  return ss.str();
-}
 
 int calculer_memoire_requise(info_t& info)
 {

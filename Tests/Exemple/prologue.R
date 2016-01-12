@@ -35,7 +35,7 @@ charger.bases           <- T
 sauvegarder.bases.analyse    <- T
 sauvegarder.bases.origine    <- F
 afficher.table.effectifs      <- F
-générer.table.élus           <- T
+générer.table.élus           <- F
 tester.matricules            <- TRUE
 analyse.statique.totale      <- F
 corriger.environnement.système <- (setOSWindows == TRUE)
