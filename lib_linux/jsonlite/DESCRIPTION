@@ -24,4 +24,4 @@ Suggests: curl (>= 0.5), plyr, testthat, knitr, rmarkdown, R.rsp
 Packaged: 2015-11-27 20:06:25 UTC; jeroen
 Repository: CRAN
 Date/Publication: 2015-11-28 09:38:27
-Built: R 3.2.2; x86_64-pc-linux-gnu; 2016-01-10 15:21:52 UTC; unix
+Built: R 3.2.2; x86_64-pc-linux-gnu; 2015-11-29 19:37:50 UTC; unix

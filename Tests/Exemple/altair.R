@@ -462,10 +462,10 @@ Tableau(c("Plus de 2 ans",
           "Moins de 2 ans",
           "Moins d'un an",
           "Moins de six mois"),
-        sum(Analyse.variations.synthèse$plus.2.ans, na.rm=TRUE),
-        sum(Analyse.variations.synthèse$moins.2.ans, na.rm=TRUE),
-        sum(Analyse.variations.synthèse$moins.1.an, na.rm=TRUE),
-        sum(Analyse.variations.synthèse$moins.six.mois, na.rm=TRUE))
+        sum(Analyse.variations.par.exercice$plus.2.ans, na.rm=TRUE),
+        sum(Analyse.variations.par.exercice$moins.2.ans, na.rm=TRUE),
+        sum(Analyse.variations.par.exercice$moins.1.an, na.rm=TRUE),
+        sum(Analyse.variations.par.exercice$moins.six.mois, na.rm=TRUE))
 
 
 #'
@@ -626,7 +626,7 @@ Analyse.variations.par.exercice <- Analyse.variations.par.exercice[nb.jours > se
                                                                    & Montant.net.annuel.eqtp  > minimum.positif 
                                                                    & ! is.na(Statut)] 
 
-attach(Analyse.variations.synthèse)
+attach(Analyse.variations.par.exercice)
 
 temp <- positive(moyenne.rémunération.annuelle.sur.période) / 1000
 
@@ -652,10 +652,10 @@ if (longueur.non.na(temp) > 0)
        col = "blue",
        nclass = 200)
 
-detach(Analyse.variations.synthèse)
+detach(Analyse.variations.par.exercice)
 
 #'   
-#'[Lien vers la base de données synthétique](`r currentDir`/Bases/Rémunérations/Analyse.variations.synthèse.csv)
+#'[Lien vers la base de données synthétique](`r currentDir`/Bases/Rémunérations/Analyse.variations.par.exercice.csv)
 #'[Lien vers la base de données détaillée par année](`r currentDir`/Bases/Rémunérations/Analyse.variations.par.exercice.csv)  
 
 ########### 4.2  Evolutions des rémunérations nettes ###########
@@ -876,7 +876,7 @@ Tableau.vertical2(c("Décile (k&euro;)", "Catégorie A", "Catégorie B", "Catégorie
 
 #'[Source INSEE, onglets Figure3, F1web et F3web](http://www.insee.fr/fr/ffc/ipweb/ip1486/ip1486.xls)   
 #'   
-#'[Lien vers la base de données](`r currentDir`/Bases/Rémunérations/Analyse.variations.synthèse.csv)
+#'[Lien vers la base de données](`r currentDir`/Bases/Rémunérations/Analyse.variations.par.exercice.csv)
 #'   
 
 #'### `r chapitre`.2.2 Fonctionnaires
@@ -1108,7 +1108,7 @@ Résumé("Dernière année",
 
 
 
-#'[Lien vers la base de données](`r currentDir`/Bases/Rémunérations/Analyse.variations.synthèse.csv)     
+#'[Lien vers la base de données](`r currentDir`/Bases/Rémunérations/Analyse.variations.par.exercice.csv)     
 
 ########### 4.3  GVT ###########  
 
@@ -1123,7 +1123,7 @@ Résumé("Dernière année",
 
 # Appliquer les filtres maintenant
 
-q3 <- quantile(Analyse.variations.synthèse$variation.rémunération, c(quantile.cut/100, 1 - quantile.cut/100), na.rm=TRUE)
+q3 <- quantile(Analyse.variations.par.exercice$variation.rémunération, c(quantile.cut/100, 1 - quantile.cut/100), na.rm=TRUE)
 
 # Filtrage : on enlève les personnels présents depuis moins d'un seuil de troncature (ex. 120 jours) dans l'année et les élus
 # (paramètre seuil.troncature) 
@@ -1133,8 +1133,9 @@ q3 <- quantile(Analyse.variations.synthèse$variation.rémunération, c(quantile.cu
 # Paramétrable par :
 # minimum.positif, quantile.cut 
 
+# ici il faut réduire la matrice pour éviter les réduplications pour les Résumés. TODO
 
-Analyse.variations.synthèse <- Analyse.variations.synthèse[total.jours > 2 * seuil.troncature
+Analyse.variations.synthèse <- Analyse.variations.par.exercice[total.jours > 2 * seuil.troncature
                                                            & pris.en.compte == TRUE
                                                            & ! is.na(statut)   
                                                            & ! is.na(variation.rémunération) 

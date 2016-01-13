@@ -1,6 +1,8 @@
 
+   
 #'   
-#'   
+
+# On revient à une analyse des rémunérations qui réinclut tous les personnels (vacataires, élus, inactifs, annexes)
 
 Analyse.rémunérations.exercice <- Analyse.rémunérations[Année == année]
 

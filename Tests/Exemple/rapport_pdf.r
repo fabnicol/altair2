@@ -30,7 +30,7 @@ if (setOSWindows) {
   writeLines(iconv(readLines("altair.R"), from = encodage.code.source, to = "UTF-8"), "altair.utf8.R")  
   
   
-  rmarkdown::render("altair.utf8.Rmd", output_format = "pdf_document", output_file = "altair.pdf")
+  rmarkdown::render("altair.utf8.R", output_format = "pdf_document", output_file = "altair.pdf")
   
 # fallback:
 #  system(paste("/usr/bin/pandoc", " -V papersize=A4 +RTS -K512m -RTS altair.utf8.md --to latex --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altaïr.pdf --template ../../lib_linux/rmarkdown/rmd/latex/default.tex --highlight-style tango --latex-engine pdflatex --variable geometry:margin=1in"))
