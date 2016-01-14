@@ -26,6 +26,7 @@ Vérifier_non_annexe <- function(montant, a) {
                                    }
 }
 
+# clé.fusion = Matricule, en principe (mais pourrait être NIR)
 
 Analyse.rémunérations <- Paie[ , .(Nir          = Nir[1],
                                    Montant.net.annuel = Montant.net.annuel[1],
@@ -92,7 +93,7 @@ detach(Analyse.rémunérations)
                                                     & cumHeures > minimum.Nheures.non.annexe 
                                                     & cumHeures / nb.jours > minimum.Nheures.jour.non.annexe),
                          
-                            by="Année"]
+                            by = "Année"]
 #                           ----------      
 #      A éclaircir --> 
 
@@ -111,6 +112,9 @@ Analyse.rémunérations[ ,
                                                                     pmin(q, 1) * 100  else NA)]
 
 Analyse.rémunérations[ , indemnités.élu := if (Statut == "ELU") total.lignes.paie else 0]
+
+# Pour analyser les rémunérations, on ne retient que les enregistrements pour lesquels elle est calculable.
+# Il ne faudra donc pas utiliser cette table par exemple pour évaluer les effectifs
 
 Analyse.rémunérations <- Analyse.rémunérations[! is.na(Montant.brut.annuel)]
 
@@ -137,7 +141,11 @@ Analyse.variations.par.exercice <- Analyse.rémunérations[Grade != "A"
 
 # indicatrice binaire année
 # Ex: si Année = début.période.sous.revue + 3, indicatrice.année = 1 << 3 soit le binaire 1000 = 8 ou encore 2^3
+# l'indicatrice d'année sera utilisée pour l'analyse du GVT 
+
 Analyse.variations.par.exercice[ , indicatrice.année := bitwShiftL(1, Année - début.période.sous.revue) ]
+
+# <!-- Prologue : enlever.quotités.na, enlever.quotités.nulles (défaut : FALSE)
 
 # On ne retire les quotités nulles et NA que pour l'analyse dynamique de la partie 4 
 # On retire également les Heures nulles na et les Heures < seuil.heures
@@ -149,6 +157,8 @@ if (enlever.quotités.na) {
 if (enlever.quotités.nulles) {
   Analyse.variations.par.exercice <- Analyse.variations.par.exercice[quotité.moyenne > minimum.quotité]
 }
+
+#      Prologue -->
 
 # l'indicatrice de période est la signature de la présence de l'agent sur la période sous revue :
 # elle s'obtient en sommant les indicatrices année
