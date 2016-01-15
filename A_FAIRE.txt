@@ -1,2 +1,2 @@
-﻿1. Encodage et décodage défectueux des projets .alt pour les multi-budgets
-
+1. Encodage et décodage défectueux des projets .alt pour les multi-budgets
+2. Reprendre les vacataires (grade V et type VAC) de manière plus encapsulée.

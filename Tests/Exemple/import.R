@@ -369,13 +369,21 @@ if (! charger.bases) break
   
   Paie[ , Filtre_actif := FALSE]
 
-  Paie[ , Filtre_actif := any(Montant[Type == "T" & Heures > minimum.positif] > minimum.actif, na.rm = TRUE), by="Matricule,Année"]
+# TODO: à revoir pour deux causes : le revenu peut ne pas être un traitement et les heures peuvent être nulles pour
+# des temps pleins...
+
+  Paie[ , Filtre_actif := any(Montant[Type == "T" & Heures > minimum.positif] > minimum.actif, na.rm = TRUE),
+        by="Matricule,Année"]
   
   Paie[ , delta := 0, by="Matricule,Année,Mois"]
   
-  Paie[Type %chin% c("I", "T", "S", "IR", "AC","A", "R", "AV") , delta := sum(Montant,  na.rm=TRUE) - Brut, by="Matricule,Année,Mois"]
+  Paie[Type %chin% c("I", "T", "S", "IR", "AC","A", "R", "AV") , 
+       delta := sum(Montant,  na.rm=TRUE) - Brut,
+       by="Matricule,Année,Mois"]
   
   #Bulletins.paie <- unique(Paie[ , .(Matricule, Nom, Année, Mois, Temps.de.travail, Heures,  Statut, Emploi, Grade, Brut, Net.à.Payer, Nir)], by = NULL)
+  
+  # R est le rang (0-based) décalé d'une unité (lag 1)
   
   Bulletins.paie[ , `:=`(Sexe = substr(Nir, 1, 1),
                          R    = .I - 1)]
@@ -401,13 +409,19 @@ if (! charger.bases) break
   # A ce niveau de généralité, le filtre actif est inutile, sauf peut-être pour de très petits effectifs.
   
   
-  M <- Bulletins.paie[(Sexe == "1" | Sexe == "2") & Heures > minimum.positif, .(Médiane_Sexe_Statut = median(Heures, na.rm=TRUE)), by="Sexe,Statut"]
+  M <- Bulletins.paie[(Sexe == "1" | Sexe == "2") & Heures > minimum.positif, 
+                      .(Médiane_Sexe_Statut = median(Heures, na.rm=TRUE)), by="Sexe,Statut"]
   
-  Bulletins.paie <- merge(Bulletins.paie, Paie[, .(Filtre_actif=Filtre_actif[1]), by="Matricule,Année,Mois"], all.x=TRUE, all.y=FALSE)
+  Bulletins.paie <- merge(Bulletins.paie,
+                          Paie[ , .(Filtre_actif = Filtre_actif[1]),
+                                 by="Matricule,Année,Mois"],
+                          all.x=TRUE,
+                          all.y=FALSE)
   
   Bulletins.paie[ , pop_calcul_médiane := length(Heures[Temps.de.travail == 100 
                                                         & !is.na(Heures) 
-                                                        & Heures > minimum.positif]), by = "Sexe,Emploi"]
+                                                        & Heures > minimum.positif]),
+                  by = "Sexe,Emploi"]
   
   # Pour les quotités seules les périodes actives sont prises en compte
   
