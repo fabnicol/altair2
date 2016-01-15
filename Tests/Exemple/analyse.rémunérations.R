@@ -166,6 +166,9 @@ if (enlever.quotités.nulles) {
 # 000001 + 000010 + 010000  = 010011  soit une présence les deux premières années et l'avant-dernière.
 # indicatrices d'année = 1, 2 et 16 soit somme de 19 
 
+# Pour cette matrice on retient le statut en fin de période
+# sont considérés comme temps complets ou permanents seulement ceux qui le sont sur l'ensemble de la période 
+
 Analyse.variations.par.exercice[ ,
                                    `:=`(Nexercices = length(Année),
                                      statut = Statut[length(Année)],
@@ -186,7 +189,9 @@ Analyse.variations.par.exercice[ ,  pris.en.compte := ! is.na(Montant.net.annuel
                                     & Montant.net.annuel.eqtp.sortie > minimum.positif ]
 
 Analyse.variations.par.exercice[ ,  variation.rémunération := if (pris.en.compte)
-                                                                 (Montant.net.annuel.eqtp.sortie / Montant.net.annuel.eqtp.début - 1)*100 else NA]
+                                                                 (Montant.net.annuel.eqtp.sortie / Montant.net.annuel.eqtp.début - 1) * 100 else NA]
+
+# La variation de rémunération normalisée se définit comme celle qui correspond à des agents présents en début et en fin d'exercice
 
 Analyse.variations.par.exercice[ , `:=`(variation.moyenne.rémunération = if (pris.en.compte)
                                                                          ((variation.rémunération /100 + 1)^(1 / (Nexercices - 1)) - 1) * 100 else NA,
@@ -217,7 +222,7 @@ Analyse.variations.par.exercice[ , est.rmpp :=  (Année != début.période.sous.rev
                                                  & bitwAnd(bitwShiftL(1, Année - 1 - début.période.sous.revue),
                                                            indicatrice.période) != 0)]
 
-
+ 
 message("Analyse des variations réalisée.")
 
 message("Analyse démographique réalisée.")
