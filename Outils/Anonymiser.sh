@@ -1,5 +1,35 @@
-for i in $(ls)
-do  
-  echo $i...
-  sed -i -e 's/\(Prenom V=\"\)\(.*\)\(\"\)/\1XXX\3/g'  -e 's/\(Nom V=\"\)\(.*\)\(\"\)/\1YYY\3/g'     -e 's/\(NIR V=\"\)\(.....\)\(.*\)\(\"\)/\1\2ZZZ\4/g'     -e 's/\(Adr. V=\"\)\(.....\)\(.*\)\(\"\)/\1\2YYY\4/g'    -e 's/\(Ville V=\"\)\(.*\)\(\"\)/\1YYY\3/g'  -e 's/\(CP V=\"\)\(.*\)\(\"\)/\1YYY\3/g'  -e 's/\(TitCpte V=\"\)\(.*\)\(\"\)/\1YYY\3/g' -e 's/\(NumUrssaf V=\"\)\(.*\)\(\"\)/\1YYY\3/g'  -e 's/\(Siret V=\"\)\(.*\)\(\"\)/\1YYY\3/g'    $i/*.xhl 
-done
+#!./bash.exe
+echo "Création de la liste des fichiers..."
+./find.exe . -type f -name *.xhl -fprint filelist
+
+if test -f filelist ; then 
+ echo "Conversion des fichiers..."
+else
+  echo "Impossible de trouver les fichiers xhl" 
+  exit -1 
+fi
+
+while read -r fichier || [[ -n "$fichier" ]]
+do
+ ./gawk.exe  -f gawkscript   "$fichier" 2>log.erreurs
+done  < filelist
+
+echo "Fin de la conversion..."
+while read -r fichier || [[ -n "$fichier" ]]
+do
+ [[ -f "${fichier}.new" ]] && mv "${fichier}.new" "$fichier" 2>>log.erreurs
+done  < filelist
+
+if test  "" == "$(cat log.erreurs)"; then
+ echo "Aucune erreur détectée"
+else
+ echo "Erreurs détectées : " 
+ cat log.erreurs 
+fi
+ 
+
+
+
+
+
+
