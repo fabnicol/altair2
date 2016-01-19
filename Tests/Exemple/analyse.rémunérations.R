@@ -104,8 +104,7 @@ Analyse.rémunérations[ , `:=`(rémunération.indemnitaire.imposable = indemnités +
 #Montant.brut.annuel - sft - indemnité.résidence - traitement.indiciaire
 
 Analyse.rémunérations[ ,
-                      `:=`(rémunération.indemnitaire.imposable.eqtp = if (is.finite(q <- Montant.brut.annuel.eqtp/Montant.brut.annuel)) 
-                                                                             q * rémunération.indemnitaire.imposable else NA,
+                      `:=`(rémunération.indemnitaire.imposable.eqtp = if (is.finite(Montant.brut.annuel.eqtp/Montant.brut.annuel)) Montant.brut.annuel.eqtp/Montant.brut.annuel * rémunération.indemnitaire.imposable else NA,
                            
                            total.lignes.paie =  traitement.indiciaire + sft + indemnité.résidence + indemnités + autres.rémunérations,
                            
