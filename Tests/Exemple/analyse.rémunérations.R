@@ -27,6 +27,7 @@ Vérifier_non_annexe <- function(montant, a) {
 }
 
 # clé.fusion = Matricule, en principe (mais pourrait être NIR)
+# Sommation : on pass du niveau infra-annuel (détails au mois de niveau Paie) au niveau de la période (détail de niveau année)
 
 Analyse.rémunérations <- Paie[ , .(Nir          = Nir[1],
                                    Montant.net.annuel = Montant.net.annuel[1],
@@ -169,38 +170,44 @@ if (enlever.quotités.nulles) {
 # Pour cette matrice on retient le statut en fin de période
 # sont considérés comme temps complets ou permanents seulement ceux qui le sont sur l'ensemble de la période 
 
-Analyse.variations.par.exercice[ ,
-                                   `:=`(Nexercices = length(Année),
-                                     statut = Statut[length(Année)],
-                                     total.jours = sum(nb.jours, na.rm = TRUE),
-                                     indicatrice.période = sum(indicatrice.année),
-                                     Montant.net.annuel.eqtp.début  = Montant.net.annuel.eqtp[1],
-                                     Montant.net.annuel.eqtp.sortie = Montant.net.annuel.eqtp[length(Année)],
-                                     permanent = all(permanent),
-                                     temps.complet = all(temps.complet),
-                                     moyenne.rémunération.annuelle.sur.période =
-                                       sum(Montant.net.annuel.eqtp, na.rm = TRUE)/length(Année[!is.na(Montant.net.annuel.eqtp) 
-                                                                                               & Montant.net.annuel.eqtp > minimum.positif])),
-                                   by = clé.fusion]
+Analyse.variations <- Analyse.variations.par.exercice[ ,
+                                                       .(Année,
+                                                         ind.quotité,
+                                                         nb.jours,
+                                                         Nexercices = length(Année),
+                                                         Statut,
+                                                         Catégorie,
+                                                         statut = Statut[length(Année)],
+                                                         total.jours = sum(nb.jours, na.rm = TRUE),
+                                                         indicatrice.période = sum(indicatrice.année),
+                                                         Montant.net.annuel.eqtp,
+                                                         Montant.net.annuel.eqtp.début  = Montant.net.annuel.eqtp[1],
+                                                         Montant.net.annuel.eqtp.sortie = Montant.net.annuel.eqtp[length(Année)],
+                                                         permanent = all(permanent),
+                                                         temps.complet = all(temps.complet),
+                                                         moyenne.rémunération.annuelle.sur.période =
+                                                           sum(Montant.net.annuel.eqtp, na.rm = TRUE)/length(Année[!is.na(Montant.net.annuel.eqtp) 
+                                                                                                                   & Montant.net.annuel.eqtp > minimum.positif])),
+                                                       by = clé.fusion]
 
-Analyse.variations.par.exercice[ ,  pris.en.compte := ! is.na(Montant.net.annuel.eqtp.début)
+Analyse.variations[ ,  pris.en.compte := ! is.na(Montant.net.annuel.eqtp.début)
                                     & ! is.na(Montant.net.annuel.eqtp.sortie)
                                     & Montant.net.annuel.eqtp.début  > minimum.positif 
                                     & Montant.net.annuel.eqtp.sortie > minimum.positif ]
 
-Analyse.variations.par.exercice[ ,  variation.rémunération := if (pris.en.compte)
-                                                                 (Montant.net.annuel.eqtp.sortie / Montant.net.annuel.eqtp.début - 1) * 100 else NA]
+Analyse.variations[ ,  variation.rémunération := if (pris.en.compte)
+                                                 (Montant.net.annuel.eqtp.sortie / Montant.net.annuel.eqtp.début - 1) * 100 else NA]
 
 # La variation de rémunération normalisée se définit comme celle qui correspond à des agents présents en début et en fin d'exercice
 
-Analyse.variations.par.exercice[ , `:=`(variation.moyenne.rémunération = if (pris.en.compte)
-                                                                         ((variation.rémunération /100 + 1)^(1 / (Nexercices - 1)) - 1) * 100 else NA,
-                                 
-                                       variation.rémunération.normalisée = if (durée.sous.revue == Nexercices)
-                                                                              variation.rémunération else  NA)]
+Analyse.variations[ , `:=`(variation.moyenne.rémunération = if (pris.en.compte)
+                                                       ((variation.rémunération /100 + 1)^(1 / (Nexercices - 1)) - 1) * 100 else NA,
+                               
+                           variation.rémunération.normalisée = if (durée.sous.revue == Nexercices)
+                                                                variation.rémunération else  NA)]
 
 
-Analyse.variations.par.exercice[ ,                                                                 
+Analyse.variations[ ,                                                                 
                             `:=`(variation.moyenne.rémunération.normalisée = if (! is.na(variation.rémunération.normalisée))  
                                                                                   variation.moyenne.rémunération else NA,
                                  plus.2.ans  = (total.jours  >= 730),  
@@ -216,13 +223,12 @@ Analyse.variations.par.exercice[ ,
 # L'opération donne donc 0 si la personne n'a pas été présente l'année précédente, sinon donne un entier positif
 # en combinant avec & : 0 & TRUE = FALSE, 0 & FALSE = FALSE, 4 & TRUE = TRUE, 4 & FALSE = FALSE
 
-Analyse.variations.par.exercice[ , est.rmpp :=  (Année != début.période.sous.revue  
-                                                 & ! is.na(ind.quotité)
-                                                 & ind.quotité == TRUE
-                                                 & bitwAnd(bitwShiftL(1, Année - 1 - début.période.sous.revue),
-                                                           indicatrice.période) != 0)]
+Analyse.variations[ , est.rmpp :=  (Année != début.période.sous.revue  
+                                        & ! is.na(ind.quotité)
+                                        & ind.quotité == TRUE
+                                        & bitwAnd(bitwShiftL(1, Année - 1 - début.période.sous.revue),
+                                                  indicatrice.période) != 0)]
 
- 
 message("Analyse des variations réalisée.")
 
 message("Analyse démographique réalisée.")

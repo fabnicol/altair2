@@ -130,22 +130,22 @@ effectifs <- lapply(période,
                         length(postes.actifs.non.annexes),
                         ETP[Statut != "ELU" , sum(quotité/nb.mois, na.rm=TRUE)],
                         ETP[Statut != "ELU" , sum(quotité, na.rm=TRUE)] / 12,
-                        ETP[Matricule %chin% unique(Analyse.variations.par.exercice[est.rmpp == TRUE
-                                                                                    & Année == x,
-                                                                                    Matricule]),
+                        ETP[Matricule %chin% unique(Analyse.variations[est.rmpp == TRUE
+                                                                      & Année == x,
+                                                                         Matricule]),
                             sum(quotité, na.rm=TRUE)] / 12,
                         ETP[(Statut == "TITULAIRE" | Statut == "STAGIAIRE")
-                            & Matricule %chin% unique(Analyse.variations.par.exercice[Statut == "TITULAIRE"
-                                                                                      | Statut == "STAGIAIRE",
-                                                                                         Matricule]),
+                            & Matricule %chin% unique(Analyse.variations[Statut == "TITULAIRE"
+                                                                         | Statut == "STAGIAIRE",
+                                                                            Matricule]),
                               sum(quotité, na.rm=TRUE)] / 12,
                         ETP[Statut == "TITULAIRE"
                             & permanent == TRUE 
-                            & Matricule %chin% unique(Analyse.variations.par.exercice[permanent == TRUE
-                                                                             & Statut == "TITULAIRE"
-                                                                             & temps.complet == TRUE
-                                                                             & Année == x,
-                                                                             Matricule]),
+                            & Matricule %chin% unique(Analyse.variations[permanent == TRUE
+                                                                         & statut == "TITULAIRE"
+                                                                         & temps.complet == TRUE
+                                                                         & Année == x,
+                                                                           Matricule]),
                               sum(quotité, na.rm=TRUE)] / 12,
                         ETP[Statut == "NON_TITULAIRE" 
                             & Matricule %chin% postes.non.titulaires,  
@@ -462,19 +462,19 @@ Tableau(c("Plus de 2 ans",
           "Moins de 2 ans",
           "Moins d'un an",
           "Moins de six mois"),
-        sum(Analyse.variations.par.exercice$plus.2.ans, na.rm=TRUE),
-        sum(Analyse.variations.par.exercice$moins.2.ans, na.rm=TRUE),
-        sum(Analyse.variations.par.exercice$moins.1.an, na.rm=TRUE),
-        sum(Analyse.variations.par.exercice$moins.six.mois, na.rm=TRUE))
+        sum(Analyse.variations$plus.2.ans, na.rm=TRUE),
+        sum(Analyse.variations$moins.2.ans, na.rm=TRUE),
+        sum(Analyse.variations$moins.1.an, na.rm=TRUE),
+        sum(Analyse.variations$moins.six.mois, na.rm=TRUE))
 
 
 #'
 
-if (nrow(Analyse.variations.par.exercice) > 0)
+if (nrow(Analyse.variations) > 0)
   qplot(factor(Année),
-        data = Analyse.variations.par.exercice,
+        data = Analyse.variations,
         geom = "bar",
-        fill = factor(!Analyse.variations.par.exercice$plus.2.ans),
+        fill = factor(!Analyse.variations$plus.2.ans),
         main = "Evolutions entre " %+% début.période.sous.revue %+% " et " %+% fin.période.sous.revue,
         xlab = étiquette.année,
         ylab = "Effectif",
@@ -492,7 +492,7 @@ if (nrow(Analyse.variations.par.exercice) > 0)
 effectifs.var <- lapply(période,
                         function(x) {
 
-                          E <- unique(Analyse.variations.par.exercice[Année == x , .(Matricule, plus.2.ans)], by=NULL)
+                          E <- unique(Analyse.variations[Année == x , .(Matricule, plus.2.ans)], by=NULL)
                           F <- E[plus.2.ans == TRUE]
                           tot <- nrow(E)
                           plus.2.ans <- nrow(F)
@@ -621,12 +621,12 @@ incrémenter.chapitre()
 #'    
 #'## `r chapitre`.1 Distribution de la rémunération nette moyenne sur la période    
 
-Analyse.variations.par.exercice <- Analyse.variations.par.exercice[nb.jours > seuil.troncature
-                                                                   & ! is.na(Montant.net.annuel.eqtp)
-                                                                   & Montant.net.annuel.eqtp  > minimum.positif 
-                                                                   & ! is.na(Statut)] 
+Analyse.variations <- Analyse.variations[nb.jours > seuil.troncature
+                                               & ! is.na(Montant.net.annuel.eqtp)
+                                               & Montant.net.annuel.eqtp  > minimum.positif 
+                                               & ! is.na(Statut)] 
 
-attach(Analyse.variations.par.exercice)
+attach(Analyse.variations)
 
 temp <- positive(moyenne.rémunération.annuelle.sur.période) / 1000
 
@@ -652,7 +652,7 @@ if (longueur.non.na(temp) > 0)
        col = "blue",
        nclass = 200)
 
-detach(Analyse.variations.par.exercice)
+detach(Analyse.variations)
 
 #'   
 #'[Lien vers la base de données synthétique](`r currentDir`/Bases/Rémunérations/Analyse.variations.par.exercice.csv)
@@ -670,14 +670,14 @@ detach(Analyse.variations.par.exercice)
 masse.salariale.nette <- rep(0, durée.sous.revue)
 
 f <- function(x) prettyNum(masse.salariale.nette[x - début.période.sous.revue + 1] <<- 
-                             sum(Analyse.variations.par.exercice[Année == x, 
-                                                               Montant.net.annuel.eqtp],
+                             sum(Analyse.variations[Année == x, 
+                                                      Montant.net.annuel.eqtp],
                                na.rm = TRUE) / 1000,
                            big.mark = " ",
                            digits = 5,
                            format = "fg")
 
-g <- function(x) prettyNum(mean.default(Analyse.variations.par.exercice[Année == x, 
+g <- function(x) prettyNum(mean.default(Analyse.variations[Année == x, 
                                                                Montant.net.annuel.eqtp],
                                na.rm = TRUE),
                            big.mark = " ",
@@ -698,8 +698,8 @@ Tableau.vertical(c(étiquette.année, "Rém. nette totale (k&euro;)", "SMPT net (&e
 
 entrants <- function(x)   {
   
-  A <- setdiff(Analyse.variations.par.exercice[Année == x, Matricule], 
-               Analyse.variations.par.exercice[Année == x -1, Matricule])
+  A <- setdiff(Analyse.variations[Année == x, Matricule], 
+               Analyse.variations[Année == x -1, Matricule])
   
 
   B <- unique(Bulletins.paie[Année == x 
@@ -714,8 +714,8 @@ entrants <- function(x)   {
 
 sortants <- function(x)   {
   
-  A <- setdiff(Analyse.variations.par.exercice[Année == x-1, Matricule], 
-               Analyse.variations.par.exercice[Année == x, Matricule])
+  A <- setdiff(Analyse.variations[Année == x-1, Matricule], 
+               Analyse.variations[Année == x, Matricule])
     
   B <- unique(Bulletins.paie[Année == x - 1
                              & Matricule %chin% A,
@@ -738,12 +738,12 @@ f <- function(x) {
   s[[y]] <<- sortants(x)
   e[[y]] <<- entrants(x)
   
-  noria[y] <<- mean.default(Analyse.variations.par.exercice[Année == x 
-                                                            & Matricule %chin% e[[y]][[1]], 
-                                                              Montant.net.annuel.eqtp],
-                    na.rm = TRUE) - mean.default(Analyse.variations.par.exercice[Année == x- 1 
-                                                                                 & Matricule %chin% s[[y]][[1]], 
-                                                                                     Montant.net.annuel.eqtp],
+  noria[y] <<- mean.default(Analyse.variations[Année == x 
+                                                    & Matricule %chin% e[[y]][[1]], 
+                                                      Montant.net.annuel.eqtp],
+                    na.rm = TRUE) - mean.default(Analyse.variations[Année == x- 1 
+                                                                      & Matricule %chin% s[[y]][[1]], 
+                                                                         Montant.net.annuel.eqtp],
                                                  na.rm = TRUE)
   
   prettyNum(noria[y],
@@ -772,6 +772,7 @@ g <- function(x) {
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
+    
 if (durée.sous.revue > 1) {
 Tableau.vertical(c(étiquette.année,  "Noria EQTP (&euro;)", "En % de la MS N-1", "Remplacements EQTP", "Taux de remplacements (%)"),
                  période[2:durée.sous.revue],
@@ -801,11 +802,11 @@ Tableau.vertical(c(étiquette.année,  "Noria EQTP (&euro;)", "En % de la MS N-1",
 #'    
 
 Résumé("Première année",
-       Analyse.variations.par.exercice[Année == début.période.sous.revue, Montant.net.annuel.eqtp])
+       Analyse.variations[Année == début.période.sous.revue, Montant.net.annuel.eqtp])
 
 
 Résumé("Dernière année",
-       Analyse.variations.par.exercice[Année == fin.période.sous.revue, Montant.net.annuel.eqtp])
+       Analyse.variations[Année == fin.période.sous.revue, Montant.net.annuel.eqtp])
 
 
 #'  
@@ -885,9 +886,9 @@ Tableau.vertical2(c("Décile (k&euro;)", "Catégorie A", "Catégorie B", "Catégorie
 
 f <- function(x) {
 
-  masse.salariale.nette[x - début.période.sous.revue + 1] <<-  sum(Analyse.variations.par.exercice[Année == x
-                                                                                                   & (Statut == "TITULAIRE" | Statut == "STAGIAIRE"), 
-                                                                                                      Montant.net.annuel.eqtp],
+  masse.salariale.nette[x - début.période.sous.revue + 1] <<-  sum(Analyse.variations[Année == x
+                                                                                         & (Statut == "TITULAIRE" | Statut == "STAGIAIRE"), 
+                                                                                              Montant.net.annuel.eqtp],
                                                                 na.rm = TRUE) / 1000
 
  prettyNum(masse.salariale.nette[x - début.période.sous.revue + 1],
@@ -896,9 +897,9 @@ f <- function(x) {
                            format = "fg")
 }
 
-g <- function(x) prettyNum(mean.default(Analyse.variations.par.exercice[Année == x 
-                                                                        & (Statut == "TITULAIRE" | Statut == "STAGIAIRE"), 
-                                                                         Montant.net.annuel.eqtp],
+g <- function(x) prettyNum(mean.default(Analyse.variations[Année == x 
+                                                            & (Statut == "TITULAIRE" | Statut == "STAGIAIRE"), 
+                                                             Montant.net.annuel.eqtp],
                            na.rm = TRUE),
                    big.mark = " ",
                    digits = 1,
@@ -906,10 +907,10 @@ g <- function(x) prettyNum(mean.default(Analyse.variations.par.exercice[Année ==
 
 f.X <- function(x, CAT) {
   
-  masse.salariale.nette[x - début.période.sous.revue + 1] <<-  sum(Analyse.variations.par.exercice[Année == x
-                                                                                                   & (Statut == "TITULAIRE" | Statut == "STAGIAIRE")
-                                                                                                   & Catégorie == CAT, 
-                                                                                                   Montant.net.annuel.eqtp],
+  masse.salariale.nette[x - début.période.sous.revue + 1] <<-  sum(Analyse.variations[Année == x
+                                                                                         & (Statut == "TITULAIRE" | Statut == "STAGIAIRE")
+                                                                                         & Catégorie == CAT, 
+                                                                                              Montant.net.annuel.eqtp],
                                                                    na.rm = TRUE) / 1000
   
   prettyNum(masse.salariale.nette[x - début.période.sous.revue + 1],
@@ -918,7 +919,7 @@ f.X <- function(x, CAT) {
             format = "fg")
 }
 
-g.X <- function(x, CAT) prettyNum(mean.default(Analyse.variations.par.exercice[Année == x 
+g.X <- function(x, CAT) prettyNum(mean.default(Analyse.variations[Année == x 
                                                                         & (Statut == "TITULAIRE" | Statut == "STAGIAIRE")
                                                                         & Catégorie == CAT, 
                                                                         Montant.net.annuel.eqtp],
@@ -984,11 +985,11 @@ Tableau.vertical(c(étiquette.année, "Rém. nette totale (k&euro;)", "SMPT net en 
 f <- function(x) {
   y <- x - début.période.sous.revue
   
-  noria[y] <<- sum(Analyse.variations.par.exercice[Année == x 
+  noria[y] <<- sum(Analyse.variations[Année == x 
                                                    & (Statut == "TITULAIRE" | Statut == "STAGIAIRE") 
                                                    & Matricule %chin% e[[y]][[1]], 
                                                      Montant.net.annuel.eqtp],
-                   na.rm = TRUE) / e[[y]][[3]] -  sum(Analyse.variations.par.exercice[Année == x- 1
+                   na.rm = TRUE) / e[[y]][[3]] -  sum(Analyse.variations[Année == x- 1
                                                                                       & (Statut == "TITULAIRE" | Statut == "STAGIAIRE") 
                                                                                       & Matricule %chin% s[[y]][[1]],
                                                                                         Montant.net.annuel.eqtp],
@@ -1039,20 +1040,20 @@ Tableau.vertical(c(étiquette.année,  "Noria EQTP (&euro;)", "En % de la  MSN N-1
 
 
 Résumé("Première année",
-       Analyse.variations.par.exercice[Année == début.période.sous.revue
+       Analyse.variations[Année == début.période.sous.revue
                                        & (Statut == "TITULAIRE" | Statut == "STAGIAIRE"),
                                            Montant.net.annuel.eqtp])
 
 #'<p style="page-break-after:always;"></p>   
 
 Résumé("Dernière année",
-       Analyse.variations.par.exercice[Année == fin.période.sous.revue 
+       Analyse.variations[Année == fin.période.sous.revue 
                                        & (Statut == "TITULAIRE" | Statut == "STAGIAIRE"),
                                          Montant.net.annuel.eqtp])
 
 
 #'    
-f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x 
+f <- function(x) prettyNum(sum(Analyse.variations[Année == x 
                                                                & Statut == "TITULAIRE"
                                                                & temps.complet == TRUE & permanent == TRUE, 
                                                                  Montant.net.annuel.eqtp],
@@ -1061,7 +1062,7 @@ f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x
                            digits = 5,
                            format = "fg")
 
-g <- function(x) prettyNum(mean.default(Analyse.variations.par.exercice[Année == x
+g <- function(x) prettyNum(mean.default(Analyse.variations[Année == x
                                                                & Statut == "TITULAIRE"
                                                                & temps.complet == TRUE & permanent == TRUE, 
                                                                  Montant.net.annuel.eqtp],
@@ -1092,7 +1093,7 @@ Tableau.vertical(c(étiquette.année, "Rémunération nette totale (k&euro;)", "SMPT
 
 
 Résumé("Première année",
-       Analyse.variations.par.exercice[Année == début.période.sous.revue
+       Analyse.variations[Année == début.période.sous.revue
                                        & Statut == "TITULAIRE" 
                                        & temps.complet == TRUE
                                        & permanent == TRUE,
@@ -1100,7 +1101,7 @@ Résumé("Première année",
 
 #'   
 Résumé("Dernière année",
-       Analyse.variations.par.exercice[Année == fin.période.sous.revue
+       Analyse.variations[Année == fin.période.sous.revue
                                        & Statut == "TITULAIRE" 
                                        & temps.complet == TRUE
                                        & permanent == TRUE,
@@ -1123,7 +1124,7 @@ Résumé("Dernière année",
 
 # Appliquer les filtres maintenant
 
-q3 <- quantile(Analyse.variations.par.exercice$variation.rémunération, c(quantile.cut/100, 1 - quantile.cut/100), na.rm=TRUE)
+q3 <- quantile(Analyse.variations$variation.rémunération, c(quantile.cut/100, 1 - quantile.cut/100), na.rm=TRUE)
 
 # Filtrage : on enlève les personnels présents depuis moins d'un seuil de troncature (ex. 120 jours) dans l'année et les élus
 # (paramètre seuil.troncature) 
@@ -1135,7 +1136,7 @@ q3 <- quantile(Analyse.variations.par.exercice$variation.rémunération, c(quantil
 
 # ici il faut réduire la matrice pour éviter les réduplications pour les Résumés. TODO
 
-Analyse.variations.synthèse <- Analyse.variations.par.exercice[total.jours > 2 * seuil.troncature
+Analyse.variations.synthèse <- Analyse.variations[total.jours > 2 * seuil.troncature
                                                            & pris.en.compte == TRUE
                                                            & ! is.na(statut)   
                                                            & ! is.na(variation.rémunération) 
@@ -1164,17 +1165,17 @@ try(axis(side=1, at=seq(-5,30, 1), labels=seq(-5,30,1), lwd=2))
 #'
 #'
 
-f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x
-                                                               & est.rmpp == TRUE,
-                                                                 Montant.net.annuel.eqtp],
+f <- function(x) prettyNum(sum(Analyse.variations[Année == x
+                                                  & est.rmpp == TRUE,
+                                                      Montant.net.annuel.eqtp],
                                na.rm = TRUE)/ 1000,
                            big.mark = " ",
                            digits = 5,
                            format = "fg")
 
-g <- function(x) prettyNum(mean.default(Analyse.variations.par.exercice[Année == x 
-                                                                        & est.rmpp == TRUE,
-                                                                          Montant.net.annuel.eqtp],
+g <- function(x) prettyNum(mean.default(Analyse.variations[Année == x 
+                                                           & est.rmpp == TRUE,
+                                                                Montant.net.annuel.eqtp],
                                na.rm = TRUE) ,
                            big.mark = " ",
                            digits = 1,
@@ -1256,18 +1257,18 @@ Résumé(c("Variation normalisée (%)",
 #'### `r chapitre`.3.2 Titulaires et stagiaires     
 #'   
 
-f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x
-                                                               & est.rmpp == TRUE
-                                                               & (Statut == "TITULAIRE" | Statut == "STAGIAIRE"),
+f <- function(x) prettyNum(sum(Analyse.variations[Année == x
+                                                     & est.rmpp == TRUE
+                                                     & (Statut == "TITULAIRE" | Statut == "STAGIAIRE"),
                                                                  Montant.net.annuel.eqtp],
                                na.rm = TRUE)/ 1000,
                            big.mark = " ",
                            digits = 5,
                            format = "fg")
 
-g <- function(x) prettyNum(mean.default(Analyse.variations.par.exercice[Année == x 
-                                                                        & est.rmpp == TRUE
-                                                                        & (Statut == "TITULAIRE" | Statut == "STAGIAIRE"),
+g <- function(x) prettyNum(mean.default(Analyse.variations[Année == x 
+                                                            & est.rmpp == TRUE
+                                                            & (Statut == "TITULAIRE" | Statut == "STAGIAIRE"),
                                                                           Montant.net.annuel.eqtp],
                                         na.rm = TRUE) ,
                            big.mark = " ",

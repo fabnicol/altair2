@@ -1,3 +1,4 @@
+
 Bulletins.paie.nir.total.hors.élus <- unique(Bulletins.paie[Année == fin.période.sous.revue
                                                             & Mois == 12
                                                             & Statut != "ELU",

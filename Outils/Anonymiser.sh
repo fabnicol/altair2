@@ -1,6 +1,9 @@
-#!./bash.exe
+#!/bin/bash
+
 echo "Création de la liste des fichiers..."
-./find.exe . -type f -name *.xhl -fprint filelist
+set PATH=$PATH:$PWD
+
+find . -type f -name *.xhl -fprint filelist
 
 if test -f filelist ; then 
  echo "Conversion des fichiers..."
@@ -11,7 +14,7 @@ fi
 
 while read -r fichier || [[ -n "$fichier" ]]
 do
- ./gawk.exe  -f gawkscript   "$fichier" 2>log.erreurs
+  gawk  -f gawkscript   "$fichier" 2>log.erreurs
 done  < filelist
 
 echo "Fin de la conversion..."
