@@ -18,35 +18,6 @@ Actualiser le fichier smic.R dans le dossier Tests/Exemple")
 smic.net.inf <- smic.net[Année == smic.net.première.année.renseignée, SMIC_NET]
 smic.net.sup <- smic.net[Année == smic.net.dernière.année.renseignée, SMIC_NET]
 
-# <!--   
-
-# Attention 
-# pour chercher dans smic.net par sélection sur i : smic.net[Année == a, ...]
-# il faudrait alors trier Analyse.rémunérations par groupe `by = Année, sinon `Vérifier_non_annexe(Montant.net.annuel, Année)
-# n'est pas compris comme une fonction de scalaire en la deuxième variable, 
-# mais avec un vecteur Année de la longueur de la table en deuxième composante
-# Modifier en smic.net$Année == a (à la data.frame) dans la définition de `Vérifier_non_annexe donne en outre des NA
-# Lorsque la fonction est un pur f(x, y) ce phénomène n'apparaît pas : il faut que le paramètre passé 
-# soit RHS d'un test boléen de recherche sur i pour que le problème apparaisse. utiliser by permet de "linéariser a" en s'assurant qu'il
-# est quasi-scalaire (dimension 1)
-# On a choisi l'efficacité en ne triant pas Analyse.rémunérations et en écrivant une sélection directe sur i.
-# Attention toutefois à utiliser ifelse.
-
-Vérifier_non_annexe <- function(montant, a) {
-                                   if (période.hors.données.smic) {
-                                     ifelse(a < smic.net.première.année.renseignée,
-                                            montant > smic.net.inf,
-                                            ifelse(a > smic.net.dernière.année.renseignée,   
-                                                   montant > smic.net.sup,
-                                                   montant > smic.net[a - smic.net.première.année.renseignée + 1, SMIC_NET]))
-            
-                                   } else {
-
-                                     smic.net[smic.net.dernière.année.renseignée - a + 1, SMIC_NET]
-                                   }
-                        }
-
-# --> 
 
 # clé.fusion = Matricule, en principe (mais pourrait être NIR)
 # Sommation : on pass du niveau infra-annuel (détails au mois de niveau Paie) au niveau de la période (détail de niveau année)
@@ -87,7 +58,38 @@ Analyse.rémunérations <- Paie[ , .(Nir          = Nir[1],
 
 if (0) {
 attach(Analyse.rémunérations)
-     
+  
+  # <!--   
+  
+  # Attention 
+  # pour chercher dans smic.net par sélection sur i : smic.net[Année == a, ...]
+  # il faudrait alors trier Analyse.rémunérations par groupe `by = Année, sinon `Vérifier_non_annexe(Montant.net.annuel, Année)
+  # n'est pas compris comme une fonction de scalaire en la deuxième variable, 
+  # mais avec un vecteur Année de la longueur de la table en deuxième composante
+  # Modifier en smic.net$Année == a (à la data.frame) dans la définition de `Vérifier_non_annexe donne en outre des NA
+  # Lorsque la fonction est un pur f(x, y) ce phénomène n'apparaît pas : il faut que le paramètre passé 
+  # soit RHS d'un test boléen de recherche sur i pour que le problème apparaisse. utiliser by permet de "linéariser a" en s'assurant qu'il
+  # est quasi-scalaire (dimension 1)
+  # On a choisi l'efficacité en ne triant pas Analyse.rémunérations et en écrivant une sélection directe sur i.
+  # Attention toutefois à utiliser ifelse.
+  
+  Vérifier_non_annexe <- function(montant, a) {
+    if (période.hors.données.smic) {
+      ifelse(a < smic.net.première.année.renseignée,
+             montant > smic.net.inf,
+             ifelse(a > smic.net.dernière.année.renseignée,   
+                    montant > smic.net.sup,
+                    montant > smic.net[a - smic.net.première.année.renseignée + 1, SMIC_NET]))
+      
+    } else {
+      
+      smic.net[smic.net.dernière.année.renseignée - a + 1, SMIC_NET]
+    }
+  }
+  
+  # --> 
+  
+  
 Analyse.rémunérations$Filtre_non_annexe <- mapply(Vérifier_non_annexe,
                                                     Montant.net.annuel,
                                                     Année,
@@ -105,11 +107,26 @@ detach(Analyse.rémunérations)
 
 # <!-- attention changer le premier & en | en temps utile
 
-  Analyse.rémunérations[ ,  Filtre_non_annexe := Vérifier_non_annexe(Montant.net.annuel, Année) &
-                                                   (nb.mois > minimum.Nmois.non.annexe 
-                                                    & cumHeures > minimum.Nheures.non.annexe 
-                                                    & cumHeures / nb.jours > minimum.Nheures.jour.non.annexe)]
+
+Analyse.rémunérations[ , Filtre_non_annexe :=  (nb.mois > minimum.Nmois.non.annexe 
+                                                & cumHeures > minimum.Nheures.non.annexe 
+                                                & cumHeures / nb.jours > minimum.Nheures.jour.non.annexe)]
+
+if (période.hors.données.smic) {
+  
+  Analyse.rémunérations[ 
+    ((Année < smic.net.première.année.renseignée & Montant.net.annuel > smic.net.inf)
+     | (Année > smic.net.dernière.année.renseignée & Montant.net.annuel > smic.net.sup)
+     | (Année >= smic.net.première.année.renseignée 
+        & Année <= smic.net.première.année.renseignée 
+        & Montant.net.annuel > smic.net[Année - smic.net.première.année.renseignée + 1, SMIC_NET])),
+             Filtre_non_annexe := TRUE]
                          
+} else {
+  
+  Analyse.rémunérations[ Montant.net.annuel > smic.net[smic.net.dernière.année.renseignée - Année + 1, SMIC_NET] ,  Filtre_non_annexe := TRUE]
+}
+  
 # -->
 
 Analyse.rémunérations[ , `:=`(rémunération.indemnitaire.imposable = indemnités + sft + indemnité.résidence + rémunérations.diverses,

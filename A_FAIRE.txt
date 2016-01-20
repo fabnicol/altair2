@@ -1,4 +1,20 @@
+Bugs
+----
+
 1. Encodage et décodage défectueux des projets .alt pour les multi-budgets
-2. Reprendre les vacataires (grade V et type VAC) de manière plus encapsulée.
-3. Indication des tailles de bases importées (Interface) : régression dans le nouveau mode
+2. Lecture du dernier onglet annuel défectueux, remplacé par le contenu de l'onglet siret,
+   à l'ouverture d'un projet.
+3. découpage par taille des bases : dans le master, désactivé ; dans le dev on a que la dernière base
+   reliquat.
+4. Reprendre les vacataires (grade V et type VAC) de manière plus encapsulée.
+5. Indication des tailles de bases importées (Interface) : régression dans le nouveau mode
    de chargement direct en mémoire 
+   
+A implémenter
+-------------
+
+1. Combiner les critères de découpage par nature et par quantité : lhx, Interface
+2. Automatiser la segmentation en morceaux de 1 000 000 lignes max pour Excel : Interface
+3. Réimplémenter l'importation sous R des bases découpées, actuellement seules
+   les bases monolithiques sont importées : altair.R
+4. Batcher le traitement de l'input pour respecter une quotité de mémoire disponible : lhx
