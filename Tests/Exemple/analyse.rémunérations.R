@@ -15,16 +15,38 @@ Actualiser le fichier smic.R dans le dossier Tests/Exemple")
 # Si la période déborde de la période des données du smic, on prend la moins mauvaise solution qui consiste à retenir la borne la plus proche.
 # On ne renvoie donc jamais logical(0) mais toujours un booléen.
 
+smic.net.inf <- smic.net[Année == smic.net.première.année.renseignée, SMIC_NET]
+smic.net.sup <- smic.net[Année == smic.net.dernière.année.renseignée, SMIC_NET]
+
+# <!--   
+
+# Attention 
+# pour chercher dans smic.net par sélection sur i : smic.net[Année == a, ...]
+# il faudrait alors trier Analyse.rémunérations par groupe `by = Année, sinon `Vérifier_non_annexe(Montant.net.annuel, Année)
+# n'est pas compris comme une fonction de scalaire en la deuxième variable, 
+# mais avec un vecteur Année de la longueur de la table en deuxième composante
+# Modifier en smic.net$Année == a (à la data.frame) dans la définition de `Vérifier_non_annexe donne en outre des NA
+# Lorsque la fonction est un pur f(x, y) ce phénomène n'apparaît pas : il faut que le paramètre passé 
+# soit RHS d'un test boléen de recherche sur i pour que le problème apparaisse. utiliser by permet de "linéariser a" en s'assurant qu'il
+# est quasi-scalaire (dimension 1)
+# On a choisi l'efficacité en ne triant pas Analyse.rémunérations et en écrivant une sélection directe sur i.
+# Attention toutefois à utiliser ifelse.
+
 Vérifier_non_annexe <- function(montant, a) {
                                    if (période.hors.données.smic) {
-                                     if (a < smic.net.première.année.renseignée)
-                                        return(montant > smic.net[Année == smic.net.première.année.renseignée, SMIC_NET])
-                                     else if (année > smic.net.dernière.année.renseignée)   
-                                        return(montant > smic.net[Année == smic.net.dernière.année.renseignée, SMIC_NET])
+                                     ifelse(a < smic.net.première.année.renseignée,
+                                            montant > smic.net.inf,
+                                            ifelse(a > smic.net.dernière.année.renseignée,   
+                                                   montant > smic.net.sup,
+                                                   montant > smic.net[a - smic.net.première.année.renseignée + 1, SMIC_NET]))
+            
                                    } else {
-                                     return(montant > smic.net[Année == a, SMIC_NET]) 
+
+                                     smic.net[smic.net.dernière.année.renseignée - a + 1, SMIC_NET]
                                    }
-}
+                        }
+
+# --> 
 
 # clé.fusion = Matricule, en principe (mais pourrait être NIR)
 # Sommation : on pass du niveau infra-annuel (détails au mois de niveau Paie) au niveau de la période (détail de niveau année)
@@ -81,22 +103,14 @@ detach(Analyse.rémunérations)
 
 # On utilise toutefois data.table
 
-# <!--  A éclaircir 
+# <!-- attention changer le premier & en | en temps utile
 
-# Attention il faut trier par groupe `by = Année, sinon `Vérifier_non_annexe(Montant.net.annuel, Année) n'est pas compris comme une
-# fonction de scalaire en la deuxième variable, mais avec un vecteur Année de la longueur de la table en deuxième composante
-# Modifier en smic.net$Année == a (à la data.frame) dans la définition de `Vérifier_non_annexe donne en outre des NA
-# Lorsque la fonction est un pur f(x, y) ce phénomène n'apparaît pas : il faut que le paramètre passé 
-# soit RHS d'un test boléen de recherche sur i pour que le problème apparaisse
-
-  Analyse.rémunérations[ ,  Filtre_non_annexe := Vérifier_non_annexe(Montant.net.annuel, Année) |
+  Analyse.rémunérations[ ,  Filtre_non_annexe := Vérifier_non_annexe(Montant.net.annuel, Année) &
                                                    (nb.mois > minimum.Nmois.non.annexe 
                                                     & cumHeures > minimum.Nheures.non.annexe 
-                                                    & cumHeures / nb.jours > minimum.Nheures.jour.non.annexe),
+                                                    & cumHeures / nb.jours > minimum.Nheures.jour.non.annexe)]
                          
-                            by = "Année"]
-#                           ----------      
-#      A éclaircir --> 
+# -->
 
 Analyse.rémunérations[ , `:=`(rémunération.indemnitaire.imposable = indemnités + sft + indemnité.résidence + rémunérations.diverses,
                               Filtre_actif_non_annexe = (Filtre_actif == TRUE & Filtre_non_annexe == TRUE))]
@@ -104,14 +118,17 @@ Analyse.rémunérations[ , `:=`(rémunération.indemnitaire.imposable = indemnités +
 #Montant.brut.annuel - sft - indemnité.résidence - traitement.indiciaire
 
 Analyse.rémunérations[ ,
-                      `:=`(rémunération.indemnitaire.imposable.eqtp = if (is.finite(Montant.brut.annuel.eqtp/Montant.brut.annuel)) Montant.brut.annuel.eqtp/Montant.brut.annuel * rémunération.indemnitaire.imposable else NA,
+                      `:=`(rémunération.indemnitaire.imposable.eqtp = ifelse(is.finite(q <- Montant.brut.annuel.eqtp / Montant.brut.annuel),
+                                                                             q * rémunération.indemnitaire.imposable,
+                                                                             NA),
                            
                            total.lignes.paie =  traitement.indiciaire + sft + indemnité.résidence + indemnités + autres.rémunérations,
                            
-                           part.rémunération.indemnitaire =  if (is.finite(q <- rémunération.indemnitaire.imposable/Montant.brut.annuel))
-                                                                    pmin(q, 1) * 100  else NA)]
+                           part.rémunération.indemnitaire =  ifelse(is.finite(q <- rémunération.indemnitaire.imposable/Montant.brut.annuel),
+                                                                    pmin(q, 1) * 100,
+                                                                    NA))]
 
-Analyse.rémunérations[ , indemnités.élu := if (Statut == "ELU") total.lignes.paie else 0]
+Analyse.rémunérations[ , indemnités.élu := ifelse(Statut == "ELU", total.lignes.paie, 0)]
 
 # Pour analyser les rémunérations, on ne retient que les enregistrements pour lesquels elle est calculable.
 # Il ne faudra donc pas utiliser cette table par exemple pour évaluer les effectifs
@@ -126,18 +143,19 @@ Analyse.variations.par.exercice <- Analyse.rémunérations[Grade != "A"
                                                          & Grade != "V" 
                                                          & Statut != "ELU"
                                                          & Filtre_actif_non_annexe == TRUE,
-                                                         c(clé.fusion, étiquette.année,
-                                                           "Montant.net.annuel.eqtp",
-                                                           "Montant.brut.annuel.eqtp",
-                                                           "rémunération.indemnitaire.imposable.eqtp",
-                                                           "Statut",
-                                                           "Grade",
-                                                           "Catégorie",
-                                                           "nb.jours",
-                                                           "temps.complet",
-                                                           "ind.quotité",
-                                                           "quotité.moyenne",
-                                                           "permanent"), with=FALSE]
+                                                           c(clé.fusion, étiquette.année,
+                                                             "Montant.net.annuel.eqtp",
+                                                             "Montant.brut.annuel.eqtp",
+                                                             "rémunération.indemnitaire.imposable.eqtp",
+                                                             "Statut",
+                                                             "Grade",
+                                                             "Catégorie",
+                                                             "nb.jours",
+                                                             "temps.complet",
+                                                             "ind.quotité",
+                                                             "quotité.moyenne",
+                                                             "permanent"), 
+                                                         with=FALSE]
 
 # indicatrice binaire année
 # Ex: si Année = début.période.sous.revue + 3, indicatrice.année = 1 << 3 soit le binaire 1000 = 8 ou encore 2^3
@@ -185,8 +203,8 @@ Analyse.variations <- Analyse.variations.par.exercice[ ,
                                                          permanent = all(permanent),
                                                          temps.complet = all(temps.complet),
                                                          moyenne.rémunération.annuelle.sur.période =
-                                                           sum(Montant.net.annuel.eqtp, na.rm = TRUE)/length(Année[!is.na(Montant.net.annuel.eqtp) 
-                                                                                                                   & Montant.net.annuel.eqtp > minimum.positif])),
+                                                           sum(Montant.net.annuel.eqtp, na.rm = TRUE) / length(Année[!is.na(Montant.net.annuel.eqtp) 
+                                                                                                                     & Montant.net.annuel.eqtp > minimum.positif])),
                                                        by = clé.fusion]
 
 Analyse.variations[ ,  pris.en.compte := ! is.na(Montant.net.annuel.eqtp.début)
@@ -194,21 +212,23 @@ Analyse.variations[ ,  pris.en.compte := ! is.na(Montant.net.annuel.eqtp.début)
                                     & Montant.net.annuel.eqtp.début  > minimum.positif 
                                     & Montant.net.annuel.eqtp.sortie > minimum.positif ]
 
-Analyse.variations[ ,  variation.rémunération := if (pris.en.compte)
-                                                 (Montant.net.annuel.eqtp.sortie / Montant.net.annuel.eqtp.début - 1) * 100 else NA]
+Analyse.variations[ ,  variation.rémunération := ifelse(pris.en.compte,
+                                                 (Montant.net.annuel.eqtp.sortie / Montant.net.annuel.eqtp.début - 1) * 100,
+                                                  NA)]
 
 # La variation de rémunération normalisée se définit comme celle qui correspond à des agents présents en début et en fin d'exercice
 
-Analyse.variations[ , `:=`(variation.moyenne.rémunération = if (pris.en.compte)
-                                                       ((variation.rémunération /100 + 1)^(1 / (Nexercices - 1)) - 1) * 100 else NA,
+Analyse.variations[ , `:=`(variation.moyenne.rémunération = ifelse(pris.en.compte,
+                                                                   ((variation.rémunération /100 + 1)^(1 / (Nexercices - 1)) - 1) * 100,
+                                                                   NA),
                                
-                           variation.rémunération.normalisée = if (durée.sous.revue == Nexercices)
-                                                                variation.rémunération else  NA)]
+                           variation.rémunération.normalisée = ifelse(durée.sous.revue == Nexercices,   variation.rémunération,  NA))]
 
 
 Analyse.variations[ ,                                                                 
-                            `:=`(variation.moyenne.rémunération.normalisée = if (! is.na(variation.rémunération.normalisée))  
-                                                                                  variation.moyenne.rémunération else NA,
+                            `:=`(variation.moyenne.rémunération.normalisée = ifelse(! is.na(variation.rémunération.normalisée),  
+                                                                                  variation.moyenne.rémunération,
+                                                                                  NA),
                                  plus.2.ans  = (total.jours  >= 730),  
                                  moins.2.ans = (total.jours < 730),
                                  moins.1.an  = (total.jours < 365),
