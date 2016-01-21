@@ -1,73 +1,70 @@
 
+# Conversion en Rmd: spin(..., knit = FALSE)  dans l'encodage du syst√®me (convertir ce fichier en UTF-8 sous linux)
+
+# On revient √† une analyse des r√©mun√©rations qui r√©inclut tous les personnels (vacataires, √©lus, inactifs, annexes)
+
+Analyse.r√©mun√©rations.exercice <- Analyse.r√©mun√©rations[Ann√©e == ann√©e]     
    
-#'   
-
-# On revient ‡ une analyse des rÈmunÈrations qui rÈinclut tous les personnels (vacataires, Èlus, inactifs, annexes)
-
-Analyse.rÈmunÈrations.exercice <- Analyse.rÈmunÈrations[AnnÈe == annÈe]
-
-#'    
-#'# `r chapitre`. RÈmunÈrations brutes : analyse pour l'exercice `r annÈe`    
-#'    
+#'# `r chapitre`. R√©mun√©rations brutes : analyse pour l'exercice `r ann√©e`    
+   
 #'## `r chapitre`.1 Masse salariale brute de l'ensemble des agents     
-#'     
-#'  
-masses.personnels <- Analyse.rÈmunÈrations.exercice[Statut != "ELU",
-                                                    .(Montant.brut.annuel = sum(Montant.brut.annuel, na.rm = TRUE),                                                                                       rÈmunÈration.indemnitaire.imposable = sum(rÈmunÈration.indemnitaire.imposable, na.rm = TRUE),
-                                                      indemnitÈs.Èlu = sum(indemnitÈs.Èlu, na.rm = TRUE),
+  
+masses.personnels <- Analyse.r√©mun√©rations.exercice[Statut != "ELU",
+                                                    .(Montant.brut.annuel = sum(Montant.brut.annuel, na.rm = TRUE),                                                                                       r√©mun√©ration.indemnitaire.imposable = sum(r√©mun√©ration.indemnitaire.imposable, na.rm = TRUE),
+                                                      indemnit√©s.√©lu = sum(indemnit√©s.√©lu, na.rm = TRUE),
                                                       total.lignes.paie = sum(total.lignes.paie, na.rm = TRUE),
-                                                      autres.rÈmunÈrations = sum(autres.rÈmunÈrations, na.rm = TRUE))]
+                                                      autres.r√©mun√©rations = sum(autres.r√©mun√©rations, na.rm = TRUE))]
 
-#'### Cumuls des rÈmunÈrations brutes pour l'exercice `r annÈe`
+#'### Cumuls des r√©mun√©rations brutes pour l'exercice `r ann√©e`      
 #'  
-#'*Personnels (hors Èlus)*     
+#'*Personnels (hors √©lus)*     
 #'  
-#'&nbsp;*Tableau `r incrÈment()`*   
+#'&nbsp;*Tableau `r incr√©ment()`*   
 #'    
 
-Tableau.vertical2(c("AgrÈgats",
+Tableau.vertical2(c("Agr√©gats",
                     "k&euro;"),
                   c("Brut annuel (bulletins)",
                     "Brut annuel (lignes) :",
                     "\\ dont \\ Primes :",
-                    "\\ dont \\ Autres rÈmunÈrations",
+                    "\\ dont \\ Autres r√©mun√©rations",
                     "Part de primes en %"),
                   c(masses.personnels$Montant.brut.annuel,
                     masses.personnels$total.lignes.paie,
-                    masses.personnels$rÈmunÈration.indemnitaire.imposable,
-                    masses.personnels$autres.rÈmunÈrations,
-                    masses.personnels$rÈmunÈration.indemnitaire.imposable/masses.personnels$Montant.brut.annuel * 100))
+                    masses.personnels$r√©mun√©ration.indemnitaire.imposable,
+                    masses.personnels$autres.r√©mun√©rations,
+                    masses.personnels$r√©mun√©ration.indemnitaire.imposable/masses.personnels$Montant.brut.annuel * 100))
 
 
 #'  
-#'**DÈfinitions :**
+#'**D√©finitions :**
 #'
 #'  *Brut annuel (bulletins)*   : somme du champ *Brut*    
 #'  *Brut annuel (lignes)*      : somme du champ *Montant* des lignes de paye, dont :    
-#'  *Primes*                    : indemnitÈs sauf remboursements, certaines IJSS, indemnitÈs d'Èlu le cas ÈchÈant, SupplÈment familial de traitement et IndemnitÈ de rÈsidence        
-#'  *Autres rÈmunÈrations*      : acomptes, retenues sur brut, rÈmunÈrations diverses, rappels   
+#'  *Primes*                    : indemnit√©s sauf remboursements, certaines IJSS, indemnit√©s d'√©lu le cas √©ch√©ant, Suppl√©ment familial de traitement et Indemnit√© de r√©sidence        
+#'  *Autres r√©mun√©rations*      : acomptes, retenues sur brut, r√©mun√©rations diverses, rappels   
 #'  
 
-#'**Tests de cohÈrence**
+#'**Tests de coh√©rence**
 #'
-#'Somme des rÈmunÈrations brutes versÈes aux personnels (non Èlus) :  
+#'Somme des r√©mun√©rations brutes vers√©es aux personnels (non √©lus) :  
 #'  
 #'  
-#'&nbsp;*Tableau `r incrÈment()`*   
+#'&nbsp;*Tableau `r incr√©ment()`*   
 #'    
 
-Tableau.vertical2(c("AgrÈgats",
+Tableau.vertical2(c("Agr√©gats",
                     "k&euro;"),
                   c("Bulletins de paie ",
                     "Lignes de paie ",
-                    "DiffÈrence "),
+                    "Diff√©rence "),
                   c(masses.personnels$Montant.brut.annuel,
                     masses.personnels$total.lignes.paie,
                     masses.personnels$Montant.brut.annuel -
                       masses.personnels$total.lignes.paie))
 
 #'
-#'‡ comparer aux soldes des comptes 641 et 648 du compte de gestion.
+#'√† comparer aux soldes des comptes 641 et 648 du compte de gestion.
 #'
 
 #'   
@@ -77,8 +74,8 @@ Tableau.vertical2(c("AgrÈgats",
 #'
 filtre.fonctionnaire <- function (X) X[ !is.na(X)  & X > minimum.positif ]
 
-AR <- Analyse.rÈmunÈrations.exercice[Statut == "TITULAIRE" | Statut == "STAGIAIRE", 
-                                     colonnes.sÈlectionnÈes,
+AR <- Analyse.r√©mun√©rations.exercice[Statut == "TITULAIRE" | Statut == "STAGIAIRE", 
+                                     colonnes.s√©lectionn√©es,
                                      with=FALSE]
 
 attach(AR)
@@ -87,31 +84,31 @@ histogrammes()
 detach(AR)
 #'    
 #'**Nota :**   
-#'*EQTP : Equivalent temps plein = 12 . moyenne du ratio ratio rÈmunÈration / quotitÈ*  
+#'*EQTP : Equivalent temps plein = 12 . moyenne du ratio ratio r√©mun√©ration / quotit√©*  
 #'    
 #'**Effectif : `r nrow(AR)`**
 #'
-#'**Tests de cohÈrence**
+#'**Tests de coh√©rence**
 
 if (nrow(AR) > 0) {
-  masses.fonct <- AR[ , lapply(.(Montant.brut.annuel, rÈmunÈration.indemnitaire.imposable, total.lignes.paie, autres.rÈmunÈrations), sum, na.rm = TRUE)]
+  masses.fonct <- AR[ , lapply(.(Montant.brut.annuel, r√©mun√©ration.indemnitaire.imposable, total.lignes.paie, autres.r√©mun√©rations), sum, na.rm = TRUE)]
   
 } else {
   masses.fonct <- c(0,0) 
 }
 
-#'Somme des rÈmunÈrations brutes versÈes aux personnels titulaires et stagiaires :
+#'Somme des r√©mun√©rations brutes vers√©es aux personnels titulaires et stagiaires :
 #'
 #'  
-#'&nbsp;*Tableau `r incrÈment()`*   
+#'&nbsp;*Tableau `r incr√©ment()`*   
 #'    
 
-Tableau.vertical2(c("AgrÈgats",
+Tableau.vertical2(c("Agr√©gats",
                     "k&euro;"),
                   c("Brut annuel (bulletins)",
                     "Brut annuel (lignes) : ",
                     "\\ dont \\ \\ primes :",
-                    "\\ dont \\ autres rÈmunÈrations :",
+                    "\\ dont \\ autres r√©mun√©rations :",
                     "Part de primes en %"),
                   c(masses.fonct[[1]],  
                     masses.fonct[[3]],
@@ -120,26 +117,26 @@ Tableau.vertical2(c("AgrÈgats",
                     masses.fonct[[2]]/masses.fonct[[1]] * 100))
 
 #'
-#'**DÈfinitions :**
+#'**D√©finitions :**
 #'
 #'  *Brut annuel (bulletins)*   : somme du champ *Brut*   
 #'  *Brut annuel (lignes)*      : somme du champ *Montant* des lignes de paye, dont :   
-#'  *Primes*                    : indemnitÈs sauf remboursements, certaines IJSS, SupplÈment familial de traitement et IndemnitÈ de rÈsidence       
-#'  *Autres rÈmunÈrations*      : acomptes, retenues sur brut, rÈmunÈrations diverses, rappels   
+#'  *Primes*                    : indemnit√©s sauf remboursements, certaines IJSS, Suppl√©ment familial de traitement et Indemnit√© de r√©sidence       
+#'  *Autres r√©mun√©rations*      : acomptes, retenues sur brut, r√©mun√©rations diverses, rappels   
 #'
-#'**Tests de cohÈrence**
+#'**Tests de coh√©rence**
 #'
-#'Somme des rÈmunÈrations brutes versÈes aux personnels (fonctionnaires) :
+#'Somme des r√©mun√©rations brutes vers√©es aux personnels (fonctionnaires) :
 #'
 #'  
-#'&nbsp;*Tableau `r incrÈment()`*   
+#'&nbsp;*Tableau `r incr√©ment()`*   
 #'    
 
-Tableau.vertical2(c("AgrÈgats",
+Tableau.vertical2(c("Agr√©gats",
                     "k&euro;"),
                   c("Bulletins de paie ",
                     "Lignes de paie ",
-                    "DiffÈrence "),
+                    "Diff√©rence "),
                   c(masses.fonct[[1]],  # Brut
                     masses.fonct[[3]],  # lignes
                     masses.fonct[[1]] -
@@ -149,39 +146,46 @@ Tableau.vertical2(c("AgrÈgats",
 #'
 #'A comparer aux soldes des comptes 6411, 6419 et 648 du compte de gestion.
 #'
-#'**Formation et distribution du salaire brut moyen par tÍte (SMPT) en EQTP pour l'annÈe `r annÈe`**     
+#'**Formation et distribution du salaire brut moyen par t√™te (SMPT) en EQTP pour l'ann√©e `r ann√©e`**     
 #'  
-#'&nbsp;*Tableau `r incrÈment()`*   
+#'&nbsp;*Tableau `r incr√©ment()`*   
 #'    
 
-RÈsumÈ(c("Traitement indiciaire",
+R√©sum√©(c("Traitement indiciaire",
          "Primes",
-         "Autres rÈmunÈrations",
+         "Autres r√©mun√©rations",
          "Effectif"),
-       AR[Grade != "V" & Grade != "A" & Statut != "ELU" & Filtre_actif_non_annexe == TRUE, .(traitement.indiciaire,
-                                                                                             rÈmunÈration.indemnitaire.imposable,
-                                                                                             autres.rÈmunÈrations)],
+       AR[Grade != "V" & Grade != "A" & Statut != "ELU"
+          & Filtre_actif == TRUE
+          & Filtre_annexe == FALSE,
+             .(traitement.indiciaire,
+               r√©mun√©ration.indemnitaire.imposable,
+               autres.r√©mun√©rations)],
+       
        extra = "length")
 
 #'  
-#'&nbsp;*Tableau `r incrÈment()`*   
+#'&nbsp;*Tableau `r incr√©ment()`*   
 #'    
 
-RÈsumÈ(c("Total lignes hors rappels",
+R√©sum√©(c("Total lignes hors rappels",
          "Total brut",
          "SMPT brut en EQTP",
-         "Part de la rÈm. indemnitaire",
+         "Part de la r√©m. indemnitaire",
          "Effectif"),
-       AR[Grade != "V" & Grade != "A" & Statut != "ELU" & Filtre_actif_non_annexe == TRUE, .(total.lignes.paie,
+       AR[Grade != "V" & Grade != "A" & Statut != "ELU"
+          & Filtre_actif == TRUE
+          & Filtre_annexe == FALSE,
+          .(total.lignes.paie,
                                                                                              Montant.brut.annuel,
                                                                                              Montant.brut.annuel.eqtp,
-                                                                                             part.rÈmunÈration.indemnitaire)],
+                                                                                             part.r√©mun√©ration.indemnitaire)],
        extra = "length")
 
 #'   
-#'*Hors vacataires identifiÈs, assistantes maternelles, Èlus locaux et pour les postes actifs non annexes*  
+#'*Hors vacataires identifi√©s, assistantes maternelles, √©lus locaux et pour les postes actifs non annexes*  
 #'
-#'**CatÈgorie A**
+#'**Cat√©gorie A**
 #'
 
 ARA <- data.table::data.table(NULL)
@@ -189,115 +193,121 @@ ARB <- data.table::data.table(NULL)
 ARC <- data.table::data.table(NULL)
 
 #'  
-#'&nbsp;*Tableau `r incrÈment()`*   
+#'&nbsp;*Tableau `r incr√©ment()`*   
 #'    
 
-if (analyse.par.catÈgorie) {
+if (analyse.par.cat√©gorie) {
 
-  ARA <- AR[CatÈgorie == "A" & Grade != "V" & Grade != "A" & Statut != "ELU" & Filtre_actif_non_annexe == TRUE, ]
+  ARA <- AR[Cat√©gorie == "A" & Grade != "V" & Grade != "A" & Statut != "ELU" 
+            & Filtre_actif == TRUE
+            & Filtre_annexe == FALSE, ]
   
-  RÈsumÈ(c("Traitement indiciaire",
+  R√©sum√©(c("Traitement indiciaire",
            "Primes",
-           "Autres rÈmunÈrations"),
+           "Autres r√©mun√©rations"),
          ARA[ , .(traitement.indiciaire,
-                  rÈmunÈration.indemnitaire.imposable,
-                  autres.rÈmunÈrations)])
+                  r√©mun√©ration.indemnitaire.imposable,
+                  autres.r√©mun√©rations)])
 } else {
-  cat("Pas de statistiques par catÈgorie.\n")
+  cat("Pas de statistiques par cat√©gorie.\n")
 }
 #'
 
 
 #'  
-#'&nbsp;*Tableau `r incrÈment()`*   
+#'&nbsp;*Tableau `r incr√©ment()`*   
 #'    
-if (analyse.par.catÈgorie) {  
-  RÈsumÈ(c("Total rÈmunÈrations", 
-           "Total rÈmunÈrations EQTP", 
-           "Part de la rÈmunÈration indemnitaire"),
+if (analyse.par.cat√©gorie) {  
+  R√©sum√©(c("Total r√©mun√©rations", 
+           "Total r√©mun√©rations EQTP", 
+           "Part de la r√©mun√©ration indemnitaire"),
          ARA[ , .(Montant.brut.annuel,
                   Montant.brut.annuel.eqtp,
-                  part.rÈmunÈration.indemnitaire)])
+                  part.r√©mun√©ration.indemnitaire)])
 
 } else {
-  cat("Pas de statistiques par catÈgorie.\n")
+  cat("Pas de statistiques par cat√©gorie.\n")
 }
 #'
 #'**Effectif : `r nrow(ARA)`**  
 #'
-#'**CatÈgorie B**
+#'**Cat√©gorie B**
 #'
 #'  
-#'&nbsp;*Tableau `r incrÈment()`*   
+#'&nbsp;*Tableau `r incr√©ment()`*   
 #'    
 
-if (analyse.par.catÈgorie) {
-  ARB <- AR[CatÈgorie == "B" & Grade != "V" & Grade != "A" & Statut != "ELU" & Filtre_actif_non_annexe == TRUE, ]
+if (analyse.par.cat√©gorie) {
+  ARB <- AR[Cat√©gorie == "B" & Grade != "V" & Grade != "A" & Statut != "ELU"
+            & Filtre_actif == TRUE
+            & Filtre_annexe == FALSE, ]
   
-  RÈsumÈ(c("Traitement indiciaire",
+  R√©sum√©(c("Traitement indiciaire",
            "Primes",
-           "Autres rÈmunÈrations"),
+           "Autres r√©mun√©rations"),
          ARB[, .(traitement.indiciaire,
-                 rÈmunÈration.indemnitaire.imposable,
-                 autres.rÈmunÈrations)])
+                 r√©mun√©ration.indemnitaire.imposable,
+                 autres.r√©mun√©rations)])
 } else {
-  cat("Pas de statistiques par catÈgorie.\n")
+  cat("Pas de statistiques par cat√©gorie.\n")
 }
 #'
 #'  
-#'&nbsp;*Tableau `r incrÈment()`*   
+#'&nbsp;*Tableau `r incr√©ment()`*   
 #'    
 
-if (analyse.par.catÈgorie) {
+if (analyse.par.cat√©gorie) {
   
-  RÈsumÈ(c("Total rÈmunÈrations",
-           "Total rÈmunÈrations EQTP",
-           "Part de la rÈmunÈration indemnitaire"),
+  R√©sum√©(c("Total r√©mun√©rations",
+           "Total r√©mun√©rations EQTP",
+           "Part de la r√©mun√©ration indemnitaire"),
          ARB[, .(Montant.brut.annuel,
                  Montant.brut.annuel.eqtp,
-                 part.rÈmunÈration.indemnitaire)])
+                 part.r√©mun√©ration.indemnitaire)])
 } else {
-  cat("Pas de statistiques par catÈgorie.\n")
+  cat("Pas de statistiques par cat√©gorie.\n")
 }
 
 #'
 #'**Effectif : `r nrow(ARB)`**
 #'
-#'**CatÈgorie C**
+#'**Cat√©gorie C**
 #'
 
 #'  
-#'&nbsp;*Tableau `r incrÈment()`*   
+#'&nbsp;*Tableau `r incr√©ment()`*   
 #'    
 
-if (analyse.par.catÈgorie) {
-  ARC <- AR[CatÈgorie == "C" & Grade != "V" & Grade != "A" & Statut != "ELU" & Filtre_actif_non_annexe == TRUE, ]
+if (analyse.par.cat√©gorie) {
+  ARC <- AR[Cat√©gorie == "C" & Grade != "V" & Grade != "A" & Statut != "ELU" 
+            & Filtre_actif == TRUE
+            & Filtre_annexe == FALSE, ]
   
-  RÈsumÈ(c("Traitement indiciaire",
+  R√©sum√©(c("Traitement indiciaire",
            "Primes",
-           "Autres rÈmunÈrations"),
+           "Autres r√©mun√©rations"),
          ARC[ , .(traitement.indiciaire,
-                  rÈmunÈration.indemnitaire.imposable,
-                  autres.rÈmunÈrations)])
+                  r√©mun√©ration.indemnitaire.imposable,
+                  autres.r√©mun√©rations)])
 } else {
-  cat("Pas de statistique par catÈgorie.\n")
+  cat("Pas de statistique par cat√©gorie.\n")
 }
 
 #'
 #'  
-#'&nbsp;*Tableau `r incrÈment()`*   
+#'&nbsp;*Tableau `r incr√©ment()`*   
 #'    
 
-if (analyse.par.catÈgorie) {
+if (analyse.par.cat√©gorie) {
   
-  RÈsumÈ(c("Total rÈmunÈrations",
-           "Total rÈmunÈrations EQTP",
-           "Part de la rÈmunÈration indemnitaire"),
+  R√©sum√©(c("Total r√©mun√©rations",
+           "Total r√©mun√©rations EQTP",
+           "Part de la r√©mun√©ration indemnitaire"),
          ARC[ , .(Montant.brut.annuel,
                   Montant.brut.annuel.eqtp,
-                  part.rÈmunÈration.indemnitaire) ])
+                  part.r√©mun√©ration.indemnitaire) ])
 } else {
-  cat("Pas de statistiques par catÈgorie.\n")
+  cat("Pas de statistiques par cat√©gorie.\n")
 }
 
 #'**Effectif : `r nrow(ARC)`**
@@ -309,77 +319,79 @@ if (analyse.par.catÈgorie) {
 #'   
 #'*Les assistantes maternelles et les vacataires sont ici inclus, pour les postes non annexes*   
 #'
-attach(Analyse.rÈmunÈrations.exercice, warn.conflicts=FALSE)
-temp <- rÈmunÈration.indemnitaire.imposable.eqtp[Statut != "ELU"
+attach(Analyse.r√©mun√©rations.exercice, warn.conflicts=FALSE)
+temp <- r√©mun√©ration.indemnitaire.imposable.eqtp[Statut != "ELU"
                                                  & Statut != "TITULAIRE"
                                                  & Statut != "STAGIAIRE"
-                                                 & Filtre_actif_non_annexe == TRUE
-                                                 & rÈmunÈration.indemnitaire.imposable.eqtp > 1000] / 1000
+                                                 & Filtre_actif == TRUE
+                                                 & Filtre_annexe == FALSE
+                                                 & r√©mun√©ration.indemnitaire.imposable.eqtp > 1000] / 1000
 
 if (longueur.non.na(temp) > 0)
   hist(temp,
-       xlab = "RÈmunÈration indemnitaire brute imposable en milliers d'euros EQTP\n",
+       xlab = "R√©mun√©ration indemnitaire brute imposable en milliers d'euros EQTP\n",
        ylab = "Effectif",
        xlim = c(0, 40),
-       main = "RÈmunÈration annuelle totale des contractuels en " %+% annÈe,
+       main = "R√©mun√©ration annuelle totale des contractuels en " %+% ann√©e,
        col = "red",
        nclass = 50)
 #'   
 #'**Nota :**
-#'Ne sont retenues que les rÈmunÈrations supÈrieures ‡ 1 000 k&euro;.
-#'Les Èlus ne sont pas pris en compte.
+#'Ne sont retenues que les r√©mun√©rations sup√©rieures √† 1 000 k&euro;.
+#'Les √©lus ne sont pas pris en compte.
 #'   
 
-temp <- positive(autres.rÈmunÈrations)
+temp <- positive(autres.r√©mun√©rations)
 
-detach(Analyse.rÈmunÈrations.exercice)
+detach(Analyse.r√©mun√©rations.exercice)
 
 if (longueur.non.na(temp))
   hist(temp,
        xlab = "En euros :\n divers",
        ylab = "Effectif",
        xlim = c(0, 5000),
-       main = "Autres rÈmunÈrations en " %+% annÈe,
+       main = "Autres r√©mun√©rations en " %+% ann√©e,
        nclass = 50,
        col = "grey")
 
 #'
 
-AR <- Analyse.rÈmunÈrations.exercice[Statut != "ELU"
+AR <- Analyse.r√©mun√©rations.exercice[Statut != "ELU"
                                              &  Statut != "TITULAIRE"
                                              &  Statut != "STAGIAIRE"
-                                             & Filtre_actif_non_annexe == TRUE,
-                                             colonnes.sÈlectionnÈes, 
+                                             & Filtre_actif == TRUE
+                                             & Filtre_annexe == FALSE,
+                                             colonnes.s√©lectionn√©es, 
                                              with=FALSE]
 
 #'   
-#'**Formation et distribution du salaire brut moyen par tÍte (SMPT) en EQTP pour l'annÈe `r annÈe`**     
+#'**Formation et distribution du salaire brut moyen par t√™te (SMPT) en EQTP pour l'ann√©e `r ann√©e`**     
 #'   
 #'  
-#'&nbsp;*Tableau `r incrÈment()`*   
+#'&nbsp;*Tableau `r incr√©ment()`*   
 #'    
 
-RÈsumÈ(c("Primes",
-         "Autres rÈmunÈrations",
+R√©sum√©(c("Primes",
+         "Autres r√©mun√©rations",
          "Effectif"),
-       AR[ , .(rÈmunÈration.indemnitaire.imposable,
-               autres.rÈmunÈrations)],
+       AR[ , .(r√©mun√©ration.indemnitaire.imposable,
+               autres.r√©mun√©rations)],
        extra = "length")
 
 #'  
-#'&nbsp;*Tableau `r incrÈment()`*   
+#'&nbsp;*Tableau `r incr√©ment()`*   
 #'    
 
 
-RÈsumÈ(c("Total rÈmunÈrations",
-         "Total rÈmunÈrations EQTP",
+R√©sum√©(c("Total r√©mun√©rations",
+         "Total r√©mun√©rations EQTP",
          "Effectif"),
        AR[ , .(Montant.brut.annuel, Montant.brut.annuel.eqtp)],
        extra = "length")
 #'
 
 
-# pour annÈe fin #
+# pour ann√©e fin #
 
-rm(Analyse.rÈmunÈrations.exercice)
+rm(Analyse.r√©mun√©rations.exercice)
 

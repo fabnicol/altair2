@@ -1,16 +1,14 @@
-  
-  
 
 ```{r }
-Analyse.rémunérations.exercice <- Analyse.rémunérations[Année == année]
+# Conversion en Rmd: spin(..., knit = FALSE)  dans l'encodage du système (convertir ce fichier en UTF-8 sous linux)
+
+# On revient à une analyse des rémunérations qui réinclut tous les personnels (vacataires, élus, inactifs, annexes)
+
+Analyse.rémunérations.exercice <- Analyse.rémunérations[Année == année]     
 ```
 
-   
 # `r chapitre`. Rémunérations brutes : analyse pour l'exercice `r année`    
-   
 ## `r chapitre`.1 Masse salariale brute de l'ensemble des agents     
-    
- 
 
 ```{r }
 masses.personnels <- Analyse.rémunérations.exercice[Statut != "ELU",
@@ -20,7 +18,7 @@ masses.personnels <- Analyse.rémunérations.exercice[Statut != "ELU",
                                                       autres.rémunérations = sum(autres.rémunérations, na.rm = TRUE))]
 ```
 
-### Cumuls des rémunérations brutes pour l'exercice `r année`
+### Cumuls des rémunérations brutes pour l'exercice `r année`      
  
 *Personnels (hors élus)*     
  
@@ -171,9 +169,13 @@ Résumé(c("Traitement indiciaire",
          "Primes",
          "Autres rémunérations",
          "Effectif"),
-       AR[Grade != "V" & Grade != "A" & Statut != "ELU" & Filtre_actif_non_annexe == TRUE, .(traitement.indiciaire,
-                                                                                             rémunération.indemnitaire.imposable,
-                                                                                             autres.rémunérations)],
+       AR[Grade != "V" & Grade != "A" & Statut != "ELU"
+          & Filtre_actif == TRUE
+          & Filtre_annexe == FALSE,
+             .(traitement.indiciaire,
+               rémunération.indemnitaire.imposable,
+               autres.rémunérations)],
+       
        extra = "length")
 ```
 
@@ -187,7 +189,10 @@ Résumé(c("Total lignes hors rappels",
          "SMPT brut en EQTP",
          "Part de la rém. indemnitaire",
          "Effectif"),
-       AR[Grade != "V" & Grade != "A" & Statut != "ELU" & Filtre_actif_non_annexe == TRUE, .(total.lignes.paie,
+       AR[Grade != "V" & Grade != "A" & Statut != "ELU"
+          & Filtre_actif == TRUE
+          & Filtre_annexe == FALSE,
+          .(total.lignes.paie,
                                                                                              Montant.brut.annuel,
                                                                                              Montant.brut.annuel.eqtp,
                                                                                              part.rémunération.indemnitaire)],
@@ -213,7 +218,9 @@ ARC <- data.table::data.table(NULL)
 ```{r }
 if (analyse.par.catégorie) {
 
-  ARA <- AR[Catégorie == "A" & Grade != "V" & Grade != "A" & Statut != "ELU" & Filtre_actif_non_annexe == TRUE, ]
+  ARA <- AR[Catégorie == "A" & Grade != "V" & Grade != "A" & Statut != "ELU" 
+            & Filtre_actif == TRUE
+            & Filtre_annexe == FALSE, ]
   
   Résumé(c("Traitement indiciaire",
            "Primes",
@@ -256,7 +263,9 @@ if (analyse.par.catégorie) {
 
 ```{r }
 if (analyse.par.catégorie) {
-  ARB <- AR[Catégorie == "B" & Grade != "V" & Grade != "A" & Statut != "ELU" & Filtre_actif_non_annexe == TRUE, ]
+  ARB <- AR[Catégorie == "B" & Grade != "V" & Grade != "A" & Statut != "ELU"
+            & Filtre_actif == TRUE
+            & Filtre_annexe == FALSE, ]
   
   Résumé(c("Traitement indiciaire",
            "Primes",
@@ -299,7 +308,9 @@ if (analyse.par.catégorie) {
 
 ```{r }
 if (analyse.par.catégorie) {
-  ARC <- AR[Catégorie == "C" & Grade != "V" & Grade != "A" & Statut != "ELU" & Filtre_actif_non_annexe == TRUE, ]
+  ARC <- AR[Catégorie == "C" & Grade != "V" & Grade != "A" & Statut != "ELU" 
+            & Filtre_actif == TRUE
+            & Filtre_annexe == FALSE, ]
   
   Résumé(c("Traitement indiciaire",
            "Primes",
@@ -346,7 +357,8 @@ attach(Analyse.rémunérations.exercice, warn.conflicts=FALSE)
 temp <- rémunération.indemnitaire.imposable.eqtp[Statut != "ELU"
                                                  & Statut != "TITULAIRE"
                                                  & Statut != "STAGIAIRE"
-                                                 & Filtre_actif_non_annexe == TRUE
+                                                 & Filtre_actif == TRUE
+                                                 & Filtre_annexe == FALSE
                                                  & rémunération.indemnitaire.imposable.eqtp > 1000] / 1000
 
 if (longueur.non.na(temp) > 0)
@@ -386,7 +398,8 @@ if (longueur.non.na(temp))
 AR <- Analyse.rémunérations.exercice[Statut != "ELU"
                                              &  Statut != "TITULAIRE"
                                              &  Statut != "STAGIAIRE"
-                                             & Filtre_actif_non_annexe == TRUE,
+                                             & Filtre_actif == TRUE
+                                             & Filtre_annexe == FALSE,
                                              colonnes.sélectionnées, 
                                              with=FALSE]
 ```

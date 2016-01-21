@@ -198,6 +198,7 @@ int main(int argc, char **argv)
                 exit(-100);
             }
 
+
             std::map<std::string, BaseType> hashTable;
 
             hashTable["AN"] = BaseType::PAR_ANNEE;
@@ -227,7 +228,11 @@ int main(int argc, char **argv)
                     exit(-908);
                 }
                 else
+                {
                     info.taille_base = size_read;
+                    info.type_base = BaseType::MAXIMUM_LIGNES;
+                    std::cerr << PARAMETER_HTML_TAG "Bases d'au plus " << size_read << " lignes" ENDL;
+                }
             }
 
             start += 2;
@@ -351,7 +356,7 @@ int main(int argc, char **argv)
         {
             if ((info.nbLigneUtilisateur = lire_argument(argc, const_cast<char*>(commandline_tab[start +1].c_str()))) > 1)
             {
-                std::cerr << STATE_HTML_TAG " Nombre maximum de lignes de paye redéfini à : " << info.nbLigneUtilisateur << ENDL;
+                std::cerr << STATE_HTML_TAG "Nombre maximum de lignes de paye redéfini à : " << info.nbLigneUtilisateur << ENDL;
             }
 
             info.reduire_consommation_memoire = false;
@@ -577,8 +582,8 @@ int main(int argc, char **argv)
         }
 
         if (verbeux)
-            std::cerr <<  PROCESSING_HTML_TAG " File d'exécution i = " << i+1 << "/" << info.nbfil
-                      << " Nombre de fichiers dans ce fil : " << nb_fichier_par_fil[i] << ENDL;
+            std::cerr <<  PROCESSING_HTML_TAG "File d'exécution i = " << i+1 << "/" << info.nbfil
+                      << "Nombre de fichiers dans ce fil : " << nb_fichier_par_fil[i] << ENDL;
 
         errno = 0;
 

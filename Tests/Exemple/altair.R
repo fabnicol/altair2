@@ -104,12 +104,14 @@ effectifs <- lapply(période,
                                                                         & Filtre_actif == FALSE
                                                                         & Année == x,
                                                                           Matricule])
-                      postes.annexes <- unique(Analyse.rémunérations[Statut != "ELU"
-                                                                     & Filtre_non_annexe == FALSE
-                                                                     & Année == x,
-                                                                       Matricule])
+                      postes.actifs.annexes <- unique(Analyse.rémunérations[Statut != "ELU"
+                                                                            & Filtre_annexe == TRUE
+                                                                            & Filtre_actif == TRUE
+                                                                            & Année == x,
+                                                                                Matricule])
                       postes.actifs.non.annexes <- unique(Analyse.rémunérations[Statut != "ELU"
-                                                                                & Filtre_actif_non_annexe == TRUE
+                                                                                & Filtre_annexe == FALSE
+                                                                                & Filtre_actif == TRUE
                                                                                 & Année == x,
                                                                                   Matricule])
                       postes.non.titulaires <- unique(Analyse.variations.par.exercice[Statut == "NON_TITULAIRE" 
@@ -126,7 +128,7 @@ effectifs <- lapply(période,
                         nrow(K),
                         nrow(L),
                         length(postes.non.actifs),
-                        length(postes.annexes),
+                        length(postes.actifs.annexes),
                         length(postes.actifs.non.annexes),
                         ETP[Statut != "ELU" , sum(quotité/nb.mois, na.rm=TRUE)],
                         ETP[Statut != "ELU" , sum(quotité, na.rm=TRUE)] / 12,
@@ -155,7 +157,7 @@ effectifs <- lapply(période,
                                                                                     Matricule]),
                               sum(quotité, na.rm=TRUE)] / 12,
             						ETP[Matricule %chin% postes.non.actifs, sum(quotité, na.rm=TRUE)] / 12,
-            						ETP[Matricule %chin% postes.annexes, sum(quotité, na.rm=TRUE)] / 12,
+            						ETP[Matricule %chin% postes.actifs.annexes, sum(quotité, na.rm=TRUE)] / 12,
                         ETP[Matricule %chin% postes.actifs.non.annexes, sum(quotité, na.rm=TRUE)] / 12)							
                      })
 
@@ -169,7 +171,7 @@ for (i in 1:length(effectifs)) names(effectifs[[i]]) <- c("Effectifs",
                                                           "Effectifs_vac",
                                                           "Effectifs_am",
                                                           "Effectifs_non.actifs",
-                                                          "Effectifs_annexes",
+                                                          "Effectifs_actifs_annexes",
                                                           "Effectifs_actifs_non.annexes",
                                                           "ETP",
                                                           "ETPT",
@@ -196,7 +198,7 @@ tableau.effectifs <- as.data.frame(effectifs.locale,
                                                  "&nbsp;&nbsp;&nbsp;dont vacataires détectés (c)",
                                                  "&nbsp;&nbsp;&nbsp;dont assistantes maternelles détectées (c)",
                                                  "Postes non actifs (g)",
-                                                 "Postes annexes (g)",
+                                                 "Postes actifs annexes (g)",
                                                  "Postes actifs non annexes (g)",
                                                  "Total ETP/année (d)",
                                                  "Total ETPT/année (e)",
@@ -206,7 +208,7 @@ tableau.effectifs <- as.data.frame(effectifs.locale,
                                                  "Total ETPT non titulaires (g)",
                                                  "Total ETPT autre statut",
                                                  "Total ETPT postes non actifs (g)",
-                                                 "Total ETPT postes annexes (g)",
+                                                 "Total ETPT postes actifs annexes (g)",
                                                  "Total ETPT postes actifs non annexes (g)"))
 
 names(tableau.effectifs) <- liste.années
@@ -529,7 +531,8 @@ colonnes.sélectionnées <- c("traitement.indiciaire",
                             "Statut",
                             "Grade",
                             "Catégorie",
-                            "Filtre_actif_non_annexe",
+                            "Filtre_actif",
+                            "Filtre_annexe",
                             clé.fusion)
 
 

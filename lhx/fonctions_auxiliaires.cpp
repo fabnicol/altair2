@@ -229,12 +229,13 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
         #endif
                 ;      // sans l'extension csv
 
-        switch (type) // OK en C++14
+        switch (type) // OK en C++14. Il faut donc ajouter la directive de compilation -std=c++14
         {
            case BaseType::MONOLITHIQUE:
               chemin_base = chemin_base + CSV;
             break;
 
+           case BaseType::MAXIMUM_LIGNES:
            case BaseType::PAR_ANNEE:
                index = index + std::to_string(++rang) +  std::string(CSV);
                chemin_base = chemin_base + index;
@@ -274,12 +275,12 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
 
            case BaseType::PAR_TRAITEMENT:
              ++rang;
-            chemin_base = chemin_base + std::string("-") + types_extension[rang-1] + CSV;
+            chemin_base = chemin_base + index + types_extension[rang-1] + CSV;
             break;
 
            case BaseType::TOUTES_CATEGORIES:
             ++rang;
-            chemin_base = chemin_base + std::string("-") + types_extension[rang-1] + CSV;
+            chemin_base = chemin_base + index + types_extension[rang-1] + CSV;
         }
 
 

@@ -108,29 +108,28 @@ detach(Analyse.rémunérations)
 # <!-- attention changer le premier & en | en temps utile
 
 
-Analyse.rémunérations[ , Filtre_non_annexe :=  (nb.mois > minimum.Nmois.non.annexe 
-                                                & cumHeures > minimum.Nheures.non.annexe 
-                                                & cumHeures / nb.jours > minimum.Nheures.jour.non.annexe)]
+Analyse.rémunérations[ , Filtre_annexe :=  (nb.mois < minimum.Nmois.non.annexe 
+                                                | cumHeures < minimum.Nheures.non.annexe 
+                                                | cumHeures / nb.jours < minimum.Nheures.jour.non.annexe)]
 
 if (période.hors.données.smic) {
   
   Analyse.rémunérations[ 
-    ((Année < smic.net.première.année.renseignée & Montant.net.annuel > smic.net.inf)
-     | (Année > smic.net.dernière.année.renseignée & Montant.net.annuel > smic.net.sup)
+    ((Année < smic.net.première.année.renseignée & Montant.net.annuel < smic.net.inf)
+     | (Année > smic.net.dernière.année.renseignée & Montant.net.annuel < smic.net.sup)
      | (Année >= smic.net.première.année.renseignée 
         & Année <= smic.net.première.année.renseignée 
-        & Montant.net.annuel > smic.net[Année - smic.net.première.année.renseignée + 1, SMIC_NET])),
-             Filtre_non_annexe := TRUE]
+        & Montant.net.annuel < smic.net[Année - smic.net.première.année.renseignée + 1, SMIC_NET])),
+             Filtre_annexe := TRUE]
                          
 } else {
   
-  Analyse.rémunérations[ Montant.net.annuel > smic.net[smic.net.dernière.année.renseignée - Année + 1, SMIC_NET] ,  Filtre_non_annexe := TRUE]
+  Analyse.rémunérations[Montant.net.annuel < smic.net[smic.net.dernière.année.renseignée - Année + 1, SMIC_NET],  Filtre_annexe := TRUE]
 }
   
 # -->
 
-Analyse.rémunérations[ , `:=`(rémunération.indemnitaire.imposable = indemnités + sft + indemnité.résidence + rémunérations.diverses,
-                              Filtre_actif_non_annexe = (Filtre_actif == TRUE & Filtre_non_annexe == TRUE))]
+Analyse.rémunérations[ , rémunération.indemnitaire.imposable := indemnités + sft + indemnité.résidence + rémunérations.diverses]
 
 #Montant.brut.annuel - sft - indemnité.résidence - traitement.indiciaire
 
@@ -159,7 +158,8 @@ message("Analyse des rémunérations réalisée.")
 Analyse.variations.par.exercice <- Analyse.rémunérations[Grade != "A"  
                                                          & Grade != "V" 
                                                          & Statut != "ELU"
-                                                         & Filtre_actif_non_annexe == TRUE,
+                                                         & Filtre_actif == TRUE
+                                                         & Filtre_annexe == FALSE,
                                                            c(clé.fusion, étiquette.année,
                                                              "Montant.net.annuel.eqtp",
                                                              "Montant.brut.annuel.eqtp",

@@ -189,7 +189,8 @@ void boucle_ecriture(std::vector<info_t>& Info)
     #define t_tableau_base tableau_base
 #else
 
-   std::ostringstream t_base, t_bulletins;
+   std::ostringstream t_base;
+   std::ostringstream t_bulletins;
 
    static std::array<std::ostringstream, nbType> t_tableau_base;
 
@@ -197,8 +198,10 @@ void boucle_ecriture(std::vector<info_t>& Info)
 
     ouvrir_fichier_bulletins(Info[0], bulletins);
 
+
     uint32_t taille_base = Info[0].taille_base;
     BaseType type_base = Info[0].type_base;
+
 
     if (Info[0].generer_rang)
     {
@@ -264,6 +267,7 @@ void boucle_ecriture(std::vector<info_t>& Info)
 
     for (int i = 0; i < Info[0].nbfil; ++i)
     {
+
         for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; ++agent)
         {
             unsigned l = BESOIN_MEMOIRE_ENTETE;
@@ -291,11 +295,11 @@ void boucle_ecriture(std::vector<info_t>& Info)
             {
                 bool nouveau_type = false;
                 
-                if (taille_base > 0   // soit : il existe un nombre de lignes maximal par base sépcifié en ligne de commande après -T
+                if (taille_base > 0  && type_base == BaseType::MAXIMUM_LIGNES // soit : il existe un nombre de lignes maximal par base sépcifié en ligne de commande après -T
                         && (compteur  == rang_fichier_base * taille_base))
                 {
                     std::cerr << "Table n°" << rang_fichier_base << " de " << taille_base
-                              << "lignes générée, lignes "  << (rang_fichier_base - 1) * taille_base + 1
+                              << " lignes, lignes "  << (rang_fichier_base - 1) * taille_base + 1
                               << " à " << rang_fichier_base * taille_base << " ."  ENDL;
                     
                     base.close();
@@ -317,12 +321,15 @@ void boucle_ecriture(std::vector<info_t>& Info)
                     if (! base.is_open()) return;
                 }
 
-                int valeur_drapeau_categorie = 0, test_drapeau_categorie = 0;
-                
-                while (VAR(l) && (test_drapeau_categorie = VAR(l)[0]) >= 1 && (test_drapeau_categorie <= nbType))
+                BaseType valeur_drapeau_categorie = BaseType::MONOLITHIQUE;
+                int      int_drapeau_categorie = VAR(l)[0];
+
+
+                while (VAR(l) && (int_drapeau_categorie <= nbType) && (int_drapeau_categorie >= 1))
                 {
-                    valeur_drapeau_categorie = test_drapeau_categorie;
-                    strcpy(type, type_remuneration_traduit[valeur_drapeau_categorie - 1]);
+                    valeur_drapeau_categorie = static_cast<BaseType>(int_drapeau_categorie);
+
+                    strcpy(type, type_remuneration_traduit[int_drapeau_categorie - 1]);
                     nouveau_type = true;
                     ++l;
                 }
@@ -336,7 +343,7 @@ void boucle_ecriture(std::vector<info_t>& Info)
                 {
                     if (type_base != BaseType::TOUTES_CATEGORIES)
                     {
-                        if (valeur_drapeau_categorie + 2 == - static_cast<int>(Info[0].type_base))
+                        if (valeur_drapeau_categorie  == Info[0].type_base)
                         {
                             ++compteur;
                             ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
@@ -347,7 +354,7 @@ void boucle_ecriture(std::vector<info_t>& Info)
                         ++compteur;
                         if (nouveau_type)
                         {
-                            ecrire_ligne_table(i, agent, l, type, t_tableau_base[valeur_drapeau_categorie - 1], sep, Info, compteur);
+                            ecrire_ligne_table(i, agent, l, type, t_tableau_base[int_drapeau_categorie - 1], sep, Info, compteur);
                         }
                         
                     }
@@ -397,66 +404,81 @@ void boucle_ecriture(std::vector<info_t>& Info)
         base.close();
         switch (type_base)
         {
-        case  BaseType::MONOLITHIQUE            :
-            goto message;
-        case  BaseType::PAR_TRAITEMENT          :
-            std::cerr << STATE_HTML_TAG "Catégorie : Traitement."  ENDL;
-            goto message;
-        case  BaseType::PAR_INDEMNITE_RESIDENCE :
-            std::cerr << STATE_HTML_TAG "Catégorie : Indemnité de résidence."  ENDL;
-            goto message;
-        case  BaseType::PAR_SFT                 :
-            std::cerr << STATE_HTML_TAG "Catégorie : Supplément familial de traitement."  ENDL;
-            goto message;
-        case  BaseType::PAR_AVANTAGE_NATURE     :
-            std::cerr << STATE_HTML_TAG "Catégorie : Avantage en nature."  ENDL;
-            goto message;
-        case  BaseType::PAR_INDEMNITE           :
-            std::cerr << STATE_HTML_TAG "Catégorie : Indemnité."  ENDL;
-            goto message;
-        case  BaseType::PAR_REM_DIVERSES        :
-            std::cerr << STATE_HTML_TAG "Catégorie : Rémunérations diverses."  ENDL;
-            goto message;
-        case  BaseType::PAR_DEDUCTION           :
-            std::cerr << STATE_HTML_TAG "Catégorie : Déduction."  ENDL;
-            goto message;
-        case  BaseType::PAR_ACOMPTE             :
-            std::cerr << STATE_HTML_TAG "Catégorie : Acompte."  ENDL;
-            goto message;
-        case  BaseType::PAR_RAPPEL              :
-            std::cerr << STATE_HTML_TAG "Catégorie : Rappel."  ENDL;
-            goto message;
-        case  BaseType::PAR_RETENUE             :
-            std::cerr << STATE_HTML_TAG "Catégorie : Retenue."  ENDL;
-            goto message;
-        case  BaseType::PAR_COTISATION          :
-            std::cerr << STATE_HTML_TAG "Catégorie : Cotisation."  ENDL;
-            goto message;
-        case  BaseType::TOUTES_CATEGORIES       :
-            std::cerr << STATE_HTML_TAG "Toutes catégories."  ENDL;
-            std::cerr << STATE_HTML_TAG "Total de " << compteur << " lignes générée dans 11 bases."  ENDL;
-            break;
+            case  BaseType::MONOLITHIQUE            :
+                goto bulletins;
 
-        case BaseType::PAR_ANNEE    :
-            std::cerr << "Année : " << annee_courante << " Table générée."  ENDL;
-            break;
-        default :  /* Taille définie par l'utilisateur */
-            std::cerr << STATE_HTML_TAG "Table n°" << rang_fichier_base
-                      << " de " <<  compteur - (rang_fichier_base-1) * taille_base
-                      << " lignes, lignes " << (rang_fichier_base-1) * taille_base + 1
-                      << " à " << compteur << "."  ENDL;
+            case  BaseType::PAR_TRAITEMENT          :
+                std::cerr << STATE_HTML_TAG "Catégorie : Traitement."  ENDL;
+                goto bulletins;
+
+            case  BaseType::PAR_INDEMNITE_RESIDENCE :
+                std::cerr << STATE_HTML_TAG "Catégorie : Indemnité de résidence."  ENDL;
+                goto bulletins;
+
+            case  BaseType::PAR_SFT                 :
+                std::cerr << STATE_HTML_TAG "Catégorie : Supplément familial de traitement."  ENDL;
+                goto bulletins;
+
+            case  BaseType::PAR_AVANTAGE_NATURE     :
+                std::cerr << STATE_HTML_TAG "Catégorie : Avantage en nature."  ENDL;
+                goto bulletins;
+
+            case  BaseType::PAR_INDEMNITE           :
+                std::cerr << STATE_HTML_TAG "Catégorie : Indemnité."  ENDL;
+                goto bulletins;
+
+            case  BaseType::PAR_REM_DIVERSES        :
+                std::cerr << STATE_HTML_TAG "Catégorie : Rémunérations diverses."  ENDL;
+                goto bulletins;
+
+            case  BaseType::PAR_DEDUCTION           :
+                std::cerr << STATE_HTML_TAG "Catégorie : Déduction."  ENDL;
+                goto bulletins;
+
+            case  BaseType::PAR_ACOMPTE             :
+                std::cerr << STATE_HTML_TAG "Catégorie : Acompte."  ENDL;
+                goto bulletins;
+
+            case  BaseType::PAR_RAPPEL              :
+                std::cerr << STATE_HTML_TAG "Catégorie : Rappel."  ENDL;
+                goto bulletins;
+
+            case  BaseType::PAR_RETENUE             :
+                std::cerr << STATE_HTML_TAG "Catégorie : Retenue."  ENDL;
+                goto bulletins;
+
+            case  BaseType::PAR_COTISATION          :
+                std::cerr << STATE_HTML_TAG "Catégorie : Cotisation."  ENDL;
+                goto bulletins;
+
+            case  BaseType::TOUTES_CATEGORIES       :
+                std::cerr << STATE_HTML_TAG "Toutes catégories."  ENDL;
+                std::cerr << STATE_HTML_TAG "Total de " << compteur << " lignes générée dans 11 bases."  ENDL;
+                goto bulletins;
+
+            case BaseType::PAR_ANNEE    :
+                std::cerr << "Année : " << annee_courante << " Table générée."  ENDL;
+                break;
+
+            case BaseType::MAXIMUM_LIGNES  :  /* Taille définie par l'utilisateur */
+                std::cerr << STATE_HTML_TAG "Table n°" << rang_fichier_base
+                          << " de " <<  compteur - (rang_fichier_base-1) * taille_base
+                          << " lignes, lignes " << (rang_fichier_base-1) * taille_base + 1
+                          << " à " << compteur << "."  ENDL;
+                break;
         }
-        
-        return;
-        
-message :
+
         std::cerr << STATE_HTML_TAG "Table de " << compteur << " lignes."  ENDL;
 
 #if defined(__WIN32__) && defined(USE_ICONV)
+        bulletins :
         convertir(Info[0].chemin_base);
+ }
+#else
+ }
+   bulletins:
 #endif
-    }
-    
+
     if (bulletins.good())
     {
         bulletins.close();

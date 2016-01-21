@@ -315,7 +315,7 @@ void FListFrame::parseXhlFile(const QStringList& stringList)
         ++rank;
 
         #ifdef DEBUG_INPUT_FILES
-           altair->outputTextEdit->append(PROCESSING_HTML_TAG " Analyse du fichier n°" + QString::number(rank));
+           altair->outputTextEdit->append(PROCESSING_HTML_TAG "Analyse du fichier n°" + QString::number(rank));
         #endif
 
         emit(altair->setProgressBar(rank));
@@ -331,11 +331,11 @@ void FListFrame::parseXhlFile(const QString& fileName)
 
     bool result = file.open(QIODevice::ReadOnly);
     if (! file.isOpen())
-             altair->outputTextEdit->append(ERROR_HTML_TAG " Erreur à l'ouverture du fichier.");
+             altair->outputTextEdit->append(ERROR_HTML_TAG "Erreur à l'ouverture du fichier.");
 
     if (result == false || file.size()== 0)
     {
-        altair->outputTextEdit->append(WARNING_HTML_TAG " Fichier vide.");
+        altair->outputTextEdit->append(WARNING_HTML_TAG "Fichier vide.");
         return;
     }
 
@@ -558,7 +558,7 @@ void FListFrame::addStringListToListWidget(const QStringList& stringList)
         Hash::wrapper[frameHashKey]->insert(rank, pairs);
 
         #ifdef DEBUG
-          altair->outputTextEdit->append(STATE_HTML_TAG " Ajout de l'onglet Siret");
+          altair->outputTextEdit->append(STATE_HTML_TAG "Ajout de l'onglet Siret");
         #endif
         listWidget->clear();
         listWidget->addItems(tabList);
@@ -599,7 +599,7 @@ void FListFrame::addStringListToListWidget(const QStringList& stringList)
         Hash::wrapper[frameHashKey]->insert(rank, pairs);
 
         #ifdef DEBUG
-          altair->outputTextEdit->append(STATE_HTML_TAG " Ajout de l'onglet Budget");
+          altair->outputTextEdit->append(STATE_HTML_TAG "Ajout de l'onglet Budget");
         #endif
         listWidget->clear();
         listWidget->addItems(tabList);
@@ -625,7 +625,7 @@ void FListFrame::addStringListToListWidget(const QStringList& stringList)
         Hash::wrapper[frameHashKey]->insert(rank, pairs);
 
         #ifdef DEBUG
-          altair->outputTextEdit->append(STATE_HTML_TAG " Ajout de l'onglet Employeur");
+          altair->outputTextEdit->append(STATE_HTML_TAG "Ajout de l'onglet Employeur");
         #endif
         listWidget->clear();
         listWidget->addItems(tabList);
@@ -721,7 +721,7 @@ void FListFrame::on_importFromMainTree_clicked()
  QStringList&& stringsToBeAdded = QStringList();
  int stringListSize=0;
 #ifdef DEBUG
- altair->outputTextEdit->append(STATE_HTML_TAG " Parcours de l'arbre " );
+ altair->outputTextEdit->append(STATE_HTML_TAG "Parcours de l'arbre " );
 #endif
 
  if (importType == flags::importFiles)
@@ -736,7 +736,7 @@ void FListFrame::on_importFromMainTree_clicked()
              }
           }
         #ifdef DEBUG
-         altair->outputTextEdit->append(STATE_HTML_TAG " Ajout des chemins à la liste centrale" );
+         altair->outputTextEdit->append(STATE_HTML_TAG "Ajout des chemins à la liste centrale" );
         #endif
 
          if (stringListSize)

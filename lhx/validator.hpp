@@ -60,21 +60,22 @@ enum class BaseCategorie : int {
 
 enum class BaseType : int
                   {
-                    MONOLITHIQUE        = -1,
-                    PAR_ANNEE           = -2,
-                    PAR_TRAITEMENT      =  -3,
-                    PAR_INDEMNITE_RESIDENCE = -4,
-                    PAR_SFT             = -5,
-                    PAR_AVANTAGE_NATURE = -6,
-                    PAR_INDEMNITE       = -7,
-                    PAR_REM_DIVERSES    = -8,
-                    PAR_DEDUCTION       = -9,
-                    PAR_ACOMPTE         = -10,
-                    PAR_RAPPEL          = -11,
-                    PAR_RETENUE         = -12,
-                    PAR_COTISATION      = -13,
-                    PAR_COMMENTAIRE     = -14,
-                    TOUTES_CATEGORIES   = -15
+                    MONOLITHIQUE = -1,
+                    PAR_ANNEE = 0,
+                    PAR_TRAITEMENT = 1,
+                    PAR_INDEMNITE_RESIDENCE = 2,
+                    PAR_SFT = 3,
+                    PAR_AVANTAGE_NATURE = 4,
+                    PAR_INDEMNITE = 5,
+                    PAR_REM_DIVERSES = 6,
+                    PAR_DEDUCTION = 7,
+                    PAR_ACOMPTE = 8,
+                    PAR_RAPPEL = 9,
+                    PAR_RETENUE = 10,
+                    PAR_COTISATION = 11,
+                    PAR_COMMENTAIRE = 12,
+                    TOUTES_CATEGORIES = 13,
+                    MAXIMUM_LIGNES = 14
                   };
 
 #define INDEX_MAX_COLONNNES 5    // nombre de type de champ de ligne de paye (Libellé, Code, Taux, Base, ...) moins 1.
