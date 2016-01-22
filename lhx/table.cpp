@@ -183,11 +183,13 @@ void boucle_ecriture(std::vector<info_t>& Info)
     static std::ofstream bulletins;
     static std::array<std::ofstream, nbType> tableau_base;
 
-#ifdef OFSTREAM_TABLE_OUTPUT
+#ifdef OFSTREAM_TABLE_OUTPUT    // cas de l'écriture directe dans le fichier base
+
     #define t_base base
     #define t_bulletins bulletins
     #define t_tableau_base tableau_base
-#else
+
+#else                          //  case de l'écriture dans un tampon string avant écriture sur le disque (nécessite plus de mémoire)
 
    std::ostringstream t_base;
    std::ostringstream t_bulletins;
@@ -280,8 +282,13 @@ void boucle_ecriture(std::vector<info_t>& Info)
             if (type_base == BaseType::PAR_ANNEE
                     && strcmp((const char*)VAR(Annee), annee_courante))
             {
-                base.close();
+                #ifndef OFSTREAM_TABLE_OUTPUT      // Il faut écrire dans le fichier OFSTREAM la chaine de caractères temporaires
+                          base << t_base.str();
+                          t_base.str("");
+                #endif
                 
+                base.close();
+
                 std::cerr << "Année : " << annee_courante << " Table générée."  ENDL;
                 annee_courante = (char*) VAR(Annee);
                 ouvrir_fichier_base(Info[i],  type_base, base);
@@ -302,7 +309,13 @@ void boucle_ecriture(std::vector<info_t>& Info)
                               << " lignes, lignes "  << (rang_fichier_base - 1) * taille_base + 1
                               << " à " << rang_fichier_base * taille_base << " ."  ENDL;
                     
+                    #ifndef OFSTREAM_TABLE_OUTPUT      // Il faut écrire dans le fichier OFSTREAM la chaine de caractères temporaires
+                              base << t_base.str();
+                              t_base.str("");
+                    #endif
+
                     base.close();
+
                     if (! base.good())
                     {
                         std::cerr << ERROR_HTML_TAG "Problème fermeture fichier base"  ENDL;
@@ -322,41 +335,42 @@ void boucle_ecriture(std::vector<info_t>& Info)
                 }
 
                 BaseType valeur_drapeau_categorie = BaseType::MONOLITHIQUE;
-                int      int_drapeau_categorie = VAR(l)[0];
+                int      test_drapeau_categorie, int_drapeau_categorie = 0;
 
+                // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
 
-                while (VAR(l) && (int_drapeau_categorie <= nbType) && (int_drapeau_categorie >= 1))
+                while (VAR(l) &&  (test_drapeau_categorie = VAR(l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
                 {
-                    valeur_drapeau_categorie = static_cast<BaseType>(int_drapeau_categorie);
+                    valeur_drapeau_categorie = static_cast<BaseType>(test_drapeau_categorie);
+                    int_drapeau_categorie = test_drapeau_categorie;
 
                     strcpy(type, type_remuneration_traduit[int_drapeau_categorie - 1]);
                     nouveau_type = true;
                     ++l;
                 }
                 
-                if (type_base == BaseType::PAR_ANNEE || type_base == BaseType::MONOLITHIQUE)
+                if (type_base == BaseType::MONOLITHIQUE || type_base == BaseType::PAR_ANNEE || type_base == BaseType::MAXIMUM_LIGNES)
                 {
                     ++compteur;
                     ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
                 }
                 else
                 {
-                    if (type_base != BaseType::TOUTES_CATEGORIES)
-                    {
-                        if (valeur_drapeau_categorie  == Info[0].type_base)
-                        {
-                            ++compteur;
-                            ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
-                        }
-                    }
-                    else
+                    if (type_base == BaseType::TOUTES_CATEGORIES)
                     {
                         ++compteur;
                         if (nouveau_type)
                         {
                             ecrire_ligne_table(i, agent, l, type, t_tableau_base[int_drapeau_categorie - 1], sep, Info, compteur);
                         }
-                        
+                    }
+                    else
+                    {
+                        if (valeur_drapeau_categorie  == Info[0].type_base)
+                        {
+                            ++compteur;
+                            ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
+                        }
                     }
                 }
                 
@@ -385,12 +399,12 @@ void boucle_ecriture(std::vector<info_t>& Info)
     }
     
 #ifndef OFSTREAM_TABLE_OUTPUT
-        base << t_base.str();
         bulletins << t_bulletins.str();
 #endif
 
     // Dans les autres cas, les bases ont déjà été refermées sauf une (cas par année et par taille maximale)
     if (type_base == BaseType::TOUTES_CATEGORIES)
+    {
         for (int d = 0; d < nbType - 1; ++d)
         {
             #ifndef OFSTREAM_TABLE_OUTPUT
@@ -398,7 +412,18 @@ void boucle_ecriture(std::vector<info_t>& Info)
             #endif
             tableau_base[d].close();
         }
-    
+    }
+    else
+    if (base.is_open())
+    {
+        #ifndef OFSTREAM_TABLE_OUTPUT      // Il faut écrire dans le fichier OFSTREAM la chaine de caractères temporaires
+                  base << t_base.str();
+                  //  t_base.str("");  (devenu inutile)
+        #endif
+
+        base.close();
+    }
+
    if (base.good())
     {
         base.close();
@@ -466,6 +491,8 @@ void boucle_ecriture(std::vector<info_t>& Info)
                           << " lignes, lignes " << (rang_fichier_base-1) * taille_base + 1
                           << " à " << compteur << "."  ENDL;
                 break;
+
+            default:  break;
         }
 
         std::cerr << STATE_HTML_TAG "Table de " << compteur << " lignes."  ENDL;

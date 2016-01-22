@@ -44,7 +44,11 @@ CONFIG(guiOutput) {
   DEFINES +=  GUI_TAG_MESSAGES                   # définir pour que les sorties des messages soient formatées pour que l'interface graphique les transforme en icône.
 }
 
-CONFIG (release) {
+CONFIG(debug, debug|release) {
+
+    QMAKE_CXXFLAGS = -O1
+
+} else{
     QMAKE_LFLAGS += -s
     QMAKE_CXXFLAGS = -O3 -fexpensive-optimizations -fomit-frame-pointer
 }
@@ -78,11 +82,12 @@ DEFINES += \#NO_REGEX \                       # Pas d'analyse du texte par expre
         DECIMAL_NON_EN \                    # compilation pour des séparateurs décimaux différents de '.'
         GENERATE_RANK_SIGNAL \              # chaque fois qu'un fichier est traité, un signal externe est émis (rang dans un fichier rank sous AppData\Local\Altair).
                              \              # n'est utile que lorsqu'une interface graphique est connectée. peut ralentir l'application de 1 à 5 %.
-        FGETC_PARSING                       # parcourir les fichiers par ifstream (C++)
-#        STRINGSTREAM_PARSING \                # mise en mémoire vive des fichiers de paye par ostringstream (plus de mémoire vive ; accélère beaucoup le 1er traitement sous Windows)
-#       OFSTREAM_TABLE_OUTPUT               # enregistrer les lignes de paye ligne à ligne sur la base. Plus robuste et moins de mémoire mais plus lent sous Windows
-#        MMAP_PARSING                        # parcourir les fichiers par mappage mémoire (C, unix uniquement, aucun avantage évident).
+#        FGETC_PARSING  \                     # parcourir les fichiers par ifstream (C++)
+        STRINGSTREAM_PARSING \                # mise en mémoire vive des fichiers de paye par ostringstream (plus de mémoire vive ; accélère beaucoup le 1er traitement sous Windows)
+#        MMAP_PARSING \                       # parcourir les fichiers par mappage mémoire (C, unix uniquement, aucun avantage évident).
+#        OFSTREAM_TABLE_OUTPUT \              # enregistrer les lignes de paye ligne à ligne sur la base. Plus robuste et moins de mémoire mais plus lent sous Windows
 
+# un seulement des trois  FGETC_PARSING, MMAP_PARSING ou STRINGSTREAM_PARSING doit être spécifié.
 
 DEVROOT = $$PWD/../..
 

@@ -199,18 +199,7 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
     std::string  index = "-";
 
     static int rang;
-    std::array<std::string, 12> types_extension = { "traitements",
-                                                     "indemnités-résidence",
-                                                     "sft",
-                                                     "avantages-nature",
-                                                     "indemnités",
-                                                     "divers",
-                                                     "déductions",
-                                                     "acompte",
-                                                     "rappels",
-                                                     "retenues",
-                                                     "cotisations",
-                                                     "commentaires" };
+
 
     if (categorie == BaseCategorie::BULLETINS)
     {
