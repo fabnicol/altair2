@@ -236,7 +236,7 @@ FListWidget::FListWidget(QWidget* par,
     setAcceptDrops(true);
 
     widgetDepth="2";
-    parent = par;
+    parent = static_cast<FListFrame*>(par);
     Abstract::initializeFStringListHash(hashKey);
 
     setObjectName(hashKey+" "+description.join(" "));
@@ -282,14 +282,13 @@ const FString& FListWidget::translate(const FStringList &s)
     return commandLineList[0]=L.join(separator);
 }
 
-
 void FListWidget::setWidgetFromXml(const FStringList &s)
 {
     /* for display */
 
     if (s.isFilled())
     {
-        int size=s.size()-1;
+        int size = s.size()-1;
 
         if (tabLabels.size() != size + 1) 
         {
@@ -299,17 +298,19 @@ void FListWidget::setWidgetFromXml(const FStringList &s)
         }
 
         /* add as many groups as there are QStringLists in excess of 1 and fill in the tabs with files */
-         static_cast<FListFrame*>(parent)->addGroups(size) ;
 
-         for (int j =0; j <= size; j++)
-             static_cast<FListFrame*>(parent)->mainTabWidget->setTabText(j, tabLabels[j]);
+        for (int j=0; j <= size; j++)
+          {
+             if (j) addGroup();
+             parent->widgetContainer[j]->addItems((*Hash::wrapper[parent->frameHashKey])[j]);
+             parent->mainTabWidget->setTabText(j, tabLabels[j]);
+          }
     }
     else
     {
         commandLineList={""};
         return;
     }
-
 
     /* for command-line */
     /* if a Hash has been activated, strings are saved in Xml projects
@@ -344,13 +345,29 @@ void FListWidget::setWidgetFromXml(const FStringList &s)
                         emit(forceCloseProject());
                        return;
                     }
-
                 }
             }
         }
         else
             commandLineList[0]= Hash::wrapper[hashKey]->join(separator);
     }
+}
+
+
+
+void FListWidget::addGroup()
+{
+        currentListWidget = new QListWidget;
+
+        currentListWidget->setSelectionMode(QAbstractItemView::ExtendedSelection);
+        currentListWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+
+        parent->widgetContainer << currentListWidget;
+        if (parent->getRank() ==  Hash::wrapper[parent->frameHashKey]->size())
+        {
+             Hash::wrapper[parent->frameHashKey]->append(QStringList());
+        }
+        parent->addNewTab();
 }
 
 const FString FListWidget::setXmlFromWidget()

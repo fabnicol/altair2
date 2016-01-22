@@ -421,7 +421,9 @@ void Altair::parseProjectFile(QIODevice* file)
 
     //refreshProjectManagerValues();
     project[0]->mainTabWidget->clear();
-    assignVariables();
+
+    assignWidgetValues();
+
     //Hash::wrapper["XHL"]->removeAll(QStringList());
     int projectRank = Hash::wrapper["XHL"]->size();
     if (projectRank == 0) return;

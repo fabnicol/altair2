@@ -19,34 +19,10 @@ class FListFrame : public QWidget//: public common
 Q_OBJECT
 
 
-private:
-
- inline void updateIndexInfo();
+public:
 
  QList<QListWidget*> widgetContainer;
- FListWidget *fileListWidget;
- QListWidget *currentListWidget;
  QString frameHashKey;
-
- void addGroup();
- void clearTabLabels() {fileListWidget->clearTabLabels();}
-
- int row, currentIndex,  slotListSize;
- bool isListConnected=false;
- bool isTotalConnected=false;
- bool activateOnStart=false;
-
- QStringList parseTreeForFilePaths(const QStringList& stringList);
- void addStringListToListWidget(const QStringList&);
-
- void parseXhlFile(const QString& fileName);
- void parseXhlFile(const QStringList& stringList);
- void showContextMenu();
- void setStrikeOutFileNames(flags::colors);
-
- Altair* altair;
- 
-public:
 
  QToolButton *importFromMainTree=new QToolButton;
  #ifndef USE_RIGHT_CLICK
@@ -117,7 +93,6 @@ public slots:
     void deleteGroup(int r);
     void on_deleteItem_clicked();
     void  setSlotListSize(int s) ;
-    void addGroups(int);
 
 protected slots:
     void on_importFromMainTree_clicked();
@@ -125,6 +100,30 @@ protected slots:
 protected:
     short importType;
     QStringList tags;
+
+private:
+
+ inline void updateIndexInfo();
+
+ FListWidget *fileListWidget;
+ QListWidget *currentListWidget;
+
+ void clearTabLabels() {fileListWidget->clearTabLabels();}
+
+ int row, currentIndex,  slotListSize;
+ bool isListConnected=false;
+ bool isTotalConnected=false;
+ bool activateOnStart=false;
+
+ QStringList parseTreeForFilePaths(const QStringList& stringList);
+ void addStringListToListWidget(const QStringList&);
+
+ void parseXhlFile(const QString& fileName);
+ void parseXhlFile(const QStringList& stringList);
+ void showContextMenu();
+ void setStrikeOutFileNames(flags::colors);
+
+ Altair* altair;
 
 signals:
     void is_ntabs_changed(int);

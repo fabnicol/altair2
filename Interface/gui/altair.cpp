@@ -211,7 +211,6 @@ void Altair::on_newProjectButton_clicked()
 
 void  Altair::openProjectFileCommonCode()
 {
-
     RefreshFlag = RefreshFlag  | interfaceStatus::parseXml;
 
     checkEmptyProjectName();
@@ -221,7 +220,6 @@ void  Altair::openProjectFileCommonCode()
     RefreshFlag = RefreshFlag & (~interfaceStatus::parseXml);
 
     Hash::createReference(project[0]->getRank());
-
 }
 
 void Altair::on_openProjectButton_clicked()
@@ -330,13 +328,6 @@ void Altair::on_helpButton_clicked()
     outputTextEdit->append(STATE_HTML_TAG + QString("Ouverture de l'aide : ") + url.toDisplayString());
     browser::showPage(url);
 }
-
-
-void Altair::addGroup()
-{
-    updateIndexInfo();
-}
-
 
 void Altair::displayTotalSize()
 {
@@ -451,7 +442,7 @@ void Altair::setCurrentFile(const QString &fileName)
 }
 
 
-void Altair::assignVariables()
+void Altair::assignWidgetValues()
 {
     QListIterator<FAbstractWidget*> w(Abstract::abstractWidgetList);
 

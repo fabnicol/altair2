@@ -94,7 +94,6 @@ private slots:
     void runRAltair();
     void processFinished(int code) { processFinished(static_cast<exitCode>(code));}
     void processFinished(exitCode);
-    void addGroup();
     void deleteGroup();
     void killProcess();
     void on_helpButton_clicked();
@@ -121,7 +120,7 @@ private:
     QVBoxLayout *progressLayout= new QVBoxLayout;
     QVBoxLayout *managerLayout= new QVBoxLayout;
     QHBoxLayout *allLayout= new QHBoxLayout;
-    void assignVariables();
+    void assignWidgetValues();
     void clearProjectData();
     QStringList createCommandLineString();
     void initialize();

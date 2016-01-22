@@ -621,6 +621,9 @@ static int parseFile(info_t& info)
     xmlFree(mois_fichier);
     xmlFree(budget_fichier);
     xmlFree(employeur_fichier);
+
+    info.threads->in_memory_file.at(info.fichier_courant).clear();
+
     xmlFreeDoc(doc);
 
     if (log.is_open())
@@ -821,8 +824,7 @@ void* decoder_fichier(info_t& info)
 
     }
 
-
-        if (info.reduire_consommation_memoire && info.NCumAgentXml != info.NCumAgent)
+    if (info.reduire_consommation_memoire && info.NCumAgentXml != info.NCumAgent)
         {
           if (verbeux)
           {

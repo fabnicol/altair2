@@ -11,7 +11,7 @@
 class FStringList;
 class common;
 class FAbstractWidget;
-
+class FListFrame;
 
 class QToolDirButton : public QToolButton
 {
@@ -153,9 +153,11 @@ public:
   QStringList getTabLabels() { return tabLabels;}
   QStringList separator;
 
+  void addGroup();
+
 private:
   QStringList tags;
-  QWidget* parent;
+  FListFrame* parent;
 
   friend  QStringList applyHashToStringList(QHash<QString, QString> &H,  QStringList &M);
 

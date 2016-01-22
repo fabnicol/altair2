@@ -196,33 +196,6 @@ void FListFrame::addNewTab(int r, const QString& label)
     mainTabWidget->setCurrentIndex(r);
 }
 
-void FListFrame::addGroup()
-{
- 
-        currentListWidget=new QListWidget;
-        fileListWidget->currentListWidget = currentListWidget;
-        currentListWidget->setSelectionMode(QAbstractItemView::ExtendedSelection);
-        currentListWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
-
-        widgetContainer << currentListWidget;
-        if (getRank() ==  Hash::wrapper[frameHashKey]->size())
-        {
-             Hash::wrapper[frameHashKey]->append(QStringList());
-        }
-        addNewTab();
-}
-
-/* Unlike addGroup, this function is just used for reading groups from Xml */
-
-void FListFrame::addGroups(int n)
-{
-    for (int j=0; j <= n; j++)
-      {
-         if (j) addGroup();
-         widgetContainer[j]->addItems((*Hash::wrapper[frameHashKey])[j]);
-      }
-}
-
 void FListFrame::deleteAllGroups(bool insertFirstGroup, bool eraseAllData)
 {
    // mainTabWidget->clear();
@@ -257,7 +230,7 @@ void FListFrame::deleteAllGroups(bool insertFirstGroup, bool eraseAllData)
     clearTabLabels();
 
   //  widgetContainer.clear();
-    if (insertFirstGroup) addGroup();
+    if (insertFirstGroup) fileListWidget->addGroup();
 }
 
 void FListFrame::deleteGroup(int r)
