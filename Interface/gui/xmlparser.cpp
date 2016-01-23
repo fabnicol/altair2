@@ -526,12 +526,12 @@ void Altair::refreshProjectManagerValues(std::uint16_t refreshProjectManagerFlag
                            *Hash::wrapper["XHL"],
                             fileSizeDataBase[0]);
     Altair::totalSize[0]+=1;
-    if ((refreshProjectManagerFlag & manager::refreshNBulletinsMask) ==  manager::refreshNBulletins)
-    {
-        for (int i=0; i < Hash::wrapper["NBulletins"]->size(); ++i)
-            for (int j=0; i < Hash::wrapper["NBulletins"]->at(i).size(); ++j)
-               XmlMethod::displayTextData({""}, "", "", "", Hash::wrapper["NBulletins"]->at(i).at(j));
-    }
+//    if ((refreshProjectManagerFlag & manager::refreshNBulletinsMask) ==  manager::refreshNBulletins)
+//    {
+//        for (int i=0; i < Hash::wrapper["NBulletins"]->size(); ++i)
+//            for (int j=0; i < Hash::wrapper["NBulletins"]->at(i).size(); ++j)
+//               XmlMethod::displayTextData({""}, "", "", "", Hash::wrapper["NBulletins"]->at(i).at(j));
+//    }
         
     item=new QTreeWidgetItem(managerWidget);
     item->setText(0, "Logiciel");

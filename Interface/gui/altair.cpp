@@ -472,10 +472,10 @@ bool Altair::refreshProjectManager()
     QFile file(projectName);
     bool result = true;
 
-    if ((RefreshFlag&interfaceStatus::treeMask) == interfaceStatus::tree)
-    {
-      //  managerWidget->clear();
-    }
+//    if ((RefreshFlag&interfaceStatus::treeMask) == interfaceStatus::tree)
+//    {
+//      //  managerWidget->clear();
+//    }
 
     if ((RefreshFlag&interfaceStatus::saveTreeMask) == interfaceStatus::saveTree)
     {
@@ -490,7 +490,7 @@ bool Altair::refreshProjectManager()
 
     // Step 2: parsing on opening .dvp project  (=update tree +refresh tabs) or adding/deleting tab files (=update tree)
 
-    if ((RefreshFlag&interfaceStatus::treeMask) == interfaceStatus::tree)
+    if ((RefreshFlag & interfaceStatus::treeMask) == interfaceStatus::tree)
     {
 
         QPalette palette;
@@ -518,6 +518,7 @@ bool Altair::refreshProjectManager()
         else  // refresh display using containers without parsing xml file
         {
             refreshProjectManagerValues(manager::refreshProjectInteractiveMode
+                                        | manager::refreshNBulletins
                                         | manager::refreshXHLZone
                                         | manager::refreshSystemZone);
         }
