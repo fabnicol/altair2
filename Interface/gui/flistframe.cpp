@@ -41,33 +41,10 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
 
  Abstract::initializeFStringListHash(frameHashKey);
 
- if (mainTabWidgetRank != common::TabWidgetTrait::NO_EMBEDDING_TAB_WIDGET)
-   {
-     if (parentTabWidget == nullptr)
-       {
-         embeddingTabWidget = new QTabWidget(this);
-       }
-     else
-       {
-         embeddingTabWidget = parentTabWidget;
-       }
-
-     mainTabWidget = new QTabWidget(embeddingTabWidget);
-     if (icon)
-       {
-           embeddingTabWidget->insertTab(static_cast<int>(mainTabWidgetRank), mainTabWidget, *icon, "");
-           embeddingTabWidget->setIconSize(QSize(48,48));
-           embeddingTabWidget->setMovable(false);
-           embeddingTabWidget->setTabToolTip(static_cast<int>(mainTabWidgetRank), description.at(0));
-       }
-     else
-       embeddingTabWidget->insertTab(static_cast<int>(mainTabWidgetRank), mainTabWidget, xml_tags[1]);
-  }
- else
+ if (mainTabWidgetRank == common::TabWidgetTrait::NO_EMBEDDING_TAB_WIDGET)
   {
-     embeddingTabWidget = new QTabWidget(this);
-     embeddingTabWidget->addTab(currentListWidget, xml_tags[1]+" 1");
-     mainTabWidget=embeddingTabWidget;
+     mainTabWidget = new QTabWidget(this);
+     mainTabWidget->addTab(currentListWidget, xml_tags[1]+" 1");
   }
 
 
@@ -105,7 +82,7 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
 #endif
 
  QVBoxLayout *tabLayout=new QVBoxLayout;
- tabLayout->addWidget(embeddingTabWidget);
+ tabLayout->addWidget(mainTabWidget);
 
 
  if (importType == flags::typeIn)

@@ -302,8 +302,9 @@ void FListWidget::setWidgetFromXml(const FStringList &s)
         for (int j=0; j <= size; j++)
           {
              if (j) addGroup();
-             parent->widgetContainer[j]->addItems((*Hash::wrapper[parent->frameHashKey])[j]);
-             parent->mainTabWidget->setTabText(j, tabLabels[j]);
+             parent->widgetContainer[j]->addItems(Hash::wrapper[parent->frameHashKey]->at(j));
+
+             parent->addNewTab(j, tabLabels.at(j));
           }
     }
     else
@@ -355,7 +356,7 @@ void FListWidget::setWidgetFromXml(const FStringList &s)
 
 
 
-void FListWidget::addGroup()
+void FListWidget::addGroup(const QString &label)
 {
         currentListWidget = new QListWidget;
 
@@ -367,7 +368,7 @@ void FListWidget::addGroup()
         {
              Hash::wrapper[parent->frameHashKey]->append(QStringList());
         }
-        parent->addNewTab();
+        parent->addNewTab(parent->getRank(), label);
 }
 
 const FString FListWidget::setXmlFromWidget()

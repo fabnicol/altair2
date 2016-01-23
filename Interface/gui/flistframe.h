@@ -30,7 +30,7 @@ public:
                         *deleteGroupButton=new QToolButton;
  #endif
 
- QTabWidget *mainTabWidget, *embeddingTabWidget;
+ QTabWidget *mainTabWidget;
  QAbstractItemView *fileTreeView;
  QStringList* slotList= new QStringList;
 

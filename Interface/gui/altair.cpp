@@ -318,7 +318,7 @@ void Altair::clearProjectData()
     }
 
 
-    project[0]->embeddingTabWidget->setCurrentIndex(0);
+    project[0]->mainTabWidget->setCurrentIndex(0);
     project[0]->initializeWidgetContainer();
 }
 

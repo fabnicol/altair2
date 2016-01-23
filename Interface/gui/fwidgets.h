@@ -153,7 +153,7 @@ public:
   QStringList getTabLabels() { return tabLabels;}
   QStringList separator;
 
-  void addGroup();
+  void addGroup(const QString& label = "");
 
 private:
   QStringList tags;
