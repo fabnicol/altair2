@@ -3,7 +3,7 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 #include "validator.hpp"
-
+#include <libxml/parser.h>
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -87,7 +87,6 @@ inline void generate_rank_signal(int progression)
         rankFile.close();
 }
 
-#include <libxml/parser.h>
 
 #if 0
 static inline xmlChar* GCC_INLINE  UTF8toISO8859_1(const unsigned char* in)
@@ -128,9 +127,6 @@ static inline xmlChar* GCC_INLINE  UTF8toISO8859_1(const unsigned char* in)
     return ((xmlChar*) out);
 }
 #endif
-
-
-
 
 #endif
 

@@ -174,8 +174,13 @@ static void (*ecrire_ligne_bulletin)(int i, uint32_t, table_t& , char, std::vect
 void boucle_ecriture(std::vector<info_t>& Info)
 {
     int ligne = 0;
-    uint64_t compteur = 0, dernier_compteur = 0;
+    uint64_t compteur = 0,
+             dernier_compteur = 0,
+             compteur_annee_courante = 0,
+             rang_fichier_base_annee_courante = 0;
+
     uint32_t compteur_lignes_bulletins = 0;
+
     char sep = Info[0].separateur;
     char* annee_courante = (char*) Info[0].Table[0][Annee];
     unsigned rang_fichier_base = 1;
@@ -295,6 +300,8 @@ void boucle_ecriture(std::vector<info_t>& Info)
                           << " à " << compteur << "."  ENDL;
 
                 dernier_compteur = compteur;
+                compteur_annee_courante = 0;
+                rang_fichier_base_annee_courante = 0;
 
                 annee_courante = (char*) VAR(Annee);
                 ouvrir_fichier_base(Info[i],  type_base, base);
@@ -308,9 +315,9 @@ void boucle_ecriture(std::vector<info_t>& Info)
             {
                 bool nouveau_type = false;
                 
-                if (taille_base > 0  && (type_base == BaseType::MAXIMUM_LIGNES  // soit : il existe un nombre de lignes maximal par base sépcifié en ligne de commande après -T
-                                         || type_base == BaseType::MAXIMUM_LIGNES_PAR_ANNEE)
-                                     && (compteur  == rang_fichier_base * taille_base))
+                if (taille_base > 0  && ((type_base == BaseType::MAXIMUM_LIGNES  && compteur  == rang_fichier_base * taille_base)
+                                         // soit : il existe un nombre de lignes maximal par base sépcifié en ligne de commande après -T
+                                        || (type_base == BaseType::MAXIMUM_LIGNES_PAR_ANNEE  && (compteur_annee_courante  == rang_fichier_base_annee_courante * taille_base))))
                 {
                     std::cerr << "Table n°" << rang_fichier_base << " de " << taille_base
                               << " lignes, lignes "  << (rang_fichier_base - 1) * taille_base + 1
@@ -330,6 +337,7 @@ void boucle_ecriture(std::vector<info_t>& Info)
                     }
                     
                     ++rang_fichier_base;
+                    ++rang_fichier_base_annee_courante;
                     
                     if (rang_fichier_base >= 1000)
                     {
@@ -358,10 +366,16 @@ void boucle_ecriture(std::vector<info_t>& Info)
                 
                 if (type_base == BaseType::MONOLITHIQUE
                     || type_base == BaseType::PAR_ANNEE
-                    || type_base == BaseType::MAXIMUM_LIGNES
-                    || type_base == BaseType::MAXIMUM_LIGNES_PAR_ANNEE)
+                    || type_base == BaseType::MAXIMUM_LIGNES)
                 {
                     ++compteur;
+                    ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
+                }
+                else
+                if (type_base == BaseType::MAXIMUM_LIGNES_PAR_ANNEE)
+                {
+                    ++compteur;
+                    ++compteur_annee_courante;
                     ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
                 }
                 else

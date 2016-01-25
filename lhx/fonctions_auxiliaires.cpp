@@ -226,6 +226,7 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
 
            case BaseType::MAXIMUM_LIGNES:
            case BaseType::PAR_ANNEE:
+           case BaseType::MAXIMUM_LIGNES_PAR_ANNEE:
                index = index + std::to_string(++rang) +  std::string(CSV);
                chemin_base = chemin_base + index;
              break;
