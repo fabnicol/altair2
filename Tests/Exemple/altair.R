@@ -699,33 +699,35 @@ Tableau.vertical(c(étiquette.année, "Rém. nette totale (k&euro;)", "SMPT net (&e
                  f,
                  g)
 
+# Calcul du GVT négatif
+
 entrants <- function(x)   {
   
   A <- setdiff(Analyse.variations[Année == x, Matricule], 
-               Analyse.variations[Année == x -1, Matricule])
+               Analyse.variations[Année == x - 1, Matricule])
   
 
   B <- unique(Bulletins.paie[Année == x 
                              & Matricule %chin% A, 
                                .(Année, quotité, Matricule, Mois, Statut)], by = NULL)
 
-  eqtp.agent <- B[ , sum(quotité, na.rm=TRUE)] / 12
-  eqtp.fonct <- B[Statut == "TITULAIRE" | Statut == "STAGIAIRE", sum(quotité, na.rm=TRUE)] / 12
+  eqtp.agent <- B[ , sum(quotité, na.rm = TRUE)] / 12
+  eqtp.fonct <- B[Statut == "TITULAIRE" | Statut == "STAGIAIRE", sum(quotité, na.rm = TRUE)] / 12
 
   list(A, eqtp.agent, eqtp.fonct)
 }
 
 sortants <- function(x)   {
   
-  A <- setdiff(Analyse.variations[Année == x-1, Matricule], 
-               Analyse.variations[Année == x, Matricule])
+  A <- setdiff(Analyse.variations[Année == x, Matricule], 
+               Analyse.variations[Année == x + 1, Matricule])
     
-  B <- unique(Bulletins.paie[Année == x - 1
+  B <- unique(Bulletins.paie[Année == x 
                              & Matricule %chin% A,
                                .(Année, quotité, Matricule, Mois, Statut)], by = NULL)
   
-  eqtp.agent <- B[ , sum(quotité, na.rm=TRUE)] / 12
-  eqtp.fonct <- B[Statut == "TITULAIRE" | Statut == "STAGIAIRE", sum(quotité, na.rm=TRUE)] / 12
+  eqtp.agent <- B[ , sum(quotité, na.rm = TRUE)] / 12
+  eqtp.fonct <- B[Statut == "TITULAIRE" | Statut == "STAGIAIRE", sum(quotité, na.rm = TRUE)] / 12
   
   list(A, eqtp.agent, eqtp.fonct)
 }
@@ -736,6 +738,7 @@ noria <- rep(0, durée.sous.revue)
 remplacements <- rep(0, durée.sous.revue)
 
 f <- function(x) {
+  
   y <- x - début.période.sous.revue
   
   s[[y]] <<- sortants(x)
@@ -759,7 +762,7 @@ g <- function(x) {
   
   y <- x - début.période.sous.revue
 
-  remplacements[y] <<- min(e[[y]][[2]], s[[y]][[2]], na.rm=TRUE)
+  remplacements[y] <<- min(e[[y]][[2]], s[[y]][[2]], na.rm = TRUE)
   
   prettyNum(noria[y] * remplacements[y] / (masse.salariale.nette[y] * 10),
                            big.mark = " ",
@@ -777,17 +780,17 @@ g <- function(x) {
 #'    
     
 if (durée.sous.revue > 1) {
-Tableau.vertical(c(étiquette.année,  "Noria EQTP (&euro;)", "En % de la MS N-1", "Remplacements EQTP", "Taux de remplacements (%)"),
-                 période[2:durée.sous.revue],
-                 extra = "no",
-                 f,
-                 g,
-                 function(x) prettyNum(remplacements[x - début.période.sous.revue], 
-                                       digits=0,
-                                       format="f"),
-                 function(x) prettyNum(remplacements[x - début.période.sous.revue] / effectifs[[as.character(x)]]["ETPT"] * 100,
-                                       digits=2,
-                                       format="f"))
+  Tableau.vertical(c(étiquette.année,  "Noria EQTP (&euro;)", "En % de la MS N-1", "Remplacements EQTP", "Taux de remplacements (%)"),
+                   période[2:durée.sous.revue],
+                   extra = "no",
+                   noria_eqtp,
+                   noria_part_ms,
+                   function(x) prettyNum(remplacements[x - début.période.sous.revue], 
+                                         digits = 0,
+                                         format = "f"),
+                   function(x) prettyNum(remplacements[x - début.période.sous.revue] / effectifs[[as.character(x)]]["ETPT"] * 100,
+                                         digits = 2,
+                                         format = "f"))
 } else {
   cat("L'effet de noria ne peut être calculé que pour des durées sous revue supérieures à un exercice.")
 }
