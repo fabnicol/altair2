@@ -75,7 +75,8 @@ enum class BaseType : int
                     PAR_COTISATION = 11,
                     PAR_COMMENTAIRE = 12,
                     TOUTES_CATEGORIES = 13,
-                    MAXIMUM_LIGNES = 14
+                    MAXIMUM_LIGNES = 14,
+                    MAXIMUM_LIGNES_PAR_ANNEE = 15
                   };
 
 #define INDEX_MAX_COLONNNES 5    // nombre de type de champ de ligne de paye (Libellé, Code, Taux, Base, ...) moins 1.

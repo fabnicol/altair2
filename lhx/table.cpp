@@ -174,7 +174,7 @@ static void (*ecrire_ligne_bulletin)(int i, uint32_t, table_t& , char, std::vect
 void boucle_ecriture(std::vector<info_t>& Info)
 {
     int ligne = 0;
-    uint64_t compteur = 0;
+    uint64_t compteur = 0, dernier_compteur = 0;
     uint32_t compteur_lignes_bulletins = 0;
     char sep = Info[0].separateur;
     char* annee_courante = (char*) Info[0].Table[0][Annee];
@@ -279,7 +279,7 @@ void boucle_ecriture(std::vector<info_t>& Info)
             
             ecrire_ligne_bulletin(i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
             
-            if (type_base == BaseType::PAR_ANNEE
+            if ((type_base == BaseType::PAR_ANNEE || type_base == BaseType::MAXIMUM_LIGNES_PAR_ANNEE)
                     && strcmp((const char*)VAR(Annee), annee_courante))
             {
                 #ifndef OFSTREAM_TABLE_OUTPUT      // Il faut écrire dans le fichier OFSTREAM la chaine de caractères temporaires
@@ -290,6 +290,12 @@ void boucle_ecriture(std::vector<info_t>& Info)
                 base.close();
 
                 std::cerr << "Année : " << annee_courante << " Table générée."  ENDL;
+                std::cerr << "Table de " << compteur - dernier_compteur
+                          << " lignes, lignes "  << dernier_compteur + 1
+                          << " à " << compteur << "."  ENDL;
+
+                dernier_compteur = compteur;
+
                 annee_courante = (char*) VAR(Annee);
                 ouvrir_fichier_base(Info[i],  type_base, base);
                 if (! base.is_open()) return;
@@ -302,12 +308,13 @@ void boucle_ecriture(std::vector<info_t>& Info)
             {
                 bool nouveau_type = false;
                 
-                if (taille_base > 0  && type_base == BaseType::MAXIMUM_LIGNES // soit : il existe un nombre de lignes maximal par base sépcifié en ligne de commande après -T
-                        && (compteur  == rang_fichier_base * taille_base))
+                if (taille_base > 0  && (type_base == BaseType::MAXIMUM_LIGNES  // soit : il existe un nombre de lignes maximal par base sépcifié en ligne de commande après -T
+                                         || type_base == BaseType::MAXIMUM_LIGNES_PAR_ANNEE)
+                                     && (compteur  == rang_fichier_base * taille_base))
                 {
                     std::cerr << "Table n°" << rang_fichier_base << " de " << taille_base
                               << " lignes, lignes "  << (rang_fichier_base - 1) * taille_base + 1
-                              << " à " << rang_fichier_base * taille_base << " ."  ENDL;
+                              << " à " << rang_fichier_base * taille_base << "."  ENDL;
                     
                     #ifndef OFSTREAM_TABLE_OUTPUT      // Il faut écrire dans le fichier OFSTREAM la chaine de caractères temporaires
                               base << t_base.str();
@@ -349,7 +356,10 @@ void boucle_ecriture(std::vector<info_t>& Info)
                     ++l;
                 }
                 
-                if (type_base == BaseType::MONOLITHIQUE || type_base == BaseType::PAR_ANNEE || type_base == BaseType::MAXIMUM_LIGNES)
+                if (type_base == BaseType::MONOLITHIQUE
+                    || type_base == BaseType::PAR_ANNEE
+                    || type_base == BaseType::MAXIMUM_LIGNES
+                    || type_base == BaseType::MAXIMUM_LIGNES_PAR_ANNEE)
                 {
                     ++compteur;
                     ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
@@ -430,59 +440,62 @@ void boucle_ecriture(std::vector<info_t>& Info)
         switch (type_base)
         {
             case  BaseType::MONOLITHIQUE            :
-                goto bulletins;
+                break;
 
             case  BaseType::PAR_TRAITEMENT          :
                 std::cerr << STATE_HTML_TAG "Catégorie : Traitement."  ENDL;
-                goto bulletins;
+                break;
 
             case  BaseType::PAR_INDEMNITE_RESIDENCE :
                 std::cerr << STATE_HTML_TAG "Catégorie : Indemnité de résidence."  ENDL;
-                goto bulletins;
+                break;
 
             case  BaseType::PAR_SFT                 :
                 std::cerr << STATE_HTML_TAG "Catégorie : Supplément familial de traitement."  ENDL;
-                goto bulletins;
+                break;
 
             case  BaseType::PAR_AVANTAGE_NATURE     :
                 std::cerr << STATE_HTML_TAG "Catégorie : Avantage en nature."  ENDL;
-                goto bulletins;
+                break;
 
             case  BaseType::PAR_INDEMNITE           :
                 std::cerr << STATE_HTML_TAG "Catégorie : Indemnité."  ENDL;
-                goto bulletins;
+                break;
 
             case  BaseType::PAR_REM_DIVERSES        :
                 std::cerr << STATE_HTML_TAG "Catégorie : Rémunérations diverses."  ENDL;
-                goto bulletins;
+                break;
 
             case  BaseType::PAR_DEDUCTION           :
                 std::cerr << STATE_HTML_TAG "Catégorie : Déduction."  ENDL;
-                goto bulletins;
+                break;
 
             case  BaseType::PAR_ACOMPTE             :
                 std::cerr << STATE_HTML_TAG "Catégorie : Acompte."  ENDL;
-                goto bulletins;
+                break;
 
             case  BaseType::PAR_RAPPEL              :
                 std::cerr << STATE_HTML_TAG "Catégorie : Rappel."  ENDL;
-                goto bulletins;
+                break;
 
             case  BaseType::PAR_RETENUE             :
                 std::cerr << STATE_HTML_TAG "Catégorie : Retenue."  ENDL;
-                goto bulletins;
+                break;
 
             case  BaseType::PAR_COTISATION          :
                 std::cerr << STATE_HTML_TAG "Catégorie : Cotisation."  ENDL;
-                goto bulletins;
+                break;
 
             case  BaseType::TOUTES_CATEGORIES       :
                 std::cerr << STATE_HTML_TAG "Toutes catégories."  ENDL;
-                std::cerr << STATE_HTML_TAG "Total de " << compteur << " lignes générée dans 11 bases."  ENDL;
-                goto bulletins;
+                break;
 
             case BaseType::PAR_ANNEE    :
-                std::cerr << "Année : " << annee_courante << " Table générée."  ENDL;
+            case BaseType::MAXIMUM_LIGNES_PAR_ANNEE :
+                std::cerr << "Année : " << annee_courante  << ENDL;
+                std::cerr << "Table de " << compteur - dernier_compteur
+                          << " lignes, lignes "  << dernier_compteur + 1
+                          << " à " << compteur << "."  ENDL;
                 break;
 
             case BaseType::MAXIMUM_LIGNES  :  /* Taille définie par l'utilisateur */
@@ -495,16 +508,12 @@ void boucle_ecriture(std::vector<info_t>& Info)
             default:  break;
         }
 
-        std::cerr << STATE_HTML_TAG "Table de " << compteur << " lignes."  ENDL;
+        std::cerr << STATE_HTML_TAG "Nombre total de lignes de paye : " << compteur << " lignes."  ENDL;
 
 #if defined(__WIN32__) && defined(USE_ICONV)
-        bulletins :
         convertir(Info[0].chemin_base);
- }
-#else
- }
-   bulletins:
 #endif
+ }
 
     if (bulletins.good())
     {

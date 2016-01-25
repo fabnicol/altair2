@@ -91,7 +91,7 @@
    oui
   </fileManagerDisplay>
   <fullScreenDisplay profondeur="0">
-   oui
+   non
   </fullScreenDisplay>
   <outputTextEdit profondeur="0">
    oui
@@ -121,16 +121,16 @@
    non
   </limitConsoleOutput>
   <quiet profondeur="0">
-   oui
+   non
   </quiet>
   <maxLigne profondeur="0">
-     
+   50000
   </maxLigne>
   <base profondeur="0">
    C:\Users\Public\Dev\altair\Tests\Exemple\Donnees\R-Altaïr
   </base>
   <baseType profondeur="0">
-     
+   AN
   </baseType>
   <genererNumLigne profondeur="0">
    non
@@ -145,7 +145,7 @@
    C:\Users\Public\Dev\altair\win
   </lhxDir>
   <processType profondeur="0">
-   '5'
+   '4'
   </processType>
   <nAgent profondeur="0">
      
@@ -154,7 +154,7 @@
      
   </nLine>
   <log profondeur="0">
-   C:\Users\Fab\AppData\Local\Altaïr\altair.log
+   C:\Users\fnicol\AppData\Local\Altaïr\altair.log
   </log>
   <genererLog profondeur="0">
    non

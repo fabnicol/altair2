@@ -220,6 +220,8 @@ int main(int argc, char **argv)
             }
             else
             {
+                // On a trouvé un argument numérique en ligne de commande
+
                 int32_t size_read = lire_argument(argc, const_cast<char*>(commandline_tab[start + 1].c_str()));
 
                 if (size_read < 0 || size_read > INT32_MAX -1)
@@ -230,14 +232,15 @@ int main(int argc, char **argv)
                 else
                 {
                     info.taille_base = size_read;
-                    info.type_base = BaseType::MAXIMUM_LIGNES;
+
+                    info.type_base = (info.type_base == BaseType::PAR_ANNEE)? BaseType::MAXIMUM_LIGNES_PAR_ANNEE : BaseType::MAXIMUM_LIGNES;
+
                     std::cerr << PARAMETER_HTML_TAG "Bases d'au plus " << size_read << " lignes" ENDL;
                 }
             }
 
             start += 2;
             continue;
-
         }
         else if (commandline_tab[start] == "-s")
         {
