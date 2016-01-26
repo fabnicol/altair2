@@ -14,7 +14,6 @@ extern template void createHash(QHash<QString, QString>&, const QList<QString>*,
 standardPage::standardPage()
 {
 
-    QLabel* maxNLigneLabel;
     QList<QString> range=QList<QString>(), range2=QList<QString>();
     range << "Standard" << "Par année" << "Toutes catégories" << "Traitement" << "Indemnité"
           << "SFT"      << "Rémunérations diverses"           << "Rappel"     << "Acompte"
@@ -26,10 +25,10 @@ standardPage::standardPage()
            << "AV" << "IR" << "C"
            << "D"  << "RE";
 
-    maxNLigneLabel = new QLabel("Nombre maximum de lignes  ");
+    maxNLigneLabel = new QLabel("Nombre maximum de lignes\npar segment de base  ");
     maxNLigneLineEdit = new FLineEdit("",
                                       "maxLigne",
-                                     {"Données csv", "Nombre maximum de lignes"},
+                                     {"Données csv", "Découper la base de données par segment d'au maximum ce nombre de lignes."},
                                       "T");
 
     QGroupBox *baseBox= new QGroupBox(tr("Répertoires"));
@@ -152,6 +151,16 @@ standardPage::standardPage()
                                  QList<QWidget*>(),   // attention {nullptr} serait ambigu
                                  {nLineLabel, NLineLabel, nLineEdit, NLineEdit});
 
+    /* A ce stade seules les bases monolithiques et par année peuvent être sous découpées en segments d'au maximum N lignes
+     * Les autres types de base doivent donc désactiver la FLineEdit maxNLigneLabel.
+     * Le code présuppose que les types de base sont rangés dans l'ordre : Standard > Par année > autres types.
+     * Code à désactiver lorsque cette fonctionnalités sera étendue aux autres types. */
+
+    connect(baseTypeWidget, &FComboBox::currentTextChanged, [this] {
+           bool value = (baseTypeWidget->currentIndex() > 1);
+           maxNLigneLabel->setDisabled(value);
+           maxNLigneLineEdit->setDisabled(value);
+        });
 
     v1Layout->addWidget(tableCheckBox,     1, 0, Qt::AlignLeft);
     v1Layout->addWidget(etabCheckBox,      2, 0, Qt::AlignLeft);

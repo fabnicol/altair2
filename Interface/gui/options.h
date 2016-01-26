@@ -46,6 +46,8 @@ private:
     FString
       standardMsg;
 
+    QLabel *maxNLigneLabel;
+
 
 
 };
