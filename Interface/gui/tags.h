@@ -12,6 +12,7 @@
 #define DBG_HTML_TAG "<img src=\":/images/debug.png\"/>&nbsp;"
 #define HTML_TAG(X) "<span style=\"color: " #X ";\">&nbsp;"
 #define ENDL  "<br>\n"  // pour une utilisation GUI, "\n" en ligne de commande de console pure.
+#define SPACER  "&nbsp;&nbsp;\n"
 
 #else
 
@@ -21,6 +22,7 @@
   #define  ERROR_HTML_TAG  "[ERR] "
   #define  WARNING_HTML_TAG  "[ATT] "
   #define  ENDL "\n"
+  #define  SPACER "  "
 
 #endif
 

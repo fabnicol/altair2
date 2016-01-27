@@ -31,9 +31,9 @@ static const char* type_remuneration_traduit[] = {
 // la méthode OFSTREAM est nettement moins performante sous Windows. La performance linux est comparable.
 
 #ifdef OFSTREAM_TABLE_OUTPUT
-  #define table_t std::ofstream
+#define table_t std::ofstream
 #else
-  #define table_t std::ostringstream
+#define table_t std::ostringstream
 #endif
 
 
@@ -175,8 +175,8 @@ void boucle_ecriture(std::vector<info_t>& Info)
 {
     int ligne = 0;
     uint64_t compteur = 0,
-             dernier_compteur = 0,
-             compteur_annee_courante = 0;
+            dernier_compteur = 0,
+            compteur_annee_courante = 0;
 
 
     uint32_t compteur_lignes_bulletins = 0;
@@ -190,16 +190,16 @@ void boucle_ecriture(std::vector<info_t>& Info)
 
 #ifdef OFSTREAM_TABLE_OUTPUT    // cas de l'écriture directe dans le fichier base
 
-    #define t_base base
-    #define t_bulletins bulletins
-    #define t_tableau_base tableau_base
+#define t_base base
+#define t_bulletins bulletins
+#define t_tableau_base tableau_base
 
 #else                          //  case de l'écriture dans un tampon string avant écriture sur le disque (nécessite plus de mémoire)
 
-   std::ostringstream t_base;
-   std::ostringstream t_bulletins;
+    std::ostringstream t_base;
+    std::ostringstream t_bulletins;
 
-   static std::array<std::ostringstream, nbType> t_tableau_base;
+    static std::array<std::ostringstream, nbType> t_tableau_base;
 
 #endif
 
@@ -273,7 +273,147 @@ void boucle_ecriture(std::vector<info_t>& Info)
 #endif
 
 
-            if (type_base == BaseType::MONOLITHIQUE)
+    if (type_base == BaseType::MONOLITHIQUE)
+    {
+        for (int i = 0; i < Info[0].nbfil; ++i)
+        {
+            for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; ++agent)
+            {
+                unsigned l = BESOIN_MEMOIRE_ENTETE;
+                uint16_t NLigneAgent = Info[i].NLigne[agent];
+
+                ++compteur_lignes_bulletins;
+
+                ecrire_ligne_bulletin(i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
+
+                char type[3]={0};
+                strcpy(type, type_remuneration_traduit[0]);
+
+                while (ligne < NLigneAgent)
+                {
+
+                    int      test_drapeau_categorie, int_drapeau_categorie = 0;
+
+                    // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
+
+                    while (VAR(l) &&  (test_drapeau_categorie = VAR(l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
+                    {
+                        int_drapeau_categorie = test_drapeau_categorie;
+
+                        strcpy(type, type_remuneration_traduit[int_drapeau_categorie - 1]);
+                        ++l;
+                    }
+
+                    ++compteur;
+                    ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
+
+                    l += INDEX_MAX_COLONNNES + 1;
+                    ++ligne;
+                }
+                ligne = 0;
+
+#ifdef GUI_TAG_MESSAGES
+#ifdef GENERATE_RANK_SIGNAL
+                progression = std::ceil((float) (compteur * 100) / (float) NCumLignes );
+
+                ++step;
+
+                if (step > Info[i].NCumAgentXml / 5)
+                {
+
+                    generate_rank_signal(progression);
+                    std::cerr << " \n";
+                    step = 0;
+                }
+#endif
+#endif
+            }
+        }
+    }
+    else
+        if (type_base == BaseType::PAR_ANNEE)
+        {
+            for (int i = 0; i < Info[0].nbfil; ++i)
+            {
+                for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; ++agent)
+                {
+                    unsigned l = BESOIN_MEMOIRE_ENTETE;
+                    uint16_t NLigneAgent = Info[i].NLigne[agent];
+
+                    ++compteur_lignes_bulletins;
+
+                    ecrire_ligne_bulletin(i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
+
+                    if (strcmp((const char*)VAR(Annee), annee_courante))
+                    {
+#ifndef OFSTREAM_TABLE_OUTPUT      // Il faut écrire dans le fichier OFSTREAM la chaine de caractères temporaires
+                        base << t_base.str();
+                        t_base.str("");
+#endif
+
+                        base.close();
+
+                        std::cerr << "Année : " << annee_courante <<  ENDL;
+                        std::cerr << "Table de " << compteur - dernier_compteur
+                                  << " lignes, lignes "  << dernier_compteur + 1
+                                  << " à " << compteur << "."  ENDL ENDL;
+
+                        dernier_compteur = compteur;
+                        compteur_annee_courante = 0;
+                        rang_fichier_base_annee_courante = 1;
+
+                        annee_courante = (char*) VAR(Annee);
+                        ouvrir_fichier_base(Info[i],  type_base, base);
+                        if (! base.is_open()) return;
+                    }
+
+                    char type[3]={0};
+                    strcpy(type, type_remuneration_traduit[0]);
+
+                    while (ligne < NLigneAgent)
+                    {
+                        int      test_drapeau_categorie, int_drapeau_categorie = 0;
+
+                        // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
+
+                        while (VAR(l) &&  (test_drapeau_categorie = VAR(l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
+                        {
+                            int_drapeau_categorie = test_drapeau_categorie;
+
+                            strcpy(type, type_remuneration_traduit[int_drapeau_categorie - 1]);
+                            ++l;
+                        }
+
+                        ++compteur;
+                        ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
+
+                        l += INDEX_MAX_COLONNNES + 1;
+                        ++ligne;
+                    }
+                    ligne = 0;
+
+#ifdef GUI_TAG_MESSAGES
+#ifdef GENERATE_RANK_SIGNAL
+                    progression = std::ceil((float) (compteur * 100) / (float) NCumLignes );
+
+                    ++step;
+
+                    if (step > Info[i].NCumAgentXml / 5)
+                    {
+
+                        generate_rank_signal(progression);
+                        std::cerr << " \n";
+                        step = 0;
+                    }
+#endif
+#endif
+                }
+            }
+        }
+        else
+            if (type_base == BaseType::MAXIMUM_LIGNES
+                    // soit : il existe un nombre de lignes maximal par base spécifié en ligne de commande après -T
+                    && taille_base > 0)
             {
                 for (int i = 0; i < Info[0].nbfil; ++i)
                 {
@@ -289,120 +429,189 @@ void boucle_ecriture(std::vector<info_t>& Info)
                         char type[3]={0};
                         strcpy(type, type_remuneration_traduit[0]);
 
-                          while (ligne < NLigneAgent)
-                          {
-                              bool nouveau_type = false;
+                        while (ligne < NLigneAgent)
+                        {
+                            if (compteur  == rang_fichier_base * taille_base)
+                                // soit : il existe un nombre de lignes maximal par base spécifié en ligne de commande après -T
 
-                              BaseType valeur_drapeau_categorie = BaseType::MONOLITHIQUE;
-                              int      test_drapeau_categorie, int_drapeau_categorie = 0;
+                            {
 
-                              // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
+                                std::cerr << "Table n°" << rang_fichier_base << " de " << taille_base
+                                          << " lignes, lignes "  << (rang_fichier_base - 1) * taille_base + 1
+                                          << " à " << rang_fichier_base * taille_base << "."  ENDL;
 
-                              while (VAR(l) &&  (test_drapeau_categorie = VAR(l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
-                              {
-                                  valeur_drapeau_categorie = static_cast<BaseType>(test_drapeau_categorie);
-                                  int_drapeau_categorie = test_drapeau_categorie;
+#ifndef OFSTREAM_TABLE_OUTPUT      // Il faut écrire dans le fichier OFSTREAM la chaine de caractères temporaires
+                                base << t_base.str();
+                                t_base.str("");
+#endif
 
-                                  strcpy(type, type_remuneration_traduit[int_drapeau_categorie - 1]);
-                                  nouveau_type = true;
-                                  ++l;
-                              }
+                                base.close();
 
-                                  ++compteur;
-                                  ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
+                                if (! base.good())
+                                {
+                                    std::cerr << ERROR_HTML_TAG "Problème fermeture fichier base"  ENDL;
+                                    exit(-902);
+                                }
 
-                              l += INDEX_MAX_COLONNNES + 1;
-                              ++ligne;
-                          }
-                          ligne = 0;
+                                ++rang_fichier_base;
 
-              #ifdef GUI_TAG_MESSAGES
-              #ifdef GENERATE_RANK_SIGNAL
-                          progression = std::ceil((float) (compteur * 100) / (float) NCumLignes );
+                                if (rang_fichier_base >= 1000)
+                                {
+                                    std::cerr << ERROR_HTML_TAG "Ne peut générer que 999 bases au plus"  ENDL;
+                                    exit(-904);
+                                }
 
-                          ++step;
+                                ouvrir_fichier_base(Info[i], type_base, base);
+                                if (! base.is_open()) return;
+                            }
 
-                          if (step > Info[i].NCumAgentXml / 5)
-                          {
+                            int      test_drapeau_categorie, int_drapeau_categorie = 0;
 
-                              generate_rank_signal(progression);
-                              std::cerr << " \n";
-                              step = 0;
-                          }
-              #endif
-              #endif
+                            // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
+
+                            while (VAR(l) &&  (test_drapeau_categorie = VAR(l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
+                            {
+                                int_drapeau_categorie = test_drapeau_categorie;
+
+                                strcpy(type, type_remuneration_traduit[int_drapeau_categorie - 1]);
+                                ++l;
+                            }
+
+
+                            ++compteur;
+
+                            ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
+
+                            l += INDEX_MAX_COLONNNES + 1;
+                            ++ligne;
+                        }
+
+                        ligne = 0;
+
+#ifdef GUI_TAG_MESSAGES
+#ifdef GENERATE_RANK_SIGNAL
+                        progression = std::ceil((float) (compteur * 100) / (float) NCumLignes );
+
+                        ++step;
+
+                        if (step > Info[i].NCumAgentXml / 5)
+                        {
+
+                            generate_rank_signal(progression);
+                            std::cerr << " \n";
+                            step = 0;
+                        }
+#endif
+#endif
                     }
                 }
             }
             else
-            if (type_base == BaseType::PAR_ANNEE)
-              {
-                  for (int i = 0; i < Info[0].nbfil; ++i)
-                  {
-                      for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; ++agent)
-                      {
-                          unsigned l = BESOIN_MEMOIRE_ENTETE;
-                          uint16_t NLigneAgent = Info[i].NLigne[agent];
+                if (type_base == BaseType::MAXIMUM_LIGNES_PAR_ANNEE
+                        && taille_base > 0)
+                {
+                    for (int i = 0; i < Info[0].nbfil; ++i)
+                    {
+                        for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; ++agent)
+                        {
+                            unsigned l = BESOIN_MEMOIRE_ENTETE;
+                            uint16_t NLigneAgent = Info[i].NLigne[agent];
 
-                          ++compteur_lignes_bulletins;
+                            ++compteur_lignes_bulletins;
 
-                          ecrire_ligne_bulletin(i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
+                            ecrire_ligne_bulletin(i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
 
-                          if (strcmp((const char*)VAR(Annee), annee_courante))
-                          {
-                              #ifndef OFSTREAM_TABLE_OUTPUT      // Il faut écrire dans le fichier OFSTREAM la chaine de caractères temporaires
-                                        base << t_base.str();
-                                        t_base.str("");
-                              #endif
+                            if (strcmp((const char*)VAR(Annee), annee_courante))
+                            {
+#ifndef OFSTREAM_TABLE_OUTPUT      // Il faut écrire dans le fichier OFSTREAM la chaine de caractères temporaires
+                                base << t_base.str();
+                                t_base.str("");
+#endif
 
-                              base.close();
+                                base.close();
 
-                              std::cerr << "Année : " << annee_courante << " Table générée."  ENDL;
-                              std::cerr << "Table de " << compteur - dernier_compteur
-                                        << " lignes, lignes "  << dernier_compteur + 1
-                                        << " à " << compteur << "."  ENDL;
+                                std::cerr << SPACER "Table n°" << rang_fichier_base << " de " <<  compteur - dernier_compteur - (rang_fichier_base_annee_courante - 1) * taille_base
+                                          << " lignes, lignes "  << dernier_compteur + (rang_fichier_base_annee_courante - 1) * taille_base + 1
+                                          << " à " << compteur << "."  ENDL;
+                                std::cerr << "Année : " << annee_courante <<  ENDL;
+                                std::cerr << "Total annuel de " << compteur - dernier_compteur
+                                          << " lignes, lignes "  << dernier_compteur + 1
+                                          << " à " << compteur << "."  ENDL ENDL;
 
-                              dernier_compteur = compteur;
-                              compteur_annee_courante = 0;
-                              rang_fichier_base_annee_courante = 1;
+                                dernier_compteur = compteur;
+                                compteur_annee_courante = 0;
+                                rang_fichier_base_annee_courante = 1;
+                                ++rang_fichier_base;
 
-                              annee_courante = (char*) VAR(Annee);
-                              ouvrir_fichier_base(Info[i],  type_base, base);
-                              if (! base.is_open()) return;
-                          }
+                                annee_courante = (char*) VAR(Annee);
+                                ouvrir_fichier_base(Info[i],  type_base, base);
+                                if (! base.is_open()) return;
+                            }
 
-                          char type[3]={0};
-                          strcpy(type, type_remuneration_traduit[0]);
+                            char type[3]={0};
+                            strcpy(type, type_remuneration_traduit[0]);
 
                             while (ligne < NLigneAgent)
                             {
-                                bool nouveau_type = false;
+                                if (compteur_annee_courante  == rang_fichier_base_annee_courante * taille_base)
+                                {
 
-                                BaseType valeur_drapeau_categorie = BaseType::MONOLITHIQUE;
+                                    std::cerr << SPACER "Table n°" << rang_fichier_base << " de " << taille_base
+                                              << " lignes, lignes "  << compteur - taille_base + 1
+                                              << " à " << compteur << "."  ENDL;
+
+#ifndef OFSTREAM_TABLE_OUTPUT      // Il faut écrire dans le fichier OFSTREAM la chaine de caractères temporaires
+                                    base << t_base.str();
+                                    t_base.str("");
+#endif
+
+                                    base.close();
+
+                                    if (! base.good())
+                                    {
+                                        std::cerr << ERROR_HTML_TAG "Problème fermeture fichier base"  ENDL;
+                                        exit(-902);
+                                    }
+
+                                    ++rang_fichier_base;
+                                    ++rang_fichier_base_annee_courante;
+
+                                    if (rang_fichier_base >= 1000)
+                                    {
+                                        std::cerr << ERROR_HTML_TAG "Ne peut générer que 999 bases au plus"  ENDL;
+                                        exit(-904);
+                                    }
+
+                                    ouvrir_fichier_base(Info[i], type_base, base);
+                                    if (! base.is_open()) return;
+                                }
+
                                 int      test_drapeau_categorie, int_drapeau_categorie = 0;
 
                                 // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
 
                                 while (VAR(l) &&  (test_drapeau_categorie = VAR(l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
                                 {
-                                    valeur_drapeau_categorie = static_cast<BaseType>(test_drapeau_categorie);
                                     int_drapeau_categorie = test_drapeau_categorie;
 
                                     strcpy(type, type_remuneration_traduit[int_drapeau_categorie - 1]);
-                                    nouveau_type = true;
                                     ++l;
                                 }
 
-                                    ++compteur;
-                                    ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
+
+                                ++compteur;
+
+                                ++compteur_annee_courante;
+
+                                ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
 
                                 l += INDEX_MAX_COLONNNES + 1;
                                 ++ligne;
                             }
                             ligne = 0;
 
-                #ifdef GUI_TAG_MESSAGES
-                #ifdef GENERATE_RANK_SIGNAL
+#ifdef GUI_TAG_MESSAGES
+#ifdef GENERATE_RANK_SIGNAL
                             progression = std::ceil((float) (compteur * 100) / (float) NCumLignes );
 
                             ++step;
@@ -414,375 +623,146 @@ void boucle_ecriture(std::vector<info_t>& Info)
                                 std::cerr << " \n";
                                 step = 0;
                             }
-                #endif
-                #endif
-                      }
-                  }
-              }
-            else
-                  if (type_base == BaseType::MAXIMUM_LIGNES
-                                           // soit : il existe un nombre de lignes maximal par base spécifié en ligne de commande après -T
-                    && taille_base > 0)
-                    {
-                      for (int i = 0; i < Info[0].nbfil; ++i)
-                      {
-                          for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; ++agent)
-                          {
-                              unsigned l = BESOIN_MEMOIRE_ENTETE;
-                              uint16_t NLigneAgent = Info[i].NLigne[agent];
-
-                              ++compteur_lignes_bulletins;
-
-                              ecrire_ligne_bulletin(i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
-
-                              char type[3]={0};
-                              strcpy(type, type_remuneration_traduit[0]);
-
-                          while (ligne < NLigneAgent)
-                          {
-                              bool nouveau_type = false;
-
-                              if (compteur  == rang_fichier_base * taille_base)
-                                                       // soit : il existe un nombre de lignes maximal par base spécifié en ligne de commande après -T
-
-                              {
-
-                                      std::cerr << "Table n°" << rang_fichier_base << " de " << taille_base
-                                                << " lignes, lignes "  << (rang_fichier_base - 1) * taille_base + 1
-                                                << " à " << rang_fichier_base * taille_base << "."  ENDL;
-
-                                      #ifndef OFSTREAM_TABLE_OUTPUT      // Il faut écrire dans le fichier OFSTREAM la chaine de caractères temporaires
-                                                base << t_base.str();
-                                                t_base.str("");
-                                      #endif
-
-                                      base.close();
-
-                                      if (! base.good())
-                                      {
-                                          std::cerr << ERROR_HTML_TAG "Problème fermeture fichier base"  ENDL;
-                                          exit(-902);
-                                      }
-
-                                      ++rang_fichier_base;
-
-                                      if (rang_fichier_base >= 1000)
-                                      {
-                                          std::cerr << ERROR_HTML_TAG "Ne peut générer que 999 bases au plus"  ENDL;
-                                          exit(-904);
-                                      }
-
-                                      ouvrir_fichier_base(Info[i], type_base, base);
-                                      if (! base.is_open()) return;
-                              }
-
-                              BaseType valeur_drapeau_categorie = BaseType::MONOLITHIQUE;
-                              int      test_drapeau_categorie, int_drapeau_categorie = 0;
-
-                              // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
-
-                              while (VAR(l) &&  (test_drapeau_categorie = VAR(l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
-                              {
-                                  valeur_drapeau_categorie = static_cast<BaseType>(test_drapeau_categorie);
-                                  int_drapeau_categorie = test_drapeau_categorie;
-
-                                  strcpy(type, type_remuneration_traduit[int_drapeau_categorie - 1]);
-                                  nouveau_type = true;
-                                  ++l;
-                              }
-
-
-                              ++compteur;
-
-                              ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
-
-                              l += INDEX_MAX_COLONNNES + 1;
-                              ++ligne;
-                          }
-
-                          ligne = 0;
-
-              #ifdef GUI_TAG_MESSAGES
-              #ifdef GENERATE_RANK_SIGNAL
-                          progression = std::ceil((float) (compteur * 100) / (float) NCumLignes );
-
-                          ++step;
-
-                          if (step > Info[i].NCumAgentXml / 5)
-                          {
-
-                              generate_rank_signal(progression);
-                              std::cerr << " \n";
-                              step = 0;
-                          }
-              #endif
-              #endif
+#endif
+#endif
                         }
-                      }
                     }
-                    else
-                      if (type_base == BaseType::MAXIMUM_LIGNES_PAR_ANNEE
-                        && taille_base > 0)
+                }
+                else
+                    if (type_base == BaseType::TOUTES_CATEGORIES)
+                    {
+                        for (int i = 0; i < Info[0].nbfil; ++i)
                         {
-                          for (int i = 0; i < Info[0].nbfil; ++i)
-                          {
-                              for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; ++agent)
-                              {
-                                  unsigned l = BESOIN_MEMOIRE_ENTETE;
-                                  uint16_t NLigneAgent = Info[i].NLigne[agent];
+                            for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; ++agent)
+                            {
+                                unsigned l = BESOIN_MEMOIRE_ENTETE;
+                                uint16_t NLigneAgent = Info[i].NLigne[agent];
 
-                                  ++compteur_lignes_bulletins;
+                                ++compteur_lignes_bulletins;
 
-                                  ecrire_ligne_bulletin(i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
-
-                                  if (strcmp((const char*)VAR(Annee), annee_courante))
-                                  {
-                                      #ifndef OFSTREAM_TABLE_OUTPUT      // Il faut écrire dans le fichier OFSTREAM la chaine de caractères temporaires
-                                                base << t_base.str();
-                                                t_base.str("");
-                                      #endif
-
-                                      base.close();
-
-                                      std::cerr << "Année : " << annee_courante << " Table générée."  ENDL;
-                                      std::cerr << "Table de " << compteur - dernier_compteur
-                                                << " lignes, lignes "  << dernier_compteur + 1
-                                                << " à " << compteur << "."  ENDL;
-
-                                      dernier_compteur = compteur;
-                                      compteur_annee_courante = 0;
-                                      rang_fichier_base_annee_courante = 1;
-
-                                      annee_courante = (char*) VAR(Annee);
-                                      ouvrir_fichier_base(Info[i],  type_base, base);
-                                      if (! base.is_open()) return;
-                                  }
-
-                                  char type[3]={0};
-                                  strcpy(type, type_remuneration_traduit[0]);
-
-                          while (ligne < NLigneAgent)
-                              {
-                                  bool nouveau_type = false;
-
-                                  if (compteur_annee_courante  == rang_fichier_base_annee_courante * taille_base)
-                                  {
-
-                                          std::cerr << "Table n°" << rang_fichier_base << " de " << taille_base
-                                                    << " lignes, lignes "  << (rang_fichier_base - 1) * taille_base + 1
-                                                    << " à " << rang_fichier_base * taille_base << "."  ENDL;
-
-                                          #ifndef OFSTREAM_TABLE_OUTPUT      // Il faut écrire dans le fichier OFSTREAM la chaine de caractères temporaires
-                                                    base << t_base.str();
-                                                    t_base.str("");
-                                          #endif
-
-                                          base.close();
-
-                                          if (! base.good())
-                                          {
-                                              std::cerr << ERROR_HTML_TAG "Problème fermeture fichier base"  ENDL;
-                                              exit(-902);
-                                          }
-
-                                          ++rang_fichier_base;
-                                          ++rang_fichier_base_annee_courante;
-
-                                          if (rang_fichier_base >= 1000)
-                                          {
-                                              std::cerr << ERROR_HTML_TAG "Ne peut générer que 999 bases au plus"  ENDL;
-                                              exit(-904);
-                                          }
-
-                                          ouvrir_fichier_base(Info[i], type_base, base);
-                                          if (! base.is_open()) return;
-                                  }
-
-                                  BaseType valeur_drapeau_categorie = BaseType::MONOLITHIQUE;
-                                  int      test_drapeau_categorie, int_drapeau_categorie = 0;
-
-                                  // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
-
-                                  while (VAR(l) &&  (test_drapeau_categorie = VAR(l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
-                                  {
-                                      valeur_drapeau_categorie = static_cast<BaseType>(test_drapeau_categorie);
-                                      int_drapeau_categorie = test_drapeau_categorie;
-
-                                      strcpy(type, type_remuneration_traduit[int_drapeau_categorie - 1]);
-                                      nouveau_type = true;
-                                      ++l;
-                                  }
+                                ecrire_ligne_bulletin(i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
 
 
-                                  ++compteur;
+                                char type[3]={0};
+                                strcpy(type, type_remuneration_traduit[0]);
 
-                                  ++compteur_annee_courante;
+                                while (ligne < NLigneAgent)
+                                {
+                                    bool nouveau_type = false;
 
-                                  ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
+                                    int      test_drapeau_categorie, int_drapeau_categorie = 0;
 
-                                  l += INDEX_MAX_COLONNNES + 1;
-                                  ++ligne;
-                              }
-                          ligne = 0;
+                                    // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
 
-              #ifdef GUI_TAG_MESSAGES
-              #ifdef GENERATE_RANK_SIGNAL
-                          progression = std::ceil((float) (compteur * 100) / (float) NCumLignes );
+                                    while (VAR(l) &&  (test_drapeau_categorie = VAR(l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
+                                    {
+                                        int_drapeau_categorie = test_drapeau_categorie;
 
-                          ++step;
+                                        strcpy(type, type_remuneration_traduit[int_drapeau_categorie - 1]);
+                                        nouveau_type = true;
+                                        ++l;
+                                    }
 
-                          if (step > Info[i].NCumAgentXml / 5)
-                          {
+                                    ++compteur;
+                                    if (nouveau_type)
+                                    {
+                                        ecrire_ligne_table(i, agent, l, type, t_tableau_base[int_drapeau_categorie - 1], sep, Info, compteur);
+                                    }
 
-                              generate_rank_signal(progression);
-                              std::cerr << " \n";
-                              step = 0;
-                          }
-              #endif
-              #endif
+                                    l += INDEX_MAX_COLONNNES + 1;
+                                    ++ligne;
+                                }
+                                ligne = 0;
+
+#ifdef GUI_TAG_MESSAGES
+#ifdef GENERATE_RANK_SIGNAL
+                                progression = std::ceil((float) (compteur * 100) / (float) NCumLignes );
+
+                                ++step;
+
+                                if (step > Info[i].NCumAgentXml / 5)
+                                {
+
+                                    generate_rank_signal(progression);
+                                    std::cerr << " \n";
+                                    step = 0;
+                                }
+#endif
+#endif
                             }
-                          }
+
                         }
-                    else
-             if (type_base == BaseType::TOUTES_CATEGORIES)
-              {
-                 for (int i = 0; i < Info[0].nbfil; ++i)
-                 {
-                     for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; ++agent)
-                     {
-                         unsigned l = BESOIN_MEMOIRE_ENTETE;
-                         uint16_t NLigneAgent = Info[i].NLigne[agent];
-
-                         ++compteur_lignes_bulletins;
-
-                         ecrire_ligne_bulletin(i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
-
-
-                         char type[3]={0};
-                         strcpy(type, type_remuneration_traduit[0]);
-
-                         while (ligne < NLigneAgent)
+                    }
+                    else  //par catégorie spécifique
+                    {
+                        for (int i = 0; i < Info[0].nbfil; ++i)
                         {
-                            bool nouveau_type = false;
-
-                            BaseType valeur_drapeau_categorie = BaseType::MONOLITHIQUE;
-                            int      test_drapeau_categorie, int_drapeau_categorie = 0;
-
-                            // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
-
-                            while (VAR(l) &&  (test_drapeau_categorie = VAR(l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
+                            for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; ++agent)
                             {
-                                valeur_drapeau_categorie = static_cast<BaseType>(test_drapeau_categorie);
-                                int_drapeau_categorie = test_drapeau_categorie;
+                                unsigned l = BESOIN_MEMOIRE_ENTETE;
+                                uint16_t NLigneAgent = Info[i].NLigne[agent];
 
-                                strcpy(type, type_remuneration_traduit[int_drapeau_categorie - 1]);
-                                nouveau_type = true;
-                                ++l;
+                                ++compteur_lignes_bulletins;
+
+                                ecrire_ligne_bulletin(i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
+
+                                char type[3]={0};
+                                strcpy(type, type_remuneration_traduit[0]);
+
+                                while (ligne < NLigneAgent)
+                                {
+                                    BaseType valeur_drapeau_categorie = BaseType::MONOLITHIQUE;
+                                    int      test_drapeau_categorie, int_drapeau_categorie = 0;
+
+                                    // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
+
+                                    while (VAR(l) &&  (test_drapeau_categorie = VAR(l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
+                                    {
+                                        valeur_drapeau_categorie = static_cast<BaseType>(test_drapeau_categorie);
+                                        int_drapeau_categorie = test_drapeau_categorie;
+
+                                        strcpy(type, type_remuneration_traduit[int_drapeau_categorie - 1]);
+                                        ++l;
+                                    }
+
+
+                                    if (valeur_drapeau_categorie  == Info[0].type_base)
+                                    {
+                                        ++compteur;
+                                        ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
+                                    }
+
+                                    l += INDEX_MAX_COLONNNES + 1;
+                                    ++ligne;
+                                }
+
+
+                                ligne = 0;
+
+#ifdef GUI_TAG_MESSAGES
+#ifdef GENERATE_RANK_SIGNAL
+                                progression = std::ceil((float) (compteur * 100) / (float) NCumLignes );
+
+                                ++step;
+
+                                if (step > Info[i].NCumAgentXml / 5)
+                                {
+
+                                    generate_rank_signal(progression);
+                                    std::cerr << " \n";
+                                    step = 0;
+                                }
+#endif
+#endif
                             }
-
-                            ++compteur;
-                            if (nouveau_type)
-                            {
-                                ecrire_ligne_table(i, agent, l, type, t_tableau_base[int_drapeau_categorie - 1], sep, Info, compteur);
-                            }
-
-                            l += INDEX_MAX_COLONNNES + 1;
-                            ++ligne;
                         }
-                         ligne = 0;
 
-             #ifdef GUI_TAG_MESSAGES
-             #ifdef GENERATE_RANK_SIGNAL
-                         progression = std::ceil((float) (compteur * 100) / (float) NCumLignes );
-
-                         ++step;
-
-                         if (step > Info[i].NCumAgentXml / 5)
-                         {
-
-                             generate_rank_signal(progression);
-                             std::cerr << " \n";
-                             step = 0;
-                         }
-             #endif
-             #endif
-                     }
-
-                 }
-              }
-              else  //par catégorie spécifique
-             {
-                 for (int i = 0; i < Info[0].nbfil; ++i)
-                 {
-                     for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; ++agent)
-                     {
-                         unsigned l = BESOIN_MEMOIRE_ENTETE;
-                         uint16_t NLigneAgent = Info[i].NLigne[agent];
-
-                         ++compteur_lignes_bulletins;
-
-                         ecrire_ligne_bulletin(i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
-
-                         char type[3]={0};
-                         strcpy(type, type_remuneration_traduit[0]);
-
-                           while (ligne < NLigneAgent)
-                           {
-                               bool nouveau_type = false;
-
-                               BaseType valeur_drapeau_categorie = BaseType::MONOLITHIQUE;
-                               int      test_drapeau_categorie, int_drapeau_categorie = 0;
-
-                               // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
-
-                               while (VAR(l) &&  (test_drapeau_categorie = VAR(l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
-                               {
-                                   valeur_drapeau_categorie = static_cast<BaseType>(test_drapeau_categorie);
-                                   int_drapeau_categorie = test_drapeau_categorie;
-
-                                   strcpy(type, type_remuneration_traduit[int_drapeau_categorie - 1]);
-                                   nouveau_type = true;
-                                   ++l;
-                               }
-
-
-                               if (valeur_drapeau_categorie  == Info[0].type_base)
-                               {
-                                   ++compteur;
-                                   ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
-                               }
-
-                               l += INDEX_MAX_COLONNNES + 1;
-                               ++ligne;
-                           }
-
-
-                     ligne = 0;
-
-         #ifdef GUI_TAG_MESSAGES
-         #ifdef GENERATE_RANK_SIGNAL
-                     progression = std::ceil((float) (compteur * 100) / (float) NCumLignes );
-
-                     ++step;
-
-                     if (step > Info[i].NCumAgentXml / 5)
-                     {
-
-                         generate_rank_signal(progression);
-                         std::cerr << " \n";
-                         step = 0;
-                     }
-         #endif
-         #endif
-                     }
-                 }
-
-             }
+                    }
 
 
     
 #ifndef OFSTREAM_TABLE_OUTPUT
-        bulletins << t_bulletins.str();
+    bulletins << t_bulletins.str();
 #endif
 
     // Dans les autres cas, les bases ont déjà été refermées sauf une (cas par année et par taille maximale)
@@ -790,103 +770,114 @@ void boucle_ecriture(std::vector<info_t>& Info)
     {
         for (int d = 0; d < nbType - 1; ++d)
         {
-            #ifndef OFSTREAM_TABLE_OUTPUT
-               tableau_base[d] << t_tableau_base[d].str();
-            #endif
+#ifndef OFSTREAM_TABLE_OUTPUT
+            tableau_base[d] << t_tableau_base[d].str();
+#endif
             tableau_base[d].close();
         }
     }
     else
-    if (base.is_open())
-    {
-        #ifndef OFSTREAM_TABLE_OUTPUT      // Il faut écrire dans le fichier OFSTREAM la chaine de caractères temporaires
-                  base << t_base.str();
-                  //  t_base.str("");  (devenu inutile)
-        #endif
+        if (base.is_open())
+        {
+#ifndef OFSTREAM_TABLE_OUTPUT      // Il faut écrire dans le fichier OFSTREAM la chaine de caractères temporaires
+            base << t_base.str();
+            //  t_base.str("");  (devenu inutile)
+#endif
 
-        base.close();
-    }
+            base.close();
+        }
 
-   if (base.good())
+    if (base.good())
     {
         base.close();
         switch (type_base)
         {
-            case  BaseType::MONOLITHIQUE            :
-                break;
+        case  BaseType::MONOLITHIQUE            :
+            break;
 
-            case  BaseType::PAR_TRAITEMENT          :
-                std::cerr << STATE_HTML_TAG "Catégorie : Traitement."  ENDL;
-                break;
+        case  BaseType::PAR_TRAITEMENT          :
+            std::cerr << STATE_HTML_TAG "Catégorie : Traitement."  ENDL;
+            break;
 
-            case  BaseType::PAR_INDEMNITE_RESIDENCE :
-                std::cerr << STATE_HTML_TAG "Catégorie : Indemnité de résidence."  ENDL;
-                break;
+        case  BaseType::PAR_INDEMNITE_RESIDENCE :
+            std::cerr << STATE_HTML_TAG "Catégorie : Indemnité de résidence."  ENDL;
+            break;
 
-            case  BaseType::PAR_SFT                 :
-                std::cerr << STATE_HTML_TAG "Catégorie : Supplément familial de traitement."  ENDL;
-                break;
+        case  BaseType::PAR_SFT                 :
+            std::cerr << STATE_HTML_TAG "Catégorie : Supplément familial de traitement."  ENDL;
+            break;
 
-            case  BaseType::PAR_AVANTAGE_NATURE     :
-                std::cerr << STATE_HTML_TAG "Catégorie : Avantage en nature."  ENDL;
-                break;
+        case  BaseType::PAR_AVANTAGE_NATURE     :
+            std::cerr << STATE_HTML_TAG "Catégorie : Avantage en nature."  ENDL;
+            break;
 
-            case  BaseType::PAR_INDEMNITE           :
-                std::cerr << STATE_HTML_TAG "Catégorie : Indemnité."  ENDL;
-                break;
+        case  BaseType::PAR_INDEMNITE           :
+            std::cerr << STATE_HTML_TAG "Catégorie : Indemnité."  ENDL;
+            break;
 
-            case  BaseType::PAR_REM_DIVERSES        :
-                std::cerr << STATE_HTML_TAG "Catégorie : Rémunérations diverses."  ENDL;
-                break;
+        case  BaseType::PAR_REM_DIVERSES        :
+            std::cerr << STATE_HTML_TAG "Catégorie : Rémunérations diverses."  ENDL;
+            break;
 
-            case  BaseType::PAR_DEDUCTION           :
-                std::cerr << STATE_HTML_TAG "Catégorie : Déduction."  ENDL;
-                break;
+        case  BaseType::PAR_DEDUCTION           :
+            std::cerr << STATE_HTML_TAG "Catégorie : Déduction."  ENDL;
+            break;
 
-            case  BaseType::PAR_ACOMPTE             :
-                std::cerr << STATE_HTML_TAG "Catégorie : Acompte."  ENDL;
-                break;
+        case  BaseType::PAR_ACOMPTE             :
+            std::cerr << STATE_HTML_TAG "Catégorie : Acompte."  ENDL;
+            break;
 
-            case  BaseType::PAR_RAPPEL              :
-                std::cerr << STATE_HTML_TAG "Catégorie : Rappel."  ENDL;
-                break;
+        case  BaseType::PAR_RAPPEL              :
+            std::cerr << STATE_HTML_TAG "Catégorie : Rappel."  ENDL;
+            break;
 
-            case  BaseType::PAR_RETENUE             :
-                std::cerr << STATE_HTML_TAG "Catégorie : Retenue."  ENDL;
-                break;
+        case  BaseType::PAR_RETENUE             :
+            std::cerr << STATE_HTML_TAG "Catégorie : Retenue."  ENDL;
+            break;
 
-            case  BaseType::PAR_COTISATION          :
-                std::cerr << STATE_HTML_TAG "Catégorie : Cotisation."  ENDL;
-                break;
+        case  BaseType::PAR_COTISATION          :
+            std::cerr << STATE_HTML_TAG "Catégorie : Cotisation."  ENDL;
+            break;
 
-            case  BaseType::TOUTES_CATEGORIES       :
-                std::cerr << STATE_HTML_TAG "Toutes catégories."  ENDL;
-                break;
+        case  BaseType::TOUTES_CATEGORIES       :
+            std::cerr << STATE_HTML_TAG "Toutes catégories."  ENDL;
+            break;
 
-            case BaseType::PAR_ANNEE    :
-            case BaseType::MAXIMUM_LIGNES_PAR_ANNEE :
-                std::cerr << "Année : " << annee_courante  << ENDL;
-                std::cerr << "Table de " << compteur - dernier_compteur
-                          << " lignes, lignes "  << dernier_compteur + 1
-                          << " à " << compteur << "."  ENDL;
-                break;
+        case BaseType::PAR_ANNEE    :
+            std::cerr << "Année : " << annee_courante  << ENDL;
+            std::cerr << "Table de " << compteur - dernier_compteur
+                      << " lignes, lignes "  << dernier_compteur + 1
+                      << " à " << compteur << "."  ENDL;
+            break;
 
-            case BaseType::MAXIMUM_LIGNES  :  /* Taille définie par l'utilisateur */
-                std::cerr << STATE_HTML_TAG "Table n°" << rang_fichier_base
-                          << " de " <<  compteur - (rang_fichier_base-1) * taille_base
-                          << " lignes, lignes " << (rang_fichier_base-1) * taille_base + 1
-                          << " à " << compteur << "."  ENDL;
-                break;
+        case BaseType::MAXIMUM_LIGNES_PAR_ANNEE :
+            std::cerr << SPACER "Table n°" << rang_fichier_base << " de " <<  compteur - dernier_compteur - (rang_fichier_base_annee_courante - 1) * taille_base
+                      << " lignes, lignes "  << dernier_compteur + (rang_fichier_base_annee_courante - 1) * taille_base + 1
+                      << " à " << compteur << "."  ENDL;
+            std::cerr << "Année : " << annee_courante <<  ENDL;
+            std::cerr << "Total annuel de " << compteur - dernier_compteur
+                      << " lignes, lignes "  << dernier_compteur + 1
+                      << " à " << compteur << "."  ENDL;
+            break;
 
-            default:  break;
+        case BaseType::MAXIMUM_LIGNES  :  /* Taille définie par l'utilisateur */
+            std::cerr << STATE_HTML_TAG "Table n°" << rang_fichier_base
+                      << " de " <<  compteur - (rang_fichier_base-1) * taille_base
+                      << " lignes, lignes " << (rang_fichier_base-1) * taille_base + 1
+                      << " à " << compteur << "."  ENDL;
+            break;
+
+        default:  break;
         }
+
+        std::cerr << ENDL;
 
         std::cerr << STATE_HTML_TAG "Nombre total de lignes de paye : " << compteur << " lignes."  ENDL;
 
 #if defined(__WIN32__) && defined(USE_ICONV)
         convertir(Info[0].chemin_base);
 #endif
- }
+    }
 
     if (bulletins.good())
     {
@@ -895,7 +886,7 @@ void boucle_ecriture(std::vector<info_t>& Info)
         std::cerr << STATE_HTML_TAG "Base des bulletins de paye de " << compteur_lignes_bulletins << " lignes."  ENDL;
 
 #if defined(__WIN32__) && defined(USE_ICONV)
-         convertir(Info[0].chemin_bulletins);
+        convertir(Info[0].chemin_bulletins);
 #endif
     }
     

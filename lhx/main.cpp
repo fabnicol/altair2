@@ -637,12 +637,12 @@ int main(int argc, char **argv)
 
     std::cerr << ENDL << PROCESSING_HTML_TAG "Durée de calcul : "
               << std::chrono::duration_cast<std::chrono::milliseconds>(endofcalculus - startofprogram).count()
-              << " millisecondes" << ENDL;
+              << SPACER "millisecondes" << ENDL;
 
 
     if (generer_table)
     {
-      std::cerr << ENDL << PROCESSING_HTML_TAG "Exportation des bases de données au format CSV..." << ENDL;
+      std::cerr << ENDL << PROCESSING_HTML_TAG "Exportation des bases de données au format CSV..." << ENDL ENDL;
       boucle_ecriture(Info);
     }
 
