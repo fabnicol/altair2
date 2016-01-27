@@ -1,0 +1,2725 @@
+diff --git a/Interface/build/Altair_resource.rc b/Interface/build/Altair_resource.rc
+index 7c0d242..f5e2529 100644
+--- a/Interface/build/Altair_resource.rc
++++ b/Interface/build/Altair_resource.rc
+@@ -4,7 +4,7 @@
+ #  include <windows.h>
+ # endif
+ 
+-IDI_ICON1	ICON	DISCARDABLE	"C:\\Users\\Public\\Dev\\altair\\Interface\\gui\\neptune.ico"
++IDI_ICON1	ICON	DISCARDABLE	"C:/Users/Public/Dev/altair/Interface/gui/neptune.ico"
+ 
+ VS_VERSION_INFO VERSIONINFO
+ 	FILEVERSION 0,0,0,0
+diff --git "a/Interface/build/d\303\251faut.alt" "b/Interface/build/d\303\251faut.alt"
+index 97f5d5f..ee3ec2c 100644
+--- "a/Interface/build/d\303\251faut.alt"
++++ "b/Interface/build/d\303\251faut.alt"
+@@ -2,148 +2,84 @@
+ <projet>
+  <data>
+   <XHL profondeur="2">
+-   <onglet V="2008">
+-     <item V="1" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY8">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200801_01_00.xhl</item>
+-     <item V="1" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200801_02_00.xhl</item>
+-     <item V="2" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200802_01_00.xhl</item>
+-     <item V="2" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200802_02_00.xhl</item>
+-     <item V="3" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200803_01_00.xhl</item>
+-     <item V="3" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200803_02_00.xhl</item>
+-     <item V="4" S="YYY" B="MULTI BUDGETS" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200804_99_00.xhl</item>
+-     <item V="5" S="YYY" B="MULTI BUDGETS" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200805_99_00.xhl</item>
+-     <item V="6" S="YYY" B="MULTI BUDGETS" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200806_99_00.xhl</item>
+-     <item V="7" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200807_01_00.xhl</item>
+-     <item V="7" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200807_02_00.xhl</item>
+-     <item V="8" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200808_01_00.xhl</item>
+-     <item V="8" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200808_02_00.xhl</item>
+-     <item V="9" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200809_01_00.xhl</item>
+-     <item V="9" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200809_02_00.xhl</item>
+-     <item V="10" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200810_01_00.xhl</item>
+-     <item V="10" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200810_02_00.xhl</item>
+-     <item V="11" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200811_01_00.xhl</item>
+-     <item V="11" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY8.2">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200811_02_00.xhl</item>
+-     <item V="12" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200812_01_00.xhl</item>
+-     <item V="12" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2008/METRO_200812_02_00.xhl</item>
+-   </onglet>
+    <onglet V="2009">
+-     <item V="1" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY9">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200901_01_00.xhl</item>
+-     <item V="1" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200901_02_00.xhl</item>
+-     <item V="2" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200902_01_00.xhl</item>
+-     <item V="2" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200902_02_00.xhl</item>
+-     <item V="3" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200903_01_00.xhl</item>
+-     <item V="3" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200903_02_00.xhl</item>
+-     <item V="4" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200904_01_00.xhl</item>
+-     <item V="4" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200904_02_00.xhl</item>
+-     <item V="5" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200905_01_00.xhl</item>
+-     <item V="5" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200905_02_00.xhl</item>
+-     <item V="6" S="YYY" B="MULTI BUDGETS" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200906_99_00.xhl</item>
+-     <item V="7" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200907_01_00.xhl</item>
+-     <item V="7" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200907_02_00.xhl</item>
+-     <item V="8" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200908_01_00.xhl</item>
+-     <item V="8" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200908_02_00.xhl</item>
+-     <item V="9" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200909_01_00.xhl</item>
+-     <item V="9" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200909_02_00.xhl</item>
+-     <item V="10" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200910_01_00.xhl</item>
+-     <item V="10" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200910_02_00.xhl</item>
+-     <item V="11" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200911_01_00.xhl</item>
+-     <item V="11" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200911_02_00.xhl</item>
+-     <item V="12" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200912_01_00.xhl</item>
+-     <item V="12" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200912_02_00.xhl</item>
++     <item V="01" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/Ville du PUY EN VELAY-21430157400015-01.xhl</item>
++     <item V="02" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/Ville du PUY EN VELAY-21430157400015-02.xhl</item>
++     <item V="03" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/Ville du PUY EN VELAY-21430157400015-03.xhl</item>
++     <item V="04" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/Ville du PUY EN VELAY-21430157400015-04.xhl</item>
++     <item V="05" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/Ville du PUY EN VELAY-21430157400015-05.xhl</item>
++     <item V="06" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/Ville du PUY EN VELAY-21430157400015-06.xhl</item>
++     <item V="07" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/Ville du PUY EN VELAY-21430157400015-07.xhl</item>
++     <item V="08" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/Ville du PUY EN VELAY-21430157400015-08.xhl</item>
++     <item V="09" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/Ville du PUY EN VELAY-21430157400015-09.xhl</item>
++     <item V="10" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/Ville du PUY EN VELAY-21430157400015-10.xhl</item>
++     <item V="11" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/Ville du PUY EN VELAY-21430157400015-11.xhl</item>
++     <item V="12" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/Ville du PUY EN VELAY-21430157400015-12.xhl</item>
+    </onglet>
+    <onglet V="2010">
+-     <item V="1" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY10">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201001_01_00.xhl</item>
+-     <item V="1" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201001_02_00.xhl</item>
+-     <item V="2" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201002_01_00.xhl</item>
+-     <item V="2" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201002_02_00.xhl</item>
+-     <item V="3" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201003_01_00.xhl</item>
+-     <item V="3" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201003_02_00.xhl</item>
+-     <item V="4" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201004_01_00.xhl</item>
+-     <item V="4" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201004_02_00.xhl</item>
+-     <item V="5" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201005_01_00.xhl</item>
+-     <item V="5" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201005_02_00.xhl</item>
+-     <item V="6" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201006_01_00.xhl</item>
+-     <item V="6" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201006_02_00.xhl</item>
+-     <item V="7" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201007_01_00.xhl</item>
+-     <item V="7" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201007_02_00.xhl</item>
+-     <item V="8" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201008_01_00.xhl</item>
+-     <item V="8" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201008_02_00.xhl</item>
+-     <item V="9" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201009_01_00.xhl</item>
+-     <item V="9" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201009_02_00.xhl</item>
+-     <item V="10" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201010_01_00.xhl</item>
+-     <item V="10" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201010_02_00.xhl</item>
+-     <item V="11" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201011_01_00.xhl</item>
+-     <item V="11" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201011_02_00.xhl</item>
+-     <item V="12" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201012_01_00.xhl</item>
+-     <item V="12" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201012_02_00.xhl</item>
++     <item V="01" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2010/Ville du PUY EN VELAY-21430157400015-01.xhl</item>
++     <item V="02" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2010/Ville du PUY EN VELAY-21430157400015-02.xhl</item>
++     <item V="03" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2010/Ville du PUY EN VELAY-21430157400015-03.xhl</item>
++     <item V="04" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2010/Ville du PUY EN VELAY-21430157400015-04.xhl</item>
++     <item V="05" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2010/Ville du PUY EN VELAY-21430157400015-05.xhl</item>
++     <item V="06" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2010/Ville du PUY EN VELAY-21430157400015-06.xhl</item>
++     <item V="07" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2010/Ville du PUY EN VELAY-21430157400015-07.xhl</item>
++     <item V="08" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2010/Ville du PUY EN VELAY-21430157400015-08.xhl</item>
++     <item V="09" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2010/Ville du PUY EN VELAY-21430157400015-09.xhl</item>
++     <item V="10" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2010/Ville du PUY EN VELAY-21430157400015-10.xhl</item>
++     <item V="11" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2010/Ville du PUY EN VELAY-21430157400015-11.xhl</item>
++     <item V="12" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2010/Ville du PUY EN VELAY-21430157400015-12.xhl</item>
+    </onglet>
+    <onglet V="2011">
+-     <item V="1" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY11">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201101_01_00.xhl</item>
+-     <item V="1" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201101_02_00.xhl</item>
+-     <item V="2" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201102_01_00.xhl</item>
+-     <item V="2" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201102_02_00.xhl</item>
+-     <item V="3" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201103_01_00.xhl</item>
+-     <item V="3" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201103_02_00.xhl</item>
+-     <item V="4" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201104_01_00.xhl</item>
+-     <item V="4" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201104_02_00.xhl</item>
+-     <item V="5" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201105_01_00.xhl</item>
+-     <item V="5" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201105_02_00.xhl</item>
+-     <item V="6" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201106_01_00.xhl</item>
+-     <item V="6" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201106_02_00.xhl</item>
+-     <item V="7" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201107_01_00.xhl</item>
+-     <item V="7" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201107_02_00.xhl</item>
+-     <item V="8" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201108_01_00.xhl</item>
+-     <item V="8" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201108_02_00.xhl</item>
+-     <item V="9" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201109_01_00.xhl</item>
+-     <item V="9" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201109_02_00.xhl</item>
+-     <item V="10" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201110_01_00.xhl</item>
+-     <item V="10" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201110_02_00.xhl</item>
+-     <item V="11" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201111_01_00.xhl</item>
+-     <item V="11" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201111_02_00.xhl</item>
+-     <item V="12" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201112_01_00.xhl</item>
+-     <item V="12" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201112_02_00.xhl</item>
++     <item V="01" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2011/Ville-21430157400015-01.2011.xhl</item>
++     <item V="02" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2011/Ville-21430157400015-02.2011.xhl</item>
++     <item V="03" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2011/Ville-21430157400015-03.2011.xhl</item>
++     <item V="04" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2011/Ville-21430157400015-04.2011.xhl</item>
++     <item V="05" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2011/Ville-21430157400015-05.2011.xhl</item>
++     <item V="06" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2011/Ville-21430157400015-06.2011.xhl</item>
++     <item V="07" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2011/Ville-21430157400015-07.2011.xhl</item>
++     <item V="08" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2011/Ville-21430157400015-08.2011.xhl</item>
++     <item V="09" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2011/Ville-21430157400015-09.2011.xhl</item>
++     <item V="10" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2011/Ville-21430157400015-10.2011.xhl</item>
++     <item V="11" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2011/Ville-21430157400015-11.2011.xhl</item>
++     <item V="12" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2011/Ville-21430157400015-12.2011.xhl</item>
+    </onglet>
+    <onglet V="2012">
+-     <item V="1" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201201_01_00.xhl</item>
+-     <item V="1" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY12">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201201_02_00.xhl</item>
+-     <item V="2" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201202_01_00.xhl</item>
+-     <item V="2" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201202_02_00.xhl</item>
+-     <item V="3" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201203_01_00.xhl</item>
+-     <item V="3" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201203_02_00.xhl</item>
+-     <item V="4" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201204_01_00.xhl</item>
+-     <item V="4" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201204_02_00.xhl</item>
+-     <item V="5" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201205_01_00.xhl</item>
+-     <item V="5" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201205_02_00.xhl</item>
+-     <item V="6" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201206_01_00.xhl</item>
+-     <item V="6" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201206_02_00.xhl</item>
+-     <item V="7" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201207_01_00.xhl</item>
+-     <item V="7" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201207_02_00.xhl</item>
+-     <item V="8" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201208_01_00.xhl</item>
+-     <item V="8" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201208_02_00.xhl</item>
+-     <item V="9" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201209_01_00.xhl</item>
+-     <item V="9" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201209_02_00.xhl</item>
+-     <item V="10" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201210_01_00.xhl</item>
+-     <item V="10" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201210_02_00.xhl</item>
+-     <item V="11" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201211_01_00.xhl</item>
+-     <item V="11" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201211_02_00.xhl</item>
+-     <item V="12" S="YYY" B="BUDGET PRINCIPAL" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201212_01_00.xhl</item>
+-     <item V="12" S="YYY" B="ASSAINISSEMENT" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201212_02_00.xhl</item>
++     <item V="01" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2012/21430157400015-2012-01VILLE.xhl</item>
++     <item V="02" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2012/21430157400015-2012-02VILLE.xhl</item>
++     <item V="04" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2012/21430157400015-2012-04VILLE.xhl</item>
++     <item V="05" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2012/21430157400015-2012-05VILLE.xhl</item>
++     <item V="06" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2012/21430157400015-2012-06VILLE.xhl</item>
++     <item V="07" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2012/21430157400015-2012-07VILLE.xhl</item>
++     <item V="08" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2012/21430157400015-2012-08VILLE.xhl</item>
++     <item V="09" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2012/21430157400015-2012-09VILLE.xhl</item>
++     <item V="10" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2012/21430157400015-2012-10VILLE.xhl</item>
++     <item V="11" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2012/21430157400015-2012-11VILLE.xhl</item>
++     <item V="12" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2012/21430157400015-2012-12VILLE.xhl</item>
++     <item V="03" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2012/Ville-21430157400015-03.2012.xhl</item>
++   </onglet>
++   <onglet V="2013">
++     <item V="01" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2013/21430157400015-2013-01VILLE.xhl</item>
++     <item V="02" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2013/21430157400015-2013-02VILLE.xhl</item>
++     <item V="03" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2013/21430157400015-2013-03VILLE.xhl</item>
++     <item V="04" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2013/21430157400015-2013-04VILLE.xhl</item>
++     <item V="05" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2013/21430157400015-2013-05VILLE.xhl</item>
++     <item V="06" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2013/21430157400015-2013-06VILLE.xhl</item>
++     <item V="07" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2013/21430157400015-2013-07VILLE.xhl</item>
++     <item V="08" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2013/21430157400015-2013-08VILLE.xhl</item>
++     <item V="09" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2013/21430157400015-2013-09VILLE.xhl</item>
++     <item V="10" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2013/21430157400015-2013-10VILLE.xhl</item>
++     <item V="11" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2013/21430157400015-2013-11VILLE.xhl</item>
++     <item V="12" S="YYY" B="MULTIBUDGET" E="YYY" EM="YYY">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2013/21430157400015-2013-12VILLE.xhl</item>
+    </onglet>
+    <onglet V="Siret">
+      <item V="" S="" B="" E="" EM="">YYY YYY</item>
+    </onglet>
+    <onglet V="Budget">
+-     <item V="" S="" B="" E="" EM="">ASSAINISSEMENT</item>
+-     <item V="" S="" B="" E="" EM="">BUDGET PRINCIPAL</item>
+-     <item V="" S="" B="" E="" EM="">MULTI BUDGETS</item>
++     <item V="" S="" B="" E="" EM="">MULTIBUDGET</item>
+    </onglet>
+    <onglet V="Employeur">
+      <item V="" S="" B="" E="" EM="">YYY</item>
+-     <item V="" S="" B="" E="" EM="">YYY10</item>
+-     <item V="" S="" B="" E="" EM="">YYY11</item>
+-     <item V="" S="" B="" E="" EM="">YYY12</item>
+-     <item V="" S="" B="" E="" EM="">YYY8</item>
+-     <item V="" S="" B="" E="" EM="">YYY8.2</item>
+-     <item V="" S="" B="" E="" EM="">YYY9</item>
+    </onglet>
+   </XHL>
+  </data>
+@@ -188,7 +124,7 @@
+    non
+   </quiet>
+   <maxLigne profondeur="0">
+-   50000
++   500000
+   </maxLigne>
+   <base profondeur="0">
+    C:\Users\Public\Dev\altair\Tests\Exemple\Donnees\R-AltaÃ¯r
+@@ -209,7 +145,7 @@
+    C:\Users\Public\Dev\altair\win
+   </lhxDir>
+   <processType profondeur="0">
+-   '7'
++   '4'
+   </processType>
+   <nAgent profondeur="0">
+      
+@@ -218,7 +154,7 @@
+      
+   </nLine>
+   <log profondeur="0">
+-   C:\Users\Fab\AppData\Local\AltaÃ¯r\altair.log
++   C:\Users\fnicol\AppData\Local\AltaÃ¯r\altair.log
+   </log>
+   <genererLog profondeur="0">
+    non
+diff --git a/Interface/build/object_script.Altair.Debug b/Interface/build/object_script.Altair.Debug
+index 063e8be..31fb8ba 100644
+--- a/Interface/build/object_script.Altair.Debug
++++ b/Interface/build/object_script.Altair.Debug
+@@ -1,27 +1,27 @@
+ INPUT(
+-./debug\options.o
+-./debug\mainwindow.o
+-./debug\fwidgets.o
+-./debug\fstring.o
+-./debug\flistframe.o
+-./debug\altair.o
+-./debug\common.o
+-./debug\forms.o
+-./debug\main.o
+-./debug\browser.o
+-./debug\xmlparser.o
+-./debug\highlighter.o
+-./debug\run.o
+-./debug\elemParser.o
+-./debug\flineframe.o
+-./debug\altair_plugin_import.o
+-./debug\qrc_altair-gui.o
+-./debug\moc_options.o
+-./debug\moc_fwidgets.o
+-./debug\moc_flistframe.o
+-./debug\moc_altair.o
+-./debug\moc_browser.o
+-./debug\moc_highlighter.o
+-./debug\moc_altair-gui.o
+-./debug\moc_flineframe.o
++./debug/options.o
++./debug/mainwindow.o
++./debug/fwidgets.o
++./debug/fstring.o
++./debug/flistframe.o
++./debug/altair.o
++./debug/common.o
++./debug/forms.o
++./debug/main.o
++./debug/browser.o
++./debug/xmlparser.o
++./debug/highlighter.o
++./debug/run.o
++./debug/elemParser.o
++./debug/flineframe.o
++./debug/altair_plugin_import.o
++./debug/qrc_altair-gui.o
++./debug/moc_options.o
++./debug/moc_fwidgets.o
++./debug/moc_flistframe.o
++./debug/moc_altair.o
++./debug/moc_browser.o
++./debug/moc_highlighter.o
++./debug/moc_altair-gui.o
++./debug/moc_flineframe.o
+ );
+diff --git a/Interface/build/object_script.Altair.Release b/Interface/build/object_script.Altair.Release
+index c181122..3bbb92f 100644
+--- a/Interface/build/object_script.Altair.Release
++++ b/Interface/build/object_script.Altair.Release
+@@ -1,27 +1,27 @@
+ INPUT(
+-./release\options.o
+-./release\mainwindow.o
+-./release\fwidgets.o
+-./release\fstring.o
+-./release\flistframe.o
+-./release\altair.o
+-./release\common.o
+-./release\forms.o
+-./release\main.o
+-./release\browser.o
+-./release\xmlparser.o
+-./release\highlighter.o
+-./release\run.o
+-./release\elemParser.o
+-./release\flineframe.o
+-./release\altair_plugin_import.o
+-./release\qrc_altair-gui.o
+-./release\moc_options.o
+-./release\moc_fwidgets.o
+-./release\moc_flistframe.o
+-./release\moc_altair.o
+-./release\moc_browser.o
+-./release\moc_highlighter.o
+-./release\moc_altair-gui.o
+-./release\moc_flineframe.o
++./release/options.o
++./release/mainwindow.o
++./release/fwidgets.o
++./release/fstring.o
++./release/flistframe.o
++./release/altair.o
++./release/common.o
++./release/forms.o
++./release/main.o
++./release/browser.o
++./release/xmlparser.o
++./release/highlighter.o
++./release/run.o
++./release/elemParser.o
++./release/flineframe.o
++./release/altair_plugin_import.o
++./release/qrc_altair-gui.o
++./release/moc_options.o
++./release/moc_fwidgets.o
++./release/moc_flistframe.o
++./release/moc_altair.o
++./release/moc_browser.o
++./release/moc_highlighter.o
++./release/moc_altair-gui.o
++./release/moc_flineframe.o
+ );
+diff --git a/Interface/gui/altair.windows.pro.user b/Interface/gui/altair.windows.pro.user
+index 87e3ed8..4b45d64 100644
+--- a/Interface/gui/altair.windows.pro.user
++++ b/Interface/gui/altair.windows.pro.user
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE QtCreatorProject>
+-<!-- Written by QtCreator 3.5.1, 2016-01-26T14:19:51. -->
++<!-- Written by QtCreator 3.5.1, 2016-01-26T19:48:12. -->
+ <qtcreator>
+  <data>
+   <variable>EnvironmentId</variable>
+diff --git a/Interface/gui/tags.h b/Interface/gui/tags.h
+index 5399004..cc66bd9 100644
+--- a/Interface/gui/tags.h
++++ b/Interface/gui/tags.h
+@@ -12,6 +12,7 @@
+ #define DBG_HTML_TAG "<img src=\":/images/debug.png\"/>&nbsp;"
+ #define HTML_TAG(X) "<span style=\"color: " #X ";\">&nbsp;"
+ #define ENDL  "<br>\n"  // pour une utilisation GUI, "\n" en ligne de commande de console pure.
++#define SPACER  "&nbsp;&nbsp;\n"
+ 
+ #else
+ 
+@@ -21,6 +22,7 @@
+   #define  ERROR_HTML_TAG  "[ERR] "
+   #define  WARNING_HTML_TAG  "[ATT] "
+   #define  ENDL "\n"
++  #define  SPACER "  "
+ 
+ #endif
+ 
+diff --git "a/Interface_windows/gui/x64/Alta\303\257r.exe" "b/Interface_windows/gui/x64/Alta\303\257r.exe"
+index 68befe4..cead42f 100644
+Binary files "a/Interface_windows/gui/x64/Alta\303\257r.exe" and "b/Interface_windows/gui/x64/Alta\303\257r.exe" differ
+diff --git a/Tests/Exemple/altair.R b/Tests/Exemple/altair.R
+index 8a85736..bf61a38 100644
+--- a/Tests/Exemple/altair.R
++++ b/Tests/Exemple/altair.R
+@@ -104,14 +104,12 @@ effectifs <- lapply(p
+                                                                         & Filtre_actif == FALSE
+                                                                         & Année == x,
+                                                                           Matricule])
+-                      postes.actifs.annexes <- unique(Analyse.rémunérations[Statut != "ELU"
+-                                                                            & Filtre_annexe == TRUE
+-                                                                            & Filtre_actif == TRUE
+-                                                                            & Année == x,
+-                                                                                Matricule])
++                      postes.annexes <- unique(Analyse.rémunérations[Statut != "ELU"
++                                                                     & Filtre_non_annexe == FALSE
++                                                                     & Année == x,
++                                                                       Matricule])
+                       postes.actifs.non.annexes <- unique(Analyse.rémunérations[Statut != "ELU"
+-                                                                                & Filtre_annexe == FALSE
+-                                                                                & Filtre_actif == TRUE
++                                                                                & Filtre_actif_non_annexe == TRUE
+                                                                                 & Année == x,
+                                                                                   Matricule])
+                       postes.non.titulaires <- unique(Analyse.variations.par.exercice[Statut == "NON_TITULAIRE" 
+@@ -128,26 +126,26 @@ effectifs <- lapply(p
+                         nrow(K),
+                         nrow(L),
+                         length(postes.non.actifs),
+-                        length(postes.actifs.annexes),
++                        length(postes.annexes),
+                         length(postes.actifs.non.annexes),
+                         ETP[Statut != "ELU" , sum(quotité/nb.mois, na.rm=TRUE)],
+                         ETP[Statut != "ELU" , sum(quotité, na.rm=TRUE)] / 12,
+-                        ETP[Matricule %chin% unique(Analyse.variations[est.rmpp == TRUE
+-                                                                      & Année == x,
+-                                                                         Matricule]),
++                        ETP[Matricule %chin% unique(Analyse.variations.par.exercice[est.rmpp == TRUE
++                                                                                    & Année == x,
++                                                                                    Matricule]),
+                             sum(quotité, na.rm=TRUE)] / 12,
+                         ETP[(Statut == "TITULAIRE" | Statut == "STAGIAIRE")
+-                            & Matricule %chin% unique(Analyse.variations[Statut == "TITULAIRE"
+-                                                                         | Statut == "STAGIAIRE",
+-                                                                            Matricule]),
++                            & Matricule %chin% unique(Analyse.variations.par.exercice[Statut == "TITULAIRE"
++                                                                                      | Statut == "STAGIAIRE",
++                                                                                         Matricule]),
+                               sum(quotité, na.rm=TRUE)] / 12,
+                         ETP[Statut == "TITULAIRE"
+                             & permanent == TRUE 
+-                            & Matricule %chin% unique(Analyse.variations[permanent == TRUE
+-                                                                         & statut == "TITULAIRE"
+-                                                                         & temps.complet == TRUE
+-                                                                         & Année == x,
+-                                                                           Matricule]),
++                            & Matricule %chin% unique(Analyse.variations.par.exercice[permanent == TRUE
++                                                                             & Statut == "TITULAIRE"
++                                                                             & temps.complet == TRUE
++                                                                             & Année == x,
++                                                                             Matricule]),
+                               sum(quotité, na.rm=TRUE)] / 12,
+                         ETP[Statut == "NON_TITULAIRE" 
+                             & Matricule %chin% postes.non.titulaires,  
+@@ -157,7 +155,7 @@ effectifs <- lapply(p
+                                                                                     Matricule]),
+                               sum(quotité, na.rm=TRUE)] / 12,
+             						ETP[Matricule %chin% postes.non.actifs, sum(quotité, na.rm=TRUE)] / 12,
+-            						ETP[Matricule %chin% postes.actifs.annexes, sum(quotité, na.rm=TRUE)] / 12,
++            						ETP[Matricule %chin% postes.annexes, sum(quotité, na.rm=TRUE)] / 12,
+                         ETP[Matricule %chin% postes.actifs.non.annexes, sum(quotité, na.rm=TRUE)] / 12)							
+                      })
+ 
+@@ -171,7 +169,7 @@ for (i in 1:length(effectifs)) names(effectifs[[i]]) <- c("Effectifs",
+                                                           "Effectifs_vac",
+                                                           "Effectifs_am",
+                                                           "Effectifs_non.actifs",
+-                                                          "Effectifs_actifs_annexes",
++                                                          "Effectifs_annexes",
+                                                           "Effectifs_actifs_non.annexes",
+                                                           "ETP",
+                                                           "ETPT",
+@@ -198,7 +196,7 @@ tableau.effectifs <- as.data.frame(effectifs.locale,
+                                                  "&nbsp;&nbsp;&nbsp;dont vacataires détectés (c)",
+                                                  "&nbsp;&nbsp;&nbsp;dont assistantes maternelles détectées (c)",
+                                                  "Postes non actifs (g)",
+-                                                 "Postes actifs annexes (g)",
++                                                 "Postes annexes (g)",
+                                                  "Postes actifs non annexes (g)",
+                                                  "Total ETP/année (d)",
+                                                  "Total ETPT/année (e)",
+@@ -208,7 +206,7 @@ tableau.effectifs <- as.data.frame(effectifs.locale,
+                                                  "Total ETPT non titulaires (g)",
+                                                  "Total ETPT autre statut",
+                                                  "Total ETPT postes non actifs (g)",
+-                                                 "Total ETPT postes actifs annexes (g)",
++                                                 "Total ETPT postes annexes (g)",
+                                                  "Total ETPT postes actifs non annexes (g)"))
+ 
+ names(tableau.effectifs) <- liste.années
+@@ -464,19 +462,19 @@ Tableau(c("Plus de 2 ans",
+           "Moins de 2 ans",
+           "Moins d'un an",
+           "Moins de six mois"),
+-        sum(Analyse.variations$plus.2.ans, na.rm=TRUE),
+-        sum(Analyse.variations$moins.2.ans, na.rm=TRUE),
+-        sum(Analyse.variations$moins.1.an, na.rm=TRUE),
+-        sum(Analyse.variations$moins.six.mois, na.rm=TRUE))
++        sum(Analyse.variations.par.exercice$plus.2.ans, na.rm=TRUE),
++        sum(Analyse.variations.par.exercice$moins.2.ans, na.rm=TRUE),
++        sum(Analyse.variations.par.exercice$moins.1.an, na.rm=TRUE),
++        sum(Analyse.variations.par.exercice$moins.six.mois, na.rm=TRUE))
+ 
+ 
+ #'
+ 
+-if (nrow(Analyse.variations) > 0)
++if (nrow(Analyse.variations.par.exercice) > 0)
+   qplot(factor(Année),
+-        data = Analyse.variations,
++        data = Analyse.variations.par.exercice,
+         geom = "bar",
+-        fill = factor(!Analyse.variations$plus.2.ans),
++        fill = factor(!Analyse.variations.par.exercice$plus.2.ans),
+         main = "Evolutions entre " %+% début.période.sous.revue %+% " et " %+% fin.période.sous.revue,
+         xlab = étiquette.année,
+         ylab = "Effectif",
+@@ -494,7 +492,7 @@ if (nrow(Analyse.variations) > 0)
+ effectifs.var <- lapply(période,
+                         function(x) {
+ 
+-                          E <- unique(Analyse.variations[Année == x , .(Matricule, plus.2.ans)], by=NULL)
++                          E <- unique(Analyse.variations.par.exercice[Année == x , .(Matricule, plus.2.ans)], by=NULL)
+                           F <- E[plus.2.ans == TRUE]
+                           tot <- nrow(E)
+                           plus.2.ans <- nrow(F)
+@@ -531,8 +529,7 @@ colonnes.s
+                             "Statut",
+                             "Grade",
+                             "Catégorie",
+-                            "Filtre_actif",
+-                            "Filtre_annexe",
++                            "Filtre_actif_non_annexe",
+                             clé.fusion)
+ 
+ 
+@@ -624,12 +621,12 @@ incr
+ #'    
+ #'## `r chapitre`.1 Distribution de la rémunération nette moyenne sur la période    
+ 
+-Analyse.variations <- Analyse.variations[nb.jours > seuil.troncature
+-                                               & ! is.na(Montant.net.annuel.eqtp)
+-                                               & Montant.net.annuel.eqtp  > minimum.positif 
+-                                               & ! is.na(Statut)] 
++Analyse.variations.par.exercice <- Analyse.variations.par.exercice[nb.jours > seuil.troncature
++                                                                   & ! is.na(Montant.net.annuel.eqtp)
++                                                                   & Montant.net.annuel.eqtp  > minimum.positif 
++                                                                   & ! is.na(Statut)] 
+ 
+-attach(Analyse.variations)
++attach(Analyse.variations.par.exercice)
+ 
+ temp <- positive(moyenne.rémunération.annuelle.sur.période) / 1000
+ 
+@@ -655,7 +652,7 @@ if (longueur.non.na(temp) > 0)
+        col = "blue",
+        nclass = 200)
+ 
+-detach(Analyse.variations)
++detach(Analyse.variations.par.exercice)
+ 
+ #'   
+ #'[Lien vers la base de données synthétique](`r currentDir`/Bases/Rémunérations/Analyse.variations.par.exercice.csv)
+@@ -673,14 +670,14 @@ detach(Analyse.variations)
+ masse.salariale.nette <- rep(0, durée.sous.revue)
+ 
+ f <- function(x) prettyNum(masse.salariale.nette[x - début.période.sous.revue + 1] <<- 
+-                             sum(Analyse.variations[Année == x, 
+-                                                      Montant.net.annuel.eqtp],
++                             sum(Analyse.variations.par.exercice[Année == x, 
++                                                               Montant.net.annuel.eqtp],
+                                na.rm = TRUE) / 1000,
+                            big.mark = " ",
+                            digits = 5,
+                            format = "fg")
+ 
+-g <- function(x) prettyNum(mean.default(Analyse.variations[Année == x, 
++g <- function(x) prettyNum(mean.default(Analyse.variations.par.exercice[Année == x, 
+                                                                Montant.net.annuel.eqtp],
+                                na.rm = TRUE),
+                            big.mark = " ",
+@@ -701,8 +698,8 @@ Tableau.vertical(c(
+ 
+ entrants <- function(x)   {
+   
+-  A <- setdiff(Analyse.variations[Année == x, Matricule], 
+-               Analyse.variations[Année == x -1, Matricule])
++  A <- setdiff(Analyse.variations.par.exercice[Année == x, Matricule], 
++               Analyse.variations.par.exercice[Année == x -1, Matricule])
+   
+ 
+   B <- unique(Bulletins.paie[Année == x 
+@@ -717,8 +714,8 @@ entrants <- function(x)   {
+ 
+ sortants <- function(x)   {
+   
+-  A <- setdiff(Analyse.variations[Année == x-1, Matricule], 
+-               Analyse.variations[Année == x, Matricule])
++  A <- setdiff(Analyse.variations.par.exercice[Année == x-1, Matricule], 
++               Analyse.variations.par.exercice[Année == x, Matricule])
+     
+   B <- unique(Bulletins.paie[Année == x - 1
+                              & Matricule %chin% A,
+@@ -741,12 +738,12 @@ f <- function(x) {
+   s[[y]] <<- sortants(x)
+   e[[y]] <<- entrants(x)
+   
+-  noria[y] <<- mean.default(Analyse.variations[Année == x 
+-                                                    & Matricule %chin% e[[y]][[1]], 
+-                                                      Montant.net.annuel.eqtp],
+-                    na.rm = TRUE) - mean.default(Analyse.variations[Année == x- 1 
+-                                                                      & Matricule %chin% s[[y]][[1]], 
+-                                                                         Montant.net.annuel.eqtp],
++  noria[y] <<- mean.default(Analyse.variations.par.exercice[Année == x 
++                                                            & Matricule %chin% e[[y]][[1]], 
++                                                              Montant.net.annuel.eqtp],
++                    na.rm = TRUE) - mean.default(Analyse.variations.par.exercice[Année == x- 1 
++                                                                                 & Matricule %chin% s[[y]][[1]], 
++                                                                                     Montant.net.annuel.eqtp],
+                                                  na.rm = TRUE)
+   
+   prettyNum(noria[y],
+@@ -775,7 +772,6 @@ g <- function(x) {
+ #'  
+ #'&nbsp;*Tableau `r incrément()`*   
+ #'    
+-    
+ if (durée.sous.revue > 1) {
+ Tableau.vertical(c(étiquette.année,  "Noria EQTP (&euro;)", "En % de la MS N-1", "Remplacements EQTP", "Taux de remplacements (%)"),
+                  période[2:durée.sous.revue],
+@@ -805,11 +801,11 @@ Tableau.vertical(c(
+ #'    
+ 
+ Résumé("Première année",
+-       Analyse.variations[Année == début.période.sous.revue, Montant.net.annuel.eqtp])
++       Analyse.variations.par.exercice[Année == début.période.sous.revue, Montant.net.annuel.eqtp])
+ 
+ 
+ Résumé("Dernière année",
+-       Analyse.variations[Année == fin.période.sous.revue, Montant.net.annuel.eqtp])
++       Analyse.variations.par.exercice[Année == fin.période.sous.revue, Montant.net.annuel.eqtp])
+ 
+ 
+ #'  
+@@ -839,47 +835,82 @@ Tableau.vertical2(c("Agr
+ #'*Champ : France. Salariés en équivalent-temps plein (EQTP) des collectivités territoriales (y compris bénéficiaires de contrats aidés, hors assistantes maternelles).*     			
+ 
+ 
+-matrice.déciles <- t(matrix(12*c(1458, 1274, 1382, 1170, 1743, 1376, 1514, 1305, 1921, 1459, 1635, 1428, 2076, 1540, 1754,
+-                                 1559, 2236, 1636, 1883, 1712, 2412, 1751, 2042, 1902, 2636, 1905, 2268, 2156, 2966, 2133,
+-                                 2583, 2569, 3538, 2573, 3151, 3400),  ncol = 9))
++
++#'<p style="page-break-after:always;"></p>   
+ 
+ 
+-#'**Distribution des salaires nets annuels en EQTP dans la fonction publique par versant en 2011**   
++#'**Distribution des salaires nets annuels en EQTP dans la fonction publique territoriale (2011-2013)**   
+ #' 
+ #'  
+ #'&nbsp;*Tableau `r incrément()`*   
+ #'    
+ 
++# Remarque sur le formatage markdown: en raison d'un bug de knitr, utiliser un dièse + apostrophe
++# suivi d'un seul blanc juste après la table.
++
++#'  
++#' | Décile (k&euro;) | 2011     | 2013   |
++#' |------------------|----------|--------|
++#' |    D1            | 15 288   | 15 600 |  
++#' |    D2            | 16 512   | 16 860 |    
++#' |    D3            | 17 508   | 17 844 |  
++#' |    D4            | 18 480   | 18 816 |  
++#' |    D5 (médiane)  | 19 632   | 19 908 |    
++#' |    D6            | 21 012   | 21 300 |    
++#' |    D7            | 22 860   | 23 160 |    
++#' |    D8            | 25 596   | 25 956 |    
++#' |    D9            | 30 876   | 31 272 |    
++#' |    Moyenne       | 21 876   | 22 212 |    
++#' 
+ 
+-Tableau.vertical2(c("Décile (k&euro;)", "FPE", "FPT", "FPH", "Secteur privé"),
+-                  paste0("D", 1:9),
+-                  matrice.déciles[,1],
+-                  matrice.déciles[,2],
+-                  matrice.déciles[,3],
+-                  matrice.déciles[,4])
+-
+-
+-matrice.déciles.cat <- matrix(12*c(2170,2416,2606,2789,2985,3222,3523,3927,4570,1823,
+-                                    1715,1856,1971,2080,2187,2303,2430,2582,2817,3225,
+-                                    1331,1408,1471,1530,1597,1675,1768,1890,2083,2244,
+-                                    1135,1195,1252,1307,1364,1436,1540,1732,2243,1668), nrow = 10)
+ 
+-#'<p style="page-break-after:always;"></p>   
++#'**Distribution des salaires nets annuels en EQTP dans la fonction publique d'Etat (2011-2013)**   
++#' 
++#'  
++#'&nbsp;*Tableau `r incrément()`*   
++#'    
+ 
+-#'**Distribution des salaires nets annuels en EQTP dans la fonction publique territoriale par catégorie en 2011**   
++#'    
++#' | Décile (k&euro;) | 2011     | 2013   |
++#' |------------------|----------|--------|
++#' |    D1            | 17 496   | 18 012 |  
++#' |    D2            | 20 916   | 21 348 |    
++#' |    D3            | 23 052   | 23 376 |  
++#' |    D4            | 24 912   | 25 248 |  
++#' |    D5 (médiane)  | 26 832   | 27 120 |    
++#' |    D6            | 28 944   | 29 220 |    
++#' |    D7            | 31 632   | 31 968 |    
++#' |    D8            | 35 592   | 35 964 |    
++#' |    D9            | 42 456   | 42 780 |
++#' | Moyenne          | 29 208   | 29 628 |  
++#' 
++            
++#'**Distribution des salaires nets annuels en EQTP dans la fonction publique hospitalière (hôpitaux) (2011-2013)**   
++#' 
+ #'  
+ #'&nbsp;*Tableau `r incrément()`*   
+ #'    
+ 
+-Tableau.vertical2(c("Décile (k&euro;)", "Catégorie A", "Catégorie B", "Catégorie C", "Autres salariés"),
+-                  c(paste0("D", 1:9), "Moyenne"),
+-                  matrice.déciles.cat[,1],
+-                  matrice.déciles.cat[,2],
+-                  matrice.déciles.cat[,3],
+-                  matrice.déciles.cat[,4])
++#'    
++#' | Décile (k&euro;) | 2011     | 2013   |
++#' |------------------|----------|--------|
++#' |    D1            | 16 584   | 17 016 |  
++#' |    D2            | 18 168   | 18 492 |    
++#' |    D3            | 19 620   | 19 872 |  
++#' |    D4            | 21 048   | 21 192 |  
++#' |    D5 (médiane)  | 22 596   | 22 656 |    
++#' |    D6            | 24 504   | 24 516 |    
++#' |    D7            | 27 216   | 27 252 |    
++#' |    D8            | 30 996   | 31 176 |    
++#' |    D9            | 37 812   | 38 100 |    
++#' |  Moyenne         | 26 496   | 32 076 |  
++#' 
+ 
+-#'[Source INSEE, onglets Figure3, F1web et F3web](http://www.insee.fr/fr/ffc/ipweb/ip1486/ip1486.xls)   
+-#'   
++
++#'<p style="page-break-after:always;"></p>   
++
++#'[Source INSEE, onglets Figure3, F1web et F3web - 2011](`r currentDir`/Docs/ip1486.xls)   
++#'[Source INSEE, onglets F V3.1-2, F V3.1-5 - 2013](`r currentDir`/Docs/vue3_remunerations.xls)   
+ #'[Lien vers la base de données](`r currentDir`/Bases/Rémunérations/Analyse.variations.par.exercice.csv)
+ #'   
+ 
+@@ -889,9 +920,9 @@ Tableau.vertical2(c("D
+ 
+ f <- function(x) {
+ 
+-  masse.salariale.nette[x - début.période.sous.revue + 1] <<-  sum(Analyse.variations[Année == x
+-                                                                                         & (Statut == "TITULAIRE" | Statut == "STAGIAIRE"), 
+-                                                                                              Montant.net.annuel.eqtp],
++  masse.salariale.nette[x - début.période.sous.revue + 1] <<-  sum(Analyse.variations.par.exercice[Année == x
++                                                                                                   & (Statut == "TITULAIRE" | Statut == "STAGIAIRE"), 
++                                                                                                      Montant.net.annuel.eqtp],
+                                                                 na.rm = TRUE) / 1000
+ 
+  prettyNum(masse.salariale.nette[x - début.période.sous.revue + 1],
+@@ -900,9 +931,9 @@ f <- function(x) {
+                            format = "fg")
+ }
+ 
+-g <- function(x) prettyNum(mean.default(Analyse.variations[Année == x 
+-                                                            & (Statut == "TITULAIRE" | Statut == "STAGIAIRE"), 
+-                                                             Montant.net.annuel.eqtp],
++g <- function(x) prettyNum(mean.default(Analyse.variations.par.exercice[Année == x 
++                                                                        & (Statut == "TITULAIRE" | Statut == "STAGIAIRE"), 
++                                                                         Montant.net.annuel.eqtp],
+                            na.rm = TRUE),
+                    big.mark = " ",
+                    digits = 1,
+@@ -910,10 +941,10 @@ g <- function(x) prettyNum(mean.default(Analyse.variations[Ann
+ 
+ f.X <- function(x, CAT) {
+   
+-  masse.salariale.nette[x - début.période.sous.revue + 1] <<-  sum(Analyse.variations[Année == x
+-                                                                                         & (Statut == "TITULAIRE" | Statut == "STAGIAIRE")
+-                                                                                         & Catégorie == CAT, 
+-                                                                                              Montant.net.annuel.eqtp],
++  masse.salariale.nette[x - début.période.sous.revue + 1] <<-  sum(Analyse.variations.par.exercice[Année == x
++                                                                                                   & (Statut == "TITULAIRE" | Statut == "STAGIAIRE")
++                                                                                                   & Catégorie == CAT, 
++                                                                                                   Montant.net.annuel.eqtp],
+                                                                    na.rm = TRUE) / 1000
+   
+   prettyNum(masse.salariale.nette[x - début.période.sous.revue + 1],
+@@ -922,7 +953,7 @@ f.X <- function(x, CAT) {
+             format = "fg")
+ }
+ 
+-g.X <- function(x, CAT) prettyNum(mean.default(Analyse.variations[Année == x 
++g.X <- function(x, CAT) prettyNum(mean.default(Analyse.variations.par.exercice[Année == x 
+                                                                         & (Statut == "TITULAIRE" | Statut == "STAGIAIRE")
+                                                                         & Catégorie == CAT, 
+                                                                         Montant.net.annuel.eqtp],
+@@ -958,7 +989,26 @@ Tableau.vertical(c(
+                  function(x) f.X(x, "A"),
+                  function(x) g.X(x, "A"))
+ 
+- 
++#'**Distribution des salaires nets annuels en EQTP dans la fonction publique territoriale par catégorie (2011-2013)**   
++#'  
++
++#'*Comparaisons nationales*    
++#'    
++#' | Décile (k&euro;) | 2011     | 2013   |
++#' |------------------|----------|--------|
++#' |    D1            | 26 040   | 26 340 |  
++#' |    D2            | 28 992   |        |    
++#' |    D3            | 31 272   |        |  
++#' |    D4            | 33 468   |        |  
++#' |    D5 (médiane)  | 35 820   | 36 312 |    
++#' |    D6            | 38 664   |        |    
++#' |    D7            | 42 276   |        |    
++#' |    D8            | 47 124   |        |    
++#' |    D9            | 54 840   | 55 032 |    
++#' |  Moyenne         | 21 876   | 39 120 |       
++#' 
++
++
+ #'   
+ #'**Catégorie B**    
+ #'     
+@@ -971,6 +1021,22 @@ Tableau.vertical(c(
+                  function(x) f.X(x, "B"),
+                  function(x) g.X(x, "B"))
+ 
++#'*Comparaisons nationales*    
++#'    
++#' | Décile (k&euro;) | 2011     | 2013   |
++#' |------------------|----------|--------|
++#' |    D1            | 20 580   | 20 964 |  
++#' |    D2            | 22 272   |        |    
++#' |    D3            | 23 652   |        |  
++#' |    D4            | 24 960   |        |  
++#' |    D5 (médiane)  | 26 244   | 26 820 |    
++#' |    D6            | 27 636   |        |    
++#' |    D7            | 29 160   |        |    
++#' |    D8            | 30 984   |        |    
++#' |    D9            | 33 804   | 34 224 |    
++#' |  Moyenne         | 38 700   | 27 408 |   
++#' 
++
+ #'   
+ #'**Catégorie C**     
+ #'    
+@@ -983,16 +1049,33 @@ Tableau.vertical(c(
+                  function(x) f.X(x, "C"),
+                  function(x) g.X(x, "C"))
+ 
++#'     
++#'*Comparaisons nationales*    
+ #'    
++#' | Décile (k&euro;) | 2011     | 2013   |
++#' |------------------|----------|--------|
++#' |    D1            | 15 972   |  16 296|  
++#' |    D2            | 16 896   |        |    
++#' |    D3            | 17 652   |        |  
++#' |    D4            | 18 360   |        |  
++#' |    D5 (médiane)  | 19 164   |  19 464|    
++#' |    D6            | 20 100   |        |    
++#' |    D7            | 21 216   |        |    
++#' |    D8            | 22 680   |        |    
++#' |    D9            | 24 996   |  25 176|    
++#' |    Moyenne       | 26 928   |  20 268|  
++#' 
++
++
+ 
+ f <- function(x) {
+   y <- x - début.période.sous.revue
+   
+-  noria[y] <<- sum(Analyse.variations[Année == x 
++  noria[y] <<- sum(Analyse.variations.par.exercice[Année == x 
+                                                    & (Statut == "TITULAIRE" | Statut == "STAGIAIRE") 
+                                                    & Matricule %chin% e[[y]][[1]], 
+                                                      Montant.net.annuel.eqtp],
+-                   na.rm = TRUE) / e[[y]][[3]] -  sum(Analyse.variations[Année == x- 1
++                   na.rm = TRUE) / e[[y]][[3]] -  sum(Analyse.variations.par.exercice[Année == x- 1
+                                                                                       & (Statut == "TITULAIRE" | Statut == "STAGIAIRE") 
+                                                                                       & Matricule %chin% s[[y]][[1]],
+                                                                                         Montant.net.annuel.eqtp],
+@@ -1043,20 +1126,20 @@ Tableau.vertical(c(
+ 
+ 
+ Résumé("Première année",
+-       Analyse.variations[Année == début.période.sous.revue
++       Analyse.variations.par.exercice[Année == début.période.sous.revue
+                                        & (Statut == "TITULAIRE" | Statut == "STAGIAIRE"),
+                                            Montant.net.annuel.eqtp])
+ 
+ #'<p style="page-break-after:always;"></p>   
+ 
+ Résumé("Dernière année",
+-       Analyse.variations[Année == fin.période.sous.revue 
++       Analyse.variations.par.exercice[Année == fin.période.sous.revue 
+                                        & (Statut == "TITULAIRE" | Statut == "STAGIAIRE"),
+                                          Montant.net.annuel.eqtp])
+ 
+ 
+ #'    
+-f <- function(x) prettyNum(sum(Analyse.variations[Année == x 
++f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x 
+                                                                & Statut == "TITULAIRE"
+                                                                & temps.complet == TRUE & permanent == TRUE, 
+                                                                  Montant.net.annuel.eqtp],
+@@ -1065,7 +1148,7 @@ f <- function(x) prettyNum(sum(Analyse.variations[Ann
+                            digits = 5,
+                            format = "fg")
+ 
+-g <- function(x) prettyNum(mean.default(Analyse.variations[Année == x
++g <- function(x) prettyNum(mean.default(Analyse.variations.par.exercice[Année == x
+                                                                & Statut == "TITULAIRE"
+                                                                & temps.complet == TRUE & permanent == TRUE, 
+                                                                  Montant.net.annuel.eqtp],
+@@ -1096,7 +1179,7 @@ Tableau.vertical(c(
+ 
+ 
+ Résumé("Première année",
+-       Analyse.variations[Année == début.période.sous.revue
++       Analyse.variations.par.exercice[Année == début.période.sous.revue
+                                        & Statut == "TITULAIRE" 
+                                        & temps.complet == TRUE
+                                        & permanent == TRUE,
+@@ -1104,7 +1187,7 @@ R
+ 
+ #'   
+ Résumé("Dernière année",
+-       Analyse.variations[Année == fin.période.sous.revue
++       Analyse.variations.par.exercice[Année == fin.période.sous.revue
+                                        & Statut == "TITULAIRE" 
+                                        & temps.complet == TRUE
+                                        & permanent == TRUE,
+@@ -1127,7 +1210,7 @@ R
+ 
+ # Appliquer les filtres maintenant
+ 
+-q3 <- quantile(Analyse.variations$variation.rémunération, c(quantile.cut/100, 1 - quantile.cut/100), na.rm=TRUE)
++q3 <- quantile(Analyse.variations.par.exercice$variation.rémunération, c(quantile.cut/100, 1 - quantile.cut/100), na.rm=TRUE)
+ 
+ # Filtrage : on enlève les personnels présents depuis moins d'un seuil de troncature (ex. 120 jours) dans l'année et les élus
+ # (paramètre seuil.troncature) 
+@@ -1139,7 +1222,7 @@ q3 <- quantile(Analyse.variations$variation.r
+ 
+ # ici il faut réduire la matrice pour éviter les réduplications pour les Résumés. TODO
+ 
+-Analyse.variations.synthèse <- Analyse.variations[total.jours > 2 * seuil.troncature
++Analyse.variations.synthèse <- Analyse.variations.par.exercice[total.jours > 2 * seuil.troncature
+                                                            & pris.en.compte == TRUE
+                                                            & ! is.na(statut)   
+                                                            & ! is.na(variation.rémunération) 
+@@ -1168,17 +1251,17 @@ try(axis(side=1, at=seq(-5,30, 1), labels=seq(-5,30,1), lwd=2))
+ #'
+ #'
+ 
+-f <- function(x) prettyNum(sum(Analyse.variations[Année == x
+-                                                  & est.rmpp == TRUE,
+-                                                      Montant.net.annuel.eqtp],
++f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x
++                                                               & est.rmpp == TRUE,
++                                                                 Montant.net.annuel.eqtp],
+                                na.rm = TRUE)/ 1000,
+                            big.mark = " ",
+                            digits = 5,
+                            format = "fg")
+ 
+-g <- function(x) prettyNum(mean.default(Analyse.variations[Année == x 
+-                                                           & est.rmpp == TRUE,
+-                                                                Montant.net.annuel.eqtp],
++g <- function(x) prettyNum(mean.default(Analyse.variations.par.exercice[Année == x 
++                                                                        & est.rmpp == TRUE,
++                                                                          Montant.net.annuel.eqtp],
+                                na.rm = TRUE) ,
+                            big.mark = " ",
+                            digits = 1,
+@@ -1260,18 +1343,18 @@ R
+ #'### `r chapitre`.3.2 Titulaires et stagiaires     
+ #'   
+ 
+-f <- function(x) prettyNum(sum(Analyse.variations[Année == x
+-                                                     & est.rmpp == TRUE
+-                                                     & (Statut == "TITULAIRE" | Statut == "STAGIAIRE"),
++f <- function(x) prettyNum(sum(Analyse.variations.par.exercice[Année == x
++                                                               & est.rmpp == TRUE
++                                                               & (Statut == "TITULAIRE" | Statut == "STAGIAIRE"),
+                                                                  Montant.net.annuel.eqtp],
+                                na.rm = TRUE)/ 1000,
+                            big.mark = " ",
+                            digits = 5,
+                            format = "fg")
+ 
+-g <- function(x) prettyNum(mean.default(Analyse.variations[Année == x 
+-                                                            & est.rmpp == TRUE
+-                                                            & (Statut == "TITULAIRE" | Statut == "STAGIAIRE"),
++g <- function(x) prettyNum(mean.default(Analyse.variations.par.exercice[Année == x 
++                                                                        & est.rmpp == TRUE
++                                                                        & (Statut == "TITULAIRE" | Statut == "STAGIAIRE"),
+                                                                           Montant.net.annuel.eqtp],
+                                         na.rm = TRUE) ,
+                            big.mark = " ",
+diff --git a/Tests/Exemple/analyse.statique.R b/Tests/Exemple/analyse.statique.R
+index aee7e55..a1281e3 100644
+--- a/Tests/Exemple/analyse.statique.R
++++ b/Tests/Exemple/analyse.statique.R
+@@ -1,70 +1,70 @@
+ 
+-# Conversion en Rmd: spin(..., knit = FALSE)  dans l'encodage du système (convertir ce fichier en UTF-8 sous linux)
++# Conversion en Rmd: spin(..., knit = FALSE)  dans l'encodage du systÃ¨me (convertir ce fichier en UTF-8 sous linux)
+ 
+-# On revient à une analyse des rémunérations qui réinclut tous les personnels (vacataires, élus, inactifs, annexes)
++# On revient Ã  une analyse des rÃ©munÃ©rations qui rÃ©inclut tous les personnels (vacataires, Ã©lus, inactifs, annexes)
+ 
+-Analyse.rémunérations.exercice <- Analyse.rémunérations[Année == année]     
++Analyse.rÃ©munÃ©rations.exercice <- Analyse.rÃ©munÃ©rations[AnnÃ©e == annÃ©e]     
+    
+-#'# `r chapitre`. Rémunérations brutes : analyse pour l'exercice `r année`    
++#'# `r chapitre`. RÃ©munÃ©rations brutes : analyse pour l'exercice `r annÃ©e`    
+    
+ #'## `r chapitre`.1 Masse salariale brute de l'ensemble des agents     
+   
+-masses.personnels <- Analyse.rémunérations.exercice[Statut != "ELU",
+-                                                    .(Montant.brut.annuel = sum(Montant.brut.annuel, na.rm = TRUE),                                                                                       rémunération.indemnitaire.imposable = sum(rémunération.indemnitaire.imposable, na.rm = TRUE),
+-                                                      indemnités.élu = sum(indemnités.élu, na.rm = TRUE),
++masses.personnels <- Analyse.rÃ©munÃ©rations.exercice[Statut != "ELU",
++                                                    .(Montant.brut.annuel = sum(Montant.brut.annuel, na.rm = TRUE),                                                                                       rÃ©munÃ©ration.indemnitaire.imposable = sum(rÃ©munÃ©ration.indemnitaire.imposable, na.rm = TRUE),
++                                                      indemnitÃ©s.Ã©lu = sum(indemnitÃ©s.Ã©lu, na.rm = TRUE),
+                                                       total.lignes.paie = sum(total.lignes.paie, na.rm = TRUE),
+-                                                      autres.rémunérations = sum(autres.rémunérations, na.rm = TRUE))]
++                                                      autres.rÃ©munÃ©rations = sum(autres.rÃ©munÃ©rations, na.rm = TRUE))]
+ 
+-#'### Cumuls des rémunérations brutes pour l'exercice `r année`      
++#'### Cumuls des rÃ©munÃ©rations brutes pour l'exercice `r annÃ©e`      
+ #'  
+-#'*Personnels (hors élus)*     
++#'*Personnels (hors Ã©lus)*     
+ #'  
+-#'&nbsp;*Tableau `r incrément()`*   
++#'&nbsp;*Tableau `r incrÃ©ment()`*   
+ #'    
+ 
+-Tableau.vertical2(c("Agrégats",
++Tableau.vertical2(c("AgrÃ©gats",
+                     "k&euro;"),
+                   c("Brut annuel (bulletins)",
+                     "Brut annuel (lignes) :",
+                     "\\ dont \\ Primes :",
+-                    "\\ dont \\ Autres rémunérations",
++                    "\\ dont \\ Autres rÃ©munÃ©rations",
+                     "Part de primes en %"),
+                   c(masses.personnels$Montant.brut.annuel,
+                     masses.personnels$total.lignes.paie,
+-                    masses.personnels$rémunération.indemnitaire.imposable,
+-                    masses.personnels$autres.rémunérations,
+-                    masses.personnels$rémunération.indemnitaire.imposable/masses.personnels$Montant.brut.annuel * 100))
++                    masses.personnels$rÃ©munÃ©ration.indemnitaire.imposable,
++                    masses.personnels$autres.rÃ©munÃ©rations,
++                    masses.personnels$rÃ©munÃ©ration.indemnitaire.imposable/masses.personnels$Montant.brut.annuel * 100))
+ 
+ 
+ #'  
+-#'**Définitions :**
++#'**DÃ©finitions :**
+ #'
+ #'  *Brut annuel (bulletins)*   : somme du champ *Brut*    
+ #'  *Brut annuel (lignes)*      : somme du champ *Montant* des lignes de paye, dont :    
+-#'  *Primes*                    : indemnités sauf remboursements, certaines IJSS, indemnités d'élu le cas échéant, Supplément familial de traitement et Indemnité de résidence        
+-#'  *Autres rémunérations*      : acomptes, retenues sur brut, rémunérations diverses, rappels   
++#'  *Primes*                    : indemnitÃ©s sauf remboursements, certaines IJSS, indemnitÃ©s d'Ã©lu le cas Ã©chÃ©ant, SupplÃ©ment familial de traitement et IndemnitÃ© de rÃ©sidence        
++#'  *Autres rÃ©munÃ©rations*      : acomptes, retenues sur brut, rÃ©munÃ©rations diverses, rappels   
+ #'  
+ 
+-#'**Tests de cohérence**
++#'**Tests de cohÃ©rence**
+ #'
+-#'Somme des rémunérations brutes versées aux personnels (non élus) :  
++#'Somme des rÃ©munÃ©rations brutes versÃ©es aux personnels (non Ã©lus) :  
+ #'  
+ #'  
+-#'&nbsp;*Tableau `r incrément()`*   
++#'&nbsp;*Tableau `r incrÃ©ment()`*   
+ #'    
+ 
+-Tableau.vertical2(c("Agrégats",
++Tableau.vertical2(c("AgrÃ©gats",
+                     "k&euro;"),
+                   c("Bulletins de paie ",
+                     "Lignes de paie ",
+-                    "Différence "),
++                    "DiffÃ©rence "),
+                   c(masses.personnels$Montant.brut.annuel,
+                     masses.personnels$total.lignes.paie,
+                     masses.personnels$Montant.brut.annuel -
+                       masses.personnels$total.lignes.paie))
+ 
+ #'
+-#'à comparer aux soldes des comptes 641 et 648 du compte de gestion.
++#'Ã  comparer aux soldes des comptes 641 et 648 du compte de gestion.
+ #'
+ 
+ #'   
+@@ -74,8 +74,8 @@ Tableau.vertical2(c("Agr
+ #'
+ filtre.fonctionnaire <- function (X) X[ !is.na(X)  & X > minimum.positif ]
+ 
+-AR <- Analyse.rémunérations.exercice[Statut == "TITULAIRE" | Statut == "STAGIAIRE", 
+-                                     colonnes.sélectionnées,
++AR <- Analyse.rÃ©munÃ©rations.exercice[Statut == "TITULAIRE" | Statut == "STAGIAIRE", 
++                                     colonnes.sÃ©lectionnÃ©es,
+                                      with=FALSE]
+ 
+ attach(AR)
+@@ -84,31 +84,31 @@ histogrammes()
+ detach(AR)
+ #'    
+ #'**Nota :**   
+-#'*EQTP : Equivalent temps plein = 12 . moyenne du ratio ratio rémunération / quotité*  
++#'*EQTP : Equivalent temps plein = 12 . moyenne du ratio ratio rÃ©munÃ©ration / quotitÃ©*  
+ #'    
+ #'**Effectif : `r nrow(AR)`**
+ #'
+-#'**Tests de cohérence**
++#'**Tests de cohÃ©rence**
+ 
+ if (nrow(AR) > 0) {
+-  masses.fonct <- AR[ , lapply(.(Montant.brut.annuel, rémunération.indemnitaire.imposable, total.lignes.paie, autres.rémunérations), sum, na.rm = TRUE)]
++  masses.fonct <- AR[ , lapply(.(Montant.brut.annuel, rÃ©munÃ©ration.indemnitaire.imposable, total.lignes.paie, autres.rÃ©munÃ©rations), sum, na.rm = TRUE)]
+   
+ } else {
+   masses.fonct <- c(0,0) 
+ }
+ 
+-#'Somme des rémunérations brutes versées aux personnels titulaires et stagiaires :
++#'Somme des rÃ©munÃ©rations brutes versÃ©es aux personnels titulaires et stagiaires :
+ #'
+ #'  
+-#'&nbsp;*Tableau `r incrément()`*   
++#'&nbsp;*Tableau `r incrÃ©ment()`*   
+ #'    
+ 
+-Tableau.vertical2(c("Agrégats",
++Tableau.vertical2(c("AgrÃ©gats",
+                     "k&euro;"),
+                   c("Brut annuel (bulletins)",
+                     "Brut annuel (lignes) : ",
+                     "\\ dont \\ \\ primes :",
+-                    "\\ dont \\ autres rémunérations :",
++                    "\\ dont \\ autres rÃ©munÃ©rations :",
+                     "Part de primes en %"),
+                   c(masses.fonct[[1]],  
+                     masses.fonct[[3]],
+@@ -117,26 +117,26 @@ Tableau.vertical2(c("Agr
+                     masses.fonct[[2]]/masses.fonct[[1]] * 100))
+ 
+ #'
+-#'**Définitions :**
++#'**DÃ©finitions :**
+ #'
+ #'  *Brut annuel (bulletins)*   : somme du champ *Brut*   
+ #'  *Brut annuel (lignes)*      : somme du champ *Montant* des lignes de paye, dont :   
+-#'  *Primes*                    : indemnités sauf remboursements, certaines IJSS, Supplément familial de traitement et Indemnité de résidence       
+-#'  *Autres rémunérations*      : acomptes, retenues sur brut, rémunérations diverses, rappels   
++#'  *Primes*                    : indemnitÃ©s sauf remboursements, certaines IJSS, SupplÃ©ment familial de traitement et IndemnitÃ© de rÃ©sidence       
++#'  *Autres rÃ©munÃ©rations*      : acomptes, retenues sur brut, rÃ©munÃ©rations diverses, rappels   
+ #'
+-#'**Tests de cohérence**
++#'**Tests de cohÃ©rence**
+ #'
+-#'Somme des rémunérations brutes versées aux personnels (fonctionnaires) :
++#'Somme des rÃ©munÃ©rations brutes versÃ©es aux personnels (fonctionnaires) :
+ #'
+ #'  
+-#'&nbsp;*Tableau `r incrément()`*   
++#'&nbsp;*Tableau `r incrÃ©ment()`*   
+ #'    
+ 
+-Tableau.vertical2(c("Agrégats",
++Tableau.vertical2(c("AgrÃ©gats",
+                     "k&euro;"),
+                   c("Bulletins de paie ",
+                     "Lignes de paie ",
+-                    "Différence "),
++                    "DiffÃ©rence "),
+                   c(masses.fonct[[1]],  # Brut
+                     masses.fonct[[3]],  # lignes
+                     masses.fonct[[1]] -
+@@ -146,32 +146,32 @@ Tableau.vertical2(c("Agr
+ #'
+ #'A comparer aux soldes des comptes 6411, 6419 et 648 du compte de gestion.
+ #'
+-#'**Formation et distribution du salaire brut moyen par tête (SMPT) en EQTP pour l'année `r année`**     
++#'**Formation et distribution du salaire brut moyen par tÃªte (SMPT) en EQTP pour l'annÃ©e `r annÃ©e`**     
+ #'  
+-#'&nbsp;*Tableau `r incrément()`*   
++#'&nbsp;*Tableau `r incrÃ©ment()`*   
+ #'    
+ 
+-Résumé(c("Traitement indiciaire",
++RÃ©sumÃ©(c("Traitement indiciaire",
+          "Primes",
+-         "Autres rémunérations",
++         "Autres rÃ©munÃ©rations",
+          "Effectif"),
+        AR[Grade != "V" & Grade != "A" & Statut != "ELU"
+           & Filtre_actif == TRUE
+           & Filtre_annexe == FALSE,
+              .(traitement.indiciaire,
+-               rémunération.indemnitaire.imposable,
+-               autres.rémunérations)],
++               rÃ©munÃ©ration.indemnitaire.imposable,
++               autres.rÃ©munÃ©rations)],
+        
+        extra = "length")
+ 
+ #'  
+-#'&nbsp;*Tableau `r incrément()`*   
++#'&nbsp;*Tableau `r incrÃ©ment()`*   
+ #'    
+ 
+-Résumé(c("Total lignes hors rappels",
++RÃ©sumÃ©(c("Total lignes hors rappels",
+          "Total brut",
+          "SMPT brut en EQTP",
+-         "Part de la rém. indemnitaire",
++         "Part de la rÃ©m. indemnitaire",
+          "Effectif"),
+        AR[Grade != "V" & Grade != "A" & Statut != "ELU"
+           & Filtre_actif == TRUE
+@@ -179,13 +179,13 @@ R
+           .(total.lignes.paie,
+                                                                                              Montant.brut.annuel,
+                                                                                              Montant.brut.annuel.eqtp,
+-                                                                                             part.rémunération.indemnitaire)],
++                                                                                             part.rÃ©munÃ©ration.indemnitaire)],
+        extra = "length")
+ 
+ #'   
+-#'*Hors vacataires identifiés, assistantes maternelles, élus locaux et pour les postes actifs non annexes*  
++#'*Hors vacataires identifiÃ©s, assistantes maternelles, Ã©lus locaux et pour les postes actifs non annexes*  
+ #'
+-#'**Catégorie A**
++#'**CatÃ©gorie A**
+ #'
+ 
+ ARA <- data.table::data.table(NULL)
+@@ -193,121 +193,121 @@ ARB <- data.table::data.table(NULL)
+ ARC <- data.table::data.table(NULL)
+ 
+ #'  
+-#'&nbsp;*Tableau `r incrément()`*   
++#'&nbsp;*Tableau `r incrÃ©ment()`*   
+ #'    
+ 
+-if (analyse.par.catégorie) {
++if (analyse.par.catÃ©gorie) {
+ 
+-  ARA <- AR[Catégorie == "A" & Grade != "V" & Grade != "A" & Statut != "ELU" 
++  ARA <- AR[CatÃ©gorie == "A" & Grade != "V" & Grade != "A" & Statut != "ELU" 
+             & Filtre_actif == TRUE
+             & Filtre_annexe == FALSE, ]
+   
+-  Résumé(c("Traitement indiciaire",
++  RÃ©sumÃ©(c("Traitement indiciaire",
+            "Primes",
+-           "Autres rémunérations"),
++           "Autres rÃ©munÃ©rations"),
+          ARA[ , .(traitement.indiciaire,
+-                  rémunération.indemnitaire.imposable,
+-                  autres.rémunérations)])
++                  rÃ©munÃ©ration.indemnitaire.imposable,
++                  autres.rÃ©munÃ©rations)])
+ } else {
+-  cat("Pas de statistiques par catégorie.\n")
++  cat("Pas de statistiques par catÃ©gorie.\n")
+ }
+ #'
+ 
+ 
+ #'  
+-#'&nbsp;*Tableau `r incrément()`*   
++#'&nbsp;*Tableau `r incrÃ©ment()`*   
+ #'    
+-if (analyse.par.catégorie) {  
+-  Résumé(c("Total rémunérations", 
+-           "Total rémunérations EQTP", 
+-           "Part de la rémunération indemnitaire"),
++if (analyse.par.catÃ©gorie) {  
++  RÃ©sumÃ©(c("Total rÃ©munÃ©rations", 
++           "Total rÃ©munÃ©rations EQTP", 
++           "Part de la rÃ©munÃ©ration indemnitaire"),
+          ARA[ , .(Montant.brut.annuel,
+                   Montant.brut.annuel.eqtp,
+-                  part.rémunération.indemnitaire)])
++                  part.rÃ©munÃ©ration.indemnitaire)])
+ 
+ } else {
+-  cat("Pas de statistiques par catégorie.\n")
++  cat("Pas de statistiques par catÃ©gorie.\n")
+ }
+ #'
+ #'**Effectif : `r nrow(ARA)`**  
+ #'
+-#'**Catégorie B**
++#'**CatÃ©gorie B**
+ #'
+ #'  
+-#'&nbsp;*Tableau `r incrément()`*   
++#'&nbsp;*Tableau `r incrÃ©ment()`*   
+ #'    
+ 
+-if (analyse.par.catégorie) {
+-  ARB <- AR[Catégorie == "B" & Grade != "V" & Grade != "A" & Statut != "ELU"
++if (analyse.par.catÃ©gorie) {
++  ARB <- AR[CatÃ©gorie == "B" & Grade != "V" & Grade != "A" & Statut != "ELU"
+             & Filtre_actif == TRUE
+             & Filtre_annexe == FALSE, ]
+   
+-  Résumé(c("Traitement indiciaire",
++  RÃ©sumÃ©(c("Traitement indiciaire",
+            "Primes",
+-           "Autres rémunérations"),
++           "Autres rÃ©munÃ©rations"),
+          ARB[, .(traitement.indiciaire,
+-                 rémunération.indemnitaire.imposable,
+-                 autres.rémunérations)])
++                 rÃ©munÃ©ration.indemnitaire.imposable,
++                 autres.rÃ©munÃ©rations)])
+ } else {
+-  cat("Pas de statistiques par catégorie.\n")
++  cat("Pas de statistiques par catÃ©gorie.\n")
+ }
+ #'
+ #'  
+-#'&nbsp;*Tableau `r incrément()`*   
++#'&nbsp;*Tableau `r incrÃ©ment()`*   
+ #'    
+ 
+-if (analyse.par.catégorie) {
++if (analyse.par.catÃ©gorie) {
+   
+-  Résumé(c("Total rémunérations",
+-           "Total rémunérations EQTP",
+-           "Part de la rémunération indemnitaire"),
++  RÃ©sumÃ©(c("Total rÃ©munÃ©rations",
++           "Total rÃ©munÃ©rations EQTP",
++           "Part de la rÃ©munÃ©ration indemnitaire"),
+          ARB[, .(Montant.brut.annuel,
+                  Montant.brut.annuel.eqtp,
+-                 part.rémunération.indemnitaire)])
++                 part.rÃ©munÃ©ration.indemnitaire)])
+ } else {
+-  cat("Pas de statistiques par catégorie.\n")
++  cat("Pas de statistiques par catÃ©gorie.\n")
+ }
+ 
+ #'
+ #'**Effectif : `r nrow(ARB)`**
+ #'
+-#'**Catégorie C**
++#'**CatÃ©gorie C**
+ #'
+ 
+ #'  
+-#'&nbsp;*Tableau `r incrément()`*   
++#'&nbsp;*Tableau `r incrÃ©ment()`*   
+ #'    
+ 
+-if (analyse.par.catégorie) {
+-  ARC <- AR[Catégorie == "C" & Grade != "V" & Grade != "A" & Statut != "ELU" 
++if (analyse.par.catÃ©gorie) {
++  ARC <- AR[CatÃ©gorie == "C" & Grade != "V" & Grade != "A" & Statut != "ELU" 
+             & Filtre_actif == TRUE
+             & Filtre_annexe == FALSE, ]
+   
+-  Résumé(c("Traitement indiciaire",
++  RÃ©sumÃ©(c("Traitement indiciaire",
+            "Primes",
+-           "Autres rémunérations"),
++           "Autres rÃ©munÃ©rations"),
+          ARC[ , .(traitement.indiciaire,
+-                  rémunération.indemnitaire.imposable,
+-                  autres.rémunérations)])
++                  rÃ©munÃ©ration.indemnitaire.imposable,
++                  autres.rÃ©munÃ©rations)])
+ } else {
+-  cat("Pas de statistique par catégorie.\n")
++  cat("Pas de statistique par catÃ©gorie.\n")
+ }
+ 
+ #'
+ #'  
+-#'&nbsp;*Tableau `r incrément()`*   
++#'&nbsp;*Tableau `r incrÃ©ment()`*   
+ #'    
+ 
+-if (analyse.par.catégorie) {
++if (analyse.par.catÃ©gorie) {
+   
+-  Résumé(c("Total rémunérations",
+-           "Total rémunérations EQTP",
+-           "Part de la rémunération indemnitaire"),
++  RÃ©sumÃ©(c("Total rÃ©munÃ©rations",
++           "Total rÃ©munÃ©rations EQTP",
++           "Part de la rÃ©munÃ©ration indemnitaire"),
+          ARC[ , .(Montant.brut.annuel,
+                   Montant.brut.annuel.eqtp,
+-                  part.rémunération.indemnitaire) ])
++                  part.rÃ©munÃ©ration.indemnitaire) ])
+ } else {
+-  cat("Pas de statistiques par catégorie.\n")
++  cat("Pas de statistiques par catÃ©gorie.\n")
+ }
+ 
+ #'**Effectif : `r nrow(ARC)`**
+@@ -319,79 +319,79 @@ if (analyse.par.cat
+ #'   
+ #'*Les assistantes maternelles et les vacataires sont ici inclus, pour les postes non annexes*   
+ #'
+-attach(Analyse.rémunérations.exercice, warn.conflicts=FALSE)
+-temp <- rémunération.indemnitaire.imposable.eqtp[Statut != "ELU"
++attach(Analyse.rÃ©munÃ©rations.exercice, warn.conflicts=FALSE)
++temp <- rÃ©munÃ©ration.indemnitaire.imposable.eqtp[Statut != "ELU"
+                                                  & Statut != "TITULAIRE"
+                                                  & Statut != "STAGIAIRE"
+                                                  & Filtre_actif == TRUE
+                                                  & Filtre_annexe == FALSE
+-                                                 & rémunération.indemnitaire.imposable.eqtp > 1000] / 1000
++                                                 & rÃ©munÃ©ration.indemnitaire.imposable.eqtp > 1000] / 1000
+ 
+ if (longueur.non.na(temp) > 0)
+   hist(temp,
+-       xlab = "Rémunération indemnitaire brute imposable en milliers d'euros EQTP\n",
++       xlab = "RÃ©munÃ©ration indemnitaire brute imposable en milliers d'euros EQTP\n",
+        ylab = "Effectif",
+        xlim = c(0, 40),
+-       main = "Rémunération annuelle totale des contractuels en " %+% année,
++       main = "RÃ©munÃ©ration annuelle totale des contractuels en " %+% annÃ©e,
+        col = "red",
+        nclass = 50)
+ #'   
+ #'**Nota :**
+-#'Ne sont retenues que les rémunérations supérieures à 1 000 k&euro;.
+-#'Les élus ne sont pas pris en compte.
++#'Ne sont retenues que les rÃ©munÃ©rations supÃ©rieures Ã  1 000 k&euro;.
++#'Les Ã©lus ne sont pas pris en compte.
+ #'   
+ 
+-temp <- positive(autres.rémunérations)
++temp <- positive(autres.rÃ©munÃ©rations)
+ 
+-detach(Analyse.rémunérations.exercice)
++detach(Analyse.rÃ©munÃ©rations.exercice)
+ 
+ if (longueur.non.na(temp))
+   hist(temp,
+        xlab = "En euros :\n divers",
+        ylab = "Effectif",
+        xlim = c(0, 5000),
+-       main = "Autres rémunérations en " %+% année,
++       main = "Autres rÃ©munÃ©rations en " %+% annÃ©e,
+        nclass = 50,
+        col = "grey")
+ 
+ #'
+ 
+-AR <- Analyse.rémunérations.exercice[Statut != "ELU"
++AR <- Analyse.rÃ©munÃ©rations.exercice[Statut != "ELU"
+                                              &  Statut != "TITULAIRE"
+                                              &  Statut != "STAGIAIRE"
+                                              & Filtre_actif == TRUE
+                                              & Filtre_annexe == FALSE,
+-                                             colonnes.sélectionnées, 
++                                             colonnes.sÃ©lectionnÃ©es, 
+                                              with=FALSE]
+ 
+ #'   
+-#'**Formation et distribution du salaire brut moyen par tête (SMPT) en EQTP pour l'année `r année`**     
++#'**Formation et distribution du salaire brut moyen par tÃªte (SMPT) en EQTP pour l'annÃ©e `r annÃ©e`**     
+ #'   
+ #'  
+-#'&nbsp;*Tableau `r incrément()`*   
++#'&nbsp;*Tableau `r incrÃ©ment()`*   
+ #'    
+ 
+-Résumé(c("Primes",
+-         "Autres rémunérations",
++RÃ©sumÃ©(c("Primes",
++         "Autres rÃ©munÃ©rations",
+          "Effectif"),
+-       AR[ , .(rémunération.indemnitaire.imposable,
+-               autres.rémunérations)],
++       AR[ , .(rÃ©munÃ©ration.indemnitaire.imposable,
++               autres.rÃ©munÃ©rations)],
+        extra = "length")
+ 
+ #'  
+-#'&nbsp;*Tableau `r incrément()`*   
++#'&nbsp;*Tableau `r incrÃ©ment()`*   
+ #'    
+ 
+ 
+-Résumé(c("Total rémunérations",
+-         "Total rémunérations EQTP",
++RÃ©sumÃ©(c("Total rÃ©munÃ©rations",
++         "Total rÃ©munÃ©rations EQTP",
+          "Effectif"),
+        AR[ , .(Montant.brut.annuel, Montant.brut.annuel.eqtp)],
+        extra = "length")
+ #'
+ 
+ 
+-# pour année fin #
++# pour annÃ©e fin #
+ 
+-rm(Analyse.rémunérations.exercice)
++rm(Analyse.rÃ©munÃ©rations.exercice)
+ 
+diff --git a/lhx/lhx.pro b/lhx/lhx.pro
+index 537b0ac..5e5e798 100644
+--- a/lhx/lhx.pro
++++ b/lhx/lhx.pro
+@@ -80,8 +80,8 @@ DEFINES += \#NO_REGEX \                       # Pas d'analyse du texte par expre
+         DECIMAL_NON_EN \                    # compilation pour des séparateurs décimaux différents de '.'
+         GENERATE_RANK_SIGNAL \              # chaque fois qu'un fichier est traité, un signal externe est émis (rang dans un fichier rank sous AppData\Local\Altair).
+                              \              # n'est utile que lorsqu'une interface graphique est connectée. peut ralentir l'application de 1 à 5 %.
+-#       FGETC_PARSING                       # parcourir les fichiers par ifstream (C++)
+-        STRINGSTREAM_PARSING  \              # mise en mémoire vive des fichiers de paye par ostringstream (plus de mémoire vive ; accélère beaucoup le 1er traitement sous Windows)
++       FGETC_PARSING                       # parcourir les fichiers par ifstream (C++)
++#        STRINGSTREAM_PARSING  \              # mise en mémoire vive des fichiers de paye par ostringstream (plus de mémoire vive ; accélère beaucoup le 1er traitement sous Windows)
+ #       MMAP_PARSING                        # parcourir les fichiers par mappage mémoire (C, unix uniquement, aucun avantage évident).
+         OFSTREAM_TABLE_OUTPUT               # enregistrer les lignes de paye ligne à ligne sur la base. Plus robuste et moins de mémoire mais plus lent sous Windows
+ 
+@@ -96,8 +96,8 @@ DEVROOT = $$PWD/../..
+ 
+ QMAKE_CXXFLAGS_RELEASE -= -O2
+ QMAKE_CXXFLAGS += -pipe -m64 -std=gnu++14
+-QMAKE_CXXFLAGS += -march=native
+-#QMAKE_CXXFLAGS += -march=core2
++#QMAKE_CXXFLAGS += -march=native
++QMAKE_CXXFLAGS += -march=core2
+ 
+ # Sous linux penser à installer libxml2-dev. Ceci n'est pas testé.
+ 
+diff --git a/lhx/lhx.pro.user b/lhx/lhx.pro.user
+index 7ded3a9..bf702bb 100644
+--- a/lhx/lhx.pro.user
++++ b/lhx/lhx.pro.user
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE QtCreatorProject>
+-<!-- Written by QtCreator 3.5.1, 2016-01-26T14:19:51. -->
++<!-- Written by QtCreator 3.5.1, 2016-01-26T19:48:12. -->
+ <qtcreator>
+  <data>
+   <variable>EnvironmentId</variable>
+diff --git a/lhx/main.cpp b/lhx/main.cpp
+index 3f382a8..67ee846 100644
+--- a/lhx/main.cpp
++++ b/lhx/main.cpp
+@@ -637,12 +637,12 @@ int main(int argc, char **argv)
+ 
+     std::cerr << ENDL << PROCESSING_HTML_TAG "Durée de calcul : "
+               << std::chrono::duration_cast<std::chrono::milliseconds>(endofcalculus - startofprogram).count()
+-              << " millisecondes" << ENDL;
++              << SPACER "millisecondes" << ENDL;
+ 
+ 
+     if (generer_table)
+     {
+-      std::cerr << ENDL << PROCESSING_HTML_TAG "Exportation des bases de données au format CSV..." << ENDL;
++      std::cerr << ENDL << PROCESSING_HTML_TAG "Exportation des bases de données au format CSV..." << ENDL ENDL;
+       boucle_ecriture(Info);
+     }
+ 
+diff --git a/lhx/table.cpp b/lhx/table.cpp
+index a01aaba..bfed64c 100644
+--- a/lhx/table.cpp
++++ b/lhx/table.cpp
+@@ -31,9 +31,9 @@ static const char* type_remuneration_traduit[] = {
+ // la méthode OFSTREAM est nettement moins performante sous Windows. La performance linux est comparable.
+ 
+ #ifdef OFSTREAM_TABLE_OUTPUT
+-  #define table_t std::ofstream
++#define table_t std::ofstream
+ #else
+-  #define table_t std::ostringstream
++#define table_t std::ostringstream
+ #endif
+ 
+ 
+@@ -175,8 +175,8 @@ void boucle_ecriture(std::vector<info_t>& Info)
+ {
+     int ligne = 0;
+     uint64_t compteur = 0,
+-             dernier_compteur = 0,
+-             compteur_annee_courante = 0;
++            dernier_compteur = 0,
++            compteur_annee_courante = 0;
+ 
+ 
+     uint32_t compteur_lignes_bulletins = 0;
+@@ -190,16 +190,16 @@ void boucle_ecriture(std::vector<info_t>& Info)
+ 
+ #ifdef OFSTREAM_TABLE_OUTPUT    // cas de l'écriture directe dans le fichier base
+ 
+-    #define t_base base
+-    #define t_bulletins bulletins
+-    #define t_tableau_base tableau_base
++#define t_base base
++#define t_bulletins bulletins
++#define t_tableau_base tableau_base
+ 
+ #else                          //  case de l'écriture dans un tampon string avant écriture sur le disque (nécessite plus de mémoire)
+ 
+-   std::ostringstream t_base;
+-   std::ostringstream t_bulletins;
++    std::ostringstream t_base;
++    std::ostringstream t_bulletins;
+ 
+-   static std::array<std::ostringstream, nbType> t_tableau_base;
++    static std::array<std::ostringstream, nbType> t_tableau_base;
+ 
+ #endif
+ 
+@@ -273,516 +273,496 @@ void boucle_ecriture(std::vector<info_t>& Info)
+ #endif
+ 
+ 
+-            if (type_base == BaseType::MONOLITHIQUE)
++    if (type_base == BaseType::MONOLITHIQUE)
++    {
++        for (int i = 0; i < Info[0].nbfil; ++i)
++        {
++            for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; ++agent)
+             {
+-                for (int i = 0; i < Info[0].nbfil; ++i)
+-                {
+-                    for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; ++agent)
+-                    {
+-                        unsigned l = BESOIN_MEMOIRE_ENTETE;
+-                        uint16_t NLigneAgent = Info[i].NLigne[agent];
++                unsigned l = BESOIN_MEMOIRE_ENTETE;
++                uint16_t NLigneAgent = Info[i].NLigne[agent];
+ 
+-                        ++compteur_lignes_bulletins;
++                ++compteur_lignes_bulletins;
+ 
+-                        ecrire_ligne_bulletin(i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
++                ecrire_ligne_bulletin(i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
+ 
+-                        char type[3]={0};
+-                        strcpy(type, type_remuneration_traduit[0]);
++                char type[3]={0};
++                strcpy(type, type_remuneration_traduit[0]);
+ 
+-                          while (ligne < NLigneAgent)
+-                          {
+-                              bool nouveau_type = false;
++                while (ligne < NLigneAgent)
++                {
+ 
+-                              BaseType valeur_drapeau_categorie = BaseType::MONOLITHIQUE;
+-                              int      test_drapeau_categorie, int_drapeau_categorie = 0;
++                    int      test_drapeau_categorie, int_drapeau_categorie = 0;
+ 
+-                              // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
++                    // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
+ 
+-                              while (VAR(l) &&  (test_drapeau_categorie = VAR(l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
+-                              {
+-                                  valeur_drapeau_categorie = static_cast<BaseType>(test_drapeau_categorie);
+-                                  int_drapeau_categorie = test_drapeau_categorie;
++                    while (VAR(l) &&  (test_drapeau_categorie = VAR(l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
++                    {
++                        int_drapeau_categorie = test_drapeau_categorie;
+ 
+-                                  strcpy(type, type_remuneration_traduit[int_drapeau_categorie - 1]);
+-                                  nouveau_type = true;
+-                                  ++l;
+-                              }
++                        strcpy(type, type_remuneration_traduit[int_drapeau_categorie - 1]);
++                        ++l;
++                    }
+ 
+-                                  ++compteur;
+-                                  ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
++                    ++compteur;
++                    ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
+ 
+-                              l += INDEX_MAX_COLONNNES + 1;
+-                              ++ligne;
+-                          }
+-                          ligne = 0;
++                    l += INDEX_MAX_COLONNNES + 1;
++                    ++ligne;
++                }
++                ligne = 0;
+ 
+-              #ifdef GUI_TAG_MESSAGES
+-              #ifdef GENERATE_RANK_SIGNAL
+-                          progression = std::ceil((float) (compteur * 100) / (float) NCumLignes );
++#ifdef GUI_TAG_MESSAGES
++#ifdef GENERATE_RANK_SIGNAL
++                progression = std::ceil((float) (compteur * 100) / (float) NCumLignes );
+ 
+-                          ++step;
++                ++step;
+ 
+-                          if (step > Info[i].NCumAgentXml / 5)
+-                          {
++                if (step > Info[i].NCumAgentXml / 5)
++                {
+ 
+-                              generate_rank_signal(progression);
+-                              std::cerr << " \n";
+-                              step = 0;
+-                          }
+-              #endif
+-              #endif
+-                    }
++                    generate_rank_signal(progression);
++                    std::cerr << " \n";
++                    step = 0;
+                 }
++#endif
++#endif
+             }
+-            else
+-            if (type_base == BaseType::PAR_ANNEE)
+-              {
+-                  for (int i = 0; i < Info[0].nbfil; ++i)
+-                  {
+-                      for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; ++agent)
+-                      {
+-                          unsigned l = BESOIN_MEMOIRE_ENTETE;
+-                          uint16_t NLigneAgent = Info[i].NLigne[agent];
+-
+-                          ++compteur_lignes_bulletins;
++        }
++    }
++    else
++        if (type_base == BaseType::PAR_ANNEE)
++        {
++            for (int i = 0; i < Info[0].nbfil; ++i)
++            {
++                for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; ++agent)
++                {
++                    unsigned l = BESOIN_MEMOIRE_ENTETE;
++                    uint16_t NLigneAgent = Info[i].NLigne[agent];
+ 
+-                          ecrire_ligne_bulletin(i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
++                    ++compteur_lignes_bulletins;
+ 
+-                          if (strcmp((const char*)VAR(Annee), annee_courante))
+-                          {
+-                              #ifndef OFSTREAM_TABLE_OUTPUT      // Il faut écrire dans le fichier OFSTREAM la chaine de caractères temporaires
+-                                        base << t_base.str();
+-                                        t_base.str("");
+-                              #endif
++                    ecrire_ligne_bulletin(i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
+ 
+-                              base.close();
++                    if (strcmp((const char*)VAR(Annee), annee_courante))
++                    {
++#ifndef OFSTREAM_TABLE_OUTPUT      // Il faut écrire dans le fichier OFSTREAM la chaine de caractères temporaires
++                        base << t_base.str();
++                        t_base.str("");
++#endif
+ 
+-                              std::cerr << "Année : " << annee_courante << " Table générée."  ENDL;
+-                              std::cerr << "Table de " << compteur - dernier_compteur
+-                                        << " lignes, lignes "  << dernier_compteur + 1
+-                                        << " à " << compteur << "."  ENDL;
++                        base.close();
+ 
+-                              dernier_compteur = compteur;
+-                              compteur_annee_courante = 0;
+-                              rang_fichier_base_annee_courante = 1;
++                        std::cerr << "Année : " << annee_courante <<  ENDL;
++                        std::cerr << "Table de " << compteur - dernier_compteur
++                                  << " lignes, lignes "  << dernier_compteur + 1
++                                  << " à " << compteur << "."  ENDL ENDL;
+ 
+-                              annee_courante = (char*) VAR(Annee);
+-                              ouvrir_fichier_base(Info[i],  type_base, base);
+-                              if (! base.is_open()) return;
+-                          }
++                        dernier_compteur = compteur;
++                        compteur_annee_courante = 0;
++                        rang_fichier_base_annee_courante = 1;
+ 
+-                          char type[3]={0};
+-                          strcpy(type, type_remuneration_traduit[0]);
++                        annee_courante = (char*) VAR(Annee);
++                        ouvrir_fichier_base(Info[i],  type_base, base);
++                        if (! base.is_open()) return;
++                    }
+ 
+-                            while (ligne < NLigneAgent)
+-                            {
+-                                bool nouveau_type = false;
++                    char type[3]={0};
++                    strcpy(type, type_remuneration_traduit[0]);
+ 
+-                                BaseType valeur_drapeau_categorie = BaseType::MONOLITHIQUE;
+-                                int      test_drapeau_categorie, int_drapeau_categorie = 0;
++                    while (ligne < NLigneAgent)
++                    {
++                        int      test_drapeau_categorie, int_drapeau_categorie = 0;
+ 
+-                                // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
++                        // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
+ 
+-                                while (VAR(l) &&  (test_drapeau_categorie = VAR(l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
+-                                {
+-                                    valeur_drapeau_categorie = static_cast<BaseType>(test_drapeau_categorie);
+-                                    int_drapeau_categorie = test_drapeau_categorie;
++                        while (VAR(l) &&  (test_drapeau_categorie = VAR(l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
++                        {
++                            int_drapeau_categorie = test_drapeau_categorie;
+ 
+-                                    strcpy(type, type_remuneration_traduit[int_drapeau_categorie - 1]);
+-                                    nouveau_type = true;
+-                                    ++l;
+-                                }
++                            strcpy(type, type_remuneration_traduit[int_drapeau_categorie - 1]);
++                            ++l;
++                        }
+ 
+-                                    ++compteur;
+-                                    ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
++                        ++compteur;
++                        ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
+ 
+-                                l += INDEX_MAX_COLONNNES + 1;
+-                                ++ligne;
+-                            }
+-                            ligne = 0;
++                        l += INDEX_MAX_COLONNNES + 1;
++                        ++ligne;
++                    }
++                    ligne = 0;
+ 
+-                #ifdef GUI_TAG_MESSAGES
+-                #ifdef GENERATE_RANK_SIGNAL
+-                            progression = std::ceil((float) (compteur * 100) / (float) NCumLignes );
++#ifdef GUI_TAG_MESSAGES
++#ifdef GENERATE_RANK_SIGNAL
++                    progression = std::ceil((float) (compteur * 100) / (float) NCumLignes );
+ 
+-                            ++step;
++                    ++step;
+ 
+-                            if (step > Info[i].NCumAgentXml / 5)
+-                            {
++                    if (step > Info[i].NCumAgentXml / 5)
++                    {
+ 
+-                                generate_rank_signal(progression);
+-                                std::cerr << " \n";
+-                                step = 0;
+-                            }
+-                #endif
+-                #endif
+-                      }
+-                  }
+-              }
+-            else
+-                  if (type_base == BaseType::MAXIMUM_LIGNES
+-                                           // soit : il existe un nombre de lignes maximal par base spécifié en ligne de commande après -T
++                        generate_rank_signal(progression);
++                        std::cerr << " \n";
++                        step = 0;
++                    }
++#endif
++#endif
++                }
++            }
++        }
++        else
++            if (type_base == BaseType::MAXIMUM_LIGNES
++                    // soit : il existe un nombre de lignes maximal par base spécifié en ligne de commande après -T
+                     && taille_base > 0)
++            {
++                for (int i = 0; i < Info[0].nbfil; ++i)
++                {
++                    for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; ++agent)
+                     {
+-                      for (int i = 0; i < Info[0].nbfil; ++i)
+-                      {
+-                          for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; ++agent)
+-                          {
+-                              unsigned l = BESOIN_MEMOIRE_ENTETE;
+-                              uint16_t NLigneAgent = Info[i].NLigne[agent];
+-
+-                              ++compteur_lignes_bulletins;
++                        unsigned l = BESOIN_MEMOIRE_ENTETE;
++                        uint16_t NLigneAgent = Info[i].NLigne[agent];
+ 
+-                              ecrire_ligne_bulletin(i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
++                        ++compteur_lignes_bulletins;
+ 
+-                              char type[3]={0};
+-                              strcpy(type, type_remuneration_traduit[0]);
++                        ecrire_ligne_bulletin(i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
+ 
+-                          while (ligne < NLigneAgent)
+-                          {
+-                              bool nouveau_type = false;
++                        char type[3]={0};
++                        strcpy(type, type_remuneration_traduit[0]);
+ 
+-                              if (compteur  == rang_fichier_base * taille_base)
+-                                                       // soit : il existe un nombre de lignes maximal par base spécifié en ligne de commande après -T
++                        while (ligne < NLigneAgent)
++                        {
++                            if (compteur  == rang_fichier_base * taille_base)
++                                // soit : il existe un nombre de lignes maximal par base spécifié en ligne de commande après -T
+ 
+-                              {
++                            {
+ 
+-                                      std::cerr << "Table n°" << rang_fichier_base << " de " << taille_base
+-                                                << " lignes, lignes "  << (rang_fichier_base - 1) * taille_base + 1
+-                                                << " à " << rang_fichier_base * taille_base << "."  ENDL;
++                                std::cerr << "Table n°" << rang_fichier_base << " de " << taille_base
++                                          << " lignes, lignes "  << (rang_fichier_base - 1) * taille_base + 1
++                                          << " à " << rang_fichier_base * taille_base << "."  ENDL;
+ 
+-                                      #ifndef OFSTREAM_TABLE_OUTPUT      // Il faut écrire dans le fichier OFSTREAM la chaine de caractères temporaires
+-                                                base << t_base.str();
+-                                                t_base.str("");
+-                                      #endif
++#ifndef OFSTREAM_TABLE_OUTPUT      // Il faut écrire dans le fichier OFSTREAM la chaine de caractères temporaires
++                                base << t_base.str();
++                                t_base.str("");
++#endif
+ 
+-                                      base.close();
++                                base.close();
+ 
+-                                      if (! base.good())
+-                                      {
+-                                          std::cerr << ERROR_HTML_TAG "Problème fermeture fichier base"  ENDL;
+-                                          exit(-902);
+-                                      }
++                                if (! base.good())
++                                {
++                                    std::cerr << ERROR_HTML_TAG "Problème fermeture fichier base"  ENDL;
++                                    exit(-902);
++                                }
+ 
+-                                      ++rang_fichier_base;
++                                ++rang_fichier_base;
+ 
+-                                      if (rang_fichier_base >= 1000)
+-                                      {
+-                                          std::cerr << ERROR_HTML_TAG "Ne peut générer que 999 bases au plus"  ENDL;
+-                                          exit(-904);
+-                                      }
++                                if (rang_fichier_base >= 1000)
++                                {
++                                    std::cerr << ERROR_HTML_TAG "Ne peut générer que 999 bases au plus"  ENDL;
++                                    exit(-904);
++                                }
+ 
+-                                      ouvrir_fichier_base(Info[i], type_base, base);
+-                                      if (! base.is_open()) return;
+-                              }
++                                ouvrir_fichier_base(Info[i], type_base, base);
++                                if (! base.is_open()) return;
++                            }
+ 
+-                              BaseType valeur_drapeau_categorie = BaseType::MONOLITHIQUE;
+-                              int      test_drapeau_categorie, int_drapeau_categorie = 0;
++                            int      test_drapeau_categorie, int_drapeau_categorie = 0;
+ 
+-                              // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
++                            // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
+ 
+-                              while (VAR(l) &&  (test_drapeau_categorie = VAR(l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
+-                              {
+-                                  valeur_drapeau_categorie = static_cast<BaseType>(test_drapeau_categorie);
+-                                  int_drapeau_categorie = test_drapeau_categorie;
++                            while (VAR(l) &&  (test_drapeau_categorie = VAR(l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
++                            {
++                                int_drapeau_categorie = test_drapeau_categorie;
+ 
+-                                  strcpy(type, type_remuneration_traduit[int_drapeau_categorie - 1]);
+-                                  nouveau_type = true;
+-                                  ++l;
+-                              }
++                                strcpy(type, type_remuneration_traduit[int_drapeau_categorie - 1]);
++                                ++l;
++                            }
+ 
+ 
+-                              ++compteur;
++                            ++compteur;
+ 
+-                              ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
++                            ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
+ 
+-                              l += INDEX_MAX_COLONNNES + 1;
+-                              ++ligne;
+-                          }
++                            l += INDEX_MAX_COLONNNES + 1;
++                            ++ligne;
++                        }
+ 
+-                          ligne = 0;
++                        ligne = 0;
+ 
+-              #ifdef GUI_TAG_MESSAGES
+-              #ifdef GENERATE_RANK_SIGNAL
+-                          progression = std::ceil((float) (compteur * 100) / (float) NCumLignes );
++#ifdef GUI_TAG_MESSAGES
++#ifdef GENERATE_RANK_SIGNAL
++                        progression = std::ceil((float) (compteur * 100) / (float) NCumLignes );
+ 
+-                          ++step;
++                        ++step;
+ 
+-                          if (step > Info[i].NCumAgentXml / 5)
+-                          {
++                        if (step > Info[i].NCumAgentXml / 5)
++                        {
+ 
+-                              generate_rank_signal(progression);
+-                              std::cerr << " \n";
+-                              step = 0;
+-                          }
+-              #endif
+-              #endif
++                            generate_rank_signal(progression);
++                            std::cerr << " \n";
++                            step = 0;
+                         }
+-                      }
++#endif
++#endif
+                     }
+-                    else
+-                      if (type_base == BaseType::MAXIMUM_LIGNES_PAR_ANNEE
++                }
++            }
++            else
++                if (type_base == BaseType::MAXIMUM_LIGNES_PAR_ANNEE
+                         && taille_base > 0)
++                {
++                    for (int i = 0; i < Info[0].nbfil; ++i)
++                    {
++                        for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; ++agent)
+                         {
+-                          for (int i = 0; i < Info[0].nbfil; ++i)
+-                          {
+-                              for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; ++agent)
+-                              {
+-                                  unsigned l = BESOIN_MEMOIRE_ENTETE;
+-                                  uint16_t NLigneAgent = Info[i].NLigne[agent];
+-
+-                                  ++compteur_lignes_bulletins;
++                            unsigned l = BESOIN_MEMOIRE_ENTETE;
++                            uint16_t NLigneAgent = Info[i].NLigne[agent];
+ 
+-                                  ecrire_ligne_bulletin(i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
++                            ++compteur_lignes_bulletins;
+ 
+-                                  if (strcmp((const char*)VAR(Annee), annee_courante))
+-                                  {
+-                                      #ifndef OFSTREAM_TABLE_OUTPUT      // Il faut écrire dans le fichier OFSTREAM la chaine de caractères temporaires
+-                                                base << t_base.str();
+-                                                t_base.str("");
+-                                      #endif
++                            ecrire_ligne_bulletin(i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
+ 
+-                                      base.close();
++                            if (strcmp((const char*)VAR(Annee), annee_courante))
++                            {
++#ifndef OFSTREAM_TABLE_OUTPUT      // Il faut écrire dans le fichier OFSTREAM la chaine de caractères temporaires
++                                base << t_base.str();
++                                t_base.str("");
++#endif
+ 
+-                                      std::cerr << "Année : " << annee_courante << " Table générée."  ENDL;
+-                                      std::cerr << "Table de " << compteur - dernier_compteur
+-                                                << " lignes, lignes "  << dernier_compteur + 1
+-                                                << " à " << compteur << "."  ENDL;
++                                base.close();
+ 
+-                                      dernier_compteur = compteur;
+-                                      compteur_annee_courante = 0;
+-                                      rang_fichier_base_annee_courante = 1;
++                                std::cerr << SPACER "Table n°" << rang_fichier_base << " de " <<  compteur - dernier_compteur - (rang_fichier_base_annee_courante - 1) * taille_base
++                                          << " lignes, lignes "  << dernier_compteur + (rang_fichier_base_annee_courante - 1) * taille_base + 1
++                                          << " à " << compteur << "."  ENDL;
++                                std::cerr << "Année : " << annee_courante <<  ENDL;
++                                std::cerr << "Total annuel de " << compteur - dernier_compteur
++                                          << " lignes, lignes "  << dernier_compteur + 1
++                                          << " à " << compteur << "."  ENDL ENDL;
+ 
+-                                      annee_courante = (char*) VAR(Annee);
+-                                      ouvrir_fichier_base(Info[i],  type_base, base);
+-                                      if (! base.is_open()) return;
+-                                  }
++                                dernier_compteur = compteur;
++                                compteur_annee_courante = 0;
++                                rang_fichier_base_annee_courante = 1;
++                                ++rang_fichier_base;
+ 
+-                                  char type[3]={0};
+-                                  strcpy(type, type_remuneration_traduit[0]);
++                                annee_courante = (char*) VAR(Annee);
++                                ouvrir_fichier_base(Info[i],  type_base, base);
++                                if (! base.is_open()) return;
++                            }
+ 
+-                          while (ligne < NLigneAgent)
+-                              {
+-                                  bool nouveau_type = false;
++                            char type[3]={0};
++                            strcpy(type, type_remuneration_traduit[0]);
+ 
+-                                  if (compteur_annee_courante  == rang_fichier_base_annee_courante * taille_base)
+-                                  {
++                            while (ligne < NLigneAgent)
++                            {
++                                if (compteur_annee_courante  == rang_fichier_base_annee_courante * taille_base)
++                                {
+ 
+-                                          std::cerr << "Table n°" << rang_fichier_base << " de " << taille_base
+-                                                    << " lignes, lignes "  << (rang_fichier_base - 1) * taille_base + 1
+-                                                    << " à " << rang_fichier_base * taille_base << "."  ENDL;
++                                    std::cerr << SPACER "Table n°" << rang_fichier_base << " de " << taille_base
++                                              << " lignes, lignes "  << compteur - taille_base + 1
++                                              << " à " << compteur << "."  ENDL;
+ 
+-                                          #ifndef OFSTREAM_TABLE_OUTPUT      // Il faut écrire dans le fichier OFSTREAM la chaine de caractères temporaires
+-                                                    base << t_base.str();
+-                                                    t_base.str("");
+-                                          #endif
++#ifndef OFSTREAM_TABLE_OUTPUT      // Il faut écrire dans le fichier OFSTREAM la chaine de caractères temporaires
++                                    base << t_base.str();
++                                    t_base.str("");
++#endif
+ 
+-                                          base.close();
++                                    base.close();
+ 
+-                                          if (! base.good())
+-                                          {
+-                                              std::cerr << ERROR_HTML_TAG "Problème fermeture fichier base"  ENDL;
+-                                              exit(-902);
+-                                          }
++                                    if (! base.good())
++                                    {
++                                        std::cerr << ERROR_HTML_TAG "Problème fermeture fichier base"  ENDL;
++                                        exit(-902);
++                                    }
+ 
+-                                          ++rang_fichier_base;
+-                                          ++rang_fichier_base_annee_courante;
++                                    ++rang_fichier_base;
++                                    ++rang_fichier_base_annee_courante;
+ 
+-                                          if (rang_fichier_base >= 1000)
+-                                          {
+-                                              std::cerr << ERROR_HTML_TAG "Ne peut générer que 999 bases au plus"  ENDL;
+-                                              exit(-904);
+-                                          }
++                                    if (rang_fichier_base >= 1000)
++                                    {
++                                        std::cerr << ERROR_HTML_TAG "Ne peut générer que 999 bases au plus"  ENDL;
++                                        exit(-904);
++                                    }
+ 
+-                                          ouvrir_fichier_base(Info[i], type_base, base);
+-                                          if (! base.is_open()) return;
+-                                  }
++                                    ouvrir_fichier_base(Info[i], type_base, base);
++                                    if (! base.is_open()) return;
++                                }
+ 
+-                                  BaseType valeur_drapeau_categorie = BaseType::MONOLITHIQUE;
+-                                  int      test_drapeau_categorie, int_drapeau_categorie = 0;
++                                int      test_drapeau_categorie, int_drapeau_categorie = 0;
+ 
+-                                  // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
++                                // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
+ 
+-                                  while (VAR(l) &&  (test_drapeau_categorie = VAR(l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
+-                                  {
+-                                      valeur_drapeau_categorie = static_cast<BaseType>(test_drapeau_categorie);
+-                                      int_drapeau_categorie = test_drapeau_categorie;
++                                while (VAR(l) &&  (test_drapeau_categorie = VAR(l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
++                                {
++                                    int_drapeau_categorie = test_drapeau_categorie;
+ 
+-                                      strcpy(type, type_remuneration_traduit[int_drapeau_categorie - 1]);
+-                                      nouveau_type = true;
+-                                      ++l;
+-                                  }
++                                    strcpy(type, type_remuneration_traduit[int_drapeau_categorie - 1]);
++                                    ++l;
++                                }
+ 
+ 
+-                                  ++compteur;
++                                ++compteur;
+ 
+-                                  ++compteur_annee_courante;
++                                ++compteur_annee_courante;
+ 
+-                                  ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
++                                ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
+ 
+-                                  l += INDEX_MAX_COLONNNES + 1;
+-                                  ++ligne;
+-                              }
+-                          ligne = 0;
++                                l += INDEX_MAX_COLONNNES + 1;
++                                ++ligne;
++                            }
++                            ligne = 0;
+ 
+-              #ifdef GUI_TAG_MESSAGES
+-              #ifdef GENERATE_RANK_SIGNAL
+-                          progression = std::ceil((float) (compteur * 100) / (float) NCumLignes );
++#ifdef GUI_TAG_MESSAGES
++#ifdef GENERATE_RANK_SIGNAL
++                            progression = std::ceil((float) (compteur * 100) / (float) NCumLignes );
+ 
+-                          ++step;
++                            ++step;
+ 
+-                          if (step > Info[i].NCumAgentXml / 5)
+-                          {
++                            if (step > Info[i].NCumAgentXml / 5)
++                            {
+ 
+-                              generate_rank_signal(progression);
+-                              std::cerr << " \n";
+-                              step = 0;
+-                          }
+-              #endif
+-              #endif
++                                generate_rank_signal(progression);
++                                std::cerr << " \n";
++                                step = 0;
+                             }
+-                          }
++#endif
++#endif
+                         }
+-                    else
+-             if (type_base == BaseType::TOUTES_CATEGORIES)
+-              {
+-                 for (int i = 0; i < Info[0].nbfil; ++i)
+-                 {
+-                     for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; ++agent)
+-                     {
+-                         unsigned l = BESOIN_MEMOIRE_ENTETE;
+-                         uint16_t NLigneAgent = Info[i].NLigne[agent];
+-
+-                         ++compteur_lignes_bulletins;
++                    }
++                }
++                else
++                    if (type_base == BaseType::TOUTES_CATEGORIES)
++                    {
++                        for (int i = 0; i < Info[0].nbfil; ++i)
++                        {
++                            for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; ++agent)
++                            {
++                                unsigned l = BESOIN_MEMOIRE_ENTETE;
++                                uint16_t NLigneAgent = Info[i].NLigne[agent];
+ 
+-                         ecrire_ligne_bulletin(i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
++                                ++compteur_lignes_bulletins;
+ 
++                                ecrire_ligne_bulletin(i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
+ 
+-                         char type[3]={0};
+-                         strcpy(type, type_remuneration_traduit[0]);
+ 
+-                         while (ligne < NLigneAgent)
+-                        {
+-                            bool nouveau_type = false;
++                                char type[3]={0};
++                                strcpy(type, type_remuneration_traduit[0]);
+ 
+-                            BaseType valeur_drapeau_categorie = BaseType::MONOLITHIQUE;
+-                            int      test_drapeau_categorie, int_drapeau_categorie = 0;
++                                while (ligne < NLigneAgent)
++                                {
++                                    bool nouveau_type = false;
+ 
+-                            // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
++                                    int      test_drapeau_categorie, int_drapeau_categorie = 0;
+ 
+-                            while (VAR(l) &&  (test_drapeau_categorie = VAR(l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
+-                            {
+-                                valeur_drapeau_categorie = static_cast<BaseType>(test_drapeau_categorie);
+-                                int_drapeau_categorie = test_drapeau_categorie;
++                                    // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
+ 
+-                                strcpy(type, type_remuneration_traduit[int_drapeau_categorie - 1]);
+-                                nouveau_type = true;
+-                                ++l;
+-                            }
++                                    while (VAR(l) &&  (test_drapeau_categorie = VAR(l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
++                                    {
++                                        int_drapeau_categorie = test_drapeau_categorie;
+ 
+-                            ++compteur;
+-                            if (nouveau_type)
+-                            {
+-                                ecrire_ligne_table(i, agent, l, type, t_tableau_base[int_drapeau_categorie - 1], sep, Info, compteur);
+-                            }
++                                        strcpy(type, type_remuneration_traduit[int_drapeau_categorie - 1]);
++                                        nouveau_type = true;
++                                        ++l;
++                                    }
+ 
+-                            l += INDEX_MAX_COLONNNES + 1;
+-                            ++ligne;
+-                        }
+-                         ligne = 0;
++                                    ++compteur;
++                                    if (nouveau_type)
++                                    {
++                                        ecrire_ligne_table(i, agent, l, type, t_tableau_base[int_drapeau_categorie - 1], sep, Info, compteur);
++                                    }
+ 
+-             #ifdef GUI_TAG_MESSAGES
+-             #ifdef GENERATE_RANK_SIGNAL
+-                         progression = std::ceil((float) (compteur * 100) / (float) NCumLignes );
++                                    l += INDEX_MAX_COLONNNES + 1;
++                                    ++ligne;
++                                }
++                                ligne = 0;
+ 
+-                         ++step;
++#ifdef GUI_TAG_MESSAGES
++#ifdef GENERATE_RANK_SIGNAL
++                                progression = std::ceil((float) (compteur * 100) / (float) NCumLignes );
+ 
+-                         if (step > Info[i].NCumAgentXml / 5)
+-                         {
++                                ++step;
+ 
+-                             generate_rank_signal(progression);
+-                             std::cerr << " \n";
+-                             step = 0;
+-                         }
+-             #endif
+-             #endif
+-                     }
++                                if (step > Info[i].NCumAgentXml / 5)
++                                {
+ 
+-                 }
+-              }
+-              else  //par catégorie spécifique
+-             {
+-                 for (int i = 0; i < Info[0].nbfil; ++i)
+-                 {
+-                     for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; ++agent)
+-                     {
+-                         unsigned l = BESOIN_MEMOIRE_ENTETE;
+-                         uint16_t NLigneAgent = Info[i].NLigne[agent];
++                                    generate_rank_signal(progression);
++                                    std::cerr << " \n";
++                                    step = 0;
++                                }
++#endif
++#endif
++                            }
+ 
+-                         ++compteur_lignes_bulletins;
++                        }
++                    }
++                    else  //par catégorie spécifique
++                    {
++                        for (int i = 0; i < Info[0].nbfil; ++i)
++                        {
++                            for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; ++agent)
++                            {
++                                unsigned l = BESOIN_MEMOIRE_ENTETE;
++                                uint16_t NLigneAgent = Info[i].NLigne[agent];
+ 
+-                         ecrire_ligne_bulletin(i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
++                                ++compteur_lignes_bulletins;
+ 
+-                         char type[3]={0};
+-                         strcpy(type, type_remuneration_traduit[0]);
++                                ecrire_ligne_bulletin(i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
+ 
+-                           while (ligne < NLigneAgent)
+-                           {
+-                               bool nouveau_type = false;
++                                char type[3]={0};
++                                strcpy(type, type_remuneration_traduit[0]);
+ 
+-                               BaseType valeur_drapeau_categorie = BaseType::MONOLITHIQUE;
+-                               int      test_drapeau_categorie, int_drapeau_categorie = 0;
++                                while (ligne < NLigneAgent)
++                                {
++                                    BaseType valeur_drapeau_categorie = BaseType::MONOLITHIQUE;
++                                    int      test_drapeau_categorie, int_drapeau_categorie = 0;
+ 
+-                               // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
++                                    // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
+ 
+-                               while (VAR(l) &&  (test_drapeau_categorie = VAR(l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
+-                               {
+-                                   valeur_drapeau_categorie = static_cast<BaseType>(test_drapeau_categorie);
+-                                   int_drapeau_categorie = test_drapeau_categorie;
++                                    while (VAR(l) &&  (test_drapeau_categorie = VAR(l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
++                                    {
++                                        valeur_drapeau_categorie = static_cast<BaseType>(test_drapeau_categorie);
++                                        int_drapeau_categorie = test_drapeau_categorie;
+ 
+-                                   strcpy(type, type_remuneration_traduit[int_drapeau_categorie - 1]);
+-                                   nouveau_type = true;
+-                                   ++l;
+-                               }
++                                        strcpy(type, type_remuneration_traduit[int_drapeau_categorie - 1]);
++                                        ++l;
++                                    }
+ 
+ 
+-                               if (valeur_drapeau_categorie  == Info[0].type_base)
+-                               {
+-                                   ++compteur;
+-                                   ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
+-                               }
++                                    if (valeur_drapeau_categorie  == Info[0].type_base)
++                                    {
++                                        ++compteur;
++                                        ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
++                                    }
+ 
+-                               l += INDEX_MAX_COLONNNES + 1;
+-                               ++ligne;
+-                           }
++                                    l += INDEX_MAX_COLONNNES + 1;
++                                    ++ligne;
++                                }
+ 
+ 
+-                     ligne = 0;
++                                ligne = 0;
+ 
+-         #ifdef GUI_TAG_MESSAGES
+-         #ifdef GENERATE_RANK_SIGNAL
+-                     progression = std::ceil((float) (compteur * 100) / (float) NCumLignes );
++#ifdef GUI_TAG_MESSAGES
++#ifdef GENERATE_RANK_SIGNAL
++                                progression = std::ceil((float) (compteur * 100) / (float) NCumLignes );
+ 
+-                     ++step;
++                                ++step;
+ 
+-                     if (step > Info[i].NCumAgentXml / 5)
+-                     {
++                                if (step > Info[i].NCumAgentXml / 5)
++                                {
+ 
+-                         generate_rank_signal(progression);
+-                         std::cerr << " \n";
+-                         step = 0;
+-                     }
+-         #endif
+-         #endif
+-                     }
+-                 }
++                                    generate_rank_signal(progression);
++                                    std::cerr << " \n";
++                                    step = 0;
++                                }
++#endif
++#endif
++                            }
++                        }
+ 
+-             }
++                    }
+ 
+ 
+     
+ #ifndef OFSTREAM_TABLE_OUTPUT
+-        bulletins << t_bulletins.str();
++    bulletins << t_bulletins.str();
+ #endif
+ 
+     // Dans les autres cas, les bases ont déjà été refermées sauf une (cas par année et par taille maximale)
+@@ -790,103 +770,114 @@ void boucle_ecriture(std::vector<info_t>& Info)
+     {
+         for (int d = 0; d < nbType - 1; ++d)
+         {
+-            #ifndef OFSTREAM_TABLE_OUTPUT
+-               tableau_base[d] << t_tableau_base[d].str();
+-            #endif
++#ifndef OFSTREAM_TABLE_OUTPUT
++            tableau_base[d] << t_tableau_base[d].str();
++#endif
+             tableau_base[d].close();
+         }
+     }
+     else
+-    if (base.is_open())
+-    {
+-        #ifndef OFSTREAM_TABLE_OUTPUT      // Il faut écrire dans le fichier OFSTREAM la chaine de caractères temporaires
+-                  base << t_base.str();
+-                  //  t_base.str("");  (devenu inutile)
+-        #endif
++        if (base.is_open())
++        {
++#ifndef OFSTREAM_TABLE_OUTPUT      // Il faut écrire dans le fichier OFSTREAM la chaine de caractères temporaires
++            base << t_base.str();
++            //  t_base.str("");  (devenu inutile)
++#endif
+ 
+-        base.close();
+-    }
++            base.close();
++        }
+ 
+-   if (base.good())
++    if (base.good())
+     {
+         base.close();
+         switch (type_base)
+         {
+-            case  BaseType::MONOLITHIQUE            :
+-                break;
+-
+-            case  BaseType::PAR_TRAITEMENT          :
+-                std::cerr << STATE_HTML_TAG "Catégorie : Traitement."  ENDL;
+-                break;
+-
+-            case  BaseType::PAR_INDEMNITE_RESIDENCE :
+-                std::cerr << STATE_HTML_TAG "Catégorie : Indemnité de résidence."  ENDL;
+-                break;
+-
+-            case  BaseType::PAR_SFT                 :
+-                std::cerr << STATE_HTML_TAG "Catégorie : Supplément familial de traitement."  ENDL;
+-                break;
+-
+-            case  BaseType::PAR_AVANTAGE_NATURE     :
+-                std::cerr << STATE_HTML_TAG "Catégorie : Avantage en nature."  ENDL;
+-                break;
+-
+-            case  BaseType::PAR_INDEMNITE           :
+-                std::cerr << STATE_HTML_TAG "Catégorie : Indemnité."  ENDL;
+-                break;
+-
+-            case  BaseType::PAR_REM_DIVERSES        :
+-                std::cerr << STATE_HTML_TAG "Catégorie : Rémunérations diverses."  ENDL;
+-                break;
+-
+-            case  BaseType::PAR_DEDUCTION           :
+-                std::cerr << STATE_HTML_TAG "Catégorie : Déduction."  ENDL;
+-                break;
+-
+-            case  BaseType::PAR_ACOMPTE             :
+-                std::cerr << STATE_HTML_TAG "Catégorie : Acompte."  ENDL;
+-                break;
+-
+-            case  BaseType::PAR_RAPPEL              :
+-                std::cerr << STATE_HTML_TAG "Catégorie : Rappel."  ENDL;
+-                break;
+-
+-            case  BaseType::PAR_RETENUE             :
+-                std::cerr << STATE_HTML_TAG "Catégorie : Retenue."  ENDL;
+-                break;
+-
+-            case  BaseType::PAR_COTISATION          :
+-                std::cerr << STATE_HTML_TAG "Catégorie : Cotisation."  ENDL;
+-                break;
+-
+-            case  BaseType::TOUTES_CATEGORIES       :
+-                std::cerr << STATE_HTML_TAG "Toutes catégories."  ENDL;
+-                break;
+-
+-            case BaseType::PAR_ANNEE    :
+-            case BaseType::MAXIMUM_LIGNES_PAR_ANNEE :
+-                std::cerr << "Année : " << annee_courante  << ENDL;
+-                std::cerr << "Table de " << compteur - dernier_compteur
+-                          << " lignes, lignes "  << dernier_compteur + 1
+-                          << " à " << compteur << "."  ENDL;
+-                break;
+-
+-            case BaseType::MAXIMUM_LIGNES  :  /* Taille définie par l'utilisateur */
+-                std::cerr << STATE_HTML_TAG "Table n°" << rang_fichier_base
+-                          << " de " <<  compteur - (rang_fichier_base-1) * taille_base
+-                          << " lignes, lignes " << (rang_fichier_base-1) * taille_base + 1
+-                          << " à " << compteur << "."  ENDL;
+-                break;
+-
+-            default:  break;
++        case  BaseType::MONOLITHIQUE            :
++            break;
++
++        case  BaseType::PAR_TRAITEMENT          :
++            std::cerr << STATE_HTML_TAG "Catégorie : Traitement."  ENDL;
++            break;
++
++        case  BaseType::PAR_INDEMNITE_RESIDENCE :
++            std::cerr << STATE_HTML_TAG "Catégorie : Indemnité de résidence."  ENDL;
++            break;
++
++        case  BaseType::PAR_SFT                 :
++            std::cerr << STATE_HTML_TAG "Catégorie : Supplément familial de traitement."  ENDL;
++            break;
++
++        case  BaseType::PAR_AVANTAGE_NATURE     :
++            std::cerr << STATE_HTML_TAG "Catégorie : Avantage en nature."  ENDL;
++            break;
++
++        case  BaseType::PAR_INDEMNITE           :
++            std::cerr << STATE_HTML_TAG "Catégorie : Indemnité."  ENDL;
++            break;
++
++        case  BaseType::PAR_REM_DIVERSES        :
++            std::cerr << STATE_HTML_TAG "Catégorie : Rémunérations diverses."  ENDL;
++            break;
++
++        case  BaseType::PAR_DEDUCTION           :
++            std::cerr << STATE_HTML_TAG "Catégorie : Déduction."  ENDL;
++            break;
++
++        case  BaseType::PAR_ACOMPTE             :
++            std::cerr << STATE_HTML_TAG "Catégorie : Acompte."  ENDL;
++            break;
++
++        case  BaseType::PAR_RAPPEL              :
++            std::cerr << STATE_HTML_TAG "Catégorie : Rappel."  ENDL;
++            break;
++
++        case  BaseType::PAR_RETENUE             :
++            std::cerr << STATE_HTML_TAG "Catégorie : Retenue."  ENDL;
++            break;
++
++        case  BaseType::PAR_COTISATION          :
++            std::cerr << STATE_HTML_TAG "Catégorie : Cotisation."  ENDL;
++            break;
++
++        case  BaseType::TOUTES_CATEGORIES       :
++            std::cerr << STATE_HTML_TAG "Toutes catégories."  ENDL;
++            break;
++
++        case BaseType::PAR_ANNEE    :
++            std::cerr << "Année : " << annee_courante  << ENDL;
++            std::cerr << "Table de " << compteur - dernier_compteur
++                      << " lignes, lignes "  << dernier_compteur + 1
++                      << " à " << compteur << "."  ENDL;
++            break;
++
++        case BaseType::MAXIMUM_LIGNES_PAR_ANNEE :
++            std::cerr << SPACER "Table n°" << rang_fichier_base << " de " <<  compteur - dernier_compteur - (rang_fichier_base_annee_courante - 1) * taille_base
++                      << " lignes, lignes "  << dernier_compteur + (rang_fichier_base_annee_courante - 1) * taille_base + 1
++                      << " à " << compteur << "."  ENDL;
++            std::cerr << "Année : " << annee_courante <<  ENDL;
++            std::cerr << "Total annuel de " << compteur - dernier_compteur
++                      << " lignes, lignes "  << dernier_compteur + 1
++                      << " à " << compteur << "."  ENDL;
++            break;
++
++        case BaseType::MAXIMUM_LIGNES  :  /* Taille définie par l'utilisateur */
++            std::cerr << STATE_HTML_TAG "Table n°" << rang_fichier_base
++                      << " de " <<  compteur - (rang_fichier_base-1) * taille_base
++                      << " lignes, lignes " << (rang_fichier_base-1) * taille_base + 1
++                      << " à " << compteur << "."  ENDL;
++            break;
++
++        default:  break;
+         }
+ 
++        std::cerr << ENDL;
++
+         std::cerr << STATE_HTML_TAG "Nombre total de lignes de paye : " << compteur << " lignes."  ENDL;
+ 
+ #if defined(__WIN32__) && defined(USE_ICONV)
+         convertir(Info[0].chemin_base);
+ #endif
+- }
++    }
+ 
+     if (bulletins.good())
+     {
+@@ -895,7 +886,7 @@ void boucle_ecriture(std::vector<info_t>& Info)
+         std::cerr << STATE_HTML_TAG "Base des bulletins de paye de " << compteur_lignes_bulletins << " lignes."  ENDL;
+ 
+ #if defined(__WIN32__) && defined(USE_ICONV)
+-         convertir(Info[0].chemin_bulletins);
++        convertir(Info[0].chemin_bulletins);
+ #endif
+     }
+     
+diff --git a/win/lhx.exe b/win/lhx.exe
+index f2ef70d..020d598 100644
+Binary files a/win/lhx.exe and b/win/lhx.exe differ
