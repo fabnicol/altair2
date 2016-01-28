@@ -87,7 +87,8 @@ int main(int argc, char **argv)
         true,             // par défaut lire la balise adjacente
         false,            // calculer les maxima de lignes et d'agents
         false,            // numéroter les lignes
-        true,             //    alléger la base
+        false,             // ne pas exporter les informations sur l'établissement
+        false,             // ne pas exporter l'échelon
         1,                 // nbfil
         {}  // besoin de mémoire effectif
     };
@@ -143,7 +144,8 @@ int main(int argc, char **argv)
                       <<  "-m sans argument        : calculer les maxima d'agents et de lignes de paye." << "\n"
                       <<  "-L argument obligatoire : chemin du log d'exécution du test de cohérence entre analyseurs C et XML." << "\n"
                       <<  "-R argument obligatoire : expression régulière pour la recherche des élus (codés : ELU dans le champ Statut." << "\n"
-                      <<  "-S sans argument        : supprimer la sortie Budget, Employeur, Siret, Etablissement (allège les bases)." << "\n"
+                      <<  "-S sans argument        : exporter les champs Budget, Employeur, Siret, Etablissement." << "\n"
+                      <<  "-E sans argument        : exporter le champ Echelon." << "\n"
                       <<  "-q sans argument        : limiter la verbosité." << "\n"
                       <<  "-f argument obligatoire : la ligne de commande est dans le fichier en argument, chaque élément à la ligne." << "\n"
                       <<  "--mem argument oblig.   : taille des fichiers à analyser en ko << " << "\n";
@@ -421,7 +423,20 @@ int main(int argc, char **argv)
         {
             if (argc > start +2)
             {
-                info.select_siret = false;
+                info.select_siret = true;
+            }
+            else
+            {
+                exit(-116);
+            }
+            ++start;
+            continue;
+        }
+        else if (commandline_tab[start] == "-E")
+        {
+            if (argc > start +2)
+            {
+                info.select_echelon = true;
             }
             else
             {
@@ -521,7 +536,6 @@ int main(int argc, char **argv)
     //stat(info.threads->argv[i].c_str(), &st);
     //const size_t file_size =  st.st_size;
     
-
     xmlInitMemory();
     xmlInitParser();
 

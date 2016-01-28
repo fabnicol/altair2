@@ -38,6 +38,7 @@ private:
     FCheckBox
       *tableCheckBox,
       *etabCheckBox,
+      *echelonCheckBox,
       *rangCheckBox,
       *logCheckBox,
       *consoleCheckBox,

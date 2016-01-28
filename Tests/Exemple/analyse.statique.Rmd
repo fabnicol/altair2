@@ -5,9 +5,10 @@
 # On revient à une analyse des rémunérations qui réinclut tous les personnels (vacataires, élus, inactifs, annexes)
 
 Analyse.rémunérations.exercice <- Analyse.rémunérations[Année == année]     
+   
+#'# `r chapitre`. Rémunérations brutes : analyse pour l'exercice `r année`    
 ```
 
-# `r chapitre`. Rémunérations brutes : analyse pour l'exercice `r année`    
 ## `r chapitre`.1 Masse salariale brute de l'ensemble des agents     
 
 ```{r }
@@ -16,13 +17,22 @@ masses.personnels <- Analyse.rémunérations.exercice[Statut != "ELU",
                                                       indemnités.élu = sum(indemnités.élu, na.rm = TRUE),
                                                       total.lignes.paie = sum(total.lignes.paie, na.rm = TRUE),
                                                       autres.rémunérations = sum(autres.rémunérations, na.rm = TRUE))]
+
+#'### Cumuls des rémunérations brutes pour l'exercice `r année`      
 ```
 
-### Cumuls des rémunérations brutes pour l'exercice `r année`      
  
-*Personnels (hors élus)*     
+
+```{r }
+#'*Personnels (hors élus)*     
+```
+
  
-&nbsp;*Tableau `r incrément()`*   
+
+```{r }
+#'&nbsp;*Tableau `r incrément()`*   
+```
+
    
 
 ```{r }
@@ -41,19 +51,39 @@ Tableau.vertical2(c("Agrégats",
 ```
 
  
-**Définitions :**
+
+```{r }
+#'**Définitions :**
+```
+
 
  *Brut annuel (bulletins)*   : somme du champ *Brut*    
  *Brut annuel (lignes)*      : somme du champ *Montant* des lignes de paye, dont :    
- *Primes*                    : indemnités sauf remboursements, certaines IJSS, indemnités d'élu le cas échéant, Supplément familial de traitement et Indemnité de résidence        
- *Autres rémunérations*      : acomptes, retenues sur brut, rémunérations diverses, rappels   
- 
-**Tests de cohérence**
 
-Somme des rémunérations brutes versées aux personnels (non élus) :  
+```{r }
+#'  *Primes*                    : indemnités sauf remboursements, certaines IJSS, indemnités d'élu le cas échéant, Supplément familial de traitement et Indemnité de résidence        
+#'  *Autres rémunérations*      : acomptes, retenues sur brut, rémunérations diverses, rappels   
+```
+
+ 
+
+```{r }
+#'**Tests de cohérence**
+```
+
+
+
+```{r }
+#'Somme des rémunérations brutes versées aux personnels (non élus) :  
+```
+
  
  
-&nbsp;*Tableau `r incrément()`*   
+
+```{r }
+#'&nbsp;*Tableau `r incrément()`*   
+```
+
    
 
 ```{r }
@@ -69,7 +99,11 @@ Tableau.vertical2(c("Agrégats",
 ```
 
 
-à comparer aux soldes des comptes 641 et 648 du compte de gestion.
+
+```{r }
+#'à comparer aux soldes des comptes 641 et 648 du compte de gestion.
+```
+
 
   
 ## `r chapitre`.2 Masse salariale brute des fonctionnaires
@@ -92,25 +126,35 @@ detach(AR)
 
    
 **Nota :**   
-*EQTP : Equivalent temps plein = 12 . moyenne du ratio ratio rémunération / quotité*  
+
+```{r }
+#'*EQTP : Equivalent temps plein = 12 . moyenne du ratio ratio rémunération / quotité*  
+```
+
    
 **Effectif : `r nrow(AR)`**
 
-**Tests de cohérence**
 
 ```{r }
+#'**Tests de cohérence**
+
 if (nrow(AR) > 0) {
   masses.fonct <- AR[ , lapply(.(Montant.brut.annuel, rémunération.indemnitaire.imposable, total.lignes.paie, autres.rémunérations), sum, na.rm = TRUE)]
   
 } else {
   masses.fonct <- c(0,0) 
 }
+
+#'Somme des rémunérations brutes versées aux personnels titulaires et stagiaires :
 ```
 
-Somme des rémunérations brutes versées aux personnels titulaires et stagiaires :
 
  
-&nbsp;*Tableau `r incrément()`*   
+
+```{r }
+#'&nbsp;*Tableau `r incrément()`*   
+```
+
    
 
 ```{r }
@@ -129,19 +173,39 @@ Tableau.vertical2(c("Agrégats",
 ```
 
 
-**Définitions :**
+
+```{r }
+#'**Définitions :**
+```
+
 
  *Brut annuel (bulletins)*   : somme du champ *Brut*   
  *Brut annuel (lignes)*      : somme du champ *Montant* des lignes de paye, dont :   
- *Primes*                    : indemnités sauf remboursements, certaines IJSS, Supplément familial de traitement et Indemnité de résidence       
- *Autres rémunérations*      : acomptes, retenues sur brut, rémunérations diverses, rappels   
 
-**Tests de cohérence**
+```{r }
+#'  *Primes*                    : indemnités sauf remboursements, certaines IJSS, Supplément familial de traitement et Indemnité de résidence       
+#'  *Autres rémunérations*      : acomptes, retenues sur brut, rémunérations diverses, rappels   
+```
 
-Somme des rémunérations brutes versées aux personnels (fonctionnaires) :
+
+
+```{r }
+#'**Tests de cohérence**
+```
+
+
+
+```{r }
+#'Somme des rémunérations brutes versées aux personnels (fonctionnaires) :
+```
+
 
  
-&nbsp;*Tableau `r incrément()`*   
+
+```{r }
+#'&nbsp;*Tableau `r incrément()`*   
+```
+
    
 
 ```{r }
@@ -159,9 +223,17 @@ Tableau.vertical2(c("Agrégats",
 
 A comparer aux soldes des comptes 6411, 6419 et 648 du compte de gestion.
 
-**Formation et distribution du salaire brut moyen par tête (SMPT) en EQTP pour l'année `r année`**     
+
+```{r }
+#'**Formation et distribution du salaire brut moyen par tête (SMPT) en EQTP pour l'année `r année`**     
+```
+
  
-&nbsp;*Tableau `r incrément()`*   
+
+```{r }
+#'&nbsp;*Tableau `r incrément()`*   
+```
+
    
 
 ```{r }
@@ -180,7 +252,11 @@ Résumé(c("Traitement indiciaire",
 ```
 
  
-&nbsp;*Tableau `r incrément()`*   
+
+```{r }
+#'&nbsp;*Tableau `r incrément()`*   
+```
+
    
 
 ```{r }
@@ -200,9 +276,17 @@ Résumé(c("Total lignes hors rappels",
 ```
 
   
-*Hors vacataires identifiés, assistantes maternelles, élus locaux et pour les postes actifs non annexes*  
 
-**Catégorie A**
+```{r }
+#'*Hors vacataires identifiés, assistantes maternelles, élus locaux et pour les postes actifs non annexes*  
+```
+
+
+
+```{r }
+#'**Catégorie A**
+```
+
 
 
 ```{r }
@@ -212,7 +296,11 @@ ARC <- data.table::data.table(NULL)
 ```
 
  
-&nbsp;*Tableau `r incrément()`*   
+
+```{r }
+#'&nbsp;*Tableau `r incrément()`*   
+```
+
    
 
 ```{r }
@@ -235,7 +323,11 @@ if (analyse.par.catégorie) {
 
 
  
-&nbsp;*Tableau `r incrément()`*   
+
+```{r }
+#'&nbsp;*Tableau `r incrément()`*   
+```
+
    
 
 ```{r }
@@ -255,10 +347,18 @@ if (analyse.par.catégorie) {
 
 **Effectif : `r nrow(ARA)`**  
 
-**Catégorie B**
+
+```{r }
+#'**Catégorie B**
+```
+
 
  
-&nbsp;*Tableau `r incrément()`*   
+
+```{r }
+#'&nbsp;*Tableau `r incrément()`*   
+```
+
    
 
 ```{r }
@@ -280,7 +380,11 @@ if (analyse.par.catégorie) {
 
 
  
-&nbsp;*Tableau `r incrément()`*   
+
+```{r }
+#'&nbsp;*Tableau `r incrément()`*   
+```
+
    
 
 ```{r }
@@ -300,10 +404,18 @@ if (analyse.par.catégorie) {
 
 **Effectif : `r nrow(ARB)`**
 
-**Catégorie C**
+
+```{r }
+#'**Catégorie C**
+```
+
 
  
-&nbsp;*Tableau `r incrément()`*   
+
+```{r }
+#'&nbsp;*Tableau `r incrément()`*   
+```
+
    
 
 ```{r }
@@ -325,7 +437,11 @@ if (analyse.par.catégorie) {
 
 
  
-&nbsp;*Tableau `r incrément()`*   
+
+```{r }
+#'&nbsp;*Tableau `r incrément()`*   
+```
+
    
 
 ```{r }
@@ -373,8 +489,12 @@ if (longueur.non.na(temp) > 0)
 
   
 **Nota :**
-Ne sont retenues que les rémunérations supérieures à 1 000 k&euro;.
-Les élus ne sont pas pris en compte.
+
+```{r }
+#'Ne sont retenues que les rémunérations supérieures à 1 000 k&euro;.
+#'Les élus ne sont pas pris en compte.
+```
+
   
 
 ```{r }
@@ -405,10 +525,18 @@ AR <- Analyse.rémunérations.exercice[Statut != "ELU"
 ```
 
   
-**Formation et distribution du salaire brut moyen par tête (SMPT) en EQTP pour l'année `r année`**     
+
+```{r }
+#'**Formation et distribution du salaire brut moyen par tête (SMPT) en EQTP pour l'année `r année`**     
+```
+
   
  
-&nbsp;*Tableau `r incrément()`*   
+
+```{r }
+#'&nbsp;*Tableau `r incrément()`*   
+```
+
    
 
 ```{r }
@@ -421,7 +549,11 @@ Résumé(c("Primes",
 ```
 
  
-&nbsp;*Tableau `r incrément()`*   
+
+```{r }
+#'&nbsp;*Tableau `r incrément()`*   
+```
+
    
 
 ```{r }

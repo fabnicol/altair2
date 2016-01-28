@@ -510,7 +510,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, std::ofstream& log)
         exit(-520);
 #endif
 
-        for (int l : {Nom, Prenom, Matricule, NIR, EmploiMetier, Statut, NbEnfants, Grade, Indice})
+        for (int l : {Nom, Prenom, Matricule, NIR, EmploiMetier, Statut, NbEnfants, Grade, Echelon, Indice})
         {
            info.Table[info.NCumAgentXml][l] = xmlStrdup((xmlChar*)"");
         }
@@ -579,17 +579,27 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, std::ofstream& log)
                                     cur = cur_save;
 #endif
 
-                                    /* ne pas lire la balise adjacente : fin du niveau subordonné Agent*/
-
-                                    info.drapeau_cont = false;
                                     if (result)
                                     {
+                                        result &= BULLETIN_OBLIGATOIRE(Echelon);
 
-                                        result &= BULLETIN_OBLIGATOIRE_(Indice, 1);
+#ifdef TOLERANT_TAG_HIERARCHY
+                                        cur = cur_save;
+#endif
+                                    /* ne pas lire la balise adjacente : fin du niveau subordonné Agent*/
+
+                                        info.drapeau_cont = false;
+                                        if (result)
+                                        {
+                                            result &= BULLETIN_OBLIGATOIRE(Indice);
+                                        }
+                                        else na_assign_level = 10;
+
                                     }
                                     else na_assign_level = 9;
+
                                 }
-                                else na_assign_level = 8;
+                               else na_assign_level = 8;
                             }
                             else na_assign_level =7;
                         }
@@ -626,6 +636,8 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, std::ofstream& log)
         case 8:
             NA_ASSIGN(Grade);
         case 9:
+             NA_ASSIGN(Grade);
+        case 10:
             NA_ASSIGN(Indice);
         default:
         break;

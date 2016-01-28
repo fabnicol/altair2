@@ -156,7 +156,7 @@ void ecrire_log(const info_t& info, std::ofstream& log, int diff)
     return(chemin);
 }
 #endif
- 
+
 void ecrire_entete_bulletins(const info_t &info, std::ofstream& base)
 {
   ecrire_entete0(info, base, entete_char_bulletins, sizeof(entete_char_bulletins)/sizeof(char*));
@@ -170,15 +170,30 @@ void ecrire_entete_table(const info_t &info, std::ofstream& base)
 void ecrire_entete0(const info_t &info, std::ofstream& base, const char* entete[], int N)
 {
   int i;
-  if (info.select_siret)
-    for (i = !info.generer_rang; i < N - 1; ++i)
-      base << entete[i] << info.separateur;
+  if (info.select_echelon)
+  {
+      if (info.select_siret)
+        for (i = !info.generer_rang; i < N - 1; ++i)
+          base << entete[i] << info.separateur;
+      else
+        for (i = !info.generer_rang; i < N - 1; ++i)
+        {
+            if (i != Budget +1 &&  i != Employeur + 1 && i != Siret +1 && i != Etablissement + 1)
+                base << entete[i] << info.separateur;
+        }
+  }
   else
-    for (i = !info.generer_rang; i < N - 1; ++i)
-    {
-        if (i != Budget +1 &&  i != Employeur + 1 && i != Siret +1 && i != Etablissement + 1)
-            base << entete[i] << info.separateur;
-    }
+  {
+      if (info.select_siret)
+        for (i = !info.generer_rang; i < N - 1; ++i)
+          if (entete[i][0] != 'E' && entete[i][1] != 'c') base << entete[i] << info.separateur;
+      else
+        for (i = !info.generer_rang; i < N - 1; ++i)
+        {
+            if (i != Budget +1 &&  i != Employeur + 1 && i != Siret +1 && i != Etablissement + 1)
+                if (entete[i][0] != 'E' && entete[i][1] != 'c') base << entete[i] << info.separateur;
+        }
+  }
 
   base << entete[i] << "\n";
 }
@@ -423,7 +438,7 @@ int calculer_memoire_requise(info_t& info)
 
         if (c.is_open())
             c.seekg(0, std::ios::beg);
-        else 
+        else
         {
             if (verbeux)
                 std::cerr <<  ERROR_HTML_TAG "Problème à l'ouverture du fichier *" << info.threads->argv[i] << "*" << ENDL;
@@ -643,7 +658,7 @@ int calculer_memoire_requise(info_t& info)
         //std::cerr << "Mappage en mémoire de " << info.threads->argv[i] << "..."ENDL;
         struct stat st;
         stat(info.threads->argv[i].c_str(), &st);
-        const size_t file_size =  st.st_size; 
+        const size_t file_size =  st.st_size;
         void *dat;
         int fd = open(info.threads->argv[i].c_str(), O_RDONLY);
        // std::cerr << "Taille : " << file_size << ENDL;
@@ -667,7 +682,7 @@ int calculer_memoire_requise(info_t& info)
        // std::cerr << "Mapping OK"ENDL;
         size_t d = 0;
         char C;
-        
+
         while (d < file_size - 14)
         {
 
@@ -720,7 +735,7 @@ int calculer_memoire_requise(info_t& info)
                             else
                             {
                                 if (data[++d] != ' ')   continue;
-                                
+
                                 ++info.NLigne[info.NCumAgent];
                             }
                         }
@@ -728,13 +743,13 @@ int calculer_memoire_requise(info_t& info)
                 }
             }
         }
-        
-        
+
+
         info.threads->in_memory_file[i] = std::move(data);
         //munmap(data, file_size);
         close(fd);
-#endif        
-        
+#endif
+
     }
 
     /* A ETUDIER */

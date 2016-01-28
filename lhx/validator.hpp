@@ -80,22 +80,21 @@ enum class BaseType : int
                   };
 
 #define INDEX_MAX_COLONNNES 5    // nombre de type de champ de ligne de paye (Libellé, Code, Taux, Base, ...) moins 1.
-#define BESOIN_MEMOIRE_ENTETE  24  /* nb d'éléments de l'enum ci-dessous */
+#define BESOIN_MEMOIRE_ENTETE  25  /* nb d'éléments de l'enum ci-dessous */
 
 typedef enum {
               Annee, Mois, Budget, Employeur, Siret, Etablissement,
               Nom, Prenom, Matricule, NIR, NbEnfants, Statut,
-              EmploiMetier, Grade, Indice, Service, NBI, QuotiteTrav,
+              EmploiMetier, Grade, Echelon, Indice, Service, NBI, QuotiteTrav,
               NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer, Categorie
          } Entete;
 
 constexpr const char* Tableau_entete[] = {
                                     "Annee", "Mois", "Budget", "Employeur", "Siret", "Etablissement",
                                     "Nom", "Prenom", "Matricule", "NIR", "NbEnfants", "Statut",
-                                    "EmploiMetier", "Grade", "Indice", "Service", "NBI", "QuotiteTrav",
+                                    "EmploiMetier", "Grade", "Echelon", "Indice", "Service", "NBI", "QuotiteTrav",
                                     "NbHeureTotal", "NbHeureSup", "MtBrut", "MtNet", "MtNetAPayer" };
 
-    // 18 + lignes
 
 typedef struct
 {
@@ -123,6 +122,7 @@ typedef struct
     bool calculer_maxima;
     bool generer_rang;
     bool select_siret;
+    bool select_echelon;
     int  nbfil;
     std::vector<int> Memoire_p_ligne;
 } info_t;

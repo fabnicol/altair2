@@ -62,9 +62,8 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l_COMMUN(int i, uint32_t agent, int l
            << VAR(l + INDEX_MAX_COLONNNES) << sep     // Il doit y avoir au plus INDEX_MAX_COLONNES + 1 types de colonnes de lignes de paye différents
            << type << sep
            << VAR(EmploiMetier) << sep
-           << VAR(Grade) << sep
-           << VAR(Categorie) << sep
-           << VAR(NIR) << "\n";
+           << VAR(Grade) << sep;
+
 }
 
 static inline void GCC_INLINE ECRIRE_LIGNE_l_GENERER_RANG(int i, uint32_t agent, int l, char* type, table_t& base, char sep, std::vector<info_t> &Info, int rang)
@@ -82,6 +81,30 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l_GENERER_RANG(int i, uint32_t agent,
     }
     
     ECRIRE_LIGNE_l_COMMUN(i, agent, l, type, base, sep, Info, rang);
+
+    base << VAR(Categorie) << sep
+         << VAR(NIR) << "\n";
+}
+
+static inline void GCC_INLINE ECRIRE_LIGNE_l_GENERER_RANG_ECHELON(int i, uint32_t agent, int l, char* type, table_t& base, char sep, std::vector<info_t> &Info, int rang)
+{
+    base <<  rang << sep;
+    base  << VAR(Annee) << sep
+          << VAR(Mois) << sep;
+
+    if (Info[0].select_siret)
+    {
+        base  << VAR(Budget) << sep
+              << VAR(Employeur) << sep
+              << VAR(Siret) << sep
+              << VAR(Etablissement) << sep;
+    }
+
+    ECRIRE_LIGNE_l_COMMUN(i, agent, l, type, base, sep, Info, rang);
+
+    base << VAR(Echelon) << sep
+         << VAR(Categorie) << sep
+         << VAR(NIR) << "\n";
 }
 
 static inline void GCC_INLINE ECRIRE_LIGNE_l_SIRET(int i, uint32_t agent, int l, char* type, table_t& base, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
@@ -95,7 +118,26 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l_SIRET(int i, uint32_t agent, int l,
           << VAR(Etablissement) << sep;
 
     ECRIRE_LIGNE_l_COMMUN(i, agent, l, type, base, sep, Info, rang);
-    
+
+   base  << VAR(Categorie) << sep
+         << VAR(NIR) << "\n";
+}
+
+static inline void GCC_INLINE ECRIRE_LIGNE_l_SIRET_ECHELON(int i, uint32_t agent, int l, char* type, table_t& base, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
+{
+    base  << VAR(Annee) << sep
+          << VAR(Mois) << sep;
+
+    base  << VAR(Budget) << sep
+          << VAR(Employeur) << sep
+          << VAR(Siret) << sep
+          << VAR(Etablissement) << sep;
+
+    ECRIRE_LIGNE_l_COMMUN(i, agent, l, type, base, sep, Info, rang);
+
+    base << VAR(Echelon) << sep
+         << VAR(Categorie) << sep
+         << VAR(NIR) << "\n";
 }
 
 static inline void GCC_INLINE ECRIRE_LIGNE_l(int i, uint32_t agent, int l, char* type, table_t& base, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
@@ -104,6 +146,22 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l(int i, uint32_t agent, int l, char*
           << VAR(Mois) << sep;
     
     ECRIRE_LIGNE_l_COMMUN(i, agent, l, type, base, sep, Info, rang);
+
+    base << VAR(Categorie) << sep
+         << VAR(NIR) << "\n";
+}
+
+static inline void GCC_INLINE ECRIRE_LIGNE_l_ECHELON(int i, uint32_t agent, int l, char* type, table_t& base, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
+{
+    base  << VAR(Annee) << sep
+          << VAR(Mois) << sep;
+
+    ECRIRE_LIGNE_l_COMMUN(i, agent, l, type, base, sep, Info, rang);
+
+    base << VAR(Echelon) << sep
+         << VAR(Categorie) << sep
+         << VAR(NIR) << "\n";
+
 }
 
 static inline void GCC_INLINE ECRIRE_LIGNE_BULLETIN_COMMUN(int i, uint32_t agent, table_t& bulletins, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
@@ -123,12 +181,32 @@ static inline void GCC_INLINE ECRIRE_LIGNE_BULLETIN_COMMUN(int i, uint32_t agent
               << VAR(MtNetAPayer) << sep
               << VAR(NBI) << sep
               << VAR(EmploiMetier) << sep
-              << VAR(Grade) << sep
-              << VAR(Categorie) << sep
-              << VAR(NIR) << "\n";
+              << VAR(Grade) << sep;
+
 }
 
 static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETIN_GENERER_RANG(int i, uint32_t agent, table_t& bulletins, char sep, std::vector<info_t> &Info, int rang)
+{
+    bulletins <<  rang << sep;
+
+    bulletins << VAR(Annee) << sep
+              << VAR(Mois) << sep;
+
+    if (Info[0].select_siret)
+    {
+        bulletins  << VAR(Budget) << sep
+                   << VAR(Employeur) << sep
+                   << VAR(Siret) << sep
+                   << VAR(Etablissement) << sep;
+    }
+
+    ECRIRE_LIGNE_BULLETIN_COMMUN(i, agent, bulletins, sep, Info, rang);
+
+      bulletins   << VAR(Categorie) << sep
+                  << VAR(NIR) << "\n";
+}
+
+static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETIN_GENERER_RANG_ECHELON(int i, uint32_t agent, table_t& bulletins, char sep, std::vector<info_t> &Info, int rang)
 {
     bulletins <<  rang << sep;
     
@@ -144,6 +222,10 @@ static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETIN_GENERER_RANG(int i, uint32_
     }
     
     ECRIRE_LIGNE_BULLETIN_COMMUN(i, agent, bulletins, sep, Info, rang);
+
+    bulletins    << VAR(Echelon)   << sep
+                 << VAR(Categorie) << sep
+                 << VAR(NIR) << "\n";
 }
 
 static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETIN_SIRET(int i, uint32_t agent, table_t& bulletins, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
@@ -158,6 +240,27 @@ static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETIN_SIRET(int i, uint32_t agent
                << VAR(Etablissement) << sep;
 
     ECRIRE_LIGNE_BULLETIN_COMMUN(i, agent, bulletins, sep, Info, rang);
+
+    bulletins    << VAR(Categorie) << sep
+                 << VAR(NIR) << "\n";
+}
+
+static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETIN_SIRET_ECHELON(int i, uint32_t agent, table_t& bulletins, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
+{
+
+    bulletins << VAR(Annee) << sep
+              << VAR(Mois) << sep;
+
+    bulletins  << VAR(Budget) << sep
+               << VAR(Employeur) << sep
+               << VAR(Siret) << sep
+               << VAR(Etablissement) << sep;
+
+    ECRIRE_LIGNE_BULLETIN_COMMUN(i, agent, bulletins, sep, Info, rang);
+
+    bulletins    << VAR(Echelon)   << sep
+                 << VAR(Categorie) << sep
+                 << VAR(NIR) << "\n";
 }
 
 static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETINS(int i, uint32_t agent, table_t& bulletins, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
@@ -166,6 +269,21 @@ static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETINS(int i, uint32_t agent, tab
               << VAR(Mois) << sep;
     
     ECRIRE_LIGNE_BULLETIN_COMMUN(i, agent, bulletins, sep, Info, rang);
+
+    bulletins    << VAR(Categorie) << sep
+                 << VAR(NIR) << "\n";
+}
+
+static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETINS_ECHELON(int i, uint32_t agent, table_t& bulletins, char sep, std::vector<info_t> &Info, int GCC_UNUSED rang)
+{
+    bulletins << VAR(Annee) << sep
+              << VAR(Mois) << sep;
+
+    ECRIRE_LIGNE_BULLETIN_COMMUN(i, agent, bulletins, sep, Info, rang);
+
+    bulletins    << VAR(Echelon)   << sep
+                 << VAR(Categorie) << sep
+                 << VAR(NIR) << "\n";
 }
 
 static void (*ecrire_ligne_table)(int, uint32_t, int, char*, table_t&, char, std::vector<info_t> &, int);
@@ -212,19 +330,44 @@ void boucle_ecriture(std::vector<info_t>& Info)
 
     if (Info[0].generer_rang)
     {
-        ecrire_ligne_table = ECRIRE_LIGNE_l_GENERER_RANG;
-        ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETIN_GENERER_RANG;
+        if (Info[0].select_echelon)
+        {
+          ecrire_ligne_table = ECRIRE_LIGNE_l_GENERER_RANG_ECHELON;
+          ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETIN_GENERER_RANG_ECHELON;
+        }
+        else
+        {
+          ecrire_ligne_table = ECRIRE_LIGNE_l_GENERER_RANG;
+          ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETIN_GENERER_RANG;
+        }
     }
     else
         if (Info[0].select_siret)
         {
-            ecrire_ligne_table = ECRIRE_LIGNE_l_SIRET;
-            ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETIN_SIRET;
+            if (Info[0].select_echelon)
+            {
+              ecrire_ligne_table = ECRIRE_LIGNE_l_SIRET_ECHELON;
+              ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETIN_SIRET_ECHELON;
+            }
+            else
+            {
+              ecrire_ligne_table = ECRIRE_LIGNE_l_SIRET;
+              ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETIN_SIRET;
+            }
+
         }
         else
         {
-            ecrire_ligne_table = ECRIRE_LIGNE_l;
-            ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETINS;
+            if (Info[0].select_echelon)
+            {
+                ecrire_ligne_table = ECRIRE_LIGNE_l_ECHELON;
+                ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETINS_ECHELON;
+            }
+            else
+            {
+                ecrire_ligne_table = ECRIRE_LIGNE_l;
+                ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETINS;
+            }
         }
 
     switch (type_base)
