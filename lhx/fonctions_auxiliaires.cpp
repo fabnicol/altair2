@@ -186,12 +186,16 @@ void ecrire_entete0(const info_t &info, std::ofstream& base, const char* entete[
   {
       if (info.select_siret)
         for (i = !info.generer_rang; i < N - 1; ++i)
-          if (entete[i][0] != 'E' && entete[i][1] != 'c') base << entete[i] << info.separateur;
+        {
+          if (entete[i][0] != 'E' || entete[i][1] != 'c')  // Pour "Echelon"
+              base << entete[i] << info.separateur;
+        }
       else
         for (i = !info.generer_rang; i < N - 1; ++i)
         {
-            if (i != Budget +1 &&  i != Employeur + 1 && i != Siret +1 && i != Etablissement + 1)
-                if (entete[i][0] != 'E' && entete[i][1] != 'c') base << entete[i] << info.separateur;
+            if (i != Budget +1 &&  i != Employeur + 1 && i != Siret +1 && i != Etablissement + 1
+                 && (entete[i][0] != 'E' || entete[i][1] != 'c'))  // Pour "Echelon"
+                base << entete[i] << info.separateur;
         }
   }
 
