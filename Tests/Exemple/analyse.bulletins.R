@@ -26,13 +26,15 @@ names(Bulletins.paie.nir.total.hors.élus) <- c(clé.fusion, "Nir")
 # Age au 31 décembre de l'exercice dernier.exerciceal de la période sous revue
 # ne pas oublier [ ,...] ici:
 
-années.fonctionnaires   <- extraire.nir(Bulletins.paie.nir.fonctionnaires, fin.période.sous.revue)
+cut_16_18 <- function(x) x[x >= 16 & x <= 68]
 
-années.total.hors.élus  <- extraire.nir(Bulletins.paie.nir.total.hors.élus, fin.période.sous.revue)
+années.fonctionnaires   <- cut_16_18(extraire.nir(Bulletins.paie.nir.fonctionnaires, fin.période.sous.revue))
 
-années.total.permanents <- extraire.nir(Bulletins.paie.nir.permanents, fin.période.sous.revue)
+années.total.hors.élus  <- cut_16_18(extraire.nir(Bulletins.paie.nir.total.hors.élus, fin.période.sous.revue))
 
-années.total.nontit     <- extraire.nir(Bulletins.paie.nir.nontit, fin.période.sous.revue)
+années.total.permanents <- cut_16_18(extraire.nir(Bulletins.paie.nir.permanents, fin.période.sous.revue))
+
+années.total.nontit     <- cut_16_18(extraire.nir(Bulletins.paie.nir.nontit, fin.période.sous.revue))
 
 Bulletins.paie.nir.total.hors.élus.début <- unique(Bulletins.paie[Année == début.période.sous.revue
                                                                   & Mois == 12
@@ -61,10 +63,10 @@ names(Bulletins.paie.nir.total.hors.élus.début) <- c(clé.fusion, "Nir")
 # Age au 31 décembre de l'exercice dernier.exerciceal de la période sous revue
 # ne pas oublier [ ,...] ici:
 
-années.fonctionnaires.début   <- extraire.nir(Bulletins.paie.nir.fonctionnaires.début, début.période.sous.revue)
+années.fonctionnaires.début   <- cut_16_18(extraire.nir(Bulletins.paie.nir.fonctionnaires.début, début.période.sous.revue))
 
-années.total.hors.élus.début  <- extraire.nir(Bulletins.paie.nir.total.hors.élus.début, début.période.sous.revue)
+années.total.hors.élus.début  <- cut_16_18(extraire.nir(Bulletins.paie.nir.total.hors.élus.début, début.période.sous.revue))
 
-années.total.nontit.début     <- extraire.nir(Bulletins.paie.nir.nontit.début, début.période.sous.revue)
+années.total.nontit.début     <- cut_16_18(extraire.nir(Bulletins.paie.nir.nontit.début, début.période.sous.revue))
 
-années.total.permanents.début <- extraire.nir(Bulletins.paie.nir.permanents.début, début.période.sous.revue)
+années.total.permanents.début <- cut_16_18(extraire.nir(Bulletins.paie.nir.permanents.début, début.période.sous.revue))

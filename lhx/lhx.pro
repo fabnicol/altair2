@@ -97,7 +97,7 @@ DEVROOT = $$PWD/../..
 QMAKE_CXXFLAGS_RELEASE -= -O2
 QMAKE_CXXFLAGS += -pipe -m64 -std=gnu++14
 #QMAKE_CXXFLAGS += -march=native
-QMAKE_CXXFLAGS += -march=core2
+QMAKE_CXXFLAGS += -march=native
 
 # Sous linux penser à installer libxml2-dev. Ceci n'est pas testé.
 

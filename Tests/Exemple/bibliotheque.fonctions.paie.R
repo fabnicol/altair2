@@ -198,23 +198,53 @@ Read.csv <- function(base.string, vect.chemin, charger = charger.bases, colClass
 
 Résumé <- function(x,y, align = 'r', extra = 0, ...)  {
     
-     Y <- na.omit(y)
+      Y <- na.omit(y)
+ 
+      if (! is.list(Y) || is.data.frame(Y)) {
+        
+            S <- cbind(c("Minimum", "1er quartile", "Médiane", "Moyenne", "3ème quartile", "Maximum"),
+                        prettyNum(sub("[M13].*:", "", summary(Y, ...)), big.mark = " "))
+        
+            if (! missing(extra)) {
+              if (extra == "length") {
+                 
+                 S <- cbind(S, c("", "", "", ifelse(is.vector(Y), length(Y), nrow(Y)), "", ""))
+                 
+              } else {    
+                
+                if (is.numeric(extra))
+                  S <- cbind(S, c("", "", "", as.character(extra), "", ""))
+              }
+           }
+               
+      } else {
 
-     S <- cbind(c("Minimum", "1er quartile", "Médiane", "Moyenne", "3ème quartile", "Maximum"),
-                prettyNum(sub("[M13].*:", "", summary(Y, ...)), big.mark = " "))
-     
-     if (! missing(extra))
-        if (extra == "length") {
-          L <- if (is.vector(Y)) length(Y) else nrow(Y)
-          S <- cbind(S, c("", "", "", L, "", ""))
-        } else {
-        if (is.numeric(extra))
-                S <- cbind(S, c("", "", "", as.character(extra), "", ""))
-        }
+              #sub("[M13].*:", "", U)
+              
+              S <- cbind(c("Minimum", "1er quartile", "Médiane", "Moyenne", "3ème quartile", "Maximum"),
+                         sapply(Y, function(x) prettyNum(summary(x), big.mark = " ")))
 
+              if (! missing(extra) && extra == "length") {
+                
+                 n <- ncol(S) - 1  
+                 temp <- S[ , 1]
+                
+                 for (i in 1:n) {
+                     temp <- cbind(temp, S[ , i + 1])
+                     temp <- cbind(temp, c("", "", "", length(Y[[i]]), "", ""))
+  
+                 }
+                 # S est de type matrix
+                 
+                 S <- temp
+              }
+      }
+
+ 
      dimnames(S)[[2]] <- c("Statistique", x)
 
-     kable(S, row.names = FALSE, align = align, booktabs= TRUE)
+     kable(S, row.names = FALSE, align = align, booktabs = TRUE)
+
 }
 
 Tableau <- function(x, ...)

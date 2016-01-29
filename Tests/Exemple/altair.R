@@ -188,7 +188,7 @@ effectifs.locale <- lapply(effectifs,
                            function(x) formatC(x, big.mark = " ", format="f", digits=1, decimal.mark=","))
 
 tableau.effectifs <- as.data.frame(effectifs.locale,
-                                   row.names = c("Total effectifs (a)",
+                                   row.names = c("Matricules gérés en base (a)",
                                                  "&nbsp;&nbsp;&nbsp;dont présents 12 mois",
                                                  "&nbsp;&nbsp;&nbsp;dont fonctionnaires (b)",
                                                  "&nbsp;&nbsp;&nbsp;dont fonct. présents 12 mois",
@@ -220,7 +220,7 @@ names(effectifs) <- liste.années
 kable(tableau.effectifs, row.names = TRUE, align='c')
 #'
 #'**Nota:**   
-#'*(a) Nombre de matricules distincts ayant eu au moins un bulletin de paie dans l'année, en fonction ou non.Peut correspondre à des régularisations, des personnels hors position d'activité ou des ayants droit (reversion, etc.)*   
+#'*(a) Nombre de matricules distincts ayant eu au moins un bulletin de paie dans l'année, en fonction ou non. Tous ces personnels ne sont pas en fonction : sont inclus des régularisations, des personnels hors position d'activité ou des ayants droit (reversion, etc.)*   
 #'*(b) Titulaires ou stagiaires*   
 #'*(c) Sur la base des libellés d'emploi et des libellés de lignes de paie. La détection peut être lacunaire*   
 #'*(d) ETP  : Equivalent temps plein = rémunération . quotité*  
@@ -249,46 +249,33 @@ message("Statistiques de démographie réalisées.")
 
 ########### 1.2 Pyramides ########################
 
+
 #'### `r chapitre`.2 Pyramide des âges, personnels non élus
 
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
-Résumé(c("Âge des personnels <br>au 31/12/" %+% début.période.sous.revue,
-         "Effectif"),
-       années.total.hors.élus.début,
-       extra = "length",
-       align = 'c')
-#'  
-if (longueur.non.na(années.total.hors.élus.début) > 0)
-  hist(années.total.hors.élus.début,
-       xlab = "Âge au 31 décembre " %+% début.période.sous.revue,
-       xlim = c(18, 75),
-       ylab = "Effectif",
-       main = "Pyramide des âges des personnels (non élus)",
-       col = "blue",
-       nclass = 50)
 
-#'  
-#'&nbsp;*Tableau `r incrément()`*   
-#'    
+avant <- années.total.hors.élus.début
+après <- années.total.hors.élus
+titre <- "Pyramide des âges des personnels (non élus)"
 
-Résumé(c("Âge des personnels <br>au 31/12/" %+% fin.période.sous.revue,
-         "Effectif"),
-       années.total.hors.élus,
-       extra = "length",
-       align = 'c')
+if (! générer.rapport) {
 
-#'  
-#'  
-if (longueur.non.na(années.total.hors.élus) > 0)
-  hist(années.total.hors.élus,
-       xlab = "Âge au 31 décembre " %+% fin.période.sous.revue,
-       xlim = c(18, 75),
-       ylab = "Effectif",
-       main = "Pyramide des âges des personnels (non élus)",
-       col = "blue",
-       nclass = 50)
+  source("pyramides.R")
+
+} else {
+  
+  if (setOSWindows)  {                 
+
+    cat(knit_child(text = readLines('pyramides.Rmd',
+                                    encoding = encodage.code.source),
+                   quiet=TRUE), 
+        sep = '\n')
+    
+  }
+
+}
 
 #'<p style="page-break-after:always;"></p>
   
@@ -297,48 +284,12 @@ if (longueur.non.na(années.total.hors.élus) > 0)
 #'
 #'### `r chapitre`.3 Pyramide des âges, personnels non titulaires
 
-
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-Résumé(c("Âge des personnels non titulaires<br>au 31/12/" %+% début.période.sous.revue,
-         "Effectif"),
-       années.total.nontit.début,
-       extra = "length",
-       align = 'c')
+pyramides(années.total.nontit.début, années.total.nontit, "Pyramide des âges des non titulaires")
 
-
-if (longueur.non.na(années.total.nontit.début) > 0)
-  hist(années.total.nontit.début,
-       xlab = "Âge au 31 décembre " %+% début.période.sous.revue,
-       xlim = c(18, 75),
-       ylab = "Effectif",
-       main = "Pyramide des âges des personnels non titulaires",
-       col = "blue",
-       nclass = 50)
-#'  
-#'<p style="page-break-after:always;"></p>   
-#'  
-#'&nbsp;*Tableau `r incrément()`*   
-#'    
-
-Résumé(c("Âge des personnels non titulaires<br>au 31/12/" %+% fin.période.sous.revue,
-         "Effectif"),
-       années.total.nontit,
-       extra = "length",
-       align = 'c')
-
-	   
-if (longueur.non.na(années.total.nontit) > 0)
-  hist(années.total.nontit,
-       xlab = "Âge au 31 décembre " %+% fin.période.sous.revue,
-       xlim = c(18, 75),
-       ylab = "Effectif",
-       main = "Pyramide des âges des personnels non titulaires",
-       col = "blue",
-       nclass = 50)
-	   
 #'<p style="page-break-after:always;"></p>  	   
 #'  
 #'[Lien vers la base des âges](`r currentDir`/Bases/Effectifs/Bulletins.paie.nir.nontit.csv)  
@@ -353,45 +304,7 @@ if (longueur.non.na(années.total.nontit) > 0)
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-Résumé(c("Âge des personnels <br>au 31/12/" %+% début.période.sous.revue,
-         "Effectif"),
-       années.fonctionnaires.début,
-       extra = "length",
-       align = 'c')
-
-#'  
-#'
-
-if (longueur.non.na(années.fonctionnaires.début) > 0)
-  hist(années.fonctionnaires.début,
-       xlab = "Âge au 31 décembre " %+% début.période.sous.revue,
-       xlim = c(18,68),
-       ylab = "Effectif",
-       main = "Pyramide des âges des fonctionnaires",
-       col = "navy",
-       nclass = 50)
-
-#'<p style="page-break-after:always;"></p>     
-
-#'&nbsp;*Tableau `r incrément()`*   
-#'    
-
-Résumé(c("Âge des personnels <br>au 31/12/" %+% fin.période.sous.revue,
-         "Effectif"),
-       années.fonctionnaires,
-       extra = "length",
-       align = 'c')
-
-#'
-
-if (longueur.non.na(années.fonctionnaires) > 0)
-  hist(années.fonctionnaires,
-       xlab = "Âge au 31 décembre " %+% fin.période.sous.revue,
-       xlim = c(18,68),
-       ylab = "Effectif",
-       main = "Pyramide des âges des fonctionnaires",
-       col = "navy",
-       nclass = 50)
+pyramides(années.fonctionnaires.début, années.fonctionnaires, "Pyramide des âges des fonctionnaires")
 
 #'  
 #'[Lien vers la base des âges](`r currentDir`/Bases/Effectifs/Bulletins.paie.nir.fonctionnaires.csv)  
@@ -406,42 +319,7 @@ if (longueur.non.na(années.fonctionnaires) > 0)
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-Résumé(c("Âge des personnels <br>au 31/12/" %+% début.période.sous.revue,
-         "Effectif"),
-       années.total.permanents.début,
-       extra = "length",
-       align = 'c')
-
-#'  
-
-if (longueur.non.na(années.total.permanents.début) > 0)
-  hist(années.total.permanents.début,
-       xlab = "Âge au 31 décembre " %+% début.période.sous.revue,
-       xlim = c(18,68),
-       ylab = "Effectif",
-       main = "Pyramide des âges des permanents",
-       col = "navy",
-       nclass = 50)
-#'<p style="page-break-after:always;"></p>  
-#'&nbsp;*Tableau `r incrément()`*   
-#'    
-
-Résumé(c("Âge des personnels <br>au 31/12/" %+% fin.période.sous.revue,
-         "Effectif"),
-       années.total.permanents,
-       extra = "length",
-       align = 'c')
-
-#'
-
-if (longueur.non.na(années.total.permanents) > 0)
-  hist(années.total.permanents,
-       xlab = "Âge au 31 décembre " %+% fin.période.sous.revue,
-       xlim = c(18,68),
-       ylab = "Effectif",
-       main = "Pyramide des âges des permanents",
-       col = "navy",
-       nclass = 50)
+pyramides(années.total.permanents.début, années.total.permanents, "Pyramide des âges des personnels permanents")
 
 #'  
 #'[Lien vers la base des âges](`r currentDir`/Bases/Effectifs/Bulletins.paie.nir.permanents.csv)  
