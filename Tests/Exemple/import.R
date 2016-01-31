@@ -446,9 +446,9 @@ if (! charger.bases) break
   # Par défaut les quotités sont écrêtées pour pouvoir par la suite raisonner en définissant le temps plein comme quotité == 1
   
   if (écreter.quotités) {
-    Bulletins.paie[ , quotité   :=  ifelse(MHeures < minimum.positif, NA, ifelse(Heures > MHeures, 1, round(Heures/MHeures, digits=2)))]  
+    Bulletins.paie[ , quotité   :=  ifelse(MHeures < minimum.positif, NA, ifelse(Heures > MHeures, 1, round(Heures/MHeures, digits = 2)))]  
   } else {
-    Bulletins.paie[ , quotité   :=  ifelse(MHeures < minimum.positif, NA, round(Heures/MHeures, digits=2))]  
+    Bulletins.paie[ , quotité   :=  ifelse(MHeures < minimum.positif, NA, round(Heures/MHeures, digits = 2))]  
   }
   
   Bulletins.paie[Statut == "ELU", `:=`(MHeures = 1,
@@ -463,7 +463,7 @@ if (! charger.bases) break
                            nb.jours        = calcul.nb.jours.mois(Mois, Année[1]),
                            nb.mois         = length(Mois),
                            cumHeures       = sum(Heures, na.rm = TRUE),
-                           quotité.moyenne = round(mean.default(quotité, na.rm = TRUE), digits = 1)),
+                           quotité.moyenne = round(mean.default(quotité, na.rm = TRUE), digits = 2)),
                  key=c("Matricule", "Année")]
   
   # Indicatrice pour la rémunération moyenne des personnes en place :
@@ -476,13 +476,13 @@ if (! charger.bases) break
                                                & nb.mois[R] == nb.mois
                                                & nb.mois    == 12)]
   
-  Bulletins.paie[ ,   `:=`(Montant.brut.annuel      = sum(Brut, na.rm=TRUE),
-                           Montant.brut.annuel.eqtp = sum(Montant.brut.eqtp * 365 / nb.jours, na.rm=TRUE),
-                           Montant.net.annuel.eqtp  = sum(Montant.net.eqtp * 365 / nb.jours, na.rm=TRUE),
-                           Montant.net.annuel       = sum(Net.à.Payer, na.rm=TRUE),
+  Bulletins.paie[ ,   `:=`(Montant.brut.annuel      = sum(Brut, na.rm = TRUE),
+                           Montant.brut.annuel.eqtp = 365 * sum(Montant.brut.eqtp / nb.jours, na.rm = TRUE),
+                           Montant.net.annuel.eqtp  = 365 * sum(Montant.net.eqtp / nb.jours, na.rm = TRUE),
+                           Montant.net.annuel       = sum(Net.à.Payer, na.rm = TRUE),
                            permanent                = nb.jours >= 365,
-                           cumHSup      = sum(Heures.Sup., na.rm = TRUE), 
-                           indicatrice.quotité.pp = indicatrice.quotité.pp[1]),
+                           cumHSup                  = sum(Heures.Sup., na.rm = TRUE), 
+                           indicatrice.quotité.pp   = indicatrice.quotité.pp[1]),
                  key=c("Matricule", "Année")]
   
   message("Indicatrice RMPP calculée")

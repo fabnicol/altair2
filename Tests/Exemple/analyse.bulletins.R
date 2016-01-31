@@ -20,7 +20,7 @@ produire_pyramides <- function(Filtre_bulletins, titre) {
   
     if (! générer.rapport) {
     
-      source("pyramides.R")
+      source("pyramides.R", encoding = encodage.code.source)
     
     } else {
     

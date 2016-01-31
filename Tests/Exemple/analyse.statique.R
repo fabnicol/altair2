@@ -4,9 +4,9 @@
 # On revient à une analyse des rémunérations qui réinclut tous les personnels (vacataires, élus, inactifs, annexes)
 
 Analyse.rémunérations.exercice <- Analyse.rémunérations[Année == année]     
-   
-#'# `r chapitre`. Rémunérations brutes : analyse pour l'exercice `r année`    
-   
+
+
+#'# `r chapitre`. Rémunérations brutes : analyse pour l'exercice `r année`   
 #'## `r chapitre`.1 Masse salariale brute de l'ensemble des agents     
   
 masses.personnels <- Analyse.rémunérations.exercice[Statut != "ELU",

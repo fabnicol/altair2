@@ -491,6 +491,16 @@ longueur.non.na <- function(v) if (is.vector(v)) length(v[!is.na(v)]) else if (i
 
 `%*%` <- function(x, y) if (is.na(x) | is.na(y)) return(0) else return(x*y)
 
+# saut de page
+
+newpage <- function() {
+  if (PDF == TRUE) {
+  cat("\n\\newpage\n")
+  } else {
+  cat("<p style=\"page-break-after:always;\"></p>")
+  }
+}
+
 # numérotation des tableaux
 
 numéro.tableau <- 0

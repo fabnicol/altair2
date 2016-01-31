@@ -2,6 +2,7 @@
 encodage.code.source <- "ISO-8859-1"
 initwd <- getwd()
 setOSWindows  <- Sys.info()["sysname"] != "Linux"
+PDF <<- TRUE
 
 if (setOSWindows) {
   

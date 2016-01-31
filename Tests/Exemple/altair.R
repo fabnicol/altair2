@@ -20,6 +20,7 @@
 # Lorsque l'on n'a que une ou deux années, mettre étudier.variations à FALSE
 # Lorsque l'on n'étudie pas une base Xémélios, mettre étudier.tests.statutaires à FALSE
 
+#+ début
 
 library(compiler)
 invisible(setCompilerOptions(suppressAll = TRUE))
@@ -62,9 +63,11 @@ source("import.R", encoding = encodage.code.source)
 
 # Pour sauter une page en html (ou pdf converti de html, faire un h6 soit six dièses dans les Rmd seulement)  
 
-#'<p style="page-break-after:always;"></p>
+#+ analyse-rémunérations
 
-  source("analyse.rémunérations.R", encoding = encodage.code.source)
+newpage()
+
+source("analyse.rémunérations.R", encoding = encodage.code.source)
 
 ########### 1.1 Effectifs ########################
 
@@ -73,6 +76,8 @@ incrémenter.chapitre()
 #'# `r chapitre`. Statistiques de population
 #'
 #'### `r chapitre`.1 Effectifs
+
+#+ effectifs
 
 liste.années <- as.character(période)
 
@@ -128,35 +133,37 @@ effectifs <- lapply(période,
                         length(postes.non.actifs),
                         length(postes.actifs.annexes),
                         length(postes.actifs.non.annexes),
-                        ETP[Statut != "ELU" , sum(quotité/nb.mois, na.rm=TRUE)],
-                        ETP[Statut != "ELU" , sum(quotité, na.rm=TRUE)] / 12,
-                        ETP[Matricule %chin% unique(Analyse.variations[est.rmpp == TRUE
+                        ETP[Statut != "ELU" , sum(quotité/nb.mois, na.rm=TRUE)],                            # ETP      
+                        ETP[Statut != "ELU" , sum(quotité, na.rm=TRUE)] / 12,                               # ETPT 
+                        ETP[Matricule %chin% unique(Analyse.variations[est.rmpp == TRUE                     # ETPT_pp              
                                                                       & Année == x,
                                                                          Matricule]),
                             sum(quotité, na.rm=TRUE)] / 12,
-                        ETP[(Statut == "TITULAIRE" | Statut == "STAGIAIRE")
+                        ETP[(Statut == "TITULAIRE" | Statut == "STAGIAIRE")                                 # ETPT_fonct
                             & Matricule %chin% unique(Analyse.variations[Statut == "TITULAIRE"
                                                                          | Statut == "STAGIAIRE",
                                                                             Matricule]),
                               sum(quotité, na.rm=TRUE)] / 12,
-                        ETP[Statut == "TITULAIRE"
+                        ETP[Statut == "TITULAIRE"                                                           # Tit_12_100
                             & permanent == TRUE 
                             & Matricule %chin% unique(Analyse.variations[permanent == TRUE
                                                                          & statut == "TITULAIRE"
                                                                          & temps.complet == TRUE
                                                                          & Année == x,
                                                                            Matricule]),
-                              sum(quotité, na.rm=TRUE)] / 12,
-                        ETP[Statut == "NON_TITULAIRE" 
+                              sum(quotité, na.rm=TRUE)] / 12,                                                
+
+                        
+                        ETP[Statut == "NON_TITULAIRE"                                                       # ETPT_nontit
                             & Matricule %chin% postes.non.titulaires,  
                               sum(quotité, na.rm=TRUE)] / 12,
-                        ETP[Statut == "AUTRE_STATUT"  
+                        ETP[Statut == "AUTRE_STATUT"                                                        # ETPT_autre
                             & Matricule %chin% unique(Analyse.rémunérations[Statut == "AUTRE_STATUT",
                                                                                     Matricule]),
                               sum(quotité, na.rm=TRUE)] / 12,
-            						ETP[Matricule %chin% postes.non.actifs, sum(quotité, na.rm=TRUE)] / 12,
-            						ETP[Matricule %chin% postes.actifs.annexes, sum(quotité, na.rm=TRUE)] / 12,
-                        ETP[Matricule %chin% postes.actifs.non.annexes, sum(quotité, na.rm=TRUE)] / 12)							
+            						ETP[Matricule %chin% postes.non.actifs, sum(quotité, na.rm=TRUE)] / 12,             # ETPT_non_actif 
+            						ETP[Matricule %chin% postes.actifs.annexes, sum(quotité, na.rm=TRUE)] / 12,         # ETPT_annexe
+                        ETP[Matricule %chin% postes.actifs.non.annexes, sum(quotité, na.rm=TRUE)] / 12)			# ETPT_actif_nonannexe				
                      })
 
 for (i in 1:length(effectifs)) names(effectifs[[i]]) <- c("Effectifs", 
@@ -229,6 +236,7 @@ kable(tableau.effectifs, row.names = TRUE, align='c')
 #'*&nbsp;&nbsp;&nbsp;Un poste non annexe est défini comme la conjonction de critères horaires et de revenu sur une année. La période minimale de référence est le mois.*   
 #'*Les dix dernières lignes du tableau sont calculées en ne tenant pas compte des élus.*    
 
+#+ durée-du-travail
 
 cat("\nLa durée du travail prise en compte dans la base de données est de ", nb.heures.temps.complet, " h par mois.\n")  
 if (nb.heures.temps.complet > 1.1 * 151.67 || nb.heures.temps.complet < 0.9 * 151.67)  {
@@ -243,9 +251,14 @@ if (nb.heures.temps.complet > 1.1 * 151.67 || nb.heures.temps.complet < 0.9 * 15
 #'[Lien vers la base des effectifs](`r currentDir`/Bases/Effectifs/tableau.effectifs.csv)
 #'
 #'
+
+#+ pyramides-des-âges
+
 message("Statistiques de démographie réalisées.")
 
 source("analyse.bulletins.R", encoding = encodage.code.source)
+
+newpage()
 
 ########### 1.2 Pyramides ########################
 
@@ -265,9 +278,9 @@ produire_pyramides(function() TRUE, "Pyramide des âges des personnels")
 #' 
 
 
-#'<p style="page-break-after:always;"></p>
+newpage()
   
-########### 1.3 Pyramides NT ########################
+########### 1.3 Pyramides fonctionnaires ########################
 
 #'
 #'### `r chapitre`.3 Pyramide des âges des fonctionnaires  
@@ -284,14 +297,13 @@ produire_pyramides(Filtre_bulletins, "Pyramide des âges des fonctionnaires")
 #'[Lien vers la base des âges - début de période](`r currentDir`/Bases/Effectifs/`r nom.fichier.avant`.csv)  
 #'  
 #'[Lien vers la base des âges - fin de période](`r currentDir`/Bases/Effectifs/`r nom.fichier.après`.csv)  
-#' 
+#'   
 
-#'<p style="page-break-after:always;"></p>  	   
-#'
+newpage()
 
-########### 1.4 Pyramides T ########################
+########### 1.4 Pyramides non Tit ########################
 
-#'### `r chapitre`.4 Pyramide des âges, personnels fonctionnaires non titulaires
+#'### `r chapitre`.4 Pyramide des âges, personnels non titulaires   
 
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
@@ -305,10 +317,11 @@ produire_pyramides(Filtre_bulletins, "Pyramide des âges des non titulaires")
 #'[Lien vers la base des âges - début de période](`r currentDir`/Bases/Effectifs/`r nom.fichier.avant`.csv)  
 #'  
 #'[Lien vers la base des âges - fin de période](`r currentDir`/Bases/Effectifs/`r nom.fichier.après`.csv)  
-#' 
+#'   
 
+newpage()
 
-########### 1.4 Pyramides Autres statut ########################
+########### 1.6 Pyramides Autres statut ########################
 
 #'### `r chapitre`.5 Pyramide des âges, autres statuts
 
@@ -331,7 +344,8 @@ produire_pyramides(Filtre_bulletins, "Pyramide des âges des autres personnels")
 
 #'*Toutes les pyramides des âges sont établies au 31 décembre de l'année considérée.*   
 #'*Les élus ne sont pas compris dans le périmètre statistique.*     
-
+	   
+newpage()
 
 ########### 1.6 Effectifs par durée ########################
 
@@ -344,7 +358,7 @@ produire_pyramides(Filtre_bulletins, "Pyramide des âges des autres personnels")
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-
+#+ effectifs-par-durée
 
 Tableau(c("Plus de 2 ans",
           "Moins de 2 ans",
@@ -375,7 +389,7 @@ if (nrow(Analyse.variations) > 0)
 
 #'
 #'**Effectifs (hors élus)**   
-#'
+#+ tableau-effectifs
 
 effectifs.var <- lapply(période,
                         function(x) {
@@ -423,6 +437,9 @@ colonnes.sélectionnées <- c("traitement.indiciaire",
 
 
 ########### Analyse statique des rémunérations (fichier Rmd) ########################
+newpage()
+
+#+ lancement-analyse-statique
 
 invisible(lapply(années.analyse.statique, function(x) {
                  année <<- x
@@ -443,8 +460,10 @@ invisible(lapply(années.analyse.statique, function(x) {
 #'  
 #'[Lien vers la base des rémunérations](`r currentDir`/Bases/Rémunérations/Analyse.rémunérations.csv)  
 #'   
-#'<p style="page-break-after:always;"></p> 
-#'  
+
+newpage()
+
+
 ########### Comparatif INSEE DGCL ###############################
 #'   
 #'## `r chapitre`.4 Comparaisons source INSEE/DGCL   
@@ -454,6 +473,8 @@ invisible(lapply(années.analyse.statique, function(x) {
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
+
+#+ comparaison-insee1
 
 Tableau.vertical2(c("Agrégat (&euro;)", "Salaires bruts 2011", "Salaires bruts 2012", "Salaires bruts 2013"),
                   c("Ensemble", "Titulaires", "Autres salariés"),
@@ -492,6 +513,8 @@ Tableau.vertical2(
 
 incrémenter.chapitre()
 
+newpage()
+
 ########### 4. Analyse dynamique des rémunérations ########################
 #'
 #'# `r chapitre`. Rémunérations nettes : évolutions sur la période `r début.période.sous.revue` - `r fin.période.sous.revue`    
@@ -509,6 +532,7 @@ incrémenter.chapitre()
 
 #'    
 #'## `r chapitre`.1 Distribution de la rémunération nette moyenne sur la période    
+#+ remuneration-nette
 
 Analyse.variations <- Analyse.variations[nb.jours > seuil.troncature
                                                & ! is.na(Montant.net.annuel.eqtp)
@@ -553,8 +577,11 @@ detach(Analyse.variations)
 #'
 #'### `r chapitre`.2.1 Ensemble des personnels fonctionnaires et non titulaires (hors élus)
 #'
-#'
+#+ remuneration-nette-evolution
 
+
+##### TODO: Pondérer les sommes par les quotités ! il faut rajouter la somme des quotités individuelles sur 12 en facteur des smpt(j)
+# et diviser par la somme de ces coefficients
 
 masse.salariale.nette <- rep(0, durée.sous.revue)
 
@@ -578,6 +605,8 @@ g <- function(x) prettyNum(mean.default(Analyse.variations[Année == x,
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
+
+#+ SMPT
 
 Tableau.vertical(c(étiquette.année, "Rém. nette totale (k&euro;)", "SMPT net (&euro;)"),
                  période,
@@ -661,7 +690,8 @@ g <- function(x) {
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
-    
+#+ noria
+
 if (durée.sous.revue > 1) {
 Tableau.vertical(c(étiquette.année,  "Noria EQTP (&euro;)", "En % de la MS N-1", "Remplacements EQTP", "Taux de remplacements (%)"),
                  période[2:durée.sous.revue],
@@ -681,7 +711,6 @@ Tableau.vertical(c(étiquette.année,  "Noria EQTP (&euro;)", "En % de la MS N-1",
 #'
 #'*MS N-1 : masse salariale nette de l'année n-1.*   
 
-#'<p style="page-break-after:always;"></p>  
 
 
 #'**Distribution et variation sur la période du salaire moyen net par tête (SMPT net) en EQTP**         
@@ -689,6 +718,8 @@ Tableau.vertical(c(étiquette.année,  "Noria EQTP (&euro;)", "En % de la MS N-1",
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
+
+#+ premiere-derniere-annee
 
 Résumé("Première année",
        Analyse.variations[Année == début.période.sous.revue, Montant.net.annuel.eqtp])
@@ -857,12 +888,12 @@ Tableau.vertical(c(étiquette.année, "Rém. nette totale (k&euro;)", "SMPT net en 
                  f,
                  g)
 
+
 #'   
 #'**Catégorie A**  
 #'
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
-#'<p style="page-break-after:always;"></p> 
 #'  
 
 Tableau.vertical(c(étiquette.année, "Rém. nette totale (k&euro;)", "SMPT net en EQTP (&euro;)"),
@@ -1013,7 +1044,7 @@ Résumé("Première année",
                                        & (Statut == "TITULAIRE" | Statut == "STAGIAIRE"),
                                            Montant.net.annuel.eqtp])
 
-#'<p style="page-break-after:always;"></p>   
+
 
 Résumé("Dernière année",
        Analyse.variations[Année == fin.période.sous.revue 
@@ -1372,6 +1403,8 @@ Tableau.vertical2(c("Collectivité", "SMPT net 2011", "SMPT net 2012", "SMPT net 
 
 incrémenter.chapitre()
 
+newpage()
+
 #'
 ########### 5. TESTS STATUTAIRES ########################
 #'
@@ -1383,6 +1416,8 @@ incrémenter.chapitre()
 #'   
 #'**Dans cette partie, l'ensemble de la base de paie est étudié.**  
 #'Les agents non actifs ou dont le poste est annexe sont réintroduits dans le périmètre.   
+
+#+ tests-statutaires-nbi
 
 if (N <- uniqueN(Paie[Statut != "TITULAIRE"
                             & Statut != "STAGIAIRE"
@@ -1520,6 +1555,8 @@ detach(cumuls.nbi)
 
 # Vacations et statut de fonctionnaire
 
+#+ tests-statutaires-vacations
+
   lignes.fonctionnaires.et.vacations <- Paie[(Statut == "TITULAIRE" | Statut == "STAGIAIRE") & Grade == "V",
                                                 c(étiquette.matricule,
                                                   "Nom", "Prénom",
@@ -1548,7 +1585,7 @@ if (! is.null(nombre.fonctionnaires.et.vacations)) {
 #'
 #'## `r chapitre`.3 Contrôles sur les cumuls traitement indiciaire, indemnités et vacations des contractuels    
 
-# Vacations et régime indemnitaire
+#+ tests-statutaires-vacations-ri
 
   lignes.contractuels.et.vacations <- Paie[Statut != "TITULAIRE"
                                            & Statut != "STAGIAIRE"
@@ -1580,8 +1617,7 @@ if (! is.null(nombre.fonctionnaires.et.vacations)) {
                                  étiquette.montant), 
                                with=FALSE]
   
-  # Vacations et indiciaire
-  
+
     traitement.et.vacations <- Paie[Type == "T" 
                                     & Matricule %chin% matricules.contractuels.et.vacations$Matricule,
                                       c(étiquette.matricule,
@@ -1629,7 +1665,7 @@ if (exists("nombre.contractuels.et.vacations")) {
 #'
 #'## `r chapitre`.4 Contrôle sur les indemnités IAT et IFTS      
 
-#IAT et IFTS
+#+ IAT-et-IFTS
 
 résultat.ifts.manquant <- FALSE
 résultat.iat.manquant  <- FALSE
@@ -1726,7 +1762,7 @@ if (! résultat.ifts.manquant) {
 #'  
 nombre.lignes.ifts.anormales <- nrow(lignes.ifts.anormales)
 
-# IFTS et non tit
+#+ IFTS-et-non-tit
 
 ifts.et.contractuel <- NULL 
 
@@ -1771,6 +1807,9 @@ if (! résultat.ifts.manquant) {
 #'
 #'## `r chapitre`.5 Contrôle de la prime de fonctions et de résultats (PFR)   
 #'   
+
+#+ pfr
+
 résultat.pfr.manquant <- FALSE
 nombre.agents.cumulant.pfr.ifts <- 0
 
@@ -2327,6 +2366,7 @@ message("Analyse du SFT")
 # Bulletins.paie[NbEnfants > 0 , SFT.controle := sft(NbEnfants, Indice, Heures, Année, Mois)]
        
 #### ANNEXE ####
+newpage()
 
 #'# Annexe
 #'## Liens complémentaires

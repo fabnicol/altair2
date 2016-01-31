@@ -2,7 +2,7 @@
 encodage.code.source <- "ISO-8859-1"
 initwd <- getwd()
 setOSWindows  <- Sys.info()["sysname"] != "Linux"
-
+PDF <<- FALSE
 
 if (setOSWindows) {
   setwd(file.path(Sys.getenv("R_HOME"), "../Tests/Exemple"))
@@ -40,13 +40,13 @@ if (setOSWindows) {
              "altair.utf8.R")
   library(rmarkdown)
   
-  rmarkdown::render("altair.utf8.R", clean = FALSE,  html_document(fig_retina = 6))
+  rmarkdown::render("altair.utf8.R", clean = FALSE,  html_document(fig_retina = 3))
   # produit altair.utf8.html
   
   system(
     paste(
       "/usr/bin/pandoc",
-      "altair.utf8.html  --to odt --from  html --output altaïr.odt --highlight-style tango"
+      "altair.utf8.html  +RTS -K512m -RTS --to odt --from  html --output altaïr.odt --highlight-style tango"
     )
   )
   

@@ -2,6 +2,7 @@
 encodage.code.source <- "ISO-8859-1"
 initwd <- getwd()
 setOSWindows  <- Sys.info()["sysname"] != "Linux"
+PDF <<- FALSE
 
 if (setOSWindows) {
   setwd(file.path(Sys.getenv("R_HOME"), "../Tests/Exemple"))
@@ -14,19 +15,21 @@ if (setOSWindows) {
   )
   library(knitr)
   spin("altair.ansi.R")
+  
   writeLines(iconv(
     readLines("altair.ansi.md"),
     from = "WINDOWS-1252",
-    to = "UTF-8"
-  ),
-  "altair.utf8.md",
-  useBytes = TRUE)
+    to = "UTF-8"),
+    "altair.utf8.md",
+    useBytes = TRUE)
+  
   system(
     paste(
       file.path(Sys.getenv("R_HOME"), "../RStudio/bin/pandoc/pandoc.exe"),
-      "altair.utf8.md --to docx --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altaïr.docx --highlight-style tango"
+      "altair.utf8.md +RTS -K512m -RTS --to docx --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altaïr.docx --highlight-style tango"
     )
   )
+  
   shell("start winword altaïr.docx")
   
   system(
@@ -68,7 +71,7 @@ if (setOSWindows) {
   rmarkdown::render("altair.utf8.R", clean = FALSE,  "html_document")
   
   system(paste("/usr/bin/pandoc",
-                "altair.utf8.html  --to odt --from  html --output altaïr.odt --highlight-style tango"))
+                "altair.utf8.html  +RTS -K512m -RTS --to odt --from  html --output altaïr.odt --highlight-style tango"))
   
   system(paste("/usr/local/bin/wkhtmltopdf", 
                "--page-size A4 --quiet altair.utf8.html altaïr.pdf")) 

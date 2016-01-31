@@ -9,22 +9,40 @@ Résumé(c("Âge des personnels <br>au 31/12/" %+% début.période.sous.revue,
        extra = "length",
        align = 'c')
 #' 
-#+fig.height=9.7, fig.width=8.4, dpi=300      
+#+fig.height=9.7, fig.width=8.4
 
 
 if (longueur.non.na(avant) > 0 && longueur.non.na(après) > 0) {
   
   pyramide_ages(avant, après, titre)
 
-  H0 <- avant[ , .(total = sum(total, na.rm = TRUE)), by = floor(age / 5)]
-  H1 <- après[ , .(total = sum(total, na.rm = TRUE)), by = floor(age / 5)]
+  
+  H0 <- avant[ , .(Hommes = sum(Hommes, na.rm = TRUE), 
+                   Femmes = sum(Femmes, na.rm = TRUE)),
+                 by = floor(age / 5)][ 
+               , Total := Hommes + Femmes]
+ 
+  H1 <- après[ , .(Hommes = sum(Hommes, na.rm = TRUE), 
+                   Femmes = sum(Femmes, na.rm = TRUE)),
+               by = floor(age / 5)][ 
+                 , Total := Hommes + Femmes]
+  
+  H <- H1 - H0
+  
 }
 #' 
 
-#+fig.height=7, fig.width=10   
+#+fig.height=9.7, fig.width=8.4 
 
-if (longueur.non.na(H0$total) > 0 && longueur.non.na(H1$total) > 0) {
-  barplot(H1$total - H0$total, 
+if (longueur.non.na(H$Total) > 0) {
+  
+  # la valeur y du plot serait plutôt c(-3,20) pour une sortie R pure. On privilégie le formatage Rmd à c(-1, 20)
+  
+  plot(c(min(H$Total), max(H$Total)), c(-1, 20), type = "n", frame = FALSE, axes = FALSE, xlab = "", ylab = "",
+       main = "Evolution des effectifs par tranche d'âge")
+  
+  barplot(H$Total, 
+          width = 1.5,
           names.arg=c("15-20", 
                       "20-25",
                       "25-30",
@@ -36,11 +54,30 @@ if (longueur.non.na(H0$total) > 0 && longueur.non.na(H1$total) > 0) {
                       "55-60",
                       "60-65",
                       "65-70"),
-          ylab = "Variation d'effectifs",
-          xlab = "Tranche d'âge",
-          main = "Evolution des effectifs par tranche d'âge",
-          col  = "navy",
-          cex.names=0.8)
+          xlab = "Variation d'effectifs",
+          ylab = "Tranche d'âge",
+          xlim = c(min(H$Total), max(H$Total)),
+          xpd  = FALSE,
+          col  = "lightgreen",
+          horiz = TRUE,
+          add = TRUE,
+          cex.names = 0.8)
+  
+
+  barplot(H$Femmes, 
+          width=1.5,
+          col  = "deeppink",
+          horiz = TRUE,
+          density = 10,
+          xlim = c(min(H$Total), max(H$Total)),
+          xpd  = FALSE,
+          add = TRUE)
+  
+  legend("bottomleft", fill=c("lightgreen", "deeppink"), density=c(NA, 20),
+         legend=c("Total " %+% début.période.sous.revue %+% "-" %+% fin.période.sous.revue,
+                  "    dont Femmes "), cex = 0.8)
+  
+
 }
 #' 
 
