@@ -1,72 +1,50 @@
 
-Bulletins.paie.nir.total.hors.élus <- unique(Bulletins.paie[Année == fin.période.sous.revue
-                                                            & Mois == 12
-                                                            & Statut != "ELU",
-                                                            c(clé.fusion, "Nir"), with=FALSE], by = NULL)
-
-Bulletins.paie.nir.fonctionnaires  <- unique(Bulletins.paie[Année == fin.période.sous.revue
-                                                            & Mois  == 12
-                                                            & (Statut == "TITULAIRE" |
-                                                                 Statut == "STAGIAIRE"),
-                                                            c(clé.fusion, "Nir"), with=FALSE], by = NULL)
-
-Bulletins.paie.nir.nontit  <- unique(Bulletins.paie[Année == fin.période.sous.revue
-                                                    & Mois  == 12
-                                                    & Statut == "NON_TITULAIRE",
-                                                    c(clé.fusion, "Nir"), with=FALSE], by = NULL)
-
-
-Bulletins.paie.nir.permanents  <- unique(Bulletins.paie[Année == fin.période.sous.revue
-                                                        & Mois  == 12
-                                                        & (Statut == "NON_TITULAIRE" | Statut == "STAGIAIRE" | Statut == "TITULAIRE"),
-                                                        c(clé.fusion, "Nir"), with=FALSE], by = NULL)
-
-names(Bulletins.paie.nir.total.hors.élus) <- c(clé.fusion, "Nir")
-
-# Age au 31 décembre de l'exercice dernier.exerciceal de la période sous revue
-# ne pas oublier [ ,...] ici:
-
-cut_16_18 <- function(x) x[x >= 16 & x <= 68]
-
-années.fonctionnaires   <- cut_16_18(extraire.nir(Bulletins.paie.nir.fonctionnaires, fin.période.sous.revue))
-
-années.total.hors.élus  <- cut_16_18(extraire.nir(Bulletins.paie.nir.total.hors.élus, fin.période.sous.revue))
-
-années.total.permanents <- cut_16_18(extraire.nir(Bulletins.paie.nir.permanents, fin.période.sous.revue))
-
-années.total.nontit     <- cut_16_18(extraire.nir(Bulletins.paie.nir.nontit, fin.période.sous.revue))
-
-Bulletins.paie.nir.total.hors.élus.début <- unique(Bulletins.paie[Année == début.période.sous.revue
-                                                                  & Mois == 12
-                                                                  & Statut != "ELU",
-                                                                  c(clé.fusion, "Nir"), with=FALSE], by = NULL)
-
-Bulletins.paie.nir.fonctionnaires.début  <- unique(Bulletins.paie[Année == début.période.sous.revue
-                                                                  & Mois  == 12
-                                                                  & (Statut == "TITULAIRE" |
-                                                                       Statut == "STAGIAIRE"),
-                                                                  c(clé.fusion, "Nir"), with=FALSE], by = NULL)
-
-Bulletins.paie.nir.nontit.début          <- unique(Bulletins.paie[Année == début.période.sous.revue
-                                                                  & Mois == 12
-                                                                  & Statut == "NON_TITULAIRE"   , .(Matricule, Nir)], by = NULL)
-
-Bulletins.paie.nir.permanents.début      <- unique(Bulletins.paie[Année == début.période.sous.revue
-                                                                  & Mois  == 12
-                                                                  & (Statut == "NON_TITULAIRE" | Statut == "STAGIAIRE" | Statut == "TITULAIRE"),
-                                                                  c(clé.fusion, "Nir"), with=FALSE], by = NULL)
+produire_pyramides <- function(Filtre_bulletins, titre) {
+  
+  Bulletins.avant <<-  unique(Bulletins.paie[Année == début.période.sous.revue
+                                            & Mois == 12
+                                            & Statut != "ELU"
+                                            & Filtre_bulletins() == TRUE,
+                                            c(clé.fusion, "Nir"), with=FALSE], by = NULL)
+  
+  Bulletins.après <<-  unique(Bulletins.paie[Année == fin.période.sous.revue
+                                            & Mois == 12
+                                            & Statut != "ELU"
+                                            & Filtre_bulletins() == TRUE,
+                                            c(clé.fusion, "Nir"), with=FALSE], by = NULL)
+  
+  avant <<- extraire.nir(Bulletins.avant, début.période.sous.revue)
+  après <<- extraire.nir(Bulletins.après, fin.période.sous.revue)
+  
+  titre <<- titre
+  
+    if (! générer.rapport) {
+    
+      source("pyramides.R")
+    
+    } else {
+    
+      if (setOSWindows)  {                 
+      
+         cat(knit_child(text = readLines('pyramides.Rmd',
+                                      encoding = encodage.code.source),
+                     quiet=TRUE), 
+             sep = '\n')
+     }
+    }
+  
+  ### Uniquement utile pour l'output pdf...docx peut prendre "titre" sans filtrage
+  
+  stub <- gsub(" ", "-", sub("â", "a", titre)) %+% "_"
+  
+  nom.fichier.avant <<- stub %+% début.période.sous.revue
+  nom.fichier.après <<- stub %+% fin.période.sous.revue
+  
+  ###
+  
+  Sauv.base(file.path(chemin.dossier.bases, "Effectifs"),  "avant", nom.fichier.avant)
+  Sauv.base(file.path(chemin.dossier.bases, "Effectifs"),  "après", nom.fichier.après)
+  
+}
 
 
-names(Bulletins.paie.nir.total.hors.élus.début) <- c(clé.fusion, "Nir")
-
-
-# Age au 31 décembre de l'exercice dernier.exerciceal de la période sous revue
-# ne pas oublier [ ,...] ici:
-
-années.fonctionnaires.début   <- cut_16_18(extraire.nir(Bulletins.paie.nir.fonctionnaires.début, début.période.sous.revue))
-
-années.total.hors.élus.début  <- cut_16_18(extraire.nir(Bulletins.paie.nir.total.hors.élus.début, début.période.sous.revue))
-
-années.total.nontit.début     <- cut_16_18(extraire.nir(Bulletins.paie.nir.nontit.début, début.période.sous.revue))
-
-années.total.permanents.début <- cut_16_18(extraire.nir(Bulletins.paie.nir.permanents.début, début.période.sous.revue))

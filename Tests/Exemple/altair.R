@@ -64,9 +64,7 @@ source("import.R", encoding = encodage.code.source)
 
 #'<p style="page-break-after:always;"></p>
 
-# parallèle :
   source("analyse.rémunérations.R", encoding = encodage.code.source)
-  source("analyse.bulletins.R", encoding = encodage.code.source)
 
 ########### 1.1 Effectifs ########################
 
@@ -247,83 +245,93 @@ if (nb.heures.temps.complet > 1.1 * 151.67 || nb.heures.temps.complet < 0.9 * 15
 #'
 message("Statistiques de démographie réalisées.")
 
+source("analyse.bulletins.R", encoding = encodage.code.source)
+
 ########### 1.2 Pyramides ########################
 
 
-#'### `r chapitre`.2 Pyramide des âges, personnels non élus
+#'### `r chapitre`.2 Pyramide des âges, ensemble des personnels
 
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-avant <- années.total.hors.élus.début
-après <- années.total.hors.élus
-titre <- "Pyramide des âges des personnels (non élus)"
+produire_pyramides(function() TRUE, "Pyramide des âges des personnels")
 
-if (! générer.rapport) {
+#'  
+#'[Lien vers la base des âges - début de période](`r currentDir`/Bases/Effectifs/`r nom.fichier.avant`.csv)  
+#'  
+#'[Lien vers la base des âges - fin de période](`r currentDir`/Bases/Effectifs/`r nom.fichier.après`.csv)  
+#' 
 
-  source("pyramides.R")
-
-} else {
-  
-  if (setOSWindows)  {                 
-
-    cat(knit_child(text = readLines('pyramides.Rmd',
-                                    encoding = encodage.code.source),
-                   quiet=TRUE), 
-        sep = '\n')
-    
-  }
-
-}
 
 #'<p style="page-break-after:always;"></p>
   
 ########### 1.3 Pyramides NT ########################
 
 #'
-#'### `r chapitre`.3 Pyramide des âges, personnels non titulaires
+#'### `r chapitre`.3 Pyramide des âges des fonctionnaires  
 
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-pyramides(années.total.nontit.début, années.total.nontit, "Pyramide des âges des non titulaires")
+Filtre_bulletins <- function() Bulletins.paie$Statut == "TITULAIRE" |  Bulletins.paie$Statut == "STAGIAIRE"
+
+produire_pyramides(Filtre_bulletins, "Pyramide des âges des fonctionnaires")
+
+#'  
+#'[Lien vers la base des âges - début de période](`r currentDir`/Bases/Effectifs/`r nom.fichier.avant`.csv)  
+#'  
+#'[Lien vers la base des âges - fin de période](`r currentDir`/Bases/Effectifs/`r nom.fichier.après`.csv)  
+#' 
 
 #'<p style="page-break-after:always;"></p>  	   
-#'  
-#'[Lien vers la base des âges](`r currentDir`/Bases/Effectifs/Bulletins.paie.nir.nontit.csv)  
-#'  
 #'
 
 ########### 1.4 Pyramides T ########################
 
-#'### `r chapitre`.4 Pyramide des âges, personnels fonctionnaires stagiaires et titulaires
+#'### `r chapitre`.4 Pyramide des âges, personnels fonctionnaires non titulaires
 
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-pyramides(années.fonctionnaires.début, années.fonctionnaires, "Pyramide des âges des fonctionnaires")
+Filtre_bulletins <- function() Bulletins.paie$Statut == "NON_TITULAIRE"
+
+produire_pyramides(Filtre_bulletins, "Pyramide des âges des non titulaires")
 
 #'  
-#'[Lien vers la base des âges](`r currentDir`/Bases/Effectifs/Bulletins.paie.nir.fonctionnaires.csv)  
-  
-#'<p style="page-break-after:always;"></p>  
+#'[Lien vers la base des âges - début de période](`r currentDir`/Bases/Effectifs/`r nom.fichier.avant`.csv)  
+#'  
+#'[Lien vers la base des âges - fin de période](`r currentDir`/Bases/Effectifs/`r nom.fichier.après`.csv)  
+#' 
 
-########### 1.5 Pyramides permanents ########################
 
-#'### `r chapitre`.5 Pyramide des âges, personnels permanents (titulaires, stagiaires et non titulaires)
+########### 1.4 Pyramides Autres statut ########################
+
+#'### `r chapitre`.5 Pyramide des âges, autres statuts
 
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-pyramides(années.total.permanents.début, années.total.permanents, "Pyramide des âges des personnels permanents")
+Filtre_bulletins <- function() { return(Bulletins.paie$Statut != "TITULAIRE" 
+                                 & Bulletins.paie$Statut != "NON_TITULAIRE" 
+                                 & Bulletins.paie$Statut != "STAGIAIRE") }
+
+produire_pyramides(Filtre_bulletins, "Pyramide des âges des autres personnels")
+
 
 #'  
-#'[Lien vers la base des âges](`r currentDir`/Bases/Effectifs/Bulletins.paie.nir.permanents.csv)  
+#'[Lien vers la base des âges - début de période](`r currentDir`/Bases/Effectifs/`r nom.fichier.avant`.csv)  
 #'  
+#'[Lien vers la base des âges - fin de période](`r currentDir`/Bases/Effectifs/`r nom.fichier.après`.csv)  
+#' 
+
+#'*Toutes les pyramides des âges sont établies au 31 décembre de l'année considérée.*   
+#'*Les élus ne sont pas compris dans le périmètre statistique.*     
+
 
 ########### 1.6 Effectifs par durée ########################
 
@@ -2457,12 +2465,8 @@ if (sauvegarder.bases.analyse) {
              "bénéficiaires.PFR.Variation")
 
   sauv.bases(file.path(chemin.dossier.bases, "Effectifs"),
-             "Bulletins.paie.nir.total.hors.élus",
              "matricules",
              "grades.catégories",
-             "Bulletins.paie.nir.fonctionnaires",
-             "Bulletins.paie.nir.nontit",
-             "Bulletins.paie.nir.permanents",
              "tableau.effectifs")
 
   sauv.bases(file.path(chemin.dossier.bases, "Réglementation"),
