@@ -30,7 +30,13 @@ produire_pyramides <- function(Filtre_bulletins, titre) {
                                       encoding = encodage.code.source),
                      quiet=TRUE), 
              sep = '\n')
-     }
+      } else {
+       
+        cat(knit_child(text = readLines('pyramides.utf8.Rmd',
+                                        encoding = "UTF-8"),
+                       quiet=TRUE), 
+            sep = '\n')
+      }
     }
   
   ### Uniquement utile pour l'output pdf...docx peut prendre "titre" sans filtrage
