@@ -580,22 +580,24 @@ detach(Analyse.variations)
 #+ remuneration-nette-evolution
 
 
-##### TODO: Pondérer les sommes par les quotités ! il faut rajouter la somme des quotités individuelles sur 12 en facteur des smpt(j)
-# et diviser par la somme de ces coefficients
+
 
 masse.salariale.nette <- rep(0, durée.sous.revue)
 
+# sommation sur les matricules à année fixe 
+
+S_net.eqtp <- Analyse.variations[ , .(num = sum(Montant.net.annuel.eqtp * quotité.moyenne, na.rm = TRUE), 
+                                      den = sum(quotité.moyenne, na.rm = TRUE)),
+                                       by = "Année"][ ,
+                                      moy := ifelse(den > 0, num / den, NA)]
+
 f <- function(x) prettyNum(masse.salariale.nette[x - début.période.sous.revue + 1] <<- 
-                             sum(Analyse.variations[Année == x, 
-                                                      Montant.net.annuel.eqtp],
-                               na.rm = TRUE) / 1000,
+                             S_net.eqtp[Année == x, num] / 1000,
                            big.mark = " ",
                            digits = 5,
                            format = "fg")
 
-g <- function(x) prettyNum(mean.default(Analyse.variations[Année == x, 
-                                                               Montant.net.annuel.eqtp],
-                               na.rm = TRUE),
+g <- function(x) prettyNum(S_net.eqtp[Année == x, moy],
                            big.mark = " ",
                            digits = 1,
                            format = "fg")
@@ -608,7 +610,7 @@ g <- function(x) prettyNum(mean.default(Analyse.variations[Année == x,
 
 #+ SMPT
 
-Tableau.vertical(c(étiquette.année, "Rém. nette totale (k&euro;)", "SMPT net (&euro;)"),
+Tableau.vertical(c(étiquette.année, "Rém. nette totale (EQTP k&euro;)", "SMPT net (&euro;)"),
                  période,
                  extra = "variation",
                  f,
@@ -710,8 +712,6 @@ Tableau.vertical(c(étiquette.année,  "Noria EQTP (&euro;)", "En % de la MS N-1",
 
 #'
 #'*MS N-1 : masse salariale nette de l'année n-1.*   
-
-
 
 #'**Distribution et variation sur la période du salaire moyen net par tête (SMPT net) en EQTP**         
 #'       
@@ -831,35 +831,34 @@ Tableau.vertical2(c("Agrégat",  "Salaires nets 2011 (&euro;)", "Salaires nets 20
 #'   
 #'**Titulaires et stagiaires**      
 
-f <- function(x) {
+S_net.eqtp.fonct <- Analyse.variations[Statut == "TITULAIRE" | Statut == "STAGIAIRE",
+                                         .(num = sum(Montant.net.annuel.eqtp * quotité.moyenne, na.rm = TRUE), 
+                                           den = sum(quotité.moyenne, na.rm = TRUE)),
+                                             by = "Année"][ ,
+                                                 moy := ifelse(den > 0, num / den, NA)]
 
-  masse.salariale.nette[x - début.période.sous.revue + 1] <<-  sum(Analyse.variations[Année == x
-                                                                                         & (Statut == "TITULAIRE" | Statut == "STAGIAIRE"), 
-                                                                                              Montant.net.annuel.eqtp],
-                                                                na.rm = TRUE) / 1000
-
- prettyNum(masse.salariale.nette[x - début.période.sous.revue + 1],
+f <- function(x) prettyNum(masse.salariale.nette[x - début.période.sous.revue + 1] <<- 
+                             S_net.eqtp.fonct[Année == x, num] / 1000,
                            big.mark = " ",
                            digits = 5,
                            format = "fg")
-}
 
-g <- function(x) prettyNum(mean.default(Analyse.variations[Année == x 
-                                                            & (Statut == "TITULAIRE" | Statut == "STAGIAIRE"), 
-                                                             Montant.net.annuel.eqtp],
-                           na.rm = TRUE),
-                   big.mark = " ",
-                   digits = 1,
-                   format = "fg")
+g <- function(x) prettyNum(S_net.eqtp.fonct[Année == x, moy],
+                           big.mark = " ",
+                           digits = 1,
+                           format = "fg")
+
 
 f.X <- function(x, CAT) {
   
-  masse.salariale.nette[x - début.période.sous.revue + 1] <<-  sum(Analyse.variations[Année == x
-                                                                                         & (Statut == "TITULAIRE" | Statut == "STAGIAIRE")
-                                                                                         & Catégorie == CAT, 
-                                                                                              Montant.net.annuel.eqtp],
-                                                                   na.rm = TRUE) / 1000
+  S_net.eqtp.fonct_CAT <- Analyse.variations[(Statut == "TITULAIRE" | Statut == "STAGIAIRE")
+                          & Catégorie == CAT, 
+                       .(num = sum(Montant.net.annuel.eqtp * quotité.moyenne, na.rm = TRUE), 
+                         den = sum(quotité.moyenne, na.rm = TRUE)),
+                       by = "Année"][ ,
+                                      moy := ifelse(den > 0, num / den, NA)]
   
+                     
   prettyNum(masse.salariale.nette[x - début.période.sous.revue + 1],
             big.mark = " ",
             digits = 5,

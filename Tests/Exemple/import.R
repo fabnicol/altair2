@@ -463,7 +463,7 @@ if (! charger.bases) break
                            nb.jours        = calcul.nb.jours.mois(Mois, Année[1]),
                            nb.mois         = length(Mois),
                            cumHeures       = sum(Heures, na.rm = TRUE),
-                           quotité.moyenne = round(mean.default(quotité, na.rm = TRUE), digits = 2)),
+                           quotité.moyenne = sum(quotité, na.rm = TRUE) / 12),
                  key=c("Matricule", "Année")]
   
   # Indicatrice pour la rémunération moyenne des personnes en place :
@@ -472,13 +472,13 @@ if (! charger.bases) break
   
   Bulletins.paie[ , indicatrice.quotité.pp := (Matricule[R] == Matricule 
                                                & Année[R]   == Année - 1 
-                                               & quotité.moyenne[R] == quotité.moyenne
+                                               & abs(quotité.moyenne[R] - quotité.moyenne) < tolérance.variation.quotité
                                                & nb.mois[R] == nb.mois
                                                & nb.mois    == 12)]
   
   Bulletins.paie[ ,   `:=`(Montant.brut.annuel      = sum(Brut, na.rm = TRUE),
-                           Montant.brut.annuel.eqtp = 365 * sum(Montant.brut.eqtp / nb.jours, na.rm = TRUE),
-                           Montant.net.annuel.eqtp  = 365 * sum(Montant.net.eqtp / nb.jours, na.rm = TRUE),
+                           Montant.brut.annuel.eqtp = 365 / nb.jours * sum(Montant.brut.eqtp , na.rm = TRUE),
+                           Montant.net.annuel.eqtp  = 365 / nb.jours * sum(Montant.net.eqtp, na.rm = TRUE),
                            Montant.net.annuel       = sum(Net.à.Payer, na.rm = TRUE),
                            permanent                = nb.jours >= 365,
                            cumHSup                  = sum(Heures.Sup., na.rm = TRUE), 
@@ -487,32 +487,6 @@ if (! charger.bases) break
   
   message("Indicatrice RMPP calculée")
   
-  # Obsolète
-  
-  # Bulletins.paie.réduit <- unique(Bulletins.paie[ , .(Matricule, Année, quotité.moyenne)], by = NULL)
-  # 
-  # Bulletins.paie.réduit <- Bulletins.paie.réduit[ , nb.années := length(Année), by="Matricule"]
-  # 
-  # indicatrice.quotité <- function(matricule, année)  Bulletins.paie.réduit[Matricule == matricule 
-  #                                                                          & Année == année, 
-  #                                                                            quotité.moyenne][1] ==  Bulletins.paie[Matricule == matricule
-  #                                                                                                                   & (Année == année - 1),
-  #                                                                                                                     quotité.moyenne][1]
-  #                                                   
-  # 
-  # Bulletins.paie <- merge(Bulletins.paie, cbind(Bulletins.paie.réduit[ , .(Matricule, Année, nb.années)],
-  #                                               indicatrice.quotité.pp = mapply(indicatrice.quotité,
-  #                                                              Bulletins.paie.réduit[ , Matricule], 
-  #                                                              Bulletins.paie.réduit[ , Année],
-  #                                                              USE.NAMES = FALSE)),
-  #                         by = c("Matricule", "Année"))
-  # 
-  # delta<-Bulletins.paie[indic.rmpp != indicatrice.quotité.pp, .(Matricule, Année, Mois, quotité, quotité.moyenne, indic.rmpp, indicatrice.quotité.pp, R)]
-  # 
-  # sauv.bases(dossier = chemin.dossier.bases, "delta")
-  # stop("test")
-  
- 
   Paie <- merge(unique(Bulletins.paie[ , .(Matricule, 
                                            Année,
                                            Mois,
@@ -532,7 +506,7 @@ if (! charger.bases) break
                                            nb.jours,
                                            nb.mois,
                                            indicatrice.quotité.pp,
-                                           permanent)], by=NULL),
+                                           permanent)], by = NULL),
                 Paie, 
                 by=c("Matricule","Année","Mois","Service", "Statut"))
   

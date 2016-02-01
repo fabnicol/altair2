@@ -51,6 +51,7 @@ taux.tolérance.homonymie <- 2  # en %
 quantile.cut             <- 1  # en %
 minimum.positif          <- 0.5
 minimum.quotité          <- 0.1
+tolérance.variation.quotité <- 0.05
 minimum.actif            <- 100
 minimum.delta            <- 5
 
