@@ -38,8 +38,7 @@ if (setOSWindows) {
       "-V papersize=A4 +RTS -K512m -RTS altair.utf8.md --to latex --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altaïr.pdf --template ",
       file.path(
         Sys.getenv("R_HOME"),
-        "..",
-        "lib/rmarkdown/rmd/latex/default.tex"
+        "library/rmarkdown/rmd/latex/default.tex"
       ),
       " --highlight-style tango --latex-engine ",
       file.path(

@@ -11,7 +11,7 @@ if (grepl("altair$", wd, ignore.case=TRUE) == FALSE)
   stop("le répertoire de travail doit être .../altair")  
 }
 
-.libPaths("lib")
+#.libPaths("lib")
 
 localPath <- Sys.getenv("PATH")
 

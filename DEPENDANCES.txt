@@ -18,6 +18,10 @@ défaut est retenu.
 Les bibliothèques auxiliaires installées par l'installateur sont conservées dans le 
 répertoire altair\lib
 
+Les bibliothèques additionnelles sous R\library (sous Windows) doivent pour certaines
+d'entre elles (Rcpp, bigvis, data.table) être compilées avec la version la plus
+récente du paquet Rtools
+
 * Version minimale
 
 Seule la dépendance R est installée. 
