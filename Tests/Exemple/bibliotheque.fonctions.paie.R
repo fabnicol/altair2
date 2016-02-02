@@ -321,54 +321,6 @@ Tableau.vertical2 <- function(colnames, rownames, ...)
 }
 
 
-#   julian.date.début.période <- julian(as.Date(paste0("01/01/", début.période.sous.revue), date.format))
-#   julian.exercice.suivant.premier <- julian(as.Date(paste0("01/01/",(début.période.sous.revue+1)), date.format))
-#   julian.date.fin.période   <- julian(as.Date(paste0("01/01/", fin.période.sous.revue+1), date.format))
-#   julian.exercice.dernier <- julian(as.Date(paste0("01/01/",fin.période.sous.revue), date.format))
-# 
-# calcul.nb.jours <- function(entrée, sortie)
-# {
-# 
-#   julian.entrée <-
-#     ifelse(entrée == "",
-#            julian.date.début.période,
-#            max(julian.date.début.période, julian(as.Date(entrée, date.format))))
-# 
-#   julian.sortie <-
-#     ifelse(sortie == "",
-#            julian.date.fin.période,
-#            min(julian.date.fin.période, julian(as.Date(sortie, date.format))))
-# 
-#   return (julian.sortie - julian.entrée)
-# }
-# 
-# calcul.nb.jours.mois.deprecated <- function(mois.entrée, mois.sortie, année)
-# {
-# 
-#   # calcul exact pour une période continue 
-#     
-#   if (mois.sortie < mois.entrée) return(0);
-# 
-#   if (mois.sortie == 12)
-#   {
-#      année.sortie <- année +1
-#      mois.sortie = 1
-#   }
-#   else
-#   {
-#     année.sortie <- année
-#     mois.sortie <- mois.sortie + 1
-#   }
-# 
-#    as.numeric(as.Date(paste0("01",
-#                                   formatC(mois.sortie, width = 2, flag = "0"),
-#                                   année.sortie),
-#                       "%d%m%Y")
-#               - as.Date(paste0("01",
-#                                    formatC(mois.entrée, width = 2, flag = "0"),
-#                                    année),
-#                             "%d%m%Y"))
-# }
 
 v.jmois  <-  c(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
 v.jmois.leap  <-  c(31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)

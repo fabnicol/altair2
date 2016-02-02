@@ -30,7 +30,6 @@ if (setOSWindows) {
   source("prologue.R", encoding=encodage.code.source)
   writeLines(iconv(readLines("altair.R"), from = encodage.code.source, to = "UTF-8"), "altair.utf8.R")  
   
-  
   rmarkdown::render("altair.utf8.R", output_format = "pdf_document", output_file = "altair.pdf")
   
 # fallback:

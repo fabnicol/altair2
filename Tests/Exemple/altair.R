@@ -33,6 +33,7 @@ encodage.code.source <- "ISO-8859-1"
 currentDir              <- getwd()
 générer.rapport         <- ! grepl("altair", basename(currentDir), ignore.case = TRUE) 
 
+
 # dans cet ordre
 
 try(setwd("Tests/Exemple"), silent = TRUE)
@@ -476,7 +477,7 @@ newpage()
 
 #+ comparaison-insee1
 
-Tableau.vertical2(c("Agrégat (&euro;)", "Salaires bruts 2011", "Salaires bruts 2012", "Salaires bruts 2013"),
+Tableau.vertical2(c("Agrégat (euros)", "Salaires bruts 2011", "Salaires bruts 2012", "Salaires bruts 2013"),
                   c("Ensemble", "Titulaires", "Autres salariés"),
                   12 * c(2159, 2223, 1903),
                   12 * c(2195, 2259, NA),
@@ -565,7 +566,7 @@ if (longueur.non.na(temp) > 0)
        col = "blue",
        nclass = 200)
 
-detach(Analyse.variations)
+
 
 #'   
 #'[Lien vers la base de données synthétique](`r currentDir`/Bases/Rémunérations/Analyse.variations.par.exercice.csv)
@@ -580,27 +581,10 @@ detach(Analyse.variations)
 #+ remuneration-nette-evolution
 
 
-
-
 masse.salariale.nette <- rep(0, durée.sous.revue)
 
 # sommation sur les matricules à année fixe 
 
-S_net.eqtp <- Analyse.variations[ , .(num = sum(Montant.net.annuel.eqtp * quotité.moyenne, na.rm = TRUE), 
-                                      den = sum(quotité.moyenne, na.rm = TRUE)),
-                                       by = "Année"][ ,
-                                      moy := ifelse(den > 0, num / den, NA)]
-
-f <- function(x) prettyNum(masse.salariale.nette[x - début.période.sous.revue + 1] <<- 
-                             S_net.eqtp[Année == x, num] / 1000,
-                           big.mark = " ",
-                           digits = 5,
-                           format = "fg")
-
-g <- function(x) prettyNum(S_net.eqtp[Année == x, moy],
-                           big.mark = " ",
-                           digits = 1,
-                           format = "fg")
 #'    
 #'**Salaire net moyen par tête (SMPT net) en EQTP, hors élus**         
 #'       
@@ -608,81 +592,79 @@ g <- function(x) prettyNum(S_net.eqtp[Année == x, moy],
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-#+ SMPT
+#+ Salaire-moyen-par-tete
 
-Tableau.vertical(c(étiquette.année, "Rém. nette totale (EQTP k&euro;)", "SMPT net (&euro;)"),
-                 période,
-                 extra = "variation",
-                 f,
-                 g)
-
-entrants <- function(x)   {
+smtp <- function(Filtre, type =  "SMTP net") {
   
-  A <- setdiff(Analyse.variations[Année == x, Matricule], 
-               Analyse.variations[Année == x -1, Matricule])
+  S_net.eqtp <- Analyse.variations[Filtre() == TRUE,
+                                   .(num = sum(Montant.net.annuel.eqtp * quotité.moyenne, na.rm = TRUE), 
+                                     den = sum(quotité.moyenne, na.rm = TRUE)),
+                                   by = "Année"][ , moy := ifelse(den > 0, num / den, NA)]
   
-
-  B <- unique(Bulletins.paie[Année == x 
-                             & Matricule %chin% A, 
-                               .(Année, quotité, Matricule, Mois, Statut)], by = NULL)
-
-  eqtp.agent <- B[ , sum(quotité, na.rm=TRUE)] / 12
-  eqtp.fonct <- B[Statut == "TITULAIRE" | Statut == "STAGIAIRE", sum(quotité, na.rm=TRUE)] / 12
-
-  list(A, eqtp.agent, eqtp.fonct)
+  S_net.eqtp.100 <- Analyse.variations[Filtre() == TRUE & temps.complet == TRUE & permanent == TRUE,
+                                       .(num = sum(Montant.net.annuel.eqtp * quotité.moyenne, na.rm = TRUE), 
+                                         den = sum(quotité.moyenne, na.rm = TRUE)),
+                                       by = "Année"][ , moy := ifelse(den > 0, num / den, NA)]
+  
+  f <- function(x) prettyNum(S_net.eqtp[Année == x, moy],
+                             big.mark = " ",
+                             digits = 1,
+                             format = "fg")
+  
+  g <- function(x) prettyNum(S_net.eqtp.100[Année == x, moy],
+                             big.mark = " ",
+                             digits = 1,
+                             format = "fg")
+  
+  print(Tableau.vertical(c(étiquette.année, type %+% " (euros)", type %+% " temps complet (euros)"),
+                         if (type == "SMTP net") période else période[2:durée.sous.revue],           # if...else pas ifelse (dim vecteur)
+                         extra = "variation",
+                         f,
+                         g))
+  
+  cat("\n\n")
+  
 }
 
-sortants <- function(x)   {
+distribution_smpt <- function(Filtre) {
   
-  A <- setdiff(Analyse.variations[Année == x-1, Matricule], 
-               Analyse.variations[Année == x, Matricule])
-    
-  B <- unique(Bulletins.paie[Année == x - 1
-                             & Matricule %chin% A,
-                               .(Année, quotité, Matricule, Mois, Statut)], by = NULL)
-  
-  eqtp.agent <- B[ , sum(quotité, na.rm=TRUE)] / 12
-  eqtp.fonct <- B[Statut == "TITULAIRE" | Statut == "STAGIAIRE", sum(quotité, na.rm=TRUE)] / 12
-  
-  list(A, eqtp.agent, eqtp.fonct)
+  print(Résumé(c(début.période.sous.revue, "Effectif",
+                 début.période.sous.revue %+% " TC", "Effectif",
+                 fin.période.sous.revue, "Effectif",
+                 fin.période.sous.revue %+% " TC",  "Effectif"),
+         list(
+           Analyse.variations[Année == début.période.sous.revue
+                              & Filtre() == TRUE,
+                              Montant.net.annuel.eqtp],   
+           Analyse.variations[Année == début.période.sous.revue
+                              & Filtre() == TRUE
+                              & permanent == TRUE
+                              & temps.complet == TRUE,
+                              Montant.net.annuel.eqtp],
+           Analyse.variations[Année == fin.période.sous.revue 
+                              & Filtre() == TRUE,
+                              Montant.net.annuel.eqtp],
+           Analyse.variations[Année == fin.période.sous.revue 
+                              & Filtre() == TRUE
+                              & permanent == TRUE
+                              & temps.complet == TRUE,
+                              Montant.net.annuel.eqtp]),
+         extra = "length"))
+
+# Pour des raisons très mal comprises, print est ici nécessaire alors qu'il ne l'est pas dans smpt() pour Tableau_vertical ;
+# pourtant les deux fonctions sont basées sur kable()
+
 }
 
-s <- list(0)
-e <- list(0)
-noria <- rep(0, durée.sous.revue)
-remplacements <- rep(0, durée.sous.revue)
+Filtre_neutre <- function() TRUE
 
-f <- function(x) {
-  y <- x - début.période.sous.revue
-  
-  s[[y]] <<- sortants(x)
-  e[[y]] <<- entrants(x)
-  
-  noria[y] <<- mean.default(Analyse.variations[Année == x 
-                                                    & Matricule %chin% e[[y]][[1]], 
-                                                      Montant.net.annuel.eqtp],
-                    na.rm = TRUE) - mean.default(Analyse.variations[Année == x- 1 
-                                                                      & Matricule %chin% s[[y]][[1]], 
-                                                                         Montant.net.annuel.eqtp],
-                                                 na.rm = TRUE)
-  
-  prettyNum(noria[y],
-            big.mark = " ",
-            digits = 5,
-            format = "fg")
-}
+smpt(Filtre_neutre)
 
-g <- function(x) {
-  
-  y <- x - début.période.sous.revue
+#'   
+#+ Effet-de-noria-ensemble
+source("noria.R", encoding = encodage.code.source)
+noria()
 
-  remplacements[y] <<- min(e[[y]][[2]], s[[y]][[2]], na.rm=TRUE)
-  
-  prettyNum(noria[y] * remplacements[y] / (masse.salariale.nette[y] * 10),
-                           big.mark = " ",
-                           digits = 3,
-                           format = "fg")
-}
 #'   
 #'**Effet de noria sur salaires nets et taux de remplacements**       
 #'   
@@ -692,48 +674,27 @@ g <- function(x) {
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
-#+ noria
+#+ noria-tableau
 
-if (durée.sous.revue > 1) {
-Tableau.vertical(c(étiquette.année,  "Noria EQTP (&euro;)", "En % de la MS N-1", "Remplacements EQTP", "Taux de remplacements (%)"),
-                 période[2:durée.sous.revue],
-                 extra = "no",
-                 f,
-                 g,
-                 function(x) prettyNum(remplacements[x - début.période.sous.revue], 
-                                       digits=0,
-                                       format="f"),
-                 function(x) prettyNum(remplacements[x - début.période.sous.revue] / effectifs[[as.character(x)]]["ETPT"] * 100,
-                                       digits=2,
-                                       format="f"))
-} else {
-  cat("L'effet de noria ne peut être calculé que pour des durées sous revue supérieures à un exercice.")
-}
+# B
 
 #'
 #'*MS N-1 : masse salariale nette de l'année n-1.*   
 
 #'**Distribution et variation sur la période du salaire moyen net par tête (SMPT net) en EQTP**         
-#'       
+#'**pour les salariés à temps complet**           
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
 #+ premiere-derniere-annee
 
-Résumé("Première année",
-       Analyse.variations[Année == début.période.sous.revue, Montant.net.annuel.eqtp])
-
-
-Résumé("Dernière année",
-       Analyse.variations[Année == fin.période.sous.revue, Montant.net.annuel.eqtp])
-
+distribution_smpt(Filtre_neutre)
 
 #'  
-#'*Nota :*  La population retenue est constituée des agents qui :   
-#'&nbsp;&nbsp;- ne font pas partie des `r 2*quantile.cut` centiles extrêmaux   
-#'&nbsp;&nbsp;- sont au moins présents `r seuil.troncature` jour(s) la première et la dernière année d'activité  
+#'*Nota :*  La population retenue est constituée des agents qui ne font pas partie des `r 2*quantile.cut` centiles extrêmaux   
 #'Les élus, vacataires et assistantes maternelles sont retirés du périmètre.   
+#'TC :  personnels à temps complet sur toute l'année            
 #'Seuls sont pris en compte les agents ayant connu au moins un mois actif et ayant eu, sur l'année, des rémunérations non annexes.  
 #'[Compléments méthodologiques](`r currentDir`/Docs/méthodologie.pdf)     
 #'      
@@ -741,20 +702,19 @@ Résumé("Dernière année",
 
 #'**Comparaisons source INSEE/DGCL**   
 #'
-#'**Salaires annuels moyens 2011 et 2012 en EQTP (hors assistantes maternelles)**   
+#'**Salaires annuels moyens 2011 à 2013 en EQTP (hors assistantes maternelles)**   
 #'  
 #'&nbsp;*Tableau `r incrément()`*       
 
 #### INSEE/DGCL DYN  ####
-  
-Tableau.vertical2(c("Agrégat",  "Salaires nets 2011 (&euro;)", "Salaires nets 2012 (&euro;)", "Salaires nets 2013 (&euro;)"),
-                  c("Ensemble", "Titulaires", "Autres salariés"),
-                  12*c(1823, 1886, 1572),
-                  12*c(1848, 1910, NA),
-                  12*c(1852, 1910, NA))
-
+#'  
+#'  |  Agrégat (euros)| Salaires nets 2011 | Salaires nets 2012 | Salaires nets 2013 |      
+#'  |-----------------|----------:|---------:|----------:|   
+#'  |    Ensemble     |  21 876,0 | 22 176,0 |  22 224,0 |   
+#'  |   Titulaires    |  22 632,0 | 22 920,0 |  22 920,0 |   
+#'  | Autres salariés |  18 864,0 |  NA      |     NA    |   
+#' 
 #'*Champ : France. Salariés en équivalent-temps plein (EQTP) des collectivités territoriales (y compris bénéficiaires de contrats aidés, hors assistantes maternelles).*     			
-
 
 
 #'**Distribution des salaires nets annuels en EQTP dans la fonction publique territoriale (2011-2013)**   
@@ -766,8 +726,8 @@ Tableau.vertical2(c("Agrégat",  "Salaires nets 2011 (&euro;)", "Salaires nets 20
 # suivi d'un seul blanc juste après la table.
 
 #'  
-#' | Décile (k&euro;) | 2011     | 2013   |
-#' |------------------|----------|--------|
+#' | Décile \ euros   | 2011     | 2013   |   
+#' |------------------|----------|--------|   
 #' |    D1            | 15 288   | 15 600 |  
 #' |    D2            | 16 512   | 16 860 |    
 #' |    D3            | 17 508   | 17 844 |  
@@ -787,7 +747,7 @@ Tableau.vertical2(c("Agrégat",  "Salaires nets 2011 (&euro;)", "Salaires nets 20
 #'    
  
 #'    
-#' | Décile (k&euro;) | 2011     | 2013   |
+#' | Décile \ euros   | 2011     | 2013   |   
 #' |------------------|----------|--------|
 #' |    D1            | 17 496   | 18 012 |  
 #' |    D2            | 20 916   | 21 348 |    
@@ -809,7 +769,7 @@ Tableau.vertical2(c("Agrégat",  "Salaires nets 2011 (&euro;)", "Salaires nets 20
 #'    
 
 #'    
-#' | Décile (k&euro;) | 2011     | 2013   |
+#' | Décile \ euros   | 2011     | 2013   |   
 #' |------------------|----------|--------|
 #' |    D1            | 16 584   | 17 016 |  
 #' |    D2            | 18 168   | 18 492 |    
@@ -820,7 +780,7 @@ Tableau.vertical2(c("Agrégat",  "Salaires nets 2011 (&euro;)", "Salaires nets 20
 #' |    D7            | 27 216   | 27 252 |    
 #' |    D8            | 30 996   | 31 176 |    
 #' |    D9            | 37 812   | 38 100 |    
-#' |  Moyenne         | 26 496   | 32 076 |  
+#' |  Moyenne         | 26 496   | 26 916 |  
 #' 
 
 #'[Source INSEE, onglets Figure3, F1web et F3web - 2011](`r currentDir`/Docs/ip1486.xls)   
@@ -831,62 +791,19 @@ Tableau.vertical2(c("Agrégat",  "Salaires nets 2011 (&euro;)", "Salaires nets 20
 #'   
 #'**Titulaires et stagiaires**      
 
-S_net.eqtp.fonct <- Analyse.variations[Statut == "TITULAIRE" | Statut == "STAGIAIRE",
-                                         .(num = sum(Montant.net.annuel.eqtp * quotité.moyenne, na.rm = TRUE), 
-                                           den = sum(quotité.moyenne, na.rm = TRUE)),
-                                             by = "Année"][ ,
-                                                 moy := ifelse(den > 0, num / den, NA)]
-
-f <- function(x) prettyNum(masse.salariale.nette[x - début.période.sous.revue + 1] <<- 
-                             S_net.eqtp.fonct[Année == x, num] / 1000,
-                           big.mark = " ",
-                           digits = 5,
-                           format = "fg")
-
-g <- function(x) prettyNum(S_net.eqtp.fonct[Année == x, moy],
-                           big.mark = " ",
-                           digits = 1,
-                           format = "fg")
-
-
-f.X <- function(x, CAT) {
-  
-  S_net.eqtp.fonct_CAT <- Analyse.variations[(Statut == "TITULAIRE" | Statut == "STAGIAIRE")
-                          & Catégorie == CAT, 
-                       .(num = sum(Montant.net.annuel.eqtp * quotité.moyenne, na.rm = TRUE), 
-                         den = sum(quotité.moyenne, na.rm = TRUE)),
-                       by = "Année"][ ,
-                                      moy := ifelse(den > 0, num / den, NA)]
-  
-                     
-  prettyNum(masse.salariale.nette[x - début.période.sous.revue + 1],
-            big.mark = " ",
-            digits = 5,
-            format = "fg")
-}
-
-g.X <- function(x, CAT) prettyNum(mean.default(Analyse.variations[Année == x 
-                                                                        & (Statut == "TITULAIRE" | Statut == "STAGIAIRE")
-                                                                        & Catégorie == CAT, 
-                                                                        Montant.net.annuel.eqtp],
-                                        na.rm = TRUE),
-                           big.mark = " ",
-                           digits = 1,
-                           format = "fg")
-
-
 #'**Salaire net moyen par tête (SMPT net) en EQTP**       
 #'**Ensemble**  
 #'    
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-Tableau.vertical(c(étiquette.année, "Rém. nette totale (k&euro;)", "SMPT net en EQTP (&euro;)"),
-                 période,
-                 extra = "variation",
-                 f,
-                 g)
+Filtre_fonctionnaire <- function() Statut == "TITULAIRE" | Statut == "STAGIAIRE"
 
+smpt(Filtre_fonctionnaire)
+
+Filtre_cat_A <- function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  & (Catégorie == "A")
+Filtre_cat_B <- function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  & (Catégorie == "B") 
+Filtre_cat_C <- function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  & (Catégorie == "C") 
 
 #'   
 #'**Catégorie A**  
@@ -895,18 +812,14 @@ Tableau.vertical(c(étiquette.année, "Rém. nette totale (k&euro;)", "SMPT net en 
 #'    
 #'  
 
-Tableau.vertical(c(étiquette.année, "Rém. nette totale (k&euro;)", "SMPT net en EQTP (&euro;)"),
-                 période,
-                 extra = "variation",
-                 function(x) f.X(x, "A"),
-                 function(x) g.X(x, "A"))
+
+smpt(Filtre_cat_A)  
 
 #'**Distribution des salaires nets annuels en EQTP dans la fonction publique territoriale par catégorie (2011-2013)**   
 #'  
-
 #'*Comparaisons nationales*    
 #'    
-#' | Décile (k&euro;) | 2011     | 2013   |
+#' | Décile \ euros   | 2011     | 2013   |   
 #' |------------------|----------|--------|
 #' |    D1            | 26 040   | 26 340 |  
 #' |    D2            | 28 992   |        |    
@@ -917,24 +830,22 @@ Tableau.vertical(c(étiquette.année, "Rém. nette totale (k&euro;)", "SMPT net en 
 #' |    D7            | 42 276   |        |    
 #' |    D8            | 47 124   |        |    
 #' |    D9            | 54 840   | 55 032 |    
-#' |  Moyenne         | 21 876   | 39 120 |       
+#' |  Moyenne         | 38 700   | 39 120 |       
 #' 
- 
+
 #'   
-#'**Catégorie B**    
-#'     
+#'**Catégorie B**  
+#'
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
+#'  
 
-Tableau.vertical(c(étiquette.année, "Rém. nette totale (k&euro;)", "SMPT net en EQTP (&euro;)"),
-                 période,
-                 extra = "variation",
-                 function(x) f.X(x, "B"),
-                 function(x) g.X(x, "B"))
+smpt(Filtre_cat_B)  
+
 
 #'*Comparaisons nationales*    
 #'    
-#' | Décile (k&euro;) | 2011     | 2013   |
+#' | Décile \ euros   | 2011     | 2013   |  
 #' |------------------|----------|--------|
 #' |    D1            | 20 580   | 20 964 |  
 #' |    D2            | 22 272   |        |    
@@ -945,27 +856,23 @@ Tableau.vertical(c(étiquette.année, "Rém. nette totale (k&euro;)", "SMPT net en 
 #' |    D7            | 29 160   |        |    
 #' |    D8            | 30 984   |        |    
 #' |    D9            | 33 804   | 34 224 |    
-#' |  Moyenne         | 38 700   | 27 408 |   
+#' |  Moyenne         | 26 940   | 27 408 |   
 #' 
 
-
 #'   
-#'**Catégorie C**     
+#'**Catégorie C**  
+#'
+#'&nbsp;*Tableau `r incrément()`*    
 #'    
-#'&nbsp;*Tableau `r incrément()`*   
-#'    
+#'  
 
-Tableau.vertical(c(étiquette.année, "Rém. nette totale (k&euro;)", "SMPT net en EQTP (&euro;)"),
-                 période,
-                 extra = "variation",
-                 function(x) f.X(x, "C"),
-                 function(x) g.X(x, "C"))
+smpt(Filtre_cat_C)    
 
 
 #'     
 #'*Comparaisons nationales*    
 #'    
-#' | Décile (k&euro;) | 2011     | 2013   |
+#' | Décile \ euros   | 2011     | 2013   |    
 #' |------------------|----------|--------|
 #' |    D1            | 15 972   |  16 296|  
 #' |    D2            | 16 896   |        |    
@@ -976,41 +883,10 @@ Tableau.vertical(c(étiquette.année, "Rém. nette totale (k&euro;)", "SMPT net en 
 #' |    D7            | 21 216   |        |    
 #' |    D8            | 22 680   |        |    
 #' |    D9            | 24 996   |  25 176|    
-#' |    Moyenne       | 26 928   |  20 268|  
+#' |    Moyenne       | 20 016   |  20 268|  
 #' 
 
-    
-
-f <- function(x) {
-  y <- x - début.période.sous.revue
-  
-  noria[y] <<- sum(Analyse.variations[Année == x 
-                                                   & (Statut == "TITULAIRE" | Statut == "STAGIAIRE") 
-                                                   & Matricule %chin% e[[y]][[1]], 
-                                                     Montant.net.annuel.eqtp],
-                   na.rm = TRUE) / e[[y]][[3]] -  sum(Analyse.variations[Année == x- 1
-                                                                                      & (Statut == "TITULAIRE" | Statut == "STAGIAIRE") 
-                                                                                      & Matricule %chin% s[[y]][[1]],
-                                                                                        Montant.net.annuel.eqtp],
-                                                  na.rm = TRUE) / s[[y]][[3]]
-  
-  prettyNum(noria[y],
-            big.mark = " ",
-            digits = 5,
-            format = "fg")
-}
-
-g <- function(x) {
-  
-  y <- x - début.période.sous.revue
-
-  remplacements[y] <<- min(e[[y]][[3]], s[[y]][[3]], na.rm=TRUE)
-  
-  prettyNum(noria[y] * remplacements[y] / (masse.salariale.nette[y] * 10),
-            big.mark = " ",
-            digits = 3,
-            format = "fg")
-}
+# C 
 
 #'   
 #'**Effet de noria sur salaires nets et taux de remplacements**       
@@ -1018,95 +894,38 @@ g <- function(x) {
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-if (durée.sous.revue > 1) {
-Tableau.vertical(c(étiquette.année,  "Noria EQTP (&euro;)", "En % de la  MSN N-1", "Remplacements EQTP", "Taux de remplacements (%)"),
-                 période[2:length(période)],
-                 extra = "no",
-                 f,
-                 g,
-                 function(x) prettyNum(remplacements[x - début.période.sous.revue], digits=0, format="f"),
-                 function(x) prettyNum(remplacements[x - début.période.sous.revue]/ effectifs[[as.character(x)]]["ETPT_fonct"] * 100, digits=2, format="f"))
-} else {
-  cat("L'effet de noria ne peut être calculé que pour des durées sous revue supérieures à un exercice.")
-}
+# D
+
+
 #'     
 #'*MS N-1 : masse salariale nette de l'année n-1.*   
 #'       
 #'**Distribution et variation sur la période du salaire moyen net par tête (SMPT net) en EQTP**         
-#'  
+
+
+#'**Fonctionnaires**    
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
+distribution_smpt(Filtre_fonctionnaire)
 
-Résumé("Première année",
-       Analyse.variations[Année == début.période.sous.revue
-                                       & (Statut == "TITULAIRE" | Statut == "STAGIAIRE"),
-                                           Montant.net.annuel.eqtp])
-
-
-
-Résumé("Dernière année",
-       Analyse.variations[Année == fin.période.sous.revue 
-                                       & (Statut == "TITULAIRE" | Statut == "STAGIAIRE"),
-                                         Montant.net.annuel.eqtp])
-
-
-#'    
-f <- function(x) prettyNum(sum(Analyse.variations[Année == x 
-                                                               & Statut == "TITULAIRE"
-                                                               & temps.complet == TRUE & permanent == TRUE, 
-                                                                 Montant.net.annuel.eqtp],
-                               na.rm = TRUE) / 1000,
-                           big.mark = " ",
-                           digits = 5,
-                           format = "fg")
-
-g <- function(x) prettyNum(mean.default(Analyse.variations[Année == x
-                                                               & Statut == "TITULAIRE"
-                                                               & temps.complet == TRUE & permanent == TRUE, 
-                                                                 Montant.net.annuel.eqtp],
-                                        na.rm = TRUE),
-                           big.mark = " ",
-                           digits = 1,
-                           format = "fg")
-
-#'   
-#'**Evolution du SMPT net des titulaires à temps complet**     
-#'   
-#'  
+#'**Catégorie A**    
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-Tableau.vertical(c(étiquette.année, "Rémunération nette totale (k&euro;)", "SMPT (&euro;)"),
-                 période,
-                 extra = "variation",
-                 f,
-                 g)
+distribution_smpt(Filtre_cat_A)
 
-#'    
-#'**Distribution et variation sur la période du salaire moyen net par tête (SMPT net) des titulaires à temps complet**         
-#'       
-#'  
+#'**Catégorie B**  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
+distribution_smpt(Filtre_cat_B)
 
-Résumé("Première année",
-       Analyse.variations[Année == début.période.sous.revue
-                                       & Statut == "TITULAIRE" 
-                                       & temps.complet == TRUE
-                                       & permanent == TRUE,
-                                           Montant.net.annuel.eqtp])
+#'**Catégorie C**  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
 
-#'   
-Résumé("Dernière année",
-       Analyse.variations[Année == fin.période.sous.revue
-                                       & Statut == "TITULAIRE" 
-                                       & temps.complet == TRUE
-                                       & permanent == TRUE,
-                                         Montant.net.annuel.eqtp])
-
-
+distribution_smpt(Filtre_cat_C)
 
 #'[Lien vers la base de données](`r currentDir`/Bases/Rémunérations/Analyse.variations.par.exercice.csv)     
 
@@ -1161,24 +980,9 @@ if (nrow(Analyse.variations.synthèse.plus.2.ans) > 0)
 
 try(axis(side=1, at=seq(-5,30, 1), labels=seq(-5,30,1), lwd=2))
 
-#'
-#'
 
-f <- function(x) prettyNum(sum(Analyse.variations[Année == x
-                                                  & est.rmpp == TRUE,
-                                                      Montant.net.annuel.eqtp],
-                               na.rm = TRUE)/ 1000,
-                           big.mark = " ",
-                           digits = 5,
-                           format = "fg")
+Filtre_rmpp <- function() (est.rmpp == TRUE)
 
-g <- function(x) prettyNum(mean.default(Analyse.variations[Année == x 
-                                                           & est.rmpp == TRUE,
-                                                                Montant.net.annuel.eqtp],
-                               na.rm = TRUE) ,
-                           big.mark = " ",
-                           digits = 1,
-                           format = "fg")
 #'   
 #'**Evolution de la RMPP nette en EQTP**     
 #'   
@@ -1186,14 +990,7 @@ g <- function(x) prettyNum(mean.default(Analyse.variations[Année == x
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-Tableau.vertical(c(étiquette.année,
-                   "Rémunération nette totale (k&euro;)",
-                   "RMPP nette (k&euro;)"),
-                 période[2:durée.sous.revue],
-                 extra = "variation",
-                 f,
-                 g)
-
+smtp(Filtre_rmpp, type = "RMPP nette")
 
 #'    
 #'**Distribution et variation sur la période de la rémunération nette des personnes en place**                
@@ -1256,23 +1053,8 @@ Résumé(c("Variation normalisée (%)",
 #'### `r chapitre`.3.2 Titulaires et stagiaires     
 #'   
 
-f <- function(x) prettyNum(sum(Analyse.variations[Année == x
-                                                     & est.rmpp == TRUE
-                                                     & (Statut == "TITULAIRE" | Statut == "STAGIAIRE"),
-                                                                 Montant.net.annuel.eqtp],
-                               na.rm = TRUE)/ 1000,
-                           big.mark = " ",
-                           digits = 5,
-                           format = "fg")
+Filtre_rmpp_fonctionnaire <- function () Filtre_fonctionnaire() & (est.rmpp == TRUE)
 
-g <- function(x) prettyNum(mean.default(Analyse.variations[Année == x 
-                                                            & est.rmpp == TRUE
-                                                            & (Statut == "TITULAIRE" | Statut == "STAGIAIRE"),
-                                                                          Montant.net.annuel.eqtp],
-                                        na.rm = TRUE) ,
-                           big.mark = " ",
-                           digits = 1,
-                           format = "fg")
 #'   
 #'**Evolution de la RMPP nette en EQTP**     
 #'   
@@ -1280,14 +1062,7 @@ g <- function(x) prettyNum(mean.default(Analyse.variations[Année == x
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-
-Tableau.vertical(c(étiquette.année,
-                   "Rémunération nette totale (k&euro;)",
-                   "RMPP nette (k&euro;)"),
-                 période[2:durée.sous.revue],
-                 extra = "variation",
-                 f,
-                 g)
+smtp(Filtre_rmpp_fonctionnaire, type = "RMPP nette")
 
 #'    
 #'**Distribution et variation sur la période de la rémunération nette des fonctionnaires en place**                
@@ -1355,13 +1130,14 @@ Résumé(c("Variation normalisée (%)",
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-Tableau.vertical2(c("Année", "2008-09", "2009-10", "2010-11", "2011-12", "2012-13", "2008-12", "Moy. 2008-12", "Méd. 2007-11"),
-                  c("SMPT brut", "SMPT net", "RMPP brute", "RMPP nette"),         
-                  t(data.frame(c("2,5", "1,3", "1,5", "1,7", "1,1", "7,2", "1,8", ""),
-                  c("3,0", "1,4", "1,3", "1,4", "0,8", "7,3", "1,8", "13,4"),
-                  c("3,3", "2,5", "2,5", "2,7", "1,9", "11,5", "2,8", ""),
-                  c("3,3", "2,5", "2,3", "2,4", "1,6", "10,9", "2,6", ""))))
-
+#' 
+#'| Année  |2008-09|2009-10|2010-11|2011-12|2012-13|2008-12|Moy. 2008-12|Méd. 2007-11|  
+#'|:-------:|-----:|------:|-----:|----:|------:|------:|-----:|-----:|  
+#'| SMPT brut  | 2,5 | 1,3 | 1,5 | 1,7 | 1,1 | 7,2 | 1,8 |  |  
+#'|  SMPT net  | 3,0 | 1,4 | 1,3 | 1,4 | 0,8 | 7,3 | 1,8 | 13,4 |  
+#'| RMPP brute | 3,3 | 2,5 | 2,5 | 2,7 | 1,9 | 11,5 | 2,8 |     |  
+#'| RMPP nette | 3,3 | 2,5 | 2,3 | 2,4 | 1,6 | 10,9 | 2,6 |    |   
+#' 
 
 #'*Source : fichier général de l'État (FGE), DADS, SIASP, Insee, Drees. Traitement Insee, Drees, DGCL*    
 #'Hors assistants maternels et familiaux, y compris bénéficiaires de contrats aidés.   
@@ -1370,28 +1146,27 @@ Tableau.vertical2(c("Année", "2008-09", "2009-10", "2010-11", "2011-12", "2012-1
 #'Moyenne des variations géométriques annuelles pour les agents du champ.  
 #'La dernière colonne présente la médiane des augmentations du SMPT net pour les agents présents en 2007 et 2011.   
 #'  
-#'**Salaires nets annuels et évolution moyenne type de collectivité en &euro; courants  EQTP**    
+#'**Salaires nets annuels et évolution moyenne type de collectivité en euros courants  EQTP**    
 #'   
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-Tableau.vertical2(c("Collectivité", "SMPT net 2011", "SMPT net 2012", "SMPT net 2013",  "Evol. Moy. 2007-2011 (%)"),
-  c("Communes",
-    "CCAS et caisses des écoles",
-    "EPCI à fiscalité propre",
-    "Autres structures intercommunales",
-    "Départements",
-    "SDIS",
-    "Régions",		 
-    "Autres collectivités locales",	 
-    "Ensemble (moyenne)"),	
-   c(20784, 19415, 22882, 21299, 24487, 29811, 22432, 24680, 21873),
-  12*c(1760, 1643, 1924, 1807, 2062, 2495, 1903,  2058, 1848),
-  12*c(1758, 1649, 1932, 1819, 2071, 2515, 1917,  2069, 1851),
-   c("2,5", "2,4", "3,1", "3,0", "3,9", "3,4", "3,8", "3,2", "2,9"))
 
-#'
+#' 
+#'|  Collectivité  | SMPT net 2011 | SMPT net 2012 | SMPT net 2013 | Moy. 2007-2011 (%) |   
+#'|:------------:|-----------:|-----------:|-----------:|---------:|       
+#'|Communes                   |   20 784,0    |   21 120,0    |   21 096,0    | 2,5 |  
+#'|CCAS et caisses des écoles |   19 415,0    |   19 716,0    |   19 788,0    | 2,4 |  
+#'| EPCI à fiscalité propre   |   22 882,0    |   23 088,0    |   23 184,0    | 3,1 |  
+#'| Autres structures intercommunales |   21 299,0    |   21 684,0    |   21 828,0    | 3,0 |  
+#'|   Départements            |   24 487,0    |   24 744,0    |   24 852,0    | 3,9 |  
+#'|   SDIS                    |   29 811,0    |   29 940,0    |   30 180,0    | 3,4 |  
+#'|  Régions                  |   22 432,0    |   22 836,0    |   23 004,0    | 3,8 |  
+#'| Autres collectivités locales  |   24 680,0    |   24 696,0    |   24 828,0    | 3,2 |  
+#'|  Ensemble (moyenne)       |   21 873,0    |   22 176,0    |   22 212,0    | 2,9 |  
+#' 
+
 #'*Champ : France. Salariés en équivalent-temps plein (EQTP) des collectivités territoriales (y compris bénéficiaires de contrats aidés, hors assistantes maternelles).*     			
 #'Conversion en euros courants, calcul CRC.  
 #'[Source INSEE données 2011 obsolètes](http://www.insee.fr/fr/ffc/ipweb/ip1486/ip1486.xls)   

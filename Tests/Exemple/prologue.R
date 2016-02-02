@@ -8,7 +8,7 @@
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
 
 
-racine                      <- ifelse(setOSWindows, "R-Altaïr/", "R-Altair/")
+racine                         <- ifelse(setOSWindows, "R-Altaïr/", "R-Altair/")
 # "Ville Annecy Paye BP-"
 # "UTF-8.PDC-"
 # "RAG_2009_2012-"
@@ -17,43 +17,43 @@ racine                      <- ifelse(setOSWindows, "R-Altaïr/", "R-Altair/")
 # "UTF-8.RAG_2009_2012-"
 # "RAG_2009_2012-"
 
-extraire.années      <- F
-  début.période.sous.revue    <- 2013
-  fin.période.sous.revue      <- 2014
+extraire.années                <- FALSE
+  début.période.sous.revue     <- 2013
+  fin.période.sous.revue       <- 2014
 
-exec.root               <- if (setOSWindows) ".exe" else ""
+exec.root                      <- if (setOSWindows) ".exe" else ""
 
-éliminer.duplications   <- F
-redresser.heures        <- TRUE
-enlever.quotités.nulles <- F
-enlever.quotités.na     <- F
-écreter.quotités        <- T
-générer.codes           <- FALSE
-charger.catégories.personnel <- TRUE
-extraire.population     <- FALSE
-charger.bases           <- T
-sauvegarder.bases.analyse    <- T
-sauvegarder.bases.origine    <- F
-afficher.table.effectifs      <- F
-générer.table.élus           <- F
-tester.matricules            <- TRUE
-analyse.statique.totale      <- F
+éliminer.duplications          <- FALSE
+redresser.heures               <- TRUE
+enlever.quotités.nulles        <- FALSE
+enlever.quotités.na            <- FALSE
+écreter.quotités               <- TRUE
+générer.codes                  <- FALSE
+charger.catégories.personnel   <- TRUE
+extraire.population            <- FALSE
+charger.bases                  <- TRUE
+sauvegarder.bases.analyse      <- TRUE
+sauvegarder.bases.origine      <- FALSE
+afficher.table.effectifs       <- FALSE
+générer.table.élus             <- FALSE
+tester.matricules              <- TRUE
+analyse.statique.totale        <- FALSE
 corriger.environnement.système <- (setOSWindows == TRUE)
-intégrer.localisation <- FALSE   # Veut on gardet Budget Employeur Siret Etablissement ?
+intégrer.localisation          <- FALSE   # Veut on gardet Budget Employeur Siret Etablissement ?
 afficher.cumuls.détaillés.lignes.paie <- FALSE
-afficher.table.écarts.sft <- FALSE
-analyse.par.catégorie     <- TRUE
-test.delta                <- TRUE
+afficher.table.écarts.sft      <- FALSE
+analyse.par.catégorie          <- TRUE
+test.delta                     <- TRUE
+if (! exists("PDF"))       PDF <- FALSE
 
-
-seuil.troncature         <- 1 # jours
-taux.tolérance.homonymie <- 2  # en %
-quantile.cut             <- 1  # en %
-minimum.positif          <- 0.5
-minimum.quotité          <- 0.1
-tolérance.variation.quotité <- 0.05
-minimum.actif            <- 100
-minimum.delta            <- 5
+seuil.troncature               <- 1 # jours
+taux.tolérance.homonymie       <- 2  # en %
+quantile.cut                   <- 1  # en %
+minimum.positif                <- 0.5
+minimum.quotité                <- 0.1
+tolérance.variation.quotité    <- 0.05
+minimum.actif                  <- 100
+minimum.delta                  <- 5
 
 # définitions INSEE pour le poste non annexe
 # poste non annexe = minimum d'un mois et de 120h à raison d'au moins 1,5 h/jour.
@@ -63,7 +63,7 @@ minimum.Nheures.non.annexe      <- 120
 minimum.Nmois.non.annexe        <- 1
 
 population_minimale_calcul_médiane  <- 3
-tolérance.sft <- 1
+tolérance.sft                       <- 1
 
 séparateur.liste.entrée     <- ";"
 séparateur.décimal.entrée   <- ","
