@@ -2,7 +2,7 @@
 #  Fonctions auxiliaires
 ##
 
-library(MASS)
+
 
 chemin <-  function(fichier)
   file.path(chemin.dossier.données, fichier)
@@ -159,7 +159,7 @@ Sauv.base <- function(chemin.dossier, nom, nom.sauv, encodage = encodage.sortie,
 
 sauv.bases <- function(dossier, ...)
 {
-  if (!see_if(is.dir(dossier)))
+  if (! dir.exists(dossier))
   {
     stop("Pas de dossier de travail spécifié")
   }
@@ -196,48 +196,73 @@ Read.csv <- function(base.string, vect.chemin, charger = charger.bases, colClass
 }
 
 
-Résumé <- function(x,y, align = 'r', extra = 0, ...)  {
+Résumé <- function(x,y, align = 'r', extra = 0, type = "pond")  {
     
       Y <- na.omit(y)
  
+      
       if (! is.list(Y) || is.data.frame(Y)) {
+
+        if (type == "pond") {
+          T <- sapply(Y, function(x) {
+            q <- bigvis::weighted.quantile(x, Y$quotité.moyenne, na.rm = TRUE) 
+            q <- append(q, weighted.mean(x, Y$quotité.moyenne, na.rm = TRUE), 3)
+            prettyNum(q, big.mark = " ", digits = 2)
+          })
+          
+          S <- cbind(c("Minimum", "1er quartile", "Médiane", "Moyenne", "3ème quartile", "Maximum"), T)
+          
+        } else if (type == "standard") {
+          S <- cbind(c("Minimum", "1er quartile", "Médiane", "Moyenne", "3ème quartile", "Maximum"),
+                     sapply(Y, function(x) prettyNum(summary(x), big.mark = " ")))
+        }
         
-            S <- cbind(c("Minimum", "1er quartile", "Médiane", "Moyenne", "3ème quartile", "Maximum"),
-                        prettyNum(sub("[M13].*:", "", summary(Y, ...)), big.mark = " "))
         
-            if (! missing(extra)) {
-              if (extra == "length") {
-                 
-                 S <- cbind(S, c("", "", "", ifelse(is.vector(Y), length(Y), nrow(Y)), "", ""))
-                 
-              } else {    
-                
-                if (is.numeric(extra))
-                  S <- cbind(S, c("", "", "", as.character(extra), "", ""))
-              }
-           }
+        if (! missing(extra)) {
+          if (extra == "length") {
+
+             S <- cbind(S, c("", "", "", ifelse(is.vector(Y), length(Y), nrow(Y)), "", ""))
+   
+          } else {    
+            
+            if (is.numeric(extra))
+              S <- cbind(S, c("", "", "", as.character(extra), "", ""))
+          }
+       }
                
       } else {
 
-              #sub("[M13].*:", "", U)
-              
-              S <- cbind(c("Minimum", "1er quartile", "Médiane", "Moyenne", "3ème quartile", "Maximum"),
-                         sapply(Y, function(x) prettyNum(summary(x), big.mark = " ")))
+        if (type == "pond") {
+          S <- cbind(c("Minimum", "1er quartile", "Médiane", "Moyenne", "3ème quartile", "Maximum"),
+                     sapply(Y, function(x) {
+                                 q <- bigvis::weighted.quantile(x[[1]],
+                                                   floor(x[[2]] * 1000), na.rm = TRUE)
+                                 
+                                 q <- append(q, weighted.mean(x[[1]], x[[2]], na.rm = TRUE), 3)
+                               
+                                 prettyNum(q, big.mark = " ")
+                       }))
+        } else if (type == "standard") {
+          S <- cbind(c("Minimum", "1er quartile", "Médiane", "Moyenne", "3ème quartile", "Maximum"),
+                     sapply(Y, function(x) prettyNum(summary(x), big.mark = " ")))
+        }
+        
+        if (! missing(extra) && extra == "length") {
+          
+           n <- ncol(S) - 1  
+           temp <- S[ , 1]
+          
+           for (i in 1:n) {
+               temp <- cbind(temp, S[ , i + 1])
 
-              if (! missing(extra) && extra == "length") {
-                
-                 n <- ncol(S) - 1  
-                 temp <- S[ , 1]
-                
-                 for (i in 1:n) {
-                     temp <- cbind(temp, S[ , i + 1])
-                     temp <- cbind(temp, c("", "", "", length(Y[[i]]), "", ""))
-  
-                 }
-                 # S est de type matrix
-                 
-                 S <- temp
-              }
+               temp <- cbind(temp, c("", "", "", ifelse(is.vector(Y[[i]]), length(Y[[i]]), nrow(Y[[i]])), "", ""))
+               
+
+           }
+           # S est de type matrix
+           
+           S <- temp
+        }
       }
 
  
@@ -553,5 +578,4 @@ pyramide_ages <- function(avant, après,
          legend=c("Hommes " %+% date.début, "Femmes " %+% date.début,
                   "Hommes " %+% date.fin, "Femmes " %+% date.fin), cex = 0.8)
 }
-
 
