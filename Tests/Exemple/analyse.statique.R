@@ -80,7 +80,7 @@ AR <- Analyse.rémunérations.exercice[Statut == "TITULAIRE" | Statut == "STAGIAIR
 
 attach(AR)
 source("histogrammes.R", encoding = encodage.code.source)
-histogrammes()
+
 detach(AR)
 #'    
 #'**Nota :**   
@@ -154,13 +154,15 @@ Tableau.vertical2(c("Agrégats",
 Résumé(c("Traitement indiciaire",
          "Primes",
          "Autres rémunérations",
+         "Quotité",
          "Effectif"),
        AR[Grade != "V" & Grade != "A" & Statut != "ELU"
           & Filtre_actif == TRUE
           & Filtre_annexe == FALSE,
              .(traitement.indiciaire,
                rémunération.indemnitaire.imposable,
-               autres.rémunérations)],
+               autres.rémunérations,
+               quotité.moyenne)],
        
        extra = "length")
 
@@ -171,15 +173,17 @@ Résumé(c("Traitement indiciaire",
 Résumé(c("Total lignes hors rappels",
          "Total brut",
          "SMPT brut en EQTP",
-         "Part de la rém. indemnitaire",
+         "Part indemnitaire",
+         "Quotité",
          "Effectif"),
        AR[Grade != "V" & Grade != "A" & Statut != "ELU"
           & Filtre_actif == TRUE
           & Filtre_annexe == FALSE,
           .(total.lignes.paie,
-                                                                                             Montant.brut.annuel,
-                                                                                             Montant.brut.annuel.eqtp,
-                                                                                             part.rémunération.indemnitaire)],
+             Montant.brut.annuel,
+             Montant.brut.annuel.eqtp,
+             part.rémunération.indemnitaire,
+             quotité.moyenne)],
        extra = "length")
 
 #'   
@@ -204,10 +208,12 @@ if (analyse.par.catégorie) {
   
   Résumé(c("Traitement indiciaire",
            "Primes",
-           "Autres rémunérations"),
+           "Autres rémunérations",
+           "Quotité"),
          ARA[ , .(traitement.indiciaire,
                   rémunération.indemnitaire.imposable,
-                  autres.rémunérations)])
+                  autres.rémunérations,
+                  quotité.moyenne)])
 } else {
   cat("Pas de statistiques par catégorie.\n")
 }
@@ -220,10 +226,12 @@ if (analyse.par.catégorie) {
 if (analyse.par.catégorie) {  
   Résumé(c("Total rémunérations", 
            "Total rémunérations EQTP", 
-           "Part de la rémunération indemnitaire"),
+           "Part indemnitaire",
+           "Quotité"),
          ARA[ , .(Montant.brut.annuel,
                   Montant.brut.annuel.eqtp,
-                  part.rémunération.indemnitaire)])
+                  part.rémunération.indemnitaire,
+                  quotité.moyenne)])
 
 } else {
   cat("Pas de statistiques par catégorie.\n")
@@ -244,10 +252,12 @@ if (analyse.par.catégorie) {
   
   Résumé(c("Traitement indiciaire",
            "Primes",
-           "Autres rémunérations"),
+           "Autres rémunérations",
+           "Quotité"),
          ARB[, .(traitement.indiciaire,
                  rémunération.indemnitaire.imposable,
-                 autres.rémunérations)])
+                 autres.rémunérations,
+                 quotité.moyenne)])
 } else {
   cat("Pas de statistiques par catégorie.\n")
 }
@@ -260,10 +270,12 @@ if (analyse.par.catégorie) {
   
   Résumé(c("Total rémunérations",
            "Total rémunérations EQTP",
-           "Part de la rémunération indemnitaire"),
+           "Part de la rémunération indemnitaire",
+           "Quotité"),
          ARB[, .(Montant.brut.annuel,
                  Montant.brut.annuel.eqtp,
-                 part.rémunération.indemnitaire)])
+                 part.rémunération.indemnitaire,
+                 quotité.moyenne)])
 } else {
   cat("Pas de statistiques par catégorie.\n")
 }
@@ -285,10 +297,12 @@ if (analyse.par.catégorie) {
   
   Résumé(c("Traitement indiciaire",
            "Primes",
-           "Autres rémunérations"),
+           "Autres rémunérations",
+           "Quotité"),
          ARC[ , .(traitement.indiciaire,
                   rémunération.indemnitaire.imposable,
-                  autres.rémunérations)])
+                  autres.rémunérations,
+                  quotité.moyenne)])
 } else {
   cat("Pas de statistique par catégorie.\n")
 }
@@ -302,10 +316,12 @@ if (analyse.par.catégorie) {
   
   Résumé(c("Total rémunérations",
            "Total rémunérations EQTP",
-           "Part de la rémunération indemnitaire"),
+           "Part de la rémunération indemnitaire",
+           "Quotité"),
          ARC[ , .(Montant.brut.annuel,
                   Montant.brut.annuel.eqtp,
-                  part.rémunération.indemnitaire) ])
+                  part.rémunération.indemnitaire,
+                  quotité.moyenne) ])
 } else {
   cat("Pas de statistiques par catégorie.\n")
 }
@@ -362,7 +378,7 @@ AR <- Analyse.rémunérations.exercice[Statut != "ELU"
                                              & Filtre_actif == TRUE
                                              & Filtre_annexe == FALSE,
                                              colonnes.sélectionnées, 
-                                             with=FALSE]
+                                             with = FALSE]
 
 #'   
 #'**Formation et distribution du salaire brut moyen par tête (SMPT) en EQTP pour l'année `r année`**     
@@ -373,9 +389,11 @@ AR <- Analyse.rémunérations.exercice[Statut != "ELU"
 
 Résumé(c("Primes",
          "Autres rémunérations",
+         "Quotité",
          "Effectif"),
        AR[ , .(rémunération.indemnitaire.imposable,
-               autres.rémunérations)],
+               autres.rémunérations,
+               quotité.moyenne)],
        extra = "length")
 
 #'  
@@ -385,8 +403,9 @@ Résumé(c("Primes",
 
 Résumé(c("Total rémunérations",
          "Total rémunérations EQTP",
+         "Quotité",
          "Effectif"),
-       AR[ , .(Montant.brut.annuel, Montant.brut.annuel.eqtp)],
+       AR[ , .(Montant.brut.annuel, Montant.brut.annuel.eqtp, quotité.moyenne)],
        extra = "length")
 #'
 

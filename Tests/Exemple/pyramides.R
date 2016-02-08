@@ -4,10 +4,11 @@ Résumé(c("Âge des personnels <br>au 31/12/" %+% début.période.sous.revue,
          "Effectif",
          "Âge des personnels <br>au 31/12/" %+% fin.période.sous.revue,
          "Effectif"),
-       list(Bulletins.avant$age, 
-            Bulletins.après$age),
+       list(Bulletins.avant[ , age], 
+            Bulletins.après[ , age]),
        extra = "length",
-       align = 'c')
+       align = 'c',
+       type = "standard")
 #' 
 #+fig.height=9.7, fig.width=8.4
 

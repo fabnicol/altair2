@@ -429,6 +429,7 @@ colonnes.sélectionnées <- c("traitement.indiciaire",
                             "Montant.brut.annuel",
                             "Montant.brut.annuel.eqtp",
                             "part.rémunération.indemnitaire",
+                            "quotité.moyenne",
                             "Statut",
                             "Grade",
                             "Catégorie",
@@ -580,7 +581,6 @@ if (longueur.non.na(temp) > 0)
 #'
 #+ remuneration-nette-evolution
 
-
 masse.salariale.nette <- rep(0, durée.sous.revue)
 
 # sommation sur les matricules à année fixe 
@@ -594,22 +594,20 @@ masse.salariale.nette <- rep(0, durée.sous.revue)
 
 #+ Salaire-moyen-par-tete
 
-smtp <- function(Filtre, type =  "SMTP net") {
+smpt <- function(Filtre, type =  "smpt net") {
   
   S_net.eqtp <- Analyse.variations[Filtre() == TRUE,
-                                   .(num = sum(Montant.net.annuel.eqtp * quotité.moyenne, na.rm = TRUE), 
-                                     den = sum(quotité.moyenne, na.rm = TRUE)),
-                                   by = "Année"][ , moy := ifelse(den > 0, num / den, NA)]
+                                   .(moy = weighted.mean(Montant.net.annuel.eqtp, quotité.moyenne, na.rm = TRUE)),
+                                   by = "Année"]
   
   S_net.eqtp.100 <- Analyse.variations[Filtre() == TRUE & temps.complet == TRUE & permanent == TRUE,
-                                       .(num = sum(Montant.net.annuel.eqtp * quotité.moyenne, na.rm = TRUE), 
-                                         den = sum(quotité.moyenne, na.rm = TRUE)),
-                                       by = "Année"][ , moy := ifelse(den > 0, num / den, NA)]
+                                       .(moy = weighted.mean(Montant.net.annuel.eqtp, quotité.moyenne, na.rm = TRUE)),
+                                       by = "Année"]
   
   f <- function(x) prettyNum(S_net.eqtp[Année == x, moy],
-                             big.mark = " ",
-                             digits = 1,
-                             format = "fg")
+                               big.mark = " ",
+                               digits = 1,
+                               format = "fg")
   
   g <- function(x) prettyNum(S_net.eqtp.100[Année == x, moy],
                              big.mark = " ",
@@ -617,7 +615,7 @@ smtp <- function(Filtre, type =  "SMTP net") {
                              format = "fg")
   
   print(Tableau.vertical(c(étiquette.année, type %+% " (euros)", type %+% " temps complet (euros)"),
-                         if (type == "SMTP net") période else période[2:durée.sous.revue],           # if...else pas ifelse (dim vecteur)
+                         if (type == "smpt net") période else période[2:durée.sous.revue],           # if...else pas ifelse (dim vecteur)
                          extra = "variation",
                          f,
                          g))
@@ -635,20 +633,20 @@ distribution_smpt <- function(Filtre) {
          list(
            Analyse.variations[Année == début.période.sous.revue
                               & Filtre() == TRUE,
-                              Montant.net.annuel.eqtp],   
+                              .(Montant.net.annuel.eqtp, quotité.moyenne)],   
            Analyse.variations[Année == début.période.sous.revue
                               & Filtre() == TRUE
                               & permanent == TRUE
                               & temps.complet == TRUE,
-                              Montant.net.annuel.eqtp],
+                              .(Montant.net.annuel.eqtp, quotité.moyenne)],
            Analyse.variations[Année == fin.période.sous.revue 
                               & Filtre() == TRUE,
-                              Montant.net.annuel.eqtp],
+                              .(Montant.net.annuel.eqtp, quotité.moyenne)],
            Analyse.variations[Année == fin.période.sous.revue 
                               & Filtre() == TRUE
                               & permanent == TRUE
                               & temps.complet == TRUE,
-                              Montant.net.annuel.eqtp]),
+                              .(Montant.net.annuel.eqtp, quotité.moyenne)]),
          extra = "length"))
 
 # Pour des raisons très mal comprises, print est ici nécessaire alors qu'il ne l'est pas dans smpt() pour Tableau_vertical ;
@@ -868,7 +866,6 @@ smpt(Filtre_cat_B)
 
 smpt(Filtre_cat_C)    
 
-
 #'     
 #'*Comparaisons nationales*    
 #'    
@@ -966,8 +963,7 @@ Analyse.variations.synthèse.moins.2.ans <- Analyse.variations.synthèse[! is.na(p
 
 #Analyse.variations.par.exercice <- Analyse.variations.par.exercice[Nexercices > 1]
 
-
-if (nrow(Analyse.variations.synthèse.plus.2.ans) > 0)
+if (nrow(Analyse.variations.synthèse.plus.2.ans) > 0 && durée.sous.revue > 1 ) {
   hist(Analyse.variations.synthèse.plus.2.ans$variation.moyenne.rémunération,
        xlab ="Variation annuelle moyenne en %",
        las = 1,
@@ -980,8 +976,8 @@ if (nrow(Analyse.variations.synthèse.plus.2.ans) > 0)
 
 try(axis(side=1, at=seq(-5,30, 1), labels=seq(-5,30,1), lwd=2))
 
-
 Filtre_rmpp <- function() (est.rmpp == TRUE)
+}
 
 #'   
 #'**Evolution de la RMPP nette en EQTP**     
@@ -990,7 +986,11 @@ Filtre_rmpp <- function() (est.rmpp == TRUE)
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-smtp(Filtre_rmpp, type = "RMPP nette")
+if (durée.sous.revue > 1) {
+   smpt(Filtre_rmpp, type = "RMPP nette") 
+  } else  {
+   cat("RMPP calculable uniquement si la période sous revue est au moins égale à 2 ans.")
+  }
 
 #'    
 #'**Distribution et variation sur la période de la rémunération nette des personnes en place**                
@@ -1007,35 +1007,41 @@ masque.rmpp.début.période  <- 3                                        #  {0,1}.
 masque.présent.début.fin   <- bitwShiftL(1, durée.sous.revue - 1) + 1  #  10000..1
 masque.présent.sur.période <- bitwShiftL(1, durée.sous.revue) -1       #  11111..1
 
-#'  
-Résumé(c("Première année",
-         "Effectif"),
-       Analyse.variations.synthèse[bitwAnd(indicatrice.période, masque.rmpp.début.période) == masque.rmpp.début.période, 
-                                           Montant.net.annuel.eqtp.début],
-       extra = "length")
-#'  
-#'&nbsp;*Tableau `r incrément()`*   
-#'    
+if (durée.sous.revue > 1) {
 
-Résumé(c("Dernière année",
-         "Effectif"),
-        Analyse.variations.synthèse[indicatrice.période >= masque.rmpp.fin.période, Montant.net.annuel.eqtp.sortie],
-        extra = "length")
+  Résumé(c("Première année",
+           "Effectif",
+           "Dernière année",
+           "Effectif"),
+         list(Analyse.variations.synthèse[bitwAnd(indicatrice.période, masque.rmpp.début.période) == masque.rmpp.début.période, 
+                                             .(Montant.net.annuel.eqtp.début, quotité.moyenne)],
+              Analyse.variations.synthèse[indicatrice.période >= masque.rmpp.fin.période, 
+                                          .(Montant.net.annuel.eqtp.début, quotité.moyenne)]),
+          extra = "length")
+  
+} else  {
+  cat("Distribution de la RMPP calculable uniquement si la période sous revue est au moins égale à 2 ans.")
+}
+
 #'
 #'*Variation individuelle de rémunération nette en EQTP pour les personnels présents la première et la dernière année*   
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-Résumé(c("Variation normalisée (%)",
-         "Variation annuelle moyenne normalisée (%)",
-         "Effectif"),
-         Analyse.variations.synthèse[bitwAnd(indicatrice.période, masque.présent.début.fin) 
-                                        == 
-                                     masque.présent.début.fin,
-                                       .(variation.rémunération.normalisée,
-                                         variation.moyenne.rémunération.normalisée)],
-       extra = "length")
+if (durée.sous.revue > 1) {
+  Résumé(c("Variation normalisée (%)",
+           "Variation annuelle moyenne normalisée (%)",
+           "Quotité",
+           "Effectif"),
+           Analyse.variations.synthèse[bitwAnd(indicatrice.période, masque.présent.début.fin) 
+                                          == 
+                                       masque.présent.début.fin,
+                                         .(variation.rémunération.normalisée,
+                                           variation.moyenne.rémunération.normalisée,
+                                           quotité.moyenne)],
+         extra = "length")
+}
 
 # #'
 # #'*Variation individuelle de rémunération nette en EQTP pour les personnels présents sur toute la période*   
@@ -1061,8 +1067,8 @@ Filtre_rmpp_fonctionnaire <- function () Filtre_fonctionnaire() & (est.rmpp == T
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
-
-smtp(Filtre_rmpp_fonctionnaire, type = "RMPP nette")
+if (durée.sous.revue > 1)
+    smpt(Filtre_rmpp_fonctionnaire, type = "RMPP nette")
 
 #'    
 #'**Distribution et variation sur la période de la rémunération nette des fonctionnaires en place**                
@@ -1071,38 +1077,43 @@ smtp(Filtre_rmpp_fonctionnaire, type = "RMPP nette")
 #'    
 
 #'  
-Résumé(c("Première année",
-         "Effectif"),
-       Analyse.variations.synthèse[(statut == "TITULAIRE" | statut == "STAGIAIRE")
-                                   & bitwAnd(indicatrice.période, masque.rmpp.début.période) == masque.rmpp.début.période, 
-                                     Montant.net.annuel.eqtp.début],
-       extra = "length")
-#'  
-#'&nbsp;*Tableau `r incrément()`*   
-#'    
+if (durée.sous.revue > 1) {
+  
+  Résumé(c("Première année",
+           "Effectif",
+           "Dernière année",
+           "Effectif"),
+         list(Analyse.variations.synthèse[(statut == "TITULAIRE" | statut == "STAGIAIRE")
+                                           & bitwAnd(indicatrice.période, masque.rmpp.début.période) == masque.rmpp.début.période, 
+                                          .(Montant.net.annuel.eqtp.début, quotité.moyenne)],
+              Analyse.variations.synthèse[(statut == "TITULAIRE" | statut == "STAGIAIRE")
+                                          & indicatrice.période >= masque.rmpp.fin.période,
+                                          .(Montant.net.annuel.eqtp.début, quotité.moyenne)]),
+         extra = "length")
+  
+}
 
-Résumé(c("Dernière année",
-         "Effectif"),
-       Analyse.variations.synthèse[statut == "TITULAIRE" | statut == "STAGIAIRE"
-                                   & indicatrice.période >= masque.rmpp.fin.période, 
-                                     Montant.net.annuel.eqtp.sortie],
-       extra = "length")
+
 #'
 #'*Variation individuelle de rémunération nette en EQTP pour les personnels présents la première et la dernière année*   
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-Résumé(c("Variation normalisée (%)",
-         "Variation annuelle moyenne normalisée (%)",
-         "Effectif"),
-       Analyse.variations.synthèse[(statut == "TITULAIRE" | statut == "STAGIAIRE")
-                                   & bitwAnd(indicatrice.période, masque.présent.début.fin)
-                                      ==
-                                     masque.présent.début.fin,
-                                     .(variation.rémunération.normalisée,  variation.moyenne.rémunération.normalisée)],
-       extra = "length")
-
+if (durée.sous.revue > 1) {
+  Résumé(c("Variation normalisée (%)",
+           "Variation annuelle moyenne normalisée (%)",
+           "Quotité",
+           "Effectif"),
+         Analyse.variations.synthèse[(statut == "TITULAIRE" | statut == "STAGIAIRE")
+                                     & bitwAnd(indicatrice.période, masque.présent.début.fin)
+                                        ==
+                                       masque.présent.début.fin,
+                                       .(variation.rémunération.normalisée, 
+                                         variation.moyenne.rémunération.normalisée,
+                                         quotité.moyenne)],
+         extra = "length")
+}
 
 #'
 #'

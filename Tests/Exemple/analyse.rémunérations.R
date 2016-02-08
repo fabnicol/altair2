@@ -172,7 +172,7 @@ Analyse.variations.par.exercice <- Analyse.rémunérations[Grade != "A"
                                                              "ind.quotité",
                                                              "quotité.moyenne",
                                                              "permanent"), 
-                                                         with=FALSE]
+                                                         with = FALSE]
 
 # indicatrice binaire année
 # Ex: si Année = début.période.sous.revue + 3, indicatrice.année = 1 << 3 soit le binaire 1000 = 8 ou encore 2^3
