@@ -155,7 +155,7 @@ void Altair::run()
 
     if (process.waitForStarted())
     {
-        if (v(ecoRAM).isTrue())
+        if (v(memoryUse) != "Intensive")
             outputTextEdit->append(PROCESSING_HTML_TAG + tr("Préallocation des ressources...\n"));
         else
             outputTextEdit->append(PROCESSING_HTML_TAG + tr("Analyse des bases de paye...Veuillez patienter\n"));

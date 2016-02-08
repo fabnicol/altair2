@@ -18,13 +18,19 @@ typedef struct {
 
 int32_t lire_argument(int argc, char* c_str);
 int calculer_memoire_requise( info_t &info);
-void ouvrir_fichier_base(const info_t &info, BaseType, std::ofstream& base);
-void ouvrir_fichier_base0(const info_t &info, BaseCategorie,  BaseType type, std::ofstream& base);
+void ouvrir_fichier_base(const info_t &info, BaseType, std::ofstream& base, int segment);
+void ouvrir_fichier_base0(const info_t &info, BaseCategorie,  BaseType type, std::ofstream& base, int segment);
 void ecrire_entete_bulletins(const info_t &info, std::ofstream& base);
 
 void ecrire_entete(const info_t &info, std::ofstream& base);
 void ecrire_entete0(const info_t &info, std::ofstream& base, const char* entete[], int N);
-void ouvrir_fichier_bulletins(const info_t &info, std::ofstream& base);
+void ouvrir_fichier_bulletins(const info_t &info, std::ofstream& base, int segment);
+
+off_t taille_fichier(const std::string& filename);
+size_t getTotalSystemMemory();
+size_t getFreeSystemMemory();
+size_t getCurrentRSS( );
+size_t getPeakRSS( );
 
 extern std::mutex mut;
 extern std::ofstream rankFile;

@@ -123,7 +123,7 @@ typedef struct
     bool generer_rang;
     bool select_siret;
     bool select_echelon;
-    int  nbfil;
+    unsigned int  nbfil;
     std::vector<int> Memoire_p_ligne;
 } info_t;
 

@@ -45,10 +45,14 @@ CONFIG(guiOutput) {
 
 QMAKE_CXXFLAGS_RELEASE -= -O2
 
-CONFIG (release) {
-    QMAKE_LFLAGS += -s
+CONFIG(debug, debug|release) {
 
-    QMAKE_CXXFLAGS = -O3 -fexpensive-optimizations -fomit-frame-pointer
+QMAKE_CXXFLAGS += -O1
+
+} else {
+
+QMAKE_LFLAGS += -s
+QMAKE_CXXFLAGS += -O3 -fexpensive-optimizations -fomit-frame-pointer
 }
 
 VPATH = .
@@ -108,7 +112,7 @@ windows {
 
   COMPILER_DIR = mingw64-5.2
   INCLUDEPATH += $$DEVROOT/$$COMPILER_DIR/include
-  LIBS = -L$$DEVROOT/$$COMPILER_DIR/lib -lxml2.dll -pthread
+  LIBS = -L$$DEVROOT/$$COMPILER_DIR/lib -lxml2.dll -pthread $$(SYSTEMROOT)/System32/psapi.dll
   HEADERS += entete-latin1.hpp
 
 } else {

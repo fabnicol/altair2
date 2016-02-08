@@ -110,16 +110,20 @@ standardPage::standardPage()
     processTypeWidget->setCurrentIndex(3);
     processTypeWidget->setToolTip(tr("Sélectionner le nombre de fils d'exécution"));
 
-    QLabel* nLineLabel = new QLabel("Nombre maximum d'agents par mois  ");
+    nLineLabel = new QLabel("Nombre maximum d'agents par mois  ");
+    nLineLabel->setDisabled(true);
     nLineEdit = new FLineEdit("",
-                            "nAgent",
+                             flags::status::disabled | flags::commandLineType::defaultCommandLine,
+                             "nAgent",
                             {"Nombre maximum d'agents", ""},
                             "n");
 
     nLineEdit->setFixedWidth(40);
     
-    QLabel* NLineLabel = new QLabel("Nombre maximum de lignes de paye par agent  ");
+    NLineLabel = new QLabel("Nombre maximum de lignes de paye par agent  ");
+    NLineLabel->setDisabled(true);
     NLineEdit = new FLineEdit("",
+                            flags::status::disabled | flags::commandLineType::defaultCommandLine,
                             "nLine",
                             {"Nombre maximum de ligne de paye par agent", ""},
                             "N");
@@ -149,12 +153,27 @@ standardPage::standardPage()
                                   "activerConsole",
                                   {"Générer un log d'exécution", "Utiliser l'onglet console"});
 
-    economeCheckBox = new FCheckBox("Economiser la RAM  ",
-                                  flags::status::enabledChecked | flags::commandLineType::noCommandLine,
-                                  "ecoRAM",
-                                  {"Mode économe en mémoire", ""},
-                                  QList<QWidget*>(),   // attention {nullptr} serait ambigu
-                                  {nLineLabel, NLineLabel, nLineEdit, NLineEdit});
+
+    QList<QString> ecoRange = QList<QString>(), ecoRange2 = QList<QString>();
+    ecoRange << "Intensive" << "Standard" << "Modérée" << "Econome";
+    ecoRange2 << "100"   << "90" << "80" << "50";
+
+    QLabel* memoryUseLabel = new QLabel("Utilisation de la mémoire  ");
+    memoryUseWidget = new FComboBox(ecoRange,
+                                 "memoryUse",
+                                 {"Gestion de la mémoire", "Pourcentage d'utilisation de la mémoire libre"},
+                                  "memshare");
+
+    createHash(memoryUseWidget->comboBoxTranslationHash, &ecoRange, &ecoRange2);
+    memoryUseWidget->status = flags::status::defaultStatus;
+    memoryUseWidget->commandLineType = flags::commandLineType::defaultCommandLine;
+
+    memoryUseWidget->setFixedWidth(175);
+    memoryUseWidget->setFixedHeight(30);
+    memoryUseWidget->setCurrentIndex(1);
+    memoryUseWidget->setToolTip(tr("Sélectionner l'intensité de l'utilisation de la mémoire vive (RAM) libre au lancement de l'application. "
+                    "\nRenseigner les champs ci-dessous pour l'utilisation intensive, qui n'est utile que si la machine dispose de plus de 8 Go de RAM et pour au moins 2 000 agents par mois."));
+
 
     /* A ce stade seules les bases monolithiques et par année peuvent être sous découpées en segments d'au maximum N lignes
      * Les autres types de base doivent donc désactiver la FLineEdit maxNLigneLabel.
@@ -167,6 +186,14 @@ standardPage::standardPage()
            maxNLigneLineEdit->setDisabled(value);
         });
 
+        connect(memoryUseWidget, &FComboBox::currentTextChanged, [this] {
+               bool value = (memoryUseWidget->currentIndex() > 0);
+                nLineLabel->setDisabled(value);
+                NLineLabel->setDisabled(value);
+                nLineEdit->setDisabled(value);
+                NLineEdit->setDisabled(value);
+            });
+
     v1Layout->addWidget(tableCheckBox,     1, 0, Qt::AlignLeft);
     v1Layout->addWidget(baseTypeLabel,     3, 0, Qt::AlignRight);
     v1Layout->addWidget(baseTypeWidget,    3, 1, Qt::AlignLeft);
@@ -176,7 +203,8 @@ standardPage::standardPage()
     v1Layout->addWidget(etabCheckBox,      6, 0, Qt::AlignLeft);
     v1Layout->addWidget(echelonCheckBox,   7, 0, Qt::AlignLeft);
 
-    v2Layout->addWidget(economeCheckBox,   3, 0, Qt::AlignLeft);
+    v2Layout->addWidget(memoryUseLabel,    3, 0, Qt::AlignRight);
+    v2Layout->addWidget(memoryUseWidget,   3, 1, Qt::AlignLeft);
     v2Layout->addWidget(nLineEdit,         4, 1, Qt::AlignLeft);
     v2Layout->addWidget(nLineLabel,        4, 0, Qt::AlignRight);
     v2Layout->addWidget(NLineEdit,         5, 1, Qt::AlignLeft);

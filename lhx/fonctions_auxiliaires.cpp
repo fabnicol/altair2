@@ -9,6 +9,7 @@
 #include <iomanip>
 #include <iostream>
 #include <iterator>
+#include <sys/stat.h>
 #include "fonctions_auxiliaires.hpp"
 #include "tags.h"
 
@@ -16,37 +17,36 @@
 #include "entete-latin1.hpp"
 #else
 #include "entete.hpp"
+#include <unistd.h>
 #endif
 
 #ifdef MMAP_PARSING
 #ifdef __linux__
 #include <fcntl.h>
 #include <sys/mman.h>
-#include <unistd.h>
-
-#include <sys/stat.h>
 #include <assert.h>
 #else
 #error "La compilation MMAP ne peut se faire que sous unix."
 #endif
 #endif
-
-
-extern bool verbeux;
-
 #ifdef __WIN32__
 #include <direct.h>
 #include <string>
 #include <windows.h>
 
+using namespace std;
+
+extern bool verbeux;
+
+
 // The directory path returned by native GetCurrentDirectory() no end backslash
-std::string getexecpath()
+string getexecpath()
 {
     const unsigned long maxDir = 260;
     wchar_t currentDir[maxDir];
     GetCurrentDirectory(maxDir, currentDir);
-    std::wstring ws(currentDir);
-    std::string str(ws.begin(), ws.end());
+    wstring ws(currentDir);
+    string str(ws.begin(), ws.end());
     return str;
 }
 
@@ -55,16 +55,16 @@ std::string getexecpath()
 
 #include <unistd.h>
 #define GetCurrentDir getcwd
-std::string getexecpath()
+string getexecpath()
 {
 
     char szTmp[32]={0};
     char pBuf[1000]={0};
     int len = sprintf(szTmp, "/proc/%d/exe", getpid());
-    int bytes = std::min((int) readlink(szTmp, pBuf, len), len - 1);
+    int bytes = min((int) readlink(szTmp, pBuf, len), len - 1);
     if(bytes >= 0)
         pBuf[bytes] = '\0';
-    return std::string(pBuf);
+    return string(pBuf);
 }
 
 #endif
@@ -77,31 +77,141 @@ std::string getexecpath()
 errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur)
 {
     long lineN = 0;
-    std::cerr << WARNING_HTML_TAG "Fichier analysé " <<  info.threads->argv[info.fichier_courant] << ENDL;
+    cerr << WARNING_HTML_TAG "Fichier analysé " <<  info.threads->argv[info.fichier_courant] << ENDL;
     lineN = xmlGetLineNo(cur);
     if (lineN == -1)
         {
-            std::cerr << WARNING_HTML_TAG "Une balise est manquante dans le fichier." << ENDL;
+            cerr << WARNING_HTML_TAG "Une balise est manquante dans le fichier." << ENDL;
         }
         else
-            std::cerr << WARNING_HTML_TAG "Ligne n°" << lineN << ENDL;
+            cerr << WARNING_HTML_TAG "Ligne n°" << lineN << ENDL;
 
     /* Tableau_entete va être en shared memory concurrent read access (no lock here) */
 #if 1
     for (int l = 0; l < info.Memoire_p_ligne[info.NCumAgentXml]; ++l)
         {
           if (nullptr != info.Table[info.NCumAgentXml][l])
-              std::cerr << WARNING_HTML_TAG "Balise de paye : " << Tableau_entete[l]
+              cerr << WARNING_HTML_TAG "Balise de paye : " << Tableau_entete[l]
                         << "  " << info.Table[info.NCumAgentXml][l] << ENDL;
         }
 #endif
-    errorLine_t s = {lineN, std::string("Fichier : ") + std::string(info.threads->argv[info.fichier_courant])
-                             + std::string(" -- Balise : ") + ((cur)? std::string((const char*)cur->name) : std::string("NA"))};
+    errorLine_t s = {lineN, string("Fichier : ") + string(info.threads->argv[info.fichier_courant])
+                             + string(" -- Balise : ") + ((cur)? string((const char*)cur->name) : string("NA"))};
     return s;
 }
 
+off_t taille_fichier(const string& filename)
+{
+    struct __stat64 stat_buf;
+    int rc = __stat64(filename.c_str(), &stat_buf);
+    return rc == 0 ? stat_buf.st_size : -1;
+}
 
-void ecrire_log(const info_t& info, std::ofstream& log, int diff)
+#ifdef __linux__
+    size_t getTotalSystemMemory()
+    {
+        long pages = sysconf(_SC_PHYS_PAGES);
+        long page_size = sysconf(_SC_PAGE_SIZE);
+        return pages * page_size;
+    }
+#else
+#include <windows.h>
+    size_t getTotalSystemMemory()
+    {
+        MEMORYSTATUSEX status;
+        status.dwLength = sizeof(status);
+        GlobalMemoryStatusEx(&status);
+        return status.ullTotalPhys;
+    }
+
+    size_t getFreeSystemMemory()
+    {
+        MEMORYSTATUSEX status;
+        status.dwLength = sizeof(status);
+        GlobalMemoryStatusEx(&status);
+        return status.ullAvailPhys;
+    }
+
+#endif
+
+
+
+/* *******************************************************************************************************************************************************************************
+ * Author:  David Robert Nadeau
+ * Site:    http://NadeauSoftware.com/
+ * License: Creative Commons Attribution 3.0 Unported License
+ *          http://creativecommons.org/licenses/by/3.0/deed.en_US
+ */
+
+#if defined(__WIN32__)
+    #include <windows.h>
+    #include <psapi.h>
+
+#elif defined(__linux__) || defined(__linux) || defined(linux) || defined(__gnu_linux__)
+    #include <stdio.h>
+
+#endif
+
+    /**
+     * Returns the peak (maximum so far) resident set size (physical
+     * memory use) measured in bytes, or zero if the value cannot be
+     * determined on this OS.
+     */
+
+size_t getPeakRSS( )
+{
+#if defined(__WIN32__)
+    /* Windows -------------------------------------------------- */
+    PROCESS_MEMORY_COUNTERS info;
+    GetProcessMemoryInfo( GetCurrentProcess( ), &info, sizeof(info) );
+    return (size_t)info.PeakWorkingSetSize;
+
+#elif defined(__unix__) || defined(__unix) || defined(unix) || (defined(__APPLE__) && defined(__MACH__))
+    /* BSD, Linux, and OSX -------------------------------------- */
+    struct rusage rusage;
+    getrusage( RUSAGE_SELF, &rusage );
+
+    return (size_t)(rusage.ru_maxrss * 1024L);
+#endif
+
+}
+
+
+/**
+ * Returns the current resident set size (physical memory use) measured
+ * in bytes, or zero if the value cannot be determined on this OS.
+ */
+
+size_t getCurrentRSS( )
+{
+#if defined(__WIN32__)
+    /* Windows -------------------------------------------------- */
+    PROCESS_MEMORY_COUNTERS info;
+    GetProcessMemoryInfo( GetCurrentProcess( ), &info, sizeof(info) );
+    return (size_t)info.WorkingSetSize;
+
+
+#elif defined(__linux__) || defined(__linux) || defined(linux) || defined(__gnu_linux__)
+    /* Linux ---------------------------------------------------- */
+    long rss = 0L;
+    FILE* fp = NULL;
+    if ( (fp = fopen( "/proc/self/statm", "r" )) == NULL )
+        return (size_t)0L;		/* Can't open? */
+    if ( fscanf( fp, "%*s%ld", &rss ) != 1 )
+    {
+        fclose( fp );
+        return (size_t)0L;		/* Can't read? */
+    }
+    fclose( fp );
+    return (size_t)rss * (size_t)sysconf( _SC_PAGESIZE);
+
+#endif
+}
+
+// End of Creative commons license
+
+
+void ecrire_log(const info_t& info, ofstream& log, int diff)
 {
     if (! info.chemin_log.empty())
     {
@@ -110,13 +220,13 @@ void ecrire_log(const info_t& info, std::ofstream& log, int diff)
         #define P  " | "
         log << "Année " << P
             << info.Table[info.NCumAgentXml][Annee] << P
-            << "Mois "  << std::setw(2) << info.Table[info.NCumAgentXml][Mois] << P
-            << "Matricule " << std::setw(6) <<  info.Table[info.NCumAgentXml][Matricule] << P
-            << "Rang global " << std::setw(6) <<  info.NCumAgentXml << P
-            << "Rang dans fichier " << std::setw(5) <<  info.NAgent[info.fichier_courant] << P
-            << "Analyseur C " << std::setw(6) << info.NLigne[info.NCumAgentXml] << P
-            << "Xml " << std::setw(6) << info.NLigne[info.NCumAgentXml] - diff << P
-            << "Différence " << std::setw(4) << diff << "\n";
+            << "Mois "  << setw(2) << info.Table[info.NCumAgentXml][Mois] << P
+            << "Matricule " << setw(6) <<  info.Table[info.NCumAgentXml][Matricule] << P
+            << "Rang global " << setw(6) <<  info.NCumAgentXml << P
+            << "Rang dans fichier " << setw(5) <<  info.NAgent[info.fichier_courant] << P
+            << "Analyseur C " << setw(6) << info.NLigne[info.NCumAgentXml] << P
+            << "Xml " << setw(6) << info.NLigne[info.NCumAgentXml] - diff << P
+            << "Différence " << setw(4) << diff << "\n";
         #undef P
     }
 }
@@ -134,7 +244,7 @@ void ecrire_log(const info_t& info, std::ofstream& log, int diff)
     /*  si rang_fichier_base == 0, base monolithique
         si rang_fichier_base compris entre 1 et nbType, base par catégorie
         si rang_fichier_base supérieur à nbType, base par année (les années sont très supérieures au nombre de type maximum ! */
-    int test = (int) (rang_fichier_base + nbType -1) / nbType;
+    int test = (int) (rang_fichier_base + nbType - 1) / nbType;
 
     switch (test)
     {
@@ -157,17 +267,17 @@ void ecrire_log(const info_t& info, std::ofstream& log, int diff)
 }
 #endif
 
-void ecrire_entete_bulletins(const info_t &info, std::ofstream& base)
+void ecrire_entete_bulletins(const info_t &info, ofstream& base)
 {
   ecrire_entete0(info, base, entete_char_bulletins, sizeof(entete_char_bulletins)/sizeof(char*));
 }
 
-void ecrire_entete_table(const info_t &info, std::ofstream& base)
+void ecrire_entete_table(const info_t &info, ofstream& base)
 {
   ecrire_entete0(info, base, entete_char, sizeof(entete_char)/sizeof(char*));
 }
 
-void ecrire_entete0(const info_t &info, std::ofstream& base, const char* entete[], int N)
+void ecrire_entete0(const info_t &info, ofstream& base, const char* entete[], int N)
 {
   int i;
   if (info.select_echelon)
@@ -202,23 +312,26 @@ void ecrire_entete0(const info_t &info, std::ofstream& base, const char* entete[
   base << entete[i] << "\n";
 }
 
-void ouvrir_fichier_bulletins(const info_t &info, std::ofstream& base)
+void ouvrir_fichier_bulletins(const info_t &info, ofstream& base, int segment)
 {
-    ouvrir_fichier_base0(info, BaseCategorie::BULLETINS, BaseType::MONOLITHIQUE, base);
+    ouvrir_fichier_base0(info, BaseCategorie::BULLETINS, BaseType::MONOLITHIQUE, base, segment);
 }
 
-void ouvrir_fichier_base(const info_t &info, BaseType type, std::ofstream& base)
+void ouvrir_fichier_base(const info_t &info, BaseType type, ofstream& base, int segment)
 {
-    ouvrir_fichier_base0(info, BaseCategorie::BASE, type, base);
+    ouvrir_fichier_base0(info, BaseCategorie::BASE, type, base, segment);
 }
 
-void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType type, std::ofstream& base)
+void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType type, ofstream& base, int segment)
 {
-    std::string chemin_base = "";
-    std::string  index = "-";
+    string chemin_base = "";
+    string  index = "-";
 
     static int rang;
+    static int segment_old;
 
+    if (segment_old != segment) rang = 0;
+    segment_old = segment;
 
     if (categorie == BaseCategorie::BULLETINS)
     {
@@ -226,12 +339,13 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
         #if defined(__WIN32__) && defined (USE_ICONV)
                 + ".temp"
         #endif
-                + std::string(CSV);
+                + index + to_string(segment)
+                + string(CSV);
     }
     else
     {
 
-        chemin_base = info.chemin_base
+        chemin_base = info.chemin_base + index + to_string(segment)
         #if defined(__WIN32__) && defined (USE_ICONV)
                 + ".temp"
         #endif
@@ -246,7 +360,7 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
            case BaseType::MAXIMUM_LIGNES:
            case BaseType::PAR_ANNEE:
            case BaseType::MAXIMUM_LIGNES_PAR_ANNEE:
-               index = index + std::to_string(++rang) +  std::string(CSV);
+               index = index + to_string(++rang) +  string(CSV);
                chemin_base = chemin_base + index;
              break;
 
@@ -299,7 +413,7 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
     base.seekp(0);
     if (! base.good())
     {
-        std::cerr << ERROR_HTML_TAG "Impossible d'ouvrir le fichier de sortie " << chemin_base << ENDL;
+        cerr << ERROR_HTML_TAG "Impossible d'ouvrir le fichier de sortie " << chemin_base << ENDL;
         exit(-1000);
     }
 
@@ -329,15 +443,15 @@ int32_t lire_argument(int argc, char* c_str)
 
         if (end == c_str)
         {
-            std::cerr << ERROR_HTML_TAG "" << c_str << ": pas un décimal" ENDL;
+            cerr << ERROR_HTML_TAG "" << c_str << ": pas un décimal" ENDL;
         }
         else if (sl > INT32_MAX)
         {
-            std::cerr << ERROR_HTML_TAG "" <<  sl << " entier excédant la limite des entiers à 16 bits" ENDL;
+            cerr << ERROR_HTML_TAG "" <<  sl << " entier excédant la limite des entiers à 16 bits" ENDL;
         }
         else if (sl < 0)
         {
-            std::cerr << ERROR_HTML_TAG "" << sl <<". L'entier doit être positif" ENDL;
+            cerr << ERROR_HTML_TAG "" << sl <<". L'entier doit être positif" ENDL;
         }
         else
         {
@@ -347,16 +461,16 @@ int32_t lire_argument(int argc, char* c_str)
     }
     else
     {
-        std::cerr << ERROR_HTML_TAG "Préciser le nombre de bulletins mensuels attendus (majorant du nombre)." ENDL;
+        cerr << ERROR_HTML_TAG "Préciser le nombre de bulletins mensuels attendus (majorant du nombre)." ENDL;
         return(-1);
     }
 }
 
-void calculer_maxima(const std::vector<info_t> &Info, std::ofstream* LOG)
+void calculer_maxima(const vector<info_t> &Info, ofstream* LOG)
 {
     uint32_t maximum[2] = {0, 0};
 
-    for (int i = 0; i < Info[0].nbfil; ++i)
+    for (unsigned i = 0; i < Info[0].nbfil; ++i)
     {
         for (unsigned j = 0; j < Info[i].threads->argc; ++j)
             if (Info[i].NAgent[j] > maximum[0])
@@ -369,7 +483,7 @@ void calculer_maxima(const std::vector<info_t> &Info, std::ofstream* LOG)
 
 /* TODO: Eclaircir le off-by-one sur NLigne */
 
-        std::cerr <<  STATE_HTML_TAG "Maximum de lignes : " << maximum[1] << ENDL
+        cerr <<  STATE_HTML_TAG "Maximum de lignes : " << maximum[1] << ENDL
                    << STATE_HTML_TAG "Maximum d'agents  : " << maximum[0] << ENDL;
         if (LOG != nullptr &&  LOG->good())
         {
@@ -380,16 +494,16 @@ void calculer_maxima(const std::vector<info_t> &Info, std::ofstream* LOG)
 }
 
 
-template <typename Allocator = std::allocator<char>>
+template <typename Allocator = allocator<char>>
 auto read_stream_into_string(
-    std::ifstream& in,
+    ifstream& in,
     Allocator alloc = {})
 {
-  std::basic_ostringstream<char, std::char_traits<char>, Allocator>
-    ss(std::basic_string<char, std::char_traits<char>, Allocator>(std::move(alloc)));
+  basic_ostringstream<char, char_traits<char>, Allocator>
+    ss(basic_string<char, char_traits<char>, Allocator>(move(alloc)));
 
   if (!(ss << in.rdbuf()))
-    throw std::ios_base::failure{"[ERR] Erreur d'allocation de lecture de fichier.\n"};
+    throw ios_base::failure{"[ERR] Erreur d'allocation de lecture de fichier.\n"};
 
   return ss.str();
 }
@@ -431,21 +545,21 @@ int calculer_memoire_requise(info_t& info)
          #ifdef GENERATE_RANK_SIGNAL
 
            generate_rank_signal();
-           std::cerr <<  " \n" ;
+           cerr <<  " \n" ;
 
          #endif
       #endif
 
       #if defined(FGETC_PARSING) || defined(STRINGSTREAM_PARSING)
 
-        std::ifstream c(info.threads->argv[i]);
+        ifstream c(info.threads->argv[i]);
 
         if (c.is_open())
-            c.seekg(0, std::ios::beg);
+            c.seekg(0, ios::beg);
         else
         {
             if (verbeux)
-                std::cerr <<  ERROR_HTML_TAG "Problème à l'ouverture du fichier *" << info.threads->argv[i] << "*" << ENDL;
+                cerr <<  ERROR_HTML_TAG "Problème à l'ouverture du fichier *" << info.threads->argv[i] << "*" << ENDL;
             exit(-120);
         }
 
@@ -532,7 +646,7 @@ int calculer_memoire_requise(info_t& info)
 
                 if (remuneration_xml_open == true)
                 {
-                    std::cerr << "Erreur XML : la balise Remuneration n'est pas refermée pour le fichier " << info.threads->argv[i]
+                    cerr << "Erreur XML : la balise Remuneration n'est pas refermée pour le fichier " << info.threads->argv[i]
                               << ENDL "pour l'agent n°"   << info.NCumAgent + 1 << ENDL;
                     exit(0);
 
@@ -549,7 +663,7 @@ int calculer_memoire_requise(info_t& info)
 
             auto ss = read_stream_into_string(c);
 
-            std::string::iterator iter = ss.begin();
+            string::iterator iter = ss.begin();
 
             while (iter != ss.end())
             {
@@ -630,7 +744,7 @@ int calculer_memoire_requise(info_t& info)
 
                 if (remuneration_xml_open == true)
                 {
-                    std::cerr << "Erreur XML : la balise Remuneration n'est pas refermée pour le fichier " << info.threads->argv[i]
+                    cerr << "Erreur XML : la balise Remuneration n'est pas refermée pour le fichier " << info.threads->argv[i]
                               << ENDL "pour l'agent n°"   << info.NCumAgent + 1 << ENDL;
                     exit(0);
 
@@ -643,7 +757,7 @@ int calculer_memoire_requise(info_t& info)
 
             }
 
-            info.threads->in_memory_file[i] = std::move(ss);
+            info.threads->in_memory_file[i] = move(ss);
 
         #endif
 
@@ -659,13 +773,13 @@ int calculer_memoire_requise(info_t& info)
 #endif
 #ifdef MMAP_PARSING
 
-        //std::cerr << "Mappage en mémoire de " << info.threads->argv[i] << "..."ENDL;
+        //cerr << "Mappage en mémoire de " << info.threads->argv[i] << "..."ENDL;
         struct stat st;
         stat(info.threads->argv[i].c_str(), &st);
         const size_t file_size =  st.st_size;
         void *dat;
         int fd = open(info.threads->argv[i].c_str(), O_RDONLY);
-       // std::cerr << "Taille : " << file_size << ENDL;
+       // cerr << "Taille : " << file_size << ENDL;
         assert(fd != -1);
 
        /* MADV_SEQUENTIAL
@@ -683,7 +797,7 @@ int calculer_memoire_requise(info_t& info)
         assert(dat != NULL);
         //write(1, dat, file_size);
         char* data = (char*) dat;
-       // std::cerr << "Mapping OK"ENDL;
+       // cerr << "Mapping OK"ENDL;
         size_t d = 0;
         char C;
 
@@ -749,7 +863,7 @@ int calculer_memoire_requise(info_t& info)
         }
 
 
-        info.threads->in_memory_file[i] = std::move(data);
+        info.threads->in_memory_file[i] = move(data);
         //munmap(data, file_size);
         close(fd);
 #endif

@@ -165,8 +165,8 @@
   <activerConsole profondeur="0">
    oui
   </activerConsole>
-  <ecoRAM profondeur="0">
-   oui
-  </ecoRAM>
+  <memoryUse profondeur="0">
+   50
+  </memoryUse>
  </systeme>
 </projet>

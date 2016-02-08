@@ -24,7 +24,8 @@ public :
 private:
     FComboBox
       *baseTypeWidget,
-      *processTypeWidget;
+      *processTypeWidget,
+      *memoryUseWidget;
     
     FLineEdit 
      *maxNLigneLineEdit,
@@ -41,13 +42,13 @@ private:
       *echelonCheckBox,
       *rangCheckBox,
       *logCheckBox,
-      *consoleCheckBox,
-      *economeCheckBox;
+      *consoleCheckBox;
+      //*economeCheckBox;
 
     FString
       standardMsg;
 
-    QLabel *maxNLigneLabel;
+    QLabel *maxNLigneLabel, *nLineLabel, *NLineLabel;
 
 
 
