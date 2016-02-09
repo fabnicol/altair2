@@ -21,6 +21,14 @@
 #include "table.hpp"
 #include "tags.h"
 
+#ifndef OVERHEAD
+  #define OVERHEAD 500
+#endif
+
+#ifndef AVERAGE_RAM_DENSITY
+  #define AVERAGE_RAM_DENSITY 1.25
+#endif
+
 using namespace std;
 
 typedef chrono::high_resolution_clock Clock;
@@ -69,6 +77,7 @@ int main(int argc, char **argv)
     unsigned long long memoire_xhl = 0, memoire_disponible = 0;
     int nsegments = 0;
     float ajustement = 1;
+    unsigned long long overhead = OVERHEAD * 1048576ULL;
 
     thread_t mon_thread;
 
@@ -156,12 +165,11 @@ int main(int argc, char **argv)
                       <<  "-E sans argument        : exporter le champ Echelon." << "\n"
                       <<  "-q sans argument        : limiter la verbosité." << "\n"
                       <<  "-f argument obligatoire : la ligne de commande est dans le fichier en argument, chaque élément à la ligne." << "\n"
-                      <<  "--mem argument oblig.   : taille des fichiers à analyser en octets." << "\n"
+                      <<  "--xhlmem arg. oblig.    : taille des fichiers à analyser en octets." << "\n"
                       <<  "--memshare arg. oblig.  : Part de la mémoire vive utilisée, de 0 (toute) à 1." << "\n"
                       <<  "--segments arg. oblig.  : nombre minimum de segments de base." << "\n";
 
               #ifdef GENERATE_RANK_SIGNAL
-
                       cerr  <<  "-rank argument optionnel : générer le fichier du rang de la base de paye en cours dans le fichier.\n";
 
                      #if defined _WIN32 | defined _WIN64
@@ -514,7 +522,7 @@ int main(int argc, char **argv)
             }
             //break;
         }
-        else if (commandline_tab[start] == "--mem")
+        else if (commandline_tab[start] == "--xhlmem")
         {
           cerr << STATE_HTML_TAG "Taille totale des fichiers : " << commandline_tab[start + 1] << " octets." << ENDL;
           // Taille des fichiers en ko fournie par l'interface graphique, en octets
@@ -539,14 +547,14 @@ int main(int argc, char **argv)
                   exit(-199);
           }
         }
-        else if (commandline_tab[start].substr(0, 10) == "--memshare")  // --memshare=...
+        else if (commandline_tab[start] == "--memshare")
           {
-            int part = stoi(commandline_tab[start].substr(11, 3), nullptr);
+            int part = stoi(commandline_tab[start + 1], nullptr);
 
             cerr << STATE_HTML_TAG "Part de la mémoire vive utilisée : " <<  part << " %" ENDL;
 
             ajustement = (float) part / 100;
-            ++start;
+            start += 2;
             continue;
           }
         else if (commandline_tab[start] == "--segments ")
@@ -567,6 +575,11 @@ int main(int argc, char **argv)
                exit(-208);
              }
         }
+        else if (commandline_tab[start] == "--overhead ")
+        {
+          overhead = stoi(commandline_tab[start + 1], nullptr) * 1048576;
+          cerr << STATE_HTML_TAG "Marge de mémoire vive sous plafond : " << commandline_tab[start + 1] << " Mo" << ENDL;
+        }
         else if (commandline_tab[start][0] == '-')
         {
           cerr << ERROR_HTML_TAG "Option inconnue " << commandline_tab[start] << ENDL;
@@ -584,7 +597,7 @@ int main(int argc, char **argv)
     xmlInitMemory();
     xmlInitParser();
 
-    /* on sait que info.nbfill >= 1 */
+    /* on sait que info.nbfil >= 1 */
 
     vector<unsigned long long> taille;
 
@@ -614,15 +627,15 @@ int main(int argc, char **argv)
 
         cerr << ENDL STATE_HTML_TAG << "Taille totale des " << count << " fichiers : " << memoire_xhl / 1048576 << " Mo."  ENDL;
         cerr << STATE_HTML_TAG
-                  << "Mémoire utilisable " <<  ((memoire_disponible = getFreeSystemMemory()) / 1048576)
+                  << "Mémoire disponible " <<  ((memoire_disponible = getFreeSystemMemory()) / 1048576)
                   << " / " << (getTotalSystemMemory()  / 1048576)
                   << " Mo."  ENDL;
     }
 
-    /* ajustement représente la part maximum de la mémoire disponible que l'on consacre au processus */
+    /* ajustement représente la part maximum de la mémoire disponible que l'on consacre au processus, compte tenu de la marge sous plafond (overhead) */
 
-
-    unsigned long long memoire_utilisable = floor(ajustement * static_cast<float>(memoire_disponible));
+    unsigned long long memoire_utilisable = floor(ajustement * static_cast<float>(memoire_disponible)) - overhead;
+    cerr << STATE_HTML_TAG  << "Mémoire utilisable " <<  memoire_utilisable / 1048576   << " Mo."  ENDL;
 
     if (nsegments != 0)
     {
@@ -659,7 +672,7 @@ int main(int argc, char **argv)
         vector<string> segment;
         loop1++;
 
-        while (taille_segment <= memoire_utilisable && commandline_it != commandline_tab.end())
+        while (taille_segment * AVERAGE_RAM_DENSITY <= memoire_utilisable && commandline_it != commandline_tab.end())
          {
            segment.push_back(*commandline_it);  // ne pas utiliser move;
            ++commandline_it;
@@ -761,8 +774,8 @@ int produire_segment(const info_t& info, const vector<string>& segment)
         }
 
         if (verbeux)
-            cerr <<  PROCESSING_HTML_TAG "File d'exécution i = " << i+1 << "/" << info.nbfil
-                      << "Nombre de fichiers dans ce fil : " << nb_fichier_par_fil[i] << ENDL;
+            cerr <<  PROCESSING_HTML_TAG "Fil d'exécution i = " << i+1 << "/" << info.nbfil
+                 << "   Nombre de fichiers dans ce fil : " << nb_fichier_par_fil[i] << ENDL;
 
         errno = 0;
 

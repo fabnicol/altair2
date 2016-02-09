@@ -553,6 +553,8 @@ int calculer_memoire_requise(info_t& info)
       #if defined(FGETC_PARSING) || defined(STRINGSTREAM_PARSING)
 
         ifstream c(info.threads->argv[i]);
+        if (verbeux)
+            cerr << PROCESSING_HTML_TAG  "Ouverture du fichier " << info.threads->argv[i] << ENDL;
 
         if (c.is_open())
             c.seekg(0, ios::beg);

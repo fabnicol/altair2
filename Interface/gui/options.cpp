@@ -71,7 +71,7 @@ standardPage::standardPage()
                                 "genererTable",
                                 {"Données csv", "créer la base des lignes et bulletins de paye"},
                                 "t",
-                                {etabCheckBox, rangCheckBox, baseTypeLabel, baseTypeWidget, maxNLigneLabel, maxNLigneLineEdit});
+                                {etabCheckBox, rangCheckBox, baseTypeLabel, baseTypeWidget, maxNLigneLabel, maxNLigneLineEdit, echelonCheckBox});
 
     applicationNoyau = new FLineFrame(
                 {"Application noyau LHX", "Répertoire de l'application noyau" },
@@ -105,7 +105,7 @@ standardPage::standardPage()
                                  {"Type de processus", "Nombre de fils d'exécution"},
                                   "j");
 
-    processTypeWidget->setFixedWidth(40);
+    processTypeWidget->setFixedWidth(45);
     processTypeWidget->setFixedHeight(30);
     processTypeWidget->setCurrentIndex(3);
     processTypeWidget->setToolTip(tr("Sélectionner le nombre de fils d'exécution"));
@@ -159,10 +159,13 @@ standardPage::standardPage()
     ecoRange2 << "100"   << "90" << "80" << "50";
 
     QLabel* memoryUseLabel = new QLabel("Utilisation de la mémoire  ");
+
+    /* Utiliser % devant l'option active la syntaxe `--option argument' plutôt que `--option=argument' */
+
     memoryUseWidget = new FComboBox(ecoRange,
                                  "memoryUse",
                                  {"Gestion de la mémoire", "Pourcentage d'utilisation de la mémoire libre"},
-                                  "memshare");
+                                  "%memshare");
 
     createHash(memoryUseWidget->comboBoxTranslationHash, &ecoRange, &ecoRange2);
     memoryUseWidget->status = flags::status::defaultStatus;

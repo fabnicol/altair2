@@ -41,7 +41,6 @@ static const char* type_remuneration_traduit[] = {
 
 static inline void GCC_INLINE ECRIRE_LIGNE_l_COMMUN(int i, uint32_t agent, int l, char* type, table_t& base, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
 {
-
     base   << VAR(Nom) << sep
            << VAR(Prenom) << sep
            << VAR(Matricule) << sep
@@ -65,7 +64,6 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l_COMMUN(int i, uint32_t agent, int l
            << type << sep
            << VAR(EmploiMetier) << sep
            << VAR(Grade) << sep;
-
 }
 
 static inline void GCC_INLINE ECRIRE_LIGNE_l_GENERER_RANG(int i, uint32_t agent, int l, char* type, table_t& base, char sep, vector<info_t> &Info, int rang)
@@ -294,14 +292,12 @@ static void (*ecrire_ligne_bulletin)(int i, uint32_t, table_t& , char, vector<in
 void boucle_ecriture(vector<info_t>& Info)
 {
     static int segment;
-
     ++segment;
 
     int ligne = 0;
     uint64_t compteur = 0,
             dernier_compteur = 0,
             compteur_annee_courante = 0;
-
 
     uint32_t compteur_lignes_bulletins = 0;
 
@@ -322,7 +318,6 @@ void boucle_ecriture(vector<info_t>& Info)
 
     ostringstream t_base;
     ostringstream t_bulletins;
-
     static array<ostringstream, nbType> t_tableau_base;
 
 #endif
@@ -941,6 +936,7 @@ void boucle_ecriture(vector<info_t>& Info)
         switch (type_base)
         {
         case  BaseType::MONOLITHIQUE            :
+            cerr << STATE_HTML_TAG "Table intégrée."  ENDL;
             break;
 
         case  BaseType::PAR_TRAITEMENT          :
@@ -1026,6 +1022,8 @@ void boucle_ecriture(vector<info_t>& Info)
         convertir(Info[0].chemin_base);
 #endif
     }
+    else
+        cerr << ERROR_HTML_TAG "Problème de qualité du fichier " << Info[0].chemin_base << ENDL;
 
     if (bulletins.good())
     {
@@ -1037,6 +1035,8 @@ void boucle_ecriture(vector<info_t>& Info)
         convertir(Info[0].chemin_bulletins);
 #endif
     }
+    else
+        cerr << ERROR_HTML_TAG "Problème de qualité du fichier " << Info[0].chemin_bulletins << ENDL;
     
 }
 

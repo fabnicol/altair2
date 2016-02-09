@@ -186,19 +186,26 @@ const QStringList FAbstractWidget::commandLineStringList()
             }
          else
             {
-                if (!commandLineList[0].toQString().isEmpty())
+                if (! commandLineList[0].toQString().isEmpty())
                 {
                     if (optionLabel.at(0) == '^')
                     {
                         if (commandLineList[0] != "  ")
-                           strL = QStringList(optionLabel.mid(1).trimmed()+"="+commandLineList[0].toQString());
+                           strL = QStringList(optionLabel.mid(1).trimmed() + "=" + commandLineList[0].toQString());
+                    }
+                    else
+                    if (optionLabel.at(0) == '%')
+                    {
+                        if (commandLineList[0] != "  ")
+                            strL = (optionLabel.size() == 1)? (QStringList() << "-" + optionLabel.mid(1) << commandLineList[0].toQString())
+                                                         : (QStringList() << "--" + optionLabel.mid(1) << commandLineList[0].toQString());
                     }
                     else
                     {
                        if (commandLineList[0] != "  ")
                        {
-                           strL = (optionLabel.size() == 1)? QStringList() << "-"+optionLabel << commandLineList[0].toQString()
-                                                        :QStringList("--"+optionLabel+"="+commandLineList[0].toQString());
+                           strL = (optionLabel.size() == 1)? (QStringList() << "-"+optionLabel << commandLineList[0].toQString())
+                                                        :(QStringList() << "--" + optionLabel+"=" << commandLineList[0].toQString());
                        }
                     }
                 }
