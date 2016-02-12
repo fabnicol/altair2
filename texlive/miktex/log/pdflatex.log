@@ -58,3 +58,63 @@
 2015-11-21 23:09:47,984+0100 INFO  pdflatex - mpm: downloading http://ctan.mines-albi.fr/systems/win32/miktex/tm/packages/mptopdf.tar.lzma...
 2015-11-21 23:09:48,046+0100 INFO  pdflatex - mpm: 37051 bytes, 583.59 KB/Sec
 2015-11-21 23:09:48,046+0100 INFO  pdflatex - mpm: extracting files from mptopdf.tar.lzma...
+2016-02-12 17:27:23,591+0100 FATAL pdflatex - Windows API error 1113: Il n’y a pas de caractère correspondant au caractère Unicode dans la page de codes multi-octet cible.
+
+2016-02-12 17:27:23,602+0100 FATAL pdflatex - Info: 
+2016-02-12 17:27:23,602+0100 FATAL pdflatex - Source: Libraries\MiKTeX\Core\win\win.cpp
+2016-02-12 17:27:23,602+0100 FATAL pdflatex - Line: 3062
+2016-02-12 17:27:24,288+0100 FATAL pdflatex - Windows API error 1113: Il n’y a pas de caractère correspondant au caractère Unicode dans la page de codes multi-octet cible.
+
+2016-02-12 17:27:24,288+0100 FATAL pdflatex - Info: 
+2016-02-12 17:27:24,288+0100 FATAL pdflatex - Source: Libraries\MiKTeX\Core\win\win.cpp
+2016-02-12 17:27:24,288+0100 FATAL pdflatex - Line: 3062
+2016-02-12 17:27:24,812+0100 FATAL pdflatex - Windows API error 1113: Il n’y a pas de caractère correspondant au caractère Unicode dans la page de codes multi-octet cible.
+
+2016-02-12 17:27:24,812+0100 FATAL pdflatex - Info: 
+2016-02-12 17:27:24,813+0100 FATAL pdflatex - Source: Libraries\MiKTeX\Core\win\win.cpp
+2016-02-12 17:27:24,813+0100 FATAL pdflatex - Line: 3062
+2016-02-12 17:29:14,690+0100 FATAL pdflatex - Windows API error 1113: Il n’y a pas de caractère correspondant au caractère Unicode dans la page de codes multi-octet cible.
+
+2016-02-12 17:29:14,690+0100 FATAL pdflatex - Info: 
+2016-02-12 17:29:14,690+0100 FATAL pdflatex - Source: Libraries\MiKTeX\Core\win\win.cpp
+2016-02-12 17:29:14,691+0100 FATAL pdflatex - Line: 3062
+2016-02-12 17:29:15,132+0100 FATAL pdflatex - Windows API error 1113: Il n’y a pas de caractère correspondant au caractère Unicode dans la page de codes multi-octet cible.
+
+2016-02-12 17:29:15,132+0100 FATAL pdflatex - Info: 
+2016-02-12 17:29:15,132+0100 FATAL pdflatex - Source: Libraries\MiKTeX\Core\win\win.cpp
+2016-02-12 17:29:15,132+0100 FATAL pdflatex - Line: 3062
+2016-02-12 17:29:15,579+0100 FATAL pdflatex - Windows API error 1113: Il n’y a pas de caractère correspondant au caractère Unicode dans la page de codes multi-octet cible.
+
+2016-02-12 17:29:15,579+0100 FATAL pdflatex - Info: 
+2016-02-12 17:29:15,579+0100 FATAL pdflatex - Source: Libraries\MiKTeX\Core\win\win.cpp
+2016-02-12 17:29:15,579+0100 FATAL pdflatex - Line: 3062
+2016-02-12 18:10:45,666+0100 FATAL pdflatex - Windows API error 1113: Il n’y a pas de caractère correspondant au caractère Unicode dans la page de codes multi-octet cible.
+
+2016-02-12 18:10:45,687+0100 FATAL pdflatex - Info: 
+2016-02-12 18:10:45,687+0100 FATAL pdflatex - Source: Libraries\MiKTeX\Core\win\win.cpp
+2016-02-12 18:10:45,687+0100 FATAL pdflatex - Line: 3062
+2016-02-12 18:10:46,210+0100 FATAL pdflatex - Windows API error 1113: Il n’y a pas de caractère correspondant au caractère Unicode dans la page de codes multi-octet cible.
+
+2016-02-12 18:10:46,210+0100 FATAL pdflatex - Info: 
+2016-02-12 18:10:46,210+0100 FATAL pdflatex - Source: Libraries\MiKTeX\Core\win\win.cpp
+2016-02-12 18:10:46,210+0100 FATAL pdflatex - Line: 3062
+2016-02-12 18:10:46,672+0100 FATAL pdflatex - Windows API error 1113: Il n’y a pas de caractère correspondant au caractère Unicode dans la page de codes multi-octet cible.
+
+2016-02-12 18:10:46,672+0100 FATAL pdflatex - Info: 
+2016-02-12 18:10:46,672+0100 FATAL pdflatex - Source: Libraries\MiKTeX\Core\win\win.cpp
+2016-02-12 18:10:46,672+0100 FATAL pdflatex - Line: 3062
+2016-02-12 18:12:55,128+0100 FATAL pdflatex - Windows API error 1113: Il n’y a pas de caractère correspondant au caractère Unicode dans la page de codes multi-octet cible.
+
+2016-02-12 18:12:55,129+0100 FATAL pdflatex - Info: 
+2016-02-12 18:12:55,129+0100 FATAL pdflatex - Source: Libraries\MiKTeX\Core\win\win.cpp
+2016-02-12 18:12:55,129+0100 FATAL pdflatex - Line: 3062
+2016-02-12 18:12:55,535+0100 FATAL pdflatex - Windows API error 1113: Il n’y a pas de caractère correspondant au caractère Unicode dans la page de codes multi-octet cible.
+
+2016-02-12 18:12:55,535+0100 FATAL pdflatex - Info: 
+2016-02-12 18:12:55,535+0100 FATAL pdflatex - Source: Libraries\MiKTeX\Core\win\win.cpp
+2016-02-12 18:12:55,535+0100 FATAL pdflatex - Line: 3062
+2016-02-12 18:12:55,998+0100 FATAL pdflatex - Windows API error 1113: Il n’y a pas de caractère correspondant au caractère Unicode dans la page de codes multi-octet cible.
+
+2016-02-12 18:12:55,998+0100 FATAL pdflatex - Info: 
+2016-02-12 18:12:55,999+0100 FATAL pdflatex - Source: Libraries\MiKTeX\Core\win\win.cpp
+2016-02-12 18:12:55,999+0100 FATAL pdflatex - Line: 3062
