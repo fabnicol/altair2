@@ -94,9 +94,6 @@ Var Interface
 !define MUI_FINISHPAGE_TEXT  $(text1)
 !define MUI_FINISHPAGE_RUN 
 !define MUI_FINISHPAGE_RUN_NOTCHECKED
-!define MUI_FINISHPAGE_RUN_TEXT     "Lire le fichier LISEZ-MOI"
-!define MUI_FINISHPAGE_RUN_FUNCTION "Launch_LISEZ"
-!define MUI_FINISHPAGE_BUTTON       "Compléments"
 !define MUI_FINISHPAGE_CANCEL_ENABLED 
 !insertmacro MUI_PAGE_FINISH
 
@@ -104,9 +101,6 @@ Var Interface
 !define MUI_FINISHPAGE_TEXT  $(text2)
 !define MUI_FINISHPAGE_RUN 
 !define MUI_FINISHPAGE_RUN_NOTCHECKED
-!define MUI_FINISHPAGE_RUN_TEXT     "Lire le fichier INSTALLATION"
-!define MUI_FINISHPAGE_RUN_FUNCTION "Launch_INSTALLATION"
-!define MUI_FINISHPAGE_BUTTON       "Suite"
 !define MUI_FINISHPAGE_CANCEL_ENABLED 
 !insertmacro MUI_PAGE_FINISH
 
@@ -235,9 +229,9 @@ ${Else}
 	
 ${EndIf}
 
-    SetOutPath $INSTDIR\${xhl}
-    File /r  ${xhl}\Anonyme
-    File /r  ${xhl}\Anonyme2
+   ; SetOutPath $INSTDIR\${xhl}
+   ; File /r  ${xhl}\Anonyme
+   ; File /r  ${xhl}\Anonyme2
 
  SectionEnd
   
