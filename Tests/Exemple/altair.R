@@ -330,6 +330,7 @@ newpage()
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
+
 Filtre_bulletins <- function() { return(Bulletins.paie$Statut != "TITULAIRE" 
                                  & Bulletins.paie$Statut != "NON_TITULAIRE" 
                                  & Bulletins.paie$Statut != "STAGIAIRE") }
@@ -592,7 +593,8 @@ masse.salariale.nette <- rep(0, durée.sous.revue)
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-#+ Salaire-moyen-par-tete
+#+ Salaire-moyen-par-tete    
+
 
 smpt <- function(Filtre, type =  "smpt net") {
   
@@ -704,7 +706,7 @@ distribution_smpt(Filtre_neutre)
 #'  
 #'&nbsp;*Tableau `r incrément()`*       
 
-#### INSEE/DGCL DYN  ####
+#### INSEE/DGCL VARIATIONS  ####
 #'  
 #'  |  Agrégat (euros)| Salaires nets 2011 | Salaires nets 2012 | Salaires nets 2013 |      
 #'  |-----------------|----------:|---------:|----------:|   
@@ -714,7 +716,7 @@ distribution_smpt(Filtre_neutre)
 #' 
 #'*Champ : France. Salariés en équivalent-temps plein (EQTP) des collectivités territoriales (y compris bénéficiaires de contrats aidés, hors assistantes maternelles).*     			
 
-
+#'   
 #'**Distribution des salaires nets annuels en EQTP dans la fonction publique territoriale (2011-2013)**   
 #' 
 #'  
@@ -1005,24 +1007,28 @@ if (durée.sous.revue > 1) {
 masque.rmpp.fin.période    <- bitwShiftL(3, durée.sous.revue - 2)      #  11{0,1}...{0,1}
 masque.rmpp.début.période  <- 3                                        #  {0,1}...{0,1}11
 masque.présent.début.fin   <- bitwShiftL(1, durée.sous.revue - 1) + 1  #  10000..1
-masque.présent.sur.période <- bitwShiftL(1, durée.sous.revue) -1       #  11111..1
+masque.présent.sur.période <- bitwShiftL(1, durée.sous.revue) - 1       #  11111..1
 
 if (durée.sous.revue > 1) {
 
-  Résumé(c("Première année",
+  Résumé(c(paste(début.période.sous.revue, début.période.sous.revue + 1, sep = "-"),
            "Effectif",
-           "Dernière année",
+           paste(fin.période.sous.revue - 1, fin.période.sous.revue, sep = "-"),
            "Effectif"),
-         list(Analyse.variations.synthèse[bitwAnd(indicatrice.période, masque.rmpp.début.période) == masque.rmpp.début.période, 
+         list(Analyse.variations.synthèse[bitwAnd(indicatrice.période, masque.rmpp.début.période) == masque.rmpp.début.période 
+                                          & Année == début.période.sous.revue + 1, 
                                              .(Montant.net.annuel.eqtp.début, quotité.moyenne)],
-              Analyse.variations.synthèse[indicatrice.période >= masque.rmpp.fin.période, 
-                                          .(Montant.net.annuel.eqtp.début, quotité.moyenne)]),
+              Analyse.variations.synthèse[indicatrice.période >= masque.rmpp.fin.période
+                                          & Année == fin.période.sous.revue, 
+                                          .(Montant.net.annuel.eqtp.sortie, quotité.moyenne)]),
           extra = "length")
   
 } else  {
   cat("Distribution de la RMPP calculable uniquement si la période sous revue est au moins égale à 2 ans.")
 }
 
+#'*RMPP en `r début.période.sous.revue + 1` des personnes en place en `r début.période.sous.revue`-`r début.période.sous.revue + 1`*     
+#'*RMPP en `r fin.période.sous.revue` des personnes en place en `r fin.période.sous.revue - 1`-`r fin.période.sous.revue `*         
 #'
 #'*Variation individuelle de rémunération nette en EQTP pour les personnels présents la première et la dernière année*   
 #'  
@@ -1036,12 +1042,14 @@ if (durée.sous.revue > 1) {
            "Effectif"),
            Analyse.variations.synthèse[bitwAnd(indicatrice.période, masque.présent.début.fin) 
                                           == 
-                                       masque.présent.début.fin,
+                                       masque.présent.début.fin
+                                       & Année == début.période.sous.revue,
                                          .(variation.rémunération.normalisée,
                                            variation.moyenne.rémunération.normalisée,
                                            quotité.moyenne)],
          extra = "length")
 }
+
 
 # #'
 # #'*Variation individuelle de rémunération nette en EQTP pour les personnels présents sur toute la période*   
@@ -1079,20 +1087,25 @@ if (durée.sous.revue > 1)
 #'  
 if (durée.sous.revue > 1) {
   
-  Résumé(c("Première année",
+  Résumé(c(paste(début.période.sous.revue, début.période.sous.revue + 1, sep="-"),
            "Effectif",
-           "Dernière année",
+           paste(fin.période.sous.revue - 1, fin.période.sous.revue, sep="-"),
            "Effectif"),
          list(Analyse.variations.synthèse[(statut == "TITULAIRE" | statut == "STAGIAIRE")
-                                           & bitwAnd(indicatrice.période, masque.rmpp.début.période) == masque.rmpp.début.période, 
+                                           & bitwAnd(indicatrice.période, masque.rmpp.début.période) == masque.rmpp.début.période
+                                           & Année == début.période.sous.revue + 1,  
                                           .(Montant.net.annuel.eqtp.début, quotité.moyenne)],
               Analyse.variations.synthèse[(statut == "TITULAIRE" | statut == "STAGIAIRE")
-                                          & indicatrice.période >= masque.rmpp.fin.période,
-                                          .(Montant.net.annuel.eqtp.début, quotité.moyenne)]),
+                                          & indicatrice.période >= masque.rmpp.fin.période
+                                          & Année == fin.période.sous.revue, 
+                                          .(Montant.net.annuel.eqtp.sortie, quotité.moyenne)]),
          extra = "length")
   
 }
 
+#'*RMPP en `r début.période.sous.revue + 1` des personnes en place en `r début.période.sous.revue`-`r début.période.sous.revue + 1`*     
+#'*RMPP en `r fin.période.sous.revue` des personnes en place en `r fin.période.sous.revue - 1`-`r fin.période.sous.revue `*         
+#'
 
 #'
 #'*Variation individuelle de rémunération nette en EQTP pour les personnels présents la première et la dernière année*   
@@ -1108,12 +1121,14 @@ if (durée.sous.revue > 1) {
          Analyse.variations.synthèse[(statut == "TITULAIRE" | statut == "STAGIAIRE")
                                      & bitwAnd(indicatrice.période, masque.présent.début.fin)
                                         ==
-                                       masque.présent.début.fin,
+                                       masque.présent.début.fin
+                                     & Année == début.période.sous.revue,
                                        .(variation.rémunération.normalisée, 
                                          variation.moyenne.rémunération.normalisée,
                                          quotité.moyenne)],
          extra = "length")
 }
+
 
 #'
 #'
@@ -1194,7 +1209,7 @@ newpage()
 ########### 5. TESTS STATUTAIRES ########################
 #'
 
-#### NBI ####
+#### 5.1 NBI ####
 
 #'# `r chapitre`. Tests réglementaires   
 #'## `r chapitre`.1 Contrôle des NBI et primes informatiques   
@@ -1330,7 +1345,7 @@ Tableau.vertical2(c("Année", "Cumuls des NBI", "Montants versés (a)", "Point d'I
 
 detach(cumuls.nbi)
 
-#### VACATIONS ####
+#### 5.2 VACATIONS ####
 #'   
 #'[Lien vers la base de données des cumuls annuels de NBI](`r currentDir`/Bases/Fiabilité/cumuls.nbi.csv)   
 #'   
@@ -1366,7 +1381,10 @@ if (! is.null(nombre.fonctionnaires.et.vacations)) {
 
 #'
 #'[Lien vers les matricules des fonctionnaires concernés](`r currentDir`/Bases/Réglementation/matricules.fonctionnaires.et.vacations.csv)
-#'[Lien vers les bulletins de paie correspondants](`r currentDir`/Bases/Réglementation/lignes.fonctionnaires.et.vacations.csv)
+#'[Lien vers les bulletins de paie correspondants](`r currentDir`/Bases/Réglementation/lignes.fonctionnaires.et.vacations.csv)      
+
+####  5.3 CUMULS INDICIAIRES ####  
+  
 #'
 #'## `r chapitre`.3 Contrôles sur les cumuls traitement indiciaire, indemnités et vacations des contractuels    
 
@@ -1445,7 +1463,7 @@ if (exists("nombre.contractuels.et.vacations")) {
 #'[Lien vers la base de données Lignes de traitement indiciaire pour CEV](`r currentDir`/Bases/Réglementation/traitement.et.vacations.csv)  
 #'  
 
-#### IAT/IFTS ####  
+#### 5.4 IAT/IFTS ####  
   
 #'
 #'## `r chapitre`.4 Contrôle sur les indemnités IAT et IFTS      
@@ -1587,7 +1605,7 @@ if (! résultat.ifts.manquant) {
 #'IB < 380 : fonctionnaire percevant un indice brut inférieur à 380
 #'
 
-#### PFR ####
+#### 5.5 PFR ####
 
 #'
 #'## `r chapitre`.5 Contrôle de la prime de fonctions et de résultats (PFR)   
@@ -1681,25 +1699,25 @@ if (length(codes.pfr) > 5) {
   bénéficiaires.PFR <- P[, Attrib.PFR := NULL]
   rm(P)
   
-  # Plafonds annuels (plafonds mensuels reste à implémenter)
-  # AG 58 800
-  # ADTHC 55 200
-  # ADT   49 800
-  # D/ATP 25 800
-  # SM/AT 20 100
+# Plafonds annuels (plafonds mensuels reste à implémenter)
+# AG 58 800
+# ADTHC 55 200
+# ADT   49 800
+# D/ATP 25 800
+# SM/AT 20 100
 
 #'  
 #'&nbsp;*Tableau `r incrément()` : rappel des plafonds annuels de la PFR*   
 #'      
   
-  Tableau(c("Adm. général", "Adm. HC", "Adm.", "Direct./Attaché princ.", "Secr. mairie/Attaché"),
-          sapply(PFR.plafonds <<- list( admin.g = 58800, admin.hc = 55200, admin = 49800, attaché.p = 25800, attaché = 20100), 
-                 function(x) formatC(x, format = "fg", big.mark = " ")))
-  #'   
+Tableau(c("Adm. général", "Adm. HC", "Adm.", "Direct./Attaché princ.", "Secr. mairie/Attaché"),
+        sapply(PFR.plafonds <<- list( admin.g = 58800, admin.hc = 55200, admin = 49800, attaché.p = 25800, attaché = 20100), 
+               function(x) formatC(x, format = "fg", big.mark = " ")))
+   
   
-  e <- c(expression.rég.admin.g, expression.rég.admin.hc, expression.rég.admin, expression.rég.attaché.p, expression.rég.attaché)
+e <- c(expression.rég.admin.g, expression.rég.admin.hc, expression.rég.admin, expression.rég.attaché.p, expression.rég.attaché)
   
-  test.PFR <- function(i, grade, cumul) { grepl(e[i], grade, perl = TRUE, ignore.case = TRUE) & (cumul > PFR.plafonds[[i]]) }
+test.PFR <- function(i, grade, cumul) { grepl(e[i], grade, perl = TRUE, ignore.case = TRUE) & (cumul > PFR.plafonds[[i]]) }
   test.PFR.all <- function(grade, cumul) any(sapply(1:length(e), function(i) test.PFR(i, grade, cumul)))
   
   dépassements.PFR.boolean <- mapply(test.PFR.all, bénéficiaires.PFR$Grade, bénéficiaires.PFR$Cumul.PFR.IFTS, USE.NAMES=FALSE)
@@ -1745,7 +1763,7 @@ if (length(codes.pfr) > 5) {
     cat("\nAucun tableau de variation.\n")
   }
   
-#'         
+        
 
 #'   
 #'[Lien vers la base de données agrégat PFR-IFTS](`r currentDir`/Bases/Rémunérations/bénéficiaires.PFR.csv)    
@@ -1755,7 +1773,7 @@ if (length(codes.pfr) > 5) {
 #'
 
   
-#### HEURES SUP ####
+#### 5.6 HEURES SUP ####
 #'
 #'## `r chapitre`.6 Contrôle sur les heures supplémentaires
 
@@ -1856,7 +1874,7 @@ Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"), no
 #'HS en excès : au-delà de 25 heures par mois     
 #'IHTS anormales : attribuées à des fonctionnaires ou non-titulaires de catégorie A ou assimilés.     
 
-#### ELUS ####
+#### 5.7 ELUS ####
 
 #' 
 #'## `r chapitre`.7 Contrôle sur les indemnités des élus
@@ -1908,7 +1926,7 @@ if (générer.table.élus)   {
 #'[Lien vers la base de données Rémunérations des élus](`r currentDir`/Bases/Réglementation/rémunérations.élu.csv)
 #'
 
-#### COMPTE DE GESTION ####
+#### 5.8 COMPTE DE GESTION ####
 
 #'## `r chapitre`.8 Lien avec le compte de gestion
  
@@ -1984,7 +2002,7 @@ rm(L)
 #'*Avertissement : les rappels comprennent également les rappels de cotisations et déductions diverses.*    
 #'   
 
-#### SFT ####
+#### 5.9 SFT ####
 
 #'
 #'## `r chapitre`.9 Contrôle du supplément familial de traitement   
@@ -2010,8 +2028,6 @@ part.proportionnelle.minimale <- outer(PointMensuelIM, sft.prop * 449)
 
 sft <- function(x, indice, nbi, durée, année, mois)   {
 
-#    if (is.na(x) || x <= 0 || is.na(indice)) return(0)
-  
     if (x > 15) return(-1)
   
     if (is.na(durée) || is.na(x) || is.na(indice)) return(0)
