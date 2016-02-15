@@ -9,13 +9,8 @@
 
 
 racine                         <- ifelse(setOSWindows, "R-Altaïr/", "R-Altair/")
-# "Ville Annecy Paye BP-"
-# "UTF-8.PDC-"
-# "RAG_2009_2012-"
-# "UTF-8.RAG_2009_2012-"
-# "UTF-8.SIERG-"
-# "UTF-8.RAG_2009_2012-"
-# "RAG_2009_2012-"
+
+# Toujours utiliser FALSE ou TRUE en plein lettres en raison de l'éloignement avec <- (bug de l'interpréteur pour T et F)
 
 extraire.années                <- FALSE
   début.période.sous.revue     <- 2013
@@ -45,6 +40,7 @@ afficher.table.écarts.sft      <- FALSE
 analyse.par.catégorie          <- TRUE
 test.delta                     <- TRUE
 if (! exists("PDF"))       PDF <- FALSE
+keep_md                        <- FALSE
 
 seuil.troncature               <- 1 # jours
 taux.tolérance.homonymie       <- 2  # en %

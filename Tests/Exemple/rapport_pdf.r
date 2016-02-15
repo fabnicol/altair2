@@ -9,10 +9,9 @@ if (setOSWindows) {
   invisible(Sys.setenv(PATH = paste0(Sys.getenv("PATH"), ";", file.path(Sys.getenv("R_HOME"), "../texlive/miktex/bin;"))))
   setwd(file.path(Sys.getenv("R_HOME"), "../Tests/Exemple"))
   source("syspaths.R", encoding=encodage.code.source)
-  #knitr::opts_chunk$set(fig.width=8, fig.height=4, echo = FALSE, warning = FALSE, message = FALSE, results = 'asis')
   
   source("prologue.R", encoding=encodage.code.source)
- # writeLines(iconv(readLines("altair.R"), from = encodage.code.source, to = "WINDOWS-1252"), "altair.ansi.R")
+ 
   library(rmarkdown)
   # ne pas écrire altaïr.pdf... 
   render("altair.R",
@@ -22,7 +21,7 @@ if (setOSWindows) {
                                                                        warning = FALSE,
                                                                        message = FALSE,
                                                                        results = 'asis')),
-                                       keep_md=TRUE, clean_supporting=FALSE,
+                                       keep_md = keep_md, clean_supporting = !keep_md,
                                        pandoc = pandoc_options(to = "latex",
                                                                from = "markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures",
                                        args=c("-V", 
@@ -35,12 +34,8 @@ if (setOSWindows) {
                                               "../../R/library/rmarkdown/rmd/latex/default.tex") )),
         output_file = "altair.pdf")
   file.rename("altair.pdf", "altaïr.pdf")
-  # writeLines(iconv(readLines("altair.ansi.md"), from = "WINDOWS-1252", to = "UTF-8"), "altair.utf8.md", useBytes = TRUE)
-  # 
-  # system(paste(file.path(Sys.getenv("R_HOME"), "../RStudio/bin/pandoc/pandoc.exe"), "-V papersize=A4 +RTS -K512m -RTS altair.utf8.md --to latex --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altaïr.pdf --template ", file.path(Sys.getenv("R_HOME"), "library/rmarkdown/rmd/latex/default.tex"), " --highlight-style tango --latex-engine ", file.path(Sys.getenv("R_HOME"), "..", "texlive/miktex/bin/pdflatex.exe"), " --variable geometry:margin=1in" ))
   shell("start acrord32.exe altaïr.pdf")
-  
-  unlink("altair.ansi_pdf", recursive=TRUE)
+
   
 } else {
   

@@ -118,3 +118,38 @@
 2016-02-12 18:12:55,998+0100 FATAL pdflatex - Info: 
 2016-02-12 18:12:55,999+0100 FATAL pdflatex - Source: Libraries\MiKTeX\Core\win\win.cpp
 2016-02-12 18:12:55,999+0100 FATAL pdflatex - Line: 3062
+2016-02-14 23:57:45,999+0100 INFO  pdflatex - installing package fancyvrb triggered by tex\latex\fancyvrb\fancyvrb.sty
+2016-02-14 23:57:46,160+0100 INFO  pdflatex - mpm: starting package maintenance...
+2016-02-14 23:57:46,161+0100 INFO  pdflatex - mpm: installation directory: C:\Users\Public\Dev\altair\texlive
+2016-02-14 23:57:46,161+0100 INFO  pdflatex - mpm: package repository: http://ctan.mines-albi.fr/systems/win32/miktex/tm/packages/
+2016-02-14 23:57:46,363+0100 INFO  pdflatex - mpm: lightweight database digest: b6dda9a28d3f09bd04806e1f4058fb22
+2016-02-14 23:57:46,363+0100 INFO  pdflatex - mpm: going to download 661111 bytes
+2016-02-14 23:57:46,363+0100 INFO  pdflatex - mpm: going to install 10 file(s) (1 package(s))
+2016-02-14 23:57:46,363+0100 INFO  pdflatex - mpm: downloading http://ctan.mines-albi.fr/systems/win32/miktex/tm/packages/fancyvrb.tar.lzma...
+2016-02-14 23:57:46,887+0100 INFO  pdflatex - mpm: 661111 bytes, 1248.77 KB/Sec
+2016-02-14 23:57:46,889+0100 INFO  pdflatex - mpm: extracting files from fancyvrb.tar.lzma...
+2016-02-14 23:58:24,388+0100 INFO  pdflatex - installing package framed triggered by tex\latex\framed\framed.sty
+2016-02-14 23:58:24,388+0100 INFO  pdflatex - mpm: starting package maintenance...
+2016-02-14 23:58:24,388+0100 INFO  pdflatex - mpm: installation directory: C:\Users\Public\Dev\altair\texlive
+2016-02-14 23:58:24,388+0100 INFO  pdflatex - mpm: package repository: http://ctan.mines-albi.fr/systems/win32/miktex/tm/packages/
+2016-02-14 23:58:24,545+0100 INFO  pdflatex - mpm: lightweight database digest: b6dda9a28d3f09bd04806e1f4058fb22
+2016-02-14 23:58:24,545+0100 INFO  pdflatex - mpm: going to download 248224 bytes
+2016-02-14 23:58:24,545+0100 INFO  pdflatex - mpm: going to install 4 file(s) (1 package(s))
+2016-02-14 23:58:24,546+0100 INFO  pdflatex - mpm: downloading http://ctan.mines-albi.fr/systems/win32/miktex/tm/packages/framed.tar.lzma...
+2016-02-14 23:58:25,132+0100 INFO  pdflatex - mpm: 248224 bytes, 414.37 KB/Sec
+2016-02-14 23:58:25,133+0100 INFO  pdflatex - mpm: extracting files from framed.tar.lzma...
+2016-02-15 00:48:27,092+0100 FATAL pdflatex - Windows API error 1113: Il n’y a pas de caractère correspondant au caractère Unicode dans la page de codes multi-octet cible.
+
+2016-02-15 00:48:27,092+0100 FATAL pdflatex - Info: 
+2016-02-15 00:48:27,092+0100 FATAL pdflatex - Source: Libraries\MiKTeX\Core\win\win.cpp
+2016-02-15 00:48:27,092+0100 FATAL pdflatex - Line: 3062
+2016-02-15 00:48:27,344+0100 FATAL pdflatex - Windows API error 1113: Il n’y a pas de caractère correspondant au caractère Unicode dans la page de codes multi-octet cible.
+
+2016-02-15 00:48:27,344+0100 FATAL pdflatex - Info: 
+2016-02-15 00:48:27,344+0100 FATAL pdflatex - Source: Libraries\MiKTeX\Core\win\win.cpp
+2016-02-15 00:48:27,344+0100 FATAL pdflatex - Line: 3062
+2016-02-15 00:48:27,672+0100 FATAL pdflatex - Windows API error 1113: Il n’y a pas de caractère correspondant au caractère Unicode dans la page de codes multi-octet cible.
+
+2016-02-15 00:48:27,672+0100 FATAL pdflatex - Info: 
+2016-02-15 00:48:27,672+0100 FATAL pdflatex - Source: Libraries\MiKTeX\Core\win\win.cpp
+2016-02-15 00:48:27,672+0100 FATAL pdflatex - Line: 3062

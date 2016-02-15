@@ -1,12 +1,12 @@
-
-#'---
-#'title: false
-#'author: false
-#'date: false
-#'output:
-#'html_document:
+      
+#'---    
+#'title: false    
+#'author: false    
+#'date: false    
+#'output:   
+#'html_document:    
 #'css: style.css
-#'---
+#'---     
 #'   
 #'![Image_Altair](Altair.png)
 #'   
