@@ -3,7 +3,7 @@
 #include <cstdint>
 
 #ifndef VERSION
-    static constexpr const char* VERSION = " 16.01";
+    static constexpr const char* VERSION = " 16.02";
 #endif
 
 #ifndef STEP_UP

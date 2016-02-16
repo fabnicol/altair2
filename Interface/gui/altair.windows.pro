@@ -1,5 +1,6 @@
 greaterThan(QT_MAJOR_VERSION, 5)
-# Mettre Git\bin dans le PATH systématiquement
+
+
 # utiliser au moins Qt5 et g++-5.1 sous windows
 
 if (win32|linux) {
@@ -76,8 +77,8 @@ windows:RC_ICONS = neptune.ico
 QMAKE_CXXFLAGS_RELEASE -= -O2
 QMAKE_CXXFLAGS += -std=gnu++11                         # obligatoire
 QMAKE_CXXFLAGS += -O3 -fomit-frame-pointer -fexpensive-optimizations -pipe -m64         # facultatif
-#QMAKE_CXXFLAGS += -march=native
-QMAKE_CXXFLAGS += -march=core2
+#QMAKE_CXXFLAGS += -march=core2
+QMAKE_CXXFLAGS += -march=core-avx2
 
 SOURCES += \
     options.cpp \

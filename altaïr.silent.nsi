@@ -11,10 +11,10 @@
 
 ; Numéros de version 
 
-!define version  "2016.01"
+!define version  "2016.02"
 Var processeur 
 Var type 
-Var Interface
+Var interface
 
 ; l'installation par défaut est du type Interface_windows_core2
 ; les possibilités sont donc : 
@@ -33,7 +33,7 @@ Var Interface
 
 !define prodname     "Altaïr"
 !define prodname.simple "Altair"
-!define setup        "Altaïr-${version}.win.${processeur}.installer.exe"
+!define setup      "Altaïr-${version}.win.installer.exe"
 !define exemple      "${prodname.simple}\Tests\Exemple"
 !define xhl          "${exemple}\Donnees\xhl"
 
@@ -113,9 +113,8 @@ CompletedText  $(completed)
 
 ;ShowInstDetails show
 ;ShowUninstDetails show
-;RequestExecutionLevel user
 
-Caption ""
+Caption "Installation de Altaïr ${version}"
 
 OutFile "${setup}"
 
@@ -135,9 +134,6 @@ Function .onInit
 
   advsplash::show 2300 600 400 -1 $TEMP\spltmp
 
-  Pop $0 ; $0 has '1' if the user closed the splash screen early,
-         ; '0' if everything closed normally, and '-1' if some error occurred.
-
   Delete $TEMP\spltmp.bmp
 
   StrCpy $processeur  "core2"  ; ou corei3
@@ -150,13 +146,15 @@ Function .onInit
   
   StrCpy $processeur $2
   StrCpy $type $3
-  StrCpy $Interface  "Interface_${type}_${processeur}"  
+  ${If} $3 == "min"
+    StrCpy $4 "Interface_windows_min"
+  ${Else}
+    StrCpy $4 "Interface_windows"
+  ${EndIf}
   
   ${If} $2 == "core2"
-    StrCpy $Interface "Interface_"$3"_core2"
-  ${Else}	
-    StrCpy $Interface "Interface_"$3
-  ${Endif}   
+    StrCpy $4 "$4_core2" 
+  ${EndIf}	
   
 FunctionEnd
  
@@ -167,42 +165,52 @@ Section
   CreateDirectory  $INSTDIR\${exemple}\Donnees\R-Altaïr
   CreateDirectory  $INSTDIR\${exemple}\Projets
   CreateDirectory  $INSTDIR\${xhl}
-  CreateDirectory  $INSTDIR\${prodname.simple}\lib
-  CreateDirectory  $INSTDIR\${prodname.simple}\win
   CreateDirectory  $INSTDIR\${prodname.simple}\lhx
+  CreateDirectory  $INSTDIR\${prodname.simple}\win
   CreateDirectory $LOCALAPPDATA\${prodname}  
-  
-  SetDetailsPrint both
-  SetOutPath $INSTDIR\${prodname.simple}
-  File /r  "${prodname.simple}\Docs" 
-  File /r  "${prodname.simple}\Outils" 
-  File /r  "${prodname.simple}\lib" 
-  File     "${prodname.simple}\*.*" 
-  File /r  "${prodname.simple}\RStudio-project\.Rproj.user" 
+  FileOpen $8 $LOCALAPPDATA\${prodname}\rank w
+  FileClose $8
   
   SetOutPath $INSTDIR\${prodname.simple}\win
-  File   "${prodname.simple}\win\*.*" 
-  
-  SetOutPath $INSTDIR\${exemple}
-  File /r  ${exemple}\Docs
-  File     ${exemple}\*.*
+	
+  ${If} $processeur == "core2"
+	  File /r  "${prodname.simple}\win_core2\*.*" 
+  ${Else}
+	  File /r  "${prodname.simple}\win\*.*" 
+  ${EndIf}
 
-  ; C:\Users\XXX\AppData\Altaïr  
-  
-  ReserveFile /r  "${prodname.simple}\Interface_windows" 
-  ReserveFile /r  "${prodname.simple}\Interface_windows_core2" 
+  SetOutPath $INSTDIR\${prodname.simple}  
+    
+  ${If} $type == "min"
+    
+	File /r  "${prodname.simple}\Docs" 
+	File /r  "${prodname.simple}\Outils" 
+	File /r  "${prodname.simple}\lib" 
+	File     "${prodname.simple}\*.*" 
+	File /r  "${prodname.simple}\RStudio-project\.Rproj.user" 
+	File /r  "${prodname.simple}\${RDir}"
 
-${If} $type == "avance"
-    SetOutPath $INSTDIR\${prodname.simple}
 	${If} $processeur == "core2"
-      File /r  "${prodname.simple}\Interface_windows_core2" 
-	${Else}
-	  File /r  "${prodname.simple}\Interface_windows" 
-	${EndIf}
-    File /r  "${prodname.simple}\${RDir}"
+	  File /r  "${prodname.simple}\Interface_windows_min_core2" 
+    ${Else}
+	  File /r  "${prodname.simple}\Interface_windows_min" 
+    ${EndIf}
+	
+	CreateDirectory $INSTDIR\${prodname.simple}\${RStudioDir}\bin\pandoc
+	SetOutPath $INSTDIR\${prodname.simple}\${RStudioDir}\bin\pandoc
+	File ${prodname.simple}\${RStudioDir}\bin\pandoc\pandoc.exe
+			
+  ${Else}  ; "avancé"
+
     File /r  "${prodname.simple}\${texDir}"
 	File /r  "${prodname.simple}\${GitDir}"
     File /r  "${prodname.simple}\${RStudioDir}"
+	
+	${If} $processeur == "core2"
+	  File /r  "${prodname.simple}\Interface_windows_core2" 
+    ${Else}
+	  File /r  "${prodname.simple}\Interface_windows" 
+    ${EndIf}
 	
 	SetOutPath $LOCALAPPDATA  
     File /r "${prodname.simple}\Local\RStudio-desktop"
@@ -212,41 +220,37 @@ ${If} $type == "avance"
 	
 	${EnvVarUpdate} $0 "PATH" "A" "HKCU" "$INSTDIR\${prodname.simple}\${texDir}\miktex\bin\x64"
 	${EnvVarUpdate} $0 "PATH" "A" "HKCU" "$INSTDIR\${prodname.simple}\${GitDir}\bin" 
-		
-${Else}
- 
-    SetOutPath $INSTDIR\${prodname.simple}
-    File /r  "${prodname.simple}\${RDir}"
-	${If} $processeur == "core2"
-      File /r  "${prodname.simple}\Interface_windows_min_core2" 
-	${Else}
-	  File /r  "${prodname.simple}\Interface_windows_min" 
-	${EndIf}
-
-	CreateDirectory $INSTDIR\${prodname.simple}\${RStudioDir}\bin\pandoc
-	SetOutPath $INSTDIR\${prodname.simple}\${RStudioDir}\bin\pandoc
-	;File ${prodname.simple}\${RStudioDir}\bin\pandoc\pandoc.exe
 	
-${EndIf}
+  ${EndIf}
+  
+  SetOutPath $INSTDIR\${exemple}
+  File /r  ${exemple}\Docs
+  File     ${exemple}\*.*
 
-   ; SetOutPath $INSTDIR\${xhl}
-   ; File /r  ${xhl}\Anonyme
-   ; File /r  ${xhl}\Anonyme2
+
+  SetOutPath $INSTDIR\${xhl}
+  File /r  ${xhl}\Anonyme
+  File /r  ${xhl}\Anonyme2
 
  SectionEnd
   
  
 Section 
- 
+  
  !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   SetShellVarContext current
+  StrCpy $5 "$INSTDIR\${prodname.simple}\$4\gui\x64\${prodname}.exe"  
+  StrCpy $6 "$INSTDIR\${prodname.simple}\$4\${icon}"
   
-  SetOutPath       "$INSTDIR\${prodname.simple}\$Interface"
-  CreateShortCut   "$DESKTOP\${prodname}.lnk" "$INSTDIR\${prodname.simple}\$Interface\gui\x64\${prodname}.exe"  "" "$INSTDIR\${prodname.simple}\$Interface\${icon}"
+  CreateShortCut   "$DESKTOP\${prodname}.lnk" $5  "" $6
     
   CreateDirectory  "$SMPROGRAMS\$StartMenuFolder"
   CreateShortCut   "$SMPROGRAMS\$StartMenuFolder\Désinstaller.lnk" "$INSTDIR\Désinstaller.exe" "" "$INSTDIR\Désinstaller.exe" 0
-  CreateShortCut   "$SMPROGRAMS\$StartMenuFolder\${prodname}.lnk" "$INSTDIR\${prodname.simple}\$Interface\gui\x64\${prodname}.exe" "" "$INSTDIR\${prodname.simple}\$Interface\${icon}" 0
+  
+  StrCpy $5 "$INSTDIR\${prodname.simple}\$4\gui\x64\${prodname}.exe"
+  StrCpy $6 "$INSTDIR\${prodname.simple}\$4\${icon}"
+  
+  CreateShortCut   "$SMPROGRAMS\$StartMenuFolder\${prodname}.lnk" $5 "" $6 0
   SetDetailsPrint listonly
 	  
   SetOutPath $INSTDIR
@@ -278,6 +282,10 @@ Section "Uninstall"
   RMDir /r "$APPDATA\RStudio"
  
 SectionEnd
+
+Function un.onUninstSuccess
+    MessageBox  MB_ICONINFORMATION "Désinstallation réalisée."
+  FunctionEnd
 
 BrandingText "Altaïr-${version}"
 
