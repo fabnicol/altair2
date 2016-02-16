@@ -6,7 +6,8 @@ PDF <<- FALSE
 
 if (setOSWindows) {
   
-  invisible(Sys.setenv(PATH = paste0(Sys.getenv("PATH"), ";", file.path(Sys.getenv("R_HOME"), "../texlive/miktex/bin;"))))
+  invisible(Sys.setenv(PATH = paste(Sys.getenv("PATH"), file.path(Sys.getenv("R_HOME"), "../texlive/miktex/bin"), file.path(Sys.getenv("R_HOME"), "../RStudio/bin/pandoc"), sep=";")))
+  print(Sys.getenv("PATH"))
   setwd(file.path(Sys.getenv("R_HOME"), "../Tests/Exemple"))
   source("syspaths.R", encoding=encodage.code.source)
   
@@ -26,7 +27,7 @@ if (setOSWindows) {
                                                                from = "markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures",
                                                                args=c("-V", 
                                                                       "papersize=A4" ))),
-         output_file = "altaïr.docx")z
+         output_file = "altaïr.docx")
   
   #file.rename("altair.pdf", "altaïr.pdf")
   shell("start winword altaïr.docx")
