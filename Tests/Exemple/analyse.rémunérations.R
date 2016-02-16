@@ -225,6 +225,10 @@ Analyse.variations <- Analyse.variations.par.exercice[ ,
                                                                                                                      & Montant.net.annuel.eqtp > minimum.positif])),
                                                        by = clé.fusion]
 
+## Important pour la validité de est.rmpp si les années ne sortent pas bien triées de lhx ! ##
+
+setkey(Analyse.variations, Année)
+
 Analyse.variations[ ,  pris.en.compte := ! is.na(Montant.net.annuel.eqtp.début)
                                     & ! is.na(Montant.net.annuel.eqtp.sortie)
                                     & Montant.net.annuel.eqtp.début  > minimum.positif 

@@ -288,7 +288,7 @@ Tableau <- function(x, ...)
   kable(T, row.names = FALSE, align = "c", booktabs= TRUE)
 }
 
-Tableau.vertical <- function(colnames, rownames, extra = "", ...)
+Tableau.vertical <- function(colnames, rownames, extra = "", ...)   # extra functions in ... first labeled f
 {
     tmp <- c(...)
    
@@ -310,19 +310,40 @@ Tableau.vertical <- function(colnames, rownames, extra = "", ...)
     }
       
   
-    if (! missing(extra) && (is.character(extra)) && (extra == "variation")) {
+    if (! missing(extra) && is.character(extra) && extra == "variation") {
       T <- data.frame(rownames)
       NT <- colnames[1]
       ltmp <- length(tmp)
+      
       for (x in seq_len(ltmp)) {
-        T <- cbind(T, sapply(rownames, tmp[[x]]), g(tmp[[x]]))
-        NT <- c(NT, colnames[[x + 1]], "Variation (%)")
+        
+        T1 <- sapply(rownames, tmp[[x]])
+        T2 <- g(tmp[[x]])
+
+        if (length(T1) == lr && length(T2) == lr) {
+          
+          T <- cbind(T, T1, T2)
+          NT <- c(NT, colnames[[x + 1]], "Variation (%)")
+          
+        } else {
+          cat("Il manque une ligne au moins dans la table. Annulation. [extra = variation]")
+        }
       }
     
       names(T) <- NT
+      
     } else {
-      T <- data.frame(rownames, lapply(tmp, function(f) sapply(rownames, f)))
-      names(T) <- colnames
+      
+      M <- lapply(tmp, function(f) sapply(rownames, f))
+      
+      if (nrow(M) == lr) {
+        
+        T <- data.frame(rownames, M)
+        names(T) <- colnames
+        
+      } else {
+        cat("Il manque une ligne au moins dans la table. Annulation. [extra != variation]")
+      }
     }
     
     kable(T, row.names = FALSE, align = "c", booktabs= TRUE)

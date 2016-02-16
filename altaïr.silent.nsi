@@ -1,3 +1,6 @@
+;SetCompress off
+!define DATA
+
 !include "Sections.nsh"
 !include "MUI2.nsh"
 !include "x64.nsh"
@@ -47,25 +50,14 @@ Var interface
 !define notefile     "${prodname.simple}\LISEZ-MOI.txt"
 !define installfile  "${prodname.simple}\INSTALLATION.txt"
 
-
 !define MUI_ICON     "${exemple}\${icon}"
-!define MUI_WELCOMEFINISHPAGE
-!define MUI_WELCOMEPAGE_TEXT  $(wizard1)
-!define MUI_WELCOMEPAGE_TITLE $(wizard2)
-!define MUI_HEADERIMAGE
-!define MUI_HEADERIMAGE_BITMAP "${exemple}\${prodname}.bmp"
-!define MUI_WELCOMEFINISHPAGE_BITMAP "${exemple}\neptune.bmp"
-!define MUI_ABORTWARNING
-!define MUI_STARTMENUPAGE_REGISTRY_ROOT "HKCU" 
-!define MUI_STARTMENUPAGE_REGISTRY_KEY "Software\Modern UI Test" 
-!define MUI_STARTMENUPAGE_REGISTRY_VALUENAME "Start Menu Folder"
 
  Var StartMenuFolder
  InstallDir "C:\Users\Public" 
  InstallDirRegKey HKLM "SOFTWARE\${prodname}" "Install_Dir"
-   
+  
+     
 !insertmacro MUI_PAGE_STARTMENU Application $StartMenuFolder
-!insertmacro MUI_PAGE_WELCOME  
 !insertmacro MUI_LANGUAGE "French" 
 
  LangString wizard1 ${LANG_FRENCH}   "Installation du logiciel Analyse des lignes de traitement, attributions indemnitaires et rémunérations diverses. Appuyer sur suivant pour continuer."
@@ -78,32 +70,11 @@ Var interface
  LangString completed ${LANG_FRENCH} "Terminé."
  LangString uninst_completed ${LANG_FRENCH} "Désinstallation terminée"
  LangString Sec1Name ${LANG_FRENCH}  "Altaïr"
-
   
  LicenseLangString myLicenseData ${LANG_FRENCH} "${prodname.simple}\LICENCE"
  LicenseData $(myLicenseData)
  LangString Name ${LANG_FRENCH}  "Altaïr"
  Name $(Name)
-
-
-!insertmacro MUI_PAGE_LICENSE "${prodname.simple}\LICENCE"
-!insertmacro MUI_PAGE_DIRECTORY
-!insertmacro MUI_PAGE_COMPONENTS
-
-!define MUI_FINISHPAGE_TITLE $(title1)
-!define MUI_FINISHPAGE_TEXT  $(text1)
-!define MUI_FINISHPAGE_RUN 
-!define MUI_FINISHPAGE_RUN_NOTCHECKED
-!define MUI_FINISHPAGE_CANCEL_ENABLED 
-!insertmacro MUI_PAGE_FINISH
-
-!define MUI_FINISHPAGE_TITLE $(title2)
-!define MUI_FINISHPAGE_TEXT  $(text2)
-!define MUI_FINISHPAGE_RUN 
-!define MUI_FINISHPAGE_RUN_NOTCHECKED
-!define MUI_FINISHPAGE_CANCEL_ENABLED 
-!insertmacro MUI_PAGE_FINISH
-
 
 !insertmacro MUI_PAGE_INSTFILES
 !insertmacro MUI_UNPAGE_INSTFILES
@@ -144,6 +115,27 @@ Function .onInit
   ${GetOptions} $R0 /CPU= $2
   ${GetOptions} $R0 /TYPE= $3
   
+  SetOutPath $INSTDIR\${prodname.simple}  
+  File /oname=cpu_test.vbs "${prodname.simple}\cpu_test.vbs"
+  File /oname=cpu_test.bat "${prodname.simple}\cpu_test.bat"
+  
+  
+FunctionEnd
+ 
+Section
+  
+  ExecShell "" $INSTDIR\${prodname.simple}\cpu_test.vbs 
+  
+  FileOpen $8 $INSTDIR\${prodname.simple}\cpu_type r
+  FileRead $8 $9  
+  FileClose $8
+
+  ${If}  "$2" == ""
+	  ${If} "$9" == "1"
+		 StrCpy $2 "core2" 
+	  ${EndIf}
+  ${EndIf}	  
+  
   StrCpy $processeur $2
   StrCpy $type $3
   ${If} $3 == "min"
@@ -156,12 +148,6 @@ Function .onInit
     StrCpy $4 "$4_core2" 
   ${EndIf}	
   
-FunctionEnd
- 
-
- 
-Section
-  
   CreateDirectory  $INSTDIR\${exemple}\Donnees\R-Altaïr
   CreateDirectory  $INSTDIR\${exemple}\Projets
   CreateDirectory  $INSTDIR\${xhl}
@@ -172,7 +158,7 @@ Section
   FileClose $8
   
   SetOutPath $INSTDIR\${prodname.simple}\win
-	
+  
   ${If} $processeur == "core2"
 	  File /r  "${prodname.simple}\win_core2\*.*" 
   ${Else}
@@ -180,17 +166,19 @@ Section
   ${EndIf}
 
   SetOutPath $INSTDIR\${prodname.simple}  
-    
+  
+  !ifdef DATA
+  File /r  "${prodname.simple}\Docs" 
+  File /r  "${prodname.simple}\Outils" 
+  File /r  "${prodname.simple}\lib" 
+  File     "${prodname.simple}\*.*" 
+  File /r  "${prodname.simple}\RStudio-project\.Rproj.user" 
+  File /r  "${prodname.simple}\${RDir}"
+  !endif
+  
   ${If} $type == "min"
-    
-	File /r  "${prodname.simple}\Docs" 
-	File /r  "${prodname.simple}\Outils" 
-	File /r  "${prodname.simple}\lib" 
-	File     "${prodname.simple}\*.*" 
-	File /r  "${prodname.simple}\RStudio-project\.Rproj.user" 
-	File /r  "${prodname.simple}\${RDir}"
 
-	${If} $processeur == "core2"
+    ${If} $processeur == "core2"
 	  File /r  "${prodname.simple}\Interface_windows_min_core2" 
     ${Else}
 	  File /r  "${prodname.simple}\Interface_windows_min" 
@@ -202,9 +190,11 @@ Section
 			
   ${Else}  ; "avancé"
 
+   !ifdef DATA  
     File /r  "${prodname.simple}\${texDir}"
 	File /r  "${prodname.simple}\${GitDir}"
     File /r  "${prodname.simple}\${RStudioDir}"
+   !endif
 	
 	${If} $processeur == "core2"
 	  File /r  "${prodname.simple}\Interface_windows_core2" 
@@ -223,6 +213,7 @@ Section
 	
   ${EndIf}
   
+  !ifdef DATA
   SetOutPath $INSTDIR\${exemple}
   File /r  ${exemple}\Docs
   File     ${exemple}\*.*
@@ -231,6 +222,7 @@ Section
   SetOutPath $INSTDIR\${xhl}
   File /r  ${xhl}\Anonyme
   File /r  ${xhl}\Anonyme2
+  !endif
 
  SectionEnd
   

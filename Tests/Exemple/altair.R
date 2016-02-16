@@ -606,6 +606,7 @@ smpt <- function(Filtre, type =  "smpt net") {
                                        .(moy = weighted.mean(Montant.net.annuel.eqtp, quotité.moyenne, na.rm = TRUE)),
                                        by = "Année"]
   
+ 
   f <- function(x) prettyNum(S_net.eqtp[Année == x, moy],
                                big.mark = " ",
                                digits = 1,
