@@ -13,7 +13,10 @@ Set objFSO=CreateObject("Scripting.FileSystemObject")
 Set objFile = objFSO.CreateTextFile("cpu_check",True)
 
 For Each objItem in colItems
-  If (InStr(UCase(objItem.Name), "CORE2", vbTextCompare) = 0 And InStr(UCase(objItem.Name), "CELERON", vbTextCompare) = 0) Then objFile.Write "0" & vbCrLf Else objFile.Write "1" & vbCrLf
+  If (InStr(UCase(objItem.Name), "CORE2") = 0 And InStr(UCase(objItem.Name), "CELERON") = 0) Then 
+    objFile.Write "0" & vbCrLf 
+  Else objFile.Write "1" & vbCrLf
+  End If
 Next
 
 objFile.Close
