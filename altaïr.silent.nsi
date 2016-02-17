@@ -1,5 +1,5 @@
-;SetCompress off
-!define DATA
+;SetCompress auto
+;!define DATA
 
 !include "Sections.nsh"
 !include "MUI2.nsh"
@@ -17,7 +17,6 @@
 !define version  "2016.02"
 Var processeur 
 Var type 
-Var interface
 
 ; l'installation par défaut est du type Interface_windows_core2
 ; les possibilités sont donc : 
@@ -107,47 +106,34 @@ Function .onInit
 
   Delete $TEMP\spltmp.bmp
 
-  StrCpy $processeur  "core2"  ; ou corei3
-  StrCpy $type  "windows"  ; ou corei3; ou windows_min
+  StrCpy $processeur  ""  ; 
+  StrCpy $type  ""  ; 
   
   ${GetParameters} $R0
   ClearErrors
   ${GetOptions} $R0 /CPU= $2
   ${GetOptions} $R0 /TYPE= $3
   
-  SetOutPath $INSTDIR\${prodname.simple}  
-  File /oname=cpu_test.vbs "${prodname.simple}\cpu_test.vbs"
-  File /oname=cpu_test.bat "${prodname.simple}\cpu_test.bat"
-  
+ 
   
 FunctionEnd
- 
+
+
 Section
   
-  ExecShell "" $INSTDIR\${prodname.simple}\cpu_test.vbs 
+  SetOutPath $INSTDIR\${prodname.simple}  
+  File /oname=cpu_test.vbs "${prodname.simple}\cpu_test.vbs"
   
-  FileOpen $8 $INSTDIR\${prodname.simple}\cpu_type r
+  ; besoin d'execwait sinon le test prend trop de temps pour que la valeur résultat soit récupérée
+  ; VBScript évite d'avoir un petit-fils en batch, qui ne serait pas géré par ExecWait
+  ; lancer batch directement causerait le lancement d'une console inutile 
+  
+  ExecWait '"$SYSDIR\wscript.exe" //Nologo //B "$INSTDIR\${prodname.simple}\cpu_test.vbs"'
+    
+  FileOpen $8 $INSTDIR\${prodname.simple}\cpu_check r
   FileRead $8 $9  
   FileClose $8
-
-  ${If}  "$2" == ""
-	  ${If} "$9" == "1"
-		 StrCpy $2 "core2" 
-	  ${EndIf}
-  ${EndIf}	  
-  
-  StrCpy $processeur $2
-  StrCpy $type $3
-  ${If} $3 == "min"
-    StrCpy $4 "Interface_windows_min"
-  ${Else}
-    StrCpy $4 "Interface_windows"
-  ${EndIf}
-  
-  ${If} $2 == "core2"
-    StrCpy $4 "$4_core2" 
-  ${EndIf}	
-  
+    
   CreateDirectory  $INSTDIR\${exemple}\Donnees\R-Altaïr
   CreateDirectory  $INSTDIR\${exemple}\Projets
   CreateDirectory  $INSTDIR\${xhl}
@@ -157,50 +143,75 @@ Section
   FileOpen $8 $LOCALAPPDATA\${prodname}\rank w
   FileClose $8
   
-  SetOutPath $INSTDIR\${prodname.simple}\win
+  StrCpy $processeur $2
+  StrCpy $type $3
   
-  ${If} $processeur == "core2"
-	  File /r  "${prodname.simple}\win_core2\*.*" 
-  ${Else}
-	  File /r  "${prodname.simple}\win\*.*" 
-  ${EndIf}
-
+  ${If}  "$processeur" == ""
+	  ${If} "$9" == "1"
+		 StrCpy $processeur "core2" 
+	  ${EndIf}
+  ${EndIf}	  
+   
   SetOutPath $INSTDIR\${prodname.simple}  
   
   !ifdef DATA
-  File /r  "${prodname.simple}\Docs" 
-  File /r  "${prodname.simple}\Outils" 
-  File /r  "${prodname.simple}\lib" 
-  File     "${prodname.simple}\*.*" 
-  File /r  "${prodname.simple}\RStudio-project\.Rproj.user" 
-  File /r  "${prodname.simple}\${RDir}"
+    File /r  "${prodname.simple}\Docs" 
+    File /r  "${prodname.simple}\Outils" 
+    File /r  "${prodname.simple}\lib" 
+    File     "${prodname.simple}\*.*" 
+    File /r  "${prodname.simple}\RStudio-project\.Rproj.user" 
+    File /r  "${prodname.simple}\${RDir}"
   !endif
+ 
   
-  ${If} $type == "min"
+  SetOutPath $INSTDIR\${prodname.simple}
+  
+  ${If} "$processeur" == "core2"  
 
-    ${If} $processeur == "core2"
-	  File /r  "${prodname.simple}\Interface_windows_min_core2" 
-    ${Else}
-	  File /r  "${prodname.simple}\Interface_windows_min" 
-    ${EndIf}
+    ${If} "$type" == "min"  
 	
+      File /r  "${prodname.simple}\Interface_windows_min_core2" 
+    
+	${Else}
+
+      File /r  "${prodname.simple}\Interface_windows_core2" 
+	  
+    ${EndIf}
+
+	SetOutPath $INSTDIR\${prodname.simple}\win
+	File  "${prodname.simple}\win_core2\*.*"   	
+	  
+  ${Else}	
+
+		${If} "$type" == "min"
+		  
+		  File /r  "${prodname.simple}\Interface_windows_min" 
+
+		${Else}
+
+		  File /r  "${prodname.simple}\Interface_windows" 
+	  
+		${EndIf}
+	
+    SetOutPath $INSTDIR\${prodname.simple}\win	
+	File  "${prodname.simple}\win\*.*"   	
+
+  ${EndIf}	
+  
+  ${If} "$type" == "min"
+  
 	CreateDirectory $INSTDIR\${prodname.simple}\${RStudioDir}\bin\pandoc
 	SetOutPath $INSTDIR\${prodname.simple}\${RStudioDir}\bin\pandoc
 	File ${prodname.simple}\${RStudioDir}\bin\pandoc\pandoc.exe
 			
   ${Else}  ; "avancé"
-
+   
+    SetOutPath $INSTDIR\${prodname.simple}
    !ifdef DATA  
-    File /r  "${prodname.simple}\${texDir}"
-	File /r  "${prodname.simple}\${GitDir}"
-    File /r  "${prodname.simple}\${RStudioDir}"
+     File /r  "${prodname.simple}\${texDir}"
+     File /r  "${prodname.simple}\${GitDir}"
+     File /r  "${prodname.simple}\${RStudioDir}"
    !endif
-	
-	${If} $processeur == "core2"
-	  File /r  "${prodname.simple}\Interface_windows_core2" 
-    ${Else}
-	  File /r  "${prodname.simple}\Interface_windows" 
-    ${EndIf}
 	
 	SetOutPath $LOCALAPPDATA  
     File /r "${prodname.simple}\Local\RStudio-desktop"
@@ -212,35 +223,65 @@ Section
 	${EnvVarUpdate} $0 "PATH" "A" "HKCU" "$INSTDIR\${prodname.simple}\${GitDir}\bin" 
 	
   ${EndIf}
-  
+    
   !ifdef DATA
-  SetOutPath $INSTDIR\${exemple}
-  File /r  ${exemple}\Docs
-  File     ${exemple}\*.*
+    SetOutPath $INSTDIR\${exemple}
+    File /r  ${exemple}\Docs
+    File     ${exemple}\*.*
 
-
-  SetOutPath $INSTDIR\${xhl}
-  File /r  ${xhl}\Anonyme
-  File /r  ${xhl}\Anonyme2
+    SetOutPath $INSTDIR\${xhl}
+    File /r  ${xhl}\Anonyme
+    File /r  ${xhl}\Anonyme2
   !endif
 
  SectionEnd
-  
- 
+
 Section 
   
  !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   SetShellVarContext current
-  StrCpy $5 "$INSTDIR\${prodname.simple}\$4\gui\x64\${prodname}.exe"  
-  StrCpy $6 "$INSTDIR\${prodname.simple}\$4\${icon}"
+  
+  ${If} "$processeur" == "core2"  
+
+    ${If} "$type" == "min"  
+
+  StrCpy $5 "$INSTDIR\${prodname.simple}\Interface_windows_min_core2\gui\x64\${prodname}.exe"  
+  StrCpy $6 "$INSTDIR\${prodname.simple}\Interface_windows_min_core2\${icon}"
+	
+    
+	${Else}
+
+  StrCpy $5 "$INSTDIR\${prodname.simple}\Interface_windows_core2\gui\x64\${prodname}.exe"  
+  StrCpy $6 "$INSTDIR\${prodname.simple}\Interface_windows_core2\${icon}"
+  
+  
+    ${EndIf}
+
+	  
+  ${Else}	
+
+		${If} "$type" == "min"
+		  
+  StrCpy $5 "$INSTDIR\${prodname.simple}\Interface_windows_min\gui\x64\${prodname}.exe"  
+  StrCpy $6 "$INSTDIR\${prodname.simple}\Interface_windows_min\${icon}"
+	
+
+		${Else}
+
+  StrCpy $5 "$INSTDIR\${prodname.simple}\Interface_windows\gui\x64\${prodname}.exe"  
+  StrCpy $6 "$INSTDIR\${prodname.simple}\Interface_windows\${icon}"
+	
+
+		${EndIf}
+	    
+  ${EndIf}	
+  
   
   CreateShortCut   "$DESKTOP\${prodname}.lnk" $5  "" $6
     
   CreateDirectory  "$SMPROGRAMS\$StartMenuFolder"
   CreateShortCut   "$SMPROGRAMS\$StartMenuFolder\Désinstaller.lnk" "$INSTDIR\Désinstaller.exe" "" "$INSTDIR\Désinstaller.exe" 0
   
-  StrCpy $5 "$INSTDIR\${prodname.simple}\$4\gui\x64\${prodname}.exe"
-  StrCpy $6 "$INSTDIR\${prodname.simple}\$4\${icon}"
   
   CreateShortCut   "$SMPROGRAMS\$StartMenuFolder\${prodname}.lnk" $5 "" $6 0
   SetDetailsPrint listonly
