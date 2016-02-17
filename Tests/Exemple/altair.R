@@ -617,14 +617,15 @@ smpt <- function(Filtre, type =  "smpt net") {
                              digits = 1,
                              format = "fg")
   
-  print(Tableau.vertical(c(étiquette.année, type %+% " (euros)", type %+% " temps complet (euros)"),
+  T <- Tableau.vertical(c(étiquette.année, type %+% " (euros)", type %+% " temps complet (euros)"),
                          if (type == "smpt net") période else période[2:durée.sous.revue],           # if...else pas ifelse (dim vecteur)
                          extra = "variation",
                          f,
-                         g))
+                         g)
   
-  cat("\n\n")
+  if (T != "")  print(T)
   
+  cat("\n\n")  
 }
 
 distribution_smpt <- function(Filtre) {

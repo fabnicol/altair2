@@ -251,11 +251,18 @@ Résumé <- function(x,y, align = 'r', extra = 0, type = "pond")  {
           
            n <- ncol(S) - 1  
            temp <- S[ , 1]
+           nrow.S <- length(temp)
           
            for (i in 1:n) {
-               temp <- cbind(temp, S[ , i + 1])
+               
+               if (length(S[ , i + 1]) == nrow.S) {
+                 temp <- cbind(temp, S[ , i + 1])
 
-               temp <- cbind(temp, c("", "", "", ifelse(is.vector(Y[[i]]), length(Y[[i]]), nrow(Y[[i]])), "", ""))
+                 temp <- cbind(temp, c("", "", "", ifelse(is.vector(Y[[i]]), length(Y[[i]]), nrow(Y[[i]])), "", ""))
+               } else {
+                 cat("Impossible de générer le tableau : ligne manquante.")
+                 return("")
+               }
                
 
            }
@@ -265,10 +272,14 @@ Résumé <- function(x,y, align = 'r', extra = 0, type = "pond")  {
         }
       }
 
- 
-     dimnames(S)[[2]] <- c("Statistique", x)
+     if (length(dimnames(S)[[2]]) == length(x) + 1) {
+       
+       dimnames(S)[[2]] <- c("Statistique", x)
 
-     kable(S, row.names = FALSE, align = align, booktabs = TRUE)
+       kable(S, row.names = FALSE, align = align, booktabs = TRUE)
+     } else {
+       cat("Table non générée.")
+     }
 
 }
 
@@ -317,9 +328,11 @@ Tableau.vertical <- function(colnames, rownames, extra = "", ...)   # extra func
       
       for (x in seq_len(ltmp)) {
         
-        T1 <- sapply(rownames, tmp[[x]])
+        T1 <- unlist(sapply(rownames, tmp[[x]]))
         T2 <- g(tmp[[x]])
-
+        
+        # unlist est rendu nécessaire par le fait que lorsque character(0) apparaît, sapply n'arrive pas à délister.
+        
         if (length(T1) == lr && length(T2) == lr) {
           
           T <- cbind(T, T1, T2)
@@ -327,22 +340,24 @@ Tableau.vertical <- function(colnames, rownames, extra = "", ...)   # extra func
           
         } else {
           cat("Il manque une ligne au moins dans la table. Annulation. [extra = variation]")
+          return("")
         }
       }
     
       names(T) <- NT
       
     } else {
-      
+ 
       M <- lapply(tmp, function(f) sapply(rownames, f))
       
       if (nrow(M) == lr) {
-        
+
         T <- data.frame(rownames, M)
         names(T) <- colnames
         
       } else {
         cat("Il manque une ligne au moins dans la table. Annulation. [extra != variation]")
+        return("")
       }
     }
     
