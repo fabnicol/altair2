@@ -1,5 +1,13 @@
-;SetCompress auto
-;!define DATA
+SetCompress auto
+!define DATA
+
+!addincludedir  "${NSISDIR}\Include"
+
+!ifdef NSIS_UNICODE
+	!addplugindir "${NSISDIR}\Plugins\Release_Unicode"
+!else
+	!addplugindir "${NSISDIR}\Plugins\Release_ANSI"
+!endif
 
 !include "Sections.nsh"
 !include "MUI2.nsh"
@@ -7,6 +15,9 @@
 !include "${NSISDIR}\Contrib\Modern UI\System.nsh"
 !include "StrFunc.nsh"
 !include "EnvVarUpdate.nsh"
+!include "LogicLib.nsh"
+!include "CPUFeatures.nsh"
+ 
 ;!addplugindir "c:\Program Files (x86)\NSIS\Plugins"
 !include FileFunc.nsh
 !insertmacro GetParameters
@@ -97,6 +108,9 @@ RequestExecutionLevel user
 AutoCloseWindow true
 Icon "${prodname.simple}\Interface_windows\${icon}"  
 
+RequestExecutionLevel user
+ShowInstDetails show
+
 Function .onInit
  
   SetOutPath $TEMP	
@@ -114,7 +128,7 @@ Function .onInit
   ${GetOptions} $R0 /CPU= $2
   ${GetOptions} $R0 /TYPE= $3
   
- 
+  ${CPUFeatures.CheckFeature} "AVX2" $7 
   
 FunctionEnd
 
@@ -128,11 +142,11 @@ Section
   ; VBScript évite d'avoir un petit-fils en batch, qui ne serait pas géré par ExecWait
   ; lancer batch directement causerait le lancement d'une console inutile 
   
-  ExecWait '"$SYSDIR\wscript.exe" //Nologo //B "$INSTDIR\${prodname.simple}\cpu_test.vbs"'
+  ;ExecWait '"$SYSDIR\wscript.exe" //Nologo //B "$INSTDIR\${prodname.simple}\cpu_test.vbs"'
     
-  FileOpen $8 $INSTDIR\${prodname.simple}\cpu_check r
-  FileRead $8 $9  
-  FileClose $8
+  ;FileOpen $8 $INSTDIR\${prodname.simple}\cpu_check r
+  ;FileRead $8 $9  
+  ;FileClose $8
     
   CreateDirectory  $INSTDIR\${exemple}\Donnees\R-Altaïr
   CreateDirectory  $INSTDIR\${exemple}\Projets
@@ -147,11 +161,11 @@ Section
   StrCpy $type $3
   
   ${If}  "$processeur" == ""
-	  ${If} "$9" == "1"
+	  ${If} "$7" == "no"
 		 StrCpy $processeur "core2" 
 	  ${EndIf}
   ${EndIf}	  
-   
+  
   SetOutPath $INSTDIR\${prodname.simple}  
   
   !ifdef DATA
