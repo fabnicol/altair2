@@ -15,15 +15,15 @@ BugReports: https://github.com/Rdatatable/data.table/issues
 MailingList: datatable-help@lists.r-forge.r-project.org
 VignetteBuilder: knitr
 ByteCompile: TRUE
-Built: R 3.2.3; x86_64-w64-mingw32; 2016-02-02 22:04:01 UTC; windows
+Built: R 3.2.3; x86_64-w64-mingw32; 2016-02-19 16:36:47 UTC; windows
 Archs: x64
 RemoteType: github
 RemoteHost: api.github.com
 RemoteRepo: data.table
 RemoteUsername: Rdatatable
 RemoteRef: master
-RemoteSha: 642f407a67dbe99cb2720e45a8f6242d6a58767d
+RemoteSha: d96881ded450c9595edf8b1c894739b50de80074
 GithubRepo: data.table
 GithubUsername: Rdatatable
 GithubRef: master
-GithubSHA1: 642f407a67dbe99cb2720e45a8f6242d6a58767d
+GithubSHA1: d96881ded450c9595edf8b1c894739b50de80074

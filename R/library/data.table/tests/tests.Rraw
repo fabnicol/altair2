@@ -7325,6 +7325,82 @@ Encoding(xx) = "unknown"
 y = sample(c(x,xx), 10, TRUE)
 test(1590.5, forderv(y), integer(0)) # all sorted
 
+# #1432 test
+list_1 = list(a = c(44,47), dens = c(2331,1644))
+list_2 = list(a=66, dens= 1890)
+list_3 = list(a=c(44,46,48,50), dens=c(8000,1452,1596,7521)) 
+mylist = list(list_1, list_2, list_3)
+setattr(mylist, 'names', c("ID_1","ID_2","ID_3"))
+ans = data.table(id=rep(c("ID_1","ID_2","ID_3"), c(2,1,4)), 
+                  a=c(44,47,66,44,46,48,50), 
+               dens=c(2331,1644,1890,8000,1452,1596,7521))
+test(1591, rbindlist(mylist, idcol="id"), ans)
+
+# FR #1443
+DT <- data.table(x = 1:3, y = 4:6, z = 7:9)
+test(1592.1, setnames(DT, -5, "bla"), error="Items of 'old'")
+test(1592.2, names(setnames(DT, -1, c("m", "n"))), c("x", "m", "n"))
+
+# fix for #1513
+test(1593, CJ(c(1,2,2), c(1,2,3)), data.table(V1=rep(c(1,2), c(3,6)), V2=c(1,2,3,1,1,2,2,3,3), key=c("V1", "V2")))
+
+# FR #523, var, sd and prod
+options(datatable.optimize = Inf) # ensure gforce is on
+DT = data.table(x=sample(5, 100, TRUE), 
+               y1=sample(6, 100, TRUE), 
+               y2=sample(c(1:10,NA), 100, TRUE), 
+               z1=runif(100), 
+               z2=sample(c(runif(10),NA,NaN), 100, TRUE))
+test(1594.1, DT[, lapply(.SD, var, na.rm=FALSE), by=x], DT[, lapply(.SD, stats::var, na.rm=FALSE), by=x])
+test(1594.2, DT[, lapply(.SD, var, na.rm=TRUE), by=x], DT[, lapply(.SD, stats::var, na.rm=TRUE), by=x])
+test(1594.3, DT[, lapply(.SD, var, na.rm=TRUE), by=x, verbose=TRUE], output="GForce optimized j to.*gvar")
+
+test(1594.4, DT[, lapply(.SD, sd, na.rm=FALSE), by=x], DT[, lapply(.SD, stats::sd, na.rm=FALSE), by=x])
+test(1594.5, DT[, lapply(.SD, sd, na.rm=TRUE), by=x], DT[, lapply(.SD, stats::sd, na.rm=TRUE), by=x])
+test(1594.6, DT[, lapply(.SD, sd, na.rm=TRUE), by=x, verbose=TRUE], output="GForce optimized j to.*gsd")
+
+test(1594.7, DT[, lapply(.SD, prod, na.rm=FALSE), by=x], DT[, lapply(.SD, base::prod, na.rm=FALSE), by=x])
+test(1594.8, DT[, lapply(.SD, prod, na.rm=TRUE), by=x], DT[, lapply(.SD, base::prod, na.rm=TRUE), by=x])
+test(1594.9, DT[, lapply(.SD, prod, na.rm=TRUE), by=x, verbose=TRUE], output="GForce optimized j to.*gprod")
+
+# FR #1517
+dt1 = data.table(x=c(1,1,2), y=1:3)
+dt2 = data.table(x=c(2,3,4), z=4:6)
+test(1595, merge(dt1,dt2), merge(dt1,dt2, by="x"))
+
+# FR 1512, drop argument for dcast.data.table
+DT <- data.table(v1 = c(1.1, 1.1, 1.1, 2.2, 2.2, 2.2),
+                 v2 = factor(c(1L, 1L, 1L, 3L, 3L, 3L), levels=1:3), 
+                 v3 = factor(c(2L, 3L, 5L, 1L, 2L, 6L), levels=1:6), 
+                 v4 = c(3L, 2L, 2L, 5L, 4L, 3L)) 
+ans1 <- dcast(DT, v1+v2~v3, value.var="v4", drop=FALSE)
+test(1596.1, dcast(DT, v1+v2~v3, value.var="v4", drop=c(FALSE, TRUE)), ans1[, -6, with=FALSE])
+test(1596.2, dcast(DT, v1+v2~v3, value.var="v4", drop=c(TRUE, FALSE)), ans1[c(1,6)])
+
+# bug fix #1495
+dt  = data.table(id=1:30, nn = paste0('A', 1:30))
+smp = sample(30, size =10)
+lgl = dt$id %in% smp
+test(1597, dt[lgl, ], dt[id %in% smp])
+
+# FR #643
+vv = sample(letters[1:3], 10, TRUE)
+test(1599.1, data.table(x=vv, y=1:10, stringsAsFactors=TRUE)$x, factor(vv))
+vv = sample(c(letters[1:3], NA), 10, TRUE)
+test(1599.2, data.table(x=vv, y=1:10, stringsAsFactors=TRUE)$x, factor(vv))
+
+# bug #1477 fix
+DT <- data.table(a = 0L:1L, b = c(1L, 1L))
+test(1600.1, DT[ , lapply(.SD, function(x) if (all(x)) x)], data.table(b=c(1L, 1L)))
+# this fix wasn't entirely nice as it introduced another issue.
+# it's fixed now, but adding a test for that issue as well to catch it early next time.
+set.seed(17022016L)
+DT1 = data.table(id1 = c("c", "a", "b", "b", "b", "c"), 
+                  z1 = sample(100L, 6L), 
+                  z2 = sample(letters, 6L))
+DT2 = data.table(id1=c("c", "w", "b"), val=50:52)
+test(1600.2, names(DT1[DT2, .(id1=id1, val=val, bla=sum(z1, na.rm=TRUE)), on="id1"]), c("id1", "val", "bla"))
+
 ##########################
 
 # TODO: Tests involving GForce functions needs to be run with optimisation level 1 and 2, so that both functions are tested all the time.
