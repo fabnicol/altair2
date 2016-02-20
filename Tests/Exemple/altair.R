@@ -2010,7 +2010,11 @@ rm(L)
 #'## `r chapitre`.9 Contrôle du supplément familial de traitement   
 #'  
 
-#source("sft.R")
+if (! utiliser.cplusplus.sft)
+{
+   source("sft.R", encoding = encodage.code.source)
+   sft <- sft_R
+}
 
 Paie.sans.enfant.réduit <- Paie[is.na(NbEnfants) | NbEnfants == 0 , .(SFT.versé = sum(Montant[Type == "S"], na.rm = TRUE)), keyby="Matricule,Année,Mois"] 
 
@@ -2048,8 +2052,22 @@ Paie.enfants.réduit <- Paie[!is.na(NbEnfants) & NbEnfants > 0 & !is.na(Indice) &
                                         NbEnfants = NbEnfants[1]),
                                         keyby="Matricule,Année,Mois"]
 
+if (benchmark.cplusplus.sft)
+{
+  
+  library(microbenchmark)
+  
+  microbenchmark(with(Paie.enfants.réduit, 
+                       mapply(sft_R, NbEnfants, Indice, NBI, Temps.de.travail, Année, Mois, USE.NAMES = FALSE)))
+  
+  microbenchmark(with(Paie.enfants.réduit, 
+                       mapply(sft, NbEnfants, Indice, NBI, Temps.de.travail, Année, Mois, USE.NAMES = FALSE)))
+  stop("sft")
+
+}
+
 SFT.controle <- with(Paie.enfants.réduit, 
-                     mapply(sft, NbEnfants, Indice, NBI, Temps.de.travail, Année, Mois, USE.NAMES = FALSE))
+                       mapply(sft, NbEnfants, Indice, NBI, Temps.de.travail, Année, Mois, USE.NAMES = FALSE))
 
 Paie.enfants.réduit <- cbind(Paie.enfants.réduit, SFT.controle)
 

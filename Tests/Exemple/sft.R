@@ -17,7 +17,7 @@ sft.prop <- c(un = 0, deux = 3, trois = 8, 8 + 6 * 1:12) / 100
 part.proportionnelle.minimale <- outer(PointMensuelIM, sft.prop * 449)
 
 
-sft <- function(x, indice, nbi, durée, année, mois)   {
+sft_R <- function(x, indice, nbi, durée, année, mois)   {
   
   if (x > 15) return(-1)
   
