@@ -670,7 +670,7 @@ const char* pat2 = EXPRESSION_REG_VACATIONS;
 
 using namespace std;
 #else
-#error "C++11 doit être utilisé."
+#error "C++14 doit être utilisé."
 #endif
 
 
