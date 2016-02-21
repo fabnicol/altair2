@@ -1,24 +1,32 @@
+
+// [[Rcpp::plugins(cpp11)]]
+
 #include <Rcpp.h>
 
-/* Utiliser boost/regex.hpp, inclus dans le paquet BH
- * Les résultats sont 50 fois plus rapides qu'avec la bibliothèque standard de C++14 (G++)...
+/*  
+ *  Utiliser boost/regex.hpp, inclus dans le paquet BH
+ *  Les rÃ©sultats sont 50 fois plus rapides qu'avec la bibliothÃ¨que standard de C++14 (G++)...sous linux.
+ *  Sous windows, non, utilisation de la bibliothÃ¨que standard regex C++1 = mÃªme performances que sous linux.
+ *  Ecart de performances beaucoup plus grand sous Windows entre R et Rcpp (x15) que sous linux (x3). 
+ *  Gain de 1 s par million de lignes sous Windows, de 150 ms seulement sous linux.
+ *  
  */
 
-#include <boost/regex.hpp>
+
+#include <regex>
 #include <string>
 
 using namespace std;
 using namespace Rcpp;
 
-// [[Rcpp::plugins(cpp11)]]
 
 /*
-*  on prévoit 15 enfants...
+*  on prÃ©voit 15 enfants...
 *
-*  limitations : pas de vérification des cas de divorce etc., ni des cas de cumuls
-*                pas de vérification non plus de la licéité des versements à des contractuels exclus par l'article 1er 
-*                du décret n°85-1148 du 24 octobre 1985 modifié relatif à la rémunération des personnels civils et militaires
-*                de l'Etat, des personnels des collectivités territoriales et des personnels des établissements publics d'hospitalisation. 
+*  limitations : pas de vÃ©rification des cas de divorce etc., ni des cas de cumuls
+*                pas de vÃ©rification non plus de la licÃ©itÃ© des versements Ã  des contractuels exclus par l'article 1er 
+*                du dÃ©cret nÂ°85-1148 du 24 octobre 1985 modifiÃ© relatif Ã  la rÃ©munÃ©ration des personnels civils et militaires
+*                de l'Etat, des personnels des collectivitÃ©s territoriales et des personnels des Ã©tablissements publics d'hospitalisation. 
 */
 
 
@@ -72,14 +80,14 @@ constexpr double PointMensuelIM[8][12] = {
   
  double sft(int prop, const string& indice, double nbi, double duree, int annee, int mois)   
  {
-   if (duree  == 0 || indice.empty() || indice.at(0) == 'N' && indice.at(1) == 'A') return(0);  
+   if (duree  == 0 || indice.empty() || (indice.at(0) == 'N' && indice.at(1) == 'A')) return(0);  
     
-   const char* ECHELLE_LETTRE_PATTERN = "H.*(E|é).*[A-F]";
+   const char* ECHELLE_LETTRE_PATTERN = "H.*(E|Ã©).*[A-F]";
    int indice_entier = 0;
     
-   static const boost::regex echelle_lettre {ECHELLE_LETTRE_PATTERN, boost::regex::icase};
+   static const regex echelle_lettre {ECHELLE_LETTRE_PATTERN, regex::icase};
     
-   indice_entier = (boost::regex_match(indice, echelle_lettre))? 717 :  stoi(indice);
+   indice_entier = (regex_match(indice, echelle_lettre))? 717 :  stoi(indice);
 
    indice_entier = stoi(indice);
    
@@ -93,7 +101,7 @@ constexpr double PointMensuelIM[8][12] = {
      part_proportionnelle =  sft_prop[prop - 1] * static_cast<double>(max(449, min(indice_entier, 717))) 
                                                 * PointMensuelIM[annee - 2008][mois - 1];  
    
-   // on prend en compte les quotités spécifiques de temps partiel
+   // on prend en compte les quotitÃ©s spÃ©cifiques de temps partiel
    // 0.91429  =  32/35 ; 0.85714 = 6/7
    
    double coef = (duree == 90)?  0.91429 : ((duree == 80)? 0.85714 : duree/100);
@@ -104,7 +112,7 @@ constexpr double PointMensuelIM[8][12] = {
        : coef * part_proportionnelle + sft_fixe[prop - 1];
    
    
-   // vérification du plancher des attributions minimales à temps plein
+   // vÃ©rification du plancher des attributions minimales Ã  temps plein
    
    if (prop != 1) 
      valeur = max(valeur, part_proportionnelle_minimale(annee, mois, prop) + sft_fixe[prop - 1]);
@@ -121,7 +129,7 @@ constexpr double PointMensuelIM[8][12] = {
  /*
   double sft(...)  
   {
-  if (is.na(durée) || is.na(x) || is.na(indice)) return(0);
+  if (is.na(durÃ©e) || is.na(x) || is.na(indice)) return(0);
   if (x > 15) return(-1);
   }
   */  

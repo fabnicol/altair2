@@ -80,7 +80,5 @@
 #include <Rcpp/sugar/functions/cummin.h>
 #include <Rcpp/sugar/functions/cummax.h>
 
-#include <Rcpp/sugar/functions/median.h>
-
 #endif
 

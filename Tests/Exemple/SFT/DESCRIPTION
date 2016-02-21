@@ -1,0 +1,13 @@
+Package: SFT
+Type: Package
+Title: Contrôle du supplément familial de traitement (SFT)
+Version: 1.0
+Date: 2016-02-21
+Author: Fabrice Nicol
+Maintainer: Fabrice Nicol <fabrice.nicol@crtc.ccomptes.fr>
+Description: Crée une fonction sft qui calcule la valeur du SFT en fonction des caractéristiques du salaire.
+License: GPL 3.1
+Imports: Rcpp (>= 0.12.2)
+LinkingTo: Rcpp
+NeedsCompilation: yes
+Packaged: 2016-02-21 03:06:17 UTC; Fab

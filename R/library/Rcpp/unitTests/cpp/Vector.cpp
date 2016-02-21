@@ -823,8 +823,3 @@ String vec_print_integer(IntegerVector v) {
     buf << v;
     return buf.str();
 }
-
-// [[Rcpp::export]]
-IntegerVector vec_subset(IntegerVector x, IntegerVector y) {
-    return x[y - 1];
-}
