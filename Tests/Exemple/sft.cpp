@@ -1,23 +1,20 @@
 /*  
  *  Sous linux : Utiliser boost/regex.hpp
  *  
- *  Les rÃ©sultats sont 15 % plus rapides qu'avec la bibliothÃ¨que standard de C++14 (G++) sous linux.
- *  Sous windows, mÃªme performances que sous linux Ã  7-8 % prÃ¨s, mais problÃ¨me de compilation sous boost.
+ *  Les résultats sont 15 % plus rapides qu'avec la bibliothèque standard de C++14 (G++) sous linux.
+ *  Sous windows, même performances que sous linux à 7-8 % près, mais problème de compilation sous boost.
  *  Ecart de performances beaucoup plus grand sous Windows entre R et Rcpp (x15) que sous linux (x3) : 
  *  gain de 1 s par million de lignes sous Windows, de 150 ms seulement sous linux.
  *  
- *  Sous linux, la compilation sera automatiquement rÃ©alisÃ©e avec boost, sauf si la directive
- *  FORCE_STL_BUILD est donnÃ©e au compilateur.
+ *  Sous linux, la compilation sera automatiquement réalisée avec boost, sauf si la directive
+ *  FORCE_STL_BUILD est donnée au compilateur.
  *  
- *  Les compilations boost nÃ©cessitent de prÃ©ciser la variable d'environnement  PKG_LIBS="-lboost_regex" pour R CMD build et R CMD INSTALL.
+ *  Les compilations boost nécessitent de préciser la variable d'environnement  PKG_LIBS="-lboost_regex" pour R CMD build et R CMD INSTALL.
  *  
- *  La directive d'exportation Rcpp::plugins(cpp11) peut Ãªtre retirÃ©e si constexpr et std::regex ne sont pas
- *  utilisÃ©s. S'il est laissÃ©, la compilation peut impliquer l'exportation de la variable d'environnement PKG_CXXFLAGS="-std=c++11"
- *  pour un compilateur G++ de version infÃ©rieure Ã  5.
+ *  La directive d'exportation Rcpp::plugins(cpp11) peut être retirée si constexpr et std::regex ne sont pas
+ *  utilisés. S'il est laissé, la compilation peut impliquer l'exportation de la variable d'environnement PKG_CXXFLAGS="-std=c++11"
+ *  pour un compilateur G++ de version inférieure à 5.
  */
-
-
-// [[Rcpp::plugins(cpp11)]]
 
 #include <Rcpp.h>
 
@@ -25,7 +22,6 @@
   #include <boost/regex.hpp>
   #define reglib boost
 #else
-  #include <regex>
   #define reglib std
 #endif
 
@@ -33,15 +29,19 @@
 
 using namespace Rcpp;
 
-/* Ne jamais utiliser using namespace std, mais prÃ©fixer std::, sous peine de problÃ¨mes d'exportation des symboles */
+
+// [[Rcpp::plugins(cpp11)]]
+
+
+/* Ne jamais utiliser using namespace std, mais préfixer std::, sous peine de problèmes d'exportation des symboles */
 
 /*
-*  on prÃ©voit 15 enfants...
+*  on prévoit 15 enfants...
 *
-*  limitations : pas de vÃ©rification des cas de divorce etc., ni des cas de cumuls
-*                pas de vÃ©rification non plus de la licÃ©itÃ© des versements Ã  des contractuels exclus par l'article 1er 
-*                du dÃ©cret nÂ°85-1148 du 24 octobre 1985 modifiÃ© relatif Ã  la rÃ©munÃ©ration des personnels civils et militaires
-*                de l'Etat, des personnels des collectivitÃ©s territoriales et des personnels des Ã©tablissements publics d'hospitalisation. 
+*  limitations : pas de vérification des cas de divorce etc., ni des cas de cumuls
+*                pas de vérification non plus de la licéité des versements à des contractuels exclus par l'article 1er 
+*                du décret n°85-1148 du 24 octobre 1985 modifié relatif à la rémunération des personnels civils et militaires
+*                de l'Etat, des personnels des collectivités territoriales et des personnels des établissements publics d'hospitalisation. 
 */
 
 
@@ -63,7 +63,7 @@ constexpr double  sft_fixe[15]= {2.29, 10.67, 15.24,
   
 // part variable en proportion du traitement indiciaire
   
-constexpr double  sft_prop[15] =  {0, 3, 8, 8 + 6,
+const double  sft_prop[15] =  {0, 3, 8, 8 + 6,
                                                     8 + 6 * 2,
                                                     8 + 6 * 3,
                                                     8 + 6 * 4,
@@ -76,7 +76,7 @@ constexpr double  sft_prop[15] =  {0, 3, 8, 8 + 6,
                                                     8 + 6 * 11,
                                                     8 + 6 * 12};
   
-constexpr double PointMensuelIM[8][12] = {
+const double PointMensuelIM[8][12] = {
                   { 4.534275,4.534275,4.556950,4.556950,4.556950,4.556950,4.556950,4.556950,4.556950,4.570625,4.570625,4.570625 },
                   { 4.570625,4.570625,4.570625,4.570625,4.570625,4.570625,4.593475,4.593475,4.593475,4.607258,4.607258,4.607258 },
                   { 4.607258,4.607258,4.607258,4.607258,4.607258,4.607258,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292 },
@@ -86,7 +86,7 @@ constexpr double PointMensuelIM[8][12] = {
                   { 4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292 },
                   { 4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292 }};
  
- constexpr double part_proportionnelle_minimale(int Annee, int Mois, int Prop)
+ const double part_proportionnelle_minimale(int Annee, int Mois, int Prop)
  {
    return PointMensuelIM[Annee - 2008][Mois - 1] * sft_prop[Prop - 1] * 449 / 100;
  }
@@ -95,19 +95,32 @@ constexpr double PointMensuelIM[8][12] = {
  double sft(int prop, const std::string& indice, double nbi, double duree, int annee, int mois)   
  {
    if (duree  == 0 || indice.empty() || (indice.at(0) == 'N' && indice.at(1) == 'A')) return(0);  
-    
-   const char* ECHELLE_LETTRE_PATTERN = "H.*(E|Ã©).*[A-F]";
    int indice_entier = 0;
+   
+  #ifdef USE_REGEX 
+   
+     const char* ECHELLE_LETTRE_PATTERN = "H.*(E|é).*[A-F]";
+   
+     static const reglib::regex echelle_lettre {ECHELLE_LETTRE_PATTERN, reglib::regex::icase};
     
-   static const reglib::regex echelle_lettre {ECHELLE_LETTRE_PATTERN, reglib::regex::icase};
-    
-   indice_entier = (reglib::regex_match(indice, echelle_lettre))? 717 :  std::stoi(indice);
+     indice_entier =  std::regex_match(indice, echelle_lettre)? 717 : std::stoi(indice);
+     
+  #else
+     
+     for (const char c: {'A', 'B', 'C', 'D', 'E', 'F'}) 
+     {
+       if (indice.find(c) != std::string::npos)
+       {
+         indice_entier = 717;
+         break;
+       }
+     }
+     
+     if (indice_entier == 0) indice_entier = std::stoi(indice);
+     
+   #endif
 
-   indice_entier = std::stoi(indice);
-   
-   // Filtrer les nbi == NA
-   
-   indice_entier = indice_entier + nbi;
+   indice_entier += nbi;
    
    double part_proportionnelle = 0;
    
@@ -115,7 +128,7 @@ constexpr double PointMensuelIM[8][12] = {
      part_proportionnelle =  sft_prop[prop - 1] * static_cast<double>(std::max(449, std::min(indice_entier, 717))) 
                                                 * PointMensuelIM[annee - 2008][mois - 1];  
    
-   // on prend en compte les quotitÃ©s spÃ©cifiques de temps partiel
+   // on prend en compte les quotités spécifiques de temps partiel
    // 0.91429  =  32/35 ; 0.85714 = 6/7
    
    double coef = (duree == 90)?  0.91429 : ((duree == 80)? 0.85714 : duree/100);
@@ -126,7 +139,7 @@ constexpr double PointMensuelIM[8][12] = {
        : coef * part_proportionnelle + sft_fixe[prop - 1];
    
    
-   // vÃ©rification du plancher des attributions minimales Ã  temps plein
+   // vérification du plancher des attributions minimales à temps plein
    
    if (prop != 1) 
      valeur = std::max(valeur, part_proportionnelle_minimale(annee, mois, prop) + sft_fixe[prop - 1]);
@@ -140,7 +153,7 @@ constexpr double PointMensuelIM[8][12] = {
  /*
   double sft(...)  
   {
-  if (is.na(durÃ©e) || is.na(x) || is.na(indice)) return(0);
+  if (is.na(durée) || is.na(x) || is.na(indice)) return(0);
   if (x > 15) return(-1);
   }
 
