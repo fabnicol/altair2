@@ -2015,7 +2015,7 @@ if (! utiliser.cplusplus.sft)
    source("sft.R", encoding = encodage.code.source)
    sft <- sft_R
    
-} else library(suppfam)
+} #else library(suppfam)
 
 Paie.sans.enfant.réduit <- Paie[is.na(NbEnfants) | NbEnfants == 0 , .(SFT.versé = sum(Montant[Type == "S"], na.rm = TRUE)), keyby = "Matricule,Année,Mois"] 
 
@@ -2052,7 +2052,7 @@ Paie.enfants.réduit <- Paie[!is.na(NbEnfants) & NbEnfants > 0 & !is.na(Indice) &
                                         NBI = NBI[1],
                                         NbEnfants = NbEnfants[1]),
                                         keyby="Matricule,Année,Mois"]
-
+library(anRpackage)
 if (benchmark.cplusplus.sft)
 {
   

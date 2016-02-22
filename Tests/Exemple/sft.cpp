@@ -16,13 +16,17 @@
  *  pour un compilateur G++ de version inférieure à 5.
  */
 
+// [[Rcpp::depends(BH)]]
 #include <Rcpp.h>
 
 #if defined(__linux__) && ! defined(FORCE_STL_BUILD)
   #include <boost/regex.hpp>
   #define reglib boost
 #else
-  #define reglib std
+#ifdef USE_REGEX
+#include <boost/regex.hpp>
+  #define reglib boost
+#endif
 #endif
 
 #include <string>
@@ -98,12 +102,12 @@ const double PointMensuelIM[8][12] = {
    int indice_entier = 0;
    
   #ifdef USE_REGEX 
-   
+
      const char* ECHELLE_LETTRE_PATTERN = "H.*(E|é).*[A-F]";
    
      static const reglib::regex echelle_lettre {ECHELLE_LETTRE_PATTERN, reglib::regex::icase};
     
-     indice_entier =  std::regex_match(indice, echelle_lettre)? 717 : std::stoi(indice);
+     indice_entier =  reglib::regex_match(indice, echelle_lettre)? 717 : std::stoi(indice);
      
   #else
      

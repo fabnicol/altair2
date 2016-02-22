@@ -7,9 +7,9 @@ Author: Your Name
 Maintainer: Your Name <your@email.com>
 Description: More about what it does (maybe more than one line)
 License: GPL (>= 2)
-Imports: Rcpp (>= 0.12.3)
+Imports: Rcpp (>= 0.12.3.2)
 LinkingTo: Rcpp
 NeedsCompilation: yes
-Packaged: 2016-02-22 01:49:02 UTC; Fab
-Built: R 3.2.3; x86_64-w64-mingw32; 2016-02-22 01:49:30 UTC; windows
+Packaged: 2016-02-22 22:36:16 UTC; Fab
+Built: R 3.2.3; x86_64-w64-mingw32; 2016-02-22 22:36:16 UTC; windows
 Archs: x64
