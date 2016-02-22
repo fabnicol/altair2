@@ -13,6 +13,9 @@
 #include "fonctions_auxiliaires.hpp"
 #include "tags.h"
 
+using namespace std;
+extern bool verbeux;
+
 #ifdef __WIN32__
 #include "entete-latin1.hpp"
 #else
@@ -34,9 +37,6 @@
 #include <string>
 #include <windows.h>
 
-using namespace std;
-
-extern bool verbeux;
 
 
 // The directory path returned by native GetCurrentDirectory() no end backslash
@@ -102,8 +102,13 @@ errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur)
 
 off_t taille_fichier(const string& filename)
 {
+#ifndef __linux__
     struct __stat64 stat_buf;
     int rc = __stat64(filename.c_str(), &stat_buf);
+ #else
+    struct stat64 stat_buf;
+    int rc = stat64(filename.c_str(), &stat_buf);
+ #endif
     return rc == 0 ? stat_buf.st_size : -1;
 }
 
@@ -114,6 +119,19 @@ off_t taille_fichier(const string& filename)
         long page_size = sysconf(_SC_PAGE_SIZE);
         return pages * page_size;
     }
+
+   #include <sys/sysinfo.h>
+
+
+    size_t getFreeSystemMemory()
+    {
+        struct sysinfo info;
+        sysinfo( &info );
+        return (size_t)(info.freeram -info.bufferram) * (size_t)info.mem_unit;
+    }
+
+
+
 #else
 #include <windows.h>
     size_t getTotalSystemMemory()
@@ -152,29 +170,6 @@ off_t taille_fichier(const string& filename)
 
 #endif
 
-    /**
-     * Returns the peak (maximum so far) resident set size (physical
-     * memory use) measured in bytes, or zero if the value cannot be
-     * determined on this OS.
-     */
-
-size_t getPeakRSS( )
-{
-#if defined(__WIN32__)
-    /* Windows -------------------------------------------------- */
-    PROCESS_MEMORY_COUNTERS info;
-    GetProcessMemoryInfo( GetCurrentProcess( ), &info, sizeof(info) );
-    return (size_t)info.PeakWorkingSetSize;
-
-#elif defined(__unix__) || defined(__unix) || defined(unix) || (defined(__APPLE__) && defined(__MACH__))
-    /* BSD, Linux, and OSX -------------------------------------- */
-    struct rusage rusage;
-    getrusage( RUSAGE_SELF, &rusage );
-
-    return (size_t)(rusage.ru_maxrss * 1024L);
-#endif
-
-}
 
 
 /**

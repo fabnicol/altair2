@@ -1,3 +1,3 @@
-useDynLib(SFT)
+useDynLib(suppfam)
 exportPattern("^[[:alpha:]]+")
 importFrom(Rcpp, evalCpp)

@@ -1,24 +1,39 @@
+/*  
+ *  Sous linux : Utiliser boost/regex.hpp
+ *  
+ *  Les résultats sont 15 % plus rapides qu'avec la bibliothèque standard de C++14 (G++) sous linux.
+ *  Sous windows, même performances que sous linux à 7-8 % près, mais problème de compilation sous boost.
+ *  Ecart de performances beaucoup plus grand sous Windows entre R et Rcpp (x15) que sous linux (x3) : 
+ *  gain de 1 s par million de lignes sous Windows, de 150 ms seulement sous linux.
+ *  
+ *  Sous linux, la compilation sera automatiquement réalisée avec boost, sauf si la directive
+ *  FORCE_STL_BUILD est donnée au compilateur.
+ *  
+ *  Les compilations boost nécessitent de préciser la variable d'environnement  PKG_LIBS="-lboost_regex" pour R CMD build et R CMD INSTALL.
+ *  
+ *  La directive d'exportation Rcpp::plugins(cpp11) peut être retirée si constexpr et std::regex ne sont pas
+ *  utilisés. S'il est laissé, la compilation peut impliquer l'exportation de la variable d'environnement PKG_CXXFLAGS="-std=c++11"
+ *  pour un compilateur G++ de version inférieure à 5.
+ */
+
 
 // [[Rcpp::plugins(cpp11)]]
 
 #include <Rcpp.h>
 
-/*  
- *  Utiliser boost/regex.hpp, inclus dans le paquet BH
- *  Les résultats sont 50 fois plus rapides qu'avec la bibliothèque standard de C++14 (G++)...sous linux.
- *  Sous windows, non, utilisation de la bibliothèque standard regex C++1 = même performances que sous linux.
- *  Ecart de performances beaucoup plus grand sous Windows entre R et Rcpp (x15) que sous linux (x3). 
- *  Gain de 1 s par million de lignes sous Windows, de 150 ms seulement sous linux.
- *  
- */
+#if defined(__linux__) && ! defined(FORCE_STL_BUILD)
+  #include <boost/regex.hpp>
+  #define reglib boost
+#else
+  #include <regex>
+  #define reglib std
+#endif
 
-
-#include <regex>
 #include <string>
 
-using namespace std;
 using namespace Rcpp;
 
+/* Ne jamais utiliser using namespace std, mais préfixer std::, sous peine de problèmes d'exportation des symboles */
 
 /*
 *  on prévoit 15 enfants...
@@ -76,20 +91,19 @@ constexpr double PointMensuelIM[8][12] = {
    return PointMensuelIM[Annee - 2008][Mois - 1] * sft_prop[Prop - 1] * 449 / 100;
  }
  
- // [[Rcpp::export]]
-  
- double sft(int prop, const string& indice, double nbi, double duree, int annee, int mois)   
+ // [[Rcpp::export]]  
+ double sft(int prop, const std::string& indice, double nbi, double duree, int annee, int mois)   
  {
    if (duree  == 0 || indice.empty() || (indice.at(0) == 'N' && indice.at(1) == 'A')) return(0);  
     
    const char* ECHELLE_LETTRE_PATTERN = "H.*(E|é).*[A-F]";
    int indice_entier = 0;
     
-   static const regex echelle_lettre {ECHELLE_LETTRE_PATTERN, regex::icase};
+   static const reglib::regex echelle_lettre {ECHELLE_LETTRE_PATTERN, reglib::regex::icase};
     
-   indice_entier = (regex_match(indice, echelle_lettre))? 717 :  stoi(indice);
+   indice_entier = (reglib::regex_match(indice, echelle_lettre))? 717 :  std::stoi(indice);
 
-   indice_entier = stoi(indice);
+   indice_entier = std::stoi(indice);
    
    // Filtrer les nbi == NA
    
@@ -98,7 +112,7 @@ constexpr double PointMensuelIM[8][12] = {
    double part_proportionnelle = 0;
    
    if (prop)
-     part_proportionnelle =  sft_prop[prop - 1] * static_cast<double>(max(449, min(indice_entier, 717))) 
+     part_proportionnelle =  sft_prop[prop - 1] * static_cast<double>(std::max(449, std::min(indice_entier, 717))) 
                                                 * PointMensuelIM[annee - 2008][mois - 1];  
    
    // on prend en compte les quotités spécifiques de temps partiel
@@ -115,15 +129,12 @@ constexpr double PointMensuelIM[8][12] = {
    // vérification du plancher des attributions minimales à temps plein
    
    if (prop != 1) 
-     valeur = max(valeur, part_proportionnelle_minimale(annee, mois, prop) + sft_fixe[prop - 1]);
+     valeur = std::max(valeur, part_proportionnelle_minimale(annee, mois, prop) + sft_fixe[prop - 1]);
      
      
      return(valeur);
      
  }
- 
- 
- 
  
  
  /*
@@ -132,5 +143,7 @@ constexpr double PointMensuelIM[8][12] = {
   if (is.na(durée) || is.na(x) || is.na(indice)) return(0);
   if (x > 15) return(-1);
   }
+
+  
   */  
  

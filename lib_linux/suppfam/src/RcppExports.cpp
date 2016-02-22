@@ -5,9 +5,9 @@
 
 using namespace Rcpp;
 
-// rcpp_sft
-double rcpp_sft(int prop, const std::string& indice, double nbi, double duree, int annee, int mois);
-RcppExport SEXP SFT_rcpp_sft(SEXP propSEXP, SEXP indiceSEXP, SEXP nbiSEXP, SEXP dureeSEXP, SEXP anneeSEXP, SEXP moisSEXP) {
+// sft
+double sft(int prop, const std::string& indice, double nbi, double duree, int annee, int mois);
+RcppExport SEXP suppfam_sft(SEXP propSEXP, SEXP indiceSEXP, SEXP nbiSEXP, SEXP dureeSEXP, SEXP anneeSEXP, SEXP moisSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
@@ -17,7 +17,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type duree(dureeSEXP);
     Rcpp::traits::input_parameter< int >::type annee(anneeSEXP);
     Rcpp::traits::input_parameter< int >::type mois(moisSEXP);
-    __result = Rcpp::wrap(rcpp_sft(prop, indice, nbi, duree, annee, mois));
+    __result = Rcpp::wrap(sft(prop, indice, nbi, duree, annee, mois));
     return __result;
 END_RCPP
 }

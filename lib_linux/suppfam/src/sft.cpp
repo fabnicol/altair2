@@ -1,31 +1,47 @@
+/*  
+ *  Sous linux : Utiliser boost/regex.hpp
+ *  
+ *  Les r√©sultats sont 15 % plus rapides qu'avec la biblioth√®que standard de C++14 (G++) sous linux.
+ *  Sous windows, m√™me performances que sous linux √† 7-8 % pr√®s, mais probl√®me de compilation sous boost.
+ *  Ecart de performances beaucoup plus grand sous Windows entre R et Rcpp (x15) que sous linux (x3) : 
+ *  gain de 1 s par million de lignes sous Windows, de 150 ms seulement sous linux.
+ *  
+ *  Sous linux, la compilation sera automatiquement r√©alis√©e avec boost, sauf si la directive
+ *  FORCE_STL_BUILD est donn√©e au compilateur.
+ *  
+ *  Les compilations boost n√©cessitent de pr√©ciser la variable d'environnement  PKG_LIBS="-lboost_regex" pour R CMD build et R CMD INSTALL.
+ *  
+ *  La directive d'exportation Rcpp::plugins(cpp11) peut √™tre retir√©e si constexpr et std::regex ne sont pas
+ *  utilis√©s. S'il est laiss√©, la compilation peut impliquer l'exportation de la variable d'environnement PKG_CXXFLAGS="-std=c++11"
+ *  pour un compilateur G++ de version inf√©rieure √† 5.
+ */
+
 
 // [[Rcpp::plugins(cpp11)]]
 
 #include <Rcpp.h>
 
-/*  
- *  Utiliser boost/regex.hpp, inclus dans le paquet BH
- *  Les rÈsultats sont 50 fois plus rapides qu'avec la bibliothËque standard de C++14 (G++)...sous linux.
- *  Sous windows, non, utilisation de la bibliothËque standard regex C++1 = mÍme performances que sous linux.
- *  Ecart de performances beaucoup plus grand sous Windows entre R et Rcpp (x15) que sous linux (x3). 
- *  Gain de 1 s par million de lignes sous Windows, de 150 ms seulement sous linux.
- *  
- */
+#if defined(__linux__) && ! defined(FORCE_STL_BUILD)
+  #include <boost/regex.hpp>
+  #define reglib boost
+#else
+  #include <regex>
+  #define reglib std
+#endif
 
-#include <regex>
 #include <string>
 
-
-using namespace std;
 using namespace Rcpp;
 
+/* Ne jamais utiliser using namespace std, mais pr√©fixer std::, sous peine de probl√®mes d'exportation des symboles */
+
 /*
-*  on prÈvoit 15 enfants...
+*  on pr√©voit 15 enfants...
 *
-*  limitations : pas de vÈrification des cas de divorce etc., ni des cas de cumuls
-*                pas de vÈrification non plus de la licÈitÈ des versements ‡ des contractuels exclus par l'article 1er 
-*                du dÈcret n∞85-1148 du 24 octobre 1985 modifiÈ relatif ‡ la rÈmunÈration des personnels civils et militaires
-*                de l'Etat, des personnels des collectivitÈs territoriales et des personnels des Ètablissements publics d'hospitalisation. 
+*  limitations : pas de v√©rification des cas de divorce etc., ni des cas de cumuls
+*                pas de v√©rification non plus de la lic√©it√© des versements √† des contractuels exclus par l'article 1er 
+*                du d√©cret n¬∞85-1148 du 24 octobre 1985 modifi√© relatif √† la r√©mun√©ration des personnels civils et militaires
+*                de l'Etat, des personnels des collectivit√©s territoriales et des personnels des √©tablissements publics d'hospitalisation. 
 */
 
 
@@ -75,20 +91,19 @@ constexpr double PointMensuelIM[8][12] = {
    return PointMensuelIM[Annee - 2008][Mois - 1] * sft_prop[Prop - 1] * 449 / 100;
  }
  
- // [[Rcpp::export]]
-  
- double rcpp_sft(int prop, const std::string& indice, double nbi, double duree, int annee, int mois)   
+ // [[Rcpp::export]]  
+ double sft(int prop, const std::string& indice, double nbi, double duree, int annee, int mois)   
  {
    if (duree  == 0 || indice.empty() || (indice.at(0) == 'N' && indice.at(1) == 'A')) return(0);  
     
-   const char* ECHELLE_LETTRE_PATTERN = "H.*(E|È).*[A-F]";
+   const char* ECHELLE_LETTRE_PATTERN = "H.*(E|√©).*[A-F]";
    int indice_entier = 0;
     
-   static const regex echelle_lettre {ECHELLE_LETTRE_PATTERN, regex::icase};
+   static const reglib::regex echelle_lettre {ECHELLE_LETTRE_PATTERN, reglib::regex::icase};
     
-   indice_entier = (regex_match(indice, echelle_lettre))? 717 :  stoi(indice);
+   indice_entier = (reglib::regex_match(indice, echelle_lettre))? 717 :  std::stoi(indice);
 
-   indice_entier = stoi(indice);
+   indice_entier = std::stoi(indice);
    
    // Filtrer les nbi == NA
    
@@ -97,10 +112,10 @@ constexpr double PointMensuelIM[8][12] = {
    double part_proportionnelle = 0;
    
    if (prop)
-     part_proportionnelle =  sft_prop[prop - 1] * static_cast<double>(max(449, min(indice_entier, 717))) 
+     part_proportionnelle =  sft_prop[prop - 1] * static_cast<double>(std::max(449, std::min(indice_entier, 717))) 
                                                 * PointMensuelIM[annee - 2008][mois - 1];  
    
-   // on prend en compte les quotitÈs spÈcifiques de temps partiel
+   // on prend en compte les quotit√©s sp√©cifiques de temps partiel
    // 0.91429  =  32/35 ; 0.85714 = 6/7
    
    double coef = (duree == 90)?  0.91429 : ((duree == 80)? 0.85714 : duree/100);
@@ -111,10 +126,10 @@ constexpr double PointMensuelIM[8][12] = {
        : coef * part_proportionnelle + sft_fixe[prop - 1];
    
    
-   // vÈrification du plancher des attributions minimales ‡ temps plein
+   // v√©rification du plancher des attributions minimales √† temps plein
    
    if (prop != 1) 
-     valeur = max(valeur, part_proportionnelle_minimale(annee, mois, prop) + sft_fixe[prop - 1]);
+     valeur = std::max(valeur, part_proportionnelle_minimale(annee, mois, prop) + sft_fixe[prop - 1]);
      
      
      return(valeur);
@@ -122,14 +137,13 @@ constexpr double PointMensuelIM[8][12] = {
  }
  
  
- 
- 
- 
  /*
   double sft(...)  
   {
-  if (is.na(durÈe) || is.na(x) || is.na(indice)) return(0);
+  if (is.na(dur√©e) || is.na(x) || is.na(indice)) return(0);
   if (x > 15) return(-1);
   }
+
+  
   */  
  
