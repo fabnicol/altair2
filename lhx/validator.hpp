@@ -33,7 +33,9 @@ typedef struct
     unsigned argc;
 } thread_t;
 
+
 static constexpr auto EXPRESSION_REG_ELUS = "^maire.*|^pr..?sident.*|^[eé]lus?|^(?:adj.*\\bmaire\\b|vi.*\\bpr..?sident\\b|cons.*\\bmuni|cons.*\\bcomm|cons.*\\bd..?l..?gu).*",
+
   EXPRESSION_REG_VACATIONS = ".*\\bvacat.*|.*\\bvac\\.?\\b.*",                 // vac.* peut être vérifié par 'vacances'
   EXPRESSION_REG_ASSISTANTES_MATERNELLES = ".*\\bass.*\\bmater.*",
   EXPRESSION_REG_ADJOINTS = "\\W*(?:adj.*(?:adm|ani|tech|pat)|op[eé].*(a\\.?p\\.?s\\.?|act)|aux.*(pu[eé]r|soin)|gard(ien|.*ch)|brigadier|receveur|sapeur|capor|sous.*off).*",
@@ -123,6 +125,8 @@ typedef struct
     bool generer_rang;
     bool select_siret;
     bool select_echelon;
+    bool pretend;
+    bool verifmem;
     unsigned int  nbfil;
     std::vector<int> Memoire_p_ligne;
 } info_t;

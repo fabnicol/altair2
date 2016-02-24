@@ -753,6 +753,8 @@ void* decoder_fichier(info_t& info)
 {
     /* environ 6000 bulletins par seconde en processus sumple, et 15000 en multithread ; rajoute 1/3 du temps */
 
+if (info.pretend) return nullptr;
+
 #if  defined GCC_REGEX && !defined NO_REGEX
 
     regex pat {EXPRESSION_REG_ELUS,  regex_constants::icase};
@@ -802,6 +804,7 @@ void* decoder_fichier(info_t& info)
 
         }
 
+    if (info.verifmem) return nullptr;
 
         info.fichier_courant = i;
         switch(parseFile(info))

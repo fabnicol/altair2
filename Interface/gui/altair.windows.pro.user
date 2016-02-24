@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 3.5.1, 2016-02-23T17:03:51. -->
+<!-- Written by QtCreator 3.5.1, 2016-02-24T15:26:29. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -336,7 +336,7 @@
      </valuemap>
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.2">
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
-      <value type="QString" key="ProjectExplorer.ProcessStep.Arguments">/C copy /Y /B C:\Users\Public\Dev\altair\Interface\build\release\Altair.exe  C:\Users\Public\Dev\altair\Interface_windows\gui\x64\Altaïr.exe</value>
+      <value type="QString" key="ProjectExplorer.ProcessStep.Arguments">/C copy /Y /B C:\Users\Public\Dev\altair\Interface\build\avx2\release\Altair.exe  C:\Users\Public\Dev\altair\Interface_windows\gui\x64\Altaïr.exe</value>
       <value type="QString" key="ProjectExplorer.ProcessStep.Command">c:/windows/system32/cmd.exe</value>
       <value type="QString" key="ProjectExplorer.ProcessStep.WorkingDirectory">%{buildDir}</value>
       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Étape personnalisée</value>
