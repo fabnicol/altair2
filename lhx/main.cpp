@@ -675,7 +675,7 @@ int main(int argc, char **argv)
 
     vector<unsigned long long> taille;
 
-    init:
+
 
     /* Soit la taille totale des fichiers est transmise par --mem soit on la calcule ici,
      * en utilisant taille_fichiers */
@@ -738,13 +738,11 @@ int main(int argc, char **argv)
 
     auto  taille_it = taille.begin();
     auto  commandline_it = commandline_tab.begin() + start;
-    static int loop1, loop2;
 
     do
     {
         unsigned long long taille_segment = *taille_it;
         vector<string> segment;
-        loop1++;
 
         while (taille_segment * AVERAGE_RAM_DENSITY < memoire_utilisable && commandline_it != commandline_tab.end())
          {
@@ -752,7 +750,6 @@ int main(int argc, char **argv)
            ++commandline_it;
            ++taille_it;
            taille_segment  += *taille_it;
-           loop2++;
          }
 
         segments.emplace_back(segment);
@@ -763,35 +760,31 @@ int main(int argc, char **argv)
     if (segments_size > 1)
         cerr << PROCESSING_HTML_TAG << "Les bases en sortie seront scindées en " << segments_size << " segments." ENDL;
 
-   bool restart = false;
+   int info_nbfil_defaut = info.nbfil;
 
-    for (auto&& segment : segments)
-    {
-        if (info.nbfil > segment.size() /2 + 2)
+   for (auto&& segment : segments)
+   {
+        int segment_size = segment.size();
+
+        if (info.nbfil > segment_size)
         {
-            cerr << ERROR_HTML_TAG "Trop de fils pour le nombre de fichiers ; exécution avec -j 2" ENDL;
-            info.nbfil = 2;
-            taille.clear();
-            segments.clear();
-            memoire_xhl = 0;
-            commandline_it = commandline_tab.begin();
-            restart = true;
-            break;
+            cerr << ERROR_HTML_TAG "Trop de fils (" << info.nbfil << ") pour le nombre de fichiers (" << segment_size << "); exécution avec " << segment_size << "fils." ENDL;
+
+            info.nbfil = segment_size;
         }
+        else
+            info.nbfil = info_nbfil_defaut;
 
         produire_segment(info, segment);
     }
-
-
-    if (restart) goto init;
 
     xmlCleanupParser();
 
     auto endofprogram = Clock::now();
 
     cerr << ENDL << PROCESSING_HTML_TAG "Durée d'exécution : "
-              << chrono::duration_cast<chrono::milliseconds>(endofprogram - startofprogram).count()
-              << " millisecondes" << ENDL;
+         << chrono::duration_cast<chrono::milliseconds>(endofprogram - startofprogram).count()
+         << " millisecondes" << ENDL;
 
     if (rankFile.is_open()) rankFile.close();
 
@@ -800,8 +793,9 @@ int main(int argc, char **argv)
 
 int produire_segment(const info_t& info, const vector<string>& segment)
 {
+    static int nsegment;
 
-
+    ++nsegment;
 
     vector<int> nb_fichier_par_fil;
     int segment_size = segment.size();
@@ -826,7 +820,7 @@ int produire_segment(const info_t& info, const vector<string>& segment)
 
     if (verbeux)
     {
-        cerr << PROCESSING_HTML_TAG "Création de " << info.nbfil << " fils clients." ENDL;
+        cerr << PROCESSING_HTML_TAG "Création de " << info.nbfil << " fils d'exécution." ENDL;
     }
 
     vector<thread_t> v_thread_t(info.nbfil);
@@ -905,7 +899,7 @@ int produire_segment(const info_t& info, const vector<string>& segment)
     if (generer_table)
     {
       cerr << ENDL << PROCESSING_HTML_TAG "Exportation des bases de données au format CSV..." << ENDL ENDL;
-      boucle_ecriture(Info);
+      boucle_ecriture(Info, nsegment);
     }
 
     /* Résumé des erreurs rencontrées */

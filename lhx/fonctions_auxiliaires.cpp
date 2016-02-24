@@ -323,10 +323,6 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
     string  index = "-";
 
     static int rang;
-    static int segment_old;
-
-    if (segment_old != segment) rang = 0;
-    segment_old = segment;
 
     if (categorie == BaseCategorie::BULLETINS)
     {
@@ -334,13 +330,13 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
         #if defined(__WIN32__) && defined (USE_ICONV)
                 + ".temp"
         #endif
-                + index + to_string(segment)
+
                 + string(CSV);
     }
     else
     {
 
-        chemin_base = info.chemin_base + index + to_string(segment)
+        chemin_base = info.chemin_base
         #if defined(__WIN32__) && defined (USE_ICONV)
                 + ".temp"
         #endif
@@ -404,7 +400,7 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
 
     }
 
-    base.open(chemin_base);
+    base.open(chemin_base, ofstream::out | ofstream::app);
     base.seekp(0);
     if (! base.good())
     {
@@ -412,10 +408,13 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
         exit(-1000);
     }
 
-    if (categorie == BaseCategorie::BASE)
-        ecrire_entete_table(info, base);
-    else
-        ecrire_entete_bulletins(info, base);
+    if (segment == 1)
+    {
+        if (categorie == BaseCategorie::BASE)
+            ecrire_entete_table(info, base);
+        else
+            ecrire_entete_bulletins(info, base);
+    }
 
     return;
 }

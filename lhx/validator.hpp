@@ -153,7 +153,7 @@ typedef struct {
 // MAX_NB_AGENTS détermine le nombre maximal d'agents par mois potentiellement traités
 
 #ifndef MAX_NB_AGENTS
- #define MAX_NB_AGENTS 50000
+ #define MAX_NB_AGENTS 8000
 #endif
 
 #ifndef NO_DEBUG

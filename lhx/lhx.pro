@@ -60,11 +60,13 @@ VPATH = .
 TEMPLATE = app
 
 
-DEFINES +=  WARNING_LIMIT=5  \       # nombre maximum d'avertissement par fichier
-            TYPE_LOOP_LIMIT=10 \     # nombre de "rembobinages des drapeaux de catégories (voir ligne_paye.cpp,
-            MAX_STRING_LENGTH=200 \  # taille maximum des strings pour la conversion latin-1
-            OVERHEAD=500        \     # marge de mémoire vive (en Mo) laissée sous plafond en toute hypothèse.
-            AVERAGE_RAM_DENSITY=1.25 # constante empirique déterminant la quantité de mémoire nécessitée par 1 unité de mémoire de fichier xhl en cours de traitement.
+DEFINES +=  WARNING_LIMIT=5  \         # nombre maximum d'avertissement par fichier
+            MAX_NB_AGENTS=50000 \      # nombre maximum de bulletins par mois
+            MAX_LIGNES_PAYE=1000 \     # nombre maximum de lignes de paye par bulletin
+            TYPE_LOOP_LIMIT=10 \       # nombre de "rembobinages des drapeaux de catégories (voir ligne_paye.cpp,
+            MAX_STRING_LENGTH=200 \    # taille maximum des strings pour la conversion latin-1
+            OVERHEAD=500        \      # marge de mémoire vive (en Mo) laissée sous plafond en toute hypothèse.
+            AVERAGE_RAM_DENSITY=1.25   # constante empirique déterminant la quantité de mémoire nécessitée par 1 unité de mémoire de fichier xhl en cours de traitement.
 
 DEFINES += __GNUC_EXTENSION \
            _REENTRANT \

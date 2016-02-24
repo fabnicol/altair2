@@ -289,11 +289,8 @@ static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETINS_ECHELON(int i, uint32_t ag
 static void (*ecrire_ligne_table)(int, uint32_t, int, char*, table_t&, char, vector<info_t> &, int);
 static void (*ecrire_ligne_bulletin)(int i, uint32_t, table_t& , char, vector<info_t>& , int );
 
-void boucle_ecriture(vector<info_t>& Info)
+void boucle_ecriture(vector<info_t>& Info, int nsegment)
 {
-    static int segment;
-    ++segment;
-
     int ligne = 0;
     uint64_t compteur = 0,
             dernier_compteur = 0,
@@ -322,7 +319,7 @@ void boucle_ecriture(vector<info_t>& Info)
 
 #endif
 
-    ouvrir_fichier_bulletins(Info[0], bulletins, segment);
+    ouvrir_fichier_bulletins(Info[0], bulletins, nsegment);
 
     uint32_t taille_base = Info[0].taille_base;
     BaseType type_base = Info[0].type_base;
@@ -375,7 +372,7 @@ void boucle_ecriture(vector<info_t>& Info)
     case BaseType::TOUTES_CATEGORIES  :
         for (int d = 0; d < nbType; ++d)
         {
-            ouvrir_fichier_base(Info[0], type_base, tableau_base[d], segment);
+            ouvrir_fichier_base(Info[0], type_base, tableau_base[d], nsegment);
             if (! tableau_base[d].is_open())
             {
                 cerr << ERROR_HTML_TAG "impossible d'ouvrir la base de lignes de paye."  ENDL;
@@ -384,7 +381,7 @@ void boucle_ecriture(vector<info_t>& Info)
         }
         break;
 
-    default : ouvrir_fichier_base(Info[0], type_base,  base, segment);
+    default : ouvrir_fichier_base(Info[0], type_base,  base, nsegment);
         if (! base.is_open())
         {
             cerr << ERROR_HTML_TAG "impossible d'ouvrir la base de lignes de paye."  ENDL;
@@ -506,7 +503,7 @@ void boucle_ecriture(vector<info_t>& Info)
                         rang_fichier_base_annee_courante = 1;
 
                         annee_courante = (char*) VAR(Annee);
-                        ouvrir_fichier_base(Info[i],  type_base, base, segment);
+                        ouvrir_fichier_base(Info[i],  type_base, base, nsegment);
                         if (! base.is_open()) return;
                     }
 
@@ -604,7 +601,7 @@ void boucle_ecriture(vector<info_t>& Info)
                                     exit(-904);
                                 }
 
-                                ouvrir_fichier_base(Info[i], type_base, base, segment);
+                                ouvrir_fichier_base(Info[i], type_base, base, nsegment);
                                 if (! base.is_open()) return;
                             }
 
@@ -687,7 +684,7 @@ void boucle_ecriture(vector<info_t>& Info)
                                 ++rang_fichier_base;
 
                                 annee_courante = (char*) VAR(Annee);
-                                ouvrir_fichier_base(Info[i],  type_base, base, segment);
+                                ouvrir_fichier_base(Info[i],  type_base, base, nsegment);
                                 if (! base.is_open()) return;
                             }
 
@@ -725,7 +722,7 @@ void boucle_ecriture(vector<info_t>& Info)
                                         exit(-904);
                                     }
 
-                                    ouvrir_fichier_base(Info[i], type_base, base, segment);
+                                    ouvrir_fichier_base(Info[i], type_base, base, nsegment);
                                     if (! base.is_open()) return;
                                 }
 
