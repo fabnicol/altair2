@@ -506,7 +506,7 @@ auto read_stream_into_string(
 int calculer_memoire_requise(info_t& info)
 {
     errno = 0;
-        cerr << "!!!!!" << info.threads->argv[0] << ENDL;
+
     // Attention reserve() ne va pas initialiser les membres à 0 sous Windows. Utiliser resize() ici.
 
 #ifdef PREALLOCATE_ON_HEAP

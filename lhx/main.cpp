@@ -67,7 +67,10 @@ int main(int argc, char **argv)
     }
 
     LIBXML_TEST_VERSION
-            xmlKeepBlanksDefault(0);
+    xmlKeepBlanksDefault(0);
+
+    xmlInitMemory();
+    xmlInitParser();
 
     int start = 1;
     string type_table = "bulletins";
@@ -170,6 +173,8 @@ int main(int argc, char **argv)
                       <<  "--xhlmem arg. oblig.    : taille des fichiers à analyser en octets." << "\n"
                       <<  "--memshare arg. oblig.  : Part de la mémoire vive utilisée, de 0 (toute) à 1." << "\n"
                       <<  "--segments arg. oblig.  : nombre minimum de segments de base." << "\n"
+                      <<  "--verifmem              : seulement vérifier la consommation mémoire.  " << "\n"
+                      <<  "--hmarkdown              : aide en format markdown.  " << "\n"
                       <<  "--pretend              : exécution sans traitement des fichiers." << "\n";
 
               #ifdef GENERATE_RANK_SIGNAL
@@ -186,7 +191,7 @@ int main(int argc, char **argv)
 
             exit(0);
         }
-        else if (commandline_tab[start] ==  "-hmarkdown")
+        else if (commandline_tab[start] ==  "--hmarkdown")
         {
           cerr <<  "**Usage** :  lhx OPTIONS fichiers.xhl  " << "\n"
                     <<  "**OPTIONS :**  " << "\n"
@@ -224,7 +229,9 @@ int main(int argc, char **argv)
                     <<  "**--xhlmem** *arg. oblig.*    : taille des fichiers à analyser en octets.  " << "\n"
                     <<  "**--memshare** *arg. oblig.*  : Part de la mémoire vive utilisée, de 0 (toute) à 1.  " << "\n"
                     <<  "**--segments** *arg. oblig.*  : nombre minimum de segments de base.  " << "\n"
-                    <<  "**--pretend**              : exécution sans traitement des fichiers.  " << "\n";
+                    <<  "**--pretend**              : exécution sans traitement des fichiers.  " << "\n"
+                    <<  "**--verifmem**              : seulement vérifier la consommation mémoire.  " << "\n"
+                    <<  "**--hmarkdown**              : aide en format markdown.  " << "\n";
 
             #ifdef GENERATE_RANK_SIGNAL
                     cerr  <<  "**-rank** *argument optionnel* : générer le fichier du rang de la base de paye en cours dans le fichier.  \n";
@@ -663,8 +670,6 @@ int main(int argc, char **argv)
     //stat(info.threads->argv[i].c_str(), &st);
     //const size_t file_size =  st.st_size;
     
-    xmlInitMemory();
-    xmlInitParser();
 
     /* on sait que info.nbfil >= 1 */
 
@@ -777,7 +782,10 @@ int main(int argc, char **argv)
         produire_segment(info, segment);
     }
 
+
     if (restart) goto init;
+
+    xmlCleanupParser();
 
     auto endofprogram = Clock::now();
 
@@ -792,7 +800,8 @@ int main(int argc, char **argv)
 
 int produire_segment(const info_t& info, const vector<string>& segment)
 {
-    auto startofprogram = Clock::now();
+
+
 
     vector<int> nb_fichier_par_fil;
     int segment_size = segment.size();
@@ -876,6 +885,8 @@ int produire_segment(const info_t& info, const vector<string>& segment)
             t[i].join ();
         }
 
+    if (info.pretend) return 2;
+
 
     if (Info[0].calculer_maxima)
     {
@@ -889,14 +900,6 @@ int produire_segment(const info_t& info, const vector<string>& segment)
         calculer_maxima(Info, &LOG);
         LOG.close();
     }
-
-    xmlCleanupParser();
-
-    auto endofcalculus = Clock::now();
-
-    cerr << ENDL << PROCESSING_HTML_TAG "Durée de calcul : "
-              << chrono::duration_cast<chrono::milliseconds>(endofcalculus - startofprogram).count()
-              << SPACER "millisecondes" << ENDL;
 
 
     if (generer_table)

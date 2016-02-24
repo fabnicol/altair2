@@ -753,7 +753,7 @@ void* decoder_fichier(info_t& info)
 {
     /* environ 6000 bulletins par seconde en processus sumple, et 15000 en multithread ; rajoute 1/3 du temps */
 
-if (info.pretend) return;
+if (info.pretend) return nullptr;
 
 #if  defined GCC_REGEX && !defined NO_REGEX
 
@@ -777,7 +777,6 @@ if (info.pretend) return;
             std ::cerr << ERROR_HTML_TAG "Calcul de la mémoire requise" ENDL;
             exit(-1001);
         }
-        if (info.verifmem) return;
     }
     else
     {
@@ -805,6 +804,7 @@ if (info.pretend) return;
 
         }
 
+    if (info.verifmem) return nullptr;
 
         info.fichier_courant = i;
         switch(parseFile(info))
