@@ -4,6 +4,12 @@ compile_notebook	compile_notebook
 default_output_format	default_output_format
 draft	draft
 find_external_resources	find_external_resources
+github_document	github_document
+html-dependencies	html-dependencies
+html_dependency_bootstrap	html-dependencies
+html_dependency_jquery	html-dependencies
+html_dependency_jqueryui	html-dependencies
+html_dependency_tocify	html-dependencies
 html_document	html_document
 html_document_base	html_document_base
 html_fragment	html_fragment
@@ -17,6 +23,7 @@ knitr_options_pdf	knitr_options_pdf
 knit_params_ask	knit_params_ask
 md_document	md_document
 metadata	metadata
+odt_document	odt_document
 output_format	output_format
 pandoc_args	pandoc_args
 pandoc_available	pandoc_available
@@ -39,6 +46,7 @@ render_supporting_files	render_supporting_files
 rmarkdown	rmarkdown-package
 rmarkdown_format	rmarkdown_format
 rmd_metadata	rmd_metadata
+rtf_document	rtf_document
 run	run
 slidy_presentation	slidy_presentation
 tufte_handout	tufte_handout
