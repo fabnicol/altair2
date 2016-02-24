@@ -107,6 +107,8 @@ int main(int argc, char **argv)
         false,            // numéroter les lignes
         false,             // ne pas exporter les informations sur l'établissement
         false,             // ne pas exporter l'échelon
+        false,             // pretend
+        false,             // verifmem
         1,                 // nbfil
         {}  // besoin de mémoire effectif
     };
@@ -167,7 +169,8 @@ int main(int argc, char **argv)
                       <<  "-f argument obligatoire : la ligne de commande est dans le fichier en argument, chaque élément à la ligne." << "\n"
                       <<  "--xhlmem arg. oblig.    : taille des fichiers à analyser en octets." << "\n"
                       <<  "--memshare arg. oblig.  : Part de la mémoire vive utilisée, de 0 (toute) à 1." << "\n"
-                      <<  "--segments arg. oblig.  : nombre minimum de segments de base." << "\n";
+                      <<  "--segments arg. oblig.  : nombre minimum de segments de base." << "\n"
+                      <<  "--pretend              : exécution sans traitement des fichiers." << "\n";
 
               #ifdef GENERATE_RANK_SIGNAL
                       cerr  <<  "-rank argument optionnel : générer le fichier du rang de la base de paye en cours dans le fichier.\n";
@@ -182,6 +185,60 @@ int main(int argc, char **argv)
               #endif
 
             exit(0);
+        }
+        else if (commandline_tab[start] ==  "-hmarkdown")
+        {
+          cerr <<  "**Usage** :  lhx OPTIONS fichiers.xhl  " << "\n"
+                    <<  "**OPTIONS :**  " << "\n"
+                    <<  "**-n** *argument obligatoire* : nombre maximum de bulletins mensuels attendus [calcul exact par défaut]  " << "\n"
+                    <<  "**-N** *argument obligatoire* : nombre maximum de lignes de paye attendues [calcul exact par défaut]  " << "\n"
+                    <<  "**-t** *argument optionnel*   : type de base en sortie, soit 'standard', soit 'bulletins' [défaut bulletins].  " << "\n"
+                    <<  "**-T** *argument obligatoire* : nombre de lignes maximum par base .csv [défaut illimité]. Au plus 999 tables seront générées.  " << "\n"
+                    <<  "**-T AN**                   : générer une table par année  " << "\n"
+                    <<  "**-T A/AC/AV/C/D/I/IR/RE/S/T** : générer une table pour chaque catégorie de ligne :    \n\
+                            A rémunérations diverse  \n \
+                            AC acompte  \n \
+                            AV avantage en nature  \n \
+                            C cotisation  \n \
+                            D déduction  \n \
+                            I indemnités  \n \
+                            IR indemnité de résidence  \n \
+                            RE retenue  \n \
+                            S supplément familial  \n \
+                            T traitement brut  \n \
+                            X toutes catégories     \n" << "\n"
+                    <<  "**-o** *argument obligatoire* : fichier.csv, chemin complet du fichier de sortie [défaut 'Table.csv' avec -t].  " << "\n"
+                    <<  "**-D** *argument obligatoire* : répertoire complet du fichier de sortie [défaut '.' avec -t].  " << "\n"
+                    <<  "**-d** *argument obligatoire* : séparateur décimal [défaut ',' avec -t].  " << "\n"
+                    <<  "**-s** *argument obligatoire* : séparateur de champs [défaut ';' avec -t]. Ne pas utiliser '_'.  " << "\n"
+                    <<  "**-j** *argument obligatoire* : nombre de fils d'exécution (1 à 10).  " << "\n"
+                    <<  "**-l** *sans argument*        : générer une colonne de numéros de ligne intitulée 'R'.  " << "\n"
+                    <<  "**-M** *sans argument*        : ne pas libérer la mémoire réservée en fin de programme.   " << "\n"
+                    <<  "**-m** *sans argument*        : calculer les maxima d'agents et de lignes de paye.  " << "\n"
+                    <<  "**-L** *argument obligatoire* : chemin du log d'exécution du test de cohérence entre analyseurs C et XML.  " << "\n"
+                    <<  "**-R** *argument obligatoire* : expression régulière pour la recherche des élus (codés : ELU dans le champ Statut.  " << "\n"
+                    <<  "**-S** *sans argument*        : exporter les champs Budget, Employeur, Siret, Etablissement.  " << "\n"
+                    <<  "**-E** *sans argument*        : exporter le champ Echelon.  " << "\n"
+                    <<  "**-q** *sans argument*        : limiter la verbosité.  " << "\n"
+                    <<  "**-f** *argument obligatoire* : la ligne de commande est dans le fichier en argument, chaque élément à la ligne.  " << "\n"
+                    <<  "**--xhlmem** *arg. oblig.*    : taille des fichiers à analyser en octets.  " << "\n"
+                    <<  "**--memshare** *arg. oblig.*  : Part de la mémoire vive utilisée, de 0 (toute) à 1.  " << "\n"
+                    <<  "**--segments** *arg. oblig.*  : nombre minimum de segments de base.  " << "\n"
+                    <<  "**--pretend**              : exécution sans traitement des fichiers.  " << "\n";
+
+            #ifdef GENERATE_RANK_SIGNAL
+                    cerr  <<  "**-rank** *argument optionnel* : générer le fichier du rang de la base de paye en cours dans le fichier.  \n";
+
+                   #if defined _WIN32 | defined _WIN64
+                    cerr  <<  "                           ou à défaut dans %USERPROFILE%\\AppData\\Altair\\rank.  \n";
+                   #else
+                      #if defined __linux__
+                        cerr  <<  "                           ou à défaut dans ~/.local/share/Altair/rank.  \n";
+                      #endif
+                   #endif
+            #endif
+
+          exit(0);
         }
         else if (commandline_tab[start] ==  "-q")
         {
@@ -522,6 +579,18 @@ int main(int argc, char **argv)
             }
             //break;
         }
+        else if (commandline_tab[start] == "--pretend")
+        {
+          info.pretend = true;   // pas de décodage
+          ++start;
+          continue;
+        }
+        else if (commandline_tab[start] == "--verifmem")
+        {
+          info.verifmem = true;  // seulement vérifier la mémoire
+          ++start;
+          continue;
+        }
         else if (commandline_tab[start] == "--xhlmem")
         {
           cerr << STATE_HTML_TAG "Taille totale des fichiers : " << commandline_tab[start + 1] << " octets." << ENDL;
@@ -664,7 +733,7 @@ int main(int argc, char **argv)
 
     auto  taille_it = taille.begin();
     auto  commandline_it = commandline_tab.begin() + start;
-    static  int loop1, loop2;
+    static int loop1, loop2;
 
     do
     {
@@ -672,7 +741,7 @@ int main(int argc, char **argv)
         vector<string> segment;
         loop1++;
 
-        while (taille_segment * AVERAGE_RAM_DENSITY <= memoire_utilisable && commandline_it != commandline_tab.end())
+        while (taille_segment * AVERAGE_RAM_DENSITY < memoire_utilisable && commandline_it != commandline_tab.end())
          {
            segment.push_back(*commandline_it);  // ne pas utiliser move;
            ++commandline_it;
@@ -681,7 +750,7 @@ int main(int argc, char **argv)
            loop2++;
          }
 
-         back_inserter(segments) = segment;
+        segments.emplace_back(segment);
 
     } while (commandline_it != commandline_tab.end());
 
@@ -689,9 +758,9 @@ int main(int argc, char **argv)
     if (segments_size > 1)
         cerr << PROCESSING_HTML_TAG << "Les bases en sortie seront scindées en " << segments_size << " segments." ENDL;
 
-    bool restart = false;
+   bool restart = false;
 
-    for (const auto& segment :  segments)
+    for (auto&& segment : segments)
     {
         if (info.nbfil > segment.size() /2 + 2)
         {
@@ -764,6 +833,7 @@ int produire_segment(const info_t& info, const vector<string>& segment)
         Info[i].threads->argc = nb_fichier_par_fil.at(i);
 
         Info[i].threads->argv = vector<string>(segment_it, segment_it + nb_fichier_par_fil[i]);
+
         Info[i].threads->in_memory_file = vector<string>(nb_fichier_par_fil[i]);
         segment_it += nb_fichier_par_fil.at(i);
 
