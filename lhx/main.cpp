@@ -671,8 +671,10 @@ int main(int argc, char **argv)
         unsigned long long taille_segment = *taille_it;
         vector<string> segment;
         loop1++;
-
-        while (taille_segment * AVERAGE_RAM_DENSITY <= memoire_utilisable && commandline_it != commandline_tab.end())
+        #if 0
+          while (taille_segment * AVERAGE_RAM_DENSITY <= memoire_utilisable && commandline_it != commandline_tab.end())
+        #endif
+        while (commandline_it != commandline_tab.end())
          {
            segment.push_back(*commandline_it);  // ne pas utiliser move;
            ++commandline_it;
