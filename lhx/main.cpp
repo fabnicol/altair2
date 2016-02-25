@@ -15,6 +15,8 @@
 #include <map>
 #include <chrono>
 #include <cstring>
+#include <sstream>
+#include <cstdlib>
 #include <limits.h>
 #include "validator.hpp"
 #include "fonctions_auxiliaires.hpp"
@@ -43,7 +45,7 @@ mutex mut;
 vector<errorLine_t> errorLineStack;
 vector<string> commandline_tab;
 
-int produire_segment(const info_t& info, const vector<string>& segment);
+int produire_segment(const info_t& info, const vector<string>& segment, pair<uint64_t, uint32_t> &nlignes);
 
 
 int main(int argc, char **argv)
@@ -174,8 +176,9 @@ int main(int argc, char **argv)
                       <<  "--memshare arg. oblig.  : Part de la mémoire vive utilisée, de 0 (toute) à 1." << "\n"
                       <<  "--segments arg. oblig.  : nombre minimum de segments de base." << "\n"
                       <<  "--verifmem              : seulement vérifier la consommation mémoire.  " << "\n"
-                      <<  "--hmarkdown              : aide en format markdown.  " << "\n"
-                      <<  "--pretend              : exécution sans traitement des fichiers." << "\n";
+                      <<  "--hmarkdown             : aide en format markdown.  " << "\n"
+                      <<  "--pretend               : exécution sans traitement des fichiers." << "\n"
+                      <<  "--pdf                   : aide en format pdf.  " << "\n";
 
               #ifdef GENERATE_RANK_SIGNAL
                       cerr  <<  "-rank argument optionnel : générer le fichier du rang de la base de paye en cours dans le fichier.\n";
@@ -191,59 +194,101 @@ int main(int argc, char **argv)
 
             exit(0);
         }
-        else if (commandline_tab[start] ==  "--hmarkdown")
+        else if (commandline_tab[start] ==  "--hmarkdown" || commandline_tab[start] == "--pdf" || commandline_tab[start] == "--html")
         {
-          cerr <<  "**Usage** :  lhx OPTIONS fichiers.xhl  " << "\n"
-                    <<  "**OPTIONS :**  " << "\n"
-                    <<  "**-n** *argument obligatoire* : nombre maximum de bulletins mensuels attendus [calcul exact par défaut]  " << "\n"
-                    <<  "**-N** *argument obligatoire* : nombre maximum de lignes de paye attendues [calcul exact par défaut]  " << "\n"
-                    <<  "**-t** *argument optionnel*   : type de base en sortie, soit 'standard', soit 'bulletins' [défaut bulletins].  " << "\n"
-                    <<  "**-T** *argument obligatoire* : nombre de lignes maximum par base .csv [défaut illimité]. Au plus 999 tables seront générées.  " << "\n"
-                    <<  "**-T AN**                   : générer une table par année  " << "\n"
-                    <<  "**-T A/AC/AV/C/D/I/IR/RE/S/T** : générer une table pour chaque catégorie de ligne :    \n\
-                            A rémunérations diverse  \n \
-                            AC acompte  \n \
-                            AV avantage en nature  \n \
-                            C cotisation  \n \
-                            D déduction  \n \
-                            I indemnités  \n \
-                            IR indemnité de résidence  \n \
-                            RE retenue  \n \
-                            S supplément familial  \n \
-                            T traitement brut  \n \
-                            X toutes catégories     \n" << "\n"
-                    <<  "**-o** *argument obligatoire* : fichier.csv, chemin complet du fichier de sortie [défaut 'Table.csv' avec -t].  " << "\n"
-                    <<  "**-D** *argument obligatoire* : répertoire complet du fichier de sortie [défaut '.' avec -t].  " << "\n"
-                    <<  "**-d** *argument obligatoire* : séparateur décimal [défaut ',' avec -t].  " << "\n"
-                    <<  "**-s** *argument obligatoire* : séparateur de champs [défaut ';' avec -t]. Ne pas utiliser '_'.  " << "\n"
-                    <<  "**-j** *argument obligatoire* : nombre de fils d'exécution (1 à 10).  " << "\n"
-                    <<  "**-l** *sans argument*        : générer une colonne de numéros de ligne intitulée 'R'.  " << "\n"
-                    <<  "**-M** *sans argument*        : ne pas libérer la mémoire réservée en fin de programme.   " << "\n"
-                    <<  "**-m** *sans argument*        : calculer les maxima d'agents et de lignes de paye.  " << "\n"
-                    <<  "**-L** *argument obligatoire* : chemin du log d'exécution du test de cohérence entre analyseurs C et XML.  " << "\n"
-                    <<  "**-R** *argument obligatoire* : expression régulière pour la recherche des élus (codés : ELU dans le champ Statut.  " << "\n"
-                    <<  "**-S** *sans argument*        : exporter les champs Budget, Employeur, Siret, Etablissement.  " << "\n"
-                    <<  "**-E** *sans argument*        : exporter le champ Echelon.  " << "\n"
-                    <<  "**-q** *sans argument*        : limiter la verbosité.  " << "\n"
-                    <<  "**-f** *argument obligatoire* : la ligne de commande est dans le fichier en argument, chaque élément à la ligne.  " << "\n"
-                    <<  "**--xhlmem** *arg. oblig.*    : taille des fichiers à analyser en octets.  " << "\n"
-                    <<  "**--memshare** *arg. oblig.*  : Part de la mémoire vive utilisée, de 0 (toute) à 1.  " << "\n"
-                    <<  "**--segments** *arg. oblig.*  : nombre minimum de segments de base.  " << "\n"
-                    <<  "**--pretend**              : exécution sans traitement des fichiers.  " << "\n"
-                    <<  "**--verifmem**              : seulement vérifier la consommation mémoire.  " << "\n"
-                    <<  "**--hmarkdown**              : aide en format markdown.  " << "\n";
+          ostringstream out;
+          out <<  "**Usage** :  lhx OPTIONS fichiers.xhl  " << "\n\n"
+                    <<  "**OPTIONS :**  " << "\n\n"
+                    <<  "**-n** *argument obligatoire* : nombre maximum de bulletins mensuels attendus [calcul exact par défaut]  " << "\n\n"
+                    <<  "**-N** *argument obligatoire* : nombre maximum de lignes de paye attendues [calcul exact par défaut]  " << "\n\n"
+                    <<  "**-t** *argument optionnel*   : type de base en sortie, soit 'standard', soit 'bulletins' [défaut bulletins].  " << "\n\n"
+                    <<  "**-T** *argument obligatoire* : nombre de lignes maximum par base .csv [défaut illimité]. Au plus 999 tables seront générées.  " << "\n\n"
+                    <<  "**-T AN**                   : générer une table par année  " << "\n\n"
+                    <<  "**-T A/AC/AV/C/D/I/IR/RE/S/T** : générer une table pour chaque catégorie de ligne :    \n\n"
+                    <<  "      A rémunérations diverse  \n\n"
+                    <<  "      AC acompte  \n\n"
+                    <<  "      AV avantage en nature  \n\n"
+                    <<  "      C cotisation  \n\n"
+                    <<  "      D déduction  \n\n"
+                    <<  "      I indemnités  \n\n"
+                    <<  "      IR indemnité de résidence  \n\n"
+                    <<  "      RE retenue  \n\n"
+                    <<  "      S supplément familial  \n\n"
+                    <<  "      T traitement brut  \n\n"
+                    <<  "      X toutes catégories     \n\n\n"
+                    <<  "**-o** *argument obligatoire* : fichier.csv, chemin complet du fichier de sortie [défaut 'Table.csv' avec -t].  " << "\n\n"
+                    <<  "**-D** *argument obligatoire* : répertoire complet du fichier de sortie [défaut '.' avec -t].  " << "\n\n"
+                    <<  "**-d** *argument obligatoire* : séparateur décimal [défaut ',' avec -t].  " << "\n\n"
+                    <<  "**-s** *argument obligatoire* : séparateur de champs [défaut ';' avec -t]. Ne pas utiliser '_'.  " << "\n\n"
+                    <<  "**-j** *argument obligatoire* : nombre de fils d'exécution (1 à 10).  " << "\n\n"
+                    <<  "**-l** *sans argument*        : générer une colonne de numéros de ligne intitulée 'R'.  " << "\n\n"
+                    <<  "**-M** *sans argument*        : ne pas libérer la mémoire réservée en fin de programme.   " << "\n\n"
+                    <<  "**-m** *sans argument*        : calculer les maxima d'agents et de lignes de paye.  " << "\n\n"
+                    <<  "**-L** *argument obligatoire* : chemin du log d'exécution du test de cohérence entre analyseurs C et XML.  " << "\n\n"
+                    <<  "**-R** *argument obligatoire* : expression régulière pour la recherche des élus (codés : ELU dans le champ Statut.  " << "\n\n"
+                    <<  "**-S** *sans argument*        : exporter les champs Budget, Employeur, Siret, Etablissement.  " << "\n\n"
+                    <<  "**-E** *sans argument*        : exporter le champ Echelon.  " << "\n\n"
+                    <<  "**-q** *sans argument*        : limiter la verbosité.  " << "\n\n"
+                    <<  "**-f** *argument obligatoire* : la ligne de commande est dans le fichier en argument, chaque élément à la ligne.  " << "\n\n"
+                    <<  "**--xhlmem** *arg. oblig.*    : taille des fichiers à analyser en octets.  " << "\n\n"
+                    <<  "**--memshare** *arg. oblig.*  : Part de la mémoire vive utilisée, de 0 (toute) à 1.  " << "\n\n"
+                    <<  "**--segments** *arg. oblig.*  : nombre minimum de segments de base.  " << "\n\n"
+                    <<  "**--pretend**                 : exécution sans traitement des fichiers.  " << "\n\n"
+                    <<  "**--verifmem**                : seulement vérifier la consommation mémoire.  " << "\n\n"
+                    <<  "**--hmarkdown**               : aide en format markdown.  " << "\n\n"
+                    <<  "**--pdf**                     : aide en format pdf.  " << "\n\n";
+              #ifdef GENERATE_RANK_SIGNAL
+                        out  <<  "**-rank** *argument optionnel* : générer le fichier du rang de la base de paye en cours dans le fichier ";
 
-            #ifdef GENERATE_RANK_SIGNAL
-                    cerr  <<  "**-rank** *argument optionnel* : générer le fichier du rang de la base de paye en cours dans le fichier.  \n";
+                       #if defined _WIN32 | defined _WIN64
+                        out  <<  "ou à défaut dans %USERPROFILE%/AppData/Altair/rank.  \n\n";
+                       #else
+                          #if defined __linux__
+                            out  <<  "ou à défaut dans ~/.local/share/Altair/rank.  \n\n";
+                          #endif
+                       #endif
+                #endif
 
-                   #if defined _WIN32 | defined _WIN64
-                    cerr  <<  "                           ou à défaut dans %USERPROFILE%\\AppData\\Altair\\rank.  \n";
-                   #else
-                      #if defined __linux__
-                        cerr  <<  "                           ou à défaut dans ~/.local/share/Altair/rank.  \n";
-                      #endif
-                   #endif
-            #endif
+
+
+          if (commandline_tab[start] == "--hmarkdown")
+          {
+             cerr << out.str();
+          }
+          else
+          {
+             ofstream help;
+
+              help.open("aide.md");
+
+              help << out.str();
+              string sep(":");
+              sep[0] = SYSTEM_PATH_SEPARATOR;
+              string exec_dir = getexecpath();
+#ifndef __linux__
+              string command = string("PATH=") + string(getenv("PATH"))
+                                 + sep + exec_dir + string("/../texlive/miktex/bin")
+                                 + sep + exec_dir + string("/../Outils")
+                                 + sep + exec_dir + string("/../RStudio/bin/pandoc");
+              putenv(command.c_str());
+#endif
+
+              system("iconv.exe -t utf-8 -f latin1 -c -s  aide.md > aide.utf8.md");
+              if (commandline_tab[start] == "--pdf")
+              {
+                 system("pandoc.exe -o aide_lhx.pdf  aide.utf8.md");
+              }
+              else
+              if (commandline_tab[start] == "--html")
+              {
+                 system("pandoc.exe -o aide_lhx.utf8.html  aide.utf8.md");
+                 system("iconv.exe -f utf-8 -t latin1 -c -s  aide_lhx.utf8.html > aide_lhx.html");
+                 unlink("aide_lhx.utf8.html");
+              }
+              help.close();
+              unlink("aide.utf8.md");
+              unlink("aide.md");
+          }
 
           exit(0);
         }
@@ -756,15 +801,17 @@ int main(int argc, char **argv)
 
     } while (commandline_it != commandline_tab.end());
 
-    int segments_size = segments.size();
+    unsigned int segments_size = segments.size();
     if (segments_size > 1)
         cerr << PROCESSING_HTML_TAG << "Les bases en sortie seront scindées en " << segments_size << " segments." ENDL;
 
    int info_nbfil_defaut = info.nbfil;
 
+   pair<uint64_t, uint32_t> nlignes;
+
    for (auto&& segment : segments)
    {
-        int segment_size = segment.size();
+        unsigned int segment_size = segment.size();
 
         if (info.nbfil > segment_size)
         {
@@ -775,10 +822,16 @@ int main(int argc, char **argv)
         else
             info.nbfil = info_nbfil_defaut;
 
-        produire_segment(info, segment);
+        produire_segment(info, segment, nlignes);
     }
 
     xmlCleanupParser();
+
+    if (generer_table && segments_size > 1)
+    {
+      cerr << ENDL << STATE_HTML_TAG "Cumul des lignes de paye : " << nlignes.first << ENDL;
+      cerr << ENDL << STATE_HTML_TAG "Cumul des bulletins de paye : " << nlignes.second << ENDL;
+    }
 
     auto endofprogram = Clock::now();
 
@@ -791,7 +844,7 @@ int main(int argc, char **argv)
     return errno;
 }
 
-int produire_segment(const info_t& info, const vector<string>& segment)
+int produire_segment(const info_t& info, const vector<string>& segment, pair<uint64_t, uint32_t>& p)
 {
     static int nsegment;
 
@@ -899,7 +952,9 @@ int produire_segment(const info_t& info, const vector<string>& segment)
     if (generer_table)
     {
       cerr << ENDL << PROCESSING_HTML_TAG "Exportation des bases de données au format CSV..." << ENDL ENDL;
-      boucle_ecriture(Info, nsegment);
+      pair<uint64_t, uint32_t> res = boucle_ecriture(Info, nsegment);
+      p.first += res.first;
+      p.second += res.second;
     }
 
     /* Résumé des erreurs rencontrées */

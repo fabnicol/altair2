@@ -289,7 +289,7 @@ static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETINS_ECHELON(int i, uint32_t ag
 static void (*ecrire_ligne_table)(int, uint32_t, int, char*, table_t&, char, vector<info_t> &, int);
 static void (*ecrire_ligne_bulletin)(int i, uint32_t, table_t& , char, vector<info_t>& , int );
 
-void boucle_ecriture(vector<info_t>& Info, int nsegment)
+pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
 {
     int ligne = 0;
     uint64_t compteur = 0,
@@ -386,7 +386,7 @@ void boucle_ecriture(vector<info_t>& Info, int nsegment)
         {
             cerr << ERROR_HTML_TAG "impossible d'ouvrir la base de lignes de paye."  ENDL;
             exit(2004);
-            return;
+            return make_pair(0,0);
         }
 
     }
@@ -394,7 +394,7 @@ void boucle_ecriture(vector<info_t>& Info, int nsegment)
     if (! bulletins.is_open())
     {
         cerr << ERROR_HTML_TAG "impossible d'ouvrir la base de bulletins de paye."  ENDL;
-        return;
+        return make_pair(0,0);
     }
 
 #ifdef GENERATE_RANK_SIGNAL
@@ -504,7 +504,7 @@ void boucle_ecriture(vector<info_t>& Info, int nsegment)
 
                         annee_courante = (char*) VAR(Annee);
                         ouvrir_fichier_base(Info[i],  type_base, base, nsegment);
-                        if (! base.is_open()) return;
+                        if (! base.is_open()) return make_pair(0,0);
                     }
 
                     char type[3]={0};
@@ -602,7 +602,7 @@ void boucle_ecriture(vector<info_t>& Info, int nsegment)
                                 }
 
                                 ouvrir_fichier_base(Info[i], type_base, base, nsegment);
-                                if (! base.is_open()) return;
+                                if (! base.is_open()) return make_pair(0,0);
                             }
 
                             int      test_drapeau_categorie, int_drapeau_categorie = 0;
@@ -685,7 +685,7 @@ void boucle_ecriture(vector<info_t>& Info, int nsegment)
 
                                 annee_courante = (char*) VAR(Annee);
                                 ouvrir_fichier_base(Info[i],  type_base, base, nsegment);
-                                if (! base.is_open()) return;
+                                if (! base.is_open()) return make_pair(0,0);
                             }
 
                             char type[3]={0};
@@ -723,7 +723,7 @@ void boucle_ecriture(vector<info_t>& Info, int nsegment)
                                     }
 
                                     ouvrir_fichier_base(Info[i], type_base, base, nsegment);
-                                    if (! base.is_open()) return;
+                                    if (! base.is_open()) return make_pair(0,0);
                                 }
 
                                 int      test_drapeau_categorie, int_drapeau_categorie = 0;
@@ -1035,6 +1035,7 @@ void boucle_ecriture(vector<info_t>& Info, int nsegment)
     else
         cerr << ERROR_HTML_TAG "Problème de qualité du fichier " << Info[0].chemin_bulletins << ENDL;
     
+ return make_pair(compteur, compteur_lignes_bulletins);
 }
 
 #undef VAR

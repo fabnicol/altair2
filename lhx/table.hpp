@@ -9,7 +9,7 @@
 void generer_table_bulletins(info_t* Info);
 int64_t generer_table_standard(const char* chemin_table, std::vector<info_t> &info);
 extern bool verbeux;
-void boucle_ecriture(std::vector<info_t> &info, int segment);
+std::pair<uint64_t, uint32_t>  boucle_ecriture(std::vector<info_t> &info, int segment);
 
 #if defined(__WIN32__) && defined(USE_ICONV)
 static inline void convertir(const std::string& filepath)
