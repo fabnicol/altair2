@@ -8,7 +8,7 @@
 
 # part fixe mensuelle
 
-r2c::r2c(sft.fixe <- c(un = 2.29, deux = 10.67, trois = 15.24, 15.24 + 4.57 * 1:12))
+sft.fixe <- c(un = 2.29, deux = 10.67, trois = 15.24, 15.24 + 4.57 * 1:12)
 
 # part variable en proportion du traitement indiciaire
 

@@ -1,8 +1,8 @@
 
 call_rtools <- function() {
 
-  rtoolspath <- "RBuildTools/3.3/bin"
-  rtoolspath2 <- "RBuildTools/3.3/gcc-4.6.3/bin"
+  rtoolspath <- "RBuildTools/bin"
+  rtoolspath2 <- "RBuildTools/mingw_64/bin"
   
   wd <- getwd()
   if (grepl("altair$", wd, ignore.case=TRUE) == FALSE)

@@ -2057,10 +2057,11 @@ if (benchmark.cplusplus.sft)
 {
   
   source("sft.R")
+  microbenchmark(source("sft2.R"))
   library(microbenchmark)
   
   microbenchmark(with(Paie.enfants.réduit, 
-                       mapply(sft_R, NbEnfants, Indice, NBI, Temps.de.travail, Année, Mois, USE.NAMES = FALSE), times = 30))
+                       mapply(sft_R, NbEnfants, Indice, NBI, Temps.de.travail, Année, Mois, USE.NAMES = FALSE), times = 10))
   
   microbenchmark(with(Paie.enfants.réduit, 
                        mapply(sft, NbEnfants, Indice, NBI, Temps.de.travail, Année, Mois, USE.NAMES = FALSE), times = 500))

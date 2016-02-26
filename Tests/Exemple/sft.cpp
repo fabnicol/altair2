@@ -1,43 +1,3 @@
-/*  
- *  Sous linux : Utiliser boost/regex.hpp
- *  
- *  Les résultats sont 15 % plus rapides qu'avec la bibliothèque standard de C++14 (G++) sous linux.
- *  Sous windows, même performances que sous linux à 7-8 % près, mais problème de compilation sous boost.
- *  Ecart de performances beaucoup plus grand sous Windows entre R et Rcpp (x15) que sous linux (x3) : 
- *  gain de 1 s par million de lignes sous Windows, de 150 ms seulement sous linux.
- *  
- *  Sous linux, la compilation sera automatiquement réalisée avec boost, sauf si la directive
- *  FORCE_STL_BUILD est donnée au compilateur.
- *  
- *  Les compilations boost nécessitent de préciser la variable d'environnement  PKG_LIBS="-lboost_regex" pour R CMD build et R CMD INSTALL.
- *  
- *  La directive d'exportation Rcpp::plugins(cpp11) peut être retirée si constexpr et std::regex ne sont pas
- *  utilisés. S'il est laissé, la compilation peut impliquer l'exportation de la variable d'environnement PKG_CXXFLAGS="-std=c++11"
- *  pour un compilateur G++ de version inférieure à 5.
- */
-
-// [[Rcpp::depends(BH)]]
-#include <Rcpp.h>
-
-#if defined(__linux__) && ! defined(FORCE_STL_BUILD)
-  #include <boost/regex.hpp>
-  #define reglib boost
-#else
-#ifdef USE_REGEX
-#include <boost/regex.hpp>
-  #define reglib boost
-#endif
-#endif
-
-#include <string>
-
-using namespace Rcpp;
-
-
-// [[Rcpp::plugins(cpp11)]]
-
-
-/* Ne jamais utiliser using namespace std, mais préfixer std::, sous peine de problèmes d'exportation des symboles */
 
 /*
 *  on prévoit 15 enfants...
@@ -49,55 +9,70 @@ using namespace Rcpp;
 */
 
 
-//  part fixe mensuelle
 
-constexpr double  sft_fixe[15]= {2.29, 10.67, 15.24,
-                                         15.24 + 4.57,
-                                         15.24 + 4.57 * 2, 
-                                         15.24 + 4.57 * 3,
-                                         15.24 + 4.57 * 4,
-                                         15.24 + 4.57 * 5,
-                                         15.24 + 4.57 * 6,
-                                         15.24 + 4.57 * 7,
-                                         15.24 + 4.57 * 8,
-                                         15.24 + 4.57 * 9,
-                                         15.24 + 4.57 * 10,
-                                         15.24 + 4.57 * 11,
-                                         15.24 + 4.57 * 12};
-  
-// part variable en proportion du traitement indiciaire
-  
-const double  sft_prop[15] =  {0, 3, 8, 8 + 6,
-                                                    8 + 6 * 2,
-                                                    8 + 6 * 3,
-                                                    8 + 6 * 4,
-                                                    8 + 6 * 5,
-                                                    8 + 6 * 6,
-                                                    8 + 6 * 7,
-                                                    8 + 6 * 8,
-                                                    8 + 6 * 9,
-                                                    8 + 6 * 10,
-                                                    8 + 6 * 11,
-                                                    8 + 6 * 12};
-  
-const double PointMensuelIM[8][12] = {
-                  { 4.534275,4.534275,4.556950,4.556950,4.556950,4.556950,4.556950,4.556950,4.556950,4.570625,4.570625,4.570625 },
-                  { 4.570625,4.570625,4.570625,4.570625,4.570625,4.570625,4.593475,4.593475,4.593475,4.607258,4.607258,4.607258 },
-                  { 4.607258,4.607258,4.607258,4.607258,4.607258,4.607258,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292 },
-                  { 4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292 },
-                  { 4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292 },
-                  { 4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292 },
-                  { 4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292 },
-                  { 4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292 }};
- 
- const double part_proportionnelle_minimale(int Annee, int Mois, int Prop)
- {
-   return PointMensuelIM[Annee - 2008][Mois - 1] * sft_prop[Prop - 1] * 449 / 100;
- }
- 
- // [[Rcpp::export]]  
- double sft(int prop, const std::string& indice, double nbi, double duree, int annee, int mois)   
- {
+library(inline)
+   
+sft <- cfunction(sig = c(Prop = "integer", Indice = "character", Nbi = "numeric", Duree = "numeric",
+                         Annee = "integer", Mois = "integer"),
+                         language = "C++",
+                         includes = "#include<string>",
+                         body = '                           
+
+   // corps de la fonction C++
+                   
+   int prop = asInteger(Prop);
+   const char* indice = CHAR(asChar(Indice));
+   int nbi = asInteger(Nbi);
+   double duree = asReal(Duree);
+   int annee = asInteger(Annee);
+   int mois = asInteger(Mois);   
+
+   constexpr double  sft_fixe[15]= {2.29, 10.67, 15.24,
+                                    15.24 + 4.57,
+                                    15.24 + 4.57 * 2, 
+                                    15.24 + 4.57 * 3,
+                                    15.24 + 4.57 * 4,
+                                    15.24 + 4.57 * 5,
+                                    15.24 + 4.57 * 6,
+                                    15.24 + 4.57 * 7,
+                                    15.24 + 4.57 * 8,
+                                    15.24 + 4.57 * 9,
+                                    15.24 + 4.57 * 10,
+                                    15.24 + 4.57 * 11,
+                                    15.24 + 4.57 * 12};
+   
+   // part variable en proportion du traitement indiciaire
+   
+   const double  sft_prop[15] =  {0, 3, 8, 8 + 6,
+                                  8 + 6 * 2,
+                                  8 + 6 * 3,
+                                  8 + 6 * 4,
+                                  8 + 6 * 5,
+                                  8 + 6 * 6,
+                                  8 + 6 * 7,
+                                  8 + 6 * 8,
+                                  8 + 6 * 9,
+                                  8 + 6 * 10,
+                                  8 + 6 * 11,
+                                  8 + 6 * 12};
+   
+   const double PointMensuelIM[8][12] = {
+     { 4.534275,4.534275,4.556950,4.556950,4.556950,4.556950,4.556950,4.556950,4.556950,4.570625,4.570625,4.570625 },
+     { 4.570625,4.570625,4.570625,4.570625,4.570625,4.570625,4.593475,4.593475,4.593475,4.607258,4.607258,4.607258 },
+     { 4.607258,4.607258,4.607258,4.607258,4.607258,4.607258,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292 },
+     { 4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292 },
+     { 4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292 },
+     { 4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292 },
+     { 4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292 },
+     { 4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292,4.630292 }};
+   
+   const double part_proportionnelle_minimale(int Annee, int Mois, int Prop)
+   {
+     return PointMensuelIM[Annee - 2008][Mois - 1] * sft_prop[Prop - 1] * 449 / 100;
+   }
+   
+   
+      
    if (duree  == 0 || indice.empty() || (indice.at(0) == 'N' && indice.at(1) == 'A')) return(0);  
    int indice_entier = 0;
    
@@ -150,8 +125,8 @@ const double PointMensuelIM[8][12] = {
      
      
      return(valeur);
-     
- }
+ ')    
+ 
  
  
  /*
