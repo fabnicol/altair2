@@ -39,6 +39,64 @@ extern bool verbeux;
 
 
 
+ostringstream help()
+{
+ostringstream out;
+out <<  "**Usage** :  lhx OPTIONS fichiers.xhl  " << "\n\n"
+          <<  "**OPTIONS :**  " << "\n\n"
+          <<  "**-n** *argument obligatoire* : nombre maximum de bulletins mensuels attendus [calcul exact par défaut]  " << "\n\n"
+          <<  "**-N** *argument obligatoire* : nombre maximum de lignes de paye attendues [calcul exact par défaut]  " << "\n\n"
+          <<  "**-t** *argument optionnel*   : type de base en sortie, soit 'standard', soit 'bulletins' [défaut bulletins].  " << "\n\n"
+          <<  "**-T** *argument obligatoire* : nombre de lignes maximum par base .csv [défaut illimité]. Au plus 999 tables seront générées.  " << "\n\n"
+          <<  "**-T AN**                   : générer une table par année  " << "\n\n"
+          <<  "**-T A/AC/AV/C/D/I/IR/RE/S/T** : générer une table pour chaque catégorie de ligne :    \n\n"
+          <<  "      A rémunérations diverse  \n\n"
+          <<  "      AC acompte  \n\n"
+          <<  "      AV avantage en nature  \n\n"
+          <<  "      C cotisation  \n\n"
+          <<  "      D déduction  \n\n"
+          <<  "      I indemnités  \n\n"
+          <<  "      IR indemnité de résidence  \n\n"
+          <<  "      RE retenue  \n\n"
+          <<  "      S supplément familial  \n\n"
+          <<  "      T traitement brut  \n\n"
+          <<  "      X toutes catégories     \n\n\n"
+          <<  "**-o** *argument obligatoire* : fichier.csv, chemin complet du fichier de sortie [défaut 'Table.csv' avec -t].  " << "\n\n"
+          <<  "**-D** *argument obligatoire* : répertoire complet du fichier de sortie [défaut '.' avec -t].  " << "\n\n"
+          <<  "**-d** *argument obligatoire* : séparateur décimal [défaut ',' avec -t].  " << "\n\n"
+          <<  "**-s** *argument obligatoire* : séparateur de champs [défaut ';' avec -t]. Ne pas utiliser '_'.  " << "\n\n"
+          <<  "**-j** *argument obligatoire* : nombre de fils d'exécution (1 à 10).  " << "\n\n"
+          <<  "**-l** *sans argument*        : générer une colonne de numéros de ligne intitulée 'R'.  " << "\n\n"
+          <<  "**-M** *sans argument*        : ne pas libérer la mémoire réservée en fin de programme.   " << "\n\n"
+          <<  "**-m** *sans argument*        : calculer les maxima d'agents et de lignes de paye.  " << "\n\n"
+          <<  "**-L** *argument obligatoire* : chemin du log d'exécution du test de cohérence entre analyseurs C et XML.  " << "\n\n"
+          <<  "**-R** *argument obligatoire* : expression régulière pour la recherche des élus (codés : ELU dans le champ Statut.  " << "\n\n"
+          <<  "**-S** *sans argument*        : exporter les champs Budget, Employeur, Siret, Etablissement.  " << "\n\n"
+          <<  "**-E** *sans argument*        : exporter le champ Echelon.  " << "\n\n"
+          <<  "**-q** *sans argument*        : limiter la verbosité.  " << "\n\n"
+          <<  "**-f** *argument obligatoire* : la ligne de commande est dans le fichier en argument, chaque élément à la ligne.  " << "\n\n"
+          <<  "**--xhlmem** *arg. oblig.*    : taille des fichiers à analyser en octets.  " << "\n\n"
+          <<  "**--memshare** *arg. oblig.*  : Part de la mémoire vive utilisée, en points de pourcentage.  " << "\n\n"
+          <<  "**--segments** *arg. oblig.*  : nombre minimum de segments de base.  " << "\n\n"
+          <<  "**--pretend**                 : exécution sans traitement des fichiers.  " << "\n\n"
+          <<  "**--verifmem**                : seulement vérifier la consommation mémoire.  " << "\n\n"
+          <<  "**--hmarkdown**               : aide en format markdown.  " << "\n\n"
+          <<  "**--pdf**                     : aide en format pdf.  " << "\n\n";
+    #ifdef GENERATE_RANK_SIGNAL
+              out  <<  "**-rank** *argument optionnel* : générer le fichier du rang de la base de paye en cours dans le fichier ";
+
+             #if defined _WIN32 | defined _WIN64
+              out  <<  "ou à défaut dans %USERPROFILE%/AppData/Altair/rank.  \n\n";
+             #else
+                #if defined __linux__
+                  out  <<  "ou à défaut dans ~/.local/share/Altair/rank.  \n\n";
+                #endif
+             #endif
+      #endif
+   return out;
+}
+
+
 // The directory path returned by native GetCurrentDirectory() no end backslash
 string getexecpath()
 {

@@ -65,8 +65,8 @@ DEFINES +=  WARNING_LIMIT=5  \         # nombre maximum d'avertissement par fich
             MAX_LIGNES_PAYE=1000 \     # nombre maximum de lignes de paye par bulletin
             TYPE_LOOP_LIMIT=10 \       # nombre de "rembobinages des drapeaux de catégories (voir ligne_paye.cpp,
             MAX_STRING_LENGTH=200 \    # taille maximum des strings pour la conversion latin-1
-            OVERHEAD=500        \      # marge de mémoire vive (en Mo) laissée sous plafond en toute hypothèse.
-            AVERAGE_RAM_DENSITY=1.5   # constante empirique déterminant la quantité de mémoire nécessitée par 1 unité de mémoire de fichier xhl en cours de traitement.
+            MAX_MEMORY_SHARE=0.8        \      # part maximum de la mémoire vive disponible consommée.
+            AVERAGE_RAM_DENSITY=3   # constante empirique déterminant la quantité de mémoire nécessitée par 1 unité de mémoire de fichier xhl en cours de traitement.
 
 DEFINES += __GNUC_EXTENSION \
            _REENTRANT \
@@ -88,8 +88,8 @@ DEFINES += \#NO_REGEX \                       # Pas d'analyse du texte par expre
         DECIMAL_NON_EN \                    # compilation pour des séparateurs décimaux différents de '.'
         GENERATE_RANK_SIGNAL \              # chaque fois qu'un fichier est traité, un signal externe est émis (rang dans un fichier rank sous AppData\Local\Altair).
                              \              # n'est utile que lorsqu'une interface graphique est connectée. peut ralentir l'application de 1 à 5 %.
-#        FGETC_PARSING    \                   # parcourir les fichiers par ifstream (C++)
-        STRINGSTREAM_PARSING  \              # mise en mémoire vive des fichiers de paye par ostringstream (plus de mémoire vive ; accélère beaucoup le 1er traitement sous Windows)
+        FGETC_PARSING    \                   # parcourir les fichiers par ifstream (C++)
+#        STRINGSTREAM_PARSING  \              # mise en mémoire vive des fichiers de paye par ostringstream (plus de mémoire vive ; accélère beaucoup le 1er traitement sous Windows)
 #       MMAP_PARSING           \             # parcourir les fichiers par mappage mémoire (C, unix uniquement, aucun avantage évident).
 #        OFSTREAM_TABLE_OUTPUT               # enregistrer les lignes de paye ligne à ligne sur la base. Plus robuste et moins de mémoire mais plus lent sous Windows
 

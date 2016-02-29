@@ -10,6 +10,7 @@
 #include <sys/stat.h>
 #endif
 #include <iostream>
+#include <algorithm>
 #include <vector>
 #include <thread>
 #include <map>
@@ -32,6 +33,7 @@
 #endif
 
 using namespace std;
+using vString = vector<string>;
 
 typedef chrono::high_resolution_clock Clock;
 
@@ -43,9 +45,9 @@ ofstream rankFile;
 string rankFilePath = "";
 mutex mut;
 vector<errorLine_t> errorLineStack;
-vector<string> commandline_tab;
+vString commandline_tab;
 
-int produire_segment(const info_t& info, const vector<string>& segment, pair<uint64_t, uint32_t> &nlignes);
+int produire_segment(const info_t& info, const vString& segment, pair<uint64_t, uint32_t> &nlignes);
 
 
 int main(int argc, char **argv)
@@ -76,13 +78,12 @@ int main(int argc, char **argv)
 
     int start = 1;
     string type_table = "bulletins";
-    vector<string> cl;  /* pour les lignes de commandes incluses dans un fichier */
+    vString cl;  /* pour les lignes de commandes incluses dans un fichier */
     string chemin_base = NOM_BASE + string(CSV);
     string chemin_bulletins = NOM_BASE_BULLETINS + string(CSV);
     unsigned long long memoire_xhl = 0, memoire_disponible = 0;
     int nsegments = 0;
-    float ajustement = 1;
-    unsigned long long overhead = OVERHEAD * 1048576ULL;
+    float ajustement = MAX_MEMORY_SHARE;
 
     thread_t mon_thread;
 
@@ -139,118 +140,14 @@ int main(int argc, char **argv)
         }
         else if (commandline_tab[start] ==  "-h")
         {
-            cerr <<  "Usage :  lhx OPTIONS fichiers.xhl" << "\n"
-                      <<  "OPTIONS :" << "\n"
-                      <<  "-n argument obligatoire : nombre maximum de bulletins mensuels attendus [calcul exact par défaut]" << "\n"
-                      <<  "-N argument obligatoire : nombre maximum de lignes de paye attendues [calcul exact par défaut]" << "\n"
-                      <<  "-t argument optionnel   : type de base en sortie, soit 'standard', soit 'bulletins' [défaut bulletins]." << "\n"
-                      <<  "-T argument obligatoire : nombre de lignes maximum par base .csv [défaut illimité]. Au plus 999 tables seront générées." << "\n"
-                      <<  "-T AN                   : générer une table par année" << "\n"
-                      <<  "-T A/AC/AV/C/D/I/IR/RE/S/T : générer une table pour chaque catégorie de ligne : \
-                              A rémunérations diverse \n \
-                              AC acompte \n \
-                              AV avantage en nature \n \
-                              C cotisation \n \
-                              D déduction \n \
-                              I indemnités \n \
-                              IR indemnité de résidence \n \
-                              RE retenue \n \
-                              S supplément familial \n \
-                              T traitement brut \n \
-                              X toutes catégories\n" << "\n"
-                      <<  "-o argument obligatoire : fichier.csv, chemin complet du fichier de sortie [défaut 'Table.csv' avec -t]." << "\n"
-                      <<  "-D argument obligatoire : répertoire complet du fichier de sortie [défaut '.' avec -t]." << "\n"
-                      <<  "-d argument obligatoire : séparateur décimal [défaut ',' avec -t]." << "\n"
-                      <<  "-s argument obligatoire : séparateur de champs [défaut ';' avec -t]. Ne pas utiliser '_'." << "\n"
-                      <<  "-j argument obligatoire : nombre de fils d'exécution (1 à 10)." << "\n"
-                      <<  "-l sans argument        : générer une colonne de numéros de ligne intitulée 'R'." << "\n"
-                      <<  "-M sans argument        : ne pas libérer la mémoire réservée en fin de programme." << "\n"
-                      <<  "-m sans argument        : calculer les maxima d'agents et de lignes de paye." << "\n"
-                      <<  "-L argument obligatoire : chemin du log d'exécution du test de cohérence entre analyseurs C et XML." << "\n"
-                      <<  "-R argument obligatoire : expression régulière pour la recherche des élus (codés : ELU dans le champ Statut." << "\n"
-                      <<  "-S sans argument        : exporter les champs Budget, Employeur, Siret, Etablissement." << "\n"
-                      <<  "-E sans argument        : exporter le champ Echelon." << "\n"
-                      <<  "-q sans argument        : limiter la verbosité." << "\n"
-                      <<  "-f argument obligatoire : la ligne de commande est dans le fichier en argument, chaque élément à la ligne." << "\n"
-                      <<  "--xhlmem arg. oblig.    : taille des fichiers à analyser en octets." << "\n"
-                      <<  "--memshare arg. oblig.  : Part de la mémoire vive utilisée, de 0 (toute) à 1." << "\n"
-                      <<  "--segments arg. oblig.  : nombre minimum de segments de base." << "\n"
-                      <<  "--verifmem              : seulement vérifier la consommation mémoire.  " << "\n"
-                      <<  "--hmarkdown             : aide en format markdown.  " << "\n"
-                      <<  "--pretend               : exécution sans traitement des fichiers." << "\n"
-                      <<  "--pdf                   : aide en format pdf.  " << "\n";
-
-              #ifdef GENERATE_RANK_SIGNAL
-                      cerr  <<  "-rank argument optionnel : générer le fichier du rang de la base de paye en cours dans le fichier.\n";
-
-                     #if defined _WIN32 | defined _WIN64
-                      cerr  <<  "                           ou à défaut dans %USERPROFILE%\\AppData\\Altair\\rank.\n";
-                     #else
-                        #if defined __linux__
-                          cerr  <<  "                           ou à défaut dans ~/.local/share/Altair/rank.\n";
-                        #endif
-                     #endif
-              #endif
-
+            string out = move(help()).str();
+            out.erase(remove(out.begin(), out.end(), '*'), out.end());
+            cerr << out;
             exit(0);
         }
         else if (commandline_tab[start] ==  "--hmarkdown" || commandline_tab[start] == "--pdf" || commandline_tab[start] == "--html")
         {
-          ostringstream out;
-          out <<  "**Usage** :  lhx OPTIONS fichiers.xhl  " << "\n\n"
-                    <<  "**OPTIONS :**  " << "\n\n"
-                    <<  "**-n** *argument obligatoire* : nombre maximum de bulletins mensuels attendus [calcul exact par défaut]  " << "\n\n"
-                    <<  "**-N** *argument obligatoire* : nombre maximum de lignes de paye attendues [calcul exact par défaut]  " << "\n\n"
-                    <<  "**-t** *argument optionnel*   : type de base en sortie, soit 'standard', soit 'bulletins' [défaut bulletins].  " << "\n\n"
-                    <<  "**-T** *argument obligatoire* : nombre de lignes maximum par base .csv [défaut illimité]. Au plus 999 tables seront générées.  " << "\n\n"
-                    <<  "**-T AN**                   : générer une table par année  " << "\n\n"
-                    <<  "**-T A/AC/AV/C/D/I/IR/RE/S/T** : générer une table pour chaque catégorie de ligne :    \n\n"
-                    <<  "      A rémunérations diverse  \n\n"
-                    <<  "      AC acompte  \n\n"
-                    <<  "      AV avantage en nature  \n\n"
-                    <<  "      C cotisation  \n\n"
-                    <<  "      D déduction  \n\n"
-                    <<  "      I indemnités  \n\n"
-                    <<  "      IR indemnité de résidence  \n\n"
-                    <<  "      RE retenue  \n\n"
-                    <<  "      S supplément familial  \n\n"
-                    <<  "      T traitement brut  \n\n"
-                    <<  "      X toutes catégories     \n\n\n"
-                    <<  "**-o** *argument obligatoire* : fichier.csv, chemin complet du fichier de sortie [défaut 'Table.csv' avec -t].  " << "\n\n"
-                    <<  "**-D** *argument obligatoire* : répertoire complet du fichier de sortie [défaut '.' avec -t].  " << "\n\n"
-                    <<  "**-d** *argument obligatoire* : séparateur décimal [défaut ',' avec -t].  " << "\n\n"
-                    <<  "**-s** *argument obligatoire* : séparateur de champs [défaut ';' avec -t]. Ne pas utiliser '_'.  " << "\n\n"
-                    <<  "**-j** *argument obligatoire* : nombre de fils d'exécution (1 à 10).  " << "\n\n"
-                    <<  "**-l** *sans argument*        : générer une colonne de numéros de ligne intitulée 'R'.  " << "\n\n"
-                    <<  "**-M** *sans argument*        : ne pas libérer la mémoire réservée en fin de programme.   " << "\n\n"
-                    <<  "**-m** *sans argument*        : calculer les maxima d'agents et de lignes de paye.  " << "\n\n"
-                    <<  "**-L** *argument obligatoire* : chemin du log d'exécution du test de cohérence entre analyseurs C et XML.  " << "\n\n"
-                    <<  "**-R** *argument obligatoire* : expression régulière pour la recherche des élus (codés : ELU dans le champ Statut.  " << "\n\n"
-                    <<  "**-S** *sans argument*        : exporter les champs Budget, Employeur, Siret, Etablissement.  " << "\n\n"
-                    <<  "**-E** *sans argument*        : exporter le champ Echelon.  " << "\n\n"
-                    <<  "**-q** *sans argument*        : limiter la verbosité.  " << "\n\n"
-                    <<  "**-f** *argument obligatoire* : la ligne de commande est dans le fichier en argument, chaque élément à la ligne.  " << "\n\n"
-                    <<  "**--xhlmem** *arg. oblig.*    : taille des fichiers à analyser en octets.  " << "\n\n"
-                    <<  "**--memshare** *arg. oblig.*  : Part de la mémoire vive utilisée, de 0 (toute) à 1.  " << "\n\n"
-                    <<  "**--segments** *arg. oblig.*  : nombre minimum de segments de base.  " << "\n\n"
-                    <<  "**--pretend**                 : exécution sans traitement des fichiers.  " << "\n\n"
-                    <<  "**--verifmem**                : seulement vérifier la consommation mémoire.  " << "\n\n"
-                    <<  "**--hmarkdown**               : aide en format markdown.  " << "\n\n"
-                    <<  "**--pdf**                     : aide en format pdf.  " << "\n\n";
-              #ifdef GENERATE_RANK_SIGNAL
-                        out  <<  "**-rank** *argument optionnel* : générer le fichier du rang de la base de paye en cours dans le fichier ";
-
-                       #if defined _WIN32 | defined _WIN64
-                        out  <<  "ou à défaut dans %USERPROFILE%/AppData/Altair/rank.  \n\n";
-                       #else
-                          #if defined __linux__
-                            out  <<  "ou à défaut dans ~/.local/share/Altair/rank.  \n\n";
-                          #endif
-                       #endif
-                #endif
-
-
-
+          ostringstream out = std::move(help());
           if (commandline_tab[start] == "--hmarkdown")
           {
              cerr << out.str();
@@ -696,11 +593,7 @@ int main(int argc, char **argv)
                exit(-208);
              }
         }
-        else if (commandline_tab[start] == "--overhead ")
-        {
-          overhead = stoi(commandline_tab[start + 1], nullptr) * 1048576;
-          cerr << STATE_HTML_TAG "Marge de mémoire vive sous plafond : " << commandline_tab[start + 1] << " Mo" << ENDL;
-        }
+
         else if (commandline_tab[start][0] == '-')
         {
           cerr << ERROR_HTML_TAG "Option inconnue " << commandline_tab[start] << ENDL;
@@ -719,8 +612,6 @@ int main(int argc, char **argv)
     /* on sait que info.nbfil >= 1 */
 
     vector<unsigned long long> taille;
-
-
 
     /* Soit la taille totale des fichiers est transmise par --mem soit on la calcule ici,
      * en utilisant taille_fichiers */
@@ -753,7 +644,7 @@ int main(int argc, char **argv)
 
     /* ajustement représente la part maximum de la mémoire disponible que l'on consacre au processus, compte tenu de la marge sous plafond (overhead) */
 
-    unsigned long long memoire_utilisable = floor(ajustement * static_cast<float>(memoire_disponible)) - overhead;
+    unsigned long long memoire_utilisable = floor(ajustement * static_cast<float>(memoire_disponible));
     cerr << STATE_HTML_TAG  << "Mémoire utilisable " <<  memoire_utilisable / 1048576   << " Mo."  ENDL;
 
     if (nsegments != 0)
@@ -779,7 +670,7 @@ int main(int argc, char **argv)
          }
     }
 
-    vector<vector<string>> segments;
+    vector<vString> segments;
 
     auto  taille_it = taille.begin();
     auto  commandline_it = commandline_tab.begin() + start;
@@ -787,9 +678,15 @@ int main(int argc, char **argv)
     do
     {
         unsigned long long taille_segment = *taille_it;
-        vector<string> segment;
+        vString segment;
+        float densite_segment;
+        #ifdef STRINGSTREAM_PARSING
+          densite_segment = AVERAGE_RAM_DENSITY + 1;
+        #else
+          densite_segment = AVERAGE_RAM_DENSITY;
+        #endif
 
-        while (taille_segment * AVERAGE_RAM_DENSITY < memoire_utilisable && commandline_it != commandline_tab.end())
+        while (taille_segment * densite_segment < memoire_utilisable && commandline_it != commandline_tab.end())
          {
            segment.push_back(*commandline_it);  // ne pas utiliser move;
            ++commandline_it;
@@ -844,7 +741,7 @@ int main(int argc, char **argv)
     return errno;
 }
 
-int produire_segment(const info_t& info, const vector<string>& segment, pair<uint64_t, uint32_t>& p)
+int produire_segment(const info_t& info, const vString& segment, pair<uint64_t, uint32_t>& p)
 {
     static int nsegment;
 
@@ -877,7 +774,7 @@ int produire_segment(const info_t& info, const vector<string>& segment, pair<uin
     }
 
     vector<thread_t> v_thread_t(info.nbfil);
-    vector<string>::const_iterator segment_it = segment.begin();
+    vString::const_iterator segment_it = segment.begin();
 
     for (unsigned  i = 0; i < info.nbfil; ++i)
     {
@@ -888,9 +785,9 @@ int produire_segment(const info_t& info, const vector<string>& segment, pair<uin
 
         Info[i].threads->argc = nb_fichier_par_fil.at(i);
 
-        Info[i].threads->argv = vector<string>(segment_it, segment_it + nb_fichier_par_fil[i]);
+        Info[i].threads->argv = vString(segment_it, segment_it + nb_fichier_par_fil[i]);
 
-        Info[i].threads->in_memory_file = vector<string>(nb_fichier_par_fil[i]);
+        Info[i].threads->in_memory_file = vString(nb_fichier_par_fil[i]);
         segment_it += nb_fichier_par_fil.at(i);
 
         if (Info[i].threads->argv.size() != (unsigned) nb_fichier_par_fil.at(i))
@@ -987,6 +884,9 @@ int produire_segment(const info_t& info, const vector<string>& segment, pair<uin
             }
     }
 
+   generate_rank_signal(0);
+   cerr << " \n";
+
     /* libération de la mémoire */
 
    if (! liberer_memoire) return 0;
@@ -1009,6 +909,7 @@ int produire_segment(const info_t& info, const vector<string>& segment, pair<uin
             }
         }
     }
+
 
     return 1;
 }

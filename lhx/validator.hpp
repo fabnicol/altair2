@@ -142,6 +142,9 @@ typedef struct {
 #define SKIP_FILE 1
 #define NO_AGENT -1
 
+#ifndef MAX_MEMORY_SHARE
+#define MAX_MEMORY_SHARE 0.9
+#endif
 
 #ifndef NA_STRING
  #define NA_STRING  (xmlChar*) "NA"

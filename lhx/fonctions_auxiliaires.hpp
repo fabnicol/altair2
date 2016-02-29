@@ -5,6 +5,7 @@
 #include "validator.hpp"
 #include <libxml/parser.h>
 #include <iostream>
+#include <sstream>
 #include <fstream>
 #include <vector>
 #include <mutex>
@@ -15,7 +16,7 @@ typedef struct {
                  std::string filePath;
                } errorLine_t;
 
-
+std::ostringstream help();
 int32_t lire_argument(int argc, char* c_str);
 int calculer_memoire_requise( info_t &info);
 void ouvrir_fichier_base(const info_t &info, BaseType, std::ofstream& base, int segment);
