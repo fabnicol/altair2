@@ -44,7 +44,7 @@ const double part_proportionnelle_minimale(int Annee, int Mois, int Prop)
 
 SEXP  sft_C(SEXP Prop, SEXP Indice, SEXP Nbi, SEXP Duree, SEXP Annee, SEXP Mois)
 {
-//          rop = "integer", Indice = "character", Nbi = "numeric", Duree = "numeric",
+//          Prop = "integer", Indice = "character", Nbi = "numeric", Duree = "numeric",
 //            Annee = "integer", Mois = "integer"))
 // corps de la fonction C++
                     
@@ -71,8 +71,8 @@ SEXP  sft_C(SEXP Prop, SEXP Indice, SEXP Nbi, SEXP Duree, SEXP Annee, SEXP Mois)
    
 // part variable en proportion du traitement indiciaire
 
-   double valeur;    
-   double coef;
+   double valeur = 0;    
+   double coef = 0;
    double part_proportionnelle = 0;
    int indice_entier = 0;
 
@@ -82,16 +82,13 @@ SEXP  sft_C(SEXP Prop, SEXP Indice, SEXP Nbi, SEXP Duree, SEXP Annee, SEXP Mois)
    static const std::regex echelle_lettre {ECHELLE_LETTRE_PATTERN, std::regex::icase};
  #endif
 
-   if (duree  == 0 || indice[0] == '\0' || (indice[0] == 'N' && indice[1] == 'A')) 
+   if (duree  == 0 || indice[0] == '\0') 
    {
-     valeur = 0;
      goto fin;
    } 
 
   #ifdef USE_REGEX 
 
-    
-    
      indice_entier =  std::regex_match(indice, echelle_lettre)? 717 : std::stoi(indice);
      
   #else
@@ -104,8 +101,8 @@ SEXP  sft_C(SEXP Prop, SEXP Indice, SEXP Nbi, SEXP Duree, SEXP Annee, SEXP Mois)
        for (int j=0; indice[j] != 0; ++j)
 		   if (indice[j] == c)
 		   {
-			 indice_entier = 717;
-			 goto out;
+			   indice_entier = 717;
+			   goto out;
 		   }
      }
      
@@ -113,13 +110,15 @@ SEXP  sft_C(SEXP Prop, SEXP Indice, SEXP Nbi, SEXP Duree, SEXP Annee, SEXP Mois)
 	 
        if (indice_entier == 0) indice_entier = atoi(indice);
      
-   #endif
+  #endif
 
    indice_entier += nbi;
    
-
+   if (indice_entier > 717) indice_entier = 717;
+   if (indice_entier < 449) indice_entier = 449;
+   
    if (prop)
-     part_proportionnelle =  sft_prop[prop - 1] * (double) ((449 > ((indice_entier < 717)? indice_entier : 717))? 449: ((indice_entier < 717)? indice_entier : 717)) 
+     part_proportionnelle =  sft_prop[prop - 1]/100 * (double) indice_entier
                                                 * PointMensuelIM[annee - 2008][mois - 1];  
    
    // on prend en compte les quotités spécifiques de temps partiel
@@ -131,16 +130,15 @@ SEXP  sft_C(SEXP Prop, SEXP Indice, SEXP Nbi, SEXP Duree, SEXP Annee, SEXP Mois)
      (prop != 1)? 
      coef * (part_proportionnelle + sft_fixe[prop - 1])
        : coef * part_proportionnelle + sft_fixe[prop - 1];
-   
-   
+  
    // vérification du plancher des attributions minimales à temps plein
    
-   if (prop != 1 && part_proportionnelle_minimale(annee, mois, prop) + sft_fixe[prop - 1] > valeur) 
-     valeur = part_proportionnelle_minimale(annee, mois, prop) + sft_fixe[prop - 1];
+   double test = part_proportionnelle_minimale(annee, mois, prop) + sft_fixe[prop - 1];
+   
+   if (prop != 1 && test > valeur) 
+     valeur = test;
      
 fin:
-   //SEXP out = PROTECT(allocVector(REALSXP, 1));
-   //REAL(out)[0] = valeur;
 
    return(ScalarReal(valeur));
    

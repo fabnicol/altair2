@@ -2017,7 +2017,7 @@ if (! utiliser.cplusplus.sft)
    
 } else {
   
-#  library(sft)
+  library(sft)
   sft <- function(NbEnfants,
                   Indice,
                   NBI,

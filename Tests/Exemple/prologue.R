@@ -41,7 +41,7 @@ analyse.par.catégorie          <- TRUE
 test.delta                     <- TRUE
 if (! exists("PDF"))       PDF <- FALSE
 keep_md                        <- FALSE
-utiliser.cplusplus.sft         <- TRUE
+utiliser.cplusplus.sft         <- FALSE
 
 seuil.troncature               <- 1 # jours
 taux.tolérance.homonymie       <- 2  # en %
