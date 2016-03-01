@@ -1,0 +1,14 @@
+Package: sft
+Title: calcul du sft
+Version: 0.0.0.9000
+Authors@R: person("Fabrice", "Nicol", email = "fabrice.nicol@crtc.ccomptes.fr", role = c("aut", "cre"))
+Description: Liquidation du calcul et d<e9>tection des anomalies.
+Depends: R (>= 3.2.3)
+License: GPL v.3
+LazyData: true
+NeedsCompilation: yes
+Packaged: 2016-03-01 02:54:20 UTC; Fab
+Author: Fabrice Nicol [aut, cre]
+Maintainer: Fabrice Nicol <fabrice.nicol@crtc.ccomptes.fr>
+Built: R 3.2.3; x86_64-w64-mingw32; 2016-03-01 02:54:33 UTC; windows
+Archs: x64

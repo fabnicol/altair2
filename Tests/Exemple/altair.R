@@ -2015,7 +2015,24 @@ if (! utiliser.cplusplus.sft)
    source("sft.R", encoding = encodage.code.source)
    sft <- sft_R
    
-} #else library(suppfam)
+} else {
+  
+#  library(sft)
+  sft <- function(NbEnfants,
+                  Indice,
+                  NBI,
+                  Temps.de.travail,
+                  Année,
+                  Mois) .Call("sft_C",
+                              NbEnfants,
+                              Indice,
+                              NBI,
+                              Temps.de.travail,
+                              Année,
+                              Mois,
+                              PACKAGE="sft")
+
+}
 
 Paie.sans.enfant.réduit <- Paie[is.na(NbEnfants) | NbEnfants == 0 , .(SFT.versé = sum(Montant[Type == "S"], na.rm = TRUE)), keyby = "Matricule,Année,Mois"] 
 
@@ -2052,23 +2069,6 @@ Paie.enfants.réduit <- Paie[!is.na(NbEnfants) & NbEnfants > 0 & !is.na(Indice) &
                                         NBI = NBI[1],
                                         NbEnfants = NbEnfants[1]),
                                         keyby="Matricule,Année,Mois"]
-library(anRpackage)
-if (benchmark.cplusplus.sft)
-{
-  
-  source("sft.R")
-  library(microbenchmark)
-  
-  microbenchmark(with(Paie.enfants.réduit, 
-                       mapply(sft_R, NbEnfants, Indice, NBI, Temps.de.travail, Année, Mois, USE.NAMES = FALSE), times = 10))
-
-  sft <- function(NbEnfants, Indice, NBI, Temps.de.travail, Année, Mois) .Call(sft_, NbEnfants, Indice, NBI, Temps.de.travail, Année, Mois)
-    
-  microbenchmark(with(Paie.enfants.réduit, 
-                       mapply(sft, NbEnfants, Indice, NBI, Temps.de.travail, Année, Mois, USE.NAMES = FALSE), times = 500))
-  stop("sft")
-
-}
 
 SFT.controle <- with(Paie.enfants.réduit, 
                        mapply(sft, NbEnfants, Indice, NBI, Temps.de.travail, Année, Mois, USE.NAMES = FALSE))

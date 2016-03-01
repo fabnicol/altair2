@@ -175,7 +175,10 @@ standardPage::standardPage()
     memoryUseWidget->setFixedHeight(30);
     memoryUseWidget->setCurrentIndex(1);
     memoryUseWidget->setToolTip(tr("Sélectionner l'intensité de l'utilisation de la mémoire vive (RAM) libre au lancement de l'application. "
-                    "\nRenseigner les champs ci-dessous pour l'utilisation intensive, qui n'est utile que si la machine dispose de plus de 8 Go de RAM et pour au moins 2 000 agents par mois."));
+                    "\nIntensive\t: 100 % de la mémoire\n"
+                      "Standard\t: 90 %\n"
+                      "Modérée\t: 80 %\n"
+                      "Econome\t: 50 %"));
 
 
     /* A ce stade seules les bases monolithiques et par année peuvent être sous découpées en segments d'au maximum N lignes

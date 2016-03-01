@@ -67,12 +67,12 @@ AWK = gawk
 BLAS_LIBS = -L"$(R_HOME)/$(IMPDIR)" -lRblas
 C_VISIBILITY = 
 CC = $(BINPREF)gcc $(M_ARCH)
-CFLAGS = -O2 -Wall $(DEBUGFLAG) -std=gnu99 -mtune=core2 -std=c++11
+CFLAGS = -O2 -Wall $(DEBUGFLAG) -std=gnu99 -mtune=core2
 CPICFLAGS = 
 CPPFLAGS =
 CXX = $(BINPREF)g++ $(M_ARCH)
 CXXCPP = $(CXX) -E
-CXXFLAGS = -O2 -Wall $(DEBUGFLAG) -mtune=core2 -std=c++11
+CXXFLAGS = -O2 -Wall $(DEBUGFLAG) -mtune=core2
 CXXPICFLAGS = 
 CXX1X = $(BINPREF)g++ $(M_ARCH)
 CXX1XFLAGS = -O2 -Wall $(DEBUGFLAG) -mtune=core2

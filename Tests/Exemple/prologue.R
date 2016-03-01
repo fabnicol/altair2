@@ -41,8 +41,6 @@ analyse.par.catégorie          <- TRUE
 test.delta                     <- TRUE
 if (! exists("PDF"))       PDF <- FALSE
 keep_md                        <- FALSE
-
-benchmark.cplusplus.sft        <- FALSE
 utiliser.cplusplus.sft         <- TRUE
 
 seuil.troncature               <- 1 # jours

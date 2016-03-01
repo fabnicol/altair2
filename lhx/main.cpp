@@ -679,11 +679,12 @@ int main(int argc, char **argv)
     {
         unsigned long long taille_segment = *taille_it;
         vString segment;
-        float densite_segment;
+        float densite_segment=AVERAGE_RAM_DENSITY;
         #ifdef STRINGSTREAM_PARSING
-          densite_segment = AVERAGE_RAM_DENSITY + 1;
-        #else
-          densite_segment = AVERAGE_RAM_DENSITY;
+          ++densite_segment;
+        #endif
+        #ifndef OFSTREAM_TABLE_OUTPUT
+          ++densite_segment;
         #endif
 
         while (taille_segment * densite_segment < memoire_utilisable && commandline_it != commandline_tab.end())
