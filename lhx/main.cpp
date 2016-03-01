@@ -577,7 +577,7 @@ int main(int argc, char **argv)
           }
         else if (commandline_tab[start] == "--segments ")
         {
-           cerr << STATE_HTML_TAG "Les bases seront scindées en au moins : " << commandline_tab[start + 1] << " segments" << ENDL;
+           cerr << STATE_HTML_TAG "Les bases seront analysées en au moins : " << commandline_tab[start + 1] << " segments" << ENDL;
 
            // au maximum 99 segments
 
@@ -701,7 +701,7 @@ int main(int argc, char **argv)
 
     unsigned int segments_size = segments.size();
     if (segments_size > 1)
-        cerr << PROCESSING_HTML_TAG << "Les bases en sortie seront scindées en " << segments_size << " segments." ENDL;
+        cerr << PROCESSING_HTML_TAG << "Les bases en sortie seront analysées en " << segments_size << " segments." ENDL;
 
    int info_nbfil_defaut = info.nbfil;
 
@@ -885,7 +885,7 @@ int produire_segment(const info_t& info, const vString& segment, pair<uint64_t, 
             }
     }
 
-   generate_rank_signal(0);
+   generate_rank_signal(-1);
    cerr << " \n";
 
     /* libération de la mémoire */

@@ -381,6 +381,10 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
     string  index = "-";
 
     static int rang;
+    static int segment_ancien;
+    bool nouveau_segment = (segment != segment_ancien);
+    int increment = 0;
+
 
     if (categorie == BaseCategorie::BULLETINS)
     {
@@ -388,11 +392,24 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
         #if defined(__WIN32__) && defined (USE_ICONV)
                 + ".temp"
         #endif
-
                 + string(CSV);
     }
     else
     {
+
+        if (nouveau_segment)
+        {
+                if  (type != BaseType::MAXIMUM_LIGNES
+                    && type != BaseType::PAR_ANNEE
+                    && type != BaseType::MAXIMUM_LIGNES_PAR_ANNEE)
+                    {
+                        rang = 0;
+                    }
+        }
+        else
+        {
+            increment = 1;
+        }
 
         chemin_base = info.chemin_base
         #if defined(__WIN32__) && defined (USE_ICONV)
@@ -409,7 +426,8 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
            case BaseType::MAXIMUM_LIGNES:
            case BaseType::PAR_ANNEE:
            case BaseType::MAXIMUM_LIGNES_PAR_ANNEE:
-               index = index + to_string(++rang) +  string(CSV);
+               rang += increment;
+               index = index + to_string(rang) +  string(CSV);
                chemin_base = chemin_base + index;
              break;
 
@@ -473,6 +491,8 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
         else
             ecrire_entete_bulletins(info, base);
     }
+
+    segment_ancien = segment;
 
     return;
 }

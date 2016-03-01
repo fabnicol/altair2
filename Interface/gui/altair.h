@@ -72,7 +72,7 @@ public:
                     baInt = rankFile.readLine().toInt();
                     rankFile.close();
             }
-
+            if (baInt == -1) emit(setProgressBar(0, fileCount));
             fileRank = (baInt >= 1)? baInt : 1;
 
     }

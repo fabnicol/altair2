@@ -712,6 +712,7 @@ void MainWindow::configureOptions()
                                                                             {"Interface", "Limiter le nombre de lignes en sortie de la console"});
 
     defaultQuietBox = new FCheckBox("Limiter la verbosité",
+                                        flags::status::enabledChecked|flags::commandLineType::defaultCommandLine,
                                        "quiet",
                                        {"Interface", "Limiter la verbosité de la console"},
                                         "q");
