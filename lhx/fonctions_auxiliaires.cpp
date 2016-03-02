@@ -377,14 +377,8 @@ void ouvrir_fichier_base(const info_t &info, BaseType type, ofstream& base, int 
 
 void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType type, ofstream& base, int segment)
 {
+
     string chemin_base = "";
-    string  index = "-";
-
-    static int rang;
-    static int segment_ancien;
-    bool nouveau_segment = (segment != segment_ancien);
-    int increment = 0;
-
 
     if (categorie == BaseCategorie::BULLETINS)
     {
@@ -397,7 +391,14 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
     else
     {
 
-        if (nouveau_segment)
+        string  index = "-";
+
+        static int rang;
+        static int segment_ancien;
+        bool nouveau_segment = (segment != segment_ancien);
+        int increment = 1;
+
+        if (segment_ancien > 0 && nouveau_segment)
         {
                 if  (type != BaseType::MAXIMUM_LIGNES
                     && type != BaseType::PAR_ANNEE
@@ -405,10 +406,7 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
                     {
                         rang = 0;
                     }
-        }
-        else
-        {
-            increment = 1;
+                increment = 0;
         }
 
         chemin_base = info.chemin_base
@@ -464,27 +462,27 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
              ++rang;
 
            case BaseType::PAR_TRAITEMENT:
-             ++rang;
-            chemin_base = chemin_base + index + types_extension[rang-1] + CSV;
+            chemin_base = chemin_base + index + types_extension[rang] + CSV;
             break;
 
            case BaseType::TOUTES_CATEGORIES:
-            ++rang;
-            chemin_base = chemin_base + index + types_extension[rang-1] + CSV;
+            chemin_base = chemin_base + index + types_extension[rang] + CSV;
         }
 
-
+       segment_ancien = segment;
     }
 
     base.open(chemin_base, ofstream::out | ofstream::app);
-    base.seekp(0);
+
     if (! base.good())
     {
         cerr << ERROR_HTML_TAG "Impossible d'ouvrir le fichier de sortie " << chemin_base << ENDL;
         exit(-1000);
     }
 
-    if (segment == 1)
+    bool insert_header = (taille_fichier(chemin_base) == 0);
+
+    if (insert_header)
     {
         if (categorie == BaseCategorie::BASE)
             ecrire_entete_table(info, base);
@@ -492,7 +490,6 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
             ecrire_entete_bulletins(info, base);
     }
 
-    segment_ancien = segment;
 
     return;
 }

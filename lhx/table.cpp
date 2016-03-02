@@ -412,6 +412,9 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
 
 #endif
 
+    static uint64_t compteur_ancien, compteur_bulletins_ancien;
+    compteur = compteur_ancien;
+    compteur_lignes_bulletins = compteur_bulletins_ancien;
 
     if (type_base == BaseType::MONOLITHIQUE)
     {
@@ -469,6 +472,7 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
 #endif
             }
         }
+
     }
     else
         if (type_base == BaseType::PAR_ANNEE)
@@ -555,6 +559,9 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
                     // soit : il existe un nombre de lignes maximal par base spécifié en ligne de commande après -T
                     && taille_base > 0)
             {
+
+                rang_fichier_base = compteur / taille_base + 1;
+
                 for (unsigned i = 0; i < Info[0].nbfil; ++i)
                 {
                     for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; ++agent)
@@ -650,6 +657,10 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
                 if (type_base == BaseType::MAXIMUM_LIGNES_PAR_ANNEE
                         && taille_base > 0)
                 {
+
+                    compteur_annee_courante = compteur_ancien;
+                    rang_fichier_base_annee_courante = compteur_annee_courante  / taille_base + 1;
+
                     for (unsigned i = 0; i < Info[0].nbfil; ++i)
                     {
                         for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; ++agent)
@@ -767,6 +778,8 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
 #endif
                         }
                     }
+
+                    compteur_ancien = compteur_annee_courante;
                 }
                 else
                     if (type_base == BaseType::TOUTES_CATEGORIES)
@@ -900,6 +913,8 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
                     }
 
 
+ compteur_ancien = compteur;
+ compteur_bulletins_ancien = compteur_lignes_bulletins;
     
 #ifndef OFSTREAM_TABLE_OUTPUT
     bulletins << t_bulletins.str();
@@ -908,7 +923,7 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
     // Dans les autres cas, les bases ont déjà été refermées sauf une (cas par année et par taille maximale)
     if (type_base == BaseType::TOUTES_CATEGORIES)
     {
-        for (int d = 0; d < nbType - 1; ++d)
+        for (int d = 0; d < nbType; ++d)
         {
 #ifndef OFSTREAM_TABLE_OUTPUT
             tableau_base[d] << t_tableau_base[d].str();
@@ -927,89 +942,89 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
             base.close();
         }
 
-    if (base.good())
+    uint64_t compteur_lignes = compteur;
+
+    switch (type_base)
     {
-        base.close();
-        switch (type_base)
-        {
-        case  BaseType::MONOLITHIQUE            :
-            cerr << STATE_HTML_TAG "Table intégrée."  ENDL;
-            break;
+    case  BaseType::MONOLITHIQUE            :
+        cerr << STATE_HTML_TAG "Table intégrée."  ENDL;
+        break;
 
-        case  BaseType::PAR_TRAITEMENT          :
-            cerr << STATE_HTML_TAG "Catégorie : Traitement."  ENDL;
-            break;
+    case  BaseType::PAR_TRAITEMENT          :
+        cerr << STATE_HTML_TAG "Catégorie : Traitement."  ENDL;
+        break;
 
-        case  BaseType::PAR_INDEMNITE_RESIDENCE :
-            cerr << STATE_HTML_TAG "Catégorie : Indemnité de résidence."  ENDL;
-            break;
+    case  BaseType::PAR_INDEMNITE_RESIDENCE :
+        cerr << STATE_HTML_TAG "Catégorie : Indemnité de résidence."  ENDL;
+        break;
 
-        case  BaseType::PAR_SFT                 :
-            cerr << STATE_HTML_TAG "Catégorie : Supplément familial de traitement."  ENDL;
-            break;
+    case  BaseType::PAR_SFT                 :
+        cerr << STATE_HTML_TAG "Catégorie : Supplément familial de traitement."  ENDL;
+        break;
 
-        case  BaseType::PAR_AVANTAGE_NATURE     :
-            cerr << STATE_HTML_TAG "Catégorie : Avantage en nature."  ENDL;
-            break;
+    case  BaseType::PAR_AVANTAGE_NATURE     :
+        cerr << STATE_HTML_TAG "Catégorie : Avantage en nature."  ENDL;
+        break;
 
-        case  BaseType::PAR_INDEMNITE           :
-            cerr << STATE_HTML_TAG "Catégorie : Indemnité."  ENDL;
-            break;
+    case  BaseType::PAR_INDEMNITE           :
+        cerr << STATE_HTML_TAG "Catégorie : Indemnité."  ENDL;
+        break;
 
-        case  BaseType::PAR_REM_DIVERSES        :
-            cerr << STATE_HTML_TAG "Catégorie : Rémunérations diverses."  ENDL;
-            break;
+    case  BaseType::PAR_REM_DIVERSES        :
+        cerr << STATE_HTML_TAG "Catégorie : Rémunérations diverses."  ENDL;
+        break;
 
-        case  BaseType::PAR_DEDUCTION           :
-            cerr << STATE_HTML_TAG "Catégorie : Déduction."  ENDL;
-            break;
+    case  BaseType::PAR_DEDUCTION           :
+        cerr << STATE_HTML_TAG "Catégorie : Déduction."  ENDL;
+        break;
 
-        case  BaseType::PAR_ACOMPTE             :
-            cerr << STATE_HTML_TAG "Catégorie : Acompte."  ENDL;
-            break;
+    case  BaseType::PAR_ACOMPTE             :
+        cerr << STATE_HTML_TAG "Catégorie : Acompte."  ENDL;
+        break;
 
-        case  BaseType::PAR_RAPPEL              :
-            cerr << STATE_HTML_TAG "Catégorie : Rappel."  ENDL;
-            break;
+    case  BaseType::PAR_RAPPEL              :
+        cerr << STATE_HTML_TAG "Catégorie : Rappel."  ENDL;
+        break;
 
-        case  BaseType::PAR_RETENUE             :
-            cerr << STATE_HTML_TAG "Catégorie : Retenue."  ENDL;
-            break;
+    case  BaseType::PAR_RETENUE             :
+        cerr << STATE_HTML_TAG "Catégorie : Retenue."  ENDL;
+        break;
 
-        case  BaseType::PAR_COTISATION          :
-            cerr << STATE_HTML_TAG "Catégorie : Cotisation."  ENDL;
-            break;
+    case  BaseType::PAR_COTISATION          :
+        cerr << STATE_HTML_TAG "Catégorie : Cotisation."  ENDL;
+        break;
 
-        case  BaseType::TOUTES_CATEGORIES       :
-            cerr << STATE_HTML_TAG "Toutes catégories."  ENDL;
-            break;
+    case  BaseType::TOUTES_CATEGORIES       :
+        cerr << STATE_HTML_TAG "Toutes catégories."  ENDL;
+        break;
 
-        case BaseType::PAR_ANNEE    :
-            cerr << "Année : " << annee_courante  << ENDL;
-            cerr << "Table de " << compteur - dernier_compteur
-                      << " lignes, lignes "  << dernier_compteur + 1
-                      << " à " << compteur << "."  ENDL;
-            break;
+    case BaseType::PAR_ANNEE    :
+        cerr << "Année : " << annee_courante  << ENDL;
+        cerr << "Table de " << compteur - dernier_compteur
+                  << " lignes, lignes "  << dernier_compteur + 1
+                  << " à " << compteur << "."  ENDL;
+        break;
 
-        case BaseType::MAXIMUM_LIGNES_PAR_ANNEE :
-            cerr << SPACER "Table n°" << rang_fichier_base << " de " <<  compteur - dernier_compteur - (rang_fichier_base_annee_courante - 1) * taille_base
-                      << " lignes, lignes "  << dernier_compteur + (rang_fichier_base_annee_courante - 1) * taille_base + 1
-                      << " à " << compteur << "."  ENDL;
-            cerr << "Année : " << annee_courante <<  ENDL;
-            cerr << "Total annuel de " << compteur - dernier_compteur
-                      << " lignes, lignes "  << dernier_compteur + 1
-                      << " à " << compteur << "."  ENDL;
-            break;
+    case BaseType::MAXIMUM_LIGNES_PAR_ANNEE :
+        cerr << SPACER "Table n°" << rang_fichier_base << " de " <<  compteur - dernier_compteur - (rang_fichier_base_annee_courante - 1) * taille_base
+                  << " lignes, lignes "  << dernier_compteur + (rang_fichier_base_annee_courante - 1) * taille_base + 1
+                  << " à " << compteur << "."  ENDL;
+        cerr << "Année : " << annee_courante <<  ENDL;
+        cerr << "Total annuel de " << compteur - dernier_compteur
+                  << " lignes, lignes "  << dernier_compteur + 1
+                  << " à " << compteur << "."  ENDL;
+        break;
 
-        case BaseType::MAXIMUM_LIGNES  :  /* Taille définie par l'utilisateur */
-            cerr << STATE_HTML_TAG "Table n°" << rang_fichier_base
-                      << " de " <<  compteur - (rang_fichier_base-1) * taille_base
-                      << " lignes, lignes " << (rang_fichier_base-1) * taille_base + 1
-                      << " à " << compteur << "."  ENDL;
-            break;
+    case BaseType::MAXIMUM_LIGNES  :  /* Taille définie par l'utilisateur */
+        cerr << STATE_HTML_TAG "Table n°" << rang_fichier_base
+                  << " de " <<  compteur - (rang_fichier_base-1) * taille_base
+                  << " lignes, lignes " << (rang_fichier_base-1) * taille_base + 1
+                  << " à " << compteur << "."  ENDL;
+       // compteur_lignes = compteur - compteur_ancien;
+        break;
 
-        default:  break;
-        }
+    default:  break;
+    }
 
         cerr << ENDL;
 
@@ -1018,9 +1033,6 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
 #if defined(__WIN32__) && defined(USE_ICONV)
         convertir(Info[0].chemin_base);
 #endif
-    }
-    else
-        cerr << ERROR_HTML_TAG "Problème de qualité du fichier " << Info[0].chemin_base << ENDL;
 
     if (bulletins.good())
     {
@@ -1035,7 +1047,7 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
     else
         cerr << ERROR_HTML_TAG "Problème de qualité du fichier " << Info[0].chemin_bulletins << ENDL;
     
- return make_pair(compteur, compteur_lignes_bulletins);
+ return make_pair(compteur_lignes, compteur_lignes_bulletins);
 }
 
 #undef VAR

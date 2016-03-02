@@ -11,6 +11,7 @@ if (win32|linux) {
 windows {
   GIT_VERSION = $$system(git --version | find \"git version\")
   CXX_VERSION = $$system($$QMAKE_CXX --version | findstr \"5.[0-9]\")
+  DEFINES += SYSTEM_PATH_SEPARATOR=\"\';\'\"
 }
 
 linux {

@@ -47,7 +47,7 @@ mutex mut;
 vector<errorLine_t> errorLineStack;
 vString commandline_tab;
 
-int produire_segment(const info_t& info, const vString& segment, pair<uint64_t, uint32_t> &nlignes);
+int produire_segment(const info_t& info, const vString& segment);
 
 
 int main(int argc, char **argv)
@@ -237,6 +237,7 @@ int main(int argc, char **argv)
             hashTable["S"]  = BaseType::PAR_SFT;
             hashTable["T"]  = BaseType::PAR_TRAITEMENT;
             hashTable["R"]  = BaseType::PAR_RAPPEL;
+            hashTable["RE"] = BaseType::PAR_RETENUE;
             hashTable["X"]  = BaseType::TOUTES_CATEGORIES;
 
             if (hashTable.find(commandline_tab[start + 1]) != hashTable.end())
@@ -705,8 +706,6 @@ int main(int argc, char **argv)
 
    int info_nbfil_defaut = info.nbfil;
 
-   pair<uint64_t, uint32_t> nlignes;
-
    for (auto&& segment : segments)
    {
         unsigned int segment_size = segment.size();
@@ -720,16 +719,10 @@ int main(int argc, char **argv)
         else
             info.nbfil = info_nbfil_defaut;
 
-        produire_segment(info, segment, nlignes);
+        produire_segment(info, segment);
     }
 
     xmlCleanupParser();
-
-    if (generer_table && segments_size > 1)
-    {
-      cerr << ENDL << STATE_HTML_TAG "Cumul des lignes de paye : " << nlignes.first << ENDL;
-      cerr << ENDL << STATE_HTML_TAG "Cumul des bulletins de paye : " << nlignes.second << ENDL;
-    }
 
     auto endofprogram = Clock::now();
 
@@ -742,7 +735,7 @@ int main(int argc, char **argv)
     return errno;
 }
 
-int produire_segment(const info_t& info, const vString& segment, pair<uint64_t, uint32_t>& p)
+int produire_segment(const info_t& info, const vString& segment)
 {
     static int nsegment;
 
@@ -850,9 +843,7 @@ int produire_segment(const info_t& info, const vString& segment, pair<uint64_t, 
     if (generer_table)
     {
       cerr << ENDL << PROCESSING_HTML_TAG "Exportation des bases de données au format CSV..." << ENDL ENDL;
-      pair<uint64_t, uint32_t> res = boucle_ecriture(Info, nsegment);
-      p.first += res.first;
-      p.second += res.second;
+      boucle_ecriture(Info, nsegment);
     }
 
     /* Résumé des erreurs rencontrées */
