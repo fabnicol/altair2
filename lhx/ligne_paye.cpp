@@ -44,25 +44,32 @@ static inline int GCC_INLINE Bulletin(const char*  tag, xmlNodePtr& cur, int l, 
     /* sanitisation */
 
         int size = xmlStrlen(info.Table[info.NCumAgentXml][l]);
+
+
         for (int i = 0; i < size; ++i)
         {
-
+            // Non-switchable car info.seperateur n'est pas une expression constante.
             if (info.Table[info.NCumAgentXml][l][i] == info.separateur)
-            {
                 info.Table[info.NCumAgentXml][l][i] = '_';
-            }
 
-    /* Gros hack de pseudo-conversion UTF-8 vers Latin-1, qui permet d'économiser les 40 % de surcoût d'exécution
-     * lié à l'utilisation d'iconv pour retraiter les fichiers de sortie (fonction convertir(const char*))
-     * Ce hack est presque sans coût. Il se base sur les hypothèses suivantes :
-     *   a) pas de caractères spéciaux multioctets
-     *   b) seuls sont convertis : à, â, ç, è, é, ê, ë, î, ï, ô, û ... et les majuscules correspondantes càd
-     * dont le code UTF-8 commence par 0xC3. Il suffit d'ajouter 0x40 sur les quatre bits hauts de l'octet. */
+            switch(info.Table[info.NCumAgentXml][l][i])
+            {
+
+              case '\n':
+                info.Table[info.NCumAgentXml][l][i] = ' ';
+                break;
+
 
 #if defined(__WIN32__) && !defined(USE_ICONV)
 
-            if (info.Table[info.NCumAgentXml][l][i] == 0xC3)
-            {
+                /* Gros hack de pseudo-conversion UTF-8 vers Latin-1, qui permet d'économiser les 40 % de surcoût d'exécution
+                 * lié à l'utilisation d'iconv pour retraiter les fichiers de sortie (fonction convertir(const char*))
+                 * Ce hack est presque sans coût. Il se base sur les hypothèses suivantes :
+                 *   a) pas de caractères spéciaux multioctets
+                 *   b) seuls sont convertis : à, â, ç, è, é, ê, ë, î, ï, ô, û ... et les majuscules correspondantes càd
+                 * dont le code UTF-8 commence par 0xC3. Il suffit d'ajouter 0x40 sur les quatre bits hauts de l'octet. */
+
+            case 0xC3:
 
                 info.Table[info.NCumAgentXml][l][i] = ((info.Table[info.NCumAgentXml][l][i + 1] & 0xF0) + 0x40) | (info.Table[info.NCumAgentXml][l][i + 1] & 0x0F);
                  for (int j = i + 1; info.Table[info.NCumAgentXml][l][j] != 0; ++j)
@@ -70,8 +77,9 @@ static inline int GCC_INLINE Bulletin(const char*  tag, xmlNodePtr& cur, int l, 
                      info.Table[info.NCumAgentXml][l][j] = info.Table[info.NCumAgentXml][l][j + 1];
                  }
                  --size;
-            } else if (info.Table[info.NCumAgentXml][l][i] == 0xC2)
-            {
+                break;
+
+            case 0xC2:
 
                 info.Table[info.NCumAgentXml][l][i] = info.Table[info.NCumAgentXml][l][i + 1];
                 /* Le caractère ° (degré) est bien codé en Latin-1 comme 0xB0, mais il y an problème avec le paquet texlive
@@ -83,9 +91,10 @@ static inline int GCC_INLINE Bulletin(const char*  tag, xmlNodePtr& cur, int l, 
                      info.Table[info.NCumAgentXml][l][j] = info.Table[info.NCumAgentXml][l][j + 1];
                  }
                  --size;
-            }
+                break;
 #endif
          }
+        }
 
        return NODE_FOUND;
 
@@ -377,7 +386,11 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
 
         cur = cur->xmlChildrenNode;
 
-        if (cur == nullptr) break;
+        if (cur == nullptr)
+        {
+            NA_ASSIGN(l)
+            break;
+        }
 
         // cur n'est pas nul à ce point et ne devient jamais nul ci-après
 

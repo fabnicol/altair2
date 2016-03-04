@@ -380,6 +380,8 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
 
     string chemin_base = "";
 
+    int Type = 0;
+
     if (categorie == BaseCategorie::BULLETINS)
     {
         chemin_base = info.chemin_bulletins
@@ -392,7 +394,6 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
     {
 
         string  index = "-";
-
         static int rang;
         static int segment_ancien;
         bool nouveau_segment = (segment != segment_ancien);
@@ -430,43 +431,42 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
              break;
 
            case BaseType::PAR_COMMENTAIRE:
+             ++Type;
 
            case BaseType::PAR_COTISATION:
-             ++rang;
+             ++Type;
 
            case BaseType::PAR_RETENUE:
-            ++rang;
+            ++Type;
 
            case BaseType::PAR_RAPPEL:
-            ++rang;
+            ++Type;
 
            case BaseType::PAR_ACOMPTE:
-             ++rang;
+             ++Type;
 
            case BaseType::PAR_DEDUCTION:
-             ++rang;
+             ++Type;
 
            case BaseType::PAR_REM_DIVERSES:
-             ++rang;
+             ++Type;
 
            case BaseType::PAR_INDEMNITE:
-             ++rang;
+             ++Type;
 
            case BaseType::PAR_AVANTAGE_NATURE:
-             ++rang;
+             ++Type;
 
            case BaseType::PAR_SFT:
-             ++rang;
+             ++Type;
 
            case BaseType::PAR_INDEMNITE_RESIDENCE:
-             ++rang;
+             ++Type;
 
            case BaseType::PAR_TRAITEMENT:
-            chemin_base = chemin_base + index + types_extension[rang] + CSV;
+            chemin_base = chemin_base + index + types_extension[Type] + CSV;
             break;
 
-           case BaseType::TOUTES_CATEGORIES:
-            chemin_base = chemin_base + index + types_extension[rang] + CSV;
         }
 
        segment_ancien = segment;
@@ -476,7 +476,7 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
 
     if (! base.good())
     {
-        cerr << ERROR_HTML_TAG "Impossible d'ouvrir le fichier de sortie " << chemin_base << ENDL;
+        cerr << ERROR_HTML_TAG "Impossible d'ouvrir le fichier de sortie "<< chemin_base << " de type " << Type << ENDL;
         exit(-1000);
     }
 

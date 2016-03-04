@@ -91,7 +91,7 @@ DEFINES += \#NO_REGEX \                       # Pas d'analyse du texte par expre
 #        FGETC_PARSING    \                   # parcourir les fichiers par ifstream (C++)
         STRINGSTREAM_PARSING  \              # mise en mémoire vive des fichiers de paye par ostringstream (plus de mémoire vive ; accélère beaucoup le 1er traitement sous Windows)
 #       MMAP_PARSING           \             # parcourir les fichiers par mappage mémoire (C, unix uniquement, aucun avantage évident).
-        OFSTREAM_TABLE_OUTPUT               # enregistrer les lignes de paye ligne à ligne sur la base. Plus robuste et moins de mémoire mais plus lent sous Windows
+#        OFSTREAM_TABLE_OUTPUT               # enregistrer les lignes de paye ligne à ligne sur la base. Plus robuste et moins de mémoire mais plus lent sous Windows
 
 # Nota : définir au moins un des suivants : STRINGSTREAM_PARSING MMAP_PARSING FGETC_PARSING
 # Sous windows la meilleure configuration de première exécution est STRINGSTREAM_PARSING pour un disque non-SSD seulement.
