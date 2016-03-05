@@ -13,44 +13,78 @@ class QToolDirButton;
 class FListFrame;
 class FLineFrame;
 
+
+class processPage : public common
+{
+    Q_OBJECT
+
+public :
+    processPage();
+    FLineFrame *logFrame;
+
+private:
+    FComboBox
+      *processTypeWidget,
+      *memoryUseWidget;
+
+    FLineEdit
+     *nLineEdit,
+     *NLineEdit;
+
+    QGroupBox
+      *processTypeBox;
+
+    FCheckBox
+      *logCheckBox,
+      *consoleCheckBox;
+
+    FString
+      standardMsg;
+
+    QLabel *nLineLabel, *NLineLabel;
+
+};
+
+
+
 class standardPage : public common
 {
     Q_OBJECT
 
 public :
     standardPage();
-    FLineFrame *donneesCSV, *applicationNoyau, *logFrame;
 
 private:
     FComboBox
       *baseTypeWidget,
-      *processTypeWidget,
-      *memoryUseWidget;
-    
+      *processTypeWidget;
+
     FLineEdit 
-     *maxNLigneLineEdit,
-     *nLineEdit,
-     *NLineEdit;
+     *maxNLigneLineEdit;
 
     QGroupBox
-      *baseTypeBox,
-      *processTypeBox;
+      *baseTypeBox;
 
     FCheckBox
       *tableCheckBox,
       *etabCheckBox,
       *echelonCheckBox,
-      *rangCheckBox,
-      *logCheckBox,
-      *consoleCheckBox;
-      //*economeCheckBox;
+      *rangCheckBox;
 
     FString
       standardMsg;
 
-    QLabel *maxNLigneLabel, *nLineLabel, *NLineLabel;
+    QLabel *maxNLigneLabel;
 
+};
 
+class dirPage : public common
+{
+    Q_OBJECT
+
+public :
+    dirPage();
+    FLineFrame *donneesCSV, *applicationNoyau;
 
 };
 
@@ -63,6 +97,8 @@ public:
 
     options(Altair* parent=0);
     standardPage* standardTab;
+    processPage* processTab;
+    dirPage* dirTab;
     static std::uint16_t RefreshFlag;
     QListWidget *contentsWidget;
     void clearOptionData();
@@ -80,6 +116,8 @@ private:
     void createIcons();
     void createIcon(const char* path, const char* text);
 
+private slots:
+    void changePage(QListWidgetItem *current, QListWidgetItem *previous);
 
 
 };

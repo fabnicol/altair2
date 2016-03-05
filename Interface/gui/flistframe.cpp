@@ -7,8 +7,7 @@
 
 FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_type, const QString &hashKey,
                          const QStringList &description, const QString &command_line, int cli_type, const QStringList &separator, const QStringList &xml_tags,
-                         common::TabWidgetTrait mainTabWidgetRank, QIcon *icon, QTabWidget *parentTabWidget,
-                         QStringList* terms, QStringList* translation)
+                         common::TabWidgetTrait mainTabWidgetRank,   QStringList* terms, QStringList* translation)
 
 {
 
@@ -281,7 +280,7 @@ void FListFrame::parseXhlFile(const QString& fileName)
 
     bool result = file.open(QIODevice::ReadOnly);
     if (! file.isOpen())
-             altair->outputTextEdit->append(ERROR_HTML_TAG "Erreur Ã  l'ouverture du fichier.");
+             altair->outputTextEdit->append(ERROR_HTML_TAG "Erreur Ã  l'ouverture du fichier.");
 
     if (result == false || file.size()== 0)
     {
@@ -328,7 +327,7 @@ void FListFrame::parseXhlFile(const QString& fileName)
     }
     else
     {
-        altair->outputTextEdit->append(WARNING_HTML_TAG " Fichier " + fileName + " non conforme Ã  la spÃ©cification Xemelios");
+        altair->outputTextEdit->append(WARNING_HTML_TAG " Fichier " + fileName + " non conforme Ã  la spÃ©cification Xemelios");
         Hash::Budget[fileName] = "";
         Hash::Annee[fileName] = "Inconnu";
         Hash::Mois[fileName]  = "Inconnu";
@@ -415,7 +414,7 @@ void FListFrame::parseXhlFile(const QString& fileName)
    file.close();
 
    if (file.isOpen())
-            altair->outputTextEdit->append(ERROR_HTML_TAG " Erreur Ã  la fermeture du fichier.");
+            altair->outputTextEdit->append(ERROR_HTML_TAG " Erreur Ã  la fermeture du fichier.");
 
    if (file.error() != QFileDevice::NoError)
          altair->outputTextEdit->append(WARNING_HTML_TAG " Erreur de fichier.");
@@ -686,7 +685,7 @@ void FListFrame::on_importFromMainTree_clicked()
              }
           }
         #ifdef DEBUG
-         altair->outputTextEdit->append(STATE_HTML_TAG "Ajout des chemins Ã  la liste centrale" );
+         altair->outputTextEdit->append(STATE_HTML_TAG "Ajout des chemins Ã  la liste centrale" );
         #endif
 
          if (stringListSize)

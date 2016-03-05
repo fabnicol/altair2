@@ -235,7 +235,7 @@ void MainWindow::createActions()
 
   openBaseDirAction = new QAction(tr("Ouvrir le répertoire des bases"), this);
   openBaseDirAction ->setIcon(QIcon(":/images/directory.png"));
-  connect(openBaseDirAction, &QAction::triggered, [&] { common::openDir(dialog->standardTab->donneesCSV->getText());  });
+  connect(openBaseDirAction, &QAction::triggered, [&] { common::openDir(dialog->dirTab->donneesCSV->getText());  });
 
   optionsAction = new QAction(tr("&Options"), this);
   optionsAction->setShortcut(QKeySequence("Ctrl+P"));

@@ -147,7 +147,7 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l(int i, uint32_t agent, int l, char*
     
     ECRIRE_LIGNE_l_COMMUN(i, agent, l, type, base, sep, Info, rang);
 
-    base //<< VAR(Categorie) << sep
+    base << VAR(Categorie) << sep
          << VAR(NIR) << "\n";
 }
 
