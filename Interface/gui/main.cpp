@@ -74,6 +74,21 @@ int main(int argc, char *argv[])
     if (argc > 1) s=argv[1];
     else s=(char*)"";
 
+    app.setStyleSheet("\
+    QGroupBox {\
+        border: 1px solid silver;\
+        border-radius: 5px;\
+        margin-top: 1ex;\
+        padding: 10px;\
+    }\
+\
+    QGroupBox::title {\
+        subcontrol-origin: margin;\
+        subcontrol-position: top center;\
+        padding: 0 10px;\
+    }");
+
+
     MainWindow *mainWin=new MainWindow(s);
 
     QObject::connect(mainWin, &MainWindow::exitSignal, [&] { app.quit();});

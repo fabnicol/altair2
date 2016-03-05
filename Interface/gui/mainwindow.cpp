@@ -370,6 +370,7 @@ void MainWindow::createToolBars()
  optionsToolBar->addActions({optionsAction, configureAction});
 
  aboutToolBar->addActions({helpAction, aboutAction});
+ aboutToolBar->hide();
 }
 
 void MainWindow::on_editProjectButton_clicked()
@@ -620,8 +621,6 @@ void MainWindow::configureOptions()
     closeButton->button(QDialogButtonBox::Ok)->setText("Accepter");
     closeButton->button(QDialogButtonBox::Cancel)->setText("Annuler");    
 
-
-
     defaultProjectManagerWidgetLayoutBox=new FCheckBox("Afficher le gestionnaire de projet",
                                                    #ifdef MINIMAL
                                                                             flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
@@ -664,7 +663,7 @@ void MainWindow::configureOptions()
                                                                 {"Interface", "Afficher la barre d'outils de fichiers"});
     
     defaultEditToolBarBox=new FCheckBox("Afficher la barre d'outils d'édition",
-                                                                flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
+                                                                flags::status::enabledChecked|flags::commandLineType::noCommandLine,
                                                                 "editToolBar",
                                                                 {"Interface", "Afficher la barre d'outils d'édition"});
     
@@ -739,8 +738,8 @@ void MainWindow::configureOptions()
     QList<QToolBar*> displayToolBarList ;
     
 #define buildToolBar(bar, text) \
-  bar = addToolBar(tr(text));\
-  bar->setIconSize(QSize(48,48)); 
+    bar = addToolBar(tr(text));\
+    bar->setIconSize(QSize(48,48));
       
     buildToolBar(fileToolBar, "&File") 
     buildToolBar(editToolBar, "&Edit") 
@@ -760,7 +759,6 @@ void MainWindow::configureOptions()
     QVBoxLayout *behaviourLayout=new QVBoxLayout;
     QVBoxLayout *outputLayout=new QVBoxLayout;
 
-
     for (FCheckBox* a : displayWidgetListBox)    displayDocksLayout->addWidget(a);
     for (FCheckBox* a : behaviorWidgetListBox)   behaviourLayout->addWidget(a);
     for (FCheckBox* a : outputListBox)           outputLayout->addWidget(a);
@@ -770,7 +768,6 @@ void MainWindow::configureOptions()
         displayToolBarsLayout->addWidget(displayToolBarCBoxListBox[i]);
 
         connect(displayToolBarCBoxListBox[i], SIGNAL(toggled(bool)), displayToolBarList[i], SLOT(setVisible(bool)));
-
     }
 
     displayGroupBox->setLayout(displayDocksLayout);
@@ -813,7 +810,6 @@ void MainWindow::configureOptions()
     connect(defaultFullScreenLayoutBox, SIGNAL(toggled(bool)), this, SLOT(showMainWidget(bool)));
     connect(defaultMaximumConsoleOutputBox, &FCheckBox::toggled, [this]{v(limitConsoleOutput).toggle();});
     connect(defaultOutputTextEditBox, &FCheckBox::toggled, [this] {bottomDockWidget->setVisible(defaultOutputTextEditBox->isChecked());});
-
 
     connect(defaultMaximumConsoleOutputBox, &FCheckBox::toggled, [this] {
         QTimer *timer = new QTimer(this);

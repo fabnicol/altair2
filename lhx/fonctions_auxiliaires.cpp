@@ -32,10 +32,6 @@ extern bool verbeux;
 #error "La compilation MMAP ne peut se faire que sous unix."
 #endif
 #endif
-#ifdef __WIN32__
-#include <direct.h>
-#include <string>
-#include <windows.h>
 
 
 
@@ -95,6 +91,11 @@ out <<  "**Usage** :  lhx OPTIONS fichiers.xhl  " << "\n\n"
       #endif
    return out;
 }
+
+#ifdef __WIN32__
+#include <direct.h>
+#include <string>
+#include <windows.h>
 
 
 // The directory path returned by native GetCurrentDirectory() no end backslash

@@ -14,7 +14,8 @@ extern template void createHash(QHash<QString, QString>&, const QList<QString>*,
 
 dirPage::dirPage()
 {
-    QGroupBox *baseBox = new QGroupBox(tr("Répertoires"));
+    QGroupBox *baseBox = new QGroupBox;
+
 
     donneesCSV = new FLineFrame({"Données csv", "Répertoire des données"},
                                   #ifdef __linux__
@@ -43,7 +44,7 @@ dirPage::dirPage()
     FRichLabel *mainLabel=new FRichLabel("Répertoires des applications", ":/images/directory.png");
     mainLayout->addWidget(mainLabel);
     mainLayout->addWidget(baseBox, 1, 0);
-    mainLayout->addSpacing(50);
+    mainLayout->addSpacing(100);
 
     setLayout(mainLayout);
 }
@@ -299,7 +300,7 @@ options::options(Altair* parent)
     contentsWidget->setIconSize(QSize(48,48));
     contentsWidget->setFont(QFont("Garamond", 10));
     contentsWidget->setMovement(QListView::Static);
-    contentsWidget->setFixedWidth(88);
+    contentsWidget->setFixedWidth(98);
     contentsWidget->setSpacing(12);
 
     pagesWidget = new QStackedWidget;
