@@ -113,7 +113,8 @@ HEADERS  += \
     templates.h \
     altair-gui.h \
     elemParser.hpp \
-    flineframe.hpp
+    flineframe.hpp \
+    version.h
 
 
 RESOURCES += \

@@ -1,10 +1,8 @@
 #ifndef ENUMS_H
 #define ENUMS_H
 #include <cstdint>
+#include "version.h"
 
-#ifndef VERSION
-    static constexpr const char* VERSION = " 16.02";
-#endif
 
 #ifndef STEP_UP
     static constexpr const char* STEP_UP = "/../../";
