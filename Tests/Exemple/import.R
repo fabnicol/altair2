@@ -104,13 +104,33 @@ nom.table      <- nom.table[file.exists(chemin(nom.table))]
 # Le mode rapide n'est disponible que avec des csv à séparateurs virgule
 # Il permet d'économiser environ 8s par million de ligne lues sur une dizaine de champs
 
+if (! charger.bases) break
 
-importer.bases.via.xhl2csv <- function(base, table = nom.table, colClasses = colonnes.classes.input, colNames =  colonnes.input) {
+T0 <- data.table::fread(chemin(nom.bulletin.paie %+% ".csv"),
+                        sep = séparateur.liste.entrée,
+                        dec = séparateur.décimal.entrée,
+                        nrows = 0,
+                        header = TRUE,
+                        skip = champ.détection.1,
+                        encoding = ifelse(setOSWindows, "Latin-1", "UTF-8"))
+
+colonnes <- names(T0)
+
+intégrer.rang <- ("R" %chin% colonnes) 
+intégrer.échelon <- ("Echelon" %chin% colonnes) 
+intégrer.localisation <- ("Siret" %chin% colonnes)
+
+if (intégrer.rang) message("Intégration du Rang")
+if (intégrer.échelon) message("Intégration de l'échelon")
+if (intégrer.localisation) message("Intégration des données établissement")
+
+source("types.données.R", encoding = encodage.code.source)
+
+importer.bases.via.xhl2csv <- function(base, table = nom.table, colClasses = colonnes.classes.input) {
   
   res <- try(Read.csv(base,
                       table,
                       colClasses = colClasses,
-                      colNames = colNames,
                       séparateur.liste = séparateur.liste.entrée,
                       séparateur.décimal = séparateur.décimal.entrée,
                       convertir.encodage = FALSE, #(encodage.entrée.xhl2csv != "UTF-8"),
@@ -124,11 +144,8 @@ importer.bases.via.xhl2csv <- function(base, table = nom.table, colClasses = col
   message("Chargement direct des bulletins et lignes de paie")
 }
 
-
-if (! charger.bases) break
-
-  importer.bases.via.xhl2csv("Paie", colClasses =  colonnes.classes.input)
-  importer.bases.via.xhl2csv("Bulletins.paie", nom.bulletins, colClasses =  colonnes.bulletins.classes.input, colNames = colonnes.bulletins.input)
+importer.bases.via.xhl2csv("Paie", colClasses =  colonnes.classes.input)
+importer.bases.via.xhl2csv("Bulletins.paie", nom.bulletins, colClasses =  colonnes.bulletins.classes.input)
 
   Bulletins.paie[ , Grade := toupper(Grade)]
   Paie[ , Grade := toupper(Grade)]

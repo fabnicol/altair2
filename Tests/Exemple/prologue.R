@@ -82,8 +82,8 @@ try ({
 
 
 nom.fichier.codes.paiement  <- paste0(racine, "codes.csv")
-nom.fichier.paie            <- paste0(racine, "Lignes de paye")
-nom.bulletin.paie           <- paste0(racine, "Bulletins de paye")
+nom.fichier.paie            <- paste0(racine, "Table")
+nom.bulletin.paie           <- paste0(racine, "Bulletins")
 nom.table                   <- paste0(racine, "Table.csv")
 nom.bulletins               <- paste0(racine, "Bulletins.csv")
 
@@ -134,47 +134,14 @@ colonnes.requises           <- c(union(clé.fusion, étiquette.matricule),
                                  "Nir",
                                  "Temps.de.travail")
 
-localisation <- if (intégrer.localisation) c("Budget", "Employeur", "Siret", "Etablissement") else NULL
-localisation.classes <- if (intégrer.localisation) c("character", "character", "character", "character") else NULL
 
-colonnes.input <- c("Année", "Mois", 
-                    localisation,
-                    "Nom", "Prénom", "Matricule",
-                    "Service", "NbEnfants", "Statut", "Temps.de.travail", "Heures.Sup.", "Heures",
-                    "Indice", "Brut", "Net", "Net.à.Payer", "NBI",
-                    "Libellé", "Code", "Base", "Taux", "Nb.Unité",
-                    "Montant", "Type", "Emploi", "Grade", "Catégorie", "Nir")
-
-colonnes.classes.input    <- c("integer", "integer",  
-                               localisation.classes,
-                               "character", "character", "character",
-                               "character", "numeric", "character", "numeric", "numeric", "numeric",
-                               "character",  "numeric", "numeric", "numeric", "numeric",
-                               "character",  "character", "numeric", "numeric", "numeric",
-                               "numeric", "character", "character", "character", "character", "character")
-
-colonnes.bulletins.input <- c("Année", "Mois", 
-                              localisation,
-                              "Nom", "Prénom", "Matricule",
-                              "Service", "NbEnfants", "Statut", "Temps.de.travail", "Heures.Sup.", "Heures",
-                              "Indice", "Brut", "Net", "Net.à.Payer", "NBI",
-                              "Emploi", "Grade", "Catégorie", "Nir")
-
-colonnes.bulletins.classes.input <- c("integer", "integer",
-                                      localisation.classes,
-                                      "character", "character", "character",
-                                      "character", "numeric", "character", "numeric", "numeric", "numeric",
-                                      "character",  "numeric", "numeric", "numeric", "numeric",
-                                      "character", "character", "character", "character")
 
 date.format                      <- "%d/%m/%Y"
 
 # ESPACES DE VALEURS LICITES POUR CERTAINS CHAMPS (modalités)
 
-#libellés.élus               <- c("Elu", "Elus", "élu", "élus", "maire", "président", "adjoint au maire", "vice-président", "vice président")
 
 ########## Problématique ##############
-#codes.NBI <- c("1012", "101B", "101M", "4652", "4672")
 
 
 # A priori les deux modes de lectures de tables (rapide et standard) lisent aussi bien le Windows ANSI/ISO-8859-1 que

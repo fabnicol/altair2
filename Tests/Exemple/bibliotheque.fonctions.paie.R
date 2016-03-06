@@ -98,11 +98,12 @@ sélectionner.clé <-  function(base1, base2)
 
 
 
-read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, étiquettes = NULL, drop = NULL,
+read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, drop = NULL,
                           rapide = FALSE, séparateur.liste = séparateur.liste.entrée, séparateur.décimal = séparateur.décimal.entrée,
                           convertir.encodage = TRUE)
 {
   chem <- chemin(x)
+  
   if (! rapide) {
 
     T <- read.csv(chem,
@@ -126,21 +127,17 @@ read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, étiquette
     # data.table n'admet d'argument dec qu'à partir de la version 1.9.5 
     
     if (is.na(classes)) classes = NULL
-    
+   
     T <- try(data.table::fread(chem,
                       sep = séparateur.liste,
                       dec = séparateur.décimal,
                       header = TRUE,
                       skip = champ.détection.1,
                       colClasses = classes,
-                      encoding = ifelse(setOSWindows, "Latin-1", "UTF-8"),
-                      showProgress = FALSE))
+                      encoding = ifelse(setOSWindows, "Latin-1", "UTF-8")))
 
 
   }
-
-if (!is.null(étiquettes)) names(T) <- étiquettes
-
 
 return(T)
 }
@@ -174,7 +171,7 @@ sauv.bases <- function(dossier, ...)
 # Utiliser une assignation globale
 # car la fonction anonyme ne comporte que de variables locales
 
-Read.csv <- function(base.string, vect.chemin, charger = charger.bases, colClasses = NA, colNames = NULL,
+Read.csv <- function(base.string, vect.chemin, charger = charger.bases, colClasses = NA, 
                      drop = NULL, séparateur.liste = séparateur.liste.entrée, séparateur.décimal = séparateur.décimal.entrée,
                      rapide = FALSE, convertir.encodage = TRUE, encodage = encodage.entrée)  {
 
@@ -184,7 +181,6 @@ Read.csv <- function(base.string, vect.chemin, charger = charger.bases, colClass
                do.call(rbind, lapply(vect.chemin,
                                      read.csv.skip,
                                         classes = colClasses,
-                                        étiquettes = colNames,
                                         séparateur.liste = séparateur.liste,
                                         séparateur.décimal = séparateur.décimal,
                                         drop = drop,

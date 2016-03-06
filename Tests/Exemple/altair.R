@@ -2018,13 +2018,13 @@ if (! utiliser.cplusplus.sft)
 } else {
   
   library(sft)
-  sft <- function(NbEnfants,
+  sft <- function(Nb.Enfants,
                   Indice,
                   NBI,
                   Temps.de.travail,
                   Année,
                   Mois) .Call("sft_C",
-                              NbEnfants,
+                              Nb.Enfants,
                               Indice,
                               NBI,
                               Temps.de.travail,
@@ -2034,7 +2034,7 @@ if (! utiliser.cplusplus.sft)
 
 }
 
-Paie.sans.enfant.réduit <- Paie[is.na(NbEnfants) | NbEnfants == 0 , .(SFT.versé = sum(Montant[Type == "S"], na.rm = TRUE)), keyby = "Matricule,Année,Mois"] 
+Paie.sans.enfant.réduit <- Paie[is.na(Nb.Enfants) | Nb.Enfants == 0 , .(SFT.versé = sum(Montant[Type == "S"], na.rm = TRUE)), keyby = "Matricule,Année,Mois"] 
 
 Paie.sans.enfant.réduit <- Paie.sans.enfant.réduit[SFT.versé > 0, ]
 
@@ -2061,17 +2061,17 @@ if (nb.écart.paiements.sft.sans.enfant > 0){
 #'  
 
 
-Paie.enfants.réduit <- Paie[!is.na(NbEnfants) & NbEnfants > 0 & !is.na(Indice) & !is.na(Heures),
+Paie.enfants.réduit <- Paie[!is.na(Nb.Enfants) & Nb.Enfants > 0 & !is.na(Indice) & !is.na(Heures),
                                      .(SFT.versé = sum(Montant[Type == "S"], na.rm = TRUE), 
                                         #Traitement = sum(Montant[Type == "T"], na.rm = TRUE),
                                         Temps.de.travail = Temps.de.travail[1],
                                         Indice = Indice[1],
                                         NBI = NBI[1],
-                                        NbEnfants = NbEnfants[1]),
+                                        Nb.Enfants = Nb.Enfants[1]),
                                         keyby="Matricule,Année,Mois"]
 
 SFT.controle <- with(Paie.enfants.réduit, 
-                       mapply(sft, NbEnfants, Indice, NBI, Temps.de.travail, Année, Mois, USE.NAMES = FALSE))
+                       mapply(sft, Nb.Enfants, Indice, NBI, Temps.de.travail, Année, Mois, USE.NAMES = FALSE))
 
 Paie.enfants.réduit <- cbind(Paie.enfants.réduit, SFT.controle)
 
@@ -2094,7 +2094,7 @@ controle.sft <- Paie.enfants.réduit[delta.SFT > tolérance.sft,
                                        Indice,
                                        NBI,
                                        Temps.de.travail,
-                                       NbEnfants)]
+                                       Nb.Enfants)]
 
 nb.écart.paiements.sft <- nrow(controle.sft)
 
@@ -2123,7 +2123,7 @@ if (nb.écart.paiements.sft > 0){
 message("Analyse du SFT")
 
 # data.table here overallocates memory hence inefficient !
-# Bulletins.paie[NbEnfants > 0 , SFT.controle := sft(NbEnfants, Indice, Heures, Année, Mois)]
+# Bulletins.paie[Nb.Enfants > 0 , SFT.controle := sft(Nb.Enfants, Indice, Heures, Année, Mois)]
        
 #### ANNEXE ####
 newpage()

@@ -7,7 +7,7 @@ PDF <<- FALSE
 if (setOSWindows) {
   
   invisible(Sys.setenv(PATH = paste(Sys.getenv("PATH"), file.path(Sys.getenv("R_HOME"), "../texlive/miktex/bin"), file.path(Sys.getenv("R_HOME"), "../RStudio/bin/pandoc"), sep=";")))
-  print(Sys.getenv("PATH"))
+
   setwd(file.path(Sys.getenv("R_HOME"), "../Tests/Exemple"))
   source("syspaths.R", encoding=encodage.code.source)
   
