@@ -83,11 +83,9 @@ SEXP  sft_C(SEXP Prop, SEXP Indice, SEXP Echelon, SEXP Nbi, SEXP Duree, SEXP Ann
    static const std::regex echelle_lettre {ECHELLE_LETTRE_PATTERN, std::regex::icase};
  #endif
 
-   if (duree  == 0 || (indice == 0 && echelon[0] == '\0')) 
-   {
-     goto fin;
-   } 
+// on a en général indice = 0 pour les hors échelle lettres qui de manière absurde voient leur HE indiquée dans l'échelon...
 
+   
   #ifdef USE_REGEX 
 
      indice_entier =  std::regex_match(echelon, echelle_lettre)? 717 : indice;
@@ -96,16 +94,15 @@ SEXP  sft_C(SEXP Prop, SEXP Indice, SEXP Echelon, SEXP Nbi, SEXP Duree, SEXP Ann
      
      const char letters[] = {'A', 'B', 'C', 'D', 'E', 'F'};
      
-     for (int i = 0; i < 6; ++i) 
-     {
-       const char c = letters[i];
-       for (int j=0; echelon[j] != 0; ++j)
-		   if (echelon[j] == c)
-		   {
-			   indice_entier = 717;
-			   goto out;
-		   }
-     }
+     for (int j = 0; echelon[j] != 0; ++j)
+       for (int i = 0; i < 6; ++i) 
+       {
+  		   if (echelon[j] == letters[i] && (echelon[j + 1] == '1' || echelon[j + 1] == '2' || echelon[j + 1] == '3'))
+  		   {
+  			   indice_entier = 717;
+  			   goto out;
+  		   }
+       }
      
 	 out : 
 	 
@@ -114,6 +111,9 @@ SEXP  sft_C(SEXP Prop, SEXP Indice, SEXP Echelon, SEXP Nbi, SEXP Duree, SEXP Ann
   #endif
 
    indice_entier += nbi;
+   
+   // "Pour les personnels non rémunérés par un traitement établi en application de l'article 2 précité,
+   // l'élément proportionnel est calculé en pourcentage du traitement afférent à l'indice majoré 449 (indice brut 524)." art. 10 bis décretn°85-1148
    
    if (indice_entier > 717) indice_entier = 717;
    if (indice_entier < 449) indice_entier = 449;
@@ -139,14 +139,13 @@ SEXP  sft_C(SEXP Prop, SEXP Indice, SEXP Echelon, SEXP Nbi, SEXP Duree, SEXP Ann
    if (prop != 1 && test > valeur) 
      valeur = test;
      
-fin:
 
    return(ScalarReal(valeur));
    
 }    
  
 static const R_CallMethodDef callMethods[]  = {
-   {"sft_C", (DL_FUNC) &sft_C, 6},
+   {"sft_C", (DL_FUNC) &sft_C, 7},
    {NULL}
  };
  

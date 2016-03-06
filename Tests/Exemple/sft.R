@@ -26,13 +26,13 @@ sft_R <- function(x, indice, échelon, nbi, durée, année, mois)   {
   if (grepl("H.*(E|é).*[A-F]", échelon, perl = TRUE, ignore.case = TRUE)) {
     
     indice <- 717
-    
-  } else {
-    
-    indice <- as.numeric(indice)
+ 
   }
   
   indice <- sum(indice, nbi, na.rm = TRUE)
+  
+  # "Pour les personnels non rémunérés par un traitement établi en application de l'article 2 précité,
+  # l'élément proportionnel est calculé en pourcentage du traitement afférent à l'indice majoré 449 (indice brut 524)." art. 10 bis décretn°85-1148
   
   part.proportionnelle <- (x != 0) * sft.prop[x] * max(449, min(indice, 717)) * PointMensuelIM[année - 2007, mois]  
   

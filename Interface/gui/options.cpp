@@ -1,6 +1,6 @@
 
 #include <QFile>
-
+#include <thread>
 #include "altair.h"
 #include "forms.h"
 #include "options.h"
@@ -91,7 +91,7 @@ standardPage::standardPage()
                                 "S");
 
     echelonCheckBox = new FCheckBox("Exporter l'échelon",
-                                flags::status::enabledUnchecked | flags::commandLineType::altairCommandLine,
+                                flags::status::enabledChecked | flags::commandLineType::altairCommandLine,
                                 "exporterEchelon",
                                 {"Données csv", "Exporter les champ Echelon"},
                                 "E");
@@ -195,8 +195,8 @@ processPage::processPage()
 
     processTypeWidget->setFixedWidth(45);
     processTypeWidget->setFixedHeight(30);
-    processTypeWidget->setCurrentIndex(3);
-    processTypeWidget->setToolTip(tr("Sélectionner le nombre de fils d'exécution"));
+    processTypeWidget->setCurrentIndex(std::thread::hardware_concurrency()/2);
+    processTypeWidget->setToolTip(tr("Sélectionner le nombre de fils d'exécution "));
 
     QGridLayout *v3Layout = new QGridLayout;
     logFrame = new FLineFrame({"Générer un log d'exécution", "Chemin du fichier du log"},

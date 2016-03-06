@@ -17,7 +17,7 @@ colonnes.classes.input    <- c(rang.classe, "integer", "integer",
                                localisation.classes,
                                "character", "character", "character",
                                "character", "numeric", "character", "numeric", "numeric", "numeric",
-                               "character",  "numeric", "numeric", "numeric", "numeric",
+                               "integer",  "numeric", "numeric", "numeric", "integer",
                                "character",  "character", "numeric", "numeric", "numeric",
                                "numeric", "character", "character", "character", échelon.classe, "character", "character")
 
@@ -25,5 +25,5 @@ colonnes.bulletins.classes.input <- c(rang.classe, "integer", "integer",
                                       localisation.classes,
                                       "character", "character", "character",
                                       "character", "numeric", "character", "numeric", "numeric", "numeric",
-                                      "character",  "numeric", "numeric", "numeric", "numeric",
+                                      "integer",  "numeric", "numeric", "numeric", "numeric",
                                       "character", "character", échelon.classe, "character", "character")
