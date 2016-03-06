@@ -42,14 +42,15 @@ const double part_proportionnelle_minimale(int Annee, int Mois, int Prop)
   return PointMensuelIM[Annee - 2008][Mois - 1] * sft_prop[Prop - 1] * 449 / 100;
 }
 
-SEXP  sft_C(SEXP Prop, SEXP Indice, SEXP Nbi, SEXP Duree, SEXP Annee, SEXP Mois)
+SEXP  sft_C(SEXP Prop, SEXP Indice, SEXP Echelon, SEXP Nbi, SEXP Duree, SEXP Annee, SEXP Mois)
 {
 //          Prop = "integer", Indice = "character", Nbi = "numeric", Duree = "numeric",
 //            Annee = "integer", Mois = "integer"))
 // corps de la fonction C++
                     
    int prop = asInteger(Prop);
-   const char* indice = CHAR(asChar(Indice));
+   const char* echelon = CHAR(asChar(Echelon));
+   int indice = asInteger(Indice);
    int nbi = asInteger(Nbi);
    double duree = asReal(Duree);
    int annee = asInteger(Annee);
@@ -82,14 +83,14 @@ SEXP  sft_C(SEXP Prop, SEXP Indice, SEXP Nbi, SEXP Duree, SEXP Annee, SEXP Mois)
    static const std::regex echelle_lettre {ECHELLE_LETTRE_PATTERN, std::regex::icase};
  #endif
 
-   if (duree  == 0 || indice[0] == '\0') 
+   if (duree  == 0 || (indice == 0 && echelon[0] == '\0')) 
    {
      goto fin;
    } 
 
   #ifdef USE_REGEX 
 
-     indice_entier =  std::regex_match(indice, echelle_lettre)? 717 : std::stoi(indice);
+     indice_entier =  std::regex_match(echelon, echelle_lettre)? 717 : indice;
      
   #else
      
@@ -98,8 +99,8 @@ SEXP  sft_C(SEXP Prop, SEXP Indice, SEXP Nbi, SEXP Duree, SEXP Annee, SEXP Mois)
      for (int i = 0; i < 6; ++i) 
      {
        const char c = letters[i];
-       for (int j=0; indice[j] != 0; ++j)
-		   if (indice[j] == c)
+       for (int j=0; echelon[j] != 0; ++j)
+		   if (echelon[j] == c)
 		   {
 			   indice_entier = 717;
 			   goto out;
@@ -108,7 +109,7 @@ SEXP  sft_C(SEXP Prop, SEXP Indice, SEXP Nbi, SEXP Duree, SEXP Annee, SEXP Mois)
      
 	 out : 
 	 
-       if (indice_entier == 0) indice_entier = atoi(indice);
+       if (indice_entier == 0) indice_entier = indice;
      
   #endif
 

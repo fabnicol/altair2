@@ -6,7 +6,7 @@
 #include <regex>
 #endif
 
-SEXP  sft_C(SEXP Prop, SEXP Indice, SEXP Nbi, SEXP Duree, SEXP Annee, SEXP Mois);
+SEXP  sft_C(SEXP Prop, SEXP Indice, SEXP Echelon, SEXP Nbi, SEXP Duree, SEXP Annee, SEXP Mois);
 
  
  

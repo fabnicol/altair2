@@ -2,6 +2,7 @@ openssl-package	openssl
 aes_cbc	aes_cbc
 aes_cbc_decrypt	aes_cbc
 aes_cbc_encrypt	aes_cbc
+askpass	askpass
 base64_decode	base64_encode
 base64_encode	base64_encode
 bignum	bignum
@@ -15,6 +16,7 @@ ec_keygen	keygen
 encrypt	rsa_encrypt
 encrypt_envelope	encrypt_envelope
 envelope	encrypt_envelope
+fingerprint	fingerprint
 hashing	hash
 hmac	hash
 keygen	keygen
@@ -24,6 +26,7 @@ md5	hash
 my_key	my_key
 my_pubkey	my_key
 openssl	openssl
+openssl_config	openssl_config
 pseudo_rand_bytes	rand_bytes
 rand_bytes	rand_bytes
 rand_num	rand_bytes
@@ -37,9 +40,13 @@ rsa_decrypt	rsa_encrypt
 rsa_encrypt	rsa_encrypt
 rsa_keygen	keygen
 sha1	hash
+sha2	hash
+sha224	hash
 sha256	hash
+sha384	hash
 sha512	hash
 signature_create	signatures
 signature_verify	signatures
 write_der	write_pem
 write_pem	write_pem
+write_ssh	write_pem

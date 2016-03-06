@@ -134,6 +134,7 @@ read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, drop = NU
                       header = TRUE,
                       skip = champ.détection.1,
                       colClasses = classes,
+                      showProgress = FALSE,
                       encoding = ifelse(setOSWindows, "Latin-1", "UTF-8")))
 
 

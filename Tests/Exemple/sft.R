@@ -17,13 +17,13 @@ sft.prop <- c(un = 0, deux = 3, trois = 8, 8 + 6 * 1:12) / 100
 part.proportionnelle.minimale <- outer(PointMensuelIM, sft.prop * 449)
 
 
-sft_R <- function(x, indice, nbi, durée, année, mois)   {
+sft_R <- function(x, indice, échelon, nbi, durée, année, mois)   {
   
   if (x > 15) return(-1)
   
-  if (is.na(durée) || is.na(x) || is.na(indice)) return(0)
+  if (is.na(durée) || is.na(x)) return(0)
   
-  if (grepl("H.*(E|é).*[A-F]", indice, perl = TRUE, ignore.case = TRUE)) {
+  if (grepl("H.*(E|é).*[A-F]", échelon, perl = TRUE, ignore.case = TRUE)) {
     
     indice <- 717
     

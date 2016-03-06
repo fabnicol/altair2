@@ -3,6 +3,15 @@
 %\VignetteIndexEntry{An Introduction to formatR}
 -->
 
+<script type="text/javascript">
+if (location.protocol === 'https:' && location.href.match('yihui.name') === null)
+  location.href = 'http://yihui.name/formatR';
+</script>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(tidy = TRUE)
+```
+
 # An Introduction to formatR
 
 ## 1. Installation
@@ -77,11 +86,11 @@ If the **shiny** packages has been installed, the function `tidy_app()` can laun
 formatR::tidy_app()
 ```
 
-![R source code before tidying](http://i.imgur.com/lUgtEAb.png)
+[![R source code before tidying](http://i.imgur.com/lUgtEAb.png)](https://yihui.shinyapps.io/formatR/)
 
 After hitting the `Tidy` button:
 
-![R source code after tidying](http://i.imgur.com/TBZm0B8.png)
+[![R source code after tidying](http://i.imgur.com/TBZm0B8.png)](https://yihui.shinyapps.io/formatR/)
 
 ## 4. Evaluate the code and mask output in comments
 
@@ -239,35 +248,3 @@ There are global options which can override some arguments in `tidy_source()`:
 | `brace.newline` | `options('formatR.brace.newline')` | `FALSE` |
 
 Also note that single lines of long comments will be wrapped into shorter ones automatically, but roxygen comments will not be wrapped (i.e., comments that begin with `#'`).
-
-## 9. Additional problems for R 2.15.x
-
-You are strongly recommended to upgrade to R 3.0.x; if you use `R < 3.0.0`, you will suffer from a few additional problems below.
-
-### Character strings with # in the beginning of a line
-
-```r
-mod = "1+1
-## comments here can bring troubles
-2+2"
-```
-
-We need to write like this:
-
-```r
-mod = "1+1\n## comments here can bring troubles\n2+2"
-## or
-mod = paste("1+1", "## comments here can bring troubles", "2+2", sep = '\n')
-```
-
-### Double quotes in comments
-
-Note when `comment == TRUE`, you _must not write double quotes in the inline comments_ and _must write literal `#` in double quotes_!! For example,
-
-```r
-1 + 1  # double quotes in "comment" are not allowed
-1 + 1  # here is a legitimate 'comment' with single quotes
-
-"a valid character string with # in it"
-'a # in single quotes is not allowed'
-```

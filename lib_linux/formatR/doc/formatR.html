@@ -3,9 +3,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <title>An Introduction to formatR</title>
-<link rel="stylesheet" media="all" href="http://jashkenas.github.io/docco/resources/linear/public/stylesheets/normalize.css" />
-<link rel="stylesheet" media="all" href="http://jashkenas.github.io/docco/resources/linear/docco.css" />
-<link href='http://yihui.name/media/css/docco-linear.css' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" media="all" href="https://jashkenas.github.io/docco/resources/linear/public/stylesheets/normalize.css" />
+<link rel="stylesheet" media="all" href="https://jashkenas.github.io/docco/resources/linear/docco.css" />
+<link href='https://yihui.github.io/media/css/docco-linear.css' rel='stylesheet' type='text/css'>
 <style type="text/css">
 img{display:block;margin:auto;}
 .container{width:auto;max-width:920px;}
@@ -16,7 +16,7 @@ pre, code{font-size:90%;}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/highlight.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/languages/r.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
-<script src="http://yihui.name/media/js/center-images.js"></script>
+<script src="https://yihui.github.io/media/js/center-images.js"></script>
 
 
 </head>
@@ -28,6 +28,11 @@ pre, code{font-size:90%;}
 %\VignetteEngine{knitr::docco_linear}
 %\VignetteIndexEntry{An Introduction to formatR}
 -->
+
+<script type="text/javascript">
+if (location.protocol === 'https:' && location.href.match('yihui.name') === null)
+  location.href = 'http://yihui.name/formatR';
+</script>
 
 <h1>An Introduction to formatR</h1>
 
@@ -46,27 +51,22 @@ pre, code{font-size:90%;}
 sessionInfo()
 </code></pre>
 
-<pre><code>## R version 3.2.2 (2015-08-14)
-## Platform: x86_64-pc-linux-gnu (64-bit)
-## Running under: Ubuntu 15.04
+<pre><code>## R version 3.2.3 (2015-12-10)
+## Platform: x86_64-apple-darwin15.2.0 (64-bit)
+## Running under: OS X 10.11.3 (El Capitan)
 ## 
 ## locale:
-##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
-##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=C              
-##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
-##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
-##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
-## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+## [1] C/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
 ## 
 ## attached base packages:
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] formatR_1.2.1
+## [1] formatR_1.3
 ## 
 ## loaded via a namespace (and not attached):
-## [1] magrittr_1.5  tools_3.2.2   stringi_0.5-5 knitr_1.11.1  stringr_1.0.0
-## [6] evaluate_0.8
+## [1] magrittr_1.5   tools_3.2.3    stringi_1.0-1  knitr_1.12.16 
+## [5] stringr_1.0.0  evaluate_0.8.3
 </code></pre>
 
 <h2>2. Reformat R code</h2>
@@ -152,11 +152,11 @@ args(glm)
 <pre><code class="r">formatR::tidy_app()
 </code></pre>
 
-<p><img src="http://i.imgur.com/lUgtEAb.png" alt="R source code before tidying"/></p>
+<p><a href="https://yihui.shinyapps.io/formatR/"><img src="http://i.imgur.com/lUgtEAb.png" alt="R source code before tidying"/></a></p>
 
 <p>After hitting the <code>Tidy</code> button:</p>
 
-<p><img src="http://i.imgur.com/TBZm0B8.png" alt="R source code after tidying"/></p>
+<p><a href="https://yihui.shinyapps.io/formatR/"><img src="http://i.imgur.com/TBZm0B8.png" alt="R source code after tidying"/></a></p>
 
 <h2>4. Evaluate the code and mask output in comments</h2>
 
@@ -381,35 +381,6 @@ x &lt;- 1; # you should not use ; here!
 </tbody></table>
 
 <p>Also note that single lines of long comments will be wrapped into shorter ones automatically, but roxygen comments will not be wrapped (i.e., comments that begin with <code>#&#39;</code>).</p>
-
-<h2>9. Additional problems for R 2.15.x</h2>
-
-<p>You are strongly recommended to upgrade to R 3.0.x; if you use <code>R &lt; 3.0.0</code>, you will suffer from a few additional problems below.</p>
-
-<h3>Character strings with # in the beginning of a line</h3>
-
-<pre><code class="r">mod = &quot;1+1
-## comments here can bring troubles
-2+2&quot;
-</code></pre>
-
-<p>We need to write like this:</p>
-
-<pre><code class="r">mod = &quot;1+1\n## comments here can bring troubles\n2+2&quot;
-## or
-mod = paste(&quot;1+1&quot;, &quot;## comments here can bring troubles&quot;, &quot;2+2&quot;, sep = &#39;\n&#39;)
-</code></pre>
-
-<h3>Double quotes in comments</h3>
-
-<p>Note when <code>comment == TRUE</code>, you <em>must not write double quotes in the inline comments</em> and <em>must write literal <code>#</code> in double quotes</em>!! For example,</p>
-
-<pre><code class="r">1 + 1  # double quotes in &quot;comment&quot; are not allowed
-1 + 1  # here is a legitimate &#39;comment&#39; with single quotes
-
-&quot;a valid character string with # in it&quot;
-&#39;a # in single quotes is not allowed&#39;
-</code></pre>
 
       <div class="fleur">h</div>
     </div>
