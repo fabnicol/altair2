@@ -242,7 +242,9 @@ int main(int argc, char **argv)
 
             if (hashTable.find(commandline_tab[start + 1]) != hashTable.end())
             {
-                info.type_base = hashTable[commandline_tab[start + 1]];
+                BaseType type = hashTable[commandline_tab[start + 1]];
+                info.type_base = (info.type_base == BaseType::MAXIMUM_LIGNES && type == BaseType::PAR_ANNEE)? BaseType::MAXIMUM_LIGNES_PAR_ANNEE : type;
+
             }
             else
             {

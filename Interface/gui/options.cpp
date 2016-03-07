@@ -195,7 +195,7 @@ processPage::processPage()
 
     processTypeWidget->setFixedWidth(45);
     processTypeWidget->setFixedHeight(30);
-    processTypeWidget->setCurrentIndex(std::thread::hardware_concurrency()/2);
+    processTypeWidget->setCurrentIndex(std::thread::hardware_concurrency() / 2 + 1);
     processTypeWidget->setToolTip(tr("Sélectionner le nombre de fils d'exécution "));
 
     QGridLayout *v3Layout = new QGridLayout;

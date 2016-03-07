@@ -293,14 +293,14 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
 {
     int ligne = 0;
     uint64_t compteur = 0,
-            dernier_compteur = 0,
-            compteur_annee_courante = 0;
+             compteur_annee_courante = 0;
+    static uint64_t  dernier_compteur;
 
     uint32_t compteur_lignes_bulletins = 0;
 
     char sep = Info[0].separateur;
     char* annee_courante = (char*) Info[0].Table[0][Annee];
-    unsigned rang_fichier_base = 1, rang_fichier_base_annee_courante = 1;
+    static unsigned rang_fichier_base = 1,rang_fichier_base_annee_courante;
     static ofstream base;
     static ofstream bulletins;
     static array<ofstream, nbType + 1> tableau_base;
@@ -413,7 +413,7 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
 
 #endif
 
-    static uint64_t compteur_ancien, compteur_bulletins_ancien;
+    static uint64_t compteur_ancien, compteur_bulletins_ancien, compteur_ancien_annee_courante;
     compteur = compteur_ancien;
     compteur_lignes_bulletins = compteur_bulletins_ancien;
 
@@ -505,7 +505,6 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
 
                         dernier_compteur = compteur;
                         compteur_annee_courante = 0;
-                        rang_fichier_base_annee_courante = 1;
 
                         annee_courante = (char*) VAR(Annee);
                         ouvrir_fichier_base(Info[i],  type_base, base, nsegment);
@@ -660,8 +659,9 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
                         && taille_base > 0)
                 {
 
-                    compteur_annee_courante = compteur_ancien;
-                    rang_fichier_base_annee_courante = compteur_annee_courante  / taille_base + 1;
+                    compteur_annee_courante = compteur_ancien_annee_courante;
+                    compteur = compteur_ancien;
+                    rang_fichier_base_annee_courante = compteur_annee_courante  / taille_base;
 
                     for (unsigned i = 0; i < Info[0].nbfil; ++i)
                     {
@@ -683,8 +683,8 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
 
                                 base.close();
 
-                                cerr << SPACER "Table n°" << rang_fichier_base << " de " <<  compteur - dernier_compteur - (rang_fichier_base_annee_courante - 1) * taille_base
-                                          << " lignes, lignes "  << dernier_compteur + (rang_fichier_base_annee_courante - 1) * taille_base + 1
+                                cerr << SPACER "Table n°" << rang_fichier_base << " de " <<  compteur - dernier_compteur - rang_fichier_base_annee_courante * taille_base
+                                          << " lignes, lignes "  << dernier_compteur + rang_fichier_base_annee_courante * taille_base + 1
                                           << " à " << compteur << "."  ENDL;
                                 cerr << "Année : " << annee_courante <<  ENDL;
                                 cerr << "Total annuel de " << compteur - dernier_compteur
@@ -693,7 +693,7 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
 
                                 dernier_compteur = compteur;
                                 compteur_annee_courante = 0;
-                                rang_fichier_base_annee_courante = 1;
+                                rang_fichier_base_annee_courante = 0;
                                 ++rang_fichier_base;
 
                                 annee_courante = (char*) VAR(Annee);
@@ -705,7 +705,7 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
 
                             while (ligne < NLigneAgent)
                             {
-                                if (compteur_annee_courante  == rang_fichier_base_annee_courante * taille_base)
+                                if (compteur_annee_courante  == (rang_fichier_base_annee_courante + 1)* taille_base)
                                 {
 
                                     cerr << SPACER "Table n°" << rang_fichier_base << " de " << taille_base
@@ -782,7 +782,8 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
                         }
                     }
 
-                    compteur_ancien = compteur_annee_courante;
+                    compteur_ancien_annee_courante = compteur_annee_courante ;
+
                 }
                 else
                     if (type_base == BaseType::TOUTES_CATEGORIES)
@@ -942,6 +943,7 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
 
 
  compteur_ancien = compteur;
+
  compteur_bulletins_ancien = compteur_lignes_bulletins;
     
 #ifndef OFSTREAM_TABLE_OUTPUT
