@@ -11,6 +11,8 @@ bam                     Generalized additive models for very large
                         datasets
 bam.update              Update a strictly additive bam model for new
                         data.
+bandchol                Choleski decomposition of a band diagonal
+                        matrix
 betar                   GAM beta regression family
 bug.reports.mgcv        Reporting mgcv bugs.
 cSplineDes              Evaluate cyclic B spline basis
@@ -78,6 +80,7 @@ mgcv.FAQ                Frequently Asked Questions for package mgcv
 mgcv.package            Mixed GAM Computation Vehicle with GCV/AIC/REML
                         smoothness estimation and GAMMs by REML/PQL
 mgcv.parallel           Parallel computation in mgcv.
+missing.data            Missing data in GAMs
 model.matrix.gam        Extract model matrix from GAM fit
 mono.con                Monotonicity constraints for a cubic regression
                         spline
@@ -116,12 +119,15 @@ rig                     Generate inverse Gaussian random deviates
 rmvn                    Generate multivariate normal deviates
 s                       Defining smooths in GAM formulae
 scat                    GAM scaled t family for heavy tailed data
+sdiag                   Extract of modify diagonals of a matrix
 single.index            Single index models with mgcv
 slanczos                Compute truncated eigen decomposition of a
                         symmetric matrix
 smooth.construct        Constructor functions for smooth terms in a GAM
 smooth.construct.ad.smooth.spec
                         Adaptive smooths in GAMs
+smooth.construct.bs.smooth.spec
+                        Penalized B-splines in GAMs
 smooth.construct.cr.smooth.spec
                         Penalized Cubic regression splines in GAMs
 smooth.construct.ds.smooth.spec
@@ -161,6 +167,7 @@ te                      Define tensor product smooths or tensor product
 tensor.prod.model.matrix
                         Utility functions for constructing tensor
                         product smooths
+trichol                 Choleski decomposition of a tri-diagonal matrix
 uniquecombs             find the unique rows in a matrix
 vcov.gam                Extract parameter (estimator) covariance matrix
                         from GAM fit

@@ -6,9 +6,7 @@ Description: Liquidation du calcul et d<e9>tection des anomalies.
 Depends: R (>= 3.2.3)
 License: GPL v.3
 LazyData: true
-NeedsCompilation: yes
-Packaged: 2016-03-06 21:47:39 UTC; Fab
 Author: Fabrice Nicol [aut, cre]
 Maintainer: Fabrice Nicol <fabrice.nicol@crtc.ccomptes.fr>
-Built: R 3.2.3; x86_64-w64-mingw32; 2016-03-06 21:47:42 UTC; windows
+Built: R 3.2.3; x86_64-w64-mingw32; 2016-03-07 15:39:04 UTC; windows
 Archs: x64

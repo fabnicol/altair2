@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Tableau des effectifs.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for effectifs {altair}"><tr><td>effectifs {altair}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Tableau des effectifs.</h2>
+
+<h3>Description</h3>
+
+<p>Elabore un tableau des effectifs et équivalents temps plein travaillés par type de personnel et par année.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+effectifs(période, Bulletins = Bulletins.paie,
+  Analyse = Analyse.r&lt;e9&gt;mun&lt;e9&gt;rations,
+  Analyse.vpe = Analyse.variations.par.exercice,
+  Analyse.v = Analyse.variations)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>période</code></td>
+<td>
+<p>Vecteur des années de la période sous revue</p>
+</td></tr>
+<tr valign="top"><td><code>Bulletins</code></td>
+<td>
+<p>Base des bulletins de paye</p>
+</td></tr>
+<tr valign="top"><td><code>Analyse</code></td>
+<td>
+<p>Base des analyses de rémunérations</p>
+</td></tr>
+<tr valign="top"><td><code>Analyse</code></td>
+<td>
+<p>Base des analyses de variations de rémunérations</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Un tableau des effectifs mis en forme.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+effectifs(2010:2015)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>altair</em> version 0.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

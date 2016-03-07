@@ -2,8 +2,6 @@ devtools-package	devtools
 ?	help
 add_build_ignore	use_build_ignore
 add_path	path
-add_rstudio_project	infrastructure
-add_test_infrastructure	infrastructure
 add_travis	infrastructure
 as.package	as.package
 bash	bash
@@ -12,6 +10,7 @@ build_github_devtools	build_github_devtools
 build_vignettes	build_vignettes
 build_win	build_win
 check	check
+check_built	check
 check_cran	check_cran
 check_dep_version	check_dep_version
 check_doc	check_man
@@ -83,9 +82,11 @@ release_checks	release_checks
 reload	reload
 revdep	revdep
 revdep_check	revdep_check
-revdep_check_save_logs	revdep_check
+revdep_check_print_problems	revdep_check
+revdep_check_reset	revdep_check
+revdep_check_resume	revdep_check
 revdep_check_save_summary	revdep_check
-revdep_check_summary	revdep_check
+revdep_email	revdep_email
 revdep_maintainers	revdep
 run_examples	run_examples
 run_pkg_hook	run_pkg_hook
@@ -114,7 +115,6 @@ use_appveyor	infrastructure
 use_build_ignore	use_build_ignore
 use_code_of_conduct	infrastructure
 use_coverage	infrastructure
-use_coveralls	devtools-deprecated
 use_cran_badge	infrastructure
 use_cran_comments	infrastructure
 use_data	use_data
@@ -128,6 +128,7 @@ use_news_md	use_news_md
 use_package	use_package
 use_package_doc	infrastructure
 use_rcpp	infrastructure
+use_readme_md	use_readme_rmd
 use_readme_rmd	use_readme_rmd
 use_revdep	infrastructure
 use_rstudio	infrastructure

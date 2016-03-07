@@ -56,7 +56,7 @@ path                    Get/set the PATH variable.
 release                 Release package to CRAN.
 reload                  Unload and reload package.
 revdep                  Reverse dependency tools.
-revdep_check_save_logs
+revdep_check_save_summary
                         Run R CMD check on all downstream dependencies.
 run_examples            Run all examples in a package.
 session_info            Print session information
@@ -65,7 +65,6 @@ source_gist             Run a script on gist
 source_url              Run a script through some protocols such as
                         http, https, ftp, etc.
 system.file             Replacement version of system.file
-system_check            Run a system command and check if it succeeds.
 test                    Execute all 'test_that' tests in a package.
 uninstall               Uninstall a local development package.
 unload                  Unload a package
@@ -74,7 +73,9 @@ update_packages         Update packages that are missing or
 use_data                Use data in a package.
 use_data_raw            Use 'data-raw' to compute package datasets.
 use_git                 Initialise a git repository.
+use_github              Connect a local repo with GitHub.
 use_news_md             Use NEWS.md
 use_package             Use specified package.
+use_readme_rmd          Create README files.
 wd                      Set working directory.
 with_debug              Temporarily set debugging compilation flags.

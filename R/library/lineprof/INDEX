@@ -1,0 +1,5 @@
+align                   Align line profiling data with source code
+focus                   Focus in on selected parts of the profile.
+lineprof                Line profiling.
+pause                   Pause execution
+shine                   Generate shiny GUI for line profiling output

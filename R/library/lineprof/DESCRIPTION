@@ -1,0 +1,29 @@
+Package: lineprof
+Type: Package
+Version: 0.1.9001
+Authors@R: person("Hadley", "Wickham",
+    email = "hadley@rstudio.com", role = c("aut", "cre"))
+License: GPL-3
+Title: An alternative display for line profiling information
+Description: lineprof provides an informative, html-based, visualisation of
+    line profiling data for both time and memory.
+LazyData: true
+Depends: R (>= 3.1.0)
+Imports: stringr, Rcpp, shiny
+LinkingTo: Rcpp (>= 0.11.0)
+Roxygen: list(wrap = FALSE)
+Suggests: testthat
+Author: Hadley Wickham [aut, cre]
+Maintainer: Hadley Wickham <hadley@rstudio.com>
+Built: R 3.2.3; x86_64-w64-mingw32; 2016-03-07 15:34:54 UTC; windows
+Archs: x64
+RemoteType: github
+RemoteHost: api.github.com
+RemoteRepo: lineprof
+RemoteUsername: hadley
+RemoteRef: master
+RemoteSha: 972e71dca0087ed8452e21f914fd612376075d5b
+GithubRepo: lineprof
+GithubUsername: hadley
+GithubRef: master
+GithubSHA1: 972e71dca0087ed8452e21f914fd612376075d5b

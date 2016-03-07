@@ -1,3 +1,6 @@
+## ----setup, include=FALSE------------------------------------------------
+knitr::opts_chunk$set(tidy = TRUE)
+
 ## ----eval=FALSE----------------------------------------------------------
 #  install.packages('formatR', repos = 'http://cran.rstudio.com')
 #  #' to install the development version, run

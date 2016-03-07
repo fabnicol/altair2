@@ -24,7 +24,7 @@
 
 library(compiler)
 invisible(setCompilerOptions(suppressAll = TRUE))
-invisible(enableJIT(1))
+invisible(enableJIT(3))
 
 options(warn = -1, verbose = FALSE, OutDec = ",", datatable.verbose = FALSE)
 
@@ -218,7 +218,7 @@ tableau.effectifs <- as.data.frame(effectifs.locale,
                                                  "Total ETPT postes actifs non annexes (g)"))
 
 names(tableau.effectifs) <- liste.années
-names(effectifs) <- liste.années
+
 #'  
 #  
 #'&nbsp;*Tableau `r incrément()`*   
