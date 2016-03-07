@@ -431,6 +431,10 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
                chemin_base = chemin_base + index;
              break;
 
+
+           case BaseType::NA:
+            ++Type;
+
            case BaseType::PAR_COMMENTAIRE:
              ++Type;
 
@@ -468,6 +472,7 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
             chemin_base = chemin_base + index + types_extension[Type] + CSV;
             break;
 
+           default: break;
         }
 
        segment_ancien = segment;

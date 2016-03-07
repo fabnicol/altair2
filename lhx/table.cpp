@@ -303,7 +303,7 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
     unsigned rang_fichier_base = 1, rang_fichier_base_annee_courante = 1;
     static ofstream base;
     static ofstream bulletins;
-    static array<ofstream, nbType> tableau_base;
+    static array<ofstream, nbType + 1> tableau_base;
 
 #ifdef OFSTREAM_TABLE_OUTPUT    // cas de l'écriture directe dans le fichier base
 
@@ -315,7 +315,7 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
 
     ostringstream t_base;
     ostringstream t_bulletins;
-    static array<ostringstream, nbType> t_tableau_base;
+    static array<ostringstream, nbType + 1> t_tableau_base;
 
 #endif
 
@@ -370,7 +370,7 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
     switch (type_base)
     {
     case BaseType::TOUTES_CATEGORIES  :
-        for (int d = 0; d < nbType; ++d)
+        for (int d = 0; d <= nbType; ++d)  // Il faut tenir compte des types NA
         {
             ouvrir_fichier_base(Info[0], static_cast<BaseType>(d + 1), tableau_base[d], nsegment);
             if (! tableau_base[d].is_open())
@@ -831,6 +831,17 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
                                         ++ligne;
                                     }
                                 }
+                                else
+                                {
+                                    while (ligne < NLigneAgent)
+                                    {
+                                        ++compteur;
+                                        ecrire_ligne_table(i, agent, l, "NA", t_tableau_base[nbType], sep, Info, compteur);
+
+                                        l += INDEX_MAX_COLONNNES + 1;
+                                        ++ligne;
+                                    }
+                                }
 
                                 ligne = 0;
 
@@ -940,7 +951,7 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
     // Dans les autres cas, les bases ont déjà été refermées sauf une (cas par année et par taille maximale)
     if (type_base == BaseType::TOUTES_CATEGORIES)
     {
-        for (int d = 0; d < nbType; ++d)
+        for (int d = 0; d <= nbType; ++d)
         {
 #ifndef OFSTREAM_TABLE_OUTPUT
             tableau_base[d] << t_tableau_base[d].str();

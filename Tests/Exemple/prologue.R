@@ -84,8 +84,8 @@ try ({
 nom.fichier.codes.paiement  <- paste0(racine, "codes.csv")
 nom.fichier.paie            <- paste0(racine, "Table")
 nom.bulletin.paie           <- paste0(racine, "Bulletins")
-nom.table                   <- paste0(racine, "Table.csv")
-nom.bulletins               <- paste0(racine, "Bulletins.csv")
+nom.table                   <- "Table"
+nom.bulletins               <- "Bulletins"
 
 # DOSSIERS
 # Attention, si l'on lance la génération de document pour la première fois sans répertoire Bases existant, on aura un write error.

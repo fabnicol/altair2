@@ -76,9 +76,10 @@ enum class BaseType : int
                     PAR_RETENUE = 10,
                     PAR_COTISATION = 11,
                     PAR_COMMENTAIRE = 12,
-                    TOUTES_CATEGORIES = 13,
-                    MAXIMUM_LIGNES = 14,
-                    MAXIMUM_LIGNES_PAR_ANNEE = 15
+                    NA = 13,
+                    TOUTES_CATEGORIES = 14,
+                    MAXIMUM_LIGNES = 15,
+                    MAXIMUM_LIGNES_PAR_ANNEE = 16
                   };
 
 #define INDEX_MAX_COLONNNES 5    // nombre de type de champ de ligne de paye (Libellé, Code, Taux, Base, ...) moins 1.
@@ -203,7 +204,7 @@ static const char* type_remuneration[]   = {
                                             };
 
 
-static const int nbType                  = sizeof(type_remuneration)/sizeof(char*);
+static const int nbType                  = sizeof(type_remuneration)/sizeof(char*);  // + NA
 
 
 static const xmlChar drapeau[][2]  = {{1,0}, {2,0}, {3,0}, {4,0}, {5,0}, {6,0}, {7,0}, {8,0}, {9,0}, {10,0}, {11,0}, {12,0}};

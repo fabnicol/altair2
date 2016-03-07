@@ -73,23 +73,8 @@ if (grades.catégories.existe) {
 }
 
 
-
-# Lignes de paie
-# On peut lire jusqu'à 50 fichiers csv de lignes de paie qui seront générés au format :
-
-# "chemin dossier + racine-Lignes de Paie-j.csv" où racine est un bref identifiant du type de contrôle (exemple : "c2a-", "PEV-", ...)
-
-lignes.paie <- nom.fichier.paie %+% "-" %+% 1:50 %+% ".csv"
-lignes.paie <- lignes.paie[file.exists(chemin(lignes.paie))]
-
-# Bulletins de paie
-# On peut lire jusqu'à 10 fichiers csv de bulletins de paie qui seront générés au format :
-
-# "chemin dossier + racine-Bulletins de Paie-j.csv"
-
-bulletins.paie <- nom.bulletin.paie %+% "-" %+% 1:10 %+% ".csv"
-bulletins.paie <- bulletins.paie[file.exists(chemin(bulletins.paie))]
-nom.table      <- nom.table[file.exists(chemin(nom.table))]
+fichiers.table <- list.files(chemin(racine), pattern = nom.table %+% "(-)?[^.]*[.]csv", full.names  = TRUE)
+fichiers.bulletins <- list.files(chemin(racine), pattern = nom.bulletins %+% "(-)?[^.]*[.]csv", full.names  = TRUE)
 
 # Programme principal
 
@@ -106,7 +91,7 @@ nom.table      <- nom.table[file.exists(chemin(nom.table))]
 
 if (! charger.bases) break
 
-T0 <- data.table::fread(chemin(nom.bulletin.paie %+% ".csv"),
+T0 <- data.table::fread(fichiers.bulletins[1],
                         sep = séparateur.liste.entrée,
                         dec = séparateur.décimal.entrée,
                         nrows = 0,
@@ -126,10 +111,10 @@ if (intégrer.localisation) message("Intégration des données établissement")
 
 source("types.données.R", encoding = encodage.code.source)
 
-importer.bases.via.xhl2csv <- function(base, table = nom.table, colClasses = colonnes.classes.input) {
+importer.bases.via.xhl2csv <- function(base, fichiers, colClasses = colonnes.classes.input) {
   
   res <- try(Read.csv(base,
-                      table,
+                      fichiers,
                       colClasses = colClasses,
                       séparateur.liste = séparateur.liste.entrée,
                       séparateur.décimal = séparateur.décimal.entrée,
@@ -144,8 +129,8 @@ importer.bases.via.xhl2csv <- function(base, table = nom.table, colClasses = col
   message("Chargement direct des bulletins et lignes de paie")
 }
 
-importer.bases.via.xhl2csv("Paie", colClasses =  colonnes.classes.input)
-importer.bases.via.xhl2csv("Bulletins.paie", nom.bulletins, colClasses =  colonnes.bulletins.classes.input)
+importer.bases.via.xhl2csv("Paie", fichiers.table, colClasses =  colonnes.classes.input)
+importer.bases.via.xhl2csv("Bulletins.paie", fichiers.bulletins, colClasses =  colonnes.bulletins.classes.input)
 
   Bulletins.paie[ , Grade := toupper(Grade)]
   Paie[ , Grade := toupper(Grade)]

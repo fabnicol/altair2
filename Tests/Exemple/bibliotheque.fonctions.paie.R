@@ -29,6 +29,7 @@ file2utf8 <- function(nom, encodage.in = encodage.entrée)  {
 # }
 
 
+# Obsolète. 
 # Trouve le numéro de la ligne à laquelle se situe la liste des noms de variables
 # en recherchant soit le mot "Matricule" soit une expression du type "Code..."
 # Il faudra déduire ce "skip" du read.csv pour récupérer proprement les noms de variable
@@ -36,18 +37,18 @@ file2utf8 <- function(nom, encodage.in = encodage.entrée)  {
 # Pour cela on scanne les 25 premières lignes de la table une première fois
 
 
-trouver.valeur.skip <-  function(chemin.table, encodage, classes = NA, séparateur.liste = séparateur.liste.entrée, séparateur.décimal = séparateur.décimal.entrée)
-  max(
-    sapply(
-      read.csv(chemin.table, sep=séparateur.liste, dec=séparateur.décimal, nrows = 25, fileEncoding = encodage.entrée, colClasses = classes),
-      function(x)
-      {
-        m <- match(champ.détection.1, x, nomatch = 0 )
-        if (m == 0)
-          m <- pmatch(champ.détection.2, x, nomatch = 0, duplicates.ok = FALSE )
-        return(m)
-      }
-    ))
+# trouver.valeur.skip <-  function(chemin.table, encodage, classes = NA, séparateur.liste = séparateur.liste.entrée, séparateur.décimal = séparateur.décimal.entrée)
+#   max(
+#     sapply(
+#       read.csv(chemin.table, sep=séparateur.liste, dec=séparateur.décimal, nrows = 25, fileEncoding = encodage.entrée, colClasses = classes),
+#       function(x)
+#       {
+#         m <- match(champ.détection.1, x, nomatch = 0 )
+#         if (m == 0)
+#           m <- pmatch(champ.détection.2, x, nomatch = 0, duplicates.ok = FALSE )
+#         return(m)
+#       }
+#     ))
 
 
 # selectionner.cle.matricule <-  function(Base1, Base2)
@@ -98,20 +99,21 @@ sélectionner.clé <-  function(base1, base2)
 
 
 
-read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, drop = NULL,
+read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, drop = NULL, skip = 0,
                           rapide = FALSE, séparateur.liste = séparateur.liste.entrée, séparateur.décimal = séparateur.décimal.entrée,
                           convertir.encodage = TRUE)
 {
-  chem <- chemin(x)
+  
   
   if (! rapide) {
 
-    T <- read.csv(chem,
+    T <- read.csv(x,
                    comment.char = "",
                    sep = séparateur.liste,
                    dec = séparateur.décimal,
                    colClasses = classes,
-                   skip = trouver.valeur.skip(chem, encodage, séparateur.liste = séparateur.liste, séparateur.décimal = séparateur.décimal),
+                   skip = skip, 
+                    # obsolète : trouver.valeur.skip(chem, encodage, séparateur.liste = séparateur.liste, séparateur.décimal = séparateur.décimal),
                    encoding = encodage)
 
     if (!is.null(drop)) { T <- T[-(drop)] }
@@ -128,11 +130,11 @@ read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, drop = NU
     
     if (is.na(classes)) classes = NULL
    
-    T <- try(data.table::fread(chem,
+    T <- try(data.table::fread(x,
                       sep = séparateur.liste,
                       dec = séparateur.décimal,
                       header = TRUE,
-                      skip = champ.détection.1,
+                      skip = skip,
                       colClasses = classes,
                       showProgress = FALSE,
                       encoding = ifelse(setOSWindows, "Latin-1", "UTF-8")))
@@ -172,16 +174,17 @@ sauv.bases <- function(dossier, ...)
 # Utiliser une assignation globale
 # car la fonction anonyme ne comporte que de variables locales
 
-Read.csv <- function(base.string, vect.chemin, charger = charger.bases, colClasses = NA, 
+Read.csv <- function(base.string, fichiers, charger = charger.bases, colClasses = NA, skip = 0,
                      drop = NULL, séparateur.liste = séparateur.liste.entrée, séparateur.décimal = séparateur.décimal.entrée,
                      rapide = FALSE, convertir.encodage = TRUE, encodage = encodage.entrée)  {
 
     if (charger.bases) {
 
         assign(base.string,
-               do.call(rbind, lapply(vect.chemin,
+               do.call(rbind, lapply(fichiers,
                                      read.csv.skip,
                                         classes = colClasses,
+                                        skip = skip,
                                         séparateur.liste = séparateur.liste,
                                         séparateur.décimal = séparateur.décimal,
                                         drop = drop,
