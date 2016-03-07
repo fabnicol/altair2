@@ -62,41 +62,41 @@ file2utf8 <- function(nom, encodage.in = encodage.entrée)  {
 #     }
 # }
 
-sélectionner.clé <-  function(base1, base2)
-{
-  Base1 <- get(base1)
-  Base2 <- get(base2)
-
-  if (fusionner.nom.prénom) {
-
-    Set1 <- c("Mois", "Année", étiquette.matricule, setdiff(names(Base1), names(Base2)))
-    Set2 <- setdiff(names(Base2), c("Nom", "Prénom", étiquette.matricule))
-
-    assign(base1,
-           subset(Base1, select = c("Nom", "Prénom", Set1)),
-           envir = .GlobalEnv)
-
-    assign(base1,
-           cbind(as.data.frame(convertir.nom.prénom.majuscules(Base1[, c("Nom", "Prénom")])),
-                 Base1[, Set1]),
-           envir = .GlobalEnv)
-
-    assign(base2,
-           cbind(as.data.frame(convertir.nom.prénom.majuscules(Base2[, c("Nom", "Prénom")])),
-                 Base2[, Set2]),
-           envir = .GlobalEnv)
-
-
-
-  } else {
-
-    assign(base1, subset(Base1,
-                         select = c(étiquette.matricule,"Mois","Année",
-                         setdiff(names(Base1), names(Base2)))), envir = .GlobalEnv)
-
-  }
-}
-
+# sélectionner.clé <-  function(base1, base2)
+# {
+#   Base1 <- get(base1)
+#   Base2 <- get(base2)
+# 
+#   if (fusionner.nom.prénom) {
+# 
+#     Set1 <- c("Mois", "Année", étiquette.matricule, setdiff(names(Base1), names(Base2)))
+#     Set2 <- setdiff(names(Base2), c("Nom", "Prénom", étiquette.matricule))
+# 
+#     assign(base1,
+#            subset(Base1, select = c("Nom", "Prénom", Set1)),
+#            envir = .GlobalEnv)
+# 
+#     assign(base1,
+#            cbind(as.data.frame(convertir.nom.prénom.majuscules(Base1[, c("Nom", "Prénom")])),
+#                  Base1[, Set1]),
+#            envir = .GlobalEnv)
+# 
+#     assign(base2,
+#            cbind(as.data.frame(convertir.nom.prénom.majuscules(Base2[, c("Nom", "Prénom")])),
+#                  Base2[, Set2]),
+#            envir = .GlobalEnv)
+# 
+# 
+# 
+#   } else {
+# 
+#     assign(base1, subset(Base1,
+#                          select = c(étiquette.matricule,"Mois","Année",
+#                          setdiff(names(Base1), names(Base2)))), envir = .GlobalEnv)
+# 
+#   }
+# }
+# 
 
 
 read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, drop = NULL, skip = 0,
@@ -386,7 +386,7 @@ Tableau.vertical2 <- function(colnames, rownames, ...)
 v.jmois  <-  c(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
 v.jmois.leap  <-  c(31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
 
-calcul.nb.jours.mois <- function(Mois, année)   if ((année - 2008) %%4 == 0) {
+calcul.nb.jours.mois <- function(Mois, année)   if ((année - 2008) %% 4 == 0) {
     return(sum(v.jmois.leap[Mois])) 
     } else {
     return(sum(v.jmois[Mois]))
@@ -397,43 +397,45 @@ positive <- function(X) X[!is.na(X) & X > 0]
 non.null <- function(X) X[!is.na(X) & X != 0]
 significatif <- function(x) !is.na(x) & abs(x) > 0.01
 
-installer.paquet <- function(paquet, rigoureusement = FALSE)
-{
-  if (missing(paquet))  return(NA_character_)
-  Paquet <- deparse(paquet)
-  if (length(find.package(Paquet, quiet = TRUE)) == 0)
-  {
-    install.packages(Paquet)
-    if (length(find.package(Paquet, quiet = TRUE)) !=0 )
-    {
-      message(Paquet, " a été installé.")
-      return(invisible(1))
-    }
-    else
-    {
-      message(Paquet, " n'a pas été installé.")
-      if (rigoureusement == TRUE)
-      {
-        message("Arrêt: le paquet ", Paquet, " n'a pas pu être installé.")
-        stop("Fin")
-      }
-      return(invisible(0))
-    }
-  }
-  else
-    message(Paquet, " est déjà installé.")
-  return(invisible(0))
-}
+# obsolète
 
-installer.paquets <- function(..., rigoureusement = FALSE)
-{
-  tmp <- as.list(match.call())
-  tmp[1] <- NULL
-  if (!missing(rigoureusement)) tmp[length(tmp)] <- NULL
-  if (length(tmp) == 0) return(0)
-
-  invisible(do.call(sum, lapply(tmp, function(x) installer.paquet(x, rigoureusement))))
-}
+# installer.paquet <- function(paquet, rigoureusement = FALSE)
+# {
+#   if (missing(paquet))  return(NA_character_)
+#   Paquet <- deparse(paquet)
+#   if (length(find.package(Paquet, quiet = TRUE)) == 0)
+#   {
+#     install.packages(Paquet)
+#     if (length(find.package(Paquet, quiet = TRUE)) !=0 )
+#     {
+#       message(Paquet, " a été installé.")
+#       return(invisible(1))
+#     }
+#     else
+#     {
+#       message(Paquet, " n'a pas été installé.")
+#       if (rigoureusement == TRUE)
+#       {
+#         message("Arrêt: le paquet ", Paquet, " n'a pas pu être installé.")
+#         stop("Fin")
+#       }
+#       return(invisible(0))
+#     }
+#   }
+#   else
+#     message(Paquet, " est déjà installé.")
+#   return(invisible(0))
+# }
+# 
+# installer.paquets <- function(..., rigoureusement = FALSE)
+# {
+#   tmp <- as.list(match.call())
+#   tmp[1] <- NULL
+#   if (!missing(rigoureusement)) tmp[length(tmp)] <- NULL
+#   if (length(tmp) == 0) return(0)
+# 
+#   invisible(do.call(sum, lapply(tmp, function(x) installer.paquet(x, rigoureusement))))
+# }
 
 convertir.nom.prénom.majuscules <- function(S)
 {
@@ -446,27 +448,7 @@ convertir.nom.prénom.majuscules <- function(S)
 
 }
 
-#Age fin décembre de l'Année en années révolues si né au XXème siècle
-# On trouve quelques valeurs aberrantes correspondant à des NIr non conventionnels par ex 8041620130028
-extraire.nir <- function(Base, An)  {
-  Base[ , `:=`(age = An - (as.numeric(substr(Nir, 2, 3)) + 1900),
-               sexe = substr(Nir, 1, 1))]
-  
-  
-  temp <- Base[age < 69 & age > 14 & (sexe == "1" | sexe == "2")]
 
-  H <- temp[sexe == "1",  .(Hommes = .N), by = "age"]
-  F <- temp[sexe == "2",  .(Femmes = .N), by = "age"]
-  
-  HF <- merge(
-          merge(H, F, by = "age", all = TRUE), 
-          data.table(age = 15:68),
-          by = "age",
-          all = TRUE)
-  
-  HF[ , total := sum(Hommes, Femmes, na.rm = TRUE), by = "age"]
-  
-}
 
 
 # tester.homogeneite.matricules(Base)
@@ -531,87 +513,3 @@ incrémenter.chapitre <- function() {
 }
 
 FR <- function(x) formatC(x, big.mark = " ")
-
-pyramidf <- function(data, Laxis=NULL, Raxis=NULL,
-                     frame=c(-1.15, 1.15, -0.05, 1.1),
-                     AxisFM="d", AxisBM="", AxisBI=3, Cgap=0.3, Cstep=5, Csize=1, 
-                     Llab="Hommes", Rlab="Femmes", Clab="Âges", GL=TRUE, Cadj=-0.03, 
-                     Lcol="cadetblue1", Rcol="thistle1", Ldens=-1, Rdens=-1, main="",
-                     linewidth=2, ...) {
-  # frame version, added since rev. 1.4, 4th September 2014.
-  # (C) Minato Nakazawa <minato-nakazawa@umin.net>
-  Left <- data[,Hommes]
-  
-  Right <- data[,Femmes]
-  
-  if (ncol(data)==2) { Center <- row.names(data) } else { Center <- data[,age] }
-  if (is.null(Laxis)) { Laxis <- seq(0,ceiling(max(c(Left,Right), na.rm=TRUE)/10)*10,len=5) }
-  if (is.null(Raxis)) { Raxis <- Laxis }
-  # setting x-y axes
-  BX <- c(-1-Cgap/2,1+Cgap/2)
-  BY <- c(-0.05,1.1)
-  XC <- function(XB) { (XB-BX[1])*(frame[2]-frame[1])/(2+Cgap)+frame[1] }
-  YC <- function(YB) { (YB-BY[1])*(frame[4]-frame[3])/1.15+frame[3] }
-  # scaling factors
-  LL <- max(Laxis)
-  LR <- min(Laxis)
-  LS <- LL-LR
-  LI <- length(Laxis)
-  RL <- min(Raxis)
-  RR <- max(Raxis)
-  RS <- RR-RL
-  RI <- length(Raxis)
-  # ticks of axis
-  segments(XC(-(Laxis-LR)/LS-Cgap/2),YC(-0.01),XC(-(Laxis-LR)/LS-Cgap/2),YC(0.01))
-  segments(XC((Raxis-RL)/RS+Cgap/2),YC(-0.01),XC((Raxis-RL)/RS+Cgap/2),YC(0.01))
-  # vertical grid lines
-  if (GL) {
-    segments(XC(-(Laxis-LR)/LS-Cgap/2),YC(0),XC(-(Laxis-LR)/LS-Cgap/2),YC(1),
-             lty=3,col="blue")
-    segments(XC((Raxis-RL)/RS+Cgap/2),YC(0),XC((Raxis-RL)/RS+Cgap/2),YC(1),
-             lty=3,col="blue")
-  }
-  # axes
-  lines(c(XC(-1-Cgap/2),XC(-Cgap/2)),c(YC(0),YC(0)),lty=1)
-  lines(c(XC(-Cgap/2),XC(-Cgap/2)),c(YC(0),YC(1)),lty=1)
-  lines(c(XC(1+Cgap/2),XC(Cgap/2)),c(YC(0),YC(0)),lty=1)
-  lines(c(XC(Cgap/2),XC(Cgap/2)),c(YC(0),YC(1)),lty=1)
-  # labels
-  text(XC(-0.5-Cgap/2),YC(1),Llab,pos=3)
-  text(XC(0.5+Cgap/2),YC(1),Rlab,pos=3)
-  text(XC(0),YC(1),Clab,pos=3)
-  Ci <- length(Center)
-  for (i in 0:(Ci-1)) { 
-    if ((i%%Cstep)==0) { text(XC(0),YC(i/Ci+Cadj),paste(Center[i+1]),pos=3,cex=Csize) }
-  }
-  text(XC(-(Laxis-LR)/LS-Cgap/2),YC(rep(0,LI)),
-       paste(formatC(Laxis,format=AxisFM,big.mark=AxisBM,big.interval=AxisBI)),pos=1)
-  text(XC((Raxis-RL)/RS+Cgap/2),YC(rep(0,RI)),
-       paste(formatC(Raxis,format=AxisFM,big.mark=AxisBM,big.interval=AxisBI)),pos=1)
-  # main text (above the frame)
-  if (length(main)>0) { text(XC(0), YC(1.1), main, pos=3) }
-  # draw rectangles
-  VB <- 0:(Ci-1)/Ci
-  VT <- 1:Ci/Ci
-  LeftP <- -(Left-LR)/LS-Cgap/2
-  rect(XC(LeftP),YC(VB),XC(rep(-Cgap/2,Ci)),YC(VT),col=Lcol,density=Ldens, lwd=linewidth)
-  RightP <- (Right-RL)/RS+Cgap/2
-  rect(XC(rep(Cgap/2,Ci)),YC(VB),XC(RightP),YC(VT),col=Rcol,density=Rdens,lwd=linewidth)
-}
-
-pyramide_ages <- function(avant, après,
-                          titre = "",
-                          date.début = début.période.sous.revue,
-                          date.fin = fin.période.sous.revue) {
-  plot(c(0,100), c(0,100), type = "n", frame = FALSE, axes = FALSE, xlab = "", ylab = "",
-     main = titre)
-  pyramidf(avant, frame=c(10, 75, 0, 90), linewidth=1)
-  pyramidf(après, frame=c(10, 75, 0, 90), 
-           Lcol="darkslateblue", Rcol = "firebrick4",
-           #Lcol="deepskyblue", Rcol = "deeppink",
-           Ldens = 10, Rdens = 10)
-  legend("right", fill=c("cadetblue1", "thistle1", "darkslateblue", "firebrick4"), density=c(NA, NA, 20, 20),
-         legend=c("Hommes " %+% date.début, "Femmes " %+% date.début,
-                  "Hommes " %+% date.fin, "Femmes " %+% date.fin), cex = 0.8)
-}
-

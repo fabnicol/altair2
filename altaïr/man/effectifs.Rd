@@ -5,7 +5,7 @@
 \title{Tableau des effectifs.}
 \usage{
 effectifs(période, Bulletins = Bulletins.paie,
-  Analyse = Analyse.r<e9>mun<e9>rations,
+  personnels = Analyse.rémunérations,
   Analyse.vpe = Analyse.variations.par.exercice,
   Analyse.v = Analyse.variations)
 }

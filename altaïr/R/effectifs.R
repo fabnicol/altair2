@@ -1,5 +1,11 @@
 
 
+# personnels
+# Analyse.rémunérations[Statut != "ELU"
+#         & Filtre_annexe == TRUE
+#         & Filtre_actif == TRUE
+#         & Année == x,
+#         Matricule]
 
 
 #' Tableau des effectifs.
@@ -14,8 +20,9 @@
 #' @examples
 #' effectifs(2010:2015)
 #' @export
+
 effectifs <- function(période, Bulletins = Bulletins.paie, 
-                      Analyse = Analyse.rémunérations,
+                      personnels = Analyse.rémunérations,
                       Analyse.vpe = Analyse.variations.par.exercice,
                       Analyse.v = Analyse.variations) {
   
@@ -40,16 +47,16 @@ effectifs <- function(période, Bulletins = Bulletins.paie,
                                   by = NULL)
                       L <- unique(A[Grade == "A", .(Matricule, permanent)],
                                   by = NULL)
-                      postes.non.actifs <- unique(Analyse[Statut != "ELU"
+                      postes.non.actifs <- unique(personnels[Statut != "ELU"
                                                                         & Filtre_actif == FALSE
                                                                         & Année == x,
                                                                         Matricule])
-                      postes.actifs.annexes <- unique(Analyse[Statut != "ELU"
+                      postes.actifs.annexes <- unique(personnels[Statut != "ELU"
                                                                             & Filtre_annexe == TRUE
                                                                             & Filtre_actif == TRUE
                                                                             & Année == x,
                                                                             Matricule])
-                      postes.actifs.non.annexes <- unique(Analyse[Statut != "ELU"
+                      postes.actifs.non.annexes <- unique(personnels[Statut != "ELU"
                                                                                 & Filtre_annexe == FALSE
                                                                                 & Filtre_actif == TRUE
                                                                                 & Année == x,
@@ -95,7 +102,7 @@ effectifs <- function(période, Bulletins = Bulletins.paie,
                             & Matricule %chin% postes.non.titulaires,  
                             sum(quotité, na.rm=TRUE)] / 12,
                         ETP[Statut == "AUTRE_STATUT"                                                        # ETPT_autre
-                            & Matricule %chin% unique(Analyse.rémunérations[Statut == "AUTRE_STATUT",
+                            & Matricule %chin% unique(personnels[Statut == "AUTRE_STATUT",
                                                                             Matricule]),
                             sum(quotité, na.rm=TRUE)] / 12,
                         ETP[Matricule %chin% postes.non.actifs, sum(quotité, na.rm=TRUE)] / 12,             # ETPT_non_actif 
@@ -157,6 +164,184 @@ tableau.effectifs <- as.data.frame(effectifs.locale,
 names(tableau.effectifs) <-  as.character(période)
 
 return(tableau.effectifs)
+}
+
+# Age fin décembre de l'Année en années révolues 
+# On trouve quelques valeurs correspondant à des NIr non conventionnels 
+# 3, 4 : en cours d'immatriculation
+# 7, 8 : immatriculation temporaire
+
+#' Traitement du NIR (uméro d'inscription au répertoire des personnes physiques).
+#' 
+#' Extrait la répartition par âge et sexe des individus ayant un NIR.
+#' 
+#' @param Base data.table contenant au moins une variable nommée Nir décrivant le NIR.
+#' @param année Année civile à la fin de laquelle est évalué l'âge de l'individu.
+#' @return Une base data.table ayant la forme suivante : 
+#'        \tabular{ccc}{
+#'          age \tab Hommes \tab Femmes \cr
+#'          15  \tab   0  \tab    1   \cr
+#'          16  \tab   NA \tab    2   \cr
+#'          17  \tab   1  \tab    3   \cr
+#'          18  \tab  409 \tab    52  \cr
+#'          ... \tab  ... \tab ...    \cr    
+#'          68  \tab 2216 \tab    NA  
+#'        }
+#' @examples
+#' extraire.nir(Base, 2012)
+#' @export
+
+extraire.nir <- function(Base, année)  {
+  
+  Base[ , `:=`(age = année - (as.numeric(substr(Nir, 2, 3)) + 1900),
+               sexe = substr(Nir, 1, 1))]
+  
+  Base[ , age := ifelse(age > 99, age - 100, age)]
+  
+  temp <- Base[age < 69 & age > 14]
+  
+  H <- temp[sexe == "1" | sexe == "3" | sexe == "7",  .(Hommes = .N), by = "age"]
+  F <- temp[sexe == "2" | sexe == "4" | sexe == "8",  .(Femmes = .N), by = "age"]
+  
+  HF <- merge(
+    merge(H, F, by = "age", all = TRUE), 
+    data.table(age = 15:68),
+    by = "age",
+    all = TRUE)
+  
+  HF  
+}
+
+# frame version, added since rev. 1.4, 4th September 2014.
+# (C) Minato Nakazawa <minato-nakazawa@umin.net>
+
+pyramidf <- function(data, Laxis=NULL, Raxis=NULL,
+                     frame=c(-1.15, 1.15, -0.05, 1.1),
+                     AxisFM="d", AxisBM="", AxisBI=3, Cgap=0.3, Cstep=5, Csize=1, 
+                     Llab="Hommes", Rlab="Femmes", Clab="Âges", GL=TRUE, Cadj=-0.03, 
+                     Lcol="cadetblue1", Rcol="thistle1", Ldens=-1, Rdens=-1, main="",
+                     linewidth=2, ...) {
+  
+  Left <- data[,Hommes]
+  
+  Right <- data[,Femmes]
+  
+  if (ncol(data)==2) { Center <- row.names(data) } else { Center <- data[,age] }
+  if (is.null(Laxis)) { Laxis <- seq(0,ceiling(max(c(Left,Right), na.rm=TRUE)/10)*10,len=5) }
+  if (is.null(Raxis)) { Raxis <- Laxis }
+  
+  # setting x-y axes
+  
+  BX <- c(-1-Cgap/2,1+Cgap/2)
+  BY <- c(-0.05,1.1)
+  XC <- function(XB) { (XB-BX[1])*(frame[2]-frame[1])/(2+Cgap)+frame[1] }
+  YC <- function(YB) { (YB-BY[1])*(frame[4]-frame[3])/1.15+frame[3] }
+  
+  # scaling factors
+  
+  LL <- max(Laxis)
+  LR <- min(Laxis)
+  LS <- LL-LR
+  LI <- length(Laxis)
+  RL <- min(Raxis)
+  RR <- max(Raxis)
+  RS <- RR-RL
+  RI <- length(Raxis)
+  
+  # ticks of axis
+  
+  segments(XC(-(Laxis-LR)/LS-Cgap/2),YC(-0.01),XC(-(Laxis-LR)/LS-Cgap/2),YC(0.01))
+  segments(XC((Raxis-RL)/RS+Cgap/2),YC(-0.01),XC((Raxis-RL)/RS+Cgap/2),YC(0.01))
+  
+  # vertical grid lines
+  
+  if (GL) {
+    segments(XC(-(Laxis-LR)/LS-Cgap/2),YC(0),XC(-(Laxis-LR)/LS-Cgap/2),YC(1),
+             lty=3,col="blue")
+    segments(XC((Raxis-RL)/RS+Cgap/2),YC(0),XC((Raxis-RL)/RS+Cgap/2),YC(1),
+             lty=3,col="blue")
+  }
+  
+  # axes
+  
+  lines(c(XC(-1-Cgap/2),XC(-Cgap/2)),c(YC(0),YC(0)),lty=1)
+  lines(c(XC(-Cgap/2),XC(-Cgap/2)),c(YC(0),YC(1)),lty=1)
+  lines(c(XC(1+Cgap/2),XC(Cgap/2)),c(YC(0),YC(0)),lty=1)
+  lines(c(XC(Cgap/2),XC(Cgap/2)),c(YC(0),YC(1)),lty=1)
+  
+  # labels
+  
+  text(XC(-0.5-Cgap/2),YC(1),Llab,pos=3)
+  text(XC(0.5+Cgap/2),YC(1),Rlab,pos=3)
+  text(XC(0),YC(1),Clab,pos=3)
+  Ci <- length(Center)
+  for (i in 0:(Ci-1)) { 
+    if ((i%%Cstep)==0) { text(XC(0),YC(i/Ci+Cadj),paste(Center[i+1]),pos=3,cex=Csize) }
+  }
+  text(XC(-(Laxis-LR)/LS-Cgap/2),YC(rep(0,LI)),
+       paste(formatC(Laxis,format=AxisFM,big.mark=AxisBM,big.interval=AxisBI)),pos=1)
+  text(XC((Raxis-RL)/RS+Cgap/2),YC(rep(0,RI)),
+       paste(formatC(Raxis,format=AxisFM,big.mark=AxisBM,big.interval=AxisBI)),pos=1)
+  
+  # main text (above the frame)
+  
+  if (length(main)>0) { text(XC(0), YC(1.1), main, pos=3) }
+  
+  # draw rectangles
+  
+  VB <- 0:(Ci-1)/Ci
+  VT <- 1:Ci/Ci
+  LeftP <- -(Left-LR)/LS-Cgap/2
+  rect(XC(LeftP),YC(VB),XC(rep(-Cgap/2,Ci)),YC(VT),col=Lcol,density=Ldens, lwd=linewidth)
+  RightP <- (Right-RL)/RS+Cgap/2
+  rect(XC(rep(Cgap/2,Ci)),YC(VB),XC(RightP),YC(VT),col=Rcol,density=Rdens,lwd=linewidth)
+}
+
+#' Pyramide des âges.
+#' 
+#' Elabore une pyramide des âges verticale avec superposition du début et de la fin de la période sous revue.
+#' 
+#' @param Avant data.table décrivant la situation en début de période
+#'        Cette base doit avoir la forme suivante : 
+#'        \tabular{ccc}{
+#'          age \tab Hommes \tab Femmes \cr
+#'          15  \tab   0  \tab    1   \cr
+#'          16  \tab   NA \tab    2   \cr
+#'          17  \tab   1  \tab    3   \cr
+#'          18  \tab  409 \tab    52  \cr
+#'          ... \tab  ... \tab ...    \cr    
+#'          68  \tab 2216 \tab    NA  
+#'        }
+#' @param Après data.table décrivant la situation en fin de période. Même format que Avant.
+#' @param titre Titre du graphique
+#' @param date.début date du début de la période
+#' @param date.fin date de fin de période
+#' @param couleur_H couleur utilisée pour représenter les hommes (partie gauche de la pyramide). Par défaut \code{darkslateblue}
+#' @param couleur_F couleur utilisée pour représenter les femmes (partie droite de la pyramide). Par défaut \code{firebrick4}
+#' @return Un graphique comprenat une pyramide, une légende et éventuellement un titre.
+#' @examples
+#' pyramide_ages(df1, df2, "Pyramide des âges", 2008, 2012)
+#' @export
+
+pyramide_ages <- function(Avant, 
+                          Après,
+                          titre = "",
+                          date.début = début.période.sous.revue,
+                          date.fin = fin.période.sous.revue,
+                          couleur_H = "darkslateblue",
+                          couleur_F = "firebrick4") {
+  plot(c(0,100), c(0,100), type = "n", frame = FALSE, axes = FALSE, xlab = "", ylab = "",
+       main = titre)
+  
+  pyramidf(Avant, frame = c(10, 75, 0, 90), linewidth = 1)
+  pyramidf(Après, frame = c(10, 75, 0, 90), 
+           Lcol = couleur_H, Rcol = couleur_F,
+           #Lcol="deepskyblue", Rcol = "deeppink",
+           Ldens = 10, Rdens = 10)
+  
+  legend("right", fill = c("cadetblue1", "thistle1", "darkslateblue", "firebrick4"), density = c(NA, NA, 20, 20),
+         legend = c("Hommes " %+% date.début, "Femmes " %+% date.début,
+                    "Hommes " %+% date.fin, "Femmes " %+% date.fin), cex = 0.8)
 }
 
 

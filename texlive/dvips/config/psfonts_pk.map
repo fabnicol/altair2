@@ -258,8 +258,40 @@ lmsy6 LMMathSymbols6-Regular " enclmmathsy ReEncodeFont " <lm-mathsy.enc <lmsy6.
 lmsy7 LMMathSymbols7-Regular " enclmmathsy ReEncodeFont " <lm-mathsy.enc <lmsy7.pfb
 lmsy8 LMMathSymbols8-Regular " enclmmathsy ReEncodeFont " <lm-mathsy.enc <lmsy8.pfb
 lmsy9 LMMathSymbols9-Regular " enclmmathsy ReEncodeFont " <lm-mathsy.enc <lmsy9.pfb
+ly1-zi4b-0 Inconsolatazi4-Bold " zi4LY1Encoding0 ReEncodeFont " <i4-ly1-0.enc <Inconsolata-zi4b.pfb
+ly1-zi4b-1 Inconsolatazi4-Bold " zi4LY1Encoding1 ReEncodeFont " <i4-ly1-1.enc <Inconsolata-zi4b.pfb
+ly1-zi4b-2 Inconsolatazi4-Bold " zi4LY1Encoding2 ReEncodeFont " <i4-ly1-2.enc <Inconsolata-zi4b.pfb
+ly1-zi4b-3 Inconsolatazi4-Bold " zi4LY1Encoding3 ReEncodeFont " <i4-ly1-3.enc <Inconsolata-zi4b.pfb
+ly1-zi4b-4 Inconsolatazi4-Bold " zi4LY1Encoding4 ReEncodeFont " <i4-ly1-4.enc <Inconsolata-zi4b.pfb
+ly1-zi4b-5 Inconsolatazi4-Bold " zi4LY1Encoding5 ReEncodeFont " <i4-ly1-5.enc <Inconsolata-zi4b.pfb
+ly1-zi4b-6 Inconsolatazi4-Bold " zi4LY1Encoding6 ReEncodeFont " <i4-ly1-6.enc <Inconsolata-zi4b.pfb
+ly1-zi4b-7 Inconsolatazi4-Bold " zi4LY1Encoding7 ReEncodeFont " <i4-ly1-7.enc <Inconsolata-zi4b.pfb
+ly1-zi4r-0 Inconsolatazi4-Regular " zi4LY1Encoding0 ReEncodeFont " <i4-ly1-0.enc <Inconsolata-zi4r.pfb
+ly1-zi4r-1 Inconsolatazi4-Regular " zi4LY1Encoding1 ReEncodeFont " <i4-ly1-1.enc <Inconsolata-zi4r.pfb
+ly1-zi4r-2 Inconsolatazi4-Regular " zi4LY1Encoding2 ReEncodeFont " <i4-ly1-2.enc <Inconsolata-zi4r.pfb
+ly1-zi4r-3 Inconsolatazi4-Regular " zi4LY1Encoding3 ReEncodeFont " <i4-ly1-3.enc <Inconsolata-zi4r.pfb
+ly1-zi4r-4 Inconsolatazi4-Regular " zi4LY1Encoding4 ReEncodeFont " <i4-ly1-4.enc <Inconsolata-zi4r.pfb
+ly1-zi4r-5 Inconsolatazi4-Regular " zi4LY1Encoding5 ReEncodeFont " <i4-ly1-5.enc <Inconsolata-zi4r.pfb
+ly1-zi4r-6 Inconsolatazi4-Regular " zi4LY1Encoding6 ReEncodeFont " <i4-ly1-6.enc <Inconsolata-zi4r.pfb
+ly1-zi4r-7 Inconsolatazi4-Regular " zi4LY1Encoding7 ReEncodeFont " <i4-ly1-7.enc <Inconsolata-zi4r.pfb
 mh2 MathematicalPi-Two <mh2.pfb
 mh6 MathematicalPi-Six <mh6.pfb
+ot1-zi4b-0 Inconsolatazi4-Bold " zi4OT1TypewriterEncoding0 ReEncodeFont " <i4-ot1-0.enc <Inconsolata-zi4b.pfb
+ot1-zi4b-1 Inconsolatazi4-Bold " zi4OT1TypewriterEncoding1 ReEncodeFont " <i4-ot1-1.enc <Inconsolata-zi4b.pfb
+ot1-zi4b-2 Inconsolatazi4-Bold " zi4OT1TypewriterEncoding2 ReEncodeFont " <i4-ot1-2.enc <Inconsolata-zi4b.pfb
+ot1-zi4b-3 Inconsolatazi4-Bold " zi4OT1TypewriterEncoding3 ReEncodeFont " <i4-ot1-3.enc <Inconsolata-zi4b.pfb
+ot1-zi4b-4 Inconsolatazi4-Bold " zi4OT1TypewriterEncoding4 ReEncodeFont " <i4-ot1-4.enc <Inconsolata-zi4b.pfb
+ot1-zi4b-5 Inconsolatazi4-Bold " zi4OT1TypewriterEncoding5 ReEncodeFont " <i4-ot1-5.enc <Inconsolata-zi4b.pfb
+ot1-zi4b-6 Inconsolatazi4-Bold " zi4OT1TypewriterEncoding6 ReEncodeFont " <i4-ot1-6.enc <Inconsolata-zi4b.pfb
+ot1-zi4b-7 Inconsolatazi4-Bold " zi4OT1TypewriterEncoding7 ReEncodeFont " <i4-ot1-7.enc <Inconsolata-zi4b.pfb
+ot1-zi4r-0 Inconsolatazi4-Regular " zi4OT1TypewriterEncoding0 ReEncodeFont " <i4-ot1-0.enc <Inconsolata-zi4r.pfb
+ot1-zi4r-1 Inconsolatazi4-Regular " zi4OT1TypewriterEncoding1 ReEncodeFont " <i4-ot1-1.enc <Inconsolata-zi4r.pfb
+ot1-zi4r-2 Inconsolatazi4-Regular " zi4OT1TypewriterEncoding2 ReEncodeFont " <i4-ot1-2.enc <Inconsolata-zi4r.pfb
+ot1-zi4r-3 Inconsolatazi4-Regular " zi4OT1TypewriterEncoding3 ReEncodeFont " <i4-ot1-3.enc <Inconsolata-zi4r.pfb
+ot1-zi4r-4 Inconsolatazi4-Regular " zi4OT1TypewriterEncoding4 ReEncodeFont " <i4-ot1-4.enc <Inconsolata-zi4r.pfb
+ot1-zi4r-5 Inconsolatazi4-Regular " zi4OT1TypewriterEncoding5 ReEncodeFont " <i4-ot1-5.enc <Inconsolata-zi4r.pfb
+ot1-zi4r-6 Inconsolatazi4-Regular " zi4OT1TypewriterEncoding6 ReEncodeFont " <i4-ot1-6.enc <Inconsolata-zi4r.pfb
+ot1-zi4r-7 Inconsolatazi4-Regular " zi4OT1TypewriterEncoding7 ReEncodeFont " <i4-ot1-7.enc <Inconsolata-zi4r.pfb
 pagd8r AvantGarde-Demi " TeXBase1Encoding ReEncodeFont " <8r.enc
 pagdo8r AvantGarde-DemiOblique " TeXBase1Encoding ReEncodeFont " <8r.enc
 pagk8r AvantGarde-Book " TeXBase1Encoding ReEncodeFont " <8r.enc
@@ -413,6 +445,22 @@ qx-lmvtl10 LMMonoPropLt10-Regular " enclmqx ReEncodeFont " <lm-qx.enc <lmvtl10.p
 qx-lmvtlo10 LMMonoPropLt10-Oblique " enclmqx ReEncodeFont " <lm-qx.enc <lmvtlo10.pfb
 qx-lmvtt10 LMMonoProp10-Regular " enclmqx ReEncodeFont " <lm-qx.enc <lmvtt10.pfb
 qx-lmvtto10 LMMonoProp10-Oblique " enclmqx ReEncodeFont " <lm-qx.enc <lmvtto10.pfb
+qx-zi4b-0 Inconsolatazi4-Bold " zi4QXTTEncoding0 ReEncodeFont " <i4-qx-0.enc <Inconsolata-zi4b.pfb
+qx-zi4b-1 Inconsolatazi4-Bold " zi4QXTTEncoding1 ReEncodeFont " <i4-qx-1.enc <Inconsolata-zi4b.pfb
+qx-zi4b-2 Inconsolatazi4-Bold " zi4QXTTEncoding2 ReEncodeFont " <i4-qx-2.enc <Inconsolata-zi4b.pfb
+qx-zi4b-3 Inconsolatazi4-Bold " zi4QXTTEncoding3 ReEncodeFont " <i4-qx-3.enc <Inconsolata-zi4b.pfb
+qx-zi4b-4 Inconsolatazi4-Bold " zi4QXTTEncoding4 ReEncodeFont " <i4-qx-4.enc <Inconsolata-zi4b.pfb
+qx-zi4b-5 Inconsolatazi4-Bold " zi4QXTTEncoding5 ReEncodeFont " <i4-qx-5.enc <Inconsolata-zi4b.pfb
+qx-zi4b-6 Inconsolatazi4-Bold " zi4QXTTEncoding6 ReEncodeFont " <i4-qx-6.enc <Inconsolata-zi4b.pfb
+qx-zi4b-7 Inconsolatazi4-Bold " zi4QXTTEncoding7 ReEncodeFont " <i4-qx-7.enc <Inconsolata-zi4b.pfb
+qx-zi4r-0 Inconsolatazi4-Regular " zi4QXTTEncoding0 ReEncodeFont " <i4-qx-0.enc <Inconsolata-zi4r.pfb
+qx-zi4r-1 Inconsolatazi4-Regular " zi4QXTTEncoding1 ReEncodeFont " <i4-qx-1.enc <Inconsolata-zi4r.pfb
+qx-zi4r-2 Inconsolatazi4-Regular " zi4QXTTEncoding2 ReEncodeFont " <i4-qx-2.enc <Inconsolata-zi4r.pfb
+qx-zi4r-3 Inconsolatazi4-Regular " zi4QXTTEncoding3 ReEncodeFont " <i4-qx-3.enc <Inconsolata-zi4r.pfb
+qx-zi4r-4 Inconsolatazi4-Regular " zi4QXTTEncoding4 ReEncodeFont " <i4-qx-4.enc <Inconsolata-zi4r.pfb
+qx-zi4r-5 Inconsolatazi4-Regular " zi4QXTTEncoding5 ReEncodeFont " <i4-qx-5.enc <Inconsolata-zi4r.pfb
+qx-zi4r-6 Inconsolatazi4-Regular " zi4QXTTEncoding6 ReEncodeFont " <i4-qx-6.enc <Inconsolata-zi4r.pfb
+qx-zi4r-7 Inconsolatazi4-Regular " zi4QXTTEncoding7 ReEncodeFont " <i4-qx-7.enc <Inconsolata-zi4r.pfb
 rm-lmb10 LMRomanDemi10-Regular " enclmrm ReEncodeFont " <lm-rm.enc <lmb10.pfb
 rm-lmbo10 LMRomanDemi10-Oblique " enclmrm ReEncodeFont " <lm-rm.enc <lmbo10.pfb
 rm-lmbx10 LMRoman10-Bold " enclmrm ReEncodeFont " <lm-rm.enc <lmbx10.pfb
@@ -547,6 +595,22 @@ rtxptmr Times-Roman " TeXBase1Encoding ReEncodeFont " <8r.enc
 rtxptmri Times-Italic " TeXBase1Encoding ReEncodeFont " <8r.enc
 rtxptmro Times-Roman " .167 SlantFont TeXBase1Encoding ReEncodeFont " <8r.enc
 sy Symbol
+t1-zi4b-0 Inconsolatazi4-Bold " zi4T1Encoding0 ReEncodeFont " <i4-t1-0.enc <Inconsolata-zi4b.pfb
+t1-zi4b-1 Inconsolatazi4-Bold " zi4T1Encoding1 ReEncodeFont " <i4-t1-1.enc <Inconsolata-zi4b.pfb
+t1-zi4b-2 Inconsolatazi4-Bold " zi4T1Encoding2 ReEncodeFont " <i4-t1-2.enc <Inconsolata-zi4b.pfb
+t1-zi4b-3 Inconsolatazi4-Bold " zi4T1Encoding3 ReEncodeFont " <i4-t1-3.enc <Inconsolata-zi4b.pfb
+t1-zi4b-4 Inconsolatazi4-Bold " zi4T1Encoding4 ReEncodeFont " <i4-t1-4.enc <Inconsolata-zi4b.pfb
+t1-zi4b-5 Inconsolatazi4-Bold " zi4T1Encoding5 ReEncodeFont " <i4-t1-5.enc <Inconsolata-zi4b.pfb
+t1-zi4b-6 Inconsolatazi4-Bold " zi4T1Encoding6 ReEncodeFont " <i4-t1-6.enc <Inconsolata-zi4b.pfb
+t1-zi4b-7 Inconsolatazi4-Bold " zi4T1Encoding7 ReEncodeFont " <i4-t1-7.enc <Inconsolata-zi4b.pfb
+t1-zi4r-0 Inconsolatazi4-Regular " zi4T1Encoding0 ReEncodeFont " <i4-t1-0.enc <Inconsolata-zi4r.pfb
+t1-zi4r-1 Inconsolatazi4-Regular " zi4T1Encoding1 ReEncodeFont " <i4-t1-1.enc <Inconsolata-zi4r.pfb
+t1-zi4r-2 Inconsolatazi4-Regular " zi4T1Encoding2 ReEncodeFont " <i4-t1-2.enc <Inconsolata-zi4r.pfb
+t1-zi4r-3 Inconsolatazi4-Regular " zi4T1Encoding3 ReEncodeFont " <i4-t1-3.enc <Inconsolata-zi4r.pfb
+t1-zi4r-4 Inconsolatazi4-Regular " zi4T1Encoding4 ReEncodeFont " <i4-t1-4.enc <Inconsolata-zi4r.pfb
+t1-zi4r-5 Inconsolatazi4-Regular " zi4T1Encoding5 ReEncodeFont " <i4-t1-5.enc <Inconsolata-zi4r.pfb
+t1-zi4r-6 Inconsolatazi4-Regular " zi4T1Encoding6 ReEncodeFont " <i4-t1-6.enc <Inconsolata-zi4r.pfb
+t1-zi4r-7 Inconsolatazi4-Regular " zi4T1Encoding7 ReEncodeFont " <i4-t1-7.enc <Inconsolata-zi4r.pfb
 t5-lmb10 LMRomanDemi10-Regular " enclmt5 ReEncodeFont " <lm-t5.enc <lmb10.pfb
 t5-lmbo10 LMRomanDemi10-Oblique " enclmt5 ReEncodeFont " <lm-t5.enc <lmbo10.pfb
 t5-lmbx10 LMRoman10-Bold " enclmt5 ReEncodeFont " <lm-t5.enc <lmbx10.pfb
@@ -777,6 +841,8 @@ ts1-lmvtl10 LMMonoPropLt10-Regular " enclmts1 ReEncodeFont " <lm-ts1.enc <lmvtl1
 ts1-lmvtlo10 LMMonoPropLt10-Oblique " enclmts1 ReEncodeFont " <lm-ts1.enc <lmvtlo10.pfb
 ts1-lmvtt10 LMMonoProp10-Regular " enclmts1 ReEncodeFont " <lm-ts1.enc <lmvtt10.pfb
 ts1-lmvtto10 LMMonoProp10-Oblique " enclmts1 ReEncodeFont " <lm-ts1.enc <lmvtto10.pfb
+ts1-zi4b Inconsolatazi4-Bold " zi4TS1Encoding ReEncodeFont " <i4-ts1.enc <Inconsolata-zi4b.pfb
+ts1-zi4r Inconsolatazi4-Regular " zi4TS1Encoding ReEncodeFont " <i4-ts1.enc <Inconsolata-zi4r.pfb
 uagb8r URWGothicL-Demi " TeXBase1Encoding ReEncodeFont " <8r.enc <uagb8a.pfb
 uagbi8r URWGothicL-DemiObli " TeXBase1Encoding ReEncodeFont " <8r.enc <uagbi8a.pfb
 uagbo8r URWGothicL-Demi " .167 SlantFont TeXBase1Encoding ReEncodeFont " <8r.enc <uagb8a.pfb
