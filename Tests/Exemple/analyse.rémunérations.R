@@ -277,4 +277,3 @@ message("Analyse démographique réalisée.")
 if (!is.null(Paie) & !is.null(Analyse.rémunérations) & !is.null(Analyse.variations.par.exercice))
   message("Statistiques de synthèse réalisées")
 
-message("Démographie...")

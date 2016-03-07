@@ -62,3 +62,9 @@
 2016-02-14 23:58:25,231+0100 INFO  initexmf -   C:\Users\Public\Dev\altair\texlive\miktex/bin\miktex-taskbar-icon.exe
 2016-02-14 23:58:25,231+0100 INFO  initexmf -   C:\Users\Public\Dev\altair\texlive\miktex/bin\miktex-update.exe
 2016-02-14 23:58:25,232+0100 INFO  initexmf - running: mkfntmap 
+2016-03-07 23:06:56,322+0100 INFO  initexmf - starting: MiKTeX Configuration Utility 2.9.5700 (MiKTeX 2.9)
+2016-03-07 23:06:56,328+0100 INFO  initexmf - Making format links...
+2016-03-07 23:06:56,332+0100 INFO  initexmf - Making script links...
+2016-03-07 23:06:56,345+0100 INFO  initexmf -   c:\Users\Public\Dev\altair\texlive\miktex/bin\miktex-taskbar-icon.exe
+2016-03-07 23:06:56,345+0100 INFO  initexmf -   c:\Users\Public\Dev\altair\texlive\miktex/bin\miktex-update.exe
+2016-03-07 23:06:56,345+0100 INFO  initexmf - running: mkfntmap 

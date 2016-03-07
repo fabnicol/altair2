@@ -153,3 +153,19 @@
 2016-02-15 00:48:27,672+0100 FATAL pdflatex - Info: 
 2016-02-15 00:48:27,672+0100 FATAL pdflatex - Source: Libraries\MiKTeX\Core\win\win.cpp
 2016-02-15 00:48:27,672+0100 FATAL pdflatex - Line: 3062
+2016-03-07 23:06:53,553+0100 INFO  pdflatex - installing package inconsolata triggered by tex\latex\inconsolata\zi4.sty
+2016-03-07 23:06:53,694+0100 INFO  pdflatex - mpm: starting package maintenance...
+2016-03-07 23:06:53,694+0100 INFO  pdflatex - mpm: installation directory: c:\Users\Public\Dev\altair\texlive
+2016-03-07 23:06:53,694+0100 INFO  pdflatex - mpm: package repository: http://ctan.mines-albi.fr/systems/win32/miktex/tm/packages/
+2016-03-07 23:06:53,845+0100 INFO  pdflatex - mpm: lightweight database digest: b6dda9a28d3f09bd04806e1f4058fb22
+2016-03-07 23:06:53,845+0100 INFO  pdflatex - mpm: going to download 516872 bytes
+2016-03-07 23:06:53,845+0100 INFO  pdflatex - mpm: going to install 121 file(s) (1 package(s))
+2016-03-07 23:06:53,846+0100 INFO  pdflatex - mpm: downloading http://ctan.mines-albi.fr/systems/win32/miktex/tm/packages/inconsolata.tar.lzma...
+2016-03-07 23:06:54,312+0100 INFO  pdflatex - mpm: 559379 bytes, 1200.59 KB/Sec
+2016-03-07 23:06:54,316+0100 INFO  pdflatex - mpm: visiting repository http://ctan.mines-albi.fr/systems/win32/miktex/tm/packages/...
+2016-03-07 23:06:54,316+0100 INFO  pdflatex - mpm: repository type: remote package repository
+2016-03-07 23:06:54,317+0100 INFO  pdflatex - mpm: loading lightweight database...
+2016-03-07 23:06:54,317+0100 INFO  pdflatex - mpm: downloading http://ctan.mines-albi.fr/systems/win32/miktex/tm/packages/miktex-zzdb1-2.9.tar.lzma...
+2016-03-07 23:06:54,374+0100 INFO  pdflatex - mpm: 161005 bytes, 2758.45 KB/Sec
+2016-03-07 23:06:54,553+0100 INFO  pdflatex - mpm: lightweight database digest: 3ffca9751ff8045ec1ad3838d8c2c4bf
+2016-03-07 23:06:54,556+0100 INFO  pdflatex - mpm: extracting files from inconsolata.tar.lzma...

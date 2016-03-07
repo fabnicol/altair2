@@ -1,3 +1,6 @@
-altair                  Altaïr: un paquet pour analyser les bases de
+altair-package          Altaïr: un paquet pour analyser les bases de
                         paye XML.
 effectifs               Tableau des effectifs.
+extraire.nir            Traitement du NIR (uméro d'inscription au
+                        répertoire des personnes physiques).
+pyramide_ages           Pyramide des âges.
