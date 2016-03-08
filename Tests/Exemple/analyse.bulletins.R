@@ -16,6 +16,7 @@ produire_pyramides <- function(Filtre_bulletins, titre) {
   avant <<- extraire.nir(Bulletins.avant, début.période.sous.revue)
   après <<- extraire.nir(Bulletins.après, fin.période.sous.revue)
   
+
   titre <<- titre
   
     if (! générer.rapport) {

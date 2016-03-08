@@ -85,7 +85,7 @@ message("Démographie...")
 # Rappel Analyse.variations.par.exercice comprend uniquement les actifs non annexes non assist. mat., non vacataires, non élus.
 
 library(altair)
-tableau.effectifs <- effectifs(période)
+tableau.effectifs <- effectifs(période, Bulletins.paie, Analyse.rémunérations, Analyse.variations.par.exercice, Analyse.variations)
 
 #'  
 #  
@@ -139,7 +139,9 @@ newpage()
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
+comparaison.nationale <<- TRUE
 produire_pyramides(function() TRUE, "Pyramide des âges des personnels")
+comparaison.nationale <<- FALSE
 
 #'  
 #'[Lien vers la base des âges - début de période](`r currentDir`/Bases/Effectifs/`r nom.fichier.avant`.csv)  
@@ -149,7 +151,7 @@ produire_pyramides(function() TRUE, "Pyramide des âges des personnels")
 
 
 newpage()
-  
+   
 ########### 1.3 Pyramides fonctionnaires ########################
 
 #'
@@ -162,6 +164,7 @@ newpage()
 Filtre_bulletins <- function() Bulletins.paie$Statut == "TITULAIRE" |  Bulletins.paie$Statut == "STAGIAIRE"
 
 produire_pyramides(Filtre_bulletins, "Pyramide des âges des fonctionnaires")
+
 
 #'  
 #'[Lien vers la base des âges - début de période](`r currentDir`/Bases/Effectifs/`r nom.fichier.avant`.csv)  

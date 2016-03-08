@@ -496,6 +496,14 @@ newpage <- function() {
   }
 }
 
+newline <- function() {
+  if (PDF == TRUE) {
+    cat("\n\\newline\n")
+  } else {
+    cat("<br>")
+  }
+}
+
 # numérotation des tableaux
 
 numéro.tableau <- 0

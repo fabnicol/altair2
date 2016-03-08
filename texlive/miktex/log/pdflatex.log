@@ -169,3 +169,15 @@
 2016-03-07 23:06:54,374+0100 INFO  pdflatex - mpm: 161005 bytes, 2758.45 KB/Sec
 2016-03-07 23:06:54,553+0100 INFO  pdflatex - mpm: lightweight database digest: 3ffca9751ff8045ec1ad3838d8c2c4bf
 2016-03-07 23:06:54,556+0100 INFO  pdflatex - mpm: extracting files from inconsolata.tar.lzma...
+2016-03-08 19:18:24,744+0100 INFO  pdflatex - installing package inconsolata triggered by tex\latex\inconsolata\zi4.sty
+2016-03-08 19:18:47,480+0100 FATAL pdflatex - Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu.
+
+2016-03-08 19:18:47,481+0100 FATAL pdflatex - Info: connect failed in tcp_connect()
+2016-03-08 19:18:47,481+0100 FATAL pdflatex - Source: Libraries\MiKTeX\PackageManager\PackageManager.cpp
+2016-03-08 19:18:47,481+0100 FATAL pdflatex - Line: 2511
+2016-03-08 19:19:24,387+0100 INFO  pdflatex - installing package inconsolata triggered by tex\latex\inconsolata\zi4.sty
+2016-03-08 19:19:45,464+0100 FATAL pdflatex - Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu.
+
+2016-03-08 19:19:45,464+0100 FATAL pdflatex - Info: connect failed in tcp_connect()
+2016-03-08 19:19:45,464+0100 FATAL pdflatex - Source: Libraries\MiKTeX\PackageManager\PackageManager.cpp
+2016-03-08 19:19:45,465+0100 FATAL pdflatex - Line: 2511
