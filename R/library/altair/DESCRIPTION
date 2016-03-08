@@ -13,7 +13,7 @@ RoxygenNote: 5.0.1
 ByteCompile: true
 Encoding: latin1
 NeedsCompilation: no
-Packaged: 2016-03-07 23:25:23 UTC; Fab
+Packaged: 2016-03-08 11:26:52 UTC; fnicol
 Author: Fabrice Nicol [aut, cre]
 Maintainer: Fabrice Nicol <fabrice.nicol@crtc.ccomptes.fr>
-Built: R 3.2.3; ; 2016-03-07 23:25:25 UTC; windows
+Built: R 3.2.3; ; 2016-03-08 11:26:52 UTC; windows

@@ -20,7 +20,7 @@ call_rtools <- function() {
   
   if (grepl(rtoolspath, localPath, ignore.case=TRUE) == FALSE) {
     
-    Sys.setenv(PATH = paste(localPath, file.path(wd, "..", rtoolspath), file.path(wd, "..", rtoolspath2), sep=";"))
+    Sys.setenv(PATH = paste(localPath, file.path(wd, "..", rtoolspath), file.path(wd, "..", rtoolspath2), file.path(wd, "Outils"), sep=";"))
   }  
   
   
@@ -32,5 +32,6 @@ restore_path <- function() {
   # Restoring previous system path to avoid cluttering
 
   Sys.setenv(PATH = localPath)
+  
 }
 
