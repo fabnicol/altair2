@@ -328,24 +328,67 @@ pyramidf <- function(data, Laxis=NULL, Raxis=NULL,
 #' @export
 
 pyramide_ages <- function(Avant, 
-                          Après,
+                          Après = NULL,
                           titre = "",
                           date.début = début.période.sous.revue,
                           date.fin = fin.période.sous.revue,
+                          comparer = "FPT",
                           couleur_H = "darkslateblue",
                           couleur_F = "firebrick4") {
   plot(c(0,100), c(0,100), type = "n", frame = FALSE, axes = FALSE, xlab = "", ylab = "",
        main = titre)
   
   axes <- pyramidf(Avant, frame = c(10, 75, 0, 90), linewidth = 1)
+  
+  if (! is.null(Après)) {
+    
   pyramidf(Après, Laxis = axes[[1]], Raxis = axes[[2]], frame = c(10, 75, 0, 90), 
            Rcol = couleur_H, Lcol = couleur_F,
            #Lcol="deepskyblue", Rcol = "deeppink",
            Ldens = 7, Rdens = 7)
+    
+    legend("right", fill = c("thistle1", "cadetblue1", "firebrick4", "darkslateblue"), density = c(NA, NA, 25, 25),
+           legend = c("Femmes " %+% date.début, "Hommes " %+% date.début,
+                      "Femmes " %+% date.fin, "Hommes " %+% date.fin), cex = 0.8)
+  } else {
+    
+    legend("right", fill = c("thistle1", "cadetblue1"), density = c(NA, NA),
+           legend = c("Femmes " %+% date.début, "Hommes " %+% date.début), cex = 0.8)
+  }
   
-  legend("right", fill = c("thistle1", "cadetblue1", "firebrick4", "darkslateblue"), density = c(NA, NA, 25, 25),
-         legend = c("Femmes " %+% date.début, "Hommes " %+% date.début,
-                    "Femmes " %+% date.fin, "Hommes " %+% date.fin), cex = 0.8)
+  
 }
 
-
+if (comparer != "") {
+  
+  s.après <- Après[ , .(H = sum(Hommes, na.rm=TRUE), F = sum(Femmes, na.rm=TRUE))]
+  
+  
+    
+    pyr <- data.table::fread(path, dec = ",", header = TRUE)
+    
+    tot <- pyr[ , .(H = sum(Hommes), F = sum(Femmes))]
+    année.référence <- as.character(pyr[1, année])
+    
+    H.coef.forme <- s.après$H / tot$H
+    F.coef.forme <- s.après$F / tot$F
+    
+    pyr[ , `:=`(Hommes = Hommes * H.coef.forme,
+                Femmes = Femmes * F.coef.forme)]
+    
+    pyramide_ages(après,
+                  pyr,
+                  "Comparaison avec les données nationales au 31 décembre " %+% année.référence,
+                  "organisme " %+% fin.période.sous.revue,
+                  ifelse(FPH, "FPH ", "FPT ") %+% année.référence)
+    
+    newline()
+    
+    cat("Pour obtenir les effectifs nationaux, multiplier les abscisses des hommes par", round(1 / H.coef.forme * 1000),
+        "et les abscisses des femmes par", round(1 / F.coef.forme * 1000))
+    
+    newpage()  
+    
+  
+  
+}

@@ -516,3 +516,10 @@ if (! charger.bases) break
   
   grades.catégories <- unique(matricules[ , .(Grade, Catégorie)], by = NULL)
   grades.catégories <- grades.catégories[order(Grade)]
+  
+  # on essaie de deviner le versant de la FP par l'existence d'agents de service hospitalier
+  # on peut désactiver ce test par désactiver.test.versant.fp <- T dans prologue.R
+  
+  VERSANT_FP <<-  if (grepl("AG.*HOSP", grades.catégories$Grade, ignore.case = TRUE)) "FPH" else "FPT"
+  
+  

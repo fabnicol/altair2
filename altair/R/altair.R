@@ -9,3 +9,82 @@
 #' @name altair
 NULL
 
+#' Pyramide des âges de la fonction publique territoriale au 31 décembre 2011
+#'
+#'
+#' @format Une base de données contenant lignes et 4 variables :
+#' \describe{
+#'   \item{age}{âge des agents au 31 décembre 2011}
+#'   \item{Hommes}{nombre d'hommes, en milliers}
+#'   \item{Femmes}{nombre de femmes, en milliers}
+#'   \item{année.référence}{référence de l'année (première ligne)}
+#' }
+#' @source \url{http://www.fonction-publique.gouv.fr/files/files/statistiques/rapports_annuels/2012-2013/xls/vue1_2_caracteristiques_agents.xls}
+"pyr_2011_fpt"
+
+#' Pyramide des âges de la fonction publique hospitalière au 31 décembre 2011
+#'
+#'
+#' @format Une base de données contenant lignes et 4 variables :
+#' \describe{
+#'   \item{age}{âge des agents au 31 décembre 2011}
+#'   \item{Hommes}{nombre d'hommes, en milliers}
+#'   \item{Femmes}{nombre de femmes, en milliers}
+#'   \item{année.référence}{référence de l'année (première ligne)}
+#' }
+#' @source \url{http://www.fonction-publique.gouv.fr/files/files/statistiques/rapports_annuels/2012-2013/xls/vue1_2_caracteristiques_agents.xls/}
+"pyr_2011_fph"
+
+#' Pyramide des âges de la fonction publique territoriale au 31 décembre 2012
+#'
+#'
+#' @format Une base de données contenant lignes et 4 variables :
+#' \describe{
+#'   \item{age}{âge des agents au 31 décembre 2012}
+#'   \item{Hommes}{nombre d'hommes, en milliers}
+#'   \item{Femmes}{nombre de femmes, en milliers}
+#'   \item{année.référence}{référence de l'année (première ligne)}
+#' }
+#' @source \url{http://www.fonction-publique.gouv.fr/files/files/statistiques/rapports_annuels/2014/xls/vue_Emploi_Public_20140902.xls}
+"pyr_2012_fpt"
+
+#' Pyramide des âges de la fonction publique hospitalière au 31 décembre 2012
+#'
+#'
+#' @format Une base de données contenant lignes et 4 variables :
+#' \describe{
+#'   \item{age}{âge des agents au 31 décembre 2012}
+#'   \item{Hommes}{nombre d'hommes, en milliers}
+#'   \item{Femmes}{nombre de femmes, en milliers}
+#'   \item{année.référence}{référence de l'année (première ligne)}
+#' }
+#' @source \url{http://www.fonction-publique.gouv.fr/files/files/statistiques/rapports_annuels/2014/xls/vue_Emploi_Public_20140902.xls}
+"pyr_2012_fph"
+
+
+#' Pyramide des âges de la fonction publique territoriale au 31 décembre 2013
+#'
+#'
+#' @format Une base de données contenant lignes et 4 variables :
+#' \describe{
+#'   \item{age}{âge des agents au 31 décembre 2013}
+#'   \item{Hommes}{nombre d'hommes, en milliers}
+#'   \item{Femmes}{nombre de femmes, en milliers}
+#'   \item{année.référence}{référence de l'année (première ligne)}
+#' }
+#' @source \url{http://www.fonction-publique.gouv.fr/files/files/statistiques/rapports_annuels/2015/xls/vue1_emploi.xlsx}
+"pyr_2013_fpt"
+
+#' Pyramide des âges de la fonction publique hospitalière au 31 décembre 2013
+#'
+#'
+#' @format Une base de données contenant lignes et 4 variables :
+#' \describe{
+#'   \item{age}{âge des agents au 31 décembre 2013}
+#'   \item{Hommes}{nombre d'hommes, en milliers}
+#'   \item{Femmes}{nombre de femmes, en milliers}
+#'   \item{année.référence}{référence de l'année (première ligne)}
+#' }
+#' @source \url{http://www.fonction-publique.gouv.fr/files/files/statistiques/rapports_annuels/2015/xls/vue1_emploi.xlsx}
+"pyr_2013_fph"
+

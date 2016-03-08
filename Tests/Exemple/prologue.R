@@ -42,6 +42,7 @@ test.delta                     <- TRUE
 if (! exists("PDF"))       PDF <- FALSE
 keep_md                        <- FALSE
 utiliser.cplusplus.sft         <- FALSE
+désactiver.test.versant.fp     <- FALSE
 
 seuil.troncature               <- 1 # jours
 taux.tolérance.homonymie       <- 2  # en %
