@@ -4,9 +4,9 @@
 \alias{pyramide_ages}
 \title{Pyramide des âges.}
 \usage{
-pyramide_ages(Avant, Après, titre = "",
+pyramide_ages(Avant, Après = NULL, titre = "",
   date.début = début.période.sous.revue, date.fin = fin.période.sous.revue,
-  couleur_H = "darkslateblue", couleur_F = "firebrick4")
+  versant = "", couleur_H = "darkslateblue", couleur_F = "firebrick4")
 }
 \arguments{
 \item{Avant}{data.table/data.frame décrivant la situation en début de période
@@ -22,13 +22,18 @@ Cette base doit avoir la forme suivante (bornes d'âges non impératifs):
 }
 dans laquelle "age" peut être soit un vecteur de nom de lignes soit une colonne.}
 
-\item{Après}{data.table/data.frame décrivant la situation en fin de période. Même format que Avant.}
+\item{Après}{data.table/data.frame décrivant la situation en fin de période. Même format que \code{Avant}.}
 
 \item{titre}{Titre du graphique.}
 
 \item{date.début}{date du début de la période.}
 
 \item{date.fin}{date de fin de période.}
+
+\item{versant}{Si non renseigné, sans effet. Si renseigné par "FPT" (resp. "FPH"), le deuxième argument \code{Après} ne
+doit pas être renseigné. Il est automatiquement remplacé par une base de données disponible dans le répertoire \code{data/}
+du paquet, correspondant à l'année la plus proche du versant de la fonction publique correspondant. La pyramide superposée représente
+celle qu'aurait l'organisme si la distribution de ses âges était celle du versant mentionné de la fonction publique.}
 
 \item{couleur_H}{couleur utilisée pour représenter les hommes (partie droite de la pyramide). Par défaut \code{darkslateblue}}
 

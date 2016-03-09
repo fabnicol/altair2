@@ -18,10 +18,10 @@ if (longueur.non.na(avant) > 0 && longueur.non.na(après) > 0) {
   pyramide_ages(avant, après, titre)
 
   if (! désactiver.versant.fp) {
-    pyramide_ages(après, comparer = VERSANT_FP)
+    pyramide_ages(après, versant = VERSANT_FP)
   } else  {
-    pyramide_ages(après, comparer = "FPT")
-    pyramide_ages(après, comparer = "FPH")
+    pyramide_ages(après, versant = "FPT")
+    pyramide_ages(après, versant = "FPH")
   }
   
 

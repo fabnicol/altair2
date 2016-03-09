@@ -38,11 +38,11 @@ intégrer.localisation          <- FALSE   # Veut on gardet Budget Employeur Sire
 afficher.cumuls.détaillés.lignes.paie <- FALSE
 afficher.table.écarts.sft      <- FALSE
 analyse.par.catégorie          <- TRUE
-test.delta                     <- TRUE
+test.delta                     <- FALSE
 if (! exists("PDF"))       PDF <- FALSE
 keep_md                        <- FALSE
 utiliser.cplusplus.sft         <- FALSE
-désactiver.test.versant.fp     <- FALSE
+désactiver.versant.fp     <- FALSE
 
 seuil.troncature               <- 1 # jours
 taux.tolérance.homonymie       <- 2  # en %

@@ -1,4 +1,5 @@
 
+'%+%' <- function(x, y) paste0(x, y)
 
 # personnels
 # Analyse.rémunérations[Statut != "ELU"
@@ -315,10 +316,14 @@ pyramidf <- function(data, Laxis=NULL, Raxis=NULL,
 #'          68  \tab 2216 \tab    NA  
 #'        }
 #'        dans laquelle "age" peut être soit un vecteur de nom de lignes soit une colonne.
-#' @param Après data.table/data.frame décrivant la situation en fin de période. Même format que Avant.
+#' @param Après data.table/data.frame décrivant la situation en fin de période. Même format que \code{Avant}.
 #' @param titre Titre du graphique.
 #' @param date.début date du début de la période.
 #' @param date.fin date de fin de période.
+#' @param versant Si non renseigné, sans effet. Si renseigné par "FPT" (resp. "FPH"), le deuxième argument \code{Après} ne
+#'                doit pas être renseigné. Il est automatiquement remplacé par une base de données disponible dans le répertoire \code{data/}
+#'                du paquet, correspondant à l'année la plus proche du versant de la fonction publique correspondant. La pyramide superposée représente
+#'                celle qu'aurait l'organisme si la distribution de ses âges était celle du versant mentionné de la fonction publique.
 #' @param couleur_H couleur utilisée pour représenter les hommes (partie droite de la pyramide). Par défaut \code{darkslateblue}
 #' @param couleur_F couleur utilisée pour représenter les femmes (partie gauche de la pyramide). Par défaut \code{firebrick4}
 #' @return Une liste de deux vecteurs numériques représentant chacun des axes (gauche puis droit).
@@ -332,9 +337,52 @@ pyramide_ages <- function(Avant,
                           titre = "",
                           date.début = début.période.sous.revue,
                           date.fin = fin.période.sous.revue,
-                          comparer = "FPT",
+                          versant = "",
                           couleur_H = "darkslateblue",
                           couleur_F = "firebrick4") {
+  
+  newpage()  
+  
+  if (versant != "") {
+    
+    s.avant <- Avant[ , .(H = sum(Hommes, na.rm=TRUE), F = sum(Femmes, na.rm=TRUE))]
+    
+    for (année in 2011:fin.période.sous.revue) {
+      if (exists(p <- "pyr_" %+% année %+% "_" %+% tolower(versant)))
+        année = année + 1
+    }
+    
+    pyr <- get(p)
+    
+    # sanity checks ---
+    
+    stopifnot(toupper(pyr[1, versant]) == versant)
+    stopifnot(pyr[1, année.référence] + 1 == année)
+    
+    # ---
+    
+    tot <- pyr[ , .(H = sum(Hommes), F = sum(Femmes))]
+    année.référence <- as.character(pyr[1, année.référence])
+    
+    H.coef.forme <- s.avant$H / tot$H
+    F.coef.forme <- s.avant$F / tot$F
+    
+    pyr[ , `:=`(Hommes = Hommes * H.coef.forme,
+                Femmes = Femmes * F.coef.forme)]
+    
+    pyramide_ages(Avant,
+                  pyr,
+                  "Comparaison avec les données nationales [" %+% versant %+% "] au 31 décembre " %+% année.référence,
+                  "organisme " %+% fin.période.sous.revue,
+                  paste(versant, année.référence))
+  
+    cat("Pour obtenir les effectifs nationaux, multiplier les abscisses des hommes par", round(1 / H.coef.forme),
+        "et les abscisses des femmes par", round(1 / F.coef.forme))
+    
+    return(0)
+  
+  }
+  
   plot(c(0,100), c(0,100), type = "n", frame = FALSE, axes = FALSE, xlab = "", ylab = "",
        main = titre)
   
@@ -342,10 +390,10 @@ pyramide_ages <- function(Avant,
   
   if (! is.null(Après)) {
     
-  pyramidf(Après, Laxis = axes[[1]], Raxis = axes[[2]], frame = c(10, 75, 0, 90), 
-           Rcol = couleur_H, Lcol = couleur_F,
-           #Lcol="deepskyblue", Rcol = "deeppink",
-           Ldens = 7, Rdens = 7)
+    pyramidf(Après, Laxis = axes[[1]], Raxis = axes[[2]], frame = c(10, 75, 0, 90), 
+             Rcol = couleur_H, Lcol = couleur_F,
+             #Lcol="deepskyblue", Rcol = "deeppink",
+             Ldens = 7, Rdens = 7)
     
     legend("right", fill = c("thistle1", "cadetblue1", "firebrick4", "darkslateblue"), density = c(NA, NA, 25, 25),
            legend = c("Femmes " %+% date.début, "Hommes " %+% date.début,
@@ -356,39 +404,7 @@ pyramide_ages <- function(Avant,
            legend = c("Femmes " %+% date.début, "Hommes " %+% date.début), cex = 0.8)
   }
   
+  return(0)
   
 }
 
-if (comparer != "") {
-  
-  s.après <- Après[ , .(H = sum(Hommes, na.rm=TRUE), F = sum(Femmes, na.rm=TRUE))]
-  
-  
-    
-    pyr <- data.table::fread(path, dec = ",", header = TRUE)
-    
-    tot <- pyr[ , .(H = sum(Hommes), F = sum(Femmes))]
-    année.référence <- as.character(pyr[1, année])
-    
-    H.coef.forme <- s.après$H / tot$H
-    F.coef.forme <- s.après$F / tot$F
-    
-    pyr[ , `:=`(Hommes = Hommes * H.coef.forme,
-                Femmes = Femmes * F.coef.forme)]
-    
-    pyramide_ages(après,
-                  pyr,
-                  "Comparaison avec les données nationales au 31 décembre " %+% année.référence,
-                  "organisme " %+% fin.période.sous.revue,
-                  ifelse(FPH, "FPH ", "FPT ") %+% année.référence)
-    
-    newline()
-    
-    cat("Pour obtenir les effectifs nationaux, multiplier les abscisses des hommes par", round(1 / H.coef.forme * 1000),
-        "et les abscisses des femmes par", round(1 / F.coef.forme * 1000))
-    
-    newpage()  
-    
-  
-  
-}
