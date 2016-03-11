@@ -309,25 +309,25 @@ if (redresser.heures) {
   setnames(Bulletins.paie, "Heures", "Heures.orig")
   Paie[ , Heures := Heures.orig]
   Bulletins.paie[ , Heures := Heures.orig]
-  
+  stop("now") 
  if (test.temps.complet) {
+microbenchmark::microbenchmark({   
+  A <- Paie[(Heures == 0 | is.na(Heures))
+      & Indice != 0 & !is.na(Indice)
+      & Statut != "ELU" & Grade != "V" & Grade!= "A"
+      & Temps.de.travail != 0 & !is.na(Temps.de.travail), `:=`(indic = TRUE,
+                                                                 Heures = round(Temps.de.travail * nb.heures.temps.complet / 100, 1))]
+}, times=1)
    
-  # A <- Paie[(Heures == 0 | is.na(Heures))
-  #     & Indice != 0 & !is.na(Indice)
-  #     & Statut != "ELU" & Grade != "V" & Grade!= "A"
-  #     & Temps.de.travail != 0 & !is.na(Temps.de.travail), `:=`(indic = TRUE,
-  #                                                                Heures = round(Temps.de.travail * nb.heures.temps.complet / 100, 1))]
-  #  
-  # 
    
   # ----- 4 à 12 fois plus rapide que la solution de référence supra. On gagne 1,2 s par million de lignes.
-   
+   microbenchmark::microbenchmark({   
   setkey(Paie, Heures, Statut, Grade)  
    
   Paie[..(c(0, NA_real_),
           Statut %-% "ELU",
           Grade  %-% c("V", "A")), 
-            `:=`(indic1 = TRUE), nomatch=0]
+            `:=`(indic1 = TRUE), nomatch=0]  
   
   # On est obligé de segmenter la condition en deux pour éviter une explosion combinatoire
   # Pour cela on pose une indicatrice auxiliaire plus tard effacée
@@ -339,9 +339,9 @@ if (redresser.heures) {
        Temps.de.travail %-% c(0, NA_real_)),
           `:=`(indic = TRUE, 
                Heures = round(Temps.de.travail * nb.heures.temps.complet / 100, 1)), nomatch=0]
-  
+   
   Paie[, indic1 := NULL]
-  
+  }, times=1)
   # -----
   
   Bulletins.paie[(Heures == 0 | is.na(Heures))
