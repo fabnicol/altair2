@@ -64,6 +64,7 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l_COMMUN(int i, uint32_t agent, int l
            << type << sep
            << VAR(EmploiMetier) << sep
            << VAR(Grade) << sep;
+
 }
 
 static inline void GCC_INLINE ECRIRE_LIGNE_l_GENERER_RANG(int i, uint32_t agent, int l, char* type, table_t& base, char sep, vector<info_t> &Info, int rang)
@@ -181,8 +182,8 @@ static inline void GCC_INLINE ECRIRE_LIGNE_BULLETIN_COMMUN(int i, uint32_t agent
               << VAR(MtNetAPayer) << sep
               << VAR(NBI) << sep
               << VAR(EmploiMetier) << sep
-              << VAR(Grade) << sep;
-
+              << VAR(Grade) << sep
+              << VAR(Code) <<  " - " << VAR(Description) << sep;
 }
 
 static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETIN_GENERER_RANG(int i, uint32_t agent, table_t& bulletins, char sep, vector<info_t> &Info, int rang)
@@ -837,7 +838,7 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
                                     while (ligne < NLigneAgent)
                                     {
                                         ++compteur;
-                                        ecrire_ligne_table(i, agent, l, "NA", t_tableau_base[nbType], sep, Info, compteur);
+                                        ecrire_ligne_table(i, agent, l, const_cast<char*>("NA"), t_tableau_base[nbType], sep, Info, compteur);
 
                                         l += INDEX_MAX_COLONNNES + 1;
                                         ++ligne;

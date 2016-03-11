@@ -83,19 +83,19 @@ enum class BaseType : int
                   };
 
 #define INDEX_MAX_COLONNNES 5    // nombre de type de champ de ligne de paye (Libellé, Code, Taux, Base, ...) moins 1.
-#define BESOIN_MEMOIRE_ENTETE  25  /* nb d'éléments de l'enum ci-dessous */
+#define BESOIN_MEMOIRE_ENTETE  27  /* nb d'éléments de l'enum ci-dessous */
 
 typedef enum {
               Annee, Mois, Budget, Employeur, Siret, Etablissement,
               Nom, Prenom, Matricule, NIR, NbEnfants, Statut,
-              EmploiMetier, Grade, Echelon, Indice, Service, NBI, QuotiteTrav,
+              EmploiMetier, Grade, Echelon, Indice, Code, Description, Service, NBI, QuotiteTrav,
               NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer, Categorie
          } Entete;
 
 constexpr const char* Tableau_entete[] = {
                                     "Annee", "Mois", "Budget", "Employeur", "Siret", "Etablissement",
                                     "Nom", "Prenom", "Matricule", "NIR", "NbEnfants", "Statut",
-                                    "EmploiMetier", "Grade", "Echelon", "Indice", "Service", "NBI", "QuotiteTrav",
+                                    "EmploiMetier", "Grade", "Echelon", "Indice", "Evenement", "Service", "NBI", "QuotiteTrav",
                                     "NbHeureTotal", "NbHeureSup", "MtBrut", "MtNet", "MtNetAPayer" };
 
 

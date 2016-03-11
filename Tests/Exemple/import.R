@@ -214,7 +214,7 @@ if (! analyse.statique.totale) {
 
 avant.redressement <- 0
 après.redressement <- 0
-  
+
 if (éliminer.duplications) {
   avant.redressement <- nrow(Paie)
   duplications.vecteur <- duplicated(Paie, by=NULL)
@@ -291,9 +291,6 @@ if (test.temps.complet) {
 
 }
 
-Unique <- lapply(Bulletins.paie, unique)
-
-`%-%`<- function(x, y) setdiff(Unique[[as.character(substitute(x))]], y)
 
 # si l'on a une cohérence du calcul des heures de travail par semaine alors peut se baser dessus :
 
@@ -309,39 +306,49 @@ if (redresser.heures) {
   setnames(Bulletins.paie, "Heures", "Heures.orig")
   Paie[ , Heures := Heures.orig]
   Bulletins.paie[ , Heures := Heures.orig]
-  stop("now") 
+ 
  if (test.temps.complet) {
-microbenchmark::microbenchmark({   
+
+   if (nrow(Paie) < 6e6) {
   A <- Paie[(Heures == 0 | is.na(Heures))
       & Indice != 0 & !is.na(Indice)
       & Statut != "ELU" & Grade != "V" & Grade!= "A"
       & Temps.de.travail != 0 & !is.na(Temps.de.travail), `:=`(indic = TRUE,
-                                                                 Heures = round(Temps.de.travail * nb.heures.temps.complet / 100, 1))]
-}, times=1)
+                                                                Heures = round(Temps.de.travail * nb.heures.temps.complet / 100, 1))]
+
+   } else {
+     
+  # ----- Pour les très gros fichiers (> 6 ML) , 4 à 12 fois plus rapide que la solution de référence supra. On gagne 1 s par ML.
    
-   
-  # ----- 4 à 12 fois plus rapide que la solution de référence supra. On gagne 1,2 s par million de lignes.
-   microbenchmark::microbenchmark({   
-  setkey(Paie, Heures, Statut, Grade)  
-   
-  Paie[..(c(0, NA_real_),
-          Statut %-% "ELU",
-          Grade  %-% c("V", "A")), 
-            `:=`(indic1 = TRUE), nomatch=0]  
-  
-  # On est obligé de segmenter la condition en deux pour éviter une explosion combinatoire
-  # Pour cela on pose une indicatrice auxiliaire plus tard effacée
-  
-  setkey(Paie, indic1, Indice, Temps.de.travail)
-  
-  Paie[..(TRUE,
-       Indice %-% c(0, NA_real_),
-       Temps.de.travail %-% c(0, NA_real_)),
-          `:=`(indic = TRUE, 
-               Heures = round(Temps.de.travail * nb.heures.temps.complet / 100, 1)), nomatch=0]
-   
-  Paie[, indic1 := NULL]
-  }, times=1)
+ 
+       #microbenchmark::microbenchmark({   
+          Unique <- lapply(Bulletins.paie, unique)
+           
+          `%-%`<- function(x, y) setdiff(Unique[[as.character(substitute(x))]], y)
+           
+          setkey(Paie, Heures, Statut, Grade) 
+           
+          Paie[..(c(0, NA_real_),
+                  Statut %-% "ELU",
+                  Grade  %-% c("V", "A")), 
+                    `:=`(indic1 = TRUE), nomatch=0]  
+          
+          # On est obligé de segmenter la condition en deux pour éviter une explosion combinatoire
+          # Pour cela on pose une indicatrice auxiliaire plus tard effacée
+          
+          setkey(Paie, indic1, Indice, Temps.de.travail)
+          
+          Paie[..(TRUE,
+               Indice %-% c(0, NA_real_),
+               Temps.de.travail %-% c(0, NA_real_)),
+                  `:=`(indic = TRUE, 
+                       Heures = round(Temps.de.travail * nb.heures.temps.complet / 100, 1)), nomatch=0]
+           
+          Paie[, indic1 := NULL]
+      #}, times=1)
+   }
+ }
+
   # -----
   
   Bulletins.paie[(Heures == 0 | is.na(Heures))
@@ -380,7 +387,7 @@ microbenchmark::microbenchmark({
                 by = c("Matricule","Année","Mois","Service", "Statut"))
   
   message("Correction (méthode 2), compte tenu des temps complets vérifiés, sur ", nredressements <<- nrow(Bulletins.paie[indic == TRUE]), " lignes de paie")
- }
+ 
 }
 
 # Lors de la PREMIERE utilisation d'Altair, paramétrer générer.codes <- TRUE dans prologue.R
@@ -410,9 +417,7 @@ if (! charger.bases) break
   Paie[Type %chin% c("I", "T", "S", "IR", "AC","A", "R", "AV") , 
        delta := sum(Montant,  na.rm=TRUE) - Brut,
        by="Matricule,Année,Mois"]
-  
-  #Bulletins.paie <- unique(Paie[ , .(Matricule, Nom, Année, Mois, Temps.de.travail, Heures,  Statut, Emploi, Grade, Brut, Net.à.Payer, Nir)], by = NULL)
-  
+
   # R est le rang (0-based) décalé d'une unité (lag 1)
   
   Bulletins.paie[ , `:=`(Sexe = substr(Nir, 1, 1),
@@ -421,7 +426,6 @@ if (! charger.bases) break
   # Attention, NA, pas FALSE
   
   set(Bulletins.paie, 1, "R", NA)
-  
   
   # Médiane des services horaires à temps complet par emploi et par sexe 
   

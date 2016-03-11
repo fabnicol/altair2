@@ -115,17 +115,20 @@ static inline bool GCC_INLINE bulletin_obligatoire(const char* tag, xmlNodePtr& 
         case NODE_FOUND : return true;
 
         case NODE_NOT_FOUND :
-                if (verbeux) cerr << ERROR_HTML_TAG "Impossible d'atteindre " << tag << " à partir de " << cur->name << ENDL;
+                //if (verbeux)
+                    cerr << ERROR_HTML_TAG "Impossible d'atteindre " << tag << " à partir de " << cur->name << ENDL;
                 NA_ASSIGN(l);
                 break;
 
         case LINE_MEMORY_EXCEPTION :
-                if (verbeux) cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
+                //if (verbeux)
+                    cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
                 NA_ASSIGN(l);
                 break;
 
         case NO_NEXT_ITEM :
-                if (verbeux) cerr << ERROR_HTML_TAG "Pas d'item successeur pour le noeud " << tag <<  ENDL;
+                //if (verbeux)
+                    cerr << ERROR_HTML_TAG "Pas d'item successeur pour le noeud " << tag <<  ENDL;
                 break;
 
     }
@@ -164,6 +167,48 @@ static inline void GCC_INLINE substituer_separateur_decimal(xmlChar* ligne, cons
 }
 
 /* optionnel */
+
+static inline bool GCC_INLINE bulletin_optionnel_char(const char* tag, xmlNodePtr& cur, int l, info_t& info)
+{
+    // attention faire en sorte que cur ne soit JAMAIS nul
+
+    switch (Bulletin(tag, cur, l, info, 0))
+    {
+        // on sait que cur ne sera jamais nul
+        case NODE_FOUND :
+             return true;
+
+        case NODE_NOT_FOUND :
+             NA_ASSIGN(l);
+             return true;
+
+        case LINE_MEMORY_EXCEPTION :
+             if (verbeux)
+                 cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
+             NA_ASSIGN(l);
+             break;
+
+        case NO_NEXT_ITEM :
+             if (verbeux) cerr << ERROR_HTML_TAG "Pas d'item successeur pour le noeud " << tag <<  ENDL;
+             break;
+    }
+
+    /* Ne pas mettre de lock ici, il y en a un dans warning_msg */
+
+    warning_msg(tag, info, cur);
+
+        #ifdef STRICT
+          exit(-1);
+        #else
+          if (nullptr != cur->next)
+          {
+              cur = cur->next;
+              return true;
+          }
+          else
+          return false;
+        #endif
+}
 
 
 static inline bool GCC_INLINE bulletin_optionnel_numerique(const char* tag, xmlNodePtr& cur, int l, info_t& info, int normalJump = 0)
@@ -448,6 +493,8 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
 #define BULLETIN_OPTIONNEL_NUMERIQUE_(X, normalJump)  bulletin_optionnel_numerique(#X, cur, X, info, normalJump)
 #define BULLETIN_OPTIONNEL_NUMERIQUE(X)  BULLETIN_OPTIONNEL_NUMERIQUE_(X, 0)
 
+#define BULLETIN_OPTIONNEL_CHAR(X)  bulletin_optionnel_char(#X, cur, X, info)
+
 /* REFERENCE */
 /*
  * <Agent>
@@ -678,11 +725,55 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
 
   level0:
 
- /*  */
+ /*  Référence
+  *
+  *    <Evenement>
+  *      <Code V="">{1,1}</Code>
+  *      <Description V="">{0,1}</Description>
+  *    </Evenement>
+  */
 
     info.drapeau_cont = true;
 
-    if (cur != nullptr && BULLETIN_OBLIGATOIRE(Service)) {}
+    /* Il faudrait pouvoir être à même d'en récupérer plusieurs : A FAIRE */
+
+    if (cur) cur = cur-> next;
+
+    if (cur && xmlStrcmp(cur->name, (const xmlChar*) "Evenement") == 0)
+    {
+            cur_parent = cur;
+            cur = cur->xmlChildrenNode;
+            if (cur &&  !xmlIsBlankNode(cur))
+            {
+               info.drapeau_cont = false;
+               BULLETIN_OBLIGATOIRE(Code);
+               cur = cur->next;
+               if (cur)
+                   BULLETIN_OPTIONNEL_CHAR(Description);
+               else
+                   NA_ASSIGN(Description);
+
+               info.drapeau_cont = true;
+            }
+            cur = cur_parent;
+    }
+    else
+    {
+        NA_ASSIGN(Code);
+        NA_ASSIGN(Description);
+    }
+
+    if (cur)
+    {
+        BULLETIN_OBLIGATOIRE(Service);
+    }
+    else
+    {
+        cerr << ERROR_HTML_TAG "Service introuvable." ENDL;
+#ifdef STRICT
+        exit(-5);
+#endif
+    }
 
 #ifdef TOLERANT_TAG_HIERARCHY
     cur = cur_save;
@@ -743,7 +834,9 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
     else
     {
         perror(ERROR_HTML_TAG "Rémunération introuvable.");
+#ifdef STRICT
         exit(-4);
+#endif
     }
 
     /* obligatoire , substitution du sparateur décimal */

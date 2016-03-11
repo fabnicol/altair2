@@ -26,4 +26,4 @@ colonnes.bulletins.classes.input <- c(rang.classe, "integer", "integer",
                                       "character", "character", "character",
                                       "character", "numeric", "character", "numeric", "numeric", "numeric",
                                       "integer",  "numeric", "numeric", "numeric", "numeric",
-                                      "character", "character", échelon.classe, "character", "character")
+                                      "character", "character", "character", échelon.classe, "character", "character")
