@@ -126,14 +126,15 @@ importer.bases.via.xhl2csv <- function(base, fichiers, colClasses = colonnes.cla
   if (inherits(res, 'try-error'))
     stop("Problème de lecture de la base de la table bulletins-lignes de Paie")
 
+  
   message("Chargement direct des bulletins et lignes de paie")
 }
 
 importer.bases.via.xhl2csv("Paie", fichiers.table, colClasses =  colonnes.classes.input)
 importer.bases.via.xhl2csv("Bulletins.paie", fichiers.bulletins, colClasses =  colonnes.bulletins.classes.input)
 
-  Bulletins.paie[ , Grade := toupper(Grade)]
-  Paie[ , Grade := toupper(Grade)]
+Bulletins.paie[ , Grade := toupper(Grade)]
+Paie[ , Grade := toupper(Grade)]
   
   if (! is.null(Paie) && ! is.null(Bulletins.paie)) {
     message("Chargement de la table bulletins-lignes de Paie.")
@@ -290,6 +291,10 @@ if (test.temps.complet) {
 
 }
 
+Unique <- lapply(Bulletins.paie, unique)
+
+`%-%`<- function(x, y) setdiff(Unique[[as.character(substitute(x))]], y)
+
 # si l'on a une cohérence du calcul des heures de travail par semaine alors peut se baser dessus :
 
 if (redresser.heures) {
@@ -305,14 +310,39 @@ if (redresser.heures) {
   Paie[ , Heures := Heures.orig]
   Bulletins.paie[ , Heures := Heures.orig]
   
-if (test.temps.complet) {
+ if (test.temps.complet) {
+   
+  # A <- Paie[(Heures == 0 | is.na(Heures))
+  #     & Indice != 0 & !is.na(Indice)
+  #     & Statut != "ELU" & Grade != "V" & Grade!= "A"
+  #     & Temps.de.travail != 0 & !is.na(Temps.de.travail), `:=`(indic = TRUE,
+  #                                                                Heures = round(Temps.de.travail * nb.heures.temps.complet / 100, 1))]
+  #  
+  # 
+   
+  # ----- 4 à 12 fois plus rapide que la solution de référence supra. On gagne 1,2 s par million de lignes.
+   
+  setkey(Paie, Heures, Statut, Grade)  
+   
+  Paie[..(c(0, NA_real_),
+          Statut %-% "ELU",
+          Grade  %-% c("V", "A")), 
+            `:=`(indic1 = TRUE), nomatch=0]
   
-  Paie[(Heures == 0 | is.na(Heures))
-       & Indice != "" & !is.na(Indice) 
-       & Statut != "ELU" & Grade != "V" & Grade!= "A"
-       & Temps.de.travail != 0 & !is.na(Temps.de.travail), `:=`(indic = TRUE, 
-                                                                Heures = round(Temps.de.travail * nb.heures.temps.complet / 100, 1))]
+  # On est obligé de segmenter la condition en deux pour éviter une explosion combinatoire
+  # Pour cela on pose une indicatrice auxiliaire plus tard effacée
   
+  setkey(Paie, indic1, Indice, Temps.de.travail)
+  
+  Paie[..(TRUE,
+       Indice %-% c(0, NA_real_),
+       Temps.de.travail %-% c(0, NA_real_)),
+          `:=`(indic = TRUE, 
+               Heures = round(Temps.de.travail * nb.heures.temps.complet / 100, 1)), nomatch=0]
+  
+  Paie[, indic1 := NULL]
+  
+  # -----
   
   Bulletins.paie[(Heures == 0 | is.na(Heures))
                  & Indice != "" & !is.na(Indice) 

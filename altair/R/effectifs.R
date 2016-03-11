@@ -347,17 +347,24 @@ pyramide_ages <- function(Avant,
     
     s.avant <- Avant[ , .(H = sum(Hommes, na.rm=TRUE), F = sum(Femmes, na.rm=TRUE))]
     
-    for (année in 2011:fin.période.sous.revue) {
-      if (exists(p <- "pyr_" %+% année %+% "_" %+% tolower(versant)))
-        année = année + 1
+    p <- NULL
+    
+    for (a in 2010:fin.période.sous.revue) {
+      if (exists(p0 <- "pyr_" %+% a %+% "_" %+% tolower(versant))) {
+        année <- a
+        p <- p0
+      }
     }
+    
+    stopifnot(!is.null(p))
     
     pyr <- get(p)
     
     # sanity checks ---
     
+   
     stopifnot(toupper(pyr[1, versant]) == versant)
-    stopifnot(pyr[1, année.référence] + 1 == année)
+    stopifnot(pyr[1, année.référence]  == année)
     
     # ---
     

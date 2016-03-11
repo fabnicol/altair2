@@ -142,6 +142,37 @@ read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, drop = NU
 
   }
 
+  if (sécuriser.types.sortie) {
+  # procédure de vérification et de coercition des type de sortie
+  # il peut arriver que data.table produise des colonnes de type différent (classes.expost) de celui qui est demandé
+  # par le paramètre classes. Cela peut arriver quand un charactère est utilisé à la place d'un chiffre dans les données
+  # spécifiées comme purement numériques. Le code ci-dessous corrige les cas les plus utiles.
+  # Le code C++ de l'extracteur de données pourrait à terme éliminer ces risques en garantissant le type des données en sortie.
+  
+  if (! is.null(classes)) {
+    
+   classes.expost <- sapply(T, class) 
+   
+   test <- (classes != classes.expost)
+   
+   if (any(test)) {
+
+     sapply(1:length(classes), function(x){  
+              
+              if (classes.expost[x] == "character" && (classes[x] == "numeric" || classes[x] == "integer")) {
+
+                T[[x]] <<- as.numeric(gsub(",", ".", T[[x]], fixed=TRUE))
+                    # <<- impératif
+                
+              } else if ((classes.expost[x] == "numeric" || classes.expost[x] == "integer")
+                    && (classes[x] == "character")) 
+                
+                       T[[x]] <<- as.character(T[[x]])
+     })
+    }
+   }
+  }
+
 return(T)
 }
 
@@ -483,8 +514,8 @@ longueur.non.na <- function(v) if (is.vector(v)) length(v[!is.na(v)]) else if (i
 # concaténer deux strings
 
 `%+%` <- function(x, y) paste0(x,  y)
+`..` <- function(...) list(expand.grid(...))
 
-`%*%` <- function(x, y) if (is.na(x) | is.na(y)) return(0) else return(x*y)
 
 # saut de page
 

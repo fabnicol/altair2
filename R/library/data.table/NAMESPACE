@@ -6,7 +6,7 @@ exportClasses(data.table, IDate, ITime)
 ##
 
 export(data.table, tables, setkey, setkeyv, key, "key<-", haskey, CJ, SJ, copy)
-export(set2key, set2keyv, key2)
+export(set2key, set2keyv, key2, setindex, setindexv)
 export(as.data.table,is.data.table,test.data.table,last,like,"%like%",between,"%between%")
 export(timetaken)
 export(truelength, alloc.col, ":=")
@@ -30,6 +30,11 @@ export(rowid)
 export(rowidv)
 export(as.xts.data.table)
 export(uniqueN)
+# set operators
+export(fintersect)
+export(fsetdiff)
+export(funion)
+export(fsetequal)
 
 S3method("[", data.table)
 S3method("[<-", data.table)
@@ -91,7 +96,7 @@ S3method(na.omit, data.table)
 export(as.IDate,as.ITime,IDateTime)
 export(hour,yday,wday,mday,week,month,quarter,year)
 
-importFrom(chron, chron, as.chron)
+#importFrom(chron, chron, as.chron) # chron went to Suggests since #1558
 export(as.chron.IDate,as.chron.ITime)
 
 S3method("[", ITime)
