@@ -5,21 +5,33 @@
 \title{Tableau des effectifs.}
 \usage{
 effectifs(période, Bulletins = Bulletins.paie,
-  personnels = Analyse.rémunérations,
-  Analyse.vpe = Analyse.variations.par.exercice,
-  Analyse.v = Analyse.variations)
+  personnels = Analyse.rémunérations, Analyse.v = Analyse.variations)
 }
 \arguments{
 \item{période}{Vecteur des années de la période sous revue}
 
-\item{Bulletins}{Base des bulletins de paye}
+\item{Bulletins}{Base des bulletins de paye, comportant pour l'ensemble de la période
+\enumerate{
+  \item{ les variables charactère suivantes :
+     \itemize{
+         \item \code{Matricule}
+         \item \code{Statut}
+         \item \code{Grade}}}
+   \item{ les variables numériques :
+       \describe{
+         \item{\code{quotité}}{réel entre 0 et 1}
+         \item{\code{nb.mois}}{entier entre 0 et 12}}}
+   \item{ la variable booléenne :
+       \describe{\item{\code{permanent}}{12 bulletins sur l'année}}}}.}
 
-\item{Analyse}{Base des analyses de rémunérations}
+\item{Analyse}{Base des analyses de rémunérations, comptant les variables :
+\code{Filtre_actif, Filtre_annexe, Statut, Matricule, Année}}
 
-\item{Analyse}{Base des analyses de variations de rémunérations}
+\item{Analyse}{Base des analyses de variations de rémunérations, comptant les variables :
+\code{temps.complet, est.rmpp, statut, Matricule, Année, permanent}}
 }
 \value{
-Un tableau des effectifs mis en forme.
+Un tableau des effectifs mis en forme de 22 lignes et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
 }
 \description{
 Elabore un tableau des effectifs et équivalents temps plein travaillés par type de personnel et par année.

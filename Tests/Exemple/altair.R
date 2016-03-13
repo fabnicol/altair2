@@ -85,7 +85,7 @@ message("Démographie...")
 # Rappel Analyse.variations.par.exercice comprend uniquement les actifs non annexes non assist. mat., non vacataires, non élus.
 
 library(altair)
-tableau.effectifs <- effectifs(période, Bulletins.paie, Analyse.rémunérations, Analyse.variations.par.exercice, Analyse.variations)
+tableau.effectifs <- effectifs(période, Bulletins.paie, Analyse.rémunérations, Analyse.variations)
 
 #'  
 #  

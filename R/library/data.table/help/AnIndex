@@ -2,6 +2,11 @@ data.table-package	data.table
 %between%	between
 %chin%	chmatch
 %like%	like
+.BY	special-symbols
+.GRP	special-symbols
+.I	special-symbols
+.N	special-symbols
+.SD	special-symbols
 :=	assign
 address	address
 all.equal	all.equal.data.table
@@ -57,6 +62,7 @@ data.table-class	data.table-class
 data.table-optimize	datatable-optimize
 data.table.optimize	datatable-optimize
 datatable-optimize	datatable-optimize
+datatable-symbols	special-symbols
 datatable.optimize	datatable-optimize
 dcast	dcast.data.table
 dcast.data.table	dcast.data.table
@@ -84,6 +90,7 @@ IDate	IDateTime
 IDate-class	IDateTime
 IDateTime	IDateTime
 IDateTime.default	IDateTime
+indices	setkey
 intersect	setops
 is.data.table	as.data.table
 is.na.data.table	data.table
@@ -145,6 +152,7 @@ setorder	setorder
 setorderv	setorder
 shift	shift
 SJ	J
+special-symbols	special-symbols
 split.IDate	IDateTime
 strsplit	tstrsplit
 subset	subset.data.table

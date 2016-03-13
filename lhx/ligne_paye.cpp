@@ -516,6 +516,31 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
     </Agent>
 */
 
+inline void GCC_INLINE concat(xmlNodePtr cur, info_t& info)
+{
+    xmlChar* addCode2 = xmlGetProp(cur, (const xmlChar*) "V");
+    if (addCode2)
+    {
+
+          xmlChar* desc_hyphen = xmlStrncatNew(info.Table[info.NCumAgentXml][Description],
+                                               (const xmlChar*) " - ",
+                                                         -1);
+
+          if (desc_hyphen)
+          {
+              xmlChar* desc_code2 = xmlStrncatNew(desc_hyphen,
+                                                   addCode2,
+                                                   -1);
+
+              xmlFree(info.Table[info.NCumAgentXml][Description]);
+              xmlFree(addCode2);
+              xmlFree(desc_hyphen);
+              info.Table[info.NCumAgentXml][Description] = desc_code2;
+          }
+    }
+}
+
+
 uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
 {
     bool result = true;
@@ -735,7 +760,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
 
     info.drapeau_cont = true;
 
-    /* Il faudrait pouvoir être à même d'en récupérer plusieurs : A FAIRE */
+    /* C'est extrêmement rare mais idéalement il faudrait pouvoir être à même de récupérer plus de 2 événements : A FAIRE */
 
     if (cur) cur = cur-> next;
 
@@ -749,18 +774,47 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
                BULLETIN_OBLIGATOIRE(Code);
                cur = cur->next;
                if (cur)
+               {
                    BULLETIN_OPTIONNEL_CHAR(Description);
+               }
                else
+               {
                    NA_ASSIGN(Description);
+               }
 
                info.drapeau_cont = true;
             }
-            cur = cur_parent;
+            cur = cur_parent->next;
     }
     else
     {
         NA_ASSIGN(Code);
         NA_ASSIGN(Description);
+    }
+
+    /* Vu la rareté du 2e évenement, il est rationnel de ne pas réserver systématiquement de place en mémoire de type Description2.
+     * Mieux vaut concaténer, même si le code est plus lourd et l'allocation de mémoire ponctuellement plus lente : on gagne
+     * sur l'allocation-déallocation d'un très grand nombre de champs Description2 non remplis. */
+
+    if (cur && xmlStrcmp(cur->name, (const xmlChar*) "Evenement") == 0)
+    {
+            cur_parent = cur;
+            cur = cur->xmlChildrenNode;
+            if (cur &&  !xmlIsBlankNode(cur))
+            {
+               info.drapeau_cont = false;
+
+               concat(cur, info);
+
+               cur = cur->next;
+               if (cur)
+               {
+                   concat(cur, info);
+               }
+
+               info.drapeau_cont = true;
+            }
+            cur = cur_parent->next;
     }
 
     if (cur)

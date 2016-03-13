@@ -1,5 +1,6 @@
-greaterThan(QT_MAJOR_VERSION, 5)
+# L'ensemble des fichiers source doit être encodé en UTF-8 sauf celui-ci qui peut l'être en Latin-1
 
+greaterThan(QT_MAJOR_VERSION, 5)
 
 # utiliser au moins Qt5 et g++-5.1 sous windows
 

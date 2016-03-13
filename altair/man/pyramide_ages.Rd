@@ -10,15 +10,15 @@ pyramide_ages(Avant, Après = NULL, titre = "",
 }
 \arguments{
 \item{Avant}{data.table/data.frame décrivant la situation en début de période
-Cette base doit avoir la forme suivante (bornes d'âges non impératifs): 
+Cette base doit avoir la forme suivante (bornes d'âges non impératifs):
 \tabular{ccc}{
   age \tab Hommes \tab Femmes \cr
   15  \tab   0  \tab    1   \cr
   16  \tab   NA \tab    2   \cr
   17  \tab   1  \tab    3   \cr
   18  \tab  409 \tab    52  \cr
-  ... \tab  ... \tab ...    \cr    
-  68  \tab 2216 \tab    NA  
+  ... \tab  ... \tab ...    \cr
+  68  \tab 2216 \tab    NA
 }
 dans laquelle "age" peut être soit un vecteur de nom de lignes soit une colonne.}
 

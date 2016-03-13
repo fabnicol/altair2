@@ -309,19 +309,23 @@ if (redresser.heures) {
  
  if (test.temps.complet) {
 
-   if (nrow(Paie) < 6e6) {
-  A <- Paie[(Heures == 0 | is.na(Heures))
+   if (nrow(Paie) < 1e6) {
+
+  system.time(A <- Paie[(Heures == 0 | is.na(Heures))
       & Indice != 0 & !is.na(Indice)
       & Statut != "ELU" & Grade != "V" & Grade!= "A"
       & Temps.de.travail != 0 & !is.na(Temps.de.travail), `:=`(indic = TRUE,
-                                                                Heures = round(Temps.de.travail * nb.heures.temps.complet / 100, 1))]
+                                                                Heures = round(Temps.de.travail * nb.heures.temps.complet / 100, 1))])
 
    } else {
      
-  # ----- Pour les très gros fichiers (> 6 ML) , 4 à 12 fois plus rapide que la solution de référence supra. On gagne 1 s par ML.
+  # ----- Pour les très gros fichiers (> 1 ML) , plus rapide que la solution de référence supra. On gagne 1 s par ML à partir de 15 ML
+  #       0.5 s par ML à partir de 3 ML. Dépend beaucoup du CPU et de la mémoire. Résultats sur corei7, DDR4 1333, non vérifiés sur corei3.
+  #       Gain de 14 s à 15 s pour un gros fichier de 15 ML.  
    
- 
-       #microbenchmark::microbenchmark({   
+       message("correction du temps de travail par recherche binaire")
+
+       microbenchmark::microbenchmark({   
           Unique <- lapply(Bulletins.paie, unique)
            
           `%-%`<- function(x, y) setdiff(Unique[[as.character(substitute(x))]], y)
@@ -345,7 +349,8 @@ if (redresser.heures) {
                        Heures = round(Temps.de.travail * nb.heures.temps.complet / 100, 1)), nomatch=0]
            
           Paie[, indic1 := NULL]
-      #}, times=1)
+      }, times=1)
+
    }
  }
 

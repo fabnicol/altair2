@@ -1,3 +1,5 @@
+/* Fichier à encoder en UTF-8 */
+
 #include "flistframe.h"
 #include "common.h"
 #include "enums.h"
@@ -280,7 +282,7 @@ void FListFrame::parseXhlFile(const QString& fileName)
 
     bool result = file.open(QIODevice::ReadOnly);
     if (! file.isOpen())
-             altair->outputTextEdit->append(ERROR_HTML_TAG "Erreur �  l'ouverture du fichier.");
+             altair->outputTextEdit->append(ERROR_HTML_TAG "Erreur à  l'ouverture du fichier.");
 
     if (result == false || file.size()== 0)
     {
@@ -327,7 +329,7 @@ void FListFrame::parseXhlFile(const QString& fileName)
     }
     else
     {
-        altair->outputTextEdit->append(WARNING_HTML_TAG " Fichier " + fileName + " non conforme �  la spécification Xemelios");
+        altair->outputTextEdit->append(WARNING_HTML_TAG " Fichier " + fileName + " non conforme à  la spécification Xemelios");
         Hash::Budget[fileName] = "";
         Hash::Annee[fileName] = "Inconnu";
         Hash::Mois[fileName]  = "Inconnu";
@@ -414,7 +416,7 @@ void FListFrame::parseXhlFile(const QString& fileName)
    file.close();
 
    if (file.isOpen())
-            altair->outputTextEdit->append(ERROR_HTML_TAG " Erreur �  la fermeture du fichier.");
+            altair->outputTextEdit->append(ERROR_HTML_TAG " Erreur à  la fermeture du fichier.");
 
    if (file.error() != QFileDevice::NoError)
          altair->outputTextEdit->append(WARNING_HTML_TAG " Erreur de fichier.");
@@ -685,7 +687,7 @@ void FListFrame::on_importFromMainTree_clicked()
              }
           }
         #ifdef DEBUG
-         altair->outputTextEdit->append(STATE_HTML_TAG "Ajout des chemins �  la liste centrale" );
+         altair->outputTextEdit->append(STATE_HTML_TAG "Ajout des chemins à  la liste centrale" );
         #endif
 
          if (stringListSize)
@@ -798,7 +800,7 @@ void FListFrame::setStrikeOutFileNames(flags::colors color)
             return;
         }
 
-        // On barre dès qu'au moins un Siret du fichier est barré
+        // On barre dès qu'au moins un Siret du fichier est barrÃ©
 
         for (int k = 0; k < size_j; ++k)
         {

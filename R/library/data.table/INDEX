@@ -41,6 +41,7 @@ setops                  Set operations for data tables
 setorder                Fast row reordering of a data.table by
                         reference
 shift                   Fast lead/lag for vectors and lists
+special-symbols         Special symbols
 subset.data.table       Subsetting data.tables
 tables                  Display all objects of class 'data.table'
 test.data.table         Runs a set of tests.

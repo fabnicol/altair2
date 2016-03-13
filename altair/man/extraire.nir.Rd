@@ -12,15 +12,15 @@ extraire.nir(Base, année)
 \item{année}{Année civile à la fin de laquelle est évalué l'âge de l'individu.}
 }
 \value{
-Une base data.table ayant la forme suivante (les bornes d'âge ne sont pas impératives) : 
+Une base data.table ayant la forme suivante (les bornes d'âge ne sont pas impératives) :
        \tabular{ccc}{
          age \tab Hommes \tab Femmes \cr
          15  \tab   0  \tab    1   \cr
          16  \tab   NA \tab    2   \cr
          17  \tab   1  \tab    3   \cr
          18  \tab  409 \tab    52  \cr
-         ... \tab  ... \tab ...    \cr    
-         68  \tab 2216 \tab    NA  
+         ... \tab  ... \tab ...    \cr
+         68  \tab 2216 \tab    NA
        }
 }
 \description{
