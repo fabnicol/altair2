@@ -1099,19 +1099,21 @@ if (N <- uniqueN(Paie[Statut != "TITULAIRE"
                               Matricule]))
   cat("Il existe ", FR(N), "non titulaire", ifelse(N>1, "s", ""), " percevant une NBI.")
 
-NBI.aux.non.titulaires <- Paie[Statut != "TITULAIRE"
-                               & Statut != "STAGIAIRE"
-                               & NBI != 0
-                               & grepl(expression.rég.nbi, Libellé, ignore.case=TRUE, perl=TRUE),
-                                 c(étiquette.matricule,
-                                   "Statut",
-                                   étiquette.code,
-                                   étiquette.libellé,
-                                   étiquette.année,
-                                   "Mois",
-                                   "NBI",
-                                   étiquette.montant),
-                                 with=FALSE]
+setkey(Paie, Statut)
+Paie[c("NON_TITULAIRE", "EMPLOI_AIDE"),
+           indic2 := NBI != 0 & grepl(expression.rég.nbi, Libellé, ignore.case=TRUE, perl=TRUE)]
+ 
+NBI.aux.non.titulaires <- Paie[indic2 == TRUE, c(étiquette.matricule,
+                                                  "Statut",
+                                                  étiquette.code,
+                                                  étiquette.libellé,
+                                                  étiquette.année,
+                                                  "Mois",
+                                                  "NBI",
+                                                  étiquette.montant),
+                                                   with=FALSE] 
+
+Paie[,indic2 := NULL]
 
 nombre.Lignes.paie.NBI.nontit <- nrow(NBI.aux.non.titulaires)
 
@@ -1120,28 +1122,20 @@ nombre.Lignes.paie.NBI.nontit <- nrow(NBI.aux.non.titulaires)
 
 # variante : filtre <- regexpr(".*(INFO|PFI|P.F.I).*", toupper(Paie$Libellé)) et regmatches(Paie$Libellé, filtre)
 
-attach(Paie, warn.conflicts=FALSE)
-filtre <- grep(expression.rég.pfi, Libellé, ignore.case=TRUE, perl=TRUE)
-
-personnels.prime.informatique <- Paie[ filtre,
-                                         c(étiquette.matricule,
-                                           étiquette.année,
-                                           "Mois",
-                                           "Statut",
-                                           étiquette.code,
-                                           étiquette.libellé,
-                                           étiquette.montant),
-                                           with=FALSE]
-
-primes.informatiques.potentielles <- unique(Libellé[filtre], by=NULL)
-
-if  (length(primes.informatiques.potentielles) == 0)
-  primes.informatiques.potentielles <- "aucune"
+personnels.prime.informatique <- Paie[grepl(expression.rég.pfi, Libellé, ignore.case=TRUE, perl=TRUE) == TRUE,
+                                         .(Matricule,
+                                           Année,
+                                           Mois,
+                                           Statut,
+                                           Code,
+                                           Libellé,
+                                           Montant)]
 
 nombre.personnels.pfi <- nrow(personnels.prime.informatique)
 
-detach(Paie)
-#'Primes informatiques potentielles : `r primes.informatiques.potentielles`
+primes.informatiques.potentielles <- if (nombre.personnels.pfi == 0) "aucune" else unique(personnels.prime.informatique$Libellé)
+
+#'Primes informatiques : `r primes.informatiques.potentielles`
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
@@ -1228,7 +1222,7 @@ detach(cumuls.nbi)
 #'## `r chapitre`.2 Contrôle des vacations pour les fonctionnaires
 
 # Vacations et statut de fonctionnaire
-
+# unique(Paie[,  .(Libellé, Type, V=sum(indic, na.rm=TRUE)), by=.(Matricule, Année, Mois)][V > 0 & Type %in% c("T", "I", "IR", "S"), Libellé])
 #+ tests-statutaires-vacations
 
   lignes.fonctionnaires.et.vacations <- Paie[(Statut == "TITULAIRE" | Statut == "STAGIAIRE") & Grade == "V",

@@ -4,11 +4,16 @@
 using namespace std;
 
 
+/* NOTA Sur les valeurs manquantes
+ * Pour des variables caractères : NA (NA_ASSIGN)
+ * Pour des variables pseudo-numériques (caractères convertibles en numériques) : 0 (ZERO_ASSIGN)
+ * On peut donc garantir que Année, Mois, NbEnfants, Indice, NBI, QuotiteTrav,
+ * NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer ne sont jamais NA mais à 0 */
+
 /* obligatoire */
 
-
-#define NA_ASSIGN(X)      info.Table[info.NCumAgentXml][X] = (xmlChar*) xmlStrdup(NA_STRING);
-
+#define NA_ASSIGN(X)        info.Table[info.NCumAgentXml][X] = (xmlChar*) xmlStrdup(NA_STRING)
+#define ZERO_ASSIGN(X)      info.Table[info.NCumAgentXml][X] = (xmlChar*) xmlStrdup((const xmlChar*) "0")
 
 /* Remplace les occurrences d'un caractère séparateur à l'intérieur d'un champ par le caractère '_' qui ne doit donc jamais
    être séparateur de champ (c'est bien rare !) */
@@ -82,7 +87,7 @@ static inline int GCC_INLINE Bulletin(const char*  tag, xmlNodePtr& cur, int l, 
             case 0xC2:
 
                 info.Table[info.NCumAgentXml][l][i] = info.Table[info.NCumAgentXml][l][i + 1];
-                /* Le caractère ° (degré) est bien codé en Latin-1 comme 0xB0, mais il y an problème avec le paquet texlive
+                /* Le caractère ° (degré) est bien codé en Latin-1 comme 0xB0, mais il y a un problème avec le paquet texlive
                  * inputenc pour la conversion pdf. On remplace donc par e (0x65) */
 
                 //if (info.Table[info.NCumAgentXml][l][i] == 0xB0) info.Table[info.NCumAgentXml][l][i] = 0x65;
@@ -226,13 +231,13 @@ static inline bool GCC_INLINE bulletin_optionnel_numerique(const char* tag, xmlN
              return true;
 
         case NODE_NOT_FOUND :
-             NA_ASSIGN(l);
+             ZERO_ASSIGN(l);
              return true;
 
         case LINE_MEMORY_EXCEPTION :
              if (verbeux)
                  cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
-             NA_ASSIGN(l);
+             ZERO_ASSIGN(l);
              break;
 
         case NO_NEXT_ITEM :
@@ -280,7 +285,7 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique(const char* tag, xm
              return true;
 
         case NODE_NOT_FOUND :
-             NA_ASSIGN(l);
+             ZERO_ASSIGN(l);
              return true;
 
         case LINE_MEMORY_EXCEPTION :
@@ -433,7 +438,7 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
 
         if (cur == nullptr)
         {
-            NA_ASSIGN(l)
+            NA_ASSIGN(l);
             break;
         }
 
@@ -714,7 +719,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
         case 4:
             NA_ASSIGN(NIR);
         case 5:
-            NA_ASSIGN(NbEnfants);
+            ZERO_ASSIGN(NbEnfants);
         case 6:
             NA_ASSIGN(Statut);
         case 7:
@@ -724,7 +729,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
         case 9:
              NA_ASSIGN(Grade);
         case 10:
-            NA_ASSIGN(Indice);
+            ZERO_ASSIGN(Indice);
         default:
         break;
     }
@@ -836,7 +841,22 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
 
     BULLETIN_OBLIGATOIRE_NUMERIQUE(NBI);
 
-    /* Problème : on ne traite pas les unbounded NBI ici mais dans les lignes de paye */
+    /* Problème : unbounded NBI ... */
+
+    int v = 0;
+    while (xmlStrcmp(cur->name, (const xmlChar*) "NBI") == 0)
+    {
+        v += atoi((const char*) xmlGetProp(cur, (const xmlChar*) "V"));
+        cur =  cur->next;
+    }
+
+    if (v > 0)
+    {
+        xmlFree(info.Table[info.NCumAgentXml][NBI]);
+        char buffer[8]={0};
+        sprintf(buffer, "%d", atoi((const char*)info.Table[info.NCumAgentXml][NBI]) + v);
+        info.Table[info.NCumAgentXml][NBI] = xmlStrdup((xmlChar*) buffer);
+    }
 
 #ifdef TOLERANT_TAG_HIERARCHY
     cur = cur_save;

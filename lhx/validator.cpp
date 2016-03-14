@@ -100,7 +100,8 @@ static int parseFile(info_t& info)
     if (cur != nullptr)
     {
         annee_fichier = xmlGetProp(cur, (const xmlChar *) "V");
-        int annee = atoi((const char*) annee_fichier);
+        int annee;
+        annee = (annee_fichier[0] == '\0')? 0 : atoi((const char*) annee_fichier);
 
         /* Altaïr est écrit pour durer 100 ans :) */
 
@@ -517,6 +518,8 @@ static int parseFile(info_t& info)
             /* ici on sait que cur->xmlChildrenNode est non vide */
             cur_save2 = cur;
             cur = cur->xmlChildrenNode;  // Niveau Agent
+
+            /* remarque atoi retourne zéro s'il rencontre "" ou des caractères non numériques */
 
             info.Table[info.NCumAgentXml][Annee] = xmlStrdup(annee_fichier);
             info.Table[info.NCumAgentXml][Mois]  = xmlStrdup(mois_fichier);
