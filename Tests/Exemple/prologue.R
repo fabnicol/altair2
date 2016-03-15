@@ -37,6 +37,7 @@ corriger.environnement.système <- (setOSWindows == TRUE)
 intégrer.localisation          <- FALSE   # Veut on gardet Budget Employeur Siret Etablissement ?
 afficher.cumuls.détaillés.lignes.paie <- FALSE
 afficher.table.écarts.sft      <- FALSE
+afficher.table.codes           <- FALSE
 analyse.par.catégorie          <- TRUE
 test.delta                     <- FALSE
 if (! exists("PDF"))       PDF <- FALSE

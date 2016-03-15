@@ -421,20 +421,6 @@ if (redresser.heures) {
    
 }
 
-# Lors de la PREMIERE utilisation d'Altair, paramétrer générer.codes <- TRUE dans prologue.R
-# pour générer les fichier des codes de paiement sous le dossier des bases (par défaut "Données").
-# ce fichier est trié par ordre croissant des codes de paiement sur les trois premiers chiffres des codes
-# des anomalies peuvent résiduellement apparaître avec des codes contenant des lettres, en général après
-# le troisième chiffre du code.
-# L'utilisateur devra alors renseigner la colonne étiquette.type.rémunération de ce fichier
-
-if (générer.codes)   {
-  source("générer.codes.R", encoding = encodage.code.source)
-  générer.base.codes(Paie) 
-}
-
-
-  
   Paie[ , Filtre_actif := FALSE]
 
 # TODO: à revoir pour deux causes : le revenu peut ne pas être un traitement et les heures peuvent être nulles pour

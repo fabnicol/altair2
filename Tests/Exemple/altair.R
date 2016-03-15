@@ -2053,8 +2053,50 @@ newpage()
 #'## Liens complémentaires
 
 #'  
-#'## Fiabilité du traitement statistique   
-#'*Doublons*      
+#'## Codes et libellés de paye   
+#'         
+
+code_libellé <- unique(Paie[Montant != 0, .(Code, Libellé), by = "Type"], by = NULL)
+code_libellé$Type <- sapply(code_libellé$Type,  function(x) switch(x,
+                               "I" = "Indemnité",
+                               "R" = "Rappels",
+                               "IR"= "Indemnité de résidence",
+                               "T" = "Traitement",
+                               "AV"= "Avantage en nature",
+                               "A" = "Autres rémunérations",
+                               "C" = "Cotisations",
+                               "D" = "Déductions",
+                               "S" = "Supplément familial",
+                               "RE"= "Retenues",
+                               "C" = "Commentaire"))
+
+
+setcolorder(code_libellé, c("Code", "Libellé", "Type"))
+if (afficher.table.codes) {
+   kable(code_libellé, align="c")
+}
+
+#'Certains libellés ou codes de paye peuvent être équivoques et entraîner des erreurs de requête.       
+#'Les liens ci-après donnent les codes correspondant à au moins deux libellés distincts, les libellés correspondant à au moins deux codes et les codes ou libellés correspondant à au moins deux types de ligne de paye distincts.           
+#'L'équivocité des codes est particulièrement préjudiciable lorsque les libellés correspondent à des types de ligne de paye distincts.    
+#'
+cl1 <- code_libellé[ , .(Multiplicité = .N, Libellé, Type), by = "Code"][Multiplicité > 1]
+cl2 <- code_libellé[ , .(Multiplicité = .N,  Code, Type), by = "Libellé"][Multiplicité > 1]
+
+cl3 <- unique(code_libellé[, .(Code, Type)], by = NULL)[ , .(Multiplicité = .N,  Type), by = "Code"][Multiplicité > 1]
+cl4 <- unique(code_libellé[, .(Libellé, Type)], by = NULL)[ , .(Multiplicité = .N,  Type), by = "Libellé"][Multiplicité > 1]
+
+#'   
+#'[Lien vers la table Codes/Libellés](`r currentDir`/Bases/Fiabilité/code_libellé.csv)       
+#'[Plusieurs libellés par code](`r currentDir`/Bases/Fiabilité/cl1.csv)   
+#'[Plusieurs codes par libellé](`r currentDir`/Bases/Fiabilité/cl2.csv)   
+#'[Plusieurs types de ligne par code](`r currentDir`/Bases/Fiabilité/cl3.csv)   
+#'[Plusieurs types de ligne par libellé](`r currentDir`/Bases/Fiabilité/cl4.csv)           
+#'   
+
+#'  
+#'## Doublons                
+#'
 
 if (éliminer.duplications) {
   if (après.redressement != avant.redressement) {
@@ -2078,9 +2120,9 @@ if (éliminer.duplications) {
 if (après.redressement != avant.redressement)
   cat("Elimination de ", FR(avant.redressement - après.redressement), " lignes dupliquées")
 #'  
-#'*Tests de fiabilité sur le renseignement des heures et des quotités*    
+#'## Fiabilité des heures et des quotités de travail           
 #'   
-message("Bulletins de Paie retraités")
+
 
 nrow.bull <- nrow(Bulletins.paie)
 nrow.bull.heures <- nrow(Bulletins.paie[Heures != 0])
@@ -2224,7 +2266,12 @@ if (sauvegarder.bases.analyse) {
               "base.heures.nulles.salaire.nonnull",
               "base.quotité.indéfinie.salaire.nonnull",
               "lignes.nbi.anormales",
-              "cumuls.nbi")
+              "cumuls.nbi",
+              "cl1",
+              "cl2",
+              "cl3",
+              "cl4",
+              "code_libellé")
   
   if (test.delta) 
     sauv.bases(file.path(chemin.dossier.bases, "Fiabilité"), "Delta")
