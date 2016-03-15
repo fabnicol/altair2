@@ -1219,26 +1219,43 @@ detach(cumuls.nbi)
 #'   
 
 #'  
-#'## `r chapitre`.2 Contrôle des vacations pour les fonctionnaires
+#'## `r chapitre`.2 Contrôle des vacations horaires pour les fonctionnaires      
 
 # Vacations et statut de fonctionnaire
-# unique(Paie[,  .(Libellé, Type, V=sum(indic, na.rm=TRUE)), by=.(Matricule, Année, Mois)][V > 0 & Type %in% c("T", "I", "IR", "S"), Libellé])
+
 #+ tests-statutaires-vacations
 
-  lignes.fonctionnaires.et.vacations <- Paie[(Statut == "TITULAIRE" | Statut == "STAGIAIRE") & Grade == "V",
-                                                c(étiquette.matricule,
-                                                  "Nom", "Prénom",
-                                                  "Statut",
-                                                  étiquette.code,
-                                                  étiquette.libellé,
-                                                  étiquette.montant),
-                                                 with=FALSE]
-   
-  matricules.fonctionnaires.et.vacations <- unique(lignes.fonctionnaires.et.vacations[ , .(Matricule, Nom, Prénom)], by=NULL)
-  nombre.fonctionnaires.et.vacations <- nrow(matricules.fonctionnaires.et.vacations)
-#'
+#'Les fonctionnaires peuvent effectuer des vacations horaires pour leur propre employeur à condition de bénéficier d'une autorisation
+#'de cumul d'activité accessoire et que les activités concernées ne fassent pas partie du service normal. Les cumuls détectés ci-dessous
+#'se limitent aux cas de vacations horaires détectées. L'existence des pièces justificatives pourra être recherchée.
 
-if (! is.null(nombre.fonctionnaires.et.vacations)) {
+# ----- Trouver, pour toutes les lignes de paie non-charges, une indication de proportionnalité horaire explicite
+#       et retenir les variables de calcul du montant et du statut pour les mois concernés par l'existence d'au moins
+#       une de ces lignes horaires, assimilée à un paiement de vacation.
+
+
+Paie_vac <- Paie[Type %chin% c("T", "I", "R", "IR", "S"),
+                   .(indic_hor = any(grepl("HOR", Libellé, ignore.case = TRUE)), Nom, Statut, Code, Libellé, Type, Taux, Nb.Unité, Montant),
+                   by=.(Matricule, Année, Mois)
+                 ][indic_hor == TRUE,
+                 ][ , indic_hor := NULL]
+
+
+# ----- Produire la liste de ces libellés horaires
+
+libellés.horaires <- unique(Paie_vac[grepl("HOR", Libellé, ignore.case = TRUE) == TRUE, Libellé])
+
+# ----- Vérifier si des fonctionnaires titulaires ou stagiaires bénéficient de vacations horaires et donner les caractéristiques
+
+Paie_vac_fonct <- Paie_vac[Statut %chin% c("TITULAIRE", "STAGIAIRE"), 
+                                               .(Nom, Statut, Code, Libellé, Type, Taux, Nb.Unité, Montant, Total.mensuel = sum(Montant, na.rm = TRUE)), by = .(Matricule, Année, Mois)]
+
+lignes.fonctionnaires.et.vacations <- Paie_vac_fonct[Libellé %chin% libellés.horaires]
+
+matricules.fonctionnaires.et.vacations <- unique(lignes.fonctionnaires.et.vacations[ , .(Matricule, Nom, Statut)], by = NULL)
+nombre.fonctionnaires.et.vacations <- length(matricules.fonctionnaires.et.vacations[[1]])
+
+if (nombre.fonctionnaires.et.vacations > 0) {
   cat("Il y a ",
       FR(nombre.fonctionnaires.et.vacations),
       "fonctionnaire(s) effectuant des vacations pour son propre établissement. Les bulletins concernés sont donnés en lien." )
@@ -1246,66 +1263,43 @@ if (! is.null(nombre.fonctionnaires.et.vacations)) {
   cat("Pas de vacation détectée.")
 }
 
+#'[Matricules des fonctionnaires concernés](`r currentDir`/Bases/Réglementation/matricules.fonctionnaires.et.vacations.csv)       
+#'[Lien vers les vacations payées à des fonctionnaires](`r currentDir`/Bases/Réglementation/lignes.fonctionnaires.et.vacations.csv)       
+#'[Lien vers les bulletins de paie correspondants](`r currentDir`/Bases/Réglementation/Paie_vac_fonct.csv)            
 
-#'
-#'[Lien vers les matricules des fonctionnaires concernés](`r currentDir`/Bases/Réglementation/matricules.fonctionnaires.et.vacations.csv)
-#'[Lien vers les bulletins de paie correspondants](`r currentDir`/Bases/Réglementation/lignes.fonctionnaires.et.vacations.csv)      
-
-####  5.3 CUMULS INDICIAIRES ####  
+####  5.3 CEV ####  
   
 #'
-#'## `r chapitre`.3 Contrôles sur les cumuls traitement indiciaire, indemnités et vacations des contractuels    
+#'## `r chapitre`.3 Contrôles sur les contractuels effectuant des vacations horaires    
 
 #+ tests-statutaires-vacations-ri
 
-  lignes.contractuels.et.vacations <- Paie[Statut != "TITULAIRE"
-                                           & Statut != "STAGIAIRE"
-                                           & Grade == "V",
-                                             c(étiquette.matricule,
-                                               "Nom", 
-                                               "Prénom",
-                                               étiquette.code,
-                                               étiquette.libellé,
-                                               étiquette.montant),
-                                             with=FALSE]
+#'Les vacataires rémunérés à la vacation horaire n'ont, en principe, pas accès au régime indemnitaire dont bénéficient les titulaires et non-titulaires 
+#'sauf si l'assemblée délibérante a explicitement prévu de déterminer le taux des vacations horaires par référence à ces régimes.
+#'Les vacataires bénéficiant d'un régime indemnitaire de ce type perçoivent des lignes de rémunération indemnitaires 
+#'identifiées en base de paye (*catégorie "Indemnite" des bases XML et type "I" des bases CSV*).      
+#'L'existence et l'applicabilité de la délibération correspondante pourra être recherchée.     
+#'Les vacations effectuées par des contractuels de l'établissement sur autorisation de cumul d'activité accessoire doivent
+#'avoir obtenu cette autorisation. Le régime indemnitaire dont ils bénéficient pour leur activité principale ne s'étend pas de plein droit
+#'à l'activité accessoire, en l'absence de délibération le prévoyant au titre de référence de calcul.
 
-  matricules.contractuels.et.vacations <- unique(lignes.contractuels.et.vacations[ , .(Matricule, Nom, Prénom)], by=NULL)
+  Paie_vac_contr <- Paie_vac[Statut %chin% c("NON_TITULAIRE",  "AUTRE_STATUT")]
+                                           
+  matricules.contractuels.et.vacations <- unique(Paie_vac_contr[ , .(Matricule, Nom, Statut)], by=NULL)
 
   nombre.contractuels.et.vacations     <- nrow(matricules.contractuels.et.vacations)
     
   RI.et.vacations         <- data.frame(NULL)
-  traitement.et.vacations <- data.frame(NULL)
 
- if (nombre.contractuels.et.vacations) 
+  if (nombre.contractuels.et.vacations) 
   {
-     RI.et.vacations <- Paie[Type == "I"
-                             & Matricule %chin% matricules.contractuels.et.vacations$Matricule,
-                               c(étiquette.matricule,
-                                 "Statut",
-                                 étiquette.code,
-                                 "Type",
-                                 étiquette.libellé,
-                                 étiquette.montant), 
-                               with=FALSE]
-  
-
-    traitement.et.vacations <- Paie[Type == "T" 
-                                    & Matricule %chin% matricules.contractuels.et.vacations$Matricule,
-                                      c(étiquette.matricule,
-                                        "Statut",
-                                        étiquette.code,
-                                        "Type",
-                                        étiquette.libellé,
-                                        étiquette.montant),
-                                      with=FALSE]
+     RI.et.vacations <- Paie_vac_contr[Type == "I"]
   }
 
-  nombre.Lignes.paie.contractuels.et.vacations <- nrow(lignes.contractuels.et.vacations)
   nombre.Lignes.paie.RI.et.vacations           <- nrow(RI.et.vacations)
-  nombre.Lignes.paie.traitement.et.vacations   <- nrow(traitement.et.vacations)
 
 #'
-#'**Contractuels effectuant des vacations (CEV)**
+#'**Contractuels effectuant des vacations horaires (CEV)**
 #'
 
 #'  
@@ -1315,22 +1309,57 @@ if (! is.null(nombre.fonctionnaires.et.vacations)) {
 if (exists("nombre.contractuels.et.vacations")) {
   
   Tableau(c("Nombre de CEV",
-            "Nombre de lignes",
-            "Nombre de lignes indemnitaires",
-            "Nombre de lignes de traitement"),
+            "Nombre de lignes indemnitaires payées"),
             nombre.contractuels.et.vacations,
-            nombre.Lignes.paie.contractuels.et.vacations,
-            nombre.Lignes.paie.RI.et.vacations,
-            nombre.Lignes.paie.traitement.et.vacations)
+            nombre.Lignes.paie.RI.et.vacations)
 }
   
 #'  
-#'[Lien vers le bulletins des CEV](`r currentDir`/Bases/Réglementation/lignes.contractuels.et.vacations.csv)   
-#'[Lien vers la base de données Matricules des CEV](`r currentDir`/Bases/Réglementation/matricules.contractuels.et.vacations.csv)  
-#'[Lien vers la base de données Cumul régime indemnitaire et vacations de CEV](`r currentDir`/Bases/Réglementation/RI.et.vacations.csv)  
-#'[Lien vers la base de données Lignes de traitement indiciaire pour CEV](`r currentDir`/Bases/Réglementation/traitement.et.vacations.csv)  
-#'  
+#'[Lien vers les matricules des vacataires](`r currentDir`/Bases/Réglementation/matricules.contractuels.et.vacations.csv)   
+#'[Lien vers la lignes indemnitaires à vérifier](`r currentDir`/Bases/Réglementation/RI.et.vacations.csv)    
+#'[Lien vers les bulletins de paye correspondants](`r currentDir`/Bases/Réglementation/Paie_vac_contr.csv)   
+#'    
 
+#'Les contractuels vacataires rémunérés sur prestation horaire n'ont pas accès au SFT ni à l'indemnité de résidence, contrairement aux contractuels
+#'de droit public dont les rémunérations sont calculées sur une base indiciaire. 
+#'Les non-titulaires sur contrat effectuant des vacations à titre accessoire pour leur propre employeur ne peuvent bénéficier de paiements
+#'complémentaires de SFT ou d'indemnité de résidence au titre de ces activités accessoires.     
+  
+  Paie_vac_sft_ir <- Paie_vac[! Statut %chin% c("TITULAIRE", "STAGIAIRE"), 
+                                 indic_s := any(Type %chin% c("IR", "S")),
+                                 by = .(Matricule, Année, Mois)
+                             ][indic_s == TRUE,
+                             ][ ,indic_s := NULL]
+  
+  SFT_IR.et.vacations <- Paie_vac_sft_ir[Type %chin% c("IR", "S")]
+  
+  matricules.SFT_IR.et.vacations <- unique(SFT_IR.et.vacations[ , .(Matricule, Nom, Statut)], by=NULL)
+  
+  nombre.SFT_IR.et.vacations     <- nrow(matricules.SFT_IR.et.vacations)
+  
+  
+#'
+#'**CEV percevant le supplément familial de traitement ou l'indemnité de résidence**      
+#'
+  
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+  
+  if (exists("nombre.SFT_IR.et.vacations")) {
+    
+    Tableau(c("Nombre d'agents concernés",
+              "Nombre de lignes de paye SFT/IR"),
+            nombre.SFT_IR.et.vacations,
+            nrow(SFT_IR.et.vacations))
+  }
+  
+#'  
+#'[Lien vers les matricules concernés](`r currentDir`/Bases/Réglementation/matricules.SFT_IR.et.vacations.csv)     
+#'[Lien vers les lignes SFT/IR à vérifier](`r currentDir`/Bases/Réglementation/SFT_IR.et.vacations.csv)   
+#'[Lien vers les bulletins de paye correspondants](`r currentDir`/Bases/Réglementation/Paie_vac_sft_ir.csv)    
+#'   
+  
 #### 5.4 IAT/IFTS ####  
   
 #'
@@ -2172,9 +2201,14 @@ if (sauvegarder.bases.analyse) {
              "ihts.anormales",
              "lignes.contractuels.et.vacations",
              "lignes.fonctionnaires.et.vacations",
+             "Paie_vac_contr",
+             "Paie_vac_fonct",
+             "Paie_vac_sft_ir",
              "lignes.ifts.anormales",
              "matricules.contractuels.et.vacations",
              "matricules.fonctionnaires.et.vacations",
+             "SFT_IR.et.vacations",
+             "matricules.SFT_IR.et.vacations",
              "NBI.aux.non.titulaires",
              "personnels.prime.informatique",
              "personnels.iat.ifts",
