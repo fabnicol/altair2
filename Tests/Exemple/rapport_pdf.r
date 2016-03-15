@@ -17,6 +17,7 @@ if (setOSWindows) {
   render("altair.R",
          output_format = output_format(knitr_options(opts_chunk = list(fig.width = 7.5, 
                                                                        fig.height = 5,
+                                                                       fig.height = 5,
                                                                        echo = FALSE,
                                                                        warning = FALSE,
                                                                        message = FALSE,

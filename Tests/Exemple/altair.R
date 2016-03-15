@@ -26,7 +26,7 @@ library(compiler)
 invisible(setCompilerOptions(suppressAll = TRUE))
 invisible(enableJIT(3))
 
-options(warn = -1, verbose = FALSE, OutDec = ",", datatable.verbose = FALSE)
+options(warn = -1, verbose = FALSE, OutDec = ",", datatable.verbose = FALSE, datatable.integer64 = "numeric")
 
 encodage.code.source <- "ISO-8859-1"
 
@@ -333,7 +333,7 @@ invisible(lapply(années.analyse.statique, function(x) {
                }))
 
 #'  
-#'[Lien vers la base des rémunérations](`r currentDir`/Bases/Rémunérations/Analyse.rémunérations.csv)  
+#'[Lien vers la base des rémunérations](`r currentDir`/Bases/Remunerations/Analyse.rémunérations.csv)  
 #'   
 
 newpage()
@@ -443,8 +443,8 @@ if (longueur.non.na(temp) > 0)
 
 
 #'   
-#'[Lien vers la base de données synthétique](`r currentDir`/Bases/Rémunérations/Analyse.variations.par.exercice.csv)
-#'[Lien vers la base de données détaillée par année](`r currentDir`/Bases/Rémunérations/Analyse.variations.par.exercice.csv)  
+#'[Lien vers la base de données synthétique](`r currentDir`/Bases/Remunerations/Analyse.variations.par.exercice.csv)
+#'[Lien vers la base de données détaillée par année](`r currentDir`/Bases/Remunerations/Analyse.variations.par.exercice.csv)  
 
 ########### 4.2  Evolutions des rémunérations nettes ###########
 
@@ -800,7 +800,7 @@ distribution_smpt(Filtre_cat_B)
 
 distribution_smpt(Filtre_cat_C)
 
-#'[Lien vers la base de données](`r currentDir`/Bases/Rémunérations/Analyse.variations.par.exercice.csv)     
+#'[Lien vers la base de données](`r currentDir`/Bases/Remunerations/Analyse.variations.par.exercice.csv)     
 
 ########### 4.3  GVT ###########  
 
@@ -1006,7 +1006,7 @@ if (durée.sous.revue > 1) {
 
 #'
 #'
-#'[Lien vers la base de données](`r currentDir`/Bases/Rémunérations/Analyse.variations.synthèse.csv)
+#'[Lien vers la base de données](`r currentDir`/Bases/Remunerations/Analyse.variations.synthèse.csv)
 #'
 #'**Nota**   
 #'*Personnes en place :* en fonction au moins deux années consécutives sur la période `r début.période.sous.revue` à `r fin.période.sous.revue`    
@@ -1019,7 +1019,7 @@ if (durée.sous.revue > 1) {
 
 ####### 4.4 Comparaisons nationales ####  
 
-#'[Lien vers la base de données](`r currentDir`/Bases/Rémunérations/Analyse.variations.synthèse.csv)
+#'[Lien vers la base de données](`r currentDir`/Bases/Remunerations/Analyse.variations.synthèse.csv)
 #'
 #'
 #'### `r chapitre`.4 Comparaisons avec la situation nationale des rémunérations   
@@ -1147,8 +1147,8 @@ Tableau(
   nombre.personnels.pfi)
 
 #'   
-#'[Lien vers la base de données NBI aux non titulaires](`r currentDir`/Bases/Réglementation/NBI.aux.non.titulaires.csv)   
-#'[Lien vers la base de données Primes informatiques](`r currentDir`/Bases/Réglementation/personnels.prime.informatique.csv)   
+#'[Lien vers la base de données NBI aux non titulaires](`r currentDir`/Bases/Reglementation/NBI.aux.non.titulaires.csv)   
+#'[Lien vers la base de données Primes informatiques](`r currentDir`/Bases/Reglementation/personnels.prime.informatique.csv)   
 #'   
 #'**Nota :**   
 #'NBI: nouvelle bonification indiciaire   
@@ -1190,7 +1190,7 @@ Tableau(
 
 rm(T, T1, T2)
 #'   
-#'[Lien vers la base de données NBI anormales](`r currentDir`/Bases/Fiabilité/lignes.nbi.anormales.csv)   
+#'[Lien vers la base de données NBI anormales](`r currentDir`/Bases/Fiabilite/lignes.nbi.anormales.csv)   
 #'   
 #'**Nota :**   
 #'*Est considéré comme manifestement anormal un total annuel de rémunérations NBI correspondant à un point d'indice net mensuel inférieur à 4 euros ou supérieur à 6 euros.*    
@@ -1215,7 +1215,7 @@ detach(cumuls.nbi)
 
 #### 5.2 VACATIONS ####
 #'   
-#'[Lien vers la base de données des cumuls annuels de NBI](`r currentDir`/Bases/Fiabilité/cumuls.nbi.csv)   
+#'[Lien vers la base de données des cumuls annuels de NBI](`r currentDir`/Bases/Fiabilite/cumuls.nbi.csv)   
 #'   
 
 #'  
@@ -1263,9 +1263,9 @@ if (nombre.fonctionnaires.et.vacations > 0) {
   cat("Pas de vacation détectée.")
 }
 
-#'[Matricules des fonctionnaires concernés](`r currentDir`/Bases/Réglementation/matricules.fonctionnaires.et.vacations.csv)       
-#'[Lien vers les vacations payées à des fonctionnaires](`r currentDir`/Bases/Réglementation/lignes.fonctionnaires.et.vacations.csv)       
-#'[Lien vers les bulletins de paie correspondants](`r currentDir`/Bases/Réglementation/Paie_vac_fonct.csv)            
+#'[Matricules des fonctionnaires concernés](`r currentDir`/Bases/Reglementation/matricules.fonctionnaires.et.vacations.csv)       
+#'[Lien vers les vacations payées à des fonctionnaires](`r currentDir`/Bases/Reglementation/lignes.fonctionnaires.et.vacations.csv)       
+#'[Lien vers les bulletins de paie correspondants](`r currentDir`/Bases/Reglementation/Paie_vac_fonct.csv)            
 
 ####  5.3 CEV ####  
   
@@ -1315,9 +1315,9 @@ if (exists("nombre.contractuels.et.vacations")) {
 }
   
 #'  
-#'[Lien vers les matricules des vacataires](`r currentDir`/Bases/Réglementation/matricules.contractuels.et.vacations.csv)   
-#'[Lien vers la lignes indemnitaires à vérifier](`r currentDir`/Bases/Réglementation/RI.et.vacations.csv)    
-#'[Lien vers les bulletins de paye correspondants](`r currentDir`/Bases/Réglementation/Paie_vac_contr.csv)   
+#'[Lien vers les matricules des vacataires](`r currentDir`/Bases/Reglementation/matricules.contractuels.et.vacations.csv)   
+#'[Lien vers la lignes indemnitaires à vérifier](`r currentDir`/Bases/Reglementation/RI.et.vacations.csv)    
+#'[Lien vers les bulletins de paye correspondants](`r currentDir`/Bases/Reglementation/Paie_vac_contr.csv)   
 #'    
 
 #'Les contractuels vacataires rémunérés sur prestation horaire n'ont pas accès au SFT ni à l'indemnité de résidence, contrairement aux contractuels
@@ -1355,9 +1355,9 @@ if (exists("nombre.contractuels.et.vacations")) {
   }
   
 #'  
-#'[Lien vers les matricules concernés](`r currentDir`/Bases/Réglementation/matricules.SFT_IR.et.vacations.csv)     
-#'[Lien vers les lignes SFT/IR à vérifier](`r currentDir`/Bases/Réglementation/SFT_IR.et.vacations.csv)   
-#'[Lien vers les bulletins de paye correspondants](`r currentDir`/Bases/Réglementation/Paie_vac_sft_ir.csv)    
+#'[Lien vers les matricules concernés](`r currentDir`/Bases/Reglementation/matricules.SFT_IR.et.vacations.csv)     
+#'[Lien vers les lignes SFT/IR à vérifier](`r currentDir`/Bases/Reglementation/SFT_IR.et.vacations.csv)   
+#'[Lien vers les bulletins de paye correspondants](`r currentDir`/Bases/Reglementation/Paie_vac_sft_ir.csv)    
 #'   
   
 #### 5.4 IAT/IFTS ####  
@@ -1432,8 +1432,8 @@ if (nombre.agents.cumulant.iat.ifts) {
 }
 
 #'   
-#'[Codes IFTS retenus](`r currentDir`/Bases/Réglementation/codes.ifts.csv)   
-#'[Lien vers la base de données cumuls iat/ifts](`r currentDir`/Bases/Réglementation/personnels.iat.ifts.csv)    
+#'[Codes IFTS retenus](`r currentDir`/Bases/Reglementation/codes.ifts.csv)   
+#'[Lien vers la base de données cumuls iat/ifts](`r currentDir`/Bases/Reglementation/personnels.iat.ifts.csv)    
 #'
 #'### Contrôle sur les IFTS pour catégories B et contractuels
 
@@ -1495,8 +1495,8 @@ if (! résultat.ifts.manquant) {
 }
 
 #'
-#'[Lien vers la base de données Lignes IFTS pour contractuels](`r currentDir`/Bases/Réglementation/ifts.et.contractuel.csv)    
-#'[Lien vers la base de données Lignes IFTS pour IB < 380](`r currentDir`/Bases/Réglementation/lignes.ifts.anormales.csv)     
+#'[Lien vers la base de données Lignes IFTS pour contractuels](`r currentDir`/Bases/Reglementation/ifts.et.contractuel.csv)    
+#'[Lien vers la base de données Lignes IFTS pour IB < 380](`r currentDir`/Bases/Reglementation/lignes.ifts.anormales.csv)     
 #'
 #'**Nota :**
 #'IB < 380 : fonctionnaire percevant un indice brut inférieur à 380
@@ -1517,9 +1517,11 @@ nombre.agents.cumulant.pfr.ifts <- 0
 # Le cumul de la PR et de l'IFTS est régulier, de même que celui de la PR et de la PFR
 # le cumul de la PFR et de l'IFTS est irrrégulier
 
-Paie[ , pfr.logical := grepl(expression.rég.pfr, Paie$Libellé, ignore.case=TRUE, perl=TRUE)]
+Paie_I <- Paie[Type == "I", .(Matricule, Année, Mois, Code, Libellé, Montant, Type, Emploi, Grade, Catégorie)]
 
-PFR.non.catA <- Paie[Catégorie != "A" & pfr.logical == TRUE, .(Matricule, Nom, Prénom, Année, Mois)]
+Paie_I[ , pfr.logical := grepl(expression.rég.pfr, Libellé, ignore.case = TRUE, perl = TRUE)]
+
+PFR.non.catA <- Paie_I[Catégorie != "A", ][pfr.logical == TRUE]
 
 if ((N.PFR.non.catA <<- nrow(PFR.non.catA)) > 0) {
   cat(N.PFR.non.catA, "attributaires de la PFR ne sont pas identifiés en catégorie A.")
@@ -1529,10 +1531,7 @@ if ((N.PFR.non.catA <<- nrow(PFR.non.catA)) > 0) {
   cat("Tous les attributaires de la PFR sont identifiés en catégorie A.")
 }
 
-#'   
-#'   
-
-codes.pfr  <- list("codes PFR" = unique(Paie[pfr.logical == TRUE, Code]))
+codes.pfr  <- list("codes PFR" = unique(Paie_I[pfr.logical == TRUE, Code]))
 
 if (length(codes.pfr) == 0) {
   cat("Il n'a pas été possible d'identifier la PFR par expression régulière.")
@@ -1541,22 +1540,20 @@ if (length(codes.pfr) == 0) {
 
 if (! résultat.ifts.manquant && ! résultat.pfr.manquant) {
   
-  Paie[ , cumul.pfr.ifts := (any(pfr.logical[Type == "I"]) 
-                               & any(ifts.logical[Type == "I"])), 
-         by="Matricule,Année,Mois"]
+  Paie_I[ , cumul.pfr.ifts := any(pfr.logical) & any(ifts.logical), 
+              by="Matricule,Année,Mois"]
 
   # on exclut les rappels !
   
-  personnels.pfr.ifts <- Paie[cumul.pfr.ifts == TRUE 
-                              & Type == "I"
-                              & (pfr.logical == TRUE | ifts.logical == TRUE),
-                              .(Matricule, Année, Mois, Code, Libellé, Montant, Type, Emploi, Grade, Service)]
-  
+  personnels.pfr.ifts <- Paie_I[cumul.pfr.ifts == TRUE][pfr.logical == TRUE | ifts.logical == TRUE]
+
   nombre.mois.cumuls <- uniqueN(personnels.pfr.ifts[ , .(Matricule, Année, Mois)], by = NULL)
   
   nombre.agents.cumulant.pfr.ifts <- uniqueN(personnels.pfr.ifts$Matricule)
   
   personnels.pfr.ifts <- personnels.pfr.ifts[order(Année, Mois, Matricule)]
+  
+  rm(Paie_I)
 }
 
 #'
@@ -1580,21 +1577,29 @@ if (length(codes.pfr) > 5) {
 }
 
 #'   
-#'[Lien vers la base de données cumuls pfr/ifts](`r currentDir`/Bases/Réglementation/personnels.pfr.ifts.csv)    
+#'[Lien vers la base de données cumuls pfr/ifts](`r currentDir`/Bases/Reglementation/personnels.pfr.ifts.csv)    
 #'
 
-  P <- Paie[Code %chin% union(unlist(codes.pfr), unlist(codes.ifts)),
-            .(Attrib.PFR = any(pfr.logical), Cumul.PFR.IFTS = sum(Montant, na.rm = TRUE), Grade = Grade[1]), 
-            by="Nom,Matricule,Année"]
-  
-  P.any <- P[, .(attrib.any = any(Attrib.PFR)), by="Nom,Matricule"]
-  
-  P <- merge(P, P.any, by=c("Nom", "Matricule"))
-  P <- P[attrib.any == TRUE]
-  
-  bénéficiaires.PFR <- P[, attrib.any := NULL]
-  bénéficiaires.PFR <- P[, Attrib.PFR := NULL]
-  rm(P)
+  # P <- Paie[Code %chin% union(unlist(codes.pfr), unlist(codes.ifts)),
+  #           .(Attrib.PFR = any(pfr.logical), Cumul.PFR.IFTS = sum(Montant, na.rm = TRUE), Grade = Grade[1]), 
+  #           by="Nom,Matricule,Année"]
+  # 
+  # P.any <- P[, .(attrib.any = any(Attrib.PFR)), by="Nom,Matricule"]
+  # 
+  # P <- merge(P, P.any, by=c("Nom", "Matricule"))
+  # P <- P[attrib.any == TRUE]
+  # 
+  # bénéficiaires.PFR <- P[, attrib.any := NULL]
+  # bénéficiaires.PFR <- P[, Attrib.PFR := NULL]
+  # rm(P)
+
+Paie_I[pfr.logical == TRUE | ifts.logical == TRUE][, .(Attrib.PFR = any(pfr.logical),
+                                                       Cumul.PFR.IFTS = sum(Montant, na.rm = TRUE),
+                                                       Grade = Grade[1]),
+                                                     by= .(Nom, Matricule, Année)
+                                                 ][Attrib.PFR == TRUE,
+                                                 ][ , Attrib.PFR := NULL]
+
   
 # Plafonds annuels (plafonds mensuels reste à implémenter)
 # AG 58 800
@@ -1663,10 +1668,10 @@ test.PFR <- function(i, grade, cumul) { grepl(e[i], grade, perl = TRUE, ignore.c
         
 
 #'   
-#'[Lien vers la base de données agrégat PFR-IFTS](`r currentDir`/Bases/Rémunérations/bénéficiaires.PFR.csv)    
+#'[Lien vers la base de données agrégat PFR-IFTS](`r currentDir`/Bases/Remunerations/bénéficiaires.PFR.csv)    
 #'
 #'   
-#'[Lien vers la base de données variations agrégat PFR-IFTS](`r currentDir`/Bases/Rémunérations/bénéficiaires.PFR.Variation.csv)    
+#'[Lien vers la base de données variations agrégat PFR-IFTS](`r currentDir`/Bases/Remunerations/bénéficiaires.PFR.Variation.csv)    
 #'
 
   
@@ -1763,9 +1768,9 @@ if (! is.null(HS.sup.25)) message("Heures sup controlées")
 Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"), nombre.Lignes.paie.HS.sup.25, nombre.ihts.anormales)
 
 #'
-#'[Lien vers la base de données Heures supplémentaires en excès du seuil de 25h/mois](`r currentDir`/Bases/Réglementation/HS.sup.25.csv)     
-#'[Lien vers la base de données cumuls en excès des seuils annuels](`r currentDir`/Bases/Réglementation/Dépassement.seuil.180h.csv)    
-#'[Lien vers la base de données IHTS anormales](`r currentDir`/Bases/Réglementation/ihts.anormales.csv)      
+#'[Lien vers la base de données Heures supplémentaires en excès du seuil de 25h/mois](`r currentDir`/Bases/Reglementation/HS.sup.25.csv)     
+#'[Lien vers la base de données cumuls en excès des seuils annuels](`r currentDir`/Bases/Reglementation/Dépassement.seuil.180h.csv)    
+#'[Lien vers la base de données IHTS anormales](`r currentDir`/Bases/Reglementation/ihts.anormales.csv)      
 #'
 #'**Nota :**   
 #'HS en excès : au-delà de 25 heures par mois     
@@ -1820,7 +1825,7 @@ if (générer.table.élus)   {
 }
 
 
-#'[Lien vers la base de données Rémunérations des élus](`r currentDir`/Bases/Réglementation/rémunérations.élu.csv)
+#'[Lien vers la base de données Rémunérations des élus](`r currentDir`/Bases/Reglementation/rémunérations.élu.csv)
 #'
 
 #### 5.8 COMPTE DE GESTION ####
@@ -1890,9 +1895,9 @@ for (i in 1:durée.sous.revue) {
 rm(L)
 
 #'  
-#'[Lien vers la base détaillée des cumuls des lignes de paie](`r currentDir`/Bases/Réglementation/cumul.lignes.paie.csv)
+#'[Lien vers la base détaillée des cumuls des lignes de paie](`r currentDir`/Bases/Reglementation/cumul.lignes.paie.csv)
 #'  
-#'[Lien vers la base agrégée des cumuls des lignes de paie](`r currentDir`/Bases/Réglementation/cumul.total.lignes.paie.csv)
+#'[Lien vers la base agrégée des cumuls des lignes de paie](`r currentDir`/Bases/Reglementation/cumul.total.lignes.paie.csv)
 #'  
 
 #'  
@@ -1954,7 +1959,7 @@ if (nb.écart.paiements.sft.sans.enfant > 0){
 }
 
 #'  
-#'[Lien vers la base des paiements de SFT à agents sans enfant signalé](`r currentDir`/Bases/Réglementation/Paie.sans.enfant.réduit.csv)
+#'[Lien vers la base des paiements de SFT à agents sans enfant signalé](`r currentDir`/Bases/Reglementation/Paie.sans.enfant.réduit.csv)
 #'  
 
 if (!intégrer.échelon) {
@@ -2038,7 +2043,7 @@ if (!intégrer.échelon) {
   }
 
 #'  
-#'[Lien vers la base des écarts de paiement sur SFT](`r currentDir`/Bases/Réglementation/controle.sft.csv)
+#'[Lien vers la base des écarts de paiement sur SFT](`r currentDir`/Bases/Reglementation/controle.sft.csv)
 #'  
 
 message("Analyse du SFT")
@@ -2087,11 +2092,11 @@ cl3 <- unique(code_libellé[, .(Code, Type)], by = NULL)[ , .(Multiplicité = .N, 
 cl4 <- unique(code_libellé[, .(Libellé, Type)], by = NULL)[ , .(Multiplicité = .N,  Type), by = "Libellé"][Multiplicité > 1]
 
 #'   
-#'[Lien vers la table Codes/Libellés](`r currentDir`/Bases/Fiabilité/code_libellé.csv)       
-#'[Plusieurs libellés par code](`r currentDir`/Bases/Fiabilité/cl1.csv)   
-#'[Plusieurs codes par libellé](`r currentDir`/Bases/Fiabilité/cl2.csv)   
-#'[Plusieurs types de ligne par code](`r currentDir`/Bases/Fiabilité/cl3.csv)   
-#'[Plusieurs types de ligne par libellé](`r currentDir`/Bases/Fiabilité/cl4.csv)           
+#'[Lien vers la table Codes/Libellés](`r currentDir`/Bases/Fiabilite/code_libellé.csv)       
+#'[Plusieurs libellés par code](`r currentDir`/Bases/Fiabilite/cl1.csv)   
+#'[Plusieurs codes par libellé](`r currentDir`/Bases/Fiabilite/cl2.csv)   
+#'[Plusieurs types de ligne par code](`r currentDir`/Bases/Fiabilite/cl3.csv)   
+#'[Plusieurs types de ligne par libellé](`r currentDir`/Bases/Fiabilite/cl4.csv)           
 #'   
 
 #'  
@@ -2120,7 +2125,7 @@ if (éliminer.duplications) {
 if (après.redressement != avant.redressement)
   cat("Elimination de ", FR(avant.redressement - après.redressement), " lignes dupliquées")
 #'  
-#'## Fiabilité des heures et des quotités de travail           
+#'## Fiabilite des heures et des quotités de travail           
 #'   
 
 
@@ -2172,8 +2177,8 @@ if (nligne.base.heures.nulles.salaire.nonnull)
 if (nligne.base.quotité.indéfinie.salaire.nonnull)
    cat("\nNombre de bulletins de paie de salaires versés pour une quotité de travail indéfinie : ", FR(nligne.base.heures.nulles.salaire.nonnull))
 #'   
-#'[Lien vers la base de données des salaires versés pour Heures=0](`r currentDir`/Bases/Fiabilité/base.heures.nulles.salaire.nonnull.csv)   
-#'[Lien vers la base de données des salaires versés à quotité indéfinie](`r currentDir`/Bases/Fiabilité/base.quotité.indéfinie.salaire.nonnull.csv)   
+#'[Lien vers la base de données des salaires versés pour Heures=0](`r currentDir`/Bases/Fiabilite/base.heures.nulles.salaire.nonnull.csv)   
+#'[Lien vers la base de données des salaires versés à quotité indéfinie](`r currentDir`/Bases/Fiabilite/base.quotité.indéfinie.salaire.nonnull.csv)   
 #'
 #'# Tableau des personnels  
 #'
@@ -2208,7 +2213,7 @@ if (test.delta) {
 
   
 #'   
-#'[Divergences lignes-bulletins de paie](`r currentDir`/Bases/Fiabilité/Delta.csv)     
+#'[Divergences lignes-bulletins de paie](`r currentDir`/Bases/Fiabilite/Delta.csv)     
 #'   
 
 
@@ -2216,7 +2221,7 @@ if (test.delta) {
 
 if (sauvegarder.bases.analyse) {
 
-  sauv.bases(file.path(chemin.dossier.bases, "Rémunérations"),
+  sauv.bases(file.path(chemin.dossier.bases, "Remunerations"),
              "Analyse.rémunérations",
              "Analyse.variations.synthèse",
              "Analyse.variations.par.exercice",
@@ -2232,7 +2237,7 @@ if (sauvegarder.bases.analyse) {
              "grades.catégories",
              "tableau.effectifs")
 
-  sauv.bases(file.path(chemin.dossier.bases, "Réglementation"),
+  sauv.bases(file.path(chemin.dossier.bases, "Reglementation"),
              "personnels.iat.ifts",
              "codes.ifts",
              "personnels.pfr.ifts",
@@ -2262,7 +2267,7 @@ if (sauvegarder.bases.analyse) {
              "controle.sft",
              "Paie.sans.enfant.réduit")
   
-  sauv.bases(file.path(chemin.dossier.bases, "Fiabilité"),
+  sauv.bases(file.path(chemin.dossier.bases, "Fiabilite"),
               "base.heures.nulles.salaire.nonnull",
               "base.quotité.indéfinie.salaire.nonnull",
               "lignes.nbi.anormales",
@@ -2274,7 +2279,7 @@ if (sauvegarder.bases.analyse) {
               "code_libellé")
   
   if (test.delta) 
-    sauv.bases(file.path(chemin.dossier.bases, "Fiabilité"), "Delta")
+    sauv.bases(file.path(chemin.dossier.bases, "Fiabilite"), "Delta")
   
 }
 

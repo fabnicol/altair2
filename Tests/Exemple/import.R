@@ -14,7 +14,7 @@ if (séparateur.décimal.sortie == séparateur.liste.sortie)
   stop("Le séparateur décimal en sortie doit être différent du séparateur de colonnes !")
 
 if (sauvegarder.bases.analyse) {
-  for (path in c("Rémunérations", "Effectifs", "Réglementation", "Fiabilité"))
+  for (path in c("Remunerations", "Effectifs", "Reglementation", "Fiabilite"))
     dir.create(file.path(chemin.dossier.bases, path), recursive = TRUE)
 }
 

@@ -18,6 +18,62 @@ using namespace std;
 /* Remplace les occurrences d'un caractère séparateur à l'intérieur d'un champ par le caractère '_' qui ne doit donc jamais
    être séparateur de champ (c'est bien rare !) */
 
+static inline void GCC_INLINE sanitize(xmlChar* s, const char sep)
+{
+    int size = xmlStrlen(s);
+
+    for (int i = 0; i < size; ++i)
+    {
+        // Non-switchable car info.seperateur n'est pas une expression constante.
+        if (s[i] == sep)  s[i] = '_';
+
+        switch(s[i])
+        {
+
+          case '\n':
+            s[i] = ' ';
+            break;
+
+
+#if defined(__WIN32__) && !defined(USE_ICONV)
+
+            /* Gros hack de pseudo-conversion UTF-8 vers Latin-1, qui permet d'économiser les 40 % de surcoût d'exécution
+             * lié à l'utilisation d'iconv pour retraiter les fichiers de sortie (fonction convertir(const char*))
+             * Ce hack est presque sans coût. Il se base sur les hypothèses suivantes :
+             *   a) pas de caractères spéciaux multioctets
+             *   b) seuls sont convertis : à, â, ç, è, é, ê, ë, î, ï, ô, û ... et les majuscules correspondantes càd
+             * dont le code UTF-8 commence par 0xC3. Il suffit d'ajouter 0x40 sur les quatre bits hauts de l'octet. */
+
+        case 0xC3:
+
+            s[i] = ((s[i + 1] & 0xF0) + 0x40) | (s[i + 1] & 0x0F);
+             for (int j = i + 1; s[j] != 0; ++j)
+             {
+                 s[j] = s[j + 1];
+             }
+             --size;
+            break;
+
+        case 0xC2:
+
+            s[i] = s[i + 1];
+            /* Le caractère ° (degré) est bien codé en Latin-1 comme 0xB0, mais il y a un problème avec le paquet texlive
+             * inputenc pour la conversion pdf. On remplace donc par e (0x65) */
+
+            //if (info.Table[info.NCumAgentXml][l][i] == 0xB0) info.Table[info.NCumAgentXml][l][i] = 0x65;
+             for (int j = i + 1; s[j] != 0; ++j)
+             {
+                 s[j] = s[j + 1];
+             }
+             --size;
+            break;
+#endif
+     }
+    }
+}
+
+
+
 static inline int GCC_INLINE Bulletin(const char*  tag, xmlNodePtr& cur, int l, info_t& info, int normalJump = 0)
 {
     // attention faire en sorte que cur ne soit JAMAIS nul en entrée ou en sortie
@@ -48,58 +104,7 @@ static inline int GCC_INLINE Bulletin(const char*  tag, xmlNodePtr& cur, int l, 
 
     /* sanitisation */
 
-        int size = xmlStrlen(info.Table[info.NCumAgentXml][l]);
-
-
-        for (int i = 0; i < size; ++i)
-        {
-            // Non-switchable car info.seperateur n'est pas une expression constante.
-            if (info.Table[info.NCumAgentXml][l][i] == info.separateur)
-                info.Table[info.NCumAgentXml][l][i] = '_';
-
-            switch(info.Table[info.NCumAgentXml][l][i])
-            {
-
-              case '\n':
-                info.Table[info.NCumAgentXml][l][i] = ' ';
-                break;
-
-
-#if defined(__WIN32__) && !defined(USE_ICONV)
-
-                /* Gros hack de pseudo-conversion UTF-8 vers Latin-1, qui permet d'économiser les 40 % de surcoût d'exécution
-                 * lié à l'utilisation d'iconv pour retraiter les fichiers de sortie (fonction convertir(const char*))
-                 * Ce hack est presque sans coût. Il se base sur les hypothèses suivantes :
-                 *   a) pas de caractères spéciaux multioctets
-                 *   b) seuls sont convertis : à, â, ç, è, é, ê, ë, î, ï, ô, û ... et les majuscules correspondantes càd
-                 * dont le code UTF-8 commence par 0xC3. Il suffit d'ajouter 0x40 sur les quatre bits hauts de l'octet. */
-
-            case 0xC3:
-
-                info.Table[info.NCumAgentXml][l][i] = ((info.Table[info.NCumAgentXml][l][i + 1] & 0xF0) + 0x40) | (info.Table[info.NCumAgentXml][l][i + 1] & 0x0F);
-                 for (int j = i + 1; info.Table[info.NCumAgentXml][l][j] != 0; ++j)
-                 {
-                     info.Table[info.NCumAgentXml][l][j] = info.Table[info.NCumAgentXml][l][j + 1];
-                 }
-                 --size;
-                break;
-
-            case 0xC2:
-
-                info.Table[info.NCumAgentXml][l][i] = info.Table[info.NCumAgentXml][l][i + 1];
-                /* Le caractère ° (degré) est bien codé en Latin-1 comme 0xB0, mais il y a un problème avec le paquet texlive
-                 * inputenc pour la conversion pdf. On remplace donc par e (0x65) */
-
-                //if (info.Table[info.NCumAgentXml][l][i] == 0xB0) info.Table[info.NCumAgentXml][l][i] = 0x65;
-                 for (int j = i + 1; info.Table[info.NCumAgentXml][l][j] != 0; ++j)
-                 {
-                     info.Table[info.NCumAgentXml][l][j] = info.Table[info.NCumAgentXml][l][j + 1];
-                 }
-                 --size;
-                break;
-#endif
-         }
-        }
+       sanitize(info.Table[info.NCumAgentXml][l], info.separateur);
 
        return NODE_FOUND;
 
@@ -526,6 +531,8 @@ inline void GCC_INLINE concat(xmlNodePtr cur, info_t& info)
     xmlChar* addCode2 = xmlGetProp(cur, (const xmlChar*) "V");
     if (addCode2)
     {
+
+          sanitize(addCode2, info.separateur);
 
           xmlChar* desc_hyphen = xmlStrncatNew(info.Table[info.NCumAgentXml][Description],
                                                (const xmlChar*) " - ",

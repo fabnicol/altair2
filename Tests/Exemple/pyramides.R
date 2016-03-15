@@ -13,7 +13,17 @@ Résumé(c("Âge des personnels <br>au 31/12/" %+% début.période.sous.revue,
 #+fig.height=9.7, fig.width=8.4
 
 
-if (longueur.non.na(avant) > 0 && longueur.non.na(après) > 0) {
+if (longueur.non.na(avant) == 0) {
+  cat("La pyramide des âges de début de période ne peut être produite.")
+  avant <- après
+} 
+
+if (longueur.non.na(après) == 0) {
+  cat("La pyramide des âges de fin de période ne peut être produite.")
+  après <- avant
+}
+
+if (longueur.non.na(avant) > 0 || longueur.non.na(après) > 0) {
   
   pyramide_ages(avant, après, titre)
 
@@ -37,7 +47,8 @@ if (longueur.non.na(avant) > 0 && longueur.non.na(après) > 0) {
   
   H <- H1 - H0
   
-}
+} 
+
 #'  
 #'*Source des comparaisons avec les données nationales*      
 #'         
@@ -50,7 +61,7 @@ if (longueur.non.na(avant) > 0 && longueur.non.na(après) > 0) {
 
 newpage()
 
-if (longueur.non.na(H$Total) > 0) {
+if  (exists("H") && ! identical(avant, après) && longueur.non.na(H$Total) > 0) {
   
   # la valeur y du plot serait plutôt c(-3,20) pour une sortie R pure. On privilégie le formatage Rmd à c(-1, 20)
   
@@ -94,6 +105,9 @@ if (longueur.non.na(H$Total) > 0) {
                   "    dont Femmes "), cex = 0.8)
   
 
+} else {
+  
+  cat("Le graphique des variations d'effectifs par tranche d'âge ne peut être produit.")
 }
 #' 
 
