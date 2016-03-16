@@ -351,7 +351,7 @@ pyramidf <- function(data, Laxis=NULL, Raxis=NULL,
 #' @return Une liste de deux vecteurs numériques représentant chacun des axes (gauche puis droit).
 #'         Un graphique comprenat une pyramide, une légende et éventuellement un titre.
 #' @examples
-#' pyramide_ages(df1, df2, "Pyramide des âges", 2008, 2012)
+#' pyramide_ages(df1, NULL, "Pyramide des âges", 2008, 2012, versant = "FPT", comparer = TRUE)
 #' @export
 
 pyramide_ages <- function(Avant,
@@ -382,7 +382,7 @@ pyramide_ages <- function(Avant,
 
     pyr <- get(p)
 
-    # sanity checks ---
+    # --- sanity checks
 
 
     stopifnot(toupper(pyr[1, versant]) == versant)
@@ -403,7 +403,7 @@ pyramide_ages <- function(Avant,
                   pyr,
                   "Comparaison avec les données nationales [" %+% versant %+% "] au 31 décembre " %+% année.référence,
                   "organisme " %+% fin.période.sous.revue,
-                  paste(versant, année.référence))
+                  paste(sub("([a-zA-Z_]*)([0-9]*)", "\\2", versant), année.référence))
 
     cat("Pour obtenir les effectifs nationaux, multiplier les abscisses des hommes par", round(1 / H.coef.forme),
         "et les abscisses des femmes par", round(1 / F.coef.forme))

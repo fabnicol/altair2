@@ -1,5 +1,5 @@
 
-produire_pyramides <- function(Filtre_bulletins, titre) {
+produire_pyramides <- function(Filtre_bulletins, titre, comparer = FALSE, vers = versant) {
   
   Bulletins.avant <<-  unique(Bulletins.paie[Année == début.période.sous.revue
                                             & Mois == 12
@@ -16,8 +16,9 @@ produire_pyramides <- function(Filtre_bulletins, titre) {
   avant <<- extraire.nir(Bulletins.avant, début.période.sous.revue)
   après <<- extraire.nir(Bulletins.après, fin.période.sous.revue)
   
-
   titre <<- titre
+  comparer <<- comparer
+  versant <<- vers
   
     if (! générer.rapport) {
     

@@ -139,9 +139,7 @@ newpage()
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-comparaison.nationale <<- TRUE
-produire_pyramides(function() TRUE, "Pyramide des âges des personnels")
-comparaison.nationale <<- FALSE
+produire_pyramides(function() TRUE, "Pyramide des âges des personnels", comparer = TRUE)
 
 #'  
 #'[Lien vers la base des âges - début de période](`r currentDir`/Bases/Effectifs/`r nom.fichier.avant`.csv)  
@@ -163,7 +161,7 @@ newpage()
 
 Filtre_bulletins <- function() Bulletins.paie$Statut == "TITULAIRE" |  Bulletins.paie$Statut == "STAGIAIRE"
 
-produire_pyramides(Filtre_bulletins, "Pyramide des âges des fonctionnaires")
+produire_pyramides(Filtre_bulletins, "Pyramide des âges des fonctionnaires", comparer = TRUE, vers = "TIT_" %+% versant)
 
 
 #'  
@@ -184,7 +182,7 @@ newpage()
 
 Filtre_bulletins <- function() Bulletins.paie$Statut == "NON_TITULAIRE"
 
-produire_pyramides(Filtre_bulletins, "Pyramide des âges des non titulaires")
+produire_pyramides(Filtre_bulletins, "Pyramide des âges des non titulaires", comparer = TRUE, vers = "NONTIT_" %+% versant))
 
 #'  
 #'[Lien vers la base des âges - début de période](`r currentDir`/Bases/Effectifs/`r nom.fichier.avant`.csv)  
@@ -358,7 +356,7 @@ Tableau.vertical2(c("Agrégat (euros)", "Salaires bruts 2011", "Salaires bruts 20
                   12 * c(2218, 2287, 2030))
 
 
-#'**Eléments de la rémunération brute pour les titulaires de la FPT entre 2010 et 2012**      
+#'**Eléments de la rémunération brute pour les titulaires de la fonction publique territoriale**      
 #'   
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
@@ -1222,8 +1220,6 @@ detach(cumuls.nbi)
 #'## `r chapitre`.2 Contrôle des vacations horaires pour les fonctionnaires      
 
 # Vacations et statut de fonctionnaire
-
-#+ tests-statutaires-vacations
 
 #'Les fonctionnaires peuvent effectuer des vacations horaires pour leur propre employeur à condition de bénéficier d'une autorisation
 #'de cumul d'activité accessoire et que les activités concernées ne fassent pas partie du service normal. Les cumuls détectés ci-dessous

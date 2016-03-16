@@ -23,17 +23,24 @@ if (longueur.non.na(après) == 0) {
   après <- avant
 }
 
+#  ----- On peut forcer le versant de la FP en renseignant versant
+#        sinon détection automatique par VERSANT_FP
+
+if (versant == "") versant <- VERSANT_FP
+
 if (longueur.non.na(avant) > 0 || longueur.non.na(après) > 0) {
   
-  pyramide_ages(avant, après, titre)
-
-  if (! désactiver.versant.fp) {
-    pyramide_ages(après, versant = VERSANT_FP)
-  } else  {
-    pyramide_ages(après, versant = "FPT")
-    pyramide_ages(après, versant = "FPH")
+  if (! is.null(après)) {
+    
+    pyramide_ages(avant, après, titre) 
+    if (comparer == TRUE)  
+      pyramide_ages(après, versant =  versant) 
+      
+  } else if (comparer == FALSE){
+    
+    pyramide_ages(après)
+    
   }
-  
 
   H0 <- avant[ , .(Hommes = sum(Hommes, na.rm = TRUE), 
                    Femmes = sum(Femmes, na.rm = TRUE)),
