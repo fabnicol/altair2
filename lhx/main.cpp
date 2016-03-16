@@ -899,7 +899,7 @@ int produire_segment(const info_t& info, const vString& segment)
         {
             for (int j = 0; j < Info[i].Memoire_p_ligne[agent]; ++j)
             {
-                if (j != Categorie) xmlFree(Info[i].Table[agent][j]);
+                if (j != Categorie && xmlStrcmp(Info[i].Table[agent][j], (const xmlChar*) "") != 0) xmlFree(Info[i].Table[agent][j]);
             }
         }
     }

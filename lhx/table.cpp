@@ -183,7 +183,7 @@ static inline void GCC_INLINE ECRIRE_LIGNE_BULLETIN_COMMUN(int i, uint32_t agent
               << VAR(NBI) << sep
               << VAR(EmploiMetier) << sep
               << VAR(Grade) << sep
-              << VAR(Code) <<  " - " << VAR(Description)<< sep;
+              << VAR(Code) <<  " " << VAR(Description)<< sep;
 }
 
 static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETIN_GENERER_RANG(int i, uint32_t agent, table_t& bulletins, char sep, vector<info_t> &Info, int rang)

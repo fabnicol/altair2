@@ -22,7 +22,7 @@ smic.net.sup <- smic.net[Année == smic.net.dernière.année.renseignée, SMIC_NET]
 # clé.fusion = Matricule, en principe (mais pourrait être NIR)
 # Sommation : on pass du niveau infra-annuel (détails au mois de niveau Paie) au niveau de la période (détail de niveau année)
 
-Analyse.rémunérations <- Paie[ , .(Nir          = Nir[1],
+Analyse.remunerations <- Paie[ , .(Nir          = Nir[1],
                                    Montant.net.annuel = Montant.net.annuel[1],
                                    Montant.net.annuel.eqtp  = Montant.net.annuel.eqtp[1],
                                    Montant.brut.annuel = Montant.brut.annuel[1],
@@ -57,20 +57,20 @@ Analyse.rémunérations <- Paie[ , .(Nir          = Nir[1],
 # Alternative classique mais moins rapide (en cas de problème avec data.table) :
 
 if (0) {
-attach(Analyse.rémunérations)
+attach(Analyse.remunerations)
   
   # <!--   
   
   # Attention 
   # pour chercher dans smic.net par sélection sur i : smic.net[Année == a, ...]
-  # il faudrait alors trier Analyse.rémunérations par groupe `by = Année, sinon `Vérifier_non_annexe(Montant.net.annuel, Année)
+  # il faudrait alors trier Analyse.remunerations par groupe `by = Année, sinon `Vérifier_non_annexe(Montant.net.annuel, Année)
   # n'est pas compris comme une fonction de scalaire en la deuxième variable, 
   # mais avec un vecteur Année de la longueur de la table en deuxième composante
   # Modifier en smic.net$Année == a (à la data.frame) dans la définition de `Vérifier_non_annexe donne en outre des NA
   # Lorsque la fonction est un pur f(x, y) ce phénomène n'apparaît pas : il faut que le paramètre passé 
   # soit RHS d'un test boléen de recherche sur i pour que le problème apparaisse. utiliser by permet de "linéariser a" en s'assurant qu'il
   # est quasi-scalaire (dimension 1)
-  # On a choisi l'efficacité en ne triant pas Analyse.rémunérations et en écrivant une sélection directe sur i.
+  # On a choisi l'efficacité en ne triant pas Analyse.remunerations et en écrivant une sélection directe sur i.
   # Attention toutefois à utiliser ifelse.
   
   Vérifier_non_annexe <- function(montant, a) {
@@ -90,7 +90,7 @@ attach(Analyse.rémunérations)
   # --> 
   
   
-Analyse.rémunérations$Filtre_non_annexe <- mapply(Vérifier_non_annexe,
+Analyse.remunerations$Filtre_non_annexe <- mapply(Vérifier_non_annexe,
                                                     Montant.net.annuel,
                                                     Année,
                                                     USE.NAMES = FALSE,
@@ -100,7 +100,7 @@ Analyse.rémunérations$Filtre_non_annexe <- mapply(Vérifier_non_annexe,
                                                          & cumHeures / nb.jours > minimum.Nheures.jour.non.annexe)
 
  
-detach(Analyse.rémunérations)
+detach(Analyse.remunerations)
 }
 
 # On utilise toutefois data.table
@@ -108,13 +108,13 @@ detach(Analyse.rémunérations)
 # <!-- attention changer le premier & en | en temps utile
 
 
-Analyse.rémunérations[ , Filtre_annexe :=  (nb.mois < minimum.Nmois.non.annexe 
+Analyse.remunerations[ , Filtre_annexe :=  (nb.mois < minimum.Nmois.non.annexe 
                                                 | cumHeures < minimum.Nheures.non.annexe 
                                                 | cumHeures / nb.jours < minimum.Nheures.jour.non.annexe)]
 
 if (période.hors.données.smic) {
   
-  Analyse.rémunérations[ 
+  Analyse.remunerations[ 
     ((Année < smic.net.première.année.renseignée & Montant.net.annuel < smic.net.inf)
      | (Année > smic.net.dernière.année.renseignée & Montant.net.annuel < smic.net.sup)
      | (Année >= smic.net.première.année.renseignée 
@@ -124,16 +124,16 @@ if (période.hors.données.smic) {
                          
 } else {
   
-  Analyse.rémunérations[Montant.net.annuel < smic.net[smic.net.dernière.année.renseignée - Année + 1, SMIC_NET],  Filtre_annexe := TRUE]
+  Analyse.remunerations[Montant.net.annuel < smic.net[smic.net.dernière.année.renseignée - Année + 1, SMIC_NET],  Filtre_annexe := TRUE]
 }
   
 # -->
 
-Analyse.rémunérations[ , rémunération.indemnitaire.imposable := indemnités + sft + indemnité.résidence + rémunérations.diverses]
+Analyse.remunerations[ , rémunération.indemnitaire.imposable := indemnités + sft + indemnité.résidence + rémunérations.diverses]
 
 #Montant.brut.annuel - sft - indemnité.résidence - traitement.indiciaire
 
-Analyse.rémunérations[ ,
+Analyse.remunerations[ ,
                       `:=`(rémunération.indemnitaire.imposable.eqtp = ifelse(is.finite(q <- Montant.brut.annuel.eqtp / Montant.brut.annuel),
                                                                              q * rémunération.indemnitaire.imposable,
                                                                              NA),
@@ -144,18 +144,18 @@ Analyse.rémunérations[ ,
                                                                     pmin(q, 1) * 100,
                                                                     NA))]
 
-Analyse.rémunérations[ , indemnités.élu := ifelse(Statut == "ELU", total.lignes.paie, 0)]
+Analyse.remunerations[ , indemnités.élu := ifelse(Statut == "ELU", total.lignes.paie, 0)]
 
 # Pour analyser les rémunérations, on ne retient que les enregistrements pour lesquels elle est calculable.
 # Il ne faudra donc pas utiliser cette table par exemple pour évaluer les effectifs
 
-Analyse.rémunérations <- Analyse.rémunérations[! is.na(Montant.brut.annuel)]
+Analyse.remunerations <- Analyse.remunerations[! is.na(Montant.brut.annuel)]
 
 message("Analyse des rémunérations réalisée.")
 
 # On retire les assistantes maternelles (Grade A), les vacataires (Grade V) les élus les inactifs et les postes annexes
 
-Analyse.variations.par.exercice <- Analyse.rémunérations[Grade != "A"  
+Analyse.variations.par.exercice <- Analyse.remunerations[Grade != "A"  
                                                          & Grade != "V" 
                                                          & Statut != "ELU"
                                                          & Filtre_actif == TRUE
@@ -274,6 +274,6 @@ message("Analyse des variations réalisée.")
 
 message("Analyse démographique réalisée.")
 
-if (!is.null(Paie) & !is.null(Analyse.rémunérations) & !is.null(Analyse.variations.par.exercice))
+if (!is.null(Paie) & !is.null(Analyse.remunerations) & !is.null(Analyse.variations.par.exercice))
   message("Statistiques de synthèse réalisées")
 

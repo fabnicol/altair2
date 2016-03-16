@@ -3,13 +3,13 @@
 
 # On revient à une analyse des rémunérations qui réinclut tous les personnels (vacataires, élus, inactifs, annexes)
 
-Analyse.rémunérations.exercice <- Analyse.rémunérations[Année == année]     
+Analyse.remunerations.exercice <- Analyse.remunerations[Année == année]     
 
 
 #'# `r chapitre`. Rémunérations brutes : analyse pour l'exercice `r année`   
 #'## `r chapitre`.1 Masse salariale brute de l'ensemble des agents     
   
-masses.personnels <- Analyse.rémunérations.exercice[Statut != "ELU",
+masses.personnels <- Analyse.remunerations.exercice[Statut != "ELU",
                                                     .(Montant.brut.annuel = sum(Montant.brut.annuel, na.rm = TRUE),                                                                                       rémunération.indemnitaire.imposable = sum(rémunération.indemnitaire.imposable, na.rm = TRUE),
                                                       indemnités.élu = sum(indemnités.élu, na.rm = TRUE),
                                                       total.lignes.paie = sum(total.lignes.paie, na.rm = TRUE),
@@ -74,7 +74,7 @@ Tableau.vertical2(c("Agrégats",
 #'
 filtre.fonctionnaire <- function (X) X[ !is.na(X)  & X > minimum.positif ]
 
-AR <- Analyse.rémunérations.exercice[Statut == "TITULAIRE" | Statut == "STAGIAIRE", 
+AR <- Analyse.remunerations.exercice[Statut == "TITULAIRE" | Statut == "STAGIAIRE", 
                                      colonnes.sélectionnées,
                                      with=FALSE]
 
@@ -335,7 +335,7 @@ if (analyse.par.catégorie) {
 #'   
 #'*Les assistantes maternelles et les vacataires sont ici inclus, pour les postes non annexes*   
 #'
-attach(Analyse.rémunérations.exercice, warn.conflicts=FALSE)
+attach(Analyse.remunerations.exercice, warn.conflicts=FALSE)
 temp <- rémunération.indemnitaire.imposable.eqtp[Statut != "ELU"
                                                  & Statut != "TITULAIRE"
                                                  & Statut != "STAGIAIRE"
@@ -359,7 +359,7 @@ if (longueur.non.na(temp) > 0)
 
 temp <- positive(autres.rémunérations)
 
-detach(Analyse.rémunérations.exercice)
+detach(Analyse.remunerations.exercice)
 
 if (longueur.non.na(temp))
   hist(temp,
@@ -372,7 +372,7 @@ if (longueur.non.na(temp))
 
 #'
 
-AR <- Analyse.rémunérations.exercice[Statut != "ELU"
+AR <- Analyse.remunerations.exercice[Statut != "ELU"
                                              &  Statut != "TITULAIRE"
                                              &  Statut != "STAGIAIRE"
                                              & Filtre_actif == TRUE
@@ -412,5 +412,5 @@ Résumé(c("Total rémunérations",
 
 # pour année fin #
 
-rm(Analyse.rémunérations.exercice)
+rm(Analyse.remunerations.exercice)
 

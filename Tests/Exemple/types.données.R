@@ -27,3 +27,17 @@ colonnes.bulletins.classes.input <- c(rang.classe, "integer", "integer",
                                       "character", "numeric", "character", "numeric", "numeric", "numeric",
                                       "integer",  "numeric", "numeric", "numeric", "numeric",
                                       "character", "character", "character", échelon.classe, "character", "character")
+
+
+remplacer_type <- function(v) sapply(v, function(x) switch(x,
+                   "I" = "Indemnité",
+                   "R" = "Rappels",
+                   "IR"= "Indemnité de résidence",
+                   "T" = "Traitement",
+                   "AV"= "Avantage en nature",
+                   "A" = "Autres rémunérations",
+                   "C" = "Cotisations",
+                   "D" = "Déductions",
+                   "S" = "Supplément familial",
+                   "RE"= "Retenues",
+                   "C" = "Commentaire"))

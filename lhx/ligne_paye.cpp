@@ -800,8 +800,8 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
     }
     else
     {
-        NA_ASSIGN(Code);
-        NA_ASSIGN(Description);
+        info.Table[info.NCumAgentXml][Code] = (xmlChar*) "";
+        info.Table[info.NCumAgentXml][Description] = (xmlChar*) "";
     }
 
     /* Vu la rareté du 2e évenement, il est rationnel de ne pas réserver systématiquement de place en mémoire de type Description2.

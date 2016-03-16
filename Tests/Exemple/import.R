@@ -32,10 +32,10 @@ knitr::opts_chunk$set(fig.width = 7.5, echo = FALSE, warning = FALSE, message = 
 
  
 fichier.personnels.existe <- (charger.catégories.personnel == TRUE) & file.exists(chemin("matricules.csv"))
-grades.catégories.existe <- (charger.catégories.personnel == TRUE) & file.exists(chemin("grades.catégories.csv"))
+grades.categories.existe <- (charger.catégories.personnel == TRUE) & file.exists(chemin("grades.categories.csv"))
 
 base.personnels.catégorie <- NULL
-base.grades.catégories    <- NULL
+base.grades.categories    <- NULL
 
 if (fichier.personnels.existe) {
   base.personnels.catégorie <- data.table::fread(chemin("matricules.csv"),
@@ -55,8 +55,8 @@ if (fichier.personnels.existe) {
   }
 }
 
-if (grades.catégories.existe) {
-  base.grades.catégories <- data.table::fread(chemin("grades.catégories.csv"),
+if (grades.categories.existe) {
+  base.grades.categories <- data.table::fread(chemin("grades.categories.csv"),
                                                  sep = séparateur.liste.entrée,
                                                  header = TRUE,
                                                  colClasses = c("character", "character"),
@@ -64,7 +64,7 @@ if (grades.catégories.existe) {
                                                  showProgress = FALSE) 
   
   message("Chargement du fichier des grades et catégories statutaires des personnels.")
-  if (!is.null(base.grades.catégories))
+  if (!is.null(base.grades.categories))
     message("Importé.")
   else {
     message("Impossible d'importer les grades et catégories.")
@@ -156,13 +156,13 @@ Paie[ , Grade := toupper(Grade)]
     Bulletins.paie <- merge(Bulletins.paie[ , , keyby="Année,Nom,Prénom,Matricule,Grade,Emploi"], BP, all =TRUE, by = vect)
   } else {
   
-    if (!is.null(base.grades.catégories)) {
+    if (!is.null(base.grades.categories)) {
       
-      message("Remplacement de la catégorie par la catégorie importée du fichier grades.catégories.csv sous ", chemin.dossier.données)
+      message("Remplacement de la catégorie par la catégorie importée du fichier grades.categories.csv sous ", chemin.dossier.données)
       
       Paie[, Catégorie := NULL]
       Bulletins.paie[, Catégorie := NULL]
-      BP <- base.grades.catégories[Grade != "V" & Grade != "A", Catégorie, keyby = "Grade"]
+      BP <- base.grades.categories[Grade != "V" & Grade != "A", Catégorie, keyby = "Grade"]
       BP <- rbindlist(list(BP, data.table("V", "NA")))
       BP <- rbindlist(list(BP, data.table("A", "NA")))
       
@@ -565,12 +565,12 @@ if (redresser.heures) {
   
   matricules <- matricules[order(Matricule, Année)]
   
-  grades.catégories <- unique(matricules[ , .(Grade, Catégorie)], by = NULL)
-  grades.catégories <- grades.catégories[order(Grade)]
+  grades.categories <- unique(matricules[ , .(Grade, Catégorie)], by = NULL)
+  grades.categories <- grades.categories[order(Grade)]
   
   # on essaie de deviner le versant de la FP par l'existence d'agents de service hospitalier
   # on peut désactiver ce test par désactiver.test.versant.fp <- T dans prologue.R
   
-  VERSANT_FP <<-  if (grepl("AG.*HOSP", grades.catégories$Grade, ignore.case = TRUE)) "FPH" else "FPT"
+  VERSANT_FP <<-  if (grepl("AG.*HOSP", grades.categories$Grade, ignore.case = TRUE)) "FPH" else "FPT"
   
   
