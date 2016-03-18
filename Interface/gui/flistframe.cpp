@@ -311,17 +311,17 @@ void FListFrame::parseXhlFile(const QString& fileName)
         QString budgetCapture = reg.cap(3);
 
         if (budgetCapture.contains(reg2))
-           Hash::Budget[fileName] = common::remAccents(std::move(reg2.cap(1).trimmed()));
+           Hash::Budget[fileName] = common::remAccents(std::move(reg2.cap(1).replace("&#39;", "\'").replace("&apos;", "\'").trimmed()));
         else
            Hash::Budget[fileName] = "Non renseigné" ;
 
         QString etabCapture = reg.cap(6);
         if (etabCapture.contains(reg3))
-           Hash::Etablissement[fileName] << common::remAccents(std::move(reg3.cap(1).replace("&#39;", "\'").trimmed()));
+           Hash::Etablissement[fileName] << common::remAccents(std::move(reg3.cap(1).replace("&#39;", "\'").replace("&apos;", "\'").trimmed()));
         else
            Hash::Etablissement[fileName] << "Non renseigné" ;
 
-        Hash::Employeur[fileName]  = common::remAccents(std::move(reg.cap(4).replace("&#39;", "\'").trimmed()));
+        Hash::Employeur[fileName]  = common::remAccents(std::move(reg.cap(4).replace("&#39;", "\'").replace("&apos;", "\'").trimmed()));
 
         if (etabCapture.contains(reg3))
           {

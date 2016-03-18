@@ -195,7 +195,7 @@ void Altair::run()
 
 
 
-        emit(setProgressBar(0, fileCount));
+        emit(setProgressBar(0, fileCount == 1 ? 2 : fileCount));
 
     }
     else
