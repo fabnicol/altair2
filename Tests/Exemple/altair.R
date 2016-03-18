@@ -139,7 +139,7 @@ newpage()
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-produire_pyramides(function() TRUE, "Pyramide des âges des personnels", comparer = TRUE)
+produire_pyramides(function() TRUE, "Pyramide des âges des personnels", versant = VERSANT_FP)
 
 #'  
 #'[Lien vers la base des âges - début de période](`r currentDir`/Bases/Effectifs/`r nom.fichier.avant`.csv)  
@@ -161,7 +161,7 @@ newpage()
 
 Filtre_bulletins <- function() Bulletins.paie$Statut == "TITULAIRE" |  Bulletins.paie$Statut == "STAGIAIRE"
 
-produire_pyramides(Filtre_bulletins, "Pyramide des âges des fonctionnaires", comparer = TRUE, vers = "TIT_" %+% versant)
+produire_pyramides(Filtre_bulletins, "Pyramide des âges des fonctionnaires", versant = "TIT_" %+% VERSANT_FP)
 
 
 #'  
@@ -182,7 +182,7 @@ newpage()
 
 Filtre_bulletins <- function() Bulletins.paie$Statut == "NON_TITULAIRE"
 
-produire_pyramides(Filtre_bulletins, "Pyramide des âges des non titulaires", comparer = TRUE, vers = "NONTIT_" %+% versant))
+produire_pyramides(Filtre_bulletins, "Pyramide des âges des non titulaires", versant = "NONTIT_" %+% VERSANT_FP)
 
 #'  
 #'[Lien vers la base des âges - début de période](`r currentDir`/Bases/Effectifs/`r nom.fichier.avant`.csv)  
@@ -1321,7 +1321,7 @@ if (exists("nombre.contractuels.et.vacations")) {
 #'Les non-titulaires sur contrat effectuant des vacations à titre accessoire pour leur propre employeur ne peuvent bénéficier de paiements
 #'complémentaires de SFT ou d'indemnité de résidence au titre de ces activités accessoires.     
   
-  Paie_vac_sft_ir <- Paie_vac[! Statut %chin% c("TITULAIRE", "STAGIAIRE"), 
+  try({Paie_vac_sft_ir <- Paie_vac[! Statut %chin% c("TITULAIRE", "STAGIAIRE"), 
                                  indic_s := any(Type %chin% c("IR", "S")),
                                  by = .(Matricule, Année, Mois)
                              ][indic_s == TRUE,
@@ -1332,7 +1332,7 @@ if (exists("nombre.contractuels.et.vacations")) {
   matricules.SFT_IR.et.vacations <- unique(SFT_IR.et.vacations[ , .(Matricule, Nom, Statut)], by=NULL)
   
   nombre.SFT_IR.et.vacations     <- nrow(matricules.SFT_IR.et.vacations)
-  
+  })
   
 #'
 #'**CEV percevant le supplément familial de traitement ou l'indemnité de résidence**      

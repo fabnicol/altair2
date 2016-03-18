@@ -28,18 +28,19 @@ if (longueur.non.na(après) == 0) {
 
 #  ----- On peut forcer le versant de la FP en renseignant versant
 #        sinon détection automatique par VERSANT_FP
-
-if (versant == "") versant <- VERSANT_FP
+ 
 
 if (longueur.non.na(avant) > 0 || longueur.non.na(après) > 0) {
   
   if (! is.null(après)) {
     
     pyramide_ages(avant, après, titre) 
-    if (comparer == TRUE)  
-      pyramide_ages(après, versant =  versant) 
-      
-  } else if (comparer == FALSE){
+
+    if (versant != "")  {  
+          pyramide_ages(après, date.fin = année.après, versant = versant)
+    } 
+    
+  } else {
     
     pyramide_ages(après)
     
@@ -56,7 +57,7 @@ if (longueur.non.na(avant) > 0 || longueur.non.na(après) > 0) {
                  , Total := Hommes + Femmes]
   
   H <- H1 - H0
-  
+    
 } 
 ```
 

@@ -359,8 +359,13 @@ Tableau.vertical <- function(colnames, rownames, extra = "", ...)   # extra func
       
       for (x in seq_len(ltmp)) {
         
-        T1 <- unlist(sapply(rownames, tmp[[x]]))
-        T2 <- g(tmp[[x]])
+        res1 <- try(T1 <- unlist(sapply(rownames, tmp[[x]])))
+        res2 <- try(T2 <- g(tmp[[x]]))
+        
+        if (inherits(T1, 'try-error') || inherits(res2, 'try-error')) {
+          cat("Impossible de générer le tableau.")
+          return("")
+        }
         
         # unlist est rendu nécessaire par le fait que lorsque character(0) apparaît, sapply n'arrive pas à délister.
         
@@ -399,14 +404,16 @@ Tableau.vertical2 <- function(colnames, rownames, ...)
 {
   tmp <- list(...)
   
-  T <- data.frame(rownames, 
+  res <- try(T <- data.frame(rownames, 
                   lapply(tmp, function(y) formatC(y, 
                                                           big.mark=" ",
                                                           width="12",
                                                           format="f",
                                                           digits=1,
                                                           decimal.mark=",",
-                                                          preserve.width="common")))
+                                                          preserve.width="common"))))
+  if (inherits(res, 'try-error')) return("")
+  
   names(T) <- colnames
 
   kable(T, row.names = FALSE, align = NULL, booktabs= TRUE)

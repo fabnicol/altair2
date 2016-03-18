@@ -6,7 +6,7 @@
 \title{Pyramide des âges des non titulaires de la fonction publique hospitalière au 31 décembre 2010}
 \format{Une base de données contenant 55 lignes, dont un entête, et 4 variables :
 \describe{
-  \item{age}{âge des agents au 31 décembre 2011}
+  \item{age}{âge des agents au 31 décembre 2010}
   \item{Hommes}{nombre d'hommes, en milliers}
   \item{Femmes}{nombre de femmes, en milliers}
   \item{année.référence}{référence de l'année (première ligne)}
