@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 3.5.1, 2016-03-16T16:16:33. -->
+<!-- Written by QtCreator 3.5.1, 2016-03-18T17:23:58. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -300,7 +300,7 @@
     </valuelist>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.Arguments">-f c:\Users\Public\Dev\altair\lhx\cl</value>
+    <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.Arguments">-m -d &quot;,&quot; -s &quot;;&quot; -rank C:/Users/fnicol/AppData/Local/Altaïr/rank -D &quot;C:\Users\Public\Dev\altair\Tests\Exemple\Donnees\R-Altaïr&quot; --memshare 90 -j '1' -t -E &quot;C:/Users/Public/Dev/xhl/HCL/DEMA_HCL_201301.xhl&quot; </value>
     <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.Executable">C:/Users/Public/Dev/altair/win/lhx.exe</value>
     <value type="bool" key="ProjectExplorer.CustomExecutableRunConfiguration.UseTerminal">true</value>
     <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.WorkingDirectory">C:/Users/Public/Dev/altair/win</value>

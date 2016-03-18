@@ -296,10 +296,13 @@ void FListFrame::parseXhlFile(const QString& fileName)
 
 #ifdef REGEX_PARSING_FOR_HEADERS
 
-    QRegExp reg("DocumentPaye.*(?:Annee) V=\"([0-9]+)\".*(?:Mois) V=\"([0-9]+)\"(.*)(?:Employeur).*(?:Nom) V=\"([^\"]+)\".*(?:Siret) V=\"([0-9A-Z]+)\".*DonneesIndiv(.*)PayeIndivMensuel");
+    QRegExp reg("DocumentPaye.*(?:Annee) V.?=.?\"([0-9]+)\".*(?:Mois) V.?=.?\"([0-9]+)\"(.*)(?:Employeur).*(?:Nom) V.?=.?\"([^\"]+)\".*(?:Siret) V.?=.?\"([0-9A-Z]+)\".*DonneesIndiv(.*)PayeIndivMensuel");
     reg.setPatternSyntax(QRegExp::RegExp2);
-    QRegExp reg2(".*Budget.*Libelle V=\"([^\"]*)\".*");
-    QRegExp reg3(".*(?:Etablissement).*(?:Nom) V=\"([^\"]+)\".*(?:Siret) V=\"([0-9A-Z]+)\"");
+    reg.setCaseSensitivity(Qt::CaseInsensitive);
+    QRegExp reg2(".*Budget.*Libelle V.?=.?\"([^\"]*)\".*");
+    reg2.setCaseSensitivity(Qt::CaseInsensitive);
+    QRegExp reg3(".*(?:Etablissement).*(?:Nom) V.?=.?\"([^\"]+)\".*(?:Siret) V.?=.?\"([0-9A-Z]+)\"");
+    reg3.setCaseSensitivity(Qt::CaseInsensitive);
 
     if (string.contains(reg))
     {
@@ -329,6 +332,9 @@ void FListFrame::parseXhlFile(const QString& fileName)
     }
     else
     {
+        if (! string.toUpper().contains("DONNEESINDIV")) altair->outputTextEdit->append(WARNING_HTML_TAG "Pas de données individuelles");
+        if (! string.toUpper().contains("PAYEINDIVMENSUEL")) altair->outputTextEdit->append(WARNING_HTML_TAG "Pas de données individuelles");
+
         altair->outputTextEdit->append(WARNING_HTML_TAG " Fichier " + fileName + " non conforme à  la spécification Xemelios");
         Hash::Budget[fileName] = "";
         Hash::Annee[fileName] = "Inconnu";

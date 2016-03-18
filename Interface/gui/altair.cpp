@@ -538,8 +538,9 @@ bool Altair::refreshProjectManager()
 
 void Altair::checkAnnumSpan()
 {
-    const QStringList monthRef = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"};
+    const QStringList& monthRef = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"};
     int r = project[0]->getRank() - 2;
+    const QStringList& years = project[0]->getTabLabels();
 
     for (int i = 0; i < r; ++i)
     {
@@ -564,15 +565,19 @@ void Altair::checkAnnumSpan()
         monthList.sort();
 
         QStringListIterator z(monthRef);
-        while (z.hasNext())
+        QString annee = years.at(i);
+        if (annee.at(0) == '2')
         {
-            QString currentMonth;
-            if (! monthList.contains(currentMonth = z.next()))
-             QMessageBox::critical(nullptr, "Données incomplètes",
-                                            "Il manque des données mensuelles pour l'année " + project[0]->getTabLabels().at(i) +
-                                            " mois "+ currentMonth,
-                                            QMessageBox::Ok);
+            while (z.hasNext())
+            {
+                QString currentMonth;
 
+                    if (! monthList.contains(currentMonth = z.next()))
+                     QMessageBox::critical(nullptr, "Données incomplètes",
+                                                    "Il manque des données mensuelles pour l'année " + annee +
+                                                    " mois "+ currentMonth,
+                                                    QMessageBox::Ok);
+            }
         }
     }
 }

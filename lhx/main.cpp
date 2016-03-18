@@ -125,7 +125,8 @@ int main(int argc, char **argv)
 
     while (start < argc)
     {
-      if (commandline_tab[start] == "-n")
+
+       if (commandline_tab[start] == "-n")
        {
          info.reduire_consommation_memoire = false;
          info.nbAgentUtilisateur
@@ -460,12 +461,13 @@ int main(int argc, char **argv)
         }
         else if (commandline_tab[start] == "-E")
         {
-            if (argc > start +2)
+            if (argc > start + 1)
             {
                 info.select_echelon = true;
             }
             else
             {
+                cout << "Il faut au moins un fichier";
                 exit(-116);
             }
             ++start;
