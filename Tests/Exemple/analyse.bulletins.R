@@ -1,25 +1,29 @@
 
-produire_pyramides <- function(Filtre_bulletins, titre, comparer = FALSE, vers = versant) {
-  
+produire_pyramides <- function(Filtre_bulletins, titre, versant = "") {
+
   Bulletins.avant <<-  unique(Bulletins.paie[Année == début.période.sous.revue
                                             & Mois == 12
                                             & Statut != "ELU"
                                             & Filtre_bulletins() == TRUE,
                                             c(clé.fusion, "Nir"), with=FALSE], by = NULL)
+
+  année.après <<- if (versant != "") {
+                      max(début.période.sous.revue, min(altair::année_comparaison(versant)$année, fin.période.sous.revue))
+                  } else fin.période.sous.revue
   
-  Bulletins.après <<-  unique(Bulletins.paie[Année == fin.période.sous.revue
+  Bulletins.après <<-  unique(Bulletins.paie[Année == année.après
                                             & Mois == 12
                                             & Statut != "ELU"
                                             & Filtre_bulletins() == TRUE,
                                             c(clé.fusion, "Nir"), with=FALSE], by = NULL)
   
   avant <<- extraire.nir(Bulletins.avant, début.période.sous.revue)
-  après <<- extraire.nir(Bulletins.après, fin.période.sous.revue)
+  après <<- extraire.nir(Bulletins.après, année.après)
   
   titre <<- titre
-  comparer <<- comparer
-  versant <<- vers
   
+  versant <<- versant
+
     if (! générer.rapport) {
     
       source("pyramides.R", encoding = encodage.code.source)

@@ -53,7 +53,6 @@ minimum.quotité                <- 0.1
 tolérance.variation.quotité    <- 0.05
 minimum.actif                  <- 100
 minimum.delta                  <- 5
-versant                        <- ""
 
 # définitions INSEE pour le poste non annexe
 # poste non annexe = minimum d'un mois et de 120h à raison d'au moins 1,5 h/jour.

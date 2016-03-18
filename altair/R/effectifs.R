@@ -189,6 +189,31 @@ names(tableau.effectifs) <-  as.character(période)
 return(tableau.effectifs)
 }
 
+#' @export
+année_comparaison <- function(versant) {
+  
+  p <- NULL
+  
+  for (a in 2010:fin.période.sous.revue) {
+    if (exists(p0 <- "pyr_" %+% a %+% "_" %+% tolower(versant))) {
+      année <- a
+      p <- p0
+    }
+  }
+  
+  # --- sanity checks
+  stopifnot(!is.null(p))
+  pyr = if (!is.null(p)) get(p) else NULL
+  stopifnot(toupper(pyr[1, versant]) == versant)
+  stopifnot(pyr[1, année.référence]  == année)
+  
+  # ---
+  
+  return(list(année = année, pyr = pyr))
+}
+
+
+
 # Age fin décembre de l'Année en années révolues
 # On trouve quelques valeurs correspondant à des NIr non conventionnels
 # 3, 4 : en cours d'immatriculation
@@ -367,43 +392,37 @@ pyramide_ages <- function(Avant,
 
   if (versant != "") {
 
-    s.avant <- Avant[ , .(H = sum(Hommes, na.rm=TRUE), F = sum(Femmes, na.rm=TRUE))]
-
-    p <- NULL
-
-    for (a in 2010:fin.période.sous.revue) {
-      if (exists(p0 <- "pyr_" %+% a %+% "_" %+% tolower(versant))) {
-        année <- a
-        p <- p0
-      }
+    compar <- année_comparaison(versant)
+    année.référence <- compar$année
+    pyr <- compar$pyr
+    
+    if (is.null(pyr)) {
+      cat("La comparaison ne peut pas être effectuée.")
+      return(0)
     }
 
-    stopifnot(!is.null(p))
-
-    pyr <- get(p)
-
-    # --- sanity checks
-
-
-    stopifnot(toupper(pyr[1, versant]) == versant)
-    stopifnot(pyr[1, année.référence]  == année)
-
-    # ---
-
     tot <- pyr[ , .(H = sum(Hommes), F = sum(Femmes))]
-    année.référence <- as.character(pyr[1, année.référence])
-
+    
+    s.avant <- Avant[ , .(H = sum(Hommes, na.rm=TRUE), F = sum(Femmes, na.rm=TRUE))]
+    s.année <- 
+    
     H.coef.forme <- s.avant$H / tot$H
     F.coef.forme <- s.avant$F / tot$F
 
     pyr[ , `:=`(Hommes = Hommes * H.coef.forme,
                 Femmes = Femmes * F.coef.forme)]
 
+    leg <- ""
+    if (grepl("non", versant, ignore.case = TRUE)) leg <- "non-"
+    if (grepl("tit", versant, ignore.case = TRUE)) leg <- leg %+% "titulaires "      
+    if (grepl("fpt", versant, ignore.case = TRUE)) leg <- leg %+% "FPT"      
+    if (grepl("fph", versant, ignore.case = TRUE)) leg <- leg %+% "FPH"      
+    
     pyramide_ages(Avant,
                   pyr,
-                  "Comparaison avec les données nationales [" %+% versant %+% "] au 31 décembre " %+% année.référence,
-                  "organisme " %+% fin.période.sous.revue,
-                  paste(sub("([a-zA-Z_]*)([0-9]*)", "\\2", versant), année.référence))
+                  "Comparaison avec les données nationales au 31 décembre " %+% année.référence,
+                  "organisme " %+% date.fin,
+                  paste(leg, année.référence))
 
     cat("Pour obtenir les effectifs nationaux, multiplier les abscisses des hommes par", round(1 / H.coef.forme),
         "et les abscisses des femmes par", round(1 / F.coef.forme))
