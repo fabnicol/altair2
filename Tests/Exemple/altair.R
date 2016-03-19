@@ -2032,9 +2032,64 @@ message("Analyse du SFT")
 # Bulletins.paie[Nb.Enfants > 0 , SFT.controle := sft(Nb.Enfants, Indice, Heures, Année, Mois)]
        
 #### ANNEXE ####
+
 newpage()
 
-#'# Annexe
+#'# Annexe       
+
+#'   
+#'## Contrôle des événements de paye   
+#'      
+
+E <- Bulletins.paie[ , unique(Evenement)]
+Evenements <- unique(trimws(regmatches(E, regexpr("[^-]*", E, perl=TRUE))))
+Evenements2 <- unique(trimws(gsub("-", "", 
+                                  regmatches(E, regexpr("- .*", E, perl=TRUE)))))
+
+Evenements <- sort(c(Evenements, Evenements2))
+rm(E, Evenements2)
+if (Evenements[1] == "") Evenements <- Evenements[-1] 
+Evenements <- data.table(Evénements = Evenements)
+
+if (afficher.table.événements) {
+    kable(Evenements)
+}
+
+Evenements.ind <- setkey(Bulletins.paie[Evenement != "", 
+                                       .(Evenement,
+                                         Matricule,
+                                         Nom,
+                                         Prénom,
+                                         Année,
+                                         Mois,
+                                         Grade,
+                                         Emploi,
+                                         Service)],
+                                       Evenement,
+                                       Matricule,
+                                       Année,
+                                       Mois)
+
+Evenements.mat <- setcolorder(setkey(copy(Evenements.ind), 
+                                    Matricule,
+                                    Année,
+                                    Mois,
+                                    Evenement),
+                             c("Matricule",
+                               "Nom",
+                               "Prénom",
+                               "Année",
+                               "Mois",
+                               "Evenement",
+                               "Grade",
+                               "Emploi",
+                               "Service"))
+
+#'  
+#'[Lien vers la nomenclature des événements de paye](`r currentDir`/Bases/Fiabilite/Evenements.csv)     
+#'[Tri par type d'évement, agent, année, mois](`r currentDir`/Bases/Fiabilite/Evenements.ind.csv)     
+#'[Tri par agent, année, mois, évenement](`r currentDir`/Bases/Fiabilite/Evenements.mat.csv)     
+#'  
 
 #'  
 #'## Codes et libellés de paye   
@@ -2042,7 +2097,6 @@ newpage()
 
 code.libelle <- unique(Paie[Montant != 0, .(Code, Libellé), by = "Type"], by = NULL)
 code.libelle$Type <- remplacer_type(code.libelle$Type)
-
 
 setcolorder(code.libelle, c("Code", "Libellé", "Type"))
 if (afficher.table.codes) {
@@ -2095,7 +2149,6 @@ if (après.redressement != avant.redressement)
 #'  
 #'## Fiabilite des heures et des quotités de travail           
 #'   
-
 
 nrow.bull <- nrow(Bulletins.paie)
 nrow.bull.heures <- nrow(Bulletins.paie[Heures != 0])
@@ -2242,7 +2295,10 @@ if (sauvegarder.bases.analyse) {
               "cl2",
               "cl3",
               "cl4",
-              "code.libelle")
+              "code.libelle",
+              "Evenements",
+              "Evenements.ind",
+              "Evenements.mat")
   
   if (test.delta) 
     sauv.bases(file.path(chemin.dossier.bases, "Fiabilite"), "Delta")

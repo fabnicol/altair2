@@ -9,14 +9,29 @@
 #' @name altair
 NULL
 
+#' Pyramide des âges de la fonction publique hospitalière au 31 décembre 2010
+#'
+#'
+#' @format Une base de données contenant 55 lignes, dont un entête, et 5 variables :
+#' \describe{
+#'   \item{age}{âge des agents au 31 décembre 2010}
+#'   \item{Hommes}{nombre d'hommes}
+#'   \item{Femmes}{nombre de femmes}
+#'   \item{année.référence}{référence de l'année (première ligne)}
+#'   \item{versant}{versant de la fonction publique (FPT ou FPH)}
+#' }
+#' @source \url{http://www.insee.fr/fr/themes/document.asp?ref_id=ip1442}
+"pyr_2010_fph"
+
+
 #' Pyramide des âges de la fonction publique territoriale au 31 décembre 2010
 #'
 #'
-#' @format Une base de données contenant 55 lignes, dont un entête, et 4 variables :
+#' @format Une base de données contenant 55 lignes, dont un entête, et 5 variables :
 #' \describe{
 #'   \item{age}{âge des agents au 31 décembre 2010}
-#'   \item{Hommes}{nombre d'hommes, en milliers}
-#'   \item{Femmes}{nombre de femmes, en milliers}
+#'   \item{Hommes}{nombre d'hommes}
+#'   \item{Femmes}{nombre de femmes}
 #'   \item{année.référence}{référence de l'année (première ligne)}
 #'   \item{versant}{versant de la fonction publique (FPT ou FPH)}
 #' }
@@ -26,11 +41,11 @@ NULL
 #' Pyramide des âges des titulaires de la fonction publique territoriale au 31 décembre 2010
 #'
 #'
-#' @format Une base de données contenant 55 lignes, dont un entête, et 4 variables :
+#' @format Une base de données contenant 55 lignes, dont un entête, et 5 variables :
 #' \describe{
 #'   \item{age}{âge des agents au 31 décembre 2010}
-#'   \item{Hommes}{nombre d'hommes, en milliers}
-#'   \item{Femmes}{nombre de femmes, en milliers}
+#'   \item{Hommes}{nombre d'hommes}
+#'   \item{Femmes}{nombre de femmes}
 #'   \item{année.référence}{référence de l'année (première ligne)}
 #'   \item{versant}{versant de la fonction publique (FPT ou FPH)}
 #' }
@@ -40,11 +55,11 @@ NULL
 #' Pyramide des âges des titulaires de la fonction publique hospitalière au 31 décembre 2010
 #'
 #'
-#' @format Une base de données contenant 55 lignes, dont un entête, et 4 variables :
+#' @format Une base de données contenant 55 lignes, dont un entête, et 5 variables :
 #' \describe{
 #'   \item{age}{âge des agents au 31 décembre 2010}
-#'   \item{Hommes}{nombre d'hommes, en milliers}
-#'   \item{Femmes}{nombre de femmes, en milliers}
+#'   \item{Hommes}{nombre d'hommes}
+#'   \item{Femmes}{nombre de femmes}
 #'   \item{année.référence}{référence de l'année (première ligne)}
 #'   \item{versant}{versant de la fonction publique (FPT ou FPH)}
 #' }
@@ -54,11 +69,11 @@ NULL
 #' Pyramide des âges des non titulaires de la fonction publique hospitalière au 31 décembre 2010
 #'
 #'
-#' @format Une base de données contenant 55 lignes, dont un entête, et 4 variables :
+#' @format Une base de données contenant 55 lignes, dont un entête, et 5 variables :
 #' \describe{
 #'   \item{age}{âge des agents au 31 décembre 2010}
-#'   \item{Hommes}{nombre d'hommes, en milliers}
-#'   \item{Femmes}{nombre de femmes, en milliers}
+#'   \item{Hommes}{nombre d'hommes}
+#'   \item{Femmes}{nombre de femmes}
 #'   \item{année.référence}{référence de l'année (première ligne)}
 #'   \item{versant}{versant de la fonction publique (FPT ou FPH)}
 #' }
@@ -68,11 +83,11 @@ NULL
 #' Pyramide des âges des non titulaires de la fonction publique territoriale au 31 décembre 2010
 #'
 #'
-#' @format Une base de données contenant 55 lignes, dont un entête, et 4 variables :
+#' @format Une base de données contenant 55 lignes, dont un entête, et 5 variables :
 #' \describe{
 #'   \item{age}{âge des agents au 31 décembre 2010}
-#'   \item{Hommes}{nombre d'hommes, en milliers}
-#'   \item{Femmes}{nombre de femmes, en milliers}
+#'   \item{Hommes}{nombre d'hommes}
+#'   \item{Femmes}{nombre de femmes}
 #'   \item{année.référence}{référence de l'année (première ligne)}
 #'   \item{versant}{versant de la fonction publique (FPT ou FPH)}
 #' }
@@ -83,11 +98,11 @@ NULL
 #' Pyramide des âges de la fonction publique territoriale au 31 décembre 2011
 #'
 #'
-#' @format Une base de données contenant 55 lignes, dont un entête, et 4 variables :
+#' @format Une base de données contenant 55 lignes, dont un entête, et 5 variables :
 #' \describe{
 #'   \item{age}{âge des agents au 31 décembre 2011}
-#'   \item{Hommes}{nombre d'hommes, en milliers}
-#'   \item{Femmes}{nombre de femmes, en milliers}
+#'   \item{Hommes}{nombre d'hommes}
+#'   \item{Femmes}{nombre de femmes}
 #'   \item{année.référence}{référence de l'année (première ligne)}
 #'   \item{versant}{versant de la fonction publique (FPT ou FPH)}
 #' }
@@ -97,11 +112,11 @@ NULL
 #' Pyramide des âges de la fonction publique hospitalière au 31 décembre 2011
 #'
 #'
-#' @format Une base de données contenant 55 lignes, dont un entête, et 4 variables :
+#' @format Une base de données contenant 55 lignes, dont un entête, et 5 variables :
 #' \describe{
 #'   \item{age}{âge des agents au 31 décembre 2011}
-#'   \item{Hommes}{nombre d'hommes, en milliers}
-#'   \item{Femmes}{nombre de femmes, en milliers}
+#'   \item{Hommes}{nombre d'hommes}
+#'   \item{Femmes}{nombre de femmes}
 #'   \item{année.référence}{référence de l'année (première ligne)}
 #'   \item{versant}{versant de la fonction publique (FPT ou FPH)}
 #' }
@@ -111,11 +126,11 @@ NULL
 #' Pyramide des âges de la fonction publique territoriale au 31 décembre 2012
 #'
 #'
-#' @format Une base de données contenant 55 lignes, dont un entête, et 4 variables :
+#' @format Une base de données contenant 55 lignes, dont un entête, et 5 variables :
 #' \describe{
 #'   \item{age}{âge des agents au 31 décembre 2012}
-#'   \item{Hommes}{nombre d'hommes, en milliers}
-#'   \item{Femmes}{nombre de femmes, en milliers}
+#'   \item{Hommes}{nombre d'hommes}
+#'   \item{Femmes}{nombre de femmes}
 #'   \item{année.référence}{référence de l'année (première ligne)}
 #'   \item{versant}{versant de la fonction publique (FPT ou FPH)}
 #' }
@@ -125,11 +140,11 @@ NULL
 #' Pyramide des âges de la fonction publique hospitalière au 31 décembre 2012
 #'
 #'
-#' @format Une base de données contenant 55 lignes, dont un entête, et 4 variables :
+#' @format Une base de données contenant 55 lignes, dont un entête, et 5 variables :
 #' \describe{
 #'   \item{age}{âge des agents au 31 décembre 2012}
-#'   \item{Hommes}{nombre d'hommes, en milliers}
-#'   \item{Femmes}{nombre de femmes, en milliers}
+#'   \item{Hommes}{nombre d'hommes}
+#'   \item{Femmes}{nombre de femmes}
 #'   \item{année.référence}{référence de l'année (première ligne)}
 #'   \item{versant}{versant de la fonction publique (FPT ou FPH)}
 #' }
@@ -140,11 +155,11 @@ NULL
 #' Pyramide des âges de la fonction publique territoriale au 31 décembre 2013
 #'
 #'
-#' @format Une base de données contenant 55 lignes, dont un entête, et 4 variables :
+#' @format Une base de données contenant 55 lignes, dont un entête, et 5 variables :
 #' \describe{
 #'   \item{age}{âge des agents au 31 décembre 2013}
-#'   \item{Hommes}{nombre d'hommes, en milliers}
-#'   \item{Femmes}{nombre de femmes, en milliers}
+#'   \item{Hommes}{nombre d'hommes}
+#'   \item{Femmes}{nombre de femmes}
 #'   \item{année.référence}{référence de l'année (première ligne)}
 #'   \item{versant}{versant de la fonction publique (FPT ou FPH)}
 #' }
@@ -154,11 +169,11 @@ NULL
 #' Pyramide des âges de la fonction publique hospitalière au 31 décembre 2013
 #'
 #'
-#' @format Une base de données contenant 55 lignes, dont un entête, et 4 variables :
+#' @format Une base de données contenant 55 lignes, dont un entête, et 5 variables :
 #' \describe{
 #'   \item{age}{âge des agents au 31 décembre 2013}
-#'   \item{Hommes}{nombre d'hommes, en milliers}
-#'   \item{Femmes}{nombre de femmes, en milliers}
+#'   \item{Hommes}{nombre d'hommes}
+#'   \item{Femmes}{nombre de femmes}
 #'   \item{année.référence}{référence de l'année (première ligne)}
 #'   \item{versant}{versant de la fonction publique (FPT ou FPH)}
 #' }

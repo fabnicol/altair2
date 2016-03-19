@@ -38,6 +38,7 @@ intégrer.localisation          <- FALSE   # Veut on gardet Budget Employeur Sire
 afficher.cumuls.détaillés.lignes.paie <- FALSE
 afficher.table.écarts.sft      <- FALSE
 afficher.table.codes           <- FALSE
+afficher.table.événements      <- FALSE
 analyse.par.catégorie          <- TRUE
 test.delta                     <- FALSE
 if (! exists("PDF"))       PDF <- FALSE

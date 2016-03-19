@@ -189,6 +189,16 @@ names(tableau.effectifs) <-  as.character(période)
 return(tableau.effectifs)
 }
 
+#' Année de comparaison avec les données nationales.
+#'
+#' Calcule l'année à laquelle la pyramide des âges va être comparée aux données nationales, pour un versant donné de la focntion publique.
+#'
+#' @param versant Chaîne de caractères parmi "FPT", "FPH", "TIT_FPT", "TIT_FPH", "NONTIT_FPT", "NONTIT_FPH".
+#' @return Une liste dont les composantes sont :
+#'        \describe{
+#'         \item{\code{année}}{l'année de comparaison (entier).}
+#'         \item{\code{pyr}}{la base de données nationales correspondante (data.table)}.
+#'         }
 #' @export
 année_comparaison <- function(versant) {
   
@@ -404,8 +414,7 @@ pyramide_ages <- function(Avant,
     tot <- pyr[ , .(H = sum(Hommes), F = sum(Femmes))]
     
     s.avant <- Avant[ , .(H = sum(Hommes, na.rm=TRUE), F = sum(Femmes, na.rm=TRUE))]
-    s.année <- 
-    
+
     H.coef.forme <- s.avant$H / tot$H
     F.coef.forme <- s.avant$F / tot$F
 
@@ -424,8 +433,8 @@ pyramide_ages <- function(Avant,
                   "organisme " %+% date.fin,
                   paste(leg, année.référence))
 
-    cat("Pour obtenir les effectifs nationaux, multiplier les abscisses des hommes par", round(1 / H.coef.forme),
-        "et les abscisses des femmes par", round(1 / F.coef.forme))
+    cat("Pour obtenir les effectifs nationaux, multiplier les abscisses des hommes par", formatC(round(1 / H.coef.forme), big.mark = " "),
+        "et les abscisses des femmes par", formatC(round(1 / F.coef.forme), big.mark = " "))
 
     return(0)
 

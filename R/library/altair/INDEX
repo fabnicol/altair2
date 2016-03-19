@@ -1,8 +1,12 @@
 altair                  Altaïr: un paquet pour analyser les bases de
                         paye XML.
+année_comparaison       Année de comparaison avec les données
+                        nationales.
 effectifs               Tableau des effectifs.
 extraire.nir            Traitement du NIR (numéro d'inscription au
                         répertoire des personnes physiques).
+pyr_2010_fph            Pyramide des âges de la fonction publique
+                        hospitalière au 31 décembre 2010
 pyr_2010_fpt            Pyramide des âges de la fonction publique
                         territoriale au 31 décembre 2010
 pyr_2010_nontit_fph     Pyramide des âges des non titulaires de la

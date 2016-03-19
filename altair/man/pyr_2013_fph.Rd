@@ -4,11 +4,11 @@
 \name{pyr_2013_fph}
 \alias{pyr_2013_fph}
 \title{Pyramide des âges de la fonction publique hospitalière au 31 décembre 2013}
-\format{Une base de données contenant 55 lignes, dont un entête, et 4 variables :
+\format{Une base de données contenant 55 lignes, dont un entête, et 5 variables :
 \describe{
   \item{age}{âge des agents au 31 décembre 2013}
-  \item{Hommes}{nombre d'hommes, en milliers}
-  \item{Femmes}{nombre de femmes, en milliers}
+  \item{Hommes}{nombre d'hommes}
+  \item{Femmes}{nombre de femmes}
   \item{année.référence}{référence de l'année (première ligne)}
   \item{versant}{versant de la fonction publique (FPT ou FPH)}
 }}
