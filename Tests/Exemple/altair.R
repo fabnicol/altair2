@@ -48,7 +48,7 @@ if (corriger.environnement.système) {
 }
 
 
-source(file.path(chemin.dossier, "bibliotheque.fonctions.paie.R"), encoding = encodage.code.source)
+source("bibliotheque.fonctions.paie.R", encoding = encodage.code.source)
 source("import.R", encoding = encodage.code.source)
 
 #'

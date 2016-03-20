@@ -96,7 +96,7 @@ T0 <- data.table::fread(fichiers.bulletins[1],
                         dec = séparateur.décimal.entrée,
                         nrows = 0,
                         header = TRUE,
-                        skip = champ.détection.1,
+                        #skip = champ.détection.1,
                         encoding = ifelse(setOSWindows, "Latin-1", "UTF-8"))
 
 colonnes <- names(T0)

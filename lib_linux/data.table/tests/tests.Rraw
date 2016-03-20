@@ -6,8 +6,8 @@ if (!exists("test.data.table",.GlobalEnv,inherits=FALSE)) {
     require(data.table)   # in dev the package should not be loaded
     options(warn=0)  # use require() so it warns but doesn't halt if not available
     inst_pkgs = rownames(installed.packages())
-    sugg_pkgs = c("plyr","ggplot2","hexbin","nlme","xts","bit64","gdata","GenomicRanges","caret","knitr","plm")
-    lapply(sugg_pkgs, function(pkg) if(pkg %in% inst_pkgs) require(pkg, character.only=TRUE))
+    sugg_pkgs = c("chron", "ggplot2", "plyr", "reshape", "reshape2", "testthat", "hexbin", "fastmatch", "nlme", "xts", "bit64", "gdata", "GenomicRanges", "caret", "knitr", "curl", "zoo", "plm", "rmarkdown")
+    lapply(setNames(nm = sugg_pkgs), function(pkg) if(pkg %in% inst_pkgs) require(pkg, character.only=TRUE))
     # reshape2 ahead of reshape ...
     try(detach(package:reshape2),silent=TRUE)
     try(detach(package:reshape),silent=TRUE)
@@ -42,9 +42,6 @@ if (!.devtesting) {
     forderv = data.table:::forderv
     forder = data.table:::forder
     null.data.table = data.table:::null.data.table
-    ordernumtol = data.table:::ordernumtol   # TO DO: deprecated, remove
-    iradixorder = data.table:::iradixorder   # TO DO: deprecated, remove
-    dradixorder = data.table:::dradixorder   # TO DO: deprecated, remove
     uniqlist = data.table:::uniqlist
     uniqlengths = data.table:::uniqlengths
     setrev = data.table:::setrev
@@ -550,9 +547,11 @@ test(205, x[y,list(d),mult="all"][,d], c(1,2,NA,NA))
 # be returned all NA (rarely useful and often confusing, but consistent
 # with data.frame).
 TESTDT = data.table(a=1:3,v=1:3,key="a")
-test(206, TESTDT[NA], data.table(a=NA_integer_,v=NA_integer_,key="a"))  # NA are now allowed in keys, so retains key
+# following #1252, this should return 0-rows. This'll be even more consistent when nomatch=NULL is made default.
+# TODO: this needs to be extended when nomatch=NA etc. is set explicitly
+test(206, TESTDT[NA], data.table(a=integer(0),v=integer(0),key="a"))  # NA are now allowed in keys, so retains key
 setkey(TESTDT,NULL)
-test(207, TESTDT[NA], data.table(a=NA_integer_,v=NA_integer_))
+test(207, TESTDT[NA], data.table(a=integer(0),v=integer(0)))
 
 # With inheritance, NROW and NCOL in base work nicely. No need for them in data.table.
 test(208, NROW(TESTDT), 3L)
@@ -1670,7 +1669,6 @@ test(597, unique(DT), DT[c(1,2,4)])
 test(598, DT[,list(count=.N),by=c("x","y")], data.table(x=0.0,y=c(0.0,0.1,0.2),count=c(3L,1L,1L)))
 
 # And that numeric NAs sort stably to the beginning. Whether NAs are allowed in keys, another issue but
-# ordernumtol needs to deal with NA anyway for add hoc by and unique.
 DT = data.table( c(1.34, 1.34, 1.34,   NA, 2.22, 2.22, 1.34, NA,  NA, 1.34, 0.999), c(75.1,   NA, 75.1, 75.1,  2.3,  2.4,  2.5, NA, 1.1,   NA, 7.9 ))
 test(599, DT[c(8,9,4,11,2,10,7,1,3,5,6)], setkey(setkey(DT),NULL))
 
@@ -1723,8 +1721,8 @@ test(616, DT[a>1,p:=sum(b)]$p, rep(c(NA,3.3),c(3,6)))
 test(617, DT[a>1,q:=sum(b),by=a]$q, rep(c(NA,1.5,1.8),each=3))
 
 # Empty i clause, #2034. Thanks to Chris for testing, tests from him.
-test(618, copy(DT)[a>3,r:=sum(b)], DT)
-test(619, copy(DT)[J(-1),r:=sum(b)], DT)
+test(618, copy(DT)[a>3,r:=sum(b), nomatch=0L], DT) # followng #759 fix
+test(619, copy(DT)[J(-1),r:=sum(b), nomatch=0L], DT) # followng #759 fix
 test(620, copy(DT)[J(-1),r:=sum(b),nomatch=0], DT)
 DT = data.table(x=letters, key="x")
 test(621, copy(DT)[J("bb"), x:="foo"], DT)  # when no update, key should be retained
@@ -2299,7 +2297,7 @@ l = list(data.table(a=1:3), data.table(b=4:6))
 test(843, l[[2L]][,c:=7:9], data.table(b=4:6,c=7:9))
 test(844, l, list(data.table(a=1:3), data.table(b=4:6,c=7:9)))
 names(l) = c("foo","bar")   # R >= 3.1 no longer copies all the contents, yay
-test(845, l[["foo"]][2,d:=4], data.table(a=1:3,d=c(NA,4L,NA)),
+test(845, l[["foo"]][2,d:=4L], data.table(a=1:3,d=c(NA,4L,NA)),
     warning= if (!.R.assignNamesCopiesAll) NULL else "Invalid .internal.selfref detected and fixed")
 l = list(data.table(a=1:3), data.table(b=4:6))
 setattr(l,"names",c("foo","bar"))
@@ -2799,7 +2797,7 @@ test(1008.2, rbindlist(list(DT1, DT3)), data.table(a = c(1L,2L), b = c(2, 2.5)))
 
 # optimized mean() respects na.rm=TRUE by default, as intended
 DT = data.table(a=c(NA,NA,FALSE,FALSE), b=c(1,1,2,2))
-test(1009, DT[,list(mean(a), sum(a)),by=b], data.table(b=c(1,2),V1=c(NA,0),V2=c(NA,0)))
+test(1009, DT[,list(mean(a), sum(a)),by=b], data.table(b=c(1,2),V1=c(NA,0),V2=c(NA_integer_,0L))) # sum(logical()) should be integer, not real
 
 # an fread error shouldn't hold a lock on the file on Windows.
 f = tempfile()
@@ -2981,7 +2979,7 @@ test(1041, rbindlist(l), data.table(i1=factor(letters[1:5]),val=1:5))
 
 # negative indexing in *i* leads to crash/wrong aggregates when dogroups is called. bug #2697
 DT = data.table(x = c(1,2,3,4,5), group = c(1,1,2,2,3))
-test(1042, DT[-5, mean(x), by = group], data.table(group=1:2, V1=c(1.5, 3.5)))
+test(1042, DT[-5, mean(x), by = group], data.table(group=c(1,2), V1=c(1.5, 3.5)))
 # Test when abs(negative index) > nrow(dt) - should warn
 test(1042.1, DT[-10], DT, warning="Item 1 of i is -10 but there are only 5 rows. Ignoring this and 0 more like it out of 1.")
 test(1042.2, DT[c(-5, -10), mean(x), by = group], data.table(group=c(1,2),V1=c(1.5,3.5)), warning="Item 2 of i is -10 but there are only 5 rows. Ignoring this and 0 more like it out of 2.") 
@@ -3122,10 +3120,22 @@ test(1087, class(DT$last.x1), "ITime")
 
 # Tests 1088-1093 were non-ASCII. Now in DtNonAsciiTests
 
-# print of unnamed DT with >20 <= 100 rows, #4934
+# print of unnamed DT with >20 <= 100 rows, #97 (RF#4934)
 DT <- data.table(x=1:25, y=letters[1:25])
 DT.unnamed <- unname(copy(DT))
-test(1094, print(DT.unnamed), output="NA NA 1:  1  a 2:  2  b 3:  3  c")
+test(1094.1, capture.output(print(DT.unnamed)),
+     c("        ", " 1:  1 a", " 2:  2 b", " 3:  3 c", " 4:  4 d", 
+       " 5:  5 e", " 6:  6 f", " 7:  7 g", " 8:  8 h", " 9:  9 i",
+       "10: 10 j", "11: 11 k", "12: 12 l", "13: 13 m", "14: 14 n",
+       "15: 15 o", "16: 16 p", "17: 17 q", "18: 18 r", "19: 19 s", 
+       "20: 20 t", "21: 21 u", "22: 22 v", "23: 23 w", "24: 24 x",
+       "25: 25 y", "        "))
+
+# print of blank-named DT (eliminating matrix notation)
+#   #545 (RF#5253) and part of #1523
+DT <- data.table(x = 1:3)
+setnames(DT, "")
+test(1094.2, capture.output(print(DT)), c("    ", "1: 1", "2: 2", "3: 3"))
 
 # DT[!TRUE] or DT[!TRUE, which=TRUE], #4930. !TRUE still can be a recycling operation with !(all TRUE)
 DT <- data.table(x=1:3, y=4:6)
@@ -3353,7 +3363,14 @@ x1 <- data.table(a = c(1:5), b = c(1:5))
 f <- tempfile()
 write.csv(x1, f, row.names = FALSE)
 if (.Platform$OS.type == "unix") {
-    test(1105, x1[a != 3], fread(paste('grep -v 3 ', f, sep="")))
+    gl = identical(Sys.getenv("CI_SERVER_NAME"), "GitLab CI")
+    if(gl){
+        # skip test which fails in CI, data.table#1506
+        x2 = try(fread(paste('grep -v 3 ', f, sep="")), silent = TRUE)
+        if(is.data.table(x2)) test(1105, x1[a != 3], x2)
+    } else {
+        test(1105, x1[a != 3], fread(paste('grep -v 3 ', f, sep="")))
+    }
 } else {
     # x2 <- fread(paste('more ', f, sep=""))
     # Doesn't work on winbuilder. Relies on 'more' available in DOS via Cygwin?
@@ -3446,7 +3463,7 @@ test(1125, rbindlist(list(DT1, DT1)), data.table(factor(c('a','a'), levels = c('
 DT = data.table(a = 1:2, b = 1:2)
 DT1 = data.table(a = 3:4, c = 1:2)
 
-test(1126, rbind(DT, DT1, fill = TRUE), data.table(a = 1:4, b = c(1, 2, NA, NA), c = c(NA, NA, 1, 2)))
+test(1126, rbind(DT, DT1, fill = TRUE), data.table(a = 1:4, b = c(1:2, NA, NA), c = c(NA, NA, 1:2)))
 
 ## check for #4959 - rbind'ing empty data.table's
 DT = data.table(a=character())
@@ -3562,7 +3579,7 @@ test(1139, capture.output(print(DT)), c("           x y", "1:     a ~ b 1", "2: 
 
 # FR #4813 - provide warnings if there are remainders for both as.data.table.list(.) and data.table(.)
 X = list(a = 1:2, b = 1:3)
-test(1140, as.data.table(X), data.table(a=c(1,2,1), b=c(1,2,3)), warning="Item 1 is of size 2 but maximum")
+test(1140, as.data.table(X), data.table(a=c(1:2,1L), b=c(1:3)), warning="Item 1 is of size 2 but maximum")
 test(1141.1, data.table(a=1:2, b=1:3), data.table(a=c(1L,2L,1L), b=1:3), warning="Item 1 is of size 2 but maximum")
 test(1141.2, data.table(a=1:2, data.table(x=1:5, y=6:10)), data.table(a=c(1L,2L,1L,2L,1L), x=1:5, y=6:10), warning="Item 1 is of size 2 but maximum")
 test(1141.3, data.table(a=1:5, data.table(x=c(1,2), y=c(3,4))), data.table(a=c(1:5), x=c(1,2,1,2,1), y=c(3,4,3,4,3)), warning="Item 2 is of size 2 but maximum")
@@ -3623,22 +3640,6 @@ test(1146.1, DT[, Time:= as.numeric(Time)], ans)
 DF <- as.data.frame(DT)
 test(1146.2, {set(DF, i=NULL, j=1L, value=seq_len(nrow(DF)));setattr(DF,"reference",NULL);DF}, data.frame(Time=1:nrow(BOD), demand=BOD$demand))
 test(1146.3, set(DF, i=NULL, j="bla", value=seq_len(nrow(DF))), error="set() on a data.frame is for changing existing columns, not adding new ones. Please use a data.table for that.")
-
-# Feature - implemented fast radix order for numeric types (both +ve and -ve numerics).
-# note that if "x" is already a list, then the values will be modified by reference!
-# Note: 'ordernumtol' doesn't distinguish between NA and NaN whereas this one does!
-# R-wrapper is dradixorder
-set.seed(45)
-x <- rnorm(1e6)*1e4
-test(1147.1, base::order(x), dradixorder(x, tol=numeric(0))) # base::order doesn't test with tolerance
-test(1147.2, ordernumtol(x), dradixorder(x))
-tol = .Machine$double.eps^0.5
-x <- c(8, NaN, Inf, -7.18918, 5.18909+0.07*tol, NA, -7.18918111, -Inf, NA, 5.18909, NaN, 5.18909-1.2*tol, 5.18909-0.04*tol)
-test(1147.3, dradixorder(x), c(6L, 9L, 2L, 11L, 8L, 7L, 4L, 12L, 5L, 10L, 13L, 1L, 3L))
-
-# test for `iradixorder` when input is integer(0) and numeric(0)
-test(1149.1, iradixorder(integer(0)), integer(0)) 
-test(1149.2, iradixorder(numeric(0)), error="iradixorder is only for integer") 
 
 # test uniqlengths
 set.seed(45)
@@ -4105,6 +4106,14 @@ setnames(ans2, names(ans1))
 test(1240.1, ans1, setDT(as.data.frame(with(DT, table(XX, yy)), stringsAsFactors=FALSE)))
 test(1240.2, ans2, ans1)
 
+# r-devel (v3.3+) seems to use data.table's radix sort by default for order() on integer/factors.
+# also it has an additional argument 'method'. We've to use 'shell' to pass 1241, as well as for 
+# checking correctness. So creating order function depending on r-version
+base_order <- function(..., na.last=TRUE, decreasing=FALSE, method="shell") {
+    if (base::getRversion()<="3.2.4")
+        order(..., na.last=na.last, decreasing=decreasing) # ignore method
+    else order(..., na.last=na.last, decreasing=decreasing, method=method)
+}
 # Test for optimisation of 'order' to 'forder'
 set.seed(45L)
 DT <- data.table(x=sample(1e2, 1e6,TRUE), y=sample(1e2, 1e6,TRUE))
@@ -4113,8 +4122,7 @@ optim = getOption("datatable.optimize")
 options(datatable.optimize=Inf)
 t1 = unname(system.time(ans1 <- DT[order(x,-y)])['elapsed'])
 # without optimisation
-options(datatable.optimize=0L)
-t2 = unname(system.time(ans2 <- DT[order(x,-y)])['elapsed'])
+t2 = unname(system.time(ans2 <- DT[base_order(x,-y, method="shell")])['elapsed'])
 test(1241.1, ans1, ans2)
 test(1241.2, t1 < t2, TRUE)  # with optimisation must be faster
 # restore optimisation
@@ -4260,12 +4268,13 @@ ans = vector("list", length(names(DT)))
 
 test_no = 1253.13
 oldnfail = nfail
+# explicitly setting to 'shell' method on v > 3.2.3 to check for correctness
 for (i in seq_along(names(DT))) {
     cj = as.matrix(do.call(CJ, split(rep(c(1L,-1L), each=i), 1:i)))
     ans[[i]] = combn(names(DT), i, function(x) {
         tmp = apply(cj, 1, function(y) {
             test_no <<- signif(test_no+.001, 7)
-            ll = as.call(c(as.name("order"), 
+            ll = as.call(c(as.name("base_order"), # see 1241 test for what base_order is
                     lapply(seq_along(x), function(j) {
                         if (y[j] == 1L) 
                             as.name(x[j]) 
@@ -4275,7 +4284,8 @@ for (i in seq_along(names(DT))) {
                             else 
                                 as.call(list(as.name("-"), as.name(x[j])))
                             }
-                        })
+                        }),
+                        list(method = "shell")
                     )
                 )
             ans1 = forderv(DT, by=x, order=y, na.last=TRUE)         # adding tests for both nalast=TRUE and nalast=NA
@@ -4986,7 +4996,7 @@ test(1344, fread("A,B\n1,T\n2,NA\n3,"), data.table(A=1:3, B=c(TRUE,NA,NA)))
 DT = data.table(a=1:3,b=1:6)
 test(1348, DT[.N], DT[6])
 test(1349, DT[.N-1:3], DT[5:3])
-test(1350, DT[.N+1], DT[NA])
+test(1350, DT[.N+1], DT[NA_integer_]) # following #1252, DT[NA] now returns 0-rows for consistency. This'll also be fixed eventually, when nomatch is made more consistent.
 
 # Adding test to catch any future regressions - #734
 dt = data.table(id = rep(c('a','b'), each=2), val = rep(c(1,2,3), times=c(1,2,1)))
@@ -5346,30 +5356,31 @@ test(1375.3, DT[,mean(Petal.Width),by=Species][V1>1,Species:=toupper(Species)]$S
 
 # Secondary keys a.k.a indexes ...
 DT = data.table(a=1:10,b=10:1)
-test(1376.1, key2(DT), NULL)
+test(1376.1, indices(DT), NULL)
 test(1376.2, DT[b==7L,verbose=TRUE], DT[4L], output="Creating new index 'b'")
-test(1376.3, key2(DT), "b")
+test(1376.3, indices(DT), "b")
 test(1376.4, DT[b==8L,verbose=TRUE], DT[3L], output="Using existing index 'b'")
 test(1376.5, DT[a==7L,verbose=TRUE], DT[7L], output="Creating new index")  # add 2nd secondary key
-test(1376.6, key2(DT), c("b","a"))  # 2 secondary keys of single columns
+test(1376.6, indices(DT), c("b","a"))  # 2 secondary keys of single columns
 test(1376.7, DT[a==7L,verbose=TRUE], DT[7L], output="Using existing index 'a'")
 setkey(DT,b)
-test(1376.8, key2(DT), NULL)
-test(1376.9, list(DT[a==2L], key2(DT)), list(DT[9L],"a"))  # create key2 for next test
-set2key(DT,NULL)
-test(1376.10, list(key(DT), key2(DT)), list("b", NULL))
+test(1376.8, indices(DT), NULL)
+test(1376.9, list(DT[a==2L], indices(DT)), list(DT[9L],"a"))  # create indices for next test
+setindex(DT,NULL)
+test(1376.10, list(key(DT), indices(DT)), list("b", NULL))
 options(datatable.auto.index = FALSE)
-test(1376.11, list(DT[a==2L], key2(DT)), list(DT[9L],NULL))
+test(1376.11, list(DT[a==2L], indices(DT)), list(DT[9L],NULL))
 options(datatable.auto.index = TRUE)
-test(1376.12, list(DT[a==2L], key2(DT)), list(DT[9L],"a"))
+test(1376.12, list(DT[a==2L], indices(DT)), list(DT[9L],"a"))
 
 # When i is FALSE, it shouldn't matter if .SDcols is wrong. Package vardpoor relies on this in example(vardchanges).
+# as long as nomatch=0L (following #759 fix)
 DT = data.table(a=1:3, b=4:6)
 test(1377.1, DT[FALSE, foo:=7], DT)
 test(1377.2, DT[0, foo:=7], DT)
 test(1377.3, DT[, foo := Reduce(function(x,y)paste(x,y,sep="__"), .SD), .SDcols=c("a","b")], data.table(a=1:3, b=4:6, foo=c("1__4","2__5","3__6")))
 test(1377.4, DT[, bar := Reduce(function(x,y)paste(x,y,sep="__"), .SD), .SDcols=c("a","zz")], error="Some items of .SDcols are not column names")
-test(1377.5, DT[FALSE, bar := Reduce(function(x,y)paste(x,y,sep="__"), .SD), .SDcols=c("a","zz")], DT)
+test(1377.5, DT[FALSE, bar := Reduce(function(x,y)paste(x,y,sep="__"), .SD), .SDcols=c("a","zz"), nomatch=0L], DT)
 
 #====================================
 # fread issue with http download on Windows, thanks to Steve Miller for highlighting.
@@ -5663,11 +5674,11 @@ DT = data.table(a=1:3, b=4:6)
 test(1396, DT[a==2, verbose=TRUE], DT[2], output="Creating new index 'a'")
 test(1397, DT[b==6, verbose=TRUE], DT[3], output="Creating new index 'b'")
 test(1398, DT[b==6, verbose=TRUE], DT[3], output="Using existing index 'b'")
-test(1399, key2(DT), c("a","b"))
+test(1399, indices(DT), c("a","b"))
 test(1400, DT[2, a:=4L, verbose=TRUE], data.table(a=c(1L,4L,3L),b=4:6), output="Dropping index 'a' due to update on 'a' (column 1)")
-test(1401, key2(DT), "b")
+test(1401, indices(DT), "b")
 test(1402, DT[,b:=NULL,verbose=TRUE], data.table(a=c(1L,4L,3L)), output="Dropping index 'b' due to delete of 'b' (column 2)")
-test(1403, key2(DT), NULL)
+test(1403, indices(DT), NULL)
 DT = data.table(x=1:5)
 test(1404, DT[, y := x <= 2L], data.table(x=1:5, y=c(TRUE,TRUE,FALSE,FALSE,FALSE)))
 test(1405, DT[y == TRUE, .N, verbose=TRUE], 2L, output="Creating new index")
@@ -5675,40 +5686,40 @@ test(1406, DT[, y := x <= 3L, verbose=TRUE], data.table(x=1:5, y=c(TRUE,TRUE,TRU
 test(1407, DT[y == TRUE, .N], 3L)
 DT = data.table(x=1:5, y=10:6)
 test(1408, DT[x==3,verbose=TRUE], DT[3], output="Creating")
-test(1409, key2(DT), "x")
+test(1409, indices(DT), "x")
 set(DT,1:3,1L,-10L)
-test(1410, key2(DT), NULL)
+test(1410, indices(DT), NULL)
 test(1411, DT[x==5], DT[5])
 setorder(DT, y)
-test(1412, key2(DT), NULL)
+test(1412, indices(DT), NULL)
 test(1413, DT[x==5], DT[1])
 DT = data.table(foo=1:3, bar=4:6, baz=9:7)
-set2key(DT,foo,bar,baz)
-test(1414, key2(DT), c("foo__bar__baz"))
+setindex(DT,foo,bar,baz)
+test(1414, indices(DT), c("foo__bar__baz"))
 test(1415, DT[2,bar:=10L,verbose=TRUE], output="Dropping index 'foo__bar__baz' due to update on 'bar'")  # test middle
-test(1416, key2(DT), NULL)
-set2key(DT,foo,bar,baz)
+test(1416, indices(DT), NULL)
+setindex(DT,foo,bar,baz)
 test(1417, DT[2,baz:=10L,verbose=TRUE], output="Dropping index 'foo__bar__baz' due to update on 'baz'")  # test last
-set2key(DT,bar,baz)
+setindex(DT,bar,baz)
 test(1418, DT[2,c("foo","bar"):=10L,verbose=TRUE], output="Dropping index.* due to update on 'bar'")     # test 2nd to 1st
-set2key(DT,bar,baz)
+setindex(DT,bar,baz)
 test(1419, DT[2,c("foo","baz"):=10L,verbose=TRUE], output="Dropping index.* due to update on 'baz'")     # test 2nd to 2nd
 
 # setnames updates secondary key
 DT = data.table(a=1:5,b=10:6)
-set2key(DT,b)
-test(1420, key2(DT), "b")
+setindex(DT,b)
+test(1420, indices(DT), "b")
 setnames(DT,"b","foo")
-test(1421, key2(DT), "foo")
+test(1421, indices(DT), "foo")
 test(1422, DT[foo==9, verbose=TRUE], DT[2], output="Using existing index 'foo'")
-set2key(DT,a,foo)
-test(1423, key2(DT), c("foo","a__foo"))   # tests as well that order of attributes is retained although we don't use that property currently.
-test(1424, key2(setnames(DT,"foo","bar")), c("bar","a__bar"))
-test(1425, key2(setnames(DT,"a","baz")), c("bar","baz__bar"))
+setindex(DT,a,foo)
+test(1423, indices(DT), c("foo","a__foo"))   # tests as well that order of attributes is retained although we don't use that property currently.
+test(1424, indices(setnames(DT,"foo","bar")), c("bar","a__bar"))
+test(1425, indices(setnames(DT,"a","baz")), c("bar","baz__bar"))
 test(1426, DT[baz==4L, verbose=TRUE], output="Creating new index 'baz'")
-test(1427, key2(DT), c("bar","baz__bar","baz"))
+test(1427, indices(DT), c("bar","baz__bar","baz"))
 test(1428, DT[bar==9L, verbose=TRUE], output="Using existing index 'bar'")
-test(1429, key2(setnames(DT,"bar","a")), c("baz", "a", "baz__a"))
+test(1429, indices(setnames(DT,"bar","a")), c("baz", "a", "baz__a"))
 
 # Finalised == and %in% optimization in i
 DT = data.table(a=1:3,b=c(0,2,3,0,0,2))
@@ -5938,14 +5949,14 @@ test(1464.7, rleid(as.complex(c(1,0+5i,0+5i,1))), error="Type 'complex' not supp
 
 if ("package:xts" %in% search()) {
     # Date index
-    dt = data.table(index = as.Date((as.Date("2014-12-12")-49):as.Date("2014-12-12"),origin="1970-01-01"),quantity = rep(c(1:5),10),value = rep(c(1:10)*100,5))
+    dt = data.table(index = as.Date((as.Date("2014-12-12")-49):as.Date("2014-12-12"),origin="1970-01-01"),quantity = as.numeric(rep(c(1:5),10)),value = rep(c(1:10)*100,5))
     xt = as.xts(matrix(data = c(dt$quantity, dt$value),ncol = 2,dimnames = list(NULL,c("quantity","value"))),order.by = dt$index)
     dt_xt = as.data.table(xt)
     xt_dt = as.xts.data.table(dt)
     test(1465.1, all.equal(dt, dt_xt, check.attributes = FALSE))
     test(1465.2, xt, xt_dt)
     # POSIXct index
-    dt <- data.table(index = as.POSIXct(as.Date((as.Date("2014-12-12")-49):as.Date("2014-12-12"),origin="1970-01-01"),origin="1970-01-01"),quantity = rep(c(1:5),10),value = rep(c(1:10)*100,5))
+    dt <- data.table(index = as.POSIXct(as.Date((as.Date("2014-12-12")-49):as.Date("2014-12-12"),origin="1970-01-01"),origin="1970-01-01"),quantity = as.numeric(rep(c(1:5),10)),value = rep(c(1:10)*100,5))
     xt = as.xts(matrix(data = c(dt$quantity, dt$value),ncol = 2,dimnames = list(NULL,c("quantity","value"))),order.by = dt$index)
     dt_xt = as.data.table(xt)
     xt_dt = as.xts.data.table(dt)
@@ -5962,7 +5973,7 @@ test(1466.2, as.data.table(as.data.frame(x)), as.data.table(x)) # posix type
 # fix for #1001
 options(datatable.auto.index=TRUE)
 DT <- data.table(a=1:2)
-test(1467.1, DT[a==3, b:=d+1], DT)
+test(1467.1, DT[a==3, b:=d+1, nomatch=0L], DT) # following #759 fix, added nomatch=0L
 # restore
 options(datatable.auto.index=FALSE)
 
@@ -5999,9 +6010,9 @@ test(1469.6, key(DT[J(c(2,0)), roll="nearest"]), NULL)
 
 # 1007 fix, dealing with Inf and -Inf correctly in rolling joins.
 DT = data.table(x=c(-Inf, 3, Inf), y=1:3, key="x")
-test(1470.1, DT[J(c(2,-Inf,5,Inf)), roll=Inf], data.table(x=c(2,-Inf,5,Inf), y=c(1, 1, 2, 3)))
+test(1470.1, DT[J(c(2,-Inf,5,Inf)), roll=Inf], data.table(x=c(2,-Inf,5,Inf), y=c(1L, 1:3)))
 test(1470.2, DT[J(c(2,-Inf,5,Inf)), roll=10], data.table(x=c(2,-Inf,5,Inf), y=INT(c(NA, 1, 2, 3))))
-test(1470.3, DT[SJ(c(2,-Inf,5,Inf)), roll=Inf], data.table(x=c(-Inf,2,5,Inf), y=c(1, 1, 2, 3), key="x"))
+test(1470.3, DT[SJ(c(2,-Inf,5,Inf)), roll=Inf], data.table(x=c(-Inf,2,5,Inf), y=c(1L, 1:3), key="x"))
 
 # 1006, second bug with -Inf, now that #1007 is fixed.
 x <- c(-Inf, -0.1, 0, 0.1, Inf)
@@ -6163,13 +6174,13 @@ test(1489, DT[.(TRUE)], DT[1L])
 # Fix for #932
 DT <- data.table(v1 = c(1:3, NA), v2 = c(1,NA,2.5,NaN), v3=c(NA, FALSE, NA, TRUE), v4=c("a", NA, "b", "c"))
 options(datatable.auto.index = TRUE) # just to be sure
-set2key(DT, v1)
+setindex(DT, v1)
 test(1490.1,  DT[v1==3],      subset(DT, v1==3))
 test(1490.2,  DT[!v1==3],     subset(DT, !v1==3))
 test(1490.3,  DT[v1==NA],     subset(DT, v1==NA))
 test(1490.4,  DT[!v1==NA],    subset(DT, !v1==NA))
 
-set2key(DT, v2)
+setindex(DT, v2)
 test(1490.5,  DT[v2==2.5],    subset(DT, v2==2.5))
 test(1490.6,  DT[!v2==2.5],   subset(DT, !v2==2.5))
 test(1490.7,  DT[v2==NA],     subset(DT, v2==NA))
@@ -6177,7 +6188,7 @@ test(1490.8,  DT[!v2==NA],    subset(DT, !v2==NA))
 test(1490.9,  DT[v2==NaN],    subset(DT, v2==NaN))
 test(1490.10, DT[!v2==NaN],   subset(DT, !v2==NaN))
 
-set2key(DT, v3)
+setindex(DT, v3)
 test(1490.11, DT[v3==FALSE],  subset(DT, v3==FALSE))
 test(1490.12, DT[!v3==FALSE], subset(DT, !v3==FALSE))
 test(1490.13, DT[v3==TRUE],   subset(DT, v3==TRUE))
@@ -6187,7 +6198,7 @@ test(1490.16, DT[!v3==NA],    subset(DT, !v3==NA))
 test(1490.17, DT[(v3)],       subset(DT, v3==TRUE))
 test(1490.18, DT[!(v3)],      subset(DT, !v3==TRUE))
 
-set2key(DT, v4)
+setindex(DT, v4)
 test(1490.19, DT[v4=="b"],    subset(DT, v4=="b"))
 test(1490.20, DT[!v4=="b"],   subset(DT, !v4=="b"))
 test(1490.21, DT[v4==NA],     subset(DT, v4==NA))
@@ -6561,9 +6572,9 @@ test(1537 , names(melt(dt, id=1L, variable.name = "x", value.name="x")), c("x", 
 # test for tables()
 test(1538, tables(), output = "Total:")
 
-# uniqueN could supports list input #1224
+# uniqueN not support list-of-list: reverted #1224
 d1 <- data.table(a = 1:4, l = list(list(letters[1:2]),list(Sys.time()),list(1:10),list(letters[1:2])))
-test(1539, d1[,uniqueN(l)], 3L)
+test(1539, d1[,uniqueN(l)], error = "x must be an atomic vector or data.frames/data.tables")
 
 # feature #1130 - joins without setting keys
 # can't test which=TRUE with DT1.copy's results..
@@ -6961,9 +6972,9 @@ test(1558, as.ITime(NA), setattr(NA_integer_, 'class', 'ITime'))
 if (!"package:xts" %in% search()) {
     # #1347, xts issue from Joshua
     x = as.Date(1:5, origin="2015-01-01")
-    test(1559.1, last(x), tail(x, 1L))
+    test(1559.11, last(x), tail(x, 1L))
 } else {
-    test(1559.2, last(.xts(1:3,1:3)), .xts(1:3, 1:3)[3, ])
+    test(1559.12, last(.xts(1:3,1:3)), .xts(1:3, 1:3)[3, ])
 }
 
 # fix for #1352
@@ -7054,6 +7065,7 @@ X = data.table(A=1:3,b=4:6,c=c("foo","bar","baz"))
 Y = data.table(A=2:4, B=5:7)
 test(1574.2, X[Y, on=c("A",b="B")], X[Y, on=c(A="A", b="B")])
 test(1574.3, X[Y, on=c(b="B", "A")], X[Y, on=c(b="B", A="A")])
+test(1574.4, X["bar", on="c"], X[2L]) # missed previously
 
 # fix for #1376
 X = data.table(a=1:3,b=4:6,c=c("foo","bar","baz"))
@@ -7276,6 +7288,1122 @@ test(1587, fread(text, key="y"), setDT(fread(text), key="y"))
 dt = data.table(i=1:10, f=as.factor(1:10))
 test(1588.1, dt[f %in% 3:4], dt[3:4])
 test(1588.2, dt[f == 3], dt[3])
+
+# fix for #1484
+if ("package:xts" %in% search()) {
+    x = xts::as.xts(8, order.by = as.Date("2016-01-03"))
+    test(1589, all.equal(as.data.table(x), data.table(index = as.Date("2016-01-03"), V1 = 8), check.attributes=FALSE))
+}
+
+# Fix for all encoding issues, #66, #69, #469 and #1293
+# #66
+a = b = c("a","ä")
+Encoding(a) = "unknown"
+A = data.table(a, c=1:2, key="a")
+B = data.table(b, d=2:1, key="b")
+test(1590.1, A[B], cbind(A, d=2:1))
+
+# #69
+a  = c("a", "ä", "ß", "z")
+au = iconv(a, "UTF8", "latin1")
+dta = data.table(a,b=1:4)
+dtb <- data.table(a=au)
+df = data.frame(a,b=1:4, stringsAsFactors=FALSE)
+rownames(df) = df$a
+test(1590.2, merge(dta, dtb, by="a", sort=FALSE), 
+             setDT(merge(df, setDF(data.table(a=au)), by="a", sort=FALSE))
+             )
+
+# #469
+A = data.table(
+     kom = rep(101L,20),
+     eje = 1L:20L,
+     gad = rep("A.C. Meyers Vænge",20),
+     num = rep(c('1','10','11','11A'),times=c(10,1,2,7)),
+     enc = sample(c('unknown','UTF-8'), 20, replace=TRUE))
+Encoding(A$gad) = A$enc
+setkey(A, kom, gad, num)
+test(1590.3, unique(A, by=c("kom","gad","num")), 
+             as.data.table(A[!duplicated(paste(A$kom, A$gad, A$num))]))
+
+# encoding issue in forder
+x <- "fa\xE7ile"
+Encoding(x)
+Encoding(x) <- "latin1"
+xx <- iconv(x, "latin1", "UTF-8")
+y = sample(c(x,xx), 10, TRUE)
+oy = if (length(oy <- forderv(y))) oy else seq_along(y)
+test(1590.4, oy, order(y))
+Encoding(xx) = "unknown"
+y = sample(c(x,xx), 10, TRUE)
+oy = if (length(oy <- forderv(y))) oy else seq_along(y)
+test(1590.5, oy, order(y))
+
+# #1432 test
+list_1 = list(a = c(44,47), dens = c(2331,1644))
+list_2 = list(a=66, dens= 1890)
+list_3 = list(a=c(44,46,48,50), dens=c(8000,1452,1596,7521)) 
+mylist = list(list_1, list_2, list_3)
+setattr(mylist, 'names', c("ID_1","ID_2","ID_3"))
+ans = data.table(id=rep(c("ID_1","ID_2","ID_3"), c(2,1,4)), 
+                  a=c(44,47,66,44,46,48,50), 
+               dens=c(2331,1644,1890,8000,1452,1596,7521))
+test(1591, rbindlist(mylist, idcol="id"), ans)
+
+# FR #1443
+DT <- data.table(x = 1:3, y = 4:6, z = 7:9)
+test(1592.1, setnames(DT, -5, "bla"), error="Items of 'old'")
+test(1592.2, names(setnames(DT, -1, c("m", "n"))), c("x", "m", "n"))
+
+# fix for #1513
+test(1593, CJ(c(1,2,2), c(1,2,3)), data.table(V1=rep(c(1,2), c(3,6)), V2=c(1,2,3,1,1,2,2,3,3), key=c("V1", "V2")))
+
+# FR #523, var, sd and prod
+options(datatable.optimize = Inf) # ensure gforce is on
+DT = data.table(x=sample(5, 100, TRUE), 
+               y1=sample(6, 100, TRUE), 
+               y2=sample(c(1:10,NA), 100, TRUE), 
+               z1=runif(100), 
+               z2=sample(c(runif(10),NA,NaN), 100, TRUE))
+test(1594.1, DT[, lapply(.SD, var, na.rm=FALSE), by=x], DT[, lapply(.SD, stats::var, na.rm=FALSE), by=x])
+test(1594.2, DT[, lapply(.SD, var, na.rm=TRUE), by=x], DT[, lapply(.SD, stats::var, na.rm=TRUE), by=x])
+test(1594.3, DT[, lapply(.SD, var, na.rm=TRUE), by=x, verbose=TRUE], output="GForce optimized j to.*gvar")
+
+test(1594.4, DT[, lapply(.SD, sd, na.rm=FALSE), by=x], DT[, lapply(.SD, stats::sd, na.rm=FALSE), by=x])
+test(1594.5, DT[, lapply(.SD, sd, na.rm=TRUE), by=x], DT[, lapply(.SD, stats::sd, na.rm=TRUE), by=x])
+test(1594.6, DT[, lapply(.SD, sd, na.rm=TRUE), by=x, verbose=TRUE], output="GForce optimized j to.*gsd")
+
+test(1594.7, DT[, lapply(.SD, prod, na.rm=FALSE), by=x], DT[, lapply(.SD, base::prod, na.rm=FALSE), by=x])
+test(1594.8, DT[, lapply(.SD, prod, na.rm=TRUE), by=x], DT[, lapply(.SD, base::prod, na.rm=TRUE), by=x])
+test(1594.9, DT[, lapply(.SD, prod, na.rm=TRUE), by=x, verbose=TRUE], output="GForce optimized j to.*gprod")
+
+# FR #1517
+dt1 = data.table(x=c(1,1,2), y=1:3)
+dt2 = data.table(x=c(2,3,4), z=4:6)
+test(1595, merge(dt1,dt2), merge(dt1,dt2, by="x"))
+
+# FR 1512, drop argument for dcast.data.table
+DT <- data.table(v1 = c(1.1, 1.1, 1.1, 2.2, 2.2, 2.2),
+                 v2 = factor(c(1L, 1L, 1L, 3L, 3L, 3L), levels=1:3), 
+                 v3 = factor(c(2L, 3L, 5L, 1L, 2L, 6L), levels=1:6), 
+                 v4 = c(3L, 2L, 2L, 5L, 4L, 3L)) 
+ans1 <- dcast(DT, v1+v2~v3, value.var="v4", drop=FALSE)
+test(1596.1, dcast(DT, v1+v2~v3, value.var="v4", drop=c(FALSE, TRUE)), ans1[, -6, with=FALSE])
+test(1596.2, dcast(DT, v1+v2~v3, value.var="v4", drop=c(TRUE, FALSE)), ans1[c(1,6)])
+
+# bug fix #1495
+dt  = data.table(id=1:30, nn = paste0('A', 1:30))
+smp = sample(30, size =10)
+lgl = dt$id %in% smp
+test(1597, dt[lgl, ], dt[id %in% smp])
+
+# FR #643
+vv = sample(letters[1:3], 10, TRUE)
+test(1599.1, data.table(x=vv, y=1:10, stringsAsFactors=TRUE)$x, factor(vv))
+vv = sample(c(letters[1:3], NA), 10, TRUE)
+test(1599.2, data.table(x=vv, y=1:10, stringsAsFactors=TRUE)$x, factor(vv))
+
+# bug #1477 fix
+DT <- data.table(a = 0L:1L, b = c(1L, 1L))
+test(1600.1, DT[ , lapply(.SD, function(x) if (all(x)) x)], data.table(b=c(1L, 1L)))
+# this fix wasn't entirely nice as it introduced another issue.
+# it's fixed now, but adding a test for that issue as well to catch it early next time.
+set.seed(17022016L)
+DT1 = data.table(id1 = c("c", "a", "b", "b", "b", "c"), 
+                  z1 = sample(100L, 6L), 
+                  z2 = sample(letters, 6L))
+DT2 = data.table(id1=c("c", "w", "b"), val=50:52)
+test(1600.2, names(DT1[DT2, .(id1=id1, val=val, bla=sum(z1, na.rm=TRUE)), on="id1"]), c("id1", "val", "bla"))
+
+# warn when merge empty data.table #597
+test(1601.1, merge(data.table(a=1),data.table(a=1), by="a"), data.table(a=1, key="a"))
+test(1601.2, tryCatch(merge(data.table(a=1),data.table(NULL), by="a"), warning = function(w) w$message), "You are trying to join data.tables where 'y' argument is 0 columns data.table.")
+test(1601.3, tryCatch(merge(data.table(NULL),data.table(a=1), by="a"), warning = function(w) w$message), "You are trying to join data.tables where 'x' argument is 0 columns data.table.")
+test(1601.4, tryCatch(merge(data.table(NULL),data.table(NULL), by="a"), warning = function(w) w$message), "You are trying to join data.tables where 'x' and 'y' arguments are 0 columns data.table.")
+
+# migrate `chron` dependency to Suggests #1558
+dd = as.IDate("2016-02-28")
+tt = as.ITime("03:04:43")
+if(!requireNamespace("chron", quietly = TRUE)){
+    test(1602.1, as.chron.IDate(dd), error = "Install suggested `chron` package to use `as.chron.IDate` function.")
+    test(1602.2, as.chron.ITime(tt), error = "Install suggested `chron` package to use `as.chron.ITime` function.")
+} else {
+    test(1602.3, as.chron.IDate(dd), chron::as.chron(as.Date(dd)))
+    test(1602.4, class(as.chron.ITime(tt)), "times")
+}
+
+# fix for #1549
+d1 <- data.table(v1=1:2,x=x)
+d2 <- data.table(v1=3:4)
+test(1603.1, rbindlist(list(d2, d1), fill=TRUE), rbindlist(list(d1,d2), fill=TRUE)[c(3:4, 1:2)])
+
+# fix for #1440
+DT = data.table(a=1:3, b=4:6)
+myCol = "b"
+test(1604, DT[,.(myCol),with=F], error="When with=FALSE,")
+
+# fix for segfault #1531
+DT = data.table(x=rep(c("b","a","c"),each=3), y=c(1,3,6), v=1:9)
+test(1605, DT[order(-x, "D")], error="Column 2 is length 1 which differs")
+
+# fix for #1503, fread's fill argument polishing
+test(1606, fread("2\n1,a,b", fill=TRUE), data.table(V1=2:1, V2=c("","a"), V3=c("","b")))
+
+# fix for #1476
+dt = data.table(resp=c(1:5))
+wide = copy(list(metrics = dt))$metrics # copy here copies the list of data.table and therefore didn't overallocate before..
+test(1607, wide[, id := .I], data.table(resp = 1:5, id = 1:5))
+
+# better fix for #1462, + improved error message (if this better fix fails)
+# no need for quote="" and sep="\t"..
+test(1608, dim(fread('issue_1462_fread_quotes.txt', header=FALSE)), c(4L, 224L))
+
+# fix for #1164
+test(1609, fread("issue_1164_json.txt"), data.table(json1='{""f1"":""value1"",""f2"":""double quote escaped with a backslash [ \\"" ]""}', string1="string field"))
+
+# set of enhancements to print.data.table for #1523
+# dplyr-like column summary
+icol = 1L:3L
+Dcol = as.Date(paste0("2016-01-0", 1:3))
+DT1  = data.table(lcol = list(list(1:3), list(1:3), list(1:3)),
+                  icol, ncol = as.numeric(icol), ccol = c("a", "b", "c"), 
+                  xcol = as.complex(icol), ocol = factor(icol, ordered = TRUE),
+                  fcol = factor(icol))
+test(1610.1, capture.output(print(DT1, class=TRUE)),
+     c("     lcol  icol  ncol   ccol   xcol  ocol   fcol",
+       "   <list> <int> <num> <char> <cplx> <ord> <fctr>", 
+       "1: <list>     1     1      a   1+0i     1      1", 
+       "2: <list>     2     2      b   2+0i     2      2", 
+       "3: <list>     3     3      c   3+0i     3      3"))
+# fails on travis and appveyor; no idea why.. Passes on my mac and windows machine.
+# test(1610.2, capture.output(print(DT2, class=TRUE))
+#      c("         Dcol                Pcol   gcol       Icol   ucol", 
+#        "       <Date>              <POSc> <lgcl>     <IDat> <asdf>", 
+#        "1: 2016-01-01 2016-01-01 01:00:00   TRUE 2016-01-01      1", 
+#        "2: 2016-01-02 2016-01-02 01:00:00   TRUE 2016-01-02      2", 
+#        "3: 2016-01-03 2016-01-03 01:00:00   TRUE 2016-01-03      3"))
+
+# fix for #833
+l1 = list(a=seq_len(5), matrix(seq_len(25),ncol = 5, nrow = 5))
+l2 = list(seq_len(5), matrix(seq_len(25),ncol = 5, nrow = 5))
+test(1611.1, as.data.table(l1), setnames(setDT(as.data.frame(l1)), c("a", paste("V", 1:5, sep=""))))
+test(1611.2, as.data.table(l2), setnames(setDT(as.data.frame(l2)), c("V1", "V1.1", paste("V", 2:5, sep=""))))
+
+# fix for #646
+ll = list(a=as.POSIXlt("2015-01-01"), b=1:5)
+test(1612.1, as.data.table(ll), data.table(a=as.POSIXct("2015-01-01"), b=1:5), warning="POSIXlt column type detected")
+dt = data.table(d1="1984-03-17")
+ans = data.table(d1="1984-03-17", d2=as.POSIXct("1984-03-17"))
+test(1612.2, dt[, d2 := strptime(d1, "%Y-%m-%d")], ans, warning="POSIXlt column type detected and converted")
+ll = list(a=as.POSIXlt("2015-01-01"), b=2L)
+test(1612.3, setDT(ll), error="Column 1 is of POSIXlt type")
+
+# tests for all.equal.data.table #1106
+# diff nrow
+DT1 <- data.table(a = 1:4, b = letters[1:4])
+DT2 <- data.table(a = c(1:4,4L), b = letters[c(1:4,4L)])
+test(1613.1, all.equal(DT1, DT2), "Different number of rows")
+# diff ncol
+DT1 <- data.table(a = 1:4, b = letters[1:4])
+DT2 <- data.table(a = 1:4)
+test(1613.2, all.equal(DT1, DT2), c("Different number of columns", "Different column names"))
+# diff colnames
+DT1 <- data.table(a = 1:4, b = letters[1:4])
+DT2 <- data.table(aa = 1:4, bb = letters[1:4])
+test(1613.3, all.equal(DT1, DT2), "Different column names")
+# diff column order
+DT1 <- data.table(a = 1:4, b = letters[1:4])
+DT2 <- data.table(b = letters[1:4], a = 1:4)
+test(1613.4, all.equal(DT1, DT2), "Different column order")
+test(1613.5, all.equal(DT1, DT2, ignore.col.order=TRUE), TRUE)
+# diff row order
+DT1 <- data.table(a = 1:4, b = letters[1:4])
+DT2 <- data.table(a = 4:1, b = letters[4:1])
+test(1613.6, all.equal(DT1, DT2), "Column 'a': Mean relative difference: 0.8")
+test(1613.7, all.equal(DT1, DT2, ignore.row.order=TRUE), TRUE)
+# diff column order and diff row order
+DT1 <- data.table(a = 1:4, b = letters[1:4])
+DT2 <- data.table(b = letters[4:1], a = 4:1)
+test(1613.8, all.equal(DT1, DT2), "Different column order")
+test(1613.9, all.equal(DT1, DT2, ignore.row.order=TRUE), "Different column order")
+test(1613.10, all.equal(DT1, DT2, ignore.col.order=TRUE), "Column 'a': Mean relative difference: 0.8")
+test(1613.11, all.equal(DT1, DT2, ignore.row.order=TRUE, ignore.col.order=TRUE), TRUE)
+# non-overlapping duplicates
+DT1 <- data.table(a = c(1:4,1:2), b = letters[c(1:4,1:2)])
+DT2 <- data.table(a = c(1:4,3:4), b = letters[c(1:4,3:4)])
+test(1613.12, all.equal(DT1, DT2), "Column 'a': Mean relative difference: 1.333333")
+test(1613.13, all.equal(DT1, DT2, ignore.row.order=TRUE), "Dataset 'current' has duplicated rows present in different quantity than in 'target'")
+# overlapping duplicates
+DT1 <- data.table(a = c(1:4,1:2), b = letters[c(1:4,1:2)])
+DT2 <- data.table(a = c(1:4,2:1), b = letters[c(1:4,2:1)])
+test(1613.14, all.equal(DT1, DT2), "Column 'a': Mean relative difference: 0.6666667")
+test(1613.15, all.equal(DT1, DT2, ignore.row.order=TRUE), TRUE)
+# mixed overlapping duplicates
+DT1 <- data.table(a = c(1:4,1:2), b = letters[c(1:4,1:2)])
+DT2 <- data.table(a = c(1:4,2:3), b = letters[c(1:4,2:3)])
+test(1613.16, all.equal(DT1, DT2, ignore.row.order = TRUE), "Dataset 'current' has duplicated rows present in different quantity than in 'target'")
+# overlapping duplicates not equal in count
+DT1 <- data.table(a = c(1:4, rep(1L,3), rep(2L,2)), b = letters[c(1:4, rep(1L,3), rep(2L,2))])
+DT2 <- data.table(a = c(1:4, rep(1L,2), rep(2L,3)), b = letters[c(1:4, rep(1L,2), rep(2L,3))])
+test(1613.17, all.equal(DT1, DT2, ignore.row.order = TRUE), "Dataset 'current' has duplicated rows present in different quantity than in 'target'")
+# overlapping duplicates equal in count
+DT1 <- data.table(a = c(1:4, 1L, 2L, 1L, 2L), b = letters[c(1:4, 1L, 2L, 1L, 2L)])
+DT2 <- data.table(a = c(2L, 1L, 1L, 2L, 1:4), b = letters[c(2L, 1L, 1L, 2L, 1:4)])
+test(1613.18, all.equal(DT1, DT2, ignore.row.order = TRUE), TRUE)
+# subset with overlapping duplicates
+DT1 <- data.table(a = c(1:3,3L), b = letters[c(1:3,3L)])
+DT2 <- data.table(a = c(1:4), b = letters[c(1:4)])
+test(1613.19, all.equal(DT1, DT2, ignore.row.order = TRUE), "Dataset 'target' has duplicate rows while 'current' don't have any duplicate rows")
+# different number of unique rows
+DT1 <- data.table(a = c(1:3,2:3), b = letters[c(1:3,2:3)])
+DT2 <- data.table(a = c(1L,1:4), b = letters[c(1L,1:4)])
+test(1613.20, all.equal(DT1, DT2, ignore.row.order = TRUE), "Dataset 'current' has duplicated rows present in different quantity than in 'target'")
+test(1613.21, all.equal(DT2, DT1, ignore.row.order = TRUE), "Dataset 'current' has duplicated rows present in different quantity than in 'target'")
+# test attributes: key
+DT1 <- data.table(a = 1:4, b = letters[1:4], key = "a")
+DT2 <- data.table(a = 1:4, b = letters[1:4])
+test(1613.22, all.equal(DT1, DT2), "Datasets has different keys. 'target': a. 'current' has no key.")
+test(1613.23, all.equal(DT1, DT2, check.attributes = FALSE), TRUE)
+test(1613.24, all.equal(DT1, setkeyv(DT2, "a"), check.attributes = TRUE), TRUE)
+# test attributes: index
+DT1 <- data.table(a = 1:4, b = letters[1:4])
+DT2 <- data.table(a = 1:4, b = letters[1:4])
+setindexv(DT1, "b")
+test(1613.25, all.equal(DT1, DT2), "Datasets has different indexes. 'target': b. 'current' has no index.")
+test(1613.26, all.equal(DT1, DT2, check.attributes = FALSE), TRUE)
+test(1613.27, all.equal(DT1, setindexv(DT2, "a")), "Datasets has different indexes. 'target': b. 'current': a.")
+test(1613.28, all.equal(DT1, setindexv(DT2, "b")), "Datasets has different indexes. 'target': b. 'current': a, b.")
+test(1613.29, all.equal(DT1, setindexv(setindexv(DT2, NULL), "b")), TRUE)
+# test custom attribute
+DT1 <- data.table(a = 1:4, b = letters[1:4])
+DT2 <- data.table(a = 1:4, b = letters[1:4])
+setattr(DT1, "custom", 1L)
+test(1613.30, all.equal(DT1, DT2), "Datasets has different number of (non-excluded) attributes: target 3, current 2")
+test(1613.31, all.equal(DT1, DT2, check.attributes = FALSE), TRUE)
+setattr(DT2, "custom2", 2L)
+test(1613.32, all.equal(DT1, DT2), "Datasets has attributes with different names: custom, custom2")
+setattr(DT1, "custom2", 2L)
+setattr(DT2, "custom", 0L)
+test(1613.33, all.equal(DT1, DT2), paste0("Attributes: < Component ", dQuote("custom"), ": Mean relative difference: 1 >"))
+setattr(DT2, "custom", 1L)
+test(1613.34, all.equal(DT1, DT2), TRUE)
+# trim.levels
+dt1 <- data.table(A = factor(letters[1:10])[1:4]) # 10 levels
+dt2 <- data.table(A = factor(letters[1:5])[1:4]) # 5 levels
+test(1613.35, all.equal(dt1, dt2), TRUE)
+test(1613.36, all.equal(dt1, dt2, trim.levels = FALSE), paste0("Column 'A': Attributes: < Component ", dQuote("levels"), ": Lengths (10, 5) differ (string compare on first 5) >"))
+test(1613.37, all.equal(dt1, dt2, trim.levels = FALSE, check.attributes = FALSE), TRUE)
+test(1613.38, all.equal(dt1, dt2, trim.levels = FALSE, ignore.row.order = TRUE), TRUE)
+test(1613.39, length(levels(dt1$A)) == 10L && length(levels(dt2$A)) == 5L, TRUE) # dt1 and dt2 not updated by reference
+# unsupported column types: list
+dt = data.table(V1 = 1:4, V2 = letters[1:4], V3 = lapply(1:4, function(x) new.env()))
+test(1613.40, all.equal(dt, dt), TRUE)
+test(1613.41, all.equal(dt, dt, ignore.row.order = TRUE), error = "Datasets to compare with 'ignore.row.order' must not have unsupported column types: list")
+# unsupported type in set-ops: complex, raw
+dt = data.table(V1 = 1:4, V2 = letters[1:4], V3 = as.complex(1:4), V4 = as.raw(1:4), V5 = lapply(1:4, function(x) NULL))
+test(1613.42, all.equal(dt, dt), TRUE)
+test(1613.43, all.equal(dt, dt, ignore.row.order = TRUE), error = "Datasets to compare with 'ignore.row.order' must not have unsupported column types: raw, complex, list")
+# supported types multi column test
+dt = data.table(
+    V1 = 1:4,
+    V2 = as.numeric(1:4),
+    V3 = letters[rep(1:2, 2)],
+    V4 = factor(c("a","a","b","b")),
+    V5 = as.POSIXct("2016-03-05 12:00:00", origin="1970-01-01")+(1:4)*3600,
+    V6 = as.Date("2016-03-05", origin="1970-01-01")+(1:4)
+)[, V7 := as.IDate(V6)
+  ][, V8 := as.ITime(V5)]
+test(1613.44, all.equal(dt, dt), TRUE)
+test(1613.45, all.equal(dt, dt, ignore.row.order = TRUE), TRUE)
+test(1613.44, all.equal(dt[c(1:4,1L)], dt[c(1:4,1L)]), TRUE)
+test(1613.44, all.equal(dt[c(1:4,1L)], dt[c(1L,1:4)]), "Column 'V1': Mean relative difference: 0.6")
+test(1613.45, all.equal(dt[c(1:4,1L)], dt[c(1L,1:4)], ignore.row.order = TRUE), TRUE)
+test(1613.45, all.equal(dt[c(1:4,1:2)], dt[c(1L,1L,1:4)], ignore.row.order = TRUE), "Dataset 'current' has duplicated rows present in different quantity than in 'target'")
+test(1613.46, all.equal(dt[c(1:2,1:4,1:2)], dt[c(1:2,1:2,1:4)], ignore.row.order = TRUE), TRUE)
+# supported type all.equal: integer64
+if ("package:bit64" %in% search()) {
+    dt = data.table(V1 = 1:4, V2 = letters[1:4], V3 = bit64::as.integer64("90000000000")+1:4)
+    test(1613.47, all.equal(dt, dt), TRUE)
+    test(1613.48, all.equal(dt, dt, ignore.row.order = TRUE), TRUE)
+    test(1613.49, all.equal(dt[c(1:4,1L)], dt[c(1:4,1L)]), TRUE)
+    test(1613.50, all.equal(dt[c(1:4,1L)], dt[c(1L,1:4)]), "Column 'V1': Mean relative difference: 0.6")
+    test(1613.51, all.equal(dt[c(1:4,1L)], dt[c(1L,1:4)], ignore.row.order = TRUE), TRUE)
+    test(1613.52, all.equal(dt[c(1:4,1:2)], dt[c(1L,1L,1:4)], ignore.row.order = TRUE), "Dataset 'current' has duplicated rows present in different quantity than in 'target'")
+    test(1613.53, all.equal(dt[c(1:2,1:4,1:2)], dt[c(1:2,1:2,1:4)], ignore.row.order = TRUE), TRUE)
+}
+
+if ("package:bit64" %in% search()) {
+    # fix for #1405, handles roll with -ve int64 values properly
+    dt = data.table(x=as.integer64(c(-1000, 0)), y=c(5,10))
+    val = c(-1100,-900,100)
+    ans = data.table(x=as.integer64(val))
+    test(1614.1, dt[.(val), roll=Inf,  on="x"], ans[, y:=c(NA,5,10)])
+    test(1614.2, dt[.(val), roll=Inf, on="x", rollends=TRUE], ans[, y:=c(5,5,10)])
+    test(1614.3, dt[.(val), roll=-Inf, on="x"], ans[, y:=c(5,10,NA)])
+    test(1614.4, dt[.(val), roll=-Inf, on="x", rollends=TRUE], ans[, y:=c(5,10,10)])
+}
+
+# fix for #1571
+x = data.table(c(1,1,2,7,2,3,4,4,7), 1:9)
+y = data.table(c(2,3,4,4,4,5))
+test(1615.1, x[!y, on="V1", mult="first"], data.table(V1=c(1,7), V2=INT(c(1,4))))
+test(1615.2, x[!y, on="V1", mult="last"], data.table(V1=c(1,7), V2=INT(c(2,9))))
+test(1615.3, x[!y, on="V1", mult="all"], data.table(V1=c(1,1,7,7), V2=INT(c(1,2,4,9))))
+
+# fix for #1287 and #1271
+set.seed(1L)
+dt = data.table(a=c(1,1,2), b=sample(10,3), c=sample(10,3))
+test(1616.1, dt[.(1:2), if (c-b > 0L) b, on="a", by=.EACHI, mult="first"], data.table(a=c(1,2), V1=c(3L,5L)))
+test(1616.2, dt[.(1:2), if (c-b > 0L) b, on="a", by=.EACHI, mult="last"], data.table(a=c(2), V1=5L))
+test(1616.3, dt[.(1:2), c := if (c-b > 0L) b, by=.EACHI, mult="first", on="a"], 
+             data.table(a=dt$a, b=dt$b, c=c(3L,2L,5L)) )
+
+# fix for #1281
+x <- 3 > 0
+ans = setattr(copy(x), "foo", "bar")
+test(1617, setattr(x, "foo", "bar"), ans, warning = "Input is a length=1 logical that")
+
+# fix for #1445
+test(1618.1, fread("a,c,b\n1,2,3", select=c("b", "c")), data.table(b=3L, c=2L))
+test(1618.2, fread("a,c,b\n1,2,3", select=c("c", "b")), data.table(c=2L, b=3L))
+test(1618.3, fread("a,c,b\n1,2,3", select=c(3,2)), data.table(b=3L, c=2L))
+test(1618.4, fread("a,c,b\n1,2,3", select=c(2:3)), data.table(c=2L, b=3L))
+test(1618.5, fread("a,c,b\n1,2,3", select=c("b", "c"), col.names=c("q", "r")), data.table(q=3L, r=2L))
+test(1618.6, fread("a,c,b\n1,2,3", select=c("b", "z")), error="Column(s)")
+
+# fix for #1270
+DT = data.table(x=1:2, y=5:6)
+test(1619.1, DT[, .BY, by=x]$BY, as.list(1:2))
+test(1619.2, DT[, bycol := .BY, by=x]$bycol, as.list(1:2))
+
+# fix for #473
+DT = data.frame(x=1, y=2)
+setattr(DT, 'class', c('data.table', 'data.frame')) # simulates over-allocation lost scenario
+if (!truelength(DT)) test(1620, truelength(as.data.table(DT)), 100L)
+
+# fix for #1116, (#1239 and #1201)
+test(1621.1, fread("issue_1116_fread_few_lines.txt"), setDT(read.delim("issue_1116_fread_few_lines.txt", stringsAsFactors=FALSE, sep=",", check.names=FALSE)))
+test(1621.2, fread("issue_1116_fread_few_lines_2.txt"), setDT(read.delim("issue_1116_fread_few_lines_2.txt", stringsAsFactors=FALSE, sep=",", check.names=FALSE)))
+
+# fix for #1573
+ans1 = fread("issue_1573_fill.txt", fill=TRUE, na.strings="")
+ans2 = setDT(read.table("issue_1573_fill.txt", header=TRUE, fill=TRUE, stringsAsFactors=FALSE, na.strings=""))
+test(1622.1, ans1, ans2)
+test(1622.2, ans1, fread("issue_1573_fill.txt", fill=TRUE, sep=" ", na.strings=""))
+
+# fix for #989
+test(1623, fread("~"), error="can not be a directory name")
+
+# testing print.rownames option, #1097 (part of #1523)
+old = getOption("datatable.print.rownames")
+options(datatable.print.rownames = FALSE)
+DT <- data.table(a = 1:3)
+test(1624, capture.output(print(DT)), c(" a", " 1", " 2", " 3"))
+options(datatable.print.rownames = old)
+
+# fix for #1575
+text = "colA: dataA\ncolB: dataB\ncolC: dataC\n\nColA: dataA\nColB: dataB\nColC: dataC"
+test(1625.1, fread(text, header=FALSE, sep=":", blank.lines.skip=TRUE, strip.white=FALSE), 
+    setDT(read.table(text=text, header=FALSE, sep=":", blank.lines.skip=TRUE, stringsAsFactors=FALSE)))
+test(1625.2, fread(text, header=FALSE, sep=":", blank.lines.skip=TRUE), 
+    setDT(read.table(text=text, header=FALSE, sep=":", blank.lines.skip=TRUE, stringsAsFactors=FALSE, strip.white=TRUE)))
+
+# set-operators #547
+# setops basic check all
+x = data.table(c(1,2,2,2,3,4,4))
+y = data.table(c(2,3,4,4,4,5))
+test(1626.1, fintersect(x, y), data.table(c(2,3,4))) # intersect
+test(1626.2, fintersect(x, y, all=TRUE), data.table(c(2,3,4,4))) # intersect all
+test(1626.3, fsetdiff(x, y), data.table(c(1))) # setdiff (except)
+test(1626.4, fsetdiff(x, y, all=TRUE), data.table(c(1,2,2))) # setdiff all (except all)
+test(1626.5, funion(x, y), data.table(c(1,2,3,4,5))) # union
+test(1626.6, funion(x, y, all=TRUE), data.table(c(1,2,2,2,3,4,4,2,3,4,4,4,5))) # union all
+test(1626.7, fsetequal(x, y), FALSE) # setequal
+# setops check two cols
+x = data.table(c(1,2,2,2,3,4,4), c(1,1,1,3,3,3,3))
+y = data.table(c(2,3,4,4,4,5), c(1,1,2,3,3,3))
+test(1626.8, fintersect(x, y), data.table(c(2,4), c(1,3))) # intersect
+test(1626.9, fintersect(x, y, all=TRUE), data.table(c(2,4,4), c(1,3,3))) # intersect all
+test(1626.10, fsetdiff(x, y), data.table(c(1,2,3), c(1,3,3))) # setdiff (except)
+test(1626.11, fsetdiff(x, y, all=TRUE), data.table(c(1,2,2,3), c(1,1,3,3))) # setdiff all (except all)
+test(1626.12, funion(x, y), data.table(c(1,2,2,3,4,3,4,5), c(1,1,3,3,3,1,2,3))) # union
+test(1626.13, funion(x, y, all=TRUE), data.table(c(1,2,2,2,3,4,4,2,3,4,4,4,5), c(1,1,1,3,3,3,3,1,1,2,3,3,3))) # union all
+test(1626.14, fsetequal(x, y), FALSE) # setequal
+# setops on unique sets
+x = unique(x)
+y = unique(y)
+test(1626.15, fintersect(x, y), data.table(c(2,4), c(1,3))) # intersect
+test(1626.16, fintersect(x, y, all=TRUE), data.table(c(2,4), c(1,3))) # intersect all
+test(1626.17, fsetdiff(x, y), data.table(c(1,2,3), c(1,3,3))) # setdiff (except)
+test(1626.18, fsetdiff(x, y, all=TRUE), data.table(c(1,2,3), c(1,3,3))) # setdiff all (except all)
+test(1626.19, funion(x, y), data.table(c(1,2,2,3,4,3,4,5), c(1,1,3,3,3,1,2,3))) # union
+test(1626.20, funion(x, y, all=TRUE), data.table(c(1,2,2,3,4,2,3,4,4,5), c(1,1,3,3,3,1,1,2,3,3))) # union all
+test(1626.21, fsetequal(x, y), FALSE) # setequal
+# intersect precise duplicate handling
+dt = data.table(a=1L)
+test(1626.22, nrow(fintersect(dt[rep(1L,4)], dt[rep(1L,0)])), 0L)
+test(1626.23, nrow(fintersect(dt[rep(1L,4)], dt[rep(1L,0)], all=TRUE)), 0L)
+test(1626.24, nrow(fintersect(dt[rep(1L,4)], dt[rep(1L,1)])), 1L)
+test(1626.25, nrow(fintersect(dt[rep(1L,4)], dt[rep(1L,1)], all=TRUE)), 1L)
+test(1626.26, nrow(fintersect(dt[rep(1L,4)], dt[rep(1L,2)])), 1L)
+test(1626.27, nrow(fintersect(dt[rep(1L,4)], dt[rep(1L,2)], all=TRUE)), 2L)
+test(1626.28, nrow(fintersect(dt[rep(1L,4)], dt[rep(1L,3)])), 1L)
+test(1626.29, nrow(fintersect(dt[rep(1L,4)], dt[rep(1L,3)], all=TRUE)), 3L)
+test(1626.30, nrow(fintersect(dt[rep(1L,4)], dt[rep(1L,4)])), 1L)
+test(1626.31, nrow(fintersect(dt[rep(1L,4)], dt[rep(1L,4)], all=TRUE)), 4L)
+test(1626.32, nrow(fintersect(dt[rep(1L,4)], dt[rep(1L,5)])), 1L)
+test(1626.33, nrow(fintersect(dt[rep(1L,4)], dt[rep(1L,5)], all=TRUE)), 4L)
+# setdiff precise duplicate handling
+dt = data.table(a=1L)
+test(1626.34, nrow(fsetdiff(dt[rep(1L,4)], dt[rep(1L,0)])), 1L)
+test(1626.35, nrow(fsetdiff(dt[rep(1L,4)], dt[rep(1L,0)], all=TRUE)), 4L)
+test(1626.36, nrow(fsetdiff(dt[rep(1L,4)], dt[rep(1L,1)])), 0L)
+test(1626.37, nrow(fsetdiff(dt[rep(1L,4)], dt[rep(1L,1)], all=TRUE)), 3L)
+test(1626.38, nrow(fsetdiff(dt[rep(1L,4)], dt[rep(1L,2)])), 0L)
+test(1626.39, nrow(fsetdiff(dt[rep(1L,4)], dt[rep(1L,2)], all=TRUE)), 2L)
+test(1626.40, nrow(fsetdiff(dt[rep(1L,4)], dt[rep(1L,3)])), 0L)
+test(1626.41, nrow(fsetdiff(dt[rep(1L,4)], dt[rep(1L,3)], all=TRUE)), 1L)
+test(1626.42, nrow(fsetdiff(dt[rep(1L,4)], dt[rep(1L,4)])), 0L)
+test(1626.43, nrow(fsetdiff(dt[rep(1L,4)], dt[rep(1L,4)], all=TRUE)), 0L)
+test(1626.44, nrow(fsetdiff(dt[rep(1L,4)], dt[rep(1L,5)])), 0L)
+test(1626.45, nrow(fsetdiff(dt[rep(1L,4)], dt[rep(1L,5)], all=TRUE)), 0L)
+# unsupported type in set-ops: list (except UNION ALL)
+dt = data.table(V1 = 1:4, V2 = letters[1:4], V3 = lapply(1:4, function(x) new.env()))
+x = dt[c(2:4,2L,2L)]
+y = dt[c(1:3,2L)]
+test(1626.46, fintersect(x, y), error = "x and y must not have unsupported column types: list")
+test(1626.47, fintersect(x, y, all=TRUE), error = "x and y must not have unsupported column types: list")
+test(1626.48, fsetdiff(x, y), error = "x and y must not have unsupported column types: list")
+test(1626.49, fsetdiff(x, y, all=TRUE), error = "x and y must not have unsupported column types: list")
+test(1626.50, funion(x, y), error = "x and y must not have unsupported column types: list")
+test(1626.51, funion(x, y, all=TRUE), dt[c(2:4,2L,2L,1:3,2L)])
+test(1626.52, fsetequal(x, y), error = "x and y must not have unsupported column types: list")
+test(1626.53, fsetequal(dt[c(1:2,2L)], dt[c(1:2,2L)]), error = "x and y must not have unsupported column types: list")
+# unsupported type in set-ops: complex, raw
+dt = data.table(V1 = 1:4, V2 = letters[1:4], V3 = as.complex(1:4), V4 = as.raw(1:4), V5 = lapply(1:4, function(x) NULL))
+x = dt[c(2:4,2L,2L)]
+y = dt[c(1:3,2L)]
+test(1626.54, fintersect(x, y), error = "x and y must not have unsupported column types: raw, complex, list")
+test(1626.55, fintersect(x, y, all=TRUE), error = "x and y must not have unsupported column types: raw, complex, list")
+test(1626.56, fsetdiff(x, y), error = "x and y must not have unsupported column types: raw, complex, list")
+test(1626.57, fsetdiff(x, y, all=TRUE), error = "x and y must not have unsupported column types: raw, complex, list")
+test(1626.58, funion(x, y), error = "x and y must not have unsupported column types: raw, complex, list")
+test(1626.59, funion(x, y, all=TRUE), error = "x and y must not have unsupported column types: raw, complex") # no 'list' here which is supported for `all=TRUE`
+test(1626.60, fsetequal(x, y), error = "x and y must not have unsupported column types: raw, complex, list")
+test(1626.61, fsetequal(dt[c(1:2,2L)], dt[c(1:2,2L)]), error = "x and y must not have unsupported column types: raw, complex, list")
+# supported types multi column test
+dt = data.table(
+    V1 = 1:4,
+    V2 = as.numeric(1:4),
+    V3 = letters[rep(1:2, 2)],
+    V4 = factor(c("a","a","b","b")),
+    V5 = as.POSIXct("2016-03-05 12:00:00", origin="1970-01-01")+(1:4)*3600,
+    V6 = as.Date("2016-03-05", origin="1970-01-01")+(1:4)
+)[, V7 := as.IDate(V6)
+  ][, V8 := as.ITime(V5)]
+x = dt[c(2:4,2L,2L)]
+y = dt[c(1:3,2L)]
+test(1626.62, fintersect(x, y), dt[2:3])
+test(1626.63, fintersect(x, y, all=TRUE), dt[c(2:3,2L)])
+test(1626.63, fsetdiff(x, y), dt[4L])
+test(1626.64, fsetdiff(x, y, all=TRUE), dt[c(4L,2L)])
+test(1626.65, funion(x, y), dt[c(2:4,1L)])
+test(1626.66, funion(x, y, all=TRUE), dt[c(2:4,2L,2L,1:3,2L)])
+test(1626.67, fsetequal(x, y), FALSE)
+test(1626.68, fsetequal(dt[c(2:3,3L)], dt[c(2:3,3L)]), TRUE)
+# supported type in set-ops: integer64
+if(require("bit64", quietly = TRUE)){
+    dt = data.table(V1 = 1:4, V2 = letters[1:4], V3 = bit64::as.integer64("90000000000")+1:4)
+    x = dt[c(2:4,2L,2L)]
+    y = dt[c(1:3,2L)]
+    test(1626.69, fintersect(x, y), dt[2:3])
+    test(1626.70, fintersect(x, y, all=TRUE), dt[c(2:3,2L)])
+    test(1626.71, fsetdiff(x, y), dt[4L])
+    test(1626.72, fsetdiff(x, y, all=TRUE), dt[c(4L,2L)])
+    test(1626.73, funion(x, y), dt[c(2:4,1L)])
+    test(1626.74, funion(x, y, all=TRUE), dt[c(2:4,2L,2L,1:3,2L)])
+    test(1626.75, fsetequal(x, y), FALSE)
+    test(1626.76, fsetequal(dt[c(2:3,3L)], dt[c(2:3,3L)]), TRUE)
+}
+
+# fix for #1087 and #1465
+test(1627, charToRaw(names(fread("issue_1087_utf8_bom.csv"))[1L]), as.raw(97L))
+
+# uniqueN gains na.rm argument, #1455
+set.seed(1L)
+dt = data.table(x=sample(c(1:3,NA),25,TRUE), y=sample(c(NA,"a", "b"), 25,TRUE), z=sample(2,25,TRUE))
+test(1628.1, uniqueN(dt, by=1:2, na.rm=TRUE), nrow(na.omit(dt[, .N, by=.(x,y)])))
+test(1628.2, uniqueN(dt, na.rm=TRUE), nrow(na.omit(dt[, .N, by=.(x,y,z)])))
+test(1628.3, dt[, uniqueN(y, na.rm=TRUE), by=z], dt[, length(unique(na.omit(y))), by=z])
+test(1628.4, dt[, uniqueN(.SD, na.rm=TRUE), by=z], dt[, nrow(na.omit(.SD[, .N, by=.(x,y)])), by=z])
+
+# fix for long standing FR/bug, #495
+# most likely I'm missing some tests, but we'll fix/add them as we go along.
+dt = data.table(grp=c(2,3,3,1,1,2,3), v1=1:7, v2=7:1, v3=10:16)
+test(1629.1, dt[, .SD*v1, .SDcols=v2:v3], dt[, .(v2=v2*v1, v3=v3*v1)])
+test(1629.2, dt[, lapply(.SD, function(x) x*v1), .SDcols=v2:v3], dt[, .(v2=v2*v1, v3=v3*v1)])
+test(1629.3, dt[, lapply(.SD, function(x) mean(x)*sum(v1)), .SDcols=v2:v3], data.table(v2=112, v3=364))
+test(1629.4, dt[, c(sum(v1), lapply(.SD, mean)), .SDcols=v2:v3], data.table(V1=28L, v2=4, v3=13))
+test(1629.5, dt[, c(v1=sum(v1), lapply(.SD, mean)), .SDcols=v2:v3], data.table(v1=28L, v2=4, v3=13))
+test(1629.6, dt[, .(v1=sum(v1), lapply(.SD, mean)), .SDcols=v2:v3], data.table(v1=28L, V2=list(4,13)))
+test(1629.7, dt[0][, .SD*v1, .SDcols=v2:v3], dt[0][, .SD, .SDcols=v2:v3])
+# add/update
+dt2 = copy(dt)
+test(1629.8, dt2[, c("v2", "v3") := .SD*v1, .SDcols=v2:v3], dt[, .(grp, v1, v2=v2*v1, v3=v3*v1)])
+# grouping operations
+oldopts = getOption("datatable.optimize") # backup
+options(datatable.optimize = 1L) # no gforce
+test(1629.9, dt[, .SD*sum(v1), by=grp, .SDcols=v2:v3], dt[, .SD*sum(v1), by=grp][, v1 := NULL])
+ans1 = dt[, sum(v1), by=grp]
+ans2 = dt[, base::max(.SD), by=grp, .SDcols=v2:v3]
+test(1629.10, dt[, max(.SD)*sum(v1), by=grp, .SDcols=v2:v3], ans1[, .(grp, V1=V1*ans2$V1)])
+test(1629.11, dt[, lapply(.SD, function(x) weighted.mean(x, w=v2)), .SDcols=c("v1","v3"), by=grp], 
+         dt[, .(v1=weighted.mean(v1,w=v2), v3=weighted.mean(v3, w=v2)), by=grp])
+test(1629.12, dt[, c(v1=max(v1), lapply(.SD, base::min)), by=grp, .SDcols=v2:v3], dt[, .(v1=max(v1), v2=min(v2), v3=min(v3)), by=grp])
+# gforce
+options(datatable.optimize = Inf) # Inf
+test(1629.13, dt[, c(v1=max(v1), lapply(.SD, min)), by=grp, .SDcols=v2:v3], dt[, .(v1=max(v1), v2=min(v2), v3=min(v3)), by=grp])
+# even more complex, shouldn't run any optimisation
+dt[, v4 := v1/2]
+test(1629.14, dt[, c(.(v1=v1*min(v4)), lapply(.SD, function(x) x*max(v4))), by=grp, .SDcols=v2:v3], 
+    dt[, .(v1=v1*min(v4), v2=v2*max(v4), v3=v3*max(v4)), by=grp])
+test(1629.15, copy(dt)[, c("a", "b", "c") := c(min(v1), lapply(.SD, function(x) max(x)*min(v1))), by=grp, .SDcols=v3:v4], copy(dt)[, c("a", "b", "c") := .(min(v1), max(v3)*min(v1), max(v4)*min(v1)), by=grp])
+options(datatable.optimize = oldopts)
+# by=.EACHI and operations with 'i'
+test(1629.16, dt[.(2:3), c(.(sum(v1)), lapply(.SD, function(x) mean(x)*min(v1))), by=.EACHI, .SDcols=v2:v3, on="grp"], dt[grp %in% 2:3, c(.(sum(v1)), lapply(.SD, function(x) mean(x)*min(v1))), by=grp, .SDcols=v2:v3])
+test(1629.17, dt[.(2:3), c(sum(v1), lapply(.SD, function(x) mean(x)*v1)), .SDcols=v2:v3, on="grp"][order(V1,v2,v3)], dt[grp %in% 2:3, c(sum(v1), lapply(.SD, function(x) mean(x)*v1)), .SDcols=v2:v3][order(V1,v2,v3)])
+
+# #759, add new cols on :=
+dt1 <- data.table(id = 1:2, x = 3:4)
+dt2 <- data.table(id = 3:4, y = 5:6)
+# nomatch=0 has no effect
+test(1630.1, dt1[id>5, z := 2, nomatch=0L], data.table(id = 1:2, x = 3:4))
+test(1630.2, dt1[dt2, z := 2, nomatch=0L, on="id"], data.table(id = 1:2, x = 3:4))
+test(1630.3, copy(dt1)[dt2, z := y, on="id", by=.EACHI, nomatch=0L], data.table(id = 1:2, x = 3:4))
+# nomatch=NA guarantees all-NA col
+test(1630.4, copy(dt1)[id>5, z := 2], data.table(id = 1:2, x = 3:4, z = NA_real_))
+test(1630.5, copy(dt1)[dt2, z := y, on="id"], data.table(id = 1:2, x = 3:4, z = NA_integer_))
+test(1630.6, copy(dt1)[dt2, z := y, on="id", by=.EACHI], data.table(id = 1:2, x = 3:4, z = NA_integer_))
+
+# fix for #1268, on= retains keys correctly.
+A = data.table(site=rep(c("A","B"), each=3), date=rep(1:3, times=2), x=rep(1:3*10, times=2), key="site,date")
+B = data.table(x=c(10,20), y=c(100,200), key="x")
+test(1631, key(A[B, on="x"]), NULL)
+
+# fix for #1479, secondary keys are removed when necessary
+dt = data.table(a = rep(c(F,F,T,F,F,F,F,F,F), 3), b = c("x", "y", "z"))
+setindex(dt, a)
+dt[, a := as.logical(sum(a)), by = b]
+test(1632.1, names(attributes(attr(dt, 'index'))), NULL)
+dt = data.table(a = rep(c(F,F,T,F,F,F,F,F,F), 3), b = c("x", "y", "z"))
+setindex(dt, b)
+dt[, a := as.logical(sum(a)), by = b]
+test(1632.2, names(attributes(attr(dt, 'index'))), "__b")
+dt = data.table(a = rep(c(F,F,T,F,F,F,F,F,F), 3), b = c("x", "y", "z"))
+test(1632.3, copy(dt)[, c := !a, by=b], copy(dt)[, c := c(T,T,F,T,T,T,T,T,T)])
+
+# by accepts colA:colB for interactive scenarios, #1395
+dt = data.table(x=rep(1,18), y=rep(1:2, each=9), z=rep(1:3,each=6), a=rep(1:6, each=3))[, b := 6]
+test(1633.1, dt[, sum(b), by=x:a], dt[, sum(b), by=.(x,y,z,a)])
+test(1633.2, dt[, sum(b), by=y:a], dt[, sum(b), by=.(y,z,a)])
+test(1633.3, dt[, sum(b), by=a:y], dt[, sum(b), by=.(a,z,y)])
+test(1633.4, dt[, .SD, by=1:nrow(dt)], data.table(nrow=1:nrow(dt), dt)) # make sure this works
+
+# reuse secondary indices
+dt = data.table(x=sample(3, 10, TRUE), y=1:10)
+v1 = capture.output(ans1 <- dt[.(3:2), on="x", verbose=TRUE])
+setindex(dt, x)
+v2 = capture.output(ans2 <- dt[.(3:2), on="x", verbose=TRUE])
+test(1634.1, any(grepl("not found", v1)), TRUE)
+test(1634.2, any(grepl("Reusing index", v2)), TRUE)
+
+# fread's fill argument detects separator better in complex cases as well, #1573
+text = "a	b	c	d	e	f	g	h	i	j	k	l\n1	P	P;A;E;	Y	YW;	H().	1-3 pro\n2	Q9	a;a;a;a;	YB	YH;	M().	13 pn ba\n1	P3	P;	Y	Y;	R().	14 p\n53	P	P6;B;D;0;5;a;X;a;4R;	Y	Y;	H().	13 pe e\n1	P	P;O;O;a;a;a;	HLA-A	HLA-A;;	H().	HcIha,A-n\n102	P	P;O;P;P;P;P;P;P;a;a;a;a;a;a;a;a;a;a;	H-A	H-A;;	H().	HcIha,A"
+test(1635.1, ans1 <- fread(text, fill=TRUE), setDT(read.table(text=text, stringsAsFactors=FALSE, fill=TRUE, sep="\t", header=TRUE)))
+text = "a	b	c	d	e\n1	P	P;A;E;	Y	YW;	H().	1-3 pro\n2	Q9	a;a;a;a;	YB	YH;	M().	13 pn ba\n1	P3	P;	Y	Y;	R().	14 p\n53	P	P6;B;D;0;5;a;X;a;4R;	Y	Y;	H().	13 pe e\n1	P	P;O;O;a;a;a;	HLA-A	HLA-A;;	H().	HcIha,A-n\n102	P	P;O;P;P;P;P;P;P;a;a;a;a;a;a;a;a;a;a;	H-A	H-A;;	H().	HcIha,A"
+test(1635.2, fread(text, fill=TRUE), setnames(ans1[, 1:7, with=FALSE], c(letters[1:5], paste("V", 6:7, sep=""))))
+
+# testing function type in dt, #518
+dt = data.table(x=1, y=sum)
+test(1636.1, class(dt$y), "list")
+test(1636.2, any(grepl("1: 1 <function>", capture.output(print(dt)))), TRUE)
+dt = data.table(x=1:2, y=sum)
+test(1636.3, class(dt$y), "list")
+test(1636.4, any(grepl("2: 2 <function>", capture.output(print(dt)))), TRUE)
+dt = data.table(x=1:2, y=c(sum, min))
+test(1636.5, class(dt$y), "list")
+test(1636.6, any(grepl("2: 2 <function>", capture.output(print(dt)))), TRUE)
+
+# #484 fix (related to #495 fix above)
+dt = data.table(a = 1, b = 1)
+test(1637.1, dt[, data.table(a, .SD), by = cumsum(a)], data.table(cumsum=1, a=1, b=1))
+test(1637.2, dt[, data.table(a, .SD), by = cumsum(a), .SDcols=a:b], data.table(cumsum=1, a=1, a=1, b=1))
+test(1637.3, dt[, data.table(a, .SD), by = a], data.table(a=1,a=1,b=1))
+test(1637.4, dt[, data.table(b, .SD), by = cumsum(a)], data.table(cumsum=1, b=1, b=1))
+test(1637.5, dt[, data.table(a, b), by = cumsum(a)], data.table(cumsum=1, a=1, b=1))
+
+# when datatable.optimize<1, no optimisation of j should take place:
+oldopt = getOption("datatable.optimize")
+options(datatable.optimize = 0L)
+dt = data.table(x=1:5, y=6:10, z=c(1,1,1,2,2))
+out = capture.output(dt[, .SD, by=z, verbose=TRUE])
+test(1638, out[2], "All optimizations are turned off")
+options(datatable.optimize = oldopt)
+
+#1389 - split.data.table - big chunk of unit tests
+set.seed(123)
+dt = data.table(x1 = rep(letters[1:2], 6), x2 = rep(letters[3:5], 4), x3 = rep(letters[5:8], 3), y = rnorm(12))
+dt = dt[sample(.N)]
+df = as.data.frame(dt)
+# - [x] split by factor the same as `split.data.frame` - `f` argument ----
+test(1639.1, lapply(split(df, as.factor(1:2)), setDT), split(dt, as.factor(1:2))) # drop=FALSE on same factor
+test(1639.2, lapply(split(df, as.factor(1:2), drop=TRUE), setDT), split(dt, as.factor(1:2), drop=TRUE)) # drop=TRUE on same factor
+test(1639.3, lapply(split(df, as.factor(1:4)[3:2]), setDT), split(dt, as.factor(1:4)[3:2])) # drop=FALSE on same factor with empty levels
+test(1639.4, lapply(split(df, as.factor(1:4)[3:2], drop=TRUE), setDT), split(dt, as.factor(1:4)[3:2], drop=TRUE)) # drop=TRUE on same factor with empty levels
+test(1639.5, lapply(split(df, as.factor(1:12)), setDT), split(dt, as.factor(1:12))) # drop=FALSE factor length of nrow
+test(1639.6, lapply(split(df, as.factor(1:12), drop=TRUE), setDT), split(dt, as.factor(1:12), drop=TRUE)) # drop=TRUE factor length of nrow
+ord = sample(2:13)
+test(1639.7, lapply(split(df, as.factor(1:14)[ord]), setDT), split(dt, as.factor(1:14)[ord])) # drop=FALSE factor length of nrow with empty levels
+test(1639.8, lapply(split(df, as.factor(1:14)[ord], drop=TRUE), setDT), split(dt, as.factor(1:14)[ord], drop=TRUE)) # drop=TRUE factor length of nrow with empty levels
+test(1639.9, lapply(split(df, list(as.factor(1:2), as.factor(3:2))), setDT), split(dt, list(as.factor(1:2), as.factor(3:2)))) # `f` list object drop=FALSE
+test(1639.10, lapply(split(df, list(as.factor(1:2), as.factor(3:2)), drop=TRUE), setDT), split(dt, list(as.factor(1:2), as.factor(3:2)), drop=TRUE)) # `f` list object drop=TRUE
+test(1639.11, split(dt, as.factor(integer())), error = "group length is 0 but data nrow > 0") # factor length 0L
+test(1639.12, split(dt, as.factor(integer()), drop=TRUE), error = "group length is 0 but data nrow > 0")
+test(1639.13, split(dt, as.factor(1:2)[0L]), error = "group length is 0 but data nrow > 0") # factor length 0L with empty levels
+test(1639.14, split(dt, as.factor(1:2)[0L], drop=TRUE), error = "group length is 0 but data nrow > 0")
+# - [x] edge cases for `f` argument ----
+test(1639.15, split(df, as.factor(NA)), split(dt, as.factor(NA))) # factor NA
+test(1639.16, split(df, as.factor(NA), drop=TRUE), split(dt, as.factor(NA), drop=TRUE))
+test(1639.17, lapply(split(df, as.factor(1:2)[0L][1L]), setDT), split(dt, as.factor(1:2)[0L][1L])) # factor NA with empty levels
+test(1639.18, split(df, as.factor(1:2)[0L][1L], drop=TRUE), split(dt, as.factor(1:2)[0L][1L], drop=TRUE))
+test(1639.19, lapply(split(df, as.factor(c(1L,NA,2L))), setDT), split(dt, as.factor(c(1L,NA,2L)))) # factor has NA
+test(1639.20, lapply(split(df, as.factor(c(1L,NA,2L)), drop=TRUE), setDT), split(dt, as.factor(c(1L,NA,2L)), drop=TRUE))
+test(1639.21, lapply(split(df, as.factor(c(1L,NA,2:4))[1:3]), setDT), split(dt, as.factor(c(1L,NA,2:4))[1:3])) # factor has NA with empty levels
+test(1639.22, lapply(split(df, as.factor(c(1L,NA,2:4))[1:3], drop=TRUE), setDT), split(dt, as.factor(c(1L,NA,2:4))[1:3], drop=TRUE))
+test(1639.23, lapply(split(df, letters[c(1L,NA,2L)]), setDT), split(dt, letters[c(1L,NA,2L)])) # character as `f` arg
+test(1639.24, lapply(split(df, letters[c(1L,NA,2L)], drop=TRUE), setDT), split(dt, letters[c(1L,NA,2L)], drop=TRUE))
+test(1639.25, lapply(split(df, "z"), setDT), split(dt, "z")) # character as `f` arg, length 1L
+test(1639.26, lapply(split(df, "z", drop=TRUE), setDT), split(dt, "z", drop=TRUE))
+test(1639.27, lapply(split(df, letters[c(1L,NA)]), setDT), split(dt, letters[c(1L,NA)])) # character as `f` arg, length 1L of non-NA
+test(1639.28, lapply(split(df, letters[c(1L,NA)], drop=TRUE), setDT), split(dt, letters[c(1L,NA)], drop=TRUE))
+test(1639.29, lapply(split(df[0L,], "z"), setDT), split(dt[0L], "z")) # nrow 0, f length 1-2
+test(1639.30, lapply(split(df[0L,], c("z1","z2")), setDT), split(dt[0L], c("z1","z2")))
+test(1639.31, lapply(split(df[0L,], "z", drop=TRUE), setDT), split(dt[0L], "z", drop=TRUE))
+test(1639.32, lapply(split(df[0L,], c("z1","z2"), drop=TRUE), setDT), split(dt[0L], c("z1","z2"), drop=TRUE))
+test(1639.33, lapply(split(df[1L,], "z"), setDT), split(dt[1L], "z")) # nrow 1, f length 1-2
+test(1639.34, lapply(suppressWarnings(split(df[1L,], c("z1","z2"))), setDT), suppressWarnings(split(dt[1L], c("z1","z2"))))
+test(1639.35, lapply(split(df[1L,], "z", drop=TRUE), setDT), split(dt[1L], "z", drop=TRUE) )
+test(1639.36, lapply(suppressWarnings(split(df[1L,], c("z1","z2"), drop=TRUE)), setDT), suppressWarnings(split(dt[1L], c("z1","z2"), drop=TRUE)))
+test(1639.37, lapply(split(df[0L,], as.factor(NA_character_)), setDT), split(dt[0L], as.factor(NA_character_))) # nrow 0, f factor length 1L NA
+test(1639.38, lapply(split(df[0L,], as.factor(NA_character_), drop=TRUE), setDT), split(dt[0L], as.factor(NA_character_), drop=TRUE))
+test(1639.39, lapply(split(df[0L,], as.factor(1:2)[0L][1L]), setDT), split(dt[0L], as.factor(1:2)[0L][1L])) # nrow 0, f factor length 1L NA with empty levels
+test(1639.40, lapply(split(df[0L,], as.factor(1:2)[0L][1L], drop=TRUE), setDT), split(dt[0L], as.factor(1:2)[0L][1L], drop=TRUE))
+test(1639.41, lapply(split(df[0L,], as.factor(integer())), setDT), split(dt[0L], as.factor(integer()))) # nrow 0, f factor length 0L
+test(1639.42, lapply(split(df[0L,], as.factor(integer()), drop=TRUE), setDT), split(dt[0L], as.factor(integer()), drop=TRUE))
+test(1639.43, lapply(split(df[0L,], as.factor(1:2)[0L]), setDT), split(dt[0L], as.factor(1:2)[0L])) # nrow 0, f factor length 0L with empty levels
+test(1639.44, lapply(split(df[0L,], as.factor(1:2)[0L], drop=TRUE), setDT), split(dt[0L], as.factor(1:2)[0L], drop=TRUE))
+test(1639.45, lapply(split(df[0L,], as.factor(1:3)[c(2L,NA,3L)]), setDT), split(dt[0L], as.factor(1:3)[c(2L,NA,3L)])) # nrow 0, f factor with empty levels and NA
+test(1639.46, lapply(split(df[0L,], as.factor(1:3)[c(2L,NA,3L)], drop=TRUE), setDT), split(dt[0L], as.factor(1:3)[c(2L,NA,3L)], drop=TRUE)) # nrow 0, f character length 1L NA
+test(1639.47, lapply(split(df[0L,], NA_character_), setDT), split(dt[0L], NA_character_))
+test(1639.48, lapply(split(df[0L,], NA_character_, drop=TRUE), setDT), split(dt[0L], NA_character_, drop=TRUE))
+test(1639.49, lapply(split(df[0L,], letters[c(NA,1:3)]), setDT), split(dt[0L], letters[c(NA,1:3)])) # nrow 0, f length > 1L, with NA
+test(1639.50, lapply(split(df[0L,], letters[c(NA,1:3)], drop=TRUE), setDT), split(dt[0L], letters[c(NA,1:3)], drop=TRUE))
+# - [x] split by reference to column names - `by` - for factor column ----
+fdt = dt[, c(lapply(.SD, as.factor), list(y=y)), .SDcols=x1:x3]
+l = split(fdt, by = "x1", flatten=FALSE) # single col
+test(1639.51, TRUE, all(is.list(l), identical(names(l), c("b","a")), sapply(l, is.data.table), sapply(l, nrow) == c(b=6L, a=6L), sapply(l, ncol) == c(b=4L, a=4L)))
+l = split(fdt, by = "x2", flatten=FALSE)
+test(1639.52, TRUE, all(is.list(l), identical(names(l), c("d","e","c")), sapply(l, is.data.table), sapply(l, nrow) == c(d=4L, e=4L, c=4L), sapply(l, ncol) == c(d=4L, e=4L, c=4L)))
+l = split(fdt, by = "x3", flatten=FALSE)
+test(1639.53, TRUE, all(is.list(l), identical(names(l), c("h","f","g","e")), sapply(l, is.data.table), sapply(l, nrow) == c(h=3L, f=3L, g=3L, e=3L), sapply(l, ncol) == c(h=4L, f=4L, g=4L, e=4L)))
+l = split(fdt, by = c("x1","x2"), flatten=FALSE) # multi col
+test(1639.54, TRUE, all(
+    is.list(l), identical(names(l), c("b","a")), 
+    sapply(l, function(x) !is.data.table(x) && is.list(x)), 
+    identical(lapply(l, names), list(b=c("d","e","c"), a=c("e","d","c"))),
+    sapply(l, sapply, nrow) == rep(2L, 6),
+    sapply(l, sapply, ncol) == rep(4L, 6)
+))
+l = split(fdt, by = c("x1","x3"), flatten=FALSE) # empty levels appears due subset x3 by x1 groups
+test(1639.55, TRUE, all(
+    is.list(l), identical(names(l), c("b","a")), 
+    sapply(l, function(x) !is.data.table(x) && is.list(x)), 
+    identical(lapply(l, names), list(b=c("h","f","e","g"), a=c("g","e","f","h"))),
+    sapply(l, sapply, nrow) == rep(c(3L,3L,0L,0L), 2),
+    sapply(l, sapply, ncol) == rep(4L, 8)
+))
+l = split(fdt, by = c("x2","x3"), flatten=FALSE)
+test(1639.56, TRUE, all(
+    is.list(l), identical(names(l), c("d","e","c")), 
+    sapply(l, function(x) !is.data.table(x) && is.list(x)), 
+    identical(lapply(l, names), list(d=c("h","f","e","g"), e=c("h","f","g","e"), c=c("f","h","e","g"))),
+    sapply(l, sapply, nrow) == rep(1L, 12),
+    sapply(l, sapply, ncol) == rep(4L, 4)
+))
+l = split(fdt, by = c("x1","x2","x3"), flatten=FALSE) # empty levels in x3 after subset are expanded
+test(1639.57, TRUE, all(
+    is.list(l), identical(names(l), c("b","a")), 
+    sapply(l, function(x) !is.data.table(x) && is.list(x)), 
+    sapply(l, sapply, function(x) !is.data.table(x) && is.list(x)),
+    identical(lapply(l, lapply, names), list(b=list(d=c("h","f","e","g"), e=c("h","f","e","g"), c=c("f","h","e","g")), a=list(e=c("g","e","f","h"), d=c("e","g","f","h"), c=c("e","g","f","h")))),
+    sapply(l, sapply, sapply, nrow) == rep(c(1L,1L,0L,0L), 6),
+    sapply(l, sapply, sapply, ncol) == rep(4L, 24)
+))
+l = split(fdt, by = c("x3","x1"), drop=TRUE, flatten=FALSE) # multi col rev
+test(1639.58, TRUE, all(
+    is.list(l), identical(names(l), c("h","f","g","e")), 
+    sapply(l, function(x) !is.data.table(x) && is.list(x)), 
+    identical(lapply(l, names), list(h=c("b"), f=c("b"), g=c("a"), e=c("a"))),
+    sapply(l, sapply, nrow) == rep(3L, 4),
+    sapply(l, sapply, ncol) == rep(4L, 8)
+))
+l = split(fdt, by = c("x3","x1"), flatten=FALSE) # x1 has empty levels after split on x3 first
+test(1639.59, TRUE, all(
+    is.list(l), identical(names(l), c("h","f","g","e")), 
+    sapply(l, function(x) !is.data.table(x) && is.list(x)), 
+    identical(lapply(l, names), list(h=c("b","a"), f=c("b","a"), g=c("a","b"), e=c("a","b"))),
+    sapply(l, sapply, nrow) == rep(c(3L,0L), 4),
+    sapply(l, sapply, ncol) == rep(4L, 8)
+))
+l = split(fdt, by = c("x3","x2","x1"), drop = TRUE, flatten=FALSE)
+test(1639.60, TRUE, all(
+    is.list(l), identical(names(l), c("h","f","g","e")), 
+    sapply(l, function(x) !is.data.table(x) && is.list(x)), 
+    sapply(l, sapply, function(x) !is.data.table(x) && is.list(x)),
+    identical(lapply(l, lapply, names), list(h=list(d=c("b"), e=c("b"), c=c("b")), f=list(e=c("b"), c=c("b"), d=c("b")), g=list(e=c("a"), d=c("a"), c=c("a")), e=list(e=c("a"), d=c("a"), c=c("a")))),
+    sapply(l, sapply, sapply, nrow) == rep(1L, 12),
+    sapply(l, sapply, sapply, ncol) == rep(4L, 12)
+))
+sdf = split(as.data.frame(fdt), f=list(fdt$x1, fdt$x3)) # split.data.frame match
+test(1639.61, unlist(split(fdt, by = c("x1","x3"), sorted = TRUE, flatten=FALSE), recursive = FALSE), lapply(sdf[sort(names(sdf))], setDT)) # vs split.data.frame by 2L drop=FALSE
+sdf = split(as.data.frame(fdt), f=list(fdt$x1, fdt$x3), drop=TRUE)
+test(1639.62, unlist(split(fdt, by = c("x1","x3"), sorted = TRUE, drop=TRUE, flatten=FALSE), recursive = FALSE), lapply(sdf[sort(names(sdf))], setDT)) # vs split.data.frame by 2L drop=TRUE
+fdt = dt[, .(x1 = as.factor(c(as.character(x1), "c"))[-13L], # empty levels in factor and drop=FALSE
+             x2 = as.factor(c("a", as.character(x2)))[-1L],
+             x3 = as.factor(c("a", as.character(x3), "z"))[c(-1L,-14L)],
+             y = y)]
+l = split(fdt, by = "x1")
+test(1639.63, TRUE, all(is.list(l), identical(names(l), c("b","a","c")), sapply(l, is.data.table), sapply(l, nrow) == c(b=6L, a=6L, c=0L), sapply(l, ncol) == c(b=4L, a=4L, c=4L)))
+l = split(fdt, by = "x2")
+test(1639.64, TRUE, all(is.list(l), identical(names(l), c("d","e","c","a")), sapply(l, is.data.table), sapply(l, nrow) == c(d=4L, e=4L, c=4L, a=0L), sapply(l, ncol) == c(d=4L, e=4L, c=4L, a=4L)))
+l = split(fdt, by = c("x3","x1"), flatten=FALSE)
+test(1639.65, TRUE, all(
+    is.list(l), identical(names(l), c("h","f","g","e","a","z")),
+    sapply(l, function(x) !is.data.table(x) && is.list(x)),
+    identical(lapply(l, names), list(h=c("b","a","c"), f=c("b","a","c"), g=c("a","b","c"), e=c("a","b","c"), a=c("a","b","c"), z=c("a","b","c"))),
+    sapply(l, sapply, nrow) == c(rep(c(3L,0L,0L), 4), rep(0L, 6)),
+    sapply(l, sapply, ncol) == rep(4L, 18)
+))
+l = split(fdt, by = "x1", drop=TRUE) # empty levels in factor and drop=TRUE
+test(1639.66, TRUE, all(is.list(l), identical(names(l), c("b","a")), sapply(l, is.data.table), sapply(l, nrow) == c(b=6L, a=6L), sapply(l, ncol) == c(b=4L, a=4L)))
+l = split(fdt, by = "x2", drop=TRUE)
+test(1639.67, TRUE, all(is.list(l), identical(names(l), c("d","e","c")), sapply(l, is.data.table), sapply(l, nrow) == c(d=4L, e=4L, c=4L), sapply(l, ncol) == c(d=4L, e=4L, c=4L)))
+l = split(fdt, by = c("x3","x1"), drop=TRUE, flatten=FALSE)
+test(1639.68, TRUE, all(
+    is.list(l), identical(names(l), c("h","f","g","e")),
+    sapply(l, function(x) !is.data.table(x) && is.list(x)),
+    identical(lapply(l, names), list(h=c("b"), f=c("b"), g=c("a"), e=c("a"))),
+    sapply(l, sapply, nrow) == rep(3L, 4),
+    sapply(l, sapply, ncol) == rep(4L, 4)
+))
+l = split(fdt, by = c("x3","x1"), sorted=TRUE, flatten=FALSE) # test order for empty levels in factor and drop=FALSE
+test(1639.69, TRUE, all(
+    is.list(l), identical(names(l), c("a","e","f","g","h","z")),
+    sapply(l, function(x) !is.data.table(x) && is.list(x)),
+    identical(lapply(l, names), setNames(rep(list(c("a","b","c")), 6), c("a","e","f","g","h","z"))),
+    sapply(l, sapply, nrow) == c(0L,0L,0L,3L,0L,0L,0L,3L,0L,3L,0L,0L,0L,3L,0L,0L,0L,0L),
+    sapply(l, sapply, ncol) == rep(4L, 18)
+))
+l = split(fdt, by = c("x3","x1"), sorted=TRUE, drop=TRUE, flatten=FALSE) # test order for empty levels in factor and drop=TRUE
+test(1639.70, TRUE, all(
+    is.list(l), identical(names(l), c("e","f","g","h")),
+    sapply(l, function(x) !is.data.table(x) && is.list(x)),
+    identical(lapply(l, names), list(e=c("a"), f=c("b"), g=c("a"), h=c("b"))),
+    sapply(l, sapply, nrow) == rep(3L, 4),
+    sapply(l, sapply, ncol) == rep(4L, 4)
+))
+sdf = split(as.data.frame(fdt), list(fdt$x3, fdt$x1)) # split.data.frame match on by = 2L and empty levels, drop=FALSE
+test(1639.71, unlist(split(fdt, by = c("x3","x1"), sorted=TRUE, flatten=FALSE), recursive = FALSE), lapply(sdf[sort(names(sdf))], setDT))
+sdf = split(as.data.frame(fdt), list(fdt$x3, fdt$x1), drop=TRUE) # split.data.frame match on by = 2L and empty levels, drop=TRUE
+test(1639.72, unlist(split(fdt, by = c("x3","x1"), sorted=TRUE, drop=TRUE, flatten=FALSE), recursive = FALSE), lapply(sdf[sort(names(sdf))], setDT))
+# - [x] split by reference to column names - `by` - factor and character column ----
+fdt = dt[, .(x1 = x1,
+             x2 = x2,
+             x3 = as.factor(x3),
+             y = y)]
+l = split(fdt, by = c("x2","x3"), flatten=FALSE)
+test(1639.73, TRUE, all(
+    is.list(l), identical(names(l), c("d","e","c")), 
+    sapply(l, function(x) !is.data.table(x) && is.list(x)), 
+    identical(lapply(l, names), list(d=c("h","f","e","g"), e=c("h","f","g","e"), c=c("f","h","e","g"))),
+    sapply(l, sapply, nrow) == rep(1L, 12),
+    sapply(l, sapply, ncol) == rep(4L, 4)
+))
+l = split(fdt, by = c("x1","x2","x3"), flatten=FALSE) # empty levels in x3 after subset on x1, x2
+test(1639.74, TRUE, all(
+    is.list(l), identical(names(l), c("b","a")), 
+    sapply(l, function(x) !is.data.table(x) && is.list(x)), 
+    sapply(l, sapply, function(x) !is.data.table(x) && is.list(x)),
+    identical(lapply(l, lapply, names), list(b=list(d=c("h","f","e","g"), e=c("h","f","e","g"), c=c("f","h","e","g")), a=list(e=c("g","e","f","h"), d=c("e","g","f","h"), c=c("e","g","f","h")))),
+    sapply(l, sapply, sapply, nrow) == rep(c(1L,1L,0L,0L), 6),
+    sapply(l, sapply, sapply, ncol) == rep(4L, 24)
+))
+l = split(fdt, by = c("x1","x2","x3"), drop=TRUE, flatten=FALSE)
+test(1639.75, TRUE, all(
+    is.list(l), identical(names(l), c("b","a")), 
+    sapply(l, function(x) !is.data.table(x) && is.list(x)), 
+    sapply(l, sapply, function(x) !is.data.table(x) && is.list(x)),
+    identical(lapply(l, lapply, names), list(b=list(d=c("h","f"), e=c("h","f"), c=c("f","h")), a=list(e=c("g","e"), d=c("e","g"), c=c("e","g")))),
+    sapply(l, sapply, sapply, nrow) == rep(1L, 12),
+    sapply(l, sapply, sapply, ncol) == rep(4L, 12)
+))
+l = split(fdt, by = c("x3","x1"), flatten=FALSE) # multi col rev
+test(1639.76, TRUE, all(
+    is.list(l), identical(names(l), c("h","f","g","e")), 
+    sapply(l, function(x) !is.data.table(x) && is.list(x)), 
+    identical(lapply(l, names), list(h=c("b"), f=c("b"), g=c("a"), e=c("a"))),
+    sapply(l, sapply, nrow) == rep(3L, 4),
+    sapply(l, sapply, ncol) == rep(4L, 4)
+))
+l = split(fdt, by = c("x3","x2","x1"), flatten=FALSE)
+test(1639.77, TRUE, all(
+    is.list(l), identical(names(l), c("h","f","g","e")), 
+    sapply(l, function(x) !is.data.table(x) && is.list(x)), 
+    sapply(l, sapply, function(x) !is.data.table(x) && is.list(x)),
+    identical(lapply(l, lapply, names), list(h=list(d=c("b"), e=c("b"), c=c("b")), f=list(e=c("b"), c=c("b"), d=c("b")), g=list(e=c("a"), d=c("a"), c=c("a")), e=list(e=c("a"), d=c("a"), c=c("a")))),
+    sapply(l, sapply, sapply, nrow) == rep(1L, 12),
+    sapply(l, sapply, sapply, ncol) == rep(4L, 12)
+))
+fdt = dt[, .(x1 = x1, # empty levels in factor and drop=FALSE
+             x2 = x2,
+             x3 = as.factor(c("a", as.character(x3), "z"))[c(-1L,-14L)],
+             y = y)]
+l = split(fdt, by = c("x3","x1"), flatten=FALSE) # empty levels in factor and drop=FALSE
+test(1639.78, TRUE, all(
+    is.list(l), identical(names(l), c("h","f","g","e","a","z")),
+    sapply(l, function(x) !is.data.table(x) && is.list(x)),
+    identical(lapply(l, names), list(h=c("b"), f=c("b"), g=c("a"), e=c("a"), a=character(), z=character())),
+    identical(lapply(l, lapply, nrow), list(h=list(b=3L), f=list(b=3L), g=list(a=3L), e=list(a=3L), a=structure(list(), .Names = character(0)), z=structure(list(), .Names = character(0)))),
+    identical(lapply(l, lapply, ncol), list(h=list(b=4L), f=list(b=4L), g=list(a=4L), e=list(a=4L), a=structure(list(), .Names = character(0)), z=structure(list(), .Names = character(0))))
+))
+
+l = split(fdt, by = c("x3","x1"), drop=TRUE, flatten=FALSE) # empty levels in factor and drop=TRUE
+test(1639.79, TRUE, all(
+    is.list(l), identical(names(l), c("h","f","g","e")),
+    sapply(l, function(x) !is.data.table(x) && is.list(x)),
+    identical(lapply(l, names), list(h=c("b"), f=c("b"), g=c("a"), e=c("a"))),
+    sapply(l, sapply, nrow) == rep(3L, 4),
+    sapply(l, sapply, ncol) == rep(4L, 4)
+))
+l = split(fdt, by = c("x3","x1"), sorted=TRUE, flatten=FALSE) # test order for empty levels in factor and drop=FALSE
+test(1639.80, TRUE, all(
+    is.list(l), identical(names(l), c("a","e","f","g","h","z")),
+    sapply(l, function(x) !is.data.table(x) && is.list(x)),
+    identical(lapply(l, names), list(a=character(), e=c("a"), f=c("b"), g=c("a"), h=c("b"), z=character())),
+    identical(lapply(l, lapply, nrow), list(a=structure(list(), .Names = character(0)), e=list(a=3L), f=list(b=3L), g=list(a=3L), h=list(b=3L), z=structure(list(), .Names = character(0)))),
+    identical(lapply(l, lapply, ncol), list(a=structure(list(), .Names = character(0)), e=list(a=4L), f=list(b=4L), g=list(a=4L), h=list(b=4L), z=structure(list(), .Names = character(0))))
+))
+l = split(fdt, by = c("x3","x1"), sorted=TRUE, drop=TRUE, flatten=FALSE) # test order for empty levels in factor and drop=TRUE
+test(1639.81, TRUE, all(
+    is.list(l), identical(names(l), c("e","f","g","h")),
+    sapply(l, function(x) !is.data.table(x) && is.list(x)),
+    identical(lapply(l, names), list(e=c("a"), f=c("b"), g=c("a"), h=c("b"))),
+    sapply(l, sapply, nrow) == rep(3L, 4),
+    sapply(l, sapply, ncol) == rep(4L, 4)
+))
+# - [x] split by reference to column names - `by` - for character column ----
+l = split(dt, by = "x1") # single col
+test(1639.82, TRUE, all(is.list(l), identical(names(l), c("b","a")), sapply(l, is.data.table), sapply(l, nrow) == c(b=6L, a=6L), sapply(l, ncol) == c(b=4L, a=4L)))
+l = split(dt, by = "x2")
+test(1639.83, TRUE, all(is.list(l), identical(names(l), c("d","e","c")), sapply(l, is.data.table), sapply(l, nrow) == c(d=4L, e=4L, c=4L), sapply(l, ncol) == c(d=4L, e=4L, c=4L)))
+l = split(dt, by = "x3")
+test(1639.84, TRUE, all(is.list(l), identical(names(l), c("h","f","g","e")), sapply(l, is.data.table), sapply(l, nrow) == c(h=3L, f=3L, g=3L, e=3L), sapply(l, ncol) == c(h=4L, f=4L, g=4L, e=4L)))
+l = split(dt, by = c("x1","x2"), flatten=FALSE) # multi col
+test(1639.85, TRUE, all(
+    is.list(l), identical(names(l), c("b","a")), 
+    sapply(l, function(x) !is.data.table(x) && is.list(x)), 
+    identical(lapply(l, names), list(b=c("d","e","c"), a=c("e","d","c"))),
+    sapply(l, sapply, nrow) == rep(2L, 6),
+    sapply(l, sapply, ncol) == rep(4L, 6)
+))
+l = split(dt, by = c("x1","x3"), flatten=FALSE)
+test(1639.86, TRUE, all(
+    is.list(l), identical(names(l), c("b","a")), 
+    sapply(l, function(x) !is.data.table(x) && is.list(x)), 
+    identical(lapply(l, names), list(b=c("h","f"), a=c("g","e"))),
+    sapply(l, sapply, nrow) == rep(3L, 4),
+    sapply(l, sapply, ncol) == rep(4L, 4)
+))
+l = split(dt, by = c("x2","x3"), flatten=FALSE)
+test(1639.87, TRUE, all(
+    is.list(l), identical(names(l), c("d","e","c")), 
+    sapply(l, function(x) !is.data.table(x) && is.list(x)), 
+    identical(lapply(l, names), list(d=c("h","f","e","g"), e=c("h","f","g","e"), c=c("f","h","e","g"))),
+    sapply(l, sapply, nrow) == rep(1L, 12),
+    sapply(l, sapply, ncol) == rep(4L, 4)
+))
+l = split(dt, by = c("x1","x2","x3"), flatten=FALSE)
+test(1639.88, TRUE, all(
+    is.list(l), identical(names(l), c("b","a")), 
+    sapply(l, function(x) !is.data.table(x) && is.list(x)), 
+    sapply(l, sapply, function(x) !is.data.table(x) && is.list(x)),
+    identical(lapply(l, lapply, names), list(b=list(d=c("h","f"), e=c("h","f"), c=c("f","h")), a=list(e=c("g","e"), d=c("e","g"), c=c("e","g")))),
+    sapply(l, sapply, sapply, nrow) == rep(1L, 12),
+    sapply(l, sapply, sapply, ncol) == rep(4L, 12)
+))
+l = split(dt, by = c("x3","x1"), flatten=FALSE) # multi col rev
+test(1639.89, TRUE, all(
+    is.list(l), identical(names(l), c("h","f","g","e")), 
+    sapply(l, function(x) !is.data.table(x) && is.list(x)), 
+    identical(lapply(l, names), list(h=c("b"), f=c("b"), g=c("a"), e=c("a"))),
+    sapply(l, sapply, nrow) == rep(3L, 4),
+    sapply(l, sapply, ncol) == rep(4L, 4)
+))
+l = split(dt, by = c("x3","x2","x1"), flatten=FALSE)
+test(1639.90, TRUE, all(
+    is.list(l), identical(names(l), c("h","f","g","e")), 
+    sapply(l, function(x) !is.data.table(x) && is.list(x)), 
+    sapply(l, sapply, function(x) !is.data.table(x) && is.list(x)),
+    identical(lapply(l, lapply, names), list(h=list(d="b", e="b", c="b"), f=list(e="b", c="b", d="b"), g=list(e="a", d="a", c="a"), e=list(e="a",d="a",c="a"))),
+    sapply(l, sapply, sapply, nrow) == rep(1L, 12),
+    sapply(l, sapply, sapply, ncol) == rep(4L, 12)
+))
+# - [x] allow to keep or drop field on which we split - `keep.by` argument ----
+l = split(dt, by = "x1", keep.by = FALSE)
+test(1639.91, TRUE, all(is.list(l), identical(names(l), c("b","a")), sapply(l, is.data.table), sapply(l, nrow) == c(b=6L, a=6L), sapply(l, ncol) == c(b=3L, a=3L)))
+l = split(dt, by = "x2", keep.by = FALSE)
+test(1639.92, TRUE, all(is.list(l), identical(names(l), c("d","e","c")), sapply(l, is.data.table), sapply(l, nrow) == c(d=4L, e=4L, c=4L), sapply(l, ncol) == c(d=3L, e=3L, c=3L)))
+l = split(dt, by = "x3", keep.by = FALSE)
+test(1639.93, TRUE, all(is.list(l), identical(names(l), c("h","f","g","e")), sapply(l, is.data.table), sapply(l, nrow) == c(h=3L, f=3L, g=3L, e=3L), sapply(l, ncol) == c(h=3L, f=3L, g=3L, e=3L)))
+l = split(dt, by = c("x1","x2"), keep.by = FALSE, flatten=FALSE) # multi col
+test(1639.94, TRUE, all(
+    is.list(l), identical(names(l), c("b","a")), 
+    sapply(l, function(x) !is.data.table(x) && is.list(x)), 
+    identical(lapply(l, names), list(b=c("d","e","c"), a=c("e","d","c"))),
+    sapply(l, sapply, nrow) == rep(2L, 6),
+    sapply(l, sapply, ncol) == rep(2L, 6)
+))
+l = split(dt, by = c("x1","x3"), keep.by = FALSE, flatten=FALSE)
+test(1639.95, TRUE, all(
+    is.list(l), identical(names(l), c("b","a")), 
+    sapply(l, function(x) !is.data.table(x) && is.list(x)), 
+    identical(lapply(l, names), list(b=c("h","f"), a=c("g","e"))),
+    sapply(l, sapply, nrow) == rep(3L, 4),
+    sapply(l, sapply, ncol) == rep(2L, 4)
+))
+l = split(dt, by = c("x2","x3"), keep.by = FALSE, flatten=FALSE)
+test(1639.96, TRUE, all(
+    is.list(l), identical(names(l), c("d","e","c")), 
+    sapply(l, function(x) !is.data.table(x) && is.list(x)), 
+    identical(lapply(l, names), list(d=c("h","f","e","g"), e=c("h","f","g","e"), c=c("f","h","e","g"))),
+    sapply(l, sapply, nrow) == rep(1L, 12),
+    sapply(l, sapply, ncol) == rep(2L, 12)
+))
+l = split(dt, by = c("x1","x2","x3"), keep.by = FALSE, flatten=FALSE)
+test(1639.97, TRUE, all(
+    is.list(l), identical(names(l), c("b","a")), 
+    sapply(l, function(x) !is.data.table(x) && is.list(x)), 
+    sapply(l, sapply, function(x) !is.data.table(x) && is.list(x)),
+    identical(lapply(l, lapply, names), list(b=list(d=c("h","f"), e=c("h","f"), c=c("f","h")), a=list(e=c("g","e"), d=c("e","g"), c=c("e","g")))),
+    sapply(l, sapply, sapply, nrow) == rep(1L, 12),
+    sapply(l, sapply, sapply, ncol) == rep(1L, 12)
+))
+l = split(dt, by = c("x3","x1"), keep.by = FALSE, flatten=FALSE) # multi col rev
+test(1639.98, TRUE, all(
+    is.list(l), identical(names(l), c("h","f","g","e")), 
+    sapply(l, function(x) !is.data.table(x) && is.list(x)), 
+    identical(lapply(l, names), list(h=c("b"), f=c("b"), g=c("a"), e=c("a"))),
+    sapply(l, sapply, nrow) == rep(3L, 4),
+    sapply(l, sapply, ncol) == rep(2L, 4)
+))
+l = split(dt, by = c("x3","x2","x1"), keep.by = FALSE, flatten=FALSE)
+test(1639.99, TRUE, all(
+    is.list(l), identical(names(l), c("h","f","g","e")), 
+    sapply(l, function(x) !is.data.table(x) && is.list(x)), 
+    sapply(l, sapply, function(x) !is.data.table(x) && is.list(x)),
+    identical(lapply(l, lapply, names), list(h=list(d="b", e="b", c="b"), f=list(e="b", c="b", d="b"), g=list(e="a", d="a", c="a"), e=list(e="a",d="a",c="a"))),
+    sapply(l, sapply, sapply, nrow) == rep(1L, 12),
+    sapply(l, sapply, sapply, ncol) == rep(1L, 12)
+))
+# - [x] support recursive split into nested lists for `length(by) > 2L` (default) and `flatten` arg to produce non-nested list of data.table ----
+fdt = dt[, c(lapply(.SD, as.factor), list(y=y)), .SDcols=x1:x3] # factors, flatten consistent to non-flatten length(by)==1L
+test(1639.100, split(fdt, by = "x1"), split(fdt, by = "x1", flatten = FALSE)) # length(by) == 1L should be same as flatten=FALSE # ref data already checked in above test
+test(1639.101, split(fdt, by = "x2"), split(fdt, by = "x2", flatten = FALSE))
+test(1639.102, split(fdt, by = "x3"), split(fdt, by = "x3", flatten = FALSE))
+test(1639.103, split(fdt, by = "x1", sorted = TRUE), split(fdt, by = "x1", flatten = FALSE, sorted = TRUE))
+test(1639.104, split(fdt, by = "x3", sorted = TRUE), split(fdt, by = "x3", flatten = FALSE, sorted = TRUE))
+test(1639.105, split(fdt, by = "x1", sorted = TRUE, drop = TRUE), split(fdt, by = "x1", flatten = FALSE, sorted = TRUE, drop = TRUE))
+test(1639.106, split(fdt, by = "x1", sorted = TRUE, keep.by = FALSE), split(fdt, by = "x1", flatten = FALSE, sorted = TRUE, keep.by = FALSE))
+test(1639.107, unlist(split(fdt, by = c("x1","x2"), sorted = TRUE, flatten = FALSE), recursive = FALSE), split(fdt, by = c("x1","x2"), sorted = TRUE)) # by two variables - match after unlist nested one # sorted=TRUE
+test(1639.108, unlist(split(fdt, by = c("x1","x2"), sorted = FALSE, flatten = FALSE), recursive = FALSE), split(fdt, by = c("x1","x2"), sorted = FALSE)) # sorted=FALSE
+test(1639.109, unlist(split(fdt, by = c("x1","x2"), sorted = TRUE, keep.by = FALSE, flatten = FALSE), recursive = FALSE), split(fdt, by = c("x1","x2"), sorted = TRUE, keep.by = FALSE)) # drop.by=TRUE
+sdf = split(as.data.frame(fdt), f=list(fdt$x1, fdt$x2)) # vs split.data.frame by 2L # this will dispatch to `interaction(x1, x2)` which results into different order, see: levels(interaction(1:2,1:2)) vs CJ(1:2,1:2)
+test(1639.110, split(fdt, by = c("x1","x2"), sorted = TRUE), lapply(sdf[sort(names(sdf))], setDT))# vs split.data.frame by 2L drop=FALSE
+test(1639.111, unlist(split(fdt, by = c("x1","x2"), flatten = FALSE, sorted = TRUE), recursive = FALSE), lapply(sdf[sort(names(sdf))], setDT))# vs split.data.frame by 2L drop=FALSE, flatten=FALSE + unlist
+sdf = split(as.data.frame(fdt), f=list(fdt$x1, fdt$x2), drop=TRUE)
+test(1639.112, split(fdt, by = c("x1","x2"), sorted = TRUE, drop=TRUE), lapply(sdf[sort(names(sdf))], setDT)) # vs split.data.frame by 2L drop=TRUE
+sdf = split(as.data.frame(fdt), f=list(fdt$x1, fdt$x2, fdt$x3)) # vs split.data.frame by 3L
+test(1639.113, split(fdt, by = c("x1","x2","x3"), flatten = TRUE, sorted = TRUE), lapply(sdf[sort(names(sdf))], setDT)) # vs split.data.frame by 3L drop=FALSE
+sdf = split(as.data.frame(fdt), f=list(fdt$x1, fdt$x2, fdt$x3), drop=TRUE)
+test(1639.114, split(fdt, by = c("x1","x2","x3"), flatten = TRUE, sorted = TRUE, drop=TRUE), lapply(sdf[sort(names(sdf))], setDT)) # vs split.data.frame by 3L drop=TRUE
+fdt = dt[, .(x1 = as.factor(c(as.character(x1), "c"))[-13L], # empty levels in factors
+             x2 = as.factor(c("a", as.character(x2)))[-1L],
+             x3 = as.factor(c("a", as.character(x3), "z"))[c(-1L,-14L)],
+             y = y)]
+sdf = split(as.data.frame(fdt), f=list(fdt$x1, fdt$x2)) # vs split.data.frame by 2L # this will dispatch to `interaction(x1, x2)` which results into different order, see: levels(interaction(1:2,1:2)) vs CJ(1:2,1:2)
+test(1639.115, split(fdt, by = c("x1","x2"), sorted = TRUE), lapply(sdf[sort(names(sdf))], setDT)) # vs split.data.frame by 2L drop=FALSE
+test(1639.116, unlist(split(fdt, by = c("x1","x2"), flatten = FALSE, sorted = TRUE), recursive = FALSE), lapply(sdf[sort(names(sdf))], setDT)) # vs split.data.frame by 2L drop=FALSE, flatten=FALSE + unlist
+sdf = split(as.data.frame(fdt), f=list(fdt$x1, fdt$x2), drop=TRUE)
+test(1639.117, split(fdt, by = c("x1","x2"), sorted = TRUE, drop=TRUE), lapply(sdf[sort(names(sdf))], setDT)) # vs split.data.frame by 2L drop=TRUE
+sdf = split(as.data.frame(fdt), f=list(fdt$x1, fdt$x2, fdt$x3)) # vs split.data.frame by 3L
+test(1639.118, split(fdt, by = c("x1","x2","x3"), flatten = TRUE, sorted = TRUE), lapply(sdf[sort(names(sdf))], setDT)) # vs split.data.frame by 3L drop=FALSE
+sdf = split(as.data.frame(fdt), f=list(fdt$x1, fdt$x2, fdt$x3), drop=TRUE)
+test(1639.119, split(fdt, by = c("x1","x2","x3"), flatten = TRUE, sorted = TRUE, drop=TRUE), lapply(sdf[sort(names(sdf))], setDT)) # vs split.data.frame by 3L drop=TRUE
+sdf = split(as.data.frame(fdt[, .SD, .SDcols=c("x3","y")]), f=list(fdt$x1, fdt$x2)) # flatten drop.by and empty lists # this will dispatch to `interaction(x1, x2)` which results into different order, see: levels(interaction(1:2,1:2)) vs CJ(1:2,1:2)
+test(1639.120, split(fdt, by = c("x1","x2"), sorted = TRUE, keep.by = FALSE), lapply(sdf[sort(names(sdf))], setDT)) # vs split.data.frame by 2L drop=FALSE
+test(1639.121, unlist(split(fdt, by = c("x1","x2"), flatten = FALSE, sorted = TRUE, keep.by = FALSE), recursive = FALSE), lapply(sdf[sort(names(sdf))], setDT)) # vs split.data.frame by 2L drop=FALSE, flatten=FALSE + unlist
+sdf = split(as.data.frame(fdt[, .SD, .SDcols=c("x3","y")]), f=list(fdt$x1, fdt$x2), drop=TRUE)
+test(1639.122, split(fdt, by = c("x1","x2"), sorted = TRUE, drop=TRUE, keep.by = FALSE), lapply(sdf[sort(names(sdf))], setDT)) # vs split.data.frame by 2L drop=TRUE
+# - [x] edge cases for `by` and `sorted`, 0 rows, 1 unique value in cols, drop ----
+test(1639.123, length(split(dt[0L], by = "x1")), 0L) # drop=FALSE vs split.data.frame expand list with empty levels won't work on characters, use factor with defined levels, included those unused.
+test(1639.124, length(split(as.data.frame(dt[0L]), df$x1)), 2L) # unlike data.frame because character != factor
+fdt = dt[, c(lapply(.SD, as.factor), list(y=y)), .SDcols=x1:x3] # factors no empty levels
+test(1639.125, length(split(fdt[0L], by = "x1")), 2L)
+test(1639.126, length(split(as.data.frame(fdt[0L]), df$x1)), 2L) # match on factors work
+test(1639.127, split(fdt[0L], by = "x1"), lapply(split(as.data.frame(fdt[0L]), df$x1), setDT)) # we match also on complete structure
+fdt = dt[, .(x1 = as.factor(c(as.character(x1), "c"))[-13L], # factors empty levels
+             x2 = as.factor(c("a", as.character(x2)))[-1L],
+             x3 = as.factor(c("a", as.character(x3), "z"))[c(-1L,-14L)],
+             y = y)]
+sdf = split(as.data.frame(fdt), f=list(fdt$x1, fdt$x2)) # vs split.data.frame by 2L# this will dispatch to `interaction(x1, x2)` which results into different order, see: levels(interaction(1:2,1:2)) vs CJ(1:2,1:2)
+test(1639.128, split(fdt, by = c("x1","x2"), sorted = TRUE), lapply(sdf[sort(names(sdf))], setDT)) # vs split.data.frame by 2L drop=FALSE
+sdf = split(as.data.frame(fdt), f=list(fdt$x1, fdt$x2), drop=TRUE)
+test(1639.129, split(fdt, by = c("x1","x2"), sorted = TRUE, drop=TRUE), lapply(sdf[sort(names(sdf))], setDT)) # vs split.data.frame by 2L drop=TRUE
+test(1639.130, split(dt[0L], by = "x1"), structure(list(), .Names = character(0))) # 0 nrow character/factor with empty levels # no empty levels
+test(1639.131, split(fdt[0L], by = "x1"), lapply(c(a=1L,b=2L,c=3L), function(i) data.table(x1=factor(levels = c("a","b","c")),x2=factor(levels = c("a","c","d","e")),x3=factor(levels = c("a","e","f","g","h","z")),y=numeric()))) # expand empty levels
+test(1639.132, split(dt[0L], by = "x1", sorted = TRUE), structure(list(), .Names = character(0)))
+test(1639.133, split(fdt[0L], by = "x1", sorted = TRUE), lapply(c(a=1L,b=2L,c=3L), function(i) data.table(x1=factor(levels = c("a","b","c")),x2=factor(levels = c("a","c","d","e")),x3=factor(levels = c("a","e","f","g","h","z")),y=numeric()))) # same as none sorted as all appended on the end in sorted order due to lack of data
+dt2 = copy(dt)[, "l" := lapply(1:12, function(i) i)] # non-atomic type to 'by' should raise error
+test(1639.134, split(dt2, by = "l"), error = "argument 'by' must refer only to atomic type columns, classes of 'l' columns are not atomic type")
+# - [x] additional tests for names consistency with data.frame, and current examples in SO
+df = data.frame(product = c("b", "a", "b", "a"),
+                value = c(sample(1:10,4)),
+                year = c(2001, 2001, 2000, 2000))
+tmp = as.data.table(df)[, list(grp=list(.SD)), by=.(product, year), .SDcols=names(df)] # http://stackoverflow.com/a/33068928/2490497
+setattr(ans <- tmp$grp, 'names', paste(tmp$product, tmp$year, sep="."))
+dt = as.data.table(df) # http://stackoverflow.com/q/33068791/2490497
+dt[, grp := .GRP, by = list(product,year)] 
+setkey(dt, grp)
+o2 = dt[, list(list(.SD)), by = grp]$V1
+setattr(o2, 'names', paste(tmp$product, tmp$year, sep=".")) # names reused
+test(1639.135, o2, ans)
+lapply(ans, setattr, ".data.table.locked", NULL)
+sort.by.names = function(x) x[sort(names(x))]
+test(1639.136, sort.by.names(ans), sort.by.names(split(as.data.table(df), f=list(df$product, df$year))))
+test(1639.137, sort.by.names(ans), sort.by.names(unlist(split(setDT(df), by=c("product","year"), flatten = FALSE), recursive = FALSE)))
+test(1639.138, ans, split(as.data.table(df), by=c("product","year")))
+test(1639.139, sort.by.names(ans), sort.by.names(unlist(split(as.data.table(df), by=c("product","year"), flatten=FALSE), recursive = FALSE)))
+
 
 ##########################
 

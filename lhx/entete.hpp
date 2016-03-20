@@ -1,7 +1,7 @@
 #ifndef ENTETE_HPP
 #define ENTETE_HPP
 
-/* ce fichier doit être encodé en UTF-8 pour Unix */
+/* ce fichier doit être encodé en Latin-1 */
 
 static const char* entete_char[]={"R", "Année", "Mois", "Budget", "Employeur",  "Siret", "Etablissement", "Nom", "Prénom", "Matricule", "Service", "Nb.Enfants", "Statut", "Temps.de.travail",
                                   "Heures.Sup.", "Heures", "Indice", "Brut", "Net", "Net.à.Payer", "NBI",
@@ -10,7 +10,7 @@ static const char* entete_char[]={"R", "Année", "Mois", "Budget", "Employeur", 
 
 static const char* entete_char_bulletins[]={"R", "Année", "Mois", "Budget", "Employeur", "Siret", "Etablissement", "Nom", "Prénom", "Matricule", "Service", "Nb.Enfants", "Statut", "Temps.de.travail",
                                   "Heures.Sup.", "Heures", "Indice", "Brut", "Net", "Net.à.Payer", "NBI",
-                                            "Emploi", "Grade", "Echelon", "Catégorie", "Nir"};
+                                            "Emploi", "Grade", "Evenement", "Echelon", "Catégorie", "Nir" };
 
 static std::array<std::string, 13> types_extension = { "traitements",
                                                  "indemnités-résidence",

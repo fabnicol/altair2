@@ -8,7 +8,7 @@
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
 
 
-racine                         <- ifelse(setOSWindows, "R-Altaïr/", "R-Altair/")
+racine                         <- ifelse(setOSWindows, "R-Altaïr/", "R-Altair")
 
 # Toujours utiliser FALSE ou TRUE en plein lettres en raison de l'éloignement avec <- (bug de l'interpréteur pour T et F)
 

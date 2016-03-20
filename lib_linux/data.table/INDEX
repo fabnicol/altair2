@@ -25,6 +25,7 @@ na.omit.data.table      Remove rows with missing values on columns
                         specified
 patterns                Regex patterns to extract columns from
                         data.table
+print.data.table        data.table Printing Options
 rbindlist               Makes one data.table from a list of many
 rleid                   Generate run-length type group id
 rowid                   Generate unique row ids within each group
@@ -36,9 +37,12 @@ setattr                 Set attributes of objects by reference
 setcolorder             Fast column reordering of a data.table by
                         reference
 setkey                  Create key on a data table
+setops                  Set operations for data tables
 setorder                Fast row reordering of a data.table by
                         reference
 shift                   Fast lead/lag for vectors and lists
+special-symbols         Special symbols
+split                   Split data.table into chunks in a list
 subset.data.table       Subsetting data.tables
 tables                  Display all objects of class 'data.table'
 test.data.table         Runs a set of tests.
