@@ -11,7 +11,6 @@ if (win32|linux) {
 windows {
   GIT_VERSION = $$system(git --version | find \"git version\")
   CXX_VERSION = $$system($$QMAKE_CXX --version | findstr \"5.[0-9]\")
-  DEFINES += SYSTEM_PATH_SEPARATOR=\"\';\'\"
 }
 
 linux {
@@ -61,11 +60,14 @@ VPATH = .
 TEMPLATE = app
 
 
-DEFINES +=  WARNING_LIMIT=5  \       # nombre maximum d'avertissement par fichier
-            TYPE_LOOP_LIMIT=10 \     # nombre de "rembobinages des drapeaux de catégories (voir ligne_paye.cpp,
-            MAX_STRING_LENGTH=200 \  # taille maximum des strings pour la conversion latin-1
-            OVERHEAD=500        \     # marge de mémoire vive (en Mo) laissée sous plafond en toute hypothèse.
-            AVERAGE_RAM_DENSITY=1.25 # constante empirique déterminant la quantité de mémoire nécessitée par 1 unité de mémoire de fichier xhl en cours de traitement.
+DEFINES +=  WARNING_LIMIT=5  \         # nombre maximum d'avertissement par fichier
+            MAX_NB_AGENTS=30000 \      # nombre maximum de bulletins par mois
+            MAX_LIGNES_PAYE=100 \      # nombre maximum de lignes de paye par bulletin
+            TYPE_LOOP_LIMIT=10 \       # nombre de "rembobinages des drapeaux de catégories (voir ligne_paye.cpp,
+            MAX_STRING_LENGTH=200 \    # taille maximum des strings pour la conversion latin-1
+            MAX_MEMORY_SHARE=0.5  \    # part maximum de la mémoire vive disponible consommée par défaut (si --memshare n'est pas précisé)
+            AVERAGE_RAM_DENSITY=3 \    # constante empirique déterminant la quantité de mémoire nécessitée par 1 unité de mémoire de fichier xhl en cours de traitement.
+            MEMORY_DEBUG
 
 DEFINES += __GNUC_EXTENSION \
            _REENTRANT \
@@ -74,7 +76,7 @@ DEFINES += __GNUC_EXTENSION \
            __STDC_FORMAT_MACROS
 
                                             # DEFINES += STRICT  pour un validateur qui retourne à la première erreur.
-DEFINES += \#NO_REGEX \                       # Pas d'analyse du texte par expression régulière
+DEFINES += \#NO_REGEX \                     # Pas d'analyse du texte par expression régulière
         GCC_REGEX \                         # Utiliser les expressions régulières de C++. Attention désactiver cette valeur casse les analyse sous R.
         WAIT_FOR_LOCK  \                    # insiter jusqu'à acquérir les mutex dans les fils d'exécution. Peut entraîner des "output freeze" en cas de forte
                         \                   # charge I/O.
@@ -87,14 +89,16 @@ DEFINES += \#NO_REGEX \                       # Pas d'analyse du texte par expre
         DECIMAL_NON_EN \                    # compilation pour des séparateurs décimaux différents de '.'
         GENERATE_RANK_SIGNAL \              # chaque fois qu'un fichier est traité, un signal externe est émis (rang dans un fichier rank sous AppData\Local\Altair).
                              \              # n'est utile que lorsqu'une interface graphique est connectée. peut ralentir l'application de 1 à 5 %.
-       FGETC_PARSING    \                   # parcourir les fichiers par ifstream (C++)
-#        STRINGSTREAM_PARSING  \              # mise en mémoire vive des fichiers de paye par ostringstream (plus de mémoire vive ; accélère beaucoup le 1er traitement sous Windows)
-#       MMAP_PARSING           \             # parcourir les fichiers par mappage mémoire (C, unix uniquement, aucun avantage évident).
-#        OFSTREAM_TABLE_OUTPUT               # enregistrer les lignes de paye ligne à ligne sur la base. Plus robuste et moins de mémoire mais plus lent sous Windows
+        FGETC_PARSING    \                 # parcourir les fichiers par ifstream (C++)
+#        STRINGSTREAM_PARSING  \             # mise en mémoire vive des fichiers de paye par ostringstream (plus de mémoire vive ; accélère beaucoup le 1er traitement sous Windows)
+#       MMAP_PARSING           \            # parcourir les fichiers par mappage mémoire (C, unix uniquement, aucun avantage évident).
+        OFSTREAM_TABLE_OUTPUT              # enregistrer les lignes de paye ligne à ligne sur la base. Plus robuste et moins de mémoire mais plus lent sous Windows
 
 # Nota : définir au moins un des suivants : STRINGSTREAM_PARSING MMAP_PARSING FGETC_PARSING
-# Sous windows la meilleure configuration de première exécution est STRINGSTREAM_PARSING avec OFSTREAM_TABLE_OUTPUT pour un disque non-SSD seulement
-# Pour économiser de la mémoire préférer FGETC_PARSING et ne pas définier OFSTREAM_TABLE_OUTPUT
+# Sous windows la meilleure configuration de première exécution est STRINGSTREAM_PARSING pour un disque non-SSD seulement.
+# STRINGSTREAM_PARSING est beaucoup moins performant pour les SSD ou quand les volumes sont grands.
+# Ne pas définit OFSTREAM_TABLE_OUTPUT fait gagner environ 25 % à 30 % de temps d'exécution sous Windows.
+# Pour économiser de la mémoire préférer FGETC_PARSING et définir OFSTREAM_TABLE_OUTPUT
 
 DEVROOT = $$PWD/../..
 
@@ -114,11 +118,14 @@ INCLUDEPATH += ../Interface/gui
 windows {
 
   COMPILER_DIR = mingw64-5.2
+  DEFINES += SYSTEM_PATH_SEPARATOR=\"\';\'\"
   INCLUDEPATH += $$DEVROOT/$$COMPILER_DIR/include
   LIBS = -L$$DEVROOT/$$COMPILER_DIR/lib -lxml2.dll -pthread $$(SYSTEMROOT)/System32/psapi.dll
   HEADERS += entete-latin1.hpp
 
 } else {
+
+  DEFINES += SYSTEM_PATH_SEPARATOR=\"\":\"\"
   INCLUDEPATH += /usr/include/libxml2
   LIBS = -L/usr/lib/lib64 -L/usr/lib/x86_64-linux-gnu -lxml2 -pthread
   HEADERS += entete.hpp
