@@ -716,7 +716,7 @@ int main(int argc, char **argv)
 
         if (info.nbfil > segment_size)
         {
-            cerr << ERROR_HTML_TAG "Trop de fils (" << info.nbfil << ") pour le nombre de fichiers (" << segment_size << "); exécution avec " << segment_size << "fils." ENDL;
+            cerr << ERROR_HTML_TAG "Trop de fils (" << info.nbfil << ") pour le nombre de fichiers (" << segment_size << "); exécution avec " << segment_size << pluriel(segment_size, " fil") <<"."  ENDL;
 
             info.nbfil = segment_size;
         }
@@ -802,6 +802,9 @@ int produire_segment(const info_t& info, const vString& segment)
 
         /* Lancement des fils d'exécution */
 
+        if (verbeux && Info[0].reduire_consommation_memoire)
+           cerr << ENDL PROCESSING_HTML_TAG "Premier scan des fichiers pour déterminer les besoins mémoire, " << "fil " << i << ENDL;
+
         if (info.nbfil > 1)
         {
             thread th{decoder_fichier, ref(Info[i])};
@@ -818,8 +821,8 @@ int produire_segment(const info_t& info, const vString& segment)
         }
     }
 
-    if (verbeux && Info[0].reduire_consommation_memoire)
-       cerr << ENDL PROCESSING_HTML_TAG "Premier scan des fichiers pour déterminer les besoins mémoire ... " ENDL;
+    if (verbeux)
+       cerr << ENDL PROCESSING_HTML_TAG "Rassemblement des fils d'exécution." ENDL;
 
     if (info.nbfil > 1)
         for (unsigned i = 0; i < info.nbfil; ++i)

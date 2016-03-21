@@ -70,6 +70,8 @@ static int parseFile(info_t& info)
        doc = xmlParseFile(info.threads->argv.at(info.fichier_courant).c_str());
     #endif
 
+    memory_debug("parseFile : xmlParseFile");
+
     if (doc == nullptr)
     {
         cerr << ERROR_HTML_TAG " problème d'allocation mémoire pour le scan XML." ENDL;
@@ -785,6 +787,9 @@ if (info.pretend) return nullptr;
     {
         info.NCumAgent = info.nbAgentUtilisateur * info.threads->argc;
         info.NLigne.resize(info.NCumAgent);
+
+        memory_debug("decoder_fichier_info.NLigne.resize(info.NCumAgent)");
+
         if (! info.NLigne.empty())
         {
             for (unsigned i = 0 ; i < info.NCumAgent; ++i)
@@ -804,7 +809,7 @@ if (info.pretend) return nullptr;
             /* première allocation ou réallocation à la suite d'un incident */
 
             allouer_memoire_table(info);
-
+            memory_debug("decoder_fichier_allouer_memoire_table(info)");
         }
 
     if (info.verifmem) return nullptr;
@@ -830,6 +835,7 @@ if (info.pretend) return nullptr;
             break;
         }
 
+        memory_debug("decoder_fichier_parseFile(info");
     }
 
     if (info.reduire_consommation_memoire && info.NCumAgentXml != info.NCumAgent)

@@ -583,11 +583,13 @@ auto read_stream_into_string(
   return ss.str();
 }
 
+
 int calculer_memoire_requise(info_t& info)
 {
     errno = 0;
 
     // Attention reserve() ne va pas initialiser les membres à 0 sous Windows. Utiliser resize() ici.
+   memory_debug("calculer_memoire_requise_pre_tab_resize");
 
 #ifdef PREALLOCATE_ON_HEAP
 
@@ -596,6 +598,8 @@ int calculer_memoire_requise(info_t& info)
     #define tab info.NLigne
 
         tab.resize(info.threads->argc * MAX_NB_AGENTS);
+
+        memory_debug("calculer_memoire_requise_pre");
 #else
 
   /* C style vector allocation */
@@ -841,6 +845,8 @@ int calculer_memoire_requise(info_t& info)
         c.clear();
         c.close();
 
+        memory_debug("calculer_memoire_requise_close");
+
 #ifdef PREALLOCATE_ON_HEAP
 #undef tab
 #else
@@ -951,7 +957,7 @@ int calculer_memoire_requise(info_t& info)
 #ifdef PREALLOCATE_ON_HEAP
     info.NLigne.resize(info.NCumAgent+1);
 #endif
-
+memory_debug("calculer_memoire_requise_end");
     return errno;
 }
 
