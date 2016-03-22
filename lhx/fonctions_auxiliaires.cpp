@@ -186,7 +186,8 @@ off_t taille_fichier(const string& filename)
     {
         struct sysinfo info;
         sysinfo( &info );
-        return (size_t)(info.freeram -info.bufferram) * (size_t)info.mem_unit;
+        return (size_t)( info.freeram + info.bufferram) * (size_t)info.mem_unit;
+        //info.freeram-info.bufferram
     }
 
 
@@ -570,7 +571,7 @@ void calculer_maxima(const vector<info_t> &Info, ofstream* LOG)
 
 
 template <typename Allocator = allocator<char>>
-auto read_stream_into_string(
+inline string read_stream_into_string(
     ifstream& in,
     Allocator alloc = {})
 {

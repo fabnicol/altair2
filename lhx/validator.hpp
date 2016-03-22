@@ -29,6 +29,7 @@ typedef struct
 {
     int      thread_num;
     std::vector<std::string>   argv;
+    std::vector<std::string>   argv_cut;
     std::vector<std::string> in_memory_file;
     unsigned argc;
 } thread_t;
@@ -104,6 +105,7 @@ typedef struct
 
     std::vector<std::vector<xmlChar*>> Table;
     uint64_t nbLigne;
+    std::vector<uint64_t> taille;
     std::vector<uint32_t> NAgent;
     uint32_t nbAgentUtilisateur;
     uint32_t NCumAgent;
@@ -183,6 +185,10 @@ typedef struct {
 #define NODE_NOT_FOUND 1
 #define LINE_MEMORY_EXCEPTION 2
 #define NO_NEXT_ITEM 3
+
+#ifndef CUTFILE_CHUNK
+  #define CUTFILE_CHUNK  15 * 1024 * 1024
+#endif
 
 /* pas de contrôle d'existence de noeud : version affaiblie de la macro précédente */
 

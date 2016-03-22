@@ -20,8 +20,107 @@ extern mutex mut;
 extern  inline uint64_t   parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log);
 extern vector<errorLine_t>  errorLineStack;
 extern int rang_global;
+template <typename Allocator = allocator<char>>
+static inline string read_stream_into_string(
+    ifstream& in,
+    Allocator alloc = {})
+{
+  basic_ostringstream<char, char_traits<char>, Allocator>
+    ss(basic_string<char, char_traits<char>, Allocator>(move(alloc)));
+
+  if (!(ss << in.rdbuf()))
+    throw ios_base::failure{"[ERR] Erreur d'allocation de lecture de fichier.\n"};
+
+  return ss.str();
+}
 
 /* agent_total est une variable de contrôle pour info->NCumAgent */
+
+
+// Problème des accumulations de champs <DonneesIndiv> non résolu !
+
+void redecouper(info_t& info)
+{
+//        xmlChar *annee_fichier = nullptr,
+//                *mois_fichier = nullptr,
+//                *employeur_fichier = nullptr,
+//                *etablissement_fichier = nullptr,
+//                *siret_fichier = nullptr,
+//                *budget_fichier = nullptr;
+
+        #if defined(STRINGSTREAM_PARSING) || defined(MMAP_PARSING)
+         string filest = info.threads->in_memory_file.at(info.fichier_courant);
+        #else
+         ifstream c(info.threads->argv.at(info.fichier_courant));
+         string filest;
+         filest = read_stream_into_string(c);
+        #endif
+
+        string::iterator iter = filest.begin();
+
+        if (info.taille.at(info.fichier_courant) > CUTFILE_CHUNK)
+        {
+            if (verbeux)
+                cerr << PROCESSING_HTML_TAG "Redécoupage du fichier n°" << info.fichier_courant << ENDL;
+
+            string document_tag;
+
+            while (iter != filest.end())
+            {
+                if (*++iter != 'D') continue;
+                ++iter;
+                const string s = string(iter, iter + 11);
+                // <...:DocumentPaye>
+                if (s != "ocumentPaye") continue;
+                string::iterator iter2 = iter;
+                while (*--iter2 != '<' ) if (iter2 == filest.begin()) break;
+                document_tag = string(iter2 + 1, iter + 11);
+                break;
+            }
+
+            int r = 0;
+
+            int i = 0;
+            int init_pos= 0;
+
+            while (filest.at(i) != '\0')
+            {
+                if (i + CUTFILE_CHUNK < info.taille.at(info.fichier_courant))
+                    i += CUTFILE_CHUNK;
+
+                ++r;
+
+                string s = "";
+                while (filest.at(i) != '\0')
+                {
+                    while (filest.at(++i) != '<') continue;
+                    if (filest.at(++i) != '/') continue;
+
+                    if (filest.at(++i) != 'P') continue;
+
+                    s = filest.substr(i, 16);
+
+                    if (s == "PayeIndivMensuel") break;
+                    // </PayeIndivMensuel>
+                }
+
+                i += 17;
+
+                string header = (r > 1)? string("<?xml version=\"1.0\"?>\n<DonneesIndiv>\n") : string("");
+                string filest_cut = header + filest.substr(init_pos, i - init_pos + 1) + string("\n</DonneesIndiv>\n") + ((r == 1) ? string("</") + document_tag + string(">") : "");
+                init_pos = i;
+                string filecut_path = info.threads->argv.at(info.fichier_courant) +"_" + to_string(r) + ".xhl";
+                cerr << filecut_path;
+                ofstream filecut(filecut_path);
+                filecut << filest_cut;
+                filecut.close();
+                info.threads->argv_cut.push_back(filecut_path);
+
+
+            }
+        }
+}
+
 
 static int parseFile(info_t& info)
 {
@@ -788,7 +887,7 @@ if (info.pretend) return nullptr;
         info.NCumAgent = info.nbAgentUtilisateur * info.threads->argc;
         info.NLigne.resize(info.NCumAgent);
 
-        memory_debug("decoder_fichier_info.NLigne.resize(info.NCumAgent)");
+        memory_debug("decoder_fichier : info.NLigne.resize(info.NCumAgent)");
 
         if (! info.NLigne.empty())
         {
@@ -809,8 +908,13 @@ if (info.pretend) return nullptr;
             /* première allocation ou réallocation à la suite d'un incident */
 
             allouer_memoire_table(info);
-            memory_debug("decoder_fichier_allouer_memoire_table(info)");
+            memory_debug("decoder_fichier : allouer_memoire_table(info)");
         }
+
+    memory_debug("decoder_fichier : pre_parseFile(info)");
+
+    redecouper(info);
+
 
     if (info.verifmem) return nullptr;
 
@@ -835,7 +939,7 @@ if (info.pretend) return nullptr;
             break;
         }
 
-        memory_debug("decoder_fichier_parseFile(info");
+        memory_debug("decoder_fichier : post_parseFile(info)");
     }
 
     if (info.reduire_consommation_memoire && info.NCumAgentXml != info.NCumAgent)

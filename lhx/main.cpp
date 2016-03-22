@@ -34,6 +34,7 @@
 
 using namespace std;
 using vString = vector<string>;
+using vUint64 = vector<uint64_t>;
 
 typedef chrono::high_resolution_clock Clock;
 
@@ -47,7 +48,7 @@ mutex mut;
 vector<errorLine_t> errorLineStack;
 vString commandline_tab;
 
-int produire_segment(const info_t& info, const vString& segment);
+int produire_segment(const info_t& info, const vString& segment, const vector<uint64_t>& taille_fichiers_segment);
 
 
 int main(int argc, char **argv)
@@ -81,7 +82,7 @@ int main(int argc, char **argv)
     vString cl;  /* pour les lignes de commandes incluses dans un fichier */
     string chemin_base = NOM_BASE + string(CSV);
     string chemin_bulletins = NOM_BASE_BULLETINS + string(CSV);
-    unsigned long long memoire_xhl = 0, memoire_disponible = 0;
+    uint64_t memoire_xhl = 0, memoire_disponible = 0;
     int nsegments = 0;
     float ajustement = MAX_MEMORY_SHARE;
 
@@ -91,6 +92,7 @@ int main(int argc, char **argv)
     {
         {{}},             //    bulletinPtr* Table;
         0,                //    uint64_t nbLigne;
+        {},
         {},             //    int32_t  *NAgent;
         0,                //    uint32_t nbAgentUtilisateur
         0,                //    uint32_t NCumAgent;
@@ -616,7 +618,7 @@ int main(int argc, char **argv)
 
     /* on sait que info.nbfil >= 1 */
 
-    vector<unsigned long long> taille;
+    vector<uint64_t> taille;
 
     /* Soit la taille totale des fichiers est transmise par --mem soit on la calcule ici,
      * en utilisant taille_fichiers */
@@ -630,8 +632,8 @@ int main(int argc, char **argv)
         {
             if ((mem = taille_fichier(commandline_tab.at(i))) != -1)
             {
-                memoire_xhl += static_cast<unsigned long long>(mem);
-                taille.push_back(static_cast<unsigned long long>(mem));
+                memoire_xhl += static_cast<uint64_t>(mem);
+                taille.push_back(static_cast<uint64_t>(mem));
                 ++count;
             }
             else
@@ -649,7 +651,7 @@ int main(int argc, char **argv)
 
     /* ajustement représente la part maximum de la mémoire disponible que l'on consacre au processus, compte tenu de la marge sous plafond (overhead) */
 
-    unsigned long long memoire_utilisable = floor(ajustement * static_cast<float>(memoire_disponible));
+    uint64_t memoire_utilisable = floor(ajustement * static_cast<float>(memoire_disponible));
     cerr << STATE_HTML_TAG  << "Mémoire utilisable " <<  memoire_utilisable / 1048576   << " Mo."  ENDL;
 
     if (nsegments != 0)
@@ -676,14 +678,16 @@ int main(int argc, char **argv)
     }
 
     vector<vString> segments;
+    vector<vUint64> taille_fichiers_segments;
 
     auto  taille_it = taille.begin();
     auto  commandline_it = commandline_tab.begin() + start;
 
     do
     {
-        unsigned long long taille_segment = *taille_it;
+        uint64_t cumul_taille_segment = *taille_it;
         vString segment;
+        vUint64 taille_fichiers_segment;
         float densite_segment=AVERAGE_RAM_DENSITY;
         #ifdef STRINGSTREAM_PARSING
           ++densite_segment;
@@ -692,15 +696,18 @@ int main(int argc, char **argv)
           ++densite_segment;
         #endif
 
-        while (taille_segment * densite_segment < memoire_utilisable && commandline_it != commandline_tab.end())
+        while (cumul_taille_segment * densite_segment < memoire_utilisable && commandline_it != commandline_tab.end())
          {
            segment.push_back(*commandline_it);  // ne pas utiliser move;
+           taille_fichiers_segment.push_back(*taille_it);
+
            ++commandline_it;
            ++taille_it;
-           taille_segment  += *taille_it;
+           cumul_taille_segment  += *taille_it;
          }
 
         segments.emplace_back(segment);
+        taille_fichiers_segments.emplace_back(taille_fichiers_segment);
 
     } while (commandline_it != commandline_tab.end());
 
@@ -709,6 +716,7 @@ int main(int argc, char **argv)
         cerr << PROCESSING_HTML_TAG << "Les bases en sortie seront analysées en " << segments_size << " segments." ENDL;
 
    int info_nbfil_defaut = info.nbfil;
+   int rang_segment = 0;
 
    for (auto&& segment : segments)
    {
@@ -723,7 +731,7 @@ int main(int argc, char **argv)
         else
             info.nbfil = info_nbfil_defaut;
 
-        produire_segment(info, segment);
+        produire_segment(info, segment, taille_fichiers_segments.at(rang_segment++));
     }
 
     xmlCleanupParser();
@@ -739,7 +747,7 @@ int main(int argc, char **argv)
     return errno;
 }
 
-int produire_segment(const info_t& info, const vString& segment)
+int produire_segment(const info_t& info, const vString& segment, const vector<uint64_t>& taille_fichiers_segment)
 {
     static int nsegment;
 
@@ -773,6 +781,7 @@ int produire_segment(const info_t& info, const vString& segment)
 
     vector<thread_t> v_thread_t(info.nbfil);
     vString::const_iterator segment_it = segment.begin();
+    vector<uint64_t>::const_iterator taille_fichiers_segment_it = taille_fichiers_segment.begin();
 
     for (unsigned  i = 0; i < info.nbfil; ++i)
     {
@@ -785,8 +794,11 @@ int produire_segment(const info_t& info, const vString& segment)
 
         Info[i].threads->argv = vString(segment_it, segment_it + nb_fichier_par_fil[i]);
 
+        Info[i].taille = vector<uint64_t>(taille_fichiers_segment_it, taille_fichiers_segment_it + nb_fichier_par_fil[i]);
+
         Info[i].threads->in_memory_file = vString(nb_fichier_par_fil[i]);
         segment_it += nb_fichier_par_fil.at(i);
+        taille_fichiers_segment_it += nb_fichier_par_fil.at(i);
 
         if (Info[i].threads->argv.size() != (unsigned) nb_fichier_par_fil.at(i))
         {
