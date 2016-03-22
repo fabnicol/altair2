@@ -29,7 +29,7 @@ typedef struct
 {
     int      thread_num;
     std::vector<std::string>   argv;
-    std::vector<std::string>   argv_cut;
+    std::vector<std::vector<std::string>>   argv_cut;
     std::vector<std::string> in_memory_file;
     unsigned argc;
 } thread_t;
@@ -130,6 +130,7 @@ typedef struct
     bool select_echelon;
     bool pretend;
     bool verifmem;
+    bool decoupage_fichiers_volumineux;
     unsigned int  nbfil;
     std::vector<int> Memoire_p_ligne;
 } info_t;

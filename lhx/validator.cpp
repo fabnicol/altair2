@@ -39,58 +39,81 @@ static inline string read_stream_into_string(
 
 // Problème des accumulations de champs <DonneesIndiv> non résolu !
 
-void redecouper(info_t& info)
+// -1 erreur, 0 : fichier petit; sinon nombre de fichiers découpés.
+
+int redecouper(info_t& info)
 {
-//        xmlChar *annee_fichier = nullptr,
-//                *mois_fichier = nullptr,
-//                *employeur_fichier = nullptr,
-//                *etablissement_fichier = nullptr,
-//                *siret_fichier = nullptr,
-//                *budget_fichier = nullptr;
 
         #if defined(STRINGSTREAM_PARSING) || defined(MMAP_PARSING)
-         string filest = info.threads->in_memory_file.at(info.fichier_courant);
+             string filest = info.threads->in_memory_file.at(info.fichier_courant);
         #else
-         ifstream c(info.threads->argv.at(info.fichier_courant));
-         string filest;
-         filest = read_stream_into_string(c);
+             ifstream c(info.threads->argv.at(info.fichier_courant));
+             string filest;
+             filest = read_stream_into_string(c);
+             uint64_t taille = info.taille.at(info.fichier_courant);
         #endif
 
+        info.threads->argv_cut.push_back(vector<string>{});
+
+        if (info.taille.at(info.fichier_courant) < CUTFILE_CHUNK) return 0;
+
+        if (verbeux)
+            cerr << PROCESSING_HTML_TAG "Redécoupage du fichier n°" << info.fichier_courant << ENDL;
+
+        string document_tag = "", enc = "";
         string::iterator iter = filest.begin();
 
-        if (info.taille.at(info.fichier_courant) > CUTFILE_CHUNK)
+        while (*++iter != '?' && iter != filest.end()) continue;
+
+        while (++iter != filest.end())
         {
-            if (verbeux)
-                cerr << PROCESSING_HTML_TAG "Redécoupage du fichier n°" << info.fichier_courant << ENDL;
+            if (*iter == '?') break;
+            if (*iter != 'e') continue;
+            string::iterator iter2 = iter;
+            //encoding="ISO-8859-1"
+            if (*++iter2 != 'n' || *++iter2 != 'c') continue;
+            while (*++iter2 != '?') continue;
 
-            string document_tag;
+            enc = string(iter, iter2);
+            if (enc.find("encoding") == string::npos)
+                enc = "";
+            break;
+        }
 
-            while (iter != filest.end())
+        while (iter != filest.end())
+        {
+            if (*++iter != 'D') continue;
+            ++iter;
+            const string s = string(iter, iter + 11);
+            // <...:DocumentPaye>
+            if (s != "ocumentPaye") continue;
+            string::iterator iter2 = iter;
+            while (*--iter2 != '<' ) if (iter2 == filest.begin()) break;
+            document_tag = string(iter2 + 1, iter + 11);
+            break;
+        }
+
+        int r = 0;
+
+        uint64_t i = 0;
+        uint64_t init_pos= 0;
+        bool depuis_debut = true;
+        static bool open_di;
+
+        while (filest.at(i) != '\0')
+        {
+            if (i + CUTFILE_CHUNK < taille)
+                i += CUTFILE_CHUNK;
+            else
+                depuis_debut = false;
+
+            ++r;
+
+            string s = "";
+            bool fermeture_PI = false;
+
+            if (depuis_debut)
             {
-                if (*++iter != 'D') continue;
-                ++iter;
-                const string s = string(iter, iter + 11);
-                // <...:DocumentPaye>
-                if (s != "ocumentPaye") continue;
-                string::iterator iter2 = iter;
-                while (*--iter2 != '<' ) if (iter2 == filest.begin()) break;
-                document_tag = string(iter2 + 1, iter + 11);
-                break;
-            }
-
-            int r = 0;
-
-            int i = 0;
-            int init_pos= 0;
-
-            while (filest.at(i) != '\0')
-            {
-                if (i + CUTFILE_CHUNK < info.taille.at(info.fichier_courant))
-                    i += CUTFILE_CHUNK;
-
-                ++r;
-
-                string s = "";
                 while (filest.at(i) != '\0')
                 {
                     while (filest.at(++i) != '<') continue;
@@ -100,76 +123,84 @@ void redecouper(info_t& info)
 
                     s = filest.substr(i, 16);
 
-                    if (s == "PayeIndivMensuel") break;
+                    if (s == "PayeIndivMensuel")
+                    {
+                        fermeture_PI = true;
+                        break;
+                    }
                     // </PayeIndivMensuel>
                 }
-
-                i += 17;
-
-                string header = (r > 1)? string("<?xml version=\"1.0\"?>\n<DonneesIndiv>\n") : string("");
-                string filest_cut = header + filest.substr(init_pos, i - init_pos + 1) + string("\n</DonneesIndiv>\n") + ((r == 1) ? string("</") + document_tag + string(">") : "");
-                init_pos = i;
-                string filecut_path = info.threads->argv.at(info.fichier_courant) +"_" + to_string(r) + ".xhl";
-                cerr << filecut_path;
-                ofstream filecut(filecut_path);
-                filecut << filest_cut;
-                filecut.close();
-                info.threads->argv_cut.push_back(filecut_path);
-
-
             }
+            else
+            {
+                i = taille - 16;
+                while (init_pos < i)
+                {
+                    while (filest.at(--i) != 'P') continue;
+                    if (filest.at(--i) != '/') continue;
+
+                    if (filest.at(--i) != '<') continue;
+
+                    s = filest.substr(i + 2, 16);
+
+                    if (s == "PayeIndivMensuel")
+                    {
+                        fermeture_PI = true;
+
+                        break;
+                    }
+                }
+            }
+
+            if (! fermeture_PI) return -1;
+
+            i += 16;
+
+            while (filest.at(++i) != '<') continue;
+
+            s = filest.substr(i + 1 , 13);
+            bool insert_di = (s != "/DonneesIndiv");
+            if (! insert_di) i += 14;
+
+            if (filest.at(i) != '<') while (filest.at(++i) != '<') continue;
+
+            string header = (r > 1)? string("<?xml version=\"1.0\" ") + enc + string("?>\n") + ((! open_di)? "<DonneesIndiv>\n" : "") : string("");
+            string filest_cut = header + filest.substr(init_pos, i - init_pos) + ((insert_di)? string("\n</DonneesIndiv>\n") : "\n") + ((r == 1) ? string("</") + document_tag + string(">") : "");
+
+            s = filest.substr(i + 1 , 12);
+            open_di = (s == "DonneesIndiv");
+
+            init_pos = i;
+            string filecut_path = info.threads->argv.at(info.fichier_courant) +"_" + to_string(r) + ".xhl";
+
+            ofstream filecut(filecut_path);
+            filecut << filest_cut;
+            filecut.close();
+            info.threads->argv_cut[info.fichier_courant].push_back(filecut_path);
+            if (! depuis_debut) break;
+            fermeture_PI = false;
         }
+
+        return r;
 }
 
 
-static int parseFile(info_t& info)
+static int parseFile(const xmlDocPtr doc, info_t& info)
 {
-   /* REFERENCE */
-   /*
-        <DocumentPaye xmlns="http://www.minefi.gouv.fr/cp/helios/pes_v2/paye_1_1">
-          <IdVer V="">{1,1}</IdVer>
-          <Annee V="">{1,1}</Annee>
-          <Mois V="">{1,1}</Mois>
-          <Train V="">{0,1}</Train>
-          <Budget>{0,1}</Budget>
-          <Employeur>{1,1}</Employeur>
-          <DonneesIndiv>{1,unbounded}</DonneesIndiv>
-          <Nomenclatures>{1,1}</Nomenclatures>
-          <RepartitionParNature>{1,1}</RepartitionParNature>
-        </DocumentPaye>
-    */
+   ofstream log;
+   xmlNodePtr cur = nullptr;
+   xmlNodePtr cur_save = cur;
+   xmlChar *annee_fichier = nullptr,
+           *mois_fichier = nullptr,
+           *employeur_fichier = nullptr,
+           *etablissement_fichier = nullptr,
+           *siret_fichier = nullptr,
+           *budget_fichier = nullptr;
 
-    /* Note sur les modes d'exécution :
-     * Le mode == strict == envoie une exception dès la première non-conformité,
-     * sauf exceptions contraires signalées en commentaire.
-     * Le mode == tolérant == arrête l'exécution du fichier et passe suivant.
-     * Cela peut poser des problèmes de (ré)allocation/réservation/libération de mémoire
-     * Le mode == souple == continue l'exécution le plus possible dans le même fichier.
-     * Le mode strict fait l'objet d'une compilation séparée. Les modes tolérant ou souple
-     * choisis au cas par cas en fonction d'une évaluation plus ou moins subjective de la gravité
-     * de la non-conformité. */
 
-    ofstream log;
-    xmlDocPtr doc;
-    xmlNodePtr cur = nullptr;
-    info.NAgent[info.fichier_courant] = 0;
-    xmlNodePtr cur_save = cur;
-    xmlChar *annee_fichier = nullptr,
-            *mois_fichier = nullptr, 
-            *employeur_fichier = nullptr,
-            *etablissement_fichier = nullptr,
-            *siret_fichier = nullptr,
-            *budget_fichier = nullptr;
+   info.NAgent[info.fichier_courant] = 0;
 
-    #if defined(STRINGSTREAM_PARSING)
-      doc = xmlParseDoc(reinterpret_cast<const xmlChar*>(info.threads->in_memory_file.at(info.fichier_courant).c_str()));
-    #elif defined (MMAP_PARSING)
-       doc = xmlParseDoc(reinterpret_cast<const xmlChar*>(info.threads->in_memory_file.at(info.fichier_courant).c_str()));
-    #else
-       doc = xmlParseFile(info.threads->argv.at(info.fichier_courant).c_str());
-    #endif
-
-    memory_debug("parseFile : xmlParseFile");
+    memory_debug("parseFile : parseFile doc");
 
     if (doc == nullptr)
     {
@@ -183,6 +214,8 @@ static int parseFile(info_t& info)
     }
 
     cur = xmlDocGetRootElement(doc);
+
+    memory_debug("parseFile : parseFile get root");
 
     if (cur == nullptr)
     {
@@ -738,6 +771,66 @@ static int parseFile(info_t& info)
     return 0;
 }
 
+static int parseFile(info_t& info)
+{
+   /* REFERENCE */
+   /*
+        <DocumentPaye xmlns="http://www.minefi.gouv.fr/cp/helios/pes_v2/paye_1_1">
+          <IdVer V="">{1,1}</IdVer>
+          <Annee V="">{1,1}</Annee>
+          <Mois V="">{1,1}</Mois>
+          <Train V="">{0,1}</Train>
+          <Budget>{0,1}</Budget>
+          <Employeur>{1,1}</Employeur>
+          <DonneesIndiv>{1,unbounded}</DonneesIndiv>
+          <Nomenclatures>{1,1}</Nomenclatures>
+          <RepartitionParNature>{1,1}</RepartitionParNature>
+        </DocumentPaye>
+    */
+
+    /* Note sur les modes d'exécution :
+     * Le mode == strict == envoie une exception dès la première non-conformité,
+     * sauf exceptions contraires signalées en commentaire.
+     * Le mode == tolérant == arrête l'exécution du fichier et passe suivant.
+     * Cela peut poser des problèmes de (ré)allocation/réservation/libération de mémoire
+     * Le mode == souple == continue l'exécution le plus possible dans le même fichier.
+     * Le mode strict fait l'objet d'une compilation séparée. Les modes tolérant ou souple
+     * choisis au cas par cas en fonction d'une évaluation plus ou moins subjective de la gravité
+     * de la non-conformité. */
+
+
+    #if defined(STRINGSTREAM_PARSING)
+      doc = xmlParseDoc(reinterpret_cast<const xmlChar*>(info.threads->in_memory_file.at(info.fichier_courant).c_str()));
+    #elif defined (MMAP_PARSING)
+       doc = xmlParseDoc(reinterpret_cast<const xmlChar*>(info.threads->in_memory_file.at(info.fichier_courant).c_str()));
+    #else
+
+    int res = 0;
+       if (info.threads->argv_cut.at(info.fichier_courant).size() == 0)
+          return parseFile(xmlParseFile(info.threads->argv.at(info.fichier_courant).c_str()), info);
+       else
+       {
+          int rang  = 0;
+          for (auto && s :  info.threads->argv_cut.at(info.fichier_courant))
+          {
+           if (verbeux)
+               cerr << PROCESSING_HTML_TAG "Analyse du fichier scindé n°" << ++rang << ": " << s << ENDL;
+
+           xmlDocPtr doc = xmlParseFile(s.c_str());
+           cerr << ENDL;
+           cerr << "...." ENDL;
+           if (doc == nullptr) {
+               cerr << ERROR_HTML_TAG "L'analyse du parseur XML n'a pas pu être réalisée." ENDL;
+           }
+           else
+              res += parseFile(doc, info);
+          }
+       }
+       return res;
+    #endif
+}
+
+
 /* Les expressions régulières correctes ne sont disponibles sur MINGW GCC qu'à partir du build 4.9.2 */
 
 #if !defined GCC_REGEX && !defined NO_REGEX && (defined __WIN32__ || defined GCC_4_8)
@@ -913,8 +1006,7 @@ if (info.pretend) return nullptr;
 
     memory_debug("decoder_fichier : pre_parseFile(info)");
 
-    redecouper(info);
-
+    if (info.decoupage_fichiers_volumineux) redecouper(info);
 
     if (info.verifmem) return nullptr;
 

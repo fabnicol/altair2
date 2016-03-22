@@ -117,6 +117,7 @@ int main(int argc, char **argv)
         false,             // ne pas exporter l'échelon
         false,             // pretend
         false,             // verifmem
+        true,              // decoupage_fichiers_volumineux
         1,                 // nbfil
         {}  // besoin de mémoire effectif
     };
@@ -191,6 +192,12 @@ int main(int argc, char **argv)
           }
 
           exit(0);
+        }
+        else if (commandline_tab[start] ==  "--entier")
+        {
+           info.decoupage_fichiers_volumineux = false;
+           ++start;
+           continue;
         }
         else if (commandline_tab[start] ==  "-q")
         {
