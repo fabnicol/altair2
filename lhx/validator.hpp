@@ -25,14 +25,54 @@
 #endif
 
 
-typedef struct
+#ifndef MAX_MEMORY_SHARE
+ #define MAX_MEMORY_SHARE 0.9
+#endif
+
+#ifndef NA_STRING
+ #define NA_STRING  (xmlChar*) "NA"
+#endif
+#ifndef MAX_LIGNES_PAYE
+ #define MAX_LIGNES_PAYE 1000
+#endif
+
+// MAX_NB_AGENTS détermine le nombre maximal d'agents par mois potentiellement traités
+
+#ifndef MAX_NB_AGENTS
+ #define MAX_NB_AGENTS 8000
+#endif
+
+#ifndef NO_DEBUG
+    #define DEBUG(X) std::cerr << "\n" << X << "\n";
+    #define AFFICHER_NOEUD(X)       { char msg[50]={0}; \
+                                      sprintf(msg, "atteint %s\n", (const char*) X);\
+                                      DEBUG(msg) }
+
+    #define NO_DEBUG 0
+#else
+    #undef NO_DEBUG
+    #define NO_DEBUG 1
+    #define DEBUG(X)
+    #define AFFICHER_NOEUD(X)
+#endif
+#if !NO_DEBUG
+    #ifdef __WIN32__
+    #include <Windows.h>
+    #endif
+#endif
+
+#ifndef CUTFILE_CHUNK
+  #define CUTFILE_CHUNK  15 * 1024 * 1024
+#endif
+
+struct thread_t
 {
     int      thread_num;
     std::vector<std::string>   argv;
     std::vector<std::vector<std::string>>   argv_cut;
     std::vector<std::string> in_memory_file;
     unsigned argc;
-} thread_t;
+};
 
 
 static constexpr auto EXPRESSION_REG_ELUS = "^maire.*|^pr..?sident.*|^[eé]lus?|^(?:adj.*\\bmaire\\b|vi.*\\bpr..?sident\\b|cons.*\\bmuni|cons.*\\bcomm|cons.*\\bd..?l..?gu).*",
@@ -83,15 +123,30 @@ enum class BaseType : int
                     MAXIMUM_LIGNES_PAR_ANNEE = 16
                   };
 
-#define INDEX_MAX_COLONNNES 5    // nombre de type de champ de ligne de paye (Libellé, Code, Taux, Base, ...) moins 1.
-#define BESOIN_MEMOIRE_ENTETE  27  /* nb d'éléments de l'enum ci-dessous */
+using Mem_management = enum {
+                              INDEX_MAX_COLONNNES = 5,    // nombre de type de champ de ligne de paye (Libellé, Code, Taux, Base, ...) moins 1.
+                              BESOIN_MEMOIRE_ENTETE = 27,  /* nb d'éléments de l'enum ci-dessous */
+                              RETRY = -1,
+                              SKIP_FILE = 1,
+                              NO_AGENT = -2
+                            };
 
-typedef enum {
+using XML_code = enum {
+                        NODE_FOUND,
+                        NODE_NOT_FOUND,
+                        LINE_MEMORY_EXCEPTION,
+                        NO_NEXT_ITEM,
+                        PREMIER_FICHIER,
+                        FICHIER_SUIVANT_DECOUPE,
+                        DERNIER_FICHIER_DECOUPE
+                       };
+
+using Entete = enum {
               Annee, Mois, Budget, Employeur, Siret, Etablissement,
               Nom, Prenom, Matricule, NIR, NbEnfants, Statut,
               EmploiMetier, Grade, Echelon, Indice, Code, Description, Service, NBI, QuotiteTrav,
               NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer, Categorie
-         } Entete;
+         };
 
 constexpr const char* Tableau_entete[] = {
                                     "Annee", "Mois", "Budget", "Employeur", "Siret", "Etablissement",
@@ -99,10 +154,8 @@ constexpr const char* Tableau_entete[] = {
                                     "EmploiMetier", "Grade", "Echelon", "Indice", "Evenement", "Service", "NBI", "QuotiteTrav",
                                     "NbHeureTotal", "NbHeureSup", "MtBrut", "MtNet", "MtNetAPayer" };
 
-
-typedef struct
+struct info_t
 {
-
     std::vector<std::vector<xmlChar*>> Table;
     uint64_t nbLigne;
     std::vector<uint64_t> taille;
@@ -133,66 +186,13 @@ typedef struct
     bool decoupage_fichiers_volumineux;
     unsigned int  nbfil;
     std::vector<int> Memoire_p_ligne;
-} info_t;
+};
 
-typedef struct {
+using LineCount = struct {
      int nbLignePaye;
      int memoire_p_ligne_allouee;
 
-} LineCount;
-
-
-#define RETRY -1
-#define SKIP_FILE 1
-#define NO_AGENT -1
-
-#ifndef MAX_MEMORY_SHARE
-#define MAX_MEMORY_SHARE 0.9
-#endif
-
-#ifndef NA_STRING
- #define NA_STRING  (xmlChar*) "NA"
-#endif
-#ifndef MAX_LIGNES_PAYE
- #define MAX_LIGNES_PAYE 1000
-#endif
-
-// MAX_NB_AGENTS détermine le nombre maximal d'agents par mois potentiellement traités
-
-#ifndef MAX_NB_AGENTS
- #define MAX_NB_AGENTS 8000
-#endif
-
-#ifndef NO_DEBUG
-    #define DEBUG(X) std::cerr << "\n" << X << "\n";
-    #define AFFICHER_NOEUD(X)       { char msg[50]={0}; \
-                                      sprintf(msg, "atteint %s\n", (const char*) X);\
-                                      DEBUG(msg) }
-
-    #define NO_DEBUG 0
-#else
-    #undef NO_DEBUG
-    #define NO_DEBUG 1
-    #define DEBUG(X)
-    #define AFFICHER_NOEUD(X)
-#endif
-#if !NO_DEBUG
-    #ifdef __WIN32__
-    #include <Windows.h>
-    #endif
-#endif
-
-#define NODE_FOUND  0
-#define NODE_NOT_FOUND 1
-#define LINE_MEMORY_EXCEPTION 2
-#define NO_NEXT_ITEM 3
-
-#ifndef CUTFILE_CHUNK
-  #define CUTFILE_CHUNK  15 * 1024 * 1024
-#endif
-
-/* pas de contrôle d'existence de noeud : version affaiblie de la macro précédente */
-
+};
 
 
 static const char* type_remuneration[]   = {

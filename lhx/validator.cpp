@@ -164,8 +164,13 @@ int redecouper(info_t& info)
 
             if (filest.at(i) != '<') while (filest.at(++i) != '<') continue;
 
-            string header = (r > 1)? string("<?xml version=\"1.0\" ") + enc + string("?>\n") + ((! open_di)? "<DonneesIndiv>\n" : "") : string("");
-            string filest_cut = header + filest.substr(init_pos, i - init_pos) + ((insert_di)? string("\n</DonneesIndiv>\n") : "\n") + ((r == 1) ? string("</") + document_tag + string(">") : "");
+            string header = (r > 1)? (string("<?xml version=\"1.0\" ") + enc + string("?>")
+                                     + string("\n<DocumentPaye>")
+                                     + ((! open_di)? "\n<DonneesIndiv>\n" : "")) : string("");
+
+            string filest_cut = header + filest.substr(init_pos, i - init_pos)
+                                       + ((insert_di)? string("\n</DonneesIndiv>") : "")
+                                       + (string("\n</") + ((r > 1)? "DocumentPaye" : document_tag) + string(">"));
 
             s = filest.substr(i + 1 , 12);
             open_di = (s == "DonneesIndiv");
@@ -185,17 +190,17 @@ int redecouper(info_t& info)
 }
 
 
-static int parseFile(const xmlDocPtr doc, info_t& info)
+static int parseFile(const xmlDocPtr doc, info_t& info, int cont_flag = PREMIER_FICHIER)
 {
    ofstream log;
    xmlNodePtr cur = nullptr;
    xmlNodePtr cur_save = cur;
-   xmlChar *annee_fichier = nullptr,
-           *mois_fichier = nullptr,
-           *employeur_fichier = nullptr,
-           *etablissement_fichier = nullptr,
-           *siret_fichier = nullptr,
-           *budget_fichier = nullptr;
+   static xmlChar  *annee_fichier,
+                   *mois_fichier,
+                   *employeur_fichier,
+                   *etablissement_fichier,
+                   *siret_fichier,
+                   *budget_fichier;
 
 
    info.NAgent[info.fichier_courant] = 0;
@@ -228,6 +233,8 @@ static int parseFile(const xmlDocPtr doc, info_t& info)
     }
 
     cur =  cur->xmlChildrenNode;
+
+    if (cont_flag != PREMIER_FICHIER) goto donnees_indiv;
 
     cur = atteindreNoeud("Annee", cur);
 
@@ -425,6 +432,12 @@ static int parseFile(const xmlDocPtr doc, info_t& info)
 
         cur = cur_save;
     }
+
+    /* On effectue un saut direct par étiquetage ici dans le cas de fichiers découpés dont les informations
+     * d'entête (année, mois...) sont définits par les pointeurs statiques déclarés en début de fonction */
+
+donnees_indiv:
+
 
     cur = atteindreNoeud("DonneesIndiv", cur);
 
@@ -725,8 +738,8 @@ static int parseFile(const xmlDocPtr doc, info_t& info)
             ++info.NCumAgentXml;
         }
 
-        xmlFree(etablissement_fichier);
-        /* si pas d'établissement (NA_STRING) alors on utilise le siret de l'empoyeur, donc
+       // xmlFree(etablissement_fichier);
+        /* si pas d'établissement (NA_STRING) alors on utilise le siret de l'employeur, donc
          * ne pas libérer dans ce cas ! */
 
         cur = cur_save->next;  // next DonneesIndiv
@@ -738,30 +751,35 @@ static int parseFile(const xmlDocPtr doc, info_t& info)
 #endif
 
     {
-        lock_guard<mutex> guard(mut);
-        cerr << STATE_HTML_TAG "Fichier "
-               #ifdef GENERATE_RANK_SIGNAL
-                  << "n°" <<  rang_global
-               #endif
-                  << " : " << info.threads->argv[info.fichier_courant] << ENDL;
 
         if (verbeux)
         {
+            lock_guard<mutex> guard(mut);
+            cerr << STATE_HTML_TAG "Fichier "
+                   #ifdef GENERATE_RANK_SIGNAL
+                      << "n°" <<  rang_global
+                   #endif
+                      << " : " << info.threads->argv[info.fichier_courant] << ENDL;
 
             cerr << STATE_HTML_TAG << "Fil n°" << info.threads->thread_num << " : " << "Fichier courant : " << info.fichier_courant + 1 << ENDL;
             cerr << STATE_HTML_TAG << "Total : " <<  info.NCumAgentXml << " bulletins -- " << info.nbLigne <<" lignes cumulées." ENDL;
         }
     }
 
+    //if (siret_etablissement )
+      //      xmlFree(siret_fichier);
 
-    if (siret_etablissement )
-            xmlFree(siret_fichier);
-    xmlFree(annee_fichier);
-    xmlFree(mois_fichier);
-    xmlFree(budget_fichier);
-    xmlFree(employeur_fichier);
+    if (cont_flag == DERNIER_FICHIER_DECOUPE)
+    {
+       // xmlFree(annee_fichier);
+       // xmlFree(mois_fichier);
+       // xmlFree(budget_fichier);
+       // xmlFree(employeur_fichier);
+    }
 
+#if defined(STRINGSTREAM_PARSING) || defined(MMAP_PARSING)
     info.threads->in_memory_file.at(info.fichier_courant).clear();
+#endif
 
     xmlFreeDoc(doc);
 
@@ -806,27 +824,52 @@ static int parseFile(info_t& info)
     #else
 
     int res = 0;
-       if (info.threads->argv_cut.at(info.fichier_courant).size() == 0)
-          return parseFile(xmlParseFile(info.threads->argv.at(info.fichier_courant).c_str()), info);
-       else
-       {
-          int rang  = 0;
-          for (auto && s :  info.threads->argv_cut.at(info.fichier_courant))
-          {
+    int NDecoupe = info.threads->argv_cut.at(info.fichier_courant).size();
+    if (NDecoupe == 0)
+    {
+        return parseFile(xmlParseFile(info.threads->argv.at(info.fichier_courant).c_str()), info);
+    }
+    else
+    {
+      int rang  = 0;
+      int cont_flag = PREMIER_FICHIER;
+
+      for (auto && s :  info.threads->argv_cut.at(info.fichier_courant))
+      {
            if (verbeux)
-               cerr << PROCESSING_HTML_TAG "Analyse du fichier scindé n°" << ++rang << ": " << s << ENDL;
+               cerr << PROCESSING_HTML_TAG "Analyse du fichier scindé n°" <<info.fichier_courant<<"-"<< ++rang << ": " << s << ENDL;
+
+           if (rang == 1)
+               cont_flag = PREMIER_FICHIER;
+           else
+           if (rang == NDecoupe)
+               cont_flag = DERNIER_FICHIER_DECOUPE;
+           else
+               cont_flag = FICHIER_SUIVANT_DECOUPE;
+
 
            xmlDocPtr doc = xmlParseFile(s.c_str());
            cerr << ENDL;
            cerr << "...." ENDL;
-           if (doc == nullptr) {
+           if (doc == nullptr)
+           {
                cerr << ERROR_HTML_TAG "L'analyse du parseur XML n'a pas pu être réalisée." ENDL;
            }
            else
-              res += parseFile(doc, info);
-          }
-       }
-       return res;
+              res += parseFile(doc, info, cont_flag);
+           if (verbeux)
+               cerr << PROCESSING_HTML_TAG "Fin de l'analyse du fichier scindé n°" <<info.fichier_courant<<"-"<< rang << ": " << s << ENDL;
+           if (res == 0)
+           {
+               remove(s.c_str());
+               if (verbeux)
+                   cerr << PROCESSING_HTML_TAG "Effacement du fichier scindé n°" <<info.fichier_courant<<"-"<< rang << ": " << s << ENDL;
+           }
+      }
+     }
+
+     return res;
+
     #endif
 }
 
