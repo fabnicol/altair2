@@ -184,6 +184,7 @@ struct info_t
     bool pretend;
     bool verifmem;
     bool decoupage_fichiers_volumineux;
+    bool preserve_tempfiles;
     unsigned int  nbfil;
     std::vector<int> Memoire_p_ligne;
 };

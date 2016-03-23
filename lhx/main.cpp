@@ -118,6 +118,7 @@ int main(int argc, char **argv)
         false,             // pretend
         false,             // verifmem
         true,              // decoupage_fichiers_volumineux
+        false,
         1,                 // nbfil
         {}  // besoin de mémoire effectif
     };
@@ -545,6 +546,12 @@ int main(int argc, char **argv)
         else if (commandline_tab[start] == "--pretend")
         {
           info.pretend = true;   // pas de décodage
+          ++start;
+          continue;
+        }
+        else if (commandline_tab[start] == "--preserve-tempfiles")
+        {
+          info.preserve_tempfiles = true;   // garder les fichiers remporaires
           ++start;
           continue;
         }

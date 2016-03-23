@@ -862,13 +862,13 @@ static int parseFile(info_t& info)
             res = parseFile(doc, info, cont_flag);
 
          if (verbeux)
-            cerr << PROCESSING_HTML_TAG "Fin de l'analyse du fichier scindé n°" <<info.fichier_courant<<"-"<< rang << "/" << NDecoupe << " : " << s << ENDL;
+            cerr << PROCESSING_HTML_TAG "Fin de l'analyse du fichier scindé fil " << info.threads->thread_num << " n°" <<info.fichier_courant<<"-"<< rang << "/" << NDecoupe << " : " << s << ENDL;
 
-         if (res == 0)
+         if (res == 0 && ! info.preserve_tempfiles)
          {
             remove(s.c_str());
             if (verbeux)
-               cerr << PROCESSING_HTML_TAG "Effacement du fichier scindé n°" <<info.fichier_courant<<"-"<< rang  << "/" << NDecoupe << " : " << s << ENDL;
+               cerr << PROCESSING_HTML_TAG "Effacement du fichier scindé fil " << info.threads->thread_num << " n°" <<info.fichier_courant<<"-"<< rang  << "/" << NDecoupe << " : " << s << ENDL;
          }
 
          if (res == SKIP_FILE || res == RETRY) return res;

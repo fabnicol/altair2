@@ -77,6 +77,7 @@ out <<  "**Usage** :  lhx OPTIONS fichiers.xhl  " << "\n\n"
           <<  "**--pretend**                 : exécution sans traitement des fichiers.  " << "\n\n"
           <<  "**--verifmem**                : seulement vérifier la consommation mémoire.  " << "\n\n"
           <<  "**--entier**                  : désactivation du découpage des fichiers volumineux.  " << "\n\n"
+          <<  "**--preserve-tempfiles**      : désactivation de l'effacement des fichiers temporaires.  " << "\n\n"
           <<  "**--hmarkdown**               : aide en format markdown.  " << "\n\n"
           <<  "**--pdf**                     : aide en format pdf.  " << "\n\n";
     #ifdef GENERATE_RANK_SIGNAL
