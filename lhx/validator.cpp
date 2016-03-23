@@ -738,7 +738,10 @@ donnees_indiv:
             ++info.NCumAgentXml;
         }
 
-       // xmlFree(etablissement_fichier);
+        if (cont_flag == DERNIER_FICHIER_DECOUPE)
+        {
+        //  xmlFree(etablissement_fichier);
+        }
         /* si pas d'établissement (NA_STRING) alors on utilise le siret de l'employeur, donc
          * ne pas libérer dans ce cas ! */
 
@@ -766,15 +769,14 @@ donnees_indiv:
         }
     }
 
-    //if (siret_etablissement )
-      //      xmlFree(siret_fichier);
-
     if (cont_flag == DERNIER_FICHIER_DECOUPE)
     {
-       // xmlFree(annee_fichier);
-       // xmlFree(mois_fichier);
-       // xmlFree(budget_fichier);
-       // xmlFree(employeur_fichier);
+//        xmlFree(annee_fichier);
+//        xmlFree(mois_fichier);
+//        xmlFree(budget_fichier);
+//        xmlFree(employeur_fichier);
+//        if (siret_etablissement)
+//            xmlFree(siret_fichier);
     }
 
 #if defined(STRINGSTREAM_PARSING) || defined(MMAP_PARSING)
@@ -826,51 +828,56 @@ static int parseFile(info_t& info)
     int res = 0;
     int NDecoupe = info.threads->argv_cut.at(info.fichier_courant).size();
     if (NDecoupe == 0)
-    {
         return parseFile(xmlParseFile(info.threads->argv.at(info.fichier_courant).c_str()), info);
-    }
-    else
+
+
+    int rang  = 0;
+    int cont_flag = PREMIER_FICHIER;
+
+    for (auto && s :  info.threads->argv_cut.at(info.fichier_courant))
     {
-      int rang  = 0;
-      int cont_flag = PREMIER_FICHIER;
+         cerr << ENDL;
+         cerr << ".....     .....     ....." ENDL;
+         cerr << ENDL;
 
-      for (auto && s :  info.threads->argv_cut.at(info.fichier_courant))
-      {
-           if (verbeux)
-               cerr << PROCESSING_HTML_TAG "Analyse du fichier scindé n°" <<info.fichier_courant<<"-"<< ++rang << ": " << s << ENDL;
+         if (verbeux)
+             cerr << PROCESSING_HTML_TAG "Analyse du fichier scindé fil " << info.threads->thread_num << " - n°" <<info.fichier_courant<<"-"<< ++rang << "/" << NDecoupe << " : " << s << ENDL;
 
-           if (rang == 1)
-               cont_flag = PREMIER_FICHIER;
-           else
-           if (rang == NDecoupe)
-               cont_flag = DERNIER_FICHIER_DECOUPE;
-           else
-               cont_flag = FICHIER_SUIVANT_DECOUPE;
+         if (rang == 1)
+             cont_flag = PREMIER_FICHIER;
+         else
+         if (rang == NDecoupe)
+             cont_flag = DERNIER_FICHIER_DECOUPE;
+         else
+             cont_flag = FICHIER_SUIVANT_DECOUPE;
 
 
-           xmlDocPtr doc = xmlParseFile(s.c_str());
-           cerr << ENDL;
-           cerr << "...." ENDL;
-           if (doc == nullptr)
-           {
-               cerr << ERROR_HTML_TAG "L'analyse du parseur XML n'a pas pu être réalisée." ENDL;
-           }
-           else
-              res += parseFile(doc, info, cont_flag);
-           if (verbeux)
-               cerr << PROCESSING_HTML_TAG "Fin de l'analyse du fichier scindé n°" <<info.fichier_courant<<"-"<< rang << ": " << s << ENDL;
-           if (res == 0)
-           {
-               remove(s.c_str());
-               if (verbeux)
-                   cerr << PROCESSING_HTML_TAG "Effacement du fichier scindé n°" <<info.fichier_courant<<"-"<< rang << ": " << s << ENDL;
-           }
-      }
+         xmlDocPtr doc = xmlParseFile(s.c_str());
+         cerr << ENDL;
+         if (doc == nullptr)
+         {
+            cerr << ERROR_HTML_TAG "L'analyse du parseur XML n'a pas pu être réalisée." ENDL;
+         }
+         else
+            res = parseFile(doc, info, cont_flag);
+
+         if (verbeux)
+            cerr << PROCESSING_HTML_TAG "Fin de l'analyse du fichier scindé n°" <<info.fichier_courant<<"-"<< rang << "/" << NDecoupe << " : " << s << ENDL;
+
+         if (res == 0)
+         {
+            remove(s.c_str());
+            if (verbeux)
+               cerr << PROCESSING_HTML_TAG "Effacement du fichier scindé n°" <<info.fichier_courant<<"-"<< rang  << "/" << NDecoupe << " : " << s << ENDL;
+         }
+
+         if (res == SKIP_FILE || res == RETRY) return res;
+
      }
 
-     return res;
+ return 0;
 
-    #endif
+#endif
 }
 
 
@@ -1049,11 +1056,12 @@ if (info.pretend) return nullptr;
 
     memory_debug("decoder_fichier : pre_parseFile(info)");
 
-    if (info.decoupage_fichiers_volumineux) redecouper(info);
-
     if (info.verifmem) return nullptr;
 
-        info.fichier_courant = i;
+    info.fichier_courant = i;
+
+    if (info.decoupage_fichiers_volumineux) redecouper(info);
+
         switch(parseFile(info))
         {
         case RETRY:
