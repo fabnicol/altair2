@@ -45,17 +45,18 @@ int redecouper(info_t& info)
 {
 
         #if defined(STRINGSTREAM_PARSING) || defined(MMAP_PARSING)
-             string filest = info.threads->in_memory_file.at(info.fichier_courant);
+             string filest = std::move(info.threads->in_memory_file.at(info.fichier_courant));
+             info.threads->in_memory_file_cut.push_back(vector<string>{});
         #else
              ifstream c(info.threads->argv.at(info.fichier_courant));
              string filest;
              filest = read_stream_into_string(c);
-             uint64_t taille = info.taille.at(info.fichier_courant);
+             info.threads->argv_cut.push_back(vector<string>{});
         #endif
 
-        info.threads->argv_cut.push_back(vector<string>{});
+        uint64_t taille = info.taille.at(info.fichier_courant);
 
-        if (info.taille.at(info.fichier_courant) < CUTFILE_CHUNK) return 0;
+        if (taille < CUTFILE_CHUNK) return 0;
 
         if (verbeux)
             cerr << PROCESSING_HTML_TAG "Redécoupage du fichier n°" << info.fichier_courant << ENDL;
@@ -178,10 +179,15 @@ int redecouper(info_t& info)
             init_pos = i;
             string filecut_path = info.threads->argv.at(info.fichier_courant) +"_" + to_string(r) + ".xhl";
 
+        #if defined(STRINGSTREAM_PARSING) || defined(MMAP_PARSING)
+            info.threads->in_memory_file_cut[info.fichier_courant].emplace_back(filest_cut);
+        #else
             ofstream filecut(filecut_path);
             filecut << filest_cut;
             filecut.close();
             info.threads->argv_cut[info.fichier_courant].push_back(filecut_path);
+        #endif
+
             if (! depuis_debut) break;
             fermeture_PI = false;
         }
@@ -829,31 +835,54 @@ static int parseFile(info_t& info)
      * choisis au cas par cas en fonction d'une évaluation plus ou moins subjective de la gravité
      * de la non-conformité. */
 
-
-    #if defined(STRINGSTREAM_PARSING)
-      doc = xmlParseDoc(reinterpret_cast<const xmlChar*>(info.threads->in_memory_file.at(info.fichier_courant).c_str()));
-    #elif defined (MMAP_PARSING)
-       doc = xmlParseDoc(reinterpret_cast<const xmlChar*>(info.threads->in_memory_file.at(info.fichier_courant).c_str()));
+    #if defined(STRINGSTREAM_PARSING) || defined (MMAP_PARSING)
+      int NDecoupe = info.threads->in_memory_file_cut.at(info.fichier_courant).size();
     #else
+      int NDecoupe = info.threads->argv_cut.at(info.fichier_courant).size();
+    #endif
 
     int res = 0;
-    int NDecoupe = info.threads->argv_cut.at(info.fichier_courant).size();
     int cont_flag = PREMIER_FICHIER;
     xml_commun champ_commun;
 
     if (NDecoupe == 0)
-        return parseFile(xmlParseFile(info.threads->argv.at(info.fichier_courant).c_str()), info, cont_flag, &champ_commun);
+    {
+        #if defined(STRINGSTREAM_PARSING) || defined(MMAP_PARSING)
+           xmlDocPtr doc = xmlParseFile(info.threads->argv.at(info.fichier_courant).c_str());
+        #else
+           xmlDocPtr doc = xmlParseDoc(reinterpret_cast<const xmlChar*>(info.threads->in_memory_file.at(info.fichier_courant).c_str()));
+        #endif
+
+        return parseFile(doc, info, cont_flag, &champ_commun);
+    }
+
+    // -----  NDecoupe != 0
 
     int rang  = 0;
 
-    for (auto && s :  info.threads->argv_cut.at(info.fichier_courant))
+#if defined(STRINGSTREAM_PARSING) || defined(MMAP_PARSING)
+    vector<string> cut_chunks = info.threads->in_memory_file_cut.at(info.fichier_courant);
+#else
+    const vector<string> cut_chunks = info.threads->argv_cut.at(info.fichier_courant);
+#endif
+
+    for (auto && s :  cut_chunks)
     {
-         cerr << ENDL;
-         cerr << ".....     .....     ....." ENDL;
-         cerr << ENDL;
 
          if (verbeux)
-             cerr << PROCESSING_HTML_TAG "Analyse du fichier scindé fil " << info.threads->thread_num << " - n°" <<info.fichier_courant<<"-"<< ++rang << "/" << NDecoupe << " : " << s << ENDL;
+         {
+             cerr << ENDL;
+             cerr << ".....     .....     ....." ENDL;
+             cerr << ENDL;
+
+             cerr << PROCESSING_HTML_TAG "Analyse du fichier scindé fil " << info.threads->thread_num + 1 << " - n°" << info.fichier_courant + 1 << "-" << ++rang << "/" << NDecoupe;
+
+         #if defined(FGETC_PARSING)
+             cerr << " : " << s << ENDL;
+         #else
+             cerr << ENDL;
+         #endif
+         }
 
          if (rang == 1)
              cont_flag = PREMIER_FICHIER;
@@ -863,9 +892,15 @@ static int parseFile(info_t& info)
          else
              cont_flag = FICHIER_SUIVANT_DECOUPE;
 
-
+#if defined(STRINGSTREAM_PARSING) || defined(MMAP_PARSING)
+         xmlDocPtr doc = xmlParseDoc(reinterpret_cast<const xmlChar*>(s.c_str()));
+         s.clear();
+#else
          xmlDocPtr doc = xmlParseFile(s.c_str());
-         cerr << ENDL;
+#endif
+
+         if (verbeux) cerr << ENDL;
+
          if (doc == nullptr)
          {
             cerr << ERROR_HTML_TAG "L'analyse du parseur XML n'a pas pu être réalisée." ENDL;
@@ -874,14 +909,23 @@ static int parseFile(info_t& info)
             res = parseFile(doc, info, cont_flag, &champ_commun);
 
          if (verbeux)
-            cerr << PROCESSING_HTML_TAG "Fin de l'analyse du fichier scindé fil " << info.threads->thread_num << " n°" <<info.fichier_courant<<"-"<< rang << "/" << NDecoupe << " : " << s << ENDL;
+         {
+            cerr << PROCESSING_HTML_TAG "Fin de l'analyse du fichier scindé fil " << info.threads->thread_num + 1<< " n°" << info.fichier_courant + 1 <<"-"<< rang << "/" << NDecoupe;
+         #ifdef FGETC_PARSING
+            cerr << " : " << s << ENDL;
+         #else
+            cerr << ENDL;
+         #endif
+         }
 
+#ifdef FGETC_PARSING
          if (res == 0 && ! info.preserve_tempfiles)
          {
             remove(s.c_str());
             if (verbeux)
-               cerr << PROCESSING_HTML_TAG "Effacement du fichier scindé fil " << info.threads->thread_num << " n°" <<info.fichier_courant<<"-"<< rang  << "/" << NDecoupe << " : " << s << ENDL;
+               cerr << PROCESSING_HTML_TAG "Effacement du fichier scindé fil " << info.threads->thread_num + 1 << " n°" <<info.fichier_courant + 1<<"-"<< rang  << "/" << NDecoupe << " : " << s << ENDL;
          }
+#endif
 
          if (res == SKIP_FILE || res == RETRY) return res;
 
@@ -889,7 +933,6 @@ static int parseFile(info_t& info)
 
  return 0;
 
-#endif
 }
 
 

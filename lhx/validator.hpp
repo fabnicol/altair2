@@ -69,8 +69,13 @@ struct thread_t
 {
     int      thread_num;
     std::vector<std::string>   argv;
-    std::vector<std::vector<std::string>>   argv_cut;
+    #if defined(STRINGSTREAM_PARSING) || defined(MMAP_PARSING)
+        std::vector<std::vector<std::string>> in_memory_file_cut;
+    #else
+        std::vector<std::vector<std::string>>   argv_cut;
+    #endif
     std::vector<std::string> in_memory_file;
+
     unsigned argc;
 };
 
@@ -184,8 +189,9 @@ struct info_t
     bool pretend;
     bool verifmem;
     bool decoupage_fichiers_volumineux;
+#ifdef FGETC_PARSING
     bool preserve_tempfiles;
-    //bool open_di;
+#endif
     unsigned int  nbfil;
     std::vector<int> Memoire_p_ligne;
 };

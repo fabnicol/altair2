@@ -118,8 +118,9 @@ int main(int argc, char **argv)
         false,             // pretend
         false,             // verifmem
         true,              // decoupage_fichiers_volumineux
+    #ifdef FGETC_PARSING
         false,             // preserve_tempfiles
-   //     true,              // open_di
+    #endif
         1,                 // nbfil
         {}  // besoin de mémoire effectif
     };
@@ -550,12 +551,14 @@ int main(int argc, char **argv)
           ++start;
           continue;
         }
+#ifdef FGETC_PARSING
         else if (commandline_tab[start] == "--preserve-tempfiles")
         {
           info.preserve_tempfiles = true;   // garder les fichiers remporaires
           ++start;
           continue;
         }
+#endif
         else if (commandline_tab[start] == "--verifmem")
         {
           info.verifmem = true;  // seulement vérifier la mémoire
