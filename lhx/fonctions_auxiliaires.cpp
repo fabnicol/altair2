@@ -183,16 +183,13 @@ off_t taille_fichier(const string& filename)
 
    #include <sys/sysinfo.h>
 
-
     size_t getFreeSystemMemory()
     {
         struct sysinfo info;
         sysinfo( &info );
-        return (size_t)( info.freeram + info.bufferram) * (size_t)info.mem_unit;
+        return (size_t)(info.bufferram + info.freeram) * (size_t)info.mem_unit * 1.25;
         //info.freeram-info.bufferram
     }
-
-
 
 #else
 #include <windows.h>

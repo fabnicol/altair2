@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 3.6.0, 2016-03-23T19:53:55. -->
+<!-- Written by QtCreator 3.6.0, 2016-03-24T02:26:12. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -61,11 +61,11 @@
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Desktop</value>
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Desktop</value>
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{ce04cbec-832d-4012-b466-7597a383141e}</value>
-   <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">0</value>
+   <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">1</value>
    <value type="int" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
    <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">0</value>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.0">
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/fab/Dev/altair-dev/lhx/build/debug</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/fab/Dev/altair/lhx/build/debug</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
@@ -93,7 +93,7 @@
      </valuemap>
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.2">
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
-      <value type="QString" key="ProjectExplorer.ProcessStep.Arguments">-f lhx ~/Dev/altair-dev/linux/lhx</value>
+      <value type="QString" key="ProjectExplorer.ProcessStep.Arguments">-f lhx ~/Dev/altair/linux/lhx</value>
       <value type="QString" key="ProjectExplorer.ProcessStep.Command">cp</value>
       <value type="QString" key="ProjectExplorer.ProcessStep.WorkingDirectory">%{buildDir}</value>
       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Étape personnalisée</value>
@@ -165,7 +165,7 @@
      </valuemap>
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.2">
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
-      <value type="QString" key="ProjectExplorer.ProcessStep.Arguments">-f lhx ~/Dev/altair-dev/linux/lhx</value>
+      <value type="QString" key="ProjectExplorer.ProcessStep.Arguments">-f lhx ~/Dev/altair/linux/lhx</value>
       <value type="QString" key="ProjectExplorer.ProcessStep.Command">cp</value>
       <value type="QString" key="ProjectExplorer.ProcessStep.WorkingDirectory">%{buildDir}</value>
       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Étape personnalisée</value>
@@ -323,11 +323,11 @@
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes">
      <value type="QString">PATH=/opt/lib64:/usr/lib64/qt5/bin:/opt/bin:/usr/local/bin:/usr/bin:/bin:/opt/bin:/usr/x86_64-pc-linux-gnu/gcc-bin/4.9.3</value>
     </valuelist>
-    <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.Arguments">-f  /home/fab/Dev/altair-dev/lhx/cl</value>
-    <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.Executable">/home/fab/Dev/altair-dev/linux/lhx</value>
-    <value type="bool" key="ProjectExplorer.CustomExecutableRunConfiguration.UseTerminal">true</value>
+    <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.Arguments"> -m -d &quot;,&quot; -s &quot;;&quot; -rank /home/fab/.local/share/Altair/rank -D &quot;/home/fab/Main/fab/Dev/altair/Tests/Exemple/Donnees/R-Altair&quot; --memshare 90 -j '8' -t -E &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.10.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.11.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.12.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.13.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.14.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.15.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.16.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.17.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.18.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.19.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.2.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.21.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.22.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.23.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.24.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.25.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.26.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.27.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.28.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.29.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.3.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.30.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.32.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.33.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.34.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.35.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.36.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.37.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.38.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.39.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.4.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.40.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.41.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.42.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.43.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.44.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.45.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.46.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.47.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.48.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.49.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.5.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.50.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.51.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.52.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.53.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.54.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.55.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.56.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.57.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.58.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.59.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.6.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.60.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.7.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.8.xhl&quot; &quot;/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.9.xhl&quot; </value>
+    <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.Executable">/home/fab/Dev/altair/linux/lhx</value>
+    <value type="bool" key="ProjectExplorer.CustomExecutableRunConfiguration.UseTerminal">false</value>
     <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.WorkingDirectory">%{buildDir}</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Exécuter /home/fab/Dev/altair-dev/linux/lhx</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Exécuter /home/fab/Dev/altair/linux/lhx</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ProjectExplorer.CustomExecutableRunConfiguration</value>
     <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
@@ -379,8 +379,8 @@
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">lhx.linux</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">lhx.linux2</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/fab/Dev/altair-dev/lhx/lhx.linux.pro</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/fab/Main/fab/Dev/altair/lhx/lhx.linux.pro</value>
     <value type="bool" key="QmakeProjectManager.QmakeRunConfiguration.UseLibrarySearchPath">true</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments"></value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">lhx.linux.pro</value>

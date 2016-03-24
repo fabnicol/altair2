@@ -98,7 +98,7 @@ int redecouper(info_t& info)
         uint64_t i = 0;
         uint64_t init_pos= 0;
         bool depuis_debut = true;
-        static bool open_di;
+        bool open_di = true;
 
         while (filest.at(i) != '\0')
         {
@@ -190,17 +190,17 @@ int redecouper(info_t& info)
 }
 
 
-static int parseFile(const xmlDocPtr doc, info_t& info, int cont_flag = PREMIER_FICHIER)
+static int parseFile(const xmlDocPtr doc, info_t& info, int cont_flag, xml_commun* champ_commun)
 {
    ofstream log;
    xmlNodePtr cur = nullptr;
    xmlNodePtr cur_save = cur;
-   static xmlChar  *annee_fichier,
-                   *mois_fichier,
-                   *employeur_fichier,
-                   *etablissement_fichier,
-                   *siret_fichier,
-                   *budget_fichier;
+   xmlChar *annee_fichier = champ_commun->annee_fichier,
+           *mois_fichier = champ_commun->mois_fichier,
+           *employeur_fichier = champ_commun->employeur_fichier,
+           *etablissement_fichier = champ_commun->etablissement_fichier,
+           *siret_fichier = champ_commun->siret_fichier,
+           *budget_fichier = champ_commun->budget_fichier;
 
 
    info.NAgent[info.fichier_courant] = 0;
@@ -523,7 +523,7 @@ donnees_indiv:
             cur_save2 = cur;
 
             /* On recherche le nom, le siret de l'établissement */
-      do {
+          do {
                 cur =  cur->xmlChildrenNode;
 
                 if (cur == nullptr || xmlIsBlankNode(cur))
@@ -740,7 +740,7 @@ donnees_indiv:
 
         if (cont_flag == DERNIER_FICHIER_DECOUPE)
         {
-        //  xmlFree(etablissement_fichier);
+          xmlFree(etablissement_fichier);
         }
         /* si pas d'établissement (NA_STRING) alors on utilise le siret de l'employeur, donc
          * ne pas libérer dans ce cas ! */
@@ -769,14 +769,25 @@ donnees_indiv:
         }
     }
 
+    if (cont_flag == PREMIER_FICHIER)
+    {
+        champ_commun->annee_fichier =  annee_fichier;
+        champ_commun->mois_fichier  =  mois_fichier;
+        champ_commun->employeur_fichier = employeur_fichier;
+    }
+
+        champ_commun->siret_fichier = siret_fichier;
+        champ_commun->budget_fichier = budget_fichier;
+        champ_commun->etablissement_fichier = etablissement_fichier;
+
     if (cont_flag == DERNIER_FICHIER_DECOUPE)
     {
-//        xmlFree(annee_fichier);
-//        xmlFree(mois_fichier);
-//        xmlFree(budget_fichier);
-//        xmlFree(employeur_fichier);
-//        if (siret_etablissement)
-//            xmlFree(siret_fichier);
+        xmlFree(annee_fichier);
+        xmlFree(mois_fichier);
+        xmlFree(employeur_fichier);
+        if (siret_etablissement)   //?
+            xmlFree(siret_fichier);
+        xmlFree(budget_fichier);
     }
 
 #if defined(STRINGSTREAM_PARSING) || defined(MMAP_PARSING)
@@ -827,12 +838,13 @@ static int parseFile(info_t& info)
 
     int res = 0;
     int NDecoupe = info.threads->argv_cut.at(info.fichier_courant).size();
-    if (NDecoupe == 0)
-        return parseFile(xmlParseFile(info.threads->argv.at(info.fichier_courant).c_str()), info);
+    int cont_flag = PREMIER_FICHIER;
+    xml_commun champ_commun;
 
+    if (NDecoupe == 0)
+        return parseFile(xmlParseFile(info.threads->argv.at(info.fichier_courant).c_str()), info, cont_flag, &champ_commun);
 
     int rang  = 0;
-    int cont_flag = PREMIER_FICHIER;
 
     for (auto && s :  info.threads->argv_cut.at(info.fichier_courant))
     {
@@ -859,7 +871,7 @@ static int parseFile(info_t& info)
             cerr << ERROR_HTML_TAG "L'analyse du parseur XML n'a pas pu être réalisée." ENDL;
          }
          else
-            res = parseFile(doc, info, cont_flag);
+            res = parseFile(doc, info, cont_flag, &champ_commun);
 
          if (verbeux)
             cerr << PROCESSING_HTML_TAG "Fin de l'analyse du fichier scindé fil " << info.threads->thread_num << " n°" <<info.fichier_courant<<"-"<< rang << "/" << NDecoupe << " : " << s << ENDL;

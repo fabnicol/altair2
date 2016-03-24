@@ -185,8 +185,19 @@ struct info_t
     bool verifmem;
     bool decoupage_fichiers_volumineux;
     bool preserve_tempfiles;
+    //bool open_di;
     unsigned int  nbfil;
     std::vector<int> Memoire_p_ligne;
+};
+
+struct xml_commun
+{
+    xmlChar *annee_fichier = nullptr;
+    xmlChar *mois_fichier = nullptr;
+    xmlChar *employeur_fichier = nullptr;
+    xmlChar *etablissement_fichier = nullptr;
+    xmlChar *siret_fichier = nullptr;
+    xmlChar *budget_fichier = nullptr;
 };
 
 using LineCount = struct {

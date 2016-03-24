@@ -118,7 +118,8 @@ int main(int argc, char **argv)
         false,             // pretend
         false,             // verifmem
         true,              // decoupage_fichiers_volumineux
-        false,
+        false,             // preserve_tempfiles
+   //     true,              // open_di
         1,                 // nbfil
         {}  // besoin de mémoire effectif
     };
