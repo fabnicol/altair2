@@ -59,7 +59,7 @@ int redecouper(info_t& info)
         if (taille < CUTFILE_CHUNK) return 0;
 
         if (verbeux)
-            cerr << PROCESSING_HTML_TAG "Redécoupage du fichier n°" << info.fichier_courant << ENDL;
+            cerr << PROCESSING_HTML_TAG "Redécoupage du fichier n°" << info.fichier_courant + 1 << ENDL;
 
         string document_tag = "", enc = "";
         string::iterator iter = filest.begin();
@@ -232,7 +232,8 @@ static int parseFile(const xmlDocPtr doc, info_t& info, int cont_flag, xml_commu
     {
         cerr << ERROR_HTML_TAG "document vide" ENDL;
         xmlFreeDoc(doc);
-        if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode tolérant)." ENDL;
+        if (verbeux)
+            cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode tolérant)." ENDL;
         if (log.is_open())
             log.close();
         return SKIP_FILE;
@@ -261,7 +262,8 @@ static int parseFile(const xmlDocPtr doc, info_t& info, int cont_flag, xml_commu
             exit(-517);
 #endif
             /* Il faudra sans doute ajuster les différences entre le parsing C et l'analyse Xml, qui vont diverger */
-            if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode tolérant)." ENDL;
+            if (verbeux)
+                cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode tolérant)." ENDL;
             return SKIP_FILE;
         }
 
@@ -278,7 +280,9 @@ static int parseFile(const xmlDocPtr doc, info_t& info, int cont_flag, xml_commu
         exit(-502);
 #else
         /* Il faudra sans doute ajuster les différences entre le parsing C et l'analyse Xml, qui vont diverger */
-        if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode tolérant)." ENDL;
+        if (verbeux)
+            cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode tolérant)." ENDL;
+
         return SKIP_FILE;
 #endif
     }
@@ -311,7 +315,8 @@ static int parseFile(const xmlDocPtr doc, info_t& info, int cont_flag, xml_commu
         exit(-503);
 #else
         /* Il faudra sans doute ajuster les différences entre le parsing C et l'analyse Xml, qui vont diverger */
-        if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode tolérant)." ENDL;
+        if (verbeux)
+            cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode tolérant)." ENDL;
         return SKIP_FILE;
 #endif
 
@@ -330,8 +335,10 @@ static int parseFile(const xmlDocPtr doc, info_t& info, int cont_flag, xml_commu
             xmlFree(budget_fichier);
             budget_fichier = xmlStrdup(NA_STRING);
             lock_guard<mutex> lock(mut);
-            if (verbeux) cerr << STATE_HTML_TAG "Aucune information sur le budget [optionnel]." ENDL;
-            if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement." ENDL;
+            if (verbeux)
+                cerr << STATE_HTML_TAG "Aucune information sur le budget [optionnel]." ENDL;
+            if (verbeux)
+                cerr << PROCESSING_HTML_TAG "Poursuite du traitement." ENDL;
         }
 
         cur = cur_save->next;
@@ -340,8 +347,10 @@ static int parseFile(const xmlDocPtr doc, info_t& info, int cont_flag, xml_commu
     {
         budget_fichier = xmlStrdup(NA_STRING);
         lock_guard<mutex> lock(mut);
-        if (verbeux) cerr << STATE_HTML_TAG "Aucune information sur le budget [optionnel]." ENDL;
-        if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement." ENDL;
+        if (verbeux)
+            cerr << STATE_HTML_TAG "Aucune information sur le budget [optionnel]." ENDL;
+        if (verbeux)
+            cerr << PROCESSING_HTML_TAG "Poursuite du traitement." ENDL;
         cur = cur_save;
     }
 
@@ -368,7 +377,9 @@ static int parseFile(const xmlDocPtr doc, info_t& info, int cont_flag, xml_commu
             log.close();
         exit(-515);
 #endif                 
-        if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
+        if (verbeux)
+            cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
+
         employeur_fichier = xmlStrdup(NA_STRING);
         siret_fichier = xmlStrdup(NA_STRING);
         cur = cur_save;
@@ -417,7 +428,9 @@ static int parseFile(const xmlDocPtr doc, info_t& info, int cont_flag, xml_commu
                     if (log.open()) log.close();
                     exit(-517);
 #endif
-                   if (verbeux)  cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
+                   if (verbeux)
+                       cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
+
                    xmlFree(siret_fichier);
                    siret_fichier = xmlStrdup(NA_STRING);
 
@@ -426,9 +439,11 @@ static int parseFile(const xmlDocPtr doc, info_t& info, int cont_flag, xml_commu
             else
             {
                 cerr  << ERROR_HTML_TAG "Siret de l'empoyeur non identifié [non-conformité à la norme]." ENDL;
-               if (verbeux)  cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
+               if (verbeux)
+                   cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
+
                 cerr << "Année " << annee_fichier
-                          << " Mois "  << mois_fichier << ENDL;
+                     << " Mois " << mois_fichier << ENDL;
                 siret_fichier = xmlStrdup(NA_STRING);
             }
 
@@ -540,7 +555,9 @@ donnees_indiv:
                     if (log.open()) log.close();
                     exit(-517);
 #endif
-                    if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
+                    if (verbeux)
+                        cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
+
                     etablissement_fichier = xmlStrdup(NA_STRING);
                     /* on garde le siret de l'employeur */
                     break;
@@ -558,7 +575,9 @@ donnees_indiv:
                         if (log.open()) log.close();
                         exit(-517);
 #endif
-                        if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
+                        if (verbeux)
+                            cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
+
                         xmlFree(etablissement_fichier);
                         etablissement_fichier = xmlStrdup(NA_STRING);
                     }
@@ -573,7 +592,9 @@ donnees_indiv:
                     if (log.open()) log.close();
                     exit(-517);
 #endif
-                    if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
+                    if (verbeux)
+                        cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
+
                     etablissement_fichier = xmlStrdup(NA_STRING);
 
                     /* on garde le siret de l'employeur */
@@ -770,7 +791,7 @@ donnees_indiv:
                    #endif
                       << " : " << info.threads->argv[info.fichier_courant] << ENDL;
 
-            cerr << STATE_HTML_TAG << "Fil n°" << info.threads->thread_num << " : " << "Fichier courant : " << info.fichier_courant + 1 << ENDL;
+            cerr << STATE_HTML_TAG << "Fil n°" << info.threads->thread_num + 1 << " : " << "Fichier courant : " << info.fichier_courant + 1 << ENDL;
             cerr << STATE_HTML_TAG << "Total : " <<  info.NCumAgentXml << " bulletins -- " << info.nbLigne <<" lignes cumulées." ENDL;
         }
     }
@@ -910,7 +931,8 @@ static int parseFile(info_t& info)
 
          if (verbeux)
          {
-            cerr << PROCESSING_HTML_TAG "Fin de l'analyse du fichier scindé fil " << info.threads->thread_num + 1<< " n°" << info.fichier_courant + 1 <<"-"<< rang << "/" << NDecoupe;
+            cerr << PROCESSING_HTML_TAG "Fin de l'analyse du fichier scindé fil " << info.threads->thread_num + 1
+                 << " n°" << info.fichier_courant + 1 << "-" << rang << "/" << NDecoupe;
          #ifdef FGETC_PARSING
             cerr << " : " << s << ENDL;
          #else
@@ -923,7 +945,8 @@ static int parseFile(info_t& info)
          {
             remove(s.c_str());
             if (verbeux)
-               cerr << PROCESSING_HTML_TAG "Effacement du fichier scindé fil " << info.threads->thread_num + 1 << " n°" <<info.fichier_courant + 1<<"-"<< rang  << "/" << NDecoupe << " : " << s << ENDL;
+               cerr << PROCESSING_HTML_TAG "Effacement du fichier scindé fil " << info.threads->thread_num + 1
+                    << " n°" << info.fichier_courant + 1<< "-" << rang  << "/" << NDecoupe << " : " << s << ENDL;
          }
 #endif
 
