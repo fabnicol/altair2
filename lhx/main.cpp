@@ -825,7 +825,7 @@ int produire_segment(const info_t& info, const vString& segment, const vector<ui
         }
 
         if (verbeux)
-            cerr <<  PROCESSING_HTML_TAG "Fil d'exécution i = " << i+1 << "/" << info.nbfil
+            cerr <<  PROCESSING_HTML_TAG "Fil d'exécution n°" << i + 1 << "/" << info.nbfil
                  << "   Nombre de fichiers dans ce fil : " << nb_fichier_par_fil[i] << ENDL;
 
         errno = 0;
@@ -833,7 +833,7 @@ int produire_segment(const info_t& info, const vString& segment, const vector<ui
         /* Lancement des fils d'exécution */
 
         if (verbeux && Info[0].reduire_consommation_memoire)
-           cerr << ENDL PROCESSING_HTML_TAG "Premier scan des fichiers pour déterminer les besoins mémoire, " << "fil " << i << ENDL;
+           cerr << ENDL PROCESSING_HTML_TAG "Premier scan des fichiers pour déterminer les besoins mémoire, " << "fil " << i + 1 << ENDL;
 
         if (info.nbfil > 1)
         {
@@ -921,9 +921,9 @@ int produire_segment(const info_t& info, const vString& segment, const vector<ui
    if (! liberer_memoire) return 0;
 
    if (verbeux)
-       cerr << ENDL
-                     << PROCESSING_HTML_TAG "Libération de la mémoire..."
-                     << ENDL;
+        cerr << ENDL
+             << PROCESSING_HTML_TAG "Libération de la mémoire..."
+             << ENDL;
 
     /* En cas de problème d'allocation mémoire le mieux est encore de ne pas désallouer car on ne connait pas exacteemnt l'état
      * de la mémoire dynamique */
