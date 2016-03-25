@@ -111,7 +111,6 @@ int redecouper(info_t& info)
             ++r;
 
             string s = "";
-            bool fermeture_PI = false;
 
             if (depuis_debut)
             {
@@ -126,7 +125,6 @@ int redecouper(info_t& info)
 
                     if (s == "PayeIndivMensuel")
                     {
-                        fermeture_PI = true;
                         break;
                     }
                     // </PayeIndivMensuel>
@@ -146,14 +144,12 @@ int redecouper(info_t& info)
 
                     if (s == "PayeIndivMensuel")
                     {
-                        fermeture_PI = true;
-
                         break;
                     }
                 }
-            }
 
-            if (! fermeture_PI) return -1;
+                // Il peut ne rien y avoir
+            }
 
             i += 16;
 
@@ -177,11 +173,11 @@ int redecouper(info_t& info)
             open_di = (s == "DonneesIndiv");
 
             init_pos = i;
-            string filecut_path = info.threads->argv.at(info.fichier_courant) +"_" + to_string(r) + ".xhl";
 
         #if defined(STRINGSTREAM_PARSING) || defined(MMAP_PARSING)
             info.threads->in_memory_file_cut[info.fichier_courant].emplace_back(filest_cut);
         #else
+            string filecut_path = info.threads->argv.at(info.fichier_courant) +"_" + to_string(r) + ".xhl";
             ofstream filecut(filecut_path);
             filecut << filest_cut;
             filecut.close();
@@ -189,7 +185,6 @@ int redecouper(info_t& info)
         #endif
 
             if (! depuis_debut) break;
-            fermeture_PI = false;
         }
 
         return r;
@@ -520,7 +515,7 @@ donnees_indiv:
         if (cur == nullptr)
         {
             cur = cur_save2;
-            cerr << STATE_HTML_TAG "Pas d'information sur l'Etablissement" ENDL;
+            if (verbeux) cerr << STATE_HTML_TAG "Pas d'information sur l'Etablissement" ENDL;
             etablissement_fichier = xmlStrdup(NA_STRING);
         }
         else
@@ -889,6 +884,7 @@ static int parseFile(info_t& info)
 
     for (auto && s :  cut_chunks)
     {
+        ++ rang;
 
          if (verbeux)
          {
@@ -896,7 +892,7 @@ static int parseFile(info_t& info)
              cerr << ".....     .....     ....." ENDL;
              cerr << ENDL;
 
-             cerr << PROCESSING_HTML_TAG "Analyse du fichier scindé fil " << info.threads->thread_num + 1 << " - n°" << info.fichier_courant + 1 << "-" << ++rang << "/" << NDecoupe;
+             cerr << PROCESSING_HTML_TAG "Analyse du fichier scindé fil " << info.threads->thread_num + 1 << " - n°" << info.fichier_courant + 1 << "-" << rang << "/" << NDecoupe;
 
          #if defined(FGETC_PARSING)
              cerr << " : " << s << ENDL;

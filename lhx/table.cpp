@@ -493,7 +493,14 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
                     if (strcmp((const char*)VAR(Annee), annee_courante))
                     {
 #ifndef OFSTREAM_TABLE_OUTPUT      // Il faut écrire dans le fichier OFSTREAM la chaine de caractères temporaires
-                        base << t_base.str();
+
+                        try { base << t_base.str(); }
+                        catch(...) {
+                            string s;
+                            cerr << ERROR_HTML_TAG "Erreur de transfert de chaîne de caractères vers le fichier. Le nombre de caractère dépasse sans doute "
+                                 << s.max_size() << ENDL;
+                        }
+
                         t_base.str("");
 #endif
 
@@ -589,7 +596,12 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
                                           << " à " << rang_fichier_base * taille_base << "."  ENDL;
 
 #ifndef OFSTREAM_TABLE_OUTPUT      // Il faut écrire dans le fichier OFSTREAM la chaine de caractères temporaires
-                                base << t_base.str();
+                                try { base << t_base.str(); }
+                                catch(...) {
+                                    string s;
+                                    cerr << ERROR_HTML_TAG "Erreur de transfert de chaîne de caractères vers le fichier. Le nombre de caractère dépasse sans doute "
+                                         << s.max_size() << ENDL;
+                                }
                                 t_base.str("");
 #endif
                                 base.close();
@@ -678,7 +690,12 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
                             if (strcmp((const char*)VAR(Annee), annee_courante))
                             {
 #ifndef OFSTREAM_TABLE_OUTPUT      // Il faut écrire dans le fichier OFSTREAM la chaine de caractères temporaires
-                                base << t_base.str();
+                                try { base << t_base.str(); }
+                                catch(...) {
+                                    string s;
+                                    cerr << ERROR_HTML_TAG "Erreur de transfert de chaîne de caractères vers le fichier. Le nombre de caractère dépasse sans doute "
+                                         << s.max_size() << ENDL;
+                                }
                                 t_base.str("");
 #endif
 
@@ -714,7 +731,12 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
                                               << " à " << compteur << "."  ENDL;
 
 #ifndef OFSTREAM_TABLE_OUTPUT      // Il faut écrire dans le fichier OFSTREAM la chaine de caractères temporaires
-                                    base << t_base.str();
+                                    try { base << t_base.str(); }
+                                    catch(...) {
+                                        string s;
+                                        cerr << ERROR_HTML_TAG "Erreur de transfert de chaîne de caractères vers le fichier. Le nombre de caractère dépasse sans doute "
+                                             << s.max_size() << ENDL;
+                                    }
                                     t_base.str("");
 #endif
                                     base.close();
@@ -967,7 +989,12 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
         if (base.is_open())
         {
 #ifndef OFSTREAM_TABLE_OUTPUT      // Il faut écrire dans le fichier OFSTREAM la chaine de caractères temporaires
-            base << t_base.str();
+            try { base << t_base.str(); }
+            catch(...) {
+                string s;
+                cerr << ERROR_HTML_TAG "Erreur de transfert de chaîne de caractères vers le fichier. Le nombre de caractère dépasse sans doute "
+                     << s.max_size() << ENDL;
+            }
             t_base.str("");
 #endif
 

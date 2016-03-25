@@ -74,11 +74,11 @@ static inline void GCC_INLINE sanitize(xmlChar* s, const char sep)
 
 
 
-static inline int GCC_INLINE Bulletin(const char*  tag, xmlNodePtr& cur, int l, info_t& info, int normalJump = 0)
+static inline int GCC_INLINE Bulletin(const char*  tag, xmlNodePtr& cur, int l, info_t& info)
 {
     // attention faire en sorte que cur ne soit JAMAIS nul en entrée ou en sortie
 
-    const xmlNodePtr nextcur = move(atteindreNoeud(tag, cur, normalJump));
+    const xmlNodePtr nextcur = move(atteindreNoeud(tag, cur));
 
     if ( nullptr == nextcur)
     {
@@ -114,12 +114,12 @@ static inline int GCC_INLINE Bulletin(const char*  tag, xmlNodePtr& cur, int l, 
 
 //             cerr << ERROR_HTML_TAG "Noeud courant null au stade de la vérification de " << tag << ENDL;
 
-static inline bool GCC_INLINE bulletin_obligatoire(const char* tag, xmlNodePtr& cur, int l,  info_t& info, int normalJump = 0)
+static inline bool GCC_INLINE bulletin_obligatoire(const char* tag, xmlNodePtr& cur, int l,  info_t& info)
 {
 
     // attention faire en sorte que cur ne soit JAMAIS nul
 
-    switch (Bulletin(tag, cur, l, info, normalJump))
+    switch (Bulletin(tag, cur, l, info))
     {
         // on sait que cur ne sera jamais nul
         case NODE_FOUND : return true;
@@ -182,7 +182,7 @@ static inline bool GCC_INLINE bulletin_optionnel_char(const char* tag, xmlNodePt
 {
     // attention faire en sorte que cur ne soit JAMAIS nul
 
-    switch (Bulletin(tag, cur, l, info, 0))
+    switch (Bulletin(tag, cur, l, info))
     {
         // on sait que cur ne sera jamais nul
         case NODE_FOUND :
@@ -221,11 +221,11 @@ static inline bool GCC_INLINE bulletin_optionnel_char(const char* tag, xmlNodePt
 }
 
 
-static inline bool GCC_INLINE bulletin_optionnel_numerique(const char* tag, xmlNodePtr& cur, int l, info_t& info, int normalJump = 0)
+static inline bool GCC_INLINE bulletin_optionnel_numerique(const char* tag, xmlNodePtr& cur, int l, info_t& info)
 {
     // attention faire en sorte que cur ne soit JAMAIS nul
 
-    switch (Bulletin(tag, cur, l, info, normalJump))
+    switch (Bulletin(tag, cur, l, info))
     {
         // on sait que cur ne sera jamais nul
         case NODE_FOUND :
@@ -279,7 +279,7 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique(const char* tag, xm
 {
     // attention faire en sorte que cur ne soit JAMAIS nul
 
-    switch (Bulletin(tag, cur, l, info, normalJump))
+    switch (Bulletin(tag, cur, l, info))
     {
         // on sait que cur ne sera jamais nul
         case NODE_FOUND :
@@ -494,14 +494,14 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
     return  { nbLignePaye, l};
 }
 
-#define BULLETIN_OBLIGATOIRE_(X, normalJump) bulletin_obligatoire(#X, cur, X, info, normalJump)
-#define BULLETIN_OBLIGATOIRE(X) BULLETIN_OBLIGATOIRE_(X, 0)
+#define BULLETIN_OBLIGATOIRE_(X) bulletin_obligatoire(#X, cur, X, info)
+#define BULLETIN_OBLIGATOIRE(X) BULLETIN_OBLIGATOIRE_(X)
 
-#define BULLETIN_OBLIGATOIRE_NUMERIQUE_(X, normalJump)  bulletin_obligatoire_numerique(#X, cur, X, info, normalJump)
-#define BULLETIN_OBLIGATOIRE_NUMERIQUE(X) BULLETIN_OBLIGATOIRE_NUMERIQUE_(X, 0)
+#define BULLETIN_OBLIGATOIRE_NUMERIQUE_(X)  bulletin_obligatoire_numerique(#X, cur, X, info)
+#define BULLETIN_OBLIGATOIRE_NUMERIQUE(X) BULLETIN_OBLIGATOIRE_NUMERIQUE_(X)
 
-#define BULLETIN_OPTIONNEL_NUMERIQUE_(X, normalJump)  bulletin_optionnel_numerique(#X, cur, X, info, normalJump)
-#define BULLETIN_OPTIONNEL_NUMERIQUE(X)  BULLETIN_OPTIONNEL_NUMERIQUE_(X, 0)
+#define BULLETIN_OPTIONNEL_NUMERIQUE_(X)  bulletin_optionnel_numerique(#X, cur, X, info)
+#define BULLETIN_OPTIONNEL_NUMERIQUE(X)  BULLETIN_OPTIONNEL_NUMERIQUE_(X)
 
 #define BULLETIN_OPTIONNEL_CHAR(X)  bulletin_optionnel_char(#X, cur, X, info)
 
