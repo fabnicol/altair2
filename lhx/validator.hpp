@@ -262,6 +262,6 @@ inline xmlNodePtr GCC_INLINE atteindreNoeud(const char * noeud, xmlNodePtr cur)
      return cur;  // soit un pointer vers le bon noeud, soit nullptr
 }
 
-
+int redecouper(info_t& info);
 
 #endif // VALIDATOR_HPP_INCLUDED

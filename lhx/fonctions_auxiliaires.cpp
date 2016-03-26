@@ -37,61 +37,62 @@ extern bool verbeux;
 
 ostringstream help()
 {
-ostringstream out;
-out <<  "**Usage** :  lhx OPTIONS fichiers.xhl  " << "\n\n"
-          <<  "**OPTIONS :**  " << "\n\n"
-          <<  "**-n** *argument obligatoire* : nombre maximum de bulletins mensuels attendus [calcul exact par défaut]  " << "\n\n"
-          <<  "**-N** *argument obligatoire* : nombre maximum de lignes de paye attendues [calcul exact par défaut]  " << "\n\n"
-          <<  "**-t** *argument optionnel*   : type de base en sortie, soit 'standard', soit 'bulletins' [défaut bulletins].  " << "\n\n"
-          <<  "**-T** *argument obligatoire* : nombre de lignes maximum par base .csv [défaut illimité]. Au plus 999 tables seront générées.  " << "\n\n"
-          <<  "**-T AN**                   : générer une table par année  " << "\n\n"
-          <<  "**-T A/AC/AV/C/D/I/IR/RE/S/T** : générer une table pour chaque catégorie de ligne :    \n\n"
-          <<  "      A rémunérations diverse  \n\n"
-          <<  "      AC acompte  \n\n"
-          <<  "      AV avantage en nature  \n\n"
-          <<  "      C cotisation  \n\n"
-          <<  "      D déduction  \n\n"
-          <<  "      I indemnités  \n\n"
-          <<  "      IR indemnité de résidence  \n\n"
-          <<  "      RE retenue  \n\n"
-          <<  "      S supplément familial  \n\n"
-          <<  "      T traitement brut  \n\n"
-          <<  "      X toutes catégories     \n\n\n"
-          <<  "**-o** *argument obligatoire* : fichier.csv, chemin complet du fichier de sortie [défaut 'Table.csv' avec -t].  " << "\n\n"
-          <<  "**-D** *argument obligatoire* : répertoire complet du fichier de sortie [défaut '.' avec -t].  " << "\n\n"
-          <<  "**-d** *argument obligatoire* : séparateur décimal [défaut ',' avec -t].  " << "\n\n"
-          <<  "**-s** *argument obligatoire* : séparateur de champs [défaut ';' avec -t]. Ne pas utiliser '_'.  " << "\n\n"
-          <<  "**-j** *argument obligatoire* : nombre de fils d'exécution (1 à 10).  " << "\n\n"
-          <<  "**-l** *sans argument*        : générer une colonne de numéros de ligne intitulée 'R'.  " << "\n\n"
-          <<  "**-M** *sans argument*        : ne pas libérer la mémoire réservée en fin de programme.   " << "\n\n"
-          <<  "**-m** *sans argument*        : calculer les maxima d'agents et de lignes de paye.  " << "\n\n"
-          <<  "**-L** *argument obligatoire* : chemin du log d'exécution du test de cohérence entre analyseurs C et XML.  " << "\n\n"
-          <<  "**-R** *argument obligatoire* : expression régulière pour la recherche des élus (codés : ELU dans le champ Statut.  " << "\n\n"
-          <<  "**-S** *sans argument*        : exporter les champs Budget, Employeur, Siret, Etablissement.  " << "\n\n"
-          <<  "**-E** *sans argument*        : exporter le champ Echelon.  " << "\n\n"
-          <<  "**-q** *sans argument*        : limiter la verbosité.  " << "\n\n"
-          <<  "**-f** *argument obligatoire* : la ligne de commande est dans le fichier en argument, chaque élément à la ligne.  " << "\n\n"
-          <<  "**--xhlmem** *arg. oblig.*    : taille des fichiers à analyser en octets.  " << "\n\n"
-          <<  "**--memshare** *arg. oblig.*  : Part de la mémoire vive utilisée, en points de pourcentage.  " << "\n\n"
-          <<  "**--segments** *arg. oblig.*  : nombre minimum de segments de base.  " << "\n\n"
-          <<  "**--pretend**                 : exécution sans traitement des fichiers.  " << "\n\n"
-          <<  "**--verifmem**                : seulement vérifier la consommation mémoire.  " << "\n\n"
-          <<  "**--entier**                  : désactivation du découpage des fichiers volumineux.  " << "\n\n"
-          <<  "**--preserve-tempfiles**      : désactivation de l'effacement des fichiers temporaires.  " << "\n\n"
-          <<  "**--hmarkdown**               : aide en format markdown.  " << "\n\n"
-          <<  "**--pdf**                     : aide en format pdf.  " << "\n\n";
-    #ifdef GENERATE_RANK_SIGNAL
-              out  <<  "**-rank** *argument optionnel* : générer le fichier du rang de la base de paye en cours dans le fichier ";
+    ostringstream out;
+    out <<  "**Usage** :  lhx OPTIONS fichiers.xhl  " << "\n\n"
+        <<  "**OPTIONS :**  " << "\n\n"
+        <<  "**-n** *argument obligatoire* : nombre maximum de bulletins mensuels attendus [calcul exact par défaut]  " << "\n\n"
+        <<  "**-N** *argument obligatoire* : nombre maximum de lignes de paye attendues [calcul exact par défaut]  " << "\n\n"
+        <<  "**-t** *argument optionnel*   : type de base en sortie, soit 'standard', soit 'bulletins' [défaut bulletins].  " << "\n\n"
+        <<  "**-T** *argument obligatoire* : nombre de lignes maximum par base .csv [défaut illimité]. Au plus 999 tables seront générées.  " << "\n\n"
+        <<  "**-T AN**                   : générer une table par année  " << "\n\n"
+        <<  "**-T A/AC/AV/C/D/I/IR/RE/S/T** : générer une table pour chaque catégorie de ligne :    \n\n"
+        <<  "      A rémunérations diverse  \n\n"
+        <<  "      AC acompte  \n\n"
+        <<  "      AV avantage en nature  \n\n"
+        <<  "      C cotisation  \n\n"
+        <<  "      D déduction  \n\n"
+        <<  "      I indemnités  \n\n"
+        <<  "      IR indemnité de résidence  \n\n"
+        <<  "      RE retenue  \n\n"
+        <<  "      S supplément familial  \n\n"
+        <<  "      T traitement brut  \n\n"
+        <<  "      X toutes catégories     \n\n\n"
+        <<  "**-o** *argument obligatoire* : fichier.csv, chemin complet du fichier de sortie [défaut 'Table.csv' avec -t].  " << "\n\n"
+        <<  "**-D** *argument obligatoire* : répertoire complet du fichier de sortie [défaut '.' avec -t].  " << "\n\n"
+        <<  "**-d** *argument obligatoire* : séparateur décimal [défaut ',' avec -t].  " << "\n\n"
+        <<  "**-s** *argument obligatoire* : séparateur de champs [défaut ';' avec -t]. Ne pas utiliser '_'.  " << "\n\n"
+        <<  "**-j** *argument obligatoire* : nombre de fils d'exécution (1 à 10).  " << "\n\n"
+        <<  "**-l** *sans argument*        : générer une colonne de numéros de ligne intitulée 'R'.  " << "\n\n"
+        <<  "**-M** *sans argument*        : ne pas libérer la mémoire réservée en fin de programme.   " << "\n\n"
+        <<  "**-m** *sans argument*        : calculer les maxima d'agents et de lignes de paye.  " << "\n\n"
+        <<  "**-L** *argument obligatoire* : chemin du log d'exécution du test de cohérence entre analyseurs C et XML.  " << "\n\n"
+        <<  "**-R** *argument obligatoire* : expression régulière pour la recherche des élus (codés : ELU dans le champ Statut.  " << "\n\n"
+        <<  "**-S** *sans argument*        : exporter les champs Budget, Employeur, Siret, Etablissement.  " << "\n\n"
+        <<  "**-E** *sans argument*        : exporter le champ Echelon.  " << "\n\n"
+        <<  "**-q** *sans argument*        : limiter la verbosité.  " << "\n\n"
+        <<  "**-f** *argument obligatoire* : la ligne de commande est dans le fichier en argument, chaque élément à la ligne.  " << "\n\n"
+        <<  "**`--`xhlmem** *arg. oblig.*    : taille des fichiers à analyser en octets.  " << "\n\n"
+        <<  "**`--`memshare** *arg. oblig.*  : Part de la mémoire vive utilisée, en points de pourcentage.  " << "\n\n"
+        <<  "**`--`segments** *arg. oblig.*  : nombre minimum de segments de base.  " << "\n\n"
+        <<  "**`--`pretend**                 : exécution sans traitement des fichiers.  " << "\n\n"
+        <<  "**`--`verifmem**                : seulement vérifier la consommation mémoire.  " << "\n\n"
+        <<  "**`--`entier**                  : désactivation du découpage des fichiers volumineux.  " << "\n\n"
+        <<  "**`--`preserve-tempfiles**      : désactivation de l'effacement des fichiers temporaires.  " << "\n\n"
+        <<  "**`--`hmarkdown**               : aide en format markdown.  " << "\n\n"
+        <<  "**`--`pdf**                     : aide en format pdf.  " << "\n\n";
 
-             #if defined _WIN32 | defined _WIN64
-              out  <<  "ou à défaut dans %USERPROFILE%/AppData/Altair/rank.  \n\n";
-             #else
-                #if defined __linux__
-                  out  <<  "ou à défaut dans ~/.local/share/Altair/rank.  \n\n";
-                #endif
-             #endif
-      #endif
-   return out;
+#ifdef GENERATE_RANK_SIGNAL
+    out  <<  "**`--`rank** *argument optionnel* : générer le fichier du rang de la base de paye en cours dans le fichier ";
+
+#if defined _WIN32 | defined _WIN64
+    out  <<  "ou à défaut dans %USERPROFILE%/AppData/Altair/rank.  \n\n";
+#else
+#if defined __linux__
+    out  <<  "ou à défaut dans ~/.local/share/Altair/rank.  \n\n";
+#endif
+#endif
+#endif
+    return out;
 }
 
 #ifdef __WIN32__
@@ -141,23 +142,23 @@ errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur)
     cerr << WARNING_HTML_TAG "Fichier analysé " <<  info.threads->argv[info.fichier_courant] << ENDL;
     lineN = xmlGetLineNo(cur);
     if (lineN == -1)
-        {
-            cerr << WARNING_HTML_TAG "Une balise est manquante dans le fichier." << ENDL;
-        }
-        else
-            cerr << WARNING_HTML_TAG "Ligne n°" << lineN << ENDL;
+    {
+        cerr << WARNING_HTML_TAG "Une balise est manquante dans le fichier." << ENDL;
+    }
+    else
+        cerr << WARNING_HTML_TAG "Ligne n°" << lineN << ENDL;
 
     /* Tableau_entete va être en shared memory concurrent read access (no lock here) */
 #if 1
     for (int l = 0; l < info.Memoire_p_ligne[info.NCumAgentXml]; ++l)
-        {
-          if (nullptr != info.Table[info.NCumAgentXml][l])
-              cerr << WARNING_HTML_TAG "Balise de paye : " << Tableau_entete[l]
-                        << "  " << info.Table[info.NCumAgentXml][l] << ENDL;
-        }
+    {
+        if (nullptr != info.Table[info.NCumAgentXml][l])
+            cerr << WARNING_HTML_TAG "Balise de paye : " << Tableau_entete[l]
+                 << "  " << info.Table[info.NCumAgentXml][l] << ENDL;
+    }
 #endif
     errorLine_t s = {lineN, string("Fichier : ") + string(info.threads->argv[info.fichier_courant])
-                             + string(" -- Balise : ") + ((cur)? string((const char*)cur->name) : string("NA"))};
+                     + string(" -- Balise : ") + ((cur)? string((const char*)cur->name) : string("NA"))};
     return s;
 }
 
@@ -166,52 +167,50 @@ off_t taille_fichier(const string& filename)
 #ifndef __linux__
     struct __stat64 stat_buf;
     int rc = __stat64(filename.c_str(), &stat_buf);
- #else
+#else
     struct stat64 stat_buf;
     int rc = stat64(filename.c_str(), &stat_buf);
- #endif
+#endif
     return rc == 0 ? stat_buf.st_size : -1;
 }
 
 #ifdef __linux__
-    size_t getTotalSystemMemory()
-    {
-        long pages = sysconf(_SC_PHYS_PAGES);
-        long page_size = sysconf(_SC_PAGE_SIZE);
-        return pages * page_size;
-    }
+size_t getTotalSystemMemory()
+{
+    long pages = sysconf(_SC_PHYS_PAGES);
+    long page_size = sysconf(_SC_PAGE_SIZE);
+    return pages * page_size;
+}
 
-   #include <sys/sysinfo.h>
+#include <sys/sysinfo.h>
 
-    size_t getFreeSystemMemory()
-    {
-        struct sysinfo info;
-        sysinfo( &info );
-        return (size_t)(info.bufferram + info.freeram) * (size_t)info.mem_unit * 1.25;
-        //info.freeram-info.bufferram
-    }
+size_t getFreeSystemMemory()
+{
+    struct sysinfo info;
+    sysinfo( &info );
+    return (size_t)(info.bufferram + info.freeram) * (size_t)info.mem_unit * 1.25;
+    //info.freeram-info.bufferram
+}
 
 #else
 #include <windows.h>
-    size_t getTotalSystemMemory()
-    {
-        MEMORYSTATUSEX status;
-        status.dwLength = sizeof(status);
-        GlobalMemoryStatusEx(&status);
-        return status.ullTotalPhys;
-    }
+size_t getTotalSystemMemory()
+{
+    MEMORYSTATUSEX status;
+    status.dwLength = sizeof(status);
+    GlobalMemoryStatusEx(&status);
+    return status.ullTotalPhys;
+}
 
-    size_t getFreeSystemMemory()
-    {
-        MEMORYSTATUSEX status;
-        status.dwLength = sizeof(status);
-        GlobalMemoryStatusEx(&status);
-        return status.ullAvailPhys;
-    }
+size_t getFreeSystemMemory()
+{
+    MEMORYSTATUSEX status;
+    status.dwLength = sizeof(status);
+    GlobalMemoryStatusEx(&status);
+    return status.ullAvailPhys;
+}
 
 #endif
-
-
 
 /* *******************************************************************************************************************************************************************************
  * Author:  David Robert Nadeau
@@ -221,11 +220,11 @@ off_t taille_fichier(const string& filename)
  */
 
 #if defined(__WIN32__)
-    #include <windows.h>
-    #include <psapi.h>
+#include <windows.h>
+#include <psapi.h>
 
 #elif defined(__linux__) || defined(__linux) || defined(linux) || defined(__gnu_linux__)
-    #include <stdio.h>
+#include <stdio.h>
 
 #endif
 
@@ -264,31 +263,28 @@ size_t getCurrentRSS( )
 
 // End of Creative commons license
 
-
 void ecrire_log(const info_t& info, ofstream& log, int diff)
 {
     if (! info.chemin_log.empty())
     {
 
         if (log.good())
-        #define P  " | "
-        log << "Année " << P
-            << info.Table[info.NCumAgentXml][Annee] << P
-            << "Mois "  << setw(2) << info.Table[info.NCumAgentXml][Mois] << P
-            << "Matricule " << setw(6) <<  info.Table[info.NCumAgentXml][Matricule] << P
-            << "Rang global " << setw(6) <<  info.NCumAgentXml << P
-            << "Rang dans fichier " << setw(5) <<  info.NAgent[info.fichier_courant] << P
-            << "Analyseur C " << setw(6) << info.NLigne[info.NCumAgentXml] << P
-            << "Xml " << setw(6) << info.NLigne[info.NCumAgentXml] - diff << P
-            << "Différence " << setw(4) << diff << "\n";
-        #undef P
+#define P  " | "
+            log << "Année " << P
+                << info.Table[info.NCumAgentXml][Annee] << P
+                << "Mois "  << setw(2) << info.Table[info.NCumAgentXml][Mois] << P
+                << "Matricule " << setw(6) <<  info.Table[info.NCumAgentXml][Matricule] << P
+                << "Rang global " << setw(6) <<  info.NCumAgentXml << P
+                << "Rang dans fichier " << setw(5) <<  info.NAgent[info.fichier_courant] << P
+                << "Analyseur C " << setw(6) << info.NLigne[info.NCumAgentXml] << P
+                << "Xml " << setw(6) << info.NLigne[info.NCumAgentXml] - diff << P
+                << "Différence " << setw(4) << diff << "\n";
+#undef P
     }
 }
 
-
-
 #if 0
- char* ecrire_chemin_base(const char* chemin_base, int rang_fichier_base)
+char* ecrire_chemin_base(const char* chemin_base, int rang_fichier_base)
 {
     int s = strlen(chemin_base);
     char* chemin = new char[s + 1 + 3]();   // chemin_base + _ + 3 chiffres
@@ -302,19 +298,19 @@ void ecrire_log(const info_t& info, ofstream& log, int diff)
 
     switch (test)
     {
-        /* rang_ fichier_base == 0  -->   Table.csv */
-        case 0 :
-                  sprintf(chemin + cut, "%s", CSV);
-                  break;
+    /* rang_ fichier_base == 0  -->   Table.csv */
+    case 0 :
+        sprintf(chemin + cut, "%s", CSV);
+        break;
 
         /* 1 <= rang_ fichier_base <= nbType  --> Table_TraitBrut.csv etc. */
-        case 1 :
-                  sprintf(chemin + cut, "_%s%s", type_remuneration[rang_fichier_base-1], CSV);
-                  break;
+    case 1 :
+        sprintf(chemin + cut, "_%s%s", type_remuneration[rang_fichier_base-1], CSV);
+        break;
 
         /* nbType < rang_fichier_base   --> Table_2008.csv etc. */
-        default :
-                  sprintf(chemin + cut, "_%d%s", rang_fichier_base - nbType - 1, CSV);
+    default :
+        sprintf(chemin + cut, "_%d%s", rang_fichier_base - nbType - 1, CSV);
     }
 
     return(chemin);
@@ -323,47 +319,47 @@ void ecrire_log(const info_t& info, ofstream& log, int diff)
 
 void ecrire_entete_bulletins(const info_t &info, ofstream& base)
 {
-  ecrire_entete0(info, base, entete_char_bulletins, sizeof(entete_char_bulletins)/sizeof(char*));
+    ecrire_entete0(info, base, entete_char_bulletins, sizeof(entete_char_bulletins)/sizeof(char*));
 }
 
 void ecrire_entete_table(const info_t &info, ofstream& base)
 {
-  ecrire_entete0(info, base, entete_char, sizeof(entete_char)/sizeof(char*));
+    ecrire_entete0(info, base, entete_char, sizeof(entete_char)/sizeof(char*));
 }
 
 void ecrire_entete0(const info_t &info, ofstream& base, const char* entete[], int N)
 {
-  int i;
-  if (info.select_echelon)
-  {
-      if (info.select_siret)
-        for (i = !info.generer_rang; i < N - 1; ++i)
-          base << entete[i] << info.separateur;
-      else
-        for (i = !info.generer_rang; i < N - 1; ++i)
-        {
-            if (i != Budget +1 &&  i != Employeur + 1 && i != Siret +1 && i != Etablissement + 1)
+    int i;
+    if (info.select_echelon)
+    {
+        if (info.select_siret)
+            for (i = !info.generer_rang; i < N - 1; ++i)
                 base << entete[i] << info.separateur;
-        }
-  }
-  else
-  {
-      if (info.select_siret)
-        for (i = !info.generer_rang; i < N - 1; ++i)
-        {
-          if (entete[i][0] != 'E' || entete[i][1] != 'c')  // Pour "Echelon"
-              base << entete[i] << info.separateur;
-        }
-      else
-        for (i = !info.generer_rang; i < N - 1; ++i)
-        {
-            if (i != Budget +1 &&  i != Employeur + 1 && i != Siret +1 && i != Etablissement + 1
-                 && (entete[i][0] != 'E' || entete[i][1] != 'c'))  // Pour "Echelon"
-                base << entete[i] << info.separateur;
-        }
-  }
+        else
+            for (i = !info.generer_rang; i < N - 1; ++i)
+            {
+                if (i != Budget +1 &&  i != Employeur + 1 && i != Siret +1 && i != Etablissement + 1)
+                    base << entete[i] << info.separateur;
+            }
+    }
+    else
+    {
+        if (info.select_siret)
+            for (i = !info.generer_rang; i < N - 1; ++i)
+            {
+                if (entete[i][0] != 'E' || entete[i][1] != 'c')  // Pour "Echelon"
+                    base << entete[i] << info.separateur;
+            }
+        else
+            for (i = !info.generer_rang; i < N - 1; ++i)
+            {
+                if (i != Budget +1 &&  i != Employeur + 1 && i != Siret +1 && i != Etablissement + 1
+                        && (entete[i][0] != 'E' || entete[i][1] != 'c'))  // Pour "Echelon"
+                    base << entete[i] << info.separateur;
+            }
+    }
 
-  base << entete[i] << "\n";
+    base << entete[i] << "\n";
 }
 
 void ouvrir_fichier_bulletins(const info_t &info, ofstream& base, int segment)
@@ -402,13 +398,13 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
 
         if (segment_ancien > 0 && nouveau_segment)
         {
-                if  (type != BaseType::MAXIMUM_LIGNES
-                    && type != BaseType::PAR_ANNEE
-                    && type != BaseType::MAXIMUM_LIGNES_PAR_ANNEE)
-                    {
-                        rang = 0;
-                    }
-                increment = 0;
+            if  (type != BaseType::MAXIMUM_LIGNES
+                 && type != BaseType::PAR_ANNEE
+                 && type != BaseType::MAXIMUM_LIGNES_PAR_ANNEE)
+            {
+                rang = 0;
+            }
+            increment = 0;
         }
 
         chemin_base = info.chemin_base
@@ -419,63 +415,63 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
 
         switch (type) // OK en C++14. Il faut donc ajouter la directive de compilation -std=c++14
         {
-           case BaseType::MONOLITHIQUE:
-              chemin_base = chemin_base + CSV;
+        case BaseType::MONOLITHIQUE:
+            chemin_base = chemin_base + CSV;
             break;
 
-           case BaseType::MAXIMUM_LIGNES:
-           case BaseType::PAR_ANNEE:
-           case BaseType::MAXIMUM_LIGNES_PAR_ANNEE:
-               rang += increment;
-               index = index + to_string(rang) +  string(CSV);
-               chemin_base = chemin_base + index;
-             break;
+        case BaseType::MAXIMUM_LIGNES:
+        case BaseType::PAR_ANNEE:
+        case BaseType::MAXIMUM_LIGNES_PAR_ANNEE:
+            rang += increment;
+            index = index + to_string(rang) +  string(CSV);
+            chemin_base = chemin_base + index;
+            break;
 
 
-           case BaseType::NA:
+        case BaseType::NA:
             ++Type;
 
-           case BaseType::PAR_COMMENTAIRE:
-             ++Type;
-
-           case BaseType::PAR_COTISATION:
-             ++Type;
-
-           case BaseType::PAR_RETENUE:
+        case BaseType::PAR_COMMENTAIRE:
             ++Type;
 
-           case BaseType::PAR_RAPPEL:
+        case BaseType::PAR_COTISATION:
             ++Type;
 
-           case BaseType::PAR_ACOMPTE:
-             ++Type;
+        case BaseType::PAR_RETENUE:
+            ++Type;
 
-           case BaseType::PAR_DEDUCTION:
-             ++Type;
+        case BaseType::PAR_RAPPEL:
+            ++Type;
 
-           case BaseType::PAR_REM_DIVERSES:
-             ++Type;
+        case BaseType::PAR_ACOMPTE:
+            ++Type;
 
-           case BaseType::PAR_INDEMNITE:
-             ++Type;
+        case BaseType::PAR_DEDUCTION:
+            ++Type;
 
-           case BaseType::PAR_AVANTAGE_NATURE:
-             ++Type;
+        case BaseType::PAR_REM_DIVERSES:
+            ++Type;
 
-           case BaseType::PAR_SFT:
-             ++Type;
+        case BaseType::PAR_INDEMNITE:
+            ++Type;
 
-           case BaseType::PAR_INDEMNITE_RESIDENCE:
-             ++Type;
+        case BaseType::PAR_AVANTAGE_NATURE:
+            ++Type;
 
-           case BaseType::PAR_TRAITEMENT:
+        case BaseType::PAR_SFT:
+            ++Type;
+
+        case BaseType::PAR_INDEMNITE_RESIDENCE:
+            ++Type;
+
+        case BaseType::PAR_TRAITEMENT:
             chemin_base = chemin_base + index + types_extension[Type] + CSV;
             break;
 
-           default: break;
+        default: break;
         }
 
-       segment_ancien = segment;
+        segment_ancien = segment;
     }
 
     base.open(chemin_base, ofstream::out | ofstream::app);
@@ -496,7 +492,6 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
             ecrire_entete_bulletins(info, base);
     }
 
-
     return;
 }
 
@@ -509,10 +504,10 @@ int32_t lire_argument(int argc, char* c_str)
         errno = 0;
 
         if (c_str[0] == '\'' && c_str[s - 1] == '\'')
-         {
-           c_str++;
-           c_str[s - 2] ='\0';
-         }
+        {
+            c_str++;
+            c_str[s - 2] ='\0';
+        }
 
         const long sl = strtol(c_str, &end, 10);
 
@@ -556,31 +551,31 @@ void calculer_maxima(const vector<info_t> &Info, ofstream* LOG)
                 maximum[1] = Info[i].NLigne[agent] + 1;
     }
 
-/* TODO: Eclaircir le off-by-one sur NLigne */
+    /* TODO: Eclaircir le off-by-one sur NLigne */
 
-        cerr <<  STATE_HTML_TAG "Maximum de lignes : " << maximum[1] << ENDL
-                   << STATE_HTML_TAG "Maximum d'agents  : " << maximum[0] << ENDL;
-        if (LOG != nullptr &&  LOG->good())
-        {
-           *LOG  <<  STATE_HTML_TAG "Maximum de lignes : " << maximum[1] << ENDL
-                 << STATE_HTML_TAG "Maximum d'agents  : " << maximum[0] << ENDL;
-        }
+    cerr <<  STATE_HTML_TAG "Maximum de lignes : " << maximum[1] << ENDL
+          << STATE_HTML_TAG "Maximum d'agents  : " << maximum[0] << ENDL;
+    if (LOG != nullptr &&  LOG->good())
+    {
+        *LOG  <<  STATE_HTML_TAG "Maximum de lignes : " << maximum[1] << ENDL
+               << STATE_HTML_TAG "Maximum d'agents  : " << maximum[0] << ENDL;
+    }
 
 }
 
 
 template <typename Allocator = allocator<char>>
 inline string read_stream_into_string(
-    ifstream& in,
-    Allocator alloc = {})
+        ifstream& in,
+        Allocator alloc = {})
 {
-  basic_ostringstream<char, char_traits<char>, Allocator>
-    ss(basic_string<char, char_traits<char>, Allocator>(move(alloc)));
+    basic_ostringstream<char, char_traits<char>, Allocator>
+            ss(basic_string<char, char_traits<char>, Allocator>(move(alloc)));
 
-  if (!(ss << in.rdbuf()))
-    throw ios_base::failure{"[ERR] Erreur d'allocation de lecture de fichier.\n"};
+    if (!(ss << in.rdbuf()))
+        throw ios_base::failure{"[ERR] Erreur d'allocation de lecture de fichier.\n"};
 
-  return ss.str();
+    return ss.str();
 }
 
 
@@ -589,23 +584,23 @@ int calculer_memoire_requise(info_t& info)
     errno = 0;
 
     // Attention reserve() ne va pas initialiser les membres à 0 sous Windows. Utiliser resize() ici.
-   memory_debug("calculer_memoire_requise_pre_tab_resize");
+    memory_debug("calculer_memoire_requise_pre_tab_resize");
 
 #ifdef PREALLOCATE_ON_HEAP
 
     /* C++ style vector allocation */
 
-    #define tab info.NLigne
+#define tab info.NLigne
 
-        tab.resize(info.threads->argc * MAX_NB_AGENTS);
+    tab.resize(info.threads->argc * MAX_NB_AGENTS);
 
-        memory_debug("calculer_memoire_requise_pre");
+    memory_debug("calculer_memoire_requise_pre");
 #else
 
-  /* C style vector allocation */
+    /* C style vector allocation */
 
     uint16_t tab[info.threads->argc * MAX_NB_AGENTS];
-   // memset(tab, 0, info.threads->argc * MAX_NB_AGENTS) peut éventuellement être utile pour certains compilateurs anciens.
+    // memset(tab, 0, info.threads->argc * MAX_NB_AGENTS) peut éventuellement être utile pour certains compilateurs anciens.
 
 #endif
 
@@ -620,16 +615,16 @@ int calculer_memoire_requise(info_t& info)
     /* par convention  un agent avec rémunération non renseignées (balise sans fils) a une ligne */
     for (unsigned i = 0; i < info.threads->argc; ++i)
     {
-      #ifdef GUI_TAG_MESSAGES
-         #ifdef GENERATE_RANK_SIGNAL
+#ifdef GUI_TAG_MESSAGES
+#ifdef GENERATE_RANK_SIGNAL
 
-           generate_rank_signal();
-           cerr <<  " \n" ;
+        generate_rank_signal();
+        cerr <<  " \n" ;
 
-         #endif
-      #endif
+#endif
+#endif
 
-      #if defined(FGETC_PARSING) || defined(STRINGSTREAM_PARSING)
+#if defined(FGETC_PARSING) || defined(STRINGSTREAM_PARSING)
 
         ifstream c(info.threads->argv[i]);
         if (verbeux)
@@ -646,201 +641,200 @@ int calculer_memoire_requise(info_t& info)
 
         errno = 0;
 
-       #ifdef FGETC_PARSING
+#ifdef FGETC_PARSING
+
+        while (! c.eof())
+        {
+            bool remuneration_xml_open = false;
+
+            if  (c.get() != '<') continue;
+            if  (c.get() != 'R') continue;
+            if  (c.get() != 'e') continue;
+            if  (c.get() != 'm') continue;
+            if  (c.get() != 'u') continue;
+            if  (c.get() != 'n') continue;
+
+#ifndef FULL_PREALLOCATION_TEST
+
+            c.get(),c.get(),c.get(),c.get(),c.get(),c.get(),c.get();
+
+#else
+
+            if  (c.get() != 'e') continue;
+            if  (c.get() != 'r') continue;
+            if  (c.get() != 'a') continue;
+            if  (c.get() != 't') continue;
+            if  (c.get() != 'i') continue;
+            if  (c.get() != 'o') continue;
+            if  (c.get() != 'n') continue;
+
+#endif
+            remuneration_xml_open = true;
+
+            if  (c.get()  == '/')
+            {
+                tab[info.NCumAgent] = 1;
+                ++info.NCumAgent;
+
+                remuneration_xml_open = false;
+                continue;  // Balise simple vide
+            }
 
             while (! c.eof())
             {
-                bool remuneration_xml_open = false;
-
-                if  (c.get() != '<') continue;
-                if  (c.get() != 'R') continue;
-                if  (c.get() != 'e') continue;
-                if  (c.get() != 'm') continue;
-                if  (c.get() != 'u') continue;
-                if  (c.get() != 'n') continue;
-
-                #ifndef FULL_PREALLOCATION_TEST
-
-                   c.get(),c.get(),c.get(),c.get(),c.get(),c.get(),c.get();
-
-                #else
-
-                   if  (c.get() != 'e') continue;
-                   if  (c.get() != 'r') continue;
-                   if  (c.get() != 'a') continue;
-                   if  (c.get() != 't') continue;
-                   if  (c.get() != 'i') continue;
-                   if  (c.get() != 'o') continue;
-                   if  (c.get() != 'n') continue;
-
-                #endif
-
-                remuneration_xml_open = true;
-
-                if  (c.get()  == '/')
+                if (c.get() != '<') continue;
+                if ((d = c.get())  != 'C')
                 {
-                    tab[info.NCumAgent] = 1;
-                    ++info.NCumAgent;
+                    if (d != '/') continue;
+                    else if (c.get()  != 'R')   continue;
+                    else if (c.get()  != 'e')   continue;
+                    else if (c.get()  != 'm')   continue;
+                    else if (c.get()  != 'u')   continue;
+                    else if (c.get()  != 'n')   continue;
 
                     remuneration_xml_open = false;
-                    continue;  // Balise simple vide
+
+                    if (tab[info.NCumAgent] == 0)
+                        tab[info.NCumAgent] = 1;
+
+                    ++info.NCumAgent;
+                    break;
                 }
-
-                while (! c.eof())
+                else
                 {
-                    if (c.get() != '<') continue;
-                    if ((d = c.get())  != 'C')
-                    {
-                        if (d != '/') continue;
-                        else if (c.get()  != 'R')   continue;
-                        else if (c.get()  != 'e')   continue;
-                        else if (c.get()  != 'm')   continue;
-                        else if (c.get()  != 'u')   continue;
-                        else if (c.get()  != 'n')   continue;
-
-                        remuneration_xml_open = false;
-
-                        if (tab[info.NCumAgent] == 0)
-                            tab[info.NCumAgent] = 1;
-
-                        ++info.NCumAgent;
-                        break;
-                    }
+                    if (c.get() != 'o') continue;
                     else
                     {
-                        if (c.get() != 'o') continue;
+                        if (c.get() != 'd')   continue;
                         else
                         {
-                            if (c.get() != 'd')   continue;
+                            if (c.get() != 'e')   continue;
                             else
                             {
-                                if (c.get() != 'e')   continue;
-                                else
-                                {
-                                    if (c.get() != ' ')   continue;
-                                    ++tab[info.NCumAgent];
-                                }
+                                if (c.get() != ' ')   continue;
+                                ++tab[info.NCumAgent];
                             }
                         }
                     }
                 }
-
-                if (remuneration_xml_open == true)
-                {
-                    cerr << "Erreur XML : la balise Remuneration n'est pas refermée pour le fichier " << info.threads->argv[i]
-                              << ENDL "pour l'agent n°"   << info.NCumAgent + 1 << ENDL;
-                    exit(0);
-
-                    #ifndef STRICT
-                      continue;
-                    #else
-                      exit(-100);
-                    #endif
-                }
-
             }
 
-        #else   // STRINGSTREAM_PARSING
+            if (remuneration_xml_open == true)
+            {
+                cerr << "Erreur XML : la balise Remuneration n'est pas refermée pour le fichier " << info.threads->argv[i]
+                        << ENDL "pour l'agent n°"   << info.NCumAgent + 1 << ENDL;
+                exit(0);
 
-            auto ss = read_stream_into_string(c);
+#ifndef STRICT
+                continue;
+#else
+                exit(-100);
+#endif
+            }
 
-            string::iterator iter = ss.begin();
+        }
+
+#else   // STRINGSTREAM_PARSING
+
+        auto ss = read_stream_into_string(c);
+
+        string::iterator iter = ss.begin();
+
+        while (iter != ss.end())
+        {
+            bool remuneration_xml_open = false;
+
+            if  (*++iter != '<') continue;
+            if  (*++iter != 'R') continue;
+            if  (*++iter != 'e') continue;
+            if  (*++iter != 'm') continue;
+            if  (*++iter != 'u') continue;
+            if  (*++iter != 'n') continue;
+
+#ifndef FULL_PREALLOCATION_TEST
+
+            iter += 7;
+
+#else
+
+            if  (*++iter != 'e') continue;
+            if  (*++iter != 'r') continue;
+            if  (*++iter != 'a') continue;
+            if  (*++iter != 't') continue;
+            if  (*++iter != 'i') continue;
+            if  (*++iter != 'o') continue;
+            if  (*++iter != 'n') continue;
+
+#endif
+
+            remuneration_xml_open = true;
+
+            if  (*++iter  == '/')
+            {
+                tab[info.NCumAgent] = 1;
+                ++info.NCumAgent;
+
+                remuneration_xml_open = false;
+                continue;  // Balise simple vide
+            }
 
             while (iter != ss.end())
             {
-                bool remuneration_xml_open = false;
-
-                if  (*++iter != '<') continue;
-                if  (*++iter != 'R') continue;
-                if  (*++iter != 'e') continue;
-                if  (*++iter != 'm') continue;
-                if  (*++iter != 'u') continue;
-                if  (*++iter != 'n') continue;
-
-                #ifndef FULL_PREALLOCATION_TEST
-
-                   iter += 7;
-
-                #else
-
-                   if  (*++iter != 'e') continue;
-                   if  (*++iter != 'r') continue;
-                   if  (*++iter != 'a') continue;
-                   if  (*++iter != 't') continue;
-                   if  (*++iter != 'i') continue;
-                   if  (*++iter != 'o') continue;
-                   if  (*++iter != 'n') continue;
-
-                #endif
-
-                remuneration_xml_open = true;
-
-                if  (*++iter  == '/')
+                if (*++iter != '<') continue;
+                if ((d = *++iter)  != 'C')
                 {
-                    tab[info.NCumAgent] = 1;
-                    ++info.NCumAgent;
+                    if (d != '/') continue;
+                    else if (*++iter  != 'R')   continue;
+                    else if (*++iter  != 'e')   continue;
+                    else if (*++iter  != 'm')   continue;
+                    else if (*++iter  != 'u')   continue;
+                    else if (*++iter  != 'n')   continue;
 
                     remuneration_xml_open = false;
-                    continue;  // Balise simple vide
+
+                    if (tab[info.NCumAgent] == 0)
+                        tab[info.NCumAgent] = 1;
+
+                    ++info.NCumAgent;
+                    break;
                 }
-
-                while (iter != ss.end())
+                else
                 {
-                    if (*++iter != '<') continue;
-                    if ((d = *++iter)  != 'C')
-                    {
-                        if (d != '/') continue;
-                        else if (*++iter  != 'R')   continue;
-                        else if (*++iter  != 'e')   continue;
-                        else if (*++iter  != 'm')   continue;
-                        else if (*++iter  != 'u')   continue;
-                        else if (*++iter  != 'n')   continue;
-
-                        remuneration_xml_open = false;
-
-                        if (tab[info.NCumAgent] == 0)
-                            tab[info.NCumAgent] = 1;
-
-                        ++info.NCumAgent;
-                        break;
-                    }
+                    if (*++iter != 'o') continue;
                     else
                     {
-                        if (*++iter != 'o') continue;
+                        if (*++iter != 'd')   continue;
                         else
                         {
-                            if (*++iter != 'd')   continue;
+                            if (*++iter != 'e')   continue;
                             else
                             {
-                                if (*++iter != 'e')   continue;
-                                else
-                                {
-                                    if (*++iter != ' ')   continue;
-                                    ++tab[info.NCumAgent];
-                                }
+                                if (*++iter != ' ')   continue;
+                                ++tab[info.NCumAgent];
                             }
                         }
                     }
                 }
-
-                if (remuneration_xml_open == true)
-                {
-                    cerr << "Erreur XML : la balise Remuneration n'est pas refermée pour le fichier " << info.threads->argv[i]
-                              << ENDL "pour l'agent n°"   << info.NCumAgent + 1 << ENDL;
-                    exit(0);
-
-                    #ifndef STRICT
-                      continue;
-                    #else
-                      exit(-100);
-                    #endif
-                }
-
             }
 
-            info.threads->in_memory_file[i] = move(ss);
+            if (remuneration_xml_open == true)
+            {
+                cerr << "Erreur XML : la balise Remuneration n'est pas refermée pour le fichier " << info.threads->argv[i]
+                        << ENDL "pour l'agent n°"   << info.NCumAgent + 1 << ENDL;
+                exit(0);
 
-        #endif
+#ifndef STRICT
+                continue;
+#else
+                exit(-100);
+#endif
+            }
+
+        }
+
+        info.threads->in_memory_file[i] = move(ss);
+
+#endif
 
         c.clear();
         c.close();
@@ -862,10 +856,10 @@ int calculer_memoire_requise(info_t& info)
         const size_t file_size =  st.st_size;
         void *dat;
         int fd = open(info.threads->argv[i].c_str(), O_RDONLY);
-       // cerr << "Taille : " << file_size << ENDL;
+        // cerr << "Taille : " << file_size << ENDL;
         assert(fd != -1);
 
-       /* MADV_SEQUENTIAL
+        /* MADV_SEQUENTIAL
        *    The application intends to access the pages in the specified range sequentially, from lower to higher addresses.
        *   MADV_WILLNEED
        *    The application intends to access the pages in the specified range in the near future. */
@@ -875,12 +869,12 @@ int calculer_memoire_requise(info_t& info)
 
         ret = madvise (dat, 0, MADV_SEQUENTIAL | MADV_WILLNEED);
         if (ret < 0)
-                perror ("madvise");
+            perror ("madvise");
 
         assert(dat != NULL);
         //write(1, dat, file_size);
         char* data = (char*) dat;
-       // cerr << "Mapping OK"ENDL;
+        // cerr << "Mapping OK"ENDL;
         size_t d = 0;
         char C;
 
@@ -945,7 +939,6 @@ int calculer_memoire_requise(info_t& info)
             }
         }
 
-
         info.threads->in_memory_file[i] = move(data);
         //munmap(data, file_size);
         close(fd);
@@ -957,7 +950,7 @@ int calculer_memoire_requise(info_t& info)
 #ifdef PREALLOCATE_ON_HEAP
     info.NLigne.resize(info.NCumAgent+1);
 #endif
-memory_debug("calculer_memoire_requise_end");
+    memory_debug("calculer_memoire_requise_end");
     return errno;
 }
 

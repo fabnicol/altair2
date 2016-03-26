@@ -85,7 +85,6 @@ void Altair::run()
                     QDir(filepath).removeRecursively();
                 }
             }
-
     }
 
 #ifdef DEBUG
@@ -95,7 +94,7 @@ void Altair::run()
     QStringList args0, args1;
     QString command;
 
-    args0 <<  "-m" << "-d" << "," << "-s" << ";" << "-rank" << sharedir + "/rank";
+    args0 <<  "-m" << "-d" << "," << "-s" << ";" << "--rank" << sharedir + "/rank";
     if (v(conserverEtab).isTrue())
            args0 << "-S";
 
@@ -103,7 +102,7 @@ void Altair::run()
 
     outputTextEdit->append(PROCESSING_HTML_TAG + tr("Importation des bases de paye (")+QString::number(Altair::totalSize[0]/(1024*1024)) +tr(" Mo)..."));
 
-    command = QString("-m -d \",\" -s \";\" -rank ") + sharedir + "/rank" ;
+    command = QString("-m -d \",\" -s \";\" --rank ") + sharedir + "/rank" ;
 
     QStringListIterator i(args1);
     while (i.hasNext())

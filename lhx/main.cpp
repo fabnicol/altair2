@@ -25,11 +25,11 @@
 #include "tags.h"
 
 #ifndef OVERHEAD
-  #define OVERHEAD 500
+#define OVERHEAD 500
 #endif
 
 #ifndef AVERAGE_RAM_DENSITY
-  #define AVERAGE_RAM_DENSITY 1.25
+#define AVERAGE_RAM_DENSITY 1.25
 #endif
 
 using namespace std;
@@ -49,6 +49,7 @@ vector<errorLine_t> errorLineStack;
 vString commandline_tab;
 
 int produire_segment(const info_t& info, const vString& segment, const vector<uint64_t>& taille_fichiers_segment);
+static inline vector<int> repartir_fichiers_par_fil(const info_t& info, const vString& segment);
 
 
 int main(int argc, char **argv)
@@ -60,7 +61,7 @@ int main(int argc, char **argv)
     //locale::global(locale("French_France.1252"));
 #elif defined __linux__
     //setlocale(LC_ALL, "fr_FR.utf8");
-   locale::global(locale("fr_FR.utf8"));
+    locale::global(locale("fr_FR.utf8"));
 #else
 #error "Programme conçu pour Windows ou linux"
 #endif
@@ -72,7 +73,7 @@ int main(int argc, char **argv)
     }
 
     LIBXML_TEST_VERSION
-    xmlKeepBlanksDefault(0);
+            xmlKeepBlanksDefault(0);
 
     xmlInitMemory();
     xmlInitParser();
@@ -132,15 +133,15 @@ int main(int argc, char **argv)
     while (start < argc)
     {
 
-       if (commandline_tab[start] == "-n")
-       {
-         info.reduire_consommation_memoire = false;
-         info.nbAgentUtilisateur
-           = lire_argument (argc, const_cast<char*>(commandline_tab[start + 1].c_str()));
-         if (info.nbAgentUtilisateur < 1)
+        if (commandline_tab[start] == "-n")
+        {
+            info.reduire_consommation_memoire = false;
+            info.nbAgentUtilisateur
+                    = lire_argument (argc, const_cast<char*>(commandline_tab[start + 1].c_str()));
+            if (info.nbAgentUtilisateur < 1)
             {
-              cerr << ERROR_HTML_TAG "Préciser le nombre de bulletins mensuels attendus (majorant du nombre) avec -N xxx .\n";
-              exit(-1);
+                cerr << ERROR_HTML_TAG "Préciser le nombre de bulletins mensuels attendus (majorant du nombre) avec -N xxx .\n";
+                exit(-1);
             }
             start += 2;
             continue;
@@ -154,53 +155,53 @@ int main(int argc, char **argv)
         }
         else if (commandline_tab[start] ==  "--hmarkdown" || commandline_tab[start] == "--pdf" || commandline_tab[start] == "--html")
         {
-          ostringstream out = std::move(help());
-          if (commandline_tab[start] == "--hmarkdown")
-          {
-             cerr << out.str();
-          }
-          else
-          {
-             ofstream help;
+            ostringstream out = std::move(help());
+            if (commandline_tab[start] == "--hmarkdown")
+            {
+                cerr << out.str();
+            }
+            else
+            {
+                ofstream help;
 
-              help.open("aide.md");
+                help.open("aide.md");
 
-              help << out.str();
-              string sep(":");
-              sep[0] = SYSTEM_PATH_SEPARATOR;
-              string exec_dir = getexecpath();
+                help << out.str();
+                string sep(":");
+                sep[0] = SYSTEM_PATH_SEPARATOR;
+                string exec_dir = getexecpath();
 #ifndef __linux__
-              string command = string("PATH=") + string(getenv("PATH"))
-                                 + sep + exec_dir + string("/../texlive/miktex/bin")
-                                 + sep + exec_dir + string("/../Outils")
-                                 + sep + exec_dir + string("/../RStudio/bin/pandoc");
-              putenv(command.c_str());
+                string command = string("PATH=") + string(getenv("PATH"))
+                        + sep + exec_dir + string("/../texlive/miktex/bin")
+                        + sep + exec_dir + string("/../Outils")
+                        + sep + exec_dir + string("/../RStudio/bin/pandoc");
+                putenv(command.c_str());
 #endif
 
-              system("iconv.exe -t utf-8 -f latin1 -c -s  aide.md > aide.utf8.md");
-              if (commandline_tab[start] == "--pdf")
-              {
-                 system("pandoc.exe -o aide_lhx.pdf  aide.utf8.md");
-              }
-              else
-              if (commandline_tab[start] == "--html")
-              {
-                 system("pandoc.exe -o aide_lhx.utf8.html  aide.utf8.md");
-                 system("iconv.exe -f utf-8 -t latin1 -c -s  aide_lhx.utf8.html > aide_lhx.html");
-                 unlink("aide_lhx.utf8.html");
-              }
-              help.close();
-              unlink("aide.utf8.md");
-              unlink("aide.md");
-          }
+                system("iconv.exe -t utf-8 -f latin1 -c -s  aide.md > aide.utf8.md");
+                if (commandline_tab[start] == "--pdf")
+                {
+                    system("pandoc.exe -o aide_lhx.pdf  aide.utf8.md");
+                }
+                else
+                    if (commandline_tab[start] == "--html")
+                    {
+                        system("pandoc.exe -o aide_lhx.utf8.html  aide.utf8.md");
+                        system("iconv.exe -f utf-8 -t latin1 -c -s  aide_lhx.utf8.html > aide_lhx.html");
+                        unlink("aide_lhx.utf8.html");
+                    }
+                help.close();
+                unlink("aide.utf8.md");
+                unlink("aide.md");
+            }
 
-          exit(0);
+            exit(0);
         }
         else if (commandline_tab[start] ==  "--entier")
         {
-           info.decoupage_fichiers_volumineux = false;
-           ++start;
-           continue;
+            info.decoupage_fichiers_volumineux = false;
+            ++start;
+            continue;
         }
         else if (commandline_tab[start] ==  "-q")
         {
@@ -357,7 +358,7 @@ int main(int argc, char **argv)
             if (! base.good())
             {
                 cerr << ERROR_HTML_TAG "La base de données "
-                          << info.chemin_base  + string(CSV) << " ne peut être créée, vérifier l'existence du dossier." ENDL ;
+                     << info.chemin_base  + string(CSV) << " ne peut être créée, vérifier l'existence du dossier." ENDL ;
                 exit(-113);
             }
             else
@@ -428,7 +429,7 @@ int main(int argc, char **argv)
             continue;
         }
 #ifdef GENERATE_RANK_SIGNAL
-        else if (commandline_tab[start] == "-rank")
+        else if (commandline_tab[start] == "--rank")
         {
             int hasArg = 0;
             if (argc > start +2)
@@ -509,13 +510,13 @@ int main(int argc, char **argv)
             string ligne;
             if (f.good())
             {
-              while(f.rdstate() != fstream::eofbit)
-              {
-                getline(f, ligne);
+                while(f.rdstate() != fstream::eofbit)
+                {
+                    getline(f, ligne);
 
-                if (! ligne.empty())
-                       cl.push_back(ligne);
-              }
+                    if (! ligne.empty())
+                        cl.push_back(ligne);
+                }
 
             }
 
@@ -547,51 +548,51 @@ int main(int argc, char **argv)
         }
         else if (commandline_tab[start] == "--pretend")
         {
-          info.pretend = true;   // pas de décodage
-          ++start;
-          continue;
+            info.pretend = true;   // pas de décodage
+            ++start;
+            continue;
         }
 #ifdef FGETC_PARSING
         else if (commandline_tab[start] == "--preserve-tempfiles")
         {
-          info.preserve_tempfiles = true;   // garder les fichiers remporaires
-          ++start;
-          continue;
+            info.preserve_tempfiles = true;   // garder les fichiers remporaires
+            ++start;
+            continue;
         }
 #endif
         else if (commandline_tab[start] == "--verifmem")
         {
-          info.verifmem = true;  // seulement vérifier la mémoire
-          ++start;
-          continue;
+            info.verifmem = true;  // seulement vérifier la mémoire
+            ++start;
+            continue;
         }
         else if (commandline_tab[start] == "--xhlmem")
         {
-          cerr << STATE_HTML_TAG "Taille totale des fichiers : " << commandline_tab[start + 1] << " octets." << ENDL;
-          // Taille des fichiers en ko fournie par l'interface graphique, en octets
-          
-          memoire_xhl = stoull(commandline_tab[start + 1], nullptr);
-          if (60000ULL * 1048576ULL < ULLONG_MAX)
-          {
-              if (memoire_xhl > 1ULL || memoire_xhl < (60000ULL * 1048576ULL))
+            cerr << STATE_HTML_TAG "Taille totale des fichiers : " << commandline_tab[start + 1] << " octets." << ENDL;
+            // Taille des fichiers en ko fournie par l'interface graphique, en octets
+
+            memoire_xhl = stoull(commandline_tab[start + 1], nullptr);
+            if (60000ULL * 1048576ULL < ULLONG_MAX)
+            {
+                if (memoire_xhl > 1ULL || memoire_xhl < (60000ULL * 1048576ULL))
                 {
-                  start += 2;
-                  continue;
+                    start += 2;
+                    continue;
                 }
-              else
+                else
                 {
-                  cerr << ERROR_HTML_TAG "La donnée de la taille des fichiers en input est erronée ou au-delà de la limite permise (60 Go)." << ENDL;
-                  exit(-199);
+                    cerr << ERROR_HTML_TAG "La donnée de la taille des fichiers en input est erronée ou au-delà de la limite permise (60 Go)." << ENDL;
+                    exit(-199);
                 }
-          }
-          else
-          {
-                  cerr << ERROR_HTML_TAG "Le plus grand entier non signé est inférieur à 60 * 1048576" << ENDL;
-                  exit(-199);
-          }
+            }
+            else
+            {
+                cerr << ERROR_HTML_TAG "Le plus grand entier non signé est inférieur à 60 * 1048576" << ENDL;
+                exit(-199);
+            }
         }
         else if (commandline_tab[start] == "--memshare")
-          {
+        {
             int part = stoi(commandline_tab[start + 1], nullptr);
 
             cerr << STATE_HTML_TAG "Part de la mémoire vive utilisée : " <<  part << " %" ENDL;
@@ -599,40 +600,35 @@ int main(int argc, char **argv)
             ajustement = (float) part / 100;
             start += 2;
             continue;
-          }
+        }
         else if (commandline_tab[start] == "--segments ")
         {
-           cerr << STATE_HTML_TAG "Les bases seront analysées en au moins : " << commandline_tab[start + 1] << " segments" << ENDL;
+            cerr << STATE_HTML_TAG "Les bases seront analysées en au moins : " << commandline_tab[start + 1] << " segments" << ENDL;
 
-           // au maximum 99 segments
+            // au maximum 99 segments
 
-           nsegments = stoi(commandline_tab[start + 1], nullptr);
-           if (nsegments > 1 || nsegments < 100)
-             {
-               start += 2;
-               continue;
-             }
-           else
-             {
-               cerr << ERROR_HTML_TAG "Il doit y avoir entre 1 et 99 segments de bases." << ENDL;
-               exit(-208);
-             }
+            nsegments = stoi(commandline_tab[start + 1], nullptr);
+            if (nsegments > 1 || nsegments < 100)
+            {
+                start += 2;
+                continue;
+            }
+            else
+            {
+                cerr << ERROR_HTML_TAG "Il doit y avoir entre 1 et 99 segments de bases." << ENDL;
+                exit(-208);
+            }
         }
 
         else if (commandline_tab[start][0] == '-')
         {
-          cerr << ERROR_HTML_TAG "Option inconnue " << commandline_tab[start] << ENDL;
-          exit(-100);
+            cerr << ERROR_HTML_TAG "Option inconnue " << commandline_tab[start] << ENDL;
+            exit(-100);
         }
         else break;
     }
 
     /* Fin de l'analyse de la ligne de commande */
-
-    //struct stat st;
-    //stat(info.threads->argv[i].c_str(), &st);
-    //const size_t file_size =  st.st_size;
-    
 
     /* on sait que info.nbfil >= 1 */
 
@@ -662,10 +658,62 @@ int main(int argc, char **argv)
 
         cerr << ENDL STATE_HTML_TAG << "Taille totale des " << count << " fichiers : " << memoire_xhl / 1048576 << " Mo."  ENDL;
         cerr << STATE_HTML_TAG
-                  << "Mémoire disponible " <<  ((memoire_disponible = getFreeSystemMemory()) / 1048576)
-                  << " / " << (getTotalSystemMemory()  / 1048576)
-                  << " Mo."  ENDL;
+             << "Mémoire disponible " <<  ((memoire_disponible = getFreeSystemMemory()) / 1048576)
+             << " / " << (getTotalSystemMemory()  / 1048576)
+             << " Mo."  ENDL;
     }
+
+    /* redécoupage éventuel des fichiers */
+
+    const vString segment = vString(commandline_tab.begin() + start, commandline_tab.begin() + argc);
+
+    vector<int> nb_fichier_par_fil = repartir_fichiers_par_fil(info, segment);
+
+    if (info.decoupage_fichiers_volumineux)
+    {
+        vector<info_t> Info(info.nbfil);
+        vector<thread> t;
+
+        if (info.nbfil > 1)
+        {
+            t.resize(info.nbfil);
+        }
+
+        vector<thread_t> v_thread_t(info.nbfil);
+        vString::const_iterator segment_it = segment.begin();
+        vector<uint64_t>::const_iterator taille_it = taille.begin();
+
+        for (unsigned  i = 0; i < info.nbfil; ++i)
+        {
+           if (info.nbfil > 1)
+           {
+               Info[i] = info;
+               Info[i].threads = &v_thread_t[i];
+               Info[i].threads->thread_num = i;
+               Info[i].threads->argc = nb_fichier_par_fil.at(i);
+               Info[i].threads->argv = vString(segment_it, segment_it + nb_fichier_par_fil[i]);
+               Info[i].taille = vector<uint64_t>(taille_it, taille_it + nb_fichier_par_fil[i]);
+               Info[i].threads->in_memory_file = vString(nb_fichier_par_fil[i]);
+               segment_it += nb_fichier_par_fil.at(i);
+               taille_it += nb_fichier_par_fil.at(i);
+
+               thread th{redecouper, ref(Info[i])};
+               t[i] = move(th);
+
+               for (unsigned i = 0; i < info.nbfil; ++i)
+               {
+                   t[i].join();
+               }
+           }
+           else
+           {
+               redecouper(ref(Info[0]));
+           }
+        }
+    }
+
+
+    /* Il faut alors reverser argc_cut dans argv ... idem pour in_memory */
 
     /* ajustement représente la part maximum de la mémoire disponible que l'on consacre au processus, compte tenu de la marge sous plafond (overhead) */
 
@@ -674,25 +722,25 @@ int main(int argc, char **argv)
 
     if (nsegments != 0)
     {
-         while (true)
-         {
-             if (memoire_xhl % nsegments == 0)
-             {
-                 memoire_utilisable = memoire_xhl / nsegments ;
-                 break;
-             }
-             else
-             if (memoire_xhl % (nsegments - 1) == 0)
-               {
-                  cerr << ERROR_HTML_TAG "Impossible de générer " << nsegments << " segments. Utilisation d'au moins " << nsegments + 1 << " segments." ENDL;
-                  ++nsegments;
-               }
-             else
-               {
-                  memoire_utilisable = memoire_xhl / (nsegments - 1);
-                  break;
-               }
-         }
+        while (true)
+        {
+            if (memoire_xhl % nsegments == 0)
+            {
+                memoire_utilisable = memoire_xhl / nsegments ;
+                break;
+            }
+            else
+                if (memoire_xhl % (nsegments - 1) == 0)
+                {
+                    cerr << ERROR_HTML_TAG "Impossible de générer " << nsegments << " segments. Utilisation d'au moins " << nsegments + 1 << " segments." ENDL;
+                    ++nsegments;
+                }
+                else
+                {
+                    memoire_utilisable = memoire_xhl / (nsegments - 1);
+                    break;
+                }
+        }
     }
 
     vector<vString> segments;
@@ -700,44 +748,44 @@ int main(int argc, char **argv)
 
     auto  taille_it = taille.begin();
     auto  commandline_it = commandline_tab.begin() + start;
-
     do
     {
         uint64_t cumul_taille_segment = *taille_it;
         vString segment;
         vUint64 taille_fichiers_segment;
         float densite_segment=AVERAGE_RAM_DENSITY;
-        #ifdef STRINGSTREAM_PARSING
-          ++densite_segment;
-        #endif
-        #ifndef OFSTREAM_TABLE_OUTPUT
-          ++densite_segment;
-        #endif
+#ifdef STRINGSTREAM_PARSING
+        ++densite_segment;
+#endif
+#ifndef OFSTREAM_TABLE_OUTPUT
+        ++densite_segment;
+#endif
 
         while (cumul_taille_segment * densite_segment < memoire_utilisable && commandline_it != commandline_tab.end())
-         {
-           segment.push_back(*commandline_it);  // ne pas utiliser move;
-           taille_fichiers_segment.push_back(*taille_it);
+        {
+            segment.push_back(*commandline_it);  // ne pas utiliser move;
+            taille_fichiers_segment.push_back(*taille_it);
 
-           ++commandline_it;
-           ++taille_it;
-           cumul_taille_segment  += *taille_it;
-         }
+            ++commandline_it;
+            ++taille_it;
+            cumul_taille_segment  += *taille_it;
+        }
 
         segments.emplace_back(segment);
         taille_fichiers_segments.emplace_back(taille_fichiers_segment);
 
-    } while (commandline_it != commandline_tab.end());
+    }
+     while (commandline_it != commandline_tab.end());
 
     unsigned int segments_size = segments.size();
     if (segments_size > 1)
         cerr << PROCESSING_HTML_TAG << "Les bases en sortie seront analysées en " << segments_size << " segments." ENDL;
 
-   int info_nbfil_defaut = info.nbfil;
-   int rang_segment = 0;
+    int info_nbfil_defaut = info.nbfil;
+    int rang_segment = 0;
 
-   for (auto&& segment : segments)
-   {
+    for (auto&& segment : segments)
+    {
         unsigned int segment_size = segment.size();
 
         if (info.nbfil > segment_size)
@@ -765,12 +813,8 @@ int main(int argc, char **argv)
     return errno;
 }
 
-int produire_segment(const info_t& info, const vString& segment, const vector<uint64_t>& taille_fichiers_segment)
+static inline vector<int> repartir_fichiers_par_fil(const info_t& info, const vString& segment)
 {
-    static int nsegment;
-
-    ++nsegment;
-
     vector<int> nb_fichier_par_fil;
     int segment_size = segment.size();
 
@@ -778,9 +822,21 @@ int produire_segment(const info_t& info, const vString& segment, const vector<ui
 
     for (unsigned i = 0; i < info.nbfil; ++i)
     {
-         nb_fichier_par_fil.push_back(segment_size / info.nbfil + (remainder > 0));
-         --remainder;
+        nb_fichier_par_fil.push_back(segment_size / info.nbfil + (remainder > 0));
+        --remainder;
     }
+
+    return nb_fichier_par_fil;
+}
+
+
+int produire_segment(const info_t& info, const vString& segment, const vector<uint64_t>& taille_fichiers_segment)
+{
+    static int nsegment;
+
+    ++nsegment;
+
+    vector<int> nb_fichier_par_fil = repartir_fichiers_par_fil(info, segment);
 
     /* on répartir le reste de manière équilibrée sur les premiers fils */
 
@@ -826,14 +882,14 @@ int produire_segment(const info_t& info, const vString& segment, const vector<ui
 
         if (verbeux)
             cerr <<  PROCESSING_HTML_TAG "Fil d'exécution n°" << i + 1 << "/" << info.nbfil
-                 << "   Nombre de fichiers dans ce fil : " << nb_fichier_par_fil[i] << ENDL;
+                  << "   Nombre de fichiers dans ce fil : " << nb_fichier_par_fil[i] << ENDL;
 
         errno = 0;
 
         /* Lancement des fils d'exécution */
 
         if (verbeux && Info[0].reduire_consommation_memoire)
-           cerr << ENDL PROCESSING_HTML_TAG "Premier scan des fichiers pour déterminer les besoins mémoire, " << "fil " << i + 1 << ENDL;
+            cerr << ENDL PROCESSING_HTML_TAG "Premier scan des fichiers pour déterminer les besoins mémoire, " << "fil " << i + 1 << ENDL;
 
         if (info.nbfil > 1)
         {
@@ -852,12 +908,12 @@ int produire_segment(const info_t& info, const vString& segment, const vector<ui
     }
 
     if (verbeux)
-       cerr << ENDL PROCESSING_HTML_TAG "Rassemblement des fils d'exécution." ENDL;
+        cerr << ENDL PROCESSING_HTML_TAG "Rassemblement des fils d'exécution." ENDL;
 
     if (info.nbfil > 1)
         for (unsigned i = 0; i < info.nbfil; ++i)
         {
-            t[i].join ();
+            t[i].join();
         }
 
     if (info.pretend) return 2;
@@ -879,8 +935,8 @@ int produire_segment(const info_t& info, const vString& segment, const vector<ui
 
     if (generer_table)
     {
-      cerr << ENDL << PROCESSING_HTML_TAG "Exportation des bases de données au format CSV..." << ENDL ENDL;
-      boucle_ecriture(Info, nsegment);
+        cerr << ENDL << PROCESSING_HTML_TAG "Exportation des bases de données au format CSV..." << ENDL ENDL;
+        boucle_ecriture(Info, nsegment);
     }
 
     /* Résumé des erreurs rencontrées */
@@ -913,14 +969,14 @@ int produire_segment(const info_t& info, const vString& segment, const vector<ui
             }
     }
 
-   generate_rank_signal(-1);
-   cerr << " \n";
+    generate_rank_signal(-1);
+    cerr << " \n";
 
     /* libération de la mémoire */
 
-   if (! liberer_memoire) return 0;
+    if (! liberer_memoire) return 0;
 
-   if (verbeux)
+    if (verbeux)
         cerr << ENDL
              << PROCESSING_HTML_TAG "Libération de la mémoire..."
              << ENDL;
