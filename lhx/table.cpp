@@ -11,7 +11,6 @@
 #include <iostream>
 #include <fstream>
 
-using namespace std;
 
 static const char* type_remuneration_traduit[] = {
     "T",   // Traitement

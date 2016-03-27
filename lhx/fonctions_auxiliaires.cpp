@@ -3,17 +3,9 @@
  *  En entrée d'Altair préciser encodage.entrée en conformité avec l'encodage du présent fichier, qui sera celui de la base générée.
  */
 
-#include <mutex>
-#include <cstring>
-#include <cstdint>
-#include <iomanip>
-#include <iostream>
-#include <iterator>
-#include <sys/stat.h>
 #include "fonctions_auxiliaires.hpp"
 #include "tags.h"
 
-using namespace std;
 extern bool verbeux;
 
 #ifdef __WIN32__
@@ -78,6 +70,7 @@ ostringstream help()
         <<  "**`--`verifmem**                : seulement vérifier la consommation mémoire.  " << "\n\n"
         <<  "**`--`entier**                  : désactivation du découpage des fichiers volumineux.  " << "\n\n"
         <<  "**`--`preserve-tempfiles**      : désactivation de l'effacement des fichiers temporaires.  " << "\n\n"
+        <<  "**`--`chunksize**               : taille unitaire des découpes de fichiers volumineux en Mo.  " << "\n\n"
         <<  "**`--`hmarkdown**               : aide en format markdown.  " << "\n\n"
         <<  "**`--`pdf**                     : aide en format pdf.  " << "\n\n";
 
@@ -173,6 +166,62 @@ off_t taille_fichier(const string& filename)
 #endif
     return rc == 0 ? stat_buf.st_size : -1;
 }
+
+vector<uint64_t> calculer_taille_fichiers(const vector<string>& files, bool silent)
+{
+    off_t mem = 0;
+    int count = 0;
+    uint64_t memoire_xhl = 0;
+    vector<uint64_t> taille;
+
+    for (auto && s : files)
+    {
+        if ((mem = taille_fichier(s)) != -1)
+        {
+            memoire_xhl += static_cast<uint64_t>(mem);
+            taille.push_back(static_cast<uint64_t>(mem));
+            ++count;
+        }
+        else
+        {
+            cerr << ERROR_HTML_TAG "La taille du fichier " << s << " n'a pas pu être déterminée." ENDL;
+        }
+    }
+
+    if (! silent)
+       cerr << ENDL STATE_HTML_TAG << "Taille totale des " << count << " fichiers : " << memoire_xhl / 1048576 << " Mo."  ENDL;
+
+    return taille;
+}
+
+vector<uint64_t> calculer_taille_fichiers_memoire(const vector<string>& in_memory_files, bool silent)
+{
+    off_t mem = 0;
+    int count = 0;
+    uint64_t memoire_xhl = 0;
+    vector<uint64_t> taille;
+
+    for (auto &&s : in_memory_files)
+    {
+        if ((mem = s.length()) != -1)
+        {
+            memoire_xhl += static_cast<uint64_t>(mem);
+            taille.push_back(static_cast<uint64_t>(mem));
+            ++count;
+        }
+        else
+        {
+            cerr << ERROR_HTML_TAG "La taille du fichier mémoire " << s << " n'a pas pu être déterminée." ENDL;
+        }
+    }
+
+    if (! silent)
+       cerr << ENDL STATE_HTML_TAG << "Taille totale des " << count << " fichiers : " << memoire_xhl / 1048576 << " Mo."  ENDL;
+
+    return taille;
+}
+
+
 
 #ifdef __linux__
 size_t getTotalSystemMemory()
@@ -564,20 +613,6 @@ void calculer_maxima(const vector<info_t> &Info, ofstream* LOG)
 }
 
 
-template <typename Allocator = allocator<char>>
-inline string read_stream_into_string(
-        ifstream& in,
-        Allocator alloc = {})
-{
-    basic_ostringstream<char, char_traits<char>, Allocator>
-            ss(basic_string<char, char_traits<char>, Allocator>(move(alloc)));
-
-    if (!(ss << in.rdbuf()))
-        throw ios_base::failure{"[ERR] Erreur d'allocation de lecture de fichier.\n"};
-
-    return ss.str();
-}
-
 
 int calculer_memoire_requise(info_t& info)
 {
@@ -623,8 +658,9 @@ int calculer_memoire_requise(info_t& info)
 
 #endif
 #endif
+        errno = 0;
 
-#if defined(FGETC_PARSING) || defined(STRINGSTREAM_PARSING)
+#ifdef FGETC_PARSING
 
         ifstream c(info.threads->argv[i]);
         if (verbeux)
@@ -638,10 +674,6 @@ int calculer_memoire_requise(info_t& info)
                 cerr <<  ERROR_HTML_TAG "Problème à l'ouverture du fichier *" << info.threads->argv[i] << "*" << ENDL;
             exit(-120);
         }
-
-        errno = 0;
-
-#ifdef FGETC_PARSING
 
         while (! c.eof())
         {
@@ -734,11 +766,11 @@ int calculer_memoire_requise(info_t& info)
 
         }
 
-#else   // STRINGSTREAM_PARSING
+#else
+#ifdef STRINGSTREAM_PARSING
 
-        auto ss = read_stream_into_string(c);
-
-        string::iterator iter = ss.begin();
+        const string ss = info.threads->in_memory_file.at(info.fichier_courant);
+        string::const_iterator iter = ss.begin();
 
         while (iter != ss.end())
         {
@@ -832,19 +864,15 @@ int calculer_memoire_requise(info_t& info)
 
         }
 
-        info.threads->in_memory_file[i] = move(ss);
 
 #endif
 
-        c.clear();
-        c.close();
-
-        memory_debug("calculer_memoire_requise_close");
+       memory_debug("calculer_memoire_requise_close");
 
 #ifdef PREALLOCATE_ON_HEAP
 #undef tab
 #else
-        info.NLigne.assign(tab, tab + info.NCumAgent);
+       info.NLigne.assign(tab, tab + info.NCumAgent);
 #endif
 
 #endif
@@ -939,11 +967,9 @@ int calculer_memoire_requise(info_t& info)
             }
         }
 
-        info.threads->in_memory_file[i] = move(data);
         //munmap(data, file_size);
         close(fd);
 #endif
-
     }
 
     /* A ETUDIER */
@@ -951,6 +977,7 @@ int calculer_memoire_requise(info_t& info)
     info.NLigne.resize(info.NCumAgent+1);
 #endif
     memory_debug("calculer_memoire_requise_end");
+
     return errno;
 }
 

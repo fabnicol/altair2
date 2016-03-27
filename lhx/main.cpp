@@ -32,7 +32,6 @@
 #define AVERAGE_RAM_DENSITY 1.25
 #endif
 
-using namespace std;
 using vString = vector<string>;
 using vUint64 = vector<uint64_t>;
 
@@ -94,7 +93,8 @@ int main(int argc, char **argv)
         {{}},             //    bulletinPtr* Table;
         0,                //    uint64_t nbLigne;
         {},
-        {},             //    int32_t  *NAgent;
+        {},               //    int32_t  *NAgent;
+        CUTFILE_CHUNK,    //    uint32_t chunksize : taille des découpes
         0,                //    uint32_t nbAgentUtilisateur
         0,                //    uint32_t NCumAgent;
         0,                //    uint32_t NCumAgentXml;
@@ -594,10 +594,21 @@ int main(int argc, char **argv)
         else if (commandline_tab[start] == "--memshare")
         {
             int part = stoi(commandline_tab[start + 1], nullptr);
-
+            if (verbeux)
             cerr << STATE_HTML_TAG "Part de la mémoire vive utilisée : " <<  part << " %" ENDL;
 
             ajustement = (float) part / 100;
+            start += 2;
+            continue;
+        }
+        else if (commandline_tab[start] == "--chunksize")
+        {
+            int chunksize = stoi(commandline_tab[start + 1], nullptr);
+            if (verbeux)
+            cerr << STATE_HTML_TAG "Taille unitaire des découpes de fichiers volumineux : " <<  chunksize << " Mo" ENDL;
+
+            info.chunksize = chunksize * 1024 * 1024;
+
             start += 2;
             continue;
         }
@@ -630,90 +641,120 @@ int main(int argc, char **argv)
 
     /* Fin de l'analyse de la ligne de commande */
 
+    cerr << STATE_HTML_TAG
+         << "Mémoire disponible " <<  ((memoire_disponible = getFreeSystemMemory()) / 1048576)
+         << " / " << (getTotalSystemMemory()  / 1048576)
+         << " Mo."  ENDL;
+
     /* on sait que info.nbfil >= 1 */
 
     vector<uint64_t> taille;
 
+    vString files = vString(commandline_tab.begin() + start, commandline_tab.begin() + argc);
+    commandline_tab.clear();
+
+    #ifdef STRINGSTREAM_PARSING
+       vString in_memory_files;
+    #endif
+
     /* Soit la taille totale des fichiers est transmise par --mem soit on la calcule ici,
      * en utilisant taille_fichiers */
 
+    /* Note --mem reste à implémenter */
+
     if (memoire_xhl == 0)
     {
-        off_t mem = 0;
-        int count = 0;
-
-        for (int i = start; i < argc; ++i)
-        {
-            if ((mem = taille_fichier(commandline_tab.at(i))) != -1)
-            {
-                memoire_xhl += static_cast<uint64_t>(mem);
-                taille.push_back(static_cast<uint64_t>(mem));
-                ++count;
-            }
-            else
-            {
-                cerr << ERROR_HTML_TAG "La taille du fichier " << commandline_tab.at(i) << " n'a pas pu être déterminée." ENDL;
-            }
-        }
-
-        cerr << ENDL STATE_HTML_TAG << "Taille totale des " << count << " fichiers : " << memoire_xhl / 1048576 << " Mo."  ENDL;
-        cerr << STATE_HTML_TAG
-             << "Mémoire disponible " <<  ((memoire_disponible = getFreeSystemMemory()) / 1048576)
-             << " / " << (getTotalSystemMemory()  / 1048576)
-             << " Mo."  ENDL;
+       taille = calculer_taille_fichiers(files);
     }
 
-    /* redécoupage éventuel des fichiers */
+    /* redécoupage éventuel des fichiers
+     * Le gain éventuel du multithreading est faible (-20% à -25% sur le temps d'exécution
+     * mais intéressant pour des bases de plus de 5 ML (-4 s à 5 ML, -16s à 20 ML) */
 
-    const vString segment = vString(commandline_tab.begin() + start, commandline_tab.begin() + argc);
+    vector<int> nb_fichier_par_fil = repartir_fichiers_par_fil(info, files);
+    vector<info_t> Info(info.nbfil);
+    vector<thread> t;
 
-    vector<int> nb_fichier_par_fil = repartir_fichiers_par_fil(info, segment);
-
-    if (info.decoupage_fichiers_volumineux)
+    if (info.nbfil > 1)
     {
-        vector<info_t> Info(info.nbfil);
-        vector<thread> t;
-
-        if (info.nbfil > 1)
-        {
-            t.resize(info.nbfil);
-        }
-
-        vector<thread_t> v_thread_t(info.nbfil);
-        vString::const_iterator segment_it = segment.begin();
-        vector<uint64_t>::const_iterator taille_it = taille.begin();
-
-        for (unsigned  i = 0; i < info.nbfil; ++i)
-        {
-           if (info.nbfil > 1)
-           {
-               Info[i] = info;
-               Info[i].threads = &v_thread_t[i];
-               Info[i].threads->thread_num = i;
-               Info[i].threads->argc = nb_fichier_par_fil.at(i);
-               Info[i].threads->argv = vString(segment_it, segment_it + nb_fichier_par_fil[i]);
-               Info[i].taille = vector<uint64_t>(taille_it, taille_it + nb_fichier_par_fil[i]);
-               Info[i].threads->in_memory_file = vString(nb_fichier_par_fil[i]);
-               segment_it += nb_fichier_par_fil.at(i);
-               taille_it += nb_fichier_par_fil.at(i);
-
-               thread th{redecouper, ref(Info[i])};
-               t[i] = move(th);
-
-               for (unsigned i = 0; i < info.nbfil; ++i)
-               {
-                   t[i].join();
-               }
-           }
-           else
-           {
-               redecouper(ref(Info[0]));
-           }
-        }
+        t.resize(info.nbfil);
     }
 
+    vector<thread_t> v_thread_t(info.nbfil);
+    vString::const_iterator files_it = files.begin();
+    vector<uint64_t>::const_iterator taille_it = taille.begin();
+
+    for (unsigned  i = 0; i < info.nbfil; ++i)
+    {
+
+           Info[i] = info;
+           Info[i].threads = &v_thread_t[i];
+           Info[i].threads->thread_num = i;
+           Info[i].threads->argc = nb_fichier_par_fil.at(i);
+           Info[i].threads->argv = vString(files_it, files_it + nb_fichier_par_fil[i]);
+
+           Info[i].taille = vector<uint64_t>(taille_it, taille_it + nb_fichier_par_fil[i]);
+
+           files_it   += nb_fichier_par_fil.at(i);
+           taille_it  += nb_fichier_par_fil.at(i);
+
+       if (info.nbfil > 1)
+       {
+           thread th{redecouper, ref(Info[i])};
+           t[i] = move(th);
+       }
+       else
+       {
+           redecouper(ref(Info[0]));
+       }
+    }
+
+    if (info.nbfil > 1)
+        for (unsigned i = 0; i < info.nbfil; ++i)
+        {
+            t[i].join();
+        }
 
     /* Il faut alors reverser argc_cut dans argv ... idem pour in_memory */
+
+    #ifndef STRINGSTREAM_PARSING
+      files.clear();
+    #endif
+
+    for (unsigned i = 0; i < info.nbfil; ++i)
+        for (unsigned j = 0; j < Info[i].threads->argc; ++j)
+        {
+            #if defined(STRINGSTREAM_PARSING)
+               if (! Info[i].threads->in_memory_file_cut.at(j).empty())
+               {
+                  for (string s : Info[i].threads->in_memory_file_cut.at(j))
+                    {
+                       in_memory_files.emplace_back(s);
+                    }
+               }
+               else
+                  in_memory_files.emplace_back(Info[i].threads->in_memory_file.at(j));
+            #else
+               if (! Info[i].threads->argv_cut.at(j).empty())
+               {
+                   for (auto &&s : Info[i].threads->argv_cut.at(j))
+                     files.emplace_back(s);
+               }
+               else
+                   files.emplace_back(Info[i].threads->argv.at(j));
+
+            #endif
+        }
+
+    /* On recalcule les tailles */
+
+    taille.clear();
+
+   #ifdef STRINGSTREAM_PARSING
+     taille = calculer_taille_fichiers_memoire(in_memory_files, true);
+   #else
+     taille = calculer_taille_fichiers(files, true);
+   #endif
 
     /* ajustement représente la part maximum de la mémoire disponible que l'on consacre au processus, compte tenu de la marge sous plafond (overhead) */
 
@@ -746,14 +787,23 @@ int main(int argc, char **argv)
     vector<vString> segments;
     vector<vUint64> taille_fichiers_segments;
 
-    auto  taille_it = taille.begin();
-    auto  commandline_it = commandline_tab.begin() + start;
+    taille_it = taille.begin();
+
+    #ifdef STRINGSTREAM_PARSING
+        files_it = in_memory_files.begin();
+        auto files_it_end = in_memory_files.end();
+    #else
+        files_it = files.begin();
+        auto files_it_end = files.end();
+    #endif
+
     do
     {
         uint64_t cumul_taille_segment = *taille_it;
         vString segment;
         vUint64 taille_fichiers_segment;
-        float densite_segment=AVERAGE_RAM_DENSITY;
+        float densite_segment = AVERAGE_RAM_DENSITY;
+
 #ifdef STRINGSTREAM_PARSING
         ++densite_segment;
 #endif
@@ -761,12 +811,12 @@ int main(int argc, char **argv)
         ++densite_segment;
 #endif
 
-        while (cumul_taille_segment * densite_segment < memoire_utilisable && commandline_it != commandline_tab.end())
+        while (cumul_taille_segment * densite_segment < memoire_utilisable && files_it != files_it_end)
         {
-            segment.push_back(*commandline_it);  // ne pas utiliser move;
+            segment.emplace_back(*files_it);
             taille_fichiers_segment.push_back(*taille_it);
 
-            ++commandline_it;
+            ++files_it;
             ++taille_it;
             cumul_taille_segment  += *taille_it;
         }
@@ -775,7 +825,7 @@ int main(int argc, char **argv)
         taille_fichiers_segments.emplace_back(taille_fichiers_segment);
 
     }
-     while (commandline_it != commandline_tab.end());
+     while (files_it != files_it_end);
 
     unsigned int segments_size = segments.size();
     if (segments_size > 1)
@@ -790,7 +840,8 @@ int main(int argc, char **argv)
 
         if (info.nbfil > segment_size)
         {
-            cerr << ERROR_HTML_TAG "Trop de fils (" << info.nbfil << ") pour le nombre de fichiers (" << segment_size << "); exécution avec " << segment_size << pluriel(segment_size, " fil") <<"."  ENDL;
+            cerr << ERROR_HTML_TAG "Trop de fils (" << info.nbfil << ") pour le nombre de fichiers (" << segment_size << "); exécution avec "
+                 << segment_size << pluriel(segment_size, " fil") <<"."  ENDL;
 
             info.nbfil = segment_size;
         }
@@ -866,19 +917,17 @@ int produire_segment(const info_t& info, const vString& segment, const vector<ui
 
         Info[i].threads->argc = nb_fichier_par_fil.at(i);
 
-        Info[i].threads->argv = vString(segment_it, segment_it + nb_fichier_par_fil[i]);
+        for (int k = 0; k < nb_fichier_par_fil.at(i); ++k)
+          #ifdef STRINGSTREAM_PARSING
+             Info[i].threads->in_memory_file[k] = move(*(segment_it + k));
+          #else
+             Info[i].threads->argv[k] = move(*(segment_it + k));
+          #endif
 
         Info[i].taille = vector<uint64_t>(taille_fichiers_segment_it, taille_fichiers_segment_it + nb_fichier_par_fil[i]);
 
-        Info[i].threads->in_memory_file = vString(nb_fichier_par_fil[i]);
         segment_it += nb_fichier_par_fil.at(i);
         taille_fichiers_segment_it += nb_fichier_par_fil.at(i);
-
-        if (Info[i].threads->argv.size() != (unsigned) nb_fichier_par_fil.at(i))
-        {
-            cerr << ERROR_HTML_TAG "Problème issu de l'allocation des threads" << ENDL ;
-            exit(-145);
-        }
 
         if (verbeux)
             cerr <<  PROCESSING_HTML_TAG "Fil d'exécution n°" << i + 1 << "/" << info.nbfil

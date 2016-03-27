@@ -135,8 +135,7 @@ SOURCES += \
     fonctions_auxiliaires.cpp \
     main.cpp \
     table.cpp \
-    validator.cpp \
-    ligne_paye.cpp
+    validator.cpp
 
 HEADERS += \
     fonctions_auxiliaires.hpp \

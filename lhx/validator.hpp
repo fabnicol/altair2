@@ -16,9 +16,12 @@
 #include <cinttypes>
 #include <vector>
 
+using namespace std;
+
+
 #ifdef  __GNUG__
 #define GCC_INLINE __attribute__((always_inline))
-#define GCC_UNUSED __attribute__((__unused__))
+#define GCC_UNUSED __attribute__((unused))
 #else
 #define GCC_INLINE
 #define GCC_UNUSED
@@ -43,7 +46,7 @@
 #endif
 
 #ifndef NO_DEBUG
-    #define DEBUG(X) std::cerr << "\n" << X << "\n";
+    #define DEBUG(X) cerr << "\n" << X << "\n";
     #define AFFICHER_NOEUD(X)       { char msg[50]={0}; \
                                       sprintf(msg, "atteint %s\n", (const char*) X);\
                                       DEBUG(msg) }
@@ -68,14 +71,13 @@
 struct thread_t
 {
     int      thread_num;
-    std::vector<std::string>   argv;
-    #if defined(STRINGSTREAM_PARSING) || defined(MMAP_PARSING)
-        std::vector<std::vector<std::string>> in_memory_file_cut;
+    vector<string>   argv;
+    #if defined(STRINGSTREAM_PARSING)
+        vector<vector<string>> in_memory_file_cut;
+        vector<string> in_memory_file;
     #else
-        std::vector<std::vector<std::string>>   argv_cut;
+        vector<vector<string>>   argv_cut;
     #endif
-    std::vector<std::string> in_memory_file;
-
     unsigned argc;
 };
 
@@ -161,21 +163,22 @@ constexpr const char* Tableau_entete[] = {
 
 struct info_t
 {
-    std::vector<std::vector<xmlChar*>> Table;
+    vector<vector<xmlChar*>> Table;
     uint64_t nbLigne;
-    std::vector<uint64_t> taille;
-    std::vector<uint32_t> NAgent;
+    vector<uint64_t> taille;
+    vector<uint32_t> NAgent;
+    uint32_t chunksize;
     uint32_t nbAgentUtilisateur;
     uint32_t NCumAgent;
     uint32_t NCumAgentXml;
     uint32_t taille_base;
     BaseType  type_base;
-    std::vector<uint16_t> NLigne;
+    vector<uint16_t> NLigne;
     thread_t* threads;
-    std::string chemin_log;
-    std::string expression_reg_elus;
-    std::string chemin_base;
-    std::string chemin_bulletins;
+    string chemin_log;
+    string expression_reg_elus;
+    string chemin_base;
+    string chemin_bulletins;
     uint16_t nbLigneUtilisateur;
     uint16_t fichier_courant;
     char decimal;
@@ -193,7 +196,7 @@ struct info_t
     bool preserve_tempfiles;
 #endif
     unsigned int  nbfil;
-    std::vector<int> Memoire_p_ligne;
+    vector<int> Memoire_p_ligne;
 };
 
 struct xml_commun
@@ -262,6 +265,6 @@ inline xmlNodePtr GCC_INLINE atteindreNoeud(const char * noeud, xmlNodePtr cur)
      return cur;  // soit un pointer vers le bon noeud, soit nullptr
 }
 
-int redecouper(info_t& info);
+void redecouper(info_t& info);
 
 #endif // VALIDATOR_HPP_INCLUDED

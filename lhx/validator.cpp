@@ -14,50 +14,34 @@
 #include "ligne_paye.hpp"
 #include "tags.h"
 
-using namespace std;
-
 extern mutex mut;
-extern  inline uint64_t   parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log);
 extern vector<errorLine_t>  errorLineStack;
 extern int rang_global;
-template <typename Allocator = allocator<char>>
-static inline string read_stream_into_string(
-        ifstream& in,
-        Allocator alloc = {})
-{
-    basic_ostringstream<char, char_traits<char>, Allocator>
-            ss(basic_string<char, char_traits<char>, Allocator>(move(alloc)));
-
-    if (!(ss << in.rdbuf()))
-        throw ios_base::failure{"[ERR] Erreur d'allocation de lecture de fichier.\n"};
-
-    return ss.str();
-}
 
 /* agent_total est une variable de contrôle pour info->NCumAgent */
 
 // Problème des accumulations de champs <DonneesIndiv> non résolu !
 // -1 erreur, 0 : fichier petit; sinon nombre de fichiers découpés.
 
-int redecouper(info_t& info)
+void redecouper(info_t& info, int fichier_courant)
 {
 
-#if defined(STRINGSTREAM_PARSING) || defined(MMAP_PARSING)
-    string filest = std::move(info.threads->in_memory_file.at(info.fichier_courant));
+#if defined(STRINGSTREAM_PARSING)
+    string filest = std::move(info.threads->in_memory_file.at(fichier_courant));
     info.threads->in_memory_file_cut.push_back(vector<string>{});
 #else
-    ifstream c(info.threads->argv.at(info.fichier_courant));
+    ifstream c(info.threads->argv.at(fichier_courant));
     string filest;
     filest = read_stream_into_string(c);
     info.threads->argv_cut.push_back(vector<string>{});
 #endif
 
-    uint64_t taille = info.taille.at(info.fichier_courant);
+    uint64_t taille = info.taille.at(fichier_courant);
 
-    if (taille < CUTFILE_CHUNK) return 0;
+    if (taille < info.chunksize) return;
 
     if (verbeux)
-        cerr << PROCESSING_HTML_TAG "Fil n°" << info.threads->thread_num + 1 << " Redécoupage du fichier n°" << info.fichier_courant + 1 << ENDL;
+        cerr << PROCESSING_HTML_TAG "Fil n°" << info.threads->thread_num + 1 << " Redécoupage du fichier n°" << fichier_courant + 1 << ENDL;
 
     string document_tag = "", enc = "";
     string::iterator iter = filest.begin();
@@ -103,7 +87,7 @@ int redecouper(info_t& info)
         ++r;
         string s = "";
         bool end_loop = false;
-        i += CUTFILE_CHUNK;
+        i += info.chunksize;
 
         if (i < taille)
         {
@@ -179,21 +163,52 @@ int redecouper(info_t& info)
         open_di = (s == "DonneesIndiv");
 
 #if defined(STRINGSTREAM_PARSING) || defined(MMAP_PARSING)
-        info.threads->in_memory_file_cut[info.fichier_courant].emplace_back(filest_cut);
+        info.threads->in_memory_file_cut[fichier_courant].emplace_back(filest_cut);
 #else
-        string filecut_path = info.threads->argv.at(info.fichier_courant) +"_" + to_string(r) + ".xhl";
+        string filecut_path = info.threads->argv.at(fichier_courant) +"_" + to_string(r) + ".xhl";
         ofstream filecut(filecut_path);
         filecut << filest_cut;
         filecut.close();
-        info.threads->argv_cut[info.fichier_courant].emplace_back(filecut_path);
+        info.threads->argv_cut[fichier_courant].emplace_back(filecut_path);
 #endif
 
         if (end_loop) break;
 
         last_pos = i;
     }
+}
 
-    return r;
+void redecouper(info_t& info)
+{
+    for (unsigned i = 0; i < info.threads->argc; ++i)
+    {
+        info.fichier_courant = i;
+
+#ifdef STRINGSTREAM_PARSING
+
+        ifstream c(info.threads->argv.at(i));
+
+        if (! c.good())
+         {
+             cerr << ERROR_HTML_TAG "Erreur d'ouverture du fichier " << info.threads->argv.at(i) << ENDL;
+#ifdef STRICT
+             exit (-10);
+#endif
+             info.threads->in_memory_file.push_back("");
+             continue;
+         }
+
+        info.threads->in_memory_file.emplace_back(read_stream_into_string(c));
+
+        c.close();
+
+#endif
+
+        if (info.decoupage_fichiers_volumineux)
+        {
+          redecouper(info, i);
+        }
+   }
 }
 
 static int parseFile(const xmlDocPtr doc, info_t& info, int cont_flag, xml_commun* champ_commun)
