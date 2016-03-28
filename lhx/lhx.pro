@@ -135,12 +135,14 @@ SOURCES += \
     fonctions_auxiliaires.cpp \
     main.cpp \
     table.cpp \
-    validator.cpp
+    validator.cpp \
+    commandline_handler.cpp
 
 HEADERS += \
     fonctions_auxiliaires.hpp \
     table.hpp \
     validator.hpp \
     ligne_paye.hpp \
-    ../Interface/gui/tags.h
+    ../Interface/gui/tags.h \
+    commandline_handler.h
 

@@ -70,15 +70,15 @@ using namespace std;
 
 struct thread_t
 {
-    int      thread_num;
-    vector<string>   argv;
+    int      thread_num = 0;
+    vector<string>   argv = {};
     #if defined(STRINGSTREAM_PARSING)
-        vector<vector<string>> in_memory_file_cut;
-        vector<string> in_memory_file;
+        vector<vector<string>> in_memory_file_cut = {{}};
+        vector<string> in_memory_file = {};
     #else
-        vector<vector<string>>   argv_cut;
+        vector<vector<string>>   argv_cut = {{}};
     #endif
-    unsigned argc;
+    unsigned argc = 1;
 };
 
 
@@ -161,43 +161,49 @@ constexpr const char* Tableau_entete[] = {
                                     "EmploiMetier", "Grade", "Echelon", "Indice", "Evenement", "Service", "NBI", "QuotiteTrav",
                                     "NbHeureTotal", "NbHeureSup", "MtBrut", "MtNet", "MtNetAPayer" };
 
-struct info_t
+
+class info_t
 {
-    vector<vector<xmlChar*>> Table;
-    uint64_t nbLigne;
-    vector<uint64_t> taille;
-    vector<uint32_t> NAgent;
-    uint32_t chunksize;
-    uint32_t nbAgentUtilisateur;
-    uint32_t NCumAgent;
-    uint32_t NCumAgentXml;
-    uint32_t taille_base;
-    BaseType  type_base;
-    vector<uint16_t> NLigne;
-    thread_t* threads;
-    string chemin_log;
-    string expression_reg_elus;
-    string chemin_base;
-    string chemin_bulletins;
-    uint16_t nbLigneUtilisateur;
-    uint16_t fichier_courant;
-    char decimal;
-    char separateur;
-    bool reduire_consommation_memoire;
-    bool drapeau_cont;
-    bool calculer_maxima;
-    bool generer_rang;
-    bool select_siret;
-    bool select_echelon;
-    bool pretend;
-    bool verifmem;
-    bool decoupage_fichiers_volumineux;
+private :
+    thread_t mon_thread;
+
+public:
+    vector<vector<xmlChar*>> Table = {{}};
+    uint64_t nbLigne               = 0;
+    vector<uint64_t> taille        = {};
+    vector<uint32_t> NAgent        = {};
+    uint32_t chunksize             = CUTFILE_CHUNK;
+    uint32_t nbAgentUtilisateur    = 0;
+    uint32_t NCumAgent             = 0;
+    uint32_t NCumAgentXml          = 0;
+    uint32_t taille_base           = 0;
+    BaseType  type_base            = BaseType::MONOLITHIQUE;
+    vector<uint16_t> NLigne        = {};
+    thread_t* threads              = &mon_thread;
+    string chemin_log              = "";
+    string expression_reg_elus     = EXPRESSION_REG_ELUS;
+    string chemin_base             = NOM_BASE + string(CSV);
+    string chemin_bulletins        = NOM_BASE_BULLETINS + string(CSV);
+    uint16_t nbLigneUtilisateur    = MAX_LIGNES_PAYE;
+    uint16_t fichier_courant       = 0;
+    char decimal                   = ',';
+    char separateur                = ';';
+    bool reduire_consommation_memoire = true;
+    bool drapeau_cont              = true;
+    bool calculer_maxima           = false;
+    bool generer_rang              = false;
+    bool select_siret              = false;
+    bool select_echelon            = false;
+    bool pretend                   = false;
+    bool verifmem                  = false;
+    bool decoupage_fichiers_volumineux = true;
 #ifdef FGETC_PARSING
-    bool preserve_tempfiles;
+    bool preserve_tempfiles        = false;
 #endif
-    unsigned int  nbfil;
-    vector<int> Memoire_p_ligne;
+    unsigned int  nbfil            = 1;
+    vector<int> Memoire_p_ligne    = {};
 };
+
 
 struct xml_commun
 {
