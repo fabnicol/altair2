@@ -13,9 +13,9 @@
 #include "table.hpp"
 #include "ligne_paye.hpp"
 #include "tags.h"
+#include "thread_handler.h"
 
 extern mutex mut;
-extern vector<errorLine_t>  errorLineStack;
 extern int rang_global;
 
 /* agent_total est une variable de contrôle pour info->NCumAgent */
@@ -23,13 +23,17 @@ extern int rang_global;
 // Problème des accumulations de champs <DonneesIndiv> non résolu !
 // -1 erreur, 0 : fichier petit; sinon nombre de fichiers découpés.
 
-void redecouper(info_t& info, int fichier_courant)
+void thread_handler::redecouper_volumineux(info_t& info)
 {
 
+    int fichier_courant = info.fichier_courant;
+
 #if defined(STRINGSTREAM_PARSING)
+    if  (! info.threads->in_memory_file_cut.empty()) return;
     string filest = std::move(info.threads->in_memory_file.at(fichier_courant));
     info.threads->in_memory_file_cut.push_back(vector<string>{});
 #else
+    if (! info.threads->argv_cut.empty()) return;
     ifstream c(info.threads->argv.at(fichier_courant));
     string filest;
     filest = read_stream_into_string(c);
@@ -178,21 +182,19 @@ void redecouper(info_t& info, int fichier_courant)
     }
 }
 
-void redecouper(info_t& info)
+void thread_handler::redecouper(info_t& info)
 {
-    for (unsigned i = 0; i < info.threads->argc; ++i)
+    for (auto &&p: info.threads->argv)
     {
-        info.fichier_courant = i;
-
 #ifdef STRINGSTREAM_PARSING
 
-        ifstream c(info.threads->argv.at(i));
+        ifstream c(p.first);
 
         if (! c.good())
          {
-             cerr << ERROR_HTML_TAG "Erreur d'ouverture du fichier " << info.threads->argv.at(i) << ENDL;
+             cerr << ERROR_HTML_TAG "Erreur d'ouverture du fichier " << p.first << ENDL;
 #ifdef STRICT
-             exit (-10);
+             throw runtime_error {" Exiting."};
 #endif
              info.threads->in_memory_file.push_back("");
              continue;
@@ -206,12 +208,14 @@ void redecouper(info_t& info)
 
         if (info.decoupage_fichiers_volumineux)
         {
-          redecouper(info, i);
+          redecouper_volumineux(info);
         }
+
+        ++info.fichier_courant;
    }
 }
 
-static int parseFile(const xmlDocPtr doc, info_t& info, int cont_flag, xml_commun* champ_commun)
+int Analyseur::parseFile(const xmlDocPtr doc, info_t& info, int cont_flag, xml_commun* champ_commun)
 {
     ofstream log;
     xmlNodePtr cur = nullptr;
@@ -801,7 +805,7 @@ donnees_indiv:
         #ifdef GENERATE_RANK_SIGNAL
                  << "n°" <<  rang_global
         #endif
-                 << " : " << info.threads->argv[info.fichier_courant] << ENDL;
+                 << " : " << info.threads->argv[info.fichier_courant].first << ENDL;
 
             cerr << STATE_HTML_TAG << "Fil n°" << info.threads->thread_num + 1 << " : " << "Fichier courant : " << info.fichier_courant + 1 << ENDL;
             cerr << STATE_HTML_TAG << "Total : " <<  info.NCumAgentXml << " bulletins -- " << info.nbLigne <<" lignes cumulées." ENDL;
@@ -841,7 +845,7 @@ donnees_indiv:
     return 0;
 }
 
-static int parseFile(info_t& info)
+int Analyseur::parseFile(info_t& info)
 {
     /* REFERENCE */
     /*
@@ -868,28 +872,24 @@ static int parseFile(info_t& info)
      * choisis au cas par cas en fonction d'une évaluation plus ou moins subjective de la gravité
      * de la non-conformité. */
 
-#if defined(STRINGSTREAM_PARSING) || defined (MMAP_PARSING)
-    int NDecoupe = info.threads->in_memory_file_cut.at(info.fichier_courant).size();
-#else
-    int NDecoupe = info.threads->argv_cut.at(info.fichier_courant).size();
-#endif
+    int nb_decoupe = info.threads->argv.at(info.fichier_courant).second;
 
     int res = 0;
     int cont_flag = PREMIER_FICHIER;
     xml_commun champ_commun;
 
-    if (NDecoupe == 0)
+    if (nb_decoupe == 1)
     {
 #if defined(STRINGSTREAM_PARSING) || defined(MMAP_PARSING)
-        xmlDocPtr doc = xmlParseFile(info.threads->argv.at(info.fichier_courant).c_str());
+        xmlDocPtr doc = xmlParseFile(info.threads->argv.at(info.fichier_courant).first.c_str());
 #else
         xmlDocPtr doc = xmlParseDoc(reinterpret_cast<const xmlChar*>(info.threads->in_memory_file.at(info.fichier_courant).c_str()));
 #endif
 
-        return parseFile(doc, info, cont_flag, &champ_commun);
+        return Analyseur::parseFile(doc, info, cont_flag, &champ_commun);
     }
 
-    // -----  NDecoupe != 0
+    // -----  nb_decoupe != 0
 
     int rang  = 0;
 
@@ -899,9 +899,16 @@ static int parseFile(info_t& info)
     const vector<string> cut_chunks = info.threads->argv_cut.at(info.fichier_courant);
 #endif
 
+    int NDecoupe = cut_chunks.size();
+
     for (auto && s :  cut_chunks)
     {
-        ++ rang;
+        ++rang;
+        if (rang > nb_decoupe)
+        {
+         // définir les leftovers ici
+            break;
+        }
 
         if (verbeux)
         {
@@ -909,7 +916,8 @@ static int parseFile(info_t& info)
             cerr << ".....     .....     ....." ENDL;
             cerr << ENDL;
 
-            cerr << PROCESSING_HTML_TAG "Analyse du fichier scindé fil " << info.threads->thread_num + 1 << " - n°" << info.fichier_courant + 1 << "-" << rang << "/" << NDecoupe;
+            cerr << PROCESSING_HTML_TAG "Analyse du fichier scindé fil " << info.threads->thread_num + 1
+                 << " - n°" << info.fichier_courant + 1 << "-" << rang << "/" << nb_decoupe << " de " << NDecoupe;
 
 #if defined(FGETC_PARSING)
             cerr << " : " << s << ENDL;
@@ -921,10 +929,10 @@ static int parseFile(info_t& info)
         if (rang == 1)
             cont_flag = PREMIER_FICHIER;
         else
-            if (rang == NDecoupe)
-                cont_flag = DERNIER_FICHIER_DECOUPE;
-            else
-                cont_flag = FICHIER_SUIVANT_DECOUPE;
+        if (rang == NDecoupe)
+            cont_flag = DERNIER_FICHIER_DECOUPE;
+        else
+            cont_flag = FICHIER_SUIVANT_DECOUPE;
 
 #if defined(STRINGSTREAM_PARSING) || defined(MMAP_PARSING)
         xmlDocPtr doc = xmlParseDoc(reinterpret_cast<const xmlChar*>(s.c_str()));
@@ -940,12 +948,12 @@ static int parseFile(info_t& info)
             cerr << ERROR_HTML_TAG "L'analyse du parseur XML n'a pas pu être réalisée." ENDL;
         }
         else
-            res = parseFile(doc, info, cont_flag, &champ_commun);
+            res = Analyseur::parseFile(doc, info, cont_flag, &champ_commun);
 
         if (verbeux)
         {
             cerr << PROCESSING_HTML_TAG "Fin de l'analyse du fichier scindé fil " << info.threads->thread_num + 1
-                 << " n°" << info.fichier_courant + 1 << "-" << rang << "/" << NDecoupe;
+                 << " n°" << info.fichier_courant + 1 << "-" << rang << "/" << nb_decoupe << " de " << NDecoupe;
 #ifdef FGETC_PARSING
             cerr << " : " << s << ENDL;
 #else
@@ -959,7 +967,7 @@ static int parseFile(info_t& info)
             remove(s.c_str());
             if (verbeux)
                 cerr << PROCESSING_HTML_TAG "Effacement du fichier scindé fil " << info.threads->thread_num + 1
-                     << " n°" << info.fichier_courant + 1<< "-" << rang  << "/" << NDecoupe << " : " << s << ENDL;
+                     << " n°" << info.fichier_courant + 1<< "-" << rang  << "/" << nb_decoupe << " de " << NDecoupe << " : " << s << ENDL;
         }
 #endif
 
@@ -1058,15 +1066,12 @@ static inline void GCC_INLINE allouer_memoire_table(info_t& info)
 
     if (info.NAgent.empty())
     {
-        cerr << ERROR_HTML_TAG "Mémoire insuffisante pour la table du nombre d'agents" ENDL;
-        exit(-19);
+        erreur("Mémoire insuffisante pour la table du nombre d'agents");
     }
-
 
     if (info.Table.empty())
     {
-        cerr << ERROR_HTML_TAG "Mémoire insuffisante pour la table de lignes de paye" ENDL;
-        exit(-18);
+       erreur("Mémoire insuffisante pour la table de lignes de paye");
     }
 
     for (unsigned agent = 0; agent < info.NCumAgent; ++agent)
@@ -1076,18 +1081,18 @@ static inline void GCC_INLINE allouer_memoire_table(info_t& info)
 
         if (verbeux && info.Table[agent].empty())
         {
-            cerr <<  ERROR_HTML_TAG "Erreur d'allocation de drapeau I. pour l'agent "
-                  <<  agent
-                   <<  "et pour "
-                    <<  info.Memoire_p_ligne[agent]
-                        <<  " B" ENDL;
-            exit(-63);
+            erreur(string("Erreur d'allocation de drapeau I. pour l'agent ")
+                   +  to_string(agent)
+                   + string("et pour ")
+                   +  to_string(info.Memoire_p_ligne[agent])
+                   +  " B");
+
         }
     }
 }
 
 
-void* decoder_fichier(info_t& info)
+void* Analyseur::decoder_fichier(info_t& info)
 {
     /* environ 6000 bulletins par seconde en processus sumple, et 15000 en multithread ; rajoute 1/3 du temps */
 
@@ -1151,7 +1156,7 @@ void* decoder_fichier(info_t& info)
 
         info.fichier_courant = i;
 
-        switch(parseFile(info))
+        switch(Analyseur::parseFile(info))
         {
         case RETRY:
             i = 0;
@@ -1160,7 +1165,7 @@ void* decoder_fichier(info_t& info)
             continue;
 
         case SKIP_FILE:
-            cerr << ERROR_HTML_TAG " Le fichier  " << info.threads->argv[info.fichier_courant] << " n'a pas pu être traité" ENDL
+            cerr << ERROR_HTML_TAG " Le fichier  " << info.threads->argv[info.fichier_courant].first << " n'a pas pu être traité" ENDL
                  << "   Fichier suivant..." ENDL;
             continue;
 
@@ -1181,10 +1186,10 @@ void* decoder_fichier(info_t& info)
             cerr << ERROR_HTML_TAG "Incohérence de l'allocation mémoire ex-ante " << info.NCumAgent
                  << " unités et ex-post " <<  info.NCumAgentXml << " unités d'information." ENDL
                  << "Sortie pour éviter une erreur de segmentation." ENDL;
-            cerr << " Fichier : " << info.threads->argv[info.fichier_courant] << ENDL;
+            cerr << " Fichier : " << info.threads->argv[info.fichier_courant].first << ENDL;
         }
         else
-            cerr << ERROR_HTML_TAG "Erreur critique lors de l'analyse du fichier : " << info.threads->argv[info.fichier_courant] << ENDL;
+            cerr << ERROR_HTML_TAG "Erreur critique lors de l'analyse du fichier : " << info.threads->argv[info.fichier_courant].first << ENDL;
         exit(1005);
     }
 

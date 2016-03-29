@@ -2,7 +2,7 @@
 
 extern bool verbeux, liberer_memoire, generer_table;
 
-Commandline_handler::Commandline_handler(info_t& info, char** argv, int argc)
+Commandline::Commandline(char** argv, int argc)
 try
 {
     int start = 1;
@@ -284,19 +284,6 @@ try
             start += 2;
             continue;
         }
-        else if (commandline_tab[start] == "-R")
-        {
-            if (argc > start +2)
-            {
-                info.expression_reg_elus = commandline_tab[start + 1];
-            }
-            else
-            {
-                erreur("Il manque l'expression régulière.");
-            }
-            start += 2;
-            continue;
-        }
 #ifdef GENERATE_RANK_SIGNAL
         else if (commandline_tab[start] == "--rank")
         {
@@ -495,9 +482,174 @@ try
     }
 
     index_debut_fichiers  = start;
-    this->argv = std::move(commandline_tab);
+
+    vString::const_iterator iter = commandline_tab.begin();
+    while (iter != commandline_tab.end())
+    {
+       static int k;
+       this->argv[k++] = std::move(*++iter);
+    }
+
+    if (memoire_xhl == 0)
+    {
+       calculer_taille_fichiers(this->argv);
+    }
+
+    chunksize = info.chunksize;
+
+    nb_fil = info.nbfil;
+
+    nb_fichier_par_segment = get_nb_fichier();
+
     memoire();
 }
 catch(...) {
  cerr << ERROR_HTML_TAG "Le programme s'est terminé en raison d'erreurs sur la ligne de commande" ENDL;
 }
+
+/* A distribuer par fil ! */
+
+
+void Commandline::repartir_fichiers()
+{
+
+     vector<uint64_t>::const_iterator iter_taille  = taille.begin();
+     vString::const_iterator iter_fichier = argv.begin();
+
+     uint64_t taille_segment = 0, incr = 0;
+     int nb_fichier = 0;
+     int nb_decoupe = 0;
+     float densite_xhl_mem = AVERAGE_RAM_DENSITY;
+
+#ifdef STRINGSTREAM_PARSING
+        ++densite_xhl_mem;
+#endif
+#ifndef OFSTREAM_TABLE_OUTPUT
+        ++densite_xhl_mem;
+#endif
+
+
+     while (iter_taille != taille.end() && iter_fichier != argv.end())
+     {
+         vector<pair<string, int>> segment_input;
+         if (taille_segment + incr >= memoire_utilisable)
+         {
+             if (nb_fichier == 0)
+             {
+                 if (iter_taille != taille.begin())
+                 {
+                   --iter_fichier;
+                   --iter_taille;
+                 }
+             }
+             else if (nb_decoupe > nb_fichier)  // no-op mais plus sûr
+             {
+                 segment_input.emplace_back(make_pair(*iter_fichier, nb_decoupe - nb_fichier));
+             }
+         }
+
+         while (iter_taille != taille.end() && iter_fichier != argv.end())
+         {
+             ++iter_taille;
+             ++iter_fichier;
+             nb_decoupe = (*iter_taille <= chunksize) ? 1 : static_cast<int>(*iter_taille / chunksize) + 1;
+             nb_fichier = 0;
+             incr = 0;
+             bool out_of_memory = false;
+
+             for (int k = 1; k <= nb_decoupe; ++k)
+             {
+               if (nb_decoupe == 1)
+                 incr = *iter_taille;
+               else
+               if (k != nb_decoupe)
+                 incr += chunksize;
+               else
+                 incr += *iter_taille % chunksize;
+
+               if ((taille_segment + incr) * densite_xhl_mem < memoire_utilisable)
+               {
+                   taille_segment += incr;
+                   ++nb_fichier;
+               }
+               else
+               {
+                 out_of_memory = true;
+                 break;
+               }
+             }
+
+             if (nb_fichier) segment_input.emplace_back(make_pair(*iter_fichier, nb_fichier));
+             if (out_of_memory)
+             {
+                 input.emplace_back(segment_input);
+                 break;
+             }
+         }
+     }
+}
+
+
+void Commandline::calculer_taille_fichiers(const vector<string>& files, bool silent)
+{
+    off_t mem = 0;
+    int count = 0;
+    uint64_t memoire_xhl = 0;
+
+    for (auto && s : files)
+    {
+        if ((mem = taille_fichier(s)) != -1)
+        {
+            memoire_xhl += static_cast<uint64_t>(mem);
+            taille.push_back(static_cast<uint64_t>(mem));
+            ++count;
+        }
+        else
+        {
+            cerr << ERROR_HTML_TAG "La taille du fichier " << s << " n'a pas pu être déterminée." ENDL;
+            cerr << STATE_HTML_TAG "Utilisation de la taille par défaut" ENDL;
+            taille.push_back(CUTFILE_CHUNK);
+        }
+    }
+
+    if (! silent)
+       cerr << ENDL STATE_HTML_TAG << "Taille totale des " << count << " fichiers : " << memoire_xhl / 1048576 << " Mo."  ENDL;
+}
+
+
+ void Commandline::memoire()
+ {
+     cerr << STATE_HTML_TAG
+          << "Mémoire disponible " <<  ((memoire_disponible = getFreeSystemMemory()) / 1048576)
+          << " / " << (getTotalSystemMemory()  / 1048576)
+          << " Mo."  ENDL;
+
+     memoire_utilisable = floor(ajustement * static_cast<float>(memoire_disponible));
+
+     cerr << STATE_HTML_TAG  << "Mémoire utilisable " <<  memoire_utilisable / 1048576   << " Mo."  ENDL;
+
+     if (nsegments != 0)
+     {
+         while (true)
+         {
+             if (memoire_xhl % nsegments == 0)
+             {
+                 memoire_utilisable = memoire_xhl / nsegments ;
+                 break;
+             }
+             else
+                 if (memoire_xhl % (nsegments - 1) == 0)
+                 {
+                     cerr << ERROR_HTML_TAG "Impossible de générer " << nsegments
+                          << " segments. Utilisation d'au moins " << nsegments + 1 << " segments." ENDL;
+                     ++nsegments;
+                 }
+                 else
+                 {
+                     memoire_utilisable = memoire_xhl / (nsegments - 1);
+                     break;
+                 }
+         }
+     }
+ }
+

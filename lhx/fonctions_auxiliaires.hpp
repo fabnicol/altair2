@@ -53,6 +53,11 @@ errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur)
 
 void ecrire_log(const info_t& info, ofstream& log, int diff);
 
+template <typename e = std::runtime_error> void erreur(const string& s = "")
+{
+    throw e {  string(ERROR_HTML_TAG) + s + string(ENDL) };
+}
+
 void calculer_maxima(const vector<info_t> &Info, ofstream* LOG = nullptr);
 
 #ifdef GENERATE_RANK_SIGNAL

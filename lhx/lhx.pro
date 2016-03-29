@@ -106,7 +106,7 @@ DEVROOT = $$PWD/../..
 # Ce compilateur doit être adjacent aux sources sous Windows
 
 QMAKE_CXXFLAGS_RELEASE -= -O2
-QMAKE_CXXFLAGS += -pipe -m64 -std=gnu++14
+QMAKE_CXXFLAGS += -pipe -m64 -std=gnu++14 -Wunused-function -pedantic -Wextra
 #QMAKE_CXXFLAGS += -march=core2
 QMAKE_CXXFLAGS += -march=core-avx2
 
@@ -136,7 +136,8 @@ SOURCES += \
     main.cpp \
     table.cpp \
     validator.cpp \
-    commandline_handler.cpp
+    commandline_handler.cpp \
+    thread_handler.cpp
 
 HEADERS += \
     fonctions_auxiliaires.hpp \
@@ -144,5 +145,6 @@ HEADERS += \
     validator.hpp \
     ligne_paye.hpp \
     ../Interface/gui/tags.h \
-    commandline_handler.h
+    commandline_handler.h \
+    thread_handler.h
 

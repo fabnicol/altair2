@@ -58,7 +58,6 @@ ostringstream help()
         <<  "**-M** *sans argument*        : ne pas libérer la mémoire réservée en fin de programme.   " << "\n\n"
         <<  "**-m** *sans argument*        : calculer les maxima d'agents et de lignes de paye.  " << "\n\n"
         <<  "**-L** *argument obligatoire* : chemin du log d'exécution du test de cohérence entre analyseurs C et XML.  " << "\n\n"
-        <<  "**-R** *argument obligatoire* : expression régulière pour la recherche des élus (codés : ELU dans le champ Statut.  " << "\n\n"
         <<  "**-S** *sans argument*        : exporter les champs Budget, Employeur, Siret, Etablissement.  " << "\n\n"
         <<  "**-E** *sans argument*        : exporter le champ Echelon.  " << "\n\n"
         <<  "**-q** *sans argument*        : limiter la verbosité.  " << "\n\n"
@@ -132,7 +131,7 @@ string getexecpath()
 errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur)
 {
     long lineN = 0;
-    cerr << WARNING_HTML_TAG "Fichier analysé " <<  info.threads->argv[info.fichier_courant] << ENDL;
+    cerr << WARNING_HTML_TAG "Fichier analysé " <<  info.threads->argv[info.fichier_courant].first << ENDL;
     lineN = xmlGetLineNo(cur);
     if (lineN == -1)
     {
@@ -150,7 +149,7 @@ errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur)
                  << "  " << info.Table[info.NCumAgentXml][l] << ENDL;
     }
 #endif
-    errorLine_t s = {lineN, string("Fichier : ") + string(info.threads->argv[info.fichier_courant])
+    errorLine_t s = {lineN, string("Fichier : ") + string(info.threads->argv[info.fichier_courant].first)
                      + string(" -- Balise : ") + ((cur)? string((const char*)cur->name) : string("NA"))};
     return s;
 }
@@ -167,32 +166,6 @@ off_t taille_fichier(const string& filename)
     return rc == 0 ? stat_buf.st_size : -1;
 }
 
-vector<uint64_t> calculer_taille_fichiers(const vector<string>& files, bool silent)
-{
-    off_t mem = 0;
-    int count = 0;
-    uint64_t memoire_xhl = 0;
-    vector<uint64_t> taille;
-
-    for (auto && s : files)
-    {
-        if ((mem = taille_fichier(s)) != -1)
-        {
-            memoire_xhl += static_cast<uint64_t>(mem);
-            taille.push_back(static_cast<uint64_t>(mem));
-            ++count;
-        }
-        else
-        {
-            cerr << ERROR_HTML_TAG "La taille du fichier " << s << " n'a pas pu être déterminée." ENDL;
-        }
-    }
-
-    if (! silent)
-       cerr << ENDL STATE_HTML_TAG << "Taille totale des " << count << " fichiers : " << memoire_xhl / 1048576 << " Mo."  ENDL;
-
-    return taille;
-}
 
 vector<uint64_t> calculer_taille_fichiers_memoire(const vector<string>& in_memory_files, bool silent)
 {
@@ -851,7 +824,7 @@ int calculer_memoire_requise(info_t& info)
 
             if (remuneration_xml_open == true)
             {
-                cerr << "Erreur XML : la balise Remuneration n'est pas refermée pour le fichier " << info.threads->argv[i]
+                cerr << "Erreur XML : la balise Remuneration n'est pas refermée pour le fichier " << info.threads->argv[i].first
                         << ENDL "pour l'agent n°"   << info.NCumAgent + 1 << ENDL;
                 exit(0);
 

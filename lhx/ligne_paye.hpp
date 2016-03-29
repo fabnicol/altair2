@@ -17,10 +17,10 @@
 #include "fonctions_auxiliaires.hpp"
 #include "table.hpp"
 #include "tags.h"
+#include "thread_handler.h"
 
 extern bool verbeux;
 extern mutex mut;
-extern vector<errorLine_t> errorLineStack;
 
 
 #if 0
@@ -50,7 +50,9 @@ static inline xmlNodePtr GCC_INLINE atteindreNoeudArret(const char* noeud, xmlNo
 }
 #endif
 
-inline void warning_msg(const char* noeud, const info_t& info, const xmlNodePtr cur)
+vector<errorLine_t> Analyseur::errorLineStack;
+
+void Analyseur::warning_msg(const char* noeud, const info_t& info, const xmlNodePtr cur)
 {
        /* pour des raisons pratiques il peut être nécessaire de limiter le nombre de sorties de ce type */
 
@@ -77,12 +79,12 @@ inline void warning_msg(const char* noeud, const info_t& info, const xmlNodePtr 
                errorLineStack.emplace_back(afficher_environnement_xhl(info, cur));
            }
 
-       if (fichier_last !=  "" && info.threads->argv[info.fichier_courant] != fichier_last)
+       if (fichier_last !=  "" && info.threads->argv[info.fichier_courant].first != fichier_last)
            warning_count = 0;
 
        /* on remet à zéro le maximum d'avertissements à chaque nouveau fichier */
 
-       fichier_last = info.threads->argv[info.fichier_courant];
+       fichier_last = info.threads->argv[info.fichier_courant].first;
 
       #else
            if (verbeux) cerr << WARNING_HTML_TAG "Impossible d'atteindre " << noeud << ENDL;
@@ -247,7 +249,7 @@ static inline bool GCC_INLINE bulletin_obligatoire(const char* tag, xmlNodePtr& 
 
     /* Ne pas mettre de lock ici, il y en a un dans warning_msg */
 
-    warning_msg(tag, info, cur);
+    Analyseur::warning_msg(tag, info, cur);
 
 #ifdef STRICT
     exit(-1);
@@ -307,7 +309,7 @@ static inline bool GCC_INLINE bulletin_optionnel_char(const char* tag, xmlNodePt
 
     /* Ne pas mettre de lock ici, il y en a un dans warning_msg */
 
-    warning_msg(tag, info, cur);
+    Analyseur::warning_msg(tag, info, cur);
 
 #ifdef STRICT
     exit(-1);
@@ -358,7 +360,7 @@ static inline bool GCC_INLINE bulletin_optionnel_numerique(const char* tag, xmlN
 
     /* Ne pas mettre de lock ici, il y en a un dans warning_msg */
 
-    warning_msg(tag, info, cur);
+    Analyseur::warning_msg(tag, info, cur);
 
 #ifdef STRICT
     exit(-1);
@@ -411,7 +413,7 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique(const char* tag, xm
 
     /* Ne pas mettre de lock ici, il y en a un dans warning_msg */
 
-    warning_msg(tag, info, cur);
+    Analyseur::warning_msg(tag, info, cur);
 
 #ifdef STRICT
     exit(-1);
@@ -693,7 +695,7 @@ inline uint64_t  GCC_INLINE parseLignesPaye(xmlNodePtr cur, info_t& info, ofstre
             log.flush();
             log.seekp(ios_base::end);
 
-            log << "\n\nErreur : L'agent est non identifié pour le fichier : " << info.threads->argv[info.fichier_courant] << "\n"
+            log << "\n\nErreur : L'agent est non identifié pour le fichier : " << info.threads->argv[info.fichier_courant].first << "\n"
                 << "Année " << info.Table[info.NCumAgentXml][Annee] << "\n"
                 << "Mois "  << info.Table[info.NCumAgentXml][Mois]  << "\n\n";
 

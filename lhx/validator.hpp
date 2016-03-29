@@ -68,15 +68,21 @@ using namespace std;
   #define CUTFILE_CHUNK  15 * 1024 * 1024
 #endif
 
+
+#ifndef AVERAGE_RAM_DENSITY
+#define AVERAGE_RAM_DENSITY 1.25
+#endif
+
+
 struct thread_t
 {
     int      thread_num = 0;
-    vector<string>   argv = {};
+    vector<pair<string, int>>   argv ;
     #if defined(STRINGSTREAM_PARSING)
-        vector<vector<string>> in_memory_file_cut = {{}};
-        vector<string> in_memory_file = {};
+        vector<vector<string>> in_memory_file_cut;
+        vector<string> in_memory_file ;
     #else
-        vector<vector<string>>   argv_cut = {{}};
+        vector<vector<string>>   argv_cut;
     #endif
     unsigned argc = 1;
 };
@@ -221,7 +227,6 @@ using LineCount = struct {
 
 };
 
-
 static const char* type_remuneration[]   = {
                                             "TraitBrut",
                                             "IndemResid",
@@ -243,9 +248,6 @@ static const int nbType                  = sizeof(type_remuneration)/sizeof(char
 
 static const xmlChar drapeau[][2]  = {{1,0}, {2,0}, {3,0}, {4,0}, {5,0}, {6,0}, {7,0}, {8,0}, {9,0}, {10,0}, {11,0}, {12,0}};
 /* A chaque valeur de drapeau[i][0] doit correspondre un type différent de rémunération type_remuneration[i] */
-
-
-void* decoder_fichier(info_t& tinfo);
 
 
 inline xmlNodePtr GCC_INLINE atteindreNoeud(const char * noeud, xmlNodePtr cur)
@@ -271,6 +273,6 @@ inline xmlNodePtr GCC_INLINE atteindreNoeud(const char * noeud, xmlNodePtr cur)
      return cur;  // soit un pointer vers le bon noeud, soit nullptr
 }
 
-void redecouper(info_t& info);
+
 
 #endif // VALIDATOR_HPP_INCLUDED
