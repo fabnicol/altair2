@@ -135,9 +135,9 @@ SOURCES += \
     fonctions_auxiliaires.cpp \
     main.cpp \
     table.cpp \
-    validator.cpp \
     commandline_handler.cpp \
-    thread_handler.cpp
+    thread_handler.cpp \
+    analyseur.cpp
 
 HEADERS += \
     fonctions_auxiliaires.hpp \
@@ -146,5 +146,6 @@ HEADERS += \
     ligne_paye.hpp \
     ../Interface/gui/tags.h \
     commandline_handler.h \
-    thread_handler.h
+    thread_handler.h \
+    analyseur.h
 

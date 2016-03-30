@@ -15,9 +15,9 @@
 #include <cstring>
 
 #include "fonctions_auxiliaires.hpp"
+#include "commandline_handler.h"
 #include "table.hpp"
 #include "tags.h"
-#include "thread_handler.h"
 
 extern bool verbeux;
 extern mutex mut;

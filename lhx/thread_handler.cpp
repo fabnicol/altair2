@@ -1,47 +1,8 @@
+#include "commandline_handler.h"
 #include "thread_handler.h"
-#include "table.hpp"
 
-extern bool verbeux;
-
-Analyseur::Analyseur(Commandline& commande)
+thread_handler::thread_handler(Commandline& commande, int rang_segment) : nb_fil {commande.get_nb_fil()}
 {
-    int nb_segment = commande.get_nsegments();
-    if (verbeux)
-    {
-        if (nb_segment > 1)
-            cerr << PROCESSING_HTML_TAG << "Les bases en sortie seront analysées en " << nb_segment << " segments." ENDL;
-        else
-            cerr << PROCESSING_HTML_TAG << "Les bases en sortie seront analysées en une seule itération."  ENDL;
-    }
-
-    lanceur(commande, nb_segment);
-}
-
-void Analyseur::lanceur(Commandline& commande, int nb_segment)
-{
-    for(int rang_segment = 0; rang_segment < nb_segment; ++rang_segment)
-    {
-        unsigned nb_fichier = commande.get_nb_fichier(rang_segment);
-
-        if (commande.info.nbfil > nb_fichier)
-        {
-            cerr << ERROR_HTML_TAG "Segment n°" << rang_segment << " : trop de fils (" << commande.info.nbfil << ") pour le nombre de fichiers (" << nb_fichier << ")" ENDL;
-            cerr << ERROR_HTML_TAG "Exécution avec " << nb_fichier << pluriel(nb_fichier, " fil") <<"."  ENDL;
-
-            commande.set_nbfil(nb_fichier);
-        }
-        else
-            commande.set_nbfil(commande.info.nbfil);
-
-        /* Le nombre de fils du segment doit impérativement être ajusté avant de lancer la production */
-
-        produire_segment(commande, rang_segment);
-    }
-}
-
-thread_handler::thread_handler(Commandline& commande, int rang_segment)
-{
-    int nb_fil = commande.get_nb_fil();
 
     if (verbeux)
         cerr << PROCESSING_HTML_TAG "Création de " << nb_fil << " fils d'exécution." ENDL;
@@ -63,7 +24,7 @@ thread_handler::thread_handler(Commandline& commande, int rang_segment)
         Info[i].threads = &v_thread_t[i];
         Info[i].threads->thread_num = i;
         Info[i].threads->argc = nb_fichier_par_fil.at(i);
-        Info[i].threads->argv = commande.get_input(rang_segment);
+        Info[i].threads->argv = commande.get_input(rang_segment).at(i);
 
         /* Leftovers du segment précédent */
 
@@ -112,106 +73,195 @@ thread_handler::thread_handler(Commandline& commande, int rang_segment)
 }
 
 
-
-int Analyseur::produire_segment(Commandline& commande, int rang_segment)
+void thread_handler::redecouper_volumineux(info_t& info)
 {
-    /* Lancement des fils */
 
-    thread_handler gestionnaire_fils { commande, rang_segment };
+    int fichier_courant = info.fichier_courant;
 
+#if defined(STRINGSTREAM_PARSING)
+    if  (! info.threads->in_memory_file_cut.empty()) return;
+    string filest = std::move(info.threads->in_memory_file.at(fichier_courant));
+    info.threads->in_memory_file_cut.push_back(vector<string>{});
+#else
+    if (! info.threads->argv_cut.empty()) return;
+    ifstream c(info.threads->argv.at(fichier_courant));
+    string filest;
+    filest = read_stream_into_string(c);
+    info.threads->argv_cut.push_back(vector<string>{});
+#endif
 
+    uint64_t taille = info.taille.at(fichier_courant);
 
+    if (taille < info.chunksize) return;
 
+    if (verbeux)
+        cerr << PROCESSING_HTML_TAG "Fil n°" << info.threads->thread_num + 1 << " Redécoupage du fichier n°" << fichier_courant + 1 << ENDL;
 
-    if (commande.is_pretend()) return 2;
+    string document_tag = "", enc = "";
+    string::iterator iter = filest.begin();
 
-    /* Gestion des informations de fin d'exécution */
+    while (*++iter != '?' && iter != filest.end()) continue;
 
-    if (commande.is_calculer_maxima())
+    while (++iter != filest.end())
     {
-        calculer_maxima(gestionnaire_fils.Info);
+        if (*iter == '?') break;
+        if (*iter != 'e') continue;
+        string::iterator iter2 = iter;
+        //encoding="ISO-8859-1"
+        if (*++iter2 != 'n' || *++iter2 != 'c') continue;
+        while (*++iter2 != '?') continue;
+
+        enc = string(iter, iter2);
+        if (enc.find("encoding") == string::npos)
+            enc = "";
+        break;
     }
 
-    if (! commande.get_chemin_log().empty())
+    while (iter != filest.end())
     {
-        ofstream LOG;
-        LOG.open(commande.get_chemin_log(), ios::app);
-        calculer_maxima(gestionnaire_fils.Info, &LOG);
-        LOG.close();
+        if (*++iter != 'D') continue;
+        ++iter;
+        const string s = string(iter, iter + 11);
+        // <...:DocumentPaye>
+        if (s != "ocumentPaye") continue;
+        string::iterator iter2 = iter;
+        while (*--iter2 != '<' ) if (iter2 == filest.begin()) break;
+        document_tag = string(iter2 + 1, iter + 11);
+        break;
     }
 
-    /* Résumé des erreurs rencontrées */
+    int r = 0;
 
-    if (errorLineStack.size() > 0)
+    uint64_t i = 0, last_pos = 0;
+
+    bool open_di = true;
+
+    while (filest.at(i) != '\0')
     {
-        cerr << WARNING_HTML_TAG "<b>Récapitulatif des erreurs rencontrées</b>" << ENDL;
-        for (const errorLine_t& e :  errorLineStack)
+        ++r;
+        string s = "";
+        bool end_loop = false;
+        i += info.chunksize;
+
+        if (i < taille)
         {
-            cerr << e.filePath;
-            if (e.lineN != -1)
-                cerr << " -- Ligne n°" << e.lineN << ENDL;
-            else
-                cerr << " -- Ligne inconnue." << ENDL;
 
-        }
-    }
-
-    if (! commande.get_chemin_log().empty())
-    {
-        ofstream LOG;
-        LOG.open(commande.get_chemin_log(), ios::app);
-        if (LOG.good())
-            for (const errorLine_t& e :  errorLineStack)
+            while (filest.at(i) != '\0')
             {
-                if (e.lineN != -1)
-                    LOG << " -- Ligne n°" << e.lineN << ENDL;
-                else
-                    LOG << " -- Ligne inconnue." << ENDL;
+                while (filest.at(++i) != '<') continue;
+                if (filest.at(++i) != '/') continue;
+
+                if (filest.at(++i) != 'P') continue;
+
+                s = filest.substr(i, 16);
+
+                if (s == "PayeIndivMensuel")
+                {
+                    break;
+                }
+                // </PayeIndivMensuel>
             }
+        }
+        else
+        {
+            i = taille - 16;
+            while (i > last_pos)
+            {
+                while (filest.at(--i) != 'P') continue;
+                if (filest.at(--i) != '/') continue;
+
+                if (filest.at(--i) != '<') continue;
+
+                s = filest.substr(i + 2, 16);
+
+                if (s == "PayeIndivMensuel")
+                {
+                    break;
+                }
+            }
+
+            // Il peut ne rien y avoir
+
+            end_loop = true;
+        }
+
+        i += 16;
+
+        while (filest.at(++i) != '<') continue;
+
+        s = filest.substr(i + 1 , 13);
+        bool insert_di = (s != "/DonneesIndiv");
+        if (! insert_di) i += 14;
+
+        if (filest.at(i) != '<') while (filest.at(++i) != '<') continue;
+
+        s = filest.substr(i + 1 , 12);
+
+        string header = (r > 1)? (string("<?xml version=\"1.0\" ") + enc + string("?>")
+                                  + string("\n<DocumentPaye>")
+                                  + ((! open_di)? "\n<DonneesIndiv>" : "")) : string("");
+
+        string filest_cut = header;
+        unsigned L = filest_cut.length();
+        filest_cut.resize(L + i - last_pos);
+
+        /* L'utilisation de std::move permet de diminue la consommation mémoire sur les très gros fichiers.
+         * Le gain de temps de calcul est toutefois négligeable par rapport à une copie. */
+
+        for (unsigned k = 0; k < i - last_pos; ++k)
+             filest_cut[L + k] = move(filest[last_pos + k]);
+
+        filest_cut += ((insert_di)? string("\n</DonneesIndiv>") : "")
+                      + (string("\n</") + ((r > 1)? "DocumentPaye" : document_tag) + string(">"));
+
+        open_di = (s == "DonneesIndiv");
+
+#if defined(STRINGSTREAM_PARSING) || defined(MMAP_PARSING)
+        info.threads->in_memory_file_cut[fichier_courant].emplace_back(filest_cut);
+#else
+        string filecut_path = info.threads->argv.at(fichier_courant) +"_" + to_string(r) + ".xhl";
+        ofstream filecut(filecut_path);
+        filecut << filest_cut;
+        filecut.close();
+        info.threads->argv_cut[fichier_courant].emplace_back(filecut_path);
+#endif
+
+        if (end_loop) break;
+
+        last_pos = i;
     }
-
-    /* Génération des tables CSV */
-
-    if (commande.is_generer_table())
-    {
-        cerr << ENDL << PROCESSING_HTML_TAG "Exportation des bases de données au format CSV..." << ENDL ENDL;
-        boucle_ecriture(gestionnaire_fils.Info, rang_segment);
-    }
-
-    /* Signal de fin de barre de progression */
-
-    generate_rank_signal(-1);
-    cerr << " \n";
-
-    /* Libération de la mémoire
-     * En cas de problème d'allocation mémoire le mieux est encore de ne pas désallouer car on ne connait pas exacteemnt l'état
-     * de la mémoire dynamique */
-
-    if (! commande.is_liberer_memoire()) return 0;
-
-    liberer_memoire(commande, gestionnaire_fils);
-
-    return 1;
 }
 
-void Analyseur::liberer_memoire(Commandline& commande, thread_handler& t)
+void thread_handler::redecouper(info_t& info)
 {
-
-if (verbeux)
-    cerr << ENDL
-         << PROCESSING_HTML_TAG "Libération de la mémoire..."
-         << ENDL;
-
-    for (int i = 0; i < commande.get_nb_fil(); ++i)
+    for (auto &&p: info.threads->argv)
     {
-        for (unsigned agent = 0; agent < t.Info.at(i).NCumAgent; ++agent)
+#ifdef STRINGSTREAM_PARSING
+
+        ifstream c(p.first);
+
+        if (! c.good())
+         {
+             cerr << ERROR_HTML_TAG "Erreur d'ouverture du fichier " << p.first << ENDL;
+#ifdef STRICT
+             throw runtime_error {" Exiting."};
+#endif
+             info.threads->in_memory_file.push_back("");
+             continue;
+         }
+
+        info.threads->in_memory_file.emplace_back(read_stream_into_string(c));
+
+        c.close();
+
+#endif
+
+        if (info.decoupage_fichiers_volumineux)
         {
-            for (int j = 0; j < t.Info.at(i).Memoire_p_ligne[agent]; ++j)
-            {
-                if (j != Categorie && xmlStrcmp(t.Info.at(i).Table[agent][j], (const xmlChar*) "") != 0)
-                    xmlFree(t.Info[i].Table[agent][j]);
-            }
+          redecouper_volumineux(info);
         }
-    }
+
+        ++info.fichier_courant;
+   }
 }
 

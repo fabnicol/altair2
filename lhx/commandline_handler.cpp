@@ -483,16 +483,23 @@ try
 
     index_debut_fichiers  = start;
 
-    vString::const_iterator iter = commandline_tab.begin();
-    while (iter != commandline_tab.end())
+    vString::const_iterator iter = commandline_tab.begin() + start;
+    try
     {
-       static int k;
-       this->argv[k++] = std::move(*++iter);
+        while (iter != commandline_tab.end())
+        {
+           this->argv.push_back(*++iter);
+        }
+    }
+    catch(...)
+    {
+        cerr << "Erreur sur argv" ENDL;
     }
 
     if (memoire_xhl == 0)
     {
-       calculer_taille_fichiers(this->argv);
+       try { calculer_taille_fichiers(this->argv); }
+       catch (...) { cerr << "Erreur sur la taille des fichiers" ENDL; }
     }
 
     chunksize = info.chunksize;
@@ -512,13 +519,9 @@ catch(...) {
 
 void Commandline::repartir_fichiers()
 {
+     vector<uint64_t>::iterator iter_taille  = taille.begin();
+     vString::iterator iter_fichier = argv.begin();
 
-     vector<uint64_t>::const_iterator iter_taille  = taille.begin();
-     vString::const_iterator iter_fichier = argv.begin();
-
-     uint64_t taille_segment = 0, incr = 0;
-     int nb_fichier = 0;
-     int nb_decoupe = 0;
      float densite_xhl_mem = AVERAGE_RAM_DENSITY;
 
 #ifdef STRINGSTREAM_PARSING
@@ -528,64 +531,72 @@ void Commandline::repartir_fichiers()
         ++densite_xhl_mem;
 #endif
 
+     uint64_t memoire_utilisable_par_fil = min(memoire_utilisable, static_cast<uint64_t>(floor(somme(taille) / nb_fil))); //
 
      while (iter_taille != taille.end() && iter_fichier != argv.end())
      {
-         vector<pair<string, int>> segment_input;
-         if (taille_segment + incr >= memoire_utilisable)
+         vector<vector<pair<string, int>>> input_par_segment;
+
+         vector<string> leftover;
+         vector<uint64_t> leftover_taille;
+
+         for (int fil = 0; fil < nb_fil; ++fil)
          {
-             if (nb_fichier == 0)
+             vector<pair<string, int>> input_par_segment_par_fil;
+             uint64_t taille_segment_par_fil = 0;
+
+             while (iter_taille != taille.end() && iter_fichier != argv.end())
              {
-                 if (iter_taille != taille.begin())
+                 uint64_t incr;
+                 int nb_fichier = 0;
+                 int nb_decoupe;
+                 bool out_of_memory = false;
+
+                 ++iter_taille;
+                 ++iter_fichier;
+
+                 nb_decoupe = (*iter_taille <= chunksize) ? 1 : static_cast<int>(*iter_taille / chunksize) + 1;
+
+                 for (int k = 1; k <= nb_decoupe; ++k)
                  {
-                   --iter_fichier;
-                   --iter_taille;
+                   if (nb_decoupe == 1)
+                     incr = *iter_taille;
+                   else
+                   if (k != nb_decoupe)
+                     incr = chunksize;
+                   else
+                     incr = *iter_taille % chunksize;
+
+                   if ((taille_segment_par_fil + incr) * densite_xhl_mem < memoire_utilisable_par_fil)
+                   {
+                       taille_segment_par_fil += incr;
+                       ++nb_fichier;
+                   }
+                   else
+                   {
+                     out_of_memory = true;
+                     break;
+                   }
+                 }
+
+                 if (nb_fichier) input_par_segment_par_fil.emplace_back(make_pair(*iter_fichier, nb_fichier));
+                 if (out_of_memory)
+                 {
+                     input_par_segment.emplace_back(input_par_segment_par_fil);
+                     leftover.emplace_back(*iter_fichier);
+                     leftover_taille.emplace_back(*iter_taille);
+                     break;
                  }
              }
-             else if (nb_decoupe > nb_fichier)  // no-op mais plus sûr
-             {
-                 segment_input.emplace_back(make_pair(*iter_fichier, nb_decoupe - nb_fichier));
-             }
-         }
+        }
 
-         while (iter_taille != taille.end() && iter_fichier != argv.end())
-         {
-             ++iter_taille;
-             ++iter_fichier;
-             nb_decoupe = (*iter_taille <= chunksize) ? 1 : static_cast<int>(*iter_taille / chunksize) + 1;
-             nb_fichier = 0;
-             incr = 0;
-             bool out_of_memory = false;
+        input.emplace_back(input_par_segment);
 
-             for (int k = 1; k <= nb_decoupe; ++k)
-             {
-               if (nb_decoupe == 1)
-                 incr = *iter_taille;
-               else
-               if (k != nb_decoupe)
-                 incr += chunksize;
-               else
-                 incr += *iter_taille % chunksize;
-
-               if ((taille_segment + incr) * densite_xhl_mem < memoire_utilisable)
-               {
-                   taille_segment += incr;
-                   ++nb_fichier;
-               }
-               else
-               {
-                 out_of_memory = true;
-                 break;
-               }
-             }
-
-             if (nb_fichier) segment_input.emplace_back(make_pair(*iter_fichier, nb_fichier));
-             if (out_of_memory)
-             {
-                 input.emplace_back(segment_input);
-                 break;
-             }
-         }
+        argv = vector<string>(iter_fichier, argv.end());
+        leftover.insert(argv.begin(), leftover.begin(), leftover.end());
+        taille.insert(taille.begin(), leftover_taille.begin(), leftover_taille.end());
+        iter_fichier = argv.begin();
+        iter_taille  = taille.begin();
      }
 }
 

@@ -21,36 +21,18 @@
 
 #include "tags.h"
 #include "fonctions_auxiliaires.hpp"
-#include "thread_handler.h"
+#include "analyseur.h"
 
 using namespace std;
 using vString = vector<string>;
-class Commandline;
-class thread_handler;
 
-class Analyseur
-{
-friend class thread_handler;
+extern bool verbeux;
 
-public:
-    Analyseur(Commandline&);
-    static vector<errorLine_t>  errorLineStack;
-    void lanceur(Commandline&, int nb_segment);
-    int produire_segment(Commandline&, int rang_segment);
-    static void warning_msg(const char* noeud, const info_t& info, const xmlNodePtr cur);
-
-private:
-    void liberer_memoire( Commandline&, thread_handler& );
-    static int parseFile(info_t& info);
-    static int parseFile(const xmlDocPtr doc, info_t& info, int cont_flag, xml_commun* champ_commun);
-    static void* decoder_fichier(info_t& info);
-};
 
 class Commandline
 {
-friend void Analyseur::lanceur(Commandline&, int);
-friend int Analyseur::produire_segment(Commandline&, int);
 friend class thread_handler;
+friend class Analyseur;
 
 public:
 
@@ -79,6 +61,7 @@ public:
     bool is_reduire_consommation_memoire() { return info.reduire_consommation_memoire; }
 
     Commandline(char** argv, int argc);
+    Commandline() {}
 
     void calculer_taille_fichiers(const vector<string>& files, bool silent = true);
     void repartir_fichiers();
@@ -105,7 +88,7 @@ public:
 
     int get_nb_fichier(int segment) { return nb_fichier_par_segment.at(segment); }
 
-    vector<pair<string, int>> get_input(int segment)
+    vector<vector<pair<string, int>>> get_input(int segment)
     {
         return std::move(input.at(segment));
     }
@@ -130,7 +113,7 @@ private:
     float ajustement = MAX_MEMORY_SHARE;
     vString argv;
     vector<uint64_t> taille;
-    vector<vector<pair<string, int>>> input;
+    vector<vector<vector<pair<string, int>>>> input;
 
     void memoire();
 
@@ -141,15 +124,26 @@ private:
         for (int segment = 0; segment < N; ++segment)
         {
             int n = 0;
-            for (auto &&s: input.at(segment)) n += s.second;
+            for (auto &&f: input.at(segment))
+                for (auto && p : f)
+                    n += p.second;
+
             v.push_back(n);
         }
 
         return std::move(v);
     }
 
+    template<typename T> somme(vector<T>& v)
+    {
+        T acc = 0;
+        for (auto &&s : v) acc += s;
+        return acc;
+    }
+
     info_t info;
 
 };
+
 
 #endif // COMMANDLINE_HANDLER_H
