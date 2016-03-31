@@ -241,8 +241,7 @@ void* Analyseur::decoder_fichier(info_t& info)
         int err = calculer_memoire_requise(info);
         if (err)
         {
-            std ::cerr << ERROR_HTML_TAG "Calcul de la mémoire requise" ENDL;
-            exit(-1001);
+            erreur("Calcul de la mémoire requise");
         }
     }
     else
@@ -259,8 +258,7 @@ void* Analyseur::decoder_fichier(info_t& info)
         }
         else
         {
-            perror(ERROR_HTML_TAG "Problème d'allocation mémoire de info.NLigne");
-            exit(1003);
+            erreur("Problème d'allocation mémoire de info.NLigne");
         }
     }
 
@@ -313,8 +311,9 @@ void* Analyseur::decoder_fichier(info_t& info)
             cerr << " Fichier : " << info.threads->argv[info.fichier_courant].first << ENDL;
         }
         else
-            cerr << ERROR_HTML_TAG "Erreur critique lors de l'analyse du fichier : " << info.threads->argv[info.fichier_courant].first << ENDL;
-        exit(1005);
+            erreur("Erreur critique lors de l'analyse du fichier : "
+                   + info.threads->argv[info.fichier_courant].first);
+
     }
 
     // attention, pas info<-NCumAgent ici

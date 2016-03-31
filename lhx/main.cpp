@@ -32,15 +32,17 @@ int main(int argc, char **argv)
 #error "Programme conçu pour Windows ou linux"
 #endif
 
-    if (argc < 2)
+    try
     {
-        cerr << ERROR_HTML_TAG "Il faut au moins un fichier à analyser.\n" ;
-        return -2;
+        if (argc < 2)
+        {
+            throw ios_base::failure {"Fichiers d'entrée non conformes"};
+        }
     }
+    catch(...) { erreur("Il faut au moins un fichier à analyser.\n") ; }
 
     LIBXML_TEST_VERSION
-            xmlKeepBlanksDefault(0);
-
+    xmlKeepBlanksDefault(0);
     xmlInitMemory();
     xmlInitParser();
 
@@ -50,7 +52,14 @@ int main(int argc, char **argv)
 
     /* Fin de l'analyse de la ligne de commande */
 
-    commande.repartir_fichiers();
+    try
+    {
+      commande.repartir_fichiers();
+    }
+    catch(...)
+    {
+        cerr << msg_erreur("Erreur dans la répartition des fichiers.");
+    }
 
     /* ajustement représente la part maximum de la mémoire disponible que l'on consacre au processus, compte tenu de la marge sous plafond (overhead) */
 

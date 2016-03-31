@@ -5,11 +5,12 @@ extern bool verbeux, liberer_memoire, generer_table;
 Commandline::Commandline(char** argv, int argc)
 try
 {
-    int start = 1;
+    int start = 0;
     string type_table = "bulletins";
     vString cl;  /* pour les lignes de commandes incluses dans un fichier */
-    vector<string> commandline_tab(argc);
-    for (int i = 0; i < argc; ++i) commandline_tab.emplace_back(argv[i]);
+    vector<string> commandline_tab;
+
+    for (int i = 1; i < argc; ++i) { commandline_tab.emplace_back(argv[i]);}
 
     while (start < argc)
     {
@@ -354,43 +355,37 @@ try
             }
 
             string ligne;
-            if (f.good())
+            while(f.rdstate() != fstream::eofbit)
             {
-                while(f.rdstate() != fstream::eofbit)
-                {
-                    getline(f, ligne);
+                getline(f, ligne);
 
-                    if (! ligne.empty())
-                        cl.push_back(ligne);
-                }
-
+                if (! ligne.empty())
+                    cl.emplace_back(ligne);
             }
 
             f.close();
             if (! cl.empty())
             {
-                argc = cl.size() + 1;
+                argc = cl.size();
 
                 commandline_tab.resize(argc);
 
-                for (int i = 0; i < argc - 1; ++i)
+                for (int i = 0; i < argc; ++i)
                 {
-
-                    commandline_tab[i + 1] = cl.at(i);
-
-                    if (string(cl.at(i)) == "-f")
+                   if (string(cl.at(i)) == "-f")
                     {
                         erreur("La ligne de commande -f ne peut pas être incluse dans un fichier par -f [risque de boucle infinie].");
                     }
-                }
 
+                    commandline_tab[i] = std::move(cl[i]);
+                }
 
                 /* on relance ...*/
 
-                start = 1;
+                start = 0;
                 continue;
             }
-            //break;
+
         }
         else if (commandline_tab[start] == "--pretend")
         {
@@ -488,12 +483,13 @@ try
     {
         while (iter != commandline_tab.end())
         {
-           this->argv.push_back(*++iter);
+           this->argv.push_back(*iter++);
         }
     }
     catch(...)
     {
         cerr << "Erreur sur argv" ENDL;
+        print();
     }
 
     if (memoire_xhl == 0)
@@ -510,8 +506,9 @@ try
 
     memoire();
 }
-catch(...) {
- cerr << ERROR_HTML_TAG "Le programme s'est terminé en raison d'erreurs sur la ligne de commande" ENDL;
+catch(...)
+{
+  cerr << ERROR_HTML_TAG "Le programme s'est terminé en raison d'erreurs sur la ligne de commande" ENDL;
 }
 
 /* A distribuer par fil ! */
@@ -531,7 +528,9 @@ void Commandline::repartir_fichiers()
         ++densite_xhl_mem;
 #endif
 
-     uint64_t memoire_utilisable_par_fil = min(memoire_utilisable, static_cast<uint64_t>(floor(somme(taille) / nb_fil))); //
+     uint64_t memoire_utilisable_par_fil = min(memoire_utilisable, static_cast<uint64_t>(floor(somme(taille) / nb_fil)));
+     if (verbeux)
+     cerr << STATE_HTML_TAG "Mémoire utilisée par fil : " << memoire_utilisable_par_fil / (1024 * 1024) << " Mo" ENDL;
 
      while (iter_taille != taille.end() && iter_fichier != argv.end())
      {
@@ -567,7 +566,10 @@ void Commandline::repartir_fichiers()
                    else
                      incr = *iter_taille % chunksize;
 
-                   if ((taille_segment_par_fil + incr) * densite_xhl_mem < memoire_utilisable_par_fil)
+                   cerr << taille_segment_par_fil << ENDL;
+                   cerr << incr << ENDL;
+
+                   if ((taille_segment_par_fil + incr) /* * densite_xhl_mem */ < memoire_utilisable_par_fil)
                    {
                        taille_segment_par_fil += incr;
                        ++nb_fichier;
@@ -593,7 +595,7 @@ void Commandline::repartir_fichiers()
         input.emplace_back(input_par_segment);
 
         argv = vector<string>(iter_fichier, argv.end());
-        leftover.insert(argv.begin(), leftover.begin(), leftover.end());
+        argv.insert(argv.begin(), leftover.begin(), leftover.end());
         taille.insert(taille.begin(), leftover_taille.begin(), leftover_taille.end());
         iter_fichier = argv.begin();
         iter_taille  = taille.begin();

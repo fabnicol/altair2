@@ -62,6 +62,7 @@ public:
 
     Commandline(char** argv, int argc);
     Commandline() {}
+    ~Commandline() { cerr << "Destruction."; }
 
     void calculer_taille_fichiers(const vector<string>& files, bool silent = true);
     void repartir_fichiers();
@@ -93,6 +94,14 @@ public:
         return std::move(input.at(segment));
     }
 
+    void print_repartion()
+    {
+        int i = 0, j = 0, k =0;
+        for (auto && s : input)
+            for (auto && f : s)
+                for (pair<string, int> p : f)
+                    cerr << "segment " << i++ << " fil " << j++ << " fichier " << k++ << " : " << p.first << ", " << "index " << p.second <<"\n";
+    }
 
 private:
 
@@ -130,7 +139,6 @@ private:
 
             v.push_back(n);
         }
-
         return std::move(v);
     }
 
@@ -142,6 +150,9 @@ private:
     }
 
     info_t info;
+
+    void print() { int i = 0; for (auto &&s : argv) cerr << "argv[" << i++ << "]=" << s << "\n"; }
+
 
 };
 
