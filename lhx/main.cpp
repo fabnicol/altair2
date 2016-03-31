@@ -62,8 +62,14 @@ int main(int argc, char **argv)
     }
 
     /* ajustement représente la part maximum de la mémoire disponible que l'on consacre au processus, compte tenu de la marge sous plafond (overhead) */
-
-    Analyseur analyse { commande };
+    try
+    {
+      Analyseur analyse { commande };
+    }
+    catch(...)
+    {
+        cerr << msg_erreur("Erreur dans l'analyse des fichiers.");
+    }
 
     xmlCleanupParser();
 

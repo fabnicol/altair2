@@ -39,10 +39,9 @@ public:
     uint64_t get_memoire_xhl() { return memoire_xhl; }
     uint64_t get_memoire_disponible() { return memoire_disponible; }
     uint64_t get_memoire_utilisable() { return memoire_utilisable; }
-    int get_nsegments() { return nsegments; }
+
     float get_ajustement() { return ajustement; }
     uint32_t get_chunksize() { return chunksize; }
-    vector<uint64_t> get_taille() { return std::move(taille); }
     int get_nb_fil() { return nb_fil; }
     string get_chemin_log() { return info.chemin_log; }
 
@@ -64,7 +63,7 @@ public:
     Commandline() {}
     ~Commandline() { cerr << "Destruction."; }
 
-    void calculer_taille_fichiers(const vector<string>& files, bool silent = true);
+    void calculer_taille_fichiers(const vector<pair<string, int>>& files, bool silent = true);
     void repartir_fichiers();
 
     int nb_segment() { return input.size();}
@@ -103,6 +102,8 @@ public:
                     cerr << "segment " << i++ << " fil " << j++ << " fichier " << k++ << " : " << p.first << ", " << "index " << p.second <<"\n";
     }
 
+    void print() { int i = 0; for (auto &&s : argv) cerr << "argv[" << i++ << "]=" << s.first << " " << s.second << "\n"; }
+
 private:
 
     bool pretend = false;
@@ -120,8 +121,8 @@ private:
     vector<int> nb_fichier_par_segment;
 
     float ajustement = MAX_MEMORY_SHARE;
-    vString argv;
-    vector<uint64_t> taille;
+    vector<pair<string, int>> argv;
+    vector<pair<uint64_t, int>> taille;
     vector<vector<vector<pair<string, int>>>> input;
 
     void memoire();
@@ -142,17 +143,22 @@ private:
         return std::move(v);
     }
 
-    template<typename T> somme(vector<T>& v)
+    template<typename T, typename U> somme(vector<pair<T, U>>& v)
     {
         T acc = 0;
-        for (auto &&s : v) acc += s;
+        for (auto &&s : v)
+        {
+          if (s.second == 1)
+              acc += s.first;
+          else
+          {
+              acc += (s.second - 1) * info.chunksize + s.first % chunksize;
+          }
+        }
         return acc;
     }
 
     info_t info;
-
-    void print() { int i = 0; for (auto &&s : argv) cerr << "argv[" << i++ << "]=" << s << "\n"; }
-
 
 };
 

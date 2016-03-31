@@ -79,7 +79,7 @@ inline void GCC_INLINE Analyseur::allouer_memoire_table(info_t& info)
 
 
 Analyseur::Analyseur(Commandline& c) : nb_fil {c.get_nb_fil()},
-                                       nb_segment {c.get_nsegments()},
+                                       nb_segment {c.nb_segment()},
                                        is_liberer_memoire {c.is_liberer_memoire()}
 {
     if (verbeux)
@@ -89,6 +89,7 @@ Analyseur::Analyseur(Commandline& c) : nb_fil {c.get_nb_fil()},
         else
             cerr << PROCESSING_HTML_TAG << "Les bases en sortie seront analysées en une seule itération."  ENDL;
     }
+
 
     lanceur(c);
 }
@@ -114,6 +115,8 @@ Analyseur::~Analyseur()
                 }
             }
     }
+
+
 }
 
 void Analyseur::lanceur(Commandline& commande)
@@ -143,7 +146,14 @@ int Analyseur::produire_segment(Commandline& commande, int rang_segment)
 {
     /* Lancement des fils */
 
-    *gestionnaire_fils = thread_handler { commande, rang_segment };
+    try
+    {
+      *gestionnaire_fils = thread_handler { commande, rang_segment };
+    }
+    catch(...)
+    {
+        erreur("Erreur dans le lancement des fils");
+    }
 
 
     if (commande.is_pretend()) return 2;

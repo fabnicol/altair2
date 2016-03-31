@@ -41,7 +41,14 @@ thread_handler::thread_handler(Commandline& commande, int rang_segment) : nb_fil
             cerr <<  PROCESSING_HTML_TAG "Fil d'exécution n°" << i + 1 << "/" << nb_fil
                   << "   Nombre de fichiers dans ce fil : " << Info[i].threads->argc << ENDL;
 
-        redecouper(Info[i]);
+       try
+        {
+          redecouper(Info[i]);
+        }
+        catch(...)
+        {
+            erreur("Erreur dans le découpage des fichiers volumineux");
+        }
 
         /* Lancement des fils d'exécution */
 
