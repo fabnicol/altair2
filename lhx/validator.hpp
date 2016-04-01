@@ -77,7 +77,7 @@ using namespace std;
 struct thread_t
 {
     int      thread_num = 0;
-    vector<triple<string, int, int>>   argv ;
+    vector<quad<string, uint64_t, int, int>>   argv ;
     #if defined(STRINGSTREAM_PARSING)
         vector<vector<string>> in_memory_file_cut;
         vector<string> in_memory_file ;
@@ -176,7 +176,7 @@ private :
 public:
     vector<vector<xmlChar*>> Table = {{}};
     uint64_t nbLigne               = 0;
-    vector<triple<uint64_t, int, int>> taille        = {};
+    vector<quad<uint64_t, uint64_t, int, int>> taille        = {};
     vector<uint32_t> NAgent        = {};
     uint32_t chunksize             = CUTFILE_CHUNK;
     uint32_t nbAgentUtilisateur    = 0;

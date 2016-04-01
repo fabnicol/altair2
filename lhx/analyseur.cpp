@@ -115,15 +115,13 @@ Analyseur::~Analyseur()
                 }
             }
     }
-
-
 }
 
 void Analyseur::lanceur(Commandline& commande)
 {
     for(int rang_segment = 0; rang_segment < nb_segment; ++rang_segment)
     {
-        unsigned nb_fichier = commande.get_nb_fichier(rang_segment);
+        int nb_fichier = commande.get_nb_fichier(rang_segment);
 
         if (commande.get_nb_fil() > nb_fichier)
         {

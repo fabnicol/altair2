@@ -41,14 +41,18 @@ thread_handler::thread_handler(Commandline& commande, int rang_segment) : nb_fil
             cerr <<  PROCESSING_HTML_TAG "Fil d'exécution n°" << i + 1 << "/" << nb_fil
                   << "   Nombre de fichiers dans ce fil : " << Info[i].threads->argc << ENDL;
 
+#ifdef CATCH
        try
         {
-          redecouper(Info[i], commande);
+#endif
+          redecouper(Info[i]);
+#ifdef CATCH
         }
         catch(...)
         {
             erreur("Erreur dans le découpage des fichiers volumineux");
         }
+#endif
 
         /* Lancement des fils d'exécution */
 
@@ -80,7 +84,7 @@ thread_handler::thread_handler(Commandline& commande, int rang_segment) : nb_fil
 }
 
 
-void thread_handler::redecouper_volumineux(info_t& info, triple<string, int, int>& tr)
+void thread_handler::redecouper_volumineux(info_t& info, quad<string, uint64_t, int, int>& tr)
 {
 
     int fichier_courant = info.fichier_courant;
@@ -237,12 +241,10 @@ void thread_handler::redecouper_volumineux(info_t& info, triple<string, int, int
     }
 }
 
-void thread_handler::redecouper(info_t& info, Commandline& commande)
+void thread_handler::redecouper(info_t& info)
 {
-  for (auto &&segment : commande.get_input())
-    for (auto &&fil : segment)
-     for (auto &&tr : fil)
-     {
+  for (auto &&tr : info.threads->argv)
+  {
 #ifdef STRINGSTREAM_PARSING
 
         ifstream c(tr.value);
@@ -263,7 +265,7 @@ void thread_handler::redecouper(info_t& info, Commandline& commande)
 
 #endif
 
-        if (info.decoupage_fichiers_volumineux && tr.size > 1)
+        if (info.decoupage_fichiers_volumineux && tr.elements > 1)
         {
           redecouper_volumineux(info, tr);
         }

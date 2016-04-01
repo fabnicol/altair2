@@ -154,7 +154,7 @@ errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur)
     return s;
 }
 
-off_t taille_fichier(const string& filename)
+uint64_t taille_fichier(const string& filename)
 {
 #ifndef __linux__
     struct __stat64 stat_buf;
@@ -626,7 +626,7 @@ int calculer_memoire_requise(info_t& info)
 #ifdef GUI_TAG_MESSAGES
 #ifdef GENERATE_RANK_SIGNAL
 
-        generate_rank_signal();
+        //generate_rank_signal();
         cerr <<  " \n" ;
 
 #endif

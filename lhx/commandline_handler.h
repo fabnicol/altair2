@@ -46,7 +46,6 @@ public:
     uint32_t get_chunksize() { return chunksize; }
     int get_nb_fil() { return nb_fil; }
     string get_chemin_log() { return info.chemin_log; }
-    vector<vector<vector<triple<string, int, int>>>> get_input() {return input; }
 
     void set_memoire_xhl(uint64_t m) { memoire_xhl = m; }
     void set_memoire_disponible(uint64_t m) { memoire_disponible = m; }
@@ -66,7 +65,7 @@ public:
     Commandline() {}
     ~Commandline() { cerr << "Sortie de la classe Commandline."; }
 
-    void calculer_taille_fichiers(const vector<triple<string, int, int>>& files, bool silent = true);
+    //void calculer_taille_fichiers(const vector<quad<string, uint64_t, int, int>>& files, bool silent = true);
 
     void repartir_fichiers();
 
@@ -92,7 +91,7 @@ public:
 
     int get_nb_fichier(int segment) { return nb_fichier_par_segment.at(segment); }
 
-    vector<vector<triple<string, int, int>>> get_input(int segment)
+    vector<vector<quad<string, uint64_t, int, int>>> get_input(int segment)
     {
         return std::move(input.at(segment));
     }
@@ -102,11 +101,11 @@ public:
         int i = 0, j = 0, k =0;
         for (auto && s : input)
             for (auto && f : s)
-                for (triple<string, int, int> p : f)
-                    cerr << "segment " << i++ << " fil " << j++ << " fichier " << k++ << " : " << p.value << ", " << "index " << p.size <<"\n";
+                for (quad<string, uint64_t, int, int> p : f)
+                    cerr << "segment " << i++ << " fil " << j++ << " fichier " << k++ << " : " << p.value << ", " << "index " << p.elements <<"\n";
     }
 
-    void print() { int i = 0; for (auto &&s : argv) cerr << "argv[" << i++ << "]=" << s.value << " " << s.size << "\n"; }
+    void print() { int i = 0; for (auto &&s : argv) cerr << "argv[" << i++ << "]=" << s.value << " " << s.elements << "\n"; }
 
 private:
 
@@ -129,10 +128,9 @@ private:
 
 
     float ajustement = MAX_MEMORY_SHARE;
-    vector<triple<string, int, int>> argv;
-    vector<triple<uint64_t, int, int>> taille;
-    vector<vector<vector<triple<string, int, int>>>> input;
-    vector<vector<triple<string, int, int>>> input_par_segment;
+    vector<quad<string, uint64_t, int, int>> argv;
+    vector<vector<vector<quad<string, uint64_t, int, int>>>> input;
+    vector<vector<quad<string, uint64_t, int, int>>> input_par_segment;
 
     void memoire();
 
@@ -144,23 +142,23 @@ private:
             int n = 0;
             for (auto &&f: segment)
                 for (auto && p : f)
-                    n += p.size;
+                    n += p.elements;
 
             v.push_back(n);
         }
         return std::move(v);
     }
 
-    template<typename T=uint64_t, typename U=int, typename W=int> somme(const vector<triple<T, U, W>>& v)
+    template<typename T=string, typename U=uint64_t, typename V=int, typename W=int> somme(const vector<quad<T, U, V, W>>& v)
     {
-        T acc = 0;
+        U acc = 0;
         for (auto &&s : v)
         {
-          if (s.size == 1)
-              acc += s.value;
+          if (s.elements == 1)
+              acc += s.size;
           else
           {
-              acc += (s.size - 1) * info.chunksize + s.value % chunksize;
+              acc += (s.elements - 1) * info.chunksize + s.size % chunksize;
           }
         }
         return acc;
@@ -169,8 +167,7 @@ private:
     info_t info;
 
     bool allouer_fil(const int fil,
-                     vector<triple<string, int, int>>::iterator& iter_fichier,
-                     vector<triple<uint64_t, int, int>>::iterator& iter_taille,
+                     vector<quad<string, uint64_t, int, int>>::iterator& iter_fichier,
                      int& nb_decoupe);
 
 };

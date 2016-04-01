@@ -79,7 +79,7 @@ try
                 unlink("aide.md");
             }
 
-           return;
+            return;
         }
         else if (commandline_tab[start] ==  "--entier")
         {
@@ -235,8 +235,8 @@ try
             if (! base.good())
             {
                 erreur<ios_base::failure>(string("La base de données ")
-                                         + info.chemin_base  + string(CSV)
-                                         + string(" ne peut être créée, vérifier l'existence du dossier."));
+                                          + info.chemin_base  + string(CSV)
+                                          + string(" ne peut être créée, vérifier l'existence du dossier."));
 
             }
             else
@@ -376,7 +376,7 @@ try
 
                 for (int i = 0; i < argc; ++i)
                 {
-                   if (string(cl.at(i)) == "-f")
+                    if (string(cl.at(i)) == "-f")
                     {
                         erreur("La ligne de commande -f ne peut pas être incluse dans un fichier par -f [risque de boucle infinie].");
                     }
@@ -439,7 +439,7 @@ try
         {
             int part = stoi(commandline_tab[start + 1], nullptr);
             if (verbeux)
-            cerr << STATE_HTML_TAG "Part de la mémoire vive utilisée : " <<  part << " %" ENDL;
+                cerr << STATE_HTML_TAG "Part de la mémoire vive utilisée : " <<  part << " %" ENDL;
 
             ajustement = (float) part / 100;
             start += 2;
@@ -449,7 +449,7 @@ try
         {
             int chunksize = stoi(commandline_tab[start + 1], nullptr);
             if (verbeux)
-            cerr << STATE_HTML_TAG "Taille unitaire des découpes de fichiers volumineux : " <<  chunksize << " Mo" ENDL;
+                cerr << STATE_HTML_TAG "Taille unitaire des découpes de fichiers volumineux : " <<  chunksize << " Mo" ENDL;
 
             info.chunksize = chunksize * 1024 * 1024;
 
@@ -491,8 +491,8 @@ try
 #endif
         while (iter != commandline_tab.end())
         {
-            cerr << *iter;
-            this->argv.push_back(triple<string, int, int> {*iter++, 1, 0});
+            this->argv.push_back(quad<string, uint64_t, int, int> {*iter, taille_fichier(*iter), 1, 0});
+            iter++;
         }
 #ifdef CATCH
     }
@@ -502,13 +502,13 @@ try
         print();
     }
 #endif
-
+#if 0
     if (memoire_xhl == 0)
     {
-       try { calculer_taille_fichiers(this->argv); }
-       catch (...) { cerr << "Erreur sur la taille des fichiers" ENDL; }
+        try { calculer_taille_fichiers(this->argv); }
+        catch (...) { cerr << "Erreur sur la taille des fichiers" ENDL; }
     }
-
+#endif
     chunksize = info.chunksize;
 
     nb_fil = info.nbfil;
@@ -519,183 +519,177 @@ try
 #ifdef CATCH
 catch(...)
 {
-  cerr << ERROR_HTML_TAG "Le programme s'est terminé en raison d'erreurs sur la ligne de commande" ENDL;
+cerr << ERROR_HTML_TAG "Le programme s'est terminé en raison d'erreurs sur la ligne de commande" ENDL;
 }
 #endif
 /* A distribuer par fil ! */
 
+#ifndef REP_DEBUG
+#define debug(X)
+#else
+#define debug(X) X
+#endif
+
 
 bool Commandline::allouer_fil(const int fil,
-                              vector<triple<string, int, int>>::iterator& iter_fichier,
-                              vector<triple<uint64_t, int, int>>::iterator& iter_taille,
+                              vector<quad<string, uint64_t, int, int>>::iterator& iter_fichier,
                               int& nb_decoupe)
 {
-    cerr << "\n------- FIL n°"  << fil +1 <<"\n";
+   debug({cerr << "\n------- FIL n°"  << fil +1 <<"\n\n";});
 
     uint64_t incr;
     bool in_memory = true;
 
-    if (nb_decoupe == 0 && iter_fichier->size == 1)
-        nb_decoupe = (iter_taille->value <= chunksize) ? 1 : static_cast<int>(iter_taille->value / chunksize) + 1;
+    if (nb_decoupe == 0 && iter_fichier->elements == 1)
+        nb_decoupe = (iter_fichier->size <= chunksize) ? 1 : static_cast<int>(iter_fichier->size / chunksize) + 1;
     else
     {
-        nb_decoupe = nb_decoupe - iter_fichier->size;
-        cerr << "\n### Récupération des leftovers de fils précédents : " << iter_fichier->value << "  " << iter_fichier->size << "\n";
+        nb_decoupe = nb_decoupe - iter_fichier->elements;
+        cerr << "\n### Récupération des leftovers de fils précédents : " << iter_fichier->value << "  " << iter_fichier->elements << "\n";
     }
 
     int k;
 
     for (k = 1; k <= nb_decoupe; ++k)
     {
-      if (nb_decoupe == 1)
-        incr = iter_taille->value;
-      else
-      if (k != nb_decoupe)
-        incr = chunksize;
-      else
-        incr = iter_taille->value % chunksize;
+        if (nb_decoupe == 1)
+            incr = iter_fichier->size;
+        else
+            if (k != nb_decoupe)
+                incr = chunksize;
+            else
+                incr = iter_fichier->size % chunksize;
 
-      cerr << "fil " << fil +1<< " iteration " << k << "/" << nb_decoupe << " TSF " << taille_segment[fil] << " incr " << incr << ENDL;
+        cerr << "fil " << fil +1<< " iteration " << k << "/" << nb_decoupe << " TSF " << taille_segment[fil] << " incr " << incr << ENDL;
 
-      if ((taille_segment.at(fil) + incr) /* * densite_xhl_mem */ < memoire_utilisable_par_fil)
-      {
-          taille_segment[fil] += incr;
-      }
-      else
-      {
-        in_memory = false;
-        break;
-      }
+        if ((taille_segment.at(fil) + incr) /* * densite_xhl_mem */ < memoire_utilisable_par_fil)
+        {
+            taille_segment[fil] += incr;
+        }
+        else
+        {
+            in_memory = false;
+            break;
+        }
     }
 
 
-      /* si in_memory == false, iter_fichier->size vaut k - 1 - 0 et si in_memory == true, vaut k - 0 -1 */
+    /* si in_memory == false, iter_fichier->elements vaut k - 1 - 0 et si in_memory == true, vaut k - 0 -1 */
     if (k > 1)
     {
-        if (iter_fichier->size == 1)
+        if (iter_fichier->elements == 1)
         {
             iter_fichier->start = 0;
         }
         else
         {
-            iter_fichier->start = iter_fichier->size;
+            iter_fichier->start = iter_fichier->elements;
         }
 
-        iter_fichier->size =  k - 1;
+        iter_fichier->elements =  k - 1;
 
-        cerr << "->nouvelle paire " << iter_fichier->value << " " << iter_fichier->size << ENDL;
-        cerr << "-->leftover : " << nb_decoupe - iter_fichier->size << ENDL;
+        cerr << "->nouvelle paire " << iter_fichier->value << " " << iter_fichier->elements << ENDL;
+        cerr << "-->leftover : " << nb_decoupe - iter_fichier->elements << ENDL;
 
         input_par_segment[fil].push_back(*iter_fichier);
     }
 
 
- return in_memory;
+    return in_memory;
 }
 
 
 
 void Commandline::repartir_fichiers()
 {
-     vector<triple<uint64_t, int, int>>::iterator iter_taille  = taille.begin();
-     vector<triple<string, int, int>>::iterator iter_fichier = argv.begin();
+    vector<quad<string, uint64_t, int, int>>::iterator iter_fichier = argv.begin();
 
-     float densite_xhl_mem = AVERAGE_RAM_DENSITY;
+    float densite_xhl_mem = AVERAGE_RAM_DENSITY;
 
 #ifdef STRINGSTREAM_PARSING
-        ++densite_xhl_mem;
+    ++densite_xhl_mem;
 #endif
 #ifndef OFSTREAM_TABLE_OUTPUT
-        ++densite_xhl_mem;
+    ++densite_xhl_mem;
 #endif
 
-//(1 + rang_segment / SEGMENT_DIVISION_RATE)
-     int rang_segment = 0;
+    //(1 + rang_segment / SEGMENT_DIVISION_RATE)
+    int rang_segment = 0;
 
-     while (iter_taille != taille.end() && iter_fichier != argv.end())
-     {
-         cerr << "\n-------------- SEGMENT n°"  << ++rang_segment <<"\n\n";
+    memoire_utilisable_par_fil = min(memoire_utilisable, static_cast<uint64_t>(floor(somme(argv) / nb_fil)));
 
-         memoire_utilisable_par_fil = min(memoire_utilisable, static_cast<uint64_t>(floor(somme(taille) / nb_fil)));
+    while (iter_fichier != argv.end())
+    {
+        cerr << "\n-------------- SEGMENT n°"  << ++rang_segment <<"\n\n";
 
-         cerr << STATE_HTML_TAG "\nMémoire utilisée par fil : " << memoire_utilisable_par_fil / (1024 * 1024) << " Mo" ENDL;
+        cerr << STATE_HTML_TAG "\nMémoire utilisée par fil : " << memoire_utilisable_par_fil / (1024 * 1024) << " Mo" ENDL;
 
-         triple<string, int, int> leftover;
-         triple<uint64_t, int, int> leftover_taille;
+        quad<string, uint64_t, int, int> leftover;
 
-         taille_segment.clear();
-         taille_segment.resize(nb_fil);
-         input_par_segment.clear();
-         input_par_segment.resize(nb_fil);
+        input_par_segment.clear();
+        input_par_segment.resize(nb_fil);
+        taille_segment.resize(nb_fil);
 
-         vector<int> nb_fichier(nb_fil);
-         int fil = 0;
-         bool allouable = true;
+        vector<int> nb_fichier(nb_fil);
+        int fil = 0;
+        bool allouable = true;
 
-         while (iter_taille != taille.end() && iter_fichier != argv.end())
-         {
-             int nb_decoupe = 0 ;
-             allouable = allouer_fil(fil, iter_fichier, iter_taille, nb_decoupe);
+        while (iter_fichier != argv.end())
+        {
+            int nb_decoupe = 0 ;
+            allouable = allouer_fil(fil, iter_fichier, nb_decoupe);
 
-             if (! allouable)
-                 for (int k = 0; k < nb_fil; ++k)
-                 {
-                     if (k != fil)
-                     {
-                       allouable = allouer_fil(k, iter_fichier, iter_taille, nb_decoupe);
-                       if (allouable)
-                       {
+            if (! allouable)
+                for (int k = 0; k < nb_fil; ++k)
+                {
+                    if (k != fil)
+                    {
+                        allouable = allouer_fil(k, iter_fichier, nb_decoupe);
+                        if (allouable)
+                        {
                             cerr << "Allocation du résidu de " << iter_fichier->value << " fil " << fil
                                  << " au fil " << k << " pour " << iter_fichier-> size <<"\n";
 
                             break;
-                       }
-                     }
-                     else continue;
-                 }
+                        }
+                    }
+                    else continue;
+                }
 
-             if (! allouable || iter_fichier == argv.end())
-             {
-                 cerr << "\n=== nouveau segment : " << "\n";
+            if (! allouable || iter_fichier == argv.end())
+            {
+                cerr << "\n=== nouveau segment : " << "\n";
 
-                 if (! allouable)
-                 {
-                     cerr << "\n===--- leftover de segment_par_fil : " << iter_fichier->value << " indice " << iter_fichier->size << "\n";
+                if (! allouable)
+                {
+                    cerr << "\n===--- leftover de segment_par_fil : " << iter_fichier->value << " indice " << iter_fichier->elements << "\n";
 
-                     leftover = *iter_fichier;
-                     leftover_taille = *iter_taille;
-                 }
+                    leftover = *iter_fichier;
+                }
 
-                 break;
-             }
+                break;
+            }
 
-             ++nb_fichier[fil];
-             cerr << "--> nb fichier "<< nb_fichier[fil] << ENDL;
-             ++iter_taille;
-             ++iter_fichier;
-             ++fil;
-             if (nb_fil == fil) fil = 0;
+            ++nb_fichier[fil];
+            cerr << "--> nb fichier "<< nb_fichier[fil] << ENDL;
+            ++iter_fichier;
+            ++fil;
+            if (nb_fil == fil) fil = 0;
         }
 
         input.emplace_back(input_par_segment);
-        vector<triple<string, int, int>> argv2(iter_fichier, argv.end());
+        vector<quad<string, uint64_t, int, int>> argv2(iter_fichier, argv.end());
         argv.swap(argv2);
         if (! allouable)
-           argv.insert(argv.begin(), leftover);
-        vector<triple<uint64_t, int, int>> taille2(iter_taille, taille.end());
-        taille.swap(taille2);
-        if (!allouable)
-           taille.insert(taille.begin(), leftover_taille);
+            argv.insert(argv.begin(), leftover);
         iter_fichier = argv.begin();
-        iter_taille  = taille.begin();
-     }
+    }
 
-      nb_fichier_par_segment = get_nb_fichier();
-      info.taille = std::move(taille);
+    nb_fichier_par_segment = get_nb_fichier();
 }
 
-
-void Commandline::calculer_taille_fichiers(const vector<triple<string, int, int>>& files, bool silent)
+#if 0
+void Commandline::calculer_taille_fichiers(const vector<quad<string, uint64_t, int, int>>& files, bool silent)
 {
     off_t mem = 0;
     int count = 0;
@@ -706,55 +700,55 @@ void Commandline::calculer_taille_fichiers(const vector<triple<string, int, int>
         if ((mem = taille_fichier(s.value)) != -1)
         {
             memoire_xhl += static_cast<uint64_t>(mem);
-            taille.push_back(triple<uint64_t, int, int> {static_cast<uint64_t>(mem), 1, 0});
+            taille.push_back(quad<uint64_t, uint64_t, int, int> {static_cast<uint64_t>(mem), 1, 0});
             ++count;
         }
         else
         {
             cerr << ERROR_HTML_TAG "La taille du fichier " << s.value << " n'a pas pu être déterminée." ENDL;
             cerr << STATE_HTML_TAG "Utilisation de la taille par défaut" ENDL;
-            taille.push_back(triple<uint64_t, int, int> {CUTFILE_CHUNK, 1, 0});
+            taille.push_back(quad<uint64_t, uint64_t, int, int> {CUTFILE_CHUNK, 1, 0});
         }
     }
 
     if (! silent)
-       cerr << ENDL STATE_HTML_TAG << "Taille totale des " << count << " fichiers : " << memoire_xhl / 1048576 << " Mo."  ENDL;
+        cerr << ENDL STATE_HTML_TAG << "Taille totale des " << count << " fichiers : " << memoire_xhl / 1048576 << " Mo."  ENDL;
 }
+#endif
 
+void Commandline::memoire()
+{
+    cerr << STATE_HTML_TAG
+         << "Mémoire disponible " <<  ((memoire_disponible = getFreeSystemMemory()) / 1048576)
+         << " / " << (getTotalSystemMemory()  / 1048576)
+         << " Mo."  ENDL;
 
- void Commandline::memoire()
- {
-     cerr << STATE_HTML_TAG
-          << "Mémoire disponible " <<  ((memoire_disponible = getFreeSystemMemory()) / 1048576)
-          << " / " << (getTotalSystemMemory()  / 1048576)
-          << " Mo."  ENDL;
+    memoire_utilisable = floor(ajustement * static_cast<float>(memoire_disponible));
 
-     memoire_utilisable = floor(ajustement * static_cast<float>(memoire_disponible));
+    cerr << STATE_HTML_TAG  << "Mémoire utilisable " <<  memoire_utilisable / 1048576   << " Mo."  ENDL;
 
-     cerr << STATE_HTML_TAG  << "Mémoire utilisable " <<  memoire_utilisable / 1048576   << " Mo."  ENDL;
-
-     if (nsegments != 0)
-     {
-         while (true)
-         {
-             if (memoire_xhl % nsegments == 0)
-             {
-                 memoire_utilisable = memoire_xhl / nsegments ;
-                 break;
-             }
-             else
-                 if (memoire_xhl % (nsegments - 1) == 0)
-                 {
-                     cerr << ERROR_HTML_TAG "Impossible de générer " << nsegments
-                          << " segments. Utilisation d'au moins " << nsegments + 1 << " segments." ENDL;
-                     ++nsegments;
-                 }
-                 else
-                 {
-                     memoire_utilisable = memoire_xhl / (nsegments - 1);
-                     break;
-                 }
-         }
-     }
- }
+    if (nsegments != 0)
+    {
+        while (true)
+        {
+            if (memoire_xhl % nsegments == 0)
+            {
+                memoire_utilisable = memoire_xhl / nsegments ;
+                break;
+            }
+            else
+                if (memoire_xhl % (nsegments - 1) == 0)
+                {
+                    cerr << ERROR_HTML_TAG "Impossible de générer " << nsegments
+                         << " segments. Utilisation d'au moins " << nsegments + 1 << " segments." ENDL;
+                    ++nsegments;
+                }
+                else
+                {
+                    memoire_utilisable = memoire_xhl / (nsegments - 1);
+                    break;
+                }
+        }
+    }
+}
 

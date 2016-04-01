@@ -35,7 +35,7 @@ void ecrire_entete(const info_t &info, ofstream& base);
 void ecrire_entete0(const info_t &info, ofstream& base, const char* entete[], int N);
 void ouvrir_fichier_bulletins(const info_t &info, ofstream& base, int segment);
 
-off_t taille_fichier(const string& filename);
+uint64_t taille_fichier(const string& filename);
 vector<uint64_t> calculer_taille_fichiers(const vector<string>& files, bool silent = false);
 vector<uint64_t> calculer_taille_fichiers_memoire(const vector<string>& in_memory_files, bool silent);
 size_t getTotalSystemMemory();

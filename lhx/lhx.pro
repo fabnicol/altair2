@@ -74,7 +74,9 @@ DEFINES += __GNUC_EXTENSION \
            _REENTRANT \
            _GNU_SOURCE \
            __STDC_LIMIT_MACROS \
-           __STDC_FORMAT_MACROS
+           __STDC_FORMAT_MACROS \
+            REP_DEBUG \
+#           CATCH
 
                                             # DEFINES += STRICT  pour un validateur qui retourne à la première erreur.
 DEFINES += \#NO_REGEX \                     # Pas d'analyse du texte par expression régulière
