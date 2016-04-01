@@ -22,11 +22,13 @@
 #include "tags.h"
 #include "fonctions_auxiliaires.hpp"
 #include "analyseur.h"
+#include "templates.h"
 
 using namespace std;
 using vString = vector<string>;
 
 extern bool verbeux;
+
 
 
 class Commandline
@@ -63,7 +65,8 @@ public:
     Commandline() {}
     ~Commandline() { cerr << "Sortie de la classe Commandline."; }
 
-    void calculer_taille_fichiers(const vector<pair<string, int>>& files, bool silent = true);
+    void calculer_taille_fichiers(const vector<triple<string, int, int>>& files, bool silent = true);
+
     void repartir_fichiers();
 
     int nb_segment() { return input.size();}
@@ -88,7 +91,7 @@ public:
 
     int get_nb_fichier(int segment) { return nb_fichier_par_segment.at(segment); }
 
-    vector<vector<pair<string, int>>> get_input(int segment)
+    vector<vector<triple<string, int, int>>> get_input(int segment)
     {
         return std::move(input.at(segment));
     }
@@ -98,11 +101,11 @@ public:
         int i = 0, j = 0, k =0;
         for (auto && s : input)
             for (auto && f : s)
-                for (pair<string, int> p : f)
-                    cerr << "segment " << i++ << " fil " << j++ << " fichier " << k++ << " : " << p.first << ", " << "index " << p.second <<"\n";
+                for (triple<string, int, int> p : f)
+                    cerr << "segment " << i++ << " fil " << j++ << " fichier " << k++ << " : " << p.value << ", " << "index " << p.size <<"\n";
     }
 
-    void print() { int i = 0; for (auto &&s : argv) cerr << "argv[" << i++ << "]=" << s.first << " " << s.second << "\n"; }
+    void print() { int i = 0; for (auto &&s : argv) cerr << "argv[" << i++ << "]=" << s.value << " " << s.size << "\n"; }
 
 private:
 
@@ -120,44 +123,43 @@ private:
     uint64_t memoire_utilisable = 0;
     uint64_t memoire_utilisable_par_fil = 0;
 
-    vector<uint64_t> taille_segment_par_fil;
+    vector<uint64_t> taille_segment;
     vector<int> nb_fichier_par_segment;
 
 
     float ajustement = MAX_MEMORY_SHARE;
-    vector<pair<string, int>> argv;
-    vector<pair<uint64_t, int>> taille;
-    vector<vector<vector<pair<string, int>>>> input;
-    vector<vector<pair<string, int>>> input_par_segment;
+    vector<triple<string, int, int>> argv;
+    vector<triple<uint64_t, int, int>> taille;
+    vector<vector<vector<triple<string, int, int>>>> input;
+    vector<vector<triple<string, int, int>>> input_par_segment;
 
     void memoire();
 
     vector<int> get_nb_fichier()
     {
         vector<int> v;
-        int N = nb_segment();
-        for (int segment = 0; segment < N; ++segment)
+        for (auto && segment :  input)
         {
             int n = 0;
-            for (auto &&f: input.at(segment))
+            for (auto &&f: segment)
                 for (auto && p : f)
-                    n += p.second;
+                    n += p.size;
 
             v.push_back(n);
         }
         return std::move(v);
     }
 
-    template<typename T, typename U> somme(vector<pair<T, U>>& v)
+    template<typename T=uint64_t, typename U=int, typename W=int> somme(const vector<triple<T, U, W>>& v)
     {
         T acc = 0;
         for (auto &&s : v)
         {
-          if (s.second == 1)
-              acc += s.first;
+          if (s.size == 1)
+              acc += s.value;
           else
           {
-              acc += (s.second - 1) * info.chunksize + s.first % chunksize;
+              acc += (s.size - 1) * info.chunksize + s.value % chunksize;
           }
         }
         return acc;
@@ -166,8 +168,8 @@ private:
     info_t info;
 
     bool allouer_fil(const int fil,
-                     vector<pair<string, int>>::iterator& iter_fichier,
-                     vector<pair<uint64_t, int>>::iterator& iter_taille,
+                     vector<triple<string, int, int>>::iterator& iter_fichier,
+                     vector<triple<uint64_t, int, int>>::iterator& iter_taille,
                      int& nb_decoupe);
 
 };

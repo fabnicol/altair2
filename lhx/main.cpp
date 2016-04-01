@@ -23,7 +23,9 @@ static void cleanup()
 
 
 int main(int argc, char **argv)
+#ifdef CATCH
 try
+#endif
 {
     errno = 0;
     auto startofprogram = Clock::now();
@@ -57,28 +59,32 @@ try
     Commandline commande { argv, argc };
 
     /* Fin de l'analyse de la ligne de commande */
-
+#ifdef CATCH
     try
     {
+#endif
       commande.repartir_fichiers();
+#ifdef CATCH
     }
     catch(...)
     {
         cerr << msg_erreur("Erreur dans la répartition des fichiers.");
         cleanup();
     }
-
     /* ajustement représente la part maximum de la mémoire disponible que l'on consacre au processus, compte tenu de la marge sous plafond (overhead) */
+
     try
     {
+#endif
       Analyseur analyse { commande };
+#ifdef CATCH
     }
     catch(...)
     {
         cerr << msg_erreur("Erreur dans l'analyse des fichiers.");
         cleanup();
     }
-
+#endif
     cleanup();
 
     auto endofprogram = Clock::now();
@@ -91,8 +97,10 @@ try
 
     return errno;
 }
+#ifdef CATCH
 catch(...)
 {
   cleanup();
   cerr << msg_erreur("Erreur non interceptée dans le programme.");
 }
+#endif

@@ -125,7 +125,7 @@ void Analyseur::lanceur(Commandline& commande)
     {
         unsigned nb_fichier = commande.get_nb_fichier(rang_segment);
 
-        if (commande.info.nbfil > nb_fichier)
+        if (commande.get_nb_fil() > nb_fichier)
         {
             cerr << ERROR_HTML_TAG "Segment n°" << rang_segment << " : trop de fils (" << commande.info.nbfil << ") pour le nombre de fichiers (" << nb_fichier << ")" ENDL;
             cerr << ERROR_HTML_TAG "Exécution avec " << nb_fichier << pluriel(nb_fichier, " fil") <<"."  ENDL;
@@ -145,16 +145,18 @@ void Analyseur::lanceur(Commandline& commande)
 int Analyseur::produire_segment(Commandline& commande, int rang_segment)
 {
     /* Lancement des fils */
-
+#ifdef CATCH
     try
     {
+#endif
       *gestionnaire_fils = thread_handler { commande, rang_segment };
+#ifdef CATCH
     }
     catch(...)
     {
         erreur("Erreur dans le lancement des fils");
     }
-
+#endif
 
     if (commande.is_pretend()) return 2;
 
@@ -297,7 +299,7 @@ void* Analyseur::decoder_fichier(info_t& info)
             continue;
 
         case SKIP_FILE:
-            cerr << ERROR_HTML_TAG " Le fichier  " << info.threads->argv[info.fichier_courant].first << " n'a pas pu être traité" ENDL
+            cerr << ERROR_HTML_TAG " Le fichier  " << info.threads->argv[info.fichier_courant].value << " n'a pas pu être traité" ENDL
                  << "   Fichier suivant..." ENDL;
             continue;
 
@@ -318,11 +320,11 @@ void* Analyseur::decoder_fichier(info_t& info)
             cerr << ERROR_HTML_TAG "Incohérence de l'allocation mémoire ex-ante " << info.NCumAgent
                  << " unités et ex-post " <<  info.NCumAgentXml << " unités d'information." ENDL
                  << "Sortie pour éviter une erreur de segmentation." ENDL;
-            cerr << " Fichier : " << info.threads->argv[info.fichier_courant].first << ENDL;
+            cerr << " Fichier : " << info.threads->argv[info.fichier_courant].value << ENDL;
         }
         else
             erreur("Erreur critique lors de l'analyse du fichier : "
-                   + info.threads->argv[info.fichier_courant].first);
+                   + info.threads->argv[info.fichier_courant].value);
 
     }
 
@@ -1022,7 +1024,7 @@ donnees_indiv:
         #ifdef GENERATE_RANK_SIGNAL
                  << "n°" <<  rang_global
         #endif
-                 << " : " << info.threads->argv[info.fichier_courant].first << ENDL;
+                 << " : " << info.threads->argv[info.fichier_courant].value << ENDL;
 
             cerr << STATE_HTML_TAG << "Fil n°" << info.threads->thread_num + 1 << " : " << "Fichier courant : " << info.fichier_courant + 1 << ENDL;
             cerr << STATE_HTML_TAG << "Total : " <<  info.NCumAgentXml << " bulletins -- " << info.nbLigne <<" lignes cumulées." ENDL;
@@ -1089,7 +1091,7 @@ int Analyseur::parseFile(info_t& info)
      * choisis au cas par cas en fonction d'une évaluation plus ou moins subjective de la gravité
      * de la non-conformité. */
 
-    int nb_decoupe = info.threads->argv.at(info.fichier_courant).second;
+    int nb_decoupe = info.threads->argv.at(info.fichier_courant).size;
 
     int res = 0;
     int cont_flag = PREMIER_FICHIER;
@@ -1098,7 +1100,7 @@ int Analyseur::parseFile(info_t& info)
     if (nb_decoupe == 1)
     {
 #if defined(STRINGSTREAM_PARSING) || defined(MMAP_PARSING)
-        xmlDocPtr doc = xmlParseFile(info.threads->argv.at(info.fichier_courant).first.c_str());
+        xmlDocPtr doc = xmlParseFile(info.threads->argv.at(info.fichier_courant).value.c_str());
 #else
         xmlDocPtr doc = xmlParseDoc(reinterpret_cast<const xmlChar*>(info.threads->in_memory_file.at(info.fichier_courant).c_str()));
 #endif

@@ -97,6 +97,8 @@ void thread_handler::redecouper_volumineux(info_t& info)
     info.threads->argv_cut.push_back(vector<string>{});
 #endif
 
+/* taille est vide */
+
     uint64_t taille = info.taille.at(fichier_courant);
 
     if (taille < info.chunksize) return;
@@ -245,11 +247,11 @@ void thread_handler::redecouper(info_t& info)
     {
 #ifdef STRINGSTREAM_PARSING
 
-        ifstream c(p.first);
+        ifstream c(p.value);
 
         if (! c.good())
          {
-             cerr << ERROR_HTML_TAG "Erreur d'ouverture du fichier " << p.first << ENDL;
+             cerr << ERROR_HTML_TAG "Erreur d'ouverture du fichier " << p.value << ENDL;
 #ifdef STRICT
              throw runtime_error {" Exiting."};
 #endif

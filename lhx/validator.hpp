@@ -72,12 +72,12 @@ using namespace std;
 #ifndef AVERAGE_RAM_DENSITY
 #define AVERAGE_RAM_DENSITY 1.25
 #endif
-
+#include "templates.h"
 
 struct thread_t
 {
     int      thread_num = 0;
-    vector<pair<string, int>>   argv ;
+    vector<triple<string, int, int>>   argv ;
     #if defined(STRINGSTREAM_PARSING)
         vector<vector<string>> in_memory_file_cut;
         vector<string> in_memory_file ;

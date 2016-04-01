@@ -79,12 +79,12 @@ void Analyseur::warning_msg(const char* noeud, const info_t& info, const xmlNode
                errorLineStack.emplace_back(afficher_environnement_xhl(info, cur));
            }
 
-       if (fichier_last !=  "" && info.threads->argv[info.fichier_courant].first != fichier_last)
+       if (fichier_last !=  "" && info.threads->argv[info.fichier_courant].value != fichier_last)
            warning_count = 0;
 
        /* on remet à zéro le maximum d'avertissements à chaque nouveau fichier */
 
-       fichier_last = info.threads->argv[info.fichier_courant].first;
+       fichier_last = info.threads->argv[info.fichier_courant].value;
 
       #else
            if (verbeux) cerr << WARNING_HTML_TAG "Impossible d'atteindre " << noeud << ENDL;
@@ -695,7 +695,7 @@ inline uint64_t  GCC_INLINE parseLignesPaye(xmlNodePtr cur, info_t& info, ofstre
             log.flush();
             log.seekp(ios_base::end);
 
-            log << "\n\nErreur : L'agent est non identifié pour le fichier : " << info.threads->argv[info.fichier_courant].first << "\n"
+            log << "\n\nErreur : L'agent est non identifié pour le fichier : " << info.threads->argv[info.fichier_courant].value << "\n"
                 << "Année " << info.Table[info.NCumAgentXml][Annee] << "\n"
                 << "Mois "  << info.Table[info.NCumAgentXml][Mois]  << "\n\n";
 

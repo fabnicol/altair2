@@ -148,5 +148,6 @@ HEADERS += \
     ../Interface/gui/tags.h \
     commandline_handler.h \
     thread_handler.h \
-    analyseur.h
+    analyseur.h \
+    templates.h
 

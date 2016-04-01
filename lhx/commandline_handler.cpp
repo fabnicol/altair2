@@ -486,7 +486,7 @@ try
         while (iter != commandline_tab.end())
         {
             cerr << *iter;
-            this->argv.push_back(make_pair(*iter++, 1));
+            this->argv.push_back(triple<string, int, int> {*iter++, 1, 0});
         }
     }
     catch(...)
@@ -516,8 +516,8 @@ catch(...)
 
 
 bool Commandline::allouer_fil(const int fil,
-                              vector<pair<string, int>>::iterator& iter_fichier,
-                              vector<pair<uint64_t, int>>::iterator& iter_taille,
+                              vector<triple<string, int, int>>::iterator& iter_fichier,
+                              vector<triple<uint64_t, int, int>>::iterator& iter_taille,
                               int& nb_decoupe)
 {
     cerr << "\n------- FIL n°"  << fil +1 <<"\n";
@@ -525,12 +525,12 @@ bool Commandline::allouer_fil(const int fil,
     uint64_t incr;
     bool in_memory = true;
 
-    if (nb_decoupe == 0 && iter_fichier->second == 1)
-        nb_decoupe = (iter_taille->first <= chunksize) ? 1 : static_cast<int>(iter_taille->first / chunksize) + 1;
+    if (nb_decoupe == 0 && iter_fichier->size == 1)
+        nb_decoupe = (iter_taille->value <= chunksize) ? 1 : static_cast<int>(iter_taille->value / chunksize) + 1;
     else
     {
-        nb_decoupe = nb_decoupe - iter_fichier->second;
-        cerr << "\n### Récupération des leftovers de fils précédents : " << iter_fichier->first << "  " << iter_fichier->second << "\n";
+        nb_decoupe = nb_decoupe - iter_fichier->size;
+        cerr << "\n### Récupération des leftovers de fils précédents : " << iter_fichier->value << "  " << iter_fichier->size << "\n";
     }
 
     int k;
@@ -538,18 +538,18 @@ bool Commandline::allouer_fil(const int fil,
     for (k = 1; k <= nb_decoupe; ++k)
     {
       if (nb_decoupe == 1)
-        incr = iter_taille->first;
+        incr = iter_taille->value;
       else
       if (k != nb_decoupe)
         incr = chunksize;
       else
-        incr = iter_taille->first % chunksize;
+        incr = iter_taille->value % chunksize;
 
-      cerr << "fil " << fil +1<< " iteration " << k << "/" << nb_decoupe << " TSF " << taille_segment_par_fil[fil] << " incr " << incr << ENDL;
+      cerr << "fil " << fil +1<< " iteration " << k << "/" << nb_decoupe << " TSF " << taille_segment[fil] << " incr " << incr << ENDL;
 
-      if ((taille_segment_par_fil.at(fil) + incr) /* * densite_xhl_mem */ < memoire_utilisable_par_fil)
+      if ((taille_segment.at(fil) + incr) /* * densite_xhl_mem */ < memoire_utilisable_par_fil)
       {
-          taille_segment_par_fil[fil] += incr;
+          taille_segment[fil] += incr;
       }
       else
       {
@@ -558,15 +558,27 @@ bool Commandline::allouer_fil(const int fil,
       }
     }
 
-    if (iter_fichier->second == 1 || in_memory == true)
+
+      /* si in_memory == false, iter_fichier->size vaut k - 1 - 0 et si in_memory == true, vaut k - 0 -1 */
+    if (k > 1)
     {
-        iter_fichier->second =  k - static_cast<int>(! in_memory);
-        cerr << "->nouvelle paire " << iter_fichier->first << " " << iter_fichier->second << ENDL;
-        cerr << "-->leftover : " << nb_decoupe - iter_fichier->second << ENDL;
+        if (iter_fichier->size == 1)
+        {
+            iter_fichier->start = 0;
+        }
+        else
+        {
+            iter_fichier->start = iter_fichier->size;
+        }
+
+        iter_fichier->size =  k - 1;
+
+        cerr << "->nouvelle paire " << iter_fichier->value << " " << iter_fichier->size << ENDL;
+        cerr << "-->leftover : " << nb_decoupe - iter_fichier->size << ENDL;
 
         input_par_segment[fil].push_back(*iter_fichier);
-
     }
+
 
  return in_memory;
 }
@@ -575,8 +587,8 @@ bool Commandline::allouer_fil(const int fil,
 
 void Commandline::repartir_fichiers()
 {
-     vector<pair<uint64_t, int>>::iterator iter_taille  = taille.begin();
-     vector<pair<string, int>>::iterator iter_fichier = argv.begin();
+     vector<triple<uint64_t, int, int>>::iterator iter_taille  = taille.begin();
+     vector<triple<string, int, int>>::iterator iter_fichier = argv.begin();
 
      float densite_xhl_mem = AVERAGE_RAM_DENSITY;
 
@@ -589,7 +601,6 @@ void Commandline::repartir_fichiers()
 
 //(1 + rang_segment / SEGMENT_DIVISION_RATE)
      int rang_segment = 0;
-     taille_segment_par_fil.resize(nb_fil);
 
      while (iter_taille != taille.end() && iter_fichier != argv.end())
      {
@@ -599,17 +610,22 @@ void Commandline::repartir_fichiers()
 
          cerr << STATE_HTML_TAG "\nMémoire utilisée par fil : " << memoire_utilisable_par_fil / (1024 * 1024) << " Mo" ENDL;
 
-         pair<string, int> leftover;
-         pair<uint64_t, int> leftover_taille;
+         triple<string, int, int> leftover;
+         triple<uint64_t, int, int> leftover_taille;
 
-         taille_segment_par_fil.clear();
+         taille_segment.clear();
+         taille_segment.resize(nb_fil);
+         input_par_segment.clear();
+         input_par_segment.resize(nb_fil);
+
          vector<int> nb_fichier(nb_fil);
          int fil = 0;
+         bool allouable = true;
 
          while (iter_taille != taille.end() && iter_fichier != argv.end())
          {
              int nb_decoupe = 0 ;
-             bool allouable = allouer_fil(fil, iter_fichier, iter_taille, nb_decoupe);
+             allouable = allouer_fil(fil, iter_fichier, iter_taille, nb_decoupe);
 
              if (! allouable)
                  for (int k = 0; k < nb_fil; ++k)
@@ -617,7 +633,13 @@ void Commandline::repartir_fichiers()
                      if (k != fil)
                      {
                        allouable = allouer_fil(k, iter_fichier, iter_taille, nb_decoupe);
-                       if (allouable) break;
+                       if (allouable)
+                       {
+                            cerr << "Allocation du résidu de " << iter_fichier->value << " fil " << fil
+                                 << " au fil " << k << " pour " << iter_fichier-> size <<"\n";
+
+                            break;
+                       }
                      }
                      else continue;
                  }
@@ -628,7 +650,7 @@ void Commandline::repartir_fichiers()
 
                  if (! allouable)
                  {
-                     cerr << "\n===--- leftover de segment_par_fil : " << iter_fichier->first << " indice " << iter_fichier->second << "\n";
+                     cerr << "\n===--- leftover de segment_par_fil : " << iter_fichier->value << " indice " << iter_fichier->size << "\n";
 
                      leftover = *iter_fichier;
                      leftover_taille = *iter_taille;
@@ -646,12 +668,14 @@ void Commandline::repartir_fichiers()
         }
 
         input.emplace_back(input_par_segment);
-        vector<pair<string, int>> argv2(iter_fichier, argv.end());
+        vector<triple<string, int, int>> argv2(iter_fichier, argv.end());
         argv.swap(argv2);
-        argv.insert(argv.begin(), leftover);
-        vector<pair<uint64_t, int>> taille2(iter_taille, taille.end());
+        if (! allouable)
+           argv.insert(argv.begin(), leftover);
+        vector<triple<uint64_t, int, int>> taille2(iter_taille, taille.end());
         taille.swap(taille2);
-        taille.insert(taille.begin(), leftover_taille);
+        if (!allouable)
+           taille.insert(taille.begin(), leftover_taille);
         iter_fichier = argv.begin();
         iter_taille  = taille.begin();
      }
@@ -660,7 +684,7 @@ void Commandline::repartir_fichiers()
 }
 
 
-void Commandline::calculer_taille_fichiers(const vector<pair<string, int>>& files, bool silent)
+void Commandline::calculer_taille_fichiers(const vector<triple<string, int, int>>& files, bool silent)
 {
     off_t mem = 0;
     int count = 0;
@@ -668,17 +692,17 @@ void Commandline::calculer_taille_fichiers(const vector<pair<string, int>>& file
 
     for (auto && s : files)
     {
-        if ((mem = taille_fichier(s.first)) != -1)
+        if ((mem = taille_fichier(s.value)) != -1)
         {
             memoire_xhl += static_cast<uint64_t>(mem);
-            taille.push_back(make_pair(mem, 1));
+            taille.push_back(triple<uint64_t, int, int> {static_cast<uint64_t>(mem), 1, 0});
             ++count;
         }
         else
         {
-            cerr << ERROR_HTML_TAG "La taille du fichier " << s.first << " n'a pas pu être déterminée." ENDL;
+            cerr << ERROR_HTML_TAG "La taille du fichier " << s.value << " n'a pas pu être déterminée." ENDL;
             cerr << STATE_HTML_TAG "Utilisation de la taille par défaut" ENDL;
-            taille.push_back(make_pair(CUTFILE_CHUNK, 1));
+            taille.push_back(triple<uint64_t, int, int> {CUTFILE_CHUNK, 1, 0});
         }
     }
 

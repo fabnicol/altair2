@@ -131,7 +131,7 @@ string getexecpath()
 errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur)
 {
     long lineN = 0;
-    cerr << WARNING_HTML_TAG "Fichier analysé " <<  info.threads->argv[info.fichier_courant].first << ENDL;
+    cerr << WARNING_HTML_TAG "Fichier analysé " <<  info.threads->argv[info.fichier_courant].value << ENDL;
     lineN = xmlGetLineNo(cur);
     if (lineN == -1)
     {
@@ -149,7 +149,7 @@ errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur)
                  << "  " << info.Table[info.NCumAgentXml][l] << ENDL;
     }
 #endif
-    errorLine_t s = {lineN, string("Fichier : ") + string(info.threads->argv[info.fichier_courant].first)
+    errorLine_t s = {lineN, string("Fichier : ") + string(info.threads->argv[info.fichier_courant].value)
                      + string(" -- Balise : ") + ((cur)? string((const char*)cur->name) : string("NA"))};
     return s;
 }
@@ -824,7 +824,7 @@ int calculer_memoire_requise(info_t& info)
 
             if (remuneration_xml_open == true)
             {
-                cerr << "Erreur XML : la balise Remuneration n'est pas refermée pour le fichier " << info.threads->argv[i].first
+                cerr << "Erreur XML : la balise Remuneration n'est pas refermée pour le fichier " << info.threads->argv[i].value
                         << ENDL "pour l'agent n°"   << info.NCumAgent + 1 << ENDL;
                 exit(0);
 
