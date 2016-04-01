@@ -43,7 +43,7 @@ thread_handler::thread_handler(Commandline& commande, int rang_segment) : nb_fil
 
        try
         {
-          redecouper(Info[i]);
+          redecouper(Info[i], commande);
         }
         catch(...)
         {
@@ -80,7 +80,7 @@ thread_handler::thread_handler(Commandline& commande, int rang_segment) : nb_fil
 }
 
 
-void thread_handler::redecouper_volumineux(info_t& info)
+void thread_handler::redecouper_volumineux(info_t& info, triple<string, int, int>& tr)
 {
 
     int fichier_courant = info.fichier_courant;
@@ -97,11 +97,6 @@ void thread_handler::redecouper_volumineux(info_t& info)
     info.threads->argv_cut.push_back(vector<string>{});
 #endif
 
-/* taille est vide */
-
-    uint64_t taille = info.taille.at(fichier_courant);
-
-    if (taille < info.chunksize) return;
 
     if (verbeux)
         cerr << PROCESSING_HTML_TAG "Fil n°" << info.threads->thread_num + 1 << " Redécoupage du fichier n°" << fichier_courant + 1 << ENDL;
@@ -151,6 +146,7 @@ void thread_handler::redecouper_volumineux(info_t& info)
         string s = "";
         bool end_loop = false;
         i += info.chunksize;
+        uint64_t taille = taille_fichier(tr.value);
 
         if (i < taille)
         {
@@ -241,17 +237,19 @@ void thread_handler::redecouper_volumineux(info_t& info)
     }
 }
 
-void thread_handler::redecouper(info_t& info)
+void thread_handler::redecouper(info_t& info, Commandline& commande)
 {
-    for (auto &&p: info.threads->argv)
-    {
+  for (auto &&segment : commande.get_input())
+    for (auto &&fil : segment)
+     for (auto &&tr : fil)
+     {
 #ifdef STRINGSTREAM_PARSING
 
-        ifstream c(p.value);
+        ifstream c(tr.value);
 
         if (! c.good())
          {
-             cerr << ERROR_HTML_TAG "Erreur d'ouverture du fichier " << p.value << ENDL;
+             cerr << ERROR_HTML_TAG "Erreur d'ouverture du fichier " << tr.value << ENDL;
 #ifdef STRICT
              throw runtime_error {" Exiting."};
 #endif
@@ -265,9 +263,9 @@ void thread_handler::redecouper(info_t& info)
 
 #endif
 
-        if (info.decoupage_fichiers_volumineux)
+        if (info.decoupage_fichiers_volumineux && tr.size > 1)
         {
-          redecouper_volumineux(info);
+          redecouper_volumineux(info, tr);
         }
 
         ++info.fichier_courant;

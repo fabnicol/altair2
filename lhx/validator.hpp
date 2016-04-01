@@ -15,7 +15,7 @@
 #include <libxml/parser.h>
 #include <cinttypes>
 #include <vector>
-
+#include "templates.h"
 using namespace std;
 
 
@@ -176,7 +176,7 @@ private :
 public:
     vector<vector<xmlChar*>> Table = {{}};
     uint64_t nbLigne               = 0;
-    vector<uint64_t> taille        = {};
+    vector<triple<uint64_t, int, int>> taille        = {};
     vector<uint32_t> NAgent        = {};
     uint32_t chunksize             = CUTFILE_CHUNK;
     uint32_t nbAgentUtilisateur    = 0;

@@ -46,6 +46,7 @@ public:
     uint32_t get_chunksize() { return chunksize; }
     int get_nb_fil() { return nb_fil; }
     string get_chemin_log() { return info.chemin_log; }
+    vector<vector<vector<triple<string, int, int>>>> get_input() {return input; }
 
     void set_memoire_xhl(uint64_t m) { memoire_xhl = m; }
     void set_memoire_disponible(uint64_t m) { memoire_disponible = m; }

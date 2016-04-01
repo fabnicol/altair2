@@ -15,8 +15,8 @@ public:
 private:
     vector<thread> fils;
     vector<info_t> Info;
-    void redecouper_volumineux(info_t& info);
-    void redecouper(info_t& info);
+    void redecouper_volumineux(info_t& info, triple<string, int, int>& tr);
+    void redecouper(info_t& info, Commandline&);
     int nb_fil = 1;
 };
 

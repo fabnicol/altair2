@@ -3,8 +3,11 @@
 extern bool verbeux, liberer_memoire, generer_table;
 
 Commandline::Commandline(char** argv, int argc)
+#ifdef CATCH
 try
+#endif
 {
+
     int start = 0;
     string type_table = "bulletins";
     vString cl;  /* pour les lignes de commandes incluses dans un fichier */
@@ -481,19 +484,24 @@ try
     index_debut_fichiers  = start;
 
     vString::const_iterator iter = commandline_tab.begin() + start;
+
+#ifdef CATCH
     try
     {
+#endif
         while (iter != commandline_tab.end())
         {
             cerr << *iter;
             this->argv.push_back(triple<string, int, int> {*iter++, 1, 0});
         }
+#ifdef CATCH
     }
     catch(...)
     {
         cerr << "Erreur sur argv" ENDL;
         print();
     }
+#endif
 
     if (memoire_xhl == 0)
     {
@@ -506,12 +514,14 @@ try
     nb_fil = info.nbfil;
 
     memoire();
+
 }
+#ifdef CATCH
 catch(...)
 {
   cerr << ERROR_HTML_TAG "Le programme s'est terminé en raison d'erreurs sur la ligne de commande" ENDL;
 }
-
+#endif
 /* A distribuer par fil ! */
 
 
@@ -681,6 +691,7 @@ void Commandline::repartir_fichiers()
      }
 
       nb_fichier_par_segment = get_nb_fichier();
+      info.taille = std::move(taille);
 }
 
 
