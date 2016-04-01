@@ -15,9 +15,15 @@ ofstream rankFile;
 string rankFilePath = "";
 mutex mut;
 
-//static inline vector<int> repartir_fichiers_par_fil(const info_t& info, const vString& segment);
+static void cleanup()
+{
+  try { xmlCleanupParser(); } catch(...) { msg_erreur("L'arbre XML ne peut pas être nettoyé."); }
+}
+
+
 
 int main(int argc, char **argv)
+try
 {
     errno = 0;
     auto startofprogram = Clock::now();
@@ -59,6 +65,7 @@ int main(int argc, char **argv)
     catch(...)
     {
         cerr << msg_erreur("Erreur dans la répartition des fichiers.");
+        cleanup();
     }
 
     /* ajustement représente la part maximum de la mémoire disponible que l'on consacre au processus, compte tenu de la marge sous plafond (overhead) */
@@ -69,9 +76,10 @@ int main(int argc, char **argv)
     catch(...)
     {
         cerr << msg_erreur("Erreur dans l'analyse des fichiers.");
+        cleanup();
     }
 
-    xmlCleanupParser();
+    cleanup();
 
     auto endofprogram = Clock::now();
 
@@ -82,4 +90,9 @@ int main(int argc, char **argv)
     if (rankFile.is_open()) rankFile.close();
 
     return errno;
+}
+catch(...)
+{
+  cleanup();
+  cerr << msg_erreur("Erreur non interceptée dans le programme.");
 }

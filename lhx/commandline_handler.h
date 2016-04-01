@@ -61,7 +61,7 @@ public:
 
     Commandline(char** argv, int argc);
     Commandline() {}
-    ~Commandline() { cerr << "Destruction."; }
+    ~Commandline() { cerr << "Sortie de la classe Commandline."; }
 
     void calculer_taille_fichiers(const vector<pair<string, int>>& files, bool silent = true);
     void repartir_fichiers();
@@ -118,12 +118,17 @@ private:
     uint64_t memoire_xhl = 0;
     uint64_t memoire_disponible = 0;
     uint64_t memoire_utilisable = 0;
+    uint64_t memoire_utilisable_par_fil = 0;
+
+    vector<uint64_t> taille_segment_par_fil;
     vector<int> nb_fichier_par_segment;
+
 
     float ajustement = MAX_MEMORY_SHARE;
     vector<pair<string, int>> argv;
     vector<pair<uint64_t, int>> taille;
     vector<vector<vector<pair<string, int>>>> input;
+    vector<vector<pair<string, int>>> input_par_segment;
 
     void memoire();
 
@@ -159,6 +164,11 @@ private:
     }
 
     info_t info;
+
+    bool allouer_fil(const int fil,
+                     vector<pair<string, int>>::iterator& iter_fichier,
+                     vector<pair<uint64_t, int>>::iterator& iter_taille,
+                     int& nb_decoupe);
 
 };
 

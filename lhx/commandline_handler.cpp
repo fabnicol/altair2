@@ -515,6 +515,64 @@ catch(...)
 /* A distribuer par fil ! */
 
 
+bool Commandline::allouer_fil(const int fil,
+                              vector<pair<string, int>>::iterator& iter_fichier,
+                              vector<pair<uint64_t, int>>::iterator& iter_taille,
+                              int& nb_decoupe)
+{
+    cerr << "\n------- FIL n°"  << fil +1 <<"\n";
+
+    uint64_t incr;
+    bool in_memory = true;
+
+    if (nb_decoupe == 0 && iter_fichier->second == 1)
+        nb_decoupe = (iter_taille->first <= chunksize) ? 1 : static_cast<int>(iter_taille->first / chunksize) + 1;
+    else
+    {
+        nb_decoupe = nb_decoupe - iter_fichier->second;
+        cerr << "\n### Récupération des leftovers de fils précédents : " << iter_fichier->first << "  " << iter_fichier->second << "\n";
+    }
+
+    int k;
+
+    for (k = 1; k <= nb_decoupe; ++k)
+    {
+      if (nb_decoupe == 1)
+        incr = iter_taille->first;
+      else
+      if (k != nb_decoupe)
+        incr = chunksize;
+      else
+        incr = iter_taille->first % chunksize;
+
+      cerr << "fil " << fil +1<< " iteration " << k << "/" << nb_decoupe << " TSF " << taille_segment_par_fil[fil] << " incr " << incr << ENDL;
+
+      if ((taille_segment_par_fil.at(fil) + incr) /* * densite_xhl_mem */ < memoire_utilisable_par_fil)
+      {
+          taille_segment_par_fil[fil] += incr;
+      }
+      else
+      {
+        in_memory = false;
+        break;
+      }
+    }
+
+    if (iter_fichier->second == 1 || in_memory == true)
+    {
+        iter_fichier->second =  k - static_cast<int>(! in_memory);
+        cerr << "->nouvelle paire " << iter_fichier->first << " " << iter_fichier->second << ENDL;
+        cerr << "-->leftover : " << nb_decoupe - iter_fichier->second << ENDL;
+
+        input_par_segment[fil].push_back(*iter_fichier);
+
+    }
+
+ return in_memory;
+}
+
+
+
 void Commandline::repartir_fichiers()
 {
      vector<pair<uint64_t, int>>::iterator iter_taille  = taille.begin();
@@ -531,102 +589,69 @@ void Commandline::repartir_fichiers()
 
 //(1 + rang_segment / SEGMENT_DIVISION_RATE)
      int rang_segment = 0;
+     taille_segment_par_fil.resize(nb_fil);
 
      while (iter_taille != taille.end() && iter_fichier != argv.end())
      {
          cerr << "\n-------------- SEGMENT n°"  << ++rang_segment <<"\n\n";
 
-         uint64_t memoire_utilisable_par_fil = min(memoire_utilisable, static_cast<uint64_t>(floor(somme(taille) / nb_fil) + 1.5*chunksize));
+         memoire_utilisable_par_fil = min(memoire_utilisable, static_cast<uint64_t>(floor(somme(taille) / nb_fil)));
 
          cerr << STATE_HTML_TAG "\nMémoire utilisée par fil : " << memoire_utilisable_par_fil / (1024 * 1024) << " Mo" ENDL;
 
-         vector<vector<pair<string, int>>> input_par_segment;
+         pair<string, int> leftover;
+         pair<uint64_t, int> leftover_taille;
 
-         vector<pair<string, int>> leftover;
-         vector<pair<uint64_t, int>> leftover_taille;
+         taille_segment_par_fil.clear();
+         vector<int> nb_fichier(nb_fil);
+         int fil = 0;
 
-         for (int fil = 0; fil < nb_fil; ++fil)
+         while (iter_taille != taille.end() && iter_fichier != argv.end())
          {
-             vector<pair<string, int>> input_par_segment_par_fil;
-             uint64_t taille_segment_par_fil = 0;
-             cerr << "\n------- FIL n°"  << fil +1 <<"\n";
+             int nb_decoupe = 0 ;
+             bool allouable = allouer_fil(fil, iter_fichier, iter_taille, nb_decoupe);
 
-             while (iter_taille != taille.end() && iter_fichier != argv.end())
-             {
-                 uint64_t incr;
-                 int nb_fichier = 0;
-                 int nb_decoupe;
-                 bool out_of_memory = false;
-
-                 if (iter_fichier->second == 1)
-                     nb_decoupe = (iter_taille->first <= chunksize) ? 1 : static_cast<int>(iter_taille->first / chunksize) + 1;
-                 else
+             if (! allouable)
+                 for (int k = 0; k < nb_fil; ++k)
                  {
-                     nb_decoupe = iter_fichier->second;
-                     cerr << "\n### Récupération des leftovers du segment précédent : " << iter_fichier->first << "  " << iter_fichier->second << "\n";
-                 }
-
-                 for (int k = 1; k <= nb_decoupe; ++k)
-                 {
-                   if (nb_decoupe == 1)
-                     incr = iter_taille->first;
-                   else
-                   if (k != nb_decoupe)
-                     incr = chunksize;
-                   else
-                     incr = iter_taille->first % chunksize;
-
-                   cerr << "fil " << fil +1<< " iteration " << k << "/" << nb_decoupe << " TSF " << taille_segment_par_fil << " incr " << incr << ENDL;
-
-                   if ((taille_segment_par_fil + incr) /* * densite_xhl_mem */ < memoire_utilisable_par_fil)
-                   {
-                       taille_segment_par_fil += incr;
-                       ++nb_fichier;
-                       cerr << "--> nb fichier "<< nb_fichier << ENDL;
-                   }
-                   else
-                   {
-                     out_of_memory = true;
-                     break;
-                   }
-                 }
-
-                 cerr << "->nouvelle paire " << iter_fichier->first << " " << nb_fichier << ENDL;
-                 if (nb_fichier)
-                 {
-                     iter_fichier->second = nb_fichier;
-                     input_par_segment_par_fil.emplace_back(*iter_fichier);
-                 }
-                 if (out_of_memory || iter_fichier == argv.end())
-                 {
-                     cerr << "\n=== nouveau segment_par_fil : " << "\n";
-                     for (auto&& s: input_par_segment_par_fil) cerr << s.first << "\n";
-                     input_par_segment.emplace_back(input_par_segment_par_fil);
-
-                     if (nb_fichier < nb_decoupe)
+                     if (k != fil)
                      {
-                         cerr << "\n===--- leftover de segment_par_fil : " << iter_fichier->first << " indice " << nb_decoupe - nb_fichier << "\n";
-
-                         leftover.emplace_back(make_pair(iter_fichier->first, nb_decoupe - nb_fichier));
-                         leftover_taille.emplace_back(make_pair(iter_taille->first, nb_decoupe - nb_fichier));
+                       allouable = allouer_fil(k, iter_fichier, iter_taille, nb_decoupe);
+                       if (allouable) break;
                      }
-                     break;
+                     else continue;
                  }
 
-                 ++iter_taille;
-                 ++iter_fichier;
+             if (! allouable || iter_fichier == argv.end())
+             {
+                 cerr << "\n=== nouveau segment : " << "\n";
+
+                 if (! allouable)
+                 {
+                     cerr << "\n===--- leftover de segment_par_fil : " << iter_fichier->first << " indice " << iter_fichier->second << "\n";
+
+                     leftover = *iter_fichier;
+                     leftover_taille = *iter_taille;
+                 }
+
+                 break;
              }
+
+             ++nb_fichier[fil];
+             cerr << "--> nb fichier "<< nb_fichier[fil] << ENDL;
+             ++iter_taille;
+             ++iter_fichier;
+             ++fil;
+             if (nb_fil == fil) fil = 0;
         }
 
         input.emplace_back(input_par_segment);
         vector<pair<string, int>> argv2(iter_fichier, argv.end());
         argv.swap(argv2);
-        argv.insert(argv.begin(), leftover.begin(), leftover.end());
+        argv.insert(argv.begin(), leftover);
         vector<pair<uint64_t, int>> taille2(iter_taille, taille.end());
         taille.swap(taille2);
-        taille.insert(taille.begin(), leftover_taille.begin(), leftover_taille.end());
-        leftover.clear();
-        leftover_taille.clear();
+        taille.insert(taille.begin(), leftover_taille);
         iter_fichier = argv.begin();
         iter_taille  = taille.begin();
      }
