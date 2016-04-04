@@ -75,6 +75,10 @@ public:
     vector<int> nb_fichier_par_fil(int segment)
     {
          int nfichier = get_nb_fichier(segment);
+         cerr << "SEGMENT n° " << segment + 1 << endl;
+         cerr << "nfichier " << nfichier << endl;
+         cerr << "nb_fil " << nb_fil << endl;
+
          int remainder = nfichier % nb_fil;
          vector<int> nb_fichier_par_fil;
 
@@ -83,6 +87,7 @@ public:
              nb_fichier_par_fil.push_back(nfichier / nb_fil + (remainder > 0));
              --remainder;
          }
+
 
          return move(nb_fichier_par_fil);
 
@@ -93,7 +98,7 @@ public:
 
     vector<vector<quad<string, uint64_t, int, int>>> get_input(int segment)
     {
-        return std::move(input.at(segment));
+        return std::move(input[segment]);
     }
 
     void print_repartion()

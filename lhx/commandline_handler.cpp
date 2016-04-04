@@ -491,7 +491,7 @@ try
 #endif
         while (iter != commandline_tab.end())
         {
-            this->argv.push_back(quad<string, uint64_t, int, int> {*iter, taille_fichier(*iter), 1, 0});
+            this->argv.push_back(quad<string, uint64_t, int, int> {*iter, taille_fichier(*iter), 1, NO_LEFTOVER});
             iter++;
         }
 #ifdef CATCH
@@ -550,17 +550,17 @@ bool Commandline::allouer_fil(const int fil,
 
     int k;
 
-    for (k = 1; k <= nb_decoupe; ++k)
+    for (k = 0; k < nb_decoupe; ++k)
     {
         if (nb_decoupe == 1)
             incr = iter_fichier->size;
         else
             if (k != nb_decoupe)
                 incr = chunksize;
-            else
+        else
                 incr = iter_fichier->size % chunksize;
 
-        cerr << "fil " << fil +1<< " iteration " << k << "/" << nb_decoupe << " TSF " << taille_segment[fil] << " incr " << incr << ENDL;
+        cerr << "fil " << fil + 1 << " iteration " << k + 1 << "/" << nb_decoupe << " TSF " << taille_segment[fil] << " incr " << incr << ENDL;
 
         if ((taille_segment.at(fil) + incr) /* * densite_xhl_mem */ < memoire_utilisable_par_fil)
         {
@@ -574,30 +574,26 @@ bool Commandline::allouer_fil(const int fil,
     }
 
 
-    /* si in_memory == false, iter_fichier->elements vaut k - 1 - 0 et si in_memory == true, vaut k - 0 -1 */
-    if (k > 1)
-    {
-        if (iter_fichier->elements == 1)
-        {
-            iter_fichier->start = 0;
-        }
-        else
-        {
-            iter_fichier->start = iter_fichier->elements;
-        }
+    /* si in_memory == false, iter_fichier->elements vaut k - 0 et si in_memory == true, vaut k - 0 */
 
-        iter_fichier->elements =  k - 1;
 
-        cerr << "->nouvelle paire " << iter_fichier->value << " " << iter_fichier->elements << ENDL;
-        cerr << "-->leftover : " << nb_decoupe - iter_fichier->elements << ENDL;
+    iter_fichier->elements =  k ;
 
-        input_par_segment[fil].push_back(*iter_fichier);
-    }
+    cerr << "->nouvelle paire " << iter_fichier->value << " " << iter_fichier->elements << ENDL;
+    cerr << "-->leftover : " << nb_decoupe - iter_fichier->elements << ENDL;
 
+    if (iter_fichier->elements < nb_decoupe) iter_fichier->status = LEFTOVER;
+
+    input_par_segment[fil].push_back(*iter_fichier);
 
     return in_memory;
 }
 
+/* Structure des données :
+ *   quad { filename : nom du fichier et chemin : string;
+ *          size     : en octets                : uint64_t ;
+ *          elements : nombre de découpages du fichier maître    : int ;
+ *          status   : premier fichier, dernier fichier ou fichier intermédiaire : File_status } ; */
 
 
 void Commandline::repartir_fichiers()
@@ -677,7 +673,7 @@ void Commandline::repartir_fichiers()
             if (nb_fil == fil) fil = 0;
         }
 
-        input.emplace_back(input_par_segment);
+        input.push_back(input_par_segment);
         vector<quad<string, uint64_t, int, int>> argv2(iter_fichier, argv.end());
         argv.swap(argv2);
         if (! allouable)
@@ -686,6 +682,7 @@ void Commandline::repartir_fichiers()
     }
 
     nb_fichier_par_segment = get_nb_fichier();
+
 }
 
 #if 0

@@ -116,6 +116,8 @@ inline void generate_rank_signal(int progression)
         rankFile.close();
 }
 
+#if 0
+/* might be faulty */
 template <typename Allocator = allocator<char>>
 inline string read_stream_into_string(
         ifstream& in,
@@ -129,6 +131,33 @@ inline string read_stream_into_string(
 
     return ss.str();
 }
+#endif
+
+
+static inline string read_stream_into_string(ifstream& in)
+{
+
+  if (in)
+  {
+
+    string contents;
+    in.seekg(0, std::ios::end);
+    contents.resize(in.tellg());
+    in.seekg(0, std::ios::beg);
+    in.read(&contents[0], contents.size());
+    in.close();
+    return(contents);
+
+#if 0  /* much SLOWER */
+    string s((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>());
+
+    return s;
+#endif
+  }
+  throw ios_base::failure {"[ERR] Erreur de lecture du fichier d'entrée.\n"};
+}
+
+
 
 static inline void memory_debug(const string& func_tag GCC_UNUSED)
 {

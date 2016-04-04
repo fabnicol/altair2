@@ -79,10 +79,7 @@ struct thread_t
     int      thread_num = 0;
     vector<quad<string, uint64_t, int, int>>   argv ;
     #if defined(STRINGSTREAM_PARSING)
-        vector<vector<string>> in_memory_file_cut;
-        vector<string> in_memory_file ;
-    #else
-        vector<vector<string>>   argv_cut;
+    vector<string> in_memory_file ;
     #endif
     unsigned argc = 1;
 };
@@ -136,6 +133,8 @@ enum class BaseType : int
                     MAXIMUM_LIGNES_PAR_ANNEE = 16
                   };
 
+enum  File_status { PREMIER_FICHIER = 0, DERNIER_FICHIER_DECOUPE = 1, FICHIER_SUIVANT_DECOUPE = 2, LEFTOVER = 3, NO_LEFTOVER = 4} ;
+
 using Mem_management = enum {
                               INDEX_MAX_COLONNNES = 5,    // nombre de type de champ de ligne de paye (Libellé, Code, Taux, Base, ...) moins 1.
                               BESOIN_MEMOIRE_ENTETE = 27,  /* nb d'éléments de l'enum ci-dessous */
@@ -149,9 +148,6 @@ using XML_code = enum {
                         NODE_NOT_FOUND,
                         LINE_MEMORY_EXCEPTION,
                         NO_NEXT_ITEM,
-                        PREMIER_FICHIER,
-                        FICHIER_SUIVANT_DECOUPE,
-                        DERNIER_FICHIER_DECOUPE
                        };
 
 using Entete = enum {

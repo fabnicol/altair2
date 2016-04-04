@@ -585,7 +585,10 @@ void calculer_maxima(const vector<info_t> &Info, ofstream* LOG)
 
 }
 
-
+// Trois problèmes...
+/* info.threads->argc désinchronisé;
+ * info.threads->in_memory_file vidé;
+ * info_fichier_courant non assigné */
 
 int calculer_memoire_requise(info_t& info)
 {
@@ -621,6 +624,8 @@ int calculer_memoire_requise(info_t& info)
 
 
     /* par convention  un agent avec rémunération non renseignées (balise sans fils) a une ligne */
+    //for (unsigned i = 0; i < info.threads->argc; ++i)
+    //{
     for (unsigned i = 0; i < info.threads->argc; ++i)
     {
 #ifdef GUI_TAG_MESSAGES
@@ -742,7 +747,7 @@ int calculer_memoire_requise(info_t& info)
 #else
 #ifdef STRINGSTREAM_PARSING
 
-        const string ss = info.threads->in_memory_file.at(info.fichier_courant);
+        const string ss = info.threads->in_memory_file.at(i);
         string::const_iterator iter = ss.begin();
 
         while (iter != ss.end())

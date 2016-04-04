@@ -1050,10 +1050,6 @@ donnees_indiv:
         xmlFree(budget_fichier);
     }
 
-#if defined(STRINGSTREAM_PARSING) || defined(MMAP_PARSING)
-    info.threads->in_memory_file.at(info.fichier_courant).clear();
-#endif
-
     xmlFreeDoc(doc);
 
     if (log.is_open())
@@ -1089,71 +1085,61 @@ int Analyseur::parseFile(info_t& info)
      * choisis au cas par cas en fonction d'une évaluation plus ou moins subjective de la gravité
      * de la non-conformité. */
 
-    int nb_decoupe = info.threads->argv.at(info.fichier_courant).size;
-
     int res = 0;
     int cont_flag = PREMIER_FICHIER;
     xml_commun champ_commun;
+    const quad<> &q = info.threads->argv.at(info.fichier_courant);
+    int nb_decoupe = q.elements;
 
     if (nb_decoupe == 1)
     {
-#if defined(STRINGSTREAM_PARSING) || defined(MMAP_PARSING)
-        xmlDocPtr doc = xmlParseFile(info.threads->argv.at(info.fichier_courant).value.c_str());
-#else
+#if defined(STRINGSTREAM_PARSING)
         xmlDocPtr doc = xmlParseDoc(reinterpret_cast<const xmlChar*>(info.threads->in_memory_file.at(info.fichier_courant).c_str()));
+        info.threads->in_memory_file.at(info.fichier_courant).clear();
+#else
+        xmlDocPtr doc = xmlParseFile(info.threads->argv.at(info.fichier_courant).value.c_str());
 #endif
-
-        return Analyseur::parseFile(doc, info, cont_flag, &champ_commun);
+    return Analyseur::parseFile(doc, info, cont_flag, &champ_commun);
     }
 
     // -----  nb_decoupe != 0
 
-    int rang  = 0;
 
-#if defined(STRINGSTREAM_PARSING) || defined(MMAP_PARSING)
-    vector<string> cut_chunks = info.threads->in_memory_file_cut.at(info.fichier_courant);
-#else
-    const vector<string> cut_chunks = info.threads->argv_cut.at(info.fichier_courant);
-#endif
-
-    int NDecoupe = cut_chunks.size();
-
-    for (auto && s :  cut_chunks)
+    for (int rang = 0; rang < nb_decoupe; ++rang)
     {
-        ++rang;
-        if (rang > nb_decoupe)
-        {
-         // définir les leftovers ici
-            break;
-        }
 
-        if (verbeux)
+       if (verbeux)
         {
             cerr << ENDL;
             cerr << ".....     .....     ....." ENDL;
             cerr << ENDL;
 
             cerr << PROCESSING_HTML_TAG "Analyse du fichier scindé fil " << info.threads->thread_num + 1
-                 << " - n°" << info.fichier_courant + 1 << "-" << rang << "/" << nb_decoupe << " de " << NDecoupe;
+                 << " - n°" << info.fichier_courant + 1 << "-" << rang + 1 << "/" << nb_decoupe;
 
-#if defined(FGETC_PARSING)
-            cerr << " : " << s << ENDL;
-#else
             cerr << ENDL;
-#endif
         }
 
-        if (rang == 1)
-            cont_flag = PREMIER_FICHIER;
+
+        if (rang == 0)
+        {
+            if (q.status == LEFTOVER)
+                cont_flag = FICHIER_SUIVANT_DECOUPE;
+            else
+                cont_flag = PREMIER_FICHIER;
+        }
         else
-        if (rang == NDecoupe)
-            cont_flag = DERNIER_FICHIER_DECOUPE;
+        if (rang == nb_decoupe - 1)
+                cont_flag = DERNIER_FICHIER_DECOUPE;
         else
             cont_flag = FICHIER_SUIVANT_DECOUPE;
 
-#if defined(STRINGSTREAM_PARSING) || defined(MMAP_PARSING)
-        xmlDocPtr doc = xmlParseDoc(reinterpret_cast<const xmlChar*>(s.c_str()));
-        s.clear();
+
+#if defined(STRINGSTREAM_PARSING)
+
+        const char* s = info.threads->in_memory_file.at(info.fichier_courant + rang).c_str();
+        xmlDocPtr doc = xmlParseDoc(reinterpret_cast<const xmlChar*>(s));
+        //s.clear();
 #else
         xmlDocPtr doc = xmlParseFile(s.c_str());
 #endif
@@ -1170,7 +1156,7 @@ int Analyseur::parseFile(info_t& info)
         if (verbeux)
         {
             cerr << PROCESSING_HTML_TAG "Fin de l'analyse du fichier scindé fil " << info.threads->thread_num + 1
-                 << " n°" << info.fichier_courant + 1 << "-" << rang << "/" << nb_decoupe << " de " << NDecoupe;
+                 << " n°" << info.fichier_courant + 1 << "-" << rang << "/" << nb_decoupe ;
 #ifdef FGETC_PARSING
             cerr << " : " << s << ENDL;
 #else
@@ -1187,12 +1173,9 @@ int Analyseur::parseFile(info_t& info)
                      << " n°" << info.fichier_courant + 1<< "-" << rang  << "/" << nb_decoupe << " de " << NDecoupe << " : " << s << ENDL;
         }
 #endif
-
         if (res == SKIP_FILE || res == RETRY) return res;
-
     }
 
     return 0;
-
 }
 

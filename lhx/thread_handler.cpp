@@ -18,13 +18,22 @@ thread_handler::thread_handler(Commandline& commande, int rang_segment) : nb_fil
 
     vector<int> nb_fichier_par_fil = commande.nb_fichier_par_fil(rang_segment);
 
+    auto input_segment = commande.get_input(rang_segment);
+    for (unsigned i = 0; i < nb_fichier_par_fil.size(); ++i)
+        cerr << "fil " << i + 1 << " Info[i].threads->argc " << nb_fichier_par_fil.at(i)  << endl;
+
     for (int i = 0; i < nb_fil; ++i)
     {
         Info[i] = commande.info;
         Info[i].threads = &v_thread_t[i];
         Info[i].threads->thread_num = i;
+
+        /* Nombre de fichiers quad du fil */
         Info[i].threads->argc = nb_fichier_par_fil.at(i);
-        Info[i].threads->argv = commande.get_input(rang_segment).at(i);
+
+        /* Fichiers quad du fil */
+
+        Info[i].threads->argv = input_segment.at(i);
 
         /* Leftovers du segment précédent */
 
@@ -39,7 +48,7 @@ thread_handler::thread_handler(Commandline& commande, int rang_segment) : nb_fil
 
         if (verbeux)
             cerr <<  PROCESSING_HTML_TAG "Fil d'exécution n°" << i + 1 << "/" << nb_fil
-                  << "   Nombre de fichiers dans ce fil : " << Info[i].threads->argc << ENDL;
+                 << "   Nombre de fichiers dans ce fil : " << Info[i].threads->argc << ENDL;
 
 #ifdef CATCH
        try
@@ -90,9 +99,9 @@ void thread_handler::redecouper_volumineux(info_t& info, quad<string, uint64_t, 
     int fichier_courant = info.fichier_courant;
 
 #if defined(STRINGSTREAM_PARSING)
-    if  (! info.threads->in_memory_file_cut.empty()) return;
-    string filest = std::move(info.threads->in_memory_file.at(fichier_courant));
-    info.threads->in_memory_file_cut.push_back(vector<string>{});
+   // if  (! info.threads->in_memory_file_cut.empty()) return;
+    string filest = move(info.threads->in_memory_file[fichier_courant]);
+    info.threads->in_memory_file[fichier_courant] = string {};
 #else
     if (! info.threads->argv_cut.empty()) return;
     ifstream c(info.threads->argv.at(fichier_courant));
@@ -101,14 +110,13 @@ void thread_handler::redecouper_volumineux(info_t& info, quad<string, uint64_t, 
     info.threads->argv_cut.push_back(vector<string>{});
 #endif
 
-
     if (verbeux)
         cerr << PROCESSING_HTML_TAG "Fil n°" << info.threads->thread_num + 1 << " Redécoupage du fichier n°" << fichier_courant + 1 << ENDL;
 
     string document_tag = "", enc = "";
     string::iterator iter = filest.begin();
 
-    while (*++iter != '?' && iter != filest.end()) continue;
+    while (++iter != filest.end() && *iter != '?') continue;
 
     while (++iter != filest.end())
     {
@@ -125,9 +133,9 @@ void thread_handler::redecouper_volumineux(info_t& info, quad<string, uint64_t, 
         break;
     }
 
-    while (iter != filest.end())
+    while (++iter != filest.end())
     {
-        if (*++iter != 'D') continue;
+        if (*iter != 'D') continue;
         ++iter;
         const string s = string(iter, iter + 11);
         // <...:DocumentPaye>
@@ -226,7 +234,8 @@ void thread_handler::redecouper_volumineux(info_t& info, quad<string, uint64_t, 
         open_di = (s == "DonneesIndiv");
 
 #if defined(STRINGSTREAM_PARSING) || defined(MMAP_PARSING)
-        info.threads->in_memory_file_cut[fichier_courant].emplace_back(filest_cut);
+        info.threads->in_memory_file[fichier_courant] = move(filest_cut);
+        ++fichier_courant;
 #else
         string filecut_path = info.threads->argv.at(fichier_courant) +"_" + to_string(r) + ".xhl";
         ofstream filecut(filecut_path);
@@ -243,34 +252,38 @@ void thread_handler::redecouper_volumineux(info_t& info, quad<string, uint64_t, 
 
 void thread_handler::redecouper(info_t& info)
 {
+  info.threads->in_memory_file.clear();
+  info.threads->in_memory_file.resize(info.threads->argc);
+  info.fichier_courant = 0;
+
   for (auto &&tr : info.threads->argv)
   {
-#ifdef STRINGSTREAM_PARSING
 
-        ifstream c(tr.value);
+        #ifdef STRINGSTREAM_PARSING
+          ifstream c(tr.value, std::ios::in | std::ios::binary);
 
-        if (! c.good())
-         {
+          if (! c.good())
+           {
              cerr << ERROR_HTML_TAG "Erreur d'ouverture du fichier " << tr.value << ENDL;
-#ifdef STRICT
-             throw runtime_error {" Exiting."};
-#endif
+             #ifdef STRICT
+               throw runtime_error {" Exiting."};
+             #endif
              info.threads->in_memory_file.push_back("");
              continue;
-         }
+           }
 
-        info.threads->in_memory_file.emplace_back(read_stream_into_string(c));
+          cerr << "FC " << info.fichier_courant << endl;
+          cerr << "IMF size " << info.threads->in_memory_file.size() << endl;
+          info.threads->in_memory_file[info.fichier_courant] = move(read_stream_into_string(c));
+          ++info.fichier_courant;
 
-        c.close();
-
-#endif
+          c.close();
+       #endif
 
         if (info.decoupage_fichiers_volumineux && tr.elements > 1)
         {
           redecouper_volumineux(info, tr);
         }
-
-        ++info.fichier_courant;
    }
 }
 
