@@ -77,7 +77,7 @@ using namespace std;
 struct thread_t
 {
     int      thread_num = 0;
-    vector<quad<string, uint64_t, int, int>>   argv ;
+    vector<quad<>>   argv ;
     #if defined(STRINGSTREAM_PARSING)
     vector<string> in_memory_file ;
     #endif
@@ -133,7 +133,7 @@ enum class BaseType : int
                     MAXIMUM_LIGNES_PAR_ANNEE = 16
                   };
 
-enum  File_status { PREMIER_FICHIER = 0, DERNIER_FICHIER_DECOUPE = 1, FICHIER_SUIVANT_DECOUPE = 2, LEFTOVER = 3, NO_LEFTOVER = 4} ;
+enum  File_status { PREMIER_FICHIER = 0, DERNIER_FICHIER_DECOUPE = 1, FICHIER_SUIVANT_DECOUPE = 2, LEFTOVER = 3, NO_LEFTOVER = 4, INCOMPLETE = 5} ;
 
 using Mem_management = enum {
                               INDEX_MAX_COLONNNES = 5,    // nombre de type de champ de ligne de paye (Libellé, Code, Taux, Base, ...) moins 1.

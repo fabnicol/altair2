@@ -96,7 +96,7 @@ public:
 
     int get_nb_fichier(int segment) { return nb_fichier_par_segment.at(segment); }
 
-    vector<vector<quad<string, uint64_t, int, int>>> get_input(int segment)
+    vector<vector<quad<>>> get_input(int segment)
     {
         return std::move(input[segment]);
     }
@@ -106,7 +106,7 @@ public:
         int i = 0, j = 0, k =0;
         for (auto && s : input)
             for (auto && f : s)
-                for (quad<string, uint64_t, int, int> p : f)
+                for (quad<> p : f)
                     cerr << "segment " << i++ << " fil " << j++ << " fichier " << k++ << " : " << p.value << ", " << "index " << p.elements <<"\n";
     }
 
@@ -133,26 +133,11 @@ private:
 
 
     float ajustement = MAX_MEMORY_SHARE;
-    vector<quad<string, uint64_t, int, int>> argv;
-    vector<vector<vector<quad<string, uint64_t, int, int>>>> input;
-    vector<vector<quad<string, uint64_t, int, int>>> input_par_segment;
+    vector<quad<>> argv;
+    vector<vector<vector<quad<>>>> input;
+    vector<vector<quad<>>> input_par_segment;
 
     void memoire();
-
-    vector<int> get_nb_fichier()
-    {
-        vector<int> v;
-        for (auto && segment :  input)
-        {
-            int n = 0;
-            for (auto &&f: segment)
-                for (auto && p : f)
-                    n += p.elements;
-
-            v.push_back(n);
-        }
-        return std::move(v);
-    }
 
     template<typename T=string, typename U=uint64_t, typename V=int, typename W=int> somme(const vector<quad<T, U, V, W>>& v)
     {
@@ -172,8 +157,7 @@ private:
     info_t info;
 
     bool allouer_fil(const int fil,
-                     vector<quad<string, uint64_t, int, int>>::iterator& iter_fichier,
-                     int& nb_decoupe);
+                     vector<quad<>>::iterator& iter_fichier);
 
 };
 

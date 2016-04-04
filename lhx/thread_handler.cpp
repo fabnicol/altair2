@@ -93,7 +93,7 @@ thread_handler::thread_handler(Commandline& commande, int rang_segment) : nb_fil
 }
 
 
-void thread_handler::redecouper_volumineux(info_t& info, quad<string, uint64_t, int, int>& tr)
+void thread_handler::redecouper_volumineux(info_t& info, quad<>& tr)
 {
 
     int fichier_courant = info.fichier_courant;
