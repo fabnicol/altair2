@@ -1,7 +1,10 @@
 #include "commandline_handler.h"
 #include "thread_handler.h"
+#include "validator.hpp"
 
-thread_handler::thread_handler(Commandline& commande, int rang_segment) : nb_fil {commande.get_nb_fil()}
+thread_handler::thread_handler(Commandline& commande, int rang_segment)
+    : nb_fil {commande.get_nb_fil()},
+      is_liberer_memoire {commande.is_liberer_memoire()}
 {
 
     if (verbeux)
@@ -27,26 +30,21 @@ thread_handler::thread_handler(Commandline& commande, int rang_segment) : nb_fil
         Info[i] = commande.info;
         Info[i].threads = &v_thread_t[i];
         Info[i].threads->thread_num = i;
+        Info[i].threads->rang_segment = rang_segment;
 
         /* Nombre de fichiers quad du fil */
         Info[i].threads->argc = nb_fichier_par_fil.at(i);
-
+#if 0
+        ofstream log("log", ios_base::app);
+        log << "thread " << i << "/" << nb_fil <<  " rang_sement " << rang_segment << " Info[i].threads->argc " << Info[i].threads->argc << endl;
+#endif
         /* Fichiers quad du fil */
 
         Info[i].threads->argv = input_segment.at(i);
 
         /* Leftovers du segment précédent */
 
-#ifndef STRINGSTREAM_PARSING
-       // if (rang_segment > 0) Info[i].threads->argv_cut = leftovers[rang_segment - 1];
-#else
-       // if (rang_segment > 0) Info[i].threads->in_memory_file_cut = leftovers[rang_segment - 1];
-#endif
-
-        /* Donne des Info[i].threads->argv, Info[i].threads->argv_cut
-         * ou des    Info[i].threads->in_memory_file, Info[i].threads->in_memory_file_cut */
-
-        if (verbeux)
+      if (verbeux)
             cerr <<  PROCESSING_HTML_TAG "Fil d'exécution n°" << i + 1 << "/" << nb_fil
                  << "   Nombre de fichiers dans ce fil : " << Info[i].threads->argc << ENDL;
 
@@ -84,24 +82,46 @@ thread_handler::thread_handler(Commandline& commande, int rang_segment) : nb_fil
      if (verbeux)
          cerr << ENDL PROCESSING_HTML_TAG "Rassemblement des fils d'exécution." ENDL;
 
-     if (commande.get_nb_fil() > 1)
-         for (int i = 0; i < commande.get_nb_fil(); ++i)
+     if (nb_fil > 1)
+         for (int i = 0; i < nb_fil; ++i)
          {
              fils[i].join();
          }
-
 }
 
+thread_handler::~thread_handler()
+{
+    if (is_liberer_memoire)
+    {
+        if (verbeux)
+            cerr << ENDL
+                 << PROCESSING_HTML_TAG "Libération de la mémoire..."
+                 << ENDL;
+
+            for (int i = 0; i < nb_fil; ++i)
+            {
+                for (unsigned agent = 0; agent < Info.at(i).NCumAgent; ++agent)
+                {
+                    for (int j = 0; j < Info.at(i).Memoire_p_ligne[agent]; ++j)
+                    {
+                        if (j != Categorie && xmlStrcmp(Info.at(i).Table[agent][j], (const xmlChar*) "") != 0)
+                            xmlFree(Info[i].Table[agent][j]);
+                    }
+                }
+            }
+    }
+}
 
 void thread_handler::redecouper_volumineux(info_t& info, quad<>& tr)
 {
 
-    int fichier_courant = info.fichier_courant;
+    string fichier_courant = tr.value;
+    int rang_segment = info.threads->rang_segment;
 
 #if defined(STRINGSTREAM_PARSING)
    // if  (! info.threads->in_memory_file_cut.empty()) return;
-    string filest = move(info.threads->in_memory_file[fichier_courant]);
-    info.threads->in_memory_file[fichier_courant] = string {};
+    string filest = move(info.threads->in_memory_file[fichier_courant][rang_segment][0]);
+    info.threads->in_memory_file[fichier_courant][rang_segment].clear();
 #else
     if (! info.threads->argv_cut.empty()) return;
     ifstream c(info.threads->argv.at(fichier_courant));
@@ -111,7 +131,7 @@ void thread_handler::redecouper_volumineux(info_t& info, quad<>& tr)
 #endif
 
     if (verbeux)
-        cerr << PROCESSING_HTML_TAG "Fil n°" << info.threads->thread_num + 1 << " Redécoupage du fichier n°" << fichier_courant + 1 << ENDL;
+        cerr << PROCESSING_HTML_TAG " Fil n°" << info.threads->thread_num + 1 << " Redécoupage du fichier n°" << fichier_courant  << ENDL;
 
     string document_tag = "", enc = "";
     string::iterator iter = filest.begin();
@@ -151,6 +171,7 @@ void thread_handler::redecouper_volumineux(info_t& info, quad<>& tr)
     uint64_t i = 0, last_pos = 0;
 
     bool open_di = true;
+    int element = 0;
 
     while (filest.at(i) != '\0')
     {
@@ -234,8 +255,16 @@ void thread_handler::redecouper_volumineux(info_t& info, quad<>& tr)
         open_di = (s == "DonneesIndiv");
 
 #if defined(STRINGSTREAM_PARSING) || defined(MMAP_PARSING)
-        info.threads->in_memory_file[fichier_courant] = move(filest_cut);
-        ++fichier_courant;
+        if (element < info.hash_size[fichier_courant][rang_segment][info.threads->thread_num])
+            info.threads->in_memory_file[fichier_courant][rang_segment].emplace_back(filest_cut);
+        else
+        {
+          element = 0;
+          //while (info.threads->in_memory_file[fichier_courant][rang_segment].size() == 0)
+          ++rang_segment;
+
+          info.threads->in_memory_file[fichier_courant][rang_segment].emplace_back(filest_cut);
+        }
 #else
         string filecut_path = info.threads->argv.at(fichier_courant) +"_" + to_string(r) + ".xhl";
         ofstream filecut(filecut_path);
@@ -253,13 +282,20 @@ void thread_handler::redecouper_volumineux(info_t& info, quad<>& tr)
 void thread_handler::redecouper(info_t& info)
 {
   info.threads->in_memory_file.clear();
-  info.threads->in_memory_file.resize(info.threads->argc);
-  info.fichier_courant = 0;
 
   for (auto &&tr : info.threads->argv)
   {
+      #ifdef STRINGSTREAM_PARSING
 
-        #ifdef STRINGSTREAM_PARSING
+      ofstream log("log", ios_base::app);
+
+#if 0
+      log << endl << "info.threads->argv " << tr.value << " elements: " << tr.elements
+          << " size " << tr.size/(1024*1024) << " taille " << taille_fichier(tr.value) << " status " << tr.status << endl;
+#endif
+
+      if (tr.status == FIRST_CUT || tr.status == NO_LEFTOVER)
+      {
           ifstream c(tr.value, std::ios::in | std::ios::binary);
 
           if (! c.good())
@@ -268,22 +304,23 @@ void thread_handler::redecouper(info_t& info)
              #ifdef STRICT
                throw runtime_error {" Exiting."};
              #endif
-             info.threads->in_memory_file.push_back("");
+             info.threads->in_memory_file[tr.value][info.threads->rang_segment].push_back("");
              continue;
            }
 
-          cerr << "FC " << info.fichier_courant << endl;
-          cerr << "IMF size " << info.threads->in_memory_file.size() << endl;
-          info.threads->in_memory_file[info.fichier_courant] = move(read_stream_into_string(c));
-          ++info.fichier_courant;
+          info.threads->in_memory_file[tr.value][info.threads->rang_segment].emplace_back(read_stream_into_string(c));
 
           c.close();
-       #endif
+          if (info.decoupage_fichiers_volumineux && tr.elements > 1)
+          {
+            redecouper_volumineux(info, tr);
+          }
+      }
 
-        if (info.decoupage_fichiers_volumineux && tr.elements > 1)
-        {
-          redecouper_volumineux(info, tr);
-        }
+
+     #endif
+
+
    }
 }
 

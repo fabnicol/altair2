@@ -39,7 +39,7 @@ private:
     int nb_fil;
     int nb_segment;
     thread_handler* gestionnaire_fils;
-    bool is_liberer_memoire;
+
 };
 
 

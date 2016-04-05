@@ -15,6 +15,7 @@
 #include <libxml/parser.h>
 #include <cinttypes>
 #include <vector>
+#include <unordered_map>
 #include "templates.h"
 using namespace std;
 
@@ -65,7 +66,7 @@ using namespace std;
 #endif
 
 #ifndef CUTFILE_CHUNK
-  #define CUTFILE_CHUNK  15 * 1024 * 1024
+  #define CUTFILE_CHUNK  40 * 1024 * 1024
 #endif
 
 
@@ -79,9 +80,10 @@ struct thread_t
     int      thread_num = 0;
     vector<quad<>>   argv ;
     #if defined(STRINGSTREAM_PARSING)
-    vector<string> in_memory_file ;
+    unordered_map<string, unordered_map<int, vector<string>>> in_memory_file ;
     #endif
     unsigned argc = 1;
+    int rang_segment;
 };
 
 
@@ -133,7 +135,7 @@ enum class BaseType : int
                     MAXIMUM_LIGNES_PAR_ANNEE = 16
                   };
 
-enum  File_status { PREMIER_FICHIER = 0, DERNIER_FICHIER_DECOUPE = 1, FICHIER_SUIVANT_DECOUPE = 2, LEFTOVER = 3, NO_LEFTOVER = 4, INCOMPLETE = 5} ;
+enum  File_status { PREMIER_FICHIER = 0, DERNIER_FICHIER_DECOUPE = 1, FICHIER_SUIVANT_DECOUPE = 2, LEFTOVER = 3, NO_LEFTOVER = 4, MEDIUM_CUT = 5, FIRST_CUT = 6} ;
 
 using Mem_management = enum {
                               INDEX_MAX_COLONNNES = 5,    // nombre de type de champ de ligne de paye (Libellé, Code, Taux, Base, ...) moins 1.
@@ -204,6 +206,7 @@ public:
 #endif
     unsigned int  nbfil            = 1;
     vector<int> Memoire_p_ligne    = {};
+    unordered_map<string, unordered_map<int, unordered_map<int, int>>> hash_size;
 };
 
 

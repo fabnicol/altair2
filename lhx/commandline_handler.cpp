@@ -1,6 +1,6 @@
 #include "commandline_handler.h"
 
-extern bool verbeux, liberer_memoire, generer_table;
+extern bool verbeux, generer_table;
 
 Commandline::Commandline(char** argv, int argc)
 #ifdef CATCH
@@ -530,22 +530,26 @@ cerr << ERROR_HTML_TAG "Le programme s'est terminé en raison d'erreurs sur la li
 #define debug(X) X
 #endif
 
-/* nb_decoupe représente le nombre d'éléments encore à allouer sauf au début (0) */
+/* dans chaque input_par_segment[fil] on a un quand qui précise :
+ *   - le chemin,
+ *   - le nombre de d'éléments de taille chunksize à intégrer dans le fil du segment
+ *   - la taille résiduelle
+ *   - le statut (première découpe : FIRST_CUT, découpe intermédiaire MEDIUM_CUT ou terminale LEFTOVER)*/
 
 bool Commandline::allouer_fil(const int fil,
                               vector<quad<>>::iterator& iter_fichier)
 {
-   debug({cerr << "\n------- FIL n°"  << fil +1 <<"\n\n";});
-
     uint64_t incr;
     bool in_memory = true;
 
     int nb_decoupe = (iter_fichier->size <= chunksize) ? 1 : static_cast<int>(iter_fichier->size / chunksize) + 1;
-
+#if 0
+    ofstream log("log", ios_base::app);
     if (iter_fichier->status != NO_LEFTOVER)
     {
-        cerr << "\n### Récupération des leftovers de segments précédents : " << iter_fichier->value << "  " << iter_fichier->elements << "\n";
+        log << "\n### Récupération des leftovers de segments précédents : " << iter_fichier->value << "  " << iter_fichier->elements << "\n";
     }
+#endif
 
     int k;
 
@@ -554,12 +558,10 @@ bool Commandline::allouer_fil(const int fil,
         if (nb_decoupe == 1)
             incr = iter_fichier->size;
         else
-            if (k != nb_decoupe)
-                incr = chunksize;
+        if (k != nb_decoupe)
+            incr = chunksize;
         else
-                incr = iter_fichier->size % chunksize;
-
-        cerr << "fil " << fil + 1 << " iteration " << k + 1 << "/" << nb_decoupe << " TSF " << taille_segment[fil] << " incr " << incr << ENDL;
+            incr = iter_fichier->size % chunksize;
 
         if ((taille_segment.at(fil) + incr) /* * densite_xhl_mem */ < memoire_utilisable_par_fil)
         {
@@ -572,35 +574,39 @@ bool Commandline::allouer_fil(const int fil,
         }
     }
 
-
     /* si in_memory == false, iter_fichier->elements vaut k - 0 et si in_memory == true, vaut k - 0 */
-
 
     iter_fichier->elements =  k ;
 
     /* taille résiduelle */
 
-    if (k > 1) iter_fichier->size -= k * chunksize;
 
-    cerr << "->nouvelle paire " << iter_fichier->value << " " << iter_fichier->elements << ENDL;
-    cerr << "-->leftover : " << nb_decoupe - iter_fichier->elements << ENDL;
 
+    if (k > 1) iter_fichier->size -= (k-1) * chunksize;
+#if 0
+    log << endl << iter_fichier->value << "  " <<  " k " << k << " iter_fichier->size " << iter_fichier->size << endl;
+    log << "->nouvelle paire " << iter_fichier->value << " " << iter_fichier->elements << ENDL;
+    log << "-->leftover : " << nb_decoupe - iter_fichier->elements << ENDL;
+#endif
     if (iter_fichier->status == NO_LEFTOVER)
     {
        if (iter_fichier->elements > 1
             &&
            in_memory == false)
 
-                  iter_fichier->status = INCOMPLETE;
+                  iter_fichier->status =  FIRST_CUT;
     }
     else
     {
         if (in_memory == true)
-
                    iter_fichier->status = LEFTOVER;
+        else
+         if (in_memory == false)
+                   iter_fichier->status = MEDIUM_CUT;
+
     }
 
-    input_par_segment[fil].push_back(*iter_fichier);
+    if (k) input_par_segment[fil].push_back(*iter_fichier);
 
     return in_memory;
 }
@@ -635,13 +641,16 @@ void Commandline::repartir_fichiers()
     int rang_segment = 0;
 
     memoire_utilisable_par_fil = memoire_utilisable / nb_fil;
-
+#if 0
+    ofstream log("log", ios_base::app);
+#endif
     while (iter_fichier != argv.end())
     {
-        cerr << "\n-------------- SEGMENT n°"  << ++rang_segment <<"\n\n";
-
-        cerr << STATE_HTML_TAG "\nMémoire utilisée par fil : " << memoire_utilisable_par_fil / (1024 * 1024) << " Mo" ENDL;
-
+        ++rang_segment;
+#if 0
+        log << "\n-------------- SEGMENT n°"  << rang_segment <<"\n\n";
+        log << STATE_HTML_TAG "\nMémoire utilisée par fil : " << memoire_utilisable_par_fil / (1024 * 1024) << " Mo" ENDL;
+#endif
         vector<quad<>> leftover;
 
         input_par_segment.clear();
@@ -659,40 +668,47 @@ void Commandline::repartir_fichiers()
             s_allouable += (allouable == true);
 
             nb_fichier += iter_fichier->elements;
-            cerr << " Fichier " << iter_fichier->value << " nb_element " << iter_fichier->elements << endl;
 
             if (! allouable || iter_fichier == argv.end())
             {
-                cerr << "\n=== nouveau segment : " << "\n";
 
                 if (! allouable)
                 {
-                    cerr << "\n===--- leftover de segment_par_fil : " << iter_fichier->value << " indice " << iter_fichier->elements << "\n";
-
                     leftover.push_back(*iter_fichier);
                 }
             }
 
+            if (iter_fichier->elements) info.hash_size[iter_fichier->value][rang_segment-1][fil] = iter_fichier->elements;
+
             ++iter_fichier;
             ++fil;
-            if (s_allouable == 0) break;
+            //if (s_allouable == 0)
+                //break;
             if (nb_fil == fil)
             {
                 fil = 0;
-                s_allouable = 0;
+              //  s_allouable = 0;
             }
+
+            if (!allouable) break;
         }
 
         /* Le leftover du segment précédent est rajouté en tête de liste des fichiers à allouer au segment suivant */
 
         nb_fichier_par_segment.push_back(nb_fichier);
+        taille_segment.clear();
+
         input.push_back(input_par_segment);
         vector<quad<>> argv2(iter_fichier, argv.end());
-        argv.swap(argv2);
-        if (! allouable)
+        argv.clear();
+        argv = move(argv2);
+        if (! leftover.empty())
             argv.insert(argv.begin(), leftover.begin(), leftover.end());
         iter_fichier = argv.begin();
+        leftover.clear();
    }
+
+
 
 }
 

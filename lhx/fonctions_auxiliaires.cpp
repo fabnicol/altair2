@@ -496,6 +496,8 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
         segment_ancien = segment;
     }
 
+    if (segment == 0) remove(chemin_base.c_str());
+
     base.open(chemin_base, ofstream::out | ofstream::app);
 
     if (! base.good())
@@ -626,12 +628,12 @@ int calculer_memoire_requise(info_t& info)
     /* par convention  un agent avec rémunération non renseignées (balise sans fils) a une ligne */
     //for (unsigned i = 0; i < info.threads->argc; ++i)
     //{
-    for (unsigned i = 0; i < info.threads->argc; ++i)
+    for (auto &&s : info.threads->argv)
     {
 #ifdef GUI_TAG_MESSAGES
 #ifdef GENERATE_RANK_SIGNAL
 
-        //generate_rank_signal();
+        generate_rank_signal();
         cerr <<  " \n" ;
 
 #endif
@@ -747,7 +749,9 @@ int calculer_memoire_requise(info_t& info)
 #else
 #ifdef STRINGSTREAM_PARSING
 
-        const string ss = info.threads->in_memory_file.at(i);
+    for (const string &ss : info.threads->in_memory_file[s.value][info.threads->rang_segment])
+    {
+
         string::const_iterator iter = ss.begin();
 
         while (iter != ss.end())
@@ -829,7 +833,7 @@ int calculer_memoire_requise(info_t& info)
 
             if (remuneration_xml_open == true)
             {
-                cerr << "Erreur XML : la balise Remuneration n'est pas refermée pour le fichier " << info.threads->argv[i].value
+                cerr << "Erreur XML : la balise Remuneration n'est pas refermée pour le fichier " << s.value
                         << ENDL "pour l'agent n°"   << info.NCumAgent + 1 << ENDL;
                 exit(0);
 
@@ -841,6 +845,7 @@ int calculer_memoire_requise(info_t& info)
             }
 
         }
+    }
 
 
 #endif

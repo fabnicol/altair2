@@ -79,8 +79,7 @@ inline void GCC_INLINE Analyseur::allouer_memoire_table(info_t& info)
 
 
 Analyseur::Analyseur(Commandline& c) : nb_fil {c.get_nb_fil()},
-                                       nb_segment {c.nb_segment()},
-                                       is_liberer_memoire {c.is_liberer_memoire()}
+                                       nb_segment {c.nb_segment()}
 {
     if (verbeux)
     {
@@ -96,25 +95,7 @@ Analyseur::Analyseur(Commandline& c) : nb_fil {c.get_nb_fil()},
 
 Analyseur::~Analyseur()
 {
-    if (! is_liberer_memoire)
-    {
-        if (verbeux)
-            cerr << ENDL
-                 << PROCESSING_HTML_TAG "Libération de la mémoire..."
-                 << ENDL;
-
-            for (int i = 0; i < nb_fil; ++i)
-            {
-                for (unsigned agent = 0; agent < gestionnaire_fils->Info.at(i).NCumAgent; ++agent)
-                {
-                    for (int j = 0; j < gestionnaire_fils->Info.at(i).Memoire_p_ligne[agent]; ++j)
-                    {
-                        if (j != Categorie && xmlStrcmp(gestionnaire_fils->Info.at(i).Table[agent][j], (const xmlChar*) "") != 0)
-                            xmlFree(gestionnaire_fils->Info[i].Table[agent][j]);
-                    }
-                }
-            }
-    }
+  cerr << PROCESSING_HTML_TAG "Fin de l'analyse" << ENDL;
 }
 
 void Analyseur::lanceur(Commandline& commande)
@@ -147,7 +128,8 @@ int Analyseur::produire_segment(Commandline& commande, int rang_segment)
     try
     {
 #endif
-      *gestionnaire_fils = thread_handler { commande, rang_segment };
+      thread_handler th{ commande, rang_segment };
+      gestionnaire_fils = &th;
 #ifdef CATCH
     }
     catch(...)
@@ -220,6 +202,8 @@ int Analyseur::produire_segment(Commandline& commande, int rang_segment)
      * En cas de problème d'allocation mémoire le mieux est encore de ne pas désallouer car on ne connait pas exacteemnt l'état
      * de la mémoire dynamique */
 
+
+
     return 1;
 }
 
@@ -272,9 +256,11 @@ void* Analyseur::decoder_fichier(info_t& info)
         }
     }
 
-    for (unsigned i = 0; i < info.threads->argc ; ++i)
+    info.fichier_courant = 0;
+
+    for (auto &&q :  info.threads->argv)
     {
-        if (i == 0)
+        if (info.fichier_courant == 0)
         {
             /* première allocation ou réallocation à la suite d'un incident */
 
@@ -286,29 +272,29 @@ void* Analyseur::decoder_fichier(info_t& info)
 
         if (info.verifmem) return nullptr;
 
-        info.fichier_courant = i;
-
         switch(Analyseur::parseFile(info))
         {
-        case RETRY:
-            i = 0;
-            /* on réalloue tout depuis le début à la site d'un incident */
-            cerr << ERROR_HTML_TAG " Il est nécessaire de réallouer la mémoire à la suite d'un incident dû aux données..." ENDL;
-            continue;
+            case RETRY:
+                info.fichier_courant = 0;
+                /* on réalloue tout depuis le début à la site d'un incident */
+                cerr << ERROR_HTML_TAG " Il est nécessaire de réallouer la mémoire à la suite d'un incident dû aux données..." ENDL;
+                continue;
 
-        case SKIP_FILE:
-            cerr << ERROR_HTML_TAG " Le fichier  " << info.threads->argv[info.fichier_courant].value << " n'a pas pu être traité" ENDL
-                 << "   Fichier suivant..." ENDL;
-            continue;
+            case SKIP_FILE:
+                cerr << ERROR_HTML_TAG " Le fichier  " << q.value << " n'a pas pu être traité" ENDL
+                     << "   Fichier suivant..." ENDL;
+                continue;
 
-        default :
-#ifndef NO_DEBUG
-            cerr << PROCESSING_HTML_TAG "Fichier " << info.threads->argv[info.fichier_courant]  << "  traité" ENDL;
-#endif
-            break;
+            default :
+    #ifndef NO_DEBUG
+                cerr << PROCESSING_HTML_TAG "Fichier " << info.threads->argv[info.fichier_courant]  << "  traité" ENDL;
+    #endif
+                break;
         }
 
         memory_debug("decoder_fichier : post_parseFile(info)");
+
+        ++info.fichier_courant;
     }
 
     if (info.reduire_consommation_memoire && info.NCumAgentXml != info.NCumAgent)
@@ -1090,12 +1076,13 @@ int Analyseur::parseFile(info_t& info)
     xml_commun champ_commun;
     const quad<> &q = info.threads->argv.at(info.fichier_courant);
     int nb_decoupe = q.elements;
+    int rang_segment = info.threads->rang_segment;
 
     if (nb_decoupe == 1)
     {
 #if defined(STRINGSTREAM_PARSING)
-        xmlDocPtr doc = xmlParseDoc(reinterpret_cast<const xmlChar*>(info.threads->in_memory_file.at(info.fichier_courant).c_str()));
-        info.threads->in_memory_file.at(info.fichier_courant).clear();
+        xmlDocPtr doc = xmlParseDoc(reinterpret_cast<const xmlChar*>(move(info.threads->in_memory_file[q.value][rang_segment][0]).c_str()));
+        info.threads->in_memory_file[q.value][rang_segment][0].clear();
 #else
         xmlDocPtr doc = xmlParseFile(info.threads->argv.at(info.fichier_courant).value.c_str());
 #endif
@@ -1105,7 +1092,7 @@ int Analyseur::parseFile(info_t& info)
     // -----  nb_decoupe != 0
 
 
-    for (int rang = 0; rang < nb_decoupe; ++rang)
+    for (int element = 0; element < nb_decoupe; ++element)
     {
 
        if (verbeux)
@@ -1115,13 +1102,13 @@ int Analyseur::parseFile(info_t& info)
             cerr << ENDL;
 
             cerr << PROCESSING_HTML_TAG "Analyse du fichier scindé fil " << info.threads->thread_num + 1
-                 << " - n°" << info.fichier_courant + 1 << "-" << rang + 1 << "/" << nb_decoupe;
+                 << " - n°" << info.fichier_courant + 1 << "-" << element + 1 << "/" << nb_decoupe;
 
             cerr << ENDL;
         }
 
 
-        if (rang == 0)
+        if (element == 0)
         {
             if (q.status == LEFTOVER)
                 cont_flag = FICHIER_SUIVANT_DECOUPE;
@@ -1129,7 +1116,7 @@ int Analyseur::parseFile(info_t& info)
                 cont_flag = PREMIER_FICHIER;
         }
         else
-        if (rang == nb_decoupe - 1)
+        if (element == nb_decoupe - 1)
                 cont_flag = DERNIER_FICHIER_DECOUPE;
         else
             cont_flag = FICHIER_SUIVANT_DECOUPE;
@@ -1137,8 +1124,17 @@ int Analyseur::parseFile(info_t& info)
 
 #if defined(STRINGSTREAM_PARSING)
 
-        const char* s = info.threads->in_memory_file.at(info.fichier_courant + rang).c_str();
-        xmlDocPtr doc = xmlParseDoc(reinterpret_cast<const xmlChar*>(s));
+        xmlDocPtr doc;
+        try
+        {
+            doc = xmlParseDoc(reinterpret_cast<const xmlChar*>(move(info.threads->in_memory_file[q.value][rang_segment][element]).c_str()));
+            info.threads->in_memory_file[q.value][rang_segment][element].clear();
+        }
+        catch(...)
+        {
+            throw runtime_error { ERROR_HTML_TAG "Erreur XML" };
+        }
+
         //s.clear();
 #else
         xmlDocPtr doc = xmlParseFile(s.c_str());
@@ -1156,7 +1152,7 @@ int Analyseur::parseFile(info_t& info)
         if (verbeux)
         {
             cerr << PROCESSING_HTML_TAG "Fin de l'analyse du fichier scindé fil " << info.threads->thread_num + 1
-                 << " n°" << info.fichier_courant + 1 << "-" << rang << "/" << nb_decoupe ;
+                 << " n°" << info.fichier_courant + 1 << "-" << element << "/" << nb_decoupe ;
 #ifdef FGETC_PARSING
             cerr << " : " << s << ENDL;
 #else
@@ -1170,7 +1166,7 @@ int Analyseur::parseFile(info_t& info)
             remove(s.c_str());
             if (verbeux)
                 cerr << PROCESSING_HTML_TAG "Effacement du fichier scindé fil " << info.threads->thread_num + 1
-                     << " n°" << info.fichier_courant + 1<< "-" << rang  << "/" << nb_decoupe << " de " << NDecoupe << " : " << s << ENDL;
+                     << " n°" << info.fichier_courant + 1<< "-" << element  << "/" << nb_decoupe << " de " << NDecoupe << " : " << s << ENDL;
         }
 #endif
         if (res == SKIP_FILE || res == RETRY) return res;

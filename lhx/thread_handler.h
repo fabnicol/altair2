@@ -11,6 +11,7 @@ friend class Analyseur;
 
 public:
     thread_handler(Commandline&, int rang_segment);
+    ~thread_handler();
 
 private:
     vector<thread> fils;
@@ -18,6 +19,8 @@ private:
     void redecouper_volumineux(info_t& info, quad<>& tr);
     void redecouper(info_t& info);
     int nb_fil = 1;
+    bool is_liberer_memoire;
+
 };
 
 

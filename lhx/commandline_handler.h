@@ -138,7 +138,7 @@ private:
     vector<vector<quad<>>> input_par_segment;
 
     void memoire();
-
+#if 0
     template<typename T=string, typename U=uint64_t, typename V=int, typename W=int> somme(const vector<quad<T, U, V, W>>& v)
     {
         U acc = 0;
@@ -153,7 +153,7 @@ private:
         }
         return acc;
     }
-
+#endif
     info_t info;
 
     bool allouer_fil(const int fil,
