@@ -712,7 +712,7 @@ void Commandline::repartir_fichiers()
 
             ++iter_fichier;
 
-            /* crtère de sortie du segment : */
+            /* critère de sortie du segment : */
 
             ++fil;
 

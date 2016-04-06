@@ -271,7 +271,9 @@ void thread_handler::redecouper_volumineux(info_t& info, quad<>& tr)
 
         if (info.threads->thread_num < info.hash_size[fichier_courant][rang_segment].size()
             && info.threads->in_memory_file[fichier_courant][rang_segment].size() < info.hash_size[fichier_courant][rang_segment][info.threads->thread_num])
+    	{
             info.threads->in_memory_file[fichier_courant][rang_segment].emplace_back(filest_cut);
+		}
         else if (filest_cut != "")
         {
           element = 0;

@@ -1077,16 +1077,16 @@ int Analyseur::parseFile(info_t& info)
 
     q.elements = info.threads->in_memory_file[q.value][rang_segment].size(); // correction par rapport à la prévision
 
-    try {
-    if (q.elements == 0)
-        throw runtime_error { string(q.value + string(" ne fait pas partie du segment ") + to_string(rang_segment + 1)).c_str()};
-}
-    catch(...)
-    {
-      cerr << ERROR_HTML_TAG "Fichier hors segment" << endl;
-      cerr << string(q.value + string(" ne fait pas partie du segment ") + to_string(rang_segment + 1)) << endl;
-      for (auto && h : info.threads->in_memory_file) if (h.first == q.value) cerr << "rang du segment (0-based) : " << rang_segment << " nb élém. " << q.elements << endl;
-    }
+   // try {
+    if (q.elements == 0) return 0;
+     //   throw runtime_error { string(q.value + string(" ne fait pas partie du segment ") + to_string(rang_segment + 1)).c_str()};
+//}
+//    catch(...)
+//    {
+  //    cerr << ERROR_HTML_TAG "Fichier hors segment" << endl;
+//      cerr << string(q.value + string(" ne fait pas partie du segment ") + to_string(rang_segment + 1)) << endl;
+//      for (auto && h : info.threads->in_memory_file) if (h.first == q.value) cerr << "rang du segment (0-based) : " << rang_segment << " nb élém. " << q.elements << endl;
+//    }
 
     if (q.elements == 1)
     {
