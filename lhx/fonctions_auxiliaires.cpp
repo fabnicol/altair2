@@ -184,12 +184,12 @@ vector<uint64_t> calculer_taille_fichiers_memoire(const vector<string>& in_memor
         }
         else
         {
-            cerr << ERROR_HTML_TAG "La taille du fichier mémoire " << s << " n'a pas pu être déterminée." ENDL;
+            cerr << msg_erreur("La taille du fichier mémoire ", s, " n'a pas pu être déterminée.");
         }
     }
 
     if (! silent)
-       cerr << ENDL STATE_HTML_TAG << "Taille totale des " << count << " fichiers : " << memoire_xhl / 1048576 << " Mo."  ENDL;
+       cerr << msg_erreur("Taille totale des ", count, " fichiers : ", (long) memoire_xhl / 1048576, " Mo.");
 
     return taille;
 }
@@ -537,15 +537,15 @@ int32_t lire_argument(int argc, char* c_str)
 
         if (end == c_str)
         {
-            cerr << ERROR_HTML_TAG "" << c_str << ": pas un décimal" ENDL;
+            cerr << msg_erreur(c_str, ": pas un décimal");
         }
         else if (sl > INT32_MAX)
         {
-            cerr << ERROR_HTML_TAG "" <<  sl << " entier excédant la limite des entiers à 16 bits" ENDL;
+            cerr << msg_erreur(sl, " entier excédant la limite des entiers à 16 bits");
         }
         else if (sl < 0)
         {
-            cerr << ERROR_HTML_TAG "" << sl <<". L'entier doit être positif" ENDL;
+            cerr << msg_erreur(sl, ". L'entier doit être positif");
         }
         else
         {
@@ -555,7 +555,7 @@ int32_t lire_argument(int argc, char* c_str)
     }
     else
     {
-        cerr << ERROR_HTML_TAG "Préciser le nombre de bulletins mensuels attendus (majorant du nombre)." ENDL;
+        cerr << msg_erreur("Préciser le nombre de bulletins mensuels attendus (majorant du nombre).");
         return(-1);
     }
 }

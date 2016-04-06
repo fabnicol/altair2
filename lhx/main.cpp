@@ -17,7 +17,7 @@ mutex mut;
 
 static void cleanup()
 {
-  try { xmlCleanupParser(); } catch(...) { msg_erreur("L'arbre XML ne peut pas être nettoyé."); }
+  try { xmlCleanupParser(); } catch(...) { cerr << msg_erreur("L'arbre XML ne peut pas être nettoyé."); }
 }
 
 

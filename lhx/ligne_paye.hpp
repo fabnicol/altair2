@@ -230,19 +230,19 @@ static inline bool GCC_INLINE bulletin_obligatoire(const char* tag, xmlNodePtr& 
 
     case NODE_NOT_FOUND :
         //if (verbeux)
-        cerr << ERROR_HTML_TAG "Impossible d'atteindre " << tag << " à partir de " << cur->name << ENDL;
+        cerr << msg_erreur("Impossible d'atteindre ", tag, " à partir de ", cur->name);
         NA_ASSIGN(l);
         break;
 
     case LINE_MEMORY_EXCEPTION :
         //if (verbeux)
-        cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
+        cerr << msg_erreur("Allocation mémoire impossible pour la ligne ", l);
         NA_ASSIGN(l);
         break;
 
     case NO_NEXT_ITEM :
         //if (verbeux)
-        cerr << ERROR_HTML_TAG "Pas d'item successeur pour le noeud " << tag <<  ENDL;
+        cerr << msg_erreur("Pas d'item successeur pour le noeud ", tag);
         break;
 
     }
@@ -298,12 +298,12 @@ static inline bool GCC_INLINE bulletin_optionnel_char(const char* tag, xmlNodePt
 
     case LINE_MEMORY_EXCEPTION :
         if (verbeux)
-            cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
+            cerr << msg_erreur("Allocation mémoire impossible pour la ligne ", l);
         NA_ASSIGN(l);
         break;
 
     case NO_NEXT_ITEM :
-        if (verbeux) cerr << ERROR_HTML_TAG "Pas d'item successeur pour le noeud " << tag <<  ENDL;
+        if (verbeux) cerr << msg_erreur("Pas d'item successeur pour le noeud ", tag);
         break;
     }
 
@@ -531,16 +531,17 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
 
                 /* On ne rembobine qu'au maximum TYPE_LOOP_LIMIT. Si l'essai échoue, on déclenche une exception ou on retourne */
 
-                cerr << ERROR_HTML_TAG "En excès du nombre de types de lignes de paye autorisé (" << nbType << ")." ENDL;
+                cerr << msg_erreur("En excès du nombre de types de lignes de paye autorisé (", nbType, ").");
                 if (cur)
-                    cerr << ERROR_HTML_TAG "Type litigieux " << cur->name << " aux alentours du matricule " << info.Table[info.NCumAgentXml][Matricule] << ENDL;
+                    cerr << msg_erreur("Type litigieux ", cur->name, " aux alentours du matricule ",
+                                       info.Table[info.NCumAgentXml][Matricule]);
                 else
-                    cerr << ERROR_HTML_TAG "Pointeur noeud courant nul" << ENDL;
+                    cerr << msg_erreur("Pointeur noeud courant nul");
 
 #ifdef STRICT
-                exit(-11);
+                erreur("Arrêt");
 #else
-                cerr << ERROR_HTML_TAG "Arrêt du décodage de la ligne de paye." << ENDL;
+                cerr << msg_erreur("Arrêt du décodage de la ligne de paye.");
                 return {nbLignePaye, l};
 #endif
             }
@@ -553,11 +554,11 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
             // +1 pour éviter la confusion avec \0 des chaines vides
             if ((info.Table[info.NCumAgentXml][l] = (xmlChar*) xmlStrdup(drapeau[t])) == nullptr)
             {
-                if (verbeux) cerr << ERROR_HTML_TAG "Erreur dans l'allocation des drapeaux de catégories." << ENDL;
+                if (verbeux) cerr << msg_erreur("Erreur dans l'allocation des drapeaux de catégories.");
 #ifdef STRICT
-                exit(-12);
+                erreur("Arrêt - Erreur dans l'allocation des drapeaux de catégories.")
 #else
-                if (verbeux) cerr << ERROR_HTML_TAG "Arrêt du décodage de la ligne de paye." << ENDL;
+                if (verbeux) cerr << msg_erreur("Arrêt du décodage de la ligne de paye.");
 #endif
                 return {nbLignePaye, l};
             }
@@ -674,7 +675,7 @@ inline uint64_t  GCC_INLINE parseLignesPaye(xmlNodePtr cur, info_t& info, ofstre
 
         string temp_logpath =getexecpath();
 
-        cerr << ERROR_HTML_TAG "Agent non identifié. Consulter le fichier erreur.log sous " << temp_logpath  << " pour avoir les détails de l'incident." ENDL;
+        cerr << msg_erreur("Agent non identifié. Consulter le fichier erreur.log sous ", temp_logpath, " pour avoir les détails de l'incident.");
 
         if (info.chemin_log.empty())
         {
@@ -942,9 +943,11 @@ level0:
     }
     else
     {
-        cerr << ERROR_HTML_TAG "Service introuvable." ENDL;
+
 #ifdef STRICT
-        exit(-5);
+        erreur("Service introuvable.");
+#else
+        cerr << msg_erreur("Service introuvable.");
 #endif
     }
 

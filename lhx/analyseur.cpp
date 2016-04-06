@@ -57,7 +57,9 @@ inline void GCC_INLINE Analyseur::allouer_memoire_table(info_t& info)
 
     if (info.Table.empty())
     {
-       erreur("Mémoire insuffisante pour la table de lignes de paye");
+        cerr << msg_erreur("Nombre total d'agents (info.NCumAgent) : ", info.NCumAgent);
+
+        erreur("Mémoire insuffisante pour la table de lignes de paye");
     }
 
     for (unsigned agent = 0; agent < info.NCumAgent; ++agent)
@@ -106,8 +108,10 @@ void Analyseur::lanceur(Commandline& commande)
 
         if (commande.get_nb_fil() > nb_fichier)
         {
-            cerr << ERROR_HTML_TAG "Segment n°" << rang_segment << " : trop de fils (" << commande.info.nbfil << ") pour le nombre de fichiers (" << nb_fichier << ")" ENDL;
-            cerr << ERROR_HTML_TAG "Exécution avec " << nb_fichier << pluriel(nb_fichier, " fil") <<"."  ENDL;
+            cerr << msg_erreur("Segment n°", rang_segment, " : trop de fils (", commande.info.nbfil,
+                               ") pour le nombre de fichiers (", nb_fichier, ")");
+
+            cerr << msg_erreur("Exécution avec ", nb_fichier, pluriel(nb_fichier, " fil"), ".");
 
             commande.set_nbfil(nb_fichier);
         }
@@ -275,12 +279,11 @@ void* Analyseur::decoder_fichier(info_t& info)
             case RETRY:
                 info.fichier_courant = 0;
                 /* on réalloue tout depuis le début à la site d'un incident */
-                cerr << ERROR_HTML_TAG " Il est nécessaire de réallouer la mémoire à la suite d'un incident dû aux données..." ENDL;
+                cerr << msg_erreur(" Il est nécessaire de réallouer la mémoire à la suite d'un incident dû aux données...");
                 continue;
 
             case SKIP_FILE:
-                cerr << ERROR_HTML_TAG " Le fichier  " << q.value << " n'a pas pu être traité" ENDL
-                     << "   Fichier suivant..." ENDL;
+                cerr << msg_erreur(" Le fichier  ",  q.value, " n'a pas pu être traité. Fichier suivant...");
                 continue;
 
             default :
@@ -490,7 +493,7 @@ int Analyseur::parseFile(const xmlDocPtr doc, info_t& info, int cont_flag, xml_c
     }
     else
     {
-        cerr << ERROR_HTML_TAG "Année non détectable" ENDL;
+        cerr << msg_erreur("Année non détectable");
         if (log.is_open())
             log.close();
 #ifdef STRICT
@@ -1076,17 +1079,19 @@ int Analyseur::parseFile(info_t& info)
     int rang_segment = info.threads->rang_segment;
 
     q.elements = info.threads->in_memory_file[q.value][rang_segment].size(); // correction par rapport à la prévision
+    info.threads->argv.at(info.fichier_courant).elements = q.elements;
 
-   // try {
-    if (q.elements == 0) return 0;
-     //   throw runtime_error { string(q.value + string(" ne fait pas partie du segment ") + to_string(rang_segment + 1)).c_str()};
-//}
-//    catch(...)
-//    {
-  //    cerr << ERROR_HTML_TAG "Fichier hors segment" << endl;
-//      cerr << string(q.value + string(" ne fait pas partie du segment ") + to_string(rang_segment + 1)) << endl;
-//      for (auto && h : info.threads->in_memory_file) if (h.first == q.value) cerr << "rang du segment (0-based) : " << rang_segment << " nb élém. " << q.elements << endl;
-//    }
+    try {
+         if (q.elements == 0)
+         throw runtime_error { string(q.value + string(" ne fait pas partie du segment ") + to_string(rang_segment + 1)).c_str()};
+    }
+    catch(...)
+    {
+      cerr << ERROR_HTML_TAG "Fichier hors segment" << endl;
+      cerr << string(q.value + string(" ne fait pas partie du segment ") + to_string(rang_segment + 1)) << endl;
+      for (auto && h : info.threads->in_memory_file) if (h.first == q.value) cerr << "rang du segment (0-based) : " << rang_segment << " nb élém. " << q.elements << endl;
+      return 0;
+    }
 
     if (q.elements == 1)
     {
@@ -1179,7 +1184,7 @@ int Analyseur::parseFile(info_t& info)
 
         if (doc == nullptr)
         {
-            cerr << ERROR_HTML_TAG "L'analyse du parseur XML n'a pas pu être réalisée." ENDL;
+            cerr << msg_erreur("L'analyse du parseur XML n'a pas pu être réalisée.");
         }
         else
             res = Analyseur::parseFile(doc, info, cont_flag, &champ_commun);

@@ -375,8 +375,7 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
             ouvrir_fichier_base(Info[0], static_cast<BaseType>(d + 1), tableau_base[d], nsegment);
             if (! tableau_base[d].is_open())
             {
-                cerr << ERROR_HTML_TAG "impossible d'ouvrir la base de lignes de paye."  ENDL;
-                exit(2003);
+                erreur("impossible d'ouvrir la base de lignes de paye.");
             }
         }
 
@@ -385,17 +384,14 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
     default : ouvrir_fichier_base(Info[0], type_base,  base, nsegment);
         if (! base.is_open())
         {
-            cerr << ERROR_HTML_TAG "impossible d'ouvrir la base de lignes de paye."  ENDL;
-            exit(2004);
-            return make_pair(0,0);
+            erreur("impossible d'ouvrir la base de lignes de paye.");
         }
 
     }
     
     if (! bulletins.is_open())
     {
-        cerr << ERROR_HTML_TAG "impossible d'ouvrir la base de bulletins de paye."  ENDL;
-        return make_pair(0,0);
+        msg_erreur("impossible d'ouvrir la base de bulletins de paye.");
     }
 
 #ifdef GENERATE_RANK_SIGNAL
@@ -496,8 +492,8 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
                         try { base << t_base.str(); }
                         catch(...) {
                             string s;
-                            cerr << ERROR_HTML_TAG "Erreur de transfert de chaîne de caractères vers le fichier. Le nombre de caractère dépasse sans doute "
-                                 << s.max_size() << ENDL;
+                            cerr << msg_erreur("Erreur de transfert de chaîne de caractères vers le fichier. Le nombre de caractère dépasse sans doute ",
+                                        s.max_size());
                         }
 
                         t_base.str("");
@@ -598,8 +594,8 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
                                 try { base << t_base.str(); }
                                 catch(...) {
                                     string s;
-                                    cerr << ERROR_HTML_TAG "Erreur de transfert de chaîne de caractères vers le fichier. Le nombre de caractère dépasse sans doute "
-                                         << s.max_size() << ENDL;
+                                    cerr << msg_erreur("Erreur de transfert de chaîne de caractères vers le fichier. Le nombre de caractère dépasse sans doute ",
+                                            s.max_size());
                                 }
                                 t_base.str("");
 #endif
@@ -607,16 +603,14 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
 
                                 if (! base.good())
                                 {
-                                    cerr << ERROR_HTML_TAG "Problème fermeture fichier base"  ENDL;
-                                    exit(-902);
+                                    erreur("Problème fermeture fichier base");
                                 }
 
                                 ++rang_fichier_base;
 
                                 if (rang_fichier_base >= 1000)
                                 {
-                                    cerr << ERROR_HTML_TAG "Ne peut générer que 999 bases au plus"  ENDL;
-                                    exit(-904);
+                                    erreur("Ne peut générer que 999 bases au plus");
                                 }
 
                                 ouvrir_fichier_base(Info[i], type_base, base, nsegment);
@@ -692,8 +686,8 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
                                 try { base << t_base.str(); }
                                 catch(...) {
                                     string s;
-                                    cerr << ERROR_HTML_TAG "Erreur de transfert de chaîne de caractères vers le fichier. Le nombre de caractère dépasse sans doute "
-                                         << s.max_size() << ENDL;
+                                    cerr << msg_erreur("Erreur de transfert de chaîne de caractères vers le fichier. Le nombre de caractère dépasse sans doute ",
+                                            s.max_size());
                                 }
                                 t_base.str("");
 #endif
@@ -733,8 +727,8 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
                                     try { base << t_base.str(); }
                                     catch(...) {
                                         string s;
-                                        cerr << ERROR_HTML_TAG "Erreur de transfert de chaîne de caractères vers le fichier. Le nombre de caractère dépasse sans doute "
-                                             << s.max_size() << ENDL;
+                                        cerr << msg_erreur("Erreur de transfert de chaîne de caractères vers le fichier. Le nombre de caractère dépasse sans doute ",
+                                                s.max_size());
                                     }
                                     t_base.str("");
 #endif
@@ -742,8 +736,7 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
 
                                     if (! base.good())
                                     {
-                                        cerr << ERROR_HTML_TAG "Problème fermeture fichier base"  ENDL;
-                                        exit(-902);
+                                        erreur("Problème fermeture fichier base");
                                     }
 
                                     ++rang_fichier_base;
@@ -751,8 +744,7 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
 
                                     if (rang_fichier_base >= 1000)
                                     {
-                                        cerr << ERROR_HTML_TAG "Ne peut générer que 999 bases au plus"  ENDL;
-                                        exit(-904);
+                                        erreur("Ne peut générer que 999 bases au plus");
                                     }
 
                                     ouvrir_fichier_base(Info[i], type_base, base, nsegment);
@@ -991,8 +983,8 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
             try { base << t_base.str(); }
             catch(...) {
                 string s;
-                cerr << ERROR_HTML_TAG "Erreur de transfert de chaîne de caractères vers le fichier. Le nombre de caractère dépasse sans doute "
-                     << s.max_size() << ENDL;
+                cerr << msg_erreur("Erreur de transfert de chaîne de caractères vers le fichier. Le nombre de caractère dépasse sans doute ",
+                                   s.max_size());
             }
             t_base.str("");
 #endif
@@ -1103,7 +1095,7 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
 #endif
     }
     else
-        cerr << ERROR_HTML_TAG "Problème de qualité du fichier " << Info[0].chemin_bulletins << ENDL;
+        cerr << msg_erreur("Problème de qualité du fichier ", Info[0].chemin_bulletins);
     
     return make_pair(compteur_lignes, compteur_lignes_bulletins);
 }

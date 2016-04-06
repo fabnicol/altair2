@@ -519,7 +519,7 @@ try
 #ifdef CATCH
 catch(...)
 {
-  cerr << ERROR_HTML_TAG "Le programme s'est terminé en raison d'erreurs sur la ligne de commande" ENDL;
+  cerr << msg_erreur("Le programme s'est terminé en raison d'erreurs sur la ligne de commande");
 }
 #endif
 /* A distribuer par fil ! */
@@ -746,6 +746,15 @@ void Commandline::repartir_fichiers()
 
         ++rang_segment;
    }
+
+    ofstream log("log");
+
+    log << "fichier" << "  " << "segment" << "  " << "fil" << " " << "éléments" << endl;
+    for (auto && h : info.hash_size)
+        for (auto && t : h.second)
+            for (auto && v : t.second)
+
+           log << h.first << "  " << t.first << "  " << v.first << " " << v.second << endl;
 }
 
 #if 0

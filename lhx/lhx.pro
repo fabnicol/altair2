@@ -40,8 +40,8 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 
-DEFINES +=  GUI_TAG_MESSAGES                   # définir pour que les sorties des messages soient formatées pour que l'interface graphique les transforme en icône.
-#DEFINES += COLOR_CONSOLE
+#DEFINES +=  GUI_TAG_MESSAGES                   # définir pour que les sorties des messages soient formatées pour que l'interface graphique les transforme en icône.
+DEFINES += COLOR_CONSOLE
 
 QMAKE_CXXFLAGS_RELEASE -= -O2
 

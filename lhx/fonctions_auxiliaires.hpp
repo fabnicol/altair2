@@ -53,14 +53,43 @@ errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur)
 
 void ecrire_log(const info_t& info, ofstream& log, int diff);
 
-static string msg_erreur(const string& s = "")
+static string GCC_UNUSED string_adder() { return "";}
+
+template<typename... Args> static string string_adder(const char* first, const Args&... args);
+
+template<typename... Args> static string string_adder(const int first, const Args&... args)
 {
-    return string(ENDL ERROR_HTML_TAG) + s + string(ENDL);
+    return to_string(first) + string_adder(args...);
 }
 
-template <typename e = std::runtime_error> void erreur(const string& s = "")
+static string GCC_UNUSED string_adder(const long long unsigned int& v)
 {
-    throw e {  msg_erreur(s) };
+    return to_string(v);
+}
+
+template<typename... Args> static string GCC_UNUSED string_adder(string first, const Args&... args)
+{
+    return first + string_adder(args...);
+}
+
+template<typename... Args> static string string_adder(const unsigned char* first, const Args&... args)
+{
+    return string((const char*)first) + string_adder(args...);
+}
+
+template<typename... Args> static string string_adder(const char* first, const Args&... args)
+{
+    return string(first) + string_adder(args...);
+}
+
+template<typename... Args>  static string msg_erreur(const Args&... args)
+{
+    return string(ENDL ERROR_HTML_TAG) + string_adder(args...) + string(ENDL);
+}
+
+template <typename e = std::runtime_error, typename... Args> void erreur(const string& s = "", const Args&... args)
+{
+    throw e {  msg_erreur(s, args...) };
 }
 
 void calculer_maxima(const vector<info_t> &Info, ofstream* LOG = nullptr);

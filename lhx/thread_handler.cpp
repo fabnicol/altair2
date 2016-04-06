@@ -52,18 +52,18 @@ thread_handler::thread_handler(Commandline& commande, int rang_segment)
             cerr <<  PROCESSING_HTML_TAG "Fil d'exécution n°" << i + 1 << "/" << nb_fil
                  << "   Nombre de fichiers dans ce fil : " << Info[i].threads->argc << ENDL;
 
-#ifdef CATCH
+       #ifdef CATCH
        try
         {
-#endif
+       #endif
           redecouper(Info[i]);
-#ifdef CATCH
+       #ifdef CATCH
         }
-        catch(...)
+       catch(...)
         {
             erreur("Erreur dans le découpage des fichiers volumineux");
         }
-#endif
+       #endif
 
         /* Lancement des fils d'exécution */
 
@@ -137,7 +137,7 @@ void thread_handler::redecouper_volumineux(info_t& info, quad<>& tr)
 #endif
 
     if (verbeux)
-        cerr << PROCESSING_HTML_TAG " Fil n°" << info.threads->thread_num + 1 << " Redécoupage du fichier n°" << fichier_courant  << ENDL;
+        cerr << PROCESSING_HTML_TAG " Fil n°" << info.threads->thread_num + 1 << " Redécoupage du fichier " << fichier_courant  << ENDL;
 
     string document_tag = "", enc = "";
     string::iterator iter = filest.begin();
@@ -177,7 +177,7 @@ void thread_handler::redecouper_volumineux(info_t& info, quad<>& tr)
     uint64_t i = 0, last_pos = 0;
 
     bool open_di = true;
-    int element = 0;
+
     uint64_t taille = taille_fichier(tr.value);
 
     while (filest.at(i) != '\0')
@@ -195,7 +195,12 @@ void thread_handler::redecouper_volumineux(info_t& info, quad<>& tr)
                 while (++i < taille) if (filest.at(i) == '<') break;
                 if (++i < taille && filest.at(i) != '/') continue;
                 if (++i < taille && filest.at(i) != 'P') continue;
-                if (i + 16 > taille) return;
+                if (i + 16 > taille)
+                {
+                    cerr << msg_erreur(fichier_courant, " Débordement du fichier xhl de type 1");
+                    --tr.elements;
+                    return;
+                }
 
                 s = filest.substr(i, 16);
 
@@ -234,7 +239,11 @@ void thread_handler::redecouper_volumineux(info_t& info, quad<>& tr)
         while (++i < taille)
             if (filest.at(i) == '<') break;
 
-        if (i >= taille) return;
+        if (i >= taille)
+        {
+            cerr << msg_erreur(fichier_courant, "Débordement du fichier xhl de type 2");
+            return;
+        }
 
         s = filest.substr(i + 1 , 13);
         bool insert_di = (s != "/DonneesIndiv");
@@ -244,7 +253,11 @@ void thread_handler::redecouper_volumineux(info_t& info, quad<>& tr)
             while (++i < taille)
                 if (filest.at(i) == '<') break;
 
-        if (i +12 >= taille) return;
+        if (i +12 >= taille)
+        {
+            cerr << msg_erreur(fichier_courant, "Débordement du fichier xhl de type 3");
+            return;
+        }
 
         s = filest.substr(i + 1 , 12);
 
@@ -269,15 +282,12 @@ void thread_handler::redecouper_volumineux(info_t& info, quad<>& tr)
 
 #if defined(STRINGSTREAM_PARSING) || defined(MMAP_PARSING)
 
-        if (info.threads->thread_num < info.hash_size[fichier_courant][rang_segment].size()
-            && info.threads->in_memory_file[fichier_courant][rang_segment].size() < info.hash_size[fichier_courant][rang_segment][info.threads->thread_num])
+        if (info.hash_size[fichier_courant][rang_segment][info.threads->thread_num] > info.threads->in_memory_file[fichier_courant][rang_segment].size())
     	{
             info.threads->in_memory_file[fichier_courant][rang_segment].emplace_back(filest_cut);
 		}
         else if (filest_cut != "")
         {
-          element = 0;
-
           ++rang_segment;
 
           try {
@@ -322,10 +332,8 @@ void thread_handler::redecouper(info_t& info)
 
           if (! c.good())
            {
-             cerr << ERROR_HTML_TAG "Erreur d'ouverture du fichier " << tr.value << ENDL;
-             #ifdef STRICT
-               throw runtime_error {" Exiting."};
-             #endif
+
+             erreur("Erreur d'ouverture du fichier ", tr.value);
              info.threads->in_memory_file[tr.value][info.threads->rang_segment].push_back("");
              continue;
            }
