@@ -1,6 +1,7 @@
 #include "commandline_handler.h"
 #include "thread_handler.h"
 #include "validator.hpp"
+#include <algorithm>
 
 thread_handler::thread_handler(Commandline& commande, int rang_segment)
     : nb_fil {commande.get_nb_fil()},
@@ -117,6 +118,8 @@ thread_handler::~thread_handler()
 
 void thread_handler::redecouper_volumineux(info_t& info, quad<>& tr)
 {
+    vector<int> v;
+    for (auto && h : info.hash_size) for (auto && t : h.second) v.push_back(t.first);
 
     string fichier_courant = tr.value;
     int rang_segment = info.threads->rang_segment;
@@ -265,15 +268,23 @@ void thread_handler::redecouper_volumineux(info_t& info, quad<>& tr)
         open_di = (s == "DonneesIndiv");
 
 #if defined(STRINGSTREAM_PARSING) || defined(MMAP_PARSING)
-        if (element < info.hash_size[fichier_courant][rang_segment][info.threads->thread_num])
+
+        if (info.threads->thread_num < info.hash_size[fichier_courant][rang_segment].size()
+            && info.threads->in_memory_file[fichier_courant][rang_segment].size() < info.hash_size[fichier_courant][rang_segment][info.threads->thread_num])
             info.threads->in_memory_file[fichier_courant][rang_segment].emplace_back(filest_cut);
         else if (filest_cut != "")
         {
           element = 0;
-          //while (info.threads->in_memory_file[fichier_courant][rang_segment].size() == 0)
+
           ++rang_segment;
 
-          info.threads->in_memory_file[fichier_courant][rang_segment].emplace_back(filest_cut);
+          try {
+          if (find(v.begin(), v.end(), rang_segment) != v.end())
+             info.threads->in_memory_file[fichier_courant][rang_segment].emplace_back(filest_cut);
+
+          else throw runtime_error { string(fichier_courant + " n'est pas dans le segment " + to_string(rang_segment)).c_str() };
+          }
+          catch(...) { cerr << string(fichier_courant + " n'est pas dans le segment " + to_string(rang_segment)).c_str()  << endl; }
         }
 #else
         string filecut_path = info.threads->argv.at(fichier_courant) +"_" + to_string(r) + ".xhl";

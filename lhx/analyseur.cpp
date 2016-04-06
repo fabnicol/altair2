@@ -1072,20 +1072,40 @@ int Analyseur::parseFile(info_t& info)
     int res = 0;
     int cont_flag = PREMIER_FICHIER;
     xml_commun champ_commun;
-    const quad<> &q = info.threads->argv.at(info.fichier_courant);
-    int nb_decoupe = q.elements;
+    quad<> &q = info.threads->argv.at(info.fichier_courant);
     int rang_segment = info.threads->rang_segment;
 
-    if (nb_decoupe == 1)
+    q.elements = info.threads->in_memory_file[q.value][rang_segment].size(); // correction par rapport à la prévision
+
+    try {
+    if (q.elements == 0)
+        throw runtime_error { string(q.value + string(" ne fait pas partie du segment ") + to_string(rang_segment + 1)).c_str()};
+}
+    catch(...)
+    {
+      cerr << ERROR_HTML_TAG "Fichier hors segment" << endl;
+      cerr << string(q.value + string(" ne fait pas partie du segment ") + to_string(rang_segment + 1)) << endl;
+      for (auto && h : info.threads->in_memory_file) if (h.first == q.value) cerr << "rang du segment (0-based) : " << rang_segment << " nb élém. " << q.elements << endl;
+    }
+
+    if (q.elements == 1)
     {
 #if defined(STRINGSTREAM_PARSING)
+
         xmlDocPtr doc;
-        const char* s = move(info.threads->in_memory_file[q.value][rang_segment][0]).c_str();
-        try  { doc = xmlParseDoc(reinterpret_cast<const xmlChar*>(s)); }
+        char* s;
+        try
+        {
+           s = (char*) move(info.threads->in_memory_file[q.value][rang_segment][0]).c_str();
+            doc = xmlParseDoc(reinterpret_cast<const xmlChar*>(s));
+        }
         catch(...)
-        { cerr <<endl << "Sortie d'erreur du parseur XML" << endl << s << endl; }
+        {
+            cerr << endl << "Sortie d'erreur du parseur XML" << endl << s << endl;
+        }
 
         info.threads->in_memory_file[q.value][rang_segment][0].clear();
+
 #else
         xmlDocPtr doc = xmlParseFile(info.threads->argv.at(info.fichier_courant).value.c_str());
 #endif
@@ -1094,24 +1114,27 @@ int Analyseur::parseFile(info_t& info)
 
     // -----  nb_decoupe != 0
 
+    int element = 0;
 
-    for (int element = 0; element < nb_decoupe; ++element)
+    for (string ss : info.threads->in_memory_file[q.value][rang_segment])  // no const!
     {
 
-       if (verbeux)
+       ++element;
+
+        if (verbeux)
         {
             cerr << ENDL;
             cerr << ".....     .....     ....." ENDL;
             cerr << ENDL;
 
             cerr << PROCESSING_HTML_TAG "Analyse du fichier scindé fil " << info.threads->thread_num + 1
-                 << " - n°" << info.fichier_courant + 1 << "-" << element + 1 << "/" << nb_decoupe;
+                 << " - n°" << info.fichier_courant + 1 << "-" << element << "/" << q.elements;
 
             cerr << ENDL;
         }
 
 
-        if (element == 0)
+        if (element == 1)
         {
             if (q.status == LEFTOVER)
                 cont_flag = FICHIER_SUIVANT_DECOUPE;
@@ -1119,7 +1142,7 @@ int Analyseur::parseFile(info_t& info)
                 cont_flag = PREMIER_FICHIER;
         }
         else
-        if (element == nb_decoupe - 1)
+        if (element == q.elements)
                 cont_flag = DERNIER_FICHIER_DECOUPE;
         else
             cont_flag = FICHIER_SUIVANT_DECOUPE;
@@ -1128,19 +1151,23 @@ int Analyseur::parseFile(info_t& info)
 #if defined(STRINGSTREAM_PARSING)
 
         xmlDocPtr doc;
+        char* s ;
         try
         {
-            const char* s = move(info.threads->in_memory_file[q.value][rang_segment][element]).c_str();
-            if (s[0] == '\0') {
-                cerr << "Fichier XML Vide !" << endl;
-                return 0;
-            }
-            doc = xmlParseDoc(reinterpret_cast<const xmlChar*>(s));
-            info.threads->in_memory_file[q.value][rang_segment][element].clear();
+                s = (char*) move(ss).c_str();
+                if (s[0] == '\0')
+                {
+                    throw runtime_error {"Fichier XML Vide !"};
+
+                }
+
+                doc = xmlParseDoc(reinterpret_cast<const xmlChar*>(s));
+                ss.clear();
         }
         catch(...)
         {
-            throw runtime_error { ERROR_HTML_TAG "Erreur XML" };
+            cerr <<  ERROR_HTML_TAG "Erreur XML" << endl
+                 << s << endl;
         }
 
         //s.clear();
@@ -1160,7 +1187,7 @@ int Analyseur::parseFile(info_t& info)
         if (verbeux)
         {
             cerr << PROCESSING_HTML_TAG "Fin de l'analyse du fichier scindé fil " << info.threads->thread_num + 1
-                 << " n°" << info.fichier_courant + 1 << "-" << element << "/" << nb_decoupe ;
+                 << " n°" << info.fichier_courant + 1 << "-" << element << "/" << q.elements ;
 #ifdef FGETC_PARSING
             cerr << " : " << s << ENDL;
 #else

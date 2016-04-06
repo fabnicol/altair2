@@ -708,7 +708,7 @@ void Commandline::repartir_fichiers()
              * le nombre d'éléments du fichier intégrés au fil en cours (sous la forme d'un vecteur
              * de nombre d'éléments indexé par le fil en cours) */
 
-            info.hash_size[iter_fichier->value][rang_segment][fil] = iter_fichier->elements;
+            if (iter_fichier->elements) info.hash_size[iter_fichier->value][rang_segment][fil] = iter_fichier->elements;
 
             ++iter_fichier;
 

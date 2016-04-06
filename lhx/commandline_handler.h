@@ -96,6 +96,7 @@ public:
 
     int get_nb_fichier(int segment) { return nb_fichier_par_segment.at(segment); }
 
+
     vector<vector<quad<>>> get_input(int segment)
     {
         return std::move(input[segment]);
