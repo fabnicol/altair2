@@ -102,7 +102,7 @@ void Analyseur::lanceur(Commandline& commande)
 {
     for(int rang_segment = 0; rang_segment < nb_segment; ++rang_segment)
     {
-        int nb_fichier = commande.get_nb_fichier(rang_segment);
+        int nb_fichier = commande.get_nb_fichier(rang_segment);  // nombre d'éléments de quad par segment
 
         if (commande.get_nb_fil() > nb_fichier)
         {
@@ -122,21 +122,14 @@ void Analyseur::lanceur(Commandline& commande)
 
 
 int Analyseur::produire_segment(Commandline& commande, int rang_segment)
+#ifdef CATCH
+ try
+#endif
 {
     /* Lancement des fils */
-#ifdef CATCH
-    try
-    {
-#endif
+
       thread_handler th{ commande, rang_segment };
       gestionnaire_fils = &th;
-#ifdef CATCH
-    }
-    catch(...)
-    {
-        erreur("Erreur dans le lancement des fils");
-    }
-#endif
 
     if (commande.is_pretend()) return 2;
 
@@ -202,10 +195,15 @@ int Analyseur::produire_segment(Commandline& commande, int rang_segment)
      * En cas de problème d'allocation mémoire le mieux est encore de ne pas désallouer car on ne connait pas exacteemnt l'état
      * de la mémoire dynamique */
 
-
-
     return 1;
 }
+#ifdef CATCH
+    catch(...)
+    {
+        erreur("Erreur dans le lancement des fils");
+    }
+#endif
+
 
 
 
@@ -1081,7 +1079,12 @@ int Analyseur::parseFile(info_t& info)
     if (nb_decoupe == 1)
     {
 #if defined(STRINGSTREAM_PARSING)
-        xmlDocPtr doc = xmlParseDoc(reinterpret_cast<const xmlChar*>(move(info.threads->in_memory_file[q.value][rang_segment][0]).c_str()));
+        xmlDocPtr doc;
+        const char* s = move(info.threads->in_memory_file[q.value][rang_segment][0]).c_str();
+        try  { doc = xmlParseDoc(reinterpret_cast<const xmlChar*>(s)); }
+        catch(...)
+        { cerr <<endl << "Sortie d'erreur du parseur XML" << endl << s << endl; }
+
         info.threads->in_memory_file[q.value][rang_segment][0].clear();
 #else
         xmlDocPtr doc = xmlParseFile(info.threads->argv.at(info.fichier_courant).value.c_str());
@@ -1127,7 +1130,12 @@ int Analyseur::parseFile(info_t& info)
         xmlDocPtr doc;
         try
         {
-            doc = xmlParseDoc(reinterpret_cast<const xmlChar*>(move(info.threads->in_memory_file[q.value][rang_segment][element]).c_str()));
+            const char* s = move(info.threads->in_memory_file[q.value][rang_segment][element]).c_str();
+            if (s[0] == '\0') {
+                cerr << "Fichier XML Vide !" << endl;
+                return 0;
+            }
+            doc = xmlParseDoc(reinterpret_cast<const xmlChar*>(s));
             info.threads->in_memory_file[q.value][rang_segment][element].clear();
         }
         catch(...)

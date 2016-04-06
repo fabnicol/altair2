@@ -66,7 +66,7 @@ using namespace std;
 #endif
 
 #ifndef CUTFILE_CHUNK
-  #define CUTFILE_CHUNK  40 * 1024 * 1024
+  #define CUTFILE_CHUNK  15 * 1024 * 1024
 #endif
 
 

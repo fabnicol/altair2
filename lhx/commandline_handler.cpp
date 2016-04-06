@@ -519,7 +519,7 @@ try
 #ifdef CATCH
 catch(...)
 {
-cerr << ERROR_HTML_TAG "Le programme s'est terminé en raison d'erreurs sur la ligne de commande" ENDL;
+  cerr << ERROR_HTML_TAG "Le programme s'est terminé en raison d'erreurs sur la ligne de commande" ENDL;
 }
 #endif
 /* A distribuer par fil ! */
@@ -530,15 +530,30 @@ cerr << ERROR_HTML_TAG "Le programme s'est terminé en raison d'erreurs sur la li
 #define debug(X) X
 #endif
 
-/* dans chaque input_par_segment[fil] on a un quand qui précise :
- *   - le chemin,
- *   - le nombre de d'éléments de taille chunksize à intégrer dans le fil du segment
- *   - la taille résiduelle
- *   - le statut (première découpe : FIRST_CUT, découpe intermédiaire MEDIUM_CUT ou terminale LEFTOVER)*/
+/* dans chaque input_par_segment[fil] on a un quad qui précise :
+ *   - le chemin (value),
+ *   - le nombre de d'éléments de taille chunksize à intégrer dans le fil du segment (elements)
+ *   - la taille résiduelle après déduction des éléments de la taille initiale (size)
+ *   - le statut (status) : première découpe : FIRST_CUT, découpe intermédiaire MEDIUM_CUT ou terminale LEFTOVER*/
+
+/* Structure des données :
+ *   quad { value : nom du fichier et chemin : string;
+ *          size     : en octets, taille initiale ou résiduelle  : uint64_t ;
+ *          elements : nombre de découpages du fichier maître dans le segment en cours : int ;
+ *          status   : LEFTOVER, NO_LEFTOVER, INCOMPLETE : int } ; */
 
 bool Commandline::allouer_fil(const int fil,
                               vector<quad<>>::iterator& iter_fichier)
 {
+    float densite_xhl_mem = AVERAGE_RAM_DENSITY;
+
+    #ifdef STRINGSTREAM_PARSING
+      ++densite_xhl_mem;
+    #endif
+    #ifndef OFSTREAM_TABLE_OUTPUT
+      ++densite_xhl_mem;
+    #endif
+
     uint64_t incr;
     bool in_memory = true;
 
@@ -553,6 +568,9 @@ bool Commandline::allouer_fil(const int fil,
 
     int k;
 
+    /* Ajouter des éléments du quad *iter_fichier (soit au max. nb_decoupe) tant que l'incrément incr
+     * correspondant un élément, accumulé dans taille_segment[fil], ne dépasse par la mémoire utilisable/AVERAGE_RAM_DENSITY */
+
     for (k = 0; k < nb_decoupe; ++k)
     {
         if (nb_decoupe == 1)
@@ -563,7 +581,7 @@ bool Commandline::allouer_fil(const int fil,
         else
             incr = iter_fichier->size % chunksize;
 
-        if ((taille_segment.at(fil) + incr) /* * densite_xhl_mem */ < memoire_utilisable_par_fil)
+        if ((taille_segment.at(fil) + incr) * densite_xhl_mem < memoire_utilisable_par_fil)
         {
             taille_segment[fil] += incr;
         }
@@ -572,22 +590,29 @@ bool Commandline::allouer_fil(const int fil,
             in_memory = false;
             break;
         }
+
+        iter_fichier->size -= incr;
     }
 
-    /* si in_memory == false, iter_fichier->elements vaut k - 0 et si in_memory == true, vaut k - 0 */
+    /* Lorsque le critère de test n'est pas satisfait, k n'est pas incrémenté et est donc au plus nb_decoupe - 1
+     * Que le critère soit satisfait ou pas, le nombre d'éléments du fichier soit iter_fichier->elements vaut au plus k */
 
     iter_fichier->elements =  k ;
 
-    /* taille résiduelle */
-
-
-
-    if (k > 1) iter_fichier->size -= (k-1) * chunksize;
 #if 0
     log << endl << iter_fichier->value << "  " <<  " k " << k << " iter_fichier->size " << iter_fichier->size << endl;
     log << "->nouvelle paire " << iter_fichier->value << " " << iter_fichier->elements << ENDL;
     log << "-->leftover : " << nb_decoupe - iter_fichier->elements << ENDL;
 #endif
+
+    /* Si on prend un fichier entier :
+     *   si on le découpe et si tout rentre en mémoire, on ne fait rien
+     *   si on le découpe si si une partie ne rentre pas en mémoire, on accorde le statut FIRST_CUT
+     * Si on prend un fichier déjà découpé dans un segment précédent :
+     *   si tous les élements rentrent en mémoire, c'est la fin de l'opération d'allocation :statut LEFTOVER
+     *   si certains éléments ne rentrent toujours pas en mémoire, il faudra encore au moins un segment
+     *   cette situation a priori rare a le statut MEDIUM_CUT */
+
     if (iter_fichier->status == NO_LEFTOVER)
     {
        if (iter_fichier->elements > 1
@@ -606,110 +631,121 @@ bool Commandline::allouer_fil(const int fil,
 
     }
 
+    /* on retient un quad dans l'ensemble des quads du fil pour le segment donné (input_par_segment[fil])
+     * dès lors que au moins un élément du quad est alloué dans le segment en cours */
+
     if (k) input_par_segment[fil].push_back(*iter_fichier);
+
+    /* on retourne le booléen décrivant la situation fichier entier (ou pas) dans le segment en cours */
 
     return in_memory;
 }
 
-/* Structure des données :
- *   quad { value : nom du fichier et chemin : string;
- *          size     : en octets, taille initiale ou résiduelle  : uint64_t ;
- *          elements : nombre de découpages du fichier maître dans le segment en cours : int ;
- *          status   : LEFTOVER, NO_LEFTOVER, INCOMPLETE : int } ; */
 
-/* Algorithme : on alloue un fichier à un fil ssi la totalité du fichier contient sous la mémoire utilisable du fil
- * ensuite si ce n'est pas ne cas on essaie d'allouer le fichier au segment suivant.
- * Les allocations de fichiers aux fils se font de manière cyclique sur les fils : si le fichier n est alloué au fil i
- * alors on alloue en principe le fichier n + 1 au fil i + 1 modulo nb_fil.
+/* Algorithme  de répartition
+ *
+ * On alloue un fichier à un fil du segment en cours, éventuellement de manière partielle.
+ * Si l'allocation est incomplète et porte sur un nombre donné d'éléments, essaie d'allouer le reste au segment suivant.
+ *
+ * Les allocations de fichiers aux fils se font de manière cyclique sur les fils : si le quad n est alloué au fil i
+ * alors on alloue en principe le quad n + 1 au fil i + 1 modulo nb_fil.
  * On arrête l'allocation du segment lorsque on n'arrive plus à allouer intégralement aucun nouveau fichier sur aucun fil.
  */
 
 void Commandline::repartir_fichiers()
 {
-    vector<quad<>>::iterator iter_fichier = argv.begin();
-
-    float densite_xhl_mem = AVERAGE_RAM_DENSITY;
-
-    #ifdef STRINGSTREAM_PARSING
-      ++densite_xhl_mem;
-    #endif
-    #ifndef OFSTREAM_TABLE_OUTPUT
-      ++densite_xhl_mem;
-    #endif
-
-    //(1 + rang_segment / SEGMENT_DIVISION_RATE)
     int rang_segment = 0;
 
     memoire_utilisable_par_fil = memoire_utilisable / nb_fil;
+
 #if 0
     ofstream log("log", ios_base::app);
 #endif
+
+    vector<quad<>>::iterator iter_fichier = argv.begin();
+    vector<quad<>> leftover;
+
     while (iter_fichier != argv.end())
     {
-        ++rang_segment;
+
 #if 0
-        log << "\n-------------- SEGMENT n°"  << rang_segment <<"\n\n";
+        log << "\n-------------- SEGMENT n°"  << rang_segment + 1 <<"\n\n";
         log << STATE_HTML_TAG "\nMémoire utilisée par fil : " << memoire_utilisable_par_fil / (1024 * 1024) << " Mo" ENDL;
 #endif
-        vector<quad<>> leftover;
+        /* Début d'un nouveau segment : on alloue de l'espace pour stocker les quads de nb_fil
+         * et de même pour le stockage des tailles de fichier. On nettoie le vecteur de stockage de
+         * quads qui permet de communiquer les "restes non alloués" du segment précédent */
 
+        leftover.clear();
         input_par_segment.clear();
         input_par_segment.resize(nb_fil);
+        taille_segment.clear();
         taille_segment.resize(nb_fil);
 
         int fil = 0;
         int s_allouable = 0;
         bool allouable = true;
-        int nb_fichier = 0;
+        int nb_fichier = 0;  // stocke le nombre total d'éléments de quad pour le segment en cours
 
-        while (iter_fichier != argv.end() && iter_fichier->size > 0)
+        while (iter_fichier != argv.end())
         {
             allouable = allouer_fil(fil, iter_fichier);
             s_allouable += (allouable == true);
 
+            /* à insérer après l'appel de allouer_fil */
+
             nb_fichier += iter_fichier->elements;
 
-            if (! allouable || iter_fichier == argv.end())
-            {
+            /* si le quad n'est pas entièrement allouable dans le segment et le fil en cours
+             * alors on réserve le quad pour le segment suivant */
 
-                if (! allouable)
-                {
-                    leftover.push_back(*iter_fichier);
-                }
+            if (! allouable)
+            {
+              leftover.push_back(*iter_fichier);
             }
 
-            if (iter_fichier->elements) info.hash_size[iter_fichier->value][rang_segment-1][fil] = iter_fichier->elements;
+            /* Une table de hashage hash_size sur le chemin des fichiers et l'index du segment associe un
+             * le nombre d'éléments du fichier intégrés au fil en cours (sous la forme d'un vecteur
+             * de nombre d'éléments indexé par le fil en cours) */
+
+            info.hash_size[iter_fichier->value][rang_segment][fil] = iter_fichier->elements;
 
             ++iter_fichier;
+
+            /* crtère de sortie du segment : */
+
             ++fil;
-            //if (s_allouable == 0)
-                //break;
+
             if (nb_fil == fil)
             {
+                if (! s_allouable) break;
                 fil = 0;
-              //  s_allouable = 0;
+                s_allouable = 0;
             }
-
-            if (!allouable) break;
         }
 
-        /* Le leftover du segment précédent est rajouté en tête de liste des fichiers à allouer au segment suivant */
+        /* bilan segment en cours et préparation du suivant */
 
-        nb_fichier_par_segment.push_back(nb_fichier);
-        taille_segment.clear();
+        nb_fichier_par_segment.push_back(nb_fichier);  // comprendre nombre d'éléments de quad
+
+        /* le vecteur input contient toutes les données par strates de segment, fil et quad
+         * sauf les nombres d'éléments */
 
         input.push_back(input_par_segment);
-        vector<quad<>> argv2(iter_fichier, argv.end());
+
+        /* Le leftover du segment en cours est rajouté en tête de liste des fichiers à allouer au segment suivant */
+
+        vector<quad<>> argv2(iter_fichier, argv.end());  // le reste à analyser
         argv.clear();
         argv = move(argv2);
+
         if (! leftover.empty())
-            argv.insert(argv.begin(), leftover.begin(), leftover.end());
+            argv.insert(argv.begin(), leftover.begin(), leftover.end());  // on pourrait utiliser une deque pour argv
+
         iter_fichier = argv.begin();
-        leftover.clear();
+
+        ++rang_segment;
    }
-
-
-
 }
 
 #if 0

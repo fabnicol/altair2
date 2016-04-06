@@ -67,7 +67,7 @@ DEFINES +=  WARNING_LIMIT=5  \         # nombre maximum d'avertissement par fich
             MAX_STRING_LENGTH=200 \    # taille maximum des strings pour la conversion latin-1
             MAX_MEMORY_SHARE=0.5  \    # part maximum de la mémoire vive disponible consommée par défaut (si --memshare n'est pas précisé)
             SEGMENT_DIVISION_RATE=2 \
-            AVERAGE_RAM_DENSITY=3 \    # constante empirique déterminant la quantité de mémoire nécessitée par 1 unité de mémoire de fichier xhl en cours de traitement.
+            AVERAGE_RAM_DENSITY=2 \    # constante empirique déterminant la quantité de mémoire nécessitée par 1 unité de mémoire de fichier xhl en cours de traitement.
            # MEMORY_DEBUG
 
 DEFINES += __GNUC_EXTENSION \

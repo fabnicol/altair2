@@ -22,8 +22,11 @@ thread_handler::thread_handler(Commandline& commande, int rang_segment)
     vector<int> nb_fichier_par_fil = commande.nb_fichier_par_fil(rang_segment);
 
     auto input_segment = commande.get_input(rang_segment);
+
+#if 0
     for (unsigned i = 0; i < nb_fichier_par_fil.size(); ++i)
         cerr << "fil " << i + 1 << " Info[i].threads->argc " << nb_fichier_par_fil.at(i)  << endl;
+#endif
 
     for (int i = 0; i < nb_fil; ++i)
     {
@@ -172,6 +175,7 @@ void thread_handler::redecouper_volumineux(info_t& info, quad<>& tr)
 
     bool open_di = true;
     int element = 0;
+    uint64_t taille = taille_fichier(tr.value);
 
     while (filest.at(i) != '\0')
     {
@@ -179,17 +183,16 @@ void thread_handler::redecouper_volumineux(info_t& info, quad<>& tr)
         string s = "";
         bool end_loop = false;
         i += info.chunksize;
-        uint64_t taille = taille_fichier(tr.value);
 
         if (i < taille)
         {
 
             while (filest.at(i) != '\0')
             {
-                while (filest.at(++i) != '<') continue;
-                if (filest.at(++i) != '/') continue;
-
-                if (filest.at(++i) != 'P') continue;
+                while (++i < taille) if (filest.at(i) == '<') break;
+                if (++i < taille && filest.at(i) != '/') continue;
+                if (++i < taille && filest.at(i) != 'P') continue;
+                if (i + 16 > taille) return;
 
                 s = filest.substr(i, 16);
 
@@ -225,13 +228,20 @@ void thread_handler::redecouper_volumineux(info_t& info, quad<>& tr)
 
         i += 16;
 
-        while (filest.at(++i) != '<') continue;
+        while (++i < taille)
+            if (filest.at(i) == '<') break;
+
+        if (i >= taille) return;
 
         s = filest.substr(i + 1 , 13);
         bool insert_di = (s != "/DonneesIndiv");
         if (! insert_di) i += 14;
 
-        if (filest.at(i) != '<') while (filest.at(++i) != '<') continue;
+        if (filest.at(i) != '<')
+            while (++i < taille)
+                if (filest.at(i) == '<') break;
+
+        if (i +12 >= taille) return;
 
         s = filest.substr(i + 1 , 12);
 
@@ -257,7 +267,7 @@ void thread_handler::redecouper_volumineux(info_t& info, quad<>& tr)
 #if defined(STRINGSTREAM_PARSING) || defined(MMAP_PARSING)
         if (element < info.hash_size[fichier_courant][rang_segment][info.threads->thread_num])
             info.threads->in_memory_file[fichier_courant][rang_segment].emplace_back(filest_cut);
-        else
+        else if (filest_cut != "")
         {
           element = 0;
           //while (info.threads->in_memory_file[fichier_courant][rang_segment].size() == 0)
@@ -287,9 +297,8 @@ void thread_handler::redecouper(info_t& info)
   {
       #ifdef STRINGSTREAM_PARSING
 
-      ofstream log("log", ios_base::app);
-
 #if 0
+      ofstream log("log", ios_base::app);
       log << endl << "info.threads->argv " << tr.value << " elements: " << tr.elements
           << " size " << tr.size/(1024*1024) << " taille " << taille_fichier(tr.value) << " status " << tr.status << endl;
 #endif
@@ -316,7 +325,6 @@ void thread_handler::redecouper(info_t& info)
             redecouper_volumineux(info, tr);
           }
       }
-
 
      #endif
 
