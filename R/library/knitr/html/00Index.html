@@ -5,13 +5,13 @@
 <link rel="stylesheet" type="text/css" href="R.css" />
 </head><body>
 <h1> A General-Purpose Package for Dynamic Report Generation in R
-<img class="toplogo" src="../../../doc/html/logo.jpg" alt="[R logo]" />
+<img class="toplogo" src="../../../doc/html/Rlogo.svg" alt="[R logo]" />
 </h1>
 <hr/>
 <div style="text-align: center;">
 <a href="../../../doc/html/packages.html"><img class="arrow" src="../../../doc/html/left.jpg" alt="[Up]" /></a>
 <a href="../../../doc/html/index.html"><img class="arrow" src="../../../doc/html/up.jpg" alt="[Top]" /></a>
-</div><h2>Documentation for package &lsquo;knitr&rsquo; version 1.12.3</h2>
+</div><h2>Documentation for package &lsquo;knitr&rsquo; version 1.13</h2>
 
 <ul><li><a href="../DESCRIPTION">DESCRIPTION file</a>.</li>
 <li><a href="../doc/index.html">User guides, package vignettes and other documentation.</a></li>
@@ -33,14 +33,14 @@
 <td>Mark an R object with a special class</td></tr>
 <tr><td style="width: 25%;"><a href="clean_cache.html">clean_cache</a></td>
 <td>Clean cache files that are probably no longer needed</td></tr>
+<tr><td style="width: 25%;"><a href="combine_words.html">combine_words</a></td>
+<td>Combine multiple words into a single string</td></tr>
 <tr><td style="width: 25%;"><a href="current_input.html">current_input</a></td>
 <td>Query the current input filename</td></tr>
 <tr><td style="width: 25%;"><a href="dep_auto.html">dep_auto</a></td>
 <td>Build automatic dependencies among chunks</td></tr>
 <tr><td style="width: 25%;"><a href="dep_prev.html">dep_prev</a></td>
 <td>Make later chunks depend on previous chunks</td></tr>
-<tr><td style="width: 25%;"><a href="eclipse_theme.html">eclipse_theme</a></td>
-<td>Download and convert a theme from eclipsecolorthemes.org to CSS</td></tr>
 <tr><td style="width: 25%;"><a href="engine_output.html">engine_output</a></td>
 <td>An output wrapper for language engine output</td></tr>
 <tr><td style="width: 25%;"><a href="fig_chunk.html">fig_chunk</a></td>
@@ -79,8 +79,12 @@
 <td>Encode an image file to a data URI</td></tr>
 <tr><td style="width: 25%;"><a href="imgur_upload.html">imgur_upload</a></td>
 <td>Upload an image to imgur.com</td></tr>
+<tr><td style="width: 25%;"><a href="include_url.html">include_app</a></td>
+<td>Embed a URL as an HTML iframe or a screenshot in 'knitr' documents</td></tr>
 <tr><td style="width: 25%;"><a href="include_graphics.html">include_graphics</a></td>
 <td>Embed external images in 'knitr' documents</td></tr>
+<tr><td style="width: 25%;"><a href="include_url.html">include_url</a></td>
+<td>Embed a URL as an HTML iframe or a screenshot in 'knitr' documents</td></tr>
 <tr><td style="width: 25%;"><a href="inline_expr.html">inline_expr</a></td>
 <td>Wrap code using the inline R expression syntax</td></tr>
 <tr><td style="width: 25%;"><a href="kable.html">kable</a></td>
@@ -110,6 +114,8 @@
 <tr><td style="width: 25%;"><a href="knit_hooks.html">knit_hooks</a></td>
 <td>Hooks for R code chunks, inline R code and output</td></tr>
 <tr><td style="width: 25%;"><a href="knit_meta.html">knit_meta</a></td>
+<td>Metadata about objects to be printed</td></tr>
+<tr><td style="width: 25%;"><a href="knit_meta.html">knit_meta_add</a></td>
 <td>Metadata about objects to be printed</td></tr>
 <tr><td style="width: 25%;"><a href="knit_params.html">knit_params</a></td>
 <td>Extract knit parameters from a document</td></tr>
@@ -142,7 +148,7 @@
 <tr><td style="width: 25%;"><a href="opts_template.html">opts_template</a></td>
 <td>Template for creating reusable chunk options</td></tr>
 <tr><td style="width: 25%;"><a href="pandoc.html">pandoc</a></td>
-<td>A Pandoc wrapper to convert Markdown documents to other formats</td></tr>
+<td>A Pandoc wrapper to convert documents to other formats</td></tr>
 <tr><td style="width: 25%;"><a href="pat_fun.html">pat_asciidoc</a></td>
 <td>Set regular expressions to read input documents</td></tr>
 <tr><td style="width: 25%;"><a href="pat_fun.html">pat_brew</a></td>

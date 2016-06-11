@@ -1,8 +1,8 @@
 
 call_rtools <- function() {
 
-  rtoolspath <- "Rtools/bin"
-  rtoolspath2 <- "Rtools/mingw_64/bin"
+  rtoolspath <- "RTools/bin"
+  rtoolspath2 <- "RTools/mingw_64/bin"
   
   wd <- getwd()
   if (grepl("altair$", wd, ignore.case=TRUE) == FALSE)
@@ -20,7 +20,7 @@ call_rtools <- function() {
   
   if (grepl(rtoolspath, localPath, ignore.case=TRUE) == FALSE) {
     
-    Sys.setenv(PATH = paste(localPath, file.path(wd, "..", rtoolspath), file.path(wd, "..", rtoolspath2), file.path(wd, "Outils"), sep=";"))
+    Sys.setenv(PATH = paste(file.path(wd, "..", rtoolspath), file.path(wd, "..", rtoolspath2), file.path(wd, "Outils"), localPath, sep=";"))
   }  
   
   

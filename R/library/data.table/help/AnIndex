@@ -1,4 +1,5 @@
 data.table-package	data.table
+%anywhere%	between
 %between%	between
 %chin%	chmatch
 %like%	like
@@ -14,6 +15,7 @@ all.equal.data.table	all.equal.data.table
 alloc.col	truelength
 anyDuplicated	duplicated
 anyDuplicated.data.table	duplicated
+anywhere	between
 as.character.ITime	IDateTime
 as.chron.IDate	IDateTime
 as.chron.ITime	IDateTime
@@ -81,7 +83,9 @@ fread	fread
 fsetdiff	setops
 fsetequal	setops
 funion	setops
+fwrite	fwrite
 getNumericRounding	setNumericRounding
+getthreads	openmp-utils
 GForce	datatable-optimize
 gforce	datatable-optimize
 haskey	setkey
@@ -150,9 +154,12 @@ setNumericRounding	setNumericRounding
 setops	setops
 setorder	setorder
 setorderv	setorder
+setthreads	openmp-utils
 shift	shift
 SJ	J
 special-symbols	special-symbols
+split	split
+split.data.table	split
 split.IDate	IDateTime
 strsplit	tstrsplit
 subset	subset.data.table

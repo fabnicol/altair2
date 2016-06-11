@@ -102,9 +102,11 @@ shim_system.file	system.file
 show_news	show_news
 source_gist	source_gist
 source_url	source_url
+spell_check	spell_check
 submit_cran	submit_cran
 system.file	system.file
 system_check	system_check
+system_output	system_output
 test	test
 uninstall	uninstall
 unload	unload

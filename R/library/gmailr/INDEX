@@ -26,7 +26,6 @@ messages                Get a list of messages
 mime                    Create a mime formatted message object
 modify_message          Modify the labels on a message
 modify_thread           Modify the labels on a thread
-print                   Print gmailr objects
 quoted_printable_encode
                         Encode text using quoted printable
 save_attachment         save the attachment to a file

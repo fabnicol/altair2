@@ -5,15 +5,16 @@
 <link rel="stylesheet" type="text/css" href="R.css" />
 </head><body>
 <h1> Access the Gmail RESTful API
-<img class="toplogo" src="../../../doc/html/logo.jpg" alt="[R logo]" />
+<img class="toplogo" src="../../../doc/html/Rlogo.svg" alt="[R logo]" />
 </h1>
 <hr/>
 <div style="text-align: center;">
 <a href="../../../doc/html/packages.html"><img class="arrow" src="../../../doc/html/left.jpg" alt="[Up]" /></a>
 <a href="../../../doc/html/index.html"><img class="arrow" src="../../../doc/html/up.jpg" alt="[Top]" /></a>
-</div><h2>Documentation for package &lsquo;gmailr&rsquo; version 0.7.0.9000</h2>
+</div><h2>Documentation for package &lsquo;gmailr&rsquo; version 0.7.1</h2>
 
 <ul><li><a href="../DESCRIPTION">DESCRIPTION file</a>.</li>
+<li><a href="../doc/index.html">User guides, package vignettes and other documentation.</a></li>
 </ul>
 
 <h2>Help Pages</h2>
@@ -30,11 +31,15 @@
 <td>Create a mime formatted message object</td></tr>
 <tr><td style="width: 25%;"><a href="mime.html">attach_part</a></td>
 <td>Create a mime formatted message object</td></tr>
-<tr><td style="width: 25%;"><a href="mime.html">bcc</a></td>
+<tr><td style="width: 25%;"><a href="accessors.html">bcc</a></td>
+<td>Methods to get values from message or drafts</td></tr>
+<tr><td style="width: 25%;"><a href="mime.html">bcc.mime</a></td>
 <td>Create a mime formatted message object</td></tr>
 <tr><td style="width: 25%;"><a href="body.html">body</a></td>
 <td>Get the body text of a message or draft</td></tr>
-<tr><td style="width: 25%;"><a href="mime.html">cc</a></td>
+<tr><td style="width: 25%;"><a href="accessors.html">cc</a></td>
+<td>Methods to get values from message or drafts</td></tr>
+<tr><td style="width: 25%;"><a href="mime.html">cc.mime</a></td>
 <td>Create a mime formatted message object</td></tr>
 <tr><td style="width: 25%;"><a href="clear_token.html">clear_token</a></td>
 <td>Clear the current oauth token</td></tr>
@@ -42,6 +47,8 @@
 <td>Create a draft from a mime message</td></tr>
 <tr><td style="width: 25%;"><a href="create_label.html">create_label</a></td>
 <td>Create a new label</td></tr>
+<tr><td style="width: 25%;"><a href="accessors.html">date</a></td>
+<td>Methods to get values from message or drafts</td></tr>
 <tr><td style="width: 25%;"><a href="delete_label.html">delete_label</a></td>
 <td>Permanently delete a label</td></tr>
 <tr><td style="width: 25%;"><a href="delete_message.html">delete_message</a></td>
@@ -52,6 +59,8 @@
 <td>Get a single draft</td></tr>
 <tr><td style="width: 25%;"><a href="drafts.html">drafts</a></td>
 <td>Get a list of drafts</td></tr>
+<tr><td style="width: 25%;"><a href="accessors.html">from</a></td>
+<td>Methods to get values from message or drafts</td></tr>
 <tr><td style="width: 25%;"><a href="mime.html">from.mime</a></td>
 <td>Create a mime formatted message object</td></tr>
 <tr><td style="width: 25%;"><a href="gmailr.html">gmailr</a></td>
@@ -63,6 +72,8 @@
 <tr><td style="width: 25%;"><a href="mime.html">html_body</a></td>
 <td>Create a mime formatted message object</td></tr>
 <tr><td style="width: 25%;"><a href="id.html">id</a></td>
+<td>Get the id of a gmailr object</td></tr>
+<tr><td style="width: 25%;"><a href="id.html">id.gmail_messages</a></td>
 <td>Get the id of a gmailr object</td></tr>
 <tr><td style="width: 25%;"><a href="import_message.html">import_message</a></td>
 <td>Import a message into the gmail mailbox from a mime message</td></tr>
@@ -84,8 +95,6 @@
 <td>Modify the labels on a message</td></tr>
 <tr><td style="width: 25%;"><a href="modify_thread.html">modify_thread</a></td>
 <td>Modify the labels on a thread</td></tr>
-<tr><td style="width: 25%;"><a href="print.html">print</a></td>
-<td>Print gmailr objects</td></tr>
 <tr><td style="width: 25%;"><a href="quoted_printable_encode.html">quoted_printable_encode</a></td>
 <td>Encode text using quoted printable</td></tr>
 <tr><td style="width: 25%;"><a href="save_attachment.html">save_attachment</a></td>
@@ -96,6 +105,8 @@
 <td>Send a draft</td></tr>
 <tr><td style="width: 25%;"><a href="send_message.html">send_message</a></td>
 <td>Send a message from a mime message</td></tr>
+<tr><td style="width: 25%;"><a href="accessors.html">subject</a></td>
+<td>Methods to get values from message or drafts</td></tr>
 <tr><td style="width: 25%;"><a href="mime.html">subject.mime</a></td>
 <td>Create a mime formatted message object</td></tr>
 <tr><td style="width: 25%;"><a href="mime.html">text_body</a></td>

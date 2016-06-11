@@ -3,10 +3,10 @@ all_labels	all_labels
 all_patterns	all_patterns
 asis_output	asis_output
 clean_cache	clean_cache
+combine_words	combine_words
 current_input	current_input
 dep_auto	dep_auto
 dep_prev	dep_prev
-eclipse_theme	eclipse_theme
 engine_output	engine_output
 fig_chunk	fig_chunk
 fig_path	fig_path
@@ -26,7 +26,9 @@ hook_r2swf	hook_animation
 hook_scianimator	hook_animation
 image_uri	image_uri
 imgur_upload	imgur_upload
+include_app	include_url
 include_graphics	include_graphics
+include_url	include_url
 inline_expr	inline_expr
 kable	kable
 knit	knit
@@ -42,6 +44,7 @@ knit_filter	knit_filter
 knit_global	knit_global
 knit_hooks	knit_hooks
 knit_meta	knit_meta
+knit_meta_add	knit_meta
 knit_params	knit_params
 knit_params_yaml	knit_params_yaml
 knit_patterns	knit_patterns

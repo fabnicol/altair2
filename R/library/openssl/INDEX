@@ -3,6 +3,7 @@ askpass                 Password Prompt Utility
 base64_encode           Encode and decode base64
 bignum                  Big number arithmetic
 cert_verify             X509 certificates
+ec_dh                   Diffie-Hellman Key Agreement
 encrypt_envelope        Envelope encryption
 fingerprint             OpenSSH fingerprint
 hashing                 Vectorized hash/hmac functions

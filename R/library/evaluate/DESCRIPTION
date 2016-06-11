@@ -2,8 +2,8 @@ Package: evaluate
 Type: Package
 Title: Parsing and Evaluation Tools that Provide More Details than the
         Default
-Version: 0.8.3
-Date: 2016-03-04
+Version: 0.9
+Date: 2016-04-29
 Authors@R: c(
     person("Hadley", "Wickham", role = "aut"),
     person("Yihui", "Xie", role = c("cre", "ctb"), email = "xie@yihui.name"),
@@ -21,7 +21,7 @@ Imports: methods, stringr (>= 0.6.2)
 Suggests: testthat, lattice, ggplot2
 RoxygenNote: 5.0.1
 NeedsCompilation: no
-Packaged: 2016-03-04 23:24:58 UTC; yihui
+Packaged: 2016-04-29 06:08:35 UTC; yihui
 Author: Hadley Wickham [aut],
   Yihui Xie [cre, ctb],
   Michael Lawrence [ctb],
@@ -29,5 +29,5 @@ Author: Hadley Wickham [aut],
   Barret Schloerke [ctb]
 Maintainer: Yihui Xie <xie@yihui.name>
 Repository: CRAN
-Date/Publication: 2016-03-05 00:32:33
-Built: R 3.2.3; ; 2016-03-06 03:28:14 UTC; windows
+Date/Publication: 2016-04-29 12:11:45
+Built: R 3.3.0; ; 2016-06-01 01:30:10 UTC; windows

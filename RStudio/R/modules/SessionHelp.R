@@ -17,7 +17,7 @@
 options(help_type = "html")
 
 .rs.addFunction( "httpdPortIsFunction", function() {
-   getRversion() >= "3.2" && .rs.haveRequiredRSvnRev(67550)
+   is.function(tools:::httpdPort)
 })
 
 .rs.addFunction( "httpdPort", function()
@@ -126,7 +126,9 @@ options(help_type = "html")
       return()
    
    # Get objects from that namespace
-   ns <- asNamespace(namespace)
+   ns <- try(asNamespace(namespace), silent = TRUE)
+   if (inherits(ns, "try-error"))
+      return()
    
    # Datasets don't live in the namespace -- ennumerate them separately
    # We have to avoid the 'base' package, though.
@@ -409,13 +411,8 @@ options(help_type = "html")
    dirpath <- dirname(path)
    pkgname <- basename(dirpath)
    
-   html = tools:::httpd(paste("/library/", 
-                              pkgname, 
-                              "/html/", 
-                              basename(file),
-                              ".html", sep=""),
-                        NULL,
-                        NULL)$payload
+   query <- paste("/library/", pkgname, "/html/", basename(file), ".html", sep = "")
+   html <- suppressWarnings(tools:::httpd(query, NULL, NULL))$payload
    
    match = suppressWarnings(regexpr('<body>.*</body>', html))
    if (match < 0)

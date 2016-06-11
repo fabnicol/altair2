@@ -41,7 +41,7 @@ CONFIG(debug, debug|release) {
 } else {
   CONFIG += static
   QMAKE_CXXFLAGS += -O3 -fomit-frame-pointer -fexpensive-optimizations
-  QMAKE_LFLAGS += -s
+  QMAKE_LFLAGS += -s -licui18n -licuuc -licudata
 }
 
 TEMPLATE = app

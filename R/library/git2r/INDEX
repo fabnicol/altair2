@@ -16,6 +16,8 @@ branches                Branches
 bundle_r_package        Bundle bare repo of package
 checkout                Checkout
 clone                   Clone a remote repository
+coerce-git_commit-method
+                        Coerce a commit to a 'data.frame'
 coerce-git_repository-method
                         Coerce Git repository to a 'data.frame'
 coerce-git_tree-data.frame-method
@@ -86,6 +88,7 @@ init                    Init a repository
 is_bare                 Check if repository is bare
 is_binary               Is blob binary
 is_blob                 Check if object is S4 class git_blob
+is_branch               Check if object is S4 class git_branch
 is_commit               Check if object is S4 class git_commit
 is_detached             Check if HEAD of repository is detached
 is_empty                Check if repository is empty

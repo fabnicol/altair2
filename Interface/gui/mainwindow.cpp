@@ -16,9 +16,9 @@ MainWindow::MainWindow(char* projectName)
   raise();
   recentFiles = QStringList() ;
 
-  altair=new Altair;
-  altair->parent=this;
-  altair->projectName=QString::fromLatin1(projectName);
+  altair = new Altair;
+  altair->parent = this;
+  altair->projectName = QString::fromLatin1(projectName);
 
   createActions();
   createMenus();
@@ -39,20 +39,19 @@ MainWindow::MainWindow(char* projectName)
 
   altair->addActions(actionList);
 
-  bottomDockWidget=new QDockWidget;
-  bottomTabWidget=new QTabWidget;
-  consoleDialog=  new QTextEdit;
+  bottomDockWidget = new QDockWidget;
+  bottomTabWidget = new QTabWidget;
+  consoleDialog =  new QTextEdit;
   consoleDialog->setReadOnly(true);
 
   bottomTabWidget->addTab(altair->outputTextEdit, tr("Messages"));
   bottomTabWidget->addTab(consoleDialog, tr("Console"));
   bottomTabWidget->setCurrentIndex(0);
 
-  fileTreeViewDockWidget= new QDockWidget;
+  fileTreeViewDockWidget = new QDockWidget;
   fileTreeViewDockWidget->setWidget(altair->fileTreeView);
   fileTreeViewDockWidget->setMinimumHeight((unsigned) (height()*0.3));
   fileTreeViewDockWidget->setFeatures(QDockWidget::AllDockWidgetFeatures);
-  fileTreeViewDockWidget->hide();
   addDockWidget(Qt::LeftDockWidgetArea, fileTreeViewDockWidget);
 
   managerDockWidget= new QDockWidget;
@@ -71,22 +70,32 @@ MainWindow::MainWindow(char* projectName)
 
   QToolButton *clearBottomTabWidgetButton=new QToolButton;
   const QIcon clearOutputText = QIcon(QString::fromUtf8( ":/images/edit-clear.png"));
+  clearBottomTabWidgetButton->setToolTip("Effacer l'onglet courant de la console");
   clearBottomTabWidgetButton->setIcon(clearOutputText);
 
-  QGroupBox *stackedBottomWidget=new QGroupBox;
-  QHBoxLayout *stackedBottomWidgetLayout=new QHBoxLayout;
-  stackedBottomWidgetLayout->addWidget(clearBottomTabWidgetButton);
+  QGroupBox *stackedBottomWidget = new QGroupBox;
+  QHBoxLayout *stackedBottomWidgetLayout = new QHBoxLayout;
+  QVBoxLayout *buttonsForBottomWidgetLayout = new QVBoxLayout;
+  buttonsForBottomWidgetLayout->addWidget(clearBottomTabWidgetButton);
+
+  QToolButton *nppBottomTabWidgetButton=new QToolButton;
+  const QIcon nppIcon = QIcon(QString::fromUtf8( ":/images/internet-explorer.png"));
+  nppBottomTabWidgetButton->setToolTip("Afficher les messages dans l'explorateur internet");
+  nppBottomTabWidgetButton->setIcon(nppIcon);
+  buttonsForBottomWidgetLayout->addWidget(nppBottomTabWidgetButton);
+
+  stackedBottomWidgetLayout->addLayout(buttonsForBottomWidgetLayout);
   stackedBottomWidgetLayout->addWidget(bottomTabWidget);
   stackedBottomWidget->setLayout(stackedBottomWidgetLayout);
 #ifndef MINIMAL
   bottomDockWidget->setMinimumHeight(400);
- #endif
+#endif
   bottomDockWidget->setWidget(stackedBottomWidget);
 
   addDockWidget(Qt::BottomDockWidgetArea, bottomDockWidget);
 
   setWindowIcon(QIcon(":/images/altair.png"));
-  setWindowTitle("Interface  Altaïr"+ QString(VERSION));
+  setWindowTitle("Interface  Altaïr "+ QString(VERSION));
 
   dialog=new options(altair);
   dialog->setParent(altair, Qt::Window);
@@ -101,6 +110,7 @@ MainWindow::MainWindow(char* projectName)
   // resetting interfaceStatus::parseXml bits to 0
   Altair::RefreshFlag = Altair::RefreshFlag & (~interfaceStatus::parseXml);
 
+  connect(nppBottomTabWidgetButton, &QToolButton::clicked, [this] { on_nppButton_clicked();});
   connect(clearBottomTabWidgetButton, &QToolButton::clicked, [this] { on_clearOutputTextButton_clicked();});
   connect(consoleDialog, SIGNAL(copyAvailable(bool)), consoleDialog, SLOT(copy()));
   connect(&(altair->process), SIGNAL(finished(int)), this, SLOT(resetCounter()));
@@ -113,6 +123,31 @@ MainWindow::MainWindow(char* projectName)
       altair->openProjectFileCommonCode();
   }
 }
+
+
+void MainWindow::on_nppButton_clicked()
+{
+#ifdef __linux__
+    const char* path = "C:/home/fab/Dev/altair";
+#else
+    const char* path = "C:/Users/Public/log.html";
+#endif
+
+    tempLog.setFileName(path);
+    if (tempLog.exists()) tempLog.remove();
+
+    tempLog.open(QIODevice::ReadWrite);
+    tempLog.write(
+        qobject_cast<QTextEdit*>(bottomTabWidget->currentWidget())->toHtml().replace(":/",
+                                                                             common::path_access("Interface_windows")+QDir::separator()).toLatin1()
+                );
+    tempLog.close();
+
+    QUrl url=QUrl::fromLocalFile(tempLog.fileName());
+
+    browser::showPage(url);
+}
+
 
 void MainWindow::on_clearOutputTextButton_clicked()
 {
@@ -176,7 +211,7 @@ void MainWindow::createMenus()
  editMenu->addActions({displayAction, displayOutputAction, displayFileTreeViewAction,
                        displayManagerAction, clearOutputTextAction, editProjectAction});
 
- processMenu->addActions({RAction, lhxAction, openBaseDirAction});
+ processMenu->addActions({RAction, lhxAction, anonymAction, openBaseDirAction});
 
  optionsMenu->addActions({optionsAction, configureAction});
 
@@ -232,6 +267,10 @@ void MainWindow::createActions()
   lhxAction->setShortcut(QKeySequence("Ctrl+B"));
   lhxAction->setIcon(QIcon(":/images/csv.png"));
   connect(lhxAction, SIGNAL(triggered()), altair, SLOT(run()));
+
+  anonymAction = new QAction(tr("Anonymiser la base de données XML"), this);
+  anonymAction->setIcon(QIcon(":/images/anonymiser.png"));
+  connect(anonymAction, SIGNAL(triggered()), this, SLOT(anonymiser()));
 
   openBaseDirAction = new QAction(tr("Ouvrir le répertoire des bases"), this);
   openBaseDirAction ->setIcon(QIcon(":/images/directory.png"));
@@ -315,11 +354,68 @@ void MainWindow::createActions()
     }
 
   actionList << newAction << openAction << saveAction << saveAsAction << exportAction << archiveAction << restoreAction << closeAction << exitAction << separator[0] <<
-                RAction << lhxAction << openBaseDirAction << displayOutputAction << displayFileTreeViewAction <<
+                RAction << lhxAction << anonymAction << openBaseDirAction << displayOutputAction << displayFileTreeViewAction <<
                 displayManagerAction <<  separator[4] <<
                 clearOutputTextAction <<  editProjectAction << separator[3] << configureAction <<
                 optionsAction << helpAction << aboutAction ;
   
+}
+
+void MainWindow::launch_process()
+{
+    QString path;
+    if (pathList.isEmpty()) return;
+
+    path = pathList.takeFirst();
+
+    altair->setProcessMsg("Anonymisation de " + path + " terminée.");
+
+    launch.start(common::path_access("Outils/Anonymiser/bash.exe")+ " -e  " + "Anonymiser.sh  \"" + path + "\"");
+
+    /* Il est souhaitable d'actualiser le projet avant de lancer v() car en cas de non actualisation récente la valeur de la case
+     * peut être en décalage avec la réalité. C'est au cours de ces actualisations que la valeur est enregistrée dans une table de hashage. */
+
+    altair->updateProject(true);
+
+    if (launch.waitForStarted() && v(activerConsole).isTrue())
+    {
+        altair->outputTextEdit->append(PROCESSING_HTML_TAG "Lancement de l'anonymisation à l'emplacement " + path + ". Patientez...");
+    }
+    else Q("Erreur de lancement du processus")
+
+}
+
+void MainWindow::anonymiser()
+{
+#ifdef __WIN32__
+
+    launch.setWorkingDirectory(common::path_access("Outils/Anonymiser"));
+
+    QItemSelectionModel *selectionModel = altair->fileTreeView->selectionModel();
+    QModelIndexList  indexList=selectionModel->selectedIndexes();
+    QFileSystemModel *model=new QFileSystemModel;
+
+
+    if (indexList.isEmpty()) return;
+
+    for (const QModelIndex& index : indexList)
+     {
+        const QString path = model->filePath(index);
+        if (! path.isEmpty())
+        {
+           pathList << path;
+
+        }
+     }
+
+    launch_process();
+
+    /* DANS CET ORDRE */
+
+    connect(&launch, SIGNAL(finished(int, QProcess::ExitStatus)), altair, SLOT(processFinished(int)));
+    connect(&launch, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(launch_process()));
+
+#endif
 }
 
 void MainWindow::configure()
@@ -350,7 +446,7 @@ void MainWindow::on_displayFileTreeViewButton_clicked()
 void MainWindow::on_openManagerWidgetButton_clicked(bool isHidden)
 {
    managerDockWidget->setVisible(isHidden);
- }
+}
 
 void MainWindow::on_openManagerWidgetButton_clicked()
 {
@@ -614,14 +710,14 @@ void MainWindow::configureOptions()
     contentsWidget = new QDialog(this);
     contentsWidget->setVisible(false);
 
-    QGroupBox *displayGroupBox =new QGroupBox(tr("Affichage"));
-    QGroupBox *displayToolBarsGroupBox =new QGroupBox(tr("Barres d'outils"));
+    QGroupBox *displayGroupBox = new QGroupBox(tr("Affichage"));
+    QGroupBox *displayToolBarsGroupBox = new QGroupBox(tr("Barres d'outils"));
 
     closeButton = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     closeButton->button(QDialogButtonBox::Ok)->setText("Accepter");
     closeButton->button(QDialogButtonBox::Cancel)->setText("Annuler");    
 
-    defaultProjectManagerWidgetLayoutBox=new FCheckBox("Afficher le gestionnaire de projet",
+    defaultProjectManagerWidgetLayoutBox = new FCheckBox("Afficher le gestionnaire de projet",
                                                    #ifdef MINIMAL
                                                                             flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
                                                    #else
@@ -630,7 +726,7 @@ void MainWindow::configureOptions()
                                                                             "projectManagerDisplay",
                                                                             {"Interface", "Afficher le gestionnaire de projet"});
 
-    defaultFileManagerWidgetLayoutBox=new FCheckBox("Afficher le gestionnaire de fichiers",
+    defaultFileManagerWidgetLayoutBox = new FCheckBox("Afficher le gestionnaire de fichiers",
                                                     #ifdef MINIMAL
                                                                             flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
                                                     #else
@@ -639,12 +735,12 @@ void MainWindow::configureOptions()
                                                                             "fileManagerDisplay",
                                                                            {"Interface", "Afficher le gestionnaire de fichiers"});
 
-    defaultFullScreenLayoutBox=new FCheckBox("Plein écran",
+    defaultFullScreenLayoutBox = new FCheckBox("Plein écran",
                                                         flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
                                                         "fullScreenDisplay",
                                                         {"Interface", "Plein écran au lancement"});
 
-    defaultOutputTextEditBox=new FCheckBox("Afficher les messages",
+    defaultOutputTextEditBox = new FCheckBox("Afficher les messages",
                                        #ifdef MINIMAL
                                                                    flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
                                        #else
@@ -653,7 +749,7 @@ void MainWindow::configureOptions()
                                                                    "outputTextEdit",
                                                                    {"Interface", "Afficher les messages"});
     
-    defaultFileToolBarBox=new FCheckBox("Afficher la barre d'outils de fichiers",
+    defaultFileToolBarBox = new FCheckBox("Afficher la barre d'outils de fichiers",
                                     #ifdef MINIMAL
                                                                 flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
                                     #else
@@ -662,7 +758,7 @@ void MainWindow::configureOptions()
                                                                 "fileToolBar",
                                                                 {"Interface", "Afficher la barre d'outils de fichiers"});
     
-    defaultEditToolBarBox=new FCheckBox("Afficher la barre d'outils d'édition",
+    defaultEditToolBarBox = new FCheckBox("Afficher la barre d'outils d'édition",
                                                                 flags::status::enabledChecked|flags::commandLineType::noCommandLine,
                                                                 "editToolBar",
                                                                 {"Interface", "Afficher la barre d'outils d'édition"});

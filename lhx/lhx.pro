@@ -117,9 +117,9 @@ INCLUDEPATH += ../Interface/gui
 
 windows {
 
-  COMPILER_DIR = mingw64-5.2
+  COMPILER_DIR = mingw64-5.3
   DEFINES += SYSTEM_PATH_SEPARATOR=\"\';\'\"
-  INCLUDEPATH += $$DEVROOT/$$COMPILER_DIR/include
+  INCLUDEPATH += $$DEVROOT/$$COMPILER_DIR/include/libxml2
   LIBS = -L$$DEVROOT/$$COMPILER_DIR/lib -lxml2.dll -pthread $$(SYSTEMROOT)/System32/psapi.dll
   HEADERS += entete-latin1.hpp
 

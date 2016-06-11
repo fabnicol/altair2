@@ -15,6 +15,13 @@ file2utf8 <- function(nom, encodage.in = encodage.entrée)  {
  if (! err)  message("Conversion réussie") else stop("Erreur de copie fichier après encodage avec iconv")
 }
 
+essayer <- function(X, Y) {
+  
+  if (inherits(try(X), 'try-error')) cat(Y)
+  
+}
+
+
 #obsolète
 # en.séparateurs <- function(chem)  {
 # 
@@ -137,7 +144,7 @@ read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, drop = NU
                       skip = skip,
                       colClasses = classes,
                       showProgress = FALSE,
-                      encoding = ifelse(setOSWindows, "Latin-1", "UTF-8")))
+                      encoding = ifelse(setOSWindows, "unknown", "UTF-8")))
 
 
   }

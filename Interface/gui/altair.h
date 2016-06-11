@@ -78,6 +78,7 @@ public:
     }
 
         bool refreshProjectManager();
+        void setProcessMsg(const QString& msg) {processMsg =  msg; }
 
 public slots:
 
@@ -114,6 +115,7 @@ private:
     QHash <int,  QList<QStringList>  > fileSizeDataBase;
 
     QIcon iconShowMaximized, iconShowNormal;
+    QRect geom;
 
     FProgressBar *progress;
     QVBoxLayout *mainLayout= new QVBoxLayout;
@@ -127,6 +129,7 @@ private:
     const QString  makeParserString(int start, int end=Abstract::abstractWidgetList.size()-1);
     const QString  makeDataString( );
     const QString  makeSystemString( );
+    QString processMsg;
 
     QList<QStringList> processSecondLevelData(QList<QStringList> &L, bool isFile=true);
     QList<QUrl> parseUrlsDragged(QList<QUrl>& urlsDragged);

@@ -54,6 +54,7 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
 
  const QIcon importIcon = QIcon(QString::fromUtf8( ":/images/document-import.png"));
  importFromMainTree->setIcon(importIcon);
+ importFromMainTree->setToolTip("Importer les fichiers pour extraire les données");
  importFromMainTree->setIconSize(QSize(22, 22));
 
 #ifndef USE_RIGHT_CLICK
@@ -68,17 +69,24 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
  retrieveItemButton->setIcon(iconRetrieve);
  retrieveItemButton->setIconSize(QSize(22, 22));
 
+ nppDisplayButton->setToolTip(tr("Afficher dans l'éditeur externe"));
+ const QIcon iconNpp = QIcon(QString::fromUtf8( ":/images/npp.ico"));
+ nppDisplayButton->setIcon(iconNpp);
+ nppDisplayButton->setIconSize(QSize(22,22));
+
  QGridLayout *controlButtonLayout=new QGridLayout;
 
  controlButtonLayout->addWidget(retrieveItemButton, 2,1,1,1,Qt::AlignCenter);
  controlButtonLayout->setRowMinimumHeight(4, 50);
  controlButtonLayout->addWidget(clearListButton, 4, 1,1,1, Qt::AlignTop);
  controlButtonLayout->addWidget(deleteGroupButton, 6,1,1,1,Qt::AlignCenter);
+ controlButtonLayout->addWidget(deleteGroupButton, 8,1,1,1,Qt::AlignCenter);
   
  controlButtonBox->setLayout(controlButtonLayout);
  controlButtonBox->setFlat(true);
  connect(deleteGroupButton, SIGNAL(clicked()),  this, SLOT(deleteGroup()));
  connect(retrieveItemButton, SIGNAL(clicked()), this, SLOT(on_deleteItem_clicked()));
+ connect(nppDisplayButton, SIGNAL(clicked()), this, SLOT(on_xhl_display()));
 
 #endif
 
@@ -127,6 +135,11 @@ void FListFrame::total_connect(FListFrame* w)
     setSlotListSize(0);
 }
 
+void FListFrame::on_xhl_display(const QString& xhl)
+{
+    QString strnotepad = common::path_access("Outils/npp/notepad++.exe");
+    launch.start(strnotepad, QStringList(xhl));
+}
 
 void FListFrame::on_deleteItem_clicked()
 {
@@ -649,9 +662,17 @@ QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
                            
               }
             else
-              if (info.isFile() && info.suffix() == "xhl")
-                  stringsToBeAdded << currentString;
+              if (info.isFile())
+              {
+                  if (info.suffix().toUpper() == "XHL" || info.suffix().toUpper() == "XML")
+                    stringsToBeAdded << currentString;
+                  else
+                    altair->outputTextEdit->append(WARNING_HTML_TAG + QString("Le fichier ")
+                                                   + currentString + " sera ignoré. Les fichiers doivent avoir une extension du type .xml ou .xhl.");
+              }
+              else return {};
     }
+
     return stringsToBeAdded; 
 }
 
@@ -713,18 +734,23 @@ void  FListFrame::setSlotListSize(int s)
 
 void FListFrame::showContextMenu()
 {
+
         updateIndexInfo();
         if (currentListWidget->count() == 0) return;
 
         QAction *deleteAction = new QAction(tr("Exclure"), this);
         deleteAction->setIcon(QIcon(":/images/retrieve.png"));
+
         QAction *addAction = new QAction(tr("Inclure"), this);
         addAction->setIcon(QIcon(":/images/include.png"));
+
+        QAction *displayAction = new QAction(tr("Afficher le code XML"), this);
+        displayAction->setIcon(QIcon(":/images/npp.ico"));
 
         QMenu myMenu;
         const int size = Hash::wrapper["XHL"]->size();
 
-        myMenu.addActions({deleteAction, addAction});
+        myMenu.addActions({deleteAction, addAction, displayAction});
 
 #ifdef USE_RIGHT_CLICK
         QAction *deleteGroupAction = new QAction(tr("Enlever l'onglet courant"), this);
@@ -737,50 +763,58 @@ void FListFrame::showContextMenu()
 
         QAction* selectedItem = myMenu.exec(QCursor::pos());
         if (selectedItem == nullptr) return;
-        if (currentIndex < size -3)
+        if (currentIndex < size - 3)
         {
             if (selectedItem == deleteGroupAction)
             {
                 deleteGroup();
                 return;
             }
-
             (*Hash::wrapper["XHL"])[currentIndex] = Hash::Reference[currentIndex];
-
         }
-            int localrow = 0;
-            bool isDeleteAction = (selectedItem == deleteAction);
-            QFont font;
-            for (const QModelIndex &index :  currentListWidget->selectionModel()->selectedRows())
-            {
-                QString str;
-                QListWidgetItem *item = currentListWidget->item(localrow = index.row());
 
-                font = item->font();
+        if (selectedItem == displayAction)
+        {
+            QString str = Hash::Reference.at(currentIndex).at(row);
+            on_xhl_display(str);
 
-                str = Hash::Reference.at(currentIndex).at(localrow);
+            return;
+        }
 
-                Hash::Suppression[str] = isDeleteAction ;
+        int localrow = 0;
+        bool isDeleteAction = (selectedItem == deleteAction);
 
-                font.setStrikeOut(isDeleteAction);
-                item->setFont(font);
-                item->setTextColor(isDeleteAction ? "red" : "green");
-            }
+        QFont font;
+        for (const QModelIndex &index :  currentListWidget->selectionModel()->selectedRows())
+        {
+            QString str;
+            QListWidgetItem *item = currentListWidget->item(localrow = index.row());
 
-            if (Hash::Reference.size() != size || getRank()+1 != size)
-            {
-                QMessageBox::critical(nullptr, "Erreur", "Incohérence des tailles des tables de référence : \n\
- Référence : " + QString::number(Hash::Reference.size()) +
- "\nWrapper size : " + QString::number(size) +
- "\nWidget size : " + QString::number(getRank()+1),
-                                      QMessageBox::Cancel);
+            font = item->font();
 
-                return;
-            }
+            str = Hash::Reference.at(currentIndex).at(localrow);
 
-            setStrikeOutFileNames(flags::colors::yes);
+            Hash::Suppression[str] = isDeleteAction ;
 
-            currentListWidget->setCurrentRow(localrow);
+            font.setStrikeOut(isDeleteAction);
+            item->setFont(font);
+            item->setTextColor(isDeleteAction ? "red" : "navy");
+        }
+
+        if (Hash::Reference.size() != size || getRank()+1 != size)
+        {
+            QMessageBox::critical(nullptr, "Erreur", "Incohérence des tailles des tables de référence : \n\
+Référence : " + QString::number(Hash::Reference.size()) +
+"\nWrapper size : " + QString::number(size) +
+"\nWidget size : " + QString::number(getRank()+1),
+                                  QMessageBox::Cancel);
+
+            return;
+        }
+
+        setStrikeOutFileNames(flags::colors::yes);
+
+        currentListWidget->setCurrentRow(localrow);
 }
 
 void FListFrame::setStrikeOutFileNames(flags::colors color)

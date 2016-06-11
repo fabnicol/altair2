@@ -36,9 +36,11 @@ checkout,git_repository-method	checkout-methods
 checkout,git_tag-method	checkout-methods
 clone	clone-methods
 clone,character,character-method	clone-methods
+coerce,git_commit,data.frame-method	coerce-git_commit-method
 coerce,git_repository,data.frame-method	coerce-git_repository-method
 coerce,git_time,character-method	git_time-class
 coerce,git_tree,data.frame-method	coerce-git_tree-data.frame-method
+coerce-git_commit-method	coerce-git_commit-method
 coerce-git_repository-method	coerce-git_repository-method
 coerce-git_tree-data.frame-method	coerce-git_tree-data.frame-method
 coerce-git_tree-list-method	coerce-git_tree-list-method
@@ -116,6 +118,7 @@ is_bare,missing-method	is_bare-methods
 is_binary	is_binary-methods
 is_binary,git_blob-method	is_binary-methods
 is_blob	is_blob
+is_branch	is_branch
 is_commit	is_commit
 is_detached	is_detached-methods
 is_detached,git_repository-method	is_detached-methods

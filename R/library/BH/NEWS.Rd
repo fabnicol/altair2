@@ -6,6 +6,17 @@
 \newcommand{\boostPkgTwo}{\href{http://www.boost.org/doc/libs/release/libs/#1}{\pkg{#2}}}
 \newcommand{\rfticket}{\href{https://r-forge.r-project.org/tracker/index.php?func=detail&aid=#1}{#1}}
 \newcommand{\ghissue}{\href{https://github.com/eddelbuettel/bh/issues/#1}{##1}}
+\newcommand{\ghpr}{\href{https://github.com/eddelbuettel/bh/pull/#1}{##1}}
+
+\section{Changes in version 1.60.0-2 (2016-05-06)}{
+  \itemize{
+    \item Added Boost \boostPkg{bimap} via GH pull request \ghpr{24} by
+    Jim Hester
+    \item Added Boost \boostPkg{icl} via GH pull request \ghpr{27} by
+    Jay Hesselbert
+    \item Added Boost \boostPkg{flyweight} as requested in GH ticket \ghissue{26}
+  }
+}
 
 \section{Changes in version 1.60.0-1 (2015-12-24)}{
   \itemize{

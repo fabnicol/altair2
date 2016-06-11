@@ -86,6 +86,7 @@ git-shortlog.exe
 git-show-branch.exe
 git-show-ref.exe
 git-stripspace.exe
+git-submodule--helper.exe
 git-symbolic-ref.exe
 git-tag.exe
 git-unpack-file.exe

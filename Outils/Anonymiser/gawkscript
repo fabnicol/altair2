@@ -1,0 +1,9 @@
+  
+   /NIR/ { s = gensub(/V="(.....).*"/, "V=\"\\1XXX\"", "g")
+              print s > (FILENAME ".new")	} 
+   !/NIR/ { s = gensub(/(Prenom|Nom|Adr[12]|Ville|CP|TitCpte|NumUrssaf|Siret|IdCpte) V=".*"/, "\\1 V=\"XXX\"", "g") 
+    print s > (FILENAME ".new")	}
+  END { print "Fichier", FILENAME, "anonymisé."}	
+  
+  
+  

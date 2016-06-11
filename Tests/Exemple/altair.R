@@ -101,7 +101,7 @@ kable(tableau.effectifs, row.names = TRUE, align='c')
 #'*(d) ETP  : Equivalent temps plein = rémunération . quotité*  
 #'*(e) ETPT : Equivalent temps plein travaillé = ETP . 12/nombre de mois travaillés dans l'année*  
 #'*(f) Personnes en place : présentes en N et N-1 avec la même quotité, postes actifs et non annexes uniquement.*     
-#'*(g) Postes actifs et non annexes :* voir [Compléments méthodologiques](`r currentDir`/Docs/méthodologie.pdf)    
+#'*(g) Postes actifs et non annexes :* voir [Compléments méthodologiques](Docs/méthodologie.pdf)    
 #'*&nbsp;&nbsp;&nbsp;Un poste actif est défini par au moins un bulletin de paie comportant un traitement positif pour un volume d'heures de travail mensuel non nul.*             
 #'*&nbsp;&nbsp;&nbsp;Un poste non annexe est défini comme la conjonction de critères horaires et de revenu sur une année. La période minimale de référence est le mois.*   
 #'*Les dix dernières lignes du tableau sont calculées en ne tenant pas compte des élus.*    
@@ -118,7 +118,7 @@ if (nb.heures.temps.complet > 1.1 * 151.67 || nb.heures.temps.complet < 0.9 * 15
 
 #'      
 #'   
-#'[Lien vers la base des effectifs](`r currentDir`/Bases/Effectifs/tableau.effectifs.csv)
+#'[Lien vers la base des effectifs](Bases/Effectifs/tableau.effectifs.csv)
 #'
 #'
 
@@ -139,12 +139,13 @@ newpage()
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-produire_pyramides(function() TRUE, "Pyramide des âges des personnels", versant = VERSANT_FP)
+essayer(produire_pyramides(function() TRUE, "Pyramide des âges des personnels", versant = VERSANT_FP),
+        "La pyramide des âges de l'ensemble des personnels n'a pas pu être générée.")
 
 #'  
-#'[Lien vers la base des âges - début de période](`r currentDir`/Bases/Effectifs/`r nom.fichier.avant`.csv)  
+#'[Lien vers la base des âges - début de période](Bases/Effectifs/`r nom.fichier.avant`.csv)  
 #'  
-#'[Lien vers la base des âges - fin de période](`r currentDir`/Bases/Effectifs/`r nom.fichier.après`.csv)  
+#'[Lien vers la base des âges - fin de période](Bases/Effectifs/`r nom.fichier.après`.csv)  
 #' 
 
 
@@ -161,13 +162,14 @@ newpage()
 
 Filtre_bulletins <- function() Bulletins.paie$Statut == "TITULAIRE" |  Bulletins.paie$Statut == "STAGIAIRE"
 
-produire_pyramides(Filtre_bulletins, "Pyramide des âges des fonctionnaires", versant = "TIT_" %+% VERSANT_FP)
+essayer(produire_pyramides(Filtre_bulletins, "Pyramide des âges des fonctionnaires", versant = "TIT_" %+% VERSANT_FP),
+        "La pyramide des âges des fonctionnaires n'a pas pu être générée.")
 
 
 #'  
-#'[Lien vers la base des âges - début de période](`r currentDir`/Bases/Effectifs/`r nom.fichier.avant`.csv)  
+#'[Lien vers la base des âges - début de période](Bases/Effectifs/`r nom.fichier.avant`.csv)  
 #'  
-#'[Lien vers la base des âges - fin de période](`r currentDir`/Bases/Effectifs/`r nom.fichier.après`.csv)  
+#'[Lien vers la base des âges - fin de période](Bases/Effectifs/`r nom.fichier.après`.csv)  
 #'   
 
 newpage()
@@ -182,12 +184,13 @@ newpage()
 
 Filtre_bulletins <- function() Bulletins.paie$Statut == "NON_TITULAIRE"
 
-produire_pyramides(Filtre_bulletins, "Pyramide des âges des non titulaires", versant = "NONTIT_" %+% VERSANT_FP)
+essayer(produire_pyramides(Filtre_bulletins, "Pyramide des âges des non titulaires", versant = "NONTIT_" %+% VERSANT_FP),
+        "La pyramide des âges des non titulaires n'a pas pu être générée." )
 
 #'  
-#'[Lien vers la base des âges - début de période](`r currentDir`/Bases/Effectifs/`r nom.fichier.avant`.csv)  
+#'[Lien vers la base des âges - début de période](Bases/Effectifs/`r nom.fichier.avant`.csv)  
 #'  
-#'[Lien vers la base des âges - fin de période](`r currentDir`/Bases/Effectifs/`r nom.fichier.après`.csv)  
+#'[Lien vers la base des âges - fin de période](Bases/Effectifs/`r nom.fichier.après`.csv)  
 #'   
 
 newpage()
@@ -205,13 +208,14 @@ Filtre_bulletins <- function() { return(Bulletins.paie$Statut != "TITULAIRE"
                                  & Bulletins.paie$Statut != "NON_TITULAIRE" 
                                  & Bulletins.paie$Statut != "STAGIAIRE") }
 
-produire_pyramides(Filtre_bulletins, "Pyramide des âges des autres personnels")
+essayer(produire_pyramides(Filtre_bulletins, "Pyramide des âges des autres personnels"),
+        "La pyramide des âges des autres personnels n'a pas pu être générée.")
 
 
 #'  
-#'[Lien vers la base des âges - début de période](`r currentDir`/Bases/Effectifs/`r nom.fichier.avant`.csv)  
+#'[Lien vers la base des âges - début de période](Bases/Effectifs/`r nom.fichier.avant`.csv)  
 #'  
-#'[Lien vers la base des âges - fin de période](`r currentDir`/Bases/Effectifs/`r nom.fichier.après`.csv)  
+#'[Lien vers la base des âges - fin de période](Bases/Effectifs/`r nom.fichier.après`.csv)  
 #' 
 
 #'*Toutes les pyramides des âges sont établies au 31 décembre de l'année considérée.*   
@@ -331,7 +335,7 @@ invisible(lapply(années.analyse.statique, function(x) {
                }))
 
 #'  
-#'[Lien vers la base des rémunérations](`r currentDir`/Bases/Remunerations/Analyse.remunerations.csv)  
+#'[Lien vers la base des rémunérations](Bases/Remunerations/Analyse.remunerations.csv)  
 #'   
 
 newpage()
@@ -441,8 +445,8 @@ if (longueur.non.na(temp) > 0)
 
 
 #'   
-#'[Lien vers la base de données synthétique](`r currentDir`/Bases/Remunerations/Analyse.variations.par.exercice.csv)
-#'[Lien vers la base de données détaillée par année](`r currentDir`/Bases/Remunerations/Analyse.variations.par.exercice.csv)  
+#'[Lien vers la base de données synthétique](Bases/Remunerations/Analyse.variations.par.exercice.csv)
+#'[Lien vers la base de données détaillée par année](Bases/Remunerations/Analyse.variations.par.exercice.csv)  
 
 ########### 4.2  Evolutions des rémunérations nettes ###########
 
@@ -530,7 +534,8 @@ distribution_smpt <- function(Filtre) {
 
 Filtre_neutre <- function() TRUE
 
-smpt(Filtre_neutre)
+essayer(smpt(Filtre_neutre),
+        "Le salaire moyen par tête n'a pas pu être calculé.")
 
 #'   
 #+ Effet-de-noria-ensemble
@@ -561,14 +566,15 @@ noria()
 
 #+ premiere-derniere-annee
 
-distribution_smpt(Filtre_neutre)
+essayer(distribution_smpt(Filtre_neutre),
+        "La distribution du salaire moyen par tête n'a pas pu être calculée.")
 
 #'  
 #'*Nota :*  La population retenue est constituée des agents qui ne font pas partie des `r 2*quantile.cut` centiles extrêmaux   
 #'Les élus, vacataires et assistantes maternelles sont retirés du périmètre.   
 #'TC :  personnels à temps complet sur toute l'année            
 #'Seuls sont pris en compte les agents ayant connu au moins un mois actif et ayant eu, sur l'année, des rémunérations non annexes.  
-#'[Compléments méthodologiques](`r currentDir`/Docs/méthodologie.pdf)     
+#'[Compléments méthodologiques](Docs/méthodologie.pdf)     
 #'      
 
 
@@ -655,8 +661,8 @@ distribution_smpt(Filtre_neutre)
 #' |  Moyenne         | 26 496   | 26 916 |  
 #' 
 
-#'[Source INSEE, onglets Figure3, F1web et F3web - 2011](`r currentDir`/Docs/ip1486.xls)   
-#'[Source INSEE, onglets F V3.1-2, F V3.1-5 - 2013](`r currentDir`/Docs/vue3_remunerations.xls)   
+#'[Source INSEE, onglets Figure3, F1web et F3web - 2011](Docs/ip1486.xls)   
+#'[Source INSEE, onglets F V3.1-2, F V3.1-5 - 2013](Docs/vue3_remunerations.xls)   
 
 #'   
 #'### `r chapitre`.2.2 Fonctionnaires      
@@ -671,7 +677,8 @@ distribution_smpt(Filtre_neutre)
 
 Filtre_fonctionnaire <- function() Statut == "TITULAIRE" | Statut == "STAGIAIRE"
 
-smpt(Filtre_fonctionnaire)
+essayer(smpt(Filtre_fonctionnaire),
+        "Le salaire moyen par tête des fonctionnaires n'a pas pu être calculé.")
 
 Filtre_cat_A <- function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  & (Catégorie == "A")
 Filtre_cat_B <- function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  & (Catégorie == "B") 
@@ -685,7 +692,8 @@ Filtre_cat_C <- function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  &
 #'  
 
 
-smpt(Filtre_cat_A)  
+essayer(smpt(Filtre_cat_A), 
+        "Le salaire moyen par tête des fonctionnaires de catégorie A n'a pas pu être calculé.")
 
 #'**Distribution des salaires nets annuels en EQTP dans la fonction publique territoriale par catégorie (2011-2013)**   
 #'  
@@ -712,7 +720,8 @@ smpt(Filtre_cat_A)
 #'    
 #'  
 
-smpt(Filtre_cat_B)  
+essayer(smpt(Filtre_cat_B),
+         "Le salaire moyen par tête des fonctionnaires de catégorie B n'a pas pu être calculé.")
 
 
 #'*Comparaisons nationales*    
@@ -738,7 +747,8 @@ smpt(Filtre_cat_B)
 #'    
 #'  
 
-smpt(Filtre_cat_C)    
+essayer(smpt(Filtre_cat_C),
+         "Le salaire moyen par tête des fonctionnaires de catégorie C n'a pas pu être calculé.")    
 
 #'     
 #'*Comparaisons nationales*    
@@ -778,27 +788,31 @@ smpt(Filtre_cat_C)
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-distribution_smpt(Filtre_fonctionnaire)
+essayer(distribution_smpt(Filtre_fonctionnaire),
+        "La distribution du salaire moyen par tête des fonctionnaires n'a pas pu être calculée.")
 
 #'**Catégorie A**    
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-distribution_smpt(Filtre_cat_A)
+essayer(distribution_smpt(Filtre_cat_A),
+        "La distribution du salaire moyen par tête des fonctionnaires de catégorie A n'a pas pu être calculée.")
 
 #'**Catégorie B**  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-distribution_smpt(Filtre_cat_B)
+essayer(distribution_smpt(Filtre_cat_B),
+        "La distribution du salaire moyen par tête des fonctionnaires de catégorie B n'a pas pu être calculée.")
 
 #'**Catégorie C**  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-distribution_smpt(Filtre_cat_C)
+essayer(distribution_smpt(Filtre_cat_C),
+        "La distribution du salaire moyen par tête des fonctionnaires de catégorie C n'a pas pu être calculée.")
 
-#'[Lien vers la base de données](`r currentDir`/Bases/Remunerations/Analyse.variations.par.exercice.csv)     
+#'[Lien vers la base de données](Bases/Remunerations/Analyse.variations.par.exercice.csv)     
 
 ########### 4.3  GVT ###########  
 
@@ -837,18 +851,22 @@ Anavar.synthese.moins.2.ans <- Anavar.synthese[! is.na(plus.2.ans) & plus.2.ans 
 
 #Analyse.variations.par.exercice <- Analyse.variations.par.exercice[Nexercices > 1]
 
-if (nrow(Anavar.synthese.plus.2.ans) > 0 && durée.sous.revue > 1 ) {
-  hist(Anavar.synthese.plus.2.ans$variation.moyenne.rémunération,
-       xlab ="Variation annuelle moyenne en %",
-       las = 1,
-       xlim = c(-5,30),
-       ylab ="Effectifs",
-       main ="Rémunération nette des personnes en place",
-       col ="blue",
-       nclass=1000,
-       xaxt = 'n')
+if (durée.sous.revue > 1) {
 
-try(axis(side=1, at=seq(-5,30, 1), labels=seq(-5,30,1), lwd=2))
+	if (nrow(Anavar.synthese.plus.2.ans) > 0)
+	{
+	  hist(Anavar.synthese.plus.2.ans$variation.moyenne.rémunération,
+		   xlab ="Variation annuelle moyenne en %",
+		   las = 1,
+		   xlim = c(-5,30),
+		   ylab ="Effectifs",
+		   main ="Rémunération nette des personnes en place",
+		   col ="blue",
+		   nclass=1000,
+		   xaxt = 'n')
+
+	  try(axis(side=1, at=seq(-5,30, 1), labels=seq(-5,30,1), lwd=2))
+	}
 
 Filtre_rmpp <- function() (est.rmpp == TRUE)
 }
@@ -861,7 +879,8 @@ Filtre_rmpp <- function() (est.rmpp == TRUE)
 #'    
 
 if (durée.sous.revue > 1) {
-   smpt(Filtre_rmpp, type = "RMPP nette") 
+   essayer(smpt(Filtre_rmpp, type = "RMPP nette"),
+           "La rémunération moyenne des personnels en place n'a pas pu être calculée.") 
   } else  {
    cat("RMPP calculable uniquement si la période sous revue est au moins égale à 2 ans.")
   }
@@ -948,7 +967,8 @@ Filtre_rmpp_fonctionnaire <- function () Filtre_fonctionnaire() & (est.rmpp == T
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 if (durée.sous.revue > 1)
-    smpt(Filtre_rmpp_fonctionnaire, type = "RMPP nette")
+    essayer(smpt(Filtre_rmpp_fonctionnaire, type = "RMPP nette"),
+	        "La rémunération moyenne des fonctionnaires en place n'a pas pu être calculée.")
 
 #'    
 #'**Distribution et variation sur la période de la rémunération nette des fonctionnaires en place**                
@@ -956,7 +976,7 @@ if (durée.sous.revue > 1)
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-#'  
+
 if (durée.sous.revue > 1) {
   
   Résumé(c(paste(début.période.sous.revue, début.période.sous.revue + 1, sep="-"),
@@ -1004,7 +1024,7 @@ if (durée.sous.revue > 1) {
 
 #'
 #'
-#'[Lien vers la base de données](`r currentDir`/Bases/Remunerations/Anavar.synthese.csv)
+#'[Lien vers la base de données](Bases/Remunerations/Anavar.synthese.csv)
 #'
 #'**Nota**   
 #'*Personnes en place :* en fonction au moins deux années consécutives sur la période `r début.période.sous.revue` à `r fin.période.sous.revue`    
@@ -1017,7 +1037,7 @@ if (durée.sous.revue > 1) {
 
 ####### 4.4 Comparaisons nationales ####  
 
-#'[Lien vers la base de données](`r currentDir`/Bases/Remunerations/Anavar.synthese.csv)
+#'[Lien vers la base de données](Bases/Remunerations/Anavar.synthese.csv)
 #'
 #'
 #'### `r chapitre`.4 Comparaisons avec la situation nationale des rémunérations   
@@ -1099,7 +1119,8 @@ if (N <- uniqueN(Paie[Statut != "TITULAIRE"
 
 setkey(Paie, Statut)
 Paie[c("NON_TITULAIRE", "EMPLOI_AIDE"),
-           indic2 := NBI != 0 & grepl(expression.rég.nbi, Libellé, ignore.case=TRUE, perl=TRUE)]
+           indic2 := NBI != 0
+		   & grepl(expression.rég.nbi, Libellé, ignore.case = TRUE, perl = TRUE)]
  
 NBI.aux.non.titulaires <- Paie[indic2 == TRUE, c(étiquette.matricule,
                                                   "Statut",
@@ -1120,7 +1141,7 @@ nombre.Lignes.paie.NBI.nontit <- nrow(NBI.aux.non.titulaires)
 
 # variante : filtre <- regexpr(".*(INFO|PFI|P.F.I).*", toupper(Paie$Libellé)) et regmatches(Paie$Libellé, filtre)
 
-personnels.prime.informatique <- Paie[grepl(expression.rég.pfi, Libellé, ignore.case=TRUE, perl=TRUE) == TRUE,
+personnels.prime.informatique <- Paie[grepl(expression.rég.pfi, Libellé, ignore.case = TRUE, perl = TRUE) == TRUE,
                                          .(Matricule,
                                            Année,
                                            Mois,
@@ -1145,8 +1166,8 @@ Tableau(
   nombre.personnels.pfi)
 
 #'   
-#'[Lien vers la base de données NBI aux non titulaires](`r currentDir`/Bases/Reglementation/NBI.aux.non.titulaires.csv)   
-#'[Lien vers la base de données Primes informatiques](`r currentDir`/Bases/Reglementation/personnels.prime.informatique.csv)   
+#'[Lien vers la base de données NBI aux non titulaires](Bases/Reglementation/NBI.aux.non.titulaires.csv)   
+#'[Lien vers la base de données Primes informatiques](Bases/Reglementation/personnels.prime.informatique.csv)   
 #'   
 #'**Nota :**   
 #'NBI: nouvelle bonification indiciaire   
@@ -1166,7 +1187,7 @@ T2 <- T2[nbi.cumul.montants != 0]
 T <- merge(T1, T2, by=c("Matricule", "Année"))
 
 cumuls.nbi <- T[, .(cumul.annuel.indiciaire = sum(nbi.cumul.indiciaire, na.rm = TRUE),
-      cumul.annuel.montants = sum(nbi.cumul.montants, na.rm = TRUE)), keyby="Année"]
+                    cumul.annuel.montants = sum(nbi.cumul.montants, na.rm = TRUE)), keyby="Année"]
 
 T <- T[, ratio := nbi.cumul.montants/nbi.cumul.indiciaire]
 
@@ -1188,7 +1209,7 @@ Tableau(
 
 rm(T, T1, T2)
 #'   
-#'[Lien vers la base de données NBI anormales](`r currentDir`/Bases/Fiabilite/lignes.nbi.anormales.csv)   
+#'[Lien vers la base de données NBI anormales](Bases/Fiabilite/lignes.nbi.anormales.csv)   
 #'   
 #'**Nota :**   
 #'*Est considéré comme manifestement anormal un total annuel de rémunérations NBI correspondant à un point d'indice net mensuel inférieur à 4 euros ou supérieur à 6 euros.*    
@@ -1213,7 +1234,7 @@ detach(cumuls.nbi)
 
 #### 5.2 VACATIONS ####
 #'   
-#'[Lien vers la base de données des cumuls annuels de NBI](`r currentDir`/Bases/Fiabilite/cumuls.nbi.csv)   
+#'[Lien vers la base de données des cumuls annuels de NBI](Bases/Fiabilite/cumuls.nbi.csv)   
 #'   
 
 #'  
@@ -1259,9 +1280,9 @@ if (nombre.fonctionnaires.et.vacations > 0) {
   cat("Pas de vacation détectée.")
 }
 
-#'[Matricules des fonctionnaires concernés](`r currentDir`/Bases/Reglementation/matricules.fonctionnaires.et.vacations.csv)       
-#'[Lien vers les vacations payées à des fonctionnaires](`r currentDir`/Bases/Reglementation/lignes.fonctionnaires.et.vacations.csv)       
-#'[Lien vers les bulletins de paie correspondants](`r currentDir`/Bases/Reglementation/Paie_vac_fonct.csv)            
+#'[Matricules des fonctionnaires concernés](Bases/Reglementation/matricules.fonctionnaires.et.vacations.csv)       
+#'[Lien vers les vacations payées à des fonctionnaires](Bases/Reglementation/lignes.fonctionnaires.et.vacations.csv)       
+#'[Lien vers les bulletins de paie correspondants](Bases/Reglementation/Paie_vac_fonct.csv)            
 
 ####  5.3 CEV ####  
   
@@ -1311,9 +1332,9 @@ if (exists("nombre.contractuels.et.vacations")) {
 }
   
 #'  
-#'[Lien vers les matricules des vacataires](`r currentDir`/Bases/Reglementation/matricules.contractuels.et.vacations.csv)   
-#'[Lien vers la lignes indemnitaires à vérifier](`r currentDir`/Bases/Reglementation/RI.et.vacations.csv)    
-#'[Lien vers les bulletins de paye correspondants](`r currentDir`/Bases/Reglementation/Paie_vac_contr.csv)   
+#'[Lien vers les matricules des vacataires](Bases/Reglementation/matricules.contractuels.et.vacations.csv)   
+#'[Lien vers la lignes indemnitaires à vérifier](Bases/Reglementation/RI.et.vacations.csv)    
+#'[Lien vers les bulletins de paye correspondants](Bases/Reglementation/Paie_vac_contr.csv)   
 #'    
 
 #'Les contractuels vacataires rémunérés sur prestation horaire n'ont pas accès au SFT ni à l'indemnité de résidence, contrairement aux contractuels
@@ -1321,18 +1342,20 @@ if (exists("nombre.contractuels.et.vacations")) {
 #'Les non-titulaires sur contrat effectuant des vacations à titre accessoire pour leur propre employeur ne peuvent bénéficier de paiements
 #'complémentaires de SFT ou d'indemnité de résidence au titre de ces activités accessoires.     
   
-  try({Paie_vac_sft_ir <- Paie_vac[! Statut %chin% c("TITULAIRE", "STAGIAIRE"), 
-                                 indic_s := any(Type %chin% c("IR", "S")),
-                                 by = .(Matricule, Année, Mois)
-                             ][indic_s == TRUE,
-                             ][ ,indic_s := NULL]
-  
-  SFT_IR.et.vacations <- Paie_vac_sft_ir[Type %chin% c("IR", "S")]
-  
-  matricules.SFT_IR.et.vacations <- unique(SFT_IR.et.vacations[ , .(Matricule, Nom, Statut)], by=NULL)
-  
-  nombre.SFT_IR.et.vacations     <- nrow(matricules.SFT_IR.et.vacations)
-  })
+  essayer({
+      Paie_vac_sft_ir <- Paie_vac[! Statut %chin% c("TITULAIRE", "STAGIAIRE"), 
+									 indic_s := any(Type %chin% c("IR", "S")),
+									 by = .(Matricule, Année, Mois)
+								 ][indic_s == TRUE,
+								 ][ ,indic_s := NULL]
+	  
+	  SFT_IR.et.vacations <- Paie_vac_sft_ir[Type %chin% c("IR", "S")]
+	  
+	  matricules.SFT_IR.et.vacations <- unique(SFT_IR.et.vacations[ , .(Matricule, Nom, Statut)], by=NULL)
+	  
+	  nombre.SFT_IR.et.vacations     <- nrow(matricules.SFT_IR.et.vacations)
+  },
+  "Les tests sur les CEV et les versements de SFT ou d'IR n'ont pas été réalisés.")
   
 #'
 #'**CEV percevant le supplément familial de traitement ou l'indemnité de résidence**      
@@ -1351,9 +1374,9 @@ if (exists("nombre.contractuels.et.vacations")) {
   }
   
 #'  
-#'[Lien vers les matricules concernés](`r currentDir`/Bases/Reglementation/matricules.SFT_IR.et.vacations.csv)     
-#'[Lien vers les lignes SFT/IR à vérifier](`r currentDir`/Bases/Reglementation/SFT_IR.et.vacations.csv)   
-#'[Lien vers les bulletins de paye correspondants](`r currentDir`/Bases/Reglementation/Paie_vac_sft_ir.csv)    
+#'[Lien vers les matricules concernés](Bases/Reglementation/matricules.SFT_IR.et.vacations.csv)     
+#'[Lien vers les lignes SFT/IR à vérifier](Bases/Reglementation/SFT_IR.et.vacations.csv)   
+#'[Lien vers les bulletins de paye correspondants](Bases/Reglementation/Paie_vac_sft_ir.csv)    
 #'   
   
 #### 5.4 IAT/IFTS ####  
@@ -1427,8 +1450,8 @@ if (nombre.agents.cumulant.iat.ifts) {
 }
 
 #'   
-#'[Codes IFTS retenus](`r currentDir`/Bases/Reglementation/codes.ifts.csv)   
-#'[Lien vers la base de données cumuls iat/ifts](`r currentDir`/Bases/Reglementation/personnels.iat.ifts.csv)    
+#'[Codes IFTS retenus](Bases/Reglementation/codes.ifts.csv)   
+#'[Lien vers la base de données cumuls iat/ifts](Bases/Reglementation/personnels.iat.ifts.csv)    
 #'
 #'### Contrôle sur les IFTS pour catégories B et contractuels
 
@@ -1490,8 +1513,8 @@ if (! résultat.ifts.manquant) {
 }
 
 #'
-#'[Lien vers la base de données Lignes IFTS pour contractuels](`r currentDir`/Bases/Reglementation/ifts.et.contractuel.csv)    
-#'[Lien vers la base de données Lignes IFTS pour IB < 380](`r currentDir`/Bases/Reglementation/lignes.ifts.anormales.csv)     
+#'[Lien vers la base de données Lignes IFTS pour contractuels](Bases/Reglementation/ifts.et.contractuel.csv)    
+#'[Lien vers la base de données Lignes IFTS pour IB < 380](Bases/Reglementation/lignes.ifts.anormales.csv)     
 #'
 #'**Nota :**
 #'IB < 380 : fonctionnaire percevant un indice brut inférieur à 380
@@ -1572,7 +1595,7 @@ if (length(codes.pfr) > 5) {
 }
 
 #'   
-#'[Lien vers la base de données cumuls pfr/ifts](`r currentDir`/Bases/Reglementation/personnels.pfr.ifts.csv)    
+#'[Lien vers la base de données cumuls pfr/ifts](Bases/Reglementation/personnels.pfr.ifts.csv)    
 #'
 
 # Attention keyby = et pas seulement by = !
@@ -1666,10 +1689,10 @@ test.PFR <- function(i, grade, cumul) { grepl(e[i], grade, perl = TRUE, ignore.c
         
 
 #'   
-#'[Lien vers la base de données agrégat PFR-IFTS](`r currentDir`/Bases/Remunerations/beneficiaires.PFR.csv)    
+#'[Lien vers la base de données agrégat PFR-IFTS](Bases/Remunerations/beneficiaires.PFR.csv)    
 #'
 #'   
-#'[Lien vers la base de données variations agrégat PFR-IFTS](`r currentDir`/Bases/Remunerations/beneficiaires.PFR.Variation.csv)    
+#'[Lien vers la base de données variations agrégat PFR-IFTS](Bases/Remunerations/beneficiaires.PFR.Variation.csv)    
 #'
 
   
@@ -1767,9 +1790,9 @@ Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"),
            nombre.Lignes.paie.HS.sup.25,   nombre.ihts.anormales)
 
 #'
-#'[Lien vers la base de données Heures supplémentaires en excès du seuil de 25h/mois](`r currentDir`/Bases/Reglementation/HS.sup.25.csv)     
-#'[Lien vers la base de données cumuls en excès des seuils annuels](`r currentDir`/Bases/Reglementation/Depassement.seuil.180h.csv)    
-#'[Lien vers la base de données IHTS anormales](`r currentDir`/Bases/Reglementation/ihts.anormales.csv)      
+#'[Lien vers la base de données Heures supplémentaires en excès du seuil de 25h/mois](Bases/Reglementation/HS.sup.25.csv)     
+#'[Lien vers la base de données cumuls en excès des seuils annuels](Bases/Reglementation/Depassement.seuil.180h.csv)    
+#'[Lien vers la base de données IHTS anormales](Bases/Reglementation/ihts.anormales.csv)      
 #'
 #'**Nota :**   
 #'HS en excès : au-delà de 25 heures par mois     
@@ -1824,7 +1847,7 @@ if (générer.table.élus)   {
 }
 
 
-#'[Lien vers la base de données Rémunérations des élus](`r currentDir`/Bases/Reglementation/remunerations.elu.csv)
+#'[Lien vers la base de données Rémunérations des élus](Bases/Reglementation/remunerations.elu.csv)
 #'
 
 #### 5.8 COMPTE DE GESTION ####
@@ -1875,9 +1898,9 @@ for (i in 1:durée.sous.revue) {
 rm(L)
 
 #'  
-#'[Lien vers la base détaillée des cumuls des lignes de paie](`r currentDir`/Bases/Reglementation/cumul.lignes.paie.csv)
+#'[Lien vers la base détaillée des cumuls des lignes de paie](Bases/Reglementation/cumul.lignes.paie.csv)
 #'  
-#'[Lien vers la base agrégée des cumuls des lignes de paie](`r currentDir`/Bases/Reglementation/cumul.total.lignes.paie.csv)
+#'[Lien vers la base agrégée des cumuls des lignes de paie](Bases/Reglementation/cumul.total.lignes.paie.csv)
 #'  
 
 #'  
@@ -1939,7 +1962,7 @@ if (nb.écart.paiements.sft.sans.enfant > 0){
 }
 
 #'  
-#'[Lien vers la base des paiements de SFT à agents sans enfant signalé](`r currentDir`/Bases/Reglementation/Paie.sans.enfant.reduit.csv)
+#'[Lien vers la base des paiements de SFT à agents sans enfant signalé](Bases/Reglementation/Paie.sans.enfant.reduit.csv)
 #'  
 
 if (!intégrer.échelon) {
@@ -2023,7 +2046,7 @@ if (!intégrer.échelon) {
   }
 
 #'  
-#'[Lien vers la base des écarts de paiement sur SFT](`r currentDir`/Bases/Reglementation/controle.sft.csv)
+#'[Lien vers la base des écarts de paiement sur SFT](Bases/Reglementation/controle.sft.csv)
 #'  
 
 message("Analyse du SFT")
@@ -2086,9 +2109,9 @@ Evenements.mat <- setcolorder(setkey(copy(Evenements.ind),
                                "Service"))
 
 #'  
-#'[Lien vers la nomenclature des événements de paye](`r currentDir`/Bases/Fiabilite/Evenements.csv)     
-#'[Tri par type d'évement, agent, année, mois](`r currentDir`/Bases/Fiabilite/Evenements.ind.csv)     
-#'[Tri par agent, année, mois, évenement](`r currentDir`/Bases/Fiabilite/Evenements.mat.csv)     
+#'[Lien vers la nomenclature des événements de paye](Bases/Fiabilite/Evenements.csv)     
+#'[Tri par type d'évement, agent, année, mois](Bases/Fiabilite/Evenements.ind.csv)     
+#'[Tri par agent, année, mois, évenement](Bases/Fiabilite/Evenements.mat.csv)     
 #'  
 
 #'  
@@ -2114,11 +2137,11 @@ cl3 <- unique(code.libelle[, .(Code, Type)], by = NULL)[ , .(Multiplicité = .N, 
 cl4 <- unique(code.libelle[, .(Libellé, Type)], by = NULL)[ , .(Multiplicité = .N,  Type), by = "Libellé"][Multiplicité > 1]
 
 #'   
-#'[Lien vers la table Codes/Libellés](`r currentDir`/Bases/Fiabilite/code.libelle.csv)       
-#'[Plusieurs libellés par code](`r currentDir`/Bases/Fiabilite/cl1.csv)   
-#'[Plusieurs codes par libellé](`r currentDir`/Bases/Fiabilite/cl2.csv)   
-#'[Plusieurs types de ligne par code](`r currentDir`/Bases/Fiabilite/cl3.csv)   
-#'[Plusieurs types de ligne par libellé](`r currentDir`/Bases/Fiabilite/cl4.csv)           
+#'[Lien vers la table Codes/Libellés](Bases/Fiabilite/code.libelle.csv)       
+#'[Plusieurs libellés par code](Bases/Fiabilite/cl1.csv)   
+#'[Plusieurs codes par libellé](Bases/Fiabilite/cl2.csv)   
+#'[Plusieurs types de ligne par code](Bases/Fiabilite/cl3.csv)   
+#'[Plusieurs types de ligne par libellé](Bases/Fiabilite/cl4.csv)           
 #'   
 
 #'  
@@ -2198,8 +2221,8 @@ if (nligne.base.heures.nulles.salaire.nonnull)
 if (nligne.base.quotite.indefinie.salaire.non.nul)
    cat("\nNombre de bulletins de paie de salaires versés pour une quotité de travail indéfinie : ", FR(nligne.base.heures.nulles.salaire.nonnull))
 #'   
-#'[Lien vers la base de données des salaires versés pour Heures=0](`r currentDir`/Bases/Fiabilite/base.heures.nulles.salaire.nonnull.csv)   
-#'[Lien vers la base de données des salaires versés à quotité indéfinie](`r currentDir`/Bases/Fiabilite/base.quotite.indefinie.salaire.non.nul.csv)   
+#'[Lien vers la base de données des salaires versés pour Heures=0](Bases/Fiabilite/base.heures.nulles.salaire.nonnull.csv)   
+#'[Lien vers la base de données des salaires versés à quotité indéfinie](Bases/Fiabilite/base.quotite.indefinie.salaire.non.nul.csv)   
 #'
 #'## Tableau des personnels  
 #'
@@ -2209,11 +2232,11 @@ if (afficher.table.effectifs) {
 } 
 
 #'
-#'[Lien vers la base des grades et catégories](`r currentDir`/Bases/Effectifs/grades.categories.csv)        
+#'[Lien vers la base des grades et catégories](Bases/Effectifs/grades.categories.csv)        
 #'   
 
 #'
-#'[Lien vers la base des personnels](`r currentDir`/Bases/Effectifs/matricules.csv)        
+#'[Lien vers la base des personnels](Bases/Effectifs/matricules.csv)        
 #'   
 
 
@@ -2234,7 +2257,7 @@ if (test.delta) {
 
   
 #'   
-#'[Divergences lignes-bulletins de paie](`r currentDir`/Bases/Fiabilite/Delta.csv)     
+#'[Divergences lignes-bulletins de paie](Bases/Fiabilite/Delta.csv)     
 #'   
 
 

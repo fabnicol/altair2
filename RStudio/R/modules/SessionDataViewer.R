@@ -62,6 +62,22 @@
     colLabels <- character()
   }
 
+  # the first column is always the row names
+  rowNameCol <- list(
+      col_name        = .rs.scalar(""),
+      col_type        = .rs.scalar("rownames"),
+      col_min         = .rs.scalar(0),
+      col_max         = .rs.scalar(0),
+      col_search_type = .rs.scalar("none"),
+      col_label       = .rs.scalar(""),
+      col_vals        = "",
+      col_type_r      = .rs.scalar(""))
+
+  # if there are no columns, bail out
+  if (length(colNames) == 0) {
+    return(rowNameCol)
+  }
+
   # truncate to maximum displayed number of columns
   colNames <- colNames[1:min(length(colNames), maxCols)]
 
@@ -72,6 +88,7 @@
                 else 
                   as.character(idx)
     col_type <- "unknown"
+    col_type_r <- "unknown"
     col_min <- 0
     col_max <- 0
     col_vals <- ""
@@ -91,6 +108,7 @@
     if (length(x[[idx]]) > 0 && length(x[[idx]][1]) == 1)
     {
       val <- x[[idx]][1]
+      col_type_r <- typeof(val)
       if (is.factor(val))
       {
         col_type <- "factor"
@@ -142,18 +160,11 @@
       col_max         = .rs.scalar(col_max),
       col_search_type = .rs.scalar(col_search_type),
       col_label       = .rs.scalar(col_label),
-      col_vals        = col_vals
+      col_vals        = col_vals,
+      col_type_r      = .rs.scalar(col_type_r)
     )
   })
-  c(list(list(
-      col_name        = .rs.scalar(""),
-      col_type        = .rs.scalar("rownames"),
-      col_min         = .rs.scalar(0),
-      col_max         = .rs.scalar(0),
-      col_search_type = .rs.scalar("none"),
-      col_label       = .rs.scalar(""),
-      col_vals        = ""
-    )), colAttrs)
+  c(list(rowNameCol), colAttrs)
 })
 
 .rs.addFunction("formatRowNames", function(x, start, len) 
@@ -446,8 +457,11 @@
   # cached environment
   cacheFile <- file.path(cacheDir, paste(cacheKey, "Rdata", sep = "."))
   if (file.exists(cacheFile))
-  { 
-    load(cacheFile, envir = .rs.CachedDataEnv)
+  {
+    status <- try(load(cacheFile, envir = .rs.CachedDataEnv), silent = TRUE)
+    if (inherits(status, "try-error"))
+       return(NULL)
+     
     if (exists(cacheKey, where = .rs.CachedDataEnv, inherits = FALSE))
       return(get(cacheKey, envir = .rs.CachedDataEnv, inherits = FALSE))
   }
@@ -587,7 +601,7 @@
 
 .rs.addFunction("addCachedData", function(obj, objName) 
 {
-   cacheKey <- paste(sample(c(letters, 0:9), 10, replace = TRUE), collapse = "")
+   cacheKey <- .Call(.rs.routines$rs_generateShortUuid)
    .rs.assignCachedData(cacheKey, obj, objName)
    cacheKey
 })

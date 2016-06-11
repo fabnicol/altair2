@@ -1,3 +1,5 @@
+all_output_formats      Determine all output formats for an R Markdown
+                        document
 beamer_presentation     Convert to a Beamer presentation
 compile_notebook        Compiling R scripts to a notebook
 default_output_format   Determine the default output format for an R
@@ -20,6 +22,7 @@ knit_params_ask         Run a shiny application asking for parameter
 knitr_options           Knitr options for an output format
 knitr_options_html      Knitr options for an HTML output format
 knitr_options_pdf       Knitr options for a PDF output format
+latex_dependency        Define a LaTeX package dependency
 md_document             Convert to a markdown document
 metadata                The YAML metadata of the current R Markdown
                         document
@@ -39,6 +42,7 @@ pdf_document            Convert to a PDF document
 relative_to             Relative path utility function
 render                  Render R Markdown
 render_delayed          Delay Rendering for an Expression
+render_site             Render multiple documents as a website
 render_supporting_files
                         Render supporting files for an input document
 rmarkdown-package       R Markdown Document Conversion

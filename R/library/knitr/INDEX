@@ -4,11 +4,10 @@ all_patterns            All built-in patterns
 asis_output             Mark an R object with a special class
 clean_cache             Clean cache files that are probably no longer
                         needed
+combine_words           Combine multiple words into a single string
 current_input           Query the current input filename
 dep_auto                Build automatic dependencies among chunks
 dep_prev                Make later chunks depend on previous chunks
-eclipse_theme           Download and convert a theme from
-                        eclipsecolorthemes.org to CSS
 engine_output           An output wrapper for language engine output
 fig_chunk               Obtain the figure filenames for a chunk
 fig_path                Path for figure files
@@ -19,6 +18,8 @@ hook_plot_html          Default plot hooks for different output formats
 image_uri               Encode an image file to a data URI
 imgur_upload            Upload an image to imgur.com
 include_graphics        Embed external images in 'knitr' documents
+include_url             Embed a URL as an HTML iframe or a screenshot
+                        in 'knitr' documents
 inline_expr             Wrap code using the inline R expression syntax
 kable                   Create tables in LaTeX, HTML, Markdown and
                         reStructuredText
@@ -56,8 +57,8 @@ opts_chunk              Default and current chunk options
 opts_hooks              Hooks for code chunk options
 opts_knit               Options for the knitr package
 opts_template           Template for creating reusable chunk options
-pandoc                  A Pandoc wrapper to convert Markdown documents
-                        to other formats
+pandoc                  A Pandoc wrapper to convert documents to other
+                        formats
 pat_rnw                 Set regular expressions to read input documents
 plot_crop               Crop a plot (remove the edges) using PDFCrop or
                         ImageMagick

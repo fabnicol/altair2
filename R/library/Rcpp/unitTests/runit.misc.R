@@ -1,4 +1,4 @@
-#!/usr/bin/r -t
+#!/usr/bin/env r
 #
 # Copyright (C) 2010 - 2015  Dirk Eddelbuettel and Romain Francois
 #
@@ -203,5 +203,10 @@ if (.runThisTest) {
 
     test.NullableIsUsableFalse <- function() {
         checkTrue(is.null(testNullableIsUsable(NULL)))
+    }
+
+    test.NullableString <- function() {
+        checkEquals(testNullableString(), "")
+        checkEquals(testNullableString("blah"), "blah")
     }
 }

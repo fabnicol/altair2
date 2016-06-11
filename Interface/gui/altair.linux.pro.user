@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 3.6.0, 2016-03-20T01:56:28. -->
+<!-- Written by QtCreator 3.6.1, 2016-04-30T05:48:13. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -318,7 +318,7 @@
     </valuelist>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes">
-     <value type="QString">LD_LIBRARY_PATH=/opt/lib64:/usr/lib64</value>
+     <value type="QString">LD_LIBRARY_PATH=/home/fab/Dev/Qt5.6/5.6/gcc_64/lib</value>
     </valuelist>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">altair.linux</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>

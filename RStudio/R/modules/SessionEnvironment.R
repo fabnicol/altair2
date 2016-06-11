@@ -1,7 +1,7 @@
 #
 # SessionEnvironment.R
 #
-# Copyright (C) 2009-12 by RStudio, Inc.
+# Copyright (C) 2009-16 by RStudio, Inc.
 #
 # Unless you have received this program directly from RStudio pursuant
 # to the terms of a commercial license agreement with RStudio, then
@@ -15,7 +15,10 @@
 
 .rs.addFunction("valueFromStr", function(val)
 {
-   capture.output(try({ str(val) }, silent = TRUE));
+   .rs.withTimeLimit(1, fail = "<truncated>", {
+      capture.output(try(str(val), silent = TRUE))
+   })
+   
 })
 
 .rs.addFunction("valueAsString", function(val)
@@ -93,11 +96,20 @@
         return(paste("   Query:", query))
       }
 
-      # only return the first 100 lines of detail (generally columns)--any more
+      # only return the first 150 lines of detail (generally columns)--any more
       # won't be very presentable in the environment pane. the first line
       # generally contains descriptive text, so don't return that.
       output <- .rs.valueFromStr(val)
-      return (output[min(length(output), 2):min(length(output),100)])
+      lines <- length(output)
+      if (lines > 150) {
+        output <- c(output[2:150], 
+                    paste("  [... ", lines - 150, " lines omitted]", 
+                          sep = ""))
+      } 
+      else if (lines > 1) {
+        output <- output[-1]
+      }
+      return(output)
    },
    error = function(e) { })
 
@@ -465,6 +477,7 @@
              class == "ore.frame" ||
              class == "cast_df" ||
              class == "xts" ||
+             class == "DataFrame" ||
              is.list(obj) || 
              is.data.frame(obj) ||
              isS4(obj))
@@ -640,7 +653,7 @@
    else
    {
       # check the object itself for a null pointer
-      is(obj, "externalptr") && capture.output(print(obj)) == "<pointer: 0x0>"
+      inherits(obj, "externalptr") && capture.output(print(obj)) == "<pointer: 0x0>"
    }
 })
 

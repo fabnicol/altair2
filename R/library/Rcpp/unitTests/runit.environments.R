@@ -1,4 +1,4 @@
-#!/usr/bin/r -t
+#!/usr/bin/env r
 #       hey emacs, please make this use  -*- tab-width: 4 -*-
 #
 # Copyright (C) 2009 - 2014  Dirk Eddelbuettel and Romain Francois
@@ -264,9 +264,9 @@ if (.runThisTest) {
         checkEquals( runit_Rcpp(), asNamespace("Rcpp") , msg = "cached Rcpp namespace" )
     }
 
-    test.environment.child <- function(){
-        checkEquals( parent.env(runit_child()), globalenv(), msg = "child environment" )
-    }
+    #test.environment.child <- function(){
+    #    checkEquals( parent.env(runit_child()), globalenv(), msg = "child environment" )
+    #}
 
     test.environment.new_env <- function() {
         env <- new.env()

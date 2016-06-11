@@ -78,6 +78,9 @@ class MainWindow : public QMainWindow
    bool archiveProject();
    bool restoreProject(QString str="");
    void resetCounter();
+   void on_nppButton_clicked();
+   void anonymiser();
+   void launch_process();
 
   private :
   
@@ -87,7 +90,7 @@ class MainWindow : public QMainWindow
    bool readFile(const QString &fileName);
    bool projectFileStatus;
    uint32_t consoleCounter = 0;
-
+   QFile tempLog;
 
    Altair *altair;
    QMainWindow *editWidget;
@@ -96,6 +99,8 @@ class MainWindow : public QMainWindow
    void createToolBars();
    void loadFile(const QString &fileName);
    void adjustDisplay(bool);
+
+   QList<QString> pathList;
 
    inline void connectShowActions();
 
@@ -134,6 +139,7 @@ class MainWindow : public QMainWindow
    QAction *RAction;
    QAction *configureAction;
    QAction *lhxAction;
+   QAction *anonymAction;
    QAction *openBaseDirAction;
    QAction *decodeAction;
    QAction *aboutAction;
@@ -174,6 +180,7 @@ class MainWindow : public QMainWindow
    QTextEdit *editor=nullptr;
    Highlighter *highlighter;
    QFile projectFile;
+   QProcess launch;
 
 signals:
    void exitSignal();

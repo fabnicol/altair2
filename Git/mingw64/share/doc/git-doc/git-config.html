@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 1.5.2">
+<meta name="generator" content="Asciidoctor 1.5.4">
 <title>git-config(1)</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
-/* Remove the comments around the @import statement below when using this as a custom stylesheet */
-/*@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400";*/
+/* Remove comment around @import statement below when using as a custom stylesheet */
+/*@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";*/
 article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block}
 audio,canvas,video{display:inline-block}
 audio:not([controls]){display:none;height:0}
@@ -57,7 +57,6 @@ a:hover{cursor:pointer}
 img,object,embed{max-width:100%;height:auto}
 object,embed{height:100%}
 img{-ms-interpolation-mode:bicubic}
-#map_canvas img,#map_canvas embed,#map_canvas object,.map_canvas img,.map_canvas embed,.map_canvas object{max-width:none!important}
 .left{float:left!important}
 .right{float:right!important}
 .text-left{text-align:left!important}
@@ -65,10 +64,12 @@ img{-ms-interpolation-mode:bicubic}
 .text-center{text-align:center!important}
 .text-justify{text-align:justify!important}
 .hide{display:none}
-.antialiased,body{-webkit-font-smoothing:antialiased}
-img{display:inline-block;vertical-align:middle}
+body{-webkit-font-smoothing:antialiased}
+img,object,svg{display:inline-block;vertical-align:middle}
 textarea{height:auto;min-height:50px}
 select{width:100%}
+.center{margin-left:auto;margin-right:auto}
+.spread{width:100%}
 p.lead,.paragraph.lead>p,#preamble>.sectionbody>.paragraph:first-of-type p{font-size:1.21875em;line-height:1.6}
 .subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
 div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0;direction:ltr}
@@ -111,12 +112,14 @@ blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
 h1{font-size:2.75em}
 h2{font-size:2.3125em}
 h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
-h4{font-size:1.4375em}}table{background:#fff;margin-bottom:1.25em;border:solid 1px #dedede}
+h4{font-size:1.4375em}}
+table{background:#fff;margin-bottom:1.25em;border:solid 1px #dedede}
 table thead,table tfoot{background:#f7f8f7;font-weight:bold}
 table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
 table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
 table tr.even,table tr.alt,table tr:nth-of-type(even){background:#f8f8f7}
 table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{display:table-cell;line-height:1.6}
+body{tab-size:4}
 h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
 h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
 .clearfix:before,.clearfix:after,.float-group:before,.float-group:after{content:" ";display:table}
@@ -124,7 +127,7 @@ h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title str
 *:not(pre)>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background-color:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
 pre,pre>code{line-height:1.45;color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;text-rendering:optimizeSpeed}
 .keyseq{color:rgba(51,51,51,.8)}
-kbd{display:inline-block;color:rgba(0,0,0,.8);font-size:.75em;line-height:1.4;background-color:#f7f7f7;border:1px solid #ccc;-webkit-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em white inset;box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em #fff inset;margin:-.15em .15em 0 .15em;padding:.2em .6em .2em .5em;vertical-align:middle;white-space:nowrap}
+kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background-color:#f7f7f7;border:1px solid #ccc;-webkit-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em white inset;box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em #fff inset;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
 .keyseq kbd:first-child{margin-left:0}
 .keyseq kbd:last-child{margin-right:0}
 .menuseq,.menu{color:rgba(0,0,0,.8)}
@@ -155,29 +158,33 @@ p a>code:hover{color:rgba(0,0,0,.9)}
 #toc ul.sectlevel0>li>a{font-style:italic}
 #toc ul.sectlevel0 ul.sectlevel1{margin:.5em 0}
 #toc ul{font-family:"Open Sans","DejaVu Sans",sans-serif;list-style-type:none}
+#toc li{line-height:1.3334;margin-top:.3334em}
 #toc a{text-decoration:none}
 #toc a:active{text-decoration:underline}
 #toctitle{color:#7a2518;font-size:1.2em}
 @media only screen and (min-width:768px){#toctitle{font-size:1.375em}
 body.toc2{padding-left:15em;padding-right:0}
 #toc.toc2{margin-top:0!important;background-color:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #efefed;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
-#toc.toc2 #toctitle{margin-top:0;font-size:1.2em}
+#toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
 #toc.toc2>ul{font-size:.9em;margin-bottom:0}
 #toc.toc2 ul ul{margin-left:0;padding-left:1em}
 #toc.toc2 ul.sectlevel0 ul.sectlevel1{padding-left:0;margin-top:.5em;margin-bottom:.5em}
 body.toc2.toc-right{padding-left:0;padding-right:15em}
-body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #efefed;left:auto;right:0}}@media only screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
+body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #efefed;left:auto;right:0}}
+@media only screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
 #toc.toc2{width:20em}
 #toc.toc2 #toctitle{font-size:1.375em}
 #toc.toc2>ul{font-size:.95em}
 #toc.toc2 ul ul{padding-left:1.25em}
-body.toc2.toc-right{padding-left:0;padding-right:20em}}#content #toc{border-style:solid;border-width:1px;border-color:#e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;-webkit-border-radius:4px;border-radius:4px}
+body.toc2.toc-right{padding-left:0;padding-right:20em}}
+#content #toc{border-style:solid;border-width:1px;border-color:#e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;-webkit-border-radius:4px;border-radius:4px}
 #content #toc>:first-child{margin-top:0}
 #content #toc>:last-child{margin-bottom:0}
 #footer{max-width:100%;background-color:rgba(0,0,0,.8);padding:1.25em}
 #footer-text{color:rgba(255,255,255,.8);line-height:1.44}
 .sect1{padding-bottom:.625em}
-@media only screen and (min-width:768px){.sect1{padding-bottom:1.25em}}.sect1+.sect1{border-top:1px solid #efefed}
+@media only screen and (min-width:768px){.sect1{padding-bottom:1.25em}}
+.sect1+.sect1{border-top:1px solid #efefed}
 #content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
 #content h1>a.anchor:before,h2>a.anchor:before,h3>a.anchor:before,#toctitle>a.anchor:before,.sidebarblock>.content>.title>a.anchor:before,h4>a.anchor:before,h5>a.anchor:before,h6>a.anchor:before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
 #content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
@@ -206,7 +213,9 @@ table.tableblock #preamble>.sectionbody>.paragraph:first-of-type p{font-size:inh
 .sidebarblock .literalblock pre,.sidebarblock .listingblock pre:not(.highlight),.sidebarblock .listingblock pre[class="highlight"],.sidebarblock .listingblock pre[class^="highlight "],.sidebarblock .listingblock pre.CodeRay,.sidebarblock .listingblock pre.prettyprint{background:#f2f1f1}
 .literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{-webkit-border-radius:4px;border-radius:4px;word-wrap:break-word;padding:1em;font-size:.8125em}
 .literalblock pre.nowrap,.literalblock pre[class].nowrap,.listingblock pre.nowrap,.listingblock pre[class].nowrap{overflow-x:auto;white-space:pre;word-wrap:normal}
-@media only screen and (min-width:768px){.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{font-size:.90625em}}@media only screen and (min-width:1280px){.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{font-size:1em}}.literalblock.output pre{color:#f7f7f8;background-color:rgba(0,0,0,.9)}
+@media only screen and (min-width:768px){.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{font-size:.90625em}}
+@media only screen and (min-width:1280px){.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{font-size:1em}}
+.literalblock.output pre{color:#f7f7f8;background-color:rgba(0,0,0,.9)}
 .listingblock pre.highlightjs{padding:0}
 .listingblock pre.highlightjs>code{padding:1em;-webkit-border-radius:4px;border-radius:4px}
 .listingblock pre.prettyprint{border-width:0}
@@ -216,7 +225,7 @@ table.tableblock #preamble>.sectionbody>.paragraph:first-of-type p{font-size:inh
 .listingblock.terminal pre .command:before{content:attr(data-prompt);padding-right:.5em;color:#999}
 .listingblock.terminal pre .command:not([data-prompt]):before{content:"$"}
 table.pyhltable{border-collapse:separate;border:0;margin-bottom:0;background:none}
-table.pyhltable td{vertical-align:top;padding-top:0;padding-bottom:0}
+table.pyhltable td{vertical-align:top;padding-top:0;padding-bottom:0;line-height:1.45}
 table.pyhltable td.code{padding-left:.75em;padding-right:0}
 pre.pygments .lineno,table.pyhltable td:not(.code){color:#999;padding-left:0;padding-right:.5em;border-right:1px solid #ddddd8}
 pre.pygments .lineno{display:inline-block;margin-right:.25em}
@@ -237,13 +246,12 @@ table.pyhltable .linenodiv{background:none!important;padding-right:0!important}
 .verseblock .attribution{margin-top:1.25rem;margin-left:.5ex}
 .quoteblock .attribution,.verseblock .attribution{font-size:.9375em;line-height:1.45;font-style:italic}
 .quoteblock .attribution br,.verseblock .attribution br{display:none}
-.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.05em;color:rgba(0,0,0,.6)}
+.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.025em;color:rgba(0,0,0,.6)}
 .quoteblock.abstract{margin:0 0 1.25em 0;display:block}
 .quoteblock.abstract blockquote,.quoteblock.abstract blockquote p{text-align:left;word-spacing:0}
 .quoteblock.abstract blockquote:before,.quoteblock.abstract blockquote p:first-of-type:before{display:none}
 table.tableblock{max-width:100%;border-collapse:separate}
 table.tableblock td>.paragraph:last-child p>p:last-child,table.tableblock th>p:last-child,table.tableblock td>p:last-child{margin-bottom:0}
-table.spread{width:100%}
 table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
 table.grid-all th.tableblock,table.grid-all td.tableblock{border-width:0 1px 1px 0}
 table.grid-all tfoot>tr>th.tableblock,table.grid-all tfoot>tr>td.tableblock{border-width:1px 1px 0 0}
@@ -289,8 +297,8 @@ ol.upperroman{list-style-type:upper-roman}
 ol.lowergreek{list-style-type:lower-greek}
 .hdlist>table,.colist>table{border:0;background:none}
 .hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
-td.hdlist1{padding-right:.75em;font-weight:bold}
-td.hdlist1,td.hdlist2{vertical-align:top}
+td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
+td.hdlist1{font-weight:bold;padding-bottom:1.25em}
 .literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
 .colist>table tr>td:first-of-type{padding:0 .75em;line-height:1}
 .colist>table tr>td:last-of-type{padding:.25em 0}
@@ -303,13 +311,14 @@ td.hdlist1,td.hdlist2{vertical-align:top}
 .image.left,.image.right{margin-top:.25em;margin-bottom:.25em;display:inline-block;line-height:0}
 .image.left{margin-right:.625em}
 .image.right{margin-left:.625em}
-a.image{text-decoration:none}
-span.footnote,span.footnoteref{vertical-align:super;font-size:.875em}
-span.footnote a,span.footnoteref a{text-decoration:none}
-span.footnote a:active,span.footnoteref a:active{text-decoration:underline}
+a.image{text-decoration:none;display:inline-block}
+a.image object{pointer-events:none}
+sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
+sup.footnote a,sup.footnoteref a{text-decoration:none}
+sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
 #footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
 #footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em 0;border-width:1px 0 0 0}
-#footnotes .footnote{padding:0 .375em;line-height:1.3;font-size:.875em;margin-left:1.2em;text-indent:-1.2em;margin-bottom:.2em}
+#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;text-indent:-1.05em;margin-bottom:.2em}
 #footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none}
 #footnotes .footnote:last-of-type{margin-bottom:0}
 #content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
@@ -367,11 +376,10 @@ span.icon>.fa{cursor:default}
 pre .conum[data-value]{position:relative;top:-.125em}
 b.conum *{color:inherit!important}
 .conum:not([data-value]):empty{display:none}
-h1,h2{letter-spacing:-.01em}
-dt,th.tableblock,td.content{text-rendering:optimizeLegibility}
-p,td.content{letter-spacing:-.01em}
-p strong,td.content strong{letter-spacing:-.005em}
-p,blockquote,dt,td.content{font-size:1.0625rem}
+dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
+h1,h2,p,td.content,span.alt{letter-spacing:-.01em}
+p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
+p,blockquote,dt,td.content,span.alt{font-size:1.0625rem}
 p{margin-bottom:1.25rem}
 .sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
 .exampleblock>.content{background-color:#fffef7;border-color:#e0e0dc;-webkit-box-shadow:0 1px 4px #e0e0dc;box-shadow:0 1px 4px #e0e0dc}
@@ -382,9 +390,9 @@ a{color:inherit!important;text-decoration:underline!important}
 a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
 a[href^="http:"]:not(.bare):after,a[href^="https:"]:not(.bare):after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
 abbr[title]:after{content:" (" attr(title) ")"}
-pre,blockquote,tr,img{page-break-inside:avoid}
+pre,blockquote,tr,img,object,svg{page-break-inside:avoid}
 thead{display:table-header-group}
-img{max-width:100%!important}
+svg{max-width:100%}
 p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
 h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
 #toc,.sidebarblock,.exampleblock>.content{background:none!important}
@@ -422,18 +430,18 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_synopsis">SYNOPSIS</h2>
 <div class="sectionbody">
 <div class="verseblock">
-<pre class="content"><em>git config</em> [&lt;file-option&gt;] [type] [-z|--null] name [value [value_regex]]
+<pre class="content"><em>git config</em> [&lt;file-option&gt;] [type] [--show-origin] [-z|--null] name [value [value_regex]]
 <em>git config</em> [&lt;file-option&gt;] [type] --add name value
 <em>git config</em> [&lt;file-option&gt;] [type] --replace-all name value [value_regex]
-<em>git config</em> [&lt;file-option&gt;] [type] [-z|--null] --get name [value_regex]
-<em>git config</em> [&lt;file-option&gt;] [type] [-z|--null] --get-all name [value_regex]
-<em>git config</em> [&lt;file-option&gt;] [type] [-z|--null] [--name-only] --get-regexp name_regex [value_regex]
+<em>git config</em> [&lt;file-option&gt;] [type] [--show-origin] [-z|--null] --get name [value_regex]
+<em>git config</em> [&lt;file-option&gt;] [type] [--show-origin] [-z|--null] --get-all name [value_regex]
+<em>git config</em> [&lt;file-option&gt;] [type] [--show-origin] [-z|--null] [--name-only] --get-regexp name_regex [value_regex]
 <em>git config</em> [&lt;file-option&gt;] [type] [-z|--null] --get-urlmatch name URL
 <em>git config</em> [&lt;file-option&gt;] --unset name [value_regex]
 <em>git config</em> [&lt;file-option&gt;] --unset-all name [value_regex]
 <em>git config</em> [&lt;file-option&gt;] --rename-section old_name new_name
 <em>git config</em> [&lt;file-option&gt;] --remove-section name
-<em>git config</em> [&lt;file-option&gt;] [-z|--null] [--name-only] -l | --list
+<em>git config</em> [&lt;file-option&gt;] [--show-origin] [-z|--null] [--name-only] -l | --list
 <em>git config</em> [&lt;file-option&gt;] --get-color name [default]
 <em>git config</em> [&lt;file-option&gt;] --get-colorbool name [stdout-is-tty]
 <em>git config</em> [&lt;file-option&gt;] -e | --edit</pre>
@@ -480,19 +488,19 @@ that location (you can say <em>--local</em> but that is the default).</p>
 <p>This command will fail with non-zero status upon error.  Some exit
 codes are:</p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+<div class="ulist">
+<ul>
 <li>
-<p>The config file is invalid (ret=3),</p>
-</li>
-<li>
-<p>can not write to the config file (ret=4),</p>
+<p>The section or key is invalid (ret=1),</p>
 </li>
 <li>
 <p>no section or name was provided (ret=2),</p>
 </li>
 <li>
-<p>the section or key is invalid (ret=1),</p>
+<p>the config file is invalid (ret=3),</p>
+</li>
+<li>
+<p>the config file cannot be written (ret=4),</p>
 </li>
 <li>
 <p>you try to unset an option which does not exist (ret=5),</p>
@@ -503,7 +511,7 @@ codes are:</p>
 <li>
 <p>you try to use an invalid regexp (ret=6).</p>
 </li>
-</ol>
+</ul>
 </div>
 <div class="paragraph">
 <p>On success, the command returns the exit code 0.</p>
@@ -534,8 +542,7 @@ found and the last value if multiple key values were found.</p>
 </dd>
 <dt class="hdlist1">--get-all</dt>
 <dd>
-<p>Like get, but does not fail if the number of values for the key
-is not exactly one.</p>
+<p>Like get, but returns all values for a multi-valued key.</p>
 </dd>
 <dt class="hdlist1">--get-regexp</dt>
 <dd>
@@ -552,7 +559,7 @@ section.&lt;url&gt;.key whose &lt;url&gt; part matches the best to the
 given URL is returned (if no such key exists, the value for
 section.key is used as a fallback).  When given just the
 section as name, do so for all the keys in the section and
-list them.</p>
+list them.  Returns error code 1 if no value is found.</p>
 </dd>
 <dt class="hdlist1">--global</dt>
 <dd>
@@ -584,7 +591,7 @@ rather than from all available files.</p>
 <dt class="hdlist1">--local</dt>
 <dd>
 <p>For writing options: write to the repository <code>.git/config</code> file.
-This is    the default behavior.</p>
+This is	the default behavior.</p>
 <div class="paragraph">
 <p>For reading options: read only from the repository <code>.git/config</code> rather than
 from all available files.</p>
@@ -666,6 +673,13 @@ contain line breaks.</p>
 <p>Output only the names of config variables for <code>--list</code> or
 <code>--get-regexp</code>.</p>
 </dd>
+<dt class="hdlist1">--show-origin</dt>
+<dd>
+<p>Augment the output of all queried config options with the
+origin type (file, standard input, blob, command line) and
+the actual origin (config file path, ref, or blob id if
+applicable).</p>
+</dd>
 <dt class="hdlist1">--get-colorbool name [stdout-is-tty]</dt>
 <dd>
 <p>Find the color setting for <code>name</code> (e.g. <code>color.diff</code>) and output
@@ -693,7 +707,9 @@ there is no color configured for <code>name</code>.</p>
 <dt class="hdlist1">--[no-]includes</dt>
 <dd>
 <p>Respect <code>include.*</code> directives in config files when looking up
-values. Defaults to on.</p>
+values. Defaults to <code>off</code> when a specific file is given (e.g.,
+using <code>--file</code>, <code>--global</code>, etc) and <code>on</code> when searching all
+config files.</p>
 </dd>
 </dl>
 </div>
@@ -734,9 +750,12 @@ configuration file.</p>
 </div>
 <div class="paragraph">
 <p>On Windows, as there is no central <code>/etc/</code> directory, there is yet another
-config file, intended to contain settings for <strong>all</strong> Git-related software
-running on the machine. Consequently, this config file takes an even lower
-precedence than the <code>$(prefix)/etc/gitconfig</code> file.</p>
+config file (located at <code>$PROGRAMDATA/Git/config</code>), intended to contain
+settings for <strong>all</strong> Git-related software running on the machine. Consequently,
+this config file takes an even lower precedence than the
+<code>$(prefix)/etc/gitconfig</code> file. Typically <code>$PROGRAMDATA</code> points to
+<code>C:\ProgramData</code> (on Windows XP the equivalent in <code>$ALLUSERSPROFILE</code> is used,
+i.e. <code>C:\Documents and Settings\All Users\Application Data\Git\config</code>).</p>
 </div>
 <div class="paragraph">
 <p>If no further options are given, all reading options will read all of these
@@ -805,34 +824,34 @@ $(prefix)/etc/gitconfig file. See <a href="git.html">git</a>(1) for details.</p>
 <div class="content">
 <pre>; core variables
 [core]
-    ; Don't trust file modes
-    filemode = false</pre>
+	; Don't trust file modes
+	filemode = false</pre>
 </div>
 </div>
 <div class="literalblock">
 <div class="content">
 <pre>; Our diff algorithm
 [diff]
-    external = /usr/local/bin/diff-wrapper
-    renames = true</pre>
+	external = /usr/local/bin/diff-wrapper
+	renames = true</pre>
 </div>
 </div>
 <div class="literalblock">
 <div class="content">
 <pre>; Proxy settings
 [core]
-    gitproxy=proxy-command for kernel.org
-    gitproxy=default-proxy ; for all the rest</pre>
+	gitproxy=proxy-command for kernel.org
+	gitproxy=default-proxy ; for all the rest</pre>
 </div>
 </div>
 <div class="literalblock">
 <div class="content">
 <pre>; HTTP
 [http]
-    sslVerify
+	sslVerify
 [http "https://weak.example.com"]
-    sslVerify = false
-    cookieFile = /tmp/cookie.txt</pre>
+	sslVerify = false
+	cookieFile = /tmp/cookie.txt</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1073,39 +1092,39 @@ user&#8217;s home directory. See below for examples.</p>
 <div class="content">
 <pre># Core variables
 [core]
-    ; Don't trust file modes
-    filemode = false</pre>
+	; Don't trust file modes
+	filemode = false</pre>
 </div>
 </div>
 <div class="literalblock">
 <div class="content">
 <pre># Our diff algorithm
 [diff]
-    external = /usr/local/bin/diff-wrapper
-    renames = true</pre>
+	external = /usr/local/bin/diff-wrapper
+	renames = true</pre>
 </div>
 </div>
 <div class="literalblock">
 <div class="content">
 <pre>[branch "devel"]
-    remote = origin
-    merge = refs/heads/devel</pre>
+	remote = origin
+	merge = refs/heads/devel</pre>
 </div>
 </div>
 <div class="literalblock">
 <div class="content">
 <pre># Proxy settings
 [core]
-    gitProxy="ssh" for "kernel.org"
-    gitProxy=default-proxy ; for the rest</pre>
+	gitProxy="ssh" for "kernel.org"
+	gitProxy=default-proxy ; for the rest</pre>
 </div>
 </div>
 <div class="literalblock">
 <div class="content">
 <pre>[include]
-    path = /path/to/foo.inc ; include by absolute path
-    path = foo ; expand "foo" relative to the current file
-    path = ~/foo ; expand "foo" in your $HOME directory</pre>
+	path = /path/to/foo.inc ; include by absolute path
+	path = foo ; expand "foo" relative to the current file
+	path = ~/foo ; expand "foo" in your $HOME directory</pre>
 </div>
 </div>
 </div>
@@ -1369,6 +1388,16 @@ working tree are ignored; useful when the inode change time
 is regularly modified by something outside Git (file system
 crawlers and some backup systems).
 See <a href="git-update-index.html">git-update-index</a>(1). True by default.</p>
+</dd>
+<dt class="hdlist1">core.untrackedCache</dt>
+<dd>
+<p>Determines what to do about the untracked cache feature of the
+index. It will be kept, if this variable is unset or set to
+<code>keep</code>. It will automatically be added if set to <code>true</code>. And
+it will automatically be removed, if set to <code>false</code>. Before
+setting it to <code>true</code>, you should check that mtime is working
+properly on your system.
+See <a href="git-update-index.html">git-update-index</a>(1). <code>keep</code> by default.</p>
 </dd>
 <dt class="hdlist1">core.checkStat</dt>
 <dd>
@@ -2039,12 +2068,14 @@ supported.</p>
 <p>When true, rebase the branch &lt;name&gt; on top of the fetched branch,
 instead of merging the default branch from the default remote when
 "git pull" is run. See "pull.rebase" for doing this in a non
-branch-specific manner.
-When the value is <code>interactive</code>, the rebase is run in interactive mode.</p>
+branch-specific manner.</p>
 <div class="paragraph">
 <p>When preserve, also pass <code>--preserve-merges</code> along to <em>git rebase</em>
 so that locally committed merge commits will not be flattened
 by running <em>git pull</em>.</p>
+</div>
+<div class="paragraph">
+<p>When the value is <code>interactive</code>, the rebase is run in interactive mode.</p>
 </div>
 <div class="paragraph">
 <p><strong>NOTE</strong>: this is a possibly dangerous operation; do <strong>not</strong> use
@@ -2388,6 +2419,10 @@ would set the default username only for https connections to
 example.com. See <a href="gitcredentials.html">gitcredentials</a>(7) for details on how URLs are
 matched.</p>
 </dd>
+<dt class="hdlist1">credentialCache.ignoreSIGHUP</dt>
+<dd>
+<p>Tell git-credential-cache&#8212;&#8203;daemon to ignore SIGHUP, instead of quitting.</p>
+</dd>
 <dt class="hdlist1">diff.autoRefreshIndex</dt>
 <dd>
 <p>When using <em>git diff</em> to compare with work tree
@@ -2478,7 +2513,7 @@ given command.  Can be overridden with the &#8216;GIT_EXTERNAL_DIFF&#8217;
 environment variable.  The command is called with parameters
 as described under "git Diffs" in <a href="git.html">git</a>(1).  Note: if
 you want to use an external diff program only on a subset of
-your files, you    might want to use <a href="gitattributes.html">gitattributes</a>(5) instead.</p>
+your files, you	might want to use <a href="gitattributes.html">gitattributes</a>(5) instead.</p>
 </dd>
 <dt class="hdlist1">diff.ignoreSubmodules</dt>
 <dd>
@@ -2843,6 +2878,11 @@ Please see the <em>SubmittingPatches</em> document for further discussion.</p>
 format-patch is invoked, but in addition can be set to "auto", to
 generate a cover-letter only when there&#8217;s more than one patch.</p>
 </dd>
+<dt class="hdlist1">format.outputDirectory</dt>
+<dd>
+<p>Set a custom directory to store the resulting files instead of the
+current working directory.</p>
+</dd>
 <dt class="hdlist1">filter.&lt;driver&gt;.clean</dt>
 <dd>
 <p>The command which is used to convert the content of a worktree
@@ -2903,7 +2943,7 @@ default value is 6700.  Setting this to 0 disables it.</p>
 <p>When there are more than this many packs that are not
 marked with <code>*.keep</code> file in the repository, <code>git gc
 --auto</code> consolidates them into one larger pack.  The
-default    value is 50.  Setting this to 0 disables it.</p>
+default	value is 50.  Setting this to 0 disables it.</p>
 </dd>
 <dt class="hdlist1">gc.autoDetach</dt>
 <dd>
@@ -3087,6 +3127,16 @@ value <em>default</em> will return to the default matching behavior.</p>
 option is ignored when the <em>grep.patternType</em> option is set to a value
 other than <em>default</em>.</p>
 </dd>
+<dt class="hdlist1">grep.threads</dt>
+<dd>
+<p>Number of grep worker threads to use.
+See <code>grep.threads</code> in <a href="git-grep.html">git-grep</a>(1) for more information.</p>
+</dd>
+<dt class="hdlist1">grep.fallbackToNoIndex</dt>
+<dd>
+<p>If set to true, fall back to git grep --no-index if git grep
+is executed outside of a git repository.  Defaults to false.</p>
+</dd>
 <dt class="hdlist1">gpg.program</dt>
 <dd>
 <p>Use this custom program instead of "gpg" found on $PATH when
@@ -3261,9 +3311,64 @@ path of your Git installation.</p>
 <dt class="hdlist1">http.proxy</dt>
 <dd>
 <p>Override the HTTP proxy, normally configured using the <em>http_proxy</em>,
-<em>https_proxy</em>, and <em>all_proxy</em> environment variables (see
-<code>curl(1)</code>).  This can be overridden on a per-remote basis; see
-remote.&lt;name&gt;.proxy</p>
+<em>https_proxy</em>, and <em>all_proxy</em> environment variables (see <code>curl(1)</code>). In
+addition to the syntax understood by curl, it is possible to specify a
+proxy string with a user name but no password, in which case git will
+attempt to acquire one in the same way it does for other credentials. See
+<a href="gitcredentials.html">gitcredentials</a>(7) for more information. The syntax thus is
+<em>[protocol://][user[:password]@]proxyhost[:port]</em>. This can be overridden
+on a per-remote basis; see remote.&lt;name&gt;.proxy</p>
+</dd>
+<dt class="hdlist1">http.proxyAuthMethod</dt>
+<dd>
+<p>Set the method with which to authenticate against the HTTP proxy. This
+only takes effect if the configured proxy string contains a user name part
+(i.e. is of the form <em>user@host</em> or <em>user@host:port</em>). This can be
+overridden on a per-remote basis; see <code>remote.&lt;name&gt;.proxyAuthMethod</code>.
+Both can be overridden by the <em>GIT_HTTP_PROXY_AUTHMETHOD</em> environment
+variable.  Possible values are:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p><code>anyauth</code> - Automatically pick a suitable authentication method. It is
+assumed that the proxy answers an unauthenticated request with a 407
+status code and one or more Proxy-authenticate headers with supported
+authentication methods. This is the default.</p>
+</li>
+<li>
+<p><code>basic</code> - HTTP Basic authentication</p>
+</li>
+<li>
+<p><code>digest</code> - HTTP Digest authentication; this prevents the password from being
+transmitted to the proxy in clear text</p>
+</li>
+<li>
+<p><code>negotiate</code> - GSS-Negotiate authentication (compare the --negotiate option
+of <code>curl(1)</code>)</p>
+</li>
+<li>
+<p><code>ntlm</code> - NTLM authentication (compare the --ntlm option of <code>curl(1)</code>)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">http.emptyAuth</dt>
+<dd>
+<p>Attempt authentication without seeking a username or password.  This
+can be used to attempt GSS-Negotiate authentication without specifying
+a username in the URL, as libcurl normally requires a username for
+authentication.</p>
+</dd>
+<dt class="hdlist1">http.extraHeader</dt>
+<dd>
+<p>Pass an additional HTTP header when communicating with a server.  If
+more than one such entry exists, all of them are added as extra
+headers.  To allow overriding the settings inherited from the system
+config, an empty value will reset the extra headers to the empty list.</p>
 </dd>
 <dt class="hdlist1">http.cookieFile</dt>
 <dd>
@@ -3369,6 +3474,15 @@ fetching or pushing over HTTPS. Can be overridden by the
 <p>Path containing files with the CA certificates to verify the peer
 with when fetching or pushing over HTTPS. Can be overridden
 by the <em>GIT_SSL_CAPATH</em> environment variable.</p>
+</dd>
+<dt class="hdlist1">http.pinnedpubkey</dt>
+<dd>
+<p>Public key of the https service. It may either be the filename of
+a PEM or DER encoded public key file or a string starting with
+<em>sha256//</em> followed by the base64 encoded sha256 hash of the
+public key. See also libcurl <em>CURLOPT_PINNEDPUBLICKEY</em>. git will
+exit with an error if this option is set but not supported by
+cURL.</p>
 </dd>
 <dt class="hdlist1">http.sslTry</dt>
 <dd>
@@ -3557,9 +3671,7 @@ override this option with <code>--no-abbrev-commit</code>.</p>
 <dd>
 <p>Set the default date-time mode for the <em>log</em> command.
 Setting a value for log.date is similar to using <em>git log</em>'s
-<code>--date</code> option.  Possible values are <code>relative</code>, <code>local</code>,
-<code>default</code>, <code>iso</code>, <code>rfc</code>, and <code>short</code>; see <a href="git-log.html">git-log</a>(1)
-for details.</p>
+<code>--date</code> option.  See <a href="git-log.html">git-log</a>(1) for details.</p>
 </dd>
 <dt class="hdlist1">log.decorate</dt>
 <dd>
@@ -4008,7 +4120,7 @@ and this config option ignored whenever the corresponding pack is
 larger than 2 GB.</p>
 <div class="paragraph">
 <p>If you have an old Git that does not understand the version 2 <code>*.idx</code> file,
-cloning or fetching over a non native protocol (e.g. "http" and "rsync")
+cloning or fetching over a non native protocol (e.g. "http")
 that will copy both <code>*.pack</code> file and corresponding <code>*.idx</code> file from the
 other side may give you a repository that cannot be accessed with your
 older version of Git. If the <code>*.pack</code> file is smaller than 2 GB, however,
@@ -4021,8 +4133,11 @@ the <code>*.idx</code> file.</p>
 <p>The maximum size of a pack.  This setting only affects
 packing to a file when repacking, i.e. the git:// protocol
 is unaffected.  It can be overridden by the <code>--max-pack-size</code>
-option of <a href="git-repack.html">git-repack</a>(1). The minimum size allowed is
-limited to 1 MiB. The default is unlimited.
+option of <a href="git-repack.html">git-repack</a>(1).  Reaching this limit results
+in the creation of multiple packfiles; which in turn prevents
+bitmaps from being created.
+The minimum size allowed is limited to 1 MiB.
+The default is unlimited.
 Common unit suffixes of <em>k</em>, <em>m</em>, or <em>g</em> are
 supported.</p>
 </dd>
@@ -4091,6 +4206,9 @@ per-branch basis.</p>
 <p>When preserve, also pass <code>--preserve-merges</code> along to <em>git rebase</em>
 so that locally committed merge commits will not be flattened
 by running <em>git pull</em>.</p>
+</div>
+<div class="paragraph">
+<p>When the value is <code>interactive</code>, the rebase is run in interactive mode.</p>
 </div>
 <div class="paragraph">
 <p><strong>NOTE</strong>: this is a possibly dangerous operation; do <strong>not</strong> use
@@ -4191,6 +4309,21 @@ pushes to be signed if the server supports it, as if
 <em>--signed=if-asked</em> is passed to <em>git push</em>. A false value may
 override a value from a lower-priority config file. An explicit
 command-line flag always overrides this config option.</p>
+</dd>
+<dt class="hdlist1">push.recurseSubmodules</dt>
+<dd>
+<p>Make sure all submodule commits used by the revisions to be pushed
+are available on a remote-tracking branch. If the value is <em>check</em>
+then Git will verify that all submodule commits that changed in the
+revisions to be pushed are available on at least one remote of the
+submodule. If any commits are missing, the push will be aborted and
+exit with non-zero status. If the value is <em>on-demand</em> then all
+submodules that changed in the revisions to be pushed will be
+pushed. If on-demand was not able to push all necessary revisions
+it will also be aborted and exit with non-zero status. If the value
+is <em>no</em> then default behavior of ignoring submodules when pushing
+is retained. You may override this configuration at time of push by
+specifying <em>--recurse-submodules=check|on-demand|no</em>.</p>
 </dd>
 <dt class="hdlist1">rebase.stat</dt>
 <dd>
@@ -4387,6 +4520,12 @@ require new shallow roots. Otherwise those refs are rejected.</p>
 the proxy to use for that remote.  Set to the empty string to
 disable proxying for that remote.</p>
 </dd>
+<dt class="hdlist1">remote.&lt;name&gt;.proxyAuthMethod</dt>
+<dd>
+<p>For remotes that require curl (http, https and ftp), the method to use for
+authenticating against the proxy in use (probably set in
+<code>remote.&lt;name&gt;.proxy</code>). See <code>http.proxyAuthMethod</code>.</p>
+</dd>
 <dt class="hdlist1">remote.&lt;name&gt;.fetch</dt>
 <dd>
 <p>The default set of "refspec" for <a href="git-fetch.html">git-fetch</a>(1). See
@@ -4473,8 +4612,9 @@ index is being written (either via <code>--write-bitmap-index</code> or
 objects to disk (e.g., when <code>git repack -a</code> is run).  This
 index can speed up the "counting objects" phase of subsequent
 packs created for clones and fetches, at the cost of some disk
-space and extra time spent on the initial repack.  Defaults to
-false.</p>
+space and extra time spent on the initial repack.  This has
+no effect if multiple packfiles are created.
+Defaults to false.</p>
 </dd>
 <dt class="hdlist1">rerere.autoUpdate</dt>
 <dd>
@@ -4630,6 +4770,18 @@ the --ignore-submodules=dirty command-line option or the <em>git
 submodule summary</em> command, which shows a similar output but does
 not honor these settings.</p>
 </dd>
+<dt class="hdlist1">stash.showPatch</dt>
+<dd>
+<p>If this is set to true, the <code>git stash show</code> command without an
+option will show the stash in patch form.  Defaults to false.
+See description of <em>show</em> command in <a href="git-stash.html">git-stash</a>(1).</p>
+</dd>
+<dt class="hdlist1">stash.showStat</dt>
+<dd>
+<p>If this is set to true, the <code>git stash show</code> command without an
+option will show diffstat of the stash.  Defaults to true.
+See description of <em>show</em> command in <a href="git-stash.html">git-stash</a>(1).</p>
+</dd>
 <dt class="hdlist1">submodule.&lt;name&gt;.path</dt>
 <dt class="hdlist1">submodule.&lt;name&gt;.url</dt>
 <dd>
@@ -4711,6 +4863,16 @@ program-specific versions of this config.</p>
 explicitly exposing it, even if an earlier entry marked it as hidden.
 If you have multiple hideRefs values, later entries override earlier ones
 (and entries in more-specific config files override less-specific ones).</p>
+</div>
+<div class="paragraph">
+<p>If a namespace is in use, the namespace prefix is stripped from each
+reference before it is matched against <code>transfer.hiderefs</code> patterns.
+For example, if <code>refs/heads/master</code> is specified in <code>transfer.hideRefs</code> and
+the current namespace is <code>foo</code>, then <code>refs/namespaces/foo/refs/heads/master</code>
+is omitted from the advertisements but <code>refs/heads/master</code> and
+<code>refs/namespaces/bar/refs/heads/master</code> are still advertised as so-called
+"have" lines. In order to match refs before stripping, add a <code>^</code> in front of
+the ref name. If you combine <code>!</code> and <code>^</code>, <code>!</code> must be specified first.</p>
 </div>
 </dd>
 <dt class="hdlist1">transfer.unpackLimit</dt>
@@ -4798,6 +4960,17 @@ Can be overridden by the <em>GIT_AUTHOR_EMAIL</em>, <em>GIT_COMMITTER_EMAIL</em>
 Can be overridden by the <em>GIT_AUTHOR_NAME</em> and <em>GIT_COMMITTER_NAME</em>
 environment variables.  See <a href="git-commit-tree.html">git-commit-tree</a>(1).</p>
 </dd>
+<dt class="hdlist1">user.useConfigOnly</dt>
+<dd>
+<p>Instruct Git to avoid trying to guess defaults for <em>user.email</em>
+and <em>user.name</em>, and instead retrieve the values only from the
+configuration. For example, if you have multiple email addresses
+and would like to use a different one for each repository, then
+with this configuration option set to <code>true</code> in the global config
+along with a name, Git will prompt you to set up an email before
+making new commits in a newly cloned repository.
+Defaults to <code>false</code>.</p>
+</dd>
 <dt class="hdlist1">user.signingKey</dt>
 <dd>
 <p>If <a href="git-tag.html">git-tag</a>(1) or <a href="git-commit.html">git-commit</a>(1) is not selecting the
@@ -4849,7 +5022,7 @@ with the dump git protocol. Defaults to true.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-10-30 11:47:04 Coordinated Universal Time
+Last updated 2016-05-20 15:56:45 W. Europe Daylight Time
 </div>
 </div>
 </body>
