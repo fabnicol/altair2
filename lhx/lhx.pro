@@ -46,13 +46,12 @@ CONFIG(guiOutput) {
 QMAKE_CXXFLAGS_RELEASE -= -O2
 
 CONFIG(debug, debug|release) {
-
-QMAKE_CXXFLAGS += -O1
-
+ message("Debugging version")
+ QMAKE_CXXFLAGS += -O1
 } else {
-
-QMAKE_LFLAGS += -s
-QMAKE_CXXFLAGS += -O3 -fexpensive-optimizations -fomit-frame-pointer
+ message("Release version")
+ QMAKE_LFLAGS += -s
+ QMAKE_CXXFLAGS += -O3 -fexpensive-optimizations -fomit-frame-pointer
 }
 
 VPATH = .
@@ -61,8 +60,8 @@ TEMPLATE = app
 
 
 DEFINES +=  WARNING_LIMIT=5  \         # nombre maximum d'avertissement par fichier
-            MAX_NB_AGENTS=30000 \      # nombre maximum de bulletins par mois
-            MAX_LIGNES_PAYE=100 \      # nombre maximum de lignes de paye par bulletin
+            MAX_NB_AGENTS=70000 \      # nombre maximum de bulletins par mois
+            MAX_LIGNES_PAYE=3000 \      # nombre maximum de lignes de paye par bulletin
             TYPE_LOOP_LIMIT=10 \       # nombre de "rembobinages des drapeaux de catégories (voir ligne_paye.cpp,
             MAX_STRING_LENGTH=200 \    # taille maximum des strings pour la conversion latin-1
             MAX_MEMORY_SHARE=0.5  \    # part maximum de la mémoire vive disponible consommée par défaut (si --memshare n'est pas précisé)
@@ -108,7 +107,7 @@ DEVROOT = $$PWD/../..
 QMAKE_CXXFLAGS_RELEASE -= -O2
 QMAKE_CXXFLAGS += -pipe -m64 -std=gnu++14
 #QMAKE_CXXFLAGS += -march=core2
-QMAKE_CXXFLAGS += -march=core-avx2
+QMAKE_CXXFLAGS += -march=sandybridge
 
 # Sous linux penser à installer libxml2-dev. Ceci n'est pas testé.
 
