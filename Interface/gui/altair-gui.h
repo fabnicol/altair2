@@ -80,7 +80,7 @@ class MainWindow : public QMainWindow
    void resetCounter();
    void on_nppButton_clicked();
    void anonymiser();
-   void launch_process();
+   void launch_process(const QString&);
 
   private :
   
@@ -99,8 +99,6 @@ class MainWindow : public QMainWindow
    void createToolBars();
    void loadFile(const QString &fileName);
    void adjustDisplay(bool);
-
-   QList<QString> pathList;
 
    inline void connectShowActions();
 
@@ -180,7 +178,7 @@ class MainWindow : public QMainWindow
    QTextEdit *editor=nullptr;
    Highlighter *highlighter;
    QFile projectFile;
-   QProcess launch;
+
 
 signals:
    void exitSignal();

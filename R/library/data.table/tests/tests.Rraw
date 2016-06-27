@@ -7048,7 +7048,13 @@ test(1570.2, class(merge(Y, X, all=TRUE, by="a")), class(X))
 
 # #1379, tstrsplit gains names argument
 X = data.table(a=c("ABC", "DEFG"))
-test(1571, names(tstrsplit(X$a, "", fixed=TRUE, give.names=TRUE)), paste("V", 1:4, sep=""))
+test(1571.1, names(tstrsplit(X$a, "", fixed=TRUE, names=TRUE)), paste("V", 1:4, sep=""))
+test(1571.2, names(tstrsplit(X$a, "", fixed=TRUE, names=letters[1:3])), error="is not equal to ")
+test(1571.3, names(tstrsplit(X$a, "", fixed=TRUE, names=letters[1:4])), letters[1:4])
+# tstrsplit also gains 'keep' argument
+test(1571.4, tstrsplit(X$a, "", fixed=TRUE, keep=c(2,4)), list(c("B", "E"), c(NA, "G")))
+test(1571.5, tstrsplit(X$a, "", fixed=TRUE, keep=c(2,7)), error="should contain integer")
+test(1571.5, tstrsplit(X$a, "", fixed=TRUE, keep=c(2,4), names=letters[1:5]), error="is not equal to")
 
 # fix for #1367, quote="" argument in use. Using embedded quotes in the example below reads the 
 # first two columns as one. I couldn't find a way to avoid introducing quote argument.
@@ -7536,7 +7542,7 @@ test(1613.11, all.equal(DT1, DT2, ignore.row.order=TRUE, ignore.col.order=TRUE),
 DT1 <- data.table(a = c(1:4,1:2), b = letters[c(1:4,1:2)])
 DT2 <- data.table(a = c(1:4,3:4), b = letters[c(1:4,3:4)])
 test(1613.12, all.equal(DT1, DT2), "Column 'a': Mean relative difference: 1.333333")
-test(1613.13, all.equal(DT1, DT2, ignore.row.order=TRUE), "Dataset 'current' has duplicated rows present in different quantity than in 'target'")
+test(1613.13, all.equal(DT1, DT2, ignore.row.order=TRUE), "Dataset 'current' has rows not present in 'target' or present in different quantity")
 # overlapping duplicates
 DT1 <- data.table(a = c(1:4,1:2), b = letters[c(1:4,1:2)])
 DT2 <- data.table(a = c(1:4,2:1), b = letters[c(1:4,2:1)])
@@ -7545,11 +7551,11 @@ test(1613.15, all.equal(DT1, DT2, ignore.row.order=TRUE), TRUE)
 # mixed overlapping duplicates
 DT1 <- data.table(a = c(1:4,1:2), b = letters[c(1:4,1:2)])
 DT2 <- data.table(a = c(1:4,2:3), b = letters[c(1:4,2:3)])
-test(1613.16, all.equal(DT1, DT2, ignore.row.order = TRUE), "Dataset 'current' has duplicated rows present in different quantity than in 'target'")
+test(1613.16, all.equal(DT1, DT2, ignore.row.order = TRUE), "Dataset 'current' has rows not present in 'target' or present in different quantity")
 # overlapping duplicates not equal in count
 DT1 <- data.table(a = c(1:4, rep(1L,3), rep(2L,2)), b = letters[c(1:4, rep(1L,3), rep(2L,2))])
 DT2 <- data.table(a = c(1:4, rep(1L,2), rep(2L,3)), b = letters[c(1:4, rep(1L,2), rep(2L,3))])
-test(1613.17, all.equal(DT1, DT2, ignore.row.order = TRUE), "Dataset 'current' has duplicated rows present in different quantity than in 'target'")
+test(1613.17, all.equal(DT1, DT2, ignore.row.order = TRUE), "Dataset 'current' has rows not present in 'target' or present in different quantity")
 # overlapping duplicates equal in count
 DT1 <- data.table(a = c(1:4, 1L, 2L, 1L, 2L), b = letters[c(1:4, 1L, 2L, 1L, 2L)])
 DT2 <- data.table(a = c(2L, 1L, 1L, 2L, 1:4), b = letters[c(2L, 1L, 1L, 2L, 1:4)])
@@ -7557,12 +7563,12 @@ test(1613.18, all.equal(DT1, DT2, ignore.row.order = TRUE), TRUE)
 # subset with overlapping duplicates
 DT1 <- data.table(a = c(1:3,3L), b = letters[c(1:3,3L)])
 DT2 <- data.table(a = c(1:4), b = letters[c(1:4)])
-test(1613.19, all.equal(DT1, DT2, ignore.row.order = TRUE), "Dataset 'target' has duplicate rows while 'current' don't have any duplicate rows")
+test(1613.19, all.equal(DT1, DT2, ignore.row.order = TRUE), "Dataset 'target' has duplicate rows while 'current' doesn't")
 # different number of unique rows
 DT1 <- data.table(a = c(1:3,2:3), b = letters[c(1:3,2:3)])
 DT2 <- data.table(a = c(1L,1:4), b = letters[c(1L,1:4)])
-test(1613.20, all.equal(DT1, DT2, ignore.row.order = TRUE), "Dataset 'current' has duplicated rows present in different quantity than in 'target'")
-test(1613.21, all.equal(DT2, DT1, ignore.row.order = TRUE), "Dataset 'current' has duplicated rows present in different quantity than in 'target'")
+test(1613.20, all.equal(DT1, DT2, ignore.row.order = TRUE), "Dataset 'current' has rows not present in 'target' or present in different quantity")
+test(1613.21, all.equal(DT2, DT1, ignore.row.order = TRUE), "Dataset 'current' has rows not present in 'target' or present in different quantity")
 # test attributes: key
 DT1 <- data.table(a = 1:4, b = letters[1:4], key = "a")
 DT2 <- data.table(a = 1:4, b = letters[1:4])
@@ -7617,12 +7623,12 @@ dt = data.table(
     V6 = as.Date("2016-03-05", origin="1970-01-01")+(1:4)
 )[, V7 := as.IDate(V6)
   ][, V8 := as.ITime(V5)]
-test(1613.44, all.equal(dt, dt), TRUE)
-test(1613.45, all.equal(dt, dt, ignore.row.order = TRUE), TRUE)
-test(1613.44, all.equal(dt[c(1:4,1L)], dt[c(1:4,1L)]), TRUE)
-test(1613.44, all.equal(dt[c(1:4,1L)], dt[c(1L,1:4)]), "Column 'V1': Mean relative difference: 0.6")
-test(1613.45, all.equal(dt[c(1:4,1L)], dt[c(1L,1:4)], ignore.row.order = TRUE), TRUE)
-test(1613.45, all.equal(dt[c(1:4,1:2)], dt[c(1L,1L,1:4)], ignore.row.order = TRUE), "Dataset 'current' has duplicated rows present in different quantity than in 'target'")
+test(1613.441, all.equal(dt, dt), TRUE)
+test(1613.442, all.equal(dt, dt, ignore.row.order = TRUE), TRUE)
+test(1613.443, all.equal(dt[c(1:4,1L)], dt[c(1:4,1L)]), TRUE)
+test(1613.444, all.equal(dt[c(1:4,1L)], dt[c(1L,1:4)]), "Column 'V1': Mean relative difference: 0.6")
+test(1613.445, all.equal(dt[c(1:4,1L)], dt[c(1L,1:4)], ignore.row.order = TRUE), TRUE)
+test(1613.45, all.equal(dt[c(1:4,1:2)], dt[c(1L,1L,1:4)], ignore.row.order = TRUE), c("Both datasets have duplicate rows, they also have numeric columns, together with ignore.row.order this force 'tolerance' argument to 0", "Dataset 'current' has rows not present in 'target' or present in different quantity"))
 test(1613.46, all.equal(dt[c(1:2,1:4,1:2)], dt[c(1:2,1:2,1:4)], ignore.row.order = TRUE), TRUE)
 # supported type all.equal: integer64
 if ("package:bit64" %in% search()) {
@@ -7632,9 +7638,43 @@ if ("package:bit64" %in% search()) {
     test(1613.49, all.equal(dt[c(1:4,1L)], dt[c(1:4,1L)]), TRUE)
     test(1613.50, all.equal(dt[c(1:4,1L)], dt[c(1L,1:4)]), "Column 'V1': Mean relative difference: 0.6")
     test(1613.51, all.equal(dt[c(1:4,1L)], dt[c(1L,1:4)], ignore.row.order = TRUE), TRUE)
-    test(1613.52, all.equal(dt[c(1:4,1:2)], dt[c(1L,1L,1:4)], ignore.row.order = TRUE), "Dataset 'current' has duplicated rows present in different quantity than in 'target'")
+    test(1613.52, all.equal(dt[c(1:4,1:2)], dt[c(1L,1L,1:4)], ignore.row.order = TRUE), "Dataset 'current' has rows not present in 'target' or present in different quantity")
     test(1613.53, all.equal(dt[c(1:2,1:4,1:2)], dt[c(1:2,1:2,1:4)], ignore.row.order = TRUE), TRUE)
 }
+# all.equal - new argument 'tolerance' #1737
+x = data.table(1) # test numeric after adding 'tolerance' argument
+y = data.table(2)
+test(1613.541, is.character(all.equal(x, y, ignore.row.order = FALSE)), is.character(all.equal(x, y, ignore.row.order = TRUE)))
+x = data.table(c(1,1))
+y = data.table(c(2,2))
+test(1613.542, is.character(all.equal(x, y, ignore.row.order = FALSE)), is.character(all.equal(x, y, ignore.row.order = TRUE)))
+x = data.table(c(1,2))
+y = data.table(c(2,2))
+test(1613.543, is.character(all.equal(x, y, ignore.row.order = FALSE)), is.character(all.equal(x, y, ignore.row.order = TRUE)))
+x = data.table(as.factor(1)) # test factor adding 'tolerance' argument
+y = data.table(as.factor(2))
+test(1613.551, is.character(all.equal(x, y, ignore.row.order = FALSE)), is.character(all.equal(x, y, ignore.row.order = TRUE)))
+x = data.table(as.factor(c(1,1)))
+y = data.table(as.factor(c(2,2)))
+test(1613.552, is.character(all.equal(x, y, ignore.row.order = FALSE)), is.character(all.equal(x, y, ignore.row.order = TRUE)))
+x = data.table(as.factor(c(1,2)))
+y = data.table(as.factor(c(2,2)))
+test(1613.553, is.character(all.equal(x, y, ignore.row.order = FALSE)), is.character(all.equal(x, y, ignore.row.order = TRUE)))
+x = data.table(-0.000189921844659375) # tolerance in action
+y = data.table(-0.000189921844655161)
+test(1613.561, all.equal(x, y, ignore.row.order = FALSE), all.equal(x, y, ignore.row.order = TRUE))
+test(1613.562, is.character(all.equal(x, y, ignore.row.order = FALSE, tolerance = 0)), is.character(all.equal(x, y, ignore.row.order = TRUE, tolerance = 0)))
+test(1613.563, all.equal(rbind(x,y), rbind(y,y), ignore.row.order = FALSE), all.equal(rbind(x,y), rbind(y,y), ignore.row.order = TRUE))
+test(1613.564, is.character(all.equal(rbind(x,y), rbind(y,y), ignore.row.order = FALSE, tolerance = 0)), is.character(all.equal(rbind(x,y), rbind(y,y), ignore.row.order = TRUE, tolerance = 0)))
+test(1613.565, all.equal(rbind(x,x,y), rbind(y,y,x), ignore.row.order = FALSE), is.character(r<-all.equal(rbind(x,x,y), rbind(y,y,x), ignore.row.order = TRUE)) && any(grepl("force 'tolerance' argument to 0", r))) # no-match due factor force tolerance=0
+test(1613.566, all.equal(rbind(x,y,y), rbind(x,y,y), ignore.row.order = FALSE, tolerance = 0), all.equal(rbind(x,y,y), rbind(x,y,y), ignore.row.order = TRUE, tolerance = 0))
+test(1613.567, is.character(all.equal(rbind(x,x,y), rbind(y,y,x), ignore.row.order = FALSE, tolerance = 0)), is.character(all.equal(rbind(x,x,y), rbind(y,y,x), ignore.row.order = TRUE, tolerance = 0)))
+test(1613.571, all.equal(cbind(x, list(factor(1))), cbind(y, list(factor(1))), ignore.row.order = FALSE), is.character(r<-all.equal(cbind(x, list(factor(1))), cbind(y, list(factor(1))), ignore.row.order = TRUE)) && any(grepl("force 'tolerance' argument to 0", r))) # no-match due factor force tolerance=0
+test(1613.572, is.character(all.equal(cbind(x, list(factor(1))), cbind(x, list(factor(1))), ignore.row.order = FALSE)), is.character(all.equal(cbind(x, list(factor(1))), cbind(x, list(factor(1))), ignore.row.order = TRUE))) # x to x with factor equality
+test(1613.573, all.equal(cbind(x, list(factor(1))), cbind(x, list(factor(1))), ignore.row.order = TRUE, tolerance = 1), error = "Factor columns and ignore.row.order cannot be used with non 0 tolerance argument") # error due to provided non zero tolerance
+test(1613.581, all.equal(x, y, ignore.row.order = FALSE, tolerance = 1), all.equal(x, y, ignore.row.order = TRUE, tolerance = 1))
+test(1613.582, identical(all.equal(x, y, ignore.row.order = FALSE, tolerance = sqrt(.Machine$double.eps)/2), all.equal(x, y, ignore.row.order = TRUE, tolerance = sqrt(.Machine$double.eps)/2)), warning = "Argument 'tolerance' was forced"
+)
 
 if ("package:bit64" %in% search()) {
     # fix for #1405, handles roll with -ve int64 values properly
@@ -7696,7 +7736,11 @@ test(1622.1, ans1, ans2)
 test(1622.2, ans1, fread("issue_1573_fill.txt", fill=TRUE, sep=" ", na.strings=""))
 
 # fix for #989
-test(1623, fread("~"), error="can not be a directory name")
+# error_msg = if (base::getRversion() < "3.4") "can not be a directory name" else "does not exist"
+# Until R v3.3, file.info("~") returned TRUE for isdir. This seems to return NA in current devel. However, it
+# correctly identifies that "~" is not a file. So leads to another error message. So removing the error message
+# so that it errors properly on both versions. This seems fine to me since we just need it to error. Tested.
+test(1623, fread("~"), error="")
 
 # testing print.rownames option, #1097 (part of #1523)
 old = getOption("datatable.print.rownames")
@@ -8451,7 +8495,7 @@ dt1 = nq_fun(400L)
 dt2 = nq_fun(50L)
 x = na.omit(dt1)
 y = na.omit(dt2)
-nqjoin_test <- function(x, y, k=1L, test_no) {
+nqjoin_test <- function(x, y, k=1L, test_no, mult="all") {
     ops = c("==", ">=", "<=", ">", "<")
     xclass = sapply(x, class)
     runcmb = combn(names(x), k)
@@ -8479,16 +8523,20 @@ nqjoin_test <- function(x, y, k=1L, test_no) {
         lapply(expr[-1L], function(e) ans <<- as.call(list(quote(`&`), ans, e)))
         ans
     }
-    check <- function(x, y, cols, ops) {
+    check <- function(x, y, cols, ops, mult="all") {
         expr = lapply(1:nrow(y), function(i) {
             expr = construct(cols, as.list(y[i, cols, with=FALSE]), ops)
         })
-        ans = lapply(expr, function(e) x[eval(e)])
+        ans = lapply(expr, function(e) {
+                val = x[eval(e)]
+                if (!nrow(val)) return(val)
+                val = if (mult=="first") val[1L] else if (mult=="last") val[.N] else val
+            })
         rbindlist(ans)
     }
-    nq <- function(x, y, cols, ops, nomatch=0L) {
+    nq <- function(x, y, cols, ops, nomatch=0L, mult="all") {
         sd_cols = c(paste("x.", cols, sep=""), setdiff(names(x), cols))
-        ans = x[y, mget(sd_cols, as.environment(-1)), on = paste(cols, ops, cols, sep=""), allow=TRUE, nomatch=nomatch]
+        ans = x[y, mget(sd_cols, as.environment(-1)), on = paste(cols, ops, cols, sep=""), allow=TRUE, nomatch=nomatch, mult=mult]
         setnames(ans, gsub("^x[.]", "", names(ans)))
         setcolorder(ans, names(x))[]
     }
@@ -8496,28 +8544,40 @@ nqjoin_test <- function(x, y, k=1L, test_no) {
         thiscols = runcmb[[i]]
         thisops = runops[[i]]
         # cat("k = ", k, "\ti = ", i, "\t thiscols = [", paste(thiscols,collapse=","), "]\t thisops = [", paste(thisops,collapse=","), "]\t ", sep="")
-        ans1 = nq(x, y, thiscols, thisops, 0L)
-        ans2 = check(x, y, thiscols, thisops)
+        ans1 = nq(x, y, thiscols, thisops, 0L, mult=mult)
+        ans2 = check(x, y, thiscols, thisops, mult=mult)
         test_no = signif(test_no+.001, 7)
         test(test_no, all.equal(ans1,ans2,ignore.row.order=TRUE), TRUE)
         # if (identical(all.equal(ans1,ans2,ignore.row.order=TRUE), TRUE)) cat("successful\n") else stop("failed\n")
     }
 }
-nqjoin_test(  x,  y,1L,1641.0) # without NAs in x and i
-nqjoin_test(  x,  y,2L,1642.0)
-nqjoin_test(  x,  y,3L,1643.0)
+# without NAs in x and i
+nqjoin_test(x, y, 1L, 1641.0, mult="all")
+nqjoin_test(x, y, 2L, 1642.0, mult="all")
+nqjoin_test(x, y, 1L, 1643.0, mult="first")
+nqjoin_test(x, y, 2L, 1644.0, mult="first")
+nqjoin_test(x, y, 1L, 1645.0, mult="last")
+nqjoin_test(x, y, 2L, 1646.0, mult="last")
+
+# with NAs in x and i
+nqjoin_test(dt1, dt2, 1L, 1647.0, mult="all")
+nqjoin_test(dt1, dt2, 2L, 1648.0, mult="all")
+nqjoin_test(dt1, dt2, 1L, 1649.0, mult="first")
+nqjoin_test(dt1, dt2, 2L, 1650.0, mult="first")
+nqjoin_test(dt1, dt2, 1L, 1651.0, mult="last")
+nqjoin_test(dt1, dt2, 2L, 1652.0, mult="last")
+
+# TODO: add tests for nomatch=NA..
 # tested, but takes quite some time.. so commenting for now
+# nqjoin_test(x, y, 3L,1643.0)
+# nqjoin_test(dt1,dt2,3L,1652.0)
+
 # nqjoin_test(  x,dt2,1L,1644.0) # without NA only in x
 # nqjoin_test(  x,dt2,2L,1645.0)
 # nqjoin_test(  x,dt2,3L,1646.0)
 # nqjoin_test(dt1,  y,1L,1647.0) # without NA only in i
 # nqjoin_test(dt1,  y,2L,1648.0)
 # nqjoin_test(dt1,  y,3L,1649.0)
-nqjoin_test(dt1,dt2,1L,1650.0) # with NAs in x and i
-nqjoin_test(dt1,dt2,2L,1651.0)
-nqjoin_test(dt1,dt2,3L,1652.0)
-# TODO: add tests for nomatch=NA..
-# TODO: add tests for mult="first" and mult="last"
 
 # test for the issues Jan spotted...
 dt = data.table(id="x", a=as.integer(c(3,8,8,15,15,15,16,22,22,25,25)), b=as.integer(c(9,10,25,19,22,25,38,3,9,7,28)), c=as.integer(c(22,33,44,14,49,44,40,25,400,52,77)))
@@ -8813,7 +8873,6 @@ test(1667.2, dcast(DT, id ~ rowid(id), value.var = "V1"), error = "data.table to
 test(1668, chmatch(c("a","b"), c("a","c"), nomatch = integer()), c(1L, NA_integer_))
 
 # fix for #1650, segfault in rolling joins resulting from fixing #1405.
-library(data.table)
 x = data.table(Date = as.Date(c("2015-12-29", "2015-12-29", "2015-12-29", "2015-12-29", "2016-01-30", "2016-01-30", 
                                 "2016-01-30", "2016-01-30", "2016-02-29", "2016-02-29", "2016-02-29", "2016-02-29", 
                                 "2016-03-26", "2016-03-26", "2016-03-26", "2016-03-26")), 
@@ -8829,6 +8888,118 @@ x = "Stra\xdfe"
 Encoding(x) = "latin1"
 nm = names(fread("1680-fread-header-encoding.csv", encoding="Latin-1"))
 test(1670, nm[2], x)
+
+# as.data.table must return a copy even if 'x' is a data.table
+x = data.table(a=1, b=2)
+test(1670.1, address(x) != address(as.data.table(x)), TRUE)
+setattr(x, 'class', c('a', class(x)))
+test(1670.2, class(as.data.table(x)), class(x)[2:3])
+
+# #1676, `:=` with by shouldn't add cols on supported types
+dt = data.table(x=1, y=2)
+test(1671, dt[, z := sd, by=x], error="invalid type/length (closure/1)")
+
+# 1683
+DT <- data.table(V1 = rep(1:2, 3), V2 = 1:6)
+test(1672.1, capture.output(DT[ , .(.I[1L], V2[1L]), by = V1]),
+     c("   V1 V1 V2", "1:  1  1  1", "2:  2  2  2"))
+#make sure GForce operating
+test(1672.2, DT[ , .(.I[1L], V2[1L]), by = V1, verbose = TRUE],
+     output = "GForce optimized j")
+#make sure works on .I by itself
+test(1672.3, capture.output(DT[ , .I[1L], by = V1]),
+     c("   V1 V1", "1:  1  1", "2:  2  2"))
+#make sure GForce here as well
+test(1672.4, DT[ , .I[1L], by = V1, verbose = TRUE],
+     output = "GForce optimized j")
+#make sure works with order
+test(1672.5, capture.output(DT[order(V1), .I[1L], by = V1]),
+     c("   V1 V1", "1:  1  1", "2:  2  2"))
+# should also work with subsetting
+test(1672.6, capture.output(DT[1:5, .(.I[1L], V2[1L]), by = V1]),
+     c("   V1 V1 V2", "1:  1  1  1", "2:  2  2  2"))
+     
+#tests for #1528
+TT <- as.IDate("2016-04-25")
+test(1673, class(TT + 4L), c("IDate", "Date"))
+
+# test for radix integer order when MAXINT is present AND decreasing=TRUE AND na.last=FALSE
+# https://bugs.r-project.org/bugzilla/show_bug.cgi?id=16925
+# It seems this 'just' fails ASAN, but also results in seg fault under some compilers
+# https://github.com/rstudio/shiny/issues/1200
+test(1674, forderv(c(2147483645L, 2147483646L, 2147483647L, 2147483644L), order=-1L), c(3,2,1,4))
+
+# fix for #1718
+A = data.table(foo = c(1, 2, 3), bar = c(4, 5, 6))
+B = data.table(foo = c(1, 2, 3, 4, 5, 6), bar = c(NA, NA, NA, 4, 5, 6))
+A[, bar := factor(bar, levels = c(4, 5), labels = c("Boop", "Beep"), exclude = 6)]
+B[, bar := factor(bar, levels = c(4, 5, NA), labels = c("Boop", "Beep", NA), exclude = NULL)]
+test(1675.1, as.integer(B[A, bar := i.bar, on="foo"]$bar), c(1:3,1:2,NA))
+A = data.table(foo = c(1, 2, 3), bar = c(4, 5, 6))
+B = data.table(foo = c(1, 2, 3, 4, 5, 6), bar = c(NA, NA, NA, 4, 5, 6))
+A[, bar := factor(bar, levels = c(4, 5), labels = c("Boop", "Beep"), exclude = 6)]
+B[, bar := factor(bar, levels = c(4, 5), labels = c("Boop", "Beep"), exclude = 6)]
+test(1675.2, as.integer(B[A, bar := i.bar, on="foo"]$bar), c(1:2,NA,1:2,NA))
+
+# fwrite na arg segfault fix, #1725
+dt = data.table(x=1:2, y=c(NA,"a"))
+f = tempfile()
+test(1676.1, fwrite(dt, f, na=NULL), error="is not TRUE")
+fwrite(dt, f, na=NA)
+test(1676.2, fread(f), data.table(x=1:2, y=c(NA, "a")))
+unlink(f)
+
+# duplicate names in foverlaps #1730
+a = data.table(start = 1:5, end = 2:6, c2 = rnorm(10), c2 = rnorm(10), key=c("start","end"))
+b = data.table(start = 1:5, end = 2:6, c3 = rnorm(5), key=c("start","end"))
+test(1677.1, foverlaps(a, b), error="x has some duplicated column")
+test(1677.2, foverlaps(b, a), error="y has some duplicated column")
+
+# na.omit.data.table removes indices #1734
+dt = data.table(a=4:1, b=c(letters[c(1L,NA,2:3)]))
+setindexv(dt, "a")
+test(1678.1, indices(dt2 <- na.omit(dt, cols="b")), NULL)
+setindexv(dt2, "a")
+test(1678.2, indices(na.omit(dt2, cols="b")), "a")
+
+# rleid gains `prefix` argument, similar to rowid
+x = sample(3,10,TRUE)
+test(1679.1, rleid(x, prefix="id"), paste0("id", rleid(x)))
+test(1679.2, rleidv(x, prefix="id"), paste0("id", rleidv(x)))
+
+# melt.data.table call along with patterns from within a function, #1749
+x = data.table(x1=1:2, x2=3:4, y1=5:6, y2=7:8, z1=9:10, z2=11:12)
+foo <- function(x) {
+    pats = c("^y", "z")
+    melt(x, measure.vars=patterns(pats))
+}
+test(1680.1, foo(x), melt(x, measure.vars=patterns("^y", "^z")))
+
+# melt warning prints only first 5 cols, #1752
+DT = fread("melt-warning-1752.tsv")
+ans = suppressWarnings(melt(DT[, names(DT) %like% "(^Id[0-9]*$)|GEOGRAPHIC AREA CODES", with=FALSE], id=1:2))
+test(1681, melt(DT[, names(DT) %like% "(^Id[0-9]*$)|GEOGRAPHIC AREA CODES", with=FALSE], id=1:2), 
+    ans, warning="are not all of the same type")
+
+# non-equi joins with by=.EACHI, not as exhaustive, but given the previous
+# tests were, this should be fine.. we'll add tests as we go along.
+set.seed(45L)
+dt1 = data.table(x=sample(8,20,TRUE), y=sample(8,20,TRUE), z=1:20)
+dt2 = data.table(c(2,5), c(5,7), c(2,4))
+dt3 = data.table(c(12,5), c(15,7), c(2,4))
+
+test(1682.1, dt1[dt2, .N, by=.EACHI, on=.(x>=V1, y<=V2)], dt1[dt2, on=.(x>=V1, y<=V2)][, .N, by=.(x,y)])
+test(1682.2, dt1[dt2, sum(z), by=.EACHI, on=.(x>=V1, y<=V2)], dt1[dt2, on=.(x>=V1, y<=V2)][, sum(z), by=.(x,y)])
+test(1682.3, dt1[dt2, as.numeric(median(z)), by=.EACHI, on=.(x>=V1, y<=V2)], dt1[dt2, on=.(x>=V1, y<=V2)][, median(z), by=.(x,y)])
+test(1682.4, dt1[dt3, .N, by=.EACHI, on=.(x>=V1, y<=V2)], dt1[dt3, on=.(x>=V1, y<=V2)][, .(N=sum(!is.na(z))), by=.(x,y)])
+test(1682.5, dt1[dt3, .N, by=.EACHI, on=.(x>=V1, y<=V2), nomatch=0L], dt1[dt3, on=.(x>=V1, y<=V2), nomatch=0L][, .N, by=.(x,y)])
+test(1682.6, dt1[dt2, on=.(x>=V1, y<=V2), sum(z)*V3, by=.EACHI], dt1[dt2, on=.(x>=V1, y<=V2)][, sum(z)*V3[1L], by=.(x,y)])
+test(1682.7, dt1[dt3, on=.(x>=V1, y<=V2), sum(z)*V3, by=.EACHI], dt1[dt3, on=.(x>=V1, y<=V2)][, sum(z)*V3[1L], by=.(x,y)])
+# add test for update operation
+idx = dt1[dt2[1], which=TRUE, on=.(x>=V1, y<=V2)]
+test(1682.8, copy(dt1)[dt2[1], z := 2L*z, by=.EACHI, on=.(x>=V1, y<=V2)], copy(dt1)[(idx), z := 2L*z])
+# add test for add by reference
+test(1682.9, copy(dt1)[dt2[1], foo := z, by=.EACHI, on=.(x>=V1, y<=V2)], copy(dt1)[(idx), foo := z])
 
 ##########################
 

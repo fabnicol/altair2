@@ -118,7 +118,7 @@ ul.menu {
 
 
 <h2>Frequently Asked Questions on R</h2>
-<h3 style="text-align: center;">Version 3.2.2015-12-04</h3>
+<h3 style="text-align: center;">Version 2016-04-24</h3>
 <h3 style="text-align: center;">Kurt Hornik</h3>
 <hr>
 <a name="SEC_Contents"></a>
@@ -238,6 +238,7 @@ ul.menu {
     <li><a name="toc-Why-does-summary_0028_0029-report-strange-results-for-the-R_005e2-estimate-when-I-fit-a-linear-model-with-no-intercept_003f-1" href="#Why-does-summary_0028_0029-report-strange-results-for-the-R_005e2-estimate-when-I-fit-a-linear-model-with-no-intercept_003f">7.41 Why does summary() report strange results for the R^2 estimate when I fit a linear model with no intercept?</a></li>
     <li><a name="toc-Why-is-R-apparently-not-releasing-memory_003f-1" href="#Why-is-R-apparently-not-releasing-memory_003f">7.42 Why is R apparently not releasing memory?</a></li>
     <li><a name="toc-How-can-I-enable-secure-https-downloads-in-R_003f-1" href="#How-can-I-enable-secure-https-downloads-in-R_003f">7.43 How can I enable secure https downloads in R?</a></li>
+    <li><a name="toc-How-can-I-get-CRAN-package-binaries-for-outdated-versions-of-R_003f-1" href="#How-can-I-get-CRAN-package-binaries-for-outdated-versions-of-R_003f">7.44 How can I get CRAN package binaries for outdated versions of R?</a></li>
   </ul></li>
   <li><a name="toc-R-Programming-1" href="#R-Programming">8 R Programming</a>
   <ul class="no-bullet">
@@ -322,7 +323,7 @@ Next: <a href="#Obtaining-this-document" accesskey="n" rel="next">Obtaining this
 <a name="Legalese-1"></a>
 <h3 class="section">1.1 Legalese</h3>
 
-<p>This document is copyright &copy; 1998&ndash;2015 by Kurt
+<p>This document is copyright &copy; 1998&ndash;2016 by Kurt
 Hornik.
 </p>
 <p>This document is free software; you can redistribute it and/or modify it
@@ -380,14 +381,14 @@ Next: <a href="#Notation" accesskey="n" rel="next">Notation</a>, Previous: <a hr
 <h3 class="section">1.3 Citing this document</h3>
 
 <p>In publications, please refer to this <acronym>FAQ</acronym> as Hornik
-(2015), &ldquo;The R <acronym>FAQ</acronym>&rdquo;, and give the above,
+(2016), &ldquo;The R <acronym>FAQ</acronym>&rdquo;, and give the above,
 <em>official</em> <acronym>URL</acronym>:
 </p>
 <div class="example">
 <pre class="example">@Misc{,
   author        = {Kurt Hornik},
   title         = {{R} {FAQ}},
-  year          = {2015},
+  year          = {2016},
   url           = {https://CRAN.R-project.org/doc/FAQ/R-FAQ.html}
 }
 </pre></div>
@@ -557,12 +558,15 @@ Next: <a href="#How-can-R-be-obtained_003f" accesskey="n" rel="next">How can R b
 <a name="What-is-the-current-version-of-R_003f-1"></a>
 <h3 class="section">2.3 What is the current version of R?</h3>
  
-<p>The current released version is 3.2.3.  Based on this
-&lsquo;major.minor.patchlevel&rsquo; numbering scheme, there are two development
-versions of R, a patched version of the current release (&lsquo;r-patched&rsquo;)
-and one working towards the next minor or eventually major (&lsquo;r-devel&rsquo;)
-releases of R, respectively.  Version r-patched is for bug fixes mostly.
-New features are typically introduced in r-devel.
+<p>R uses a &lsquo;major.minor.patchlevel&rsquo; numbering scheme.  Based on this,
+there are the current release version of R (&lsquo;r-release&rsquo;) as well as two
+development versions of R, a patched version of the current release
+(&lsquo;r-patched&rsquo;) and one working towards the next minor or eventually major
+(&lsquo;r-devel&rsquo;) releases of R, respectively.  New features are typically
+introduced in r-devel, while r-patched is for bug fixes mostly.
+</p>
+<p>See <a href="https://CRAN.R-project.org/sources.html">https://CRAN.R-project.org/sources.html</a> for the current
+versions of r-release, r-patched and r-devel.
 </p>
 <hr>
 <a name="How-can-R-be-obtained_003f"></a>
@@ -724,9 +728,9 @@ Previous: <a href="#How-can-R-be-installed-_0028Windows_0029" accesskey="p" rel=
 <h4 class="subsection">2.5.3 How can R be installed (Mac)</h4>
 
 <p>The <samp>bin/macosx</samp> directory of a <acronym>CRAN</acronym> site contains a standard
-Apple installer package to run on OS X 10.6 (&lsquo;Snow Leopard&rsquo;) and later.
+Apple installer package to run on OS X 10.9 (&lsquo;Mavericks&rsquo;) and later.
 Once downloaded and executed, the installer will install the current
-release of R and an R.app OS X <acronym>GUI</acronym>.  This port of R for OS X
+release of R and R.app, the OS X <acronym>GUI</acronym>.  This port of R for OS X
 is maintained by <a href="mailto:Simon.Urbanek@R-project.org">Simon Urbanek</a>
 (and previously by Stefano Iacus).  The
 <a href="https://CRAN.R-project.org/bin/macosx/RMacOSX-FAQ.html">&ldquo;R for Mac
@@ -916,11 +920,13 @@ Next: <a href="#What-mailing-lists-exist-for-R_003f" accesskey="n" rel="next">Wh
   author       = {{R Core Team}},
   organization = {R Foundation for Statistical Computing},
   address      = {Vienna, Austria},
-  year         = 2015,
+  year         = <var>YEAR</var>,
   url          = {https://www.R-project.org}
 }
 </pre></div>
-
+<p>where <var>YEAR</var> is the release year of the version of R used and can
+determined as <code>R.version$year</code>.
+</p>
 <p>Citation strings (or BibTeX entries) for R and R packages can also be
 obtained by <code>citation()</code>.
 </p>
@@ -1038,6 +1044,9 @@ prebuilt binaries for various operating systems (Linux, Mac OS Classic,
 OS X, and MS Windows).  <acronym>CRAN</acronym> also provides access to
 documentation on R, existing mailing lists and the R Bug Tracking
 system.
+</p>
+<p>Since March 2016, &ldquo;old&rdquo; material is made available from a central
+<acronym>CRAN</acronym> archive server (<a href="https://CRAN-archive.R-project.org/">https://CRAN-archive.R-project.org/</a>).
 </p>
 <p>Please always use the <acronym>URL</acronym> of the master site when referring to
 <acronym>CRAN</acronym>.
@@ -1792,8 +1801,8 @@ and a web server provided that the installer has the necessary security
 permissions.  David&rsquo;s paper &ldquo;CGIwithR: Facilities for Processing Web
 Forms Using R&rdquo; was published in the Journal of Statistical Software
 (<a href="http://www.jstatsoft.org/v08/i10/">http://www.jstatsoft.org/v08/i10/</a>).  The package is now
-maintained by <a href="mailto:duncan@wald.ucdavis.edu">Duncan Temple Lang</a> and
-has a web page at <a href="http://www.omegahat.org/CGIwithR/">http://www.omegahat.org/CGIwithR/</a>.
+maintained by <a href="mailto:duncan@wald.ucdavis.edu">Duncan Temple Lang</a>.
+and has a web page at <a href="http://www.omegahat.net/CGIwithR/">http://www.omegahat.net/CGIwithR/</a>.
 </p>
 
 <p>Jeff Horner is working on the R/Apache Integration Project which embeds
@@ -2064,12 +2073,12 @@ Next: <a href="#Add_002don-packages-from-Bioconductor" accesskey="n" rel="next">
 <a name="Add_002don-packages-from-Omegahat-1"></a>
 <h4 class="subsection">5.1.3 Add-on packages from Omegahat</h4>
 
-<p>The <a href="http://www.omegahat.org/">Omega Project for Statistical
+<p>The <a href="http://www.omegahat.net/">Omega Project for Statistical
 Computing</a> provides a variety of open-source software for statistical
 applications, with special emphasis on web-based software, Java, the
 Java virtual machine, and distributed computing.  A <acronym>CRAN</acronym> style
-R package repository is available via <a href="http://www.omegahat.org/R/">http://www.omegahat.org/R/</a>.
-See <a href="http://www.omegahat.org/">http://www.omegahat.org/</a> for information on most R packages
+R package repository is available via <a href="http://www.omegahat.net/R/">http://www.omegahat.net/R/</a>.
+See <a href="http://www.omegahat.net/">http://www.omegahat.net/</a> for information on most R packages
 available from the Omega project.
 </p>
 <hr>
@@ -2551,6 +2560,8 @@ Next: <a href="#R-Programming" accesskey="n" rel="next">R Programming</a>, Previ
 <tr><td align="left" valign="top">&bull; <a href="#Why-is-R-apparently-not-releasing-memory_003f">Why is R apparently not releasing memory?</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
 <tr><td align="left" valign="top">&bull; <a href="#How-can-I-enable-secure-https-downloads-in-R_003f">How can I enable secure https downloads in R?</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#How-can-I-get-CRAN-package-binaries-for-outdated-versions-of-R_003f">How can I get CRAN package binaries for outdated versions of R?</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
 </table>
 
@@ -3872,7 +3883,7 @@ actually used memory as well as unused memory that cannot be released.
 <a name="How-can-I-enable-secure-https-downloads-in-R_003f"></a>
 <div class="header">
 <p>
-Previous: <a href="#Why-is-R-apparently-not-releasing-memory_003f" accesskey="p" rel="prev">Why is R apparently not releasing memory?</a>, Up: <a href="#R-Miscellanea" accesskey="u" rel="up">R Miscellanea</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#How-can-I-get-CRAN-package-binaries-for-outdated-versions-of-R_003f" accesskey="n" rel="next">How can I get CRAN package binaries for outdated versions of R?</a>, Previous: <a href="#Why-is-R-apparently-not-releasing-memory_003f" accesskey="p" rel="prev">Why is R apparently not releasing memory?</a>, Up: <a href="#R-Miscellanea" accesskey="u" rel="up">R Miscellanea</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="How-can-I-enable-secure-https-downloads-in-R_003f-1"></a>
 <h3 class="section">7.43 How can I enable secure https downloads in R?</h3>
@@ -3893,8 +3904,10 @@ this is done automatically for such URLs as from R 3.2.2.
 The requisite code to add to <samp>.Rprofile</samp> or <samp>Rprofile.site</samp> is:
 </p>
 <div class="example">
-<pre class="example">options(download.file.method = &quot;wininet&quot;, url.method = &quot;wininet&quot;)     <span class="roman">(Windows)</span>
-options(download.file.method = &quot;libcurl&quot;, url.method = &quot;libcurl&quot;)     <span class="roman">(Linux and OS X)</span>
+<pre class="example">options(download.file.method = &quot;wininet&quot;, url.method = &quot;wininet&quot;)
+<span class="roman">(Windows)</span>
+options(download.file.method = &quot;libcurl&quot;, url.method = &quot;libcurl&quot;)
+<span class="roman">(Linux and OS X)</span>
 </pre></div>
 
 <p>(Method <code>&quot;wininet&quot;</code> is the default on Windows as from R 3.2.2.)
@@ -3908,7 +3921,28 @@ OS X.  It is possible that system versions of <code>&quot;libcurl&quot;</code>,
 <code>&quot;libcurl&quot;</code> with <acronym>HTTPS</acronym> support is required except on
 Windows.
 </p>
+<hr>
+<a name="How-can-I-get-CRAN-package-binaries-for-outdated-versions-of-R_003f"></a>
+<div class="header">
+<p>
+Previous: <a href="#How-can-I-enable-secure-https-downloads-in-R_003f" accesskey="p" rel="prev">How can I enable secure https downloads in R?</a>, Up: <a href="#R-Miscellanea" accesskey="u" rel="up">R Miscellanea</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="How-can-I-get-CRAN-package-binaries-for-outdated-versions-of-R_003f-1"></a>
+<h3 class="section">7.44 How can I get CRAN package binaries for outdated versions of R?</h3>
 
+<p>Since March 2016, Windows and OS X binaries of <acronym>CRAN</acronym> packages for old
+versions of R (released more than 5 years ago) are made available from a
+central <acronym>CRAN</acronym> archive server instead of the <acronym>CRAN</acronym> mirrors.  To get
+these, one should set the <acronym>CRAN</acronym> &ldquo;mirror&rdquo; element of the <code>repos</code>
+option accordingly, by something like
+</p><div class="example">
+<pre class="example">local({r &lt;- getOption(&quot;repos&quot;)
+       r[&quot;CRAN&quot;] &lt;- &quot;http://CRAN-archive.R-project.org&quot;
+       options(repos = r)
+      })
+</pre></div>
+<p>(see <code>?options</code> for more information).
+</p>
 <hr>
 <a name="R-Programming"></a>
 <div class="header">

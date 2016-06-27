@@ -2,31 +2,7 @@
 <projet>
  <data>
   <XHL profondeur="2">
-   <onglet V="2014">
-     <item V="01" S="21750001616650" B="MULTIBUDGET" E="BAT PETITE ENFANCE-RUE GAUTHEY-VIL" EM="VILLE DE PARIS">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Paris/2014_01_AGENTS_VILLE-Copie.xhl</item>
-     <item V="01" S="21750001616650" B="MULTIBUDGET" E="BAT PETITE ENFANCE-RUE GAUTHEY-VIL" EM="VILLE DE PARIS">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Paris/2014_01_AGENTS_VILLE.xhl</item>
-     <item V="02" S="21750001616718" B="MULTIBUDGET" E="BAT PETITE ENFANCE-8 RUE AUGUSTE CAIN-VIL" EM="VILLE DE PARIS">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Paris/2014_02_AGENTS_VILLE-Copie.xhl</item>
-     <item V="02" S="21750001616718" B="MULTIBUDGET" E="BAT PETITE ENFANCE-8 RUE AUGUSTE CAIN-VIL" EM="VILLE DE PARIS">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Paris/2014_02_AGENTS_VILLE.xhl</item>
-     <item V="03" S="21750001616866" B="MULTIBUDGET" E="BAT PETITE ENFANCE-CITE BEAUHARNAIS-VIL" EM="VILLE DE PARIS">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Paris/2014_03_AGENTS_VILLE-Copie.xhl</item>
-     <item V="03" S="21750001616866" B="MULTIBUDGET" E="BAT PETITE ENFANCE-CITE BEAUHARNAIS-VIL" EM="VILLE DE PARIS">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Paris/2014_03_AGENTS_VILLE.xhl</item>
-     <item V="04" S="21750001616718" B="MULTIBUDGET" E="BAT PETITE ENFANCE-8 RUE AUGUSTE CAIN-VIL" EM="VILLE DE PARIS">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Paris/2014_04_AGENTS_VILLE-Copie.xhl</item>
-     <item V="04" S="21750001616718" B="MULTIBUDGET" E="BAT PETITE ENFANCE-8 RUE AUGUSTE CAIN-VIL" EM="VILLE DE PARIS">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Paris/2014_04_AGENTS_VILLE.xhl</item>
-     <item V="05" S="21750001616718" B="MULTIBUDGET" E="BAT PETITE ENFANCE-8 RUE AUGUSTE CAIN-VIL" EM="VILLE DE PARIS">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Paris/2014_05_AGENTS_VILLE-Copie.xhl</item>
-     <item V="05" S="21750001616718" B="MULTIBUDGET" E="BAT PETITE ENFANCE-8 RUE AUGUSTE CAIN-VIL" EM="VILLE DE PARIS">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Paris/2014_05_AGENTS_VILLE.xhl</item>
-     <item V="06" S="21750001616718" B="MULTIBUDGET" E="BAT PETITE ENFANCE-8 RUE AUGUSTE CAIN-VIL" EM="VILLE DE PARIS">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Paris/2014_06_AGENTS_VILLE-Copie.xhl</item>
-     <item V="06" S="21750001616718" B="MULTIBUDGET" E="BAT PETITE ENFANCE-8 RUE AUGUSTE CAIN-VIL" EM="VILLE DE PARIS">C:/Users/Public/Dev/altair/Tests/Exemple/Donnees/xhl/Paris/2014_06_AGENTS_VILLE.xhl</item>
-   </onglet>
-   <onglet V="Siret">
-     <item V="" S="" B="" E="" EM="">21750001616650 BAT PETITE ENFANCE-RUE GAUTHEY-VIL</item>
-     <item V="" S="" B="" E="" EM="">21750001616718 BAT PETITE ENFANCE-8 RUE AUGUSTE CAIN-VIL</item>
-     <item V="" S="" B="" E="" EM="">21750001616866 BAT PETITE ENFANCE-CITE BEAUHARNAIS-VIL</item>
-   </onglet>
-   <onglet V="Budget">
-     <item V="" S="" B="" E="" EM="">MULTIBUDGET</item>
-   </onglet>
-   <onglet V="Employeur">
-     <item V="" S="" B="" E="" EM="">VILLE DE PARIS</item>
-   </onglet>
+   <onglet><item></item></onglet>
   </XHL>
  </data>
  <systeme>
@@ -67,7 +43,7 @@
    non
   </limitConsoleOutput>
   <quiet profondeur="0">
-   non
+   oui
   </quiet>
   <baseType profondeur="0">
      
@@ -94,7 +70,7 @@
      
   </nLine>
   <processType profondeur="0">
-   '3'
+   '4'
   </processType>
   <log profondeur="0">
    C:\Users\fnicol\AppData\Local\Altaïr\altair.log

@@ -29,6 +29,7 @@ http_condition	http_condition
 http_date	parse_http_date
 http_error	http_error
 http_status	http_status
+http_type	http_type
 httr	httr
 httr_dr	httr_dr
 httr_options	httr_options
@@ -60,6 +61,7 @@ PUT	PUT
 rerequest	cache_info
 reset_config	set_config
 response	response
+RETRY	RETRY
 revoke_all	revoke_all
 safe_callback	safe_callback
 set_config	set_config

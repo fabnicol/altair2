@@ -156,6 +156,7 @@ setorder	setorder
 setorderv	setorder
 setthreads	openmp-utils
 shift	shift
+shouldPrint	shouldPrint
 SJ	J
 special-symbols	special-symbols
 split	split

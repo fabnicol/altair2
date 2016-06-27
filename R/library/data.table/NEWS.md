@@ -45,7 +45,7 @@
   
   21. New argument `print.class` for `print.data.table` allows for including column class under column names (as inspired by `tbl_df` in `dplyr`); default (adjustable via `"datatable.print.class"` option) is `FALSE`, the inherited behavior. Part of [#1523](https://github.com/Rdatatable/data.table/issues/1523); thanks to @MichaelChirico for the FR & PR.
   
-  22. `all.equal.data.table` gets new features for testing equality of data.tables, new arguments are `check.attributes`, `ignore.col.order`, `ignore.row.order`. It will now also check column classes match, unlike `all.equal.list` it will also report *integer/real* types mismatch.
+  22. `all.equal.data.table` gets new features for testing equality of data.tables, new arguments are `check.attributes`, `ignore.col.order`, `ignore.row.order` and `tolerance`. It will also check column classes match, unlike `all.equal.list` it will report *integer/real* types mismatch.
 
   23. Fast set operations `fsetdiff`, `fintersect`, `funion` and `fsetequal` for data.tables is now implemented, [#547](https://github.com/Rdatatable/data.table/issues/547).
 
@@ -69,7 +69,7 @@
 
   32. `on=.()` syntax is now posible, e.g., `X[Y, on=.(x==a, y==b)]`, [#1257](https://github.com/Rdatatable/data.table/issues/1257). Thanks @dselivanov.
 
-  33. Non-equi joins are now possible using the familiar `on=` syntax. With this, the set of binary operators extend from just `==` to `>=`, `>`, `<=`, `<` and `==`. For e.g., `X[Y, on=.(a, b>b)]` looks for `X.a == Y.a` first and within those matching rows for rows where`X.b > Y.b`. Arguments `mult` and `nomatch` work as expected. `by=.EACHI` is not yet implemented. Partly addreses [#1452](https://github.com/Rdatatable/data.table/issues/1452).
+  33. Non-equi joins are now possible using the familiar `on=` syntax. With this, the set of binary operators extend from just `==` to `>=`, `>`, `<=`, `<` and `==`. For e.g., `X[Y, on=.(a, b>b)]` looks for `X.a == Y.a` first and within those matching rows for rows where`X.b > Y.b`, [#1452](https://github.com/Rdatatable/data.table/issues/1452).
 
   34. `%between%` is vectorised which means we can now do: `DT[x %between% list(y,z)]` which is equivalent to `DT[x >= y & x <= z]`, [#534](https://github.com/Rdatatable/data.table/issues/534). Thanks @MicheleCarriero for filing the issue and the idea.
 
@@ -80,6 +80,15 @@
   37. Row subset operations of data.table is now parallelised with OpenMP, [#1660](https://github.com/Rdatatable/data.table/issues/1660). See the linked issue page for a rough benchmark on speedup.
 
   38. Added `setthreads()` and `getthreads()` to globally control the threads used in data.table functions that are parallelised with OpenMP.
+
+  39. `rleid()` gains `prefix` argument, similar to `rowid()`.
+
+  40. `tstrsplit` gains argument `keep` which corresponds to the indices of list elements to return from the transposed list.
+
+  41. `give.names` argument in `tstrsplit` is renamed to simply `names`. It now accepts a character vector 
+  of column names as well.
+
+  42. `melt.data.table` finds variables provided to `patterns()` when called from within user defined functions, [#1749](https://github.com/Rdatatable/data.table/issues/1749). Thanks to @kendonB for the report.
 
 #### BUG FIXES
 
@@ -190,8 +199,30 @@
   53. `fread` won't use `wget` for file:// input, [#1668](https://github.com/Rdatatable/data.table/issues/1668); thanks @MichaelChirico for FR&PR.
 
   54. `chmatch()` handles `nomatch = integer(0)` properly, [#1672](https://github.com/Rdatatable/data.table/issues/1672).
+  
+  55. `dimnames.data.table` no longer errors in `data.table`-unaware environments when a `data.table` has, e.g., been churned through some `dplyr` functions and acquired extra classes, [#1678](https://github.com/Rdatatable/data.table/issues/1678). Thanks Daisy Lee on SO for pointing this out and @MichaelChirico for the fix.
 
   55. `fread()` did not respect encoding on header column. Now fixed, [#1680](https://github.com/Rdatatable/data.table/issues/1680). Thanks @nachti.
+
+  56. as.data.table's `data.table` method returns a copy as it should, [#1681](https://github.com/Rdatatable/data.table/issues/1681).
+
+  57. Grouped update operations, e.g., `DT[, y := val, by=x]` where `val` is an unsupported type errors *without adding an unnamed column*, [#1676](https://github.com/Rdatatable/data.table/issues/1676). Thanks @wligtenberg.
+  
+  58. Handled use of `.I` in some `GForce` operations, [#1683](https://github.com/Rdatatable/data.table/issues/1683). Thanks gibbz00 from SO and @franknarf1 for reporting and @MichaelChirico for the PR.
+  
+  59. Added `+.IDate` method so that IDate + integer doesn't revert to `Date`, [#1528](https://github.com/Rdatatable/data.table/issues/1528); thanks @MichaelChirico for FR&PR.
+  
+  60. Radix ordering an integer vector containing INTMAX (2147483647) with decreasing=TRUE and na.last=FALSE failed ASAN check and seg faulted some systems. As reported for base R [#16925](https://bugs.r-project.org/bugzilla/show_bug.cgi?id=16925) whose new code comes from data.table. Simplified code, added test and proposed change to base R.
+
+  60. Fixed test in `onAttach()` for when `Packaged` field is missing from `DESCRIPTION`, [#1706](https://github.com/Rdatatable/data.table/issues/1706); thanks @restonslacker for BR&PR.
+
+  61. Adding missing factor levels are handled correctly in case of NAs. This affected a case of join+update operation as shown in [#1718](https://github.com/Rdatatable/data.table/issues/1718). Thanks to @daniellemccool.
+
+  62. `fwrite` handles `na` argument properly by internally converting it to character, closes [#1725](https://github.com/Rdatatable/data.table/issues/1725). Thanks @contefranz.
+
+  63. `foverlaps` now raise a meaningful error for duplicate column names, closes [#1730](https://github.com/Rdatatable/data.table/issues/1730). Thanks @rodonn.
+
+  64. `na.omit` method now removes indices, closes [#1734](https://github.com/Rdatatable/data.table/issues/1734). Thanks @m-dz.
 
 #### NOTES
 
@@ -254,6 +285,10 @@
   27. The default number of over-allocated spare column pointer slots has been increased from 64 to 1024. The wasted memory overhead (if never used) is insignificant (0.008 MB). The advantage is that adding a large number of columns by reference using := or set() inside a loop will not now saturate as quickly and need reallocating. An alleviation to issue [#1633](https://github.com/Rdatatable/data.table/issues/1633). See `?alloc.col` for how to change this default yourself.
 
   28. `?IDateTime` now makes clear that `wday`, `yday` and `month` are all 1- (not 0- as in `POSIXlt`) based, [#1658](https://github.com/Rdatatable/data.table/issues/1658); thanks @MichaelChirico.
+
+  29. Fixed misleading documentation of `?uniqueN`, [#1746](https://github.com/Rdatatable/data.table/issues/1746). Thanks @SymbolixAU.
+
+  30. `melt.data.table` restricts column names printed during warning messages to a maximum of five, [#1752](https://github.com/Rdatatable/data.table/issues/1752).
 
 ### Changes in v1.9.6  (on CRAN 19 Sep 2015)
 

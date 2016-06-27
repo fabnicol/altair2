@@ -5,6 +5,7 @@ HEAD                    Get url HEADers.
 PATCH                   Send PATCH request to a server.
 POST                    POST file to a server.
 PUT                     Send PUT request to server.
+RETRY                   Retry a request until it succeeds.
 VERB                    VERB a url.
 add_headers             Add additional headers to a request.
 authenticate            Use http authentication.
@@ -17,6 +18,7 @@ handle                  Create a handle tied to a particular host.
 headers                 Extract the headers from a response
 http_error              Check for an http error.
 http_status             Give information on the status of a request.
+http_type               Extract the content type of a response
 httr                    'httr' makes http easy.
 httr_dr                 Diagnose common configuration problems
 httr_options            List available options.

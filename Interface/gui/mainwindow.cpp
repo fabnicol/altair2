@@ -1,6 +1,7 @@
 
 #include "altair.h"
 #include "enums.h"
+#include <QApplication>
 
 // Should it slow down application launch on some platform, one option could be to launch it just once then on user demand
 
@@ -361,27 +362,79 @@ void MainWindow::createActions()
   
 }
 
-void MainWindow::launch_process()
+void MainWindow::launch_process(const QString& path)
 {
-    QString path;
-    if (pathList.isEmpty()) return;
+    QRegExp reg("(Civilite|Nom|Prenom|Adr[12]|Ville|CP|TitCpte|NumUrssaf|Siret|IdCpte)\\s+V\\s*=\\s*\"[\\w\\s-',]*\"(.*)");
+    QRegExp reg2("NIR\\s+V\\s*=\\s*\"(.....).*\"(.*)");
 
-    path = pathList.takeFirst();
+    reg.setMinimal(true);
+    reg2.setMinimal(true);
+    reg.setCaseSensitivity(Qt::CaseSensitive);
 
-    altair->setProcessMsg("Anonymisation de " + path + " terminée.");
+    QFile xml(path);
 
-    launch.start(common::path_access("Outils/Anonymiser/bash.exe")+ " -e  " + "Anonymiser.sh  \"" + path + "\"");
+    QFile xml_out(path + ".new");
+    if (!xml.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        Q("Erreur de lancement du processus")
+        return;
+    }
+    if (!xml_out.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+        Q("Erreur de lancement du processus")
+        return;
+    }
+
+    QTextStream out(&xml_out);
+    altair->outputTextEdit->append(PROCESSING_HTML_TAG "Lecture du fichier...");
+    altair->outputTextEdit->repaint();
+    QString xml_mod = QString(xml.readAll());
+    altair->outputTextEdit->append(PROCESSING_HTML_TAG "Remplacement des informations protégées. Patientez...");
+    altair->outputTextEdit->repaint();
+    QStringList xml_list = xml_mod.split('<');
+    emit(altair->showProgressBar());
+    emit(altair->setProgressBar(0, xml_list.size()));
+    emit(altair->setProgressBar(0));
+    int i = 0;
+    for (QString& buffer : xml_list)
+    {
+        if (buffer.contains(reg))
+        {
+          buffer.replace(reg, reg.cap(1) + QString(" V=\"XXX\" ") + reg.cap(2));
+        }
+
+        if (buffer.contains(reg2))
+        {
+          buffer.replace(reg2, "NIR V=\"" + reg2.cap(1) + QString("XXX\" ") + reg2.cap(2));
+        }
+
+        if (buffer[0] != '\0')
+        {
+          out << '<' << buffer;
+
+          if (! buffer.endsWith('\n'))
+            out << '\n';
+        }
+
+        emit(altair->setProgressBar(++i));
+        qApp->processEvents();
+    }
+
+    xml_list.clear();
+    emit(altair->setProgressBar(0));
+    xml_out.close();
+    xml.close();
+    xml.remove();
+    xml_out.rename(path);
+
+    altair->outputTextEdit->append(PROCESSING_HTML_TAG  "Anonymisation de " + path + " terminée.");
+    altair->outputTextEdit->repaint();
+    emit(altair->setProgressBar(0));
 
     /* Il est souhaitable d'actualiser le projet avant de lancer v() car en cas de non actualisation récente la valeur de la case
      * peut être en décalage avec la réalité. C'est au cours de ces actualisations que la valeur est enregistrée dans une table de hashage. */
 
     altair->updateProject(true);
-
-    if (launch.waitForStarted() && v(activerConsole).isTrue())
-    {
-        altair->outputTextEdit->append(PROCESSING_HTML_TAG "Lancement de l'anonymisation à l'emplacement " + path + ". Patientez...");
-    }
-    else Q("Erreur de lancement du processus")
 
 }
 
@@ -389,11 +442,9 @@ void MainWindow::anonymiser()
 {
 #ifdef __WIN32__
 
-    launch.setWorkingDirectory(common::path_access("Outils/Anonymiser"));
-
     QItemSelectionModel *selectionModel = altair->fileTreeView->selectionModel();
     QModelIndexList  indexList=selectionModel->selectedIndexes();
-    QFileSystemModel *model=new QFileSystemModel;
+    QFileSystemModel *model=altair->model;
 
 
     if (indexList.isEmpty()) return;
@@ -403,17 +454,12 @@ void MainWindow::anonymiser()
         const QString path = model->filePath(index);
         if (! path.isEmpty())
         {
-           pathList << path;
-
+            altair->outputTextEdit->append(PROCESSING_HTML_TAG "Lancement de l'anonymisation du fichier " + path + ". Patientez...");
+            altair->outputTextEdit->repaint();
+            launch_process(path);
         }
      }
 
-    launch_process();
-
-    /* DANS CET ORDRE */
-
-    connect(&launch, SIGNAL(finished(int, QProcess::ExitStatus)), altair, SLOT(processFinished(int)));
-    connect(&launch, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(launch_process()));
 
 #endif
 }

@@ -83,8 +83,8 @@ QMAKE_CXXFLAGS_RELEASE -= -O2
 
 # ajouter -std=gnu++14 si qmake de le fait pas
 
-#QMAKE_CXXFLAGS += -march=core2
-QMAKE_CXXFLAGS += -march=native -mtune=native -std=gnu++14
+QMAKE_CXXFLAGS += -march=core2 -std=gnu++14
+#QMAKE_CXXFLAGS += -march=native -mtune=native -std=gnu++14
 
 SOURCES += \
     options.cpp \

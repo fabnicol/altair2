@@ -1311,6 +1311,7 @@ isparseVector-class	sparseVector-class
 isSymmetric,denseMatrix-method	isSymmetric-methods
 isSymmetric,dgCMatrix-method	dgCMatrix-class
 isSymmetric,diagonalMatrix-method	isSymmetric-methods
+isSymmetric,indMatrix-method	indMatrix-class
 isSymmetric,sparseMatrix-method	isSymmetric-methods
 isSymmetric,symmetricMatrix-method	isSymmetric-methods
 isSymmetric,triangularMatrix-method	isSymmetric-methods

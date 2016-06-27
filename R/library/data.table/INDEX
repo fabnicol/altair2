@@ -24,8 +24,8 @@ melt.data.table         Fast melt for data.table
 merge                   Merge two data.tables
 na.omit.data.table      Remove rows with missing values on columns
                         specified
-patterns                Regex patterns to extract columns from
-                        data.table
+patterns                Obtain matching indices corresponding to
+                        patterns
 print.data.table        data.table Printing Options
 rbindlist               Makes one data.table from a list of many
 rleid                   Generate run-length type group id
@@ -43,6 +43,8 @@ setorder                Fast row reordering of a data.table by
                         reference
 setthreads              Set or get threads for use with OpenMP
 shift                   Fast lead/lag for vectors and lists
+shouldPrint             For use by packages that mimic/divert auto
+                        printing e.g. IRkernel and knitr
 special-symbols         Special symbols
 split                   Split data.table into chunks in a list
 subset.data.table       Subsetting data.tables

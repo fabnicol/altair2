@@ -13,7 +13,6 @@ check	check
 check_built	check
 check_cran	check_cran
 check_dep_version	check_dep_version
-check_doc	check_man
 check_failures	check_failures
 check_man	check_man
 clean_dll	clean_dll
@@ -50,8 +49,11 @@ imports_env	imports_env
 infrastructure	infrastructure
 inst	inst
 install	install
+install_bioc	install_bioc
 install_bitbucket	install_bitbucket
+install_cran	install_cran
 install_deps	install_deps
+install_dev_deps	install_deps
 install_git	install_git
 install_github	install_github
 install_local	install_local
@@ -121,6 +123,7 @@ use_cran_badge	infrastructure
 use_cran_comments	infrastructure
 use_data	use_data
 use_data_raw	use_data_raw
+use_dev_version	infrastructure
 use_git	use_git
 use_github	use_github
 use_github_links	use_github_links

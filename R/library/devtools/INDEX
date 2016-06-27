@@ -35,7 +35,10 @@ help                    Drop-in replacements for help and ? functions
 infrastructure          Add useful infrastructure to a package.
 inst                    Get the installation path of a package
 install                 Install a local development package.
+install_bioc            Install a package from a Bioconductor
+                        repository
 install_bitbucket       Install a package directly from bitbucket
+install_cran            Attempts to install a package from CRAN.
 install_deps            Install package dependencies if needed.
 install_git             Install a package from a git repository
 install_github          Attempts to install a package directly from
