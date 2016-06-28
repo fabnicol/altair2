@@ -362,14 +362,69 @@ void MainWindow::createActions()
   
 }
 
+#ifndef REGEX_ANONYM
+
+QString MainWindow::extraire_donnees_protegees(const std::string& st)
+{
+    std::string  test;
+    QString  out;
+
+    std::string::const_iterator iter = st.begin();
+    int i = 0;
+
+    while (iter != st.end())
+    {
+        bool processed = false;
+        while (++iter != st.end() && *iter != '<') continue;
+
+        std::string::const_iterator iter0 = iter;
+        emit(altair->setProgressBar(++i));
+        qApp->processEvents();
+
+        while (++iter != st.end())
+        {
+            if (*iter == '>') break;
+        }
+
+        test = std::string(iter0, iter + 1);
+
+        const char* Tags[] = { "Civilite", "Nom", "Prenom", "Adr1", "Adr2", "Ville", "CP", "TitCpte", "NumUrssaf", "Siret", "IdCpte" };
+
+        for (const char*& tag : Tags)
+        {
+
+            if (test.find(tag, 1) != std::string::npos)
+            {
+                std::string::const_iterator iter1 = iter0 + 4;
+                while (++iter1 != test.end())
+                {
+                    if (*iter1 == '\"') break;
+                }
+
+                while (++iter1 != test.end())
+                {
+                    if (*iter1 == '\"') break;
+                }
+
+                QString reste = QString::fromStdString(std::string(++iter1, iter + 1));
+
+                out += "<" + QString(tag) + QString(" V = \"XXXX\"") + reste + "\n";
+                processed = true;
+            }
+        }
+
+        if (! processed)
+            out += QString::fromStdString(test) + "\n";
+
+    }
+
+    return out;
+}
+#endif
+
+
 void MainWindow::launch_process(const QString& path)
 {
-    QRegExp reg("(Civilite|Nom|Prenom|Adr[12]|Ville|CP|TitCpte|NumUrssaf|Siret|IdCpte)\\s+V\\s*=\\s*\"[\\w\\s-',]*\"(.*)");
-    QRegExp reg2("NIR\\s+V\\s*=\\s*\"(.....).*\"(.*)");
-
-    reg.setMinimal(true);
-    reg2.setMinimal(true);
-    reg.setCaseSensitivity(Qt::CaseSensitive);
 
     QFile xml(path);
 
@@ -387,14 +442,27 @@ void MainWindow::launch_process(const QString& path)
 
     QTextStream out(&xml_out);
     altair->outputTextEdit->append(PROCESSING_HTML_TAG "Lecture du fichier...");
+    emit(altair->showProgressBar());
+    emit(altair->setProgressBar(0));
     altair->outputTextEdit->repaint();
     QString xml_mod = QString(xml.readAll());
+
     altair->outputTextEdit->append(PROCESSING_HTML_TAG "Remplacement des informations protégées. Patientez...");
     altair->outputTextEdit->repaint();
-    QStringList xml_list = xml_mod.split('<');
-    emit(altair->showProgressBar());
+
+  #ifdef REGEX_ANONYM
+    QRegExp reg("(Civilite|Nom|Prenom|Adr[12]|Ville|CP|TitCpte|NumUrssaf|Siret|IdCpte)\\s+V\\s*=\\s*\"[\\w\\s-',]*\"(.*)");
+    QRegExp reg2("NIR\\s+V\\s*=\\s*\"(.....).*\"(.*)");
+
+    reg.setMinimal(true);
+    reg2.setMinimal(true);
+    reg.setCaseSensitivity(Qt::CaseSensitive);
+
+
+    QStringList xml_list = xml_mod.splitRef('<');
+
     emit(altair->setProgressBar(0, xml_list.size()));
-    emit(altair->setProgressBar(0));
+
     int i = 0;
     for (QString& buffer : xml_list)
     {
@@ -421,6 +489,16 @@ void MainWindow::launch_process(const QString& path)
     }
 
     xml_list.clear();
+
+  #else
+
+    int bar_range = xml_mod.count('<');
+
+    emit(altair->setProgressBar(0, bar_range));
+    out <<  extraire_donnees_protegees(xml_mod.toStdString());
+
+  #endif
+
     emit(altair->setProgressBar(0));
     xml_out.close();
     xml.close();

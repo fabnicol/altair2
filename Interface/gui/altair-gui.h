@@ -101,6 +101,7 @@ class MainWindow : public QMainWindow
    void adjustDisplay(bool);
 
    inline void connectShowActions();
+   QString extraire_donnees_protegees(const std::string& st);
 
    QDockWidget* fileTreeViewDockWidget;
    QDockWidget* bottomDockWidget;
