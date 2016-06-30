@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+<projet>
+ <data>
+  <XHL profondeur="2">
+   <onglet V="2014">
+     <item V="01" S="XXX" B="MULTIBUDGET" E="XXX" EM="XXX">/home/fab/Altair/Tests/Exemple/Donnees/xhl/Paris/2014_01_AGENTS_VILLE.xhl</item>
+     <item V="02" S="21750001616718" B="MULTIBUDGET" E="BAT PETITE ENFANCE-8 RUE AUGUSTE CAIN-VIL" EM="VILLE DE PARIS">/home/fab/Altair/Tests/Exemple/Donnees/xhl/Paris/2014_02_AGENTS_VILLE.xhl</item>
+     <item V="03" S="21750001616866" B="MULTIBUDGET" E="BAT PETITE ENFANCE-CITE BEAUHARNAIS-VIL" EM="VILLE DE PARIS">/home/fab/Altair/Tests/Exemple/Donnees/xhl/Paris/2014_03_AGENTS_VILLE.xhl</item>
+     <item V="04" S="21750001616718" B="MULTIBUDGET" E="BAT PETITE ENFANCE-8 RUE AUGUSTE CAIN-VIL" EM="VILLE DE PARIS">/home/fab/Altair/Tests/Exemple/Donnees/xhl/Paris/2014_04_AGENTS_VILLE.xhl</item>
+     <item V="05" S="21750001616718" B="MULTIBUDGET" E="BAT PETITE ENFANCE-8 RUE AUGUSTE CAIN-VIL" EM="VILLE DE PARIS">/home/fab/Altair/Tests/Exemple/Donnees/xhl/Paris/2014_05_AGENTS_VILLE.xhl</item>
+     <item V="06" S="21750001616718" B="MULTIBUDGET" E="BAT PETITE ENFANCE-8 RUE AUGUSTE CAIN-VIL" EM="VILLE DE PARIS">/home/fab/Altair/Tests/Exemple/Donnees/xhl/Paris/2014_06_AGENTS_VILLE.xhl</item>
+   </onglet>
+   <onglet V="Siret">
+     <item V="" S="" B="" E="" EM="">21750001616718 BAT PETITE ENFANCE-8 RUE AUGUSTE CAIN-VIL</item>
+     <item V="" S="" B="" E="" EM="">21750001616866 BAT PETITE ENFANCE-CITE BEAUHARNAIS-VIL</item>
+     <item V="" S="" B="" E="" EM="">XXX XXX</item>
+   </onglet>
+   <onglet V="Budget">
+     <item V="" S="" B="" E="" EM="">MULTIBUDGET</item>
+   </onglet>
+   <onglet V="Employeur">
+     <item V="" S="" B="" E="" EM="">VILLE DE PARIS</item>
+     <item V="" S="" B="" E="" EM="">XXX</item>
+   </onglet>
+  </XHL>
+ </data>
+ <systeme>
+  <projectManagerDisplay profondeur="0">
+   oui
+  </projectManagerDisplay>
+  <fileManagerDisplay profondeur="0">
+   oui
+  </fileManagerDisplay>
+  <fullScreenDisplay profondeur="0">
+   non
+  </fullScreenDisplay>
+  <outputTextEdit profondeur="0">
+   oui
+  </outputTextEdit>
+  <fileToolBar profondeur="0">
+   oui
+  </fileToolBar>
+  <editToolBar profondeur="0">
+   oui
+  </editToolBar>
+  <processToolBar profondeur="0">
+   oui
+  </processToolBar>
+  <optionsToolBar profondeur="0">
+   oui
+  </optionsToolBar>
+  <aboutToolBar profondeur="0">
+   non
+  </aboutToolBar>
+  <saveProjectBehavior profondeur="0">
+   oui
+  </saveProjectBehavior>
+  <loadProjectBehavior profondeur="0">
+   non
+  </loadProjectBehavior>
+  <limitConsoleOutput profondeur="0">
+   non
+  </limitConsoleOutput>
+  <quiet profondeur="0">
+   non
+  </quiet>
+  <baseType profondeur="0">
+     
+  </baseType>
+  <maxLigne profondeur="0">
+   1000000
+  </maxLigne>
+  <genererNumLigne profondeur="0">
+   non
+  </genererNumLigne>
+  <exporterEtab profondeur="0">
+   non
+  </exporterEtab>
+  <exporterEchelon profondeur="0">
+   oui
+  </exporterEchelon>
+  <genererTable profondeur="0">
+   oui
+  </genererTable>
+  <nAgent profondeur="0">
+     
+  </nAgent>
+  <nLine profondeur="0">
+     
+  </nLine>
+  <processType profondeur="0">
+   '8'
+  </processType>
+  <log profondeur="0">
+   /home/fab/.local/share/Altair/altair.log
+  </log>
+  <genererLog profondeur="0">
+   non
+  </genererLog>
+  <activerConsole profondeur="0">
+   oui
+  </activerConsole>
+  <memoryUse profondeur="0">
+   90
+  </memoryUse>
+  <base profondeur="0">
+   /home/fab/Altair/Tests/Exemple/Donnees/R-Altair
+  </base>
+  <lhxDir profondeur="0">
+   /home/fab/Altair/linux
+  </lhxDir>
+ </systeme>
+</projet>
