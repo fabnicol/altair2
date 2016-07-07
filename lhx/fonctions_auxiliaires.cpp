@@ -570,7 +570,7 @@ void calculer_maxima(const vector<info_t> &Info, ofstream* LOG)
 
 
 template <typename Allocator = allocator<char>>
-auto read_stream_into_string(
+std::string read_stream_into_string(
     ifstream& in,
     Allocator alloc = {})
 {
