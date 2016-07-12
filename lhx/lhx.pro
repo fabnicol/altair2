@@ -40,19 +40,18 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 
-#DEFINES +=  GUI_TAG_MESSAGES                   # définir pour que les sorties des messages soient formatées pour que l'interface graphique les transforme en icône.
-DEFINES += COLOR_CONSOLE
+DEFINES +=  GUI_TAG_MESSAGES                   # définir pour que les sorties des messages soient formatées pour que l'interface graphique les transforme en icône.
+#DEFINES += COLOR_CONSOLE
 
 QMAKE_CXXFLAGS_RELEASE -= -O2
 
 CONFIG(debug, debug|release) {
-
-QMAKE_CXXFLAGS += -O0
-
+ message("Debugging version")
+ QMAKE_CXXFLAGS += -O1
 } else {
-
-QMAKE_LFLAGS += -s
-QMAKE_CXXFLAGS += -O3 -fexpensive-optimizations -fomit-frame-pointer
+ message("Release version")
+ QMAKE_LFLAGS += -s
+ QMAKE_CXXFLAGS += -O3 -fexpensive-optimizations -fomit-frame-pointer
 }
 
 VPATH = .
@@ -61,13 +60,12 @@ TEMPLATE = app
 
 
 DEFINES +=  WARNING_LIMIT=5  \         # nombre maximum d'avertissement par fichier
-            MAX_NB_AGENTS=30000 \      # nombre maximum de bulletins par mois
-            MAX_LIGNES_PAYE=100 \      # nombre maximum de lignes de paye par bulletin
+            MAX_NB_AGENTS=70000 \      # nombre maximum de bulletins par mois
+            MAX_LIGNES_PAYE=3000 \      # nombre maximum de lignes de paye par bulletin
             TYPE_LOOP_LIMIT=10 \       # nombre de "rembobinages des drapeaux de catégories (voir ligne_paye.cpp,
             MAX_STRING_LENGTH=200 \    # taille maximum des strings pour la conversion latin-1
             MAX_MEMORY_SHARE=0.5  \    # part maximum de la mémoire vive disponible consommée par défaut (si --memshare n'est pas précisé)
-            SEGMENT_DIVISION_RATE=2 \
-            AVERAGE_RAM_DENSITY=2 \    # constante empirique déterminant la quantité de mémoire nécessitée par 1 unité de mémoire de fichier xhl en cours de traitement.
+            AVERAGE_RAM_DENSITY=3 \    # constante empirique déterminant la quantité de mémoire nécessitée par 1 unité de mémoire de fichier xhl en cours de traitement.
            # MEMORY_DEBUG
 
 DEFINES += __GNUC_EXTENSION \
@@ -111,7 +109,7 @@ DEVROOT = $$PWD/../..
 QMAKE_CXXFLAGS_RELEASE -= -O2
 QMAKE_CXXFLAGS += -pipe -m64 -std=gnu++14 -Wunused-function -pedantic -Wextra
 #QMAKE_CXXFLAGS += -march=core2
-QMAKE_CXXFLAGS += -march=core-avx2
+QMAKE_CXXFLAGS += -march=sandybridge
 
 # Sous linux penser à installer libxml2-dev. Ceci n'est pas testé.
 
@@ -120,9 +118,9 @@ INCLUDEPATH += ../Interface/gui
 
 windows {
 
-  COMPILER_DIR = mingw64-5.2
+  COMPILER_DIR = mingw64-5.3
   DEFINES += SYSTEM_PATH_SEPARATOR=\"\';\'\"
-  INCLUDEPATH += $$DEVROOT/$$COMPILER_DIR/include
+  INCLUDEPATH += $$DEVROOT/$$COMPILER_DIR/include/libxml2
   LIBS = -L$$DEVROOT/$$COMPILER_DIR/lib -lxml2.dll -pthread $$(SYSTEMROOT)/System32/psapi.dll
   HEADERS += entete-latin1.hpp
 

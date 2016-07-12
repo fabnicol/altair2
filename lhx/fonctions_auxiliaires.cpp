@@ -585,6 +585,18 @@ void calculer_maxima(const vector<info_t> &Info, ofstream* LOG)
                << STATE_HTML_TAG "Maximum d'agents  : " << maximum[0] << ENDL;
     }
 
+template <typename Allocator = allocator<char>>
+std::string read_stream_into_string(
+    ifstream& in,
+    Allocator alloc = {})
+{
+  basic_ostringstream<char, char_traits<char>, Allocator>
+    ss(basic_string<char, char_traits<char>, Allocator>(move(alloc)));
+
+  if (!(ss << in.rdbuf()))
+    throw ios_base::failure{"[ERR] Erreur d'allocation de lecture de fichier.\n"};
+
+  return ss.str();
 }
 
 // Trois problèmes...
