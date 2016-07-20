@@ -1,6 +1,7 @@
 greaterThan(QT_MAJOR_VERSION, 5)
 # Mettre Git\bin dans le PATH systématiquement
-# utiliser au moins Qt5 et g++-5.1 sous windows
+# utiliser au moins Qt5 et g++-5.1
+# ENCODAGE : UTILISER UTF-8 PARTOUT, y compris sur le fichier .pro.
 
 if (win32|linux) {
   message("Système d'exploitation :  $$(OS)")
@@ -10,13 +11,13 @@ if (win32|linux) {
 
 windows {
   GIT_VERSION = $$system(git --version | find \"git version\")
-  CXX_VERSION = $$system($$QMAKE_CXX --version | findstr \"5.[0-9]\")
+  CXX_VERSION = $$system($$QMAKE_CXX --version | findstr \"[5-9].[0-9]\")
   DEFINES += LOCAL_BINPATH
 }
 
 linux {
   GIT_VERSION = $$system(git --version | grep -e \"git version\")
-  CXX_VERSION = $$system($$QMAKE_CXX --version | grep -e '5.[0-9]')
+  CXX_VERSION = $$system($$QMAKE_CXX --version | grep -e '[5-9].[0-9]')
 }
 
 if (!isEmpty(GIT_VERSION)) {
@@ -47,7 +48,7 @@ CONFIG(debug, debug|release) {
 TEMPLATE = app
 
 QT       += core gui xml widgets
-            #webkitwidgets : �  décommenter si STATIC n'est pas défini c-dessous. Nécessite libWebKitWidgets
+            #webkitwidgets :   décommenter si STATIC n'est pas défini c-dessous. Nécessite libWebKitWidgets
 
 QT       -= opengl
 QT       -= openssl
@@ -66,8 +67,8 @@ DEFINES += COMMANDLINE_CONSOLE_OUTPUT          \        # Générer la ligne de 
            GUI_OUTPUT                                   # Balises d'identification des lignes de la console : mode GUI
 
 DEFINES += QT_NO_OPENGL \
-           STATIC\                                      # �  utiliser pour lancer le navigateur internet par défaut plustôt qu'un navigateur interne
-           LOCAL_BINPATH \                              # chemins d'exécution définis par rapport �  l'emplacement de l'exécutable
+           STATIC\                                      # utiliser pour lancer le navigateur internet par défaut plustôt qu'un navigateur interne
+           LOCAL_BINPATH \                              # chemins d'exécution définis par rapport l'emplacement de l'exécutable
            REGEX_PARSING_FOR_HEADERS \                  # utiliser les expressions régulières de c++ (g++ 5.1 au moins)
            USE_RIGHT_CLICK                              # utiliser un clic droit sur les fichiers pour ajouter, supprimer etc.
 
@@ -88,7 +89,7 @@ SOURCES += \
     common.cpp \
     forms.cpp \
     main.cpp \
-    browser.cpp \ 
+    browser.cpp \
     xmlparser.cpp \
     highlighter.cpp \
     run.cpp \
