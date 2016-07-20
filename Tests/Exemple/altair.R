@@ -8,10 +8,10 @@
 #'css: style.css
 #'---     
 #'   
-#'![Image_Altair](Altair.png)
+#'![Image_Altair](altair.png)
 #'   
 #'   
-#'# Démonstrateur Altaïr version 16.03 
+#'# Démonstrateur Altaïr version 16.07 
 
 #+ echo = FALSE, warning = TRUE, message = FALSE
 

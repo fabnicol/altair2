@@ -1,10 +1,10 @@
 Package: altair
-Title: Fonctions utilisÃ©es pour l'analyse automatisÃ©e des bases de paye au format XML
+Title: Fonctions utilisées pour l'analyse automatisée des bases de paye au format XML
 Version: 0.1
 Authors@R: person("Fabrice", "Nicol", email = "fabrice.nicol@crtc.ccomptes.fr", role = c("aut", "cre"))
-Description: Analyse, traite et transforme les donnÃ©es des bases de
-    paye conformes aux spÃ©cifications de la convention-cadre nationale de
-    dÃ©matÃ©rialisation (http://xemelios.org)
+Description: Analyse, traite et transforme les données des bases de
+    paye conformes aux spécifications de la convention-cadre nationale de
+    dématérialisation (http://xemelios.org)
 Depends:
     R (>= 3.2.3),
     data.table (>= 1.9.5)
