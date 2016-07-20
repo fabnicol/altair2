@@ -518,7 +518,7 @@ void MainWindow::launch_process(const QString& path)
 
 void MainWindow::anonymiser()
 {
-#ifdef __WIN32__
+
 
     QItemSelectionModel *selectionModel = altair->fileTreeView->selectionModel();
     QModelIndexList  indexList=selectionModel->selectedIndexes();
@@ -538,8 +538,6 @@ void MainWindow::anonymiser()
         }
      }
 
-
-#endif
 }
 
 void MainWindow::configure()

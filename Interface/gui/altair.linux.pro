@@ -70,8 +70,8 @@ DEFINES += QT_NO_OPENGL \
            STATIC\                                      # utiliser pour lancer le navigateur internet par défaut plustôt qu'un navigateur interne
            LOCAL_BINPATH \                              # chemins d'exécution définis par rapport l'emplacement de l'exécutable
            REGEX_PARSING_FOR_HEADERS \                  # utiliser les expressions régulières de c++ (g++ 5.1 au moins)
-           USE_RIGHT_CLICK                              # utiliser un clic droit sur les fichiers pour ajouter, supprimer etc.
-
+           USE_RIGHT_CLICK  \                           # utiliser un clic droit sur les fichiers pour ajouter, supprimer etc.
+           #REGEX_ANONYM                                # Utiliser en cas de problème avec l'analyse des données sensibles dans l'anonymisation
 
 windows:RC_ICONS = neptune.ico
 

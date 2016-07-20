@@ -18,7 +18,7 @@ typedef struct {
 
 std::ostringstream help();
 int32_t lire_argument(int argc, char* c_str);
-int calculer_memoire_requise(info_t &info);
+int calculer_memoire_requise( info_t &info);
 void ouvrir_fichier_base(const info_t &info, BaseType, std::ofstream& base, int segment);
 void ouvrir_fichier_base0(const info_t &info, BaseCategorie,  BaseType type, std::ofstream& base, int segment);
 void ecrire_entete_bulletins(const info_t &info, std::ofstream& base);
@@ -80,7 +80,7 @@ inline void  generate_rank_signal()
 
 }
 
-#define pluriel(X, Y)  ((X > 1)? Y "s": Y)
+#define pluriel(X, Y)  ((X > 1)? Y "s": "Y")
 
 
 inline void generate_rank_signal(int progression)
@@ -99,7 +99,7 @@ inline void generate_rank_signal(int progression)
 static inline void memory_debug(const std::string& func_tag)
 {
 #ifdef MEMORY_DEBUG
-        std::cerr << STATE_HTML_TAG << func_tag << " : Calcul de la mémoire disponible : " << getFreeSystemMemory() / (1024 * 1024) << " Mo"  ENDL;
+        std::cerr << STATE_HTML_TAG << func_tag << " : Calcul de la mémoire disponible : " << getFreeSystemMemory() << ENDL;
 #else
 
 #endif

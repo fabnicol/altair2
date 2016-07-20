@@ -20,198 +20,57 @@ extern mutex mut;
 extern  inline uint64_t   parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log);
 extern vector<errorLine_t>  errorLineStack;
 extern int rang_global;
-template <typename Allocator = allocator<char>>
-static inline string read_stream_into_string(
-    ifstream& in,
-    Allocator alloc = {})
-{
-  basic_ostringstream<char, char_traits<char>, Allocator>
-    ss(basic_string<char, char_traits<char>, Allocator>(move(alloc)));
-
-  if (!(ss << in.rdbuf()))
-    throw ios_base::failure{"[ERR] Erreur d'allocation de lecture de fichier.\n"};
-
-  return ss.str();
-}
 
 /* agent_total est une variable de contrôle pour info->NCumAgent */
 
-
-// Problème des accumulations de champs <DonneesIndiv> non résolu !
-
-// -1 erreur, 0 : fichier petit; sinon nombre de fichiers découpés.
-
-int redecouper(info_t& info)
+static int parseFile(info_t& info)
 {
+   /* REFERENCE */
+   /*
+        <DocumentPaye xmlns="http://www.minefi.gouv.fr/cp/helios/pes_v2/paye_1_1">
+          <IdVer V="">{1,1}</IdVer>
+          <Annee V="">{1,1}</Annee>
+          <Mois V="">{1,1}</Mois>
+          <Train V="">{0,1}</Train>
+          <Budget>{0,1}</Budget>
+          <Employeur>{1,1}</Employeur>
+          <DonneesIndiv>{1,unbounded}</DonneesIndiv>
+          <Nomenclatures>{1,1}</Nomenclatures>
+          <RepartitionParNature>{1,1}</RepartitionParNature>
+        </DocumentPaye>
+    */
 
-        #if defined(STRINGSTREAM_PARSING) || defined(MMAP_PARSING)
-             string filest = std::move(info.threads->in_memory_file.at(info.fichier_courant));
-             info.threads->in_memory_file_cut.push_back(vector<string>{});
-        #else
-             ifstream c(info.threads->argv.at(info.fichier_courant));
-             string filest;
-             filest = read_stream_into_string(c);
-             info.threads->argv_cut.push_back(vector<string>{});
-        #endif
+    /* Note sur les modes d'exécution :
+     * Le mode == strict == envoie une exception dès la première non-conformité,
+     * sauf exceptions contraires signalées en commentaire.
+     * Le mode == tolérant == arrête l'exécution du fichier et passe suivant.
+     * Cela peut poser des problèmes de (ré)allocation/réservation/libération de mémoire
+     * Le mode == souple == continue l'exécution le plus possible dans le même fichier.
+     * Le mode strict fait l'objet d'une compilation séparée. Les modes tolérant ou souple
+     * choisis au cas par cas en fonction d'une évaluation plus ou moins subjective de la gravité
+     * de la non-conformité. */
 
-        uint64_t taille = info.taille.at(info.fichier_courant);
+    ofstream log;
+    xmlDocPtr doc;
+    xmlNodePtr cur = nullptr;
+    info.NAgent[info.fichier_courant] = 0;
+    xmlNodePtr cur_save = cur;
+    xmlChar *annee_fichier = nullptr,
+            *mois_fichier = nullptr, 
+            *employeur_fichier = nullptr,
+            *etablissement_fichier = nullptr,
+            *siret_fichier = nullptr,
+            *budget_fichier = nullptr;
 
-        if (taille < CUTFILE_CHUNK) return 0;
+    #if defined(STRINGSTREAM_PARSING)
+      doc = xmlParseDoc(reinterpret_cast<const xmlChar*>(info.threads->in_memory_file.at(info.fichier_courant).c_str()));
+    #elif defined (MMAP_PARSING)
+       doc = xmlParseDoc(reinterpret_cast<const xmlChar*>(info.threads->in_memory_file.at(info.fichier_courant).c_str()));
+    #else
+       doc = xmlParseFile(info.threads->argv.at(info.fichier_courant).c_str());
+    #endif
 
-        if (verbeux)
-            cerr << PROCESSING_HTML_TAG "Redécoupage du fichier n°" << info.fichier_courant + 1 << ENDL;
-
-        string document_tag = "", enc = "";
-        string::iterator iter = filest.begin();
-
-        while (*++iter != '?' && iter != filest.end()) continue;
-
-        while (++iter != filest.end())
-        {
-            if (*iter == '?') break;
-            if (*iter != 'e') continue;
-            string::iterator iter2 = iter;
-            //encoding="ISO-8859-1"
-            if (*++iter2 != 'n' || *++iter2 != 'c') continue;
-            while (*++iter2 != '?') continue;
-
-            enc = string(iter, iter2);
-            if (enc.find("encoding") == string::npos)
-                enc = "";
-            break;
-        }
-
-        while (iter != filest.end())
-        {
-            if (*++iter != 'D') continue;
-            ++iter;
-            const string s = string(iter, iter + 11);
-            // <...:DocumentPaye>
-            if (s != "ocumentPaye") continue;
-            string::iterator iter2 = iter;
-            while (*--iter2 != '<' ) if (iter2 == filest.begin()) break;
-            document_tag = string(iter2 + 1, iter + 11);
-            break;
-        }
-
-        int r = 0;
-
-        uint64_t i = 0;
-        uint64_t init_pos= 0;
-        bool depuis_debut = true;
-        bool open_di = true;
-
-        while (filest.at(i) != '\0')
-        {
-            if (i + CUTFILE_CHUNK < taille)
-                i += CUTFILE_CHUNK;
-            else
-                depuis_debut = false;
-
-            ++r;
-
-            string s = "";
-            bool fermeture_PI = false;
-
-            if (depuis_debut)
-            {
-                while (filest.at(i) != '\0')
-                {
-                    while (filest.at(++i) != '<') continue;
-                    if (filest.at(++i) != '/') continue;
-
-                    if (filest.at(++i) != 'P') continue;
-
-                    s = filest.substr(i, 16);
-
-                    if (s == "PayeIndivMensuel")
-                    {
-                        fermeture_PI = true;
-                        break;
-                    }
-                    // </PayeIndivMensuel>
-                }
-            }
-            else
-            {
-                i = taille - 16;
-                while (init_pos < i)
-                {
-                    while (filest.at(--i) != 'P') continue;
-                    if (filest.at(--i) != '/') continue;
-
-                    if (filest.at(--i) != '<') continue;
-
-                    s = filest.substr(i + 2, 16);
-
-                    if (s == "PayeIndivMensuel")
-                    {
-                        fermeture_PI = true;
-
-                        break;
-                    }
-                }
-            }
-
-            if (! fermeture_PI) return -1;
-
-            i += 16;
-
-            while (filest.at(++i) != '<') continue;
-
-            s = filest.substr(i + 1 , 13);
-            bool insert_di = (s != "/DonneesIndiv");
-            if (! insert_di) i += 14;
-
-            if (filest.at(i) != '<') while (filest.at(++i) != '<') continue;
-
-            string header = (r > 1)? (string("<?xml version=\"1.0\" ") + enc + string("?>")
-                                     + string("\n<DocumentPaye>")
-                                     + ((! open_di)? "\n<DonneesIndiv>\n" : "")) : string("");
-
-            string filest_cut = header + filest.substr(init_pos, i - init_pos)
-                                       + ((insert_di)? string("\n</DonneesIndiv>") : "")
-                                       + (string("\n</") + ((r > 1)? "DocumentPaye" : document_tag) + string(">"));
-
-            s = filest.substr(i + 1 , 12);
-            open_di = (s == "DonneesIndiv");
-
-            init_pos = i;
-            string filecut_path = info.threads->argv.at(info.fichier_courant) +"_" + to_string(r) + ".xhl";
-
-        #if defined(STRINGSTREAM_PARSING) || defined(MMAP_PARSING)
-            info.threads->in_memory_file_cut[info.fichier_courant].emplace_back(filest_cut);
-        #else
-            ofstream filecut(filecut_path);
-            filecut << filest_cut;
-            filecut.close();
-            info.threads->argv_cut[info.fichier_courant].push_back(filecut_path);
-        #endif
-
-            if (! depuis_debut) break;
-            fermeture_PI = false;
-        }
-
-        return r;
-}
-
-
-static int parseFile(const xmlDocPtr doc, info_t& info, int cont_flag, xml_commun* champ_commun)
-{
-   ofstream log;
-   xmlNodePtr cur = nullptr;
-   xmlNodePtr cur_save = cur;
-   xmlChar *annee_fichier = champ_commun->annee_fichier,
-           *mois_fichier = champ_commun->mois_fichier,
-           *employeur_fichier = champ_commun->employeur_fichier,
-           *etablissement_fichier = champ_commun->etablissement_fichier,
-           *siret_fichier = champ_commun->siret_fichier,
-           *budget_fichier = champ_commun->budget_fichier;
-
-
-   info.NAgent[info.fichier_courant] = 0;
-
-    memory_debug("parseFile : parseFile doc");
+    memory_debug("parseFile : xmlParseFile");
 
     if (doc == nullptr)
     {
@@ -226,22 +85,17 @@ static int parseFile(const xmlDocPtr doc, info_t& info, int cont_flag, xml_commu
 
     cur = xmlDocGetRootElement(doc);
 
-    memory_debug("parseFile : parseFile get root");
-
     if (cur == nullptr)
     {
         cerr << ERROR_HTML_TAG "document vide" ENDL;
         xmlFreeDoc(doc);
-        if (verbeux)
-            cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode tolérant)." ENDL;
+        if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode tolérant)." ENDL;
         if (log.is_open())
             log.close();
         return SKIP_FILE;
     }
 
     cur =  cur->xmlChildrenNode;
-
-    if (cont_flag != PREMIER_FICHIER) goto donnees_indiv;
 
     cur = atteindreNoeud("Annee", cur);
 
@@ -262,8 +116,7 @@ static int parseFile(const xmlDocPtr doc, info_t& info, int cont_flag, xml_commu
             exit(-517);
 #endif
             /* Il faudra sans doute ajuster les différences entre le parsing C et l'analyse Xml, qui vont diverger */
-            if (verbeux)
-                cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode tolérant)." ENDL;
+            if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode tolérant)." ENDL;
             return SKIP_FILE;
         }
 
@@ -280,9 +133,7 @@ static int parseFile(const xmlDocPtr doc, info_t& info, int cont_flag, xml_commu
         exit(-502);
 #else
         /* Il faudra sans doute ajuster les différences entre le parsing C et l'analyse Xml, qui vont diverger */
-        if (verbeux)
-            cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode tolérant)." ENDL;
-
+        if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode tolérant)." ENDL;
         return SKIP_FILE;
 #endif
     }
@@ -315,8 +166,7 @@ static int parseFile(const xmlDocPtr doc, info_t& info, int cont_flag, xml_commu
         exit(-503);
 #else
         /* Il faudra sans doute ajuster les différences entre le parsing C et l'analyse Xml, qui vont diverger */
-        if (verbeux)
-            cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode tolérant)." ENDL;
+        if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode tolérant)." ENDL;
         return SKIP_FILE;
 #endif
 
@@ -335,10 +185,8 @@ static int parseFile(const xmlDocPtr doc, info_t& info, int cont_flag, xml_commu
             xmlFree(budget_fichier);
             budget_fichier = xmlStrdup(NA_STRING);
             lock_guard<mutex> lock(mut);
-            if (verbeux)
-                cerr << STATE_HTML_TAG "Aucune information sur le budget [optionnel]." ENDL;
-            if (verbeux)
-                cerr << PROCESSING_HTML_TAG "Poursuite du traitement." ENDL;
+            if (verbeux) cerr << STATE_HTML_TAG "Aucune information sur le budget [optionnel]." ENDL;
+            if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement." ENDL;
         }
 
         cur = cur_save->next;
@@ -347,10 +195,8 @@ static int parseFile(const xmlDocPtr doc, info_t& info, int cont_flag, xml_commu
     {
         budget_fichier = xmlStrdup(NA_STRING);
         lock_guard<mutex> lock(mut);
-        if (verbeux)
-            cerr << STATE_HTML_TAG "Aucune information sur le budget [optionnel]." ENDL;
-        if (verbeux)
-            cerr << PROCESSING_HTML_TAG "Poursuite du traitement." ENDL;
+        if (verbeux) cerr << STATE_HTML_TAG "Aucune information sur le budget [optionnel]." ENDL;
+        if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement." ENDL;
         cur = cur_save;
     }
 
@@ -377,9 +223,7 @@ static int parseFile(const xmlDocPtr doc, info_t& info, int cont_flag, xml_commu
             log.close();
         exit(-515);
 #endif                 
-        if (verbeux)
-            cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
-
+        if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
         employeur_fichier = xmlStrdup(NA_STRING);
         siret_fichier = xmlStrdup(NA_STRING);
         cur = cur_save;
@@ -428,9 +272,7 @@ static int parseFile(const xmlDocPtr doc, info_t& info, int cont_flag, xml_commu
                     if (log.open()) log.close();
                     exit(-517);
 #endif
-                   if (verbeux)
-                       cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
-
+                   if (verbeux)  cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
                    xmlFree(siret_fichier);
                    siret_fichier = xmlStrdup(NA_STRING);
 
@@ -439,11 +281,9 @@ static int parseFile(const xmlDocPtr doc, info_t& info, int cont_flag, xml_commu
             else
             {
                 cerr  << ERROR_HTML_TAG "Siret de l'empoyeur non identifié [non-conformité à la norme]." ENDL;
-               if (verbeux)
-                   cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
-
+               if (verbeux)  cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
                 cerr << "Année " << annee_fichier
-                     << " Mois " << mois_fichier << ENDL;
+                          << " Mois "  << mois_fichier << ENDL;
                 siret_fichier = xmlStrdup(NA_STRING);
             }
 
@@ -453,12 +293,6 @@ static int parseFile(const xmlDocPtr doc, info_t& info, int cont_flag, xml_commu
 
         cur = cur_save;
     }
-
-    /* On effectue un saut direct par étiquetage ici dans le cas de fichiers découpés dont les informations
-     * d'entête (année, mois...) sont définits par les pointeurs statiques déclarés en début de fonction */
-
-donnees_indiv:
-
 
     cur = atteindreNoeud("DonneesIndiv", cur);
 
@@ -544,7 +378,7 @@ donnees_indiv:
             cur_save2 = cur;
 
             /* On recherche le nom, le siret de l'établissement */
-          do {
+      do {
                 cur =  cur->xmlChildrenNode;
 
                 if (cur == nullptr || xmlIsBlankNode(cur))
@@ -555,9 +389,7 @@ donnees_indiv:
                     if (log.open()) log.close();
                     exit(-517);
 #endif
-                    if (verbeux)
-                        cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
-
+                    if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
                     etablissement_fichier = xmlStrdup(NA_STRING);
                     /* on garde le siret de l'employeur */
                     break;
@@ -575,9 +407,7 @@ donnees_indiv:
                         if (log.open()) log.close();
                         exit(-517);
 #endif
-                        if (verbeux)
-                            cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
-
+                        if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
                         xmlFree(etablissement_fichier);
                         etablissement_fichier = xmlStrdup(NA_STRING);
                     }
@@ -592,9 +422,7 @@ donnees_indiv:
                     if (log.open()) log.close();
                     exit(-517);
 #endif
-                    if (verbeux)
-                        cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
-
+                    if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
                     etablissement_fichier = xmlStrdup(NA_STRING);
 
                     /* on garde le siret de l'employeur */
@@ -765,11 +593,8 @@ donnees_indiv:
             ++info.NCumAgentXml;
         }
 
-        if (cont_flag == DERNIER_FICHIER_DECOUPE)
-        {
-          xmlFree(etablissement_fichier);
-        }
-        /* si pas d'établissement (NA_STRING) alors on utilise le siret de l'employeur, donc
+        xmlFree(etablissement_fichier);
+        /* si pas d'établissement (NA_STRING) alors on utilise le siret de l'empoyeur, donc
          * ne pas libérer dans ce cas ! */
 
         cur = cur_save->next;  // next DonneesIndiv
@@ -781,45 +606,30 @@ donnees_indiv:
 #endif
 
     {
+        lock_guard<mutex> guard(mut);
+        cerr << STATE_HTML_TAG "Fichier "
+               #ifdef GENERATE_RANK_SIGNAL
+                  << "n°" <<  rang_global
+               #endif
+                  << " : " << info.threads->argv[info.fichier_courant] << ENDL;
 
         if (verbeux)
         {
-            lock_guard<mutex> guard(mut);
-            cerr << STATE_HTML_TAG "Fichier "
-                   #ifdef GENERATE_RANK_SIGNAL
-                      << "n°" <<  rang_global
-                   #endif
-                      << " : " << info.threads->argv[info.fichier_courant] << ENDL;
 
-            cerr << STATE_HTML_TAG << "Fil n°" << info.threads->thread_num + 1 << " : " << "Fichier courant : " << info.fichier_courant + 1 << ENDL;
+            cerr << STATE_HTML_TAG << "Fil n°" << info.threads->thread_num << " : " << "Fichier courant : " << info.fichier_courant + 1 << ENDL;
             cerr << STATE_HTML_TAG << "Total : " <<  info.NCumAgentXml << " bulletins -- " << info.nbLigne <<" lignes cumulées." ENDL;
         }
     }
 
-    if (cont_flag == PREMIER_FICHIER)
-    {
-        champ_commun->annee_fichier =  annee_fichier;
-        champ_commun->mois_fichier  =  mois_fichier;
-        champ_commun->employeur_fichier = employeur_fichier;
-    }
 
-        champ_commun->siret_fichier = siret_fichier;
-        champ_commun->budget_fichier = budget_fichier;
-        champ_commun->etablissement_fichier = etablissement_fichier;
-
-    if (cont_flag == DERNIER_FICHIER_DECOUPE)
-    {
-        xmlFree(annee_fichier);
-        xmlFree(mois_fichier);
-        xmlFree(employeur_fichier);
-        if (siret_etablissement)   //?
+    if (siret_etablissement )
             xmlFree(siret_fichier);
-        xmlFree(budget_fichier);
-    }
+    xmlFree(annee_fichier);
+    xmlFree(mois_fichier);
+    xmlFree(budget_fichier);
+    xmlFree(employeur_fichier);
 
-#if defined(STRINGSTREAM_PARSING) || defined(MMAP_PARSING)
     info.threads->in_memory_file.at(info.fichier_courant).clear();
-#endif
 
     xmlFreeDoc(doc);
 
@@ -828,136 +638,6 @@ donnees_indiv:
 
     return 0;
 }
-
-static int parseFile(info_t& info)
-{
-   /* REFERENCE */
-   /*
-        <DocumentPaye xmlns="http://www.minefi.gouv.fr/cp/helios/pes_v2/paye_1_1">
-          <IdVer V="">{1,1}</IdVer>
-          <Annee V="">{1,1}</Annee>
-          <Mois V="">{1,1}</Mois>
-          <Train V="">{0,1}</Train>
-          <Budget>{0,1}</Budget>
-          <Employeur>{1,1}</Employeur>
-          <DonneesIndiv>{1,unbounded}</DonneesIndiv>
-          <Nomenclatures>{1,1}</Nomenclatures>
-          <RepartitionParNature>{1,1}</RepartitionParNature>
-        </DocumentPaye>
-    */
-
-    /* Note sur les modes d'exécution :
-     * Le mode == strict == envoie une exception dès la première non-conformité,
-     * sauf exceptions contraires signalées en commentaire.
-     * Le mode == tolérant == arrête l'exécution du fichier et passe suivant.
-     * Cela peut poser des problèmes de (ré)allocation/réservation/libération de mémoire
-     * Le mode == souple == continue l'exécution le plus possible dans le même fichier.
-     * Le mode strict fait l'objet d'une compilation séparée. Les modes tolérant ou souple
-     * choisis au cas par cas en fonction d'une évaluation plus ou moins subjective de la gravité
-     * de la non-conformité. */
-
-    #if defined(STRINGSTREAM_PARSING) || defined (MMAP_PARSING)
-      int NDecoupe = info.threads->in_memory_file_cut.at(info.fichier_courant).size();
-    #else
-      int NDecoupe = info.threads->argv_cut.at(info.fichier_courant).size();
-    #endif
-
-    int res = 0;
-    int cont_flag = PREMIER_FICHIER;
-    xml_commun champ_commun;
-
-    if (NDecoupe == 0)
-    {
-        #if defined(STRINGSTREAM_PARSING) || defined(MMAP_PARSING)
-           xmlDocPtr doc = xmlParseFile(info.threads->argv.at(info.fichier_courant).c_str());
-        #else
-           xmlDocPtr doc = xmlParseDoc(reinterpret_cast<const xmlChar*>(info.threads->in_memory_file.at(info.fichier_courant).c_str()));
-        #endif
-
-        return parseFile(doc, info, cont_flag, &champ_commun);
-    }
-
-    // -----  NDecoupe != 0
-
-    int rang  = 0;
-
-#if defined(STRINGSTREAM_PARSING) || defined(MMAP_PARSING)
-    vector<string> cut_chunks = info.threads->in_memory_file_cut.at(info.fichier_courant);
-#else
-    const vector<string> cut_chunks = info.threads->argv_cut.at(info.fichier_courant);
-#endif
-
-    for (auto && s :  cut_chunks)
-    {
-
-         if (verbeux)
-         {
-             cerr << ENDL;
-             cerr << ".....     .....     ....." ENDL;
-             cerr << ENDL;
-
-             cerr << PROCESSING_HTML_TAG "Analyse du fichier scindé fil " << info.threads->thread_num + 1 << " - n°" << info.fichier_courant + 1 << "-" << ++rang << "/" << NDecoupe;
-
-         #if defined(FGETC_PARSING)
-             cerr << " : " << s << ENDL;
-         #else
-             cerr << ENDL;
-         #endif
-         }
-
-         if (rang == 1)
-             cont_flag = PREMIER_FICHIER;
-         else
-         if (rang == NDecoupe)
-             cont_flag = DERNIER_FICHIER_DECOUPE;
-         else
-             cont_flag = FICHIER_SUIVANT_DECOUPE;
-
-#if defined(STRINGSTREAM_PARSING) || defined(MMAP_PARSING)
-         xmlDocPtr doc = xmlParseDoc(reinterpret_cast<const xmlChar*>(s.c_str()));
-         s.clear();
-#else
-         xmlDocPtr doc = xmlParseFile(s.c_str());
-#endif
-
-         if (verbeux) cerr << ENDL;
-
-         if (doc == nullptr)
-         {
-            cerr << ERROR_HTML_TAG "L'analyse du parseur XML n'a pas pu être réalisée." ENDL;
-         }
-         else
-            res = parseFile(doc, info, cont_flag, &champ_commun);
-
-         if (verbeux)
-         {
-            cerr << PROCESSING_HTML_TAG "Fin de l'analyse du fichier scindé fil " << info.threads->thread_num + 1
-                 << " n°" << info.fichier_courant + 1 << "-" << rang << "/" << NDecoupe;
-         #ifdef FGETC_PARSING
-            cerr << " : " << s << ENDL;
-         #else
-            cerr << ENDL;
-         #endif
-         }
-
-#ifdef FGETC_PARSING
-         if (res == 0 && ! info.preserve_tempfiles)
-         {
-            remove(s.c_str());
-            if (verbeux)
-               cerr << PROCESSING_HTML_TAG "Effacement du fichier scindé fil " << info.threads->thread_num + 1
-                    << " n°" << info.fichier_courant + 1<< "-" << rang  << "/" << NDecoupe << " : " << s << ENDL;
-         }
-#endif
-
-         if (res == SKIP_FILE || res == RETRY) return res;
-
-     }
-
- return 0;
-
-}
-
 
 /* Les expressions régulières correctes ne sont disponibles sur MINGW GCC qu'à partir du build 4.9.2 */
 
@@ -1108,7 +788,7 @@ if (info.pretend) return nullptr;
         info.NCumAgent = info.nbAgentUtilisateur * info.threads->argc;
         info.NLigne.resize(info.NCumAgent);
 
-        memory_debug("decoder_fichier : info.NLigne.resize(info.NCumAgent)");
+        memory_debug("decoder_fichier_info.NLigne.resize(info.NCumAgent)");
 
         if (! info.NLigne.empty())
         {
@@ -1129,17 +809,12 @@ if (info.pretend) return nullptr;
             /* première allocation ou réallocation à la suite d'un incident */
 
             allouer_memoire_table(info);
-            memory_debug("decoder_fichier : allouer_memoire_table(info)");
+            memory_debug("decoder_fichier_allouer_memoire_table(info)");
         }
-
-    memory_debug("decoder_fichier : pre_parseFile(info)");
 
     if (info.verifmem) return nullptr;
 
-    info.fichier_courant = i;
-
-    if (info.decoupage_fichiers_volumineux) redecouper(info);
-
+        info.fichier_courant = i;
         switch(parseFile(info))
         {
         case RETRY:
@@ -1160,7 +835,7 @@ if (info.pretend) return nullptr;
             break;
         }
 
-        memory_debug("decoder_fichier : post_parseFile(info)");
+        memory_debug("decoder_fichier_parseFile(info");
     }
 
     if (info.reduire_consommation_memoire && info.NCumAgentXml != info.NCumAgent)
