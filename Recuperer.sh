@@ -1,4 +1,4 @@
-!#/bin/bash
+#!/bin/bash
 cd ~/Dev/altair
 
 echo "Attention toutes les données récentes du dossier altair seront effacées."
@@ -13,3 +13,5 @@ if test x$reponse = xOui; then
      
 fi
 echo "Opération terminée."
+echo "Taper une touche pour quitter la console."
+read key

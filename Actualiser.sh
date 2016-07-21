@@ -1,4 +1,5 @@
 #!/bin/bash
+cd ~/Dev/altair
 echo "Actualisation de la plateforme Altaïr..."
 echo "Attention toutes les données personnelles du dossier altair seront effacées."
 echo "Veuillez confirmer la poursuite de l'actualisation (Oui/Non)."
@@ -17,6 +18,8 @@ if test x$reponse = xOui; then
 fi
 
 echo "Fin de l'opération."
+echo "Entrer une touche du clavier pour quitter la console..."
+read reponse
 
 
   
