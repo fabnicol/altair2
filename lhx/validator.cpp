@@ -490,12 +490,14 @@ static int parseFile(info_t& info)
               <PJRef>{0,unbounded}</PJRef>
            </PayeIndivMensuel>
        */
+        int step = 0;
 
         while(cur != nullptr)
         {
 
             cur_save2 =  cur;
             cur = atteindreNoeud("PayeIndivMensuel", cur);
+
 
             if (cur == nullptr || cur->xmlChildrenNode == nullptr || xmlIsBlankNode(cur->xmlChildrenNode))
             {
@@ -591,6 +593,17 @@ static int parseFile(info_t& info)
 
             ++info.NAgent[info.fichier_courant];
             ++info.NCumAgentXml;
+#ifdef GENERATE_RANK_SIGNAL
+            ++step;
+
+            if (step > info.NCumAgent / 5)
+            {
+                generate_rank_signal(ceil((float)(info.NCumAgentXml * 100)/(float) info.NCumAgent));
+                cerr << " \n";
+                step = 0;
+            }
+
+#endif
         }
 
         xmlFree(etablissement_fichier);
@@ -812,6 +825,7 @@ if (info.pretend) return nullptr;
             memory_debug("decoder_fichier_allouer_memoire_table(info)");
         }
 
+
     if (info.verifmem) return nullptr;
 
         info.fichier_courant = i;
@@ -836,6 +850,9 @@ if (info.pretend) return nullptr;
         }
 
         memory_debug("decoder_fichier_parseFile(info");
+
+
+
     }
 
     if (info.reduire_consommation_memoire && info.NCumAgentXml != info.NCumAgent)

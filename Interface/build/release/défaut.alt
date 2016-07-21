@@ -68,10 +68,10 @@
    non
   </limitConsoleOutput>
   <quiet profondeur="0">
-   non
+   oui
   </quiet>
   <baseType profondeur="0">
-     
+   AN
   </baseType>
   <maxLigne profondeur="0">
    1000000
@@ -95,7 +95,7 @@
      
   </nLine>
   <processType profondeur="0">
-   '4'
+   '6'
   </processType>
   <log profondeur="0">
    /home/fab/.local/share/Altair/altair.log

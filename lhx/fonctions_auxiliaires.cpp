@@ -614,14 +614,7 @@ int calculer_memoire_requise(info_t& info)
     /* par convention  un agent avec rémunération non renseignées (balise sans fils) a une ligne */
     for (unsigned i = 0; i < info.threads->argc; ++i)
     {
-      #ifdef GUI_TAG_MESSAGES
-         #ifdef GENERATE_RANK_SIGNAL
 
-           generate_rank_signal();
-           cerr <<  " \n" ;
-
-         #endif
-      #endif
 
       #if defined(FGETC_PARSING) || defined(STRINGSTREAM_PARSING)
 
@@ -945,12 +938,22 @@ int calculer_memoire_requise(info_t& info)
         close(fd);
 #endif
 
+#ifdef GUI_TAG_MESSAGES
+   #ifdef GENERATE_RANK_SIGNAL
+
+     generate_rank_signal();
+     cerr <<  " \n" ;
+
+   #endif
+#endif
+
     }
 
     /* A ETUDIER */
 #ifdef PREALLOCATE_ON_HEAP
     info.NLigne.resize(info.NCumAgent+1);
 #endif
+
 memory_debug("calculer_memoire_requise_end");
     return errno;
 }

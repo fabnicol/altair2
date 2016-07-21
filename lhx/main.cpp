@@ -775,6 +775,14 @@ int produire_segment(const info_t& info, const vString& segment)
     vector<thread_t> v_thread_t(info.nbfil);
     vString::const_iterator segment_it = segment.begin();
 
+#ifdef GENERATE_RANK_SIGNAL
+    uint64_t NCumLignes = 0;
+
+    reset_rank_signal();
+    generate_rank_signal();
+
+#endif
+
     for (unsigned  i = 0; i < info.nbfil; ++i)
     {
         Info[i] = info;
