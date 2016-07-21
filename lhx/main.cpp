@@ -1,5 +1,5 @@
 
-/*  Programme écrit par Fabrice NICOL sous licence CECILL 3 */
+/*  Programme Ã©crit par Fabrice NICOL sous licence CECILL 3 */
 
 
 #include <mutex>
@@ -55,18 +55,18 @@ int main(int argc, char **argv)
     auto startofprogram = Clock::now();
 
 #if defined _WIN32 | defined _WIN64
-    setlocale(LC_ALL, "French_France.1252"); // Windows ne gère pas UTF-8 en locale
+    setlocale(LC_ALL, "French_France.1252"); // Windows ne gÃ¨re pas UTF-8 en locale
     //locale::global(locale("French_France.1252"));
 #elif defined __linux__
     //setlocale(LC_ALL, "fr_FR.utf8");
    locale::global(locale("fr_FR.utf8"));
 #else
-#error "Programme conçu pour Windows ou linux"
+#error "Programme conÃ§u pour Windows ou linux"
 #endif
 
     if (argc < 2)
     {
-        cerr << ERROR_HTML_TAG "Il faut au moins un fichier à analyser.\n" ;
+        cerr << ERROR_HTML_TAG "Il faut au moins un fichier Ã  analyser.\n" ;
         return -2;
     }
 
@@ -107,16 +107,16 @@ int main(int argc, char **argv)
         0,                //    uint16_t fichier_courant
         ',',              //    const char decimal;
         ';',              //    const char separateur;
-        true,             // réduire coso mémoire
-        true,             // par défaut lire la balise adjacente
+        true,             // rÃ©duire coso mÃ©moire
+        true,             // par dÃ©faut lire la balise adjacente
         false,            // calculer les maxima de lignes et d'agents
-        false,            // numéroter les lignes
-        false,             // ne pas exporter les informations sur l'établissement
-        false,             // ne pas exporter l'échelon
+        false,            // numÃ©roter les lignes
+        false,             // ne pas exporter les informations sur l'Ã©tablissement
+        false,             // ne pas exporter l'Ã©chelon
         false,             // pretend
         false,             // verifmem
         1,                 // nbfil
-        {}  // besoin de mémoire effectif
+        {}  // besoin de mÃ©moire effectif
     };
 
     /* Analyse de la ligne de commande */
@@ -133,7 +133,7 @@ int main(int argc, char **argv)
            = lire_argument (argc, const_cast<char*>(commandline_tab[start + 1].c_str()));
          if (info.nbAgentUtilisateur < 1)
             {
-              cerr << ERROR_HTML_TAG "Préciser le nombre de bulletins mensuels attendus (majorant du nombre) avec -N xxx .\n";
+              cerr << ERROR_HTML_TAG "PrÃ©ciser le nombre de bulletins mensuels attendus (majorant du nombre) avec -N xxx .\n";
               exit(-1);
             }
             start += 2;
@@ -249,13 +249,13 @@ int main(int argc, char **argv)
             }
             else
             {
-                // On a trouvé un argument numérique en ligne de commande
+                // On a trouvÃ© un argument numÃ©rique en ligne de commande
 
                 int32_t size_read = lire_argument(argc, const_cast<char*>(commandline_tab[start + 1].c_str()));
 
                 if (size_read < 0 || size_read > INT32_MAX -1)
                 {
-                    cerr << ERROR_HTML_TAG "Le nombre de lignes doit être compris entre 0 et INT64_MAX" ENDL;
+                    cerr << ERROR_HTML_TAG "Le nombre de lignes doit Ãªtre compris entre 0 et INT64_MAX" ENDL;
                     exit(-908);
                 }
                 else
@@ -275,14 +275,14 @@ int main(int argc, char **argv)
         {
             if (start + 1 == argc)
             {
-                cerr << ERROR_HTML_TAG "Option -s suivi d'un argument obligatoire (séparateur de champs)." ENDL;
+                cerr << ERROR_HTML_TAG "Option -s suivi d'un argument obligatoire (sÃ©parateur de champs)." ENDL;
                 exit(-100);
             }
             info.separateur = commandline_tab[start + 1][0];
 
             if (info.separateur == '_')
             {
-                perror(ERROR_HTML_TAG "Le séparateur ne doit pas être '_'");
+                perror(ERROR_HTML_TAG "Le sÃ©parateur ne doit pas Ãªtre '_'");
                 exit(-909);
             }
 
@@ -293,7 +293,7 @@ int main(int argc, char **argv)
         {
             if (start + 1 == argc)
             {
-                cerr << ERROR_HTML_TAG "Option -d suivi d'un argument obligatoire (séparateur décimal)." ENDL;
+                cerr << ERROR_HTML_TAG "Option -d suivi d'un argument obligatoire (sÃ©parateur dÃ©cimal)." ENDL;
                 exit(-100);
             }
             info.decimal = commandline_tab[start + 1][0];
@@ -314,7 +314,7 @@ int main(int argc, char **argv)
             base.open(info.chemin_base);
             if (! base.good())
             {
-                perror(ERROR_HTML_TAG "La base de données ne peut être créée, vérifier l'existence du dossier.");
+                perror(ERROR_HTML_TAG "La base de donnÃ©es ne peut Ãªtre crÃ©Ã©e, vÃ©rifier l'existence du dossier.");
                 exit(-113);
             }
 
@@ -344,8 +344,8 @@ int main(int argc, char **argv)
 
             if (! base.good())
             {
-                cerr << ERROR_HTML_TAG "La base de données "
-                          << info.chemin_base  + string(CSV) << " ne peut être créée, vérifier l'existence du dossier." ENDL ;
+                cerr << ERROR_HTML_TAG "La base de donnÃ©es "
+                          << info.chemin_base  + string(CSV) << " ne peut Ãªtre crÃ©Ã©e, vÃ©rifier l'existence du dossier." ENDL ;
                 exit(-113);
             }
             else
@@ -364,7 +364,7 @@ int main(int argc, char **argv)
             {
                 if (info.nbfil < 1)
                 {
-                    perror(ERROR_HTML_TAG "Le nombre de fils d'exécution doit être compris au moins égal à 2.");
+                    perror(ERROR_HTML_TAG "Le nombre de fils d'exÃ©cution doit Ãªtre compris au moins Ã©gal Ã  2.");
                     exit(-111);
                 }
             }
@@ -378,7 +378,7 @@ int main(int argc, char **argv)
             base.open(info.chemin_log);
             if (! base.good())
             {
-                perror(ERROR_HTML_TAG "Le log ne peut être créé, vérifier l'existence du dossier.");
+                perror(ERROR_HTML_TAG "Le log ne peut Ãªtre crÃ©Ã©, vÃ©rifier l'existence du dossier.");
                 exit(-114);
             }
             start += 2;
@@ -388,13 +388,13 @@ int main(int argc, char **argv)
         {
             if ((info.nbLigneUtilisateur = lire_argument(argc, const_cast<char*>(commandline_tab[start +1].c_str()))) > 1)
             {
-                cerr << STATE_HTML_TAG "Nombre maximum de lignes de paye redéfini à : " << info.nbLigneUtilisateur << ENDL;
+                cerr << STATE_HTML_TAG "Nombre maximum de lignes de paye redÃ©fini Ã  : " << info.nbLigneUtilisateur << ENDL;
             }
 
             info.reduire_consommation_memoire = false;
             if ((info.nbAgentUtilisateur = lire_argument(argc, const_cast<char*>(commandline_tab[start + 1].c_str()))) < 1)
             {
-                cerr << ERROR_HTML_TAG "Préciser le nombre de nombre maximum d'agents par mois attendus (majorant du nombre) avec -n xxx" ENDL;
+                cerr << ERROR_HTML_TAG "PrÃ©ciser le nombre de nombre maximum d'agents par mois attendus (majorant du nombre) avec -n xxx" ENDL;
                 exit(-1);
             }
 
@@ -409,7 +409,7 @@ int main(int argc, char **argv)
             }
             else
             {
-                perror(ERROR_HTML_TAG "Il manque l'expression régulière.");
+                perror(ERROR_HTML_TAG "Il manque l'expression rÃ©guliÃ¨re.");
                 exit(-115);
             }
             start += 2;
@@ -522,7 +522,7 @@ int main(int argc, char **argv)
 
                     if (string(cl.at(i)) == "-f")
                     {
-                        cerr << ERROR_HTML_TAG "La ligne de commande -f ne peut pas être incluse dans un fichier par -f [risque de boucle infinie].\n";
+                        cerr << ERROR_HTML_TAG "La ligne de commande -f ne peut pas Ãªtre incluse dans un fichier par -f [risque de boucle infinie].\n";
                     }
                 }
 
@@ -536,13 +536,13 @@ int main(int argc, char **argv)
         }
         else if (commandline_tab[start] == "--pretend")
         {
-          info.pretend = true;   // pas de décodage
+          info.pretend = true;   // pas de dÃ©codage
           ++start;
           continue;
         }
         else if (commandline_tab[start] == "--verifmem")
         {
-          info.verifmem = true;  // seulement vérifier la mémoire
+          info.verifmem = true;  // seulement vÃ©rifier la mÃ©moire
           ++start;
           continue;
         }
@@ -561,13 +561,13 @@ int main(int argc, char **argv)
                 }
               else
                 {
-                  cerr << ERROR_HTML_TAG "La donnée de la taille des fichiers en input est erronée ou au-delà de la limite permise (60 Go)." << ENDL;
+                  cerr << ERROR_HTML_TAG "La donnÃ©e de la taille des fichiers en input est erronÃ©e ou au-delÃ  de la limite permise (60 Go)." << ENDL;
                   exit(-199);
                 }
           }
           else
           {
-                  cerr << ERROR_HTML_TAG "Le plus grand entier non signé est inférieur à 60 * 1048576" << ENDL;
+                  cerr << ERROR_HTML_TAG "Le plus grand entier non signÃ© est infÃ©rieur Ã  60 * 1048576" << ENDL;
                   exit(-199);
           }
         }
@@ -575,7 +575,7 @@ int main(int argc, char **argv)
           {
             int part = stoi(commandline_tab[start + 1], nullptr);
 
-            cerr << STATE_HTML_TAG "Part de la mémoire vive utilisée : " <<  part << " %" ENDL;
+            cerr << STATE_HTML_TAG "Part de la mÃ©moire vive utilisÃ©e : " <<  part << " %" ENDL;
 
             ajustement = (float) part / 100;
             start += 2;
@@ -583,7 +583,7 @@ int main(int argc, char **argv)
           }
         else if (commandline_tab[start] == "--segments ")
         {
-           cerr << STATE_HTML_TAG "Les bases seront analysées en au moins : " << commandline_tab[start + 1] << " segments" << ENDL;
+           cerr << STATE_HTML_TAG "Les bases seront analysÃ©es en au moins : " << commandline_tab[start + 1] << " segments" << ENDL;
 
            // au maximum 99 segments
 
@@ -637,21 +637,21 @@ int main(int argc, char **argv)
             }
             else
             {
-                cerr << ERROR_HTML_TAG "La taille du fichier " << commandline_tab.at(i) << " n'a pas pu être déterminée." ENDL;
+                cerr << ERROR_HTML_TAG "La taille du fichier " << commandline_tab.at(i) << " n'a pas pu Ãªtre dÃ©terminÃ©e." ENDL;
             }
         }
 
         cerr << ENDL STATE_HTML_TAG << "Taille totale des " << count << " fichiers : " << memoire_xhl / 1048576 << " Mo."  ENDL;
         cerr << STATE_HTML_TAG
-                  << "Mémoire disponible " <<  ((memoire_disponible = getFreeSystemMemory()) / 1048576)
+                  << "MÃ©moire disponible " <<  ((memoire_disponible = getFreeSystemMemory()) / 1048576)
                   << " / " << (getTotalSystemMemory()  / 1048576)
                   << " Mo."  ENDL;
     }
 
-    /* ajustement représente la part maximum de la mémoire disponible que l'on consacre au processus, compte tenu de la marge sous plafond (overhead) */
+    /* ajustement reprÃ©sente la part maximum de la mÃ©moire disponible que l'on consacre au processus, compte tenu de la marge sous plafond (overhead) */
 
     unsigned long long memoire_utilisable = floor(ajustement * static_cast<float>(memoire_disponible));
-    cerr << STATE_HTML_TAG  << "Mémoire utilisable " <<  memoire_utilisable / 1048576   << " Mo."  ENDL;
+    cerr << STATE_HTML_TAG  << "MÃ©moire utilisable " <<  memoire_utilisable / 1048576   << " Mo."  ENDL;
 
     if (nsegments != 0)
     {
@@ -665,7 +665,7 @@ int main(int argc, char **argv)
              else
              if (memoire_xhl % (nsegments - 1) == 0)
                {
-                  cerr << ERROR_HTML_TAG "Impossible de générer " << nsegments << " segments. Utilisation d'au moins " << nsegments + 1 << " segments." ENDL;
+                  cerr << ERROR_HTML_TAG "Impossible de gÃ©nÃ©rer " << nsegments << " segments. Utilisation d'au moins " << nsegments + 1 << " segments." ENDL;
                   ++nsegments;
                }
              else
@@ -707,7 +707,7 @@ int main(int argc, char **argv)
 
     unsigned int segments_size = segments.size();
     if (segments_size > 1)
-        cerr << PROCESSING_HTML_TAG << "Les bases en sortie seront analysées en " << segments_size << " segments." ENDL;
+        cerr << PROCESSING_HTML_TAG << "Les bases en sortie seront analysÃ©es en " << segments_size << " segments." ENDL;
 
    int info_nbfil_defaut = info.nbfil;
 
@@ -717,7 +717,7 @@ int main(int argc, char **argv)
 
         if (info.nbfil > segment_size)
         {
-            cerr << ERROR_HTML_TAG "Trop de fils (" << info.nbfil << ") pour le nombre de fichiers (" << segment_size << "); exécution avec " << segment_size << pluriel(segment_size, " fil") <<"."  ENDL;
+            cerr << ERROR_HTML_TAG "Trop de fils (" << info.nbfil << ") pour le nombre de fichiers (" << segment_size << "); exÃ©cution avec " << segment_size << pluriel(segment_size, " fil") <<"."  ENDL;
 
             info.nbfil = segment_size;
         }
@@ -731,7 +731,7 @@ int main(int argc, char **argv)
 
     auto endofprogram = Clock::now();
 
-    cerr << ENDL << PROCESSING_HTML_TAG "Durée d'exécution : "
+    cerr << ENDL << PROCESSING_HTML_TAG "DurÃ©e d'exÃ©cution : "
          << chrono::duration_cast<chrono::milliseconds>(endofprogram - startofprogram).count()
          << " millisecondes" << ENDL;
 
@@ -757,7 +757,7 @@ int produire_segment(const info_t& info, const vString& segment)
          --remainder;
     }
 
-    /* on répartir le reste de manière équilibrée sur les premiers fils */
+    /* on rÃ©partir le reste de maniÃ¨re Ã©quilibrÃ©e sur les premiers fils */
 
     vector<info_t> Info(info.nbfil);
     vector<thread> t;
@@ -769,7 +769,7 @@ int produire_segment(const info_t& info, const vString& segment)
 
     if (verbeux)
     {
-        cerr << PROCESSING_HTML_TAG "Création de " << info.nbfil << " fils d'exécution." ENDL;
+        cerr << PROCESSING_HTML_TAG "CrÃ©ation de " << info.nbfil << " fils d'exÃ©cution." ENDL;
     }
 
     vector<thread_t> v_thread_t(info.nbfil);
@@ -791,20 +791,20 @@ int produire_segment(const info_t& info, const vString& segment)
 
         if (Info[i].threads->argv.size() != (unsigned) nb_fichier_par_fil.at(i))
         {
-            cerr << ERROR_HTML_TAG "Problème issu de l'allocation des threads" << ENDL ;
+            cerr << ERROR_HTML_TAG "ProblÃ¨me issu de l'allocation des threads" << ENDL ;
             exit(-145);
         }
 
         if (verbeux)
-            cerr <<  PROCESSING_HTML_TAG "Fil d'exécution i = " << i+1 << "/" << info.nbfil
+            cerr <<  PROCESSING_HTML_TAG "Fil d'exÃ©cution i = " << i+1 << "/" << info.nbfil
                  << "   Nombre de fichiers dans ce fil : " << nb_fichier_par_fil[i] << ENDL;
 
         errno = 0;
 
-        /* Lancement des fils d'exécution */
+        /* Lancement des fils d'exÃ©cution */
 
         if (verbeux && Info[0].reduire_consommation_memoire)
-           cerr << ENDL PROCESSING_HTML_TAG "Premier scan des fichiers pour déterminer les besoins mémoire, " << "fil " << i << ENDL;
+           cerr << ENDL PROCESSING_HTML_TAG "Premier scan des fichiers pour dÃ©terminer les besoins mÃ©moire, " << "fil " << i << ENDL;
 
         if (info.nbfil > 1)
         {
@@ -823,7 +823,7 @@ int produire_segment(const info_t& info, const vString& segment)
     }
 
     if (verbeux)
-       cerr << ENDL PROCESSING_HTML_TAG "Rassemblement des fils d'exécution." ENDL;
+       cerr << ENDL PROCESSING_HTML_TAG "Rassemblement des fils d'exÃ©cution." ENDL;
 
     if (info.nbfil > 1)
         for (unsigned i = 0; i < info.nbfil; ++i)
@@ -850,20 +850,20 @@ int produire_segment(const info_t& info, const vString& segment)
 
     if (generer_table)
     {
-      cerr << ENDL << PROCESSING_HTML_TAG "Exportation des bases de données au format CSV..." << ENDL ENDL;
+      cerr << ENDL << PROCESSING_HTML_TAG "Exportation des bases de donnÃ©es au format CSV..." << ENDL ENDL;
       boucle_ecriture(Info, nsegment);
     }
 
-    /* Résumé des erreurs rencontrées */
+    /* RÃ©sumÃ© des erreurs rencontrÃ©es */
 
     if (errorLineStack.size() > 0)
     {
-        cerr << WARNING_HTML_TAG "<b>Récapitulatif des erreurs rencontrées</b>" << ENDL;
+        cerr << WARNING_HTML_TAG "<b>RÃ©capitulatif des erreurs rencontrÃ©es</b>" << ENDL;
         for (const errorLine_t& e :  errorLineStack)
         {
             cerr << e.filePath;
             if (e.lineN != -1)
-                cerr << " -- Ligne n°" << e.lineN << ENDL;
+                cerr << " -- Ligne nÂ°" << e.lineN << ENDL;
             else
                 cerr << " -- Ligne inconnue." << ENDL;
 
@@ -878,7 +878,7 @@ int produire_segment(const info_t& info, const vString& segment)
             for (const errorLine_t& e :  errorLineStack)
             {
                 if (e.lineN != -1)
-                    LOG << " -- Ligne n°" << e.lineN << ENDL;
+                    LOG << " -- Ligne nÂ°" << e.lineN << ENDL;
                 else
                     LOG << " -- Ligne inconnue." << ENDL;
             }
@@ -887,17 +887,17 @@ int produire_segment(const info_t& info, const vString& segment)
    generate_rank_signal(-1);
    cerr << " \n";
 
-    /* libération de la mémoire */
+    /* libÃ©ration de la mÃ©moire */
 
    if (! liberer_memoire) return 0;
 
    if (verbeux)
        cerr << ENDL
-                     << PROCESSING_HTML_TAG "Libération de la mémoire..."
+                     << PROCESSING_HTML_TAG "LibÃ©ration de la mÃ©moire..."
                      << ENDL;
 
-    /* En cas de problème d'allocation mémoire le mieux est encore de ne pas désallouer car on ne connait pas exacteemnt l'état
-     * de la mémoire dynamique */
+    /* En cas de problÃ¨me d'allocation mÃ©moire le mieux est encore de ne pas dÃ©sallouer car on ne connait pas exacteemnt l'Ã©tat
+     * de la mÃ©moire dynamique */
 
     for (unsigned i = 0; i < Info[0].nbfil; ++i)
     {

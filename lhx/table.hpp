@@ -22,7 +22,7 @@ static inline void convertir(const std::string& filepath)
                 + std::string(" > ")
                 + filepath + CSV + " 2>null").c_str());
 
-    if (verbeux) std::cerr << PROCESSING_HTML_TAG "Conversion terminée"  ENDL;
+    if (verbeux) std::cerr << PROCESSING_HTML_TAG "Conversion terminÃ©e"  ENDL;
 }
 #endif
 

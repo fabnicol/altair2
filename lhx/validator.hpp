@@ -34,23 +34,23 @@ typedef struct
 } thread_t;
 
 
-static constexpr auto EXPRESSION_REG_ELUS = "^maire.*|^pr..?sident.*|^[eé]lus?|^(?:adj.*\\bmaire\\b|vi.*\\bpr..?sident\\b|cons.*\\bmuni|cons.*\\bcomm|cons.*\\bd..?l..?gu).*",
+static constexpr auto EXPRESSION_REG_ELUS = "^maire.*|^pr..?sident.*|^[eÃ©]lus?|^(?:adj.*\\bmaire\\b|vi.*\\bpr..?sident\\b|cons.*\\bmuni|cons.*\\bcomm|cons.*\\bd..?l..?gu).*",
 
-  EXPRESSION_REG_VACATIONS = ".*\\bvacat.*|.*\\bvac\\.?\\b.*",                 // vac.* peut être vérifié par 'vacances'
+  EXPRESSION_REG_VACATIONS = ".*\\bvacat.*|.*\\bvac\\.?\\b.*",                 // vac.* peut Ãªtre vÃ©rifiÃ© par 'vacances'
   EXPRESSION_REG_ASSISTANTES_MATERNELLES = ".*\\bass.*\\bmater.*",
-  EXPRESSION_REG_ADJOINTS = "\\W*(?:adj.*(?:adm|ani|tech|pat)|op[eé].*(a\\.?p\\.?s\\.?|act)|aux.*(pu[eé]r|soin)|gard(ien|.*ch)|brigadier|receveur|sapeur|capor|sous.*off).*",
-  EXPRESSION_REG_AGENTS = "\\W*(?:(?:agent|agt\\.?).*(?:soc|ma[îi]|poli|p\\.?m\\.?|sp[eé]|pat)|(?:agent|agt\\.?)?.*atsem).*",
+  EXPRESSION_REG_ADJOINTS = "\\W*(?:adj.*(?:adm|ani|tech|pat)|op[eÃ©].*(a\\.?p\\.?s\\.?|act)|aux.*(pu[eÃ©]r|soin)|gard(ien|.*ch)|brigadier|receveur|sapeur|capor|sous.*off).*",
+  EXPRESSION_REG_AGENTS = "\\W*(?:(?:agent|agt\\.?).*(?:soc|ma[Ã®i]|poli|p\\.?m\\.?|sp[eÃ©]|pat)|(?:agent|agt\\.?)?.*atsem).*",
 
  /* Attention il ne faut pas autre chose que \\W* car sinon on peut avoir confusion entre cons[eiller].* et [agent].*cons[ervation].*   */
- /* cons = conseiller ou conservateur souvent abrégé cons., mai speut être aussi conservation */
+ /* cons = conseiller ou conservateur souvent abrÃ©gÃ© cons., mai speut Ãªtre aussi conservation */
 
-  EXPRESSION_REG_CAT_A = "\\W*(?:adminis|attach|biol|biblio|infi.*(?:cad.*san|soi)|cap.*t|com.*t|.*colon|cons\\.?|d\\S*\\.?\\s*g\\S*\\.?|direct|ing[eé]n|m[eé]de|pharm|prof|psy|puer|puér|sage.*f|secr.*mai[v[eé]t[eé]r]|infirm\\S*\\s.*(?:soi|enc.*s|C\\.?S\\.?)).*",
+  EXPRESSION_REG_CAT_A = "\\W*(?:adminis|attach|biol|biblio|infi.*(?:cad.*san|soi)|cap.*t|com.*t|.*colon|cons\\.?|d\\S*\\.?\\s*g\\S*\\.?|direct|ing[eÃ©]n|m[eÃ©]de|pharm|prof|psy|puer|puÃ©r|sage.*f|secr.*mai[v[eÃ©]t[eÃ©]r]|infirm\\S*\\s.*(?:soi|enc.*s|C\\.?S\\.?)).*",
 
- /* A cause du cas problématique des infirmiers, ex B recatégorisés en A, il faut d'abord tester A puis si échec B */
+ /* A cause du cas problÃ©matique des infirmiers, ex B recatÃ©gorisÃ©s en A, il faut d'abord tester A puis si Ã©chec B */
 
-  EXPRESSION_REG_CAT_B = "\\W*(?:r[eé]dac|tech|anim|[eé]duc|ass\\.?.*(?:ens|cons|pat|bib|socio.*[eé]d|m[ée]d.*t)|monit|contr[oô].*t(?:er|ra)|chef.*p.*m|lieut[^c\\s]*\\b|infirm|r[eé][eé]duc).*",
+  EXPRESSION_REG_CAT_B = "\\W*(?:r[eÃ©]dac|tech|anim|[eÃ©]duc|ass\\.?.*(?:ens|cons|pat|bib|socio.*[eÃ©]d|m[Ã©e]d.*t)|monit|contr[oÃ´].*t(?:er|ra)|chef.*p.*m|lieut[^c\\s]*\\b|infirm|r[eÃ©][eÃ©]duc).*",
 
-/* Les définitions ci-après doivent être négatives */  NOM_BASE = "Table",
+/* Les dÃ©finitions ci-aprÃ¨s doivent Ãªtre nÃ©gatives */  NOM_BASE = "Table",
   NOM_BASE_BULLETINS = "Bulletins",
   CSV = ".csv";
 
@@ -82,8 +82,8 @@ enum class BaseType : int
                     MAXIMUM_LIGNES_PAR_ANNEE = 16
                   };
 
-#define INDEX_MAX_COLONNNES 5    // nombre de type de champ de ligne de paye (Libellé, Code, Taux, Base, ...) moins 1.
-#define BESOIN_MEMOIRE_ENTETE  27  /* nb d'éléments de l'enum ci-dessous */
+#define INDEX_MAX_COLONNNES 5    // nombre de type de champ de ligne de paye (LibellÃ©, Code, Taux, Base, ...) moins 1.
+#define BESOIN_MEMOIRE_ENTETE  27  /* nb d'Ã©lÃ©ments de l'enum ci-dessous */
 
 typedef enum {
               Annee, Mois, Budget, Employeur, Siret, Etablissement,
@@ -154,7 +154,7 @@ typedef struct {
  #define MAX_LIGNES_PAYE 1000
 #endif
 
-// MAX_NB_AGENTS détermine le nombre maximal d'agents par mois potentiellement traités
+// MAX_NB_AGENTS dÃ©termine le nombre maximal d'agents par mois potentiellement traitÃ©s
 
 #ifndef MAX_NB_AGENTS
  #define MAX_NB_AGENTS 8000
@@ -184,7 +184,7 @@ typedef struct {
 #define LINE_MEMORY_EXCEPTION 2
 #define NO_NEXT_ITEM 3
 
-/* pas de contrôle d'existence de noeud : version affaiblie de la macro précédente */
+/* pas de contrÃ´le d'existence de noeud : version affaiblie de la macro prÃ©cÃ©dente */
 
 
 
@@ -208,7 +208,7 @@ static const int nbType                  = sizeof(type_remuneration)/sizeof(char
 
 
 static const xmlChar drapeau[][2]  = {{1,0}, {2,0}, {3,0}, {4,0}, {5,0}, {6,0}, {7,0}, {8,0}, {9,0}, {10,0}, {11,0}, {12,0}};
-/* A chaque valeur de drapeau[i][0] doit correspondre un type différent de rémunération type_remuneration[i] */
+/* A chaque valeur de drapeau[i][0] doit correspondre un type diffÃ©rent de rÃ©munÃ©ration type_remuneration[i] */
 
 
 void* decoder_fichier(info_t& tinfo);

@@ -1109,7 +1109,7 @@ void MainWindow::feedLHXConsoleWithHtml()
 
     altair->readRankSignal();
 
-    QString buffer = QString::fromLatin1(altair->process.readAllStandardOutput());
+    QString buffer = QString::fromUtf8(altair->process.readAllStandardOutput());
 
     consoleDialog->insertHtml(buffer);
     ++consoleCounter;

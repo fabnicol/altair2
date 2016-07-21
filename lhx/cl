@@ -5,13 +5,15 @@
 -s
 ;
 -D
-/home/fab/Nouveau dossier
+/home/fab/Dev/altair/Tests/Exemple/Donnees/R-Altair
 --memshare
-90
+50
 -j
-'8'
+'4'
 -t
 -E
+-T
+1000000
 /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Paris/2014_01_AGENTS_VILLE (1).xhl
 /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Paris/2014_01_AGENTS_VILLE.xhl
 /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Paris/2014_02_AGENTS_VILLE (1).xhl

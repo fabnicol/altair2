@@ -1,13 +1,13 @@
 #ifndef LIGNE_PAYE
 #define LIGNE_PAYE
-/*  Programme écrit par Fabrice NICOL sous licence CECILL 3
- *  Attention : lorsqu'il est édité, le présent code doit être converti soit en UTF-8 soit en ISO-5589-1 (Latin-1)avant d'être compilé.
- *  En entrée d'Altair préciser encodage.entrée en conformité avec l'encodage du présent fichier, qui sera celui de la base générée.
+/*  Programme Ã©crit par Fabrice NICOL sous licence CECILL 3
+ *  Attention : lorsqu'il est Ã©ditÃ©, le prÃ©sent code doit Ãªtre converti soit en UTF-8 soit en ISO-5589-1 (Latin-1)avant d'Ãªtre compilÃ©.
+ *  En entrÃ©e d'Altair prÃ©ciser encodage.entrÃ©e en conformitÃ© avec l'encodage du prÃ©sent fichier, qui sera celui de la base gÃ©nÃ©rÃ©e.
  */
 
 /*
-   Constantes de compilation pouvant être redéfinies : NA_STRING, MAX_LIGNES_PAYE, MAX_NB_AGENTS, NO_DEBUG
-   MAX_NB_AGENTS détermine le nombre maximal d'agents par mois potentiellement traités
+   Constantes de compilation pouvant Ãªtre redÃ©finies : NA_STRING, MAX_LIGNES_PAYE, MAX_NB_AGENTS, NO_DEBUG
+   MAX_NB_AGENTS dÃ©termine le nombre maximal d'agents par mois potentiellement traitÃ©s
 */
 
 #include <iomanip>
@@ -52,7 +52,7 @@ static inline xmlNodePtr GCC_INLINE atteindreNoeudArret(const char* noeud, xmlNo
 
 inline void warning_msg(const char* noeud, const info_t& info, const xmlNodePtr cur)
 {
-       /* pour des raisons pratiques il peut être nécessaire de limiter le nombre de sorties de ce type */
+       /* pour des raisons pratiques il peut Ãªtre nÃ©cessaire de limiter le nombre de sorties de ce type */
 
 
 
@@ -72,7 +72,7 @@ inline void warning_msg(const char* noeud, const info_t& info, const xmlNodePtr 
        else
            if (warning_count == WARNING_LIMIT)
            {
-               std::cerr << WARNING_HTML_TAG "Impossible d'atteindre " << noeud << ". Messages d'avertissement supprimés par la suite."  ENDL;
+               std::cerr << WARNING_HTML_TAG "Impossible d'atteindre " << noeud << ". Messages d'avertissement supprimÃ©s par la suite."  ENDL;
                warning_count = WARNING_LIMIT + 1;
                errorLineStack.emplace_back(afficher_environnement_xhl(info, cur));
            }
@@ -80,7 +80,7 @@ inline void warning_msg(const char* noeud, const info_t& info, const xmlNodePtr 
        if (fichier_last !=  "" && info.threads->argv[info.fichier_courant] != fichier_last)
            warning_count = 0;
 
-       /* on remet à zéro le maximum d'avertissements à chaque nouveau fichier */
+       /* on remet Ã  zÃ©ro le maximum d'avertissements Ã  chaque nouveau fichier */
 
        fichier_last = info.threads->argv[info.fichier_courant];
 
@@ -96,9 +96,9 @@ static inline void GCC_INLINE  verifier_taille(const int nbLignePaye, info_t& in
     if (nbLignePaye >= info.nbLigneUtilisateur)
     {
         std::cerr << "\
-                En excès du nombre de lignes de paye autorisé (" << info.nbLigneUtilisateur << ")."  ENDL
-                "Omettre -n ... et utiliser -L fichier_log pour détecter le maximum de lignes de paye dans les fichiers."  ENDL
-                "Utiliser -N ce_maximum ou bien recompiler en augmentant MAX_LIGNES_PAYE, à condition de disposer d'assez de mémoire."  ENDL;
+                En excÃ¨s du nombre de lignes de paye autorisÃ© (" << info.nbLigneUtilisateur << ")."  ENDL
+                "Omettre -n ... et utiliser -L fichier_log pour dÃ©tecter le maximum de lignes de paye dans les fichiers."  ENDL
+                "Utiliser -N ce_maximum ou bien recompiler en augmentant MAX_LIGNES_PAYE, Ã  condition de disposer d'assez de mÃ©moire."  ENDL;
 
         exit(-10);
     }
