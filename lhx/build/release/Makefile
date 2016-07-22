@@ -156,7 +156,6 @@ DIST          = /home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/features/spec_pre.prf \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/features/qt_config.prf \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/linux-g++/qmake.conf \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/features/spec_post.prf \
-		../../.qmake.stash \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/features/exclusive_builds.prf \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/features/default_pre.prf \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/features/resolve_config.prf \
@@ -286,7 +285,6 @@ Makefile: ../../lhx.linux.pro /home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/linux-g++
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/features/qt_config.prf \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/linux-g++/qmake.conf \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/features/spec_post.prf \
-		.qmake.stash \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/features/exclusive_builds.prf \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/features/default_pre.prf \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/features/resolve_config.prf \
@@ -397,7 +395,6 @@ Makefile: ../../lhx.linux.pro /home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/linux-g++
 /home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/features/qt_config.prf:
 /home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/linux-g++/qmake.conf:
 /home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/features/spec_post.prf:
-.qmake.stash:
 /home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/features/exclusive_builds.prf:
 /home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/features/default_pre.prf:
 /home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/features/resolve_config.prf:

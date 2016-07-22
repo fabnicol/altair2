@@ -128,19 +128,13 @@ MainWindow::MainWindow(char* projectName)
 
 void MainWindow::on_nppButton_clicked()
 {
-#ifdef __linux__
-    const char* path = "C:/home/fab/Dev/altair";
-#else
-    const char* path = "C:/Users/Public/log.html";
-#endif
 
-    tempLog.setFileName(path);
+    tempLog.setFileName(common::generateDatadirPath("/log.hml"));
     if (tempLog.exists()) tempLog.remove();
 
     tempLog.open(QIODevice::ReadWrite);
     tempLog.write(
-        qobject_cast<QTextEdit*>(bottomTabWidget->currentWidget())->toHtml().replace(":/",
-                                                                             common::path_access("Interface_windows")+QDir::separator()).toLatin1()
+        qobject_cast<QTextEdit*>(bottomTabWidget->currentWidget())->toHtml().replace(":", common::generateDatadirPath("")).toLatin1()
                 );
     tempLog.close();
 
