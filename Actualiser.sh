@@ -9,13 +9,19 @@ read reponse
 if test x$reponse = xOui; then
    
   git reset --hard HEAD
-  git clean -dfx
+  git clean -df
   adresse=$(cat entrepot.txt)
   git remote remove origin
   git remote add -t master origin $adresse
-  git pull --update-shallow --depth=1 -X theirs -s recursive origin master
-  rm -rf altair altair.linux sft lhx Interface Docs Tests/Exemple/Donnees
-  mkdir lhx
+  for i in R Interface_linux linux '*.txt' '*.R' '*.sh' '*.desktop' VERSION LICENCE '*.ico' '*.bmp' '*.png' .Rproj.user 'Tests/Exemple/*' 'Tests/Exemple/Docs' 
+  do
+    git checkout FETCH_HEAD -- $i 
+  done
+  if ! test -d  lhx
+  then
+     mkdir lhx    
+  fi
+
   git commit -am "Sauvegarde $(date)"
 
 fi
