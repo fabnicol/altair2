@@ -2,6 +2,7 @@
 
 FString common::htmlLogPath;
 QString common::tempdir=QDir::homePath ()+QDir::separator()+"tempdir";  // should be equal to main app globals.settings.tempdir=TEMPDIR;
+QString  const common::systemPathPrefix = "/../../../";
 
 qint64 common::getDirectorySize(const QString &path, const QString &extension)
 {

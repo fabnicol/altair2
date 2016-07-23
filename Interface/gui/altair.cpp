@@ -1,7 +1,7 @@
 
 #include <QFile>
 #include <sys/stat.h>
-#include <errno.h>
+
 #include <QModelIndex>
 #include <QtXml>
 #include <QSettings>
@@ -39,7 +39,7 @@ void Altair::refreshModel()
     model->sort(Qt::AscendingOrder);
     model->setFilter(QDir::AllDirs|QDir::Drives|QDir::Files|QDir::NoDotAndDotDot|QDir::NoSymLinks);
     model->setNameFilterDisables(false);
-    model->setNameFilters({"*.xhl"});
+    model->setNameFilters({"*.xhl", "*.xml", "*.XHL", "*.XML"});
 }
 
 
@@ -215,7 +215,10 @@ void  Altair::openProjectFileCommonCode()
 
     checkEmptyProjectName();
     setCurrentFile(projectName);
+    geom = parent->geometry();
     clearInterfaceAndParseProject();
+    parent->setGeometry(geom);
+
     // resetting interfaceStatus::parseXml bits to 0
     RefreshFlag = RefreshFlag & (~interfaceStatus::parseXml);
 

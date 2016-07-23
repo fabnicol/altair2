@@ -1,6 +1,7 @@
 
 #include "altair.h"
 #include "enums.h"
+#include <QApplication>
 
 // Should it slow down application launch on some platform, one option could be to launch it just once then on user demand
 
@@ -16,9 +17,9 @@ MainWindow::MainWindow(char* projectName)
   raise();
   recentFiles = QStringList() ;
 
-  altair=new Altair;
-  altair->parent=this;
-  altair->projectName=QString::fromLatin1(projectName);
+  altair = new Altair;
+  altair->parent = this;
+  altair->projectName = QString::fromLatin1(projectName);
 
   createActions();
   createMenus();
@@ -39,20 +40,19 @@ MainWindow::MainWindow(char* projectName)
 
   altair->addActions(actionList);
 
-  bottomDockWidget=new QDockWidget;
-  bottomTabWidget=new QTabWidget;
-  consoleDialog=  new QTextEdit;
+  bottomDockWidget = new QDockWidget;
+  bottomTabWidget = new QTabWidget;
+  consoleDialog =  new QTextEdit;
   consoleDialog->setReadOnly(true);
 
   bottomTabWidget->addTab(altair->outputTextEdit, tr("Messages"));
   bottomTabWidget->addTab(consoleDialog, tr("Console"));
   bottomTabWidget->setCurrentIndex(0);
 
-  fileTreeViewDockWidget= new QDockWidget;
+  fileTreeViewDockWidget = new QDockWidget;
   fileTreeViewDockWidget->setWidget(altair->fileTreeView);
   fileTreeViewDockWidget->setMinimumHeight((unsigned) (height()*0.3));
   fileTreeViewDockWidget->setFeatures(QDockWidget::AllDockWidgetFeatures);
-  fileTreeViewDockWidget->hide();
   addDockWidget(Qt::LeftDockWidgetArea, fileTreeViewDockWidget);
 
   managerDockWidget= new QDockWidget;
@@ -71,22 +71,32 @@ MainWindow::MainWindow(char* projectName)
 
   QToolButton *clearBottomTabWidgetButton=new QToolButton;
   const QIcon clearOutputText = QIcon(QString::fromUtf8( ":/images/edit-clear.png"));
+  clearBottomTabWidgetButton->setToolTip("Effacer l'onglet courant de la console");
   clearBottomTabWidgetButton->setIcon(clearOutputText);
 
-  QGroupBox *stackedBottomWidget=new QGroupBox;
-  QHBoxLayout *stackedBottomWidgetLayout=new QHBoxLayout;
-  stackedBottomWidgetLayout->addWidget(clearBottomTabWidgetButton);
+  QGroupBox *stackedBottomWidget = new QGroupBox;
+  QHBoxLayout *stackedBottomWidgetLayout = new QHBoxLayout;
+  QVBoxLayout *buttonsForBottomWidgetLayout = new QVBoxLayout;
+  buttonsForBottomWidgetLayout->addWidget(clearBottomTabWidgetButton);
+
+  QToolButton *nppBottomTabWidgetButton=new QToolButton;
+  const QIcon nppIcon = QIcon(QString::fromUtf8( ":/images/internet-explorer.png"));
+  nppBottomTabWidgetButton->setToolTip("Afficher les messages dans l'explorateur internet");
+  nppBottomTabWidgetButton->setIcon(nppIcon);
+  buttonsForBottomWidgetLayout->addWidget(nppBottomTabWidgetButton);
+
+  stackedBottomWidgetLayout->addLayout(buttonsForBottomWidgetLayout);
   stackedBottomWidgetLayout->addWidget(bottomTabWidget);
   stackedBottomWidget->setLayout(stackedBottomWidgetLayout);
 #ifndef MINIMAL
   bottomDockWidget->setMinimumHeight(400);
- #endif
+#endif
   bottomDockWidget->setWidget(stackedBottomWidget);
 
   addDockWidget(Qt::BottomDockWidgetArea, bottomDockWidget);
 
   setWindowIcon(QIcon(":/images/altair.png"));
-  setWindowTitle("Interface  Altaïr"+ QString(VERSION));
+  setWindowTitle("Interface  Altaïr "+ QString(VERSION));
 
   dialog=new options(altair);
   dialog->setParent(altair, Qt::Window);
@@ -101,6 +111,7 @@ MainWindow::MainWindow(char* projectName)
   // resetting interfaceStatus::parseXml bits to 0
   Altair::RefreshFlag = Altair::RefreshFlag & (~interfaceStatus::parseXml);
 
+  connect(nppBottomTabWidgetButton, &QToolButton::clicked, [this] { on_nppButton_clicked();});
   connect(clearBottomTabWidgetButton, &QToolButton::clicked, [this] { on_clearOutputTextButton_clicked();});
   connect(consoleDialog, SIGNAL(copyAvailable(bool)), consoleDialog, SLOT(copy()));
   connect(&(altair->process), SIGNAL(finished(int)), this, SLOT(resetCounter()));
@@ -113,6 +124,25 @@ MainWindow::MainWindow(char* projectName)
       altair->openProjectFileCommonCode();
   }
 }
+
+
+void MainWindow::on_nppButton_clicked()
+{
+
+    tempLog.setFileName(common::generateDatadirPath("/log.hml"));
+    if (tempLog.exists()) tempLog.remove();
+
+    tempLog.open(QIODevice::ReadWrite);
+    tempLog.write(
+        qobject_cast<QTextEdit*>(bottomTabWidget->currentWidget())->toHtml().replace(":", common::generateDatadirPath("")).toLatin1()
+                );
+    tempLog.close();
+
+    QUrl url=QUrl::fromLocalFile(tempLog.fileName());
+
+    browser::showPage(url);
+}
+
 
 void MainWindow::on_clearOutputTextButton_clicked()
 {
@@ -176,7 +206,7 @@ void MainWindow::createMenus()
  editMenu->addActions({displayAction, displayOutputAction, displayFileTreeViewAction,
                        displayManagerAction, clearOutputTextAction, editProjectAction});
 
- processMenu->addActions({RAction, lhxAction, openBaseDirAction});
+ processMenu->addActions({RAction, lhxAction, anonymAction, openBaseDirAction});
 
  optionsMenu->addActions({optionsAction, configureAction});
 
@@ -232,6 +262,10 @@ void MainWindow::createActions()
   lhxAction->setShortcut(QKeySequence("Ctrl+B"));
   lhxAction->setIcon(QIcon(":/images/csv.png"));
   connect(lhxAction, SIGNAL(triggered()), altair, SLOT(run()));
+
+  anonymAction = new QAction(tr("Anonymiser la base de données XML"), this);
+  anonymAction->setIcon(QIcon(":/images/anonymiser.png"));
+  connect(anonymAction, SIGNAL(triggered()), this, SLOT(anonymiser()));
 
   openBaseDirAction = new QAction(tr("Ouvrir le répertoire des bases"), this);
   openBaseDirAction ->setIcon(QIcon(":/images/directory.png"));
@@ -315,11 +349,189 @@ void MainWindow::createActions()
     }
 
   actionList << newAction << openAction << saveAction << saveAsAction << exportAction << archiveAction << restoreAction << closeAction << exitAction << separator[0] <<
-                RAction << lhxAction << openBaseDirAction << displayOutputAction << displayFileTreeViewAction <<
+                RAction << lhxAction << anonymAction << openBaseDirAction << displayOutputAction << displayFileTreeViewAction <<
                 displayManagerAction <<  separator[4] <<
                 clearOutputTextAction <<  editProjectAction << separator[3] << configureAction <<
                 optionsAction << helpAction << aboutAction ;
   
+}
+
+#ifndef REGEX_ANONYM
+
+QString MainWindow::extraire_donnees_protegees(const std::string& st)
+{
+    std::string  test;
+    QString  out;
+
+    std::string::const_iterator iter = st.begin();
+    int i = 0;
+
+    while (iter != st.end())
+    {
+        bool processed = false;
+        while (++iter != st.end() && *iter != '<') continue;
+
+        std::string::const_iterator iter0 = iter;
+        emit(altair->setProgressBar(++i));
+        qApp->processEvents();
+
+        while (++iter != st.end())
+        {
+            if (*iter == '>') break;
+        }
+
+        test = std::string(iter0, iter + 1);
+
+        const char* Tags[] = { "Civilite", "Nom", "Prenom", "Adr1", "Adr2", "Ville", "CP", "TitCpte", "NumUrssaf", "Siret", "IdCpte" };
+
+        for (const char*& tag : Tags)
+        {
+
+            if (test.find(tag, 1) != std::string::npos)
+            {
+                std::string::const_iterator iter1 = iter0 + 4;
+                while (++iter1 != test.end())
+                {
+                    if (*iter1 == '\"') break;
+                }
+
+                while (++iter1 != test.end())
+                {
+                    if (*iter1 == '\"') break;
+                }
+
+                QString reste = QString::fromStdString(std::string(++iter1, iter + 1));
+
+                out += "<" + QString(tag) + QString(" V = \"XXXX\"") + reste + "\n";
+                processed = true;
+            }
+        }
+
+        if (! processed)
+            out += QString::fromStdString(test) + "\n";
+
+    }
+
+    return out;
+}
+#endif
+
+
+void MainWindow::launch_process(const QString& path)
+{
+
+    QFile xml(path);
+
+    QFile xml_out(path + ".new");
+    if (!xml.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        Q("Erreur de lancement du processus")
+        return;
+    }
+    if (!xml_out.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+        Q("Erreur de lancement du processus")
+        return;
+    }
+
+    QTextStream out(&xml_out);
+    altair->outputTextEdit->append(PROCESSING_HTML_TAG "Lecture du fichier...");
+    emit(altair->showProgressBar());
+    emit(altair->setProgressBar(0));
+    altair->outputTextEdit->repaint();
+    QString xml_mod = QString(xml.readAll());
+
+    altair->outputTextEdit->append(PROCESSING_HTML_TAG "Remplacement des informations protégées. Patientez...");
+    altair->outputTextEdit->repaint();
+
+  #ifdef REGEX_ANONYM
+    QRegExp reg("(Civilite|Nom|Prenom|Adr[12]|Ville|CP|TitCpte|NumUrssaf|Siret|IdCpte)\\s+V\\s*=\\s*\"[\\w\\s-',]*\"(.*)");
+    QRegExp reg2("NIR\\s+V\\s*=\\s*\"(.....).*\"(.*)");
+
+    reg.setMinimal(true);
+    reg2.setMinimal(true);
+    reg.setCaseSensitivity(Qt::CaseSensitive);
+
+
+    QStringList xml_list = xml_mod.splitRef('<');
+
+    emit(altair->setProgressBar(0, xml_list.size()));
+
+    int i = 0;
+    for (QString& buffer : xml_list)
+    {
+        if (buffer.contains(reg))
+        {
+          buffer.replace(reg, reg.cap(1) + QString(" V=\"XXX\" ") + reg.cap(2));
+        }
+
+        if (buffer.contains(reg2))
+        {
+          buffer.replace(reg2, "NIR V=\"" + reg2.cap(1) + QString("XXX\" ") + reg2.cap(2));
+        }
+
+        if (buffer[0] != '\0')
+        {
+          out << '<' << buffer;
+
+          if (! buffer.endsWith('\n'))
+            out << '\n';
+        }
+
+        emit(altair->setProgressBar(++i));
+        qApp->processEvents();
+    }
+
+    xml_list.clear();
+
+  #else
+
+    int bar_range = xml_mod.count('<');
+
+    emit(altair->setProgressBar(0, bar_range));
+    out <<  extraire_donnees_protegees(xml_mod.toStdString());
+
+  #endif
+
+    emit(altair->setProgressBar(0));
+    xml_out.close();
+    xml.close();
+    xml.remove();
+    xml_out.rename(path);
+
+    altair->outputTextEdit->append(PROCESSING_HTML_TAG  "Anonymisation de " + path + " terminée.");
+    altair->outputTextEdit->repaint();
+    emit(altair->setProgressBar(0));
+
+    /* Il est souhaitable d'actualiser le projet avant de lancer v() car en cas de non actualisation récente la valeur de la case
+     * peut être en décalage avec la réalité. C'est au cours de ces actualisations que la valeur est enregistrée dans une table de hashage. */
+
+    altair->updateProject(true);
+
+}
+
+void MainWindow::anonymiser()
+{
+
+
+    QItemSelectionModel *selectionModel = altair->fileTreeView->selectionModel();
+    QModelIndexList  indexList=selectionModel->selectedIndexes();
+    QFileSystemModel *model=altair->model;
+
+
+    if (indexList.isEmpty()) return;
+
+    for (const QModelIndex& index : indexList)
+     {
+        const QString path = model->filePath(index);
+        if (! path.isEmpty())
+        {
+            altair->outputTextEdit->append(PROCESSING_HTML_TAG "Lancement de l'anonymisation du fichier " + path + ". Patientez...");
+            altair->outputTextEdit->repaint();
+            launch_process(path);
+        }
+     }
+
 }
 
 void MainWindow::configure()
@@ -350,7 +562,7 @@ void MainWindow::on_displayFileTreeViewButton_clicked()
 void MainWindow::on_openManagerWidgetButton_clicked(bool isHidden)
 {
    managerDockWidget->setVisible(isHidden);
- }
+}
 
 void MainWindow::on_openManagerWidgetButton_clicked()
 {
@@ -614,14 +826,14 @@ void MainWindow::configureOptions()
     contentsWidget = new QDialog(this);
     contentsWidget->setVisible(false);
 
-    QGroupBox *displayGroupBox =new QGroupBox(tr("Affichage"));
-    QGroupBox *displayToolBarsGroupBox =new QGroupBox(tr("Barres d'outils"));
+    QGroupBox *displayGroupBox = new QGroupBox(tr("Affichage"));
+    QGroupBox *displayToolBarsGroupBox = new QGroupBox(tr("Barres d'outils"));
 
     closeButton = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     closeButton->button(QDialogButtonBox::Ok)->setText("Accepter");
     closeButton->button(QDialogButtonBox::Cancel)->setText("Annuler");    
 
-    defaultProjectManagerWidgetLayoutBox=new FCheckBox("Afficher le gestionnaire de projet",
+    defaultProjectManagerWidgetLayoutBox = new FCheckBox("Afficher le gestionnaire de projet",
                                                    #ifdef MINIMAL
                                                                             flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
                                                    #else
@@ -630,7 +842,7 @@ void MainWindow::configureOptions()
                                                                             "projectManagerDisplay",
                                                                             {"Interface", "Afficher le gestionnaire de projet"});
 
-    defaultFileManagerWidgetLayoutBox=new FCheckBox("Afficher le gestionnaire de fichiers",
+    defaultFileManagerWidgetLayoutBox = new FCheckBox("Afficher le gestionnaire de fichiers",
                                                     #ifdef MINIMAL
                                                                             flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
                                                     #else
@@ -639,12 +851,12 @@ void MainWindow::configureOptions()
                                                                             "fileManagerDisplay",
                                                                            {"Interface", "Afficher le gestionnaire de fichiers"});
 
-    defaultFullScreenLayoutBox=new FCheckBox("Plein écran",
+    defaultFullScreenLayoutBox = new FCheckBox("Plein écran",
                                                         flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
                                                         "fullScreenDisplay",
                                                         {"Interface", "Plein écran au lancement"});
 
-    defaultOutputTextEditBox=new FCheckBox("Afficher les messages",
+    defaultOutputTextEditBox = new FCheckBox("Afficher les messages",
                                        #ifdef MINIMAL
                                                                    flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
                                        #else
@@ -653,7 +865,7 @@ void MainWindow::configureOptions()
                                                                    "outputTextEdit",
                                                                    {"Interface", "Afficher les messages"});
     
-    defaultFileToolBarBox=new FCheckBox("Afficher la barre d'outils de fichiers",
+    defaultFileToolBarBox = new FCheckBox("Afficher la barre d'outils de fichiers",
                                     #ifdef MINIMAL
                                                                 flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
                                     #else
@@ -662,7 +874,7 @@ void MainWindow::configureOptions()
                                                                 "fileToolBar",
                                                                 {"Interface", "Afficher la barre d'outils de fichiers"});
     
-    defaultEditToolBarBox=new FCheckBox("Afficher la barre d'outils d'édition",
+    defaultEditToolBarBox = new FCheckBox("Afficher la barre d'outils d'édition",
                                                                 flags::status::enabledChecked|flags::commandLineType::noCommandLine,
                                                                 "editToolBar",
                                                                 {"Interface", "Afficher la barre d'outils d'édition"});
@@ -891,7 +1103,7 @@ void MainWindow::feedLHXConsoleWithHtml()
 
     altair->readRankSignal();
 
-    QString buffer = QString::fromLatin1(altair->process.readAllStandardOutput());
+    QString buffer = QString::fromUtf8(altair->process.readAllStandardOutput());
 
     consoleDialog->insertHtml(buffer);
     ++consoleCounter;

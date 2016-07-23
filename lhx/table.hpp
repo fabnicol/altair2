@@ -6,25 +6,23 @@
 #include <string>
 #include <iostream>
 
-using namespace std;
-
 void generer_table_bulletins(info_t* Info);
-int64_t generer_table_standard(const char* chemin_table, vector<info_t> &info);
+int64_t generer_table_standard(const char* chemin_table, std::vector<info_t> &info);
 extern bool verbeux;
-pair<uint64_t, uint32_t>  boucle_ecriture(vector<info_t> &info, int segment);
+std::pair<uint64_t, uint32_t>  boucle_ecriture(std::vector<info_t> &info, int segment);
 
 #if defined(__WIN32__) && defined(USE_ICONV)
-static inline void convertir(const string& filepath)
+static inline void convertir(const std::string& filepath)
 {
 
-    if (verbeux) cerr << PROCESSING_HTML_TAG "Conversion au format Latin-1..."  ENDL;
+    if (verbeux) std::cerr << PROCESSING_HTML_TAG "Conversion au format Latin-1..."  ENDL;
 
-    system((string("set PATH=%PATH%; C:/Users/Public/Dev/altair/Outils && CALL iconv.exe -c -s -f UTF-8 -t ISO-8859-1 " )
+    std::system((std::string("set PATH=%PATH%; C:/Users/Public/Dev/altair/Outils && CALL iconv.exe -c -s -f UTF-8 -t ISO-8859-1 " )
                 + filepath + ".temp" + CSV
-                + string(" > ")
+                + std::string(" > ")
                 + filepath + CSV + " 2>null").c_str());
 
-    if (verbeux) cerr << PROCESSING_HTML_TAG "Conversion terminée"  ENDL;
+    if (verbeux) std::cerr << PROCESSING_HTML_TAG "Conversion terminÃ©e"  ENDL;
 }
 #endif
 

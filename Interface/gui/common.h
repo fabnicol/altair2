@@ -65,13 +65,12 @@ static void openDir(QString path);
 qint64 getFileSize(const QString &);
 static const QString openDirDialog(flags::directory checkEmptyness = directory::noCheck);
 
-inline const QString path_access(const QString& s) {return QDir::toNativeSeparators(QDir::cleanPath(QCoreApplication::applicationDirPath()+ systemPathPrefix +  s)); }
-
+static const QString path_access(const QString& s) {return QDir::toNativeSeparators(QDir::cleanPath(QCoreApplication::applicationDirPath()+ systemPathPrefix +  s)); }
 
 public :
   QString  videoFilePath;
   static FString  htmlLogPath;
-  const QString   systemPathPrefix = "/../../../";
+  static const QString   systemPathPrefix;
 
 #ifdef Q_OS_WIN
 
@@ -98,7 +97,7 @@ public :
 
     #ifdef MINIMAL
       QString RAltairDirStr = path_access("R/bin/x64");
-      // Passer les '/' soit Ã  QDir::toNativeSeparators() soit utiliser QDir::separator() sous Windows.
+      // Passer les '/' soit Ãƒ  QDir::toNativeSeparators() soit utiliser QDir::separator() sous Windows.
       QString RAltairCommandStr = RAltairDirStr + QDir::separator() + "Rscript" + QString(systemSuffix);
     #else
       #ifdef __WIN32__

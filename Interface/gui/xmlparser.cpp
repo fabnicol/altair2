@@ -94,7 +94,7 @@ inline void stackData(const QDomNode & node, int level, QVariant &textData)
 
     QStringList strL;
     QString str;
-    
+
     switch(level)
     {
     /* parses < tag> text </tag> */
@@ -211,7 +211,7 @@ inline void stackData(const QDomNode & node, QVariant &textData, QStringList& ta
     }
 
     textData= QVariant(stackedInfo);
-    
+
 }
 
 /* computes sizes and sends filenames to main tab Widget */
@@ -238,9 +238,9 @@ void displayTextData(const QStringList &firstColumn,
      }
 
     last= firstColumn.at(0);
-   
+
     if ((thirdColumn.isEmpty()) && (firstColumn.count() == 1)) return;
-    
+
     if (item == nullptr) return;
 
     QTreeWidgetItem* item2 = new QTreeWidgetItem(item);
@@ -262,7 +262,7 @@ void displayTextData(const QStringList &firstColumn,
             item2->setTextColor(3, color);
             item2->setTextColor(4, color);
         }
-        
+
         item2->setTextAlignment(2, Qt::AlignLeft);
         item2->setTextAlignment(3, Qt::AlignRight);
         item2->setTextAlignment(4, Qt::AlignCenter);
@@ -271,7 +271,7 @@ void displayTextData(const QStringList &firstColumn,
     }
 
     item2->setText(1, secondColumn);
-    
+
 }
 
 
@@ -348,7 +348,7 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
                             (y.hasNext())? QColor("navy"): ((j.hasNext())? QColor("orange") :QColor("red")));
         }
     }
-    
+
     return filesizecount;
 }
 
@@ -387,7 +387,7 @@ void Altair::parseProjectFile(QIODevice* file)
     QDomDocument doc;
     if (!doc.setContent(file, true, &errorStr, &errorLine, &errorColumn))
     {
-        Warning0(tr("DÃ©codage XML"), tr("Erreur de dÃ©codage ligne %1, " "colonne %2:\n%3").arg(errorLine).arg(errorColumn).arg(errorStr));
+        Warning0(tr("Décodage XML"), tr("Erreur de décodage ligne %1, " "colonne %2:\n%3").arg(errorLine).arg(errorColumn).arg(errorStr));
         return;
     }
 
@@ -455,16 +455,16 @@ FStringList Altair::parseEntry(const QDomNode &node, QTreeWidgetItem *itemParent
     XmlMethod::itemParent = itemParent;
 
     QStringList tabLabels;
-        
+
     switch (level)
     {
-        case 0: 
+        case 0:
                 XmlMethod::stackData(node, 0, textData);
                 return FStringList(textData.toString());
         case 1:
                 XmlMethod::stackData(node, 1, textData);
                 return FStringList(textData.toStringList());
-        case 2: 
+        case 2:
                 XmlMethod::stackData(node, textData, tabLabels);
                 project[0]->setTabLabels(tabLabels);
                 return FStringList(textData.toList());
@@ -490,9 +490,9 @@ inline QList<QStringList> Altair::processSecondLevelData(QList<QStringList> &L, 
             if (isFile & QFileInfo(text).isFile())  // double check on file status. First check is for processing speed, so that QFileInfo is only called when necessary
             {
                 // computing filesizes
-                
+
                 stackedSizeInfo1 <<  QString::number((long) QFileInfo(text).size())+" ";
-                                    
+
             }
         }
 
@@ -532,7 +532,7 @@ void Altair::refreshProjectManagerValues(std::uint16_t refreshProjectManagerFlag
 //            for (int j=0; i < Hash::wrapper["NBulletins"]->at(i).size(); ++j)
 //               XmlMethod::displayTextData({""}, "", "", "", Hash::wrapper["NBulletins"]->at(i).at(j));
 //    }
-        
+
     item=new QTreeWidgetItem(managerWidget);
     item->setText(0, "Logiciel");
     item->setExpanded(true);

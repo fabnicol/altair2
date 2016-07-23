@@ -3,7 +3,7 @@
 #include <inttypes.h>
 #include <cstring>
 #include <array>
-#include <sstream>  // attention l'oubli de cette déclaration induit des erreurs de log de compilation
+#include <sstream>  // attention l'oubli de cette dÃ©claration induit des erreurs de log de compilation
 #include "table.hpp"
 #include "fonctions_auxiliaires.hpp"
 #include "tags.h"
@@ -11,15 +11,16 @@
 #include <iostream>
 #include <fstream>
 
+using namespace std;
 
 static const char* type_remuneration_traduit[] = {
     "T",   // Traitement
-    "IR", // Indemnité de résidence
-    "S",  // Supplément familial
+    "IR", // IndemnitÃ© de rÃ©sidence
+    "S",  // SupplÃ©ment familial
     "AV", // Avantage en nature
-    "I",  // Indemnité
-    "A", //Autres rémunérations
-    "D", //Déduction
+    "I",  // IndemnitÃ©
+    "A", //Autres rÃ©munÃ©rations
+    "D", //DÃ©duction
     "AC", //Acompte
     "R", // Rappel
     "RE", //Retenue
@@ -29,7 +30,7 @@ static const char* type_remuneration_traduit[] = {
 
 #define VAR(X) Info[i].Table[agent][X]
 
-// la méthode OFSTREAM est nettement moins performante sous Windows. La performance linux est comparable.
+// la mÃ©thode OFSTREAM est nettement moins performante sous Windows. La performance linux est comparable.
 
 #ifdef OFSTREAM_TABLE_OUTPUT
 #define table_t ofstream
@@ -59,7 +60,7 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l_COMMUN(int i, uint32_t agent, int l
            << VAR(l + 2) << sep
            << VAR(l + 3) << sep
            << VAR(l + 4) << sep
-           << VAR(l + INDEX_MAX_COLONNNES) << sep     // Il doit y avoir au plus INDEX_MAX_COLONNES + 1 types de colonnes de lignes de paye différents
+           << VAR(l + INDEX_MAX_COLONNNES) << sep     // Il doit y avoir au plus INDEX_MAX_COLONNES + 1 types de colonnes de lignes de paye diffÃ©rents
            << type << sep
            << VAR(EmploiMetier) << sep
            << VAR(Grade) << sep;
@@ -119,8 +120,8 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l_SIRET(int i, uint32_t agent, int l,
 
     ECRIRE_LIGNE_l_COMMUN(i, agent, l, type, base, sep, Info, rang);
 
-    base  << VAR(Categorie) << sep
-          << VAR(NIR) << "\n";
+   base  << VAR(Categorie) << sep
+         << VAR(NIR) << "\n";
 }
 
 static inline void GCC_INLINE ECRIRE_LIGNE_l_SIRET_ECHELON(int i, uint32_t agent, int l, char* type, table_t& base, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
@@ -202,8 +203,8 @@ static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETIN_GENERER_RANG(int i, uint32_
 
     ECRIRE_LIGNE_BULLETIN_COMMUN(i, agent, bulletins, sep, Info, rang);
 
-    bulletins   << VAR(Categorie) << sep
-                << VAR(NIR) << "\n";
+      bulletins   << VAR(Categorie) << sep
+                  << VAR(NIR) << "\n";
 }
 
 static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETIN_GENERER_RANG_ECHELON(int i, uint32_t agent, table_t& bulletins, char sep, vector<info_t> &Info, int rang)
@@ -293,7 +294,7 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
 {
     int ligne = 0;
     uint64_t compteur = 0,
-            compteur_annee_courante = 0;
+             compteur_annee_courante = 0;
     static uint64_t  dernier_compteur;
 
     uint32_t compteur_lignes_bulletins = 0;
@@ -305,13 +306,13 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
     static ofstream bulletins;
     static array<ofstream, nbType + 1> tableau_base;
 
-#ifdef OFSTREAM_TABLE_OUTPUT    // cas de l'écriture directe dans le fichier base
+#ifdef OFSTREAM_TABLE_OUTPUT    // cas de l'Ã©criture directe dans le fichier base
 
 #define t_base base
 #define t_bulletins bulletins
 #define t_tableau_base tableau_base
 
-#else                          //  case de l'écriture dans un tampon string avant écriture sur le disque (nécessite plus de mémoire)
+#else                          //  case de l'Ã©criture dans un tampon string avant Ã©criture sur le disque (nÃ©cessite plus de mÃ©moire)
 
     ostringstream t_base;
     ostringstream t_bulletins;
@@ -329,13 +330,13 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
     {
         if (Info[0].select_echelon)
         {
-            ecrire_ligne_table = ECRIRE_LIGNE_l_GENERER_RANG_ECHELON;
-            ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETIN_GENERER_RANG_ECHELON;
+          ecrire_ligne_table = ECRIRE_LIGNE_l_GENERER_RANG_ECHELON;
+          ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETIN_GENERER_RANG_ECHELON;
         }
         else
         {
-            ecrire_ligne_table = ECRIRE_LIGNE_l_GENERER_RANG;
-            ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETIN_GENERER_RANG;
+          ecrire_ligne_table = ECRIRE_LIGNE_l_GENERER_RANG;
+          ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETIN_GENERER_RANG;
         }
     }
     else
@@ -343,13 +344,13 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
         {
             if (Info[0].select_echelon)
             {
-                ecrire_ligne_table = ECRIRE_LIGNE_l_SIRET_ECHELON;
-                ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETIN_SIRET_ECHELON;
+              ecrire_ligne_table = ECRIRE_LIGNE_l_SIRET_ECHELON;
+              ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETIN_SIRET_ECHELON;
             }
             else
             {
-                ecrire_ligne_table = ECRIRE_LIGNE_l_SIRET;
-                ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETIN_SIRET;
+              ecrire_ligne_table = ECRIRE_LIGNE_l_SIRET;
+              ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETIN_SIRET;
             }
 
         }
@@ -375,7 +376,8 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
             ouvrir_fichier_base(Info[0], static_cast<BaseType>(d + 1), tableau_base[d], nsegment);
             if (! tableau_base[d].is_open())
             {
-                erreur("impossible d'ouvrir la base de lignes de paye.");
+                cerr << ERROR_HTML_TAG "impossible d'ouvrir la base de lignes de paye."  ENDL;
+                exit(2003);
             }
         }
 
@@ -384,14 +386,17 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
     default : ouvrir_fichier_base(Info[0], type_base,  base, nsegment);
         if (! base.is_open())
         {
-            erreur("impossible d'ouvrir la base de lignes de paye.");
+            cerr << ERROR_HTML_TAG "impossible d'ouvrir la base de lignes de paye."  ENDL;
+            exit(2004);
+            return make_pair(0,0);
         }
 
     }
     
     if (! bulletins.is_open())
     {
-        msg_erreur("impossible d'ouvrir la base de bulletins de paye.");
+        cerr << ERROR_HTML_TAG "impossible d'ouvrir la base de bulletins de paye."  ENDL;
+        return make_pair(0,0);
     }
 
 #ifdef GENERATE_RANK_SIGNAL
@@ -432,18 +437,18 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
                 {
                     int test_drapeau_categorie;
 
-                    // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
+                    // teste si un drapeau de nouvelle catÃ©gorie de ligne de paye (T, I,...) a Ã©tÃ© introduit en base
                     if (VAR(l+1) && xmlStrcmp(VAR(l+1), NA_STRING) == 0)
                     {
                         type = (char*) NA_STRING;
                     }
                     else
-                        while (VAR(l) &&  (test_drapeau_categorie = VAR(l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
-                        {
-                            type = const_cast<char*>(type_remuneration_traduit[test_drapeau_categorie - 1]);
-                            ++l;
-                            // no break !!!!
-                        }
+                    while (VAR(l) &&  (test_drapeau_categorie = VAR(l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
+                    {
+                        type = const_cast<char*>(type_remuneration_traduit[test_drapeau_categorie - 1]);
+                        ++l;
+                        // no break !!!!
+                    }
 
                     ++compteur;
                     ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
@@ -487,24 +492,17 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
 
                     if (strcmp((const char*)VAR(Annee), annee_courante))
                     {
-#ifndef OFSTREAM_TABLE_OUTPUT      // Il faut écrire dans le fichier OFSTREAM la chaine de caractères temporaires
-
-                        try { base << t_base.str(); }
-                        catch(...) {
-                            string s;
-                            cerr << msg_erreur("Erreur de transfert de chaîne de caractères vers le fichier. Le nombre de caractère dépasse sans doute ",
-                                        s.max_size());
-                        }
-
+#ifndef OFSTREAM_TABLE_OUTPUT      // Il faut Ã©crire dans le fichier OFSTREAM la chaine de caractÃ¨res temporaires
+                        base << t_base.str();
                         t_base.str("");
 #endif
 
                         base.close();
 
-                        cerr << "Année : " << annee_courante <<  ENDL;
+                        cerr << "AnnÃ©e : " << annee_courante <<  ENDL;
                         cerr << "Table de " << compteur - dernier_compteur
-                             << " lignes, lignes "  << dernier_compteur + 1
-                             << " à " << compteur << "."  ENDL ENDL;
+                                  << " lignes, lignes "  << dernier_compteur + 1
+                                  << " Ã  " << compteur << "."  ENDL ENDL;
 
                         dernier_compteur = compteur;
                         compteur_annee_courante = 0;
@@ -520,18 +518,18 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
                     {
                         int      test_drapeau_categorie;
 
-                        // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
+                        // teste si un drapeau de nouvelle catÃ©gorie de ligne de paye (T, I,...) a Ã©tÃ© introduit en base
                         if (VAR(l+1) && xmlStrcmp(VAR(l+1), NA_STRING) == 0)
                         {
                             type = (char*) NA_STRING;
                         }
                         else
-                            while (VAR(l) &&  (test_drapeau_categorie = VAR(l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
-                            {
-                                type = const_cast<char*>(type_remuneration_traduit[test_drapeau_categorie - 1]);
-                                ++l;
-                                // NO BREAK !
-                            }
+                        while (VAR(l) &&  (test_drapeau_categorie = VAR(l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
+                        {
+                            type = const_cast<char*>(type_remuneration_traduit[test_drapeau_categorie - 1]);
+                            ++l;
+                            // NO BREAK !
+                        }
 
                         ++compteur;
                         ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
@@ -561,7 +559,7 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
         }
         else
             if (type_base == BaseType::MAXIMUM_LIGNES
-                    // soit : il existe un nombre de lignes maximal par base spécifié en ligne de commande après -T
+                    // soit : il existe un nombre de lignes maximal par base spÃ©cifiÃ© en ligne de commande aprÃ¨s -T
                     && taille_base > 0)
             {
                 rang_fichier_base = compteur / taille_base + 1;
@@ -582,35 +580,32 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
                         while (ligne < NLigneAgent)
                         {
                             if (compteur  == rang_fichier_base * taille_base)
-                                // soit : il existe un nombre de lignes maximal par base spécifié en ligne de commande après -T
+                                // soit : il existe un nombre de lignes maximal par base spÃ©cifiÃ© en ligne de commande aprÃ¨s -T
 
                             {
 
-                                cerr << "Table n°" << rang_fichier_base << " de " << taille_base
-                                     << " lignes, lignes "  << (rang_fichier_base - 1) * taille_base + 1
-                                     << " à " << rang_fichier_base * taille_base << "."  ENDL;
+                                cerr << "Table nÂ°" << rang_fichier_base << " de " << taille_base
+                                          << " lignes, lignes "  << (rang_fichier_base - 1) * taille_base + 1
+                                          << " Ã  " << rang_fichier_base * taille_base << "."  ENDL;
 
-#ifndef OFSTREAM_TABLE_OUTPUT      // Il faut écrire dans le fichier OFSTREAM la chaine de caractères temporaires
-                                try { base << t_base.str(); }
-                                catch(...) {
-                                    string s;
-                                    cerr << msg_erreur("Erreur de transfert de chaîne de caractères vers le fichier. Le nombre de caractère dépasse sans doute ",
-                                            s.max_size());
-                                }
+#ifndef OFSTREAM_TABLE_OUTPUT      // Il faut Ã©crire dans le fichier OFSTREAM la chaine de caractÃ¨res temporaires
+                                base << t_base.str();
                                 t_base.str("");
 #endif
                                 base.close();
 
                                 if (! base.good())
                                 {
-                                    erreur("Problème fermeture fichier base");
+                                    cerr << ERROR_HTML_TAG "ProblÃ¨me fermeture fichier base"  ENDL;
+                                    exit(-902);
                                 }
 
                                 ++rang_fichier_base;
 
                                 if (rang_fichier_base >= 1000)
                                 {
-                                    erreur("Ne peut générer que 999 bases au plus");
+                                    cerr << ERROR_HTML_TAG "Ne peut gÃ©nÃ©rer que 999 bases au plus"  ENDL;
+                                    exit(-904);
                                 }
 
                                 ouvrir_fichier_base(Info[i], type_base, base, nsegment);
@@ -619,18 +614,18 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
 
                             int test_drapeau_categorie;
 
-                            // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
+                            // teste si un drapeau de nouvelle catÃ©gorie de ligne de paye (T, I,...) a Ã©tÃ© introduit en base
                             if (VAR(l+1) && xmlStrcmp(VAR(l+1), NA_STRING) == 0)
                             {
                                 type = (char*) NA_STRING;
                             }
                             else
-                                while (VAR(l) &&  (test_drapeau_categorie = VAR(l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
-                                {
-                                    type = const_cast<char*>(type_remuneration_traduit[test_drapeau_categorie - 1]);
-                                    ++l;
-                                    // NO BREAK !
-                                }
+                            while (VAR(l) &&  (test_drapeau_categorie = VAR(l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
+                            {
+                                type = const_cast<char*>(type_remuneration_traduit[test_drapeau_categorie - 1]);
+                                ++l;
+                                // NO BREAK !
+                            }
 
                             ++compteur;
 
@@ -682,25 +677,20 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
 
                             if (strcmp((const char*)VAR(Annee), annee_courante))
                             {
-#ifndef OFSTREAM_TABLE_OUTPUT      // Il faut écrire dans le fichier OFSTREAM la chaine de caractères temporaires
-                                try { base << t_base.str(); }
-                                catch(...) {
-                                    string s;
-                                    cerr << msg_erreur("Erreur de transfert de chaîne de caractères vers le fichier. Le nombre de caractère dépasse sans doute ",
-                                            s.max_size());
-                                }
+#ifndef OFSTREAM_TABLE_OUTPUT      // Il faut Ã©crire dans le fichier OFSTREAM la chaine de caractÃ¨res temporaires
+                                base << t_base.str();
                                 t_base.str("");
 #endif
 
                                 base.close();
 
-                                cerr << SPACER "Table n°" << rang_fichier_base << " de " <<  compteur - dernier_compteur - rang_fichier_base_annee_courante * taille_base
-                                     << " lignes, lignes "  << dernier_compteur + rang_fichier_base_annee_courante * taille_base + 1
-                                     << " à " << compteur << "."  ENDL;
-                                cerr << "Année : " << annee_courante <<  ENDL;
+                                cerr << SPACER "Table nÂ°" << rang_fichier_base << " de " <<  compteur - dernier_compteur - rang_fichier_base_annee_courante * taille_base
+                                          << " lignes, lignes "  << dernier_compteur + rang_fichier_base_annee_courante * taille_base + 1
+                                          << " Ã  " << compteur << "."  ENDL;
+                                cerr << "AnnÃ©e : " << annee_courante <<  ENDL;
                                 cerr << "Total annuel de " << compteur - dernier_compteur
-                                     << " lignes, lignes "  << dernier_compteur + 1
-                                     << " à " << compteur << "."  ENDL ENDL;
+                                          << " lignes, lignes "  << dernier_compteur + 1
+                                          << " Ã  " << compteur << "."  ENDL ENDL;
 
                                 dernier_compteur = compteur;
                                 compteur_annee_courante = 0;
@@ -719,24 +709,20 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
                                 if (compteur_annee_courante  == (rang_fichier_base_annee_courante + 1)* taille_base)
                                 {
 
-                                    cerr << SPACER "Table n°" << rang_fichier_base << " de " << taille_base
-                                         << " lignes, lignes "  << compteur - taille_base + 1
-                                         << " à " << compteur << "."  ENDL;
+                                    cerr << SPACER "Table nÂ°" << rang_fichier_base << " de " << taille_base
+                                              << " lignes, lignes "  << compteur - taille_base + 1
+                                              << " Ã  " << compteur << "."  ENDL;
 
-#ifndef OFSTREAM_TABLE_OUTPUT      // Il faut écrire dans le fichier OFSTREAM la chaine de caractères temporaires
-                                    try { base << t_base.str(); }
-                                    catch(...) {
-                                        string s;
-                                        cerr << msg_erreur("Erreur de transfert de chaîne de caractères vers le fichier. Le nombre de caractère dépasse sans doute ",
-                                                s.max_size());
-                                    }
+#ifndef OFSTREAM_TABLE_OUTPUT      // Il faut Ã©crire dans le fichier OFSTREAM la chaine de caractÃ¨res temporaires
+                                    base << t_base.str();
                                     t_base.str("");
 #endif
                                     base.close();
 
                                     if (! base.good())
                                     {
-                                        erreur("Problème fermeture fichier base");
+                                        cerr << ERROR_HTML_TAG "ProblÃ¨me fermeture fichier base"  ENDL;
+                                        exit(-902);
                                     }
 
                                     ++rang_fichier_base;
@@ -744,7 +730,8 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
 
                                     if (rang_fichier_base >= 1000)
                                     {
-                                        erreur("Ne peut générer que 999 bases au plus");
+                                        cerr << ERROR_HTML_TAG "Ne peut gÃ©nÃ©rer que 999 bases au plus"  ENDL;
+                                        exit(-904);
                                     }
 
                                     ouvrir_fichier_base(Info[i], type_base, base, nsegment);
@@ -753,18 +740,18 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
 
                                 int      test_drapeau_categorie;
 
-                                // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
+                                // teste si un drapeau de nouvelle catÃ©gorie de ligne de paye (T, I,...) a Ã©tÃ© introduit en base
                                 if (VAR(l+1) && xmlStrcmp(VAR(l+1), NA_STRING) == 0)
                                 {
                                     type = (char*) NA_STRING;
                                 }
                                 else
-                                    while (VAR(l) &&  (test_drapeau_categorie = VAR(l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
-                                    {
-                                        type = const_cast<char*>(type_remuneration_traduit[test_drapeau_categorie - 1]);
-                                        ++l;
-                                        // NO BREAK !
-                                    }
+                                while (VAR(l) &&  (test_drapeau_categorie = VAR(l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
+                                {
+                                    type = const_cast<char*>(type_remuneration_traduit[test_drapeau_categorie - 1]);
+                                    ++l;
+                                    // NO BREAK !
+                                }
 
 
                                 ++compteur;
@@ -803,7 +790,7 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
                     if (type_base == BaseType::TOUTES_CATEGORIES)
                     {
 
-                        // La différence par rapport à la base monolithique, ce sera les catégories de lignes NA
+                        // La diffÃ©rence par rapport Ã  la base monolithique, ce sera les catÃ©gories de lignes NA
 
                         for (unsigned i = 0; i < Info[0].nbfil; ++i)
                         {
@@ -822,12 +809,12 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
 
                                 if (VAR(l+1) && xmlStrcmp(VAR(l+1), NA_STRING))
                                 {
-                                    while (ligne < NLigneAgent)
+                                   while (ligne < NLigneAgent)
                                     {
 
                                         int  test_drapeau_categorie;
 
-                                        // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
+                                        // teste si un drapeau de nouvelle catÃ©gorie de ligne de paye (T, I,...) a Ã©tÃ© introduit en base
 
                                         while (VAR(l) &&  (test_drapeau_categorie = VAR(l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
                                         {
@@ -879,7 +866,7 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
 
                         }
                     }
-                    else  //par catégorie spécifique
+                    else  //par catÃ©gorie spÃ©cifique
                     {
                         for (unsigned i = 0; i < Info[0].nbfil; ++i)
                         {
@@ -902,9 +889,9 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
                                     {
                                         int      test_drapeau_categorie;
 
-                                        // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
-                                        // Var(l)[0] est un xmlChar càd un unsigned char; on doit le caster en int pour indicier les tableau des types
-                                        // mais il ne peut être inférieur à 0 par construction.
+                                        // teste si un drapeau de nouvelle catÃ©gorie de ligne de paye (T, I,...) a Ã©tÃ© introduit en base
+                                        // Var(l)[0] est un xmlChar cÃ d un unsigned char; on doit le caster en int pour indicier les tableau des types
+                                        // mais il ne peut Ãªtre infÃ©rieur Ã  0 par construction.
 
                                         while (VAR(l) &&  (test_drapeau_categorie = (int) VAR(l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie != 0))
                                         {
@@ -915,7 +902,7 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
                                             //break;  NO BREAK!
                                         }
 
-                                        // test de catégorie
+                                        // test de catÃ©gorie
 
                                         if (valeur_drapeau_categorie  == Info[0].type_base)
                                         {
@@ -926,10 +913,10 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
                                         l += INDEX_MAX_COLONNNES + 1;
                                         ++ligne;
 
-                                        // Si on a trouvé une catégorie, alors on peut avoir plusieurs enregistrements d'affilée sur cette catégorie.
-                                        // Pour intégrer ces lignes, il est important de ne pas réinitialiser valeur_drapeau_categorie en début de boucle
+                                        // Si on a trouvÃ© une catÃ©gorie, alors on peut avoir plusieurs enregistrements d'affilÃ©e sur cette catÃ©gorie.
+                                        // Pour intÃ©grer ces lignes, il est important de ne pas rÃ©initialiser valeur_drapeau_categorie en dÃ©but de boucle
                                         // En effet test_drapeau_categorie ne serait dans les bornes du tableau des types en l'absence de tout drapeau
-                                        // et alors le test de catégorie supra serait inadéquatement négatif
+                                        // et alors le test de catÃ©gorie supra serait inadÃ©quatement nÃ©gatif
                                     }
                                 }
 
@@ -956,15 +943,15 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
                     }
 
 
-    compteur_ancien = compteur;
+ compteur_ancien = compteur;
 
-    compteur_bulletins_ancien = compteur_lignes_bulletins;
+ compteur_bulletins_ancien = compteur_lignes_bulletins;
     
 #ifndef OFSTREAM_TABLE_OUTPUT
     bulletins << t_bulletins.str();
 #endif
 
-    // Dans les autres cas, les bases ont déjà été refermées sauf une (cas par année et par taille maximale)
+    // Dans les autres cas, les bases ont dÃ©jÃ  Ã©tÃ© refermÃ©es sauf une (cas par annÃ©e et par taille maximale)
     if (type_base == BaseType::TOUTES_CATEGORIES)
     {
         for (int d = 0; d <= nbType; ++d)
@@ -979,13 +966,8 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
     else
         if (base.is_open())
         {
-#ifndef OFSTREAM_TABLE_OUTPUT      // Il faut écrire dans le fichier OFSTREAM la chaine de caractères temporaires
-            try { base << t_base.str(); }
-            catch(...) {
-                string s;
-                cerr << msg_erreur("Erreur de transfert de chaîne de caractères vers le fichier. Le nombre de caractère dépasse sans doute ",
-                                   s.max_size());
-            }
+#ifndef OFSTREAM_TABLE_OUTPUT      // Il faut Ã©crire dans le fichier OFSTREAM la chaine de caractÃ¨res temporaires
+            base << t_base.str();
             t_base.str("");
 #endif
 
@@ -997,91 +979,91 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
     switch (type_base)
     {
     case  BaseType::MONOLITHIQUE            :
-        cerr << STATE_HTML_TAG "Table intégrée."  ENDL;
+        cerr << STATE_HTML_TAG "Table intÃ©grÃ©e."  ENDL;
         break;
 
     case  BaseType::PAR_TRAITEMENT          :
-        cerr << STATE_HTML_TAG "Catégorie : Traitement."  ENDL;
+        cerr << STATE_HTML_TAG "CatÃ©gorie : Traitement."  ENDL;
         break;
 
     case  BaseType::PAR_INDEMNITE_RESIDENCE :
-        cerr << STATE_HTML_TAG "Catégorie : Indemnité de résidence."  ENDL;
+        cerr << STATE_HTML_TAG "CatÃ©gorie : IndemnitÃ© de rÃ©sidence."  ENDL;
         break;
 
     case  BaseType::PAR_SFT                 :
-        cerr << STATE_HTML_TAG "Catégorie : Supplément familial de traitement."  ENDL;
+        cerr << STATE_HTML_TAG "CatÃ©gorie : SupplÃ©ment familial de traitement."  ENDL;
         break;
 
     case  BaseType::PAR_AVANTAGE_NATURE     :
-        cerr << STATE_HTML_TAG "Catégorie : Avantage en nature."  ENDL;
+        cerr << STATE_HTML_TAG "CatÃ©gorie : Avantage en nature."  ENDL;
         break;
 
     case  BaseType::PAR_INDEMNITE           :
-        cerr << STATE_HTML_TAG "Catégorie : Indemnité."  ENDL;
+        cerr << STATE_HTML_TAG "CatÃ©gorie : IndemnitÃ©."  ENDL;
         break;
 
     case  BaseType::PAR_REM_DIVERSES        :
-        cerr << STATE_HTML_TAG "Catégorie : Rémunérations diverses."  ENDL;
+        cerr << STATE_HTML_TAG "CatÃ©gorie : RÃ©munÃ©rations diverses."  ENDL;
         break;
 
     case  BaseType::PAR_DEDUCTION           :
-        cerr << STATE_HTML_TAG "Catégorie : Déduction."  ENDL;
+        cerr << STATE_HTML_TAG "CatÃ©gorie : DÃ©duction."  ENDL;
         break;
 
     case  BaseType::PAR_ACOMPTE             :
-        cerr << STATE_HTML_TAG "Catégorie : Acompte."  ENDL;
+        cerr << STATE_HTML_TAG "CatÃ©gorie : Acompte."  ENDL;
         break;
 
     case  BaseType::PAR_RAPPEL              :
-        cerr << STATE_HTML_TAG "Catégorie : Rappel."  ENDL;
+        cerr << STATE_HTML_TAG "CatÃ©gorie : Rappel."  ENDL;
         break;
 
     case  BaseType::PAR_RETENUE             :
-        cerr << STATE_HTML_TAG "Catégorie : Retenue."  ENDL;
+        cerr << STATE_HTML_TAG "CatÃ©gorie : Retenue."  ENDL;
         break;
 
     case  BaseType::PAR_COTISATION          :
-        cerr << STATE_HTML_TAG "Catégorie : Cotisation."  ENDL;
+        cerr << STATE_HTML_TAG "CatÃ©gorie : Cotisation."  ENDL;
         break;
 
     case  BaseType::TOUTES_CATEGORIES       :
-        cerr << STATE_HTML_TAG "Toutes catégories."  ENDL;
+        cerr << STATE_HTML_TAG "Toutes catÃ©gories."  ENDL;
         break;
 
     case BaseType::PAR_ANNEE    :
-        cerr << "Année : " << annee_courante  << ENDL;
+        cerr << "AnnÃ©e : " << annee_courante  << ENDL;
         cerr << "Table de " << compteur - dernier_compteur
-             << " lignes, lignes "  << dernier_compteur + 1
-             << " à " << compteur << "."  ENDL;
+                  << " lignes, lignes "  << dernier_compteur + 1
+                  << " Ã  " << compteur << "."  ENDL;
         break;
 
     case BaseType::MAXIMUM_LIGNES_PAR_ANNEE :
-        cerr << SPACER "Table n°" << rang_fichier_base << " de " <<  compteur - dernier_compteur - (rang_fichier_base_annee_courante - 1) * taille_base
-             << " lignes, lignes "  << dernier_compteur + (rang_fichier_base_annee_courante - 1) * taille_base + 1
-             << " à " << compteur << "."  ENDL;
-        cerr << "Année : " << annee_courante <<  ENDL;
+        cerr << SPACER "Table nÂ°" << rang_fichier_base << " de " <<  compteur - dernier_compteur - (rang_fichier_base_annee_courante - 1) * taille_base
+                  << " lignes, lignes "  << dernier_compteur + (rang_fichier_base_annee_courante - 1) * taille_base + 1
+                  << " Ã  " << compteur << "."  ENDL;
+        cerr << "AnnÃ©e : " << annee_courante <<  ENDL;
         cerr << "Total annuel de " << compteur - dernier_compteur
-             << " lignes, lignes "  << dernier_compteur + 1
-             << " à " << compteur << "."  ENDL;
+                  << " lignes, lignes "  << dernier_compteur + 1
+                  << " Ã  " << compteur << "."  ENDL;
         break;
 
-    case BaseType::MAXIMUM_LIGNES  :  /* Taille définie par l'utilisateur */
-        cerr << STATE_HTML_TAG "Table n°" << rang_fichier_base
-             << " de " <<  compteur - (rang_fichier_base-1) * taille_base
-             << " lignes, lignes " << (rang_fichier_base-1) * taille_base + 1
-             << " à " << compteur << "."  ENDL;
-        // compteur_lignes = compteur - compteur_ancien;
+    case BaseType::MAXIMUM_LIGNES  :  /* Taille dÃ©finie par l'utilisateur */
+        cerr << STATE_HTML_TAG "Table nÂ°" << rang_fichier_base
+                  << " de " <<  compteur - (rang_fichier_base-1) * taille_base
+                  << " lignes, lignes " << (rang_fichier_base-1) * taille_base + 1
+                  << " Ã  " << compteur << "."  ENDL;
+       // compteur_lignes = compteur - compteur_ancien;
         break;
 
     default:  break;
     }
 
-    cerr << ENDL;
+        cerr << ENDL;
 
-    cerr << STATE_HTML_TAG "Nombre total de lignes de paye : " << compteur << " lignes."  ENDL;
+        cerr << STATE_HTML_TAG "Nombre total de lignes de paye : " << compteur << " lignes."  ENDL;
 
 #if defined(__WIN32__) && defined(USE_ICONV)
-    convertir(Info[0].chemin_base);
+        convertir(Info[0].chemin_base);
 #endif
 
     if (bulletins.good())
@@ -1095,9 +1077,9 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
 #endif
     }
     else
-        cerr << msg_erreur("Problème de qualité du fichier ", Info[0].chemin_bulletins);
+        cerr << ERROR_HTML_TAG "ProblÃ¨me de qualitÃ© du fichier " << Info[0].chemin_bulletins << ENDL;
     
-    return make_pair(compteur_lignes, compteur_lignes_bulletins);
+ return make_pair(compteur_lignes, compteur_lignes_bulletins);
 }
 
 #undef VAR

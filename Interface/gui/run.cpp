@@ -94,7 +94,7 @@ void Altair::run()
     QStringList args0, args1;
     QString command;
 
-    args0 <<  "-m" << "-d" << "," << "-s" << ";" << "--rank" << sharedir + "/rank";
+    args0 <<  "-m" << "-rank" << "-d" << "," << "-s" << ";" ;
     if (v(conserverEtab).isTrue())
            args0 << "-S";
 
@@ -102,7 +102,7 @@ void Altair::run()
 
     outputTextEdit->append(PROCESSING_HTML_TAG + tr("Importation des bases de paye (")+QString::number(Altair::totalSize[0]/(1024*1024)) +tr(" Mo)..."));
 
-    command = QString("-m -d \",\" -s \";\" --rank ") + sharedir + "/rank" ;
+    command = QString("-m -rank -d \",\" -s \";\"") ;
 
     QStringListIterator i(args1);
     while (i.hasNext())
@@ -252,7 +252,7 @@ void Altair::processFinished(exitCode code)
         return;
 
     default :
-        outputTextEdit->append(PROCESSING_HTML_TAG  + tr(" Terminé."));
+        outputTextEdit->append(PROCESSING_HTML_TAG  + (processMsg.isEmpty()? tr(" Terminé.") : processMsg));
 
     }
 

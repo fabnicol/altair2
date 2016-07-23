@@ -27,7 +27,8 @@ public:
  QToolButton *importFromMainTree=new QToolButton;
  #ifndef USE_RIGHT_CLICK
  QToolButton            *retrieveItemButton=new QToolButton,
-                        *deleteGroupButton=new QToolButton;
+                        *deleteGroupButton=new QToolButton,
+                        *nppDisplayButton =  new QToolButton;
  #endif
 
  QTabWidget *mainTabWidget;
@@ -97,12 +98,16 @@ public slots:
 protected slots:
     void on_importFromMainTree_clicked();
 
+private slots:
+    void on_xhl_display(const QString& xhl="");
+
 protected:
     short importType;
     QStringList tags;
 
 private:
 
+ QProcess launch;
  inline void updateIndexInfo();
 
  FListWidget *fileListWidget;

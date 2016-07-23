@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <cstring>
-#include <errno.h>
+
 //extern "C" {
 
 
@@ -21,7 +21,7 @@ struct Header* elem_parser(const char* buffer)
         return nullptr;
     }
 
-   errno = 0;
+
    int i = NB_CHAR_SAUT_ENTETE;  //350+
    bool test = false;
 
@@ -109,14 +109,7 @@ struct Header* elem_parser(const char* buffer)
 
     elemPar->test = test && test2 && test3;
 
-    if (errno)
-    {
-        perror("Procédure de décodage élémentaire (année, mois, siret)");
-        return nullptr;
-    }
 
-
-    errno=0;
     return elemPar;
 }
 //}

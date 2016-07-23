@@ -9,90 +9,41 @@
 #include <fstream>
 #include <vector>
 #include <mutex>
-#include <cstring>
-#include <cstdint>
-#include <iomanip>
-#include <iterator>
-#include <sys/stat.h>
-
-using namespace std;
-
 #include "tags.h"
 
 typedef struct {
                  const long lineN;
-                 string filePath;
+                 std::string filePath;
                } errorLine_t;
 
-ostringstream help();
+std::ostringstream help();
 int32_t lire_argument(int argc, char* c_str);
-int calculer_memoire_requise(info_t &info);
-void ouvrir_fichier_base(const info_t &info, BaseType, ofstream& base, int segment);
-void ouvrir_fichier_base0(const info_t &info, BaseCategorie,  BaseType type, ofstream& base, int segment);
-void ecrire_entete_bulletins(const info_t &info, ofstream& base);
+int calculer_memoire_requise( info_t &info);
+void ouvrir_fichier_base(const info_t &info, BaseType, std::ofstream& base, int segment);
+void ouvrir_fichier_base0(const info_t &info, BaseCategorie,  BaseType type, std::ofstream& base, int segment);
+void ecrire_entete_bulletins(const info_t &info, std::ofstream& base);
 
-void ecrire_entete(const info_t &info, ofstream& base);
-void ecrire_entete0(const info_t &info, ofstream& base, const char* entete[], int N);
-void ouvrir_fichier_bulletins(const info_t &info, ofstream& base, int segment);
+void ecrire_entete(const info_t &info, std::ofstream& base);
+void ecrire_entete0(const info_t &info, std::ofstream& base, const char* entete[], int N);
+void ouvrir_fichier_bulletins(const info_t &info, std::ofstream& base, int segment);
 
-uint64_t taille_fichier(const string& filename);
-vector<uint64_t> calculer_taille_fichiers(const vector<string>& files, bool silent = false);
-vector<uint64_t> calculer_taille_fichiers_memoire(const vector<string>& in_memory_files, bool silent);
+off_t taille_fichier(const std::string& filename);
 size_t getTotalSystemMemory();
 size_t getFreeSystemMemory();
 size_t getCurrentRSS( );
 size_t getPeakRSS( );
 
-extern mutex mut;
-extern ofstream rankFile;
-extern string rankFilePath;
+extern std::mutex mut;
+extern std::ofstream rankFile;
+extern std::string rankFilePath;
 
-string getexecpath();
+std::string getexecpath();
 
 errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur);
 
-void ecrire_log(const info_t& info, ofstream& log, int diff);
+void ecrire_log(const info_t& info, std::ofstream& log, int diff);
 
-static string GCC_UNUSED string_adder() { return "";}
-
-template<typename... Args> static string string_adder(const char* first, const Args&... args);
-
-template<typename... Args> static string string_adder(const int first, const Args&... args)
-{
-    return to_string(first) + string_adder(args...);
-}
-
-static string GCC_UNUSED string_adder(const long long unsigned int& v)
-{
-    return to_string(v);
-}
-
-template<typename... Args> static string GCC_UNUSED string_adder(string first, const Args&... args)
-{
-    return first + string_adder(args...);
-}
-
-template<typename... Args> static string string_adder(const unsigned char* first, const Args&... args)
-{
-    return string((const char*)first) + string_adder(args...);
-}
-
-template<typename... Args> static string string_adder(const char* first, const Args&... args)
-{
-    return string(first) + string_adder(args...);
-}
-
-template<typename... Args>  static string msg_erreur(const Args&... args)
-{
-    return string(ENDL ERROR_HTML_TAG) + string_adder(args...) + string(ENDL);
-}
-
-template <typename e = std::runtime_error, typename... Args> void erreur(const string& s = "", const Args&... args)
-{
-    throw e {  msg_erreur(s, args...) };
-}
-
-void calculer_maxima(const vector<info_t> &Info, ofstream* LOG = nullptr);
+void calculer_maxima(const std::vector<info_t> &Info, std::ofstream* LOG = nullptr);
 
 #ifdef GENERATE_RANK_SIGNAL
 
@@ -111,7 +62,7 @@ inline void  generate_rank_signal()
     static int temp_rank;
     do
     {
-        rankFile.open(rankFilePath, ios::out|ios::trunc);
+        rankFile.open(rankFilePath, std::ios::out|std::ios::trunc);
         if (rankFile.is_open())
         {
             if (rang_global)
@@ -129,14 +80,14 @@ inline void  generate_rank_signal()
 
 }
 
-#define pluriel(X, Y)  ((X > 1)? Y "s": Y)
+#define pluriel(X, Y)  ((X > 1)? Y "s": "Y")
 
 
 inline void generate_rank_signal(int progression)
 {
     if (rankFilePath.empty()) return;
 
-        rankFile.open(rankFilePath, ios::out|ios::trunc);
+        rankFile.open(rankFilePath, std::ios::out|std::ios::trunc);
         if (rankFile.is_open())
         {
            rankFile << progression ;
@@ -145,56 +96,15 @@ inline void generate_rank_signal(int progression)
         rankFile.close();
 }
 
-#if 0
-/* might be faulty */
-template <typename Allocator = allocator<char>>
-inline string read_stream_into_string(
-        ifstream& in,
-        Allocator alloc = {})
-{
-    basic_ostringstream<char, char_traits<char>, Allocator>
-            ss(basic_string<char, char_traits<char>, Allocator>(move(alloc)));
-
-    if (!(ss << in.rdbuf()))
-        throw ios_base::failure{"[ERR] Erreur d'allocation de lecture de fichier.\n"};
-
-    return ss.str();
-}
-#endif
-
-
-static inline string read_stream_into_string(ifstream& in)
-{
-
-  if (in)
-  {
-
-    string contents;
-    in.seekg(0, std::ios::end);
-    contents.resize(in.tellg());
-    in.seekg(0, std::ios::beg);
-    in.read(&contents[0], contents.size());
-    in.close();
-    return(contents);
-
-#if 0  /* much SLOWER */
-    string s((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>());
-
-    return s;
-#endif
-  }
-  throw ios_base::failure {"[ERR] Erreur de lecture du fichier d'entrée.\n"};
-}
-
-
-
-static inline void memory_debug(const string& func_tag GCC_UNUSED)
+static inline void memory_debug(const std::string& func_tag)
 {
 #ifdef MEMORY_DEBUG
-   cerr << STATE_HTML_TAG << func_tag << " : Calcul de la mémoire disponible : " << getFreeSystemMemory() / (1024 * 1024) << " Mo"  ENDL;
+        std::cerr << STATE_HTML_TAG << func_tag << " : Calcul de la mÃ©moire disponible : " << getFreeSystemMemory() << ENDL;
 #else
+
 #endif
 }
+
 
 #if 0
 static inline xmlChar* GCC_INLINE  UTF8toISO8859_1(const unsigned char* in)

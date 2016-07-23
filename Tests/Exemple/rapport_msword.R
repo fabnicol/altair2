@@ -53,7 +53,7 @@ if (setOSWindows) {
   
 # fallback :  
 #  system(
-#    paste(
+#    paste(~/R/x86_64-pc-linux-gnu-library/3.3/
 #      "/usr/bin/pandoc",
 #      "altair.utf8.knit.md --to odt --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output altaïr.odt --highlight-style tango"
 #    )

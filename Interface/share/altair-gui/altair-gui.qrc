@@ -43,5 +43,8 @@
         <file>images/parameter.png</file>
         <file>images/directory.svg</file>
         <file>images/directory.png</file>
+        <file>images/npp.ico</file>
+        <file>images/internet-explorer.png</file>
+        <file>images/anonymiser.png</file>
     </qresource>
 </RCC>

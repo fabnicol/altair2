@@ -12,13 +12,13 @@ if (win32|linux) {
 
 windows {
   GIT_VERSION = $$system(git --version | find \"git version\")
-  CXX_VERSION = $$system($$QMAKE_CXX --version | findstr \"5.[0-9]\")
+  CXX_VERSION = $$system($$QMAKE_CXX --version | findstr \"[5-9].[0-9]\")
   DEFINES += LOCAL_BINPATH
 }
 
 linux {
   GIT_VERSION = $$system(git --version | grep -e \"git version\")
-  CXX_VERSION = $$system($$QMAKE_CXX --version | grep -e '5.[0-9]')
+  CXX_VERSION = $$system($$QMAKE_CXX --version | grep -e '[5-9].[0-9]')
 }
 
 if (!isEmpty(GIT_VERSION)) {
@@ -38,15 +38,19 @@ if (!isEmpty(CXX_VERSION)){
 
 CONFIG  += ordered
 CONFIG(debug, debug|release) {
-  QMAKE_LFLAGS   += -L$$(QTDIR)/bin   # ne devrait pas en principe être rajouté mais...qmake est capricieux !
+  QMAKE_LFLAGS   +=  -L$$(QTDIR)/bin   # ne devrait pas en principe être rajouté mais...qmake est capricieux !
+
 } else {
   CONFIG += static
+  QMAKE_CXXFLAGS += -O3 -fomit-frame-pointer -fexpensive-optimizations -pipe -m64         # facultatif
+  QMAKE_LFLAGS += -s
+
 }
 
 TEMPLATE = app
 
 QT       += core gui xml widgets
-            #webkitwidgets : à décommenter si STATIC n'est pas défini c-dessous. Nécessite libWebKitWidgets
+            #webkitwidgets : Ã  décommenter si STATIC n'est pas défini c-dessous. Nécessite libWebKitWidgets
 
 QT       -= opengl
 QT       -= openssl
@@ -67,8 +71,8 @@ DEFINES += COMMANDLINE_CONSOLE_OUTPUT          \        # Générer la ligne de 
            GUI_OUTPUT                                   # Balises d'identification des lignes de la console : mode GUI
 
 DEFINES += QT_NO_OPENGL \
-           STATIC\                                      # à utiliser pour lancer le navigateur internet par défaut plustôt qu'un navigateur interne
-         #  LOCAL_BINPATH \                             # chemins d'exécution définis par rapport à l'emplacement de l'exécutable
+           STATIC\                                      # Ã  utiliser pour lancer le navigateur internet par défaut plustÃ´t qu'un navigateur interne
+         #  LOCAL_BINPATH \                             # chemins d'exécution définis par rapport Ã  l'emplacement de l'exécutable
            REGEX_PARSING_FOR_HEADERS \                  # utiliser les expressions régulières de c++ (g++ 5.1 au moins)
            USE_RIGHT_CLICK                              # utiliser un clic droit sur les fichiers pour ajouter, supprimer etc.
 
@@ -76,10 +80,11 @@ DEFINES += QT_NO_OPENGL \
 windows:RC_ICONS = neptune.ico
 
 QMAKE_CXXFLAGS_RELEASE -= -O2
-QMAKE_CXXFLAGS += -std=gnu++11                         # obligatoire
-QMAKE_CXXFLAGS += -O3 -fomit-frame-pointer -fexpensive-optimizations -pipe -m64         # facultatif
-#QMAKE_CXXFLAGS += -march=core2
-QMAKE_CXXFLAGS += -march=core-avx2
+
+# ajouter -std=gnu++14 si qmake de le fait pas
+
+QMAKE_CXXFLAGS += -march=core2 -std=gnu++14
+#QMAKE_CXXFLAGS += -march=native -mtune=native -std=gnu++14
 
 SOURCES += \
     options.cpp \
@@ -125,6 +130,8 @@ RESOURCES += \
 
 DISTFILES += \
     ../../A_FAIRE.txt \
+    ../share/altair-gui/images/internet-explorer.png \
+    ../share/altair-gui/images/anonymiser.png
 
 
 

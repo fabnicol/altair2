@@ -34,7 +34,7 @@
     #define  ERROR_HTML_TAG  COLOR_RED "[ERR] " COLOR_NORMAL
     #define  WARNING_HTML_TAG  COLOR_PURPLE "[ATT] " COLOR_NORMAL
     #define  ENDL "\n"
-    #define  SPACER "  "
+    #define  SPACER "\t"
 
 #else
 
@@ -44,7 +44,7 @@
   #define  ERROR_HTML_TAG  "[ERR] "
   #define  WARNING_HTML_TAG  "[ATT] "
   #define  ENDL "\n"
-  #define  SPACER "  "
+  #define  SPACER "\t"
 
 #endif
 

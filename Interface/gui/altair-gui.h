@@ -78,6 +78,9 @@ class MainWindow : public QMainWindow
    bool archiveProject();
    bool restoreProject(QString str="");
    void resetCounter();
+   void on_nppButton_clicked();
+   void anonymiser();
+   void launch_process(const QString&);
 
   private :
   
@@ -87,7 +90,7 @@ class MainWindow : public QMainWindow
    bool readFile(const QString &fileName);
    bool projectFileStatus;
    uint32_t consoleCounter = 0;
-
+   QFile tempLog;
 
    Altair *altair;
    QMainWindow *editWidget;
@@ -98,6 +101,7 @@ class MainWindow : public QMainWindow
    void adjustDisplay(bool);
 
    inline void connectShowActions();
+   QString extraire_donnees_protegees(const std::string& st);
 
    QDockWidget* fileTreeViewDockWidget;
    QDockWidget* bottomDockWidget;
@@ -134,6 +138,7 @@ class MainWindow : public QMainWindow
    QAction *RAction;
    QAction *configureAction;
    QAction *lhxAction;
+   QAction *anonymAction;
    QAction *openBaseDirAction;
    QAction *decodeAction;
    QAction *aboutAction;
@@ -174,6 +179,7 @@ class MainWindow : public QMainWindow
    QTextEdit *editor=nullptr;
    Highlighter *highlighter;
    QFile projectFile;
+
 
 signals:
    void exitSignal();
