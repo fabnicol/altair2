@@ -139,8 +139,8 @@ newpage()
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-produire_pyramides(function() TRUE, "Pyramide des âges des personnels", versant = VERSANT_FP)
-
+essayer(produire_pyramides(function() TRUE, "Pyramide des âges des personnels", versant = VERSANT_FP)
+        "La pyramide des âges de l'ensemble des personnels n'a pas pu être générée.")
 #'  
 #'[Lien vers la base des âges - début de période](`r currentDir`/Bases/Effectifs/`r nom.fichier.avant`.csv)  
 #'  
@@ -161,7 +161,8 @@ newpage()
 
 Filtre_bulletins <- function() Bulletins.paie$Statut == "TITULAIRE" |  Bulletins.paie$Statut == "STAGIAIRE"
 
-produire_pyramides(Filtre_bulletins, "Pyramide des âges des fonctionnaires", versant = "TIT_" %+% VERSANT_FP)
+essayer(produire_pyramides(Filtre_bulletins, "Pyramide des âges des fonctionnaires", versant = "TIT_" %+% VERSANT_FP),
+      "La pyramide des âges des fonctionnaires n'a pas pu être générée.")
 
 
 #'  
@@ -182,7 +183,7 @@ newpage()
 
 Filtre_bulletins <- function() Bulletins.paie$Statut == "NON_TITULAIRE"
 
-produire_pyramides(Filtre_bulletins, "Pyramide des âges des non titulaires", versant = "NONTIT_" %+% VERSANT_FP)
+essayer(produire_pyramides(Filtre_bulletins, "Pyramide des âges des non titulaires", versant = "NONTIT_" %+% VERSANT_FP), "La pyramide des âges des non titulaires n'a pas pu être générée." )
 
 #'  
 #'[Lien vers la base des âges - début de période](`r currentDir`/Bases/Effectifs/`r nom.fichier.avant`.csv)  
@@ -205,7 +206,7 @@ Filtre_bulletins <- function() { return(Bulletins.paie$Statut != "TITULAIRE"
                                  & Bulletins.paie$Statut != "NON_TITULAIRE" 
                                  & Bulletins.paie$Statut != "STAGIAIRE") }
 
-produire_pyramides(Filtre_bulletins, "Pyramide des âges des autres personnels")
+essayer(produire_pyramides(Filtre_bulletins, "Pyramide des âges des autres personnels"),  "La pyramide des âges des autres personnels n'a pas pu être générée."))
 
 
 #'  
@@ -530,7 +531,7 @@ distribution_smpt <- function(Filtre) {
 
 Filtre_neutre <- function() TRUE
 
-smpt(Filtre_neutre)
+essayer(smpt(Filtre_neutre),     "Le salaire moyen par tête n'a pas pu être calculé.")
 
 #'   
 #+ Effet-de-noria-ensemble
@@ -561,7 +562,7 @@ noria()
 
 #+ premiere-derniere-annee
 
-distribution_smpt(Filtre_neutre)
+essayer(distribution_smpt(Filtre_neutre),        "La distribution du salaire moyen par tête n'a pas pu être calculée.")
 
 #'  
 #'*Nota :*  La population retenue est constituée des agents qui ne font pas partie des `r 2*quantile.cut` centiles extrêmaux   
@@ -671,7 +672,7 @@ distribution_smpt(Filtre_neutre)
 
 Filtre_fonctionnaire <- function() Statut == "TITULAIRE" | Statut == "STAGIAIRE"
 
-smpt(Filtre_fonctionnaire)
+essayer(smpt(Filtre_fonctionnaire), "Le salaire moyen par tête des fonctionnaires n'a pas pu être calculé.")
 
 Filtre_cat_A <- function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  & (Catégorie == "A")
 Filtre_cat_B <- function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  & (Catégorie == "B") 
@@ -685,7 +686,7 @@ Filtre_cat_C <- function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  &
 #'  
 
 
-smpt(Filtre_cat_A)  
+essayer(smpt(Filtre_cat_A), "Le salaire moyen par tête des fonctionnaires de catégorie A n'a pas pu être calculé.")  
 
 #'**Distribution des salaires nets annuels en EQTP dans la fonction publique territoriale par catégorie (2011-2013)**   
 #'  
@@ -712,7 +713,7 @@ smpt(Filtre_cat_A)
 #'    
 #'  
 
-smpt(Filtre_cat_B)  
+essayer(smpt(Filtre_cat_B),          "Le salaire moyen par tête des fonctionnaires de catégorie B n'a pas pu être calculé.")  
 
 
 #'*Comparaisons nationales*    
@@ -738,7 +739,7 @@ smpt(Filtre_cat_B)
 #'    
 #'  
 
-smpt(Filtre_cat_C)    
+essayer(smpt(Filtre_cat_C),       "Le salaire moyen par tête des fonctionnaires de catégorie C n'a pas pu être calculé.")    
 
 #'     
 #'*Comparaisons nationales*    
@@ -778,13 +779,13 @@ smpt(Filtre_cat_C)
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-distribution_smpt(Filtre_fonctionnaire)
+essayer(distribution_smpt(Filtre_fonctionnaire), "La distribution du salaire moyen par tête des fonctionnaires n'a pas pu être calculée.")
 
 #'**Catégorie A**    
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-distribution_smpt(Filtre_cat_A)
+essayer(distribution_smpt(Filtre_cat_A), "La distribution du salaire moyen par tête des fonctionnaires de catégorie A n'a pas pu être calculée.")
 
 #'**Catégorie B**  
 #'&nbsp;*Tableau `r incrément()`*   

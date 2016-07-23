@@ -148,7 +148,7 @@ int main(int argc, char **argv)
         }
         else if (commandline_tab[start] ==  "--hmarkdown" || commandline_tab[start] == "--pdf" || commandline_tab[start] == "--html")
         {
-          ostringstream out = std::move(help());
+          ostringstream out;// = std::move(help());
           if (commandline_tab[start] == "--hmarkdown")
           {
              cerr << out.str();
@@ -776,7 +776,6 @@ int produire_segment(const info_t& info, const vString& segment)
     vString::const_iterator segment_it = segment.begin();
 
 #ifdef GENERATE_RANK_SIGNAL
-    uint64_t NCumLignes = 0;
 
     reset_rank_signal();
     generate_rank_signal();

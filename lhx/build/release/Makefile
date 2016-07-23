@@ -12,7 +12,7 @@ MAKEFILE      = Makefile
 
 CC            = gcc
 CXX           = g++
-DEFINES       = -DGUI_TAG_MESSAGES -DWARNING_LIMIT=5 -DMAX_NB_AGENTS=80000 -DMAX_LIGNES_PAYE=3000 -DTYPE_LOOP_LIMIT=10 -DMAX_STRING_LENGTH=200 -DMAX_MEMORY_SHARE=0.5 -DAVERAGE_RAM_DENSITY=15 -DUSERPROFILE=\"HOME\" -DLOCALDATA=\".local/share/Altair/rank\" -D__GNUC_EXTENSION -D_REENTRANT -D_GNU_SOURCE -D__STDC_LIMIT_MACROS -D__STDC_FORMAT_MACROS -DSYSTEM_PATH_SEPARATOR="':'" -DGCC_REGEX -DWAIT_FOR_LOCK -DNO_DEBUG -DFULL_PREALLOCATION_TEST -DPREALLOCATE_ON_HEAP -DDECIMAL_NON_EN -DGENERATE_RANK_SIGNAL -DSTRINGSTREAM_PARSING -DOFSTREAM_TABLE_OUTPUT
+DEFINES       = -DGUI_TAG_MESSAGES -DWARNING_LIMIT=5 -DMAX_NB_AGENTS=80000 -DMAX_LIGNES_PAYE=3000 -DTYPE_LOOP_LIMIT=10 -DMAX_STRING_LENGTH=200 -DMAX_MEMORY_SHARE=0.5 -DAVERAGE_RAM_DENSITY=15 -DUSERPROFILE=\"HOME\" -DLOCALDATA=\".local/share/Altair/rank\" -D__GNUC_EXTENSION -D_REENTRANT -D_GNU_SOURCE -D__STDC_LIMIT_MACROS -D__STDC_FORMAT_MACROS -DSYSTEM_PATH_SEPARATOR="':'" -DGCC_REGEX -DWAIT_FOR_LOCK -DNO_DEBUG -DFULL_PREALLOCATION_TEST -DPREALLOCATE_ON_HEAP -DDECIMAL_NON_EN -DGENERATE_RANK_SIGNAL -DFGETC_PARSING
 CFLAGS        = -pipe -O2 -Wall -W -fPIC $(DEFINES)
 CXXFLAGS      = -O3 -fexpensive-optimizations -fomit-frame-pointer -m64 -std=gnu++14 -march=core-avx2 -Wextra -std=gnu++11 -Wall -W -fPIC $(DEFINES)
 INCPATH       = -I../../../lhx -I. -I../../../Interface/gui -isystem /usr/include/libxml2 -I/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/linux-g++
@@ -156,6 +156,7 @@ DIST          = /home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/features/spec_pre.prf \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/features/qt_config.prf \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/linux-g++/qmake.conf \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/features/spec_post.prf \
+		../../.qmake.stash \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/features/exclusive_builds.prf \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/features/default_pre.prf \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/features/resolve_config.prf \
@@ -285,6 +286,7 @@ Makefile: ../../lhx.linux.pro /home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/linux-g++
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/features/qt_config.prf \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/linux-g++/qmake.conf \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/features/exclusive_builds.prf \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/features/default_pre.prf \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/features/resolve_config.prf \
@@ -395,6 +397,7 @@ Makefile: ../../lhx.linux.pro /home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/linux-g++
 /home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/features/qt_config.prf:
 /home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/linux-g++/qmake.conf:
 /home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/features/spec_post.prf:
+.qmake.stash:
 /home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/features/exclusive_builds.prf:
 /home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/features/default_pre.prf:
 /home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/features/resolve_config.prf:

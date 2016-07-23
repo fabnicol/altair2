@@ -80,7 +80,7 @@ out <<  "**Usage** :  lhx OPTIONS fichiers.xhl  " << "\n\n"
           <<  "**--pdf**                     : aide en format pdf.  " << "\n\n";
     #ifdef GENERATE_RANK_SIGNAL
               out  <<  "**-rank** *argument optionnel* : générer le fichier du rang de la base de paye en cours dans le fichier ";
-              out  <<  "ou à défaut dans "USERPROFILE"/"LOCALDATA".\n\n";
+             // out  <<  "ou à défaut dans " USERPROFILE "/" LOCALDATA ".\n\n";
     #endif
    return out;
 }
