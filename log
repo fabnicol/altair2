@@ -1,0 +1,848 @@
+￼ Ligne de commande : /home/fab/Main/fab/Dev/altair/linux/lhx -m -d "," -s ";" -rank /home/fab/.local/share/Altair/rank -D "/home/fab/Main/fab/Dev/altair/Tests/Exemple/Donnees/R-Altair" --memshare 90 -j '1' -t -E "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.10.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.11.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.12.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.13.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.14.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.15.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.16.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.17.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.18.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.19.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.2.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.21.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.22.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.23.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.24.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.25.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.26.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.27.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.28.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.29.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.3.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.30.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.32.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.33.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.34.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.35.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.36.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.37.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.38.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.39.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.4.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.40.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.41.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.42.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.43.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.44.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.45.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.46.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.47.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.48.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.49.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.5.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.50.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.51.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.52.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.53.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.54.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.55.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.56.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.57.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.58.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.59.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.6.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.60.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.7.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.8.xhl" "/home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.9.xhl" 
+￼  Décodage des bases ...
+￼ Part de la mémoire vive utilisée : 90 %
+
+￼ Taille totale des 60 fichiers : 10843 Mo.
+￼ Mémoire disponible 7229 / 7810 Mo.
+￼ Mémoire utilisable 6506 Mo.
+￼ Les bases en sortie seront analysées en 5 segments.
+￼ Création de 1 fils d'exécution.
+￼ Fil d'exécution i = 1/1 Nombre de fichiers dans ce fil : 12
+
+￼ Premier scan des fichiers pour déterminer les besoins mémoire, fil 0
+￼ calculer_memoire_requise_pre_tab_resize : Calcul de la mémoire disponible : 7229 Mo
+￼ calculer_memoire_requise_pre : Calcul de la mémoire disponible : 7228 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 7047 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.10.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 6866 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.11.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 6686 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.12.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 6505 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.13.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 6324 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.14.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 6144 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.15.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 5963 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.16.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 5782 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.17.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 5601 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.18.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 5420 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.19.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 5239 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.2.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 5058 Mo
+￼ calculer_memoire_requise_end : Calcul de la mémoire disponible : 5058 Mo
+￼ decoder_fichier : allouer_memoire_table(info) : Calcul de la mémoire disponible : 4320 Mo
+￼ decoder_fichier : pre_parseFile(info) : Calcul de la mémoire disponible : 4320 Mo
+￼ Redécoupage du fichier n°0
+￼ Analyse du fichier scindé n°0-1: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_1.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 3864 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 3864 Mo
+￼ Fichier n°1 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 1995 bulletins -- 59268 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-2: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_1.xhl
+￼ Effacement du fichier scindé n°0-3: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_1.xhl
+￼ Analyse du fichier scindé n°0-4: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_2.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 3864 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 3864 Mo
+￼ Pas d'information sur l'Etablissement
+￼ Fichier n°2 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 4276 bulletins -- 116636 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-5: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_2.xhl
+￼ Effacement du fichier scindé n°0-6: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_2.xhl
+￼ Analyse du fichier scindé n°0-7: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_3.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 3866 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 3866 Mo
+￼ Pas d'information sur l'Etablissement
+￼ Fichier n°3 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 6383 bulletins -- 175252 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-8: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_3.xhl
+￼ Effacement du fichier scindé n°0-9: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_3.xhl
+￼ Analyse du fichier scindé n°0-10: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_4.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 3867 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 3867 Mo
+￼ Fichier n°4 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 8480 bulletins -- 233841 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-11: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_4.xhl
+￼ Effacement du fichier scindé n°0-12: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_4.xhl
+￼ Analyse du fichier scindé n°0-13: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_5.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 3869 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 3869 Mo
+￼ Fichier n°5 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 10593 bulletins -- 292399 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-14: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_5.xhl
+￼ Effacement du fichier scindé n°0-15: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_5.xhl
+￼ Analyse du fichier scindé n°0-16: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_6.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 3870 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 3870 Mo
+￼ Fichier n°6 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 12761 bulletins -- 350644 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-17: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_6.xhl
+￼ Effacement du fichier scindé n°0-18: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_6.xhl
+￼ Analyse du fichier scindé n°0-19: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_7.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 3872 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 3872 Mo
+￼ Fichier n°7 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 14827 bulletins -- 409518 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-20: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_7.xhl
+￼ Effacement du fichier scindé n°0-21: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_7.xhl
+￼ Analyse du fichier scindé n°0-22: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_8.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 3874 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 3874 Mo
+￼ Pas d'information sur l'Etablissement
+￼ Fichier n°8 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 16818 bulletins -- 468998 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-23: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_8.xhl
+￼ Effacement du fichier scindé n°0-24: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_8.xhl
+￼ Analyse du fichier scindé n°0-25: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_9.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 3875 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 3875 Mo
+￼ Fichier n°9 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 18871 bulletins -- 528006 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-26: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_9.xhl
+￼ Effacement du fichier scindé n°0-27: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_9.xhl
+￼ Analyse du fichier scindé n°0-28: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_10.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 3876 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 3876 Mo
+￼ Fichier n°10 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 20869 bulletins -- 587392 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-29: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_10.xhl
+￼ Effacement du fichier scindé n°0-30: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_10.xhl
+￼ Analyse du fichier scindé n°0-31: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_11.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 3878 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 3878 Mo
+￼ Fichier n°11 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 22905 bulletins -- 646578 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-32: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_11.xhl
+￼ Effacement du fichier scindé n°0-33: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_11.xhl
+￼ Analyse du fichier scindé n°0-34: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_12.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 3879 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 3879 Mo
+￼ Fichier n°12 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 25089 bulletins -- 704586 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-35: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_12.xhl
+￼ Effacement du fichier scindé n°0-36: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_12.xhl
+￼ Analyse du fichier scindé n°0-37: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_13.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 3882 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 3882 Mo
+￼ Fichier n°13 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 25147 bulletins -- 706228 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-38: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_13.xhl
+￼ Effacement du fichier scindé n°0-39: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.1.xhl_13.xhl
+￼ decoder_fichier : post_parseFile(info) : Calcul de la mémoire disponible : 3882 Mo
+￼ decoder_fichier : pre_parseFile(info) : Calcul de la mémoire disponible : 3882 Mo
+￼ Redécoupage du fichier n°0
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 708 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 708 Mo
+￼ Fichier n°14 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.10.xhl
+￼ Fil n°0 : Fichier courant : 2
+￼ Total : 50294 bulletins -- 1412456 lignes cumulées.
+￼ decoder_fichier : post_parseFile(info) : Calcul de la mémoire disponible : 542 Mo
+￼ decoder_fichier : pre_parseFile(info) : Calcul de la mémoire disponible : 542 Mo
+￼ Redécoupage du fichier n°1
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 355 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 355 Mo
+￼ Fichier n°15 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.11.xhl
+￼ Fil n°0 : Fichier courant : 3
+￼ Total : 75441 bulletins -- 2118684 lignes cumulées.
+￼ decoder_fichier : post_parseFile(info) : Calcul de la mémoire disponible : 189 Mo
+￼ decoder_fichier : pre_parseFile(info) : Calcul de la mémoire disponible : 189 Mo
+￼ Redécoupage du fichier n°2
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 60 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 60 Mo
+￼ Fichier n°16 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.12.xhl
+￼ Fil n°0 : Fichier courant : 4
+￼ Total : 100588 bulletins -- 2824912 lignes cumulées.
+￼ decoder_fichier : post_parseFile(info) : Calcul de la mémoire disponible : 61 Mo
+￼ decoder_fichier : pre_parseFile(info) : Calcul de la mémoire disponible : 61 Mo
+￼ Redécoupage du fichier n°3
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 63 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 63 Mo
+￼ Fichier n°17 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.13.xhl
+￼ Fil n°0 : Fichier courant : 5
+￼ Total : 125735 bulletins -- 3531140 lignes cumulées.
+￼ decoder_fichier : post_parseFile(info) : Calcul de la mémoire disponible : 66 Mo
+￼ decoder_fichier : pre_parseFile(info) : Calcul de la mémoire disponible : 66 Mo
+￼ Redécoupage du fichier n°4
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 61 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 61 Mo
+￼ Fichier n°18 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.14.xhl
+￼ Fil n°0 : Fichier courant : 6
+￼ Total : 150882 bulletins -- 4237368 lignes cumulées.
+￼ decoder_fichier : post_parseFile(info) : Calcul de la mémoire disponible : 66 Mo
+￼ decoder_fichier : pre_parseFile(info) : Calcul de la mémoire disponible : 66 Mo
+￼ Redécoupage du fichier n°5
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 60 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 60 Mo
+￼ Fichier n°19 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.15.xhl
+￼ Fil n°0 : Fichier courant : 7
+￼ Total : 176029 bulletins -- 4943596 lignes cumulées.
+￼ decoder_fichier : post_parseFile(info) : Calcul de la mémoire disponible : 64 Mo
+￼ decoder_fichier : pre_parseFile(info) : Calcul de la mémoire disponible : 64 Mo
+￼ Redécoupage du fichier n°6
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 60 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 60 Mo
+￼ Fichier n°20 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.16.xhl
+￼ Fil n°0 : Fichier courant : 8
+￼ Total : 201176 bulletins -- 5649824 lignes cumulées.
+￼ decoder_fichier : post_parseFile(info) : Calcul de la mémoire disponible : 68 Mo
+￼ decoder_fichier : pre_parseFile(info) : Calcul de la mémoire disponible : 68 Mo
+￼ Redécoupage du fichier n°7
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 57 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 57 Mo
+￼ Fichier n°21 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.17.xhl
+￼ Fil n°0 : Fichier courant : 9
+￼ Total : 226323 bulletins -- 6356052 lignes cumulées.
+￼ decoder_fichier : post_parseFile(info) : Calcul de la mémoire disponible : 62 Mo
+￼ decoder_fichier : pre_parseFile(info) : Calcul de la mémoire disponible : 62 Mo
+￼ Redécoupage du fichier n°8
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 56 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 56 Mo
+￼ Fichier n°22 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.18.xhl
+￼ Fil n°0 : Fichier courant : 10
+￼ Total : 251470 bulletins -- 7062280 lignes cumulées.
+￼ decoder_fichier : post_parseFile(info) : Calcul de la mémoire disponible : 62 Mo
+￼ decoder_fichier : pre_parseFile(info) : Calcul de la mémoire disponible : 62 Mo
+￼ Redécoupage du fichier n°9
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 54 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 54 Mo
+￼ Fichier n°23 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.19.xhl
+￼ Fil n°0 : Fichier courant : 11
+￼ Total : 276617 bulletins -- 7768508 lignes cumulées.
+￼ decoder_fichier : post_parseFile(info) : Calcul de la mémoire disponible : 62 Mo
+￼ decoder_fichier : pre_parseFile(info) : Calcul de la mémoire disponible : 62 Mo
+￼ Redécoupage du fichier n°10
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 55 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 55 Mo
+￼ Fichier n°24 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.2.xhl
+￼ Fil n°0 : Fichier courant : 12
+￼ Total : 301764 bulletins -- 8474736 lignes cumulées.
+￼ decoder_fichier : post_parseFile(info) : Calcul de la mémoire disponible : 58 Mo
+
+￼ Rassemblement des fils d'exécution.
+￼ Maximum de lignes : 72
+￼ Maximum d'agents : 25147
+
+￼ Exportation des bases de données au format CSV...
+
+￼ Table intégrée.
+
+￼ Nombre total de lignes de paye : 8474736 lignes.
+￼ Base des bulletins de paye de 301764 lignes.
+
+￼ Libération de la mémoire...
+￼ Création de 1 fils d'exécution.
+￼ Fil d'exécution i = 1/1 Nombre de fichiers dans ce fil : 12
+
+￼ Premier scan des fichiers pour déterminer les besoins mémoire, fil 0
+￼ calculer_memoire_requise_pre_tab_resize : Calcul de la mémoire disponible : 69 Mo
+￼ calculer_memoire_requise_pre : Calcul de la mémoire disponible : 69 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 55 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.21.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 56 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.22.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 58 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.23.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 54 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.24.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 57 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.25.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 58 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.26.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 56 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.27.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 57 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.28.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 56 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.29.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 54 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.3.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 58 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.30.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 57 Mo
+￼ calculer_memoire_requise_end : Calcul de la mémoire disponible : 57 Mo
+￼ decoder_fichier : allouer_memoire_table(info) : Calcul de la mémoire disponible : 57 Mo
+￼ decoder_fichier : pre_parseFile(info) : Calcul de la mémoire disponible : 57 Mo
+￼ Redécoupage du fichier n°0
+￼ Analyse du fichier scindé n°0-1: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_1.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 57 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 57 Mo
+￼ Fichier n°14 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 1995 bulletins -- 59268 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-2: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_1.xhl
+￼ Effacement du fichier scindé n°0-3: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_1.xhl
+￼ Analyse du fichier scindé n°0-4: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_2.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 71 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 71 Mo
+￼ Pas d'information sur l'Etablissement
+￼ Fichier n°15 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 4276 bulletins -- 116636 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-5: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_2.xhl
+￼ Effacement du fichier scindé n°0-6: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_2.xhl
+￼ Analyse du fichier scindé n°0-7: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_3.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 86 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 86 Mo
+￼ Pas d'information sur l'Etablissement
+￼ Fichier n°16 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 6383 bulletins -- 175252 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-8: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_3.xhl
+￼ Effacement du fichier scindé n°0-9: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_3.xhl
+￼ Analyse du fichier scindé n°0-10: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_4.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 102 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 102 Mo
+￼ Fichier n°17 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 8480 bulletins -- 233841 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-11: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_4.xhl
+￼ Effacement du fichier scindé n°0-12: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_4.xhl
+￼ Analyse du fichier scindé n°0-13: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_5.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 117 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 117 Mo
+￼ Fichier n°18 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 10593 bulletins -- 292399 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-14: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_5.xhl
+￼ Effacement du fichier scindé n°0-15: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_5.xhl
+￼ Analyse du fichier scindé n°0-16: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_6.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 131 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 131 Mo
+￼ Fichier n°19 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 12761 bulletins -- 350644 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-17: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_6.xhl
+￼ Effacement du fichier scindé n°0-18: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_6.xhl
+￼ Analyse du fichier scindé n°0-19: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_7.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 148 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 148 Mo
+￼ Fichier n°20 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 14827 bulletins -- 409518 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-20: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_7.xhl
+￼ Effacement du fichier scindé n°0-21: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_7.xhl
+￼ Analyse du fichier scindé n°0-22: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_8.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 163 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 163 Mo
+￼ Pas d'information sur l'Etablissement
+￼ Fichier n°21 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 16818 bulletins -- 468998 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-23: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_8.xhl
+￼ Effacement du fichier scindé n°0-24: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_8.xhl
+￼ Analyse du fichier scindé n°0-25: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_9.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 178 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 178 Mo
+￼ Fichier n°22 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 18871 bulletins -- 528006 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-26: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_9.xhl
+￼ Effacement du fichier scindé n°0-27: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_9.xhl
+￼ Analyse du fichier scindé n°0-28: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_10.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 192 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 192 Mo
+￼ Fichier n°23 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 20869 bulletins -- 587392 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-29: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_10.xhl
+￼ Effacement du fichier scindé n°0-30: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_10.xhl
+￼ Analyse du fichier scindé n°0-31: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_11.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 208 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 208 Mo
+￼ Fichier n°24 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 22905 bulletins -- 646578 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-32: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_11.xhl
+￼ Effacement du fichier scindé n°0-33: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_11.xhl
+￼ Analyse du fichier scindé n°0-34: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_12.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 223 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 223 Mo
+￼ Fichier n°25 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 25089 bulletins -- 704586 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-35: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_12.xhl
+￼ Effacement du fichier scindé n°0-36: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_12.xhl
+￼ Analyse du fichier scindé n°0-37: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_13.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 238 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 238 Mo
+￼ Fichier n°26 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 25147 bulletins -- 706228 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-38: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_13.xhl
+￼ Effacement du fichier scindé n°0-39: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.20.xhl_13.xhl
+￼ decoder_fichier : post_parseFile(info) : Calcul de la mémoire disponible : 238 Mo
+￼ decoder_fichier : pre_parseFile(info) : Calcul de la mémoire disponible : 238 Mo
+￼ Redécoupage du fichier n°0
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 55 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 55 Mo
+￼ Fichier n°27 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.21.xhl
+￼ Fil n°0 : Fichier courant : 2
+￼ Total : 50294 bulletins -- 1412456 lignes cumulées.
+￼ decoder_fichier : post_parseFile(info) : Calcul de la mémoire disponible : 57 Mo
+￼ decoder_fichier : pre_parseFile(info) : Calcul de la mémoire disponible : 57 Mo
+￼ Redécoupage du fichier n°1
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 58 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 58 Mo
+￼ Fichier n°28 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.22.xhl
+￼ Fil n°0 : Fichier courant : 3
+￼ Total : 75441 bulletins -- 2118684 lignes cumulées.
+￼ decoder_fichier : post_parseFile(info) : Calcul de la mémoire disponible : 58 Mo
+￼ decoder_fichier : pre_parseFile(info) : Calcul de la mémoire disponible : 58 Mo
+￼ Redécoupage du fichier n°2
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 54 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 54 Mo
+￼ Fichier n°29 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.23.xhl
+￼ Fil n°0 : Fichier courant : 4
+￼ Total : 100588 bulletins -- 2824912 lignes cumulées.
+￼ decoder_fichier : post_parseFile(info) : Calcul de la mémoire disponible : 59 Mo
+￼ decoder_fichier : pre_parseFile(info) : Calcul de la mémoire disponible : 59 Mo
+￼ Redécoupage du fichier n°3
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 58 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 58 Mo
+￼ Fichier n°30 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.24.xhl
+￼ Fil n°0 : Fichier courant : 5
+￼ Total : 125735 bulletins -- 3531140 lignes cumulées.
+￼ decoder_fichier : post_parseFile(info) : Calcul de la mémoire disponible : 57 Mo
+￼ decoder_fichier : pre_parseFile(info) : Calcul de la mémoire disponible : 57 Mo
+￼ Redécoupage du fichier n°4
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 58 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 58 Mo
+￼ Fichier n°31 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.25.xhl
+￼ Fil n°0 : Fichier courant : 6
+￼ Total : 150882 bulletins -- 4237368 lignes cumulées.
+￼ decoder_fichier : post_parseFile(info) : Calcul de la mémoire disponible : 57 Mo
+￼ decoder_fichier : pre_parseFile(info) : Calcul de la mémoire disponible : 57 Mo
+￼ Redécoupage du fichier n°5
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 55 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 55 Mo
+￼ Fichier n°32 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.26.xhl
+￼ Fil n°0 : Fichier courant : 7
+￼ Total : 176029 bulletins -- 4943596 lignes cumulées.
+￼ decoder_fichier : post_parseFile(info) : Calcul de la mémoire disponible : 60 Mo
+￼ decoder_fichier : pre_parseFile(info) : Calcul de la mémoire disponible : 60 Mo
+￼ Redécoupage du fichier n°6
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 59 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 59 Mo
+￼ Fichier n°33 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.27.xhl
+￼ Fil n°0 : Fichier courant : 8
+￼ Total : 201176 bulletins -- 5649824 lignes cumulées.
+￼ decoder_fichier : post_parseFile(info) : Calcul de la mémoire disponible : 63 Mo
+￼ decoder_fichier : pre_parseFile(info) : Calcul de la mémoire disponible : 63 Mo
+￼ Redécoupage du fichier n°7
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 54 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 54 Mo
+￼ Fichier n°34 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.28.xhl
+￼ Fil n°0 : Fichier courant : 9
+￼ Total : 226323 bulletins -- 6356052 lignes cumulées.
+￼ decoder_fichier : post_parseFile(info) : Calcul de la mémoire disponible : 62 Mo
+￼ decoder_fichier : pre_parseFile(info) : Calcul de la mémoire disponible : 62 Mo
+￼ Redécoupage du fichier n°8
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 54 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 54 Mo
+￼ Fichier n°35 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.29.xhl
+￼ Fil n°0 : Fichier courant : 10
+￼ Total : 251470 bulletins -- 7062280 lignes cumulées.
+￼ decoder_fichier : post_parseFile(info) : Calcul de la mémoire disponible : 59 Mo
+￼ decoder_fichier : pre_parseFile(info) : Calcul de la mémoire disponible : 59 Mo
+￼ Redécoupage du fichier n°9
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 57 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 57 Mo
+￼ Fichier n°36 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.3.xhl
+￼ Fil n°0 : Fichier courant : 11
+￼ Total : 276617 bulletins -- 7768508 lignes cumulées.
+￼ decoder_fichier : post_parseFile(info) : Calcul de la mémoire disponible : 59 Mo
+￼ decoder_fichier : pre_parseFile(info) : Calcul de la mémoire disponible : 59 Mo
+￼ Redécoupage du fichier n°10
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 57 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 57 Mo
+￼ Fichier n°37 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.30.xhl
+￼ Fil n°0 : Fichier courant : 12
+￼ Total : 301764 bulletins -- 8474736 lignes cumulées.
+￼ decoder_fichier : post_parseFile(info) : Calcul de la mémoire disponible : 57 Mo
+
+￼ Rassemblement des fils d'exécution.
+￼ Maximum de lignes : 72
+￼ Maximum d'agents : 25147
+
+￼ Exportation des bases de données au format CSV...
+
+￼ Table intégrée.
+
+￼ Nombre total de lignes de paye : 16949472 lignes.
+￼ Base des bulletins de paye de 603528 lignes.
+
+￼ Libération de la mémoire...
+￼ Création de 1 fils d'exécution.
+￼ Fil d'exécution i = 1/1 Nombre de fichiers dans ce fil : 12
+
+￼ Premier scan des fichiers pour déterminer les besoins mémoire, fil 0
+￼ calculer_memoire_requise_pre_tab_resize : Calcul de la mémoire disponible : 60 Mo
+￼ calculer_memoire_requise_pre : Calcul de la mémoire disponible : 60 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 57 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.32.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 54 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.33.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 55 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.34.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 54 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.35.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 53 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.36.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 55 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.37.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 55 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.38.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 56 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.39.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 57 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.4.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 55 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.40.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 56 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.41.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 56 Mo
+￼ calculer_memoire_requise_end : Calcul de la mémoire disponible : 56 Mo
+￼ decoder_fichier : allouer_memoire_table(info) : Calcul de la mémoire disponible : 62 Mo
+￼ decoder_fichier : pre_parseFile(info) : Calcul de la mémoire disponible : 62 Mo
+￼ Redécoupage du fichier n°0
+￼ Analyse du fichier scindé n°0-1: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_1.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 57 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 57 Mo
+￼ Fichier n°14 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 1995 bulletins -- 59268 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-2: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_1.xhl
+￼ Effacement du fichier scindé n°0-3: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_1.xhl
+￼ Analyse du fichier scindé n°0-4: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_2.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 72 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 72 Mo
+￼ Pas d'information sur l'Etablissement
+￼ Fichier n°15 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 4276 bulletins -- 116636 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-5: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_2.xhl
+￼ Effacement du fichier scindé n°0-6: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_2.xhl
+￼ Analyse du fichier scindé n°0-7: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_3.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 86 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 86 Mo
+￼ Pas d'information sur l'Etablissement
+￼ Fichier n°16 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 6383 bulletins -- 175252 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-8: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_3.xhl
+￼ Effacement du fichier scindé n°0-9: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_3.xhl
+￼ Analyse du fichier scindé n°0-10: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_4.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 101 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 101 Mo
+￼ Fichier n°17 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 8480 bulletins -- 233841 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-11: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_4.xhl
+￼ Effacement du fichier scindé n°0-12: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_4.xhl
+￼ Analyse du fichier scindé n°0-13: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_5.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 116 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 116 Mo
+￼ Fichier n°18 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 10593 bulletins -- 292399 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-14: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_5.xhl
+￼ Effacement du fichier scindé n°0-15: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_5.xhl
+￼ Analyse du fichier scindé n°0-16: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_6.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 131 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 131 Mo
+￼ Fichier n°19 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 12761 bulletins -- 350644 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-17: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_6.xhl
+￼ Effacement du fichier scindé n°0-18: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_6.xhl
+￼ Analyse du fichier scindé n°0-19: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_7.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 146 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 146 Mo
+￼ Fichier n°20 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 14827 bulletins -- 409518 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-20: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_7.xhl
+￼ Effacement du fichier scindé n°0-21: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_7.xhl
+￼ Analyse du fichier scindé n°0-22: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_8.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 160 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 160 Mo
+￼ Pas d'information sur l'Etablissement
+￼ Fichier n°21 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 16818 bulletins -- 468998 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-23: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_8.xhl
+￼ Effacement du fichier scindé n°0-24: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_8.xhl
+￼ Analyse du fichier scindé n°0-25: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_9.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 176 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 176 Mo
+￼ Fichier n°22 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 18871 bulletins -- 528006 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-26: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_9.xhl
+￼ Effacement du fichier scindé n°0-27: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_9.xhl
+￼ Analyse du fichier scindé n°0-28: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_10.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 191 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 191 Mo
+￼ Fichier n°23 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 20869 bulletins -- 587392 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-29: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_10.xhl
+￼ Effacement du fichier scindé n°0-30: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_10.xhl
+￼ Analyse du fichier scindé n°0-31: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_11.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 206 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 206 Mo
+￼ Fichier n°24 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 22905 bulletins -- 646578 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-32: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_11.xhl
+￼ Effacement du fichier scindé n°0-33: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_11.xhl
+￼ Analyse du fichier scindé n°0-34: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_12.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 221 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 221 Mo
+￼ Fichier n°25 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 25089 bulletins -- 704586 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-35: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_12.xhl
+￼ Effacement du fichier scindé n°0-36: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_12.xhl
+￼ Analyse du fichier scindé n°0-37: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_13.xhl
+
+....
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 236 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 236 Mo
+￼ Fichier n°26 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl
+￼ Fil n°0 : Fichier courant : 1
+￼ Total : 25147 bulletins -- 706228 lignes cumulées.
+￼ Fin de l'analyse du fichier scindé n°0-38: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_13.xhl
+￼ Effacement du fichier scindé n°0-39: /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.31.xhl_13.xhl
+￼ decoder_fichier : post_parseFile(info) : Calcul de la mémoire disponible : 236 Mo
+￼ decoder_fichier : pre_parseFile(info) : Calcul de la mémoire disponible : 236 Mo
+￼ Redécoupage du fichier n°0
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 54 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 54 Mo
+￼ Fichier n°27 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.32.xhl
+￼ Fil n°0 : Fichier courant : 2
+￼ Total : 50294 bulletins -- 1412456 lignes cumulées.
+￼ decoder_fichier : post_parseFile(info) : Calcul de la mémoire disponible : 57 Mo
+￼ decoder_fichier : pre_parseFile(info) : Calcul de la mémoire disponible : 57 Mo
+￼ Redécoupage du fichier n°1
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 58 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 58 Mo
+￼ Fichier n°28 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.33.xhl
+￼ Fil n°0 : Fichier courant : 3
+￼ Total : 75441 bulletins -- 2118684 lignes cumulées.
+￼ decoder_fichier : post_parseFile(info) : Calcul de la mémoire disponible : 57 Mo
+￼ decoder_fichier : pre_parseFile(info) : Calcul de la mémoire disponible : 57 Mo
+￼ Redécoupage du fichier n°2
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 57 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 57 Mo
+￼ Fichier n°29 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.34.xhl
+￼ Fil n°0 : Fichier courant : 4
+￼ Total : 100588 bulletins -- 2824912 lignes cumulées.
+￼ decoder_fichier : post_parseFile(info) : Calcul de la mémoire disponible : 59 Mo
+￼ decoder_fichier : pre_parseFile(info) : Calcul de la mémoire disponible : 59 Mo
+￼ Redécoupage du fichier n°3
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 57 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 57 Mo
+￼ Fichier n°30 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.35.xhl
+￼ Fil n°0 : Fichier courant : 5
+￼ Total : 125735 bulletins -- 3531140 lignes cumulées.
+￼ decoder_fichier : post_parseFile(info) : Calcul de la mémoire disponible : 57 Mo
+￼ decoder_fichier : pre_parseFile(info) : Calcul de la mémoire disponible : 57 Mo
+￼ Redécoupage du fichier n°4
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 56 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 56 Mo
+￼ Fichier n°31 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.36.xhl
+￼ Fil n°0 : Fichier courant : 6
+￼ Total : 150882 bulletins -- 4237368 lignes cumulées.
+￼ decoder_fichier : post_parseFile(info) : Calcul de la mémoire disponible : 61 Mo
+￼ decoder_fichier : pre_parseFile(info) : Calcul de la mémoire disponible : 61 Mo
+￼ Redécoupage du fichier n°5
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 58 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 58 Mo
+￼ Fichier n°32 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.37.xhl
+￼ Fil n°0 : Fichier courant : 7
+￼ Total : 176029 bulletins -- 4943596 lignes cumulées.
+￼ decoder_fichier : post_parseFile(info) : Calcul de la mémoire disponible : 60 Mo
+￼ decoder_fichier : pre_parseFile(info) : Calcul de la mémoire disponible : 60 Mo
+￼ Redécoupage du fichier n°6
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 65 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 65 Mo
+￼ Fichier n°33 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.38.xhl
+￼ Fil n°0 : Fichier courant : 8
+￼ Total : 201176 bulletins -- 5649824 lignes cumulées.
+￼ decoder_fichier : post_parseFile(info) : Calcul de la mémoire disponible : 65 Mo
+￼ decoder_fichier : pre_parseFile(info) : Calcul de la mémoire disponible : 65 Mo
+￼ Redécoupage du fichier n°7
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 57 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 57 Mo
+￼ Fichier n°34 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.39.xhl
+￼ Fil n°0 : Fichier courant : 9
+￼ Total : 226323 bulletins -- 6356052 lignes cumulées.
+￼ decoder_fichier : post_parseFile(info) : Calcul de la mémoire disponible : 61 Mo
+￼ decoder_fichier : pre_parseFile(info) : Calcul de la mémoire disponible : 61 Mo
+￼ Redécoupage du fichier n°8
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 64 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 64 Mo
+￼ Fichier n°35 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.4.xhl
+￼ Fil n°0 : Fichier courant : 10
+￼ Total : 251470 bulletins -- 7062280 lignes cumulées.
+￼ decoder_fichier : post_parseFile(info) : Calcul de la mémoire disponible : 64 Mo
+￼ decoder_fichier : pre_parseFile(info) : Calcul de la mémoire disponible : 64 Mo
+￼ Redécoupage du fichier n°9
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 68 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 68 Mo
+￼ Fichier n°36 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.40.xhl
+￼ Fil n°0 : Fichier courant : 11
+￼ Total : 276617 bulletins -- 7768508 lignes cumulées.
+￼ decoder_fichier : post_parseFile(info) : Calcul de la mémoire disponible : 68 Mo
+￼ decoder_fichier : pre_parseFile(info) : Calcul de la mémoire disponible : 68 Mo
+￼ Redécoupage du fichier n°10
+￼ parseFile : parseFile doc : Calcul de la mémoire disponible : 69 Mo
+￼ parseFile : parseFile get root : Calcul de la mémoire disponible : 69 Mo
+￼ Fichier n°37 : /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.41.xhl
+￼ Fil n°0 : Fichier courant : 12
+￼ Total : 301764 bulletins -- 8474736 lignes cumulées.
+￼ decoder_fichier : post_parseFile(info) : Calcul de la mémoire disponible : 68 Mo
+
+￼ Rassemblement des fils d'exécution.
+￼ Maximum de lignes : 72
+￼ Maximum d'agents : 25147
+
+￼ Exportation des bases de données au format CSV...
+
+￼ Table intégrée.
+
+￼ Nombre total de lignes de paye : 25424208 lignes.
+￼ Base des bulletins de paye de 905292 lignes.
+
+￼ Libération de la mémoire...
+￼ Création de 1 fils d'exécution.
+￼ Fil d'exécution i = 1/1 Nombre de fichiers dans ce fil : 12
+
+￼ Premier scan des fichiers pour déterminer les besoins mémoire, fil 0
+￼ calculer_memoire_requise_pre_tab_resize : Calcul de la mémoire disponible : 65 Mo
+￼ calculer_memoire_requise_pre : Calcul de la mémoire disponible : 65 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.42.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 58 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.43.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 56 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.44.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 56 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.45.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 56 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.46.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 56 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.47.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 54 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.48.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 57 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.49.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 55 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.5.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 56 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.50.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 55 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.51.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 56 Mo
+￼ Ouverture du fichier /home/fab/Main/fab/Dev/xhl/HCL/DEMA_HCL_201301.xhl.52.xhl
+￼ calculer_memoire_requise_close : Calcul de la mémoire disponible : 57 Mo
+￼ calculer_memoire_requise_end : Calcul de la mémoire disponible : 57 Mo
+￼ decoder_fichier : allouer_memoire_table(info) : Calcul de la mémoire disponible : 57 Mo
+￼ decoder_fichier : pre_parseFile(info) : Calcul de la mémoire disponible : 57 Mo

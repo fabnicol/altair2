@@ -24,12 +24,12 @@ render("altair.R",
        # "../../R/library/rmarkdown/rmd/latex/default.tex") )),
        output_file = "altair.pdf")
 
-file.rename("altair.pdf", "altaïr.pdf")
+file.rename("altair.pdf", "altaï¿½r.pdf")
 
 if (setOSWindows) {
-  shell("start acrord32.exe altaïr.pdf")
+  shell("start acrord32.exe altaï¿½r.pdf")
 } else {
-  system("okular altaïr.pdf")
+  system("okular altaï¿½r.pdf")
 }
 
 

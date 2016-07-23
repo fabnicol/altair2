@@ -96,7 +96,7 @@ inline void generate_rank_signal(int progression)
         rankFile.close();
 }
 
-static inline void memory_debug(const std::string& func_tag)
+static inline void GCC_UNUSED memory_debug(const std::string& func_tag)
 {
 #ifdef MEMORY_DEBUG
         std::cerr << STATE_HTML_TAG << func_tag << " : Calcul de la mémoire disponible : " << getFreeSystemMemory() << ENDL;
