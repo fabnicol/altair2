@@ -36,6 +36,7 @@ then
   fi
 
   git commit -am "Sauvegarde $(date)"
+  cp -f Actualiser.sh ../
 
 fi
 git gc --prune=now

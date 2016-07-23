@@ -1,14 +1,14 @@
 [Desktop Entry]
 Comment[fr_FR]=
 Comment=
-Exec=konsole -e "/home/fab/Dev/altair/Actualiser.sh"
+Exec=konsole -e "/home/fab/Dev/Actualiser.sh"
 GenericName[fr_FR]=Actualisation du logiciel
 GenericName=Actualisation  du logiciel
 Icon=system-software-install
 MimeType=
 Name[fr_FR]=Actualiser
 Name=Actualiser
-Path=/home/fab/Dev/altair/
+Path=/home/fab/Dev/
 StartupNotify=true
 Terminal=false
 TerminalOptions=
