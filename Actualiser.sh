@@ -42,7 +42,7 @@ git gc --prune=now
 echo "Fin de l'opération."
 echo "Entrer une touche du clavier pour quitter la console..."
 read reponse
-./postinstall
+./postinstall.sh
 
 
   
