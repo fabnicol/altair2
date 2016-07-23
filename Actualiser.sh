@@ -12,8 +12,11 @@ if test x$reponse = xOui; then
   git clean -dfx
   adresse=$(cat entrepot.txt)
   git remote remove origin
-  git remote add -t Linux origin $adresse
+  git remote add -t master origin $adresse
   git pull -X theirs -s recursive origin master
+  rm -rf altair altair.linux sft lhx Interface Docs Tests/Exemple/Donnees
+  mkdir lhx
+  git commit -m "Sauvegarde $(date)"
 
 fi
 

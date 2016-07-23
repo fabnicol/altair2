@@ -1,10 +1,9 @@
-source("prologue_rapport.R", encoding = encodage.code.source)
 
 render("altair.R",
        encoding = encodage.code.source,
        output_format = output_format(knitr_options(opts_chunk = list(fig.width = 7.5, 
                                                                      fig.height = 5,
-                                                                     dpi = 300,
+                                                                     dpi = dpi,
                                                                      echo = FALSE,
                                                                      warning = FALSE,
                                                                      message = FALSE,
@@ -17,9 +16,9 @@ render("altair.R",
        output_file = ifelse(setOSWindows, "altaïr.docx", "altaïr.odt"))
 
 if (setOSWindows) {
-   shell("start winword altaïr.docx")
+  shell("start winword altaïr.docx")
 } else {
-   system("lowriter altaïr.odt")
+  system("lowriter altaïr.odt")
 }
 
 
