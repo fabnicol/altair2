@@ -26,7 +26,7 @@ if test x$reponse = xOui; then
   git commit -am "Sauvegarde $(date)"
 
 fi
-
+git gc --prune=now
 echo "Fin de l'opération."
 echo "Entrer une touche du clavier pour quitter la console..."
 read reponse
