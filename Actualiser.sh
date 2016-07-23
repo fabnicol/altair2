@@ -6,14 +6,26 @@ echo "Veuillez confirmer la poursuite de l'actualisation (Oui/Non)."
 echo ""
 echo "Oui/Non : "
 read reponse
-if test x$reponse = xOui; then
+if test x$reponse = xOui
+then
    
   git reset --hard HEAD
   git clean -df
   adresse=$(cat entrepot.txt)
-  git remote remove origin
-  git remote add -t master origin $adresse
+  
+  current_origin=$(git remote -v | grep origin | grep fetch | cut -f'2' | cut -f 1 -d' ')
+  
+  if ! test x$current_origin = x$adresse
+  then
+    echo "****"
+    echo "* Actualisation du dépôt $adresse (ancien $current_origin). Patientez..."
+    echo "***"
+    git remote remove origin
+    git remote add -t master origin $adresse
+  fi
+  
   git fetch -p -n --depth=1 origin master
+  
   for i in R Interface_linux linux '*.txt' '*.R' '*.sh' '*.desktop' VERSION LICENCE '*.ico' '*.bmp' '*.png' .Rproj.user 'Tests/Exemple/*' 'Tests/Exemple/Docs' 
   do
     git checkout FETCH_HEAD -- $i 
