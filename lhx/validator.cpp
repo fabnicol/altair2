@@ -490,7 +490,7 @@ static int parseFile(info_t& info)
               <PJRef>{0,unbounded}</PJRef>
            </PayeIndivMensuel>
        */
-        int step = 0;
+        uint32_t step = 0;
 
         while(cur != nullptr)
         {

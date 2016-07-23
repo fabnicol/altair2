@@ -16,13 +16,9 @@
 #include <cinttypes>
 #include <vector>
 
-#ifdef  __GNUG__
+
 #define GCC_INLINE __attribute__((always_inline))
 #define GCC_UNUSED __attribute__((__unused__))
-#else
-#define GCC_INLINE
-#define GCC_UNUSED
-#endif
 
 
 typedef struct
