@@ -13,6 +13,7 @@ if test x$reponse = xOui; then
   adresse=$(cat entrepot.txt)
   git remote remove origin
   git remote add -t master origin $adresse
+  git fetch -p -n --depth=1 origin master
   for i in R Interface_linux linux '*.txt' '*.R' '*.sh' '*.desktop' VERSION LICENCE '*.ico' '*.bmp' '*.png' .Rproj.user 'Tests/Exemple/*' 'Tests/Exemple/Docs' 
   do
     git checkout FETCH_HEAD -- $i 
