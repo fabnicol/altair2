@@ -47,7 +47,7 @@ mutex mut;
 vector<errorLine_t> errorLineStack;
 vString commandline_tab;
 
-int produire_segment(const info_t& info, const vString& segment);
+pair<uint64_t, uint64_t>  produire_segment(const info_t& info, const vString& segment);
 
 
 int main(int argc, char **argv)
@@ -58,8 +58,8 @@ int main(int argc, char **argv)
     setlocale(LC_ALL, "French_France.1252"); // Windows ne gère pas UTF-8 en locale
     //locale::global(locale("French_France.1252"));
 #elif defined __linux__
-    setlocale(LC_ALL, "fr_FR.utf8");
-   //locale::global(locale("fr_FR.utf8"));
+   // setlocale(LC_ALL, "fr_FR.ISO-8859-15");
+   locale::global(locale("fr_FR.utf8"));
 #else
 #error "Programme conçu pour Windows ou linux"
 #endif
@@ -717,6 +717,8 @@ int main(int argc, char **argv)
 
    int info_nbfil_defaut = info.nbfil;
 
+   pair<uint64_t, uint64_t>lignes = make_pair(0, 0);
+
    for (auto&& segment : segments)
    {
         unsigned int segment_size = segment.size();
@@ -730,23 +732,29 @@ int main(int argc, char **argv)
         else
             info.nbfil = info_nbfil_defaut;
 
-        produire_segment(info, segment);
+        lignes = produire_segment(info, segment);
     }
 
     xmlCleanupParser();
 
     auto endofprogram = Clock::now();
+    auto duree = chrono::duration_cast<chrono::milliseconds>(endofprogram - startofprogram).count();
 
     cerr << ENDL << PROCESSING_HTML_TAG "Durée d'exécution : "
-         << chrono::duration_cast<chrono::milliseconds>(endofprogram - startofprogram).count()
+         << duree
          << " millisecondes" << ENDL;
+
+    cerr << ENDL << PROCESSING_HTML_TAG "Vitesse d'exécution : "
+         << lignes.first / duree
+         << " milliers de lignes par seconde" << ENDL;
+
 
     if (rankFile.is_open()) rankFile.close();
 
     return errno;
 }
 
-int produire_segment(const info_t& info, const vString& segment)
+pair<uint64_t, uint64_t> produire_segment(const info_t& info, const vString& segment)
 {
     static int nsegment;
 
@@ -844,7 +852,7 @@ int produire_segment(const info_t& info, const vString& segment)
             t[i].join ();
         }
 
-    if (info.pretend) return 2;
+    if (info.pretend) return make_pair(0, 0);
 
 
     if (Info[0].calculer_maxima)
@@ -860,11 +868,12 @@ int produire_segment(const info_t& info, const vString& segment)
         LOG.close();
     }
 
+    pair<uint64_t, uint64_t> lignes;
 
     if (generer_table)
     {
       cerr << ENDL << PROCESSING_HTML_TAG "Exportation des bases de données au format CSV..." << ENDL ENDL;
-      boucle_ecriture(Info, nsegment);
+      lignes = boucle_ecriture(Info, nsegment);
     }
 
     /* Résumé des erreurs rencontrées */
@@ -902,7 +911,7 @@ int produire_segment(const info_t& info, const vString& segment)
 
     /* libération de la mémoire */
 
-   if (! liberer_memoire) return 0;
+   if (! liberer_memoire) return lignes;
 
    if (verbeux)
        cerr << ENDL
@@ -924,7 +933,7 @@ int produire_segment(const info_t& info, const vString& segment)
     }
 
 
-    return 1;
+    return lignes;
 }
 
 

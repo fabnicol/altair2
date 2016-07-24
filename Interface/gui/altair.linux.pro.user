@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.0.2, 2016-07-22T02:01:11. -->
+<!-- Written by QtCreator 4.0.2, 2016-07-24T19:36:27. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -369,7 +369,7 @@
     </valuelist>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.Arguments"></value>
+    <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.Arguments">-f /home/fab/Dev/altair/lhx/cl</value>
     <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.Executable">/home/fab/Dev/altair/Interface_linux/gui/x64/Altair</value>
     <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.WorkingDirectory">%{buildDir}</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Exécuter /home/fab/Dev/altair/Interface_linux/gui/x64/Altair</value>

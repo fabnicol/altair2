@@ -7,7 +7,7 @@
 -D
 /home/fab/Dev/altair/Tests/Exemple/Donnees/R-Altair
 --memshare
-90
+5
 -j
 '8'
 -t
@@ -56,6 +56,18 @@
 /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200911_02_00.xhl
 /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200912_01_00.xhl
 /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2009/METRO_200912_02_00.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/Ville du PUY EN VELAY-21430157400015-01.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/Ville du PUY EN VELAY-21430157400015-02.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/Ville du PUY EN VELAY-21430157400015-03.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/Ville du PUY EN VELAY-21430157400015-04.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/Ville du PUY EN VELAY-21430157400015-05.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/Ville du PUY EN VELAY-21430157400015-06.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/Ville du PUY EN VELAY-21430157400015-07.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/Ville du PUY EN VELAY-21430157400015-08.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/Ville du PUY EN VELAY-21430157400015-09.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/Ville du PUY EN VELAY-21430157400015-10.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/Ville du PUY EN VELAY-21430157400015-11.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/Ville du PUY EN VELAY-21430157400015-12.xhl
 /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201001_01_00.xhl
 /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201001_02_00.xhl
 /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201002_01_00.xhl
@@ -80,6 +92,18 @@
 /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201011_02_00.xhl
 /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201012_01_00.xhl
 /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2010/METRO_201012_02_00.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2010/Ville du PUY EN VELAY-21430157400015-01.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2010/Ville du PUY EN VELAY-21430157400015-02.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2010/Ville du PUY EN VELAY-21430157400015-03.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2010/Ville du PUY EN VELAY-21430157400015-04.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2010/Ville du PUY EN VELAY-21430157400015-05.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2010/Ville du PUY EN VELAY-21430157400015-06.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2010/Ville du PUY EN VELAY-21430157400015-07.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2010/Ville du PUY EN VELAY-21430157400015-08.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2010/Ville du PUY EN VELAY-21430157400015-09.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2010/Ville du PUY EN VELAY-21430157400015-10.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2010/Ville du PUY EN VELAY-21430157400015-11.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2010/Ville du PUY EN VELAY-21430157400015-12.xhl
 /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201101_01_00.xhl
 /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201101_02_00.xhl
 /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201102_01_00.xhl
@@ -104,6 +128,18 @@
 /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201111_02_00.xhl
 /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201112_01_00.xhl
 /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2011/METRO_201112_02_00.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2011/Ville-21430157400015-01.2011.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2011/Ville-21430157400015-02.2011.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2011/Ville-21430157400015-03.2011.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2011/Ville-21430157400015-04.2011.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2011/Ville-21430157400015-05.2011.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2011/Ville-21430157400015-06.2011.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2011/Ville-21430157400015-07.2011.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2011/Ville-21430157400015-08.2011.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2011/Ville-21430157400015-09.2011.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2011/Ville-21430157400015-10.2011.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2011/Ville-21430157400015-11.2011.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2011/Ville-21430157400015-12.2011.xhl
 /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201201_01_00.xhl
 /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201201_02_00.xhl
 /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201202_01_00.xhl
@@ -128,3 +164,48 @@
 /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201211_02_00.xhl
 /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201212_01_00.xhl
 /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme/2012/METRO_201212_02_00.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2012/21430157400015-2012-01VILLE.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2012/21430157400015-2012-02VILLE.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2012/21430157400015-2012-04VILLE.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2012/21430157400015-2012-05VILLE.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2012/21430157400015-2012-06VILLE.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2012/21430157400015-2012-07VILLE.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2012/21430157400015-2012-08VILLE.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2012/21430157400015-2012-09VILLE.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2012/21430157400015-2012-10VILLE.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2012/21430157400015-2012-11VILLE.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2012/21430157400015-2012-12VILLE.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2012/Ville-21430157400015-03.2012.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2013/21430157400015-2013-01VILLE.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2013/21430157400015-2013-02VILLE.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2013/21430157400015-2013-03VILLE.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2013/21430157400015-2013-04VILLE.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2013/21430157400015-2013-05VILLE.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2013/21430157400015-2013-06VILLE.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2013/21430157400015-2013-07VILLE.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2013/21430157400015-2013-08VILLE.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2013/21430157400015-2013-09VILLE.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2013/21430157400015-2013-10VILLE.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2013/21430157400015-2013-11VILLE.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2013/21430157400015-2013-12VILLE.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme3/CG56 Avril 2014.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme3/CG56 Janvier 2014.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme3/CG56 Juillet 2014.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme3/CG56 Juin 2014.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme3/CG56 Mai 2014.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme3/CG56 Mars 2014.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme3/CG56 Novembre 2014.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme3/CG56 Octobre 2014.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme3/CG56 Septembre 2014.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme4/CG56 Août 2014.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme4/CG56 Avril 2014.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme4/CG56 Décembre 2014.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme4/CG56 Février 2014.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme4/CG56 Janvier 2014.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme4/CG56 Juillet 2014.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme4/CG56 Juin 2014.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme4/CG56 Mai 2014.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme4/CG56 Mars 2014.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme4/CG56 Novembre 2014.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme4/CG56 Octobre 2014.xhl
+/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme4/CG56 Septembre 2014.xhl

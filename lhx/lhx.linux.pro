@@ -75,7 +75,7 @@ DEFINES += __GNUC_EXTENSION \
                                             # DEFINES += STRICT  pour un validateur qui retourne à la première erreur.
 DEFINES += \#NO_REGEX \                     # Pas d'analyse du texte par expression régulière
         GCC_REGEX \                         # Utiliser les expressions régulières de C++. Attention désactiver cette valeur casse les analyse sous R.
-        WAIT_FOR_LOCK  \                    # insiter jusqu'à acquérir les mutex dans les fils d'exécution. Peut entraîner des "output freeze" en cas de forte
+        WAIT_FOR_LOCK  \                    # insister jusqu'à acquérir les mutex dans les fils d'exécution. Peut entraîner des "output freeze" en cas de forte
                         \                   # charge I/O.
         NO_DEBUG \                          # ne pas générer de messages de débogage avancé
 #       USE_ICONV \                         # pour Windows uniquement, si l'on n'est pas satisfait du hack de pseudo-conversion UTF-8 vers Latin-1

@@ -1467,7 +1467,7 @@ moc_options.cpp: ../../gui/flineframe.hpp \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtWidgets/QFileSystemModel \
 		../../gui/options.h \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/bin/moc
-	/home/fab/Qt5.7.0/5.7/Src/qtbase/bin/moc $(DEFINES) -I/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/linux-g++ -I/home/fab/Dev/altair/Interface/gui -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtWidgets -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtGui -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtXml -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtCore -I. -I/usr/local/include/c++/6.1.0 -I/usr/local/include/c++/6.1.0/x86_64-pc-linux-gnu -I/usr/local/include/c++/6.1.0/backward -I/usr/local/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include -I/usr/local/include -I/usr/local/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include-fixed -I/usr/include ../../gui/options.h -o moc_options.cpp
+	/home/fab/Qt5.7.0/5.7/Src/qtbase/bin/moc $(DEFINES) -I/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/linux-g++ -I/home/fab/Dev/altair/Interface/gui -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtWidgets -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtGui -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtXml -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtCore -I. -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include/g++-v6 -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include/g++-v6/x86_64-pc-linux-gnu -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include/g++-v6/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include-fixed -I/usr/include ../../gui/options.h -o moc_options.cpp
 
 moc_fwidgets.cpp: /home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtWidgets/QtWidgets \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtWidgets/QtWidgetsDepends \
@@ -2318,7 +2318,7 @@ moc_fwidgets.cpp: /home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtWidgets/QtWidgets \
 		../../gui/tags.h \
 		../../gui/fwidgets.h \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/bin/moc
-	/home/fab/Qt5.7.0/5.7/Src/qtbase/bin/moc $(DEFINES) -I/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/linux-g++ -I/home/fab/Dev/altair/Interface/gui -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtWidgets -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtGui -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtXml -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtCore -I. -I/usr/local/include/c++/6.1.0 -I/usr/local/include/c++/6.1.0/x86_64-pc-linux-gnu -I/usr/local/include/c++/6.1.0/backward -I/usr/local/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include -I/usr/local/include -I/usr/local/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include-fixed -I/usr/include ../../gui/fwidgets.h -o moc_fwidgets.cpp
+	/home/fab/Qt5.7.0/5.7/Src/qtbase/bin/moc $(DEFINES) -I/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/linux-g++ -I/home/fab/Dev/altair/Interface/gui -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtWidgets -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtGui -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtXml -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtCore -I. -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include/g++-v6 -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include/g++-v6/x86_64-pc-linux-gnu -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include/g++-v6/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include-fixed -I/usr/include ../../gui/fwidgets.h -o moc_fwidgets.cpp
 
 moc_flistframe.cpp: ../../gui/altair.h \
 		../../gui/fstring.h \
@@ -3196,7 +3196,7 @@ moc_flistframe.cpp: ../../gui/altair.h \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtGui/QTextCharFormat \
 		../../gui/flistframe.h \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/bin/moc
-	/home/fab/Qt5.7.0/5.7/Src/qtbase/bin/moc $(DEFINES) -I/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/linux-g++ -I/home/fab/Dev/altair/Interface/gui -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtWidgets -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtGui -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtXml -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtCore -I. -I/usr/local/include/c++/6.1.0 -I/usr/local/include/c++/6.1.0/x86_64-pc-linux-gnu -I/usr/local/include/c++/6.1.0/backward -I/usr/local/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include -I/usr/local/include -I/usr/local/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include-fixed -I/usr/include ../../gui/flistframe.h -o moc_flistframe.cpp
+	/home/fab/Qt5.7.0/5.7/Src/qtbase/bin/moc $(DEFINES) -I/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/linux-g++ -I/home/fab/Dev/altair/Interface/gui -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtWidgets -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtGui -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtXml -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtCore -I. -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include/g++-v6 -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include/g++-v6/x86_64-pc-linux-gnu -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include/g++-v6/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include-fixed -I/usr/include ../../gui/flistframe.h -o moc_flistframe.cpp
 
 moc_altair.cpp: ../../gui/fstring.h \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtCore/QtCore \
@@ -4074,7 +4074,7 @@ moc_altair.cpp: ../../gui/fstring.h \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtWidgets/QFileSystemModel \
 		../../gui/altair.h \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/bin/moc
-	/home/fab/Qt5.7.0/5.7/Src/qtbase/bin/moc $(DEFINES) -I/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/linux-g++ -I/home/fab/Dev/altair/Interface/gui -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtWidgets -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtGui -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtXml -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtCore -I. -I/usr/local/include/c++/6.1.0 -I/usr/local/include/c++/6.1.0/x86_64-pc-linux-gnu -I/usr/local/include/c++/6.1.0/backward -I/usr/local/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include -I/usr/local/include -I/usr/local/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include-fixed -I/usr/include ../../gui/altair.h -o moc_altair.cpp
+	/home/fab/Qt5.7.0/5.7/Src/qtbase/bin/moc $(DEFINES) -I/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/linux-g++ -I/home/fab/Dev/altair/Interface/gui -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtWidgets -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtGui -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtXml -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtCore -I. -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include/g++-v6 -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include/g++-v6/x86_64-pc-linux-gnu -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include/g++-v6/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include-fixed -I/usr/include ../../gui/altair.h -o moc_altair.cpp
 
 moc_browser.cpp: /home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtWidgets/QtWidgets \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtWidgets/QtWidgetsDepends \
@@ -4927,7 +4927,7 @@ moc_browser.cpp: /home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtWidgets/QtWidgets \
 		../../gui/tags.h \
 		../../gui/browser.h \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/bin/moc
-	/home/fab/Qt5.7.0/5.7/Src/qtbase/bin/moc $(DEFINES) -I/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/linux-g++ -I/home/fab/Dev/altair/Interface/gui -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtWidgets -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtGui -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtXml -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtCore -I. -I/usr/local/include/c++/6.1.0 -I/usr/local/include/c++/6.1.0/x86_64-pc-linux-gnu -I/usr/local/include/c++/6.1.0/backward -I/usr/local/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include -I/usr/local/include -I/usr/local/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include-fixed -I/usr/include ../../gui/browser.h -o moc_browser.cpp
+	/home/fab/Qt5.7.0/5.7/Src/qtbase/bin/moc $(DEFINES) -I/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/linux-g++ -I/home/fab/Dev/altair/Interface/gui -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtWidgets -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtGui -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtXml -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtCore -I. -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include/g++-v6 -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include/g++-v6/x86_64-pc-linux-gnu -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include/g++-v6/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include-fixed -I/usr/include ../../gui/browser.h -o moc_browser.cpp
 
 moc_altair.cpp: ../../gui/fstring.h \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtCore/QtCore \
@@ -5805,7 +5805,7 @@ moc_altair.cpp: ../../gui/fstring.h \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtWidgets/QFileSystemModel \
 		../../gui/altair.h \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/bin/moc
-	/home/fab/Qt5.7.0/5.7/Src/qtbase/bin/moc $(DEFINES) -I/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/linux-g++ -I/home/fab/Dev/altair/Interface/gui -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtWidgets -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtGui -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtXml -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtCore -I. -I/usr/local/include/c++/6.1.0 -I/usr/local/include/c++/6.1.0/x86_64-pc-linux-gnu -I/usr/local/include/c++/6.1.0/backward -I/usr/local/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include -I/usr/local/include -I/usr/local/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include-fixed -I/usr/include ../../gui/altair.h -o moc_altair.cpp
+	/home/fab/Qt5.7.0/5.7/Src/qtbase/bin/moc $(DEFINES) -I/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/linux-g++ -I/home/fab/Dev/altair/Interface/gui -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtWidgets -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtGui -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtXml -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtCore -I. -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include/g++-v6 -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include/g++-v6/x86_64-pc-linux-gnu -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include/g++-v6/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include-fixed -I/usr/include ../../gui/altair.h -o moc_altair.cpp
 
 moc_highlighter.cpp: /home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtGui/QSyntaxHighlighter \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtGui/qsyntaxhighlighter.h \
@@ -6011,7 +6011,7 @@ moc_highlighter.cpp: /home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtGui/QSyntaxHighl
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtGui/QTextCharFormat \
 		../../gui/highlighter.h \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/bin/moc
-	/home/fab/Qt5.7.0/5.7/Src/qtbase/bin/moc $(DEFINES) -I/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/linux-g++ -I/home/fab/Dev/altair/Interface/gui -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtWidgets -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtGui -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtXml -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtCore -I. -I/usr/local/include/c++/6.1.0 -I/usr/local/include/c++/6.1.0/x86_64-pc-linux-gnu -I/usr/local/include/c++/6.1.0/backward -I/usr/local/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include -I/usr/local/include -I/usr/local/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include-fixed -I/usr/include ../../gui/highlighter.h -o moc_highlighter.cpp
+	/home/fab/Qt5.7.0/5.7/Src/qtbase/bin/moc $(DEFINES) -I/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/linux-g++ -I/home/fab/Dev/altair/Interface/gui -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtWidgets -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtGui -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtXml -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtCore -I. -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include/g++-v6 -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include/g++-v6/x86_64-pc-linux-gnu -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include/g++-v6/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include-fixed -I/usr/include ../../gui/highlighter.h -o moc_highlighter.cpp
 
 moc_altair-gui.cpp: /home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtWidgets/QMainWindow \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtWidgets/qmainwindow.h \
@@ -6889,7 +6889,7 @@ moc_altair-gui.cpp: /home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtWidgets/QMainWind
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtWidgets/QFileSystemModel \
 		../../gui/altair-gui.h \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/bin/moc
-	/home/fab/Qt5.7.0/5.7/Src/qtbase/bin/moc $(DEFINES) -I/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/linux-g++ -I/home/fab/Dev/altair/Interface/gui -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtWidgets -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtGui -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtXml -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtCore -I. -I/usr/local/include/c++/6.1.0 -I/usr/local/include/c++/6.1.0/x86_64-pc-linux-gnu -I/usr/local/include/c++/6.1.0/backward -I/usr/local/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include -I/usr/local/include -I/usr/local/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include-fixed -I/usr/include ../../gui/altair-gui.h -o moc_altair-gui.cpp
+	/home/fab/Qt5.7.0/5.7/Src/qtbase/bin/moc $(DEFINES) -I/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/linux-g++ -I/home/fab/Dev/altair/Interface/gui -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtWidgets -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtGui -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtXml -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtCore -I. -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include/g++-v6 -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include/g++-v6/x86_64-pc-linux-gnu -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include/g++-v6/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include-fixed -I/usr/include ../../gui/altair-gui.h -o moc_altair-gui.cpp
 
 moc_flineframe.cpp: ../../gui/fwidgets.h \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtWidgets/QtWidgets \
@@ -7742,7 +7742,7 @@ moc_flineframe.cpp: ../../gui/fwidgets.h \
 		../../gui/common.h \
 		../../gui/flineframe.hpp \
 		/home/fab/Qt5.7.0/5.7/Src/qtbase/bin/moc
-	/home/fab/Qt5.7.0/5.7/Src/qtbase/bin/moc $(DEFINES) -I/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/linux-g++ -I/home/fab/Dev/altair/Interface/gui -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtWidgets -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtGui -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtXml -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtCore -I. -I/usr/local/include/c++/6.1.0 -I/usr/local/include/c++/6.1.0/x86_64-pc-linux-gnu -I/usr/local/include/c++/6.1.0/backward -I/usr/local/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include -I/usr/local/include -I/usr/local/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include-fixed -I/usr/include ../../gui/flineframe.hpp -o moc_flineframe.cpp
+	/home/fab/Qt5.7.0/5.7/Src/qtbase/bin/moc $(DEFINES) -I/home/fab/Qt5.7.0/5.7/Src/qtbase/mkspecs/linux-g++ -I/home/fab/Dev/altair/Interface/gui -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtWidgets -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtGui -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtXml -I/home/fab/Qt5.7.0/5.7/Src/qtbase/include/QtCore -I. -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include/g++-v6 -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include/g++-v6/x86_64-pc-linux-gnu -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include/g++-v6/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.0/include-fixed -I/usr/include ../../gui/flineframe.hpp -o moc_flineframe.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:

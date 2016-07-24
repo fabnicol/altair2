@@ -297,7 +297,7 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
              compteur_annee_courante = 0;
     static uint64_t  dernier_compteur;
 
-    uint32_t compteur_lignes_bulletins = 0;
+    uint64_t compteur_lignes_bulletins = 0;
 
     char sep = Info[0].separateur;
     char* annee_courante = (char*) Info[0].Table[0][Annee];
