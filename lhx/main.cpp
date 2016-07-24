@@ -58,8 +58,8 @@ int main(int argc, char **argv)
     setlocale(LC_ALL, "French_France.1252"); // Windows ne gère pas UTF-8 en locale
     //locale::global(locale("French_France.1252"));
 #elif defined __linux__
-    //setlocale(LC_ALL, "fr_FR.utf8");
-   locale::global(locale("fr_FR.utf8"));
+    setlocale(LC_ALL, "fr_FR.utf8");
+   //locale::global(locale("fr_FR.utf8"));
 #else
 #error "Programme conçu pour Windows ou linux"
 #endif
@@ -638,6 +638,8 @@ int main(int argc, char **argv)
             else
             {
                 cerr << ERROR_HTML_TAG "La taille du fichier " << commandline_tab.at(i) << " n'a pas pu être déterminée." ENDL;
+                taille.push_back(0);
+                ++count;
             }
         }
 
@@ -693,17 +695,21 @@ int main(int argc, char **argv)
           ++densite_segment;
         #endif
 
-        while (taille_segment * densite_segment < memoire_utilisable && commandline_it != commandline_tab.end())
+        do
          {
+           taille_segment  += *taille_it;
            segment.push_back(*commandline_it);  // ne pas utiliser move;
            ++commandline_it;
            ++taille_it;
-           taille_segment  += *taille_it;
+
          }
+         while (taille_it != taille.end()
+                && commandline_it != commandline_tab.end()
+                && taille_segment * densite_segment < memoire_utilisable);
 
         segments.emplace_back(segment);
 
-    } while (commandline_it != commandline_tab.end());
+    } while (commandline_it != commandline_tab.end() && taille_it != taille.end());
 
     unsigned int segments_size = segments.size();
     if (segments_size > 1)
