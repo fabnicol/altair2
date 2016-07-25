@@ -9,6 +9,7 @@
 #include <fstream>
 #include <vector>
 #include <mutex>
+#include <mutex>
 #include "tags.h"
 
 typedef struct {
@@ -80,11 +81,13 @@ inline void  generate_rank_signal()
 
 }
 
-#define pluriel(X, Y)  ((X > 1)? Y "s": "Y")
+#define pluriel(X, Y)  ((X > 1)? Y "s": Y)
 
 
 inline void generate_rank_signal(int progression)
 {
+
+    std::lock_guard<std::mutex> lock(mut);
     if (rankFilePath.empty()) return;
 
         rankFile.open(rankFilePath, std::ios::out|std::ios::trunc);
@@ -96,10 +99,10 @@ inline void generate_rank_signal(int progression)
         rankFile.close();
 }
 
-static inline void memory_debug(const std::string& func_tag)
+static inline void GCC_UNUSED memory_debug(const std::string& func_tag)
 {
 #ifdef MEMORY_DEBUG
-        std::cerr << STATE_HTML_TAG << func_tag << " : Calcul de la mémoire disponible : " << getFreeSystemMemory() << ENDL;
+        std::cerr << STATE_HTML_TAG << func_tag << " : Calcul de la mÃ©moire disponible : " << getFreeSystemMemory() << ENDL;
 #else
 
 #endif

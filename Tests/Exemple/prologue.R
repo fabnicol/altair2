@@ -43,7 +43,7 @@ analyse.par.catégorie          <- TRUE
 test.delta                     <- FALSE
 if (! exists("PDF"))       PDF <- FALSE
 keep_md                        <- FALSE
-utiliser.cplusplus.sft         <- FALSE
+utiliser.cplusplus.sft         <- TRUE
 sécuriser.types.sortie         <- TRUE
 
 seuil.troncature               <- 1 # jours
@@ -54,6 +54,7 @@ minimum.quotité                <- 0.1
 tolérance.variation.quotité    <- 0.05
 minimum.actif                  <- 100
 minimum.delta                  <- 5
+dpi                            <- 300 # points par pouce, précision des graphiques de rapport
 
 # définitions INSEE pour le poste non annexe
 # poste non annexe = minimum d'un mois et de 120h à raison d'au moins 1,5 h/jour.

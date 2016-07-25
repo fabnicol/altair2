@@ -5,18 +5,18 @@ using namespace std;
 
 
 /* NOTA Sur les valeurs manquantes
- * Pour des variables caractères : NA (NA_ASSIGN)
- * Pour des variables pseudo-numériques (caractères convertibles en numériques) : 0 (ZERO_ASSIGN)
- * On peut donc garantir que Année, Mois, NbEnfants, Indice, NBI, QuotiteTrav,
- * NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer ne sont jamais NA mais à 0 */
+ * Pour des variables caractÃ¨res : NA (NA_ASSIGN)
+ * Pour des variables pseudo-numÃ©riques (caractÃ¨res convertibles en numÃ©riques) : 0 (ZERO_ASSIGN)
+ * On peut donc garantir que AnnÃ©e, Mois, NbEnfants, Indice, NBI, QuotiteTrav,
+ * NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer ne sont jamais NA mais Ã  0 */
 
 /* obligatoire */
 
 #define NA_ASSIGN(X)        info.Table[info.NCumAgentXml][X] = (xmlChar*) xmlStrdup(NA_STRING)
 #define ZERO_ASSIGN(X)      info.Table[info.NCumAgentXml][X] = (xmlChar*) xmlStrdup((const xmlChar*) "0")
 
-/* Remplace les occurrences d'un caractère séparateur à l'intérieur d'un champ par le caractère '_' qui ne doit donc jamais
-   être séparateur de champ (c'est bien rare !) */
+/* Remplace les occurrences d'un caractÃ¨re sÃ©parateur Ã  l'intÃ©rieur d'un champ par le caractÃ¨re '_' qui ne doit donc jamais
+   Ãªtre sÃ©parateur de champ (c'est bien rare !) */
 
 static inline void GCC_INLINE sanitize(xmlChar* s, const char sep)
 {
@@ -37,11 +37,11 @@ static inline void GCC_INLINE sanitize(xmlChar* s, const char sep)
 
 #if defined(__WIN32__) && !defined(USE_ICONV)
 
-            /* Gros hack de pseudo-conversion UTF-8 vers Latin-1, qui permet d'économiser les 40 % de surcoût d'exécution
-             * lié à l'utilisation d'iconv pour retraiter les fichiers de sortie (fonction convertir(const char*))
-             * Ce hack est presque sans coût. Il se base sur les hypothèses suivantes :
-             *   a) pas de caractères spéciaux multioctets
-             *   b) seuls sont convertis : à, â, ç, è, é, ê, ë, î, ï, ô, û ... et les majuscules correspondantes càd
+            /* Gros hack de pseudo-conversion UTF-8 vers Latin-1, qui permet d'Ã©conomiser les 40 % de surcoÃ»t d'exÃ©cution
+             * liÃ© Ã  l'utilisation d'iconv pour retraiter les fichiers de sortie (fonction convertir(const char*))
+             * Ce hack est presque sans coÃ»t. Il se base sur les hypothÃ¨ses suivantes :
+             *   a) pas de caractÃ¨res spÃ©ciaux multioctets
+             *   b) seuls sont convertis : Ã , Ã¢, Ã§, Ã¨, Ã©, Ãª, Ã«, Ã®, Ã¯, Ã´, Ã» ... et les majuscules correspondantes cÃ d
              * dont le code UTF-8 commence par 0xC3. Il suffit d'ajouter 0x40 sur les quatre bits hauts de l'octet. */
 
         case 0xC3:
@@ -57,7 +57,7 @@ static inline void GCC_INLINE sanitize(xmlChar* s, const char sep)
         case 0xC2:
 
             s[i] = s[i + 1];
-            /* Le caractère ° (degré) est bien codé en Latin-1 comme 0xB0, mais il y a un problème avec le paquet texlive
+            /* Le caractÃ¨re Â° (degrÃ©) est bien codÃ© en Latin-1 comme 0xB0, mais il y a un problÃ¨me avec le paquet texlive
              * inputenc pour la conversion pdf. On remplace donc par e (0x65) */
 
             //if (info.Table[info.NCumAgentXml][l][i] == 0xB0) info.Table[info.NCumAgentXml][l][i] = 0x65;
@@ -76,7 +76,7 @@ static inline void GCC_INLINE sanitize(xmlChar* s, const char sep)
 
 static inline int GCC_INLINE Bulletin(const char*  tag, xmlNodePtr& cur, int l, info_t& info, int normalJump = 0)
 {
-    // attention faire en sorte que cur ne soit JAMAIS nul en entrée ou en sortie
+    // attention faire en sorte que cur ne soit JAMAIS nul en entrÃ©e ou en sortie
 
     const xmlNodePtr nextcur = move(atteindreNoeud(tag, cur, normalJump));
 
@@ -85,7 +85,7 @@ static inline int GCC_INLINE Bulletin(const char*  tag, xmlNodePtr& cur, int l, 
         return NODE_NOT_FOUND;
     }
 
-// On a à présent la garantie que cur->name correspond à tag
+// On a Ã  prÃ©sent la garantie que cur->name correspond Ã  tag
 
 
         if ((info.Table[info.NCumAgentXml][l]
@@ -110,9 +110,9 @@ static inline int GCC_INLINE Bulletin(const char*  tag, xmlNodePtr& cur, int l, 
 
 }
 
-/* obligatoire, mais possibilité de fallback si STRICT n'est pas défini */
+/* obligatoire, mais possibilitÃ© de fallback si STRICT n'est pas dÃ©fini */
 
-//             cerr << ERROR_HTML_TAG "Noeud courant null au stade de la vérification de " << tag << ENDL;
+//             cerr << ERROR_HTML_TAG "Noeud courant null au stade de la vÃ©rification de " << tag << ENDL;
 
 static inline bool GCC_INLINE bulletin_obligatoire(const char* tag, xmlNodePtr& cur, int l,  info_t& info, int normalJump = 0)
 {
@@ -126,13 +126,13 @@ static inline bool GCC_INLINE bulletin_obligatoire(const char* tag, xmlNodePtr& 
 
         case NODE_NOT_FOUND :
                 //if (verbeux)
-                    cerr << ERROR_HTML_TAG "Impossible d'atteindre " << tag << " à partir de " << cur->name << ENDL;
+                    cerr << ERROR_HTML_TAG "Impossible d'atteindre " << tag << " Ã  partir de " << cur->name << ENDL;
                 NA_ASSIGN(l);
                 break;
 
         case LINE_MEMORY_EXCEPTION :
                 //if (verbeux)
-                    cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
+                    cerr << ERROR_HTML_TAG "Allocation mÃ©moire impossible pour la ligne " << l << ENDL;
                 NA_ASSIGN(l);
                 break;
 
@@ -161,13 +161,13 @@ static inline bool GCC_INLINE bulletin_obligatoire(const char* tag, xmlNodePtr& 
 }
 
 
-/* A tester : la substitution du caractère décimal , au . de la locale anglaise utilisé par Xémélios (hélas)
-   reste nécessaire tant que nous utiliserons un stockage uniforme en chaînes de caractères.
-   Si un jour nous décidons d'utilisr strold pour convertir les chaînes de caractère numériques en float, nous
-   gagnerons de la place en stockage temporaire (peut être utile pour les gros fichiers) et alors printf et setlocale
-   feront le travail de substitution de la virgule au point lors de l'écriture de la base.
-   A ce stade nous stockons tous les champs lus en char, pour écriture identique en .csv dans la table, avec substition
-   'manuelle' de la virgule au point dans la chaîne en output. */
+/* A tester : la substitution du caractÃ¨re dÃ©cimal , au . de la locale anglaise utilisÃ© par XÃ©mÃ©lios (hÃ©las)
+   reste nÃ©cessaire tant que nous utiliserons un stockage uniforme en chaÃ®nes de caractÃ¨res.
+   Si un jour nous dÃ©cidons d'utilisr strold pour convertir les chaÃ®nes de caractÃ¨re numÃ©riques en float, nous
+   gagnerons de la place en stockage temporaire (peut Ãªtre utile pour les gros fichiers) et alors printf et setlocale
+   feront le travail de substitution de la virgule au point lors de l'Ã©criture de la base.
+   A ce stade nous stockons tous les champs lus en char, pour Ã©criture identique en .csv dans la table, avec substition
+   'manuelle' de la virgule au point dans la chaÃ®ne en output. */
 
 static inline void GCC_INLINE substituer_separateur_decimal(xmlChar* ligne, const char decimal)
 {
@@ -194,7 +194,7 @@ static inline bool GCC_INLINE bulletin_optionnel_char(const char* tag, xmlNodePt
 
         case LINE_MEMORY_EXCEPTION :
              if (verbeux)
-                 cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
+                 cerr << ERROR_HTML_TAG "Allocation mÃ©moire impossible pour la ligne " << l << ENDL;
              NA_ASSIGN(l);
              break;
 
@@ -241,7 +241,7 @@ static inline bool GCC_INLINE bulletin_optionnel_numerique(const char* tag, xmlN
 
         case LINE_MEMORY_EXCEPTION :
              if (verbeux)
-                 cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
+                 cerr << ERROR_HTML_TAG "Allocation mÃ©moire impossible pour la ligne " << l << ENDL;
              ZERO_ASSIGN(l);
              break;
 
@@ -273,7 +273,7 @@ static inline bool GCC_INLINE bulletin_optionnel_numerique(const char* tag, xmlN
 }
 
 
-/* obligatoire et avec substitution séparateur décimal */
+/* obligatoire et avec substitution sÃ©parateur dÃ©cimal */
 
 static inline bool GCC_INLINE bulletin_obligatoire_numerique(const char* tag, xmlNodePtr& cur, int l, info_t& info, int normalJump = 0)
 {
@@ -294,7 +294,7 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique(const char* tag, xm
              return true;
 
         case LINE_MEMORY_EXCEPTION :
-             if (verbeux) cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
+             if (verbeux) cerr << ERROR_HTML_TAG "Allocation mÃ©moire impossible pour la ligne " << l << ENDL;
              NA_ASSIGN(l);
              break;
 
@@ -360,10 +360,10 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
 
     unsigned int t = 0;
 
-    info.Table[info.NCumAgentXml][l] = (xmlChar*) xmlStrdup(drapeau[t]);  // +1 pour éviter la confusion avec \0 des chaines vides
+    info.Table[info.NCumAgentXml][l] = (xmlChar*) xmlStrdup(drapeau[t]);  // +1 pour Ã©viter la confusion avec \0 des chaines vides
     ++l;
 
-    /* Besoins en mémoire : BESOIN_MEMOIRE_ENTETE [champs hors ligne] + nombre de lignes + flags (maximum nbType * nb de rembobinages) */
+    /* Besoins en mÃ©moire : BESOIN_MEMOIRE_ENTETE [champs hors ligne] + nombre de lignes + flags (maximum nbType * nb de rembobinages) */
     int type_loop_counter = 0;
 
     while (cur != nullptr)
@@ -375,9 +375,9 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
             ++t;
             if (t == nbType)
             {
-                /* En principe les éléments constitutifs des enregistrements <Remunération>....</Remuneration> sont enregistrés
-                   dans l'ordre du tableau type_remuneration. Toutefois quelques cas de désordre sont observés. Dans ces cas là on peut
-                   "rembobiner le tableau". On évite toutefois de faire une recherche ensembliste systématique, qui éviterait cela mais
+                /* En principe les Ã©lÃ©ments constitutifs des enregistrements <RemunÃ©ration>....</Remuneration> sont enregistrÃ©s
+                   dans l'ordre du tableau type_remuneration. Toutefois quelques cas de dÃ©sordre sont observÃ©s. Dans ces cas lÃ  on peut
+                   "rembobiner le tableau". On Ã©vite toutefois de faire une recherche ensembliste systÃ©matique, qui Ã©viterait cela mais
                    freinerait 99,9 % des recherches */
 
                 if (++type_loop_counter < TYPE_LOOP_LIMIT)
@@ -386,9 +386,9 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
                     continue;
                 }
 
-                /* On ne rembobine qu'au maximum TYPE_LOOP_LIMIT. Si l'essai échoue, on déclenche une exception ou on retourne */
+                /* On ne rembobine qu'au maximum TYPE_LOOP_LIMIT. Si l'essai Ã©choue, on dÃ©clenche une exception ou on retourne */
 
-                cerr << ERROR_HTML_TAG "En excès du nombre de types de lignes de paye autorisé (" << nbType << ")." ENDL;
+                cerr << ERROR_HTML_TAG "En excÃ¨s du nombre de types de lignes de paye autorisÃ© (" << nbType << ")." ENDL;
                 if (cur)
                     cerr << ERROR_HTML_TAG "Type litigieux " << cur->name << " aux alentours du matricule " << info.Table[info.NCumAgentXml][Matricule] << ENDL;
                 else
@@ -397,7 +397,7 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
               #ifdef STRICT
                  exit(-11);
               #else
-                 cerr << ERROR_HTML_TAG "Arrêt du décodage de la ligne de paye." << ENDL;
+                 cerr << ERROR_HTML_TAG "ArrÃªt du dÃ©codage de la ligne de paye." << ENDL;
                  return {nbLignePaye, l};
               #endif
             }
@@ -407,14 +407,14 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
 
         if (new_type && t < nbType)
         {
-              // +1 pour éviter la confusion avec \0 des chaines vides
+              // +1 pour Ã©viter la confusion avec \0 des chaines vides
             if ((info.Table[info.NCumAgentXml][l] = (xmlChar*) xmlStrdup(drapeau[t])) == nullptr)
             {
-                if (verbeux) cerr << ERROR_HTML_TAG "Erreur dans l'allocation des drapeaux de catégories." << ENDL;
+                if (verbeux) cerr << ERROR_HTML_TAG "Erreur dans l'allocation des drapeaux de catÃ©gories." << ENDL;
                 #ifdef STRICT
                    exit(-12);
                 #else
-                   if (verbeux) cerr << ERROR_HTML_TAG "Arrêt du décodage de la ligne de paye." << ENDL;
+                   if (verbeux) cerr << ERROR_HTML_TAG "ArrÃªt du dÃ©codage de la ligne de paye." << ENDL;
                 #endif
                 return {nbLignePaye, l};
             }
@@ -422,7 +422,7 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
             ++l;
         }
 
-        // ici on pourrait in fine se passer de ce test par compilation séparée
+        // ici on pourrait in fine se passer de ce test par compilation sÃ©parÃ©e
 
         if (! info.reduire_consommation_memoire)
         {
@@ -437,7 +437,7 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
             continue; // garantit incidemment que cur != nullptr dans la boucle
         }
 
-        // cur n'est pas nul à ce point
+        // cur n'est pas nul Ã  ce point
 
         cur = cur->xmlChildrenNode;
 
@@ -447,9 +447,9 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
             break;
         }
 
-        // cur n'est pas nul à ce point et ne devient jamais nul ci-après
+        // cur n'est pas nul Ã  ce point et ne devient jamais nul ci-aprÃ¨s
 
-        /* Libellé, obligatoire */
+        /* LibellÃ©, obligatoire */
 
         bulletin_obligatoire("Libelle", cur, l, info);
 
@@ -469,7 +469,7 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
         bulletin_optionnel_numerique("Taux", cur, l, info);
 
         ++l;
-        /* Nombre d'unités, s'il existe */
+        /* Nombre d'unitÃ©s, s'il existe */
 
         bulletin_optionnel_numerique("NbUnite", cur, l, info);
 
@@ -479,15 +479,15 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
         bulletin_obligatoire_numerique("Mt", cur, l, info);
 
         ++l;
-        // cur ne sera pas nul à ce point
+        // cur ne sera pas nul Ã  ce point
 
         ++nbLignePaye;
 
         cur =  cur->parent->next;
-        // le parent ne peut être nul
+        // le parent ne peut Ãªtre nul
 
-        // attention si du code est rajouté ici il doit l'être sous garde cur != nullptr
-        // Lorsque on a épuisé tous les types licites on a nécessairement cur = nullptr et la boucle s'arrête
+        // attention si du code est rajoutÃ© ici il doit l'Ãªtre sous garde cur != nullptr
+        // Lorsque on a Ã©puisÃ© tous les types licites on a nÃ©cessairement cur = nullptr et la boucle s'arrÃªte
     }
 
 
@@ -567,7 +567,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
 
         string temp_logpath =getexecpath();
 
-        cerr << ERROR_HTML_TAG "Agent non identifié. Consulter le fichier erreur.log sous " << temp_logpath  << " pour avoir les détails de l'incident." ENDL;
+        cerr << ERROR_HTML_TAG "Agent non identifiÃ©. Consulter le fichier erreur.log sous " << temp_logpath  << " pour avoir les dÃ©tails de l'incident." ENDL;
 
         if (info.chemin_log.empty())
         {
@@ -588,12 +588,12 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
             log.flush();
             log.seekp(ios_base::end);
 
-            log << "\n\nErreur : L'agent est non identifié pour le fichier : " << info.threads->argv[info.fichier_courant] << "\n"
-                << "Année " << info.Table[info.NCumAgentXml][Annee] << "\n"
+            log << "\n\nErreur : L'agent est non identifiÃ© pour le fichier : " << info.threads->argv[info.fichier_courant] << "\n"
+                << "AnnÃ©e " << info.Table[info.NCumAgentXml][Annee] << "\n"
                 << "Mois "  << info.Table[info.NCumAgentXml][Mois]  << "\n\n";
 
             if (info.NCumAgentXml && info.Memoire_p_ligne[info.NCumAgentXml - 1] > Matricule && info.Table[info.NCumAgentXml - 1][Matricule] != nullptr)
-                log << "Matricule précédent : " << info.Table[info.NCumAgentXml - 1][Matricule] << "\n\n";
+                log << "Matricule prÃ©cÃ©dent : " << info.Table[info.NCumAgentXml - 1][Matricule] << "\n\n";
 
             log.flush();
             log.seekp(ios_base::end);
@@ -601,7 +601,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
             if (log_to_be_closed) log.close();
         }
         else
-            cerr << ERROR_HTML_TAG " Impossible d'écrire le log des erreurs." ENDL;
+            cerr << ERROR_HTML_TAG " Impossible d'Ã©crire le log des erreurs." ENDL;
 
 #ifdef STRICT
         if (log.is_open()) log.close();
@@ -618,7 +618,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
         goto level0;
     }
 
-    // cur n'est pas nul à ce point
+    // cur n'est pas nul Ã  ce point
 
     cur_parent = cur;
     cur = cur->xmlChildrenNode;
@@ -629,12 +629,12 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
     xmlNodePtr cur_save = cur;
 #endif
 
-    /* dans certains schémas on peut ne pas avoir la civilité */
-    /* passer à la balise adjacente après lecture */
+    /* dans certains schÃ©mas on peut ne pas avoir la civilitÃ© */
+    /* passer Ã  la balise adjacente aprÃ¨s lecture */
 
     info.drapeau_cont = true;
 
-    /* if (result) va garantir notamment que le pointeur cur filé implicitement est non nul */
+    /* if (result) va garantir notamment que le pointeur cur filÃ© implicitement est non nul */
 
 
 
@@ -658,9 +658,9 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
                     if (result)
                     {
                         result &= BULLETIN_OBLIGATOIRE(Statut);
-                        /* NOTA : on ne contrôle pas le respect du champ Adresse, normalement obligatoire
-                                                * et situé entre NIR et NbEnfants, ce champ devant être regardé comme trop volatile
-                                                * pour que le contrôle s'y attarde. */
+                        /* NOTA : on ne contrÃ´le pas le respect du champ Adresse, normalement obligatoire
+                                                * et situÃ© entre NIR et NbEnfants, ce champ devant Ãªtre regardÃ© comme trop volatile
+                                                * pour que le contrÃ´le s'y attarde. */
                         if (result)
                         {
                             result &= BULLETIN_OBLIGATOIRE(EmploiMetier);
@@ -684,7 +684,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
 #ifdef TOLERANT_TAG_HIERARCHY
                                         cur = cur_save;
 #endif
-                                    /* ne pas lire la balise adjacente : fin du niveau subordonné Agent*/
+                                    /* ne pas lire la balise adjacente : fin du niveau subordonnÃ© Agent*/
 
                                         info.drapeau_cont = false;
                                         if (result)
@@ -743,7 +743,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
 
     if (!result)
     {
-           cerr << ERROR_HTML_TAG "Problème de conformité des données [512]" ENDL;
+           cerr << ERROR_HTML_TAG "ProblÃ¨me de conformitÃ© des donnÃ©es [512]" ENDL;
         #ifdef STRICT
            exit(-512);
         #endif
@@ -752,17 +752,17 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
     /* on remonte d'un niveau */
 
     cur = cur_parent;
-    if (!result && verbeux) cerr << ERROR_HTML_TAG "Remontée d'un niveau" ENDL;
+    if (!result && verbeux) cerr << ERROR_HTML_TAG "RemontÃ©e d'un niveau" ENDL;
 
     #ifdef TOLERANT_TAG_HIERARCHY
       cur_save = cur;
     #endif
 
-  /* Long saut vers cette étiquette dans le cas Agent non reconnu */
+  /* Long saut vers cette Ã©tiquette dans le cas Agent non reconnu */
 
   level0:
 
- /*  Référence
+ /*  RÃ©fÃ©rence
   *
   *    <Evenement>
   *      <Code V="">{1,1}</Code>
@@ -772,7 +772,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
 
     info.drapeau_cont = true;
 
-    /* C'est extrêmement rare mais idéalement il faudrait pouvoir être à même de récupérer plus de 2 événements : A FAIRE */
+    /* C'est extrÃªmement rare mais idÃ©alement il faudrait pouvoir Ãªtre Ã  mÃªme de rÃ©cupÃ©rer plus de 2 Ã©vÃ©nements : A FAIRE */
 
     if (cur) cur = cur-> next;
 
@@ -804,9 +804,9 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
         info.Table[info.NCumAgentXml][Description] = (xmlChar*) "";
     }
 
-    /* Vu la rareté du 2e évenement, il est rationnel de ne pas réserver systématiquement de place en mémoire de type Description2.
-     * Mieux vaut concaténer, même si le code est plus lourd et l'allocation de mémoire ponctuellement plus lente : on gagne
-     * sur l'allocation-déallocation d'un très grand nombre de champs Description2 non remplis. */
+    /* Vu la raretÃ© du 2e Ã©venement, il est rationnel de ne pas rÃ©server systÃ©matiquement de place en mÃ©moire de type Description2.
+     * Mieux vaut concatÃ©ner, mÃªme si le code est plus lourd et l'allocation de mÃ©moire ponctuellement plus lente : on gagne
+     * sur l'allocation-dÃ©allocation d'un trÃ¨s grand nombre de champs Description2 non remplis. */
 
     if (cur && xmlStrcmp(cur->name, (const xmlChar*) "Evenement") == 0)
     {
@@ -848,7 +848,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
 
     BULLETIN_OBLIGATOIRE_NUMERIQUE(NBI);
 
-    /* Problème : unbounded NBI ... */
+    /* ProblÃ¨me : unbounded NBI ... */
 
     int v = 0;
     while (xmlStrcmp(cur->name, (const xmlChar*) "NBI") == 0)
@@ -871,7 +871,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
 #endif
 
 
-    /* obligatoire, substitution du séparateur décimal */
+    /* obligatoire, substitution du sÃ©parateur dÃ©cimal */
     BULLETIN_OBLIGATOIRE_NUMERIQUE(QuotiteTrav);
 
 #ifdef TOLERANT_TAG_HIERARCHY
@@ -896,8 +896,8 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
             memoire_p_ligne_allouee = result.memoire_p_ligne_allouee;
         }
 
-        /* si la balise <Remuneration/> est fermante ou si <Remuneration>....</Remuneration> ne contient pas de ligne de paye codée
-         * alors on attribue quand même une ligne, codée NA sur tous les champs */
+        /* si la balise <Remuneration/> est fermante ou si <Remuneration>....</Remuneration> ne contient pas de ligne de paye codÃ©e
+         * alors on attribue quand mÃªme une ligne, codÃ©e NA sur tous les champs */
 
         if (ligne == 0)
         {
@@ -914,20 +914,20 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
     }
     else
     {
-        perror(ERROR_HTML_TAG "Rémunération introuvable.");
+        perror(ERROR_HTML_TAG "RÃ©munÃ©ration introuvable.");
 #ifdef STRICT
         exit(-4);
 #endif
     }
 
-    /* obligatoire , substitution du sparateur décimal */
+    /* obligatoire , substitution du sparateur dÃ©cimal */
 
 
     result = BULLETIN_OPTIONNEL_NUMERIQUE(NbHeureTotal);
 
     cur = atteindreNoeud("NbHeureSup", cur);
 
-    /* obligatoire, substitution du sparateur décimal. Attention : utiliser des bitwise, pas des logical && sinon le deuxième opérande peut ne pas être évalué */
+    /* obligatoire, substitution du sparateur dÃ©cimal. Attention : utiliser des bitwise, pas des logical && sinon le deuxiÃ¨me opÃ©rande peut ne pas Ãªtre Ã©valuÃ© */
     result = result & BULLETIN_OPTIONNEL_NUMERIQUE(NbHeureSup);
     result = result & BULLETIN_OBLIGATOIRE_NUMERIQUE(MtBrut);
     result = result & BULLETIN_OBLIGATOIRE_NUMERIQUE(MtNet);
@@ -937,13 +937,13 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
 
     if (!result)
     {
-        cerr << ERROR_HTML_TAG "Problème de conformité des données sur les champs des bulletins de paye." ENDL;
+        cerr << ERROR_HTML_TAG "ProblÃ¨me de conformitÃ© des donnÃ©es sur les champs des bulletins de paye." ENDL;
 #ifdef STRICT
         exit(-513);
 #endif
     }
 
-    // Rémuneration tag vide
+    // RÃ©muneration tag vide
     if (ligne == 0) ligne = 1 ;
 
     return ligne;

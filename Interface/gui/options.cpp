@@ -127,8 +127,6 @@ standardPage::standardPage()
 
     maxNLigneLineEdit->setFixedWidth(60);
 
-
-
     /* A ce stade seules les bases monolithiques et par année peuvent être sous découpées en segments d'au maximum N lignes
      * Les autres types de base doivent donc désactiver la FLineEdit maxNLigneLabel.
      * Le code présuppose que les types de base sont rangés dans l'ordre : Standard > Par année > autres types.
@@ -221,8 +219,8 @@ processPage::processPage()
 
 
     QList<QString> ecoRange = QList<QString>(), ecoRange2 = QList<QString>();
-    ecoRange << "Intensive" << "Standard" << "Modérée" << "Econome";
-    ecoRange2 << "100"   << "90" << "80" << "50";
+    ecoRange << "Intensive (100 %)" << "Standard (80 %)" << "Modérée (60 %)" << "Econome (40 %)" << "Très économe (20 %)" << "Minimale (10 %)" << "Rationnée (5%)";
+    ecoRange2 << "100"   << "80" << "60" << "40" << "20" << "10" << "5";
 
     QLabel* memoryUseLabel = new QLabel("Utilisation de la mémoire  ");
 
@@ -242,10 +240,12 @@ processPage::processPage()
     memoryUseWidget->setCurrentIndex(1);
     memoryUseWidget->setToolTip(tr("Sélectionner l'intensité de l'utilisation de la mémoire vive (RAM) libre au lancement de l'application. "
                     "\nIntensive\t: 100 % de la mémoire\n"
-                      "Standard\t: 90 %\n"
-                      "Modérée\t: 80 %\n"
-                      "Econome\t: 50 %"));
-
+                      "Standard\t: 80 %\n"
+                      "Modérée\t: 60 %\n"
+                      "Econome\t: 40 %\n"
+                      "Très économe\t: 20 %\n"
+                      "Minimale\t: 10 %\n"
+                     "Rationnée\t:  5 %\n"));
 
 
     connect(memoryUseWidget, &FComboBox::currentTextChanged, [this] {
