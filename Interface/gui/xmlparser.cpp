@@ -58,8 +58,8 @@ void Altair::writeProjectFile()
     {
         errorMessageDialog->showMessage(tr("Impossible d'ouvrir le fichier du projet\n")+ qPrintable(projectFile.errorString()));
         QLabel *errorLabel = new QLabel;
-        errorLabel->setText(tr("Si cette case est dÃ©cochÃ©e, ce message "
-                               "ne s'affichera plus Ã  nouveau."));
+        errorLabel->setText(tr("Si cette case est décochée, ce message "
+                               "ne s'affichera plus à  nouveau."));
         return;
     }
 
@@ -387,7 +387,7 @@ void Altair::parseProjectFile(QIODevice* file)
     QDomDocument doc;
     if (!doc.setContent(file, true, &errorStr, &errorLine, &errorColumn))
     {
-        Warning0(tr("DÃ©codage XML"), tr("Erreur de dÃ©codage ligne %1, " "colonne %2:\n%3").arg(errorLine).arg(errorColumn).arg(errorStr));
+        Warning0(tr("Décodage XML"), tr("Erreur de décodage ligne %1, " "colonne %2:\n%3").arg(errorLine).arg(errorColumn).arg(errorStr));
         return;
     }
 
