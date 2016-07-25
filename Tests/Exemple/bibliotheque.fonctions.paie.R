@@ -559,3 +559,10 @@ incrémenter.chapitre <- function() {
 }
 
 FR <- function(x) formatC(x, big.mark = " ")
+
+essayer <- function(X, Y) {
+    
+      if (inherits(try(X), 'try-error')) cat(Y)
+    
+}
+

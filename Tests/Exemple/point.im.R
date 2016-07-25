@@ -5,7 +5,8 @@ PointIM <- matrix(c(
                     rep.int(54.8475, 9),
                     rep.int(55.1217, 3),
                     rep.int(55.2871, 9),
-                    rep.int(55.5635, 66)), 
+                    rep.int(55.5635, 72),
+            				rep.int(55.8969, 6)), 
                     ncol = 12, byrow = TRUE)
 
 PointMensuelIM <- PointIM / 12

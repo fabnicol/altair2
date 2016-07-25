@@ -1,18 +1,18 @@
 # encoder ce script en windows-1252
 
-source("prologue_rapport.R", encoding = encodage.code.source)
+source("prologue_rapport.R", encoding = "ISO-8859-1")
 
 source("corps_rapport_pdf.R", encoding = encodage.code.source)  
 
-  ## dï¿½but de hack ## 
+  ## début de hack ## 
   
-  # Hack relativement laid mais trï¿½s efficace qui ï¿½vite de refaire tourner render pour la fabrication d'un .md
-  # en recalculant les mï¿½mes choses afin de produire le nouveau format.
-  # On utilise le .md produit par keep_md = TRUE plus haut et les images conservï¿½es grï¿½ce ï¿½ clean_supporting = FALSE
-  # Mais il faut rï¿½insï¿½rer un nouveau YAML header pour effacer les noms, dates etc. standard
-  # et aussi effacer un FALSE indï¿½sirable produit par render en tï¿½te de .md (qui correspond au traitement du premier YAML header du pdf)
-  # Les autres alternatives ont ï¿½tï¿½ essayï¿½es et ï¿½chouent. La production directe de .md par render ï¿½choue sur la question
-  # des liens URL comportant un caractï¿½re non-ascii.
+  # Hack relativement laid mais très efficace qui évite de refaire tourner render pour la fabrication d'un .md
+  # en recalculant les mêmes choses afin de produire le nouveau format.
+  # On utilise le .md produit par keep_md = TRUE plus haut et les images conservées grâce à clean_supporting = FALSE
+  # Mais il faut réinsérer un nouveau YAML header pour effacer les noms, dates etc. standard
+  # et aussi effacer un FALSE indésirable produit par render en tête de .md (qui correspond au traitement du premier YAML header du pdf)
+  # Les autres alternatives ont été essayées et échouent. La production directe de .md par render échoue sur la question
+  # des liens URL comportant un caractère non-ascii.
   
   # attention encodage UTF-8 obligatoire quelle que soit la plateforme
   
@@ -25,7 +25,7 @@ source("corps_rapport_pdf.R", encoding = encodage.code.source)
   close(con)
   file.rename("altair.2.md", "altair.md")
   
-  # A rï¿½ï¿½valuer en fonction de l'ï¿½volution de la bibliothï¿½que rmarkdown et de pandoc
+  # A réévaluer en fonction de l'évolution de la bibliothèque rmarkdown et de pandoc
   
   ## fin de hack ##
   
@@ -35,10 +35,10 @@ source("corps_rapport_pdf.R", encoding = encodage.code.source)
       "altair.md +RTS -K512m -RTS --to",
       ifelse(setOSWindows, "docx", "odt"),
       "--from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --highlight-style tango --output",
-      ifelse(setOSWindows, "altaï¿½r.docx", "altaï¿½r.odt"))
+      ifelse(setOSWindows, "altaïr.docx", "altaïr.odt"))
     )
   
-  if (setOSWindows) shell("start winword altaï¿½r.docx") else system("/usr/bin/lowriter altaï¿½r.odt")
+  if (setOSWindows) shell("start winword altaïr.docx") else system("/usr/bin/lowriter altaïr.odt")
   
   if (! keep_md) {
     unlink("altair.ansi_pdf", recursive=TRUE)

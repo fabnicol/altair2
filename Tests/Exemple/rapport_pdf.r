@@ -1,6 +1,6 @@
 # encoder ce script en windows-1252
 
-source("prologue_rapport.R", encoding = encodage.code.source)
+source("prologue_rapport.R",  encoding = "ISO-8859-1")
 
 render("altair.R",
        encoding = encodage.code.source,
@@ -20,16 +20,15 @@ render("altair.R",
                                                                     "geometry:top=2cm,bottom=1.5cm,left=2cm,right=1.5cm",
                                                                     "--highlight-style",
                                                                     "tango"))),
-       # "--template",
-       # "../../R/library/rmarkdown/rmd/latex/default.tex") )),
+   
        output_file = "altair.pdf")
 
-file.rename("altair.pdf", "altaï¿½r.pdf")
+file.rename("altair.pdf", "altaïr.pdf")
 
 if (setOSWindows) {
-  shell("start acrord32.exe altaï¿½r.pdf")
+  shell("start acrord32.exe altaïr.pdf")
 } else {
-  system("okular altaï¿½r.pdf")
+  system("okular altaïr.pdf")
 }
 
 

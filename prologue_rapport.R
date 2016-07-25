@@ -15,9 +15,9 @@ if (setOSWindows) {
   setwd("Tests/Exemple")
 }
 
-source("syspaths.R", encoding=encodage.code.source)
+source("syspaths.R", encoding = encodage.code.source)
 
-source("prologue.R", encoding=encodage.code.source)
+source("prologue.R", encoding = encodage.code.source)
 
 library(rmarkdown)
 # ne pas écrire altaïr.pdf... 

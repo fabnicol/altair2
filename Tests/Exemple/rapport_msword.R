@@ -1,4 +1,4 @@
-source("prologue_rapport.R", encoding = encodage.code.source)
+source("prologue_rapport.R", encoding = "ISO-8859-1")
 
 render("altair.R",
        encoding = encodage.code.source,
