@@ -1,0 +1,8 @@
+BUILD semi-statique de lhx : environ 1 Mo.
+Obtenu avec les bibliothèques qt5 compilées en static runtime.
+Ne sont requises que les bibliothèqes libiconv-2.dll, libxml2-2.dll et zlib1.dll
+
+BUILD non statique de lhx : entre 120 ko et 220 ko.
+Obtenu avec les système de compilation qmake dans tous les autres cas.
+
+win.zip comprend les bibliothèques dynamiques requises en cas de compilation non statique.

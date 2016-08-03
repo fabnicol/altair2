@@ -1,0 +1,1810 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Schema documentation for </title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
+         <!--
+        var propertiesBoxes= new Array('properties_Class_RepartitionBudget.xsd', 
+				'properties_TRepartitionBudget_CodeBudget', 
+				'properties_TRepartitionBudget_Taux', 
+				'properties_TRepartitionBudget_Mt', 
+				'properties_TRepartitionParNature_Repartition', 
+				'properties_TLigneRepartition_Libelle', 
+				'properties_TLigneRepartition_Code', 
+				'properties_TLigneRepartition_CodeFonction', 
+				'properties_TLigneRepartition_CodeBudget', 
+				'properties_TLigneRepartition_Mt');
+
+        
+        var usedByBoxes= new Array('usedBy_TRepartitionBudget', 
+				'usedBy_TRepartitionParNature', 
+				'usedBy_TLigneRepartition');
+
+        var sourceBoxes= new Array('source_TRepartitionBudget_CodeBudget', 
+				'source_TRepartitionBudget_Taux', 
+				'source_TRepartitionBudget_Mt', 
+				'source_TRepartitionParNature_Repartition', 
+				'source_TLigneRepartition_Libelle', 
+				'source_TLigneRepartition_Code', 
+				'source_TLigneRepartition_CodeFonction', 
+				'source_TLigneRepartition_CodeBudget', 
+				'source_TLigneRepartition_Mt', 
+				'source_TRepartitionBudget', 
+				'source_TRepartitionParNature', 
+				'source_TLigneRepartition');
+
+        var instanceBoxes= new Array('instance_TRepartitionParNature_Repartition');
+
+        var diagramBoxes= new Array('diagram_TRepartitionBudget_CodeBudget', 
+				'diagram_TRepartitionBudget_Taux', 
+				'diagram_TRepartitionBudget_Mt', 
+				'diagram_TRepartitionParNature_Repartition', 
+				'diagram_TLigneRepartition_Libelle', 
+				'diagram_TLigneRepartition_Code', 
+				'diagram_TLigneRepartition_CodeFonction', 
+				'diagram_TLigneRepartition_CodeBudget', 
+				'diagram_TLigneRepartition_Mt', 
+				'diagram_TRepartitionBudget', 
+				'diagram_TRepartitionParNature', 
+				'diagram_TLigneRepartition');
+
+        var annotationBoxes= new Array('annotations_TRepartitionBudget_CodeBudget', 
+				'annotations_TRepartitionBudget_Taux', 
+				'annotations_TRepartitionBudget_Mt', 
+				'annotations_TLigneRepartition_Code', 
+				'annotations_TLigneRepartition_CodeFonction', 
+				'annotations_TLigneRepartition_CodeBudget');
+
+        var attributesBoxes= new Array('attributes_TRepartitionBudget_CodeBudget', 
+				'attributes_TRepartitionBudget_Taux', 
+				'attributes_TRepartitionBudget_Mt', 
+				'attributes_TLigneRepartition_Libelle', 
+				'attributes_TLigneRepartition_Code', 
+				'attributes_TLigneRepartition_CodeFonction', 
+				'attributes_TLigneRepartition_CodeBudget', 
+				'attributes_TLigneRepartition_Mt');
+
+        
+        var button_prefix = 'button_';
+        
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+    
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updatePageTitle(message) {
+            top.document.title = message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id, isChunked, indexFileLocation, indexFileNamespace, indexFileComponent){
+
+            if (!isChunked) {
+             var selectIds = new Array('toc_group_by_namespace', 'toc_group_by_location', 'toc_group_by_component_type');
+             // Make all the tabs invisible.
+               for (i = 0; i < 3; i++){
+                  var tab = getElementObject(selectIds[i]);
+                  tab.style.display = 'none';
+               }
+               var selTab = getElementObject(id);
+               selTab.style.display = 'block';
+            } else {
+             if (id == 'toc_group_by_namespace') {
+               parent.indexFrame.location = indexFileNamespace;
+             } else  if (id == 'toc_group_by_location') {
+               parent.indexFrame.location = indexFileLocation;
+             } else  if (id == 'toc_group_by_component_type') {
+              parent.indexFrame.location = indexFileComponent;
+             }
+            }
+         }
+          
+
+    --></script></head>
+   <body>
+      <div id="global_controls" class="globalControls" style="position:absolute;right:0;">
+         <table class="rt">
+            <tr>
+               <td class="rt_cornerTopLeft"></td>
+               <td class="rt_lineTop"></td>
+               <td class="rt_cornerTopRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_lineLeft"></td>
+               <td class="rt_content">
+                  <h3>Showing:</h3>
+                  <table>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, annotationBoxes);" class="control" /></span><span class="globalControlName">Annotations</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, attributesBoxes);" class="control" /></span><span class="globalControlName">Attributes </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, diagramBoxes);" class="control" /></span><span class="globalControlName">Diagrams</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, instanceBoxes);" class="control" /></span><span class="globalControlName">Instances</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, propertiesBoxes);" class="control" /></span><span class="globalControlName">Properties </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, sourceBoxes);" class="control" /></span><span class="globalControlName">Source</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, usedByBoxes);" class="control" /></span><span class="globalControlName">Used by </span></td>
+                     </tr>
+                  </table>
+                  <div align="right"><span><input type="button" onclick="getElementObject('global_controls').style.display = 'none';" value="Close" /></span></div>
+               </td>
+               <td class="rt_lineRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_cornerBottomLeft"></td>
+               <td class="rt_lineBottom"></td>
+               <td class="rt_cornerBottomRight"></td>
+            </tr>
+         </table>
+      </div><a id="Class_RepartitionBudget.xsd"></a><div class="componentTitle">Included schema <span class="qname">Class_RepartitionBudget.xsd</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.minefi.gouv.fr/cp/helios/pes_v2/paye_1_1</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Class_RepartitionBudget.xsd" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Class_RepartitionBudget.xsd');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Class_RepartitionBudget.xsd" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">attribute form default:
+                                       
+                                    </td>
+                                    <td><b>unqualified</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">element form default:
+                                       
+                                    </td>
+                                    <td><b>unqualified</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="TRepartitionBudget_CodeBudget"></a><div class="componentTitle">Element <span class="qname"><b><a href="Class_RepartitionBudget_xsd.html#TRepartitionBudget" target="mainFrame" title="http://www.minefi.gouv.fr/cp/helios/pes_v2/paye_1_1" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">TRepartitionBudget</a></b> / CodeBudget</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_TRepartitionBudget_CodeBudget" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_TRepartitionBudget_CodeBudget');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_TRepartitionBudget_CodeBudget" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Code du budget de comptabilisation</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_TRepartitionBudget_CodeBudget" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_TRepartitionBudget_CodeBudget');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_TRepartitionBudget_CodeBudget" style="display:block"><img alt="Diagram" border="0" src="img/Class_RepartitionBudget_xsd_Element_CodeBudget_1.jpeg" usemap="#Class_RepartitionBudget_xsd_Element_CodeBudget_1" /><map name="Class_RepartitionBudget_xsd_Element_CodeBudget_1" id="Class_RepartitionBudget_xsd_Element_CodeBudget_1">
+                                 <area alt="Simple_Type_xsd.tmp#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Texte24_V" href="Simple_Type_xsd.html#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Texte24_V" coords="166,79,246,104" />
+                                 <area alt="Simple_Type_xsd.tmp#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Texte24" href="Simple_Type_xsd.html#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Texte24" coords="141,3,279,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="Simple_Type_xsd.html#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Texte24" target="mainFrame" title="http://www.minefi.gouv.fr/cp/helios/pes_v2/commun" onclick="updatePageTitle('Schema documentation for Simple_Type.xsd')">Base_Texte24</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_TRepartitionBudget_CodeBudget" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_TRepartitionBudget_CodeBudget');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_TRepartitionBudget_CodeBudget" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_TRepartitionBudget_CodeBudget" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_TRepartitionBudget_CodeBudget');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_TRepartitionBudget_CodeBudget" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th>Type</th>
+                                       <th>Fixed</th>
+                                       <th>Default</th>
+                                       <th>Use</th>
+                                       <th>Annotation</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="Simple_Type_xsd.html#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Texte24_V" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Simple_Type.xsd')">V</a></b></td>
+                                    <td><b><a href="Simple_Type_xsd.html#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_V_Texte24" target="mainFrame" title="http://www.minefi.gouv.fr/cp/helios/pes_v2/commun" onclick="updatePageTitle('Schema documentation for Simple_Type.xsd')">V_Texte24</a></b></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>required</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_TRepartitionBudget_CodeBudget" type="image" src="img/btM.gif" value="-" onclick="switchState('source_TRepartitionBudget_CodeBudget');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_TRepartitionBudget_CodeBudget" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"CodeBudget"</span><span class="tAN"> type=</span><span class="tAV">"cm:Base_Texte24"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Code du budget de comptabilisation</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="TRepartitionBudget_Taux"></a><div class="componentTitle">Element <span class="qname"><b><a href="Class_RepartitionBudget_xsd.html#TRepartitionBudget" target="mainFrame" title="http://www.minefi.gouv.fr/cp/helios/pes_v2/paye_1_1" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">TRepartitionBudget</a></b> / Taux</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_TRepartitionBudget_Taux" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_TRepartitionBudget_Taux');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_TRepartitionBudget_Taux" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">(si répartitionau prorata)</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_TRepartitionBudget_Taux" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_TRepartitionBudget_Taux');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_TRepartitionBudget_Taux" style="display:block"><img alt="Diagram" border="0" src="img/Class_RepartitionBudget_xsd_Element_Taux.jpeg" usemap="#Class_RepartitionBudget_xsd_Element_Taux" /><map name="Class_RepartitionBudget_xsd_Element_Taux" id="Class_RepartitionBudget_xsd_Element_Taux">
+                                 <area alt="Simple_Type_xsd.tmp#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Taux_V" href="Simple_Type_xsd.html#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Taux_V" coords="137,79,217,104" />
+                                 <area alt="Simple_Type_xsd.tmp#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Taux" href="Simple_Type_xsd.html#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Taux" coords="112,3,235,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="Simple_Type_xsd.html#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Taux" target="mainFrame" title="http://www.minefi.gouv.fr/cp/helios/pes_v2/commun" onclick="updatePageTitle('Schema documentation for Simple_Type.xsd')">Base_Taux</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_TRepartitionBudget_Taux" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_TRepartitionBudget_Taux');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_TRepartitionBudget_Taux" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_TRepartitionBudget_Taux" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_TRepartitionBudget_Taux');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_TRepartitionBudget_Taux" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th>Type</th>
+                                       <th>Fixed</th>
+                                       <th>Default</th>
+                                       <th>Use</th>
+                                       <th>Annotation</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="Simple_Type_xsd.html#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Taux_V" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Simple_Type.xsd')">V</a></b></td>
+                                    <td><b><a href="Simple_Type_xsd.html#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_V_Taux" target="mainFrame" title="http://www.minefi.gouv.fr/cp/helios/pes_v2/commun" onclick="updatePageTitle('Schema documentation for Simple_Type.xsd')">V_Taux</a></b></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>required</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_TRepartitionBudget_Taux" type="image" src="img/btM.gif" value="-" onclick="switchState('source_TRepartitionBudget_Taux');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_TRepartitionBudget_Taux" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"Taux"</span><span class="tAN"> type=</span><span class="tAV">"cm:Base_Taux"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">(si répartitionau prorata)</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="TRepartitionBudget_Mt"></a><div class="componentTitle">Element <span class="qname"><b><a href="Class_RepartitionBudget_xsd.html#TRepartitionBudget" target="mainFrame" title="http://www.minefi.gouv.fr/cp/helios/pes_v2/paye_1_1" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">TRepartitionBudget</a></b> / Mt</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_TRepartitionBudget_Mt" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_TRepartitionBudget_Mt');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_TRepartitionBudget_Mt" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">(si répartition forfaitaire)</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_TRepartitionBudget_Mt" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_TRepartitionBudget_Mt');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_TRepartitionBudget_Mt" style="display:block"><img alt="Diagram" border="0" src="img/Class_RepartitionBudget_xsd_Element_Mt.jpeg" usemap="#Class_RepartitionBudget_xsd_Element_Mt" /><map name="Class_RepartitionBudget_xsd_Element_Mt" id="Class_RepartitionBudget_xsd_Element_Mt">
+                                 <area alt="Simple_Type_xsd.tmp#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Montant_V" href="Simple_Type_xsd.html#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Montant_V" coords="137,79,217,104" />
+                                 <area alt="Simple_Type_xsd.tmp#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Montant" href="Simple_Type_xsd.html#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Montant" coords="112,3,249,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="Simple_Type_xsd.html#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Montant" target="mainFrame" title="http://www.minefi.gouv.fr/cp/helios/pes_v2/commun" onclick="updatePageTitle('Schema documentation for Simple_Type.xsd')">Base_Montant</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_TRepartitionBudget_Mt" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_TRepartitionBudget_Mt');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_TRepartitionBudget_Mt" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_TRepartitionBudget_Mt" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_TRepartitionBudget_Mt');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_TRepartitionBudget_Mt" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th>Type</th>
+                                       <th>Fixed</th>
+                                       <th>Default</th>
+                                       <th>Use</th>
+                                       <th>Annotation</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="Simple_Type_xsd.html#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Montant_V" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Simple_Type.xsd')">V</a></b></td>
+                                    <td><b><a href="Simple_Type_xsd.html#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_V_Montant" target="mainFrame" title="http://www.minefi.gouv.fr/cp/helios/pes_v2/commun" onclick="updatePageTitle('Schema documentation for Simple_Type.xsd')">V_Montant</a></b></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>required</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_TRepartitionBudget_Mt" type="image" src="img/btM.gif" value="-" onclick="switchState('source_TRepartitionBudget_Mt');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_TRepartitionBudget_Mt" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"Mt"</span><span class="tAN"> type=</span><span class="tAV">"cm:Base_Montant"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">(si répartition forfaitaire)</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="TRepartitionParNature_Repartition"></a><div class="componentTitle">Element <span class="qname"><b><a href="Class_RepartitionBudget_xsd.html#TRepartitionParNature" target="mainFrame" title="http://www.minefi.gouv.fr/cp/helios/pes_v2/paye_1_1" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">TRepartitionParNature</a></b> / Repartition</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_TRepartitionParNature_Repartition" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_TRepartitionParNature_Repartition');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_TRepartitionParNature_Repartition" style="display:block"><img alt="Diagram" border="0" src="img/Class_RepartitionBudget_xsd_Element_Repartition.jpeg" usemap="#Class_RepartitionBudget_xsd_Element_Repartition" /><map name="Class_RepartitionBudget_xsd_Element_Repartition" id="Class_RepartitionBudget_xsd_Element_Repartition">
+                                 <area alt="Class_RepartitionBudget_xsd.tmp#TLigneRepartition_Libelle" href="Class_RepartitionBudget_xsd.html#TLigneRepartition_Libelle" coords="195,40,256,65" />
+                                 <area alt="Class_RepartitionBudget_xsd.tmp#TLigneRepartition_Code" href="Class_RepartitionBudget_xsd.html#TLigneRepartition_Code" coords="195,75,256,100" />
+                                 <area alt="Class_RepartitionBudget_xsd.tmp#TLigneRepartition_CodeFonction" href="Class_RepartitionBudget_xsd.html#TLigneRepartition_CodeFonction" coords="195,141,292,166" />
+                                 <area alt="Class_RepartitionBudget_xsd.tmp#TLigneRepartition_CodeBudget" href="Class_RepartitionBudget_xsd.html#TLigneRepartition_CodeBudget" coords="195,207,285,232" />
+                                 <area alt="Class_RepartitionBudget_xsd.tmp#TLigneRepartition_Mt" href="Class_RepartitionBudget_xsd.html#TLigneRepartition_Mt" coords="195,273,256,298" />
+                                 <area alt="Class_RepartitionBudget_xsd.tmp#TLigneRepartition" href="Class_RepartitionBudget_xsd.html#TLigneRepartition" coords="113,3,247,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="Class_RepartitionBudget_xsd.html#TLigneRepartition" target="mainFrame" title="http://www.minefi.gouv.fr/cp/helios/pes_v2/paye_1_1" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">TLigneRepartition</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_TRepartitionParNature_Repartition" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_TRepartitionParNature_Repartition');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_TRepartitionParNature_Repartition" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">maxOccurs:
+                                       
+                                    </td>
+                                    <td><b>unbounded</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Model</b></td>
+                        <td><b><a href="Class_RepartitionBudget_xsd.html#TLigneRepartition_Libelle" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">Libelle{0,1}</a></b> , <b><a href="Class_RepartitionBudget_xsd.html#TLigneRepartition_Code" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">Code</a></b> , <b><a href="Class_RepartitionBudget_xsd.html#TLigneRepartition_CodeFonction" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">CodeFonction{0,1}</a></b> , <b><a href="Class_RepartitionBudget_xsd.html#TLigneRepartition_CodeBudget" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">CodeBudget{0,1}</a></b> , <b><a href="Class_RepartitionBudget_xsd.html#TLigneRepartition_Mt" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">Mt</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Children</b></td>
+                        <td><b><a href="Class_RepartitionBudget_xsd.html#TLigneRepartition_Code" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">Code</a></b>, <b><a href="Class_RepartitionBudget_xsd.html#TLigneRepartition_CodeBudget" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">CodeBudget</a></b>, <b><a href="Class_RepartitionBudget_xsd.html#TLigneRepartition_CodeFonction" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">CodeFonction</a></b>, <b><a href="Class_RepartitionBudget_xsd.html#TLigneRepartition_Libelle" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">Libelle</a></b>, <b><a href="Class_RepartitionBudget_xsd.html#TLigneRepartition_Mt" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">Mt</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Instance</b></div>
+                           <div class="floatRight"><input id="button_instance_TRepartitionParNature_Repartition" type="image" src="img/btM.gif" value="-" onclick="switchState('instance_TRepartitionParNature_Repartition');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="instance_TRepartitionParNature_Repartition" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;Repartition</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;Libelle</span><span class="tT"> </span><span class="tAN">V=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/Libelle&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;Code</span><span class="tT"> </span><span class="tAN">V=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/Code&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;CodeFonction</span><span class="tT"> </span><span class="tAN">V=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/CodeFonction&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;CodeBudget</span><span class="tT"> </span><span class="tAN">V=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/CodeBudget&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;Mt</span><span class="tT"> </span><span class="tAN">V=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/Mt&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/Repartition&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_TRepartitionParNature_Repartition" type="image" src="img/btM.gif" value="-" onclick="switchState('source_TRepartitionParNature_Repartition');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_TRepartitionParNature_Repartition" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"Repartition"</span><span class="tAN"> type=</span><span class="tAV">"TLigneRepartition"</span><span class="tAN"> maxOccurs=</span><span class="tAV">"unbounded"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="TLigneRepartition_Libelle"></a><div class="componentTitle">Element <span class="qname"><b><a href="Class_RepartitionBudget_xsd.html#TLigneRepartition" target="mainFrame" title="http://www.minefi.gouv.fr/cp/helios/pes_v2/paye_1_1" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">TLigneRepartition</a></b> / Libelle</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_TLigneRepartition_Libelle" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_TLigneRepartition_Libelle');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_TLigneRepartition_Libelle" style="display:block"><img alt="Diagram" border="0" src="img/Class_RepartitionBudget_xsd_Element_Libelle.jpeg" usemap="#Class_RepartitionBudget_xsd_Element_Libelle" /><map name="Class_RepartitionBudget_xsd_Element_Libelle" id="Class_RepartitionBudget_xsd_Element_Libelle">
+                                 <area alt="Simple_Type_xsd.tmp#Base_Texte100_V" href="Simple_Type_xsd.html#Base_Texte100_V" coords="117,79,197,104" />
+                                 <area alt="Simple_Type_xsd.tmp#Base_Texte100" href="Simple_Type_xsd.html#Base_Texte100" coords="92,3,236,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="Simple_Type_xsd.html#Base_Texte100" target="mainFrame" title="http://www.minefi.gouv.fr/cp/helios/pes_v2/commun" onclick="updatePageTitle('Schema documentation for Simple_Type.xsd')">Base_Texte100</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_TLigneRepartition_Libelle" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_TLigneRepartition_Libelle');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_TLigneRepartition_Libelle" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_TLigneRepartition_Libelle" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_TLigneRepartition_Libelle');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_TLigneRepartition_Libelle" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th>Type</th>
+                                       <th>Fixed</th>
+                                       <th>Default</th>
+                                       <th>Use</th>
+                                       <th>Annotation</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="Simple_Type_xsd.html#Base_Texte100_V" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Simple_Type.xsd')">V</a></b></td>
+                                    <td><b><a href="Simple_Type_xsd.html#V_Texte100" target="mainFrame" title="http://www.minefi.gouv.fr/cp/helios/pes_v2/commun" onclick="updatePageTitle('Schema documentation for Simple_Type.xsd')">V_Texte100</a></b></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>required</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_TLigneRepartition_Libelle" type="image" src="img/btM.gif" value="-" onclick="switchState('source_TLigneRepartition_Libelle');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_TLigneRepartition_Libelle" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"Libelle"</span><span class="tAN"> type=</span><span class="tAV">"cm:Base_Texte100"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="TLigneRepartition_Code"></a><div class="componentTitle">Element <span class="qname"><b><a href="Class_RepartitionBudget_xsd.html#TLigneRepartition" target="mainFrame" title="http://www.minefi.gouv.fr/cp/helios/pes_v2/paye_1_1" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">TLigneRepartition</a></b> / Code</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_TLigneRepartition_Code" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_TLigneRepartition_Code');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_TLigneRepartition_Code" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">code Nature (i.e. le compte d'imputation)</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_TLigneRepartition_Code" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_TLigneRepartition_Code');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_TLigneRepartition_Code" style="display:block"><img alt="Diagram" border="0" src="img/Class_RepartitionBudget_xsd_Element_Code.jpeg" usemap="#Class_RepartitionBudget_xsd_Element_Code" /><map name="Class_RepartitionBudget_xsd_Element_Code" id="Class_RepartitionBudget_xsd_Element_Code">
+                                 <area alt="Simple_Type_xsd.tmp#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Texte24_V" href="Simple_Type_xsd.html#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Texte24_V" coords="137,79,217,104" />
+                                 <area alt="Simple_Type_xsd.tmp#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Texte24" href="Simple_Type_xsd.html#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Texte24" coords="112,3,250,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="Simple_Type_xsd.html#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Texte24" target="mainFrame" title="http://www.minefi.gouv.fr/cp/helios/pes_v2/commun" onclick="updatePageTitle('Schema documentation for Simple_Type.xsd')">Base_Texte24</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_TLigneRepartition_Code" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_TLigneRepartition_Code');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_TLigneRepartition_Code" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_TLigneRepartition_Code" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_TLigneRepartition_Code');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_TLigneRepartition_Code" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th>Type</th>
+                                       <th>Fixed</th>
+                                       <th>Default</th>
+                                       <th>Use</th>
+                                       <th>Annotation</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="Simple_Type_xsd.html#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Texte24_V" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Simple_Type.xsd')">V</a></b></td>
+                                    <td><b><a href="Simple_Type_xsd.html#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_V_Texte24" target="mainFrame" title="http://www.minefi.gouv.fr/cp/helios/pes_v2/commun" onclick="updatePageTitle('Schema documentation for Simple_Type.xsd')">V_Texte24</a></b></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>required</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_TLigneRepartition_Code" type="image" src="img/btM.gif" value="-" onclick="switchState('source_TLigneRepartition_Code');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_TLigneRepartition_Code" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"Code"</span><span class="tAN"> type=</span><span class="tAV">"cm:Base_Texte24"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">code Nature (i.e. le compte d'imputation)</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="TLigneRepartition_CodeFonction"></a><div class="componentTitle">Element <span class="qname"><b><a href="Class_RepartitionBudget_xsd.html#TLigneRepartition" target="mainFrame" title="http://www.minefi.gouv.fr/cp/helios/pes_v2/paye_1_1" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">TLigneRepartition</a></b> / CodeFonction</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_TLigneRepartition_CodeFonction" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_TLigneRepartition_CodeFonction');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_TLigneRepartition_CodeFonction" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">dans le cas d'une imputation par fonction</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_TLigneRepartition_CodeFonction" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_TLigneRepartition_CodeFonction');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_TLigneRepartition_CodeFonction" style="display:block"><img alt="Diagram" border="0" src="img/Class_RepartitionBudget_xsd_Element_CodeFonction.jpeg" usemap="#Class_RepartitionBudget_xsd_Element_CodeFonction" /><map name="Class_RepartitionBudget_xsd_Element_CodeFonction" id="Class_RepartitionBudget_xsd_Element_CodeFonction">
+                                 <area alt="Simple_Type_xsd.tmp#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Texte24_V" href="Simple_Type_xsd.html#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Texte24_V" coords="173,79,253,104" />
+                                 <area alt="Simple_Type_xsd.tmp#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Texte24" href="Simple_Type_xsd.html#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Texte24" coords="148,3,286,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="Simple_Type_xsd.html#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Texte24" target="mainFrame" title="http://www.minefi.gouv.fr/cp/helios/pes_v2/commun" onclick="updatePageTitle('Schema documentation for Simple_Type.xsd')">Base_Texte24</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_TLigneRepartition_CodeFonction" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_TLigneRepartition_CodeFonction');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_TLigneRepartition_CodeFonction" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_TLigneRepartition_CodeFonction" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_TLigneRepartition_CodeFonction');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_TLigneRepartition_CodeFonction" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th>Type</th>
+                                       <th>Fixed</th>
+                                       <th>Default</th>
+                                       <th>Use</th>
+                                       <th>Annotation</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="Simple_Type_xsd.html#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Texte24_V" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Simple_Type.xsd')">V</a></b></td>
+                                    <td><b><a href="Simple_Type_xsd.html#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_V_Texte24" target="mainFrame" title="http://www.minefi.gouv.fr/cp/helios/pes_v2/commun" onclick="updatePageTitle('Schema documentation for Simple_Type.xsd')">V_Texte24</a></b></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>required</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_TLigneRepartition_CodeFonction" type="image" src="img/btM.gif" value="-" onclick="switchState('source_TLigneRepartition_CodeFonction');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_TLigneRepartition_CodeFonction" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"CodeFonction"</span><span class="tAN"> type=</span><span class="tAV">"cm:Base_Texte24"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">dans le cas d'une imputation par fonction</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="TLigneRepartition_CodeBudget"></a><div class="componentTitle">Element <span class="qname"><b><a href="Class_RepartitionBudget_xsd.html#TLigneRepartition" target="mainFrame" title="http://www.minefi.gouv.fr/cp/helios/pes_v2/paye_1_1" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">TLigneRepartition</a></b> / CodeBudget</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_TLigneRepartition_CodeBudget" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_TLigneRepartition_CodeBudget');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_TLigneRepartition_CodeBudget" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">dans le cas d'une imputation multi-budget</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_TLigneRepartition_CodeBudget" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_TLigneRepartition_CodeBudget');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_TLigneRepartition_CodeBudget" style="display:block"><img alt="Diagram" border="0" src="img/Class_RepartitionBudget_xsd_Element_CodeBudget.jpeg" usemap="#Class_RepartitionBudget_xsd_Element_CodeBudget" /><map name="Class_RepartitionBudget_xsd_Element_CodeBudget" id="Class_RepartitionBudget_xsd_Element_CodeBudget">
+                                 <area alt="Simple_Type_xsd.tmp#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Texte24_V" href="Simple_Type_xsd.html#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Texte24_V" coords="166,79,246,104" />
+                                 <area alt="Simple_Type_xsd.tmp#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Texte24" href="Simple_Type_xsd.html#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Texte24" coords="141,3,279,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="Simple_Type_xsd.html#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Texte24" target="mainFrame" title="http://www.minefi.gouv.fr/cp/helios/pes_v2/commun" onclick="updatePageTitle('Schema documentation for Simple_Type.xsd')">Base_Texte24</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_TLigneRepartition_CodeBudget" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_TLigneRepartition_CodeBudget');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_TLigneRepartition_CodeBudget" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_TLigneRepartition_CodeBudget" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_TLigneRepartition_CodeBudget');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_TLigneRepartition_CodeBudget" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th>Type</th>
+                                       <th>Fixed</th>
+                                       <th>Default</th>
+                                       <th>Use</th>
+                                       <th>Annotation</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="Simple_Type_xsd.html#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Texte24_V" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Simple_Type.xsd')">V</a></b></td>
+                                    <td><b><a href="Simple_Type_xsd.html#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_V_Texte24" target="mainFrame" title="http://www.minefi.gouv.fr/cp/helios/pes_v2/commun" onclick="updatePageTitle('Schema documentation for Simple_Type.xsd')">V_Texte24</a></b></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>required</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_TLigneRepartition_CodeBudget" type="image" src="img/btM.gif" value="-" onclick="switchState('source_TLigneRepartition_CodeBudget');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_TLigneRepartition_CodeBudget" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"CodeBudget"</span><span class="tAN"> type=</span><span class="tAV">"cm:Base_Texte24"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">dans le cas d'une imputation multi-budget</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="TLigneRepartition_Mt"></a><div class="componentTitle">Element <span class="qname"><b><a href="Class_RepartitionBudget_xsd.html#TLigneRepartition" target="mainFrame" title="http://www.minefi.gouv.fr/cp/helios/pes_v2/paye_1_1" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">TLigneRepartition</a></b> / Mt</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_TLigneRepartition_Mt" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_TLigneRepartition_Mt');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_TLigneRepartition_Mt" style="display:block"><img alt="Diagram" border="0" src="img/Class_RepartitionBudget_xsd_Element_Mt_1.jpeg" usemap="#Class_RepartitionBudget_xsd_Element_Mt_1" /><map name="Class_RepartitionBudget_xsd_Element_Mt_1" id="Class_RepartitionBudget_xsd_Element_Mt_1">
+                                 <area alt="Simple_Type_xsd.tmp#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Montant_V" href="Simple_Type_xsd.html#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Montant_V" coords="117,79,197,104" />
+                                 <area alt="Simple_Type_xsd.tmp#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Montant" href="Simple_Type_xsd.html#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Montant" coords="92,3,229,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="Simple_Type_xsd.html#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Montant" target="mainFrame" title="http://www.minefi.gouv.fr/cp/helios/pes_v2/commun" onclick="updatePageTitle('Schema documentation for Simple_Type.xsd')">Base_Montant</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_TLigneRepartition_Mt" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_TLigneRepartition_Mt');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_TLigneRepartition_Mt" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_TLigneRepartition_Mt" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_TLigneRepartition_Mt');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_TLigneRepartition_Mt" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th>Type</th>
+                                       <th>Fixed</th>
+                                       <th>Default</th>
+                                       <th>Use</th>
+                                       <th>Annotation</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="Simple_Type_xsd.html#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_Base_Montant_V" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Simple_Type.xsd')">V</a></b></td>
+                                    <td><b><a href="Simple_Type_xsd.html#http___www.minefi.gouv.fr_cp_helios_pes_v2_commun_V_Montant" target="mainFrame" title="http://www.minefi.gouv.fr/cp/helios/pes_v2/commun" onclick="updatePageTitle('Schema documentation for Simple_Type.xsd')">V_Montant</a></b></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>required</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_TLigneRepartition_Mt" type="image" src="img/btM.gif" value="-" onclick="switchState('source_TLigneRepartition_Mt');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_TLigneRepartition_Mt" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"Mt"</span><span class="tAN"> type=</span><span class="tAV">"cm:Base_Montant"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="TRepartitionBudget"></a><div class="componentTitle">Complex Type <span class="qname">TRepartitionBudget</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.minefi.gouv.fr/cp/helios/pes_v2/paye_1_1</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_TRepartitionBudget" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_TRepartitionBudget');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_TRepartitionBudget" style="display:block"><img alt="Diagram" border="0" src="img/Class_RepartitionBudget_xsd_Complex_Type_TRepartitionBudget.jpeg" usemap="#Class_RepartitionBudget_xsd_Complex_Type_TRepartitionBudget" /><map name="Class_RepartitionBudget_xsd_Complex_Type_TRepartitionBudget" id="Class_RepartitionBudget_xsd_Complex_Type_TRepartitionBudget">
+                                 <area alt="Class_RepartitionBudget_xsd.tmp#TRepartitionBudget_CodeBudget" href="Class_RepartitionBudget_xsd.html#TRepartitionBudget_CodeBudget" coords="245,0,335,25" />
+                                 <area alt="Class_RepartitionBudget_xsd.tmp#TRepartitionBudget_Taux" href="Class_RepartitionBudget_xsd.html#TRepartitionBudget_Taux" coords="316,66,377,91" />
+                                 <area alt="Class_RepartitionBudget_xsd.tmp#TRepartitionBudget_Mt" href="Class_RepartitionBudget_xsd.html#TRepartitionBudget_Mt" coords="316,132,377,157" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_TRepartitionBudget" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_TRepartitionBudget');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_TRepartitionBudget" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="Class_PayeIndivMensuel_xsd.html#TPayeIndivMensuel_RepartitionBudget" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Class_PayeIndivMensuel.xsd')">TPayeIndivMensuel/RepartitionBudget</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Model</b></td>
+                        <td><b><a href="Class_RepartitionBudget_xsd.html#TRepartitionBudget_CodeBudget" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">CodeBudget</a></b> , (<b><a href="Class_RepartitionBudget_xsd.html#TRepartitionBudget_Taux" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">Taux</a></b> | <b><a href="Class_RepartitionBudget_xsd.html#TRepartitionBudget_Mt" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">Mt</a></b>)
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Children</b></td>
+                        <td><b><a href="Class_RepartitionBudget_xsd.html#TRepartitionBudget_CodeBudget" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">CodeBudget</a></b>, <b><a href="Class_RepartitionBudget_xsd.html#TRepartitionBudget_Mt" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">Mt</a></b>, <b><a href="Class_RepartitionBudget_xsd.html#TRepartitionBudget_Taux" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">Taux</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_TRepartitionBudget" type="image" src="img/btM.gif" value="-" onclick="switchState('source_TRepartitionBudget');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_TRepartitionBudget" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:complexType</span><span class="tAN"> name=</span><span class="tAV">"TRepartitionBudget"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:sequence</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"CodeBudget"</span><span class="tAN"> type=</span><span class="tAV">"cm:Base_Texte24"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Code du budget de comptabilisation</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:choice</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"Taux"</span><span class="tAN"> type=</span><span class="tAV">"cm:Base_Taux"</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">(si répartitionau prorata)</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"Mt"</span><span class="tAN"> type=</span><span class="tAV">"cm:Base_Montant"</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">(si répartition forfaitaire)</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:choice&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:sequence&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:complexType&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="TRepartitionParNature"></a><div class="componentTitle">Complex Type <span class="qname">TRepartitionParNature</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.minefi.gouv.fr/cp/helios/pes_v2/paye_1_1</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_TRepartitionParNature" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_TRepartitionParNature');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_TRepartitionParNature" style="display:block"><img alt="Diagram" border="0" src="img/Class_RepartitionBudget_xsd_Complex_Type_TRepartitionParNature.jpeg" usemap="#Class_RepartitionBudget_xsd_Complex_Type_TRepartitionParNature" /><map name="Class_RepartitionBudget_xsd_Complex_Type_TRepartitionParNature" id="Class_RepartitionBudget_xsd_Complex_Type_TRepartitionParNature">
+                                 <area alt="Class_RepartitionBudget_xsd.tmp#TRepartitionParNature_Repartition" href="Class_RepartitionBudget_xsd.html#TRepartitionParNature_Repartition" coords="279,4,361,29" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_TRepartitionParNature" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_TRepartitionParNature');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_TRepartitionParNature" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="Class_DocumentPaye_xsd.html#TDocumentPaye_RepartitionParNature" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Class_DocumentPaye.xsd')">TDocumentPaye/RepartitionParNature</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Model</b></td>
+                        <td><b><a href="Class_RepartitionBudget_xsd.html#TRepartitionParNature_Repartition" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">Repartition+</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Children</b></td>
+                        <td><b><a href="Class_RepartitionBudget_xsd.html#TRepartitionParNature_Repartition" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">Repartition</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_TRepartitionParNature" type="image" src="img/btM.gif" value="-" onclick="switchState('source_TRepartitionParNature');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_TRepartitionParNature" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:complexType</span><span class="tAN"> name=</span><span class="tAV">"TRepartitionParNature"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:sequence</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"Repartition"</span><span class="tAN"> type=</span><span class="tAV">"TLigneRepartition"</span><span class="tAN"> maxOccurs=</span><span class="tAV">"unbounded"</span><span class="tEl">/&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:sequence&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:complexType&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="TLigneRepartition"></a><div class="componentTitle">Complex Type <span class="qname">TLigneRepartition</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.minefi.gouv.fr/cp/helios/pes_v2/paye_1_1</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_TLigneRepartition" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_TLigneRepartition');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_TLigneRepartition" style="display:block"><img alt="Diagram" border="0" src="img/Class_RepartitionBudget_xsd_Complex_Type_TLigneRepartition.jpeg" usemap="#Class_RepartitionBudget_xsd_Complex_Type_TLigneRepartition" /><map name="Class_RepartitionBudget_xsd_Complex_Type_TLigneRepartition" id="Class_RepartitionBudget_xsd_Complex_Type_TLigneRepartition">
+                                 <area alt="Class_RepartitionBudget_xsd.tmp#TLigneRepartition_Libelle" href="Class_RepartitionBudget_xsd.html#TLigneRepartition_Libelle" coords="237,0,298,25" />
+                                 <area alt="Class_RepartitionBudget_xsd.tmp#TLigneRepartition_Code" href="Class_RepartitionBudget_xsd.html#TLigneRepartition_Code" coords="237,35,298,60" />
+                                 <area alt="Class_RepartitionBudget_xsd.tmp#TLigneRepartition_CodeFonction" href="Class_RepartitionBudget_xsd.html#TLigneRepartition_CodeFonction" coords="237,101,334,126" />
+                                 <area alt="Class_RepartitionBudget_xsd.tmp#TLigneRepartition_CodeBudget" href="Class_RepartitionBudget_xsd.html#TLigneRepartition_CodeBudget" coords="237,167,327,192" />
+                                 <area alt="Class_RepartitionBudget_xsd.tmp#TLigneRepartition_Mt" href="Class_RepartitionBudget_xsd.html#TLigneRepartition_Mt" coords="237,233,298,258" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_TLigneRepartition" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_TLigneRepartition');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_TLigneRepartition" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="Class_RepartitionBudget_xsd.html#TRepartitionParNature_Repartition" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">TRepartitionParNature/Repartition</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Model</b></td>
+                        <td><b><a href="Class_RepartitionBudget_xsd.html#TLigneRepartition_Libelle" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">Libelle{0,1}</a></b> , <b><a href="Class_RepartitionBudget_xsd.html#TLigneRepartition_Code" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">Code</a></b> , <b><a href="Class_RepartitionBudget_xsd.html#TLigneRepartition_CodeFonction" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">CodeFonction{0,1}</a></b> , <b><a href="Class_RepartitionBudget_xsd.html#TLigneRepartition_CodeBudget" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">CodeBudget{0,1}</a></b> , <b><a href="Class_RepartitionBudget_xsd.html#TLigneRepartition_Mt" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">Mt</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Children</b></td>
+                        <td><b><a href="Class_RepartitionBudget_xsd.html#TLigneRepartition_Code" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">Code</a></b>, <b><a href="Class_RepartitionBudget_xsd.html#TLigneRepartition_CodeBudget" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">CodeBudget</a></b>, <b><a href="Class_RepartitionBudget_xsd.html#TLigneRepartition_CodeFonction" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">CodeFonction</a></b>, <b><a href="Class_RepartitionBudget_xsd.html#TLigneRepartition_Libelle" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">Libelle</a></b>, <b><a href="Class_RepartitionBudget_xsd.html#TLigneRepartition_Mt" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for Class_RepartitionBudget.xsd')">Mt</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_TLigneRepartition" type="image" src="img/btM.gif" value="-" onclick="switchState('source_TLigneRepartition');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_TLigneRepartition" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:complexType</span><span class="tAN"> name=</span><span class="tAV">"TLigneRepartition"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:sequence</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"Libelle"</span><span class="tAN"> type=</span><span class="tAV">"cm:Base_Texte100"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"Code"</span><span class="tAN"> type=</span><span class="tAV">"cm:Base_Texte24"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">code Nature (i.e. le compte d'imputation)</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"CodeFonction"</span><span class="tAN"> type=</span><span class="tAV">"cm:Base_Texte24"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">dans le cas d'une imputation par fonction</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"CodeBudget"</span><span class="tAN"> type=</span><span class="tAV">"cm:Base_Texte24"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">dans le cas d'une imputation multi-budget</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"Mt"</span><span class="tAN"> type=</span><span class="tAV">"cm:Base_Montant"</span><span class="tEl">/&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:sequence&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:complexType&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table>
+      <div class="footer">
+         <hr />
+         <div align="center">XML Schema documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Editor.
+         </div>
+      </div><script type="text/javascript">
+         <!--                     
+                     // The namespace is the selected option in the TOC combo.
+                    
+                     // Floats the toolbar.
+                     var globalControls = getElementObject("global_controls"); 
+                     
+                     if(globalControls != null){
+	                     var browser=navigator.appName;
+						 var version = parseFloat(navigator.appVersion.split('MSIE')[1]);
+						 
+						 var IE6 = false;
+						 if ((browser=="Microsoft Internet Explorer") && (version < 7)){
+						 	IE6 = true;
+						 }
+	
+	                     //alert (IE6 + " |V| " + version);
+	                     
+	                     if(IE6){
+	                     	// On IE 6 the 'fixed' property is not supported. We must use javascript. 
+	                         globalControls.style.position='absolute';                         
+	                         // The global controls will do not exist in the TOC frame, when chunking.
+	                         findAndFloat("global_controls", 225, 30);    
+	                     } else {
+	                      	  globalControls.style.position='fixed';                     	
+	                     }
+	                     
+	                     globalControls.style.right='0';                       
+                     }
+                --></script></body>
+</html>
