@@ -67,7 +67,7 @@ Var type
  InstallDirRegKey HKLM "SOFTWARE\${prodname}" "Install_Dir"
   
      
-!insertmacro MUI_PAGE_STARTMENU Application $StartMenuFolder
+;!insertmacro MUI_PAGE_STARTMENU Application $StartMenuFolder
 !insertmacro MUI_LANGUAGE "French" 
 
  LangString wizard1 ${LANG_FRENCH}   "Installation du logiciel Analyse des lignes de traitement, attributions indemnitaires et rémunérations diverses. Appuyer sur suivant pour continuer."
@@ -168,8 +168,8 @@ Section
   SetOutPath $INSTDIR\${prodname.simple}  
   
   !ifdef DATA
-    File /r  "${prodname.simple}\Docs" 
-    File /r  "${prodname.simple}\Outils" 
+   ; File /r  "${prodname.simple}\Docs" 
+   ; File /r  "${prodname.simple}\Outils" 
     File /r  "${prodname.simple}\lib" 
     File     "${prodname.simple}\*.*" 
     File /r  "${prodname.simple}\RStudio-project\.Rproj.user" 
@@ -181,48 +181,48 @@ Section
   
   ${If} "$processeur" == "core2"  
 
-    ${If} "$type" == "min"  
+   ; ${If} "$type" == "min"  
 	
-      File /r  "${prodname.simple}\Interface_windows_min_core2" 
+    ;  File /r  "${prodname.simple}\Interface_windows_min_core2" 
     
-	${Else}
+	; ${Else}
 
       File /r  "${prodname.simple}\Interface_windows_core2" 
 	  
-    ${EndIf}
+    ;${EndIf}
 
 	SetOutPath $INSTDIR\${prodname.simple}\win
 	File  "${prodname.simple}\win_core2\*.*"   	
 	  
   ${Else}	
 
-		${If} "$type" == "min"
+	;	${If} "$type" == "min"
 		  
-		  File /r  "${prodname.simple}\Interface_windows_min" 
+	;	  File /r  "${prodname.simple}\Interface_windows_min" 
 
-		${Else}
+	;	${Else}
 
 		  File /r  "${prodname.simple}\Interface_windows" 
 	  
-		${EndIf}
+	;	${EndIf}
 	
     SetOutPath $INSTDIR\${prodname.simple}\win	
 	File  "${prodname.simple}\win\*.*"   	
 
   ${EndIf}	
   
-  ${If} "$type" == "min"
+  ;${If} "$type" == "min"
   
-	CreateDirectory $INSTDIR\${prodname.simple}\${RStudioDir}\bin\pandoc
-	SetOutPath $INSTDIR\${prodname.simple}\${RStudioDir}\bin\pandoc
-	File ${prodname.simple}\${RStudioDir}\bin\pandoc\pandoc.exe
+;	CreateDirectory $INSTDIR\${prodname.simple}\${RStudioDir}\bin\pandoc
+;	SetOutPath $INSTDIR\${prodname.simple}\${RStudioDir}\bin\pandoc
+;	File ${prodname.simple}\${RStudioDir}\bin\pandoc\pandoc.exe
 			
-  ${Else}  ; "avancé"
+ ; ${Else}  ; "avancé"
    
     SetOutPath $INSTDIR\${prodname.simple}
    !ifdef DATA  
-     File /r  "${prodname.simple}\${texDir}"
-     File /r  "${prodname.simple}\${GitDir}"
+   ;  File /r  "${prodname.simple}\${texDir}"
+   ;  File /r  "${prodname.simple}\${GitDir}"
      File /r  "${prodname.simple}\${RStudioDir}"
    !endif
 	
@@ -235,7 +235,7 @@ Section
 	${EnvVarUpdate} $0 "PATH" "A" "HKCU" "$INSTDIR\${prodname.simple}\${texDir}\miktex\bin\x64"
 	${EnvVarUpdate} $0 "PATH" "A" "HKCU" "$INSTDIR\${prodname.simple}\${GitDir}\bin" 
 	
-  ${EndIf}
+ ; ${EndIf}
     
   !ifdef DATA
     SetOutPath $INSTDIR\${exemple}
@@ -251,41 +251,41 @@ Section
 
 Section 
   
- !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
+ ;!insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   SetShellVarContext current
   
   ${If} "$processeur" == "core2"  
 
-    ${If} "$type" == "min"  
+    ; ${If} "$type" == "min"  
 
-  StrCpy $5 "$INSTDIR\${prodname.simple}\Interface_windows_min_core2\gui\x64\${prodname}.exe"  
-  StrCpy $6 "$INSTDIR\${prodname.simple}\Interface_windows_min_core2\${icon}"
+  ; StrCpy $5 "$INSTDIR\${prodname.simple}\Interface_windows_min_core2\gui\x64\${prodname}.exe"  
+  ; StrCpy $6 "$INSTDIR\${prodname.simple}\Interface_windows_min_core2\${icon}"
 	
     
-	${Else}
+	; ${Else}
 
   StrCpy $5 "$INSTDIR\${prodname.simple}\Interface_windows_core2\gui\x64\${prodname}.exe"  
   StrCpy $6 "$INSTDIR\${prodname.simple}\Interface_windows_core2\${icon}"
   
   
-    ${EndIf}
+   ; ${EndIf}
 
 	  
   ${Else}	
 
-		${If} "$type" == "min"
+		; ${If} "$type" == "min"
 		  
-  StrCpy $5 "$INSTDIR\${prodname.simple}\Interface_windows_min\gui\x64\${prodname}.exe"  
-  StrCpy $6 "$INSTDIR\${prodname.simple}\Interface_windows_min\${icon}"
+  ; StrCpy $5 "$INSTDIR\${prodname.simple}\Interface_windows_min\gui\x64\${prodname}.exe"  
+  ; StrCpy $6 "$INSTDIR\${prodname.simple}\Interface_windows_min\${icon}"
 	
 
-		${Else}
+		; ${Else}
 
   StrCpy $5 "$INSTDIR\${prodname.simple}\Interface_windows\gui\x64\${prodname}.exe"  
   StrCpy $6 "$INSTDIR\${prodname.simple}\Interface_windows\${icon}"
 	
 
-		${EndIf}
+		;${EndIf}
 	    
   ${EndIf}	
   
@@ -303,13 +303,13 @@ Section
 
   WriteUninstaller "$INSTDIR\Désinstaller.exe"
  
-!insertmacro MUI_STARTMENU_WRITE_END
+;!insertmacro MUI_STARTMENU_WRITE_END
 
 SectionEnd
  
 Section "Uninstall"
  
- !insertmacro MUI_STARTMENU_GETFOLDER Application $StartMenuFolder
+ ;!insertmacro MUI_STARTMENU_GETFOLDER Application $StartMenuFolder
   
   ${un.EnvVarUpdate} $0 "PATH" "R" "HKCU" "$INSTDIR\${prodname.simple}\${texDir}\miktex\bin\x64" 
   ${un.EnvVarUpdate} $0 "PATH" "R" "HKCU" "$INSTDIR\${prodname.simple}\${GitDir}\bin"  
@@ -330,7 +330,7 @@ Section "Uninstall"
 SectionEnd
 
 Function un.onUninstSuccess
-    MessageBox  MB_ICONINFORMATION "Désinstallation réalisée."
+;    MessageBox  MB_ICONINFORMATION "Désinstallation réalisée."
   FunctionEnd
 
 BrandingText "Altaïr-${version}"
