@@ -35,23 +35,23 @@ static constexpr auto EXPRESSION_REG_ELUS = "^maire.*|^pr..?sident.*|^[eé]lus?|
   EXPRESSION_REG_VACATIONS = ".*\\bvacat.*|.*\\bvac\\.?\\b.*",                 // vac.* peut être vérifié par 'vacances'
   EXPRESSION_REG_ASSISTANTES_MATERNELLES = ".*\\bass.*\\bmater.*",
   EXPRESSION_REG_ADJOINTS = "\\W*(?:adj.*(?:adm|ani|tech|pat)|op[eé].*(a\\.?p\\.?s\\.?|act)|aux.*(pu[eé]r|soin)|gard(ien|.*ch)|brigadier|receveur|sapeur|capor|sous.*off).*",
-  EXPRESSION_REG_AGENTS = "\\W*(?:(?:agent|agt\\.?).*(?:ser.*ho|soc|ma[îi]|poli|p\\.?m\\.?|sp[eé]|pat)|\
-(?:agent|agt\\.?)?.*atsem|aide.*(?:soi|pha)|aumonier|cond.*amb|dessin|ouvrier).*",
+  EXPRESSION_REG_AGENTS = "\\W*(?:(?:agent|agt\\.?).*(?:ser.*ho|soc|ma[îi]|poli|p\\.?m\\.?|pat|ent.*\\b(?:qu|sp))|\
+(?:agent|agt\\.?)?.*atsem|aide.*(?:soi|pha)|aumonier|cond.*amb|dessin|.*ouvrier).*",
 
  /* Attention il ne faut pas autre chose que \\W* car sinon on peut avoir confusion entre cons[eiller].* et [agent].*cons[ervation].*   */
  /* cons = conseiller ou conservateur souvent abrégé cons., mai speut être aussi conservation */
 
   EXPRESSION_REG_CAT_A = "\\W*\
-(?:adminis|a.*\\bh.*\\bu|c.*\\b(?:cl|tr).*\\bu|attach|biol|biblio|cad.*soc.*ed|cap.*t|com.*t|.*colon|cons\\.?|d\\S*\\.?\\s*g\\S*\\.?|\
-dir(?:ect|.*\\b[eé]t.*b|.*\\bsoi)|ing[eé]n|m[eé]de|ma.t.*conf|prat.*hos|pharm|p[eé]d.*p.*c.*\\bs|pr[eé]p.*c.*\\bs|prof|psy.*(?:l|m.*c.*\\bs)|puer|puér|sage.*f|secr.*mai[v[eé]t[eé]r]|\
-i\\.?a\\.?d\\.?e\\.?|i\\.?b\\.?o\\.?d\\.?e\\.?|infi?r?m?i?[eè]?r?\\.?\\s*(?:anes|bloc|i\\.?a\\.?d\\.?|i\\.?b\\.?o\\.?d\\.?|s\\.?\\s*\\bg\\.?|soi|enc.*s)|\
+(?:adminis|a.*\\bh.*\\bu|c.*\\b(?:cl|tr).*\\bu|attach|biol|biblio|cad.*(?:\\bsoc.*ed|\\bsan)|cap.*t|com.*t|.*colon|cons\\.?|d\\S*\\.?\\s*g\\S*\\.?|\
+dir(?:ect|.*\\b[eé]t.*b|.*\\bsoi)|ing[eé]n|m[eé]de|ma.t.*conf|prat.*hos|pharm|p[eé]d.*p.*c.*\\bs|pr[eé]p.*c.*\\bs|prof|psy.*(?:l|m.*c.*\\bs)|pu[eé]r|sage.*f|secr.*mai[v[eé]t[eé]r]|\
+i\\.?a\\.?d\\.?e\\.?|i\\.?b\\.?o\\.?d\\.?e\\.?|infi?r?m?i?[eè]?r?\\.?\\s*(?:\\bcl.*ce|anes|bloc|i\\.?a\\.?d\\.?|i\\.?b\\.?o\\.?d\\.?|s\\.?\\s*\\bg\\.?|soi|enc.*s)|\
 ergot|radiophys|(?:tec.*l|mass.*kin|di[eé]t|inf|manip).*\\bc(?:\\.|a).*\\bs).*",
 
  /* A cause du cas problématique des infirmiers et diététiciens, ex B recatégorisés en A, il faut d'abord tester A puis si échec B */
 
   EXPRESSION_REG_CAT_B = "\\W*\
 (?:r[eé]dac|tech|anim|[eé]duc|a\\.?\\s?s\\.?\\s?(?:e|\\s)|assi?s?t?\\.?.*(?:sp[eé]c|ens|cons|pat|bib|soc.*[eé]du?c?|m[ée]d.*t)|monit|contr[oô].*t(?:er|ra)|\
-chef.*p.*m|lieut[^c\\s]*\\b|infirm|r[eé][eé]duc|adj.*cadr|analyst|di[eé]t|pr[eé]par.*ph|p[eé]d.*po|programmeu|orthop|mass.*kin|manip).*",
+chef.*p.*m|lieut[^c\\s]*\\b|inf.*\\bi\\.?d\\.?e|r[eé][eé]duc|adj.*cadr|analyst|di[eé]t|pr[eé]par.*ph|p[eé]d.*po|programmeu|orthop|mass.*kin|manip).*",
 
 /* Les définitions ci-après doivent être négatives */  NOM_BASE = "Table",
   NOM_BASE_BULLETINS = "Bulletins",
