@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorSession>
-<!-- Written by QtCreator 3.5.1, 2016-07-26T19:18:22. -->
+<!-- Written by QtCreator 3.5.1, 2016-08-05T19:26:46. -->
 <qtcreator>
  <data>
   <variable>Color</variable>
@@ -8,13 +8,14 @@
  </data>
  <data>
   <variable>EditorSettings</variable>
-  <value type="QByteArray">AAAAD0VkaXRvck1hbmFnZXJWNAAAAAAAAAAAAAAACQAAAAVlbXB0eQ==</value>
+  <value type="QByteArray">AAAAD0VkaXRvck1hbmFnZXJWNAAAAAIAAABYAEMAOgAvAFUAcwBlAHIAcwAvAFAAdQBiAGwAaQBjAC8ARABlAHYALwBhAGwAdABhAGkAcgAvAGwAaAB4AC8AdgBhAGwAaQBkAGEAdABvAHIALgBoAHAAcAAAAAwAAAAAGAAAAAEAAAARAAAAAAAAADIAAABDAAAAAAAAAFgAQwA6AC8AVQBzAGUAcgBzAC8AUAB1AGIAbABpAGMALwBEAGUAdgAvAGEAbAB0AGEAaQByAC8AbABoAHgALwB2AGEAbABpAGQAYQB0AG8AcgAuAGMAcABwAAAADAAAAAAcAAAAAQAAAh0AAAAAAAACPQAAAAUAAAABAAAAAAAAAAIAAABYAEMAOgAvAFUAcwBlAHIAcwAvAFAAdQBiAGwAaQBjAC8ARABlAHYALwBhAGwAdABhAGkAcgAvAGwAaAB4AC8AdgBhAGwAaQBkAGEAdABvAHIALgBjAHAAcAAAABoAdgBhAGwAaQBkAGEAdABvAHIALgBjAHAAcAAAABNDcHBFZGl0b3IuQysrRWRpdG9yAAAAWABDADoALwBVAHMAZQByAHMALwBQAHUAYgBsAGkAYwAvAEQAZQB2AC8AYQBsAHQAYQBpAHIALwBsAGgAeAAvAHYAYQBsAGkAZABhAHQAbwByAC4AaABwAHAAAAAaAHYAYQBsAGkAZABhAHQAbwByAC4AaABwAHAAAAATQ3BwRWRpdG9yLkMrK0VkaXRvcgAAALcAAAANY3VycmVudGVkaXRvcgAAAFgAQwA6AC8AVQBzAGUAcgBzAC8AUAB1AGIAbABpAGMALwBEAGUAdgAvAGEAbAB0AGEAaQByAC8AbABoAHgALwB2AGEAbABpAGQAYQB0AG8AcgAuAGMAcABwAAAAJgBDAHAAcABFAGQAaQB0AG8AcgAuAEMAKwArAEUAZABpAHQAbwByAAAAHAAAAAEAAAIdAAAAAAAAAj0AAAAFAAAAAQAAAAA=</value>
  </data>
  <data>
   <variable>ProjectDependencies</variable>
   <valuemap type="QVariantMap">
    <valuelist type="QVariantList" key="C:/Users/Public/Dev/altair/Interface/gui/altair.windows.pro">
     <value type="QString">C:/Users/Public/Dev/altair/lhx/lhx.pro</value>
+    <value type="QString">C:/Users/Public/Dev/altair/lhx/lhx_core2.pro</value>
    </valuelist>
   </valuemap>
  </data>
@@ -23,6 +24,7 @@
   <valuelist type="QVariantList">
    <value type="QString">C:/Users/Public/Dev/altair/Interface/gui/altair.windows.pro</value>
    <value type="QString">C:/Users/Public/Dev/altair/lhx/lhx.pro</value>
+   <value type="QString">C:/Users/Public/Dev/altair/lhx/lhx_core2.pro</value>
   </valuelist>
  </data>
  <data>
@@ -59,6 +61,18 @@
    <valuelist type="QVariantList">
     <value type="QString">C:/Users/Public/Dev/altair/lhx/lhx.pro</value>
     <value type="QString">lhx</value>
+   </valuelist>
+   <valuelist type="QVariantList">
+    <value type="QString">C:/Users/Public/Dev/altair/lhx</value>
+    <value type="QString">En-têtes</value>
+   </valuelist>
+   <valuelist type="QVariantList">
+    <value type="QString">C:/Users/Public/Dev/altair/lhx</value>
+    <value type="QString">Sources</value>
+   </valuelist>
+   <valuelist type="QVariantList">
+    <value type="QString">C:/Users/Public/Dev/altair/lhx/lhx_core2.pro</value>
+    <value type="QString">lhx_core2</value>
    </valuelist>
   </valuelist>
  </data>

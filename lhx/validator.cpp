@@ -550,6 +550,7 @@ static int parseFile(info_t& info)
                 if (diff != 0)
                 {
                   if (verbeux)
+                  {
                     cerr << ERROR_HTML_TAG "Incohérence des décomptes de lignes entre le contrôle C : "
                               << info.NLigne[info.NCumAgentXml]
                               << "et l'analyse Libxml2 : "
@@ -562,6 +563,7 @@ static int parseFile(info_t& info)
                               << " Mois "
                               << info.Table[info.NCumAgentXml][Mois]
                               << ENDL   ;
+                  }
 
                     ecrire_log(info, log, diff);
                     if (log.is_open())
