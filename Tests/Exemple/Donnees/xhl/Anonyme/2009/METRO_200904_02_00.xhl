@@ -1,0 +1,7197 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<astre:DocumentPaye
+    xsi:schemaLocation="http://www.minefi.gouv.fr/cp/helios/pes_v2/paye_1_1 file:///X:/DEMAT_ASTRHT/1.8/schema/DocumentPaye.xsd"
+    xmlns:astre="http://www.minefi.gouv.fr/cp/helios/pes_v2/paye_1_1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<IdVer V = "1.0"/>
+<Annee V = "2009"/>
+<Mois V = "4"/>
+<Budget>
+<Libelle V = "ASSAINISSEMENT"/>
+<Code V = "02"/>
+</Budget>
+<Employeur>
+<Nom V = "Z"/>
+<APE V = "751A"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr2 V = "Z"/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "1"/>
+<CodPays V = "000"/>
+</Adresse>
+<NumUrssaf V = "Z"/>
+<Siret V = "Z"/>
+</Employeur>
+<DonneesIndiv>
+<Etablissement>
+<Nom V = "Z"/>
+<NumUrssaf V = "Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr2 V = "Z"/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+</Adresse>
+<Siret V = "Z"/>
+</Etablissement>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<Prenom V = "Z"/>
+<Matricule V = "196 N"/>
+<NIR  V = "15105Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr2 V = "Z"/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "NON_TITULAIRE"/>
+<EmploiMetier V = "RESP RESEAUX ASS SECT 3"/>
+<Grade V = ""/>
+<Echelon V = ""/>
+<Indice V = "0"/>
+<CptBancaire>
+<CodeEtab V = "13906"/>
+<CodeGuic V = "00043"/>
+<IdCpte V = "Z"/>
+<CleRib V = "48"/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = "ASS SECTEUR 3"/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100"/>
+<Periode>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</Periode>
+<Remuneration>
+<TraitBrut>
+<Libelle V = "TRAITEMENT DE BASE"/>
+<Code V = "011N"/>
+<Mt V = "2441.86"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<Ordre V = "110111"/>
+</TraitBrut>
+<Indemnite>
+<Libelle V = "PRIME SERVICE"/>
+<Code V = "230N"/>
+<Taux V = "13.560"/>
+<NbUnite V = "2441.86"/>
+<Mt V = "331.11"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "PAYEUR"/>
+<Ordre V = "122301"/>
+</Indemnite>
+<Indemnite>
+<Libelle V = "ASTR. NORM. AGT MAIT"/>
+<Code V = "737N"/>
+<NbUnite V = "1"/>
+<Mt V = "322"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "PAYEUR"/>
+<Ordre V = "147371"/>
+</Indemnite>
+<Deduction>
+<Libelle V = "COT. SS VIEIL. RG"/>
+<Code V = "804C"/>
+<Taux V = "6.650"/>
+<NbUnite V = "2859"/>
+<Mt V = "190.12"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968041"/>
+</Deduction>
+<Deduction>
+<Libelle V = "COT. SS TOT. RG"/>
+<Code V = "810C"/>
+<Taux V = "0.850"/>
+<NbUnite V = "3094.97"/>
+<Mt V = "26.31"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968101"/>
+</Deduction>
+<Deduction>
+<Libelle V = "COT. IRCANTEC A"/>
+<Code V = "840C"/>
+<Taux V = "2.250"/>
+<NbUnite V = "2859"/>
+<Mt V = "64.33"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "IRCANT"/>
+<Ordre V = "9968401"/>
+</Deduction>
+<Deduction>
+<Libelle V = "COT. IRCANTEC B"/>
+<Code V = "842C"/>
+<Taux V = "5.950"/>
+<NbUnite V = "235.97"/>
+<Mt V = "14.04"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "IRCANT"/>
+<Ordre V = "9968421"/>
+</Deduction>
+<Deduction>
+<Libelle V = "R.D.S."/>
+<Code V = "844C"/>
+<Taux V = "0.500"/>
+<NbUnite V = "3152.9"/>
+<Mt V = "15.76"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968441"/>
+</Deduction>
+<Deduction>
+<Libelle V = "COT. ASSEDIC TR A"/>
+<Code V = "850C"/>
+<Taux V = "2.400"/>
+<NbUnite V = "2859"/>
+<Mt V = "68.62"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "ASSED"/>
+<Ordre V = "9968501"/>
+</Deduction>
+<Deduction>
+<Libelle V = "COT. ASSEDIC TR B"/>
+<Code V = "852C"/>
+<Taux V = "2.400"/>
+<NbUnite V = "235.97"/>
+<Mt V = "5.66"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "ASSED"/>
+<Ordre V = "9968521"/>
+</Deduction>
+<Deduction>
+<Libelle V = "CSG DEDUCTIBLE 1%"/>
+<Code V = "859C"/>
+<Taux V = "5.100"/>
+<NbUnite V = "3152.9"/>
+<Mt V = "160.79"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968591"/>
+</Deduction>
+<Deduction>
+<Libelle V = "CONT.SCIAL.GAL"/>
+<Code V = "869C"/>
+<Taux V = "2.400"/>
+<NbUnite V = "3152.9"/>
+<Mt V = "75.67"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968691"/>
+</Deduction>
+<Retenue>
+<Libelle V = "URRPIMMEC F. SANTE"/>
+<Code V = "406M"/>
+<Taux V = "1.950"/>
+<NbUnite V = "2859"/>
+<Mt V = "55.75"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URPIM"/>
+<Ordre V = "154061"/>
+</Retenue>
+<Retenue>
+<Libelle V = "SUB URRPIMMEC F.S."/>
+<Code V = "407M"/>
+<Taux V = "3.900"/>
+<NbUnite V = "2859"/>
+<Mt V = "111.5"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URPIM"/>
+<Ordre V = "154071"/>
+</Retenue>
+<Retenue>
+<Libelle V = "URRPIMMEC INCAPACITE"/>
+<Code V = "422M"/>
+<Taux V = "0.630"/>
+<NbUnite V = "3094.97"/>
+<Mt V = "19.49"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URPIM"/>
+<Ordre V = "154221"/>
+</Retenue>
+<Retenue>
+<Libelle V = "GRAS SAVOYE"/>
+<Code V = "424M"/>
+<Taux V = "0.790"/>
+<NbUnite V = "3094.97"/>
+<Mt V = "24.45"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "GRASS"/>
+<Ordre V = "154241"/>
+</Retenue>
+<Retenue>
+<Libelle V = "COS 38 PO"/>
+<Code V = "423M"/>
+<Taux V = "0.100"/>
+<NbUnite V = "2441.86"/>
+<Mt V = "2.44"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "COS"/>
+<Ordre V = "9954231"/>
+</Retenue>
+<Retenue>
+<Libelle V = "TAXE PREVOYANCE"/>
+<Code V = "845N"/>
+<Taux V = "8.000"/>
+<NbUnite V = "155.44"/>
+<Mt V = "12.43"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9958451"/>
+</Retenue>
+<Cotisation>
+<Libelle V = "COS 38 PP"/>
+<Code V = "426M"/>
+<Base V = "2441.86"/>
+<Taux V = "0.850"/>
+<Mt V = "20.75"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "COS"/>
+<Ordre V = "9954261"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. SS VIEIL. RG"/>
+<Code V = "805C"/>
+<Base V = "2859"/>
+<Taux V = "8.300"/>
+<Mt V = "237.3"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968051"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT.VIEILL.TOT. RG"/>
+<Code V = "807C"/>
+<Base V = "3094.97"/>
+<Taux V = "1.600"/>
+<Mt V = "49.52"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968071"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. SS TOT. RG"/>
+<Code V = "811C"/>
+<Base V = "3094.97"/>
+<Taux V = "13.100"/>
+<Mt V = "405.44"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968111"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. FNAL PAT. R.G."/>
+<Code V = "824C"/>
+<Base V = "2859"/>
+<Taux V = "0.100"/>
+<Mt V = "2.86"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968241"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT.ALL.FAM/.TOT.RG"/>
+<Code V = "826C"/>
+<Base V = "3094.97"/>
+<Taux V = "5.400"/>
+<Mt V = "167.13"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968261"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. ACC. TRAV. RG"/>
+<Code V = "827C"/>
+<Base V = "3094.97"/>
+<Taux V = "0.990"/>
+<Mt V = "30.64"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968271"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. IRCANTEC A"/>
+<Code V = "841C"/>
+<Base V = "2859"/>
+<Taux V = "3.380"/>
+<Mt V = "96.63"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "IRCANT"/>
+<Ordre V = "9968411"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. IRCANTEC B"/>
+<Code V = "843C"/>
+<Base V = "235.97"/>
+<Taux V = "11.550"/>
+<Mt V = "27.25"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "IRCANT"/>
+<Ordre V = "9968431"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "TAXE TRANSPORT T. RG"/>
+<Code V = "848C"/>
+<Base V = "3094.97"/>
+<Taux V = "1.800"/>
+<Mt V = "55.71"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968481"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. ASSEDIC TR A"/>
+<Code V = "851C"/>
+<Base V = "2859"/>
+<Taux V = "4.000"/>
+<Mt V = "114.36"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "ASSED"/>
+<Ordre V = "9968511"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. ASSEDIC TR B"/>
+<Code V = "853C"/>
+<Base V = "235.97"/>
+<Taux V = "4.000"/>
+<Mt V = "9.44"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "ASSED"/>
+<Ordre V = "9968531"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. MEDECINE PROF."/>
+<Code V = "874C"/>
+<Base V = "3094.97"/>
+<Taux V = "0.350"/>
+<Mt V = "10.83"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "CDG"/>
+<Ordre V = "9968741"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT.FNAL TOT. R.G"/>
+<Code V = "886C"/>
+<Base V = "3094.97"/>
+<Taux V = "0.400"/>
+<Mt V = "12.38"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9948861"/>
+</Cotisation>
+</Remuneration>
+<NbHeureTotal V = "151.67"/>
+<NbHeureSup V = "0"/>
+<MtBrut V = "3094.97"/>
+<MtNet V = "2415.48"/>
+<MtNetAPayer V = "2415.48"/>
+<DatePaiement V = "2009-04-17"/>
+<MtImposable V = "2509.35"/>
+<CumulMtImposable V = "10296.75"/>
+<CumulMtBrut V = "13968.51"/>
+<CumulBaseSS V = "11436"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<Prenom V = "Z"/>
+<Matricule V = "197 P"/>
+<NIR  V = "25909Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr2 V = "Z"/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "NON_TITULAIRE"/>
+<EmploiMetier V = "SECRETAIRE  HOTESSE D ACCUEIL"/>
+<Grade V = ""/>
+<Echelon V = ""/>
+<Indice V = "0"/>
+<CptBancaire>
+<CodeEtab V = "30003"/>
+<CodeGuic V = "00996"/>
+<IdCpte V = "Z"/>
+<CleRib V = "62"/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = "ASS EXPLOITATION"/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100"/>
+<Periode>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</Periode>
+<Remuneration>
+<TraitBrut>
+<Libelle V = "TRAITEMENT DE BASE"/>
+<Code V = "011N"/>
+<Mt V = "1808.92"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<Ordre V = "110111"/>
+</TraitBrut>
+<Indemnite>
+<Libelle V = "PRIME SERVICE"/>
+<Code V = "230N"/>
+<Taux V = "14.760"/>
+<NbUnite V = "1808.92"/>
+<Mt V = "266.99"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "PAYEUR"/>
+<Ordre V = "122301"/>
+</Indemnite>
+<Deduction>
+<Libelle V = "COT. SS VIEIL. RG"/>
+<Code V = "804C"/>
+<Taux V = "6.650"/>
+<NbUnite V = "2075.91"/>
+<Mt V = "138.05"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968041"/>
+</Deduction>
+<Deduction>
+<Libelle V = "COT. SS TOT. RG"/>
+<Code V = "810C"/>
+<Taux V = "0.850"/>
+<NbUnite V = "2075.91"/>
+<Mt V = "17.65"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968101"/>
+</Deduction>
+<Deduction>
+<Libelle V = "COT. IRCANTEC A"/>
+<Code V = "840C"/>
+<Taux V = "2.250"/>
+<NbUnite V = "2075.91"/>
+<Mt V = "46.71"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "IRCANT"/>
+<Ordre V = "9968401"/>
+</Deduction>
+<Deduction>
+<Libelle V = "R.D.S."/>
+<Code V = "844C"/>
+<Taux V = "0.500"/>
+<NbUnite V = "2150.36"/>
+<Mt V = "10.75"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968441"/>
+</Deduction>
+<Deduction>
+<Libelle V = "COT. ASSEDIC TR A"/>
+<Code V = "850C"/>
+<Taux V = "2.400"/>
+<NbUnite V = "2075.91"/>
+<Mt V = "49.82"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "ASSED"/>
+<Ordre V = "9968501"/>
+</Deduction>
+<Deduction>
+<Libelle V = "CSG DEDUCTIBLE 1%"/>
+<Code V = "859C"/>
+<Taux V = "5.100"/>
+<NbUnite V = "2150.36"/>
+<Mt V = "109.66"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968591"/>
+</Deduction>
+<Deduction>
+<Libelle V = "CONT.SCIAL.GAL"/>
+<Code V = "869C"/>
+<Taux V = "2.400"/>
+<NbUnite V = "2150.36"/>
+<Mt V = "51.61"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968691"/>
+</Deduction>
+<Retenue>
+<Libelle V = "URRPIMMEC F. SANTE"/>
+<Code V = "406M"/>
+<Taux V = "1.950"/>
+<NbUnite V = "2859"/>
+<Mt V = "55.75"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URPIM"/>
+<Ordre V = "154061"/>
+</Retenue>
+<Retenue>
+<Libelle V = "SUB URRPIMMEC F.S."/>
+<Code V = "407M"/>
+<Taux V = "3.900"/>
+<NbUnite V = "2859"/>
+<Mt V = "111.5"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URPIM"/>
+<Ordre V = "154071"/>
+</Retenue>
+<Retenue>
+<Libelle V = "AGF MONTANT 2"/>
+<Code V = "417M"/>
+<Mt V = "3.3"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "AGF"/>
+<Ordre V = "154171"/>
+</Retenue>
+<Retenue>
+<Libelle V = "URRPIMMEC INCAPACITE"/>
+<Code V = "422M"/>
+<Taux V = "0.630"/>
+<NbUnite V = "2075.91"/>
+<Mt V = "13.07"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URPIM"/>
+<Ordre V = "154221"/>
+</Retenue>
+<Retenue>
+<Libelle V = "GRAS SAVOYE"/>
+<Code V = "424M"/>
+<Taux V = "0.790"/>
+<NbUnite V = "2075.91"/>
+<Mt V = "16.39"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "GRASS"/>
+<Ordre V = "154241"/>
+</Retenue>
+<Retenue>
+<Libelle V = "COS 38 PO"/>
+<Code V = "423M"/>
+<Taux V = "0.100"/>
+<NbUnite V = "1808.92"/>
+<Mt V = "1.8"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "COS"/>
+<Ordre V = "9954231"/>
+</Retenue>
+<Retenue>
+<Libelle V = "TAXE PREVOYANCE"/>
+<Code V = "845N"/>
+<Taux V = "8.000"/>
+<NbUnite V = "140.96"/>
+<Mt V = "11.27"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9958451"/>
+</Retenue>
+<Cotisation>
+<Libelle V = "COS 38 PP"/>
+<Code V = "426M"/>
+<Base V = "1808.92"/>
+<Taux V = "0.850"/>
+<Mt V = "15.37"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "COS"/>
+<Ordre V = "9954261"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. SS VIEIL. RG"/>
+<Code V = "805C"/>
+<Base V = "2075.91"/>
+<Taux V = "8.300"/>
+<Mt V = "172.3"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968051"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT.VIEILL.TOT. RG"/>
+<Code V = "807C"/>
+<Base V = "2075.91"/>
+<Taux V = "1.600"/>
+<Mt V = "33.21"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968071"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. SS TOT. RG"/>
+<Code V = "811C"/>
+<Base V = "2075.91"/>
+<Taux V = "13.100"/>
+<Mt V = "271.94"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968111"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. FNAL PAT. R.G."/>
+<Code V = "824C"/>
+<Base V = "2075.91"/>
+<Taux V = "0.100"/>
+<Mt V = "2.08"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968241"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT.ALL.FAM/.TOT.RG"/>
+<Code V = "826C"/>
+<Base V = "2075.91"/>
+<Taux V = "5.400"/>
+<Mt V = "112.1"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968261"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. ACC. TRAV. RG"/>
+<Code V = "827C"/>
+<Base V = "2075.91"/>
+<Taux V = "0.990"/>
+<Mt V = "20.55"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968271"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. IRCANTEC A"/>
+<Code V = "841C"/>
+<Base V = "2075.91"/>
+<Taux V = "3.380"/>
+<Mt V = "70.17"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "IRCANT"/>
+<Ordre V = "9968411"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "TAXE TRANSPORT T. RG"/>
+<Code V = "848C"/>
+<Base V = "2075.91"/>
+<Taux V = "1.800"/>
+<Mt V = "37.37"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968481"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. ASSEDIC TR A"/>
+<Code V = "851C"/>
+<Base V = "2075.91"/>
+<Taux V = "4.000"/>
+<Mt V = "83.04"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "ASSED"/>
+<Ordre V = "9968511"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. MEDECINE PROF."/>
+<Code V = "874C"/>
+<Base V = "2075.91"/>
+<Taux V = "0.350"/>
+<Mt V = "7.26"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "CDG"/>
+<Ordre V = "9968741"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT.FNAL TOT. R.G"/>
+<Code V = "886C"/>
+<Base V = "2075.91"/>
+<Taux V = "0.400"/>
+<Mt V = "8.3"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9948861"/>
+</Cotisation>
+</Remuneration>
+<NbHeureTotal V = "151.67"/>
+<NbHeureSup V = "0"/>
+<MtBrut V = "2075.91"/>
+<MtNet V = "1590.81"/>
+<MtNetAPayer V = "1590.81"/>
+<DatePaiement V = "2009-04-17"/>
+<MtImposable V = "1658.27"/>
+<CumulMtImposable V = "6725.00"/>
+<CumulMtBrut V = "8446.50"/>
+<CumulBaseSS V = "8446.50"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<Prenom V = "Z"/>
+<Matricule V = "200 T"/>
+<NIR  V = "27302Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr2 V = "Z"/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "NON_TITULAIRE"/>
+<EmploiMetier V = "TECHNICIEN ASSAINISSEMENT"/>
+<Grade V = ""/>
+<Echelon V = ""/>
+<Indice V = "0"/>
+<CptBancaire>
+<CodeEtab V = "30004"/>
+<CodeGuic V = "00610"/>
+<IdCpte V = "Z"/>
+<CleRib V = "36"/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = "ASS SERVICE DIRECTION"/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100"/>
+<Periode>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</Periode>
+<Remuneration>
+<TraitBrut>
+<Libelle V = "TRAITEMENT DE BASE"/>
+<Code V = "011N"/>
+<Mt V = "2209.07"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<Ordre V = "110111"/>
+</TraitBrut>
+<Indemnite>
+<Libelle V = "PRIME SERVICE"/>
+<Code V = "230N"/>
+<Taux V = "13.500"/>
+<NbUnite V = "2209.07"/>
+<Mt V = "298.22"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "PAYEUR"/>
+<Ordre V = "122301"/>
+</Indemnite>
+<Deduction>
+<Libelle V = "COT. SS VIEIL. RG"/>
+<Code V = "804C"/>
+<Taux V = "6.650"/>
+<NbUnite V = "2507.29"/>
+<Mt V = "166.73"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968041"/>
+</Deduction>
+<Deduction>
+<Libelle V = "COT. SS TOT. RG"/>
+<Code V = "810C"/>
+<Taux V = "0.850"/>
+<NbUnite V = "2507.29"/>
+<Mt V = "21.31"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968101"/>
+</Deduction>
+<Deduction>
+<Libelle V = "COT. IRCANTEC A"/>
+<Code V = "840C"/>
+<Taux V = "2.250"/>
+<NbUnite V = "2507.29"/>
+<Mt V = "56.41"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "IRCANT"/>
+<Ordre V = "9968401"/>
+</Deduction>
+<Deduction>
+<Libelle V = "R.D.S."/>
+<Code V = "844C"/>
+<Taux V = "0.500"/>
+<NbUnite V = "2574.75"/>
+<Mt V = "12.87"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968441"/>
+</Deduction>
+<Deduction>
+<Libelle V = "COT. ASSEDIC TR A"/>
+<Code V = "850C"/>
+<Taux V = "2.400"/>
+<NbUnite V = "2507.29"/>
+<Mt V = "60.17"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "ASSED"/>
+<Ordre V = "9968501"/>
+</Deduction>
+<Deduction>
+<Libelle V = "CSG DEDUCTIBLE 1%"/>
+<Code V = "859C"/>
+<Taux V = "5.100"/>
+<NbUnite V = "2574.75"/>
+<Mt V = "131.31"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968591"/>
+</Deduction>
+<Deduction>
+<Libelle V = "CONT.SCIAL.GAL"/>
+<Code V = "869C"/>
+<Taux V = "2.400"/>
+<NbUnite V = "2574.75"/>
+<Mt V = "61.79"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968691"/>
+</Deduction>
+<Retenue>
+<Libelle V = "URRPIMMEC F. SANTE"/>
+<Code V = "406M"/>
+<Taux V = "1.950"/>
+<NbUnite V = "2859"/>
+<Mt V = "55.75"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URPIM"/>
+<Ordre V = "154061"/>
+</Retenue>
+<Retenue>
+<Libelle V = "SUB URRPIMMEC F.S."/>
+<Code V = "407M"/>
+<Taux V = "3.900"/>
+<NbUnite V = "2859"/>
+<Mt V = "111.5"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URPIM"/>
+<Ordre V = "154071"/>
+</Retenue>
+<Retenue>
+<Libelle V = "URRPIMMEC INCAPACITE"/>
+<Code V = "422M"/>
+<Taux V = "0.630"/>
+<NbUnite V = "2507.29"/>
+<Mt V = "15.79"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URPIM"/>
+<Ordre V = "154221"/>
+</Retenue>
+<Retenue>
+<Libelle V = "GRAS SAVOYE"/>
+<Code V = "424M"/>
+<Taux V = "0.790"/>
+<NbUnite V = "2507.29"/>
+<Mt V = "19.8"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "GRASS"/>
+<Ordre V = "154241"/>
+</Retenue>
+<Retenue>
+<Libelle V = "COS 38 PO"/>
+<Code V = "423M"/>
+<Taux V = "0.100"/>
+<NbUnite V = "2209.07"/>
+<Mt V = "2.2"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "COS"/>
+<Ordre V = "9954231"/>
+</Retenue>
+<Retenue>
+<Libelle V = "TAXE PREVOYANCE"/>
+<Code V = "845N"/>
+<Taux V = "8.000"/>
+<NbUnite V = "147.09"/>
+<Mt V = "11.76"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9958451"/>
+</Retenue>
+<Cotisation>
+<Libelle V = "COS 38 PP"/>
+<Code V = "426M"/>
+<Base V = "2209.07"/>
+<Taux V = "0.850"/>
+<Mt V = "18.77"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "COS"/>
+<Ordre V = "9954261"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. SS VIEIL. RG"/>
+<Code V = "805C"/>
+<Base V = "2507.29"/>
+<Taux V = "8.300"/>
+<Mt V = "208.11"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968051"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT.VIEILL.TOT. RG"/>
+<Code V = "807C"/>
+<Base V = "2507.29"/>
+<Taux V = "1.600"/>
+<Mt V = "40.12"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968071"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. SS TOT. RG"/>
+<Code V = "811C"/>
+<Base V = "2507.29"/>
+<Taux V = "13.100"/>
+<Mt V = "328.45"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968111"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. FNAL PAT. R.G."/>
+<Code V = "824C"/>
+<Base V = "2507.29"/>
+<Taux V = "0.100"/>
+<Mt V = "2.51"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968241"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT.ALL.FAM/.TOT.RG"/>
+<Code V = "826C"/>
+<Base V = "2507.29"/>
+<Taux V = "5.400"/>
+<Mt V = "135.39"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968261"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. ACC. TRAV. RG"/>
+<Code V = "827C"/>
+<Base V = "2507.29"/>
+<Taux V = "0.990"/>
+<Mt V = "24.82"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968271"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. IRCANTEC A"/>
+<Code V = "841C"/>
+<Base V = "2507.29"/>
+<Taux V = "3.380"/>
+<Mt V = "84.75"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "IRCANT"/>
+<Ordre V = "9968411"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "TAXE TRANSPORT T. RG"/>
+<Code V = "848C"/>
+<Base V = "2507.29"/>
+<Taux V = "1.800"/>
+<Mt V = "45.13"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968481"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. ASSEDIC TR A"/>
+<Code V = "851C"/>
+<Base V = "2507.29"/>
+<Taux V = "4.000"/>
+<Mt V = "100.29"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "ASSED"/>
+<Ordre V = "9968511"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. MEDECINE PROF."/>
+<Code V = "874C"/>
+<Base V = "2507.29"/>
+<Taux V = "0.350"/>
+<Mt V = "8.77"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "CDG"/>
+<Ordre V = "9968741"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT.FNAL TOT. R.G"/>
+<Code V = "886C"/>
+<Base V = "2507.29"/>
+<Taux V = "0.400"/>
+<Mt V = "10.03"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9948861"/>
+</Cotisation>
+</Remuneration>
+<NbHeureTotal V = "151.67"/>
+<NbHeureSup V = "0"/>
+<MtBrut V = "2507.29"/>
+<MtNet V = "1938.75"/>
+<MtNetAPayer V = "1938.75"/>
+<DatePaiement V = "2009-04-17"/>
+<MtImposable V = "2015.61"/>
+<CumulMtImposable V = "8173.76"/>
+<CumulMtBrut V = "10155.38"/>
+<CumulBaseSS V = "10116.48"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<Prenom V = "Z"/>
+<Matricule V = "205 Y"/>
+<NIR  V = "15602Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr2 V = "Z"/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "NON_TITULAIRE"/>
+<EmploiMetier V = "CHAUFFEUR SPECIALISE"/>
+<Grade V = ""/>
+<Echelon V = ""/>
+<Indice V = "0"/>
+<CptBancaire>
+<CodeEtab V = "30002"/>
+<CodeGuic V = "02648"/>
+<IdCpte V = "Z"/>
+<CleRib V = "27"/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = "ASS SECTEUR 3"/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100"/>
+<Periode>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</Periode>
+<Remuneration>
+<TraitBrut>
+<Libelle V = "TRAITEMENT DE BASE"/>
+<Code V = "011N"/>
+<Mt V = "1890.12"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<Ordre V = "110111"/>
+</TraitBrut>
+<Indemnite>
+<Libelle V = "PRIME SERVICE"/>
+<Code V = "230N"/>
+<Taux V = "14.760"/>
+<NbUnite V = "1890.12"/>
+<Mt V = "278.98"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "PAYEUR"/>
+<Ordre V = "122301"/>
+</Indemnite>
+<Deduction>
+<Libelle V = "COT. SS VIEIL. RG"/>
+<Code V = "804C"/>
+<Taux V = "6.650"/>
+<NbUnite V = "2169.1"/>
+<Mt V = "144.25"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968041"/>
+</Deduction>
+<Deduction>
+<Libelle V = "COT. SS TOT. RG"/>
+<Code V = "810C"/>
+<Taux V = "0.850"/>
+<NbUnite V = "2169.1"/>
+<Mt V = "18.44"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968101"/>
+</Deduction>
+<Deduction>
+<Libelle V = "COT. IRCANTEC A"/>
+<Code V = "840C"/>
+<Taux V = "2.250"/>
+<NbUnite V = "2169.1"/>
+<Mt V = "48.8"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "IRCANT"/>
+<Ordre V = "9968401"/>
+</Deduction>
+<Deduction>
+<Libelle V = "R.D.S."/>
+<Code V = "844C"/>
+<Taux V = "0.500"/>
+<NbUnite V = "2242.05"/>
+<Mt V = "11.21"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968441"/>
+</Deduction>
+<Deduction>
+<Libelle V = "COT. ASSEDIC TR A"/>
+<Code V = "850C"/>
+<Taux V = "2.400"/>
+<NbUnite V = "2169.1"/>
+<Mt V = "52.06"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "ASSED"/>
+<Ordre V = "9968501"/>
+</Deduction>
+<Deduction>
+<Libelle V = "CSG DEDUCTIBLE 1%"/>
+<Code V = "859C"/>
+<Taux V = "5.100"/>
+<NbUnite V = "2242.05"/>
+<Mt V = "114.34"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968591"/>
+</Deduction>
+<Deduction>
+<Libelle V = "CONT.SCIAL.GAL"/>
+<Code V = "869C"/>
+<Taux V = "2.400"/>
+<NbUnite V = "2242.05"/>
+<Mt V = "53.81"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968691"/>
+</Deduction>
+<Retenue>
+<Libelle V = "URRPIMMEC F. SANTE"/>
+<Code V = "406M"/>
+<Taux V = "1.950"/>
+<NbUnite V = "2859"/>
+<Mt V = "55.75"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URPIM"/>
+<Ordre V = "154061"/>
+</Retenue>
+<Retenue>
+<Libelle V = "SUB URRPIMMEC F.S."/>
+<Code V = "407M"/>
+<Taux V = "3.900"/>
+<NbUnite V = "2859"/>
+<Mt V = "111.5"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URPIM"/>
+<Ordre V = "154071"/>
+</Retenue>
+<Retenue>
+<Libelle V = "AGF MONTANT 2"/>
+<Code V = "417M"/>
+<Mt V = "3.3"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "AGF"/>
+<Ordre V = "154171"/>
+</Retenue>
+<Retenue>
+<Libelle V = "URRPIMMEC INCAPACITE"/>
+<Code V = "422M"/>
+<Taux V = "0.630"/>
+<NbUnite V = "2169.1"/>
+<Mt V = "13.66"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URPIM"/>
+<Ordre V = "154221"/>
+</Retenue>
+<Retenue>
+<Libelle V = "GRAS SAVOYE"/>
+<Code V = "424M"/>
+<Taux V = "0.790"/>
+<NbUnite V = "2169.1"/>
+<Mt V = "17.13"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "GRASS"/>
+<Ordre V = "154241"/>
+</Retenue>
+<Retenue>
+<Libelle V = "COS 38 PO"/>
+<Code V = "423M"/>
+<Taux V = "0.100"/>
+<NbUnite V = "1890.12"/>
+<Mt V = "1.89"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "COS"/>
+<Ordre V = "9954231"/>
+</Retenue>
+<Retenue>
+<Libelle V = "TAXE PREVOYANCE"/>
+<Code V = "845N"/>
+<Taux V = "8.000"/>
+<NbUnite V = "142.29"/>
+<Mt V = "11.38"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9958451"/>
+</Retenue>
+<Cotisation>
+<Libelle V = "COS 38 PP"/>
+<Code V = "426M"/>
+<Base V = "1890.12"/>
+<Taux V = "0.850"/>
+<Mt V = "16.06"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "COS"/>
+<Ordre V = "9954261"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. SS VIEIL. RG"/>
+<Code V = "805C"/>
+<Base V = "2169.1"/>
+<Taux V = "8.300"/>
+<Mt V = "180.04"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968051"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT.VIEILL.TOT. RG"/>
+<Code V = "807C"/>
+<Base V = "2169.1"/>
+<Taux V = "1.600"/>
+<Mt V = "34.71"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968071"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. SS TOT. RG"/>
+<Code V = "811C"/>
+<Base V = "2169.1"/>
+<Taux V = "13.100"/>
+<Mt V = "284.15"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968111"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. FNAL PAT. R.G."/>
+<Code V = "824C"/>
+<Base V = "2169.1"/>
+<Taux V = "0.100"/>
+<Mt V = "2.17"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968241"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT.ALL.FAM/.TOT.RG"/>
+<Code V = "826C"/>
+<Base V = "2169.1"/>
+<Taux V = "5.400"/>
+<Mt V = "117.13"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968261"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. ACC. TRAV. RG"/>
+<Code V = "827C"/>
+<Base V = "2169.1"/>
+<Taux V = "0.990"/>
+<Mt V = "21.47"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968271"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. IRCANTEC A"/>
+<Code V = "841C"/>
+<Base V = "2169.1"/>
+<Taux V = "3.380"/>
+<Mt V = "73.32"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "IRCANT"/>
+<Ordre V = "9968411"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "TAXE TRANSPORT T. RG"/>
+<Code V = "848C"/>
+<Base V = "2169.1"/>
+<Taux V = "1.800"/>
+<Mt V = "39.04"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968481"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. ASSEDIC TR A"/>
+<Code V = "851C"/>
+<Base V = "2169.1"/>
+<Taux V = "4.000"/>
+<Mt V = "86.76"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "ASSED"/>
+<Ordre V = "9968511"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. MEDECINE PROF."/>
+<Code V = "874C"/>
+<Base V = "2169.1"/>
+<Taux V = "0.350"/>
+<Mt V = "7.59"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "CDG"/>
+<Ordre V = "9968741"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT.FNAL TOT. R.G"/>
+<Code V = "886C"/>
+<Base V = "2169.1"/>
+<Taux V = "0.400"/>
+<Mt V = "8.68"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9948861"/>
+</Cotisation>
+</Remuneration>
+<NbHeureTotal V = "151.67"/>
+<NbHeureSup V = "0"/>
+<MtBrut V = "2169.1"/>
+<MtNet V = "1665.25"/>
+<MtNetAPayer V = "1665.25"/>
+<DatePaiement V = "2009-04-17"/>
+<MtImposable V = "1735.46"/>
+<CumulMtImposable V = "7453.64"/>
+<CumulMtBrut V = "10283.97"/>
+<CumulBaseSS V = "10250.36"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<Prenom V = "Z"/>
+<Matricule V = "212 F"/>
+<NIR  V = "16809Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr2 V = "Z"/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "NON_TITULAIRE"/>
+<EmploiMetier V = "OUVRIER EGOUTIER"/>
+<Grade V = ""/>
+<Echelon V = ""/>
+<Indice V = "0"/>
+<CptBancaire>
+<CodeEtab V = "30004"/>
+<CodeGuic V = "02103"/>
+<IdCpte V = "Z"/>
+<CleRib V = "67"/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = "ASS SECTEUR 3"/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100"/>
+<Periode>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</Periode>
+<Remuneration>
+<TraitBrut>
+<Libelle V = "TRAITEMENT DE BASE"/>
+<Code V = "011N"/>
+<Mt V = "1808.92"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<Ordre V = "110111"/>
+</TraitBrut>
+<Indemnite>
+<Libelle V = "PRIME SERVICE"/>
+<Code V = "230N"/>
+<Taux V = "14.690"/>
+<NbUnite V = "1808.92"/>
+<Mt V = "265.73"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "PAYEUR"/>
+<Ordre V = "122301"/>
+</Indemnite>
+<Indemnite>
+<Libelle V = "ASTR. NORM. AGT EXC."/>
+<Code V = "733N"/>
+<Taux V = "1.000"/>
+<NbUnite V = "234"/>
+<Mt V = "234"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "PAYEUR"/>
+<Ordre V = "147331"/>
+</Indemnite>
+<Deduction>
+<Libelle V = "COT. SS VIEIL. RG"/>
+<Code V = "804C"/>
+<Taux V = "6.650"/>
+<NbUnite V = "2859"/>
+<Mt V = "190.12"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968041"/>
+</Deduction>
+<Deduction>
+<Libelle V = "COT. SS TOT. RG"/>
+<Code V = "810C"/>
+<Taux V = "0.850"/>
+<NbUnite V = "2308.65"/>
+<Mt V = "19.62"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968101"/>
+</Deduction>
+<Deduction>
+<Libelle V = "COT. IRCANTEC A"/>
+<Code V = "840C"/>
+<Taux V = "2.250"/>
+<NbUnite V = "2859"/>
+<Mt V = "64.33"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "IRCANT"/>
+<Ordre V = "9968401"/>
+</Deduction>
+<Deduction>
+<Libelle V = "COT. IRCANTEC B"/>
+<Code V = "842C"/>
+<Taux V = "5.950"/>
+<NbUnite V = "-550.35"/>
+<Mt V = "-32.75"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "IRCANT"/>
+<Ordre V = "9968421"/>
+</Deduction>
+<Deduction>
+<Libelle V = "R.D.S."/>
+<Code V = "844C"/>
+<Taux V = "0.500"/>
+<NbUnite V = "2379.33"/>
+<Mt V = "11.89"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968441"/>
+</Deduction>
+<Deduction>
+<Libelle V = "COT. ASSEDIC TR A"/>
+<Code V = "850C"/>
+<Taux V = "2.400"/>
+<NbUnite V = "2859"/>
+<Mt V = "68.62"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "ASSED"/>
+<Ordre V = "9968501"/>
+</Deduction>
+<Deduction>
+<Libelle V = "COT. ASSEDIC TR B"/>
+<Code V = "852C"/>
+<Taux V = "2.400"/>
+<NbUnite V = "-550.35"/>
+<Mt V = "-13.21"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "ASSED"/>
+<Ordre V = "9968521"/>
+</Deduction>
+<Deduction>
+<Libelle V = "CSG DEDUCTIBLE 1%"/>
+<Code V = "859C"/>
+<Taux V = "5.100"/>
+<NbUnite V = "2379.33"/>
+<Mt V = "121.34"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968591"/>
+</Deduction>
+<Deduction>
+<Libelle V = "CONT.SCIAL.GAL"/>
+<Code V = "869C"/>
+<Taux V = "2.400"/>
+<NbUnite V = "2379.33"/>
+<Mt V = "57.1"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968691"/>
+</Deduction>
+<Rappel>
+<Libelle V = "R. URPIMMEC INCAP."/>
+<Code V = "422A"/>
+<NbUnite V = "-596.33"/>
+<Mt V = "-3.76"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URPIM"/>
+<Ordre V = "154223"/>
+</Rappel>
+<Rappel>
+<Libelle V = "R. GRAS SAVOYE"/>
+<Code V = "424A"/>
+<NbUnite V = "-596.33"/>
+<Mt V = "-4.71"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "GRASS"/>
+<Ordre V = "154243"/>
+</Rappel>
+<Rappel>
+<Libelle V = "R.D.S."/>
+<Code V = "844A"/>
+<Taux V = "0.500"/>
+<NbUnite V = "-8.22"/>
+<Mt V = "-0.04"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968443"/>
+</Rappel>
+<Rappel>
+<Libelle V = "R. TAXE PREVOYANCE"/>
+<Code V = "845A"/>
+<Taux V = "8.000"/>
+<NbUnite V = "-8.47"/>
+<Mt V = "-0.68"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9958453"/>
+</Rappel>
+<Rappel>
+<Libelle V = "CSG DEDUCTIBLE 1%"/>
+<Code V = "859A"/>
+<Taux V = "5.100"/>
+<NbUnite V = "-8.22"/>
+<Mt V = "-0.42"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9958593"/>
+</Rappel>
+<Rappel>
+<Libelle V = "RAP CONT.SOC.GEN."/>
+<Code V = "869A"/>
+<Taux V = "2.400"/>
+<NbUnite V = "-8.22"/>
+<Mt V = "-0.2"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9958693"/>
+</Rappel>
+<Retenue>
+<Libelle V = "URRPIMMEC F. SANTE"/>
+<Code V = "406M"/>
+<Taux V = "1.950"/>
+<NbUnite V = "2859"/>
+<Mt V = "55.75"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URPIM"/>
+<Ordre V = "154061"/>
+</Retenue>
+<Retenue>
+<Libelle V = "SUB URRPIMMEC F.S."/>
+<Code V = "407M"/>
+<Taux V = "3.900"/>
+<NbUnite V = "2859"/>
+<Mt V = "111.5"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URPIM"/>
+<Ordre V = "154071"/>
+</Retenue>
+<Retenue>
+<Libelle V = "AGF MONTANT 2"/>
+<Code V = "417M"/>
+<Mt V = "3.3"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "AGF"/>
+<Ordre V = "154171"/>
+</Retenue>
+<Retenue>
+<Libelle V = "URRPIMMEC INCAPACITE"/>
+<Code V = "422M"/>
+<Taux V = "0.630"/>
+<NbUnite V = "2308.65"/>
+<Mt V = "14.54"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URPIM"/>
+<Ordre V = "154221"/>
+</Retenue>
+<Retenue>
+<Libelle V = "GRAS SAVOYE"/>
+<Code V = "424M"/>
+<Taux V = "0.790"/>
+<NbUnite V = "2308.65"/>
+<Mt V = "18.23"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "GRASS"/>
+<Ordre V = "154241"/>
+</Retenue>
+<Retenue>
+<Libelle V = "COS 38 PO"/>
+<Code V = "423M"/>
+<Taux V = "0.100"/>
+<NbUnite V = "1808.92"/>
+<Mt V = "1.8"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "COS"/>
+<Ordre V = "9954231"/>
+</Retenue>
+<Retenue>
+<Libelle V = "TAXE PREVOYANCE"/>
+<Code V = "845N"/>
+<Taux V = "8.000"/>
+<NbUnite V = "144.27"/>
+<Mt V = "11.54"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9958451"/>
+</Retenue>
+<Cotisation>
+<Libelle V = "COS 38 PP"/>
+<Code V = "426M"/>
+<Base V = "1808.92"/>
+<Taux V = "0.850"/>
+<Mt V = "15.37"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "COS"/>
+<Ordre V = "9954261"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. SS VIEIL. RG"/>
+<Code V = "805C"/>
+<Base V = "2859"/>
+<Taux V = "8.300"/>
+<Mt V = "237.3"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968051"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT.VIEILL.TOT. RG"/>
+<Code V = "807C"/>
+<Base V = "2308.65"/>
+<Taux V = "1.600"/>
+<Mt V = "36.94"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968071"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. SS TOT. RG"/>
+<Code V = "811C"/>
+<Base V = "2308.65"/>
+<Taux V = "13.100"/>
+<Mt V = "302.43"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968111"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. FNAL PAT. R.G."/>
+<Code V = "824C"/>
+<Base V = "2859"/>
+<Taux V = "0.100"/>
+<Mt V = "2.86"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968241"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT.ALL.FAM/.TOT.RG"/>
+<Code V = "826C"/>
+<Base V = "2308.65"/>
+<Taux V = "5.400"/>
+<Mt V = "124.67"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968261"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. ACC. TRAV. RG"/>
+<Code V = "827C"/>
+<Base V = "2308.65"/>
+<Taux V = "0.990"/>
+<Mt V = "22.86"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968271"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. IRCANTEC A"/>
+<Code V = "841C"/>
+<Base V = "2859"/>
+<Taux V = "3.380"/>
+<Mt V = "96.63"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "IRCANT"/>
+<Ordre V = "9968411"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. IRCANTEC B"/>
+<Code V = "843C"/>
+<Base V = "-550.35"/>
+<Taux V = "11.550"/>
+<Mt V = "-63.57"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "IRCANT"/>
+<Ordre V = "9968431"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "TAXE TRANSPORT T. RG"/>
+<Code V = "848C"/>
+<Base V = "2308.65"/>
+<Taux V = "1.800"/>
+<Mt V = "41.56"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968481"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. ASSEDIC TR A"/>
+<Code V = "851C"/>
+<Base V = "2308.65"/>
+<Taux V = "4.000"/>
+<Mt V = "92.35"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "ASSED"/>
+<Ordre V = "9968511"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. MEDECINE PROF."/>
+<Code V = "874C"/>
+<Base V = "2308.65"/>
+<Taux V = "0.350"/>
+<Mt V = "8.08"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "CDG"/>
+<Ordre V = "9968741"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT.FNAL TOT. R.G"/>
+<Code V = "886C"/>
+<Base V = "2308.65"/>
+<Taux V = "0.400"/>
+<Mt V = "9.23"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9948861"/>
+</Cotisation>
+</Remuneration>
+<NbHeureTotal V = "151.67"/>
+<NbHeureSup V = "0"/>
+<MtBrut V = "2308.65"/>
+<MtNet V = "1761.4"/>
+<MtNetAPayer V = "1761.4"/>
+<DatePaiement V = "2009-04-17"/>
+<MtImposable V = "1835.01"/>
+<CumulMtImposable V = "9383.78"/>
+<CumulMtBrut V = "13074.28"/>
+<CumulBaseSS V = "11436"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<Prenom V = "Z"/>
+<Matricule V = "222 S"/>
+<NIR  V = "15608Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr2 V = "Z"/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "NON_TITULAIRE"/>
+<EmploiMetier V = "CONDUCTEUR SPECIALISE"/>
+<Grade V = ""/>
+<Echelon V = ""/>
+<Indice V = "0"/>
+<CptBancaire>
+<CodeEtab V = "13825"/>
+<CodeGuic V = "00200"/>
+<IdCpte V = "Z"/>
+<CleRib V = "54"/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = "ASS SECTEUR 3"/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100"/>
+<Periode>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</Periode>
+<Remuneration>
+<TraitBrut>
+<Libelle V = "TRAITEMENT DE BASE"/>
+<Code V = "011N"/>
+<Mt V = "1890.12"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<Ordre V = "110111"/>
+</TraitBrut>
+<Indemnite>
+<Libelle V = "PRIME SERVICE"/>
+<Code V = "230N"/>
+<Taux V = "14.690"/>
+<NbUnite V = "1890.12"/>
+<Mt V = "277.65"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "PAYEUR"/>
+<Ordre V = "122301"/>
+</Indemnite>
+<Indemnite>
+<Libelle V = "ASTR. NORM. AGT EXC."/>
+<Code V = "733N"/>
+<Taux V = "1.000"/>
+<NbUnite V = "234"/>
+<Mt V = "234"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "PAYEUR"/>
+<Ordre V = "147331"/>
+</Indemnite>
+<Deduction>
+<Libelle V = "COT. SS VIEIL. RG"/>
+<Code V = "804C"/>
+<Taux V = "6.650"/>
+<NbUnite V = "2696.53"/>
+<Mt V = "179.32"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968041"/>
+</Deduction>
+<Deduction>
+<Libelle V = "COT. SS TOT. RG"/>
+<Code V = "810C"/>
+<Taux V = "0.850"/>
+<NbUnite V = "2401.77"/>
+<Mt V = "20.42"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968101"/>
+</Deduction>
+<Deduction>
+<Libelle V = "COT. IRCANTEC A"/>
+<Code V = "840C"/>
+<Taux V = "2.250"/>
+<NbUnite V = "2696.53"/>
+<Mt V = "60.67"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "IRCANT"/>
+<Ordre V = "9968401"/>
+</Deduction>
+<Deduction>
+<Libelle V = "COT. IRCANTEC B"/>
+<Code V = "842C"/>
+<Taux V = "5.950"/>
+<NbUnite V = "-294.76"/>
+<Mt V = "-17.54"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "IRCANT"/>
+<Ordre V = "9968421"/>
+</Deduction>
+<Deduction>
+<Libelle V = "R.D.S."/>
+<Code V = "844C"/>
+<Taux V = "0.500"/>
+<NbUnite V = "2470.95"/>
+<Mt V = "12.35"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968441"/>
+</Deduction>
+<Deduction>
+<Libelle V = "COT. ASSEDIC TR A"/>
+<Code V = "850C"/>
+<Taux V = "2.400"/>
+<NbUnite V = "2696.53"/>
+<Mt V = "64.72"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "ASSED"/>
+<Ordre V = "9968501"/>
+</Deduction>
+<Deduction>
+<Libelle V = "COT. ASSEDIC TR B"/>
+<Code V = "852C"/>
+<Taux V = "2.400"/>
+<NbUnite V = "-294.76"/>
+<Mt V = "-7.07"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "ASSED"/>
+<Ordre V = "9968521"/>
+</Deduction>
+<Deduction>
+<Libelle V = "CSG DEDUCTIBLE 1%"/>
+<Code V = "859C"/>
+<Taux V = "5.100"/>
+<NbUnite V = "2470.95"/>
+<Mt V = "126.01"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968591"/>
+</Deduction>
+<Deduction>
+<Libelle V = "CONT.SCIAL.GAL"/>
+<Code V = "869C"/>
+<Taux V = "2.400"/>
+<NbUnite V = "2470.95"/>
+<Mt V = "59.3"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968691"/>
+</Deduction>
+<Retenue>
+<Libelle V = "URRPIMMEC F. SANTE"/>
+<Code V = "406M"/>
+<Taux V = "1.950"/>
+<NbUnite V = "2859"/>
+<Mt V = "55.75"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URPIM"/>
+<Ordre V = "154061"/>
+</Retenue>
+<Retenue>
+<Libelle V = "SUB URRPIMMEC F.S."/>
+<Code V = "407M"/>
+<Taux V = "3.900"/>
+<NbUnite V = "2859"/>
+<Mt V = "111.5"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URPIM"/>
+<Ordre V = "154071"/>
+</Retenue>
+<Retenue>
+<Libelle V = "AGF MONTANT 2"/>
+<Code V = "417M"/>
+<Mt V = "3.3"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "AGF"/>
+<Ordre V = "154171"/>
+</Retenue>
+<Retenue>
+<Libelle V = "URRPIMMEC INCAPACITE"/>
+<Code V = "422M"/>
+<Taux V = "0.630"/>
+<NbUnite V = "2401.77"/>
+<Mt V = "15.13"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URPIM"/>
+<Ordre V = "154221"/>
+</Retenue>
+<Retenue>
+<Libelle V = "GRAS SAVOYE"/>
+<Code V = "424M"/>
+<Taux V = "0.790"/>
+<NbUnite V = "2401.77"/>
+<Mt V = "18.97"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "GRASS"/>
+<Ordre V = "154241"/>
+</Retenue>
+<Retenue>
+<Libelle V = "COS 38 PO"/>
+<Code V = "423M"/>
+<Taux V = "0.100"/>
+<NbUnite V = "1890.12"/>
+<Mt V = "1.89"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "COS"/>
+<Ordre V = "9954231"/>
+</Retenue>
+<Retenue>
+<Libelle V = "TAXE PREVOYANCE"/>
+<Code V = "845N"/>
+<Taux V = "8.000"/>
+<NbUnite V = "145.6"/>
+<Mt V = "11.64"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9958451"/>
+</Retenue>
+<Cotisation>
+<Libelle V = "COS 38 PP"/>
+<Code V = "426M"/>
+<Base V = "1890.12"/>
+<Taux V = "0.850"/>
+<Mt V = "16.06"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "COS"/>
+<Ordre V = "9954261"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. SS VIEIL. RG"/>
+<Code V = "805C"/>
+<Base V = "2696.53"/>
+<Taux V = "8.300"/>
+<Mt V = "223.81"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968051"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT.VIEILL.TOT. RG"/>
+<Code V = "807C"/>
+<Base V = "2401.77"/>
+<Taux V = "1.600"/>
+<Mt V = "38.43"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968071"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. SS TOT. RG"/>
+<Code V = "811C"/>
+<Base V = "2401.77"/>
+<Taux V = "13.100"/>
+<Mt V = "314.63"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968111"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. FNAL PAT. R.G."/>
+<Code V = "824C"/>
+<Base V = "2696.53"/>
+<Taux V = "0.100"/>
+<Mt V = "2.7"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968241"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT.ALL.FAM/.TOT.RG"/>
+<Code V = "826C"/>
+<Base V = "2401.77"/>
+<Taux V = "5.400"/>
+<Mt V = "129.7"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968261"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. ACC. TRAV. RG"/>
+<Code V = "827C"/>
+<Base V = "2401.77"/>
+<Taux V = "0.990"/>
+<Mt V = "23.78"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968271"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. IRCANTEC A"/>
+<Code V = "841C"/>
+<Base V = "2696.53"/>
+<Taux V = "3.380"/>
+<Mt V = "91.14"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "IRCANT"/>
+<Ordre V = "9968411"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. IRCANTEC B"/>
+<Code V = "843C"/>
+<Base V = "-294.76"/>
+<Taux V = "11.550"/>
+<Mt V = "-34.04"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "IRCANT"/>
+<Ordre V = "9968431"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "TAXE TRANSPORT T. RG"/>
+<Code V = "848C"/>
+<Base V = "2401.77"/>
+<Taux V = "1.800"/>
+<Mt V = "43.23"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968481"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. ASSEDIC TR A"/>
+<Code V = "851C"/>
+<Base V = "2401.77"/>
+<Taux V = "4.000"/>
+<Mt V = "96.07"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "ASSED"/>
+<Ordre V = "9968511"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. MEDECINE PROF."/>
+<Code V = "874C"/>
+<Base V = "2401.77"/>
+<Taux V = "0.350"/>
+<Mt V = "8.4"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "CDG"/>
+<Ordre V = "9968741"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT.FNAL TOT. R.G"/>
+<Code V = "886C"/>
+<Base V = "2401.77"/>
+<Taux V = "0.400"/>
+<Mt V = "9.61"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9948861"/>
+</Cotisation>
+</Remuneration>
+<NbHeureTotal V = "151.67"/>
+<NbHeureSup V = "0"/>
+<MtBrut V = "2401.77"/>
+<MtNet V = "1842.65"/>
+<MtNetAPayer V = "1842.65"/>
+<DatePaiement V = "2009-04-17"/>
+<MtImposable V = "1919.49"/>
+<CumulMtImposable V = "8045.08"/>
+<CumulMtBrut V = "11273.53"/>
+<CumulBaseSS V = "11273.53"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<Prenom V = "Z"/>
+<Matricule V = "231 B"/>
+<NIR  V = "17107Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr2 V = "Z"/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "NON_TITULAIRE"/>
+<EmploiMetier V = "SURVEILLANT DE TRAVAUX"/>
+<Grade V = ""/>
+<Echelon V = ""/>
+<Indice V = "0"/>
+<CptBancaire>
+<CodeEtab V = "13825"/>
+<CodeGuic V = "00200"/>
+<IdCpte V = "Z"/>
+<CleRib V = "03"/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = "ASS COORDINATION TECHNIQUE"/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100"/>
+<Periode>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</Periode>
+<Remuneration>
+<TraitBrut>
+<Libelle V = "TRAITEMENT DE BASE"/>
+<Code V = "011N"/>
+<Mt V = "2291.59"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<Ordre V = "110111"/>
+</TraitBrut>
+<Indemnite>
+<Libelle V = "PRIME SERVICE"/>
+<Code V = "230N"/>
+<Taux V = "13.980"/>
+<NbUnite V = "2291.59"/>
+<Mt V = "320.36"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "PAYEUR"/>
+<Ordre V = "122301"/>
+</Indemnite>
+<Deduction>
+<Libelle V = "COT. SS VIEIL. RG"/>
+<Code V = "804C"/>
+<Taux V = "6.650"/>
+<NbUnite V = "2611.95"/>
+<Mt V = "173.69"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968041"/>
+</Deduction>
+<Deduction>
+<Libelle V = "COT. SS TOT. RG"/>
+<Code V = "810C"/>
+<Taux V = "0.850"/>
+<NbUnite V = "2611.95"/>
+<Mt V = "22.2"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968101"/>
+</Deduction>
+<Deduction>
+<Libelle V = "COT. IRCANTEC A"/>
+<Code V = "840C"/>
+<Taux V = "2.250"/>
+<NbUnite V = "2611.95"/>
+<Mt V = "58.77"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "IRCANT"/>
+<Ordre V = "9968401"/>
+</Deduction>
+<Deduction>
+<Libelle V = "R.D.S."/>
+<Code V = "844C"/>
+<Taux V = "0.500"/>
+<NbUnite V = "2677.71"/>
+<Mt V = "13.38"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968441"/>
+</Deduction>
+<Deduction>
+<Libelle V = "COT. ASSEDIC TR A"/>
+<Code V = "850C"/>
+<Taux V = "2.400"/>
+<NbUnite V = "2611.95"/>
+<Mt V = "62.69"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "ASSED"/>
+<Ordre V = "9968501"/>
+</Deduction>
+<Deduction>
+<Libelle V = "CSG DEDUCTIBLE 1%"/>
+<Code V = "859C"/>
+<Taux V = "5.100"/>
+<NbUnite V = "2677.71"/>
+<Mt V = "136.56"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968591"/>
+</Deduction>
+<Deduction>
+<Libelle V = "CONT.SCIAL.GAL"/>
+<Code V = "869C"/>
+<Taux V = "2.400"/>
+<NbUnite V = "2677.71"/>
+<Mt V = "64.27"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968691"/>
+</Deduction>
+<Retenue>
+<Libelle V = "URRPIMMEC F. SANTE"/>
+<Code V = "406M"/>
+<Taux V = "1.950"/>
+<NbUnite V = "2859"/>
+<Mt V = "55.75"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URPIM"/>
+<Ordre V = "154061"/>
+</Retenue>
+<Retenue>
+<Libelle V = "SUB URRPIMMEC F.S."/>
+<Code V = "407M"/>
+<Taux V = "3.900"/>
+<NbUnite V = "2859"/>
+<Mt V = "111.5"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URPIM"/>
+<Ordre V = "154071"/>
+</Retenue>
+<Retenue>
+<Libelle V = "URRPIMMEC INCAPACITE"/>
+<Code V = "422M"/>
+<Taux V = "0.630"/>
+<NbUnite V = "2611.95"/>
+<Mt V = "16.45"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URPIM"/>
+<Ordre V = "154221"/>
+</Retenue>
+<Retenue>
+<Libelle V = "GRAS SAVOYE"/>
+<Code V = "424M"/>
+<Taux V = "0.790"/>
+<NbUnite V = "2611.95"/>
+<Mt V = "20.63"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "GRASS"/>
+<Ordre V = "154241"/>
+</Retenue>
+<Retenue>
+<Libelle V = "COS 38 PO"/>
+<Code V = "423M"/>
+<Taux V = "0.100"/>
+<NbUnite V = "2291.59"/>
+<Mt V = "2.29"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "COS"/>
+<Ordre V = "9954231"/>
+</Retenue>
+<Retenue>
+<Libelle V = "TAXE PREVOYANCE"/>
+<Code V = "845N"/>
+<Taux V = "8.000"/>
+<NbUnite V = "148.58"/>
+<Mt V = "11.88"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9958451"/>
+</Retenue>
+<Cotisation>
+<Libelle V = "COS 38 PP"/>
+<Code V = "426M"/>
+<Base V = "2291.59"/>
+<Taux V = "0.850"/>
+<Mt V = "19.47"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "COS"/>
+<Ordre V = "9954261"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. SS VIEIL. RG"/>
+<Code V = "805C"/>
+<Base V = "2611.95"/>
+<Taux V = "8.300"/>
+<Mt V = "216.79"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968051"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT.VIEILL.TOT. RG"/>
+<Code V = "807C"/>
+<Base V = "2611.95"/>
+<Taux V = "1.600"/>
+<Mt V = "41.79"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968071"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. SS TOT. RG"/>
+<Code V = "811C"/>
+<Base V = "2611.95"/>
+<Taux V = "13.100"/>
+<Mt V = "342.17"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968111"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. FNAL PAT. R.G."/>
+<Code V = "824C"/>
+<Base V = "2611.95"/>
+<Taux V = "0.100"/>
+<Mt V = "2.61"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968241"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT.ALL.FAM/.TOT.RG"/>
+<Code V = "826C"/>
+<Base V = "2611.95"/>
+<Taux V = "5.400"/>
+<Mt V = "141.05"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968261"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. ACC. TRAV. RG"/>
+<Code V = "827C"/>
+<Base V = "2611.95"/>
+<Taux V = "0.990"/>
+<Mt V = "25.86"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968271"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. IRCANTEC A"/>
+<Code V = "841C"/>
+<Base V = "2611.95"/>
+<Taux V = "3.380"/>
+<Mt V = "88.28"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "IRCANT"/>
+<Ordre V = "9968411"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "TAXE TRANSPORT T. RG"/>
+<Code V = "848C"/>
+<Base V = "2611.95"/>
+<Taux V = "1.800"/>
+<Mt V = "47.02"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968481"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. ASSEDIC TR A"/>
+<Code V = "851C"/>
+<Base V = "2611.95"/>
+<Taux V = "4.000"/>
+<Mt V = "104.48"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "ASSED"/>
+<Ordre V = "9968511"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. MEDECINE PROF."/>
+<Code V = "874C"/>
+<Base V = "2611.95"/>
+<Taux V = "0.350"/>
+<Mt V = "9.14"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "CDG"/>
+<Ordre V = "9968741"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT.FNAL TOT. R.G"/>
+<Code V = "886C"/>
+<Base V = "2611.95"/>
+<Taux V = "0.400"/>
+<Mt V = "10.45"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9948861"/>
+</Cotisation>
+</Remuneration>
+<NbHeureTotal V = "151.67"/>
+<NbHeureSup V = "0"/>
+<MtBrut V = "2611.95"/>
+<MtNet V = "2022.35"/>
+<MtNetAPayer V = "2022.35"/>
+<DatePaiement V = "2009-04-17"/>
+<MtImposable V = "2102.29"/>
+<CumulMtImposable V = "8543.93"/>
+<CumulMtBrut V = "10610.30"/>
+<CumulBaseSS V = "10610.30"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<Prenom V = "Z"/>
+<Matricule V = "233 D"/>
+<NIR  V = "15811Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr2 V = "Z"/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "NON_TITULAIRE"/>
+<EmploiMetier V = "CHEF EGOUTIER"/>
+<Grade V = ""/>
+<Echelon V = ""/>
+<Indice V = "0"/>
+<CptBancaire>
+<CodeEtab V = "10468"/>
+<CodeGuic V = "02405"/>
+<IdCpte V = "Z"/>
+<CleRib V = "32"/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = "ASS SECTEUR 2"/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100"/>
+<Periode>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</Periode>
+<Remuneration>
+<TraitBrut>
+<Libelle V = "TRAITEMENT DE BASE"/>
+<Code V = "011N"/>
+<Mt V = "2146.44"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<Ordre V = "110111"/>
+</TraitBrut>
+<Indemnite>
+<Libelle V = "PRIME SERVICE"/>
+<Code V = "230N"/>
+<Taux V = "14.760"/>
+<NbUnite V = "2146.44"/>
+<Mt V = "316.81"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "PAYEUR"/>
+<Ordre V = "122301"/>
+</Indemnite>
+<Deduction>
+<Libelle V = "COT. SS VIEIL. RG"/>
+<Code V = "804C"/>
+<Taux V = "6.650"/>
+<NbUnite V = "2859"/>
+<Mt V = "190.12"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968041"/>
+</Deduction>
+<Deduction>
+<Libelle V = "COT. SS TOT. RG"/>
+<Code V = "810C"/>
+<Taux V = "0.850"/>
+<NbUnite V = "2463.25"/>
+<Mt V = "20.94"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968101"/>
+</Deduction>
+<Deduction>
+<Libelle V = "COT. IRCANTEC A"/>
+<Code V = "840C"/>
+<Taux V = "2.250"/>
+<NbUnite V = "2859"/>
+<Mt V = "64.33"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "IRCANT"/>
+<Ordre V = "9968401"/>
+</Deduction>
+<Deduction>
+<Libelle V = "COT. IRCANTEC B"/>
+<Code V = "842C"/>
+<Taux V = "5.950"/>
+<NbUnite V = "-395.75"/>
+<Mt V = "-23.55"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "IRCANT"/>
+<Ordre V = "9968421"/>
+</Deduction>
+<Deduction>
+<Libelle V = "R.D.S."/>
+<Code V = "844C"/>
+<Taux V = "0.500"/>
+<NbUnite V = "2531.42"/>
+<Mt V = "12.65"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968441"/>
+</Deduction>
+<Deduction>
+<Libelle V = "COT. ASSEDIC TR A"/>
+<Code V = "850C"/>
+<Taux V = "2.400"/>
+<NbUnite V = "2859"/>
+<Mt V = "68.62"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "ASSED"/>
+<Ordre V = "9968501"/>
+</Deduction>
+<Deduction>
+<Libelle V = "COT. ASSEDIC TR B"/>
+<Code V = "852C"/>
+<Taux V = "2.400"/>
+<NbUnite V = "-395.75"/>
+<Mt V = "-9.5"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "ASSED"/>
+<Ordre V = "9968521"/>
+</Deduction>
+<Deduction>
+<Libelle V = "CSG DEDUCTIBLE 1%"/>
+<Code V = "859C"/>
+<Taux V = "5.100"/>
+<NbUnite V = "2531.42"/>
+<Mt V = "129.1"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968591"/>
+</Deduction>
+<Deduction>
+<Libelle V = "CONT.SCIAL.GAL"/>
+<Code V = "869C"/>
+<Taux V = "2.400"/>
+<NbUnite V = "2531.42"/>
+<Mt V = "60.75"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968691"/>
+</Deduction>
+<Retenue>
+<Libelle V = "URRPIMMEC F. SANTE"/>
+<Code V = "406M"/>
+<Taux V = "1.950"/>
+<NbUnite V = "2859"/>
+<Mt V = "55.75"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URPIM"/>
+<Ordre V = "154061"/>
+</Retenue>
+<Retenue>
+<Libelle V = "SUB URRPIMMEC F.S."/>
+<Code V = "407M"/>
+<Taux V = "3.900"/>
+<NbUnite V = "2859"/>
+<Mt V = "111.5"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URPIM"/>
+<Ordre V = "154071"/>
+</Retenue>
+<Retenue>
+<Libelle V = "AGF MONTANT 2"/>
+<Code V = "417M"/>
+<Mt V = "3.3"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "AGF"/>
+<Ordre V = "154171"/>
+</Retenue>
+<Retenue>
+<Libelle V = "URRPIMMEC INCAPACITE"/>
+<Code V = "422M"/>
+<Taux V = "0.630"/>
+<NbUnite V = "2463.25"/>
+<Mt V = "15.51"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URPIM"/>
+<Ordre V = "154221"/>
+</Retenue>
+<Retenue>
+<Libelle V = "GRAS SAVOYE"/>
+<Code V = "424M"/>
+<Taux V = "0.790"/>
+<NbUnite V = "2463.25"/>
+<Mt V = "19.45"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "GRASS"/>
+<Ordre V = "154241"/>
+</Retenue>
+<Retenue>
+<Libelle V = "COS 38 PO"/>
+<Code V = "423M"/>
+<Taux V = "0.100"/>
+<NbUnite V = "2146.44"/>
+<Mt V = "2.14"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "COS"/>
+<Ordre V = "9954231"/>
+</Retenue>
+<Retenue>
+<Libelle V = "TAXE PREVOYANCE"/>
+<Code V = "845N"/>
+<Taux V = "8.000"/>
+<NbUnite V = "146.46"/>
+<Mt V = "11.71"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9958451"/>
+</Retenue>
+<Cotisation>
+<Libelle V = "COS 38 PP"/>
+<Code V = "426M"/>
+<Base V = "2146.44"/>
+<Taux V = "0.850"/>
+<Mt V = "18.24"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "COS"/>
+<Ordre V = "9954261"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. SS VIEIL. RG"/>
+<Code V = "805C"/>
+<Base V = "2859"/>
+<Taux V = "8.300"/>
+<Mt V = "237.3"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968051"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT.VIEILL.TOT. RG"/>
+<Code V = "807C"/>
+<Base V = "2463.25"/>
+<Taux V = "1.600"/>
+<Mt V = "39.41"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968071"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. SS TOT. RG"/>
+<Code V = "811C"/>
+<Base V = "2463.25"/>
+<Taux V = "13.100"/>
+<Mt V = "322.69"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968111"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. FNAL PAT. R.G."/>
+<Code V = "824C"/>
+<Base V = "2859"/>
+<Taux V = "0.100"/>
+<Mt V = "2.86"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968241"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT.ALL.FAM/.TOT.RG"/>
+<Code V = "826C"/>
+<Base V = "2463.25"/>
+<Taux V = "5.400"/>
+<Mt V = "133.02"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968261"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. ACC. TRAV. RG"/>
+<Code V = "827C"/>
+<Base V = "2463.25"/>
+<Taux V = "0.990"/>
+<Mt V = "24.39"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968271"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. IRCANTEC A"/>
+<Code V = "841C"/>
+<Base V = "2859"/>
+<Taux V = "3.380"/>
+<Mt V = "96.63"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "IRCANT"/>
+<Ordre V = "9968411"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. IRCANTEC B"/>
+<Code V = "843C"/>
+<Base V = "-395.75"/>
+<Taux V = "11.550"/>
+<Mt V = "-45.71"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "IRCANT"/>
+<Ordre V = "9968431"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "TAXE TRANSPORT T. RG"/>
+<Code V = "848C"/>
+<Base V = "2463.25"/>
+<Taux V = "1.800"/>
+<Mt V = "44.34"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968481"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. ASSEDIC TR A"/>
+<Code V = "851C"/>
+<Base V = "2463.25"/>
+<Taux V = "4.000"/>
+<Mt V = "98.53"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "ASSED"/>
+<Ordre V = "9968511"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. MEDECINE PROF."/>
+<Code V = "874C"/>
+<Base V = "2463.25"/>
+<Taux V = "0.350"/>
+<Mt V = "8.62"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "CDG"/>
+<Ordre V = "9968741"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT.FNAL TOT. R.G"/>
+<Code V = "886C"/>
+<Base V = "2463.25"/>
+<Taux V = "0.400"/>
+<Mt V = "9.85"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9948861"/>
+</Cotisation>
+</Remuneration>
+<NbHeureTotal V = "151.67"/>
+<NbHeureSup V = "0"/>
+<MtBrut V = "2463.25"/>
+<MtNet V = "1888.6"/>
+<MtNetAPayer V = "1888.6"/>
+<DatePaiement V = "2009-04-17"/>
+<MtImposable V = "1967.44"/>
+<CumulMtImposable V = "9281.33"/>
+<CumulMtBrut V = "11540.19"/>
+<CumulBaseSS V = "11436"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<Prenom V = "Z"/>
+<Matricule V = "343 Y"/>
+<NIR  V = "16011Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr2 V = "Z"/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "NON_TITULAIRE"/>
+<EmploiMetier V = "AGENT TECHNIQUE POLYVALENT"/>
+<Grade V = ""/>
+<Echelon V = ""/>
+<Indice V = "0"/>
+<CptBancaire>
+<CodeEtab V = "30002"/>
+<CodeGuic V = "02665"/>
+<IdCpte V = "Z"/>
+<CleRib V = "55"/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = "DMG GESTION IMMO ET MOBILIERE"/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100"/>
+<Periode>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</Periode>
+<Remuneration>
+<TraitBrut>
+<Libelle V = "TRAITEMENT DE BASE"/>
+<Code V = "011N"/>
+<Mt V = "1749.61"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<Ordre V = "110111"/>
+</TraitBrut>
+<Indemnite>
+<Libelle V = "PRIME SERVICE"/>
+<Code V = "230N"/>
+<Taux V = "14.510"/>
+<NbUnite V = "1749.61"/>
+<Mt V = "253.86"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "PAYEUR"/>
+<Ordre V = "122301"/>
+</Indemnite>
+<Deduction>
+<Libelle V = "COT. SS VIEIL. RG"/>
+<Code V = "804C"/>
+<Taux V = "6.650"/>
+<NbUnite V = "2003.47"/>
+<Mt V = "133.23"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968041"/>
+</Deduction>
+<Deduction>
+<Libelle V = "COT. SS TOT. RG"/>
+<Code V = "810C"/>
+<Taux V = "0.850"/>
+<NbUnite V = "2003.47"/>
+<Mt V = "17.03"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968101"/>
+</Deduction>
+<Deduction>
+<Libelle V = "COT. IRCANTEC A"/>
+<Code V = "840C"/>
+<Taux V = "2.250"/>
+<NbUnite V = "2003.47"/>
+<Mt V = "45.08"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "IRCANT"/>
+<Ordre V = "9968401"/>
+</Deduction>
+<Deduction>
+<Libelle V = "R.D.S."/>
+<Code V = "844C"/>
+<Taux V = "0.500"/>
+<NbUnite V = "2079.11"/>
+<Mt V = "10.39"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968441"/>
+</Deduction>
+<Deduction>
+<Libelle V = "COT. ASSEDIC TR A"/>
+<Code V = "850C"/>
+<Taux V = "2.400"/>
+<NbUnite V = "2003.47"/>
+<Mt V = "48.08"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "ASSED"/>
+<Ordre V = "9968501"/>
+</Deduction>
+<Deduction>
+<Libelle V = "CSG DEDUCTIBLE 1%"/>
+<Code V = "859C"/>
+<Taux V = "5.100"/>
+<NbUnite V = "2079.11"/>
+<Mt V = "106.03"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968591"/>
+</Deduction>
+<Deduction>
+<Libelle V = "CONT.SCIAL.GAL"/>
+<Code V = "869C"/>
+<Taux V = "2.400"/>
+<NbUnite V = "2079.11"/>
+<Mt V = "49.9"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968691"/>
+</Deduction>
+<Rappel>
+<Libelle V = "R. URPIMMEC INCAP."/>
+<Code V = "422A"/>
+<NbUnite V = "-2.45"/>
+<Mt V = "-0.01"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URPIM"/>
+<Ordre V = "154223"/>
+</Rappel>
+<Rappel>
+<Libelle V = "R. GRAS SAVOYE"/>
+<Code V = "424A"/>
+<NbUnite V = "-2.45"/>
+<Mt V = "-0.02"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "GRASS"/>
+<Ordre V = "154243"/>
+</Rappel>
+<Retenue>
+<Libelle V = "URRPIMMEC F. SANTE"/>
+<Code V = "406M"/>
+<Taux V = "1.950"/>
+<NbUnite V = "2859"/>
+<Mt V = "55.75"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URPIM"/>
+<Ordre V = "154061"/>
+</Retenue>
+<Retenue>
+<Libelle V = "SUB URRPIMMEC F.S."/>
+<Code V = "407M"/>
+<Taux V = "3.900"/>
+<NbUnite V = "2859"/>
+<Mt V = "111.5"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URPIM"/>
+<Ordre V = "154071"/>
+</Retenue>
+<Retenue>
+<Libelle V = "URRPIMMEC INCAPACITE"/>
+<Code V = "422M"/>
+<Taux V = "0.630"/>
+<NbUnite V = "2003.47"/>
+<Mt V = "12.62"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URPIM"/>
+<Ordre V = "154221"/>
+</Retenue>
+<Retenue>
+<Libelle V = "GRAS SAVOYE"/>
+<Code V = "424M"/>
+<Taux V = "0.790"/>
+<NbUnite V = "2003.47"/>
+<Mt V = "15.82"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "GRASS"/>
+<Ordre V = "154241"/>
+</Retenue>
+<Retenue>
+<Libelle V = "COS 38 PO"/>
+<Code V = "423M"/>
+<Taux V = "0.100"/>
+<NbUnite V = "1749.61"/>
+<Mt V = "1.74"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "COS"/>
+<Ordre V = "9954231"/>
+</Retenue>
+<Retenue>
+<Libelle V = "TAXE PREVOYANCE"/>
+<Code V = "845N"/>
+<Taux V = "8.000"/>
+<NbUnite V = "139.94"/>
+<Mt V = "11.19"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9958451"/>
+</Retenue>
+<Cotisation>
+<Libelle V = "COS 38 PP"/>
+<Code V = "426M"/>
+<Base V = "1749.61"/>
+<Taux V = "0.850"/>
+<Mt V = "14.87"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "COS"/>
+<Ordre V = "9954261"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. SS VIEIL. RG"/>
+<Code V = "805C"/>
+<Base V = "2003.47"/>
+<Taux V = "8.300"/>
+<Mt V = "166.29"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968051"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT.VIEILL.TOT. RG"/>
+<Code V = "807C"/>
+<Base V = "2003.47"/>
+<Taux V = "1.600"/>
+<Mt V = "32.06"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968071"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. SS TOT. RG"/>
+<Code V = "811C"/>
+<Base V = "2003.47"/>
+<Taux V = "13.100"/>
+<Mt V = "262.45"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968111"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. FNAL PAT. R.G."/>
+<Code V = "824C"/>
+<Base V = "2003.47"/>
+<Taux V = "0.100"/>
+<Mt V = "2"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968241"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT.ALL.FAM/.TOT.RG"/>
+<Code V = "826C"/>
+<Base V = "2003.47"/>
+<Taux V = "5.400"/>
+<Mt V = "108.19"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968261"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. ACC. TRAV. RG"/>
+<Code V = "827C"/>
+<Base V = "2003.47"/>
+<Taux V = "0.990"/>
+<Mt V = "19.83"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968271"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. IRCANTEC A"/>
+<Code V = "841C"/>
+<Base V = "2003.47"/>
+<Taux V = "3.380"/>
+<Mt V = "67.72"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "IRCANT"/>
+<Ordre V = "9968411"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "TAXE TRANSPORT T. RG"/>
+<Code V = "848C"/>
+<Base V = "2003.47"/>
+<Taux V = "1.800"/>
+<Mt V = "36.06"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9968481"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. ASSEDIC TR A"/>
+<Code V = "851C"/>
+<Base V = "2003.47"/>
+<Taux V = "4.000"/>
+<Mt V = "80.14"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "ASSED"/>
+<Ordre V = "9968511"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT. MEDECINE PROF."/>
+<Code V = "874C"/>
+<Base V = "2003.47"/>
+<Taux V = "0.350"/>
+<Mt V = "7.01"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "CDG"/>
+<Ordre V = "9968741"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "COT.FNAL TOT. R.G"/>
+<Code V = "886C"/>
+<Base V = "2003.47"/>
+<Taux V = "0.400"/>
+<Mt V = "8.01"/>
+<PeriodeRef>
+<DateDebut V = "2009-04-01"/>
+<DateFin V = "2009-04-30"/>
+</PeriodeRef>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "9948861"/>
+</Cotisation>
+</Remuneration>
+<NbHeureTotal V = "151.67"/>
+<NbHeureSup V = "0"/>
+<MtBrut V = "2003.47"/>
+<MtNet V = "1536.24"/>
+<MtNetAPayer V = "1536.24"/>
+<DatePaiement V = "2009-04-17"/>
+<MtImposable V = "1598.27"/>
+<CumulMtImposable V = "6644.54"/>
+<CumulMtBrut V = "8163.57"/>
+<CumulBaseSS V = "7419.09"/>
+</PayeIndivMensuel>
+</DonneesIndiv>
+<Nomenclatures>
+<NomenclatureEvtPaye>
+<Description V = "Nomenclature evenements."/>
+<Correspondance>
+<Libelle V = "FIN DE MANDAT ELUS"/>
+<Code V = "FMA"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "AVCT ECHELON AU TEMPS MINIMUM"/>
+<Code V = "MIN"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "AVCT ECHELON AU TEMPS MAXIMUM"/>
+<Code V = "MAX"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "AVCT ECHELON AU TEMPS MOYEN"/>
+<Code V = "MOY"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "AVCT ECHELON EXCEPTIONNEL"/>
+<Code V = "EXC"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CHEVRONNEMENT"/>
+<Code V = "CHE"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "AVCT DE GRADE"/>
+<Code V = "GRA"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "PROLONGATION DE STAGE"/>
+<Code V = "PST"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TITULARISATION"/>
+<Code V = "TIT"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "XXX"/>
+<Code V = "NAU"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "PROLONGATION NT"/>
+<Code V = "PAU"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RECRUTEMENT DIRECT"/>
+<Code V = "RDI"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "MODIFICATION TEMPS PARTIEL"/>
+<Code V = "MTP"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RECLASSEMENT INDICIAIRE"/>
+<Code V = "RCL"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "INTEGRATION FONCT PUBLIC TERR"/>
+<Code V = "INT"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CHANGEMENT POSITION STATUTAIRE"/>
+<Code V = "CPS"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "DETACHEMENT"/>
+<Code V = "DET"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "REINTEGRATION AP CHG POSIT STA"/>
+<Code V = "RIS"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "REINTEGRATION AP DETACHEMENT"/>
+<Code V = "RID"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "REINTEGRATION AP MIS DISPOSIT"/>
+<Code V = "RIM"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CHANGEMENT SERVICE"/>
+<Code V = "CSE"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RECRUTEMENT NT"/>
+<Code V = "REC"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "REPRISE DONNEES"/>
+<Code V = "REP"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CHANGEMENT DE POSTE"/>
+<Code V = "CPO"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "XXX"/>
+<Code V = "CFO"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "MAINTIEN DE SALAIRE"/>
+<Code V = "CEM"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RECRUTEMENT APPRENTI"/>
+<Code V = "RAP"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "MANDAT ELU"/>
+<Code V = "MEL"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "REINTEG. APRES MI TEMPS THERAP"/>
+<Code V = "RIT"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "REINTEG. APRES TEMPS PARTIEL"/>
+<Code V = "RIP"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "DETACHEMENT POUR STAGE"/>
+<Code V = "DES"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "MIS A DISPOSITION"/>
+<Code V = "MAD"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "PROMOTION INTERNE"/>
+<Code V = "PIT"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RENOUVELLEMENT MANDAT ELU"/>
+<Code V = "RME"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "ATTRIB.TPS PART.  AUTORISATION"/>
+<Code V = "TPD"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RENOUVELLEMENT  TEMPS PARTIEL"/>
+<Code V = "PPA"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "ATTRIB.TPS PARTIEL DE DROIT"/>
+<Code V = "TPA"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TRANSFERT COLLECTE"/>
+<Code V = "TRA"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RENOUVELLEMENT DE STAGE"/>
+<Code V = "RST"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RECRUTEMENT PAR CONCOURS"/>
+<Code V = "CON"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "STAGIAIRISATION"/>
+<Code V = "SCO"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "MUTATION"/>
+<Code V = "MUT"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "FIN DE CONTRAT"/>
+<Code V = "DEP"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "DISPONIBILITE"/>
+<Code V = "DIS"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "REC. REMPLACENT"/>
+<Code V = "REM"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "REUSSITE A CONCOURS"/>
+<Code V = "RC"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RECRUTEMENT PAR VOIE DE MUTATI"/>
+<Code V = "RM"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "FIN DE LA NBI"/>
+<Code V = "FNB"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "ATTRIBUTION DE LA NBI"/>
+<Code V = "ANB"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "INSCRIPTION COS"/>
+<Code V = "COS"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "ARRET"/>
+<Code V = "ARR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "SERVICE NON FAIT"/>
+<Code V = "SNF"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "AVERTISSEMENT"/>
+<Code V = "AVE"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "MALADIE"/>
+<Code V = "MAL"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "MATERNITE"/>
+<Code V = "MAT"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Suivi entretiens candidat"/>
+<Code V = "SEN"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Suivi �v�nements candidat"/>
+<Code V = "SEV"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "ATTRIBUTION SFT"/>
+<Code V = "SFT"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "FIN DE SFT"/>
+<Code V = "FSF"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "ATTRIBUTION INDEM RECEVEUR"/>
+<Code V = "IDR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "FIN PREFON"/>
+<Code V = "SPR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "FIN INDICE PERSONNEL"/>
+<Code V = "FIP"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "MODIFICATION REMUNERATION"/>
+<Code V = "MOR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "ADHESION PREFON"/>
+<Code V = "APR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "MODIFICATION PREFON"/>
+<Code V = "MPR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RECRUTEMENT VOIE TRANSFERT"/>
+<Code V = "REV"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "FIN COS VILLE"/>
+<Code V = "CVF"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "FIN DE COS VILLE"/>
+<Code V = "FCV"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "MODIF. NBI"/>
+<Code V = "MBI"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CONGE POUR FORMATION"/>
+<Code V = "CPF"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "PROROGATION"/>
+<Code V = "PRO"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RECLASSEMENT"/>
+<Code V = "REA"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "REFONTE CADRE D EMPLOI"/>
+<Code V = "RFC"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "NOMINATION"/>
+<Code V = "NOM"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "STAGIAIRE ETUDIANT"/>
+<Code V = "STI"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CONGE PARENTAL"/>
+<Code V = "COP"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "DEMISSION"/>
+<Code V = "DEM"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CONGE FIN ACTIVITE"/>
+<Code V = "SFA"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RETRAITE"/>
+<Code V = "RET"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "DECES"/>
+<Code V = "DEC"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RADIATION"/>
+<Code V = "RAD"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "REINTEG. APRES MATERNITE"/>
+<Code V = "RMA"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "MODIF INTITULE FONCTION"/>
+<Code V = "MIF"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RESTRUCTURATION SERVICE"/>
+<Code V = "RSE"/>
+</Correspondance>
+</NomenclatureEvtPaye>
+<NomenclatureRubriquePaye>
+<Description V = "Nomenclature rubriques."/>
+<Correspondance>
+<Libelle V = "DONT NBI"/>
+<Code V = "002N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TRAITEMENT DE BASE"/>
+<Code V = "010N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RI par EMPLOI"/>
+<Code V = "085N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COEFF. MULT. I.E.M."/>
+<Code V = "304N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "I.A.T."/>
+<Code V = "503N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "I.E.M.P."/>
+<Code V = "504N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "PRIME FIN ANNEE"/>
+<Code V = "524N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "IND-TRV DOMINICAL"/>
+<Code V = "541N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "ABATTEMENT REGLE N�1"/>
+<Code V = "705N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "ABATTEMENT REGLE N�2"/>
+<Code V = "706N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "ABATTEMENT REGLE N�3"/>
+<Code V = "707N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "ABATTEMENT REGLE N�4"/>
+<Code V = "708N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "ABATTEMENT REGLE N�5"/>
+<Code V = "709N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TPS PRESENCE ANNUEL"/>
+<Code V = "722N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TAUX EMPLOI ANNUEL"/>
+<Code V = "723N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Valeur du point"/>
+<Code V = "724N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "VALEUR DU SMIC"/>
+<Code V = "725N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "IND. DIFF. SMIC RS"/>
+<Code V = "760N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TICKETS RESTAURANTS"/>
+<Code V = "788N"/>
+<CodeCaisse V = "SODEXH"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "BRUT A MANDATER"/>
+<Code V = "990N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOTAL SOUMIS OUV MDT"/>
+<Code V = "991N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "PLAFOND TH DU MOIS"/>
+<Code V = "086N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOTAL COTIS"/>
+<Code V = "087N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CUMUL MT HS EXO"/>
+<Code V = "327N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COS 38 PO"/>
+<Code V = "423M"/>
+<CodeCaisse V = "COS"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COS 38 PP"/>
+<Code V = "426M"/>
+<CodeCaisse V = "COS"/>
+<CodeNatureEmp V = "P"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "MNT M.SALAIRE"/>
+<Code V = "427M"/>
+<CodeCaisse V = "MUTEX"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "SUB MNT M. SALAIRE"/>
+<Code V = "428M"/>
+<CodeCaisse V = "MUTEX"/>
+<CodeNatureEmp V = "P"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAFP GIPA"/>
+<Code V = "493C"/>
+<CodeCaisse V = "RAFP"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAFP GIPA"/>
+<Code V = "494C"/>
+<CodeCaisse V = "RAFP"/>
+<CodeNatureEmp V = "R"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "BASE IJSS ST"/>
+<Code V = "798N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. SS TOT. RS"/>
+<Code V = "800C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. SS TOT. RS"/>
+<Code V = "801C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "U"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. SS PLAF. RS"/>
+<Code V = "802C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. SS PLAF. RS"/>
+<Code V = "803C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "U"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. FNAL PAT. R.S."/>
+<Code V = "814C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "F"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT.ALL.FAM.TOT.RS"/>
+<Code V = "816C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "U"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. CNRACL"/>
+<Code V = "830C"/>
+<CodeCaisse V = "CNRACL"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. CNRACL"/>
+<Code V = "831C"/>
+<CodeCaisse V = "CNRACL"/>
+<CodeNatureEmp V = "R"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. FCCPA PAT."/>
+<Code V = "833C"/>
+<CodeCaisse V = "CNRACL"/>
+<CodeNatureEmp V = "Y"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. ATI"/>
+<Code V = "834C"/>
+<CodeCaisse V = "CNRACL"/>
+<CodeNatureEmp V = "R"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TAXE TRANSPORT T. RS"/>
+<Code V = "838C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "U"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "R.D.S."/>
+<Code V = "844C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CSG DEDUCTIBLE 1%"/>
+<Code V = "859C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. FONDS SOLIDAR."/>
+<Code V = "860C"/>
+<CodeCaisse V = "SOLID"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT.ASSEDIC"/>
+<Code V = "867C"/>
+<CodeCaisse V = "ASSED"/>
+<CodeNatureEmp V = "S"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CONT.SCIAL.GAL"/>
+<Code V = "869C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. C.N.F.P.T"/>
+<Code V = "870C"/>
+<CodeCaisse V = "CNFPT"/>
+<CodeNatureEmp V = "X"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. C.D.G."/>
+<Code V = "872C"/>
+<CodeCaisse V = "CDG"/>
+<CodeNatureEmp V = "W"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. MEDECINE PROF."/>
+<Code V = "874C"/>
+<CodeCaisse V = "CDG"/>
+<CodeNatureEmp V = "M"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RETRAITE ADD FPO"/>
+<Code V = "876C"/>
+<CodeCaisse V = "RAFP"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RETRAITE ADD FPP"/>
+<Code V = "877C"/>
+<CodeCaisse V = "RAFP"/>
+<CodeNatureEmp V = "R"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT.FNAL TOT. R.S"/>
+<Code V = "885C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "F"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "EXONERATION HS RG"/>
+<Code V = "887C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "EXONERATION HS RS"/>
+<Code V = "889C"/>
+<CodeCaisse V = "CNRACL"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "PLAFOND SEC. SOC. RS"/>
+<Code V = "890P"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CSG-RDS DED. HS"/>
+<Code V = "893C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOTAL BRUT"/>
+<Code V = "900N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOTAL GAINS"/>
+<Code V = "901N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOTAL RETENUES"/>
+<Code V = "902N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOTAL RET. LEGALES"/>
+<Code V = "903N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOTAL RET. PRECOMPTE"/>
+<Code V = "904N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "NET A PAYER"/>
+<Code V = "905N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "NET A MANDATER"/>
+<Code V = "906N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "NET IMPOSABLE"/>
+<Code V = "907N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOTAL RET. PATRONALE"/>
+<Code V = "908N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOT. HEURES TRAVAIL."/>
+<Code V = "910N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOT.JOURS TRAVAILLES"/>
+<Code V = "911N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "BASE HEURES SUPPLEM."/>
+<Code V = "912N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "BASE CONGES PAYES"/>
+<Code V = "913N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOT. AVANT.NATURE"/>
+<Code V = "914N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "BASE IJSS"/>
+<Code V = "920N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "BRUT EXONERE"/>
+<Code V = "960N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOT. RET. OUV. MDT"/>
+<Code V = "992N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOT. RET. PAT. MDT"/>
+<Code V = "993N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "NET A VIRER"/>
+<Code V = "999N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "INDEMNITE EXCEP. CPA"/>
+<Code V = "019N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "ACOMPTE IND EXCEP"/>
+<Code V = "156N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COEFF. MULT.  IFTS"/>
+<Code V = "302N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "I.F.T.S."/>
+<Code V = "502N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAPPEL I.F.T.S."/>
+<Code V = "502R"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "PRIME DE RENDEMENT"/>
+<Code V = "505N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "R. PRIME RENDEMENT"/>
+<Code V = "505R"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT.SS CPA POUR MDT"/>
+<Code V = "009N"/>
+<CodeCaisse V = "PAYEUR"/>
+<CodeNatureSal V = "H"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CSG DEDUCTIBLE CA"/>
+<Code V = "806C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "SS REVENUS CPA"/>
+<Code V = "809C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CSG ET RDS 100%"/>
+<Code V = "858C"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "REGUL. TRAIT BASE"/>
+<Code V = "010G"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "APICIL"/>
+<Code V = "425M"/>
+<CodeCaisse V = "APICIL"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "PR. FIN ANNEE JUIN"/>
+<Code V = "530N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "PR. FIN ANNEE NOV"/>
+<Code V = "531N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "REGUL. PRIMES"/>
+<Code V = "543N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TAUX MODULE I.S.S."/>
+<Code V = "309N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COMPEN. INDEMNITAIRE"/>
+<Code V = "507N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "P.S.R."/>
+<Code V = "508N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "I.S.S."/>
+<Code V = "509N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "BASE HEURES SUPPLEM."/>
+<Code V = "912A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "T-SUPPLEMT FAMILIAL"/>
+<Code V = "030N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "NB TICKETS RESTAUR."/>
+<Code V = "388N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "MNT F. SANTE"/>
+<Code V = "401M"/>
+<CodeCaisse V = "MGPCL"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "SUB MNT F. SANTE"/>
+<Code V = "405M"/>
+<CodeCaisse V = "MGPCL"/>
+<CodeNatureEmp V = "P"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "I.S.C.P."/>
+<Code V = "537N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RI par EMPLOI"/>
+<Code V = "085A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "R. T- IHTS (-14)"/>
+<Code V = "601A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "T - IHTS  (-14)"/>
+<Code V = "601N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "R. T- IHTS (+14)"/>
+<Code V = "602A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "BRUT A MANDATER"/>
+<Code V = "990A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOTAL SOUMIS OUV MDT"/>
+<Code V = "991A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOTAL COTIS"/>
+<Code V = "087A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CUMUL MT HS EXO"/>
+<Code V = "327A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP.COT.FONDS SOLID"/>
+<Code V = "860A"/>
+<CodeCaisse V = "SOLID"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RETRAITE ADD FPO"/>
+<Code V = "876A"/>
+<CodeCaisse V = "RAFP"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RETRAITE ADD FPP"/>
+<Code V = "877A"/>
+<CodeCaisse V = "RAFP"/>
+<CodeNatureEmp V = "R"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CSG-RDS DED. HS"/>
+<Code V = "893A"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOTAL BRUT"/>
+<Code V = "900A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOTAL GAINS"/>
+<Code V = "901A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOTAL RETENUES"/>
+<Code V = "902A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOTAL RET. LEGALES"/>
+<Code V = "903A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "NET A PAYER"/>
+<Code V = "905A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "NET A MANDATER"/>
+<Code V = "906A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "NET IMPOSABLE"/>
+<Code V = "907A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOTAL RET. PATRONALE"/>
+<Code V = "908A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOT. HEURES TRAVAIL."/>
+<Code V = "910A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "BRUT EXONERE"/>
+<Code V = "960A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOT. RET. OUV. MDT"/>
+<Code V = "992A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOT. RET. PAT. MDT"/>
+<Code V = "993A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "NET A VIRER"/>
+<Code V = "999A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "R.NB JRS D ARRETS MO"/>
+<Code V = "701A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "MATGI F. SANTE"/>
+<Code V = "429M"/>
+<CodeCaisse V = "MATGI"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "SUB MATGI F. SANTE"/>
+<Code V = "430M"/>
+<CodeCaisse V = "MATGI"/>
+<CodeNatureEmp V = "P"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RETENUE PREFON"/>
+<Code V = "450N"/>
+<CodeCaisse V = "PREFON"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "FRATERNELLE F.SANTE"/>
+<Code V = "409M"/>
+<CodeCaisse V = "FRA"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "SUB FRATERNELLE F.S."/>
+<Code V = "414M"/>
+<CodeCaisse V = "FRA"/>
+<CodeNatureEmp V = "P"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "REGUL. PRIMES"/>
+<Code V = "544N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAPPEL T - SFT"/>
+<Code V = "030R"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TRAIT.BASE DT"/>
+<Code V = "010D"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "NBRE JRS D ARRETS MO"/>
+<Code V = "701N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TRAIT.BASE 2/3"/>
+<Code V = "783N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "IJSS SUB C&gt;30+2E"/>
+<Code V = "784N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "IJSS SUB C]7M-3E"/>
+<Code V = "785N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "IJSS SUB C]7M+2E"/>
+<Code V = "786N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "T - IHTS NUIT"/>
+<Code V = "604N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "R.TRAIT.BASE"/>
+<Code V = "010A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "R TB. MENS. DT"/>
+<Code V = "010E"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "P.T.F."/>
+<Code V = "506N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "P.T.F."/>
+<Code V = "540N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "PLAFOND TH DU MOIS"/>
+<Code V = "086A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "R. COS 38 PO"/>
+<Code V = "423A"/>
+<CodeCaisse V = "COS"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "R. COS 38 PP"/>
+<Code V = "426A"/>
+<CodeCaisse V = "COS"/>
+<CodeNatureEmp V = "P"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP.COT.SS TOT RS O"/>
+<Code V = "800A"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP.COT.SS TOT.RS P"/>
+<Code V = "801A"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "U"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP.COT.SS PLF RS O"/>
+<Code V = "802A"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP.COT.SS PLF RS P"/>
+<Code V = "803A"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "U"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP.COT.FNAL RS PAT"/>
+<Code V = "814A"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "F"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP.COT.ALFAM TOT.RS"/>
+<Code V = "816A"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "U"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP. COT. CNRACL OUV"/>
+<Code V = "830A"/>
+<CodeCaisse V = "CNRACL"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP. COT. CNRACL PAT"/>
+<Code V = "831A"/>
+<CodeCaisse V = "CNRACL"/>
+<CodeNatureEmp V = "R"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP. COT. FCCPA PAT."/>
+<Code V = "833A"/>
+<CodeCaisse V = "CNRACL"/>
+<CodeNatureEmp V = "Y"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP. COT. ATI PAT."/>
+<Code V = "834A"/>
+<CodeCaisse V = "CNRACL"/>
+<CodeNatureEmp V = "R"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP.TAXE TRP TOT .RS"/>
+<Code V = "838A"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "U"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "R.D.S."/>
+<Code V = "844A"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CSG DEDUCTIBLE 1%"/>
+<Code V = "859A"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP CONT.SOC.GEN."/>
+<Code V = "869A"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP.COT. C.N.F."/>
+<Code V = "870A"/>
+<CodeCaisse V = "CNFPT"/>
+<CodeNatureEmp V = "X"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP. COT. C.D.G."/>
+<Code V = "872A"/>
+<CodeCaisse V = "CDG"/>
+<CodeNatureEmp V = "W"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. MEDECINE PROF."/>
+<Code V = "874A"/>
+<CodeCaisse V = "CDG"/>
+<CodeNatureEmp V = "M"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT.FNAL TOT. R.S"/>
+<Code V = "885A"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "F"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOTAL RET. PRECOMPTE"/>
+<Code V = "904A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "R. BASE IJSS"/>
+<Code V = "920A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "AVANT NAT LGT"/>
+<Code V = "598A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "AVANT NAT LGT"/>
+<Code V = "598N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TVX DANG C1 T1 3/4"/>
+<Code V = "712N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOT. AVANT.NATURE"/>
+<Code V = "914A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "INDEMNITE ELU"/>
+<Code V = "015N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "AVANCE SUR SALAIRE"/>
+<Code V = "124N"/>
+<CodeCaisse V = "TP"/>
+<CodeNatureSal V = "T"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CALCUL PLAFOND ELUS"/>
+<Code V = "290N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Mdt B Ext"/>
+<Code V = "325N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CUMUL NET ELUS"/>
+<Code V = "394N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "ABATTEMENT SSV ELU"/>
+<Code V = "746N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "ALIM. CUMUL HEURES"/>
+<Code V = "781N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Test base irc"/>
+<Code V = "310N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cumul Mdt B"/>
+<Code V = "312N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cum 392N"/>
+<Code V = "313N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "PRORAT.IRCANT. A.ELU"/>
+<Code V = "390N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "PRORAT.IRCANT. B.ELU"/>
+<Code V = "391N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CUMUL MANDAT BRUT EX"/>
+<Code V = "392N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT.VIEILL.TOT. RG"/>
+<Code V = "807C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "U"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. SS TOT. RG"/>
+<Code V = "810C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. SS TOT. RG"/>
+<Code V = "811C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "U"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. SS PLAF. RG"/>
+<Code V = "812C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. SS PLAF. RG"/>
+<Code V = "813C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "U"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "BASE IRA O ELU"/>
+<Code V = "820B"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "IRCANTEC A PO ELU"/>
+<Code V = "820C"/>
+<CodeCaisse V = "IRCANT"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "IRCANTEC A PP ELU"/>
+<Code V = "821C"/>
+<CodeCaisse V = "IRCANT"/>
+<CodeNatureEmp V = "R"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "BASE IRB O ELU"/>
+<Code V = "822B"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "IRCANTEC B PO ELU"/>
+<Code V = "822C"/>
+<CodeCaisse V = "IRCANT"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "IRCANTEC B PP ELU"/>
+<Code V = "823C"/>
+<CodeCaisse V = "IRCANT"/>
+<CodeNatureEmp V = "R"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. SS VIEIL. ELU"/>
+<Code V = "846C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. SS VIEIL. ELU"/>
+<Code V = "846R"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. SS VIEIL. ELU"/>
+<Code V = "847C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "U"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. SS VIEIL. ELU"/>
+<Code V = "847R"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "U"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TAXE TRANSPORT T. RG"/>
+<Code V = "848C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "U"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "FNAL TOTALITE"/>
+<Code V = "866C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "F"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "PLAFOND SEC.SOC. RG"/>
+<Code V = "880P"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "PLAFOND IRCANTEC"/>
+<Code V = "881P"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "PLAFOND ASSEDIC"/>
+<Code V = "882P"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT.FNAL TOT. R.G"/>
+<Code V = "886C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "F"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "FONPEL PO"/>
+<Code V = "410M"/>
+<CodeCaisse V = "FONPEL"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "NBR MANDATS ELUS"/>
+<Code V = "748N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "NBR MANDATS ELUS2"/>
+<Code V = "749N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "FRAIS D EMPLOIS ELUS"/>
+<Code V = "794N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "FONPEL PP"/>
+<Code V = "411M"/>
+<CodeCaisse V = "FONPEL"/>
+<CodeNatureEmp V = "R"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "REGUL IMPOSABLE ELU"/>
+<Code V = "745N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RETENUE A LA SOURCE"/>
+<Code V = "755N"/>
+<CodeCaisse V = "RETSOU"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "BASE RAS ELU MENSUEL"/>
+<Code V = "791B"/>
+<CodeCaisse V = "RETSOU"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "ECRETEMENT ELU"/>
+<Code V = "293N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "INDEMNITE ECRETEE"/>
+<Code V = "296N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CAREL PO"/>
+<Code V = "412M"/>
+<CodeCaisse V = "CAREL"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CAREL PP"/>
+<Code V = "413M"/>
+<CodeCaisse V = "CAREL"/>
+<CodeNatureEmp V = "R"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "PRIME RESPONSABILITE"/>
+<Code V = "574N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "AVANT NAT VEHIC"/>
+<Code V = "599N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. PENSION CIVILE"/>
+<Code V = "835C"/>
+<CodeCaisse V = "PENCIV"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. PENSION CIVILE"/>
+<Code V = "836C"/>
+<CodeCaisse V = "PENCIV"/>
+<CodeNatureEmp V = "R"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TRAITEMENT DE BASE"/>
+<Code V = "011N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "R. TRAIT. BASE"/>
+<Code V = "011R"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "NT - SFT"/>
+<Code V = "031N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "IND-TRV DOMINICAL"/>
+<Code V = "241N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "IND. DIFF. SMIC RG"/>
+<Code V = "761N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. SS VIEIL. RG"/>
+<Code V = "804C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. SS VIEIL. RG"/>
+<Code V = "805C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "U"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. FNAL PAT. R.G."/>
+<Code V = "824C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "F"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT.ALL.FAM/.TOT.RG"/>
+<Code V = "826C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "U"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. ACC. TRAV. RG"/>
+<Code V = "827C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "U"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. IRCANTEC A"/>
+<Code V = "840C"/>
+<CodeCaisse V = "IRCANT"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. IRCANTEC A"/>
+<Code V = "841C"/>
+<CodeCaisse V = "IRCANT"/>
+<CodeNatureEmp V = "R"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. IRCANTEC B"/>
+<Code V = "842C"/>
+<CodeCaisse V = "IRCANT"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. IRCANTEC B"/>
+<Code V = "843C"/>
+<CodeCaisse V = "IRCANT"/>
+<CodeNatureEmp V = "R"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. ASSEDIC"/>
+<Code V = "862C"/>
+<CodeCaisse V = "ASSED"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. ASSEDIC"/>
+<Code V = "863C"/>
+<CodeCaisse V = "ASSED"/>
+<CodeNatureEmp V = "S"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. ASSEDIC"/>
+<Code V = "865C"/>
+<CodeCaisse V = "ASSED"/>
+<CodeNatureEmp V = "S"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "REGUL TRAIT. BASE"/>
+<Code V = "011G"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "I.F.T.S."/>
+<Code V = "202N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "PRIME DE RENDEMENT"/>
+<Code V = "205N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "PRIME FIN ANNEE"/>
+<Code V = "224N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "REGUL. PRIMES"/>
+<Code V = "243N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "AVANT NAT LGT"/>
+<Code V = "298N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "AVANT NAT VEHIC"/>
+<Code V = "299N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "REDEVANCE LOGEMENT"/>
+<Code V = "729N"/>
+<CodeCaisse V = "METRO"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "T - IHTS (+14)"/>
+<Code V = "602N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COMPEN. INDEMNITAIRE"/>
+<Code V = "207N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "P.S.R."/>
+<Code V = "208N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "I.S.S."/>
+<Code V = "209N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "PR. FIN ANNEE JUIN"/>
+<Code V = "231N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "PR. FIN ANNEE NOV"/>
+<Code V = "232N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "REGUL. PRIMES"/>
+<Code V = "244N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TRAIT. BASE HORAIRE"/>
+<Code V = "012N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "PR. FIN ANNEE HORAIR"/>
+<Code V = "252N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CONGES PAYES"/>
+<Code V = "758N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TVX DANG C1 T2"/>
+<Code V = "711N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "NBRE JRS D ARRETS AT"/>
+<Code V = "700N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COEFF. MULT. I.A.T."/>
+<Code V = "303N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "IAT COMPLEMENTAIRE"/>
+<Code V = "743N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "R PR. FIN ANNEE NOV"/>
+<Code V = "531R"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "I.H.T.N. NUIT"/>
+<Code V = "560N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "T- IHTS DIM/JF"/>
+<Code V = "603N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "ALLOC. ENFANT HAND."/>
+<Code V = "149N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TAUX MODULE PSR"/>
+<Code V = "308N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "R. T- IHTS DIM/JF"/>
+<Code V = "603A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "R. T - IHTS NUIT"/>
+<Code V = "604A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "I.H. COMPL. NUIT"/>
+<Code V = "554N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "I.H.T. D/JF"/>
+<Code V = "579N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "I.H. COMPL. D/JF"/>
+<Code V = "587N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "NBRE JRS D ARRETS MA"/>
+<Code V = "704N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "NBRE JRS D ARRETS ML"/>
+<Code V = "702N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "MIFCT F. SANTE"/>
+<Code V = "403M"/>
+<CodeCaisse V = "MIFCT"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "SUB MIFCT F.SANTE"/>
+<Code V = "415M"/>
+<CodeCaisse V = "MIFCT"/>
+<CodeNatureEmp V = "P"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "I.E.M.P."/>
+<Code V = "204N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "IND DIF ASTR NORMALE"/>
+<Code V = "510N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "ASTREINTE EXECUTION"/>
+<Code V = "545N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "AGF MONTANT 2"/>
+<Code V = "417M"/>
+<CodeCaisse V = "AGF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "IND-ASTREINTE"/>
+<Code V = "565N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "IND-ASTREINTE"/>
+<Code V = "565R"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "REVERSION SFT TIT"/>
+<Code V = "032N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "ASTR. DECISION"/>
+<Code V = "255N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "R.NB JRS D ARRETS AT"/>
+<Code V = "700A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CAREL RETRO PO"/>
+<Code V = "437M"/>
+<CodeCaisse V = "CAREL"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CAREL RETRO PP"/>
+<Code V = "438M"/>
+<CodeCaisse V = "CAREL"/>
+<CodeNatureEmp V = "R"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "ASTR. DECISION"/>
+<Code V = "555N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "REGUL SOLID REM ACC"/>
+<Code V = "306N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAPPEL T - SFT"/>
+<Code V = "030A"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "PLAFOND SEC. SOC. RS"/>
+<Code V = "890A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "INTERIALE F. SANTE"/>
+<Code V = "402M"/>
+<CodeCaisse V = "MGPAT"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "SUB INTERIA F. SANTE"/>
+<Code V = "416M"/>
+<CodeCaisse V = "MGPAT"/>
+<CodeNatureEmp V = "P"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "MGPAT PREVOYANCE"/>
+<Code V = "419M"/>
+<CodeCaisse V = "MGPAT"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "MGP M. SALAIRE"/>
+<Code V = "431M"/>
+<CodeCaisse V = "MGP"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "R. SUB MGP M. S."/>
+<Code V = "432A"/>
+<CodeCaisse V = "MGP"/>
+<CodeNatureEmp V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "SUB MGP M. SALAIRE"/>
+<Code V = "432M"/>
+<CodeCaisse V = "MGP"/>
+<CodeNatureEmp V = "P"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAPPEL I.F.T.S."/>
+<Code V = "502A"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAPPEL I.A.T."/>
+<Code V = "503A"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "R.NB JRS D ARRETS MA"/>
+<Code V = "704A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "R. TRAIT. BASE"/>
+<Code V = "010R"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "IND.CONS.EDU.POP.JEU"/>
+<Code V = "548N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "IJSS SUB C&lt;31/-3E"/>
+<Code V = "769N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "IJSS SUB C&gt;30+2E"/>
+<Code V = "771N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "IJSS SUB M&lt;31"/>
+<Code V = "772N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "IJSS SUB C]7M-3E"/>
+<Code V = "773N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "IJSS SUB C]7M+2E"/>
+<Code V = "774N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "IJSS NETTE"/>
+<Code V = "796N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "REG IJSS NETTE RG"/>
+<Code V = "797N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "R. TVX DANG C1 T2"/>
+<Code V = "711A"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "R IAT COMPLEMENTAIRE"/>
+<Code V = "743A"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "VALID.DE CNRACL"/>
+<Code V = "158N"/>
+<CodeCaisse V = "CNRACL"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "PRESTAT. ESPECES"/>
+<Code V = "157N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "ASTREINTE WEEK END"/>
+<Code V = "546N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "NBRE JRS D ARRETS MD"/>
+<Code V = "703N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "R. MIFCT F. SANTE"/>
+<Code V = "403A"/>
+<CodeCaisse V = "MIFCT"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "R. SUB MIFCT F.SANTE"/>
+<Code V = "415A"/>
+<CodeCaisse V = "MIFCT"/>
+<CodeNatureEmp V = "P"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "I.A.T."/>
+<Code V = "203N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TVX DANG C1 T2"/>
+<Code V = "277N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP.REVERSION SFT T"/>
+<Code V = "032R"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "NT - IHTS (-14)"/>
+<Code V = "611N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "R. MNT M. SALAIRE"/>
+<Code V = "427R"/>
+<CodeCaisse V = "MUTEX"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAPPEL I.E.M.P."/>
+<Code V = "504A"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "NBRE JRS D ARRETS MO"/>
+<Code V = "701V"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "NBRE JRS D ARRETS ML"/>
+<Code V = "702A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "NBRE JRS D ARRETS ML"/>
+<Code V = "702V"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP TPS PRES. ANNUEL"/>
+<Code V = "722A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP TX EMPLOI ANN."/>
+<Code V = "723A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Valeur du point"/>
+<Code V = "724A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "VALEUR DU SMIC"/>
+<Code V = "725A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "R PR. FIN ANNEE NOV"/>
+<Code V = "531A"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "AGF MONTANT 1"/>
+<Code V = "418M"/>
+<CodeCaisse V = "AGF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TRAITEMENT DE BASE"/>
+<Code V = "010V"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TRAIT.BASE DT"/>
+<Code V = "010W"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "NBRE JRS D ARRETS MD"/>
+<Code V = "703A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "BRUT A MANDATER"/>
+<Code V = "990V"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOTAL SOUMIS OUV MDT"/>
+<Code V = "991V"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "PLAFOND TH DU MOIS"/>
+<Code V = "086V"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOTAL COTIS"/>
+<Code V = "087V"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COS 38 PO"/>
+<Code V = "423V"/>
+<CodeCaisse V = "COS"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COS 38 PP"/>
+<Code V = "426V"/>
+<CodeCaisse V = "COS"/>
+<CodeNatureEmp V = "P"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOTAL BRUT"/>
+<Code V = "900V"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOTAL GAINS"/>
+<Code V = "901V"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOTAL RETENUES"/>
+<Code V = "902V"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOTAL RET. LEGALES"/>
+<Code V = "903V"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOTAL RET. PRECOMPTE"/>
+<Code V = "904V"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "NET A PAYER"/>
+<Code V = "905V"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "NET A MANDATER"/>
+<Code V = "906V"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "NET IMPOSABLE"/>
+<Code V = "907V"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOTAL RET. PATRONALE"/>
+<Code V = "908V"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOT. HEURES TRAVAIL."/>
+<Code V = "910V"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "BASE IJSS"/>
+<Code V = "920V"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOT. RET. OUV. MDT"/>
+<Code V = "992V"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOT. RET. PAT. MDT"/>
+<Code V = "993V"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "NET A VIRER"/>
+<Code V = "999V"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "T-SUPPLEMT FAMILIAL"/>
+<Code V = "030V"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RI par EMPLOI"/>
+<Code V = "085V"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "T - IHTS  (-14)"/>
+<Code V = "601U"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "BASE HEURES SUPPLEM."/>
+<Code V = "912V"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "I.H.T.N. NUIT"/>
+<Code V = "260N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "REVERSION SFT NTIT"/>
+<Code V = "033N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "R PR. FIN ANNEE"/>
+<Code V = "231R"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "NT - IHTS DIM/JF"/>
+<Code V = "613N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CONGES PAYES"/>
+<Code V = "790R"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "R. SUB MNT M. S."/>
+<Code V = "428R"/>
+<CodeCaisse V = "MUTEX"/>
+<CodeNatureEmp V = "P"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "INDEMNITE IJSS"/>
+<Code V = "319N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "INDEMNITE IJSS"/>
+<Code V = "320N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "I.A.T. HORAIRE"/>
+<Code V = "248N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "I.E.M.P. HORAIRE"/>
+<Code V = "249N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "H - IHTS (-14)"/>
+<Code V = "621N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "R. PRIME FIN ANNEE"/>
+<Code V = "524A"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "IAT COMPLEMENTAIRE"/>
+<Code V = "253N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "NT - IHTS (+14)"/>
+<Code V = "612N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "H - IHTS (+14)"/>
+<Code V = "622N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOT.JOURS TRAVAILLES"/>
+<Code V = "911A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "H - IHTS D/JF"/>
+<Code V = "623N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "IND-ASTREINTE"/>
+<Code V = "265N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "IND-ASTREINTE"/>
+<Code V = "265R"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "I.S.S. APS"/>
+<Code V = "247N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "I.H.T. D/JF"/>
+<Code V = "279N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "IND.CONS.EDU.POP.JEU"/>
+<Code V = "348N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "R. TRAIT. BASE"/>
+<Code V = "011A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAPPEL I.A.T."/>
+<Code V = "203A"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAPPEL I.E.M.P."/>
+<Code V = "204A"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP.COT.SS VIEIL RG"/>
+<Code V = "804A"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP.COT.SS VIEIL RG"/>
+<Code V = "804R"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP.COT.SS VIEIL RG "/>
+<Code V = "805A"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "U"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP.COT.SS VIEIL RG "/>
+<Code V = "805R"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "4"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP.COT.VIEIL.T RG"/>
+<Code V = "807A"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "U"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP.COT.SS TOT. RG O"/>
+<Code V = "810A"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP.COT.SS TOT. RG P"/>
+<Code V = "811A"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "U"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP.COT.SS PLF RG O"/>
+<Code V = "812A"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP.COT.SS PLF RG O"/>
+<Code V = "812R"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP.COT.SS PLF RG P"/>
+<Code V = "813A"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "U"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP.COT.SS PLF RG P"/>
+<Code V = "813R"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "U"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP. COT. FNAL RG"/>
+<Code V = "824A"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "F"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP. FNAL PAT. R.G."/>
+<Code V = "824R"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "F"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP.COT.ALFAM TOT.RG"/>
+<Code V = "826A"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "U"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP.COT. ACC.TRAV.RG"/>
+<Code V = "827A"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "U"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP.COT.IRCANTEC A"/>
+<Code V = "840A"/>
+<CodeCaisse V = "IRCANT"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP.COT. IRCANTEC A"/>
+<Code V = "840R"/>
+<CodeCaisse V = "IRCANT"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP.COT. IRCANTEC A"/>
+<Code V = "841A"/>
+<CodeCaisse V = "IRCANT"/>
+<CodeNatureEmp V = "R"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP.COT. IRCANTEC A"/>
+<Code V = "841R"/>
+<CodeCaisse V = "IRCANT"/>
+<CodeNatureEmp V = "R"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP.COT. IRCANTEC B"/>
+<Code V = "842R"/>
+<CodeCaisse V = "IRCANT"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP.COT. IRCANTEC B"/>
+<Code V = "843R"/>
+<CodeCaisse V = "IRCANT"/>
+<CodeNatureEmp V = "5"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP.TAXE TRANSP T.RG"/>
+<Code V = "848A"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "U"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP.COT.ASSEDIC"/>
+<Code V = "862A"/>
+<CodeCaisse V = "ASSED"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP.COT.ASSEDIC"/>
+<Code V = "863A"/>
+<CodeCaisse V = "ASSED"/>
+<CodeNatureEmp V = "S"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP.COT.ASSEDIC"/>
+<Code V = "865A"/>
+<CodeCaisse V = "ASSED"/>
+<CodeNatureEmp V = "S"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP PLF SS RG"/>
+<Code V = "880A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP PLF IRCANTEC"/>
+<Code V = "881A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP PLF ASSEDIC"/>
+<Code V = "882A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. FNAL TOT.R.G."/>
+<Code V = "886A"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "F"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "INDEM STAGE EXO"/>
+<Code V = "125N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "REMUN. APPRENTIS"/>
+<Code V = "110N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "ASSIETTE SS PAT APPR"/>
+<Code V = "766N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. SOL. AUTONOMIE"/>
+<Code V = "878C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "U"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. FNAL PAT. APP."/>
+<Code V = "891C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "F"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TRAIT. BASE  DT"/>
+<Code V = "011D"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT.PENSION CIVILE"/>
+<Code V = "832R"/>
+<CodeCaisse V = "PENCIV"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "IJSS SUB C&lt;29 AT"/>
+<Code V = "777N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "IJSS SUB C&gt;28 AT"/>
+<Code V = "778N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "IJSS SUB M AT&lt;29"/>
+<Code V = "779N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "IJSS SUB M AT&gt;28"/>
+<Code V = "782N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "I.H. COMPL. NUIT"/>
+<Code V = "254N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "I.H. COMPL . D/JF"/>
+<Code V = "287N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "R. TRAIT. BASE DT"/>
+<Code V = "011E"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAPPEL NT - SFT"/>
+<Code V = "031A"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TRAIT.BASE VACATAIRE"/>
+<Code V = "013N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TRAITEMENT DE BASE"/>
+<Code V = "011N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "PRIME FIN ANNEE"/>
+<Code V = "224N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "PRIME SERVICE"/>
+<Code V = "230N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "IND-TRV DOMINICAL"/>
+<Code V = "241N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "URRPIMMEC F. SANTE"/>
+<Code V = "406M"/>
+<CodeCaisse V = "URPIM"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "SUB URRPIMMEC F.S."/>
+<Code V = "407M"/>
+<CodeCaisse V = "URPIM"/>
+<CodeNatureEmp V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "URRPIMMEC INCAPACITE"/>
+<Code V = "422M"/>
+<CodeCaisse V = "URPIM"/>
+<CodeNatureEmp V = "P"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "GRAS SAVOYE"/>
+<Code V = "424M"/>
+<CodeCaisse V = "GRASS"/>
+<CodeNatureEmp V = "P"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "ABATTEMENT REGLE N�1"/>
+<Code V = "705N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "ABATTEMENT REGLE N�2"/>
+<Code V = "706N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "ABATTEMENT REGLE N�3"/>
+<Code V = "707N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "ABATTEMENT REGLE N�4"/>
+<Code V = "708N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "ABATTEMENT REGLE N�5"/>
+<Code V = "709N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TPS PRESENCE ANNUEL"/>
+<Code V = "722N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TAUX EMPLOI ANNUEL"/>
+<Code V = "723N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "VALEUR DU SMIC"/>
+<Code V = "725N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "ASTR. NORM. AGT MAIT"/>
+<Code V = "737N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "IND. DIFF. SMIC RG"/>
+<Code V = "761N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TICKETS RESTAURANTS"/>
+<Code V = "788N"/>
+<CodeCaisse V = "SODEXH"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "BRUT A MANDATER"/>
+<Code V = "990N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOTAL SOUMIS OUV MDT"/>
+<Code V = "991N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CUMUL MT HS EXO"/>
+<Code V = "327N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COS 38 PO"/>
+<Code V = "423M"/>
+<CodeCaisse V = "COS"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COS 38 PP"/>
+<Code V = "426M"/>
+<CodeCaisse V = "COS"/>
+<CodeNatureEmp V = "P"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "BASE IJSS ST"/>
+<Code V = "798N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. SS VIEIL. RG"/>
+<Code V = "804C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. SS VIEIL. RG"/>
+<Code V = "805C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "U"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT.VIEILL.TOT. RG"/>
+<Code V = "807C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "U"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. SS TOT. RG"/>
+<Code V = "810C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. SS TOT. RG"/>
+<Code V = "811C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "U"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. SS PLAF. RG"/>
+<Code V = "812C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. SS PLAF. RG"/>
+<Code V = "813C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "U"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. FNAL PAT. R.G."/>
+<Code V = "824C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "F"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT.ALL.FAM/.TOT.RG"/>
+<Code V = "826C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "U"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. ACC. TRAV. RG"/>
+<Code V = "827C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "U"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. IRCANTEC A"/>
+<Code V = "840C"/>
+<CodeCaisse V = "IRCANT"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. IRCANTEC A"/>
+<Code V = "841C"/>
+<CodeCaisse V = "IRCANT"/>
+<CodeNatureEmp V = "R"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. IRCANTEC B"/>
+<Code V = "842C"/>
+<CodeCaisse V = "IRCANT"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. IRCANTEC B"/>
+<Code V = "843C"/>
+<CodeCaisse V = "IRCANT"/>
+<CodeNatureEmp V = "R"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "R.D.S."/>
+<Code V = "844C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TAXE PREVOYANCE"/>
+<Code V = "845N"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "U"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TAXE TRANSPORT T. RG"/>
+<Code V = "848C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "U"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. ASSEDIC TR A"/>
+<Code V = "850C"/>
+<CodeCaisse V = "ASSED"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. ASSEDIC TR A"/>
+<Code V = "851C"/>
+<CodeCaisse V = "ASSED"/>
+<CodeNatureEmp V = "S"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. ASSEDIC TR B"/>
+<Code V = "852C"/>
+<CodeCaisse V = "ASSED"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. ASSEDIC TR B"/>
+<Code V = "853C"/>
+<CodeCaisse V = "ASSED"/>
+<CodeNatureEmp V = "S"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CSG DEDUCTIBLE 1%"/>
+<Code V = "859C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CONT.SCIAL.GAL"/>
+<Code V = "869C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT. MEDECINE PROF."/>
+<Code V = "874C"/>
+<CodeCaisse V = "CDG"/>
+<CodeNatureEmp V = "M"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "PLAFOND SEC.SOC. RG"/>
+<Code V = "880P"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "PLAFOND IRCANTEC"/>
+<Code V = "881P"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "PLAFOND ASSEDIC"/>
+<Code V = "882P"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COT.FNAL TOT. R.G"/>
+<Code V = "886C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "F"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "EXONERATION HS RG"/>
+<Code V = "887C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "EXONERATION HS RS"/>
+<Code V = "889C"/>
+<CodeCaisse V = "CNRACL"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CSG-RDS DED. HS"/>
+<Code V = "893C"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOTAL BRUT"/>
+<Code V = "900N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOTAL GAINS"/>
+<Code V = "901N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOTAL RETENUES"/>
+<Code V = "902N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOTAL RET. LEGALES"/>
+<Code V = "903N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOTAL RET. PRECOMPTE"/>
+<Code V = "904N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "NET A PAYER"/>
+<Code V = "905N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "NET A MANDATER"/>
+<Code V = "906N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "NET IMPOSABLE"/>
+<Code V = "907N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOTAL RET. PATRONALE"/>
+<Code V = "908N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOT. HEURES TRAVAIL."/>
+<Code V = "910N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOT.JOURS TRAVAILLES"/>
+<Code V = "911N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "BASE HEURES SUPPLEM."/>
+<Code V = "912N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "BASE CONGES PAYES"/>
+<Code V = "913N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOT. AVANT.NATURE"/>
+<Code V = "914N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "BASE IJSS"/>
+<Code V = "920N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "BRUT EXONERE"/>
+<Code V = "960N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOT. RET. OUV. MDT"/>
+<Code V = "992N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOT. RET. PAT. MDT"/>
+<Code V = "993N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "NET A VIRER"/>
+<Code V = "999N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "PR. FIN ANNEE JUIN"/>
+<Code V = "231N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "PR. FIN ANNEE NOV"/>
+<Code V = "232N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "AGF MONTANT 2"/>
+<Code V = "417M"/>
+<CodeCaisse V = "AGF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "R. URPIMMEC INCAP."/>
+<Code V = "422A"/>
+<CodeCaisse V = "URPIM"/>
+<CodeNatureEmp V = "P"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "R. GRAS SAVOYE"/>
+<Code V = "424A"/>
+<CodeCaisse V = "GRASS"/>
+<CodeNatureEmp V = "P"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "ASTR. NORM. AGT EXC."/>
+<Code V = "733N"/>
+<CodeCaisse V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "R.D.S."/>
+<Code V = "844A"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "R. TAXE PREVOYANCE"/>
+<Code V = "845A"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = "U"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CSG DEDUCTIBLE 1%"/>
+<Code V = "859A"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAP CONT.SOC.GEN."/>
+<Code V = "869A"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureSal V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOTAL RETENUES"/>
+<Code V = "902A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOTAL RET. LEGALES"/>
+<Code V = "903A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "NET A PAYER"/>
+<Code V = "905A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "NET A MANDATER"/>
+<Code V = "906A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "NET IMPOSABLE"/>
+<Code V = "907A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOTAL RET. PATRONALE"/>
+<Code V = "908A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "BRUT EXONERE"/>
+<Code V = "960A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOT. RET. OUV. MDT"/>
+<Code V = "992A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TOT. RET. PAT. MDT"/>
+<Code V = "993A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "NET A VIRER"/>
+<Code V = "999A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "R.NB JRS D ARRETS MO"/>
+<Code V = "701A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "R. BASE IJSS"/>
+<Code V = "920A"/>
+</Correspondance>
+</NomenclatureRubriquePaye>
+<NomenclatureCaisse>
+<Description V = "Nomenclature caisses."/>
+<Correspondance>
+<Libelle V = "AGF"/>
+<Code V = "AGF"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "S.A.R.L ANTEA"/>
+<Code V = "ANTEA"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "APICIL"/>
+<Code V = "APICIL"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "ASSEDIC"/>
+<Code V = "ASSED"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CAREL"/>
+<Code V = "CAREL"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CDG"/>
+<Code V = "CDG"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CNFPT"/>
+<Code V = "CNFPT"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CNRACL"/>
+<Code V = "CNRACL"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COS"/>
+<Code V = "COS"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "COS VILLE"/>
+<Code V = "COSV"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "FONPEL"/>
+<Code V = "FONPEL"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "FRATERNELLE"/>
+<Code V = "FRA"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "GRAS SAVOYE"/>
+<Code V = "GRASS"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "IGIREL"/>
+<Code V = "IGIREL"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "IRCANTEC"/>
+<Code V = "IRCANT"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "MATGI"/>
+<Code V = "MATGI"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "METRO"/>
+<Code V = "METRO"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "MGP"/>
+<Code V = "MGP"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "MGPAT"/>
+<Code V = "MGPAT"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "MGPCL"/>
+<Code V = "MGPCL"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "MIFCT"/>
+<Code V = "MIFCT"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "MUTEX"/>
+<Code V = "MUTEX"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "PAYEUR"/>
+<Code V = "PAYEUR"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "PENSION CIVILE"/>
+<Code V = "PENCIV"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "PREFON"/>
+<Code V = "PREFON"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAFP"/>
+<Code V = "RAFP"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RETENUE A LA SOURCE"/>
+<Code V = "RETSOU"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "SODEXHO"/>
+<Code V = "SODEXH"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "SOLIDARITE"/>
+<Code V = "SOLID"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TP AVANCES"/>
+<Code V = "TP"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "URPIMMEC"/>
+<Code V = "URPIM"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "URSSAF"/>
+<Code V = "URSSAF"/>
+</Correspondance>
+</NomenclatureCaisse>
+<NomenclatureNature>
+<Description V = "Nomenclature des natures"/>
+<Correspondance>
+<Libelle V = "TAXE SAL."/>
+<Code V = "J"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "TRAITEMENT"/>
+<Code V = "T"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "XXX"/>
+<Code V = "2"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "PRIME GRAT"/>
+<Code V = "G"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "XXX"/>
+<Code V = "4"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "XXX"/>
+<Code V = "5"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "XXX"/>
+<Code V = "6"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "XXX"/>
+<Code V = "7"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "XXX"/>
+<Code V = "8"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "XXX"/>
+<Code V = "9"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "AUTRES IND"/>
+<Code V = "A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CPA INDEMN"/>
+<Code V = "C"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "XXX"/>
+<Code V = "E"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "FNAL"/>
+<Code V = "F"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "XXX"/>
+<Code V = "1"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "XXX"/>
+<Code V = "I"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "NBI SFT"/>
+<Code V = "N"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CHARGES OU"/>
+<Code V = "O"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "PRESTATION"/>
+<Code V = "P"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RETRAITES"/>
+<Code V = "R"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "ASSEDIC"/>
+<Code V = "S"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CONGES PAY"/>
+<Code V = "B"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CNFPT"/>
+<Code V = "X"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "XXX"/>
+<Code V = "Z"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CDG"/>
+<Code V = "W"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "FCCPA"/>
+<Code V = "Y"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "MEDECINE P"/>
+<Code V = "M"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "URSSAF"/>
+<Code V = "U"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "XXX"/>
+<Code V = "3"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "GARANTIE"/>
+<Code V = "D"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "XXX"/>
+<Code V = "H"/>
+</Correspondance>
+</NomenclatureNature>
+</Nomenclatures>
+<RepartitionParNature>
+<Repartition>
+<Libelle V = "AUTRES IND"/>
+<Code V = "A"/>
+<Mt V = "3399.71"/>
+</Repartition>
+<Repartition>
+<Libelle V = "FNAL"/>
+<Code V = "F"/>
+<Mt V = "109.19"/>
+</Repartition>
+<Repartition>
+<Libelle V = "MEDECINE P"/>
+<Code V = "M"/>
+<Mt V = "75.7"/>
+</Repartition>
+<Repartition>
+<Libelle V = "CHARGES OU"/>
+<Code V = "O"/>
+<Mt V = "5978.33"/>
+</Repartition>
+<Repartition>
+<Libelle V = "PRESTATION"/>
+<Code V = "P"/>
+<Mt V = "453.59"/>
+</Repartition>
+<Repartition>
+<Libelle V = "RETRAITES"/>
+<Code V = "R"/>
+<Mt V = "649.2"/>
+</Repartition>
+<Repartition>
+<Libelle V = "ASSEDIC"/>
+<Code V = "S"/>
+<Mt V = "865.46"/>
+</Repartition>
+<Repartition>
+<Libelle V = "TRAITEMENT"/>
+<Code V = "T"/>
+<Mt V = "13261.82"/>
+</Repartition>
+<Repartition>
+<Libelle V = "URSSAF"/>
+<Code V = "U"/>
+<Mt V = "6935.94"/>
+</Repartition>
+</RepartitionParNature>
+</astre:DocumentPaye>
