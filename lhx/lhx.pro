@@ -52,7 +52,7 @@ QMAKE_CXXFLAGS += -O1
 } else {
 
 QMAKE_LFLAGS += -s
-QMAKE_CXXFLAGS += -O3 -fexpensive-optimizations -fomit-frame-pointer
+QMAKE_CXXFLAGS += -O3 -fexpensive-optimizations
 }
 
 VPATH = .
@@ -62,14 +62,16 @@ TEMPLATE = app
 
 DEFINES +=  WARNING_LIMIT=5  \         # nombre maximum d'avertissement par fichier
             MAX_NB_AGENTS=30000 \      # nombre maximum de bulletins par mois
-            MAX_LIGNES_PAYE=4000 \      # nombre maximum de lignes de paye par bulletin
+            MAX_LIGNES_PAYE=4000 \     # nombre maximum de lignes de paye par bulletin
             TYPE_LOOP_LIMIT=10 \       # nombre de "rembobinages des drapeaux de catégories (voir ligne_paye.cpp,
             MAX_STRING_LENGTH=200 \    # taille maximum des strings pour la conversion latin-1
             MAX_MEMORY_SHARE=0.5  \    # part maximum de la mémoire vive disponible consommée par défaut (si --memshare n'est pas précisé)
-            AVERAGE_RAM_DENSITY=10 \    # constante empirique déterminant la quantité de mémoire nécessitée par 1 unité de mémoire de fichier xhl en cours de traitement.
-            USERPROFILE=\\\"HOME\\\" \         # pour la barre de progrès. Windows: "USERPROFILE"
+            AVERAGE_RAM_DENSITY=10 \   # constante empirique déterminant la quantité de mémoire nécessitée par 1 unité de mémoire de fichier xhl en cours de traitement.
+            USERPROFILE=\\\"HOME\\\" \ # pour la barre de progrès. Windows: "USERPROFILE"
+            CONVERTIR_LATIN_1 \        # spécifique Windows : convertir les sorties caractères en Latin-1 pour faciliter l'import sous Office
+            # NORMALISER_ACCENTS \     # définier pour supprimer les accents en sortie des chaines de charactères
             #MEMORY_DEBUG  \
-            LOCALDATA=\\\"/AppData/rank\\\"    # Windows
+            LOCALDATA=\\\"/AppData/rank\\\"    # spécifique Windows
 
 DEFINES += __GNUC_EXTENSION \
            _REENTRANT \
