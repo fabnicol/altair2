@@ -55,6 +55,14 @@ inline void reset_rank_signal()
     rang_global = 0;
 }
 
+inline void GCC_INLINE effacer_char(xmlChar* c)
+{
+    for (int j = 0; *(c + j) != 0; ++j)
+    {
+        *(c + j) = *(c + j + 1);
+    }
+}
+
 inline void  generate_rank_signal()
 {
     if (rankFilePath.empty()) return;
