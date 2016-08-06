@@ -40,11 +40,11 @@ CONFIG(guiOutput) {
 
 CONFIG(debug, debug|release) {
 
-    QMAKE_CXXFLAGS = -O0
+    QMAKE_CXXFLAGS = -O1
 
 } else{
     QMAKE_LFLAGS += -s
-    QMAKE_CXXFLAGS = -O3 -fexpensive-optimizations
+    QMAKE_CXXFLAGS = -O3 -fexpensive-optimizations -fomit-frame-pointer
 }
 
 VPATH = .
@@ -70,7 +70,8 @@ DEFINES += __GNUC_EXTENSION \
            _GNU_SOURCE \
            __STDC_LIMIT_MACROS \
            __STDC_FORMAT_MACROS \
-           SYSTEM_PATH_SEPARATOR=\"\':\'\"
+           SYSTEM_PATH_SEPARATOR=\"\':\'\" \
+           #LIBXML2
 
                                             # DEFINES += STRICT  pour un validateur qui retourne à la première erreur.
 DEFINES += \#NO_REGEX \                     # Pas d'analyse du texte par expression régulière
@@ -114,13 +115,13 @@ SOURCES += \
     fonctions_auxiliaires.cpp \
     main.cpp \
     table.cpp \
-    validator.cpp \
+    validator2.cpp \
     ligne_paye.cpp
 
 HEADERS += \
     fonctions_auxiliaires.hpp \
     table.hpp \
-    validator.hpp \
+    validator2.h \
     ligne_paye.hpp \
     ../Interface/gui/tags.h \
     entete.hpp
