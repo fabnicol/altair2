@@ -8,8 +8,7 @@
 #include <iomanip>
 #include <iostream>
 #include <cstring>
-#include <cctype>
-#include "validator.hpp"
+#include "validator2.h"
 #include "fonctions_auxiliaires.hpp"
 #include "table.hpp"
 #include "ligne_paye.hpp"
@@ -23,6 +22,8 @@ extern vector<errorLine_t>  errorLineStack;
 extern int rang_global;
 
 /* agent_total est une variable de contrôle pour info->NCumAgent */
+
+vector<pair<string, uint16_t>>  Xml::V;
 
 static int parseFile(info_t& info)
 {
@@ -51,18 +52,22 @@ static int parseFile(info_t& info)
      * choisis au cas par cas en fonction d'une évaluation plus ou moins subjective de la gravité
      * de la non-conformité. */
 
+
+
+
     ofstream log;
     xmlDocPtr doc;
-    xmlNodePtr cur = nullptr;
+    xmlPtr cur = NULLPTR;
     info.NAgent[info.fichier_courant] = 0;
     xmlNodePtr cur_save = cur;
-    xmlChar *annee_fichier = nullptr,
-            *mois_fichier = nullptr, 
-            *employeur_fichier = nullptr,
-            *etablissement_fichier = nullptr,
-            *siret_fichier = nullptr,
-            *budget_fichier = nullptr;
+    string annee_fichier = NULLPTR,
+           mois_fichier = NULLPTR,
+           employeur_fichier = NULLPTR,
+           etablissement_fichier = NULLPTR,
+           siret_fichier = NULLPTR,
+           budget_fichier = NULLPTR;
 
+#ifdef LIBXML2
     #if defined(STRINGSTREAM_PARSING)
       doc = xmlParseDoc(reinterpret_cast<const xmlChar*>(info.threads->in_memory_file.at(info.fichier_courant).c_str()));
     #elif defined (MMAP_PARSING)
@@ -78,12 +83,6 @@ static int parseFile(info_t& info)
         cerr << ERROR_HTML_TAG " problème d'allocation mémoire pour le scan XML." ENDL;
         return SKIP_FILE;
     }
-
-    if (! info.chemin_log.empty())
-    {
-        log.open(info.chemin_log, ios::app);
-    }
-
     cur = xmlDocGetRootElement(doc);
 
     if (cur == nullptr)
@@ -98,11 +97,18 @@ static int parseFile(info_t& info)
 
     cur =  cur->xmlChildrenNode;
 
-    cur = atteindreNoeud("Annee", cur);
+ #endif
 
-    if (cur != nullptr)
+    if (! info.chemin_log.empty())
     {
-        annee_fichier = xmlGetProp(cur, (const xmlChar *) "V");
+        log.open(info.chemin_log, ios::app);
+    }
+
+   cur = atteindreNoeud(Annee, cur);
+
+    if (cur != doc.end())
+    {
+        annee_fichier = xmlGetProp(cur);
         int annee;
         annee = (annee_fichier[0] == '\0')? 0 : atoi((const char*) annee_fichier);
 
@@ -551,7 +557,6 @@ static int parseFile(info_t& info)
                 if (diff != 0)
                 {
                   if (verbeux)
-                  {
                     cerr << ERROR_HTML_TAG "Incohérence des décomptes de lignes entre le contrôle C : "
                               << info.NLigne[info.NCumAgentXml]
                               << "et l'analyse Libxml2 : "
@@ -564,7 +569,6 @@ static int parseFile(info_t& info)
                               << " Mois "
                               << info.Table[info.NCumAgentXml][Mois]
                               << ENDL   ;
-                  }
 
                     ecrire_log(info, log, diff);
                     if (log.is_open())
@@ -769,32 +773,6 @@ static inline void GCC_INLINE allouer_memoire_table(info_t& info)
     }
 }
 
-inline void GCC_INLINE normaliser_accents(xmlChar* c)
-{
-    /* la représentation interne est UTF-8 donc les caractères accentués sont sur 2 octets : é = 0xc3a8 etc. */
-    int size = xmlStrlen(c);
-    for (int i = 0; i < size; ++i)
-    {
-    if (c[i] == 0xc3)
-        switch (c[i + 1])
-        {
-            case 0xa8 : // è
-            case 0xa9 : // é
-            case 0xaa :
-                c[i] = 0x65;
-
-                for (int j = i +1; c[j] != 0; ++j)
-                {
-                    c[j] = c[j + 1];
-                }
-                --size;
-               break;  // ê
-                       //  case 0xb4 : *c = 0x6f; break; //d = c; while (++d) *d = *(d + 1); break;  // ô
-                       //     case        // î
-        }
-    }
-
-}
 
 void* decoder_fichier(info_t& info)
 {
@@ -912,13 +890,8 @@ if (info.pretend) return nullptr;
     {
         /* Les élus peuvent être identifiés soit dans le service soit dans l'emploi métier */
 
-        xmlChar* em = VAR(EmploiMetier);
-        xmlChar* gr = VAR(Grade);
 
-        normaliser_accents(em);
-        normaliser_accents(gr);
-
-        if (regex_match((const char*)em , pat) || regex_match((const char*) VAR(Service), pat))
+        if (regex_match((const char*) VAR(EmploiMetier), pat) || regex_match((const char*) VAR(Service), pat))
         {
             xmlFree(VAR(Statut)) ;
             VAR(Statut) = (xmlChar*) xmlStrdup((const xmlChar*)"ELU");
@@ -928,7 +901,7 @@ if (info.pretend) return nullptr;
         {
             /* vacataires */
 
-            if (regex_match((const char*) em, pat2))
+            if (regex_match((const char*) VAR(EmploiMetier), pat2))
             {
                 xmlFree(VAR(Grade));
                 VAR(Grade) = (xmlChar*) xmlStrdup((const xmlChar*)"V");
@@ -936,7 +909,7 @@ if (info.pretend) return nullptr;
 
             /* assistantes maternelles */
 
-            else if (regex_match((const char*) em, pat3))
+            else if (regex_match((const char*) VAR(EmploiMetier), pat3))
             {
                 xmlFree(VAR(Grade));
                 VAR(Grade) = (xmlChar*) xmlStrdup((const xmlChar*)"A");
@@ -948,19 +921,19 @@ if (info.pretend) return nullptr;
                  * à la fin de main.cpp dans la double boucle de libération de mémoire car
                  * A, B, C, NA ne sont pas alloués sur le tas. */
 
-            if (regex_match((const char*) gr, pat_adjoints)
-                || regex_match((const char*) gr, pat_agents))
+            if (regex_match((const char*) VAR(Grade), pat_adjoints)
+                || regex_match((const char*) VAR(Grade), pat_agents))
             {
                 VAR(Categorie) = (xmlChar*)"C";
             }
-            else if (regex_match((const char*) gr, pat_cat_a))
+            else if (regex_match((const char*) VAR(Grade), pat_cat_a))
             {
                 VAR(Categorie) = (xmlChar*)"A";
             }
 
             /* Il faut teste d'abord cat A et seulement ensuite cat B */
 
-            else if (regex_match((const char*) gr, pat_cat_b))
+            else if (regex_match((const char*) VAR(Grade), pat_cat_b))
             {
                 VAR(Categorie) = (xmlChar*)"B";
             }

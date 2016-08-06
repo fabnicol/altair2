@@ -11,11 +11,9 @@
 #include <clocale>
 #include <cerrno>
 #include <cmath>
-#include <libxml/xmlmemory.h>
-#include <libxml/parser.h>
 #include <cinttypes>
 #include <vector>
-
+#include <libxml/parser.h>
 
 #define GCC_INLINE __attribute__((always_inline))
 #define GCC_UNUSED __attribute__((__unused__))
@@ -30,28 +28,21 @@ typedef struct
 } thread_t;
 
 
-static constexpr auto EXPRESSION_REG_ELUS = "^maire.*|^pr..?sident.*|^elus?|^(?:adj.*\\bmaire\\b|vi.*\\bpr..?sident\\b|cons.*\\bmuni|cons.*\\bcomm|cons.*\\bd..?l..?gu).*",
+static constexpr auto EXPRESSION_REG_ELUS = "^maire.*|^pr..?sident.*|^[eé]lus?|^(?:adj.*\\bmaire\\b|vi.*\\bpr..?sident\\b|cons.*\\bmuni|cons.*\\bcomm|cons.*\\bd..?l..?gu).*",
 
   EXPRESSION_REG_VACATIONS = ".*\\bvacat.*|.*\\bvac\\.?\\b.*",                 // vac.* peut être vérifié par 'vacances'
   EXPRESSION_REG_ASSISTANTES_MATERNELLES = ".*\\bass.*\\bmater.*",
-  EXPRESSION_REG_ADJOINTS = "\\W*(?:adj.*(?:adm|ani|tech|pat)|ope.*(?:a\\.?p\\.?s\\.?|act)|aux.*(?:puer|soin)|gard(?:ien|.*ch)|brigadier|receveur|sapeur|capor|sous.*off).*",
-  EXPRESSION_REG_AGENTS = "\\W*\\bA\\.?A\\.?\\b|\\bA\\.?E\\.?Q\\.?\\b|\\bA\\.?A\\.?H\\.?\\b|A\\.?S\\.?H\\.?Q\\.?|O\\.?P\\.?Q\\.?|(?:(?:agent|agt\\.?).*(?:ser.*ho|soc|ma[îi]|poli|p\\.?m\\.?|pat|ent.*\\b(?:qu|sp))|\
-(?:agent|agt\\.?)?.*atsem|aide.*(?:soi|pha)|aumonier|cond.*amb|dessin|.*ouv(?:rier|.*prof)).*",
+  EXPRESSION_REG_ADJOINTS = "\\W*(?:adj.*(?:adm|ani|tech|pat)|op[eé].*(a\\.?p\\.?s\\.?|act)|aux.*(pu[eé]r|soin)|gard(ien|.*ch)|brigadier|receveur|sapeur|capor|sous.*off).*",
+  EXPRESSION_REG_AGENTS = "\\W*(?:(?:agent|agt\\.?).*(?:soc|ma[îi]|poli|p\\.?m\\.?|sp[eé]|pat)|(?:agent|agt\\.?)?.*atsem).*",
 
  /* Attention il ne faut pas autre chose que \\W* car sinon on peut avoir confusion entre cons[eiller].* et [agent].*cons[ervation].*   */
- /* cons = conseiller ou conservateur souvent abrégé cons., mais peut être aussi conservation */
+ /* cons = conseiller ou conservateur souvent abrégé cons., mai speut être aussi conservation */
 
-  EXPRESSION_REG_CAT_A = "\\W*\
-(?:adminis|a.*\\bh.*\\bu|c.*\\b(?:cl|tr).*\\bu|attach|biol|biblio|cad.*(?:\\bsoc.*ed|\\bsan)|cap.*t|com.*t|.*colon|cons\\.?|d\\S*\\.?\\s*g\\S*\\.?|\
-dir(?:ect|.*\\bet.*b|.*\\bsoi)|ingen|mede|ma.t.*conf|prat.*hos|pharm|ped.*p.*c.*\\bs|prep.*c.*\\bs|prof|psy.*(?:l|m.*c.*\\bs)|puericultr|sage.*f|secr.*mai[veter]|\
-i\\.?a\\.?d\\.?e\\.?|i\\.?b\\.?o\\.?d\\.?e\\.?|I\\.?S\\.?G\\.?(?:\\b|S)|int.*(?:med|phar|od)|infi?r?m?i?.*(?:\\b(?!i)|anes|bloc|i\\.?a\\.?d\\.?|i\\.?b\\.?o\\.?d\\.?|s\\.?\\s*\\bg\\.?|soi|enc.*s)|\
-ergot|radiophys|(?:tec.*l|mass.*kin|diet|inf|manip).*\\bc(?:\\.|a).*\\bs).*",
+  EXPRESSION_REG_CAT_A = "\\W*(?:adminis|attach|biol|biblio|infi.*(?:cad.*san|soi)|cap.*t|com.*t|.*colon|cons\\.?|d\\S*\\.?\\s*g\\S*\\.?|direct|ing[eé]n|m[eé]de|pharm|prof|psy|puer|puér|sage.*f|secr.*mai[v[eé]t[eé]r]|infirm\\S*\\s.*(?:soi|enc.*s|C\\.?S\\.?)).*",
 
- /* A cause du cas problématique des infirmiers et diététiciens, ex B recatégorisés en A, il faut d'abord tester A puis si échec B */
+ /* A cause du cas problématique des infirmiers, ex B recatégorisés en A, il faut d'abord tester A puis si échec B */
 
-  EXPRESSION_REG_CAT_B = "\\W*\
-(?:redac|tech|anim|educ|a\\.?\\s?s\\.?\\s?(?:e|\\s)|assi?s?t?\\.?.*(?:spec|ens|cons|pat|bib|social|soc.*edu?c?|med.*t|med.*adm)|monit|contro.*t(?:er|ra)|\
-chef.*p.*m|lieut[^c\\s]*\\b|I\\.?D\\.?E\\.?|inf.*\\bi\\.?d\\.?e|reeduc|adj.*cadr|analyst|diet|prep.*ph|ped.*po|programmeu|orthop|mass.*kin|manip|secr.*med|\\ba\\.?m\\.?a\\.?\\b).*",
+  EXPRESSION_REG_CAT_B = "\\W*(?:r[eé]dac|tech|anim|[eé]duc|ass\\.?.*(?:ens|cons|pat|bib|socio.*[eé]d|m[ée]d.*t)|monit|contr[oô].*t(?:er|ra)|chef.*p.*m|lieut[^c\\s]*\\b|infirm|r[eé][eé]duc).*",
 
 /* Les définitions ci-après doivent être négatives */  NOM_BASE = "Table",
   NOM_BASE_BULLETINS = "Bulletins",
@@ -94,6 +85,8 @@ typedef enum {
               EmploiMetier, Grade, Echelon, Indice, Code, Description, Service, NBI, QuotiteTrav,
               NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer, Categorie
          } Entete;
+
+enum { V };
 
 constexpr const char* Tableau_entete[] = {
                                     "Annee", "Mois", "Budget", "Employeur", "Siret", "Etablissement",
@@ -216,8 +209,102 @@ static const xmlChar drapeau[][2]  = {{1,0}, {2,0}, {3,0}, {4,0}, {5,0}, {6,0}, 
 
 void* decoder_fichier(info_t& tinfo);
 
+using namespace std;
+#ifndef LIBXML2
+    using xmlNode = pair<string, uint32_t>;
+    using xmlNodePtr = vector<xmlNode>::const_iterator;
+    using xmlDocPtr = vector<xmlNode>;
+    typedef string xmlChar ;
+    #define NULLPTR string::end();
+    class Xml
+    {
+      public:
+        static vector<pair<string, uint32_t>> V;
+        Xml();
+    };
 
-inline xmlNodePtr GCC_INLINE atteindreNoeud(const char * noeud, xmlNodePtr cur, int normalJump = 0)
+    inline xmlNodePtr GCC_INLINE atteindreNoeud(const int n, xmlNodePtr iter0)
+    {
+        xmlNodePtr iter = iter0;
+
+        while (iter != v.end() && iter->second != n)
+        {
+               ++iter;
+        }
+
+       return iter;
+    }
+
+    /*
+      L'index uint32_t est ainsi défini :
+         8 premiers bits : libellé du noeud
+         1 bit : flag nouvelle ligne de paie
+         1 bit : flag nouvel agent
+         2 bits : libres
+         20 bits (max 1 006 200 mots soit environ 5 Mo soit environ 500 agents) : dernier index conservé
+    */
+
+    uint8_t tag(const xmlNode& x)
+    {
+        return x.second & 0xFF;
+    }
+
+    /* La valeur des tags est la suivante :
+
+      {0, 1} : si le tag a une valeur associée : tag & 0x01
+      2..0xFE : tag lui même : tag >> 1
+      0xFF : tag "V", valeur associée au tag précédent
+
+     */
+
+    bool n_paie(const xmlNode& x)
+    {
+        return (bool) x.second & 0x0100;
+    }
+    bool n_agent(const xmlNode& x)
+    {
+        return (bool) x.second & 0x0200;
+    }
+    uint32_t prec(const xmlNode& x)
+    {
+        return x.second & 0xFFFFF000 >> 12;
+    }
+
+    string valeur(const xmlNode& x)
+    {
+        return x.first;
+    }
+
+    void tag(const xmlNode& x, int y)
+    {
+        x.second = (x.second & 0xFFFFFF00) + (y & 0xFF);
+    }
+
+    void n_paie(const xmlNode& x, bool y)
+    {
+           x.second = (x.second & 0xFFFFF000) + ( y << 8) ;
+    }
+
+    void n_agent(const xmlNode& x, bool y)
+    {
+           x.second = (x.second  & 0xFFFFF000) + (y << 9);
+    }
+
+    void prec(const xmlNode& x, uint32_t y)
+    {
+        return x.second = (x.second & 0x00000FFF) + (y << 12);  // y encodé sur les 20 premiers bits seulement sinon tronqué en silence
+    }
+
+    string xmlGetProp(const xmlNodePtr& iter)
+    {
+        while (iter != string::end() && tag(*iter) != 0xFF) ++iter;
+        return valeur(*iter);
+    }
+
+#else
+    #define NULLPTR nullptr;
+
+inline xmlNodePtr GCC_INLINE atteindreNoeud_(const char * noeud, xmlNodePtr cur, int normalJump = 0)
 {
    #if 1
     while (cur && xmlIsBlankNode(cur))
@@ -241,6 +328,13 @@ inline xmlNodePtr GCC_INLINE atteindreNoeud(const char * noeud, xmlNodePtr cur, 
 
      return cur;  // soit un pointer vers le bon noeud, soit nullptr
 }
+
+#define atteindreNoeud(X, Y) atteindreNoeud_(#X, Y)
+
+xmlChar* xmlGetProp(const xmlNodePtr x) { return xmlNodePtr(x, (const xmlChar *) "V");
+
+#endif
+
 
 
 
