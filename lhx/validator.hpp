@@ -29,13 +29,64 @@ typedef struct
     unsigned argc;
 } thread_t;
 
+/*
+Décret n° 2011-746 du 27 juin 2011 portant statuts particuliers des corps des personnels de rééducation de la catégorie B de la fonction publique hospitalière
+Sont classés dans la catégorie B les corps des personnels de rééducation des établissements mentionnés à l'article 2 de la loi du 9 janvier 1986 susvisée, ci-dessous énumérés :
+1° Le corps des pédicures-podologues ;
+2° Le corps des masseurs-kinésithérapeutes ;
+3° Le corps des ergothérapeutes ;
+4° Le corps des psychomotriciens ;
+5° Le corps des orthophonistes ;
+6° Le corps des orthoptistes ;
+7° Le corps des diététiciens.  */
+
+/* Passage en A des ergothérapeutes
+Décret n° 2015-1048 du 21 août 2015 portant dispositions statutaires relatives aux ergothérapeutes de la fonction publique hospitalière  */
+
+/* Nouveau corps, classe sup
+ *       IB  IN
+ * 1	449	394	1 an	1 824,34 €
+   2	465	407	2 ans	1 884,53 €
+   3	491	424	2 ans	1 963,25 €
+   4	517	444	2 ans	2 055,85 €
+   5	546	464	2 ans	2 148,46 €
+   6	577	487	3 ans	2 254,96 €
+   7	607	510	3 ans	2 361,45 €
+   8	637	533	4 ans	2 467,95 €
+   9	667	556	4 ans	2 574,45 €
+   10	701	582	4 ans	2 694,83 €
+   11	736	608	-	2 815,22 €
+
+Corps : Ergothérapeute (nouveau corps au 01.09.2015), classe N
+Categorie : A
+
+
+1	385	353	1 an	1 634,50 €
+2	408	367	2 ans	1 699,32 €
+3	438	386	3 ans	1 787,30 €
+4	464	406	3 ans	1 879,90 €
+5	497	428	3 ans	1 981,77 €
+6	542	461	3 ans	2 134,57 €
+7	582	492	3 ans	2 278,11 €
+8	611	513	4 ans	2 375,34 €
+9	637	533	4 ans	2 467,95 €
+10	663	553	4 ans	2 560,56 €
+11	685	570	-	2 639 */
+
+/* ergothérapeutes : tester sur l'indice {353, 367, 386, 394, 406, 407, 424, 428, 444, 461, 464, 487, 487, 492, 510, 513, 533, 553, 556, 570, 582, 608 }
+ * de la nouvelle grille A. On a vérifié qu'il n'y a pas de superposition avec l'ancienne */
+
+/* Les infirmières FPH sont passées en A en 2012 sauf un corps en extinction IDE; situation à évaluer pour l'éducation nationale sur les situations d'extinction */
+
+static constexpr const std::array<int, 22> indices_ergo = {353, 367, 386, 394, 406, 407, 424, 428, 444, 461, 464, 487, 487, 492, 510, 513, 533, 553, 556, 570, 582, 608 };
 
 static constexpr auto EXPRESSION_REG_ELUS = "^maire.*|^pr..?sident.*|^elus?|^(?:adj.*\\bmaire\\b|vi.*\\bpr..?sident\\b|cons.*\\bmuni|cons.*\\bcomm|cons.*\\bd..?l..?gu).*",
 
   EXPRESSION_REG_VACATIONS = ".*\\bvacat.*|.*\\bvac\\.?\\b.*",                 // vac.* peut être vérifié par 'vacances'
   EXPRESSION_REG_ASSISTANTES_MATERNELLES = ".*\\bass.*\\bmater.*",
-  EXPRESSION_REG_ADJOINTS = "\\W*(?:adj.*(?:adm|ani|tech|pat)|ope.*(?:a\\.?p\\.?s\\.?|act)|aux.*(?:puer|soin)|gard(?:ien|.*ch)|brigadier|receveur|sapeur|capor|sous.*off).*",
-  EXPRESSION_REG_AGENTS = "\\W*\\bA\\.?A\\.?\\b|\\bA\\.?E\\.?Q\\.?\\b|\\bA\\.?A\\.?H\\.?\\b|A\\.?S\\.?H\\.?Q\\.?|O\\.?P\\.?Q\\.?|(?:(?:agent|agt\\.?).*(?:ser.*ho|soc|ma[îi]|poli|p\\.?m\\.?|pat|ent.*\\b(?:qu|sp))|\
+  EXPRESSION_REG_ADJOINTS = "\\W*(?:adj.*(?:adm|ani|tech|pat)|ope.*(?:a\\.?p\\.?s\\.?|act)|aide.*\\blab|aux.*(?:puer|soin)|gard(?:ien|.*ch)|brigadier|receveur|sapeur|capor|sous.*off).*",
+  EXPRESSION_REG_AGENTS = "\\W*(?:A\\.?S\\.?\\b|A\\.?A\\.?\\b|A\\.?E\\.?Q\\.?\\b|A\\.?A\\.?H\\.?\\b|A\\.?S\\.?H\\.?Q\\.?|O\\.?P\\.?Q\\.?|\
+(?:agent|agt\\.?).*(?:ser.*ho|soc|ma[îi]|poli|p\\.?m\\.?|pat|ent.*\\b(?:qu|sp))|\
 (?:agent|agt\\.?)?.*atsem|aide.*(?:soi|pha)|aumonier|cond.*amb|dessin|.*ouv(?:rier|.*prof)).*",
 
  /* Attention il ne faut pas autre chose que \\W* car sinon on peut avoir confusion entre cons[eiller].* et [agent].*cons[ervation].*   */
@@ -43,15 +94,17 @@ static constexpr auto EXPRESSION_REG_ELUS = "^maire.*|^pr..?sident.*|^elus?|^(?:
 
   EXPRESSION_REG_CAT_A = "\\W*\
 (?:adminis|a.*\\bh.*\\bu|c.*\\b(?:cl|tr).*\\bu|attach|biol|biblio|cad.*(?:\\bsoc.*ed|\\bsan)|cap.*t|com.*t|.*colon|cons\\.?|d\\S*\\.?\\s*g\\S*\\.?|\
-dir(?:ect|.*\\bet.*b|.*\\bsoi)|ingen|mede|ma.t.*conf|prat.*hos|pharm|ped.*p.*c.*\\bs|prep.*c.*\\bs|prof|psy.*(?:l|m.*c.*\\bs)|puericultr|sage.*f|secr.*mai[veter]|\
+dir(?:ect|.*\\bet.*b|.*\\bsoi)|ingen|mede|ma.t.*conf|prat.*hos|pharm|ped.*p.*c.*\\bs|prep.*c.*\\bs|prof|psy.*(?:l|m.*c.*\\bs)|puer.*cad.*sa|puericultr|sage.*f|secr.*mai[veter]|\
 i\\.?a\\.?d\\.?e\\.?|i\\.?b\\.?o\\.?d\\.?e\\.?|I\\.?S\\.?G\\.?(?:\\b|S)|int.*(?:med|phar|od)|infi?r?m?i?.*(?:\\b(?!i)|anes|bloc|i\\.?a\\.?d\\.?|i\\.?b\\.?o\\.?d\\.?|s\\.?\\s*\\bg\\.?|soi|enc.*s)|\
-ergot|radiophys|(?:tec.*l|mass.*kin|diet|inf|manip).*\\bc(?:\\.|a).*\\bs).*",
+radiophys|(?:tec.*l|mass.*kin|diet|inf|manip).*\\bc(?:\\.|a).*\\bs).*",
 
  /* A cause du cas problématique des infirmiers et diététiciens, ex B recatégorisés en A, il faut d'abord tester A puis si échec B */
 
   EXPRESSION_REG_CAT_B = "\\W*\
-(?:redac|tech|anim|educ|a\\.?\\s?s\\.?\\s?(?:e|\\s)|assi?s?t?\\.?.*(?:spec|ens|cons|pat|bib|social|soc.*edu?c?|med.*t|med.*adm)|monit|contro.*t(?:er|ra)|\
+(?:redac|tech|T\\.?S\\.?H\\.?|anim|educ|a\\.?\\s?s\\.?\\s?(?:e|\\s)|ast\\.?|assi?s?t?\\.?.*(?:spec|ens|cons|pat|bib|social|soc.*ed|med.*t|med.*adm)|monit|contro.*t(?:er|ra)|\
 chef.*p.*m|lieut[^c\\s]*\\b|I\\.?D\\.?E\\.?|inf.*\\bi\\.?d\\.?e|reeduc|adj.*cadr|analyst|diet|prep.*ph|ped.*po|programmeu|orthop|mass.*kin|manip|secr.*med|\\ba\\.?m\\.?a\\.?\\b).*",
+
+  EXPRESSION_REG_ERGO = "\\W*ergo.*",
 
 /* Les définitions ci-après doivent être négatives */  NOM_BASE = "Table",
   NOM_BASE_BULLETINS = "Bulletins",
