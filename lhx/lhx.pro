@@ -8,17 +8,6 @@ if (win32|linux) {
   error("Le système d'exploitation doit être soit Windows soit linux")
 }
 
-#windows {
-#  GIT_VERSION = $$system(git --version | find \"git version\")
-#  CXX_VERSION = $$system($$QMAKE_CXX --version | findstr \"5.[0-9]\")
-#}
-
-linux {
-  GIT_VERSION = $$system(git --version | grep -e \'git version\')
-  CXX_VERSION = $$system($$QMAKE_CXX --version | grep -e '5.[0-9]')
-}
-
-
 if (!isEmpty(GIT_VERSION)) {
     message( "Version de git : $$GIT_VERSION" )
 } else {
