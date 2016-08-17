@@ -1,4 +1,4 @@
-Altaïr
+Altaïr (version de développement)
 ======
  
  Analyse des lignes de traitement, des attributions indemnitaires et autres rémunérations.
