@@ -43,17 +43,21 @@ do
 		  fi
 
 		  git commit -am "Sauvegarde $(date)"
-		  
+		  break
 		else
 		  echo "Les réponses valides sont Oui/oui/O/o ou Non/non. Veuillez recommencer..."
 	#     looping...
 		fi
 	fi
 done	
+
 git gc --prune=now
+
 echo "Fin de l'opération."
 echo "Entrer une touche du clavier pour quitter la console..."
+
 read reponse
+
 ./postinstall.sh
 
 
