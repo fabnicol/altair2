@@ -9,26 +9,26 @@ echo "Oui/Non : "
 while true
 do
 	read reponse
-	if test x$reponse = xNon -o test x$reponse = xnon
+	if test "$reponse" = "Non" -o "$reponse" = "non"
 	then
 		  return
 	else
-		if test x$reponse = xOui -o test x$reponse = xoui -o test x$reponse = xo -o test x$reponse = xO
+		if test "$reponse" = "Oui" -o "$reponse" = "oui" -o "$reponse" = "o" -o "$reponse" = "O"
 		then
 		   
 		  git reset --hard HEAD
 		  git clean -df
 		  adresse=$(cat entrepot.txt)
 		  
-		  current_origin=$(git remote -v | grep origin | grep fetch | cut -f'2' | cut -f 1 -d' ')
+		  current_origin=$(git remote -v | grep -E "origin.*gitlab.*fetch" | cut -f'2' | cut -f 1 -d' ')
 		  
-		  if ! test x$current_origin = x$adresse
+		  if test "$current_origin" != "$adresse"
 		  then
 			echo "****"
-			echo "* Actualisation du dépôt $adresse (ancien $current_origin). Patientez..."
+			echo "* Actualisation du dépôt "$adresse" (ancien "$current_origin"). Patientez..."
 			echo "***"
 			git remote remove origin
-			git remote add -t master origin $adresse
+			git remote add -t master origin "$adresse"
 		  fi
 		  
 		  git fetch -p -n --depth=1 origin master-jf
@@ -59,6 +59,3 @@ echo "Entrer une touche du clavier pour quitter la console..."
 read reponse
 
 ./postinstall.sh
-
-
-  
