@@ -14,55 +14,14 @@
 #
 assign(".rs.notebookVersion", envir = .rs.toolsEnv(), "1.0")
 
-.rs.addJsonRpcHandler("extract_rmd_from_notebook", function(input, output)
-{
-  if (Encoding(input) == "unknown")  Encoding(input) <- "UTF-8"
-  if (Encoding(output) == "unknown") Encoding(output) <- "UTF-8"
-
-   # if 'output' already exists, compare file write times to determine
-   # whether we really want to overwrite a pre-existing .Rmd
-   if (file.exists(output)) {
-      inputInfo  <- file.info(input)
-      outputInfo <- file.info(output)
-      
-      if (outputInfo$mtime > inputInfo$mtime)
-         stop("'", output, "' exists and is newer than '", input, "'")
+.rs.addFunction("extractRmdFromNotebook", function(notebook) {
+   # parse the notebook to get the text of the contained R markdown doc
+   parsed <- try(rmarkdown::parse_html_notebook(notebook), silent = TRUE)
+   if (inherits(parsed, "try-error") || is.null(parsed$rmd)) {
+    return("")
    }
-   
-   contents <- .rs.extractFromNotebook("rnb-document-source", input)
-   cat(contents, file = output, sep = "\n")
-   
-   cachePath <- .rs.rnb.cachePathFromRmdPath(output)
-   .rs.hydrateCacheFromNotebook(input, cachePath)
 
-   .rs.scalar(TRUE)
-})
-
-.rs.addFunction("extractFromNotebook", function(tag, rnbPath)
-{
-   if (!file.exists(rnbPath))
-      stop("no file at path '", rnbPath, "'")
-   
-   contents <- .rs.readLines(rnbPath)
-   
-   # find the line hosting the encoded content
-   marker <- paste('<!--', tag)
-   idx <- NULL
-   for (i in seq_along(contents))
-   {
-      if (.rs.startsWith(contents[[i]], marker))
-      {
-         idx <- i
-         break
-      }
-   }
-   
-   if (!length(idx))
-      stop("no encoded content with tag '", tag, "' in '", rnbPath, "'")
-      
-   reDocument <- paste('<!--', tag, '(\\S+) -->')
-   rmdEncoded <- sub(reDocument, "\\1", contents[idx])
-   .rs.base64decode(rmdEncoded)
+   return(paste(parsed$rmd, collapse = "\n"))
 })
 
 .rs.addFunction("reRmdChunkBegin", function()
@@ -75,130 +34,37 @@ assign(".rs.notebookVersion", envir = .rs.toolsEnv(), "1.0")
    "^[\t >]*```+\\s*$"
 })
 
-.rs.addFunction("injectHTMLComments", function(contents,
-                                               location,
-                                               inject)
+.rs.addFunction("rnb.cachePathFromRmdPath", function(rmdPath)
 {
-   # find the injection location
-   idx <- NULL
-   for (i in seq_along(contents))
-   {
-      if (contents[[i]] == location)
-      {
-         idx <- i
-         break
-      }
-   }
-   
-   if (is.null(idx))
-      stop("failed to find injection location '", location, "'")
-   
-   # generate injection strings
-   injection <- paste(vapply(seq_along(inject), FUN.VALUE = character(1), function(i) {
-      sprintf('<!-- %s %s -->', names(inject)[i], inject[[i]])
-   }), collapse = "\n")
-   
-   contents <- c(
-      contents[1:idx],
-      injection,
-      contents[(idx + 1):length(contents)]
-   )
-   
-   contents
+   .Call("rs_chunkCacheFolder", rmdPath)
 })
 
-.rs.addFunction("createNotebook", function(inputFile,
-                                           outputFile = NULL,
-                                           envir = .GlobalEnv)
-{
-   find_chunks <- function(contents) {
-      chunkStarts <- grep(.rs.reRmdChunkBegin(), contents, perl = TRUE)
-      chunkEnds <- grep(.rs.reRmdChunkEnd(), contents, perl = TRUE)
-      chunkRanges <- Map(list, start = chunkStarts, end = chunkEnds)
-      lapply(chunkRanges, function(range) {
-         list(start = range$start,
-              end = range$end,
-              header = contents[range$start],
-              contents = contents[(range$start + 1):(range$end - 1)])
-      })
-   }
-   
-   chunk_annotation <- function(name, index, row) {
-      sprintf("\n\n<!-- rnb-chunk-%s-%s %s -->\n\n", name, index, row)
-   }
-   
-   # resolve input, output paths
-   inputFile <- normalizePath(inputFile, winslash = "/", mustWork = TRUE)
-   if (is.null(outputFile))
-      outputFile <- .rs.withChangedExtension(inputFile, "Rnb")
-   
-   rmdContents <- .rs.readLines(inputFile)
-   
-   # inject placeholders so we can track chunk locations after render
-   # ensure that the comments are surrounded by newlines, as otherwise
-   # strange render errors can occur
-   rmdModified <- rmdContents
-   rmdChunks <- find_chunks(rmdModified)
-   for (i in seq_along(rmdChunks)) {
-      startIdx <- rmdChunks[[i]]$start
-      rmdModified[startIdx] <- paste(
-         chunk_annotation("start", i, startIdx),
-         rmdModified[startIdx],
-         sep = ""
-      )
-      
-      endIdx <- rmdChunks[[i]]$end
-      rmdModified[endIdx] <- paste(
-         rmdModified[endIdx],
-         chunk_annotation("end", i, endIdx),
-         sep = ""
-      )
-   }
-   
-   # write out file and prepare for render
-   renderInput  <- tempfile("rnb-render-input-", fileext = ".Rmd")
-   writeLines(rmdModified, renderInput)
-   on.exit(unlink(renderInput), add = TRUE)
-   
-   # perform render
-   .rs.rnb.render(inputFile = renderInput,
-                  outputFile = outputFile,
-                  rmdContents = rmdContents)
-   
-   invisible(outputFile)
-   
-})
+.rs.addFunction("coalesceCsvOutput", function(chunkData) {
+  # nothing to coalesce if < 2 outputs
+  if (length(chunkData) < 2)
+    return(chunkData)
+    
+  # keep all output by default
+  keep <- rep(TRUE, length(chunkData))
 
-.rs.addFunction("rnb.withChunkLocations", function(rmdContents, chunkInfo)
-{
-   chunkLocs <- grep(.rs.reRmdChunkBegin(), rmdContents, perl = TRUE)
-   for (i in seq_along(chunkInfo$chunk_definitions)) {
-      info <- chunkInfo$chunk_definitions[[i]]
-      
-      info$chunk_start <- tail(chunkLocs[chunkLocs < info$row + 1], 1)
-      info$chunk_end   <- info$row + 1
-      
-      chunkInfo$chunk_definitions[[i]] <- info
-      
-   }
-   names(chunkInfo$chunk_definitions) <-
-      unlist(lapply(chunkInfo$chunk_definitions, "[[", "chunk_id"))
-   chunkInfo
+  # coalesce contents for consecutive csv entries
+  csvs <- .rs.endsWith(names(chunkData), ".csv")
+  for (i in seq.int(1, length(csvs) - 1)) {
+    if (keep[[i]] && csvs[[i]] && csvs[[i + 1]]) {
+      chunkData[[i]] <- paste(chunkData[[i]], chunkData[[i + 1]], sep = "")
+      keep[[i + 1]] <- FALSE
+    }
+  }
+  chunkData[keep]
 })
 
 .rs.addFunction("readRnbCache", function(rmdPath, cachePath)
 {
-   if (Encoding(rmdPath) == "unknown")   Encoding(rmdPath) <- "UTF-8"
-   if (Encoding(cachePath) == "unknown") Encoding(cachePath) <- "UTF-8"
-   
    if (!file.exists(rmdPath))
       stop("No file at path '", rmdPath, "'")
    
-   if (!file.exists(cachePath))
-      stop("No cache directory at path '", cachePath, "'")
-   
-   rmdPath <- .rs.normalizePath(rmdPath, winslash = "/", mustWork = TRUE)
-   cachePath <- .rs.normalizePath(cachePath, winslash = "/", mustWork = TRUE)
+   # tolerate missing cache (implies there's no chunk outputs)
+   rmdPath <- path.expand(rmdPath)
    rmdContents <- .rs.readLines(rmdPath)
    
    # Begin collecting the units that form the Rnb data structure
@@ -211,12 +77,20 @@ assign(".rs.notebookVersion", envir = .rs.toolsEnv(), "1.0")
    # Keep the original source data
    rnbData[["contents"]] <- rmdContents
    
+   # Set up rnbData structure (if we have a cache, these entries will be filled)
+   rnbData[["chunk_info"]] <- list()
+   rnbData[["chunk_data"]] <- list()
+   rnbData[["lib"]] <- list()
+   
+   # early return if we have no cache
+   if (!file.exists(cachePath))
+      return(rnbData)
+   
    # Read the chunk information
    chunkInfoPath <- file.path(cachePath, "chunks.json")
    chunkInfo <- .rs.fromJSON(.rs.readFile(chunkInfoPath))
-   
-   # Augment with start, end locations of chunks
-   chunkInfo <- .rs.rnb.withChunkLocations(rmdContents, chunkInfo)
+   names(chunkInfo$chunk_definitions) <-
+      unlist(lapply(chunkInfo$chunk_definitions, `[[`, "chunk_id"))
    rnbData[["chunk_info"]] <- chunkInfo
    
    # Read the chunk data
@@ -224,7 +98,10 @@ assign(".rs.notebookVersion", envir = .rs.toolsEnv(), "1.0")
    chunkData <- lapply(chunkDirs, function(dir) {
       files <- list.files(dir, full.names = TRUE)
       contents <- lapply(files, function(file) {
-         .rs.readFile(file, binary = .rs.endsWith(file, "png"))
+         .rs.readFile(file, binary = .rs.endsWith(file, "png") || 
+                                     .rs.endsWith(file, "jpg") ||
+                                     .rs.endsWith(file, "jpeg") ||
+                                     .rs.endsWith(file, "rdf"))
       })
       names(contents) <- basename(files)
       contents
@@ -257,300 +134,293 @@ assign(".rs.notebookVersion", envir = .rs.toolsEnv(), "1.0")
    .rs.trimWhitespace(contents)
 })
 
-.rs.addFunction("rnb.maskChunks", function(contents, chunkInfo)
+.rs.addFunction("rnb.resolveActiveChunkId", function(rnbData, label)
 {
-   masked <- contents
-   
-   # Extract chunk locations based on the document + chunk info
-   chunkRanges <- lapply(chunkInfo$chunk_definitions, function(info) {
-      list(start = info$chunk_start,
-           end   = info$chunk_end,
-           id    = info$chunk_id)
-   })
-   
-   for (range in rev(chunkRanges)) {
-      
-      beforeText <- if (range$start > 1)
-         masked[1:(range$start - 1)]
-      
-      afterText  <- if (range$end < length(masked))
-         masked[(range$end + 1):length(masked)]
-      
-      masked <- c(
-         beforeText,
-         paste("<!-- rnb-chunk-id", range$id, "-->"),
-         afterText
-      )
+   chunkDefns <- rnbData$chunk_info$chunk_definitions
+   for (defn in chunkDefns) {
+      if (identical(defn$chunk_label, label))
+         return(defn$chunk_id)
    }
-   
-   # mask any remaining chunks (these are chunks which
-   # have no associated output in the cache; ie, they
-   # were not executed)
-   #
-   # TODO: respect chunk options here (e.g. 'include = TRUE')
-   chunkStarts <- grep(.rs.reRmdChunkBegin(), masked, perl = TRUE)
-   chunkEnds   <- grep(.rs.reRmdChunkEnd(), masked, perl = TRUE)
-   ranges <- mapply(function(x, y) list(start = x, end = y),
-                    chunkStarts, chunkEnds, SIMPLIFY = FALSE)
-   
-   for (range in rev(ranges)) {
-      masked <- c(
-         masked[1:(range$start - 1)],
-         masked[(range$end + 1):length(masked)]
-      )
-   }
-   
-   masked
-   
+   return(NULL)
 })
 
-.rs.addFunction("rnb.fillChunks", function(html, rnbData)
+.rs.addFunction("rnb.engineToCodeClass", function(engine)
 {
-   indices <- which(
-      .rs.startsWith(html, "<!-- rnb-chunk-id") &
-      .rs.endsWith(html, "-->"))
-   
-   # Record htmlwidget dependencies as we fill chunks
-   jsDependencies <- list()
-   
-   for (chunkIdx in seq_along(indices))
-   {
-      i <- indices[[chunkIdx]]
-      line <- html[i]
+   engine <- tolower(engine)
+   switch(engine,
+      rcpp = "cpp",
+      sh = "bash",
+      engine)
+})
+
+.rs.addFunction("rnb.outputSourcePng", function(fileName,
+                                                fileContents,
+                                                metadata,
+                                                ...)
+{
+   rmarkdown:::html_notebook_output_png(bytes = fileContents,
+                                        meta = metadata)
+})
+
+.rs.addFunction("rnb.outputSourceJpeg", function(fileName,
+                                                 fileContents,
+                                                 metadata,
+                                                 ...)
+{
+   rmarkdown:::html_notebook_output_img(bytes = fileContents,
+                                        meta = metadata,
+                                        format = "jpeg")
+})
+
+.rs.addFunction("rnb.outputSourceConsole", function(fileName,
+                                                    fileContents,
+                                                    context,
+                                                    includeSource,
+                                                    ...)
+{
+   parsed <- .rs.rnb.readConsoleData(fileContents)
+   if (!includeSource)
+      parsed <- parsed[parsed$type != 0, ]
+   if (identical(context$results, "hide"))
+      parsed <- parsed[parsed$type != 1, ]
+   attributes <- list(class = .rs.rnb.engineToCodeClass(context$engine))
+   rendered <- .rs.rnb.renderConsoleData(parsed,
+                                         attributes = attributes,
+                                         context)
+   return(rendered)
+})
+
+.rs.addFunction("rnb.outputSourceHtml", function(fileName,
+                                                 fileContents,
+                                                 rnbData,
+                                                 chunkId,
+                                                 metadata,
+                                                 ...)
+{
+   # if we have a '.json' sidecar file, this is an HTML widget
+   jsonName <- .rs.withChangedExtension(fileName, ".json")
+   jsonPath <- file.path(rnbData$cache_path, chunkId, jsonName)
+   if (file.exists(jsonPath)) {
       
-      chunkId <- sub('<!-- rnb-chunk-id\\s*(\\S+)\\s*-->', '\\1', line)
-      chunkData <- rnbData$chunk_data[[chunkId]]
-      chunkDefn <- rnbData$chunk_info$chunk_definitions[[chunkId]]
-      if (is.null(chunkData) || is.null(chunkDefn))
-         stop("no chunk with id '", chunkId, "'")
+      # read and restore 'html_dependency' class (this may not be
+      # preserved in the serialized JSON file)
+      jsonContents <- .rs.fromJSON(.rs.readFile(jsonPath))
+      for (i in seq_along(jsonContents))
+         class(jsonContents[[i]]) <- "html_dependency"
       
-      # convert to HTML
-      htmlList <- .rs.enumerate(chunkData, function(fileName, value) {
-         if (.rs.endsWith(fileName, "csv")) {
-            .rs.rnb.consoleDataToHtml(value, chunkId, fileName)
-         } else if (.rs.endsWith(fileName, "png")) {
-            
-            tagAttributes <- list(
-               "data-rnb-id" = file.path(chunkId, fileName),
-               "src" = sprintf("data:image/png;base64,%s", .rs.base64encode(value))
-            )
-            
-            sprintf("<img %s />", .rs.listToHtmlAttributes(tagAttributes))
-         } else if (.rs.endsWith(fileName, "html")) {
-            
-            # parse and record JSON dependencies
-            jsonPath <- .rs.withChangedExtension(fileName, "json")
-            jsonString <- chunkData[[jsonPath]]
-            jsDependencies <<- c(jsDependencies, .rs.fromJSON(jsonString))
-            
-            # emit body of HTML content
-            bodyEl <- .rs.extractHTMLBodyElement(value)
-            paste("<div>", bodyEl, "</div>", sep = "\n")
-         }
-      })
+      # extract body element (this is effectively what the
+      # widget emitted on print in addition to aforementioned
+      # dependency information)
+      bodyEl <- .rs.extractHTMLBodyElement(fileContents)
       
-      # insert into document
-      injection <- paste(unlist(htmlList), collapse = "\n")
-      
-      html[[i]] <- paste(injection, sep = "\n", collapse = "\n")
-      chunkIdx <- chunkIdx + 1
+      # annotate widget manually and return asis output
+      annotated <- rmarkdown:::html_notebook_annotated_output(
+         bodyEl,
+         "htmlwidget",
+         list(dependencies = jsonContents,
+              metadata     = metadata)
+      )
+      preserved <- htmltools::htmlPreserve(annotated)
+      widget <- knitr::asis_output(preserved)
+      attr(widget, "knit_meta") <- jsonContents
+      return(widget)
    }
    
-   # Inject JSON dependency information into document
-   # TODO: Resolve duplicates
-   htmlDeps <- unlist(lapply(jsDependencies, function(dep) {
-      injection <- character()
+   # no .json file; just return HTML as-is
+   annotated <- rmarkdown:::html_notebook_annotated_output(
+      fileContents,
+      "html",
+      list(metadata = metadata)
+   )
+   preserved <- htmltools::htmlPreserve(annotated)
+   knitr::asis_output(preserved)
+})
+
+.rs.addFunction("rnb.pagedTableHtml", function(rdfPath)
+{
+   data <- .rs.readDataCapture(rdfPath)
+   
+   paste(
+      "<div data-pagedtable>",
+      "  <script data-pagedtable-source type=\"application/json\">",
+      jsonlite::toJSON(data),
+      "  </script>",
+      "</div>",
+      sep = "\n"
+   )
+})
+
+.rs.addFunction("rnb.outputSourceRdf", function(fileName,
+                                                fileContents,
+                                                metadata,
+                                                rnbData,
+                                                chunkId,
+                                                ...)
+{
+   rdfName <- .rs.withChangedExtension(fileName, ".rdf")
+   rdfPath <- file.path(rnbData$cache_path, chunkId, rdfName)
+   
+   annotated <- rmarkdown:::html_notebook_annotated_output(
+      .rs.rnb.pagedTableHtml(rdfPath),
+      "frame",
+      list(metadata = metadata, rdf = .rs.base64encode(fileContents))
+   )
+   
+   knitr::asis_output(annotated)
+})
+
+.rs.addFunction("rnb.outputSource", function(rnbData) {
+   force(rnbData)
+   function(code, context, ...) {
       
-      jsPath <- file.path(dep$src$file, dep$script)
-      if (file.exists(jsPath))
-      {
-         contents <- .rs.readFile(jsPath, binary = TRUE)
-         encoded <- .rs.base64encode(contents)
-         scriptHtml <- sprintf("<script src=\"data:application/x-javascript;base64,%s\"></script>", encoded)
-         injection <- c(injection, scriptHtml)
+      # resolve chunk id (attempt to match labels)
+      chunkId <- .rs.rnb.resolveActiveChunkId(rnbData, context$label)
+      
+      # determine whether we include source code (respect chunk options)
+      includeSource <- isTRUE(context$echo) && isTRUE(context$include)
+      
+      # if we have no chunk outputs, just show source code (respecting
+      # chunk options as appropriate)
+      if (is.null(chunkId)) {
+         if (includeSource) {
+            attributes <- list(class = .rs.rnb.engineToCodeClass(context$engine))
+            if (!is.null(context$indent)) {
+               return(.rs.rnb.renderVerbatimConsoleInput(code, tolower(context$engine), ""))
+            } else {
+               return(rmarkdown::html_notebook_output_code(code, attributes = attributes))
+            }
+         }
+         return(knitr::asis_output(""))
       }
       
-      paste(injection, collapse = "\n")
-   }))
-   
-   bodyIdx <- tail(grep("^\\s*</body>\\s*$", html, perl = TRUE), n = 1)
-   html <- c(
-      html[1:(bodyIdx - 1)],
-      htmlDeps,
-      html[bodyIdx:length(html)]
-   )
-   
-   html
-})
+      chunkData <- .rs.coalesceCsvOutput(rnbData$chunk_data[[chunkId]])
+      
+      # map file extensions to handlers
+      outputHandlers <- list(
+         "png"  = .rs.rnb.outputSourcePng,
+         "jpg"  = .rs.rnb.outputSourceJpeg,
+         "jpeg" = .rs.rnb.outputSourceJpeg,
+         "csv"  = .rs.rnb.outputSourceConsole,
+         "html" = .rs.rnb.outputSourceHtml,
+         "rdf"  = .rs.rnb.outputSourceRdf
+      )
 
-.rs.addFunction("rnb.render", function(inputFile,
-                                       outputFile,
-                                       rmdContents = .rs.readFile(inputFile),
-                                       envir = .GlobalEnv)
-{
-   # TODO: Move to 'rmarkdown' package when appropriate
-   html_notebook <- function(toc = TRUE,
-                             toc_float = TRUE,
-                             code_folding = "show",
-                             theme = "cerulean",
-                             highlight = "textmate",
-                             ...)
-   {
-      rmarkdown::html_document(toc = toc,
-                               toc_float = toc_float,
-                               code_folding = code_folding,
-                               theme = theme,
-                               highlight = highlight,
-                               ...)
+      outputList <- .rs.enumerate(chunkData, function(fileName, fileContents) {
+         
+         # read metadata sidecar if present
+         metadata <- NULL
+         metadataName <- .rs.withChangedExtension(fileName, ".metadata")
+         metadataPath <- file.path(rnbData$cache_path, chunkId, metadataName)
+         if (file.exists(metadataPath))
+            metadata <- .rs.fromJSON(.rs.readFile(metadataPath))
+         
+         # find and execute handler for extension (return NULL if no handler defined)
+         ext <- tools::file_ext(fileName)
+         handler <- outputHandlers[[ext]]
+         if (!is.function(handler))
+            return(NULL)
+         
+         handler(code = code,
+                 context = context,
+                 fileName = fileName,
+                 fileContents = fileContents,
+                 metadata = metadata,
+                 rnbData = rnbData,
+                 chunkId = chunkId,
+                 includeSource = includeSource)
+      })
+      
+      # remove nulls and return
+      Filter(Negate(is.null), outputList)
+      
    }
-   
-   outputFormat <- html_notebook()
-   renderOutput <- tempfile("rnb-render-output-", fileext = ".html")
-   outputOptions <- list(self_contained = TRUE, keep_md = TRUE)
-   
-   rmarkdown::render(input = inputFile,
-                     output_format = outputFormat,
-                     output_file = renderOutput,
-                     output_options = outputOptions,
-                     encoding = "UTF-8",
-                     envir = envir,
-                     quiet = TRUE)
-   
-   
-   # read the rendered file
-   rnbContents <- .rs.readLines(renderOutput)
-   
-   # generate base64-encoded versions of .Rmd source, .md sidecar
-   rmdEncoded <- .rs.base64encode(paste(rmdContents, collapse = "\n"))
-   
-   # inject document contents into rendered file
-   # (i heard you like documents, so i put a document in your document)
-   rnbContents <- .rs.injectHTMLComments(
-      rnbContents,
-      "</body>",
-      list("rnb-document-source" = rmdEncoded)
-   )
-   
-   # write our .Rnb to file and we're done!
-   cat(rnbContents, file = outputFile, sep = "\n")
-   invisible(outputFile)
-   
 })
-
+   
 .rs.addFunction("createNotebookFromCacheData", function(rnbData,
-                                                        outputFile,
+                                                        inputFile,
+                                                        outputFile = NULL,
                                                         envir = .GlobalEnv)
 {
-   # first, render our .Rmd to transform markdown to html
-   contents <- rnbData$contents
-   chunkInfo <- rnbData$chunk_info
+   if (is.null(outputFile))
+      outputFile <- .rs.withChangedExtension(inputFile, ext = ".nb.html")
+
+   # TODO: pass encoding from frontend
+   encoding <- "UTF-8"
    
-   # mask out chunks (replace with placeholders w/id)
-   masked <- .rs.rnb.maskChunks(contents, chunkInfo)
+   # reset the knitr chunk counter (it can be modified as a side effect of
+   # parse_params, which is called during notebook execution)
+   knitr:::chunk_counter(reset = TRUE)
+
+   # implement output_source
+   outputOptions <- list(output_source = .rs.rnb.outputSource(rnbData))
    
-   # use pandoc to convert md to html
-   inputTemp  <- tempfile("rnb-tempfile-input-", fileext = ".md")
-   outputTemp <- tempfile("rnb-tempfile-output-", fileext = ".html")
-   cat(masked, file = inputTemp, sep = "\n")
-   
-   # render our notebook
-   .rs.rnb.render(inputFile = inputTemp,
-                  outputFile = outputTemp,
-                  rmdContents = contents,
-                  envir = envir)
-   
-   # read the HTML
-   html <- .rs.readLines(outputTemp)
-   
-   # replace chunk placeholders with their actual data
-   html <- .rs.rnb.fillChunks(html, rnbData)
-   
-   html
+   # call render with special format hooks
+   rmarkdown::render(input = inputFile,
+                     output_format = "html_notebook",
+                     output_options = outputOptions,
+                     output_file = outputFile,
+                     quiet = TRUE,
+                     envir = envir,
+                     encoding = encoding)
 })
 
 .rs.addFunction("createNotebookFromCache", function(rmdPath, outputPath = NULL)
 {
-   if (is.null(outputPath))
-      outputPath <- .rs.withChangedExtension(rmdPath, "Rnb")
+   # presume success unless we fail below
+   result <- list(succeeded = .rs.scalar(TRUE))
+
+   tryCatch({
+      cachePath <- .rs.rnb.cachePathFromRmdPath(rmdPath)
+      rnbData <- .rs.readRnbCache(rmdPath, cachePath)
+      .rs.createNotebookFromCacheData(rnbData, rmdPath, outputPath)
+   }, 
    
-   cachePath <- .rs.rnb.cachePathFromRmdPath(rmdPath)
-   if (!file.exists(cachePath))
-      stop("no cache data associated with '", rmdPath, "'")
+   error = function(e) {
+      # convert exception to error message for client
+      result <<- list(
+         succeeded = .rs.scalar(FALSE),
+         error_message = .rs.scalar(e$message)
+      )
+   })
    
-   rnbData <- .rs.readRnbCache(rmdPath, cachePath)
-   html <- .rs.createNotebookFromCacheData(rnbData, outputPath)
-   
-   # inject cache data
-   html <- .rs.rnb.injectCacheData(html, rnbData, cachePath)
-   
-   # write to file
-   cat(html, file = outputPath, sep = "\n")
-   outputPath
+   result
 })
 
-.rs.addFunction("rnb.generateEncodedCacheResource", function(file,
-                                                             html,
-                                                             rnbData,
-                                                             cachePath)
+.rs.addFunction("rnb.readConsoleData", function(encodedData)
 {
-   encoded <- if (.rs.endsWith(file, ".png"))
-   {
-      "@src"
-   }
-   else
-   {
-      fullPath <- file.path(cachePath, file)
-      contents <- .rs.readFile(fullPath, binary = TRUE)
-      .rs.base64encode(contents)
-   }
-   
-   paste(file, encoded, sep = ":")
-})
-
-.rs.addFunction("rnb.injectCacheData", function(html, rnbData, cachePath)
-{
-   files <- list.files(cachePath, recursive = TRUE)
-   contents <- unlist(lapply(files, function(file) {
-      .rs.rnb.generateEncodedCacheResource(file, html, rnbData, cachePath)
-   }))
-   
-   injection <- paste(
-      "<!-- rnb-cache-data-begin",
-      paste(paste("   ", contents), collapse = "\n"),
-      "rnb-cache-data-end -->",
-      sep = "\n"
-   )
-   
-   idx <- grep("</body>", html)
-   html <- c(
-      html[1:idx],
-      injection,
-      html[(idx + 1):length(html)])
-   
-   html
-})
-
-.rs.addFunction("rnb.cachePathFromRmdPath", function(rmdPath)
-{
-  .Call(.rs.routines$rs_chunkCacheFolder, rmdPath)
-})
-
-.rs.addFunction("rnb.parseConsoleData", function(data)
-{
+   # read from CSV
    csvData <- read.csv(
-      text = data,
+      text = encodedData,
       encoding = "UTF-8",
       header = FALSE,
       stringsAsFactors = FALSE
    )
    
    names(csvData) <- c("type", "text")
+   
    csvData
 })
 
-.rs.addFunction("rnb.consoleDataToHtml", function(data, chunkId, fileName)
+.rs.addFunction("rnb.renderVerbatimConsoleInput", function(code, engine, indent)
 {
-   csvData <- .rs.rnb.parseConsoleData(data)
+   # remove indentation from code
+   code <- substring(code, nchar(indent) + 1)
+   
+   # print as block code (as knitr might normally do)
+   fmt <- "```%s\n%s\n```"
+   out <- sprintf(fmt, tolower(engine), paste(code, collapse = "\n"))
+   knitr::asis_output(out)
+})
+
+.rs.addFunction("rnb.renderConsoleData", function(csvData,
+                                                  attributes = list(class = "r"),
+                                                  context = list())
+{
+   # bail early for empty data
+   if (length(csvData) == 0 || nrow(csvData) == 0)
+      return(list())
+   
+   # split on type
    cutpoints <- .rs.cutpoints(csvData$type)
    
    ranges <- Map(
@@ -560,51 +430,22 @@ assign(".rs.notebookVersion", envir = .rs.toolsEnv(), "1.0")
    )
    
    splat <- lapply(ranges, function(range) {
-      
       type <- csvData$type[[range$start]]
+      text <- csvData$text[range$start:range$end]
       collapse <- if (type == 0) "\n" else ""
-      
-      pasted <- paste(csvData$text[range$start:range$end], collapse = collapse)
-      result <- .rs.trimWhitespace(pasted)
-      if (!nzchar(result))
-         return(NULL)
-      
-      if (type == 1 || type == 2)
-         result <- paste("##", gsub("\n", "\n## ", result, fixed = TRUE))
-      
-      attr(result, ".class") <- if (type == 0) "r"
-      result
-   })
-   
-   filtered <- Filter(Negate(is.null), splat)
-   html <- lapply(filtered, function(el) {
-      class <- attr(el, ".class")
-      result <- if (is.null(class)) {
-         sprintf(
-            "<pre><code>%s</code></pre>",
-            el
-         )
+      pasted <- paste(text, collapse = collapse)
+      if (type == 0) {
+         if (is.null(context$indent)) {
+            return(rmarkdown::html_notebook_output_code(pasted, attributes = attributes))
+         } else {
+            return(.rs.rnb.renderVerbatimConsoleInput(pasted, tolower(context$engine), context$indent))
+         }
       } else {
-         sprintf(
-            "<pre class=\"%s\"><code>%s</code></pre>",
-            class,
-            el
-         )
+         return(pasted)
       }
-      result
    })
    
-   paste(unlist(html), collapse = "\n")
-})
-
-.rs.addFunction("base64encode", function(data)
-{
-   caTools::base64encode(data)
-})
-
-.rs.addFunction("base64decode", function(data, type = character())
-{
-   caTools::base64decode(data, type)
+   splat
 })
 
 .rs.addFunction("scrapeHtmlAttributes", function(line)
@@ -621,84 +462,443 @@ assign(".rs.notebookVersion", envir = .rs.toolsEnv(), "1.0")
    as.list(rhs)
 })
 
-.rs.addFunction("listToHtmlAttributes", function(list)
+.rs.addFunction("rnb.encode", function(data)
 {
-   paste(
-      names(list),
-      .rs.surround(unlist(list), with = "\""),
-      sep = "=",
-      collapse = " "
-   )
+   .rs.base64encode(.rs.toJSON(data, unbox = TRUE))
 })
 
-.rs.addFunction("rnb.hydrateFromAttribute", function(id,
-                                                     attribute,
-                                                     rnbContents,
-                                                     targetPath)
+.rs.addFunction("rnb.decode", function(encoded)
 {
-   target <- sprintf('data-rnb-id="%s"', id)
-   idx <- grep(target, rnbContents, fixed = TRUE)
-   
-   if (length(idx) != 1)
-      stop("failed to discover element with chunk id '", id, "'")
-   
-   line <- rnbContents[[idx]]
-   scraped <- .rs.scrapeHtmlAttributes(line)
-   element <- scraped[[attribute]]
-   data <- sub("^.*;base64,", "", element)
-   decoded <- .rs.base64decode(data, raw())
-   writeBin(decoded, con = targetPath)
-   
-   TRUE
+   .rs.fromJSON(.rs.base64decode(encoded))
 })
 
-.rs.addFunction("rnb.hydrateFromBase64", function(encodedContents,
-                                                  targetPath)
+.rs.addFunction("evaluateChunkOptions", function(code)
 {
-   parentPath <- dirname(targetPath)
-   if (!dir.exists(parentPath))
-      if (!dir.create(parentPath, recursive = TRUE))
-         stop("failed to create cache path '", parentPath, "'")
-   
-   decoded <- .rs.base64decode(encodedContents, raw())
-   writeBin(decoded, con = targetPath)
-   TRUE
+  opts <- list()
+
+  # if several lines of code are passed, operate only on the first 
+  code <- unlist(strsplit(code, "\n", fixed = TRUE))[[1]]
+
+  # strip chunk indicators if present
+  matches <- unlist(regmatches(code, regexec(.rs.reRmdChunkBegin(), code)))
+  if (length(matches) > 1)
+    code <- matches[[2]]
+
+  tryCatch({
+    # if this is the setup chunk, it's not included by default
+    setupIndicator <- "r setup"
+    if (identical(substring(code, 1, nchar(setupIndicator)), 
+                  setupIndicator)) {
+      opts$include <- FALSE
+    }
+
+    # extract and remove engine name (can be overridden below with engine=)
+    opts$engine <- unlist(strsplit(code, split = "(\\s|,)+"))[[1]]
+    code <- substring(code, nchar(opts$engine) + 1)
+
+    # parse them, then merge with the defaults (evaluate in global environment)
+    opts <- .rs.mergeLists(opts,
+                           eval(substitute(knitr:::parse_params(code)),
+                                envir = .GlobalEnv))
+  },
+  error = function(e) {})
+
+  .rs.scalarListFromList(opts)
 })
 
-.rs.addFunction("hydrateCacheFromNotebook", function(rnbPath, cachePath = NULL)
+.rs.addFunction("extractChunkInnerCode", function(code)
+{
+  # split into lines
+  code <- unlist(strsplit(code, "\n", fixed = TRUE))
+  
+  # find chunk indicators (safe fallbacks if absent)
+  start <- max(1, grep(.rs.reRmdChunkBegin(), code, perl = TRUE))
+  end   <- min(length(code), grep(.rs.reRmdChunkEnd(), code, perl = TRUE))
+
+  paste(code[(start + 1):(end - 1)], collapse = "\n")
+});
+
+.rs.addFunction("extractRmdChunkInformation", function(rmd)
+{
+   starts <- grep(.rs.reRmdChunkBegin(), rmd, perl = TRUE)
+   ends   <- grep(.rs.reRmdChunkEnd(), rmd, perl = TRUE)
+   
+   # TODO: how to handle invalid document?
+   n <- min(length(starts), length(ends))
+   if (length(starts) != n) starts <- starts[seq_len(n)]
+   if (length(ends) != n)   ends <- ends[seq_len(n)]
+   
+   # collect chunk information
+   lapply(seq_len(n), function(i) {
+      begin    <- starts[[i]]
+      end      <- ends[[i]]
+      contents <- rmd[begin:end]
+      list(
+         begin    = starts[[i]],
+         end      = ends[[i]],
+         contents = contents
+      )
+   })
+})
+
+.rs.addFunction("rnb.generateRandomChunkId", function()
+{
+   candidates <- c(letters, 0:9)
+   .rs.randomString("c", candidates = candidates, n = 12L)
+})
+
+.rs.addFunction("hydrateCacheFromNotebook", function(nbPath, cachePath = NULL)
 {
    if (is.null(cachePath)) {
-      rmdPath <- .rs.withChangedExtension(rnbPath, "Rmd")
+      rmdPath <- .rs.withChangedExtension(nbPath, ".Rmd")
       cachePath <- .rs.rnb.cachePathFromRmdPath(rmdPath)
    }
+
+   # ensure cache directory
+   if (!.rs.dirExists(cachePath))
+      dir.create(cachePath, recursive = TRUE)
    
-   rnbContents <- .rs.readLines(rnbPath)
-   startIdx <- grep("<!-- rnb-cache-data-begin", rnbContents) + 1
-   endIdx   <- grep("rnb-cache-data-end -->", rnbContents) - 1
+   # parse the notebook file
+   nbData <- rmarkdown::parse_html_notebook(nbPath)
    
-   status <- lapply(startIdx:endIdx, function(i) {
-      
-      line <- rnbContents[[i]]
-      colonIdx <- regexpr(":", line, fixed = TRUE)
-      filePath <- .rs.trimWhitespace(substring(line, 1, colonIdx - 1))
-      encodedContents <- substring(line, colonIdx + 1)
-      targetPath <- file.path(cachePath, filePath)
-      .rs.ensureDirectory(dirname(targetPath))
-      
-      if (.rs.startsWith(encodedContents, "@")) {
-         .rs.rnb.hydrateFromAttribute(
-            filePath,
-            substring(encodedContents, 2),
-            rnbContents,
-            targetPath)
-      } else {
-         .rs.rnb.hydrateFromBase64(
-            encodedContents,
-            targetPath)
+   # clear out old cache
+   unlink(list.files(cachePath, full.names = TRUE), recursive = TRUE)
+   
+   # State, etc. ----
+   lastActiveAnnotation   <- list()
+   activeChunkId          <- "unknown"
+   activeChunkIndex       <- 0
+   activeIndex            <- 2
+   
+   headerContent <- nbData$source[`:`(
+      grep("^\\s*<head>\\s*$", nbData$source, perl = TRUE)[[1]] + 1,
+      grep("^\\s*</head>\\s*$", nbData$source, perl = TRUE)[[1]] - 1
+   )]
+   
+   chunkInfo <- .rs.extractRmdChunkInformation(nbData$rmd)
+   
+   outputPath <- function(cachePath, chunkId, index, ext) {
+      file.path(cachePath, chunkId, sprintf("%06s.%s", index, ext))
+   }
+   
+   # Text ----
+   onText <- function(annotation) {
+      # HACK: the 'chunk' hook is not fired for chunks that
+      # produce no output on execution, and so such chunks
+      # are not annotated within the generated .nb.html file.
+      # fortunately, we can detect two sequential 'text'
+      # blocks as an indicator that there was an 'invisible'
+      # chunk within.
+      if (identical(annotation$state, "begin") &&
+          identical(lastActiveAnnotation$label, "text") &&
+          identical(lastActiveAnnotation$state, "end"))
+      {
+         activeChunkId    <<- .rs.rnb.generateRandomChunkId()
+         activeChunkIndex <<- activeChunkIndex + 1
+         activeIndex      <<- 2
       }
-      
-   })
+   }
    
-   cachePath
+   # Console I/O ----
+   consoleDataBuilder <- .rs.listBuilder()
+   writeConsoleData <- function(builder) {
+      if (builder$empty()) return()
+      
+      # convert to .csv file
+      df <- .rs.rbindList(builder$data())
+      
+      # reorder and rename type column
+      df <- df[c("type", "data")]
+      df$type[df$type == "input"]  <- "0"
+      df$type[df$type == "output"] <- "1"
+      
+      path <- outputPath(cachePath, activeChunkId, activeIndex, "csv")
+      .rs.ensureDirectory(dirname(path))
+      write.table(df,
+                  file = path,
+                  quote = TRUE,
+                  sep = ",",
+                  row.names = FALSE,
+                  col.names = FALSE,
+                  fileEncoding = "UTF-8")
+      
+      # update state
+      builder$clear()
+      activeIndex <<- activeIndex + 1
+   }
+   
+   onSource <- function(annotation) {
+      if (annotation$state == "begin") {
+         consoleDataBuilder$append(list(
+            data = paste(annotation$meta$data, collapse = "\n"),
+            type = "input"
+         ))
+      } else {
+         # nothing to do?
+      }
+   }
+   
+   onOutput <- function(annotation) {
+      if (annotation$state == "begin") {
+         consoleDataBuilder$append(list(
+            data = paste(annotation$meta$data, collapse = "\n"),
+            type = "output"
+         ))
+      } else {
+         # nothing to do?
+      }
+   }
+   
+   # Chunk Handling ----
+   chunkDefnsBuilder <- .rs.listBuilder()
+   onChunk <- function(annotation) {
+      if (annotation$state == "begin") {
+         
+         # update state re: active chunk + number of processed outputs
+         activeChunkIndex <<- activeChunkIndex + 1
+         activeIndex      <<- 2
+         
+         # create chunk defn for this chunk
+         info <- chunkInfo[[activeChunkIndex]]
+         
+         # get active chunk id (special handling for setup chunk)
+         candidates <- c(letters, 0:9)
+         if (.rs.isSetupChunk(info$contents))
+            activeChunkId <<- "csetup_chunk"
+         else
+            activeChunkId <<- .rs.rnb.generateRandomChunkId()
+         
+         # add our chunk defn
+         chunkDefnsBuilder$append(list(
+            chunk_id = activeChunkId,
+            expansion_state = 0,
+            options = list(),         # TODO: parse from chunk header?
+            row = info$end - 1,
+            row_count = 1,            # TODO: ever not 1?
+            visible = TRUE
+         ))
+         
+      } else {
+         # flush console data
+         writeConsoleData(consoleDataBuilder)
+         
+         # leaving active chunk
+         activeChunkId <<- "unknown"
+      }
+   }
+   
+   # Plot Handling ----
+   plotRange <- list(start = NULL, end = NULL)
+   plotMeta <- NULL
+   writePlot <- function(source, range, meta) {
+      
+      # get html plot output
+      html <- paste(source[`:`(
+         range$start + 1,
+         range$end - 1
+      )], collapse = " ")
+      
+      # extract base64 encoded content
+      scraped <- .rs.scrapeHtmlAttributes(html)
+      ext <- if (.rs.startsWith(scraped$src, "data:image/jpeg;"))
+                 "jpeg" else "png"
+      imgDataEncoded <- substring(scraped$src, 
+         nchar(paste("data:image/", ext, ";base64,", sep = "")) + 1)
+      imgData <- .rs.base64decode(imgDataEncoded, binary = TRUE)
+      
+      # write to file
+      path <- outputPath(cachePath, activeChunkId, activeIndex, ext)
+      .rs.ensureDirectory(dirname(path))
+      writeBin(imgData, path, useBytes = TRUE)
+      
+      # write metadata if present
+      if (!is.null(meta) && !is.null(meta$metadata)) {
+        metaPath <- outputPath(cachePath, activeChunkId, activeIndex, "metadata")
+        cat(.rs.toJSON(meta, unbox = TRUE), file = metaPath, sep = "\n")
+      }
+
+      # update state
+      activeIndex <<- activeIndex + 1
+   }
+   onPlot <- function(annotation) {
+      if (annotation$state == "begin") {
+         writeConsoleData(consoleDataBuilder)
+         plotRange$start <<- annotation$row
+         plotMeta        <<- annotation$meta
+      } else {
+         plotRange$end <<- annotation$row
+         writePlot(nbData$source, plotRange, plotMeta)
+         plotRange <<- list(start = NULL, end = NULL)
+         plotMeta  <<- NULL
+      }
+   }
+
+   # Data frame handling ----
+   frameRange <- list(start = NULL, end = NULL)
+   frameMeta <- NULL
+   writeFrame <- function(source, range, meta) {
+      if (is.null(meta))
+        return(NULL);
+
+      # write out frame metadata
+      if (!is.null(meta$metadata)) {
+        metaPath <- outputPath(cachePath, activeChunkId, activeIndex, "metadata")
+        cat(.rs.toJSON(meta$metadata, unbox = TRUE), file = metaPath, sep = "\n")
+      }
+
+      # write out raw frame data
+      if (!is.null(meta$rdf)) {
+        rdfPath <- outputPath(cachePath, activeChunkId, activeIndex, "rdf")
+        writeBin(object = .rs.base64decode(meta$rdf, binary = TRUE), 
+                 con = rdfPath)
+      }
+   }
+   onFrame <- function(annotation) {
+      if (annotation$state == "begin") {
+         writeConsoleData(consoleDataBuilder)
+         frameRange$start <<- annotation$row
+         frameMeta        <<- annotation$meta
+      } else {
+         frameRange$end <<- annotation$row
+         writeFrame(nbData$source, frameRange, frameMeta)
+         frameRange <<- list(start = NULL, end = NULL)
+         frameMeta  <<- NULL
+      }
+   }
+   
+   # HTML Handling ----
+   htmlRange <- list(start = NULL, end = NULL)
+   htmlMeta <- NULL
+   writeHtml <- function(source, range, meta) {
+      
+      # extract html from source document
+      htmlOutput <- source[`:`(
+         range$start + 1,
+         range$end - 1
+      )]
+      
+      htmlPath <- outputPath(cachePath, activeChunkId, activeIndex, "html")
+      cat(htmlOutput, file = htmlPath, sep = "\n")
+
+      # write metadata if present
+      if (!is.null(meta) && !is.null(meta$metadata)) {
+        metaPath <- outputPath(cachePath, activeChunkId, activeIndex, "metadata")
+        cat(.rs.toJSON(meta, unbox = TRUE), file = metaPath, sep = "\n")
+      }
+
+      # update state
+      activeIndex <<- activeIndex + 1
+   }
+   onHtml <- function(annotation) {
+      if (annotation$state == "begin") {
+         writeConsoleData(consoleDataBuilder)
+         htmlRange$start <<- annotation$row
+         htmlMeta        <<- annotation$meta
+      } else {
+         htmlRange$end   <<- annotation$row
+         writeHtml(nbData$source, htmlRange, htmlMeta)
+         htmlRange <<- list(start = NULL, end = NULL)
+         htmlMeta  <<- NULL
+      }
+   }
+   
+   # HTML Widget Handling ----
+   widgetRange <- list(start = NULL, end = NULL)
+   widgetMeta  <- NULL
+   writeHtmlWidget <- function(source, range, meta) {
+      
+      # get inner (body) HTML
+      htmlBody <- source[`:`(
+         range$start + 1,
+         range$end - 1
+      )]
+      
+      # TODO: background color should be passed as
+      # metadata attribute and used here
+      fmt <- paste(
+         '<!DOCTYPE html>',
+         '<html>',
+         '<head>',
+         '%s',
+         '</head>',
+         '<body style="background-color:white;">',
+         '%s',
+         '</body>',
+         '</html>',
+         sep = "\n"
+      )
+      
+      htmlOutput <- sprintf(fmt,
+                            paste(headerContent, collapse = "\n"),
+                            paste(htmlBody, collapse = "\n"))
+      
+      htmlPath <- outputPath(cachePath, activeChunkId, activeIndex, "html")
+      cat(htmlOutput, file = htmlPath, sep = "\n")
+      
+      jsonPath <- outputPath(cachePath, activeChunkId, activeIndex, "json")
+      cat(.rs.toJSON(meta, unbox = TRUE), file = jsonPath, sep = "\n")
+      
+      # update state
+      activeIndex <<- activeIndex + 1
+   }
+   onHtmlWidget <- function(annotation) {
+      if (annotation$state == "begin") {
+         writeConsoleData(consoleDataBuilder)
+         widgetRange$start <<- annotation$row
+         widgetMeta        <<- annotation$meta
+      } else {
+         widgetRange$end <- annotation$row
+         writeHtmlWidget(nbData$source, widgetRange, widgetMeta)
+         widgetRange <<- list(start = NULL, end = NULL)
+         widgetMeta  <<- NULL
+      }
+   }
+   
+   # begin looping through annotations and building cache
+   annotations <- nbData$annotations
+   for (i in seq_along(annotations)) {
+      
+      annotation <- annotations[[i]]
+      label <- annotation$label
+      
+      switch(label,
+             "text"       = onText(annotation),
+             "chunk"      = onChunk(annotation),
+             "source"     = onSource(annotation),
+             "output"     = onOutput(annotation),
+             "plot"       = onPlot(annotation),
+             "html"       = onHtml(annotation),
+             "frame"      = onFrame(annotation),
+             "htmlwidget" = onHtmlWidget(annotation))
+      
+      lastActiveAnnotation <- annotation
+   }
+   
+   # write 'chunks.json' based on gathered chunk info
+   mtime <- file.info(nbPath)$mtime
+   chunks <- list(
+      chunk_definitions = chunkDefnsBuilder$data(),
+      doc_write_time    = as.numeric(mtime)
+   )
+   chunksJson <- .rs.toJSON(chunks, unbox = TRUE)
+   chunksJsonPath <- file.path(cachePath, "chunks.json")
+   cat(chunksJson, file = chunksJsonPath, sep = "\n")
+   
+   # NOTE: we don't bother writing a libs folder as we'll just dump
+   # the base64 encoded headers into all HTML widget elements
    
 })
+
+.rs.addFunction("isSetupChunk", function(lines)
+{
+   if (!is.character(lines) || !length(lines))
+      return(FALSE)
+   
+   grepl("^\\s*```{[Rr]\\s+setup[\\s,}]", lines[[1]], perl = TRUE)
+})
+
+.rs.addFunction("defaultChunkOptions", function()
+{
+   .rs.scalarListFromList(knitr::opts_chunk$get())
+})
+
