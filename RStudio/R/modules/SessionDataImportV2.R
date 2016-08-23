@@ -102,7 +102,7 @@
                         time = paste(ns, "col_time(", parseString, ")", sep = ""),
                         double = paste(ns, "col_double()", sep = ""),
                         factor = paste(ns, "col_factor(", parseString, ")", sep = ""),
-                        numeric = paste(ns, "col_numeric()", sep = ""),
+                        numeric = paste(ns, "col_number()", sep = ""),
                         integer = paste(ns, "col_integer()", sep = ""),
                         logical = paste(ns, "col_logical()", sep = ""),
                         dateTime = paste(ns, "col_datetime(", parseString, ")", sep = ""),
@@ -274,6 +274,9 @@
          cacheVariableName <- options$cacheVariableNames[[resource]]
          cacheUrlName <- options$cacheUrlNames[[resource]]
          downloadResource <- options[[resource]]
+         resourceExtension <- sub("[^\\?]*([.][^.\\?]*)(\\?.*)?$", "\\1", basename(downloadResource), perl = TRUE)
+         if (!(resourceExtension %in% functionInfo$cacheFileExtension))
+            resourceExtension <- functionInfo$cacheFileExtension[[1]]
 
          cacheDataCode <- append(
             cacheDataCode,
@@ -293,7 +296,7 @@
                   cacheVariableName,
                   " <- \"",
                   options$dataName,
-                  functionInfo$cacheFileExtension,
+                  resourceExtension,
                   "\"",
                   sep = "")
             )
@@ -302,10 +305,10 @@
          {
             if (identical(localFile, NULL))
             {
-               localFile <- tempfile(
+               localFile <- normalizePath(tempfile(
                   tmpdir = dirname(tempdir()),
-                  fileext = functionInfo$cacheFileExtension
-               )
+                  fileext = resourceExtension
+               ), mustWork = FALSE, winslash = "/")
             }
 
             cacheDataCode <- append(
@@ -393,7 +396,9 @@
       "statistics" = function() {
          # load parameters
          options <- list()
-         options[["path"]] <- cacheOrFileFromOptions(dataImportOptions)
+
+         # current version of haven uses "path", next version uses "file"
+         options[["path"]] <- options[["file"]] <- cacheOrFileFromOptions(dataImportOptions)
          options[["b7dat"]] <- cacheOrFileFromOptions(dataImportOptions)
          options[["b7cat"]] <- cacheOrFileFromOptions(dataImportOptions, "modelLocation")
 
@@ -407,7 +412,7 @@
 
          # set special parameter types
          optionTypes <- list()
-         optionTypes[["path"]] <- cacheTypeOrFileTypeFromOptions(dataImportOptions)
+         optionTypes[["path"]] <- optionTypes[["file"]] <- cacheTypeOrFileTypeFromOptions(dataImportOptions)
          optionTypes[["b7dat"]] <- cacheTypeOrFileTypeFromOptions(dataImportOptions)
          optionTypes[["b7cat"]] <- cacheTypeOrFileTypeFromOptions(dataImportOptions, "modelLocation")
 
@@ -444,18 +449,23 @@
             paramsPackage = NULL,
             options = options,
             optionTypes = optionTypes,
-            cacheFileExtension = ".xls"
+            cacheFileExtension = c(".xls", ".xlsx")
          ))
       }
    )
 
-   dataName <- .rs.assemble_data_import_name(dataImportOptions)
-   if (is.null(dataName) || identical(dataName, ""))
+   dataName <- dataImportOptions$dataName
+   if (identical(dataName, NULL) || identical(dataName, ""))
    {
-      dataName <- "dataset"
+      dataName <- .rs.assemble_data_import_name(dataImportOptions)
+      if (is.null(dataName) || identical(dataName, ""))
+      {
+         dataName <- "dataset"
+      }
    }
 
-   dataName <- tolower(gsub("[\\._]+", "_", c(make.names(dataName)), perl=TRUE))
+   dataName <- gsub("[\\._]+", "_", c(make.names(dataName)), perl=TRUE)
+
    importInfo$dataName <- dataImportOptions$dataName <- dataName
 
    dataImportOptions$cacheUrlNames <- list()
@@ -531,7 +541,10 @@
    importCodeExpressions <- append(importCodeExpressions, importLocationCache$code)
    importCodeExpressions <- append(importCodeExpressions, modelLocationCache$code)
    importCodeExpressions <- append(importCodeExpressions, paste(dataName, " <- ", previewCodeNoNs, sep = ""))
-   importCodeExpressions <- append(importCodeExpressions, paste("View(", dataName, ")", sep = ""))
+   
+   if (dataImportOptions$openDataViewer) {
+      importCodeExpressions <- append(importCodeExpressions, paste("View(", dataName, ")", sep = ""))
+   }
 
    importInfo$importCode <- paste(
       lapply(
@@ -562,7 +575,11 @@
       dataImportOptions$canCacheData <- dataImportOptions$mode == "xls"
       dataImportOptions$cacheDataWorkingDir <- dataImportOptions$mode == "xls"
 
-      return (.rs.assemble_data_import(dataImportOptions))
+      result <- .rs.assemble_data_import(dataImportOptions)
+      Encoding(result$importCode) <- "UTF-8"
+      Encoding(result$previewCode) <- "UTF-8"
+      
+      return (result)
    }, error = function(e) {
       return(list(error = e))
    })
@@ -571,6 +588,8 @@
 .rs.addJsonRpcHandler("preview_data_import", function(dataImportOptions, maxCols = 100, maxFactors = 64)
 {
    tryCatch({
+      Encoding(dataImportOptions$importLocation) <- "UTF-8"
+     
       beforeImportFromOptions <- list(
          "text" = function() {
             # while previewing data, always return a column even if it will be skipped
@@ -645,6 +664,16 @@
          }
       )
 
+      parsingErrorsFromMode <- function(mode, data) {
+         modeFunc <- list(
+            "text" = function(data) {
+               length(readr::problems(data)$row)
+            }
+         )
+
+         if (identical(modeFunc[[mode]], NULL)) 0 else modeFunc[[mode]](data)
+      }
+
       if (dataImportOptions$mode %in% names(beforeImportFromOptions))
       {
          beforeImportFromOptions[[dataImportOptions$mode]]()
@@ -662,7 +691,7 @@
          columns <- .rs.describeCols(data, maxCols, maxFactors)
       }
       
-      parsingErrors <-length(readr::problems(data)$row)
+      parsingErrors <- parsingErrorsFromMode(dataImportOptions$mode, data)
 
       cnames <- names(data)
       size <- nrow(data)
