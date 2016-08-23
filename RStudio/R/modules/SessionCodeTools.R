@@ -316,7 +316,7 @@
 
 .rs.addFunction("getPendingInput", function()
 {
-   .Call(.rs.routines$rs_getPendingInput)
+   .Call("rs_getPendingInput")
 })
 
 .rs.addFunction("doStripSurrounding", function(string, complements)
@@ -416,8 +416,10 @@
       return(object)
    
    body <- body(object)
+   if (is.symbol(body))
+     return(object)
+
    env <- environment(object)
-   
    if (length(body) && .rs.isSymbolCalled(body[[1]], ".rs.callAs"))
       return(env$original)
    
@@ -653,7 +655,7 @@
 
 .rs.addFunction("isSubsequence", function(strings, string)
 {
-   .Call(.rs.routines$rs_isSubsequence, strings, string)
+   .Call("rs_isSubsequence", strings, string)
 })
 
 .rs.addFunction("whichIsSubsequence", function(strings, string)
@@ -744,12 +746,12 @@
 
 .rs.addFunction("packageNameForSourceFile", function(filePath)
 {
-   .Call(.rs.routines$rs_packageNameForSourceFile, filePath)
+   .Call("rs_packageNameForSourceFile", filePath)
 })
 
 .rs.addFunction("isRScriptInPackageBuildTarget", function(filePath)
 {
-   .Call(.rs.routines$rs_isRScriptInPackageBuildTarget, filePath)
+   .Call("rs_isRScriptInPackageBuildTarget", filePath)
 })
 
 .rs.addFunction("namedVectorAsList", function(vector)
@@ -766,7 +768,8 @@
 })
 
 .rs.addFunction("getDollarNamesMethod", function(object,
-                                                 excludeBaseClasses = FALSE)
+                                                 excludeBaseClasses = FALSE,
+                                                 envir = parent.frame())
 {
    classes <- class(object)
    for (class in classes)
@@ -774,7 +777,9 @@
       if (excludeBaseClasses && class %in% c("list", "environment"))
          next
       
-      method <- .rs.getAnywhere(paste(".DollarNames", class, sep = "."))
+      method <- utils::getS3method(".DollarNames", class, optional = TRUE, 
+        envir = getNamespace("utils"))
+      
       if (!is.null(method))
          return(method)
    }
@@ -828,17 +833,17 @@
 
 .rs.addFunction("scoreMatches", function(strings, string)
 {
-   .Call(.rs.routines$rs_scoreMatches, strings, string)
+   .Call("rs_scoreMatches", strings, string)
 })
 
 .rs.addFunction("getProjectDirectory", function()
 {
-   .Call(.rs.routines$rs_getProjectDirectory)
+   .Call("rs_getProjectDirectory")
 })
 
 .rs.addFunction("hasFileMonitor", function()
 {
-   .Call(.rs.routines$rs_hasFileMonitor)
+   .Call("rs_hasFileMonitor")
 })
 
 .rs.addFunction("listIndexedFiles", function(term = "",
@@ -848,7 +853,7 @@
    if (is.null(.rs.getProjectDirectory()))
       return(NULL)
    
-   .Call(.rs.routines$rs_listIndexedFiles,
+   .Call("rs_listIndexedFiles",
          term,
          suppressWarnings(.rs.normalizePath(inDirectory)),
          as.integer(maxCount))
@@ -861,7 +866,7 @@
    if (is.null(inDirectory))
       return(character())
    
-   .Call(.rs.routines$rs_listIndexedFolders, term, inDirectory, maxCount)
+   .Call("rs_listIndexedFolders", term, inDirectory, maxCount)
 })
 
 .rs.addFunction("listIndexedFilesAndFolders", function(term = "",
@@ -871,7 +876,7 @@
    if (is.null(inDirectory))
       return(character())
    
-   .Call(.rs.routines$rs_listIndexedFilesAndFolders, term, inDirectory, maxCount)
+   .Call("rs_listIndexedFilesAndFolders", term, inDirectory, maxCount)
 })
 
 .rs.addFunction("doGetIndex", function(term = "",
@@ -1525,35 +1530,6 @@
    symbols
 })
 
-.rs.addFunction("registerNativeRoutines", function()
-{
-   pos <- match("tools:rstudio", search())
-   if (is.na(pos))
-   {
-      warning("tools:rstudio not found on search path")
-      return(NULL)
-   }
-   
-   routineEnv <- new.env(parent = emptyenv())
-   routines <- tryCatch(
-      getDLLRegisteredRoutines("(embedding)"),
-      error = function(e) NULL
-   )
-   
-   if (is.null(routines))
-   {
-      warning("failed to register RStudio native routines")
-      return(NULL)
-   }
-   
-   .CallRoutines <- routines[[".Call"]]
-   lapply(.CallRoutines, function(routine) {
-      routineEnv[[routine$name]] <- routine
-   })
-   assign(".rs.routines", routineEnv, pos = which(search() == "tools:rstudio"))
-   routineEnv
-})
-
 .rs.addFunction("setEncodingUnknownToUTF8", function(object)
 {
    if (is.character(object) && Encoding(object) == "unknown")
@@ -1704,7 +1680,7 @@
 .rs.addFunction("evalWithAvailableArguments", function(fn, args)
 {
    filtered <- args[names(args) %in% names(formals(fn))]
-   call <- c(substitute(fn), args)
+   call <- c(substitute(fn), filtered)
    mode(call) <- "call"
    eval(call, envir = parent.frame())
 })
@@ -1712,4 +1688,57 @@
 .rs.addFunction("transposeList", function(list)
 {
    do.call(Map, c(c, list, USE.NAMES = FALSE))
+})
+
+.rs.addFunction("base64encode", function(data, binary = FALSE)
+{
+   .Call("rs_base64encode", data, binary)
+})
+
+.rs.addFunction("base64decode", function(data, binary = FALSE)
+{
+   .Call("rs_base64decode", data, binary)
+})
+
+.rs.addFunction("CRANDownloadOptionsString", function() {
+   
+   # collect elements of interest
+   repos <- getOption("repos")
+   method <- getOption("download.file.method")
+   extra <- if (identical(method, "curl"))
+      .rs.downloadFileExtraWithCurlArgs()
+   else
+      getOption("download.file.extra")
+   
+   data <- list()
+   if (length(repos)) {
+      data[["repos"]] <- sprintf(
+         "c(%s)",
+         paste(
+            names(repos),
+            .rs.surround(as.character(repos), with = "'"),
+            sep = " = ",
+            collapse = ", "
+         )
+      )
+   }
+   
+   if (length(method) && nzchar(method))
+      data[["download.file.method"]] <- .rs.surround(method, "'")
+   
+   if (length(extra) && nzchar(extra))
+      data[["download.file.extra"]] <- .rs.surround(extra, "'")
+   
+   code <- sprintf(
+      "options(%s)",
+      paste(
+         names(data),
+         data,
+         sep = " = ",
+         collapse = ", "
+      )
+   )
+   
+   code
+   
 })
