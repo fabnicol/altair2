@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE QtCreatorSession>
+<!-- Written by QtCreator 3.5.1, 2016-08-05T19:26:46. -->
+<qtcreator>
+ <data>
+  <variable>Color</variable>
+  <value type="QString">#d8dde7</value>
+ </data>
+ <data>
+  <variable>EditorSettings</variable>
+  <value type="QByteArray">AAAAD0VkaXRvck1hbmFnZXJWNAAAAAIAAABYAEMAOgAvAFUAcwBlAHIAcwAvAFAAdQBiAGwAaQBjAC8ARABlAHYALwBhAGwAdABhAGkAcgAvAGwAaAB4AC8AdgBhAGwAaQBkAGEAdABvAHIALgBoAHAAcAAAAAwAAAAAGAAAAAEAAAARAAAAAAAAADIAAABDAAAAAAAAAFgAQwA6AC8AVQBzAGUAcgBzAC8AUAB1AGIAbABpAGMALwBEAGUAdgAvAGEAbAB0AGEAaQByAC8AbABoAHgALwB2AGEAbABpAGQAYQB0AG8AcgAuAGMAcABwAAAADAAAAAAcAAAAAQAAAh0AAAAAAAACPQAAAAUAAAABAAAAAAAAAAIAAABYAEMAOgAvAFUAcwBlAHIAcwAvAFAAdQBiAGwAaQBjAC8ARABlAHYALwBhAGwAdABhAGkAcgAvAGwAaAB4AC8AdgBhAGwAaQBkAGEAdABvAHIALgBjAHAAcAAAABoAdgBhAGwAaQBkAGEAdABvAHIALgBjAHAAcAAAABNDcHBFZGl0b3IuQysrRWRpdG9yAAAAWABDADoALwBVAHMAZQByAHMALwBQAHUAYgBsAGkAYwAvAEQAZQB2AC8AYQBsAHQAYQBpAHIALwBsAGgAeAAvAHYAYQBsAGkAZABhAHQAbwByAC4AaABwAHAAAAAaAHYAYQBsAGkAZABhAHQAbwByAC4AaABwAHAAAAATQ3BwRWRpdG9yLkMrK0VkaXRvcgAAALcAAAANY3VycmVudGVkaXRvcgAAAFgAQwA6AC8AVQBzAGUAcgBzAC8AUAB1AGIAbABpAGMALwBEAGUAdgAvAGEAbAB0AGEAaQByAC8AbABoAHgALwB2AGEAbABpAGQAYQB0AG8AcgAuAGMAcABwAAAAJgBDAHAAcABFAGQAaQB0AG8AcgAuAEMAKwArAEUAZABpAHQAbwByAAAAHAAAAAEAAAIdAAAAAAAAAj0AAAAFAAAAAQAAAAA=</value>
+ </data>
+ <data>
+  <variable>ProjectDependencies</variable>
+  <valuemap type="QVariantMap">
+   <valuelist type="QVariantList" key="C:/Users/Public/Dev/altair/Interface/gui/altair.windows.pro">
+    <value type="QString">C:/Users/Public/Dev/altair/lhx/lhx.pro</value>
+    <value type="QString">C:/Users/Public/Dev/altair/lhx/lhx_core2.pro</value>
+   </valuelist>
+  </valuemap>
+ </data>
+ <data>
+  <variable>ProjectList</variable>
+  <valuelist type="QVariantList">
+   <value type="QString">C:/Users/Public/Dev/altair/Interface/gui/altair.windows.pro</value>
+   <value type="QString">C:/Users/Public/Dev/altair/lhx/lhx.pro</value>
+   <value type="QString">C:/Users/Public/Dev/altair/lhx/lhx_core2.pro</value>
+  </valuelist>
+ </data>
+ <data>
+  <variable>StartupProject</variable>
+  <value type="QString">C:/Users/Public/Dev/altair/Interface/gui/altair.windows.pro</value>
+ </data>
+ <data>
+  <variable>value-ActiveMode</variable>
+  <value type="QString">Edit</value>
+ </data>
+ <data>
+  <variable>value-Breakpoints</variable>
+  <valuelist type="QVariantList"/>
+ </data>
+ <data>
+  <variable>value-DefaultFormats</variable>
+  <valuemap type="QVariantMap"/>
+ </data>
+ <data>
+  <variable>value-IndividualFormats</variable>
+  <valuemap type="QVariantMap"/>
+ </data>
+ <data>
+  <variable>value-ProjectTree.ExpandData</variable>
+  <valuelist type="QVariantList">
+   <valuelist type="QVariantList">
+    <value type="QString">session</value>
+    <value type="QString">session</value>
+   </valuelist>
+   <valuelist type="QVariantList">
+    <value type="QString">C:/Users/Public/Dev/altair/Interface/gui/altair.windows.pro</value>
+    <value type="QString">altair.windows</value>
+   </valuelist>
+   <valuelist type="QVariantList">
+    <value type="QString">C:/Users/Public/Dev/altair/lhx/lhx.pro</value>
+    <value type="QString">lhx</value>
+   </valuelist>
+   <valuelist type="QVariantList">
+    <value type="QString">C:/Users/Public/Dev/altair/lhx</value>
+    <value type="QString">En-têtes</value>
+   </valuelist>
+   <valuelist type="QVariantList">
+    <value type="QString">C:/Users/Public/Dev/altair/lhx</value>
+    <value type="QString">Sources</value>
+   </valuelist>
+   <valuelist type="QVariantList">
+    <value type="QString">C:/Users/Public/Dev/altair/lhx/lhx_core2.pro</value>
+    <value type="QString">lhx_core2</value>
+   </valuelist>
+  </valuelist>
+ </data>
+ <data>
+  <variable>value-TaskWindow.Categories</variable>
+  <valuelist type="QVariantList">
+   <value type="QString">Task.Category.QmlAnalysis</value>
+  </valuelist>
+ </data>
+ <data>
+  <variable>value-TaskWindow.IncludeWarnings</variable>
+  <value type="bool">true</value>
+ </data>
+ <data>
+  <variable>value-Watchers</variable>
+  <valuelist type="QVariantList"/>
+ </data>
+ <data>
+  <variable>valueKeys</variable>
+  <valuelist type="QVariantList">
+   <value type="QString">ActiveMode</value>
+   <value type="QString">Breakpoints</value>
+   <value type="QString">DefaultFormats</value>
+   <value type="QString">IndividualFormats</value>
+   <value type="QString">ProjectTree.ExpandData</value>
+   <value type="QString">TaskWindow.Categories</value>
+   <value type="QString">TaskWindow.IncludeWarnings</value>
+   <value type="QString">Watchers</value>
+  </valuelist>
+ </data>
+</qtcreator>
