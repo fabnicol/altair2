@@ -20,21 +20,20 @@ using namespace std;
 
 static inline void GCC_INLINE sanitize(xmlChar* s, const char sep)
 {
-    int size = xmlStrlen(s);
 
-    for (int i = 0; i < size; ++i)
+    while (*s != 0)
     {
         // Non-switchable car info.seperateur n'est pas une expression constante.
-        if (s[i] == sep)  s[i] = '_';
+        if (*s == sep)  *s = '_';
 
-        switch(s[i])
+        switch(*s)
         {
 
           case '\n':
-            s[i] = ' ';
+            *s = ' ';
             break;
 
-
+#ifdef CONVERTIR_LATIN_1
 #if defined(__WIN32__) && !defined(USE_ICONV)
 
             /* Gros hack de pseudo-conversion UTF-8 vers Latin-1, qui permet d'économiser les 40 % de surcoût d'exécution
@@ -46,29 +45,28 @@ static inline void GCC_INLINE sanitize(xmlChar* s, const char sep)
 
         case 0xC3:
 
-            s[i] = ((s[i + 1] & 0xF0) + 0x40) | (s[i + 1] & 0x0F);
-             for (int j = i + 1; s[j] != 0; ++j)
-             {
-                 s[j] = s[j + 1];
-             }
-             --size;
+            *s = ((*(s + 1) & 0xF0) + 0x40) | (*(s + 1) & 0x0F);
+
+            effacer_char(s + 1);
+
             break;
 
         case 0xC2:
 
-            s[i] = s[i + 1];
+            *s = *(s + 1);
             /* Le caractère ° (degré) est bien codé en Latin-1 comme 0xB0, mais il y a un problème avec le paquet texlive
              * inputenc pour la conversion pdf. On remplace donc par e (0x65) */
 
             //if (info.Table[info.NCumAgentXml][l][i] == 0xB0) info.Table[info.NCumAgentXml][l][i] = 0x65;
-             for (int j = i + 1; s[j] != 0; ++j)
-             {
-                 s[j] = s[j + 1];
-             }
-             --size;
+
+            effacer_char(s + 1);
+
             break;
 #endif
+#endif
      }
+
+        ++s;
     }
 }
 

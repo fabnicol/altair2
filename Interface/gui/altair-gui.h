@@ -37,8 +37,6 @@ class Altair;
 class common;
 class Console;
 
-using namespace std;
-
 class MainWindow : public QMainWindow
 {
   Q_OBJECT
@@ -63,7 +61,6 @@ class MainWindow : public QMainWindow
    void feedLHXConsoleWithHtml();
    void feedRConsoleWithHtml();
    uint32_t getConsoleCounter() { return consoleCounter; }
-   static inline void IO(size_t i);
 
   private slots:
 
@@ -83,8 +80,7 @@ class MainWindow : public QMainWindow
    void resetCounter();
    void on_nppButton_clicked();
    void anonymiser();
-   void extraire_donnees();
-
+   void launch_process(const QString&);
 
   private :
   
@@ -96,7 +92,7 @@ class MainWindow : public QMainWindow
    uint32_t consoleCounter = 0;
    QFile tempLog;
 
-   static Altair *altair;
+   Altair *altair;
    QMainWindow *editWidget;
    void createActions();
    void createMenus();
@@ -105,10 +101,7 @@ class MainWindow : public QMainWindow
    void adjustDisplay(bool);
 
    inline void connectShowActions();
-   vector<string> extraire_donnees_protegees(const string& st);
-   vector<string> extraire_donnees(const string& st);
-   void launch_process(const QString&);
-   vector<string> launch_extract(const QString&);
+   std::vector<std::string> extraire_donnees_protegees(const std::string& st);
 
    QDockWidget* fileTreeViewDockWidget;
    QDockWidget* bottomDockWidget;
@@ -146,7 +139,6 @@ class MainWindow : public QMainWindow
    QAction *configureAction;
    QAction *lhxAction;
    QAction *anonymAction;
-   QAction *extraireAction;
    QAction *openBaseDirAction;
    QAction *decodeAction;
    QAction *aboutAction;
