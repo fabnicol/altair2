@@ -8,17 +8,6 @@ if (win32|linux) {
   error("Le système d'exploitation doit être soit Windows soit linux")
 }
 
-#windows {
-#  GIT_VERSION = $$system(git --version | find \"git version\")
-#  CXX_VERSION = $$system($$QMAKE_CXX --version | findstr \"5.[0-9]\")
-#}
-
-linux {
-  GIT_VERSION = $$system(git --version | grep -e \'git version\')
-  CXX_VERSION = $$system($$QMAKE_CXX --version | grep -e '5.[0-9]')
-}
-
-
 if (!isEmpty(GIT_VERSION)) {
     message( "Version de git : $$GIT_VERSION" )
 } else {
@@ -52,7 +41,7 @@ QMAKE_CXXFLAGS += -O1
 } else {
 
 QMAKE_LFLAGS += -s
-QMAKE_CXXFLAGS += -O3 -fexpensive-optimizations -fomit-frame-pointer
+QMAKE_CXXFLAGS += -O3 -fexpensive-optimizations
 }
 
 VPATH = .
@@ -68,6 +57,8 @@ DEFINES +=  WARNING_LIMIT=5  \         # nombre maximum d'avertissement par fich
             MAX_MEMORY_SHARE=0.5  \    # part maximum de la mémoire vive disponible consommée par défaut (si --memshare n'est pas précisé)
             AVERAGE_RAM_DENSITY=10 \    # constante empirique déterminant la quantité de mémoire nécessitée par 1 unité de mémoire de fichier xhl en cours de traitement.
             USERPROFILE=\\\"HOME\\\" \         # pour la barre de progrès. Windows: "USERPROFILE"
+            CONVERTIR_LATIN_1 \
+            # NORMALISER_ACCENTS \     # définier pour supprimer les accents en sortie des chaines de charactères
             #MEMORY_DEBUG  \
             LOCALDATA=\\\"/AppData/rank\\\"    # Windows
 

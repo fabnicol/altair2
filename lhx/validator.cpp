@@ -9,6 +9,7 @@
 #include <iostream>
 #include <cstring>
 #include <cctype>
+#include <algorithm>
 #include "validator.hpp"
 #include "fonctions_auxiliaires.hpp"
 #include "table.hpp"
@@ -772,29 +773,84 @@ static inline void GCC_INLINE allouer_memoire_table(info_t& info)
 inline void GCC_INLINE normaliser_accents(xmlChar* c)
 {
     /* la représentation interne est UTF-8 donc les caractères accentués sont sur 2 octets : é = 0xc3a8 etc. */
-    int size = xmlStrlen(c);
-    for (int i = 0; i < size; ++i)
-    {
-    if (c[i] == 0xc3)
-        switch (c[i + 1])
-        {
-            case 0xa8 : // è
-            case 0xa9 : // é
-            case 0xaa :
-                c[i] = 0x65;
 
-                for (int j = i +1; c[j] != 0; ++j)
-                {
-                    c[j] = c[j + 1];
-                }
-                --size;
-               break;  // ê
-                       //  case 0xb4 : *c = 0x6f; break; //d = c; while (++d) *d = *(d + 1); break;  // ô
-                       //     case        // î
+
+    while (*c != 0)
+    {
+#ifdef CONVERTIR_LATIN_1
+            switch (*(c))
+            {
+                case 0xe8 : // è
+                case 0xe9 : // é
+                case 0xea : // ê
+                case 0xc8 : // E accent aigu
+                case 0xc9 : // E accent grave
+                case 0xca : // E accent circ
+                     *c = 0x65;  // e (ignore casse)
+
+                      // on peut très rarement avoir besoin de plus d'une seule conversion dans les faits pour l'expression régulière
+
+                     break;
+
+                case 0xee : // î
+                case 0xce : // I accent circ
+                     *c = 0x69; //i
+
+                     break;
+
+                case 0xd4 :  // ô
+                case 0xf4 :  // O accent circ
+                     *c = 0x6f;
+
+                     break;
+
+            }
+
+#else   //UTF-8
+
+        if (*c == 0xc3)
+        {
+            switch (*(c + 1))
+            {
+                case 0xa8 : // è
+                case 0xa9 : // é
+                case 0xaa : // ê
+                case 0x88 : // E accent aigu
+                case 0x89 : // E accent grave
+                case 0x8a : // E accent circ
+                     *c = 0x65;  // e (ignore casse)
+
+                     effacer_char(c + 1);
+
+                     // on peut très rarement avoir besoin de plus d'une seule conversion dans les faits pour l'expression régulière
+
+                     break;
+
+                case 0xae : // î
+                case 0x8e : // I accent circ
+                     *c = 0x69; //i
+
+                     effacer_char(c + 1);
+
+                     break;
+
+                case 0xb4 :  // ô
+                case 0x94 :  // O accent circ
+                     *c = 0x6f;
+
+                     effacer_char(c + 1);
+
+                     break;
+
+            }
         }
+#endif
+
+        ++c;
     }
 
 }
+
 
 void* decoder_fichier(info_t& info)
 {
@@ -811,6 +867,7 @@ if (info.pretend) return nullptr;
     regex pat_agents {EXPRESSION_REG_AGENTS, regex_constants::icase};
     regex pat_cat_a {EXPRESSION_REG_CAT_A, regex_constants::icase};
     regex pat_cat_b {EXPRESSION_REG_CAT_B, regex_constants::icase};
+    regex pat_ergo {EXPRESSION_REG_ERGO, regex_constants::icase };
 
 #endif
 
@@ -912,8 +969,16 @@ if (info.pretend) return nullptr;
     {
         /* Les élus peuvent être identifiés soit dans le service soit dans l'emploi métier */
 
+#ifdef NORMALISER_ACCENTS
+
         xmlChar* em = VAR(EmploiMetier);
         xmlChar* gr = VAR(Grade);
+#else
+
+        xmlChar* em = xmlStrdup(VAR(EmploiMetier));
+        xmlChar* gr = xmlStrdup(VAR(Grade));
+
+#endif
 
         normaliser_accents(em);
         normaliser_accents(gr);
@@ -964,6 +1029,15 @@ if (info.pretend) return nullptr;
             {
                 VAR(Categorie) = (xmlChar*)"B";
             }
+            else if (regex_match((const char*) gr, pat_ergo))
+            {
+
+
+                    if (find(indices_ergo.begin(), indices_ergo.end(), atoi((const char*) VAR(Indice))) == indices_ergo.end())
+                        VAR(Categorie) = (xmlChar*)"B";
+                    else
+                        VAR(Categorie) = (xmlChar*)"A";
+            }
             else
             {
                  VAR(Categorie) = (xmlChar*) NA_STRING;
@@ -993,6 +1067,13 @@ if (info.pretend) return nullptr;
                     VAR(Grade) = (xmlChar*) xmlStrdup((const xmlChar*)"V");
                 }
         }
+
+#ifndef NORMALISER_ACCENTS
+        xmlFree(em);
+        xmlFree(gr);
+#endif
+
+
     }
 
 

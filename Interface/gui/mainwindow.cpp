@@ -1,13 +1,13 @@
 
 #include "altair.h"
 #include "enums.h"
-#include "libxml3.h"
 #include <QApplication>
-
+#include <fstream>
+#include <sstream>
 
 using namespace std;
 // Should it slow down application launch on some platform, one option could be to launch it just once then on user demand
-Altair* MainWindow::altair;
+
 
 MainWindow::MainWindow(char* projectName)
 {
@@ -209,7 +209,7 @@ void MainWindow::createMenus()
  editMenu->addActions({displayAction, displayOutputAction, displayFileTreeViewAction,
                        displayManagerAction, clearOutputTextAction, editProjectAction});
 
- processMenu->addActions({RAction, lhxAction, anonymAction, extraireAction, openBaseDirAction});
+ processMenu->addActions({RAction, lhxAction, anonymAction, openBaseDirAction});
 
  optionsMenu->addActions({optionsAction, configureAction});
 
@@ -269,10 +269,6 @@ void MainWindow::createActions()
   anonymAction = new QAction(tr("Anonymiser la base de données XML"), this);
   anonymAction->setIcon(QIcon(":/images/anonymiser.png"));
   connect(anonymAction, SIGNAL(triggered()), this, SLOT(anonymiser()));
-
-  extraireAction = new QAction(tr("Extraire la base de données"), this);
-  extraireAction->setIcon(QIcon(":/images/extraire.png"));
-  connect(extraireAction, SIGNAL(triggered()), this, SLOT(extraire_donnees()));
 
   openBaseDirAction = new QAction(tr("Ouvrir le répertoire des bases"), this);
   openBaseDirAction ->setIcon(QIcon(":/images/directory.png"));
@@ -356,59 +352,180 @@ void MainWindow::createActions()
     }
 
   actionList << newAction << openAction << saveAction << saveAsAction << exportAction << archiveAction << restoreAction << closeAction << exitAction << separator[0] <<
-                RAction << lhxAction << anonymAction << extraireAction << openBaseDirAction << displayOutputAction << displayFileTreeViewAction <<
+                RAction << lhxAction << anonymAction << openBaseDirAction << displayOutputAction << displayFileTreeViewAction <<
                 displayManagerAction <<  separator[4] <<
                 clearOutputTextAction <<  editProjectAction << separator[3] << configureAction <<
                 optionsAction << helpAction << aboutAction ;
   
 }
 
-inline bool filtre_anonyme(const string& tag, const string& value, const string& reste, vector<string>& out)
-{
-    const array<string, 12>& Tags = {
-                                         "Civilite",
-                                         "Nom",
-                                         "Prenom",
-                                         "Adr1",
-                                         "Adr2",
-                                         "Ville",
-                                         "CP",
-                                         "TitCpte",
-                                         "NumUrssaf",
-                                         "Siret",
-                                         "IdCpte",
-                                         "NIR"
-                                   };
-
-    for (const string& t : Tags)
-    {
-        if (tag == t)
-        {
-            const string& remplacement = (tag == "NIR")? "<NIR  V = \"" + value.substr(0, 5) + "Z\"" + reste + "\n"
-                                                : "<" + tag + " V = \"Z\"" + reste + "\n";
-
-            out.emplace_back(remplacement);
-            return true;
-        }
-    }
-
-    return false;
-}
-
-void MainWindow::IO(size_t i)
-{
-  emit(altair->setProgressBar(i));
-  qApp->processEvents();
-}
-
 vector<string> MainWindow::extraire_donnees_protegees(const string& st)
 {
-    return extraire_xml(st, filtre_anonyme, MainWindow::IO);
-}
+    vector<string> out;
+    const size_t taille = st.size();
+    out.reserve((size_t) taille / 5);
+    string::const_iterator iter = st.begin();
 
-vector<string> MainWindow::extraire_donnees(const string& st)
-{
-    return {""}; //return extraire_xml_s(st, filtre_table, MainWindow::IO);
+    size_t i = 0;
+    const size_t pas = taille / 20;
+    size_t n = 0;
+
+    while (*iter != '<' && ++iter != st.end()) continue;
+
+    if (*(iter + 1) == '?')
+    {
+        string::const_iterator iter1 = iter;
+        while (++iter != st.end() && *iter != '>') continue;
+        out.emplace_back(string(iter1, iter + 1) + "\n");
+    }
+
+    start:
+    while (iter != st.end())
+    {
+        while (++iter != st.end()
+               && *iter != '<') { ++i; continue;};
+
+        if (iter == st.end()) break;
+
+        if (*(iter + 1) == '/') /* </TAG>  */
+        {
+            string::const_iterator iter1 = iter;
+            while (++iter != st.end() && *iter != '>') { ++i; continue;};
+            out.emplace_back(string(iter1, iter + 1) + "\n");
+            continue;
+        }
+
+        if (iter == st.end()) break;
+
+        if (i > n * pas)
+        {
+            emit(altair->setProgressBar(i));
+            qApp->processEvents();
+            ++n;
+        }
+
+        string::const_iterator iter1 = iter;
+        string tag;
+
+        iter1 = iter;
+
+        while (++iter != st.end())
+        {
+            ++i;
+            if (*iter == ' ')  /* <TAG ...> */
+            {
+              tag = string(iter1 + 1, iter);
+              break;
+            }
+
+            if (*iter == '>')  /* <TAG> */
+            {
+                out.emplace_back("<" + string(iter1 + 1, iter) + ">\n");
+                goto start;
+            }
+        }
+
+        if (iter == st.end()) break;
+
+        while (++iter != st.end())
+        {
+            ++i;
+
+            if (*iter == 'V')
+            {
+               while (++iter != st.end() && *iter == ' ') { ++ i; continue; };
+
+               if (*iter == '=')
+               {
+                 break; /*<TAG  V  =... /> */
+               }
+               else continue; /*<TAG  x ... /> */
+            }
+            else /* <TAG> */ /*<TAG  x... /> */
+            if (*iter == '>')
+            {
+                out.emplace_back(string(iter1, iter +1) + "\n");
+                ++iter;
+                ++i;
+                goto start;
+            }
+            else   /*<TAG  x... /> */
+            continue;
+        }
+
+        if (iter == st.end()) break;
+
+         /*<TAG  V  =... /> */
+
+        while (++iter != st.end())
+        {
+            ++i;
+            if (*iter == '\"') break;
+        }
+
+        if (iter == st.end()) break;
+
+        iter1 = iter;
+
+        while (++iter != st.end())
+        {
+            ++i;
+            if (*iter == '\"') break;
+        }
+
+        if (iter == st.end()) break;
+
+        string value = string(iter1 + 1, iter);
+#if 0
+        Q((tag + " " + value).c_str());
+#endif
+        auto iter2 = iter;
+
+        while (++iter != st.end())
+        {
+            ++i;
+            if (*iter == '>') break;
+        }
+
+        if (iter == st.end()) break;
+
+        string reste = string(iter2 + 1, iter + 1);
+
+        const array<string, 12> Tags = {
+                                             "Civilite",
+                                             "Nom",
+                                             "Prenom",
+                                             "Adr1",
+                                             "Adr2",
+                                             "Ville",
+                                             "CP",
+                                             "TitCpte",
+                                             "NumUrssaf",
+                                             "Siret",
+                                             "IdCpte",
+                                             "NIR"
+                                       };
+
+        for (const string& t : Tags)
+        {
+            if (tag == t)
+            {
+                const string& remplacement = (tag == "NIR")? "<NIR  V = \"" + value.substr(0, 5) + "Z\"" + reste + "\n"
+                                                    : "<" + tag + " V = \"Z\"" + reste + "\n";
+
+                out.emplace_back(remplacement);
+
+                ++iter; ++i;
+
+                goto start;
+            }
+        }
+
+        out.emplace_back("<" + tag + " V = \"" + value + "\"" + reste + "\n");
+
+    }
+
+    return(out);
 }
 
 void MainWindow::launch_process(const QString& path)
@@ -416,7 +533,9 @@ void MainWindow::launch_process(const QString& path)
 
     QFile xml(path);
 
-    ofstream out;
+    std::string xml_out(path.toStdString() + ".new");
+
+    std::ofstream out;
 
     if (!xml.open(QIODevice::ReadOnly | QIODevice::Text))
     {
@@ -424,8 +543,13 @@ void MainWindow::launch_process(const QString& path)
         return;
     }
 
+    out.open(xml_out, std::ofstream::out | std::ofstream::trunc);
 
-    // out.emplace_back(entete);
+    if (! out.is_open())
+    {
+        Q("Erreur de lancement du processus")
+        return;
+    }
 
     altair->outputTextEdit->append(PROCESSING_HTML_TAG "Lecture du fichier...");
     emit(altair->showProgressBar());
@@ -450,6 +574,8 @@ void MainWindow::launch_process(const QString& path)
     emit(altair->setProgressBar(0));
 
     xml.close();
+    xml.remove();
+    rename(xml_out.c_str(), path.toStdString().c_str());
 
     altair->outputTextEdit->append(PROCESSING_HTML_TAG  "Anonymisation de " + path + " terminée.");
     altair->outputTextEdit->repaint();
@@ -461,65 +587,6 @@ void MainWindow::launch_process(const QString& path)
     altair->updateProject(true);
 
 }
-
-template <typename Allocator = allocator<char>>
-inline string read_stream_into_string(
-    ifstream& in,
-    Allocator alloc = {})
-{
-  basic_ostringstream<char, char_traits<char>, Allocator>
-    ss(basic_string<char, char_traits<char>, Allocator>(move(alloc)));
-
-  if (!(ss << in.rdbuf()))
-    throw ios_base::failure{"[ERR] Erreur d'allocation de lecture de fichier.\n"};
-
-  return ss.str();
-}
-
-
-vector<string> MainWindow::launch_extract(const QString& path)
-{
-
-    ifstream xml;
-    xml.open(path.toStdString());
-
-    if (! xml.is_open())
-    {
-        Q("Erreur de lancement du processus")
-        return {""};
-    }
-
-    altair->outputTextEdit->append(PROCESSING_HTML_TAG "Lecture du fichier...");
-    emit(altair->showProgressBar());
-    emit(altair->setProgressBar(0));
-    altair->outputTextEdit->repaint();
-    const string& xml_mod = read_stream_into_string(xml);
-
-    altair->outputTextEdit->append(PROCESSING_HTML_TAG "Extraction des données de " + path + QString(". Patientez..."));
-    altair->outputTextEdit->repaint();
-
-    int bar_range = xml_mod.size();
-
-    emit(altair->setProgressBar(0, bar_range));
-
-    const vector<string>& v = extraire_donnees(xml_mod);
-
-    emit(altair->setProgressBar(0));
-
-    xml.close();
-
-    altair->outputTextEdit->append(PROCESSING_HTML_TAG  "Extraction de " + path + " terminée.");
-    altair->outputTextEdit->repaint();
-    emit(altair->setProgressBar(0));
-
-    /* Il est souhaitable d'actualiser le projet avant de lancer v() car en cas de non actualisation récente la valeur de la case
-     * peut être en décalage avec la réalité. C'est au cours de ces actualisations que la valeur est enregistrée dans une table de hashage. */
-
-    altair->updateProject(true);
-
-    return v;
-}
-
 
 void MainWindow::anonymiser()
 {
@@ -540,43 +607,6 @@ void MainWindow::anonymiser()
             launch_process(s);
         }
     }
-}
-
-void MainWindow::extraire_donnees()
-{
-    QStringList args;
-
-    altair->updateProject(true);
-
-    args << altair->createCommandLineString();
-
-    altair->outputTextEdit->append(PROCESSING_HTML_TAG + tr("Extraction des bases de paye..."));
-
-    ofstream out;
-
-    out.open("Base.csv", ios::trunc);
-
-    if (! out.is_open())
-    {
-        Q("La base de sortie ne s'est pas créée.")
-        return;
-    }
-
-    out << entete;
-
-    for (const QString& s: args)
-    {
-
-        if (! s.isEmpty() && QFileInfo(s).isFile())
-        {
-            altair->outputTextEdit->append(PROCESSING_HTML_TAG "Lancement de l'extraction du fichier " + s + ". Patientez...");
-            altair->outputTextEdit->repaint();
-            for(auto&& ss : launch_extract(s))
-                out << ss;
-        }
-    }
-
-    out.close();
 }
 
 void MainWindow::configure()
