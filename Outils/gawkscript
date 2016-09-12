@@ -1,0 +1,8 @@
+  
+  
+  { s = gensub(/(Prenom|Nom|NIR|Adr\.|Ville|CP|TitCpte|NumUrssaf|Siret) V=".*"/, "\\1 V=\"XXX\"", "g") 
+    print s > (FILENAME ".new")	}
+  END { print "Fichier", FILENAME, "anonymisé."}	
+  
+  
+  
