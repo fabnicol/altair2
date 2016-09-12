@@ -41,7 +41,7 @@ CONFIG(debug, debug|release) {
 
 } else {
   CONFIG += static
-  QMAKE_CXXFLAGS += -Ofast -flto -fexpensive-optimizations
+  QMAKE_CXXFLAGS += -O3 -fomit-frame-pointer -fexpensive-optimizations
   QMAKE_LFLAGS += -s -licui18n -licuuc -licudata
 }
 
@@ -56,8 +56,6 @@ QT       -= openssl
 TARGET = Altair
 
 VPATH = .
-
-INCLUDEPATH += ../../libxml3/
 
 DEFINES += PROGRESSBAR_TIMEOUT=200    # Intervalle d'incrémentation de la barre de progression en millisecondes
                             # Un timeout plus élevé diminue l'overhead mais rend la la progression moins fluide.
@@ -114,9 +112,7 @@ HEADERS  += \
     templates.h \
     altair-gui.h \
     elemParser.hpp \
-    flineframe.hpp \
-    libxml3.h \
-    ../../libxml3/libxml3.h
+    flineframe.hpp
 
 
 RESOURCES += \

@@ -74,7 +74,7 @@ public :
 
 #ifdef Q_OS_WIN
 
-      QString   System = "win";
+      QString   System = "win" + QString(CORE2);
       QString   systemSuffix = ".exe";
 
       #ifndef LOCAL_BINPATH

@@ -46,6 +46,5 @@
         <file>images/npp.ico</file>
         <file>images/internet-explorer.png</file>
         <file>images/anonymiser.png</file>
-        <file>images/extraire.png</file>
     </qresource>
 </RCC>
