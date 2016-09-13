@@ -560,7 +560,7 @@ void Altair::checkAnnumSpan()
         {
             QString month = w.next();
 
-            if (month.at(0) == '0')
+            if (month == "")
                 w.setValue(month.remove(0, 1));
         }
 
@@ -569,7 +569,7 @@ void Altair::checkAnnumSpan()
 
         QStringListIterator z(monthRef);
         QString annee = years.at(i);
-        if (annee.at(0) == '2')
+        if (annee != "" && annee.at(0) == '2')
         {
             while (z.hasNext())
             {
