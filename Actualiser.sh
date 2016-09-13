@@ -20,7 +20,7 @@ do
 		  git clean -df
 		  adresse=$(cat entrepot.txt)
 		  
-		  current_origin=$(git remote -v | grep -E "origin.*gitlab.*fetch" | cut -f'2' | cut -f 1 -d' ')
+		  current_origin=$(git remote -v | grep -E "origin.*github.*fetch" | cut -f'2' | cut -f 1 -d' ')
 		  
 		  if test "$current_origin" != "$adresse"
 		  then
