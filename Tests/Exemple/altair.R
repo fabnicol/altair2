@@ -10,7 +10,7 @@
 #'![Image_Altair](altair.png)
 #'   
 #'   
-#'# Démonstrateur Altaïr version 16.07 
+#'# Démonstrateur Altaïr version 16.09 
 
 #+ echo = FALSE, warning = TRUE, message = FALSE
 
