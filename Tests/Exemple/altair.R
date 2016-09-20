@@ -1274,12 +1274,13 @@ if (nombre.fonctionnaires.et.vacations > 0) {
 
 #'Les vacataires rémunérés à la vacation horaire n'ont, en principe, pas accès au régime indemnitaire dont bénéficient les titulaires et non-titulaires 
 #'sauf si l'assemblée délibérante a explicitement prévu de déterminer le taux des vacations horaires par référence à ces régimes.
-#'Les vacataires bénéficiant d'un régime indemnitaire de ce type perçoivent des lignes de rémunération indemnitaires 
-#'identifiées en base de paye (*catégorie "Indemnite" des bases XML et type "I" des bases CSV*).      
-#'L'existence et l'applicabilité de la délibération correspondante pourra être recherchée.     
-#'Les vacations effectuées par des contractuels de l'établissement sur autorisation de cumul d'activité accessoire doivent
-#'avoir obtenu cette autorisation. Le régime indemnitaire dont ils bénéficient pour leur activité principale ne s'étend pas de plein droit
-#'à l'activité accessoire, en l'absence de délibération le prévoyant au titre de référence de calcul.
+#'Les vacataires bénéficiant d'une référence de type indemnitaire perçoivent ainsi parfois des lignes de rémunération
+#'identifiées, par abus de codage en base de paye, comme indemnitaires (*catégorie "Indemnite" des bases XML et type "I" des bases CSV*).      
+#'Cette situation n'est régulière que s'il s'agit d'un ajustement des formules de calcul du taux horaire par référence à un régime indemnitaire, dont l'application *stricto sensu* serait irrégulière.
+#'L'existence, l'applicabilité, et les termes de la délibération correspondante pourront être vérifiés, notamment les formules de calcul mettant en oeuvre cette référence.     
+#'Par ailleurs, des vacations peuvent être effectuées par des contractuels de l'établissement sur autorisation de cumul d'activité accessoire, à condition d'avoir
+#'obtenu cette autorisation. Le régime indemnitaire dont ils bénéficient pour leur activité principale ne s'étend pas en principe
+#'à l'activité accessoire. Une délibération peut toutefois prévoir, dans ce cas également, un ajustement du taux de calcul des vacations par référence à un régime indemnitaire.      
 
   Paie_vac_contr <- Paie_vac[Statut %chin% c("NON_TITULAIRE",  "AUTRE_STATUT")]
                                            
@@ -1314,7 +1315,7 @@ if (exists("nombre.contractuels.et.vacations")) {
   
 #'  
 #'[Lien vers les matricules des vacataires](Bases/Reglementation/matricules.contractuels.et.vacations.csv)   
-#'[Lien vers la lignes indemnitaires à vérifier](Bases/Reglementation/RI.et.vacations.csv)    
+#'[Lien vers les lignes indemnitaires à vérifier](Bases/Reglementation/RI.et.vacations.csv)    
 #'[Lien vers les bulletins de paye correspondants](Bases/Reglementation/Paie_vac_contr.csv)   
 #'    
 
@@ -1573,9 +1574,9 @@ if (length(codes.pfr) > 5) {
           nombre.agents.cumulant.pfr.ifts)
 }
 
-#'   
+#'    
 #'[Lien vers la base de données cumuls pfr/ifts](Bases/Reglementation/personnels.pfr.ifts.csv)    
-#'
+#'   
 
 # Attention keyby = et pas seulement by = !
 
@@ -1669,14 +1670,14 @@ test.PFR <- function(i, grade, cumul) { grepl(e[i], grade, perl = TRUE, ignore.c
 
 #'   
 #'[Lien vers la base de données agrégat PFR-IFTS](Bases/Remunerations/beneficiaires.PFR.csv)    
-#'
+#'    
 #'   
 #'[Lien vers la base de données variations agrégat PFR-IFTS](Bases/Remunerations/beneficiaires.PFR.Variation.csv)    
-#'
+#'   
 
   
 #### 5.6 HEURES SUP ####
-#'
+#'    
 #'## `r chapitre`.6 Contrôle sur les heures supplémentaires
 
 # Sont repérées comme heures supplémentaires ou complémentaires les heures dont le libellé obéissent à
