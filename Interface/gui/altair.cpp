@@ -541,45 +541,34 @@ bool Altair::refreshProjectManager()
 
 void Altair::checkAnnumSpan()
 {
-    const QStringList& monthRef = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"};
+
     int r = project[0]->getRank() - 2;
     const QStringList& years = project[0]->getTabLabels();
 
     for (int i = 0; i < r; ++i)
     {
-        QStringList monthList;
+        QList<int> monthList;
 
         for (const QString& fileName : Hash::wrapper["XHL"]->at(i))
-            monthList << Hash::Mois[fileName];
+            monthList << Hash::Mois[fileName].toInt();
 
-        monthList.removeDuplicates();
+        monthList = monthList.toSet().toList();
+        std::sort(monthList.begin(), monthList.end());
 
-        QMutableListIterator<QString> w(monthList);
+        QMutableListIterator<int> w(monthList);
 
-        while (w.hasNext())
-        {
-            QString month = w.next();
-
-            if (month == "")
-                w.setValue(month.remove(0, 1));
-        }
-
-        monthList.removeDuplicates();
-        monthList.sort();
-
-        QStringListIterator z(monthRef);
         QString annee = years.at(i);
         if (annee != "" && annee.at(0) == '2')
         {
-            while (z.hasNext())
+            for (int z = 1; z <= 12; ++z)
             {
-                QString currentMonth;
-
-                    if (! monthList.contains(currentMonth = z.next()))
-                     QMessageBox::critical(nullptr, "Données incomplètes",
+                if (! monthList.contains(z))
+                {
+                    QMessageBox::critical(nullptr, "Données incomplètes",
                                                     "Il manque des données mensuelles pour l'année " + annee +
-                                                    " mois "+ currentMonth,
+                                                    " mois "+ QString::number(z),
                                                     QMessageBox::Ok);
+                }
             }
         }
     }
