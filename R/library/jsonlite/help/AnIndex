@@ -1,3 +1,6 @@
+base64	base64
+base64_dec	base64
+base64_enc	base64
 flatten	flatten
 fromJSON	fromJSON
 jsonlite	fromJSON

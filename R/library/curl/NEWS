@@ -1,3 +1,27 @@
+2.1
+ - If libcurl >= 7.47 and was built --with-nghttp2, automatically enable HTTP/2
+   on HTTPS connections (matches behavior of 'curl' cmd util)
+ - Upgrade to libcurl 7.50.3 (--with-nghttp2) on Windows (Adds HTTP/2 support)
+ - Fix a unit test that would fail on fast servers
+
+2.0
+ - New multi interface for concurrent async requests!
+ - Updated vignette with simple multi examples
+ - Export handle_data() to get handle state
+
+1.2
+ - Fix for getaddrinfo GNU extension on some unix platforms
+
+1.1
+ - Fix ASAN warning in curl.c (reference after free)
+
+1.0
+ - Fix for FreeBSD
+ - Simplify handle refCount system
+ - Better handle locking to prevent using/modifying open handles
+ - Make unit tests always close connection to prevent 'unused connection' warnings
+ - Add support for interruptions in curl_download()
+
 0.9.7
  - The non-blocking download method is now only used in interactive mode
  - Use options(curl_interrupt = TRUE) to force nonblocking in non-interactive mode

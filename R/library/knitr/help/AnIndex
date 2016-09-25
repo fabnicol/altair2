@@ -1,6 +1,7 @@
 knitr-package	knitr-package
 all_labels	all_labels
 all_patterns	all_patterns
+all_rcpp_labels	all_labels
 asis_output	asis_output
 clean_cache	clean_cache
 combine_words	combine_words

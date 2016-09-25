@@ -20,6 +20,8 @@ choose.k                Basis dimension choice for smooths
 columb                  Reduced version of Columbus OH crime data
 concurvity              GAM concurvity measures
 cox.ph                  Additive Cox Proportional Hazard Model
+cox.pht                 Additive Cox proportional hazard models with
+                        time varying covariates
 exclude.too.far         Exclude prediction grid points too far from
                         data
 extract.lme.cov         Extract the data covariance matrix from an lme
@@ -58,6 +60,9 @@ gamm                    Generalized Additive Mixed Models
 gaulss                  Gaussian location-scale model family
 get.var                 Get named variable or evaluate expression from
                         list or data.frame
+gevlss                  Generalized Extreme Value location-scale model
+                        family
+identifiability         Identifiability constraints
 in.out                  Which of a set of points lie within a polygon
                         defined region
 inSide                  Are points inside boundary?
@@ -97,6 +102,7 @@ notExp2                 Alternative to log parameterization for
 null.space.dimension    The basis of the space of un-penalized
                         functions for a TPRS
 ocat                    GAM ordered categorical family
+one.se.rule             The one standard error rule for smoother models
 pcls                    Penalized Constrained Least Squares Fitting
 pdIdnot                 Overflow proof pdMat class for multiples of the
                         identity matrix
@@ -119,7 +125,7 @@ rig                     Generate inverse Gaussian random deviates
 rmvn                    Generate multivariate normal deviates
 s                       Defining smooths in GAM formulae
 scat                    GAM scaled t family for heavy tailed data
-sdiag                   Extract of modify diagonals of a matrix
+sdiag                   Extract or modify diagonals of a matrix
 single.index            Single index models with mgcv
 slanczos                Compute truncated eigen decomposition of a
                         symmetric matrix
@@ -153,6 +159,8 @@ smooth.construct.tensor.smooth.spec
 smooth.construct.tp.smooth.spec
                         Penalized thin plate regression splines in GAMs
 smooth.terms            Smooth terms in GAM
+smooth2random           Convert a smooth to a form suitable for
+                        estimating as random effect
 smoothCon               Prediction/Construction wrapper functions for
                         GAM smooth terms
 sp.vcov                 Extract smoothing parameter estimator
