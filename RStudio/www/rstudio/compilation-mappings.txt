@@ -1,0 +1,145 @@
+0DD98E19F1E16008A7B37A41B384DF3B.cache.js
+compiler.stackMode emulated
+rstudio.cocoa false
+rstudio.desktop false
+user.agent gecko1_8
+
+0DD98E19F1E16008A7B37A41B384DF3B.cache.js
+compiler.stackMode emulated
+rstudio.cocoa false
+rstudio.desktop false
+user.agent safari
+
+0DD98E19F1E16008A7B37A41B384DF3B.cache.js
+compiler.stackMode emulated
+rstudio.cocoa false
+rstudio.desktop true
+user.agent gecko1_8
+
+0DD98E19F1E16008A7B37A41B384DF3B.cache.js
+compiler.stackMode emulated
+rstudio.cocoa false
+rstudio.desktop true
+user.agent safari
+
+0DD98E19F1E16008A7B37A41B384DF3B.cache.js
+compiler.stackMode emulated
+rstudio.cocoa true
+rstudio.desktop false
+user.agent gecko1_8
+
+0DD98E19F1E16008A7B37A41B384DF3B.cache.js
+compiler.stackMode emulated
+rstudio.cocoa true
+rstudio.desktop false
+user.agent safari
+
+0DD98E19F1E16008A7B37A41B384DF3B.cache.js
+compiler.stackMode emulated
+rstudio.cocoa true
+rstudio.desktop true
+user.agent gecko1_8
+
+0DD98E19F1E16008A7B37A41B384DF3B.cache.js
+compiler.stackMode emulated
+rstudio.cocoa true
+rstudio.desktop true
+user.agent safari
+
+2902AE0F0A91939374F743D633C7CF4D.cache.js
+compiler.stackMode emulated
+rstudio.cocoa false
+rstudio.desktop false
+user.agent ie10
+
+2902AE0F0A91939374F743D633C7CF4D.cache.js
+compiler.stackMode emulated
+rstudio.cocoa false
+rstudio.desktop true
+user.agent ie10
+
+2902AE0F0A91939374F743D633C7CF4D.cache.js
+compiler.stackMode emulated
+rstudio.cocoa true
+rstudio.desktop false
+user.agent ie10
+
+2902AE0F0A91939374F743D633C7CF4D.cache.js
+compiler.stackMode emulated
+rstudio.cocoa true
+rstudio.desktop true
+user.agent ie10
+
+8781FF5940C47FDC3782D04807599C42.cache.js
+compiler.stackMode native
+rstudio.cocoa false
+rstudio.desktop false
+user.agent gecko1_8
+
+8781FF5940C47FDC3782D04807599C42.cache.js
+compiler.stackMode native
+rstudio.cocoa false
+rstudio.desktop false
+user.agent safari
+
+8781FF5940C47FDC3782D04807599C42.cache.js
+compiler.stackMode native
+rstudio.cocoa false
+rstudio.desktop true
+user.agent gecko1_8
+
+8781FF5940C47FDC3782D04807599C42.cache.js
+compiler.stackMode native
+rstudio.cocoa false
+rstudio.desktop true
+user.agent safari
+
+8781FF5940C47FDC3782D04807599C42.cache.js
+compiler.stackMode native
+rstudio.cocoa true
+rstudio.desktop false
+user.agent gecko1_8
+
+8781FF5940C47FDC3782D04807599C42.cache.js
+compiler.stackMode native
+rstudio.cocoa true
+rstudio.desktop false
+user.agent safari
+
+8781FF5940C47FDC3782D04807599C42.cache.js
+compiler.stackMode native
+rstudio.cocoa true
+rstudio.desktop true
+user.agent gecko1_8
+
+8781FF5940C47FDC3782D04807599C42.cache.js
+compiler.stackMode native
+rstudio.cocoa true
+rstudio.desktop true
+user.agent safari
+
+CE929D8E07648F8DC58123A2BEA4EA41.cache.js
+compiler.stackMode native
+rstudio.cocoa false
+rstudio.desktop false
+user.agent ie10
+
+CE929D8E07648F8DC58123A2BEA4EA41.cache.js
+compiler.stackMode native
+rstudio.cocoa false
+rstudio.desktop true
+user.agent ie10
+
+CE929D8E07648F8DC58123A2BEA4EA41.cache.js
+compiler.stackMode native
+rstudio.cocoa true
+rstudio.desktop false
+user.agent ie10
+
+CE929D8E07648F8DC58123A2BEA4EA41.cache.js
+compiler.stackMode native
+rstudio.cocoa true
+rstudio.desktop true
+user.agent ie10
+
+Devmode:devmode.js

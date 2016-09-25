@@ -1,0 +1,2186 @@
+commit 5ce13d08bacbc4911d9dfce3d67387eadaab0025
+Author: Fabrice Nicol <fabrnicol@gmail.com>
+Date:   Wed Oct 14 22:48:01 2015 +0200
+
+    sdk mods
+
+diff --git a/Interface/gui/altair.windows.pro.user b/Interface/gui/altair.windows.pro.user
+index 934e806..757b254 100644
+--- a/Interface/gui/altair.windows.pro.user
++++ b/Interface/gui/altair.windows.pro.user
+@@ -1,10 +1,10 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE QtCreatorProject>
+-<!-- Written by QtCreator 3.4.2, 2015-10-12T21:57:09. -->
++<!-- Written by QtCreator 3.5.0, 2015-10-14T20:10:29. -->
+ <qtcreator>
+  <data>
+   <variable>EnvironmentId</variable>
+-  <value type="QByteArray">{c34c1990-01b6-4c0f-a5e8-082f52c25267}</value>
++  <value type="QByteArray">{14980bbd-efb7-447b-8cbe-bc9115b189b6}</value>
+  </data>
+  <data>
+   <variable>ProjectExplorer.Project.ActiveTarget</variable>
+@@ -46,8 +46,8 @@
+    <value type="bool" key="EditorConfiguration.UseGlobal">true</value>
+    <value type="int" key="EditorConfiguration.Utf8BomBehavior">1</value>
+    <value type="bool" key="EditorConfiguration.addFinalNewLine">true</value>
+-   <value type="bool" key="EditorConfiguration.cleanIndentation">false</value>
+-   <value type="bool" key="EditorConfiguration.cleanWhitespace">false</value>
++   <value type="bool" key="EditorConfiguration.cleanIndentation">true</value>
++   <value type="bool" key="EditorConfiguration.cleanWhitespace">true</value>
+    <value type="bool" key="EditorConfiguration.inEntireDocument">false</value>
+   </valuemap>
+  </data>
+@@ -58,14 +58,14 @@
+  <data>
+   <variable>ProjectExplorer.Project.Target.0</variable>
+   <valuemap type="QVariantMap">
+-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">qt5.5</value>
+-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">qt5.5</value>
+-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{0d9185bf-69c8-4538-b6b0-8dc6c978c35e}</value>
+-   <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">0</value>
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">qt5.5-mingw64-52-static-opengl</value>
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">qt5.5-mingw64-52-static-opengl</value>
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{101258cc-3e5d-4c0c-b8e1-3d06f786f58d}</value>
++   <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">1</value>
+    <value type="int" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
+    <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">0</value>
+    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.0">
+-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/fab/Dev/altair/Interface/build-altair.static.windows-qt5_5-Debug</value>
++    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Users/Public/Dev/altair/Interface/build-altair.windows-qt5_6_static-Debug</value>
+     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
+      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
+       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+@@ -84,10 +84,7 @@
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Make</value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MakeStep</value>
+-      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments">
+-       <value type="QString">-w</value>
+-       <value type="QString">-r</value>
+-      </valuelist>
++      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments"/>
+       <value type="bool" key="Qt4ProjectManager.MakeStep.Clean">false</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments"></value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
+@@ -103,10 +100,7 @@
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Make</value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MakeStep</value>
+-      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments">
+-       <value type="QString">-w</value>
+-       <value type="QString">-r</value>
+-      </valuelist>
++      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments"/>
+       <value type="bool" key="Qt4ProjectManager.MakeStep.Clean">true</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments">clean</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
+@@ -126,7 +120,7 @@
+     <value type="bool" key="Qt4ProjectManager.Qt4BuildConfiguration.UseShadowBuild">true</value>
+    </valuemap>
+    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.1">
+-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/fab/Dev/altair/Interface/build-altair.static.windows-qt5_5-Release</value>
++    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Users/Public/Dev/altair/Interface/build</value>
+     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
+      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
+       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+@@ -145,12 +139,9 @@
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Make</value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MakeStep</value>
+-      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments">
+-       <value type="QString">-w</value>
+-       <value type="QString">-r</value>
+-      </valuelist>
++      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments"/>
+       <value type="bool" key="Qt4ProjectManager.MakeStep.Clean">false</value>
+-      <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments"></value>
++      <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments">-j7</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
+      </valuemap>
+      <value type="int" key="ProjectExplorer.BuildStepList.StepsCount">2</value>
+@@ -164,10 +155,7 @@
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Make</value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MakeStep</value>
+-      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments">
+-       <value type="QString">-w</value>
+-       <value type="QString">-r</value>
+-      </valuelist>
++      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments"/>
+       <value type="bool" key="Qt4ProjectManager.MakeStep.Clean">true</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments">clean</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
+@@ -238,11 +226,11 @@
+     </valuelist>
+     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
+     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">altair.static.windows</value>
++    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">altair.windows</value>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/fab/Dev/altair/Interface/gui/altair.static.windows.pro</value>
++    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Users/Public/Dev/altair/Interface/gui/altair.windows.pro</value>
+     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments"></value>
+-    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">altair.static.windows.pro</value>
++    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">altair.windows.pro</value>
+     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
+     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseTerminal">false</value>
+     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory"></value>
+
+commit 1cad2e2c8a02dacc878dcff1b7fb491f423dcc91
+Author: Fab Nicol <fabnicol@users.sourceforge.net>
+Date:   Tue Oct 13 00:45:55 2015 +0200
+
+    rename windows profile
+
+diff --git a/Interface/gui/altair.static.windows.pro.user b/Interface/gui/altair.windows.pro.user
+similarity index 100%
+rename from Interface/gui/altair.static.windows.pro.user
+rename to Interface/gui/altair.windows.pro.user
+
+commit 5689e0e213836e2c651e94359030a479f8f054dd
+Author: Fab Nicol <fabnicol@users.sourceforge.net>
+Date:   Tue Oct 13 00:44:51 2015 +0200
+
+    add linux static profile
+
+diff --git a/Interface/gui/altair.static.windows.pro.user b/Interface/gui/altair.static.windows.pro.user
+index 367c0c3..934e806 100644
+--- a/Interface/gui/altair.static.windows.pro.user
++++ b/Interface/gui/altair.static.windows.pro.user
+@@ -1,10 +1,10 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE QtCreatorProject>
+-<!-- Written by QtCreator 3.5.0, 2015-10-12T02:58:54. -->
++<!-- Written by QtCreator 3.4.2, 2015-10-12T21:57:09. -->
+ <qtcreator>
+  <data>
+   <variable>EnvironmentId</variable>
+-  <value type="QByteArray">{14980bbd-efb7-447b-8cbe-bc9115b189b6}</value>
++  <value type="QByteArray">{c34c1990-01b6-4c0f-a5e8-082f52c25267}</value>
+  </data>
+  <data>
+   <variable>ProjectExplorer.Project.ActiveTarget</variable>
+@@ -46,8 +46,8 @@
+    <value type="bool" key="EditorConfiguration.UseGlobal">true</value>
+    <value type="int" key="EditorConfiguration.Utf8BomBehavior">1</value>
+    <value type="bool" key="EditorConfiguration.addFinalNewLine">true</value>
+-   <value type="bool" key="EditorConfiguration.cleanIndentation">true</value>
+-   <value type="bool" key="EditorConfiguration.cleanWhitespace">true</value>
++   <value type="bool" key="EditorConfiguration.cleanIndentation">false</value>
++   <value type="bool" key="EditorConfiguration.cleanWhitespace">false</value>
+    <value type="bool" key="EditorConfiguration.inEntireDocument">false</value>
+   </valuemap>
+  </data>
+@@ -58,14 +58,14 @@
+  <data>
+   <variable>ProjectExplorer.Project.Target.0</variable>
+   <valuemap type="QVariantMap">
+-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">qt5.5-mingw64-5.2</value>
+-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">qt5.5-mingw64-5.2</value>
+-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{294db562-8ab2-4ba3-8891-8484aa5e7f6e}</value>
+-   <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">1</value>
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">qt5.5</value>
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">qt5.5</value>
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{0d9185bf-69c8-4538-b6b0-8dc6c978c35e}</value>
++   <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">0</value>
+    <value type="int" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
+-   <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">1</value>
++   <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">0</value>
+    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.0">
+-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Users/Public/Dev/altair/Interface/build-altair.static.windows-qt5_5_mingw64_5_2-Debug</value>
++    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/fab/Dev/altair/Interface/build-altair.static.windows-qt5_5-Debug</value>
+     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
+      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
+       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+@@ -84,9 +84,12 @@
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Make</value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MakeStep</value>
+-      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments"/>
++      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments">
++       <value type="QString">-w</value>
++       <value type="QString">-r</value>
++      </valuelist>
+       <value type="bool" key="Qt4ProjectManager.MakeStep.Clean">false</value>
+-      <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments">-j6</value>
++      <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments"></value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
+      </valuemap>
+      <value type="int" key="ProjectExplorer.BuildStepList.StepsCount">2</value>
+@@ -100,7 +103,10 @@
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Make</value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MakeStep</value>
+-      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments"/>
++      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments">
++       <value type="QString">-w</value>
++       <value type="QString">-r</value>
++      </valuelist>
+       <value type="bool" key="Qt4ProjectManager.MakeStep.Clean">true</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments">clean</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
+@@ -120,7 +126,7 @@
+     <value type="bool" key="Qt4ProjectManager.Qt4BuildConfiguration.UseShadowBuild">true</value>
+    </valuemap>
+    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.1">
+-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Users/Public/Dev/altair/Interface_windows/gui/x64</value>
++    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/fab/Dev/altair/Interface/build-altair.static.windows-qt5_5-Release</value>
+     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
+      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
+       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+@@ -139,21 +145,15 @@
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Make</value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MakeStep</value>
+-      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments"/>
++      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments">
++       <value type="QString">-w</value>
++       <value type="QString">-r</value>
++      </valuelist>
+       <value type="bool" key="Qt4ProjectManager.MakeStep.Clean">false</value>
+-      <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments">-j6</value>
++      <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments"></value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
+      </valuemap>
+-     <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.2">
+-      <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+-      <value type="QString" key="ProjectExplorer.ProcessStep.Arguments">/C copy /Y /B C:\Users\Public\Dev\altair\Interface_windows\gui\x64\release\Altair.exe  C:\Users\Public\Dev\altair\Interface_windows\gui\x64\Altaïr.exe</value>
+-      <value type="QString" key="ProjectExplorer.ProcessStep.Command">c:/windows/system32/cmd.exe</value>
+-      <value type="QString" key="ProjectExplorer.ProcessStep.WorkingDirectory">%{buildDir}</value>
+-      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Étape personnalisée</value>
+-      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+-      <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ProjectExplorer.ProcessStep</value>
+-     </valuemap>
+-     <value type="int" key="ProjectExplorer.BuildStepList.StepsCount">3</value>
++     <value type="int" key="ProjectExplorer.BuildStepList.StepsCount">2</value>
+      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Compiler</value>
+      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+      <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ProjectExplorer.BuildSteps.Build</value>
+@@ -164,7 +164,10 @@
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Make</value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MakeStep</value>
+-      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments"/>
++      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments">
++       <value type="QString">-w</value>
++       <value type="QString">-r</value>
++      </valuelist>
+       <value type="bool" key="Qt4ProjectManager.MakeStep.Clean">true</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments">clean</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
+@@ -237,7 +240,7 @@
+     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">altair.static.windows</value>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Users/Public/Dev/altair/Interface/gui/altair.static.windows.pro</value>
++    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/fab/Dev/altair/Interface/gui/altair.static.windows.pro</value>
+     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments"></value>
+     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">altair.static.windows.pro</value>
+     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
+@@ -250,57 +253,7 @@
+     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
+     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+    </valuemap>
+-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.1">
+-    <valuelist type="QVariantList" key="Analyzer.Valgrind.AddedSuppressionFiles"/>
+-    <value type="bool" key="Analyzer.Valgrind.Callgrind.CollectBusEvents">false</value>
+-    <value type="bool" key="Analyzer.Valgrind.Callgrind.CollectSystime">false</value>
+-    <value type="bool" key="Analyzer.Valgrind.Callgrind.EnableBranchSim">false</value>
+-    <value type="bool" key="Analyzer.Valgrind.Callgrind.EnableCacheSim">false</value>
+-    <value type="bool" key="Analyzer.Valgrind.Callgrind.EnableEventToolTips">true</value>
+-    <value type="double" key="Analyzer.Valgrind.Callgrind.MinimumCostRatio">0.01</value>
+-    <value type="double" key="Analyzer.Valgrind.Callgrind.VisualisationMinimumCostRatio">10</value>
+-    <value type="bool" key="Analyzer.Valgrind.FilterExternalIssues">true</value>
+-    <value type="int" key="Analyzer.Valgrind.LeakCheckOnFinish">1</value>
+-    <value type="int" key="Analyzer.Valgrind.NumCallers">25</value>
+-    <valuelist type="QVariantList" key="Analyzer.Valgrind.RemovedSuppressionFiles"/>
+-    <value type="int" key="Analyzer.Valgrind.SelfModifyingCodeDetection">1</value>
+-    <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
+-    <value type="bool" key="Analyzer.Valgrind.ShowReachable">false</value>
+-    <value type="bool" key="Analyzer.Valgrind.TrackOrigins">true</value>
+-    <value type="QString" key="Analyzer.Valgrind.ValgrindExecutable">valgrind</value>
+-    <valuelist type="QVariantList" key="Analyzer.Valgrind.VisibleErrorKinds">
+-     <value type="int">0</value>
+-     <value type="int">1</value>
+-     <value type="int">2</value>
+-     <value type="int">3</value>
+-     <value type="int">4</value>
+-     <value type="int">5</value>
+-     <value type="int">6</value>
+-     <value type="int">7</value>
+-     <value type="int">8</value>
+-     <value type="int">9</value>
+-     <value type="int">10</value>
+-     <value type="int">11</value>
+-     <value type="int">12</value>
+-     <value type="int">13</value>
+-     <value type="int">14</value>
+-    </valuelist>
+-    <value type="int" key="PE.EnvironmentAspect.Base">2</value>
+-    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+-    <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.Arguments"></value>
+-    <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.Executable">C:/Users/Public/Dev/altair/Interface_windows/gui/x64/Altaïr.exe</value>
+-    <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.WorkingDirectory">%{buildDir}</value>
+-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Exécuter C:\Users\Public\Dev\altair\Interface_windows\gui\x64\Altaïr.exe</value>
+-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ProjectExplorer.CustomExecutableRunConfiguration</value>
+-    <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
+-    <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
+-    <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
+-    <value type="bool" key="RunConfiguration.UseMultiProcess">false</value>
+-    <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
+-    <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+-   </valuemap>
+-   <value type="int" key="ProjectExplorer.Target.RunConfigurationCount">2</value>
++   <value type="int" key="ProjectExplorer.Target.RunConfigurationCount">1</value>
+   </valuemap>
+  </data>
+  <data>
+
+commit dff9c1b433905c4f6d4735e8629961841b7be78f
+Author: Fabrice Nicol <fabrnicol@gmail.com>
+Date:   Mon Oct 12 02:59:40 2015 +0200
+
+    process of restructuring LHX
+
+diff --git a/Interface/gui/altair.static.windows.pro.user b/Interface/gui/altair.static.windows.pro.user
+index 89d8a93..367c0c3 100644
+--- a/Interface/gui/altair.static.windows.pro.user
++++ b/Interface/gui/altair.static.windows.pro.user
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE QtCreatorProject>
+-<!-- Written by QtCreator 3.5.0, 2015-10-11T05:19:26. -->
++<!-- Written by QtCreator 3.5.0, 2015-10-12T02:58:54. -->
+ <qtcreator>
+  <data>
+   <variable>EnvironmentId</variable>
+
+commit 895f073f66da67916e835ab2dc6a2ed6eef6ea63
+Author: Fabrice Nicol <fabrnicol@gmail.com>
+Date:   Sun Oct 11 05:21:15 2015 +0200
+
+    make seamless building process under qtcreator
+
+diff --git a/Interface/gui/altair.static.windows.pro.user b/Interface/gui/altair.static.windows.pro.user
+index 45c8513..89d8a93 100644
+--- a/Interface/gui/altair.static.windows.pro.user
++++ b/Interface/gui/altair.static.windows.pro.user
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE QtCreatorProject>
+-<!-- Written by QtCreator 3.5.0, 2015-10-11T03:27:21. -->
++<!-- Written by QtCreator 3.5.0, 2015-10-11T05:19:26. -->
+ <qtcreator>
+  <data>
+   <variable>EnvironmentId</variable>
+@@ -63,7 +63,7 @@
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{294db562-8ab2-4ba3-8891-8484aa5e7f6e}</value>
+    <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">1</value>
+    <value type="int" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
+-   <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">0</value>
++   <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">1</value>
+    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.0">
+     <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Users/Public/Dev/altair/Interface/build-altair.static.windows-qt5_5_mingw64_5_2-Debug</value>
+     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
+@@ -120,7 +120,7 @@
+     <value type="bool" key="Qt4ProjectManager.Qt4BuildConfiguration.UseShadowBuild">true</value>
+    </valuemap>
+    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.1">
+-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Users/Public/Dev/altair/Interface/build-altair.static.windows-qt5_5_mingw64_5_2-Release</value>
++    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Users/Public/Dev/altair/Interface_windows/gui/x64</value>
+     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
+      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
+       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+@@ -144,7 +144,16 @@
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments">-j6</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
+      </valuemap>
+-     <value type="int" key="ProjectExplorer.BuildStepList.StepsCount">2</value>
++     <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.2">
++      <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
++      <value type="QString" key="ProjectExplorer.ProcessStep.Arguments">/C copy /Y /B C:\Users\Public\Dev\altair\Interface_windows\gui\x64\release\Altair.exe  C:\Users\Public\Dev\altair\Interface_windows\gui\x64\Altaïr.exe</value>
++      <value type="QString" key="ProjectExplorer.ProcessStep.Command">c:/windows/system32/cmd.exe</value>
++      <value type="QString" key="ProjectExplorer.ProcessStep.WorkingDirectory">%{buildDir}</value>
++      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Étape personnalisée</value>
++      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
++      <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ProjectExplorer.ProcessStep</value>
++     </valuemap>
++     <value type="int" key="ProjectExplorer.BuildStepList.StepsCount">3</value>
+      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Compiler</value>
+      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+      <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ProjectExplorer.BuildSteps.Build</value>
+@@ -241,7 +250,57 @@
+     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
+     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+    </valuemap>
+-   <value type="int" key="ProjectExplorer.Target.RunConfigurationCount">1</value>
++   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.1">
++    <valuelist type="QVariantList" key="Analyzer.Valgrind.AddedSuppressionFiles"/>
++    <value type="bool" key="Analyzer.Valgrind.Callgrind.CollectBusEvents">false</value>
++    <value type="bool" key="Analyzer.Valgrind.Callgrind.CollectSystime">false</value>
++    <value type="bool" key="Analyzer.Valgrind.Callgrind.EnableBranchSim">false</value>
++    <value type="bool" key="Analyzer.Valgrind.Callgrind.EnableCacheSim">false</value>
++    <value type="bool" key="Analyzer.Valgrind.Callgrind.EnableEventToolTips">true</value>
++    <value type="double" key="Analyzer.Valgrind.Callgrind.MinimumCostRatio">0.01</value>
++    <value type="double" key="Analyzer.Valgrind.Callgrind.VisualisationMinimumCostRatio">10</value>
++    <value type="bool" key="Analyzer.Valgrind.FilterExternalIssues">true</value>
++    <value type="int" key="Analyzer.Valgrind.LeakCheckOnFinish">1</value>
++    <value type="int" key="Analyzer.Valgrind.NumCallers">25</value>
++    <valuelist type="QVariantList" key="Analyzer.Valgrind.RemovedSuppressionFiles"/>
++    <value type="int" key="Analyzer.Valgrind.SelfModifyingCodeDetection">1</value>
++    <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
++    <value type="bool" key="Analyzer.Valgrind.ShowReachable">false</value>
++    <value type="bool" key="Analyzer.Valgrind.TrackOrigins">true</value>
++    <value type="QString" key="Analyzer.Valgrind.ValgrindExecutable">valgrind</value>
++    <valuelist type="QVariantList" key="Analyzer.Valgrind.VisibleErrorKinds">
++     <value type="int">0</value>
++     <value type="int">1</value>
++     <value type="int">2</value>
++     <value type="int">3</value>
++     <value type="int">4</value>
++     <value type="int">5</value>
++     <value type="int">6</value>
++     <value type="int">7</value>
++     <value type="int">8</value>
++     <value type="int">9</value>
++     <value type="int">10</value>
++     <value type="int">11</value>
++     <value type="int">12</value>
++     <value type="int">13</value>
++     <value type="int">14</value>
++    </valuelist>
++    <value type="int" key="PE.EnvironmentAspect.Base">2</value>
++    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
++    <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.Arguments"></value>
++    <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.Executable">C:/Users/Public/Dev/altair/Interface_windows/gui/x64/Altaïr.exe</value>
++    <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.WorkingDirectory">%{buildDir}</value>
++    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Exécuter C:\Users\Public\Dev\altair\Interface_windows\gui\x64\Altaïr.exe</value>
++    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
++    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ProjectExplorer.CustomExecutableRunConfiguration</value>
++    <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
++    <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
++    <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
++    <value type="bool" key="RunConfiguration.UseMultiProcess">false</value>
++    <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
++    <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
++   </valuemap>
++   <value type="int" key="ProjectExplorer.Target.RunConfigurationCount">2</value>
+   </valuemap>
+  </data>
+  <data>
+
+commit e6d649beaa9c070a9644098e8a96d9a4ac74dd05
+Author: Fabrice Nicol <fabrnicol@gmail.com>
+Date:   Sun Oct 11 03:30:31 2015 +0200
+
+    refresh
+
+diff --git a/Interface/gui/altair.static.windows.pro.user b/Interface/gui/altair.static.windows.pro.user
+index 344f3f5..45c8513 100644
+--- a/Interface/gui/altair.static.windows.pro.user
++++ b/Interface/gui/altair.static.windows.pro.user
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE QtCreatorProject>
+-<!-- Written by QtCreator 3.5.0, 2015-10-11T02:24:33. -->
++<!-- Written by QtCreator 3.5.0, 2015-10-11T03:27:21. -->
+ <qtcreator>
+  <data>
+   <variable>EnvironmentId</variable>
+
+commit 09e3a6b1fb20b3ccd3aabbd7f21e5bf0bb809433
+Author: Fabrice Nicol <fabrnicol@gmail.com>
+Date:   Sun Oct 11 02:54:49 2015 +0200
+
+    recover altair.R from 700bb21
+
+diff --git a/Interface/gui/altair.static.windows.pro.user b/Interface/gui/altair.static.windows.pro.user
+index 0c099cd..344f3f5 100644
+--- a/Interface/gui/altair.static.windows.pro.user
++++ b/Interface/gui/altair.static.windows.pro.user
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE QtCreatorProject>
+-<!-- Written by QtCreator 3.5.0, 2015-10-10T02:13:26. -->
++<!-- Written by QtCreator 3.5.0, 2015-10-11T02:24:33. -->
+ <qtcreator>
+  <data>
+   <variable>EnvironmentId</variable>
+
+commit 393ea3e4269bcf25c6cb9a4173cac4860a3fa6f1
+Author: Fabrice Nicol <fabrnicol@gmail.com>
+Date:   Sat Oct 10 02:17:33 2015 +0200
+
+    improve build chain with qtcreator
+
+diff --git a/Interface/gui/altair.static.windows.pro.user b/Interface/gui/altair.static.windows.pro.user
+index 4fd3b4e..0c099cd 100644
+--- a/Interface/gui/altair.static.windows.pro.user
++++ b/Interface/gui/altair.static.windows.pro.user
+@@ -1,10 +1,10 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE QtCreatorProject>
+-<!-- Written by QtCreator 3.5.0, 2015-10-09T19:53:50. -->
++<!-- Written by QtCreator 3.5.0, 2015-10-10T02:13:26. -->
+ <qtcreator>
+  <data>
+   <variable>EnvironmentId</variable>
+-  <value type="QByteArray">{f756d906-23a4-4141-a370-cf86066644b1}</value>
++  <value type="QByteArray">{14980bbd-efb7-447b-8cbe-bc9115b189b6}</value>
+  </data>
+  <data>
+   <variable>ProjectExplorer.Project.ActiveTarget</variable>
+@@ -58,14 +58,14 @@
+  <data>
+   <variable>ProjectExplorer.Project.Target.0</variable>
+   <valuemap type="QVariantMap">
+-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Desktop</value>
+-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Desktop</value>
+-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{3f022c17-d931-4a2d-a777-005dd155bf54}</value>
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">qt5.5-mingw64-5.2</value>
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">qt5.5-mingw64-5.2</value>
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{294db562-8ab2-4ba3-8891-8484aa5e7f6e}</value>
+    <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">1</value>
+    <value type="int" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
+    <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">0</value>
+    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.0">
+-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Users/fnicol/Dev/altair/Interface/build-altair.static.windows-Desktop-Debug</value>
++    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Users/Public/Dev/altair/Interface/build-altair.static.windows-qt5_5_mingw64_5_2-Debug</value>
+     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
+      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
+       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+@@ -86,7 +86,7 @@
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MakeStep</value>
+       <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments"/>
+       <value type="bool" key="Qt4ProjectManager.MakeStep.Clean">false</value>
+-      <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments"></value>
++      <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments">-j6</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
+      </valuemap>
+      <value type="int" key="ProjectExplorer.BuildStepList.StepsCount">2</value>
+@@ -120,7 +120,7 @@
+     <value type="bool" key="Qt4ProjectManager.Qt4BuildConfiguration.UseShadowBuild">true</value>
+    </valuemap>
+    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.1">
+-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Users/fnicol/Dev/altair/Interface/build-altair.static.windows-Desktop-Release</value>
++    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Users/Public/Dev/altair/Interface/build-altair.static.windows-qt5_5_mingw64_5_2-Release</value>
+     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
+      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
+       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+@@ -141,7 +141,7 @@
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MakeStep</value>
+       <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments"/>
+       <value type="bool" key="Qt4ProjectManager.MakeStep.Clean">false</value>
+-      <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments">-j4</value>
++      <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments">-j6</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
+      </valuemap>
+      <value type="int" key="ProjectExplorer.BuildStepList.StepsCount">2</value>
+@@ -228,7 +228,7 @@
+     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">altair.static.windows</value>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Users/fnicol/Dev/altair/Interface/gui/altair.static.windows.pro</value>
++    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Users/Public/Dev/altair/Interface/gui/altair.static.windows.pro</value>
+     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments"></value>
+     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">altair.static.windows.pro</value>
+     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
+
+commit 346712f1becefa7e3c73e431f9eff3b2278f3578
+Author: Fabrice Nicol <fabrnicol@gmail.com>
+Date:   Fri Oct 9 19:55:03 2015 +0200
+
+    try to implement preallocation bar progress
+
+diff --git a/Interface/gui/altair.static.windows.pro.user b/Interface/gui/altair.static.windows.pro.user
+index e003b77..4fd3b4e 100644
+--- a/Interface/gui/altair.static.windows.pro.user
++++ b/Interface/gui/altair.static.windows.pro.user
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE QtCreatorProject>
+-<!-- Written by QtCreator 3.5.0, 2015-10-09T13:25:17. -->
++<!-- Written by QtCreator 3.5.0, 2015-10-09T19:53:50. -->
+ <qtcreator>
+  <data>
+   <variable>EnvironmentId</variable>
+@@ -141,7 +141,7 @@
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MakeStep</value>
+       <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments"/>
+       <value type="bool" key="Qt4ProjectManager.MakeStep.Clean">false</value>
+-      <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments"></value>
++      <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments">-j4</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
+      </valuemap>
+      <value type="int" key="ProjectExplorer.BuildStepList.StepsCount">2</value>
+
+commit 94d160d84887d259c3b24606472a72783a233da3
+Author: Fabrice Nicol <fabrnicol@gmail.com>
+Date:   Fri Oct 9 14:12:42 2015 +0200
+
+    fixes progress bar : todo : set max moves
+
+diff --git a/Interface/gui/altair.static.windows.pro.user b/Interface/gui/altair.static.windows.pro.user
+index 2a0c6d9..e003b77 100644
+--- a/Interface/gui/altair.static.windows.pro.user
++++ b/Interface/gui/altair.static.windows.pro.user
+@@ -1,10 +1,10 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE QtCreatorProject>
+-<!-- Written by QtCreator 3.5.0, 2015-10-09T02:33:50. -->
++<!-- Written by QtCreator 3.5.0, 2015-10-09T13:25:17. -->
+ <qtcreator>
+  <data>
+   <variable>EnvironmentId</variable>
+-  <value type="QByteArray">{14980bbd-efb7-447b-8cbe-bc9115b189b6}</value>
++  <value type="QByteArray">{f756d906-23a4-4141-a370-cf86066644b1}</value>
+  </data>
+  <data>
+   <variable>ProjectExplorer.Project.ActiveTarget</variable>
+@@ -58,14 +58,14 @@
+  <data>
+   <variable>ProjectExplorer.Project.Target.0</variable>
+   <valuemap type="QVariantMap">
+-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">qt5.5 mingw64-5.2</value>
+-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">qt5.5 mingw64-5.2</value>
+-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{43dac072-cb66-460c-9ef5-11fb19f9cfb3}</value>
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Desktop</value>
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Desktop</value>
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{3f022c17-d931-4a2d-a777-005dd155bf54}</value>
+    <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">1</value>
+    <value type="int" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
+    <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">0</value>
+    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.0">
+-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Dev/altair/Interface/build-altair.static-qt5_6_static-Debug</value>
++    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Users/fnicol/Dev/altair/Interface/build-altair.static.windows-Desktop-Debug</value>
+     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
+      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
+       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+@@ -120,7 +120,7 @@
+     <value type="bool" key="Qt4ProjectManager.Qt4BuildConfiguration.UseShadowBuild">true</value>
+    </valuemap>
+    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.1">
+-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Dev/altair/Interface/build-altair.static-qt5_6_static-Release</value>
++    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Users/fnicol/Dev/altair/Interface/build-altair.static.windows-Desktop-Release</value>
+     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
+      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
+       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+@@ -141,7 +141,7 @@
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MakeStep</value>
+       <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments"/>
+       <value type="bool" key="Qt4ProjectManager.MakeStep.Clean">false</value>
+-      <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments">-j8</value>
++      <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments"></value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
+      </valuemap>
+      <value type="int" key="ProjectExplorer.BuildStepList.StepsCount">2</value>
+@@ -228,7 +228,7 @@
+     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">altair.static.windows</value>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Dev/altair/Interface/gui/altair.static.windows.pro</value>
++    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Users/fnicol/Dev/altair/Interface/gui/altair.static.windows.pro</value>
+     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments"></value>
+     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">altair.static.windows.pro</value>
+     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
+
+commit 4a9b76f2dff4e6734e0dca6104001331db5ffabf
+Author: Fabrice Nicol <fabrnicol@gmail.com>
+Date:   Fri Oct 9 02:34:45 2015 +0200
+
+    tentative try at progress bar. Better but file race access issues
+
+diff --git a/Interface/gui/altair.static.windows.pro.user b/Interface/gui/altair.static.windows.pro.user
+index 7a1139c..2a0c6d9 100644
+--- a/Interface/gui/altair.static.windows.pro.user
++++ b/Interface/gui/altair.static.windows.pro.user
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE QtCreatorProject>
+-<!-- Written by QtCreator 3.5.0, 2015-10-09T00:06:30. -->
++<!-- Written by QtCreator 3.5.0, 2015-10-09T02:33:50. -->
+ <qtcreator>
+  <data>
+   <variable>EnvironmentId</variable>
+
+commit 14fd90321c602789c92a2ec06699eb271fd197c9
+Author: Fabrice Nicol <fabrnicol@gmail.com>
+Date:   Fri Oct 9 00:12:32 2015 +0200
+
+    fixed dev sdk isssue
+
+diff --git a/lhx/lhx_linux/lhx_linux.pro.user b/Interface/gui/altair.static.windows.pro.user
+similarity index 88%
+rename from lhx/lhx_linux/lhx_linux.pro.user
+rename to Interface/gui/altair.static.windows.pro.user
+index 3dfc764..7a1139c 100644
+--- a/lhx/lhx_linux/lhx_linux.pro.user
++++ b/Interface/gui/altair.static.windows.pro.user
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE QtCreatorProject>
+-<!-- Written by QtCreator 3.5.0, 2015-10-08T02:28:21. -->
++<!-- Written by QtCreator 3.5.0, 2015-10-09T00:06:30. -->
+ <qtcreator>
+  <data>
+   <variable>EnvironmentId</variable>
+@@ -58,14 +58,14 @@
+  <data>
+   <variable>ProjectExplorer.Project.Target.0</variable>
+   <valuemap type="QVariantMap">
+-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">qt5.6 static</value>
+-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">qt5.6 static</value>
+-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{101258cc-3e5d-4c0c-b8e1-3d06f786f58d}</value>
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">qt5.5 mingw64-5.2</value>
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">qt5.5 mingw64-5.2</value>
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{43dac072-cb66-460c-9ef5-11fb19f9cfb3}</value>
+    <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">1</value>
+    <value type="int" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
+    <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">0</value>
+    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.0">
+-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Dev/altair/lhx/build-lhx_linux-qt5_6_static-Debug</value>
++    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Dev/altair/Interface/build-altair.static-qt5_6_static-Debug</value>
+     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
+      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
+       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+@@ -120,7 +120,7 @@
+     <value type="bool" key="Qt4ProjectManager.Qt4BuildConfiguration.UseShadowBuild">true</value>
+    </valuemap>
+    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.1">
+-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Dev/altair/lhx/build-lhx_linux-qt5_6_static-Release</value>
++    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Dev/altair/Interface/build-altair.static-qt5_6_static-Release</value>
+     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
+      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
+       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+@@ -141,7 +141,7 @@
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MakeStep</value>
+       <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments"/>
+       <value type="bool" key="Qt4ProjectManager.MakeStep.Clean">false</value>
+-      <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments"></value>
++      <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments">-j8</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
+      </valuemap>
+      <value type="int" key="ProjectExplorer.BuildStepList.StepsCount">2</value>
+@@ -225,14 +225,12 @@
+      <value type="int">14</value>
+     </valuelist>
+     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
+-    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes">
+-     <value type="QString">PATH=C:\Build\qt5\qtbase\lib;C:\Build\qt5\qtbase\bin;C:\Qt\Qt5.5.0.dynamic.build.x86\x86_64-5.2.0-release-posix-seh-rt_v4-rev0\mingw64\bin;C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\intel64_win\compiler;C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\ia32_win\compiler;C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\amd64;C:\Python27\;C:\Python27\Scripts;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\libnvvp;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\Microsoft SQL Server\110\Tools\Binn\;C:\Program Files (x86)\Microsoft SDKs\TypeScript\1.0\;C:\Program Files (x86)\NVIDIA Corporation\DDS Utilities;C:\Program Files (x86)\Common Files\Acronis\SnapAPI\;C:\Strawberry\c\bin;C:\Strawberry\perl\site\bin;C:\Strawberry\perl\bin;C:\WINDOWS\system32\config\systemprofile\.dnx\bin;C:\Program Files\Microsoft DNX\Dnvm\;C:\Program Files (x86)\Calibre2\;C:\Program Files (x86)\QuickTime\QTSystem\;c:\dev\altair\texlive\bin\win32;C:\Users\Fab\AppData\Roaming\Python\Scripts;C:\Program Files (x86)\Common Files\Acronis\TibMounter64;E:\mingw64\bin</value>
+-    </valuelist>
+-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">lhx_linux</value>
++    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
++    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">altair.static.windows</value>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Dev/altair/lhx/lhx_linux/lhx_linux.pro</value>
+-    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments">-rank c:/dev/rank  -t -m -j 7 -D c:/dev/altair/tests/exemple/donnees/r-altair c:/dev/altair/tests/exemple/donnees/xhl/Metro/2008/*.xhl  c:/dev/altair/tests/exemple/donnees/xhl/Metro/2009/*.xhl  c:/dev/altair/tests/exemple/donnees/xhl/Metro/2010/*.xhl c:/dev/altair/tests/exemple/donnees/xhl/Metro/2011/*.xhl c:/dev/altair/tests/exemple/donnees/xhl/Metro/2012/*.xhl</value>
+-    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">lhx_linux.pro</value>
++    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Dev/altair/Interface/gui/altair.static.windows.pro</value>
++    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments"></value>
++    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">altair.static.windows.pro</value>
+     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
+     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseTerminal">false</value>
+     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory"></value>
+
+commit 2237be21be17f01dee81369549192fc732565ef0
+Author: Fabrice Nicol <fabrnicol@gmail.com>
+Date:   Thu Oct 8 02:29:16 2015 +0200
+
+    redesign progressbar using -rank in lhx. Retag lhx output
+
+diff --git a/lhx/lhx_linux/lhx_linux.pro.user b/lhx/lhx_linux/lhx_linux.pro.user
+index ac465a3..3dfc764 100644
+--- a/lhx/lhx_linux/lhx_linux.pro.user
++++ b/lhx/lhx_linux/lhx_linux.pro.user
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE QtCreatorProject>
+-<!-- Written by QtCreator 3.5.0, 2015-10-07T01:02:45. -->
++<!-- Written by QtCreator 3.5.0, 2015-10-08T02:28:21. -->
+ <qtcreator>
+  <data>
+   <variable>EnvironmentId</variable>
+@@ -231,10 +231,10 @@
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">lhx_linux</value>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Dev/altair/lhx/lhx_linux/lhx_linux.pro</value>
+-    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments">-t -m -j 7 -D c:/dev/altair/tests/exemple/donnees/r-altair c:/dev/altair/tests/exemple/donnees/xhl/Metro/2008/*.xhl  c:/dev/altair/tests/exemple/donnees/xhl/Metro/2009/*.xhl  c:/dev/altair/tests/exemple/donnees/xhl/Metro/2010/*.xhl c:/dev/altair/tests/exemple/donnees/xhl/Metro/2011/*.xhl c:/dev/altair/tests/exemple/donnees/xhl/Metro/2012/*.xhl</value>
++    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments">-rank c:/dev/rank  -t -m -j 7 -D c:/dev/altair/tests/exemple/donnees/r-altair c:/dev/altair/tests/exemple/donnees/xhl/Metro/2008/*.xhl  c:/dev/altair/tests/exemple/donnees/xhl/Metro/2009/*.xhl  c:/dev/altair/tests/exemple/donnees/xhl/Metro/2010/*.xhl c:/dev/altair/tests/exemple/donnees/xhl/Metro/2011/*.xhl c:/dev/altair/tests/exemple/donnees/xhl/Metro/2012/*.xhl</value>
+     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">lhx_linux.pro</value>
+     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
+-    <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseTerminal">true</value>
++    <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseTerminal">false</value>
+     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory"></value>
+     <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
+     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
+
+commit ecf42fb6e4ccb31185b73cd3f471df1bad2fe07a
+Author: Fabrice Nicol <fabrnicol@gmail.com>
+Date:   Wed Oct 7 01:04:16 2015 +0200
+
+    add STRICT
+
+diff --git a/lhx/lhx_linux/lhx_linux.pro.user b/lhx/lhx_linux/lhx_linux.pro.user
+index f689ca2..ac465a3 100644
+--- a/lhx/lhx_linux/lhx_linux.pro.user
++++ b/lhx/lhx_linux/lhx_linux.pro.user
+@@ -1,10 +1,10 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE QtCreatorProject>
+-<!-- Written by QtCreator 3.5.0, 2015-10-06T19:04:54. -->
++<!-- Written by QtCreator 3.5.0, 2015-10-07T01:02:45. -->
+ <qtcreator>
+  <data>
+   <variable>EnvironmentId</variable>
+-  <value type="QByteArray">{a34b2f57-e0ea-4de8-bd91-18421c26953c}</value>
++  <value type="QByteArray">{14980bbd-efb7-447b-8cbe-bc9115b189b6}</value>
+  </data>
+  <data>
+   <variable>ProjectExplorer.Project.ActiveTarget</variable>
+@@ -58,14 +58,14 @@
+  <data>
+   <variable>ProjectExplorer.Project.Target.0</variable>
+   <valuemap type="QVariantMap">
+-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Desktop</value>
+-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Desktop</value>
+-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{47770286-ec37-461b-bb06-fea1e066152b}</value>
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">qt5.6 static</value>
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">qt5.6 static</value>
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{101258cc-3e5d-4c0c-b8e1-3d06f786f58d}</value>
+    <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">1</value>
+    <value type="int" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
+    <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">0</value>
+    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.0">
+-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Dev/altair/lhx/build-lhx_linux-Desktop-Debug</value>
++    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Dev/altair/lhx/build-lhx_linux-qt5_6_static-Debug</value>
+     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
+      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
+       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+@@ -120,7 +120,7 @@
+     <value type="bool" key="Qt4ProjectManager.Qt4BuildConfiguration.UseShadowBuild">true</value>
+    </valuemap>
+    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.1">
+-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Dev/altair/lhx/build-lhx_linux-Desktop-Release</value>
++    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Dev/altair/lhx/build-lhx_linux-qt5_6_static-Release</value>
+     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
+      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
+       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+@@ -225,11 +225,13 @@
+      <value type="int">14</value>
+     </valuelist>
+     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
+-    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
++    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes">
++     <value type="QString">PATH=C:\Build\qt5\qtbase\lib;C:\Build\qt5\qtbase\bin;C:\Qt\Qt5.5.0.dynamic.build.x86\x86_64-5.2.0-release-posix-seh-rt_v4-rev0\mingw64\bin;C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\intel64_win\compiler;C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\ia32_win\compiler;C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\amd64;C:\Python27\;C:\Python27\Scripts;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\libnvvp;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\Microsoft SQL Server\110\Tools\Binn\;C:\Program Files (x86)\Microsoft SDKs\TypeScript\1.0\;C:\Program Files (x86)\NVIDIA Corporation\DDS Utilities;C:\Program Files (x86)\Common Files\Acronis\SnapAPI\;C:\Strawberry\c\bin;C:\Strawberry\perl\site\bin;C:\Strawberry\perl\bin;C:\WINDOWS\system32\config\systemprofile\.dnx\bin;C:\Program Files\Microsoft DNX\Dnvm\;C:\Program Files (x86)\Calibre2\;C:\Program Files (x86)\QuickTime\QTSystem\;c:\dev\altair\texlive\bin\win32;C:\Users\Fab\AppData\Roaming\Python\Scripts;C:\Program Files (x86)\Common Files\Acronis\TibMounter64;E:\mingw64\bin</value>
++    </valuelist>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">lhx_linux</value>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Dev/altair/lhx/lhx_linux/lhx_linux.pro</value>
+-    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments"> -t -j 2  -D c:\dev\altair\tests\exemple\donnees\R-altair c:\dev\altair\tests\exemple\donnees\xhl\Metro\2008\*.xhl  c:\dev\altair\tests\exemple\donnees\xhl\Metro\2009\*.xhl  c:\dev\altair\tests\exemple\donnees\xhl\Metro\2010\*.xhl  c:\dev\altair\tests\exemple\donnees\xhl\Metro\2011\*.xhl  c:\dev\altair\tests\exemple\donnees\xhl\Metro\2012\*.xhl</value>
++    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments">-t -m -j 7 -D c:/dev/altair/tests/exemple/donnees/r-altair c:/dev/altair/tests/exemple/donnees/xhl/Metro/2008/*.xhl  c:/dev/altair/tests/exemple/donnees/xhl/Metro/2009/*.xhl  c:/dev/altair/tests/exemple/donnees/xhl/Metro/2010/*.xhl c:/dev/altair/tests/exemple/donnees/xhl/Metro/2011/*.xhl c:/dev/altair/tests/exemple/donnees/xhl/Metro/2012/*.xhl</value>
+     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">lhx_linux.pro</value>
+     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
+     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseTerminal">true</value>
+
+commit 50019fe20f3df75c486d3dc03279245cc7215789
+Author: fabrice nicol <fabrnicol@gmail.com>
+Date:   Tue Oct 6 19:10:03 2015 +0200
+
+    add two modes of preallocation memory management
+
+diff --git a/lhx/lhx_linux/lhx_linux.pro.user b/lhx/lhx_linux/lhx_linux.pro.user
+index 76f0e2a..f689ca2 100644
+--- a/lhx/lhx_linux/lhx_linux.pro.user
++++ b/lhx/lhx_linux/lhx_linux.pro.user
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE QtCreatorProject>
+-<!-- Written by QtCreator 3.5.0, 2015-10-06T16:50:16. -->
++<!-- Written by QtCreator 3.5.0, 2015-10-06T19:04:54. -->
+ <qtcreator>
+  <data>
+   <variable>EnvironmentId</variable>
+@@ -229,7 +229,7 @@
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">lhx_linux</value>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Dev/altair/lhx/lhx_linux/lhx_linux.pro</value>
+-    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments">-T &quot;T&quot; -t -j 2  -D c:\dev\altair\tests\exemple\donnees\R-altair c:\dev\altair\tests\exemple\donnees\xhl\Metro\2008\*.xhl  c:\dev\altair\tests\exemple\donnees\xhl\Metro\2009\*.xhl  c:\dev\altair\tests\exemple\donnees\xhl\Metro\2010\*.xhl  c:\dev\altair\tests\exemple\donnees\xhl\Metro\2011\*.xhl  c:\dev\altair\tests\exemple\donnees\xhl\Metro\2012\*.xhl</value>
++    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments"> -t -j 2  -D c:\dev\altair\tests\exemple\donnees\R-altair c:\dev\altair\tests\exemple\donnees\xhl\Metro\2008\*.xhl  c:\dev\altair\tests\exemple\donnees\xhl\Metro\2009\*.xhl  c:\dev\altair\tests\exemple\donnees\xhl\Metro\2010\*.xhl  c:\dev\altair\tests\exemple\donnees\xhl\Metro\2011\*.xhl  c:\dev\altair\tests\exemple\donnees\xhl\Metro\2012\*.xhl</value>
+     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">lhx_linux.pro</value>
+     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
+     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseTerminal">true</value>
+
+commit 596e99235fdb139e3a522674ec50e6fdc00eec83
+Author: fabrice nicol <fabrnicol@gmail.com>
+Date:   Tue Oct 6 16:51:21 2015 +0200
+
+    -T broken, windows bug fixed (use resize to null-initialize)
+
+diff --git a/lhx/lhx_linux/lhx_linux.pro.user b/lhx/lhx_linux/lhx_linux.pro.user
+index e98ce0f..76f0e2a 100644
+--- a/lhx/lhx_linux/lhx_linux.pro.user
++++ b/lhx/lhx_linux/lhx_linux.pro.user
+@@ -1,10 +1,10 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE QtCreatorProject>
+-<!-- Written by QtCreator 3.4.2, 2015-10-06T00:53:06. -->
++<!-- Written by QtCreator 3.5.0, 2015-10-06T16:50:16. -->
+ <qtcreator>
+  <data>
+   <variable>EnvironmentId</variable>
+-  <value type="QByteArray">{14980bbd-efb7-447b-8cbe-bc9115b189b6}</value>
++  <value type="QByteArray">{a34b2f57-e0ea-4de8-bd91-18421c26953c}</value>
+  </data>
+  <data>
+   <variable>ProjectExplorer.Project.ActiveTarget</variable>
+@@ -58,14 +58,14 @@
+  <data>
+   <variable>ProjectExplorer.Project.Target.0</variable>
+   <valuemap type="QVariantMap">
+-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">qt5.6 static</value>
+-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">qt5.6 static</value>
+-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{101258cc-3e5d-4c0c-b8e1-3d06f786f58d}</value>
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Desktop</value>
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Desktop</value>
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{47770286-ec37-461b-bb06-fea1e066152b}</value>
+    <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">1</value>
+    <value type="int" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
+    <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">0</value>
+    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.0">
+-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Dev/altair/lhx/build-lhx_linux-qt5_6_static-Debug</value>
++    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Dev/altair/lhx/build-lhx_linux-Desktop-Debug</value>
+     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
+      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
+       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+@@ -120,7 +120,7 @@
+     <value type="bool" key="Qt4ProjectManager.Qt4BuildConfiguration.UseShadowBuild">true</value>
+    </valuemap>
+    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.1">
+-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Dev/altair/lhx/build-lhx_linux-qt5_6_static-Release</value>
++    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Dev/altair/lhx/build-lhx_linux-Desktop-Release</value>
+     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
+      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
+       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+@@ -229,7 +229,7 @@
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">lhx_linux</value>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Dev/altair/lhx/lhx_linux/lhx_linux.pro</value>
+-    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments">-m -t -j 7 -D c:\Dev\altair\tests\Exemple\Donnees\R-Altair C:\Dev\altair\tests\Exemple\Donnees\xhl\Metro\2008\*.xhl</value>
++    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments">-T &quot;T&quot; -t -j 2  -D c:\dev\altair\tests\exemple\donnees\R-altair c:\dev\altair\tests\exemple\donnees\xhl\Metro\2008\*.xhl  c:\dev\altair\tests\exemple\donnees\xhl\Metro\2009\*.xhl  c:\dev\altair\tests\exemple\donnees\xhl\Metro\2010\*.xhl  c:\dev\altair\tests\exemple\donnees\xhl\Metro\2011\*.xhl  c:\dev\altair\tests\exemple\donnees\xhl\Metro\2012\*.xhl</value>
+     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">lhx_linux.pro</value>
+     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
+     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseTerminal">true</value>
+
+commit 51e5091e19d09575436da0a768eec74771ea43e5
+Author: Fabrice Nicol <fabrnicol@gmail.com>
+Date:   Tue Oct 6 00:55:57 2015 +0200
+
+    modified validater cerr
+
+diff --git a/lhx/lhx_linux/lhx_linux.pro.user b/lhx/lhx_linux/lhx_linux.pro.user
+index 06f87f0..e98ce0f 100644
+--- a/lhx/lhx_linux/lhx_linux.pro.user
++++ b/lhx/lhx_linux/lhx_linux.pro.user
+@@ -1,10 +1,10 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE QtCreatorProject>
+-<!-- Written by QtCreator 3.4.2, 2015-10-06T01:39:11. -->
++<!-- Written by QtCreator 3.4.2, 2015-10-06T00:53:06. -->
+ <qtcreator>
+  <data>
+   <variable>EnvironmentId</variable>
+-  <value type="QByteArray">{c34c1990-01b6-4c0f-a5e8-082f52c25267}</value>
++  <value type="QByteArray">{14980bbd-efb7-447b-8cbe-bc9115b189b6}</value>
+  </data>
+  <data>
+   <variable>ProjectExplorer.Project.ActiveTarget</variable>
+@@ -58,14 +58,14 @@
+  <data>
+   <variable>ProjectExplorer.Project.Target.0</variable>
+   <valuemap type="QVariantMap">
+-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">qt5.5</value>
+-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">qt5.5</value>
+-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{0d9185bf-69c8-4538-b6b0-8dc6c978c35e}</value>
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">qt5.6 static</value>
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">qt5.6 static</value>
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{101258cc-3e5d-4c0c-b8e1-3d06f786f58d}</value>
+    <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">1</value>
+    <value type="int" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
+    <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">0</value>
+    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.0">
+-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/fab/Dev/altair/lhx/build-lhx_linux-qt5_5-Debug</value>
++    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Dev/altair/lhx/build-lhx_linux-qt5_6_static-Debug</value>
+     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
+      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
+       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+@@ -84,10 +84,7 @@
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Make</value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MakeStep</value>
+-      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments">
+-       <value type="QString">-w</value>
+-       <value type="QString">-r</value>
+-      </valuelist>
++      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments"/>
+       <value type="bool" key="Qt4ProjectManager.MakeStep.Clean">false</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments"></value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
+@@ -103,10 +100,7 @@
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Make</value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MakeStep</value>
+-      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments">
+-       <value type="QString">-w</value>
+-       <value type="QString">-r</value>
+-      </valuelist>
++      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments"/>
+       <value type="bool" key="Qt4ProjectManager.MakeStep.Clean">true</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments">clean</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
+@@ -126,7 +120,7 @@
+     <value type="bool" key="Qt4ProjectManager.Qt4BuildConfiguration.UseShadowBuild">true</value>
+    </valuemap>
+    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.1">
+-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/fab/Dev/altair/lhx/build-lhx_linux-qt5_5-Release</value>
++    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Dev/altair/lhx/build-lhx_linux-qt5_6_static-Release</value>
+     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
+      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
+       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+@@ -145,10 +139,7 @@
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Make</value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MakeStep</value>
+-      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments">
+-       <value type="QString">-w</value>
+-       <value type="QString">-r</value>
+-      </valuelist>
++      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments"/>
+       <value type="bool" key="Qt4ProjectManager.MakeStep.Clean">false</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments"></value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
+@@ -164,10 +155,7 @@
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Make</value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MakeStep</value>
+-      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments">
+-       <value type="QString">-w</value>
+-       <value type="QString">-r</value>
+-      </valuelist>
++      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments"/>
+       <value type="bool" key="Qt4ProjectManager.MakeStep.Clean">true</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments">clean</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
+@@ -237,16 +225,14 @@
+      <value type="int">14</value>
+     </valuelist>
+     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
+-    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes">
+-     <value type="QString">LD_LIBRARY_PATH=/home/fab/Qt5.5.0_sources/5.5/Src/qtbase/lib:/usr/local/lib64</value>
+-    </valuelist>
++    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">lhx_linux</value>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/fab/Dev/altair/lhx/lhx_linux/lhx_linux.pro</value>
+-    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments">-t -m -j 7 -D ~/Dev/altair/Tests/Exemple/Donnees/R-Altair ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2010/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2011/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2012/*.xhl</value>
++    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Dev/altair/lhx/lhx_linux/lhx_linux.pro</value>
++    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments">-m -t -j 7 -D c:\Dev\altair\tests\Exemple\Donnees\R-Altair C:\Dev\altair\tests\Exemple\Donnees\xhl\Metro\2008\*.xhl</value>
+     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">lhx_linux.pro</value>
+     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
+-    <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseTerminal">false</value>
++    <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseTerminal">true</value>
+     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory"></value>
+     <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
+     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
+
+commit 4512ef3e0244d2443a363894b1683e7d3dfd97ea
+Author: Fab Nicol <fabnicol@users.sourceforge.net>
+Date:   Tue Oct 6 01:39:36 2015 +0200
+
+    linux checks
+
+diff --git a/lhx/lhx_linux/lhx_linux.pro.user b/lhx/lhx_linux/lhx_linux.pro.user
+index adcc69f..06f87f0 100644
+--- a/lhx/lhx_linux/lhx_linux.pro.user
++++ b/lhx/lhx_linux/lhx_linux.pro.user
+@@ -1,10 +1,10 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE QtCreatorProject>
+-<!-- Written by QtCreator 3.5.0, 2015-10-05T19:50:52. -->
++<!-- Written by QtCreator 3.4.2, 2015-10-06T01:39:11. -->
+ <qtcreator>
+  <data>
+   <variable>EnvironmentId</variable>
+-  <value type="QByteArray">{a34b2f57-e0ea-4de8-bd91-18421c26953c}</value>
++  <value type="QByteArray">{c34c1990-01b6-4c0f-a5e8-082f52c25267}</value>
+  </data>
+  <data>
+   <variable>ProjectExplorer.Project.ActiveTarget</variable>
+@@ -58,14 +58,14 @@
+  <data>
+   <variable>ProjectExplorer.Project.Target.0</variable>
+   <valuemap type="QVariantMap">
+-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Desktop</value>
+-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Desktop</value>
+-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{47770286-ec37-461b-bb06-fea1e066152b}</value>
+-   <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">0</value>
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">qt5.5</value>
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">qt5.5</value>
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{0d9185bf-69c8-4538-b6b0-8dc6c978c35e}</value>
++   <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">1</value>
+    <value type="int" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
+    <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">0</value>
+    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.0">
+-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Dev/altair/lhx/build-lhx_linux-Desktop-Debug</value>
++    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/fab/Dev/altair/lhx/build-lhx_linux-qt5_5-Debug</value>
+     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
+      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
+       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+@@ -84,7 +84,10 @@
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Make</value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MakeStep</value>
+-      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments"/>
++      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments">
++       <value type="QString">-w</value>
++       <value type="QString">-r</value>
++      </valuelist>
+       <value type="bool" key="Qt4ProjectManager.MakeStep.Clean">false</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments"></value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
+@@ -100,7 +103,10 @@
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Make</value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MakeStep</value>
+-      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments"/>
++      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments">
++       <value type="QString">-w</value>
++       <value type="QString">-r</value>
++      </valuelist>
+       <value type="bool" key="Qt4ProjectManager.MakeStep.Clean">true</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments">clean</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
+@@ -120,7 +126,7 @@
+     <value type="bool" key="Qt4ProjectManager.Qt4BuildConfiguration.UseShadowBuild">true</value>
+    </valuemap>
+    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.1">
+-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Dev/altair/lhx/build-lhx_linux-Desktop-Release</value>
++    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/fab/Dev/altair/lhx/build-lhx_linux-qt5_5-Release</value>
+     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
+      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
+       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+@@ -139,7 +145,10 @@
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Make</value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MakeStep</value>
+-      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments"/>
++      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments">
++       <value type="QString">-w</value>
++       <value type="QString">-r</value>
++      </valuelist>
+       <value type="bool" key="Qt4ProjectManager.MakeStep.Clean">false</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments"></value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
+@@ -155,7 +164,10 @@
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Make</value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MakeStep</value>
+-      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments"/>
++      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments">
++       <value type="QString">-w</value>
++       <value type="QString">-r</value>
++      </valuelist>
+       <value type="bool" key="Qt4ProjectManager.MakeStep.Clean">true</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments">clean</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
+@@ -226,16 +238,15 @@
+     </valuelist>
+     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
+     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes">
+-     <value type="QString">&lt;VARIABLE&gt;=&lt;VALEUR&gt;</value>
+-     <value type="QString">LIB=C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\LIB\amd64;C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\ATLMFC\LIB\amd64;C:\Program Files (x86)\Windows Kits\10\lib\10.0.10240.0\ucrt\x64;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6\lib\um\x64;C:\Program Files (x86)\Windows Kits\10\lib\10.0.10240.0\um\x64;E:/Dev/Altair/mingw64/lib</value>
++     <value type="QString">LD_LIBRARY_PATH=/home/fab/Qt5.5.0_sources/5.5/Src/qtbase/lib:/usr/local/lib64</value>
+     </valuelist>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">lhx_linux</value>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Dev/altair/lhx/lhx_linux/lhx_linux.pro</value>
+-    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments">-m -t -j 2 -D C:/Dev/altair/Tests/Exemple/Donnees/R-Altair  C:\Dev\altair\Tests\Exemple\Donnees\xhl\Metro\2009\*.xhl</value>
++    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/fab/Dev/altair/lhx/lhx_linux/lhx_linux.pro</value>
++    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments">-t -m -j 7 -D ~/Dev/altair/Tests/Exemple/Donnees/R-Altair ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2010/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2011/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2012/*.xhl</value>
+     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">lhx_linux.pro</value>
+     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
+-    <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseTerminal">true</value>
++    <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseTerminal">false</value>
+     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory"></value>
+     <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
+     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
+
+commit e825d4d166957110906fb9fd9f5d4fac37a64493
+Author: fabrice nicol <fabrnicol@gmail.com>
+Date:   Mon Oct 5 19:51:29 2015 +0200
+
+    wtests
+
+diff --git a/lhx/lhx_linux/lhx_linux.pro.user b/lhx/lhx_linux/lhx_linux.pro.user
+index 4710313..adcc69f 100644
+--- a/lhx/lhx_linux/lhx_linux.pro.user
++++ b/lhx/lhx_linux/lhx_linux.pro.user
+@@ -1,8 +1,12 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE QtCreatorProject>
+-<!-- Written by QtCreator 3.1.1, 2015-10-05T17:06:29. -->
++<!-- Written by QtCreator 3.5.0, 2015-10-05T19:50:52. -->
+ <qtcreator>
+  <data>
++  <variable>EnvironmentId</variable>
++  <value type="QByteArray">{a34b2f57-e0ea-4de8-bd91-18421c26953c}</value>
++ </data>
++ <data>
+   <variable>ProjectExplorer.Project.ActiveTarget</variable>
+   <value type="int">0</value>
+  </data>
+@@ -54,14 +58,14 @@
+  <data>
+   <variable>ProjectExplorer.Project.Target.0</variable>
+   <valuemap type="QVariantMap">
+-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">static</value>
+-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">static</value>
+-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{86477f69-cdd3-481a-81cf-65688833d05d}</value>
+-   <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">1</value>
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Desktop</value>
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Desktop</value>
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{47770286-ec37-461b-bb06-fea1e066152b}</value>
++   <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">0</value>
+    <value type="int" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
+    <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">0</value>
+    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.0">
+-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/fab/Dev/altair/lhx/build-lhx_linux-static-Debug</value>
++    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Dev/altair/lhx/build-lhx_linux-Desktop-Debug</value>
+     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
+      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
+       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+@@ -72,16 +76,15 @@
+       <value type="bool" key="QtProjectManager.QMakeBuildStep.LinkQmlDebuggingLibraryAuto">true</value>
+       <value type="QString" key="QtProjectManager.QMakeBuildStep.QMakeArguments"></value>
+       <value type="bool" key="QtProjectManager.QMakeBuildStep.QMakeForced">false</value>
++      <value type="bool" key="QtProjectManager.QMakeBuildStep.SeparateDebugInfo">false</value>
++      <value type="bool" key="QtProjectManager.QMakeBuildStep.UseQtQuickCompiler">false</value>
+      </valuemap>
+      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.1">
+       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Make</value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MakeStep</value>
+-      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments">
+-       <value type="QString">-w</value>
+-       <value type="QString">-r</value>
+-      </valuelist>
++      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments"/>
+       <value type="bool" key="Qt4ProjectManager.MakeStep.Clean">false</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments"></value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
+@@ -97,10 +100,7 @@
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Make</value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MakeStep</value>
+-      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments">
+-       <value type="QString">-w</value>
+-       <value type="QString">-r</value>
+-      </valuelist>
++      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments"/>
+       <value type="bool" key="Qt4ProjectManager.MakeStep.Clean">true</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments">clean</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
+@@ -120,7 +120,7 @@
+     <value type="bool" key="Qt4ProjectManager.Qt4BuildConfiguration.UseShadowBuild">true</value>
+    </valuemap>
+    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.1">
+-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/fab/Dev/altair/lhx/build-lhx_linux-static-Release</value>
++    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Dev/altair/lhx/build-lhx_linux-Desktop-Release</value>
+     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
+      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
+       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+@@ -131,16 +131,15 @@
+       <value type="bool" key="QtProjectManager.QMakeBuildStep.LinkQmlDebuggingLibraryAuto">true</value>
+       <value type="QString" key="QtProjectManager.QMakeBuildStep.QMakeArguments"></value>
+       <value type="bool" key="QtProjectManager.QMakeBuildStep.QMakeForced">false</value>
++      <value type="bool" key="QtProjectManager.QMakeBuildStep.SeparateDebugInfo">false</value>
++      <value type="bool" key="QtProjectManager.QMakeBuildStep.UseQtQuickCompiler">false</value>
+      </valuemap>
+      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.1">
+       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Make</value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MakeStep</value>
+-      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments">
+-       <value type="QString">-w</value>
+-       <value type="QString">-r</value>
+-      </valuelist>
++      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments"/>
+       <value type="bool" key="Qt4ProjectManager.MakeStep.Clean">false</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments"></value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
+@@ -156,10 +155,7 @@
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Make</value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MakeStep</value>
+-      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments">
+-       <value type="QString">-w</value>
+-       <value type="QString">-r</value>
+-      </valuelist>
++      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments"/>
+       <value type="bool" key="Qt4ProjectManager.MakeStep.Clean">true</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments">clean</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
+@@ -229,11 +225,14 @@
+      <value type="int">14</value>
+     </valuelist>
+     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
+-    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
++    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes">
++     <value type="QString">&lt;VARIABLE&gt;=&lt;VALEUR&gt;</value>
++     <value type="QString">LIB=C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\LIB\amd64;C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\ATLMFC\LIB\amd64;C:\Program Files (x86)\Windows Kits\10\lib\10.0.10240.0\ucrt\x64;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6\lib\um\x64;C:\Program Files (x86)\Windows Kits\10\lib\10.0.10240.0\um\x64;E:/Dev/Altair/mingw64/lib</value>
++    </valuelist>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">lhx_linux</value>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/fab/Dev/altair/lhx/lhx_linux/lhx_linux.pro</value>
+-    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments">-t -j 3 -S -m -D ~/Dev/altair/Tests/Exemple/Donnees/R-Altaïr  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2010/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2011/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2012/*.xhl</value>
++    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Dev/altair/lhx/lhx_linux/lhx_linux.pro</value>
++    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments">-m -t -j 2 -D C:/Dev/altair/Tests/Exemple/Donnees/R-Altair  C:\Dev\altair\Tests\Exemple\Donnees\xhl\Metro\2009\*.xhl</value>
+     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">lhx_linux.pro</value>
+     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
+     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseTerminal">true</value>
+@@ -253,11 +252,11 @@
+   <value type="int">1</value>
+  </data>
+  <data>
+-  <variable>ProjectExplorer.Project.Updater.EnvironmentId</variable>
+-  <value type="QByteArray">{52309f2b-f707-4b9f-9f34-9927ad36861d}</value>
++  <variable>ProjectExplorer.Project.Updater.FileVersion</variable>
++  <value type="int">18</value>
+  </data>
+  <data>
+-  <variable>ProjectExplorer.Project.Updater.FileVersion</variable>
+-  <value type="int">15</value>
++  <variable>Version</variable>
++  <value type="int">18</value>
+  </data>
+ </qtcreator>
+
+commit ef03a72acb7995f2fef4d50a83032f1aed265a3b
+Author: fab <fabrnicol@gmail.com>
+Date:   Mon Oct 5 17:07:21 2015 +0200
+
+    platform issue: all's OK under linux, windows-specific bug
+
+diff --git a/lhx/lhx_linux/lhx_linux.pro.user b/lhx/lhx_linux/lhx_linux.pro.user
+index 2ddeaf5..4710313 100644
+--- a/lhx/lhx_linux/lhx_linux.pro.user
++++ b/lhx/lhx_linux/lhx_linux.pro.user
+@@ -1,12 +1,8 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE QtCreatorProject>
+-<!-- Written by QtCreator 3.5.0, 2015-10-05T16:28:39. -->
++<!-- Written by QtCreator 3.1.1, 2015-10-05T17:06:29. -->
+ <qtcreator>
+  <data>
+-  <variable>EnvironmentId</variable>
+-  <value type="QByteArray">{a34b2f57-e0ea-4de8-bd91-18421c26953c}</value>
+- </data>
+- <data>
+   <variable>ProjectExplorer.Project.ActiveTarget</variable>
+   <value type="int">0</value>
+  </data>
+@@ -58,14 +54,14 @@
+  <data>
+   <variable>ProjectExplorer.Project.Target.0</variable>
+   <valuemap type="QVariantMap">
+-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Desktop</value>
+-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Desktop</value>
+-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{47770286-ec37-461b-bb06-fea1e066152b}</value>
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">static</value>
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">static</value>
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{86477f69-cdd3-481a-81cf-65688833d05d}</value>
+    <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">1</value>
+    <value type="int" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
+    <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">0</value>
+    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.0">
+-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Dev/altair/lhx/build-lhx_linux-Desktop-Debug</value>
++    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/fab/Dev/altair/lhx/build-lhx_linux-static-Debug</value>
+     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
+      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
+       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+@@ -76,15 +72,16 @@
+       <value type="bool" key="QtProjectManager.QMakeBuildStep.LinkQmlDebuggingLibraryAuto">true</value>
+       <value type="QString" key="QtProjectManager.QMakeBuildStep.QMakeArguments"></value>
+       <value type="bool" key="QtProjectManager.QMakeBuildStep.QMakeForced">false</value>
+-      <value type="bool" key="QtProjectManager.QMakeBuildStep.SeparateDebugInfo">false</value>
+-      <value type="bool" key="QtProjectManager.QMakeBuildStep.UseQtQuickCompiler">false</value>
+      </valuemap>
+      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.1">
+       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Make</value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MakeStep</value>
+-      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments"/>
++      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments">
++       <value type="QString">-w</value>
++       <value type="QString">-r</value>
++      </valuelist>
+       <value type="bool" key="Qt4ProjectManager.MakeStep.Clean">false</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments"></value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
+@@ -100,7 +97,10 @@
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Make</value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MakeStep</value>
+-      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments"/>
++      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments">
++       <value type="QString">-w</value>
++       <value type="QString">-r</value>
++      </valuelist>
+       <value type="bool" key="Qt4ProjectManager.MakeStep.Clean">true</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments">clean</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
+@@ -120,7 +120,7 @@
+     <value type="bool" key="Qt4ProjectManager.Qt4BuildConfiguration.UseShadowBuild">true</value>
+    </valuemap>
+    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.1">
+-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Dev/altair/lhx/build-lhx_linux-Desktop-Release</value>
++    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/fab/Dev/altair/lhx/build-lhx_linux-static-Release</value>
+     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
+      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
+       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+@@ -131,15 +131,16 @@
+       <value type="bool" key="QtProjectManager.QMakeBuildStep.LinkQmlDebuggingLibraryAuto">true</value>
+       <value type="QString" key="QtProjectManager.QMakeBuildStep.QMakeArguments"></value>
+       <value type="bool" key="QtProjectManager.QMakeBuildStep.QMakeForced">false</value>
+-      <value type="bool" key="QtProjectManager.QMakeBuildStep.SeparateDebugInfo">false</value>
+-      <value type="bool" key="QtProjectManager.QMakeBuildStep.UseQtQuickCompiler">false</value>
+      </valuemap>
+      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.1">
+       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Make</value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MakeStep</value>
+-      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments"/>
++      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments">
++       <value type="QString">-w</value>
++       <value type="QString">-r</value>
++      </valuelist>
+       <value type="bool" key="Qt4ProjectManager.MakeStep.Clean">false</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments"></value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
+@@ -155,7 +156,10 @@
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Make</value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MakeStep</value>
+-      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments"/>
++      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments">
++       <value type="QString">-w</value>
++       <value type="QString">-r</value>
++      </valuelist>
+       <value type="bool" key="Qt4ProjectManager.MakeStep.Clean">true</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments">clean</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
+@@ -225,14 +229,11 @@
+      <value type="int">14</value>
+     </valuelist>
+     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
+-    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes">
+-     <value type="QString">&lt;VARIABLE&gt;=&lt;VALEUR&gt;</value>
+-     <value type="QString">LIB=C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\LIB\amd64;C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\ATLMFC\LIB\amd64;C:\Program Files (x86)\Windows Kits\10\lib\10.0.10240.0\ucrt\x64;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6\lib\um\x64;C:\Program Files (x86)\Windows Kits\10\lib\10.0.10240.0\um\x64;E:/Dev/Altair/mingw64/lib</value>
+-    </valuelist>
++    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">lhx_linux</value>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Dev/altair/lhx/lhx_linux/lhx_linux.pro</value>
+-    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments">-m -t -j 2 -D C:/Dev/altair/Tests/Exemple/Donnees/R-Altair  C:\Dev\altair\Tests\Exemple\Donnees\xhl\Metro\2008\*.xhl</value>
++    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/fab/Dev/altair/lhx/lhx_linux/lhx_linux.pro</value>
++    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments">-t -j 3 -S -m -D ~/Dev/altair/Tests/Exemple/Donnees/R-Altaïr  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2010/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2011/*.xhl ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2012/*.xhl</value>
+     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">lhx_linux.pro</value>
+     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
+     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseTerminal">true</value>
+@@ -252,11 +253,11 @@
+   <value type="int">1</value>
+  </data>
+  <data>
+-  <variable>ProjectExplorer.Project.Updater.FileVersion</variable>
+-  <value type="int">18</value>
++  <variable>ProjectExplorer.Project.Updater.EnvironmentId</variable>
++  <value type="QByteArray">{52309f2b-f707-4b9f-9f34-9927ad36861d}</value>
+  </data>
+  <data>
+-  <variable>Version</variable>
+-  <value type="int">18</value>
++  <variable>ProjectExplorer.Project.Updater.FileVersion</variable>
++  <value type="int">15</value>
+  </data>
+ </qtcreator>
+
+commit 550165a84c2466ce116c6f9a2bf9912c24a75183
+Author: fabrice nicol <fabrnicol@gmail.com>
+Date:   Mon Oct 5 16:30:45 2015 +0200
+
+    windows test: broken build...
+
+diff --git a/lhx/lhx_linux/lhx_linux.pro.user b/lhx/lhx_linux/lhx_linux.pro.user
+index 025f2c2..2ddeaf5 100644
+--- a/lhx/lhx_linux/lhx_linux.pro.user
++++ b/lhx/lhx_linux/lhx_linux.pro.user
+@@ -1,10 +1,10 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE QtCreatorProject>
+-<!-- Written by QtCreator 3.4.2, 2015-10-05T04:11:59. -->
++<!-- Written by QtCreator 3.5.0, 2015-10-05T16:28:39. -->
+ <qtcreator>
+  <data>
+   <variable>EnvironmentId</variable>
+-  <value type="QByteArray">{c34c1990-01b6-4c0f-a5e8-082f52c25267}</value>
++  <value type="QByteArray">{a34b2f57-e0ea-4de8-bd91-18421c26953c}</value>
+  </data>
+  <data>
+   <variable>ProjectExplorer.Project.ActiveTarget</variable>
+@@ -46,8 +46,8 @@
+    <value type="bool" key="EditorConfiguration.UseGlobal">true</value>
+    <value type="int" key="EditorConfiguration.Utf8BomBehavior">1</value>
+    <value type="bool" key="EditorConfiguration.addFinalNewLine">true</value>
+-   <value type="bool" key="EditorConfiguration.cleanIndentation">false</value>
+-   <value type="bool" key="EditorConfiguration.cleanWhitespace">false</value>
++   <value type="bool" key="EditorConfiguration.cleanIndentation">true</value>
++   <value type="bool" key="EditorConfiguration.cleanWhitespace">true</value>
+    <value type="bool" key="EditorConfiguration.inEntireDocument">false</value>
+   </valuemap>
+  </data>
+@@ -58,14 +58,14 @@
+  <data>
+   <variable>ProjectExplorer.Project.Target.0</variable>
+   <valuemap type="QVariantMap">
+-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">qt5.5</value>
+-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">qt5.5</value>
+-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{0d9185bf-69c8-4538-b6b0-8dc6c978c35e}</value>
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Desktop</value>
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Desktop</value>
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{47770286-ec37-461b-bb06-fea1e066152b}</value>
+    <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">1</value>
+    <value type="int" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
+-   <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">1</value>
++   <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">0</value>
+    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.0">
+-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/fab/Dev/altair/lhx/build-lhx_linux-qt5_5-Debug</value>
++    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Dev/altair/lhx/build-lhx_linux-Desktop-Debug</value>
+     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
+      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
+       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+@@ -84,12 +84,9 @@
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Make</value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MakeStep</value>
+-      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments">
+-       <value type="QString">-w</value>
+-       <value type="QString">-r</value>
+-      </valuelist>
++      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments"/>
+       <value type="bool" key="Qt4ProjectManager.MakeStep.Clean">false</value>
+-      <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments">-j8</value>
++      <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments"></value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
+      </valuemap>
+      <value type="int" key="ProjectExplorer.BuildStepList.StepsCount">2</value>
+@@ -103,10 +100,7 @@
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Make</value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MakeStep</value>
+-      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments">
+-       <value type="QString">-w</value>
+-       <value type="QString">-r</value>
+-      </valuelist>
++      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments"/>
+       <value type="bool" key="Qt4ProjectManager.MakeStep.Clean">true</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments">clean</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
+@@ -126,7 +120,7 @@
+     <value type="bool" key="Qt4ProjectManager.Qt4BuildConfiguration.UseShadowBuild">true</value>
+    </valuemap>
+    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.1">
+-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/fab/Dev/altair/lhx/build-lhx_linux-qt5_5-Release</value>
++    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:/Dev/altair/lhx/build-lhx_linux-Desktop-Release</value>
+     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
+      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
+       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+@@ -145,12 +139,9 @@
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Make</value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MakeStep</value>
+-      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments">
+-       <value type="QString">-w</value>
+-       <value type="QString">-r</value>
+-      </valuelist>
++      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments"/>
+       <value type="bool" key="Qt4ProjectManager.MakeStep.Clean">false</value>
+-      <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments">-j8</value>
++      <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments"></value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
+      </valuemap>
+      <value type="int" key="ProjectExplorer.BuildStepList.StepsCount">2</value>
+@@ -164,10 +155,7 @@
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Make</value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MakeStep</value>
+-      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments">
+-       <value type="QString">-w</value>
+-       <value type="QString">-r</value>
+-      </valuelist>
++      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments"/>
+       <value type="bool" key="Qt4ProjectManager.MakeStep.Clean">true</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments">clean</value>
+       <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
+@@ -237,115 +225,14 @@
+      <value type="int">14</value>
+     </valuelist>
+     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
+-    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">lhx_linux</value>
+-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/fab/Dev/altair/lhx/lhx_linux/lhx_linux.pro</value>
+-    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments">  -L log -t -j 1 -D /home/fab/Dev/altair/Tests/Exemple/Donnees/R-Altair /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2011/*.xhl  /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2012/*.xhl /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2013/*.xhl </value>
+-    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">lhx_linux.pro</value>
+-    <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
+-    <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseTerminal">true</value>
+-    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory"></value>
+-    <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
+-    <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
+-    <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
+-    <value type="bool" key="RunConfiguration.UseMultiProcess">false</value>
+-    <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
+-    <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+-   </valuemap>
+-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.1">
+-    <valuelist type="QVariantList" key="Analyzer.Valgrind.AddedSuppressionFiles"/>
+-    <value type="bool" key="Analyzer.Valgrind.Callgrind.CollectBusEvents">false</value>
+-    <value type="bool" key="Analyzer.Valgrind.Callgrind.CollectSystime">false</value>
+-    <value type="bool" key="Analyzer.Valgrind.Callgrind.EnableBranchSim">false</value>
+-    <value type="bool" key="Analyzer.Valgrind.Callgrind.EnableCacheSim">false</value>
+-    <value type="bool" key="Analyzer.Valgrind.Callgrind.EnableEventToolTips">true</value>
+-    <value type="double" key="Analyzer.Valgrind.Callgrind.MinimumCostRatio">0.01</value>
+-    <value type="double" key="Analyzer.Valgrind.Callgrind.VisualisationMinimumCostRatio">10</value>
+-    <value type="bool" key="Analyzer.Valgrind.FilterExternalIssues">true</value>
+-    <value type="int" key="Analyzer.Valgrind.LeakCheckOnFinish">1</value>
+-    <value type="int" key="Analyzer.Valgrind.NumCallers">25</value>
+-    <valuelist type="QVariantList" key="Analyzer.Valgrind.RemovedSuppressionFiles"/>
+-    <value type="int" key="Analyzer.Valgrind.SelfModifyingCodeDetection">1</value>
+-    <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
+-    <value type="bool" key="Analyzer.Valgrind.ShowReachable">false</value>
+-    <value type="bool" key="Analyzer.Valgrind.TrackOrigins">true</value>
+-    <value type="QString" key="Analyzer.Valgrind.ValgrindExecutable">valgrind</value>
+-    <valuelist type="QVariantList" key="Analyzer.Valgrind.VisibleErrorKinds">
+-     <value type="int">0</value>
+-     <value type="int">1</value>
+-     <value type="int">2</value>
+-     <value type="int">3</value>
+-     <value type="int">4</value>
+-     <value type="int">5</value>
+-     <value type="int">6</value>
+-     <value type="int">7</value>
+-     <value type="int">8</value>
+-     <value type="int">9</value>
+-     <value type="int">10</value>
+-     <value type="int">11</value>
+-     <value type="int">12</value>
+-     <value type="int">13</value>
+-     <value type="int">14</value>
++    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes">
++     <value type="QString">&lt;VARIABLE&gt;=&lt;VALEUR&gt;</value>
++     <value type="QString">LIB=C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\LIB\amd64;C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\ATLMFC\LIB\amd64;C:\Program Files (x86)\Windows Kits\10\lib\10.0.10240.0\ucrt\x64;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6\lib\um\x64;C:\Program Files (x86)\Windows Kits\10\lib\10.0.10240.0\um\x64;E:/Dev/Altair/mingw64/lib</value>
+     </valuelist>
+-    <value type="int" key="PE.EnvironmentAspect.Base">2</value>
+-    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">lhx_linux</value>
+-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">release</value>
+-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/fab/Dev/altair/lhx/lhx_linux/lhx_linux.pro</value>
+-    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments">-t -j 8 -D ~/Dev/altair/Tests/Exemple/Donnees/R-Altair ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2010/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2011/*.xhl   ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2012/*.xhl   </value>
+-    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">lhx_linux.pro</value>
+-    <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
+-    <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseTerminal">true</value>
+-    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory"></value>
+-    <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
+-    <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
+-    <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
+-    <value type="bool" key="RunConfiguration.UseMultiProcess">false</value>
+-    <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
+-    <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+-   </valuemap>
+-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.2">
+-    <valuelist type="QVariantList" key="Analyzer.Valgrind.AddedSuppressionFiles"/>
+-    <value type="bool" key="Analyzer.Valgrind.Callgrind.CollectBusEvents">false</value>
+-    <value type="bool" key="Analyzer.Valgrind.Callgrind.CollectSystime">false</value>
+-    <value type="bool" key="Analyzer.Valgrind.Callgrind.EnableBranchSim">false</value>
+-    <value type="bool" key="Analyzer.Valgrind.Callgrind.EnableCacheSim">false</value>
+-    <value type="bool" key="Analyzer.Valgrind.Callgrind.EnableEventToolTips">true</value>
+-    <value type="double" key="Analyzer.Valgrind.Callgrind.MinimumCostRatio">0.01</value>
+-    <value type="double" key="Analyzer.Valgrind.Callgrind.VisualisationMinimumCostRatio">10</value>
+-    <value type="bool" key="Analyzer.Valgrind.FilterExternalIssues">true</value>
+-    <value type="int" key="Analyzer.Valgrind.LeakCheckOnFinish">1</value>
+-    <value type="int" key="Analyzer.Valgrind.NumCallers">25</value>
+-    <valuelist type="QVariantList" key="Analyzer.Valgrind.RemovedSuppressionFiles"/>
+-    <value type="int" key="Analyzer.Valgrind.SelfModifyingCodeDetection">1</value>
+-    <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
+-    <value type="bool" key="Analyzer.Valgrind.ShowReachable">false</value>
+-    <value type="bool" key="Analyzer.Valgrind.TrackOrigins">true</value>
+-    <value type="QString" key="Analyzer.Valgrind.ValgrindExecutable">valgrind</value>
+-    <valuelist type="QVariantList" key="Analyzer.Valgrind.VisibleErrorKinds">
+-     <value type="int">0</value>
+-     <value type="int">1</value>
+-     <value type="int">2</value>
+-     <value type="int">3</value>
+-     <value type="int">4</value>
+-     <value type="int">5</value>
+-     <value type="int">6</value>
+-     <value type="int">7</value>
+-     <value type="int">8</value>
+-     <value type="int">9</value>
+-     <value type="int">10</value>
+-     <value type="int">11</value>
+-     <value type="int">12</value>
+-     <value type="int">13</value>
+-     <value type="int">14</value>
+-    </valuelist>
+-    <value type="int" key="PE.EnvironmentAspect.Base">2</value>
+-    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">lhx_linux</value>
+-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">debug</value>
+-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/fab/Dev/altair/lhx/lhx_linux/lhx_linux.pro</value>
+-    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments">  -L log -t -j 1 -D /home/fab/Dev/altair/Tests/Exemple/Donnees/R-Altair /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2011/*.xhl  /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2012/*.xhl /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2013/*.xhl </value>
++    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
++    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Dev/altair/lhx/lhx_linux/lhx_linux.pro</value>
++    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments">-m -t -j 2 -D C:/Dev/altair/Tests/Exemple/Donnees/R-Altair  C:\Dev\altair\Tests\Exemple\Donnees\xhl\Metro\2008\*.xhl</value>
+     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">lhx_linux.pro</value>
+     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
+     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseTerminal">true</value>
+@@ -357,7 +244,7 @@
+     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
+     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+    </valuemap>
+-   <value type="int" key="ProjectExplorer.Target.RunConfigurationCount">3</value>
++   <value type="int" key="ProjectExplorer.Target.RunConfigurationCount">1</value>
+   </valuemap>
+  </data>
+  <data>
+
+commit 66535dd1855b79ce5ad83f773f0522695fe9b953
+Author: Fab Nicol <fabnicol@users.sourceforge.net>
+Date:   Mon Oct 5 04:12:28 2015 +0200
+
+    stabilize II < 10s pour Metro sous Linux
+
+diff --git a/lhx/lhx_linux/lhx_linux.pro.user b/lhx/lhx_linux/lhx_linux.pro.user
+index 00a47c2..025f2c2 100644
+--- a/lhx/lhx_linux/lhx_linux.pro.user
++++ b/lhx/lhx_linux/lhx_linux.pro.user
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE QtCreatorProject>
+-<!-- Written by QtCreator 3.4.2, 2015-10-04T22:31:55. -->
++<!-- Written by QtCreator 3.4.2, 2015-10-05T04:11:59. -->
+ <qtcreator>
+  <data>
+   <variable>EnvironmentId</variable>
+@@ -63,7 +63,7 @@
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{0d9185bf-69c8-4538-b6b0-8dc6c978c35e}</value>
+    <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">1</value>
+    <value type="int" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
+-   <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">2</value>
++   <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">1</value>
+    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.0">
+     <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/fab/Dev/altair/lhx/build-lhx_linux-qt5_5-Debug</value>
+     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
+
+commit 262b72f81e93dab9c70d2a0ea19f2f11064e45c9
+Author: Fab Nicol <fabnicol@users.sourceforge.net>
+Date:   Sun Oct 4 22:37:17 2015 +0200
+
+    create qtcreator project for lhx
+
+diff --git a/lhx/lhx_linux/lhx_linux.pro.user b/lhx/lhx_linux/lhx_linux.pro.user
+new file mode 100644
+index 0000000..00a47c2
+--- /dev/null
++++ b/lhx/lhx_linux/lhx_linux.pro.user
+@@ -0,0 +1,375 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE QtCreatorProject>
++<!-- Written by QtCreator 3.4.2, 2015-10-04T22:31:55. -->
++<qtcreator>
++ <data>
++  <variable>EnvironmentId</variable>
++  <value type="QByteArray">{c34c1990-01b6-4c0f-a5e8-082f52c25267}</value>
++ </data>
++ <data>
++  <variable>ProjectExplorer.Project.ActiveTarget</variable>
++  <value type="int">0</value>
++ </data>
++ <data>
++  <variable>ProjectExplorer.Project.EditorSettings</variable>
++  <valuemap type="QVariantMap">
++   <value type="bool" key="EditorConfiguration.AutoIndent">true</value>
++   <value type="bool" key="EditorConfiguration.AutoSpacesForTabs">false</value>
++   <value type="bool" key="EditorConfiguration.CamelCaseNavigation">true</value>
++   <valuemap type="QVariantMap" key="EditorConfiguration.CodeStyle.0">
++    <value type="QString" key="language">Cpp</value>
++    <valuemap type="QVariantMap" key="value">
++     <value type="QByteArray" key="CurrentPreferences">CppGlobal</value>
++    </valuemap>
++   </valuemap>
++   <valuemap type="QVariantMap" key="EditorConfiguration.CodeStyle.1">
++    <value type="QString" key="language">QmlJS</value>
++    <valuemap type="QVariantMap" key="value">
++     <value type="QByteArray" key="CurrentPreferences">QmlJSGlobal</value>
++    </valuemap>
++   </valuemap>
++   <value type="int" key="EditorConfiguration.CodeStyle.Count">2</value>
++   <value type="QByteArray" key="EditorConfiguration.Codec">UTF-8</value>
++   <value type="bool" key="EditorConfiguration.ConstrainTooltips">false</value>
++   <value type="int" key="EditorConfiguration.IndentSize">4</value>
++   <value type="bool" key="EditorConfiguration.KeyboardTooltips">false</value>
++   <value type="int" key="EditorConfiguration.MarginColumn">80</value>
++   <value type="bool" key="EditorConfiguration.MouseHiding">true</value>
++   <value type="bool" key="EditorConfiguration.MouseNavigation">true</value>
++   <value type="int" key="EditorConfiguration.PaddingMode">1</value>
++   <value type="bool" key="EditorConfiguration.ScrollWheelZooming">true</value>
++   <value type="bool" key="EditorConfiguration.ShowMargin">false</value>
++   <value type="int" key="EditorConfiguration.SmartBackspaceBehavior">0</value>
++   <value type="bool" key="EditorConfiguration.SpacesForTabs">true</value>
++   <value type="int" key="EditorConfiguration.TabKeyBehavior">0</value>
++   <value type="int" key="EditorConfiguration.TabSize">8</value>
++   <value type="bool" key="EditorConfiguration.UseGlobal">true</value>
++   <value type="int" key="EditorConfiguration.Utf8BomBehavior">1</value>
++   <value type="bool" key="EditorConfiguration.addFinalNewLine">true</value>
++   <value type="bool" key="EditorConfiguration.cleanIndentation">false</value>
++   <value type="bool" key="EditorConfiguration.cleanWhitespace">false</value>
++   <value type="bool" key="EditorConfiguration.inEntireDocument">false</value>
++  </valuemap>
++ </data>
++ <data>
++  <variable>ProjectExplorer.Project.PluginSettings</variable>
++  <valuemap type="QVariantMap"/>
++ </data>
++ <data>
++  <variable>ProjectExplorer.Project.Target.0</variable>
++  <valuemap type="QVariantMap">
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">qt5.5</value>
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">qt5.5</value>
++   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{0d9185bf-69c8-4538-b6b0-8dc6c978c35e}</value>
++   <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">1</value>
++   <value type="int" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
++   <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">2</value>
++   <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.0">
++    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/fab/Dev/altair/lhx/build-lhx_linux-qt5_5-Debug</value>
++    <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
++     <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
++      <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
++      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">qmake</value>
++      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
++      <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">QtProjectManager.QMakeBuildStep</value>
++      <value type="bool" key="QtProjectManager.QMakeBuildStep.LinkQmlDebuggingLibrary">false</value>
++      <value type="bool" key="QtProjectManager.QMakeBuildStep.LinkQmlDebuggingLibraryAuto">true</value>
++      <value type="QString" key="QtProjectManager.QMakeBuildStep.QMakeArguments"></value>
++      <value type="bool" key="QtProjectManager.QMakeBuildStep.QMakeForced">false</value>
++      <value type="bool" key="QtProjectManager.QMakeBuildStep.SeparateDebugInfo">false</value>
++      <value type="bool" key="QtProjectManager.QMakeBuildStep.UseQtQuickCompiler">false</value>
++     </valuemap>
++     <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.1">
++      <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
++      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Make</value>
++      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
++      <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MakeStep</value>
++      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments">
++       <value type="QString">-w</value>
++       <value type="QString">-r</value>
++      </valuelist>
++      <value type="bool" key="Qt4ProjectManager.MakeStep.Clean">false</value>
++      <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments">-j8</value>
++      <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
++     </valuemap>
++     <value type="int" key="ProjectExplorer.BuildStepList.StepsCount">2</value>
++     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Compiler</value>
++     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
++     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ProjectExplorer.BuildSteps.Build</value>
++    </valuemap>
++    <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.1">
++     <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
++      <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
++      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Make</value>
++      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
++      <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MakeStep</value>
++      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments">
++       <value type="QString">-w</value>
++       <value type="QString">-r</value>
++      </valuelist>
++      <value type="bool" key="Qt4ProjectManager.MakeStep.Clean">true</value>
++      <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments">clean</value>
++      <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
++     </valuemap>
++     <value type="int" key="ProjectExplorer.BuildStepList.StepsCount">1</value>
++     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Nettoyer</value>
++     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
++     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ProjectExplorer.BuildSteps.Clean</value>
++    </valuemap>
++    <value type="int" key="ProjectExplorer.BuildConfiguration.BuildStepListCount">2</value>
++    <value type="bool" key="ProjectExplorer.BuildConfiguration.ClearSystemEnvironment">false</value>
++    <valuelist type="QVariantList" key="ProjectExplorer.BuildConfiguration.UserEnvironmentChanges"/>
++    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Debug</value>
++    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
++    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4BuildConfiguration</value>
++    <value type="int" key="Qt4ProjectManager.Qt4BuildConfiguration.BuildConfiguration">2</value>
++    <value type="bool" key="Qt4ProjectManager.Qt4BuildConfiguration.UseShadowBuild">true</value>
++   </valuemap>
++   <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.1">
++    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/fab/Dev/altair/lhx/build-lhx_linux-qt5_5-Release</value>
++    <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
++     <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
++      <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
++      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">qmake</value>
++      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
++      <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">QtProjectManager.QMakeBuildStep</value>
++      <value type="bool" key="QtProjectManager.QMakeBuildStep.LinkQmlDebuggingLibrary">false</value>
++      <value type="bool" key="QtProjectManager.QMakeBuildStep.LinkQmlDebuggingLibraryAuto">true</value>
++      <value type="QString" key="QtProjectManager.QMakeBuildStep.QMakeArguments"></value>
++      <value type="bool" key="QtProjectManager.QMakeBuildStep.QMakeForced">false</value>
++      <value type="bool" key="QtProjectManager.QMakeBuildStep.SeparateDebugInfo">false</value>
++      <value type="bool" key="QtProjectManager.QMakeBuildStep.UseQtQuickCompiler">false</value>
++     </valuemap>
++     <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.1">
++      <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
++      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Make</value>
++      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
++      <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MakeStep</value>
++      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments">
++       <value type="QString">-w</value>
++       <value type="QString">-r</value>
++      </valuelist>
++      <value type="bool" key="Qt4ProjectManager.MakeStep.Clean">false</value>
++      <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments">-j8</value>
++      <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
++     </valuemap>
++     <value type="int" key="ProjectExplorer.BuildStepList.StepsCount">2</value>
++     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Compiler</value>
++     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
++     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ProjectExplorer.BuildSteps.Build</value>
++    </valuemap>
++    <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.1">
++     <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
++      <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
++      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Make</value>
++      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
++      <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MakeStep</value>
++      <valuelist type="QVariantList" key="Qt4ProjectManager.MakeStep.AutomaticallyAddedMakeArguments">
++       <value type="QString">-w</value>
++       <value type="QString">-r</value>
++      </valuelist>
++      <value type="bool" key="Qt4ProjectManager.MakeStep.Clean">true</value>
++      <value type="QString" key="Qt4ProjectManager.MakeStep.MakeArguments">clean</value>
++      <value type="QString" key="Qt4ProjectManager.MakeStep.MakeCommand"></value>
++     </valuemap>
++     <value type="int" key="ProjectExplorer.BuildStepList.StepsCount">1</value>
++     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Nettoyer</value>
++     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
++     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ProjectExplorer.BuildSteps.Clean</value>
++    </valuemap>
++    <value type="int" key="ProjectExplorer.BuildConfiguration.BuildStepListCount">2</value>
++    <value type="bool" key="ProjectExplorer.BuildConfiguration.ClearSystemEnvironment">false</value>
++    <valuelist type="QVariantList" key="ProjectExplorer.BuildConfiguration.UserEnvironmentChanges"/>
++    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Release</value>
++    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
++    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4BuildConfiguration</value>
++    <value type="int" key="Qt4ProjectManager.Qt4BuildConfiguration.BuildConfiguration">0</value>
++    <value type="bool" key="Qt4ProjectManager.Qt4BuildConfiguration.UseShadowBuild">true</value>
++   </valuemap>
++   <value type="int" key="ProjectExplorer.Target.BuildConfigurationCount">2</value>
++   <valuemap type="QVariantMap" key="ProjectExplorer.Target.DeployConfiguration.0">
++    <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
++     <value type="int" key="ProjectExplorer.BuildStepList.StepsCount">0</value>
++     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Déploiement</value>
++     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
++     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ProjectExplorer.BuildSteps.Deploy</value>
++    </valuemap>
++    <value type="int" key="ProjectExplorer.BuildConfiguration.BuildStepListCount">1</value>
++    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Déployer localement</value>
++    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
++    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ProjectExplorer.DefaultDeployConfiguration</value>
++   </valuemap>
++   <value type="int" key="ProjectExplorer.Target.DeployConfigurationCount">1</value>
++   <valuemap type="QVariantMap" key="ProjectExplorer.Target.PluginSettings"/>
++   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.0">
++    <valuelist type="QVariantList" key="Analyzer.Valgrind.AddedSuppressionFiles"/>
++    <value type="bool" key="Analyzer.Valgrind.Callgrind.CollectBusEvents">false</value>
++    <value type="bool" key="Analyzer.Valgrind.Callgrind.CollectSystime">false</value>
++    <value type="bool" key="Analyzer.Valgrind.Callgrind.EnableBranchSim">false</value>
++    <value type="bool" key="Analyzer.Valgrind.Callgrind.EnableCacheSim">false</value>
++    <value type="bool" key="Analyzer.Valgrind.Callgrind.EnableEventToolTips">true</value>
++    <value type="double" key="Analyzer.Valgrind.Callgrind.MinimumCostRatio">0.01</value>
++    <value type="double" key="Analyzer.Valgrind.Callgrind.VisualisationMinimumCostRatio">10</value>
++    <value type="bool" key="Analyzer.Valgrind.FilterExternalIssues">true</value>
++    <value type="int" key="Analyzer.Valgrind.LeakCheckOnFinish">1</value>
++    <value type="int" key="Analyzer.Valgrind.NumCallers">25</value>
++    <valuelist type="QVariantList" key="Analyzer.Valgrind.RemovedSuppressionFiles"/>
++    <value type="int" key="Analyzer.Valgrind.SelfModifyingCodeDetection">1</value>
++    <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
++    <value type="bool" key="Analyzer.Valgrind.ShowReachable">false</value>
++    <value type="bool" key="Analyzer.Valgrind.TrackOrigins">true</value>
++    <value type="QString" key="Analyzer.Valgrind.ValgrindExecutable">valgrind</value>
++    <valuelist type="QVariantList" key="Analyzer.Valgrind.VisibleErrorKinds">
++     <value type="int">0</value>
++     <value type="int">1</value>
++     <value type="int">2</value>
++     <value type="int">3</value>
++     <value type="int">4</value>
++     <value type="int">5</value>
++     <value type="int">6</value>
++     <value type="int">7</value>
++     <value type="int">8</value>
++     <value type="int">9</value>
++     <value type="int">10</value>
++     <value type="int">11</value>
++     <value type="int">12</value>
++     <value type="int">13</value>
++     <value type="int">14</value>
++    </valuelist>
++    <value type="int" key="PE.EnvironmentAspect.Base">2</value>
++    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
++    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">lhx_linux</value>
++    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
++    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/fab/Dev/altair/lhx/lhx_linux/lhx_linux.pro</value>
++    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments">  -L log -t -j 1 -D /home/fab/Dev/altair/Tests/Exemple/Donnees/R-Altair /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2011/*.xhl  /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2012/*.xhl /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2013/*.xhl </value>
++    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">lhx_linux.pro</value>
++    <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
++    <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseTerminal">true</value>
++    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory"></value>
++    <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
++    <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
++    <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
++    <value type="bool" key="RunConfiguration.UseMultiProcess">false</value>
++    <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
++    <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
++   </valuemap>
++   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.1">
++    <valuelist type="QVariantList" key="Analyzer.Valgrind.AddedSuppressionFiles"/>
++    <value type="bool" key="Analyzer.Valgrind.Callgrind.CollectBusEvents">false</value>
++    <value type="bool" key="Analyzer.Valgrind.Callgrind.CollectSystime">false</value>
++    <value type="bool" key="Analyzer.Valgrind.Callgrind.EnableBranchSim">false</value>
++    <value type="bool" key="Analyzer.Valgrind.Callgrind.EnableCacheSim">false</value>
++    <value type="bool" key="Analyzer.Valgrind.Callgrind.EnableEventToolTips">true</value>
++    <value type="double" key="Analyzer.Valgrind.Callgrind.MinimumCostRatio">0.01</value>
++    <value type="double" key="Analyzer.Valgrind.Callgrind.VisualisationMinimumCostRatio">10</value>
++    <value type="bool" key="Analyzer.Valgrind.FilterExternalIssues">true</value>
++    <value type="int" key="Analyzer.Valgrind.LeakCheckOnFinish">1</value>
++    <value type="int" key="Analyzer.Valgrind.NumCallers">25</value>
++    <valuelist type="QVariantList" key="Analyzer.Valgrind.RemovedSuppressionFiles"/>
++    <value type="int" key="Analyzer.Valgrind.SelfModifyingCodeDetection">1</value>
++    <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
++    <value type="bool" key="Analyzer.Valgrind.ShowReachable">false</value>
++    <value type="bool" key="Analyzer.Valgrind.TrackOrigins">true</value>
++    <value type="QString" key="Analyzer.Valgrind.ValgrindExecutable">valgrind</value>
++    <valuelist type="QVariantList" key="Analyzer.Valgrind.VisibleErrorKinds">
++     <value type="int">0</value>
++     <value type="int">1</value>
++     <value type="int">2</value>
++     <value type="int">3</value>
++     <value type="int">4</value>
++     <value type="int">5</value>
++     <value type="int">6</value>
++     <value type="int">7</value>
++     <value type="int">8</value>
++     <value type="int">9</value>
++     <value type="int">10</value>
++     <value type="int">11</value>
++     <value type="int">12</value>
++     <value type="int">13</value>
++     <value type="int">14</value>
++    </valuelist>
++    <value type="int" key="PE.EnvironmentAspect.Base">2</value>
++    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
++    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">lhx_linux</value>
++    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">release</value>
++    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/fab/Dev/altair/lhx/lhx_linux/lhx_linux.pro</value>
++    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments">-t -j 8 -D ~/Dev/altair/Tests/Exemple/Donnees/R-Altair ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2008/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2009/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2010/*.xhl  ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2011/*.xhl   ~/Dev/altair/Tests/Exemple/Donnees/xhl/Metro/2012/*.xhl   </value>
++    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">lhx_linux.pro</value>
++    <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
++    <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseTerminal">true</value>
++    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory"></value>
++    <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
++    <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
++    <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
++    <value type="bool" key="RunConfiguration.UseMultiProcess">false</value>
++    <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
++    <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
++   </valuemap>
++   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.2">
++    <valuelist type="QVariantList" key="Analyzer.Valgrind.AddedSuppressionFiles"/>
++    <value type="bool" key="Analyzer.Valgrind.Callgrind.CollectBusEvents">false</value>
++    <value type="bool" key="Analyzer.Valgrind.Callgrind.CollectSystime">false</value>
++    <value type="bool" key="Analyzer.Valgrind.Callgrind.EnableBranchSim">false</value>
++    <value type="bool" key="Analyzer.Valgrind.Callgrind.EnableCacheSim">false</value>
++    <value type="bool" key="Analyzer.Valgrind.Callgrind.EnableEventToolTips">true</value>
++    <value type="double" key="Analyzer.Valgrind.Callgrind.MinimumCostRatio">0.01</value>
++    <value type="double" key="Analyzer.Valgrind.Callgrind.VisualisationMinimumCostRatio">10</value>
++    <value type="bool" key="Analyzer.Valgrind.FilterExternalIssues">true</value>
++    <value type="int" key="Analyzer.Valgrind.LeakCheckOnFinish">1</value>
++    <value type="int" key="Analyzer.Valgrind.NumCallers">25</value>
++    <valuelist type="QVariantList" key="Analyzer.Valgrind.RemovedSuppressionFiles"/>
++    <value type="int" key="Analyzer.Valgrind.SelfModifyingCodeDetection">1</value>
++    <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
++    <value type="bool" key="Analyzer.Valgrind.ShowReachable">false</value>
++    <value type="bool" key="Analyzer.Valgrind.TrackOrigins">true</value>
++    <value type="QString" key="Analyzer.Valgrind.ValgrindExecutable">valgrind</value>
++    <valuelist type="QVariantList" key="Analyzer.Valgrind.VisibleErrorKinds">
++     <value type="int">0</value>
++     <value type="int">1</value>
++     <value type="int">2</value>
++     <value type="int">3</value>
++     <value type="int">4</value>
++     <value type="int">5</value>
++     <value type="int">6</value>
++     <value type="int">7</value>
++     <value type="int">8</value>
++     <value type="int">9</value>
++     <value type="int">10</value>
++     <value type="int">11</value>
++     <value type="int">12</value>
++     <value type="int">13</value>
++     <value type="int">14</value>
++    </valuelist>
++    <value type="int" key="PE.EnvironmentAspect.Base">2</value>
++    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
++    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">lhx_linux</value>
++    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">debug</value>
++    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/fab/Dev/altair/lhx/lhx_linux/lhx_linux.pro</value>
++    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments">  -L log -t -j 1 -D /home/fab/Dev/altair/Tests/Exemple/Donnees/R-Altair /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2011/*.xhl  /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2012/*.xhl /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/CAPEV/2013/*.xhl </value>
++    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">lhx_linux.pro</value>
++    <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
++    <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseTerminal">true</value>
++    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory"></value>
++    <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
++    <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
++    <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
++    <value type="bool" key="RunConfiguration.UseMultiProcess">false</value>
++    <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
++    <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
++   </valuemap>
++   <value type="int" key="ProjectExplorer.Target.RunConfigurationCount">3</value>
++  </valuemap>
++ </data>
++ <data>
++  <variable>ProjectExplorer.Project.TargetCount</variable>
++  <value type="int">1</value>
++ </data>
++ <data>
++  <variable>ProjectExplorer.Project.Updater.FileVersion</variable>
++  <value type="int">18</value>
++ </data>
++ <data>
++  <variable>Version</variable>
++  <value type="int">18</value>
++ </data>
++</qtcreator>
