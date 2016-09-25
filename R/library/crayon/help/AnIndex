@@ -38,7 +38,6 @@ red	crayon
 reset	crayon
 show_ansi_colors	show_ansi_colors
 silver	crayon
-start	start.crayon
 start.crayon	start.crayon
 strikethrough	crayon
 strip_style	strip_style

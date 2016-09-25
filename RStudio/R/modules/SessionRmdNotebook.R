@@ -179,10 +179,15 @@ assign(".rs.notebookVersion", envir = .rs.toolsEnv(), "1.0")
                                                     ...)
 {
    parsed <- .rs.rnb.readConsoleData(fileContents)
+   
+   # exclude source code if requested
    if (!includeSource)
       parsed <- parsed[parsed$type != 0, ]
+   
+   # exclude console output if requested
    if (identical(context$results, "hide"))
       parsed <- parsed[parsed$type != 1, ]
+   
    attributes <- list(class = .rs.rnb.engineToCodeClass(context$engine))
    rendered <- .rs.rnb.renderConsoleData(parsed,
                                          attributes = attributes,
@@ -284,6 +289,14 @@ assign(".rs.notebookVersion", envir = .rs.toolsEnv(), "1.0")
       if (is.null(chunkId)) {
          if (includeSource) {
             attributes <- list(class = .rs.rnb.engineToCodeClass(context$engine))
+            
+            # tidy code if necessary
+            if (isTRUE(context$tidy)) {
+               args <- c(list(text = code, output = FALSE), context$tidy.opts)
+               formatted <- do.call(formatR::tidy_source, args)
+               code <- formatted$text.tidy
+            }
+            
             if (!is.null(context$indent)) {
                return(.rs.rnb.renderVerbatimConsoleInput(code, tolower(context$engine), ""))
             } else {
@@ -433,15 +446,24 @@ assign(".rs.notebookVersion", envir = .rs.toolsEnv(), "1.0")
       type <- csvData$type[[range$start]]
       text <- csvData$text[range$start:range$end]
       collapse <- if (type == 0) "\n" else ""
-      pasted <- paste(text, collapse = collapse)
+      code <- paste(text, collapse = collapse)
+      
       if (type == 0) {
+         
+         # tidy code if necessary
+         if (isTRUE(context$tidy)) {
+            args <- c(list(text = code, output = FALSE), context$tidy.opts)
+            formatted <- do.call(formatR::tidy_source, args)
+            code <- paste(formatted$text.tidy, collapse = "\n")
+         }
+         
          if (is.null(context$indent)) {
-            return(rmarkdown::html_notebook_output_code(pasted, attributes = attributes))
+            return(rmarkdown::html_notebook_output_code(code, attributes = attributes))
          } else {
-            return(.rs.rnb.renderVerbatimConsoleInput(pasted, tolower(context$engine), context$indent))
+            return(.rs.rnb.renderVerbatimConsoleInput(code, tolower(context$engine), context$indent))
          }
       } else {
-         return(pasted)
+         return(code)
       }
    })
    
@@ -897,8 +919,28 @@ assign(".rs.notebookVersion", envir = .rs.toolsEnv(), "1.0")
    grepl("^\\s*```{[Rr]\\s+setup[\\s,}]", lines[[1]], perl = TRUE)
 })
 
+.rs.addFunction("setDefaultChunkOptions", function()
+{
+   # cache the current set of chunk options
+   chunkOptions <- knitr::opts_chunk$get()
+   assign(".rs.knitr.chunkOptions", chunkOptions, envir = .rs.toolsEnv())
+   
+   # unset the chunk options (so we know what options
+   # were actually specified in setup chunk later)
+   defaults <- list(error = FALSE)
+   knitr::opts_chunk$restore(defaults)
+})
+
 .rs.addFunction("defaultChunkOptions", function()
 {
-   .rs.scalarListFromList(knitr::opts_chunk$get())
+   # get current set of options
+   defaultOptions <- knitr::opts_chunk$get()
+   
+   # restore the previously cached knitr options
+   chunkOptions <- get(".rs.knitr.chunkOptions", envir = .rs.toolsEnv())
+   knitr::opts_chunk$restore(chunkOptions)
+   
+   # return current set
+   .rs.scalarListFromList(defaultOptions)
 })
 

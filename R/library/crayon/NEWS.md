@@ -1,3 +1,36 @@
+# 1.3.2
+
+* Removed dependency to `memoise` (@brodieG, #25)
+
+* Fixed a test case that changed the `crayon.enabled`
+  setting, potentially (@brodieG)
+
+* Added `crayon.colors` option, to specify the number of
+  colors explicitly
+
+* `TERM=xterm` and `tput colors=8` will use 256 colors,
+  as 256 colors are usually supported in this case (#17)
+
+* Support colors in ConEmu and cmder, on Windows
+
+* Fix color detection in Emacs tramp
+
+* `col_strsplit` and `col_substr` corner cases:
+
+    * handle empty chunks at beginning or end of strings
+      like `base::strsplit` (@brodieG, #26)
+
+    * explicitly deal with 'split' values that are not
+      length 1 as that is not currently supported
+
+    * handle zero length `x` argument in `col_substr`, and
+      add more explicit error messages for corner cases
+
+* Some performance improvements to `col_substr` (@brodieG)
+
+* Change rgb to ANSI code mapping, based on the "paint" ruby gem
+  (@richfitz, #33, #34)
+
 # 1.3.1
 
 * Fixed some `R CMD check` problems.

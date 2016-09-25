@@ -14,6 +14,10 @@ html_document           Convert to an HTML document
 html_document_base      Base output format for HTML-based output
                         formats
 html_fragment           Convert to an HTML fragment.
+html_notebook           Convert to an HTML notebook
+html_notebook_metadata
+                        Generate R Notebook Metadata
+html_notebook_output    Generate R Notebook Output
 html_vignette           Convert to an HTML vignette.
 includes                Include content within output
 ioslides_presentation   Convert to an ioslides Presentation
@@ -38,6 +42,7 @@ pandoc_self_contained_html
                         Create a self-contained HTML document using
                         pandoc.
 pandoc_template         Render a pandoc template.
+parse_html_notebook     Parse an HTML Notebook
 pdf_document            Convert to a PDF document
 relative_to             Relative path utility function
 render                  Render R Markdown
@@ -45,6 +50,8 @@ render_delayed          Delay Rendering for an Expression
 render_site             Render multiple documents as a website
 render_supporting_files
                         Render supporting files for an input document
+resolve_output_format   Resolve the output format for an R Markdown
+                        document
 rmarkdown-package       R Markdown Document Conversion
 rmarkdown_format        R Markdown input format definition
 rmd_metadata            R Markdown Metadata
