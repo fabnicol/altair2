@@ -31,11 +31,39 @@ close(con)
 cat(out, sep = "\n")
 
 ## ------------------------------------------------------------------------
-req <- curl_fetch_memory("https://httpbin.org/status/418")
-print(req$status_code)
+pool <- new_pool()
+cb <- function(req){cat("done:", req$url, ": HTTP:", req$status, "\n")}
+curl_fetch_multi('https://www.google.com', done = cb, pool = pool)
+curl_fetch_multi('https://cloud.r-project.org', done = cb, pool = pool)
+curl_fetch_multi('https://httpbin.org/blabla', done = cb, pool = pool)
+
+## ------------------------------------------------------------------------
+# This actually performs requests:
+out <- multi_run(pool = pool)
+print(out)
+
+## ------------------------------------------------------------------------
+# This is OK
+curl_download('https://cran.r-project.org/CRAN_mirrors.csv', 'mirrors.csv')
+mirros <- read.csv('mirrors.csv')
+unlink('mirrors.csv')
 
 ## ---- echo = FALSE, message = FALSE, warning=FALSE-----------------------
-invisible(gc())
+close(con)
+rm(con)
+
+## ------------------------------------------------------------------------
+req <- curl_fetch_memory('https://cran.r-project.org/CRAN_mirrors.csv')
+print(req$status_code)
+
+## ------------------------------------------------------------------------
+# Oops a typo!
+req <- curl_fetch_disk('https://cran.r-project.org/CRAN_mirrorZ.csv', 'mirrors.csv')
+print(req$status_code)
+
+# This is not the CSV file we were expecting!
+head(readLines('mirrors.csv'))
+unlink('mirrors.csv')
 
 ## ------------------------------------------------------------------------
 h <- new_handle()
@@ -54,13 +82,22 @@ cat(rawToChar(req$content))
 con <- curl("http://httpbin.org/post", handle = h)
 cat(readLines(con), sep = "\n")
 
+## ---- echo = FALSE, message = FALSE, warning=FALSE-----------------------
+close(con)
+
 ## ------------------------------------------------------------------------
 tmp <- tempfile()
 curl_download("http://httpbin.org/post", destfile = tmp, handle = h)
 cat(readLines(tmp), sep = "\n")
 
-## ---- echo = FALSE, message = FALSE, warning=FALSE-----------------------
-invisible(gc())
+## ------------------------------------------------------------------------
+curl_fetch_multi("http://httpbin.org/post", handle = h, done = function(res){
+  cat("Request complete! Response content:\n")
+  cat(rawToChar(res$content))
+})
+
+# Perform the request
+out <- multi_run()
 
 ## ------------------------------------------------------------------------
 # Start with a fresh handle

@@ -7,6 +7,7 @@ form_file               Upload files with form
 handle                  Create and configure a curl handle
 handle_cookies          Extract cookies from a handle
 ie_proxy                Internet Explorer proxy settings
+multi                   Async Multi Download
 nslookup                Lookup a hostname
 parse_date              Parse date/time
 parse_headers           Parse response headers

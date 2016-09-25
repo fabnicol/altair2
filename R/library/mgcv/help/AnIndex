@@ -16,6 +16,7 @@ columb.polys	columb
 concurvity	concurvity
 corMatrix.pdIdnot	pdIdnot
 cox.ph	coxph
+cox.pht	coxpht
 cSplineDes	cSplineDes
 cubic.regression.spline	smooth.construct.cr.smooth.spec
 cyclic.cubic.spline	smooth.construct.cr.smooth.spec
@@ -59,7 +60,9 @@ gamObject	gamObject
 gamSim	gamSim
 gaulss	gaulss
 get.var	get.var
+gevlss	gevlss
 gp.smooth	smooth.construct.gp.smooth.spec
+identifiability	identifiability
 in.out	in.out
 influence.gam	influence.gam
 initial.sp	initial.sp
@@ -93,6 +96,7 @@ notLog	notExp
 notLog2	notExp2
 null.space.dimension	null.space.dimension
 ocat	ocat
+one.se.rule	one.se.rule
 ordered.categorical	ocat
 p.spline	smooth.construct.ps.smooth.spec
 pcls	pcls
@@ -173,6 +177,7 @@ smooth.construct.tp.smooth.spec	smooth.construct.tp.smooth.spec
 smooth.construct.ts.smooth.spec	smooth.construct.tp.smooth.spec
 smooth.construct2	smooth.construct
 smooth.terms	smooth.terms
+smooth2random	smooth2random
 smoothCon	smoothCon
 soap	smooth.construct.so.smooth.spec
 solve.pdIdnot	pdIdnot
