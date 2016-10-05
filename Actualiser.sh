@@ -9,7 +9,7 @@ if test x$reponse = xOui
 then
   
   echo "Actualisation du dépôt fab..."
-  
+  cd /home/fab/Dev/altair
   git reset --hard HEAD
   git clean -df
   adresse=$(cat entrepot.txt)
