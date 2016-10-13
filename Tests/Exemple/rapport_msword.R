@@ -33,4 +33,11 @@ if (! keep_md) {
     unlink("altair_files", recursive = TRUE)  
 }
 
+if (! setOSWindows) {
+    system("cp -rf Docs Donnees/R-Altair")
+    system("cp -f  altaïr.odt Donnees/R-Altair")
+    system("cp -f  altaïr.docx Donnees/R-Altair")
+    system("cp -rf Bases Donnees/R-Altair")
+}
+
 setwd(initwd)
