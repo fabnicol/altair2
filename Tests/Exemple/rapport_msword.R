@@ -35,9 +35,7 @@ if (! keep_md) {
 
 if (! setOSWindows) {
     system("cp -rf Docs Donnees/R-Altair")
-    system("cp -f  altaïr.odt Donnees/R-Altair")
-    system("cp -f  altaïr.docx Donnees/R-Altair")
-    system("cp -rf Bases Donnees/R-Altair")
+    system("cp -f altaïr.odt altaïr.docx Donnees/R-Altair")
 }
 
 setwd(initwd)

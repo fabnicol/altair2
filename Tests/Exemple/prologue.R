@@ -99,10 +99,11 @@ nom.bulletins               <- "Bulletins"
 # pour les applications à ergonomie facilitée, prévoir de distribuer le logiciel avec un dossier Bases déjà généré.
 
 chemin.dossier              <- getwd()
-chemin.dossier.bases        <- file.path(chemin.dossier, "Bases")
-chemin.dossier.outils       <- file.path(chemin.dossier, "..", "..", "Outils")
-chemin.dossier.lib          <- file.path(chemin.dossier, "..", "..", "lib")
-chemin.dossier.données      <- file.path(chemin.dossier, "Donnees")
+chemin.clé                  <- file.path(chemin.dossier, "Donnees", racine)
+chemin.dossier.bases        <- file.path(chemin.clé, "Bases")
+chemin.dossier.outils       <- file.path(chemin.clé, "..", "..", "Outils")
+chemin.dossier.lib          <- file.path(chemin.clé, "..", "..", "lib")
+chemin.dossier.données      <- file.path(chemin.clé, "Donnees")
 
 # Outils
 
