@@ -145,6 +145,7 @@ void Altair::run()
 
     QString path_access_cl = path_access("lhx/cl");
     QFile f(path_access_cl);
+
     f.open(QFile::WriteOnly|QFile::Truncate);
 
     f.write((args0 << args1).join("\n").replace('"',"")
@@ -155,6 +156,7 @@ void Altair::run()
         #endif
 
     f.close();
+    f.setPermissions(QFileDevice::ReadOwner|QFileDevice::ReadUser|QFileDevice::ReadGroup|QFileDevice::ReadOther|QFileDevice::WriteOwner|QFileDevice::WriteUser|QFileDevice::WriteGroup|QFileDevice::WriteOther);
     //process.start(altairCommandStr,  args0 << args1);
     process.start(altairCommandStr,  QStringList() << "-f" << path_access_cl);
 

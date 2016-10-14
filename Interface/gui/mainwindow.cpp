@@ -814,7 +814,7 @@ bool MainWindow::exportProject(QString dirStr)
     QString subDirStr = QDir::toNativeSeparators(dirStr.append("/Altaïr"));
 
     altair->updateProject();
-    QString projectRootDir = QDir::toNativeSeparators(QDir::cleanPath(v(base) + "/../.."));
+    QString projectRootDir = QDir::toNativeSeparators(QDir::cleanPath(v(base)));
     QString docxReportFilePath = projectRootDir + QDir::separator() + "altaïr.docx";
 	QString odtReportFilePath = projectRootDir + QDir::separator() + "altaïr.odt";
     QString pdfReportFilePath = projectRootDir + QDir::separator() + "altaïr.pdf";
@@ -848,7 +848,7 @@ bool MainWindow::archiveProject()
                                                                + "-" + QTime::currentTime().toString("hh mm ss")));
 
     altair->updateProject();
-    QString projectRootDir = QDir::toNativeSeparators(QDir::cleanPath(v(base) + "/../.."));
+    QString projectRootDir = QDir::toNativeSeparators(QDir::cleanPath(v(base)));
     QString docxReportFilePath = projectRootDir +  QDir::separator() + "altaïr.docx";
     QString pdfReportFilePath = projectRootDir +  QDir::separator()  + "altaïr.pdf";
 	QString odtReportFilePath = projectRootDir +  QDir::separator() + "altaïr.odt";
@@ -883,7 +883,7 @@ bool MainWindow::restoreProject(QString subDirStr)
     if (! QFileInfo(subDirStr).isDir()) return false;
 
     altair->updateProject();
-    QString projectRootDir = QDir::toNativeSeparators(QDir::cleanPath(v(base) + "/../.."));
+    QString projectRootDir = QDir::toNativeSeparators(QDir::cleanPath(v(base)));
     QString docxReportFilePath = projectRootDir + "/altaïr.docx";
 	QString odtReportFilePath = projectRootDir + "/altaïr.odt";
     QString pdfReportFilePath = projectRootDir + "/altaïr.pdf";

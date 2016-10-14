@@ -12,7 +12,6 @@ if (! keep_md) {
 if (! setOSWindows) {
     system("cp -rf Docs Donnees/R-Altair")
     system("cp -f  altaïr.pdf Donnees/R-Altair")
-    system("cp -rf Bases Donnees/R-Altair")
 }
 
 
