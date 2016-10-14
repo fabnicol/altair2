@@ -15,11 +15,11 @@ if (séparateur.décimal.sortie == séparateur.liste.sortie)
 
 if (sauvegarder.bases.analyse) {
   for (path in c("Remunerations", "Effectifs", "Reglementation", "Fiabilite"))
-    dir.create(file.path(chemin.dossier.bases, path), recursive = TRUE)
+    dir.create(file.path(chemin.dossier.bases, path), recursive = TRUE, mode="0777")
 }
 
 if (sauvegarder.bases.origine)
-  dir.create(file.path(chemin.dossier.bases, "Paiements"), recursive = TRUE)
+  dir.create(file.path(chemin.dossier.bases, "Paiements"), recursive = TRUE, mode="0777")
 
 # problème temporaire avec l'option fig.retina depuis fin mai 2014
 
@@ -73,8 +73,8 @@ if (grades.categories.existe) {
 }
 
 
-fichiers.table <- list.files(chemin(racine), pattern = nom.table %+% "(-)?[^.]*[.]csv", full.names  = TRUE)
-fichiers.bulletins <- list.files(chemin(racine), pattern = nom.bulletins %+% "(-)?[^.]*[.]csv", full.names  = TRUE)
+fichiers.table <- list.files(chemin.clé, pattern = nom.table %+% "(-)?[^.]*[.]csv", full.names  = TRUE)
+fichiers.bulletins <- list.files(chemin.clé, pattern = nom.bulletins %+% "(-)?[^.]*[.]csv", full.names  = TRUE)
 
 # Programme principal
 
