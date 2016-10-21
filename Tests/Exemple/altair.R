@@ -1981,49 +1981,49 @@ if (!intégrer.échelon) {
   SFT.controle <- with(Paie.enfants.réduit, 
                          mapply(sft, Nb.Enfants, Indice, Echelon, NBI, Temps.de.travail, Année, Mois, USE.NAMES = FALSE))
   
-  Paie.enfants.réduit <- cbind(Paie.enfants.réduit, SFT.controle)
-  
-  Paie.enfants.réduit[ , delta.SFT := SFT.versé - SFT.controle]
-
-
-## Attention ne pas intégrer au sein d'un même `:=`(...) deux définitions en coréférence avec if ... else 
-# ou alors utiliser ifelse()  [bug de data.table]
-
-# Paie.enfants.réduit[ , ecart := if (SFT.controle > 1) delta / SFT.controle else NA]
-
-# On accepte un tolérance fixée dans prologue.R à tolérance.sft <- 1 euro
-
-  controle.sft <- Paie.enfants.réduit[delta.SFT > tolérance.sft, 
-                                        .(delta.SFT = round(delta.SFT, 2),
-                                         SFT.versé,
-                                         SFT.controle = round(SFT.controle, 2),
-                                         Matricule, 
-                                         Année,
-                                         Mois,
-                                         Indice,
-                                         NBI,
-                                         Temps.de.travail,
-                                         Nb.Enfants)]
-
-  nb.écart.paiements.sft <- nrow(controle.sft)
-  
-  if (nb.écart.paiements.sft) setorder(controle.sft, -delta.SFT, Matricule, Année, Mois)
-  
-  if (nb.écart.paiements.sft > 0){
-      
-    cat("\nPour les agents ayant au moins un enfant, il a été détecté ",
-        nb.écart.paiements.sft,
-        " bulletin", ifelse(nb.écart.paiements.sft == 1, "", "s"),
-        " de paie présentant un écart de paiement du SFT supérieur à ", tolérance.sft, " euro.\n", sep="")  
-  
-    if (afficher.table.écarts.sft)
-       kable(controle.sft, row.names = FALSE, align = 'c')
-      
-  } else {
-    
-    cat("\nPour les agents ayant au moins un enfant, il n'a été détecté aucun écart de paiement sur SFT supérieur à ", tolérance.sft, " euro.\n")
-        
-  }
+#   Paie.enfants.réduit <- cbind(Paie.enfants.réduit, SFT.controle)
+#   
+#   Paie.enfants.réduit[ , delta.SFT := SFT.versé - SFT.controle]
+# 
+# 
+# ## Attention ne pas intégrer au sein d'un même `:=`(...) deux définitions en coréférence avec if ... else 
+# # ou alors utiliser ifelse()  [bug de data.table]
+# 
+# # Paie.enfants.réduit[ , ecart := if (SFT.controle > 1) delta / SFT.controle else NA]
+# 
+# # On accepte un tolérance fixée dans prologue.R à tolérance.sft <- 1 euro
+# 
+#   controle.sft <- Paie.enfants.réduit[delta.SFT > tolérance.sft, 
+#                                         .(delta.SFT = round(delta.SFT, 2),
+#                                          SFT.versé,
+#                                          SFT.controle = round(SFT.controle, 2),
+#                                          Matricule, 
+#                                          Année,
+#                                          Mois,
+#                                          Indice,
+#                                          NBI,
+#                                          Temps.de.travail,
+#                                          Nb.Enfants)]
+# 
+#   nb.écart.paiements.sft <- nrow(controle.sft)
+#   
+#   if (nb.écart.paiements.sft) setorder(controle.sft, -delta.SFT, Matricule, Année, Mois)
+#   
+#   if (nb.écart.paiements.sft > 0){
+#       
+#     cat("\nPour les agents ayant au moins un enfant, il a été détecté ",
+#         nb.écart.paiements.sft,
+#         " bulletin", ifelse(nb.écart.paiements.sft == 1, "", "s"),
+#         " de paie présentant un écart de paiement du SFT supérieur à ", tolérance.sft, " euro.\n", sep="")  
+#   
+#     if (afficher.table.écarts.sft)
+#        kable(controle.sft, row.names = FALSE, align = 'c')
+#       
+#   } else {
+#     
+#     cat("\nPour les agents ayant au moins un enfant, il n'a été détecté aucun écart de paiement sur SFT supérieur à ", tolérance.sft, " euro.\n")
+#         
+#   }
 
 #'  
 #'[Lien vers la base des écarts de paiement sur SFT](Bases/Reglementation/controle.sft.csv)
@@ -2276,10 +2276,10 @@ if (sauvegarder.bases.analyse) {
              "ihts.anormales",
              "lignes.contractuels.et.vacations",
              "lignes.fonctionnaires.et.vacations",
-             "Paie_vac_contr",
-             "Paie_vac_fonct",
-             "Paie_vac_sft_ir",
-             "lignes.ifts.anormales",
+             # "Paie_vac_contr",
+             # "Paie_vac_fonct",
+             # "Paie_vac_sft_ir",
+             # "lignes.ifts.anormales",
              "matricules.contractuels.et.vacations",
              "matricules.fonctionnaires.et.vacations",
              "SFT_IR.et.vacations",

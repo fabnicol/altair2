@@ -7,12 +7,13 @@ AlwaysSaveHistory: No
 EnableCodeIndexing: Yes
 UseSpacesForTab: Yes
 NumSpacesForTab: 2
-Encoding: ISO8859-1
+Encoding: ISO-8859-1
 
 RnwWeave: knitr
 LaTeX: pdfLaTeX
 
 AutoAppendNewline: Yes
+LineEndingConversion: Posix
 
 BuildType: Makefile
 MakefilePath: ~/Dev/altair/Tests/Exemple

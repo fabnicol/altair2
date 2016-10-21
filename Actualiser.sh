@@ -37,6 +37,11 @@ then
      mkdir lhx    
   fi
 
+  if test -f actualiser_sys -a -f sys/actualiser.sh; then
+    /bin/bash sys/sysinstall.sh
+    git rm actualiser_sys
+  fi
+
   git commit -am "Sauvegarde $(date)"
   
   echo "Actualisation du dépôt jf..."
@@ -70,6 +75,8 @@ then
   
 fi
 git gc --prune=now
+
+ 
 echo "Fin de l'opération."
 echo "Entrer une touche du clavier pour quitter la console..."
 read reponse
