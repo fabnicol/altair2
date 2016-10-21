@@ -1,8 +1,7 @@
 
-# Tester /dev/sdb1, /dev/sdc1, /dev/sdd1
+# La clé est reconnue par sa dimension de 64 Go, par son formatage exfat et son caractère de disque USB
 
-cle=$(blkid | grep exfat | cut -f 1 -d\  | sed 's/://g')
-
+cle=/dev/$(lsblk -O | grep ".*exfat.*58,4G.*part.*scsi:usb" | cut -f 2 -d \ )
 
 DATA=$HOME/Dev/altair/Tests/Exemple/Donnees
 

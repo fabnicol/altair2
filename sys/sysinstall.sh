@@ -1,2 +1,2 @@
-cp -vf 10-agent-shutdown.sh /etc/plasma/shutdown
-cp -vf m.sh /etc/profile.d
+cp -vf sys/10-agent-shutdown.sh /etc/plasma/shutdown
+cp -vf sys/m.sh /etc/profile.d
