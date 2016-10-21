@@ -7,8 +7,9 @@ echo "Oui/Non : "
 read reponse
 if test x$reponse = xOui
 then
-  
-  echo "Actualisation du dépôt fab..."
+  echo "****"  
+  echo "* Actualisation du dépôt fab..."
+  echo "****"
   cd /home/fab/Dev/altair
   git reset --hard HEAD
   git clean -df
@@ -27,7 +28,7 @@ then
   
   git fetch -p -n --depth=1 origin master-jf
   
-  for i in Interface lhx Interface_linux linux '*.txt' '*.R' '*.sh' '*.desktop' VERSION LICENCE '*.ico' '*.bmp' '*.png'  postinstall.sh altaïr.Rproj 'Tests/Exemple' 'Tests/Exemple/Docs' 
+  for i in Interface lhx Interface_linux linux '*.txt' '*.R' '*.sh' '*.desktop' VERSION LICENCE '*.ico' '*.bmp' '*.png'  postinstall.sh altaïr.Rproj 'Tests/Exemple' 'Tests/Exemple/Docs' sys
   do
     git checkout FETCH_HEAD -- "$i" 
     git add .
@@ -37,16 +38,27 @@ then
      mkdir lhx    
   fi
 
-  if test -f actualiser_sys -a -f sys/actualiser.sh; then
-    /bin/bash sys/sysinstall.sh
-    git rm actualiser_sys
+  if test -f sys/actualiser_sys -a -f sys/sysinstall.sh; then
+    sudo --preserve-env /bin/bash sys/sysinstall.sh
+    if test $? = 0; then
+       echo "***"
+       echo "* Actualisation système effectuée"
+       echo "***"
+       sleep 3
+       git rm sys/actualiser_sys
+    else
+       echo "=> Erreur d'actualisation système"
+    fi
   fi
 
   git commit -am "Sauvegarde $(date)"
   
-  echo "Actualisation du dépôt jf..."
-  
+  echo "****"
+  echo "* Actualisation du dépôt jf..."
+  echo "****"
   cd /home/jf/Dev/altair
+  
+  sudo chown -R fab /home/jf/Dev/altair/.git
   
   if ! test x$current_origin = x$adresse
   then
@@ -71,13 +83,19 @@ then
 
   git commit -am "Sauvegarde $(date)"
   
-  cd /home/fab/Dev/altair
+  git gc --prune=now
   
+  sudo chown -R jf /home/jf/Dev/altair/.git
+  
+  cd /home/fab/Dev/altair
+  git gc --prune=now
 fi
-git gc --prune=now
 
- 
-echo "Fin de l'opération."
+
+echo "****" 
+echo "* Fin de l'opération."
+echo "****"
+echo "   "
 echo "Entrer une touche du clavier pour quitter la console..."
 read reponse
 ./postinstall.sh
