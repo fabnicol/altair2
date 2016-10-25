@@ -85,6 +85,42 @@ else
   exit 1
 fi
 
+donnees_xhl=/home/$compte_login/Dev/altair/Tests/Exemple/Donnees/xhl/$compte_login
+
+echo "Création du répertoire de données de paye"
+
+mkdir -p $donnees_xhl
+
+if test $? = 0; then
+  echo "Répertoire créé: $donnees_xhl"
+  chown  $compte_login $donnees_xhl
+  chmod -R 0700 $donnees_xhl
+else
+  echo "Le répertoire $donnees_xhl n'a pas pu être créé automatiquement."
+  echo "Il faudra le créer manuellement."
+fi
+
+echo "Création du répertoire .local/share/Altair"
+
+mkdir -p /home/$compte_login/.local/share
+cp -rf /home/fab/.local/share/Altair /home/$compte_login/.local/share
+chown -R $compte_login /home/$compte_login/.local/share
+
+if test -d /home/$compte_login/.local/share/Altair; then
+ echo "Répertoire local créé."
+fi 
+
+echo "Exportation des icones"
+cp -f /home/jf/Desktop/*.desktop /home/$compte_login/Desktop
+sed -i s/jf/$compte_login/g /home/$compte_login/Desktop/*.desktop
+cp -f /home/jf/Desktop/*.pptx /home/$compte_login/Desktop
+rm -f /home/$compte_login/Desktop/Get*.desktop
+rm -f /home/$compte_login/Desktop/Donate*.desktop
+rm -f /home/$compte_login/Desktop/Récupérer*.desktop
+chown $compte_login /home/$compte_login/Desktop/*.desktop
+
+ls /home/$compte_login/Desktop/*.*
+
 # Fin
 
 echo "Fin de la procédure."
