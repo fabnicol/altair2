@@ -49,7 +49,7 @@ if test -d "/home/$compte_logini/Dev/altair"; then
       echo "Répertoire effacé."
     else
       echo "Le répertoire /home/$compte_login/Dev/altair n'a pas pu être écrasé."
-      echo "Reprendre la procédure après l'avori écrasé manuellement."
+      echo "Reprendre la procédure après l'avoir écrasé manuellement."
       exit 1
     fi
 
@@ -109,6 +109,20 @@ chown -R $compte_login /home/$compte_login/.local/share
 if test -d /home/$compte_login/.local/share/Altair; then
  echo "Répertoire local créé."
 fi 
+
+echo "Exportation de la configuration RStudio"
+
+chmod -R 0777 /home/jf/.rstudio-desktop
+cp -rf /home/jf/.rstudio-desktop  /home/$compte_login
+chown -R $compte_login /home/$compte_login/.rstudio-desktop
+chmod -R 0777 /home/jf/Dev/altair/.Rproj.user
+
+if test -d /home/$compte_login/.rstudio-desktop; then
+ echo "Configuration exportée."
+else
+ echo "Configuration non exportée, à recréer manuellement."
+fi 
+
 
 echo "Exportation des icones"
 cp -f /home/jf/Desktop/*.desktop /home/$compte_login/Desktop
