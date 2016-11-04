@@ -61,7 +61,7 @@ out <<  "**Usage** :  lhx OPTIONS fichiers.xhl  " << "\n\n"
           <<  "**-D** *argument obligatoire* : rÃ©pertoire complet du fichier de sortie [dÃ©faut '.' avec -t].  " << "\n\n"
           <<  "**-d** *argument obligatoire* : sÃ©parateur dÃ©cimal [dÃ©faut ',' avec -t].  " << "\n\n"
           <<  "**-s** *argument obligatoire* : sÃ©parateur de champs [dÃ©faut ';' avec -t]. Ne pas utiliser '_'.  " << "\n\n"
-          <<  "**-j** *argument obligatoire* : nombre de fils d'exÃ©cution (1 Ã  10).  " << "\n\n"
+          <<  "**-j** *argument obligatoire* : nombre de fils d'exÃ©cution (1 Ã  10).  " << "\n\n"
           <<  "**-l** *sans argument*        : gÃ©nÃ©rer une colonne de numÃ©ros de ligne intitulÃ©e 'R'.  " << "\n\n"
           <<  "**-M** *sans argument*        : ne pas libÃ©rer la mÃ©moire rÃ©servÃ©e en fin de programme.   " << "\n\n"
           <<  "**-m** *sans argument*        : calculer les maxima d'agents et de lignes de paye.  " << "\n\n"
@@ -70,8 +70,8 @@ out <<  "**Usage** :  lhx OPTIONS fichiers.xhl  " << "\n\n"
           <<  "**-S** *sans argument*        : exporter les champs Budget, Employeur, Siret, Etablissement.  " << "\n\n"
           <<  "**-E** *sans argument*        : exporter le champ Echelon.  " << "\n\n"
           <<  "**-q** *sans argument*        : limiter la verbositÃ©.  " << "\n\n"
-          <<  "**-f** *argument obligatoire* : la ligne de commande est dans le fichier en argument, chaque Ã©lÃ©ment Ã  la ligne.  " << "\n\n"
-          <<  "**--xhlmem** *arg. oblig.*    : taille des fichiers Ã  analyser en octets.  " << "\n\n"
+          <<  "**-f** *argument obligatoire* : la ligne de commande est dans le fichier en argument, chaque Ã©lÃ©ment Ã  la ligne.  " << "\n\n"
+          <<  "**--xhlmem** *arg. oblig.*    : taille des fichiers Ã  analyser en octets.  " << "\n\n"
           <<  "**--memshare** *arg. oblig.*  : Part de la mÃ©moire vive utilisÃ©e, en points de pourcentage.  " << "\n\n"
           <<  "**--segments** *arg. oblig.*  : nombre minimum de segments de base.  " << "\n\n"
           <<  "**--pretend**                 : exÃ©cution sans traitement des fichiers.  " << "\n\n"
@@ -80,7 +80,7 @@ out <<  "**Usage** :  lhx OPTIONS fichiers.xhl  " << "\n\n"
           <<  "**--pdf**                     : aide en format pdf.  " << "\n\n";
     #ifdef GENERATE_RANK_SIGNAL
               out  <<  "**-rank** *argument optionnel* : gÃ©nÃ©rer le fichier du rang de la base de paye en cours dans le fichier ";
-             // out  <<  "ou Ã  dÃ©faut dans " USERPROFILE "/" LOCALDATA ".\n\n";
+             // out  <<  "ou Ã  dÃ©faut dans " USERPROFILE "/" LOCALDATA ".\n\n";
     #endif
    return out;
 }
@@ -291,7 +291,7 @@ void ecrire_log(const info_t& info, ofstream& log, int diff)
 
     /*  si rang_fichier_base == 0, base monolithique
         si rang_fichier_base compris entre 1 et nbType, base par catÃ©gorie
-        si rang_fichier_base supÃ©rieur Ã  nbType, base par annÃ©e (les annÃ©es sont trÃ¨s supÃ©rieures au nombre de type maximum ! */
+        si rang_fichier_base supÃ©rieur Ã  nbType, base par annÃ©e (les annÃ©es sont trÃ¨s supÃ©rieures au nombre de type maximum ! */
     int test = (int) (rang_fichier_base + nbType - 1) / nbType;
 
     switch (test)
@@ -516,7 +516,7 @@ int32_t lire_argument(int argc, char* c_str)
         }
         else if (sl > INT32_MAX)
         {
-            cerr << ERROR_HTML_TAG "" <<  sl << " entier excÃ©dant la limite des entiers Ã  16 bits" ENDL;
+            cerr << ERROR_HTML_TAG "" <<  sl << " entier excÃ©dant la limite des entiers Ã  16 bits" ENDL;
         }
         else if (sl < 0)
         {
@@ -582,7 +582,7 @@ int calculer_memoire_requise(info_t& info)
 {
     errno = 0;
 
-    // Attention reserve() ne va pas initialiser les membres Ã  0 sous Windows. Utiliser resize() ici.
+    // Attention reserve() ne va pas initialiser les membres Ã  0 sous Windows. Utiliser resize() ici.
    memory_debug("calculer_memoire_requise_pre_tab_resize");
 
 #ifdef PREALLOCATE_ON_HEAP
@@ -607,7 +607,7 @@ int calculer_memoire_requise(info_t& info)
 
     /* on compte un agent par balise <Remuneration/> ou par couple valide de balise <Remuneration>...</Remuneration> (fermeture contrÃ´lÃ©e)
      * alors :
-     *   on compte un agent en plus (++info.NCumAgent) avec un nombre de ligne Ã©gal au moins Ã  un, mÃªme si pas de ligne de paye codÃ©e.
+     *   on compte un agent en plus (++info.NCumAgent) avec un nombre de ligne Ã©gal au moins Ã  un, mÃªme si pas de ligne de paye codÃ©e.
      *   Si il existe N lignes de paye codÃ©es, alors info.NLigne[info.NCumAgent] = N. */
 
 
@@ -627,7 +627,7 @@ int calculer_memoire_requise(info_t& info)
         else
         {
             if (verbeux)
-                cerr <<  ERROR_HTML_TAG "ProblÃ¨me Ã  l'ouverture du fichier *" << info.threads->argv[i] << "*" << ENDL;
+                cerr <<  ERROR_HTML_TAG "ProblÃ¨me Ã  l'ouverture du fichier *" << info.threads->argv[i] << "*" << ENDL;
             exit(-120);
         }
 

@@ -4,21 +4,54 @@
 using namespace std;
 
 
-/* NOTA Sur les valeurs manquantes
- * Pour des variables caractères : NA (NA_ASSIGN)
- * Pour des variables pseudo-numériques (caractères convertibles en numériques) : 0 (ZERO_ASSIGN)
- * On peut donc garantir que Année, Mois, NbEnfants, Indice, NBI, QuotiteTrav,
- * NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer ne sont jamais NA mais à 0 */
+/// \file    ligne_paye.cpp
+/// \author  Fabrice Nicol
+/// \brief   Ce fichier contient le code relatif au traitement individuel des lignes de paye
 
-/* obligatoire */
+/// \def     NA_ASSIGN(X)
+/// \brief   Assigne la valeur NA_STRING de type xmlChar* à l'élément courant de info.Table
+/// \details Assignation sur le tas à libérer par xmlFree.
+///          NOTA Sur les valeurs manquantes
+///          Pour des variables caractères : NA (NA_ASSIGN)
+///          Pour des variables pseudo-numériques (caractères convertibles en numériques) : 0 (ZERO_ASSIGN)
+///          On peut donc garantir que \e Année, \e Mois, \e NbEnfants, \e Indice, \e NBI, \e QuotiteTrav,
+///          \e NbHeureTotal, \e NbHeureSup, \e MtBrut, \e MtNet, \e MtNetAPayer ne sont jamais NA mais à 0
+
 
 #define NA_ASSIGN(X)        info.Table[info.NCumAgentXml][X] = (xmlChar*) xmlStrdup(NA_STRING)
+
+/// \def     ZERO_ASSIGN(X)
+/// \brief   Assigne la valeur "0" de type xmlChar* à l'élément courant de info.Table
+/// \details Assignation sur le tas à libérer par xmlFree.
+
 #define ZERO_ASSIGN(X)      info.Table[info.NCumAgentXml][X] = (xmlChar*) xmlStrdup((const xmlChar*) "0")
 
-/* Remplace les occurrences d'un caractère séparateur à l'intérieur d'un champ par le caractère '_' qui ne doit donc jamais
-   être séparateur de champ (c'est bien rare !) */
 
-static inline void GCC_INLINE sanitize(xmlChar* s, const char sep)
+/// \brief   Remplace les occurrences d'un caractère à l'intérieur d'une chaîne xmlChar* par le caractère '_'.
+///          [Windows] Convertit l'encodage de la chaîne UTF-8 en Latin-1.
+///          [Autres] Pas de conversion.
+/// \details Le caractère de remplacement ne doit jamais être séparateur de champ CSV.
+///          Il est donc interdit d'avoir des bases de type CSV séparées par le caractère '_' (au lieu de ',' ou ';').
+/// \bug     [Windows] Cette opération peut échouer si les hypothèses techniques suivantes, relatives à la conversion Latin-1, ne sont pas remplies.
+///          [Windows] Aucune vérification n'est opérée sur la réalisation de ces hypothèses.
+///          [Autres] La fonction ne convertit pas les caractères de sortie en Latin-1.
+/// \internal   [Windows]
+///               a) pas de caractères spéciaux multioctets
+///               b) seuls sont convertis : à, â, ç, è, é, ê, ë, î, ï, ô, û ... et les majuscules correspondantes autrement dit
+///                  dont le code UTF-8 commence par 0xC3. Il suffit d'ajouter 0x40 sur les quatre bits hauts de l'octet.
+/// \endinternal
+/// \todo    [Windows]
+///          1. Elaborer une vérification minimale des hypothèses.
+///          \internal
+///          2. Vérifier l'évolution du point suivant.
+///             Le caractère '°' (degré) est bien codé en Latin-1 comme 0xB0, mais il y a un problème avec le paquet texlive
+///             \e inputenc pour la conversion pdf. On remplace donc par (0x65). Apparemment plus nécessaire
+///             > if (info.Table[info.NCumAgentXml][l][i] == 0xB0) info.Table[info.NCumAgentXml][l][i] = 0x65;
+///          \endinternal
+
+static inline void GCC_INLINE sanitize(xmlChar* s,      /// chaîne de type xmlChar*
+                                       const char sep  /// caractère à remplacer
+                                      )
 {
 
     while (*s != 0)
@@ -36,12 +69,12 @@ static inline void GCC_INLINE sanitize(xmlChar* s, const char sep)
 #ifdef CONVERTIR_LATIN_1
 #if defined(__WIN32__) && !defined(USE_ICONV)
 
-            /* Gros hack de pseudo-conversion UTF-8 vers Latin-1, qui permet d'économiser les 40 % de surcoût d'exécution
-             * lié à l'utilisation d'iconv pour retraiter les fichiers de sortie (fonction convertir(const char*))
-             * Ce hack est presque sans coût. Il se base sur les hypothèses suivantes :
-             *   a) pas de caractères spéciaux multioctets
-             *   b) seuls sont convertis : à, â, ç, è, é, ê, ë, î, ï, ô, û ... et les majuscules correspondantes càd
-             * dont le code UTF-8 commence par 0xC3. Il suffit d'ajouter 0x40 sur les quatre bits hauts de l'octet. */
+            // Gros hack de pseudo-conversion UTF-8 vers Latin-1, qui permet d'économiser les 40 % de surcoût d'exécution
+            // lié à l'utilisation d'iconv pour retraiter les fichiers de sortie (fonction convertir(const char*))
+            // Ce hack est presque sans coût. Il se base sur les hypothèses suivantes :
+            //   a) pas de caractères spéciaux multioctets
+            //   b) seuls sont convertis : à, â, ç, è, é, ê, ë, î, ï, ô, û ... et les majuscules correspondantes càd
+            //  dont le code UTF-8 commence par 0xC3. Il suffit d'ajouter 0x40 sur les quatre bits hauts de l'octet.
 
         case 0xC3:
 
@@ -54,9 +87,8 @@ static inline void GCC_INLINE sanitize(xmlChar* s, const char sep)
         case 0xC2:
 
             *s = *(s + 1);
-            /* Le caractère ° (degré) est bien codé en Latin-1 comme 0xB0, mais il y a un problème avec le paquet texlive
-             * inputenc pour la conversion pdf. On remplace donc par e (0x65) */
-
+            // Le caractère ° (degré) est bien codé en Latin-1 comme 0xB0, mais il y a un problème avec le paquet texlive
+            // inputenc pour la conversion pdf. On remplace donc par (0x65). Apparemment plus nécessaire */
             //if (info.Table[info.NCumAgentXml][l][i] == 0xB0) info.Table[info.NCumAgentXml][l][i] = 0x65;
 
             effacer_char(s + 1);
@@ -70,7 +102,19 @@ static inline void GCC_INLINE sanitize(xmlChar* s, const char sep)
     }
 }
 
-
+/// \brief   Remplace les occurrences d'un caractère à l'intérieur d'une chaîne xmlChar* par le caractère '_'.
+///          [Windows] Convertit l'encodage de la chaîne UTF-8 en Latin-1.
+///          [Autres] Pas de conversion.
+/// \details Le caractère de remplacement ne doit jamais être séparateur de champ CSV.
+///          Il est donc interdit d'avoir des bases de type CSV séparées par le caractère '_' (au lieu de ',' ou ';').
+/// \bug     [Windows] Cette opération peut échouer si les hypothèses techniques suivantes, relatives à la conversion Latin-1, ne sont pas remplies.
+///          [Windows] Aucune vérification n'est opérée sur la réalisation de ces hypothèses.
+///          [Autres] La fonction ne convertit pas les caractères de sortie en Latin-1.
+/// \internal   [Windows]
+///               a) pas de caractères spéciaux multioctets
+///               b) seuls sont convertis : à, â, ç, è, é, ê, ë, î, ï, ô, û ... et les majuscules correspondantes autrement dit
+///                  dont le code UTF-8 commence par 0xC3. Il suffit d'ajouter 0x40 sur les quatre bits hauts de l'octet.
+/// \todo    Elaborer une vérification minimale des hypothèses sous Windows.
 
 static inline int GCC_INLINE Bulletin(const char*  tag, xmlNodePtr& cur, int l, info_t& info, int normalJump = 0)
 {
