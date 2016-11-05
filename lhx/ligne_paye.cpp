@@ -7,51 +7,52 @@ using namespace std;
 /// \file    ligne_paye.cpp
 /// \author  Fabrice Nicol
 /// \brief   Ce fichier contient le code relatif au traitement individuel des lignes de paye
-
-/// \def     NA_ASSIGN(X)
-/// \brief   Assigne la valeur NA_STRING de type xmlChar* à l'élément courant de info.Table
-/// \details Assignation sur le tas à libérer par xmlFree.
-///          NOTA Sur les valeurs manquantes
-///          Pour des variables caractères : NA (NA_ASSIGN)
-///          Pour des variables pseudo-numériques (caractères convertibles en numériques) : 0 (ZERO_ASSIGN)
-///          On peut donc garantir que \e Année, \e Mois, \e NbEnfants, \e Indice, \e NBI, \e QuotiteTrav,
+///
+/// Assigne la valeur NA_STRING de type xmlChar* à l'élément courant de info.Table
+/// \details Assignation sur le tas à libérer par xmlFree. \n
+///          \note Sur les valeurs manquantes \n
+///          Pour des variables caractères : NA (NA_ASSIGN) \n
+///          Pour des variables pseudo-numériques (caractères convertibles en numériques) : 0 (ZERO_ASSIGN) \n
+///          On peut donc garantir que \e Année, \e Mois, \e NbEnfants, \e Indice, \e NBI, \e QuotiteTrav, \n
 ///          \e NbHeureTotal, \e NbHeureSup, \e MtBrut, \e MtNet, \e MtNetAPayer ne sont jamais NA mais à 0
 
 
 #define NA_ASSIGN(X)        info.Table[info.NCumAgentXml][X] = (xmlChar*) xmlStrdup(NA_STRING)
 
-/// \def     ZERO_ASSIGN(X)
-/// \brief   Assigne la valeur "0" de type xmlChar* à l'élément courant de info.Table
+
+/// Assigne la valeur "0" de type xmlChar* à l'élément courant de info.Table
 /// \details Assignation sur le tas à libérer par xmlFree.
 
 #define ZERO_ASSIGN(X)      info.Table[info.NCumAgentXml][X] = (xmlChar*) xmlStrdup((const xmlChar*) "0")
 
 
-/// \brief   Remplace les occurrences d'un caractère à l'intérieur d'une chaîne xmlChar* par le caractère '_'.
-///          [Windows] Convertit l'encodage de la chaîne UTF-8 en Latin-1.
-///          [Autres] Pas de conversion.
-/// \details Le caractère de remplacement ne doit jamais être séparateur de champ CSV.
+/// Remplace les occurrences d'un caractère à l'intérieur d'une chaîne xmlChar* par le caractère '_'. \n
+///          \b Windows Convertit l'encodage de la chaîne UTF-8 en Latin-1. \n
+///          \b Autres Pas de conversion.
+/// \param     s     Chaîne à contrôler
+/// \param     sep   Caractère à nettoyer (le séparateur des bases CSV)
+/// \details Le caractère de remplacement ne doit jamais être séparateur de champ CSV. \n
 ///          Il est donc interdit d'avoir des bases de type CSV séparées par le caractère '_' (au lieu de ',' ou ';').
-/// \bug     [Windows] Cette opération peut échouer si les hypothèses techniques suivantes, relatives à la conversion Latin-1, ne sont pas remplies.
-///          [Windows] Aucune vérification n'est opérée sur la réalisation de ces hypothèses.
-///          [Autres] La fonction ne convertit pas les caractères de sortie en Latin-1.
-/// \internal   [Windows]
-///               a) pas de caractères spéciaux multioctets
-///               b) seuls sont convertis : à, â, ç, è, é, ê, ë, î, ï, ô, û ... et les majuscules correspondantes autrement dit
-///                  dont le code UTF-8 commence par 0xC3. Il suffit d'ajouter 0x40 sur les quatre bits hauts de l'octet.
-/// \endinternal
-/// \todo    [Windows]
-///          1. Elaborer une vérification minimale des hypothèses.
-///          \internal
-///          2. Vérifier l'évolution du point suivant.
-///             Le caractère '°' (degré) est bien codé en Latin-1 comme 0xB0, mais il y a un problème avec le paquet texlive
-///             \e inputenc pour la conversion pdf. On remplace donc par (0x65). Apparemment plus nécessaire
-///             > if (info.Table[info.NCumAgentXml][l][i] == 0xB0) info.Table[info.NCumAgentXml][l][i] = 0x65;
-///          \endinternal
+/// \attention <pre>
+///  \b Windows \n
+///       Cette opération peut échouer si les hypothèses techniques suivantes, relatives à la conversion Latin-1, ne sont pas remplies.
+///                            a) pas de caractères spéciaux multioctets
+///                            b) seuls sont convertis : à, â, ç, è, é, ê, ë, î, ï, ô, û ... et les majuscules correspondantes autrement dit
+///                               dont le code UTF-8 commence par 0xC3. Il suffit d'ajouter 0x40 sur les quatre bits hauts de l'octet.
+///       Aucune vérification n'est opérée sur la réalisation de ces hypothèses. \n
+///  \b Autres \n
+///       La fonction ne convertit pas les caractères de sortie en Latin-1.
+/// </pre>
+/// \todo    \b Windows \n
+///  Elaborer une vérification minimale des hypothèses. \n
+///  Vérifier l'évolution du point suivant. \n
+///  Le caractère '°' (degré) est bien codé en Latin-1 comme 0xB0, mais il y a un problème avec le paquet texlive \n
+///  \e inputenc pour la conversion pdf. On remplace donc par (0x65). Apparemment plus nécessaire \n
+///  \code if (info.Table[info.NCumAgentXml][l][i] == 0xB0) info.Table[info.NCumAgentXml][l][i] = 0x65; \endcode
+///  \note A surveiller en cas de développement Windows.
 
-static inline void GCC_INLINE sanitize(xmlChar* s,      /// chaîne de type xmlChar*
-                                       const char sep  /// caractère à remplacer
-                                      )
+
+static void GCC_INLINE sanitize(xmlChar* s,  const char sep)
 {
 
     while (*s != 0)
@@ -102,21 +103,15 @@ static inline void GCC_INLINE sanitize(xmlChar* s,      /// chaîne de type xmlC
     }
 }
 
-/// \brief   Remplace les occurrences d'un caractère à l'intérieur d'une chaîne xmlChar* par le caractère '_'.
-///          [Windows] Convertit l'encodage de la chaîne UTF-8 en Latin-1.
-///          [Autres] Pas de conversion.
-/// \details Le caractère de remplacement ne doit jamais être séparateur de champ CSV.
-///          Il est donc interdit d'avoir des bases de type CSV séparées par le caractère '_' (au lieu de ',' ou ';').
-/// \bug     [Windows] Cette opération peut échouer si les hypothèses techniques suivantes, relatives à la conversion Latin-1, ne sont pas remplies.
-///          [Windows] Aucune vérification n'est opérée sur la réalisation de ces hypothèses.
-///          [Autres] La fonction ne convertit pas les caractères de sortie en Latin-1.
-/// \internal   [Windows]
-///               a) pas de caractères spéciaux multioctets
-///               b) seuls sont convertis : à, â, ç, è, é, ê, ë, î, ï, ô, û ... et les majuscules correspondantes autrement dit
-///                  dont le code UTF-8 commence par 0xC3. Il suffit d'ajouter 0x40 sur les quatre bits hauts de l'octet.
-/// \todo    Elaborer une vérification minimale des hypothèses sous Windows.
 
-static inline int GCC_INLINE Bulletin(const char*  tag, xmlNodePtr& cur, int l, info_t& info, int normalJump = 0)
+/// Atteint le prochain noeud de libellé donné, après un saut éventuel, et le lit.
+/// \details Va au prochain noeud de libellé \a tag, après un saut éventuel \a normalJump. \n
+///  Assigne ce noeud XML dans le pointeur courant \cur. Lit la propriété "V" de ce noeud dans la table \a info à l'indice \a l de l'agent courant.\n
+///  Renvoie un code d'exception \b LINE_MEMORY_EXCEPTION en cas d'allocation mémoire impossible ou \b NO_NEXT_ITEM si \a drapeau_cont est vrai pour \a info.\n
+///  Sinon appelle \link sanitize(xmlChar* s, const char sep) sanitize \endlink et retourne \b NODE_FOUND \n
+/// \return  \b NODE_FOUND sauf si \b LINE_MEMORY_EXCEPTION ou \b NO_NEXT_ITEM.
+
+static int GCC_INLINE Bulletin(const char*  tag, xmlNodePtr& cur, int l, info_t& info, int normalJump = 0)
 {
     // attention faire en sorte que cur ne soit JAMAIS nul en entrée ou en sortie
 
@@ -152,11 +147,15 @@ static inline int GCC_INLINE Bulletin(const char*  tag, xmlNodePtr& cur, int l, 
 
 }
 
-/* obligatoire, mais possibilité de fallback si STRICT n'est pas défini */
+/// Appelle \link Bulletin(const char*  tag, xmlNodePtr& cur, int l, info_t& info, int normalJump = 0) Bulletin \endlink. Affiche l'interprétation des erreurs.
+/// \details Si Bulletin renvoie NODE_NOT_FOUND, affiche "Impossible d'atteindre" le noeud de libellé \a tag à partir du libellé du pointeur courant. \n
+/// Si Bulletin renvoie LINE_MEMORY_EXCEPTION, affiche "Allocation mémoire impossible" le noeud suivant de libellé \a tag.
+/// Si Bulletin renvoie NO_NEXT_ITEM, affiche "Pas d'item successeur pour" le noeud de libellé \b tag à partir du libellé du pointeur courant.
+/// \return  \b true sauf si \b Bulletin ne renvoie pas NODE_FOUND et si il n'y a pas de noeud suivant.
+/// \note si la compilation est définie avec STRICT, sortie du programme de code -1.
 
-//             cerr << ERROR_HTML_TAG "Noeud courant null au stade de la vérification de " << tag << ENDL;
 
-static inline bool GCC_INLINE bulletin_obligatoire(const char* tag, xmlNodePtr& cur, int l,  info_t& info, int normalJump = 0)
+static bool GCC_INLINE bulletin_obligatoire(const char* tag, xmlNodePtr& cur, int l,  info_t& info, int normalJump = 0)
 {
 
     // attention faire en sorte que cur ne soit JAMAIS nul
@@ -202,16 +201,23 @@ static inline bool GCC_INLINE bulletin_obligatoire(const char* tag, xmlNodePtr& 
         #endif
 }
 
+///   \note  <pre>
+///   Cette fonction est nécessaire pour assurer une sortie convenablement lisible sous tableur dans la locale française.
+///   A ce stade nous stockons tous les champs lus en char, pour écriture identique en .csv dans la table, avec substitution
+///   'manuelle' de la virgule au point dans la chaîne en output. </pre>
 
-/* A tester : la substitution du caractère décimal , au . de la locale anglaise utilisé par Xémélios (hélas)
-   reste nécessaire tant que nous utiliserons un stockage uniforme en chaînes de caractères.
-   Si un jour nous décidons d'utilisr strold pour convertir les chaînes de caractère numériques en float, nous
-   gagnerons de la place en stockage temporaire (peut être utile pour les gros fichiers) et alors printf et setlocale
-   feront le travail de substitution de la virgule au point lors de l'écriture de la base.
-   A ce stade nous stockons tous les champs lus en char, pour écriture identique en .csv dans la table, avec substition
-   'manuelle' de la virgule au point dans la chaîne en output. */
+///   \todo 
+///   Si un jour nous décidons d'utilisr \e strold pour convertir les chaînes de caractère numériques en float, nous \n
+///   gagnerons de la place en stockage temporaire (peut être utile pour les gros fichiers) et alors \e printf et \e setlocale \n
+///   feront le travail de substitution de la virgule au point lors de l'écriture de la base. 
 
-static inline void GCC_INLINE substituer_separateur_decimal(xmlChar* ligne, const char decimal)
+
+/// Substitue le séparateur décimal passé en paramètre au séparateur par défaut (.)      
+/// \param ligne  chaîne de caractères traitée
+/// \param decimal séparateur décimal substitué à '.'
+/// \note potentiellement optimisable
+
+static void GCC_INLINE substituer_separateur_decimal(xmlChar* ligne, const char decimal)
 {
     const int size = xmlStrlen(ligne);
     for (int i = 0; i < size; ++i)
