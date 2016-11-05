@@ -12,7 +12,7 @@ CONFIG  += ordered
 
 TEMPLATE = app
 
-QT       += core gui xml widgets webkitwidgets
+QT       += core gui xml widgets # webkitwidgets
 QT       -= opengl
 
 TARGET = Altair
@@ -22,7 +22,7 @@ VPATH = .
 #win32:LIBS += -L../win32
 #linux:LIBS += -L../linux
 
-DEFINES += DEBUG QT_NO_OPENGL LOCAL_BINPATH
+DEFINES += DEBUG QT_NO_OPENGL LOCAL_BINPATH STATIC
 
 linux: QMAKE_CXXFLAGS += -std=gnu++11 -march=native -O3
 windows: QMAKE_CXXFLAGS += /Ox /MP
