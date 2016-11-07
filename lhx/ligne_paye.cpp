@@ -120,6 +120,11 @@ static void GCC_INLINE sanitize(xmlChar* s,  const char sep)
 
 
 /// Atteint le prochain noeud de libellé donné, après un saut éventuel, et le lit.
+/// \param tag  nom du noeud
+/// \param cur  noeud courant
+/// \param l    indice courant de la table
+/// \param info table d'informations
+/// \param normalJump  nombre de noeuds sautés (défaut 0)
 /// \details Va au prochain noeud de libellé \a tag, après un saut éventuel \a normalJump. \n
 /// Assigne ce noeud XML dans le pointeur courant \cur. Lit la propriété "V" de ce noeud 
 /// dans la table \a info à l'indice \a l de l'agent courant.\n
@@ -128,7 +133,8 @@ static void GCC_INLINE sanitize(xmlChar* s,  const char sep)
 /// Sinon appelle #sanitize et retourne \b #NODE_FOUND \n
 /// \return  \b #NODE_FOUND sauf si \b #LINE_MEMORY_EXCEPTION ou \b #NO_NEXT_ITEM.
 
-static int GCC_INLINE Bulletin(const char*  tag, xmlNodePtr& cur, 
+static int GCC_INLINE Bulletin(const char*  tag,
+                               xmlNodePtr& cur,
                                int l,
                                info_t& info,
                                int normalJump = 0)
@@ -168,6 +174,11 @@ static int GCC_INLINE Bulletin(const char*  tag, xmlNodePtr& cur,
 }
 
 /// Appelle #Bulletin et affiche l'interprétation des erreurs.
+/// \param tag  nom du noeud
+/// \param cur  noeud courant
+/// \param l    indice courant de la table
+/// \param info table d'informations
+/// \param normalJump  nombre de noeuds sautés (défaut 0)
 /// \details Si Bulletin renvoie NODE_NOT_FOUND, appelle #NA_ASSIGN et affiche 
 /// "Impossible d'atteindre" le noeud de libellé \a tag à partir du libellé du pointeur
 /// courant. \n
@@ -266,6 +277,11 @@ static void GCC_INLINE substituer_separateur_decimal(xmlChar* ligne, const char 
 
 /// Appelle #Bulletin. Ne requiert pas qu'un noeud correspondant au libellé en premier arg.
 /// soit trouvé. 
+/// \param tag  nom du noeud
+/// \param cur  noeud courant
+/// \param l    indice courant de la table
+/// \param info table d'informations
+/// \param normalJump  nombre de noeuds sautés (défaut 0)
 /// \details Si le noeud n'est pas trouvé appelle #NA_ASSIGN. 
 /// Affiche l'interprétation des erreurs.\n
 /// Si Bulletin renvoie #LINE_MEMORY_EXCEPTION, appelle #NA_ASSIGN et affiche 
@@ -331,6 +347,11 @@ static inline bool GCC_INLINE bulletin_optionnel_char(const char* tag,
 
 /// Appelle #Bulletin. Ne s'applique que si la valeur est numérique. \n
 /// Ne requiert pas qu'un noeud correspondant au libellé en premier arg. soit trouvé. 
+/// \param tag  nom du noeud
+/// \param cur  noeud courant
+/// \param l    indice courant de la table
+/// \param info table d'informations
+/// \param normalJump  nombre de noeuds sautés (défaut 0)
 /// \details Si le noeud est trouvé, avec ou sans successseur, substitue le séparateur
 /// décimal au point.\n
 /// Si le noeud n'est pas trouvé ou en cas d'exception, appelle #ZERO_ASSIGN. \n
@@ -409,6 +430,11 @@ static inline bool GCC_INLINE bulletin_optionnel_numerique(const char* tag,
 
 
 /// Appelle #Bulletin. Ne s'applique que si la valeur est numérique. \n
+/// \param tag  nom du noeud
+/// \param cur  noeud courant
+/// \param l    indice courant de la table
+/// \param info table d'informations
+/// \param normalJump  nombre de noeuds sautés (défaut 0)
 /// \details Si le noeud est trouvé, avec ou sans successseur, substitue le séparateur
 /// décimal au point.\n
 /// Si Bulletin renvoie #NODE_NOT_FOUND, appelle #ZERO_ASSIGN et affiche 
@@ -486,8 +512,19 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique(const char* tag,
 /// Analyse les noeuds fils du noeud <PayeIndivMensuel>
 /// \param cur  Noeud courant
 /// \param info Structure contenant l'information analysée de type #info_t
-/// \return Nombre de lignes lues de type #LineCount
-/// \note NORME
+/// \details Les détails de l'algorithme sont décrits dans #page1
+/// \return Nombre de lignes lues de type #LineCount \n
+/// soit {\b nbLignePaye, 1} sauf si #STRICT est définie (sortie de code -11) dans les
+/// circonstances décrites par #rebouclage ou par une erreur d'allocation de la copie des
+/// drapeaux.
+
+/// \page page1 Documentation de l'algorithme d'analyse des noeuds \b Remuneration
+/// \tableofcontents
+///
+/// \section  sec1 Spécifications de la convention cadre au \date  1er Oct. 2016
+///
+/// \subsection subsec1  Noeuds XML
+/// \par
 /// <pre>
 /// <PayeIndivMensuel>
 ///   <Agent>{1,1}</Agent>      
@@ -512,6 +549,73 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique(const char* tag,
 ///   <PJRef>{0,unbounded}</PJRef>
 /// </PayeIndivMensuel>
 /// </pre>
+///
+/// \subsection subsec2
+/// \warning Toute évolution significative de la convention devra donner lieu à des
+///  ajustements de code dans cette fonction
+///
+/// \section sec2 Description de l'algorithme
+///
+/// A l'exécution de cette fonction le noeud courant est une catégorie de ligne de paye
+/// dont le nom est une valeur du tableau #type_remuneration
+/// ("TraitBrut",...,"Indemnite",..., Commentaire).\n
+///
+/// \subsection subsec3 Analyse des drapeaux
+/// \par drap
+/// Un \em drapeau est une chaîne de caractères xmlChar du type "1", "2", ..., "n",
+/// n < #nbType \n
+/// Les drapeaux sont stockés dans le tableau statique #drapeau \n
+/// Ils encodent chacune des catégories successives de ligne de paye décrites par l'annexe
+/// de la convention-cadre nationale de dématérialisation.
+/// Ils jouent le rôle de séparateurs entre les catégories dans la table d'informations.
+/// \par cor
+/// Correspondance drapeaux-libellés des catégories de ligne de paye
+/// A chaque drapeau est associé une valeur du tableau de caractères #type_remuneration
+/// Une boucle parcours #type_remuneration jusqu'à trouver la chaîne qui correspond à la
+/// valeur du nom du noeud courant. l'indice de la chaîne dans #type_remuneration est
+/// celui du drapeau du tableau #drapeau copié dans la table d'informations.
+/// \par rebouclage
+/// Rebouclage du parcours en cas de non-conformité de l'ordre des noeuds de
+/// catégorie de ligne de paye.\n
+/// En principe les éléments constitutifs des enregistrements
+/// <Remunération>....</Remuneration> sont enregistrés
+/// dans l'ordre du #tableau type_remuneration. Toutefois quelques cas de désordre sont
+/// observés. Dans ces cas là on doit réinitialiser le parcours du tableau.
+/// La constante \b #TYPE_LOOP_LIMIT est définie à la compilation et si ce n'est pas le cas
+/// prend la valeur par défaut encodée dans le fichier #validator.hpp
+/// Elle définit le maximum du nombre de réinitialisation du parcours du tableau
+/// #type_remuneration autrement dit le nombre maximum de non-conformités à
+/// l'ordonnancement des catégories de ligne de paye prévu par la convention-cadre.\n
+/// Ce maximum n'est jamais atteint en pratique. S'il est atteint la fonction retourne
+/// {\b nbLignePaye, 1}, où \b nbLignePaye est le nombre de lignes de paye effectivement
+/// lues dans la fonction au cours de cet appel.\n
+///
+/// \subsection subsec4 Vérification de l'allocation globale
+/// \par
+/// Si l'allocation de la mémoire de la tableau d'informations est faite par passage en
+/// paramètres de ligne de commande, il faut vérifier que l'utilisateur n'a pas
+/// insuffisamment dimensionné la mémoire dans le paramètres imposés.
+/// Cette vérification est opérée par #verifier_taille.\n
+///
+/// \subsection subsec5 Cas de noeuds de type Commentaire
+/// \par Pour éviter des problèmes de cohérence typage en base, les noeuds Commentaire
+/// ne sont pas lus.
+/// \par En cas de noeud commentaire, le parcours de drapeaux et de #type_remuneration est
+/// réinitialisé et il n'en est pas tenu compte pour la vérification du plafond
+/// #TYPE_LOOP_LIMIT.
+///
+/// \subsection subsec6 Cas d'anomalie
+/// \par Une anomalie peut être l'absence de noeuds fils décrivant le contenu de la paye :\n
+/// absence des noeuds \e Libelle, \e Code, \e Base \e Taux, \e NbUnite, \e Mt.\n
+/// Cette anomalie donne lieu à appel de #NA_ASSIGN et message d'avertissement.\n
+/// Elle donne lieu au décompte d'une ligne de paye (assignée de valeurs manquantes).
+/// \warning Toujours s'assurer que dans ce cas l'allocation mémoire prévoit 6
+/// assignations de valeur manquante dans la table d'informations.
+///
+/// \subsection subsec7 Cas général
+/// \par  Dans le cas général, examen des noeuds fils.\n
+/// Appel succesif de #bulletin_obligatoire à 2 reprises et #bulletin_optionnel_numerique
+/// à 4 reprises, pour les noeuds cités \e supra.
 
 static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
 {
@@ -571,6 +675,7 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
                  exit(-11);
               #else
                  cerr << ERROR_HTML_TAG "Arrêt du décodage de la ligne de paye." << ENDL;
+                 cur = cur->next;
                  return {nbLignePaye, l};
               #endif
             }
@@ -600,18 +705,21 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
             ++l;
         }
 
-        // ici on pourrait in fine se passer de ce test par compilation séparée
+//         ici on pourrait in fine se passer de ce test par compilation séparée
 
         if (! info.reduire_consommation_memoire)
         {
             verifier_taille(nbLignePaye, info);
         }
 
-        if (! xmlStrcmp(cur->name, (const xmlChar*) "Commentaire"))
+//         Si on arrive à un noeud de type Commentaire, on le saute et on réinitialise
+//          "gratuitement" le parcours des drapeaux.
+
+        if (xmlStrcmp(cur->name, (const xmlChar*) "Commentaire") == 0)
         {
             cur = cur->next;
             t=0;
-            --type_loop_counter; // 'Rembobinage gratuit'
+            --type_loop_counter;
             continue; // garantit incidemment que cur != nullptr dans la boucle
         }
 
@@ -621,7 +729,12 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
 
         if (cur == nullptr)
         {
-            NA_ASSIGN(l);
+            for (c = 0; c < 6; ++c) NA_ASSIGN(l++);
+            ++nbLignePaye;
+
+            if (verbeux) cerr << WARNING_HTML_TAG
+                                 "Anomalie : la ligne de paye est vide."
+                              << ENDL;
             break;
         }
 
@@ -680,14 +793,49 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
     return  { nbLignePaye, l};
 }
 
+/// Macro permettant de simplifier l'appel de #bulletin_obligatoire lorsque l'indice \n
+/// de la table d'informations est donné (soit X = #Grade, #Echelon, etc.)
+/// \param X  indice de la table d'informations info
+/// \param normalJump nombre de noeuds sautés (défaut 0)
+
 #define BULLETIN_OBLIGATOIRE_(X, normalJump) bulletin_obligatoire(#X, cur, X, info, normalJump)
+
+/// Macro permettant de simplifier l'appel de #bulletin_obligatoire lorsque l'indice \n
+/// de la table d'informations est donné (soit X = #Grade, #Echelon, etc.)
+/// \param X  indice de la table d'informations info
+/// \param normalJump nombre de noeuds sautés (défaut 0)
+
 #define BULLETIN_OBLIGATOIRE(X) BULLETIN_OBLIGATOIRE_(X, 0)
 
+/// Macro permettant de simplifier l'appel de #bulletin_obligatoire_numerique lorsque \n
+/// l'indice de la table d'informations est donné (soit X = #Grade, #Echelon, etc.)
+/// \param X  indice de la table d'informations info
+/// \param normalJump nombre de noeuds sautés (défaut 0)
+
 #define BULLETIN_OBLIGATOIRE_NUMERIQUE_(X, normalJump)  bulletin_obligatoire_numerique(#X, cur, X, info, normalJump)
+
+/// Macro permettant de simplifier l'appel de #bulletin_obligatoire_numerique lorsque \n
+/// l'indice de la table d'informations est donné (soit X = #Grade, #Echelon, etc.)
+/// \param X  indice de la table d'informations info
+
 #define BULLETIN_OBLIGATOIRE_NUMERIQUE(X) BULLETIN_OBLIGATOIRE_NUMERIQUE_(X, 0)
 
+/// Macro permettant de simplifier l'appel de #bulletin_optionnel_numerique lorsque l'indice \n
+/// de la table d'informations est donné (soit X = #Grade, #Echelon, etc.)
+/// \param X  indice de la table d'informations info
+/// \param normalJump nombre de noeuds sautés (défaut 0)
+
 #define BULLETIN_OPTIONNEL_NUMERIQUE_(X, normalJump)  bulletin_optionnel_numerique(#X, cur, X, info, normalJump)
+
+/// Macro permettant de simplifier l'appel de #bulletin_optionnel_numerique lorsque l'indice \n
+/// de la table d'informations est donné (soit X = #Grade, #Echelon, etc.)
+/// \param X  indice de la table d'informations info
+
 #define BULLETIN_OPTIONNEL_NUMERIQUE(X)  BULLETIN_OPTIONNEL_NUMERIQUE_(X, 0)
+
+/// Macro permettant de simplifier l'appel de #bulletin_optionnel_char lorsque l'indice \n
+/// de la table d'informations est donné (soit X = #Grade, #Echelon, etc.)
+/// \param X  indice de la table d'informations info
 
 #define BULLETIN_OPTIONNEL_CHAR(X)  bulletin_optionnel_char(#X, cur, X, info)
 
@@ -711,6 +859,12 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
 //      <CptBancaire>{0,1}</CptBancaire>
 //   </Agent>
 
+
+/// Concatène la propriété "V" du noeud cur passé en premier argument avec la chaîne
+/// contenue de la table d'information en second argument à l'indice #Description
+/// \param cur  pointeur courant
+/// \param info table d'informations
+/// \details Insère " - " entre les deux parties de la chaîne
 
 inline void GCC_INLINE concat(xmlNodePtr cur, info_t& info)
 {
@@ -739,7 +893,12 @@ inline void GCC_INLINE concat(xmlNodePtr cur, info_t& info)
 }
 
 
-
+/// Fonction principale réalisant l'analyse des lignes de paye
+/// \param cur   noeud courant
+/// \param info  table d'informations
+/// \param log   journal d'exécution
+/// \details
+///
 uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
 {
     bool result = true;
