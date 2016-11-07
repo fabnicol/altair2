@@ -7,15 +7,17 @@ using namespace std;
 /// \file    ligne_paye.cpp
 /// \author  Fabrice Nicol
 /// \brief   Ce fichier contient le code relatif au traitement individuel des lignes de paye
-///
+
 /// Assigne la valeur NA_STRING de type xmlChar* à l'élément courant de info.Table
 /// \details Assignation sur le tas à libérer par xmlFree. \n
 ///          \note Sur les valeurs manquantes \n
-///          Pour des variables caractères : NA (NA_ASSIGN) \n
-///          Pour des variables pseudo-numériques (caractères convertibles en numériques) : 0 (ZERO_ASSIGN) \n
-///          On peut donc garantir que \e Année, \e Mois, \e NbEnfants, \e Indice, \e NBI, \e QuotiteTrav, \n
-///          \e NbHeureTotal, \e NbHeureSup, \e MtBrut, \e MtNet, \e MtNetAPayer ne sont jamais NA mais à 0
-
+///          Pour des variables caractères : NA (#NA_ASSIGN) \n
+///          Pour des variables pseudo-numériques (caractères convertibles en numériques) :\n
+///          0 (#ZERO_ASSIGN) \n
+///          On peut donc garantir que \e Année, \e Mois, \e NbEnfants, \e Indice, \e NBI, \n
+///          \e QuotiteTrav, \n
+///          \e NbHeureTotal, \e NbHeureSup, \e MtBrut, \e MtNet, \e MtNetAPayer ne sont \n 
+///          jamais NA mais à 0
 
 #define NA_ASSIGN(X)        info.Table[info.NCumAgentXml][X] = (xmlChar*) xmlStrdup(NA_STRING)
 
@@ -23,32 +25,40 @@ using namespace std;
 /// Assigne la valeur "0" de type xmlChar* à l'élément courant de info.Table
 /// \details Assignation sur le tas à libérer par xmlFree.
 
-#define ZERO_ASSIGN(X)      info.Table[info.NCumAgentXml][X] = (xmlChar*) xmlStrdup((const xmlChar*) "0")
+#define ZERO_ASSIGN(X)info.Table[info.NCumAgentXml][X] = (xmlChar*) xmlStrdup((const xmlChar*) "0")
 
 
-/// Remplace les occurrences d'un caractère à l'intérieur d'une chaîne xmlChar* par le caractère '_'. \n
-///          \b Windows Convertit l'encodage de la chaîne UTF-8 en Latin-1. \n
+/// Remplace les occurrences d'un caractère à l'intérieur d'une chaîne xmlChar* par le \n 
+/// caractère '_'. \n
+/// \b Windows Convertit l'encodage de la chaîne UTF-8 en Latin-1. \n
 ///          \b Autres Pas de conversion.
 /// \param     s     Chaîne à contrôler
 /// \param     sep   Caractère à nettoyer (le séparateur des bases CSV)
 /// \details Le caractère de remplacement ne doit jamais être séparateur de champ CSV. \n
-///          Il est donc interdit d'avoir des bases de type CSV séparées par le caractère '_' (au lieu de ',' ou ';').
+///          Il est donc interdit d'avoir des bases de type CSV séparées par le caractère
+///  '_' (au lieu de ',' ou ';').
 /// \attention <pre>
 ///  \b Windows \n
-///       Cette opération peut échouer si les hypothèses techniques suivantes, relatives à la conversion Latin-1, ne sont pas remplies.
+///       Cette opération peut échouer si les hypothèses techniques suivantes, 
+///       relatives à la conversion Latin-1, ne sont pas remplies.
 ///                            a) pas de caractères spéciaux multioctets
-///                            b) seuls sont convertis : à, â, ç, è, é, ê, ë, î, ï, ô, û ... et les majuscules correspondantes autrement dit
-///                               dont le code UTF-8 commence par 0xC3. Il suffit d'ajouter 0x40 sur les quatre bits hauts de l'octet.
-///       Aucune vérification n'est opérée sur la réalisation de ces hypothèses. \n
+///                            b) seuls sont convertis : à, â, ç, è, é, ê, ë, î, ï, ô, û ...
+///                               et les majuscules correspondantes autrement dit, dont le
+///                               code UTF-8 commence par 0xC3. Il suffit d'ajouter 0x40 sur
+///                               les quatre bits hauts de l'octet.
+///       Aucune vérification n'est opérée sur la réalisation de ces hypothèses. 
 ///  \b Autres \n
 ///       La fonction ne convertit pas les caractères de sortie en Latin-1.
 /// </pre>
 /// \todo    \b Windows \n
 ///  Elaborer une vérification minimale des hypothèses. \n
 ///  Vérifier l'évolution du point suivant. \n
-///  Le caractère '°' (degré) est bien codé en Latin-1 comme 0xB0, mais il y a un problème avec le paquet texlive \n
-///  \e inputenc pour la conversion pdf. On remplace donc par (0x65). Apparemment plus nécessaire \n
-///  \code if (info.Table[info.NCumAgentXml][l][i] == 0xB0) info.Table[info.NCumAgentXml][l][i] = 0x65; \endcode
+///  Le caractère '°' (degré) est bien codé en Latin-1 comme 0xB0, mais il y a un problème
+///  avec le paquet texlive \n
+///  \e inputenc pour la conversion pdf. On remplace donc par (0x65). Apparemment plus 
+///  nécessaire \n
+///  \code if (info.Table[info.NCumAgentXml][l][i] == 0xB0)
+///           info.Table[info.NCumAgentXml][l][i] = 0x65; \endcode
 ///  \note A surveiller en cas de développement Windows.
 
 
@@ -58,7 +68,7 @@ static void GCC_INLINE sanitize(xmlChar* s,  const char sep)
     while (*s != 0)
     {
         // Non-switchable car info.seperateur n'est pas une expression constante.
-        if (*s == sep)  *s = '_';
+        if (*s == sep)  *s = '_'; 
 
         switch(*s)
         {
@@ -70,12 +80,15 @@ static void GCC_INLINE sanitize(xmlChar* s,  const char sep)
 #ifdef CONVERTIR_LATIN_1
 #if defined(__WIN32__) && !defined(USE_ICONV)
 
-            // Gros hack de pseudo-conversion UTF-8 vers Latin-1, qui permet d'économiser les 40 % de surcoût d'exécution
-            // lié à l'utilisation d'iconv pour retraiter les fichiers de sortie (fonction convertir(const char*))
-            // Ce hack est presque sans coût. Il se base sur les hypothèses suivantes :
-            //   a) pas de caractères spéciaux multioctets
-            //   b) seuls sont convertis : à, â, ç, è, é, ê, ë, î, ï, ô, û ... et les majuscules correspondantes càd
-            //  dont le code UTF-8 commence par 0xC3. Il suffit d'ajouter 0x40 sur les quatre bits hauts de l'octet.
+//   Gros hack de pseudo-conversion UTF-8 vers Latin-1, qui permet d'économiser les 40 %
+//   de surcoût d'exécution lié à l'utilisation d'iconv pour retraiter les fichiers de
+//   sortie (fonction convertir(const char*))
+//   Ce hack est presque sans coût. Il se base sur les hypothèses suivantes :
+//       a) pas de caractères spéciaux multioctets
+//       b) seuls sont convertis : à, â, ç, è, é, ê, ë, î, ï, ô, û ... et les majuscules
+//         correspondantes càd
+//   dont le code UTF-8 commence par 0xC3. Il suffit d'ajouter 0x40 sur les quatre bits 
+//   hauts de l'octet.
 
         case 0xC3:
 
@@ -88,9 +101,11 @@ static void GCC_INLINE sanitize(xmlChar* s,  const char sep)
         case 0xC2:
 
             *s = *(s + 1);
-            // Le caractère ° (degré) est bien codé en Latin-1 comme 0xB0, mais il y a un problème avec le paquet texlive
-            // inputenc pour la conversion pdf. On remplace donc par (0x65). Apparemment plus nécessaire */
-            //if (info.Table[info.NCumAgentXml][l][i] == 0xB0) info.Table[info.NCumAgentXml][l][i] = 0x65;
+//    Le caractère ° (degré) est bien codé en Latin-1 comme 0xB0, mais il y a un 
+//    problème avec le paquet texlive inputenc pour la conversion pdf.
+//    On remplace donc par (0x65). Apparemment plus nécessaire */
+//    if (info.Table[info.NCumAgentXml][l][i] == 0xB0)
+//            info.Table[info.NCumAgentXml][l][i] = 0x65;
 
             effacer_char(s + 1);
 
@@ -106,14 +121,19 @@ static void GCC_INLINE sanitize(xmlChar* s,  const char sep)
 
 /// Atteint le prochain noeud de libellé donné, après un saut éventuel, et le lit.
 /// \details Va au prochain noeud de libellé \a tag, après un saut éventuel \a normalJump. \n
-///  Assigne ce noeud XML dans le pointeur courant \cur. Lit la propriété "V" de ce noeud dans la table \a info à l'indice \a l de l'agent courant.\n
-///  Renvoie un code d'exception \b LINE_MEMORY_EXCEPTION en cas d'allocation mémoire impossible ou \b NO_NEXT_ITEM si \a drapeau_cont est vrai pour \a info.\n
-///  Sinon appelle \link sanitize(xmlChar* s, const char sep) sanitize \endlink et retourne \b NODE_FOUND \n
-/// \return  \b NODE_FOUND sauf si \b LINE_MEMORY_EXCEPTION ou \b NO_NEXT_ITEM.
+/// Assigne ce noeud XML dans le pointeur courant \cur. Lit la propriété "V" de ce noeud 
+/// dans la table \a info à l'indice \a l de l'agent courant.\n
+/// Renvoie un code d'exception \b #LINE_MEMORY_EXCEPTION en cas d'allocation mémoire 
+/// impossible ou \b #NO_NEXT_ITEM si \a drapeau_cont est vrai pour \a #info.\n
+/// Sinon appelle #sanitize et retourne \b #NODE_FOUND \n
+/// \return  \b #NODE_FOUND sauf si \b #LINE_MEMORY_EXCEPTION ou \b #NO_NEXT_ITEM.
 
-static int GCC_INLINE Bulletin(const char*  tag, xmlNodePtr& cur, int l, info_t& info, int normalJump = 0)
+static int GCC_INLINE Bulletin(const char*  tag, xmlNodePtr& cur, 
+                               int l,
+                               info_t& info,
+                               int normalJump = 0)
 {
-    // attention faire en sorte que cur ne soit JAMAIS nul en entrée ou en sortie
+// attention faire en sorte que cur ne soit JAMAIS nul en entrée ou en sortie
 
     const xmlNodePtr nextcur = move(atteindreNoeud(tag, cur, normalJump));
 
@@ -139,7 +159,7 @@ static int GCC_INLINE Bulletin(const char*  tag, xmlNodePtr& cur, int l, info_t&
                 return NO_NEXT_ITEM;  // pour garantir que cur ne devient pas nul.
         }
 
-    /* sanitisation */
+//     sanitisation 
 
        sanitize(info.Table[info.NCumAgentXml][l], info.separateur);
 
@@ -147,44 +167,57 @@ static int GCC_INLINE Bulletin(const char*  tag, xmlNodePtr& cur, int l, info_t&
 
 }
 
-/// Appelle \link Bulletin(const char*  tag, xmlNodePtr& cur, int l, info_t& info, int normalJump = 0) Bulletin \endlink. Affiche l'interprétation des erreurs.
-/// \details Si Bulletin renvoie NODE_NOT_FOUND, affiche "Impossible d'atteindre" le noeud de libellé \a tag à partir du libellé du pointeur courant. \n
-/// Si Bulletin renvoie LINE_MEMORY_EXCEPTION, affiche "Allocation mémoire impossible" le noeud suivant de libellé \a tag.
-/// Si Bulletin renvoie NO_NEXT_ITEM, affiche "Pas d'item successeur pour" le noeud de libellé \b tag à partir du libellé du pointeur courant.
-/// \return  \b true sauf si \b Bulletin ne renvoie pas NODE_FOUND et si il n'y a pas de noeud suivant.
-/// \note si la compilation est définie avec STRICT, sortie du programme de code -1.
+/// Appelle #Bulletin et affiche l'interprétation des erreurs.
+/// \details Si Bulletin renvoie NODE_NOT_FOUND, appelle #NA_ASSIGN et affiche 
+/// "Impossible d'atteindre" le noeud de libellé \a tag à partir du libellé du pointeur
+/// courant. \n
+/// Si Bulletin renvoie #LINE_MEMORY_EXCEPTION, appelle #NA_ASSIGN et affiche 
+/// "Allocation mémoire impossible" le noeud suivant de libellé \a tag. \n
+/// Si Bulletin renvoie #NO_NEXT_ITEM, affiche "Pas d'item successeur pour" le noeud de 
+/// libellé \b tag à partir du libellé du pointeur courant.
+/// \return  \b true sauf si  #Bulletin ne renvoie pas NODE_FOUND et si il n'y a pas de 
+/// noeud suivant.
+/// \note Dans ce cas, si la compilation est définie avec STRICT, sortie du programme 
+/// de code -1.
 
 
-static bool GCC_INLINE bulletin_obligatoire(const char* tag, xmlNodePtr& cur, int l,  info_t& info, int normalJump = 0)
+static bool GCC_INLINE bulletin_obligatoire(const char* tag, 
+                                            xmlNodePtr& cur,
+                                            int l, 
+                                            info_t& info,
+                                            int normalJump = 0)
 {
 
-    // attention faire en sorte que cur ne soit JAMAIS nul
+//     attention faire en sorte que cur ne soit JAMAIS nul
 
     switch (Bulletin(tag, cur, l, info, normalJump))
     {
-        // on sait que cur ne sera jamais nul
+//         on sait que cur ne sera jamais nul
         case NODE_FOUND : return true;
 
         case NODE_NOT_FOUND :
-                //if (verbeux)
-                    cerr << ERROR_HTML_TAG "Impossible d'atteindre " << tag << " à partir de " << cur->name << ENDL;
+//                if (verbeux)
+                    cerr << ERROR_HTML_TAG "Impossible d'atteindre " << tag 
+                         << " à partir de " << cur->name << ENDL;
                 NA_ASSIGN(l);
                 break;
 
         case LINE_MEMORY_EXCEPTION :
-                //if (verbeux)
-                    cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
+//                if (verbeux)
+                    cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " 
+                         << l << ENDL;
                 NA_ASSIGN(l);
                 break;
 
         case NO_NEXT_ITEM :
-                //if (verbeux)
-                    cerr << ERROR_HTML_TAG "Pas d'item successeur pour le noeud " << tag <<  ENDL;
+//                if (verbeux)
+                    cerr << ERROR_HTML_TAG "Pas d'item successeur pour le noeud " 
+                         << tag <<  ENDL;
                 break;
 
     }
 
-    /* Ne pas mettre de lock ici, il y en a un dans warning_msg */
+//     Ne pas mettre de lock ici, il y en a un dans warning_msg 
 
     warning_msg(tag, info, cur);
 
@@ -202,13 +235,17 @@ static bool GCC_INLINE bulletin_obligatoire(const char* tag, xmlNodePtr& cur, in
 }
 
 ///   \note  <pre>
-///   Cette fonction est nécessaire pour assurer une sortie convenablement lisible sous tableur dans la locale française.
-///   A ce stade nous stockons tous les champs lus en char, pour écriture identique en .csv dans la table, avec substitution
+///   Cette fonction est nécessaire pour assurer une sortie convenablement lisible sous
+///   tableur dans la locale française.
+///   A ce stade nous stockons tous les champs lus en char, pour écriture identique en 
+///   .csv dans la table, avec substitution
 ///   'manuelle' de la virgule au point dans la chaîne en output. </pre>
 
 ///   \todo 
-///   Si un jour nous décidons d'utilisr \e strold pour convertir les chaînes de caractère numériques en float, nous \n
-///   gagnerons de la place en stockage temporaire (peut être utile pour les gros fichiers) et alors \e printf et \e setlocale \n
+///   Si un jour nous décidons d'utilisr \e strold pour convertir les chaînes de caractère
+///   numériques en float, nous \n
+///   gagnerons de la place en stockage temporaire (peut être utile pour les gros fichiers)
+///   et alors \e printf et \e setlocale \n
 ///   feront le travail de substitution de la virgule au point lors de l'écriture de la base. 
 
 
@@ -224,34 +261,57 @@ static void GCC_INLINE substituer_separateur_decimal(xmlChar* ligne, const char 
         if (ligne[i] == '.') ligne[i] = decimal;
 }
 
-/* optionnel */
+// optionnel 
 
-static inline bool GCC_INLINE bulletin_optionnel_char(const char* tag, xmlNodePtr& cur, int l, info_t& info)
+
+/// Appelle #Bulletin. Ne requiert pas qu'un noeud correspondant au libellé en premier arg.
+/// soit trouvé. 
+/// \details Si le noeud n'est pas trouvé appelle #NA_ASSIGN. 
+/// Affiche l'interprétation des erreurs.\n
+/// Si Bulletin renvoie #LINE_MEMORY_EXCEPTION, appelle #NA_ASSIGN et affiche 
+/// "Allocation mémoire impossible" le noeud suivant de libellé \a tag.
+/// Si Bulletin renvoie #NO_NEXT_ITEM, affiche "Pas d'item successeur pour" le noeud de 
+/// libellé \b tag à partir du libellé du pointeur courant.
+/// \return  \b true sauf si \b #Bulletin renvoie #NO_NEXT_ITEM ou #LINE_MEMORY_EXCEPTION \n
+/// et s'il n'y a pas de noeud suivant.
+/// \note Dans ce cas, si la compilation est définie avec STRICT, sortie du programme 
+/// de code -1.
+/// 
+
+static inline bool GCC_INLINE bulletin_optionnel_char(const char* tag, 
+                                                      xmlNodePtr& cur,
+                                                      int l,
+                                                      info_t& info)
 {
-    // attention faire en sorte que cur ne soit JAMAIS nul
+//     attention faire en sorte que cur ne soit JAMAIS nul
 
     switch (Bulletin(tag, cur, l, info, 0))
     {
-        // on sait que cur ne sera jamais nul
+//         on sait que cur ne sera jamais nul
         case NODE_FOUND :
              return true;
 
         case NODE_NOT_FOUND :
+            cerr << ERROR_HTML_TAG "Impossible d'atteindre " << tag 
+                 << " à partir de " << cur->name << ENDL;
+        
              NA_ASSIGN(l);
              return true;
 
         case LINE_MEMORY_EXCEPTION :
              if (verbeux)
-                 cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
+                 cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne "
+                      << l << ENDL;
              NA_ASSIGN(l);
              break;
 
         case NO_NEXT_ITEM :
-             if (verbeux) cerr << ERROR_HTML_TAG "Pas d'item successeur pour le noeud " << tag <<  ENDL;
+             if (verbeux) cerr << ERROR_HTML_TAG "Pas d'item successeur pour le noeud " 
+                               << tag <<  ENDL;
              break;
     }
 
-    /* Ne pas mettre de lock ici, il y en a un dans warning_msg */
+//     Ne pas mettre de lock ici, il y en a un dans warning_msg 
 
     warning_msg(tag, info, cur);
 
@@ -269,40 +329,67 @@ static inline bool GCC_INLINE bulletin_optionnel_char(const char* tag, xmlNodePt
 }
 
 
-static inline bool GCC_INLINE bulletin_optionnel_numerique(const char* tag, xmlNodePtr& cur, int l, info_t& info, int normalJump = 0)
+/// Appelle #Bulletin. Ne s'applique que si la valeur est numérique. \n
+/// Ne requiert pas qu'un noeud correspondant au libellé en premier arg. soit trouvé. 
+/// \details Si le noeud est trouvé, avec ou sans successseur, substitue le séparateur
+/// décimal au point.\n
+/// Si le noeud n'est pas trouvé ou en cas d'exception, appelle #ZERO_ASSIGN. \n
+/// Affiche l'interprétation des erreurs.\n
+/// Si Bulletin renvoie #LINE_MEMORY_EXCEPTION, affiche "Allocation mémoire impossible" le
+/// noeud suivant de libellé \a tag.
+/// Si Bulletin renvoie #NO_NEXT_ITEM, affiche "Pas d'item successeur pour" le noeud de 
+/// libellé \b tag à partir du libellé du pointeur courant.
+/// \return  \b true sauf si \b #Bulletin renvoie #NO_NEXT_ITEM ou #LINE_MEMORY_EXCEPTION \n
+/// et s'il n'y a pas de noeud suivant.
+/// \note Dans ce cas, si la compilation est définie avec STRICT, sortie du programme 
+/// de code -1.
+
+
+static inline bool GCC_INLINE bulletin_optionnel_numerique(const char* tag, 
+                                                           xmlNodePtr& cur,
+                                                           int l,
+                                                           info_t& info, 
+                                                           int normalJump = 0)
 {
-    // attention faire en sorte que cur ne soit JAMAIS nul
+//     attention faire en sorte que cur ne soit JAMAIS nul
 
     switch (Bulletin(tag, cur, l, info, normalJump))
     {
-        // on sait que cur ne sera jamais nul
+//         on sait que cur ne sera jamais nul
         case NODE_FOUND :
              #ifndef DECIMAL_NON_EN
                if (info.decimal != '.')
              #endif
-                substituer_separateur_decimal(info.Table[info.NCumAgentXml][l], info.decimal);
+                substituer_separateur_decimal(info.Table[info.NCumAgentXml][l],
+                                              info.decimal);
              return true;
 
         case NODE_NOT_FOUND :
+            cerr << ERROR_HTML_TAG "Impossible d'atteindre " << tag 
+                 << " à partir de " << cur->name << ENDL;
+        
              ZERO_ASSIGN(l);
              return true;
 
         case LINE_MEMORY_EXCEPTION :
              if (verbeux)
-                 cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
+                 cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " 
+                      << l << ENDL;
              ZERO_ASSIGN(l);
              break;
 
         case NO_NEXT_ITEM :
-             if (verbeux) cerr << ERROR_HTML_TAG "Pas d'item successeur pour le noeud " << tag <<  ENDL;
+             if (verbeux) cerr << ERROR_HTML_TAG "Pas d'item successeur pour le noeud " 
+                               << tag <<  ENDL;
              #ifndef DECIMAL_NON_EN
               if (info.decimal != '.')
              #endif
-               substituer_separateur_decimal(info.Table[info.NCumAgentXml][l], info.decimal);
+               substituer_separateur_decimal(info.Table[info.NCumAgentXml][l],
+                                             info.decimal);
              break;
     }
 
-    /* Ne pas mettre de lock ici, il y en a un dans warning_msg */
+//     Ne pas mettre de lock ici, il y en a un dans warning_msg 
 
     warning_msg(tag, info, cur);
 
@@ -321,9 +408,26 @@ static inline bool GCC_INLINE bulletin_optionnel_numerique(const char* tag, xmlN
 }
 
 
-/* obligatoire et avec substitution séparateur décimal */
+/// Appelle #Bulletin. Ne s'applique que si la valeur est numérique. \n
+/// \details Si le noeud est trouvé, avec ou sans successseur, substitue le séparateur
+/// décimal au point.\n
+/// Si Bulletin renvoie #NODE_NOT_FOUND, appelle #ZERO_ASSIGN et affiche 
+/// "Impossible d'atteindre" le noeud de libellé \a tag à partir du libellé du pointeur
+/// courant. \n
+/// Si Bulletin renvoie #LINE_MEMORY_EXCEPTION, appelle #ZERO_ASSIGN et affiche 
+/// "Allocation mémoire impossible" le noeud suivant de libellé \a tag. \n
+/// Si Bulletin renvoie #NO_NEXT_ITEM, affiche "Pas d'item successeur pour" le noeud de 
+/// libellé \b tag à partir du libellé du pointeur courant.
+/// \return  \b true sauf si  #Bulletin ne renvoie pas NODE_FOUND et si il n'y a pas de 
+/// noeud suivant.
+/// \note Dans ce cas, si la compilation est définie avec STRICT, sortie du programme 
+/// de code -1.
 
-static inline bool GCC_INLINE bulletin_obligatoire_numerique(const char* tag, xmlNodePtr& cur, int l, info_t& info, int normalJump = 0)
+static inline bool GCC_INLINE bulletin_obligatoire_numerique(const char* tag,
+                                                             xmlNodePtr& cur,
+                                                             int l, 
+                                                             info_t& info,
+                                                             int normalJump = 0)
 {
     // attention faire en sorte que cur ne soit JAMAIS nul
 
@@ -334,16 +438,21 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique(const char* tag, xm
             #ifndef DECIMAL_NON_EN
                if (info.decimal != '.')
             #endif
-               substituer_separateur_decimal(info.Table[info.NCumAgentXml][l], info.decimal);
+               substituer_separateur_decimal(info.Table[info.NCumAgentXml][l],
+                                             info.decimal);
              return true;
 
         case NODE_NOT_FOUND :
+            cerr << ERROR_HTML_TAG "Impossible d'atteindre " << tag 
+                 << " à partir de " << cur->name << ENDL;
+        
              ZERO_ASSIGN(l);
-             return true;
+             break;
 
         case LINE_MEMORY_EXCEPTION :
-             if (verbeux) cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
-             NA_ASSIGN(l);
+             if (verbeux) cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne "
+                               << l << ENDL;
+             ZERO_ASSIGN(l);
              break;
 
         case NO_NEXT_ITEM :
@@ -351,11 +460,12 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique(const char* tag, xm
              #ifndef DECIMAL_NON_EN
               if (info.decimal != '.')
              #endif
-                substituer_separateur_decimal(info.Table[info.NCumAgentXml][l], info.decimal);
+                substituer_separateur_decimal(info.Table[info.NCumAgentXml][l], 
+                                              info.decimal);
              break;
     }
 
-   /* Ne pas mettre de lock ici, il y en a un dans warning_msg */
+//    Ne pas mettre de lock ici, il y en a un dans warning_msg 
 
     warning_msg(tag, info, cur);
 
@@ -373,32 +483,35 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique(const char* tag, xm
 }
 
 
-
-/* REFERENCE */
-/*
-<PayeIndivMensuel>
-  <Agent>{1,1}</Agent>
-  <Evenement>{0,unbounded}</Evenement>
-  <Service V="">{1,1}</Service>
-  <NBI V="">{1,unbounded}</NBI>
-  <QuotiteTrav V="">{1,1}</QuotiteTrav>
-  <Periode>{1,1}</Periode>
-  <Remuneration>{1,1}</Remuneration>
-  <NbHeureTotal V="">{0,1}</NbHeureTotal>
-  <TauxHor V="">{0,1}</TauxHor>
-  <NbHeureSup V="">{1,1}</NbHeureSup>
-  <MtBrut V="">{1,1}</MtBrut>
-  <MtNet V="">{1,1}</MtNet>
-  <MtNetAPayer V="">{1,1}</MtNetAPayer>
-  <DatePaiement V="">{1,1}</DatePaiement>
-  <MtImposable V="">{1,1}</MtImposable>
-  <CumulMtImposable V="">{1,1}</CumulMtImposable>
-  <CumulMtBrut V="">{1,1}</CumulMtBrut>
-  <CumulBaseSS V="">{1,1}</CumulBaseSS>
-  <RepartitionBudget>{0,unbounded}</RepartitionBudget>
-  <PJRef>{0,unbounded}</PJRef>
-</PayeIndivMensuel>
-*/
+/// Analyse les noeuds fils du noeud <PayeIndivMensuel>
+/// \param cur  Noeud courant
+/// \param info Structure contenant l'information analysée de type #info_t
+/// \return Nombre de lignes lues de type #LineCount
+/// \note NORME
+/// <pre>
+/// <PayeIndivMensuel>
+///   <Agent>{1,1}</Agent>      
+///   <Evenement>{0,unbounded}</Evenement>        
+///   <Service V="">{1,1}</Service>  
+///   <NBI V="">{1,unbounded}</NBI>  
+///   <QuotiteTrav V="">{1,1}</QuotiteTrav>  
+///   <Periode>{1,1}</Periode>  
+///   <Remuneration>{1,1}</Remuneration>  
+///   <NbHeureTotal V="">{0,1}</NbHeureTotal>  
+///   <TauxHor V="">{0,1}</TauxHor>  
+///   <NbHeureSup V="">{1,1}</NbHeureSup>  
+///   <MtBrut V="">{1,1}</MtBrut>  
+///   <MtNet V="">{1,1}</MtNet>
+///   <MtNetAPayer V="">{1,1}</MtNetAPayer>  
+///   <DatePaiement V="">{1,1}</DatePaiement>  
+///   <MtImposable V="">{1,1}</MtImposable>   
+///   <CumulMtImposable V="">{1,1}</CumulMtImposable>  
+///   <CumulMtBrut V="">{1,1}</CumulMtBrut>  
+///   <CumulBaseSS V="">{1,1}</CumulBaseSS>
+///   <RepartitionBudget>{0,unbounded}</RepartitionBudget>
+///   <PJRef>{0,unbounded}</PJRef>
+/// </PayeIndivMensuel>
+/// </pre>
 
 static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
 {
@@ -408,10 +521,14 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
 
     unsigned int t = 0;
 
-    info.Table[info.NCumAgentXml][l] = (xmlChar*) xmlStrdup(drapeau[t]);  // +1 pour éviter la confusion avec \0 des chaines vides
+//  +1 pour éviter la confusion avec \0 des chaines vides
+    info.Table[info.NCumAgentXml][l] = (xmlChar*) xmlStrdup(drapeau[t]);  
     ++l;
 
-    /* Besoins en mémoire : BESOIN_MEMOIRE_ENTETE [champs hors ligne] + nombre de lignes + flags (maximum nbType * nb de rembobinages) */
+//  Besoins en mémoire :
+//    BESOIN_MEMOIRE_ENTETE [champs hors ligne] + nombre de lignes 
+//        + flags (maximum nbType * nb de rembobinages) 
+    
     int type_loop_counter = 0;
 
     while (cur != nullptr)
@@ -423,10 +540,13 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
             ++t;
             if (t == nbType)
             {
-                /* En principe les éléments constitutifs des enregistrements <Remunération>....</Remuneration> sont enregistrés
-                   dans l'ordre du tableau type_remuneration. Toutefois quelques cas de désordre sont observés. Dans ces cas là on peut
-                   "rembobiner le tableau". On évite toutefois de faire une recherche ensembliste systématique, qui éviterait cela mais
-                   freinerait 99,9 % des recherches */
+//              En principe les éléments constitutifs des enregistrements 
+//                <Remunération>....</Remuneration> sont enregistrés
+//              dans l'ordre du tableau type_remuneration. Toutefois quelques cas de
+//              désordre sont observés. Dans ces cas là on peut
+//              "rembobiner le tableau". On évite toutefois de faire une recherche 
+//              ensembliste systématique, qui éviterait cela mais
+//              freinerait 99,9 % des recherches 
 
                 if (++type_loop_counter < TYPE_LOOP_LIMIT)
                 {
@@ -434,11 +554,16 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
                     continue;
                 }
 
-                /* On ne rembobine qu'au maximum TYPE_LOOP_LIMIT. Si l'essai échoue, on déclenche une exception ou on retourne */
+//              On ne rembobine qu'au maximum TYPE_LOOP_LIMIT. Si l'essai échoue,
+//              on déclenche une exception ou on retourne 
 
-                cerr << ERROR_HTML_TAG "En excès du nombre de types de lignes de paye autorisé (" << nbType << ")." ENDL;
+                cerr << ERROR_HTML_TAG 
+                        "En excès du nombre de types de lignes de paye autorisé (" 
+                     << nbType << ")." ENDL;
                 if (cur)
-                    cerr << ERROR_HTML_TAG "Type litigieux " << cur->name << " aux alentours du matricule " << info.Table[info.NCumAgentXml][Matricule] << ENDL;
+                    cerr << ERROR_HTML_TAG "Type litigieux " << cur->name 
+                         << " aux alentours du matricule " 
+                         << info.Table[info.NCumAgentXml][Matricule] << ENDL;
                 else
                     cerr << ERROR_HTML_TAG "Pointeur noeud courant nul" << ENDL;
 
@@ -455,14 +580,19 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
 
         if (new_type && t < nbType)
         {
-              // +1 pour éviter la confusion avec \0 des chaines vides
-            if ((info.Table[info.NCumAgentXml][l] = (xmlChar*) xmlStrdup(drapeau[t])) == nullptr)
+//          +1 pour éviter la confusion avec \0 des chaines vides
+            if ((info.Table[info.NCumAgentXml][l] 
+                 = (xmlChar*) xmlStrdup(drapeau[t])) == nullptr)
             {
-                if (verbeux) cerr << ERROR_HTML_TAG "Erreur dans l'allocation des drapeaux de catégories." << ENDL;
+                if (verbeux) cerr << ERROR_HTML_TAG
+                                     "Erreur dans l'allocation des drapeaux de catégories."
+                                  << ENDL;
                 #ifdef STRICT
                    exit(-12);
                 #else
-                   if (verbeux) cerr << ERROR_HTML_TAG "Arrêt du décodage de la ligne de paye." << ENDL;
+                   if (verbeux) cerr << ERROR_HTML_TAG 
+                                        "Arrêt du décodage de la ligne de paye."
+                                     << ENDL;
                 #endif
                 return {nbLignePaye, l};
             }
@@ -485,7 +615,7 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
             continue; // garantit incidemment que cur != nullptr dans la boucle
         }
 
-        // cur n'est pas nul à ce point
+//      cur n'est pas nul à ce point
 
         cur = cur->xmlChildrenNode;
 
@@ -495,47 +625,55 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
             break;
         }
 
-        // cur n'est pas nul à ce point et ne devient jamais nul ci-après
+//      cur n'est pas nul à ce point et ne devient jamais nul ci-après
 
-        /* Libellé, obligatoire */
+//      Libellé, obligatoire 
 
         bulletin_obligatoire("Libelle", cur, l, info);
 
         ++l;
-        /* Code, obligatoire */
+        
+//      Code, obligatoire 
 
         bulletin_obligatoire("Code", cur, l, info);
 
         ++l;
-        /* Base, si elle existe */
+        
+//      Base, si elle existe 
 
         bulletin_optionnel_numerique("Base", cur,  l, info);
 
         ++l;
-        /* Taux, s'il existe */
+        
+//     Taux, s'il existe 
 
         bulletin_optionnel_numerique("Taux", cur, l, info);
 
         ++l;
-        /* Nombre d'unités, s'il existe */
+        
+//      Nombre d'unités, s'il existe 
 
         bulletin_optionnel_numerique("NbUnite", cur, l, info);
 
         ++l;
-        /* Montant, obligatoire */
+        
+//      Montant, obligatoire 
 
         bulletin_obligatoire_numerique("Mt", cur, l, info);
 
         ++l;
-        // cur ne sera pas nul à ce point
+        
+//      cur ne sera pas nul à ce point
 
         ++nbLignePaye;
 
         cur =  cur->parent->next;
-        // le parent ne peut être nul
-
-        // attention si du code est rajouté ici il doit l'être sous garde cur != nullptr
-        // Lorsque on a épuisé tous les types licites on a nécessairement cur = nullptr et la boucle s'arrête
+        
+//      Le parent ne peut être nul
+//      attention si du code est rajouté ici il doit l'être sous garde cur != nullptr
+//      Lorsque on a épuisé tous les types licites on a nécessairement cur = nullptr et
+//      la boucle s'arrête
+        
     }
 
 
@@ -553,26 +691,26 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
 
 #define BULLETIN_OPTIONNEL_CHAR(X)  bulletin_optionnel_char(#X, cur, X, info)
 
-/* REFERENCE */
-/*
- * <Agent>
-      <Civilite V="">{0,1}</Civilite>
-      <Nom V="">{1,1}</Nom>
-      <ComplNom V="">{0,1}</ComplNom>
-      <Prenom V="">{0,1}</Prenom>
-      <Matricule V="">{1,1}</Matricule>
-      <NIR V="">{1,1}</NIR>
-      <Adresse>{1,1}</Adresse>
-      <NbEnfants V="">{1,1}</NbEnfants>
-      <Statut V="">{1,1}</Statut>
-      <RefNomenStatutaire>{0,1}</RefNomenStatutaire>
-      <EmploiMetier V="">{1,1}</EmploiMetier>
-      <Grade V="">{1,1}</Grade>
-      <Echelon V="">{1,1}</Echelon>
-      <Indice V="">{1,1}</Indice>
-      <CptBancaire>{0,1}</CptBancaire>
-    </Agent>
-*/
+// REFERENCE 
+
+//  <Agent>
+//      <Civilite V="">{0,1}</Civilite>
+//      <Nom V="">{1,1}</Nom>
+//      <ComplNom V="">{0,1}</ComplNom>
+//      <Prenom V="">{0,1}</Prenom>
+//      <Matricule V="">{1,1}</Matricule>
+//      <NIR V="">{1,1}</NIR>
+//      <Adresse>{1,1}</Adresse>
+//      <NbEnfants V="">{1,1}</NbEnfants>
+//      <Statut V="">{1,1}</Statut>
+//      <RefNomenStatutaire>{0,1}</RefNomenStatutaire>
+//      <EmploiMetier V="">{1,1}</EmploiMetier>
+//      <Grade V="">{1,1}</Grade>
+//      <Echelon V="">{1,1}</Echelon>
+//      <Indice V="">{1,1}</Indice>
+//      <CptBancaire>{0,1}</CptBancaire>
+//   </Agent>
+
 
 inline void GCC_INLINE concat(xmlNodePtr cur, info_t& info)
 {
@@ -601,6 +739,7 @@ inline void GCC_INLINE concat(xmlNodePtr cur, info_t& info)
 }
 
 
+
 uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
 {
     bool result = true;
@@ -615,7 +754,8 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
 
         string temp_logpath =getexecpath();
 
-        cerr << ERROR_HTML_TAG "Agent non identifié. Consulter le fichier erreur.log sous " << temp_logpath  << " pour avoir les détails de l'incident." ENDL;
+        cerr << ERROR_HTML_TAG "Agent non identifié. Consulter le fichier erreur.log sous "
+             << temp_logpath  << " pour avoir les détails de l'incident." ENDL;
 
         if (info.chemin_log.empty())
         {
@@ -636,12 +776,15 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
             log.flush();
             log.seekp(ios_base::end);
 
-            log << "\n\nErreur : L'agent est non identifié pour le fichier : " << info.threads->argv[info.fichier_courant] << "\n"
+            log << "\n\nErreur : L'agent est non identifié pour le fichier : "
+                << info.threads->argv[info.fichier_courant] << "\n"
                 << "Année " << info.Table[info.NCumAgentXml][Annee] << "\n"
                 << "Mois "  << info.Table[info.NCumAgentXml][Mois]  << "\n\n";
 
-            if (info.NCumAgentXml && info.Memoire_p_ligne[info.NCumAgentXml - 1] > Matricule && info.Table[info.NCumAgentXml - 1][Matricule] != nullptr)
-                log << "Matricule précédent : " << info.Table[info.NCumAgentXml - 1][Matricule] << "\n\n";
+            if (info.NCumAgentXml && info.Memoire_p_ligne[info.NCumAgentXml - 1] > Matricule 
+                    && info.Table[info.NCumAgentXml - 1][Matricule] != nullptr)
+                log << "Matricule précédent : " << info.Table[info.NCumAgentXml - 1][Matricule] 
+                       << "\n\n";
 
             log.flush();
             log.seekp(ios_base::end);
@@ -656,7 +799,8 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
         exit(-520);
 #endif
 
-        for (int l : {Nom, Prenom, Matricule, NIR, EmploiMetier, Statut, NbEnfants, Grade, Echelon, Indice})
+        for (int l : {Nom, Prenom, Matricule, NIR, EmploiMetier, Statut, NbEnfants, Grade,
+                      Echelon, Indice})
         {
            info.Table[info.NCumAgentXml][l] = xmlStrdup((xmlChar*)"");
         }
@@ -666,7 +810,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
         goto level0;
     }
 
-    // cur n'est pas nul à ce point
+//  cur n'est pas nul à ce point
 
     cur_parent = cur;
     cur = cur->xmlChildrenNode;
@@ -677,12 +821,13 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
     xmlNodePtr cur_save = cur;
 #endif
 
-    /* dans certains schémas on peut ne pas avoir la civilité */
-    /* passer à la balise adjacente après lecture */
+//  dans certains schémas on peut ne pas avoir la civilité 
+//  passer à la balise adjacente après lecture 
 
     info.drapeau_cont = true;
 
-    /* if (result) va garantir notamment que le pointeur cur filé implicitement est non nul */
+//     if (result) va garantir notamment que le pointeur cur filé implicitement est
+//     non nul 
 
 
 
@@ -696,8 +841,8 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
             if (result)
             {
                 result &= BULLETIN_OBLIGATOIRE(NIR);
-
-#ifdef TOLERANT_TAG_HIERARCHY       // on refait le parcours depuis le haut en cas d'ordre inexact des balises
+// on refait le parcours depuis le haut en cas d'ordre inexact des balises
+#ifdef TOLERANT_TAG_HIERARCHY   
                 cur = cur_save;
 #endif
                 if (result)
@@ -706,9 +851,11 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
                     if (result)
                     {
                         result &= BULLETIN_OBLIGATOIRE(Statut);
-                        /* NOTA : on ne contrôle pas le respect du champ Adresse, normalement obligatoire
-                                                * et situé entre NIR et NbEnfants, ce champ devant être regardé comme trop volatile
-                                                * pour que le contrôle s'y attarde. */
+                        
+//                      NOTA : on ne contrôle pas le respect du champ Adresse, normalement
+//                      obligatoire et situé entre NIR et NbEnfants, ce champ devant
+//                      être regardé comme trop volatile pour que le contrôle s'y attarde. 
+                        
                         if (result)
                         {
                             result &= BULLETIN_OBLIGATOIRE(EmploiMetier);
@@ -732,7 +879,8 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
 #ifdef TOLERANT_TAG_HIERARCHY
                                         cur = cur_save;
 #endif
-                                    /* ne pas lire la balise adjacente : fin du niveau subordonné Agent*/
+//                                     ne pas lire la balise adjacente : fin du niveau 
+//                                     subordonné Agent
 
                                         info.drapeau_cont = false;
                                         if (result)
@@ -761,7 +909,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
     }
     else na_assign_level = 1;
 
- /* pas de break */
+//  pas de break 
 
     switch(na_assign_level)
     {
@@ -797,7 +945,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
         #endif
     }
 
-    /* on remonte d'un niveau */
+//     on remonte d'un niveau 
 
     cur = cur_parent;
     if (!result && verbeux) cerr << ERROR_HTML_TAG "Remontée d'un niveau" ENDL;
@@ -806,21 +954,22 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
       cur_save = cur;
     #endif
 
-  /* Long saut vers cette étiquette dans le cas Agent non reconnu */
+//   Long saut vers cette étiquette dans le cas Agent non reconnu 
 
   level0:
 
- /*  Référence
-  *
-  *    <Evenement>
-  *      <Code V="">{1,1}</Code>
-  *      <Description V="">{0,1}</Description>
-  *    </Evenement>
-  */
+//   Référence
+//  
+//      <Evenement>
+//        <Code V="">{1,1}</Code>
+//        <Description V="">{0,1}</Description>
+//      </Evenement>
+//  
 
     info.drapeau_cont = true;
 
-    /* C'est extrêmement rare mais idéalement il faudrait pouvoir être à même de récupérer plus de 2 événements : A FAIRE */
+//     C'est extrêmement rare mais idéalement il faudrait pouvoir être à même de récupérer
+//     plus de 2 événements : A FAIRE 
 
     if (cur) cur = cur-> next;
 
@@ -852,9 +1001,12 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
         info.Table[info.NCumAgentXml][Description] = (xmlChar*) "";
     }
 
-    /* Vu la rareté du 2e évenement, il est rationnel de ne pas réserver systématiquement de place en mémoire de type Description2.
-     * Mieux vaut concaténer, même si le code est plus lourd et l'allocation de mémoire ponctuellement plus lente : on gagne
-     * sur l'allocation-déallocation d'un très grand nombre de champs Description2 non remplis. */
+//  Vu la rareté du 2e évenement, il est rationnel de ne pas réserver systématiquement
+//  de place en mémoire de type Description2.
+//  Mieux vaut concaténer, même si le code est plus lourd et l'allocation de mémoire 
+//  ponctuellement plus lente : on gagne
+//  sur l'allocation-déallocation d'un très grand nombre de champs Description2 non 
+//  remplis. 
 
     if (cur && xmlStrcmp(cur->name, (const xmlChar*) "Evenement") == 0)
     {
@@ -896,7 +1048,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
 
     BULLETIN_OBLIGATOIRE_NUMERIQUE(NBI);
 
-    /* Problème : unbounded NBI ... */
+//     Problème : unbounded NBI ... 
 
     int v = 0;
     while (xmlStrcmp(cur->name, (const xmlChar*) "NBI") == 0)
@@ -919,7 +1071,8 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
 #endif
 
 
-    /* obligatoire, substitution du séparateur décimal */
+//  obligatoire, substitution du séparateur décimal 
+    
     BULLETIN_OBLIGATOIRE_NUMERIQUE(QuotiteTrav);
 
 #ifdef TOLERANT_TAG_HIERARCHY
@@ -927,8 +1080,6 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
     cur = atteindreNoeud("Remuneration", cur);
 #else
     cur = cur->next;
-    //cur = atteindreNoeud("Remuneration", cur);
-
 #endif
 
     int ligne = 0, memoire_p_ligne_allouee = 0;
@@ -944,16 +1095,20 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
             memoire_p_ligne_allouee = result.memoire_p_ligne_allouee;
         }
 
-        /* si la balise <Remuneration/> est fermante ou si <Remuneration>....</Remuneration> ne contient pas de ligne de paye codée
-         * alors on attribue quand même une ligne, codée NA sur tous les champs */
+//        si la balise <Remuneration/> est fermante 
+//        ou si <Remuneration>....</Remuneration>
+//        ne contient pas de ligne de paye codée
+//        alors on attribue quand même une ligne, codée NA sur tous les champs 
 
         if (ligne == 0)
         {
             for (int k = 0; k <= INDEX_MAX_COLONNNES; ++k)
               {
-                info.Table[info.NCumAgentXml][BESOIN_MEMOIRE_ENTETE + k] = (xmlChar*) xmlStrdup(NA_STRING);
+                info.Table[info.NCumAgentXml][BESOIN_MEMOIRE_ENTETE + k] 
+                        = (xmlChar*) xmlStrdup(NA_STRING);
               }
-                info.Memoire_p_ligne[info.NCumAgentXml] = BESOIN_MEMOIRE_ENTETE + INDEX_MAX_COLONNNES + 1;
+                info.Memoire_p_ligne[info.NCumAgentXml] = BESOIN_MEMOIRE_ENTETE
+                                                          + INDEX_MAX_COLONNNES + 1;
         }
         else
             info.Memoire_p_ligne[info.NCumAgentXml] = memoire_p_ligne_allouee;
@@ -968,14 +1123,15 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
 #endif
     }
 
-    /* obligatoire , substitution du sparateur décimal */
+//  obligatoire , substitution du sparateur décimal 
 
 
     result = BULLETIN_OPTIONNEL_NUMERIQUE(NbHeureTotal);
 
     cur = atteindreNoeud("NbHeureSup", cur);
 
-    /* obligatoire, substitution du sparateur décimal. Attention : utiliser des bitwise, pas des logical && sinon le deuxième opérande peut ne pas être évalué */
+//  obligatoire, substitution du sparateur décimal. Attention : utiliser des bitwise, 
+//  pas des logical && sinon le deuxième opérande peut ne pas être évalué */
     result = result & BULLETIN_OPTIONNEL_NUMERIQUE(NbHeureSup);
     result = result & BULLETIN_OBLIGATOIRE_NUMERIQUE(MtBrut);
     result = result & BULLETIN_OBLIGATOIRE_NUMERIQUE(MtNet);
@@ -985,14 +1141,17 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
 
     if (!result)
     {
-        cerr << ERROR_HTML_TAG "Problème de conformité des données sur les champs des bulletins de paye." ENDL;
+        cerr << ERROR_HTML_TAG "Problème de conformité des données sur les champs des "
+                               "bulletins de paye." ENDL;
 #ifdef STRICT
         exit(-513);
 #endif
     }
 
-    // Rémuneration tag vide
+// Rémuneration tag vide
     if (ligne == 0) ligne = 1 ;
 
     return ligne;
 }
+
+
