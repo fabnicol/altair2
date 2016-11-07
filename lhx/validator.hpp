@@ -240,6 +240,10 @@ typedef struct {
 #define LINE_MEMORY_EXCEPTION 2
 #define NO_NEXT_ITEM 3
 
+#ifndef TYPE_LOOP_LIMIT
+#define TYPE_LOOP_LIMIT 10
+#endif
+
 /* pas de contrôle d'existence de noeud : version affaiblie de la macro précédente */
 
 

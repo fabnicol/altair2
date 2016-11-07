@@ -113,7 +113,6 @@
         <Find name="&lt;Budget" />
     </FindHistory>
     <History nbMaxFile="15" inSubMenu="no" customLength="-1">
-        <File filename="C:\Users\Public\Dev\xhl\clermont\2014\09\CLER_201409_99_00.xhl" />
         <File filename="C:\Users\Public\Dev\altair\Tests\Exemple\Donnees\xhl\Anonyme\2010\METRO_201004_01_00.xhl" />
         <File filename="C:\Users\Public\Dev\altair\Tests\Exemple\Donnees\xhl\Anonyme\2010\METRO_201004_02_00.xhl" />
         <File filename="C:\Users\Public\Dev\altair\Tests\Exemple\Donnees\xhl\StGirons\Salaires 2014\transfert paie f&#x00E9;vrier 2014_002.xhl" />
@@ -128,6 +127,7 @@
         <File filename="C:\Users\Public\Dev\altair\Tests\Exemple\Donnees\xhl\Anonyme\2008\METRO_200802_02_00.xhl" />
         <File filename="C:\Users\Public\Dev\altair\Tests\Exemple\Donnees\xhl\Anonyme\2008\METRO_200801_01_00.xhl" />
         <File filename="C:\Users\Public\Dev\xhl\HCL\DEMA_HCL_201301.xhl" />
+        <File filename="C:\Users\Public\Altair\Tests\Exemple\Donnees\xhl\Anonyme2\2012\21430157400015-2012-08VILLE.xhl" />
     </History>
     <ProjectPanels>
         <ProjectPanel id="0" workSpaceFile="" />
