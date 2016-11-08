@@ -1,8 +1,5 @@
 <map id="ouvrir_fichier_base" name="ouvrir_fichier_base">
-<area shape="rect" id="node2" href="$table_8cpp.html#a666a48e623a324e4c739c91c1ea9adf7" title="boucle_ecriture" alt="" coords="181,42,292,69"/>
-<area shape="rect" id="node3" href="$class_analyseur.html#ad3514e76393dbd44e3751d04c901484e" title="Analyseur::produire\l_segment" alt="" coords="340,5,475,47"/>
-<area shape="rect" id="node6" href="$main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="produire_segment" alt="" coords="345,71,470,98"/>
-<area shape="rect" id="node4" href="$class_analyseur.html#aa343f30e9557277f1eaab1fb36c26fc5" title="Analyseur::lanceur" alt="" coords="523,13,653,39"/>
-<area shape="rect" id="node5" href="$class_analyseur.html#a08ec3b659f1d0daaca1fec09370b6402" title="Analyseur::Analyseur" alt="" coords="701,13,848,39"/>
-<area shape="rect" id="node7" href="$main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="563,71,613,98"/>
+<area shape="rect" id="node2" href="$table_8cpp.html#a666a48e623a324e4c739c91c1ea9adf7" title="boucle_ecriture" alt="" coords="195,5,312,32"/>
+<area shape="rect" id="node3" href="$main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="produire_segment" alt="" coords="360,5,496,32"/>
+<area shape="rect" id="node4" href="$main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="544,5,596,32"/>
 </map>
