@@ -1,0 +1,10 @@
+<map id="bulletin_obligatoire" name="bulletin_obligatoire">
+<area shape="rect" id="node2" href="$ligne__paye_8cpp.html#a093e857f8c12da1d3b4e3eaeb737c1ce" title="Atteint le prochain noeud de libellé donné, après un saut éventuel, et le lit. " alt="" coords="199,69,265,96"/>
+<area shape="rect" id="node8" href="$ligne__paye_8hpp.html#afdc9e0eb5c849c5be15ed2fe3ec319cd" title="warning_msg" alt="" coords="183,132,281,159"/>
+<area shape="rect" id="node3" href="$validator_8hpp.html#ad46b6c15ccecdf1587db809152d12001" title="atteindreNoeud" alt="" coords="363,5,473,32"/>
+<area shape="rect" id="node4" href="$validator2_8h.html#a07d0aecc3d62699e160c170e089992f5" title="xmlGetProp" alt="" coords="373,56,463,83"/>
+<area shape="rect" id="node7" href="$ligne__paye_8cpp.html#a6044ec3fae81f42425539be4d999edd4" title="Remplace les occurrences d&#39;un caractère à l&#39;intérieur d&#39;une chaîne xmlChar* par le &#160;&#160;caractère &#39;_&#39;..." alt="" coords="385,107,451,133"/>
+<area shape="rect" id="node5" href="$validator2_8h.html#a210c4d9563da6dcd16e49086e6935529" title="tag" alt="" coords="562,31,602,57"/>
+<area shape="rect" id="node6" href="$validator2_8h.html#a54d8555fb27dee8d2e8198add62e306b" title="valeur" alt="" coords="555,81,609,108"/>
+<area shape="rect" id="node9" href="$fonctions__auxiliaires_8cpp.html#a595f0eff37a7e74c477ad08221736a0d" title="Fonction d&#39;affichage de des lignes du fichier XML de paye entourant celle où se pose un problème de c..." alt="" coords="329,157,507,184"/>
+</map>
