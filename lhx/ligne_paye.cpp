@@ -509,19 +509,12 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique(const char* tag,
 }
 
 
-/// Analyse les noeuds fils du noeud <PayeIndivMensuel>
-/// \param cur  Noeud courant
-/// \param info Structure contenant l'information analysée de type #info_t
-/// \details Les détails de l'algorithme sont décrits dans #page1
-/// \return Nombre de lignes lues de type #LineCount \n
-/// soit {\b nbLignePaye, 1} sauf si #STRICT est définie (sortie de code -11) dans les
-/// circonstances décrites par #rebouclage ou par une erreur d'allocation de la copie des
-/// drapeaux.
 
-/// \page page1 Documentation de l'algorithme d'analyse des noeuds \b Remuneration
+
+/// \page page1 Documentation de l'algorithme d'analyse des noeuds Remuneration
 /// \tableofcontents
 ///
-/// \section  sec1 Spécifications de la convention cadre au \date  1er Oct. 2016
+/// \section  sec1 Spécifications de la convention cadre au 1er Oct. 2016
 ///
 /// \subsection subsec1  Noeuds XML
 /// \par
@@ -550,7 +543,6 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique(const char* tag,
 /// </PayeIndivMensuel>
 /// </pre>
 ///
-/// \subsection subsec2
 /// \warning Toute évolution significative de la convention devra donner lieu à des
 ///  ajustements de code dans cette fonction
 ///
@@ -558,31 +550,32 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique(const char* tag,
 ///
 /// A l'exécution de cette fonction le noeud courant est une catégorie de ligne de paye
 /// dont le nom est une valeur du tableau #type_remuneration
-/// ("TraitBrut",...,"Indemnite",..., Commentaire).\n
+/// ("TraitBrut",...,"Indemnite",..., "Commentaire").\n
 ///
 /// \subsection subsec3 Analyse des drapeaux
-/// \par drap
+/// \subsubsection drap Définition d'un drapeau
 /// Un \em drapeau est une chaîne de caractères xmlChar du type "1", "2", ..., "n",
 /// n < #nbType \n
 /// Les drapeaux sont stockés dans le tableau statique #drapeau \n
 /// Ils encodent chacune des catégories successives de ligne de paye décrites par l'annexe
 /// de la convention-cadre nationale de dématérialisation.
 /// Ils jouent le rôle de séparateurs entre les catégories dans la table d'informations.
-/// \par cor
-/// Correspondance drapeaux-libellés des catégories de ligne de paye
-/// A chaque drapeau est associé une valeur du tableau de caractères #type_remuneration
+/// \subsubsection cor Correspondance drapeau-nom de catégorie
+/// Correspondance drapeaux-libellés des catégories de ligne de paye.\n
+/// A chaque drapeau est associé une valeur du tableau de caractères #type_remuneration \n
 /// Une boucle parcours #type_remuneration jusqu'à trouver la chaîne qui correspond à la
 /// valeur du nom du noeud courant. l'indice de la chaîne dans #type_remuneration est
 /// celui du drapeau du tableau #drapeau copié dans la table d'informations.
-/// \par rebouclage
+/// \subsubsection rebouclage Rebouclage des noms de catégorie
 /// Rebouclage du parcours en cas de non-conformité de l'ordre des noeuds de
 /// catégorie de ligne de paye.\n
 /// En principe les éléments constitutifs des enregistrements
-/// <Remunération>....</Remuneration> sont enregistrés
-/// dans l'ordre du #tableau type_remuneration. Toutefois quelques cas de désordre sont
-/// observés. Dans ces cas là on doit réinitialiser le parcours du tableau.
+/// <Remuneration>....</Remuneration> sont enregistrés dans l'ordre du tableau 
+/// #type_remuneration.\n
+/// Toutefois quelques cas de désordre sont observés. Dans ces cas là on doit
+/// réinitialiser le parcours du tableau.\n
 /// La constante \b #TYPE_LOOP_LIMIT est définie à la compilation et si ce n'est pas le cas
-/// prend la valeur par défaut encodée dans le fichier #validator.hpp
+/// prend la valeur par défaut encodée dans le fichier validator.hpp \n
 /// Elle définit le maximum du nombre de réinitialisation du parcours du tableau
 /// #type_remuneration autrement dit le nombre maximum de non-conformités à
 /// l'ordonnancement des catégories de ligne de paye prévu par la convention-cadre.\n
@@ -594,28 +587,43 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique(const char* tag,
 /// \par
 /// Si l'allocation de la mémoire de la tableau d'informations est faite par passage en
 /// paramètres de ligne de commande, il faut vérifier que l'utilisateur n'a pas
-/// insuffisamment dimensionné la mémoire dans le paramètres imposés.
+/// insuffisamment dimensionné la mémoire dans le paramètres imposés.\n
 /// Cette vérification est opérée par #verifier_taille.\n
 ///
 /// \subsection subsec5 Cas de noeuds de type Commentaire
-/// \par Pour éviter des problèmes de cohérence typage en base, les noeuds Commentaire
+/// \par 
+/// Pour éviter des problèmes de cohérence typage en base, les noeuds Commentaire
 /// ne sont pas lus.
-/// \par En cas de noeud commentaire, le parcours de drapeaux et de #type_remuneration est
+/// \par 
+/// En cas de noeud commentaire, le parcours de drapeaux et de #type_remuneration est
 /// réinitialisé et il n'en est pas tenu compte pour la vérification du plafond
 /// #TYPE_LOOP_LIMIT.
 ///
 /// \subsection subsec6 Cas d'anomalie
-/// \par Une anomalie peut être l'absence de noeuds fils décrivant le contenu de la paye :\n
-/// absence des noeuds \e Libelle, \e Code, \e Base \e Taux, \e NbUnite, \e Mt.\n
+/// \par 
+/// Une anomalie peut être l'absence de noeuds fils décrivant le contenu de la paye :\n
+/// absence des noeuds \e Libelle, \e Code, \e Base, \e Taux, \e NbUnite, \e Mt.\n
 /// Cette anomalie donne lieu à appel de #NA_ASSIGN et message d'avertissement.\n
 /// Elle donne lieu au décompte d'une ligne de paye (assignée de valeurs manquantes).
 /// \warning Toujours s'assurer que dans ce cas l'allocation mémoire prévoit 6
 /// assignations de valeur manquante dans la table d'informations.
 ///
 /// \subsection subsec7 Cas général
-/// \par  Dans le cas général, examen des noeuds fils.\n
+/// \par 
+/// Dans le cas général, examen des noeuds fils.\n
 /// Appel succesif de #bulletin_obligatoire à 2 reprises et #bulletin_optionnel_numerique
-/// à 4 reprises, pour les noeuds cités \e supra.
+/// à 4 reprises, pour les noeuds cités \e supra. Au terme de la lecture de ces 6 noeuds 
+/// fils, le noeud courant est assigné au noeud <Remuneration> suivant.
+
+
+/// Analyse les noeuds fils du noeud <PayeIndivMensuel>
+/// \param cur  Noeud courant
+/// \param info Structure contenant l'information analysée de type #info_t
+/// \details Les détails de l'algorithme sont décrits dans \ref page1
+/// \return  {\b nbLignePaye, 1}  de type #LineCount, \b nbLignesPaye étant le nombre de\n
+/// lignes lues, sauf si #STRICT est définie (sortie de code -11) dans les
+/// circonstances décrites par \ref rebouclage ou s'il y a erreur d'allocation de la copie 
+/// des drapeaux.
 
 static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
 {
@@ -729,7 +737,7 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
 
         if (cur == nullptr)
         {
-            for (c = 0; c < 6; ++c) NA_ASSIGN(l++);
+            for (short c = 0; c < 6; ++c) NA_ASSIGN(l++);
             ++nbLignePaye;
 
             if (verbeux) cerr << WARNING_HTML_TAG
