@@ -1,11 +1,8 @@
 <map id="ecrire_entete_bulletins" name="ecrire_entete_bulletins">
-<area shape="rect" id="node2" href="$fonctions__auxiliaires_8cpp.html#abe7e6d7a0d5d4f61a075b180408fb042" title="ouvrir_fichier_base0" alt="" coords="205,42,340,69"/>
-<area shape="rect" id="node3" href="$fonctions__auxiliaires_8cpp.html#a0f11a266115e98b2536637a1ad8b05f7" title="ouvrir_fichier_bulletins" alt="" coords="388,17,536,43"/>
-<area shape="rect" id="node10" href="$fonctions__auxiliaires_8cpp.html#a7a042e1e36b178756cfb3a5771debbcb" title="ouvrir_fichier_base" alt="" coords="398,67,526,94"/>
-<area shape="rect" id="node4" href="$table_8cpp.html#a666a48e623a324e4c739c91c1ea9adf7" title="boucle_ecriture" alt="" coords="584,42,695,69"/>
-<area shape="rect" id="node5" href="$class_analyseur.html#ad3514e76393dbd44e3751d04c901484e" title="Analyseur::produire\l_segment" alt="" coords="743,5,877,47"/>
-<area shape="rect" id="node8" href="$main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="produire_segment" alt="" coords="747,71,873,98"/>
-<area shape="rect" id="node6" href="$class_analyseur.html#aa343f30e9557277f1eaab1fb36c26fc5" title="Analyseur::lanceur" alt="" coords="925,13,1056,39"/>
-<area shape="rect" id="node7" href="$class_analyseur.html#a08ec3b659f1d0daaca1fec09370b6402" title="Analyseur::Analyseur" alt="" coords="1104,13,1251,39"/>
-<area shape="rect" id="node9" href="$main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="965,71,1016,98"/>
+<area shape="rect" id="node2" href="$fonctions__auxiliaires_8cpp.html#abe7e6d7a0d5d4f61a075b180408fb042" title="ouvrir_fichier_base0" alt="" coords="217,31,367,57"/>
+<area shape="rect" id="node3" href="$fonctions__auxiliaires_8cpp.html#a0f11a266115e98b2536637a1ad8b05f7" title="ouvrir_fichier_bulletins" alt="" coords="415,5,576,32"/>
+<area shape="rect" id="node7" href="$fonctions__auxiliaires_8cpp.html#a7a042e1e36b178756cfb3a5771debbcb" title="ouvrir_fichier_base" alt="" coords="425,56,566,83"/>
+<area shape="rect" id="node4" href="$table_8cpp.html#a666a48e623a324e4c739c91c1ea9adf7" title="boucle_ecriture" alt="" coords="624,31,741,57"/>
+<area shape="rect" id="node5" href="$main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="produire_segment" alt="" coords="789,31,925,57"/>
+<area shape="rect" id="node6" href="$main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="973,31,1025,57"/>
 </map>

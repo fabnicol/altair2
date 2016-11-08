@@ -1,7 +1,6 @@
 <map id="ecrire_log" name="ecrire_log">
-<area shape="rect" id="node2" href="$class_analyseur.html#a620c3dbf3a2ea1eb7c189461dfc827dc" title="Analyseur::parseFile" alt="" coords="132,5,273,32"/>
-<area shape="rect" id="node3" href="$validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="parseFile" alt="" coords="165,56,240,83"/>
-<area shape="rect" id="node4" href="$validator2_8h.html#a84e82eb7bd4a0e47537f98223511a22b" title="decoder_fichier" alt="" coords="321,56,431,83"/>
-<area shape="rect" id="node5" href="$main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="produire_segment" alt="" coords="479,56,604,83"/>
-<area shape="rect" id="node6" href="$main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="652,56,703,83"/>
+<area shape="rect" id="node2" href="$validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="parseFile" alt="" coords="139,5,219,32"/>
+<area shape="rect" id="node3" href="$validator_8hpp.html#a84e82eb7bd4a0e47537f98223511a22b" title="decoder_fichier" alt="" coords="267,5,387,32"/>
+<area shape="rect" id="node4" href="$main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="produire_segment" alt="" coords="435,5,571,32"/>
+<area shape="rect" id="node5" href="$main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="619,5,671,32"/>
 </map>

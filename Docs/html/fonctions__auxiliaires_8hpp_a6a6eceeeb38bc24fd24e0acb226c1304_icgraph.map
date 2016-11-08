@@ -1,7 +1,5 @@
 <map id="calculer_memoire_requise" name="calculer_memoire_requise">
-<area shape="rect" id="node2" href="$class_analyseur.html#a4f8c815456ebbcd93c884d29962434a2" title="Analyseur::decoder\l_fichier" alt="" coords="227,5,361,47"/>
-<area shape="rect" id="node4" href="$validator2_8h.html#a84e82eb7bd4a0e47537f98223511a22b" title="decoder_fichier" alt="" coords="239,71,349,98"/>
-<area shape="rect" id="node3" href="$classthread__handler.html#a96d821796c36a3666ebc1517578beece" title="thread_handler::thread\l_handler" alt="" coords="409,5,560,47"/>
-<area shape="rect" id="node5" href="$main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="produire_segment" alt="" coords="422,71,547,98"/>
-<area shape="rect" id="node6" href="$main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="608,71,659,98"/>
+<area shape="rect" id="node2" href="$validator_8hpp.html#a84e82eb7bd4a0e47537f98223511a22b" title="decoder_fichier" alt="" coords="240,5,360,32"/>
+<area shape="rect" id="node3" href="$main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="produire_segment" alt="" coords="408,5,544,32"/>
+<area shape="rect" id="node4" href="$main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="592,5,644,32"/>
 </map>
