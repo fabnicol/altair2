@@ -1,6 +1,0 @@
-<map id="Commandline::repartir_fichiers" name="Commandline::repartir_fichiers">
-<area shape="rect" id="node2" href="$class_commandline.html#a3444446a130be523539a373f2d721356" title="Commandline::allouer_fil" alt="" coords="203,5,365,32"/>
-<area shape="rect" id="node3" href="$fonctions__auxiliaires_8cpp.html#aa4c818d49539c9dec49c5cf3144b8f53" title="Retourne la taille du fichier en argument au format off_t. " alt="" coords="239,56,329,83"/>
-<area shape="rect" id="node4" href="$fonctions__auxiliaires_8cpp.html#a7d549d61628c712fecf0f56bf64802ef" title="getTotalSystemMemory" alt="" coords="413,31,573,57"/>
-<area shape="rect" id="node5" href="$fonctions__auxiliaires_8cpp.html#a171c739cfe424d8650e387874baa1e40" title="getFreeSystemMemory" alt="" coords="414,81,573,108"/>
-</map>

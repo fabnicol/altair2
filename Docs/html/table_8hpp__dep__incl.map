@@ -1,9 +1,7 @@
-<map id="c:/Users/Public/Dev/altair/lhx/table.hpp" name="c:/Users/Public/Dev/altair/lhx/table.hpp">
-<area shape="rect" id="node2" href="$analyseur_8cpp.html" title="c:/Users/Public/Dev\l/altair/lhx/analyseur.cpp" alt="" coords="5,184,165,225"/>
-<area shape="rect" id="node3" href="$ligne__paye_8hpp.html" title="c:/Users/Public/Dev\l/altair/lhx/ligne_paye.hpp" alt="" coords="251,95,418,136"/>
-<area shape="rect" id="node5" href="$validator_8cpp.html" title="c:/Users/Public/Dev\l/altair/lhx/validator.cpp" alt="" coords="381,184,531,225"/>
-<area shape="rect" id="node6" href="$validator2_8cpp.html" title="c:/Users/Public/Dev\l/altair/lhx/validator2.cpp" alt="" coords="555,184,714,225"/>
-<area shape="rect" id="node7" href="$main_8cpp.html" title="c:/Users/Public/Dev\l/altair/lhx/main.cpp" alt="" coords="544,95,680,136"/>
-<area shape="rect" id="node8" href="$table_8cpp.html" title="c:/Users/Public/Dev\l/altair/lhx/table.cpp" alt="" coords="704,95,840,136"/>
-<area shape="rect" id="node4" href="$ligne__paye_8cpp.html" title="Ce fichier contient le code relatif au traitement individuel des lignes de paye. " alt="" coords="190,184,357,225"/>
+<map id="lhx/table.hpp" name="lhx/table.hpp">
+<area shape="rect" id="node2" href="$ligne__paye_8hpp.html" title="lhx/ligne_paye.hpp" alt="" coords="53,80,193,107"/>
+<area shape="rect" id="node4" href="$validator_8cpp.html" title="lhx/validator.cpp" alt="" coords="169,155,293,181"/>
+<area shape="rect" id="node5" href="$main_8cpp.html" title="lhx/main.cpp" alt="" coords="269,80,369,107"/>
+<area shape="rect" id="node6" href="$table_8cpp.html" title="lhx/table.cpp" alt="" coords="393,80,493,107"/>
+<area shape="rect" id="node3" href="$ligne__paye_8cpp.html" title="Ce fichier contient le code relatif au traitement individuel des lignes de paye. " alt="" coords="5,155,144,181"/>
 </map>
