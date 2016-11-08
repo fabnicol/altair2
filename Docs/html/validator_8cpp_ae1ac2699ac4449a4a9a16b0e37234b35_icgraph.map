@@ -1,5 +1,5 @@
 <map id="parseFile" name="parseFile">
-<area shape="rect" id="node2" href="$validator2_8h.html#a84e82eb7bd4a0e47537f98223511a22b" title="decoder_fichier" alt="" coords="128,5,237,32"/>
-<area shape="rect" id="node3" href="$main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="produire_segment" alt="" coords="285,5,411,32"/>
-<area shape="rect" id="node4" href="$main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="459,5,509,32"/>
+<area shape="rect" id="node2" href="$validator_8hpp.html#a84e82eb7bd4a0e47537f98223511a22b" title="decoder_fichier" alt="" coords="133,5,253,32"/>
+<area shape="rect" id="node3" href="$main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="produire_segment" alt="" coords="301,5,437,32"/>
+<area shape="rect" id="node4" href="$main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="485,5,537,32"/>
 </map>
