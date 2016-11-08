@@ -1,9 +1,10 @@
 <map id="substituer_separateur_decimal" name="substituer_separateur_decimal">
-<area shape="rect" id="node2" href="$ligne__paye_8cpp.html#abba125c905da42ec228ac9d468934f35" title="Appelle Bulletin. " alt="" coords="203,5,326,47"/>
-<area shape="rect" id="node8" href="$ligne__paye_8cpp.html#a0575a6aaafabaa31a33eed51f5625162" title="Appelle Bulletin. " alt="" coords="200,71,329,112"/>
-<area shape="rect" id="node3" href="$ligne__paye_8cpp.html#ab0033809d3d04a56bf668e6722da255c" title="Analyse les noeuds fils du noeud &lt;PayeIndivMensuel&gt; " alt="" coords="377,46,456,73"/>
-<area shape="rect" id="node4" href="$validator2_8cpp.html#a8f9f27b474dcdd9d1ae8e172e9678844" title="Fonction principale réalisant l&#39;analyse des lignes de paye. " alt="" coords="504,46,627,73"/>
-<area shape="rect" id="node5" href="$class_analyseur.html#a620c3dbf3a2ea1eb7c189461dfc827dc" title="Analyseur::parseFile" alt="" coords="675,21,816,47"/>
-<area shape="rect" id="node6" href="$validator2_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="parseFile" alt="" coords="708,71,783,98"/>
-<area shape="rect" id="node7" href="$validator2_8cpp.html#a568278e967fa4ca7537349f4032aeb7c" title="decoder_fichier" alt="" coords="864,71,973,98"/>
+<area shape="rect" id="node2" href="$ligne__paye_8cpp.html#abba125c905da42ec228ac9d468934f35" title="Appelle Bulletin. " alt="" coords="215,5,345,47"/>
+<area shape="rect" id="node9" href="$ligne__paye_8cpp.html#a0575a6aaafabaa31a33eed51f5625162" title="Appelle Bulletin. " alt="" coords="211,71,349,112"/>
+<area shape="rect" id="node3" href="$ligne__paye_8cpp.html#ab0033809d3d04a56bf668e6722da255c" title="Analyse les noeuds fils du noeud &lt;PayeIndivMensuel&gt; " alt="" coords="397,46,481,73"/>
+<area shape="rect" id="node4" href="$validator_8cpp.html#a8f9f27b474dcdd9d1ae8e172e9678844" title="Fonction principale réalisant l&#39;analyse des lignes de paye. " alt="" coords="529,46,661,73"/>
+<area shape="rect" id="node5" href="$validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="parseFile" alt="" coords="709,46,789,73"/>
+<area shape="rect" id="node6" href="$validator_8hpp.html#a84e82eb7bd4a0e47537f98223511a22b" title="decoder_fichier" alt="" coords="837,46,957,73"/>
+<area shape="rect" id="node7" href="$main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="produire_segment" alt="" coords="1005,46,1141,73"/>
+<area shape="rect" id="node8" href="$main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1189,46,1241,73"/>
 </map>

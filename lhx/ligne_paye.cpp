@@ -232,7 +232,7 @@ static bool GCC_INLINE bulletin_obligatoire(const char* tag,
 
     warning_msg(tag, info, cur);
 
-        #ifdef STRICT
+        #if  STRICT
           exit(-1);
         #else
           if (nullptr != cur->next)
@@ -331,7 +331,7 @@ static inline bool GCC_INLINE bulletin_optionnel_char(const char* tag,
 
     warning_msg(tag, info, cur);
 
-        #ifdef STRICT
+        #if  STRICT
           exit(-1);
         #else
           if (nullptr != cur->next)
@@ -414,7 +414,7 @@ static inline bool GCC_INLINE bulletin_optionnel_numerique(const char* tag,
 
     warning_msg(tag, info, cur);
 
-        #ifdef STRICT
+        #if  STRICT
           exit(-1);
         #else
           if (nullptr != cur->next)
@@ -495,7 +495,7 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique(const char* tag,
 
     warning_msg(tag, info, cur);
 
-        #ifdef STRICT
+        #if  STRICT
           exit(-1);
         #else
           if (nullptr != cur->next)
@@ -679,7 +679,7 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
                 else
                     cerr << ERROR_HTML_TAG "Pointeur noeud courant nul" << ENDL;
 
-              #ifdef STRICT
+              #if  STRICT
                  exit(-11);
               #else
                  cerr << ERROR_HTML_TAG "Arrêt du décodage de la ligne de paye." << ENDL;
@@ -700,7 +700,7 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
                 if (verbeux) cerr << ERROR_HTML_TAG
                                      "Erreur dans l'allocation des drapeaux de catégories."
                                   << ENDL;
-                #ifdef STRICT
+                #if  STRICT
                    exit(-12);
                 #else
                    if (verbeux) cerr << ERROR_HTML_TAG 
@@ -961,7 +961,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
         else
             cerr << ERROR_HTML_TAG " Impossible d'écrire le log des erreurs." ENDL;
 
-#ifdef STRICT
+#if  STRICT
         if (log.is_open()) log.close();
         exit(-520);
 #endif
@@ -1107,7 +1107,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
     if (!result)
     {
            cerr << ERROR_HTML_TAG "Problème de conformité des données [512]" ENDL;
-        #ifdef STRICT
+        #if  STRICT
            exit(-512);
         #endif
     }
@@ -1203,7 +1203,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
     else
     {
         cerr << ERROR_HTML_TAG "Service introuvable." ENDL;
-#ifdef STRICT
+#if  STRICT
         exit(-5);
 #endif
     }
@@ -1285,7 +1285,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
     else
     {
         perror(ERROR_HTML_TAG "Rémunération introuvable.");
-#ifdef STRICT
+#if  STRICT
         exit(-4);
 #endif
     }
@@ -1310,7 +1310,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
     {
         cerr << ERROR_HTML_TAG "Problème de conformité des données sur les champs des "
                                "bulletins de paye." ENDL;
-#ifdef STRICT
+#if  STRICT
         exit(-513);
 #endif
     }
