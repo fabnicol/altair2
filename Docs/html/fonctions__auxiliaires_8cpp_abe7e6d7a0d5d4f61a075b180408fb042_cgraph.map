@@ -1,0 +1,8 @@
+<map id="ouvrir_fichier_base0" name="ouvrir_fichier_base0">
+<area shape="rect" id="node2" href="$fonctions__auxiliaires_8cpp.html#aa4c818d49539c9dec49c5cf3144b8f53" title="Retourne la taille du fichier en argument au format off_t. " alt="" coords="219,31,309,57"/>
+<area shape="rect" id="node5" href="$fonctions__auxiliaires_8cpp.html#aff3c87803f64d34f00a30ef30bb74a9b" title="ecrire_entete_table" alt="" coords="198,81,330,108"/>
+<area shape="rect" id="node7" href="$fonctions__auxiliaires_8cpp.html#a5e2253f583a3358618441c2cba35742b" title="ecrire_entete_bulletins" alt="" coords="188,132,340,159"/>
+<area shape="rect" id="node3" href="$fonctions__auxiliaires_8cpp.html#a7d549d61628c712fecf0f56bf64802ef" title="getTotalSystemMemory" alt="" coords="388,5,548,32"/>
+<area shape="rect" id="node4" href="$fonctions__auxiliaires_8cpp.html#a171c739cfe424d8650e387874baa1e40" title="getFreeSystemMemory" alt="" coords="389,56,547,83"/>
+<area shape="rect" id="node6" href="$fonctions__auxiliaires_8cpp.html#aca69dd2811b53b087f39810c114e7dde" title="ecrire_entete0" alt="" coords="416,119,520,145"/>
+</map>

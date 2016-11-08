@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.12"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Altaïr:  Fichier source de c:/Users/Public/Dev/altair/lhx/thread_handler.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="altaïr.bmp"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Altaïr
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.8.12 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche');
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Recherche');
+  $(document).ready(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_feff140f4a693dc5833fe8f00989f54b.html">Public</a></li><li class="navelem"><a class="el" href="dir_59558af2b5c2084cabc3ef688913f73f.html">Dev</a></li><li class="navelem"><a class="el" href="dir_0237fc3c2bb92618a9f963e37824936f.html">altair</a></li><li class="navelem"><a class="el" href="dir_0b8e5907f39369c5ed3be553daac329b.html">lhx</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">thread_handler.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="thread__handler_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef THREAD_HANDLER_H</span></div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define THREAD_HANDLER_H</span></div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="commandline__handler_8h.html">commandline_handler.h</a>&quot;</span></div><div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">class </span><a class="code" href="class_commandline.html">Commandline</a>;</div><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div><div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="classthread__handler.html">    8</a></span>&#160;<span class="keyword">class </span><a class="code" href="classthread__handler.html">thread_handler</a></div><div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;{</div><div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="classthread__handler.html#ac1c0234f0a705f7b971fe8523030bca2">   10</a></span>&#160;<span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="class_analyseur.html">Analyseur</a>;</div><div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div><div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">public</span>:</div><div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <a class="code" href="classthread__handler.html#a96d821796c36a3666ebc1517578beece">thread_handler</a>(<a class="code" href="class_commandline.html">Commandline</a>&amp;, <span class="keywordtype">int</span> rang_segment);</div><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <a class="code" href="classthread__handler.html#af578394fb123fc78dd71594a8c84703d">~thread_handler</a>();</div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">private</span>:</div><div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="classthread__handler.html#a8c0b795474c46e51f1544d0b68c9f76f">   17</a></span>&#160;    vector&lt;thread&gt; <a class="code" href="classthread__handler.html#a8c0b795474c46e51f1544d0b68c9f76f">fils</a>;</div><div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="classthread__handler.html#a05edd1c75971deba03bea043cfcd19ec">   18</a></span>&#160;    vector&lt;info_t&gt; <a class="code" href="classthread__handler.html#a05edd1c75971deba03bea043cfcd19ec">Info</a>;</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classthread__handler.html#adf583552e6342749afc9e01206058754">redecouper_volumineux</a>(<a class="code" href="structinfo__t.html">info_t</a>&amp; info, <a class="code" href="structquad.html">quad&lt;&gt;</a>&amp; tr);</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classthread__handler.html#a5bc2b7c56be0fa1e15f37827a9e895d0">redecouper</a>(<a class="code" href="structinfo__t.html">info_t</a>&amp; info);</div><div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="classthread__handler.html#a4b3359bd8a6e9cf6c4dab0eda3140ca6">   21</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classthread__handler.html#a4b3359bd8a6e9cf6c4dab0eda3140ca6">nb_fil</a> = 1;</div><div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="classthread__handler.html#a4d819a4d58ae52e7e7a5f89c8fc94b40">   22</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classthread__handler.html#a4d819a4d58ae52e7e7a5f89c8fc94b40">is_liberer_memoire</a>;</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;};</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#endif // THREAD_HANDLER_H</span></div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div><div class="ttc" id="class_analyseur_html"><div class="ttname"><a href="class_analyseur.html">Analyseur</a></div><div class="ttdef"><b>Definition:</b> analyseur.h:18</div></div>
+<div class="ttc" id="classthread__handler_html_a4b3359bd8a6e9cf6c4dab0eda3140ca6"><div class="ttname"><a href="classthread__handler.html#a4b3359bd8a6e9cf6c4dab0eda3140ca6">thread_handler::nb_fil</a></div><div class="ttdeci">int nb_fil</div><div class="ttdef"><b>Definition:</b> thread_handler.h:21</div></div>
+<div class="ttc" id="classthread__handler_html_adf583552e6342749afc9e01206058754"><div class="ttname"><a href="classthread__handler.html#adf583552e6342749afc9e01206058754">thread_handler::redecouper_volumineux</a></div><div class="ttdeci">void redecouper_volumineux(info_t &amp;info, quad&lt;&gt; &amp;tr)</div><div class="ttdef"><b>Definition:</b> thread_handler.cpp:119</div></div>
+<div class="ttc" id="classthread__handler_html"><div class="ttname"><a href="classthread__handler.html">thread_handler</a></div><div class="ttdef"><b>Definition:</b> thread_handler.h:8</div></div>
+<div class="ttc" id="classthread__handler_html_a8c0b795474c46e51f1544d0b68c9f76f"><div class="ttname"><a href="classthread__handler.html#a8c0b795474c46e51f1544d0b68c9f76f">thread_handler::fils</a></div><div class="ttdeci">vector&lt; thread &gt; fils</div><div class="ttdef"><b>Definition:</b> thread_handler.h:17</div></div>
+<div class="ttc" id="classthread__handler_html_a05edd1c75971deba03bea043cfcd19ec"><div class="ttname"><a href="classthread__handler.html#a05edd1c75971deba03bea043cfcd19ec">thread_handler::Info</a></div><div class="ttdeci">vector&lt; info_t &gt; Info</div><div class="ttdef"><b>Definition:</b> thread_handler.h:18</div></div>
+<div class="ttc" id="commandline__handler_8h_html"><div class="ttname"><a href="commandline__handler_8h.html">commandline_handler.h</a></div></div>
+<div class="ttc" id="classthread__handler_html_a96d821796c36a3666ebc1517578beece"><div class="ttname"><a href="classthread__handler.html#a96d821796c36a3666ebc1517578beece">thread_handler::thread_handler</a></div><div class="ttdeci">thread_handler(Commandline &amp;, int rang_segment)</div><div class="ttdef"><b>Definition:</b> thread_handler.cpp:6</div></div>
+<div class="ttc" id="classthread__handler_html_a5bc2b7c56be0fa1e15f37827a9e895d0"><div class="ttname"><a href="classthread__handler.html#a5bc2b7c56be0fa1e15f37827a9e895d0">thread_handler::redecouper</a></div><div class="ttdeci">void redecouper(info_t &amp;info)</div><div class="ttdef"><b>Definition:</b> thread_handler.cpp:315</div></div>
+<div class="ttc" id="classthread__handler_html_af578394fb123fc78dd71594a8c84703d"><div class="ttname"><a href="classthread__handler.html#af578394fb123fc78dd71594a8c84703d">thread_handler::~thread_handler</a></div><div class="ttdeci">~thread_handler()</div><div class="ttdef"><b>Definition:</b> thread_handler.cpp:96</div></div>
+<div class="ttc" id="classthread__handler_html_a4d819a4d58ae52e7e7a5f89c8fc94b40"><div class="ttname"><a href="classthread__handler.html#a4d819a4d58ae52e7e7a5f89c8fc94b40">thread_handler::is_liberer_memoire</a></div><div class="ttdeci">bool is_liberer_memoire</div><div class="ttdef"><b>Definition:</b> thread_handler.h:22</div></div>
+<div class="ttc" id="structinfo__t_html"><div class="ttname"><a href="structinfo__t.html">info_t</a></div><div class="ttdef"><b>Definition:</b> validator.hpp:158</div></div>
+<div class="ttc" id="structquad_html"><div class="ttname"><a href="structquad.html">quad</a></div><div class="ttdef"><b>Definition:</b> templates.h:5</div></div>
+<div class="ttc" id="class_commandline_html"><div class="ttname"><a href="class_commandline.html">Commandline</a></div><div class="ttdef"><b>Definition:</b> commandline_handler.h:34</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Généré par &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.12
+</small></address>
+</body>
+</html>
