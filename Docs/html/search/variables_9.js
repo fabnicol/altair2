@@ -1,19 +1,15 @@
 var searchData=
 [
-  ['nagent',['NAgent',['../structinfo__t.html#afed1d68d2c9f7e047086d92573866ede',1,'info_t']]],
-  ['nb_5ffichier_5fpar_5fsegment',['nb_fichier_par_segment',['../class_commandline.html#af1cdea67ddd6ab8afcb62055b8f27b8f',1,'Commandline']]],
-  ['nb_5ffil',['nb_fil',['../class_analyseur.html#a4454e03e05d6c3f58e027da45a447b3b',1,'Analyseur::nb_fil()'],['../class_commandline.html#ae67972e6c16f2866470eb679d2f83512',1,'Commandline::nb_fil()'],['../classthread__handler.html#a4b3359bd8a6e9cf6c4dab0eda3140ca6',1,'thread_handler::nb_fil()']]],
-  ['nb_5fsegment',['nb_segment',['../class_analyseur.html#ac1ac456a8bfa7bb2faab1566340c3aa2',1,'Analyseur']]],
+  ['nagent',['NAgent',['../structinfo__t.html#aebcd2818174f10c6de693cdd65c3555f',1,'info_t']]],
   ['nbagentutilisateur',['nbAgentUtilisateur',['../structinfo__t.html#a00a021f30ecba8083a5c2e4826d2b8ce',1,'info_t']]],
   ['nbfil',['nbfil',['../structinfo__t.html#a7e5047d3e131ef45bcea7d5d98e6084e',1,'info_t']]],
   ['nbligne',['nbLigne',['../structinfo__t.html#a44d9ac495219fc9e5339a775a5334ac1',1,'info_t']]],
   ['nblignepaye',['nbLignePaye',['../struct_line_count.html#a1c34f68cd710322c80c7407a0703483e',1,'LineCount']]],
   ['nbligneutilisateur',['nbLigneUtilisateur',['../structinfo__t.html#ac91699dd96e38906f73ffce3d8d51dee',1,'info_t']]],
-  ['nbtype',['nbType',['../validator_8hpp.html#a4cbe6c13994c407c22b04129ae4c259b',1,'nbType():&#160;validator.hpp'],['../validator2_8h.html#a4cbe6c13994c407c22b04129ae4c259b',1,'nbType():&#160;validator2.h']]],
+  ['nbtype',['nbType',['../validator_8hpp.html#a4cbe6c13994c407c22b04129ae4c259b',1,'validator.hpp']]],
   ['ncumagent',['NCumAgent',['../structinfo__t.html#a7bd46092bdd45e4e5f2b7b41a995b5b8',1,'info_t']]],
   ['ncumagentxml',['NCumAgentXml',['../structinfo__t.html#af493decd399759a6afb37ed02f66a4cf',1,'info_t']]],
-  ['nligne',['NLigne',['../structinfo__t.html#ac386e169b7156fd14277bbd314d57e81',1,'info_t']]],
-  ['nom_5fbase',['NOM_BASE',['../validator_8hpp.html#ab6dbc5e54eee0f34711f78b330f2b4c2',1,'NOM_BASE():&#160;validator.hpp'],['../validator2_8h.html#ab6dbc5e54eee0f34711f78b330f2b4c2',1,'NOM_BASE():&#160;validator2.h']]],
-  ['nom_5fbase_5fbulletins',['NOM_BASE_BULLETINS',['../validator_8hpp.html#a5e1ed7e6123bb48faa3ca79a1335a172',1,'NOM_BASE_BULLETINS():&#160;validator.hpp'],['../validator2_8h.html#a5e1ed7e6123bb48faa3ca79a1335a172',1,'NOM_BASE_BULLETINS():&#160;validator2.h']]],
-  ['nsegments',['nsegments',['../class_commandline.html#a83353faf1ff89e5a25ef0d25cd2428b9',1,'Commandline']]]
+  ['nligne',['NLigne',['../structinfo__t.html#a87781fe3df0bb8be89815dad9b4cd384',1,'info_t']]],
+  ['nom_5fbase',['NOM_BASE',['../validator_8hpp.html#ab6dbc5e54eee0f34711f78b330f2b4c2',1,'validator.hpp']]],
+  ['nom_5fbase_5fbulletins',['NOM_BASE_BULLETINS',['../validator_8hpp.html#a5e1ed7e6123bb48faa3ca79a1335a172',1,'validator.hpp']]]
 ];

@@ -1,7 +1,4 @@
 <map id="boucle_ecriture" name="boucle_ecriture">
-<area shape="rect" id="node2" href="$class_analyseur.html#ad3514e76393dbd44e3751d04c901484e" title="Analyseur::produire\l_segment" alt="" coords="164,5,299,47"/>
-<area shape="rect" id="node5" href="$main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="produire_segment" alt="" coords="169,71,294,98"/>
-<area shape="rect" id="node3" href="$class_analyseur.html#aa343f30e9557277f1eaab1fb36c26fc5" title="Analyseur::lanceur" alt="" coords="347,13,477,39"/>
-<area shape="rect" id="node4" href="$class_analyseur.html#a08ec3b659f1d0daaca1fec09370b6402" title="Analyseur::Analyseur" alt="" coords="525,13,672,39"/>
-<area shape="rect" id="node6" href="$main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="387,71,437,98"/>
+<area shape="rect" id="node2" href="$main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="produire_segment" alt="" coords="171,5,307,32"/>
+<area shape="rect" id="node3" href="$main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="355,5,407,32"/>
 </map>
