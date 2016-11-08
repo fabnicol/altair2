@@ -1,0 +1,16 @@
+<map id="decoder_fichier" name="decoder_fichier">
+<area shape="rect" id="node2" href="$fonctions__auxiliaires_8cpp.html#a6a6eceeeb38bc24fd24e0acb226c1304" title="calculer_memoire_requise" alt="" coords="163,19,336,45"/>
+<area shape="rect" id="node4" href="$validator_8cpp.html#a5223203a3dc856b4169ea2293035e57a" title="allouer_memoire_table" alt="" coords="173,95,325,121"/>
+<area shape="rect" id="node6" href="$validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="parseFile" alt="" coords="212,196,287,223"/>
+<area shape="rect" id="node15" href="$validator_8cpp.html#aa054457564b0f4991283a511f01777e5" title="normaliser_accents" alt="" coords="182,247,317,273"/>
+<area shape="rect" id="node3" href="$fonctions__auxiliaires_8cpp.html#a6ae1ab10756e4c3c1c627199aedf7d2e" title="read_stream_into_string" alt="" coords="384,5,545,32"/>
+<area shape="rect" id="node5" href="$validator_8cpp.html#af23e7af258b590af3650be8ab06708be" title="memoire_p_ligne" alt="" coords="405,56,525,83"/>
+<area shape="rect" id="node7" href="$validator_8hpp.html#ad46b6c15ccecdf1587db809152d12001" title="atteindreNoeud" alt="" coords="410,107,519,133"/>
+<area shape="rect" id="node8" href="$validator2_8h.html#a07d0aecc3d62699e160c170e089992f5" title="xmlGetProp" alt="" coords="419,157,510,184"/>
+<area shape="rect" id="node11" href="$ligne__paye_8hpp.html#afdc9e0eb5c849c5be15ed2fe3ec319cd" title="warning_msg" alt="" coords="415,208,514,235"/>
+<area shape="rect" id="node12" href="$fonctions__auxiliaires_8cpp.html#a595f0eff37a7e74c477ad08221736a0d" title="Fonction d&#39;affichage de des lignes du fichier XML de paye entourant celle où se pose un problème de c..." alt="" coords="593,245,771,272"/>
+<area shape="rect" id="node13" href="$validator_8cpp.html#a8f9f27b474dcdd9d1ae8e172e9678844" title="Fonction principale réalisant l&#39;analyse des lignes de paye. " alt="" coords="403,309,526,336"/>
+<area shape="rect" id="node14" href="$fonctions__auxiliaires_8cpp.html#ab49257996eb9a8f23f7da4c66838be65" title="Produit un journal d&#39;exécution. " alt="" coords="425,360,504,387"/>
+<area shape="rect" id="node9" href="$validator2_8h.html#a210c4d9563da6dcd16e49086e6935529" title="tag" alt="" coords="662,132,702,159"/>
+<area shape="rect" id="node10" href="$validator2_8h.html#a54d8555fb27dee8d2e8198add62e306b" title="valeur" alt="" coords="655,183,709,209"/>
+</map>
