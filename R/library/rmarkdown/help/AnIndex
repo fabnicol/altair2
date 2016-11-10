@@ -36,6 +36,7 @@ knit_params_ask	knit_params_ask
 latex_dependency	latex_dependency
 md_document	md_document
 metadata	metadata
+navbar_html	navbar_html
 odt_document	odt_document
 output_format	output_format
 pandoc_args	pandoc_args
@@ -69,3 +70,4 @@ site_generator	render_site
 slidy_presentation	slidy_presentation
 tufte_handout	tufte_handout
 word_document	word_document
+yaml_front_matter	yaml_front_matter

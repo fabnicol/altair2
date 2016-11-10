@@ -34,12 +34,14 @@ my_key	my_key
 my_pubkey	my_key
 openssl	openssl
 openssl_config	openssl_config
-pseudo_rand_bytes	rand_bytes
+pkcs12	pkcs12
 rand_bytes	rand_bytes
 rand_num	rand_bytes
 read_cert	read_key
 read_cert_bundle	read_key
 read_key	read_key
+read_pem	read_key
+read_pkcs12	pkcs12
 read_pubkey	read_key
 ripemd160	hash
 rsa	rsa_encrypt
@@ -56,4 +58,5 @@ signature_create	signatures
 signature_verify	signatures
 write_der	write_pem
 write_pem	write_pem
+write_pkcs12	pkcs12
 write_ssh	write_pem

@@ -1,5 +1,7 @@
 create_traceback	create_traceback
 evaluate	evaluate
+flush_console	flush_console
+inject_funs	inject_funs
 is.error	is.message
 is.message	is.message
 is.recordedplot	is.message
