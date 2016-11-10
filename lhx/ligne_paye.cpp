@@ -901,12 +901,49 @@ inline void GCC_INLINE concat(xmlNodePtr cur, info_t& info)
 }
 
 
+
+/// \page page2 Documentation de l'algorithme d'analyse des noeuds PayeIndivMensuel
+/// \tableofcontents
+///
+/// \section  pisec1 Noeud Agent
+///
+/// \subsection pisec1
+/// \par
+/// Le pointeur courant est mis sur le prochain noeud \b Agent.\n
+/// Si ce noeud n'est pas identifié, ce qui est extremement rare, un log d'erreur est \n
+/// généré adjacent à l'exécutable \e lhx, avec le nom \b erreurs.log
+/// \par
+/// Ce journal d'erreurs produit les informations suivantes: \n
+/// <pre>
+/// "\n\nErreur : L'agent est non identifié pour le fichier : "
+///         [nom du fichier]
+///         Année  [année]
+///         Mois   [mois]
+/// si possible:
+///         Matricule précédent : [Matricule]
+///         </pre>
+/// \par
+/// Si la compilation est réalisée avec le symbole STRCT défini, sortie du programme
+/// avec la valeur -520.
+/// \par
+/// Sinon les variables filles du noeud Agent \n (soit : Nom, Prenom,
+///  Matricule, NIR, EmploiMetier, Statut, NbEnfants, Grade, Echelon, Indic) \n reçoivent
+/// la valeur NA.
+/// Si le noeud Agent est identifié, saut sur le noeud Service et examen de ses fils.
+///
+/// \subsection pisec2
+///
+///
+///
+///
+
+
 /// Fonction principale réalisant l'analyse des lignes de paye
 /// \param cur   noeud courant
 /// \param info  table d'informations
 /// \param log   journal d'exécution
-/// \details
-///
+/// \details Les détails de l'algorithme sont décrits dans \ref page2
+
 uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
 {
     bool result = true;
@@ -943,15 +980,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
             log.flush();
             log.seekp(ios_base::end);
 
-            log << "\n\nErreur : L'agent est non identifié pour le fichier : "
-                << info.threads->argv[info.fichier_courant] << "\n"
-                << "Année " << info.Table[info.NCumAgentXml][Annee] << "\n"
-                << "Mois "  << info.Table[info.NCumAgentXml][Mois]  << "\n\n";
-
-            if (info.NCumAgentXml && info.Memoire_p_ligne[info.NCumAgentXml - 1] > Matricule 
-                    && info.Table[info.NCumAgentXml - 1][Matricule] != nullptr)
-                log << "Matricule précédent : " << info.Table[info.NCumAgentXml - 1][Matricule] 
-                       << "\n\n";
+            log <<
 
             log.flush();
             log.seekp(ios_base::end);
@@ -969,7 +998,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
         for (int l : {Nom, Prenom, Matricule, NIR, EmploiMetier, Statut, NbEnfants, Grade,
                       Echelon, Indice})
         {
-           info.Table[info.NCumAgentXml][l] = xmlStrdup((xmlChar*)"");
+           NA_ASSIGN(l);
         }
 
         cur = cur_parent;
