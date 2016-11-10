@@ -28,7 +28,7 @@ then
   
   git fetch -p -n --depth=1 origin master-jf
   
-  for i in Interface lhx Interface_linux linux '*.txt' '*.R' '*.sh' '*.desktop' VERSION LICENCE '*.ico' '*.bmp' '*.png'  postinstall.sh altaïr.Rproj 'Tests/Exemple' 'Tests/Exemple/Docs' sys
+  for i in Docs Interface lhx Interface_linux linux '*.txt' '*.R' '*.sh' '*.desktop' VERSION LICENCE '*.ico' '*.bmp' '*.png'  postinstall.sh altaïr.Rproj 'Tests/Exemple' 'Tests/Exemple/Docs' sys
   do
     git checkout FETCH_HEAD -- "$i" 
     git add .
@@ -45,7 +45,7 @@ then
        echo "* Actualisation système effectuée"
        echo "***"
        sleep 3
-       git rm sys/actualiser_sys
+       git rm -f sys/actualiser_sys
     else
        echo "=> Erreur d'actualisation système"
     fi
