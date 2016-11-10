@@ -9,6 +9,7 @@ current_input	current_input
 dep_auto	dep_auto
 dep_prev	dep_prev
 engine_output	engine_output
+extract_raw_output	raw_output
 fig_chunk	fig_chunk
 fig_path	fig_path
 hook_ffmpeg_html	hook_animation
@@ -73,6 +74,7 @@ pat_textile	pat_fun
 plot_crop	plot_crop
 purl	knit
 rand_seed	rand_seed
+raw_output	raw_output
 read_chunk	read_chunk
 read_demo	read_chunk
 read_rforge	read_rforge
@@ -85,6 +87,7 @@ render_markdown	output_hooks
 render_rst	output_hooks
 render_sweave	output_hooks
 render_textile	output_hooks
+restore_raw_output	raw_output
 rocco	rocco
 rst2pdf	rst2pdf
 set_alias	set_alias
