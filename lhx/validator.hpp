@@ -181,7 +181,6 @@ typedef struct
     bool calculer_maxima;
     bool generer_rang;
     bool select_siret;
-    bool select_echelon;
     bool pretend;
     bool verifmem;
     unsigned int  nbfil;

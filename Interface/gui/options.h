@@ -68,7 +68,6 @@ private:
     FCheckBox
       *tableCheckBox,
       *etabCheckBox,
-      *echelonCheckBox,
       *rangCheckBox;
 
     FString
