@@ -90,17 +90,11 @@ standardPage::standardPage()
                                 {"Données csv", "Exporter les champs Budget, Employeur, Siret, Etablissement"},
                                 "S");
 
-    echelonCheckBox = new FCheckBox("Exporter l'échelon",
-                                flags::status::enabledChecked | flags::commandLineType::altairCommandLine,
-                                "exporterEchelon",
-                                {"Données csv", "Exporter les champ Echelon"},
-                                "E");
 
     QGridLayout *v1Layout = new QGridLayout, *v2Layout = new QGridLayout;
 
     v2Layout->addWidget(rangCheckBox,      0, 0, Qt::AlignLeft);
     v2Layout->addWidget(etabCheckBox,      1, 0, Qt::AlignLeft);
-    v2Layout->addWidget(echelonCheckBox,   2, 0, Qt::AlignLeft);
     v2Layout->setColumnMinimumWidth(1, 250);
 
     optionalFieldBox->setLayout(v2Layout);

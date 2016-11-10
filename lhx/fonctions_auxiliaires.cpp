@@ -10,8 +10,6 @@
 #include <iostream>
 #include <iterator>
 #include <sys/stat.h>
-#include "fonctions_auxiliaires.hpp"
-#include "tags.h"
 
 using namespace std;
 extern bool verbeux;
@@ -69,7 +67,6 @@ out <<  "**Usage** :  lhx OPTIONS fichiers.xhl  " << "\n\n"
           <<  "**-L** *argument obligatoire* : chemin du log d'exécution du test de cohérence entre analyseurs C et XML.  " << "\n\n"
           <<  "**-R** *argument obligatoire* : expression régulière pour la recherche des élus (codés : ELU dans le champ Statut.  " << "\n\n"
           <<  "**-S** *sans argument*        : exporter les champs Budget, Employeur, Siret, Etablissement.  " << "\n\n"
-          <<  "**-E** *sans argument*        : exporter le champ Echelon.  " << "\n\n"
           <<  "**-q** *sans argument*        : limiter la verbosité.  " << "\n\n"
           <<  "**-f** *argument obligatoire* : la ligne de commande est dans le fichier en argument, chaque élément à  la ligne.  " << "\n\n"
           <<  "**--xhlmem** *arg. oblig.*    : taille des fichiers à  analyser en octets.  " << "\n\n"
@@ -315,34 +312,16 @@ void ecrire_entete_table(const info_t &info, ofstream& base)
 void ecrire_entete0(const info_t &info, ofstream& base, const char* entete[], int N)
 {
   int i;
-  if (info.select_echelon)
-  {
-      if (info.select_siret)
-        for (i = !info.generer_rang; i < N - 1; ++i)
-          base << entete[i] << info.separateur;
-      else
-        for (i = !info.generer_rang; i < N - 1; ++i)
-        {
-            if (i != Budget +1 &&  i != Employeur + 1 && i != Siret +1 && i != Etablissement + 1)
-                base << entete[i] << info.separateur;
-        }
-  }
+
+  if (info.select_siret)
+    for (i = !info.generer_rang; i < N - 1; ++i)
+      base << entete[i] << info.separateur;
   else
-  {
-      if (info.select_siret)
-        for (i = !info.generer_rang; i < N - 1; ++i)
-        {
-          if (entete[i][0] != 'E' || entete[i][1] != 'c')  // Pour "Echelon"
-              base << entete[i] << info.separateur;
-        }
-      else
-        for (i = !info.generer_rang; i < N - 1; ++i)
-        {
-            if (i != Budget +1 &&  i != Employeur + 1 && i != Siret +1 && i != Etablissement + 1
-                 && (entete[i][0] != 'E' || entete[i][1] != 'c'))  // Pour "Echelon"
-                base << entete[i] << info.separateur;
-        }
-  }
+    for (i = !info.generer_rang; i < N - 1; ++i)
+    {
+        if (i != Budget +1 &&  i != Employeur + 1 && i != Siret +1 && i != Etablissement + 1)
+            base << entete[i] << info.separateur;
+    }
 
   base << entete[i] << "\n";
 }
