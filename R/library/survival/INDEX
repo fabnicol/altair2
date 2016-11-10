@@ -38,6 +38,7 @@ mgus                    Monoclonal gammapothy data
 mgus2                   Monoclonal gammapothy data
 model.frame.coxph       Model.frame method for coxph objects
 model.matrix.coxph      Model.matrix method for coxph models
+myeloid                 Acute myeloid leukemia
 neardate                Find the index of the closest value in data set
                         2, for each entry in data set one.
 nwtco                   Data from the National Wilm's Tumor Study
@@ -65,8 +66,10 @@ rats2                   Rat data from Gail et al.
 residuals.coxph         Calculate Residuals for a 'coxph' Fit
 residuals.survreg       Compute Residuals for 'survreg' Objects
 retinopathy             Diabetic Retinopathy
+rhDNase                 rhDNASE data set
 ridge                   Ridge regression
 stanford2               More Stanford Heart Transplant data
+statefig                Draw a state space figure.
 strata                  Identify Stratification Variables
 summary.aareg           Summarize an aareg fit
 summary.coxph           Summary method for Cox models

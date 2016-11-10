@@ -17,3 +17,4 @@ read_key                Parsing keys and certificates
 rsa_encrypt             Low-level RSA encryption
 signature_create        Signatures
 write_pem               Export key or certificate
+write_pkcs12            PKCS12 bundles

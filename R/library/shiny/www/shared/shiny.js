@@ -1,6 +1,6 @@
 'use strict';
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 //---------------------------------------------------------------------
 // Source file: ../srcjs/_start.js
@@ -675,7 +675,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
       // function to normalize hostnames
       var normalize = function normalize(hostname) {
-        if (hostname == "127.0.0.1") return "localhost";else return hostname;
+        if (hostname === "127.0.0.1") return "localhost";else return hostname;
       };
 
       // Send a 'disconnected' message to parent if we are on the same domin
@@ -686,7 +686,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         a.href = parentUrl;
 
         // post the disconnected message if the hostnames are the same
-        if (normalize(a.hostname) == normalize(window.location.hostname)) {
+        if (normalize(a.hostname) === normalize(window.location.hostname)) {
           var protocol = a.protocol.replace(':', ''); // browser compatability
           var origin = protocol + '://' + a.hostname;
           if (a.port) origin = origin + ':' + a.port;
@@ -971,8 +971,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
     // Adds custom message handler - this one is exposed to the user
     function addCustomMessageHandler(type, handler) {
+      // Remove any previously defined handlers so that only the most recent one
+      // will be called
       if (customMessageHandlers[type]) {
-        throw 'handler for message of type "' + type + '" already added.';
+        var typeIdx = customMessageHandlerOrder.indexOf(type);
+        if (typeIdx !== -1) {
+          customMessageHandlerOrder.splice(typeIdx, 1);
+          delete customMessageHandlers[type];
+        }
       }
       if (typeof handler !== 'function') {
         throw 'handler must be a function.';
@@ -1305,6 +1311,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     };
 
     exports.progressHandlers = progressHandlers;
+
+    // Returns a URL which can be queried to get values from inside the server
+    // function. This is enabled with `options(shiny.testmode=TRUE)`.
+    this.getTestEndpointUrl = function () {
+      return "session/" + encodeURIComponent(this.config.sessionId) + "/dataobj/shinytest?w=" + encodeURIComponent(this.config.workerId) + "&nonce=" + randomId();
+    };
   }).call(ShinyApp.prototype);
 
   exports.showReconnectDialog = function () {
@@ -1361,7 +1373,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     var fadeDuration = 250;
 
     function show() {
-      var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+      var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
       var _ref$html = _ref.html;
       var html = _ref$html === undefined ? '' : _ref$html;
@@ -1520,7 +1532,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     // content is non-Bootstrap. Bootstrap modals require some special handling,
     // which is coded in here.
     show: function show() {
-      var _ref2 = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+      var _ref2 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
       var _ref2$html = _ref2.html;
       var html = _ref2$html === undefined ? '' : _ref2$html;
@@ -1529,7 +1541,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 
       // If there was an existing Bootstrap modal, then there will be a modal-
-      // backdrop div that was added outside of the modal wrapper, and it must be 
+      // backdrop div that was added outside of the modal wrapper, and it must be
       // removed; otherwise there can be multiple of these divs.
       $('.modal-backdrop').remove();
 
@@ -1541,9 +1553,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
         // If the wrapper's content is a Bootstrap modal, then when the inner
         // modal is hidden, remove the entire thing, including wrapper.
-        $modal.on('hidden.bs.modal', function () {
-          exports.unbindAll($modal);
-          $modal.remove();
+        $modal.on('hidden.bs.modal', function (e) {
+          if (e.target === $("#shiny-modal")[0]) {
+            exports.unbindAll($modal);
+            $modal.remove();
+          }
         });
       }
 
@@ -2675,7 +2689,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         var aProps = Object.getOwnPropertyNames(a);
         var bProps = Object.getOwnPropertyNames(b);
 
-        if (aProps.length != bProps.length) return false;
+        if (aProps.length !== bProps.length) return false;
 
         for (var i = 0; i < aProps.length; i++) {
           var propName = aProps[i];
@@ -3075,7 +3089,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   // inputs/outputs. `content` can be null, a string, or an object with
   // properties 'html' and 'deps'.
   exports.renderContent = function (el, content) {
-    var where = arguments.length <= 2 || arguments[2] === undefined ? "replace" : arguments[2];
+    var where = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "replace";
 
     exports.unbindAll(el);
 
@@ -3112,7 +3126,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
   // Render HTML in a DOM element, inserting singletons into head as needed
   exports.renderHtml = function (html, el, dependencies) {
-    var where = arguments.length <= 3 || arguments[3] === undefined ? 'replace' : arguments[3];
+    var where = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'replace';
 
     renderDependencies(dependencies);
     return singletons.renderHtml(html, el, where);
@@ -3414,6 +3428,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     this.getValue = function (el) {
       throw "Not implemented";
     };
+
+    // The callback method takes one argument, whose value is boolean. If true,
+    // allow deferred (debounce or throttle) sending depending on the value of
+    // getRatePolicy. If false, send value immediately.
     this.subscribe = function (el, callback) {};
     this.unsubscribe = function (el) {};
 
@@ -3639,25 +3657,32 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         };
       }
 
-      if (this._numValues(el) == 2) {
+      if (this._numValues(el) === 2) {
         return [convert(result.from), convert(result.to)];
       } else {
         return convert(result.from);
       }
     },
     setValue: function setValue(el, value) {
-      var slider = $(el).data('ionRangeSlider');
+      var $el = $(el);
+      var slider = $el.data('ionRangeSlider');
 
-      if (this._numValues(el) == 2 && value instanceof Array) {
-        slider.update({ from: value[0], to: value[1] });
-      } else {
-        slider.update({ from: value });
+      $el.data('immediate', true);
+      try {
+        if (this._numValues(el) === 2 && value instanceof Array) {
+          slider.update({ from: value[0], to: value[1] });
+        } else {
+          slider.update({ from: value });
+        }
+
+        forceIonSliderUpdate(slider);
+      } finally {
+        $el.data('immediate', false);
       }
-      forceIonSliderUpdate(slider);
     },
     subscribe: function subscribe(el, callback) {
       $(el).on('change.sliderInputBinding', function (event) {
-        callback(!$(el).data('updating') && !$(el).data('animating'));
+        callback(!$(el).data('immediate') && !$(el).data('animating'));
       });
     },
     unsubscribe: function unsubscribe(el) {
@@ -3669,7 +3694,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       var msg = {};
 
       if (data.hasOwnProperty('value')) {
-        if (this._numValues(el) == 2 && data.value instanceof Array) {
+        if (this._numValues(el) === 2 && data.value instanceof Array) {
           msg.from = data.value[0];
           msg.to = data.value[1];
         } else {
@@ -3682,12 +3707,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
       if (data.hasOwnProperty('label')) $el.parent().find('label[for="' + $escape(el.id) + '"]').text(data.label);
 
-      $el.data('updating', true);
+      $el.data('immediate', true);
       try {
         slider.update(msg);
         forceIonSliderUpdate(slider);
       } finally {
-        $el.data('updating', false);
+        $el.data('immediate', false);
       }
     },
     getRatePolicy: function getRatePolicy() {
@@ -3831,14 +3856,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     // Return the date in an unambiguous format, yyyy-mm-dd (as opposed to a
     // format like mm/dd/yyyy)
     getValue: function getValue(el) {
-      var date = $(el).find('input').data('datepicker').getUTCDate();
+      var date = $(el).find('input').bsDatepicker('getUTCDate');
       return formatDateUTC(date);
     },
     // value must be an unambiguous string like '2001-01-01', or a Date object.
     setValue: function setValue(el, value) {
       // R's NA, which is null here will remove current value
       if (value === null) {
-        $(el).find('input').val('').datepicker('update');
+        $(el).find('input').val('').bsDatepicker('update');
         return;
       }
 
@@ -3846,7 +3871,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       // If date is invalid, do nothing
       if (isNaN(date)) return;
 
-      $(el).find('input').datepicker('update', date);
+      $(el).find('input').bsDatepicker('setUTCDate', date);
     },
     getState: function getState(el) {
       var $el = $(el);
@@ -3879,13 +3904,16 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     receiveMessage: function receiveMessage(el, data) {
       var $input = $(el).find('input');
 
-      if (data.hasOwnProperty('value')) this.setValue(el, data.value);
-
       if (data.hasOwnProperty('label')) $(el).find('label[for="' + $escape(el.id) + '"]').text(data.label);
 
       if (data.hasOwnProperty('min')) this._setMin($input[0], data.min);
 
       if (data.hasOwnProperty('max')) this._setMax($input[0], data.max);
+
+      // Must set value only after min and max have been set. If new value is
+      // outside the bounds of the previous min/max, then the result will be a
+      // blank input.
+      if (data.hasOwnProperty('value')) this.setValue(el, data.value);
 
       $(el).trigger('change');
     },
@@ -3924,8 +3952,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       // use yyyy-mm-dd format, instead of bootstrap-datepicker's built-in
       // support for date-startdate and data-enddate, which use the current
       // date format.
-      this._setMin($input[0], $input.data('min-date'));
-      this._setMax($input[0], $input.data('max-date'));
+      if ($input.data('min-date') !== undefined) {
+        this._setMin($input[0], $input.data('min-date'));
+      }
+      if ($input.data('max-date') !== undefined) {
+        this._setMax($input[0], $input.data('max-date'));
+      }
     },
     // Given a format object from a date picker, return a string
     _formatToString: function _formatToString(format) {
@@ -3939,23 +3971,40 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       return str;
     },
     // Given an unambiguous date string or a Date object, set the min (start) date.
-    // null will unset.
+    // null will unset. undefined will result in no change,
     _setMin: function _setMin(el, date) {
+      if (date === undefined) return;
       if (date === null) {
-        $(el).datepicker('setStartDate', null);
+        $(el).bsDatepicker('setStartDate', null);
       } else {
         date = this._newDate(date);
-        if (!isNaN(date)) $(el).datepicker('setStartDate', date);
+        date = this._UTCDateAsLocal(date);
+        if (!isNaN(date)) {
+          // Workaround for https://github.com/eternicode/bootstrap-datepicker/issues/2010
+          // If the start date when there's a two-digit year format, it will set
+          // the date value to null. So we'll save the value, set the start
+          // date, and the restore the value.
+          var curValue = $(el).bsDatepicker('getUTCDate');
+          $(el).bsDatepicker('setStartDate', date);
+          $(el).bsDatepicker('setUTCDate', curValue);
+        }
       }
     },
     // Given an unambiguous date string or a Date object, set the max (end) date
     // null will unset.
     _setMax: function _setMax(el, date) {
+      if (date === undefined) return;
       if (date === null) {
-        $(el).datepicker('setEndDate', null);
+        $(el).bsDatepicker('setEndDate', null);
       } else {
         date = this._newDate(date);
-        if (!isNaN(date)) $(el).datepicker('setEndDate', date);
+        date = this._UTCDateAsLocal(date);
+        if (!isNaN(date)) {
+          // Workaround for same issue as in _setMin.
+          var curValue = $(el).bsDatepicker('getUTCDate');
+          $(el).bsDatepicker('setEndDate', date);
+          $(el).bsDatepicker('setUTCDate', curValue);
+        }
       }
     },
     // Given a date string of format yyyy-mm-dd, return a Date object with
@@ -3980,6 +4029,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     // print this in local time, as "Sat Feb 02 2013 05:00:00 GMT-0600 (CST)".
     _dateAsUTC: function _dateAsUTC(date) {
       return new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+    },
+    // The inverse of _dateAsUTC. This is needed to adjust time zones because
+    // some bootstrap-datepicker methods only take local dates as input, and not
+    // UTC.
+    _UTCDateAsLocal: function _UTCDateAsLocal(date) {
+      return new Date(date.getTime() + date.getTimezoneOffset() * 60000);
     }
   });
   inputBindings.register(dateInputBinding, 'shiny.dateInput');
@@ -3996,13 +4051,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     // format like mm/dd/yyyy)
     getValue: function getValue(el) {
       var $inputs = $(el).find('input');
-      var start = $inputs.eq(0).data('datepicker').getUTCDate();
-      var end = $inputs.eq(1).data('datepicker').getUTCDate();
+      var start = $inputs.eq(0).bsDatepicker('getUTCDate');
+      var end = $inputs.eq(1).bsDatepicker('getUTCDate');
 
       return [formatDateUTC(start), formatDateUTC(end)];
     },
-    // value must be an array of unambiguous strings like '2001-01-01', or
-    // Date objects.
+    // value must be an object, with optional fields `start` and `end`. These
+    // should be unambiguous strings like '2001-01-01', or Date objects.
     setValue: function setValue(el, value) {
       if (!(value instanceof Object)) {
         return;
@@ -4015,18 +4070,18 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       // null will remove the current value
       if (value.start !== undefined) {
         if (value.start === null) {
-          $inputs.eq(0).val('').datepicker('update');
+          $inputs.eq(0).val('').bsDatepicker('update');
         } else {
           var start = this._newDate(value.start);
-          $inputs.eq(0).datepicker('update', start);
+          $inputs.eq(0).bsDatepicker('setUTCDate', start);
         }
       }
       if (value.end !== undefined) {
         if (value.end === null) {
-          $inputs.eq(1).val('').datepicker('update');
+          $inputs.eq(1).val('').bsDatepicker('update');
         } else {
           var end = this._newDate(value.end);
-          $inputs.eq(1).datepicker('update', end);
+          $inputs.eq(1).bsDatepicker('setUTCDate', end);
         }
       }
     },
@@ -4037,8 +4092,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       var $endinput = $inputs.eq(1);
 
       // For many of the properties, assume start and end have the same values
-      var min = $startinput.data('datepicker').startDate;
-      var max = $startinput.data('datepicker').endDate;
+      var min = $startinput.bsDatepicker('getStartDate');
+      var max = $startinput.bsDatepicker('getEndDate');
 
       // Stringify min and max. If min and max aren't set, they will be
       // -Infinity and Infinity; replace these with null.
@@ -4046,7 +4101,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       max = max === Infinity ? null : formatDateUTC(max);
 
       // startViewMode is stored as a number; convert to string
-      var startview = $startinput.data('datepicker').startViewMode;
+      var startview = $startinput.data('datepicker').startView;
       if (startview === 2) startview = 'decade';else if (startview === 1) startview = 'year';else if (startview === 0) startview = 'month';
 
       return {
@@ -4067,8 +4122,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       var $startinput = $inputs.eq(0);
       var $endinput = $inputs.eq(1);
 
-      if (data.hasOwnProperty('value')) this.setValue(el, data.value);
-
       if (data.hasOwnProperty('label')) $el.find('label[for="' + $escape(el.id) + '"]').text(data.label);
 
       if (data.hasOwnProperty('min')) {
@@ -4080,6 +4133,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         this._setMax($startinput[0], data.max);
         this._setMax($endinput[0], data.max);
       }
+
+      // Must set value only after min and max have been set. If new value is
+      // outside the bounds of the previous min/max, then the result will be a
+      // blank input.
+      if (data.hasOwnProperty('value')) this.setValue(el, data.value);
 
       $el.trigger('change');
     },
@@ -4490,7 +4548,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       // from being mistakenly selected)
       if ($el.find('i[class]').length > 0) {
         var icon_html = $el.find('i[class]')[0];
-        if (icon_html == $el.children()[0]) {
+        if (icon_html === $el.children()[0]) {
           // another check for robustness
           icon = $(icon_html).prop('outerHTML');
         }
@@ -4815,7 +4873,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     var shinyapp = exports.shinyapp = new ShinyApp();
 
     function bindOutputs() {
-      var scope = arguments.length <= 0 || arguments[0] === undefined ? document : arguments[0];
+      var scope = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document;
 
       scope = $(scope);
 
@@ -4830,6 +4888,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
           // Check if ID is falsy
           if (!id) continue;
+
+          // In some uncommon cases, elements that are later in the
+          // matches array can be removed from the document by earlier
+          // iterations. See https://github.com/rstudio/shiny/issues/1399
+          if (!$.contains(document, el)) continue;
 
           var $el = $(el);
           if ($el.hasClass('shiny-bound-output')) {
@@ -4856,8 +4919,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     }
 
     function unbindOutputs() {
-      var scope = arguments.length <= 0 || arguments[0] === undefined ? document : arguments[0];
-      var includeSelf = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
+      var scope = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document;
+      var includeSelf = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
       var outputs = $(scope).find('.shiny-bound-output');
 
@@ -4919,7 +4982,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     }
 
     function bindInputs() {
-      var scope = arguments.length <= 0 || arguments[0] === undefined ? document : arguments[0];
+      var scope = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document;
 
       var bindings = inputBindings.getBindings();
 
@@ -4977,8 +5040,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     }
 
     function unbindInputs() {
-      var scope = arguments.length <= 0 || arguments[0] === undefined ? document : arguments[0];
-      var includeSelf = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
+      var scope = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document;
+      var includeSelf = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
       var inputs = $(scope).find('.shiny-bound-input');
 
@@ -5007,7 +5070,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       return bindInputs(scope);
     }
     function unbindAll(scope) {
-      var includeSelf = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
+      var includeSelf = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
       unbindInputs(scope, includeSelf);
       unbindOutputs(scope, includeSelf);
@@ -5032,7 +5095,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     // Calls .initialize() for all of the input objects in all input bindings,
     // in the given scope.
     function initializeInputs() {
-      var scope = arguments.length <= 0 || arguments[0] === undefined ? document : arguments[0];
+      var scope = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document;
 
       var bindings = inputBindings.getBindings();
 

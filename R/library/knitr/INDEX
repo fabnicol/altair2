@@ -9,6 +9,8 @@ current_input           Query the current input filename
 dep_auto                Build automatic dependencies among chunks
 dep_prev                Make later chunks depend on previous chunks
 engine_output           An output wrapper for language engine output
+extract_raw_output      Mark character strings as raw output that
+                        should not be converted
 fig_chunk               Obtain the figure filenames for a chunk
 fig_path                Path for figure files
 hook_ffmpeg_html        Hooks to create animations in HTML output

@@ -74,6 +74,7 @@ mgus2	mgus2
 model.frame.coxph	model.frame.coxph
 model.frame.survreg	survreg
 model.matrix.coxph	model.matrix.coxph
+myeloid	myeloid
 neardate	neardate
 nwtco	nwtco
 Ops.ratetable	is.ratetable
@@ -122,9 +123,11 @@ residuals.coxph.penal	residuals.coxph
 residuals.survreg	residuals.survreg
 residuals.survreg.penal	residuals.survreg
 retinopathy	retinopathy
+rhDNase	rhDNase
 ridge	ridge
 rsurvreg	dsurvreg
 stanford2	stanford2
+statefig	statefig
 strata	strata
 summary.aareg	summary.aareg
 summary.coxph	summary.coxph

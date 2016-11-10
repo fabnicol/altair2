@@ -1,3 +1,17 @@
+Version 0.10
+------------------------------------------------------------------------------
+
+* Added option for the evaluate function to include timing information of ran
+  commands. This information will be subsequently rendered by the replay.
+  Example usage:
+  evaluate::replay(evaluate::evaluate('Sys.sleep(1)', include_timing = TRUE))
+
+* Added a new function `flush_console()` to emulate `flush.console()` in
+  `evaluate()` (#61).
+
+* Added a `inject_funs()` function to create functions in the environment passed
+  to the `envir` argument of `evaluate()`.
+
 Version 0.9
 ------------------------------------------------------------------------------
 

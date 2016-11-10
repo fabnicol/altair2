@@ -25,6 +25,7 @@ domains                 Reactive domains
 downloadButton          Create a download button or link
 downloadHandler         File Downloads
 enableBookmarking       Enable bookmarking for a Shiny application
+exportTestValues        Register expressions for export in test mode
 exprToFunction          Convert an expression to a function
 fileInput               File Upload Control
 fillPage                Create a page that fills the window
