@@ -99,10 +99,13 @@ private:
     FLineEdit *NBILineEdit;
     FLineEdit *PFILineEdit;
     QList<FLineEdit*> listeCodes;
+    QList<QString> listeLabels;
     QLabel *label;
     QString init_label_text ;
+    QToolButton* appliquerCodes ;
 private slots:    
     void substituer_valeurs_dans_script_R();
+    bool reinitialiser_prologue();
 
 };
 
