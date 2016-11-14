@@ -200,11 +200,9 @@ expression.rég.pfi        <- "(?:^|\\s)pfi|(?:p(?:(?=r)r\\w*|)|i(?:(?=n)nd\\w*|
 # Les valeurs ci-après seront changées par le "préprocesseur" de l'interface graphique si les valeurs explicites des codes de paye
 # associés aux différentes contraintes sont rentrées
 
-codes.nbi <- NA
-codes.pfi  <- NA
+ajuster_prologue <- FALSE
 
-codes <- data.table(valeur = c(codes.nbi, codes.pfi),
-                    expression = c(expression.rég.nbi, expression.rég.pfi))
+if (ajuster_prologue) source("prologue_codes.R")
 
 expression.rég.heures.sup <- "(?:^|\\s)iht?[sc]|i(?:(?=n)n\\w*|)\\.?\\s*\\bh(?:(?=o)o\\w*|)\\.?.*\\bs(?:(?=u)u\\w*|)\\.?\\b|h(?:(?=e)e\\w*|)\\.?\\s*\\b(?:(?=s)s\\w*|c\\w*)\\.?\\b"
 expression.rég.iat        <- "(?:^|\\s)iat|i(?:(?=n)n\\w*|)\\.?\\s*\\ba(?:(?=d)d\\w*|)\\.?\\s*\\b(?:et\\s*\\b)?t(?:(?=e)e\\w*|)\\.?\\b"

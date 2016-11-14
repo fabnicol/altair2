@@ -66,10 +66,14 @@ codePage::codePage()
 
 
     
-    QToolButton* appliquerCodes = new QToolButton;
+    appliquerCodes = new QToolButton;
     
-    appliquerCodes->setIcon(QIcon(":/images/data-icon.png"));
+    QIcon icon0 = QIcon(":/images/view-refresh.png");
+    QIcon icon1 = QIcon(":/images/msg.png");
+
+    appliquerCodes->setIcon(icon0);
     appliquerCodes->setToolTip("Appuyer pour exporter ces codes de paye<br>pour la génération des rapports d'analyse.");
+    appliquerCodes->setCheckable(true);
     
     QGridLayout *v1Layout = new QGridLayout;
     
@@ -90,45 +94,109 @@ codePage::codePage()
     mainLayout->addWidget(mainLabel);
     mainLayout->addWidget(baseBox, 1, 0);
     mainLayout->addSpacing(100);
-       
+
+    // Ajouter ici les FLineEdit en pile dans listeCodes
+
     listeCodes << NBILineEdit;
     listeCodes << PFILineEdit;
+
+    // Ajouter ici les labels correspondants dans liste Labels
+    // Les labels doivent correspondre à une variable chaîne nommée codes.label dans prologue_codes.R
+
+    listeLabels << "nbi" << "pfi";
     
     init_label_text = "Appuyer pour exporter ces valeurs<br>vers les rapports d'analyse  ";
     label->setText(init_label_text);
     
     connect(appliquerCodes, SIGNAL(clicked()), this, SLOT(substituer_valeurs_dans_script_R()));
     for (FLineEdit *a: listeCodes)
-        connect(a, &QLineEdit::textEdited, [this] { label->setText(init_label_text); });
-    
+        connect(a, &QLineEdit::textEdited, [this] {
+                                                     label->setText(init_label_text);
+                                                     appliquerCodes->setChecked(false);
+                                                     reinitialiser_prologue();
+                                                  });
+
+    connect(appliquerCodes, &QToolButton::toggled, [this, icon1, icon0]
+                                                  {
+                                                            QIcon icon;
+                                                            icon = (appliquerCodes->isChecked()) ? icon1 : icon0;
+                                                            appliquerCodes->setIcon(icon);
+                                                  });
+
     setLayout(mainLayout);
+
+    reinitialiser_prologue();
 }
     
+
+inline const QString regexp(const QString& X)  { return "codes." + X + " *<- *NA"; }
+
+inline QString rempl_str(const QString &X, const QString &Y) { return  "codes." + X + " <- " + Y ;}
+
+
 void codePage::substituer_valeurs_dans_script_R()
 {
-    
-    QString prologue_path = path_access("Tests/Exemple/prologue.R");
-    QString prologue = common::readFile(prologue_path);
-    QRegExp reg = QRegExp("codes.nbi *<- *NA");
-    QRegExp reg1 = QRegExp("codes.pfi *<- *NA");
-    reg.setPatternSyntax(QRegExp::RegExp2);
-    reg1.setPatternSyntax(QRegExp::RegExp2);
-    
-    prologue.replace(reg, "codes.nbi <- " + listeCodes[0]->text());
-    prologue.replace(reg1, "codes.pfi <- " + listeCodes[1]->text());
-    
-    QString temp_path = path_access("Tests/Exemple/prologue.temp.R");
-    
-    QFile fout(temp_path);
-    fout.open(QIODevice::WriteOnly);
-    QTextStream out (&fout);
-    out << prologue;
-    fout.close();
-    QFile(prologue_path).remove();
-    fout.rename(prologue_path);
-    
-    label->setText("Les codes de paye seront <br>pris en compte pour les rapports  ");
-   
+    reinitialiser_prologue();
+
+    bool res = true;
+
+    for (const FLineEdit* a: listeCodes)
+    {
+          res &= a->text().isEmpty();
+    }
+
+    if (res == true)
+    {
+        Q("Les codes sont tous non renseignés.<br>"
+          "Les tests statutaires se feront <br>sous algorithme heuristique seulement.")
+
+        return;
+    }
+
+    res = substituer("ajuster_prologue *<- *FALSE",
+                     "ajuster_prologue <- TRUE",
+                     "Tests/Exemple/prologue.R");
+
+    if (res == false)
+    {
+        Q("Le remplacement de la variable ajuster_prologue<br>"
+          "n'a pas pu être effectué dans le fichier prologue.R<br>"
+          "Les tests statutaires se feront <br>sous algorithme heuristique seulement.")
+    }
+    else
+    {
+        for (int rang = 0; rang < listeCodes.size(); ++rang)
+        {
+            const QString &s     = listeLabels.at(rang);
+            const QString &codes = listeCodes.at(rang)->text();
+
+            res &= substituer(regexp(s),
+                              rempl_str(s, codes),
+                              "Tests/Exemple/prologue_codes.R");
+
+            if (res == false)
+            {
+                Q(QString("Le remplacement de la variable codes." + s + "<br>"
+                  "n'a pas pu être effectué dans le fichier prologue_codes.R<br>"
+                  "Les tests statutaires se feront <br>sous algorithme heuristique seulement.").trimmed())
+            }
+        }
+    }
+
+    if (res == true)
+        label->setText("Les codes de paye seront <br>pris en compte pour les rapports  ");
+    else
+        label->setText("Tous les codes de paye ne pourront pas<br> être pris en compte pour les rapports  ");
+}
+
+bool codePage::reinitialiser_prologue()
+{
+    QFile(path_access("Tests/Exemple/prologue_codes.R")).remove();
+    bool result = QFile(path_access("Tests/Exemple/prologue_init.R")).copy("Tests/Exemple/prologue_codes.R");
+    result &= substituer("ajuster_prologue *<- *TRUE",
+                         "ajuster_prologue <- FALSE",
+                         "Tests/Exemple/prologue.R");
+    return result;
 }
 
 standardPage::standardPage()
