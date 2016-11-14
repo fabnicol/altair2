@@ -24,6 +24,7 @@
 #+ début
 
 library(compiler)
+library(data.table)
 invisible(setCompilerOptions(suppressAll = TRUE, optimize = 3))
 invisible(enableJIT(3))
 
@@ -40,7 +41,7 @@ générer.rapport         <<- ! grepl("altair", basename(currentDir), ignore.cas
 try(setwd("Tests/Exemple"), silent = TRUE)
 
 source("syspaths.R", encoding = encodage.code.source)
-source("prologue.R", encoding = encodage.code.source)
+source("prologue.R", encoding = "UTF-8")
 
 if (corriger.environnement.système) {
   
