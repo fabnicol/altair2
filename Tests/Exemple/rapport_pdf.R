@@ -8,11 +8,4 @@ if (! keep_md) {
   unlink("altair_files", recursive = TRUE)  
 }
 
-
-if (! setOSWindows) {
-    system("cp -rf Docs Donnees/R-Altair")
-    system("cp -f  altaïr.pdf Donnees/R-Altair")
-}
-
-
 setwd(initwd)

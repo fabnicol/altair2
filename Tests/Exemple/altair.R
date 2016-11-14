@@ -1083,7 +1083,7 @@ newpage()
 ########### 5. TESTS STATUTAIRES ########################
 #'
 
-#### 5.1 NBI ####
+#### 5.1 NBI ET PFI ####
 
 #'# `r chapitre`. Tests réglementaires   
 #'## `r chapitre`.1 Contrôle des NBI et primes informatiques   
@@ -1093,45 +1093,36 @@ newpage()
 
 #+ tests-statutaires-nbi
 
-if (N <- uniqueN(Paie[Statut != "TITULAIRE"
-                            & Statut != "STAGIAIRE"
-                            & NBI != 0, 
-                              Matricule]))
-  cat("Il existe ", FR(N), "non titulaire", ifelse(N>1, "s", ""), " percevant une NBI.")
+# --- Test n°1  : NBI accordée aux non titulaires
+#     Filtre    : Statut != "TITULAIRE" & Statut != "STAGIAIRE" & NBI != 0  grepl(expression.rég.nbi, Libellé)
+
+
+colonnes <-  c("Matricule",
+               "Statut",
+               "Code",
+               "Libellé",
+               "Année",
+               "Mois",
+               "Montant")
 
 setkey(Paie, Statut)
-Paie[c("NON_TITULAIRE", "EMPLOI_AIDE"),
-           indic2 := NBI != 0 & grepl(expression.rég.nbi, Libellé, ignore.case=TRUE, perl=TRUE)]
- 
-NBI.aux.non.titulaires <- Paie[indic2 == TRUE, c(étiquette.matricule,
-                                                  "Statut",
-                                                  étiquette.code,
-                                                  étiquette.libellé,
-                                                  étiquette.année,
-                                                  "Mois",
-                                                  "NBI",
-                                                  étiquette.montant),
-                                                   with=FALSE] 
 
-Paie[,indic2 := NULL]
+NBI.aux.non.titulaires <- filtrer_Paie(NBI)[! "TITULAIRE"
+                                          ][! "STAGIAIRE"
+                                          ][ NBI != 0,
+                                              c(colonnes, "NBI"),
+                                              with = FALSE]
+           
+if (nombre.personnels.nbi.nontit <- uniqueN(NBI.aux.non.titulaires$Matricule))
+    cat("Il existe ", FR(nombre.personnels.nbi.nontit), "non titulaire" %s% nombre.personnels.nbi.nontit, " percevant une NBI.")
 
-nombre.Lignes.paie.NBI.nontit <- nrow(NBI.aux.non.titulaires)
+# --- Test n°2  : Prime de fonctions informatiques
+#     Filtre    : filtre expression rationnelle expression.rég.pfi dans Libellé.
 
-# Prime de fonctions informatiques : pas dans la base de VLB
-# on cherche la chaine de char. "INFO" dans les libellés de primes
-
-# variante : filtre <- regexpr(".*(INFO|PFI|P.F.I).*", toupper(Paie$Libellé)) et regmatches(Paie$Libellé, filtre)
-
-personnels.prime.informatique <- Paie[grepl(expression.rég.pfi, Libellé, ignore.case=TRUE, perl=TRUE) == TRUE,
-                                         .(Matricule,
-                                           Année,
-                                           Mois,
-                                           Statut,
-                                           Code,
-                                           Libellé,
-                                           Montant)]
-
-nombre.personnels.pfi <- nrow(personnels.prime.informatique)
+personnels.prime.informatique <- filtrer_Paie(PFI)[, colonnes, with = FALSE]
+  
+if (nombre.personnels.pfi <- uniqueN(personnels.prime.informatique$Matricule))
+  cat("Il existe ", FR(nombre.personnels.pfi), "agent" %s% nombre.personnels.pfi, " percevant une PFI.")
 
 primes.informatiques.potentielles <- if (nombre.personnels.pfi == 0) "aucune" else unique(personnels.prime.informatique$Libellé)
 
@@ -1141,9 +1132,9 @@ primes.informatiques.potentielles <- if (nombre.personnels.pfi == 0) "aucune" el
 #'    
 
 Tableau(
-  c("Nombre de lignes NBI pour non titulaires",
+  c("Nombre de non tit. bénéficiant de NBI",
     "Nombre de bénéficiaires de PFI"),
-  nombre.Lignes.paie.NBI.nontit,
+  nombre.personnels.nbi.nontit,
   nombre.personnels.pfi)
 
 #'   
@@ -1155,26 +1146,31 @@ Tableau(
 #'PFI: prime de fonctions informatiques   
 #'
 
-T1 <- Bulletins.paie[ , .(nbi.cumul.indiciaire=sum(NBI, na.rm = TRUE)), by="Matricule,Année"] 
-T1 <- T1[nbi.cumul.indiciaire > 0] 
+# On calcule tout d'abord la somme de points de NBI par matricule et par année
+
+T1 <- Bulletins.paie[ , .(nbi.cumul.indiciaire = sum(NBI, na.rm = TRUE)), by="Matricule,Année"][nbi.cumul.indiciaire > 0] 
+
+# On calcule ensuite, sur les traitements et éventuellement les indemnités, la somme des paiements au titre de la NBI, par matricule et par année
+# Attention ne pas prendre en compte les déductions, retenues et cotisations, ni les rappels. On compare en effet les payements bruts de base à la somme des points x valeur du point
 
 T2 <- Paie[grepl(expression.rég.nbi, Libellé, perl=TRUE, ignore.case=TRUE) == TRUE 
            & Type %chin% c("T", "I")
            & NBI != 0,
-           .(nbi.cumul.montants = sum(Montant, na.rm=TRUE)), keyby="Matricule,Année"]
-
-T2 <- T2[nbi.cumul.montants != 0]
+             .(nbi.cumul.montants = sum(Montant, na.rm=TRUE)), 
+             keyby="Matricule,Année"][nbi.cumul.montants != 0]
 
 T <- merge(T1, T2, by=c("Matricule", "Année"))
 
+# On somme ensuite par année sur tous les matricules
+
 cumuls.nbi <- T[, .(cumul.annuel.indiciaire = sum(nbi.cumul.indiciaire, na.rm = TRUE),
-      cumul.annuel.montants = sum(nbi.cumul.montants, na.rm = TRUE)), keyby="Année"]
+                    cumul.annuel.montants   = sum(nbi.cumul.montants, na.rm = TRUE)),
+                  keyby="Année"]
 
-T <- T[, ratio := nbi.cumul.montants/nbi.cumul.indiciaire]
+# Les cumuls annuels rapportés cumuls indiciaires pour l'année ne doivent pas trop s'écarter de la valeur annuelle moyenne du point d'indice
 
-T <- T[, nbi.anormale := (abs(ratio) < 4 | abs(ratio) > 6)]
-
-lignes.nbi.anormales <- T[nbi.anormale == TRUE, .(Matricule, Année, nbi.cumul.indiciaire, nbi.cumul.montants)]
+lignes.nbi.anormales <- T[abs(abs(nbi.cumul.montants/nbi.cumul.indiciaire) - valeur.point.inm.pivot) > 1, 
+                            .(Matricule, Année, nbi.cumul.indiciaire, nbi.cumul.montants)]
 
 montants.nbi.anormales <- sum(lignes.nbi.anormales$nbi.cumul.montants, na.rm = TRUE)
 
@@ -1193,7 +1189,7 @@ rm(T, T1, T2)
 #'[Lien vers la base de données NBI anormales](Bases/Fiabilite/lignes.nbi.anormales.csv)   
 #'   
 #'**Nota :**   
-#'*Est considéré comme manifestement anormal un total annuel de rémunérations NBI correspondant à un point d'indice net mensuel inférieur à 4 euros ou supérieur à 6 euros.*    
+#'*Est considéré comme manifestement anormal un total annuel de rémunérations NBI correspondant à un point d'indice net mensuel inférieur à `r valeur.point.inm.pivot - 1` euros ou supérieur à `r valeur.point.inm.pivot + 1` euros.*    
 #'*Les rappels ne sont pas pris en compte dans les montants versés. Certains écarts peuvent être régularisés en les prenant en compte*     
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
