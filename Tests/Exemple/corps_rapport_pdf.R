@@ -11,9 +11,25 @@ rendre(to = "latex",
 
 file.rename("altair.pdf", "altaïr.pdf")
 
+
 if (setOSWindows) {
-  shell("start acrord32.exe altaïr.pdf")
+  
+  system("xcopy /E /Y Docs Donnees/R-Altair")
+  system("copy /Y altaïr.pdf Donnees/R-Altaïr")
+  
 } else {
-  system("okular altaïr.pdf")
+  
+  system("cp -rf Docs Donnees/R-Altair")
+  system("cp -f  altaïr.pdf Donnees/R-Altair")
+  
 }
 
+
+if (setOSWindows) {
+  
+  shell("start acrord32.exe Donnees/R-Altaïr/altaïr.pdf")
+  
+} else {
+  
+  system("okular Donnees/R-Altair/altaïr.pdf")
+}

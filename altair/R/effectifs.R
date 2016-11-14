@@ -1,5 +1,5 @@
 
-'%+%' <- function(x, y) paste0(x, y)
+
 
 # personnels
 # Analyse.rémunérations[Statut != "ELU"

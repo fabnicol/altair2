@@ -16,26 +16,31 @@ system(
    "altaïr.odt")
 )
 
-if (setOSWindows) {
-  
- shell("start winword altaïr.docx")
-  
-} else {
-  
- system("lowriter altaïr.odt")
-  
-}
-
-  
 if (! keep_md) {
     #unlink("altair.ansi_pdf", recursive=TRUE)
     unlink("altair.md")
     unlink("altair_files", recursive = TRUE)  
 }
 
-if (! setOSWindows) {
-    system("cp -rf Docs Donnees/R-Altair")
-    system("cp -f altaïr.odt altaïr.docx Donnees/R-Altair")
+if (setOSWindows) {
+  
+  system("copy /Y altaïr.odt altaïr.docx Donnees/R-Altaïr")
+  
+} else {
+  
+  system("cp -rf Docs Donnees/R-Altair")
+  system("cp -f altaïr.odt altaïr.docx Donnees/R-Altair")
+}
+
+
+if (setOSWindows) {
+  
+  shell("start winword Donnees/R-Altaïr/altaïr.docx")
+  
+} else {
+  
+  system("lowriter Donnees/R-Altair/altaïr.odt")
+  
 }
 
 setwd(initwd)

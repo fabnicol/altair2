@@ -177,14 +177,42 @@ modalité.autres                <- "AUTRES"         # notamment les remboursement
 
 #\\bxyz veut aussi dire cde.xyz(...), à éviter
 
+# --- NBI
+# Schémas recherchés :
+#    nbi, n.b.., n(o*).? *b(o*).? *i(nd*).?
+# ex: NBI, N.B.I, NOUV. BON. IND., N BON IND
+# ex: PFI, P.F.I, PR. FONCT. INFO., IND F INF
+
+NBI <- 1
+PFI <- 2
+
+
+expression.reg.nbi        <- "(?:\\s|^)nbi|(?:n(?:(?=o)o\\w*|)\\.?\\s*\\b)?b(?:(?=o)o\\w*|)\\.?\\s*\\bi(?:(?=n)nd\\w*|)\\.?\\b"
+
+# --- Prime de fonctions informatiques
+# Schémas recherchés :
+#    pfi, p.f.i., p(r*).? *f(o*).? *inf(o*).?, i(nd*).? *f(o*).? *inf(o*).?
+# ex: PFI, P.F.I, PR. FONCT. INFO., IND F INF
+
+expression.rég.pfi        <- "(?:^|\\s)pfi|(?:p(?:(?=r)r\\w*|)|i(?:(?=n)nd\\w*|))\\.?\\s*(?:\\bf(?:(?=o)o\\w*|)\\.?\\s*)?\\binf(?:(?=o)o\\w*|)\\.?\\b"
+
+# Les valeurs ci-après seront changées par le "préprocesseur" de l'interface graphique si les valeurs explicites des codes de paye
+# associés aux différentes contraintes sont rentrées
+
+codes.nbi <- NA
+code.pfi  <- NA
+
+codes <- data.table(valeur = c(codes.nbi, codes.pfi),
+                    expression = c(expression.rég.nbi, expression.rég.pfi))
+
 expression.rég.heures.sup <- "(?:^|\\s)iht?[sc]|i(?:(?=n)n\\w*|)\\.?\\s*\\bh(?:(?=o)o\\w*|)\\.?.*\\bs(?:(?=u)u\\w*|)\\.?\\b|h(?:(?=e)e\\w*|)\\.?\\s*\\b(?:(?=s)s\\w*|c\\w*)\\.?\\b"
 expression.rég.iat        <- "(?:^|\\s)iat|i(?:(?=n)n\\w*|)\\.?\\s*\\ba(?:(?=d)d\\w*|)\\.?\\s*\\b(?:et\\s*\\b)?t(?:(?=e)e\\w*|)\\.?\\b"
 expression.rég.ifts       <- "(?:^|\\s)ifts|i(?:(?=n)n\\w*|)\\.?\\s*\\bf\\w*\\.?\\s*\\bt(?:(?=r)r\\w*|)\\.?\\s*\\bs(?:(?=u)u\\w*|)\\.?\\b"
 expression.rég.pfr        <- "(?:^|\\s)pfr|(?:p(?:(?=r)r\\w*|)|i(?:(?=n)n\\w*|))\\.?\\s*\\bfo?\\w*\\.?.*\\s+.*\\br\\w*s\\w*\\.?\\s*\\b"
-expression.rég.pfi        <- "(?:^|\\s)pfi|(?:p(?:(?=r)r\\w*|)|i(?:(?=n)n\\w*|))\\.?\\s*(?:\\bf(?:(?=o)o\\w*|)\\.?\\s*)?\\binf(?:(?=o)o\\w*|)\\.?\\b"
+
 expression.rég.population <- "\\bASS(\\b|A).*"
 expression.rég.élus       <- "maire|pr[eé]sident|.*([eé]lu[s]?|adj.*maire|v\\w*.*\\s+pr[eé]sident|cons\\w*.*\\s+muni|cons\\w*.*\\s+commun)"
-expression.rég.nbi        <- "(?:\\s|^)nbi|(?:n(?:(?=o)o\\w*|)\\.?\\s*\\b)?b(?:(?=o)o\\w*|)\\.?\\s*\\bi(?:(?=n)n\\w*|)\\.?\\b"
+
 expression.rég.attaché    <- "(?:^|\\s)att\\w*\\.?\\b|se\\w*\\.?\\bma\\w*\\.?\\b"
 expression.rég.attaché.p  <- "(?:^|\\s)att\\w*\\.?\\bpr\\w*\\.?\\b|dir\\w*\\.?\\b"
 expression.rég.admin      <- "(?:^|\\s)adm\\w*\\.?\\b"
