@@ -1,7 +1,6 @@
 
 library(knitr)
 library(ggplot2)
-library(data.table)
 
 ## Pour les versions de data.table < 1.9.5 
 ##  if (séparateur.décimal.entrée != ".")
