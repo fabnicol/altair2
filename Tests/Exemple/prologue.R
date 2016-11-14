@@ -1,83 +1,84 @@
-# prologue
-# doit être dans le même répertoire que le programme principal et sa bibliothèque
+# prologue 
+# doit Ãªtre encodeÃ© en UTF-8 au moins sous Linux. A vÃ©rifier sous Windows...pour l'interface graphique
+# doit Ãªtre dans le mÃªme rÃ©pertoire que le programme principal et sa bibliothÃ¨que
 
-# dans le cas où l'on ne lance le programme que pour certaines années, il préciser début.période sous revue et fin.période .sous.revue
-# Dans ce cas fixer extraire.années en valeur TRUE.
-# Sinon le programme travaille sur l'ensemble des années disponibles dans la base : elles sont détectées automatiquement.
+# dans le cas oÃ¹ l'on ne lance le programme que pour certaines annÃ©es, il prÃ©ciser dÃ©but.pÃ©riode sous revue et fin.pÃ©riode .sous.revue
+# Dans ce cas fixer extraire.annÃ©es en valeur TRUE.
+# Sinon le programme travaille sur l'ensemble des annÃ©es disponibles dans la base : elles sont dÃ©tectÃ©es automatiquement.
 
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
 
 
-racine                         <- ifelse(setOSWindows, "R-Altaïr/", "R-Altair")
+racine                         <- ifelse(setOSWindows, "R-AltaÃ¯r/", "R-Altair")
 
-# Toujours utiliser FALSE ou TRUE en plein lettres en raison de l'éloignement avec <- (bug de l'interpréteur pour T et F)
+# Toujours utiliser FALSE ou TRUE en plein lettres en raison de l'Ã©loignement avec <- (bug de l'interprÃ©teur pour T et F)
 
-extraire.années                <- FALSE
-  début.période.sous.revue     <- 2013
-  fin.période.sous.revue       <- 2014
+extraire.annÃ©es                <- FALSE
+  dÃ©but.pÃ©riode.sous.revue     <- 2013
+  fin.pÃ©riode.sous.revue       <- 2014
 
 exec.root                      <- if (setOSWindows) ".exe" else ""
 
-éliminer.duplications          <- FALSE
+Ã©liminer.duplications          <- FALSE
 redresser.heures               <- TRUE
-enlever.quotités.nulles        <- FALSE
-enlever.quotités.na            <- FALSE
-écreter.quotités               <- TRUE
-générer.codes                  <- FALSE
-charger.catégories.personnel   <- TRUE
+enlever.quotitÃ©s.nulles        <- FALSE
+enlever.quotitÃ©s.na            <- FALSE
+Ã©creter.quotitÃ©s               <- TRUE
+gÃ©nÃ©rer.codes                  <- FALSE
+charger.catÃ©gories.personnel   <- TRUE
 extraire.population            <- FALSE
 charger.bases                  <- TRUE
 sauvegarder.bases.analyse      <- TRUE
 sauvegarder.bases.origine      <- FALSE
 afficher.table.effectifs       <- FALSE
-générer.table.élus             <- FALSE
+gÃ©nÃ©rer.table.Ã©lus             <- FALSE
 tester.matricules              <- TRUE
 analyse.statique.totale        <- FALSE
-corriger.environnement.système <- (setOSWindows == TRUE)
-intégrer.localisation          <- FALSE   # Veut on gardet Budget Employeur Siret Etablissement ?
-afficher.cumuls.détaillés.lignes.paie <- FALSE
-afficher.table.écarts.sft      <- FALSE
+corriger.environnement.systÃ¨me <- (setOSWindows == TRUE)
+intÃ©grer.localisation          <- FALSE   # Veut on gardet Budget Employeur Siret Etablissement ?
+afficher.cumuls.dÃ©taillÃ©s.lignes.paie <- FALSE
+afficher.table.Ã©carts.sft      <- FALSE
 afficher.table.codes           <- FALSE
-afficher.table.événements      <- FALSE
-analyse.par.catégorie          <- TRUE
+afficher.table.Ã©vÃ©nements      <- FALSE
+analyse.par.catÃ©gorie          <- TRUE
 test.delta                     <- FALSE
 if (! exists("PDF"))       PDF <- FALSE
 keep_md                        <- FALSE
 utiliser.cplusplus.sft         <- TRUE
-sécuriser.types.sortie         <- TRUE
+sÃ©curiser.types.sortie         <- TRUE
 
 seuil.troncature               <- 1 # jours
-taux.tolérance.homonymie       <- 2  # en %
+taux.tolÃ©rance.homonymie       <- 2  # en %
 quantile.cut                   <- 1  # en %
 minimum.positif                <- 0.5
-minimum.quotité                <- 0.1
-tolérance.variation.quotité    <- 0.05
+minimum.quotitÃ©                <- 0.1
+tolÃ©rance.variation.quotitÃ©    <- 0.05
 minimum.actif                  <- 100
 minimum.delta                  <- 5
-dpi                            <- 300 # points par pouce, précision des graphiques de rapport
+dpi                            <- 300 # points par pouce, prÃ©cision des graphiques de rapport
 fig.width                      <- 7.5
 fig.height                     <- 5
 
 
-# définitions INSEE pour le poste non annexe
-# poste non annexe = minimum d'un mois et de 120h à raison d'au moins 1,5 h/jour.
+# dÃ©finitions INSEE pour le poste non annexe
+# poste non annexe = minimum d'un mois et de 120h Ã  raison d'au moins 1,5 h/jour.
 
 minimum.Nheures.jour.non.annexe <- 1.5
 minimum.Nheures.non.annexe      <- 120
 minimum.Nmois.non.annexe        <- 1
 
-population_minimale_calcul_médiane  <- 3
-tolérance.sft                       <- 1
+population_minimale_calcul_mÃ©diane  <- 3
+tolÃ©rance.sft                       <- 1
 
-séparateur.liste.entrée     <- ";"
-séparateur.décimal.entrée   <- ","
-séparateur.liste.sortie     <- ";"
-séparateur.décimal.sortie   <- ","
+sÃ©parateur.liste.entrÃ©e     <- ";"
+sÃ©parateur.dÃ©cimal.entrÃ©e   <- ","
+sÃ©parateur.liste.sortie     <- ";"
+sÃ©parateur.dÃ©cimal.sortie   <- ","
 
 # FICHIERS EN INPUT
 # conventions de nommage : les noms et chemins sont en minuscules ;
-# les bases commencent par une majuscule. Un nom de fichier est souvent associé
-# à une variable commençant par une majuscule et représentant la base (data.frame ou matrice)
+# les bases commencent par une majuscule. Un nom de fichier est souvent associÃ©
+# Ã  une variable commenÃ§ant par une majuscule et reprÃ©sentant la base (data.frame ou matrice)
 
 liste.exclusions <- NULL
 
@@ -95,15 +96,15 @@ nom.table                   <- "Table"
 nom.bulletins               <- "Bulletins"
 
 # DOSSIERS
-# Attention, si l'on lance la génération de document pour la première fois sans répertoire Bases existant, on aura un write error.
-# pour les applications à ergonomie facilitée, prévoir de distribuer le logiciel avec un dossier Bases déjà généré.
+# Attention, si l'on lance la gÃ©nÃ©ration de document pour la premiÃ¨re fois sans rÃ©pertoire Bases existant, on aura un write error.
+# pour les applications Ã  ergonomie facilitÃ©e, prÃ©voir de distribuer le logiciel avec un dossier Bases dÃ©jÃ  gÃ©nÃ©rÃ©.
 
 chemin.dossier              <- getwd()
-chemin.clé                  <- file.path(chemin.dossier, "Donnees", racine)
-chemin.dossier.bases        <- file.path(chemin.clé, "Bases")
-chemin.dossier.outils       <- file.path(chemin.clé, "..", "..", "Outils")
-chemin.dossier.lib          <- file.path(chemin.clé, "..", "..", "lib")
-chemin.dossier.données      <- file.path(chemin.clé, "Donnees")
+chemin.clÃ©                  <- file.path(chemin.dossier, "Donnees", racine)
+chemin.dossier.bases        <- file.path(chemin.clÃ©, "Bases")
+chemin.dossier.outils       <- file.path(chemin.clÃ©, "..", "..", "Outils")
+chemin.dossier.lib          <- file.path(chemin.clÃ©, "..", "..", "lib")
+chemin.dossier.donnÃ©es      <- file.path(chemin.clÃ©, "Donnees")
 
 # Outils
 
@@ -118,24 +119,24 @@ if (setOSWindows) {
 
 # ETIQUETTES ET FORMATS
 
-étiquette.matricule         <- "Matricule"
-étiquette.Type.rémunération <- "Type rémunération"
-étiquette.année             <- "Année"
-étiquette.libellé           <- "Libellé"
-étiquette.montant           <- "Montant"
-étiquette.code              <- "Code"
-étiquette.rém.indemn        <- "Rémunération contractuelle ou indemnitaire"
-champ.détection.1           <- étiquette.matricule
-champ.détection.2           <- "Code"
+Ã©tiquette.matricule         <- "Matricule"
+Ã©tiquette.Type.rÃ©munÃ©ration <- "Type rÃ©munÃ©ration"
+Ã©tiquette.annÃ©e             <- "AnnÃ©e"
+Ã©tiquette.libellÃ©           <- "LibellÃ©"
+Ã©tiquette.montant           <- "Montant"
+Ã©tiquette.code              <- "Code"
+Ã©tiquette.rÃ©m.indemn        <- "RÃ©munÃ©ration contractuelle ou indemnitaire"
+champ.dÃ©tection.1           <- Ã©tiquette.matricule
+champ.dÃ©tection.2           <- "Code"
 
-clé.fusion <- étiquette.matricule
+clÃ©.fusion <- Ã©tiquette.matricule
 
-colonnes.requises           <- c(union(clé.fusion, étiquette.matricule),
-                                 étiquette.année,
+colonnes.requises           <- c(union(clÃ©.fusion, Ã©tiquette.matricule),
+                                 Ã©tiquette.annÃ©e,
                                  "Mois",
                                  "Statut",
                                  "Brut",
-                                 "Net.à.Payer",
+                                 "Net.Ã .Payer",
                                  "Heures.Sup.",
                                  "Heures",
                                  "Emploi",
@@ -146,39 +147,39 @@ colonnes.requises           <- c(union(clé.fusion, étiquette.matricule),
 
 date.format                      <- "%d/%m/%Y"
 
-# ESPACES DE VALEURS LICITES POUR CERTAINS CHAMPS (modalités)
+# ESPACES DE VALEURS LICITES POUR CERTAINS CHAMPS (modalitÃ©s)
 
 
-########## Problématique ##############
+########## ProblÃ©matique ##############
 
 
 # A priori les deux modes de lectures de tables (rapide et standard) lisent aussi bien le Windows ANSI/ISO-8859-1 que
-# l'UTF-8 à condition que le Windows ANSI soit encodé par Excel ou l'éditeur de RStudio.
+# l'UTF-8 Ã  condition que le Windows ANSI soit encodÃ© par Excel ou l'Ã©diteur de RStudio.
 
-encodage.entrée <-  "ISO-8859-1"
+encodage.entrÃ©e <-  "ISO-8859-1"
   # "WINDOWS-1252"
   # "UTF-8"
   
-encodage.entrée.xhl2csv <-  "ISO-8859-1"
+encodage.entrÃ©e.xhl2csv <-  "ISO-8859-1"
 
 encodage.sortie <- "ISO-8859-15"
 
-modalité.traitement            <- "TRAITEMENT"     # s'applique aussi aux NBI
-modalité.indemnitaire          <- "INDEMNITAIRE"   # hors vacations
+modalitÃ©.traitement            <- "TRAITEMENT"     # s'applique aussi aux NBI
+modalitÃ©.indemnitaire          <- "INDEMNITAIRE"   # hors vacations
 
 
-modalité.principal.contractuel <- "PRINCIPAL.CONTRACTUEL" # contractuels qui ne sont pas payés par référénece à un traitement indiciaire.
-modalité.élu                   <- "ELU"
-modalité.vacations             <- "VACATIONS"
-modalité.autres                <- "AUTRES"         # notamment les remboursements de frais professionnels, de transport et les restitutions/régularisations
+modalitÃ©.principal.contractuel <- "PRINCIPAL.CONTRACTUEL" # contractuels qui ne sont pas payÃ©s par rÃ©fÃ©rÃ©nece Ã  un traitement indiciaire.
+modalitÃ©.Ã©lu                   <- "ELU"
+modalitÃ©.vacations             <- "VACATIONS"
+modalitÃ©.autres                <- "AUTRES"         # notamment les remboursements de frais professionnels, de transport et les restitutions/rÃ©gularisations
 
 
-# expressions régulières
+# expressions rÃ©guliÃ¨res
 
-#\\bxyz veut aussi dire cde.xyz(...), à éviter
+#\\bxyz veut aussi dire cde.xyz(...), Ã  Ã©viter
 
 # --- NBI
-# Schémas recherchés :
+# SchÃ©mas recherchÃ©s :
 #    nbi, n.b.., n(o*).? *b(o*).? *i(nd*).?
 # ex: NBI, N.B.I, NOUV. BON. IND., N BON IND
 # ex: PFI, P.F.I, PR. FONCT. INFO., IND F INF
@@ -187,37 +188,37 @@ NBI <- 1
 PFI <- 2
 
 
-expression.reg.nbi        <- "(?:\\s|^)nbi|(?:n(?:(?=o)o\\w*|)\\.?\\s*\\b)?b(?:(?=o)o\\w*|)\\.?\\s*\\bi(?:(?=n)nd\\w*|)\\.?\\b"
+expression.rÃ©g.nbi        <- "(?:\\s|^)nbi|(?:n(?:(?=o)o\\w*|)\\.?\\s*\\b)?b(?:(?=o)o\\w*|)\\.?\\s*\\bi(?:(?=n)nd\\w*|)\\.?\\b"
 
 # --- Prime de fonctions informatiques
-# Schémas recherchés :
+# SchÃ©mas recherchÃ©s :
 #    pfi, p.f.i., p(r*).? *f(o*).? *inf(o*).?, i(nd*).? *f(o*).? *inf(o*).?
 # ex: PFI, P.F.I, PR. FONCT. INFO., IND F INF
 
-expression.rég.pfi        <- "(?:^|\\s)pfi|(?:p(?:(?=r)r\\w*|)|i(?:(?=n)nd\\w*|))\\.?\\s*(?:\\bf(?:(?=o)o\\w*|)\\.?\\s*)?\\binf(?:(?=o)o\\w*|)\\.?\\b"
+expression.rÃ©g.pfi        <- "(?:^|\\s)pfi|(?:p(?:(?=r)r\\w*|)|i(?:(?=n)nd\\w*|))\\.?\\s*(?:\\bf(?:(?=o)o\\w*|)\\.?\\s*)?\\binf(?:(?=o)o\\w*|)\\.?\\b"
 
-# Les valeurs ci-après seront changées par le "préprocesseur" de l'interface graphique si les valeurs explicites des codes de paye
-# associés aux différentes contraintes sont rentrées
+# Les valeurs ci-aprÃ¨s seront changÃ©es par le "prÃ©processeur" de l'interface graphique si les valeurs explicites des codes de paye
+# associÃ©s aux diffÃ©rentes contraintes sont rentrÃ©es
 
 codes.nbi <- NA
-code.pfi  <- NA
+codes.pfi  <- NA
 
 codes <- data.table(valeur = c(codes.nbi, codes.pfi),
-                    expression = c(expression.rég.nbi, expression.rég.pfi))
+                    expression = c(expression.rÃ©g.nbi, expression.rÃ©g.pfi))
 
-expression.rég.heures.sup <- "(?:^|\\s)iht?[sc]|i(?:(?=n)n\\w*|)\\.?\\s*\\bh(?:(?=o)o\\w*|)\\.?.*\\bs(?:(?=u)u\\w*|)\\.?\\b|h(?:(?=e)e\\w*|)\\.?\\s*\\b(?:(?=s)s\\w*|c\\w*)\\.?\\b"
-expression.rég.iat        <- "(?:^|\\s)iat|i(?:(?=n)n\\w*|)\\.?\\s*\\ba(?:(?=d)d\\w*|)\\.?\\s*\\b(?:et\\s*\\b)?t(?:(?=e)e\\w*|)\\.?\\b"
-expression.rég.ifts       <- "(?:^|\\s)ifts|i(?:(?=n)n\\w*|)\\.?\\s*\\bf\\w*\\.?\\s*\\bt(?:(?=r)r\\w*|)\\.?\\s*\\bs(?:(?=u)u\\w*|)\\.?\\b"
-expression.rég.pfr        <- "(?:^|\\s)pfr|(?:p(?:(?=r)r\\w*|)|i(?:(?=n)n\\w*|))\\.?\\s*\\bfo?\\w*\\.?.*\\s+.*\\br\\w*s\\w*\\.?\\s*\\b"
+expression.rÃ©g.heures.sup <- "(?:^|\\s)iht?[sc]|i(?:(?=n)n\\w*|)\\.?\\s*\\bh(?:(?=o)o\\w*|)\\.?.*\\bs(?:(?=u)u\\w*|)\\.?\\b|h(?:(?=e)e\\w*|)\\.?\\s*\\b(?:(?=s)s\\w*|c\\w*)\\.?\\b"
+expression.rÃ©g.iat        <- "(?:^|\\s)iat|i(?:(?=n)n\\w*|)\\.?\\s*\\ba(?:(?=d)d\\w*|)\\.?\\s*\\b(?:et\\s*\\b)?t(?:(?=e)e\\w*|)\\.?\\b"
+expression.rÃ©g.ifts       <- "(?:^|\\s)ifts|i(?:(?=n)n\\w*|)\\.?\\s*\\bf\\w*\\.?\\s*\\bt(?:(?=r)r\\w*|)\\.?\\s*\\bs(?:(?=u)u\\w*|)\\.?\\b"
+expression.rÃ©g.pfr        <- "(?:^|\\s)pfr|(?:p(?:(?=r)r\\w*|)|i(?:(?=n)n\\w*|))\\.?\\s*\\bfo?\\w*\\.?.*\\s+.*\\br\\w*s\\w*\\.?\\s*\\b"
 
-expression.rég.population <- "\\bASS(\\b|A).*"
-expression.rég.élus       <- "maire|pr[eé]sident|.*([eé]lu[s]?|adj.*maire|v\\w*.*\\s+pr[eé]sident|cons\\w*.*\\s+muni|cons\\w*.*\\s+commun)"
+expression.rÃ©g.population <- "\\bASS(\\b|A).*"
+expression.rÃ©g.Ã©lus       <- "maire|pr[eÃ©]sident|.*([eÃ©]lu[s]?|adj.*maire|v\\w*.*\\s+pr[eÃ©]sident|cons\\w*.*\\s+muni|cons\\w*.*\\s+commun)"
 
-expression.rég.attaché    <- "(?:^|\\s)att\\w*\\.?\\b|se\\w*\\.?\\bma\\w*\\.?\\b"
-expression.rég.attaché.p  <- "(?:^|\\s)att\\w*\\.?\\bpr\\w*\\.?\\b|dir\\w*\\.?\\b"
-expression.rég.admin      <- "(?:^|\\s)adm\\w*\\.?\\b"
-expression.rég.admin.hc   <- "(?:^|\\s)adm\\w*\\.?\\bh\\w*\\.?\\s?c\\w*\\.?\\b"
-expression.rég.admin.g    <- "(?:^|\\s)adm\\w*\\.?\\b\\s?g\\w*\\.?\\b"
+expression.rÃ©g.attachÃ©    <- "(?:^|\\s)att\\w*\\.?\\b|se\\w*\\.?\\bma\\w*\\.?\\b"
+expression.rÃ©g.attachÃ©.p  <- "(?:^|\\s)att\\w*\\.?\\bpr\\w*\\.?\\b|dir\\w*\\.?\\b"
+expression.rÃ©g.admin      <- "(?:^|\\s)adm\\w*\\.?\\b"
+expression.rÃ©g.admin.hc   <- "(?:^|\\s)adm\\w*\\.?\\bh\\w*\\.?\\s?c\\w*\\.?\\b"
+expression.rÃ©g.admin.g    <- "(?:^|\\s)adm\\w*\\.?\\b\\s?g\\w*\\.?\\b"
 
-# point d'indice majoré
+# point d'indice majorÃ©
 source("point.im.R")

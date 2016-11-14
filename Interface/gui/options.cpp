@@ -8,6 +8,7 @@
 #include "altair.h"
 #include "templates.h"
 #include "flineframe.hpp"
+#include <fstream>
 
 extern template void createHash(QHash<QString, QString>&, const QList<QString>*, const QList<QString>*);
 
@@ -58,49 +59,76 @@ codePage::codePage()
                                "NBI",
                                {"NBI", "Code de paye"});
                               
+ 
+    PFILineEdit = new FLineEdit("",
+                               "PFI",
+                               {"PFI", "Code de paye"});
+
+
     
-    QPushButton* appliquerCodes = new QPushButton;
-    appliquerCodes->setIcon(QIcon(":/images/data-input.png"));
+    QToolButton* appliquerCodes = new QToolButton;
+    
+    appliquerCodes->setIcon(QIcon(":/images/data-icon.png"));
+    appliquerCodes->setToolTip("Appuyer pour exporter ces codes de paye<br>pour la génération des rapports d'analyse.");
     
     QGridLayout *v1Layout = new QGridLayout;
     
     QLabel* NBILabel = new QLabel("Codes NBI :  ");
+    QLabel* PFILabel = new QLabel("Codes PFI :  ");
+    label = new QLabel;
+    
     v1Layout->addWidget(NBILabel, 1,0, Qt::AlignRight);
     v1Layout->addWidget(NBILineEdit, 1,1, Qt::AlignLeft);
+    v1Layout->addWidget(PFILabel, 2,0, Qt::AlignRight);
+    v1Layout->addWidget(PFILineEdit, 2,1, Qt::AlignLeft);
+    v1Layout->addWidget(label, 5, 0, Qt::AlignRight);
     v1Layout->addWidget(appliquerCodes, 5,1, Qt::AlignLeft);
     baseBox->setLayout(v1Layout);
     
     QVBoxLayout* mainLayout = new QVBoxLayout;
-    FRichLabel *mainLabel=new FRichLabel("Code de paye<br>des tests réglementaires", ":/images/data-input.png");
+    FRichLabel *mainLabel=new FRichLabel("Code de paye des tests", ":/images/data-input.png");
     mainLayout->addWidget(mainLabel);
     mainLayout->addWidget(baseBox, 1, 0);
     mainLayout->addSpacing(100);
        
     listeCodes << NBILineEdit;
+    listeCodes << PFILineEdit;
+    
+    init_label_text = "Appuyer pour exporter ces valeurs<br>vers les rapports d'analyse  ";
+    label->setText(init_label_text);
     
     connect(appliquerCodes, SIGNAL(clicked()), this, SLOT(substituer_valeurs_dans_script_R()));
+    for (FLineEdit *a: listeCodes)
+        connect(a, &QLineEdit::textEdited, [this] { label->setText(init_label_text); });
     
     setLayout(mainLayout);
 }
     
 void codePage::substituer_valeurs_dans_script_R()
 {
+    
     QString prologue_path = path_access("Tests/Exemple/prologue.R");
     QString prologue = common::readFile(prologue_path);
-    QRegExp reg = QRegExp("codes.nbi.*<-.*NA");
+    QRegExp reg = QRegExp("codes.nbi *<- *NA");
+    QRegExp reg1 = QRegExp("codes.pfi *<- *NA");
+    reg.setPatternSyntax(QRegExp::RegExp2);
+    reg1.setPatternSyntax(QRegExp::RegExp2);
     
     prologue.replace(reg, "codes.nbi <- " + listeCodes[0]->text());
-        
-    QFile newPrologue(path_access("Tests/Exemple/prologue.temp.R"));
-    newPrologue.open(QFile::WriteOnly);
-    if (newPrologue.isOpen()) Q("Yes") else Q("No")
-    newPrologue.write(prologue.toLocal8Bit());
-    newPrologue.close();
-    if (newPrologue.isReadable() && newPrologue.isWritable())
-    {
-        QFile(prologue_path).remove();
-        newPrologue.rename(prologue_path);
-    }
+    prologue.replace(reg1, "codes.pfi <- " + listeCodes[1]->text());
+    
+    QString temp_path = path_access("Tests/Exemple/prologue.temp.R");
+    
+    QFile fout(temp_path);
+    fout.open(QIODevice::WriteOnly);
+    QTextStream out (&fout);
+    out << prologue;
+    fout.close();
+    QFile(prologue_path).remove();
+    fout.rename(prologue_path);
+    
+    label->setText("Les codes de paye seront <br>pris en compte pour les rapports  ");
+   
 }
 
 standardPage::standardPage()

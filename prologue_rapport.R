@@ -17,7 +17,7 @@ if (setOSWindows) {
 
 source("syspaths.R", encoding = encodage.code.source)
 
-source("prologue.R", encoding = encodage.code.source)
+source("prologue.R", encoding = "UTF-8")
 
 library(rmarkdown)
 # ne pas écrire altaïr.pdf... 
