@@ -88,6 +88,23 @@ public :
 };
 
 
+class codePage : public common
+{
+    Q_OBJECT
+
+public :
+    codePage();
+    
+private:    
+    FLineEdit *NBILineEdit;
+    FLineEdit *PFILineEdit;
+    QList<FLineEdit*> listeCodes;
+private slots:    
+    void substituer_valeurs_dans_script_R();
+
+};
+
+
 class options :  public common
 {
     Q_OBJECT
@@ -98,6 +115,7 @@ public:
     standardPage* standardTab;
     processPage* processTab;
     dirPage* dirTab;
+    codePage* codeTab;
     static std::uint16_t RefreshFlag;
     QListWidget *contentsWidget;
     void clearOptionData();

@@ -26,9 +26,6 @@ source("corps_rapport_pdf.R", encoding = encodage.code.source)
       "altaïr.odt")
     )
     
-  
-  if (setOSWindows) shell("start winword altaïr.docx") else system("/usr/bin/lowriter altaïr.odt")
-  
   if (! keep_md) {
     unlink("altair.ansi_pdf", recursive=TRUE)
     unlink("altair.md")
@@ -36,9 +33,15 @@ source("corps_rapport_pdf.R", encoding = encodage.code.source)
  }
   
 
-if (! setOSWindows) {
-    system("cp -rf Docs Donnees/R-Altair")
-    system("cp -f altaïr.odt altaïr.docx altaïr.pdf Donnees/R-Altair")
+if (setOSWindows) {
+  
+  system("copy /Y altaïr.odt altaïr.docx Donnees/R-Altaïr")
+  
+} else {
+  
+  system("cp -f altaïr.odt altaïr.docx Donnees/R-Altair")
 }
 
+if (setOSWindows) shell("start winword Donnees/R-Altaïr/altaïr.docx") else system("/usr/bin/lowriter Donnees/R-Altair/altaïr.odt")  
+  
 setwd(initwd)

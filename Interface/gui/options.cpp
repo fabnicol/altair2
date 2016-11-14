@@ -49,6 +49,60 @@ dirPage::dirPage()
     setLayout(mainLayout);
 }
 
+codePage::codePage()
+{
+    QGroupBox *baseBox = new QGroupBox;
+
+
+    NBILineEdit = new FLineEdit("",
+                               "NBI",
+                               {"NBI", "Code de paye"});
+                              
+    
+    QPushButton* appliquerCodes = new QPushButton;
+    appliquerCodes->setIcon(QIcon(":/images/data-input.png"));
+    
+    QGridLayout *v1Layout = new QGridLayout;
+    
+    QLabel* NBILabel = new QLabel("Codes NBI :  ");
+    v1Layout->addWidget(NBILabel, 1,0, Qt::AlignRight);
+    v1Layout->addWidget(NBILineEdit, 1,1, Qt::AlignLeft);
+    v1Layout->addWidget(appliquerCodes, 5,1, Qt::AlignLeft);
+    baseBox->setLayout(v1Layout);
+    
+    QVBoxLayout* mainLayout = new QVBoxLayout;
+    FRichLabel *mainLabel=new FRichLabel("Code de paye<br>des tests réglementaires", ":/images/data-input.png");
+    mainLayout->addWidget(mainLabel);
+    mainLayout->addWidget(baseBox, 1, 0);
+    mainLayout->addSpacing(100);
+       
+    listeCodes << NBILineEdit;
+    
+    connect(appliquerCodes, SIGNAL(clicked()), this, SLOT(substituer_valeurs_dans_script_R()));
+    
+    setLayout(mainLayout);
+}
+    
+void codePage::substituer_valeurs_dans_script_R()
+{
+    QString prologue_path = path_access("Tests/Exemple/prologue.R");
+    QString prologue = common::readFile(prologue_path);
+    QRegExp reg = QRegExp("codes.nbi.*<-.*NA");
+    
+    prologue.replace(reg, "codes.nbi <- " + listeCodes[0]->text());
+        
+    QFile newPrologue(path_access("Tests/Exemple/prologue.temp.R"));
+    newPrologue.open(QFile::WriteOnly);
+    if (newPrologue.isOpen()) Q("Yes") else Q("No")
+    newPrologue.write(prologue.toLocal8Bit());
+    newPrologue.close();
+    if (newPrologue.isReadable() && newPrologue.isWritable())
+    {
+        QFile(prologue_path).remove();
+        newPrologue.rename(prologue_path);
+    }
+}
+
 standardPage::standardPage()
 {
 
@@ -292,17 +346,21 @@ options::options(Altair* parent)
     contentsWidget = new QListWidget;
     contentsWidget->setViewMode(QListView::IconMode);
     contentsWidget->setIconSize(QSize(48,48));
-    contentsWidget->setFont(QFont("Garamond", 10));
+    contentsWidget->setFont(QFont("Garamond", 8));
     contentsWidget->setMovement(QListView::Static);
     contentsWidget->setFixedWidth(98);
     contentsWidget->setSpacing(12);
+    
 
     pagesWidget = new QStackedWidget;
     standardTab = new standardPage;
     processTab  = new processPage;
     dirTab  = new dirPage;
+    codeTab  = new codePage;
+    
     pagesWidget->addWidget(standardTab);
     pagesWidget->addWidget(processTab);
+    pagesWidget->addWidget(codeTab);
     pagesWidget->addWidget(dirTab);
 
     closeButton = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
@@ -365,15 +423,16 @@ void options::createIcon(const char* path, const char* text)
     QString strtext=QString(text);
     button->setIcon(QIcon(strpath));
     button->setText(strtext);
-    button->setTextAlignment(Qt::AlignHCenter);
+    button->setTextAlignment(Qt::AlignRight);
     button->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 }
 
 
 void options::createIcons()
 {
-    QList<const char*> iconList=QList<const char*>() << ":/images/csv.png" << "Format" <<
-                                                        ":/images/configure-toolbars.png" << "Traitement" <<
+    QList<const char*> iconList=QList<const char*>() << ":/images/csv.png" << "   Format  " <<
+                                                        ":/images/configure-toolbars.png" << "Traitement " <<
+                                                        ":/images/data-icon.png" << "   Codes   " <<
                                                         ":/images/directory.png" << "Répertoires";
 
 

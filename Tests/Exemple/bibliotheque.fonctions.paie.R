@@ -2,7 +2,7 @@
 #  Fonctions auxiliaires
 ##
 
-
+'%+%' <- function(x, y) paste0(x, y)
 
 chemin <-  function(fichier)
   file.path(chemin.dossier.données, fichier)
@@ -572,5 +572,20 @@ essayer <- function(X, Y) {
     
       if (inherits(try(X), 'try-error')) cat(Y)
     
+}
+
+'%s%' <- function(mot, N) if (N > 1) mot %+% "s"  else mot
+
+filtrer_Paie <- function(x) {
+  
+    if (is.na(codes[x, valeur])) {
+      filtre <- codes[x, expression]
+      P_  <- Paie[grepl(filtre, Libellé, ignore.case=TRUE, perl=TRUE)]
+    } else {
+      filtre <- codes[x, valeur]
+      P_  <- Paie[Code %chin% filtre]
+    }
+  
+  P_
 }
 
