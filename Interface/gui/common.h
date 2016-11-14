@@ -39,13 +39,15 @@ public:
 
   static const QString remAccents(QString str, bool toUpper = true);
 
-  int readFile(QString &path, QStringList &list, int start=0, int stop=-1, int width=0);
+  bool substituer(const QString &s, const QString &repl,  const QString &path);
+
+  int readFile(const QString &path, QStringList &list, int start=0, int stop=-1, int width=0);
   int readFile(const char* path, QStringList &list, int start=0, int stop=-1, int width=0)
   {
     QString pathstr=QString(path);
     return readFile(pathstr, list, start, stop, width);
   }
-  QString readFile(QString &path,  int start=0, int stop=-1, int width=0);
+  QString readFile(const QString &path,  int start=0, int stop=-1, int width=0);
   QString readFile(const char* path,  int start=0, int stop=-1, int width=0)
   {
     QString pathstr=QString(path);

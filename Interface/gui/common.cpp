@@ -27,7 +27,7 @@ qint64 common::getFileSize(const QString &fullFilePath)
     return QFileInfo(fullFilePath).size();
 }
 
-int common::readFile(QString &path, QStringList &list, int start, int stop, int width)
+int common::readFile(const QString &path, QStringList &list, int start, int stop, int width)
 {
 QFile file(path);
 int j=0;
@@ -44,13 +44,37 @@ if (file.open(QIODevice::ReadOnly | QIODevice::Text))
       j++;
   }
 }
-else Warning0(tr("Attention"), tr("Impossible d'ouvrir les bulles: ") + path );
+else Warning0(tr("Attention"), tr("Impossible d'ouvrir le fichier: ") + path );
 file.close();
 return j;
 
 }
 
-QString common::readFile(QString &path,  int start, int stop, int width)
+bool common::substituer(const QString& s, const QString& repl,  const QString& path)
+{
+
+    QString file_path = path_access(path);
+    QString file_str = common::readFile(file_path);
+    QRegExp reg = QRegExp(s);
+    reg.setPatternSyntax(QRegExp::RegExp2);
+
+    file_str.replace(reg, repl);
+
+    QString temp_path = path_access("temp");
+
+    QFile fout(temp_path);
+    fout.open(QIODevice::WriteOnly);
+    QTextStream out (&fout);
+    out << file_str;
+    fout.close();
+
+    bool res = QFile(file_path).remove();
+    res &= fout.rename(file_path);
+
+    return res;
+}
+
+QString common::readFile(const QString &path,  int start, int stop, int width)
 {
 
 QStringList L=QStringList();
