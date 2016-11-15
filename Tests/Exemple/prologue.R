@@ -187,7 +187,6 @@ modalité.autres                <- "AUTRES"         # notamment les remboursemen
 NBI <- 1
 PFI <- 2
 
-
 expression.rég.nbi        <- "(?:\\s|^)nbi|(?:n(?:(?=o)o\\w*|)\\.?\\s*\\b)?b(?:(?=o)o\\w*|)\\.?\\s*\\bi(?:(?=n)nd\\w*|)\\.?\\b"
 
 # --- Prime de fonctions informatiques
@@ -197,12 +196,6 @@ expression.rég.nbi        <- "(?:\\s|^)nbi|(?:n(?:(?=o)o\\w*|)\\.?\\s*\\b)?b(?:
 
 expression.rég.pfi        <- "(?:^|\\s)pfi|(?:p(?:(?=r)r\\w*|)|i(?:(?=n)nd\\w*|))\\.?\\s*(?:\\bf(?:(?=o)o\\w*|)\\.?\\s*)?\\binf(?:(?=o)o\\w*|)\\.?\\b"
 
-# Les valeurs ci-après seront changées par le "préprocesseur" de l'interface graphique si les valeurs explicites des codes de paye
-# associés aux différentes contraintes sont rentrées
-
-ajuster_prologue <- FALSE
-
-if (ajuster_prologue) source("prologue_codes.R")
 
 expression.rég.heures.sup <- "(?:^|\\s)iht?[sc]|i(?:(?=n)n\\w*|)\\.?\\s*\\bh(?:(?=o)o\\w*|)\\.?.*\\bs(?:(?=u)u\\w*|)\\.?\\b|h(?:(?=e)e\\w*|)\\.?\\s*\\b(?:(?=s)s\\w*|c\\w*)\\.?\\b"
 expression.rég.iat        <- "(?:^|\\s)iat|i(?:(?=n)n\\w*|)\\.?\\s*\\ba(?:(?=d)d\\w*|)\\.?\\s*\\b(?:et\\s*\\b)?t(?:(?=e)e\\w*|)\\.?\\b"
@@ -218,5 +211,10 @@ expression.rég.admin      <- "(?:^|\\s)adm\\w*\\.?\\b"
 expression.rég.admin.hc   <- "(?:^|\\s)adm\\w*\\.?\\bh\\w*\\.?\\s?c\\w*\\.?\\b"
 expression.rég.admin.g    <- "(?:^|\\s)adm\\w*\\.?\\b\\s?g\\w*\\.?\\b"
 
+# Les valeurs ci-après seront changées par le "préprocesseur" de l'interface graphique si les valeurs explicites des codes de paye
+# associés aux différentes contraintes sont rentrées
+
+source("prologue_codes.R", encoding = "UTF-8")
+
 # point d'indice majoré
-source("point.im.R")
+source("point.im.R", encoding = "UTF-8")
