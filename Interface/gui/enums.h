@@ -12,7 +12,12 @@
     static constexpr int BUFFER_SIZE = 1500;
 #endif
 
-    enum exitCode {exitFailure=EXIT_FAILURE, noAudioFiles=10, isoTooSmall=11, mkisofsSanityCheck=12, shouldLaunchRAltairAlone=13};
+#ifndef MINIMUM_LINE_WIDTH
+#  define MINIMUM_LINE_WIDTH 350
+#endif
+    
+    
+ enum exitCode {exitFailure=EXIT_FAILURE, noAudioFiles=10, isoTooSmall=11, mkisofsSanityCheck=12, shouldLaunchRAltairAlone=13};
 
 class flags
 {

@@ -49,7 +49,7 @@ FLineFrame::FLineFrame(const QStringList& titre,
                     const QFileInfo info(path);
                         if (pathCategory == flags::flineframe::isDirectoryPath && ! info.isDir())
                         {
-                            Warning0(QString("Répertoire"), QString("Le répertoire %1 n'a pas été créé").arg(path));
+                            Warning(QString("Répertoire"), QString("Le répertoire %1 n'a pas été créé").arg(path));
                             return;
                         }
                         if (pathCategory == flags::flineframe::isFilePath)

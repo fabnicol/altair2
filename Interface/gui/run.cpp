@@ -43,7 +43,9 @@ void Altair::run()
 
     if (path.isEmpty())
     {
-        Warning0( "Répertoire de sortie", "Le répertoire de création des bases " + path +" n'a pas été indiqué, renseigner le dialogue des paramètres.");
+        Warning( "Répertoire de sortie", "Le répertoire de création des bases " + path + 
+                 " n'a pas été indiqué, renseigner le dialogue des paramètres.");
+        
         processFinished(exitCode::shouldLaunchRAltairAlone);
         return;
     }
@@ -51,26 +53,30 @@ void Altair::run()
 
     if (! targetDirObject.exists() && ! targetDirObject.mkpath(path))
     {
-        QMessageBox::critical(nullptr, "Répertoire des bases", "Le répertoire " + path +" n'a pas pu être créé. Veuillez le faire manuellement.");
+        QMessageBox::critical(nullptr, "Répertoire des bases", "Le répertoire " + path + 
+                              " n'a pas pu être créé. Veuillez le faire manuellement.");
+        
         processFinished(exitCode::shouldLaunchRAltairAlone);
         return;
     }
 
-    const QStringList& files = targetDirObject.entryList(QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot);
+    const QStringList& files = targetDirObject.entryList(QDir::Files 
+                                                         | QDir::Dirs 
+                                                         | QDir::NoDotAndDotDot);
 
     if (! files.isEmpty())
     {
         if (files.first() != "Bulletins.csv" && files.first() != "Table.csv")
         {
-            if (QMessageBox::Cancel
-                  == QMessageBox::warning(this, QString("Attention"),
-                                                tr("Vous allez supprimer le répertoire %1\npour regénérer les bases. ").arg(QDir::toNativeSeparators(path)),
-                                                QMessageBox::Ok|QMessageBox::Cancel))
-                {
-
-                    processFinished(exitCode::shouldLaunchRAltairAlone);
-                    return;
-                }
+          if (QMessageBox::Cancel
+                == QMessageBox::warning(this, QString("Attention"),
+                                              tr("Vous allez supprimer le répertoire %1\n"
+                                                 "pour regénérer les bases. ").arg(QDir::toNativeSeparators(path)),
+                                              QMessageBox::Ok|QMessageBox::Cancel))
+            {
+                processFinished(exitCode::shouldLaunchRAltairAlone);
+                return;
+            }
         }
 
         for (const QString& file : files)
@@ -89,7 +95,8 @@ void Altair::run()
     }
 
 #ifdef DEBUG
-    outputTextEdit->append(PROCESSING_HTML_TAG + tr("Validation du répertoire de sortie ") + path);
+    outputTextEdit->append(PROCESSING_HTML_TAG + tr("Validation du répertoire de sortie ") 
+                                               + path);
 #endif
 
     QStringList args0, args1;
@@ -99,7 +106,10 @@ void Altair::run()
 
     args1 << createCommandLineString();
 
-    outputTextEdit->append(PROCESSING_HTML_TAG + tr("Importation des bases de paye (")+QString::number(Altair::totalSize[0]/(1024*1024)) +tr(" Mo)..."));
+    outputTextEdit->append(PROCESSING_HTML_TAG + tr("Importation des bases de paye (")
+                                               + QString::number(Altair::totalSize[0] 
+                                                                            / (1024*1024)) 
+                                               + tr(" Mo)..."));
 
     command = QString("-m -d \",\" -s \";\" -rank ") + sharedir + "/rank" ;
 
@@ -115,7 +125,10 @@ void Altair::run()
 
     if (v(quiet).isFalse())
     {
-        parent->consoleDialog->append(PROCESSING_HTML_TAG + tr("Ligne de commande : ")+ altairCommandStr+ " " + command);
+        parent->consoleDialog->append(PROCESSING_HTML_TAG + tr("Ligne de commande : ")
+                                                          + altairCommandStr
+                                                          + " " 
+                                                          + command);
     }
 
     outputType="L";
@@ -156,39 +169,55 @@ void Altair::run()
         #endif
 
     f.close();
-    f.setPermissions(QFileDevice::ReadOwner|QFileDevice::ReadUser|QFileDevice::ReadGroup|QFileDevice::ReadOther|QFileDevice::WriteOwner|QFileDevice::WriteUser|QFileDevice::WriteGroup|QFileDevice::WriteOther);
+    f.setPermissions(QFileDevice::ReadOwner| QFileDevice::ReadUser
+                                           | QFileDevice::ReadGroup
+                                           | QFileDevice::ReadOther
+                                           | QFileDevice::WriteOwner
+                                           | QFileDevice::WriteUser
+                                           | QFileDevice::WriteGroup
+                                           | QFileDevice::WriteOther);
+    
     //process.start(altairCommandStr,  args0 << args1);
     process.start(altairCommandStr,  QStringList() << "-f" << path_access_cl);
 
     if (process.waitForStarted())
     {
         if (v(memoryUse) != "Intensive")
-            outputTextEdit->append(PROCESSING_HTML_TAG + tr("Préallocation des ressources...\n"));
+            outputTextEdit->append(PROCESSING_HTML_TAG 
+                                   + tr("Préallocation des ressources...\n"));
         else
-            outputTextEdit->append(PROCESSING_HTML_TAG + tr("Analyse des bases de paye...Veuillez patienter\n"));
+            outputTextEdit->append(PROCESSING_HTML_TAG 
+                                   + tr("Analyse des bases de paye...Veuillez patienter\n"));
 
 
         if (v(activerConsole).isTrue())
         {
-            parent->consoleDialog->insertHtml(QString("<br>" PROCESSING_HTML_TAG " ") + ((outputType == "L") ? " Décodage des bases " : " Analyse des données ") +"...<br>");
+            parent->consoleDialog->insertHtml(QString("<br>" PROCESSING_HTML_TAG " ")
+                                              + ((outputType == "L") ? 
+                                                     " Décodage des bases " :
+                                                     " Analyse des données ")
+                                              +"...<br>");
+            
             parent->consoleDialog->moveCursor(QTextCursor::End);
 
-            connect(&process, &QProcess::readyReadStandardOutput, [&] {
-
-                if (v(limitConsoleOutput).isTrue())
-                {
-                    if (parent->getConsoleCounter() > MAXIMUM_CONSOLE_OUTPUT) return;
-                }
-
-                if (v(activerConsole).isFalse())
-                    return;
-
-                if (outputType[0] == 'L')
-                {
-                    parent->feedLHXConsoleWithHtml();
-                }
-                else parent->feedRConsoleWithHtml();  // add counter
-            });
+            connect(&process, &QProcess::readyReadStandardOutput, 
+                    [&] {
+            
+                            if (v(limitConsoleOutput).isTrue())
+                            {
+                                if (parent->getConsoleCounter() > MAXIMUM_CONSOLE_OUTPUT) 
+                                    return;
+                            }
+            
+                            if (v(activerConsole).isFalse())
+                                return;
+            
+                            if (outputType[0] == 'L')
+                            {
+                                parent->feedLHXConsoleWithHtml();
+                            }
+                            else parent->feedRConsoleWithHtml();  // add counter
+                        });
 
         }
         else
@@ -207,7 +236,9 @@ void Altair::run()
     }
     else
     {
-        outputTextEdit->append(PROCESSING_HTML_TAG + tr("Echec du lancement de LHX, ligne de commande ")+ altairCommandStr);
+        outputTextEdit->append(PROCESSING_HTML_TAG
+                               + tr("Echec du lancement de LHX, ligne de commande ")
+                               + altairCommandStr);
     }
 
 }
@@ -230,12 +261,17 @@ void Altair::runRAltair()
     {
         outputTextEdit->append(RAltairCommandStr + " " + path_access_rapport_msword);
         outputTextEdit->append(tr(STATE_HTML_TAG \
-                    "Lancement du traitement des données ...Veuillez patienter.<br>\
-                       Vous pouvez suivre l'exécution du traitement dans la console<br>(Configurer > Configurer l'interface > Afficher les messages)."));
+                    "Lancement du traitement des données ...Veuillez patienter.<br>"
+                    "Vous pouvez suivre l'exécution du traitement dans la console<br>"
+                    "(Configurer > Configurer l'interface > Afficher les messages)."));
     }
     else
     {
-        QMessageBox::critical(this, "Erreur", "Echec du traitement des données. Recommencer en mode avancé ou en mode expert.", "Fermer");
+        QMessageBox::critical(this, 
+                              "Erreur", 
+                              "Echec du traitement des données."
+                              "Recommencer en mode avancé ou en mode expert.",
+                              "Fermer");
     }
 
 #else
@@ -251,11 +287,19 @@ void Altair::processFinished(exitCode code)
     switch(code)
     {
     case exitCode::exitFailure :
-        outputTextEdit->append(ERROR_HTML_TAG + QString((outputType == "L") ? " Décodage des bases " : " Analyse des données ") + tr(": plantage de l'application."));
+        outputTextEdit->append(ERROR_HTML_TAG + QString((outputType == "L") ? 
+                                                         " Décodage des bases " :
+                                                         " Analyse des données ")
+                                              + tr(": plantage de l'application."));
         return;
 
     case exitCode::noAudioFiles :
-        outputTextEdit->append(ERROR_HTML_TAG  + QString((outputType == "L") ? " Décodage des bases " : " Analyse des données ") + tr(": Pas de fichier xhl."));
+        outputTextEdit->append(ERROR_HTML_TAG  
+                               + QString((outputType == "L") ?
+                               " Décodage des bases " :
+                               " Analyse des données ")
+                               + tr(": Pas de fichier xhl."));
+        
         progress->stop();
         return;
 
@@ -271,11 +315,16 @@ void Altair::processFinished(exitCode code)
 
     if (outputType == "L")
     {
-        outputTextEdit->append(PARAMETER_HTML_TAG  + tr(" Répertoire de sortie : %1").arg(v(base)));
+        outputTextEdit->append(PARAMETER_HTML_TAG  
+                               + tr(" Répertoire de sortie : %1").arg(v(base)));
 
         fsSize=getDirectorySize(v(base), "*.*");
 
-        outputTextEdit->append(tr(STATE_HTML_TAG "Taille de la base : ")+ QString::number(fsSize) + " Octets ("+ QString::number(((float)fsSize)/(1024.0*1024.0), 'f', 2)+ " Mo)");
+        outputTextEdit->append(tr(STATE_HTML_TAG "Taille de la base : ")
+                               + QString::number(fsSize) 
+                               + " Octets ("
+                               + QString::number(((float)fsSize)/(1024.0*1024.0), 'f', 2)
+                               + " Mo)");
 
     }
 }
@@ -284,7 +333,11 @@ void Altair::processFinished(exitCode code)
 void Altair::killProcess()
 {
     process.kill();
-    outputTextEdit->append(PROCESSING_HTML_TAG+ QString((outputType == "L") ? " Décodage des bases " : " Analyse des données ") + tr(" en arrêt (SIGKILL)"));
+    outputTextEdit->append(PROCESSING_HTML_TAG
+                           + QString((outputType == "L") ? 
+                                     " Décodage des bases " : 
+                                     " Analyse des données ")
+                           + tr(" en arrêt (SIGKILL)"));
     rankFile.close();
 }
 
@@ -292,9 +345,12 @@ void Altair::printMsg(qint64 new_value, const QString &str)
 {
     if (process.state() != QProcess::Running)        return;
     if (new_value < 1024*1024*1024)
-        outputTextEdit->append(tr(STATE_HTML_TAG) + str + QString::number(new_value) +" B ("+QString::number(new_value/(1024*1024))+ " Mo)");
+        outputTextEdit->append(tr(STATE_HTML_TAG) + str 
+                               + QString::number(new_value) 
+                               + " B ("+QString::number(new_value/(1024*1024))+ " Mo)");
     else
-        outputTextEdit->append(tr(WARNING_HTML_TAG) + "La taille du projet est supérieurs à  1 Go");
+        outputTextEdit->append(tr(WARNING_HTML_TAG)
+                               + "La taille du projet est supérieurs à  1 Go");
 }
 
 void Altair::printBaseSize(qint64 new_value)

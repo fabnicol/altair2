@@ -17,7 +17,7 @@ inline const QString Altair::makeParserString(int start, int end)
 
         if  (widget->getHashKey().isEmpty())
         {
-            Warning0(tr("Erreur"), tr("Erreur d'analyse XML du projet"));
+            Warning(tr("Erreur"), tr("Erreur d'analyse XML du projet"));
             continue;
         }
 
@@ -387,7 +387,7 @@ void Altair::parseProjectFile(QIODevice* file)
     QDomDocument doc;
     if (!doc.setContent(file, true, &errorStr, &errorLine, &errorColumn))
     {
-        Warning0(tr("Décodage XML"), tr("Erreur de décodage ligne %1, " "colonne %2:\n%3").arg(errorLine).arg(errorColumn).arg(errorStr));
+        Warning(tr("Décodage XML"), tr("Erreur de décodage ligne %1, " "colonne %2:\n%3").arg(errorLine).arg(errorColumn).arg(errorStr));
         return;
     }
 
