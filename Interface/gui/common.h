@@ -39,7 +39,7 @@ public:
 
   static const QString remAccents(QString str, bool toUpper = true);
 
-  bool substituer(const QString &s, const QString &repl,  const QString &path);
+ bool substituer(const QString &s, const QString &repl, QString &file_str);
 
   int readFile(const QString &path, QStringList &list, int start=0, int stop=-1, int width=0);
   int readFile(const char* path, QStringList &list, int start=0, int stop=-1, int width=0)
@@ -61,6 +61,8 @@ static bool copyFile(const QString &in, const QString &out, const QString& comme
 static bool copyDir(const QString &in, const QString &out, const QString& comment = "");
 static bool zipDir (const QString& inPath , const QString& outPath);
 static bool unzipDir (const QString& inPath , const QString& outPath);
+bool renommer(const QString& ancien, const QString& nouveau);
+QString dump(const QString &chaine);
 
 void setWhatsThisText(QWidget* widget, int start, int stop);
 static void openDir(QString path);

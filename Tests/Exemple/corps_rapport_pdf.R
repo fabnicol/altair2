@@ -14,8 +14,11 @@ file.rename("altair.pdf", "altaïr.pdf")
 
 if (setOSWindows) {
   
-  system("xcopy /E /Y Docs Donnees/R-Altair")
-  system("copy /Y altaïr.pdf Donnees/R-Altaïr")
+  # Ne pas utiliser / ici
+  
+  system("xcopy /Y altaïr.pdf Donnees\\R-Altaïr")
+  system("mkdir Donnees\\R-Altaïr\\Docs")
+  system("xcopy /E /Y Docs Donnees\\R-Altaïr\\Docs")
   
 } else {
   
