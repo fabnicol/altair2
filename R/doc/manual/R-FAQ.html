@@ -118,7 +118,7 @@ ul.menu {
 
 
 <h2>Frequently Asked Questions on R</h2>
-<h3 style="text-align: center;">Version 2016-04-24</h3>
+<h3 style="text-align: center;">Version 2016-06-06</h3>
 <h3 style="text-align: center;">Kurt Hornik</h3>
 <hr>
 <a name="SEC_Contents"></a>
@@ -419,7 +419,7 @@ Previous: <a href="#Notation" accesskey="p" rel="prev">Notation</a>, Up: <a href
 most welcome.
 </p>
 <p>In particular, note that I do not have access to Windows or Mac
-systems.  Features specific to the Windows and OS X ports of R are
+systems.  Features specific to the Windows and macOS ports of R are
 described in the
 <a href="https://CRAN.R-project.org/bin/windows/base/rw-FAQ.html">&ldquo;R for
 Windows <acronym>FAQ</acronym>&rdquo;</a> and the
@@ -538,13 +538,13 @@ operating systems.  Support for Mac OS Classic ended with R 1.7.1.
 </p>
 <p>The current version of R will configure and build under a number of
 common Unix-like (e.g., <a href="https://en.wikipedia.org/wiki/Unix-like">https://en.wikipedia.org/wiki/Unix-like</a>)
-platforms including <var>cpu</var>-linux-gnu for the i386, amd64, alpha,
-arm/armel, hppa, ia64, m68k, mips/mipsel, powerpc, s390 and sparc 
-<acronym>CPU</acronym>s (e.g., <a href="https://buildd.debian.org/build.php?&amp;pkg=r-base">https://buildd.debian.org/build.php?&amp;pkg=r-base</a>),
-i386-hurd-gnu, <var>cpu</var>-kfreebsd-gnu for i386 and amd64, 
-powerpc-apple-darwin, mips-sgi-irix,
-i386-freebsd,
-rs6000-ibm-aix, and sparc-sun-solaris.
+platforms including <var>cpu</var>-linux-gnu for the i386, amd64/x86_64,
+alpha, arm, arm64, hppa, mips/mipsel, powerpc, s390x and sparc
+<acronym>CPU</acronym>s (e.g.,
+<a href="https://buildd.debian.org/build.php?&amp;pkg=r-base">https://buildd.debian.org/build.php?&amp;pkg=r-base</a>), i386-hurd-gnu,
+<var>cpu</var>-kfreebsd-gnu for i386 and amd64,
+i386-pc-solaris, rs6000-ibm-aix, sparc-sun-solaris, x86_64-apple-darwin,
+x86_64-unknown-freebsd and x86_64-unknown-openbsd.
 </p>
 
 <p>If you know about other platforms, please drop us a note.
@@ -728,13 +728,13 @@ Previous: <a href="#How-can-R-be-installed-_0028Windows_0029" accesskey="p" rel=
 <h4 class="subsection">2.5.3 How can R be installed (Mac)</h4>
 
 <p>The <samp>bin/macosx</samp> directory of a <acronym>CRAN</acronym> site contains a standard
-Apple installer package to run on OS X 10.9 (&lsquo;Mavericks&rsquo;) and later.
+Apple installer package to run on macOS 10.9 (&lsquo;Mavericks&rsquo;) and later.
 Once downloaded and executed, the installer will install the current
-release of R and R.app, the OS X <acronym>GUI</acronym>.  This port of R for OS X
+release of R and R.app, the macOS <acronym>GUI</acronym>.  This port of R for macOS
 is maintained by <a href="mailto:Simon.Urbanek@R-project.org">Simon Urbanek</a>
 (and previously by Stefano Iacus).  The
 <a href="https://CRAN.R-project.org/bin/macosx/RMacOSX-FAQ.html">&ldquo;R for Mac
-OS X <acronym>FAQ</acronym></a> has more details.
+macOS <acronym>FAQ</acronym></a> has more details.
 </p>
 <p>Snapshots of the r-patched and r-devel versions of R are available as
 Apple installer packages at <a href="https://r.research.att.com">https://r.research.att.com</a>.
@@ -1041,7 +1041,7 @@ load.
 snapshots of R (copies of the current source trees), as gzipped and
 bzipped tar files, a wealth of additional contributed code, as well as
 prebuilt binaries for various operating systems (Linux, Mac OS Classic,
-OS X, and MS Windows).  <acronym>CRAN</acronym> also provides access to
+macOS, and MS Windows).  <acronym>CRAN</acronym> also provides access to
 documentation on R, existing mailing lists and the R Bug Tracking
 system.
 </p>
@@ -1231,9 +1231,7 @@ the programming process.
 <p>See <a href="http://statweb.stanford.edu/~jmc4/papers/96.7.ps">http://statweb.stanford.edu/~jmc4/papers/96.7.ps</a>
 for further information on the &ldquo;Evolution of the S Language&rdquo;.
 </p>
-<p>There is a huge amount of user-contributed code for S, available at the
-<a href="http://lib.stat.cmu.edu/S/">S Repository</a> at <acronym>CMU</acronym>.
-</p>
+
 
 <hr>
 <a name="What-is-S_002dPLUS_003f"></a>
@@ -2375,16 +2373,15 @@ editing saved transcripts, and re-evaluating commands from transcript
 files).
 </p>
 <p>The latest stable version of <acronym>ESS</acronym> is available via <acronym>CRAN</acronym> or
-the <a href="http://ESS.R-project.org/">ESS web page</a>.  The <acronym>HTML</acronym> version
-of the documentation can be found at <a href="https://stat.ethz.ch/ESS/">https://stat.ethz.ch/ESS/</a>.
+the <a href="https://ESS.R-project.org/">ESS web page</a>.
 </p>
 <p><acronym>ESS</acronym> comes with detailed installation instructions.
 </p>
 <p>For help with <acronym>ESS</acronym>, send email to
-<a href="mailto:ESS-help@stat.math.ethz.ch">ESS-help@stat.math.ethz.ch</a>.
+<a href="mailto:ESS-help@r-project.org">ESS-help@r-project.org</a>.
 </p>
 <p>Please send bug reports and suggestions on <acronym>ESS</acronym> to
-<a href="mailto:ESS-bugs@stat.math.ethz.ch">ESS-bugs@stat.math.ethz.ch</a>.  The easiest way to do this from is
+<a href="mailto:ESS-bugs@r-project.org">ESS-bugs@r-project.org</a>.  The easiest way to do this from is
 within Emacs by typing <kbd>M-x ess-submit-bug-report</kbd> or using the
 [ESS] or [iESS] pulldown menus.
 </p>
@@ -3165,7 +3162,7 @@ Next: <a href="#How-can-I-get-command-line-editing-to-work_003f" accesskey="n" r
 problems, and the default settings should just work.  This option is not
 available for versions of R prior to 2.7.0, or without support for
 cairo.  From R 2.7.0 <code>png()</code> by default uses the Quartz device
-on OS X, and that too works in batch mode.
+on macOS, and that too works in batch mode.
 </p>
 <p>Earlier versions of the <code>png()</code> device used the X11 driver, which
 is a problem in batch mode or for remote operation.  If you have
@@ -3459,12 +3456,12 @@ Next: <a href="#How-can-I-capture-or-ignore-errors-in-a-long-simulation_003f" ac
 <a name="Why-doesn_0027t-R-think-these-numbers-are-equal_003f-1"></a>
 <h3 class="section">7.31 Why doesn&rsquo;t R think these numbers are equal?</h3>
 
-<p>The only numbers that can be represented exactly in R&rsquo;s numeric type 
-are integers and fractions whose denominator is a power of 2.  Other 
-numbers have to be rounded to (typically) 53 binary digits accuracy.  As a 
-result, two floating point numbers will not reliably be equal unless they 
-have been computed by the same algorithm, and not always even then.  For 
-example
+<p>The only numbers that can be represented exactly in R&rsquo;s numeric type are
+integers and fractions whose denominator is a power of 2.  All other
+numbers are internally rounded to (typically) 53 binary digits accuracy.
+As a result, two floating point numbers will not reliably be equal
+unless they have been computed by the same algorithm, and not always
+even then.  For example
 </p>
 <div class="example">
 <pre class="example">R&gt; a &lt;- sqrt(2)
@@ -3472,6 +3469,8 @@ R&gt; a * a == 2
 [1] FALSE
 R&gt; a * a - 2
 [1] 4.440892e-16
+R&gt; print(a * a, digits = 18)
+[1] 2.00000000000000044
 </pre></div>
 
 <p>The function <code>all.equal()</code> compares two objects using a numeric
@@ -3479,17 +3478,32 @@ tolerance of <code>.Machine$double.eps ^ 0.5</code>.  If you want much greater
 accuracy than this you will need to consider error propagation
 carefully.
 </p>
+<p>A discussion with many easily followed examples is in Appendix G
+&ldquo;Computational Precision and Floating Point Arithmetic&rdquo;, pages
+753&ndash;771 of <em>Statistical Analysis and Data Display: An Intermediate
+Course with Examples in R</em>, Richard M. Heiberger and Burt Holland
+(Springer 2015, second edition).  This appendix is a free download from
+<a href="http://link.springer.com/content/pdf/bbm%3A978-1-4939-2122-5%2F1.pdf">http://link.springer.com/content/pdf/bbm%3A978-1-4939-2122-5%2F1.pdf</a>.
+</p>
 <p>For more information, see e.g. David Goldberg (1991), &ldquo;What Every
 Computer Scientist Should Know About Floating-Point Arithmetic&rdquo;,
 <em>ACM Computing Surveys</em>, <strong>23/1</strong>, 5&ndash;48, also available via
 <a href="http://www.validlab.com/goldberg/paper.pdf">http://www.validlab.com/goldberg/paper.pdf</a>.
 </p>
-<p>To quote from &ldquo;The Elements of Programming Style&rdquo; by Kernighan and
-Plauger:
+<p>Here is another example, this time using addition:
 </p>
-<blockquote>
-<p><em>10.0 times 0.1 is hardly ever 1.0</em>.
-</p></blockquote>
+<div class="example">
+<pre class="example">R&gt; .3 + .6 == .9
+[1] FALSE
+R&gt; .3 + .6 - .9
+[1] -1.110223e-16
+R&gt; print(matrix(c(.3,  .6,  .9, .3 + .6)), digits = 18)
+                     [,1]
+[1,] 0.299999999999999989
+[2,] 0.599999999999999978
+[3,] 0.900000000000000022
+[4,] 0.899999999999999911
+</pre></div>
 
 
 <hr>
@@ -3616,8 +3630,8 @@ For some common viewers, consider the following:
 smoothing and line art smoothing.
 Disable line art smoothing.
 </p></dd>
-<dt>Preview (OS X)
-<a name="index-Preview-_0028OS-X_0029"></a>
+<dt>Preview (macOS)
+<a name="index-Preview-_0028macOS_0029"></a>
 </dt>
 <dd><p>There is an option in Preferences to enable/disable anti-aliasing of
 text and line art.
@@ -3907,7 +3921,7 @@ The requisite code to add to <samp>.Rprofile</samp> or <samp>Rprofile.site</samp
 <pre class="example">options(download.file.method = &quot;wininet&quot;, url.method = &quot;wininet&quot;)
 <span class="roman">(Windows)</span>
 options(download.file.method = &quot;libcurl&quot;, url.method = &quot;libcurl&quot;)
-<span class="roman">(Linux and OS X)</span>
+<span class="roman">(Linux and macOS)</span>
 </pre></div>
 
 <p>(Method <code>&quot;wininet&quot;</code> is the default on Windows as from R 3.2.2.)
@@ -3915,7 +3929,7 @@ options(download.file.method = &quot;libcurl&quot;, url.method = &quot;libcurl&q
 <p>Note that the <code>&quot;libcurl&quot;</code> method may or may not have been compiled
 in.  In the case that it was not, i.e.. <code>capabilities(&quot;libcurl&quot;) ==
 FALSE</code>, we recommend method <code>&quot;wget&quot;</code> on Linux and <code>&quot;curl&quot;</code> on
-OS X.  It is possible that system versions of <code>&quot;libcurl&quot;</code>,
+macOS.  It is possible that system versions of <code>&quot;libcurl&quot;</code>,
 <code>wget</code> or <code>curl</code> may have been compiled without
 <acronym>HTTPS</acronym> support, but this is unlikely.  As from R 3.3.0
 <code>&quot;libcurl&quot;</code> with <acronym>HTTPS</acronym> support is required except on
@@ -3930,7 +3944,7 @@ Previous: <a href="#How-can-I-enable-secure-https-downloads-in-R_003f" accesskey
 <a name="How-can-I-get-CRAN-package-binaries-for-outdated-versions-of-R_003f-1"></a>
 <h3 class="section">7.44 How can I get CRAN package binaries for outdated versions of R?</h3>
 
-<p>Since March 2016, Windows and OS X binaries of <acronym>CRAN</acronym> packages for old
+<p>Since March 2016, Windows and macOS binaries of <acronym>CRAN</acronym> packages for old
 versions of R (released more than 5 years ago) are made available from a
 central <acronym>CRAN</acronym> archive server instead of the <acronym>CRAN</acronym> mirrors.  To get
 these, one should set the <acronym>CRAN</acronym> &ldquo;mirror&rdquo; element of the <code>repos</code>

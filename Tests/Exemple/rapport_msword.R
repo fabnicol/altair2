@@ -3,7 +3,7 @@ source ("rendre.R", encoding = encodage.code.source)
 
 envir <- rendre()
 
-file.rename("altair.docx", "altaïr.docx")
+file.rename("altair.docx", "altaÃ¯r.docx")
 
 ajuster_chemins_odt(hack_md())
 
@@ -13,7 +13,7 @@ system(
    "altair.md +RTS -K512m -RTS --to",
    "odt",
    "--from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --highlight-style tango --output",
-   "altaïr.odt")
+   "altaÃ¯r.odt")
 )
 
 if (! keep_md) {
@@ -24,22 +24,25 @@ if (! keep_md) {
 
 if (setOSWindows) {
   
-  system("copy /Y altaïr.odt altaïr.docx Donnees/R-Altaïr")
+  system("xcopy /Y altaÃ¯r.docx Donnees\\R-AltaÃ¯r")
+  system("xcopy /Y altaÃ¯r.odt  Donnees\\R-AltaÃ¯r")
+  system("mkdir Donnees\\R-AltaÃ¯r\\Docs")
+  system("xcopy /E /Y Docs Donnees\\R-AltaÃ¯r\\Docs")
   
 } else {
   
   system("cp -rf Docs Donnees/R-Altair")
-  system("cp -f altaïr.odt altaïr.docx Donnees/R-Altair")
+  system("cp -f altaÃ¯r.odt altaÃ¯r.docx Donnees/R-Altair")
 }
 
 
 if (setOSWindows) {
   
-  shell("start winword Donnees/R-Altaïr/altaïr.docx")
+  shell("start winword Donnees/R-AltaÃ¯r/altaÃ¯r.docx")
   
 } else {
   
-  system("lowriter Donnees/R-Altair/altaïr.odt")
+  system("lowriter Donnees/R-Altair/altaÃ¯r.odt")
   
 }
 
