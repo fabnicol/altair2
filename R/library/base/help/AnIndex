@@ -410,6 +410,7 @@ by.default	by
 bzfile	connections
 c	c
 c.Date	Dates
+c.default	c
 c.difftime	difftime
 c.noquote	noquote
 c.numeric_version	numeric_version
@@ -558,6 +559,7 @@ duplicated.default	duplicated
 duplicated.matrix	duplicated
 duplicated.numeric_version	numeric_version
 duplicated.POSIXlt	DateTimeClasses
+duplicated.warnings	warnings
 dyn.load	dynload
 dyn.unload	dynload
 dynGet	get

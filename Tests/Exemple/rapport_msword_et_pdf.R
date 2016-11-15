@@ -35,7 +35,8 @@ source("corps_rapport_pdf.R", encoding = encodage.code.source)
 
 if (setOSWindows) {
   
-  system("copy /Y altaïr.odt altaïr.docx Donnees/R-Altaïr")
+  system("xcopy /Y altaïr.odt Donnees\\R-Altaïr")
+  system("xcopy /Y altaïr.docx Donnees\\R-Altaïr")
   
 } else {
   
