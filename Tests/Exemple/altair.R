@@ -12,6 +12,10 @@
 #'   
 #'# Démonstrateur Altaïr version 16.09 
 
+# ---
+# Encodage obligatoire en UTF-8
+# ---
+
 #+ echo = FALSE, warning = TRUE, message = FALSE
 
 # comportement global du programme
@@ -19,7 +23,7 @@
 # Lorsque l'on n'a que une ou deux années, mettre étudier.variations à FALSE
 # Lorsque l'on n'étudie pas une base Xémélios, mettre étudier.tests.statutaires à FALSE
 
-# Encodage obligatoire en UTF-8
+
 
 #+ début
 

@@ -96,17 +96,18 @@ public :
     codePage();
     
 private:    
-    FLineEdit *NBILineEdit;
-    FLineEdit *PFILineEdit;
     QList<FLineEdit*> listeCodes;
     QList<QString> listeLabels;
     QLabel *label;
     QString init_label_text ;
     QToolButton* appliquerCodes ;
+    QGridLayout *vLayout = new QGridLayout;
+    
+    int ajouterVariable(const QString& nom);
+    bool reinitialiser_prologue();
+    
 private slots:    
     void substituer_valeurs_dans_script_R();
-    bool reinitialiser_prologue();
-
 };
 
 

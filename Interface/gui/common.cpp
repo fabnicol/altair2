@@ -44,7 +44,7 @@ if (file.open(QIODevice::ReadOnly | QIODevice::Text))
       j++;
   }
 }
-else Warning0(tr("Attention"), tr("Impossible d'ouvrir le fichier: ") + path );
+else Warning(tr("Attention"), tr("Impossible d'ouvrir le fichier: ") + path );
 file.close();
 return j;
 
@@ -83,12 +83,18 @@ QString string=L.join("\n");
 return string;
 }
 
-bool common::IOControl(const QString& in, const QString& out, const QString& comment, bool require)
+bool common::IOControl(const QString& in,
+                       const QString& out,
+                       const QString& comment,
+                       bool require)
 {
     QFile inFile(in);
     if (! inFile.exists())
     {
-        if (require == true) QMessageBox::critical(nullptr, "Erreur", in + " n'a pas été trouvé.", QMessageBox::Cancel);
+        if (require == true) QMessageBox::critical(nullptr,
+                                                   "Erreur",
+                                                   in + " n'a pas été trouvé.",
+                                                   QMessageBox::Cancel);
         return false;
     }
 
@@ -98,7 +104,9 @@ bool common::IOControl(const QString& in, const QString& out, const QString& com
     {
         int test = QMessageBox::Ok;
         if (! comment.isEmpty())
-                test = QMessageBox::warning(nullptr, "Ecraser le fichier ?", comment + " va être écrasé.\nAppuyer sur Oui pour confirmer, Non pour quitter.",
+                test = QMessageBox::warning(nullptr, "Ecraser le fichier ?", comment + 
+                                            " va être écrasé.\n"
+                                            "Appuyer sur Oui pour confirmer, Non pour quitter.",
                                             QMessageBox::Ok|QMessageBox::Cancel);
 
         if (test != QMessageBox::Ok)   return false;
@@ -107,7 +115,10 @@ bool common::IOControl(const QString& in, const QString& out, const QString& com
                if (newfile.remove() == false)
                {
                    if (! comment.isEmpty())
-                       QMessageBox::critical(nullptr, "Erreur", "La version précédente du fichier " + out + " n'a pas pu être effacée.",
+                       QMessageBox::critical(nullptr, 
+                                             "Erreur", 
+                                             "La version précédente du fichier " 
+                                             + out + " n'a pas pu être effacée.",
                                              QMessageBox::Cancel);
                    return false;
                }
@@ -120,25 +131,36 @@ bool common::IOControl(const QString& in, const QString& out, const QString& com
     {
         if  (QFileInfo(copyDirStr).isFile())
         {
-              int result = QMessageBox::warning(nullptr, "Ecraser le fichier ?",  copyDirStr + " sera écrasé.\nAppuyer sur Oui pour confirmer, Non pour quitter.",
-                                                QMessageBox::Ok|QMessageBox::Cancel);
+          int result = QMessageBox::warning(nullptr, 
+                                            "Ecraser le fichier ?",
+                                            copyDirStr
+                                            + " sera écrasé.\n"
+                                              "Appuyer sur Oui pour confirmer, Non pour quitter.",
+                                            QMessageBox::Ok|QMessageBox::Cancel);
 
-              if (result != QMessageBox::Ok)   return false;
-              else
-              {
-                     QFile newfile(copyDirStr);
-                     if (newfile.remove() == false)
-                     {
-                         QMessageBox::critical(nullptr, "Erreur", "Le fichier " + copyDirStr + " n'a pas pu être effacé.",
-                                               QMessageBox::Cancel);
-                         return false;
-                     }
-              }
+          if (result != QMessageBox::Ok)   return false;
+          else
+          {
+                 QFile newfile(copyDirStr);
+                 if (newfile.remove() == false)
+                 {
+                     QMessageBox::critical(nullptr, 
+                                           "Erreur",
+                                           "Le fichier "
+                                           + copyDirStr + " n'a pas pu être effacé.",
+                                           QMessageBox::Cancel);
+                     return false;
+                 }
+          }
         }
 
         if (copyDir.mkpath(copyDirStr) == false)
         {
-            QMessageBox::critical(nullptr, "Erreur", "Le dossier " + copyDirStr + " n'a pas pu être créé.",
+            QMessageBox::critical(nullptr, 
+                                  "Erreur",
+                                  "Le dossier "
+                                  + copyDirStr
+                                  + " n'a pas pu être créé.",
                                   QMessageBox::Cancel);
             return false;
         }
@@ -148,7 +170,10 @@ bool common::IOControl(const QString& in, const QString& out, const QString& com
 }
 
 
-bool common::copyFile(const QString &in, const QString &out, const QString& comment, bool require)
+bool common::copyFile(const QString &in,
+                      const QString &out,
+                      const QString& comment,
+                      bool require)
 {
     if (false == IOControl(in, out, comment, require))
         return false;
@@ -157,8 +182,11 @@ bool common::copyFile(const QString &in, const QString &out, const QString& comm
 
     if (inFile.copy(out) == false && require == true)
     {
-        if (! comment.isEmpty()) QMessageBox::critical(nullptr, "Erreur", comment + " n'a pas été copié.",
-                                                       QMessageBox::Cancel);
+        if (! comment.isEmpty()) 
+            QMessageBox::critical(nullptr, 
+                                  "Erreur", 
+                                  comment + " n'a pas été copié.",
+                                  QMessageBox::Cancel);
         return false;
     }
 
@@ -172,16 +200,23 @@ bool common::copyDir(const QString &in, const QString &out, const QString& comme
     QDir directory(in);
     if (! directory.exists()) return  false;
 
-    QFileInfoList fileInfoList = directory.entryInfoList(QDir::Files|QDir::Dirs|QDir::NoDotAndDotDot);
+    QFileInfoList fileInfoList = directory.entryInfoList(QDir::Files 
+                                                       | QDir::Dirs 
+                                                       | QDir::NoDotAndDotDot);
+    
     bool result = true;
 
     for (const QFileInfo& fileInfo : fileInfoList)
     {
       if (fileInfo.isDir())
-          result &= copyDir(fileInfo.filePath(), out + "/" +fileInfo.fileName(), comment);
+          result &= copyDir(fileInfo.filePath(), 
+                            out + "/" +fileInfo.fileName(),
+                            comment);
       else
       if (fileInfo.isFile())
-          result &= copyFile(fileInfo.filePath(), out + "/" + fileInfo.fileName(), comment);
+          result &= copyFile(fileInfo.filePath(),
+                             out + "/" + fileInfo.fileName(),
+                             comment);
     }
 
     return result;
@@ -189,20 +224,24 @@ bool common::copyDir(const QString &in, const QString &out, const QString& comme
 
 QString common::generateDatadirPath(const QString &path)
 {
-  QString pathstr= QDir::cleanPath(  QStandardPaths::writableLocation(QStandardPaths::DataLocation) + ((path.isEmpty())?"":QString("/"))+path);
+  QString pathstr= QDir::cleanPath(QStandardPaths::writableLocation(QStandardPaths::DataLocation) 
+                                   + ((path.isEmpty()) ? "" : QString("/")) + path);
   return pathstr;
 }
 
 QString common::generateDatadirPath(const char* path)
 {
   const QString str= QString(path);
-  QString pathstr= QDir::cleanPath(  QStandardPaths::writableLocation(QStandardPaths::DataLocation) + ((path[0]=='\0')?"":"/")+ str);
+  QString pathstr= QDir::cleanPath(QStandardPaths::writableLocation(QStandardPaths::DataLocation)
+                                   + ((path[0]=='\0') ? "" : "/") + str);
   return pathstr;
 }
 
 void common::setWhatsThisText(QWidget* widget, int start, int stop)
 {
-  widget->setWhatsThis("<html>"+readFile(whatsThisPath, 2, 2)+readFile(whatsThisPath, start, stop)+"</html>");
+  widget->setWhatsThis("<html>"+readFile(whatsThisPath, 2, 2)
+                       + readFile(whatsThisPath, start, stop)
+                       + "</html>");
 }
 
 void common::openDir(QString path)
@@ -210,11 +249,11 @@ void common::openDir(QString path)
   if (path.isEmpty()) return;
   if (!QFileInfo(path).isDir())
     {
-      Warning0("", path + " n'est pas un répertoire.");
+      Warning("", path + " n'est pas un répertoire.");
       return;
     }
 
-QDesktopServices::openUrl(QUrl::fromLocalFile(path));
+  QDesktopServices::openUrl(QUrl::fromLocalFile(path));
 
 }
 
@@ -233,7 +272,7 @@ const QString common::openDirDialog(flags::directory checkEmptyness)
 QString path=QFileDialog::getExistingDirectory(nullptr, QString("Sélection du répertoire"),
                                                QDir::currentPath(),
                                                QFileDialog::ShowDirsOnly
-                                               | QFileDialog::DontResolveSymlinks);
+                                             | QFileDialog::DontResolveSymlinks);
 if (path.isEmpty()) return QString();
 
 if (checkEmptyness == flags::directory::checkEmptyness)
@@ -243,22 +282,30 @@ if (checkEmptyness == flags::directory::checkEmptyness)
     if (size)
     {
         int result=-1;
-        if ((result = Warning(QString("Répertoire"), QString("Le répertoire %1 n'est pas vide (Taille %2B). Ecraser et recréer ? ").arg(path,QString::number(size))))
-                == 0)
+        if ((result = Warning(QString("Répertoire"), 
+                              QString("Le répertoire %1 n'est pas vide (Taille %2B)."
+                                      "Ecraser et recréer ? ").arg(path,
+                                                                   QString::number(size))))
+             == 0)
         {
             QDir targetDirObject(path);
-            if (!targetDirObject.removeRecursively())    Warning0(QString("Supprimer le répertoire de création des bases"),
-                                                                  QString("Le répertoire n'a pas été supprimé' %1").arg(QDir::toNativeSeparators(path)));
+            if (!targetDirObject.removeRecursively())   
+            {
+              Warning(QString("Supprimer le répertoire de création des bases"),
+                      QString("Le répertoire n'a pas été supprimé' %1").arg(QDir::toNativeSeparators(path)));
+            }
 
             else
             if (targetDirObject.mkpath(path) == false)
             {
-                Warning0(QString("Répertoire"), QString("Le répertoire %1 n'a pas été créé").arg(path));
+                Warning(QString("Répertoire"),
+                        QString("Le répertoire %1 n'a pas été créé").arg(path));
                 return QString();
             }
         }
     }
 }
+
 return QDir::toNativeSeparators(path);
 }
 
@@ -270,16 +317,23 @@ bool common::zip (const QString& filename , const QString& zipfilename)
     QFile outfile(zipfilename);
     qint64 n=0;
     bool result = true;
+    
     result = infile.open(QIODevice::ReadOnly);
     result = outfile.open(QIODevice::WriteOnly);
+    
     if (result == false) return false;
     n = infile.size();
+    
     QByteArray uncompressedData = infile.readAll();
+    
     int nBytesIn = uncompressedData.size();
     result &= (n == nBytesIn);
+    
     QByteArray compressedData = qCompress(uncompressedData,9);
+    
     int nBytesOut = compressedData.size();
     n = outfile.write(compressedData);
+    
     result &= (n == nBytesOut);
     infile.close();
     outfile.close();
@@ -291,7 +345,9 @@ bool common::zipDir (const QString& inPath , const QString& outPath)
     QDir directory(inPath);
     if (! directory.exists()) return  false;
 
-    QFileInfoList fileInfoList = directory.entryInfoList(QDir::Files|QDir::Dirs|QDir::NoDotAndDotDot);
+    QFileInfoList fileInfoList = directory.entryInfoList(QDir::Files
+                                                       | QDir::Dirs
+                                                       | QDir::NoDotAndDotDot);
     bool result = true;
 
     for (const QFileInfo& fileInfo : fileInfoList)
@@ -300,7 +356,8 @@ bool common::zipDir (const QString& inPath , const QString& outPath)
           result &= zipDir(fileInfo.filePath(), outPath + "/" + fileInfo.fileName());
       else
       if (fileInfo.isFile())
-          result &= zip(fileInfo.filePath(), outPath + "/" + fileInfo.fileName() + ".arch");
+          result &= zip(fileInfo.filePath(),
+                        outPath + "/" + fileInfo.fileName() + ".arch");
     }
 
     return result;
@@ -311,7 +368,9 @@ bool common::unzipDir (const QString& inPath , const QString& outPath)
     QDir directory(inPath);
     if (! directory.exists()) return  false;
 
-    QFileInfoList fileInfoList = directory.entryInfoList(QDir::Files|QDir::Dirs|QDir::NoDotAndDotDot);
+    QFileInfoList fileInfoList = directory.entryInfoList(QDir::Files
+                                                       | QDir::Dirs
+                                                       | QDir::NoDotAndDotDot);
     bool result = true;
 
     for (const QFileInfo& fileInfo : fileInfoList)
@@ -335,18 +394,27 @@ bool common::unzip (const QString& zipfilename , const QString& filename)
     IOControl(zipfilename, filename);
     QFile infile(zipfilename);
     QFile outfile(filename);
+    
     qint64 n=0;
     bool result = true;
+    
     result = infile.open(QIODevice::ReadOnly);
     result = outfile.open(QIODevice::WriteOnly);
+    
     if (result == false) return false;
     n = infile.size();
+    
     QByteArray uncompressedData = infile.readAll();
+    
     int nBytesIn = uncompressedData.size();
     result &= (n == nBytesIn);
+    
     QByteArray compressedData = qUncompress(uncompressedData);
+    
     int nBytesOut = compressedData.size();
+    
     n = outfile.write(compressedData);
+    
     result &= (n == nBytesOut);
     infile.close();
     outfile.close();
