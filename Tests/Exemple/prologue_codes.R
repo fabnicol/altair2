@@ -22,5 +22,5 @@ codes <- data.table(valeur = c(codes.nbi,
                                    expression.rég.ifts, 
                                    expression.rég.iat,
                                    expression.rég.heures.sup, 
-                                   "",
+                                   "", #expression.rég.vacataires,
                                    expression.rég.élus))

@@ -383,7 +383,7 @@ sort                    Sorting or Ordering Vectors
 source                  Read R Code from a File or a Connection
 split                   Divide into Groups and Reassemble
 sprintf                 Use C-style String Formatting Commands
-srcfile                 References to source files
+srcfile                 References to Source Files and Code
 startsWith              Does String Start or End With Another String?
 stop                    Stop Function Execution
 stopifnot               Ensure the Truth of R Expressions

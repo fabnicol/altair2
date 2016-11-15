@@ -104,7 +104,7 @@ codePage::codePage()
     
     label = new QLabel;
     
-    vLayout->addWidget(label, index, 0, Qt::AlignRight);
+    vLayout->addWidget(label, index + 1, 1, Qt::AlignLeft);
     vLayout->addWidget(appliquerCodes, index,1, Qt::AlignLeft);
     vLayout->setColumnMinimumWidth(1, MINIMUM_LINE_WIDTH);
     vLayout->setSpacing(10);
@@ -177,11 +177,14 @@ void codePage::substituer_valeurs_dans_script_R()
                   icon1 :
                   icon0;
     
-    bool res = true;
+    bool res = false;
+    bool res2 = true;
 
     for (const FLineEdit* a: listeCodes)
     {
-          res |= a->text().isEmpty();
+          bool test = ! a->text().isEmpty();
+          res |= test;
+          res2 &= test;
     }
 
     if (res == false)
@@ -195,15 +198,43 @@ void codePage::substituer_valeurs_dans_script_R()
  
         return;
     }
+    else
+     if (res2 == false)
+     {
+         QString  liste_codes_nr;
+         int i = 0;
+
+         for (const FLineEdit* a: listeCodes)
+         {
+               if (a->text().isEmpty())
+                  liste_codes_nr += listeLabels[i].toUpper() + "<br>";
+
+               ++i;
+         }
+
+         Warning("Attention",
+                 "Certains code ne sont pas renseignés.<br>"
+                 "Les tests statutaires se feront <br>"
+                 "sous algorithme heuristique pour :<br>"
+                 +
+                 liste_codes_nr);
+     }
 
 
     QString file_str = common::readFile(prologue_codes_path);
+    QString liste_codes;
 
     for (int rang = 0; rang < listeCodes.size(); ++rang)
     {
         const QString &s     = listeLabels.at(rang);
         const QString &codes = listeCodes.at(rang)->text();
-        bool res = substituer(regexp(s), rempl_str(s, codes), file_str);
+        bool res = true;
+
+        if (! codes.isEmpty())
+        {
+           res = substituer(regexp(s), rempl_str(s, codes), file_str);
+           liste_codes += "<li>" + listeLabels.at(rang).toUpper() + " : "  + codes + "</li>";
+        }
 
         if (res == false)
         {
@@ -217,15 +248,16 @@ void codePage::substituer_valeurs_dans_script_R()
         }
     }
 
-    renommer(dump(file_str), prologue_codes_path);
+    res = renommer(dump(file_str), prologue_codes_path);
 
     appliquerCodes->setIcon(icon);
     
     if (res == true)
-        label->setText("Les codes de paye seront <br>pris en compte pour les rapports  ");
+        label->setText("Les codes de paye suivants :"
+                       "<ul>" + liste_codes + "</ul>"
+                       "seront  pris en compte pour les rapports.");
     else
-        label->setText("Tous les codes de paye ne pourront pas<br>"
-                       "être pris en compte pour les rapports  ");
+        label->setText("Erreur d'enregistrement du fichier de configuration prologue_codes.R");
 }
 
 bool codePage::reinitialiser_prologue()

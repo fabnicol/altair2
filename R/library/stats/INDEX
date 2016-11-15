@@ -187,7 +187,8 @@ mantelhaen.test         Cochran-Mantel-Haenszel Chi-Squared Test for
 mauchly.test            Mauchly's Test of Sphericity
 mcnemar.test            McNemar's Chi-squared Test for Count Data
 median                  Median Value
-medpolish               Median Polish of a Matrix
+medpolish               Median Polish (Robust Twoway Decomposition) of
+                        a Matrix
 model.extract           Extract Components from a Model Frame
 model.frame             Extracting the Model Frame from a Formula or
                         Fit
