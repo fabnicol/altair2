@@ -582,6 +582,7 @@ filtrer_Paie <- function(x) {
       filtre <- codes[x, expression]
       P_  <- Paie[grepl(filtre, Libellé, ignore.case=TRUE, perl=TRUE)]
     } else {
+      
       filtre <- codes[x, valeur]
       P_  <- Paie[Code %chin% filtre]
     }

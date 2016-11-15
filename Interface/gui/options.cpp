@@ -10,7 +10,9 @@
 #include "flineframe.hpp"
 #include <fstream>
 
-extern template void createHash(QHash<QString, QString>&, const QList<QString>*, const QList<QString>*);
+extern template void createHash(QHash<QString, QString>&, 
+                                const QList<QString>*,
+                                const QList<QString>*);
 
 
 dirPage::dirPage()
@@ -42,160 +44,196 @@ dirPage::dirPage()
     //QGridLayout *v1Layout = new QGridLayout;
 
     QVBoxLayout* mainLayout = new QVBoxLayout;
-    FRichLabel *mainLabel=new FRichLabel("Répertoires des applications", ":/images/directory.png");
+    FRichLabel *mainLabel=new FRichLabel("Répertoires des applications", 
+                                         ":/images/directory.png");
     mainLayout->addWidget(mainLabel);
     mainLayout->addWidget(baseBox, 1, 0);
     mainLayout->addSpacing(100);
 
     setLayout(mainLayout);
 }
+
+
+int codePage::ajouterVariable(const QString& nom)
+{
+   static int index; 
+   const QString &NOM = nom.toUpper();
+   
+   // Ajouter ici les FLineEdit en pile dans listeCodes
+   
+   FLineEdit *line = new FLineEdit("",
+                                   NOM,
+                                  {NOM, "Code de paye"});
+   
+   line->setMinimumWidth(MINIMUM_LINE_WIDTH);
+   
+   listeCodes << line;
+      
+   // Ajouter ici les labels correspondants dans liste Labels
+   // Les labels doivent correspondre à une variable chaîne nommée codes.label dans prologue_codes.R
+   
+   listeLabels << nom;
+   
+   vLayout->addWidget(new QLabel("Codes " + NOM + " :  "), index, 0, Qt::AlignRight);
+   
+   vLayout->addWidget(listeCodes[index], index, 1, Qt::AlignLeft);
+   
+   ++index;
+   
+   return index;
+ }   
+
+
 
 codePage::codePage()
 {
     QGroupBox *baseBox = new QGroupBox;
-
-
-    NBILineEdit = new FLineEdit("",
-                               "NBI",
-                               {"NBI", "Code de paye"});
-                              
- 
-    PFILineEdit = new FLineEdit("",
-                               "PFI",
-                               {"PFI", "Code de paye"});
-
-
-    
+    prologue_codes_path = path_access("Tests/Exemple/prologue_codes.R");
     appliquerCodes = new QToolButton;
     
-    QIcon icon0 = QIcon(":/images/view-refresh.png");
-    QIcon icon1 = QIcon(":/images/msg.png");
-
-    appliquerCodes->setIcon(icon0);
-    appliquerCodes->setToolTip("Appuyer pour exporter ces codes de paye<br>pour la génération des rapports d'analyse.");
+    appliquerCodes->setIcon(QIcon(":/images/view-refresh.png"));
+    appliquerCodes->setToolTip("Appuyer pour exporter ces codes de paye<br>    "
+                               "pour la génération des rapports d'analyse.   ");
     appliquerCodes->setCheckable(true);
+
+    QStringList variables = {"nbi", "pfi", "pfr", "ifts", "iat", "ihts", "vacataires", "elus"};
     
-    QGridLayout *v1Layout = new QGridLayout;
+    short index = 0;
     
-    QLabel* NBILabel = new QLabel("Codes NBI :  ");
-    QLabel* PFILabel = new QLabel("Codes PFI :  ");
+    for (const QString& s : variables) index = ajouterVariable(s);    
+    
     label = new QLabel;
     
-    v1Layout->addWidget(NBILabel, 1,0, Qt::AlignRight);
-    v1Layout->addWidget(NBILineEdit, 1,1, Qt::AlignLeft);
-    v1Layout->addWidget(PFILabel, 2,0, Qt::AlignRight);
-    v1Layout->addWidget(PFILineEdit, 2,1, Qt::AlignLeft);
-    v1Layout->addWidget(label, 5, 0, Qt::AlignRight);
-    v1Layout->addWidget(appliquerCodes, 5,1, Qt::AlignLeft);
-    baseBox->setLayout(v1Layout);
+    vLayout->addWidget(label, index, 0, Qt::AlignRight);
+    vLayout->addWidget(appliquerCodes, index,1, Qt::AlignLeft);
+    vLayout->setColumnMinimumWidth(1, MINIMUM_LINE_WIDTH);
+    vLayout->setSpacing(10);
+    
+    baseBox->setLayout(vLayout);
     
     QVBoxLayout* mainLayout = new QVBoxLayout;
-    FRichLabel *mainLabel=new FRichLabel("Code de paye des tests", ":/images/data-input.png");
+    FRichLabel *mainLabel=new FRichLabel("Code de paye des tests", 
+                                         ":/images/data-input.png");
     mainLayout->addWidget(mainLabel);
     mainLayout->addWidget(baseBox, 1, 0);
     mainLayout->addSpacing(100);
-
-    // Ajouter ici les FLineEdit en pile dans listeCodes
-
-    listeCodes << NBILineEdit;
-    listeCodes << PFILineEdit;
-
-    // Ajouter ici les labels correspondants dans liste Labels
-    // Les labels doivent correspondre à une variable chaîne nommée codes.label dans prologue_codes.R
-
-    listeLabels << "nbi" << "pfi";
     
-    init_label_text = "Appuyer pour exporter ces valeurs<br>vers les rapports d'analyse  ";
+    init_label_text = "Appuyer pour exporter<br> vers les rapports d'analyse ";
     label->setText(init_label_text);
     
     connect(appliquerCodes, SIGNAL(clicked()), this, SLOT(substituer_valeurs_dans_script_R()));
+    
     for (FLineEdit *a: listeCodes)
-        connect(a, &QLineEdit::textEdited, [this] {
-                                                     label->setText(init_label_text);
-                                                     appliquerCodes->setChecked(false);
-                                                     reinitialiser_prologue();
-                                                  });
-
-    connect(appliquerCodes, &QToolButton::toggled, [this, icon1, icon0]
-                                                  {
-                                                            QIcon icon;
-                                                            icon = (appliquerCodes->isChecked()) ? icon1 : icon0;
-                                                            appliquerCodes->setIcon(icon);
-                                                  });
-
+    {
+        connect(a,
+                &QLineEdit::textEdited, 
+                [this] {
+                         label->setText(init_label_text);
+                         appliquerCodes->setChecked(false);
+                         appliquerCodes->setIcon(QIcon(":/images/view-refresh.png"));
+                         reinitialiser_prologue();
+                        });
+    }
+    
     setLayout(mainLayout);
 
     reinitialiser_prologue();
 }
     
+inline const QString regexp(const QString& X) 
+{
+    return "codes." + X + " *<- *NA"; 
+}
 
-inline const QString regexp(const QString& X)  { return "codes." + X + " *<- *NA"; }
+inline QString rempl_str(const QString &X, const QString &Y) 
+{ 
+    QStringList L = Y.split(";", QString::SkipEmptyParts);
+    QString Z;
 
-inline QString rempl_str(const QString &X, const QString &Y) { return  "codes." + X + " <- " + Y ;}
+    if (L.size() >= 0)
+    {
+        for (QString& s : L)
+        {
+            s = "\"" + s + "\"";
+        }
 
+        Z = "c(" + L.join(",") + ")";
+    }
+    else
+        return   "codes." + X + " <- NA";
+
+    return   "codes." + X + " <- " + Z;
+}
 
 void codePage::substituer_valeurs_dans_script_R()
 {
     reinitialiser_prologue();
-
+          
+    QIcon icon0 = QIcon(":/images/view-refresh.png");
+    QIcon icon1 = QIcon(":/images/msg.png");
+    QIcon icon2 = QIcon(":/images/error.png");
+      
+    QIcon icon = (appliquerCodes->isChecked()) ?
+                  icon1 :
+                  icon0;
+    
     bool res = true;
 
     for (const FLineEdit* a: listeCodes)
     {
-          res &= a->text().isEmpty();
+          res |= a->text().isEmpty();
     }
-
-    if (res == true)
-    {
-        Q("Les codes sont tous non renseignés.<br>"
-          "Les tests statutaires se feront <br>sous algorithme heuristique seulement.")
-
-        return;
-    }
-
-    res = substituer("ajuster_prologue *<- *FALSE",
-                     "ajuster_prologue <- TRUE",
-                     "Tests/Exemple/prologue.R");
 
     if (res == false)
     {
-        Q("Le remplacement de la variable ajuster_prologue<br>"
-          "n'a pas pu être effectué dans le fichier prologue.R<br>"
-          "Les tests statutaires se feront <br>sous algorithme heuristique seulement.")
+        Warning("Attention", 
+                "Les codes sont tous non renseignés.<br>"
+                "Les tests statutaires se feront <br>"
+                "sous algorithme heuristique seulement.");
+        
+        icon = icon2;
+ 
+        return;
     }
-    else
+
+
+    QString file_str = common::readFile(prologue_codes_path);
+
+    for (int rang = 0; rang < listeCodes.size(); ++rang)
     {
-        for (int rang = 0; rang < listeCodes.size(); ++rang)
+        const QString &s     = listeLabels.at(rang);
+        const QString &codes = listeCodes.at(rang)->text();
+        bool res = substituer(regexp(s), rempl_str(s, codes), file_str);
+
+        if (res == false)
         {
-            const QString &s     = listeLabels.at(rang);
-            const QString &codes = listeCodes.at(rang)->text();
+            Warning("Attention",
+                    "Le remplacement de la variable codes." + s + "<br>"
+                    "n'a pas pu être effectué dans le fichier prologue_codes.R<br>"
+                    "Les tests statutaires se feront<br>"
+                    "sous algorithme heuristique seulement.");
 
-            res &= substituer(regexp(s),
-                              rempl_str(s, codes),
-                              "Tests/Exemple/prologue_codes.R");
-
-            if (res == false)
-            {
-                Q(QString("Le remplacement de la variable codes." + s + "<br>"
-                  "n'a pas pu être effectué dans le fichier prologue_codes.R<br>"
-                  "Les tests statutaires se feront <br>sous algorithme heuristique seulement.").trimmed())
-            }
+            icon = icon2;
         }
     }
 
+    renommer(dump(file_str), prologue_codes_path);
+
+    appliquerCodes->setIcon(icon);
+    
     if (res == true)
         label->setText("Les codes de paye seront <br>pris en compte pour les rapports  ");
     else
-        label->setText("Tous les codes de paye ne pourront pas<br> être pris en compte pour les rapports  ");
+        label->setText("Tous les codes de paye ne pourront pas<br>"
+                       "être pris en compte pour les rapports  ");
 }
 
 bool codePage::reinitialiser_prologue()
 {
-    QFile(path_access("Tests/Exemple/prologue_codes.R")).remove();
-    bool result = QFile(path_access("Tests/Exemple/prologue_init.R")).copy("Tests/Exemple/prologue_codes.R");
-    result &= substituer("ajuster_prologue *<- *TRUE",
-                         "ajuster_prologue <- FALSE",
-                         "Tests/Exemple/prologue.R");
+
+    QFile(prologue_codes_path).remove();
+    bool result = QFile(path_access("Tests/Exemple/prologue_init.R")).copy(prologue_codes_path);
+
     return result;
 }
 
@@ -224,7 +262,9 @@ standardPage::standardPage()
     maxNLigneLabel = new QLabel("Nombre maximum de lignes\npar segment de base  ");
     maxNLigneLineEdit = new FLineEdit("",
                                       "maxLigne",
-                                     {"Données csv", "Découper la base de données par segment d'au maximum ce nombre de lignes."},
+                                     {"Données csv",
+                                      "Découper la base de données"
+                                      "par segment d'au maximum ce nombre de lignes."},
                                       "T");
 
     QGroupBox* optionalFieldBox = new QGroupBox(tr("Variables optionnelles"));
@@ -235,10 +275,13 @@ standardPage::standardPage()
                                "l");
 
     etabCheckBox = new FCheckBox("Exporter les informations\nsur l'établissement",
-                                flags::status::enabledUnchecked | flags::commandLineType::altairCommandLine,
-                                "exporterEtab",
-                                {"Données csv", "Exporter les champs Budget, Employeur, Siret, Etablissement"},
-                                "S");
+                                  flags::status::enabledUnchecked 
+                                | flags::commandLineType::altairCommandLine,
+                                 "exporterEtab",
+                                 {"Données csv",
+                                  "Exporter les champs Budget,"
+                                  " Employeur, Siret, Etablissement"},
+                                 "S");
 
 
     QGridLayout *v1Layout = new QGridLayout, *v2Layout = new QGridLayout;
@@ -250,11 +293,14 @@ standardPage::standardPage()
     optionalFieldBox->setLayout(v2Layout);
 
     tableCheckBox = new FCheckBox("Créer la base de données",
-                                flags::status::enabledChecked | flags::commandLineType::altairCommandLine,
-                                "genererTable",
-                                {"Données csv", "créer la base des lignes et bulletins de paye"},
-                                "t",
-                                {optionalFieldBox, baseTypeLabel, baseTypeWidget, maxNLigneLabel, maxNLigneLineEdit});
+                                   flags::status::enabledChecked 
+                                 | flags::commandLineType::altairCommandLine,
+                                  "genererTable",
+                                 {"Données csv",
+                                  "créer la base des lignes et bulletins de paye"},
+                                  "t",
+                                 {optionalFieldBox, baseTypeLabel, baseTypeWidget,
+                                  maxNLigneLabel, maxNLigneLineEdit});
 
 
     QStringList range3 = QStringList();
@@ -271,10 +317,10 @@ standardPage::standardPage()
 
     maxNLigneLineEdit->setFixedWidth(60);
 
-    /* A ce stade seules les bases monolithiques et par année peuvent être sous découpées en segments d'au maximum N lignes
-     * Les autres types de base doivent donc désactiver la FLineEdit maxNLigneLabel.
-     * Le code présuppose que les types de base sont rangés dans l'ordre : Standard > Par année > autres types.
-     * Code à désactiver lorsque cette fonctionnalités sera étendue aux autres types. */
+    // A ce stade seules les bases monolithiques et par année peuvent être sous découpées en segments d'au maximum N lignes
+    // Les autres types de base doivent donc désactiver la FLineEdit maxNLigneLabel.
+    // Le code présuppose que les types de base sont rangés dans l'ordre : Standard > Par année > autres types.
+    // Code à désactiver lorsque cette fonctionnalités sera étendue aux autres types. 
 
     connect(baseTypeWidget, &FComboBox::currentTextChanged, [this] {
            bool value = (baseTypeWidget->currentIndex() > 1);
@@ -312,28 +358,30 @@ processPage::processPage()
     nLineLabel = new QLabel("Nombre maximum d'agents par mois  ");
     nLineLabel->setDisabled(true);
     nLineEdit = new FLineEdit("",
-                             flags::status::disabled | flags::commandLineType::defaultCommandLine,
-                             "nAgent",
-                            {"Nombre maximum d'agents", ""},
-                            "n");
+                              flags::status::disabled 
+                            | flags::commandLineType::defaultCommandLine,
+                              "nAgent",
+                             {"Nombre maximum d'agents", ""},
+                              "n");
 
     nLineEdit->setFixedWidth(40);
 
     NLineLabel = new QLabel("Nombre maximum de lignes de paye par agent  ");
     NLineLabel->setDisabled(true);
     NLineEdit = new FLineEdit("",
-                            flags::status::disabled | flags::commandLineType::defaultCommandLine,
-                            "nLine",
-                            {"Nombre maximum de ligne de paye par agent", ""},
-                            "N");
+                              flags::status::disabled 
+                            | flags::commandLineType::defaultCommandLine,
+                              "nLine",
+                             {"Nombre maximum de ligne de paye par agent", ""},
+                              "N");
 
     NLineEdit->setFixedWidth(40);
 
     QLabel* processTypeLabel = new QLabel("Nombre de fils d'exécution  ");
     processTypeWidget = new FComboBox(range3,
-                                 "processType",
-                                 {"Type de processus", "Nombre de fils d'exécution"},
-                                  "j");
+                                      "processType",
+                                     {"Type de processus", "Nombre de fils d'exécution"},
+                                      "j");
 
     processTypeWidget->setFixedWidth(45);
     processTypeWidget->setFixedHeight(30);
@@ -342,28 +390,35 @@ processPage::processPage()
 
     QGridLayout *v3Layout = new QGridLayout;
     logFrame = new FLineFrame({"Générer un log d'exécution", "Chemin du fichier du log"},
-                              QDir::toNativeSeparators(common::generateDatadirPath() + "/altair.log"),
-                              "log",
-                              {2,1},
-                              v3Layout,
-                              "L");
+                                QDir::toNativeSeparators(common::generateDatadirPath() 
+                                                       + "/altair.log"),
+                               "log",
+                               {2,1},
+                               v3Layout,
+                               "L");
 
     logFrame->setPathCategory(flags::flineframe::isFilePath);
 
     logCheckBox = new FCheckBox("Générer le log  ",
-                                flags::status::enabledUnchecked | flags::commandLineType::noCommandLine,
+                                 flags::status::enabledUnchecked 
+                               | flags::commandLineType::noCommandLine,
                                 "genererLog",
-                                {"Générer un log d'exécution", "application noyau"},
-                                logFrame->getComponentList());
+                               {"Générer un log d'exécution", "application noyau"},
+                                 logFrame->getComponentList());
 
     consoleCheckBox = new FCheckBox("Activer la console  ",
-                                  flags::status::enabledChecked | flags::commandLineType::noCommandLine,
-                                  "activerConsole",
-                                  {"Générer un log d'exécution", "Utiliser l'onglet console"});
+                                     flags::status::enabledChecked 
+                                   | flags::commandLineType::noCommandLine,
+                                    "activerConsole",
+                                   {"Générer un log d'exécution",
+                                    "Utiliser l'onglet console"});
 
 
     QList<QString> ecoRange = QList<QString>(), ecoRange2 = QList<QString>();
-    ecoRange << "Intensive (100 %)" << "Standard (80 %)" << "Modérée (60 %)" << "Econome (40 %)" << "Très économe (20 %)" << "Minimale (10 %)" << "Rationnée (5%)";
+    ecoRange << "Intensive (100 %)" << "Standard (80 %)" << "Modérée (60 %)" 
+             << "Econome (40 %)" << "Très économe (20 %)" << "Minimale (10 %)"
+             << "Rationnée (5%)";
+    
     ecoRange2 << "100"   << "80" << "60" << "40" << "20" << "10" << "5";
 
     QLabel* memoryUseLabel = new QLabel("Utilisation de la mémoire  ");
@@ -372,7 +427,8 @@ processPage::processPage()
 
     memoryUseWidget = new FComboBox(ecoRange,
                                  "memoryUse",
-                                 {"Gestion de la mémoire", "Pourcentage d'utilisation de la mémoire libre"},
+                                 {"Gestion de la mémoire", 
+                                  "Pourcentage d'utilisation de la mémoire libre"},
                                   "%memshare");
 
     createHash(memoryUseWidget->comboBoxTranslationHash, &ecoRange, &ecoRange2);
@@ -382,14 +438,16 @@ processPage::processPage()
     memoryUseWidget->setFixedWidth(175);
     memoryUseWidget->setFixedHeight(30);
     memoryUseWidget->setCurrentIndex(1);
-    memoryUseWidget->setToolTip(tr("Sélectionner l'intensité de l'utilisation de la mémoire vive (RAM) libre au lancement de l'application. "
-                    "\nIntensive\t: 100 % de la mémoire\n"
-                      "Standard\t: 80 %\n"
-                      "Modérée\t: 60 %\n"
-                      "Econome\t: 40 %\n"
-                      "Très économe\t: 20 %\n"
-                      "Minimale\t: 10 %\n"
-                     "Rationnée\t:  5 %\n"));
+    memoryUseWidget->setToolTip(tr("Sélectionner l'intensité de l'utilisation"
+                                   " de la mémoire vive (RAM) libre au lancement"
+                                   " de l'application. "
+                                    "\nIntensive\t: 100 % de la mémoire\n"
+                                      "Standard\t: 80 %\n"
+                                      "Modérée\t: 60 %\n"
+                                      "Econome\t: 40 %\n"
+                                      "Très économe\t: 20 %\n"
+                                      "Minimale\t: 10 %\n"
+                                     "Rationnée\t:  5 %\n"));
 
 
     connect(memoryUseWidget, &FComboBox::currentTextChanged, [this] {
@@ -420,7 +478,8 @@ processPage::processPage()
     logBox->setLayout(v3Layout);
 
     QVBoxLayout* mainLayout = new QVBoxLayout;
-    FRichLabel *mainLabel=new FRichLabel("Paramètres de traitement", ":/images/configure-toolbars.png");
+    FRichLabel *mainLabel=new FRichLabel("Paramètres de traitement", 
+                                         ":/images/configure-toolbars.png");
     mainLayout->addWidget(mainLabel);
     mainLayout->addWidget(processTypeBox, 1, 0);
     mainLayout->addWidget(logBox, 2, 0);
@@ -470,7 +529,8 @@ options::options(Altair* parent)
                 options::RefreshFlag =  interfaceStatus::hasUnsavedOptions;
                 accept();
                 parent->execPath = dirTab->applicationNoyau->getText();
-                parent->altairCommandStr =  parent->execPath +  QDir::separator() + ("lhx"+ QString(systemSuffix));
+                parent->altairCommandStr =  parent->execPath +  QDir::separator() 
+                                          + ("lhx"+ QString(systemSuffix));
 
                 parent->updateProject(true);
 
@@ -501,7 +561,8 @@ options::options(Altair* parent)
 }
 
 
-/* implement a global clear() function for the FStringList of data in an FListFrame ; it will be used as Altair::clearData() too. Usage below is faulty. */
+// implement a global clear() function for the FStringList of data in an FListFrame ; 
+// it will be used as Altair::clearData() too. Usage below is faulty.
 
 void options::clearOptionData()
 {
@@ -526,14 +587,14 @@ void options::createIcon(const char* path, const char* text)
 
 void options::createIcons()
 {
-    QList<const char*> iconList=QList<const char*>() << ":/images/csv.png" << "   Format  " <<
-                                                        ":/images/configure-toolbars.png" << "Traitement " <<
-                                                        ":/images/data-icon.png" << "   Codes   " <<
-                                                        ":/images/directory.png" << "Répertoires";
+    QList<const char*> iconList=QList<const char*>()
+                                    << ":/images/csv.png" << "   Format  " 
+                                    << ":/images/configure-toolbars.png" << "Traitement "
+                                    << ":/images/data-icon.png" << "   Codes   " 
+                                    << ":/images/directory.png" << "Répertoires";
 
 
     for (int i = 0; i < iconList.size()/2 ; i++) createIcon(iconList[2*i], iconList[2*i+1]);
-
 
 }
 
