@@ -16,7 +16,7 @@
 #endif
 
 #define  Warning(title, text)   QMessageBox::warning(0, title, text)
-#define  Warning0(title, text)   QMessageBox::warning(0, title, text)
+
 #define REQUIRE true
 
 class common : public QDialog, public flags
