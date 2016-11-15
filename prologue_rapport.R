@@ -16,7 +16,7 @@ if (setOSWindows) {
 }
 
 source("syspaths.R", encoding = encodage.code.source)
-
+library(data.table)
 source("prologue.R", encoding = "UTF-8")
 
 library(rmarkdown)

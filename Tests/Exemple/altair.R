@@ -1370,7 +1370,20 @@ if (exists("nombre.contractuels.et.vacations")) {
 résultat.ifts.manquant <- FALSE
 résultat.iat.manquant  <- FALSE
 
-Paie_I <- Paie[Type == "I", .(Nom, Matricule, Année, Mois, Code, Libellé, Montant, Type, Emploi, Grade, Indice, Statut, Catégorie)]
+Paie_I <- Paie[Type == "I", 
+                 .(Nom, 
+                   Matricule, 
+                   Année, 
+                   Mois, 
+                   Code,
+                   Libellé,
+                   Montant,
+                   Type,
+                   Emploi,
+                   Grade, 
+                   Indice,
+                   Statut,
+                   Catégorie)]
 
 Paie_I <- Paie_I[ , `:=`(ifts.logical = grepl(expression.rég.ifts, Libellé, ignore.case=TRUE, perl=TRUE),
                          iat.logical  = grepl(expression.rég.iat, Libellé, ignore.case=TRUE, perl=TRUE))]
@@ -1516,7 +1529,7 @@ nombre.agents.cumulant.pfr.ifts <- 0
 # Le cumul de la PR et de l'IFTS est régulier, de même que celui de la PR et de la PFR
 # le cumul de la PFR et de l'IFTS est irrrégulier
 
-Paie_I[ , pfr.logical := grepl(expression.rég.pfr, Libellé, ignore.case = TRUE, perl = TRUE)]
+Paie_I <- Paie_I[ , pfr.logical := grepl(expression.rég.pfr, Libellé, ignore.case = TRUE, perl = TRUE)]
 
 PFR.non.catA <- Paie_I[Catégorie != "A", ][pfr.logical == TRUE]
 
@@ -1794,7 +1807,7 @@ remunerations.elu <- Analyse.remunerations[ indemnités.élu > minimum.positif,
                                               "rémunération.indemnitaire.imposable"),
                                             with=FALSE ]
 
-remunerations.elu[ , rémunération.indemnitaire.imposable := indemnités.élu +  rémunération.indemnitaire.imposable]
+remunerations.elu <- remunerations.elu[ , rémunération.indemnitaire.imposable := indemnités.élu +  rémunération.indemnitaire.imposable]
 
 remunerations.elu <- merge(unique(matricules[ , .(Nom,  Matricule)], by=NULL),
                              remunerations.elu,
@@ -1843,7 +1856,7 @@ cumul.lignes.paie <- cumul.lignes.paie[Total != 0]
 
 cumul.lignes.paie$Type <- remplacer_type(cumul.lignes.paie$Type)
                    
-cumul.lignes.paie[ , Total2  := formatC(Total, big.mark = " ", format = "f", decimal.mark = ",", digits = 2)]
+cumul.lignes.paie <- cumul.lignes.paie[ , Total2  := formatC(Total, big.mark = " ", format = "f", decimal.mark = ",", digits = 2)]
 
 
 cumul.total.lignes.paie <- cumul.lignes.paie[ , .(`Cumul annuel`= formatC(sum(Total, na.rm = TRUE), big.mark = " ", format = "f", decimal.mark = ",", digits = 2)), 

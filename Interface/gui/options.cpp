@@ -54,7 +54,7 @@ dirPage::dirPage()
 }
 
 
-int codePage::ajouterVariable(const QString& nom) 
+int codePage::ajouterVariable(const QString& nom)
 {
    static int index; 
    const QString &NOM = nom.toUpper();
@@ -88,7 +88,7 @@ int codePage::ajouterVariable(const QString& nom)
 codePage::codePage()
 {
     QGroupBox *baseBox = new QGroupBox;
-    
+    prologue_codes_path = path_access("Tests/Exemple/prologue_codes.R");
     appliquerCodes = new QToolButton;
     
     appliquerCodes->setIcon(QIcon(":/images/view-refresh.png"));
@@ -98,13 +98,13 @@ codePage::codePage()
 
     QStringList variables = {"nbi", "pfi", "pfr", "ifts", "iat", "ihts", "vacataires", "elus"};
     
-    short index;
+    short index = 0;
     
     for (const QString& s : variables) index = ajouterVariable(s);    
     
     label = new QLabel;
     
-    vLayout->addWidget(label, index, 0, Qt::AlignRight);
+    vLayout->addWidget(label, index + 1, 1, Qt::AlignLeft);
     vLayout->addWidget(appliquerCodes, index,1, Qt::AlignLeft);
     vLayout->setColumnMinimumWidth(1, MINIMUM_LINE_WIDTH);
     vLayout->setSpacing(10);
@@ -147,7 +147,22 @@ inline const QString regexp(const QString& X)
 
 inline QString rempl_str(const QString &X, const QString &Y) 
 { 
-    return   "codes." + X + " <- " + Y ;
+    QStringList L = Y.split(";", QString::SkipEmptyParts);
+    QString Z;
+
+    if (L.size() >= 0)
+    {
+        for (QString& s : L)
+        {
+            s = "\"" + s + "\"";
+        }
+
+        Z = "c(" + L.join(",") + ")";
+    }
+    else
+        return   "codes." + X + " <- NA";
+
+    return   "codes." + X + " <- " + Z;
 }
 
 void codePage::substituer_valeurs_dans_script_R()
@@ -162,11 +177,14 @@ void codePage::substituer_valeurs_dans_script_R()
                   icon1 :
                   icon0;
     
-    bool res = true;
+    bool res = false;
+    bool res2 = true;
 
     for (const FLineEdit* a: listeCodes)
     {
-          res |= a->text().isEmpty();
+          bool test = ! a->text().isEmpty();
+          res |= test;
+          res2 &= test;
     }
 
     if (res == false)
@@ -180,61 +198,74 @@ void codePage::substituer_valeurs_dans_script_R()
  
         return;
     }
-
-    res = substituer("ajuster_prologue *<- *FALSE",
-                     "ajuster_prologue <- TRUE",
-                     "Tests/Exemple/prologue.R");
-
-    if (res == false)
-    {
-        Warning("Attention",
-                "Le remplacement de la variable ajuster_prologue<br>"
-                "n'a pas pu être effectué dans le fichier prologue.R<br>"
-                "Les tests statutaires se feront <br>sous algorithme heuristique seulement.");
-        
-        icon = icon2;
-    }
     else
+     if (res2 == false)
+     {
+         QString  liste_codes_nr;
+         int i = 0;
+
+         for (const FLineEdit* a: listeCodes)
+         {
+               if (a->text().isEmpty())
+                  liste_codes_nr += listeLabels[i].toUpper() + "<br>";
+
+               ++i;
+         }
+
+         Warning("Attention",
+                 "Certains code ne sont pas renseignés.<br>"
+                 "Les tests statutaires se feront <br>"
+                 "sous algorithme heuristique pour :<br>"
+                 +
+                 liste_codes_nr);
+     }
+
+
+    QString file_str = common::readFile(prologue_codes_path);
+    QString liste_codes;
+
+    for (int rang = 0; rang < listeCodes.size(); ++rang)
     {
-        for (int rang = 0; rang < listeCodes.size(); ++rang)
+        const QString &s     = listeLabels.at(rang);
+        const QString &codes = listeCodes.at(rang)->text();
+        bool res = true;
+
+        if (! codes.isEmpty())
         {
-            const QString &s     = listeLabels.at(rang);
-            const QString &codes = listeCodes.at(rang)->text();
+           res = substituer(regexp(s), rempl_str(s, codes), file_str);
+           liste_codes += "<li>" + listeLabels.at(rang).toUpper() + " : "  + codes + "</li>";
+        }
 
-            res &= substituer(regexp(s),
-                              rempl_str(s, codes),
-                              "Tests/Exemple/prologue_codes.R");
+        if (res == false)
+        {
+            Warning("Attention",
+                    "Le remplacement de la variable codes." + s + "<br>"
+                    "n'a pas pu être effectué dans le fichier prologue_codes.R<br>"
+                    "Les tests statutaires se feront<br>"
+                    "sous algorithme heuristique seulement.");
 
-            if (res == false)
-            {
-                Warning("Attention",
-                        "Le remplacement de la variable codes." + s + "<br>"
-                        "n'a pas pu être effectué dans le fichier prologue_codes.R<br>"
-                        "Les tests statutaires se feront<br>"
-                        "sous algorithme heuristique seulement.");
-                
-                icon = icon2;
-            }
+            icon = icon2;
         }
     }
+
+    res = renommer(dump(file_str), prologue_codes_path);
 
     appliquerCodes->setIcon(icon);
     
     if (res == true)
-        label->setText("Les codes de paye seront <br>pris en compte pour les rapports  ");
+        label->setText("Les codes de paye suivants :"
+                       "<ul>" + liste_codes + "</ul>"
+                       "seront  pris en compte pour les rapports.");
     else
-        label->setText("Tous les codes de paye ne pourront pas<br>"
-                       "être pris en compte pour les rapports  ");
+        label->setText("Erreur d'enregistrement du fichier de configuration prologue_codes.R");
 }
 
 bool codePage::reinitialiser_prologue()
 {
-    const QString &path_codes = path_access("Tests/Exemple/prologue_codes.R");
-    QFile(path_codes).remove();
-    bool result = QFile(path_access("Tests/Exemple/prologue_init.R")).copy(path_codes);
-    result &= substituer("ajuster_prologue *<- *TRUE",
-                         "ajuster_prologue <- FALSE",
-                         "Tests/Exemple/prologue.R");
+
+    QFile(prologue_codes_path).remove();
+    bool result = QFile(path_access("Tests/Exemple/prologue_init.R")).copy(prologue_codes_path);
+
     return result;
 }
 

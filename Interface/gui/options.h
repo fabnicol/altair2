@@ -59,7 +59,7 @@ private:
       *baseTypeWidget,
       *processTypeWidget;
 
-    FLineEdit 
+    FLineEdit
      *maxNLigneLineEdit;
 
     QGroupBox
@@ -94,19 +94,20 @@ class codePage : public common
 
 public :
     codePage();
-    
-private:    
+
+private:
+    QString prologue_codes_path;
     QList<FLineEdit*> listeCodes;
     QList<QString> listeLabels;
     QLabel *label;
     QString init_label_text ;
     QToolButton* appliquerCodes ;
     QGridLayout *vLayout = new QGridLayout;
-    
-    int ajouterVariable(const QString& nom);
+
+    inline int ajouterVariable(const QString& nom);
     bool reinitialiser_prologue();
-    
-private slots:    
+
+private slots:
     void substituer_valeurs_dans_script_R();
 };
 
