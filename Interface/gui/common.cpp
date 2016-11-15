@@ -44,34 +44,43 @@ if (file.open(QIODevice::ReadOnly | QIODevice::Text))
       j++;
   }
 }
-else Warning(tr("Attention"), tr("Impossible d'ouvrir le fichier: ") + path );
+else
+{
+    Warning(tr("Attention"), tr("Impossible d'ouvrir le fichier: ") + path );
+}
+
 file.close();
 return j;
 
 }
 
-bool common::substituer(const QString& s, const QString& repl,  const QString& path)
+bool common::renommer(const QString& ancien, const QString& nouveau)
 {
+    QFile fout(ancien);
+    QFile(nouveau).remove();
+    return fout.rename(nouveau);
+}
 
-    QString file_path = path_access(path);
-    QString file_str = common::readFile(file_path);
-    QRegExp reg = QRegExp(s);
-    reg.setPatternSyntax(QRegExp::RegExp2);
 
-    file_str.replace(reg, repl);
-
+QString common::dump(const QString &chaine)
+{
     QString temp_path = path_access("temp");
 
     QFile fout(temp_path);
     fout.open(QIODevice::WriteOnly);
     QTextStream out (&fout);
-    out << file_str;
+    out << chaine;
     fout.close();
+    return temp_path;
+}
 
-    bool res = QFile(file_path).remove();
-    res &= fout.rename(file_path);
+bool common::substituer(const QString& s, const QString& repl,  QString& file_str)
+{
+    QRegExp reg = QRegExp(s);
+    reg.setPatternSyntax(QRegExp::RegExp2);
 
-    return res;
+    file_str.replace(reg, repl);
+    return (! file_str.isEmpty());
 }
 
 QString common::readFile(const QString &path,  int start, int stop, int width)
