@@ -1688,7 +1688,7 @@ test.PFR <- function(i, grade, cumul) { grepl(e[i], grade, perl = TRUE, ignore.c
 #'   
 #'[Lien vers la base de données variations agrégat PFR-IFTS](Bases/Remunerations/beneficiaires.PFR.Variation.csv)    
 #'   
-
+#'[Références juridiques](Docs/Notices/PFR.pdf)   
   
 #### 5.6 HEURES SUP ####
 #'    
@@ -1791,6 +1791,7 @@ Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"),
 #'**Nota :**   
 #'HS en excès : au-delà de 25 heures par mois     
 #'IHTS anormales : attribuées à des fonctionnaires ou non-titulaires de catégorie A ou assimilés.     
+#'[Références juridiques en lien ](Docs/IHTS.pdf)   
 
 #### 5.7 ELUS ####
 
