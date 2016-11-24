@@ -12,8 +12,6 @@ LazyData: true
 RoxygenNote: 5.0.1
 ByteCompile: true
 Encoding: latin1
-NeedsCompilation: no
-Packaged: 2016-03-19 23:25:36 UTC; Fab
 Author: Fabrice Nicol [aut, cre]
 Maintainer: Fabrice Nicol <fabrice.nicol@crtc.ccomptes.fr>
-Built: R 3.2.3; ; 2016-03-19 23:25:36 UTC; windows
+Built: R 3.3.2; ; 2016-11-24 18:48:41 UTC; windows
