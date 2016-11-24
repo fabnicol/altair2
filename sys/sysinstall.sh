@@ -7,3 +7,6 @@ if test -d sys/kernel; then
   grub-mkconfig -o /boot/grub/grub.cfg
   echo "Installation du noyau réalisée."
 fi
+if test -f sys/build.altair; then
+  sudo R CMD INSTALL --byte-compile  -l  /usr/lib64/R/library/ altair.linux
+fi  

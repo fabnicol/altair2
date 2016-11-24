@@ -60,7 +60,7 @@ effectifs <- function(période, Bulletins = Bulletins.paie,
 
                   H <- G[permanent == TRUE, ]
 
-                  postes.non.titulaires <- unique(A[Statut == "NON_TITULAIRE", Matricule, by = NULL])[[1]]
+                  postes.non.titulaires <- unique(A[Statut == "NON_TITULAIRE", Matricule], by = NULL)
 
                   I <- unique(A[Statut == "ELU", .(Matricule, permanent)],
                               by = NULL)
