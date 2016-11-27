@@ -20,7 +20,7 @@
 
 # La clé est reconnue par sa dimension de 64 Go, par son formatage exfat et son caractère de disque USB
 
-cle=/dev/$(lsblk -O | grep ".*exfat.*58,4G.*part.*scsi:usb" | cut -f 2 -d \ )
+cle=/dev/$(lsblk -O | grep -E ".*exfat.*[0-9,.]{2,5}G.*part.*scsi:usb" | cut -f 3 -d \ )
 
 
 udisksctl unmount --force --no-user-interaction --block-device  $cle
