@@ -5,7 +5,7 @@ cle=/dev/$(lsblk -O | grep -E ".*exfat.*[0-9,.]{2,5}G.*part.*scsi:usb" | cut -f 
 
 DATA=$HOME/Dev/altair/Tests/Exemple/Donnees
 
-udisksctl mount --no-user-interaction --options nonempty -b $cle
+udisksctl mount --no-user-interaction -b $cle
 
 if test -h $DATA/R-Altair; then rm  $DATA/R-Altair; fi	
 TARGET=$(find /run/media/$USER -mindepth 1 -maxdepth 1 -type d)
