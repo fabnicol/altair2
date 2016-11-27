@@ -1,0 +1,22 @@
+ 
+10-agent-shutdown.sh      Démonte la clé à la déconnection de Plasma
+actualiser_sys            Fichier vide dont l'existence active l'installation
+                          des fichiers système
+build.altair              Fichier vide dont l'existence active la compilation R
+                          de la bibliothèque altair.linux
+compte_utilisateur.sh     Crée un compte utilisateur automatiquement
+m.sh                      Monte la clé dans le répertoire R-Altair à la connection 
+mots_de_passe.zip         Récapitulatif des mots de passe de sections (crypté)
+sysinstall.sh             Installe le fichiers système
+kernel/...                (Si présent) Noyau linux à installer en remplacement de 
+                          l'actuel
+
+Répertoires de destination
+--------------------------
+
+10-agent-shutdown.sh      /etc/plasma/shutdown
+compte_utilisateur.sh     /usr/bin
+m.sh                      /etc/profile.d
+kernel/...                /boot
+
+
