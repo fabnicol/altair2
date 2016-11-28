@@ -148,14 +148,6 @@ cp -vrf /home/fab/Dev/altair/sys/autostart-scripts   /home/$compte_login/.config
 cp -vrf /home/fab/Dev/altair/sys/gtk-3.0   /home/$compte_login/.config
 sed "s/utilisateur/$compte_login/g" /home/fab/Dev/altair/sys/user-places.xbel > temp
 cp -vf  temp  /home/$compte_login/.local/share/user-places.xbel
-echo
-echo "************************************"
-echo "*                                  *"
-echo "* Avant toute utilisation          *"
-echo "* du nouveu compte, se connecter   *"
-echo "* et se déconnecter une fois       *"
-echo "*                                  *"
-echo "************************************"
 echo 
 echo "Exportation des icones"
 if ! test -d "/home/$compte_login/Desktop"; then
