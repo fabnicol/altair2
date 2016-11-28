@@ -10,13 +10,19 @@ mots_de_passe.zip         Récapitulatif des mots de passe de sections (crypté)
 sysinstall.sh             Installe le fichiers système
 kernel/...                (Si présent) Noyau linux à installer en remplacement de 
                           l'actuel
+dolphinrc                 Fichier de configuration dolphinrc
+plasma-org...rc           Fichiers de configuration plasma 5
+plasma-localerc
+gtkrc/gtk-3.0             Fichier de configuration des applications gtk
+
+
 
 Répertoires de destination
 --------------------------
 
 10-agent-shutdown.sh      /etc/plasma/shutdown
 compte_utilisateur.sh     /usr/bin
-m.sh                      /etc/profile.d
+m.sh                      /home/login/.config/autostart-scripts
 kernel/...                /boot
 
 

@@ -134,6 +134,12 @@ else
 fi 
 
 
+echo "Installation des fichiers de configuration Plasma 5"
+cp -vf /home/fab/Dev/altair/sys/*rc   /home/$compte_login/.config
+cp -vrf /home/fab/Dev/altair/sys/autostart-scripts   /home/$compte_login/.config
+cp -vrf /home/fab/Dev/altair/sys/gtk-3.0   /home/$compte_login/.config
+
+
 echo "Exportation des icones"
 if ! test -d "/home/$compte_login/Desktop"; then
    mkdir /home/$compte_login/Desktop
