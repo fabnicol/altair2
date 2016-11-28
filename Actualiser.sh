@@ -71,11 +71,11 @@ then
   
   git fetch -p -n --depth=1 origin master-jf
   
-  for i in Docs Interface_linux linux '*.txt' '*.R' '*.sh' '*.desktop' VERSION LICENCE '*.ico' '*.bmp' '*.png'  postinstall.sh altaïr.Rproj 'Tests/Exemple' 'Tests/Exemple/Docs' 
+  for i in Docs Interface_linux linux '*.txt' '*.R' '*.sh' '*.desktop' VERSION LICENCE '*.ico' '*.bmp' '*.png'  postinstall.sh altaïr.Rproj 'Tests/Exemple/*' 'Tests/Exemple/Docs' 
   do
     git checkout FETCH_HEAD -- "$i" 
-    sudo chmod 0755 /home/jf/Dev/altair/Tests/Exemple/*.*
-    sudo chmod 0755 /home/jf/Dev/altair/*.*
+    sudo chmod 0770 /home/jf/Dev/altair/Tests/Exemple/*.*
+    sudo chmod 0770 /home/jf/Dev/altair/*.*
     git add .
   done
   if ! test -d  lhx
