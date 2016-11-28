@@ -14,7 +14,7 @@ dolphinrc                 Fichier de configuration dolphinrc
 plasma-org...rc           Fichiers de configuration plasma 5
 plasma-localerc
 gtkrc/gtk-3.0             Fichier de configuration des applications gtk
-
+user-places.xbel          Fichier XML de configuration de Dolphin
 
 
 Répertoires de destination
@@ -24,5 +24,6 @@ Répertoires de destination
 compte_utilisateur.sh     /usr/bin
 m.sh                      /home/login/.config/autostart-scripts
 kernel/...                /boot
+user-places.xbel          /home/login/.local/share
 
 
