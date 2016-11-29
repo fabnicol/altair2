@@ -76,8 +76,8 @@ then
     git checkout FETCH_HEAD -- "$i" 
     sudo chmod 0770 /home/jf/Dev/altair/Tests/Exemple/*.*
     sudo chmod 0770 /home/jf/Dev/altair/*.*
-    sudo chgrp -R users /home/jf/Dev/altair/.Rproj.users
-    sudo chmod -R 0770 /home/jf/Dev/altair/.Rproj.users
+    sudo chgrp -R users /home/jf/Dev/altair
+    sudo chmod -R 0770 /home/jf/Dev/altair/.Rproj.user
     git add .
   done
   if ! test -d  lhx
@@ -95,6 +95,16 @@ then
   git gc --prune=now
 fi
 
+echo "Actualisation des documents de référence sur le bureau"
+
+# Liste des utilisateurs
+
+for i in $(cut -d: -f1 /etc/passwd)
+do 
+   if test -d /home/$i; then
+     sudo cp -f /home/jf/Dev/altair/Docs/*.{pptx,docx} /home/$i/Desktop
+   fi
+done
 
 echo "****" 
 echo "* Fin de l'opération."
