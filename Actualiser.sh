@@ -102,6 +102,7 @@ echo "Actualisation des documents de référence sur le bureau"
 for i in $(cut -d: -f1 /etc/passwd)
 do 
    if test -d /home/$i; then
+     sudo rm -f /home/$i/Desktop/*.{pptx,docx}
      sudo cp -f /home/jf/Dev/altair/Docs/*.{pptx,docx} /home/$i/Desktop
    fi
 done
