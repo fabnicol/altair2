@@ -76,6 +76,8 @@ then
     git checkout FETCH_HEAD -- "$i" 
     sudo chmod 0770 /home/jf/Dev/altair/Tests/Exemple/*.*
     sudo chmod 0770 /home/jf/Dev/altair/*.*
+    sudo chgrp -R users /home/jf/Dev/altair/.Rproj.users
+    sudo chmod -R 0770 /home/jf/Dev/altair/.Rproj.users
     git add .
   done
   if ! test -d  lhx

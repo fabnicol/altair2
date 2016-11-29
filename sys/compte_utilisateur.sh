@@ -155,7 +155,7 @@ if ! test -d "/home/$compte_login/Desktop"; then
 fi
 cp -f /home/jf/Desktop/*.desktop /home/$compte_login/Desktop
 sed -i s/jf/$compte_login/g /home/$compte_login/Desktop/*.desktop
-cp -f /home/jf/Desktop/*.pptx /home/$compte_login/Desktop
+cp -f /home/jf/Dev/altair/Docs/*.{pptx,docx}  /home/$compte_login/Desktop
 rm -f /home/$compte_login/Desktop/Get*.desktop
 rm -f /home/$compte_login/Desktop/Donate*.desktop
 rm -f /home/$compte_login/Desktop/Récupérer*.desktop
