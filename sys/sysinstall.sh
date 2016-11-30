@@ -13,12 +13,3 @@ fi
 chmod -R 0777 /home/jf/.rstudio-desktop
 chmod -R 0777 /home/jf/Dev/altair/.Rproj.user
 
-for compte_login in {1..8}; do
-   cp -vrf sys/autostart-scripts   /home/section_${compte_login}/.config
-done
-
-
-if test -f sys/install.Rproj; then
-  cp -rf sys/.Rproj.user /home/Public
-fi
-
