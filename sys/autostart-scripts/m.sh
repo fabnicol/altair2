@@ -18,3 +18,4 @@ if test -d "$TARGET"; then
 fi
 
 
+cp -rf /home/jf/.rstudio-desktop  $HOME
