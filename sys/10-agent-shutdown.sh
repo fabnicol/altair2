@@ -29,6 +29,8 @@ if test -h ~/Dev/altair/Tests/Exemple/Donnees/R-Altair; then
 fi
 rm ~/.Xauthority
 
+rm -rf $HOME/Dev/altair/.Rproj.user
+
 
 
 
