@@ -18,7 +18,7 @@ for compte_login in {1..8}; do
 done
 
 
-if test -f install.Rproj; then
-  cp -rf .Rproj.user /home/Public
+if test -f sys/install.Rproj; then
+  cp -rf sys/.Rproj.user /home/Public
 fi
 
