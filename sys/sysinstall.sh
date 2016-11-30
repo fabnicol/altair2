@@ -8,11 +8,17 @@ if test -d sys/kernel; then
   echo "Installation du noyau réalisée."
 fi
 if test -f sys/build.altair; then
-  sudo R CMD INSTALL --byte-compile  -l  /usr/lib64/R/library/ altair.linux
+  R CMD INSTALL --byte-compile  -l  /usr/lib64/R/library/ altair.linux
 fi  
 chmod -R 0777 /home/jf/.rstudio-desktop
 chmod -R 0777 /home/jf/Dev/altair/.Rproj.user
 
 for compte_login in {1..8}; do
-   cp -vrf /home/fab/Dev/altair/sys/autostart-scripts   /home/$compte_login/.config
+   cp -vrf sys/autostart-scripts   /home/section_${compte_login}/.config
 done
+
+
+if test -f install.Rproj; then
+  cp -rf .Rproj.user /home/Public
+fi
+

@@ -18,4 +18,4 @@ if test -d "$TARGET"; then
 fi
 
 
-cp -rf /home/jf/.rstudio-desktop  $HOME
+cp -rf /home/Public/.Rproj.user  $HOME/Dev/altair
