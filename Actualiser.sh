@@ -77,7 +77,7 @@ then
     sudo chmod 0770 /home/jf/Dev/altair/Tests/Exemple/*.*
     sudo chmod 0770 /home/jf/Dev/altair/*.*
     sudo chgrp -R users /home/jf/Dev/altair
-    sudo chmod -R 0770 /home/jf/Dev/altair/.Rproj.user
+    rm -f .directory
     git add .
   done
   if ! test -d  lhx

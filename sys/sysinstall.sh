@@ -11,5 +11,5 @@ if test -f sys/build.altair; then
   R CMD INSTALL --byte-compile  -l  /usr/lib64/R/library/ altair.linux
 fi  
 chmod -R 0777 /home/jf/.rstudio-desktop
-chmod -R 0777 /home/jf/Dev/altair/.Rproj.user
+
 
