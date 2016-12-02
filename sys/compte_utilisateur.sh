@@ -164,11 +164,6 @@ echo
 echo "Configuration du bureau Vue de dossiers"
 echo
 
-cp -f /home/jf/.config/plasma-org.kde.plasma.desktop-appletsrc  /home/$compte_login/.config
-chmod +r-w-x   /home/$compte_login/.config/plasma-org.kde.plasma.desktop-appletsrc
-sed -i 's/Image.*g/Image=file:\/\/\/usr\/share\/wallpapers\/PastelHills\/contents\/images\/1920x1080.jpg/g' /home/$compte_login/.config/plasma-org.kde.plasma.desktop-appletsrc 
-sed -i 's/desktopcontainment/plasma.folder/g'  /home/$compte_login/.config/plasma-org.kde.plasma.desktop-appletsrc 
-
 chown -R $compte_login /home/$compte_login
 chgrp -R users   /home/$compte_login
 
