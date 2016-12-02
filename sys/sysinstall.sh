@@ -12,4 +12,7 @@ if test -f sys/build.altair; then
 fi  
 chmod -R 0777 /home/jf/.rstudio-desktop
 
+cp -vf sys/defaults          /usr/share/plasma/shells/org.kde.plasma.desktop/contents/
+cp -vf sys/metadata.desktop  /usr/share/plasma/desktoptheme/default/
+
 
