@@ -54,11 +54,13 @@ then
   git commit -am "Sauvegarde $(date)"
   
   echo "****"
-  echo "* Actualisation du dépôt jf..."
+  echo "* Actualisation de jf..."
   echo "****"
   cd /home/jf/Dev/altair
   
-  sudo chown -R fab /home/jf/Dev/altair/.git
+  if test -d .git; then
+    sudo rm -rf .git
+  fi
   
   if ! test x$current_origin = x$adresse
   then
@@ -68,28 +70,23 @@ then
     git remote remove origin
     git remote add -t master origin $adresse
   fi
-  
-  git fetch -p -n --depth=1 origin master-jf
-  
+      
   for i in altair.linux sft Docs Interface_linux linux '*.txt' '*.R' '*.sh' '*.desktop' VERSION LICENCE '*.ico' '*.bmp' '*.png'  postinstall.sh altaïr.Rproj 'Tests/Exemple/*' 'Tests/Exemple/Docs' 
   do
-    git checkout FETCH_HEAD -- "$i" 
-    sudo chmod 0770 /home/jf/Dev/altair/Tests/Exemple/*.*
-    sudo chmod 0770 /home/jf/Dev/altair/*.*
-    sudo chgrp -R users /home/jf/Dev/altair
-    rm -f .directory
-    git add .
+    cp -rf /home/fab/Dev/altair/$i .
+    sudo chown -R jf $i
   done
+  
+  sudo chmod 0770 /home/jf/Dev/altair/Tests/Exemple/*.*
+  sudo chmod 0770 /home/jf/Dev/altair/*.*
+  sudo chgrp -R users /home/jf/Dev/altair
+  
+  rm -f .directory
+  
   if ! test -d  lhx
   then
      mkdir lhx    
   fi
-
-  git commit -am "Sauvegarde $(date)"
-  
-  git gc --prune=now
-  
-  sudo chown -R jf /home/jf/Dev/altair/.git
   
   cd /home/fab/Dev/altair
   git gc --prune=now
