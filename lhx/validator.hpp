@@ -181,6 +181,7 @@ typedef struct
     bool calculer_maxima;
     bool generer_rang;
     bool select_siret;
+    bool select_echelon;
     bool pretend;
     bool verifmem;
     unsigned int  nbfil;
@@ -199,54 +200,45 @@ typedef struct {
 #define NO_AGENT -1
 
 #ifndef MAX_MEMORY_SHARE
-#  define MAX_MEMORY_SHARE 0.9
+#define MAX_MEMORY_SHARE 0.9
 #endif
 
 #ifndef NA_STRING
-#  define NA_STRING  (xmlChar*) "NA"
+ #define NA_STRING  (xmlChar*) "NA"
 #endif
 #ifndef MAX_LIGNES_PAYE
-#  define MAX_LIGNES_PAYE 1000
+ #define MAX_LIGNES_PAYE 1000
 #endif
 
 // MAX_NB_AGENTS détermine le nombre maximal d'agents par mois potentiellement traités
 
 #ifndef MAX_NB_AGENTS
-#   define MAX_NB_AGENTS 8000
+ #define MAX_NB_AGENTS 8000
 #endif
 
 #ifndef NO_DEBUG
-#   define DEBUG(X) std::cerr << "\n" << X << "\n";
-#   define AFFICHER_NOEUD(X)       { char msg[50]={0}; \
+    #define DEBUG(X) std::cerr << "\n" << X << "\n";
+    #define AFFICHER_NOEUD(X)       { char msg[50]={0}; \
                                       sprintf(msg, "atteint %s\n", (const char*) X);\
                                       DEBUG(msg) }
 
-#   define NO_DEBUG 0
+    #define NO_DEBUG 0
 #else
-#  undef NO_DEBUG
-#  define NO_DEBUG 1
-#  define DEBUG(X)
-#  define AFFICHER_NOEUD(X)
+    #undef NO_DEBUG
+    #define NO_DEBUG 1
+    #define DEBUG(X)
+    #define AFFICHER_NOEUD(X)
 #endif
-
 #if !NO_DEBUG
-#  ifdef __WIN32__
-#    include <Windows.h>
-#  endif
+    #ifdef __WIN32__
+    #include <Windows.h>
+    #endif
 #endif
 
 #define NODE_FOUND  0
 #define NODE_NOT_FOUND 1
 #define LINE_MEMORY_EXCEPTION 2
 #define NO_NEXT_ITEM 3
-
-#ifndef TYPE_LOOP_LIMIT
-#  define TYPE_LOOP_LIMIT 10
-#endif
-
-#ifndef STRICT
-#  define STRICT false
-#endif
 
 /* pas de contrôle d'existence de noeud : version affaiblie de la macro précédente */
 

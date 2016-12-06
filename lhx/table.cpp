@@ -67,6 +67,25 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l_COMMUN(int i, uint32_t agent, int l
 
 }
 
+static inline void GCC_INLINE ECRIRE_LIGNE_l_GENERER_RANG(int i, uint32_t agent, int l, char* type, table_t& base, char sep, vector<info_t> &Info, int rang)
+{
+    base <<  rang << sep;
+    base  << VAR(Annee) << sep
+          << VAR(Mois) << sep;
+    
+    if (Info[0].select_siret)
+    {
+        base  << VAR(Budget) << sep
+              << VAR(Employeur) << sep
+              << VAR(Siret) << sep
+              << VAR(Etablissement) << sep;
+    }
+    
+    ECRIRE_LIGNE_l_COMMUN(i, agent, l, type, base, sep, Info, rang);
+
+    base << VAR(Categorie) << sep
+         << VAR(NIR) << "\n";
+}
 
 static inline void GCC_INLINE ECRIRE_LIGNE_l_GENERER_RANG_ECHELON(int i, uint32_t agent, int l, char* type, table_t& base, char sep, vector<info_t> &Info, int rang)
 {
@@ -165,6 +184,27 @@ static inline void GCC_INLINE ECRIRE_LIGNE_BULLETIN_COMMUN(int i, uint32_t agent
               << VAR(EmploiMetier) << sep
               << VAR(Grade) << sep
               << VAR(Code) <<  " " << VAR(Description)<< sep;
+}
+
+static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETIN_GENERER_RANG(int i, uint32_t agent, table_t& bulletins, char sep, vector<info_t> &Info, int rang)
+{
+    bulletins <<  rang << sep;
+
+    bulletins << VAR(Annee) << sep
+              << VAR(Mois) << sep;
+
+    if (Info[0].select_siret)
+    {
+        bulletins  << VAR(Budget) << sep
+                   << VAR(Employeur) << sep
+                   << VAR(Siret) << sep
+                   << VAR(Etablissement) << sep;
+    }
+
+    ECRIRE_LIGNE_BULLETIN_COMMUN(i, agent, bulletins, sep, Info, rang);
+
+      bulletins   << VAR(Categorie) << sep
+                  << VAR(NIR) << "\n";
 }
 
 static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETIN_GENERER_RANG_ECHELON(int i, uint32_t agent, table_t& bulletins, char sep, vector<info_t> &Info, int rang)
@@ -288,8 +328,16 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
 
     if (Info[0].generer_rang)
     {
+        if (Info[0].select_echelon)
+        {
           ecrire_ligne_table = ECRIRE_LIGNE_l_GENERER_RANG_ECHELON;
           ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETIN_GENERER_RANG_ECHELON;
+        }
+        else
+        {
+          ecrire_ligne_table = ECRIRE_LIGNE_l_GENERER_RANG;
+          ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETIN_GENERER_RANG;
+        }
     }
     else
         if (Info[0].select_siret)

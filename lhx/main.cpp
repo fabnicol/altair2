@@ -112,6 +112,7 @@ int main(int argc, char **argv)
         false,            // calculer les maxima de lignes et d'agents
         false,            // numéroter les lignes
         false,             // ne pas exporter les informations sur l'établissement
+        false,             // ne pas exporter l'échelon
         false,             // pretend
         false,             // verifmem
         1,                 // nbfil
@@ -455,6 +456,20 @@ int main(int argc, char **argv)
             }
             else
             {
+                exit(-116);
+            }
+            ++start;
+            continue;
+        }
+        else if (commandline_tab[start] == "-E")
+        {
+            if (argc > start + 1)
+            {
+                info.select_echelon = true;
+            }
+            else
+            {
+                cout << "Il faut au moins un fichier";
                 exit(-116);
             }
             ++start;

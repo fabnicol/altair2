@@ -113,8 +113,8 @@ static int parseFile(info_t& info)
         {
             cerr << ERROR_HTML_TAG " pas de données sur l'année." ENDL;
 
-#if  STRICT
-            if (log.is_open()) log.close();
+#ifdef STRICT
+            if (log.open()) log.close();
             exit(-517);
 #endif
             /* Il faudra sans doute ajuster les différences entre le parsing C et l'analyse Xml, qui vont diverger */
@@ -129,7 +129,7 @@ static int parseFile(info_t& info)
         cerr << ERROR_HTML_TAG "Année non détectable" ENDL;
         if (log.is_open())
             log.close();
-#if  STRICT
+#ifdef STRICT
         if (log.is_open())
             log.close();
         exit(-502);
@@ -148,8 +148,8 @@ static int parseFile(info_t& info)
         {
             cerr << ERROR_HTML_TAG " pas de données sur le mois." ENDL;
 
-#if  STRICT
-            if (log.is_open()) log.close();
+#ifdef STRICT
+            if (log.open()) log.close();
             exit(-517);
 #endif
             /* Il faudra sans doute ajuster les différences entre le parsing C et l'analyse Xml, qui vont diverger */
@@ -162,7 +162,7 @@ static int parseFile(info_t& info)
     {
         cerr << ERROR_HTML_TAG "Mois non détectable" ENDL;
 
-#if  STRICT
+#ifdef STRICT
         if (log.is_open())
             log.close();
         exit(-503);
@@ -220,7 +220,7 @@ static int parseFile(info_t& info)
 
         warning_msg("la balise Employeur [non-conformité à la norme].", info, cur);
 
-#if  STRICT
+#ifdef STRICT
         if (log.is_open())
             log.close();
         exit(-515);
@@ -270,8 +270,8 @@ static int parseFile(info_t& info)
                 if (siret_fichier[0] == '\0')
                 {
                     warning_msg("la balise Siret", info, cur);
-#if  STRICT
-                    if (log.is_open()) log.close();
+#ifdef STRICT
+                    if (log.open()) log.close();
                     exit(-517);
 #endif
                    if (verbeux)  cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
@@ -303,7 +303,7 @@ static int parseFile(info_t& info)
         cerr << ERROR_HTML_TAG "Pas de données individuelles de paye [DonneesIndiv, non conformité à la norme]." ENDL;
         warning_msg("la balise DonneesIndiv", info, cur);
 
-#if  STRICT
+#ifdef STRICT
         if (log.is_open())
             log.close();
         exit(-525);
@@ -331,7 +331,7 @@ static int parseFile(info_t& info)
                errorLineStack.emplace_back(afficher_environnement_xhl(info, cur));
                mut.unlock();
             }
-#if  STRICT
+#ifdef STRICT
             if (log.is_open())
                 log.close();
             exit(-515);
@@ -387,8 +387,8 @@ static int parseFile(info_t& info)
                 {
                     warning_msg("les données nominales de l'établissement [non-conformité]", info, cur);
 
-#if  STRICT
-                    if (log.is_open()) log.close();
+#ifdef STRICT
+                    if (log.open()) log.close();
                     exit(-517);
 #endif
                     if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
@@ -405,8 +405,8 @@ static int parseFile(info_t& info)
                     if (etablissement_fichier[0] == '\0')
                     {
                         warning_msg("les données nominales de l'établissement [non-conformité]", info, cur);
-#if  STRICT
-                        if (log.is_open()) log.close();
+#ifdef STRICT
+                        if (log.open()) log.close();
                         exit(-517);
 #endif
                         if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
@@ -420,8 +420,8 @@ static int parseFile(info_t& info)
                 else
                 {
                     warning_msg("les données nominales de l'établissement [non-conformité]", info, cur);
-#if  STRICT
-                    if (log.is_open()) log.close();
+#ifdef STRICT
+                    if (log.open()) log.close();
                     exit(-517);
 #endif
                     if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
@@ -441,8 +441,8 @@ static int parseFile(info_t& info)
                     if (siret_fichier[0] == '\0')
                     {
                         warning_msg("les données de Siret de l'établissement [non-conformité]", info, cur);
-#if  STRICT
-                        if (log.is_open()) log.close();
+#ifdef STRICT
+                        if (log.open()) log.close();
                         exit(-517);
 #endif
                         if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
@@ -452,8 +452,8 @@ static int parseFile(info_t& info)
                 }
                 else
                 {
-#if  STRICT
-                    if (log.is_open()) log.close();
+#ifdef STRICT
+                    if (log.open()) log.close();
                     exit(-517);
 #endif
                     warning_msg("les données de Siret de l'établissement [non-conformité]", info, cur);
@@ -507,8 +507,8 @@ static int parseFile(info_t& info)
 
                 if (cur == nullptr)
                         warning_msg("la balise PayeIndivMensuel de l'établissement [non-conformité]", info, cur);
-#if  STRICT
-                if (log.is_open()) log.close();
+#ifdef STRICT
+                if (log.open()) log.close();
                 exit(-518);
 #endif
                 if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
@@ -570,7 +570,7 @@ static int parseFile(info_t& info)
                     ecrire_log(info, log, diff);
                     if (log.is_open())
                         log.close();
-#if  STRICT
+#ifdef STRICT
                     exit(-1278);
 #else
                     if (ligne_p > info.NLigne[info.NCumAgentXml])
@@ -879,7 +879,8 @@ if (info.pretend) return nullptr;
         if (err)
         {
             std ::cerr << ERROR_HTML_TAG "Calcul de la mémoire requise" ENDL;
-            exit(-1001);
+            perror(ERROR_HTML_TAG  "Erreur");
+        //    exit(-1001);
         }
     }
     else
