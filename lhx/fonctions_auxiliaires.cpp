@@ -10,6 +10,8 @@
 #include <iostream>
 #include <iterator>
 #include <sys/stat.h>
+#include "fonctions_auxiliaires.hpp"
+#include "tags.h"
 
 using namespace std;
 extern bool verbeux;
@@ -32,7 +34,6 @@ extern bool verbeux;
 #endif
 
 
-/// Affiche l'aide sur la ligne de commande
 
 ostringstream help()
 {
@@ -60,16 +61,17 @@ out <<  "**Usage** :  lhx OPTIONS fichiers.xhl  " << "\n\n"
           <<  "**-D** *argument obligatoire* : répertoire complet du fichier de sortie [défaut '.' avec -t].  " << "\n\n"
           <<  "**-d** *argument obligatoire* : séparateur décimal [défaut ',' avec -t].  " << "\n\n"
           <<  "**-s** *argument obligatoire* : séparateur de champs [défaut ';' avec -t]. Ne pas utiliser '_'.  " << "\n\n"
-          <<  "**-j** *argument obligatoire* : nombre de fils d'exécution (1 à  10).  " << "\n\n"
+          <<  "**-j** *argument obligatoire* : nombre de fils d'exécution (1 �  10).  " << "\n\n"
           <<  "**-l** *sans argument*        : générer une colonne de numéros de ligne intitulée 'R'.  " << "\n\n"
           <<  "**-M** *sans argument*        : ne pas libérer la mémoire réservée en fin de programme.   " << "\n\n"
           <<  "**-m** *sans argument*        : calculer les maxima d'agents et de lignes de paye.  " << "\n\n"
           <<  "**-L** *argument obligatoire* : chemin du log d'exécution du test de cohérence entre analyseurs C et XML.  " << "\n\n"
           <<  "**-R** *argument obligatoire* : expression régulière pour la recherche des élus (codés : ELU dans le champ Statut.  " << "\n\n"
           <<  "**-S** *sans argument*        : exporter les champs Budget, Employeur, Siret, Etablissement.  " << "\n\n"
+          <<  "**-E** *sans argument*        : exporter le champ Echelon.  " << "\n\n"
           <<  "**-q** *sans argument*        : limiter la verbosité.  " << "\n\n"
-          <<  "**-f** *argument obligatoire* : la ligne de commande est dans le fichier en argument, chaque élément à  la ligne.  " << "\n\n"
-          <<  "**--xhlmem** *arg. oblig.*    : taille des fichiers à  analyser en octets.  " << "\n\n"
+          <<  "**-f** *argument obligatoire* : la ligne de commande est dans le fichier en argument, chaque élément �  la ligne.  " << "\n\n"
+          <<  "**--xhlmem** *arg. oblig.*    : taille des fichiers �  analyser en octets.  " << "\n\n"
           <<  "**--memshare** *arg. oblig.*  : Part de la mémoire vive utilisée, en points de pourcentage.  " << "\n\n"
           <<  "**--segments** *arg. oblig.*  : nombre minimum de segments de base.  " << "\n\n"
           <<  "**--pretend**                 : exécution sans traitement des fichiers.  " << "\n\n"
@@ -78,7 +80,7 @@ out <<  "**Usage** :  lhx OPTIONS fichiers.xhl  " << "\n\n"
           <<  "**--pdf**                     : aide en format pdf.  " << "\n\n";
     #ifdef GENERATE_RANK_SIGNAL
               out  <<  "**-rank** *argument optionnel* : générer le fichier du rang de la base de paye en cours dans le fichier ";
-             // out  <<  "ou à  défaut dans " USERPROFILE "/" LOCALDATA ".\n\n";
+             // out  <<  "ou �  défaut dans " USERPROFILE "/" LOCALDATA ".\n\n";
     #endif
    return out;
 }
@@ -89,8 +91,7 @@ out <<  "**Usage** :  lhx OPTIONS fichiers.xhl  " << "\n\n"
 #include <windows.h>
 
 
-/// Retourne le répertoire d'exécution courant
-
+// The directory path returned by native GetCurrentDirectory() no end backslash
 string getexecpath()
 {
     const unsigned long maxDir = 260;
@@ -123,14 +124,7 @@ string getexecpath()
 
 
 
-/// Fonction d'affichage de des lignes du fichier XML de paye entourant celle où se pose
-/// un problème de conformité des données
-/// \param info  table d'informations
-/// \param cur   noeud courant
-/// \return structure de type #errorline_t contenant la ligne du fichier où apparaît
-/// l'erreur ainsi qu'un message comprenant le fichier et le nom de la balise, s'il est
-/// analysable. Sinon affiche un message indiquant son absence et retourne pour le numéro
-/// de ligne. Retourne NA pour un noeud null.
+/* utilité d'affichage de l'environnement xhl en cas de problème de conformité des données */
 
 errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur)
 {
@@ -157,8 +151,6 @@ errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur)
                              + string(" -- Balise : ") + ((cur)? string((const char*)cur->name) : string("NA"))};
     return s;
 }
-
-/// Retourne la taille du fichier en argument au format off_t
 
 off_t taille_fichier(const string& filename)
 {
@@ -215,13 +207,12 @@ off_t taille_fichier(const string& filename)
 
 
 
-
-/// Code adapté de source externe. Voir site internet indiqué pour la documentation
-/// Author:  David Robert Nadeau
-/// Site:    http://NadeauSoftware.com/
-/// License: Creative Commons Attribution 3.0 Unported License
-///         http://creativecommons.org/licenses/by/3.0/deed.en_US
-
+/* *******************************************************************************************************************************************************************************
+ * Author:  David Robert Nadeau
+ * Site:    http://NadeauSoftware.com/
+ * License: Creative Commons Attribution 3.0 Unported License
+ *          http://creativecommons.org/licenses/by/3.0/deed.en_US
+ */
 
 #if defined(__WIN32__)
     #include <windows.h>
@@ -233,9 +224,11 @@ off_t taille_fichier(const string& filename)
 #endif
 
 
-/// Retourne la \e current resident set size (consommation d emémoire physique) mesurée
-/// en octets, ou zéro si la valeur ne peut pas être déterminée par ce système
-/// d'exploitation.
+
+/**
+ * Returns the current resident set size (physical memory use) measured
+ * in bytes, or zero if the value cannot be determined on this OS.
+ */
 
 size_t getCurrentRSS( )
 {
@@ -266,17 +259,6 @@ size_t getCurrentRSS( )
 // End of Creative commons license
 
 
-
-/// Produit un journal d'exécution
-/// \param info   table d'informations
-/// \param log    fichier
-/// \param diff   différence entre les analyseurs C et XML
-/// \details Contenient les colonnes suivantes, pour chaque ligne de paye :\n
-/// <pre> Année, Mois, Matricule, Rang global, Rang dans le fichier, Analseur C, Xml </pre>
-/// et la différence entre l'analyseur C et Xml. \n
-/// Sépare les colonnes par la chaine " | ".
-/// \note Le chemin du journal est donné par #info#chemin_log
-
 void ecrire_log(const info_t& info, ofstream& log, int diff)
 {
     if (! info.chemin_log.empty())
@@ -299,6 +281,40 @@ void ecrire_log(const info_t& info, ofstream& log, int diff)
 
 
 
+#if 0
+ char* ecrire_chemin_base(const char* chemin_base, int rang_fichier_base)
+{
+    int s = strlen(chemin_base);
+    char* chemin = new char[s + 1 + 3]();   // chemin_base + _ + 3 chiffres
+    int cut = s - strlen(CSV);
+    strncpy(chemin, chemin_base, cut);
+
+    /*  si rang_fichier_base == 0, base monolithique
+        si rang_fichier_base compris entre 1 et nbType, base par catégorie
+        si rang_fichier_base supérieur �  nbType, base par année (les années sont très supérieures au nombre de type maximum ! */
+    int test = (int) (rang_fichier_base + nbType - 1) / nbType;
+
+    switch (test)
+    {
+        /* rang_ fichier_base == 0  -->   Table.csv */
+        case 0 :
+                  sprintf(chemin + cut, "%s", CSV);
+                  break;
+
+        /* 1 <= rang_ fichier_base <= nbType  --> Table_TraitBrut.csv etc. */
+        case 1 :
+                  sprintf(chemin + cut, "_%s%s", type_remuneration[rang_fichier_base-1], CSV);
+                  break;
+
+        /* nbType < rang_fichier_base   --> Table_2008.csv etc. */
+        default :
+                  sprintf(chemin + cut, "_%d%s", rang_fichier_base - nbType - 1, CSV);
+    }
+
+    return(chemin);
+}
+#endif
+
 void ecrire_entete_bulletins(const info_t &info, ofstream& base)
 {
   ecrire_entete0(info, base, entete_char_bulletins, sizeof(entete_char_bulletins)/sizeof(char*));
@@ -312,16 +328,34 @@ void ecrire_entete_table(const info_t &info, ofstream& base)
 void ecrire_entete0(const info_t &info, ofstream& base, const char* entete[], int N)
 {
   int i;
-
-  if (info.select_siret)
-    for (i = !info.generer_rang; i < N - 1; ++i)
-      base << entete[i] << info.separateur;
+  if (info.select_echelon)
+  {
+      if (info.select_siret)
+        for (i = !info.generer_rang; i < N - 1; ++i)
+          base << entete[i] << info.separateur;
+      else
+        for (i = !info.generer_rang; i < N - 1; ++i)
+        {
+            if (i != Budget +1 &&  i != Employeur + 1 && i != Siret +1 && i != Etablissement + 1)
+                base << entete[i] << info.separateur;
+        }
+  }
   else
-    for (i = !info.generer_rang; i < N - 1; ++i)
-    {
-        if (i != Budget +1 &&  i != Employeur + 1 && i != Siret +1 && i != Etablissement + 1)
-            base << entete[i] << info.separateur;
-    }
+  {
+      if (info.select_siret)
+        for (i = !info.generer_rang; i < N - 1; ++i)
+        {
+          if (entete[i][0] != 'E' || entete[i][1] != 'c')  // Pour "Echelon"
+              base << entete[i] << info.separateur;
+        }
+      else
+        for (i = !info.generer_rang; i < N - 1; ++i)
+        {
+            if (i != Budget +1 &&  i != Employeur + 1 && i != Siret +1 && i != Etablissement + 1
+                 && (entete[i][0] != 'E' || entete[i][1] != 'c'))  // Pour "Echelon"
+                base << entete[i] << info.separateur;
+        }
+  }
 
   base << entete[i] << "\n";
 }
@@ -482,7 +516,7 @@ int32_t lire_argument(int argc, char* c_str)
         }
         else if (sl > INT32_MAX)
         {
-            cerr << ERROR_HTML_TAG "" <<  sl << " entier excédant la limite des entiers à  16 bits" ENDL;
+            cerr << ERROR_HTML_TAG "" <<  sl << " entier excédant la limite des entiers �  16 bits" ENDL;
         }
         else if (sl < 0)
         {
@@ -548,7 +582,7 @@ int calculer_memoire_requise(info_t& info)
 {
     errno = 0;
 
-    // Attention reserve() ne va pas initialiser les membres à  0 sous Windows. Utiliser resize() ici.
+    // Attention reserve() ne va pas initialiser les membres �  0 sous Windows. Utiliser resize() ici.
    memory_debug("calculer_memoire_requise_pre_tab_resize");
 
 #ifdef PREALLOCATE_ON_HEAP
@@ -573,7 +607,7 @@ int calculer_memoire_requise(info_t& info)
 
     /* on compte un agent par balise <Remuneration/> ou par couple valide de balise <Remuneration>...</Remuneration> (fermeture contrôlée)
      * alors :
-     *   on compte un agent en plus (++info.NCumAgent) avec un nombre de ligne égal au moins à  un, même si pas de ligne de paye codée.
+     *   on compte un agent en plus (++info.NCumAgent) avec un nombre de ligne égal au moins �  un, même si pas de ligne de paye codée.
      *   Si il existe N lignes de paye codées, alors info.NLigne[info.NCumAgent] = N. */
 
 
@@ -593,7 +627,7 @@ int calculer_memoire_requise(info_t& info)
         else
         {
             if (verbeux)
-                cerr <<  ERROR_HTML_TAG "Problème à  l'ouverture du fichier *" << info.threads->argv[i] << "*" << ENDL;
+                cerr <<  ERROR_HTML_TAG "Problème �  l'ouverture du fichier *" << info.threads->argv[i] << "*" << ENDL;
             exit(-120);
         }
 
