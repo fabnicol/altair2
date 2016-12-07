@@ -1,8 +1,0 @@
-<map id="bulletin_optionnel_numerique" name="bulletin_optionnel_numerique">
-<area shape="rect" id="node2" href="$ligne__paye_8cpp.html#ab0033809d3d04a56bf668e6722da255c" title="Analyse les noeuds fils du noeud &lt;PayeIndivMensuel&gt; " alt="" coords="184,13,268,39"/>
-<area shape="rect" id="node3" href="$validator_8cpp.html#a8f9f27b474dcdd9d1ae8e172e9678844" title="Fonction principale réalisant l&#39;analyse des lignes de paye. " alt="" coords="316,13,448,39"/>
-<area shape="rect" id="node4" href="$validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="parseFile" alt="" coords="496,13,576,39"/>
-<area shape="rect" id="node5" href="$validator_8hpp.html#a84e82eb7bd4a0e47537f98223511a22b" title="decoder_fichier" alt="" coords="624,13,744,39"/>
-<area shape="rect" id="node6" href="$main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="produire_segment" alt="" coords="792,13,928,39"/>
-<area shape="rect" id="node7" href="$main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="976,13,1028,39"/>
-</map>
