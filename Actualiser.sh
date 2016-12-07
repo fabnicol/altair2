@@ -62,14 +62,6 @@ then
     sudo rm -rf .git
   fi
   
-  if ! test x$current_origin = x$adresse
-  then
-    echo "****"
-    echo "* Actualisation du dépôt $adresse (ancien $current_origin). Patientez..."
-    echo "***"
-    git remote remove origin
-    git remote add -t master origin $adresse
-  fi
       
   for i in altair.linux sft Docs Interface_linux linux '*.txt' '*.R' '*.sh' '*.desktop' VERSION LICENCE '*.ico' '*.bmp' '*.png'  postinstall.sh altaïr.Rproj 'Tests/Exemple/*' 'Tests/Exemple/Docs' 
   do
