@@ -11,7 +11,8 @@ sysinstall.sh             Installe le fichiers système
 kernel/...                (Si présent) Noyau linux à installer en remplacement de 
                           l'actuel
 dolphinrc                 Fichier de configuration dolphinrc
-plasma-org...rc           Fichiers de configuration plasma 5
+defaults                  Configuration par défaut du bureau plasma
+metadata.desktop          Configuration personnalisée du budeau plasma (Breeze, fonds d'écran etc.)
 plasma-localerc
 gtkrc/gtk-3.0             Fichier de configuration des applications gtk
 user-places.xbel          Fichier XML de configuration de Dolphin
@@ -25,5 +26,10 @@ compte_utilisateur.sh     /usr/bin
 m.sh                      /home/login/.config/autostart-scripts
 kernel/...                /boot
 user-places.xbel          /home/login/.local/share
+defaults                  /usr/share/plasma/shells/org.kde.plasma.desktop/contents/
+metadata.desktop          /usr/share/plasma/desktoptheme/default/
+plasma-localerc           ~/.config
+gtkrc/gtk-3.0       
+user-places.xbel      
 
 
