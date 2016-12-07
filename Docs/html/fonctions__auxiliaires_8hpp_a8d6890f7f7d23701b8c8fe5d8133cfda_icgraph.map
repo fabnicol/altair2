@@ -1,8 +1,0 @@
-<map id="getexecpath" name="getexecpath">
-<area shape="rect" id="node2" href="$fonctions__auxiliaires_8hpp.html#ae0f2b4dbded5e971bdf9fddc22876ed9" title="Affiche l&#39;aide sur la ligne de commande. " alt="" coords="349,5,398,32"/>
-<area shape="rect" id="node3" href="$main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="813,56,865,83"/>
-<area shape="rect" id="node4" href="$validator_8cpp.html#a8f9f27b474dcdd9d1ae8e172e9678844" title="Fonction principale réalisant l&#39;analyse des lignes de paye. " alt="" coords="153,107,285,133"/>
-<area shape="rect" id="node5" href="$validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="parseFile" alt="" coords="333,107,413,133"/>
-<area shape="rect" id="node6" href="$validator_8hpp.html#a84e82eb7bd4a0e47537f98223511a22b" title="decoder_fichier" alt="" coords="461,107,581,133"/>
-<area shape="rect" id="node7" href="$main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="produire_segment" alt="" coords="629,107,765,133"/>
-</map>

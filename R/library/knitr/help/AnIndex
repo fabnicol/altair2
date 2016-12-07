@@ -23,6 +23,7 @@ hook_plot_md	hook_plot
 hook_plot_rst	hook_plot
 hook_plot_tex	hook_plot
 hook_plot_textile	hook_plot
+hook_pngquant	chunk_hook
 hook_purl	chunk_hook
 hook_r2swf	hook_animation
 hook_scianimator	hook_animation
