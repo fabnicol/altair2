@@ -84,6 +84,8 @@ hashfile                Determine the sha from a blob in a file
 head,git_repository-method
                         Get HEAD for a repository
 in_repository           Determine if a directory is in a git repository
+index_remove_bypath     Remove an index entry corresponding to a file
+                        on disk
 init                    Init a repository
 is_bare                 Check if repository is bare
 is_binary               Is blob binary
@@ -177,6 +179,7 @@ summary,git_tag-method
 summary,git_tree-method
                         Summary of tree
 tag                     Create tag targeting HEAD commit in repository
+tag_delete              Delete an existing tag reference
 tags                    Tags
 tree                    Tree
 when                    When

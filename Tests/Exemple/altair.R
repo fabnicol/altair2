@@ -30,7 +30,7 @@
 library(compiler)
 library(data.table)
 invisible(setCompilerOptions(suppressAll = TRUE, optimize = 3))
-invisible(enableJIT(3))
+invisible(enableJIT(0))
 
 options(warn = -1, verbose = FALSE, OutDec = ",", datatable.verbose = FALSE, datatable.integer64 = "numeric")
 

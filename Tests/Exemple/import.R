@@ -459,7 +459,7 @@ if (redresser.heures) {
   # A ce niveau de généralité, le filtre actif est inutile, sauf peut-être pour de très petits effectifs.
   
   
-  M <- Bulletins.paie[(Sexe == "1" | Sexe == "2") & Heures > minimum.positif, 
+  M <- Bulletins.paie[(Sexe == "1" | Sexe == "2"), 
                       .(Médiane_Sexe_Statut = median(Heures, na.rm=TRUE)), by="Sexe,Statut"]
   
   Bulletins.paie <- merge(Bulletins.paie,
@@ -482,15 +482,22 @@ if (redresser.heures) {
                                                 & Heures > minimum.positif], na.rm = TRUE),
                  by="Sexe,Emploi"]
   
-  Bulletins.paie[pop_calcul_médiane <= population_minimale_calcul_médiane 
+  B <- Bulletins.paie[pop_calcul_médiane <= population_minimale_calcul_médiane 
                  | Filtre_actif == FALSE | is.na(Filtre_actif) | is.na(pop_calcul_médiane), 
-                 MHeures :=    M[M$Sexe == Bulletins.paie$Sexe
-                                  & M$Statut == Bulletins.paie$Statut,
-                                    Médiane_Sexe_Statut],
-                 by="Sexe,Emploi"]
+                 .(Sexe, Statut)]
                               
-
-                              
+  défaut_médiane <- function(X, Y)  {
+    
+    r <- M[Sexe == X
+            & Statut == Y,
+               Médiane_Sexe_Statut]
+    if (length(r) > 0) r[1] else 0
+  }
+  
+  
+  B[ , MHeures := défaut_médiane(Sexe, Statut), by = 1:NROW(B)] 
+  # ou: B[, MHeures := mapply(défaut_médiane, B[["Sexe"]], B[["Statut"]], SIMPLIFY=TRUE, USE.NAMES=FALSE)]
+  
   
   # L'écrêtement des quotités est une contrainte statistiquement discutable qui permet de "stresser" le modèle
   # Par défaut les quotités sont écrêtées pour pouvoir par la suite raisonner en définissant le temps plein comme quotité == 1
