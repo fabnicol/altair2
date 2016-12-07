@@ -107,6 +107,8 @@ hash,character-method	hash-methods
 hashfile	hashfile-methods
 hashfile,character-method	hashfile-methods
 head,git_repository-method	head-methods
+index_remove_bypath	index_remove_bypath-methods
+index_remove_bypath,git_repository,character-method	index_remove_bypath-methods
 init	init-methods
 init,character-method	init-methods
 in_repository	in_repository-methods
@@ -179,7 +181,8 @@ references	references-methods
 references,git_repository-method	references-methods
 references,missing-method	references-methods
 reflog	reflog-methods
-reflog,git_repository-method	reflog-methods
+reflog,git_repository,character-method	reflog-methods
+reflog,git_repository,missing-method	reflog-methods
 remotes	remotes-methods
 remotes,git_repository-method	remotes-methods
 remotes,missing-method	remotes-methods
@@ -199,7 +202,9 @@ repository	repository-methods
 repository,character-method	repository-methods
 repository,missing-method	repository-methods
 reset	reset-methods
+reset,character-method	reset-methods
 reset,git_commit-method	reset-methods
+reset,git_repository-method	reset-methods
 revparse_single	revparse_single-methods
 revparse_single,git_repository,character-method	revparse_single-methods
 rm_file	rm_file-methods
@@ -232,6 +237,7 @@ show,git_time-method	show-git_time-method
 show,git_time-methods	show-git_time-method
 show,git_tree-method	show-git_tree-method
 show,git_tree-methods	show-git_tree-method
+ssh_key_needs_passphrase	ssh_key_needs_passphrase
 ssl_cert_locations	ssl_cert_locations
 stash	stash-methods
 stash,git_repository-method	stash-methods
@@ -262,6 +268,10 @@ tag,git_repository-method	tag-methods
 tags	tags-methods
 tags,git_repository-method	tags-methods
 tags,missing-method	tags-methods
+tag_delete	tag_delete-methods
+tag_delete,character-method	tag_delete-methods
+tag_delete,git_repository-method	tag_delete-methods
+tag_delete,git_tag-method	tag_delete-methods
 tree	tree-methods
 tree,git_commit-method	tree-methods
 tree,git_stash-method	tree-methods
