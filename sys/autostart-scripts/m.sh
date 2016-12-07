@@ -19,7 +19,3 @@ fi
 
 
 cp -rf /home/Public/.Rproj.user  $HOME/Dev/altair
-sed -i 's/Image.*g/Image=file:\/\/\/usr\/share\/wallpapers\/PastelHills\/contents\/images\/1920x1080.jpg/g' /home/$compte_login/.config/plasma-org.kde.plasma.desktop-appletsrc 
-sed -i 's/desktopcontainment/plasma.folder/g'  /home/$compte_login/.config/plasma-org.kde.plasma.desktop-appletsrc 
-killall plasmashell
-kstart plasmashell

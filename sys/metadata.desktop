@@ -1,3 +1,5 @@
+# Choix du thème Breeze
+
 [Desktop Entry]
 Name=Breeze
 Name[ar]=نسيم
@@ -50,6 +52,8 @@ X-KDE-PluginInfo-Depends=
 X-KDE-PluginInfo-License=LGPL
 X-KDE-PluginInfo-EnabledByDefault=true
 X-Plasma-API=5.0
+
+# C'est ici que le fond d'écran est choisi ainsi que la résolution
 
 [Wallpaper]
 defaultWallpaperTheme=PastelHills
