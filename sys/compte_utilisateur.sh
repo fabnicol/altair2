@@ -125,7 +125,7 @@ echo "Exportation de la configuration RStudio"
 
 chmod -R 0777 /home/jf/.rstudio-desktop
 cp -rf /home/jf/.rstudio-desktop  /home/$compte_login
-chmod -R 0777 /home/jf/Dev/altair/.Rproj.user
+
 
 if test -d /home/$compte_login/.rstudio-desktop; then
  echo "Configuration exportée."
@@ -134,20 +134,25 @@ else
 fi 
 
 
-echo "Installation des fichiers de configuration Plasma 5"
-if test ! -d /home/$compte_login/.config; then 
-  mkdir /home/$compte_login/.config
-fi
-if test ! -d /home/$compte_login/.local/share; then 
-  mkdir -p /home/$compte_login/.local/share
-fi
+# echo "Installation des fichiers de configuration Plasma 5"
 
-cp -vf /home/fab/Dev/altair/sys/*rc   /home/$compte_login/.config
-cp -vf /home/fab/Dev/altair/sys/*rc0   /home/$compte_login/.config
-cp -vrf /home/fab/Dev/altair/sys/autostart-scripts   /home/$compte_login/.config
+
+# if test ! -d /home/$compte_login/.local/share; then 
+#   mkdir -p /home/$compte_login/.local/share
+# fi
+
+# copie des paramétrages défaut de Dolphin, notamment la split view
+ cp -vf /home/fab/Dev/altair/sys/*rc   /home/$compte_login/.config
+ 
+ 
+# copie de la configuration des applications gtk
 cp -vrf /home/fab/Dev/altair/sys/gtk-3.0   /home/$compte_login/.config
+
+# copie de la maquette de configuration des signets de Dolphin.
+# Il faut remplacer le login dans cette maquette avant recopie
 sed "s/utilisateur/$compte_login/g" /home/fab/Dev/altair/sys/user-places.xbel > temp
 cp -vf  temp  /home/$compte_login/.local/share/user-places.xbel
+
 echo 
 echo "Exportation des icones"
 if ! test -d "/home/$compte_login/Desktop"; then
@@ -156,16 +161,11 @@ fi
 cp -f /home/jf/Desktop/*.desktop /home/$compte_login/Desktop
 sed -i s/jf/$compte_login/g /home/$compte_login/Desktop/*.desktop
 cp -f /home/jf/Dev/altair/Docs/*.{pptx,docx}  /home/$compte_login/Desktop
-rm -f /home/$compte_login/Desktop/Get*.desktop
-rm -f /home/$compte_login/Desktop/Donate*.desktop
-rm -f /home/$compte_login/Desktop/Récupérer*.desktop
 
-echo
-echo "Configuration du bureau Vue de dossiers"
-echo
 
-chown -R $compte_login /home/$compte_login
-chgrp -R users   /home/$compte_login
+ chown -R $compte_login /home/$compte_login
+ chgrp -R users   /home/$compte_login
+
 
 ls /home/$compte_login/Desktop/*.*
 

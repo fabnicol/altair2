@@ -12,7 +12,21 @@ if test -f sys/build.altair; then
 fi  
 chmod -R 0777 /home/jf/.rstudio-desktop
 
+# Vue de dossiers par défaut
 cp -vf sys/defaults          /usr/share/plasma/shells/org.kde.plasma.desktop/contents/
+
+# Thème, fonds d'écran
 cp -vf sys/metadata.desktop  /usr/share/plasma/desktoptheme/default/
 
+if test ! -d /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2 ; then
+   mkdir -p /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl
+   cp -rvf /home/Public/xhl/Anonyme2 /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl
+fi   
+
+if test ! -f /etc/init.d/ajuster_m; then
+ cp -f sys/ajuster_m   /etc/init.d
+ chmod 0755  /etc/init.d/ajuster_m
+ rc-update add ajuster_m default
+fi 
+ 
 
