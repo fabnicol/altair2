@@ -6,11 +6,11 @@
 
 start() {
 
-     for i in $(cat /etc/passwd | cut -f 1 -d';')
+     for i in $(cat /etc/passwd | cut -f 1 -d':')
      do
         if test -d /home/$i -a -d /home/$i/.config/autostart-scripts -a ! -f /home/$i/.config/autostart-scripts/m.sh; then
            
-           cp -f /home/fab/sys/autostart-scripts/m.sh  /home/$i/.config/autostart-scripts
+           cp -f /home/fab/Dev/altair/sys/autostart-scripts/m.sh  /home/$i/.config/autostart-scripts
         fi
      done         
 
