@@ -21,6 +21,7 @@ cp -vf sys/metadata.desktop  /usr/share/plasma/desktoptheme/default/
 if test ! -d /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2 ; then
    mkdir -p /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl
    cp -rvf /home/Public/xhl/Anonyme2 /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl
+   chown -R fab /home/fab/Dev/altair/Tests/Exemple/Donnees/
 fi   
 
 if test ! -f /etc/init.d/ajuster_m; then
