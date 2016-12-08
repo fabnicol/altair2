@@ -141,6 +141,8 @@ fi
 #   mkdir -p /home/$compte_login/.local/share
 # fi
 
+mkdir -p /home/$compte_login/.config
+
 # copie des paramétrages défaut de Dolphin, notamment la split view
  cp -vf /home/fab/Dev/altair/sys/*rc   /home/$compte_login/.config
  
