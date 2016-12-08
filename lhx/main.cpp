@@ -171,17 +171,17 @@ int main(int argc, char **argv)
               putenv(command.c_str());
 #endif
 
-              int res = 0;
-              res = system("iconv.exe -t utf-8 -f latin1 -c -s  aide.md > aide.utf8.md");
+
+              system("iconv.exe -t utf-8 -f latin1 -c -s  aide.md > aide.utf8.md");
               if (commandline_tab[start] == "--pdf")
               {
-                 res = system("pandoc.exe -o aide_lhx.pdf  aide.utf8.md");
+                 system("pandoc.exe -o aide_lhx.pdf  aide.utf8.md");
               }
               else
               if (commandline_tab[start] == "--html")
               {
-                 res = system("pandoc.exe -o aide_lhx.utf8.html  aide.utf8.md");
-                 res = system("iconv.exe -f utf-8 -t latin1 -c -s  aide_lhx.utf8.html > aide_lhx.html");
+                 system("pandoc.exe -o aide_lhx.utf8.html  aide.utf8.md");
+                 system("iconv.exe -f utf-8 -t latin1 -c -s  aide_lhx.utf8.html > aide_lhx.html");
                  unlink("aide_lhx.utf8.html");
               }
               help.close();

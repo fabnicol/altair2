@@ -270,17 +270,14 @@ static const xmlChar drapeau[][2]  = {{1,0}, {2,0}, {3,0}, {4,0}, {5,0}, {6,0}, 
 void* decoder_fichier(info_t& tinfo);
 
 
-inline xmlNodePtr GCC_INLINE atteindreNoeud(const char * noeud, xmlNodePtr cur, int normalJump = 0)
+inline xmlNodePtr GCC_INLINE atteindreNoeud(const char * noeud, xmlNodePtr cur)
 {
-   #if 1
+
     while (cur && xmlIsBlankNode(cur))
     {
         cur = cur -> next;
     }
-   #endif
 
-    for (int i = 0; i < normalJump; ++i)
-           cur = cur->next;
 
     while (cur != nullptr && xmlStrcmp(cur->name,  (const xmlChar*) noeud))
     {
