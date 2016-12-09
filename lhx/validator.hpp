@@ -15,17 +15,18 @@
 #include <libxml/parser.h>
 #include <cinttypes>
 #include <vector>
-
+#include <array>
 
 #define GCC_INLINE __attribute__((always_inline))
 #define GCC_UNUSED __attribute__((__unused__))
 
+using namespace std;
 
 typedef struct
 {
     int      thread_num;
-    std::vector<std::string>   argv;
-    std::vector<std::string> in_memory_file;
+    vector<string>   argv;
+    vector<string> in_memory_file;
     unsigned argc;
 } thread_t;
 
@@ -78,7 +79,7 @@ Categorie : A
 
 /* Les infirmières FPH sont passées en A en 2012 sauf un corps en extinction IDE; situation à évaluer pour l'éducation nationale sur les situations d'extinction */
 
-static constexpr const std::array<int, 22> indices_ergo = {353, 367, 386, 394, 406, 407, 424, 428, 444, 461, 464, 487, 487, 492, 510, 513, 533, 553, 556, 570, 582, 608 };
+static constexpr const array<int, 22> indices_ergo = {353, 367, 386, 394, 406, 407, 424, 428, 444, 461, 464, 487, 487, 492, 510, 513, 533, 553, 556, 570, 582, 608 };
 
 static constexpr auto EXPRESSION_REG_ELUS = "^maire.*|^pr..?sident.*|^elus?|^(?:adj.*\\bmaire\\b|vi.*\\bpr..?sident\\b|cons.*\\bmuni|cons.*\\bcomm|cons.*\\bd..?l..?gu).*",
 
@@ -158,20 +159,20 @@ constexpr const char* Tableau_entete[] = {
 typedef struct
 {
 
-    std::vector<std::vector<xmlChar*>> Table;
+    vector<vector<xmlChar*>> Table;
     uint64_t nbLigne;
-    std::vector<uint32_t> NAgent;
+    vector<uint32_t> NAgent;
     uint32_t nbAgentUtilisateur;
     uint32_t NCumAgent;
     uint32_t NCumAgentXml;
     uint32_t taille_base;
     BaseType  type_base;
-    std::vector<uint16_t> NLigne;
+    vector<uint16_t> NLigne;
     thread_t* threads;
-    std::string chemin_log;
-    std::string expression_reg_elus;
-    std::string chemin_base;
-    std::string chemin_bulletins;
+    string chemin_log;
+    string expression_reg_elus;
+    string chemin_base;
+    string chemin_bulletins;
     uint16_t nbLigneUtilisateur;
     uint16_t fichier_courant;
     char decimal;
@@ -185,7 +186,7 @@ typedef struct
     bool pretend;
     bool verifmem;
     unsigned int  nbfil;
-    std::vector<int> Memoire_p_ligne;
+    vector<int> Memoire_p_ligne;
 } info_t;
 
 typedef struct {
@@ -217,7 +218,7 @@ typedef struct {
 #endif
 
 #ifndef NO_DEBUG
-    #define DEBUG(X) std::cerr << "\n" << X << "\n";
+    #define DEBUG(X) cerr << "\n" << X << "\n";
     #define AFFICHER_NOEUD(X)       { char msg[50]={0}; \
                                       sprintf(msg, "atteint %s\n", (const char*) X);\
                                       DEBUG(msg) }
