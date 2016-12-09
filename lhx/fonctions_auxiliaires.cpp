@@ -141,7 +141,7 @@ errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur)
 
     /* Tableau_entete va être en shared memory concurrent read access (no lock here) */
 #if 1
-    for (int l = 0; l < info.Memoire_p_ligne[info.NCumAgentXml]; ++l)
+    for (int l = 0; l < info.Memoire_p_ligne[info.NCumAgentXml] && l < sizeof(Tableau_entete)/sizeof(char*); ++l)
         {
           if (nullptr != info.Table[info.NCumAgentXml][l])
               cerr << WARNING_HTML_TAG "Balise de paye : " << Tableau_entete[l]
@@ -641,11 +641,11 @@ int calculer_memoire_requise(info_t& info)
                 bool remuneration_xml_open = false;
 
                 if  (c.get() != '<') continue;
-                if  (c.get() != 'A') continue;
-                if  (c.get() != 'g') continue;
+                if  (c.get() != 'P') continue;
+                if  (c.get() != 'a') continue;
+                if  (c.get() != 'y') continue;
                 if  (c.get() != 'e') continue;
-                if  (c.get() != 'n') continue;
-                if  (c.get() != 't') continue;
+                if  (c.get() != 'I') continue;
 
                 remuneration_xml_open = true;
 
@@ -664,11 +664,11 @@ int calculer_memoire_requise(info_t& info)
                     if ((d = c.get())  != 'C')
                     {
                         if (d != '/') continue;
-                        else if (c.get()  != 'A')   continue;
-                        else if (c.get()  != 'g')   continue;
+                        else if (c.get()  != 'P')   continue;
+                        else if (c.get()  != 'a')   continue;
+                        else if (c.get()  != 'y')   continue;
                         else if (c.get()  != 'e')   continue;
-                        else if (c.get()  != 'n')   continue;
-                        else if (c.get()  != 't')   continue;
+                        else if (c.get()  != 'I')   continue;
 
                         remuneration_xml_open = false;
 
