@@ -549,7 +549,7 @@ static int parseFile(info_t& info)
 
             if (info.reduire_consommation_memoire)
             {
-                if (diff != 0)
+                if (diff < 0)
                 {
                   if (verbeux)
                   {
@@ -558,8 +558,8 @@ static int parseFile(info_t& info)
                               << "et l'analyse Libxml2 : "
                               << ligne_p
                               << ENDL "Pour l'agent "
-                              << "de rang  " << info.NCumAgentXml << " dans le fichier" ENDL
-                              << info.Table[info.NCumAgentXml][Matricule]
+                              << "de matricule"
+                              << info.Table[info.NCumAgentXml][Matricule] << ENDL
                               << " Année "
                               << info.Table[info.NCumAgentXml][Annee]
                               << " Mois "
@@ -879,7 +879,7 @@ if (info.pretend) return nullptr;
         if (err)
         {
             std ::cerr << ERROR_HTML_TAG "Calcul de la mémoire requise" ENDL;
-            perror(ERROR_HTML_TAG  "Erreur");
+        //    perror(ERROR_HTML_TAG  "Erreur");
         //    exit(-1001);
         }
     }
