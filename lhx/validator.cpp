@@ -562,8 +562,8 @@ static int parseFile(info_t& info)
                               << info.NLigne[info.NCumAgentXml]
                               << " ligne(s) de paye mais le décompte précis donne : "
                               << ligne_p
-                              << " lignes." ENDL
-                              << "Cette incohérence arrête l'exécution." ENDL "Elle est localisée pour l'agent de matricule " 
+                              << ENDL "Pour l'agent "
+                              << "de matricule"
                               << info.Table[info.NCumAgentXml][Matricule] << ENDL
                               << " Année "
                               << info.Table[info.NCumAgentXml][Annee]
@@ -888,7 +888,7 @@ if (info.pretend) return nullptr;
         if (err)
         {
             std ::cerr << ERROR_HTML_TAG "Calcul de la mémoire requise" ENDL;
-            perror(ERROR_HTML_TAG  "Erreur");
+        //    perror(ERROR_HTML_TAG  "Erreur");
         //    exit(-1001);
         }
     }
