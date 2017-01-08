@@ -61,7 +61,7 @@ out <<  "**Usage** :  lhx OPTIONS fichiers.xhl  " << "\n\n"
           <<  "**-D** *argument obligatoire* : répertoire complet du fichier de sortie [défaut '.' avec -t].  " << "\n\n"
           <<  "**-d** *argument obligatoire* : séparateur décimal [défaut ',' avec -t].  " << "\n\n"
           <<  "**-s** *argument obligatoire* : séparateur de champs [défaut ';' avec -t]. Ne pas utiliser '_'.  " << "\n\n"
-          <<  "**-j** *argument obligatoire* : nombre de fils d'exécution (1 �  10).  " << "\n\n"
+          <<  "**-j** *argument obligatoire* : nombre de fils d'exécution (1 à  10).  " << "\n\n"
           <<  "**-l** *sans argument*        : générer une colonne de numéros de ligne intitulée 'R'.  " << "\n\n"
           <<  "**-M** *sans argument*        : ne pas libérer la mémoire réservée en fin de programme.   " << "\n\n"
           <<  "**-m** *sans argument*        : calculer les maxima d'agents et de lignes de paye.  " << "\n\n"
@@ -70,8 +70,8 @@ out <<  "**Usage** :  lhx OPTIONS fichiers.xhl  " << "\n\n"
           <<  "**-S** *sans argument*        : exporter les champs Budget, Employeur, Siret, Etablissement.  " << "\n\n"
           <<  "**-E** *sans argument*        : exporter le champ Echelon.  " << "\n\n"
           <<  "**-q** *sans argument*        : limiter la verbosité.  " << "\n\n"
-          <<  "**-f** *argument obligatoire* : la ligne de commande est dans le fichier en argument, chaque élément �  la ligne.  " << "\n\n"
-          <<  "**--xhlmem** *arg. oblig.*    : taille des fichiers �  analyser en octets.  " << "\n\n"
+          <<  "**-f** *argument obligatoire* : la ligne de commande est dans le fichier en argument, chaque élément à  la ligne.  " << "\n\n"
+          <<  "**--xhlmem** *arg. oblig.*    : taille des fichiers à  analyser en octets.  " << "\n\n"
           <<  "**--memshare** *arg. oblig.*  : Part de la mémoire vive utilisée, en points de pourcentage.  " << "\n\n"
           <<  "**--segments** *arg. oblig.*  : nombre minimum de segments de base.  " << "\n\n"
           <<  "**--pretend**                 : exécution sans traitement des fichiers.  " << "\n\n"
@@ -80,7 +80,7 @@ out <<  "**Usage** :  lhx OPTIONS fichiers.xhl  " << "\n\n"
           <<  "**--pdf**                     : aide en format pdf.  " << "\n\n";
     #ifdef GENERATE_RANK_SIGNAL
               out  <<  "**-rank** *argument optionnel* : générer le fichier du rang de la base de paye en cours dans le fichier ";
-             // out  <<  "ou �  défaut dans " USERPROFILE "/" LOCALDATA ".\n\n";
+             // out  <<  "ou à  défaut dans " USERPROFILE "/" LOCALDATA ".\n\n";
     #endif
    return out;
 }
@@ -128,6 +128,7 @@ string getexecpath()
 
 errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur)
 {
+
     long lineN = 0;
     cerr << WARNING_HTML_TAG "Fichier analysé " <<  info.threads->argv[info.fichier_courant] << ENDL;
     lineN = xmlGetLineNo(cur);
@@ -140,7 +141,7 @@ errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur)
 
     /* Tableau_entete va être en shared memory concurrent read access (no lock here) */
 #if 1
-    for (int l = 0; l < info.Memoire_p_ligne[info.NCumAgentXml]; ++l)
+    for (int l = 0; l < info.Memoire_p_ligne[info.NCumAgentXml] && l < sizeof(Tableau_entete)/sizeof(char*); ++l)
         {
           if (nullptr != info.Table[info.NCumAgentXml][l])
               cerr << WARNING_HTML_TAG "Balise de paye : " << Tableau_entete[l]
@@ -291,7 +292,7 @@ void ecrire_log(const info_t& info, ofstream& log, int diff)
 
     /*  si rang_fichier_base == 0, base monolithique
         si rang_fichier_base compris entre 1 et nbType, base par catégorie
-        si rang_fichier_base supérieur �  nbType, base par année (les années sont très supérieures au nombre de type maximum ! */
+        si rang_fichier_base supérieur à  nbType, base par année (les années sont très supérieures au nombre de type maximum ! */
     int test = (int) (rang_fichier_base + nbType - 1) / nbType;
 
     switch (test)
@@ -516,7 +517,7 @@ int32_t lire_argument(int argc, char* c_str)
         }
         else if (sl > INT32_MAX)
         {
-            cerr << ERROR_HTML_TAG "" <<  sl << " entier excédant la limite des entiers �  16 bits" ENDL;
+            cerr << ERROR_HTML_TAG "" <<  sl << " entier excédant la limite des entiers à 16 bits" ENDL;
         }
         else if (sl < 0)
         {
@@ -582,12 +583,12 @@ int calculer_memoire_requise(info_t& info)
 {
     errno = 0;
 
-    // Attention reserve() ne va pas initialiser les membres �  0 sous Windows. Utiliser resize() ici.
+    // Attention reserve() ne va pas initialiser les membres à  0 sous Windows. Utiliser resize() ici.
    memory_debug("calculer_memoire_requise_pre_tab_resize");
 
 #ifdef PREALLOCATE_ON_HEAP
 
-    /* C++ style vector allocation */
+    // C++ style vector allocation
 
     #define tab info.NLigne
 
@@ -605,13 +606,16 @@ int calculer_memoire_requise(info_t& info)
 
     char d = 0;
 
-    /* on compte un agent par balise <Remuneration/> ou par couple valide de balise <Remuneration>...</Remuneration> (fermeture contrôlée)
-     * alors :
-     *   on compte un agent en plus (++info.NCumAgent) avec un nombre de ligne égal au moins �  un, même si pas de ligne de paye codée.
-     *   Si il existe N lignes de paye codées, alors info.NLigne[info.NCumAgent] = N. */
+    // on compte un agent par balise <Agent/> ou par couple valide de balise
+    // <Agent>...</Agent> (fermeture contrôlée)
+    // alors :
+    // on compte un agent en plus (++info.NCumAgent) avec un nombre de ligne égal au
+    // moins à  un, même si pas de ligne de paye codée.
+    // Si il existe N lignes de paye codées, alors info.NLigne[info.NCumAgent] = N.
 
 
-    /* par convention  un agent avec rémunération non renseignées (balise sans fils) a une ligne */
+    // par convention  un agent avec rémunération non renseignées (balise sans fils) a une ligne
+
     for (unsigned i = 0; i < info.threads->argc; ++i)
     {
 
@@ -620,14 +624,16 @@ int calculer_memoire_requise(info_t& info)
 
         ifstream c(info.threads->argv[i]);
         if (verbeux)
-            cerr << PROCESSING_HTML_TAG  "Ouverture du fichier " << info.threads->argv[i] << ENDL;
+            cerr << PROCESSING_HTML_TAG  "Ouverture du fichier " << info.threads->argv[i]
+                 << ENDL;
 
         if (c.is_open())
             c.seekg(0, ios::beg);
         else
         {
             if (verbeux)
-                cerr <<  ERROR_HTML_TAG "Problème �  l'ouverture du fichier *" << info.threads->argv[i] << "*" << ENDL;
+                cerr <<  ERROR_HTML_TAG "Problème à  l'ouverture du fichier *"
+                      << info.threads->argv[i] << "*" << ENDL;
             exit(-120);
         }
 
@@ -640,27 +646,11 @@ int calculer_memoire_requise(info_t& info)
                 bool remuneration_xml_open = false;
 
                 if  (c.get() != '<') continue;
-                if  (c.get() != 'R') continue;
+                if  (c.get() != 'P') continue;
+                if  (c.get() != 'a') continue;
+                if  (c.get() != 'y') continue;
                 if  (c.get() != 'e') continue;
-                if  (c.get() != 'm') continue;
-                if  (c.get() != 'u') continue;
-                if  (c.get() != 'n') continue;
-
-                #ifndef FULL_PREALLOCATION_TEST
-
-                   c.get(),c.get(),c.get(),c.get(),c.get(),c.get(),c.get();
-
-                #else
-
-                   if  (c.get() != 'e') continue;
-                   if  (c.get() != 'r') continue;
-                   if  (c.get() != 'a') continue;
-                   if  (c.get() != 't') continue;
-                   if  (c.get() != 'i') continue;
-                   if  (c.get() != 'o') continue;
-                   if  (c.get() != 'n') continue;
-
-                #endif
+                if  (c.get() != 'I') continue;
 
                 remuneration_xml_open = true;
 
@@ -679,11 +669,11 @@ int calculer_memoire_requise(info_t& info)
                     if ((d = c.get())  != 'C')
                     {
                         if (d != '/') continue;
-                        else if (c.get()  != 'R')   continue;
+                        else if (c.get()  != 'P')   continue;
+                        else if (c.get()  != 'a')   continue;
+                        else if (c.get()  != 'y')   continue;
                         else if (c.get()  != 'e')   continue;
-                        else if (c.get()  != 'm')   continue;
-                        else if (c.get()  != 'u')   continue;
-                        else if (c.get()  != 'n')   continue;
+                        else if (c.get()  != 'I')   continue;
 
                         remuneration_xml_open = false;
 
@@ -704,6 +694,16 @@ int calculer_memoire_requise(info_t& info)
                                 if (c.get() != 'e')   continue;
                                 else
                                 {
+                                    // Il va y avoir un peu de surgénération ici
+                                    // car les propriétés Code sont présentes en dehors
+                                    // des lignes de paye, notamment dans les balises
+                                    // Evenement
+                                    // C'est ce qui justfie que le test de cohérence
+                                    // diff = info.NLigne[info.NCumAgentXml] - ligne_p
+                                    // dans parseFile() doit être une inégalité : l'allocation
+                                    // par le parseur XML doit être inférieure ou égale à
+                                    // la préallocation par cette fonction
+
                                     if (c.get() != ' ')   continue;
                                     ++tab[info.NCumAgent];
                                 }
@@ -714,7 +714,7 @@ int calculer_memoire_requise(info_t& info)
 
                 if (remuneration_xml_open == true)
                 {
-                    cerr << "Erreur XML : la balise Remuneration n'est pas refermée pour le fichier " << info.threads->argv[i]
+                    cerr << "Erreur XML : la balise Agent n'est pas refermée pour le fichier " << info.threads->argv[i]
                               << ENDL "pour l'agent n°"   << info.NCumAgent + 1 << ENDL;
                     exit(0);
 
@@ -738,27 +738,11 @@ int calculer_memoire_requise(info_t& info)
                 bool remuneration_xml_open = false;
 
                 if  (*++iter != '<') continue;
-                if  (*++iter != 'R') continue;
+                if  (*++iter != 'P') continue;
+                if  (*++iter != 'a') continue;
+                if  (*++iter != 'y') continue;
                 if  (*++iter != 'e') continue;
-                if  (*++iter != 'm') continue;
-                if  (*++iter != 'u') continue;
-                if  (*++iter != 'n') continue;
-
-                #ifndef FULL_PREALLOCATION_TEST
-
-                   iter += 7;
-
-                #else
-
-                   if  (*++iter != 'e') continue;
-                   if  (*++iter != 'r') continue;
-                   if  (*++iter != 'a') continue;
-                   if  (*++iter != 't') continue;
-                   if  (*++iter != 'i') continue;
-                   if  (*++iter != 'o') continue;
-                   if  (*++iter != 'n') continue;
-
-                #endif
+                if  (*++iter != 'I') continue;
 
                 remuneration_xml_open = true;
 
@@ -777,11 +761,11 @@ int calculer_memoire_requise(info_t& info)
                     if ((d = *++iter)  != 'C')
                     {
                         if (d != '/') continue;
-                        else if (*++iter  != 'R')   continue;
+                        else if (*++iter  != 'P')   continue;
+                        else if (*++iter  != 'a')   continue;
+                        else if (*++iter  != 'y')   continue;
                         else if (*++iter  != 'e')   continue;
-                        else if (*++iter  != 'm')   continue;
-                        else if (*++iter  != 'u')   continue;
-                        else if (*++iter  != 'n')   continue;
+                        else if (*++iter  != 'I')   continue;
 
                         remuneration_xml_open = false;
 
@@ -841,7 +825,7 @@ int calculer_memoire_requise(info_t& info)
 #endif
 
 #endif
-#ifdef MMAP_PARSING
+#ifdef MMAP_PARSING  // A REVOIR
 
         //cerr << "Mappage en mémoire de " << info.threads->argv[i] << "..."ENDL;
         struct stat st;
@@ -875,18 +859,11 @@ int calculer_memoire_requise(info_t& info)
         {
 
             if  (data[++d] != '<') continue;
-            if  (data[++d] != 'R') continue;
+            if  (data[++d] != 'A') continue;
+            if  (data[++d] != 'g') continue;
             if  (data[++d] != 'e') continue;
-            if  (data[++d] != 'm') continue;
-            if  (data[++d] != 'u') continue;
             if  (data[++d] != 'n') continue;
-            if  (data[++d] != 'e') continue;
-            if  (data[++d] != 'r') continue;
-            if  (data[++d] != 'a') continue;
             if  (data[++d] != 't') continue;
-            if  (data[++d] != 'i') continue;
-            if  (data[++d] != 'o') continue;
-            if  (data[++d] != 'n') continue;
             if  (data[++d] == '/')
             {
                 info.NLigne[info.NCumAgent]=1;
@@ -900,11 +877,11 @@ int calculer_memoire_requise(info_t& info)
                 if ((C = data[++d]) != 'C')
                 {
                     if (C != '/') continue;
-                    else if (data[++d] != 'R')   continue;
+                    else if (data[++d] != 'A')   continue;
+                    else if (data[++d] != 'g')   continue;
                     else if (data[++d] != 'e')   continue;
-                    else if (data[++d] != 'm')   continue;
-                    else if (data[++d] != 'u')   continue;
                     else if (data[++d] != 'n')   continue;
+                    else if (data[++d] != 't')   continue;
 
                     if (info.NLigne[info.NCumAgent] == 0) info.NLigne[info.NCumAgent] = 1;
                     //info->NAgent[i]++;
@@ -949,7 +926,7 @@ int calculer_memoire_requise(info_t& info)
 
     }
 
-    /* A ETUDIER */
+    // A ETUDIER
 #ifdef PREALLOCATE_ON_HEAP
     info.NLigne.resize(info.NCumAgent+1);
 #endif
