@@ -72,11 +72,11 @@ static inline void GCC_INLINE sanitize(xmlChar* s, const char sep)
 
 
 
-static inline int GCC_INLINE Bulletin(const char*  tag, xmlNodePtr& cur, int l, info_t& info, int normalJump = 0)
+static inline int GCC_INLINE Bulletin(const char*  tag, xmlNodePtr& cur, int l, info_t& info)
 {
     // attention faire en sorte que cur ne soit JAMAIS nul en entrée ou en sortie
 
-    const xmlNodePtr nextcur = move(atteindreNoeud(tag, cur, normalJump));
+    const xmlNodePtr nextcur = atteindreNoeud(tag, cur);
 
     if ( nullptr == nextcur)
     {
@@ -112,31 +112,37 @@ static inline int GCC_INLINE Bulletin(const char*  tag, xmlNodePtr& cur, int l, 
 
 //             cerr << ERROR_HTML_TAG "Noeud courant null au stade de la vérification de " << tag << ENDL;
 
-static inline bool GCC_INLINE bulletin_obligatoire(const char* tag, xmlNodePtr& cur, int l,  info_t& info, int normalJump = 0)
+static inline bool GCC_INLINE bulletin_obligatoire(const char* tag, xmlNodePtr& cur, int l,  info_t& info)
 {
 
     // attention faire en sorte que cur ne soit JAMAIS nul
 
-    switch (Bulletin(tag, cur, l, info, normalJump))
+    switch (Bulletin(tag, cur, l, info))
     {
         // on sait que cur ne sera jamais nul
         case NODE_FOUND : return true;
 
         case NODE_NOT_FOUND :
-                //if (verbeux)
-                    cerr << ERROR_HTML_TAG "Impossible d'atteindre " << tag << " à partir de " << cur->name << ENDL;
+
+                    cerr << ERROR_HTML_TAG "Balise manquante " << tag << " après la balise " << cur->name << ENDL;
+                    if (verbeux)
+                    afficher_environnement_xhl(info, cur);
                 NA_ASSIGN(l);
                 break;
 
         case LINE_MEMORY_EXCEPTION :
-                //if (verbeux)
+
                     cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
+                    if (verbeux)
+                    afficher_environnement_xhl(info, cur);
                 NA_ASSIGN(l);
                 break;
 
         case NO_NEXT_ITEM :
-                //if (verbeux)
+
                     cerr << ERROR_HTML_TAG "Pas d'item successeur pour le noeud " << tag <<  ENDL;
+                    if (verbeux)
+                    afficher_environnement_xhl(info, cur);
                 break;
 
     }
@@ -180,7 +186,7 @@ static inline bool GCC_INLINE bulletin_optionnel_char(const char* tag, xmlNodePt
 {
     // attention faire en sorte que cur ne soit JAMAIS nul
 
-    switch (Bulletin(tag, cur, l, info, 0))
+    switch (Bulletin(tag, cur, l, info))
     {
         // on sait que cur ne sera jamais nul
         case NODE_FOUND :
@@ -219,11 +225,11 @@ static inline bool GCC_INLINE bulletin_optionnel_char(const char* tag, xmlNodePt
 }
 
 
-static inline bool GCC_INLINE bulletin_optionnel_numerique(const char* tag, xmlNodePtr& cur, int l, info_t& info, int normalJump = 0)
+static inline bool GCC_INLINE bulletin_optionnel_numerique(const char* tag, xmlNodePtr& cur, int l, info_t& info)
 {
     // attention faire en sorte que cur ne soit JAMAIS nul
 
-    switch (Bulletin(tag, cur, l, info, normalJump))
+    switch (Bulletin(tag, cur, l, info))
     {
         // on sait que cur ne sera jamais nul
         case NODE_FOUND :
@@ -273,11 +279,11 @@ static inline bool GCC_INLINE bulletin_optionnel_numerique(const char* tag, xmlN
 
 /* obligatoire et avec substitution séparateur décimal */
 
-static inline bool GCC_INLINE bulletin_obligatoire_numerique(const char* tag, xmlNodePtr& cur, int l, info_t& info, int normalJump = 0)
+static inline bool GCC_INLINE bulletin_obligatoire_numerique(const char* tag, xmlNodePtr& cur, int l, info_t& info)
 {
     // attention faire en sorte que cur ne soit JAMAIS nul
 
-    switch (Bulletin(tag, cur, l, info, normalJump))
+    switch (Bulletin(tag, cur, l, info))
     {
         // on sait que cur ne sera jamais nul
         case NODE_FOUND :
@@ -492,14 +498,14 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
     return  { nbLignePaye, l};
 }
 
-#define BULLETIN_OBLIGATOIRE_(X, normalJump) bulletin_obligatoire(#X, cur, X, info, normalJump)
-#define BULLETIN_OBLIGATOIRE(X) BULLETIN_OBLIGATOIRE_(X, 0)
+#define BULLETIN_OBLIGATOIRE_(X) bulletin_obligatoire(#X, cur, X, info)
+#define BULLETIN_OBLIGATOIRE(X) BULLETIN_OBLIGATOIRE_(X)
 
-#define BULLETIN_OBLIGATOIRE_NUMERIQUE_(X, normalJump)  bulletin_obligatoire_numerique(#X, cur, X, info, normalJump)
-#define BULLETIN_OBLIGATOIRE_NUMERIQUE(X) BULLETIN_OBLIGATOIRE_NUMERIQUE_(X, 0)
+#define BULLETIN_OBLIGATOIRE_NUMERIQUE_(X)  bulletin_obligatoire_numerique(#X, cur, X, info)
+#define BULLETIN_OBLIGATOIRE_NUMERIQUE(X) BULLETIN_OBLIGATOIRE_NUMERIQUE_(X)
 
-#define BULLETIN_OPTIONNEL_NUMERIQUE_(X, normalJump)  bulletin_optionnel_numerique(#X, cur, X, info, normalJump)
-#define BULLETIN_OPTIONNEL_NUMERIQUE(X)  BULLETIN_OPTIONNEL_NUMERIQUE_(X, 0)
+#define BULLETIN_OPTIONNEL_NUMERIQUE_(X)  bulletin_optionnel_numerique(#X, cur, X, info)
+#define BULLETIN_OPTIONNEL_NUMERIQUE(X)  BULLETIN_OPTIONNEL_NUMERIQUE_(X)
 
 #define BULLETIN_OPTIONNEL_CHAR(X)  bulletin_optionnel_char(#X, cur, X, info)
 
@@ -872,14 +878,8 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
     /* obligatoire, substitution du séparateur décimal */
     BULLETIN_OBLIGATOIRE_NUMERIQUE(QuotiteTrav);
 
-#ifdef TOLERANT_TAG_HIERARCHY
-    cur = cur_save;
+    xmlNodePtr cur_save = cur;
     cur = atteindreNoeud("Remuneration", cur);
-#else
-    cur = cur->next;
-    //cur = atteindreNoeud("Remuneration", cur);
-
-#endif
 
     int ligne = 0, memoire_p_ligne_allouee = 0;
 
@@ -912,7 +912,18 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
     }
     else
     {
-        perror(ERROR_HTML_TAG "Rémunération introuvable.");
+        cerr << ERROR_HTML_TAG "Absence de la balise Remuneration " ENDL;
+
+        for (int k = 0; k <= INDEX_MAX_COLONNNES; ++k)
+          {
+            info.Table[info.NCumAgentXml][BESOIN_MEMOIRE_ENTETE + k] = (xmlChar*) xmlStrdup(NA_STRING);
+          }
+            info.Memoire_p_ligne[info.NCumAgentXml] = BESOIN_MEMOIRE_ENTETE + INDEX_MAX_COLONNNES + 1;
+
+        errorLine_t env = afficher_environnement_xhl(info, nullptr);
+        // cerr << env.pres;
+        cur = cur_save->next;
+
 #ifdef STRICT
         exit(-4);
 #endif
