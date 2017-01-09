@@ -56,28 +56,24 @@ then
   echo "****"
   echo "* Actualisation de jf..."
   echo "****"
-  cd /home/jf/Dev/altair
-  
-  if test -d .git; then
-    sudo rm -rf .git
-  fi
-  
+    
       
-  for i in altair.linux sft Docs Interface_linux linux '*.txt' '*.R' '*.sh' '*.desktop' VERSION LICENCE '*.ico' '*.bmp' '*.png'  postinstall.sh altaïr.Rproj 'Tests/Exemple/*' 'Tests/Exemple/Docs' 
+  for i in altair.linux sft Docs Interface_linux linux *.txt *.R *.sh *.desktop VERSION LICENCE *.ico *.bmp *.png  postinstall.sh altaïr.Rproj Tests
   do
-    cp -rf /home/fab/Dev/altair/$i .
-    sudo chown -R jf $i
+    sudo cp -rvf "/home/fab/Dev/altair/$i" /home/jf/Dev/altair
+    sudo chown -R jf "/home/jf/Dev/altair/$i"
   done
   
   sudo chmod 0770 /home/jf/Dev/altair/Tests/Exemple/*.*
   sudo chmod 0770 /home/jf/Dev/altair/*.*
   sudo chgrp -R users /home/jf/Dev/altair
+  rm -f /home/jf/Dev/altair/.directory
   
-  rm -f .directory
-  
-  if ! test -d  lhx
+  if ! test -d  /home/jf/Dev/altair/lhx
   then
-     mkdir lhx    
+     mkdir /home/jf/Dev/altair/lhx    
+     sudo chown jf    /home/jf/Dev/altair/lhx
+     sudo chmod -R 0777  /home/jf/Dev/altair/lhx
   fi
   
   cd /home/fab/Dev/altair
