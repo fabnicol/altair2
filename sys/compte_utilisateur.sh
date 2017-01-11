@@ -165,9 +165,10 @@ sed -i s/jf/$compte_login/g /home/$compte_login/Desktop/*.desktop
 cp -f /home/jf/Dev/altair/Docs/*.{pptx,docx}  /home/$compte_login/Desktop
 
 
- chown -R $compte_login /home/$compte_login
- chgrp -R users   /home/$compte_login
-
+chown -R $compte_login /home/$compte_login
+chgrp -R users   /home/$compte_login
+# ce qui précède ne suit pas les liens symboliques
+chgrp -R users   /home/$compte_login/Dev/altair/Tests/Exemple/Donnees/xhl/$compte_login
 
 ls /home/$compte_login/Desktop/*.*
 
