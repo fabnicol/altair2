@@ -143,9 +143,9 @@ fi
 
 mkdir -p /home/$compte_login/.config
 
-# copie des paramétrages défaut de Dolphin, notamment la split view
- cp -vf /home/fab/Dev/altair/sys/*rc   /home/$compte_login/.config
- 
+# copie des paramétrages défaut de Dolphin, notamment la split view et le répertoire de démarrage par défaut
+cp -vf /home/fab/Dev/altair/sys/*rc   /home/$compte_login/.config
+sed -i "s/utilisateur/$compte_login/g" /home/$compte_login/.config/dolphinrc
  
 # copie de la configuration des applications gtk
 cp -vrf /home/fab/Dev/altair/sys/gtk-3.0   /home/$compte_login/.config
