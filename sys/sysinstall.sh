@@ -39,6 +39,8 @@ _copy metadata.desktop  /usr/share/plasma/desktoptheme/default/
 _copy ajuster_m   /etc/init.d
 # correction d'un bug d'accélération 3 D dans le driver intel i 915 (01.2017)
 _copy 10-monitor.conf /etc/X11/xorg.conf.d
+# correction sur .Rproj.user de fab
+_copy /home/Public/fab/.Rproj.user /home/fab/Dev/altair
 
 # réactualisation du grub
 chmod 0755  /etc/init.d/ajuster_m
@@ -46,6 +48,12 @@ rc-update add ajuster_m default
 
 # no-op mais souhaitable
 chmod -R 0777 /home/jf/.rstudio-desktop
+
+# Actualisation des comptes utilisateurs
+
+for i in {1..9}; do
+ chown -R section_$i /home/jf/Dev/altair/Tests/Exemple/Donnees/xhl/section_$i
+done
 
 cd -
 
