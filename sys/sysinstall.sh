@@ -67,6 +67,7 @@ rc-update add ajuster_m default
 # no-op mais souhaitable
 chmod -R 0777 /home/jf/.rstudio-desktop
 
+echo "cp -rf /home/Public/fab/.Rproj.user  /home/fab/Dev/altair"  >> /home/fab/.config/autostart-scripts/m.sh
 cd -
 
  
