@@ -141,9 +141,11 @@ fi
 #   mkdir -p /home/$compte_login/.local/share
 # fi
 
-# copie des paramétrages défaut de Dolphin, notamment la split view
- cp -vf /home/fab/Dev/altair/sys/*rc   /home/$compte_login/.config
- 
+mkdir -p /home/$compte_login/.config
+
+# copie des paramétrages défaut de Dolphin, notamment la split view et le répertoire de démarrage par défaut
+cp -vf /home/fab/Dev/altair/sys/*rc   /home/$compte_login/.config
+sed -i "s/utilisateur/$compte_login/g" /home/$compte_login/.config/dolphinrc
  
 # copie de la configuration des applications gtk
 cp -vrf /home/fab/Dev/altair/sys/gtk-3.0   /home/$compte_login/.config
@@ -163,9 +165,10 @@ sed -i s/jf/$compte_login/g /home/$compte_login/Desktop/*.desktop
 cp -f /home/jf/Dev/altair/Docs/*.{pptx,docx}  /home/$compte_login/Desktop
 
 
- chown -R $compte_login /home/$compte_login
- chgrp -R users   /home/$compte_login
-
+chown -R $compte_login /home/$compte_login
+chgrp -R users   /home/$compte_login
+# ce qui précède ne suit pas les liens symboliques
+chgrp -R users   /home/$compte_login/Dev/altair/Tests/Exemple/Donnees/xhl/$compte_login
 
 ls /home/$compte_login/Desktop/*.*
 
