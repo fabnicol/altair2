@@ -2,29 +2,34 @@
 Dépendances
 -----------
 
-* Version avancée
-
-Les logiciels auxiliaires suivants sont inclus dans l'installation :
-
- - Langage R : http://r-project.org
- - Interface RStudio : http://rstudio.com
- - Système LaTex pour Windows, version Texlive : 
-      https://www.tug.org/texlive/windows.html
- - Gestionnaire de version GIT : http://git-scm.com/downloads
-
-Aucune élévation des droits n'est nécessessaire si le chemin d'installation par 
-défaut est retenu.
 
 Les bibliothèques auxiliaires installées par l'installateur sont conservées dans le 
 répertoire altair\lib
 
-Les bibliothèques additionnelles sous R\library (sous Windows) doivent pour certaines
-d'entre elles (Rcpp, bigvis, data.table) être compilées avec la version la plus
-récente du paquet Rtools
+Dépendances R : automatiquement installées par
 
-* Version minimale
+  install.packages(c("rmarkdown", "knitr", "devtools", "bits64", "ggplot2"))
 
-Seule la dépendance R est installée. 
+  devtools::install_github("hadley/bigvis")
 
-Les exemples de fichiers .xhl sont entièrement anonymisés ; leur installation 
-est optionnelle.
+dans altair/ :
+
+  R CMD INSTALL altair.linux
+
+  R CMD INSTALL sft
+
+git clone -b master --siongle-branch (adresse github du paquet data.table) data.table
+
+dans data.table/ :
+
+  git reset --hard 47e2a7
+
+dans altair/ :
+
+  R CMD INSTALL data.table
+  
+  
+  
+
+
+
