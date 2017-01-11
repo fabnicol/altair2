@@ -6,7 +6,6 @@ build.altair              Fichier vide dont l'existence active la compilation R
                           de la bibliothèque altair.linux
 compte_utilisateur.sh     Crée un compte utilisateur automatiquement
 m.sh                      Monte la clé dans le répertoire R-Altair à la connection 
-mots_de_passe.zip         Récapitulatif des mots de passe de sections (crypté)
 sysinstall.sh             Installe le fichiers système
 kernel/...                (Si présent) Noyau linux à installer en remplacement de 
                           l'actuel
@@ -16,6 +15,7 @@ metadata.desktop          Configuration personnalisée du budeau plasma (Breeze,
 plasma-localerc
 gtkrc/gtk-3.0             Fichier de configuration des applications gtk
 user-places.xbel          Fichier XML de configuration de Dolphin
+10-monitor.conf           Correction de la configuration du serveur XML
 
 
 Répertoires de destination
