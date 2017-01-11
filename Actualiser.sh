@@ -51,33 +51,33 @@ then
     fi
   fi
 
+  sudo cp -rvf /home/Public/fab/.Rproj.user  /home/fab/Dev/altair
+  sudo chown -R fab     /home/fab/Dev/altair/.Rproj.user
+  sudo chgrp -R users   /home/fab/Dev/altair/.Rproj.user
+  
   git commit -am "Sauvegarde $(date)"
   
   echo "****"
   echo "* Actualisation de jf..."
   echo "****"
-  cd /home/jf/Dev/altair
-  
-  if test -d .git; then
-    sudo rm -rf .git
-  fi
-  
+    
       
-  for i in altair.linux sft Docs Interface_linux linux '*.txt' '*.R' '*.sh' '*.desktop' VERSION LICENCE '*.ico' '*.bmp' '*.png'  postinstall.sh altaïr.Rproj 'Tests/Exemple/*' 'Tests/Exemple/Docs' 
+  for i in altair.linux sft Docs Interface_linux linux *.txt *.R *.sh *.desktop VERSION LICENCE *.ico *.bmp *.png  postinstall.sh altaïr.Rproj Tests
   do
-    cp -rf /home/fab/Dev/altair/$i .
-    sudo chown -R jf $i
+    sudo cp -rvf "/home/fab/Dev/altair/$i" /home/jf/Dev/altair
+    sudo chown -R jf "/home/jf/Dev/altair/$i"
   done
   
   sudo chmod 0770 /home/jf/Dev/altair/Tests/Exemple/*.*
   sudo chmod 0770 /home/jf/Dev/altair/*.*
   sudo chgrp -R users /home/jf/Dev/altair
+  rm -f /home/jf/Dev/altair/.directory
   
-  rm -f .directory
-  
-  if ! test -d  lhx
+  if ! test -d  /home/jf/Dev/altair/lhx
   then
-     mkdir lhx    
+     mkdir /home/jf/Dev/altair/lhx    
+     sudo chown jf    /home/jf/Dev/altair/lhx
+     sudo chmod -R 0777  /home/jf/Dev/altair/lhx
   fi
   
   cd /home/fab/Dev/altair
@@ -93,6 +93,10 @@ do
    if test -d /home/$i; then
      sudo rm -f /home/$i/Desktop/*.{pptx,docx}
      sudo cp -f /home/jf/Dev/altair/Docs/*.{pptx,docx} /home/$i/Desktop
+     sudo chown -vR $i "/home/$i/Dev/altair/Tests/Exemple/Donnees/xhl/$i"
+     sudo cp -rvf /home/Public/.rstudio-desktop /home/$i
+     sudo chown -R $i /home/$i/.rstudio-desktop
+	 sudo chgrp -R users /home/$i/.rstudio-desktop
    fi
 done
 
