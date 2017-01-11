@@ -43,6 +43,23 @@ _copy 10-monitor.conf /etc/X11/xorg.conf.d
 _copy /home/Public/fab/.Rproj.user /home/fab/Dev/altair
 _copy .rstudio-desktop   /home/Public
 
+for i in $(cat /etc/passwd | cut -f1 -d:)
+do 
+
+ if test $i != fab; then
+    if test -d /home/$i; then
+      cp -vf 'Lien vers une application.desktop' /home/$i/Desktop
+      sed "s/utilisateur/${i}/g" /home/fab/Dev/altair/sys/dolphinrc > temp 
+      cp -vf temp  /home/${i}/.config/dolphinrc
+    fi
+  else
+    cp -vf 'Lien vers une application.desktop' /home/$i/Desktop
+    sed "s/\/home\/utilisateur\/Dev\/altair\/Tests\/Exemple\/Donnees\/xhl\/utilisateur/\/home\/fab\/Dev\/altair\/Tests\/Exemple\/Donnees\/xhl/" /home/fab/Dev/altair/sys/dolphinrc > temp 
+    cp -vf temp  /home/fab/.config/dolphinrc
+  fi
+done
+
+
 # réactualisation du grub
 chmod 0755  /etc/init.d/ajuster_m
 rc-update add ajuster_m default
