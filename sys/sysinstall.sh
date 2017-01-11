@@ -41,7 +41,7 @@ _copy ajuster_m   /etc/init.d
 _copy 10-monitor.conf /etc/X11/xorg.conf.d
 # correction sur .Rproj.user de fab
 _copy /home/Public/fab/.Rproj.user /home/fab/Dev/altair
-_copy /home/fab/.rstudio-desktop   /home/jf
+_copy .rstudio-desktop   /home/Public
 
 # réactualisation du grub
 chmod 0755  /etc/init.d/ajuster_m
@@ -49,12 +49,6 @@ rc-update add ajuster_m default
 
 # no-op mais souhaitable
 chmod -R 0777 /home/jf/.rstudio-desktop
-
-# Actualisation des comptes utilisateurs
-
-for i in {1..9}; do
- chown -R section_${i} /home/section_${i}/Dev/altair/Tests/Exemple/Donnees/xhl/section_${i}
-done
 
 cd -
 

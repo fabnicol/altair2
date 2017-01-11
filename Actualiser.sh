@@ -51,6 +51,10 @@ then
     fi
   fi
 
+  sudo cp -rvf /home/Public/fab/.Rproj.user  /home/fab/Dev/altair
+  sudo chown -R fab     /home/fab/Dev/altair/.Rproj.user
+  sudo chgrp -R users   /home/fab/Dev/altair/.Rproj.user
+  
   git commit -am "Sauvegarde $(date)"
   
   echo "****"
@@ -89,6 +93,10 @@ do
    if test -d /home/$i; then
      sudo rm -f /home/$i/Desktop/*.{pptx,docx}
      sudo cp -f /home/jf/Dev/altair/Docs/*.{pptx,docx} /home/$i/Desktop
+     sudo chown -vR $i "/home/$i/Dev/altair/Tests/Exemple/Donnees/xhl/$i"
+     sudo cp -rvf /home/Public/.rstudio-desktop /home/$i
+     sudo chown -R $i /home/$i/.rstudio-desktop
+	 sudo chgrp -R users /home/$i/.rstudio-desktop
    fi
 done
 
