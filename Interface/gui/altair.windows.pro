@@ -1,6 +1,6 @@
 # L'ensemble des fichiers source doit être encodé en UTF-8 sauf celui-ci qui peut l'être en Latin-1
 
-DEFINES += VERSION=\\\"16.09\\\"  \
+DEFINES += VERSION=\\\"17.01\\\"  \
            CORE2=\\\"\\\"
 
 greaterThan(QT_MAJOR_VERSION, 5)

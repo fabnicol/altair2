@@ -49,17 +49,27 @@ void Altair::refreshTreeView()
     fileTreeView->hideColumn(1);
     fileTreeView->setMinimumWidth(300);
     fileTreeView->setColumnWidth(0,300);
-
-    fileTreeView->header()->setStretchLastSection(true);
-    fileTreeView->header()->setSortIndicator(0, Qt::AscendingOrder);
-    fileTreeView->header()->setSortIndicatorShown(true);
-
     fileTreeView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     fileTreeView->setSelectionBehavior(QAbstractItemView::SelectItems);
 
-    QModelIndex index = model->index(path_access("Tests/Exemple/Donnees/xhl"));
+    fileTreeView->header()->setStretchLastSection(true);
+
+    QString name = qgetenv("USER");
+    if (name.isEmpty())
+            name = qgetenv("USERNAME");
+
+    QString userdatadir = path_access("Tests/Exemple/Donnees/xhl" + name);
+
+    if (! QFileInfo(userdatadir).isDir())
+    {
+        userdatadir = path_access("Tests/Exemple/Donnees/xhl");
+    }
+
+    QModelIndex index = model->index(userdatadir);
     fileTreeView->expand(index);
     fileTreeView->scrollTo(index);
+
+    fileTreeView->setSortingEnabled(true);
 }
 
 Altair::Altair()

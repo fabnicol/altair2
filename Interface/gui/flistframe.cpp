@@ -21,7 +21,7 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
  importType = import_type;
  tags = xml_tags;
  fileTreeView = tree;
- 
+
  frameHashKey = hashKey;
 
  fileListWidget = new FListWidget(this,
@@ -47,7 +47,6 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
      mainTabWidget = new QTabWidget(this);
      mainTabWidget->addTab(currentListWidget, xml_tags[1]+" 1");
   }
-
 
  mainTabWidget->addTab(currentListWidget, xml_tags[1]+" 1");
  mainTabWidget->setMovable(false);
@@ -185,7 +184,6 @@ void FListFrame::addNewTab()
 void FListFrame::addNewTab(int r, const QString& label)
 {
     if (r < 0) return;
-
 
     mainTabWidget->insertTab(r ,widgetContainer.at(r), label);
     mainTabWidget->setCurrentIndex(r);
