@@ -3,17 +3,9 @@
  *  En entrée d'Altair préciser encodage.entrée en conformité avec l'encodage du présent fichier, qui sera celui de la base générée.
  */
 
-#include <mutex>
-#include <cstring>
-#include <cstdint>
-#include <iomanip>
-#include <iostream>
-#include <iterator>
-#include <sys/stat.h>
 #include "fonctions_auxiliaires.hpp"
 #include "tags.h"
 
-using namespace std;
 extern bool verbeux;
 
 #ifdef __WIN32__
@@ -123,6 +115,7 @@ string getexecpath()
 #endif
 
 
+// Récupère la sortie de stdout dans un string
 
 /* utilité d'affichage de l'environnement xhl en cas de problème de conformité des données */
 
@@ -143,12 +136,13 @@ errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur)
 #if 1
     for (int l = 0; l < info.Memoire_p_ligne[info.NCumAgentXml] && l < sizeof(Tableau_entete)/sizeof(char*); ++l)
         {
-          if (nullptr != info.Table[info.NCumAgentXml][l])
+          if (info.Table[info.NCumAgentXml][l])
               cerr << WARNING_HTML_TAG "Balise de paye : " << Tableau_entete[l]
                         << "  " << info.Table[info.NCumAgentXml][l] << ENDL;
         }
-#endif
-    errorLine_t s = {lineN, string("Fichier : ") + string(info.threads->argv[info.fichier_courant])
+
+    errorLine_t s = {lineN, string(info.threads->argv[info.fichier_courant]), 
+                            string("Fichier : ") + string(info.threads->argv[info.fichier_courant])
                              + string(" -- Balise : ") + ((cur)? string((const char*)cur->name) : string("NA"))};
     return s;
 }
@@ -652,6 +646,8 @@ int calculer_memoire_requise(info_t& info)
                 if  (c.get() != 'e') continue;
                 if  (c.get() != 'I') continue;
 
+                for (int i=0; i < 7; ++i) c.get();
+                
                 remuneration_xml_open = true;
 
                 if  (c.get()  == '/')
@@ -744,6 +740,8 @@ int calculer_memoire_requise(info_t& info)
                 if  (*++iter != 'e') continue;
                 if  (*++iter != 'I') continue;
 
+                for (int i=0; i < 7; ++i) ++iter;
+                
                 remuneration_xml_open = true;
 
                 if  (*++iter  == '/')
@@ -767,6 +765,8 @@ int calculer_memoire_requise(info_t& info)
                         else if (*++iter  != 'e')   continue;
                         else if (*++iter  != 'I')   continue;
 
+                        for (int i=0; i < 7; ++i) ++iter;
+                        
                         remuneration_xml_open = false;
 
                         if (tab[info.NCumAgent] == 0)
