@@ -553,9 +553,14 @@ static int parseFile(info_t& info)
                 {
                   if (verbeux)
                   {
-                    cerr << ERROR_HTML_TAG "Incohérence des décomptes de lignes entre le contrôle C : "
+                    
+                     errorLine_t env = afficher_environnement_xhl(info, nullptr);  
+                     char cmd[999] = {0};
+                     snprintf(cmd, 999, "grep -n 'Matricule V=\"%s\"' %s | cut -f 1 -d:", info.Table[info.NCumAgentXml][Matricule], env.filePath.c_str());
+                     string lineN = string_exec(cmd);
+                     cerr << ERROR_HTML_TAG "L'allocation de mémoire initiale a prévu : "
                               << info.NLigne[info.NCumAgentXml]
-                              << "et l'analyse Libxml2 : "
+                              << " ligne(s) de paye mais le décompte précis donne : "
                               << ligne_p
                               << ENDL "Pour l'agent "
                               << "de matricule"
@@ -563,7 +568,11 @@ static int parseFile(info_t& info)
                               << " Année "
                               << info.Table[info.NCumAgentXml][Annee]
                               << " Mois "
-                              << info.Table[info.NCumAgentXml][Mois]
+                              << info.Table[info.NCumAgentXml][Mois] << ENDL
+                              << "Ligne " 
+                              << lineN    
+                              << ENDL   
+                              << env.pres   
                               << ENDL   ;
                   }
 

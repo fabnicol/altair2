@@ -93,6 +93,7 @@ do
    if test -d /home/$i; then
      sudo rm -f /home/$i/Desktop/*.{pptx,docx}
      sudo cp -f /home/jf/Dev/altair/Docs/*.{pptx,docx} /home/$i/Desktop
+	 sudo rm -f "/home/$i/Desktop/GUIDE ALTAIR EXTRACTIONS OCTOBRE 2016  v.1.pptx"
      sudo chown -vR $i "/home/$i/Dev/altair/Tests/Exemple/Donnees/xhl/$i"
      sudo cp -rvf /home/Public/.rstudio-desktop /home/$i
      sudo chown -R $i /home/$i/.rstudio-desktop

@@ -9,42 +9,55 @@
 #include <fstream>
 #include <vector>
 #include <mutex>
-#include <mutex>
+#include <cstring>
+#include <cstdint>
+#include <iomanip>
+#include <cstdio>
+#include <iterator>
+#include <sys/stat.h>
+#include <memory>
+#include <stdexcept>
+#include <string>
+using namespace std;
+
 #include "tags.h"
 
 typedef struct {
                  const long lineN;
-                 std::string filePath;
+                 string filePath;
+                 string pres;
                } errorLine_t;
 
-std::ostringstream help();
+ostringstream help();
 int32_t lire_argument(int argc, char* c_str);
 int calculer_memoire_requise( info_t &info);
-void ouvrir_fichier_base(const info_t &info, BaseType, std::ofstream& base, int segment);
-void ouvrir_fichier_base0(const info_t &info, BaseCategorie,  BaseType type, std::ofstream& base, int segment);
-void ecrire_entete_bulletins(const info_t &info, std::ofstream& base);
+void ouvrir_fichier_base(const info_t &info, BaseType, ofstream& base, int segment);
+void ouvrir_fichier_base0(const info_t &info, BaseCategorie,  BaseType type, ofstream& base, int segment);
+void ecrire_entete_bulletins(const info_t &info, ofstream& base);
 
-void ecrire_entete(const info_t &info, std::ofstream& base);
-void ecrire_entete0(const info_t &info, std::ofstream& base, const char* entete[], int N);
-void ouvrir_fichier_bulletins(const info_t &info, std::ofstream& base, int segment);
+void ecrire_entete(const info_t &info, ofstream& base);
+void ecrire_entete0(const info_t &info, ofstream& base, const char* entete[], int N);
+void ouvrir_fichier_bulletins(const info_t &info, ofstream& base, int segment);
 
-off_t taille_fichier(const std::string& filename);
+off_t taille_fichier(const string& filename);
 size_t getTotalSystemMemory();
 size_t getFreeSystemMemory();
 size_t getCurrentRSS( );
 size_t getPeakRSS( );
 
-extern std::mutex mut;
-extern std::ofstream rankFile;
-extern std::string rankFilePath;
+extern mutex mut;
+extern ofstream rankFile;
+extern string rankFilePath;
 
-std::string getexecpath();
+string getexecpath();
+
+string string_exec(const char* cmd); 
 
 errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur);
 
-void ecrire_log(const info_t& info, std::ofstream& log, int diff);
+void ecrire_log(const info_t& info, ofstream& log, int diff);
 
-void calculer_maxima(const std::vector<info_t> &Info, std::ofstream* LOG = nullptr);
+void calculer_maxima(const vector<info_t> &Info, ofstream* LOG = nullptr);
 
 #ifdef GENERATE_RANK_SIGNAL
 
@@ -71,7 +84,7 @@ inline void  generate_rank_signal()
     static int temp_rank;
     do
     {
-        rankFile.open(rankFilePath, std::ios::out|std::ios::trunc);
+        rankFile.open(rankFilePath, ios::out|ios::trunc);
         if (rankFile.is_open())
         {
             if (rang_global)
@@ -95,10 +108,10 @@ inline void  generate_rank_signal()
 inline void generate_rank_signal(int progression)
 {
 
-    std::lock_guard<std::mutex> lock(mut);
+    lock_guard<mutex> lock(mut);
     if (rankFilePath.empty()) return;
 
-        rankFile.open(rankFilePath, std::ios::out|std::ios::trunc);
+        rankFile.open(rankFilePath, ios::out|ios::trunc);
         if (rankFile.is_open())
         {
            rankFile << progression ;
@@ -107,10 +120,10 @@ inline void generate_rank_signal(int progression)
         rankFile.close();
 }
 
-static inline void  memory_debug(GCC_UNUSED const std::string& func_tag)
+static inline void  memory_debug(GCC_UNUSED const string& func_tag)
 {
 #ifdef MEMORY_DEBUG
-        std::cerr << STATE_HTML_TAG << func_tag << " : Calcul de la mémoire disponible : " << getFreeSystemMemory() << ENDL;
+        cerr << STATE_HTML_TAG << func_tag << " : Calcul de la mémoire disponible : " << getFreeSystemMemory() << ENDL;
 #else
 
 #endif
