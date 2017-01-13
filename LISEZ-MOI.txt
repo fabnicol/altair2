@@ -43,10 +43,16 @@ Interface RStudio
     HTML : n'importe quel navigateur enregistré dans le registre comme application
            par défaut ;
 
+WINDOWS:
+
     PDF  : Acrobat Reader d'Adobe;
     
     MSWORD : Microsoft Word
 
+LINUX:
+   okular
+   libreoffice writer
+   
 2. Affichage du script dans l'interface RStudio
 
   Au lancement de l'interface RStudio, vérifier que l'onglet actif est bien le 
@@ -90,13 +96,9 @@ L'auteur remercie les personnes suivantes pour leur contribution aux tests et
 
 		Vitalia Le Boudec
 		Nicole Rossetti
-		Cyril Janvier
 		Xavier Boschet
 		David Lemen
-		
-vérificateurs des chambres régionales des comptes d'Auvergne, Rhône-Alpes, et de Bretagne
-ainsi que Jean-Pierre Rousselle, magistrat, et Jérémie Ballet-Baz
-(Centre d'appui métier, Cour des comptes). 
+
 
 Licence
 -------
@@ -159,16 +161,31 @@ L'installateur Windows a été compilé sous NSIS : http://nsis.sourceforge.net
 Composition du paquet distribué
 -------------------------------
 
+WINDOWS:
+
 Le module Interface graphique est distribué sous forme binaire dans le répertoire
 Interface_windows. Elle a été compilée sous Mingw64 5.2 (dérivé du compilateur GNU G++
 http://mingw-w64.sourceforge.net). 
 
-Les dépendances logicielles Qt5.5 de l'éditeur Digia, ont été recompilées par l'auteur
+Les dépendances logicielles Qt5 de l'éditeur Digia, ont été recompilées par l'auteur
 à partir du code source, le compilateur étant le même.
 
 Le module noyau LHX, qui effectue la conversion des données au format .xhl vers les 
 bases de données au format .csv, est distribué sous forme binaire dans le répertoire win,
 et est compilé avec le même compilateur. 
+
+LINUX:
+
+Le module Interface graphique est distribué sous forme binaire dans le répertoire
+Interface_linux. Elle a été compilée sous GNU g++ version 6.2.  
+
+Les dépendances logicielles Qt5 de l'éditeur Digia, ont été recompilées par l'auteur
+à partir du code source, le compilateur étant le même.
+
+Le module noyau LHX, qui effectue la conversion des données au format .xhl vers les 
+bases de données au format .csv, est distribué sous forme binaire dans le répertoire linux,
+et est compilé avec le même compilateur. 
+
 
 Les scripts R sont distribués sous Tests\Exemple
 
@@ -209,3 +226,9 @@ Historique
                 Amélioration de l'interface (onglets automatiques, sélection des SIRET)
                 Amélioration de LHX (performance environ x1,5 à x2).
                 Empaquetage de la plateforme de développement.
+
+  janvier 2017	Améliorations destinées à assurer le traitement de masse des plus gros fichiers.		
+				Intégration de la FPH.
+				Clonage d'une plateforme linux (Gentoo).
+				Documentation (encore partielle) utilisateur et développeur.
+				
