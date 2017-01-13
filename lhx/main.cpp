@@ -884,7 +884,7 @@ pair<uint64_t, uint64_t> produire_segment(const info_t& info, const vString& seg
         cerr << WARNING_HTML_TAG "<b>Récapitulatif des erreurs rencontrées</b>" << ENDL;
         for (const errorLine_t& e :  errorLineStack)
         {
-            cerr << e.filePath;
+            cerr << e.pres;
             if (e.lineN != -1)
                 cerr << " -- Ligne n°" << e.lineN << ENDL;
             else
