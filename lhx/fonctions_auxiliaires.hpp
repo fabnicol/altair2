@@ -18,6 +18,10 @@
 #include <memory>
 #include <stdexcept>
 #include <string>
+#include <memory>
+#include <stdexcept>
+#include <array>
+
 using namespace std;
 
 #include "tags.h"
