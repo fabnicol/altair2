@@ -19,7 +19,7 @@
 using namespace std;
 
 extern mutex mut;
-extern  inline uint64_t   parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log);
+extern uint64_t   parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log);
 extern vector<errorLine_t>  errorLineStack;
 extern int rang_global;
 
