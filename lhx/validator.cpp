@@ -582,17 +582,15 @@ static int parseFile(info_t& info)
 #ifdef STRICT
                     exit(-1278);
 #else
-                    if (ligne_p > info.NLigne[info.NCumAgentXml])
-                        info.NLigne[info.NCumAgentXml] = ligne_p;
 
                     /* il faut tout réallouer */
-                    exit(0);
+
                     return RETRY;
 #endif
                 }
             }
-            else
-                info.NLigne[info.NCumAgentXml] = ligne_p;
+
+            info.NLigne[info.NCumAgentXml] = ligne_p;
 
             info.nbLigne += ligne_p;
 
