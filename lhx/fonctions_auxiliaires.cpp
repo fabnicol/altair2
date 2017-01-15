@@ -133,8 +133,9 @@ errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur)
             cerr << WARNING_HTML_TAG "Ligne n°" << lineN << ENDL;
 
     /* Tableau_entete va être en shared memory concurrent read access (no lock here) */
-#if 1
-    for (int l = 0; l < info.Memoire_p_ligne[info.NCumAgentXml] && l < sizeof(Tableau_entete)/sizeof(char*); ++l)
+
+    for (uint l = 0;     l < (uint) info.Memoire_p_ligne[info.NCumAgentXml]
+                      && l < sizeof(Tableau_entete)/sizeof(char*); ++l)
         {
           if (info.Table[info.NCumAgentXml][l])
               cerr << WARNING_HTML_TAG "Balise de paye : " << Tableau_entete[l]
@@ -572,6 +573,24 @@ inline string read_stream_into_string(
   return ss.str();
 }
 
+string string_exec(const char* cmd)
+{
+
+    array<char, 999> buffer;
+    string result;
+    shared_ptr<FILE> pipe(popen(cmd, "r"), pclose);
+    if (!pipe) throw runtime_error("popen() failed!");
+    while (!feof(pipe.get()))
+    {
+        if (fgets(buffer.data(), 999, pipe.get()) != NULL)
+            result += buffer.data();
+    }
+    return result;
+
+}
+
+
+
 
 int calculer_memoire_requise(info_t& info)
 {
@@ -652,9 +671,6 @@ int calculer_memoire_requise(info_t& info)
 
                 if  (c.get()  == '/')
                 {
-                    tab[info.NCumAgent] = 1;
-                    ++info.NCumAgent;
-
                     remuneration_xml_open = false;
                     continue;  // Balise simple vide
                 }
@@ -673,6 +689,7 @@ int calculer_memoire_requise(info_t& info)
 
                         remuneration_xml_open = false;
 
+                        // Si pas de ligne de paye, alors il en faut quand même une (de NA)
                         if (tab[info.NCumAgent] == 0)
                             tab[info.NCumAgent] = 1;
 
@@ -710,7 +727,7 @@ int calculer_memoire_requise(info_t& info)
 
                 if (remuneration_xml_open == true)
                 {
-                    cerr << "Erreur XML : la balise Agent n'est pas refermée pour le fichier " << info.threads->argv[i]
+                    cerr << "Erreur XML : la balise PayeIndivMensuel n'est pas refermée pour le fichier " << info.threads->argv[i]
                               << ENDL "pour l'agent n°"   << info.NCumAgent + 1 << ENDL;
                     exit(0);
 
@@ -746,9 +763,6 @@ int calculer_memoire_requise(info_t& info)
 
                 if  (*++iter  == '/')
                 {
-                    tab[info.NCumAgent] = 1;
-                    ++info.NCumAgent;
-
                     remuneration_xml_open = false;
                     continue;  // Balise simple vide
                 }
@@ -769,6 +783,7 @@ int calculer_memoire_requise(info_t& info)
                         
                         remuneration_xml_open = false;
 
+                        // Si pas de ligne de paye, alors il en faut quand même une (de NA)
                         if (tab[info.NCumAgent] == 0)
                             tab[info.NCumAgent] = 1;
 
@@ -796,7 +811,7 @@ int calculer_memoire_requise(info_t& info)
 
                 if (remuneration_xml_open == true)
                 {
-                    cerr << "Erreur XML : la balise Remuneration n'est pas refermée pour le fichier " << info.threads->argv[i]
+                    cerr << "Erreur XML : la balise PayeIndivMensuel n'est pas refermée pour le fichier " << info.threads->argv[i]
                               << ENDL "pour l'agent n°"   << info.NCumAgent + 1 << ENDL;
                     exit(0);
 
