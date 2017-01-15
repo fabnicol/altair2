@@ -1,3 +1,5 @@
+SOUS WINDOWS:
+
 Pour la plateforme de développement penser à ajouter à la main les deux chemins suivants au PATH :
 
 $ALTAIR/Git/bin

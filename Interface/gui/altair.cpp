@@ -58,7 +58,7 @@ void Altair::refreshTreeView()
     if (name.isEmpty())
             name = qgetenv("USERNAME");
 
-    QString userdatadir = path_access("Tests/Exemple/Donnees/xhl" + name);
+    QString userdatadir = path_access("Tests/Exemple/Donnees/xhl/" + name);
 
     if (! QFileInfo(userdatadir).isDir())
     {
