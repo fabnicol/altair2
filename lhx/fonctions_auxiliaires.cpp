@@ -134,8 +134,8 @@ errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur)
 
     /* Tableau_entete va être en shared memory concurrent read access (no lock here) */
 
-    for (uint l = 0;     l < (uint) info.Memoire_p_ligne[info.NCumAgentXml]
-                      && l < sizeof(Tableau_entete)/sizeof(char*); ++l)
+    for (unsigned int l = 0;     l < (unsigned int) info.Memoire_p_ligne[info.NCumAgentXml]
+                              && l < sizeof(Tableau_entete)/sizeof(char*); ++l)
         {
           if (info.Table[info.NCumAgentXml][l])
               cerr << WARNING_HTML_TAG "Balise de paye : " << Tableau_entete[l]
