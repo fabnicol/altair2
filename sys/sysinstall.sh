@@ -61,9 +61,9 @@ done
 
 
 if test -f localgitconfig -a -f .gitconfig; then
-    echo **********************
-    echo * Actualisation de GIT
-    echo **********************
+    echo '**********************'
+    echo '* Actualisation de GIT'
+    echo '**********************'
     echo
     cp -vf localgitconfig  /home/fab/Dev/altair/.git/config
     cp -vf .gitconfig      /home/fab/.gitconfig
