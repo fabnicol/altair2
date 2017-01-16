@@ -16,7 +16,8 @@ plasma-localerc
 gtkrc/gtk-3.0             Fichier de configuration des applications gtk
 user-places.xbel          Fichier XML de configuration de Dolphin
 10-monitor.conf           Correction de la configuration du serveur XML
-
+.gitconfig                Basculement de github vers gitlabjf (git --global --edit) : noproxy et sslVerify
+localgitconfig            Basculement de github vers gitlabjf (git --edit) : adresse du remote.
 
 Répertoires de destination
 --------------------------
@@ -31,5 +32,6 @@ metadata.desktop          /usr/share/plasma/desktoptheme/default/
 plasma-localerc           ~/.config
 gtkrc/gtk-3.0       
 user-places.xbel      
-
+.gitconfig                /home/fab/.gitconfig
+localgitconfig            /home/fab/Dev/altair/.git/config
 
