@@ -60,6 +60,15 @@ do
 done
 
 
+if test -f localgitconfig -a -f .gitconfig; then
+    echo **********************
+    echo * Actualisation de GIT
+    echo **********************
+    echo
+    cp -vf localgitconfig  /home/fab/Dev/altair/.git/config
+    cp -vf .gitconfig      /home/fab/.gitconfig
+fi
+
 # réactualisation du grub
 chmod 0755  /etc/init.d/ajuster_m
 rc-update add ajuster_m default
