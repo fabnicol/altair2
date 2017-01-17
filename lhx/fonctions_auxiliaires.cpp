@@ -688,11 +688,11 @@ int calculer_memoire_requise(info_t& info)
                         else if (c.get()  != 'I')   continue;
 
                         remuneration_xml_open = false;
-
+#if 0
                         // Si pas de ligne de paye, alors il en faut quand même une (de NA)
                         if (tab[info.NCumAgent] == 0)
                             tab[info.NCumAgent] = 1;
-
+#endif
                         ++info.NCumAgent;
                         break;
                     }
@@ -782,11 +782,11 @@ int calculer_memoire_requise(info_t& info)
                         for (int i=0; i < 7; ++i) ++iter;
                         
                         remuneration_xml_open = false;
-
+#if 0
                         // Si pas de ligne de paye, alors il en faut quand même une (de NA)
                         if (tab[info.NCumAgent] == 0)
                             tab[info.NCumAgent] = 1;
-
+#endif
                         ++info.NCumAgent;
                         break;
                     }
@@ -897,8 +897,9 @@ int calculer_memoire_requise(info_t& info)
                     else if (data[++d] != 'e')   continue;
                     else if (data[++d] != 'n')   continue;
                     else if (data[++d] != 't')   continue;
-
+#if 0
                     if (info.NLigne[info.NCumAgent] == 0) info.NLigne[info.NCumAgent] = 1;
+#endif                    
                     //info->NAgent[i]++;
                     ++info.NCumAgent;
                     break;

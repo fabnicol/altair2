@@ -376,6 +376,10 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
 
         while (xmlStrcmp(cur->name, (const xmlChar *) type_remuneration[t]))
         {
+            // Cas rare dans lequel <Remuneration> n'existe pas
+            if (xmlStrcmp(cur->name, (const xmlChar *) "NbHeureTotal") == 0) 
+                return  { nbLignePaye, l};
+            
             ++t;
             if (t == nbType)
             {
@@ -556,6 +560,29 @@ inline void GCC_INLINE concat(xmlNodePtr cur, info_t& info)
     }
 }
 
+
+inline void allouer_ligne_NA(info_t &info, int &ligne, int &memoire_p_ligne_allouee)
+{
+    info.NLigne[info.NCumAgentXml] = 1;  // 1 ldp
+    info.Memoire_p_ligne[info.NCumAgentXml] = BESOIN_MEMOIRE_ENTETE + INDEX_MAX_COLONNNES // nombre de NAs mis pour les variables de paye de la ligne
+                                                                     + 1  // TraitBrut
+                                                                     + 1   ;  
+    info.Table[info.NCumAgentXml].resize(info.Memoire_p_ligne[info.NCumAgentXml]);
+    info.Table[info.NCumAgentXml][BESOIN_MEMOIRE_ENTETE] = (xmlChar*) xmlStrdup(drapeau[0]);  // TraitBrut
+    
+    for (int k = 1; k <= INDEX_MAX_COLONNNES; ++k)
+    {
+      info.Table[info.NCumAgentXml][BESOIN_MEMOIRE_ENTETE + k] = (xmlChar*) xmlStrdup(NA_STRING);
+    }
+    
+    
+    ligne = 1;
+    
+    memoire_p_ligne_allouee = BESOIN_MEMOIRE_ENTETE + INDEX_MAX_COLONNNES // nombre de NAs mis pour les variables de paye de la ligne
+            + 1  // TraitBrut
+            + 1   ;  ;
+    
+}
 
 uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
 {
@@ -893,20 +920,12 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
             ligne = result.nbLignePaye;
             memoire_p_ligne_allouee = result.memoire_p_ligne_allouee;
         }
-
-        /* si la balise <Remuneration/> est fermante ou si <Remuneration>....</Remuneration> ne contient pas de ligne de paye codée
+        else  
+        /* si la balise <Remuneration/> est fermante ou 
+         * si <Remuneration>....</Remuneration> ne contient pas de ligne de paye codée
          * alors on attribue quand même une ligne, codée NA sur tous les champs */
 
-        if (ligne == 0)
-        {
-            for (int k = 0; k <= INDEX_MAX_COLONNNES; ++k)
-              {
-                info.Table[info.NCumAgentXml][BESOIN_MEMOIRE_ENTETE + k] = (xmlChar*) xmlStrdup(NA_STRING);
-              }
-                info.Memoire_p_ligne[info.NCumAgentXml] = BESOIN_MEMOIRE_ENTETE + INDEX_MAX_COLONNNES + 1;
-        }
-        else
-            info.Memoire_p_ligne[info.NCumAgentXml] = memoire_p_ligne_allouee;
+        allouer_ligne_NA(info, ligne, memoire_p_ligne_allouee);
 
         cur = cur_save->next;
     }
@@ -914,19 +933,50 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
     {
         cerr << ERROR_HTML_TAG "Absence de la balise Remuneration " ENDL;
 
-        for (int k = 0; k <= INDEX_MAX_COLONNNES; ++k)
-          {
-            info.Table[info.NCumAgentXml][BESOIN_MEMOIRE_ENTETE + k] = (xmlChar*) xmlStrdup(NA_STRING);
-          }
-            info.Memoire_p_ligne[info.NCumAgentXml] = BESOIN_MEMOIRE_ENTETE + INDEX_MAX_COLONNNES + 1;
+        // Soit il y a des lignes de paye soit il n'y a rien
+        // premier cas : il y a des lignes de paye, au maximum info.NLigne[info.NCumAgentXml]
+        
+        if (info.NLigne[info.NCumAgentXml])
+        {
+            cur = cur_save;
+            
+            for (int k = 0; k < nbType; ++k)
+            {
+                cur = atteindreNoeud(type_remuneration[k], cur);
+                if (cur) break;
+            }
+            
+            // premier sous-cas : pas de ligne de paye stricto sensu
+            // on avait un cas excessivement rare d'événement codé mais sans ldp
+            if (cur == nullptr)
+            {
+                allouer_ligne_NA(info, ligne, memoire_p_ligne_allouee);               
+                cur = cur_save;
+            }
+            else
+            {
+                LineCount result = lignePaye(cur, info);
+                ligne = result.nbLignePaye;
+                memoire_p_ligne_allouee = result.memoire_p_ligne_allouee;
+            }
+        }
+        else
+            
+        // Il n'y a pas de ligne de paye. On en met quand même une remplie de NAs.
+        {
+          allouer_ligne_NA(info, ligne, memoire_p_ligne_allouee);               
+          cur = cur_save;
+        }
 
-        errorLine_t env = afficher_environnement_xhl(info, nullptr);
-        // cerr << env.pres;
+#       if ! NO_DEBUG
+          errorLine_t env = afficher_environnement_xhl(info, nullptr);
+          cerr << env.pres;
+#       endif        
         cur = cur_save->next;
 
-#ifdef STRICT
-        exit(-4);
-#endif
+#       ifdef STRICT
+          exit(-4);
+#       endif
     }
 
     /* obligatoire , substitution du sparateur décimal */
