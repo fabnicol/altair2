@@ -65,11 +65,11 @@ static int parseFile(info_t& info)
             *budget_fichier = nullptr;
 
     #if defined(STRINGSTREAM_PARSING)
-      doc = xmlParseDoc(reinterpret_cast<const xmlChar*>(info.threads->in_memory_file.at(info.fichier_courant).c_str()));
+      doc = xmlReadDoc(reinterpret_cast<const xmlChar*>(info.threads->in_memory_file.at(info.fichier_courant).c_str()), nullptr, nullptr, XML_PARSE_BIG_LINES);
     #elif defined (MMAP_PARSING)
        doc = xmlParseDoc(reinterpret_cast<const xmlChar*>(info.threads->in_memory_file.at(info.fichier_courant).c_str()));
     #else
-       doc = xmlParseFile(info.threads->argv.at(info.fichier_courant).c_str());
+       doc = xmlReadFile(info.threads->argv.at(info.fichier_courant).c_str(), nullptr, XML_PARSE_BIG_LINES);
     #endif
 
     memory_debug("parseFile : xmlParseFile");
@@ -553,11 +553,14 @@ static int parseFile(info_t& info)
                 {
                   if (verbeux)
                   {
-                    
-                     errorLine_t env = afficher_environnement_xhl(info, nullptr);  
+
+#ifdef USE_STRING_EXEC
                      char cmd[999] = {0};
                      snprintf(cmd, 999, "grep -n 'Matricule V=\"%s\"' %s | cut -f 1 -d:", info.Table[info.NCumAgentXml][Matricule], env.filePath.c_str());
                      string lineN = string_exec(cmd);
+#else
+                     string lineN = to_string(info.ligne_debut) + " - " + to_string(info.ligne_fin);
+#endif
                      cerr << ERROR_HTML_TAG "L'allocation de mémoire initiale a prévu : "
                               << info.NLigne[info.NCumAgentXml]
                               << " ligne(s) de paye mais le décompte précis donne : "
@@ -569,11 +572,9 @@ static int parseFile(info_t& info)
                               << info.Table[info.NCumAgentXml][Annee]
                               << " Mois "
                               << info.Table[info.NCumAgentXml][Mois] << ENDL
-                              << "Ligne " 
+                              << "Ligne(s) "
                               << lineN    
-                              << ENDL   
-                              << env.pres   
-                              << ENDL   ;
+                              << ENDL;
                   }
 
                     ecrire_log(info, log, diff);

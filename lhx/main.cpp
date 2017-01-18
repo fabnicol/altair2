@@ -91,31 +91,33 @@ int main(int argc, char **argv)
     {
         {{}},             //    bulletinPtr* Table;
         0,                //    uint64_t nbLigne;
-        {},             //    int32_t  *NAgent;
+        0,                //    ligne_debut
+        0,                //    ligne_fin
+        {},               //    int32_t  *NAgent;
         0,                //    uint32_t nbAgentUtilisateur
         0,                //    uint32_t NCumAgent;
         0,                //    uint32_t NCumAgentXml;
         0, // taille base
-        BaseType::MONOLITHIQUE,                //    type base
+        BaseType::MONOLITHIQUE,         //    type base
         vector<uint16_t>(),             //    vector<uint16_t> NLigne;
-        &mon_thread,      //    thread_t threads;
+        &mon_thread,    //    thread_t threads;
         "",             //    chemin log
         EXPRESSION_REG_ELUS,
         chemin_base,
         chemin_bulletins,
         MAX_LIGNES_PAYE,  // nbLigneUtilisateur
-        0,                //    uint16_t fichier_courant
-        ',',              //    const char decimal;
-        ';',              //    const char separateur;
+        0,                // uint16_t fichier_courant
+        ',',              // const char decimal;
+        ';',              // const char separateur;
         true,             // réduire coso mémoire
         true,             // par défaut lire la balise adjacente
         false,            // calculer les maxima de lignes et d'agents
         false,            // numéroter les lignes
-        false,             // ne pas exporter les informations sur l'établissement
-        false,             // ne pas exporter l'échelon
-        false,             // pretend
-        false,             // verifmem
-        1,                 // nbfil
+        false,            // ne pas exporter les informations sur l'établissement
+        false,            // ne pas exporter l'échelon
+        false,            // pretend
+        false,            // verifmem
+        1,                // nbfil
         {}  // besoin de mémoire effectif
     };
 

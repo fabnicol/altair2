@@ -124,13 +124,16 @@ errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur)
 
     long lineN = 0;
     cerr << WARNING_HTML_TAG "Fichier analysé " <<  info.threads->argv[info.fichier_courant] << ENDL;
-    lineN = xmlGetLineNo(cur);
-    if (lineN == -1)
-        {
-            cerr << WARNING_HTML_TAG "Une balise est manquante dans le fichier." << ENDL;
-        }
-        else
-            cerr << WARNING_HTML_TAG "Ligne n°" << lineN << ENDL;
+    if (cur)
+    {
+        lineN = xmlGetLineNo(cur);
+        if (lineN == -1)
+            {
+                cerr << WARNING_HTML_TAG "Une balise est manquante ou corrompue dans le fichier." << ENDL;
+            }
+            else
+                cerr << WARNING_HTML_TAG "Ligne n°" << lineN << ENDL;
+    }
 
     /* Tableau_entete va être en shared memory concurrent read access (no lock here) */
 
@@ -573,6 +576,7 @@ inline string read_stream_into_string(
   return ss.str();
 }
 
+#ifdef USE_STRING_EXEC
 string string_exec(const char* cmd)
 {
 
@@ -588,7 +592,7 @@ string string_exec(const char* cmd)
     return result;
 
 }
-
+#endif
 
 
 

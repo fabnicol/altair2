@@ -161,6 +161,8 @@ typedef struct
 
     vector<vector<xmlChar*>> Table;
     uint64_t nbLigne;
+    uint64_t   ligne_debut;
+    uint64_t   ligne_fin;
     vector<uint32_t> NAgent;
     uint32_t nbAgentUtilisateur;
     uint32_t NCumAgent;

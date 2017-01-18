@@ -54,9 +54,9 @@ extern ofstream rankFile;
 extern string rankFilePath;
 
 string getexecpath();
-
+#ifdef USE_STRING_EXEC
 string string_exec(const char* cmd); 
-
+#endif
 errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur);
 
 void ecrire_log(const info_t& info, ofstream& log, int diff);
