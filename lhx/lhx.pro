@@ -67,6 +67,7 @@ DEFINES += __GNUC_EXTENSION \
            _GNU_SOURCE \
            __STDC_LIMIT_MACROS \
            __STDC_FORMAT_MACROS \
+#         USE_STRING_EXEC           // permet d elocaliser le matricule à la ligne près dans un fichier en cas d'erreur. Peu utile.
 
                                             # DEFINES += STRICT  pour un validateur qui retourne à  la première erreur.
 DEFINES += \#NO_REGEX \                     # Pas d'analyse du texte par expression régulière
