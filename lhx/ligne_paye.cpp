@@ -580,8 +580,9 @@ inline void allouer_ligne_NA(info_t &info, int &ligne, int &memoire_p_ligne_allo
     
     memoire_p_ligne_allouee = BESOIN_MEMOIRE_ENTETE + INDEX_MAX_COLONNNES // nombre de NAs mis pour les variables de paye de la ligne
             + 1  // TraitBrut
-            + 1   ;  ;
-    
+            + 1;
+
+
 }
 
 uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
@@ -595,7 +596,6 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
 
     if (cur == nullptr)
     {
-
         string temp_logpath =getexecpath();
 
         cerr << ERROR_HTML_TAG "Agent non identifié. Consulter le fichier erreur.log sous " << temp_logpath  << " pour avoir les détails de l'incident." ENDL;
@@ -651,6 +651,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
 
     // cur n'est pas nul à ce point
 
+    info.ligne_debut = xmlGetLineNo(cur);
     cur_parent = cur;
     cur = cur->xmlChildrenNode;
 
@@ -924,8 +925,14 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
         /* si la balise <Remuneration/> est fermante ou 
          * si <Remuneration>....</Remuneration> ne contient pas de ligne de paye codée
          * alors on attribue quand même une ligne, codée NA sur tous les champs */
+        {
+          allouer_ligne_NA(info, ligne, memoire_p_ligne_allouee);
+        }
 
-        allouer_ligne_NA(info, ligne, memoire_p_ligne_allouee);
+        if (verbeux)
+        {
+            cerr << WARNING_HTML_TAG "Ligne " << to_string(xmlGetLineNo(cur)) << " : Balise Remuneration sans ligne de paye."  ENDL;
+        }
 
         cur = cur_save->next;
     }
@@ -950,11 +957,19 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
             // on avait un cas excessivement rare d'événement codé mais sans ldp
             if (cur == nullptr)
             {
-                allouer_ligne_NA(info, ligne, memoire_p_ligne_allouee);               
+                allouer_ligne_NA(info, ligne, memoire_p_ligne_allouee);
                 cur = cur_save;
+                if (verbeux)
+                {
+                    cerr << WARNING_HTML_TAG "Absence de lignes de paye également, sous la ligne " << to_string(xmlGetLineNo(cur)) <<  ENDL;
+                }
             }
             else
             {
+                if (verbeux)
+                {
+                    cerr << WARNING_HTML_TAG "Lignes de paye néanmoins présentes, sous la ligne " << to_string(xmlGetLineNo(cur)) <<  ENDL;
+                }
                 LineCount result = lignePaye(cur, info);
                 ligne = result.nbLignePaye;
                 memoire_p_ligne_allouee = result.memoire_p_ligne_allouee;
@@ -964,8 +979,12 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
             
         // Il n'y a pas de ligne de paye. On en met quand même une remplie de NAs.
         {
-          allouer_ligne_NA(info, ligne, memoire_p_ligne_allouee);               
+          allouer_ligne_NA(info, ligne, memoire_p_ligne_allouee);
           cur = cur_save;
+          if (verbeux)
+          {
+              cerr << WARNING_HTML_TAG "Absence de lignes de paye également, sous la ligne " << to_string(xmlGetLineNo(cur)) <<  ENDL;
+          }
         }
 
 #       if ! NO_DEBUG
@@ -1004,6 +1023,8 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
 
     // Rémuneration tag vide
     if (ligne == 0) ligne = 1 ;
+
+    info.ligne_fin = cur ? xmlGetLineNo(cur) : 0;
 
     return ligne;
 }
