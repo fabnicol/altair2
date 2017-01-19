@@ -80,7 +80,9 @@ class MainWindow : public QMainWindow
    void resetCounter();
    void on_nppButton_clicked();
    void anonymiser();
+   void cleanBase();
    void launch_process(const QString&);
+   void clean_process(const QString&);
 
   private :
   
@@ -102,6 +104,7 @@ class MainWindow : public QMainWindow
 
    inline void connectShowActions();
    std::vector<std::string> extraire_donnees_protegees(const std::string& st);
+   std::string nettoyer_donnees(const std::string& st);
 
    QDockWidget* fileTreeViewDockWidget;
    QDockWidget* bottomDockWidget;
@@ -138,6 +141,7 @@ class MainWindow : public QMainWindow
    QAction *RAction;
    QAction *configureAction;
    QAction *lhxAction;
+   QAction *cleanAction;
    QAction *anonymAction;
    QAction *openBaseDirAction;
    QAction *decodeAction;
