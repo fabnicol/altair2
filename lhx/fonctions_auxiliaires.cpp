@@ -123,6 +123,7 @@ errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur)
 {
 
     long lineN = 0;
+    lock_guard<mutex> guard(mut);
     cerr << WARNING_HTML_TAG "Fichier analysé " <<  info.threads->argv[info.fichier_courant] << ENDL;
     if (cur)
     {
