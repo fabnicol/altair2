@@ -48,5 +48,6 @@
         <file>images/anonymiser.png</file>
         <file>images/data-icon.png</file>
         <file>images/view-refresh.png</file>
+        <file>images/clean.png</file>
     </qresource>
 </RCC>

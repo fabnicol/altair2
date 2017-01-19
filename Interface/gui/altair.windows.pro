@@ -129,7 +129,8 @@ RESOURCES += \
 DISTFILES += \
     ../../A_FAIRE.txt \
     ../share/altair-gui/images/internet-explorer.png \
-    ../share/altair-gui/images/anonymiser.png
+    ../share/altair-gui/images/anonymiser.png \
+    ../share/altair-gui/images/clean.png
 
 
 
