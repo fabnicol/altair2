@@ -209,7 +209,7 @@ void MainWindow::createMenus()
  editMenu->addActions({displayAction, displayOutputAction, displayFileTreeViewAction,
                        displayManagerAction, clearOutputTextAction, editProjectAction});
 
- processMenu->addActions({RAction, lhxAction, anonymAction, openBaseDirAction});
+ processMenu->addActions({RAction, lhxAction, cleanAction, anonymAction, openBaseDirAction});
 
  optionsMenu->addActions({optionsAction, configureAction});
 
@@ -265,6 +265,11 @@ void MainWindow::createActions()
   lhxAction->setShortcut(QKeySequence("Ctrl+B"));
   lhxAction->setIcon(QIcon(":/images/csv.png"));
   connect(lhxAction, SIGNAL(triggered()), altair, SLOT(run()));
+
+  cleanAction = new QAction(tr("Nettoyer la base de paye"), this);
+  cleanAction->setShortcut(QKeySequence("Ctrl+$"));
+  cleanAction->setIcon(QIcon(":/images/clean.png"));
+  connect(cleanAction, SIGNAL(triggered()), this, SLOT(cleanBase()));
 
   anonymAction = new QAction(tr("Anonymiser la base de données XML"), this);
   anonymAction->setIcon(QIcon(":/images/anonymiser.png"));
@@ -351,11 +356,12 @@ void MainWindow::createActions()
       separator[i]->setSeparator(true);
     }
 
-  actionList << newAction << openAction << saveAction << saveAsAction << exportAction << archiveAction << restoreAction << closeAction << exitAction << separator[0] <<
-                RAction << lhxAction << anonymAction << openBaseDirAction << displayOutputAction << displayFileTreeViewAction <<
-                displayManagerAction <<  separator[4] <<
-                clearOutputTextAction <<  editProjectAction << separator[3] << configureAction <<
-                optionsAction << helpAction << aboutAction ;
+  actionList << newAction << openAction << saveAction << saveAsAction << exportAction
+             << archiveAction << restoreAction << closeAction << exitAction << separator[0]
+             << RAction << lhxAction << cleanAction << anonymAction << openBaseDirAction
+             << displayOutputAction << displayFileTreeViewAction << displayManagerAction <<  separator[4]
+             << clearOutputTextAction <<  editProjectAction << separator[3] << configureAction
+             << optionsAction << helpAction << aboutAction ;
   
 }
 
@@ -368,7 +374,7 @@ vector<string> MainWindow::extraire_donnees_protegees(const string& st)
 
     size_t i = 0;
     const size_t pas = taille / 20;
-    size_t n = 0;
+    size_t k = 0;
 
     while (*iter != '<' && ++iter != st.end()) continue;
 
@@ -383,25 +389,25 @@ vector<string> MainWindow::extraire_donnees_protegees(const string& st)
     while (iter != st.end())
     {
         while (++iter != st.end()
-               && *iter != '<') { ++i; continue;};
+               && *iter != '<') { ++i; ++k; continue;};
 
         if (iter == st.end()) break;
 
         if (*(iter + 1) == '/') /* </TAG>  */
         {
             string::const_iterator iter1 = iter;
-            while (++iter != st.end() && *iter != '>') { ++i; continue;};
+            while (++iter != st.end() && *iter != '>') { ++i; ++k; continue;};
             out.emplace_back(string(iter1, iter + 1) + "\n");
             continue;
         }
 
         if (iter == st.end()) break;
 
-        if (i > n * pas)
+        if (k >= pas)
         {
             emit(altair->setProgressBar(i));
             qApp->processEvents();
-            ++n;
+            k =0;
         }
 
         string::const_iterator iter1 = iter;
@@ -411,7 +417,7 @@ vector<string> MainWindow::extraire_donnees_protegees(const string& st)
 
         while (++iter != st.end())
         {
-            ++i;
+            ++i; ++k;
             if (*iter == ' ')  /* <TAG ...> */
             {
               tag = string(iter1 + 1, iter);
@@ -429,11 +435,11 @@ vector<string> MainWindow::extraire_donnees_protegees(const string& st)
 
         while (++iter != st.end())
         {
-            ++i;
+            ++i; ++k;
 
             if (*iter == 'V')
             {
-               while (++iter != st.end() && *iter == ' ') { ++ i; continue; };
+               while (++iter != st.end() && *iter == ' ') { ++ i; ++k; continue; };
 
                if (*iter == '=')
                {
@@ -446,7 +452,7 @@ vector<string> MainWindow::extraire_donnees_protegees(const string& st)
             {
                 out.emplace_back(string(iter1, iter +1) + "\n");
                 ++iter;
-                ++i;
+                ++i; ++k;
                 goto start;
             }
             else   /*<TAG  x... /> */
@@ -459,7 +465,7 @@ vector<string> MainWindow::extraire_donnees_protegees(const string& st)
 
         while (++iter != st.end())
         {
-            ++i;
+            ++i; ++k;
             if (*iter == '\"') break;
         }
 
@@ -469,7 +475,7 @@ vector<string> MainWindow::extraire_donnees_protegees(const string& st)
 
         while (++iter != st.end())
         {
-            ++i;
+            ++i; ++k;
             if (*iter == '\"') break;
         }
 
@@ -483,7 +489,7 @@ vector<string> MainWindow::extraire_donnees_protegees(const string& st)
 
         while (++iter != st.end())
         {
-            ++i;
+            ++i; ++k;
             if (*iter == '>') break;
         }
 
@@ -515,7 +521,7 @@ vector<string> MainWindow::extraire_donnees_protegees(const string& st)
 
                 out.emplace_back(remplacement);
 
-                ++iter; ++i;
+                ++iter; ++i; ++k;
 
                 goto start;
             }
@@ -588,6 +594,102 @@ void MainWindow::launch_process(const QString& path)
 
 }
 
+
+string MainWindow::nettoyer_donnees(const string& st)
+{
+    string out;
+    const size_t taille = st.size();
+    out.reserve((size_t) taille / 5);
+    string::const_iterator iter = st.begin();
+
+    size_t i = 0;
+    size_t k = 0;
+    const size_t pas = taille / 20;
+
+    while (iter != st.end())
+    {
+     if (*iter != 0x0D && *iter != 0x0A)
+     {
+        out += *iter;
+     }
+     else
+     {
+         ++iter;
+         continue;
+     }
+
+     if (*iter == '>')
+         out += '\n';
+
+     ++iter;
+
+     ++i;
+     ++k;
+     if (k == pas)
+     {
+         emit(altair->setProgressBar(i));
+         qApp->processEvents();
+         k = 0;
+     }
+    }
+
+    return(out);
+}
+
+void MainWindow::clean_process(const QString& path)
+{
+    QFile xml(path);
+
+    std::string xml_out(path.toStdString() + ".new");
+
+    std::ofstream out;
+
+    if (!xml.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        Q("Erreur de lancement du processus")
+        return;
+    }
+
+    out.open(xml_out, std::ofstream::out | std::ofstream::trunc);
+
+    if (! out.is_open())
+    {
+        Q("Erreur de lancement du processus")
+        return;
+    }
+
+    altair->outputTextEdit->append(PROCESSING_HTML_TAG "Lecture du fichier...");
+    emit(altair->showProgressBar());
+    emit(altair->setProgressBar(0));
+    altair->outputTextEdit->repaint();
+    QString xml_mod = QString(xml.readAll());
+
+    altair->outputTextEdit->repaint();
+
+    int bar_range = xml_mod.size();
+
+    emit(altair->setProgressBar(0, bar_range));
+
+    const string& v = nettoyer_donnees(xml_mod.toStdString());
+
+    out << v;
+
+    out.close();
+
+    emit(altair->setProgressBar(0));
+
+    xml.close();
+    xml.remove();
+    rename(xml_out.c_str(), path.toStdString().c_str());
+
+    altair->outputTextEdit->append(PROCESSING_HTML_TAG  "Nettoyage de " + path + " terminé.");
+    altair->outputTextEdit->repaint();
+    emit(altair->setProgressBar(0));
+
+    altair->updateProject(true);
+
+}
+
 void MainWindow::anonymiser()
 {
     QStringList args;
@@ -605,6 +707,27 @@ void MainWindow::anonymiser()
             altair->outputTextEdit->append(PROCESSING_HTML_TAG "Lancement de l'anonymisation du fichier " + s + ". Patientez...");
             altair->outputTextEdit->repaint();
             launch_process(s);
+        }
+    }
+}
+
+void MainWindow::cleanBase()
+{
+    QStringList args;
+
+    altair->updateProject(true);
+
+    args << altair->createCommandLineString();
+
+    altair->outputTextEdit->append(PROCESSING_HTML_TAG + tr("Nettoyage des bases de paye ("));
+
+    for (const QString& s: args)
+    {
+        if (! s.isEmpty() && QFileInfo(s).isFile())
+        {
+            altair->outputTextEdit->append(PROCESSING_HTML_TAG "Nettoyage du fichier " + s + ". Patientez...");
+            altair->outputTextEdit->repaint();
+            clean_process(s);
         }
     }
 }
@@ -652,7 +775,7 @@ void MainWindow::createToolBars()
  editToolBar->addActions({displayAction, displayOutputAction, displayFileTreeViewAction,
                           displayManagerAction, editProjectAction});
 
- processToolBar->addActions({RAction, lhxAction, openBaseDirAction});
+ processToolBar->addActions({RAction, lhxAction, cleanAction, openBaseDirAction});
 
  optionsToolBar->addActions({optionsAction, configureAction});
 
