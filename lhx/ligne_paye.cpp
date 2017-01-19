@@ -124,7 +124,7 @@ static inline bool GCC_INLINE bulletin_obligatoire(const char* tag, xmlNodePtr& 
 
         case NODE_NOT_FOUND :
 
-                    cerr << ERROR_HTML_TAG "Balise manquante " << tag << " après la balise " << cur->name << ENDL;
+                    cerr << ERROR_HTML_TAG "Balise manquante " << tag << " avant la balise " << cur->name << ENDL;
                     if (verbeux)
                     afficher_environnement_xhl(info, cur);
                 NA_ASSIGN(l);
@@ -927,18 +927,21 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
          * alors on attribue quand même une ligne, codée NA sur tous les champs */
         {
           allouer_ligne_NA(info, ligne, memoire_p_ligne_allouee);
-        }
-
-        if (verbeux)
-        {
-            cerr << WARNING_HTML_TAG "Ligne " << to_string(xmlGetLineNo(cur)) << " : Balise Remuneration sans ligne de paye."  ENDL;
+          if (verbeux)
+          {
+              lock_guard<mutex> guard(mut);
+              cerr << WARNING_HTML_TAG "Ligne " << to_string(xmlGetLineNo(cur_save)) << " : Balise Remuneration sans ligne de paye."  ENDL;
+          }
         }
 
         cur = cur_save->next;
     }
     else
     {
-        cerr << ERROR_HTML_TAG "Absence de la balise Remuneration " ENDL;
+        {
+            lock_guard<mutex> guard(mut);
+            cerr << ERROR_HTML_TAG "Absence de la balise Remuneration " ENDL;
+        }
 
         // Soit il y a des lignes de paye soit il n'y a rien
         // premier cas : il y a des lignes de paye, au maximum info.NLigne[info.NCumAgentXml]
@@ -961,6 +964,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
                 cur = cur_save;
                 if (verbeux)
                 {
+                    lock_guard<mutex> guard(mut);
                     cerr << WARNING_HTML_TAG "Absence de lignes de paye également, sous la ligne " << to_string(xmlGetLineNo(cur)) <<  ENDL;
                 }
             }
@@ -968,6 +972,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
             {
                 if (verbeux)
                 {
+                    lock_guard<mutex> guard(mut);
                     cerr << WARNING_HTML_TAG "Lignes de paye néanmoins présentes, sous la ligne " << to_string(xmlGetLineNo(cur)) <<  ENDL;
                 }
                 LineCount result = lignePaye(cur, info);
@@ -983,6 +988,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
           cur = cur_save;
           if (verbeux)
           {
+              lock_guard<mutex> guard(mut);
               cerr << WARNING_HTML_TAG "Absence de lignes de paye également, sous la ligne " << to_string(xmlGetLineNo(cur)) <<  ENDL;
           }
         }
