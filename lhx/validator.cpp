@@ -96,7 +96,21 @@ static int parseFile(info_t& info)
             log.close();
         return SKIP_FILE;
     }
+    
+    {
+        lock_guard<mutex> guard(mut);
+        cerr << STATE_HTML_TAG "Fichier "
+               #ifdef GENERATE_RANK_SIGNAL
+                  << "n°" <<  rang_global + 1
+               #endif
+                  << " -- " << info.threads->argv[info.fichier_courant] << ENDL;
 
+        if (verbeux)
+        {
+            cerr << STATE_HTML_TAG << "Fil n°" << info.threads->thread_num + 1 << " -- " << "Fichier n°" << info.fichier_courant + 1 << " dans ce fil." ENDL;    
+        }
+    }
+    
     cur =  cur->xmlChildrenNode;
 
     cur = atteindreNoeud("Annee", cur);
@@ -186,9 +200,14 @@ static int parseFile(info_t& info)
         {
             xmlFree(budget_fichier);
             budget_fichier = xmlStrdup(NA_STRING);
-            lock_guard<mutex> lock(mut);
-            if (verbeux) cerr << STATE_HTML_TAG "Aucune information sur le budget [optionnel]." ENDL;
-            if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement." ENDL;
+
+            if (verbeux)
+            {
+                lock_guard<mutex> lock(mut);
+                cerr << STATE_HTML_TAG "Aucune information sur le budget [optionnel]." ENDL;
+                cerr << PROCESSING_HTML_TAG "Poursuite du traitement." ENDL;
+            }
+            
         }
 
         cur = cur_save->next;
@@ -196,9 +215,12 @@ static int parseFile(info_t& info)
     else
     {
         budget_fichier = xmlStrdup(NA_STRING);
-        lock_guard<mutex> lock(mut);
-        if (verbeux) cerr << STATE_HTML_TAG "Aucune information sur le budget [optionnel]." ENDL;
-        if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement." ENDL;
+        if (verbeux)
+        {
+            lock_guard<mutex> lock(mut);
+            cerr << STATE_HTML_TAG "Aucune information sur le budget [optionnel]." ENDL;
+            cerr << PROCESSING_HTML_TAG "Poursuite du traitement." ENDL;
+        }
         cur = cur_save;
     }
 
@@ -353,10 +375,16 @@ static int parseFile(info_t& info)
          */
 
         cur = atteindreNoeud("Etablissement", cur);
+        
         if (cur == nullptr)
         {
             cur = cur_save2;
-            cerr << STATE_HTML_TAG "Pas d'information sur l'Etablissement" ENDL;
+            if (verbeux)
+            {
+                lock_guard<mutex> guard(mut);
+                cerr << STATE_HTML_TAG "Pas d'information sur l'Etablissement" ENDL;
+            }
+            
             etablissement_fichier = xmlStrdup(NA_STRING);
         }
         else
@@ -503,7 +531,12 @@ static int parseFile(info_t& info)
 
             if (cur == nullptr || cur->xmlChildrenNode == nullptr || xmlIsBlankNode(cur->xmlChildrenNode))
             {
+                lock_guard<mutex> guard(mut);
                 cerr << ERROR_HTML_TAG "Pas d'information sur les lignes de paye [non-conformité à la norme : PayeIndivMensuel]." ENDL;
+                if (verbeux)
+                {
+                  cerr << ERROR_HTML_TAG "La balise PayeIndivMensuel n'a pas pu être atteinte à partir de la balise " << (char*) cur_save2->name << " ligne n°" << xmlGetLineNo(cur_save2) << ENDL;
+                }
 
                 if (cur == nullptr)
                         warning_msg("la balise PayeIndivMensuel de l'établissement [non-conformité]", info, cur);
@@ -561,6 +594,7 @@ static int parseFile(info_t& info)
 #else
                      string lineN = to_string(info.ligne_debut) + " - " + to_string(info.ligne_fin);
 #endif
+                     lock_guard<mutex> guard(mut);
                      cerr << ERROR_HTML_TAG "L'allocation de mémoire initiale a prévu : "
                               << info.NLigne[info.NCumAgentXml]
                               << " ligne(s) de paye mais le décompte précis donne : "
@@ -629,22 +663,14 @@ static int parseFile(info_t& info)
 #ifdef GENERATE_RANK_SIGNAL
         generate_rank_signal();
 #endif
-
-    {
-        lock_guard<mutex> guard(mut);
-        cerr << STATE_HTML_TAG "Fichier "
-               #ifdef GENERATE_RANK_SIGNAL
-                  << "n°" <<  rang_global
-               #endif
-                  << " : " << info.threads->argv[info.fichier_courant] << ENDL;
+        
 
         if (verbeux)
         {
-
-            cerr << STATE_HTML_TAG << "Fil n°" << info.threads->thread_num << " : " << "Fichier courant : " << info.fichier_courant + 1 << ENDL;
-            cerr << STATE_HTML_TAG << "Total : " <<  info.NCumAgentXml << " bulletins -- " << info.nbLigne <<" lignes cumulées." ENDL;
+            lock_guard<mutex> guard(mut);
+            cerr << STATE_HTML_TAG << "Total : " <<  info.NCumAgentXml << " bulletins -- " << info.nbLigne <<" lignes cumulées." ENDL ENDL;
         }
-    }
+    
 
 
     if (siret_etablissement )
