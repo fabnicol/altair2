@@ -66,7 +66,7 @@ inline void warning_msg(const char* noeud, const info_t& info, const xmlNodePtr 
        {
            ++warning_count;
            if (verbeux) std::cerr << WARNING_HTML_TAG "Impossible d'atteindre " << noeud << ENDL;
-             errorLineStack.emplace_back(afficher_environnement_xhl(info, cur));
+         //    errorLineStack.emplace_back(afficher_environnement_xhl(info, cur));
 
        }
        else
@@ -74,7 +74,7 @@ inline void warning_msg(const char* noeud, const info_t& info, const xmlNodePtr 
            {
                std::cerr << WARNING_HTML_TAG "Impossible d'atteindre " << noeud << ". Messages d'avertissement supprimés par la suite."  ENDL;
                warning_count = WARNING_LIMIT + 1;
-               errorLineStack.emplace_back(afficher_environnement_xhl(info, cur));
+          //     errorLineStack.emplace_back(afficher_environnement_xhl(info, cur));
            }
 
        if (fichier_last !=  "" && info.threads->argv[info.fichier_courant] != fichier_last)
