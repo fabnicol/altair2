@@ -5,16 +5,11 @@
 
 /* Constantes de compilation pouvant être redéfinies : NA_STRING, MAX_LIGNES_PAYE, MAX_NB_AGENTS, NO_DEBUG*/
 
-#include <iomanip>
-#include <iostream>
-#include <cstring>
-#include <cctype>
-#include <algorithm>
 #include "validator.hpp"
 #include "fonctions_auxiliaires.hpp"
 #include "table.hpp"
 #include "ligne_paye.hpp"
-#include "tags.h"
+
 
 using namespace std;
 
@@ -528,28 +523,25 @@ static int parseFile(info_t& info)
             cur_save2 =  cur;
             cur = atteindreNoeud("PayeIndivMensuel", cur);
 
-
             if (cur == nullptr || cur->xmlChildrenNode == nullptr || xmlIsBlankNode(cur->xmlChildrenNode))
             {
                 lock_guard<mutex> guard(mut);
-                cerr << ERROR_HTML_TAG "Pas d'information sur les lignes de paye [non-conformité à la norme : PayeIndivMensuel]." ENDL;
+                cerr << ERROR_HTML_TAG "Pas d'information sur les lignes de paye [non-conformité à la norme : absence de balise PayeIndivMensuel après DonneesIndiv]." ENDL;
                 if (verbeux)
                 {
-                  cerr << ERROR_HTML_TAG "La balise PayeIndivMensuel n'a pas pu être atteinte à partir de la balise " << (char*) cur_save2->name << " ligne n°" << xmlGetLineNo(cur_save2) << ENDL;
+                  cerr << ERROR_HTML_TAG "La balise PayeIndivMensuel n'existe pas en dessous de la balise " << (char*) cur_save2->name << " ligne n°" << xmlGetLineNo(cur_save2) << ENDL;
                 }
 
-                if (cur == nullptr)
-                        warning_msg("la balise PayeIndivMensuel de l'établissement [non-conformité]", info, cur);
+//                if (cur == nullptr)
+//                        warning_msg("la balise PayeIndivMensuel de l'établissement [non-conformité]", info, cur);
 #ifdef STRICT
                 if (log.open()) log.close();
                 exit(-518);
 #endif
                 if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
                 /* Ici on ne risque pas d'avoir une divergence entre le parsage C et Xml */
-                if (cur == nullptr)
-                    cur = cur_save2->next;
-                else
-                    cur = cur->next;
+
+                cur = cur_save2->next;
 
                 continue;
             }
