@@ -22,7 +22,7 @@
 #include "validator.hpp"
 #include "fonctions_auxiliaires.hpp"
 #include "table.hpp"
-#include "tags.h"
+
 
 #ifndef OVERHEAD
   #define OVERHEAD 500

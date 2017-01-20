@@ -70,7 +70,9 @@ DEFINES += __GNUC_EXTENSION \
            _GNU_SOURCE \
            __STDC_LIMIT_MACROS \
            __STDC_FORMAT_MACROS \
-           SYSTEM_PATH_SEPARATOR=\"\':\'\"
+           SYSTEM_PATH_SEPARATOR=\"\':\'\" \
+#          USE_STRING_EXEC  \
+#           DEBUG_ATTEINDRE
 
                                             # DEFINES += STRICT  pour un validateur qui retourne à la première erreur.
 DEFINES += \#NO_REGEX \                     # Pas d'analyse du texte par expression régulière
@@ -107,7 +109,7 @@ QMAKE_CXXFLAGS += -march=core-avx2 -Wextra
 
 
 INCLUDEPATH += ../Interface/gui /usr/include/libxml2
-LIBS = -L/usr/lib/lib64 -L/usr/lib/x86_64-linux-gnu -lxml2 -pthread
+LIBS = -L/usr/lib/lib64 -L/usr/lib/x86_64-linux-gnu /usr/local/lib64/libxml2.so -pthread
 
 
 SOURCES += \ 

@@ -11,11 +11,17 @@
 #include <clocale>
 #include <cerrno>
 #include <cmath>
+#include <cstring>
+#include <cctype>
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
 #include <cinttypes>
 #include <vector>
 #include <array>
+#include <iostream>
+#include <iomanip>
+#include <algorithm>
+#include "tags.h"
 
 #define GCC_INLINE __attribute__((always_inline))
 #define GCC_UNUSED __attribute__((__unused__))
@@ -276,21 +282,42 @@ void* decoder_fichier(info_t& tinfo);
 inline xmlNodePtr GCC_INLINE atteindreNoeud(const char * noeud, xmlNodePtr cur)
 {
 
+#       ifdef DEBUG_ATTEINDRE   
+//          cerr << "[DEBUG] --- Ligne n°" << xmlGetLineNo(cur) << ENDL;
+          cerr << "[DEBUG] --- Recherche de " << noeud <<  ENDL;
+#       endif          
+    
     while (cur && xmlIsBlankNode(cur))
     {
         cur = cur -> next;
+#       ifdef DEBUG_ATTEINDRE
+          cerr << "[DEBUG] Saut de noeud blanc" << ENDL;
+#       endif            
     }
 
 
     while (cur != nullptr && xmlStrcmp(cur->name,  (const xmlChar*) noeud))
     {
-           cur = cur->next;
+#       ifdef DEBUG_ATTEINDRE   
+   //       cerr << "[DEBUG]      ...Ligne n°" << xmlGetLineNo(cur) << ENDL;
+   //       cerr << "[DEBUG]      ......" << cur->name <<  ENDL;
+#       endif          
+        
+        cur = cur->next;
     }
 
       if (cur == nullptr)
       {
           AFFICHER_NOEUD(noeud)  // cur->name == noeud
       }
+#     ifdef DEBUG_ATTEINDRE   
+        else
+        {
+//          cerr << "[DEBUG] !!! Ligne n°" << xmlGetLineNo(cur) << ENDL;
+          cerr << "[DEBUG] !!! Trouvé " << cur->name <<  ENDL;
+        }
+#     endif          
+      
 
      return cur;  // soit un pointer vers le bon noeud, soit nullptr
 }
