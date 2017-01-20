@@ -123,30 +123,39 @@ static inline bool GCC_INLINE bulletin_obligatoire(const char* tag, xmlNodePtr& 
         case NODE_FOUND : return true;
 
         case NODE_NOT_FOUND :
-
-                    cerr << ERROR_HTML_TAG "Balise manquante " << tag << " avant la balise " << cur->name << ENDL;
+                    {
+                      lock_guard<mutex> guard(mut);
+                      cerr << ERROR_HTML_TAG "Balise manquante " << tag << " avant la balise " << cur->name << ENDL;
+                    }  
+                    
                     if (verbeux)
                     afficher_environnement_xhl(info, cur);
                 NA_ASSIGN(l);
                 break;
 
         case LINE_MEMORY_EXCEPTION :
-
-                    cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
+                    {
+                      lock_guard<mutex> guard(mut);
+                      cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
+                    }
                     if (verbeux)
                     afficher_environnement_xhl(info, cur);
                 NA_ASSIGN(l);
                 break;
 
         case NO_NEXT_ITEM :
+                    {
+                      lock_guard<mutex> guard(mut);
+                      cerr << ERROR_HTML_TAG "Pas d'item successeur pour le noeud " << tag <<  ENDL;
+                    }
 
-                    cerr << ERROR_HTML_TAG "Pas d'item successeur pour le noeud " << tag <<  ENDL;
                     if (verbeux)
                     afficher_environnement_xhl(info, cur);
                 break;
 
     }
 
+    
     /* Ne pas mettre de lock ici, il y en a un dans warning_msg */
 
     warning_msg(tag, info, cur);
