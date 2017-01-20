@@ -598,7 +598,9 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
 {
     bool result = true;
     int na_assign_level = 0;
-
+    constexpr 
+    const char* local_tag[] = {"Nom", "Prenom", "Matricule", "NIR", "NbEnfants", 
+                               "Statut", "EmploiMetier", "Grade", "Echelon", "Indice"};
     xmlNodePtr cur_parent = cur;
 
     cur = atteindreNoeud("Agent", cur);
@@ -710,35 +712,33 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
 #ifdef TOLERANT_TAG_HIERARCHY
                                 cur = cur_save;
 #endif
-                                if (result)
-                                {
                                     result &= BULLETIN_OBLIGATOIRE(Grade);
-
-#ifdef TOLERANT_TAG_HIERARCHY
-                                    cur = cur_save;
-#endif
 
                                     if (result)
                                     {
-                                        result &= BULLETIN_OBLIGATOIRE(Echelon);
-
 #ifdef TOLERANT_TAG_HIERARCHY
                                         cur = cur_save;
 #endif
+                                        
+                                        result &= BULLETIN_OBLIGATOIRE(Echelon);
+
                                     /* ne pas lire la balise adjacente : fin du niveau subordonné Agent*/
 
                                         info.drapeau_cont = false;
                                         if (result)
                                         {
-                                            result &= BULLETIN_OBLIGATOIRE(Indice);
+#ifdef TOLERANT_TAG_HIERARCHY
+                                            cur = cur_save;
+#endif
+                                            
+                                            result &= BULLETIN_OBLIGATOIRE_NUMERIQUE(Indice);
+                                            if (! result) na_assign_level = 10;
                                         }
-                                        else na_assign_level = 10;
+                                        else na_assign_level = 9;
 
                                     }
-                                    else na_assign_level = 9;
-
-                                }
-                               else na_assign_level = 8;
+                                    else na_assign_level = 8;
+                                
                             }
                             else na_assign_level =7;
                         }
@@ -775,16 +775,26 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
         case 8:
             NA_ASSIGN(Grade);
         case 9:
-             NA_ASSIGN(Grade);
+             NA_ASSIGN(Echelon);
         case 10:
             ZERO_ASSIGN(Indice);
         default:
         break;
     }
+    
+   
 
     if (!result)
     {
-           cerr << ERROR_HTML_TAG "Problème de conformité des données [512]" ENDL;
+            if (na_assign_level) 
+            {
+                lock_guard<mutex> guard(mut);
+                cerr << ERROR_HTML_TAG "Problème de conformité des données : absence de la balise obligatoire " << local_tag[na_assign_level -1] << ENDL;
+                for (int i = na_assign_level; i < 10; ++i) 
+                   cerr << ERROR_HTML_TAG "Les balises suivantes n'ont pas été décodées : " << local_tag[i] << ENDL;
+            }
+          
+        
         #ifdef STRICT
            exit(-512);
         #endif
