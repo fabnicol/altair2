@@ -32,7 +32,7 @@ void Altair::run()
         processFinished(exitCode::shouldLaunchRAltairAlone);
         return;
     }
-    if (Hash::wrapper["XHL"]->at(0).at(0).isEmpty())
+    if (Hash::wrapper["XHL"]->isEmpty() ||  Hash::wrapper["XHL"]->at(0).isEmpty() || Hash::wrapper["XHL"]->at(0).at(0).isEmpty())
     {
         QMessageBox::warning(nullptr, "Projet", "Charger un projet !");
         processFinished(exitCode::shouldLaunchRAltairAlone);
