@@ -60,7 +60,7 @@ static int parseFile(info_t& info)
             *budget_fichier = nullptr;
 
     #if defined(STRINGSTREAM_PARSING)
-      doc = xmlReadDoc(reinterpret_cast<const xmlChar*>(info.threads->in_memory_file.at(info.fichier_courant).c_str()), nullptr, nullptr, XML_PARSE_BIG_LINES);
+      doc = xmlReadDoc(reinterpret_cast<const xmlChar*>(info.threads->in_memory_file.at(info.fichier_courant).c_str()), nullptr, nullptr, XML_PARSE_COMPACT|XML_PARSE_BIG_LINES);
     #elif defined (MMAP_PARSING)
        doc = xmlParseDoc(reinterpret_cast<const xmlChar*>(info.threads->in_memory_file.at(info.fichier_courant).c_str()));
     #else
@@ -93,7 +93,7 @@ static int parseFile(info_t& info)
     }
     
     {
-        lock_guard<mutex> guard(mut);
+        LOCK_GUARD
         cerr << STATE_HTML_TAG "Fichier "
                #ifdef GENERATE_RANK_SIGNAL
                   << "n°" <<  rang_global + 1
@@ -198,7 +198,7 @@ static int parseFile(info_t& info)
 
             if (verbeux)
             {
-                lock_guard<mutex> lock(mut);
+                LOCK_GUARD
                 cerr << STATE_HTML_TAG "Aucune information sur le budget [optionnel]." ENDL;
                 cerr << PROCESSING_HTML_TAG "Poursuite du traitement." ENDL;
             }
@@ -212,7 +212,7 @@ static int parseFile(info_t& info)
         budget_fichier = xmlStrdup(NA_STRING);
         if (verbeux)
         {
-            lock_guard<mutex> lock(mut);
+            LOCK_GUARD
             cerr << STATE_HTML_TAG "Aucune information sur le budget [optionnel]." ENDL;
             cerr << PROCESSING_HTML_TAG "Poursuite du traitement." ENDL;
         }
@@ -376,7 +376,7 @@ static int parseFile(info_t& info)
             cur = cur_save2;
             if (verbeux)
             {
-                lock_guard<mutex> guard(mut);
+                LOCK_GUARD
                 cerr << STATE_HTML_TAG "Pas d'information sur l'Etablissement" ENDL;
             }
             
@@ -525,7 +525,7 @@ static int parseFile(info_t& info)
 
             if (cur == nullptr || cur->xmlChildrenNode == nullptr || xmlIsBlankNode(cur->xmlChildrenNode))
             {
-                lock_guard<mutex> guard(mut);
+                LOCK_GUARD
                 cerr << ERROR_HTML_TAG "Pas d'information sur les lignes de paye [non-conformité à la norme : absence de balise PayeIndivMensuel après DonneesIndiv]." ENDL;
                 if (verbeux)
                 {
@@ -586,7 +586,7 @@ static int parseFile(info_t& info)
 #else
                      string lineN = to_string(info.ligne_debut) + " - " + to_string(info.ligne_fin);
 #endif
-                     lock_guard<mutex> guard(mut);
+                     LOCK_GUARD
                      cerr << ERROR_HTML_TAG "L'allocation de mémoire initiale a prévu : "
                               << info.NLigne[info.NCumAgentXml]
                               << " ligne(s) de paye mais le décompte précis donne : "
@@ -659,7 +659,7 @@ static int parseFile(info_t& info)
 
         if (verbeux)
         {
-            lock_guard<mutex> guard(mut);
+            LOCK_GUARD
             cerr << STATE_HTML_TAG << "Total : " <<  info.NCumAgentXml << " bulletins -- " << info.nbLigne <<" lignes cumulées." ENDL ENDL;
         }
     

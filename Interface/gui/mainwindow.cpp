@@ -610,7 +610,28 @@ string MainWindow::nettoyer_donnees(const string& st)
     {
      if (*iter != 0x0D && *iter != 0x0A)
      {
-        out += *iter;
+         if (*iter == '&')
+         {
+             string::const_iterator iter2 = iter;
+             while (++iter2 != st.end() && *iter2 != '\"' && *iter2 != ';' && *iter2 != ' ') ;
+             
+             if (*iter2 == '\"' || *iter2 == ' ')
+             {
+                 iter = iter2 + 1;
+                 out += *iter2;
+                 continue;
+             }
+             
+             if (*iter2 == ';')
+             {
+                 iter = iter2 + 1;
+                 continue;
+             }
+             
+             continue;
+         }
+         else
+         out += *iter;
      }
      else
      {
@@ -619,13 +640,17 @@ string MainWindow::nettoyer_donnees(const string& st)
      }
 
      if (*iter == '>')
+     {
          out += '\n';
 
+         while (iter != st.end() && *++iter != '<') ;
+     }
+     else   
      ++iter;
 
      ++i;
      ++k;
-     if (k == pas)
+     if (k >= pas)
      {
          emit(altair->setProgressBar(i));
          qApp->processEvents();
@@ -719,7 +744,7 @@ void MainWindow::cleanBase()
 
     args << altair->createCommandLineString();
 
-    altair->outputTextEdit->append(PROCESSING_HTML_TAG + tr("Nettoyage des bases de paye ("));
+    altair->outputTextEdit->append(PROCESSING_HTML_TAG + tr("Nettoyage des bases de paye..."));
 
     for (const QString& s: args)
     {

@@ -350,7 +350,10 @@ void FListFrame::parseXhlFile(const QString& fileName)
         if (! string.toUpper().contains("DONNEESINDIV")) altair->outputTextEdit->append(WARNING_HTML_TAG "Pas de données individuelles");
         if (! string.toUpper().contains("PAYEINDIVMENSUEL")) altair->outputTextEdit->append(WARNING_HTML_TAG "Pas de payes individuelles");
 
-        altair->outputTextEdit->append(WARNING_HTML_TAG " Fichier " + fileName + " non conforme à  la spécification Xemelios");
+        altair->outputTextEdit->append(WARNING_HTML_TAG "L'entête DocumentPaye... du fichier " + fileName + " est non conforme à la spécification Xemelios");
+        
+        //      DocumentPaye.*(?:Annee) V.?=.?\"([0-9]+)\".*(?:Mois) V.?=.?\"([0-9]+)\"(.*)(?:Employeur).*(?:Nom) V.?=.?\"([^\"]+)\".*(?:Siret) V.?=.?\"([0-9A-Z]+)\".*DonneesIndiv(.*)PayeIndivMensuel")
+        
         Hash::Budget[fileName] = "";
         Hash::Annee[fileName] = "Inconnu";
         Hash::Mois[fileName]  = "Inconnu";

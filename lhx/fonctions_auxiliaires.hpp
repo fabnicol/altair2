@@ -2,6 +2,8 @@
 #define FONCTIONS_AUXILIAIRES_HPP_INCLUDED
 
 #define _CRT_SECURE_NO_WARNINGS
+#define LOCK_GUARD  lock_guard<mutex> guard(mut);
+
 #include "validator.hpp"
 #include <libxml/parser.h>
 #include <iostream>
@@ -127,7 +129,8 @@ inline void generate_rank_signal(int progression)
 static inline void  memory_debug(GCC_UNUSED const string& func_tag)
 {
 #ifdef MEMORY_DEBUG
-        cerr << STATE_HTML_TAG << func_tag << " : Calcul de la mémoire disponible : " << getFreeSystemMemory() << ENDL;
+       LOCK_GUARD
+       cerr << STATE_HTML_TAG << func_tag << " : Calcul de la mémoire disponible : " << getFreeSystemMemory() << ENDL;
 #else
 
 #endif

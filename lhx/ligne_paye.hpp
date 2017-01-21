@@ -95,6 +95,7 @@ static inline void GCC_INLINE  verifier_taille(const int nbLignePaye, info_t& in
 {
     if (nbLignePaye >= info.nbLigneUtilisateur)
     {
+        LOCK_GUARD
         std::cerr << "\
                 En excès du nombre de lignes de paye autorisé (" << info.nbLigneUtilisateur << ")."  ENDL
                 "Omettre -n ... et utiliser -L fichier_log pour détecter le maximum de lignes de paye dans les fichiers."  ENDL
