@@ -118,7 +118,6 @@ int main(int argc, char **argv)
         false,            // pretend
         false,            // verifmem
         1,                // nbfil
-        {}  // besoin de mémoire effectif
     };
 
     /* Analyse de la ligne de commande */
@@ -578,7 +577,7 @@ int main(int argc, char **argv)
           {
             int part = stoi(commandline_tab[start + 1], nullptr);
 
-            cerr << STATE_HTML_TAG "Part de la mémoire vive utilisée : " <<  part << " %" ENDL;
+            cerr << ENDL << STATE_HTML_TAG "Part de la mémoire vive utilisée : " <<  part << " %" ENDL;
 
             ajustement = (float) part / 100;
             start += 2;
@@ -922,8 +921,8 @@ pair<uint64_t, uint64_t> produire_segment(const info_t& info, const vString& seg
 
    if (verbeux)
        cerr << ENDL
-                     << PROCESSING_HTML_TAG "Libération de la mémoire..."
-                     << ENDL;
+            << PROCESSING_HTML_TAG "Libération de la mémoire..."
+            << ENDL;
 
     /* En cas de problème d'allocation mémoire le mieux est encore de ne pas désallouer car on ne connait pas exacteemnt l'état
      * de la mémoire dynamique */
@@ -932,13 +931,14 @@ pair<uint64_t, uint64_t> produire_segment(const info_t& info, const vString& seg
     {
         for (unsigned agent = 0; agent < Info[i].NCumAgent; ++agent)
         {
-            for (int j = 0; j < Info[i].Memoire_p_ligne[agent]; ++j)
+            int k = 0;
+            if (! Info[i].Table[agent].empty())  
+            for (xmlChar* u : Info[i].Table[agent])
             {
-                if (j != Categorie && xmlStrcmp(Info[i].Table[agent][j], (const xmlChar*) "") != 0) xmlFree(Info[i].Table[agent][j]);
+                if (u != NULL) xmlFree(u);
             }
         }
     }
-
 
     return lignes;
 }
