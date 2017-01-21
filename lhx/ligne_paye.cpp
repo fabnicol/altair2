@@ -584,25 +584,19 @@ inline void GCC_INLINE concat(xmlNodePtr cur, info_t& info)
 inline void allouer_ligne_NA(info_t &info, int &ligne, int &memoire_p_ligne_allouee)
 {
     info.NLigne[info.NCumAgentXml] = 1;  // 1 ldp
-    info.Memoire_p_ligne[info.NCumAgentXml] = BESOIN_MEMOIRE_ENTETE + INDEX_MAX_COLONNNES // nombre de NAs mis pour les variables de paye de la ligne
-                                                                     + 1  // TraitBrut
-                                                                     + 1   ;  
-    info.Table[info.NCumAgentXml].resize(info.Memoire_p_ligne[info.NCumAgentXml]);
+    memoire_p_ligne_allouee = BESOIN_MEMOIRE_ENTETE + INDEX_MAX_COLONNNES // nombre de NAs mis pour les variables de paye de la ligne
+            + 1  // TraitBrut
+            + 1;
+    
+    info.Table[info.NCumAgentXml].resize(memoire_p_ligne_allouee);
     info.Table[info.NCumAgentXml][BESOIN_MEMOIRE_ENTETE] = (xmlChar*) xmlStrdup(drapeau[0]);  // TraitBrut
     
     for (int k = 1; k <= INDEX_MAX_COLONNNES; ++k)
     {
       info.Table[info.NCumAgentXml][BESOIN_MEMOIRE_ENTETE + k] = (xmlChar*) xmlStrdup(NA_STRING);
     }
-    
-    
+        
     ligne = 1;
-    
-    memoire_p_ligne_allouee = BESOIN_MEMOIRE_ENTETE + INDEX_MAX_COLONNNES // nombre de NAs mis pour les variables de paye de la ligne
-            + 1  // TraitBrut
-            + 1;
-
-
 }
 
 uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
@@ -618,7 +612,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
 
     if (cur == nullptr)
     {
-        string temp_logpath =getexecpath();
+        string temp_logpath = getexecpath();
 
         cerr << ERROR_HTML_TAG "Agent non identifié. Consulter le fichier erreur.log sous " << temp_logpath  << " pour avoir les détails de l'incident." ENDL;
 
@@ -645,7 +639,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
                 << "Année " << info.Table[info.NCumAgentXml][Annee] << "\n"
                 << "Mois "  << info.Table[info.NCumAgentXml][Mois]  << "\n\n";
 
-            if (info.NCumAgentXml && info.Memoire_p_ligne[info.NCumAgentXml - 1] > Matricule && info.Table[info.NCumAgentXml - 1][Matricule] != nullptr)
+            if (info.NCumAgentXml &&  info.Table[info.NCumAgentXml - 1].size() > Matricule && info.Table[info.NCumAgentXml - 1][Matricule] != nullptr)
                 log << "Matricule précédent : " << info.Table[info.NCumAgentXml - 1][Matricule] << "\n\n";
 
             log.flush();
@@ -689,8 +683,6 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
     info.drapeau_cont = true;
 
     /* if (result) va garantir notamment que le pointeur cur filé implicitement est non nul */
-
-
 
     result    = BULLETIN_OBLIGATOIRE(Nom);
     if (result)
@@ -862,8 +854,8 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
     }
     else
     {
-        info.Table[info.NCumAgentXml][Code] = (xmlChar*) "";
-        info.Table[info.NCumAgentXml][Description] = (xmlChar*) "";
+        NA_ASSIGN(Code);
+        NA_ASSIGN(Description);
     }
 
     /* Vu la rareté du 2e évenement, il est rationnel de ne pas réserver systématiquement de place en mémoire de type Description2.

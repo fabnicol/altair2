@@ -741,20 +741,13 @@ static inline  int GCC_INLINE memoire_p_ligne(const info_t& info, const unsigned
 static inline void GCC_INLINE allouer_memoire_table(info_t& info)
 {
     // utiliser NCumAgent ici et pas NCumAgentXml, puisqu'il s'agit d'une préallocation
-
-    info.Memoire_p_ligne.resize(info.NCumAgent);
-
-    for (unsigned agent = 0; agent < info.NCumAgent; ++agent)
-    {
-        info.Memoire_p_ligne[agent] = memoire_p_ligne(info, agent);
-    }
-
+    
 
     if (info.Table.size() > 0 && info.Table.size() == info.NCumAgent)
     {
         for (unsigned agent = 0; agent < info.NCumAgent; ++agent)
         {
-            for (int i = 0; i < info.Memoire_p_ligne[agent] ; ++i)
+            for (int i = 0; i < memoire_p_ligne(info, agent) ; ++i)
             {
                 xmlFree(info.Table[agent][i]);
             }
@@ -782,14 +775,14 @@ static inline void GCC_INLINE allouer_memoire_table(info_t& info)
     for (unsigned agent = 0; agent < info.NCumAgent; ++agent)
     {
 
-        info.Table[agent].resize(info.Memoire_p_ligne[agent]); // ne pas oublier d'initialiser à nullptr !
+        info.Table[agent].resize(memoire_p_ligne(info, agent)); 
 
         if (verbeux && info.Table[agent].empty())
         {
             cerr <<  ERROR_HTML_TAG "Erreur d'allocation de drapeau I. pour l'agent "
                       <<  agent
                       <<  "et pour "
-                      <<  info.Memoire_p_ligne[agent]
+                      <<  memoire_p_ligne(info, agent)
                       <<  " B" ENDL;
             exit(-63);
         }
@@ -1013,8 +1006,8 @@ if (info.pretend) return nullptr;
         if (regex_match((const char*)em , pat) || regex_match((const char*) VAR(Service), pat))
         {
             xmlFree(VAR(Statut)) ;
-            VAR(Statut) = (xmlChar*) xmlStrdup((const xmlChar*)"ELU");
-            VAR(Categorie) = (xmlChar*) NA_STRING;
+            VAR(Statut) =  xmlStrdup((const xmlChar*)"ELU");
+            VAR(Categorie) = xmlStrdup(NA_STRING);
         }
         else
         {
@@ -1043,31 +1036,31 @@ if (info.pretend) return nullptr;
             if (regex_match((const char*) gr, pat_adjoints)
                 || regex_match((const char*) gr, pat_agents))
             {
-                VAR(Categorie) = (xmlChar*)"C";
+                VAR(Categorie) = xmlStrdup((xmlChar*)"C");
             }
             else if (regex_match((const char*) gr, pat_cat_a))
             {
-                VAR(Categorie) = (xmlChar*)"A";
+                VAR(Categorie) = xmlStrdup((xmlChar*)"A");
             }
 
             /* Il faut teste d'abord cat A et seulement ensuite cat B */
 
             else if (regex_match((const char*) gr, pat_cat_b))
             {
-                VAR(Categorie) = (xmlChar*)"B";
+                VAR(Categorie) = xmlStrdup((xmlChar*)"B");
             }
             else if (regex_match((const char*) gr, pat_ergo))
             {
 
 
                     if (find(indices_ergo.begin(), indices_ergo.end(), atoi((const char*) VAR(Indice))) == indices_ergo.end())
-                        VAR(Categorie) = (xmlChar*)"B";
+                        VAR(Categorie) = xmlStrdup((xmlChar*)"B");
                     else
-                        VAR(Categorie) = (xmlChar*)"A";
+                        VAR(Categorie) = xmlStrdup((xmlChar*)"A");
             }
             else
             {
-                 VAR(Categorie) = (xmlChar*) NA_STRING;
+                 VAR(Categorie) = xmlStrdup(NA_STRING);
             }
         }
 

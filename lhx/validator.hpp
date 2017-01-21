@@ -194,7 +194,6 @@ typedef struct
     bool pretend;
     bool verifmem;
     unsigned int  nbfil;
-    vector<int> Memoire_p_ligne;
 } info_t;
 
 typedef struct {
