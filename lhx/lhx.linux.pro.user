@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.0.2, 2017-01-20T15:56:26. -->
+<!-- Written by QtCreator 4.0.2, 2017-01-21T01:33:20. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -62,7 +62,7 @@
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Desktop</value>
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Desktop</value>
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{c29f9707-cc71-43b8-a4a5-33708e0b6ce7}</value>
-   <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">0</value>
+   <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">1</value>
    <value type="int" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
    <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">1</value>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.0">
@@ -378,7 +378,7 @@
     </valuelist>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.Arguments">-m -d &quot;,&quot; -s &quot;;&quot; -rank /home/fab/.local/share/Altair/rank -D &quot;/data/Dev/altair/Tests/Exemple/Donnees/R-Altair&quot; --memshare 80 -j '1' -t &quot;/data/Dev/altair/Tests/Exemple/Donnees/xhl/Brioude/Paie commune de Brioude/21430040200010-2011-ETAT_PAYE-02-01.xhl&quot; </value>
+    <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.Arguments">-m -d &quot;,&quot; -s &quot;;&quot; -rank /home/fab/.local/share/Altair/rank -D &quot;/data/Dev/altair/Tests/Exemple/Donnees/R-Altair&quot; --memshare 80 -j '1' -t &quot;/data/Dev/xhl/clermont/2014/02/CLER_201402_99_201402.xhl&quot; </value>
     <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.Executable">/home/fab/Dev/altair/linux/lhx</value>
     <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.WorkingDirectory">%{buildDir}</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Exécuter /home/fab/Dev/altair/linux/lhx</value>

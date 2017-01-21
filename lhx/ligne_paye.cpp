@@ -124,7 +124,7 @@ static inline bool GCC_INLINE bulletin_obligatoire(const char* tag, xmlNodePtr& 
 
         case NODE_NOT_FOUND :
                     {
-                      lock_guard<mutex> guard(mut);
+                      LOCK_GUARD
                       cerr << ERROR_HTML_TAG "Balise manquante " << tag << " avant la balise " << cur->name << ENDL;
                     }  
                     
@@ -135,7 +135,7 @@ static inline bool GCC_INLINE bulletin_obligatoire(const char* tag, xmlNodePtr& 
 
         case LINE_MEMORY_EXCEPTION :
                     {
-                      lock_guard<mutex> guard(mut);
+                      LOCK_GUARD
                       cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
                     }
                     if (verbeux)
@@ -145,7 +145,7 @@ static inline bool GCC_INLINE bulletin_obligatoire(const char* tag, xmlNodePtr& 
 
         case NO_NEXT_ITEM :
                     {
-                      lock_guard<mutex> guard(mut);
+                      LOCK_GUARD
                       cerr << ERROR_HTML_TAG "Pas d'item successeur pour le noeud " << tag <<  ENDL;
                     }
 
@@ -207,12 +207,19 @@ static inline bool GCC_INLINE bulletin_optionnel_char(const char* tag, xmlNodePt
 
         case LINE_MEMORY_EXCEPTION :
              if (verbeux)
+             {
+                 LOCK_GUARD
                  cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
+             }
              NA_ASSIGN(l);
              break;
 
         case NO_NEXT_ITEM :
-             if (verbeux) cerr << ERROR_HTML_TAG "Pas d'item successeur pour le noeud " << tag <<  ENDL;
+             if (verbeux)
+             {
+                 LOCK_GUARD
+                 cerr << ERROR_HTML_TAG "Pas d'item successeur pour le noeud " << tag <<  ENDL;
+             }
              break;
     }
 
@@ -254,7 +261,10 @@ static inline bool GCC_INLINE bulletin_optionnel_numerique(const char* tag, xmlN
 
         case LINE_MEMORY_EXCEPTION :
              if (verbeux)
+             {
+                 LOCK_GUARD
                  cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
+             }
              ZERO_ASSIGN(l);
              break;
 
@@ -451,11 +461,12 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
             cur = cur->next;
             t=0;
             --type_loop_counter; // 'Rembobinage gratuit'
+            
             continue; // garantit incidemment que cur != nullptr dans la boucle
         }
 
         // cur n'est pas nul à ce point
-
+       
         cur = cur->xmlChildrenNode;
 
         if (cur == nullptr)
@@ -788,7 +799,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
     {
             if (na_assign_level) 
             {
-                lock_guard<mutex> guard(mut);
+                LOCK_GUARD
                 cerr << ERROR_HTML_TAG "Problème de conformité des données : absence de la balise obligatoire " << local_tag[na_assign_level -1] << ENDL;
                 for (int i = na_assign_level; i < 10; ++i) 
                    cerr << ERROR_HTML_TAG "Les balises suivantes n'ont pas été décodées : " << local_tag[i] << ENDL;
@@ -921,7 +932,6 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
     cur = atteindreNoeud("QuotiteTrav", cur);
 #endif
 
-
     /* obligatoire, substitution du séparateur décimal */
     BULLETIN_OBLIGATOIRE_NUMERIQUE(QuotiteTrav);
 
@@ -945,10 +955,10 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
          * si <Remuneration>....</Remuneration> ne contient pas de ligne de paye codée
          * alors on attribue quand même une ligne, codée NA sur tous les champs */
         {
-          allouer_ligne_NA(info, ligne, memoire_p_ligne_allouee);
+          //allouer_ligne_NA(info, ligne, memoire_p_ligne_allouee);
           if (verbeux)
           {
-              lock_guard<mutex> guard(mut);
+              LOCK_GUARD
               cerr << WARNING_HTML_TAG "Ligne " << to_string(xmlGetLineNo(cur_save)) << " : Balise Remuneration sans ligne de paye."  ENDL;
           }
         }
@@ -958,7 +968,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
     else
     {
         {
-            lock_guard<mutex> guard(mut);
+            LOCK_GUARD
             cerr << ERROR_HTML_TAG "Absence de la balise Remuneration " ENDL;
         }
 
@@ -977,13 +987,14 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
             
             // premier sous-cas : pas de ligne de paye stricto sensu
             // on avait un cas excessivement rare d'événement codé mais sans ldp
+            
             if (cur == nullptr)
             {
-                allouer_ligne_NA(info, ligne, memoire_p_ligne_allouee);
+                //allouer_ligne_NA(info, ligne, memoire_p_ligne_allouee);
                 cur = cur_save;
                 if (verbeux)
                 {
-                    lock_guard<mutex> guard(mut);
+                    LOCK_GUARD
                     cerr << WARNING_HTML_TAG "Absence de lignes de paye également, sous la ligne " << to_string(xmlGetLineNo(cur)) <<  ENDL;
                 }
             }
@@ -991,7 +1002,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
             {
                 if (verbeux)
                 {
-                    lock_guard<mutex> guard(mut);
+                    LOCK_GUARD
                     cerr << WARNING_HTML_TAG "Lignes de paye néanmoins présentes, sous la ligne " << to_string(xmlGetLineNo(cur)) <<  ENDL;
                 }
                 LineCount result = lignePaye(cur, info);
@@ -1000,14 +1011,13 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
             }
         }
         else
-            
         // Il n'y a pas de ligne de paye. On en met quand même une remplie de NAs.
         {
-          allouer_ligne_NA(info, ligne, memoire_p_ligne_allouee);
+          // allouer_ligne_NA(info, ligne, memoire_p_ligne_allouee);
           cur = cur_save;
           if (verbeux)
           {
-              lock_guard<mutex> guard(mut);
+              LOCK_GUARD
               cerr << WARNING_HTML_TAG "Absence de lignes de paye également, sous la ligne " << to_string(xmlGetLineNo(cur)) <<  ENDL;
           }
         }
@@ -1047,7 +1057,8 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
     }
 
     // Rémuneration tag vide
-    if (ligne == 0) ligne = 1 ;
+    if (ligne == 0) 
+        allouer_ligne_NA(info, ligne, memoire_p_ligne_allouee);
 
     info.ligne_fin = cur ? xmlGetLineNo(cur) : 0;
 

@@ -123,11 +123,11 @@ errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur)
 {
 
     long lineN = 0;
-    lock_guard<mutex> guard(mut);
+    LOCK_GUARD
     cerr << WARNING_HTML_TAG "Fichier analysé " <<  info.threads->argv[info.fichier_courant] << ENDL;
     if (cur)
     {
-        lineN = xmlGetLineNo(cur);
+        lineN = (long) cur->line;
         if (lineN == -1)
             {
                 cerr << WARNING_HTML_TAG "Une balise est manquante ou corrompue dans le fichier." << ENDL;
@@ -476,6 +476,7 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
 
     if (! base.good())
     {
+        LOCK_GUARD
         cerr << ERROR_HTML_TAG "Impossible d'ouvrir le fichier de sortie "<< chemin_base << " de type " << Type << ENDL;
         exit(-1000);
     }
@@ -642,16 +643,21 @@ int calculer_memoire_requise(info_t& info)
 
         ifstream c(info.threads->argv[i]);
         if (verbeux)
+        {
+            LOCK_GUARD
             cerr << PROCESSING_HTML_TAG  "Ouverture du fichier " << info.threads->argv[i]
                  << ENDL;
-
+        }
         if (c.is_open())
             c.seekg(0, ios::beg);
         else
         {
             if (verbeux)
+            {
+                LOCK_GUARD
                 cerr <<  ERROR_HTML_TAG "Problème à  l'ouverture du fichier *"
                       << info.threads->argv[i] << "*" << ENDL;
+            }
             exit(-120);
         }
 
@@ -732,6 +738,7 @@ int calculer_memoire_requise(info_t& info)
 
                 if (remuneration_xml_open == true)
                 {
+                    LOCK_GUARD
                     cerr << "Erreur XML : la balise PayeIndivMensuel n'est pas refermée pour le fichier " << info.threads->argv[i]
                               << ENDL "pour l'agent n°"   << info.NCumAgent + 1 << ENDL;
                     exit(0);
@@ -816,6 +823,7 @@ int calculer_memoire_requise(info_t& info)
 
                 if (remuneration_xml_open == true)
                 {
+                    LOCK_GUARD
                     cerr << "Erreur XML : la balise PayeIndivMensuel n'est pas refermée pour le fichier " << info.threads->argv[i]
                               << ENDL "pour l'agent n°"   << info.NCumAgent + 1 << ENDL;
                     exit(0);

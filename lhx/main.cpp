@@ -646,11 +646,15 @@ int main(int argc, char **argv)
             }
         }
 
-        cerr << ENDL STATE_HTML_TAG << "Taille totale des " << count << " fichiers : " << memoire_xhl / 1048576 << " Mo."  ENDL;
-        cerr << STATE_HTML_TAG
-                  << "Mémoire disponible " <<  ((memoire_disponible = getFreeSystemMemory()) / 1048576)
-                  << " / " << (getTotalSystemMemory()  / 1048576)
-                  << " Mo."  ENDL;
+        {
+            LOCK_GUARD
+            cerr << ENDL STATE_HTML_TAG << "Taille totale des " << count << " fichiers : " << memoire_xhl / 1048576 << " Mo."  ENDL;
+            cerr << STATE_HTML_TAG
+                      << "Mémoire disponible " <<  ((memoire_disponible = getFreeSystemMemory()) / 1048576)
+                      << " / " << (getTotalSystemMemory()  / 1048576)
+                      << " Mo."  ENDL;
+                    
+        }
     }
 
     /* ajustement représente la part maximum de la mémoire disponible que l'on consacre au processus, compte tenu de la marge sous plafond (overhead) */
