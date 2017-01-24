@@ -35,9 +35,10 @@ void Altair::refreshModel()
     delete(model);
     model = new QFileSystemModel;
     model->setReadOnly(false);
-    model->setRootPath(QDir::homePath());
+    model->setRootPath("");
+    
     model->sort(Qt::AscendingOrder);
-    model->setFilter(QDir::AllDirs|QDir::Drives|QDir::Files|QDir::NoDotAndDotDot|QDir::NoSymLinks);
+    model->setFilter(QDir::AllDirs|QDir::Files|QDir::NoDotAndDotDot);
     model->setNameFilterDisables(false);
     model->setNameFilters({"*.xhl", "*.xml", "*.XHL", "*.XML"});
 }
@@ -45,31 +46,32 @@ void Altair::refreshModel()
 
 void Altair::refreshTreeView()
 {
+    fileTreeView = new QTreeView;
     fileTreeView->setModel(model);
+    QString name = qgetenv("USER");
+    if (name.isEmpty())
+            name = qgetenv("USERNAME");
+    
+    QString userdatadir = path_access("Tests/Exemple/Donnees/xhl/" + name);
+    if (! QFileInfo(userdatadir).isDir())
+    {
+        userdatadir = path_access("Tests/Exemple/Donnees/xhl");
+    }
+    fileTreeView->setRootIndex(model->index(userdatadir));
     fileTreeView->hideColumn(1);
+    fileTreeView->hideColumn(2);
+    fileTreeView->hideColumn(3);
     fileTreeView->setMinimumWidth(300);
     fileTreeView->setColumnWidth(0,300);
     fileTreeView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     fileTreeView->setSelectionBehavior(QAbstractItemView::SelectItems);
 
     fileTreeView->header()->setStretchLastSection(true);
-
-    QString name = qgetenv("USER");
-    if (name.isEmpty())
-            name = qgetenv("USERNAME");
-
-    QString userdatadir = path_access("Tests/Exemple/Donnees/xhl/" + name);
-
-    if (! QFileInfo(userdatadir).isDir())
-    {
-        userdatadir = path_access("Tests/Exemple/Donnees/xhl");
-    }
-
-    QModelIndex index = model->index(userdatadir);
-    fileTreeView->expand(index);
-    fileTreeView->scrollTo(index);
+   
+    fileTreeView->expandAll();  // ne semble pas fonctionner
 
     fileTreeView->setSortingEnabled(true);
+    fileTreeView->sortByColumn(0, Qt::AscendingOrder); //  note: doc Qt5 erronée. Il faut préciser cette option qui n'est pas un défaut.
 }
 
 Altair::Altair()
@@ -194,6 +196,9 @@ void Altair::refreshRowPresentation(uint j)
     widget->setPalette(palette);
     widget->setAlternatingRowColors(true);
     widget->setFont(font);
+    widget->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    widget->setSelectionBehavior(QAbstractItemView::SelectRows);
+    //widget->setSelectionBehavior(QAbstractItemView::ExtendedSelection);
     QStringList strL = Hash::wrapper["XHL"]->at(j);
     strL.sort();
     int size = strL.size();

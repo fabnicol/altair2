@@ -44,8 +44,7 @@ dirPage::dirPage()
     //QGridLayout *v1Layout = new QGridLayout;
 
     QVBoxLayout* mainLayout = new QVBoxLayout;
-    FRichLabel *mainLabel=new FRichLabel("Répertoires des applications", 
-                                         ":/images/directory.png");
+    FRichLabel *mainLabel=new FRichLabel("Répertoires des applications");
     mainLayout->addWidget(mainLabel);
     mainLayout->addWidget(baseBox, 1, 0);
     mainLayout->addSpacing(100);
@@ -112,8 +111,7 @@ codePage::codePage()
     baseBox->setLayout(vLayout);
     
     QVBoxLayout* mainLayout = new QVBoxLayout;
-    FRichLabel *mainLabel=new FRichLabel("Code de paye des tests", 
-                                         ":/images/data-input.png");
+    FRichLabel *mainLabel=new FRichLabel("Code de paye des tests");
     mainLayout->addWidget(mainLabel);
     mainLayout->addWidget(baseBox, 1, 0);
     mainLayout->addSpacing(100);
@@ -369,7 +367,7 @@ standardPage::standardPage()
     baseTypeBox->setLayout(v1Layout);
 
     QVBoxLayout* mainLayout = new QVBoxLayout;
-    FRichLabel *mainLabel=new FRichLabel("Format des bases", ":/images/csv.png");
+    FRichLabel *mainLabel=new FRichLabel("Format des bases");
     mainLayout->addWidget(mainLabel);
 
     mainLayout->addWidget(baseTypeBox, 1, 0);
@@ -510,8 +508,7 @@ processPage::processPage()
     logBox->setLayout(v3Layout);
 
     QVBoxLayout* mainLayout = new QVBoxLayout;
-    FRichLabel *mainLabel=new FRichLabel("Paramètres de traitement", 
-                                         ":/images/configure-toolbars.png");
+    FRichLabel *mainLabel=new FRichLabel("Paramètres de traitement");
     mainLayout->addWidget(mainLabel);
     mainLayout->addWidget(processTypeBox, 1, 0);
     mainLayout->addWidget(logBox, 2, 0);

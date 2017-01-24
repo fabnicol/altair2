@@ -9,7 +9,7 @@ class FRichLabel :public QWidget
 {
 
 public:
-  FRichLabel(const QString& title, const QString& path, flags::font flag=flags::font::boldTitle);
+  FRichLabel(const QString& title,  flags::font flag=flags::font::boldTitle);
 
 };
 
