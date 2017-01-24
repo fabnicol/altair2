@@ -21,7 +21,7 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
  importType = import_type;
  tags = xml_tags;
  fileTreeView = tree;
-
+ 
  frameHashKey = hashKey;
 
  fileListWidget = new FListWidget(this,
@@ -34,6 +34,7 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
                                   terms,
                                   translation);
 
+  
  connect(fileListWidget, SIGNAL(forceCloseProject()), altair, SLOT(closeProject()));
 
  currentListWidget = fileListWidget->currentListWidget;
@@ -50,7 +51,7 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
 
  mainTabWidget->addTab(currentListWidget, xml_tags[1]+" 1");
  mainTabWidget->setMovable(false);
-
+ 
  const QIcon importIcon = QIcon(QString::fromUtf8( ":/images/document-import.png"));
  importFromMainTree->setIcon(importIcon);
  importFromMainTree->setToolTip("Importer les fichiers pour extraire les données");

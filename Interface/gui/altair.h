@@ -24,7 +24,7 @@ public:
     static int dialVolume;
     QFileSystemModel *model = nullptr;
     QTreeWidget *managerWidget= new QTreeWidget;
-    QTreeView *fileTreeView= new QTreeView;
+    QTreeView *fileTreeView;
     QString projectName;
     FListFrame *project[1];
 

@@ -2,11 +2,11 @@
 
 
 
-FRichLabel::FRichLabel(const QString &title, const QString &path, flags::font flag) : QWidget()
+FRichLabel::FRichLabel(const QString &title, flags::font flag) : QWidget()
 {
   QHBoxLayout* mainLayout=new QHBoxLayout;
   QLabel *label=new QLabel;
-  QLabel *label2=new QLabel;
+  
   switch (flag)
     {
       case flags::font::regularTitle:
@@ -20,10 +20,10 @@ FRichLabel::FRichLabel(const QString &title, const QString &path, flags::font fl
     }
 
   label->setFixedHeight(20);
-  label2->setPixmap(QPixmap(path).scaledToWidth(36, Qt::SmoothTransformation));
+  
 
   mainLayout->addStretch(100);
   mainLayout->addWidget(label, Qt::AlignRight);
-  mainLayout->addWidget(label2, Qt::AlignRight);
+  
   setLayout(mainLayout);
 }
