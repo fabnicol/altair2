@@ -252,11 +252,12 @@ FListWidget::FListWidget(QWidget* par,
     setObjectName(hashKey+" "+description.join(" "));
 
     currentListWidget=new QListWidget;
+    
     currentListWidget->setSelectionMode(QAbstractItemView::ExtendedSelection);
     currentListWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+    currentListWidget->setToolTip(description.at(1));
+    
     componentList=QList<QWidget*>() << currentListWidget;
-
-    componentList[0]->setToolTip(description.at(1));
 
     FCore({this}, "", commandLineType, hashKey, description, commandLine, QList<QWidget*>() << controlledWidget);
 

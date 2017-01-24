@@ -86,7 +86,8 @@ static int parseFile(info_t& info)
     {
         cerr << ERROR_HTML_TAG "document vide" ENDL;
         xmlFreeDoc(doc);
-        if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode tolérant)." ENDL;
+        if (verbeux) 
+            cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode tolérant)." ENDL;
         if (log.is_open())
             log.close();
         return SKIP_FILE;
@@ -102,7 +103,8 @@ static int parseFile(info_t& info)
 
         if (verbeux)
         {
-            cerr << STATE_HTML_TAG << "Fil n°" << info.threads->thread_num + 1 << " -- " << "Fichier n°" << info.fichier_courant + 1 << " dans ce fil." ENDL;    
+            cerr << STATE_HTML_TAG << "Fil n°" << info.threads->thread_num + 1 << " -- " 
+                 << "Fichier n°" << info.fichier_courant + 1 << " dans ce fil." ENDL;    
         }
     }
     

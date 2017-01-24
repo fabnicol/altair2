@@ -27,7 +27,7 @@ MainWindow::MainWindow(char* projectName)
   createActions();
   createMenus();
 
-  settings = new QSettings("altair", "Free Software Inc");
+  settings = new QSettings("altair", "Juridictions Financières");
 
   if ((settings->value("defaut").isValid())
                 &&
