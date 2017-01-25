@@ -149,8 +149,9 @@ private:
     void printBaseSize(qint64 new_value = 0);
 
     void checkAnnumSpan();
+#if 0
     void normaliseMultiBudgetFiles(const QStringList& list);
-
+#endif 
  protected:
 
     QString      sourceDir;

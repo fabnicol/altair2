@@ -1,6 +1,7 @@
 
 #include <QFile>
 #include <thread>
+#include "fstring.h"
 #include "altair.h"
 #include "forms.h"
 #include "options.h"
@@ -8,13 +9,14 @@
 #include "altair.h"
 #include "templates.h"
 #include "flineframe.hpp"
+
 #include <fstream>
 
 extern template void createHash(QHash<QString, QString>&, 
                                 const QList<QString>*,
                                 const QList<QString>*);
 
-
+#ifdef INSERT_DIRPAGE
 dirPage::dirPage()
 {
     QGroupBox *baseBox = new QGroupBox;
@@ -52,6 +54,7 @@ dirPage::dirPage()
     setLayout(mainLayout);
 }
 
+#endif
 
 int codePage::ajouterVariable(const QString& nom)
 {
@@ -289,7 +292,9 @@ standardPage::standardPage()
                                  {"Données csv", "Type de base par catégorie"},
                                   "T");
 
+
     maxNLigneLabel = new QLabel("Nombre maximum de lignes\npar segment de base  ");
+    
     maxNLigneLineEdit = new FLineEdit("",
                                       "maxLigne",
                                      {"Données csv",
@@ -297,6 +302,8 @@ standardPage::standardPage()
                                       "par segment d'au maximum ce nombre de lignes."},
                                       "T");
 
+    maxNLigneLineEdit->setFixedWidth(150);
+    
     QGroupBox* optionalFieldBox = new QGroupBox(tr("Variables optionnelles"));
 
     rangCheckBox = new FCheckBox("Numéroter les lignes",
@@ -345,8 +352,6 @@ standardPage::standardPage()
     baseTypeWidget->setCurrentIndex(0);
     baseTypeWidget->setToolTip(tr("Sélectionner le type de base en sortie"));
 
-    maxNLigneLineEdit->setFixedWidth(60);
-
     // A ce stade seules les bases monolithiques et par année peuvent être sous découpées en segments d'au maximum N lignes
     // Les autres types de base doivent donc désactiver la FLineEdit maxNLigneLabel.
     // Le code présuppose que les types de base sont rangés dans l'ordre : Standard > Par année > autres types.
@@ -372,6 +377,8 @@ standardPage::standardPage()
 
     mainLayout->addWidget(baseTypeBox, 1, 0);
     mainLayout->addWidget(optionalFieldBox, 2, 0);
+    
+    mainLayout->addSpacing(150);
 
     setLayout(mainLayout);
 }
@@ -385,6 +392,7 @@ processPage::processPage()
     QStringList range3 = QStringList();
     for (int i = 1; i < 12; i++) range3 << QString::number(i);
 
+#ifdef INSERT_MAXN
     nLineLabel = new QLabel("Nombre maximum d'agents par mois  ");
     nLineLabel->setDisabled(true);
     nLineEdit = new FLineEdit("",
@@ -406,6 +414,7 @@ processPage::processPage()
                               "N");
 
     NLineEdit->setFixedWidth(40);
+#endif
 
     QLabel* processTypeLabel = new QLabel("Nombre de fils d'exécution  ");
     processTypeWidget = new FComboBox(range3,
@@ -480,6 +489,12 @@ processPage::processPage()
                                      "Rationnée\t:  5 %\n"));
 
 
+
+    QGridLayout *v2Layout = new QGridLayout;
+    v2Layout->addWidget(memoryUseLabel,    3, 0, Qt::AlignRight);
+    v2Layout->addWidget(memoryUseWidget,   3, 1, Qt::AlignLeft);
+#ifdef INSERT_MAXN    
+    
     connect(memoryUseWidget, &FComboBox::currentTextChanged, [this] {
            bool value = (memoryUseWidget->currentIndex() > 0);
             nLineLabel->setDisabled(value);
@@ -487,14 +502,12 @@ processPage::processPage()
             nLineEdit->setDisabled(value);
             NLineEdit->setDisabled(value);
         });
-
-    QGridLayout *v2Layout = new QGridLayout;
-    v2Layout->addWidget(memoryUseLabel,    3, 0, Qt::AlignRight);
-    v2Layout->addWidget(memoryUseWidget,   3, 1, Qt::AlignLeft);
+    
     v2Layout->addWidget(nLineEdit,         4, 1, Qt::AlignLeft);
     v2Layout->addWidget(nLineLabel,        4, 0, Qt::AlignRight);
     v2Layout->addWidget(NLineEdit,         5, 1, Qt::AlignLeft);
     v2Layout->addWidget(NLineLabel,        5, 0, Qt::AlignRight);
+#endif    
     v2Layout->addWidget(processTypeLabel,  6, 0, Qt::AlignRight);
     v2Layout->addWidget(processTypeWidget, 6, 1, Qt::AlignLeft);
     v2Layout->addWidget(consoleCheckBox,   7, 0, Qt::AlignLeft);
@@ -512,7 +525,7 @@ processPage::processPage()
     mainLayout->addWidget(mainLabel);
     mainLayout->addWidget(processTypeBox, 1, 0);
     mainLayout->addWidget(logBox, 2, 0);
-  //  mainLayout->addSpacing(82);
+    mainLayout->addSpacing(150);
 
     setLayout(mainLayout);
 }
@@ -524,7 +537,8 @@ std::uint16_t options::RefreshFlag;
 options::options(Altair* parent)
 {
     /* plain old data types must be 0-initialised even though the class instance was new-initialised. */
-        
+
+    
     options::RefreshFlag = interfaceStatus::optionTabs;
 
     contentsWidget = new QListWidget;
@@ -539,13 +553,19 @@ options::options(Altair* parent)
     pagesWidget = new QStackedWidget;
     standardTab = new standardPage;
     processTab  = new processPage;
-    dirTab  = new dirPage;
-    codeTab  = new codePage;
-    
     pagesWidget->addWidget(standardTab);
     pagesWidget->addWidget(processTab);
+    
+    codeTab  = new codePage;    
     pagesWidget->addWidget(codeTab);
-    pagesWidget->addWidget(dirTab);
+    
+#   ifdef INSERT_DIRPAGE
+      dirTab  = new dirPage;
+      pagesWidget->addWidget(dirTab);
+#   endif    
+      
+    
+    
 
     closeButton = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     closeButton->button(QDialogButtonBox::Ok)->setText("Accepter");
@@ -557,7 +577,12 @@ options::options(Altair* parent)
             {
                 options::RefreshFlag =  interfaceStatus::hasUnsavedOptions;
                 accept();
-                parent->execPath = dirTab->applicationNoyau->getText();
+#               ifdef  INSERT_DIRPAGE
+                  parent->execPath = dirTab->applicationNoyau->getText();
+#               else                  
+                  parent->execPath = execPath;
+#               endif                  
+                
                 parent->altairCommandStr =  parent->execPath +  QDir::separator() 
                                           + ("lhx"+ QString(systemSuffix));
 
@@ -620,8 +645,10 @@ void options::createIcons()
                                     << ":/images/csv.png" << "   Format  " 
                                     << ":/images/configure-toolbars.png" << "Traitement "
                                     << ":/images/data-icon.png" << "   Codes   " 
-                                    << ":/images/directory.png" << "Répertoires";
-
+#                                   ifdef INSERT_DIRPAGE
+                                        << ":/images/directory.png" << "Répertoires"
+#                                   endif    
+                                       ;
 
     for (int i = 0; i < iconList.size()/2 ; i++) createIcon(iconList[2*i], iconList[2*i+1]);
 

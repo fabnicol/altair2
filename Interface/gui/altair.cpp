@@ -26,7 +26,6 @@ void Altair::initialize()
 
     Hash::description["année"]=QStringList("Fichiers .xhl");
     Abstract::initializeFStringListHash("NBulletins");
-
 }
 
 
@@ -79,7 +78,7 @@ Altair::Altair()
     setAttribute(Qt::WA_DeleteOnClose);
     initialize();
     setAcceptDrops(true);
-
+    
     refreshModel();
     refreshTreeView();
 
@@ -117,12 +116,13 @@ Altair::Altair()
 
     ///// Ce qui suit présupose que les connexions déclenchées par le click
     // sont préalablement traitées par FListFrame (ce qui est le cas)
-
+                
     connect(project[0]->importFromMainTree, &QToolButton::clicked,
             [this]{
         updateProject();
         displayTotalSize();
         checkAnnumSpan();
+
     });
 
 
@@ -175,6 +175,7 @@ Altair::Altair()
     setWindowTitle(tr("altair-author"));
     const QIcon altairIcon=QIcon(QString::fromUtf8( ":/images/altair.png"));
     setWindowIcon(altairIcon);
+   
 
 }
 
@@ -589,9 +590,10 @@ void Altair::checkAnnumSpan()
     }
 }
 
+#if 0
 void Altair::normaliseMultiBudgetFiles(const QStringList& list)
 {
-#if 0
+
     for (int i = 0; i < Hash::wrapper["XHL"]->size(); ++i)
     {
         for (const QString& str : Hash::wrapper["XHL"]->at(i))
@@ -617,9 +619,8 @@ void Altair::normaliseMultiBudgetFiles(const QStringList& list)
             }
         }
     }
-#endif
 }
-
+#endif
 
 void Altair::dragEnterEvent(QDragEnterEvent *event)
 {
