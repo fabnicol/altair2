@@ -24,6 +24,7 @@ QStringList Altair::createCommandLineString()
 
 void Altair::run()
 {
+                
     updateProject(true);   // crucial otherwise some dynamic settings in the option dialog
     //may not get through to command line
 
@@ -38,7 +39,7 @@ void Altair::run()
         processFinished(exitCode::shouldLaunchRAltairAlone);
         return;
     }
-
+        
     QString path=v(base);
 
     if (path.isEmpty())
@@ -70,8 +71,7 @@ void Altair::run()
         {
           if (QMessageBox::Cancel
                 == QMessageBox::warning(this, QString("Attention"),
-                                              tr("Vous allez supprimer le répertoire %1\n"
-                                                 "pour regénérer les bases. ").arg(QDir::toNativeSeparators(path)),
+                                              tr("Vous allez supprimer les bases CSV créées par le précédent traitement.\n"),
                                               QMessageBox::Ok|QMessageBox::Cancel))
             {
                 processFinished(exitCode::shouldLaunchRAltairAlone);
@@ -104,8 +104,13 @@ void Altair::run()
 
     args0 <<  "-m" << "-d" << "," << "-s" << ";" << "-rank" << sharedir + "/rank";
 
+    
+# ifndef INSERT_PAGE
+    args1 << "-D" << v(base);
+# endif    
+    
     args1 << createCommandLineString();
-
+   
     outputTextEdit->append(PROCESSING_HTML_TAG + tr("Importation des bases de paye (")
                                                + QString::number(Altair::totalSize[0] 
                                                                             / (1024*1024)) 
@@ -113,6 +118,16 @@ void Altair::run()
 
     command = QString("-m -d \",\" -s \";\" -rank ") + sharedir + "/rank" ;
 
+    // Si les bases sont directement importées du CDROM dans l'onglet sans passer une copie
+    // dans le répertoire v(base) (par défaut .../Donnees/R-Altair) alors basculer en un
+    // seul fil d'exécution. TODO : le faire plus proprement en manipulant processWidget.
+    
+    if (Hash::wrapper["XHL"]->at(0).at(0).contains("/mnt/cdrom"))
+    {
+        outputTextEdit->append(PROCESSING_HTML_TAG + tr("Importation des fichiers depuis le disque optique..."));
+        args1.replaceInStrings(QRegExp("'[0-9]{1,2}'"), "'1'");            
+    }
+    
     QStringListIterator i(args1);
     while (i.hasNext())
     {
@@ -161,7 +176,8 @@ void Altair::run()
 
     f.open(QFile::WriteOnly|QFile::Truncate);
 
-    f.write((args0 << args1).join("\n").replace('"',"")
+    QString commandStr = (args0 << args1).join("\n");
+    f.write(commandStr.replace('"',"")
         #ifndef Q_OS_LINUX
             .toLatin1());
         #else
