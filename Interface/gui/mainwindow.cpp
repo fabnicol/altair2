@@ -1,4 +1,4 @@
-
+#include "common.h"
 #include "altair.h"
 #include "enums.h"
 #include <QApplication>
@@ -14,7 +14,7 @@ MainWindow::MainWindow(char* projectName)
   #ifdef MINIMAL
     setGeometry(QRect(200, 200,600,400));
   #else
-    setGeometry(QRect(200, 200,1150,700));
+    setGeometry(QRect(200, 200,1170,700));
   #endif
 
   raise();
@@ -65,6 +65,15 @@ MainWindow::MainWindow(char* projectName)
   addDockWidget(Qt::RightDockWidgetArea, managerDockWidget);
   
   Abstract::initializeFStringListHashes();
+# ifndef INSERT_PAGE
+           Hash::wrapper["base"] = new FStringList;
+           *Hash::wrapper["base"]  << QStringList();
+           (*Hash::wrapper["base"])[0] << common::path_access("Tests/Exemple/Donnees/R-Altair");
+           Hash::wrapper["lhxDir"] = new FStringList;
+           *Hash::wrapper["lhxDir"]  << QStringList();
+           (*Hash::wrapper["lhxDir"])[0] << common::path_access("linux");
+# endif    
+  
   Abstract::refreshOptionFields();
 
   configureOptions();
@@ -126,6 +135,8 @@ MainWindow::MainWindow(char* projectName)
          altair->closeProject();
       altair->openProjectFileCommonCode();
   }
+   
+  
 }
 
 
@@ -277,7 +288,20 @@ void MainWindow::createActions()
 
   openBaseDirAction = new QAction(tr("Ouvrir le répertoire des bases"), this);
   openBaseDirAction ->setIcon(QIcon(":/images/directory.png"));
-  connect(openBaseDirAction, &QAction::triggered, [&] { common::openDir(dialog->dirTab->donneesCSV->getText());  });
+  connect(openBaseDirAction, &QAction::triggered, [&] { 
+  #           ifdef INSERT_DIRPAGE
+                  common::openDir(dialog->dirTab->donneesCSV->getText());  
+  #           else
+                  
+                  QString userdatadir = common::path_access("Tests/Exemple/Donnees/R-Altair" );
+                  if (! QFileInfo(userdatadir).isDir())
+                  {
+                      QDir dir;
+                      dir.mkdir(userdatadir);
+                  }
+                  common::openDir(userdatadir); 
+  #           endif
+                  });
 
   optionsAction = new QAction(tr("&Options"), this);
   optionsAction->setShortcut(QKeySequence("Ctrl+P"));
@@ -962,6 +986,15 @@ bool MainWindow::exportProject(QString dirStr)
     QString subDirStr = QDir::toNativeSeparators(dirStr.append("/Altaïr"));
 
     altair->updateProject();
+# ifndef INSERT_PAGE
+           Hash::wrapper["base"] = new FStringList;
+           *Hash::wrapper["base"]  << QStringList();
+           (*Hash::wrapper["base"])[0] << common::path_access("Tests/Exemple/Donnees/R-Altair");
+           Hash::wrapper["lhxDir"] = new FStringList;
+           *Hash::wrapper["lhxDir"]  << QStringList();
+           (*Hash::wrapper["lhxDir"])[0] << common::path_access("linux");
+# endif    
+    
     QString projectRootDir = QDir::toNativeSeparators(QDir::cleanPath(v(base)));
     QString docxReportFilePath = projectRootDir + QDir::separator() + "altaïr.docx";
 	QString odtReportFilePath = projectRootDir + QDir::separator() + "altaïr.odt";

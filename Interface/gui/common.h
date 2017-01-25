@@ -101,7 +101,7 @@ public :
 
     #ifdef MINIMAL
       QString RAltairDirStr = path_access("R/bin/x64");
-      // Passer les '/' soit Ã  QDir::toNativeSeparators() soit utiliser QDir::separator() sous Windows.
+      // Passer les '/' soit avec QDir::toNativeSeparators() soit utiliser QDir::separator() sous Windows.
       QString RAltairCommandStr = RAltairDirStr + QDir::separator() + "Rscript" + QString(systemSuffix);
     #else
       #ifdef __WIN32__

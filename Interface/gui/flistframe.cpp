@@ -289,7 +289,7 @@ void FListFrame::parseXhlFile(const QStringList& stringList)
     }
 }
 
-#include "elemParser.hpp"
+
 struct Header* elemPar;
 
 void FListFrame::parseXhlFile(const QString& fileName)
@@ -309,8 +309,6 @@ void FListFrame::parseXhlFile(const QString& fileName)
     file.seek(0);
     QByteArray buffer0 = file.read(BUFFER_SIZE);
     const QString string = QString::fromLatin1(buffer0, BUFFER_SIZE);
-
-#ifdef REGEX_PARSING_FOR_HEADERS
 
     QRegExp reg("DocumentPaye.*(?:Annee) V.?=.?\"([0-9]+)\".*(?:Mois) V.?=.?\"([0-9]+)\"(.*)(?:Employeur).*(?:Nom) V.?=.?\"([^\"]+)\".*(?:Siret) V.?=.?\"([0-9A-Z]+)\".*DonneesIndiv(.*)PayeIndivMensuel");
     reg.setPatternSyntax(QRegExp::RegExp2);
@@ -424,18 +422,6 @@ void FListFrame::parseXhlFile(const QString& fileName)
            QMessageBox::warning(nullptr, "Erreur", "Erreur de lecture du fichier " + fileName, QMessageBox::Ok);
     }
 
-#else
-
-   elemPar  = elem_parser(const_cast<char*>(buffer));
-   //if (elemPar->test)
-   {
-       Hash::Annee[fileName] = QString(elemPar->annee);
-       Hash::Mois[fileName]  = QString(elemPar->mois);
-       Hash::Siret[fileName] << QString(elemPar->siret);
-   }
-
-   free(elemPar);
-#endif
 
 
    file.close();
@@ -686,6 +672,15 @@ void FListFrame::on_importFromMainTree_clicked()
 {
  
  altair->closeProject();
+ 
+# ifndef INSERT_PAGE
+           Hash::wrapper["base"] = new FStringList;
+           *Hash::wrapper["base"]  << QStringList();
+           (*Hash::wrapper["base"])[0] << common::path_access("Tests/Exemple/Donnees/R-Altair");
+           Hash::wrapper["lhxDir"] = new FStringList;
+           *Hash::wrapper["lhxDir"]  << QStringList();
+           (*Hash::wrapper["lhxDir"])[0] << common::path_access("linux");
+# endif    
 
  altair->outputTextEdit->append(STATE_HTML_TAG "Bases de paye ajoutées au projet." );
 

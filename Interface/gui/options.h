@@ -26,11 +26,13 @@ private:
     FComboBox
       *processTypeWidget,
       *memoryUseWidget;
-
-    FLineEdit
-     *nLineEdit,
-     *NLineEdit;
-
+    
+#   ifdef INSERT_MAXN
+      FLineEdit
+        *nLineEdit,
+        *NLineEdit;
+#   endif
+      
     QGroupBox
       *processTypeBox;
 
@@ -77,6 +79,7 @@ private:
 
 };
 
+#ifdef INSERT_DIRPAGE
 class dirPage : public common
 {
     Q_OBJECT
@@ -86,7 +89,7 @@ public :
     FLineFrame *donneesCSV, *applicationNoyau;
 
 };
-
+#endif
 
 class codePage : public common
 {
@@ -121,7 +124,9 @@ public:
     options(Altair* parent=0);
     standardPage* standardTab;
     processPage* processTab;
-    dirPage* dirTab;
+#   ifdef INSERT_DIRPAGE
+      dirPage* dirTab;
+#   endif      
     codePage* codeTab;
     static std::uint16_t RefreshFlag;
     QListWidget *contentsWidget;

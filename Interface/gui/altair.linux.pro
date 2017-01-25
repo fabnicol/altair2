@@ -70,9 +70,10 @@ DEFINES += COMMANDLINE_CONSOLE_OUTPUT          \        # Générer la ligne de 
 DEFINES += QT_NO_OPENGL \
            STATIC\                                      # utiliser pour lancer le navigateur internet par défaut plustôt qu'un navigateur interne
            LOCAL_BINPATH \                              # chemins d'exécution définis par rapport l'emplacement de l'exécutable
-           REGEX_PARSING_FOR_HEADERS \                  # utiliser les expressions régulières de c++ (g++ 5.1 au moins)
            USE_RIGHT_CLICK  \                           # utiliser un clic droit sur les fichiers pour ajouter, supprimer etc.
-           #REGEX_ANONYM                                # Utiliser en cas de problème avec l'analyse des données sensibles dans l'anonymisation
+           #REGEX_ANONYM   \                            # Utiliser en cas de problème avec l'analyse des données sensibles dans l'anonymisation
+           #INSERT_DIRPAGE   \                          # Utiliser un dialogue de configuration des répertoires          
+           #INSERT_MAXN                                 # Insérer des champs pour -n et -N dans le dialogue d'options 
 
 windows:RC_ICONS = neptune.ico
 
@@ -94,7 +95,6 @@ SOURCES += \
     xmlparser.cpp \
     highlighter.cpp \
     run.cpp \
-    elemParser.cpp \
     flineframe.cpp
 
 HEADERS  += \
@@ -112,7 +112,6 @@ HEADERS  += \
     tags.h \
     templates.h \
     altair-gui.h \
-    elemParser.hpp \
     flineframe.hpp
 
 
