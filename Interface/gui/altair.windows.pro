@@ -98,7 +98,6 @@ SOURCES += \
     xmlparser.cpp \
     highlighter.cpp \
     run.cpp \
-    elemParser.cpp \
     flineframe.cpp
 
 HEADERS  += \
@@ -116,7 +115,6 @@ HEADERS  += \
     tags.h \
     templates.h \
     altair-gui.h \
-    elemParser.hpp \
     flineframe.hpp \
     version.h
 

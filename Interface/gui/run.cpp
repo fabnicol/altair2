@@ -122,7 +122,12 @@ Q(path)
     // dans le répertoire v(base) (par défaut .../Donnees/R-Altair) alors basculer en un
     // seul fil d'exécution. TODO : le faire plus proprement en manipulant processWidget.
     
+#ifdef Q_OS_WIN
+    // on part de l'hypothèse, sous Windows, qu'il n'y a q'une seule partition de disque dur
+    if (v(XHL)[0] != 'C')
+#else
     if (v(XHL).contains("/mnt/cdrom"))
+#endif
     {
         outputTextEdit->append(PROCESSING_HTML_TAG + tr("Importation des fichiers depuis le disque optique..."));
         args1.replaceInStrings(QRegExp("'[0-9]{1,2}'"), "'1'");            

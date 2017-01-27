@@ -441,7 +441,7 @@ bool Altair::updateProject(bool requestSave)
     
 # ifndef INSERT_DIRPAGE
            Abstract::initH("base", path_access("Tests/Exemple/Donnees/R-Altair"));
-           Abstract::initH("lhxDir", path_access("linux"));
+           Abstract::initH("lhxDir", path_access(System));
 # endif  
            
     return refreshProjectManager();
@@ -650,7 +650,6 @@ void Altair::dropEvent(QDropEvent *event)
 {
     if (event->source() != this)
     {
-
         QList<QUrl> urlsDragged=event->mimeData()->urls();
         QStringList stringsDragged;
         int size = 0;
@@ -672,9 +671,7 @@ void Altair::dropEvent(QDropEvent *event)
         project[0]->addParsedTreeToListWidget(stringsDragged);
         checkAnnumSpan();
         updateProject();
-  
-        
-    }
+     }
 }
 
 
