@@ -41,7 +41,7 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
 
  initializeWidgetContainer(currentListWidget);
 
- Abstract::initializeFStringListHash(frameHashKey);
+ Abstract::initH(frameHashKey);
 
  if (mainTabWidgetRank == common::TabWidgetTrait::NO_EMBEDDING_TAB_WIDGET)
   {
@@ -209,7 +209,7 @@ void FListFrame::deleteAllGroups(bool insertFirstGroup, bool eraseAllData)
     else
     {
       Hash::wrapper[frameHashKey]->clear();
-      Abstract::initializeFStringListHash(frameHashKey);
+      Abstract::initH(frameHashKey);
     }
 
 
@@ -673,15 +673,6 @@ void FListFrame::on_importFromMainTree_clicked()
  
  altair->closeProject();
  
-# ifndef INSERT_PAGE
-           Hash::wrapper["base"] = new FStringList;
-           *Hash::wrapper["base"]  << QStringList();
-           (*Hash::wrapper["base"])[0] << common::path_access("Tests/Exemple/Donnees/R-Altair");
-           Hash::wrapper["lhxDir"] = new FStringList;
-           *Hash::wrapper["lhxDir"]  << QStringList();
-           (*Hash::wrapper["lhxDir"])[0] << common::path_access("linux");
-# endif    
-
  altair->outputTextEdit->append(STATE_HTML_TAG "Bases de paye ajoutées au projet." );
 
  if (isListConnected || isTotalConnected)

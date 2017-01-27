@@ -64,15 +64,7 @@ MainWindow::MainWindow(char* projectName)
   managerDockWidget->setFeatures(QDockWidget::AllDockWidgetFeatures);
   addDockWidget(Qt::RightDockWidgetArea, managerDockWidget);
   
-  Abstract::initializeFStringListHashes();
-# ifndef INSERT_PAGE
-           Hash::wrapper["base"] = new FStringList;
-           *Hash::wrapper["base"]  << QStringList();
-           (*Hash::wrapper["base"])[0] << common::path_access("Tests/Exemple/Donnees/R-Altair");
-           Hash::wrapper["lhxDir"] = new FStringList;
-           *Hash::wrapper["lhxDir"]  << QStringList();
-           (*Hash::wrapper["lhxDir"])[0] << common::path_access("linux");
-# endif    
+  Abstract::initH();
   
   Abstract::refreshOptionFields();
 
@@ -986,15 +978,7 @@ bool MainWindow::exportProject(QString dirStr)
     QString subDirStr = QDir::toNativeSeparators(dirStr.append("/Altaïr"));
 
     altair->updateProject();
-# ifndef INSERT_PAGE
-           Hash::wrapper["base"] = new FStringList;
-           *Hash::wrapper["base"]  << QStringList();
-           (*Hash::wrapper["base"])[0] << common::path_access("Tests/Exemple/Donnees/R-Altair");
-           Hash::wrapper["lhxDir"] = new FStringList;
-           *Hash::wrapper["lhxDir"]  << QStringList();
-           (*Hash::wrapper["lhxDir"])[0] << common::path_access("linux");
-# endif    
-    
+   
     QString projectRootDir = QDir::toNativeSeparators(QDir::cleanPath(v(base)));
     QString docxReportFilePath = projectRootDir + QDir::separator() + "altaïr.docx";
 	QString odtReportFilePath = projectRootDir + QDir::separator() + "altaïr.odt";
