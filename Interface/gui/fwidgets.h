@@ -65,14 +65,18 @@ struct Abstract
 {
     static QList<FAbstractWidget*> abstractWidgetList;
     static void refreshOptionFields();
-    static void initializeFStringListHash(const QString &hashKey)
+    static void initH(const QString &hashKey, const QString& value)
+    {
+        *(Hash::wrapper[hashKey]=new FStringList) = value;
+    }
+    static void initH(const QString &hashKey)
     {
         Hash::wrapper[hashKey]=new FStringList;
     }
 
-    static void initializeFStringListHashes()
+    static void initH()
     {
-        for (const QString& hashKey: Hash::wrapper.keys()) initializeFStringListHash(hashKey);
+        for (const QString& hashKey: Hash::wrapper.keys()) initH(hashKey);
     }
 
 };

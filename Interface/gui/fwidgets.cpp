@@ -247,7 +247,7 @@ FListWidget::FListWidget(QWidget* par,
 
     widgetDepth="2";
     parent = static_cast<FListFrame*>(par);
-    Abstract::initializeFStringListHash(hashKey);
+    Abstract::initH(hashKey);
 
     setObjectName(hashKey+" "+description.join(" "));
 

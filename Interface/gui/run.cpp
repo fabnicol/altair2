@@ -41,7 +41,7 @@ void Altair::run()
     }
         
     QString path=v(base);
-
+Q(path)
     if (path.isEmpty())
     {
         Warning( "Répertoire de sortie", "Le répertoire de création des bases " + path + 
@@ -122,7 +122,7 @@ void Altair::run()
     // dans le répertoire v(base) (par défaut .../Donnees/R-Altair) alors basculer en un
     // seul fil d'exécution. TODO : le faire plus proprement en manipulant processWidget.
     
-    if (Hash::wrapper["XHL"]->at(0).at(0).contains("/mnt/cdrom"))
+    if (v(XHL).contains("/mnt/cdrom"))
     {
         outputTextEdit->append(PROCESSING_HTML_TAG + tr("Importation des fichiers depuis le disque optique..."));
         args1.replaceInStrings(QRegExp("'[0-9]{1,2}'"), "'1'");            

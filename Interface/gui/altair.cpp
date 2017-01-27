@@ -25,7 +25,7 @@ void Altair::initialize()
     adjustSize();
 
     Hash::description["année"]=QStringList("Fichiers .xhl");
-    Abstract::initializeFStringListHash("NBulletins");
+    Abstract::initH("NBulletins");
 }
 
 
@@ -438,7 +438,12 @@ bool Altair::updateProject(bool requestSave)
         writeProjectFile();
 
     setCurrentFile(projectName);
-
+    
+# ifndef INSERT_DIRPAGE
+           Abstract::initH("base", path_access("Tests/Exemple/Donnees/R-Altair"));
+           Abstract::initH("lhxDir", path_access("linux"));
+# endif  
+           
     return refreshProjectManager();
 }
 
@@ -667,6 +672,8 @@ void Altair::dropEvent(QDropEvent *event)
         project[0]->addParsedTreeToListWidget(stringsDragged);
         checkAnnumSpan();
         updateProject();
+  
+        
     }
 }
 
