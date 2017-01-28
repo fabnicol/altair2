@@ -77,6 +77,7 @@ void addNewTab(int r, const QString& label="");
 void addNewTab();
 void deleteAllGroups(bool insertNewGroup = false, bool eraseAllData = true);
 void addParsedTreeToListWidget(const QStringList& stringList);
+
 void list_connect(FComboBox* w);
 void list_connect(FListFrame* w);
 void total_connect(FListFrame* w);
@@ -122,7 +123,6 @@ private:
 
  QStringList parseTreeForFilePaths(const QStringList& stringList);
  void addStringListToListWidget(const QStringList&);
-
  void parseXhlFile(const QString& fileName);
  void parseXhlFile(const QStringList& stringList);
  void showContextMenu();
