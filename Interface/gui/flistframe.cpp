@@ -608,13 +608,13 @@ void FListFrame::addStringListToListWidget(const QStringList& stringList)
     }
 
   fileListWidget->setTabLabels(allLabels << "Siret" << "Budget" << "Employeur");
-  currentListWidget->setCurrentRow(Hash::wrapper[frameHashKey]->at(rank - 1).size());
+  if (rank) currentListWidget->setCurrentRow(Hash::wrapper[frameHashKey]->at(rank - 1).size());
 
 }
 
 void FListFrame::addParsedTreeToListWidget(const QStringList& stringList)
 {
-
+    if (stringList.isEmpty()) return;
     addStringListToListWidget(parseTreeForFilePaths(stringList));
     Hash::createReference(widgetContainer.size() - 1);
     setStrikeOutFileNames(flags::colors::no);
