@@ -24,7 +24,7 @@ public:
     static int dialVolume;
     QFileSystemModel *model = nullptr;
     QTreeWidget *managerWidget= new QTreeWidget;
-    QTreeView *fileTreeView;
+    QTreeView *fileTreeView = nullptr;
     QString projectName;
     FListFrame *project[1];
 
@@ -77,9 +77,10 @@ public:
 
     }
 
-        bool refreshProjectManager();
-        void setProcessMsg(const QString& msg) {processMsg =  msg; }
-        QStringList createCommandLineString();
+    bool refreshProjectManager();
+    void setProcessMsg(const QString& msg) {processMsg =  msg; }
+    QStringList createCommandLineString();
+    void refreshTreeView(const QString& path = "Tests/Exemple/Donnees/xhl");
 
 public slots:
 
@@ -142,13 +143,14 @@ private:
     void updateIndexChangeInfo();
     void displayTotalSize();
     void refreshModel();
-    void refreshTreeView();
+
     void parseProjectFile(QIODevice*);
     void msg (const QString & text);
     void printMsg(qint64 new_value, const QString &str);
     void printBaseSize(qint64 new_value = 0);
 
     void checkAnnumSpan();
+
 #if 0
     void normaliseMultiBudgetFiles(const QStringList& list);
 #endif 

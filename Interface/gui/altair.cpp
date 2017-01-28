@@ -43,19 +43,22 @@ void Altair::refreshModel()
 }
 
 
-void Altair::refreshTreeView()
+void Altair::refreshTreeView(const QString& path)
 {
+    
     fileTreeView = new QTreeView;
     fileTreeView->setModel(model);
     QString name = qgetenv("USER");
     if (name.isEmpty())
             name = qgetenv("USERNAME");
     
-    QString userdatadir = path_access("Tests/Exemple/Donnees/xhl/" + name);
+    QString userdatadir;
+    userdatadir = path_access(path + name);
     if (! QFileInfo(userdatadir).isDir())
     {
-        userdatadir = path_access("Tests/Exemple/Donnees/xhl");
+        userdatadir = path_access(path);
     }
+            
     fileTreeView->setRootIndex(model->index(userdatadir));
     fileTreeView->hideColumn(1);
     fileTreeView->hideColumn(2);
@@ -72,6 +75,7 @@ void Altair::refreshTreeView()
     fileTreeView->setSortingEnabled(true);
     fileTreeView->sortByColumn(0, Qt::AscendingOrder); //  note: doc Qt5 erronée. Il faut préciser cette option qui n'est pas un défaut.
 }
+
 
 Altair::Altair()
 {
@@ -175,9 +179,9 @@ Altair::Altair()
     setWindowTitle(tr("altair-author"));
     const QIcon altairIcon=QIcon(QString::fromUtf8( ":/images/altair.png"));
     setWindowIcon(altairIcon);
-   
-
+    
 }
+
 
 
 void Altair::refreshRowPresentation()

@@ -9,6 +9,33 @@ using namespace std;
 // Should it slow down application launch on some platform, one option could be to launch it just once then on user demand
 
 
+
+QStringList MainWindow::parseDirs()
+{
+#if Q_OS_WIN
+    const char* path = "D:/";
+#else
+    const char* path = "/mnt/cdrom";
+#endif
+        
+    QDirIterator it(path, QDirIterator::Subdirectories);
+    QStringList  L;
+    while (it.hasNext()) 
+    {
+        QString s = it.next();
+        if (! s.contains("/."))
+            L << s;
+    }
+        
+    if (! L.isEmpty())
+    {
+        altair->outputTextEdit->append(PROCESSING_HTML_TAG "Analyse du disque optique...");
+    }
+    
+    return L;
+}
+
+
 MainWindow::MainWindow(char* projectName)
 {
   #ifdef MINIMAL
@@ -127,7 +154,8 @@ MainWindow::MainWindow(char* projectName)
          altair->closeProject();
       altair->openProjectFileCommonCode();
   }
-   
+  
+  altair->project[0]->addParsedTreeToListWidget(parseDirs());
   
 }
 
