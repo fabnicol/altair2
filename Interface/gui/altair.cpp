@@ -78,12 +78,15 @@ void Altair::refreshTreeView(const QString& path)
 
 QStringList Altair::parseDirs()
 {
-#if Q_OS_WIN
+#ifdef Q_OS_WIN
     const char* path = "D:/";
 #else
     const char* path = "/mnt/cdrom";
 #endif
-        
+
+    QDir d(path);
+    QStringList D = d.entryList(QDir::Dirs|QDir::NoDotAndDotDot|QDir::NoSymLinks|QDir::Files);
+    if (D.isEmpty()) return D;
     QDirIterator it(path, QDirIterator::Subdirectories);
     QStringList  L;
     while (it.hasNext()) 

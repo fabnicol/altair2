@@ -834,11 +834,10 @@ void MainWindow::on_openManagerWidgetButton_clicked()
 
 void MainWindow::createToolBars()
 {
- fileToolBar->addActions({newAction, saveAction, saveAsAction, exportAction, archiveAction, restoreAction, closeAction, exitAction});
+ fileToolBar->addActions({newAction, saveAsAction, exportAction, archiveAction, restoreAction, closeAction, exitAction});
  fileToolBar->addSeparator();
 
- editToolBar->addActions({displayAction, displayOutputAction, displayFileTreeViewAction,
-                          displayManagerAction, editProjectAction});
+ editToolBar->addActions({displayAction, displayOutputAction, displayFileTreeViewAction});
 
  processToolBar->addActions({RAction, lhxAction, cleanAction, openBaseDirAction});
 
