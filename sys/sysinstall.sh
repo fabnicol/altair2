@@ -51,13 +51,24 @@ do
       cp -vf 'Lien vers une application.desktop' /home/$i/Desktop
       sed "s/utilisateur/${i}/g" /home/fab/Dev/altair/sys/dolphinrc > temp 
       cp -vf temp  /home/${i}/.config/dolphinrc
+      # intégration de li'cone dans le menu développement + clic sur projet *.alt
+     _copy Altair.desktop  /home/$i/.local/share/applications
+     _copy mimeapps.list   /home/$i/.config/
+
     fi
   else
     cp -vf 'Lien vers une application.desktop' /home/$i/Desktop
     sed "s/\/home\/utilisateur\/Dev\/altair\/Tests\/Exemple\/Donnees\/xhl\/utilisateur/\/home\/fab\/Dev\/altair\/Tests\/Exemple\/Donnees\/xhl/" /home/fab/Dev/altair/sys/dolphinrc > temp 
     cp -vf temp  /home/fab/.config/dolphinrc
   fi
+
 done
+
+if test -d /home/$i; then
+    # intégration de l'icone dans le menu développement + clic sur projet *.alt
+    _copy Altair.desktop  /home/$i/.local/share/applications
+    _copy mimeapps.list   /home/$i/.config/
+fi
 
 
 if test -f localgitconfig -a -f .gitconfig; then
