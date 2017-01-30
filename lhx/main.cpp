@@ -105,6 +105,7 @@ int main(int argc, char **argv)
         EXPRESSION_REG_ELUS,
         chemin_base,
         chemin_bulletins,
+        "Standard",       // export_mode
         MAX_LIGNES_PAYE,  // nbLigneUtilisateur
         0,                // uint16_t fichier_courant
         ',',              // const char decimal;
@@ -117,7 +118,7 @@ int main(int argc, char **argv)
         false,            // ne pas exporter l'échelon
         false,            // pretend
         false,            // verifmem
-        1,                // nbfil
+        1                // nbfil
     };
 
     /* Analyse de la ligne de commande */
@@ -583,7 +584,7 @@ int main(int argc, char **argv)
             start += 2;
             continue;
           }
-        else if (commandline_tab[start] == "--segments ")
+        else if (commandline_tab[start] == "--segments")
         {
            cerr << STATE_HTML_TAG "Les bases seront analysées en au moins : " << commandline_tab[start + 1] << " segments" << ENDL;
 
@@ -601,7 +602,23 @@ int main(int argc, char **argv)
                exit(-208);
              }
         }
+       else if (commandline_tab[start] == "--export")
+       {
+          string st = commandline_tab[start + 1];
+          cerr << STATE_HTML_TAG "Modalité d'exportation : " << st << ENDL;
 
+          if (  st != "'Standard'" 
+              && st != "'Cumulative'" 
+              && st != "'Distributive'")
+            {
+              cerr << ERROR_HTML_TAG "Modalité d'exportation inconnue : " << st << ENDL;
+              throw;
+            }
+          
+          info.export_mode = st;
+          start += 2;
+          continue;
+       }
         else if (commandline_tab[start][0] == '-')
         {
           cerr << ERROR_HTML_TAG "Option inconnue " << commandline_tab[start] << ENDL;

@@ -76,6 +76,31 @@ void Altair::refreshTreeView(const QString& path)
     fileTreeView->sortByColumn(0, Qt::AscendingOrder); //  note: doc Qt5 erronée. Il faut préciser cette option qui n'est pas un défaut.
 }
 
+QStringList Altair::parseDirs()
+{
+#if Q_OS_WIN
+    const char* path = "D:/";
+#else
+    const char* path = "/mnt/cdrom";
+#endif
+        
+    QDirIterator it(path, QDirIterator::Subdirectories);
+    QStringList  L;
+    while (it.hasNext()) 
+    {
+        QString s = it.next();
+        if (! s.contains("/."))
+            L << s;
+    }
+        
+    if (! L.isEmpty())
+    {
+        outputTextEdit->append(PROCESSING_HTML_TAG "Analyse du disque optique...");
+    }
+    
+    return L;
+}
+
 
 Altair::Altair()
 {
@@ -110,7 +135,7 @@ Altair::Altair()
 
     outputTextEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     outputTextEdit->setAcceptDrops(false);
-    outputTextEdit->setMinimumHeight(200);
+    //outputTextEdit->setMinimumHeight(200);
     outputTextEdit->setReadOnly(true);
 
     connect(&process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int)));
@@ -179,6 +204,8 @@ Altair::Altair()
     setWindowTitle(tr("altair-author"));
     const QIcon altairIcon=QIcon(QString::fromUtf8( ":/images/altair.png"));
     setWindowIcon(altairIcon);
+    
+    project[0]->addParsedTreeToListWidget(parseDirs());
     
 }
 
@@ -296,7 +323,7 @@ void Altair::closeProject()
     QFile projectFile(projectName);
     projectFile.close();
 
-    projectName="";
+    //projectName=;
 }
 
 
@@ -437,11 +464,10 @@ bool Altair::updateProject(bool requestSave)
                  | interfaceStatus::saveTree
                  | interfaceStatus::tree;
 
-
+    setCurrentFile(projectName);
+    
     if (parent->isDefaultSaveProjectChecked() || requestSave)
         writeProjectFile();
-
-    setCurrentFile(projectName);
     
 # ifndef INSERT_DIRPAGE
            Abstract::initH("base", path_access("Tests/Exemple/Donnees/R-Altair"));

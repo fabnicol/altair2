@@ -2336,6 +2336,11 @@ if (sauvegarder.bases.origine)
              "Paie",
              "Bulletins.paie")
 
+if (setOSWindows) {
+    system(paste("xcopy Docs", file.path(chemin.clé,"Docs"), "/s/e/i/h"))
+  } else  { 
+    system(paste("cp -rf Docs", file.path(chemin.clé,"Docs")))
+  }
 
 if (! générer.rapport)
    setwd(currentDir)

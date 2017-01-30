@@ -62,7 +62,9 @@ DEFINES += PROGRESSBAR_TIMEOUT=200    # Intervalle d'incrémentation de la barre
                             # Le minimum (timeout = 0) donne des progressions fluides mais augmente de 10 % la durée d'exec.
 
 DEFINES += MAXIMUM_CONSOLE_OUTPUT=800  \ # Pour limiter le volume de lignes de la cosole et éviter des plantages ou ralentissements en cas de verbosité excessive
-           MINIMUM_LINE_WIDTH=360        # Largeur minimale des lignes de l'onglet d'entrée du dialogue d'options (codes de paye). Détermine la lageur du dialogue
+           MINIMUM_LINE_WIDTH=360      \ # Largeur minimale des lignes de l'onglet d'entrée du dialogue d'options (codes de paye). Détermine la lageur du dialogue
+           #WIDTH=1170                   \# Largeur par défaut de l'interface        
+           #HEIGHT=700                   \# Hauteur par défaut de l'interface 
 
 DEFINES += COMMANDLINE_CONSOLE_OUTPUT          \        # Générer la ligne de commande en console (verbeux)
            GUI_OUTPUT                                   # Balises d'identification des lignes de la console : mode GUI

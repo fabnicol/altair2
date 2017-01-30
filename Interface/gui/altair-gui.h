@@ -61,7 +61,8 @@ class MainWindow : public QMainWindow
    void feedLHXConsoleWithHtml();
    void feedRConsoleWithHtml();
    uint32_t getConsoleCounter() { return consoleCounter; }
-
+   void standardDisplay();
+   
   private slots:
 
    void on_displayFileTreeViewButton_clicked();
@@ -101,12 +102,14 @@ class MainWindow : public QMainWindow
    void createToolBars();
    void loadFile(const QString &fileName);
    void adjustDisplay(bool);
-
+   
+   int height;
+   int width;
+   
    inline void connectShowActions();
    std::vector<std::string> extraire_donnees_protegees(const std::string& st);
    std::string nettoyer_donnees(const std::string& st);
-   QStringList parseDirs();
-   
+      
    QDockWidget* fileTreeViewDockWidget;
    QDockWidget* bottomDockWidget;
    QDockWidget* managerDockWidget;

@@ -41,7 +41,7 @@ void Altair::run()
     }
         
     QString path=v(base);
-Q(path)
+
     if (path.isEmpty())
     {
         Warning( "Répertoire de sortie", "Le répertoire de création des bases " + path + 
@@ -67,7 +67,7 @@ Q(path)
 
     if (! files.isEmpty())
     {
-        if (files.first() != "Bulletins.csv" && files.first() != "Table.csv")
+        if (v(exportMode) == "Standard")
         {
           if (QMessageBox::Cancel
                 == QMessageBox::warning(this, QString("Attention"),
@@ -77,7 +77,7 @@ Q(path)
                 processFinished(exitCode::shouldLaunchRAltairAlone);
                 return;
             }
-        }
+        
 
         for (const QString& file : files)
             {
@@ -91,7 +91,7 @@ Q(path)
                     QDir(filepath).removeRecursively();
                 }
             }
-
+        }
     }
 
 #ifdef DEBUG
@@ -130,7 +130,8 @@ Q(path)
 #endif
     {
         outputTextEdit->append(PROCESSING_HTML_TAG + tr("Importation des fichiers depuis le disque optique..."));
-        args1.replaceInStrings(QRegExp("'[0-9]{1,2}'"), "'1'");            
+        int pos = args1.indexOf("-j");
+        args1[pos + 1] = "'1'";            
     }
     
     QStringListIterator i(args1);
