@@ -474,7 +474,7 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
        segment_ancien = segment;
     }
     
-    ios_base::openmode mode = info.export_mode == "'Cumulative'" ? ios_base::app : ios_base::trunc;
+    ios_base::openmode mode = info.export_mode == "'Cumulative'" || segment > 0 ? ios_base::app : ios_base::trunc;
     
     base.open(chemin_base, ofstream::out | mode);
 
