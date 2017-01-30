@@ -181,6 +181,7 @@ typedef struct
     string expression_reg_elus;
     string chemin_base;
     string chemin_bulletins;
+    string export_mode;
     uint16_t nbLigneUtilisateur;
     uint16_t fichier_courant;
     char decimal;

@@ -295,7 +295,7 @@ standardPage::standardPage()
 
     maxNLigneLabel = new QLabel("Nombre maximum de lignes\npar segment de base  ");
     
-    maxNLigneLineEdit = new FLineEdit("",
+    maxNLigneLineEdit = new FLineEdit("1000000",
                                       "maxLigne",
                                      {"Données csv",
                                       "Découper la base de données"
@@ -320,13 +320,42 @@ standardPage::standardPage()
                                   " Employeur, Siret, Etablissement"},
                                  "S");
 
+    
+    QList<QString> exportRange = QList<QString>();
+    exportRange << "Standard" << "Cumulative" << "Distributive";
 
-    QGridLayout *v1Layout = new QGridLayout, *v2Layout = new QGridLayout;
+    QLabel* exportLabel = new QLabel("Exportation  ");
 
-    v2Layout->addWidget(rangCheckBox,      0, 0, Qt::AlignLeft);
-    v2Layout->addWidget(etabCheckBox,      1, 0, Qt::AlignLeft);
+    /* Utiliser % devant l'option active la syntaxe `--option argument' plutôt que `--option=argument' */
+
+    FComboBox* exportWidget = new FComboBox(exportRange,
+                                 "exportMode",
+                                 {"Données csv", 
+                                  "Mode d'exportation"},
+                                  "%export");
+
+    exportWidget->status = flags::status::defaultStatus;
+    exportWidget->commandLineType = flags::commandLineType::defaultCommandLine;
+
+    exportWidget->setFixedWidth(175);
+    exportWidget->setFixedHeight(30);
+    exportWidget->setCurrentIndex(0);
+    exportWidget->setToolTip(tr("Sélectionner la modalité d'exportation"
+                                   " des bases de données CSV."
+                                    "\nStardard : A chaque contrôle, les bases précédemment\n\texportées sur clé sont effacées.\n"
+                                      "Cumulative : A chaque contrôle, les bases s'empilent\n\tà la fin des bases précédemment exportées.\n"
+                                      "Distributive : A chaque contrôle, un sous répertoire est créé\n\tsur la clé du nom du premier dossier\n\timporté du répertoire Données.\n"));
+    
+
+    QGridLayout *v1Layout = new QGridLayout, 
+                *v2Layout = new QGridLayout,
+                *v3Layout = new QGridLayout;
+
+    v2Layout->addWidget(rangCheckBox,     0, 0, Qt::AlignLeft);
+    v2Layout->addWidget(etabCheckBox,     1, 0, Qt::AlignLeft);
     v2Layout->setColumnMinimumWidth(1, 250);
-
+    v3Layout->setColumnMinimumWidth(1, 250);
+    
     optionalFieldBox->setLayout(v2Layout);
 
     tableCheckBox = new FCheckBox("Créer la base de données",
@@ -363,22 +392,50 @@ standardPage::standardPage()
            maxNLigneLineEdit->setDisabled(value);
         });
 
+    QGroupBox* exportBox = new QGroupBox(tr("Archivage et exportation"));
+    
+    FCheckBox* archiveTableBox = new FCheckBox("Archiver/Restaurer les lignes de paye",
+                               "archiveTable",
+                               {"Données csv", "Archiver/Restaurer les lignes de paye"});
+    
+    FCheckBox* exportTableBox  = new FCheckBox("Exporter les lignes de paye",
+                               "exportTable",
+                               {"Données csv", "Exporter les lignes de paye"});
+    
+    FCheckBox* archiveBulletinsBox = new FCheckBox("Archiver/Restaurer les bulletins de paye",
+                               "archiveBulletins",
+                               {"Données csv", "Archiver/Restaurer les bulletins de paye"});
+    
+    FCheckBox* exportBulletinsBox  = new FCheckBox("Exporter les bulletins de paye",
+                               "exportBulletins",
+                               {"Données csv", "Exporter les bulletins de paye"});
+    
     v1Layout->addWidget(tableCheckBox,     1, 0, Qt::AlignLeft);
     v1Layout->addWidget(baseTypeLabel,     3, 0, Qt::AlignRight);
     v1Layout->addWidget(baseTypeWidget,    3, 1, Qt::AlignLeft);
-    v1Layout->addWidget(maxNLigneLabel,    4, 0, Qt::AlignRight);
-    v1Layout->addWidget(maxNLigneLineEdit, 4, 1, Qt::AlignLeft);
+    v1Layout->addWidget(exportLabel,       4, 0, Qt::AlignRight);
+    v1Layout->addWidget(exportWidget,      4, 1, Qt::AlignLeft);
+    v1Layout->addWidget(maxNLigneLabel,    5, 0, Qt::AlignRight);
+    v1Layout->addWidget(maxNLigneLineEdit, 5, 1, Qt::AlignLeft);
 
     baseTypeBox->setLayout(v1Layout);
-
+    
+    v3Layout->addWidget(archiveTableBox,     1, 0, Qt::AlignLeft);
+    v3Layout->addWidget(exportTableBox,      2, 0, Qt::AlignLeft);
+    v3Layout->addWidget(archiveBulletinsBox, 1, 1, Qt::AlignLeft);
+    v3Layout->addWidget(exportBulletinsBox,  2, 1, Qt::AlignLeft);
+        
+    exportBox->setLayout(v3Layout);
+    
     QVBoxLayout* mainLayout = new QVBoxLayout;
     FRichLabel *mainLabel=new FRichLabel("Format des bases");
     mainLayout->addWidget(mainLabel);
 
-    mainLayout->addWidget(baseTypeBox, 1, 0);
+    mainLayout->addWidget(baseTypeBox,      1, 0);
     mainLayout->addWidget(optionalFieldBox, 2, 0);
+    mainLayout->addWidget(exportBox,   3, 0);
     
-    mainLayout->addSpacing(150);
+   // mainLayout->addSpacing(100);
 
     setLayout(mainLayout);
 }
@@ -525,7 +582,7 @@ processPage::processPage()
     mainLayout->addWidget(mainLabel);
     mainLayout->addWidget(processTypeBox, 1, 0);
     mainLayout->addWidget(logBox, 2, 0);
-    mainLayout->addSpacing(150);
+    mainLayout->addSpacing(250);
 
     setLayout(mainLayout);
 }

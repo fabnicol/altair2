@@ -10,47 +10,44 @@ using namespace std;
 
 
 
-QStringList MainWindow::parseDirs()
-{
-#if Q_OS_WIN
-    const char* path = "D:/";
-#else
-    const char* path = "/mnt/cdrom";
-#endif
-        
-    QDirIterator it(path, QDirIterator::Subdirectories);
-    QStringList  L;
-    while (it.hasNext()) 
-    {
-        QString s = it.next();
-        if (! s.contains("/."))
-            L << s;
-    }
-        
-    if (! L.isEmpty())
-    {
-        altair->outputTextEdit->append(PROCESSING_HTML_TAG "Analyse du disque optique...");
-    }
-    
-    return L;
-}
 
+
+void MainWindow::standardDisplay()
+{
+#ifdef HEIGHT 
+    height = HEIGHT;
+#endif
+
+#ifdef WIDTH 
+    width = WIDTH;
+#endif
+
+#ifdef MINIMAL
+  setGeometry(QRect(200, 200,600,400));
+#else
+  setGeometry(QRect(200, 200, width / 2, height / 2));
+#endif
+  
+#ifndef MINIMAL
+  bottomDockWidget->setMinimumHeight(height / 3.5);
+#endif
+  
+  displayAction->setIcon(QIcon(":/images/show-maximized.png"));
+}
 
 MainWindow::MainWindow(char* projectName)
 {
-  #ifdef MINIMAL
-    setGeometry(QRect(200, 200,600,400));
-  #else
-    setGeometry(QRect(200, 200,1170,700));
-  #endif
 
-  raise();
+  QRect rec = QApplication::desktop()->availableGeometry();
+  
+  height = rec.height();
+  width  = rec.width();
+  
   recentFiles = QStringList() ;
-
+  
   altair = new Altair;
   altair->parent = this;
-  altair->projectName = QString::fromLatin1(projectName);
-
+  
   createActions();
   createMenus();
 
@@ -81,13 +78,11 @@ MainWindow::MainWindow(char* projectName)
 
   fileTreeViewDockWidget = new QDockWidget;
   fileTreeViewDockWidget->setWidget(altair->fileTreeView);
-  fileTreeViewDockWidget->setMinimumHeight((unsigned) (height()*0.3));
   fileTreeViewDockWidget->setFeatures(QDockWidget::AllDockWidgetFeatures);
   addDockWidget(Qt::LeftDockWidgetArea, fileTreeViewDockWidget);
 
   managerDockWidget= new QDockWidget;
   managerDockWidget->setWidget(altair->managerWidget);
-  managerDockWidget->setMinimumHeight((unsigned) (height()*0.3));
   managerDockWidget->setFeatures(QDockWidget::AllDockWidgetFeatures);
   addDockWidget(Qt::RightDockWidgetArea, managerDockWidget);
   
@@ -119,11 +114,11 @@ MainWindow::MainWindow(char* projectName)
   stackedBottomWidgetLayout->addLayout(buttonsForBottomWidgetLayout);
   stackedBottomWidgetLayout->addWidget(bottomTabWidget);
   stackedBottomWidget->setLayout(stackedBottomWidgetLayout);
-#ifndef MINIMAL
-  bottomDockWidget->setMinimumHeight(400);
-#endif
+
   bottomDockWidget->setWidget(stackedBottomWidget);
 
+  standardDisplay();
+ 
   addDockWidget(Qt::BottomDockWidgetArea, bottomDockWidget);
 
   setWindowIcon(QIcon(":/images/altair.png"));
@@ -151,11 +146,10 @@ MainWindow::MainWindow(char* projectName)
   {
 
       // Paraît étrange... mais c'est pour éviter de lire deux fois le projet
-         altair->closeProject();
+      altair->closeProject();
+      altair->projectName = QString::fromLatin1(projectName);
       altair->openProjectFileCommonCode();
   }
-  
-  altair->project[0]->addParsedTreeToListWidget(parseDirs());
   
 }
 
@@ -753,10 +747,9 @@ void MainWindow::clean_process(const QString& path)
 
     altair->outputTextEdit->append(PROCESSING_HTML_TAG  "Nettoyage de " + path + " terminé.");
     altair->outputTextEdit->repaint();
-    emit(altair->setProgressBar(0));
-
+    
     altair->updateProject(true);
-
+    
 }
 
 void MainWindow::anonymiser()
@@ -799,6 +792,9 @@ void MainWindow::cleanBase()
             clean_process(s);
         }
     }
+    
+    emit(altair->setProgressBar(0, 100));
+    emit(altair->setProgressBar(100));
 }
 
 void MainWindow::configure()
@@ -1003,67 +999,136 @@ bool MainWindow::exportProject(QString dirStr)
 
     if (! QFileInfo(dirStr).isDir()) return false;
 
-    QString subDirStr = QDir::toNativeSeparators(dirStr.append("/Altaïr"));
+    const QString subDirStr = QDir::toNativeSeparators(dirStr.append("/Altaïr"));
+    
+    QMessageBox msgBox;
+    msgBox.setParent(this);
+    msgBox.setGeometry(60, this->QWidget::height()/1.5, 50, 50);
+    msgBox.setText("Les résultats seront exportés vers le dossier <br>" + subDirStr);
+    msgBox.setInformativeText("Cliquer OK pour commencer l'exportation.");
+    msgBox.setStandardButtons(QMessageBox::Cancel|QMessageBox::Ok );
+    msgBox.setDefaultButton(QMessageBox::Ok);
+    int ret = msgBox.exec();
+     
+    if (ret != QMessageBox::Ok) return false;
 
+    altair->outputTextEdit->append(PROCESSING_HTML_TAG "Exportation en cours. Patientez...");
+    altair->outputTextEdit->repaint();
     altair->updateProject();
    
-    QString projectRootDir = QDir::toNativeSeparators(QDir::cleanPath(v(base)));
-    QString docxReportFilePath = projectRootDir + QDir::separator() + "altaïr.docx";
-	QString odtReportFilePath = projectRootDir + QDir::separator() + "altaïr.odt";
-    QString pdfReportFilePath = projectRootDir + QDir::separator() + "altaïr.pdf";
+    const QString projectRootDir = QDir::toNativeSeparators(QDir::cleanPath(v(base)));
+    const QString docxReportFilePath = projectRootDir + QDir::separator() + "altaïr.docx";
+	const QString odtReportFilePath = projectRootDir + QDir::separator() + "altaïr.odt";
+    const QString pdfReportFilePath = projectRootDir + QDir::separator() + "altaïr.pdf";
+    QDir dir(v(base));
+    QStringList tableList = dir.entryList(QStringList("Table*.csv"), QDir::Files);
+    
+    const QString bulletinsFilePath = v(base)  +  QDir::separator() + "Bulletins.csv";
+    
     bool result = true;
 
     result = common::copyFile(docxReportFilePath, subDirStr + QDir::separator() + "altaïr.docx", "Le rapport Altaïr Word", REQUIRE);
 
     if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr Word a été exporté sous : " + subDirStr);
 
-    result = common::copyFile(odtReportFilePath, subDirStr + QDir::separator() + "altaïr.odt", "Le rapport Altaïr Open Office", REQUIRE);
+    result &= common::copyFile(odtReportFilePath, subDirStr + QDir::separator() + "altaïr.odt", "Le rapport Altaïr Open Office", REQUIRE);
 
     if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr Open Office a été exporté sous : " + subDirStr);
 
-    result = common::copyFile(pdfReportFilePath, subDirStr + QDir::separator() + "altaïr.pdf", "Le rapport Altaïr PDF", REQUIRE);
+    result &= common::copyFile(pdfReportFilePath, subDirStr + QDir::separator() + "altaïr.pdf", "Le rapport Altaïr PDF", REQUIRE);
 
     if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr PDF a été exporté sous : " + subDirStr);
-
-    common::copyDir(projectRootDir + "/Docs", subDirStr + "/Docs");
-    result = common::copyDir(projectRootDir + "/Bases", subDirStr + "/Bases");
-
-    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Les bases ont été exportées sous : " + subDirStr + QDir::separator() + "Bases");
+    
+    if (v(exportTable).isTrue())
+    {
+        for (const QString &st: tableList)  
+        {
+          result &= common::copyFile(v(base) + QDir::separator() + st, subDirStr + QDir::separator() + st, "La base des lignes de paye", REQUIRE);
+          if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "La base " + v(base) + QDir::separator() + st + " a été exportée sous : " + subDirStr);
+        }
+    }
+        
+    if (v(exportBulletins).isTrue())
+    {
+           result &= common::copyFile(bulletinsFilePath, subDirStr + QDir::separator() + "Bulletins.csv", "La base des lignes de paye a été exportée sous : " , REQUIRE);
+           if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "La base des bulletins de paye a été exportée sous : " + subDirStr);
+    }
+    
+    result &= common::copyDir(projectRootDir + "/Docs", subDirStr + "/Docs");
+    result &= common::copyDir(projectRootDir + "/Bases", subDirStr + "/Bases");
+    
+    
+    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Les bases en lien ont été exportées sous : " + subDirStr + QDir::separator() + "Bases");
     return result;
 }
 
 bool MainWindow::archiveProject()
 {
-    QString dirName = QFileDialog::getExistingDirectory(this, tr("Exporter le rapport vers le répertoire..."), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
+    QString dirName = QFileDialog::getExistingDirectory(this, tr("Exporter le rapport vers le répertoire..."), 
+                                                        QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation),
+                                                        QFileDialog::ShowDirsOnly | QFileDialog::DontUseNativeDialog);
 
     QString subDirStr = QDir::toNativeSeparators(dirName.append("/Archives Altaïr/" +
                                                                QDate::currentDate().toString("dd MM yyyy")
                                                                + "-" + QTime::currentTime().toString("hh mm ss")));
-
     altair->updateProject();
-    QString projectRootDir = QDir::toNativeSeparators(QDir::cleanPath(v(base)));
-    QString docxReportFilePath = projectRootDir +  QDir::separator() + "altaïr.docx";
-    QString pdfReportFilePath = projectRootDir +  QDir::separator()  + "altaïr.pdf";
-	QString odtReportFilePath = projectRootDir +  QDir::separator() + "altaïr.odt";
+            
+    QMessageBox msgBox;
+    msgBox.setParent(this);
+    msgBox.setGeometry(60, this->QWidget::height()/1.5, 50, 50);
+    msgBox.setText("Les résultats seront archivés vers le dossier <br>" + subDirStr);
+    msgBox.setInformativeText("Cliquer OK pour commencer l'archivage.");
+    msgBox.setStandardButtons(QMessageBox::Cancel|QMessageBox::Ok );
+    msgBox.setDefaultButton(QMessageBox::Ok);
+    int ret = msgBox.exec();
+     
+    if (ret != QMessageBox::Ok) return false;
+
+    altair->outputTextEdit->append(PROCESSING_HTML_TAG "Archivage en cours. Patientez...");
+    altair->outputTextEdit->repaint();
+    
+    const QString projectRootDir = QDir::toNativeSeparators(QDir::cleanPath(v(base)));
+    const QString docxReportFilePath = projectRootDir +  QDir::separator() + "altaïr.docx";
+    const QString pdfReportFilePath = projectRootDir +  QDir::separator()  + "altaïr.pdf";
+	const QString odtReportFilePath = projectRootDir +  QDir::separator() + "altaïr.odt";
+    QDir dir(v(base));
+    QStringList tableList = dir.entryList(QStringList("Table*.csv"), QDir::Files);
+
+    const QString bulletinsFilePath = v(base)  +  QDir::separator() + "Bulletins.csv";
 	
     bool result = true;
-
-    result = common::zip(docxReportFilePath, subDirStr + QDir::separator() + "altaïr.docx.arch");
+    
+    result &= common::zip(docxReportFilePath, subDirStr + QDir::separator() + "altaïr.docx.arch");
 
     if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr Word a été archivé sous : " + subDirStr);
 
-    result = common::zip(odtReportFilePath, subDirStr + QDir::separator() + "altaïr.odt.arch");
+    result &= common::zip(odtReportFilePath, subDirStr + QDir::separator() + "altaïr.odt.arch");
 
     if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr Open Office a été archivé sous : " + subDirStr);
 
-    result = common::zip(pdfReportFilePath, subDirStr + QDir::separator() + "altaïr.pdf.arch");
+    result &= common::zip(pdfReportFilePath, subDirStr + QDir::separator() + "altaïr.pdf.arch");
 
     if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr PDF a été archivé sous : " + subDirStr);
+    
+     if (v(archiveTable).isTrue())
+     {
+         for (const QString &st: tableList)  
+         {
+           result &= common::zip(v(base) + QDir::separator() + st, subDirStr + QDir::separator() + st + ".arch");
+           if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "La base " + v(base) + QDir::separator() + st + " a été archivée sous : " + subDirStr);
+         }
+     }
+     
+     if (v(archiveBulletins).isTrue())
+     {
+         result &= common::zip(bulletinsFilePath, subDirStr + QDir::separator() + "Bulletins.csv.arch");
+         if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le base des bulletins de paye a été archivée sous : " + subDirStr);
+     }
 
-    common::zipDir(projectRootDir + "/Docs", subDirStr + "/Docs");
-    result = common::zipDir(projectRootDir + "/Bases", subDirStr + "/Bases");
-
-    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Les bases ont été archivées sous : " + subDirStr + QDir::separator() + "Bases");
+     result &= common::zipDir(projectRootDir + "/Docs", subDirStr + "/Docs")
+              & common::zipDir(projectRootDir + "/Bases", subDirStr + "/Bases");
+     
+    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Les bases en lien ont été archivées sous : " + subDirStr + QDir::separator() + "Bases");
 
   return result;
 }
@@ -1071,33 +1136,72 @@ bool MainWindow::archiveProject()
 bool MainWindow::restoreProject(QString subDirStr)
 {
     if (subDirStr.isEmpty())
-        subDirStr = QFileDialog::getExistingDirectory(this, tr("Restorer le rapport depuis le répertoire..."), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
+        subDirStr = QFileDialog::getExistingDirectory(this, tr("Restaurer le rapport depuis le répertoire..."), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
 
     if (! QFileInfo(subDirStr).isDir()) return false;
 
     altair->updateProject();
-    QString projectRootDir = QDir::toNativeSeparators(QDir::cleanPath(v(base)));
-    QString docxReportFilePath = projectRootDir + "/altaïr.docx";
-	QString odtReportFilePath = projectRootDir + "/altaïr.odt";
-    QString pdfReportFilePath = projectRootDir + "/altaïr.pdf";
-    bool result = true;
 
+    QMessageBox msgBox;
+    msgBox.setParent(this);
+    msgBox.setGeometry(60, this->QWidget::height()/1.5, 50, 50);
+    msgBox.setText("Les résultats seront restaurés depuis le dossier <br>" + subDirStr);
+    msgBox.setInformativeText("Cliquer OK pour commencer la restauration.");
+    msgBox.setStandardButtons(QMessageBox::Cancel|QMessageBox::Ok );
+    msgBox.setDefaultButton(QMessageBox::Ok);
+    int ret = msgBox.exec();
+     
+    if (ret != QMessageBox::Ok) return false;
+
+    const QString projectRootDir = QDir::toNativeSeparators(QDir::cleanPath(v(base)));
+    const QString docxReportFilePath = projectRootDir + "/altaïr.docx";
+	const QString odtReportFilePath = projectRootDir + "/altaïr.odt";
+    const QString pdfReportFilePath = projectRootDir + "/altaïr.pdf";
+
+    QDir dir(subDirStr);
+    QStringList tableList = dir.entryList(QStringList("Table*.csv.arch"), QDir::Files);
+    
+    const QString bulletinsFilePath = v(base)  +  QDir::separator() + "Bulletins.csv";
+    
+    bool result = true;
+    
+    altair->outputTextEdit->append(PROCESSING_HTML_TAG "Restauration en cours. Patientez...");
+    altair->outputTextEdit->repaint();
+    
     result = common::unzip(subDirStr + "/altaïr.docx.arch", docxReportFilePath);
 
     if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr Word a été décompressé sous : " + projectRootDir);
 
-	result = common::unzip(subDirStr + "/altaïr.odt.arch", odtReportFilePath);
+	result &= common::unzip(subDirStr + "/altaïr.odt.arch", odtReportFilePath);
 
 	if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr ODT a été décompressé sous : " + projectRootDir);
     
-    result = common::unzip(subDirStr + "/altaïr.pdf.arch", pdfReportFilePath);
+    result &= common::unzip(subDirStr + "/altaïr.pdf.arch", pdfReportFilePath);
 	
     if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr PDF a été décompressé sous : " + projectRootDir);
 	
-    common::unzipDir(subDirStr + "/Docs", projectRootDir + "/Docs");
-    result = common::unzipDir(subDirStr + "/Bases", projectRootDir + "/Bases");
+    if (v(archiveTable).isTrue())
+    {
+        for (const QString &st: tableList)  
+        {
+          QString st2 = st;
+          st2.chop(5);
+          Q(st2)
+          result &= common::unzip(subDirStr + QDir::separator() + st, v(base) + QDir::separator() + st2);
+          if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "La base " + v(base) + QDir::separator() + st2 + " a été décompressée sous : " + subDirStr);
+        }
+    }
+    
+    if (v(archiveBulletins).isTrue())
+    {
+        result &= common::zip(subDirStr + QDir::separator() + "Bulletins.csv.arch", bulletinsFilePath);
+        if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le base des bulletins de paye a été décompressée sous : " + v(base));
+    }
+    
+    result &= common::unzipDir(subDirStr + "/Docs", projectRootDir + "/Docs");
+    result &= common::unzipDir(subDirStr + "/Bases", projectRootDir + "/Bases");
 
-    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Les bases ont été décompressées sous : " + projectRootDir + QDir::separator() + "Bases");
+    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Les bases en lien ont été décompressées sous : " + projectRootDir + QDir::separator() + "Bases");
 
   return result;
 }
@@ -1353,25 +1457,17 @@ void MainWindow::adjustDisplay(bool projectFileStatus)
 
 void MainWindow::showMainWidget(bool full)
 {
-  static QSize bottomsize;
-  static QSize managersize;
-  static QSize filetreesize;
-  if (full)
-  {
-      bottomsize =  bottomDockWidget->size();
-      filetreesize = fileTreeViewDockWidget->size();
-      managersize = managerDockWidget->size();
-  }
-
+  
    if (full)
   {
       setWindowState(Qt::WindowFullScreen);
+      bottomDockWidget->setMinimumHeight(height / 2);
       displayAction->setIcon(QIcon(":/images/show-normal.png"));
   }
   else
   {
       setWindowState(Qt::WindowNoState);
-      displayAction->setIcon(QIcon(":/images/show-maximized.png"));
+      standardDisplay();
   }
 
 }

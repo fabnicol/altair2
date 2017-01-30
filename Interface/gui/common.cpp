@@ -194,7 +194,7 @@ bool common::copyFile(const QString &in,
         if (! comment.isEmpty()) 
             QMessageBox::critical(nullptr, 
                                   "Erreur", 
-                                  comment + " n'a pas été copié.",
+                                  comment + " n'a pas été copié(e).",
                                   QMessageBox::Cancel);
         return false;
     }
