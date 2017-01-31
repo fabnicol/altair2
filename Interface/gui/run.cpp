@@ -3,113 +3,66 @@
 
 /* fichier à encoder en UTF-8 */
 
-QStringList Altair::createCommandLineString()
+QStringList Altair::createCommandLineString(const QString& subdir)
 {
     QListIterator<FAbstractWidget*> w(Abstract::abstractWidgetList);
     QStringList commandLine;
 
     w.toBack();
     fileCount = 0;
+
     while (w.hasPrevious())
     {
         FAbstractWidget* item = w.previous();
         QStringList commandLineChunk = item->commandLineStringList();
+        
+        if (subdir != "")
+        {
+         if (item->getHashKey() == "XHL") 
+         {
+            QStringListIterator z(commandLineChunk);
+            QStringList L;
+            while (z.hasNext())
+            {
+                QString st = z.next();
+                if (st.contains(subdir)) L << st;
+            }
+            
+            commandLineChunk.clear();
+            commandLineChunk = L;
+         }
+         
+         if (item->getHashKey() == "exportMode") 
+         {
+           continue;
+         }
+        }
+        
+#       ifdef INSERT_PAGE        
+          if (item->getHashKey() == "base")  commandLineChunk[1] += QDir::separator() + subdir;
+#       endif   
+          
         if (!commandLineChunk.isEmpty() && !commandLineChunk[0].isEmpty())
             commandLine +=  commandLineChunk;
+        
         if (item->getHashKey() == "XHL") fileCount = commandLineChunk.size();
     }
 
     return commandLine;
 }
 
-void Altair::run()
+void Altair::runWorker(const QString& subdir)
 {
-                
-    updateProject(true);   // crucial otherwise some dynamic settings in the option dialog
-    //may not get through to command line
-
-    if (Altair::totalSize[0] == 0)
-    {
-        processFinished(exitCode::shouldLaunchRAltairAlone);
-        return;
-    }
-    if (Hash::wrapper["XHL"]->isEmpty() ||  Hash::wrapper["XHL"]->at(0).isEmpty() || Hash::wrapper["XHL"]->at(0).at(0).isEmpty())
-    {
-        QMessageBox::warning(nullptr, "Projet", "Charger un projet !");
-        processFinished(exitCode::shouldLaunchRAltairAlone);
-        return;
-    }
-        
-    QString path=v(base);
-
-    if (path.isEmpty())
-    {
-        Warning( "Répertoire de sortie", "Le répertoire de création des bases " + path + 
-                 " n'a pas été indiqué, renseigner le dialogue des paramètres.");
-        
-        processFinished(exitCode::shouldLaunchRAltairAlone);
-        return;
-    }
-    QDir targetDirObject(path);
-
-    if (! targetDirObject.exists() && ! targetDirObject.mkpath(path))
-    {
-        QMessageBox::critical(nullptr, "Répertoire des bases", "Le répertoire " + path + 
-                              " n'a pas pu être créé. Veuillez le faire manuellement.");
-        
-        processFinished(exitCode::shouldLaunchRAltairAlone);
-        return;
-    }
-
-    const QStringList& files = targetDirObject.entryList(QDir::Files 
-                                                         | QDir::Dirs 
-                                                         | QDir::NoDotAndDotDot);
-
-    if (! files.isEmpty())
-    {
-        if (v(exportMode) == "Standard")
-        {
-          if (QMessageBox::Cancel
-                == QMessageBox::warning(this, QString("Attention"),
-                                              tr("Vous allez supprimer les bases CSV créées par le précédent traitement.\n"),
-                                              QMessageBox::Ok|QMessageBox::Cancel))
-            {
-                processFinished(exitCode::shouldLaunchRAltairAlone);
-                return;
-            }
-        
-
-        for (const QString& file : files)
-            {
-                const QString filepath = path + "/" + file;
-                if (QFileInfo(filepath).isFile())
-                {
-                      QFile::remove(filepath);
-                }
-                else
-                {
-                    QDir(filepath).removeRecursively();
-                }
-            }
-        }
-    }
-
-#ifdef DEBUG
-    outputTextEdit->append(PROCESSING_HTML_TAG + tr("Validation du répertoire de sortie ") 
-                                               + path);
-#endif
-
     QStringList args0, args1;
     QString command;
 
     args0 <<  "-m" << "-d" << "," << "-s" << ";" << "-rank" << sharedir + "/rank";
-
     
-# ifndef INSERT_PAGE
-    args1 << "-D" << v(base);
-# endif    
+#   ifndef INSERT_PAGE
+       args1 << "-D" << v(base) + QDir::separator() + subdir;
+#   endif    
     
-    args1 << createCommandLineString();
+    args1 << createCommandLineString(subdir);
    
     outputTextEdit->append(PROCESSING_HTML_TAG + tr("Importation des bases de paye (")
                                                + QString::number(Altair::totalSize[0] 
@@ -122,17 +75,17 @@ void Altair::run()
     // dans le répertoire v(base) (par défaut .../Donnees/R-Altair) alors basculer en un
     // seul fil d'exécution. TODO : le faire plus proprement en manipulant processWidget.
     
-#ifdef Q_OS_WIN
-    // on part de l'hypothèse, sous Windows, qu'il n'y a q'une seule partition de disque dur
-    if (v(XHL)[0] != 'C')
-#else
-    if (v(XHL).contains("/mnt/cdrom"))
-#endif
-    {
-        outputTextEdit->append(PROCESSING_HTML_TAG + tr("Importation des fichiers depuis le disque optique..."));
-        int pos = args1.indexOf("-j");
-        args1[pos + 1] = "'1'";            
-    }
+#   ifdef Q_OS_WIN
+    // on part de l'hypothèse, sous Windows, qu'il n'y a qu'une seule partition de disque dur
+      if (v(XHL)[0] != 'C')
+#   else
+      if (v(XHL).contains("/mnt/cdrom"))
+#   endif
+        {
+            outputTextEdit->append(PROCESSING_HTML_TAG + tr("Importation des fichiers depuis le disque optique..."));
+            int pos = args1.indexOf("-j");
+            args1[pos + 1] = "'1'";            
+        }
     
     QStringListIterator i(args1);
     while (i.hasNext())
@@ -151,9 +104,8 @@ void Altair::run()
                                                           + " " 
                                                           + command);
     }
-
+    
     outputType="L";
-
     process.setProcessChannelMode(QProcess::MergedChannels);
     process.setWorkingDirectory(common::execPath);
 
@@ -244,17 +196,13 @@ void Altair::run()
         }
         else
         {
-
             QTimer *timer = new QTimer(this);
             connect(timer, &QTimer::timeout, [&] { readRankSignal();});
             connect(&process, SIGNAL(finished(int)), timer, SLOT(stop()));
             timer->start(500);
         }
 
-
-
         emit(setProgressBar(0, fileCount == 1 ? 2 : fileCount));
-
     }
     else
     {
@@ -262,13 +210,105 @@ void Altair::run()
                                + tr("Echec du lancement de LHX, ligne de commande ")
                                + altairCommandStr);
     }
+}
+
+
+void Altair::run()
+{
+    updateProject(true);   // crucial otherwise some dynamic settings in the option dialog
+    //may not get through to command line
+
+    if (Altair::totalSize[0] == 0)
+    {
+        processFinished(exitCode::shouldLaunchRAltairAlone);
+        return;
+    }
+    
+    if (Hash::wrapper["XHL"]->isEmpty() ||  Hash::wrapper["XHL"]->at(0).isEmpty() || Hash::wrapper["XHL"]->at(0).at(0).isEmpty())
+    {
+        QMessageBox::warning(nullptr, "Projet", "Charger un projet !");
+        processFinished(exitCode::shouldLaunchRAltairAlone);
+        return;
+    }
+        
+    QString path=v(base);
+
+    if (path.isEmpty())
+    {
+        Warning( "Répertoire de sortie", "Le répertoire de création des bases " + path + 
+                 " n'a pas été indiqué, renseigner le dialogue des paramètres.");
+        
+        processFinished(exitCode::shouldLaunchRAltairAlone);
+        return;
+    }
+    
+    QDir targetDirObject(path);
+
+    if (! targetDirObject.exists() && ! targetDirObject.mkpath(path))
+    {
+        QMessageBox::critical(nullptr, "Répertoire des bases", "Le répertoire " + path + 
+                              " n'a pas pu être créé. Veuillez le faire manuellement.");
+        
+        processFinished(exitCode::shouldLaunchRAltairAlone);
+        return;
+    }
+
+    const QStringList& files = targetDirObject.entryList(QDir::Files 
+                                                         | QDir::Dirs 
+                                                         | QDir::NoDotAndDotDot);
+       
+    if (! files.isEmpty() && v(exportMode) != "Cumulative") 
+    {
+      if (QMessageBox::Cancel
+            == QMessageBox::warning(this, QString("Attention"),
+                                          tr("Vous allez supprimer les bases CSV créées par le précédent traitement.\n"),
+                                          QMessageBox::Ok|QMessageBox::Cancel))
+        {
+            processFinished(exitCode::shouldLaunchRAltairAlone);
+            return;
+        }
+    
+
+        for (const QString& file : files)
+        {
+            const QString filepath = path + "/" + file;
+            if (QFileInfo(filepath).isFile())
+            {
+                  QFile::remove(filepath);
+            }
+            else
+            {
+                QDir(filepath).removeRecursively();
+            }
+        }
+    }
+    
+    if (v(exportMode) == "Distributive")
+    {
+        QString path = path_access(DONNEES_XHL); //+ username;
+        subDirList = QDir(path).entryList(QDir::Dirs
+                                       |QDir::NoDotAndDotDot
+                                       |QDir::NoSymLinks);
+
+        
+        if (! subDirList.isEmpty())
+        {
+            for (const QString& d : subDirList)
+            {
+                QDir().mkpath(v(base) + QDir::separator() + d);
+            }
+        }
+        
+        runWorker(subDirList.first());
+    }
+    else
+      runWorker();
 
 }
 
 
 void Altair::runRAltair()
 {
-
     outputTextEdit->append(tr(STATE_HTML_TAG "Création du rapport d'analyse des données..."));
 
     process.setWorkingDirectory(path_access("Tests/Exemple"));
@@ -299,7 +339,7 @@ void Altair::runRAltair()
 #else
   #ifdef DEBUG
     outputTextEdit->append(tr(STATE_HTML_TAG "Ligne de commande : %1").arg(RAltairCommandStr));
-   #endif
+  #endif
     process.start(RAltairCommandStr, QStringList() << path_access("altaïr.Rproj"));
 #endif
 }
@@ -308,28 +348,27 @@ void Altair::processFinished(exitCode code)
 {
     switch(code)
     {
-    case exitCode::exitFailure :
-        outputTextEdit->append(ERROR_HTML_TAG + QString((outputType == "L") ? 
-                                                         " Décodage des bases " :
-                                                         " Analyse des données ")
-                                              + tr(": plantage de l'application."));
-        return;
-
-    case exitCode::noAudioFiles :
-        outputTextEdit->append(ERROR_HTML_TAG  
-                               + QString((outputType == "L") ?
-                               " Décodage des bases " :
-                               " Analyse des données ")
-                               + tr(": Pas de fichier xhl."));
-        
-        progress->stop();
-        return;
-
-    default :
-        outputTextEdit->append(PROCESSING_HTML_TAG  + tr(" Terminé."));
+        case exitCode::exitFailure :
+            outputTextEdit->append(ERROR_HTML_TAG + QString((outputType == "L") ? 
+                                                             " Décodage des bases " :
+                                                             " Analyse des données ")
+                                                  + tr(": plantage de l'application."));
+            return;
+    
+        case exitCode::noAudioFiles :
+            outputTextEdit->append(ERROR_HTML_TAG  
+                                   + QString((outputType == "L") ?
+                                   " Décodage des bases " :
+                                   " Analyse des données ")
+                                   + tr(": Pas de fichier xhl."));
+            
+            progress->stop();
+            return;
+    
+        default :
+            outputTextEdit->append(PROCESSING_HTML_TAG  + tr(" Terminé."));
 
     }
-
 
     if (process.exitStatus() == QProcess::CrashExit) return;
 
@@ -347,8 +386,15 @@ void Altair::processFinished(exitCode code)
                                + " Octets ("
                                + QString::number(((float)fsSize)/(1024.0*1024.0), 'f', 2)
                                + " Mo)");
-
     }
+    
+    if (! subDirList.isEmpty()) 
+    {
+      subDirList.removeFirst();
+      if (! subDirList.isEmpty())
+         runWorker(subDirList.first());
+    }
+    
 }
 
 
