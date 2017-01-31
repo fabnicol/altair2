@@ -15,7 +15,8 @@
 #ifndef MINIMUM_LINE_WIDTH
 #  define MINIMUM_LINE_WIDTH 350
 #endif
-    
+
+#define DONNEES_XHL  "Tests/Exemple/Donnees/xhl"    
     
  enum exitCode {exitFailure=EXIT_FAILURE, noAudioFiles=10, isoTooSmall=11, mkisofsSanityCheck=12, shouldLaunchRAltairAlone=13};
 
