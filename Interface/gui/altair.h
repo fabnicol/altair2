@@ -18,6 +18,7 @@ public:
 
     Altair();
     void setCurrentFile(const QString &fileName);
+    const QStringList  XML_FILTERS = {"*.xml", "*.xhl", "*.XML", "*.XHL"};    
     MainWindow *parent;
     enum { MaxRecentFiles = 5 };
     static std::uint16_t RefreshFlag;
@@ -79,8 +80,8 @@ public:
 
     bool refreshProjectManager();
     void setProcessMsg(const QString& msg) {processMsg =  msg; }
-    QStringList createCommandLineString();
-    void refreshTreeView(const QString& path = "Tests/Exemple/Donnees/xhl");
+    QStringList createCommandLineString(const QString& subdir = "");
+    void refreshTreeView(const QString& path = DONNEES_XHL);
 
 public slots:
 
@@ -132,6 +133,8 @@ private:
     const QString  makeDataString( );
     const QString  makeSystemString( );
     QString processMsg;
+    
+    QString username;
 
     QList<QStringList> processSecondLevelData(QList<QStringList> &L, bool isFile=true);
     QList<QUrl> parseUrlsDragged(QList<QUrl>& urlsDragged);
@@ -149,7 +152,10 @@ private:
     void printMsg(qint64 new_value, const QString &str);
     void printBaseSize(qint64 new_value = 0);
     QStringList parseDirs();
+    QStringList subDirList;
     void checkAnnumSpan();
+    
+    void runWorker(const QString& = "");
 
 #if 0
     void normaliseMultiBudgetFiles(const QStringList& list);

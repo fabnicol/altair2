@@ -39,21 +39,20 @@ void Altair::refreshModel()
     model->sort(Qt::AscendingOrder);
     model->setFilter(QDir::AllDirs|QDir::Files|QDir::NoDotAndDotDot);
     model->setNameFilterDisables(false);
-    model->setNameFilters({"*.xhl", "*.xml", "*.XHL", "*.XML"});
+    model->setNameFilters(XML_FILTERS);
 }
 
 
 void Altair::refreshTreeView(const QString& path)
 {
-    
     fileTreeView = new QTreeView;
     fileTreeView->setModel(model);
-    QString name = qgetenv("USER");
-    if (name.isEmpty())
-            name = qgetenv("USERNAME");
+    username = qgetenv("USER");
+    if (username.isEmpty())
+       username = qgetenv("USERNAME");
     
     QString userdatadir;
-    userdatadir = path_access(path + name);
+    userdatadir = path_access(path + username);
     if (! QFileInfo(userdatadir).isDir())
     {
         userdatadir = path_access(path);
@@ -67,11 +66,8 @@ void Altair::refreshTreeView(const QString& path)
     fileTreeView->setColumnWidth(0,300);
     fileTreeView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     fileTreeView->setSelectionBehavior(QAbstractItemView::SelectItems);
-
     fileTreeView->header()->setStretchLastSection(true);
-   
     fileTreeView->expandAll();  // ne semble pas fonctionner
-
     fileTreeView->setSortingEnabled(true);
     fileTreeView->sortByColumn(0, Qt::AscendingOrder); //  note: doc Qt5 erronée. Il faut préciser cette option qui n'est pas un défaut.
 }
@@ -84,10 +80,17 @@ QStringList Altair::parseDirs()
     const char* path = "/mnt/cdrom";
 #endif
 
-    QDir d(path);
-    QStringList D = d.entryList(QDir::Dirs|QDir::NoDotAndDotDot|QDir::NoSymLinks|QDir::Files);
-    if (D.isEmpty()) return D;
-    QDirIterator it(path, QDirIterator::Subdirectories);
+    if ((QDir(path).entryList(QDir::Dirs
+                              |QDir::NoDotAndDotDot
+                              |QDir::NoSymLinks
+                              |QDir::Files)).isEmpty())
+        return QStringList();
+    
+    QDirIterator it(path,  XML_FILTERS, QDir::Dirs
+                    |QDir::NoDotAndDotDot
+                    |QDir::NoSymLinks
+                    |QDir::Files,
+                    QDirIterator::Subdirectories);
     QStringList  L;
     while (it.hasNext()) 
     {
@@ -498,7 +501,6 @@ void Altair::setCurrentFile(const QString &fileName)
     parent->settings->setValue("defaut", QVariant(fileName));
 }
 
-
 void Altair::assignWidgetValues()
 {
     QListIterator<FAbstractWidget*> w(Abstract::abstractWidgetList);
@@ -519,8 +521,6 @@ void Altair::assignWidgetValues()
             widget->setWidgetFromXml(*Hash::wrapper[widget->getHashKey()]);
         }
 }
-
-
 
 bool Altair::refreshProjectManager()
 {
