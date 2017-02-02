@@ -39,7 +39,7 @@ public:
             projectName=QDir::currentPath() + QString("/défaut.alt");
       }
 
-
+    void importCdROM();
     void startDrag();
  /* void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event)*/
@@ -82,7 +82,8 @@ public:
     void setProcessMsg(const QString& msg) {processMsg =  msg; }
     QStringList createCommandLineString(const QString& subdir = "");
     void refreshTreeView(const QString& path = DONNEES_XHL);
-
+    QString username;
+    
 public slots:
 
    bool updateProject(bool=false);
@@ -134,8 +135,6 @@ private:
     const QString  makeSystemString( );
     QString processMsg;
     
-    QString username;
-
     QList<QStringList> processSecondLevelData(QList<QStringList> &L, bool isFile=true);
     QList<QUrl> parseUrlsDragged(QList<QUrl>& urlsDragged);
     FStringList parseEntry(const QDomNode &, QTreeWidgetItem *parent=0);
@@ -151,7 +150,7 @@ private:
     void msg (const QString & text);
     void printMsg(qint64 new_value, const QString &str);
     void printBaseSize(qint64 new_value = 0);
-    QStringList parseDirs();
+
     QStringList subDirList;
     void checkAnnumSpan();
     

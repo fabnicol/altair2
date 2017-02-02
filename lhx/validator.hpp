@@ -194,6 +194,7 @@ typedef struct
     bool select_echelon;
     bool pretend;
     bool verifmem;
+    bool cdrom;
     unsigned int  nbfil;
 } info_t;
 
@@ -277,7 +278,7 @@ static const xmlChar drapeau[][2]  = {{1,0}, {2,0}, {3,0}, {4,0}, {5,0}, {6,0}, 
 
 
 void* decoder_fichier(info_t& tinfo);
-
+void* parse_info(info_t& info);
 
 inline xmlNodePtr GCC_INLINE atteindreNoeud(const char * noeud, xmlNodePtr cur)
 {

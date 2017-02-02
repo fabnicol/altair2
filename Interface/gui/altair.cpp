@@ -72,40 +72,6 @@ void Altair::refreshTreeView(const QString& path)
     fileTreeView->sortByColumn(0, Qt::AscendingOrder); //  note: doc Qt5 erronée. Il faut préciser cette option qui n'est pas un défaut.
 }
 
-QStringList Altair::parseDirs()
-{
-#ifdef Q_OS_WIN
-    const char* path = "D:/";
-#else
-    const char* path = "/mnt/cdrom";
-#endif
-
-    if ((QDir(path).entryList(QDir::Dirs
-                              |QDir::NoDotAndDotDot
-                              |QDir::NoSymLinks
-                              |QDir::Files)).isEmpty())
-        return QStringList();
-    
-    QDirIterator it(path,  XML_FILTERS, QDir::Dirs
-                    |QDir::NoDotAndDotDot
-                    |QDir::NoSymLinks
-                    |QDir::Files,
-                    QDirIterator::Subdirectories);
-    QStringList  L;
-    while (it.hasNext()) 
-    {
-        QString s = it.next();
-        if (! s.contains("/."))
-            L << s;
-    }
-        
-    if (! L.isEmpty())
-    {
-        outputTextEdit->append(PROCESSING_HTML_TAG "Analyse du disque optique...");
-    }
-    
-    return L;
-}
 
 
 Altair::Altair()
@@ -152,7 +118,8 @@ Altair::Altair()
     ///// Ce qui suit présupose que les connexions déclenchées par le click
     // sont préalablement traitées par FListFrame (ce qui est le cas)
                 
-    connect(project[0]->importFromMainTree, &QToolButton::clicked,
+    connect(project[0]->importFromMainTree, 
+            &QToolButton::clicked,
             [this]{
         updateProject();
         displayTotalSize();
@@ -211,11 +178,20 @@ Altair::Altair()
     const QIcon altairIcon=QIcon(QString::fromUtf8( ":/images/altair.png"));
     setWindowIcon(altairIcon);
     
-    project[0]->addParsedTreeToListWidget(parseDirs());
     
 }
 
-
+void Altair::importCdROM()
+{
+   const QString cdROM = "/home/" + username + "/Dev/altair/Tests/Exemple/Donnees/xhl/cdrom";
+   
+   if (! QDir(cdROM).QDir::entryInfoList(QDir::Dirs|QDir::Files|QDir::NoDotAndDotDot).isEmpty())
+   {
+       outputTextEdit->append(PROCESSING_HTML_TAG "Analyse du disque optique...");
+       fileTreeView->setCurrentIndex(model->index(cdROM));    
+       project[0]->importFromMainTree->click();
+   }
+}
 
 void Altair::refreshRowPresentation()
 {
