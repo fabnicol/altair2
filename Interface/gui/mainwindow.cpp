@@ -47,7 +47,7 @@ MainWindow::MainWindow(char* projectName)
   
   altair = new Altair;
   altair->parent = this;
-  
+
   createActions();
   createMenus();
 
@@ -144,13 +144,15 @@ MainWindow::MainWindow(char* projectName)
 
   if (projectName[0] != '\0')
   {
-
       // Paraît étrange... mais c'est pour éviter de lire deux fois le projet
       altair->closeProject();
       altair->projectName = QString::fromLatin1(projectName);
       altair->openProjectFileCommonCode();
   }
   
+  // Mettre un lien symbolique dans le dossier xhl vers cdrom
+  // Pour des raisons de dépendances cycliques il faut placer ceci à la fin et dans MainWindow.
+   altair->importCdROM();
 }
 
 

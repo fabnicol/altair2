@@ -57,6 +57,21 @@ void Altair::runWorker(const QString& subdir)
     QString command;
 
     args0 <<  "-m" << "-d" << "," << "-s" << ";" << "-rank" << sharedir + "/rank";
+
+    // Si les bases sont directement importées du CDROM dans l'onglet sans passer une copie
+    // dans le répertoire v(base) (par défaut .../Donnees/R-Altair) alors basculer en un
+    // seul fil d'exécution. TODO : le faire plus proprement en manipulant processWidget.
+    
+#   ifdef Q_OS_WIN
+    // on part de l'hypothèse, sous Windows, qu'il n'y a qu'une seule partition de disque dur
+        if (v(XHL)[0] != 'C')
+#   else
+        if (v(XHL).contains("/cdrom"))
+#   endif
+         {
+             outputTextEdit->append(PROCESSING_HTML_TAG + tr("Importation des fichiers depuis le disque optique..."));
+             args1 << "--cdrom";
+         }
     
 #   ifndef INSERT_PAGE
        args1 << "-D" << v(base) + QDir::separator() + subdir;
@@ -70,22 +85,6 @@ void Altair::runWorker(const QString& subdir)
                                                + tr(" Mo)..."));
 
     command = QString("-m -d \",\" -s \";\" -rank ") + sharedir + "/rank" ;
-
-    // Si les bases sont directement importées du CDROM dans l'onglet sans passer une copie
-    // dans le répertoire v(base) (par défaut .../Donnees/R-Altair) alors basculer en un
-    // seul fil d'exécution. TODO : le faire plus proprement en manipulant processWidget.
-    
-#   ifdef Q_OS_WIN
-    // on part de l'hypothèse, sous Windows, qu'il n'y a qu'une seule partition de disque dur
-      if (v(XHL)[0] != 'C')
-#   else
-      if (v(XHL).contains("/mnt/cdrom"))
-#   endif
-        {
-            outputTextEdit->append(PROCESSING_HTML_TAG + tr("Importation des fichiers depuis le disque optique..."));
-            int pos = args1.indexOf("-j");
-            args1[pos + 1] = "'1'";            
-        }
     
     QStringListIterator i(args1);
     while (i.hasNext())

@@ -879,29 +879,14 @@ void* decoder_fichier(info_t& info)
 
 if (info.pretend) return nullptr;
 
-#if  defined GCC_REGEX && !defined NO_REGEX
-
-    regex pat {EXPRESSION_REG_ELUS,  regex_constants::icase};
-    regex pat2 {EXPRESSION_REG_VACATIONS, regex_constants::icase};
-    regex pat3 {EXPRESSION_REG_ASSISTANTES_MATERNELLES, regex_constants::icase};
-    regex pat_adjoints {EXPRESSION_REG_ADJOINTS, regex_constants::icase};
-    regex pat_agents {EXPRESSION_REG_AGENTS, regex_constants::icase};
-    regex pat_cat_a {EXPRESSION_REG_CAT_A, regex_constants::icase};
-    regex pat_cat_b {EXPRESSION_REG_CAT_B, regex_constants::icase};
-    regex pat_ergo {EXPRESSION_REG_ERGO, regex_constants::icase };
-
-#endif
-
-    xmlKeepBlanksDefault(0);
-
-    if (info.reduire_consommation_memoire)
+if (info.reduire_consommation_memoire)
     {
         int err = calculer_memoire_requise(info);
         if (err)
         {
             std ::cerr << ERROR_HTML_TAG "Calcul de la mémoire requise" ENDL;
-        //    perror(ERROR_HTML_TAG  "Erreur");
-        //    exit(-1001);
+            //    perror(ERROR_HTML_TAG  "Erreur");
+            //    exit(-1001);
         }
     }
     else
@@ -919,9 +904,30 @@ if (info.pretend) return nullptr;
         else
         {
             perror(ERROR_HTML_TAG "Problème d'allocation mémoire de info.NLigne");
-            exit(1003);
+            throw;
         }
     }
+return nullptr;
+}
+
+void* parse_info(info_t& info)
+{
+
+#if  defined GCC_REGEX && !defined NO_REGEX
+
+    regex pat {EXPRESSION_REG_ELUS,  regex_constants::icase};
+    regex pat2 {EXPRESSION_REG_VACATIONS, regex_constants::icase};
+    regex pat3 {EXPRESSION_REG_ASSISTANTES_MATERNELLES, regex_constants::icase};
+    regex pat_adjoints {EXPRESSION_REG_ADJOINTS, regex_constants::icase};
+    regex pat_agents {EXPRESSION_REG_AGENTS, regex_constants::icase};
+    regex pat_cat_a {EXPRESSION_REG_CAT_A, regex_constants::icase};
+    regex pat_cat_b {EXPRESSION_REG_CAT_B, regex_constants::icase};
+    regex pat_ergo {EXPRESSION_REG_ERGO, regex_constants::icase };
+
+#endif
+
+    xmlKeepBlanksDefault(0);
+
 
     for (unsigned i = 0; i < info.threads->argc ; ++i)
     {

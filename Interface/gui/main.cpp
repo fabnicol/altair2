@@ -32,7 +32,7 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #include <QLibraryInfo>
 #include <QTextCodec>
 #include "altair-gui.h"
-
+#include <thread>
 
 int main(int argc, char *argv[])
 {
@@ -68,7 +68,10 @@ int main(int argc, char *argv[])
     }
 
     if (res == false)
-        QMessageBox::critical(nullptr, "Erreur", "Traductions qtxmlpatterns non chargées", QMessageBox::Cancel);
+        QMessageBox::critical(nullptr, 
+                                          "Erreur", 
+                                          "Traductions qtxmlpatterns non chargées",
+                                          QMessageBox::Cancel);
 
     char* s;
     if (argc > 1) s=argv[1];
@@ -88,10 +91,26 @@ int main(int argc, char *argv[])
         padding: 0 10px;\
     }");
 
-
+   const QString cdROM = "/home/" + qgetenv("USER") + "/Dev/altair/Tests/Exemple/Donnees/xhl/cdrom";
+  QLabel *a = nullptr;
+    
+  if (! QDir(cdROM).QDir::entryInfoList(QDir::Dirs|QDir::Files|QDir::NoDotAndDotDot).isEmpty())
+   {                      
+        a = new QLabel(" Lancement d'Altaïr...");
+        a->setGeometry(QRect(500, 300, 200, 80));
+        a->setWindowIcon(QIcon(":/images/altair.png"));
+        a->show();
+        QTimer::singleShot(1300, a, SLOT(close()));
+        app.exec();
+        QObject::connect(a, &QLabel::destroyed, [&] { app.quit();});
+    }
+                    
+       
     MainWindow *mainWin=new MainWindow(s);
 
     QObject::connect(mainWin, &MainWindow::exitSignal, [&] { app.quit();});
     mainWin->show();
+    if (a) a->raise();
+    
     return app.exec();
 }
