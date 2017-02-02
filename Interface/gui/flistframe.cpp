@@ -706,7 +706,7 @@ void FListFrame::on_importFromMainTree_clicked()
              }
           }
         #ifdef DEBUG
-         altair->outputTextEdit->append(STATE_HTML_TAG "Ajout des chemins à  la liste centrale" );
+         altair->outputTextEdit->append(STATE_HTML_TAG "Ajout des chemins à la liste centrale" );
         #endif
 
          if (stringListSize)
@@ -714,7 +714,6 @@ void FListFrame::on_importFromMainTree_clicked()
              addParsedTreeToListWidget(stringsToBeAdded);
          }
      }
-
 }
 
 void  FListFrame::setSlotListSize(int s) 

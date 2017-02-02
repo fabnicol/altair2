@@ -118,6 +118,7 @@ int main(int argc, char **argv)
         false,            // ne pas exporter l'échelon
         false,            // pretend
         false,            // verifmem
+        false,           //  cdrom
         1                // nbfil
     };
 
@@ -619,6 +620,13 @@ int main(int argc, char **argv)
           start += 2;
           continue;
        }
+       else if  (commandline_tab[start] == "--cdrom")
+       {
+         info.cdrom = true;
+         ++start;
+         cerr << STATE_HTML_TAG "Modalité disque optique" << ENDL;
+         continue;
+       }
         else if (commandline_tab[start][0] == '-')
         {
           cerr << ERROR_HTML_TAG "Option inconnue " << commandline_tab[start] << ENDL;
@@ -626,7 +634,7 @@ int main(int argc, char **argv)
         }
         else break;
     }
-
+    
     /* Fin de l'analyse de la ligne de commande */
 
     //struct stat st;
@@ -732,7 +740,8 @@ int main(int argc, char **argv)
 
         segments.emplace_back(segment);
 
-    } while (commandline_it != commandline_tab.end() && taille_it != taille.end());
+    } while (commandline_it != commandline_tab.end() 
+                 && taille_it != taille.end());
 
     unsigned int segments_size = segments.size();
     if (segments_size > 1)
@@ -770,7 +779,6 @@ int main(int argc, char **argv)
     cerr << ENDL << PROCESSING_HTML_TAG "Vitesse d'exécution : "
          << lignes.first / duree
          << " milliers de lignes par seconde" << ENDL;
-
 
     if (rankFile.is_open()) rankFile.close();
 
@@ -819,24 +827,22 @@ pair<uint64_t, uint64_t> produire_segment(const info_t& info, const vString& seg
 
 #endif
 
+
+    
     for (unsigned  i = 0; i < info.nbfil; ++i)
     {
         Info[i] = info;
-
         Info[i].threads = &v_thread_t[i];
         Info[i].threads->thread_num = i;
-
         Info[i].threads->argc = nb_fichier_par_fil.at(i);
-
         Info[i].threads->argv = vString(segment_it, segment_it + nb_fichier_par_fil[i]);
-
         Info[i].threads->in_memory_file = vString(nb_fichier_par_fil[i]);
         segment_it += nb_fichier_par_fil.at(i);
 
         if (Info[i].threads->argv.size() != (unsigned) nb_fichier_par_fil.at(i))
         {
             cerr << ERROR_HTML_TAG "Problème issu de l'allocation des threads" << ENDL ;
-            exit(-145);
+            throw;
         }
 
         if (verbeux)
@@ -848,12 +854,19 @@ pair<uint64_t, uint64_t> produire_segment(const info_t& info, const vString& seg
         /* Lancement des fils d'exécution */
 
         if (verbeux && Info[0].reduire_consommation_memoire)
-           cerr << ENDL PROCESSING_HTML_TAG "Premier scan des fichiers pour déterminer les besoins mémoire, " << "fil " << i << ENDL;
+           cerr << ENDL PROCESSING_HTML_TAG 
+                      "Premier scan des fichiers pour déterminer les besoins mémoire, "
+                 << "fil " << i << ENDL;
 
         if (info.nbfil > 1)
         {
-            thread th{decoder_fichier, ref(Info[i])};
-            t[i] = move(th);
+            if (! info.cdrom)
+            {
+                thread th{decoder_fichier, ref(Info[i])};
+                t[i] = move(th);
+            }
+            else
+                decoder_fichier(ref(Info[i]));
         }
         else
         {
@@ -869,14 +882,41 @@ pair<uint64_t, uint64_t> produire_segment(const info_t& info, const vString& seg
     if (verbeux)
        cerr << ENDL PROCESSING_HTML_TAG "Rassemblement des fils d'exécution." ENDL;
 
-    if (info.nbfil > 1)
+    if (info.nbfil > 1 && !info.cdrom)
         for (unsigned i = 0; i < info.nbfil; ++i)
         {
             t[i].join ();
         }
 
-    if (info.pretend) return make_pair(0, 0);
+    for (unsigned  i = 0; i < info.nbfil; ++i)
+    {
+    
+        errno = 0;
 
+        /* Lancement des fils d'exécution */
+
+        if (verbeux)
+           cerr << ENDL PROCESSING_HTML_TAG "Analyse XML, " << "fil " << i << ENDL;
+
+        if (info.nbfil > 1)
+        {
+                thread th{parse_info, ref(Info[i])};
+                t[i] = move(th);
+        }
+        else
+        {
+            parse_info(ref(Info[0]));
+        }
+    }
+    
+    if (info.nbfil > 1)
+        for (unsigned i = 0; i < info.nbfil; ++i)
+        {
+            t[i].join ();
+        }
+    
+    
+    if (info.pretend) return make_pair(0, 0);
 
     if (Info[0].calculer_maxima)
     {
@@ -948,7 +988,6 @@ pair<uint64_t, uint64_t> produire_segment(const info_t& info, const vString& seg
     {
         for (unsigned agent = 0; agent < Info[i].NCumAgent; ++agent)
         {
-            int k = 0;
             if (! Info[i].Table[agent].empty())  
             for (xmlChar* u : Info[i].Table[agent])
             {
