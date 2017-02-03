@@ -129,11 +129,10 @@ MainWindow::MainWindow(char* projectName)
 
   Altair::RefreshFlag =  Altair::RefreshFlag  | interfaceStatus::parseXml;
 
-  if (settings->value(defaultLoadProjectBehaviorBox->getHashKey()) == true)
+  if (settings->value("loadProjectBehavior") == true)
       projectFileStatus = altair->clearInterfaceAndParseProject();
 
-  adjustDisplay(projectFileStatus);
-
+  
   // resetting interfaceStatus::parseXml bits to 0
   Altair::RefreshFlag = Altair::RefreshFlag & (~interfaceStatus::parseXml);
 
@@ -152,7 +151,13 @@ MainWindow::MainWindow(char* projectName)
   
   // Mettre un lien symbolique dans le dossier xhl vers cdrom
   // Pour des raisons de dépendances cycliques il faut placer ceci à la fin et dans MainWindow.
-   altair->importCdROM();
+  
+  if (! settings->value("importerAuLancement").isValid()) 
+      settings->value("importerAuLancement") = true;
+              
+  if (settings->value("importerAuLancement") == true)
+      altair->importData();
+  
 }
 
 
@@ -1299,11 +1304,17 @@ void MainWindow::configureOptions()
                                                                 {"Interface", "Sauvegarder le projet .alt automatiquement"});
 
     defaultLoadProjectBehaviorBox = new FCheckBox("Charger le projet par défaut au lancement",
-                                                                              flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
+                                                                            flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
                                                                             "loadProjectBehavior",
                                                                             {"Interface", "Charger le projet .alt au lancement"});
 
-
+    importerAuLancementBox = new FCheckBox("Charger les données utilisateur au lancement",
+                                                                            (settings->value("importerAuLancement") == true ? flags::status::enabledChecked : 
+                                                                                                                              flags::status::enabledUnchecked) 
+                                                                            | flags::commandLineType::noCommandLine,
+                                                                            "importerAuLancement",
+                                                                            {"Interface", "Charger les données xhl du disque optique\nou du répertoire de données au lancement"});
+                    
     QGroupBox *outputGroupBox= new QGroupBox(tr("Console"));
 
     defaultMaximumConsoleOutputBox = new FCheckBox("Limiter la sortie de la console",
@@ -1312,7 +1323,7 @@ void MainWindow::configureOptions()
                                                                             {"Interface", "Limiter le nombre de lignes en sortie de la console"});
 
     defaultQuietBox = new FCheckBox("Limiter la verbosité",
-                                        flags::status::enabledChecked|flags::commandLineType::defaultCommandLine,
+                                       flags::status::enabledChecked|flags::commandLineType::defaultCommandLine,
                                        "quiet",
                                        {"Interface", "Limiter la verbosité de la console"},
                                         "q");
@@ -1324,7 +1335,8 @@ void MainWindow::configureOptions()
 
 
     behaviorWidgetListBox  << defaultSaveProjectBehaviorBox
-                           << defaultLoadProjectBehaviorBox;
+                           << defaultLoadProjectBehaviorBox
+                           << importerAuLancementBox;   
 
     
     displayToolBarCBoxListBox  <<  defaultFileToolBarBox
@@ -1385,10 +1397,10 @@ void MainWindow::configureOptions()
     
     connect(closeButton, &QDialogButtonBox::accepted,
                         [this]  {
-
-                                    settings->setValue(defaultLoadProjectBehaviorBox->getHashKey(), defaultLoadProjectBehaviorBox->isChecked());
+                                    settings->setValue("importerAuLancement", importerAuLancementBox->isChecked());
+                                    settings->setValue("loadProjectBehavior", defaultLoadProjectBehaviorBox->isChecked());
                                 
-                                    if (    (isDefaultSaveProjectChecked())
+                                    if  ((isDefaultSaveProjectChecked())
                                          || (QMessageBox::Yes == QMessageBox::warning(nullptr, tr("Sauvegarder le projet"),
                                                                          tr("Le projet n'a pas été sauvegardé.\nAppuyer sur Oui pour le sauvegarder\nou sur Non pour fermer le dialogue sans sauvegarder le projet."),
                                                                                       QMessageBox::Yes|QMessageBox::No))
