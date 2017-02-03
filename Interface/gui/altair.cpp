@@ -191,8 +191,7 @@ void Altair::importData()
 
    if (! cdROM.isEmpty())
    {
-       Q("yes")
-       QDir c = QDir(cdROM, "", QDir::IgnoreCase, QDir::Drives|QDir::Dirs);
+        QDir c = QDir(cdROM, "", QDir::IgnoreCase, QDir::Drives|QDir::Dirs);
 
        if (c.exists()
            && ! c.QDir::entryInfoList(QDir::Dirs
@@ -206,7 +205,6 @@ void Altair::importData()
            return;
        }
    }
-   else Q("NO")
 
 #ifdef Q_OS_WIN
     QString userdata = xhl;
