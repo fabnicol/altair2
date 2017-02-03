@@ -187,25 +187,26 @@ Altair::Altair()
 void Altair::importData()
 { 
    const QString xhl = path_access(QString(DONNEES_XHL) + QDir::separator() );
+   const QString cdROM = cdRomMounted();
 
-#ifdef Q_OS_WIN
-   const QString cdROM = "D:/";
-#else
-   const QString cdROM = xhl + "cdrom";
-#endif
-
-   QDir c = QDir(cdROM);
-
-   if (c.exists()
-       && ! c.QDir::entryInfoList(QDir::Dirs
-                                         | QDir::Files
-                                         | QDir::NoDotAndDotDot).isEmpty())
+   if (! cdROM.isEmpty())
    {
-       outputTextEdit->append(PROCESSING_HTML_TAG "Analyse du disque optique...");
-       fileTreeView->setCurrentIndex(model->index(cdROM));    
-       project[0]->importFromMainTree->click();
-       return;
+       Q("yes")
+       QDir c = QDir(cdROM, "", QDir::IgnoreCase, QDir::Drives|QDir::Dirs);
+
+       if (c.exists()
+           && ! c.QDir::entryInfoList(QDir::Dirs
+                                     | QDir::Drives
+                                     | QDir::Files
+                                     | QDir::NoDotAndDotDot).isEmpty())
+       {
+           outputTextEdit->append(PROCESSING_HTML_TAG "Analyse du disque optique...");
+           fileTreeView->setCurrentIndex(model->index(cdROM));
+           project[0]->importFromMainTree->click();
+           return;
+       }
    }
+   else Q("NO")
 
 #ifdef Q_OS_WIN
     QString userdata = xhl;

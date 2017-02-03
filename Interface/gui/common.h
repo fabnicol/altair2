@@ -32,6 +32,8 @@ public:
   
   enum class TabWidgetTrait {NO_EMBEDDING_TAB_WIDGET=-1};
 
+  static QString cdRomMounted();
+
   static QString tempdir;
   static QString generateDatadirPath(const char* path="");
   static QString generateDatadirPath(const QString &path);
