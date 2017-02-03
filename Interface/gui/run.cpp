@@ -295,12 +295,12 @@ void Altair::run()
 #       else
             path = path_access(DONNEES_XHL + username);
             if (! QDir(path).exists()) path = path_access(DONNEES_XHL);
-            Q(path)
+
 #       endif
       }
       else
           path = cdROM;
-Q(path)
+
       if (subDirList.isEmpty())
         {
           subDirList = QDir(path).entryList(QDir::Dirs
