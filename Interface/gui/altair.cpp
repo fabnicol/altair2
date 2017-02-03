@@ -186,8 +186,8 @@ Altair::Altair()
 
 void Altair::importData()
 { 
-   const QString xhl = path_access("Tests/Exemple/Donnees/xhl/");
-Q(xhl)
+   const QString xhl = path_access(QString(DONNEES_XHL) + QDir::separator() );
+
 #ifdef Q_OS_WIN
    const QString cdROM = "D:/";
 #else
@@ -482,7 +482,7 @@ bool Altair::updateProject(bool requestSave)
         writeProjectFile();
     
 # ifndef INSERT_DIRPAGE
-           Abstract::initH("base", path_access("Tests/Exemple/Donnees/R-Altair"));
+           Abstract::initH("base", path_access("Tests/Exemple/Donnees/" AltairDir));
            Abstract::initH("lhxDir", path_access(System));
 # endif  
            

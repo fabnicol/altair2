@@ -25,7 +25,9 @@ QStringList Altair::createCommandLineString(const QString& subdir)
             while (z.hasNext())
             {
                 QString st = z.next();
-                if (st.contains(subdir)) L << st;
+
+                // ne pas utiliser QDir::separator car st est en / unix-like
+                if (st.contains(subdir + "/")) L << st;
             }
             
             commandLineChunk.clear();
@@ -284,25 +286,52 @@ void Altair::run()
     
     if (v(exportMode) == "Distributive")
     {
-        QString path = path_access(DONNEES_XHL); //+ username;
-        subDirList = QDir(path).entryList(QDir::Dirs
-                                       |QDir::NoDotAndDotDot
-                                       |QDir::NoSymLinks);
 
-        
-        if (! subDirList.isEmpty())
+#     ifdef Q_OS_WIN
+        const QString cdROM = "D:/";
+        const QDir d = QDir(cdROM);
+#     else
+        const QString cdROM = "/home/" + qgetenv("USER") + "/Dev/altair/Tests/Exemple/Donnees/xhl/cdrom";
+#     endif
+
+      if (d.exists() && ! d.entryList(QDir::Dirs
+                                     |QDir::Files
+                                     |QDir::NoDotAndDotDot
+                                     |QDir::NoSymLinks).isEmpty())
+      {
+          path = cdROM;
+      }
+      else
+      {
+
+#       ifdef Q_OS_WIN
+            path = path_access(DONNEES_XHL);
+#       else
+            path = path_access(DONNEES_XHL + username);
+            if (! QDir(path).exists()) path = path_access(DONNEES_XHL);
+#       endif
+      }
+
+      if (subDirList.isEmpty())
         {
-            for (const QString& d : subDirList)
+          subDirList = QDir(path).entryList(QDir::Dirs
+                                            |QDir::NoDotAndDotDot
+                                            |QDir::NoSymLinks);
+
+
+          for (const QString& d : subDirList)
             {
                 QDir().mkpath(v(base) + QDir::separator() + d);
             }
         }
-        
-        runWorker(subDirList.first());
-    }
-    else
-      runWorker();
 
+      if (! subDirList.isEmpty())
+          runWorker(subDirList.first());
+      else
+          runWorker();
+   }
+   else
+     runWorker();
 }
 
 
