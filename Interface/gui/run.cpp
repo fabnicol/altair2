@@ -286,24 +286,10 @@ void Altair::run()
     
     if (v(exportMode) == "Distributive")
     {
+      const QString cdROM = cdRomMounted();
 
-#     ifdef Q_OS_WIN
-        const QString cdROM = "D:/";
-        const QDir d = QDir(cdROM);
-#     else
-        const QString cdROM = "/home/" + qgetenv("USER") + "/Dev/altair/Tests/Exemple/Donnees/xhl/cdrom";
-#     endif
-
-      if (d.exists() && ! d.entryList(QDir::Dirs
-                                     |QDir::Files
-                                     |QDir::NoDotAndDotDot
-                                     |QDir::NoSymLinks).isEmpty())
+      if (cdROM.isEmpty())
       {
-          path = cdROM;
-      }
-      else
-      {
-
 #       ifdef Q_OS_WIN
             path = path_access(DONNEES_XHL);
 #       else
@@ -311,6 +297,8 @@ void Altair::run()
             if (! QDir(path).exists()) path = path_access(DONNEES_XHL);
 #       endif
       }
+      else
+          path = cdROM;
 
       if (subDirList.isEmpty())
         {
