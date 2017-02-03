@@ -25,7 +25,7 @@ QStringList Altair::createCommandLineString(const QString& subdir)
             while (z.hasNext())
             {
                 QString st = z.next();
-                if (st.contains(subdir)) L << st;
+                if (st.contains(subdir + QDir::separator())) L << st;
             }
             
             commandLineChunk.clear();
@@ -284,11 +284,17 @@ void Altair::run()
     
     if (v(exportMode) == "Distributive")
     {
+
+#ifdef Q_OS_WIN
         QString path = path_access(DONNEES_XHL); //+ username;
+#else
+        QString path = path_access(DONNEES_XHL + username);
+        if (! QDir(path).exists()) path = path_access(DONNEES_XHL);
+#endif
+        
         subDirList = QDir(path).entryList(QDir::Dirs
                                        |QDir::NoDotAndDotDot
                                        |QDir::NoSymLinks);
-
         
         if (! subDirList.isEmpty())
         {
@@ -298,7 +304,7 @@ void Altair::run()
             }
         }
         
-        runWorker(subDirList.first());
+        for (const QString& d :  subDirList) runWorker(d);
     }
     else
       runWorker();

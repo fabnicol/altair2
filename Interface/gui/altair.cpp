@@ -186,8 +186,8 @@ Altair::Altair()
 
 void Altair::importData()
 { 
-   const QString xhl = path_access("Tests/Exemple/Donnees/xhl/");
-Q(xhl)
+   const QString xhl = path_access(QString(DONNEES_XHL) + QDir::separator() );
+
 #ifdef Q_OS_WIN
    const QString cdROM = "D:/";
 #else
