@@ -23,7 +23,13 @@ class Hash;
 void Altair::initialize()
 {
     adjustSize();
-
+#ifdef Q_OS_WIN
+    username = "Public";
+#else
+    username = qgetenv("USER");
+    if (username.isEmpty())
+       username = qgetenv("USERNAME");
+#endif
     Hash::description["année"]=QStringList("Fichiers .xhl");
     Abstract::initH("NBulletins");
 }
@@ -47,9 +53,6 @@ void Altair::refreshTreeView(const QString& path)
 {
     fileTreeView = new QTreeView;
     fileTreeView->setModel(model);
-    username = qgetenv("USER");
-    if (username.isEmpty())
-       username = qgetenv("USERNAME");
     
     QString userdatadir;
     userdatadir = path_access(path + username);
@@ -182,11 +185,19 @@ Altair::Altair()
 }
 
 void Altair::importData()
-{
-   const QString xhl = "/home/" + username + "/Dev/altair/Tests/Exemple/Donnees/xhl/";
+{ 
+   const QString xhl = path_access("Tests/Exemple/Donnees/xhl/");
+Q(xhl)
+#ifdef Q_OS_WIN
+   const QString cdROM = "D:/";
+#else
    const QString cdROM = xhl + "cdrom";
-   
-   if (! QDir(cdROM).QDir::entryInfoList(QDir::Dirs
+#endif
+
+   QDir c = QDir(cdROM);
+
+   if (c.exists()
+       && ! c.QDir::entryInfoList(QDir::Dirs
                                          | QDir::Files
                                          | QDir::NoDotAndDotDot).isEmpty())
    {
@@ -195,10 +206,14 @@ void Altair::importData()
        project[0]->importFromMainTree->click();
        return;
    }
-   
-   QString userdata = username == "fab" ? xhl : xhl + username;
-   
-   if (! QDir(userdata).QDir::entryInfoList(QDir::Dirs
+
+#ifdef Q_OS_WIN
+    QString userdata = xhl;
+#else
+    QString userdata = username == "fab" ? xhl : xhl + username;
+#endif
+   QDir d = QDir(userdata);
+   if (d.exists() && ! d.QDir::entryInfoList(QDir::Dirs
                                             | QDir::Files
                                             | QDir::NoDotAndDotDot).isEmpty())
    {

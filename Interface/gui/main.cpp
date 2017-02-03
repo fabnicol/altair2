@@ -91,7 +91,12 @@ int main(int argc, char *argv[])
         padding: 0 10px;\
     }");
 
-   const QString cdROM = "/home/" + qgetenv("USER") + "/Dev/altair/Tests/Exemple/Donnees/xhl/cdrom";
+#ifdef Q_OS_WIN
+  const QString cdROM = "D:/";
+#else
+  const QString cdROM = "/home/" + qgetenv("USER") + "/Dev/altair/Tests/Exemple/Donnees/xhl/cdrom";
+#endif
+
   QLabel *a = nullptr;
     
   if (! QDir(cdROM).QDir::entryInfoList(QDir::Dirs|QDir::Files|QDir::NoDotAndDotDot).isEmpty())
