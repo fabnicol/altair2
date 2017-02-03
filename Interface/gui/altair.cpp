@@ -181,15 +181,30 @@ Altair::Altair()
     
 }
 
-void Altair::importCdROM()
+void Altair::importData()
 {
-   const QString cdROM = "/home/" + username + "/Dev/altair/Tests/Exemple/Donnees/xhl/cdrom";
+   const QString xhl = "/home/" + username + "/Dev/altair/Tests/Exemple/Donnees/xhl/";
+   const QString cdROM = xhl + "cdrom";
    
-   if (! QDir(cdROM).QDir::entryInfoList(QDir::Dirs|QDir::Files|QDir::NoDotAndDotDot).isEmpty())
+   if (! QDir(cdROM).QDir::entryInfoList(QDir::Dirs
+                                         | QDir::Files
+                                         | QDir::NoDotAndDotDot).isEmpty())
    {
        outputTextEdit->append(PROCESSING_HTML_TAG "Analyse du disque optique...");
        fileTreeView->setCurrentIndex(model->index(cdROM));    
        project[0]->importFromMainTree->click();
+       return;
+   }
+   
+   QString userdata = username == "fab" ? xhl : xhl + username;
+   
+   if (! QDir(userdata).QDir::entryInfoList(QDir::Dirs
+                                            | QDir::Files
+                                            | QDir::NoDotAndDotDot).isEmpty())
+   {
+       fileTreeView->setCurrentIndex(model->index(userdata));    
+       project[0]->importFromMainTree->click();
+       return;
    }
 }
 

@@ -39,7 +39,7 @@ public:
             projectName=QDir::currentPath() + QString("/défaut.alt");
       }
 
-    void importCdROM();
+    void importData();
     void startDrag();
  /* void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event)*/

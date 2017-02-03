@@ -173,6 +173,7 @@ class MainWindow : public QMainWindow
                         *defaultMessageLayoutBox,
                         *defaultOutputTextEditBox,
                         *defaultLoadProjectBehaviorBox,
+                        *importerAuLancementBox,
                         *defaultFileToolBarBox,
                         *defaultEditToolBarBox,
                         *defaultProcessToolBarBox,
