@@ -439,9 +439,14 @@ QString common::cdRomMounted()
     {
            if (storage.isValid() && storage.isReady())
            {
-                if (ISOLIST.contains(storage.fileSystemType()))
+                if (ISOLIST.contains(storage.fileSystemType().toUpper()))
                 {
-                  return(storage.rootPath());
+                  #ifdef Q_OS_LINUX
+                    if (QDir(storage.rootPath()).entryList(QDir::Files|QDir::Dirs).isEmpty())
+                        return ("");
+                    else
+                  #endif
+                    return(storage.rootPath());
                  break;
                 }
            }

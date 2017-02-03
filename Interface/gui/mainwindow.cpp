@@ -527,9 +527,6 @@ vector<string> MainWindow::extraire_donnees_protegees(const string& st)
         if (iter == st.end()) break;
 
         string value = string(iter1 + 1, iter);
-#if 0
-        Q((tag + " " + value).c_str());
-#endif
         auto iter2 = iter;
 
         while (++iter != st.end())
@@ -1192,7 +1189,7 @@ bool MainWindow::restoreProject(QString subDirStr)
         {
           QString st2 = st;
           st2.chop(5);
-          Q(st2)
+
           result &= common::unzip(subDirStr + QDir::separator() + st, v(base) + QDir::separator() + st2);
           if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "La base " + v(base) + QDir::separator() + st2 + " a été décompressée sous : " + subDirStr);
         }
