@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
 
   QLabel *a = nullptr;
     
-  if (! QDir(cdROM).QDir::entryInfoList(QDir::Dirs|QDir::Files|QDir::NoDotAndDotDot).isEmpty())
+  if (QDir(cdROM).exists() && ! QDir(cdROM).QDir::entryInfoList(QDir::Dirs|QDir::Files|QDir::NoDotAndDotDot).isEmpty())
    {                      
         a = new QLabel(" Lancement d'Altaïr...");
         a->setGeometry(QRect(500, 300, 200, 80));
