@@ -314,7 +314,7 @@ void MainWindow::createActions()
                   common::openDir(dialog->dirTab->donneesCSV->getText());  
   #           else
                   
-                  QString userdatadir = common::path_access("Tests/Exemple/Donnees/R-Altair" );
+                  QString userdatadir = common::path_access("Tests/Exemple/Donnees/" AltairDir );
                   if (! QFileInfo(userdatadir).isDir())
                   {
                       QDir dir;
