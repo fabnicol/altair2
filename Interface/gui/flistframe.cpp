@@ -137,7 +137,7 @@ void FListFrame::total_connect(FListFrame* w)
 
 void FListFrame::on_xhl_display(const QString& xhl)
 {
-#if Q_OS_WINDOWS
+#ifdef Q_OS_WIN
     QString strnotepad = common::path_access("Outils/npp/notepad++.exe");
 #else
     QString strnotepad = "/usr/bin/kate";
