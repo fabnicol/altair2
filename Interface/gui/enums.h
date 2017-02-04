@@ -17,7 +17,13 @@
 #endif
 
 #define DONNEES_XHL  "Tests/Exemple/Donnees/xhl"    
-    
+
+#ifdef __linux__
+  #define AltairDir  "R-Altair"
+#else
+  #define AltairDir  "R-Altaïr"
+#endif
+
  enum exitCode {exitFailure=EXIT_FAILURE, noAudioFiles=10, isoTooSmall=11, mkisofsSanityCheck=12, shouldLaunchRAltairAlone=13};
 
 class flags

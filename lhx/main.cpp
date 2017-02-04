@@ -636,12 +636,6 @@ int main(int argc, char **argv)
     }
     
     /* Fin de l'analyse de la ligne de commande */
-
-    //struct stat st;
-    //stat(info.threads->argv[i].c_str(), &st);
-    //const size_t file_size =  st.st_size;
-    
-
     /* on sait que info.nbfil >= 1 */
 
     vector<unsigned long long> taille;

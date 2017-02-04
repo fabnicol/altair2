@@ -429,3 +429,28 @@ bool common::unzip (const QString& zipfilename , const QString& filename)
     outfile.close();
     return result;
 }
+
+
+QString common::cdRomMounted()
+{
+    const QList<QString>& ISOLIST = {"CDFS", "UDF", "ISO-9660", "ISO9660"};
+
+    for (const QStorageInfo &storage : QStorageInfo::mountedVolumes())
+    {
+           if (storage.isValid() && storage.isReady())
+           {
+                if (ISOLIST.contains(storage.fileSystemType().toUpper()))
+                {
+                  #ifdef Q_OS_LINUX
+                    if (QDir(storage.rootPath()).entryList(QDir::Files|QDir::Dirs).isEmpty())
+                        return ("");
+                    else
+                  #endif
+                    return(storage.rootPath());
+                 break;
+                }
+           }
+    }
+
+    return("");
+}
