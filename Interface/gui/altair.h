@@ -154,7 +154,7 @@ private:
     QStringList subDirList;
     void checkAnnumSpan();
     
-    void runWorker(const QString& = "");
+    void runWorker(const QString& d = "");
 
 #if 0
     void normaliseMultiBudgetFiles(const QStringList& list);
