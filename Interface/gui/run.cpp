@@ -302,8 +302,6 @@ void Altair::run()
       }
       else
           path = cdROM;
-
-      int l = path.length();
       
       if (subDirList.isEmpty())
         {
@@ -312,10 +310,14 @@ void Altair::run()
                   const QStringList &q = Hash::wrapper["XHL"]->at(j);
                   for (const QString &s : q)
                   {
-                      QString d = s.mid(l).section('/', 0, 0, QString::SectionSkipEmpty);
-                      if  (d != "" && ! subDirList.contains(d))
+                      QString d = s.section("xhl/", 1, 1, QString::SectionSkipEmpty).section('/', 0, 0, QString::SectionSkipEmpty);
+                      if (d.isEmpty()  && ! cdROM.isEmpty())
+                      {
+                          d = s.section("/mnt/cdrom/", 0, 0, QString::SectionSkipEmpty).section('/', 0, 0, QString::SectionSkipEmpty);
+                      }
+                          
+                      if  (! d.isEmpty() && ! subDirList.contains(d))
                           subDirList << d;
-                      Q(s)
                       QDir().mkpath(v(base) + QDir::separator() + d);
                   }
               }
