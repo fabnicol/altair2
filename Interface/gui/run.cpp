@@ -25,7 +25,9 @@ QStringList Altair::createCommandLineString(const QString& subdir)
             while (z.hasNext())
             {
                 QString st = z.next();
-                if (st.contains(subdir + QDir::separator())) L << st;
+
+                // ne pas utiliser QDir::separator car st est en / unix-like
+                if (st.contains(subdir + "/")) L << st;
             }
             
             commandLineChunk.clear();
@@ -53,6 +55,8 @@ QStringList Altair::createCommandLineString(const QString& subdir)
 
 void Altair::runWorker(const QString& subdir)
 {
+   
+
     QStringList args0, args1;
     QString command;
 
@@ -284,31 +288,46 @@ void Altair::run()
     
     if (v(exportMode) == "Distributive")
     {
+      const QString cdROM = cdRomMounted();
 
-#ifdef Q_OS_WIN
-        QString path = path_access(DONNEES_XHL); //+ username;
-#else
-        QString path = path_access(DONNEES_XHL + username);
-        if (! QDir(path).exists()) path = path_access(DONNEES_XHL);
-#endif
-        
-        subDirList = QDir(path).entryList(QDir::Dirs
-                                       |QDir::NoDotAndDotDot
-                                       |QDir::NoSymLinks);
-        
-        if (! subDirList.isEmpty())
+      if (cdROM.isEmpty())
+      {
+#       ifdef Q_OS_WIN
+            path = path_access(DONNEES_XHL);
+#       else
+            path = path_access(DONNEES_XHL + username);
+            if (! QDir(path).exists()) path = path_access(DONNEES_XHL);
+
+#       endif
+      }
+      else
+          path = cdROM;
+
+      int l = path.length();
+      
+      if (subDirList.isEmpty())
         {
-            for (const QString& d : subDirList)
-            {
-                QDir().mkpath(v(base) + QDir::separator() + d);
-            }
+              for (int j = 0; j < Hash::wrapper["XHL"]->size() - 3; ++j)
+              {
+                  const QStringList &q = Hash::wrapper["XHL"]->at(j);
+                  for (const QString &s : q)
+                  {
+                      QString d = s.mid(l).section('/', 0, 0, QString::SectionSkipEmpty);
+                      if  (d != "" && ! subDirList.contains(d))
+                          subDirList << d;
+                      Q(s)
+                      QDir().mkpath(v(base) + QDir::separator() + d);
+                  }
+              }
         }
-        
-        for (const QString& d :  subDirList) runWorker(d);
-    }
-    else
-      runWorker();
 
+      if (! subDirList.isEmpty())
+          runWorker(subDirList.first());
+      else
+          runWorker();
+   }
+   else
+     runWorker();
 }
 
 
