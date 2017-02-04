@@ -55,6 +55,8 @@ QStringList Altair::createCommandLineString(const QString& subdir)
 
 void Altair::runWorker(const QString& subdir)
 {
+   
+
     QStringList args0, args1;
     QString command;
 
@@ -301,17 +303,19 @@ void Altair::run()
       else
           path = cdROM;
 
+      int l = path.length();
+      
       if (subDirList.isEmpty())
         {
-          subDirList = QDir(path).entryList(QDir::Dirs
-                                            |QDir::NoDotAndDotDot
-                                            |QDir::NoSymLinks);
-
-
-          for (const QString& d : subDirList)
-            {
-                QDir().mkpath(v(base) + QDir::separator() + d);
-            }
+              for (const QStringList &q :  *Hash::wrapper["XHL"])
+                  for (const QString &s : q)
+                  {
+                      QString d = s.mid(l).section('/', 0, 0, QString::SectionSkipEmpty);
+                      if  (d != "" && ! subDirList.contains(d))
+                          subDirList << d;
+                      
+                      QDir().mkpath(v(base) + QDir::separator() + d);
+                  }
         }
 
       if (! subDirList.isEmpty())
