@@ -307,15 +307,18 @@ void Altair::run()
       
       if (subDirList.isEmpty())
         {
-              for (const QStringList &q :  *Hash::wrapper["XHL"])
+              for (int j = 0; j < Hash::wrapper["XHL"]->size() - 3; ++j)
+              {
+                  const QStringList &q = Hash::wrapper["XHL"]->at(j);
                   for (const QString &s : q)
                   {
                       QString d = s.mid(l).section('/', 0, 0, QString::SectionSkipEmpty);
                       if  (d != "" && ! subDirList.contains(d))
                           subDirList << d;
-                      
+                      Q(s)
                       QDir().mkpath(v(base) + QDir::separator() + d);
                   }
+              }
         }
 
       if (! subDirList.isEmpty())
