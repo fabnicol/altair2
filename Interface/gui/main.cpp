@@ -91,16 +91,13 @@ int main(int argc, char *argv[])
         padding: 0 10px;\
     }");
 
-#ifdef Q_OS_WIN
-  const QString cdROM = "D:/";
-#else
-  const QString cdROM = "/home/" + qgetenv("USER") + "/Dev/altair/Tests/Exemple/Donnees/xhl/cdrom";
-#endif
-
   QLabel *a = nullptr;
-    
-  if (! QDir(cdROM).QDir::entryInfoList(QDir::Dirs|QDir::Files|QDir::NoDotAndDotDot).isEmpty())
-   {                      
+  const QString cdROM = common::cdRomMounted();
+
+  if (! cdROM.isEmpty())
+  {
+   if (QDir(cdROM).exists() && ! QDir(cdROM).QDir::entryInfoList(QDir::Dirs|QDir::Files|QDir::NoDotAndDotDot).isEmpty())
+   {
         a = new QLabel(" Lancement d'Altaïr...");
         a->setGeometry(QRect(500, 300, 200, 80));
         a->setWindowIcon(QIcon(":/images/altair.png"));
@@ -109,9 +106,9 @@ int main(int argc, char *argv[])
         app.exec();
         QObject::connect(a, &QLabel::destroyed, [&] { app.quit();});
     }
-                    
-       
-    MainWindow *mainWin=new MainWindow(s);
+  }
+
+    MainWindow *mainWin = new MainWindow(s);
 
     QObject::connect(mainWin, &MainWindow::exitSignal, [&] { app.quit();});
     mainWin->show();

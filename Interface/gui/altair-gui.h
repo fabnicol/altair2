@@ -192,7 +192,6 @@ class MainWindow : public QMainWindow
 
 signals:
    void exitSignal();
-   void importCdROMFiles();
    
 
 };
