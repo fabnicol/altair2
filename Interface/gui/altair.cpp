@@ -30,6 +30,18 @@ void Altair::initialize()
     if (username.isEmpty())
        username = qgetenv("USERNAME");
 #endif
+    const QString xhl = path_access(QString(DONNEES_XHL) + QDir::separator() );
+    #ifdef Q_OS_WIN
+        userdatadir = xhl;
+    #else
+       userdatadir = username == "fab" ? xhl : xhl + username;
+    #endif
+
+    if (! QFileInfo(userdatadir).isDir())
+    {
+        userdatadir = xhl;
+    }
+            
     Hash::description["année"]=QStringList("Fichiers .xhl");
     Abstract::initH("NBulletins");
 }
@@ -49,18 +61,15 @@ void Altair::refreshModel()
 }
 
 
-void Altair::refreshTreeView(const QString& path)
+void Altair::refreshTreeView(bool create)
 {
-    fileTreeView = new QTreeView;
+    if (create)
+    {
+       fileTreeView = new QTreeView;
+    }
+    
     fileTreeView->setModel(model);
     
-    QString userdatadir;
-    userdatadir = path_access(path + username);
-    if (! QFileInfo(userdatadir).isDir())
-    {
-        userdatadir = path_access(path);
-    }
-            
     fileTreeView->setRootIndex(model->index(userdatadir));
     fileTreeView->hideColumn(1);
     fileTreeView->hideColumn(2);
@@ -84,7 +93,7 @@ Altair::Altair()
     setAcceptDrops(true);
     
     refreshModel();
-    refreshTreeView();
+    refreshTreeView(true);
 
     bool visibility =
                         #ifdef MINIMAL
@@ -186,7 +195,6 @@ Altair::Altair()
 
 void Altair::importData()
 { 
-   const QString xhl = path_access(QString(DONNEES_XHL) + QDir::separator() );
    const QString cdROM = cdRomMounted();
 
    if (! cdROM.isEmpty())
@@ -206,18 +214,17 @@ void Altair::importData()
        }
    }
 
-#ifdef Q_OS_WIN
-    QString userdata = xhl;
-#else
-    QString userdata = username == "fab" ? xhl : xhl + username;
-#endif
-   QDir d = QDir(userdata);
+   QDir d = QDir(userdatadir);
    if (d.exists() && ! d.QDir::entryInfoList(QDir::Dirs
                                             | QDir::Files
                                             | QDir::NoDotAndDotDot).isEmpty())
    {
-       fileTreeView->setCurrentIndex(model->index(userdata));    
+       fileTreeView->setCurrentIndex(model->index(userdatadir));    
        project[0]->importFromMainTree->click();
+       // l'opération précédente semble annuler la possibilité de sélectionner les indices proprement
+       // à nouveau. Peut-être un bug de Qt. On fait un reset suivi d'un reset.
+       fileTreeView->reset();
+       refreshTreeView();
        return;
    }
 }

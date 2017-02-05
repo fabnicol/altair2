@@ -81,8 +81,9 @@ public:
     bool refreshProjectManager();
     void setProcessMsg(const QString& msg) {processMsg =  msg; }
     QStringList createCommandLineString(const QString& subdir = "");
-    void refreshTreeView(const QString& path = DONNEES_XHL);
+    void refreshTreeView(bool create=false);
     QString username;
+    QString userdatadir;
     
 public slots:
 
