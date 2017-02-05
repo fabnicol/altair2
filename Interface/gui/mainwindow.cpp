@@ -11,7 +11,6 @@ using namespace std;
 
 
 
-
 void MainWindow::standardDisplay()
 {
 #ifdef HEIGHT 
@@ -25,7 +24,7 @@ void MainWindow::standardDisplay()
 #ifdef MINIMAL
   setGeometry(QRect(200, 200,600,400));
 #else
-  setGeometry(QRect(200, 200, width / 2, height / 2));
+  setGeometry(QRect(200, 300, width / 2, height / 2));
 #endif
   
 #ifndef MINIMAL
@@ -37,12 +36,23 @@ void MainWindow::standardDisplay()
 
 MainWindow::MainWindow(char* projectName)
 {
+   QRect rec = QApplication::desktop()->availableGeometry();
+    
+   height = rec.height();
+   width  = rec.width();
 
-  QRect rec = QApplication::desktop()->availableGeometry();
-  
-  height = rec.height();
-  width  = rec.width();
-  
+   const QString cdROM = common::cdRomMounted();
+
+# ifndef Q_OS_WINDOWS
+       if (! cdROM.isEmpty())
+       {
+            if (QDir(cdROM).exists() && ! QDir(cdROM).QDir::entryInfoList(QDir::Dirs|QDir::Files|QDir::NoDotAndDotDot).isEmpty())
+            {
+                process.start("./Avert", {"200"});
+            }
+       }
+# endif
+   
   recentFiles = QStringList() ;
   
   altair = new Altair;
@@ -160,7 +170,6 @@ MainWindow::MainWindow(char* projectName)
   
 }
 
-
 void MainWindow::on_nppButton_clicked()
 {
 
@@ -178,12 +187,10 @@ void MainWindow::on_nppButton_clicked()
     browser::showPage(url);
 }
 
-
 void MainWindow::on_clearOutputTextButton_clicked()
 {
     qobject_cast<QTextEdit*>(bottomTabWidget->currentWidget())->clear();
 }
-
 
 void MainWindow::updateRecentFileActions()
 {
@@ -193,7 +200,6 @@ QMutableStringListIterator i(recentFiles);
  {
    if (!QFile::exists(i.next())) i.remove();
  }
-
 
  for (int j  =0 ; j < MaxRecentFiles ; ++j)
  {
@@ -214,8 +220,6 @@ QMutableStringListIterator i(recentFiles);
 
  separatorAction->setVisible(!recentFiles.isEmpty());
 }
-
-
 
 QString MainWindow::strippedName(const QString &fullFileName)
 {
@@ -251,7 +255,6 @@ void MainWindow::createMenus()
 
 void MainWindow::createActions()
 {
-
   newAction  = new QAction(tr("Nouveau projet .alt"), this);
   openAction = new QAction(tr("&Ouvrir le projet .alt"), this);
   newAction ->setShortcut(QKeySequence("Ctrl+N"));
@@ -407,7 +410,7 @@ void MainWindow::createActions()
              << displayOutputAction << displayFileTreeViewAction << displayManagerAction <<  separator[4]
              << clearOutputTextAction <<  editProjectAction << separator[3] << configureAction
              << optionsAction << helpAction << aboutAction ;
-  
+ 
 }
 
 vector<string> MainWindow::extraire_donnees_protegees(const string& st)
@@ -636,7 +639,6 @@ void MainWindow::launch_process(const QString& path)
 
 }
 
-
 string MainWindow::nettoyer_donnees(const string& st)
 {
     string out;
@@ -825,7 +827,6 @@ void MainWindow::on_displayFileTreeViewButton_clicked()
     on_displayFileTreeViewButton_clicked(fileTreeViewDockWidget->isHidden());
 }
 
-
 void MainWindow::on_openManagerWidgetButton_clicked(bool isHidden)
 {
    managerDockWidget->setVisible(isHidden);
@@ -954,7 +955,6 @@ void MainWindow::on_editProjectButton_clicked()
 
 }
 
-
 void MainWindow::saveProjectAs()
 {
     QString newstr=QFileDialog::getSaveFileName(this, tr("Enregistrer le projet comme..."), QDir::currentPath(), tr("projet altair (*.alt)"));
@@ -993,7 +993,6 @@ void MainWindow::saveProjectAs()
     altair->projectName=newstr;
 
 }
-
 
 bool MainWindow::exportProject(QString dirStr)
 {
@@ -1208,7 +1207,6 @@ bool MainWindow::restoreProject(QString subDirStr)
 
   return result;
 }
-
 
 void MainWindow::configureOptions()
 {

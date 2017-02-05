@@ -217,7 +217,6 @@ void codePage::substituer_valeurs_dans_script_R()
                  liste_codes_nr);
      }
 
-
     QString file_str = common::readFile(prologue_codes_path);
     QString liste_codes;
 
@@ -315,10 +314,9 @@ standardPage::standardPage()
                                   "Exporter les champs Budget,"
                                   " Employeur, Siret, Etablissement"},
                                  "S");
-
     
     QList<QString> exportRange = QList<QString>();
-    exportRange << "Standard" << "Cumulative" << "Distributive";
+    exportRange << "Standard" << "Cumulative" << "Distributive" << "Distributive+";
 
     QLabel* exportLabel = new QLabel("Exportation  ");
 
@@ -340,8 +338,8 @@ standardPage::standardPage()
                                    " des bases de données CSV."
                                     "\nStardard : A chaque contrôle, les bases précédemment\n\texportées sur clé sont effacées.\n"
                                       "Cumulative : A chaque contrôle, les bases s'empilent\n\tà la fin des bases précédemment exportées.\n"
-                                      "Distributive : A chaque contrôle, un sous répertoire est créé\n\tsur la clé du nom du premier dossier\n\timporté du répertoire Données.\n"));
-    
+                                      "Distributive : A chaque contrôle, un sous répertoire est créé\n\tsur la clé du nom de chaque dossier\n\timporté du répertoire Données.\n"
+                                      "Distributive+ : Exportation Distributive et Cumulative activées.\n"));
 
     QGridLayout *v1Layout = new QGridLayout, 
                 *v2Layout = new QGridLayout,
@@ -430,7 +428,6 @@ standardPage::standardPage()
     mainLayout->addWidget(baseTypeBox,      1, 0);
     mainLayout->addWidget(optionalFieldBox, 2, 0);
     mainLayout->addWidget(exportBox,   3, 0);
-    
    // mainLayout->addSpacing(100);
 
     setLayout(mainLayout);
@@ -439,7 +436,6 @@ standardPage::standardPage()
 
 processPage::processPage()
 {
-
     processTypeBox = new QGroupBox(tr("Mode d'exécution"));
 
     QStringList range3 = QStringList();
@@ -541,8 +537,6 @@ processPage::processPage()
                                       "Minimale\t: 10 %\n"
                                      "Rationnée\t:  5 %\n"));
 
-
-
     QGridLayout *v2Layout = new QGridLayout;
     v2Layout->addWidget(memoryUseLabel,    3, 0, Qt::AlignRight);
     v2Layout->addWidget(memoryUseWidget,   3, 1, Qt::AlignLeft);
@@ -590,7 +584,6 @@ std::uint16_t options::RefreshFlag;
 options::options(Altair* parent)
 {
     /* plain old data types must be 0-initialised even though the class instance was new-initialised. */
-
     
     options::RefreshFlag = interfaceStatus::optionTabs;
 
@@ -601,7 +594,6 @@ options::options(Altair* parent)
     contentsWidget->setMovement(QListView::Static);
     contentsWidget->setFixedWidth(98);
     contentsWidget->setSpacing(12);
-    
 
     pagesWidget = new QStackedWidget;
     standardTab = new standardPage;
@@ -616,10 +608,6 @@ options::options(Altair* parent)
       dirTab  = new dirPage;
       pagesWidget->addWidget(dirTab);
 #   endif    
-      
-    
-    
-
     closeButton = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     closeButton->button(QDialogButtonBox::Ok)->setText("Accepter");
     closeButton->button(QDialogButtonBox::Cancel)->setText("Annuler");

@@ -114,7 +114,8 @@ HEADERS  += \
     tags.h \
     templates.h \
     altair-gui.h \
-    flineframe.hpp
+    flineframe.hpp \
+    version.h
 
 
 RESOURCES += \
