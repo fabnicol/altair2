@@ -32,12 +32,13 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #include <QLibraryInfo>
 #include <QTextCodec>
 #include "altair-gui.h"
-#include <thread>
+
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     app.setFont(QFont("Verdana", 10));
+   
     QString translationsPath(QCoreApplication::applicationDirPath() + "/../translations");
     QLocale locale = QLocale::system();
 
@@ -91,28 +92,11 @@ int main(int argc, char *argv[])
         padding: 0 10px;\
     }");
 
-  QLabel *a = nullptr;
-  const QString cdROM = common::cdRomMounted();
-
-  if (! cdROM.isEmpty())
-  {
-   if (QDir(cdROM).exists() && ! QDir(cdROM).QDir::entryInfoList(QDir::Dirs|QDir::Files|QDir::NoDotAndDotDot).isEmpty())
-   {
-        a = new QLabel(" Lancement d'Altaïr...");
-        a->setGeometry(QRect(500, 300, 200, 80));
-        a->setWindowIcon(QIcon(":/images/altair.png"));
-        a->show();
-        QTimer::singleShot(1300, a, SLOT(close()));
-        app.exec();
-        QObject::connect(a, &QLabel::destroyed, [&] { app.quit();});
-    }
-  }
 
     MainWindow *mainWin = new MainWindow(s);
 
     QObject::connect(mainWin, &MainWindow::exitSignal, [&] { app.quit();});
     mainWin->show();
-    if (a) a->raise();
-    
+        
     return app.exec();
 }

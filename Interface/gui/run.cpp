@@ -55,7 +55,6 @@ QStringList Altair::createCommandLineString(const QString& subdir)
 
 void Altair::runWorker(const QString& subdir)
 {
-   
 
     QStringList args0, args1;
     QString command;
@@ -260,7 +259,7 @@ void Altair::run()
                                                          | QDir::Dirs 
                                                          | QDir::NoDotAndDotDot);
        
-    if (! files.isEmpty() && v(exportMode) != "Cumulative") 
+    if (! files.isEmpty() && v(exportMode) != "Cumulative" && v(exportMode).at(12) != '+') 
     {
       if (QMessageBox::Cancel
             == QMessageBox::warning(this, QString("Attention"),
@@ -271,7 +270,6 @@ void Altair::run()
             return;
         }
     
-
         for (const QString& file : files)
         {
             const QString filepath = path + "/" + file;
@@ -286,7 +284,7 @@ void Altair::run()
         }
     }
     
-    if (v(exportMode) == "Distributive")
+    if  (v(exportMode).left(12) == "Distributive")
     {
       const QString cdROM = cdRomMounted();
 
