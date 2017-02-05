@@ -69,13 +69,13 @@ out <<  "**Usage** :  lhx OPTIONS fichiers.xhl  " << "\n\n"
           <<  "**--pretend**                 : exécution sans traitement des fichiers.  " << "\n\n"
           <<  "**--verifmem**                : seulement vérifier la consommation mémoire.  " << "\n\n"
           <<  "**--hmarkdown**               : aide en format markdown.  " << "\n\n"
-          <<  "**--pdf**                     : aide en format pdf.  " << "\n\n";
+          <<  "**--pdf**                     : aide en format pdf.  " << "\n\n"
           <<  "**--export** *arg.oblig.*       : modalité d'exportation (Standard, Cumulative, Distributive, Distributive+) \n\n "
           <<   "      Standard : bases à la racine du répertoire d'exportation. Ecrasement des bases à chaque exécution. \n\n" 
           <<   "      Cumulative : bases à la racine du répertoire d'exportation. Empilement des bases d'une exécution à l'autre. \n\n" 
           <<   "      Distributive : bases à la racine du sous-répertoire de même nom que celui d'entrée dans le répertoire d'exportation. \n\n" 
           <<   "      Distributive+ : bases à la racine du sous-répertoire de même nom que celui d'entrée dans le répertoire d'exportation. \n\n" 
-          <<   "                              Empilement des bases d'une exécution à l'autre. \n\n" 
+          <<   "                              Empilement des bases d'une exécution à l'autre. \n\n";
     #ifdef GENERATE_RANK_SIGNAL
               out  <<  "**-rank** *argument optionnel* : générer le fichier du rang de la base de paye en cours dans le fichier ";
              // out  <<  "ou à  défaut dans " USERPROFILE "/" LOCALDATA ".\n\n";
