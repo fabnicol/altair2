@@ -1,24 +1,24 @@
 #ifndef ENTETE_HPP
 #define ENTETE_HPP
 
-/* ce fichier doit Ãªtre encodÃ© en Latin-1 */
 
-static const char* entete_char[]={"R", "AnnÃ©e", "Mois", "Budget", "Employeur",  "Siret", "Etablissement", "Nom", "PrÃ©nom", "Matricule", "Service", "Nb.Enfants", "Statut", "Temps.de.travail",
-                                  "Heures.Sup.", "Heures", "Indice", "Brut", "Net", "Net.Ã .Payer", "NBI",
-                                  "LibellÃ©", "Code",   "Base", "Taux", "Nb.UnitÃ©", "Montant", "Type",
-                                  "Emploi", "Grade", "Echelon", "CatÃ©gorie", "Nir"};
 
-static const char* entete_char_bulletins[]={"R", "AnnÃ©e", "Mois", "Budget", "Employeur", "Siret", "Etablissement", "Nom", "PrÃ©nom", "Matricule", "Service", "Nb.Enfants", "Statut", "Temps.de.travail",
-                                  "Heures.Sup.", "Heures", "Indice", "Brut", "Net", "Net.Ã .Payer", "NBI",
-                                            "Emploi", "Grade", "Evenement", "Echelon", "CatÃ©gorie", "Nir" };
+static const char* entete_char[]={"R", "Année", "Mois", "Budget", "Employeur",  "Siret", "Etablissement", "Nom", "Prénom", "Matricule", "Service", "Nb.Enfants", "Statut", "Temps.de.travail",
+                                  "Heures.Sup.", "Heures", "Indice", "Brut", "Net", "Net.à.Payer", "NBI",
+                                  "Libellé", "Code",   "Base", "Taux", "Nb.Unité", "Montant", "Type",
+                                  "Emploi", "Grade", "Echelon", "Catégorie", "Nir"};
+
+static const char* entete_char_bulletins[]={"R", "Année", "Mois", "Budget", "Employeur", "Siret", "Etablissement", "Nom", "Prénom", "Matricule", "Service", "Nb.Enfants", "Statut", "Temps.de.travail",
+                                  "Heures.Sup.", "Heures", "Indice", "Brut", "Net", "Net.à.Payer", "NBI",
+                                            "Emploi", "Grade", "Evenement", "Echelon", "Catégorie", "Nir" };
 
 static std::array<std::string, 13> types_extension = { "traitements",
-                                                 "indemnitÃ©s-rÃ©sidence",
+                                                 "indemnités-résidence",
                                                  "sft",
                                                  "avantages-nature",
-                                                 "indemnitÃ©s",
+                                                 "indemnités",
                                                  "divers",
-                                                 "dÃ©ductions",
+                                                 "déductions",
                                                  "acompte",
                                                  "rappels",
                                                  "retenues",

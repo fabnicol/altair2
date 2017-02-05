@@ -125,5 +125,8 @@ HEADERS += \
     validator.hpp \
     ligne_paye.hpp \
     ../Interface/gui/tags.h \
-    entete.hpp
+    entete.hpp \
+    expression_reg_élus.hpp \
+    expression_reg_commun.hpp \
+    expression_reg_adjoints.hpp
 
