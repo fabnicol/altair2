@@ -10,7 +10,8 @@ Widget::Widget(int x)
 
     a = new QLabel;           
     setWindowIcon(QIcon(":/altair.png"));
-    a->setText(("<br><b>&nbsp;&nbsp;<span style=\"color: red;\">Lancement</span></b><br><br><b>&nbsp;&nbsp;Analyse du disque optique...</b><br><br>"));
+    a->setText(("<br><b>&nbsp;&nbsp;<span style=\"color: red;\">Analyse du disque optique.</span></b><br><br><b>&nbsp;&nbsp;Veuillez patienter... </b><br><br>"));
+	a->setWindowTitle("Lancement");
     setCentralWidget(a);
     repaint();
     
