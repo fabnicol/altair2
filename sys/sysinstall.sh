@@ -60,6 +60,7 @@ do
     cp -vf 'Lien vers une application.desktop' /home/$i/Desktop
     sed "s/\/home\/utilisateur\/Dev\/altair\/Tests\/Exemple\/Donnees\/xhl\/utilisateur/\/home\/fab\/Dev\/altair\/Tests\/Exemple\/Donnees\/xhl/" /home/fab/Dev/altair/sys/dolphinrc > temp 
     cp -vf temp  /home/fab/.config/dolphinrc
+    
   fi
 
 done
@@ -67,6 +68,7 @@ done
 if test -d /home/$i; then
     # intégration de l'icone dans le menu développement + clic sur projet *.alt
     _copy Altair.desktop  /home/$i/.local/share/applications
+	_copy Altair.desktop  /home/$i/Desktop 
     _copy mimeapps.list   /home/$i/.config/
 fi
 
