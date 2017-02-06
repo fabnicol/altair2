@@ -14,8 +14,7 @@ SOURCES += main.cpp\
 HEADERS  += widget.h
 QMAKE_CXXFLAGS_RELEASE -= -O2
 QMAKE_CXXFLAGS = -Os -march=core-avx2
-
-
+QMAKE_LFLAGS += -s
 RESOURCES += \
     avert.qrc \
     avert.qrc
