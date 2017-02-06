@@ -63,15 +63,13 @@ do
     
   fi
 
-done
-
 if test -d /home/$i; then
     # intégration de l'icone dans le menu développement + clic sur projet *.alt
     _copy Altair.desktop  /home/$i/.local/share/applications
-	_copy Altair.desktop  /home/$i/Desktop 
+	_copy Altair.desktop  /home/$i/Desktop  Altaïr.desktop
     _copy mimeapps.list   /home/$i/.config/
 fi
-
+done
 
 # if test -f localgitconfig -a -f .gitconfig; then
     # echo '**********************'
