@@ -46,29 +46,28 @@ _copy .rstudio-desktop   /home/Public
 for i in $(cat /etc/passwd | cut -f1 -d:)
 do 
 
- if test $i != fab; then
-    if test -d /home/$i; then
-      cp -vf 'Lien vers une application.desktop' /home/$i/Desktop
-      sed "s/utilisateur/${i}/g" /home/fab/Dev/altair/sys/dolphinrc > temp 
-      cp -vf temp  /home/${i}/.config/dolphinrc
-      # intégration de li'cone dans le menu développement + clic sur projet *.alt
-     _copy Altair.desktop  /home/$i/.local/share/applications
-     _copy mimeapps.list   /home/$i/.config/
+	if test $i != fab; then
+		if test -d /home/$i; then
+		  cp -vf 'Lien vers une application.desktop' /home/$i/Desktop
+		  sed "s/utilisateur/${i}/g" /home/fab/Dev/altair/sys/dolphinrc > temp 
+		  cp -vf temp  /home/${i}/.config/dolphinrc
+		  # intégration de li'cone dans le menu développement + clic sur projet *.alt
+		 _copy Altair.desktop  /home/$i/.local/share/applications
+		 _copy mimeapps.list   /home/$i/.config/
+		 _copy Altair_jf.desktop  /home/$i/Desktop/Altaïr.desktop
+		fi
+	else
+		cp -vf 'Lien vers une application.desktop' /home/$i/Desktop
+		sed "s/\/home\/utilisateur\/Dev\/altair\/Tests\/Exemple\/Donnees\/xhl\/utilisateur/\/home\/fab\/Dev\/altair\/Tests\/Exemple\/Donnees\/xhl/" /home/fab/Dev/altair/sys/dolphinrc > temp 
+		cp -vf temp  /home/fab/.config/dolphinrc
+		_copy Altair.desktop  /home/fab/Desktop/Altaïr.desktop		
+	fi
 
-    fi
-  else
-    cp -vf 'Lien vers une application.desktop' /home/$i/Desktop
-    sed "s/\/home\/utilisateur\/Dev\/altair\/Tests\/Exemple\/Donnees\/xhl\/utilisateur/\/home\/fab\/Dev\/altair\/Tests\/Exemple\/Donnees\/xhl/" /home/fab/Dev/altair/sys/dolphinrc > temp 
-    cp -vf temp  /home/fab/.config/dolphinrc
-    
-  fi
-
-if test -d /home/$i; then
-    # intégration de l'icone dans le menu développement + clic sur projet *.alt
-    _copy Altair.desktop  /home/$i/.local/share/applications
-	_copy Altair.desktop  /home/$i/Desktop  Altaïr.desktop
-    _copy mimeapps.list   /home/$i/.config/
-fi
+	if test -d /home/$i; then
+		# intégration de l'icone dans le menu développement + clic sur projet *.alt
+		_copy Altair.desktop  /home/$i/.local/share/applications
+		_copy mimeapps.list   /home/$i/.config/
+	fi
 done
 
 # if test -f localgitconfig -a -f .gitconfig; then
