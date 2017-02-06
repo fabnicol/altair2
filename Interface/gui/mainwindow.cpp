@@ -42,9 +42,11 @@ MainWindow::MainWindow(char* projectName)
    width  = rec.width();
 
    const QString cdROM = common::cdRomMounted();
-
+  
+  recentFiles = QStringList() ;
+  settings = new QSettings("altair", "Juridictions Financières");
 # ifndef Q_OS_WINDOWS
-       if (! cdROM.isEmpty())
+       if (settings->value("importerAuLancement") == true && ! cdROM.isEmpty())
        {
             if (QDir(cdROM).exists() && ! QDir(cdROM).QDir::entryInfoList(QDir::Dirs|QDir::Files|QDir::NoDotAndDotDot).isEmpty())
             {
@@ -52,16 +54,12 @@ MainWindow::MainWindow(char* projectName)
             }
        }
 # endif
-   
-  recentFiles = QStringList() ;
   
   altair = new Altair;
   altair->parent = this;
 
   createActions();
   createMenus();
-
-  settings = new QSettings("altair", "Juridictions Financières");
 
   if ((settings->value("defaut").isValid())
                 &&
