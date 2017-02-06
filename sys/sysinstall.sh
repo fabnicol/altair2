@@ -67,6 +67,7 @@ do
 		_copy Altair.desktop  /home/$i/.local/share/applications
 		_copy mimeapps.list   /home/$i/.config/
 		_copy mimeapps.list   /home/$i/.local/share/applications
+		_copy mime /home/$i/.local/share/applications
 	fi
 done
 

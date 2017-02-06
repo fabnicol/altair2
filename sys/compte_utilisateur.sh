@@ -155,6 +155,13 @@ cp -vrf /home/fab/Dev/altair/sys/gtk-3.0   /home/$compte_login/.config
 sed "s/utilisateur/$compte_login/g" /home/fab/Dev/altair/sys/user-places.xbel > temp
 cp -vf  temp  /home/$compte_login/.local/share/user-places.xbel
 
+#copie de l'association mime pour les fichiers *.alt
+
+cp -rvf /home/fab/Dev/altair/sys/mime  /home/$compte_login/.local/share
+
+cp -rvf /home/fab/Dev/altair/sys/mimeapps.list    /home/$compte_login/.local/share/applications
+cp -rvf /home/fab/Dev/altair/sys/mimeapps.list    /home/$compte_login/.config
+
 echo 
 echo "Exportation des icones"
 if ! test -d "/home/$compte_login/Desktop"; then
