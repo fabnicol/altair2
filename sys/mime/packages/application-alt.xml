@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+    <mime-type type="application/alt">
+        <comment>application/alt</comment>
+        <icon name="/home/jf/Dev/altair/Tests/Exemple/neptune.png"/>
+        <glob-deleteall/>
+        <glob pattern="*.alt"/>
+    </mime-type>
+</mime-info>
