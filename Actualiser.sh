@@ -74,6 +74,7 @@ then
   done
   
   sudo chmod 0770 /home/jf/Dev/altair/Tests/Exemple/*.*
+  sudo chmod 0770 /home/jf/Dev/altair/Interface_linux/gui/x64/*
   sudo chmod 0770 /home/jf/Dev/altair/*.*
   sudo chgrp -R users /home/jf/Dev/altair
   rm -f /home/jf/Dev/altair/.directory
