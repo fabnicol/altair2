@@ -24,6 +24,11 @@ then
     echo "***"
     git remote remove origin
     git remote add -t master origin $adresse
+	git config --global --unset http.proxy 
+	git config --global --unset https.proxy
+	git config --global http.sslVerify false
+	git config --global https.sslVerify false
+	git config --global credential.helper store
   fi
   
   git fetch -p -n --depth=1 origin master-jf
