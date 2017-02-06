@@ -30,7 +30,7 @@ void Altair::initialize()
     if (username.isEmpty())
        username = qgetenv("USERNAME");
 #endif
-    const QString xhl = path_access(QString(DONNEES_XHL) + QDir::separator() );
+    const QString xhl = path_access(QString(DONNEES_XHL)) + QDir::separator();
     #ifdef Q_OS_WIN
         userdatadir = xhl;
     #else
