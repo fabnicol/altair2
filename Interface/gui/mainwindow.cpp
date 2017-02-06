@@ -955,7 +955,7 @@ void MainWindow::on_editProjectButton_clicked()
 
 void MainWindow::saveProjectAs()
 {
-    QString newstr=QFileDialog::getSaveFileName(this, tr("Enregistrer le projet comme..."), QDir::currentPath(), tr("projet altair (*.alt)"));
+    QString newstr=QFileDialog::getSaveFileName(this, tr("Enregistrer le projet comme..."), altair->userdatadir, tr("projet altair (*.alt)"));
     if (newstr.isEmpty())
                 return;
 

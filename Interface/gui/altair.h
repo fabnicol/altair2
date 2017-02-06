@@ -36,7 +36,7 @@ public:
     void checkEmptyProjectName()
       {
          if (projectName.isEmpty())
-            projectName=QDir::currentPath() + QString("/défaut.alt");
+            projectName = userdatadir + QDir::separator() + QString("défaut.alt");
       }
 
     void importData();
