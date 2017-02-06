@@ -15,9 +15,10 @@
 #define GARDIEN                "gard(?:ien|.*ch)"
 #define POLICIER                 "brigadier|sapeur|capor|sous.*off"  
 #define RECEVEUR              "receveur"  
+#define ADJOINT                  "adj"
 
 static constexpr auto EXPRESSION_REG_ADJOINTS = AUCUN_MOT
-                                                                                               SOIT ADJOINTS 
+                                                                                               SOIT ADJOINT 
                                                                                                                  SOIT 
                                                                                                                             ADMINISTRATIFS OU ANIMATION OU TECHNIQUES OU PATRIMOINE 
                                                                                                                  FIN_SOIT

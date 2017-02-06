@@ -12,7 +12,7 @@
 #define CONSEILLER_MUNIC              "cons.*\\bmuni"
 #define CONSEILLER_COMMUN          "cons.*\\bcomm"
 #define CONSEILLER_DELEGUE          "(?:cons.*\\bd|d..?..?gu)"
-#define ADJOINTS                               "adj"
+
 
 static constexpr auto EXPRESSION_REG_ELUS = DEBUT SOIT 
                                                                                                 MAIRE 

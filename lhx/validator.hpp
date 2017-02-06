@@ -113,7 +113,32 @@ radiophys|(?:tec.*l|mass.*kin|diet|inf|manip).*\\bc(?:\\.|a).*\\bs).*",
   EXPRESSION_REG_CAT_B = "\\W*\
 (?:redac|tech|T\\.?S\\.?H\\.?|anim|educ|a\\.?\\s?s\\.?\\s?(?:e|\\s)|ast\\.?|assi?s?t?\\.?.*(?:spec|ens|cons|pat|bib|social|soc.*ed|med.*t|med.*adm)|monit|contro.*t(?:er|ra)|\
 chef.*p.*m|lieut[^c\\s]*\\b|I\\.?D\\.?E\\.?|inf.*\\bi\\.?d\\.?e|reeduc|adj.*cadr|analyst|diet|prep.*ph|ped.*po|programmeu|orthop|mass.*kin|manip|secr.*med|\\ba\\.?m\\.?a\\.?\\b).*",
-
+/*
+ * REDACTEUR
+ * TECHNICIEN
+ * TECHNICIEN_SUP_HOSP
+ * ANIMATEUR
+ * AS
+ * EDUCATEUR
+ * ASSISTANT
+ * SPECIALISE
+ * ENSEIGNEMENT
+ * CONSERVATION
+ * PATRIMOINE
+ * BIBLIOTHEQUES
+ * SOCIO_EDUC
+ * MEDICO_TECH
+ * MEDICO_ADM
+ * MONITEUR
+ * CONTROLEUR
+ * CHEF_POLICE_MUNIC ?
+ * LIEUTENANT ?
+ * 
+ * 
+ * 
+ */
+        
+        
   EXPRESSION_REG_ERGO = "\\W*ergo.*",
 
   NOM_BASE = "Table",
