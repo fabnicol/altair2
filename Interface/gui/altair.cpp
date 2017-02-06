@@ -34,7 +34,7 @@ void Altair::initialize()
     #ifdef Q_OS_WIN
         userdatadir = xhl;
     #else
-       userdatadir = username == "fab" ? xhl : xhl + username;
+       userdatadir = username == "fab" ? xhl : xhl + username + QDir::separator() ;
     #endif
 
     if (! QFileInfo(userdatadir).isDir())
@@ -264,7 +264,7 @@ void Altair::on_newProjectButton_clicked()
 {
     closeProject();
 
-    projectName=QString("défaut.alt");
+    projectName=QString(userdatadir + "défaut.alt");
     QFile projectFile(projectName);
 
     if (projectFile.exists()) projectFile.remove();
@@ -294,7 +294,7 @@ void Altair::on_openProjectButton_clicked()
 {
     //if (! Hash::wrapper["XHL"]->isEmpty() && ! Hash::wrapper["XHL"]->at(0).isEmpty()) return;
     closeProject();
-    projectName=QFileDialog::getOpenFileName(this,  tr("Ouvrir le projet"), QDir::currentPath(),  tr("projet altair (*.alt)"));
+    projectName=QFileDialog::getOpenFileName(this,  tr("Ouvrir le projet"), userdatadir,  tr("projet altair (*.alt)"));
     if (projectName.isEmpty()) return;
     openProjectFileCommonCode();
 }
@@ -471,7 +471,7 @@ void Altair::on_deleteItem_clicked()
 
 void Altair::requestSaveProject()
 {
-    projectName=QFileDialog::getSaveFileName(this,  tr("Entrer le nom du projet"), "défaut.alt", tr("projets altair (*.alt)"));
+    projectName=QFileDialog::getSaveFileName(this,  tr("Entrer le nom du projet"), userdatadir + QDir::separator() + "défaut.alt", tr("projets altair (*.alt)"));
     updateProject(true);
 }
 
