@@ -52,7 +52,6 @@ do
 		  sed "s/utilisateur/${i}/g" /home/fab/Dev/altair/sys/dolphinrc > temp 
 		  cp -vf temp  /home/${i}/.config/dolphinrc
 		  # intégration de li'cone dans le menu développement + clic sur projet *.alt
-		 _copy Altair.desktop  /home/$i/.local/share/applications
 		 _copy mimeapps.list   /home/$i/.config/
 		 _copy Altair_jf.desktop  /home/$i/Desktop/Altaïr.desktop
 		fi
@@ -65,6 +64,7 @@ do
 
 	if test -d /home/$i; then
 		# intégration de l'icone dans le menu développement + clic sur projet *.alt
+         mkdir -p /home/$i/.local/share/applications
 		_copy Altair.desktop  /home/$i/.local/share/applications
 		_copy mimeapps.list   /home/$i/.config/
 	fi
