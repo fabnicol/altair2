@@ -104,6 +104,10 @@ do
      sudo cp -rvf /home/Public/.rstudio-desktop /home/$i
      sudo chown -R $i /home/$i/.rstudio-desktop
 	 sudo chgrp -R users /home/$i/.rstudio-desktop
+	 sudo chown -R $i /home/$i/.config
+	 sudo chgrp -R users /home/$i/.config
+	 sudo chown -R $i /home/$i/.local/share/applications
+	 sudo chgrp -R users /home/$i/.local/share/applications
    fi
 done
 
