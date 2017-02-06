@@ -153,7 +153,7 @@ MainWindow::MainWindow(char* projectName)
   {
       // Paraît étrange... mais c'est pour éviter de lire deux fois le projet
       altair->closeProject();
-      altair->projectName = QString::fromLatin1(projectName);
+      altair->projectName = projectName;
       altair->openProjectFileCommonCode();
   }
   
