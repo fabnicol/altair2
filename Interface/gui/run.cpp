@@ -287,19 +287,6 @@ void Altair::run()
     if  (v(exportMode).left(12) == "Distributive")
     {
       const QString cdROM = cdRomMounted();
-
-      if (cdROM.isEmpty())
-      {
-#       ifdef Q_OS_WIN
-            path = path_access(DONNEES_XHL);
-#       else
-            path = path_access(DONNEES_XHL + username);
-            if (! QDir(path).exists()) path = path_access(DONNEES_XHL);
-
-#       endif
-      }
-      else
-          path = cdROM;
       
       if (subDirList.isEmpty())
         {
@@ -308,7 +295,12 @@ void Altair::run()
                   const QStringList &q = Hash::wrapper["XHL"]->at(j);
                   for (const QString &s : q)
                   {
-                      QString d = s.section("xhl/", 1, 1, QString::SectionSkipEmpty).section('/', 0, 0, QString::SectionSkipEmpty);
+                      QString d = s.section("xhl/", 1, 1, QString::SectionSkipEmpty);
+                      if (username == "fab")
+                          d = d.section('/', 0, 0, QString::SectionSkipEmpty);
+                      else
+                          d = d.section('/', 1, 1, QString::SectionSkipEmpty);
+
                       if (d.isEmpty()  && ! cdROM.isEmpty())
                       {
                           d = s.section("/mnt/cdrom/", 0, 0, QString::SectionSkipEmpty).section('/', 0, 0, QString::SectionSkipEmpty);

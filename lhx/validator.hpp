@@ -1,7 +1,7 @@
 #ifndef VALIDATOR_HPP_INCLUDED
 #define VALIDATOR_HPP_INCLUDED
 
-/* CETTE PAGE DOIT RESTER ENCODEE EN UTF-8 */
+/* CETTE PAGE DOIT RESTER ENCODEE EN UTF8 */
 
 #include <string>
 #include <cstdlib>
@@ -85,7 +85,7 @@ Categorie : A
 
 /* Les infirmières FPH sont passées en A en 2012 sauf un corps en extinction IDE; situation à évaluer pour l'éducation nationale sur les situations d'extinction */
 
-#include "expression_reg_élus.hpp"
+#include "expression_reg_elus.hpp"
 #include "expression_reg_adjoints.hpp"
 
 static constexpr const array<int, 22> indices_ergo = {353, 367, 386, 394, 406, 407, 424, 428, 444, 461, 464, 487, 487, 492, 510, 513, 533, 553, 556, 570, 582, 608 };
