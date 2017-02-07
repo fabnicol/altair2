@@ -124,7 +124,7 @@ windows {
   HEADERS += entete.hpp
 }
 
-SOURCES += \ 
+SOURCES += \
     fonctions_auxiliaires.cpp \
     main.cpp \
     table.cpp \
@@ -136,5 +136,9 @@ HEADERS += \
     table.hpp \
     validator.hpp \
     ligne_paye.hpp \
-    ../Interface/gui/tags.h
+    ../Interface/gui/tags.h \
+    expression_reg_elus.hpp  \
+    expression_reg_commun.hpp \
+    expression_reg_adjoints.hpp
+
 
