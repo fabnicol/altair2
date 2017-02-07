@@ -137,9 +137,9 @@ fi
 # echo "Installation des fichiers de configuration Plasma 5"
 
 
-# if test ! -d /home/$compte_login/.local/share; then 
-#   mkdir -p /home/$compte_login/.local/share
-# fi
+if test ! -d /home/$compte_login/.local/share/applications; then 
+   mkdir -p /home/$compte_login/.local/share/applications
+fi
 
 mkdir -p /home/$compte_login/.config
 
@@ -156,11 +156,12 @@ sed "s/utilisateur/$compte_login/g" /home/fab/Dev/altair/sys/user-places.xbel > 
 cp -vf  temp  /home/$compte_login/.local/share/user-places.xbel
 
 #copie de l'association mime pour les fichiers *.alt
-
+mkdir -p 
 cp -rvf /home/fab/Dev/altair/sys/mime  /home/$compte_login/.local/share
 
-cp -rvf /home/fab/Dev/altair/sys/mimeapps.list    /home/$compte_login/.local/share/applications
-cp -rvf /home/fab/Dev/altair/sys/mimeapps.list    /home/$compte_login/.config
+cp -vf /home/fab/Dev/altair/sys/mimeapps.list    /home/$compte_login/.local/share/applications
+cp -vf /home/fab/Dev/altair/sys/Altair_jf.desktop /home/$compte_login/.local/share/applications
+cp -vf /home/fab/Dev/altair/sys/mimeapps.list    /home/$compte_login/.config
 
 echo 
 echo "Exportation des icones"
