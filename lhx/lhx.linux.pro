@@ -126,7 +126,7 @@ HEADERS += \
     ligne_paye.hpp \
     ../Interface/gui/tags.h \
     entete.hpp \
-    expression_reg_élus.hpp \
+    expression_reg_elus.hpp \
     expression_reg_commun.hpp \
     expression_reg_adjoints.hpp
 
