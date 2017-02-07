@@ -296,10 +296,15 @@ void Altair::run()
                   for (const QString &s : q)
                   {
                       QString d = s.section("xhl/", 1, 1, QString::SectionSkipEmpty);
-                      if (username == "fab")
+
+#                     ifdef Q_OS_WIN
                           d = d.section('/', 0, 0, QString::SectionSkipEmpty);
-                      else
-                          d = d.section('/', 1, 1, QString::SectionSkipEmpty);
+#                     else
+                          if (username == "fab")
+                              d = d.section('/', 0, 0, QString::SectionSkipEmpty);
+                          else
+                              d = d.section('/', 1, 1, QString::SectionSkipEmpty);
+#                     endif
 
                       if (d.isEmpty()  && ! cdROM.isEmpty())
                       {
