@@ -45,7 +45,7 @@ MainWindow::MainWindow(char* projectName)
   
   recentFiles = QStringList() ;
   settings = new QSettings("altair", "Juridictions Financières");
-# ifndef Q_OS_WINDOWS
+# ifndef Q_OS_WIN
        if (settings->value("importerAuLancement") == true && ! cdROM.isEmpty())
        {
             if (QDir(cdROM).exists() && ! QDir(cdROM).QDir::entryInfoList(QDir::Dirs|QDir::Files|QDir::NoDotAndDotDot).isEmpty())
