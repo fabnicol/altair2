@@ -3,7 +3,10 @@
 
 /* fichier à encoder en UTF-8 */
 
-QStringList Altair::createCommandLineString(const QString& subdir, const QString& rootDir)
+QHash<QString, QStringList> Hash::fileList;
+
+
+QStringList Altair::createCommandLineString(const QStringList& files)
 {
     QListIterator<FAbstractWidget*> w(Abstract::abstractWidgetList);
     QStringList commandLine;
@@ -14,57 +17,27 @@ QStringList Altair::createCommandLineString(const QString& subdir, const QString
     while (w.hasPrevious())
     {
         FAbstractWidget* item = w.previous();
-        QStringList commandLineChunk = item->commandLineStringList();
-        
-        if (! subdir.isEmpty())
-        {
-         if (item->getHashKey() == "XHL") 
-         {
-            QStringListIterator z(commandLineChunk);
-            QStringList L;
-            while (z.hasNext())
-            {
-                QString st = z.next();
+        QStringList commandLineChunk;
 
-                // ne pas utiliser QDir::separator car st est en / unix-like
-                if (st.contains(subdir + "/")) L << st;
-            }
-            
-            commandLineChunk.clear();
-            commandLineChunk = L;
-         }
-         
-         if (item->getHashKey() == "exportMode") 
-         {
-           continue;
-         }
+        if (! files.isEmpty() && item->getHashKey() == "XHL")
+        {
+           commandLineChunk = files;
         }
         else
-        if (! rootDir.isEmpty())
         {
-            if (item->getHashKey() == "XHL") 
-            {
-               QStringListIterator z(commandLineChunk);
-               QStringList L;
-               while (z.hasNext())
-               {
-                   QString st = z.next();
-   
-                   // ne pas utiliser QDir::separator car st est en / unix-like
-
-                   if (! st.section(rootDir, 1, 1).contains("/")) L << st;
-               }
-               
-               commandLineChunk.clear();
-               commandLineChunk = L;
-            }
+            commandLineChunk = item->commandLineStringList();
+        }
+         
+        if (item->getHashKey() == "exportMode")
+        {
+           continue;
         }
         
 #       ifdef INSERT_PAGE        
           if (item->getHashKey() == "base")  commandLineChunk[1] += QDir::separator() + subdir;
 #       endif   
           
-        if (!commandLineChunk.isEmpty() && !commandLineChunk[0].isEmpty())
+        if (! commandLineChunk.isEmpty() && ! commandLineChunk[0].isEmpty())
             commandLine +=  commandLineChunk;
         
         if (item->getHashKey() == "XHL") 
@@ -77,12 +50,27 @@ QStringList Altair::createCommandLineString(const QString& subdir, const QString
     return commandLine;
 }
 
-void Altair::runWorker(const QString& subdir, const QString& rootDir)
+
+void Altair::runWorkerDistributed(bool reset)
+{
+    static QHashIterator<QString, QStringList> w(Hash::fileList);
+    if (reset)
+        w.toFront();
+
+    if (w.hasNext())
+        runWorker(w.next().key());
+}
+
+// ne pas utiliser le polymorphisme en QString en raison d'un bug du compilateur
+
+void Altair::runWorker(const QString& subdir)
 {
 
     QStringList args0, args1;
     QString command;
-    QStringList commandLine = createCommandLineString(subdir, rootDir);
+    QStringList commandLine;
+
+    commandLine = createCommandLineString(Hash::fileList.value(subdir));
     
     if (commandLine.isEmpty()) return;
     
@@ -181,7 +169,7 @@ void Altair::runWorker(const QString& subdir, const QString& rootDir)
                                            | QFileDevice::WriteGroup
                                            | QFileDevice::WriteOther);
     
-    //process.start(altairCommandStr,  args0 << args1);
+
     process.start(altairCommandStr,  QStringList() << "-f" << path_access_cl);
 
     if (process.waitForStarted())
@@ -311,68 +299,62 @@ void Altair::run()
             }
         }
     }
-    
+
+
     if  (v(exportMode).left(12) == "Distributive")
     {
       const QString cdROM = cdRomMounted();
-      
-      if (subDirList.isEmpty())
-        {
-              for (int j = 0; j < Hash::wrapper["XHL"]->size() - 3; ++j)
-              {
-                  const QStringList &q = Hash::wrapper["XHL"]->at(j);
-                  for (const QString &s : q)
-                  {
-                      QString d = s.section("xhl/", 1, 1, QString::SectionSkipEmpty);
-                      bool hasSubDir = false;
-#                     ifdef Q_OS_WIN
-                          hasSubDir = d.count('/') > 0;                          
-                          d = d.section('/', 0, 0, QString::SectionSkipEmpty);
-#                     else
-                          if (username == "fab")
-                          {
-                              hasSubDir = d.count('/') > 0;
-                              d = d.section('/', 0, 0, QString::SectionSkipEmpty);
-                          }
-                          else
-                          {
-                              hasSubDir = d.count('/') > 1;
-                              d = d.section('/', 1, 1, QString::SectionSkipEmpty);
-                          }
-#                     endif
 
-                      
-                      if (d.isEmpty()  && ! cdROM.isEmpty())
-                      {
-                          d = s.section("/mnt/cdrom/", 0, 0, QString::SectionSkipEmpty);
-                          hasSubDir = d.count('/') > 0;
-                          d = d.section('/', 0, 0, QString::SectionSkipEmpty);
-                          rootDir = "/mnt/cdrom/";
-                      }
-                      else
-                          rootDir = userdatadir;
-                                            
-                          
-                      if  (hasSubDir && ! d.isEmpty() && ! subDirList.contains(d))
-                      {
-                          subDirList << d;
-                          QDir().mkpath(v(base) + QDir::separator() + d);
-                      }
-                      
-                       
-                  }
-              }
-        }
-
-      if (! subDirList.isEmpty())
+      for (int j = 0; j < Hash::wrapper["XHL"]->size() - 3; ++j)
       {
-          runWorker(subDirList.first());
-      }
-   
+          const QStringList &q = Hash::wrapper["XHL"]->at(j);
+          for (const QString &s : q)
+          {
+              QString d = s.section("xhl/", 1, 1, QString::SectionSkipEmpty);
+              bool hasSubDir = false;
+#               ifdef Q_OS_WIN
+                  hasSubDir = d.count('/') > 0;
+                  d = d.section('/', 0, 0, QString::SectionSkipEmpty);
+#               else
+                  if (username == "fab")
+                  {
+                      hasSubDir = d.count('/') > 0;
+                      d = d.section('/', 0, 0, QString::SectionSkipEmpty);
+                  }
+                  else
+                  {
+                      hasSubDir = d.count('/') > 1;
+                      d = d.section('/', 1, 1, QString::SectionSkipEmpty);
+                  }
+#               endif
+
+              if (d.isEmpty()  && ! cdROM.isEmpty())
+              {
+                  d = s.section(cdROM, 0, 0, QString::SectionSkipEmpty);
+                  hasSubDir = d.count('/') > 0;
+                  d = d.section('/', 0, 0, QString::SectionSkipEmpty);
+                  rootDir = cdROM;
+              }
+              else
+                  rootDir = userdatadir;
+
+              const QString &outdir = v(base) + QDir::separator() + d;
+
+              if  (hasSubDir && ! d.isEmpty() && ! QFileInfo(outdir).isDir())
+              {
+                  QDir().mkpath(outdir);
+              }
+
+              Hash::fileList[hasSubDir ? d : ""] << s;
+          }
+    }
+
+   if (! Hash::fileList.empty())
+         runWorkerDistributed(true);
    }
-   else
+    else
     {
-       runWorker();
+        runWorker();
     }
 }
 
@@ -456,20 +438,11 @@ void Altair::processFinished(exitCode code)
                                + " Octets ("
                                + QString::number(((float)fsSize)/(1024.0*1024.0), 'f', 2)
                                + " Mo)");
+
+        if (v(exportMode).left(12) == "Distributive")
+            runWorkerDistributed(false);
     }
 
-    if (! subDirList.isEmpty()) 
-    {
-      subDirList.removeFirst();
-      if (! subDirList.isEmpty())
-         runWorker(subDirList.first());
-      else
-      {
-          // cas mixte avec fichiers à la racine et sous-répertoires
-          runWorker("", rootDir); 
-      }
-    }
-    
 }
 
 

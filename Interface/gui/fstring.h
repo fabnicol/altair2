@@ -254,6 +254,7 @@ public:
   static QHash<QString, QString> Employeur;
   static QHash<QString, bool>    Suppression;
   static QList<QStringList> Reference;
+  static QHash<QString, QStringList> fileList;
   static inline void createReference(int rank)
   {
       Reference.clear();
