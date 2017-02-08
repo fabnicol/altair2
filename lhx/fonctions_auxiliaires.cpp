@@ -380,7 +380,6 @@ void ouvrir_fichier_base(const info_t &info, BaseType type, ofstream& base, int 
 
 void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType type, ofstream& base, int segment)
 {
-
     string chemin_base = "";
 
     int Type = 0;
@@ -395,7 +394,6 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
     }
     else
     {
-
         string  index = "-";
         static int rang;
         static int segment_ancien;
@@ -476,18 +474,19 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
 
            default: break;
         }
-
        segment_ancien = segment;
     }
     
-    ios_base::openmode mode = (info.export_mode == "'Cumulative'" || info.export_mode == "'Distributive+'"  || segment > 0) ? ios_base::app : ios_base::trunc;
+    ios_base::openmode mode = (info.export_mode == "'Cumulative'"
+                               || info.export_mode == "'Distributive+'"
+                               || segment > 0) ? ios_base::app : ios_base::trunc;
     
     base.open(chemin_base, ofstream::out | mode);
 
     if (! base.good())
     {
         LOCK_GUARD
-        cerr << ERROR_HTML_TAG "Impossible d'ouvrir le fichier de sortie "<< chemin_base << " de type " << Type << ENDL;
+        cerr << ERROR_HTML_TAG "Impossible d'ouvrir le fichier de sortie " << chemin_base << " de type " << Type << ENDL;
         exit(-1000);
     }
 
@@ -500,7 +499,6 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
         else
             ecrire_entete_bulletins(info, base);
     }
-
 
     return;
 }
