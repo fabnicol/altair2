@@ -3,7 +3,7 @@
 
 /* fichier à encoder en UTF-8 */
 
-QStringList Altair::createCommandLineString(const QString& subdir)
+QStringList Altair::createCommandLineString(const QString& subdir, const QString& rootDir)
 {
     QListIterator<FAbstractWidget*> w(Abstract::abstractWidgetList);
     QStringList commandLine;
@@ -16,7 +16,7 @@ QStringList Altair::createCommandLineString(const QString& subdir)
         FAbstractWidget* item = w.previous();
         QStringList commandLineChunk = item->commandLineStringList();
         
-        if (subdir != "")
+        if (! subdir.isEmpty())
         {
          if (item->getHashKey() == "XHL") 
          {
@@ -39,6 +39,26 @@ QStringList Altair::createCommandLineString(const QString& subdir)
            continue;
          }
         }
+        else
+        if (! rootDir.isEmpty())
+        {
+            if (item->getHashKey() == "XHL") 
+            {
+               QStringListIterator z(commandLineChunk);
+               QStringList L;
+               while (z.hasNext())
+               {
+                   QString st = z.next();
+   
+                   // ne pas utiliser QDir::separator car st est en / unix-like
+
+                   if (! st.section(rootDir, 1, 1).contains("/")) L << st;
+               }
+               
+               commandLineChunk.clear();
+               commandLineChunk = L;
+            }
+        }
         
 #       ifdef INSERT_PAGE        
           if (item->getHashKey() == "base")  commandLineChunk[1] += QDir::separator() + subdir;
@@ -47,18 +67,25 @@ QStringList Altair::createCommandLineString(const QString& subdir)
         if (!commandLineChunk.isEmpty() && !commandLineChunk[0].isEmpty())
             commandLine +=  commandLineChunk;
         
-        if (item->getHashKey() == "XHL") fileCount = commandLineChunk.size();
+        if (item->getHashKey() == "XHL") 
+        { 
+            fileCount = commandLineChunk.size();
+            if (fileCount == 0) return QStringList();
+        }
     }
 
     return commandLine;
 }
 
-void Altair::runWorker(const QString& subdir)
+void Altair::runWorker(const QString& subdir, const QString& rootDir)
 {
 
     QStringList args0, args1;
     QString command;
-
+    QStringList commandLine = createCommandLineString(subdir, rootDir);
+    
+    if (commandLine.isEmpty()) return;
+    
     args0 <<  "-m" << "-d" << "," << "-s" << ";" << "-rank" << sharedir + "/rank";
 
     // Si les bases sont directement importées du CDROM dans l'onglet sans passer une copie
@@ -79,9 +106,10 @@ void Altair::runWorker(const QString& subdir)
 #   ifndef INSERT_PAGE
        args1 << "-D" << v(base) + QDir::separator() + subdir;
 #   endif    
-    
-    args1 << createCommandLineString(subdir);
-   
+      
+        
+    args1 << commandLine;
+       
     outputTextEdit->append(PROCESSING_HTML_TAG + tr("Importation des bases de paye (")
                                                + QString::number(Altair::totalSize[0] 
                                                                             / (1024*1024)) 
@@ -296,35 +324,56 @@ void Altair::run()
                   for (const QString &s : q)
                   {
                       QString d = s.section("xhl/", 1, 1, QString::SectionSkipEmpty);
-
+                      bool hasSubDir = false;
 #                     ifdef Q_OS_WIN
+                          hasSubDir = d.count('/') > 0;                          
                           d = d.section('/', 0, 0, QString::SectionSkipEmpty);
 #                     else
                           if (username == "fab")
+                          {
+                              hasSubDir = d.count('/') > 0;
                               d = d.section('/', 0, 0, QString::SectionSkipEmpty);
+                          }
                           else
+                          {
+                              hasSubDir = d.count('/') > 1;
                               d = d.section('/', 1, 1, QString::SectionSkipEmpty);
+                          }
 #                     endif
 
+                      
                       if (d.isEmpty()  && ! cdROM.isEmpty())
                       {
-                          d = s.section("/mnt/cdrom/", 0, 0, QString::SectionSkipEmpty).section('/', 0, 0, QString::SectionSkipEmpty);
+                          d = s.section("/mnt/cdrom/", 0, 0, QString::SectionSkipEmpty);
+                          hasSubDir = d.count('/') > 0;
+                          d = d.section('/', 0, 0, QString::SectionSkipEmpty);
+                          rootDir = "/mnt/cdrom/";
                       }
+                      else
+                          rootDir = userdatadir;
+                                            
                           
-                      if  (! d.isEmpty() && ! subDirList.contains(d))
+                      if  (hasSubDir && ! d.isEmpty() && ! subDirList.contains(d))
+                      {
                           subDirList << d;
-                      QDir().mkpath(v(base) + QDir::separator() + d);
+                          QDir().mkpath(v(base) + QDir::separator() + d);
+                      }
+                      
+                       
                   }
               }
         }
 
       if (! subDirList.isEmpty())
+      {
           runWorker(subDirList.first());
-      else
-          runWorker();
+      }
+   
    }
    else
-     runWorker();
+    {
+       runWorker();
+    }
 }
 
 
@@ -408,12 +457,17 @@ void Altair::processFinished(exitCode code)
                                + QString::number(((float)fsSize)/(1024.0*1024.0), 'f', 2)
                                + " Mo)");
     }
-    
+
     if (! subDirList.isEmpty()) 
     {
       subDirList.removeFirst();
       if (! subDirList.isEmpty())
          runWorker(subDirList.first());
+      else
+      {
+          // cas mixte avec fichiers à la racine et sous-répertoires
+          runWorker("", rootDir); 
+      }
     }
     
 }
