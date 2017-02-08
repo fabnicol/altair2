@@ -471,7 +471,7 @@ void Altair::on_deleteItem_clicked()
 
 void Altair::requestSaveProject()
 {
-    projectName=QFileDialog::getSaveFileName(this,  tr("Entrer le nom du projet"), userdatadir + QDir::separator() + "défaut.alt", tr("projets altair (*.alt)"));
+    projectName=QFileDialog::getSaveFileName(this,  tr("Entrer le nom du projet"), userdatadir + "défaut.alt", tr("projets altair (*.alt)"));
     updateProject(true);
 }
 

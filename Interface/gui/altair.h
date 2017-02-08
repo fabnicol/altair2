@@ -36,7 +36,7 @@ public:
     void checkEmptyProjectName()
       {
          if (projectName.isEmpty())
-            projectName = userdatadir + QDir::separator() + QString("défaut.alt");
+            projectName = userdatadir + QString("défaut.alt");
       }
 
     void importData();
@@ -81,7 +81,7 @@ public:
 
     bool refreshProjectManager();
     void setProcessMsg(const QString& msg) {processMsg =  msg; }
-    QStringList createCommandLineString(const QString& subdir = "", const QString& rootDir = "");
+    QStringList createCommandLineString(const QStringList &L = QStringList());
     void refreshTreeView(bool create=false);
     QString username;
     QString userdatadir;
@@ -153,10 +153,10 @@ private:
     void printMsg(qint64 new_value, const QString &str);
     void printBaseSize(qint64 new_value = 0);
 
-    QStringList subDirList;
     void checkAnnumSpan();
-    
-    void runWorker(const QString& d = "", const QString& rootDir = "");
+
+    void runWorkerDistributed(bool);
+    void runWorker(const QString& = "");
 
 #if 0
     void normaliseMultiBudgetFiles(const QStringList& list);
