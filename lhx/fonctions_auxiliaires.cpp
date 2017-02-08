@@ -5,6 +5,7 @@
 
 #include "fonctions_auxiliaires.hpp"
 #include "tags.h"
+#include "filenames.hpp"
 
 extern bool verbeux;
 
