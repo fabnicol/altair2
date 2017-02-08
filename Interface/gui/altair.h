@@ -53,6 +53,7 @@ public:
     QProcess ejectProcess;
     QString fileTreeFile;
     QString outputType;
+    QString rootDir = "";
 
     int fileRank = 1;
 
@@ -80,7 +81,7 @@ public:
 
     bool refreshProjectManager();
     void setProcessMsg(const QString& msg) {processMsg =  msg; }
-    QStringList createCommandLineString(const QString& subdir = "");
+    QStringList createCommandLineString(const QString& subdir = "", const QString& rootDir = "");
     void refreshTreeView(bool create=false);
     QString username;
     QString userdatadir;
@@ -155,7 +156,7 @@ private:
     QStringList subDirList;
     void checkAnnumSpan();
     
-    void runWorker(const QString& d = "");
+    void runWorker(const QString& d = "", const QString& rootDir = "");
 
 #if 0
     void normaliseMultiBudgetFiles(const QStringList& list);
