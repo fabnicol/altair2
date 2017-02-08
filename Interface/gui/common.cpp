@@ -444,9 +444,14 @@ QString common::cdRomMounted()
                   #ifdef Q_OS_LINUX
                     if (QDir(storage.rootPath()).entryList(QDir::Files|QDir::Dirs).isEmpty())
                         return ("");
-                    else
+
                   #endif
-                    return(storage.rootPath());
+                      // s'assur que se termine par un /
+                      QString path = storage.rootPath();
+                      if  (path.at(path.size() - 1) != '/')
+                          path += "/";
+                      
+                    return(path);
                  break;
                 }
            }

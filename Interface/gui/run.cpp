@@ -301,6 +301,8 @@ void Altair::run()
     }
 
 
+    Hash::fileList.clear();
+            
     if  (v(exportMode).left(12) == "Distributive")
     {
       const QString cdROM = cdRomMounted();
@@ -312,10 +314,13 @@ void Altair::run()
           {
               QString d = s.section("xhl/", 1, 1, QString::SectionSkipEmpty);
               bool hasSubDir = false;
-#               ifdef Q_OS_WIN
+#            ifdef Q_OS_WIN
+              
                   hasSubDir = d.count('/') > 0;
                   d = d.section('/', 0, 0, QString::SectionSkipEmpty);
-#               else
+                  
+#            else
+              
                   if (username == "fab")
                   {
                       hasSubDir = d.count('/') > 0;
@@ -332,6 +337,7 @@ void Altair::run()
               {
                   d = s.section(cdROM, 0, 0, QString::SectionSkipEmpty);
                   hasSubDir = d.count('/') > 0;
+
                   d = d.section('/', 0, 0, QString::SectionSkipEmpty);
                   rootDir = cdROM;
               }
