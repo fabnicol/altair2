@@ -404,6 +404,14 @@ standardPage::standardPage()
                                "exportBulletins",
                                {"Données csv", "Exporter les bulletins de paye"});
     
+    FCheckBox* archiveXhlBox = new FCheckBox("Archiver/Restaurer les bases XML",
+                               "archiveXML",
+                               {"Données XML", "Archiver/Restaurer les bases XML"});
+    
+    FCheckBox* exportXhlBox  = new FCheckBox("Exporter les bases XML",
+                               "exportXML",
+                               {"Données XML", "Exporter les bases XML"});
+    
     v1Layout->addWidget(tableCheckBox,     1, 0, Qt::AlignLeft);
     v1Layout->addWidget(baseTypeLabel,     3, 0, Qt::AlignRight);
     v1Layout->addWidget(baseTypeWidget,    3, 1, Qt::AlignLeft);
@@ -418,7 +426,9 @@ standardPage::standardPage()
     v3Layout->addWidget(exportTableBox,      2, 0, Qt::AlignLeft);
     v3Layout->addWidget(archiveBulletinsBox, 1, 1, Qt::AlignLeft);
     v3Layout->addWidget(exportBulletinsBox,  2, 1, Qt::AlignLeft);
-        
+    v3Layout->addWidget(archiveXhlBox, 3, 0, Qt::AlignLeft);
+    v3Layout->addWidget(exportXhlBox,  4, 0, Qt::AlignLeft);
+    
     exportBox->setLayout(v3Layout);
     
     QVBoxLayout* mainLayout = new QVBoxLayout;
