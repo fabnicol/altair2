@@ -43,7 +43,9 @@ void Altair::initialize()
     }
             
     Hash::description["année"]=QStringList("Fichiers .xhl");
+#if 0
     Abstract::initH("NBulletins");
+#endif
 }
 
 
@@ -450,8 +452,11 @@ void Altair::updateIndexChangeInfo()
 
 void Altair::updateIndexInfo()
 {
-    currentIndex=project[0]->getCurrentIndex();
-    row=project[0]->getCurrentRow();
+    if (project[0] == nullptr) return;
+
+    currentIndex = project[0]->getCurrentIndex();
+    row = project[0]->getCurrentRow();
+
     // row = -1 if nothing selected
 }
 
@@ -491,7 +496,7 @@ bool Altair::updateProject(bool requestSave)
            Abstract::initH("base", path_access("Tests/Exemple/Donnees/" AltairDir));
            Abstract::initH("lhxDir", path_access(System));
 # endif  
-           
+
     return refreshProjectManager();
 }
 
@@ -516,22 +521,71 @@ void Altair::setCurrentFile(const QString &fileName)
 void Altair::assignWidgetValues()
 {
     QListIterator<FAbstractWidget*> w(Abstract::abstractWidgetList);
+    QList<QString> keyList = Hash::wrapper.keys();
 
-    if (w.hasNext())
+    while (w.hasNext())
     {
-        FAbstractWidget* widget=w.next();
+        FAbstractWidget* widget = w.next();
+        const QString key = widget->getHashKey();
+
+        if (! keyList.contains(key))
+        {
+            outputTextEdit->append(WARNING_HTML_TAG "Le Widget de clé "
+                                   + key +
+                                   " n'est pas référencé pas dans cette version des fichiers de projet Altaïr"
+                                   + (Hash::wrapper["version"]->isEmpty() ? "." :
+                                      " (version" + v(version) + " )."));
+
+            continue;
+        }
+
         if (Altair::RefreshFlag & interfaceStatus::mainTabs)
         {
-            widget->setWidgetFromXml(*Hash::wrapper[widget->getHashKey()]);
+            if (key == "XHL")
+               widget->setWidgetFromXml(*Hash::wrapper[key]);
+        }
+        else
+        if (options::RefreshFlag & interfaceStatus::optionTabs)
+        {
+            widget->setWidgetFromXml(*Hash::wrapper[key]);
         }
     }
 
-    if (options::RefreshFlag & interfaceStatus::optionTabs)
-        while (w.hasNext())
+    if (v(quiet).isFalse())
+    {
+        if (keyList.size() - 1 != Abstract::abstractWidgetList.size())
         {
-            FAbstractWidget* widget=w.next();
-            widget->setWidgetFromXml(*Hash::wrapper[widget->getHashKey()]);
+            // On assigne base et lhxDir en hard code donc il n'est nu dans l'abstractWidgetList ni
+            // dans le projet
+
+            // version est lu dans le projet mais n'a pas de Widget
+
+            outputTextEdit->append(WARNING_HTML_TAG "Le nombre de Widget à identifier ("
+                                   + QString::number(Abstract::abstractWidgetList.size())
+                                   + ") est différent du nombre de clés lues dans le projet ("
+                                   + QString::number(keyList.size() - 1) +").");
+
         }
+            QHashIterator<QString, FStringList*> w(Hash::wrapper);
+            QStringList hashKeys = Abstract::hashKeys();
+
+            QStringList exclusion = {"version", "base", "lhxDir"};
+
+            while (w.hasNext())
+            {
+               auto h = w.next();
+               if (! exclusion.contains(h.key()) && ! hashKeys.contains(h.key()))
+                       outputTextEdit->append(WARNING_HTML_TAG "Pas de Widget de clé " + h.key()
+                                              + " pour cette version (" VERSION ") de l'interface Altaïr.");
+            }
+
+            outputTextEdit->append(STATE_HTML_TAG "Version du projet : "
+                                   + (Hash::wrapper["version"]->isEmpty() ? "non référencée." :
+                                      v(version)));
+            outputTextEdit->append(STATE_HTML_TAG "Version de l'interface : " VERSION);
+
+    }
+
 }
 
 bool Altair::refreshProjectManager()

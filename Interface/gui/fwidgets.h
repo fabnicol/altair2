@@ -61,26 +61,6 @@ public:
  *     The following one-member abstract structure works out this intriguing issue that remains poorly understood  */
 
 
-struct Abstract
-{
-    static QList<FAbstractWidget*> abstractWidgetList;
-    static void refreshOptionFields();
-    static void initH(const QString &hashKey, const QString& value)
-    {
-        *(Hash::wrapper[hashKey]=new FStringList) = value;
-    }
-    static void initH(const QString &hashKey)
-    {
-        Hash::wrapper[hashKey]=new FStringList;
-    }
-
-    static void initH()
-    {
-        for (const QString& hashKey: Hash::wrapper.keys()) initH(hashKey);
-    }
-
-};
-
 class FAbstractWidget : public flags
 {
 
@@ -115,7 +95,8 @@ public:
   virtual bool isAbstractEnabled() =0 ;
   bool isAbstractDisabled() {return !isAbstractEnabled();}
   QString optionLabel;
-    QList<FString> commandLineList;
+  QList<FString> commandLineList;
+
 protected:
   QString hashKey;
   QString widgetDepth;
@@ -129,6 +110,35 @@ protected:
   
 };
 
+
+struct Abstract
+{
+    static QList<FAbstractWidget*> abstractWidgetList;
+    static void refreshOptionFields();
+    static void initH(const QString &hashKey, const QString& value)
+    {
+        *(Hash::wrapper[hashKey]=new FStringList) = value;
+    }
+
+    static void initH(const QString &hashKey)
+    {
+        Hash::wrapper[hashKey]=new FStringList;
+    }
+
+    static void initH()
+    {
+        for (const QString& hashKey: Hash::wrapper.keys()) initH(hashKey);
+    }
+
+    static QStringList hashKeys()
+    {
+        QStringList L;
+        for (const FAbstractWidget* a : abstractWidgetList)
+            L << a->getHashKey();
+        return L;
+    }
+
+};
 
 class FListWidget : public QWidget, public FAbstractWidget
 {
