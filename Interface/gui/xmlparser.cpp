@@ -15,13 +15,13 @@ inline const QString Altair::makeParserString(int start, int end)
         if (widget == nullptr) return "";
         QString hK = widget->getHashKey();
 
-        if  (widget->getHashKey().isEmpty())
+        if  (hK.isEmpty())
         {
             Warning(tr("Erreur"), tr("Erreur d'analyse XML du projet"));
             continue;
         }
-
         QString xml = widget->setXmlFromWidget().toQString();
+
         if (hK == "XHL" && xml.isEmpty()) continue;
 
         QString widgetDepth = widget->getDepth();
@@ -66,7 +66,8 @@ void Altair::writeProjectFile()
     QTextStream out(&projectFile);
     out.setCodec("UTF-8");
 
-    out << "<?xml version=\"1.0\"?>\n" <<"<projet>\n";
+    out << "<?xml version=\"1.0\"?>\n"
+        <<"<projet version=\"" VERSION "\">\n";
     out << " <data>\n";
 
     out << Altair::makeDataString();
@@ -81,6 +82,7 @@ void Altair::writeProjectFile()
     out << "</projet>\n";
     out.flush();
     options::RefreshFlag=interfaceStatus::hasSavedOptions;
+
 }
 
 namespace XmlMethod
@@ -395,6 +397,11 @@ void Altair::parseProjectFile(QIODevice* file)
 
     if (root.tagName() != "projet") return;
 
+    Hash::wrapper.clear();
+
+    Hash::wrapper["version"]  = new FStringList;
+    *Hash::wrapper["version"] = FStringList(root.toElement().attribute("version"));
+
     QDomNode node= root.firstChild();
 
     /* this stacks data into relevant list structures, processes information
@@ -410,9 +417,15 @@ void Altair::parseProjectFile(QIODevice* file)
 
         while (!subnode.isNull())
         {
-            FStringList &&str=parseEntry(subnode);
-            if (!str.at(0).at(0).isEmpty())
-                *(Hash::wrapper[subnode.toElement().tagName()] = new FStringList) =   str;
+            FStringList &&str = parseEntry(subnode);
+            //if (!str.at(0).at(0).isEmpty())
+            {
+                const QString key  = subnode.toElement().tagName();
+
+                Hash::wrapper[key]  = new FStringList;
+                *Hash::wrapper[key] =  str;
+            }
+
             subnode=subnode.nextSibling();
         }
 
@@ -512,7 +525,6 @@ void Altair::refreshProjectManagerValues(std::uint16_t refreshProjectManagerFlag
 
     if ((refreshProjectManagerFlag & manager::refreshProjectInteractiveMask) == manager::refreshProjectInteractiveMode)
     {
-        updateIndexInfo();
         fileSizeDataBase[0] = processSecondLevelData(*Hash::wrapper["XHL"]);
     }
 
@@ -526,31 +538,34 @@ void Altair::refreshProjectManagerValues(std::uint16_t refreshProjectManagerFlag
                            *Hash::wrapper["XHL"],
                             fileSizeDataBase[0]);
     Altair::totalSize[0]+=1;
-//    if ((refreshProjectManagerFlag & manager::refreshNBulletinsMask) ==  manager::refreshNBulletins)
-//    {
-//        for (int i=0; i < Hash::wrapper["NBulletins"]->size(); ++i)
-//            for (int j=0; i < Hash::wrapper["NBulletins"]->at(i).size(); ++j)
-//               XmlMethod::displayTextData({""}, "", "", "", Hash::wrapper["NBulletins"]->at(i).at(j));
-//    }
+
+#if 0
+    if ((refreshProjectManagerFlag & manager::refreshNBulletinsMask) ==  manager::refreshNBulletins)
+    {
+        for (int i=0; i < Hash::wrapper["NBulletins"]->size(); ++i)
+            for (int j=0; i < Hash::wrapper["NBulletins"]->at(i).size(); ++j)
+               XmlMethod::displayTextData({""}, "", "", "", Hash::wrapper["NBulletins"]->at(i).at(j));
+    }
+#endif
 
     item=new QTreeWidgetItem(managerWidget);
     item->setText(0, "Logiciel");
     item->setExpanded(true);
     XmlMethod::itemParent=item;
+    QStringList L = Hash::wrapper.keys();
 
-    for (int k=1; k <Abstract::abstractWidgetList.count(); k++)
+    for (int k=1; k < Abstract::abstractWidgetList.count(); k++)
+    {
+        const QString& key=Abstract::abstractWidgetList[k]->getHashKey();
+        if (! L.contains(key)) continue;
+
+        if (Abstract::abstractWidgetList[k]->getDepth() == "0")
         {
-
-            QString key=Abstract::abstractWidgetList[k]->getHashKey();
-
-            if (Abstract::abstractWidgetList[k]->getDepth() == "0")
-            {
-                XmlMethod::displayTextData(Hash::description[key], Hash::wrapper[key]->toQString());
-            }
-            else if (Abstract::abstractWidgetList[k]->getDepth() == "1")
-                XmlMethod::displayFirstLevelData(Hash::description[key].at(0),   "bouton", Hash::wrapper[key]->at(0));
+            XmlMethod::displayTextData(Hash::description[key], Hash::wrapper[key]->toQString());
         }
-
-
+        else
+            if (Abstract::abstractWidgetList[k]->getDepth() == "1")
+            XmlMethod::displayFirstLevelData(Hash::description[key].at(0), "bouton", Hash::wrapper[key]->at(0));
+    }
 
 }

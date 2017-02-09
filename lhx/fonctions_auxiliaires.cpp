@@ -9,11 +9,11 @@
 
 extern bool verbeux;
 
-#ifdef __WIN32__
-#include "entete-latin1.hpp"
+#ifndef __linux__
+# include "entete-latin1.hpp"
 #else
-#include "entete.hpp"
-#include <unistd.h>
+# include "entete.hpp"
+# include <unistd.h>
 #endif
 
 #ifdef MMAP_PARSING
