@@ -220,7 +220,7 @@ const QStringList FAbstractWidget::commandLineStringList()
 
 /* caution : abstractWidgetList must have its first two elements as respectively being with "DVD-A" and "DVD-V" hashKeys. */
 
-QList<FAbstractWidget*> Abstract::abstractWidgetList= QList<FAbstractWidget*>();
+QList<FAbstractWidget*> Abstract::abstractWidgetList = QList<FAbstractWidget*>();
 
 
 void Abstract::refreshOptionFields()
@@ -339,24 +339,26 @@ void FListWidget::setWidgetFromXml(const FStringList &s)
            // Hash::wrapper[hashKey]->removeAll(QStringList());
             int size = Hash::wrapper[hashKey]->size();
 
-            for (int i = 0; i < size; ++i)
+            for (int i = 0; i < size -3; ++i)
             {
                 QStringList strL = Hash::wrapper[hashKey]->at(i);
 
                 if (strL.isEmpty()) continue;
                 for (const QString &s : strL)
                 {
-                    if (i >= size - 3 || QFileInfo(s).exists())
+                    if (QFileInfo(s).exists())
                         commandLineList << s;
-                    else
-                    {
-                        QMessageBox::critical(nullptr,
-                                              "Erreur d'importation du projet .alt",
-                                              "Le fichier " + s + " n'existe pas. Importation annulée.\n size= " +QString::number(size) + " i= " + QString::number(i),
-                                              QMessageBox::Ok);
-                        emit(forceCloseProject());
-                       return;
-                    }
+//                    else
+//                    {
+//                        QMessageBox::critical(nullptr,
+//                                              "Erreur d'importation du projet .alt",
+//                                              "Le fichier " + s + " n'existe pas.\n Importation annulée.\n"
+//                                              "N onglets = " +QString::number(size) + " onglet = " + QString::number(i) + "\n" +
+//                                              + " Hash : " + hashKey,
+//                                              QMessageBox::Ok);
+//                        emit(forceCloseProject());
+//                       return;
+//                    }
                 }
             }
         }
@@ -384,6 +386,8 @@ void FListWidget::addGroup(const QString &label)
 
 const FString FListWidget::setXmlFromWidget()
 {
+    if (Hash::wrapper[hashKey] == nullptr) return "";
+
     if (!Hash::wrapper.contains(hashKey)) return FStringList().setEmptyTags(tags);
 
     if (!listWidgetTranslationHash.isEmpty())
@@ -502,7 +506,8 @@ void FCheckBox::refreshWidgetDisplay()
 
 const FString FCheckBox::setXmlFromWidget()
 {
-    *Hash::wrapper[getHashKey()]=commandLineList[0].fromBool(this->isChecked());
+    if (Hash::wrapper[getHashKey()] == nullptr) return "";
+       *Hash::wrapper[getHashKey()] = commandLineList[0].fromBool(this->isChecked());
     return commandLineList[0].toQStringRef();
 }
 
@@ -588,6 +593,7 @@ void FComboBox::refreshWidgetDisplay()
 
 const FString FComboBox::setXmlFromWidget()
 {
+    if (Hash::wrapper[hashKey] == nullptr) return "";
     QString str=currentText();
     *Hash::wrapper[getHashKey()]=FStringList(str);
     commandLineList[0]=  (!comboBoxTranslationHash.isEmpty())? comboBoxTranslationHash.value(str) : "'"+str+"'";
@@ -619,6 +625,8 @@ void FLineEdit::refreshWidgetDisplay()
 
 const FString FLineEdit::setXmlFromWidget()
 {
+    if (Hash::wrapper[hashKey] == nullptr) return "";
+
     commandLineList[0]=FString(this->text());
     *Hash::wrapper[getHashKey()]=FStringList(this->text());
     if (commandLineList[0].isEmpty()) commandLineList[0]="  ";

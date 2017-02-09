@@ -1,6 +1,6 @@
 #ifndef ENTETE_HPP
 #define ENTETE_HPP
-
+#ifndef __linux__
 /* ce fichier doit être encodé en Latin-1 */
 
 static const char* entete_char[]={"R", "Année", "Mois", "Budget", "Employeur",  "Siret", "Etablissement", "Nom", "Prénom", "Matricule", "Service", "Nb.Enfants", "Statut", "Temps.de.travail",
@@ -25,5 +25,6 @@ static std::array<std::string, 13> types_extension = { "traitements",
                                                  "cotisations",
                                                  "commentaires",
                                                  "na"};
+#endif
 #endif // ENTETE_HPP
 

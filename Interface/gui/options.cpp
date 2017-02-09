@@ -37,6 +37,7 @@ dirPage::dirPage()
                 {2,0},
                 donneesCSV->getLayout());
 
+
     baseBox->setLayout(applicationNoyau->getLayout());
 
     //QGridLayout *v1Layout = new QGridLayout;
@@ -55,7 +56,7 @@ dirPage::dirPage()
 int codePage::ajouterVariable(const QString& nom)
 {
    static int index; 
-   const QString &NOM = nom.toUpper();
+   const QString NOM = nom.toUpper();
    
    // Ajouter ici les FLineEdit en pile dans listeCodes
    
@@ -63,6 +64,7 @@ int codePage::ajouterVariable(const QString& nom)
                                    NOM,
                                   {NOM, "Code de paye"});
    
+
    line->setMinimumWidth(MINIMUM_LINE_WIDTH);
    
    listeCodes << line;
@@ -315,6 +317,7 @@ standardPage::standardPage()
                                   " Employeur, Siret, Etablissement"},
                                  "S");
     
+
     QList<QString> exportRange = QList<QString>();
     exportRange << "Standard" << "Cumulative" << "Distributive" << "Distributive+";
 
@@ -391,7 +394,8 @@ standardPage::standardPage()
     FCheckBox* archiveTableBox = new FCheckBox("Archiver/Restaurer les lignes de paye",
                                "archiveTable",
                                {"Données csv", "Archiver/Restaurer les lignes de paye"});
-    
+
+
     FCheckBox* exportTableBox  = new FCheckBox("Exporter les lignes de paye",
                                "exportTable",
                                {"Données csv", "Exporter les lignes de paye"});
@@ -528,6 +532,7 @@ processPage::processPage()
                                  {"Gestion de la mémoire", 
                                   "Pourcentage d'utilisation de la mémoire libre"},
                                   "%memshare");
+
 
     createHash(memoryUseWidget->comboBoxTranslationHash, &ecoRange, &ecoRange2);
     memoryUseWidget->status = flags::status::defaultStatus;
