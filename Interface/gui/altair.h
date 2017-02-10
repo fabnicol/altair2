@@ -82,6 +82,7 @@ public:
     bool refreshProjectManager();
     void setProcessMsg(const QString& msg) {processMsg =  msg; }
     QStringList createCommandLineString(const QStringList &L = QStringList());
+    void writeProjectFile();
     void refreshTreeView(bool create=false);
     QString username;
     
@@ -104,7 +105,6 @@ private slots:
     void killProcess();
     void on_helpButton_clicked();
     void requestSaveProject();
-    void writeProjectFile();
     void openProjectFile();
 
 private:
