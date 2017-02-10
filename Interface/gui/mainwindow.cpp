@@ -2,6 +2,8 @@
 #include "altair.h"
 #include "enums.h"
 #include <QApplication>
+#include <QDirIterator>
+
 #include <fstream>
 #include <sstream>
 
@@ -992,6 +994,8 @@ void MainWindow::saveProjectAs()
 
 }
 
+
+
 bool MainWindow::exportProject(QString dirStr)
 {
     if (dirStr.isEmpty())
@@ -999,7 +1003,7 @@ bool MainWindow::exportProject(QString dirStr)
 
     if (! QFileInfo(dirStr).isDir()) return false;
 
-    const QString subDirStr = QDir::toNativeSeparators(dirStr.append("/Altaïr"));
+    const QString subDirStr = QDir::toNativeSeparators(dirStr.append("/Altaïr/"));
     
     QMessageBox msgBox;
     msgBox.setParent(this);
@@ -1027,50 +1031,46 @@ bool MainWindow::exportProject(QString dirStr)
     
     bool result = true;
 
-    result = common::copyFile(docxReportFilePath, subDirStr + QDir::separator() + "altaïr.docx", "Le rapport Altaïr Word", REQUIRE);
+    result = common::copyFile(docxReportFilePath, subDirStr  + "altaïr.docx", "Le rapport Altaïr Word", REQUIRE);
 
     if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr Word a été exporté sous : " + subDirStr);
 
-    result &= common::copyFile(odtReportFilePath, subDirStr + QDir::separator() + "altaïr.odt", "Le rapport Altaïr Open Office", REQUIRE);
+    result &= common::copyFile(odtReportFilePath, subDirStr  + "altaïr.odt", "Le rapport Altaïr Open Office", REQUIRE);
 
     if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr Open Office a été exporté sous : " + subDirStr);
 
-    result &= common::copyFile(pdfReportFilePath, subDirStr + QDir::separator() + "altaïr.pdf", "Le rapport Altaïr PDF", REQUIRE);
+    result &= common::copyFile(pdfReportFilePath, subDirStr  + "altaïr.pdf", "Le rapport Altaïr PDF", REQUIRE);
 
     if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr PDF a été exporté sous : " + subDirStr);
     
-    if (v(exportTable).isTrue())
+    if (v(exportTable).isTrue() || v(exportAll).isTrue())
     {
         for (const QString &st: tableList)  
         {
-          result = common::copyFile(v(base) + QDir::separator() + st, subDirStr + QDir::separator() + st, "La base des lignes de paye", REQUIRE);
+          result = common::copyFile(v(base) + QDir::separator() + st, subDirStr + st, "La base des lignes de paye", REQUIRE);
           if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "La base " + v(base) + QDir::separator() + st + " a été exportée sous : " + subDirStr);
         }
+        
+        result = common::copyFile(bulletinsFilePath, subDirStr  + "Bulletins.csv", "La base des lignes de paye a été exportée sous : " , REQUIRE);
+        if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "La base des bulletins de paye a été exportée sous : " + subDirStr);
     }
     
-    if (v(exportXML).isTrue())
+    if (v(exportXML).isTrue() || v(exportAll).isTrue())
     {
         for (int rank = 0; rank < Hash::wrapper["XHL"]->size() - 3; ++rank)  
         {
           for(const QString &s :  Hash::wrapper["XHL"]->at(rank))
           {
-            result = common::copyFile(s, subDirStr + QDir::separator() + QFileInfo(s).fileName(), "La base XML " + s, REQUIRE);
+            result = common::copyFile(s, subDirStr  + common::getEmbeddedPath(s), "La base XML " + s, REQUIRE);
             if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "La base " +  s + " a été exportée sous : " + subDirStr);
           }
         }
     }
     
-    if (v(exportBulletins).isTrue())
-    {
-           result = common::copyFile(bulletinsFilePath, subDirStr + QDir::separator() + "Bulletins.csv", "La base des lignes de paye a été exportée sous : " , REQUIRE);
-           if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "La base des bulletins de paye a été exportée sous : " + subDirStr);
-    }
+    result &= common::copyDir(projectRootDir + "/Docs", subDirStr + "Docs");
+    result &= common::copyDir(projectRootDir + "/Bases", subDirStr + "Bases");
     
-    result &= common::copyDir(projectRootDir + "/Docs", subDirStr + "/Docs");
-    result &= common::copyDir(projectRootDir + "/Bases", subDirStr + "/Bases");
-    
-    
-    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Les bases en lien ont été exportées sous : " + subDirStr + QDir::separator() + "Bases");
+    if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Les bases en lien ont été exportées sous : " + subDirStr + "Bases");
     return result;
 }
 
@@ -1122,34 +1122,29 @@ bool MainWindow::archiveProject()
 
     if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr PDF a été archivé sous : " + subDirStr);
     
-     if (v(archiveTable).isTrue())
+     if (v(archiveTable).isTrue() || v(archiveAll).isTrue())
      {
-         
          for (const QString &st: tableList)  
          {
-           result = common::zip(v(base) + QDir::separator() + st, subDirStr + QDir::separator() + st + ".arch");
+           result = common::zip(v(base) + QDir::separator() + st, subDirStr + QDir::separator() + common::getEmbeddedPath(st) + ".arch");
            if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "La base " + v(base) + QDir::separator() + st + " a été archivée sous : " + subDirStr);
          }
+         result = common::zip(bulletinsFilePath, subDirStr + QDir::separator() + "Bulletins.csv.arch");
+         if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "La base des bulletins de paye a été archivée sous : " + subDirStr);
      }
 
-     if (v(archiveXML).isTrue())
+     if (v(archiveXML).isTrue() || v(archiveAll).isTrue())
      {
          for (int rank = 0; rank < Hash::wrapper["XHL"]->size() - 3; ++rank)  
          {
            for(const QString &s :  Hash::wrapper["XHL"]->at(rank))
            {
-             result = common::zip(s, subDirStr + QDir::separator() + QFileInfo(s).fileName() + ".arch");
+             result = common::zip(s, subDirStr + QDir::separator() + common::getEmbeddedPath(s) + ".arch");
              if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "La base " +  s + " a été archivée sous : " + subDirStr);
            }
          }
      }
      
-     if (v(archiveBulletins).isTrue())
-     {
-         result = common::zip(bulletinsFilePath, subDirStr + QDir::separator() + "Bulletins.csv.arch");
-         if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le base des bulletins de paye a été archivée sous : " + subDirStr);
-     }
-
      result &= common::zipDir(projectRootDir + "/Docs", subDirStr + "/Docs")
               & common::zipDir(projectRootDir + "/Bases", subDirStr + "/Bases");
      
@@ -1163,6 +1158,8 @@ bool MainWindow::restoreProject(QString subDirStr)
     if (subDirStr.isEmpty())
         subDirStr = QFileDialog::getExistingDirectory(this, tr("Restaurer le rapport depuis le répertoire..."), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
 
+    subDirStr += "/";
+    
     if (! QFileInfo(subDirStr).isDir()) return false;
 
     altair->updateProject();
@@ -1193,51 +1190,48 @@ bool MainWindow::restoreProject(QString subDirStr)
     altair->outputTextEdit->append(PROCESSING_HTML_TAG "Restauration en cours. Patientez...");
     altair->outputTextEdit->repaint();
     
-    result = common::unzip(subDirStr + "/altaïr.docx.arch", docxReportFilePath);
+    result = common::unzip(subDirStr + "altaïr.docx.arch", docxReportFilePath);
 
     if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr Word a été décompressé sous : " + projectRootDir);
 
-	result &= common::unzip(subDirStr + "/altaïr.odt.arch", odtReportFilePath);
+	result &= common::unzip(subDirStr + "altaïr.odt.arch", odtReportFilePath);
 
 	if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr ODT a été décompressé sous : " + projectRootDir);
     
-    result &= common::unzip(subDirStr + "/altaïr.pdf.arch", pdfReportFilePath);
+    result &= common::unzip(subDirStr + "altaïr.pdf.arch", pdfReportFilePath);
 	
     if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr PDF a été décompressé sous : " + projectRootDir);
 	
-    if (v(archiveTable).isTrue())
+    if (v(archiveTable).isTrue() || v(archiveAll).isTrue())
     {
         for (const QString &st: tableList)  
         {
           QString st2 = st;
           st2.chop(5);
 
-          result = common::unzip(subDirStr + QDir::separator() + st, v(base) + QDir::separator() + st2);
-          if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "La base " + v(base) + QDir::separator() + st2 + " a été décompressée sous : " + subDirStr);
+          result = common::unzip(subDirStr  + st, v(base) + QDir::separator() + st2);
+          if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "La base " + projectRootDir + QDir::separator() + st2 + " a été décompressée sous : " + subDirStr);
         }
+        
+        result = common::unzip(subDirStr  + "Bulletins.csv.arch", bulletinsFilePath);
+        if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "La base des bulletins de paye a été décompressée sous : " + projectRootDir);
     }
     
-    if (v(archiveXML).isTrue())
+    if (v(archiveXML).isTrue() || v(archiveAll).isTrue())
     {
-        for (int rank = 0; rank < Hash::wrapper["XHL"]->size() - 3; ++rank)  
-        {
-          for(const QString &s :  Hash::wrapper["XHL"]->at(rank))
-          {
-            QString base = subDirStr + QDir::separator() + QFileInfo(s).fileName() + ".arch";
-            result = common::unzip(base, s);
-            if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "La base " +  base + " a été décompressée sous : " + s);
-          }
-        }
+           QDirIterator it(subDirStr, QStringList() << "*.xml.arch" << "*.xhl.arch" << "*XML.arch" << "*.XHL.arch", QDir::Files, QDirIterator::Subdirectories);
+           while (it.hasNext())        
+           {
+                const QString s = it.next();
+                QString filepath = common::getEmbeddedPath(s, subDirStr);
+                filepath.chop(5);
+                result = common::unzip(s, projectRootDir + QDir::separator() + filepath);
+                if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "La base " +  s + " a été décompressée sous : " + projectRootDir);
+           }
     }
-    
-    if (v(archiveBulletins).isTrue())
-    {
-        result = common::zip(subDirStr + QDir::separator() + "Bulletins.csv.arch", bulletinsFilePath);
-        if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le base des bulletins de paye a été décompressée sous : " + v(base));
-    }
-    
-    result &= common::unzipDir(subDirStr + "/Docs", projectRootDir + "/Docs");
-    result &= common::unzipDir(subDirStr + "/Bases", projectRootDir + "/Bases");
+        
+    result &= common::unzipDir(subDirStr + "Docs", projectRootDir + "/Docs");
+    result &= common::unzipDir(subDirStr + "Bases", projectRootDir + "/Bases");
 
     if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Les bases en lien ont été décompressées sous : " + projectRootDir + QDir::separator() + "Bases");
 

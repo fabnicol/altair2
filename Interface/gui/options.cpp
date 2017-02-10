@@ -346,7 +346,8 @@ standardPage::standardPage()
 
     QGridLayout *v1Layout = new QGridLayout, 
                 *v2Layout = new QGridLayout,
-                *v3Layout = new QGridLayout;
+                *v3Layout = new QGridLayout,
+                *v4Layout = new QGridLayout;
 
     v2Layout->addWidget(rangCheckBox,     0, 0, Qt::AlignLeft);
     v2Layout->addWidget(etabCheckBox,     1, 0, Qt::AlignLeft);
@@ -389,30 +390,31 @@ standardPage::standardPage()
            maxNLigneLineEdit->setDisabled(value);
         });
 
-    QGroupBox* exportBox = new QGroupBox(tr("Archivage et exportation"));
+    QGroupBox* archBox = new QGroupBox(tr("Archivage et Restauration"));
+    QGroupBox* exportBox = new QGroupBox(tr("Exportation"));
     
-    FCheckBox* archiveTableBox = new FCheckBox("Archiver/Restaurer les lignes de paye",
+    FCheckBox* archiveTableBox = new FCheckBox("Données tableur",
                                "archiveTable",
-                               {"Données csv", "Archiver/Restaurer les lignes de paye"});
+                               {"Données csv", "Archiver/Restaurer les données CSV"});
 
 
-    FCheckBox* exportTableBox  = new FCheckBox("Exporter les lignes de paye",
+    FCheckBox* exportTableBox  = new FCheckBox("Données tableur",
                                "exportTable",
-                               {"Données csv", "Exporter les lignes de paye"});
+                               {"Données csv", "Exporter les données CSV"});
     
-    FCheckBox* archiveBulletinsBox = new FCheckBox("Archiver/Restaurer les bulletins de paye",
-                               "archiveBulletins",
-                               {"Données csv", "Archiver/Restaurer les bulletins de paye"});
+    FCheckBox* archiveAllBox = new FCheckBox("Tout",
+                               "archiveAll",
+                               {"Données XML", "Archiver/Restaurer les données tableur et XML"});
     
-    FCheckBox* exportBulletinsBox  = new FCheckBox("Exporter les bulletins de paye",
-                               "exportBulletins",
-                               {"Données csv", "Exporter les bulletins de paye"});
+    FCheckBox* exportAllBox  = new FCheckBox("Tout",
+                               "exportAll",
+                               {"Données XML", "Exporter les données tableur et XML"});
     
-    FCheckBox* archiveXhlBox = new FCheckBox("Archiver/Restaurer les bases XML",
+    FCheckBox* archiveXhlBox = new FCheckBox("Bases XML",
                                "archiveXML",
                                {"Données XML", "Archiver/Restaurer les bases XML"});
     
-    FCheckBox* exportXhlBox  = new FCheckBox("Exporter les bases XML",
+    FCheckBox* exportXhlBox  = new FCheckBox("Bases XML",
                                "exportXML",
                                {"Données XML", "Exporter les bases XML"});
     
@@ -425,16 +427,19 @@ standardPage::standardPage()
     v1Layout->addWidget(maxNLigneLineEdit, 5, 1, Qt::AlignLeft);
 
     baseTypeBox->setLayout(v1Layout);
-    
-    v3Layout->addWidget(archiveTableBox,     1, 0, Qt::AlignLeft);
-    v3Layout->addWidget(exportTableBox,      2, 0, Qt::AlignLeft);
-    v3Layout->addWidget(archiveBulletinsBox, 1, 1, Qt::AlignLeft);
-    v3Layout->addWidget(exportBulletinsBox,  2, 1, Qt::AlignLeft);
-    v3Layout->addWidget(archiveXhlBox, 3, 0, Qt::AlignLeft);
-    v3Layout->addWidget(exportXhlBox,  4, 0, Qt::AlignLeft);
+        
+    v3Layout->addWidget(exportTableBox,      1, 0, Qt::AlignLeft);
+    v3Layout->addWidget(exportAllBox,  1, 1, Qt::AlignCenter);
+    v3Layout->addWidget(exportXhlBox,  2, 0, Qt::AlignLeft);
     
     exportBox->setLayout(v3Layout);
     
+    v4Layout->addWidget(archiveTableBox,     1, 0, Qt::AlignLeft);
+    v4Layout->addWidget(archiveAllBox, 1, 1, Qt::AlignCenter);
+    v4Layout->addWidget(archiveXhlBox, 2, 0, Qt::AlignLeft);
+    
+    archBox->setLayout(v4Layout);
+
     QVBoxLayout* mainLayout = new QVBoxLayout;
     FRichLabel *mainLabel=new FRichLabel("Format des bases");
     mainLayout->addWidget(mainLabel);
@@ -442,6 +447,7 @@ standardPage::standardPage()
     mainLayout->addWidget(baseTypeBox,      1, 0);
     mainLayout->addWidget(optionalFieldBox, 2, 0);
     mainLayout->addWidget(exportBox,   3, 0);
+    mainLayout->addWidget(archBox,   4, 0);
    // mainLayout->addSpacing(100);
 
     setLayout(mainLayout);
