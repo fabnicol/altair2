@@ -282,7 +282,7 @@ void Altair::run()
     {
       if (QMessageBox::Cancel
             == QMessageBox::warning(this, QString("Attention"),
-                                          tr("Vous allez supprimer les bases CSV créées par le précédent traitement.\n"),
+                                          tr("Vous allez supprimer les fichiers créés par le précédent traitement.\n"),
                                           QMessageBox::Ok|QMessageBox::Cancel))
         {
             processFinished(exitCode::shouldLaunchRAltairAlone);
@@ -334,7 +334,7 @@ void Altair::run()
                       hasSubDir = d.count('/') > 1;
                       d = d.section('/', 1, 1, QString::SectionSkipEmpty);
                   }
-#               endif
+#            endif
 
               if (d.isEmpty()  && ! cdROM.isEmpty())
               {
