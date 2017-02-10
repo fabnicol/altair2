@@ -73,7 +73,7 @@ static const QString openDirDialog(flags::directory checkEmptyness = directory::
 
 static const QString path_access(const QString& s) {return QDir::toNativeSeparators(QDir::cleanPath(QCoreApplication::applicationDirPath()+ systemPathPrefix +  s)); }
 
-static const QString getEmbeddedPath(const QString &s, const QString& subDir = common::userdatadir);
+static const QString getEmbeddedPath(QString s, QString subDir = common::userdatadir);
 
   QString  videoFilePath;
   static FString  htmlLogPath;

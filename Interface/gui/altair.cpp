@@ -239,6 +239,8 @@ void Altair::refreshRowPresentation()
 
 void Altair::refreshRowPresentation(uint j)
 {
+    if (Hash::wrapper.isEmpty()) return;
+
     QPalette palette;
     palette.setColor(QPalette::AlternateBase,QColor("silver"));
     QFont font=QFont("Courier",10);
@@ -521,6 +523,7 @@ void Altair::setCurrentFile(const QString &fileName)
 
 void Altair::assignWidgetValues()
 {
+    if (Hash::wrapper.isEmpty()) return;
     QListIterator<FAbstractWidget*> w(Abstract::abstractWidgetList);
     QList<QString> keyList = Hash::wrapper.keys();
 
@@ -540,15 +543,20 @@ void Altair::assignWidgetValues()
             continue;
         }
 
-        if (Altair::RefreshFlag & interfaceStatus::mainTabs)
+
+        if (key == "XHL")
         {
-            if (key == "XHL")
+            if (Altair::RefreshFlag & interfaceStatus::mainTabs)
+            {
                widget->setWidgetFromXml(*Hash::wrapper[key]);
+            }
         }
         else
-        if (options::RefreshFlag & interfaceStatus::optionTabs)
         {
-            widget->setWidgetFromXml(*Hash::wrapper[key]);
+            if (options::RefreshFlag & interfaceStatus::optionTabs)
+            {
+                  widget->setWidgetFromXml(*Hash::wrapper[key]);
+            }
         }
     }
 
@@ -662,7 +670,7 @@ bool Altair::refreshProjectManager()
 
 void Altair::checkAnnumSpan()
 {
-
+    if (Hash::wrapper.isEmpty()) return;
     int r = project[0]->getRank() - 2;
     const QStringList& years = project[0]->getTabLabels();
 

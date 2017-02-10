@@ -725,6 +725,8 @@ void  FListFrame::setSlotListSize(int s)
 
 void FListFrame::showContextMenu()
 {
+        if (Hash::wrapper.isEmpty()) return;
+        if (Hash::wrapper["XHL"] == nullptr || Hash::wrapper["XHL"]->isEmpty()) return;
 
         updateIndexInfo();
         if (currentListWidget->count() == 0) return;
@@ -810,6 +812,9 @@ Référence : " + QString::number(Hash::Reference.size()) +
 
 void FListFrame::setStrikeOutFileNames(flags::colors color)
 {
+    if (Hash::wrapper.isEmpty()) return;
+    if (Hash::wrapper["XHL"] == nullptr || Hash::wrapper["XHL"]->isEmpty()) return;
+
     const int size = Hash::Reference.size();
     if (size != widgetContainer.size())
     {
