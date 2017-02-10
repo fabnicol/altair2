@@ -57,6 +57,7 @@ class MainWindow : public QMainWindow
    QTextEdit* getEditor() {return editor;}
    bool isDefaultSaveProjectChecked() { return defaultSaveProjectBehaviorBox->isChecked(); }
    void saveProjectAs();
+   void saveProjectAs(const QString &newst);
    QTextEdit *consoleDialog;
    void feedLHXConsoleWithHtml();
    void feedRConsoleWithHtml();
