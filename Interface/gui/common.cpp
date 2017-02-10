@@ -68,7 +68,39 @@ const QString common::getEmbeddedPath(QString s, QString subDir)
       s = QDir::toNativeSeparators(s);
       subDir = QDir::toNativeSeparators(subDir);
 #   endif
-    const QString section = s.section(subDir, 0, 0, QString::SectionSkipEmpty);
+
+    QString rootDir;
+
+    int j = 0;
+
+    if (subDir.isEmpty())
+    {
+#     ifdef Q_OS_WIN
+        const QString &cdROM = "D:\\";
+        const QString &testCDROM = "D:/";
+#     else
+        const QString &cdROM = "cdrom/";
+        const QString &testCDROM = cdROM;
+#     endif
+
+      if (v(XHL).contains(testCDROM))
+      {
+          rootDir = cdROM;
+#         ifndef Q_OS_WIN
+            j = 1;
+#         endif
+      }
+      else
+      {
+          rootDir = userdatadir;
+      }
+    }
+    else
+    {
+        rootDir = subDir;
+    }
+
+    const QString section = s.section(rootDir, j, j, QString::SectionSkipEmpty);
 
     if (section.isEmpty())
         return (QFileInfo(s).fileName());
@@ -459,7 +491,7 @@ QString common::cdRomMounted()
                         return ("");
 
                   #endif
-                      // s'assur que se termine par un /
+                      // s'assure que se termine par un /
                       QString path = storage.rootPath();
                       if  (path.at(path.size() - 1) != '/')
                           path += "/";

@@ -43,12 +43,14 @@ MainWindow::MainWindow(char* projectName)
    height = rec.height();
    width  = rec.width();
 
-   const QString cdROM = common::cdRomMounted();
+
   
   recentFiles = QStringList() ;
   settings = new QSettings("altair", "Juridictions Financières");
+
 # ifndef Q_OS_WIN
-       if (settings->value("importerAuLancement") == true && ! cdROM.isEmpty())
+  const QString cdROM = common::cdRomMounted();
+  if (settings->value("importerAuLancement") == true && ! cdROM.isEmpty())
        {
             if (QDir(cdROM).exists() && ! QDir(cdROM).QDir::entryInfoList(QDir::Dirs|QDir::Files|QDir::NoDotAndDotDot).isEmpty())
             {
@@ -961,7 +963,7 @@ void MainWindow::saveProjectAs(const QString &newstr)
 
     if  (QFileInfo(newstr).isFile())
     {
-          QMessageBox::StandardButton result = QMessageBox::warning(nullptr, "Ecraser le fichier ?", "Ce fichier va être écrasé.\nAppuyer sur Oui pour confirmer.",
+          QMessageBox::StandardButton result = QMessageBox::warning(nullptr, "Ecraser le fichier ?", "Le projet "+ newstr +" va être écrasé.\nAppuyer sur Oui pour confirmer.",
                                             QMessageBox::Ok | QMessageBox::Cancel);
 
 
@@ -969,26 +971,25 @@ void MainWindow::saveProjectAs(const QString &newstr)
           {
               return;
           }
-          else
-          {
-                 QFile newfile(newstr);
-                 newfile.remove();
-          }
+
+          std::remove(newstr.toStdString().c_str());
     }
 
-    QFile file(newstr);
-
-    if (file.open(QFile::WriteOnly | QFile::Truncate | QFile::Text))
+    if (editor)
     {
-       if (editor)
-          file.write(editor->document()->toPlainText().toUtf8()) ;
-       file.close();
+        QFile file(newstr);
+        if (file.open(QFile::WriteOnly | QFile::Truncate | QFile::Text))
+       {
+           file.write(editor->document()->toPlainText().toUtf8()) ;
+           file.close();
+       }
+
+       altair->projectName = newstr;
     }
-
-    if (editor == nullptr)
+    else
     {
+        altair->projectName = newstr;
         altair->writeProjectFile();
-        common::copyFile(altair->projectName, newstr);
     }
 
     Altair::RefreshFlag =  Altair::RefreshFlag
@@ -996,7 +997,6 @@ void MainWindow::saveProjectAs(const QString &newstr)
 
     altair->setCurrentFile(newstr);
     // attention dans cet ordre !
-    altair->projectName = newstr;
 
 }
 
@@ -1025,16 +1025,8 @@ bool MainWindow::exportProject(QString dirStr)
     const QString subDirStr = QDir::toNativeSeparators(dirStr.append("/Altaïr/"));
     QDir().mkpath(subDirStr);
 
-    QMessageBox msgBox;
-    msgBox.setParent(this);
-    msgBox.setGeometry(60, this->QWidget::height()/1.5, 50, 50);
-    msgBox.setText("Les résultats seront exportés vers le dossier <br>" + subDirStr);
-    msgBox.setInformativeText("Cliquer OK pour commencer l'exportation.");
-    msgBox.setStandardButtons(QMessageBox::Cancel|QMessageBox::Ok );
-    msgBox.setDefaultButton(QMessageBox::Ok);
-    int ret = msgBox.exec();
-     
-    if (ret != QMessageBox::Ok) return false;
+    if (QMessageBox::Ok != QMessageBox::warning(nullptr, "", "Les résultats seront exportés vers le dossier <br>" + subDirStr,  QMessageBox::Cancel|QMessageBox::Ok, QMessageBox::Ok))
+        return false;
 
     altair->outputTextEdit->append(PROCESSING_HTML_TAG "Exportation en cours. Patientez...");
     altair->outputTextEdit->repaint();
@@ -1116,7 +1108,7 @@ bool MainWindow::exportProject(QString dirStr)
 
 bool MainWindow::archiveProject()
 {
-    QString dirName = QFileDialog::getExistingDirectory(this, tr("Exporter le rapport vers le répertoire..."), 
+    QString dirName = QFileDialog::getExistingDirectory(this, tr("Archiver le rapport vers le répertoire..."),
                                                         QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation),
                                                         QFileDialog::ShowDirsOnly | QFileDialog::DontUseNativeDialog);
 
@@ -1125,16 +1117,8 @@ bool MainWindow::archiveProject()
                                                                + "-" + QTime::currentTime().toString("hh mm ss")));
     altair->updateProject();
             
-    QMessageBox msgBox;
-    msgBox.setParent(this);
-    msgBox.setGeometry(60, this->QWidget::height()/1.5, 50, 50);
-    msgBox.setText("Les résultats seront archivés vers le dossier <br>" + subDirStr);
-    msgBox.setInformativeText("Cliquer OK pour commencer l'archivage.");
-    msgBox.setStandardButtons(QMessageBox::Cancel|QMessageBox::Ok );
-    msgBox.setDefaultButton(QMessageBox::Ok);
-    int ret = msgBox.exec();
-     
-    if (ret != QMessageBox::Ok) return false;
+    if (QMessageBox::Ok != QMessageBox::warning(nullptr, "", "Les résultats seront archivés dans le dossier <br>" + subDirStr,  QMessageBox::Cancel|QMessageBox::Ok, QMessageBox::Ok))
+        return false;
 
     altair->outputTextEdit->append(PROCESSING_HTML_TAG "Archivage en cours. Patientez...");
     altair->outputTextEdit->repaint();
@@ -1222,16 +1206,8 @@ bool MainWindow::restoreProject(QString subDirStr)
 
     altair->updateProject();
 
-    QMessageBox msgBox;
-    msgBox.setParent(this);
-    msgBox.setGeometry(60, this->QWidget::height()/1.5, 50, 50);
-    msgBox.setText("Les résultats seront restaurés depuis le dossier <br>" + subDirStr);
-    msgBox.setInformativeText("Cliquer OK pour commencer la restauration.");
-    msgBox.setStandardButtons(QMessageBox::Cancel|QMessageBox::Ok );
-    msgBox.setDefaultButton(QMessageBox::Ok);
-    int ret = msgBox.exec();
-     
-    if (ret != QMessageBox::Ok) return false;
+    if (QMessageBox::Ok != QMessageBox::warning(nullptr, "", "Les résultats seront restaurés depuis le dossier <br>" + subDirStr,  QMessageBox::Cancel|QMessageBox::Ok, QMessageBox::Ok))
+        return false;
 
     const QString projectRootDir = QDir::toNativeSeparators(QDir::cleanPath(v(base)));
     const QString docxReportFilePath = projectRootDir + "/altaïr.docx";
