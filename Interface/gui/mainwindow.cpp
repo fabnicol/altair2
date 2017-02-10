@@ -274,19 +274,19 @@ void MainWindow::createActions()
   saveAsAction->setIcon(QIcon(":/images/document-save-as.png"));
   connect(saveAsAction, SIGNAL(triggered()), altair, SLOT(requestSaveProject()));
 
-  exportAction = new QAction(tr("E&xporter le rapport vers..."), this);
+  exportAction = new QAction(tr("E&xporter le projet vers...\nAttention : le projet doit avoir été exéxuté"), this);
   exportAction->setIcon(QIcon(":/images/export.png"));
   connect(exportAction, SIGNAL(triggered()), this, SLOT(exportProject()));
 
-  archiveAction = new QAction(tr("Archiver le rapport vers..."), this);
+  archiveAction = new QAction(tr("Archiver le projet vers..."), this);
   archiveAction->setIcon(QIcon(":/images/archive.png"));
   connect(archiveAction, SIGNAL(triggered()), this, SLOT(archiveProject()));
 
-  restoreAction = new QAction(tr("Désarchiver le rapport"), this);
+  restoreAction = new QAction(tr("Désarchiver le projet"), this);
   restoreAction->setIcon(QIcon(":/images/restore.png"));
   connect(restoreAction, SIGNAL(triggered()), this, SLOT(restoreProject()));
 
-  closeAction = new QAction(tr("&Fermer le projet .alt"), this);
+  closeAction = new QAction(tr("&Fermer le projet"), this);
   closeAction->setShortcut(QKeySequence("Ctrl+W"));
   closeAction->setIcon(QIcon(":/images/document-close.png"));
   connect(closeAction, SIGNAL(triggered()), altair, SLOT(closeProject()));
@@ -980,14 +980,17 @@ void MainWindow::saveProjectAs(const QString &newstr)
 
     if (file.open(QFile::WriteOnly | QFile::Truncate | QFile::Text))
     {
-       if (! editor)
-          editor = new QTextEdit;
-
-       altair->updateProject(true);
-
-       file.write(editor->document()->toPlainText().toUtf8()) ;
+       if (editor)
+          file.write(editor->document()->toPlainText().toUtf8()) ;
+       file.close();
     }
-    file.close();
+
+    if (editor == nullptr)
+    {
+        altair->writeProjectFile();
+        common::copyFile(altair->projectName, newstr);
+    }
+
     Altair::RefreshFlag =  Altair::RefreshFlag
                             | interfaceStatus::tree;
 
@@ -1020,8 +1023,7 @@ bool MainWindow::exportProject(QString dirStr)
     if (! QFileInfo(dirStr).isDir()) return false;
 
     const QString subDirStr = QDir::toNativeSeparators(dirStr.append("/Altaïr/"));
-    
-    saveProjectAs(subDirStr + "projet.alt");
+    QDir().mkpath(subDirStr);
 
     QMessageBox msgBox;
     msgBox.setParent(this);
@@ -1105,6 +1107,9 @@ bool MainWindow::exportProject(QString dirStr)
         altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Les bases en lien ont été exportées sous : " + subDirStr + "Bases");
     else
         altair->outputTextEdit->append(ERROR_HTML_TAG  "Les bases en lien n'ont pas pu être exportées sous : " + subDirStr + "Bases");
+
+
+    saveProjectAs(subDirStr + "projet.alt");
 
     return result;
 }
