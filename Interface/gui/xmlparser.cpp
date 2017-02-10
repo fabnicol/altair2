@@ -400,6 +400,8 @@ void Altair::parseProjectFile(QIODevice* file)
     Hash::wrapper.clear();
 
     Hash::wrapper["version"]  = new FStringList;
+    if (Hash::wrapper["version"] == nullptr) return;
+
     *Hash::wrapper["version"] = FStringList(root.toElement().attribute("version"));
 
     QDomNode node= root.firstChild();
@@ -521,7 +523,7 @@ void Altair::refreshProjectManagerValues(std::uint16_t refreshProjectManagerFlag
     managerWidget->clear();
     QStringList tags = project[0]->getTabLabels();
 
-    if (tags.isEmpty() || Hash::wrapper["XHL"]->isEmpty()) return;
+    if (tags.isEmpty() || Hash::wrapper.isEmpty() || Hash::wrapper["XHL"] == nullptr || Hash::wrapper["XHL"]->isEmpty()) return;
 
     if ((refreshProjectManagerFlag & manager::refreshProjectInteractiveMask) == manager::refreshProjectInteractiveMode)
     {

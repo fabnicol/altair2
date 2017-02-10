@@ -62,9 +62,14 @@ bool common::renommer(const QString& ancien, const QString& nouveau)
     return fout.rename(nouveau);
 }
 
-const QString common::getEmbeddedPath(const QString &s, const QString& subDir)
+const QString common::getEmbeddedPath(QString s, QString subDir)
 {
+#   ifdef Q_OS_WIN
+      s = QDir::toNativeSeparators(s);
+      subDir = QDir::toNativeSeparators(subDir);
+#   endif
     const QString section = s.section(subDir, 0, 0, QString::SectionSkipEmpty);
+
     if (section.isEmpty())
         return (QFileInfo(s).fileName());
     return section;
@@ -122,7 +127,7 @@ bool common::IOControl(const QString& in,
         int test = QMessageBox::Ok;
         if (! comment.isEmpty())
                 test = QMessageBox::warning(nullptr, "Ecraser le fichier ?", comment + 
-                                            " va être écrasé.\n"
+                                            " va être écrasé(e).\n"
                                             "Appuyer sur Oui pour confirmer, Non pour quitter.",
                                             QMessageBox::Ok|QMessageBox::Cancel);
 

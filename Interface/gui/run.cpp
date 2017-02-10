@@ -242,7 +242,10 @@ void Altair::run()
         return;
     }
     
-    if (Hash::wrapper["XHL"]->isEmpty() ||  Hash::wrapper["XHL"]->at(0).isEmpty() || Hash::wrapper["XHL"]->at(0).at(0).isEmpty())
+
+    if (Hash::wrapper.isEmpty() || Hash::wrapper["XHL"] == nullptr
+        || Hash::wrapper["XHL"]->isEmpty() ||  Hash::wrapper["XHL"]->at(0).isEmpty()
+        || Hash::wrapper["XHL"]->at(0).at(0).isEmpty())
     {
         QMessageBox::warning(nullptr, "Projet", "Charger un projet !");
         processFinished(exitCode::shouldLaunchRAltairAlone);
@@ -372,6 +375,7 @@ void Altair::runRAltair()
     process.setWorkingDirectory(path_access("Tests/Exemple"));
 
     process.setProcessChannelMode(QProcess::MergedChannels);
+
 #ifdef MINIMAL
     outputType="R";
     emit(setProgressBar(0, 100));
@@ -400,6 +404,7 @@ void Altair::runRAltair()
   #endif
     process.start(RAltairCommandStr, QStringList() << path_access("altaïr.Rproj"));
 #endif
+
 }
 
 void Altair::processFinished(exitCode code)
