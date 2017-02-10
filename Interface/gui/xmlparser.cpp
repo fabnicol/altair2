@@ -557,7 +557,7 @@ void Altair::refreshProjectManagerValues(std::uint16_t refreshProjectManagerFlag
     for (int k=1; k < Abstract::abstractWidgetList.count(); k++)
     {
         const QString& key=Abstract::abstractWidgetList[k]->getHashKey();
-        if (! L.contains(key)) continue;
+        if (! L.contains(key) || Hash::wrapper[key] == nullptr) continue;
 
         if (Abstract::abstractWidgetList[k]->getDepth() == "0")
         {

@@ -275,7 +275,7 @@ void Altair::run()
                                                          | QDir::Dirs 
                                                          | QDir::NoDotAndDotDot);
        
-    if (! files.isEmpty() && v(exportMode) != "Cumulative" && v(exportMode).at(12) != '+') 
+    if (! files.isEmpty() && v(exportMode) != "Cumulative" && v(exportMode) != "Distributive+") 
     {
       if (QMessageBox::Cancel
             == QMessageBox::warning(this, QString("Attention"),

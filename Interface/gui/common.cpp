@@ -3,6 +3,7 @@
 FString common::htmlLogPath;
 QString common::tempdir=QDir::homePath ()+QDir::separator()+"tempdir";  // should be equal to main app globals.settings.tempdir=TEMPDIR;
 QString  const common::systemPathPrefix = "/../../../";
+QString common::userdatadir;
 
 qint64 common::getDirectorySize(const QString &path, const QString &extension)
 {
@@ -61,6 +62,13 @@ bool common::renommer(const QString& ancien, const QString& nouveau)
     return fout.rename(nouveau);
 }
 
+const QString common::getEmbeddedPath(const QString &s, const QString& subDir)
+{
+    const QString section = s.section(subDir, 0, 0, QString::SectionSkipEmpty);
+    if (section.isEmpty())
+        return (QFileInfo(s).fileName());
+    return section;
+}
 
 QString common::dump(const QString &chaine)
 {

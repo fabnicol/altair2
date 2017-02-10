@@ -319,8 +319,9 @@ bool Altair::clearInterfaceAndParseProject()
 
     QTextEdit* editor = parent->getEditor();
 
-    if (editor) editor->clear();
-
+    try { if (editor) editor->clear(); }
+    catch (...) {}
+    
     return refreshProjectManager();
 
 }

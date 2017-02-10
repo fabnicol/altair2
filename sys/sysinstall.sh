@@ -50,6 +50,7 @@ do
 		mkdir -p /home/$i/.local/share/applications
 		_copy mimeapps.list   /home/$i/.config/
 		_copy mimeapps.list   /home/$i/.local/share/applications
+		_copy images          /home/$i/.local/share/Altair     
 		_copy mime /home/$i/.local/share
         cp -vf 'Lien vers une application.desktop' /home/$i/Desktop		
         

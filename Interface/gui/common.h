@@ -33,7 +33,7 @@ public:
   enum class TabWidgetTrait {NO_EMBEDDING_TAB_WIDGET=-1};
 
   static QString cdRomMounted();
-
+  static QString userdatadir;
   static QString tempdir;
   static QString generateDatadirPath(const char* path="");
   static QString generateDatadirPath(const QString &path);
@@ -73,7 +73,8 @@ static const QString openDirDialog(flags::directory checkEmptyness = directory::
 
 static const QString path_access(const QString& s) {return QDir::toNativeSeparators(QDir::cleanPath(QCoreApplication::applicationDirPath()+ systemPathPrefix +  s)); }
 
-public :
+static const QString getEmbeddedPath(const QString &s, const QString& subDir = common::userdatadir);
+
   QString  videoFilePath;
   static FString  htmlLogPath;
   static const QString   systemPathPrefix;
