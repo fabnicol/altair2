@@ -159,9 +159,10 @@ cp -vf  temp  /home/$compte_login/.local/share/user-places.xbel
 mkdir -p 
 cp -rvf /home/fab/Dev/altair/sys/mime  /home/$compte_login/.local/share
 
-cp -vf /home/fab/Dev/altair/sys/mimeapps.list    /home/$compte_login/.local/share/applications
-cp -vf /home/fab/Dev/altair/sys/Altair_jf.desktop /home/$compte_login/.local/share/applications
-cp -vf /home/fab/Dev/altair/sys/mimeapps.list    /home/$compte_login/.config
+cp -vf /home/fab/Dev/altair/sys/mimeapps.list      /home/$compte_login/.local/share/applications
+cp -vf /home/fab/Dev/altair/sys/Altair_jf.desktop  /home/$compte_login/.local/share/applications
+cp -rvf /home/fab/Dev/altair/sys/images            /home/$compte_login/.local/share/Altair
+cp -vf /home/fab/Dev/altair/sys/mimeapps.list      /home/$compte_login/.config
 
 echo 
 echo "Exportation des icones"

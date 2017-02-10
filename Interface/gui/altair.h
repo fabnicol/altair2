@@ -84,7 +84,6 @@ public:
     QStringList createCommandLineString(const QStringList &L = QStringList());
     void refreshTreeView(bool create=false);
     QString username;
-    QString userdatadir;
     
 public slots:
 
