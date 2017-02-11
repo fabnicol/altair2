@@ -65,8 +65,8 @@ class FAbstractWidget : public flags
 {
 
 public:
- const Q2ListWidget* enabledObjects;
- const Q2ListWidget* disabledObjects;
+ Q2ListWidget* enabledObjects = nullptr;
+ Q2ListWidget* disabledObjects = nullptr;
 
 
   /* is used for .alt Xml project writing: refresh Widget information and injects current Widget state into Hash::qstring as left-valued of <...hashKey=...> */
@@ -97,6 +97,15 @@ public:
   QString optionLabel;
   QList<FString> commandLineList;
 
+  void setDisableObjects(const QList<QWidget*>& L)  
+  {
+      if (disabledObjects) delete disabledObjects;
+      disabledObjects = new Q2ListWidget;
+      *disabledObjects = QList<QList<QWidget*>>() << L;
+      FAbstractConnection::meta_connect(this, nullptr, disabledObjects);
+  }
+
+      
 protected:
   QString hashKey;
   QString widgetDepth;
@@ -104,9 +113,9 @@ protected:
 
   QList<QWidget*> componentList;
 
-  inline void FCore(const QList<QWidget*>& , FString, int, const QString&, const QStringList& , const QString&, const QList<QWidget*>& =QList<QWidget*>(), const QList<QWidget*>& =QList<QWidget*>());
+  inline void FCore(const QList<QWidget*>& , FString, int, const QString&, const QStringList& , const QString&,  QList<QWidget*> =QList<QWidget*>(), QList<QWidget*> =QList<QWidget*>());
 
-  inline void FCore(const QList<QWidget*>&, FString, int, const QString &, const QStringList &, const QString&, const Q2ListWidget*, const Q2ListWidget*);
+  inline void FCore(const QList<QWidget*>&, FString, int, const QString &, const QStringList &, const QString&, Q2ListWidget*, Q2ListWidget*);
   
 };
 
@@ -184,7 +193,7 @@ signals:
 };
 
 
-class FCheckBox : public QCheckBox,  public FAbstractWidget
+class  FCheckBox : public QCheckBox,  public FAbstractWidget
 {
   Q_OBJECT
 
