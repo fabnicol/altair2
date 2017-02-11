@@ -1381,18 +1381,24 @@ void MainWindow::configureOptions()
                                                                 "saveProjectBehavior",
                                                                 {"Interface", "Sauvegarder le projet .alt automatiquement"});
 
-    defaultLoadProjectBehaviorBox = new FCheckBox("Charger le projet par défaut au lancement",
-                                                                            flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
-                                                                            "loadProjectBehavior",
-                                                                            {"Interface", "Charger le projet .alt au lancement"});
-
     importerAuLancementBox = new FCheckBox("Charger les données utilisateur au lancement",
                                                                             (settings->value("importerAuLancement") == true ? flags::status::enabledChecked : 
                                                                                                                               flags::status::enabledUnchecked) 
                                                                             | flags::commandLineType::noCommandLine,
                                                                             "importerAuLancement",
                                                                             {"Interface", "Charger les données xhl du disque optique\nou du répertoire de données au lancement"});
-                    
+    
+    defaultLoadProjectBehaviorBox = new FCheckBox("Charger le projet par défaut au lancement",
+                                                                            flags::status::enabledUnchecked|flags::commandLineType::noCommandLine,
+                                                                            "loadProjectBehavior",
+                                                                            {"Interface", "Charger le projet .alt au lancement"});
+
+    // Ces deux cases sont mutuellement exclusives. On aurait pu mettre un FRadioButton à la place. On laisse des FCheckBox par esthétique
+    // et aussi pour éviter de devoir rajouter toute cette classe pour ce seul cas de figure.
+    
+    importerAuLancementBox->setDisableObjects({defaultLoadProjectBehaviorBox});
+    defaultLoadProjectBehaviorBox->setDisableObjects({importerAuLancementBox});
+                        
     QGroupBox *outputGroupBox= new QGroupBox(tr("Console"));
 
     defaultMaximumConsoleOutputBox = new FCheckBox("Limiter la sortie de la console",

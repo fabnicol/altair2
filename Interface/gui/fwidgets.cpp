@@ -91,7 +91,7 @@ void FAbstractConnection::meta_connect(FAbstractWidget* w,  const Q2ListWidget *
 
 
 inline void FAbstractWidget::FCore(const QList<QWidget*>& w, FString defaultCommandLine, int commandLineType, const QString &hashKey, const QStringList & description,
-                  const QString &option, const QList<QWidget*>&enabledObjects, const QList<QWidget*>&disabledObjects)
+                  const QString &option, const QList<QWidget*>enabledObjects, const QList<QWidget*>disabledObjects)
 {
     Q2ListWidget *dObjects=new Q2ListWidget, *eObjects=new Q2ListWidget;
     if (enabledObjects.isEmpty()) eObjects=nullptr;
@@ -105,7 +105,7 @@ inline void FAbstractWidget::FCore(const QList<QWidget*>& w, FString defaultComm
 }
 
 inline void FAbstractWidget::FCore(const QList<QWidget*>& w, FString defaultCommandLine, int commandLineType, const QString &hashKey, const QStringList & description,
-                  const QString &option, const Q2ListWidget *enabledObjects, const Q2ListWidget *disabledObjects)
+                  const QString &option,  Q2ListWidget *enabledObjects, Q2ListWidget *disabledObjects)
 {
     this->enabledObjects=enabledObjects;
     this->disabledObjects=disabledObjects;
