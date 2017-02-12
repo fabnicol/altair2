@@ -647,52 +647,49 @@ string MainWindow::nettoyer_donnees(const string& st)
     const size_t taille = st.size();
     out.reserve((size_t) taille / 5);
     string::const_iterator iter = st.begin();
-
+    string::const_iterator iter2; 
     size_t i = 0;
     size_t k = 0;
     const size_t pas = taille / 20;
 
+    loop :
     while (iter != st.end())
     {
-     if (*iter != 0x0D && *iter != 0x0A)
-     {
-         if (*iter == '&')
-         {
-             string::const_iterator iter2 = iter;
-             while (++iter2 != st.end() && *iter2 != '\"' && *iter2 != ';' && *iter2 != ' ') ;
-             
-             if (*iter2 == '\"' || *iter2 == ' ')
-             {
-                 iter = iter2 + 1;
-                 out += *iter2;
-                 continue;
-             }
-             
-             if (*iter2 == ';')
-             {
-                 iter = iter2 + 1;
-                 continue;
-             }
-             
-             continue;
-         }
-         else
-         out += *iter;
-     }
-     else
-     {
-         ++iter;
-         continue;
-     }
+       switch (*iter) 
+       {
+         case  '&'  :
+               iter2 = iter;
+                while (++iter2 != st.end())
+                   {
+                       switch (*iter2)
+                       {
+                           case  '\"'  :
+                           case  ' '  : 
+                               iter = iter2 + 1;
+                               out += *iter2;
+                               goto loop;
+          
+                           case ';'  :
+                               iter = iter2 + 1;
+                               goto loop;
+                               
+                            default :
+                               continue;
+                       }
+                   }
+                   
+                   continue;
 
-     if (*iter == '>')
-     {
-         out += '\n';
-
-         while (iter != st.end() && *++iter != '<') ;
-     }
-     else   
-     ++iter;
+        case '>' :         
+                   out += ">\n";
+                   while (*++iter != '<' && iter != st.end())  ;
+                   break;
+                               
+        default :
+                   if  (isprint(*iter))  out += *iter;
+                   ++iter;
+                   break;
+       }
 
      ++i;
      ++k;
@@ -702,7 +699,7 @@ string MainWindow::nettoyer_donnees(const string& st)
          qApp->processEvents();
          k = 0;
      }
-    }
+  }
 
     return(out);
 }
