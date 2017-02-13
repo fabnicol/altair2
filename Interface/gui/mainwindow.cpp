@@ -686,7 +686,7 @@ string MainWindow::nettoyer_donnees(const string& st)
                    break;
                                
         default :
-                   if  (isprint(*iter))  out += *iter;
+                    out += isprint(*iter) ? *iter : ' ';  // Si par exemple "\nxmls:xsi....
                    ++iter;
                    break;
        }
