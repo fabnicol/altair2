@@ -165,11 +165,11 @@ static inline bool GCC_INLINE bulletin_obligatoire(const char* tag, xmlNodePtr& 
         #else
           if (nullptr != cur->next)
           {
-              cur = cur->next;
+              //cur = cur->next;
               return true;
           }
           else
-          return false;
+           return false;
         #endif
 }
 
@@ -793,8 +793,13 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
             {
                 LOCK_GUARD
                 cerr << ERROR_HTML_TAG "Problème de conformité des données : absence de la balise obligatoire " << local_tag[na_assign_level -1] << ENDL;
-                for (int i = na_assign_level; i < 10; ++i) 
-                   cerr << ERROR_HTML_TAG "Les balises suivantes n'ont pas été décodées : " << local_tag[i] << ENDL;
+                if (verbeux)
+                {
+                    for (int i = na_assign_level; i < 10; ++i) 
+                        cerr << ERROR_HTML_TAG "Les balises suivantes n'ont pas été décodées : " << local_tag[i] << ENDL;
+                    
+                    cerr << ERROR_HTML_TAG "Remontée d'un niveau" ENDL;
+                }
             }
           
         
@@ -806,8 +811,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
     /* on remonte d'un niveau */
 
     cur = cur_parent;
-    if (!result && verbeux) cerr << ERROR_HTML_TAG "Remontée d'un niveau" ENDL;
-
+    
     #ifdef TOLERANT_TAG_HIERARCHY
       cur_save = cur;
     #endif
