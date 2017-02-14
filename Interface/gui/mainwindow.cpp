@@ -26,12 +26,10 @@ void MainWindow::standardDisplay()
 #ifdef MINIMAL
   setGeometry(QRect(200, 200,600,400));
 #else
+
   setGeometry(QRect(200, 300, width / 2, height / 2));
 #endif
-  
-#ifndef MINIMAL
-  bottomDockWidget->setMinimumHeight(height / 3.5);
-#endif
+
   
   displayAction->setIcon(QIcon(":/images/show-maximized.png"));
 }
@@ -42,8 +40,6 @@ MainWindow::MainWindow(char* projectName)
     
    height = rec.height();
    width  = rec.width();
-
-
   
   recentFiles = QStringList() ;
   settings = new QSettings("altair", "Juridictions Financières");
@@ -1392,9 +1388,10 @@ void MainWindow::configureOptions()
 
     // Ces deux cases sont mutuellement exclusives. On aurait pu mettre un FRadioButton à la place. On laisse des FCheckBox par esthétique
     // et aussi pour éviter de devoir rajouter toute cette classe pour ce seul cas de figure.
-    
-    importerAuLancementBox->setDisableObjects({defaultLoadProjectBehaviorBox});
+    // apparemment ne fonctionne pas sous Windows si l'ordre des deux instruction est inversé... OK sous Linux.
+
     defaultLoadProjectBehaviorBox->setDisableObjects({importerAuLancementBox});
+    importerAuLancementBox->setDisableObjects({defaultLoadProjectBehaviorBox});
                         
     QGroupBox *outputGroupBox= new QGroupBox(tr("Console"));
 
@@ -1501,7 +1498,7 @@ void MainWindow::configureOptions()
     connect(defaultFileManagerWidgetLayoutBox, SIGNAL(toggled(bool)), this, SLOT(on_displayFileTreeViewButton_clicked(bool)));
     connect(defaultProjectManagerWidgetLayoutBox, SIGNAL(toggled(bool)), this, SLOT(on_openManagerWidgetButton_clicked(bool)));
     
-    connect(defaultFullScreenLayoutBox, SIGNAL(toggled(bool)), this, SLOT(showMainWidget(bool)));
+    connect(defaultFullScreenLayoutBox, SIGNAL(toggled(bool)), this, SLOT(showMainWidget()));
     connect(defaultMaximumConsoleOutputBox, &FCheckBox::toggled, [this]{v(limitConsoleOutput).toggle();});
     connect(defaultOutputTextEditBox, &FCheckBox::toggled, [this] {bottomDockWidget->setVisible(defaultOutputTextEditBox->isChecked());});
 
@@ -1549,13 +1546,11 @@ void MainWindow::adjustDisplay(bool projectFileStatus)
     }
 }
 
-void MainWindow::showMainWidget(bool full)
+void MainWindow::showMainWidget()
 {
-  
-   if (full)
+  if (windowState() != Qt::WindowFullScreen)
   {
       setWindowState(Qt::WindowFullScreen);
-      bottomDockWidget->setMinimumHeight(height / 2);
       displayAction->setIcon(QIcon(":/images/show-normal.png"));
   }
   else
@@ -1563,12 +1558,6 @@ void MainWindow::showMainWidget(bool full)
       setWindowState(Qt::WindowNoState);
       standardDisplay();
   }
-
-}
-
-void MainWindow::showMainWidget()
-{
-      showMainWidget(this->windowState() != Qt::WindowFullScreen);
 }
 
 

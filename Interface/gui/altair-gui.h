@@ -73,7 +73,6 @@ class MainWindow : public QMainWindow
    void on_editProjectButton_clicked();
    void on_optionsButton_clicked();
    void showMainWidget();
-   void showMainWidget(bool);
    void configure();
    void configureOptions();
    bool exportProject(QString str="");
