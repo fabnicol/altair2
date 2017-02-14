@@ -13,7 +13,7 @@
         <GUIConfig name="UserDefineDlg" position="undocked">hide</GUIConfig>
         <GUIConfig name="TabSetting" size="4" replaceBySpace="no" />
         <!--App position-->
-        <GUIConfig name="AppPosition" x="73" y="93" width="1040" height="659" isMaximized="no" />
+        <GUIConfig name="AppPosition" x="784" y="130" width="1040" height="659" isMaximized="no" />
         <!-- For the primary scintilla view,
              2 status for Attribut lineNumberMargin, bookMarkMargin, indentGuideLine and currentLineHilitingShow: "show" or "hide"
              4 status for Attribut folderMarkStyle : "simple", "arrow", "circle" and "box"  -->
@@ -113,9 +113,6 @@
         <Find name="&lt;Budget" />
     </FindHistory>
     <History nbMaxFile="15" inSubMenu="no" customLength="-1">
-        <File filename="C:\Users\Public\Dev\altair\Tests\Exemple\Donnees\xhl\Anonyme\2010\METRO_201004_02_00.xhl" />
-        <File filename="C:\Users\Public\Dev\altair\Tests\Exemple\Donnees\xhl\StGirons\Salaires 2014\transfert paie f&#x00E9;vrier 2014_002.xhl" />
-        <File filename="C:\Users\fnicol\Downloads\ALVAREZ\analyse.txt" />
         <File filename="C:\Users\Public\Dev\altair\Tests\Exemple\Donnees\xhl\StGirons\Salaires 2015\transfert paye novembre 2015_002.xhl" />
         <File filename="C:\Users\Public\Altair\Tests\Exemple\Donnees\xhl\payes cd26DROME\PAYE 05 2011 CIVITAS.xhl" />
         <File filename="C:\Users\Public\Altair\Tests\Exemple\Donnees\xhl\payes cd26DROME\201305CIVITAS.xhl" />
@@ -128,6 +125,9 @@
         <File filename="C:\Users\Public\Dev\xhl\HCL\DEMA_HCL_201301.xhl" />
         <File filename="C:\Users\Public\Altair\Tests\Exemple\Donnees\xhl\Anonyme2\2012\21430157400015-2012-08VILLE.xhl" />
         <File filename="D:\Anonyme2\2013\21430157400015-2013-02VILLE.xhl" />
+        <File filename="C:\Users\Public\Dev\altair\Tests\Exemple\Donnees\xhl\Metro\2012\METRO_201212_01_00.xhl" />
+        <File filename="C:\Users\Public\Dev\altair-xhl\Charbonni&#x00E8;res\charbonni&#x00E8;res 2011\21690044900010-2011-ETAT_PAYE-03-.xhl" />
+        <File filename="C:\Users\Public\Dev\altair-xhl\Charbonni&#x00E8;res\charbonni&#x00E8;res 2011\21690044900010-2011-ETAT_PAYE-04.xhl" />
     </History>
     <ProjectPanels>
         <ProjectPanel id="0" workSpaceFile="" />
