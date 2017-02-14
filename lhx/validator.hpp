@@ -195,8 +195,8 @@ typedef struct
 
     vector<vector<xmlChar*>> Table;
     uint64_t nbLigne;
-    uint64_t   ligne_debut;
-    uint64_t   ligne_fin;
+    vector<uint64_t> ligne_debut;
+    vector<uint64_t> ligne_fin;
     vector<uint32_t> NAgent;
     uint32_t nbAgentUtilisateur;
     uint32_t NCumAgent;
@@ -312,7 +312,7 @@ inline xmlNodePtr GCC_INLINE atteindreNoeud(const char * noeud, xmlNodePtr cur)
 {
 
 #       ifdef DEBUG_ATTEINDRE   
-//          cerr << "[DEBUG] --- Ligne n°" << xmlGetLineNo(cur) << ENDL;
+
           cerr << "[DEBUG] --- Recherche de " << noeud <<  ENDL;
 #       endif          
     
@@ -328,8 +328,7 @@ inline xmlNodePtr GCC_INLINE atteindreNoeud(const char * noeud, xmlNodePtr cur)
     while (cur != nullptr && xmlStrcmp(cur->name,  (const xmlChar*) noeud))
     {
 #       ifdef DEBUG_ATTEINDRE   
-   //       cerr << "[DEBUG]      ...Ligne n°" << xmlGetLineNo(cur) << ENDL;
-   //       cerr << "[DEBUG]      ......" << cur->name <<  ENDL;
+      //       cerr << "[DEBUG]      ......" << cur->name <<  ENDL;
 #       endif          
         
         cur = cur->next;
@@ -342,7 +341,6 @@ inline xmlNodePtr GCC_INLINE atteindreNoeud(const char * noeud, xmlNodePtr cur)
 #     ifdef DEBUG_ATTEINDRE   
         else
         {
-//          cerr << "[DEBUG] !!! Ligne n°" << xmlGetLineNo(cur) << ENDL;
           cerr << "[DEBUG] !!! Trouvé " << cur->name <<  ENDL;
         }
 #     endif          

@@ -524,6 +524,7 @@ static int parseFile(info_t& info)
 
             cur_save2 =  cur;
             cur = atteindreNoeud("PayeIndivMensuel", cur);
+                   
 
             if (cur == nullptr || cur->xmlChildrenNode == nullptr || xmlIsBlankNode(cur->xmlChildrenNode))
             {
@@ -531,7 +532,7 @@ static int parseFile(info_t& info)
                 cerr << ERROR_HTML_TAG "Pas d'information sur les lignes de paye [non-conformité à la norme : absence de balise PayeIndivMensuel après DonneesIndiv]." ENDL;
                 if (verbeux)
                 {
-                  cerr << ERROR_HTML_TAG "La balise PayeIndivMensuel n'existe pas en dessous de la balise " << (char*) cur_save2->name << " ligne n°" << xmlGetLineNo(cur_save2) << ENDL;
+                  if (info.NCumAgentXml) cerr << ERROR_HTML_TAG "La balise PayeIndivMensuel n'existe pas en dessous de la balise " << (char*) cur_save2->name << " vers la ligne n°" << info.ligne_fin.at(info.NCumAgentXml -1) + 2 << ENDL;
                 }
 
 //                if (cur == nullptr)
@@ -586,7 +587,7 @@ static int parseFile(info_t& info)
                      snprintf(cmd, 999, "grep -n 'Matricule V=\"%s\"' %s | cut -f 1 -d:", info.Table[info.NCumAgentXml][Matricule], env.filePath.c_str());
                      string lineN = string_exec(cmd);
 #else
-                     string lineN = to_string(info.ligne_debut) + " - " + to_string(info.ligne_fin);
+                     string lineN = to_string(info.ligne_debut.at(info.NCumAgentXml) + 1) + " - " + to_string(info.ligne_fin.at(info.NCumAgentXml));
 #endif
                      LOCK_GUARD
                      cerr << ERROR_HTML_TAG "L'allocation de mémoire initiale a prévu : "
