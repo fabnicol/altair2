@@ -13,11 +13,11 @@
         <GUIConfig name="UserDefineDlg" position="undocked">hide</GUIConfig>
         <GUIConfig name="TabSetting" size="4" replaceBySpace="no" />
         <!--App position-->
-        <GUIConfig name="AppPosition" x="784" y="130" width="1040" height="659" isMaximized="no" />
+        <GUIConfig name="AppPosition" x="1166" y="0" width="758" height="1078" isMaximized="no" />
         <!-- For the primary scintilla view,
              2 status for Attribut lineNumberMargin, bookMarkMargin, indentGuideLine and currentLineHilitingShow: "show" or "hide"
              4 status for Attribut folderMarkStyle : "simple", "arrow", "circle" and "box"  -->
-        <GUIConfig name="ScintillaPrimaryView" lineNumberMargin="show" bookMarkMargin="show" folderMarkStyle="box" indentGuideLine="show" currentLineHilitingShow="show" Wrap="yes" edge="no" edgeNbColumn="100" wrapSymbolShow="hide" zoom="0" whiteSpaceShow="hide" eolShow="hide" lineWrapMethod="aligned" disableAdvancedScrolling="no" borderEdge="yes" zoom2="0" borderWidth="2" smoothFont="no" />
+        <GUIConfig name="ScintillaPrimaryView" lineNumberMargin="show" bookMarkMargin="show" folderMarkStyle="box" indentGuideLine="show" currentLineHilitingShow="show" Wrap="yes" edge="no" edgeNbColumn="100" wrapSymbolShow="hide" zoom="-2" whiteSpaceShow="hide" eolShow="hide" lineWrapMethod="aligned" disableAdvancedScrolling="no" borderEdge="yes" zoom2="0" borderWidth="2" smoothFont="no" />
         <!-- For the secodary scintilla view,
              2 status for Attribut lineNumberMargin, bookMarkMargin, indentGuideLine and currentLineHilitingShow: "show" or "hide"
              4 status for Attribut folderMarkStyle : "simple", "arrow", "circle" and "box" -->
@@ -113,14 +113,6 @@
         <Find name="&lt;Budget" />
     </FindHistory>
     <History nbMaxFile="15" inSubMenu="no" customLength="-1">
-        <File filename="C:\Users\Public\Dev\altair\Tests\Exemple\Donnees\xhl\StGirons\Salaires 2015\transfert paye novembre 2015_002.xhl" />
-        <File filename="C:\Users\Public\Altair\Tests\Exemple\Donnees\xhl\payes cd26DROME\PAYE 05 2011 CIVITAS.xhl" />
-        <File filename="C:\Users\Public\Altair\Tests\Exemple\Donnees\xhl\payes cd26DROME\201305CIVITAS.xhl" />
-        <File filename="C:\Users\Public\Altair\Tests\Exemple\Donnees\xhl\payes cd26DROME\PAYE 04 2015 CIVITAS.xhl" />
-        <File filename="C:\Users\Public\Altair\Tests\Exemple\Donnees\xhl\payes cd26DROME\201204CIVITAS.xhl" />
-        <File filename="C:\Users\Public\Altair\Tests\Exemple\Donnees\xhl\payes cd26DROME\201207CIVITAS.xhl" />
-        <File filename="C:\Users\Public\Dev\altair\Tests\Exemple\Donnees\xhl\Beaucaire\24300058500105-2012-ETAT_PAYE-02-01.xhl" />
-        <File filename="C:\Users\Public\Dev\altair\Tests\Exemple\Donnees\xhl\Anonyme\2008\METRO_200802_02_00.xhl" />
         <File filename="C:\Users\Public\Dev\altair\Tests\Exemple\Donnees\xhl\Anonyme\2008\METRO_200801_01_00.xhl" />
         <File filename="C:\Users\Public\Dev\xhl\HCL\DEMA_HCL_201301.xhl" />
         <File filename="C:\Users\Public\Altair\Tests\Exemple\Donnees\xhl\Anonyme2\2012\21430157400015-2012-08VILLE.xhl" />
@@ -128,6 +120,14 @@
         <File filename="C:\Users\Public\Dev\altair\Tests\Exemple\Donnees\xhl\Metro\2012\METRO_201212_01_00.xhl" />
         <File filename="C:\Users\Public\Dev\altair-xhl\Charbonni&#x00E8;res\charbonni&#x00E8;res 2011\21690044900010-2011-ETAT_PAYE-03-.xhl" />
         <File filename="C:\Users\Public\Dev\altair-xhl\Charbonni&#x00E8;res\charbonni&#x00E8;res 2011\21690044900010-2011-ETAT_PAYE-04.xhl" />
+        <File filename="C:\Users\Public\Dev\altair-xhl\M&#x00E9;g&#x00E8;ve\bases_anonymous\annee_2011_xemelios\VILLE_de_MEGEVE_21740173600012_201112.xhl" />
+        <File filename="C:\Users\Public\Dev\altair-xhl\CDG PDD\CDG PDD\CAE28630014000014-2011-ETAT_PAYE-01-.xhl" />
+        <File filename="C:\Users\Public\Dev\altair-xhl\CDG PDD\CDG PDD\CDG28630014000014-2011-ETAT_PAYE-01-.xhl" />
+        <File filename="C:\Users\Public\Dev\altair-xhl\LPV\2012\21430157400015-2012-04VILLE.xhl" />
+        <File filename="C:\Users\Public\Dev\altair-xhl\Brioude\Paie commune de Brioude\21430040200010-2011-ETAT_PAYE-02-01.xhl" />
+        <File filename="C:\Users\Public\Dev\altair-xhl\CG56\CG56 Avril 2014.xhl" />
+        <File filename="C:\Users\Public\Dev\altair-xhl\CG56\CG56 Aout 2014.xhl" />
+        <File filename="C:\Users\Public\Dev\altair-xhl\COURLY2009XML\Paie-GrandLyon-200901.xml" />
     </History>
     <ProjectPanels>
         <ProjectPanel id="0" workSpaceFile="" />
