@@ -580,6 +580,21 @@ inline void GCC_INLINE concat(xmlNodePtr cur, info_t& info)
     }
 }
 
+inline void test_bulletin_irregulier(info_t& info)
+{
+    int brut = atoi((const char*) info.Table[info.NCumAgentXml][MtBrut]) ;
+    int net = atoi((const char*) info.Table[info.NCumAgentXml][MtNetAPayer]);
+    
+    if (brut || net)
+    {
+        LOCK_GUARD
+        cerr << ERROR_HTML_TAG "Bulletin irrégulier : montant " 
+               <<   (net ? "net" : "brut") 
+               << " payé : " 
+               << (net ? net : brut) 
+               << " mais pas de ligne de paye." ENDL;
+    }
+}
 
 inline void allouer_ligne_NA(info_t &info, int &ligne, int &memoire_p_ligne_allouee)
 {
@@ -667,7 +682,6 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
 
     // cur n'est pas nul à ce point
 
-    info.ligne_debut = xmlGetLineNo(cur);
     cur_parent = cur;
     cur = cur->xmlChildrenNode;
 
@@ -935,6 +949,8 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
     cur = atteindreNoeud("Remuneration", cur);
 
     int ligne = 0, memoire_p_ligne_allouee = 0;
+    
+    bool pas_de_ligne_de_paye = false;
 
     if (cur)
     {
@@ -952,11 +968,19 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
          * alors on attribue quand même une ligne, codée NA sur tous les champs */
         {
           //allouer_ligne_NA(info, ligne, memoire_p_ligne_allouee);
-          if (verbeux)
-          {
+            if (verbeux)
+            {
+            
               LOCK_GUARD
-              cerr << WARNING_HTML_TAG "Ligne " << to_string(xmlGetLineNo(cur_save)) << " : Balise Remuneration sans ligne de paye."  ENDL;
-          }
+                      long lineN = xmlGetLineNo(cur_save);
+              if (lineN == 65535)
+                      cerr << WARNING_HTML_TAG "Ligne " << info.ligne_debut.at(info.NCumAgentXml) + 1 << " à " << info.ligne_fin.at(info.NCumAgentXml) << " : Balise Remuneration sans ligne de paye."  ENDL; 
+              else
+                      cerr << WARNING_HTML_TAG "Ligne " << lineN <<  " : Balise Remuneration sans ligne de paye."  ENDL; // apparemment ça marche ici...mais pas toujours !
+            }
+              
+            pas_de_ligne_de_paye =  true;
+          
         }
 
         cur = cur_save->next;
@@ -991,15 +1015,25 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
                 if (verbeux)
                 {
                     LOCK_GUARD
-                    cerr << WARNING_HTML_TAG "Absence de lignes de paye également, sous la ligne " << to_string(xmlGetLineNo(cur)) <<  ENDL;
+                    long  lineN = xmlGetLineNo(cur_save);
+                    if (lineN == 65535)
+                       cerr << WARNING_HTML_TAG "Absence de lignes de paye également, bulletin entre les lignes " << info.ligne_debut.at(info.NCumAgentXml) + 1<< " et " <<  info.ligne_fin.at(info.NCumAgentXml) << ENDL;
+                    else
+                       cerr << WARNING_HTML_TAG "Absence de lignes de paye également, ligne : " << lineN << ", bulletin entre les lignes " << info.ligne_debut.at(info.NCumAgentXml) + 1<< " et " <<  info.ligne_fin.at(info.NCumAgentXml) << ENDL; 
                 }
+                
+                pas_de_ligne_de_paye = true;
             }
             else
             {
                 if (verbeux)
                 {
                     LOCK_GUARD
-                    cerr << WARNING_HTML_TAG "Lignes de paye néanmoins présentes, sous la ligne " << to_string(xmlGetLineNo(cur)) <<  ENDL;
+                    long  lineN = xmlGetLineNo(cur);
+                    if (lineN == 65535)
+                        cerr << WARNING_HTML_TAG "Lignes de paye néanmoins présentes, bulletin entre les lignes " << info.ligne_debut.at(info.NCumAgentXml) + 1<< " et " <<  info.ligne_fin.at(info.NCumAgentXml) << ENDL;
+                    else
+                        cerr << WARNING_HTML_TAG "Lignes de paye néanmoins présentes, ligne " << lineN << ", bulletin entre les lignes " << info.ligne_debut.at(info.NCumAgentXml) + 1<< " et " <<  info.ligne_fin.at(info.NCumAgentXml) << ENDL;
                 }
                 LineCount result = lignePaye(cur, info);
                 ligne = result.nbLignePaye;
@@ -1014,8 +1048,14 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
           if (verbeux)
           {
               LOCK_GUARD
-              cerr << WARNING_HTML_TAG "Absence de lignes de paye également, sous la ligne " << to_string(xmlGetLineNo(cur)) <<  ENDL;
+              long  lineN = xmlGetLineNo(cur);
+              if (lineN == 65535)                      
+                  cerr << WARNING_HTML_TAG "Absence de lignes de paye également, bulletin entre les lignes " << info.ligne_debut.at(info.NCumAgentXml) + 1<< " et " <<  info.ligne_fin.at(info.NCumAgentXml) << ENDL;
+              else
+                  cerr << WARNING_HTML_TAG "Absence de lignes de paye également, ligne " << lineN << ", bulletin entre les lignes " << info.ligne_debut.at(info.NCumAgentXml) + 1<< " et " <<  info.ligne_fin.at(info.NCumAgentXml) << ENDL;
           }
+          
+          pas_de_ligne_de_paye =true;
         }
 
 #       if ! NO_DEBUG
@@ -1044,6 +1084,11 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
     info.drapeau_cont=false; // fin du niveau PayeIndivMensuel
     result = result & BULLETIN_OBLIGATOIRE_NUMERIQUE(MtNetAPayer);
 
+    if (result && pas_de_ligne_de_paye)
+    {
+        test_bulletin_irregulier(info);
+    }
+    
     if (!result)
     {
         cerr << ERROR_HTML_TAG "Problème de conformité des données sur les champs des bulletins de paye." ENDL;
@@ -1055,8 +1100,6 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
     // Rémuneration tag vide
     if (ligne == 0) 
         allouer_ligne_NA(info, ligne, memoire_p_ligne_allouee);
-
-    info.ligne_fin = cur ? xmlGetLineNo(cur) : 0;
 
     return ligne;
 }

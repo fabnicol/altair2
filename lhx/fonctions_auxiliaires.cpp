@@ -134,13 +134,20 @@ errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur)
     cerr << WARNING_HTML_TAG "Fichier analysé " <<  info.threads->argv[info.fichier_courant] << ENDL;
     if (cur)
     {
-        lineN = (long) cur->line;
-        if (lineN == -1)
-            {
-                cerr << WARNING_HTML_TAG "Une balise est manquante ou corrompue dans le fichier." << ENDL;
-            }
-            else
-                cerr << WARNING_HTML_TAG "Ligne n°" << lineN << ENDL;
+        lineN = (long) xmlGetLineNo(cur);
+        if (lineN == 65535)
+        {
+              cerr << WARNING_HTML_TAG "Entre les lignes " << info.ligne_debut.at(info.NCumAgentXml) + 1 << " et "  <<   info.ligne_fin.at(info.NCumAgentXml)  <<  ENDL;
+        }
+        else
+        {
+            if (lineN == -1)
+                {
+                    cerr << WARNING_HTML_TAG "Une balise est manquante ou corrompue dans le fichier." << ENDL;
+                }
+                else
+                    cerr << WARNING_HTML_TAG "Ligne n°" << lineN << ENDL;
+        }
     }
 
     /* Tableau_entete va être en shared memory concurrent read access (no lock here) */
@@ -633,6 +640,7 @@ int calculer_memoire_requise(info_t& info)
 #endif
 
     char d = 0;
+    uint64_t compteur_ligne;
 
     // on compte un agent par balise <Agent/> ou par couple valide de balise
     // <Agent>...</Agent> (fermeture contrôlée)
@@ -641,15 +649,14 @@ int calculer_memoire_requise(info_t& info)
     // moins à  un, même si pas de ligne de paye codée.
     // Si il existe N lignes de paye codées, alors info.NLigne[info.NCumAgent] = N.
 
-
     // par convention  un agent avec rémunération non renseignées (balise sans fils) a une ligne
 
     for (unsigned i = 0; i < info.threads->argc; ++i)
     {
-
-
       #if defined(FGETC_PARSING) || defined(STRINGSTREAM_PARSING)
 
+        compteur_ligne = 0;
+        
         ifstream c(info.threads->argv[i]);
         if (verbeux)
         {
@@ -677,14 +684,29 @@ int calculer_memoire_requise(info_t& info)
             while (! c.eof())
             {
                 bool remuneration_xml_open = false;
-
-                if  (c.get() != '<') continue;
-                if  (c.get() != 'P') continue;
+                
+                if ((d = c.get()) == '\n') 
+                {
+                    ++compteur_ligne;
+                    d = c.get();
+                    if (d == ss.end()) break;
+                }
+                else
+                {
+                   if  (d != '<') 
+                       continue;
+                   else
+                       d = c.get();
+                }
+                
+                if  (d != 'P') continue;
                 if  (c.get() != 'a') continue;
                 if  (c.get() != 'y') continue;
                 if  (c.get() != 'e') continue;
                 if  (c.get() != 'I') continue;
 
+                info.ligne_debut.push_back(compteur_ligne);
+                
                 for (int i=0; i < 7; ++i) c.get();
                 
                 remuneration_xml_open = true;
@@ -706,13 +728,11 @@ int calculer_memoire_requise(info_t& info)
                         else if (c.get()  != 'y')   continue;
                         else if (c.get()  != 'e')   continue;
                         else if (c.get()  != 'I')   continue;
+                        
+                        info.ligne_fin.push_back(compteur_ligne);
 
                         remuneration_xml_open = false;
-#if 0
-                        // Si pas de ligne de paye, alors il en faut quand même une (de NA)
-                        if (tab[info.NCumAgent] == 0)
-                            tab[info.NCumAgent] = 1;
-#endif
+                        
                         ++info.NCumAgent;
                         break;
                     }
@@ -767,10 +787,16 @@ int calculer_memoire_requise(info_t& info)
 
             string::iterator iter = ss.begin();
 
+                  
             while (iter != ss.end())
             {
+                if (*iter == '\n') 
+                {
+                    ++compteur_ligne;
+                }
+                
                 bool remuneration_xml_open = false;
-
+                
                 if  (*++iter != '<') continue;
                 if  (*++iter != 'P') continue;
                 if  (*++iter != 'a') continue;
@@ -779,6 +805,8 @@ int calculer_memoire_requise(info_t& info)
                 if  (*++iter != 'I') continue;
 
                 for (int i=0; i < 7; ++i) ++iter;
+                
+                info.ligne_debut.push_back(compteur_ligne);
                 
                 remuneration_xml_open = true;
 
@@ -790,6 +818,11 @@ int calculer_memoire_requise(info_t& info)
 
                 while (iter != ss.end())
                 {
+                    if (*iter == '\n') 
+                    {
+                        ++compteur_ligne;
+                    }
+                    
                     if (*++iter != '<') continue;
                     if ((d = *++iter)  != 'C')
                     {
@@ -802,13 +835,12 @@ int calculer_memoire_requise(info_t& info)
 
                         for (int i=0; i < 7; ++i) ++iter;
                         
+                        info.ligne_fin.push_back(compteur_ligne);
+                        
                         remuneration_xml_open = false;
-#if 0
-                        // Si pas de ligne de paye, alors il en faut quand même une (de NA)
-                        if (tab[info.NCumAgent] == 0)
-                            tab[info.NCumAgent] = 1;
-#endif
+
                         ++info.NCumAgent;
+
                         break;
                     }
                     else

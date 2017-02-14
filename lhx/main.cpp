@@ -91,8 +91,8 @@ int main(int argc, char **argv)
     {
         {{}},             //    bulletinPtr* Table;
         0,                //    uint64_t nbLigne;
-        0,                //    ligne_debut
-        0,                //    ligne_fin
+        vector<uint64_t>(),                //    ligne_debut
+        vector<uint64_t>(),                //    ligne_fin
         {},               //    int32_t  *NAgent;
         0,                //    uint32_t nbAgentUtilisateur
         0,                //    uint32_t NCumAgent;
@@ -165,8 +165,9 @@ int main(int argc, char **argv)
               help << out.str();
               string sep(":");
               sep[0] = SYSTEM_PATH_SEPARATOR;
-              string exec_dir = getexecpath();
+              
 #ifndef __linux__
+              string exec_dir = getexecpath();
               string command = string("PATH=") + string(getenv("PATH"))
                                  + sep + exec_dir + string("/../texlive/miktex/bin")
                                  + sep + exec_dir + string("/../Outils")
