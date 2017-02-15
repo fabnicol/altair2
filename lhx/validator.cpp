@@ -14,7 +14,7 @@
 using namespace std;
 
 extern mutex mut;
-extern uint64_t   parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log);
+extern uint64_t   parseLignesPaye(xmlNodePtr cur, info_t& info);
 extern vector<errorLine_t>  errorLineStack;
 extern int rang_global;
 
@@ -567,7 +567,7 @@ static int parseFile(info_t& info)
 
             /* LECTURE DES LIGNES DE PAYE STRICTO SENSU */
 
-            int32_t ligne_p = parseLignesPaye(cur, info, log);
+            int32_t ligne_p = parseLignesPaye(cur, info);
 
             /*  */
 
