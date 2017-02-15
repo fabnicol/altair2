@@ -614,7 +614,7 @@ inline void allouer_ligne_NA(info_t &info, int &ligne, int &memoire_p_ligne_allo
     ligne = 1;
 }
 
-uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
+uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info)
 {
     bool result = true;
     int na_assign_level = 0;
@@ -627,48 +627,24 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info, ofstream& log)
 
     if (cur == nullptr)
     {
-        string temp_logpath = getexecpath();
-
-        cerr << ERROR_HTML_TAG "Agent non identifié. Consulter le fichier erreur.log sous " << temp_logpath  << " pour avoir les détails de l'incident." ENDL;
-
-        if (info.chemin_log.empty())
-        {
-              temp_logpath = temp_logpath + "/erreurs.log";
-        }
-
-        bool log_to_be_closed = false;
-
-        if (!log.is_open())
-        {
-            log_to_be_closed = true;
-            log.open(temp_logpath, ios::app);
-        }
-
-        if (log.good())
-        {
-
-            log.flush();
-            log.seekp(ios_base::end);
-
-            log << "\n\nErreur : L'agent est non identifié pour le fichier : " << info.threads->argv[info.fichier_courant] << "\n"
-                << "Année " << info.Table[info.NCumAgentXml][Annee] << "\n"
-                << "Mois "  << info.Table[info.NCumAgentXml][Mois]  << "\n\n";
-
-            if (info.NCumAgentXml &&  info.Table[info.NCumAgentXml - 1].size() > Matricule && info.Table[info.NCumAgentXml - 1][Matricule] != nullptr)
-                log << "Matricule précédent : " << info.Table[info.NCumAgentXml - 1][Matricule] << "\n\n";
-
-            log.flush();
-            log.seekp(ios_base::end);
-
-            if (log_to_be_closed) log.close();
-        }
+       
+        cerr << ERROR_HTML_TAG "L'agent est non identifié pour le fichier : " << info.threads->argv[info.fichier_courant] << ENDL
+               << ERROR_HTML_TAG  "Année " << info.Table[info.NCumAgentXml][Annee] << ENDL
+               << ERROR_HTML_TAG  "Mois "  << info.Table[info.NCumAgentXml][Mois]  << ENDL;
+        
+        long lineN = xmlGetLineNo(cur_parent);
+        
+        cerr  << WARNING_HTML_TAG "Ligne";
+        
+        if (lineN != 65535)
+            cerr << " " << lineN  << ENDL;
         else
-            cerr << ERROR_HTML_TAG " Impossible d'écrire le log des erreurs." ENDL;
-
-#ifdef STRICT
-        if (log.is_open()) log.close();
-        exit(-520);
-#endif
+            cerr << "s " << info.ligne_debut.at(info.NCumAgentXml) + 1 << " - " << info.ligne_fin.at(info.NCumAgentXml) + 1 << ENDL;
+                    
+        if (info.NCumAgentXml &&  info.Table[info.NCumAgentXml - 1].size() > Matricule 
+             && info.Table[info.NCumAgentXml - 1][Matricule] != nullptr)
+            
+             cerr << WARNING_HTML_TAG "Matricule précédent : " << info.Table[info.NCumAgentXml - 1][Matricule] << ENDL;
 
         for (int l : {Nom, Prenom, Matricule, NIR, EmploiMetier, Statut, NbEnfants, Grade, Echelon, Indice})
         {
