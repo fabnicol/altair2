@@ -49,5 +49,6 @@
         <file>images/data-icon.png</file>
         <file>images/view-refresh.png</file>
         <file>images/clean.png</file>
+        <file>images/print.png</file>
     </qresource>
 </RCC>

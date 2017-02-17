@@ -3,7 +3,8 @@
 #include "enums.h"
 #include <QApplication>
 #include <QDirIterator>
-
+#include <QPrinter>
+#include <QPrintDialog>
 #include <fstream>
 #include <sstream>
 
@@ -241,7 +242,7 @@ void MainWindow::createMenus()
  fileMenu->addAction(exitAction);
 
  editMenu->addActions({displayAction, displayOutputAction, displayFileTreeViewAction,
-                       displayManagerAction, clearOutputTextAction, editProjectAction});
+                       displayManagerAction, clearOutputTextAction, editProjectAction, printBaseAction});
 
  processMenu->addActions({RAction, lhxAction, cleanAction, anonymAction, openBaseDirAction});
 
@@ -254,8 +255,8 @@ void MainWindow::createMenus()
 void MainWindow::createActions()
 {
   newAction  = new QAction(tr("Nouveau projet .alt"), this);
-  openAction = new QAction(tr("&Ouvrir le projet .alt"), this);
   newAction ->setShortcut(QKeySequence("Ctrl+N"));
+  openAction = new QAction(tr("&Ouvrir le projet .alt"), this);
   openAction->setShortcut(QKeySequence("Ctrl+O"));
   newAction->setIcon(QIcon(":/images/project-open.png"));
   openAction->setIcon(QIcon(":/images/document-open-folder.png"));
@@ -326,7 +327,7 @@ void MainWindow::createActions()
                   });
 
   optionsAction = new QAction(tr("&Options"), this);
-  optionsAction->setShortcut(QKeySequence("Ctrl+P"));
+  optionsAction->setShortcut(QKeySequence("Ctrl+T"));
   optionsAction->setIcon(QIcon(":/images/encode.png"));
   connect(optionsAction, SIGNAL(triggered()), this, SLOT(on_optionsButton_clicked()));
 
@@ -387,6 +388,11 @@ void MainWindow::createActions()
                                                             QUrl url=QUrl::fromLocalFile( QCoreApplication::applicationDirPath() + "/../licence.html");
                                                             browser::showPage(url);
                                                         });
+  printBaseAction = new QAction("Imprimer des bulletins", this);
+  printBaseAction->setIcon(QIcon(":/images/print.png"));
+  printBaseAction->setShortcut(QKeySequence("Ctrl+P"));
+  connect(printBaseAction, &QAction::triggered, [this] { on_printBase_clicked(); });
+
 
   for (int i=0; i < MaxRecentFiles ; i++)
   {
@@ -406,9 +412,70 @@ void MainWindow::createActions()
              << archiveAction << restoreAction << closeAction << exitAction << separator[0]
              << RAction << lhxAction << cleanAction << anonymAction << openBaseDirAction
              << displayOutputAction << displayFileTreeViewAction << displayManagerAction <<  separator[4]
-             << clearOutputTextAction <<  editProjectAction << separator[3] << configureAction
+             << clearOutputTextAction <<  editProjectAction << printBaseAction << separator[3] << configureAction
              << optionsAction << helpAction << aboutAction ;
  
+}
+
+
+MatriculeInput::MatriculeInput(int width, int height)
+{
+    QGridLayout* q = new QGridLayout;
+
+    QLabel *l = new QLabel("Matricules");
+    l->setToolTip("Entrer les matricules des agents concernés séparés par des points-virgules");
+
+    matrLineEdit = new FLineEdit ("",
+                                               "matricules",
+                                               {"Impression", "Matricules des agents (impression des bulletins)"});
+
+    closeButton = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    closeButton->button(QDialogButtonBox::Ok)->setText("Accepter");
+    closeButton->button(QDialogButtonBox::Cancel)->setText("Annuler");
+
+    q->addWidget(l, 0 , 0);
+    q->setColumnMinimumWidth(1, 5);
+    q->setRowMinimumHeight(0, height*6/8);
+    q->addWidget(matrLineEdit, 0 , 2);
+    q->addWidget(closeButton, 1 , 2);
+
+    setFixedWidth(width);
+    setMinimumHeight(height);
+
+    setWindowTitle("Bulletins à imprimer");
+    setLayout(q);
+
+    connect(closeButton,
+            &QDialogButtonBox::accepted,
+            [this] {
+                     matricules =  matrLineEdit->text();
+                     accept();
+                    });
+
+    connect(closeButton,
+            &QDialogButtonBox::rejected,
+            [this] {
+                     matricules =  "";
+                     reject();
+                    });
+}
+
+
+void MainWindow::on_printBase_clicked()
+{
+   QPrinter printer;
+
+   MatriculeInput *m = new MatriculeInput(width / 4, height / 6);
+
+   if (m->exec() != QDialog::Accepted) return;
+
+   QPrintDialog dialog(&printer, this);
+   dialog.setWindowTitle(tr("Imprimer les bulletins"));
+
+   if (dialog.exec() != QDialog::Accepted)
+   {
+       return;
+   }
 }
 
 vector<string> MainWindow::extraire_donnees_protegees(const string& st)
