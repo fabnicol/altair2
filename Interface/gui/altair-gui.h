@@ -84,6 +84,7 @@ class MainWindow : public QMainWindow
    void cleanBase();
    void launch_process(const QString&);
    void clean_process(const QString&);
+   void on_printBase_clicked();
 
   private :
   
@@ -151,6 +152,7 @@ class MainWindow : public QMainWindow
    QAction *decodeAction;
    QAction *aboutAction;
    QAction *licenceAction;
+   QAction *printBaseAction;
    QAction *optionsAction;
    QAction *exitAction;
    QAction *helpAction;
@@ -193,6 +195,20 @@ class MainWindow : public QMainWindow
 signals:
    void exitSignal();
    
+
+};
+
+
+class MatriculeInput : public QDialog
+{
+  private :
+    QDialogButtonBox *closeButton;
+     FLineEdit*  matrLineEdit;
+
+  public :
+    MatriculeInput(int, int);
+    QString matricules;
+
 
 };
 

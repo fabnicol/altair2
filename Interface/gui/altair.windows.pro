@@ -46,8 +46,8 @@ CONFIG(debug, debug|release) {
 
 TEMPLATE = app
 
-QT       += core gui xml widgets
-            #webkitwidgets : Ã  décommenter si STATIC n'est pas défini c-dessous. Nécessite libWebKitWidgets
+QT       += core gui xml widgets printsupport
+            #webkitwidgets : à  décommenter si STATIC n'est pas défini c-dessous. Nécessite libWebKitWidgets
 
 QT       -= opengl
 QT       -= openssl
