@@ -75,7 +75,7 @@ MainWindow::MainWindow(char* projectName)
   setCentralWidget(altair);
 
   altair->addActions(actionList);
-
+  
   bottomDockWidget = new QDockWidget;
   bottomTabWidget = new QTabWidget;
   consoleDialog =  new QTextEdit;
@@ -103,6 +103,7 @@ MainWindow::MainWindow(char* projectName)
   createToolBars();
 
   bottomTabWidget->setCurrentIndex(0);
+  bottomTabWidget->setMinimumHeight(height/3.6);
 
   QToolButton *clearBottomTabWidgetButton=new QToolButton;
   const QIcon clearOutputText = QIcon(QString::fromUtf8( ":/images/edit-clear.png"));
@@ -177,8 +178,12 @@ void MainWindow::on_nppButton_clicked()
 
     tempLog.open(QIODevice::ReadWrite);
     tempLog.write(
-        qobject_cast<QTextEdit*>(bottomTabWidget->currentWidget())->toHtml().replace(":", common::generateDatadirPath("")).toLatin1()
-                );
+        qobject_cast<QTextEdit*>(bottomTabWidget->currentWidget())->toHtml().replace(":/images", common::generateDatadirPath("")+"/images")
+            #                  ifndef Q_OS_WIN
+                                   .toUtf8());
+            #                  else
+                                   .toLatin1());
+            #                  endif
     tempLog.close();
 
     QUrl url=QUrl::fromLocalFile(tempLog.fileName());
