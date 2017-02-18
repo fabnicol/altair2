@@ -22,7 +22,7 @@
 #include "validator.hpp"
 #include "fonctions_auxiliaires.hpp"
 #include "table.hpp"
-
+#include "recherche.hpp"
 
 #ifndef OVERHEAD
   #define OVERHEAD 500
@@ -46,6 +46,8 @@ string rankFilePath = "";
 mutex mut;
 vector<errorLine_t> errorLineStack;
 vString commandline_tab;
+vector<vString> vbull;
+string repertoire_bulletins;
 
 pair<uint64_t, uint64_t>  produire_segment(const info_t& info, const vString& segment);
 
@@ -148,6 +150,29 @@ int main(int argc, char **argv)
             out.erase(remove(out.begin(), out.end(), '*'), out.end());
             cerr << out;
             exit(0);
+        }
+        else if (commandline_tab[start] ==  "--bulletins")
+        {
+           ++start;
+           if (start == argc) break;
+           const string req = commandline_tab[start];
+           vString bull = split(req, ';');
+           generer_table = false;
+
+           for (const string &v : bull) 
+               vbull.emplace_back(split(v, '-'));  // {"1025N", "6...9", "2012...2015"}
+           
+           ++start;
+           continue;
+        }
+        else if (commandline_tab[start] ==  "--dossier-bulletins")
+        {
+          ++start;
+          if (start == argc) break;
+          repertoire_bulletins = commandline_tab[start];
+          
+          ++start;
+          continue;
         }
         else if (commandline_tab[start] ==  "--hmarkdown" || commandline_tab[start] == "--pdf" || commandline_tab[start] == "--html")
         {
@@ -797,7 +822,7 @@ pair<uint64_t, uint64_t> produire_segment(const info_t& info, const vString& seg
          --remainder;
     }
 
-    /* on répartir le reste de manière équilibrée sur les premiers fils */
+    // on répartir le reste de manière équilibrée sur les premiers fils 
 
     vector<info_t> Info(info.nbfil);
     vector<thread> t;
@@ -846,7 +871,7 @@ pair<uint64_t, uint64_t> produire_segment(const info_t& info, const vString& seg
 
         errno = 0;
 
-        /* Lancement des fils d'exécution */
+        // Lancement des fils d'exécution 
 
         if (verbeux && Info[0].reduire_consommation_memoire)
            cerr << ENDL PROCESSING_HTML_TAG 
@@ -888,7 +913,7 @@ pair<uint64_t, uint64_t> produire_segment(const info_t& info, const vString& seg
     
         errno = 0;
 
-        /* Lancement des fils d'exécution */
+        // Lancement des fils d'exécution 
 
         if (verbeux)
            cerr << ENDL PROCESSING_HTML_TAG "Analyse XML, " << "fil " << i << ENDL;
@@ -926,6 +951,67 @@ pair<uint64_t, uint64_t> produire_segment(const info_t& info, const vString& seg
         LOG.close();
     }
 
+    
+    // Edition éventuelle des bulletins
+    bool res = true;
+    
+    for (auto &&v : vbull)
+    {
+        string annee = v.at(2);
+        string mois  = v.at(1);
+        string matricule = v.at(0);
+        int res = 0;
+        size_t pos;
+        
+        if ((pos = annee.find_first_of('.')) != string::npos)
+        {
+            int an0 = stoi(annee.substr(0, pos));
+            pos = annee.find_last_of('.');
+            int an1 = stoi(annee.substr(pos));
+
+            for (int an = an0; an < an1; ++an)
+            {
+                const string annee = to_string(an);
+                
+                if ((pos = mois.find_first_of('.')) != string::npos)
+                {
+                    int m0 = stoi(mois.substr(0, pos));
+                    pos = mois.find_last_of('.');
+                    int m1 = stoi(mois.substr(pos));
+    
+                    for (int m = m0; m < m1; ++m)                        
+                        res &=  bulletin_paye(repertoire_bulletins, 
+                                              Info,
+                                              matricule,
+                                              to_string(m),
+                                              annee);
+                }
+                else
+                    res &=  bulletin_paye(repertoire_bulletins, 
+                                          Info,
+                                          matricule,
+                                          mois,
+                                          annee);
+            }
+            
+        }
+        else
+            res &= bulletin_paye(repertoire_bulletins,
+                                 Info,
+                                 matricule,
+                                 mois,
+                                 annee);
+    }
+    
+    if (res)
+    {
+        cerr << STATE_HTML_TAG "Tous les bulletins ont été extraits" << ENDL;
+    }
+    else
+    {
+        cerr << STATE_HTML_TAG "Certains bulletins n'ont pas été extraits" << ENDL;
+    }
+    
     pair<uint64_t, uint64_t> lignes;
 
     if (generer_table)
@@ -934,7 +1020,7 @@ pair<uint64_t, uint64_t> produire_segment(const info_t& info, const vString& seg
       lignes = boucle_ecriture(Info, nsegment);
     }
 
-    /* Résumé des erreurs rencontrées */
+    // Résumé des erreurs rencontrées 
 
     if (errorLineStack.size() > 0)
     {
@@ -967,7 +1053,7 @@ pair<uint64_t, uint64_t> produire_segment(const info_t& info, const vString& seg
    generate_rank_signal(-1);
    cerr << " \n";
 
-    /* libération de la mémoire */
+    // libération de la mémoire 
 
    if (! liberer_memoire) return lignes;
 
@@ -976,8 +1062,8 @@ pair<uint64_t, uint64_t> produire_segment(const info_t& info, const vString& seg
             << PROCESSING_HTML_TAG "Libération de la mémoire..."
             << ENDL;
 
-    /* En cas de problème d'allocation mémoire le mieux est encore de ne pas désallouer car on ne connait pas exacteemnt l'état
-     * de la mémoire dynamique */
+    // En cas de problème d'allocation mémoire le mieux est encore de ne pas désallouer car on ne connait pas exacteemnt l'état
+    // de la mémoire dynamique 
 
     for (unsigned i = 0; i < Info[0].nbfil; ++i)
     {

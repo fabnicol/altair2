@@ -203,7 +203,8 @@ class MatriculeInput : public QDialog
 {
   private :
     QDialogButtonBox *closeButton;
-     FLineEdit*  matrLineEdit;
+     FLineEdit*  matrLineEdit, *matrLineEdit2, *matrLineEdit3;
+     FLineFrame* dossier;
 
   public :
     MatriculeInput(int, int);

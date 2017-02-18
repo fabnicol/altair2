@@ -61,6 +61,8 @@ string string_exec(const char* cmd);
 #endif
 errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur);
 
+vector<string> split(const string &s, char delim) ;
+
 void ecrire_log(const info_t& info, ofstream& log, int diff);
 
 void calculer_maxima(const vector<info_t> &Info, ofstream* LOG = nullptr);

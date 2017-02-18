@@ -120,7 +120,8 @@ SOURCES += \
     main.cpp \
     table.cpp \
     validator.cpp \
-    ligne_paye.cpp
+    ligne_paye.cpp \
+    recherche.cpp
 
 HEADERS += \
     fonctions_auxiliaires.hpp \
@@ -132,5 +133,6 @@ HEADERS += \
     expression_reg_elus.hpp \
     expression_reg_commun.hpp \
     expression_reg_adjoints.hpp \
-    filenames.hpp
+    filenames.hpp \
+    recherche.hpp
 
