@@ -122,6 +122,19 @@ string getexecpath()
 #endif
 
 
+vector<string> split(const string &s, char delim) 
+{
+    stringstream ss(s);
+    string item;
+    vector<string> tokens;
+    while (getline(ss, item, delim))
+    {
+        tokens.emplace_back(item);
+    }
+    return tokens;
+}
+
+
 // Récupère la sortie de stdout dans un string
 
 /* utilité d'affichage de l'environnement xhl en cas de problème de conformité des données */

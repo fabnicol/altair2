@@ -428,21 +428,64 @@ MatriculeInput::MatriculeInput(int width, int height)
     QGridLayout* q = new QGridLayout;
 
     QLabel *l = new QLabel("Matricules");
-    l->setToolTip("Entrer les matricules des agents concernés séparés par des points-virgules");
+    QLabel *m = new QLabel("Matricules");
+    QLabel *n = new QLabel("Matricules");
+    
+    const char* tip = "Pour imprimer le bulletin d'un agent, rentrer son matricule, suivi d'un tiret,\n"
+                       "puis le numéro du mois (de 1 à 12), suivi d'un tiret, et l'année.\n"
+                       "Utiliser ... pour indiquer une plage de valeurs.\n"
+                       "Insérer un point-vigule avant la demande suivante, sans espace.\n"
+                       "Exemple :\n\n"
+                       "\t1058 N-3-2010;1010 B-7...9-2012...2014\n\n"
+                       "pour imprimer les bulletins des agents de matricule :\n\n"
+                       "\t1058 N en mars 2010\n"
+                       "\t1010 B en juillet, août, septembre 2012 à 2014.\n";
+    
+    l->setToolTip(tip);
+    m->setToolTip(tip);
+    n->setToolTip(tip);
 
     matrLineEdit = new FLineEdit ("",
-                                               "matricules",
-                                               {"Impression", "Matricules des agents (impression des bulletins)"});
+                                  "Matricules",
+                                  {"Impression", "Format Matricule-Mois...-Anéee(s)...;"},
+                                   "%bulletins" );
 
+    
+    matrLineEdit2 = new FLineEdit(matrLineEdit); 
+    matrLineEdit3 = new FLineEdit(matrLineEdit);
+    
+    //QGroupBox* dBox = new QGroupBox("Répertoire d'exportation");
+    
+    dossier = new FLineFrame({"Matricules", "Répertoire d'extraction"},
+                                   common::path_access("Tests/Exemple/Donnees/" AltairDir "/Bulletins"),
+                                   "dossierBulletins",
+                                   {0,0},
+                                   nullptr,
+                                   "%dossier-bulletins");
+
+    //dBox->setLayout(dossier->getLayout());
+    
+    // format d'input: par exemple : 1058N-3-2010;1010B-7...9-2012..2014 : 
+    // agents 1058N en mars 2010 et 1010B en juillet,août,septembre 2012 à 2014
+    
     closeButton = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     closeButton->button(QDialogButtonBox::Ok)->setText("Accepter");
     closeButton->button(QDialogButtonBox::Cancel)->setText("Annuler");
 
-    q->addWidget(l, 0 , 0);
-    q->setColumnMinimumWidth(1, 5);
-    q->setRowMinimumHeight(0, height*6/8);
-    q->addWidget(matrLineEdit, 0 , 2);
-    q->addWidget(closeButton, 1 , 2);
+    q->addWidget(l, 0 , 2);
+    q->addWidget(m, 3 , 2);
+    q->addWidget(n, 6 , 2);
+        
+    q->setRowMinimumHeight(10, height*2/8);
+    q->setRowMinimumHeight(8, height*1/8);
+    q->setRowMinimumHeight(5, height*1/8);
+    q->setRowMinimumHeight(2, height*1/8);
+    
+    q->addWidget(matrLineEdit,  1 , 2);
+    q->addWidget(matrLineEdit2, 4 , 2);
+    q->addWidget(matrLineEdit3, 7 , 2);
+    q->addLayout(dossier->getLayout(), 9, 2);    
+    q->addWidget(closeButton, 10 , 2);
 
     setFixedWidth(width);
     setMinimumHeight(height);

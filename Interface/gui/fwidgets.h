@@ -276,6 +276,9 @@ class FLineEdit : public QLineEdit, public FAbstractWidget
 
 public:
   FLineEdit(const QString &defaultstring, int status, const QString &hashKey, const QStringList &description, const QString &commandLine);
+  FLineEdit(const QString &defaultstring, flags::status status, const QString &hashKey, const QStringList &description, const QString &commandLine) :
+     FLineEdit(defaultstring, static_cast<int>(status), hashKey, description, commandLine) {}    
+  
   FLineEdit(const QString &defaultstring, const QString &hashKey, const QStringList &description, const QString &commandLine):
      FLineEdit(defaultstring, flags::status::defaultStatus|flags::commandLineType::defaultCommandLine, hashKey, description, commandLine){}
 
@@ -287,6 +290,8 @@ public:
   void refreshWidgetDisplay();
   bool isAbstractEnabled() {return this->isEnabled();}
 
+  FLineEdit(const FLineEdit* f) :  FLineEdit(f->commandLineList[0].toQString(), f->status, f->hashKey, f->description, f->optionLabel) {}
+  
 private:
 
 };
