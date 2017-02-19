@@ -195,7 +195,7 @@ typedef struct
 
     vector<vector<xmlChar*>> Table;
     uint64_t nbLigne;
-    vector<uint64_t> ligne_debut;
+    vector<uint64_t*> ligne_debut;
     vector<uint64_t> ligne_fin;
     vector<uint32_t> NAgent;
     uint32_t nbAgentUtilisateur;
@@ -218,6 +218,7 @@ typedef struct
     bool drapeau_cont;
     bool calculer_maxima;
     bool generer_rang;
+    bool generer_bulletins;
     bool select_siret;
     bool select_echelon;
     bool pretend;

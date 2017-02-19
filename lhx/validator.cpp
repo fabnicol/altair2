@@ -587,7 +587,7 @@ static int parseFile(info_t& info)
                      snprintf(cmd, 999, "grep -n 'Matricule V=\"%s\"' %s | cut -f 1 -d:", info.Table[info.NCumAgentXml][Matricule], env.filePath.c_str());
                      string lineN = string_exec(cmd);
 #else
-                     string lineN = to_string(info.ligne_debut.at(info.NCumAgentXml) + 1) + " - " + to_string(info.ligne_fin.at(info.NCumAgentXml));
+                     string lineN = to_string(info.ligne_debut.at(info.NCumAgentXml)[0] + 1) + " - " + to_string(info.ligne_fin.at(info.NCumAgentXml));
 #endif
                      LOCK_GUARD
                      cerr << ERROR_HTML_TAG "L'allocation de mémoire initiale a prévu : "
