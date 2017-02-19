@@ -19,7 +19,7 @@ vector<string>  recherche(vector<info_t> &Info, const string& annee, const strin
             && xmlStrcmp(it->at(Matricule), matr) == 0)
         {
             long long index = it - Info[i].Table.begin();
-            uint64_t debut = Info[i].ligne_debut.at(index);
+            uint64_t debut = Info[i].ligne_debut.at(index)[0];
             uint64_t fin   = Info[i].ligne_fin.at(index);
             
             // trouver la ligne debut. lire jusqu'à fin dans le fichier F à déterminer (GUI)
@@ -32,7 +32,12 @@ vector<string>  recherche(vector<info_t> &Info, const string& annee, const strin
     return bulletins;
 }
 
-const string extraire_lignes(info_t info, uint64_t debut, uint64_t fin) { return "";}
+const string extraire_lignes(info_t info, uint64_t debut, uint64_t fin) 
+{
+    
+   // info
+    
+}
 
 bool bulletin_paye(const string& chemin_repertoire, vector<info_t> &Info, const string& matricule, const string& mois, const string& annee)
 {

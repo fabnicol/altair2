@@ -67,16 +67,19 @@ out <<  "**Usage** :  lhx OPTIONS fichiers.xhl  " << "\n\n"
           <<  "**--xhlmem** *arg. oblig.*    : taille des fichiers à  analyser en octets.  " << "\n\n"
           <<  "**--memshare** *arg. oblig.*  : Part de la mémoire vive utilisée, en points de pourcentage.  " << "\n\n"
           <<  "**--segments** *arg. oblig.*  : nombre minimum de segments de base.  " << "\n\n"
-          <<  "**--pretend**                 : exécution sans traitement des fichiers.  " << "\n\n"
-          <<  "**--verifmem**                : seulement vérifier la consommation mémoire.  " << "\n\n"
-          <<  "**--hmarkdown**               : aide en format markdown.  " << "\n\n"
-          <<  "**--pdf**                     : aide en format pdf.  " << "\n\n"
-          <<  "**--export** *arg.oblig.*       : modalité d'exportation (Standard, Cumulative, Distributive, Distributive+) \n\n "
-          <<   "      Standard : bases à la racine du répertoire d'exportation. Ecrasement des bases à chaque exécution. \n\n" 
-          <<   "      Cumulative : bases à la racine du répertoire d'exportation. Empilement des bases d'une exécution à l'autre. \n\n" 
-          <<   "      Distributive : bases à la racine du sous-répertoire de même nom que celui d'entrée dans le répertoire d'exportation. \n\n" 
-          <<   "      Distributive+ : bases à la racine du sous-répertoire de même nom que celui d'entrée dans le répertoire d'exportation. \n\n" 
-          <<   "                              Empilement des bases d'une exécution à l'autre. \n\n";
+          <<  "**--pretend** *sans argument* : exécution sans traitement des fichiers.  " << "\n\n"
+          <<  "**--verifmem** *sans argument*: seulement vérifier la consommation mémoire.  " << "\n\n"
+          <<  "**--hmarkdown** *sans argument*: aide en format markdown.  " << "\n\n"
+          <<  "**--pdf**     *sans argument* : aide en format pdf.  " << "\n\n"
+          <<  "**--cdrom**   *sans argument* : lire les données directement sur le disque optique.  " << "\n\n"    
+          <<  "**--dossier-bulletins** *arg.oblig.*: dossier vers lequel seront exportés les bulletins extraits pour impression.  " << "\n\n"  
+          <<  "**--bulletins** *arg.oblig.*  : suite de séquences séparées par des points-vigules sans espace.   Chaque séquence est de la forme matricule-mois(...mois)-année(...année).  Exemple: 1012A-3...5-2012...2015  " << "\n\n"                
+          <<  "**--export** *arg.oblig.*     : modalité d'exportation (Standard, Cumulative, Distributive, Distributive+)  " << "\n\n "
+          <<   "  *Standard* : bases à la racine du répertoire d'exportation. Ecrasement des bases à chaque exécution.  " << "\n\n" 
+          <<   "  *Cumulative* : bases à la racine du répertoire d'exportation. Empilement des bases d'une exécution à l'autre.   " << "\n\n" 
+          <<   "  *Distributive* : bases à la racine du sous-répertoire de même nom que celui d'entrée dans le répertoire d'exportation.   " << "\n\n" 
+          <<   "  *Distributive+* : bases à la racine du sous-répertoire de même nom que celui d'entrée dans le répertoire d'exportation." 
+          <<   " Empilement des bases d'une exécution à l'autre.  " << "\n\n";
     #ifdef GENERATE_RANK_SIGNAL
               out  <<  "**-rank** *argument optionnel* : générer le fichier du rang de la base de paye en cours dans le fichier ";
              // out  <<  "ou à  défaut dans " USERPROFILE "/" LOCALDATA ".\n\n";
@@ -150,7 +153,7 @@ errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur)
         lineN = (long) xmlGetLineNo(cur);
         if (lineN == 65535)
         {
-              cerr << WARNING_HTML_TAG "Entre les lignes " << info.ligne_debut.at(info.NCumAgentXml) + 1 << " et "  <<   info.ligne_fin.at(info.NCumAgentXml)  <<  ENDL;
+              cerr << WARNING_HTML_TAG "Entre les lignes " << info.ligne_debut.at(info.NCumAgentXml)[0] + 1 << " et "  <<   info.ligne_fin.at(info.NCumAgentXml)  <<  ENDL;
         }
         else
         {
@@ -819,7 +822,14 @@ int calculer_memoire_requise(info_t& info)
 
                 for (int i=0; i < 7; ++i) ++iter;
                 
-                info.ligne_debut.push_back(compteur_ligne);
+                if (info.generer_bulletins)
+                {
+                    uint64_t ident[3];
+                    ident[0] = compteur_ligne;
+                    ident[1] = info.threads->thread_num;
+                    ident[2] = i;
+                    info.ligne_debut.push_back(ident);
+                }
                 
                 remuneration_xml_open = true;
 
@@ -847,8 +857,9 @@ int calculer_memoire_requise(info_t& info)
                         else if (*++iter  != 'I')   continue;
 
                         for (int i=0; i < 7; ++i) ++iter;
-                        
-                        info.ligne_fin.push_back(compteur_ligne);
+                 
+                        if (info.generer_bulletins)
+                           info.ligne_fin.push_back(compteur_ligne);
                         
                         remuneration_xml_open = false;
 
