@@ -93,7 +93,7 @@ int main(int argc, char **argv)
     {
         {{}},             //    bulletinPtr* Table;
         0,                //    uint64_t nbLigne;
-        vector<uint64_t>(),                //    ligne_debut
+        vector<uint64_t*>(),                //    ligne_debut
         vector<uint64_t>(),                //    ligne_fin
         {},               //    int32_t  *NAgent;
         0,                //    uint32_t nbAgentUtilisateur
@@ -116,6 +116,7 @@ int main(int argc, char **argv)
         true,             // par défaut lire la balise adjacente
         false,            // calculer les maxima de lignes et d'agents
         false,            // numéroter les lignes
+        false,            // ne pas générer des bulletins particuliers pour impression
         false,            // ne pas exporter les informations sur l'établissement
         false,            // ne pas exporter l'échelon
         false,            // pretend
@@ -155,9 +156,20 @@ int main(int argc, char **argv)
         {
            ++start;
            if (start == argc) break;
+           if (none_of(commandline_tab.begin(), 
+                       commandline_tab.end(),
+                       [] (const string& x) { return(x == string("--dossier-bulletins"));}))
+           {
+               cerr << ERROR_HTML_TAG "Erreur de ligne de commande fatale : "
+                       "Il faut une option --dossier-bulletins spécifiant en argument"
+                       "le dossier vers lequel les bulletins extraits seront exportés."
+                       ENDL;
+               throw;
+           }
            const string req = commandline_tab[start];
            vString bull = split(req, ';');
            generer_table = false;
+           info.generer_bulletins = true;
 
            for (const string &v : bull) 
                vbull.emplace_back(split(v, '-'));  // {"1025N", "6...9", "2012...2015"}
@@ -169,14 +181,24 @@ int main(int argc, char **argv)
         {
           ++start;
           if (start == argc) break;
+          if (none_of(commandline_tab.begin(),
+                      commandline_tab.end(),
+                      [] (const string& x) { return(x == string("--bulletins"));}))
+          {
+              cerr << ERROR_HTML_TAG "Erreur de ligne de commande fatale : "
+                      "Il faut une option --bulletins avec les bulletins à imprimer"
+                      "en argument, sur le format matricule-mois...mois-année...année"
+                      ENDL;
+              throw;
+          }
           repertoire_bulletins = commandline_tab[start];
-          
           ++start;
           continue;
         }
         else if (commandline_tab[start] ==  "--hmarkdown" || commandline_tab[start] == "--pdf" || commandline_tab[start] == "--html")
         {
-          ostringstream out;// = std::move(help());
+          ostringstream out = std::move(help());
+          
           if (commandline_tab[start] == "--hmarkdown")
           {
              cerr << out.str();
@@ -188,29 +210,32 @@ int main(int argc, char **argv)
               help.open("aide.md");
 
               help << out.str();
-              string sep(":");
-              sep[0] = SYSTEM_PATH_SEPARATOR;
               
 #ifndef __linux__
+              string sep(SYSTEM_PATH_SEPARATOR);
+              
               string exec_dir = getexecpath();
               string command = string("PATH=") + string(getenv("PATH"))
                                  + sep + exec_dir + string("/../texlive/miktex/bin")
                                  + sep + exec_dir + string("/../Outils")
                                  + sep + exec_dir + string("/../RStudio/bin/pandoc");
               putenv(command.c_str());
+#             define exec  ".exe"
+#else
+#             define exec   ""              
 #endif
 
 
-              system("iconv.exe -t utf-8 -f latin1 -c -s  aide.md > aide.utf8.md");
+              system("iconv"  exec  " -t utf-8 -f latin1 -c -s  aide.md > aide.utf8.md");
               if (commandline_tab[start] == "--pdf")
               {
-                 system("pandoc.exe -o aide_lhx.pdf  aide.utf8.md");
+                 system("pandoc" exec  " -o aide_lhx.pdf  aide.utf8.md");
               }
               else
               if (commandline_tab[start] == "--html")
               {
-                 system("pandoc.exe -o aide_lhx.utf8.html  aide.utf8.md");
-                 system("iconv.exe -f utf-8 -t latin1 -c -s  aide_lhx.utf8.html > aide_lhx.html");
+                 system("pandoc"  exec  " -o aide_lhx.utf8.html  aide.utf8.md");
+                 system("iconv"  exec  " -f utf-8 -t latin1 -c -s  aide_lhx.utf8.html > aide_lhx.html");
                  unlink("aide_lhx.utf8.html");
               }
               help.close();
@@ -219,6 +244,7 @@ int main(int argc, char **argv)
           }
 
           exit(0);
+
         }
         else if (commandline_tab[start] ==  "-q")
         {
