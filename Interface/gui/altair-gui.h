@@ -36,6 +36,7 @@ class options;
 class Altair;
 class common;
 class Console;
+class MatriculeInput;
 
 class MainWindow : public QMainWindow
 {
@@ -191,7 +192,7 @@ class MainWindow : public QMainWindow
    Highlighter *highlighter;
    QFile projectFile;
    QProcess process;
-
+   MatriculeInput *m = nullptr;
 signals:
    void exitSignal();
    
@@ -203,9 +204,10 @@ class MatriculeInput : public QDialog
 {
   private :
     QDialogButtonBox *closeButton;
-     FLineEdit*  matrLineEdit, *matrLineEdit2, *matrLineEdit3;
-     FLineFrame* dossier;
-
+    FLineEdit *matrLineEdit, *matrLineEdit2, *matrLineEdit3;
+    FLineFrame* dossier;
+    bool checkInput(FLineEdit* l);
+    
   public :
     MatriculeInput(int, int);
     QString matricules;
