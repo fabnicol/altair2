@@ -37,11 +37,11 @@ void MainWindow::standardDisplay()
 
 MainWindow::MainWindow(char* projectName)
 {
-   QRect rec = QApplication::desktop()->availableGeometry();
+  QRect rec = QApplication::desktop()->availableGeometry();
     
-   height = rec.height();
-   width  = rec.width();
-  
+  height = rec.height();
+  width  = rec.width();
+
   recentFiles = QStringList() ;
   settings = new QSettings("altair", "Juridictions Financières");
 
@@ -136,7 +136,8 @@ MainWindow::MainWindow(char* projectName)
 
   dialog=new options(altair);
   dialog->setParent(altair, Qt::Window);
-
+  m = new MatriculeInput(width / 4, height / 6);
+  
   Altair::RefreshFlag =  Altair::RefreshFlag  | interfaceStatus::parseXml;
 
   if (settings->value("loadProjectBehavior") == true)
@@ -393,7 +394,7 @@ void MainWindow::createActions()
                                                             QUrl url=QUrl::fromLocalFile( QCoreApplication::applicationDirPath() + "/../licence.html");
                                                             browser::showPage(url);
                                                         });
-  printBaseAction = new QAction("Imprimer des bulletins", this);
+  printBaseAction = new QAction("Extraire des bulletins", this);
   printBaseAction->setIcon(QIcon(":/images/print.png"));
   printBaseAction->setShortcut(QKeySequence("Ctrl+P"));
   connect(printBaseAction, &QAction::triggered, [this] { on_printBase_clicked(); });
@@ -431,13 +432,13 @@ MatriculeInput::MatriculeInput(int width, int height)
     QLabel *m = new QLabel("Matricules");
     QLabel *n = new QLabel("Matricules");
     
-    const char* tip = "Pour imprimer le bulletin d'un agent, rentrer son matricule, suivi d'un tiret,\n"
+    const char* tip = "Pour exptraire le bulletin d'un agent, rentrer son matricule, suivi d'un tiret,\n"
                        "puis le numéro du mois (de 1 à 12), suivi d'un tiret, et l'année.\n"
                        "Utiliser ... pour indiquer une plage de valeurs.\n"
                        "Insérer un point-vigule avant la demande suivante, sans espace.\n"
                        "Exemple :\n\n"
                        "\t1058 N-3-2010;1010 B-7...9-2012...2014\n\n"
-                       "pour imprimer les bulletins des agents de matricule :\n\n"
+                       "pour extraire les bulletins des agents de matricule :\n\n"
                        "\t1058 N en mars 2010\n"
                        "\t1010 B en juillet, août, septembre 2012 à 2014.\n";
     
@@ -449,14 +450,21 @@ MatriculeInput::MatriculeInput(int width, int height)
                                   "Matricules",
                                   {"Impression", "Format Matricule-Mois...-Anéee(s)...;"},
                                    "%bulletins" );
-
+      
+    matrLineEdit2 = new FLineEdit ("",
+                                  "MatriculesB",
+                                  {"Impression", "Format Matricule-Mois...-Anéee(s)...;"},
+                                   "%bulletins" );
     
-    matrLineEdit2 = new FLineEdit(matrLineEdit); 
-    matrLineEdit3 = new FLineEdit(matrLineEdit);
+    matrLineEdit3 = new FLineEdit ("",
+                                  "MatriculesC",
+                                  {"Impression", "Format Matricule-Mois...-Anéee(s)...;"},
+                                   "%bulletins" );
     
-    //QGroupBox* dBox = new QGroupBox("Répertoire d'exportation");
+    QGroupBox* dBox = new QGroupBox("Exportation");
     const QString dirpath = common::path_access("Tests/Exemple/Donnees/Bulletins");
-    dossier = new FLineFrame({"Matricules", "Répertoire d'extraction"},
+    
+    dossier = new FLineFrame({"Matricules", "Répertoire"},
                                    dirpath,
                                    "dossierBulletins",
                                    {0,0},
@@ -468,9 +476,7 @@ MatriculeInput::MatriculeInput(int width, int height)
     if (! QFileInfo(dirpath).isDir())
         QDir().mkpath(dirpath);
 
-
-    //dBox->setLayout(dossier->getLayout());
-    
+    dBox->setLayout(dossier->getLayout());
     // format d'input: par exemple : 1058N-3-2010;1010B-7...9-2012..2014 : 
     // agents 1058N en mars 2010 et 1010B en juillet,août,septembre 2012 à 2014
     
@@ -482,28 +488,31 @@ MatriculeInput::MatriculeInput(int width, int height)
     q->addWidget(m, 3 , 2);
     q->addWidget(n, 6 , 2);
         
-    q->setRowMinimumHeight(10, height*2/8);
-    q->setRowMinimumHeight(8, height*1/8);
-    q->setRowMinimumHeight(5, height*1/8);
-    q->setRowMinimumHeight(2, height*1/8);
+    q->setRowMinimumHeight(10, height * 2/8);
+    q->setRowMinimumHeight(9,  height * 5/16);
+    q->setRowMinimumHeight(8,  height * 1/8);
+    q->setRowMinimumHeight(5,  height * 1/8);
+    q->setRowMinimumHeight(2,  height * 1/8);
     
     q->addWidget(matrLineEdit,  1 , 2);
     q->addWidget(matrLineEdit2, 4 , 2);
     q->addWidget(matrLineEdit3, 7 , 2);
-    q->addLayout(dossier->getLayout(), 9, 2);    
+    q->addWidget(dBox, 9, 2);    
     q->addWidget(closeButton, 10 , 2);
 
     setFixedWidth(width);
     setMinimumHeight(height);
 
-    setWindowTitle("Bulletins à imprimer");
+    setWindowTitle("Extraction des bulletins");
     setLayout(q);
 
     connect(closeButton,
             &QDialogButtonBox::accepted,
             [this] {
-                     matricules =  matrLineEdit->text();
-                     accept();
+                     bool res = checkInput(matrLineEdit);
+                     res &= checkInput(matrLineEdit2);
+                     res &= checkInput(matrLineEdit3);
+                     if (res) accept();
                     });
 
     connect(closeButton,
@@ -515,14 +524,54 @@ MatriculeInput::MatriculeInput(int width, int height)
 }
 
 
+bool MatriculeInput::checkInput(FLineEdit* l)
+{
+    bool res = true;
+    
+    QString s = l->text();
+    QList<QString> L;
+    for (auto &&S : s.split(';', QString::SkipEmptyParts))
+    {
+      QList<QString> sublist = S.split('-', QString::SkipEmptyParts);
+      
+      if (sublist.size() != 3)
+      {
+          QMessageBox::warning(nullptr, "Format de la requête " + S, 
+                               "Utiliser le format suivant : matricule-mois-année.<br>"
+                               "Un intervalle peut être utilisé pour le mois et l'année.<br>"
+                               "Exemple :<br>\t 1012B-1...7-2011...2013", QMessageBox::Ok);
+          S.clear();
+      }
+      
+      if (sublist.at(1).contains(QRegularExpression("[^0-9]+")) || sublist.at(1).toInt() > 12 || sublist.at(1).toInt() < 1)
+      {
+          QMessageBox::warning(nullptr, "Format de la requête " + S, "Le mois doit être compris entre 1 et 12.", QMessageBox::Ok);
+          S.clear();
+      }
+      
+      if (sublist.at(2).contains(QRegularExpression("[^0-9]+")) || sublist.at(2).toInt() < 2007)
+      {
+          QMessageBox::warning(nullptr, "Format de la requête " + S, "L'année doit être numérique, à compter de 2008.", QMessageBox::Ok);
+          S.clear();
+      }
+      
+      if (! S.isEmpty())
+          L << S;
+      else 
+          res = false;
+    }
+    
+    l->setText(L.join(";"));
+    return res;
+}
+
 void MainWindow::on_printBase_clicked()
 {
-   QPrinter printer;
-
-   MatriculeInput *m = new MatriculeInput(width / 4, height / 6);
 
    if (m->exec() != QDialog::Accepted) return;
 
+#if 0
+   QPrinter printer;
    QPrintDialog dialog(&printer, this);
    dialog.setWindowTitle(tr("Imprimer les bulletins"));
 
@@ -530,6 +579,7 @@ void MainWindow::on_printBase_clicked()
    {
        return;
    }
+#endif   
 }
 
 vector<string> MainWindow::extraire_donnees_protegees(const string& st)

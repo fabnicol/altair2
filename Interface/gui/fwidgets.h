@@ -104,6 +104,8 @@ public:
       *disabledObjects = QList<QList<QWidget*>>() << L;
       FAbstractConnection::meta_connect(this, nullptr, disabledObjects);
   }
+  
+  void setHashKey(const QString& hash) { hashKey = hash; }
 
       
 protected:
