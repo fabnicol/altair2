@@ -10,7 +10,7 @@ vector<string>  recherche(vector<info_t> &Info, const string& annee, const strin
   auto m = (const xmlChar*) mois.c_str();
   auto a = (const xmlChar*) annee.c_str();
   
-  for (uint i = 0; i < Info[0].nbfil; ++i)
+  for (unsigned int i = 0; i < Info[0].nbfil; ++i)
   {
     for (vector<vector<xmlChar*>>::const_iterator  it = Info[i].Table.begin(); it != Info[i].Table.end(); ++it)
     {

@@ -212,8 +212,8 @@ int main(int argc, char **argv)
               help << out.str();
               
 #ifndef __linux__
-              string sep(SYSTEM_PATH_SEPARATOR);
-              
+              string sep(";");
+              sep[0] = SYSTEM_PATH_SEPARATOR;
               string exec_dir = getexecpath();
               string command = string("PATH=") + string(getenv("PATH"))
                                  + sep + exec_dir + string("/../texlive/miktex/bin")
