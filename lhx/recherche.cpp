@@ -19,12 +19,13 @@ vector<string>  recherche(vector<info_t> &Info, const string& annee, const strin
             && xmlStrcmp(it->at(Matricule), matr) == 0)
         {
             long long index = it - Info[i].Table.begin();
-            uint64_t debut = Info[i].ligne_debut.at(index)[0];
+            uint64_t* debut = Info[i].ligne_debut.at(index);
             uint64_t fin   = Info[i].ligne_fin.at(index);
             
             // trouver la ligne debut. lire jusqu'à fin dans le fichier F à déterminer (GUI)
-            
-             bulletins.emplace_back(extraire_lignes(Info[i], debut, fin));
+            const string fichier = extraire_lignes(Info[i], debut, fin);
+            if (! fichier.empty())
+               bulletins.emplace_back(fichier);
         }
     }               
   }
@@ -32,11 +33,23 @@ vector<string>  recherche(vector<info_t> &Info, const string& annee, const strin
     return bulletins;
 }
 
-const string extraire_lignes(info_t info, uint64_t debut, uint64_t fin) 
+const string extraire_lignes(const info_t& info, const uint64_t *debut, const uint64_t fin)
 {
     
-   // info
-    
+ string tab;
+ tab.resize(fin - debut[0] + 1);
+
+ const string xhl = info.threads->in_memory_file.at(debut[2]);
+
+ string::iterator tabit = tab.begin();
+
+ for (string::const_iterator  it = xhl.begin() + debut[0]; it <= xhl.begin() + fin; ++it)
+ {
+     *tabit = move(*it);
+     ++tabit;
+ }
+
+ return tab;
 }
 
 bool bulletin_paye(const string& chemin_repertoire, vector<info_t> &Info, const string& matricule, const string& mois, const string& annee)

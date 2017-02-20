@@ -455,13 +455,19 @@ MatriculeInput::MatriculeInput(int width, int height)
     matrLineEdit3 = new FLineEdit(matrLineEdit);
     
     //QGroupBox* dBox = new QGroupBox("Répertoire d'exportation");
-    
+    const QString dirpath = common::path_access("Tests/Exemple/Donnees/Bulletins");
     dossier = new FLineFrame({"Matricules", "Répertoire d'extraction"},
-                                   common::path_access("Tests/Exemple/Donnees/" AltairDir "/Bulletins"),
+                                   dirpath,
                                    "dossierBulletins",
                                    {0,0},
                                    nullptr,
-                                   "%dossier-bulletins");
+                                   "%dossier-bulletins",
+                                   flags::directory::checkEmptyness,
+                                   flags::flineframe::isDirectoryPath);
+
+    if (! QFileInfo(dirpath).isDir())
+        QDir().mkpath(dirpath);
+
 
     //dBox->setLayout(dossier->getLayout());
     
