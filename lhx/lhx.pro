@@ -129,7 +129,8 @@ SOURCES += \
     main.cpp \
     table.cpp \
     validator.cpp \
-    ligne_paye.cpp
+    ligne_paye.cpp \
+    recherche.cpp
 
 HEADERS += \
     fonctions_auxiliaires.hpp \
@@ -139,6 +140,7 @@ HEADERS += \
     ../Interface/gui/tags.h \
     expression_reg_elus.hpp  \
     expression_reg_commun.hpp \
-    expression_reg_adjoints.hpp
+    expression_reg_adjoints.hpp \
+    recherche.hpp
 
 
