@@ -143,7 +143,9 @@ void FListFrame::on_xhl_display(const QString& xhl)
 #else
     QString strnotepad = "/usr/bin/kate";
 #endif    
-    launch.start(strnotepad, QStringList(xhl));
+     launch = new QProcess;
+     launch->start(strnotepad, QStringList() << xhl);
+     
 }
 
 void FListFrame::on_deleteItem_clicked()
