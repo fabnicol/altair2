@@ -1244,7 +1244,7 @@ bool MainWindow::exportProject(QString dirStr)
 
     altair->outputTextEdit->append(PROCESSING_HTML_TAG "Exportation en cours. Patientez...");
     altair->outputTextEdit->repaint();
-    altair->updateProject();
+    altair->updateProject(true);
    
     const QString projectRootDir = QDir::toNativeSeparators(QDir::cleanPath(v(base)));
     const QString docxReportFilePath = projectRootDir + QDir::separator() + "altaïr.docx";
@@ -1314,7 +1314,7 @@ bool MainWindow::exportProject(QString dirStr)
     else
         altair->outputTextEdit->append(ERROR_HTML_TAG  "Les bases en lien n'ont pas pu être exportées sous : " + subDirStr + "Bases");
 
-
+    QFile(altair->projectName).close();
     saveProjectAs(subDirStr + "projet.alt");
 
     return result;
@@ -1326,17 +1326,22 @@ bool MainWindow::archiveProject()
                                                         QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation),
                                                         QFileDialog::ShowDirsOnly | QFileDialog::DontUseNativeDialog);
 
+
     QString subDirStr = QDir::toNativeSeparators(dirName.append("/Archives Altaïr/" +
                                                                QDate::currentDate().toString("dd MM yyyy")
                                                                + "-" + QTime::currentTime().toString("hh mm ss")));
-    altair->updateProject();
-            
+
+
+
+    QDir().mkpath(subDirStr);
+
     if (QMessageBox::Ok != QMessageBox::warning(nullptr, "", "Les résultats seront archivés dans le dossier <br>" + subDirStr,  QMessageBox::Cancel|QMessageBox::Ok, QMessageBox::Ok))
         return false;
 
     altair->outputTextEdit->append(PROCESSING_HTML_TAG "Archivage en cours. Patientez...");
     altair->outputTextEdit->repaint();
-    
+    altair->updateProject(true);
+
     const QString projectRootDir = QDir::toNativeSeparators(QDir::cleanPath(v(base)));
     const QString docxReportFilePath = projectRootDir +  QDir::separator() + "altaïr.docx";
     const QString pdfReportFilePath = projectRootDir +  QDir::separator()  + "altaïr.pdf";
@@ -1359,8 +1364,7 @@ bool MainWindow::archiveProject()
     result &= common::zip(pdfReportFilePath, subDirStr + QDir::separator() + "altaïr.pdf.arch");
 
     if (result) altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr PDF a été archivé sous : " + subDirStr);
-    
-    saveProjectAs(subDirStr + "/projet.alt");
+
 
      if (v(archiveTable).isTrue() || v(archiveAll).isTrue())
      {
@@ -1405,6 +1409,9 @@ bool MainWindow::archiveProject()
         altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Les bases en lien ont été archivées sous : " + subDirStr + QDir::separator() + "Bases");
     else
         altair->outputTextEdit->append(ERROR_HTML_TAG  "Les bases en lien n'ont pas pu être archivées sous : " + subDirStr + QDir::separator() + "Bases");
+
+  QFile(altair->projectName).close();
+  saveProjectAs(subDirStr + "/projet.alt");
 
   return result;
 }
