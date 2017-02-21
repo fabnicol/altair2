@@ -108,9 +108,9 @@ protected:
 
 private:
 
- QProcess launch;
- inline void updateIndexInfo();
 
+ inline void updateIndexInfo();
+ QProcess* launch;
  FListWidget *fileListWidget;
  QListWidget *currentListWidget;
 
