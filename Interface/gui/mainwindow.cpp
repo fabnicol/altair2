@@ -431,8 +431,20 @@ MatriculeInput::MatriculeInput(int width, int height)
     QLabel *l = new QLabel("Matricules");
     QLabel *m = new QLabel("Matricules");
     QLabel *n = new QLabel("Matricules");
-    
-    const char* tip = "Pour exptraire le bulletin d'un agent, rentrer son matricule, suivi d'un tiret,\n"
+
+    QToolButton *lb = new QToolButton;
+    QToolButton *mb = new QToolButton;
+    QToolButton *nb = new QToolButton;
+
+    lb->setIcon(QIcon(":/images/edit-clear.png"));
+    mb->setIcon(QIcon(":/images/edit-clear.png"));
+    nb->setIcon(QIcon(":/images/edit-clear.png"));
+
+    lb->setToolTip("Effacer");
+    mb->setToolTip("Effacer");
+    nb->setToolTip("Effacer");
+
+    const char* tip = "Pour extraire le bulletin d'un agent, rentrer son matricule, suivi d'un tiret,\n"
                        "puis le numéro du mois (de 1 à 12), suivi d'un tiret, et l'année.\n"
                        "Utiliser ... pour indiquer une plage de valeurs.\n"
                        "Insérer un point-vigule avant la demande suivante, sans espace.\n"
@@ -495,8 +507,11 @@ MatriculeInput::MatriculeInput(int width, int height)
     q->setRowMinimumHeight(2,  height * 1/8);
     
     q->addWidget(matrLineEdit,  1 , 2);
+    q->addWidget(lb,  1 , 3);
     q->addWidget(matrLineEdit2, 4 , 2);
+    q->addWidget(mb,  4 , 3);
     q->addWidget(matrLineEdit3, 7 , 2);
+    q->addWidget(nb,  7 , 3);
     q->addWidget(dBox, 9, 2);    
     q->addWidget(closeButton, 10 , 2);
 
@@ -506,6 +521,10 @@ MatriculeInput::MatriculeInput(int width, int height)
     setWindowTitle("Extraction des bulletins");
     setLayout(q);
 
+    connect(lb, &QToolButton::clicked, [this] {matrLineEdit->clear();});
+    connect(mb, &QToolButton::clicked, [this] {matrLineEdit2->clear();});
+    connect(nb, &QToolButton::clicked, [this] {matrLineEdit3->clear();});
+
     connect(closeButton,
             &QDialogButtonBox::accepted,
             [this] {
@@ -514,10 +533,13 @@ MatriculeInput::MatriculeInput(int width, int height)
                      res &= checkInput(matrLineEdit3);
 
                      matricules = matrLineEdit->text();
-                     if ( ! matrLineEdit2->text().isEmpty())
+                     if (! matrLineEdit2->text().isEmpty())
                                  matricules += matricules.isEmpty() ? "" : ";" + matrLineEdit2->text();
-                     if ( ! matrLineEdit3->text().isEmpty())
+                     if (! matrLineEdit3->text().isEmpty())
                                  matricules += matricules.isEmpty() ? "" : ";" + matrLineEdit3->text();
+
+                     if (matricules.isEmpty())
+                         dossier->setText("");
 
                      if (res) accept();
                     });
@@ -526,6 +548,8 @@ MatriculeInput::MatriculeInput(int width, int height)
             &QDialogButtonBox::rejected,
             [this] {
                      matricules =  "";
+                     dossier->setText("");
+
                      reject();
                     });
 }

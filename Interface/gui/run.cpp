@@ -21,13 +21,19 @@ QStringList Altair::createCommandLineString(const QStringList& files)
 
         if (! files.isEmpty() && item->getHashKey() == "XHL")
         {
-           commandLineChunk = files;
+            commandLineChunk = files;
         }
         else
         {
-            commandLineChunk = item->commandLineStringList();
+            if (item->getHashKey() != "dossierBulletins"
+                || v(dossierBulletins).isEmpty()
+                || v(Matricules).isFilled()
+                || v(MatriculesB).isFilled()
+                || v(MatriculesC).isFilled())
+
+                  commandLineChunk = item->commandLineStringList();
         }
-         
+
         if (item->getHashKey() == "exportMode")
         {
            continue;
@@ -69,6 +75,7 @@ void Altair::runWorker(const QString& subdir)
     QStringList args0, args1;
     QString command;
     QStringList commandLine;
+
 
     commandLine = createCommandLineString(Hash::fileList.value(subdir));
     
