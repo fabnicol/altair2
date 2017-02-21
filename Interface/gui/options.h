@@ -55,6 +55,8 @@ class standardPage : public common
 
 public :
     standardPage();
+    FCheckBox
+      *tableCheckBox;
 
 private:
     FComboBox
@@ -68,7 +70,6 @@ private:
       *baseTypeBox;
 
     FCheckBox
-      *tableCheckBox,
       *etabCheckBox,
       *rangCheckBox;
 

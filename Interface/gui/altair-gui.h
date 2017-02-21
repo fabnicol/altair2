@@ -210,7 +210,7 @@ class MatriculeInput : public QDialog
     
   public :
     MatriculeInput(int, int);
-    QString matricules;
+    QString matricules = "";
 
 
 };

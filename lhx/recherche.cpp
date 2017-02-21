@@ -2,7 +2,7 @@
 #include "recherche.hpp"
 using namespace std;
 
-vector<string>  recherche(vector<info_t> &Info, const string& annee, const string& mois, const string& matricule)
+vector<string>  recherche(const vector<info_t> &Info, const string& annee, const string& mois, const string& matricule)
 {
   vector<string> bulletins;
   
@@ -36,24 +36,23 @@ vector<string>  recherche(vector<info_t> &Info, const string& annee, const strin
 
 const string extraire_lignes(const info_t& info, const array<uint64_t, 3>& debut, const array <uint64_t, 2>& fin)
 {
-    
+
  if (fin[1] < debut[1]) return "";
 
  string xhl = info.threads->in_memory_file.at(debut[2]);
-
 
  string tab = xhl.substr(debut[1], fin[1] - debut[1] + 1);
 
  tab += "\n";
 
- cerr << "************" << ENDL;
- cerr << tab << ENDL;
-
  return tab;
 }
 
-bool bulletin_paye(const string& chemin_repertoire, vector<info_t> &Info, const string& matricule, const string& mois, const string& annee)
+bool bulletin_paye(const string& chemin_repertoire, const vector<info_t> &Info, const string& matricule, const string& mois, const string& annee)
 {
+    cerr << ENDL;
+    cerr << PROCESSING_HTML_TAG << "Extraction des bulletins..." << ENDL;
+
     auto bulletins = recherche(Info, annee, mois, matricule);
     int rang = 0;
     bool res = true;
@@ -61,7 +60,8 @@ bool bulletin_paye(const string& chemin_repertoire, vector<info_t> &Info, const 
     for (auto &&bulletin : bulletins)
     {
         ++rang;
-        string nom_bulletin =  annee + string("_") + mois + string("_") + matricule + (rang > 1 ? "_" + to_string(rang) : "") + string(".txt");
+        string nom_bulletin =  annee + string("_") + mois + string("_") + matricule
+                              + (rang > 1 ? "_" + to_string(rang) : "") + string(".txt");
                 
         ofstream f;
         
@@ -71,14 +71,22 @@ bool bulletin_paye(const string& chemin_repertoire, vector<info_t> &Info, const 
             f << bulletin;
         else
         {
-           cerr << ERROR_HTML_TAG "Echec de la génération du bulletin pour le matricule " << matricule << " Année : " << annee << " Mois :" << mois << ENDL;
+           cerr << ERROR_HTML_TAG "Echec de la génération du bulletin pour le matricule "
+                << matricule << " Année : " << annee << " Mois : " << mois << ENDL;
            res = false;
            continue;
         }
         
         f.close();
                
-        cerr << PROCESSING_HTML_TAG "Bulletin extrait pour le matricule " << matricule << "Rang local : " << rang<< " Année : " << annee << " Mois :" << mois << ENDL;
+        cerr << STATE_HTML_TAG "Bulletin extrait pour le matricule " << matricule;
+
+        if (rang > 1)
+        {
+            cerr << " Rang local : " << rang;
+        }
+
+        cerr << " Année : " << annee << " Mois : " << mois << ENDL;
     }
     
     return res;
