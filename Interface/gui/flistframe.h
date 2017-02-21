@@ -21,7 +21,7 @@ Q_OBJECT
 
 public:
 
- QList<QListWidget*> widgetContainer;
+ QVector<QListWidget*> widgetContainer;
  QString frameHashKey;
 
  QToolButton *importFromMainTree=new QToolButton;
@@ -55,7 +55,7 @@ public:
  void initializeWidgetContainer(QListWidget* listWidget);
  void clearWidgetContainer();
 
-inline QList<QListWidget*>  getWidgetContainer() {return widgetContainer;}
+inline QVector<QListWidget*>  getWidgetContainer() {return widgetContainer;}
 inline int getWidgetContainerCount() {return widgetContainer.size();}
 inline int getWidgetContainerCount(int g) {return widgetContainer[g]->count();}
 inline QListWidget*  getWidgetContainer(int rank) {if (rank < widgetContainer.count()) return widgetContainer[rank]; else return nullptr;}

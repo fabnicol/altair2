@@ -182,21 +182,21 @@ public:
 };
 
 
-class FStringList : public QList<QStringList>
+class FStringList : public QVector<QStringList>
 {
 
 public:
 
-  FStringList( ) : QList<QStringList>() { }
-  FStringList(const QString& s) : QList<QStringList>()  { this->append(QStringList(s)); }
+  FStringList( ) : QVector<QStringList>() { }
+  FStringList(const QString& s) : QVector<QStringList>()  { this->append(QStringList(s)); }
   FStringList(const FString &s):FStringList(s.toQString()) {}
   FStringList(const FString *s):FStringList(s->toQString()) {}
-  FStringList(QStringList &L): QList<QStringList>() {this->append(L);}
-  FStringList(const QStringList &L): QList<QStringList>() {this->append(L);}
-  FStringList(const  QList<QStringList> &s) : QList<QStringList>(s) {}
-  FStringList(const  QList<QVariant> &s) : QList<QStringList>()
+  FStringList(QStringList &L): QVector<QStringList>() {this->append(L);}
+  FStringList(const QStringList &L): QVector<QStringList>() {this->append(L);}
+  FStringList(const  QVector<QStringList> &s) : QVector<QStringList>(s) {}
+  FStringList(const  QVector<QVariant> &s) : QVector<QStringList>()
   {
-      QListIterator<QVariant> i(s);
+      QVectorIterator<QVariant> i(s);
       while (i.hasNext())
       {
           QVariant v=i.next();
@@ -206,12 +206,12 @@ public:
       }
   }
 
-  FStringList(const QString& a, const QString& b, const QString& c):QList<QStringList>()  { this->append(QStringList() << a << b << c);}
+  FStringList(const QString& a, const QString& b, const QString& c):QVector<QStringList>()  { this->append(QStringList() << a << b << c);}
   const FString join(const QStringList &) const ;
   const FString join(const char* s) const {return join(QStringList((QString(s)))); }
   const QStringList join() ;
   QString setEmptyTags(const QStringList &)const;
-  const QString setTags(const QStringList &tags, const QList<FStringList> *properties=nullptr) const;
+  const QString setTags(const QStringList &tags, const QVector<FStringList> *properties=nullptr) const;
   FString toFString() const { return ((this->isEmpty()) || this->at(0).isEmpty())?  "" : FString(this->at(0).at(0)); }
   QString toQString() const { return ((this->isEmpty()) || this->at(0).isEmpty())?  "" : QString(this->at(0).at(0)); }
   int toInt() const {return ((this->isEmpty() || this->at(0).isEmpty())? 0: this->at(0).at(0).toInt());}
@@ -219,16 +219,16 @@ public:
   bool  isFilled() const { return (!isEmpty() && (!this->at(0).isEmpty()) && (!this->at(0).at(0).isEmpty())); }
 
   /* copy constructor */
-  FStringList(const FStringList  & L):QList<QStringList>(L)  { }
+  FStringList(const FStringList  & L):QVector<QStringList>(L)  { }
               
 };
 
-class FStringListIterator : public QListIterator<QStringList>
+class FStringListIterator : public QVectorIterator<QStringList>
 {
 public:
-  FStringListIterator(const FStringList& list) : QListIterator(list) {}
-  FStringListIterator(FStringList *list) : QListIterator(*list) {}
-  FStringListIterator(const FStringList *list) : QListIterator(*list) {}
+  FStringListIterator(const FStringList& list) : QVectorIterator(list) {}
+  FStringListIterator(FStringList *list) : QVectorIterator(*list) {}
+  FStringListIterator(const FStringList *list) : QVectorIterator(*list) {}
  };
 
 

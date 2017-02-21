@@ -8,7 +8,7 @@ QHash<QString, QStringList> Hash::fileList;
 
 QStringList Altair::createCommandLineString(const QStringList& files)
 {
-    QListIterator<FAbstractWidget*> w(Abstract::abstractWidgetList);
+    QVectorIterator<FAbstractWidget*> w(Abstract::abstractWidgetList);
     QStringList commandLine;
 
     w.toBack();
