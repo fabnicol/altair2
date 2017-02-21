@@ -27,7 +27,7 @@ QString getText(){ return lineEdit->text();}
 void setText(const QString &t){ lineEdit->setText(t);}
 QGridLayout* getLayout(){ return frameLayout;}
 // on a dû la réimplémenter pour des raisons obscures. Pourtant FLineEdit dérive de FAbstractWidget...
-QList<QWidget*> getComponentList() {return componentList;}
+QVector<QWidget*> getComponentList() {return componentList;}
 void setPathCategory(flags::flineframe t)     {    pathCategory = t;    }
 
 private:
@@ -37,7 +37,7 @@ FLineEdit* lineEdit;
 QLabel *label;
 QToolDirButton *sButton;
 QToolDirButton *oButton;
-QList<QWidget*> componentList;
+QVector<QWidget*> componentList;
 flags::flineframe pathCategory;
 };
 #endif

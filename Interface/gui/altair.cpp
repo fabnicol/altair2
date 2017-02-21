@@ -338,7 +338,9 @@ void Altair::closeProject()
     for  (int i = projectDimension; i >= 0;   i--)
     {
         project[0]->mainTabWidget->removeTab(i);
-        project[0]->getWidgetContainer().removeAt(i);
+        auto widgetV = project[0]->getWidgetContainer();
+        int size = widgetV.size();
+        if (i < size) widgetV.removeAt(i);
     }
 
     project[0]->addNewTab();
@@ -524,7 +526,7 @@ void Altair::setCurrentFile(const QString &fileName)
 void Altair::assignWidgetValues()
 {
     if (Hash::wrapper.isEmpty()) return;
-    QListIterator<FAbstractWidget*> w(Abstract::abstractWidgetList);
+    QVectorIterator<FAbstractWidget*> w(Abstract::abstractWidgetList);
     QList<QString> keyList = Hash::wrapper.keys();
 
     while (w.hasNext())

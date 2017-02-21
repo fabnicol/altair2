@@ -261,12 +261,12 @@ void FListFrame::deleteGroup()
 
 void FListFrame::initializeWidgetContainer()
 {
-   widgetContainer =  QList<QListWidget*>() << new QListWidget;
+   widgetContainer =  QVector<QListWidget*>() << new QListWidget;
 }
 
 void FListFrame::initializeWidgetContainer(QListWidget* listWidget)
 {
-   widgetContainer =  QList<QListWidget*>() << listWidget;
+   widgetContainer =  QVector<QListWidget*>() << listWidget;
 }
 
 void FListFrame::clearWidgetContainer()
@@ -483,8 +483,8 @@ void FListFrame::addStringListToListWidget(const QStringList& stringList)
         mainTabWidget->setCurrentIndex(rank - 1);
 
         QStringList pairs;
-        FStringListIterator j(Hash::Etablissement.values());
-        FStringListIterator i(Hash::Siret.values());
+        FStringListIterator j(Hash::Etablissement.values().toVector());
+        FStringListIterator i(Hash::Siret.values().toVector());
         while (i.hasNext() && j.hasNext())
         {
             QStringList etab = i.next();

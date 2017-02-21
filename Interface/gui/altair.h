@@ -117,7 +117,7 @@ private:
     qint64 value = 0;
     static qint64 totalSize[2];
 
-    QHash <int,  QList<QStringList>  > fileSizeDataBase;
+    QHash <int,  QVector<QStringList>  > fileSizeDataBase;
 
     QIcon iconShowMaximized, iconShowNormal;
     QRect geom;
@@ -136,8 +136,8 @@ private:
     const QString  makeSystemString( );
     QString processMsg;
     
-    QList<QStringList> processSecondLevelData(QList<QStringList> &L, bool isFile=true);
-    QList<QUrl> parseUrlsDragged(QList<QUrl>& urlsDragged);
+    QVector<QStringList> processSecondLevelData(QVector<QStringList> &L, bool isFile=true);
+    QVector<QUrl> parseUrlsDragged(QList<QUrl>& urlsDragged);
     FStringList parseEntry(const QDomNode &, QTreeWidgetItem *parent=0);
     void refreshRowPresentation();
     void setIndexedProperties(QModelIndexList* indexList);

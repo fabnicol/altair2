@@ -16,17 +16,17 @@ QStringList  applyHashToStringList(QHash<QString, QString> &H,  QStringList &M)
 }
 
 
-void FAbstractConnection::meta_connect(FAbstractWidget* w,  const Q2ListWidget *enabledObjects,  const Q2ListWidget *disabledObjects)
+void FAbstractConnection::meta_connect(FAbstractWidget* w,  const Q2VectorWidget *enabledObjects,  const Q2VectorWidget *disabledObjects)
 {
     if ((enabledObjects != nullptr) &&  (!enabledObjects->isEmpty()) )
     {
 
-        QListIterator<QWidget*> componentlistIterator(w->getComponentList());
-        Q2ListIterator objectlistIterator(*enabledObjects);
+        QVectorIterator<QWidget*> componentlistIterator(w->getComponentList());
+        Q2VectorIterator objectlistIterator(*enabledObjects);
         while ((componentlistIterator.hasNext()) && (objectlistIterator.hasNext()))
         {
             QWidget* component=componentlistIterator.next();
-            QListIterator<QWidget*> i(objectlistIterator.next());
+            QVectorIterator<QWidget*> i(objectlistIterator.next());
             while (i.hasNext())
             {
                 QWidget* item=i.next();
@@ -59,13 +59,13 @@ void FAbstractConnection::meta_connect(FAbstractWidget* w,  const Q2ListWidget *
     if ((disabledObjects != nullptr) &&  (!disabledObjects->isEmpty()))
     {
 
-        QListIterator<QWidget*> newcomponentlistIterator(w->getComponentList());
-        Q2ListIterator newobjectlistIterator(*disabledObjects);
+        QVectorIterator<QWidget*> newcomponentlistIterator(w->getComponentList());
+        Q2VectorIterator newobjectlistIterator(*disabledObjects);
         while ((newcomponentlistIterator.hasNext()) && (newobjectlistIterator.hasNext()))
         {
 
             QWidget* component=newcomponentlistIterator.next();
-            QListIterator<QWidget*> j(newobjectlistIterator.next());
+            QVectorIterator<QWidget*> j(newobjectlistIterator.next());
             while (j.hasNext())
             {
                 QWidget* item=j.next();
@@ -90,10 +90,10 @@ void FAbstractConnection::meta_connect(FAbstractWidget* w,  const Q2ListWidget *
 
 
 
-inline void FAbstractWidget::FCore(const QList<QWidget*>& w, FString defaultCommandLine, int commandLineType, const QString &hashKey, const QStringList & description,
-                  const QString &option, const QList<QWidget*>enabledObjects, const QList<QWidget*>disabledObjects)
+inline void FAbstractWidget::FCore(const QVector<QWidget*>& w, FString defaultCommandLine, int commandLineType, const QString &hashKey, const QStringList & description,
+                  const QString &option, const QVector<QWidget*>enabledObjects, const QVector<QWidget*>disabledObjects)
 {
-    Q2ListWidget *dObjects=new Q2ListWidget, *eObjects=new Q2ListWidget;
+    Q2VectorWidget *dObjects=new Q2VectorWidget, *eObjects=new Q2VectorWidget;
     if (enabledObjects.isEmpty()) eObjects=nullptr;
     else
         *eObjects << enabledObjects;
@@ -104,8 +104,8 @@ inline void FAbstractWidget::FCore(const QList<QWidget*>& w, FString defaultComm
     FCore(w, defaultCommandLine, commandLineType, hashKey, description, option, eObjects, dObjects);
 }
 
-inline void FAbstractWidget::FCore(const QList<QWidget*>& w, FString defaultCommandLine, int commandLineType, const QString &hashKey, const QStringList & description,
-                  const QString &option,  Q2ListWidget *enabledObjects, Q2ListWidget *disabledObjects)
+inline void FAbstractWidget::FCore(const QVector<QWidget*>& w, FString defaultCommandLine, int commandLineType, const QString &hashKey, const QStringList & description,
+                  const QString &option,  Q2VectorWidget *enabledObjects, Q2VectorWidget *disabledObjects)
 {
     this->enabledObjects=enabledObjects;
     this->disabledObjects=disabledObjects;
@@ -220,12 +220,12 @@ const QStringList FAbstractWidget::commandLineStringList()
 
 /* caution : abstractWidgetList must have its first two elements as respectively being with "DVD-A" and "DVD-V" hashKeys. */
 
-QList<FAbstractWidget*> Abstract::abstractWidgetList = QList<FAbstractWidget*>();
+QVector<FAbstractWidget*> Abstract::abstractWidgetList = QVector<FAbstractWidget*>();
 
 
 void Abstract::refreshOptionFields()
 {
-    QListIterator<FAbstractWidget*>  j(Abstract::abstractWidgetList);
+    QVectorIterator<FAbstractWidget*>  j(Abstract::abstractWidgetList);
     while (j.hasNext())
     {
         j.next()->refreshWidgetDisplay();
@@ -257,9 +257,9 @@ FListWidget::FListWidget(QWidget* par,
     currentListWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
     currentListWidget->setToolTip(description.at(1));
     
-    componentList=QList<QWidget*>() << currentListWidget;
+    componentList=QVector<QWidget*>() << currentListWidget;
 
-    FCore({this}, "", commandLineType, hashKey, description, commandLine, QList<QWidget*>() << controlledWidget);
+    FCore({this}, "", commandLineType, hashKey, description, commandLine, QVector<QWidget*>() << controlledWidget);
 
     separator=sep;
 
@@ -412,7 +412,7 @@ const FString FListWidget::setXmlFromWidget()
             commandLineList[0]=Hash::wrapper[hashKey]->join(separator);
     }
 
-    QList<FStringList>* properties = new QList<FStringList>;
+    QVector<FStringList>* properties = new QVector<FStringList>;
 
     for (const QStringList &strL :  *Hash::wrapper[hashKey])
     {
@@ -459,7 +459,7 @@ void FListWidget::refreshWidgetDisplay()
 
 
 FCheckBox::FCheckBox(const QString &boxLabel, int status, const QString &hashKey, const QStringList &description, const QString& commandLineString,
-                     const QList<QWidget*> &enabledObjects, const QList<QWidget*> &disabledObjects) : QCheckBox(boxLabel)
+                     const QVector<QWidget*> &enabledObjects, const QVector<QWidget*> &disabledObjects) : QCheckBox(boxLabel)
 {
     setLayoutDirection(Qt::RightToLeft);
     bool mode= ((status & flags::status::widgetMask) == flags::status::checked) ;
@@ -482,7 +482,7 @@ void FCheckBox::refreshWidgetDisplay()
 
     if ((enabledObjects) && (enabledObjects->size()))
     {
-        QListIterator<QWidget*> i(enabledObjects->at(0));
+        QVectorIterator<QWidget*> i(enabledObjects->at(0));
 
         while (i.hasNext())
         {
@@ -494,7 +494,7 @@ void FCheckBox::refreshWidgetDisplay()
 
     if ((disabledObjects) && (disabledObjects->size()))
     {
-        QListIterator<QWidget*> i(disabledObjects->at(0));
+        QVectorIterator<QWidget*> i(disabledObjects->at(0));
         while (i.hasNext())
         {
             QWidget* item=i.next();

@@ -45,7 +45,7 @@ const FStringList FString::split(const QStringList &separator) const
       if (this->length() >= 3)
         {
             QListIterator<QString> i=QListIterator<QString>(this->toQString().split(separator[1]));
-            QList<QStringList> L=QList<QStringList>();
+            QVector<QStringList> L=QVector<QStringList>();
             while (i.hasNext())
             L << i.next().split(separator[0]);
             return L;
@@ -174,7 +174,7 @@ QString FStringList::setEmptyTags(const QStringList & tags) const
 }
 
 
-const QString FStringList::setTags(const QStringList  &tags, const QList<FStringList> *properties ) const
+const QString FStringList::setTags(const QStringList  &tags, const QVector<FStringList> *properties ) const
 {
   if ((this == nullptr) ||  this->hasNoString())
   {
