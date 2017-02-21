@@ -5,8 +5,8 @@
 #include "fstring.h"
 #include "tags.h"
 
-#define Q2ListWidget QList<QList<QWidget*> >
-#define Q2ListIterator QListIterator<QList<QWidget*> >
+#define Q2VectorWidget QVector<QVector<QWidget*> >
+#define Q2VectorIterator QVectorIterator<QVector<QWidget*> >
 
 class FStringList;
 class common;
@@ -45,10 +45,10 @@ class FAbstractConnection : QObject
 
 public:
 
-  static void meta_connect(FAbstractWidget* w,  const Q2ListWidget *enabledObjects,  const Q2ListWidget *disabledObjects=nullptr);
-  static void meta_connect(FAbstractWidget* w,  const QList<QWidget*> *enabledObjects=nullptr,  const QList<QWidget*> *disabledObjects=nullptr)
+  static void meta_connect(FAbstractWidget* w,  const Q2VectorWidget *enabledObjects,  const Q2VectorWidget *disabledObjects=nullptr);
+  static void meta_connect(FAbstractWidget* w,  const QVector<QWidget*> *enabledObjects=nullptr,  const QVector<QWidget*> *disabledObjects=nullptr)
   {
-     meta_connect(w, &(*(new Q2ListWidget) << *enabledObjects),  &(*(new Q2ListWidget) << *disabledObjects));
+     meta_connect(w, &(*(new Q2VectorWidget) << *enabledObjects),  &(*(new Q2VectorWidget) << *disabledObjects));
   }
 
 };
@@ -65,8 +65,8 @@ class FAbstractWidget : public flags
 {
 
 public:
- Q2ListWidget* enabledObjects = nullptr;
- Q2ListWidget* disabledObjects = nullptr;
+ Q2VectorWidget* enabledObjects = nullptr;
+ Q2VectorWidget* disabledObjects = nullptr;
 
 
   /* is used for .alt Xml project writing: refresh Widget information and injects current Widget state into Hash::qstring as left-valued of <...hashKey=...> */
@@ -78,7 +78,7 @@ public:
   /* Refreshes widget state from current value of commandLineList member to ensure coherence betwenn internal object state and on-screen display */
  virtual void refreshWidgetDisplay()=0 ;
  const QString& getHashKey() const {return hashKey; }
- QList<QWidget*>& getComponentList() { return componentList;}
+ QVector<QWidget*>& getComponentList() { return componentList;}
  const QString& getDepth() const {return widgetDepth; }
  const QStringList& getDescription() const { return description; }
 
@@ -97,11 +97,11 @@ public:
   QString optionLabel;
   QList<FString> commandLineList;
 
-  void setDisableObjects(const QList<QWidget*>& L)  
+  void setDisableObjects(const QVector<QWidget*>& L)  
   {
       if (disabledObjects) delete disabledObjects;
-      disabledObjects = new Q2ListWidget;
-      *disabledObjects = QList<QList<QWidget*>>() << L;
+      disabledObjects = new Q2VectorWidget;
+      *disabledObjects = Q2VectorWidget() << L;
       FAbstractConnection::meta_connect(this, nullptr, disabledObjects);
   }
   
@@ -113,18 +113,18 @@ protected:
   QString widgetDepth;
   QStringList description;
 
-  QList<QWidget*> componentList;
+  QVector<QWidget*> componentList;
 
-  inline void FCore(const QList<QWidget*>& , FString, int, const QString&, const QStringList& , const QString&,  QList<QWidget*> =QList<QWidget*>(), QList<QWidget*> =QList<QWidget*>());
+  inline void FCore(const QVector<QWidget*>& , FString, int, const QString&, const QStringList& , const QString&,  QVector<QWidget*> =QVector<QWidget*>(), QVector<QWidget*> =QVector<QWidget*>());
 
-  inline void FCore(const QList<QWidget*>&, FString, int, const QString &, const QStringList &, const QString&, Q2ListWidget*, Q2ListWidget*);
+  inline void FCore(const QVector<QWidget*>&, FString, int, const QString &, const QStringList &, const QString&, Q2VectorWidget*, Q2VectorWidget*);
   
 };
 
 
 struct Abstract
 {
-    static QList<FAbstractWidget*> abstractWidgetList;
+    static QVector<FAbstractWidget*> abstractWidgetList;
     static void refreshOptionFields();
     static void initH(const QString &hashKey, const QString& value)
     {
@@ -204,27 +204,27 @@ class  FCheckBox : public QCheckBox,  public FAbstractWidget
 public:
 
   FCheckBox(const QString &boxLabel, int status, const QString &hashKey, const QStringList &description, const QString& commandLineString,
-                       const QList<QWidget*> &enabledObjects, const QList<QWidget*> &disabledObjects);
+                       const QVector<QWidget*> &enabledObjects, const QVector<QWidget*> &disabledObjects);
 
   FCheckBox(const QString &boxLabel, int status, const QString &hashKey, const QStringList &description, const QString& commandLineString):
                 FCheckBox(boxLabel, status, hashKey, description, commandLineString, {nullptr}, {nullptr}){}
 
   FCheckBox(const QString &boxLabel, int status, const QString &hashKey, const QStringList &description, const QString& commandLineString,
-                       const QList<QWidget*> &enabledObjects):
+                       const QVector<QWidget*> &enabledObjects):
                 FCheckBox(boxLabel, status, hashKey, description, commandLineString, enabledObjects, {nullptr}){}
 
   FCheckBox(const QString &boxLabel, int status, const QString &hashKey, const QStringList &description,
-                       const QList<QWidget*> &enabledObjects=QList<QWidget*>(), const QList<QWidget*> &disabledObjects=QList<QWidget*>()):
+                       const QVector<QWidget*> &enabledObjects=QVector<QWidget*>(), const QVector<QWidget*> &disabledObjects=QVector<QWidget*>()):
                          FCheckBox(boxLabel,  status, hashKey, description, "",enabledObjects, disabledObjects) {}
 
 
   FCheckBox(const QString &boxLabel, const QString &hashKey, const QStringList& description, const QString& commandLineString,
-            const QList<QWidget*> &enabledObjects=QList<QWidget*>(), const QList<QWidget*> &disabledObjects=QList<QWidget*>()):
+            const QVector<QWidget*> &enabledObjects=QVector<QWidget*>(), const QVector<QWidget*> &disabledObjects=QVector<QWidget*>()):
     FCheckBox(boxLabel, flags::status::enabledUnchecked|flags::commandLineType::defaultCommandLine, hashKey, description, commandLineString,
                          enabledObjects, disabledObjects){}
 
   FCheckBox(const QString &boxLabel, const QString &hashKey, const QStringList& description,
-            const QList<QWidget*> &enabledObjects=QList<QWidget*>()):
+            const QVector<QWidget*> &enabledObjects=QVector<QWidget*>()):
       FCheckBox(boxLabel, flags::status::enabledUnchecked|flags::commandLineType::defaultCommandLine, hashKey, description, "",
                 enabledObjects, {nullptr}){}
 
