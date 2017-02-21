@@ -52,21 +52,27 @@ do
 		_copy mimeapps.list   /home/$i/.local/share/applications
 		_copy images          /home/$i/.local/share/Altair     
 		_copy mime /home/$i/.local/share
-        cp -vf 'Lien vers une application.desktop' /home/$i/Desktop		
-        
+        _copy 'Lien vers une application.desktop' /home/$i/Desktop		
+
+                
 		if test $i != fab; then
             sed "s/utilisateur/${i}/g" /home/fab/Dev/altair/sys/dolphinrc > temp 
             # intégration de li'cone dans le menu développement + clic sur projet *.alt
             _copy Altair_jf.desktop  /home/$i/Desktop/Altaïr.desktop
             _copy Altair_jf.desktop  /home/$i/.local/share/applications
+             sed "s/utilisateur/$i/g" user-places.xbel > temp2
     	else
-            sed "s/\/home\/utilisateur\/Dev\/altair\/Tests\/Exemple\/Donnees\/xhl\/utilisateur/\/home\/fab\/Dev\/altair\/Tests\/Exemple\/Donnees\/xhl/" /home/fab/Dev/altair/sys/dolphinrc > temp 
+            sed "s/\/home\/utilisateur\/Dev\/altair\/Tests\/Exemple\/Donnees\/xhl\/utilisateur/\/home\/fab\/Dev\/altair\/Tests\/Exemple\/Donnees\/xhl/" dolphinrc > temp
+            sed "s/utilisateur/$i/g" user-places.xbel > temp2
+            sed -i "s/\/home\/fab\/Dev\/altair\/Tests\/Exemple\/Donnees\/xhl\/fab/\/home\/fab\/Dev\/altair\/Tests\/Exemple\/Donnees\/xhl/" temp2
             _copy Altair.desktop  /home/fab/Desktop/Altaïr.desktop	
             _copy Altair.desktop  /home/fab/.local/share/applications
         fi
-        
-        cp -vf temp  /home/${i}/.config/dolphinrc
+
+        _copy temp2           /home/$i/.local/share/user-places.xbel        
+        -copy temp  /home/${i}/.config/dolphinrc
         rm temp
+        rm temp2
 	fi
 done
 
