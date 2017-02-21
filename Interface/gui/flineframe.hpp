@@ -24,6 +24,7 @@ FLineFrame(const QStringList& ={"", ""},
 
 
 QString getText(){ return lineEdit->text();}
+void setText(const QString &t){ lineEdit->setText(t);}
 QGridLayout* getLayout(){ return frameLayout;}
 // on a dû la réimplémenter pour des raisons obscures. Pourtant FLineEdit dérive de FAbstractWidget...
 QList<QWidget*> getComponentList() {return componentList;}
