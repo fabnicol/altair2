@@ -269,7 +269,6 @@ bool codePage::reinitialiser_prologue()
 
 standardPage::standardPage()
 {
-
     QList<QString> range = QList<QString>(), range2 = QList<QString>();
 
     range << "Standard" << "Par année" << "Toutes catégories" << "Traitement" << "Indemnité"
@@ -366,14 +365,12 @@ standardPage::standardPage()
                                  {optionalFieldBox, baseTypeLabel, baseTypeWidget,
                                   maxNLigneLabel, maxNLigneLineEdit});
 
-
     QStringList range3 = QStringList();
     for (int i = 1; i < 12; i++) range3 << QString::number(i);
     
     createHash(baseTypeWidget->comboBoxTranslationHash, &range, &range2);
     baseTypeWidget->status = flags::status::defaultStatus;
     baseTypeWidget->commandLineType = flags::commandLineType::defaultCommandLine;
-
     baseTypeWidget->setFixedWidth(175);
     baseTypeWidget->setFixedHeight(30);
     baseTypeWidget->setCurrentIndex(0);
