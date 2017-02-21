@@ -1,5 +1,6 @@
 /* Fichier à encoder en UTF-8 */
 
+
 #include "flistframe.h"
 #include "common.h"
 #include "enums.h"
@@ -294,8 +295,8 @@ struct Header* elemPar;
 
 void FListFrame::parseXhlFile(const QString& fileName)
 {
-   QFile file(fileName);
-
+    QFile file(fileName);
+    long long ligne = 0;
     bool result = file.open(QIODevice::ReadOnly);
     if (! file.isOpen())
              altair->outputTextEdit->append(ERROR_HTML_TAG "Erreur à  l'ouverture du fichier.");
@@ -307,8 +308,8 @@ void FListFrame::parseXhlFile(const QString& fileName)
     }
 
     file.seek(0);
-    QByteArray buffer0 = file.read(BUFFER_SIZE);
-    const QString string = QString::fromLatin1(buffer0, BUFFER_SIZE);
+    QByteArray buffer0 = file.readAll();
+    QString string = QString::fromLatin1(buffer0, BUFFER_SIZE);
 
     QRegExp reg("DocumentPaye.*(?:Annee) V.?=.?\"([0-9]+)\".*(?:Mois) V.?=.?\"([0-9]+)\"(.*)(?:Employeur).*(?:Nom) V.?=.?\"([^\"]+)\".*(?:Siret) V.?=.?\"([0-9A-Z]+)\".*DonneesIndiv(.*)PayeIndivMensuel");
     reg.setPatternSyntax(QRegExp::RegExp2);
@@ -318,6 +319,8 @@ void FListFrame::parseXhlFile(const QString& fileName)
     QRegExp reg3(".*(?:Etablissement).*(?:Nom) V.?=.?\"([^\"]+)\".*(?:Siret) V.?=.?\"([0-9A-Z]+)\"");
     reg3.setCaseSensitivity(Qt::CaseInsensitive);
 
+    QByteArray::const_iterator it;
+    
     if (string.contains(reg))
     {
         Hash::Annee[fileName] = reg.cap(1);
@@ -363,67 +366,53 @@ void FListFrame::parseXhlFile(const QString& fileName)
         /* effacer les fichiers mal formés de la liste des fichiers qui vont être envoyés en commandline */
 
         Hash::Suppression[fileName] = true;
-
+        
+        goto out;
     }
 
-
-    if (Hash::Budget[fileName].left(5).toUpper() == "MULTI" && Hash::Budget[fileName].right(7).toUpper() == "BUDGETS")
-    {
-       int pos = -1;
-       buffer0.clear();
-       file.seek(0);
-       buffer0 = file.readAll();
-       pos = buffer0.indexOf("<DonneesIndiv>");
-
-       /* On enregistre la position du Siret dans le fichier */
-
-       Hash::SiretPos[fileName] << pos;
-
-       /* On recherche la position suivante */
-
-       pos += 15;
-       buffer0 = buffer0.mid(pos);
-       qint64 filesize = file.size();
-
-       if (buffer0.size() + pos == filesize)
-       {
-           while ((pos = buffer0.indexOf("<DonneesIndiv>")) != -1)
-           {
-              Hash::SiretPos[fileName] << pos;
-              const QString string = QString::fromLatin1(buffer0.mid(pos, BUFFER_SIZE));
-
-              QRegExp reg3("(?:Etablissement|Employeur).*(?:Nom) V=\"([^\"]+)\".*(?:Siret) V=\"([0-9A-Z]+)\"");
-              reg3.setPatternSyntax(QRegExp::RegExp2);
-
-              if (string.contains(reg3))
-               {
-                  QString s1 = reg3.cap(1).replace("&#39;", "\'");
-                  QString s2 = reg3.cap(2);
-
-                  if (! Hash::Etablissement[fileName].contains(s1))
-                      Hash::Etablissement[fileName]  << s1;
-                  if (! Hash::Etablissement[fileName].contains(s2))
-                      Hash::Siret[fileName] << s2;
-               }
-               else
-               {
-                  Hash::Etablissement[fileName]  << "Etablissement/Employer inconnu";
-                  Hash::Siret[fileName] << "Siret inconnu";
-               }
-
-               buffer0 = buffer0.mid(pos + 15);
-
-               /* on recommence en boucle */
-           }
-
-           Hash::SiretPos[fileName] << filesize;
-       }
-       else
-           QMessageBox::warning(nullptr, "Erreur", "Erreur de lecture du fichier " + fileName, QMessageBox::Ok);
-    }
+    it = buffer0.cbegin() + string.indexOf("DonneesIndiv") + 15;
+    
+    while(it != buffer0.cend())
+      {
+        
+        if (*it == '\n') 
+        {
+            ++ligne;
+            ++it;
+            continue;
+        }
+        if (*++it != '<') continue;
+        if (*++it != 'D') continue;
+        if (*++it != 'o') continue;
+        if (*++it != 'n') continue;
+        if (*++it != 'n') continue;
+        if (*++it != 'e') continue;
+        if (*++it != 'e') continue;
+        if (*++it != 's') continue;
+        if (*++it != 'I') continue;
+        
+        it += 6;
+           
+        for (int u = 0; u < BUFFER_SIZE; ++u) string[u] = *++it;
+  
+        QRegExp reg3("(?:Etablissement|Employeur).*(?:Nom) V=\"([^\"]+)\".*(?:Siret) V=\"([0-9A-Z]+)\"");
+        reg3.setPatternSyntax(QRegExp::RegExp2);
+  
+        if (string.contains(reg3))
+         {
+            QString s1 = reg3.cap(1).replace("&#39;", "\'");
+            QString s2 = reg3.cap(2);
+  
+            if (! Hash::Etablissement[fileName].contains(s1))
+                Hash::Etablissement[fileName]  << s1;
+            if (! Hash::Etablissement[fileName].contains(s2))
+                Hash::Siret[fileName] << s2;
+         }
+      }
 
 
-
+out :
+   
    file.close();
 
    if (file.isOpen())
@@ -763,7 +752,7 @@ void FListFrame::showContextMenu()
                 deleteGroup();
                 return;
             }
-            (*Hash::wrapper["XHL"])[currentIndex] = Hash::Reference[currentIndex];
+            (*Hash::wrapper["XHL"])[currentIndex] = Hash::Reference.at(currentIndex);
         }
 
         if (selectedItem == displayAction)

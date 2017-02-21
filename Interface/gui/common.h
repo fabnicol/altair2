@@ -12,7 +12,7 @@
 #define q(X) QMessageBox::about(nullptr, "test", QString::number(X));
 #define v(X) (*FString(#X))
 #if !defined(Q_OS_WIN) && !defined (Q_OS_LINUX)
-#error "This application will only compile for Windows or GNU/Linux operating systems."
+#  error "This application will only compile for Windows or GNU/Linux operating systems."
 #endif
 
 #define  Warning(title, text)   QMessageBox::warning(0, title, text)

@@ -24,8 +24,27 @@ vector<string>  recherche(const vector<info_t> &Info, const string& annee, const
             
             // trouver la ligne debut. lire jusqu'à fin dans le fichier F à déterminer (GUI)
             const string fichier = extraire_lignes(Info[i], debut, fin);
+            
+            const string preambule =
+"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\
+<DocumentPaye>\n\
+ <IdVer V=\"1.0\"/>\n\
+ <Annee V=\"" + annee + "\"/>\n\
+ <Mois V=\"" + mois + "\"/>\n\
+ <Budget>\n\
+  <Libelle V=\"" + string((const char*)it->at(Budget)) + "\"/>\n\
+  <Code V=\"\"/>\n\
+ </Budget>\n\
+ <Employeur>\n\
+  <Nom V=\"" + string((const char*) it->at(Employeur)) + "\"/>\n\
+  <Siret V=\"" + string((const char*) it->at(Siret)) + "\"/>\n\
+ </Employeur>\n\
+ <DonneesIndiv>\n";
+            
+            const string coda = " </DonneesIndiv>\n</DocumentPaye>\n";     
+            
             if (! fichier.empty())
-               bulletins.emplace_back(fichier);
+               bulletins.emplace_back(preambule + fichier + coda);
         }
     }
 
@@ -61,7 +80,7 @@ bool bulletin_paye(const string& chemin_repertoire, const vector<info_t> &Info, 
     {
         ++rang;
         string nom_bulletin =  annee + string("_") + mois + string("_") + matricule
-                              + (rang > 1 ? "_" + to_string(rang) : "") + string(".txt");
+                              + (rang > 1 ? "_" + to_string(rang) : "") + string(".xml");
                 
         ofstream f;
         
