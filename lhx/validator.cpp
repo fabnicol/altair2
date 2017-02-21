@@ -752,11 +752,10 @@ static inline void GCC_INLINE allouer_memoire_table(info_t& info)
     {
         for (unsigned agent = 0; agent < info.NCumAgent; ++agent)
         {
-            for (int i = 0; i < memoire_p_ligne(info, agent) ; ++i)
+            for (xmlChar* a : info.Table[agent])
             {
-                xmlFree(info.Table[agent][i]);
+                if (a) xmlFree(a);
             }
-
         }
     }
 
