@@ -529,7 +529,7 @@ void FListFrame::addStringListToListWidget(const QStringList& stringList)
  * rosybrown royalblue saddlebrown salmon sandybrown seagreen seashell sienna silver skyblue slateblue slategray slategrey snow springgreen steelblue
  *  tan teal thistle tomato transparent turquoise violet wheat white whitesmoke yellow yellowgreen */
 
-        QList<QString> colorList = { "tomato", "orange" , "yellowgreen", "green",  "darkcyan", "blue", "navy", "darkslateblue", "black"};
+        QList<QString> colorList = { "tomato", "navy", "yellowgreen", "marroon", "orange", "green",  "darkcyan", "blue", "black"};
         const int colorListSize = colorList.size();
         for (int i=0; i < listWidget->count(); i++)
         {
