@@ -7,15 +7,15 @@ vector<string>  recherche(const vector<info_t> &Info, const string& annee, const
   vector<string> bulletins;
   
   auto matr = (const xmlChar*) matricule.c_str();  
-  auto m = (const xmlChar*) mois.c_str();
-  auto a = (const xmlChar*) annee.c_str();
+  int m = stoi(mois);
+  int a = stoi(annee);
   
   for (unsigned int i = 0; i < Info[0].nbfil; ++i)
   {
     for (vector<vector<xmlChar*>>::const_iterator  it = Info[i].Table.begin(); it != Info[i].Table.end(); ++it)
     {
-        if (xmlStrcmp(it->at(Annee), a) == 0 
-            && xmlStrcmp(it->at(Mois), m) == 0
+        if (atoi((const char*) it->at(Annee)) == a
+            && atoi((const char*) it->at(Mois)) ==  m
             && xmlStrcmp(it->at(Matricule), matr) == 0)
         {
             long long index = it - Info[i].Table.begin();

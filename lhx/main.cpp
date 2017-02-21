@@ -810,7 +810,7 @@ int main(int argc, char **argv)
         else
             info.nbfil = info_nbfil_defaut;
 
-        lignes = produire_segment(info, segment);
+            lignes = produire_segment(info, segment);
     }
 
     xmlCleanupParser();
@@ -822,11 +822,13 @@ int main(int argc, char **argv)
          << duree
          << " millisecondes" << ENDL;
 
-    cerr << ENDL << PROCESSING_HTML_TAG "Vitesse d'exécution : "
-         << lignes.first / duree
-         << " milliers de lignes par seconde" << ENDL;
+    if (generer_table)
+        cerr << ENDL << PROCESSING_HTML_TAG "Vitesse d'exécution : "
+             << lignes.first / duree
+             << " milliers de lignes par seconde" << ENDL;
 
-    if (rankFile.is_open()) rankFile.close();
+    if (rankFile.is_open())
+        rankFile.close();
 
     return errno;
 }
@@ -936,7 +938,6 @@ pair<uint64_t, uint64_t> produire_segment(const info_t& info, const vString& seg
 
     for (unsigned  i = 0; i < info.nbfil; ++i)
     {
-    
         errno = 0;
 
         // Lancement des fils d'exécution 
