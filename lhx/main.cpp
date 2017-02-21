@@ -93,8 +93,8 @@ int main(int argc, char **argv)
     {
         {{}},             //    bulletinPtr* Table;
         0,                //    uint64_t nbLigne;
-        vector<uint64_t*>(),                //    ligne_debut
-        vector<uint64_t>(),                //    ligne_fin
+        vector<array<uint64_t, 3>>(),                //    ligne_debut
+        vector<array<uint64_t, 2>>(),                //    ligne_fin
         {},               //    int32_t  *NAgent;
         0,                //    uint32_t nbAgentUtilisateur
         0,                //    uint32_t NCumAgent;
@@ -1100,6 +1100,16 @@ pair<uint64_t, uint64_t> produire_segment(const info_t& info, const vString& seg
             {
                 if (u != NULL) xmlFree(u);
             }
+        }
+
+    }
+
+    if (Info[0].generer_bulletins)
+    {
+        for (unsigned i = 0; i < Info[0].nbfil; ++i)
+        {
+           for (auto &&f : Info[i].threads->in_memory_file)
+            f.clear();
         }
     }
 
