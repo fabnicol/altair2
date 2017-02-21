@@ -512,6 +512,13 @@ MatriculeInput::MatriculeInput(int width, int height)
                      bool res = checkInput(matrLineEdit);
                      res &= checkInput(matrLineEdit2);
                      res &= checkInput(matrLineEdit3);
+
+                     matricules = matrLineEdit->text();
+                     if ( ! matrLineEdit2->text().isEmpty())
+                                 matricules += matricules.isEmpty() ? "" : ";" + matrLineEdit2->text();
+                     if ( ! matrLineEdit3->text().isEmpty())
+                                 matricules += matricules.isEmpty() ? "" : ";" + matrLineEdit3->text();
+
                      if (res) accept();
                     });
 
@@ -543,13 +550,25 @@ bool MatriculeInput::checkInput(FLineEdit* l)
           S.clear();
       }
       
-      if (sublist.at(1).contains(QRegularExpression("[^0-9]+")) || sublist.at(1).toInt() > 12 || sublist.at(1).toInt() < 1)
+      int cut = 0, cut2 = 0;
+      const QString s1 = sublist.at(1);
+      bool range = false;
+
+      if (s1.contains("..."))
+      {
+         cut  = s1.split("...", QString::SkipEmptyParts).at(0).toInt();
+         cut2 = s1.split("...", QString::SkipEmptyParts).at(1).toInt();
+         range = true;
+      }
+
+      if (! s1.contains(QRegularExpression("[0-9]+(?:\\.\\.\\.[0-9]+|)"))
+           || (range && (cut > 12 || cut < 1) && (cut2 > 12 || cut2 < 1)) ||  (! range  && (s1.toInt() > 12 || s1.toInt() < 1)))
       {
           QMessageBox::warning(nullptr, "Format de la requête " + S, "Le mois doit être compris entre 1 et 12.", QMessageBox::Ok);
           S.clear();
       }
       
-      if (sublist.at(2).contains(QRegularExpression("[^0-9]+")) || sublist.at(2).toInt() < 2007)
+      if (! sublist.at(2).contains(QRegularExpression("[0-9]{4}(?:\\.\\.\\.[0-9]{4}|)")) ||  (! range  && sublist.at(2).toInt() < 2007))
       {
           QMessageBox::warning(nullptr, "Format de la requête " + S, "L'année doit être numérique, à compter de 2008.", QMessageBox::Ok);
           S.clear();
@@ -569,6 +588,13 @@ void MainWindow::on_printBase_clicked()
 {
 
    if (m->exec() != QDialog::Accepted) return;
+
+   if (! m->matricules.isEmpty())
+   {
+      dialog->standardTab->tableCheckBox->setChecked(false);
+   }
+   else
+      dialog->standardTab->tableCheckBox->setChecked(true);
 
 #if 0
    QPrinter printer;

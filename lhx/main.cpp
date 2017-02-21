@@ -986,47 +986,33 @@ pair<uint64_t, uint64_t> produire_segment(const info_t& info, const vString& seg
         string annee = v.at(2);
         string mois  = v.at(1);
         string matricule = v.at(0);
-        int res = 0;
+        int res = true;
         size_t pos;
         
         if ((pos = annee.find_first_of('.')) != string::npos)
         {
             int an0 = stoi(annee.substr(0, pos));
             pos = annee.find_last_of('.');
-            int an1 = stoi(annee.substr(pos));
+            int an1 = stoi(annee.substr(pos + 1));
 
-            for (int an = an0; an < an1; ++an)
+            for (int an = an0; an <= an1; ++an)
             {
                 const string annee = to_string(an);
                 
-                if ((pos = mois.find_first_of('.')) != string::npos)
-                {
-                    int m0 = stoi(mois.substr(0, pos));
-                    pos = mois.find_last_of('.');
-                    int m1 = stoi(mois.substr(pos));
-    
-                    for (int m = m0; m < m1; ++m)                        
-                        res &=  bulletin_paye(repertoire_bulletins, 
-                                              Info,
-                                              matricule,
-                                              to_string(m),
-                                              annee);
-                }
-                else
-                    res &=  bulletin_paye(repertoire_bulletins, 
-                                          Info,
-                                          matricule,
-                                          mois,
-                                          annee);
+                res &= scan_mois(repertoire_bulletins,
+                                Info,
+                                matricule,
+                                mois,
+                                annee);
             }
             
         }
         else
-            res &= bulletin_paye(repertoire_bulletins,
-                                 Info,
-                                 matricule,
-                                 mois,
-                                 annee);
+            res &= scan_mois(repertoire_bulletins,
+                            Info,
+                            matricule,
+                            mois,
+                            annee);
     }
     
     if (res)
@@ -1035,7 +1021,7 @@ pair<uint64_t, uint64_t> produire_segment(const info_t& info, const vString& seg
     }
     else
     {
-        cerr << STATE_HTML_TAG "Certains bulletins n'ont pas été extraits" << ENDL;
+        cerr << WARNING_HTML_TAG "Certains bulletins n'ont pas été extraits" << ENDL;
     }
     
     pair<uint64_t, uint64_t> lignes;
@@ -1116,4 +1102,34 @@ pair<uint64_t, uint64_t> produire_segment(const info_t& info, const vString& seg
     return lignes;
 }
 
+bool scan_mois(const string &repertoire_bulletins,
+               const vector<info_t> &Info,
+               const string &matricule,
+               const string &mois,
+               const string &annee)
+{
+    size_t pos = 0;
+    bool res = true;
 
+    if ((pos = mois.find_first_of('.')) != string::npos)
+    {
+        int m0 = stoi(mois.substr(0, pos));
+        pos = mois.find_last_of('.');
+        int m1 = stoi(mois.substr(pos + 1));
+
+        for (int m = m0; m <= m1; ++m)
+            res &=  bulletin_paye(repertoire_bulletins,
+                                  Info,
+                                  matricule,
+                                  to_string(m),
+                                  annee);
+    }
+    else
+        res &=  bulletin_paye(repertoire_bulletins,
+                              Info,
+                              matricule,
+                              mois,
+                              annee);
+
+    return res;
+}

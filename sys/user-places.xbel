@@ -41,7 +41,7 @@
   </info>
  </bookmark>
 <bookmark href="file:///home/utilisateur/Dev/altair/Tests/Exemple/Donnees/xhl/utilisateur">
-   <title>Données</title>
+  <title>Données</title>
   <info>
    <metadata owner="http://freedesktop.org">
     <bookmark:icon name="inode-directory"/>
@@ -51,8 +51,20 @@
     <IsHidden>false</IsHidden>
    </metadata>
   </info>
+</bookmark>
+<bookmark href="file:///home/utilisateur/Dev/altair/Tests/Exemple/Donnees/Bulletins">
+  <title>Bulletins</title>
+  <info>
+   <metadata owner="http://freedesktop.org">
+    <bookmark:icon name="inode-directory"/>
+   </metadata>
+   <metadata owner="http://www.kde.org">
+    <ID>1487677551/0 (V2)</ID>
+    <IsHidden>false</IsHidden>
+   </metadata>
+  </info>
  </bookmark>
- <bookmark href="file:///home/utilisateur/Dev/altair/Tests/Exemple/Donnees/R-Altair">
+<bookmark href="file:///home/utilisateur/Dev/altair/Tests/Exemple/Donnees/R-Altair">
   <title>CLE USB3</title>
   <info>
    <metadata owner="http://freedesktop.org">
