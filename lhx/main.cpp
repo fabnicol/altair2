@@ -810,7 +810,7 @@ int main(int argc, char **argv)
         else
             info.nbfil = info_nbfil_defaut;
 
-            lignes = produire_segment(info, segment);
+        lignes = produire_segment(info, segment);
     }
 
     xmlCleanupParser();
