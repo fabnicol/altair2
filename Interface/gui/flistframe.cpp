@@ -143,7 +143,9 @@ void FListFrame::on_xhl_display(const QString& xhl)
 #else
     QString strnotepad = "/usr/bin/kate";
 #endif    
-    launch.start(strnotepad, QStringList(xhl));
+     launch = new QProcess;
+     launch->start(strnotepad, QStringList() << xhl);
+     
 }
 
 void FListFrame::on_deleteItem_clicked()
@@ -527,7 +529,7 @@ void FListFrame::addStringListToListWidget(const QStringList& stringList)
  * rosybrown royalblue saddlebrown salmon sandybrown seagreen seashell sienna silver skyblue slateblue slategray slategrey snow springgreen steelblue
  *  tan teal thistle tomato transparent turquoise violet wheat white whitesmoke yellow yellowgreen */
 
-        QList<QString> colorList = { "tomato", "orange" , "yellowgreen", "green",  "darkcyan", "blue", "navy", "darkslateblue", "black"};
+        QList<QString> colorList = { "tomato", "navy", "yellowgreen", "marroon", "orange", "green",  "darkcyan", "blue", "black"};
         const int colorListSize = colorList.size();
         for (int i=0; i < listWidget->count(); i++)
         {
