@@ -19,35 +19,35 @@ vector<string>  recherche(vector<info_t> &Info, const string& annee, const strin
             && xmlStrcmp(it->at(Matricule), matr) == 0)
         {
             long long index = it - Info[i].Table.begin();
-            uint64_t* debut = Info[i].ligne_debut.at(index);
-            uint64_t fin   = Info[i].ligne_fin.at(index);
+            array<uint64_t, 3> debut = Info[i].ligne_debut.at(index);
+            array<uint64_t, 2> fin   = Info[i].ligne_fin.at(index);
             
             // trouver la ligne debut. lire jusqu'à fin dans le fichier F à déterminer (GUI)
             const string fichier = extraire_lignes(Info[i], debut, fin);
             if (! fichier.empty())
                bulletins.emplace_back(fichier);
         }
-    }               
+    }
+
   }
     
     return bulletins;
 }
 
-const string extraire_lignes(const info_t& info, const uint64_t *debut, const uint64_t fin)
+const string extraire_lignes(const info_t& info, const array<uint64_t, 3>& debut, const array <uint64_t, 2>& fin)
 {
     
- string tab;
- tab.resize(fin - debut[0] + 1);
+ if (fin[1] < debut[1]) return "";
 
- const string xhl = info.threads->in_memory_file.at(debut[2]);
+ string xhl = info.threads->in_memory_file.at(debut[2]);
 
- string::iterator tabit = tab.begin();
 
- for (string::const_iterator  it = xhl.begin() + debut[0]; it <= xhl.begin() + fin; ++it)
- {
-     *tabit = move(*it);
-     ++tabit;
- }
+ string tab = xhl.substr(debut[1], fin[1] - debut[1] + 1);
+
+ tab += "\n";
+
+ cerr << "************" << ENDL;
+ cerr << tab << ENDL;
 
  return tab;
 }
