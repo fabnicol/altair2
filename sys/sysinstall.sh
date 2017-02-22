@@ -53,6 +53,8 @@ do
 		_copy images          /home/$i/.local/share/Altair     
 		_copy mime /home/$i/.local/share
         cp -vf 'Lien vers une application.desktop' /home/$i/Desktop		
+        sed 's/utilisateur/$i/g' user-places.xbel > temp
+        _copy temp           /home/$i/.local/share/user-places.xbel
         
 		if test $i != fab; then
             sed "s/utilisateur/${i}/g" /home/fab/Dev/altair/sys/dolphinrc > temp 
