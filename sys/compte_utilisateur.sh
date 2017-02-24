@@ -163,6 +163,7 @@ cp -vf /home/fab/Dev/altair/sys/mimeapps.list      /home/$compte_login/.local/sh
 cp -vf /home/fab/Dev/altair/sys/Altair_jf.desktop  /home/$compte_login/.local/share/applications
 cp -rvf /home/fab/Dev/altair/sys/images            /home/$compte_login/.local/share/Altair
 cp -vf /home/fab/Dev/altair/sys/mimeapps.list      /home/$compte_login/.config
+cp -vf /home/fab/Dev/altair/sys/konquerorrc        /home/$compte_login/.kde4/share/config
 
 echo 
 echo "Exportation des icones"

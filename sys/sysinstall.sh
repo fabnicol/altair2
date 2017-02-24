@@ -21,6 +21,12 @@ if test -f build.altair; then
   R CMD INSTALL --byte-compile  -l  /usr/lib64/R/library/ altair.linux
 fi  
 
+# création du dossier Bulletins sous jf
+
+mkdir -p /home/jf/Dev/altair/Tests/Exemple/Donnees/Bulletins
+chgrp -R users /home/jf/Dev/altair/Tests/Exemple/Donnees/Bulletins
+chmod -R 0770 /home/jf/Dev/altair/Tests/Exemple/Donnees/Bulletins
+             
 # accès des données test
 if test ! -d /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2 ; then
    mkdir -p /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl
@@ -52,6 +58,7 @@ do
 		_copy mimeapps.list   /home/$i/.local/share/applications
 		_copy images          /home/$i/.local/share/Altair     
 		_copy mime /home/$i/.local/share
+		_copy konquerorrc     /home/$i/.kde4/share/config
         _copy 'Lien vers une application.desktop' /home/$i/Desktop		
 
                 
