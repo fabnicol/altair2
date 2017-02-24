@@ -56,9 +56,7 @@ then
     fi
   fi
 
-  sudo cp -rvf /home/Public/fab/.Rproj.user  /home/fab/Dev/altair
-  sudo chown -R fab     /home/fab/Dev/altair/.Rproj.user
-  sudo chgrp -R users   /home/fab/Dev/altair/.Rproj.user
+  
   
   git commit -am "Sauvegarde $(date)"
   
@@ -97,9 +95,10 @@ echo "Actualisation des documents de référence sur le bureau"
 for i in $(cut -d: -f1 /etc/passwd)
 do 
    if test -d /home/$i; then
-     sudo rm -f /home/$i/Desktop/*.{pptx,docx}
-     sudo cp -f /home/jf/Dev/altair/Docs/*.{pptx,docx} /home/$i/Desktop
-	 sudo rm -f "/home/$i/Desktop/GUIDE ALTAIR EXTRACTIONS OCTOBRE 2016  v.1.pptx"
+     sudo rm -f "/home/$i/Desktop/*.pptx"
+	 sudo rm -f "/home/$i/Desktop/*.docx"
+     sudo cp -f "/home/fab/Dev/altair/Docs/Guide utilisateurs.pptx" /home/$i/Desktop
+	 sudo cp -f "/home/fab/Dev/altair/Docs/Documentation du projet.docx" /home/$i/Desktop
      sudo chown -vR $i "/home/$i/Dev/altair/Tests/Exemple/Donnees/xhl/$i"
      sudo cp -rvf /home/Public/.rstudio-desktop /home/$i
      sudo chown -R $i /home/$i/.rstudio-desktop
