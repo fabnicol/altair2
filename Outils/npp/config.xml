@@ -1,86 +1,32 @@
 <?xml version="1.0" encoding="Windows-1252" ?>
 <NotepadPlus>
     <GUIConfigs>
-        <!-- 3 status : "large", "small" or "hide"-->
-        <GUIConfig name="ToolBar" visible="no">standard</GUIConfig>
-        <!-- 2 status : "show" or "hide"-->
+        <GUIConfig name="ToolBar" visible="yes">standard</GUIConfig>
         <GUIConfig name="StatusBar">show</GUIConfig>
-        <!-- For all attributs, 2 status : "yes" or "no"-->
-        <GUIConfig name="TabBar" dragAndDrop="no" drawTopBar="yes" drawInactiveTab="yes" reduce="yes" closeButton="yes" doubleClick2Close="no" vertical="no" multiLine="no" hide="no" />
-        <!-- 2 positions : "horizontal" or "vertical"-->
+        <GUIConfig name="TabBar" dragAndDrop="yes" drawTopBar="yes" drawInactiveTab="yes" reduce="yes" closeButton="yes" doubleClick2Close="no" vertical="no" multiLine="no" hide="no" quitOnEmpty="no" />
         <GUIConfig name="ScintillaViewsSplitter">vertical</GUIConfig>
-        <!-- For the attribut of position, 2 status : docked or undocked ; 2 status : "show" or "hide" -->
         <GUIConfig name="UserDefineDlg" position="undocked">hide</GUIConfig>
-        <GUIConfig name="TabSetting" size="4" replaceBySpace="no" />
-        <!--App position-->
-        <GUIConfig name="AppPosition" x="1166" y="0" width="758" height="1078" isMaximized="yes" />
-        <!-- For the primary scintilla view,
-             2 status for Attribut lineNumberMargin, bookMarkMargin, indentGuideLine and currentLineHilitingShow: "show" or "hide"
-             4 status for Attribut folderMarkStyle : "simple", "arrow", "circle" and "box"  -->
-        <GUIConfig name="ScintillaPrimaryView" lineNumberMargin="show" bookMarkMargin="show" folderMarkStyle="box" indentGuideLine="show" currentLineHilitingShow="show" Wrap="yes" edge="no" edgeNbColumn="100" wrapSymbolShow="hide" zoom="-2" whiteSpaceShow="hide" eolShow="hide" lineWrapMethod="aligned" disableAdvancedScrolling="no" borderEdge="yes" zoom2="0" borderWidth="2" smoothFont="no" />
-        <!-- For the secodary scintilla view,
-             2 status for Attribut lineNumberMargin, bookMarkMargin, indentGuideLine and currentLineHilitingShow: "show" or "hide"
-             4 status for Attribut folderMarkStyle : "simple", "arrow", "circle" and "box" -->
+        <GUIConfig name="TabSetting" replaceBySpace="no" size="4" />
+        <GUIConfig name="AppPosition" x="0" y="0" width="1100" height="700" isMaximized="no" />
+        <GUIConfig name="noUpdate" intervalDays="15" nextUpdateDate="20080426">no</GUIConfig>
         <GUIConfig name="Auto-detection">yes</GUIConfig>
         <GUIConfig name="CheckHistoryFiles">no</GUIConfig>
         <GUIConfig name="TrayIcon">no</GUIConfig>
-        <GUIConfig name="RememberLastSession">no</GUIConfig>
-        <!--
-			New Document default settings :
-				format = 0/1/2 -> win/unix/mac
-				encoding = 0/1/2/3/4/5 -> ANSI/UCS2Big/UCS2small/UTF8/UTF8-BOM
-				defaultLang = 0/1/2/..
-
-			Note 1 : UTF8-BOM -> UTF8 without BOM
-			Note 2 : for defaultLang :
-					0 -> L_TXT
-					1 -> L_PHP
-					... (see source file)
-		-->
-        <GUIConfig name="NewDocDefaultSettings" format="0" encoding="0" lang="0" codepage="-1" openAnsiAsUTF8="no" />
-        <GUIConfig name="langsExcluded" gr0="118" gr1="8" gr2="103" gr3="234" gr4="248" gr5="127" gr6="159" gr7="9" langMenuCompact="yes" />
-        <!--
-		printOption is print colour setting, the following values are possible :
-			0 : WYSIWYG
-			1 : Invert colour
-			2 : B & W
-			3 : WYSIWYG but without background colour
-		-->
-        <GUIConfig name="Print" lineNumber="yes" printOption="3" headerLeft="$(FULL_CURRENT_PATH)" headerMiddle="" headerRight="$(LONG_DATE) $(TIME)" headerFontName="IBMPC" headerFontStyle="1" headerFontSize="8" footerLeft="" footerMiddle="-$(CURRENT_PRINTING_PAGE)-" footerRight="" footerFontName="" footerFontStyle="0" footerFontSize="9" margeLeft="0" margeTop="0" margeRight="0" margeBottom="0" />
-        <!--
-                            Backup Setting :
-                                0 : non backup
-                                1 : simple backup
-                                2 : verbose backup
-                      -->
-        <GUIConfig name="Backup" action="0" useCustumDir="no" dir="" isSnapshotMode="no" snapshotBackupTiming="7000" />
-        <GUIConfig name="TaskList">yes</GUIConfig>
-        <GUIConfig name="SaveOpenFileInSameDir">no</GUIConfig>
-        <!--
-			value 0 for the folloing parameters means invisible :
-			leftWidth, topHight, rightWidth, bottomHight
-			
-					position value for the PluginDlg:
-						
-						0 : left
-						 1 : right
-						2 : top
-						3 : bottom
-						>= 4 : undocked -> FloatingWindow id
-			-->
-        <GUIConfig name="noUpdate" intervalDays="15" nextUpdateDate="20080426">no</GUIConfig>
         <GUIConfig name="MaitainIndent">yes</GUIConfig>
-        <GUIConfig name="MRU">yes</GUIConfig>
-        <GUIConfig name="URL">2</GUIConfig>
-        <GUIConfig name="globalOverride" fg="no" bg="no" font="no" fontSize="no" bold="no" italic="no" underline="no" />
-        <GUIConfig name="auto-completion" autoCAction="3" triggerFromNbChar="1" funcParams="yes" />
-        <GUIConfig name="auto-insert" parentheses="yes" brackets="yes" curlyBrackets="yes" quotes="no" doubleQuotes="yes" htmlXmlTag="no" />
-        <GUIConfig name="multiInst" setting="0" />
-        <GUIConfig name="sessionExt"></GUIConfig>
-        <GUIConfig name="SmartHighLight">yes</GUIConfig>
-        <GUIConfig name="SmartHighLightCaseSensitive">no</GUIConfig>
         <GUIConfig name="TagsMatchHighLight" TagAttrHighLight="yes" HighLightNonHtmlZone="no">yes</GUIConfig>
+        <GUIConfig name="RememberLastSession">yes</GUIConfig>
         <GUIConfig name="DetectEncoding">yes</GUIConfig>
+        <GUIConfig name="NewDocDefaultSettings" format="0" encoding="4" lang="0" codepage="-1" openAnsiAsUTF8="yes" />
+        <GUIConfig name="langsExcluded" gr0="0" gr1="0" gr2="0" gr3="0" gr4="0" gr5="0" gr6="0" gr7="0" langMenuCompact="yes" />
+        <GUIConfig name="Print" lineNumber="yes" printOption="3" headerLeft="" headerMiddle="" headerRight="" footerLeft="" footerMiddle="" footerRight="" headerFontName="" headerFontStyle="0" headerFontSize="0" footerFontName="" footerFontStyle="0" footerFontSize="0" margeLeft="0" margeRight="0" margeTop="0" margeBottom="0" />
+        <GUIConfig name="Backup" action="0" useCustumDir="no" dir="" isSnapshotMode="yes" snapshotBackupTiming="7000" />
+        <GUIConfig name="TaskList">yes</GUIConfig>
+        <GUIConfig name="MRU">yes</GUIConfig>
+        <GUIConfig name="URL">0</GUIConfig>
+        <GUIConfig name="globalOverride" fg="no" bg="no" font="no" fontSize="no" bold="no" italic="no" underline="no" />
+        <GUIConfig name="auto-completion" autoCAction="3" triggerFromNbChar="1" autoCIgnoreNumbers="yes" funcParams="no" />
+        <GUIConfig name="auto-insert" parentheses="no" brackets="no" curlyBrackets="no" quotes="no" doubleQuotes="no" htmlXmlTag="no" />
+        <GUIConfig name="sessionExt"></GUIConfig>
         <GUIConfig name="workspaceExt"></GUIConfig>
         <GUIConfig name="MenuBar">show</GUIConfig>
         <GUIConfig name="Caret" width="1" blinkRate="250" />
@@ -88,47 +34,22 @@
         <GUIConfig name="openSaveDir" value="0" defaultDirPath="" />
         <GUIConfig name="titleBar" short="no" />
         <GUIConfig name="stylerTheme" path="C:\Users\Public\Dev\altair\Outils\npp\stylers.xml" />
-        <GUIConfig name="delimiterSelection" leftmostDelimiter="40" rightmostDelimiter="41" delimiterSelectionOnEntireDocument="no" />
-        <GUIConfig name="MISC" fileSwitcherWithoutExtColumn="no" backSlashIsEscapeCharacterForSql="yes" newStyleSaveDlg="no" />
-        <GUIConfig name="DockingManager" leftWidth="200" rightWidth="200" topHeight="200" bottomHeight="392">
-            <PluginDlg pluginName="dummy" id="0" curr="3" prev="-1" isVisible="yes" />
-            <PluginDlg pluginName="Notepad++::InternalFunction" id="44070" curr="0" prev="-1" isVisible="no" />
+        <GUIConfig name="wordCharList" useDefault="yes" charsAdded="" />
+        <GUIConfig name="delimiterSelection" leftmostDelimiter="40" rightmostDelimiter="41" delimiterSelectionOnEntireDocument="0" />
+        <GUIConfig name="multiInst" setting="0" />
+        <GUIConfig name="MISC" fileSwitcherWithoutExtColumn="no" backSlashIsEscapeCharacterForSql="yes" newStyleSaveDlg="no" isFolderDroppedOpenFiles="no" />
+        <GUIConfig name="searchEngine" searchEngineChoice="2" searchEngineCustom="" />
+        <GUIConfig name="SmartHighLight" matchCase="no" wholeWordOnly="yes" useFindSettings="no" onAnotherView="no">yes</GUIConfig>
+        <GUIConfig name="ScintillaPrimaryView" lineNumberMargin="show" bookMarkMargin="show" indentGuideLine="show" folderMarkStyle="box" lineWrapMethod="aligned" currentLineHilitingShow="show" scrollBeyondLastLine="no" disableAdvancedScrolling="no" wrapSymbolShow="hide" Wrap="no" borderEdge="yes" edge="no" edgeNbColumn="80" zoom="0" zoom2="0" whiteSpaceShow="hide" eolShow="hide" borderWidth="2" smoothFont="no" />
+        <GUIConfig name="DockingManager" leftWidth="200" rightWidth="200" topHeight="200" bottomHeight="200">
             <ActiveTabs cont="0" activeTab="-1" />
             <ActiveTabs cont="1" activeTab="-1" />
             <ActiveTabs cont="2" activeTab="-1" />
             <ActiveTabs cont="3" activeTab="-1" />
         </GUIConfig>
     </GUIConfigs>
-    <!-- The History of opened files list -->
-    <FindHistory nbMaxFindHistoryPath="10" nbMaxFindHistoryFilter="10" nbMaxFindHistoryFind="10" nbMaxFindHistoryReplace="10" matchWord="no" matchCase="yes" wrap="yes" directionDown="yes" fifRecuisive="yes" fifInHiddenFolder="no" dlgAlwaysVisible="no" fifFilterFollowsDoc="no" fifFolderFollowsDoc="no" searchMode="0" transparencyMode="1" transparency="150" dotMatchesNewline="no">
-        <Find name="8216" />
-        <Find name="200208" />
-        <Find name="200232" />
-        <Find name="517" />
-        <Find name="200361" />
-        <Find name="233 D" />
-        <Find name="Repart" />
-        <Find name="&lt;Employeur&gt;" />
-        <Find name="&lt;Donnees" />
-        <Find name="&lt;Budget" />
-    </FindHistory>
-    <History nbMaxFile="15" inSubMenu="no" customLength="-1">
-        <File filename="D:\Anonyme2\2013\21430157400015-2013-02VILLE.xhl" />
-        <File filename="C:\Users\Public\Dev\altair\Tests\Exemple\Donnees\xhl\Metro\2012\METRO_201212_01_00.xhl" />
-        <File filename="C:\Users\Public\Dev\altair-xhl\Charbonni&#x00E8;res\charbonni&#x00E8;res 2011\21690044900010-2011-ETAT_PAYE-03-.xhl" />
-        <File filename="C:\Users\Public\Dev\altair-xhl\Charbonni&#x00E8;res\charbonni&#x00E8;res 2011\21690044900010-2011-ETAT_PAYE-04.xhl" />
-        <File filename="C:\Users\Public\Dev\altair-xhl\M&#x00E9;g&#x00E8;ve\bases_anonymous\annee_2011_xemelios\VILLE_de_MEGEVE_21740173600012_201112.xhl" />
-        <File filename="C:\Users\Public\Dev\altair-xhl\CDG PDD\CDG PDD\CAE28630014000014-2011-ETAT_PAYE-01-.xhl" />
-        <File filename="C:\Users\Public\Dev\altair-xhl\CDG PDD\CDG PDD\CDG28630014000014-2011-ETAT_PAYE-01-.xhl" />
-        <File filename="C:\Users\Public\Dev\altair-xhl\LPV\2012\21430157400015-2012-04VILLE.xhl" />
-        <File filename="C:\Users\Public\Dev\altair-xhl\Brioude\Paie commune de Brioude\21430040200010-2011-ETAT_PAYE-02-01.xhl" />
-        <File filename="C:\Users\Public\Dev\altair-xhl\CG56\CG56 Avril 2014.xhl" />
-        <File filename="C:\Users\Public\Dev\altair-xhl\CG56\CG56 Aout 2014.xhl" />
-        <File filename="C:\Users\Public\Dev\altair-xhl\COURLY2009XML\Paie-GrandLyon-200901.xml" />
-        <File filename="C:\Users\Public\Dev\altair\Tests\Exemple\Donnees\xhl\Metro\2008\METRO_200801_01_00.xhl" />
-        <File filename="C:\Users\Public\Dev\altair\Tests\Exemple\Donnees\xhl\Metro\2009\METRO_200905_01_00.xhl" />
-        <File filename="C:\Users\Public\Dev\altair\Tests\Exemple\Donnees\xhl\Metro\2008\METRO_200803_01_00.xhl" />
-    </History>
+    <FindHistory nbMaxFindHistoryPath="10" nbMaxFindHistoryFilter="10" nbMaxFindHistoryFind="10" nbMaxFindHistoryReplace="10" matchWord="no" matchCase="no" wrap="yes" directionDown="yes" fifRecuisive="yes" fifInHiddenFolder="no" dlgAlwaysVisible="no" fifFilterFollowsDoc="no" fifFolderFollowsDoc="no" searchMode="0" transparencyMode="1" transparency="150" dotMatchesNewline="no" />
+    <History nbMaxFile="10" inSubMenu="no" customLength="-1" />
     <ProjectPanels>
         <ProjectPanel id="0" workSpaceFile="" />
         <ProjectPanel id="1" workSpaceFile="" />
