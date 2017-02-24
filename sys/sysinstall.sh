@@ -45,6 +45,12 @@ _copy metadata.desktop  /usr/share/plasma/desktoptheme/default/
 _copy ajuster_m   /etc/init.d
 # correction d'un bug d'accélération 3 D dans le driver intel i 915 (01.2017)
 _copy 10-monitor.conf /etc/X11/xorg.conf.d
+# UTF-8 sur Konqueror
+_copy konquerorrc /home/Public
+chown jf /home/Public/konquerorrc 
+chgrp users /home/Public/konquerorrc 
+chmod 0770 /home/Public/konquerorrc 
+
 # correction sur .Rproj.user de fab
 _copy /home/Public/fab/.Rproj.user /home/fab/Dev/altair
 _copy .rstudio-desktop   /home/Public

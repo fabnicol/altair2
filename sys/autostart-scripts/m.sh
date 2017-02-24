@@ -17,5 +17,5 @@ if test -d "$TARGET"; then
     cd -
 fi
 
-
+cp -f  /home/Public/konquerorrc  $HOME/.kde4/share/config
 cp -rf /home/Public/.Rproj.user  $HOME/Dev/altair
