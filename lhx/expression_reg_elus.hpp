@@ -15,15 +15,15 @@
 
 
 static constexpr auto EXPRESSION_REG_ELUS = DEBUT SOIT 
-                                                                                                MAIRE 
-                                                                                                  OU PRESIDENT 
-                                                                                                  OU ELUS 
-                                                                                                  OU ADJOINT_MAIRE 
-                                                                                                  OU VICE_PRESIDENT 
-                                                                                                  OU CONSEILLER_MUNIC 
-                                                                                                  OU CONSEILLER_COMMUN 
-                                                                                                  OU CONSEILLER_DELEGUE
-                                                                                        FIN_SOIT
-                                                                             ETC;   
+                                                MAIRE
+                                                  OU PRESIDENT
+                                                  OU ELUS
+                                                  OU ADJOINT_MAIRE
+                                                  OU VICE_PRESIDENT
+                                                  OU CONSEILLER_MUNIC
+                                                  OU CONSEILLER_COMMUN
+                                                  OU CONSEILLER_DELEGUE
+                                                FIN_SOIT
+                                                ETC;
 
 #endif // EXPRESSION_REG_ELUS_HPP
