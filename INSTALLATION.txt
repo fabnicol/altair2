@@ -1,5 +1,5 @@
-﻿Guide d'installation
---------------------
+﻿Guide d'installation WINDOWS
+-----------------------------------------
 
 1.  Copier l'installateur sur le bureau et l'exécuter.
 
