@@ -19,7 +19,7 @@ dans altair/ :
 
   R CMD INSTALL sft
 
-git clone -b master --siongle-branch (adresse github du paquet data.table) data.table
+git clone -b master --single-branch (adresse github du paquet data.table) data.table
 
 dans data.table/ :
 

@@ -8,14 +8,19 @@
 
 Le présent logiciel produit automatiquement des statistiques et des tests
 de cohérence et de conformité comptable et réglementaire, à partir de bases
-de données issues de l'application Xémélios (Direction générale des finances 
+de données pouvant être lues par l'application Xemelios (Direction générale des finances 
 publiques, http://xemelios.org).
 
 
 Installation
 ------------
 
-Voir fichier INSTALLATION ou le dialogue suivant.
+Voir fichier INSTALLATION.
+
+Documentation
+---------------------
+
+Voir le répertoire Docs.
 
 
 Interface Altaïr
@@ -32,7 +37,7 @@ l'interface RStudio.
 Pour l'installation minimale, cette deuxième interface n'est pas installée.
 
 Interface RStudio
------------------
+-----------------------
 
 1. L'interface Altaïr permet le lancement de l'interface RStudio pour afficher 
    le script  en langage R et lancer son exécution.
@@ -89,7 +94,7 @@ des liens hypertextes dans les rapports (.pdf, .docx, .html)
 Auteur
 ------
 
-Logiciel écrit par Fabrice Nicol (fabrnicol@gmail.com)
+Logiciel écrit par Fabrice Nicol (fabrice.nicol@crtc.ccomptes.fr)
 
 L'auteur remercie les personnes suivantes pour leur contribution aux tests et 
 à l'analyse des situations de tests :
@@ -103,60 +108,63 @@ L'auteur remercie les personnes suivantes pour leur contribution aux tests et
 Licence
 -------
 
-L'interface graphique, étant un dérivé d'application libre sous licence GPL,
-est placée sous licence CeCILL (version francisée de la GPL) par voie d'héritage 
-de licence.
+L'ensemble du code source inséré dans cette distribution est placé sous licence
+CeCILL version 2.1, voir fichier LICENCE ou LICENCE.html, à l'exception des emprunts
+placés sous licence GPL v.3 qui restent soumis à cette licence, avec l'accord de leur
+auteur.
 
-Le module noyau LHX, qui convertit les données .xhl des bases de paye en fichiers 
-plats .csv, a été écrit en dehors des activités professionnelles ; il est placé 
-sous la même licence CeCILL jointe (CEA-CNRS-INRIA).
+La décision de placer le présent logiciel sous licence CeCILL a été entérinée par décision
+du directeur des systèmes d'information de la Cour des comptes,
+en date du 9 mars 2017.
 
-Le module-script R du logiciel est la propriété de l'Etat, ayant été pour partie
-développé parallèlement aux activités professionnelles et en lien direct avec 
-quelques contrôles. 
+Les fichiers source du logiciel comprennent l'en-tête suivant :
 
-L'auteur formule le souhait que ce module soit placé sous la même licence CeCILL
-lorsque son développement aura atteint une maturité suffisante, et propose que 
-l'ensemble soit diffusé sur une forge logicielle publique à l'instar du logiciel
-Xémélios de la DGFIP.
+Copyright  Cour des comptes, 2017
+Contributeur : 
+Fabrice Nicol, années 2012 à 2017
+fabrice.nicol@crtc.ccomptes.fr
+
+Ce logiciel est un programme informatique servant à extraire et analyser les fichiers de paye
+produits au format spécifié par l'annexe de la convention-cadre nationale de dématérialisation
+en vigueur à compter de l'année 2008. 
+
+Ce logiciel est régi par la licence CeCILL soumise au droit français et
+respectant les principes de diffusion des logiciels libres. Vous pouvez
+utiliser, modifier et/ou redistribuer ce programme sous les conditions
+de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA 
+sur le site "http://www.cecill.info".
+
+En contrepartie de l'accessibilité au code source et des droits de copie,
+de modification et de redistribution accordés par cette licence, il n'est
+offert aux utilisateurs qu'une garantie limitée.  Pour les mêmes raisons,
+seule une responsabilité restreinte pèse sur l'auteur du programme,  le
+titulaire des droits patrimoniaux et les concédants successifs.
+
+A cet égard  l'attention de l'utilisateur est attirée sur les risques
+associés au chargement,  à l'utilisation,  à la modification et/ou au
+développement et à la reproduction du logiciel par l'utilisateur étant 
+donné sa spécificité de logiciel libre, qui peut le rendre complexe à 
+manipuler et qui le réserve donc à des développeurs et des professionnels
+avertis possédant  des  connaissances  informatiques approfondies.  Les
+utilisateurs sont donc invités à charger  et  tester  l'adéquation  du
+logiciel à leurs besoins dans des conditions permettant d'assurer la
+sécurité de leurs systèmes et ou de leurs données et, plus généralement, 
+à l'utiliser et l'exploiter dans les mêmes conditions de sécurité. 
+
+Le fait que vous puissiez accéder à cet en-tête signifie que vous avez 
+pris connaissance de la licence CeCILL, et que vous en avez accepté les
+termes.
 
 
 Mis à disposition du code
 -------------------------
 
-Le code sous licence libre est à ce stade entreposé sur les serveurs suivants,
-en accès réservé à ce jour, accessible sur demande aux titulaires d'un compte 
-github.
+Le code est entreposé  à l'adresse suivante :
 
-L'ensemble du dépôt Git (gestionnaire de contrôle de versions) est accessible
-par l'interface avancée. Il suffit d'installer la version avancée avec 
-téléchargement du dépôt. Une connexion Internet fonctionnelle sera nécessaire.
-Saisir, lorsque la console Windows le demande, vos login et mot de passe de 
-session Windows ainsi que l'adresse de proxy (ou P, si l'adresse par défaut est 
-correcte). 
+    https://gitlabjf.ccomptes.fr/fnicol/master-jf.git
 
-Le code d'accès du dépôt Git sera demandé. Ce code est disponible sur demande.
-
-Pour actualiser le code en temps réel :
-- sélectionner le projet Altair.git dans le menu déroulant à la droite de 
-  la barre de menu de l'interface RStudio ;
-- cliquer sur le bouton "Pull" de l'onglet "Git" dans le panneau supérieur droit.
-
-Distribution du code
---------------------
-
-L'ensemble du code et des données de démonstration est anonymisé.
-Aucune donnée n'est entreposée sur les serveurs susmentionnés.
-
-Licences auxiliaires
---------------------
-
-Aucune dépendance sous licence propriétaire. 
-Voir les licences affichées par les installateurs mentionnés ci-après.
-
-L'installateur Windows a été compilé sous NSIS : http://nsis.sourceforge.net
+Un installateur Windows peut être compilé sous NSIS : http://nsis.sourceforge.net
 à l'aide du fichier altair.nsi
-
 
 Composition du paquet distribué
 -------------------------------
@@ -232,3 +240,4 @@ Historique
 				Clonage d'une plateforme linux (Gentoo).
 				Documentation (encore partielle) utilisateur et développeur.
 				
+ mars 2017  Déploiement de l'extracteur de données et de l'interface graphique.				
