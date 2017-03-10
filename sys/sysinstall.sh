@@ -51,10 +51,10 @@ chown jf /home/Public/konquerorrc
 chgrp users /home/Public/konquerorrc 
 chmod 0770 /home/Public/konquerorrc 
 
-# correction sur .Rproj.user de fab
+# correction sur .Rproj.user 
 _copy /home/Public/fab/.Rproj.user /home/fab/Dev/altair
 _copy .rstudio-desktop   /home/Public
-
+  
 for i in $(cat /etc/passwd | cut -f1 -d:)
 do 
 	if test -d /home/$i; then
@@ -66,15 +66,22 @@ do
 		_copy mime /home/$i/.local/share
 		_copy konquerorrc     /home/$i/.kde4/share/config
         _copy 'Lien vers une application.desktop' /home/$i/Desktop		
-
+	   
                 
 		if test $i != fab; then
+    	    if ! test -d /home/$i/Dev/altair/.Rproj.user; then
+	           cp -rvf /home/Public/.Rproj.user  /home/$i/Dev/altair
+            fi
+
             sed "s/utilisateur/${i}/g" /home/fab/Dev/altair/sys/dolphinrc > temp 
             # intégration de li'cone dans le menu développement + clic sur projet *.alt
             _copy Altair_jf.desktop  /home/$i/Desktop/Altaïr.desktop
             _copy Altair_jf.desktop  /home/$i/.local/share/applications
              sed "s/utilisateur/$i/g" user-places.xbel > temp2
     	else
+    	    if ! test -d /home/fab/Dev/altair/.Rproj.user; then
+	           cp -rvf /home/Public/fab/.Rproj.user  /home/fab/Dev/altair
+            fi
             sed "s/\/home\/utilisateur\/Dev\/altair\/Tests\/Exemple\/Donnees\/xhl\/utilisateur/\/home\/fab\/Dev\/altair\/Tests\/Exemple\/Donnees\/xhl/" dolphinrc > temp
             sed "s/utilisateur/$i/g" user-places.xbel > temp2
             sed -i "s/\/home\/fab\/Dev\/altair\/Tests\/Exemple\/Donnees\/xhl\/fab/\/home\/fab\/Dev\/altair\/Tests\/Exemple\/Donnees\/xhl/" temp2
@@ -82,10 +89,15 @@ do
             _copy Altair.desktop  /home/fab/.local/share/applications
         fi
 
+        chown -R $i      /home/$i/Dev/altair/.Rproj.user
+        chgrp -R users   /home/$i/Dev/altair/.Rproj.user
+    	chmod -R 0770    /home/$i/Dev/altair/.Rproj.user
+
         _copy temp2           /home/$i/.local/share/user-places.xbel        
-        -copy temp  /home/${i}/.config/dolphinrc
+        _copy temp  /home/${i}/.config/dolphinrc
         rm temp
         rm temp2
+		
 	fi
 done
 
@@ -98,7 +110,8 @@ done
     # cp -vf .gitconfig      /home/fab/.gitconfig
 # fi
 
-# réactualisation du grub
+# réactualisation 
+_copy  autostart-scripts/m.sh    /etc/init.d 
 chmod 0755  /etc/init.d/ajuster_m
 rc-update add ajuster_m default
 
