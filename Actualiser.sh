@@ -65,7 +65,7 @@ then
   echo "****"
     
       
-  for i in altair.linux sft Docs Interface_linux linux *.txt *.R *.sh *.desktop VERSION LICENCE *.ico *.bmp *.png  postinstall.sh altaïr.Rproj Tests
+  for i in altair.linux sft Docs Interface_linux linux '*.txt'  '*.R'  '*.sh'  '*.desktop' VERSION LICENCE '*.ico'  '*.bmp'  '*.png'  postinstall.sh altaïr.Rproj Tests
   do
     sudo cp -rvf "/home/fab/Dev/altair/$i" /home/jf/Dev/altair
     sudo chown -R jf "/home/jf/Dev/altair/$i"
@@ -95,8 +95,8 @@ echo "Actualisation des documents de référence sur le bureau"
 for i in $(cut -d: -f1 /etc/passwd)
 do 
    if test -d /home/$i; then
-     sudo rm -f "/home/$i/Desktop/*.pptx"
-	 sudo rm -f "/home/$i/Desktop/*.docx"
+     sudo rm -f "/home/$i/Desktop/"'*.pptx'
+	 sudo rm -f "/home/$i/Desktop/"'*.docx'
      sudo cp -f "/home/fab/Dev/altair/Docs/Guide utilisateurs.pptx" /home/$i/Desktop
 	 sudo cp -f "/home/fab/Dev/altair/Docs/Documentation du projet.docx" /home/$i/Desktop
      sudo chown -vR $i "/home/$i/Dev/altair/Tests/Exemple/Donnees/xhl/$i"

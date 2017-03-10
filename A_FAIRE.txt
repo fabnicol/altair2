@@ -8,7 +8,3 @@ A implémenter
 -------------
 
 1. Combiner les critères de découpage par nature et par quantité : lhx, Interface
-2. Automatiser la segmentation en morceaux de 1 000 000 lignes max pour Excel : Interface
-3. Réimplémenter l'importation sous R des bases découpées, actuellement seules
-   les bases monolithiques sont importées : altair.R
-4. Batcher le traitement de l'input pour respecter une quotité de mémoire disponible : lhx
