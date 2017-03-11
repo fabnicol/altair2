@@ -188,7 +188,8 @@ MainWindow::MainWindow(char* projectName)
   connect(clearBottomTabWidgetButton, &QToolButton::clicked, [this] { on_clearOutputTextButton_clicked();});
   connect(consoleDialog, SIGNAL(copyAvailable(bool)), consoleDialog, SLOT(copy()));
   connect(&(altair->process), SIGNAL(finished(int)), this, SLOT(resetCounter()));
-
+  connect(&(altair->process), SIGNAL(finished(int)), this, SLOT(resetTableCheckBox()));
+  
   if (projectName[0] != '\0')
   {
       // Paraît étrange... mais c'est pour éviter de lire deux fois le projet
@@ -316,7 +317,7 @@ void MainWindow::createActions()
   saveAsAction->setIcon(QIcon(":/images/document-save-as.png"));
   connect(saveAsAction, SIGNAL(triggered()), altair, SLOT(requestSaveProject()));
 
-  exportAction = new QAction(tr("E&xporter le projet vers...\nAttention : le projet doit avoir été exéxuté"), this);
+  exportAction = new QAction(tr("E&xporter le projet vers..."), this);
   exportAction->setIcon(QIcon(":/images/export.png"));
   connect(exportAction, SIGNAL(triggered()), this, SLOT(exportProject()));
 
@@ -667,6 +668,11 @@ void MainWindow::on_printBase_clicked()
        return;
    }
 #endif   
+}
+
+void MainWindow::resetTableCheckBox()
+{
+    dialog->standardTab->tableCheckBox->setChecked(true); 
 }
 
 vector<string> MainWindow::extraire_donnees_protegees(const string& st)
