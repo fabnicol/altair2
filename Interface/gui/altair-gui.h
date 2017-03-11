@@ -123,6 +123,7 @@ class MainWindow : public QMainWindow
    void launch_process(const QString&);
    void clean_process(const QString&);
    void on_printBase_clicked();
+   void resetTableCheckBox();
 
   private :
   
@@ -232,6 +233,7 @@ class MainWindow : public QMainWindow
    MatriculeInput *m = nullptr;
 signals:
    void exitSignal();
+
    
 
 };

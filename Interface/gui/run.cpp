@@ -478,7 +478,7 @@ void Altair::processFinished(exitCode code)
     }
 
     if (process.exitStatus() == QProcess::CrashExit) return;
-
+    
     qint64 fsSize=1;
 
     if (outputType == "L")
