@@ -188,7 +188,7 @@ Altair::Altair()
     connect(project[0]->retrieveItemButton, SIGNAL(clicked()), this, SLOT(on_deleteItem_clicked()));
 #endif
 
-
+        
     QGridLayout *projectLayout = new QGridLayout;
     projectLayout->addWidget(project[0]->importFromMainTree, 0, 1);
     projectLayout->addWidget(project[0]->mainTabWidget, 0, 2);
