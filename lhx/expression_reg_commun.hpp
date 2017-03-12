@@ -45,4 +45,5 @@
 #define  AUCUN_MOT                         "\\W*"
 #define  DEBUT                                  "^"
 
+
 #endif // EXPRESSION_REG_COMMUN_HPP

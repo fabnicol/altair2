@@ -51,7 +51,8 @@
 #define CONSEILLER_DELEGUE          "(?:cons.*\\bd|d..?..?gu)"
 
 
-static constexpr auto EXPRESSION_REG_ELUS = DEBUT SOIT 
+static constexpr auto EXPRESSION_REG_ELUS = DEBUT 
+                                              SOIT 
                                                 MAIRE
                                                   OU PRESIDENT
                                                   OU ELUS
@@ -60,7 +61,7 @@ static constexpr auto EXPRESSION_REG_ELUS = DEBUT SOIT
                                                   OU CONSEILLER_MUNIC
                                                   OU CONSEILLER_COMMUN
                                                   OU CONSEILLER_DELEGUE
-                                                FIN_SOIT
-                                                ETC;
+                                              FIN_SOIT
+                                            ETC;
 
 #endif // EXPRESSION_REG_ELUS_HPP

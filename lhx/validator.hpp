@@ -133,14 +133,17 @@ static constexpr auto EXPRESSION_REG_VACATIONS = ".*\\bvacat.*|.*\\bvac\\.?\\b.*
 static constexpr auto EXPRESSION_REG_ASSISTANTES_MATERNELLES = ".*\\bass.*\\bmater.*";
         
 static constexpr auto   EXPRESSION_REG_AGENTS = "\\W*(?:A\\.?S\\.?\\b|A\\.?A\\.?\\b|A\\.?E\\.?Q\\.?\\b|A\\.?A\\.?H\\.?\\b|A\\.?S\\.?H\\.?Q\\.?|O\\.?P\\.?Q\\.?|\
-(?:agent|agt\\.?).*(?:ser.*ho|soc|ma[îi]|poli|p\\.?m\\.?|pat|ent.*\\b(?:qu|sp))|\
+(?:agent|agt\\.?).*(?:ser.*ho|soc|ma[îi]|poli|p\\.?m\\.?|pat|ent.*\\b(?:qu|sp))|ch.*pol.*mun|\
 (?:agent|agt\\.?)?.*atsem|aide.*(?:soi|pha)|aumonier|cond.*amb|dessin|.*ouv(?:rier|.*prof)).*",
 
  /* Attention il ne faut pas autre chose que \\W* car sinon on peut avoir confusion entre cons[eiller].* et [agent].*cons[ervation].*   */
  /* cons = conseiller ou conservateur souvent abrégé cons., mais peut être aussi conservation */
 
+#define OFFICIER_SUB     "(?:sous-?)lieut[^c]*\\b|major"
+#define OFFICIER         "lieut.*col|capit|com.*d.*t|colon|g.?.?n.?.?ral"
+
   EXPRESSION_REG_CAT_A = "\\W*\
-(?:adminis|a.*\\bh.*\\bu|c.*\\b(?:cl|tr).*\\bu|attach|biol|biblio|cad.*(?:\\bsoc.*ed|\\bsan)|cap.*t|com.*t|.*colon|cons\\.?|d\\S*\\.?\\s*g\\S*\\.?|\
+(?:adminis|a.*\\bh.*\\bu|c.*\\b(?:cl|tr).*\\bu|attach|biol|biblio|cad.*(?:\\bsoc.*ed|\\bsan)|" OFFICIER "|cons\\.?|d\\S*\\.?\\s*g\\S*\\.?|\
 dir(?:ect|.*\\bet.*b|.*\\bsoi)|ingen|mede|ma.t.*conf|prat.*hos|pharm|ped.*p.*c.*\\bs|prep.*c.*\\bs|prof|psy.*(?:l|m.*c.*\\bs)|puer.*cad.*sa|puericultr|sage.*f|secr.*mai[veter]|\
 i\\.?a\\.?d\\.?e\\.?|i\\.?b\\.?o\\.?d\\.?e\\.?|I\\.?S\\.?G\\.?(?:\\b|S)|int.*(?:med|phar|od)|infi?r?m?i?.*(?:\\b(?!i)|anes|bloc|i\\.?a\\.?d\\.?|i\\.?b\\.?o\\.?d\\.?|s\\.?\\s*\\bg\\.?|soi|enc.*s)|\
 radiophys|(?:tec.*l|mass.*kin|diet|inf|manip).*\\bc(?:\\.|a).*\\bs).*",
@@ -149,7 +152,7 @@ radiophys|(?:tec.*l|mass.*kin|diet|inf|manip).*\\bc(?:\\.|a).*\\bs).*",
 
   EXPRESSION_REG_CAT_B = "\\W*\
 (?:redac|tech|T\\.?S\\.?H\\.?|anim|educ|a\\.?\\s?s\\.?\\s?(?:e|\\s)|ast\\.?|assi?s?t?\\.?.*(?:spec|ens|cons|pat|bib|social|soc.*ed|med.*t|med.*adm)|monit|contro.*t(?:er|ra)|\
-chef.*p.*m|lieut[^c\\s]*\\b|I\\.?D\\.?E\\.?|inf.*\\bi\\.?d\\.?e|reeduc|adj.*cadr|analyst|diet|prep.*ph|ped.*po|programmeu|orthop|mass.*kin|manip|secr.*med|\\ba\\.?m\\.?a\\.?\\b).*",
+ch.*(?:s.*po|S.*P.*M).*|I\\.?D\\.?E\\.?|inf.*\\bi\\.?d\\.?e|reeduc|adj.*cadr|analyst|diet|prep.*ph|ped.*po|programmeu|orthop|mass.*kin|manip|secr.*med|\\ba\\.?m\\.?a\\.?\\b|" OFFICIER_SUB ").*",
 /*
  * REDACTEUR
  * TECHNICIEN
@@ -168,8 +171,7 @@ chef.*p.*m|lieut[^c\\s]*\\b|I\\.?D\\.?E\\.?|inf.*\\bi\\.?d\\.?e|reeduc|adj.*cadr
  * MEDICO_ADM
  * MONITEUR
  * CONTROLEUR
- * CHEF_POLICE_MUNIC ?
- * LIEUTENANT ?
+ * LIEUTENANT 
  * 
  * 
  * 
