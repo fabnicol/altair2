@@ -147,7 +147,7 @@ inline void  generate_rank_signal()
 
 }
 
-#define pluriel(X, Y)  ((X > 1)? Y "s": Y)
+#define pluriel(X, Y)  ((X > 1)? " " Y "s ": " " Y " ")
 
 
 inline void generate_rank_signal(int progression)

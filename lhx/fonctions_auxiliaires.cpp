@@ -188,10 +188,14 @@ errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur)
     if (cur)
     {
         lineN = (long) xmlGetLineNo(cur);
-        if (lineN == 65535)
+        if (lineN == 65535 && verbeux 
+                           && info.ligne_debut.size() > info.NCumAgentXml 
+                           && info.ligne_fin.size() > info.NCumAgentXml)
         {
-              cerr << WARNING_HTML_TAG "Entre les lignes " << info.ligne_debut.at(info.NCumAgentXml)[0] + 1
-                   << " et "  <<   info.ligne_fin.at(info.NCumAgentXml)[0]  <<  ENDL;
+              cerr << WARNING_HTML_TAG "Entre les lignes " 
+                   << info.ligne_debut.at(info.NCumAgentXml)[0] + 1
+                   << " et "  
+                   <<   info.ligne_fin.at(info.NCumAgentXml)[0]  <<  ENDL;
         }
         else
         {
@@ -860,7 +864,7 @@ int calculer_memoire_requise(info_t& info)
 
                 for (int i=0; i < 7; ++i) ++iter;
                 
-                if (info.generer_bulletins)
+                if (info.generer_bulletins || verbeux)
                 {
                     array<uint64_t, 3> ident;
                     ident[0] = compteur_ligne + 1;
@@ -896,7 +900,7 @@ int calculer_memoire_requise(info_t& info)
 
                         for (int i=0; i < 7; ++i) ++iter;
                  
-                        if (info.generer_bulletins)
+                        if (info.generer_bulletins || verbeux)
                         {
                             array<uint64_t, 2> ident;
                             ident[0] = compteur_ligne + 1;

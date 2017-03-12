@@ -840,7 +840,8 @@ int main(int argc, char **argv)
 
         if (info.nbfil > segment_size)
         {
-            cerr << ERROR_HTML_TAG "Trop de fils (" << info.nbfil << ") pour le nombre de fichiers (" << segment_size << "); exécution avec " << segment_size << pluriel(segment_size, " fil") <<"."  ENDL;
+            if (verbeux)
+               cerr << WARNING_HTML_TAG "Réduction du nombre de fils (" << info.nbfil << ") au nombre de fichiers (" << segment_size << ")" ENDL;
 
             info.nbfil = segment_size;
         }
@@ -899,7 +900,7 @@ pair<uint64_t, uint64_t> produire_segment(const info_t& info, const vString& seg
 
     if (verbeux)
     {
-        cerr << PROCESSING_HTML_TAG "Création de " << info.nbfil << " fils d'exécution." ENDL;
+        cerr << PROCESSING_HTML_TAG "Création de " << info.nbfil << pluriel(info.nbfil, "fil") << "d'exécution." ENDL;
     }
 
     vector<thread_t> v_thread_t(info.nbfil);
