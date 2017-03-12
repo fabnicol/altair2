@@ -911,22 +911,37 @@ string MainWindow::nettoyer_donnees(const string& st)
     size_t i = 0;
     size_t k = 0;
     const size_t pas = taille / 20;
-
+    bool quote = false;
+    
     loop :
     while (iter != st.end())
     {
        switch (*iter) 
        {
+         case  '\"' : 
+               quote = ! quote;
+               out += "\"";
+               ++iter;
+           break;
+               
          case  '&'  :
-               iter2 = iter;
+                if (! quote)
+                {
+                    ++iter;
+                    goto loop;
+                }
+                
+                iter2 = iter;
                 while (++iter2 != st.end())
                    {
                        switch (*iter2)
                        {
                            case  '\"'  :
+                               quote = ! quote;
+                               
                            case  ' '  : 
-                               iter = iter2 + 1;
                                out += *iter2;
+                               iter = iter2 + 1;
                                goto loop;
           
                            case ';'  :
@@ -941,12 +956,18 @@ string MainWindow::nettoyer_donnees(const string& st)
                    continue;
 
         case '>' :         
+                   if (quote)
+                   {
+                       out += '>';
+                       ++iter;
+                       break;
+                   }
                    out += ">\n";
                    while (*++iter != '<' && iter != st.end())  ;
                    break;
                                
         default :
-                    out += isprint(*iter) ? *iter : ' ';  // Si par exemple "\nxmls:xsi....
+                   out += isprint(*iter) ? *iter : ' ';  // Si par exemple "\nxmls:xsi....
                    ++iter;
                    break;
        }

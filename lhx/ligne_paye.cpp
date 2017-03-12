@@ -674,9 +674,21 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info)
         cerr  << WARNING_HTML_TAG "Ligne";
         
         if (lineN != 65535)
-            cerr << " " << lineN  << ENDL;
+        {
+            cerr << " "
+                 << lineN
+                 << ENDL;
+        }
         else
-            cerr << "s " << info.ligne_debut.at(info.NCumAgentXml)[0] + 1 << " - " << info.ligne_fin.at(info.NCumAgentXml)[0] + 1 << ENDL;
+        {    
+            if (verbeux 
+                 && info.ligne_debut.size() > info.NCumAgentXml
+                 && info.ligne_fin.size() > info.NCumAgentXml)
+            {
+                    cerr << "s "  << info.ligne_debut.at(info.NCumAgentXml)[0] + 1 
+                         << " - " << info.ligne_fin.at(info.NCumAgentXml)[0] + 1 << ENDL;
+            }
+        }
                     
         if (info.NCumAgentXml &&  info.Table[info.NCumAgentXml - 1].size() > Matricule 
              && info.Table[info.NCumAgentXml - 1][Matricule] != nullptr)
@@ -969,7 +981,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info)
     {
         xmlNodePtr cur_save = cur;
 
-        if ((cur =  cur->xmlChildrenNode) != nullptr && ! xmlIsBlankNode(cur))
+        if (cur != nullptr && (cur =  cur->xmlChildrenNode) != nullptr && ! xmlIsBlankNode(cur))
         {
             LineCount result = lignePaye(cur, info);
             ligne = result.nbLignePaye;
@@ -987,11 +999,21 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info)
               LOCK_GUARD
                       long lineN = xmlGetLineNo(cur_save);
               if (lineN == 65535)
-                      cerr << WARNING_HTML_TAG "Ligne " << info.ligne_debut.at(info.NCumAgentXml)[0] + 1
+              {
+                  cerr << WARNING_HTML_TAG;
+                  
+                  if (info.ligne_debut.size() > info.NCumAgentXml && info.ligne_fin.size() > info.NCumAgentXml)
+                  {
+                      cerr << "Ligne " << info.ligne_debut.at(info.NCumAgentXml)[0] + 1
                            << " à " << info.ligne_fin.at(info.NCumAgentXml)[0]
-                           << " : Balise Remuneration sans ligne de paye."  ENDL;
+                           << " :";
+                  }
+                  
+                  cerr     << " Balise Remuneration sans ligne de paye."  ENDL;
+                  
+              }
               else
-                      cerr << WARNING_HTML_TAG "Ligne " << lineN <<  " : Balise Remuneration sans ligne de paye."  ENDL; // apparemment ça marche ici...mais pas toujours !
+                  cerr << WARNING_HTML_TAG "Ligne " << lineN <<  " : Balise Remuneration sans ligne de paye."  ENDL; // apparemment ça marche ici...mais pas toujours !
             }
               
             pas_de_ligne_de_paye =  true;
@@ -1031,14 +1053,23 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info)
                 {
                     LOCK_GUARD
                     long  lineN = xmlGetLineNo(cur_save);
-                    if (lineN == 65535)
-                       cerr << WARNING_HTML_TAG "Absence de lignes de paye également, bulletin entre les lignes "
-                            << info.ligne_debut.at(info.NCumAgentXml)[0] + 1<< " et "
-                            <<  info.ligne_fin.at(info.NCumAgentXml)[0] << ENDL;
-                    else
-                       cerr << WARNING_HTML_TAG "Absence de lignes de paye également, ligne : " << lineN
-                            << ", bulletin entre les lignes " << info.ligne_debut.at(info.NCumAgentXml)[0] + 1
-                            << " et " <<  info.ligne_fin.at(info.NCumAgentXml)[0] << ENDL;
+                    
+                    cerr << WARNING_HTML_TAG "Absence de lignes de paye également";
+                    
+                    if (lineN != 65535)
+                       cerr << ", ligne : " << lineN;
+                    
+                    cerr << ENDL;
+                    
+                    if (info.ligne_debut.size() > info.NCumAgentXml
+                        && info.ligne_fin.size() > info.NCumAgentXml)    
+                    {
+                        cerr << WARNING_HTML_TAG  "Bulletin entre les lignes "
+                             << info.ligne_debut.at(info.NCumAgentXml)[0] + 1<< " et "
+                             <<  info.ligne_fin.at(info.NCumAgentXml)[0] 
+                             << ENDL;
+                    }
+                    
                 }
                 
                 pas_de_ligne_de_paye = true;
@@ -1049,14 +1080,24 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info)
                 {
                     LOCK_GUARD
                     long  lineN = xmlGetLineNo(cur);
-                    if (lineN == 65535)
-                        cerr << WARNING_HTML_TAG "Lignes de paye néanmoins présentes, bulletin entre les lignes "
-                             << info.ligne_debut.at(info.NCumAgentXml)[0] + 1<< " et " <<  info.ligne_fin.at(info.NCumAgentXml)[0] << ENDL;
-                    else
-                        cerr << WARNING_HTML_TAG "Lignes de paye néanmoins présentes, ligne "
-                             << lineN << ", bulletin entre les lignes " << info.ligne_debut.at(info.NCumAgentXml)[0] + 1
-                             << " et " <<  info.ligne_fin.at(info.NCumAgentXml)[0] << ENDL;
+                    
+                    cerr << WARNING_HTML_TAG "Lignes de paye néanmoins présentes";
+                    
+                    if (lineN != 65535)
+                        cerr << ", ligne : " << lineN;
+                    
+                    cerr << ENDL;
+                    
+                    if (info.ligne_debut.size() > info.NCumAgentXml
+                        && info.ligne_fin.size() > info.NCumAgentXml)    
+                    {
+                        cerr << WARNING_HTML_TAG  "Bulletin entre les lignes "
+                             << info.ligne_debut.at(info.NCumAgentXml)[0] + 1<< " et "
+                             <<  info.ligne_fin.at(info.NCumAgentXml)[0] 
+                             << ENDL;
+                    }
                 }
+                
                 LineCount result = lignePaye(cur, info);
                 ligne = result.nbLignePaye;
                 memoire_p_ligne_allouee = result.memoire_p_ligne_allouee;
@@ -1071,14 +1112,22 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info)
           {
               LOCK_GUARD
               long  lineN = xmlGetLineNo(cur);
-              if (lineN == 65535)                      
-                  cerr << WARNING_HTML_TAG "Absence de lignes de paye également, bulletin entre les lignes "
+              
+              cerr << WARNING_HTML_TAG "Absence de lignes de paye également";
+              
+              if (lineN != 65535)
+                  cerr << ", ligne : " << lineN;
+              
+              cerr << ENDL;
+              
+              if (info.ligne_debut.size() > info.NCumAgentXml
+                  && info.ligne_fin.size() > info.NCumAgentXml)    
+              {
+                  cerr << WARNING_HTML_TAG  "Bulletin entre les lignes "
                        << info.ligne_debut.at(info.NCumAgentXml)[0] + 1<< " et "
-                       <<  info.ligne_fin.at(info.NCumAgentXml)[0] << ENDL;
-              else
-                  cerr << WARNING_HTML_TAG "Absence de lignes de paye également, ligne "
-                       << lineN << ", bulletin entre les lignes " << info.ligne_debut.at(info.NCumAgentXml)[0] + 1
-                       << " et " <<  info.ligne_fin.at(info.NCumAgentXml)[0] << ENDL;
+                       <<  info.ligne_fin.at(info.NCumAgentXml)[0] 
+                       << ENDL;
+              }
           }
           
           pas_de_ligne_de_paye =true;
