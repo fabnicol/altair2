@@ -747,7 +747,7 @@ int calculer_memoire_requise(info_t& info)
                 {
                     ++compteur_ligne;
                     d = c.get();
-                    if (d == ss.end()) break;
+                    if (d == c.eof()) break;
                 }
                 else
                 {
@@ -763,9 +763,16 @@ int calculer_memoire_requise(info_t& info)
                 if  (c.get() != 'e') continue;
                 if  (c.get() != 'I') continue;
 
-                info.ligne_debut.push_back(compteur_ligne);
-                
                 for (int i=0; i < 7; ++i) c.get();
+                
+                if (info.generer_bulletins || verbeux)
+                {
+                    array<uint64_t, 3> ident;
+                    ident[0] = compteur_ligne + 1;
+                    ident[1] = (uint64_t) c.tellg() - 13;
+                    ident[2] = i;
+                    info.ligne_debut.push_back(ident);
+                }
                 
                 remuneration_xml_open = true;
 
@@ -787,8 +794,14 @@ int calculer_memoire_requise(info_t& info)
                         else if (c.get()  != 'e')   continue;
                         else if (c.get()  != 'I')   continue;
                         
-                        info.ligne_fin.push_back(compteur_ligne);
-
+                        if (info.generer_bulletins || verbeux)
+                        {
+                            array<uint64_t, 2> ident;
+                            ident[0] = compteur_ligne + 1;
+                            ident[1] = (uint64_t) c.tellg() + 5;
+                            info.ligne_fin.push_back(ident);
+                        }
+                        
                         remuneration_xml_open = false;
                         
                         ++info.NCumAgent;

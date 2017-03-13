@@ -105,7 +105,7 @@ QString dump(const QString &chaine);
 
 void setWhatsThisText(QWidget* widget, int start, int stop);
 static void openDir(QString path);
-qint64 getFileSize(const QString &);
+static qint64 getFileSize(const QString &);
 static const QString openDirDialog(flags::directory checkEmptyness = directory::noCheck);
 
 static const QString path_access(const QString& s) {return QDir::toNativeSeparators(QDir::cleanPath(QCoreApplication::applicationDirPath()+ systemPathPrefix +  s)); }
