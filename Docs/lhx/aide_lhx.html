@@ -1,12 +1,12 @@
 <p><strong>Usage</strong> : lhx OPTIONS fichiers.xhl</p>
 <p><strong>OPTIONS :</strong></p>
-<p><strong>-n</strong> <em>argument obligatoire</em> : nombre maximum de bulletins mensuels attendus [calcul exact par défaut]</p>
-<p><strong>-N</strong> <em>argument obligatoire</em> : nombre maximum de lignes de paye attendues [calcul exact par défaut]</p>
-<p><strong>-t</strong> <em>argument optionnel</em> : type de base en sortie, soit 'standard', soit 'bulletins' [défaut bulletins].</p>
-<p><strong>-T</strong> <em>argument obligatoire</em> : nombre de lignes maximum par base .csv [défaut illimité]. Au plus 999 tables seront générées.</p>
-<p><strong>-T AN</strong> : générer une table par année</p>
-<p><strong>-T A/AC/AV/C/D/I/IR/RE/S/T</strong> : générer une table pour chaque catégorie de ligne :</p>
-<pre><code>  A rémunérations diverse  
+<p><strong>-n</strong> <em>argument obligatoire</em> : nombre maximum de bulletins mensuels attendus [calcul exact par dÃ©faut]</p>
+<p><strong>-N</strong> <em>argument obligatoire</em> : nombre maximum de lignes de paye attendues [calcul exact par dÃ©faut]</p>
+<p><strong>-t</strong> <em>argument optionnel</em> : type de base en sortie, soit 'standard', soit 'bulletins' [dÃ©faut bulletins].</p>
+<p><strong>-T</strong> <em>argument obligatoire</em> : nombre de lignes maximum par base .csv [dÃ©faut illimitÃ©]. Au plus 999 tables seront gÃ©nÃ©rÃ©es.</p>
+<p><strong>-T AN</strong> : gÃ©nÃ©rer une table par annÃ©e</p>
+<p><strong>-T A/AC/AV/C/D/I/IR/RE/S/T</strong> : gÃ©nÃ©rer une table pour chaque catÃ©gorie de ligne :</p>
+<pre><code>  A rÃ©munÃ©rations diverse  
 
   AC acompte  
 
@@ -14,40 +14,46 @@
 
   C cotisation  
 
-  D déduction  
+  D dÃ©duction  
 
-  I indemnités  
+  I indemnitÃ©s  
 
-  IR indemnité de résidence  
+  IR indemnitÃ© de rÃ©sidence  
 
   RE retenue  
 
-  S supplément familial  
+  S supplÃ©ment familial  
 
   T traitement brut  
 
-  X toutes catégories     </code></pre>
-<p><strong>-o</strong> <em>argument obligatoire</em> : fichier.csv, chemin complet du fichier de sortie [défaut 'Table.csv' avec -t].</p>
-<p><strong>-D</strong> <em>argument obligatoire</em> : répertoire complet du fichier de sortie [défaut '.' avec -t].</p>
-<p><strong>-d</strong> <em>argument obligatoire</em> : séparateur décimal [défaut ',' avec -t].</p>
-<p><strong>-s</strong> <em>argument obligatoire</em> : séparateur de champs [défaut ';' avec -t]. Ne pas utiliser '_'.</p>
-<p><strong>-j</strong> <em>argument obligatoire</em> : nombre de fils d'exécution (1 à 10).</p>
-<p><strong>-l</strong> <em>sans argument</em> : générer une colonne de numéros de ligne intitulée 'R'.</p>
-<p><strong>-M</strong> <em>sans argument</em> : ne pas libérer la mémoire réservée en fin de programme.</p>
+  X toutes catÃ©gories     </code></pre>
+<p><strong>-o</strong> <em>argument obligatoire</em> : fichier.csv, chemin complet du fichier de sortie [dÃ©faut 'Table.csv' avec -t].</p>
+<p><strong>-D</strong> <em>argument obligatoire</em> : rÃ©pertoire complet du fichier de sortie [dÃ©faut '.' avec -t].</p>
+<p><strong>-d</strong> <em>argument obligatoire</em> : sÃ©parateur dÃ©cimal [dÃ©faut ',' avec -t].</p>
+<p><strong>-s</strong> <em>argument obligatoire</em> : sÃ©parateur de champs [dÃ©faut ';' avec -t]. Ne pas utiliser '_'.</p>
+<p><strong>-j</strong> <em>argument obligatoire</em> : nombre de fils d'exÃ©cution (1 Ã  10).</p>
+<p><strong>-l</strong> <em>sans argument</em> : gÃ©nÃ©rer une colonne de numÃ©ros de ligne intitulÃ©e 'R'.</p>
+<p><strong>-M</strong> <em>sans argument</em> : ne pas libÃ©rer la mÃ©moire rÃ©servÃ©e en fin de programme.</p>
 <p><strong>-m</strong> <em>sans argument</em> : calculer les maxima d'agents et de lignes de paye.</p>
-<p><strong>-L</strong> <em>argument obligatoire</em> : chemin du log d'exécution du test de cohérence entre analyseurs C et XML.</p>
-<p><strong>-R</strong> <em>argument obligatoire</em> : expression régulière pour la recherche des élus (codés : ELU dans le champ Statut.</p>
+<p><strong>-L</strong> <em>argument obligatoire</em> : chemin du log d'exÃ©cution du test de cohÃ©rence entre analyseurs C et XML.</p>
+<p><strong>-R</strong> <em>argument obligatoire</em> : expression rÃ©guliÃ¨re pour la recherche des Ã©lus (codÃ©s : ELU dans le champ Statut.</p>
 <p><strong>-S</strong> <em>sans argument</em> : exporter les champs Budget, Employeur, Siret, Etablissement.</p>
 <p><strong>-E</strong> <em>sans argument</em> : exporter le champ Echelon.</p>
-<p><strong>-q</strong> <em>sans argument</em> : limiter la verbosité.</p>
-<p><strong>-f</strong> <em>argument obligatoire</em> : la ligne de commande est dans le fichier en argument, chaque élément à la ligne.</p>
-<p><strong><code>--</code>xhlmem</strong> <em>arg. oblig.</em> : taille des fichiers à analyser en octets.</p>
-<p><strong><code>--</code>memshare</strong> <em>arg. oblig.</em> : Part de la mémoire vive utilisée, en points de pourcentage.</p>
-<p><strong><code>--</code>segments</strong> <em>arg. oblig.</em> : nombre minimum de segments de base.</p>
-<p><strong><code>--</code>pretend</strong> : exécution sans traitement des fichiers.</p>
-<p><strong><code>--</code>verifmem</strong> : seulement vérifier la consommation mémoire.</p>
-<p><strong><code>--</code>entier</strong> : désactivation du découpage des fichiers volumineux.</p>
-<p><strong><code>--</code>preserve-tempfiles</strong> : désactivation de l'effacement des fichiers temporaires.</p>
-<p><strong><code>--</code>hmarkdown</strong> : aide en format markdown.</p>
-<p><strong><code>--</code>pdf</strong> : aide en format pdf.</p>
-<p><strong><code>--</code>rank</strong> <em>argument optionnel</em> : générer le fichier du rang de la base de paye en cours dans le fichier ou à défaut dans %USERPROFILE%/AppData/Altair/rank.</p>
+<p><strong>-q</strong> <em>sans argument</em> : limiter la verbositÃ©.</p>
+<p><strong>-f</strong> <em>argument obligatoire</em> : la ligne de commande est dans le fichier en argument, chaque Ã©lÃ©ment Ã  la ligne.</p>
+<p><strong>--xhlmem</strong> <em>arg. oblig.</em> : taille des fichiers Ã  analyser en octets.</p>
+<p><strong>--memshare</strong> <em>arg. oblig.</em> : Part de la mÃ©moire vive utilisÃ©e, en points de pourcentage.</p>
+<p><strong>--segments</strong> <em>arg. oblig.</em> : nombre minimum de segments de base.</p>
+<p><strong>--pretend</strong> <em>sans argument</em> : exÃ©cution sans traitement des fichiers.</p>
+<p><strong>--verifmem</strong> <em>sans argument</em>: seulement vÃ©rifier la consommation mÃ©moire.</p>
+<p><strong>--hmarkdown</strong> <em>sans argument</em>: aide en format markdown.</p>
+<p><strong>--pdf</strong> <em>sans argument</em> : aide en format pdf.</p>
+<p><strong>--cdrom</strong> <em>sans argument</em> : lire les donnÃ©es directement sur le disque optique.</p>
+<p><strong>--dossier-bulletins</strong> <em>arg.oblig.</em>: dossier vers lequel seront exportÃ©s les bulletins extraits pour impression.</p>
+<p><strong>--bulletins</strong> <em>arg.oblig.</em> : suite de sÃ©quences sÃ©parÃ©es par des points-vigules sans espace. Chaque sÃ©quence est de la forme matricule-mois(...mois)-annÃ©e(...annÃ©e). Exemple: 1012A-3...5-2012...2015</p>
+<p><strong>--export</strong> <em>arg.oblig.</em> : modalitÃ© d'exportation (Standard, Cumulative, Distributive, Distributive+)</p>
+<p><em>Standard</em> : bases Ã  la racine du rÃ©pertoire d'exportation. Ecrasement des bases Ã  chaque exÃ©cution.</p>
+<p><em>Cumulative</em> : bases Ã  la racine du rÃ©pertoire d'exportation. Empilement des bases d'une exÃ©cution Ã  l'autre.</p>
+<p><em>Distributive</em> : bases Ã  la racine du sous-rÃ©pertoire de mÃªme nom que celui d'entrÃ©e dans le rÃ©pertoire d'exportation.</p>
+<p><em>Distributive+</em> : bases Ã  la racine du sous-rÃ©pertoire de mÃªme nom que celui d'entrÃ©e dans le rÃ©pertoire d'exportation. Empilement des bases d'une exÃ©cution Ã  l'autre.</p>
+<p><strong>-rank</strong> <em>argument optionnel</em> : gÃ©nÃ©rer le fichier du rang de la base de paye en cours dans le fichier</p>
