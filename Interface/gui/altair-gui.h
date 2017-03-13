@@ -148,7 +148,7 @@ class MainWindow : public QMainWindow
    
    inline void connectShowActions();
    std::vector<std::string> extraire_donnees_protegees(const std::string& st);
-   std::string nettoyer_donnees(const std::string& st);
+   const std::vector <unsigned char>  nettoyer_donnees(std::vector <unsigned char>& st);
       
    QDockWidget* fileTreeViewDockWidget;
    QDockWidget* bottomDockWidget;

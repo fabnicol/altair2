@@ -901,13 +901,13 @@ void MainWindow::launch_process(const QString& path)
 
 }
 
-string MainWindow::nettoyer_donnees(const string& st)
+const vector <unsigned char>  MainWindow::nettoyer_donnees(vector <unsigned char>& st)
 {
-    string out;
+    vector <unsigned char> out;
     const size_t taille = st.size();
     out.reserve((size_t) taille / 5);
-    string::const_iterator iter = st.begin();
-    string::const_iterator iter2; 
+    vector <unsigned char>::const_iterator iter = st.begin();
+    vector <unsigned char>::const_iterator iter2; 
     size_t i = 0;
     size_t k = 0;
     const size_t pas = taille / 20;
@@ -920,7 +920,7 @@ string MainWindow::nettoyer_donnees(const string& st)
        {
          case  '\"' : 
                quote = ! quote;
-               out += "\"";
+               out.push_back('\"');
                ++iter;
            break;
                
@@ -940,7 +940,7 @@ string MainWindow::nettoyer_donnees(const string& st)
                                quote = ! quote;
                                
                            case  ' '  : 
-                               out += *iter2;
+                               out.emplace_back(*iter2);
                                iter = iter2 + 1;
                                goto loop;
           
@@ -958,16 +958,63 @@ string MainWindow::nettoyer_donnees(const string& st)
         case '>' :         
                    if (quote)
                    {
-                       out += '>';
+                       out.push_back('>');
                        ++iter;
                        break;
                    }
-                   out += ">\n";
-                   while (*++iter != '<' && iter != st.end())  ;
+                   out.push_back('>');
+                   out.push_back('\n');
+                   while (*++iter != '<' 
+                          && iter != st.end())  ;
                    break;
                                
         default :
-                   out += isprint(*iter) ? *iter : ' ';  // Si par exemple "\nxmls:xsi....
+                   if (isprint(*iter)) out.emplace_back(*iter); 
+                   else
+                   switch (*iter)
+                   {
+                       // Latin-1
+                       case 0xe8 : // è
+                       case 0xe9 : // é
+                       case 0xea : // ê
+                       case 0xc8 : // E accent aigu
+                       case 0xc9 : // E accent grave
+                       case 0xca : // E accent circ
+                       case 0xee : // î
+                       case 0xce : // I accent circ
+                       case 0xd4 :  // ô
+                       case 0xf4 :  // O accent circ
+                            out.emplace_back(*iter);
+                          break;
+                       // UTF-8
+                       case 0xc3 :
+                           switch (*(iter + 1))
+                           {
+                               case 0xa8 : // è
+                               case 0xa9 : // é
+                               case 0xaa : // ê
+                               case 0x88 : // E accent aigu
+                               case 0x89 : // E accent grave
+                               case 0x8a : // E accent circ
+                               case 0xae : // î
+                               case 0x8e : // I accent circ
+                               case 0xb4 :  // ô
+                               case 0x94 :  // O accent circ
+                                   out.emplace_back(*iter);
+                                   out.emplace_back(*++iter);
+                                 break;
+                               default :
+                                 break;
+                           }
+                       
+                        break;
+                           
+                        default : 
+                           out.push_back(' ');
+                        break;
+       
+                   }
+                   
                    ++iter;
                    break;
        }
@@ -987,20 +1034,21 @@ string MainWindow::nettoyer_donnees(const string& st)
 
 void MainWindow::clean_process(const QString& path)
 {
-    QFile xml(path);
+    ifstream xml;
+    xml.open(path.toStdString(), ios_base::binary);
 
-    std::string xml_out(path.toStdString() + ".new");
-
-    std::ofstream out;
-
-    if (!xml.open(QIODevice::ReadOnly | QIODevice::Text))
+    if (! xml.is_open())
     {
         Q("Erreur de lancement du processus")
         return;
     }
+         
+    const QString &xml_out = path + ".new";
 
-    out.open(xml_out, std::ofstream::out | std::ofstream::trunc);
+    ofstream out;
 
+    out.open(xml_out.toStdString(), std::ios_base::binary);
+    
     if (! out.is_open())
     {
         Q("Erreur de lancement du processus")
@@ -1011,31 +1059,33 @@ void MainWindow::clean_process(const QString& path)
     emit(altair->showProgressBar());
     emit(altair->setProgressBar(0));
     altair->outputTextEdit->repaint();
-    QString xml_mod = QString(xml.readAll());
+    
+    vector <unsigned char> xml_mod;
+    long bar_range = (long) common::getFileSize(path);
+    xml_mod.reserve(bar_range);
+    xml_mod.insert(
+          xml_mod.end(),      
+          std::istreambuf_iterator<char>(xml),
+          std::istreambuf_iterator<char>());
 
     altair->outputTextEdit->repaint();
 
-    int bar_range = xml_mod.size();
-
     emit(altair->setProgressBar(0, bar_range));
-
-    const string& v = nettoyer_donnees(xml_mod.toStdString());
-
-    out << v;
-
+    
+    for (unsigned char c : nettoyer_donnees(xml_mod))
+       out << std::move(c);
+    
     out.close();
 
     emit(altair->setProgressBar(0));
 
     xml.close();
-    xml.remove();
-    rename(xml_out.c_str(), path.toStdString().c_str());
-
+    std::remove(path.toStdString().c_str());
+    rename(xml_out.toStdString().c_str(), path.toStdString().c_str());
+    
     altair->outputTextEdit->append(PROCESSING_HTML_TAG  "Nettoyage de " + path + " terminé.");
     altair->outputTextEdit->repaint();
-    
     altair->updateProject(true);
-    
 }
 
 void MainWindow::anonymiser()
