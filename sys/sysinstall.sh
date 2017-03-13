@@ -10,6 +10,31 @@ fi
   
 }
 
+
+if test -f sys/install.modules -a $(uname -r | cut -d '.' -f 2) = 4; then
+
+   echo "Actualisation des modules du T3..."
+   echo "Importation de la branche T3"
+   git fetch -p -n  --depth=1 origin T3
+   git checkout FETCH_HEAD -- sys/modules
+   git checkout FETCH_HEAD -- sys/modprobe.d
+   
+   if test -d sys/modules -a -d sys/modprobe.d; then
+   
+      echo "Modules importés de la branche T3"
+      _copy sys/modules /lib
+      _copy sys/modprobe.d /lib
+      chown -R root /lib/modules
+      chown -R root /lib/modprobe.d
+      echo "Actualisation des modules du T3 terminée..."
+      
+   else
+   
+      echo "Echec à l'importation des modules de la branche T3"
+      
+    fi 
+fi
+
 cd sys
 chmod -R +rwx *sh
 
