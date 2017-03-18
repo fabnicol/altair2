@@ -83,16 +83,19 @@ MainWindow::MainWindow(char* projectName)
   recentFiles = QStringList() ;
   settings = new QSettings("altair", "Juridictions Financières");
 
-# ifndef Q_OS_WIN
+//# ifndef Q_OS_WIN
   const QString cdROM = common::cdRomMounted();
   if (settings->value("importerAuLancement") == true && ! cdROM.isEmpty())
        {
-            if (QDir(cdROM).exists() && ! QDir(cdROM).QDir::entryInfoList(QDir::Dirs|QDir::Files|QDir::NoDotAndDotDot).isEmpty())
+            if (QDir(cdROM).exists()
+                    && ! QDir(cdROM).QDir::entryInfoList(QDir::Dirs
+                                                         | QDir::Files
+                                                         | QDir::NoDotAndDotDot).isEmpty())
             {
                 process.start("./Avert", {"200"});
             }
        }
-# endif
+//# endif
   
   altair = new Altair;
   altair->parent = this;
