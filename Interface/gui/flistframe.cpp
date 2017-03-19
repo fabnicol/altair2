@@ -145,6 +145,7 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
                              });
 
 
+ connect(this, SIGNAL(imported()), this, SLOT(finalise()));
 }
 
 void FListFrame::list_connect(FComboBox* w)
@@ -313,20 +314,79 @@ void FListFrame::clearWidgetContainer()
    widgetContainer.clear(); ;
 }
 
-void FListFrame::parseXhlFile(const QStringList& stringList)
+void FListFrame::parseXhlFile()
 {
-  int rank = 0;
+    int rank = 0;
+    size = stringList.size();
+
+    // L'usage de treads est indiqué pour éviter un freeze de l'interface graphique
+    // pendant que le disque optique est parcouru pour examiner les entêtes
+
+    const QString cdROM = common::cdRomMounted();
+    if (cdROM.isEmpty())
+     {
+        for (auto &&s: stringList)
+        {
+            parseXhlFile(s);
+            emit(altair->setProgressBar(++rank));
+        }
+        use_threads = false;
+        emit(imported());
+        return;
+     }
+    else
+    if (! QDir(cdROM).exists()
+            ||  QDir(cdROM).QDir::entryInfoList(QDir::Dirs
+                                                 | QDir::Files
+                                                 | QDir::NoDotAndDotDot).isEmpty())
+    {
+        use_threads=false;
+        return;
+    }
+
+    use_threads = true;
+    thread.resize(size + 1);
+
+    // L'astuce consiste à créer un thread supplémentaire qui permet de
+    // constrôler les autres
+
     for (const QString& fileName : stringList)
     {
-        parseXhlFile(fileName);
+        this->moveToThread(thread[rank] = new QThread);
         ++rank;
+        connect(thread[rank - 1], &QThread::started, [this, fileName] {
+            parseXhlFile(fileName);
+        });
+
+        connect(this, SIGNAL(parsed()), thread[rank - 1], SLOT(quit()), Qt::DirectConnection);
+
+        thread[rank - 1]->start();
 
         #ifdef DEBUG_INPUT_FILES
            altair->outputTextEdit->append(PROCESSING_HTML_TAG "Analyse du fichier n°" + QString::number(rank));
         #endif
-
-        emit(altair->setProgressBar(rank));
     }
+
+    // Le thread contrôleur retarde l'importation des fichiers dans l'onglet central
+    // à la finalisation de la lecture du disue optique et gère aussi la barre
+    // de progression. Cela rend inutile le projet Avert (DEPRECATED)
+
+    this->moveToThread(thread[size] = new QThread);
+    connect(thread[size], &QThread::started, [this] {
+            while (true)
+            {
+              int test = 0;
+              for (int i = 0; i < size; ++i)
+                test += (int) thread[i]->isFinished() ;
+              emit(altair->setProgressBar(test));
+              if (test == size) break;
+            }
+            emit(imported());
+
+        });
+
+    thread[size]->start();
+
 }
 
 
@@ -334,6 +394,7 @@ struct Header* elemPar;
 
 void FListFrame::parseXhlFile(const QString& fileName)
 {
+
     QFile file(fileName);
     long long ligne = 0;
     bool result = file.open(QIODevice::ReadOnly);
@@ -459,11 +520,13 @@ out :
 
    if (file.error() != QFileDevice::NoError)
          altair->outputTextEdit->append(WARNING_HTML_TAG " Erreur de fichier.");
+
+   emit(parsed());
    return;
 }
 
 
-void FListFrame::addStringListToListWidget(const QStringList& stringList)
+void FListFrame::addStringListToListWidget()
 {
 
     clearTabLabels();
@@ -482,9 +545,17 @@ void FListFrame::addStringListToListWidget(const QStringList& stringList)
     emit(altair->showProgressBar());
     emit(altair->setProgressBar(0, stringListSize));
 
-    parseXhlFile(stringList);
+    parseXhlFile();
 
+}
+
+
+void FListFrame::finalise()
+{
     emit(altair->hideProgressBar());
+    if (use_threads)
+        for (auto  &&t : thread)
+            delete t;
 
     QStringList allLabels;
 
@@ -638,14 +709,20 @@ void FListFrame::addStringListToListWidget(const QStringList& stringList)
   fileListWidget->setTabLabels(allLabels << "Siret" << "Budget" << "Employeur");
   if (rank) currentListWidget->setCurrentRow(Hash::wrapper[frameHashKey]->at(rank - 1).size());
 
+  altair->outputTextEdit->append(STATE_HTML_TAG "Bases de paye ajoutées au projet." );
+
+  altair->updateProject(true);
 }
 
-void FListFrame::addParsedTreeToListWidget(const QStringList& stringList)
+
+void FListFrame::addParsedTreeToListWidget(const QStringList &strL)
 {
-    if (stringList.isEmpty()) return;
-    addStringListToListWidget(parseTreeForFilePaths(stringList));
+    if (strL.isEmpty()) return;
+    stringList = parseTreeForFilePaths(strL);
+    addStringListToListWidget();
     Hash::createReference(widgetContainer.size() - 1);
     setStrikeOutFileNames(flags::colors::no);
+
 }
 
 // TODO : explorer les possibilités de move semantics pour accélérer la récursion
@@ -700,8 +777,7 @@ void FListFrame::on_importFromMainTree_clicked()
 {
  
  altair->closeProject();
- 
- altair->outputTextEdit->append(STATE_HTML_TAG "Bases de paye ajoutées au projet." );
+ altair->repaint();
 
  if (isListConnected || isTotalConnected)
    {
@@ -742,6 +818,8 @@ void FListFrame::on_importFromMainTree_clicked()
              addParsedTreeToListWidget(stringsToBeAdded);
          }
      }
+
+
 }
 
 void  FListFrame::setSlotListSize(int s) 
