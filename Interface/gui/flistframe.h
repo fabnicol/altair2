@@ -138,6 +138,7 @@ protected slots:
 
 private slots:
     void on_xhl_display(const QString& xhl="");
+    void finalise();
 
 protected:
     short importType;
@@ -145,23 +146,25 @@ protected:
 
 private:
 
-
+ std::vector<QThread*> thread;
+ bool use_threads = false;
  inline void updateIndexInfo();
  QProcess* launch;
  FListWidget *fileListWidget;
+ QStringList stringList;
  QListWidget *currentListWidget;
 
  void clearTabLabels() {fileListWidget->clearTabLabels();}
-
+ int size;
  int row, currentIndex,  slotListSize;
  bool isListConnected=false;
  bool isTotalConnected=false;
  bool activateOnStart=false;
 
  QStringList parseTreeForFilePaths(const QStringList& stringList);
- void addStringListToListWidget(const QStringList&);
+ void addStringListToListWidget();
  void parseXhlFile(const QString& fileName);
- void parseXhlFile(const QStringList& stringList);
+ void parseXhlFile();
  void showContextMenu();
  void setStrikeOutFileNames(flags::colors);
 
@@ -171,6 +174,7 @@ signals:
     void is_ntabs_changed(int);
     void is_ntracks_changed(int);
     void imported();
+    void parsed();
 
 };
 
