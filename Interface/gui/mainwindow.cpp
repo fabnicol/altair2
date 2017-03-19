@@ -45,6 +45,7 @@
 #include <fstream>
 #include <sstream>
 
+
 using namespace std;
 // Should it slow down application launch on some platform, one option could be to launch it just once then on user demand
 
@@ -82,17 +83,22 @@ MainWindow::MainWindow(char* projectName)
   recentFiles = QStringList() ;
   settings = new QSettings("altair", "Juridictions Financières");
 
-# ifndef Q_OS_WIN
+  // DEPRECATED
+  #ifdef USE_AVERT
+
   const QString cdROM = common::cdRomMounted();
   if (settings->value("importerAuLancement") == true && ! cdROM.isEmpty())
        {
-            if (QDir(cdROM).exists() && ! QDir(cdROM).QDir::entryInfoList(QDir::Dirs|QDir::Files|QDir::NoDotAndDotDot).isEmpty())
+            if (QDir(cdROM).exists()
+                    && ! QDir(cdROM).QDir::entryInfoList(QDir::Dirs
+                                                         | QDir::Files
+                                                         | QDir::NoDotAndDotDot).isEmpty())
             {
                 process.start("./Avert", {"200"});
             }
        }
-# endif
-  
+  #endif
+
   altair = new Altair;
   altair->parent = this;
 
@@ -189,6 +195,10 @@ MainWindow::MainWindow(char* projectName)
   connect(consoleDialog, SIGNAL(copyAvailable(bool)), consoleDialog, SLOT(copy()));
   connect(&(altair->process), SIGNAL(finished(int)), this, SLOT(resetCounter()));
   connect(&(altair->process), SIGNAL(finished(int)), this, SLOT(resetTableCheckBox()));
+
+  #ifdef USE_AVERT
+    connect(altair->project[0], SIGNAL(imported()), &process, SLOT(kill()));
+  #endif
   
   if (projectName[0] != '\0')
   {
@@ -205,7 +215,10 @@ MainWindow::MainWindow(char* projectName)
       settings->value("importerAuLancement") = true;
               
   if (settings->value("importerAuLancement") == true)
+  {
+      repaint();
       altair->importData();
+  }
   
 }
 
@@ -918,13 +931,13 @@ const vector <unsigned char>  MainWindow::nettoyer_donnees(vector <unsigned char
     {
        switch (*iter) 
        {
-         case  '\"' : 
+         case  0x22 :    // "
                quote = ! quote;
-               out.push_back('\"');
+               out.push_back(0x22);
                ++iter;
            break;
                
-         case  '&'  :
+         case  0x26  :   // &
                 if (! quote)
                 {
                     ++iter;
@@ -936,35 +949,36 @@ const vector <unsigned char>  MainWindow::nettoyer_donnees(vector <unsigned char
                    {
                        switch (*iter2)
                        {
-                           case  '\"'  :
+                           case  0x22  : //"
                                quote = ! quote;
                                
-                           case  ' '  : 
+                           case  0x20  :  // SP  ' '
                                out.emplace_back(*iter2);
                                iter = iter2 + 1;
                                goto loop;
           
-                           case ';'  :
+                           case  0x3b  :  // SEMICOLON  ';'
                                iter = iter2 + 1;
                                goto loop;
                                
                             default :
+
                                continue;
                        }
                    }
                    
                    continue;
 
-        case '>' :         
+        case 0x3e :  //  '>'
                    if (quote)
                    {
-                       out.push_back('>');
+                       out.push_back(0x3e);
                        ++iter;
                        break;
                    }
-                   out.push_back('>');
+                   out.push_back(0x3e);
                    out.push_back('\n');
-                   while (*++iter != '<' 
+                   while (*++iter != 0x3c  //  '<'
                           && iter != st.end())  ;
                    break;
                                
@@ -1010,7 +1024,7 @@ const vector <unsigned char>  MainWindow::nettoyer_donnees(vector <unsigned char
                         break;
                            
                         default : 
-                           out.push_back(' ');
+                           out.push_back(0x20);  // SP ' '
                         break;
        
                    }
@@ -1080,12 +1094,21 @@ void MainWindow::clean_process(const QString& path)
     emit(altair->setProgressBar(0));
 
     xml.close();
-    std::remove(path.toStdString().c_str());
-    rename(xml_out.toStdString().c_str(), path.toStdString().c_str());
-    
-    altair->outputTextEdit->append(PROCESSING_HTML_TAG  "Nettoyage de " + path + " terminé.");
-    altair->outputTextEdit->repaint();
-    altair->updateProject(true);
+    QFile f(path);
+    f.remove();
+    f.rename(xml_out, path);
+    if (QFileInfo(f).exists())
+    {
+      altair->outputTextEdit->append(PROCESSING_HTML_TAG  "Nettoyage de " + path + " terminé.");
+      altair->outputTextEdit->repaint();
+      altair->updateProject(true);
+    }
+    else
+    {
+        altair->outputTextEdit->append(ERROR_HTML_TAG  "Le ettoyage de " + path + " a échoué.");
+        altair->outputTextEdit->repaint();
+        altair->updateProject(true);
+    }
 }
 
 void MainWindow::anonymiser()
