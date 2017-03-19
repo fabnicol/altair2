@@ -246,9 +246,18 @@ void Altair::importData()
                                      | QDir::Files
                                      | QDir::NoDotAndDotDot).isEmpty())
        {
-           outputTextEdit->append(PROCESSING_HTML_TAG "Analyse du disque optique...");
+           outputTextEdit->append(PROCESSING_HTML_TAG "Analyse du disque optique...Veuillez patienter...");
            fileTreeView->setCurrentIndex(model->index(cdROM));
-           project[0]->importFromMainTree->click();
+
+           QThread* thread = new QThread();
+
+           project[0]->moveToThread(thread);
+
+           connect(thread, SIGNAL(started()), project[0], SLOT(on_importFromMainTree_clicked()));
+           connect(project[0], SIGNAL(imported()), thread, SLOT(quit()), Qt::DirectConnection);
+
+           thread->start();
+
            return;
        }
    }

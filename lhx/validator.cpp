@@ -930,8 +930,8 @@ if (info.reduire_consommation_memoire)
         int err = calculer_memoire_requise(info);
         if (err)
         {
-            std ::cerr << ERROR_HTML_TAG "Calcul de la mémoire requise" ENDL;
-            //    perror(ERROR_HTML_TAG  "Erreur");
+            cerr << ERROR_HTML_TAG "Calcul de la mémoire requise" ENDL;
+            cerr << ERROR_HTML_TAG  "Erreur : " << strerror(errno);
             //    exit(-1001);
         }
     }
