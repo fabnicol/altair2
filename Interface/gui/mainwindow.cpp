@@ -83,6 +83,9 @@ MainWindow::MainWindow(char* projectName)
   recentFiles = QStringList() ;
   settings = new QSettings("altair", "Juridictions Financières");
 
+  // DEPRECATED
+  #ifdef USE_AVERT
+
   const QString cdROM = common::cdRomMounted();
   if (settings->value("importerAuLancement") == true && ! cdROM.isEmpty())
        {
@@ -94,7 +97,8 @@ MainWindow::MainWindow(char* projectName)
                 process.start("./Avert", {"200"});
             }
        }
-  
+  #endif
+
   altair = new Altair;
   altair->parent = this;
 
@@ -191,7 +195,10 @@ MainWindow::MainWindow(char* projectName)
   connect(consoleDialog, SIGNAL(copyAvailable(bool)), consoleDialog, SLOT(copy()));
   connect(&(altair->process), SIGNAL(finished(int)), this, SLOT(resetCounter()));
   connect(&(altair->process), SIGNAL(finished(int)), this, SLOT(resetTableCheckBox()));
-  connect(altair->project[0], SIGNAL(imported()), &process, SLOT(kill()));
+
+  #ifdef USE_AVERT
+    connect(altair->project[0], SIGNAL(imported()), &process, SLOT(kill()));
+  #endif
   
   if (projectName[0] != '\0')
   {

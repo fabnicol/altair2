@@ -66,6 +66,7 @@ public:
     QString projectName;
     FListFrame *project[1];
 
+
     QTextEdit *outputTextEdit = new QTextEdit;
 
     bool clearInterfaceAndParseProject();
