@@ -170,6 +170,7 @@ private:
 signals:
     void is_ntabs_changed(int);
     void is_ntracks_changed(int);
+    void imported();
 
 };
 

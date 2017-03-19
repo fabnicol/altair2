@@ -45,7 +45,6 @@ int main(int argc, char *argv[])
     if (argc < 2) return -1;
     Widget w(atoi(argv[1]));
     w.show();
-    
-    QTimer::singleShot(6400, &w, SLOT(close()));    
+       
     return a.exec();
 }

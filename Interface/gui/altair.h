@@ -76,7 +76,7 @@ public:
             projectName = userdatadir + QString("défaut.alt");
       }
 
-    void importData();
+
     void startDrag();
  /* void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event)*/
@@ -131,6 +131,7 @@ public slots:
    void on_deleteItem_clicked();
    void closeProject();
    void openProjectFileCommonCode();
+   void importData();
 
 private slots:
     
