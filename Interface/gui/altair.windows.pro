@@ -109,7 +109,8 @@ DEFINES += QT_NO_OPENGL \
            STATIC\                                      # Ã  utiliser pour lancer le navigateur internet par défaut plustÃ´t qu'un navigateur interne
          #  LOCAL_BINPATH \                             # chemins d'exécution définis par rapport Ã  l'emplacement de l'exécutable
            REGEX_PARSING_FOR_HEADERS \                  # utiliser les expressions régulières de c++ (g++ 5.1 au moins)
-           USE_RIGHT_CLICK                              # utiliser un clic droit sur les fichiers pour ajouter, supprimer etc.
+           USE_RIGHT_CLICK \                            # utiliser un clic droit sur les fichiers pour ajouter, supprimer etc.
+         # USE_AVERT                                    # DEPRECATED : avertissement au montage CDROM
 
 
 windows:RC_ICONS = neptune.ico
