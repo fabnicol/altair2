@@ -700,7 +700,7 @@ void FListFrame::on_importFromMainTree_clicked()
 {
  
  altair->closeProject();
- 
+ altair->repaint();
  altair->outputTextEdit->append(STATE_HTML_TAG "Bases de paye ajoutées au projet." );
 
  if (isListConnected || isTotalConnected)
@@ -742,6 +742,9 @@ void FListFrame::on_importFromMainTree_clicked()
              addParsedTreeToListWidget(stringsToBeAdded);
          }
      }
+
+
+    emit(imported());
 }
 
 void  FListFrame::setSlotListSize(int s) 
