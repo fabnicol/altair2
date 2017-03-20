@@ -167,6 +167,7 @@ private:
  void parseXhlFile();
  void showContextMenu();
  void setStrikeOutFileNames(flags::colors);
+ void launch_thread(int rank);
 
  Altair* altair;
 

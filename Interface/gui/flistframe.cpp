@@ -314,6 +314,25 @@ void FListFrame::clearWidgetContainer()
    widgetContainer.clear(); ;
 }
 
+
+void FListFrame::launch_thread(int rank)
+{
+    if (stringList.isEmpty() || rank >= size) return;
+    
+    const QString& fileName = stringList.at(rank);
+
+    //this->moveToThread(thread[rank]);
+    thread[rank]->start();    
+    
+    connect(thread[rank], &QThread::started, [this, fileName] {
+        parseXhlFile(fileName);
+    });
+    
+    connect(this, SIGNAL(parsed()), thread[rank], SLOT(quit()), Qt::DirectConnection);
+    connect(thread[rank], &QThread::finished, [this, rank] { launch_thread(rank + 1); });
+    
+}
+
 void FListFrame::parseXhlFile()
 {
     int rank = 0;
@@ -349,29 +368,21 @@ void FListFrame::parseXhlFile()
 
     // L'astuce consiste à créer un thread supplémentaire qui permet de
     // constrôler les autres
-
-    for (const QString& fileName : stringList)
-    {
-        this->moveToThread(thread[rank] = new QThread);
-        ++rank;
-        connect(thread[rank - 1], &QThread::started, [this, fileName] {
-            parseXhlFile(fileName);
-        });
-
-        connect(this, SIGNAL(parsed()), thread[rank - 1], SLOT(quit()), Qt::DirectConnection);
-
-        thread[rank - 1]->start();
+    
+    for (int i = 0; i <= size; ++i) thread[i] = new QThread;
+    
+    launch_thread(0);
 
         #ifdef DEBUG_INPUT_FILES
            altair->outputTextEdit->append(PROCESSING_HTML_TAG "Analyse du fichier n°" + QString::number(rank));
         #endif
-    }
+    
 
     // Le thread contrôleur retarde l'importation des fichiers dans l'onglet central
     // à la finalisation de la lecture du disue optique et gère aussi la barre
     // de progression. Cela rend inutile le projet Avert (DEPRECATED)
 
-    this->moveToThread(thread[size] = new QThread);
+    this->moveToThread(thread[size]);
     connect(thread[size], &QThread::started, [this] {
             while (true)
             {
@@ -553,6 +564,7 @@ void FListFrame::addStringListToListWidget()
 void FListFrame::finalise()
 {
     emit(altair->hideProgressBar());
+    thread[size]->quit();
     if (use_threads)
         for (auto  &&t : thread)
             delete t;
