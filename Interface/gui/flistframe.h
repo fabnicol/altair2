@@ -61,7 +61,7 @@ public:
  QVector<QListWidget*> widgetContainer;
  QString frameHashKey;
  std::vector<QThread*> thread;
- int size;
+ int size = 0;
  QToolButton *importFromMainTree=new QToolButton;
  #ifndef USE_RIGHT_CLICK
  QToolButton            *retrieveItemButton=new QToolButton,
