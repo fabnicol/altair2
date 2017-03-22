@@ -955,7 +955,7 @@ FProgressBar::FProgressBar(Altair* parent,
     connect(this->parent, SIGNAL(setProgressBar(int,int)), this, SLOT(setValue(int, int)));
     connect(this->parent, SIGNAL(setProgressBar(int)), this, SLOT(setValue(int)));
     connect(this->parent, &Altair::hideProgressBar, [this] { hide(); });
-    connect(this->parent, &Altair::showProgressBar, [this] { bar->reset(); bar->show(); killButton->show();});
+    connect(this->parent, &Altair::showProgressBar, [this] { bar->reset(); bar->show(); killButton->show(); killButton->setEnabled(true);});
 }
 
 
