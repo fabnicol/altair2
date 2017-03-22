@@ -251,7 +251,7 @@ void Altair::importData()
 
            QThread* thread = new QThread();
 
-           project[0]->moveToThread(thread);
+           //project[0]->moveToThread(thread);
 
            connect(thread, SIGNAL(started()), project[0], SLOT(on_importFromMainTree_clicked()));
            connect(project[0], SIGNAL(imported()), thread, SLOT(quit()), Qt::DirectConnection);
@@ -954,8 +954,8 @@ FProgressBar::FProgressBar(Altair* parent,
     connect(&this->parent->process, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(stop()));
     connect(this->parent, SIGNAL(setProgressBar(int,int)), this, SLOT(setValue(int, int)));
     connect(this->parent, SIGNAL(setProgressBar(int)), this, SLOT(setValue(int)));
-    connect(this->parent, SIGNAL(hideProgressBar()), this, SLOT(hide()));
-    connect(this->parent, &Altair::showProgressBar, [this] { bar->show(); });
+    connect(this->parent, &Altair::hideProgressBar, [this] { hide(); });
+    connect(this->parent, &Altair::showProgressBar, [this] { bar->reset(); bar->show(); killButton->show();});
 }
 
 

@@ -235,7 +235,7 @@ void FListFrame::deleteAllGroups(bool insertFirstGroup, bool eraseAllData)
 {
    // mainTabWidget->clear();
 
-    widgetContainer[0]->clear();
+    if (! widgetContainer.empty()) widgetContainer[0]->clear();
 
     updateIndexInfo();
 
@@ -370,7 +370,9 @@ void FListFrame::parseXhlFile()
     // constrôler les autres
     
     for (int i = 0; i <= size; ++i) thread[i] = new QThread;
-    
+
+    emit(altair->showProgressBar());
+
     launch_thread(0);
 
         #ifdef DEBUG_INPUT_FILES
@@ -382,13 +384,17 @@ void FListFrame::parseXhlFile()
     // à la finalisation de la lecture du disue optique et gère aussi la barre
     // de progression. Cela rend inutile le projet Avert (DEPRECATED)
 
-    this->moveToThread(thread[size]);
+    //this->moveToThread(thread[size]);
+
     connect(thread[size], &QThread::started, [this] {
             while (true)
             {
               int test = 0;
               for (int i = 0; i < size; ++i)
-                test += (int) thread[i]->isFinished() ;
+              {
+                  if (thread[i])
+                      test += (int) thread[i]->isFinished() ;
+              }
               emit(altair->setProgressBar(test));
               if (test == size) break;
             }
@@ -564,10 +570,13 @@ void FListFrame::addStringListToListWidget()
 void FListFrame::finalise()
 {
     emit(altair->hideProgressBar());
-    thread[size]->quit();
+
     if (use_threads)
+    {
+        thread[size]->quit();
         for (auto  &&t : thread)
             delete t;
+    }
 
     QStringList allLabels;
 
