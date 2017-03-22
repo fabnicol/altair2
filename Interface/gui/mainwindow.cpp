@@ -159,7 +159,14 @@ MainWindow::MainWindow(char* projectName)
   buttonsForBottomWidgetLayout->addWidget(clearBottomTabWidgetButton);
 
   QToolButton *nppBottomTabWidgetButton=new QToolButton;
-  const QIcon nppIcon = QIcon(QString::fromUtf8( ":/images/internet-explorer.png"));
+
+  #if Q_OS_WINDOW
+    const QString &iconpath= ":/images/internet-explorer.png";
+  #else
+    const QString &iconpath= ":/images/internet-web-browser.png";
+  #endif
+
+  const QIcon nppIcon = QIcon(iconpath);
   nppBottomTabWidgetButton->setToolTip("Afficher les messages dans l'explorateur internet");
   nppBottomTabWidgetButton->setIcon(nppIcon);
   buttonsForBottomWidgetLayout->addWidget(nppBottomTabWidgetButton);

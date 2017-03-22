@@ -164,6 +164,7 @@ RESOURCES += \
 
 DISTFILES += \
     ../../A_FAIRE.txt \
+    ../share/altair-gui/images/internet-web-browser.png
 
 
 

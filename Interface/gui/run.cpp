@@ -503,6 +503,32 @@ void Altair::processFinished(exitCode code)
 
 void Altair::killProcess()
 {
+    if (project[0]->use_threads && process.state() != QProcess::Running)
+    {
+        outputTextEdit->append(PROCESSING_HTML_TAG
+                               "Arrêt de l'importation des données du disque optique." );
+
+        for (int i = project[0]->size; i >= 0; --i)
+        {
+            // commencer par le dernier qui contrôle les précédents
+
+            if (project[0]->thread[i])
+            {
+                project[0]->thread[i]->terminate();
+
+                connect(project[0]->thread[i], &QThread::finished, [this, i] {
+
+                    delete(project[0]->thread[i]);
+                });
+            }
+        }
+
+        emit(hideProgressBar());
+        closeProject();
+
+        return;
+     }
+
     process.kill();
     outputTextEdit->append(PROCESSING_HTML_TAG
                            + QString((outputType == "L") ? 
