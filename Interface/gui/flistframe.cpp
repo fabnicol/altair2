@@ -318,19 +318,19 @@ void FListFrame::clearWidgetContainer()
 void FListFrame::launch_thread(int rank)
 {
     if (stringList.isEmpty() || rank >= size) return;
-    
+
     const QString& fileName = stringList.at(rank);
 
     //this->moveToThread(thread[rank]);
-    thread[rank]->start();    
-    
+    thread[rank]->start();
+
     connect(thread[rank], &QThread::started, [this, fileName] {
         parseXhlFile(fileName);
     });
     
     connect(this, SIGNAL(parsed()), thread[rank], SLOT(quit()), Qt::DirectConnection);
     connect(thread[rank], &QThread::finished, [this, rank] { launch_thread(rank + 1); });
-    
+
 }
 
 void FListFrame::parseXhlFile()
