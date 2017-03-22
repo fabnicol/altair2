@@ -60,7 +60,8 @@ public:
 
  QVector<QListWidget*> widgetContainer;
  QString frameHashKey;
-
+ std::vector<QThread*> thread;
+ int size;
  QToolButton *importFromMainTree=new QToolButton;
  #ifndef USE_RIGHT_CLICK
  QToolButton            *retrieveItemButton=new QToolButton,
@@ -74,7 +75,7 @@ public:
 
  QFileSystemModel *model=new QFileSystemModel;
  QGroupBox *controlButtonBox=new QGroupBox;
-
+ bool use_threads = false;
  /* accessors */
 
  inline QStringList getTabLabels(){
@@ -146,8 +147,6 @@ protected:
 
 private:
 
- std::vector<QThread*> thread;
- bool use_threads = false;
  inline void updateIndexInfo();
  QProcess* launch;
  FListWidget *fileListWidget;
@@ -155,7 +154,7 @@ private:
  QListWidget *currentListWidget;
 
  void clearTabLabels() {fileListWidget->clearTabLabels();}
- int size;
+
  int row, currentIndex,  slotListSize;
  bool isListConnected=false;
  bool isTotalConnected=false;

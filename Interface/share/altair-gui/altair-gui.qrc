@@ -50,5 +50,6 @@
         <file>images/view-refresh.png</file>
         <file>images/clean.png</file>
         <file>images/print.png</file>
+        <file>images/internet-web-browser.png</file>
     </qresource>
 </RCC>
