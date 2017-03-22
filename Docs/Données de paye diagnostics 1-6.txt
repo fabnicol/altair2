@@ -1,0 +1,3 @@
+ Le répertoire data contient les données de paye
+ qui correspondent aux diagnostics 1 à 6 de la
+ présentation du Guide utilisateurs.
