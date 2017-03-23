@@ -37,6 +37,16 @@
 //
 #include "altair.h"
 #include "fwidgets.h"
+#ifdef Q_OS_LINUX
+#  include <sys/mount.h>
+#include <sys/ioctl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <linux/cdrom.h> // that will make sure the ioctl param is there
+#include <unistd.h> 
+
+#endif
 
 /* fichier à encoder en UTF-8 */
 
@@ -508,24 +518,21 @@ void Altair::killProcess()
         outputTextEdit->append(PROCESSING_HTML_TAG
                                "Arrêt de l'importation des données du disque optique." );
 
-        for (int i = project[0]->size; i >= 0; --i)
+        for (QThread *t :  project[0]->thread)
         {
-            // commencer par le dernier qui contrôle les précédents
-
-            if (project[0]->thread[i])
+            if (t)
             {
-                project[0]->thread[i]->terminate();
-
-                connect(project[0]->thread[i], &QThread::finished, [this, i] {
-
-                    delete(project[0]->thread[i]);
-                });
+                t->requestInterruption();
+                t->quit();
+                t->wait();
+                delete(t);
             }
         }
-
-        emit(hideProgressBar());
+        
+        emit(project[0]->terminated());
         closeProject();
-
+        setProgressBar(0);
+        emit(hideProgressBar());                    
         return;
      }
 

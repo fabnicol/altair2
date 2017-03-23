@@ -317,11 +317,14 @@ void FListFrame::clearWidgetContainer()
 
 void FListFrame::launch_thread(int rank)
 {
-    if (stringList.isEmpty() || rank >= size) return;
+    if (isTerminated || size == 0 || rank >= size) return;
 
+    thread.push_back(new QThread);
+    
     const QString& fileName = stringList.at(rank);
 
     //this->moveToThread(thread[rank]);
+    
     thread[rank]->start();
 
     connect(thread[rank], &QThread::started, [this, fileName] {
@@ -329,7 +332,7 @@ void FListFrame::launch_thread(int rank)
     });
     
     connect(this, SIGNAL(parsed()), thread[rank], SLOT(quit()), Qt::DirectConnection);
-    connect(thread[rank], &QThread::finished, [this, rank] { launch_thread(rank + 1); });
+    connect(thread[rank], &QThread::finished, [this, rank] { if (! isTerminated) launch_thread(rank + 1); });
 
 }
 
@@ -342,7 +345,14 @@ void FListFrame::parseXhlFile()
     // pendant que le disque optique est parcouru pour examiner les entêtes
 
     const QString cdROM = common::cdRomMounted();
-    if (cdROM.isEmpty())
+    
+    
+    if (isTerminated 
+            || cdROM.isEmpty() 
+            || ! QDir(cdROM).exists()
+            ||  QDir(cdROM).QDir::entryInfoList(QDir::Dirs
+                                                 | QDir::Files
+                                                 | QDir::NoDotAndDotDot).isEmpty())
      {
         for (auto &&s: stringList)
         {
@@ -350,27 +360,16 @@ void FListFrame::parseXhlFile()
             emit(altair->setProgressBar(++rank));
         }
         use_threads = false;
+        importFromMainTree->setEnabled(true);
         emit(imported());
         return;
      }
-    else
-    if (! QDir(cdROM).exists()
-            ||  QDir(cdROM).QDir::entryInfoList(QDir::Dirs
-                                                 | QDir::Files
-                                                 | QDir::NoDotAndDotDot).isEmpty())
-    {
-        use_threads=false;
-        return;
-    }
-
-    use_threads = true;
-    thread.resize(size + 1);
-
-    // L'astuce consiste à créer un thread supplémentaire qui permet de
-    // constrôler les autres
     
-    for (int i = 0; i <= size; ++i) thread[i] = new QThread;
-
+    isTerminated = false;
+    importFromMainTree->setEnabled(false);
+    use_threads = true;
+    if (size == 0) return;
+       
     emit(altair->showProgressBar());
 
     launch_thread(0);
@@ -385,24 +384,33 @@ void FListFrame::parseXhlFile()
     // de progression. Cela rend inutile le projet Avert (DEPRECATED)
 
     //this->moveToThread(thread[size]);
+    
+          
+     QTimer *timer = new QTimer(this);
+     
+     connect(timer, &QTimer::timeout, [&, timer] { 
+                     int test = 0;
+                     for (QThread *t : thread)
+                     {
+                         if (t)
+                             test += (int) t->isFinished() ;
+                     }
+                     emit(altair->setProgressBar(test));
+                     if (test == size) 
+                     {
+                         emit(imported());
+                         timer->stop();
+                     }
+         });
 
-    connect(thread[size], &QThread::started, [this] {
-            while (true)
-            {
-              int test = 0;
-              for (int i = 0; i < size; ++i)
-              {
-                  if (thread[i])
-                      test += (int) thread[i]->isFinished() ;
-              }
-              emit(altair->setProgressBar(test));
-              if (test == size) break;
-            }
-            emit(imported());
-
-        });
-
-    thread[size]->start();
+     connect(this, SIGNAL(terminated()), timer, SLOT(stop()));
+     connect(this, &FListFrame::terminated, [this] {
+         isTerminated = true;
+         use_threads = false;
+         importFromMainTree->setEnabled(true);
+     });
+     
+     timer->start(PROGRESSBAR_TIMEOUT);
 
 }
 
@@ -573,9 +581,12 @@ void FListFrame::finalise()
 
     if (use_threads)
     {
-        thread[size]->quit();
-        for (auto  &&t : thread)
-            delete t;
+        for (QThread* t : thread)
+        {
+          t->terminate();
+          t->wait();
+          delete t;
+        }
     }
 
     QStringList allLabels;

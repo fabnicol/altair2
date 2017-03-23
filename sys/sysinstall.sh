@@ -139,6 +139,10 @@ done
 _copy  autostart-scripts/m.sh    /etc/init.d 
 chmod 0755  /etc/init.d/ajuster_m
 rc-update add ajuster_m default
+_copy  ajuster_version    /etc/init.d 
+chmod 0755  /etc/init.d/ajuster_version
+rc-update add ajuster_version default
+
 
 # no-op mais souhaitable
 chmod -R 0777 /home/jf/.rstudio-desktop
