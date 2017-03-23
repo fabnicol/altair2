@@ -159,6 +159,7 @@ private:
  bool isListConnected=false;
  bool isTotalConnected=false;
  bool activateOnStart=false;
+ bool isTerminated = false;
 
  QStringList parseTreeForFilePaths(const QStringList& stringList);
  void addStringListToListWidget();
@@ -175,6 +176,7 @@ signals:
     void is_ntracks_changed(int);
     void imported();
     void parsed();
+    void terminated();
 
 };
 
