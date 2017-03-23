@@ -393,7 +393,6 @@ void Altair::closeProject()
 
     QFile projectFile(projectName);
     projectFile.close();
-
     //projectName=;
 }
 
@@ -437,6 +436,16 @@ void Altair::clearProjectData()
             break;
         }
     }
+
+    Hash::Reference.clear();
+    Hash::Annee.clear();
+    Hash::Mois.clear();
+    Hash::Budget.clear();
+    Hash::Siret.clear();
+    Hash::Etablissement.clear();
+    Hash::Employeur.clear();
+    Hash::Suppression.clear();
+    Hash::fileList.clear();
 
 
     project[0]->mainTabWidget->setCurrentIndex(0);
