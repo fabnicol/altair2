@@ -144,7 +144,6 @@ FListFrame::FListFrame(QObject* parent,  QAbstractItemView* tree, short import_t
                                  altair->updateProject();
                              });
 
-
  connect(this, SIGNAL(imported()), this, SLOT(finalise()));
 }
 
@@ -336,7 +335,7 @@ void FListFrame::launch_thread(int rank)
 
 }
 
-void FListFrame::parseXhlFile()
+void FListFrame::   parseXhlFile()
 {
     int rank = 0;
     size = stringList.size();
@@ -345,8 +344,7 @@ void FListFrame::parseXhlFile()
     // pendant que le disque optique est parcouru pour examiner les entêtes
 
     const QString cdROM = common::cdRomMounted();
-    
-    
+        
     if (isTerminated 
             || cdROM.isEmpty() 
             || ! QDir(cdROM).exists()
@@ -360,13 +358,13 @@ void FListFrame::parseXhlFile()
             emit(altair->setProgressBar(++rank));
         }
         use_threads = false;
-        importFromMainTree->setEnabled(true);
+        importFromMainTree->show();
         emit(imported());
         return;
      }
     
     isTerminated = false;
-    importFromMainTree->setEnabled(false);
+    importFromMainTree->hide();
     use_threads = true;
     if (size == 0) return;
        
@@ -384,8 +382,7 @@ void FListFrame::parseXhlFile()
     // de progression. Cela rend inutile le projet Avert (DEPRECATED)
 
     //this->moveToThread(thread[size]);
-    
-          
+              
      QTimer *timer = new QTimer(this);
      
      connect(timer, &QTimer::timeout, [&, timer] { 
@@ -407,7 +404,7 @@ void FListFrame::parseXhlFile()
      connect(this, &FListFrame::terminated, [this] {
          isTerminated = true;
          use_threads = false;
-         importFromMainTree->setEnabled(true);
+         importFromMainTree->show();
      });
      
      timer->start(PROGRESSBAR_TIMEOUT);
@@ -744,6 +741,10 @@ void FListFrame::finalise()
   altair->outputTextEdit->append(STATE_HTML_TAG "Bases de paye ajoutées au projet." );
 
   altair->updateProject(true);
+  
+  Hash::createReference(widgetContainer.size() - 1);
+  setStrikeOutFileNames(flags::colors::no);
+  
 }
 
 
@@ -752,9 +753,6 @@ void FListFrame::addParsedTreeToListWidget(const QStringList &strL)
     if (strL.isEmpty()) return;
     stringList = parseTreeForFilePaths(strL);
     addStringListToListWidget();
-    Hash::createReference(widgetContainer.size() - 1);
-    setStrikeOutFileNames(flags::colors::no);
-
 }
 
 // TODO : explorer les possibilités de move semantics pour accélérer la récursion
@@ -901,15 +899,20 @@ void FListFrame::showContextMenu()
                 deleteGroup();
                 return;
             }
-            (*Hash::wrapper["XHL"])[currentIndex] = Hash::Reference.at(currentIndex);
+            if (currentIndex < Hash::Reference.size())
+                    (*Hash::wrapper["XHL"])[currentIndex] = Hash::Reference.at(currentIndex);
         }
 
         if (selectedItem == displayAction)
         {
-            QString str = Hash::Reference.at(currentIndex).at(row);
-            on_xhl_display(str);
+           if (currentIndex < Hash::Reference.size() 
+                && row < Hash::Reference.at(currentIndex).size())
+           {
+                QString str = Hash::Reference.at(currentIndex).at(row);
+                on_xhl_display(str);
+           }
 
-            return;
+           return;
         }
 
         int localrow = 0;
@@ -923,7 +926,9 @@ void FListFrame::showContextMenu()
 
             font = item->font();
 
-            str = Hash::Reference.at(currentIndex).at(localrow);
+            if (currentIndex < Hash::Reference.size() 
+                    && localrow < Hash::Reference.at(currentIndex).size())
+                    str = Hash::Reference.at(currentIndex).at(localrow);
 
             Hash::Suppression[str] = isDeleteAction ;
 
