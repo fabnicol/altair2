@@ -6,7 +6,7 @@ start() {
 
   rm -f /home/Public/VERSION
   
-  wget   https://gitlabjf.ccomptes.fr/fnicol/master-jf/blob/master-jf/VERSION -0 /home/Public/VERSION
+  wget   https://gitlabjf.ccomptes.fr/fnicol/master-jf/raw/master-jf/VERSION -O /home/Public/VERSION    --no-check-certificate
   
   if ! test -f /home/Public/VERSION
   then 
@@ -21,22 +21,32 @@ start() {
     fi
     
       clear
-      echo **************************************
-      echo *                                                               
-      echo *  Actualisation de l'application Altaïr
-      echo *
-      echo * *************************************
+      echo "**************************************"
+      echo "*"                                                               
+      echo "*  Actualisation de l'application Altaïr"
+      echo "*"
+      echo "**************************************"
       echo
       echo "****"  
       echo "* Actualisation du dépôt fab..."
       echo "****"
+      
       cd /home/fab/Dev/altair
+      
       git reset --hard HEAD
       git clean -df
       adresse=$(cat entrepot.txt)
   
       current_origin=$(git remote -v | grep origin | grep fetch | cut -f'2' | cut -f 1 -d' ')
-  
+
+      git config user.name "Fabrice Nicol"
+      git config user.email "fabrice.nicol@crtc.ccomptes.fr"
+      git config --unset http.proxy 
+      git config --unset https.proxy
+      git config http.sslVerify false
+      git config https.sslVerify false
+      git config credential.helper store
+      
       if ! test x$current_origin = x$adresse
       then
         echo "****"
@@ -44,12 +54,7 @@ start() {
         echo "***"
         git remote remove origin
         git remote add -t master origin $adresse
-        git config --global --unset http.proxy 
-        git config --global --unset https.proxy
-        git config --global http.sslVerify false
-        git config --global https.sslVerify false
-        git config --global credential.helper store
-      fi
+       fi
   
       git fetch -p -n --depth=1 origin master-jf
   
@@ -76,7 +81,9 @@ start() {
             fi
         fi
 
-         git commit -am "Sauvegarde $(date)"
+        git commit -am "Sauvegarde $(date)"
+        
+        sudo chown -R fab .
   
         echo "****"
         echo "* Actualisation de jf..."
@@ -103,7 +110,6 @@ start() {
         
         cd /home/fab/Dev/altair
         git gc --prune=now
-        fi
 
         echo "Actualisation des documents de référence sur le bureau"
 
@@ -131,6 +137,7 @@ echo "****"
 echo "* Fin de l'opération."
 echo "****"
 echo 
+return 0
 }
 
 
