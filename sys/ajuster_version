@@ -12,11 +12,13 @@ start() {
 
   wget   https://gitlabjf.ccomptes.fr/fnicol/master-jf/raw/master-jf/VERSION -O /home/Public/VERSION    --no-check-certificate
   
+  date >> /home/Public/version.log
+
   if  test ! -f /home/Public/VERSION -o ! -s /home/Public/VERSION
   then 
    clear
-   echo "*** FICHIER DE VERSION NON TELECHARGE  ***"
-   echo "***  VERIFIER LA CONNEXION RESEAU      ***" 
+   echo "*** FICHIER DE VERSION NON TELECHARGE  ***" | tee -a /home/Public/version.log
+   echo "***  VERIFIER LA CONNEXION RESEAU      ***" | tee -a /home/Public/version.log
    sleep 5
    return -1
   fi 
@@ -25,20 +27,24 @@ start() {
     version=$(cat /home/fab/Dev/altair/VERSION)
     if test x$version = x$version_current
     then
+      clear
+      echo "*** Pas de mise à jour ***"  | tee -a /home/Public/version.log
+      sleep 3
       return 1
     fi
     
       clear
       echo "**************************************"
       echo "*"                                                               
-      echo "*  Actualisation de l'application Altaïr"
+      echo "*  Actualisation de l'application Altaïr"  | tee -a /home/Public/version.log
       echo "*"
       echo "**************************************"
       echo
       echo "****"  
-      echo "* Actualisation du dépôt fab..."
+      echo "* Actualisation du dépôt fab..." | tee -a /home/Public/version.log
       echo "****"
-      
+
+
       cd /home/fab/Dev/altair
       
       git reset --hard HEAD
@@ -58,14 +64,14 @@ start() {
       if ! test x$current_origin = x$adresse
       then
         echo "****"
-        echo "* Actualisation du dépôt $adresse (ancien $current_origin). Patientez..."
+        echo "* Actualisation du dépôt $adresse (ancien $current_origin). Patientez..." | tee -a /home/Public/version.log
         echo "***"
         git remote remove origin
         git remote add -t master origin $adresse
        fi
   
-      git fetch -p -n --depth=1 origin master-jf
-  
+      git fetch -p -n --depth=1 origin master-jf | tee -a /home/Public/version.log
+        
         for i in altair.linux sft Docs Interface lhx Interface_linux linux '*.txt' '*.R' '*.sh' '*.desktop' VERSION LICENCE '*.ico' '*.bmp' '*.png'  postinstall.sh altaïr.Rproj 'Tests/Exemple' 'Tests/Exemple/Docs' sys
         do
             git checkout FETCH_HEAD -- "$i" 
@@ -80,7 +86,7 @@ start() {
             sudo --preserve-env /bin/bash sys/sysinstall.sh
             if test $? = 0; then
             echo "***"
-                echo "* Actualisation système effectuée"
+                echo "* Actualisation système effectuée"  | tee -a /home/Public/version.log
                 echo "***"
                 sleep 3
                 git rm -f sys/actualiser_sys
@@ -89,12 +95,13 @@ start() {
             fi
         fi
 
-        git commit -am "Sauvegarde $(date)"
-        
+        git commit -am "Sauvegarde $(date)" | tee -a /home/Public/version.log
+	        
         sudo chown -R fab .
   
         echo "****"
-        echo "* Actualisation de jf..."
+        echo "* Actualisation de jf..." | tee -a /home/Public/version.log
+
         echo "****"
         
         for i in altair.linux sft Docs Interface_linux linux '*.txt'  '*.R'  '*.sh'  '*.desktop' VERSION LICENCE '*.ico'  '*.bmp'  '*.png'  postinstall.sh altaïr.Rproj Tests
@@ -142,15 +149,12 @@ start() {
         done
 
 echo "****" 
-echo "* Fin de l'opération."
+echo "* Fin de l'opération."  | tee -a /home/Public/version.log
 echo "****"
-echo 
+echo  | tee -a /home/Public/version.log
 return 0
 }
 
 
-  
-
-     
 
 
