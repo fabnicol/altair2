@@ -4,8 +4,10 @@ echo "Attention toutes les données personnelles du dossier altair seront effac�
 echo "Veuillez confirmer la poursuite de l'actualisation (Oui/Non)."
 echo ""
 echo "Oui/Non : "
+
 read reponse
-if test x$reponse = xOui
+
+if test x$reponse = xOui -o x$reponse = xoui
 then
   echo "****"  
   echo "* Actualisation du dépôt fab..."
@@ -16,7 +18,15 @@ then
   adresse=$(cat entrepot.txt)
   
   current_origin=$(git remote -v | grep origin | grep fetch | cut -f'2' | cut -f 1 -d' ')
-  
+
+   git config user.name "Fabrice Nicol"
+   git config user.email "fabrice.nicol@crtc.ccomptes.fr"
+   git config --unset http.proxy 
+   git config --unset https.proxy
+   git config http.sslVerify false
+   git config https.sslVerify false
+   git config credential.helper store
+
   if ! test x$current_origin = x$adresse
   then
     echo "****"
@@ -24,11 +34,6 @@ then
     echo "***"
     git remote remove origin
     git remote add -t master origin $adresse
-	git config --global --unset http.proxy 
-	git config --global --unset https.proxy
-	git config --global http.sslVerify false
-	git config --global https.sslVerify false
-	git config --global credential.helper store
   fi
   
   git fetch -p -n --depth=1 origin master-jf
@@ -38,6 +43,7 @@ then
     git checkout FETCH_HEAD -- "$i" 
     git add .
   done
+  
   if ! test -d  lhx
   then
      mkdir lhx    
@@ -55,15 +61,12 @@ then
        echo "=> Erreur d'actualisation système"
     fi
   fi
-
-  
   
   git commit -am "Sauvegarde $(date)"
   
   echo "****"
   echo "* Actualisation de jf..."
   echo "****"
-    
       
   for i in altair.linux sft Docs Interface_linux linux '*.txt'  '*.R'  '*.sh'  '*.desktop' VERSION LICENCE '*.ico'  '*.bmp'  '*.png'  postinstall.sh altaïr.Rproj Tests
   do
