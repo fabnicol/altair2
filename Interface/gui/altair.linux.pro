@@ -35,6 +35,9 @@
 # termes.
 # 
 # 
+
+DEFINES +=    VERSION=\\\"17.03-1\\\"
+
 greaterThan(QT_MAJOR_VERSION, 5)
 # Mettre Git\bin dans le PATH systématiquement
 # utiliser au moins Qt5 et g++-5.1
@@ -93,8 +96,6 @@ QT       -= openssl
 TARGET = Altair
 
 VPATH = .
-
-DEFINES +=    VERSION=\\\"17.03\\\"
 
 DEFINES += PROGRESSBAR_TIMEOUT=200    # Intervalle d'incrémentation de la barre de progression en millisecondes
                             # Un timeout plus élevé diminue l'overhead mais rend la la progression moins fluide.
