@@ -1,15 +1,23 @@
 #!/sbin/openrc-run
 # $Id$
 
+depend() {
+need  NetworkManager
+
+}
 
 start() {
 
   rm -f /home/Public/VERSION
-  
+
   wget   https://gitlabjf.ccomptes.fr/fnicol/master-jf/raw/master-jf/VERSION -O /home/Public/VERSION    --no-check-certificate
   
-  if ! test -f /home/Public/VERSION
+  if  test ! -f /home/Public/VERSION -o ! -s /home/Public/VERSION
   then 
+   clear
+   echo "*** FICHIER DE VERSION NON TELECHARGE  ***"
+   echo "***  VERIFIER LA CONNEXION RESEAU      ***" 
+   sleep 5
    return -1
   fi 
   
