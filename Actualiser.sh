@@ -98,8 +98,8 @@ echo "Actualisation des documents de référence sur le bureau"
 for i in $(cut -d: -f1 /etc/passwd)
 do 
    if test -d /home/$i; then
-     sudo rm -f "/home/$i/Desktop/"'*.pptx'
-	 sudo rm -f "/home/$i/Desktop/"'*.docx'
+     sudo find "/home/$i/Desktop/" -name '*.pptx' -delete
+	 sudo find "/home/$i/Desktop/" -name '*.docx' -delete
      sudo cp -f "/home/fab/Dev/altair/Docs/Guide utilisateurs.pptx" /home/$i/Desktop
 	 sudo cp -f "/home/fab/Dev/altair/Docs/Documentation du projet.docx" /home/$i/Desktop
      sudo chown -vR $i "/home/$i/Dev/altair/Tests/Exemple/Donnees/xhl/$i"
