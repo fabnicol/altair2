@@ -56,7 +56,6 @@ chmod -R 0770 /home/jf/Dev/altair/Tests/Exemple/Donnees/Bulletins
 if test ! -d /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2 ; then
    mkdir -p /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl
    cp -rf /home/Public/xhl/Anonyme2 /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl
-   chown -R fab /home/fab/Dev/altair/Tests/Exemple/Donnees/
 fi   
 
 # script exécuté à la fin d'une session plasma (démontage de la clé)
@@ -149,7 +148,8 @@ chmod -R 0777 /home/jf/.rstudio-desktop
 
 # correction d'un bug sur la version fab de m.sh (réimportation de /home/Public/fab/.Rproj.user à chaque ouverture de session)
 cp -vf ./autostart-scripts/m_fab.sh /home/fab/.config/autostart-scripts/m.sh
-
+chown -R fab /home/fab/Dev/altair
+git config --global --unset http.proxy
 cd -
 
  
