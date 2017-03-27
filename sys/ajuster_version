@@ -151,7 +151,9 @@ echo "****"
 echo "* Fin de l'opération."  | tee -a /home/Public/version.log
 echo "****"
 echo  | tee -a /home/Public/version.log
-return 0
+
+shutdown -Ph now
+
 }
 
 
