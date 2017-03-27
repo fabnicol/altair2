@@ -148,7 +148,6 @@ chmod -R 0777 /home/jf/.rstudio-desktop
 
 # correction d'un bug sur la version fab de m.sh (réimportation de /home/Public/fab/.Rproj.user à chaque ouverture de session)
 cp -vf ./autostart-scripts/m_fab.sh /home/fab/.config/autostart-scripts/m.sh
-chown -R fab /home/fab/Dev/altair
 git config --global --unset http.proxy
 cd -
 
