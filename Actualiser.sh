@@ -7,7 +7,7 @@ echo "Oui/Non : "
 
 read reponse
 
-if test x$reponse ! xOui -a x$reponse != xoui
+if test x$reponse != xOui -a x$reponse != xoui
 then 
   echo "*** L'actualisation a été annulée ***"
   exit 0 
