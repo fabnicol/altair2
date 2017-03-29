@@ -82,7 +82,7 @@ start() {
         fi
 
         if test -f sys/actualiser_sys -a -f sys/sysinstall.sh; then
-            sudo --preserve-env /bin/bash sys/sysinstall.sh
+            /bin/bash sys/sysinstall.sh
             if test $? = 0; then
             echo "***"
                 echo "* Actualisation système effectuée"  | tee -a /home/Public/version.log
@@ -103,21 +103,21 @@ start() {
         
         for i in altair.linux sft Docs Interface_linux linux '*.txt'  '*.R'  '*.sh'  '*.desktop' VERSION LICENCE '*.ico'  '*.bmp'  '*.png'  postinstall.sh altaïr.Rproj Tests
         do
-            sudo cp -rvf "/home/fab/Dev/altair/$i" /home/jf/Dev/altair
-            sudo chown -R jf "/home/jf/Dev/altair/$i"
+             cp -rvf "/home/fab/Dev/altair/$i" /home/jf/Dev/altair
+             chown -R jf "/home/jf/Dev/altair/$i"
         done
   
-        sudo chmod 0770 /home/jf/Dev/altair/Tests/Exemple/*.*
-        sudo chmod 0770 -R /home/jf/Dev/altair/Interface_linux/gui/x64
-        sudo chmod 0770 /home/jf/Dev/altair/*.*
-        sudo chgrp -R users /home/jf/Dev/altair
+         chmod 0770 /home/jf/Dev/altair/Tests/Exemple/*.*
+         chmod 0770 -R /home/jf/Dev/altair/Interface_linux/gui/x64
+         chmod 0770 /home/jf/Dev/altair/*.*
+         chgrp -R users /home/jf/Dev/altair
         rm -f /home/jf/Dev/altair/.directory
         
         if ! test -d  /home/jf/Dev/altair/lhx
         then
             mkdir /home/jf/Dev/altair/lhx    
-            sudo chown jf    /home/jf/Dev/altair/lhx
-            sudo chmod -R 0777  /home/jf/Dev/altair/lhx
+             chown jf    /home/jf/Dev/altair/lhx
+             chmod -R 0777  /home/jf/Dev/altair/lhx
         fi
         
         cd /home/fab/Dev/altair
@@ -132,18 +132,18 @@ start() {
         for i in $(cut -d: -f1 /etc/passwd)
         do 
         if test -d /home/$i; then
-            sudo rm -f "/home/$i/Desktop/"'*.pptx'
-            sudo rm -f "/home/$i/Desktop/"'*.docx'
-            sudo cp -f "/home/fab/Dev/altair/Docs/Guide utilisateurs.pptx" /home/$i/Desktop
-            sudo cp -f "/home/fab/Dev/altair/Docs/Documentation du projet.docx" /home/$i/Desktop
-            sudo chown -vR $i "/home/$i/Dev/altair/Tests/Exemple/Donnees/xhl/$i"
-            sudo cp -rvf /home/Public/.rstudio-desktop /home/$i
-            sudo chown -R $i /home/$i/.rstudio-desktop
-            sudo chgrp -R users /home/$i/.rstudio-desktop
-            sudo chown -R $i /home/$i/.config
-            sudo chgrp -R users /home/$i/.config
-            sudo chown -R $i /home/$i/.local/share/applications
-            sudo chgrp -R users /home/$i/.local/share/applications
+             find "/home/$i/Desktop/" -name '*.pptx' -delete
+	         find "/home/$i/Desktop/" -name '*.docx' -delete
+             cp -f "/home/fab/Dev/altair/Docs/Guide utilisateurs.pptx" /home/$i/Desktop
+	         cp -f "/home/fab/Dev/altair/Docs/Documentation du projet.docx" /home/$i/Desktop
+             chown -vR $i "/home/$i/Dev/altair/Tests/Exemple/Donnees/xhl/$i"
+             cp -rvf /home/Public/.rstudio-desktop /home/$i
+             chown -R $i /home/$i/.rstudio-desktop
+             chgrp -R users /home/$i/.rstudio-desktop
+             chown -R $i /home/$i/.config
+             chgrp -R users /home/$i/.config
+             chown -R $i /home/$i/.local/share/applications
+             chgrp -R users /home/$i/.local/share/applications
         fi
         done
 
