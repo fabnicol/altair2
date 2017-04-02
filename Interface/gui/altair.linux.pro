@@ -37,7 +37,7 @@
 # 
 
 DEFINES +=    VERSION=\\\"17.03-1\\\"
-
+QMAKE_CXX = /usr/bin/g++-6.3.0
 greaterThan(QT_MAJOR_VERSION, 5)
 # Mettre Git\bin dans le PATH systématiquement
 # utiliser au moins Qt5 et g++-5.1
