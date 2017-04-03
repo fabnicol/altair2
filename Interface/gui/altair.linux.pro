@@ -36,29 +36,23 @@
 # 
 # 
 
-DEFINES +=    VERSION=\\\"17.03-1\\\"
-QMAKE_CXX = /usr/bin/g++-6.3.0
+VERSION_TAG = $$system(cat ../../VERSION)
+DEFINES +=  VERSION=\\\"$$VERSION_TAG\\\"
+message("Version :  $$VERSION_TAG")
+#QMAKE_CXX = /usr/bin/g++-6.3.0
 greaterThan(QT_MAJOR_VERSION, 5)
-# Mettre Git\bin dans le PATH systématiquement
+
 # utiliser au moins Qt5 et g++-5.1
 # ENCODAGE : UTILISER UTF-8 PARTOUT, y compris sur le fichier .pro.
 
-if (win32|linux) {
-  message("Système d'exploitation :  $$(OS)")
+if (linux) {
+  message("Système d'exploitation linux")
 } else {
-  error("Le système d'exploitation doit être soit Windows soit linux")
+  error("Le système d'exploitation doit être linux")
 }
 
-windows {
-  GIT_VERSION = $$system(git --version | find \"git version\")
-  CXX_VERSION = $$system($$QMAKE_CXX --version | findstr \"[5-9].[0-9]\")
-  DEFINES += LOCAL_BINPATH
-}
-
-linux {
-  GIT_VERSION = $$system(git --version | grep -e \"git version\")
-  CXX_VERSION = $$system($$QMAKE_CXX --version | grep -e '[5-9].[0-9]')
-}
+GIT_VERSION = $$system(git --version | grep -e \"git version\")
+CXX_VERSION = $$system($$QMAKE_CXX --version | grep -e '[5-9].[0-9]')
 
 if (!isEmpty(GIT_VERSION)) {
     message( "Version de git : $$GIT_VERSION" )
@@ -117,7 +111,6 @@ DEFINES += QT_NO_OPENGL \
            #INSERT_DIRPAGE   \                          # Utiliser un dialogue de configuration des répertoires          
            #INSERT_MAXN                                 # Insérer des champs pour -n et -N dans le dialogue d'options 
 
-windows:RC_ICONS = neptune.ico
 
 QMAKE_CXXFLAGS += -std=gnu++11                         # obligatoire
 QMAKE_CXXFLAGS += -march=core-avx2  -pipe -m64         # facultatif
