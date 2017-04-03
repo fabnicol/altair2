@@ -38,8 +38,9 @@
 # L'ensemble des fichiers source doit être encodé en UTF-8 sauf celui-ci qui peut l'être en Latin-1
 
 DEFINES +=  CORE2=\\\"\\\"
-DEFINES +=             VERSION=\\\"17.03\\\"
-
+VERSION_TAG = $$system(type C:\Users\Public\Dev\altair\VERSION)
+DEFINES +=  VERSION=\\\"$$VERSION_TAG\\\"
+message("Version :  $$VERSION_TAG")
 greaterThan(QT_MAJOR_VERSION, 5)
 
 # utiliser au moins Qt5 et g++-5.1 sous windows

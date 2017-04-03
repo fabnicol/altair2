@@ -86,14 +86,15 @@ inline const QString  Altair::makeSystemString()
 
 void Altair::writeProjectFile()
 {
-    QFile projectFile;
     checkEmptyProjectName();
-    projectFile.setFileName(projectName);
+    QFile projectFile(projectName);
     QErrorMessage *errorMessageDialog = new QErrorMessage(this);
 
-    if (!projectFile.open(QIODevice::WriteOnly))
+    if (projectFile.isOpen()) projectFile.close();
+
+    if (! projectFile.open(QFile::WriteOnly|QFile::Truncate|QFile::Text))
     {
-        errorMessageDialog->showMessage("Impossible d'ouvrir le fichier du projet" + projectName +"\n"+ qPrintable(projectFile.errorString()));
+        errorMessageDialog->showMessage("Impossible d'ouvrir le fichier du projet " + projectName +"\n"+ qPrintable(projectFile.errorString()));
         QLabel *errorLabel = new QLabel;
         errorLabel->setText(tr("Si cette case est décochée, ce message "
                                "ne s'affichera plus à  nouveau."));
