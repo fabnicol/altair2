@@ -58,8 +58,8 @@ if (setOSWindows) {
   # Ne pas utiliser / ici
   
   system("xcopy /Y altaïr.pdf Donnees\\R-Altaïr")
-  system("mkdir Donnees\\R-Altaïr\\Docs")
-  system("xcopy /E /Y Docs Donnees\\R-Altaïr\\Docs")
+#  system("mkdir Donnees\\R-Altaïr\\Docs")
+  system("xcopy /E /Y /I Docs Donnees\\R-Altaïr\\Docs")
   
 } else {
   
