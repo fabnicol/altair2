@@ -48,7 +48,9 @@ smic.net <- data.table::fread(
   
   # Rajouter ici les valeurs futures sous la forme année,  valeur au début de la chaine de caractères :
   
-                   "2014,  3386.1
+                   "2016,  3424.8
+                    2015,  3408.0
+                    2014,  3386.1
                     2013,  3361.3
                     2012,  3322.5  
                     2011,  3221.9
@@ -60,7 +62,7 @@ smic.net <- data.table::fread(
 
 # actualiser aussi ceci, pour éviter à recalculer :
 
-smic.net.dernière.année.renseignée <- 2014
+smic.net.dernière.année.renseignée <- 2016
 smic.net.première.année.renseignée <- 2008
 
 # http://www.bdm.insee.fr/ et documents altair/Docs/SMIC_NET.xls 
