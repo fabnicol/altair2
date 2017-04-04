@@ -36,41 +36,48 @@
 # 
 # 
   
-Résumé(c("Âge des personnels <br>au 31/12/" %+% début.période.sous.revue,
+
+pyramides <- function(Bulletins.début.psr, 
+                      Bulletins.fin.psr, 
+                      ages.début.psr, 
+                      ages.fin.psr,
+                      titre,
+                      versant) {
+
+e$res <- Résumé(c("Âge des personnels <br>au 31/12/" %+% début.période.sous.revue,
          "Effectif",
          "Âge des personnels <br>au 31/12/" %+% fin.période.sous.revue,
          "Effectif"),
-       list(Bulletins.avant[ , age], 
-            Bulletins.après[ , age]),
+       list(Bulletins.début.psr[ , age], 
+            Bulletins.fin.psr[ , age]),
        extra = "length",
        align = 'c',
        type = "standard")
-#' 
-#+fig.height=9.7, fig.width=8.4
 
 
-if (longueur.non.na(avant) == 0) {
+
+if (longueur.non.na(ages.début.psr) == 0) {
   cat("La pyramide des âges de début de période ne peut être produite.")
-  avant <- après
+  ages.début.psr <- ages.fin.psr
 } 
 
-if (longueur.non.na(après) == 0) {
+if (longueur.non.na(ages.fin.psr) == 0) {
   cat("La pyramide des âges de fin de période ne peut être produite.")
-  après <- avant
+  ages.fin.psr <- ages.début.psr
 }
 
 #  ----- On peut forcer le versant de la FP en renseignant versant
 #        sinon détection automatique par VERSANT_FP
  
 
-if (longueur.non.na(avant) > 0 || longueur.non.na(après) > 0) {
+if (longueur.non.na(ages.début.psr) > 0 || longueur.non.na(ages.fin.psr) > 0) {
   
-  if (! is.null(après)) {
+  if (! is.null(ages.fin.psr)) {
     
-    pyramide_ages(avant, après, titre) 
+    pyramide_ages(ages.début.psr, ages.fin.psr, titre) 
 
     if (versant != "")  {  
-          pyramide_ages(après, date.fin = année.après, versant = versant)
+          pyramide_ages(ages.fin.psr, date.fin = fin.période.sous.revue, versant = versant)
     } 
     
   } else {
@@ -79,12 +86,12 @@ if (longueur.non.na(avant) > 0 || longueur.non.na(après) > 0) {
     
   }
 
-  H0 <- avant[ , .(Hommes = sum(Hommes, na.rm = TRUE), 
+  H0 <- ages.fin.psr[ , .(Hommes = sum(Hommes, na.rm = TRUE), 
                    Femmes = sum(Femmes, na.rm = TRUE)),
                  by = floor(age / 5)][ 
                , Total := Hommes + Femmes]
  
-  H1 <- après[ , .(Hommes = sum(Hommes, na.rm = TRUE), 
+  H1 <- ages.début.psr[ , .(Hommes = sum(Hommes, na.rm = TRUE), 
                    Femmes = sum(Femmes, na.rm = TRUE)),
                by = floor(age / 5)][ 
                  , Total := Hommes + Femmes]
@@ -93,19 +100,10 @@ if (longueur.non.na(avant) > 0 || longueur.non.na(après) > 0) {
     
 } 
 
-#'  
-#'*Source des comparaisons avec les données nationales*      
-#'         
-#'Rapport annuel sur l'état de la fonction publique pour 2016      
-#'[Pyramide 2013 FPH](Docs/insee_pyramide_fph_2013.csv)   
-#'[Pyramide 2013 FPT](Docs/insee_pyramide_fpt_2013.csv)     
-
-#' 
-#+fig.height=9.7, fig.width=8.4 
 
 newpage()
 
-if  (exists("H") && ! identical(avant, après) && longueur.non.na(H$Total) > 0) {
+if  (exists("H") && ! identical(ages.fin.psr, ages.début.psr) && longueur.non.na(H$Total) > 0) {
   
   # la valeur y du plot serait plutôt c(-3,20) pour une sortie R pure. On privilégie le formatage Rmd à c(-1, 20)
   
@@ -153,7 +151,7 @@ if  (exists("H") && ! identical(avant, après) && longueur.non.na(H$Total) > 0) {
   
   cat("Le graphique des variations d'effectifs par tranche d'âge ne peut être produit.")
 }
-#' 
+}
 
 
 
