@@ -1983,6 +1983,8 @@ rm(L)
 #'## `r chapitre`.9 Contrôle du supplément familial de traitement   
 #'  
 
+## La biblitothèque SFT est à revoir
+
 if (! utiliser.cplusplus.sft)
 {
    source("sft.R", encoding = encodage.code.source)
@@ -2009,9 +2011,9 @@ if (! utiliser.cplusplus.sft)
 
 }
 
-Paie.sans.enfant.reduit <- Paie[is.na(Nb.Enfants) | Nb.Enfants == 0 , .(SFT.versé = sum(Montant[Type == "S"], na.rm = TRUE)), keyby = "Matricule,Année,Mois"] 
+Paie.sans.enfant.reduit <- Paie[Type == "S" & (is.na(Nb.Enfants) | Nb.Enfants == 0) , .(SFT.versé = sum(Montant, na.rm = TRUE)), keyby = "Matricule,Année,Mois"] 
 
-Paie.sans.enfant.reduit <- Paie.sans.enfant.reduit[SFT.versé > 0, ]
+Paie.sans.enfant.reduit <- Paie.sans.enfant.reduit[SFT.versé > 0]
 
 nb.écart.paiements.sft.sans.enfant <- nrow(Paie.sans.enfant.reduit)
 
@@ -2035,85 +2037,64 @@ if (nb.écart.paiements.sft.sans.enfant > 0){
 #'[Lien vers la base des paiements de SFT à agents sans enfant signalé](Bases/Reglementation/Paie.sans.enfant.reduit.csv)
 #'  
 
-if (!intégrer.échelon) {
-  
-  cat("Le contrôle du SFT pour les fonctionnaires hors échelle indiciaire requiert l'exportation de la variable échelon dans la base. Ce contrôle n'a pas pu être effectué.")
-}
+# Traitement = sum(Montant[Type == "T"], na.rm = TRUE),
 
-  if (!intégrer.échelon) {
+  Paie.enfants.réduit <- Paie[! is.na(Nb.Enfants) & Nb.Enfants > 0 & ! is.na(Indice) & ! is.na(Heures),
+                              .(SFT.versé = sum(Montant[Type == "S"], na.rm = TRUE), 
+                                Temps.de.travail = Temps.de.travail[1],
+                                Indice = Indice[1],
+                                Echelon = Echelon[1],
+                                NBI = NBI[1],
+                                Nb.Enfants = Nb.Enfants[1]),
+                              keyby="Matricule,Année,Mois"]
     
-    # pseudo échelon
-    Paie.enfants.réduit <- Paie[!is.na(Nb.Enfants) & Nb.Enfants > 0 & !is.na(Indice) & !is.na(Heures),
-                                .(SFT.versé = sum(Montant[Type == "S"], na.rm = TRUE), 
-                                  #Traitement = sum(Montant[Type == "T"], na.rm = TRUE),
-                                  Temps.de.travail = Temps.de.travail[1],
-                                  Indice = Indice[1],
-                                  Echelon = "",
-                                  NBI = NBI[1],
-                                  Nb.Enfants = Nb.Enfants[1]),
-                                keyby="Matricule,Année,Mois"]
-    
-    
-  } else {
-    
-    Paie.enfants.réduit <- Paie[!is.na(Nb.Enfants) & Nb.Enfants > 0 & !is.na(Indice) & !is.na(Heures),
-                                .(SFT.versé = sum(Montant[Type == "S"], na.rm = TRUE), 
-                                  #Traitement = sum(Montant[Type == "T"], na.rm = TRUE),
-                                  Temps.de.travail = Temps.de.travail[1],
-                                  Indice = Indice[1],
-                                  Echelon = Echelon[1],
-                                  NBI = NBI[1],
-                                  Nb.Enfants = Nb.Enfants[1]),
-                                keyby="Matricule,Année,Mois"]
-    
-  }
-  
+
   SFT.controle <- with(Paie.enfants.réduit, 
                          mapply(sft, Nb.Enfants, Indice, Echelon, NBI, Temps.de.travail, Année, Mois, USE.NAMES = FALSE))
   
-#   Paie.enfants.réduit <- cbind(Paie.enfants.réduit, SFT.controle)
-#   
-#   Paie.enfants.réduit[ , delta.SFT := SFT.versé - SFT.controle]
-# 
-# 
-# ## Attention ne pas intégrer au sein d'un même `:=`(...) deux définitions en coréférence avec if ... else 
-# # ou alors utiliser ifelse()  [bug de data.table]
-# 
-# # Paie.enfants.réduit[ , ecart := if (SFT.controle > 1) delta / SFT.controle else NA]
-# 
-# # On accepte un tolérance fixée dans prologue.R à tolérance.sft <- 1 euro
-# 
-#   controle.sft <- Paie.enfants.réduit[delta.SFT > tolérance.sft, 
-#                                         .(delta.SFT = round(delta.SFT, 2),
-#                                          SFT.versé,
-#                                          SFT.controle = round(SFT.controle, 2),
-#                                          Matricule, 
-#                                          Année,
-#                                          Mois,
-#                                          Indice,
-#                                          NBI,
-#                                          Temps.de.travail,
-#                                          Nb.Enfants)]
-# 
-#   nb.écart.paiements.sft <- nrow(controle.sft)
-#   
-#   if (nb.écart.paiements.sft) setorder(controle.sft, -delta.SFT, Matricule, Année, Mois)
-#   
-#   if (nb.écart.paiements.sft > 0){
-#       
-#     cat("\nPour les agents ayant au moins un enfant, il a été détecté ",
-#         nb.écart.paiements.sft,
-#         " bulletin", ifelse(nb.écart.paiements.sft == 1, "", "s"),
-#         " de paie présentant un écart de paiement du SFT supérieur à ", tolérance.sft, " euro.\n", sep="")  
-#   
-#     if (afficher.table.écarts.sft)
-#        kable(controle.sft, row.names = FALSE, align = 'c')
-#       
-#   } else {
-#     
-#     cat("\nPour les agents ayant au moins un enfant, il n'a été détecté aucun écart de paiement sur SFT supérieur à ", tolérance.sft, " euro.\n")
-#         
-#   }
+  Paie.enfants.réduit <- cbind(Paie.enfants.réduit, SFT.controle)
+
+  Paie.enfants.réduit[ , delta.SFT := SFT.versé - SFT.controle]
+
+
+## Attention ne pas intégrer au sein d'un même `:=`(...) deux définitions en coréférence avec if ... else
+# ou alors utiliser ifelse()  [bug de data.table]
+
+# Paie.enfants.réduit[ , ecart := if (SFT.controle > 1) delta / SFT.controle else NA]
+
+# On accepte un tolérance fixée dans prologue.R à tolérance.sft <- 1 euro
+
+  controle.sft <- Paie.enfants.réduit[delta.SFT > tolérance.sft,
+                                        .(delta.SFT = round(delta.SFT, 2),
+                                         SFT.versé,
+                                         SFT.controle = round(SFT.controle, 2),
+                                         Matricule,
+                                         Année,
+                                         Mois,
+                                         Indice,
+                                         NBI,
+                                         Temps.de.travail,
+                                         Nb.Enfants)]
+
+  nb.écart.paiements.sft <- nrow(controle.sft)
+
+  if (nb.écart.paiements.sft) setorder(controle.sft, -delta.SFT, Matricule, Année, Mois)
+
+  if (nb.écart.paiements.sft > 0){
+
+    cat("\nPour les agents ayant au moins un enfant, il a été détecté ",
+        nb.écart.paiements.sft,
+        " bulletin", ifelse(nb.écart.paiements.sft == 1, "", "s"),
+        " de paie présentant un écart de paiement du SFT supérieur à ", tolérance.sft, " euro.\n", sep="")
+
+    if (afficher.table.écarts.sft)
+       kable(controle.sft, row.names = FALSE, align = 'c')
+
+  } else {
+
+    cat("\nPour les agents ayant au moins un enfant, il n'a été détecté aucun écart de paiement sur SFT supérieur à ", tolérance.sft, " euro.\n")
+
+  }
 
 #'  
 #'[Lien vers la base des écarts de paiement sur SFT](Bases/Reglementation/controle.sft.csv)
