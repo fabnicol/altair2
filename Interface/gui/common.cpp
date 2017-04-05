@@ -169,33 +169,41 @@ bool common::substituer(const QString& s, const QString& repl,  QString& file_st
 void common::exporter_identification_controle(QString &file_str)
 {
     QStringList employeurL = QStringList(Hash::Employeur.values());
+    employeurL.removeAll("");
     employeurL.removeDuplicates();
-    QString employeur = employeurL.join(",");
+    QString employeur = employeurL.join(", ");
 
     QStringList siretL;
     for (auto && s : Hash::Siret.values())
     {
+        s.removeAll("");
         s.removeDuplicates();
-        siretL << s.join("-");
+        if (s.isEmpty()) continue;
+        siretL <<  s.join(" - ");
     }
+    siretL.removeAll("");
     siretL.removeDuplicates();
 
     QStringList etabL;
     for (auto && s : Hash::Etablissement.values())
     {
         s.removeDuplicates();
-        etabL << s.join("-");
+        s.removeAll("");
+        if (s.isEmpty()) continue;
+        etabL << s.join(" - ");
     }
+    etabL.removeAll("");
     etabL.removeDuplicates();
 
     QStringList budgetL = QStringList(Hash::Budget.values());
+    budgetL.removeAll("");
     budgetL.removeDuplicates();
-    QString budget = budgetL.join("-");
+    QString budget = budgetL.join(" - ");
 
     substituer("controle<-c\\(\"\",\"\",\"\",\"\"\\)", "controle<-c(\""
                                                  + employeur +"\",\""
-                                                 + siretL.join(",")+ "\",\""
-                                                 + etabL.join(",")+ "\",\""
+                                                 + siretL.join(", ")+ "\",\""
+                                                 + etabL.join(", ")+ "\",\""
                                                  + budget + "\")",
                file_str);
 }
