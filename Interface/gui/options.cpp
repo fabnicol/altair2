@@ -204,7 +204,11 @@ inline QString rempl_str(const QString &X, const QString &Y)
 void codePage::substituer_valeurs_dans_script_R()
 {
     reinitialiser_prologue();
-          
+    QString file_str = common::readFile(prologue_codes_path);
+    common::exporter_identification_controle(file_str);
+    bool res = false;
+    bool res2 = true;
+
     QIcon icon0 = QIcon(":/images/view-refresh.png");
     QIcon icon1 = QIcon(":/images/msg.png");
     QIcon icon2 = QIcon(":/images/error.png");
@@ -212,9 +216,7 @@ void codePage::substituer_valeurs_dans_script_R()
     QIcon icon = (appliquerCodes->isChecked()) ?
                   icon1 :
                   icon0;
-    
-    bool res = false;
-    bool res2 = true;
+     
 
     for (const FLineEdit* a: listeCodes)
     {
@@ -231,7 +233,14 @@ void codePage::substituer_valeurs_dans_script_R()
                 "sous algorithme heuristique seulement.");
         
         icon = icon2;
- 
+
+        res = renommer(dump(file_str), prologue_codes_path);
+
+        if (res == true)
+            label->setText("L'identification du contrôle a été exportée dans le rapport.");
+        else
+            label->setText("Erreur d'enregistrement du fichier de configuration prologue_codes.R");
+
         return;
     }
     else
@@ -256,14 +265,13 @@ void codePage::substituer_valeurs_dans_script_R()
                  liste_codes_nr);
      }
 
-    QString file_str = common::readFile(prologue_codes_path);
     QString liste_codes;
 
     for (int rang = 0; rang < listeCodes.size(); ++rang)
     {
         const QString &s     = listeLabels.at(rang);
         const QString &codes = listeCodes.at(rang)->text();
-        bool res = true;
+        res = true;
 
         if (! codes.isEmpty())
         {
