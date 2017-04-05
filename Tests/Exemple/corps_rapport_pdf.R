@@ -37,6 +37,9 @@
 # 
 # 
 # 
+
+PDF <- TRUE
+
 source("rendre.R", encoding = encodage.code.source)
 
 rendre(to = "latex",
