@@ -47,7 +47,7 @@
 #'![Image_Altair](altair.png)
 #'   
 #'   
-#'# Logiciel Altaïr version `r readLines(file.path(initwd, "VERSION"))`
+#'## Logiciel Altaïr version `r readLines(file.path(initwd, "VERSION"))`
 
 # ---
 # Encodage obligatoire en UTF-8
@@ -91,8 +91,9 @@ source("import.R", encoding = encodage.code.source)
 
 #'
 #'### Employeur : `r controle[1]`      
-#'### Siret/Etablissement : `r controle[2]`   
-#'### Budget : `r controle[3]`      
+#'### Siret : `r controle[2]`   
+#'### Etablissement : `r controle[3]`   
+#'### Budget : `r controle[4]`      
 #'En cas de dysfonctionnement logiciel, signaler les difficultés rencontrées à l'aide de la [notice jointe](Docs/MANTIS-suivi des bogues.pdf).    
 #'Logiciel sous licence [CeCILL v.2.1](Docs/LICENCE.html)     
 #+ echo = FALSE

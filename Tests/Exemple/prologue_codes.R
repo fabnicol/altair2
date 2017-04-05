@@ -44,7 +44,7 @@ codes.ihts <- NA
 codes.vacataires <-NA
 codes.elus <- NA
 
-controle<-c("","","")  
+controle<-c("GRENOBLE ALPES METROPOLE ","24380090100023 24380090100015 ","REGIE ASSAINISSEMENT GRENOBLE ALPES METROPOLE ","ASSAINISSEMENT BUDGET PRINCIPAL  MULTI BUDGETS")  
 
 codes <- data.table(valeur = c(codes.nbi, 
                                codes.pfi,
