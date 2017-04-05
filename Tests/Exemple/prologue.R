@@ -68,7 +68,7 @@ charger.bases                  <- TRUE
 sauvegarder.bases.analyse      <- TRUE
 sauvegarder.bases.origine      <- FALSE
 afficher.table.effectifs       <- FALSE
-générer.table.élus             <- FALSE
+générer.table.élus             <- TRUE
 tester.matricules              <- TRUE
 analyse.statique.totale        <- FALSE
 corriger.environnement.système <- (setOSWindows == TRUE)
@@ -81,7 +81,7 @@ analyse.par.catégorie          <- TRUE
 test.delta                     <- FALSE
 if (! exists("PDF"))       PDF <- FALSE
 keep_md                        <- FALSE
-utiliser.cplusplus.sft         <- TRUE
+utiliser.cplusplus.sft         <- FALSE
 sécuriser.types.sortie         <- TRUE
 
 seuil.troncature               <- 1 # jours
