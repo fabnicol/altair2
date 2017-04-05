@@ -165,6 +165,51 @@ bool common::substituer(const QString& s, const QString& repl,  QString& file_st
     return (! file_str.isEmpty());
 }
 
+
+void common::exporter_identification_controle(QString &file_str)
+{
+    QStringList employeurL = QStringList(Hash::Employeur.values());
+    employeurL.removeDuplicates();
+    QString employeur = employeurL.join(",");
+
+    QStringList siretL;
+    for (auto && s : Hash::Siret.values())
+    {
+        s.removeDuplicates();
+        siretL << s.join("-");
+    }
+    siretL.removeDuplicates();
+
+    QStringList etabL;
+    for (auto && s : Hash::Etablissement.values())
+    {
+        s.removeDuplicates();
+        etabL << s.join("-");
+    }
+    etabL.removeDuplicates();
+
+    QStringList budgetL = QStringList(Hash::Budget.values());
+    budgetL.removeDuplicates();
+    QString budget = budgetL.join("-");
+
+    substituer("controle<-c\\(\"\",\"\",\"\",\"\"\\)", "controle<-c(\""
+                                                 + employeur +"\",\""
+                                                 + siretL.join(",")+ "\",\""
+                                                 + etabL.join(",")+ "\",\""
+                                                 + budget + "\")",
+               file_str);
+}
+
+
+
+void common::exporter_identification_controle()
+{
+    const QString &prologue_code_path = path_access("Tests/Exemple/prologue_codes.R");
+    QString file_str = readFile(prologue_code_path);
+    exporter_identification_controle(file_str);
+    renommer(dump(file_str), prologue_code_path);
+}
+
 QString common::readFile(const QString &path,  int start, int stop, int width)
 {
 
