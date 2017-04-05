@@ -47,7 +47,7 @@
 #'![Image_Altair](altair.png)
 #'   
 #'   
-#'# Démonstrateur Altaïr version 17.03
+#'# Logiciel Altaïr version `r readLines(file.path(initwd, "VERSION"))`
 
 # ---
 # Encodage obligatoire en UTF-8
@@ -60,8 +60,6 @@
 # Lorsque l'on n'a que une ou deux années, mettre étudier.variations à FALSE
 # Lorsque l'on n'étudie pas une base Xémélios, mettre étudier.tests.statutaires à FALSE
 
-
-
 #+ début
 
 library(compiler)
@@ -72,10 +70,8 @@ invisible(enableJIT(3))
 options(warn = -1, verbose = FALSE, OutDec = ",", datatable.verbose = FALSE, datatable.integer64 = "numeric")
 
 encodage.code.source <- "ISO-8859-1"
-
-currentDir              <- getwd()
-générer.rapport         <<- ! grepl("altair", basename(currentDir), ignore.case = TRUE) 
-
+currentDir           <- getwd()
+générer.rapport      <<- ! grepl("altair", basename(currentDir), ignore.case = TRUE) 
 
 # dans cet ordre
 
@@ -90,14 +86,15 @@ if (corriger.environnement.système) {
   
 }
 
-
 source("bibliotheque.fonctions.paie.R", encoding = encodage.code.source)
 source("import.R", encoding = encodage.code.source)
 
 #'
-#'<p class = "centered"><b>Exercices `r paste(début.période.sous.revue, "à", fin.période.sous.revue)` </b></p>
-#'<p class = "author">Fabrice Nicol</h1>
-#'
+#'### Employeur : `r controle[1]`      
+#'### Siret/Etablissement : `r controle[2]`   
+#'### Budget : `r controle[3]`      
+#'En cas de dysfonctionnement logiciel, signaler les difficultés rencontrées à l'aide de la [notice jointe](Docs/MANTIS-suivi des bogues.pdf).    
+#'Logiciel sous licence [CeCILL v.2.1](Docs/LICENCE.html)     
 #+ echo = FALSE
 #'`r format(Sys.Date(), "%a %d %b %Y")`      
 #'      
@@ -183,7 +180,7 @@ newpage()
 #'### `r chapitre`.2 Pyramide des âges, ensemble des personnels
 
 #' 
-#+fig.height=9.7, fig.width=8.4
+#+fig.height=8, fig.width=7
 
 
   
@@ -191,6 +188,9 @@ essayer(produire_pyramides(NULL,
                            "Pyramide des âges des personnels",
                            versant = VERSANT_FP),
         "La pyramide des âges de l'ensemble des personnels n'a pas pu être générée.")
+
+
+newpage()
 
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
@@ -215,20 +215,19 @@ newpage()
 
 
 #' 
-#+fig.height=9.7, fig.width=8.4
+#+fig.height=8, fig.width=7
 essayer(produire_pyramides(c("TITULAIRE", "STAGIAIRE"), 
                            "Pyramide des âges des fonctionnaires",
                            versant = "TIT_" %+% VERSANT_FP),
       "La pyramide des âges des fonctionnaires n'a pas pu être générée.")
 
+newpage()
 
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
 print(e$res)
-
-
 
 #'  
 #'[Lien vers la base des âges - début de période](Bases/Effectifs/`r e$nom.fichier.avant`.csv)  
@@ -242,11 +241,12 @@ newpage()
 
 #'### `r chapitre`.4 Pyramide des âges, personnels non titulaires   
 
-#+fig.height=9.7, fig.width=8.4
+#+fig.height=8, fig.width=7
 essayer(produire_pyramides(c("NON_TITULAIRE"), "Pyramide des âges des non titulaires", 
                            versant = "NONTIT_" %+% VERSANT_FP),
         "La pyramide des âges des non titulaires n'a pas pu être générée." )
 
+newpage()
 
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
@@ -269,17 +269,18 @@ newpage()
 
 
 #' 
-#+fig.height=9.7, fig.width=8.4
+#+fig.height=8, fig.width=7
 Filtre_bulletins <- setdiff(unique(Bulletins.paie$Statut), c("TITULAIRE", "NON_TITULAIRE", "STAGIAIRE")) 
 
 essayer(produire_pyramides(Filtre_bulletins, "Pyramide des âges des autres personnels"),  "La pyramide des âges des autres personnels n'a pas pu être générée.")
+
+newpage()
 
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
 print(e$res)
-
 
 #'  
 #'[Lien vers la base des âges - début de période](Bases/Effectifs/`r e$nom.fichier.avant`.csv)  
@@ -293,8 +294,6 @@ print(e$res)
 #'[Pyramide 2013 FPH](Docs/insee_pyramide_fph_2013.csv)   
 #'[Pyramide 2013 FPT](Docs/insee_pyramide_fpt_2013.csv)     
 
-#' 
-#+fig.height=9.7, fig.width=8.4 
 
 #'*Toutes les pyramides des âges sont établies au 31 décembre de l'année considérée.*   
 #'*Les élus ne sont pas compris dans le périmètre statistique.*     

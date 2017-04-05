@@ -398,7 +398,6 @@ pyramide_ages <- function(Avant,
                           couleur_H = "darkslateblue",
                           couleur_F = "firebrick4") {
 
-  newpage()
 
   if (versant != "") {
 
