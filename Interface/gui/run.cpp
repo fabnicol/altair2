@@ -357,8 +357,9 @@ void Altair::run()
         }
     }
 
-
     Hash::fileList.clear();
+
+    common::exporter_identification_controle();
             
     if  (v(exportMode).left(12) == "Distributive")
     {
