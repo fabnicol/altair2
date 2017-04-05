@@ -301,6 +301,30 @@ public:
       }
   }
 
+  static QString aplatir(const QHash<QString, QStringList> &h, const QString &sep)
+  {
+      QStringList strL;
+      for (auto && s : h.values())
+      {
+          s.removeAll("");
+          s.removeDuplicates();
+          if (s.isEmpty()) continue;
+          for (auto &&u : s)
+             strL <<  u;
+      }
+
+      strL.removeDuplicates();
+      return strL.join(sep);
+  }
+
+  static QString aplatir(const QHash<QString, QString> &h, const QString &sep)
+  {
+      QStringList strL = QStringList(h.values());
+      strL.removeAll("");
+      strL.removeDuplicates();
+      return strL.join(sep);
+  }
+
 };
 
 #endif // FSTRING_H

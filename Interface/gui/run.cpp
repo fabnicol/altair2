@@ -128,7 +128,7 @@ void Altair::runWorker(const QString& subdir)
     
     if (commandLine.isEmpty()) return;
     
-    args0 <<  "-m" << "-d" << "," << "-s" << ";" << "-rank" << sharedir + "/rank";
+    args0 <<  "-m" << "-d" << "," << "-s" << ";" << "-E" << "-rank" << sharedir + "/rank";
 
     // Si les bases sont directement importées du CDROM dans l'onglet sans passer une copie
     // dans le répertoire v(base) (par défaut .../Donnees/R-Altair) alors basculer en un
@@ -157,7 +157,7 @@ void Altair::runWorker(const QString& subdir)
                                                                             / (1024*1024)) 
                                                + tr(" Mo)..."));
 
-    command = QString("-m -d \",\" -s \";\" -rank ") + sharedir + "/rank" ;
+    command = QString("-m -d \",\" -s \";\" -E -rank ") + sharedir + "/rank" ;
     
     QStringListIterator i(args1);
     while (i.hasNext())

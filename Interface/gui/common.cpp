@@ -168,47 +168,18 @@ bool common::substituer(const QString& s, const QString& repl,  QString& file_st
 
 void common::exporter_identification_controle(QString &file_str)
 {
-    QStringList employeurL = QStringList(Hash::Employeur.values());
-    employeurL.removeAll("");
-    employeurL.removeDuplicates();
-    QString employeur = employeurL.join(", ");
-
-    QStringList siretL;
-    for (auto && s : Hash::Siret.values())
-    {
-        s.removeAll("");
-        s.removeDuplicates();
-        if (s.isEmpty()) continue;
-        siretL <<  s.join(" - ");
-    }
-    siretL.removeAll("");
-    siretL.removeDuplicates();
-
-    QStringList etabL;
-    for (auto && s : Hash::Etablissement.values())
-    {
-        s.removeDuplicates();
-        s.removeAll("");
-        if (s.isEmpty()) continue;
-        etabL << s.join(" - ");
-    }
-    etabL.removeAll("");
-    etabL.removeDuplicates();
-
-    QStringList budgetL = QStringList(Hash::Budget.values());
-    budgetL.removeAll("");
-    budgetL.removeDuplicates();
-    QString budget = budgetL.join(" - ");
+    const QString &employeur = Hash::aplatir(Hash::Employeur, ", ");
+    const QString &budget = Hash::aplatir(Hash::Budget, ", ");
+    const QString &siret = Hash::aplatir(Hash::Siret, " - ");
+    const QString &etablissement = Hash::aplatir(Hash::Etablissement, " - ");
 
     substituer("controle<-c\\(\"\",\"\",\"\",\"\"\\)", "controle<-c(\""
                                                  + employeur +"\",\""
-                                                 + siretL.join(", ")+ "\",\""
-                                                 + etabL.join(", ")+ "\",\""
+                                                 + siret + "\",\""
+                                                 + etablissement + "\",\""
                                                  + budget + "\")",
                file_str);
 }
-
-
 
 void common::exporter_identification_controle()
 {
@@ -220,11 +191,10 @@ void common::exporter_identification_controle()
 
 QString common::readFile(const QString &path,  int start, int stop, int width)
 {
-
-QStringList L=QStringList();
-readFile(path, L, start, stop, width);
-QString string=L.join("\n");
-return string;
+    QStringList L=QStringList();
+    readFile(path, L, start, stop, width);
+    QString string=L.join("\n");
+    return string;
 }
 
 bool common::IOControl(const QString& in,
