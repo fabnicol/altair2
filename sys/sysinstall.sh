@@ -46,6 +46,13 @@ if test -f build.altair; then
   R CMD INSTALL --byte-compile  -l  /usr/lib64/R/library/ altair.linux
 fi  
 
+# recompilation de la bibliothèque altair
+if test -f install.Rlibrary; then
+  cp -rf Rlibrary/*  /usr/lib64/R/library/ 
+fi  
+
+
+
 # création du dossier Bulletins sous jf
 
 mkdir -p /home/jf/Dev/altair/Tests/Exemple/Donnees/Bulletins
