@@ -10,7 +10,8 @@ fi
   
 }
 
-
+# DEPRECATED
+#
 if test -f sys/install.modules -a $(uname -r | cut -d '.' -f 2) = 4; then
 
    echo "Actualisation des modules du T3..."
@@ -44,15 +45,61 @@ chmod -R +rwx *sh
 # recompilation de la bibliothèque altair
 if test -f build.altair; then
   R CMD INSTALL --byte-compile  -l  /usr/lib64/R/library/ altair.linux
+  echo "*************************************"
+  echo "*                                   *"
+  echo "* Nouvelle bibliothèque altair      *"
+  echo "*                                   *"
+  echo "*************************************"
+  sleep 2
 fi  
 
 # recompilation de la bibliothèque altair
 if test -f install.Rlibrary; then
   cp -rf Rlibrary/*  /usr/lib64/R/library/ 
+  echo "*************************************"
+  echo "*                                   *"
+  echo "* Nouvelle bibliothèque R installée *"
+  echo "*                                   *"
+  echo "*************************************"
+  sleep 2
 fi  
 
+if test -f install.kernel -a "$(uname -r)" != "4.10.8-ck"; then
 
+ echo "Actualisation du noyau (4.10.8-ck)..."
+   echo "Importation de la branche T3"
+   git fetch -p -n  --depth=1 origin T3
+   git checkout FETCH_HEAD -- sys/kernel 
+   
+   if test -d sys/kernel; then
+   
+      echo "Modules importés de la branche T3"
+      _copy sys/kernel/4.10.8-ck /lib/modules
+      chown -R root /lib/modules
+      echo "Actualisation des modules du T3 terminée..."
+      umount /boot
+      mount UUID="8b17d2d8-7905-4019-a9e7-a5d0fb961ea7" /boot
+      rm -rf /boot/*
+      cp -f kernel/*4.10.8* /boot
+      device=$(cat /proc/mounts | grep dev.*10.*home.*ext4 | cut -f1 -d' ' | cut -f1 -d1)
+      grub-install --target i386-pc $device
+      grub-mkconfig -o /boot/grub/grub.cfg
+      echo "***************************************"
+      echo "*                                     *"
+      echo "* Nouveau noyau linux 4.10.8 installé *"
+      echo "*                                     *"
+      echo "***************************************"
+      umount UUID="8b17d2d8-7905-4019-a9e7-a5d0fb961ea7" 
 
+   else
+   
+      echo "Echec de l'actualisation du noyau linux"
+      
+   fi 
+    
+  sleep 2
+fi  
+  
 # création du dossier Bulletins sous jf
 
 mkdir -p /home/jf/Dev/altair/Tests/Exemple/Donnees/Bulletins
