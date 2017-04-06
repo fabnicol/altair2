@@ -44,7 +44,7 @@ codes.ihts <- NA
 codes.vacataires <-NA
 codes.elus <- NA
 
-controle<-c("Z","Z","Z","BUDGET PRINCIPAL")  
+controle<-c("","","","")  
 
 codes <- data.table(valeur = c(codes.nbi, 
                                codes.pfi,

@@ -35,14 +35,14 @@
 // termes.
 //
 //
-/* 
-   on prévoit 15 enfants...
- 
-   limitations : pas de vérification des cas de divorce etc., ni des cas de cumuls
-                 pas de vérification non plus de la licéité des versements à des contractuels exclus par l'article 1er 
-                 du décret n°85-1148 du 24 octobre 1985 modifié relatif à la rémunération des personnels civils et militaires
-                 de l'Etat, des personnels des collectivités territoriales et des personnels des établissements publics d'hospitalisation. 
-*/ 
+/*
+   on prÃ©voit 15 enfants...
+
+   limitations : pas de vÃ©rification des cas de divorce etc., ni des cas de cumuls
+                 pas de vÃ©rification non plus de la licÃ©itÃ© des versements Ã  des contractuels exclus par l'article 1er
+                 du dÃ©cret nÂ°85-1148 du 24 octobre 1985 modifiÃ© relatif Ã  la rÃ©munÃ©ration des personnels civils et militaires
+                 de l'Etat, des personnels des collectivitÃ©s territoriales et des personnels des Ã©tablissements publics d'hospitalisation.
+*/
 
 
 #include <R.h>
@@ -84,18 +84,18 @@ SEXP  sft_C(SEXP Prop, SEXP Indice, SEXP Echelon, SEXP Nbi, SEXP Duree, SEXP Ann
 //          Prop = "integer", Indice = "character", Nbi = "numeric", Duree = "numeric",
 //            Annee = "integer", Mois = "integer"))
 // corps de la fonction C++
-                    
+
    int prop = asInteger(Prop);
    const char* echelon = CHAR(asChar(Echelon));
    int indice = asInteger(Indice);
    int nbi = asInteger(Nbi);
    double duree = asReal(Duree);
    int annee = asInteger(Annee);
-   int mois = asInteger(Mois);   
+   int mois = asInteger(Mois);
 
    const double  sft_fixe[15]= {2.29, 10.67, 15.24,
                                     15.24 + 4.57,
-                                    15.24 + 4.57 * 2, 
+                                    15.24 + 4.57 * 2,
                                     15.24 + 4.57 * 3,
                                     15.24 + 4.57 * 4,
                                     15.24 + 4.57 * 5,
@@ -106,33 +106,33 @@ SEXP  sft_C(SEXP Prop, SEXP Indice, SEXP Echelon, SEXP Nbi, SEXP Duree, SEXP Ann
                                     15.24 + 4.57 * 10,
                                     15.24 + 4.57 * 11,
                                     15.24 + 4.57 * 12};
-   
+
 // part variable en proportion du traitement indiciaire
 
-   double valeur = 0;    
+   double valeur = 0;
    double coef = 0;
    double part_proportionnelle = 0;
    int indice_entier = 0;
 
  #ifdef USE_REGEX
-   const char* ECHELLE_LETTRE_PATTERN = "H.*(E|é).*[A-F]";
-   
+   const char* ECHELLE_LETTRE_PATTERN = "H.*(E|Ã©).*[A-F]";
+
    static const std::regex echelle_lettre {ECHELLE_LETTRE_PATTERN, std::regex::icase};
  #endif
 
-// on a en général indice = 0 pour les hors échelle lettres qui de manière absurde voient leur HE indiquée dans l'échelon...
+// on a en gÃ©nÃ©ral indice = 0 pour les hors Ã©chelle lettres qui de maniÃ¨re absurde voient leur HE indiquÃ©e dans l'Ã©chelon...
 
-   
-  #ifdef USE_REGEX 
+
+  #ifdef USE_REGEX
 
      indice_entier =  std::regex_match(echelon, echelle_lettre)? 717 : indice;
-     
+
   #else
-     
+
      const char letters[] = {'A', 'B', 'C', 'D', 'E', 'F'};
-     
+
      for (int j = 0; echelon[j] != 0; ++j)
-       for (int i = 0; i < 6; ++i) 
+       for (int i = 0; i < 6; ++i)
        {
   		   if (echelon[j] == letters[i] && (echelon[j + 1] == '1' || echelon[j + 1] == '2' || echelon[j + 1] == '3'))
   		   {
@@ -140,57 +140,57 @@ SEXP  sft_C(SEXP Prop, SEXP Indice, SEXP Echelon, SEXP Nbi, SEXP Duree, SEXP Ann
   			   goto out;
   		   }
        }
-     
-	 out : 
-	 
+
+	 out :
+
        if (indice_entier == 0) indice_entier = indice;
-     
+
   #endif
 
    indice_entier += nbi;
-   
-   // "Pour les personnels non rémunérés par un traitement établi en application de l'article 2 précité,
-   // l'élément proportionnel est calculé en pourcentage du traitement afférent à l'indice majoré 449 (indice brut 524)." art. 10 bis décretn°85-1148
-   
+
+   // "Pour les personnels non rÃ©munÃ©rÃ©s par un traitement Ã©tabli en application de l'article 2 prÃ©citÃ©,
+   // l'Ã©lÃ©ment proportionnel est calculÃ© en pourcentage du traitement affÃ©rent Ã  l'indice majorÃ© 449 (indice brut 524)." art. 10 bis dÃ©cretnÂ°85-1148
+
    if (indice_entier > 717) indice_entier = 717;
    if (indice_entier < 449) indice_entier = 449;
-   
+
    if (prop)
      part_proportionnelle =  sft_prop[prop - 1]/100 * (double) indice_entier
-                                                * PointMensuelIM[annee - 2008][mois - 1];  
-   
-   // on prend en compte les quotités spécifiques de temps partiel
+                                                * PointMensuelIM[annee - 2008][mois - 1];
+
+   // on prend en compte les quotitÃ©s spÃ©cifiques de temps partiel
    // 0.91429  =  32/35 ; 0.85714 = 6/7
-   
+
    coef = (duree == 90)?  0.91429 : ((duree == 80)? 0.85714 : duree/100);
-   
-   valeur = 
-     (prop != 1)? 
+
+   valeur =
+     (prop != 1)?
      coef * (part_proportionnelle + sft_fixe[prop - 1])
        : coef * part_proportionnelle + sft_fixe[prop - 1];
-  
-   // vérification du plancher des attributions minimales à temps plein
-   
+
+   // vÃ©rification du plancher des attributions minimales Ã  temps plein
+
    double test = part_proportionnelle_minimale(annee, mois, prop) + sft_fixe[prop - 1];
-   
-   if (prop != 1 && test > valeur) 
+
+   if (prop != 1 && test > valeur)
      valeur = test;
-     
+
 
    return(ScalarReal(valeur));
-   
-}    
- 
+
+}
+
 static const R_CallMethodDef callMethods[]  = {
    {"sft_C", (DL_FUNC) &sft_C, 7},
    {NULL}
  };
- 
- void R_init_sft(DllInfo *info) 
+
+ void R_init_sft(DllInfo *info)
 {
    R_registerRoutines(info, NULL, callMethods, NULL, NULL);
 }
 
 
- 
+
 
