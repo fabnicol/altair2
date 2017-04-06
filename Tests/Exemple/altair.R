@@ -656,22 +656,22 @@ essayer(distribution_smpt(Filtre_neutre),        "La distribution du salaire moy
 
 #'**Comparaisons source INSEE/DGCL**   
 #'
-#'**Salaires annuels moyens 2011 à 2013 en EQTP (hors assistantes maternelles)**   
+#'**Salaires nets annuels moyens 2011 à 2013 en EQTP (hors assistantes maternelles)**   
 #'  
 #'&nbsp;*Tableau `r incrément()`*       
 
 #### INSEE/DGCL VARIATIONS  ####
 #'  
-#'  |  Agrégat (euros)| Salaires nets 2011 | Salaires nets 2012 | Salaires nets 2013 |      
-#'  |-----------------|----------:|---------:|----------:|   
-#'  |    Ensemble     |  21 876,0 | 22 176,0 |  22 224,0 |   
-#'  |   Titulaires    |  22 632,0 | 22 920,0 |  22 920,0 |   
-#'  | Autres salariés |  18 864,0 |  NA      |     NA    |   
+#'  |  net (euros)    | 2011    | 2012   |  2013  |  2014  |     
+#'  |-----------------|--------:|-------:|-------:|-------:|   
+#'  |    Ensemble     |  21 876 | 22 176 | 22 224 | 22 524 |  
+#'  |   Titulaires    |  22 632 | 22 920 | 22 920 | 23 424 |  
+#'  | Autres salariés |  18 864 |  NA    |  NA    | 18 732 |   
 #' 
 #'*Champ : France. Salariés en équivalent-temps plein (EQTP) des collectivités territoriales (y compris bénéficiaires de contrats aidés, hors assistantes maternelles).*     			
 
 #'   
-#'**Distribution des salaires nets annuels en EQTP dans la fonction publique territoriale (2011-2013)**   
+#'**Distribution des salaires nets annuels en EQTP dans la fonction publique territoriale (2011-2014)**   
 #' 
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
@@ -680,18 +680,18 @@ essayer(distribution_smpt(Filtre_neutre),        "La distribution du salaire moy
 # suivi d'un seul blanc juste après la table.
 
 #'  
-#' | Décile \ euros   | 2011     | 2013   |   
-#' |------------------|----------|--------|   
-#' |    D1            | 15 288   | 15 600 |  
-#' |    D2            | 16 512   | 16 860 |    
-#' |    D3            | 17 508   | 17 844 |  
-#' |    D4            | 18 480   | 18 816 |  
-#' |    D5 (médiane)  | 19 632   | 19 908 |    
-#' |    D6            | 21 012   | 21 300 |    
-#' |    D7            | 22 860   | 23 160 |    
-#' |    D8            | 25 596   | 25 956 |    
-#' |    D9            | 30 876   | 31 272 |    
-#' |    Moyenne       | 21 876   | 22 212 |    
+#' | Décile \ euros   | 2011     | 2013   | 2014   |  
+#' |------------------|----------|--------|--------|   
+#' |    D1            | 15 288   | 15 600 | 15 768 | 
+#' |    D2            | 16 512   | 16 860 | 17 124 |   
+#' |    D3            | 17 508   | 17 844 | 18 156 | 
+#' |    D4            | 18 480   | 18 816 | 19 164 | 
+#' |    D5 (médiane)  | 19 632   | 19 908 | 20 256 |    
+#' |    D6            | 21 012   | 21 300 | 21 648 |  
+#' |    D7            | 22 860   | 23 160 | 23 496 |  
+#' |    D8            | 25 596   | 25 956 | 26 292 |  
+#' |    D9            | 30 876   | 31 272 | 31 596 |  
+#' |    Moyenne       | 21 876   | 22 212 | 22 524 |  
 #' 
  
 #'**Distribution des salaires nets annuels en EQTP dans la fonction publique d'Etat (2011-2013)**   
@@ -736,10 +736,11 @@ essayer(distribution_smpt(Filtre_neutre),        "La distribution du salaire moy
 #' |    D9            | 37 812   | 38 100 |    
 #' |  Moyenne         | 26 496   | 26 916 |  
 #' 
-
-#'[Source INSEE, onglets Figure3, F1web et F3web - 2011](Docs/ip1486.xls)   
-#'[Source INSEE, onglets F V3.1-2, F V3.1-5 - 2013](Docs/vue3_remunerations.xls)   
-
+    
+#'[Source INSEE, onglets Figure3, F1web et F3web - 2011](Docs/ip1486.xls)    
+#'[Source INSEE, onglets F V3.1-2, F V3.1-5 - 2013](Docs/vue3_remunerations.xls)     
+#'[Source INSEE 2016](Docs/insee-premiere1616.pdf)    
+ 
 #'   
 #'### `r chapitre`.2.2 Fonctionnaires      
 #'   
@@ -773,18 +774,18 @@ essayer(smpt(Filtre_cat_A), "Le salaire moyen par tête des fonctionnaires de ca
 #'  
 #'*Comparaisons nationales*    
 #'    
-#' | Décile \ euros   | 2011     | 2013   |   
-#' |------------------|----------|--------|
-#' |    D1            | 26 040   | 26 340 |  
-#' |    D2            | 28 992   |        |    
-#' |    D3            | 31 272   |        |  
-#' |    D4            | 33 468   |        |  
-#' |    D5 (médiane)  | 35 820   | 36 312 |    
-#' |    D6            | 38 664   |        |    
-#' |    D7            | 42 276   |        |    
-#' |    D8            | 47 124   |        |    
-#' |    D9            | 54 840   | 55 032 |    
-#' |  Moyenne         | 38 700   | 39 120 |       
+#' | Décile \ euros   | 2011     | 2013   |   2014   |  
+#' |------------------|----------|--------|----------|   
+#' |    D1            | 26 040   | 26 340 |  26 460  |   
+#' |    D2            | 28 992   |        |          |   
+#' |    D3            | 31 272   |        |          |   
+#' |    D4            | 33 468   |        |          |   
+#' |    D5 (médiane)  | 35 820   | 36 312 |  36 580  |    
+#' |    D6            | 38 664   |        |          |
+#' |    D7            | 42 276   |        |          |    
+#' |    D8            | 47 124   |        |          |
+#' |    D9            | 54 840   | 55 032 |  55 440  |       
+#' |  Moyenne         | 38 700   | 39 120 |  39 360  |  
 #' 
 
 #'   
@@ -799,18 +800,18 @@ essayer(smpt(Filtre_cat_B),          "Le salaire moyen par tête des fonctionnai
 
 #'*Comparaisons nationales*    
 #'    
-#' | Décile \ euros   | 2011     | 2013   |  
-#' |------------------|----------|--------|
-#' |    D1            | 20 580   | 20 964 |  
-#' |    D2            | 22 272   |        |    
-#' |    D3            | 23 652   |        |  
-#' |    D4            | 24 960   |        |  
-#' |    D5 (médiane)  | 26 244   | 26 820 |    
-#' |    D6            | 27 636   |        |    
-#' |    D7            | 29 160   |        |    
-#' |    D8            | 30 984   |        |    
-#' |    D9            | 33 804   | 34 224 |    
-#' |  Moyenne         | 26 940   | 27 408 |   
+#' | Décile \ euros   | 2011     | 2013   |  2014   |    
+#' |------------------|----------|--------|---------|   
+#' |    D1            | 20 580   | 20 964 |  21 108 |   
+#' |    D2            | 22 272   |        |         |   
+#' |    D3            | 23 652   |        |         |   
+#' |    D4            | 24 960   |        |         |   
+#' |    D5 (médiane)  | 26 244   | 26 820 |  27 000 |     
+#' |    D6            | 27 636   |        |         |   
+#' |    D7            | 29 160   |        |         |    
+#' |    D8            | 30 984   |        |         |   
+#' |    D9            | 33 804   | 34 224 | 34 344  |   
+#' |  Moyenne         | 26 940   | 27 408 | 27 588  |  
 #' 
 
 #'   
@@ -825,29 +826,27 @@ essayer(smpt(Filtre_cat_C),       "Le salaire moyen par tête des fonctionnaires
 #'     
 #'*Comparaisons nationales*    
 #'    
-#' | Décile \ euros   | 2011     | 2013   |    
-#' |------------------|----------|--------|
-#' |    D1            | 15 972   |  16 296|  
-#' |    D2            | 16 896   |        |    
-#' |    D3            | 17 652   |        |  
-#' |    D4            | 18 360   |        |  
-#' |    D5 (médiane)  | 19 164   |  19 464|    
-#' |    D6            | 20 100   |        |    
-#' |    D7            | 21 216   |        |    
-#' |    D8            | 22 680   |        |    
-#' |    D9            | 24 996   |  25 176|    
-#' |    Moyenne       | 20 016   |  20 268|  
-#' 
+#' | Décile \ euros   | 2011     | 2013   |  2014  |    
+#' |------------------|----------|--------|--------|  
+#' |    D1            | 15 972   |  16 296| 16 632 |  
+#' |    D2            | 16 896   |        |        |   
+#' |    D3            | 17 652   |        |        |    
+#' |    D4            | 18 360   |        |        |  
+#' |    D5 (médiane)  | 19 164   |  19 464| 19 884 |    
+#' |    D6            | 20 100   |        |        | 
+#' |    D7            | 21 216   |        |        |  
+#' |    D8            | 22 680   |        |        |  
+#' |    D9            | 24 996   |  25 176| 25 608 |     
+#' |    Moyenne       | 20 016   |  20 268| 20 676 |   
+#'   
 
-# C 
+
 
 #'   
 #'**Effet de noria sur salaires nets et taux de remplacements**       
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
-
-# D
 
 
 #'     
@@ -1111,20 +1110,20 @@ if (durée.sous.revue > 1) {
 #'    
 
 #' 
-#'| Année  |2008-09|2009-10|2010-11|2011-12|2012-13|2008-12|Moy. 2008-12|Méd. 2007-11|  
-#'|:-------:|-----:|------:|-----:|----:|------:|------:|-----:|-----:|  
-#'| SMPT brut  | 2,5 | 1,3 | 1,5 | 1,7 | 1,1 | 7,2 | 1,8 |  |  
-#'|  SMPT net  | 3,0 | 1,4 | 1,3 | 1,4 | 0,8 | 7,3 | 1,8 | 13,4 |  
-#'| RMPP brute | 3,3 | 2,5 | 2,5 | 2,7 | 1,9 | 11,5 | 2,8 |     |  
-#'| RMPP nette | 3,3 | 2,5 | 2,3 | 2,4 | 1,6 | 10,9 | 2,6 |    |   
+#'| Année      | 2009 | 2010 | 2011 | 2012 | 2013 | 2014 | 
+#'|:----------:|-----:|-----:|-----:|-----:|-----:|-----:|
+#'| SMPT brut  | 2,5  |  1,3 |  1,5 |  1,7 |  1,1 |  1,7 |
+#'| SMPT net   | 3,0  |  1,4 |  1,3 |  1,4 |  0,8 |  1,3 |
+#'| RMPP brute | 3,3  |  2,5 |  2,5 |  2,7 |  1,9 |  3,0 |
+#'| RMPP nette | 3,3  |  2,5 |  2,3 |  2,4 |  1,6 |  2,7 |
 #' 
 
 #'*Source : fichier général de l'État (FGE), DADS, SIASP, Insee, Drees. Traitement Insee, Drees, DGCL*    
 #'Hors assistants maternels et familiaux, y compris bénéficiaires de contrats aidés.   
+#'Lecture : en 2014, le SMPT brut en EQTP a augmenté de 1,7 %
 #'SMPT : Salaire moyen par tête en EQTP.   
-#'RMPP : Agents présents 24 mois consécutifs chez le même employeur avec la même quotité de travail.  
-#'Moyenne des variations géométriques annuelles pour les agents du champ.  
-#'La dernière colonne présente la médiane des augmentations du SMPT net pour les agents présents en 2007 et 2011.   
+#'RMPP : Agents présents 24 mois consécutifs chez le même employeur avec la même quotité de travail.   
+#'Lecture : en 2014, la rémunération nette en EQTP des agents présents deux années consécutives en 2012 et 2013 avec la même quotité a augmenté de 2,7 %   
 #'  
 #'**Salaires nets annuels et évolution moyenne type de collectivité en euros courants  EQTP**    
 #'   
@@ -1134,27 +1133,42 @@ if (durée.sous.revue > 1) {
 
 
 #' 
-#'|  Collectivité   SMPT net  |  2011    | 2012       |      2013 | 2014  | 2007-2011 (%) | 2011-2014 (%) | 
-#'|:-------------------------:|---------:|-----------:|----------:|-------:|--------------:|-------------:|       
-#'|Communes                   | 20 784 |  21 120  | 21 096  | 21 444 | 2,5 |  3,2 | 
-#'|CCAS et caisses des écoles | 19 415 |  19 716  | 19 788  | 20 124 | 2,4 |  3,7 |
+#'|  Organisme   SMPT net     |  2011  | 2012     |    2013 |  2014  | 2007-2011 (%) | 2011-2014 (%) | 
+#'|:-------------------------:|-------:|---------:|--------:|-------:|----:|-----:|       
+#'| Communes                  | 20 784 |  21 120  | 21 096  | 21 444 | 2,5 |  3,2 | 
+#'| CCAS et caisses des écoles| 19 415 |  19 716  | 19 788  | 20 124 | 2,4 |  3,7 |
 #'| EPCI à fiscalité propre   | 22 882 |  23 088  | 23 184  | 23 412 | 3,1 |  2,3 |
-#'| Autres structures intercommunales | 21 299 | 21 684 | 21 828 | 22 140 | 3,0 | 3,9  |
+#'| Autres structures intercommunales |   21 299 | 21 684 | 21 828 | 22 140 | 3,0 | 3,9  |
 #'|   Départements            | 24 487 |  24 744  | 24 852  | 25 068 | 3,9 |  2,4 |
 #'|   SDIS                    | 29 811 |  29 940  | 30 180  | 30 480 | 3,4 |  2,2 |
 #'|  Régions                  | 22 432 |  22 836  | 23 004  | 23 484 | 3,8 |  4,7 |
 #'| Autres collectivités locales  | 24 680  | 24 696  | 24 828  | 25 032 | 3,2 | 1,4 |
-#'|  Ensemble (moyenne)       | 21 873 | 22 176 | 22 212  | 22 524  | 2,9 |  3,0 |
+#'| Ensemble (moyenne)        | 21 873 | 22 176   | 22 212  | 22 524 | 2,9 |  3,0 |
 #' 
+
+#'**RMPP nette 2014 (salariés présents en 2013 et 2014 avec la même quotité) en EQTP**        
+#'    
+#'|  Organisme      RMPP net  |  2014  |    
+#'|:-------------------------:|-------:|   
+#'| Communes                   | 22 524 |   
+#'| CCAS et caisses des écoles | 21 420 |  
+#'| EPCI à fiscalité propre   | 24 864 |    
+#'| Autres structures intercommunales | 23 988 |     
+#'|   Départements            | 25 932 |   
+#'|   SDIS                    | 31 032 |   
+#'|  Régions                  | 24 240 |   
+#'| Autres collectivités locales  | 21 873  |    
+#'|  Ensemble (moyenne)       | 23 760 |    
+#'   
 
 #'*Champ : France. Salariés en équivalent-temps plein (EQTP) des collectivités territoriales (y compris bénéficiaires de contrats aidés, hors assistantes maternelles).*     			
 #'Conversion en euros courants, calcul CRC.  
 
-#'[Source RAEFP 2013 données 2011](Docs/RA_2013.pdf)
-#'[Source RAEFP 2014 données 2012](Docs/RA_2014.pdf)   
-#'[Source RAEFP 2015 données 2013](Docs/RA_2015.pdf)   
-#'[Source RAEFP 2016 données 2014](Docs/RA_2016.pdf)   
-#'    
+#'[Source RAEFP 2013 données 2011](Docs/RA_2013.pdf)   
+#'[Source RAEFP 2014 données 2012](Docs/RA_2014.pdf)     
+#'[Source RAEFP 2015 données 2013](Docs/RA_2015.pdf)     
+#'[Source RAEFP 2016 données 2014](Docs/RA_2016.pdf)      
+#'[Source INSEE 2016](Docs/insee-premiere1616.pdf)      
 
 incrémenter.chapitre()
 
