@@ -86,15 +86,15 @@ if (longueur.non.na(ages.début.psr) > 0 || longueur.non.na(ages.fin.psr) > 0) {
     
   }
 
-  H0 <- ages.fin.psr[ , .(Hommes = sum(Hommes, na.rm = TRUE), 
-                   Femmes = sum(Femmes, na.rm = TRUE)),
-                 by = floor(age / 5)][ 
-               , Total := Hommes + Femmes]
+  H0 <- ages.début.psr[ , .(Hommes = sum(Hommes, na.rm = TRUE), 
+                           Femmes = sum(Femmes, na.rm = TRUE)),
+                            by = floor(age / 5)][
+                        , Total := Hommes + Femmes]
  
-  H1 <- ages.début.psr[ , .(Hommes = sum(Hommes, na.rm = TRUE), 
-                   Femmes = sum(Femmes, na.rm = TRUE)),
-               by = floor(age / 5)][ 
-                 , Total := Hommes + Femmes]
+  H1 <- ages.fin.psr[ , .(Hommes = sum(Hommes, na.rm = TRUE), 
+                          Femmes = sum(Femmes, na.rm = TRUE)),
+                          by = floor(age / 5)][ 
+                      , Total := Hommes + Femmes]
   
   H <- H1 - H0
     
