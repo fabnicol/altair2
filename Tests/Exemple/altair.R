@@ -461,9 +461,9 @@ Tableau.vertical2(
 #'   
 #'*Champ : France. Salariés en équivalent-temps plein (EQTP) des collectivités territoriales (y compris bénéficiaires de contrats aidés, hors assistantes maternelles).*   												
 #'*Les primes sont cumulées au supplément familial de traitement (SFT) et à l'indemnité de résidence (IR). Le cumul est rapporté à la rémunération brute totale.*    
-#'[Source INSEE](http://www.insee.fr/fr/ffc/ipweb/ip1486/ip1486.xls)    
-#'[Source DGCL](http://www.fonction-publique.gouv.fr/files/files/statistiques/rapports_annuels/2012-2013/xls/Vue3_1_Remunerations.xls)    
-#'[Source DGFIP PLF 2015](http://www.performance-publique.budget.gouv.fr/sites/performance_publique/files/farandole/ressources/2015/pap/pdf/jaunes/jaune2015_fonction_publique.pdf)   
+#'[Source INSEE](Docs/ip1486.xls)    
+#'[Source DGCL](Docs/Vue3_1_Remunerations.xls)    
+#'[Source RAEFP 2015](Docs/RA_2015.pdf)   
 #'   
 
 incrémenter.chapitre()
@@ -1134,25 +1134,26 @@ if (durée.sous.revue > 1) {
 
 
 #' 
-#'|  Collectivité  | SMPT net 2011 | SMPT net 2012 | SMPT net 2013 | Moy. 2007-2011 (%) |   
-#'|:------------:|-----------:|-----------:|-----------:|---------:|       
-#'|Communes                   |   20 784,0    |   21 120,0    |   21 096,0    | 2,5 |  
-#'|CCAS et caisses des écoles |   19 415,0    |   19 716,0    |   19 788,0    | 2,4 |  
-#'| EPCI à fiscalité propre   |   22 882,0    |   23 088,0    |   23 184,0    | 3,1 |  
-#'| Autres structures intercommunales |   21 299,0    |   21 684,0    |   21 828,0    | 3,0 |  
-#'|   Départements            |   24 487,0    |   24 744,0    |   24 852,0    | 3,9 |  
-#'|   SDIS                    |   29 811,0    |   29 940,0    |   30 180,0    | 3,4 |  
-#'|  Régions                  |   22 432,0    |   22 836,0    |   23 004,0    | 3,8 |  
-#'| Autres collectivités locales  |   24 680,0    |   24 696,0    |   24 828,0    | 3,2 |  
-#'|  Ensemble (moyenne)       |   21 873,0    |   22 176,0    |   22 212,0    | 2,9 |  
+#'|  Collectivité   SMPT net  |  2011    | 2012       |      2013 | 2014  | 2007-2011 (%) | 2011-2014 (%) | 
+#'|:-------------------------:|---------:|-----------:|----------:|-------:|--------------:|-------------:|       
+#'|Communes                   | 20 784 |  21 120  | 21 096  | 21 444 | 2,5 |  3,2 | 
+#'|CCAS et caisses des écoles | 19 415 |  19 716  | 19 788  | 20 124 | 2,4 |  3,7 |
+#'| EPCI à fiscalité propre   | 22 882 |  23 088  | 23 184  | 23 412 | 3,1 |  2,3 |
+#'| Autres structures intercommunales | 21 299 | 21 684 | 21 828 | 22 140 | 3,0 | 3,9  |
+#'|   Départements            | 24 487 |  24 744  | 24 852  | 25 068 | 3,9 |  2,4 |
+#'|   SDIS                    | 29 811 |  29 940  | 30 180  | 30 480 | 3,4 |  2,2 |
+#'|  Régions                  | 22 432 |  22 836  | 23 004  | 23 484 | 3,8 |  4,7 |
+#'| Autres collectivités locales  | 24 680  | 24 696  | 24 828  | 25 032 | 3,2 | 1,4 |
+#'|  Ensemble (moyenne)       | 21 873 | 22 176 | 22 212  | 22 524  | 2,9 |  3,0 |
 #' 
 
 #'*Champ : France. Salariés en équivalent-temps plein (EQTP) des collectivités territoriales (y compris bénéficiaires de contrats aidés, hors assistantes maternelles).*     			
 #'Conversion en euros courants, calcul CRC.  
-#'[Source INSEE données 2011 obsolètes](http://www.insee.fr/fr/ffc/ipweb/ip1486/ip1486.xls)   
-#'[Source DGAFP](http://infos.emploipublic.fr/dossiers/la-fonction-publique-en-chiffres/la-fonction-publique-en-chiffre-2013/non-defini-08/apm-71444/)  
-#'[Source PLF 2014 données 2011 révisées p.151](http://www.fonction-publique.gouv.fr/files/files/statistiques/jaunes/jaune2014_FP.pdf)   
-#'[Source PLF 2015 données 2012 p.130](http://www.performance-publique.budget.gouv.fr/sites/performance_publique/files/farandole/ressources/2015/pap/pdf/jaunes/jaune2015_fonction_publique.pdf)   
+
+#'[Source RAEFP 2013 données 2011](Docs/RA_2013.pdf)
+#'[Source RAEFP 2014 données 2012](Docs/RA_2014.pdf)   
+#'[Source RAEFP 2015 données 2013](Docs/RA_2015.pdf)   
+#'[Source RAEFP 2016 données 2014](Docs/RA_2016.pdf)   
 #'    
 
 incrémenter.chapitre()
@@ -1466,12 +1467,12 @@ Paie_I <- Paie_I[ , `:=`(ifts.logical = grepl(expression.rég.ifts, Libellé, ig
 codes.ifts  <- list("codes IFTS" = unique(Paie_I[ifts.logical == TRUE][ , Code]))
 
 if (length(codes.ifts) == 0) {
-  cat("Il n'a pas été possible d'identifier les IFTS par expression régulière.")
+  cat("Il n'a pas été possible d'identifier les IFTS par méthode heuristique. Renseigner les codes de paye correspondants dans l'interface graphique.")
   résultat.ifts.manquant <- TRUE
 }
 
 if (! any(Paie_I$iat.logical)) {
-  cat("Il n'a pas été possible d'identifier les IAT par expression régulière.")
+  cat("Il n'a pas été possible d'identifier les IAT par méthode heuristique. Renseigner les codes de paye correspondants dans l'interface graphique.")
   résultat.iat.manquant <- TRUE
 }
 
@@ -1619,7 +1620,7 @@ if ((N.PFR.non.catA <<- nrow(PFR.non.catA)) > 0) {
 codes.pfr  <- list("codes PFR" = unique(Paie_I[pfr.logical == TRUE, Code]))
 
 if (length(codes.pfr) == 0) {
-  cat("Il n'a pas été possible d'identifier la PFR par expression régulière.")
+  cat("Il n'a pas été possible d'identifier la PFR par méthode heuristique. Renseigner les codes de paye correspondants dans l'interface graphique.")
   résultat.pfr.manquant <- TRUE
 }
 
