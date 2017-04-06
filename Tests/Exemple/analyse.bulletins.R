@@ -81,12 +81,12 @@ produire_pyramides <- function(Filtre_bulletins, titre, versant = "") {
    
   stub <- gsub(" ", "-", sub("â", "a", titre)) %+% "_"
   
-  nom.fichier.avant <- stub %+% début.période.sous.revue
-  nom.fichier.après <- stub %+% fin.période.sous.revue
+  e$nom.fichier.avant <- stub %+% début.période.sous.revue
+  e$nom.fichier.après <- stub %+% fin.période.sous.revue
   
 
-  Sauv.base(file.path(chemin.dossier.bases, "Effectifs"),  "ages.début.psr", nom.fichier.avant, environment = environment())
-  Sauv.base(file.path(chemin.dossier.bases, "Effectifs"),  "ages.fin.psr", nom.fichier.après, environment = environment())
+  Sauv.base(file.path(chemin.dossier.bases, "Effectifs"),  "ages.début.psr", e$nom.fichier.avant, environment = environment())
+  Sauv.base(file.path(chemin.dossier.bases, "Effectifs"),  "ages.fin.psr", e$nom.fichier.après, environment = environment())
   
 }
 
