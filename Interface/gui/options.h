@@ -135,6 +135,7 @@ class codePage : public common
 
 public :
     codePage();
+    void resetLabel() {label->setText("") ;}
 
 private:
     QString prologue_codes_path;
