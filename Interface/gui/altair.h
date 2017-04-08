@@ -64,7 +64,7 @@ public:
     QTreeWidget *managerWidget= new QTreeWidget;
     QTreeView *fileTreeView = nullptr;
     QString projectName;
-    FListFrame *project[1];
+    FListFrame *project;
 
 
     QTextEdit *outputTextEdit = new QTextEdit;

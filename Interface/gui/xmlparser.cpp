@@ -473,7 +473,7 @@ void Altair::parseProjectFile(QIODevice* file)
     }
 
     //refreshProjectManagerValues();
-    project[0]->mainTabWidget->clear();
+    project->mainTabWidget->clear();
 
     assignWidgetValues();
 
@@ -487,7 +487,7 @@ void Altair::parseProjectFile(QIODevice* file)
         // Ne pas inclure les onglets Siret et Budget
     }
 
-    emit(project[0]->is_ntabs_changed(projectRank));
+    emit(project->is_ntabs_changed(projectRank));
 
     Hash::createReference(projectRank);
 
@@ -519,7 +519,7 @@ FStringList Altair::parseEntry(const QDomNode &node, QTreeWidgetItem *itemParent
                 return FStringList(textData.toStringList());
         case 2:
                 XmlMethod::stackData(node, textData, tabLabels);
-                project[0]->setTabLabels(tabLabels);
+                project->setTabLabels(tabLabels);
                 return FStringList(textData.toList().toVector());
     }
 
@@ -559,7 +559,7 @@ inline QVector<QStringList> Altair::processSecondLevelData(QVector<QStringList> 
 void Altair::refreshProjectManagerValues(std::uint16_t refreshProjectManagerFlag)
 {
     managerWidget->clear();
-    QStringList tags = project[0]->getTabLabels();
+    QStringList tags = project->getTabLabels();
 
     if (tags.isEmpty() || Hash::wrapper.isEmpty() || Hash::wrapper["XHL"] == nullptr || Hash::wrapper["XHL"]->isEmpty()) return;
 

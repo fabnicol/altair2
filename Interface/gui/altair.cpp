@@ -141,7 +141,7 @@ Altair::Altair()
                            true;
                         #endif
 
-    project[0]=new FListFrame(this,
+    project=new FListFrame(this,
                               fileTreeView,                   // files may be imported from this tree view
                               importFiles,                     // FListFrame type
                               "XHL",                          // superordinate xml tag
@@ -163,13 +163,13 @@ Altair::Altair()
 
     connect(&process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int)));
 
-    project[0]->model=model;
-    project[0]->slotList=nullptr;
+    project->model=model;
+    project->slotList=nullptr;
 
     ///// Ce qui suit présupose que les connexions déclenchées par le click
     // sont préalablement traitées par FListFrame (ce qui est le cas)
                 
-    connect(project[0]->importFromMainTree, 
+    connect(project->importFromMainTree,
             &QToolButton::clicked,
             [this]{
         updateProject();
@@ -182,20 +182,20 @@ Altair::Altair()
     /////
 
 
-    project[0]->importFromMainTree->setVisible(visibility);
+    project->importFromMainTree->setVisible(visibility);
 #ifndef USE_RIGHT_CLICK
-    connect(project[0]->deleteGroupButton, SIGNAL(clicked()), this, SLOT(deleteGroup()));
-    connect(project[0]->retrieveItemButton, SIGNAL(clicked()), this, SLOT(on_deleteItem_clicked()));
+    connect(project->deleteGroupButton, SIGNAL(clicked()), this, SLOT(deleteGroup()));
+    connect(project->retrieveItemButton, SIGNAL(clicked()), this, SLOT(on_deleteItem_clicked()));
 #endif
 
         
     QGridLayout *projectLayout = new QGridLayout;
-    projectLayout->addWidget(project[0]->importFromMainTree, 0, 1);
-    projectLayout->addWidget(project[0]->mainTabWidget, 0, 2);
+    projectLayout->addWidget(project->importFromMainTree, 0, 1);
+    projectLayout->addWidget(project->mainTabWidget, 0, 2);
 
 #ifndef USE_RIGHT_CLICK
     QGridLayout *updownLayout = new QGridLayout;
-    updownLayout->addWidget(project[0]->getControlButtonBox(), 0, 0);
+    updownLayout->addWidget(project->getControlButtonBox(), 0, 0);
     updownLayout->setRowMinimumHeight(1, 40);
     updownLayout->setRowMinimumHeight(3, 40);
     projectLayout->addLayout(updownLayout, 0, 3);
@@ -249,7 +249,7 @@ void Altair::importData()
            outputTextEdit->append(PROCESSING_HTML_TAG "Analyse du disque optique...Veuillez patienter...");
            fileTreeView->setCurrentIndex(model->index(cdROM));
 
-           project[0]->importFromMainTree->click();
+           project->importFromMainTree->click();
            
            return;
        }
@@ -261,7 +261,7 @@ void Altair::importData()
                                             | QDir::NoDotAndDotDot).isEmpty())
    {
        fileTreeView->setCurrentIndex(model->index(userdatadir));    
-       project[0]->importFromMainTree->click();
+       project->importFromMainTree->click();
        // l'opération précédente semble annuler la possibilité de sélectionner les indices proprement
        // à nouveau. Peut-être un bug de Qt. On fait un reset suivi d'un reset.
        fileTreeView->reset();
@@ -284,7 +284,7 @@ void Altair::refreshRowPresentation(uint j)
     palette.setColor(QPalette::AlternateBase,QColor("silver"));
     QFont font=QFont("Courier",10);
 
-    QListWidget *widget=project[0]->getWidgetContainer(j);
+    QListWidget *widget=project->getWidgetContainer(j);
     if (widget == nullptr) return;
     widget->setPalette(palette);
     widget->setAlternatingRowColors(true);
@@ -330,7 +330,7 @@ void  Altair::openProjectFileCommonCode()
     // resetting interfaceStatus::parseXml bits to 0
     RefreshFlag = RefreshFlag & (~interfaceStatus::parseXml);
 
-    Hash::createReference(project[0]->getRank());
+    Hash::createReference(project->getRank());
 }
 
 void Altair::on_openProjectButton_clicked()
@@ -369,20 +369,20 @@ bool Altair::clearInterfaceAndParseProject()
 
 void Altair::closeProject()
 {
-    int projectDimension = project[0]->getRank();
+    int projectDimension = project->getRank();
 
     clearProjectData();
     Altair::totalSize[0] = 0;
 
     for  (int i = projectDimension; i >= 0;   i--)
     {
-        project[0]->mainTabWidget->removeTab(i);
-        auto widgetV = project[0]->getWidgetContainer();
+        project->mainTabWidget->removeTab(i);
+        auto widgetV = project->getWidgetContainer();
         int size = widgetV.size();
         if (i < size) widgetV.removeAt(i);
     }
 
-    project[0]->addNewTab();
+    project->addNewTab();
 
     QFile projectFile(projectName);
     projectFile.close();
@@ -398,7 +398,7 @@ void Altair::clearProjectData()
                      | interfaceStatus::tree;
 
 
-    project[0]->deleteAllGroups();
+    project->deleteAllGroups();
 
     fileSizeDataBase[0].clear();
 
@@ -441,8 +441,9 @@ void Altair::clearProjectData()
     Hash::fileList.clear();
 
 
-    project[0]->mainTabWidget->setCurrentIndex(0);
-    project[0]->initializeWidgetContainer();
+    project->mainTabWidget->setCurrentIndex(0);
+    project->initializeWidgetContainer();
+    parent->dialog->codeTab->resetLabel();
 }
 
 void Altair::on_helpButton_clicked()
@@ -464,7 +465,7 @@ void Altair::displayTotalSize()
 void Altair::deleteGroup()
 {
     updateIndexInfo();
-    uint rank=(uint) project[0]->getRank();
+    uint rank=(uint) project->getRank();
 
     if ((uint) fileSizeDataBase[0].size() > currentIndex)
         fileSizeDataBase[0][currentIndex].clear();
@@ -505,10 +506,10 @@ void Altair::updateIndexChangeInfo()
 
 void Altair::updateIndexInfo()
 {
-    if (project[0] == nullptr) return;
+    if (project == nullptr) return;
 
-    currentIndex = project[0]->getCurrentIndex();
-    row = project[0]->getCurrentRow();
+    currentIndex = project->getCurrentIndex();
+    row = project->getCurrentRow();
 
     // row = -1 if nothing selected
 }
@@ -721,8 +722,8 @@ bool Altair::refreshProjectManager()
 void Altair::checkAnnumSpan()
 {
     if (Hash::wrapper.isEmpty()) return;
-    int r = project[0]->getRank() - 2;
-    const QStringList& years = project[0]->getTabLabels();
+    int r = project->getRank() - 2;
+    const QStringList& years = project->getTabLabels();
 
     for (int i = 0; i < r; ++i)
     {
@@ -826,7 +827,7 @@ void Altair::dropEvent(QDropEvent *event)
 
         updateIndexInfo();
         closeProject();
-        project[0]->addParsedTreeToListWidget(stringsDragged);
+        project->addParsedTreeToListWidget(stringsDragged);
         checkAnnumSpan();
         updateProject();
      }
