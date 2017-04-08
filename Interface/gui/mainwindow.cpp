@@ -204,7 +204,7 @@ MainWindow::MainWindow(char* projectName)
   connect(&(altair->process), SIGNAL(finished(int)), this, SLOT(resetTableCheckBox()));
 
   #ifdef USE_AVERT
-    connect(altair->project[0], SIGNAL(imported()), &process, SLOT(kill()));
+    connect(altair->project, SIGNAL(imported()), &process, SLOT(kill()));
   #endif
   
   if (projectName[0] != '\0')
@@ -1178,7 +1178,7 @@ void MainWindow::on_optionsButton_clicked()
 void MainWindow::on_displayFileTreeViewButton_clicked(bool isHidden)
 {
    fileTreeViewDockWidget->setVisible(isHidden);
-   altair->project[0]->importFromMainTree->setVisible(isHidden);
+   altair->project->importFromMainTree->setVisible(isHidden);
 
  }
 

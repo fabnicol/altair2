@@ -236,6 +236,8 @@ void codePage::substituer_valeurs_dans_script_R()
 
         res = renommer(dump(file_str), prologue_codes_path);
 
+        if (Hash::Reference.isEmpty()) return;
+
         if (res == true)
             label->setText("L'identification du contrôle a été exportée dans le rapport.");
         else
