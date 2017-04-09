@@ -1284,7 +1284,7 @@ rm(T, T1, T2)
 #'[Lien vers la base de données NBI anormales](Bases/Fiabilite/lignes.nbi.anormales.csv)   
 #'   
 #'**Nota :**   
-#'*Est considéré comme manifestement anormal un total annuel de rémunérations NBI correspondant à un point d'indice net mensuel inférieur à `r valeur.point.inm.pivot - 1` euros ou supérieur à `r valeur.point.inm.pivot + 1` euros.*    
+#'*Est considéré comme manifestement anormal un total annuel de rémunérations NBI correspondant à un point d'indice net mensuel inférieur à la moyenne de l'année moins 1 euro ou supérieur à cette moyenne plus 1 euro.*    
 #'*Les rappels ne sont pas pris en compte dans les montants versés. Certains écarts peuvent être régularisés en les prenant en compte*     
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
@@ -2362,10 +2362,10 @@ if (sauvegarder.bases.analyse) {
              "ihts.anormales",
              "lignes.contractuels.et.vacations",
              "lignes.fonctionnaires.et.vacations",
-             # "Paie_vac_contr",
-             # "Paie_vac_fonct",
-             # "Paie_vac_sft_ir",
-             # "lignes.ifts.anormales",
+              "Paie_vac_contr",
+              "Paie_vac_fonct",
+              "Paie_vac_sft_ir",
+              "lignes.ifts.anormales",
              "matricules.contractuels.et.vacations",
              "matricules.fonctionnaires.et.vacations",
              "SFT_IR.et.vacations",
