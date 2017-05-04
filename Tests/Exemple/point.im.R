@@ -40,11 +40,12 @@ an <- as.numeric(format(Sys.time(), "%Y"))
 
 if (début.période.sous.revue < 2008) {
   
-  cat("Ce programme ne peut pas traiter les périodes sous revue commançant avant le 1er janvier 2008. Ces années seront écartées.")
+  cat("Ce programme ne peut pas traiter les périodes sous revue commençant avant le 1er janvier 2008. Ces années seront écartées.")
   extraire.années <- TRUE
   début.période.sous.revue <- 2008
 }
   
+# Période couverte : 2008-2017 inclus
 
 PointIM <- matrix(c(
                     54.4113,             # 2008 01
@@ -55,9 +56,9 @@ PointIM <- matrix(c(
                     rep.int(55.2871, 9), # 2009 10-12 et 2010 1-6
                     rep.int(55.5635, 72),# 2010 7 -> 2016 6  (6 années de blocage)
        				rep.int(55.8969, 6),# 2016 7 -> 2016 12
-       				55.8969,
+       				55.8969, # 2017 
        				rep.int(56.2323,11)),
-            				
+       				
             				# insérer ici la valeur courante du mpoint d'indice annuel
             				# par exemple pour 56 € par point/an :
             				# rep.int(56, 12)

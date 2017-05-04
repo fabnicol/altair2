@@ -1264,7 +1264,7 @@ cumuls.nbi <- T[, .(cumul.annuel.indiciaire = sum(nbi.cumul.indiciaire, na.rm = 
 
 # Les cumuls annuels rapportés cumuls indiciaires pour l'année ne doivent pas trop s'écarter de la valeur annuelle moyenne du point d'indice
 
-lignes.nbi.anormales <- T[abs(abs(nbi.cumul.montants/nbi.cumul.indiciaire) - valeur.point.inm.pivot) > 1, 
+lignes.nbi.anormales <- T[abs(abs(nbi.cumul.montants/nbi.cumul.indiciaire) - valeur.point.inm.pivot[Année-2007]) > 1, 
                             .(Matricule, Année, nbi.cumul.indiciaire, nbi.cumul.montants)]
 
 montants.nbi.anormales <- sum(lignes.nbi.anormales$nbi.cumul.montants, na.rm = TRUE)
