@@ -99,7 +99,30 @@ if test -f install.kernel -a "$(uname -r)" != "4.10.8-ck"; then
     
   sleep 2
 fi  
-  
+
+if test -f install.packages; then
+
+   echo "Actualisation des paquets..."
+   emerge --unmerge perl
+   eix-update
+   export PKGDIR=$PWD/packages
+   
+   if test -d packages; then
+   
+      echo "Installation des paquets..."
+      emerge -K $(find $PKGDIR -name '*tbz2')
+      echo "Installation des paquets terminée..."
+
+   else
+   
+      echo "Echec de l'actualisation des paquets."
+      
+   fi 
+    
+  sleep 2
+fi  
+
+
 # création du dossier Bulletins sous jf
 
 mkdir -p /home/jf/Dev/altair/Tests/Exemple/Donnees/Bulletins
