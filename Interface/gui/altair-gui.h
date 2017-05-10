@@ -117,7 +117,7 @@ class MainWindow : public QMainWindow
    bool archiveProject();
    bool restoreProject(QString str="");
    void resetCounter();
-   void on_nppButton_clicked();
+   void on_displayLogButton_clicked();
    void anonymiser();
    void cleanBase();
    void launch_process(const QString&);

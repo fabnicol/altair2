@@ -197,7 +197,7 @@ MainWindow::MainWindow(char* projectName)
   // resetting interfaceStatus::parseXml bits to 0
   Altair::RefreshFlag = Altair::RefreshFlag & (~interfaceStatus::parseXml);
 
-  connect(nppBottomTabWidgetButton, &QToolButton::clicked, [this] { on_nppButton_clicked();});
+  connect(nppBottomTabWidgetButton, &QToolButton::clicked, [this] { on_displayLogButton_clicked();});
   connect(clearBottomTabWidgetButton, &QToolButton::clicked, [this] { on_clearOutputTextButton_clicked();});
   connect(consoleDialog, SIGNAL(copyAvailable(bool)), consoleDialog, SLOT(copy()));
   connect(&(altair->process), SIGNAL(finished(int)), this, SLOT(resetCounter()));
@@ -229,7 +229,7 @@ MainWindow::MainWindow(char* projectName)
   
 }
 
-void MainWindow::on_nppButton_clicked()
+void MainWindow::on_displayLogButton_clicked()
 {
 
     tempLog.setFileName(common::generateDatadirPath("/log.html"));
@@ -237,7 +237,9 @@ void MainWindow::on_nppButton_clicked()
 
     tempLog.open(QIODevice::ReadWrite);
     tempLog.write(
-        qobject_cast<QTextEdit*>(bottomTabWidget->currentWidget())->toHtml().replace(":/images", common::generateDatadirPath("")+"/images")
+        qobject_cast<QTextEdit*>(bottomTabWidget->currentWidget())->toHtml()
+                .replace("<html>", "<html>\n<meta content=\"text/html\"; charset=\"utf-8\"")
+                .replace(":/images", common::generateDatadirPath("")+"/images")
             #                  ifndef Q_OS_WIN
                                    .toUtf8());
             #                  else
