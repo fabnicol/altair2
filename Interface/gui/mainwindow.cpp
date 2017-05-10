@@ -238,12 +238,13 @@ void MainWindow::on_displayLogButton_clicked()
     tempLog.open(QIODevice::ReadWrite);
     tempLog.write(
         qobject_cast<QTextEdit*>(bottomTabWidget->currentWidget())->toHtml()
-                .replace("<html>", "<html>\n<meta content=\"text/html\"; charset=\"utf-8\"")
                 .replace(":/images", common::generateDatadirPath("")+"/images")
             #                  ifndef Q_OS_WIN
-                                   .toUtf8());
+                                .replace("<html>", "<html>\n<meta content=\"text/html; charset=utf-8\">")
+                                .toUtf8());
             #                  else
-                                   .toLatin1());
+                                .replace("<html>", "<html>\n<meta content=\"text/html; charset=ISO-8859-1\">")
+                                .toLatin1());
             #                  endif
     tempLog.close();
 
