@@ -1,5 +1,0 @@
-?                       Replacement for ? function
-argufy                  Add argument checks to a function
-argufy_package          argufy all of the functions within a package
-as_enum                 A coercion function for choice arguments in
-                        argufy
