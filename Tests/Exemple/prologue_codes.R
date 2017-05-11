@@ -44,7 +44,7 @@ codes.ihts <- NA
 codes.vacataires <-NA
 codes.elus <- NA
 
-controle<-c("SDIS 29","28290044800105","Non renseigné","Non renseigné")  
+controle<-c("","","","")  
 
 codes <- data.table(valeur = c(codes.nbi, 
                                codes.pfi,

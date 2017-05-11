@@ -81,16 +81,19 @@ Analyse.remunerations <- Paie[ , .(Nir          = Nir[1],
                                    sft          = sum(Montant[Type == "S"], na.rm = TRUE),
                                    indemnité.résidence = sum(Montant[Type == "IR"], na.rm = TRUE),
                                    indemnités   = sum(Montant[Type == "I"], na.rm = TRUE),
+                                   cotisations  = sum(Montant[Type == "C"], na.rm = TRUE),
+                                   rappels  = sum(Montant[Type == "R"], na.rm = TRUE),
+                                   retenues  = sum(Montant[Type == "RE"], na.rm = TRUE),
                                    rémunérations.diverses = sum(Montant[Type == "A"], na.rm = TRUE),
-                                   autres.rémunérations   = sum(Montant[Type == "AC" | Type == "A" ], na.rm = TRUE),
+                                   acomptes   = sum(Montant[Type == "AC"], na.rm = TRUE),
                                    rémunération.vacataire = sum(Montant[Type == "VAC"], na.rm = TRUE)), 
                                
-                              by = c(clé.fusion, étiquette.année)]
+                              by = .(Matricule, Année)]
 
+
+                                                    
 # soit le nombre de mois est supérieur à 1, avec un nombre d'heure supérieur à 120 à raison d'une heure trente par jour en moyenne
 # soit la rémunération totale annuelle gagnée est supérieure à 3 fois le smic (Vérifier_non_annexe)
-
-
 # Alternative classique mais moins rapide (en cas de problème avec data.table) :
 
 if (0) {
@@ -175,7 +178,7 @@ Analyse.remunerations[ ,
                                                                              q * rémunération.indemnitaire.imposable,
                                                                              NA),
                            
-                           total.lignes.paie =  traitement.indiciaire + sft + indemnité.résidence + indemnités + autres.rémunérations,
+                           total.lignes.paie =  traitement.indiciaire + sft + indemnité.résidence + indemnités + acomptes + rappels,
                            
                            part.rémunération.indemnitaire =  ifelse(is.finite(q <- rémunération.indemnitaire.imposable/Montant.brut.annuel),
                                                                     pmin(q, 1) * 100,

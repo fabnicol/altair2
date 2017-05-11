@@ -375,7 +375,7 @@ kable(tableau.effectifs.var, row.names = TRUE, align='c')
 #'
 
 colonnes.sélectionnées <- c("traitement.indiciaire",
-                            "autres.rémunérations",
+                            "acomptes",
                             "rémunération.indemnitaire.imposable",
                             "rémunération.indemnitaire.imposable.eqtp",
                             "total.lignes.paie",
@@ -1894,7 +1894,7 @@ remunerations.elu <- Analyse.remunerations[ indemnités.élu > minimum.positif,
                                               "Année",
                                               "Emploi",
                                               "indemnités.élu",
-                                              "autres.rémunérations",
+                                              "acomptes",
                                               "rémunération.indemnitaire.imposable"),
                                             with=FALSE ]
 
@@ -2130,65 +2130,69 @@ incrémenter.chapitre()
 #'# `r chapitre`. L'Enquête RH SDIS 
 #'## `r chapitre`.1 Effectifs
 
-
-dir.create(file.path(chemin.dossier.bases, "SDIS"), recursive = TRUE, mode="0777")
-
-fichiers.table.spv <- list.files(chemin.clé, pattern = nom.table %+% "-SPV-" %+% "(-)?[^.]*[.]csv", full.names  = TRUE)
-
-colonnes.classes.input.spv    <- c("integer", "integer",  # Année, Mois
-                                   "character", "character", "character", "character",  # Matricule, Opérations, Emploi (SPV), Grade,
-                                   "character", "numeric", "character", "character", "character", "numeric", "numeric", "numeric"  #  Service, Nb.Heures, Libellé, Code, Type de ligne de paie, Montant, brut mensuel, net mensuel
-)
-
-importer.bases.via.xhl2csv("Paie.spv", fichiers.table.spv, colClasses =  colonnes.classes.input.spv)
-
-bulletins.spv <- unique(Paie.spv[, .(Matricule, Année, Mois, Service, Brut, Net)], by = NULL)
-
-# Le service SSSM doit être désigné comme tel sinon effectuer un remplacement
-
-effectifs.spv.sssm <- function(x) mean.default(sapply(1:12, function(y) uniqueN(bulletins.spv[Année == x & Mois == y & Service == "SSSM", Matricule], by = NULL, na.rm = TRUE)))
-effectifs.spv <- function(x) mean.default(sapply(1:12, function(y) uniqueN(bulletins.spv[Année == x & Mois == y, Matricule], by = NULL, na.rm = TRUE)))
-
-Effectifs.spv.sssm <- sapply(période, effectifs.spv.sssm)
-Effectifs.spv <- sapply(période, effectifs.spv)
-
-Grade.SPP <- c("CAPITAINE", "COLONEL")
-
-effectifs.spp.sssm <- function(y) sapply(période, function(y) sum(Analyse.rémunérations[Année == y & Grade %chin% Grade.SPP & Service == "SSSM", quotité.moyenne], na.rm = TRUE))
-effectifs.spp <- function(y) sapply(période, function(y) sum(Analyse.rémunérations[Année == y & Grade %chin% Grade.SPP, quotité.moyenne], na.rm = TRUE))
-
-Effectifs.spp.sssm <- sapply(période, effectifs.spp.sssm)
-Effectifs.spp <- sapply(période, effectifs.spp)
-
-#'  
-#'&nbsp;*Tableau `r incrément()`  : Evolution des effectifs du SDIS*  						   
-#'      
-
-variation <- function(x) (x[durée.période.sous.revue] / x[1] -1) * 100
-
-Tableau_2 <- data.frame(
-  c(période, "Evolution (%)"),
-  c(effectifs.spp, variation(effectifs.spp)),
-  c(effectifs.spv, variation(effectifs.spv)),
-  c(effectifs.spp.sssm, variation(effectifs.spp.sssm)),
-  c(effectifs.spv.sssm, variation(effectifs.spv.sssm)),
-  c(a <- effectifs.spp + effectifs.spv + effectifs.spp.ssm + effectifs.spv.ssm, variation(a)),
-  c(effectifs.pats, variation(effectifs.pats)),
-  c(b <- a + effectifs.pats, variation(b)))
-
-names(Tableau_2) <- c("SPP", 	"SPV intégrés",	"SSSM Pro",	"SSSM Volontaire", 	"Total SP", 	"PATS",	"Total")
-
-Tableau.vertical2(names(Tableau_2),
-  Tableau_2[[1]],
-  Tableau_2[[2]],
-  Tableau_2[[3]],
-  Tableau_2[[4]],
-  Tableau_2[[5]],
-  Tableau_2[[6]],
-  Tableau_2[[7]],
-  Tableau_2[[8]])
+#' 
+#' dir.create(file.path(chemin.dossier.bases, "SDIS"), recursive = TRUE, mode="0777")
+#' 
+#' fichiers.table.spv <- list.files(chemin.clé, pattern = nom.table %+% "-SPV-" %+% "(-)?[^.]*[.]csv", full.names  = TRUE)
+#' 
+#' colonnes.classes.input.spv    <- c("integer", "integer",  # Année, Mois
+#'                                    "character", "character", "character", "character",  # Matricule, Opérations, Emploi (SPV), Grade,
+#'                                    "character", "numeric", "character", "character", "character", "numeric", "numeric", "numeric"  #  Service, Nb.Heures, Libellé, Code, Type de ligne de paie, Montant, brut mensuel, net mensuel
+#' )
+#' 
+#' importer.bases.via.xhl2csv("Paie.spv", fichiers.table.spv, colClasses =  colonnes.classes.input.spv)
+#' 
+#' bulletins.spv <- unique(Paie.spv[, .(Matricule, Année, Mois, Service, Brut, Net)], by = NULL)
+#' 
+#' # Le service SSSM doit être désigné comme tel sinon effectuer un remplacement
+#' 
+#' effectifs.spv.sssm <- function(x) mean.default(sapply(1:12, function(y) uniqueN(bulletins.spv[Année == x & Mois == y & Service == "SSSM", Matricule], by = NULL, na.rm = TRUE)))
+#' effectifs.spv <- function(x) mean.default(sapply(1:12, function(y) uniqueN(bulletins.spv[Année == x & Mois == y, Matricule], by = NULL, na.rm = TRUE)))
+#' 
+#' Effectifs.spv.sssm <- sapply(période, effectifs.spv.sssm)
+#' Effectifs.spv <- sapply(période, effectifs.spv)
+#' 
+#' Grade.SPP <- c("CAPITAINE", "COLONEL")
+#' 
+#' effectifs.spp.sssm <- function(y) sapply(période, function(y) sum(Analyse.rémunérations[Année == y & Grade %chin% Grade.SPP & Service == "SSSM", quotité.moyenne], na.rm = TRUE))
+#' effectifs.spp <- function(y) sapply(période, function(y) sum(Analyse.rémunérations[Année == y & Grade %chin% Grade.SPP, quotité.moyenne], na.rm = TRUE))
+#' 
+#' Effectifs.spp.sssm <- sapply(période, effectifs.spp.sssm)
+#' Effectifs.spp <- sapply(période, effectifs.spp)
+#' 
+#' #'  
+#' #'&nbsp;*Tableau `r incrément()`  : Evolution des effectifs du SDIS*  						   
+#' #'      
+#' 
+#' variation <- function(x) (x[durée.période.sous.revue] / x[1] -1) * 100
+#' 
+#' Tableau_2 <- data.frame(
+#'   c(période, "Evolution (%)"),
+#'   c(effectifs.spp, variation(effectifs.spp)),
+#'   c(effectifs.spv, variation(effectifs.spv)),
+#'   c(effectifs.spp.sssm, variation(effectifs.spp.sssm)),
+#'   c(effectifs.spv.sssm, variation(effectifs.spv.sssm)),
+#'   c(a <- effectifs.spp + effectifs.spv + effectifs.spp.ssm + effectifs.spv.ssm, variation(a)),
+#'   c(effectifs.pats, variation(effectifs.pats)),
+#'   c(b <- a + effectifs.pats, variation(b)))
+#' 
+#' names(Tableau_2) <- c("SPP", 	"SPV intégrés",	"SSSM Pro",	"SSSM Volontaire", 	"Total SP", 	"PATS",	"Total")
+#' 
+#' Tableau.vertical2(names(Tableau_2),
+#'   Tableau_2[[1]],
+#'   Tableau_2[[2]],
+#'   Tableau_2[[3]],
+#'   Tableau_2[[4]],
+#'   Tableau_2[[5]],
+#'   Tableau_2[[6]],
+#'   Tableau_2[[7]],
+#'   Tableau_2[[8]])
   
-
+EQTP <- eqtp.grade(période = période)
+kable( EQTP)
+Charges <- charges.personnel(période = période)
+kable(Charges)
+charges.eqtp()
 
 #'  
 #'[Lien vers le tableau n°2](Bases/SDIS/Tableau_2.csv)
