@@ -50,7 +50,7 @@ masses.personnels <- Analyse.remunerations.exercice[Statut != "ELU",
                                                     .(Montant.brut.annuel = sum(Montant.brut.annuel, na.rm = TRUE),                                                                                       rémunération.indemnitaire.imposable = sum(rémunération.indemnitaire.imposable, na.rm = TRUE),
                                                       indemnités.élu = sum(indemnités.élu, na.rm = TRUE),
                                                       total.lignes.paie = sum(total.lignes.paie, na.rm = TRUE),
-                                                      autres.rémunérations = sum(autres.rémunérations, na.rm = TRUE))]
+                                                      acomptes = sum(acomptes, na.rm = TRUE))]
 
 #'### Cumuls des rémunérations brutes pour l'exercice `r année`      
 #'  
@@ -69,7 +69,7 @@ Tableau.vertical2(c("Agrégats",
                   c(masses.personnels$Montant.brut.annuel,
                     masses.personnels$total.lignes.paie,
                     masses.personnels$rémunération.indemnitaire.imposable,
-                    masses.personnels$autres.rémunérations,
+                    masses.personnels$acomptes,
                     masses.personnels$rémunération.indemnitaire.imposable/masses.personnels$Montant.brut.annuel * 100))
 
 
@@ -128,7 +128,7 @@ detach(AR)
 #'**Tests de cohérence**
 
 if (nrow(AR) > 0) {
-  masses.fonct <- AR[ , lapply(.(Montant.brut.annuel, rémunération.indemnitaire.imposable, total.lignes.paie, autres.rémunérations), sum, na.rm = TRUE)]
+  masses.fonct <- AR[ , lapply(.(Montant.brut.annuel, rémunération.indemnitaire.imposable, total.lignes.paie, acomptes), sum, na.rm = TRUE)]
   
 } else {
   masses.fonct <- c(0,0) 
@@ -198,7 +198,7 @@ Résumé(c("Traitement indiciaire",
           & Filtre_annexe == FALSE,
              .(traitement.indiciaire,
                rémunération.indemnitaire.imposable,
-               autres.rémunérations,
+               acomptes,
                quotité.moyenne)],
        
        extra = "length")
@@ -249,7 +249,7 @@ if (analyse.par.catégorie) {
            "Quotité"),
          ARA[ , .(traitement.indiciaire,
                   rémunération.indemnitaire.imposable,
-                  autres.rémunérations,
+                  acomptes,
                   quotité.moyenne)])
 } else {
   cat("Pas de statistiques par catégorie.\n")
@@ -293,7 +293,7 @@ if (analyse.par.catégorie) {
            "Quotité"),
          ARB[, .(traitement.indiciaire,
                  rémunération.indemnitaire.imposable,
-                 autres.rémunérations,
+                 acomptes,
                  quotité.moyenne)])
 } else {
   cat("Pas de statistiques par catégorie.\n")
@@ -338,7 +338,7 @@ if (analyse.par.catégorie) {
            "Quotité"),
          ARC[ , .(traitement.indiciaire,
                   rémunération.indemnitaire.imposable,
-                  autres.rémunérations,
+                  acomptes,
                   quotité.moyenne)])
 } else {
   cat("Pas de statistique par catégorie.\n")
@@ -394,7 +394,7 @@ if (longueur.non.na(temp) > 0)
 #'Les élus ne sont pas pris en compte.
 #'   
 
-temp <- positive(autres.rémunérations)
+temp <- positive(acomptes)
 
 detach(Analyse.remunerations.exercice)
 
@@ -429,7 +429,7 @@ Résumé(c("Primes",
          "Quotité",
          "Effectif"),
        AR[ , .(rémunération.indemnitaire.imposable,
-               autres.rémunérations,
+               acomptes,
                quotité.moyenne)],
        extra = "length")
 
@@ -450,4 +450,11 @@ Résumé(c("Total rémunérations",
 # pour année fin #
 
 rm(Analyse.remunerations.exercice)
+
+
+################  Tableaux du guide d'enquête ################################
+
+
+
+
 

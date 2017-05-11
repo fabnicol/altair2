@@ -375,7 +375,7 @@ kable(tableau.effectifs.var, row.names = TRUE, align='c')
 #'
 
 colonnes.sélectionnées <- c("traitement.indiciaire",
-                            "autres.rémunérations",
+                            "acomptes",
                             "rémunération.indemnitaire.imposable",
                             "rémunération.indemnitaire.imposable.eqtp",
                             "total.lignes.paie",
@@ -1894,7 +1894,7 @@ remunerations.elu <- Analyse.remunerations[ indemnités.élu > minimum.positif,
                                               "Année",
                                               "Emploi",
                                               "indemnités.élu",
-                                              "autres.rémunérations",
+                                              "acomptes",
                                               "rémunération.indemnitaire.imposable"),
                                             with=FALSE ]
 
@@ -2119,7 +2119,11 @@ message("Analyse du SFT")
 
 # data.table here overallocates memory hence inefficient !
 # Bulletins.paie[Nb.Enfants > 0 , SFT.controle := sft(Nb.Enfants, Indice, Heures, Année, Mois)]
-       
+    
+
+
+
+   
 #### ANNEXE ####
 
 newpage()
