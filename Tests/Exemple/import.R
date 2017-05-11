@@ -216,9 +216,12 @@ Paie[ , Grade := toupper(Grade)]
   # dans le fichier prologue.R. Sinon le programme travaille sur l'ensemble des années disponibles.
   
   if (extraire.années) {
+    
     Paie <- Paie[Année >= début.période.sous.revue & Année <= fin.période.sous.revue, ]
     Bulletins.paie <- Bulletins.paie[Année >= début.période.sous.revue & Année <= fin.période.sous.revue, ]
+    
   } else {
+    
     début.période.sous.revue <- min(Bulletins.paie[ , Année])
     fin.période.sous.revue   <- max(Bulletins.paie[ , Année])
   }
