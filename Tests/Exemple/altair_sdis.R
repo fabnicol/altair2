@@ -2192,7 +2192,7 @@ EQTP <- eqtp.grade(période = période)
 kable( EQTP)
 Charges <- charges.personnel(période = période)
 kable(Charges)
-charges.eqtp()
+kable(charges.eqtp())
 
 #'  
 #'[Lien vers le tableau n°2](Bases/SDIS/Tableau_2.csv)
