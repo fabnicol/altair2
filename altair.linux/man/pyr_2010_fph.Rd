@@ -3,13 +3,13 @@
 \docType{data}
 \name{pyr_2010_fph}
 \alias{pyr_2010_fph}
-\title{Pyramide des âges de la fonction publique hospitalière au 31 décembre 2010}
-\format{Une base de données contenant 55 lignes, dont un entête, et 5 variables :
+\title{Pyramide des Ã¢ges de la fonction publique hospitaliÃ¨re au 31 dÃ©cembre 2010}
+\format{Une base de donnÃ©es contenant 55 lignes, dont un entÃªte, et 5 variables :
 \describe{
-  \item{age}{âge des agents au 31 décembre 2010}
+  \item{age}{Ã¢ge des agents au 31 dÃ©cembre 2010}
   \item{Hommes}{nombre d'hommes}
   \item{Femmes}{nombre de femmes}
-  \item{année.référence}{référence de l'année (première ligne)}
+  \item{annÃ©e.rÃ©fÃ©rence}{rÃ©fÃ©rence de l'annÃ©e (premiÃ¨re ligne)}
   \item{versant}{versant de la fonction publique (FPT ou FPH)}
 }}
 \source{
@@ -19,7 +19,6 @@
 pyr_2010_fph
 }
 \description{
-Pyramide des âges de la fonction publique hospitalière au 31 décembre 2010
+Pyramide des Ã¢ges de la fonction publique hospitaliÃ¨re au 31 dÃ©cembre 2010
 }
 \keyword{datasets}
-
