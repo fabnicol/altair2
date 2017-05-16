@@ -258,6 +258,17 @@ static int parseFile(info_t& info)
         cur = cur_save;
     }
 
+    if (budget_fichier && ! info.exclure_budget.empty())
+    {
+        if (find(info.exclure_budget.cbegin(), info.exclure_budget.cend(), string((const char*) budget_fichier))
+                != info.exclure_budget.cend())
+        {
+          // on exclut ce fichier
+            if (verbeux) cerr << PROCESSING_HTML_TAG "Budget exclu." ENDL;
+            return SKIP_FILE;
+        }
+    }
+
     cur_save = cur;
 
     /* REFERENCE */
@@ -350,6 +361,17 @@ static int parseFile(info_t& info)
         /* on remonte d'un niveau */
 
         cur = cur_save;
+    }
+
+    if (employeur_fichier && ! info.exclure_employeur.empty())
+    {
+        if (find(info.exclure_employeur.cbegin(), info.exclure_employeur.cend(), string((const char*) employeur_fichier))
+                != info.exclure_employeur.cend())
+        {
+          // on exclut ce fichier
+            if (verbeux) cerr << PROCESSING_HTML_TAG "Employeur exclu." ENDL;
+            return SKIP_FILE;
+        }
     }
 
     cur = atteindreNoeud("DonneesIndiv", cur);
@@ -527,6 +549,16 @@ static int parseFile(info_t& info)
             /* on remonte d'un niveau */
 
             cur = cur_save2;
+        }
+
+        if (siret_etablissement && ! info.exclure_siret.empty())
+        {
+            if (find(info.exclure_siret.cbegin(), info.exclure_siret.cend(), string((const char*) siret_etablissement))
+                     != info.exclure_siret.cend())
+            {
+                if (verbeux) cerr << PROCESSING_HTML_TAG "SIRET exclu." ENDL;
+                continue;  // on passe à l'établissement suivant
+            }
         }
 
         /* REFERENCE */

@@ -249,6 +249,9 @@ typedef struct
     string chemin_base;
     string chemin_bulletins;
     string export_mode;
+    vector<string> exclure_siret;
+    vector<string> exclure_budget;
+    vector<string> exclure_employeur;
     uint16_t nbLigneUtilisateur;
     uint16_t fichier_courant;
     char decimal;
