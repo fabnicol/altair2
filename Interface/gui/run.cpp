@@ -148,8 +148,63 @@ void Altair::runWorker(const QString& subdir)
 #   ifndef INSERT_PAGE
        args1 << "-D" << v(base) + QDir::separator() + subdir;
 #   endif    
-      
-        
+
+
+    QStringList temp;
+    foreach(const QString &str, Hash::Siret.keys())
+    {
+       for (int i = 0; i < Hash::Siret[str].size() && i < Hash::Etablissement[str].size(); ++i)
+       {
+        const QString siret = Hash::Siret[str].at(i);
+
+        if (Hash::Suppression[siret + " " + Hash::Etablissement[str].at(i)])
+        {
+            if (! temp.contains(siret))
+                temp << siret;
+        }
+       }
+    }
+
+    if (! temp.isEmpty())
+    {
+        args1 << "--esiret";
+        args1 << temp;
+    }
+
+    temp.clear();
+
+    foreach(const QString &str, Hash::Employeur.values())
+    {
+        if (Hash::Suppression[str])
+        {
+               if (! temp.contains(str))
+                temp << str;
+        }
+    }
+
+    if (! temp.isEmpty())
+    {
+        args1 << "--eemployeur";
+        args1 << temp;
+    }
+
+
+    temp.clear();
+    foreach(const QString &str, Hash::Budget.values())
+    {
+        if (Hash::Suppression[str])
+        {
+            if (! temp.contains(str))
+              temp << str;
+        }
+    }
+
+    if (! temp.isEmpty())
+    {
+        args1 << "--ebudget";
+        args1 << temp;
+    }
+
     args1 << commandLine;
        
     outputTextEdit->append(PROCESSING_HTML_TAG + tr("Importation des bases de paye (")
