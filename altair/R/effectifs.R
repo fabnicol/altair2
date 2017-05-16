@@ -191,13 +191,15 @@ return(tableau.effectifs)
 
 analyse.regexp <- function(Base, regexp, agr) {
 
-      dim <- length(regexp)
-  
-      if (agr && is.null(regexp)) {
-        message("Une expression régulière doit être entrée pour agr = TRUE") 
-        return(NULL)
+      if (is.null(regexp)) {
+        
+        if (agr) {
+          stop("Une expression régulière doit être entrée pour agr = TRUE") 
+        } else return(Base)
       }
+  
       
+      dim <- length(regexp)
    
       for (i in 1:dim)  Base[Statut !=  "ELU", paste0("G", i) :=  grepl(regexp[i], Grade, ignore.case = TRUE, perl = TRUE) * i]
       G <- rowSums(Base[ , paste0("G", 1:dim), with = FALSE])
@@ -385,7 +387,7 @@ charges.eqtp <- function(Base = Paie, grade = NULL, regexp = NULL, libellés = N
   
   T <- analyse.regexp(Base, regexp, agr)
     
-   if (! is.null(libellés) && length(libellés) != dim) {
+   if (! is.null(libellés) && length(libellés) != length(regexp)) {
       
       message("Le vecteur des libellés doit avoir la même longueur que le vecteur des expressions régulières")
       return(NULL)
