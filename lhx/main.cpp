@@ -145,6 +145,9 @@ int main(int argc, char **argv)
         chemin_base,
         chemin_bulletins,
         "Standard",       // export_mode
+        vString(),               // n'exclure aucun SIRET
+        vString(),               // n'exclure aucun budget
+        vString(),               // n'exclure aucun employeur
         MAX_LIGNES_PAYE,  // nbLigneUtilisateur
         0,                // uint16_t fichier_courant
         ',',              // const char decimal;
@@ -566,6 +569,72 @@ int main(int argc, char **argv)
             }
             ++start;
             continue;
+        }
+        else if (commandline_tab[start] == "--esiret")
+        {
+           if (argc > start +2)
+           {
+               if (commandline_tab[start + 1][0] == '-') throw("Il manque les SIRET à exclure");
+
+               do
+               {
+                       info.exclure_siret.push_back(commandline_tab[start + 1]);
+                       ++start;
+               }
+               while(argc > start + 1 && commandline_tab[start][0] != '-');
+
+           }
+           else
+           {
+               cerr << ERROR_HTML_TAG "Il manque les SIRET à exclure.";
+               throw("");
+           }
+
+           continue;
+        }
+        else if (commandline_tab[start] == "--ebudget")
+        {
+           if (argc > start +2)
+           {
+               if (commandline_tab[start + 1][0] == '-') throw("Il manque les budgets à exclure");
+
+               do
+               {
+                       info.exclure_budget.push_back(commandline_tab[start + 1]);
+                       ++start;
+               }
+               while(argc > start + 1 && commandline_tab[start][0] != '-');
+
+           }
+           else
+           {
+               cerr << ERROR_HTML_TAG "Il manque les budgets à exclure.";
+               throw("");
+           }
+
+          continue;
+        }
+        else if (commandline_tab[start] == "--eemployeur")
+        {
+        if (argc > start +2)
+        {
+            if (commandline_tab[start + 1][0] == '-') throw("Il manque les employeurs à exclure");
+
+            do
+            {
+                    info.exclure_employeur.push_back(commandline_tab[start + 1]);
+                    ++start;
+            }
+            while(argc > start + 1 && commandline_tab[start][0] != '-');
+
+        }
+        else
+        {
+            cerr << ERROR_HTML_TAG "Il manque les employeurs à exclure.";
+            throw("");
+        }
+
+        continue;
         }
         else if (commandline_tab[start] == "-f")
         {

@@ -980,6 +980,8 @@ void FListFrame::setStrikeOutFileNames(flags::colors color)
         }
 
         // On barre dès qu'au moins un Siret du fichier est barré
+        // Lorsqu'un fichier contient plusieurs siret / établissements et qu'un seul est
+        // à suprrimer, il est en outre affiché en italiques
 
         for (int k = 0; k < size_j; ++k)
         {
@@ -999,13 +1001,8 @@ void FListFrame::setStrikeOutFileNames(flags::colors color)
                  restrictions_on_xhl_files =  ! Hash::Suppression[Hash::Budget[str]]
                                         &&
                                        ! Hash::Suppression[Hash::Employeur[str]];
-                 if (! Hash::Siret[str].empty() && ! Hash::Etablissement[str].empty())
-                 {
-                      restrictions_on_xhl_files =   restrictions_on_xhl_files &&
-                         ! Hash::Suppression[Hash::Siret[str].at(0) + " " + Hash::Etablissement[str].at(0)]
-                           &&
-                         ((Hash::Siret[str].size() == 1 && Hash::Etablissement[str].size() == 1) || test_for_multi_case);
-                 }
+
+
             }
 
             if (restrictions_on_xhl_files && ! Hash::Suppression[str])
