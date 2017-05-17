@@ -189,9 +189,9 @@ names(tableau.effectifs) <-  as.character(période)
 return(tableau.effectifs)
 }
 
-analyse.regexp <- function(Base, regexp, agr) {
+analyse.regexp <- function(Base, classe, agr) {
 
-      if (is.null(regexp)) {
+      if (is.null(classe)) {
         
         if (agr) {
           stop("Une expression régulière doit être entrée pour agr = TRUE") 
@@ -199,9 +199,18 @@ analyse.regexp <- function(Base, regexp, agr) {
       }
   
       
-      dim <- length(regexp)
+      dim <- length(classe)
    
-      for (i in 1:dim)  Base[Statut !=  "ELU", paste0("G", i) :=  grepl(regexp[i], Grade, ignore.case = TRUE, perl = TRUE) * i]
+      if (is.list(classe)) {
+        
+        for (i in 1:dim)  Base[Statut !=  "ELU", paste0("G", i) :=  Grade %chin% classe[[i]] * i]
+        
+      } else {
+      
+        for (i in 1:dim)  Base[Statut !=  "ELU", paste0("G", i) :=  grepl(classe[i], Grade, ignore.case = TRUE, perl = TRUE) * i]  
+      }
+        
+      
       G <- rowSums(Base[ , paste0("G", 1:dim), with = FALSE])
       Base <- cbind(Base, G)
       Base[G != 0]
@@ -212,12 +221,7 @@ analyse.regexp <- function(Base, regexp, agr) {
 #'
 #' Elabore un tableau des équivalents temps plein travaillés par grade et par année.
 #'
-#' @param Bulletins Base des bulletins de paye, comportant pour l'ensemble de la période.
-#' @param grade Grade particulier. Tous les grades en l'absence de spécification.
-#' @param regexp Vecteur de chaîne de caractères représentant des expressions régulières sur les grades. Tous les grades en l'absence de spécification. La casse est ignorée.
-#' @param agr Booléen (défaut FALSE). Si TRUE, l'expression régulière précédente conduit à agréger les grades décrits par le vecteur d'expressions régulières précédent : une ligne par composante du vecteur.
-#' @param libellés  Vecteur de libellés des agrégations de grades par expression régulière. Doit avoir la même dimension que le vecteur de regexp. 
-#' @param période Vecteur des années considérées.
+#' @param Base Base des bulletins de paye, comportant pour l'ensemble de la période
 #'        \enumerate{
 #'          \item{ les variables charactère suivantes :
 #'             \itemize{
@@ -228,6 +232,12 @@ analyse.regexp <- function(Base, regexp, agr) {
 #'           \item{ les variables numériques :
 #'               \describe{
 #'                 \item{\code{quotité}}{réel entre 0 et 1}}}}.
+#' @param grade Grade particulier. Tous les grades en l'absence de spécification.
+#' @param service Services. Vecteur de chaînes de caractères exactes. Tous les services en l'absence de spécification.
+#' @param classe Liste de vecteurs de grades, chaque vecteur représentant une classe aggrégée, ou bien vecteur de chaîne de caractères représentant des expressions rationnelles sur les grades. Tous les grades en l'absence de spécification. La casse est ignorée pour les expressions rationnelles.
+#' @param agr Booléen (défaut FALSE). Si TRUE, l'expression régulière précédente conduit à agréger les grades décrits par le vecteur d'expressions régulières précédent : une ligne par composante du vecteur.
+#' @param libellés  Vecteur de libellés des agrégations de grades par expression régulière. Doit avoir la même dimension que le vecteur de regexp. 
+#' @param période Vecteur des années considérées.
 #' @return Un tableau des effectifs mis en forme avec les grades en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
 #' @examples
 #' eqtp.grade()
@@ -235,15 +245,15 @@ analyse.regexp <- function(Base, regexp, agr) {
 
 # Bulletins : "Matricule", "Statut", "quotité", "Grade"
 
-eqtp.grade <- function(Bulletins = Bulletins.paie, grade = NULL, regexp = NULL, libellés = NULL, agr = FALSE, période = NULL) {
+eqtp.grade <- function(Base = Bulletins.paie, grade = NULL, classe = NULL,  service = NULL, libellés = NULL, agr = FALSE, période = NULL) {
 
-  if (! is.null(libellés) && length(libellés) != length(regexp)) {
+  if (! is.null(libellés) && length(libellés) != length(classe)) {
       
       message("Le vecteur des libellés doit avoir la même longueur que le vecteur des expressions régulières")
       return(NULL)
   }
   
-  T <- analyse.regexp(Bulletins, regexp, agr)
+  T <- analyse.regexp(Base, classe, agr)
   
   if (agr) {
           
@@ -252,18 +262,26 @@ eqtp.grade <- function(Bulletins = Bulletins.paie, grade = NULL, regexp = NULL, 
           
   } else {
           
-          if (is.null(regexp) & ! is.null(grade))   T <- Base[Statut !=  "ELU" & Grade %chin% grade]
+          if (is.null(classe) & ! is.null(grade))   T <- Base[Statut !=  "ELU" & Grade %chin% grade]
           
           Gr <- "Grade" 
   }
   
-  tableau.effectifs <- T[Statut != "ELU", .(eqtp.g = sum(quotité, na.rm = TRUE) / 12),
-                                                         by=c("Année", Gr)
-                                      ][ , eqtp.grade := formatC(eqtp.g, digits=1, format = "f")]
-  
+  if (is.null(service)) {
+    
+      tableau.effectifs <- T[Statut != "ELU", .(eqtp.g = sum(quotité, na.rm = TRUE) / 12),
+                                                             by=c("Année", Gr)
+                                          ][ , eqtp.grade := formatC(eqtp.g, digits=2, format = "f")]
+  } else {
+    
+      tableau.effectifs <- T[Statut != "ELU" & Service %chin% service, .(eqtp.g = sum(quotité, na.rm = TRUE) / 12),
+                                                                       by=c("Année", Gr)
+                             ][ , eqtp.grade := formatC(eqtp.g, digits=2, format = "f")]
+  }
+      
   if (! is.null(période)) tableau.effectifs <- tableau.effectifs[Année %in% période]
   
-  totaux <- tableau.effectifs[, .(Total=formatC(sum(eqtp.g, na.rm = TRUE), digits=1, format="f")), by=Année]
+  totaux <- tableau.effectifs[, .(Total=formatC(sum(eqtp.g, na.rm = TRUE), digits=2, format="f")), keyby=Année]
   totaux <- transpose(data.table(c("Total", totaux$Total)))
   
   if (agr) {
@@ -280,19 +298,22 @@ eqtp.grade <- function(Bulletins = Bulletins.paie, grade = NULL, regexp = NULL, 
   
   colnames(totaux) <- colnames(tableau.effectifs)
   
-  rbind(tableau.effectifs, totaux)
+  tableau.effectifs <- rbind(tableau.effectifs, totaux)
+  
+  
+  début <- names(tableau.effectifs)[2]
+  fin <- names(tableau.effectifs)[ncol(tableau.effectifs)]
+  
+  h <- function(x) as.numeric(gsub(",", ".", tableau.effectifs[[x]]))
+  
+  tableau.effectifs[ , paste0("Variation ", début, "-", fin, " (%)") :=  round((h(ncol(tableau.effectifs))/h(2) - 1)*100, 1)]
 }
 
 #' Tableau des charges de personnel par grade.
 #'
 #' Elabore un tableau des charges de personnel (coût) par grade et par année.
 #'
-#' @param Base Base des Paies, comportant pour l'ensemble de la période. Par défaut, base Paie.
-#' @param grade Vecteur de grades particuliers. Tous les grades en l'absence de spécification. 
-#' @param regexp Vecteur de chaîne de caractères représentant des expressions régulières sur les grades. Tous les grades en l'absence de spécification. La casse est ignorée.
-#' @param agr Booléen (défaut FALSE). Si TRUE, l'expression régulière précédente conduit à agréger les grades décrits par le vecteur d'expressions régulières précédent : une ligne par composante du vecteur.
-#' @param libellés  Vecteur de libellés des agrégations de grades par expression régulière. Doit avoir la même dimension que le vecteur de regexp.
-#' @param période Vecteur des années considérées.
+#' @param Base Base des Paies, comportant pour l'ensemble de la période. Par défaut, base Paie, comportant 
 #'        \enumerate{
 #'          \item{ les variables charactère suivantes :
 #'             \itemize{
@@ -305,20 +326,26 @@ eqtp.grade <- function(Bulletins = Bulletins.paie, grade = NULL, regexp = NULL, 
 #'               \describe{
 #'                 \item{\code{Montant}}{réel}}}}
 #'                 
+#' @param grade Vecteur de grades particuliers. Tous les grades en l'absence de spécification. 
+#' @param classe Liste de vecteurs de grades, chaque vecteur représentant une classe aggrégée, ou bien vecteur de chaîne de caractères représentant des expressions rationnelles sur les grades. Tous les grades en l'absence de spécification. La casse est ignorée pour les expressions rationnelles.
+#' @param service Services. Vecteur de chaînes de caractères exactes. Tous les services en l'absence de spécification.
+#' @param libellés  Vecteur de libellés des agrégations de grades par expression rationnelle. Doit avoir la même dimension que le vecteur d'expressions rationnelles ou la liste de grades.
+#' @param agr Booléen (défaut FALSE). Si TRUE, l'expression régulière précédente conduit à agréger les grades décrits par le vecteur d'expressions régulières précédent : une ligne par composante du vecteur.
+#' @param période Vecteur des années considérées.
 #' @return Un tableau des charges de personnel (coût employeur) mis en forme avec les grades en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
 #' @examples
 #' charges.personnel()
 #' @export
 
-charges.personnel <- function(Base = Paie, grade = NULL, regexp = NULL, libellés = NULL, agr = FALSE, période = NULL) {
+charges.personnel <- function(Base = Paie, grade = NULL, classe = NULL,  service = NULL, libellés = NULL, agr = FALSE, période = NULL) {
   
-  if (! is.null(libellés) && length(libellés) != length(regexp)) {
+  if (! is.null(libellés) && length(libellés) != length(classe)) {
       
-      message("Le vecteur des libellés doit avoir la même longueur que le vecteur des expressions régulières")
+      message("Le vecteur des libellés doit avoir la même longueur que le vecteur des expressions rationnelles ou la liste de grades")
       return(NULL)
   }
   
-  T <- analyse.regexp(Base, regexp, agr)
+  T <- analyse.regexp(Base, classe, agr)
   
   if (agr) {
           
@@ -327,17 +354,31 @@ charges.personnel <- function(Base = Paie, grade = NULL, regexp = NULL, libellé
           
   } else {
           
-          if (is.null(regexp) & ! is.null(grade))   T <- Base[Statut !=  "ELU" & Grade %chin% grade]
+          if (is.null(classe) & ! is.null(grade))   T <- Base[Statut !=  "ELU" & Grade %chin% grade]
           
           Gr <- "Grade" 
   }
   
-  A <-T[Statut !=  "ELU", .(Coût = round(sum(Montant[Type != "AV" & Type != "RE" & Type != "D"], na.rm = TRUE))), 
-                              keyby=c("Année", Gr)]
-  
+  if (is.null(service)) {
+    
+    A <-T[Statut !=  "ELU", 
+              .(Coût = round(sum(Montant[Type != "AV" & Type != "RE" & Type != "D"], na.rm = TRUE))), 
+                  keyby=c("Année", Gr)]
+    
+  } else {
+    
+    A <-T[Statut !=  "ELU" & Service %chin% service , 
+              .(Coût = round(sum(Montant[Type != "AV" & Type != "RE" & Type != "D"], na.rm = TRUE))), 
+                  keyby=c("Année", Gr)]
+    
+    
+  }
+    
   if (! is.null(période)) A <- A[Année %in% période]
   
-  totaux <- A[, .(Total = sum(Coût, na.rm = TRUE)), by = Année]
+  totaux <- A[, .(Total = sum(Coût, na.rm = TRUE)),
+                  keyby = Année]
+  
   totaux <- transpose(data.table(c("Total", totaux$Total)))
   
   if (agr) {
@@ -352,7 +393,12 @@ charges.personnel <- function(Base = Paie, grade = NULL, regexp = NULL, libellé
   }
   
   colnames(totaux) <- colnames(A)
-  rbind(A, totaux)
+  A <- rbind(A, totaux)
+  
+  début <- names(A)[2]
+  fin <- names(A)[ncol(A)]
+  
+  A[ , paste0("Variation ", début, "-", fin, " (%)") :=  round((as.numeric(A[[ncol(A)]])/as.numeric(A[[2]]) - 1)*100, 1)]
   
 }
 
@@ -360,12 +406,7 @@ charges.personnel <- function(Base = Paie, grade = NULL, regexp = NULL, libellé
 #'
 #' Elabore un tableau des charges de personnel (coût) par grade et par année.
 #' 
-#' @param Base Base des Paies, comportant pour l'ensemble de la période. Par défaut, base Paie.
-#' @param grade Vecteur de grades particuliers. Tous les grades en l'absence de spécification.
-#' @param regexp Vecteur de chaîne de caractères représentant des expressions régulières sur les grades. Tous les grades en l'absence de spécification. La casse est ignorée.
-#' @param agr Booléen (défaut FALSE). Si TRUE, l'expression régulière précédente conduit à agréger les grades décrits par le vecteur d'expressions régulières précédent : une ligne par composante du vecteur.
-#' @param libellés  Vecteur de libellés des agrégations de grades par expression régulière. Doit avoir la même dimension que le vecteur de regexp.
-#' @param période Vecteur des années considérées.
+#' @param Base Base des Paies, comportant pour l'ensemble de la période. Par défaut, base Paie, comportant
 #'        \enumerate{
 #'          \item{ les variables charactère suivantes :
 #'             \itemize{
@@ -377,17 +418,22 @@ charges.personnel <- function(Base = Paie, grade = NULL, regexp = NULL, libellé
 #'           \item{ les variables numériques :
 #'               \describe{
 #'                 \item{\code{Montant}}{réel}}}}
+#' @param grade Vecteur de grades particuliers. Tous les grades en l'absence de spécification.
+#' @param classe Liste de vecteurs de grades, chaque vecteur représentant une classe aggrégée, ou bien vecteur de chaîne de caractères représentant des expressions rationnelles sur les grades. Tous les grades en l'absence de spécification. La casse est ignorée pour les expressions rationnelles.
+#' @param agr Booléen (défaut FALSE). Si TRUE, l'expression régulière précédente conduit à agréger les grades décrits par le vecteur d'expressions régulières précédent : une ligne par composante du vecteur.
+#' @param libellés  Vecteur de libellés des agrégations de grades par expression régulière. Doit avoir la même dimension que le vecteur de regexp.
+#' @param période Vecteur des années considérées.
 #'                 
 #' @return Un tableau des charges moyennes de personnel par EQTP (coût employeur) mis en forme avec les grades en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
 #' @examples
 #' charges.eqtp()
 #' @export
 
-charges.eqtp <- function(Base = Paie, grade = NULL, regexp = NULL, libellés = NULL, agr = FALSE, période = NULL) {
+charges.eqtp <- function(Base = Paie, grade = NULL, classe = NULL,  service = NULL, libellés = NULL, agr = FALSE, période = NULL) {
   
-  T <- analyse.regexp(Base, regexp, agr)
+  T <- analyse.regexp(Base, classe, agr)
     
-   if (! is.null(libellés) && length(libellés) != length(regexp)) {
+   if (! is.null(libellés) && length(libellés) != length(classe)) {
       
       message("Le vecteur des libellés doit avoir la même longueur que le vecteur des expressions régulières")
       return(NULL)
@@ -400,20 +446,25 @@ charges.eqtp <- function(Base = Paie, grade = NULL, regexp = NULL, libellés = N
           
   } else {
           
-          if (is.null(regexp) & ! is.null(grade))   T <- Base[Statut !=  "ELU" & Grade %chin% grade]
+          if (is.null(classe) & ! is.null(grade))   T <- Base[Statut !=  "ELU" & Grade %chin% grade]
           
           Gr <- "Grade" 
   }
 
+  if (! is.null(service)) {
+    
+    T <- T[Service %chin% service]
+    
+  }
   
   A <- T[ , .(Coût = round(sum(Montant[Type != "AV" & Type != "RE" & Type != "D"], na.rm = TRUE)),
-                               eqtp = sum(quotité[1], na.rm = TRUE) / 12),
-                             keyby=c("Année", Gr, "Matricule", "Mois")
-           ][ , .(Coût.moyen.cum = sum(Coût, na.rm = TRUE),
-                  eqtp.cum = sum(eqtp, na.rm = TRUE)),
-                 by = c("Année", Gr)
-           ][ , Coût.moyen := if (is.na(eqtp.cum) || is.na(Coût.moyen.cum) || eqtp.cum == 0) 0 else round(Coût.moyen.cum / eqtp.cum), 
-                 by = c("Année", Gr)]
+              eqtp = sum(quotité[1], na.rm = TRUE) / 12),
+                    keyby=c("Année", Gr, "Matricule", "Mois")
+        ][ , .(Coût.moyen.cum = sum(Coût, na.rm = TRUE),
+               eqtp.cum = sum(eqtp, na.rm = TRUE)),
+                   keyby = c("Année", Gr)
+        ][ , Coût.moyen := if (is.na(eqtp.cum) || is.na(Coût.moyen.cum) || eqtp.cum == 0) 0 else round(Coût.moyen.cum / eqtp.cum), 
+                   keyby = c("Année", Gr)]
 
   
   
