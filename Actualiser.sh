@@ -60,7 +60,6 @@ if test $? = 0; then
    echo "* Actualisation système effectuée"
    echo "***"
    sleep 3
-   git rm -f sys/actualiser_sys
 else
    echo "=> Erreur d'actualisation système"
 fi
