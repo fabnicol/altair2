@@ -452,13 +452,13 @@ void FListFrame::parseXhlFile(const QString& fileName)
         if (budgetCapture.contains(reg2))
            Hash::Budget[fileName] = common::remAccents(std::move(reg2.cap(1).replace("&#39;", "\'").replace("&apos;", "\'").trimmed()));
         else
-           Hash::Budget[fileName] = "Non renseigné" ;
+           Hash::Budget[fileName] = "" ;
 
         QString etabCapture = reg.cap(6);
         if (etabCapture.contains(reg3))
            Hash::Etablissement[fileName] << common::remAccents(std::move(reg3.cap(1).replace("&#39;", "\'").replace("&apos;", "\'").trimmed()));
         else
-           Hash::Etablissement[fileName] << "Non renseigné" ;
+           Hash::Etablissement[fileName] << "" ;
 
         Hash::Employeur[fileName]  = common::remAccents(std::move(reg.cap(4).replace("&#39;", "\'").replace("&apos;", "\'").trimmed()));
 
@@ -474,7 +474,7 @@ void FListFrame::parseXhlFile(const QString& fileName)
         if (! string.toUpper().contains("DONNEESINDIV")) altair->outputTextEdit->append(WARNING_HTML_TAG "Pas de données individuelles");
         if (! string.toUpper().contains("PAYEINDIVMENSUEL")) altair->outputTextEdit->append(WARNING_HTML_TAG "Pas de payes individuelles");
 
-        altair->outputTextEdit->append(WARNING_HTML_TAG "L'entête DocumentPaye... du fichier " + fileName + " est non conforme à la spécification Xemelios");
+        altair->outputTextEdit->append(WARNING_HTML_TAG "L'entête DocumentPaye... du fichier " + fileName + " est non conforme à l'annexe de la convention cadre de dématérialisation.");
         
         //      DocumentPaye.*(?:Annee) V.?=.?\"([0-9]+)\".*(?:Mois) V.?=.?\"([0-9]+)\"(.*)(?:Employeur).*(?:Nom) V.?=.?\"([^\"]+)\".*(?:Siret) V.?=.?\"([0-9A-Z]+)\".*DonneesIndiv(.*)PayeIndivMensuel")
         
@@ -643,7 +643,10 @@ void FListFrame::finalise()
         for (int i=0; i < pairs.size(); i++)
                tabList <<  pairs[i].left(60);
 
-        widgetContainer.insert(rank, new QListWidget);
+        QListWidget* widgetS = new QListWidget;
+        widgetS->setSelectionMode(QAbstractItemView::ExtendedSelection);
+        widgetS->setSelectionBehavior(QAbstractItemView::SelectRows);
+        widgetContainer.insert(rank, widgetS);
         addNewTab(rank, "Siret");
         Hash::wrapper[frameHashKey]->insert(rank, pairs);
 
@@ -684,7 +687,10 @@ void FListFrame::finalise()
         for (int i=0; i < pairs.size(); i++)
                tabList <<  pairs[i].left(60);
 
-        widgetContainer.insert(rank, new QListWidget);
+        QListWidget* widgetB = new QListWidget;
+        widgetB->setSelectionMode(QAbstractItemView::ExtendedSelection);
+        widgetB->setSelectionBehavior(QAbstractItemView::SelectRows);
+        widgetContainer.insert(rank, widgetB);
         addNewTab(rank, "Budget");
         Hash::wrapper[frameHashKey]->insert(rank, pairs);
 
@@ -710,7 +716,11 @@ void FListFrame::finalise()
         for (int i=0; i < pairs.size(); i++)
                tabList <<  pairs[i].left(60);
 
-        widgetContainer.insert(rank, new QListWidget);
+
+        QListWidget* widgetE = new QListWidget;
+        widgetE->setSelectionMode(QAbstractItemView::ExtendedSelection);
+        widgetE->setSelectionBehavior(QAbstractItemView::SelectRows);
+        widgetContainer.insert(rank, widgetE);
         addNewTab(rank, "Employeur");
         Hash::wrapper[frameHashKey]->insert(rank, pairs);
 
@@ -979,9 +989,6 @@ void FListFrame::setStrikeOutFileNames(flags::colors color)
             return;
         }
 
-        // On barre dès qu'au moins un Siret du fichier est barré
-        // Lorsqu'un fichier contient plusieurs siret / établissements et qu'un seul est
-        // à suprrimer, il est en outre affiché en italiques
 
         for (int k = 0; k < size_j; ++k)
         {
@@ -989,42 +996,63 @@ void FListFrame::setStrikeOutFileNames(flags::colors color)
             QFont font =  item->font();
             const QString str = Hash::Reference.at(j).at(k);
 
-            bool test_for_multi_case = true;
-            if (j < size - 3 && Hash::Siret[str].size() > 1 && Hash::Etablissement[str].size() > 1)
-              for (int l = 1; l < Hash::Siret[str].size() && l < Hash::Etablissement[str].size(); ++l)
-                      test_for_multi_case  = ! Hash::Suppression[Hash::Siret[str].at(l) + " " + Hash::Etablissement[str].at(l)]
-                                             &&  test_for_multi_case;
+            bool suppression_partielle = false;
+            bool suppression_totale = true;
 
-            bool restrictions_on_xhl_files =  true;
+            if (Hash::Suppression[Hash::Budget[str]]  || Hash::Suppression[Hash::Employeur[str]])
+                Hash::Suppression[str] = true;
+
+            // on regarde si une partie du fichier est supprimée (siret/établissement)
+
+
             if (j < size - 3)
             {
-                 restrictions_on_xhl_files =  ! Hash::Suppression[Hash::Budget[str]]
-                                        &&
-                                       ! Hash::Suppression[Hash::Employeur[str]];
+              for (int l = 0; l < Hash::Siret[str].size() && l < Hash::Etablissement[str].size(); ++l)
+              {
+                      suppression_partielle  =  Hash::Suppression[Hash::Siret[str].at(l) + " " + Hash::Etablissement[str].at(l)]
+                                             ||  suppression_partielle;
+
+                      if (! Hash::Suppression[Hash::Siret[str].at(l) + " " + Hash::Etablissement[str].at(l)]
+                              || Hash::Siret[str].at(l) == "Z"
+                              || Hash::Etablissement[str].at(l) == "Z"
+                              || Hash::Siret[str].at(l) == ""
+                              || Hash::Etablissement[str].at(l) == "")  // anonymes
+                                             suppression_totale = false;
+              }
 
 
+                 suppression_partielle =  ! Hash::Suppression[Hash::Budget[str]]  && ! Hash::Suppression[Hash::Employeur[str]] && suppression_partielle;
+                 if (suppression_totale) Hash::Suppression[str] = true;
+                 else
+                     if (! Hash::Suppression[Hash::Budget[str]] && ! Hash::Suppression[Hash::Employeur[str]])
+                         Hash::Suppression[str] = false;
             }
 
-            if (restrictions_on_xhl_files && ! Hash::Suppression[str])
+
+            if (Hash::Suppression[str])
                     {
-                        strL << str;
-                        font.setStrikeOut(false);
-                        font.setItalic(false);
-                        item->setFont(font);
-                        if (color == flags::colors::yes)
-                            item->setTextColor("green");
+                       font.setStrikeOut(true);
+                       font.setItalic(false);
+                       item->setFont(font);
+
+                       if (color == flags::colors::yes)
+                           item->setTextColor("red");
                     }
                     else
                     {
-                        if (test_for_multi_case == false)
+                        if (suppression_partielle)
                         {
-                                font.setItalic(true);
+                            font.setItalic(true);
                         }
+                        else
+                            font.setItalic(false);
 
-                        font.setStrikeOut(true);
+                        if (! strL.contains(str))
+                            strL << str;
+                        font.setStrikeOut(false);
                         item->setFont(font);
                         if (color == flags::colors::yes)
-                           item->setTextColor("red");
+                            item->setTextColor("green");
                     }
         }
 
