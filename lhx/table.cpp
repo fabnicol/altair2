@@ -78,6 +78,7 @@ static const char* type_remuneration_traduit[] = {
 
 static inline void GCC_INLINE ECRIRE_LIGNE_l_COMMUN(int i, uint32_t agent, int l, char* type, table_t& base, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
 {
+
     base   << VAR(Nom) << sep
            << VAR(Prenom) << sep
            << VAR(Matricule) << sep
@@ -104,8 +105,9 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l_COMMUN(int i, uint32_t agent, int l
 
 }
 
-static inline void GCC_INLINE ECRIRE_LIGNE_l_GENERER_RANG(int i, uint32_t agent, int l, char* type, table_t& base, char sep, vector<info_t> &Info, int rang)
+static inline int GCC_INLINE ECRIRE_LIGNE_l_GENERER_RANG(int i, uint32_t agent, int l, char* type, table_t& base, char sep, vector<info_t> &Info, int rang)
 {
+    if (VAR(Annee)[0] == '*') return 0;
     base <<  rang << sep;
     base  << VAR(Annee) << sep
           << VAR(Mois) << sep;
@@ -122,10 +124,13 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l_GENERER_RANG(int i, uint32_t agent,
 
     base << VAR(Categorie) << sep
          << VAR(NIR) << "\n";
+
+    return 1;
 }
 
-static inline void GCC_INLINE ECRIRE_LIGNE_l_GENERER_RANG_ECHELON(int i, uint32_t agent, int l, char* type, table_t& base, char sep, vector<info_t> &Info, int rang)
+static inline int GCC_INLINE ECRIRE_LIGNE_l_GENERER_RANG_ECHELON(int i, uint32_t agent, int l, char* type, table_t& base, char sep, vector<info_t> &Info, int rang)
 {
+    if (VAR(Annee)[0] == '*') return 0;
     base <<  rang << sep;
     base  << VAR(Annee) << sep
           << VAR(Mois) << sep;
@@ -143,10 +148,14 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l_GENERER_RANG_ECHELON(int i, uint32_
     base << VAR(Echelon) << sep
          << VAR(Categorie) << sep
          << VAR(NIR) << "\n";
+
+    return 1;
 }
 
-static inline void GCC_INLINE ECRIRE_LIGNE_l_SIRET(int i, uint32_t agent, int l, char* type, table_t& base, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
+static inline int GCC_INLINE ECRIRE_LIGNE_l_SIRET(int i, uint32_t agent, int l, char* type, table_t& base, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
 {
+    if (VAR(Annee)[0] == '*') return 0;
+
     base  << VAR(Annee) << sep
           << VAR(Mois) << sep;
     
@@ -157,12 +166,16 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l_SIRET(int i, uint32_t agent, int l,
 
     ECRIRE_LIGNE_l_COMMUN(i, agent, l, type, base, sep, Info, rang);
 
-   base  << VAR(Categorie) << sep
-         << VAR(NIR) << "\n";
+    base  << VAR(Categorie) << sep
+          << VAR(NIR) << "\n";
+
+    return 1;
 }
 
-static inline void GCC_INLINE ECRIRE_LIGNE_l_SIRET_ECHELON(int i, uint32_t agent, int l, char* type, table_t& base, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
+static inline int GCC_INLINE ECRIRE_LIGNE_l_SIRET_ECHELON(int i, uint32_t agent, int l, char* type, table_t& base, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
 {
+    if (VAR(Annee)[0] == '*') return 0;
+
     base  << VAR(Annee) << sep
           << VAR(Mois) << sep;
 
@@ -176,10 +189,13 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l_SIRET_ECHELON(int i, uint32_t agent
     base << VAR(Echelon) << sep
          << VAR(Categorie) << sep
          << VAR(NIR) << "\n";
+
+    return 1;
 }
 
-static inline void GCC_INLINE ECRIRE_LIGNE_l(int i, uint32_t agent, int l, char* type, table_t& base, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
+static inline int GCC_INLINE ECRIRE_LIGNE_l(int i, uint32_t agent, int l, char* type, table_t& base, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
 {
+    if (VAR(Annee)[0] == '*') return 0;
     base  << VAR(Annee) << sep
           << VAR(Mois) << sep;
     
@@ -187,10 +203,13 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l(int i, uint32_t agent, int l, char*
 
     base << VAR(Categorie) << sep
          << VAR(NIR) << "\n";
+
+    return 1;
 }
 
-static inline void GCC_INLINE ECRIRE_LIGNE_l_ECHELON(int i, uint32_t agent, int l, char* type, table_t& base, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
+static inline int GCC_INLINE ECRIRE_LIGNE_l_ECHELON(int i, uint32_t agent, int l, char* type, table_t& base, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
 {
+    if (VAR(Annee)[0] == '*') return 0;
     base  << VAR(Annee) << sep
           << VAR(Mois) << sep;
 
@@ -199,11 +218,12 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l_ECHELON(int i, uint32_t agent, int 
     base << VAR(Echelon) << sep
          << VAR(Categorie) << sep
          << VAR(NIR) << "\n";
-
+   return 1;
 }
 
 static inline void GCC_INLINE ECRIRE_LIGNE_BULLETIN_COMMUN(int i, uint32_t agent, table_t& bulletins, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
 {
+
     bulletins << VAR(Nom) << sep
               << VAR(Prenom) << sep
               << VAR(Matricule) << sep
@@ -223,8 +243,9 @@ static inline void GCC_INLINE ECRIRE_LIGNE_BULLETIN_COMMUN(int i, uint32_t agent
               << VAR(Code) <<  " " << VAR(Description)<< sep;
 }
 
-static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETIN_GENERER_RANG(int i, uint32_t agent, table_t& bulletins, char sep, vector<info_t> &Info, int rang)
+static inline int GCC_INLINE  ECRIRE_LIGNE_BULLETIN_GENERER_RANG(int i, uint32_t agent, table_t& bulletins, char sep, vector<info_t> &Info, int rang)
 {
+    if (VAR(Annee)[0] == '*') return 0;
     bulletins <<  rang << sep;
 
     bulletins << VAR(Annee) << sep
@@ -242,10 +263,12 @@ static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETIN_GENERER_RANG(int i, uint32_
 
       bulletins   << VAR(Categorie) << sep
                   << VAR(NIR) << "\n";
+      return 1;
 }
 
-static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETIN_GENERER_RANG_ECHELON(int i, uint32_t agent, table_t& bulletins, char sep, vector<info_t> &Info, int rang)
+static inline int GCC_INLINE  ECRIRE_LIGNE_BULLETIN_GENERER_RANG_ECHELON(int i, uint32_t agent, table_t& bulletins, char sep, vector<info_t> &Info, int rang)
 {
+    if (VAR(Annee)[0] == '*') return 0;
     bulletins <<  rang << sep;
     
     bulletins << VAR(Annee) << sep
@@ -264,11 +287,12 @@ static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETIN_GENERER_RANG_ECHELON(int i,
     bulletins    << VAR(Echelon)   << sep
                  << VAR(Categorie) << sep
                  << VAR(NIR) << "\n";
+    return 1;
 }
 
-static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETIN_SIRET(int i, uint32_t agent, table_t& bulletins, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
+static inline int GCC_INLINE  ECRIRE_LIGNE_BULLETIN_SIRET(int i, uint32_t agent, table_t& bulletins, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
 {
-    
+    if (VAR(Annee)[0] == '*') return 0;
     bulletins << VAR(Annee) << sep
               << VAR(Mois) << sep;
     
@@ -281,11 +305,12 @@ static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETIN_SIRET(int i, uint32_t agent
 
     bulletins    << VAR(Categorie) << sep
                  << VAR(NIR) << "\n";
+    return 1;
 }
 
-static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETIN_SIRET_ECHELON(int i, uint32_t agent, table_t& bulletins, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
+static inline int GCC_INLINE  ECRIRE_LIGNE_BULLETIN_SIRET_ECHELON(int i, uint32_t agent, table_t& bulletins, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
 {
-
+    if (VAR(Annee)[0] == '*') return 0;
     bulletins << VAR(Annee) << sep
               << VAR(Mois) << sep;
 
@@ -299,10 +324,12 @@ static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETIN_SIRET_ECHELON(int i, uint32
     bulletins    << VAR(Echelon)   << sep
                  << VAR(Categorie) << sep
                  << VAR(NIR) << "\n";
+    return 1;
 }
 
-static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETINS(int i, uint32_t agent, table_t& bulletins, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
+static inline int GCC_INLINE  ECRIRE_LIGNE_BULLETINS(int i, uint32_t agent, table_t& bulletins, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
 {
+    if (VAR(Annee)[0] == '*') return 0;
     bulletins << VAR(Annee) << sep
               << VAR(Mois) << sep;
     
@@ -310,10 +337,12 @@ static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETINS(int i, uint32_t agent, tab
 
     bulletins    << VAR(Categorie) << sep
                  << VAR(NIR) << "\n";
+    return 1;
 }
 
-static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETINS_ECHELON(int i, uint32_t agent, table_t& bulletins, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
+static inline int GCC_INLINE  ECRIRE_LIGNE_BULLETINS_ECHELON(int i, uint32_t agent, table_t& bulletins, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
 {
+    if (VAR(Annee)[0] == '*') return 0;
     bulletins << VAR(Annee) << sep
               << VAR(Mois) << sep;
 
@@ -322,10 +351,12 @@ static inline void GCC_INLINE  ECRIRE_LIGNE_BULLETINS_ECHELON(int i, uint32_t ag
     bulletins    << VAR(Echelon)   << sep
                  << VAR(Categorie) << sep
                  << VAR(NIR) << "\n";
+    return 1;
 }
 
-static void (*ecrire_ligne_table)(int, uint32_t, int, char*, table_t&, char, vector<info_t> &, int);
-static void (*ecrire_ligne_bulletin)(int i, uint32_t, table_t& , char, vector<info_t>& , int );
+
+static int (*ecrire_ligne_table)(int, uint32_t, int, char*, table_t&, char, vector<info_t> &, int);
+static int (*ecrire_ligne_bulletin)(int i, uint32_t, table_t& , char, vector<info_t>& , int );
 
 pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
 {
@@ -464,9 +495,7 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
                 unsigned l = BESOIN_MEMOIRE_ENTETE;
                 uint16_t NLigneAgent = Info[i].NLigne[agent];
 
-                ++compteur_lignes_bulletins;
-
-                ecrire_ligne_bulletin(i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
+                compteur_lignes_bulletins += ecrire_ligne_bulletin(i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
 
                 char* type = nullptr;
 
@@ -487,8 +516,7 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
                         // no break !!!!
                     }
 
-                    ++compteur;
-                    ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
+                    compteur +=  ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
 
                     l += INDEX_MAX_COLONNNES + 1;
                     ++ligne;
@@ -523,9 +551,7 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
                     unsigned l = BESOIN_MEMOIRE_ENTETE;
                     uint16_t NLigneAgent = Info[i].NLigne[agent];
 
-                    ++compteur_lignes_bulletins;
-
-                    ecrire_ligne_bulletin(i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
+                    compteur_lignes_bulletins +=  ecrire_ligne_bulletin(i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
 
                     if (strcmp((const char*)VAR(Annee), annee_courante))
                     {
@@ -568,8 +594,7 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
                             // NO BREAK !
                         }
 
-                        ++compteur;
-                        ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
+                        compteur += ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
 
                         l += INDEX_MAX_COLONNNES + 1;
                         ++ligne;
@@ -608,9 +633,7 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
                         unsigned l = BESOIN_MEMOIRE_ENTETE;
                         uint16_t NLigneAgent = Info[i].NLigne[agent];
 
-                        ++compteur_lignes_bulletins;
-
-                        ecrire_ligne_bulletin(i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
+                        compteur_lignes_bulletins += ecrire_ligne_bulletin(i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
 
                         char* type = nullptr;
 
@@ -664,9 +687,7 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
                                 // NO BREAK !
                             }
 
-                            ++compteur;
-
-                            ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
+                            compteur += ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
 
                             l += INDEX_MAX_COLONNNES + 1;
                             ++ligne;
@@ -708,9 +729,7 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
                             unsigned l = BESOIN_MEMOIRE_ENTETE;
                             uint16_t NLigneAgent = Info[i].NLigne[agent];
 
-                            ++compteur_lignes_bulletins;
-
-                            ecrire_ligne_bulletin(i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
+                            compteur_lignes_bulletins += ecrire_ligne_bulletin(i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
 
                             if (strcmp((const char*)VAR(Annee), annee_courante))
                             {
@@ -791,11 +810,9 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
                                 }
 
 
-                                ++compteur;
+                                compteur += ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
 
                                 ++compteur_annee_courante;
-
-                                ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
 
                                 l += INDEX_MAX_COLONNNES + 1;
                                 ++ligne;
@@ -836,9 +853,7 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
                                 unsigned l = BESOIN_MEMOIRE_ENTETE;
                                 uint16_t NLigneAgent = Info[i].NLigne[agent];
 
-                                ++compteur_lignes_bulletins;
-
-                                ecrire_ligne_bulletin(i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
+                                compteur_lignes_bulletins +=  ecrire_ligne_bulletin(i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
 
                                 char* type = nullptr;
 
@@ -863,8 +878,7 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
                                             // NO BREAK!
                                         }
 
-                                        ++compteur;
-                                        ecrire_ligne_table(i, agent, l, type, t_tableau_base[int_drapeau_categorie], sep, Info, compteur);
+                                        compteur += ecrire_ligne_table(i, agent, l, type, t_tableau_base[int_drapeau_categorie], sep, Info, compteur);
 
                                         l += INDEX_MAX_COLONNNES + 1;
                                         ++ligne;
@@ -874,8 +888,7 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
                                 {
                                     while (ligne < NLigneAgent)
                                     {
-                                        ++compteur;
-                                        ecrire_ligne_table(i, agent, l, const_cast<char*>("NA"), t_tableau_base[nbType], sep, Info, compteur);
+                                        compteur +=ecrire_ligne_table(i, agent, l, const_cast<char*>("NA"), t_tableau_base[nbType], sep, Info, compteur);
 
                                         l += INDEX_MAX_COLONNNES + 1;
                                         ++ligne;
@@ -912,9 +925,7 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
                                 unsigned l = BESOIN_MEMOIRE_ENTETE;
                                 uint16_t NLigneAgent = Info[i].NLigne[agent];
 
-                                ++compteur_lignes_bulletins;
-
-                                ecrire_ligne_bulletin(i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
+                                compteur_lignes_bulletins +=  ecrire_ligne_bulletin(i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
 
                                 char* type = nullptr;
 
@@ -943,8 +954,7 @@ pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)
 
                                         if (valeur_drapeau_categorie  == Info[0].type_base)
                                         {
-                                            ++compteur;
-                                            ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
+                                            compteur += ecrire_ligne_table(i, agent, l, type, t_base, sep, Info, compteur);
                                         }
 
                                         l += INDEX_MAX_COLONNNES + 1;
