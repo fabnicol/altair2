@@ -55,6 +55,22 @@ extern uint64_t   parseLignesPaye(xmlNodePtr cur, info_t& info);
 extern vector<errorLine_t>  errorLineStack;
 extern int rang_global;
 
+
+
+
+static inline  int GCC_INLINE memoire_p_ligne(const info_t& info, const unsigned agent)
+{
+    /* Attention on peut "rembobiner" les types dans la limite de TYPE_LOOP_LIMIT, ce qui implique que l'on doit allouer ex ante TYPE_LOOP_LIMIT fois nbType
+     *  pour les drapeux de séparation des catégories */
+
+    return BESOIN_MEMOIRE_ENTETE  // chaque agent a au moins BESOIN_MEMOIRE_ENTETE champs du bulletins de paye en colonnes
+                                                        // sans la table ces champs sont répétés à chaque ligne de paye.
+            + nbType  *  TYPE_LOOP_LIMIT                   // espace pour les drapeaux de séparation des champs (taille de type_remuneration).
+            + (info.NLigne[agent]) * (INDEX_MAX_COLONNNES + 1);   // nombre de lignes de paye x nombre maximum de types de balises distincts de lignes de paye
+                                                                                                     // soit INDEX_MAX_COLONNES = N pour les écritures du type Var(l+i), i=0,...,N dans ECRIRE_LIGNE_l_COMMUN
+}
+
+
 /* agent_total est une variable de contrôle pour info->NCumAgent */
 
 static int parseFile(info_t& info)
@@ -258,14 +274,16 @@ static int parseFile(info_t& info)
         cur = cur_save;
     }
 
+    bool skip_budget = false;
+
     if (budget_fichier && ! info.exclure_budget.empty())
     {
         if (find(info.exclure_budget.cbegin(), info.exclure_budget.cend(), string((const char*) budget_fichier))
                 != info.exclure_budget.cend())
         {
           // on exclut ce fichier
-            if (verbeux) cerr << PROCESSING_HTML_TAG "Budget exclu." ENDL;
-            return SKIP_FILE;
+            if (verbeux) cerr << PROCESSING_HTML_TAG "Budget " << budget_fichier << " exclu." ENDL;
+            skip_budget = true;
         }
     }
 
@@ -363,14 +381,16 @@ static int parseFile(info_t& info)
         cur = cur_save;
     }
 
+    bool skip_employeur = false;
+
     if (employeur_fichier && ! info.exclure_employeur.empty())
     {
         if (find(info.exclure_employeur.cbegin(), info.exclure_employeur.cend(), string((const char*) employeur_fichier))
                 != info.exclure_employeur.cend())
         {
           // on exclut ce fichier
-            if (verbeux) cerr << PROCESSING_HTML_TAG "Employeur exclu." ENDL;
-            return SKIP_FILE;
+            if (verbeux) cerr << PROCESSING_HTML_TAG "Employeur " << employeur_fichier << " exclu." ENDL;
+            skip_employeur = true;
         }
     }
 
@@ -551,15 +571,18 @@ static int parseFile(info_t& info)
             cur = cur_save2;
         }
 
-        if (siret_etablissement && ! info.exclure_siret.empty())
+        bool skip_siret = false;
+
+        if (siret_etablissement && siret_fichier && ! info.exclure_siret.empty())
         {
-            if (find(info.exclure_siret.cbegin(), info.exclure_siret.cend(), string((const char*) siret_etablissement))
+            if (find(info.exclure_siret.cbegin(), info.exclure_siret.cend(), string((const char*) siret_fichier))
                      != info.exclure_siret.cend())
             {
-                if (verbeux) cerr << PROCESSING_HTML_TAG "SIRET exclu." ENDL;
-                continue;  // on passe à l'établissement suivant
+                if (verbeux) cerr << PROCESSING_HTML_TAG "SIRET " << siret_fichier << " exclu." ENDL;
+                skip_siret = true;
             }
         }
+
 
         /* REFERENCE */
 
@@ -624,85 +647,94 @@ static int parseFile(info_t& info)
             cur_save2 = cur;
             cur = cur->xmlChildrenNode;  // Niveau Agent
 
-            /* remarque atoi retourne zéro s'il rencontre "" ou des caractères non numériques */
-
-            info.Table[info.NCumAgentXml][Annee] = xmlStrdup(annee_fichier);
-            info.Table[info.NCumAgentXml][Mois]  = xmlStrdup(mois_fichier);
-            info.Table[info.NCumAgentXml][Budget] = xmlStrdup(budget_fichier);
-            info.Table[info.NCumAgentXml][Employeur]  = xmlStrdup(employeur_fichier);
-
-            /* Nota : le Siret est, si l'établissement existe, celui de l'établissement, sinon celui de l'Employeur */
-
-            info.Table[info.NCumAgentXml][Siret]  = xmlStrdup(siret_fichier);
-            info.Table[info.NCumAgentXml][Etablissement]  = xmlStrdup(etablissement_fichier);
-
-            /* LECTURE DES LIGNES DE PAYE STRICTO SENSU */
-
-            int32_t ligne_p = parseLignesPaye(cur, info);
-
-            /*  */
-
-            info.drapeau_cont = true;
-
-            int diff = info.NLigne[info.NCumAgentXml] - ligne_p;
-
-            if (info.reduire_consommation_memoire)
+            if (skip_siret || skip_employeur || skip_budget)
             {
-                if (diff < 0)
-                {
-                  if (verbeux)
-                  {
+                info.Table[info.NCumAgentXml][Annee] = xmlStrdup((const xmlChar*)"*");
+                for (int i = Annee +1 ; i < memoire_p_ligne(info, info.NCumAgentXml) ; ++i)
+                    info.Table[info.NCumAgentXml][i] = xmlStrdup((const xmlChar*)""); // pas nullptr
+            }
+            else
+            {
+                    /* remarque atoi retourne zéro s'il rencontre "" ou des caractères non numériques */
 
-#ifdef USE_STRING_EXEC
-                     char cmd[999] = {0};
-                     snprintf(cmd, 999, "grep -n 'Matricule V=\"%s\"' %s | cut -f 1 -d:", info.Table[info.NCumAgentXml][Matricule], env.filePath.c_str());
-                     string lineN = string_exec(cmd);
-#else
-                     string lineN;
-                     if (info.ligne_debut.size() > info.NCumAgentXml 
-                         && info.ligne_fin.size() > info.NCumAgentXml )   
-                     {
-                       lineN = to_string(info.ligne_debut.at(info.NCumAgentXml)[0] + 1) 
-                               + " - " 
-                               + to_string(info.ligne_fin.at(info.NCumAgentXml)[0]);
-                     }
-#endif
-                     LOCK_GUARD
-                     cerr << ERROR_HTML_TAG "L'allocation de mémoire initiale a prévu : "
-                              << info.NLigne[info.NCumAgentXml]
-                              << " ligne(s) de paye mais le décompte précis donne : "
-                              << ligne_p
-                              << ENDL "Pour l'agent "
-                              << "de matricule"
-                              << info.Table[info.NCumAgentXml][Matricule] << ENDL
-                              << " Année "
-                              << info.Table[info.NCumAgentXml][Annee]
-                              << " Mois "
-                              << info.Table[info.NCumAgentXml][Mois] << ENDL
-                              << "Ligne(s) "
-                              << lineN    
-                              << ENDL;
-                  }
+                    info.Table[info.NCumAgentXml][Annee] = xmlStrdup(annee_fichier);
+                    info.Table[info.NCumAgentXml][Mois]  = xmlStrdup(mois_fichier);
+                    info.Table[info.NCumAgentXml][Budget] = xmlStrdup(budget_fichier);
+                    info.Table[info.NCumAgentXml][Employeur]  = xmlStrdup(employeur_fichier);
+
+                    /* Nota : le Siret est, si l'établissement existe, celui de l'établissement, sinon celui de l'Employeur */
+
+                    info.Table[info.NCumAgentXml][Siret]  = xmlStrdup(siret_fichier);
+                    info.Table[info.NCumAgentXml][Etablissement]  = xmlStrdup(etablissement_fichier);
+
+                    /* LECTURE DES LIGNES DE PAYE STRICTO SENSU */
+
+                    int32_t ligne_p = parseLignesPaye(cur, info);
+
+                    /*  */
+
+                    info.drapeau_cont = true;
+
+                    int diff = info.NLigne[info.NCumAgentXml] - ligne_p;
+
+                    if (info.reduire_consommation_memoire)
+                    {
+                        if (diff < 0)
+                        {
+                          if (verbeux)
+                          {
+
+        #ifdef USE_STRING_EXEC
+                             char cmd[999] = {0};
+                             snprintf(cmd, 999, "grep -n 'Matricule V=\"%s\"' %s | cut -f 1 -d:", info.Table[info.NCumAgentXml][Matricule], env.filePath.c_str());
+                             string lineN = string_exec(cmd);
+        #else
+                             string lineN;
+                             if (info.ligne_debut.size() > info.NCumAgentXml
+                                 && info.ligne_fin.size() > info.NCumAgentXml )
+                             {
+                               lineN = to_string(info.ligne_debut.at(info.NCumAgentXml)[0] + 1)
+                                       + " - "
+                                       + to_string(info.ligne_fin.at(info.NCumAgentXml)[0]);
+                             }
+        #endif
+                             LOCK_GUARD
+                             cerr << ERROR_HTML_TAG "L'allocation de mémoire initiale a prévu : "
+                                      << info.NLigne[info.NCumAgentXml]
+                                      << " ligne(s) de paye mais le décompte précis donne : "
+                                      << ligne_p
+                                      << ENDL "Pour l'agent "
+                                      << "de matricule"
+                                      << info.Table[info.NCumAgentXml][Matricule] << ENDL
+                                      << " Année "
+                                      << info.Table[info.NCumAgentXml][Annee]
+                                      << " Mois "
+                                      << info.Table[info.NCumAgentXml][Mois] << ENDL
+                                      << "Ligne(s) "
+                                      << lineN
+                                      << ENDL;
+                          }
+
+                            ecrire_log(info, log, diff);
+                            if (log.is_open())
+                                log.close();
+        #ifdef STRICT
+                            exit(-1278);
+        #else
+
+                            /* il faut tout réallouer */
+
+                            return RETRY;
+        #endif
+                        }
+                    }
+
+                    info.NLigne[info.NCumAgentXml] = ligne_p;
+
+                    info.nbLigne += ligne_p;
 
                     ecrire_log(info, log, diff);
-                    if (log.is_open())
-                        log.close();
-#ifdef STRICT
-                    exit(-1278);
-#else
-
-                    /* il faut tout réallouer */
-
-                    return RETRY;
-#endif
-                }
             }
-
-            info.NLigne[info.NCumAgentXml] = ligne_p;
-
-            info.nbLigne += ligne_p;
-
-            ecrire_log(info, log, diff);
 
             // Ici il est normal que cur = nullptr
 
@@ -806,19 +838,6 @@ using namespace std;
 #endif // defined
 
 
-static inline  int GCC_INLINE memoire_p_ligne(const info_t& info, const unsigned agent)
-{
-    /* Attention on peut "rembobiner" les types dans la limite de TYPE_LOOP_LIMIT, ce qui implique que l'on doit allouer ex ante TYPE_LOOP_LIMIT fois nbType
-     *  pour les drapeux de séparation des catégories */
-
-    return BESOIN_MEMOIRE_ENTETE  // chaque agent a au moins BESOIN_MEMOIRE_ENTETE champs du bulletins de paye en colonnes
-                                                        // sans la table ces champs sont répétés à chaque ligne de paye.
-            + nbType  *  TYPE_LOOP_LIMIT                   // espace pour les drapeaux de séparation des champs (taille de type_remuneration).
-            + (info.NLigne[agent]) * (INDEX_MAX_COLONNNES + 1);   // nombre de lignes de paye x nombre maximum de types de balises distincts de lignes de paye
-                                                                                                     // soit INDEX_MAX_COLONNES = N pour les écritures du type Var(l+i), i=0,...,N dans ECRIRE_LIGNE_l_COMMUN
-}
-
-
 static inline void GCC_INLINE allouer_memoire_table(info_t& info)
 {
     // utiliser NCumAgent ici et pas NCumAgentXml, puisqu'il s'agit d'une préallocation
@@ -874,7 +893,7 @@ inline void GCC_INLINE normaliser_accents(xmlChar* c)
     /* la représentation interne est UTF-8 donc les caractères accentués sont sur 2 octets : é = 0xc3a8 etc. */
 
 
-    while (*c != 0)
+    while (c != 0)
     {
 #ifdef CONVERTIR_LATIN_1
             switch (*(c))
@@ -1047,7 +1066,7 @@ void* parse_info(info_t& info)
 
     }
 
-    if (info.reduire_consommation_memoire && info.NCumAgentXml != info.NCumAgent)
+    if (info.reduire_consommation_memoire && info.NCumAgentXml > info.NCumAgent)
         {
           if (verbeux)
           {
