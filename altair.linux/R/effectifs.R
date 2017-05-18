@@ -304,9 +304,12 @@ eqtp.grade <- function(Base = Bulletins.paie, grade = NULL, classe = NULL,  serv
   début <- names(tableau.effectifs)[2]
   fin <- names(tableau.effectifs)[ncol(tableau.effectifs)]
   
-  h <- function(x) as.numeric(gsub(",", ".", tableau.effectifs[[x]]))
+  h <- function(x)  as.numeric(gsub(",", ".", tableau.effectifs[[x]]))
   
-  tableau.effectifs[ , paste0("Variation ", début, "-", fin, " (%)") :=  round((h(ncol(tableau.effectifs))/h(2) - 1)*100, 1)]
+  d <- h(2)
+  d <- ifelse(d == 0, NA, d)
+  
+  tableau.effectifs[ , paste0("Variation ", début, "-", fin, " (%)") :=  round((h(ncol(tableau.effectifs))/d - 1)*100, 1)]
 }
 
 #' Tableau des charges de personnel par grade.
@@ -398,7 +401,9 @@ charges.personnel <- function(Base = Paie, grade = NULL, classe = NULL,  service
   début <- names(A)[2]
   fin <- names(A)[ncol(A)]
   
-  A[ , paste0("Variation ", début, "-", fin, " (%)") :=  round((as.numeric(A[[ncol(A)]])/as.numeric(A[[2]]) - 1)*100, 1)]
+  d <- as.numeric(A[[2]])
+  d <- ifelse(d == 0, NA, d)  
+  A[ , paste0("Variation ", début, "-", fin, " (%)") :=  round((as.numeric(A[[ncol(A)]])/d - 1)*100, 1)]
   
 }
 
