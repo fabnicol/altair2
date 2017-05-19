@@ -115,8 +115,6 @@ do
    fi
 done
 
-sudo chown -R fab .
-
 echo "****" 
 echo "* Fin de l'opération."
 echo "****"
