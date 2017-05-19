@@ -193,6 +193,7 @@ do
             sed -i "s/\/home\/fab\/Dev\/altair\/Tests\/Exemple\/Donnees\/xhl\/fab/\/home\/fab\/Dev\/altair\/Tests\/Exemple\/Donnees\/xhl/" temp2
             _copy Altair.desktop  /home/fab/Desktop/Altaïr.desktop	
             _copy Altair.desktop  /home/fab/.local/share/applications
+			chown -R fab /home/fab/Dev/altair/Tests/Exemple/Donnees
         fi
 
         chown -R $i      /home/$i/Dev/altair/.Rproj.user
