@@ -1243,49 +1243,79 @@ Tableau(
 
 # On calcule tout d'abord la somme de points de NBI par matricule et par année
 
-T1 <- Bulletins.paie[ , .(nbi.cumul.indiciaire = sum(NBI, na.rm = TRUE)), by="Matricule,Année"][nbi.cumul.indiciaire > 0] 
+T1 <- Bulletins.paie[! is.na(quotité) & quotité > 0, .(nbi.cumul.indiciaire = sum(NBI, na.rm = TRUE)), by="Matricule,Année"][nbi.cumul.indiciaire > 0] 
 
 # On calcule ensuite, sur les traitements et éventuellement les indemnités, la somme des paiements au titre de la NBI, par matricule et par année
 # Attention ne pas prendre en compte les déductions, retenues et cotisations, ni les rappels. On compare en effet les payements bruts de base à la somme des points x valeur du point
 
+# La quotité ici considérée est non pas la quotité statistique mais la quotité admistrative plus favorable aux temps partiels.
+
+adm <- function(quotité) if (quotité == 0.8)  6/7 else { if (quotité == 0.9)  32/35 else quotité }
+
 T2 <- Paie[grepl(expression.rég.nbi, Libellé, perl=TRUE, ignore.case=TRUE) == TRUE 
            & Type %chin% c("T", "I")
-           & NBI != 0,
-             .(nbi.cumul.montants = sum(Montant, na.rm=TRUE)), 
-             keyby="Matricule,Année"][nbi.cumul.montants != 0]
+           & ! is.na(NBI)
+           & ! is.na(quotité)
+           & quotité > 0
+           & NBI != 0, 
+               .(nbi.cumul.montants = sum(Montant / adm(quotité), na.rm=TRUE)), 
+                   keyby="Matricule,Année"][nbi.cumul.montants != 0]
 
 T <- merge(T1, T2, by=c("Matricule", "Année"))
 
 # On somme ensuite par année sur tous les matricules
 
-cumuls.nbi <- T[, .(cumul.annuel.indiciaire = sum(nbi.cumul.indiciaire, na.rm = TRUE),
+cumuls.nbi <- T[ , .(cumul.annuel.indiciaire = sum(nbi.cumul.indiciaire, na.rm = TRUE),
                     cumul.annuel.montants   = sum(nbi.cumul.montants, na.rm = TRUE)),
-                  keyby="Année"]
+                      keyby="Année"]
 
 # Les cumuls annuels rapportés cumuls indiciaires pour l'année ne doivent pas trop s'écarter de la valeur annuelle moyenne du point d'indice
 
-lignes.nbi.anormales <- T[abs(abs(nbi.cumul.montants/nbi.cumul.indiciaire) - valeur.point.inm.pivot[Année-2007]) > 1, 
+lignes.nbi.anormales <- T[abs(abs(nbi.cumul.montants/nbi.cumul.indiciaire) - valeur.point.inm.pivot[Année - 2007]) > 1, 
                             .(Matricule, Année, nbi.cumul.indiciaire, nbi.cumul.montants)]
 
 montants.nbi.anormales <- sum(lignes.nbi.anormales$nbi.cumul.montants, na.rm = TRUE)
+
+# Calcul plus exact de liquidation
+
+lignes.nbi.anormales.mensuel <- Paie[grepl(expression.rég.nbi, Libellé, perl=TRUE, ignore.case=TRUE) == TRUE 
+                                     & Type %chin% c("T", "I")
+                                     & ! is.na(NBI)
+                                     & ! is.na(quotité)
+                                     & quotité > 0
+                                     & NBI != 0, 
+                                         .(Montant.NBI.calculé = NBI * adm(quotité) * PointMensuelIM[Année - 2007, Mois],
+                                           Montant.NBI.payé = sum(Montant, na.rm = TRUE)), 
+                                             keyby="Matricule,Année,Mois"
+                                     ][ , Différence.payé.calculé := Montant.NBI.payé - Montant.NBI.calculé
+                                     ][abs(Différence.payé.calculé) > tolérance.nbi]
+
+
+lignes.paie.nbi.anormales.mensuel <- merge(Paie, lignes.nbi.anormales.mensuel,
+                                              by=c("Matricule","Année","Mois"))[Type == "T" | Type == "I",
+                                                .(Matricule, Année, Mois, Statut, Grade, Echelon, Catégorie, Emploi, Service, quotité, NBI, Code, Libellé, Base, Taux,Type, Montant)]
+
+
 
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
 Tableau(
-  c("Rémunérations de NBI anormales, par agent et par exercice",
+  c("Rémunérations de NBI globalement anormales, par agent et par exercice",
     "Montants correspondants"),
   nrow(lignes.nbi.anormales),
   formatC(montants.nbi.anormales, big.mark = " ", format="f", digits=0))
 
 rm(T, T1, T2)
+
 #'   
 #'[Lien vers la base de données NBI anormales](Bases/Fiabilite/lignes.nbi.anormales.csv)   
 #'   
 #'**Nota :**   
 #'*Est considéré comme manifestement anormal un total annuel de rémunérations NBI correspondant à un point d'indice net mensuel inférieur à la moyenne de l'année moins 1 euro ou supérieur à cette moyenne plus 1 euro.*    
 #'*Les rappels ne sont pas pris en compte dans les montants versés. Certains écarts peuvent être régularisés en les prenant en compte*     
+#'
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
@@ -1303,6 +1333,31 @@ Tableau.vertical2(c("Année", "Cumuls des NBI", "Montants versés (a)", "Point d
 #'
 
 detach(cumuls.nbi)
+
+# --- Test n°3  : Proratisation NBI
+
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'      
+#'**Contrôle de proratisation/liquidation de la NBI**    
+#'  
+
+nb.lignes.anormales.mensuel <- nrow(lignes.nbi.anormales.mensuel)
+montants.nbi.anormales.mensuel <- lignes.nbi.anormales.mensuel[, sum(Différence.payé.calculé)]
+
+Tableau(
+  c("Différences > 1 euro : nombre de lignes",
+    "Coût total des différences"),
+  nrow(lignes.nbi.anormales.mensuel),
+  formatC(montants.nbi.anormales.mensuel, big.mark = " ", format="f", digits=0))
+
+#'   
+#'[Lien vers les bulletins anormaux du contrôle de proratisation/liquidation de la NBI](Bases/Fiabilite/lignes.nbi.anormales.mensuel.csv)   
+#'   
+#'   
+#'[Lien vers les lignes de paye du contrôle de proratisation/liquidation de la NBI](Bases/Fiabilite/lignes.paie.nbi.anormales.mensuel.csv)   
+#'   
+
 
 #### 5.2 VACATIONS ####
 #'   
@@ -2390,6 +2445,8 @@ if (sauvegarder.bases.analyse) {
               "base.heures.nulles.salaire.nonnull",
               "base.quotite.indefinie.salaire.non.nul",
               "lignes.nbi.anormales",
+              "lignes.nbi.anormales.mensuel",
+              "lignes.paie.nbi.anormales.mensuel",
               "cumuls.nbi",
               "cl1",
               "cl2",
