@@ -1214,7 +1214,7 @@ if (nombre.personnels.nbi.nontit <- uniqueN(NBI.aux.non.titulaires$Matricule))
 # --- Test n°2  : Prime de fonctions informatiques
 #     Filtre    : filtre expression rationnelle expression.rég.pfi dans Libellé.
 
-personnels.prime.informatique <- filtrer_Paie(PFI)[, colonnes, with = FALSE]
+personnels.prime.informatique <- filtrer_Paie(PFI)[, ..colonnes]
   
 if (nombre.personnels.pfi <- uniqueN(personnels.prime.informatique$Matricule))
   cat("Il existe ", FR(nombre.personnels.pfi), "agent" %s% nombre.personnels.pfi, " percevant une PFI.")

@@ -222,8 +222,6 @@ modalité.autres                <- "AUTRES"         # notamment les remboursemen
 # ex: NBI, N.B.I, NOUV. BON. IND., N BON IND
 # ex: PFI, P.F.I, PR. FONCT. INFO., IND F INF
 
-NBI <- 1
-PFI <- 2
 
 expression.rég.nbi        <- "(?:\\s|^)nbi|(?:n(?:(?=o)o\\w*|)\\.?\\s*\\b)?b(?:(?=o)o\\w*|)\\.?\\s*\\bi(?:(?=n)nd\\w*|)\\.?\\b"
 
@@ -233,7 +231,7 @@ expression.rég.nbi        <- "(?:\\s|^)nbi|(?:n(?:(?=o)o\\w*|)\\.?\\s*\\b)?b(?:
 # ex: PFI, P.F.I, PR. FONCT. INFO., IND F INF
 
 expression.rég.pfi        <- "(?:^|\\s)pfi|(?:p(?:(?=r)r\\w*|)|i(?:(?=n)nd\\w*|))\\.?\\s*(?:\\bf(?:(?=o)o\\w*|)\\.?\\s*)?\\binf(?:(?=o)o\\w*|)\\.?\\b"
-
+expression.rég.vacataires <- "HOR"
 
 expression.rég.heures.sup <- "(?:^|\\s)iht?[sc]|i(?:(?=n)n\\w*|)\\.?\\s*\\bh(?:(?=o)o\\w*|)\\.?.*\\bs(?:(?=u)u\\w*|)\\.?\\b|h(?:(?=e)e\\w*|)\\.?\\s*\\b(?:(?=s)s\\w*|c\\w*)\\.?\\b"
 expression.rég.iat        <- "(?:^|\\s)iat|i(?:(?=n)n\\w*|)\\.?\\s*\\ba(?:(?=d)d\\w*|)\\.?\\s*\\b(?:et\\s*\\b)?t(?:(?=e)e\\w*|)\\.?\\b"
@@ -255,3 +253,5 @@ source("prologue_codes.R", encoding = "UTF-8")
 
 # point d'indice majoré
 source("point.im.R", encoding = "UTF-8")
+source("plafonds.R", encoding = "UTF-8")
+

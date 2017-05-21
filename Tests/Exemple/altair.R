@@ -1200,13 +1200,9 @@ colonnes <-  c("Matricule",
                "Mois",
                "Montant")
 
-setkey(Paie, Statut)
+Matrice.NBI <- filtrer_Paie("NBI")
 
-NBI.aux.non.titulaires <- filtrer_Paie(NBI)[! "TITULAIRE"
-                                          ][! "STAGIAIRE"
-                                          ][ NBI != 0,
-                                              c(colonnes, "NBI"),
-                                              with = FALSE]
+NBI.aux.non.titulaires <- Matrice.NBI[Statut != "TITULAIRE" & Statut != "STAGIAIRE" & NBI != 0, c(colonnes, "NBI"), with = FALSE] 
            
 if (nombre.personnels.nbi.nontit <- uniqueN(NBI.aux.non.titulaires$Matricule))
     cat("Il existe ", FR(nombre.personnels.nbi.nontit), "non titulaire" %s% nombre.personnels.nbi.nontit, " percevant une NBI.")
@@ -1214,10 +1210,17 @@ if (nombre.personnels.nbi.nontit <- uniqueN(NBI.aux.non.titulaires$Matricule))
 # --- Test n°2  : Prime de fonctions informatiques
 #     Filtre    : filtre expression rationnelle expression.rég.pfi dans Libellé.
 
-personnels.prime.informatique <- filtrer_Paie(PFI)[, colonnes, with = FALSE]
+Matrice.PFI <- filtrer_Paie("PFI")
+
+personnels.prime.informatique <- Matrice.PFI[, ..colonnes]
   
-if (nombre.personnels.pfi <- uniqueN(personnels.prime.informatique$Matricule))
-  cat("Il existe ", FR(nombre.personnels.pfi), "agent" %s% nombre.personnels.pfi, " percevant une PFI.")
+if (nombre.personnels.pfi <- uniqueN(personnels.prime.informatique$Matricule)) {
+  
+  cat("Il existe ", 
+      FR(nombre.personnels.pfi),
+      "agent" %s% nombre.personnels.pfi,
+      " percevant une PFI.")
+}
 
 primes.informatiques.potentielles <- if (nombre.personnels.pfi == 0) "aucune" else unique(personnels.prime.informatique$Libellé)
 
@@ -1252,22 +1255,21 @@ T1 <- Bulletins.paie[! is.na(quotité) & quotité > 0, .(nbi.cumul.indiciaire = 
 
 adm <- function(quotité) if (quotité == 0.8)  6/7 else { if (quotité == 0.9)  32/35 else quotité }
 
-T2 <- Paie[grepl(expression.rég.nbi, Libellé, perl=TRUE, ignore.case=TRUE) == TRUE 
-           & Type %chin% c("T", "I")
-           & ! is.na(NBI)
-           & ! is.na(quotité)
-           & quotité > 0
-           & NBI != 0, 
-               .(nbi.cumul.montants = sum(Montant / adm(quotité), na.rm=TRUE)), 
-                   keyby="Matricule,Année"][nbi.cumul.montants != 0]
+T2 <- Matrice.NBI[Type %chin% c("T", "I")
+                  & ! is.na(NBI)
+                  & ! is.na(quotité)
+                  & quotité > 0
+                  & NBI != 0, 
+                      nbi.cumul.montants := sum(Montant / adm(quotité), na.rm=TRUE), 
+                           by="Matricule,Année"][nbi.cumul.montants != 0]
 
-T <- merge(T1, T2, by=c("Matricule", "Année"))
+T <- merge(T1, T2[, .(nbi.cumul.montants, Matricule, Année, Mois)], by=c("Matricule", "Année"))
 
 # On somme ensuite par année sur tous les matricules
 
 cumuls.nbi <- T[ , .(cumul.annuel.indiciaire = sum(nbi.cumul.indiciaire, na.rm = TRUE),
-                    cumul.annuel.montants   = sum(nbi.cumul.montants, na.rm = TRUE)),
-                      keyby="Année"]
+                     cumul.annuel.montants   = sum(nbi.cumul.montants, na.rm = TRUE)),
+                       keyby="Année"]
 
 # Les cumuls annuels rapportés cumuls indiciaires pour l'année ne doivent pas trop s'écarter de la valeur annuelle moyenne du point d'indice
 
@@ -1278,24 +1280,20 @@ montants.nbi.anormales <- sum(lignes.nbi.anormales$nbi.cumul.montants, na.rm = T
 
 # Calcul plus exact de liquidation
 
-lignes.nbi.anormales.mensuel <- Paie[grepl(expression.rég.nbi, Libellé, perl=TRUE, ignore.case=TRUE) == TRUE 
-                                     & Type %chin% c("T", "I")
-                                     & ! is.na(NBI)
-                                     & ! is.na(quotité)
-                                     & quotité > 0
-                                     & NBI != 0, 
-                                         .(Montant.NBI.calculé = NBI * adm(quotité) * PointMensuelIM[Année - 2007, Mois],
-                                           Montant.NBI.payé = sum(Montant, na.rm = TRUE)), 
-                                             keyby="Matricule,Année,Mois"
+lignes.nbi.anormales.mensuel <- T2[ , .(Montant.NBI.calculé = NBI * adm(quotité) * PointMensuelIM[Année - 2007, Mois],
+                                        Montant.NBI.payé = sum(Montant, na.rm = TRUE)), 
+                                           keyby="Matricule,Année,Mois"
                                      ][ , Différence.payé.calculé := Montant.NBI.payé - Montant.NBI.calculé
                                      ][abs(Différence.payé.calculé) > tolérance.nbi]
 
 
-lignes.paie.nbi.anormales.mensuel <- merge(Paie, lignes.nbi.anormales.mensuel,
-                                              by=c("Matricule","Année","Mois"))[Type == "T" | Type == "I",
-                                                .(Matricule, Année, Mois, Statut, Grade, Echelon, Catégorie, Emploi, Service, quotité, NBI, Code, Libellé, Base, Taux,Type, Montant)]
-
-
+lignes.paie.nbi.anormales.mensuel <- merge(Paie[Type == "T" | Type == "I", .(Matricule, Année, Mois, Statut, 
+                                                                              Grade, Echelon, Catégorie, 
+                                                                              Emploi, Service, quotité,
+                                                                              NBI, Code, Libellé,
+                                                                              Base, Taux,Type, Montant)],
+                                                lignes.nbi.anormales.mensuel,
+                                                by=c("Matricule", "Année", "Mois"))
 
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
@@ -1377,17 +1375,21 @@ Tableau(
 #       et retenir les variables de calcul du montant et du statut pour les mois concernés par l'existence d'au moins
 #       une de ces lignes horaires, assimilée à un paiement de vacation.
 
+  
+   Paie_vac <- filtrer_Paie("VAC", portée = "Mois")
 
-Paie_vac <- Paie[Type %chin% c("T", "I", "R", "IR", "S"),
-                   .(indic_hor = any(grepl("HOR", Libellé, ignore.case = TRUE)), Nom, Statut, Code, Libellé, Type, Taux, Nb.Unité, Montant),
-                   by=.(Matricule, Année, Mois)
-                 ][indic_hor == TRUE,
-                 ][ , indic_hor := NULL]
+   Paie_vac <- Paie_vac[Type %chin% c("T", "I", "R", "IR", "S"),
+                            .(Nom, Statut, Code, Libellé, Type, Taux, Nb.Unité, Montant)]
 
 
 # ----- Produire la liste de ces libellés horaires
 
-libellés.horaires <- unique(Paie_vac[grepl("HOR", Libellé, ignore.case = TRUE) == TRUE, Libellé])
+   if (is.na(codes.vacataires)) {
+      libellés.horaires <- unique(Paie_vac[grepl(expression.rég.vacataires, Libellé, ignore.case = TRUE, perl = TRUE), Libellé])
+   } else {
+      libellés.horaires <- unique(Paie_vac[Code %chin% codes.vacataires, Libellé])
+   }
+   
 
 # ----- Vérifier si des fonctionnaires titulaires ou stagiaires bénéficient de vacations horaires et donner les caractéristiques
 
@@ -1470,12 +1472,10 @@ if (exists("nombre.contractuels.et.vacations")) {
 #'Les non-titulaires sur contrat effectuant des vacations à titre accessoire pour leur propre employeur ne peuvent bénéficier de paiements
 #'complémentaires de SFT ou d'indemnité de résidence au titre de ces activités accessoires.     
   
-  essayer({Paie_vac_sft_ir <- Paie_vac[! Statut %chin% c("TITULAIRE", "STAGIAIRE"), 
-                                 indic_s := any(Type %chin% c("IR", "S")),
-                                 by = .(Matricule, Année, Mois)
-                             ][indic_s == TRUE,
-                             ][ ,indic_s := NULL]
-  
+  essayer({ 
+    
+  Paie_vac_sft_ir <- filtrer_Paie("IR_S", portée = "Mois", Var = "Type", Base = Paie_vac)[! Statut %chin% c("TITULAIRE", "STAGIAIRE")]  
+
   SFT_IR.et.vacations <- Paie_vac_sft_ir[Type %chin% c("IR", "S")]
   
   matricules.SFT_IR.et.vacations <- unique(SFT_IR.et.vacations[ , .(Matricule, Nom, Statut)], by=NULL)
@@ -1530,30 +1530,36 @@ Paie_I <- Paie[Type == "I",
                    Statut,
                    Catégorie)]
 
-Paie_I <- Paie_I[ , `:=`(ifts.logical = grepl(expression.rég.ifts, Libellé, ignore.case=TRUE, perl=TRUE),
-                         iat.logical  = grepl(expression.rég.iat, Libellé, ignore.case=TRUE, perl=TRUE))]
 
-codes.ifts  <- list("codes IFTS" = unique(Paie_I[ifts.logical == TRUE][ , Code]))
+  
+Paie_IFTS <- filtrer_Paie("IFTS", portée = "Mois", Base = Paie_I)
+Paie_IAT  <- filtrer_Paie("IAT", portée = "Mois", Base = Paie_I)
+Lignes_IFTS <- filtrer_Paie("IFTS", Base = Paie_IFTS)
 
-if (length(codes.ifts) == 0) {
-  cat("Il n'a pas été possible d'identifier les IFTS par méthode heuristique. Renseigner les codes de paye correspondants dans l'interface graphique.")
-  résultat.ifts.manquant <- TRUE
+if (is.na(codes.ifts)) {          
+ codes.ifts  <- list("codes IFTS" = unique(Lignes_IFTS$Code))
+
+  if (length(codes.ifts) == 0) {
+    cat("Il n'a pas été possible d'identifier les IFTS par méthode heuristique. Renseigner les codes de paye correspondants dans l'interface graphique.")
+    résultat.ifts.manquant <- TRUE
+  }
 }
 
-if (! any(Paie_I$iat.logical)) {
-  cat("Il n'a pas été possible d'identifier les IAT par méthode heuristique. Renseigner les codes de paye correspondants dans l'interface graphique.")
-  résultat.iat.manquant <- TRUE
+if (is.na(codes.iat)) {          
+  codes.iat  <- list("codes IAT" = unique(filtrer_Paie("IAT", Base = Paie_IAT)$Code))
+  if (length(codes.iat) == 0) {
+    cat("Il n'a pas été possible d'identifier les IAT par méthode heuristique. Renseigner les codes de paye correspondants dans l'interface graphique.")
+    résultat.iat.manquant <- TRUE
+  }
 }
 
 nombre.agents.cumulant.iat.ifts <- 0
 
 if (! résultat.ifts.manquant && ! résultat.iat.manquant) {
-  
-  Paie_I[ , cumul.iat.ifts := any(ifts.logical) & any(iat.logical), by = "Matricule,Année,Mois"]
+
+  personnels.iat.ifts <- merge(Paie_IAT, Paie_IFTS)
   
   # on exclut les rappels !
-  
-  personnels.iat.ifts <- Paie_I[cumul.iat.ifts == TRUE & (ifts.logical == TRUE | iat.logical == TRUE)]
   
   nombre.mois.cumuls <- uniqueN(personnels.iat.ifts[ , .(Matricule, Année, Mois)], 
                                     by = NULL)
@@ -1597,20 +1603,19 @@ if (nombre.agents.cumulant.iat.ifts) {
 #IFTS et IB >= 380 (IM >= 350)
 #'  
 if (! résultat.ifts.manquant) {
-    lignes.ifts.anormales <- na.omit(Paie_I[Indice < 350
-                                          & Catégorie != "A"
-                                          & ifts.logical == TRUE,
-                                            c(clé.fusion,
-                                              étiquette.année,
-                                              "Mois",
-                                              "Statut",
-                                              "Grade",
-                                              "Catégorie",
-                                              étiquette.code,
-                                              étiquette.libellé,
-                                              "Indice",
-                                              étiquette.montant), 
-                                            with=FALSE])
+    lignes.ifts.anormales <- na.omit(Lignes_IFTS[Indice < 350
+                                                  & Catégorie != "A",     # Le pied de corps Attaché est en INM 349
+                                                    c(clé.fusion,
+                                                      étiquette.année,
+                                                      "Mois",
+                                                      "Statut",
+                                                      "Grade",
+                                                      "Catégorie",
+                                                      étiquette.code,
+                                                      étiquette.libellé,
+                                                      "Indice",
+                                                      étiquette.montant), 
+                                                    with=FALSE])
 } else {
 
     lignes.ifts.anormales <- NULL
@@ -1625,19 +1630,18 @@ ifts.et.contractuel <- NULL
 
 if (! résultat.ifts.manquant) {
   
-  ifts.et.contractuel <- Paie_I[ Statut != "TITULAIRE"
-                              & Statut != "STAGIAIRE"
-                              & ifts.logical == TRUE,
-                               c(étiquette.matricule,
-                                 étiquette.année,
-                                 "Mois",
-                                 "Statut",
-                                 "Catégorie",
-                                 étiquette.code,
-                                 étiquette.libellé,
-                                 "Indice",
-                                 étiquette.montant),
-                               with=FALSE]
+  ifts.et.contractuel <- Lignes_IFTS[ Statut != "TITULAIRE"
+                                      & Statut != "STAGIAIRE",
+                                       c(étiquette.matricule,
+                                         étiquette.année,
+                                         "Mois",
+                                         "Statut",
+                                         "Catégorie",
+                                         étiquette.code,
+                                         étiquette.libellé,
+                                         "Indice",
+                                         étiquette.montant),
+                                       with=FALSE]
   }
 
 nombre.lignes.ifts.et.contractuel <- nrow(ifts.et.contractuel)
@@ -1674,11 +1678,12 @@ nombre.agents.cumulant.pfr.ifts <- 0
 # Le cumul de la PR et de l'IFTS est régulier, de même que celui de la PR et de la PFR
 # le cumul de la PFR et de l'IFTS est irrrégulier
 
-Paie_I <- Paie_I[ , pfr.logical := grepl(expression.rég.pfr, Libellé, ignore.case = TRUE, perl = TRUE)]
+Paie_PFR <- filtrer_Paie("PFR", portée = "Mois", Base = Paie_I)
+Lignes_PFR <- filtrer_Paie("PFR", Base = Paie_PFR)
 
-PFR.non.catA <- Paie_I[Catégorie != "A", ][pfr.logical == TRUE]
+PFR.non.catA <- Paie_PFR[Catégorie != "A"]
 
-if ((N.PFR.non.catA <<- nrow(PFR.non.catA)) > 0) {
+if ((N.PFR.non.catA <<- uniqueN(PFR.non.catA$Matricule)) > 0) {
   cat(N.PFR.non.catA, "attributaires de la PFR ne sont pas identifiés en catégorie A.")
   kable(PFR.non.catA, align = 'r', row.names = FALSE)
   
@@ -1686,24 +1691,22 @@ if ((N.PFR.non.catA <<- nrow(PFR.non.catA)) > 0) {
   cat("Tous les attributaires de la PFR sont identifiés en catégorie A.")
 }
 
-codes.pfr  <- list("codes PFR" = unique(Paie_I[pfr.logical == TRUE, Code]))
+if (is.na(codes.pfr)) {
+   codes.pfr  <- list("codes PFR" = unique(Lignes_PFR$Code))
 
-if (length(codes.pfr) == 0) {
-  cat("Il n'a pas été possible d'identifier la PFR par méthode heuristique. Renseigner les codes de paye correspondants dans l'interface graphique.")
-  résultat.pfr.manquant <- TRUE
+  if (length(codes.pfr) == 0) {
+    cat("Il n'a pas été possible d'identifier la PFR par méthode heuristique. Renseigner les codes de paye correspondants dans l'interface graphique.")
+    résultat.pfr.manquant <- TRUE
+  }
 }
 
 if (! résultat.ifts.manquant && ! résultat.pfr.manquant) {
   
-  Paie_I[ , cumul.pfr.ifts := any(pfr.logical) & any(ifts.logical), 
-            by="Matricule,Année,Mois"]
-
   # on exclut les rappels !
   
-  personnels.pfr.ifts <- Paie_I[cumul.pfr.ifts == TRUE
-                               ][pfr.logical == TRUE | ifts.logical == TRUE, 
-                                   .(Nom,	Matricule,	Année,	Mois,	Code,
-                                     Libellé,	Montant,	Type,	Emploi,	Grade,	Indice,	Statut,	Catégorie)]
+  personnels.pfr.ifts <- merge(Paie_PFR, Paie_IFTS)[ ,.(Nom,	Matricule,	Année,	Mois,	Code,
+                                                        Libellé,	Montant,	Type,	Emploi,	Grade,
+                                                        Indice,	Statut,	Catégorie)]
 
   nombre.mois.cumuls <- uniqueN(personnels.pfr.ifts[ , .(Matricule, Année, Mois)], by = NULL)
   
@@ -1739,10 +1742,11 @@ if (length(codes.pfr) > 5) {
 
 # Attention keyby = et pas seulement by = !
 
-beneficiaires.PFR <- Paie_I[pfr.logical == TRUE 
-                            | ifts.logical == TRUE][ , Attrib.PFR := any(pfr.logical),
-                                                      by= .(Matricule)
-                                                  ][Attrib.PFR == TRUE,
+beneficiaires.PFR <- merge(Lignes_PFR, Lignes_IFTS, all = TRUE)
+
+matricules.PFR <- unique(Lignes_PFR$Matricule)
+
+beneficiaires.PFR <- beneficiaires.PFR[Matricule %chin% matricules.PFR,
                                                       .(Cumul.PFR.IFTS = sum(Montant, na.rm = TRUE),
                                                         Nom = Nom[1],
                                                         nb.mois = length(unique(Mois)),
@@ -1763,20 +1767,25 @@ rm(Paie_I)
 #'      
   
 Tableau(c("Adm. général", "Adm. HC", "Adm.", "Direct./Attaché princ.", "Secr. mairie/Attaché"),
-        sapply(PFR.plafonds <<- list( admin.g   = 58800, 
-                                      admin.hc  = 55200,
-                                      admin     = 49800,
-                                      attaché.p = 25800,
-                                      attaché   = 20100), 
+        sapply(PFR.plafonds, 
                function(x) formatC(x, format = "fg", big.mark = " ")))
    
   
 e <- c(expression.rég.admin.g, expression.rég.admin.hc, expression.rég.admin, expression.rég.attaché.p, expression.rég.attaché)
   
-test.PFR <- function(i, grade, cumul) { grepl(e[i], grade, perl = TRUE, ignore.case = TRUE) & (cumul > PFR.plafonds[[i]]) }
+test.PFR <- function(i, grade, cumul) { 
+  
+  grepl(e[i], grade, perl = TRUE, ignore.case = TRUE) & (cumul > PFR.plafonds[[i]]) 
+}
+
   test.PFR.all <- function(grade, cumul) any(sapply(1:length(e), function(i) test.PFR(i, grade, cumul)))
   
-  dépassements.PFR.boolean <- mapply(test.PFR.all, beneficiaires.PFR$Grade, beneficiaires.PFR$Cumul.PFR.IFTS, USE.NAMES=FALSE)
+  cumuls.PFR <- Lignes_PFR[, .(PFR_annuel = sum(Montant, na.rm = TRUE),
+                               nb.mois = length(Mois),
+                               Grade = Grade[1]),
+                                  by=.(Matricule,Année)][ , PFR_annuel := PFR_annuel * 12 / nb.mois]   # proratisation mensuelle
+  
+  dépassements.PFR.boolean <- mapply(test.PFR.all, cumuls.PFR$Grade, cumuls.PFR$PFR_annuel, USE.NAMES=FALSE)
 
   dépassements.PFR.plafonds <- data.frame()
   
@@ -1809,9 +1818,11 @@ test.PFR <- function(i, grade, cumul) { grepl(e[i], grade, perl = TRUE, ignore.c
 #'          
 
   if (nrow(beneficiaires.PFR)) {
+    
     beneficiaires.PFR$Cumul.PFR.IFTS <- formatC(beneficiaires.PFR$Cumul.PFR.IFTS, big.mark = " ", format="fg")
     setnames(beneficiaires.PFR, "Cumul.PFR.IFTS", "Cumul PFR ou IFTS")
     kable(beneficiaires.PFR, align = 'r', row.names = FALSE)
+    
   } else {
     cat("\nAucun bénéficiaire de la PFR détecté.\n")
   }
@@ -1820,13 +1831,13 @@ test.PFR <- function(i, grade, cumul) { grepl(e[i], grade, perl = TRUE, ignore.c
 #'&nbsp;*Tableau `r incrément()`* : Variations de l'agrégat (PFR ou IFTS) pour les bénéficiaires de la PFR
 #'          
   if (nrow(beneficiaires.PFR.Variation)) {
+    
     kable(beneficiaires.PFR.Variation, align = 'r', row.names = FALSE)
+    
   } else {
     cat("\nAucun tableau de variation.\n")
   }
   
-        
-
 #'   
 #'[Lien vers la base de données agrégat PFR-IFTS](Bases/Remunerations/beneficiaires.PFR.csv)    
 #'    
@@ -1883,7 +1894,7 @@ colonnes <- c(étiquette.matricule,
               "Emploi",
               "Grade")
 
-HS.sup.25 <- Paie[Heures.Sup. > 25, colonnes, with=FALSE]
+HS.sup.25 <- Paie[Heures.Sup. > 25, ..colonnes]
 
 traitement.indiciaire.mensuel <- HS.sup.25[Type == "T", .(`Traitement indiciaire mensuel` = sum(Montant, na.rm = TRUE)), 
                                                           by="Matricule,Année,Mois"]
