@@ -112,8 +112,7 @@ Tableau.vertical2(c("Agrégats",
 filtre.fonctionnaire <<- function (X) X[ !is.na(X)  & X > minimum.positif ]
 
 AR <- Analyse.remunerations.exercice[Statut == "TITULAIRE" | Statut == "STAGIAIRE", 
-                                     colonnes.sélectionnées,
-                                     with=FALSE]
+                                     ..colonnes.sélectionnées]
 
 attach(AR)
 source("histogrammes.R", encoding = encodage.code.source)
@@ -414,8 +413,7 @@ AR <- Analyse.remunerations.exercice[Statut != "ELU"
                                              &  Statut != "STAGIAIRE"
                                              & Filtre_actif == TRUE
                                              & Filtre_annexe == FALSE,
-                                             colonnes.sélectionnées, 
-                                             with = FALSE]
+                                             ..colonnes.sélectionnées]
 
 #'   
 #'**Formation et distribution du salaire brut moyen par tête (SMPT) en EQTP pour l'année `r année`**     
