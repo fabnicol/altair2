@@ -615,16 +615,46 @@ essayer <- function(X, Y) {
 
 '%s%' <- function(mot, N) if (N > 1) mot %+% "s"  else mot
 
-filtrer_Paie <- function(x) {
+filtre <- function(x) {
   
+  if (is.na(codes[x, valeur])) return(codes[x, expression]) else return(unlist(codes[x, valeur]))
+}
+
+
+filtrer_Paie <- function(x, portée = NULL,  Base = Paie, Var = "Code") {
+
+  filtre_ <- filtre(x)
+  
+  # En i, la variable Var ne peut pas être évaluée mais peut filtrer sur Paie[[Var]]
+  # En j, évaluer Var
+  # en by, utiliser dans c(...) directement
+  
+  if (is.null(portée)) {
+    
     if (is.na(codes[x, valeur])) {
-      filtre <- codes[x, expression]
-      P_  <- Paie[grepl(filtre, Libellé, ignore.case=TRUE, perl=TRUE)]
+
+      P_  <- Base[grepl(filtre_, Libellé, ignore.case=TRUE, perl=TRUE)]
+      
     } else {
       
-      filtre <- codes[x, valeur]
-      P_  <- Paie[Code %chin% filtre]
+      P_  <- Base[Base[[Var]] %chin% filtre_]
     }
+    
+  } else {
+   
+    if (is.na(codes[x, valeur])) {
+      
+      P_  <- Base[ , indic := any(grepl(filtre_, Libellé, ignore.case=TRUE, perl=TRUE)),
+                     by = c("Matricule", "Année", portée)
+                 ][indic == TRUE][ , indic := NULL]
+      
+    } else {
+      
+      P_  <- Base[ , indic := any(eval(Var) %chin% filtre_),
+                     by = c("Matricule", "Année", portée)
+                 ][indic == TRUE][ , indic := NULL]
+    }
+  }
   
   P_
 }
