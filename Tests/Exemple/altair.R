@@ -1202,10 +1202,15 @@ colonnes <-  c("Matricule",
 
 Matrice.NBI <- filtrer_Paie("NBI")
 
-NBI.aux.non.titulaires <- Matrice.NBI[Statut != "TITULAIRE" & Statut != "STAGIAIRE" & NBI != 0, c(colonnes, "NBI"), with = FALSE] 
+NBI.aux.non.titulaires <- Matrice.NBI[Statut != "TITULAIRE" & Statut != "STAGIAIRE" & NBI != 0,
+                                         c(colonnes, "NBI"),
+                                             with = FALSE] 
            
 if (nombre.personnels.nbi.nontit <- uniqueN(NBI.aux.non.titulaires$Matricule))
-    cat("Il existe ", FR(nombre.personnels.nbi.nontit), "non titulaire" %s% nombre.personnels.nbi.nontit, " percevant une NBI.")
+    cat("Il existe ", 
+      FR(nombre.personnels.nbi.nontit),
+      "non titulaire" %s% nombre.personnels.nbi.nontit,
+      " percevant une NBI.")
 
 # --- Test n°2  : Prime de fonctions informatiques
 #     Filtre    : filtre expression rationnelle expression.rég.pfi dans Libellé.
@@ -1930,6 +1935,8 @@ colonnes <- c(étiquette.matricule,
               "Base",
               "Taux",
               "Montant",
+              "Début",
+              "Fin",
               "Type",
               "Service",
               "Emploi",
@@ -1939,41 +1946,60 @@ colonnes <- c(étiquette.matricule,
 Base.IHTS <- filtrer_Paie("IHTS",
                           Base = Paie[Type %chin% c("I", "T", "R", "IR", "A"), ..colonnes],
                           portée = "Mois",
-                          indic = TRUE)
+                          indic = TRUE)[ , `:=` (Année.rappel = as.numeric(substr(Début, 0, 4)),
+                                                 Mois.rappel  = as.numeric(substr(Début, 6, 7))) ]
 
 Taux.horaires <- Base.IHTS[ ,.(`IR` = sum(Montant[Type == "IR"], na.rm = TRUE),
-                                IHTS = sum(Montant[indic == TRUE], na.rm = TRUE),
+                                IHTS.hors.rappels = sum(Montant[indic == TRUE 
+                                                                & (Type != "R" | (Année.rappel == Année & Mois.rappel == Mois))],
+                                                        na.rm = TRUE),
+                                IHTS.rappels = sum(Montant[indic == TRUE
+                                                           & Type == "R"
+                                                           & ((Année.rappel == Année & Mois.rappel < Mois) | Année.rappel < Année) ],
+                                                   na.rm = TRUE),
+                                IHTS.rappels.année.préc = sum(Montant[indic == TRUE 
+                                                                      & Type == "R" 
+                                                                      & Année.rappel < Année], 
+                                                              na.rm = TRUE), 
                                 Indice = Indice[1],
                                 Heures.Sup. = Heures.Sup.[1]), # ajouter NBI proratisée !
                                        by = .(Matricule, Année, Mois)
+  
                           ][ , `Traitement indiciaire annuel et IR` := IR * 12 + Indice * PointIM[Année - 2007, Mois]
+                            
                           ][ , `Taux horaire` := `Traitement indiciaire annuel et IR` / 1820 
+                            
                           ][ ,  `:=` (`Taux horaire inf.14 H` = `Taux horaire` * 1.07,
                                       `Taux horaire sup.14 H` = `Taux horaire` * 1.27,   
                                       `Taux horaire nuit`     = `Taux horaire` * 2,     
                                       `Taux horaire dim. j.f.`= `Taux horaire` * 5/3)  
+                            
                           ][ ,   `:=` (Max = Heures.Sup. * `Taux horaire nuit`,
                                        Min = Heures.Sup. * `Taux horaire inf.14 H`)
+                            
                           ][ ,  `:=`(Indice = NULL,
                                          IR = NULL)]   
 
 Taux.horaires <-  merge(Base.IHTS, Taux.horaires)[, .(Matricule, Année, Mois, Indice,
-                                                       `Traitement indiciaire annuel et IR`, `Taux horaire`, Max, Min, IHTS)]
+                                                       `Traitement indiciaire annuel et IR`,
+                                                       `Taux horaire`, Max, Min, 
+                                                        IHTS.hors.rappels, IHTS.rappels, IHTS.rappels.année.préc)]
 
-Controle.HS <- Taux.horaires[ , .(Matricule, Année, Mois, Max, Min, IHTS)
-                            ][! duplicated(Taux.horaires)  , .(Tot.Max  = sum(Max, na.rm = TRUE),
-                                   Tot.Min  = sum(Min, na.rm = TRUE),
-                                   Tot.IHTS = sum(IHTS, na.rm = TRUE)), by = "Matricule,Année"]
-#'
+Controle.HS <- Taux.horaires[ , .(Matricule, Année, Mois, Max, Min, IHTS.hors.rappels, IHTS.rappels)
+                            ][! duplicated(Taux.horaires)  ,
+                                  .(Tot.Max  = sum(Max, na.rm = TRUE),
+                                    Tot.Min  = sum(Min, na.rm = TRUE),
+                                     Tot.IHTS = sum(IHTS.hors.rappels + IHTS.rappels, na.rm = TRUE)), by = "Matricule,Année"]
+
 #'  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau `r incrément()`* : Paiements au-delà des seuils de liquidation pour l'exercice
 #'    
 
-dépassement <- Controle.HS[Tot.IHTS > Tot.Max, uniqueN(Matricule)]
-dépassement.agent <- Controle.HS[Tot.IHTS > Tot.Max, .(Matricule, Tot.Max, Tot.IHTS), keyby = Année]
+depassement <- Controle.HS[Tot.IHTS > Tot.Max, uniqueN(Matricule)]
+depassement.agent <- Controle.HS[Tot.IHTS > Tot.Max, .(Matricule, Tot.Max, Tot.IHTS), keyby = Année]
 
-if (dépassement) {
-  cat("Il y a", dépassement, "agent" %+% ifelse(dépassement, "s", ""), "qui perçoivent davantage que le maximum d'IHTS pouvant être liquidé.") 
+if (depassement) {
+  cat("Il y a", depassement, "agent" %+% ifelse(depassement, "s", ""), "qui perçoivent davantage que le maximum d'IHTS pouvant être liquidé au titre de l'exercice.") 
 
   kable(Controle.HS[Tot.IHTS > Tot.Max,
                          .(`Coût en euros` = formatC(round(-sum(Tot.Max) + sum(Tot.IHTS)), big.mark = " ", format = "fg"),
@@ -1982,11 +2008,32 @@ if (dépassement) {
         align = "c")
 }
 
+
 #'
 #'[Lien vers la base de données dépassements des seuils de liquidation](Bases/Reglementation/Controle.HS.csv)     
-#'[Lien vers la base de données dépassements individuels des seuils de liquidation](Bases/Reglementation/dépassement.agent.csv)     
+#'[Lien vers la base de données dépassements individuels des seuils de liquidation](Bases/Reglementation/depassement.agent.csv)     
 #'[Lien vers la base de données calcul des taux horaires individuels](Bases/Reglementation/Taux.horaires.csv)    
 #'
+
+
+
+#'  
+#'&nbsp;*Tableau `r incrément()`* : : Cumuls d'heures supplémentaires déclarées, liquidées et régularisée de l'année précédente, en heures     
+#'    
+
+CumHS <- Bulletins.paie[, .(`Cumul heures sup` = sum(Heures.Sup., na.rm = TRUE)), by = Année]
+
+CumBaseIHTS <- Base.IHTS[indic == TRUE, .(`Cumul Base IHTS année` = sum(Base[Type != "R" | (Année.rappel == Année & Mois.rappel < Mois)], na.rm = TRUE),
+                                          `Cumul Régul.N-1` = sum(Base[Année.rappel < Année], na.rm = TRUE)), by = Année]
+
+CumHS <- merge(CumHS, CumBaseIHTS, all = TRUE)[, Différence := `Cumul heures sup` - `Cumul Base IHTS année` - shift(`Cumul Régul.N-1`, type = "lead", fill = 0)]
+
+kable(CumHS, align = "c")
+
+#'
+#'[Lien vers la base des cumuls de nombre d'heures IHTS liquidées](Bases/Reglementation/Cum.HS.csv)     
+#'  
+
 
 HS.sup.25 <- Base.IHTS[Heures.Sup. > 25]
 
@@ -2502,8 +2549,9 @@ if (sauvegarder.bases.analyse) {
              "codes.pfr",
              "HS.sup.25",
              "Controle.HS",
-             "dépassement.agent",
+             "depassement.agent",
              "Taux.horaires",
+             "Cum.HS",
              "Depassement.seuil.180h",
              "ifts.et.contractuel",
              "ihts.cat.A",

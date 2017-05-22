@@ -45,7 +45,7 @@
 
 static const char* entete_char[]={"R", "Année", "Mois", "Budget", "Employeur",  "Siret", "Etablissement", "Nom", "Prénom", "Matricule", "Service", "Nb.Enfants", "Statut", "Temps.de.travail",
                                   "Heures.Sup.", "Heures", "Indice", "Brut", "Net", "Net.à.Payer", "NBI",
-                                  "Libellé", "Code",   "Base", "Taux", "Nb.Unité", "Montant", "Type",
+                                  "Libellé", "Code",   "Base", "Taux", "Nb.Unité", "Montant", "Début", "Fin", "Type",
                                   "Emploi", "Grade", "Echelon", "Catégorie", "Nir"};
 
 static const char* entete_char_bulletins[]={"R", "Année", "Mois", "Budget", "Employeur", "Siret", "Etablissement", "Nom", "Prénom", "Matricule", "Service", "Nb.Enfants", "Statut", "Temps.de.travail",

@@ -212,8 +212,8 @@ enum class BaseType : int
                     MAXIMUM_LIGNES_PAR_ANNEE = 16
                   };
 
-#define INDEX_MAX_COLONNNES 5    // nombre de type de champ de ligne de paye (Libellé, Code, Taux, Base, ...) moins 1.
-#define BESOIN_MEMOIRE_ENTETE  27  /* nb d'éléments de l'enum ci-dessous */
+#define INDEX_MAX_COLONNNES 7    // nombre de type de champ de ligne de paye (Libellé, Code, Taux, Base, NbUnite, Montant, DebutPeriode, FinPeriode) moins 1.
+#define BESOIN_MEMOIRE_ENTETE  27  /* nb d'éléments de l'enum ci-dessous, correspondant aux champs des bulletins (répétés à chaque ligne de paye) */
 
 typedef enum {
               Annee, Mois, Budget, Employeur, Siret, Etablissement,
