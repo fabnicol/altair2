@@ -305,6 +305,7 @@ void codePage::substituer_valeurs_dans_script_R()
         label->setText("Erreur d'enregistrement du fichier de configuration prologue_codes.R");
 }
 
+
 bool codePage::reinitialiser_prologue()
 {
 
@@ -402,15 +403,25 @@ standardPage::standardPage()
     
     optionalFieldBox->setLayout(v2Layout);
 
+
+
+    FPHCheckBox = new FCheckBox("Fonction publique hospitalière",
+                                   flags::status::enabledUnchecked
+                                 | flags::commandLineType::noCommandLine,
+                                  "FPH",
+                                 {"Contrôle hospitalier",
+                                  "Ajuster le rapport pour la FPH"}
+                                 );
+
     tableCheckBox = new FCheckBox("Créer la base de données",
-                                   flags::status::enabledChecked 
+                                   flags::status::enabledChecked
                                  | flags::commandLineType::altairCommandLine,
                                   "genererTable",
                                  {"Données csv",
                                   "créer la base des lignes et bulletins de paye"},
                                   "t",
                                  {optionalFieldBox, baseTypeLabel, baseTypeWidget,
-                                  maxNLigneLabel, maxNLigneLineEdit});
+                                  maxNLigneLabel, maxNLigneLineEdit, FPHCheckBox});
 
     QStringList range3 = QStringList();
     for (int i = 1; i < 12; i++) range3 << QString::number(i);
@@ -433,6 +444,8 @@ standardPage::standardPage()
            maxNLigneLabel->setDisabled(value);
            maxNLigneLineEdit->setDisabled(value);
         });
+
+    connect(FPHCheckBox, SIGNAL(clicked()), this, SLOT(substituer_versant()));
 
     QGroupBox* archBox = new QGroupBox(tr("Archivage et Restauration"));
     QGroupBox* exportBox = new QGroupBox(tr("Exportation"));
@@ -463,6 +476,7 @@ standardPage::standardPage()
                                {"Données XML", "Exporter les bases XML"});
     
     v1Layout->addWidget(tableCheckBox,     1, 0, Qt::AlignLeft);
+    v1Layout->addWidget(FPHCheckBox,       1, 1, Qt::AlignLeft);
     v1Layout->addWidget(baseTypeLabel,     3, 0, Qt::AlignRight);
     v1Layout->addWidget(baseTypeWidget,    3, 1, Qt::AlignLeft);
     v1Layout->addWidget(exportLabel,       4, 0, Qt::AlignRight);
@@ -497,6 +511,25 @@ standardPage::standardPage()
     setLayout(mainLayout);
 }
 
+
+
+void standardPage::substituer_versant()
+{
+
+    const QString &versant_path = path_access("Tests/Exemple/versant.R");
+
+    QString file_str = readFile(versant_path);
+
+
+    if (FPHCheckBox->isChecked())
+        substituer("VERSANT_FP <<- .*", "VERSANT_FP <<- \"FPH\"", file_str);
+    else
+        substituer("VERSANT_FP <<- .*", "VERSANT_FP <<- \"FPT\"", file_str);
+
+    bool res = renommer(dump(file_str), versant_path);
+    if (! res) Q("Le versant de la fonction publique n'a pas pu être exporté.")
+
+}
 
 processPage::processPage()
 {
