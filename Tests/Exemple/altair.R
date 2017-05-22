@@ -1875,29 +1875,6 @@ test.PFR <- function(i, grade, cumul) {
 
 # Vérification des seuils annuels :
 
-Depassement.seuil.180h <- unique(Bulletins.paie[cumHSup > 180, 
-                                                  .(Matricule, 
-                                                    Année,
-                                                    "Cumul heures sup" = cumHSup,
-                                                    Emploi,
-                                                    Grade,
-                                                    Service)])
-  
-nb.agents.dépassement  <- uniqueN(Depassement.seuil.180h$Matricule)
-
-if  (nb.agents.dépassement)  {
-  
-  cat("Le seuil de 180 heures supplémentaires maximum est dépassé par ", 
-      FR(nb.agents.dépassement), " agents.\n")
-  
-  Dépassement.seuil.220h <- Depassement.seuil.180h["Cumul heures sup" > 220]
-  nb.agents.dépassement.220h <- uniqueN(Dépassement.seuil.220h$Matricule) 
-  
-  if  (nb.agents.dépassement.220h) cat(" Le seuil de 220 heures supplémentaires maximum est dépassé par ",
-                                       FR(nb.agents.dépassement.220h), 
-                                       " agents.\n") 
-}
-
 
 ft <- filtre("TRAITEMENT")
 
@@ -2034,6 +2011,30 @@ kable(CumHS, align = "c")
 #'[Lien vers la base des cumuls de nombre d'heures IHTS liquidées](Bases/Reglementation/Cum.HS.csv)     
 #'  
 
+if (VERSANT_FP == "FPH") {
+  Depassement.seuil.180h <- unique(Bulletins.paie[cumHSup > 180, 
+                                                  .(Matricule, 
+                                                    Année,
+                                                    "Cumul heures sup" = cumHSup,
+                                                    Emploi,
+                                                    Grade,
+                                                    Service)])
+
+    nb.agents.dépassement  <- uniqueN(Depassement.seuil.180h$Matricule)
+
+    if  (nb.agents.dépassement)  {
+  
+      cat("Le seuil de 180 heures supplémentaires maximum est dépassé par ", 
+          FR(nb.agents.dépassement), " agents.\n")
+      
+      Dépassement.seuil.220h <- Depassement.seuil.180h["Cumul heures sup" > 220]
+      nb.agents.dépassement.220h <- uniqueN(Dépassement.seuil.220h$Matricule) 
+      
+      if  (nb.agents.dépassement.220h) cat(" Le seuil de 220 heures supplémentaires maximum est dépassé par ",
+                                           FR(nb.agents.dépassement.220h), 
+                                           " agents.\n") 
+   }
+}
 
 HS.sup.25 <- Base.IHTS[Heures.Sup. > 25]
 
