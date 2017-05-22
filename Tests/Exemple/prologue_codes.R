@@ -39,6 +39,7 @@
 
 codes.traitement <- NA
 codes.nbi <- NA
+codes.nbi <- NA
 codes.pfi <- NA
 codes.pfr <- NA
 codes.ifts <- NA
