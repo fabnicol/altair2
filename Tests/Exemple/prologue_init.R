@@ -35,6 +35,7 @@
 # termes.
 # 
 # 
+codes.traitement <- c("1010", "1007", "1017")
 codes.nbi <- c("1012", "101M")
 codes.pfi <- NA
 codes.pfr <- NA
@@ -47,8 +48,10 @@ types.irs  <- c("IR", "S")
 
 controle<-c("","","","")  
 
-codes <- data.table(type = c("NBI", "PFI", "PFR", "IFTS", "IAT", "IHTS", "VAC", "ELUS", "IR_S"),
-                    valeur = list(codes.nbi, 
+codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "IFTS", "IAT", "IHTS", "VAC", "ELUS", "IR_S"),
+                    valeur = list(
+                               codes.traitement,
+                               codes.nbi, 
                                codes.pfi,
                                codes.pfr, 
                                codes.ifts, 
@@ -58,7 +61,8 @@ codes <- data.table(type = c("NBI", "PFI", "PFR", "IFTS", "IAT", "IHTS", "VAC", 
                                codes.elus,
                                types.irs),
                                
-                    expression = c(expression.rég.nbi,
+                    expression = c(expression.rég.traitement,
+                                   expression.rég.nbi,
                                    expression.rég.pfi,
                                    expression.rég.pfr, 
                                    expression.rég.ifts, 

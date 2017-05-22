@@ -1378,9 +1378,7 @@ Tableau(
   
    Paie_vac <- filtrer_Paie("VAC", portée = "Mois")
 
-   Paie_vac <- Paie_vac[Type %chin% c("T", "I", "R", "IR", "S"),
-                            .(Nom, Statut, Code, Libellé, Type, Taux, Nb.Unité, Montant)]
-
+   Paie_vac <- Paie_vac[Type %chin% c("T", "I", "R", "IR", "S")]
 
 # ----- Produire la liste de ces libellés horaires
 
@@ -1394,7 +1392,8 @@ Tableau(
 # ----- Vérifier si des fonctionnaires titulaires ou stagiaires bénéficient de vacations horaires et donner les caractéristiques
 
 Paie_vac_fonct <- Paie_vac[Statut %chin% c("TITULAIRE", "STAGIAIRE"), 
-                                               .(Nom, Statut, Code, Libellé, Type, Taux, Nb.Unité, Montant, Total.mensuel = sum(Montant, na.rm = TRUE)), by = .(Matricule, Année, Mois)]
+                                               .(Nom, Statut, Code, Libellé, Type, Taux, Nb.Unité, Montant, Total.mensuel = sum(Montant, na.rm = TRUE)),
+                           by = .(Matricule, Année, Mois)]
 
 lignes.fonctionnaires.et.vacations <- Paie_vac_fonct[Libellé %chin% libellés.horaires]
 
@@ -1742,17 +1741,33 @@ if (length(codes.pfr) > 5) {
 
 # Attention keyby = et pas seulement by = !
 
+Lignes_PFR[ , PFR := TRUE]
+Lignes_IFTS[ , IFTS := TRUE]
+
 beneficiaires.PFR <- merge(Lignes_PFR, Lignes_IFTS, all = TRUE)
+
+beneficiaires.PFR[ , Régime := if (all(is.na(PFR))) { if (any(IFTS)) "I" else NA } else { if (all(is.na(IFTS))) "P" else "C" },
+                     by = .(Matricule, Année, Mois)][ , `:=`(PFR = NULL, 
+                                                             IFTS = NULL)]
 
 matricules.PFR <- unique(Lignes_PFR$Matricule)
 
 beneficiaires.PFR <- beneficiaires.PFR[Matricule %chin% matricules.PFR,
-                                                      .(Cumul.PFR.IFTS = sum(Montant, na.rm = TRUE),
-                                                        Nom = Nom[1],
-                                                        nb.mois = length(unique(Mois)),
-                                                        Grade = Grade[1]),
-                                                      keyby= .(Matricule, Année)]
-                        
+                  .(Agrégat = sum(Montant, na.rm = TRUE),
+                    Régime = { c <- uniqueN(Mois[Régime == "C"])
+                    
+                               if (c == 0) {  
+                                 
+                                 "IFTS " %+% uniqueN(Mois[Régime == "I"]) %+% " mois-PFR " %+% uniqueN(Mois[Régime == "P"]) %+% " mois"
+                                 
+                               } else {
+                                 
+                                 "IFTS " %+% uniqueN(Mois[Régime == "I"]) %+% " mois-PFR " %+% uniqueN(Mois[Régime == "P"]) %+% " mois" %+% "-Cumul " %+% c %+% " mois"
+                               }},
+                    nb.mois = uniqueN(Mois),
+                    Grade = Grade[1]),
+                        keyby= .(Matricule, Année)]
+                           
 rm(Paie_I)
 
 # Plafonds annuels (plafonds mensuels reste à implémenter)
@@ -1781,7 +1796,7 @@ test.PFR <- function(i, grade, cumul) {
   test.PFR.all <- function(grade, cumul) any(sapply(1:length(e), function(i) test.PFR(i, grade, cumul)))
   
   cumuls.PFR <- Lignes_PFR[, .(PFR_annuel = sum(Montant, na.rm = TRUE),
-                               nb.mois = length(Mois),
+                               nb.mois = uniqueN(Mois),
                                Grade = Grade[1]),
                                   by=.(Matricule,Année)][ , PFR_annuel := PFR_annuel * 12 / nb.mois]   # proratisation mensuelle
   
@@ -1790,7 +1805,7 @@ test.PFR <- function(i, grade, cumul) {
   dépassements.PFR.plafonds <- data.frame()
   
   if (length(dépassements.PFR.boolean) > 0)
-    dépassements.PFR.plafonds <- beneficiaires.PFR[dépassements.PFR.boolean]
+    dépassements.PFR.plafonds <- cumuls.PFR[dépassements.PFR.boolean]
   
   if (nrow(dépassements.PFR.plafonds) > 0) {
     
@@ -1805,22 +1820,22 @@ test.PFR <- function(i, grade, cumul) {
   beneficiaires.PFR.Variation <- beneficiaires.PFR[ , 
                                     { 
                                        L <- length(Année)
-                                       q <- Cumul.PFR.IFTS[L]/Cumul.PFR.IFTS[1] * nb.mois[1]/nb.mois[L]                   
+                                       q <- Agrégat[L]/Agrégat[1] * nb.mois[1]/nb.mois[L]                   
                                        .(Années = paste(Année, collapse = ", "), 
                                          `Variation (%)` = round((q - 1) * 100, 1),
                                          `Moyenne géométrique annuelle(%)` = round((q^(1/(L - 1)) - 1) * 100, 1)) 
-                                    }, by="Nom,Matricule"]
+                                    }, by="Matricule"]
   
   beneficiaires.PFR.Variation <- beneficiaires.PFR.Variation[`Variation (%)` != 0.00]
 
 #'  
-#'&nbsp;*Tableau `r incrément()`* : Valeurs de l'agrégat (PFR ou IFTS) pour les bénéficiaires de la PFR   
+#'&nbsp;*Tableau `r incrément()`* : Valeurs de l'agrégat annuel (PFR ou IFTS) pour les bénéficiaires de la PFR   
 #'          
 
   if (nrow(beneficiaires.PFR)) {
     
-    beneficiaires.PFR$Cumul.PFR.IFTS <- formatC(beneficiaires.PFR$Cumul.PFR.IFTS, big.mark = " ", format="fg")
-    setnames(beneficiaires.PFR, "Cumul.PFR.IFTS", "Cumul PFR ou IFTS")
+    beneficiaires.PFR$Agrégat <- formatC(beneficiaires.PFR$Agrégat, big.mark = " ", format="fg")
+    
     kable(beneficiaires.PFR, align = 'r', row.names = FALSE)
     
   } else {
@@ -1828,7 +1843,7 @@ test.PFR <- function(i, grade, cumul) {
   }
   
 #'  
-#'&nbsp;*Tableau `r incrément()`* : Variations de l'agrégat (PFR ou IFTS) pour les bénéficiaires de la PFR
+#'&nbsp;*Tableau `r incrément()`* : Variations de l'agrégat mensuel moyen (PFR ou IFTS) pour les bénéficiaires de la PFR
 #'          
   if (nrow(beneficiaires.PFR.Variation)) {
     
@@ -1878,10 +1893,36 @@ if  (nb.agents.dépassement)  {
                                        " agents.\n") 
 }
 
+
+ft <- filtre("TRAITEMENT")
+
+# if (! is.na(ft)) {
+#   
+#   corriger_T <- function(x, y) {
+#     ifelse(x != "T",
+#            x,
+#            ifelse(y %chin% ft, "T", "NT"))   # pour des raisons non comprises if...else ne fonctionne pas !
+#   }
+#   
+#   Paie[ ,  Type_cor := corriger_T(Type, Code)]  
+#    
+# } else {
+# 
+#   corriger_T <- function(x, z) {
+#     ifelse(x != "T",
+#            x,
+#           ifelse(grepl(expression.rég.traitement, z, ignore.case = TRUE, perl = TRUE) 
+#               | grepl(expression.rég.nbi, z, ignore.case = TRUE, perl = TRUE) , "T", "NT"))
+#   }
+#   
+#   Paie[ ,  Type_cor := corriger_T(Type, Libellé)]
+# }
+
 colonnes <- c(étiquette.matricule,
               étiquette.année,
               "Mois",
               "Statut",
+              "Indice",
               "Libellé",
               étiquette.code,
               "Heures",
@@ -1894,59 +1935,92 @@ colonnes <- c(étiquette.matricule,
               "Emploi",
               "Grade")
 
-HS.sup.25 <- Paie[Heures.Sup. > 25, ..colonnes]
 
-traitement.indiciaire.mensuel <- HS.sup.25[Type == "T", .(`Traitement indiciaire mensuel` = sum(Montant, na.rm = TRUE)), 
-                                                          by="Matricule,Année,Mois"]
+Base.IHTS <- filtrer_Paie("IHTS",
+                          Base = Paie[Type %chin% c("I", "T", "R", "IR", "A"), ..colonnes],
+                          portée = "Mois",
+                          indic = TRUE)
 
-HS.sup.25 <-  HS.sup.25[Type %chin% c("I", "T", "R", "A")
-                          & ! grepl(".*SMIC.*",
-                                    Libellé, 
-                                    ignore.case = TRUE) == TRUE
-                          & grepl(expression.rég.heures.sup,
-                                  Libellé,
-                                  ignore.case = TRUE,
-                                  perl=TRUE) == TRUE]
+Taux.horaires <- Base.IHTS[ ,.(`IR` = sum(Montant[Type == "IR"], na.rm = TRUE),
+                                IHTS = sum(Montant[indic == TRUE], na.rm = TRUE),
+                                Indice = Indice[1],
+                                Heures.Sup. = Heures.Sup.[1]), # ajouter NBI proratisée !
+                                       by = .(Matricule, Année, Mois)
+                          ][ , `Traitement indiciaire annuel et IR` := IR * 12 + Indice * PointIM[Année - 2007, Mois]
+                          ][ , `Taux horaire` := `Traitement indiciaire annuel et IR` / 1820 
+                          ][ ,  `:=` (`Taux horaire inf.14 H` = `Taux horaire` * 1.07,
+                                      `Taux horaire sup.14 H` = `Taux horaire` * 1.27,   
+                                      `Taux horaire nuit`     = `Taux horaire` * 2,     
+                                      `Taux horaire dim. j.f.`= `Taux horaire` * 5/3)  
+                          ][ ,   `:=` (Max = Heures.Sup. * `Taux horaire nuit`,
+                                       Min = Heures.Sup. * `Taux horaire inf.14 H`)
+                          ][ ,  `:=`(Indice = NULL,
+                                         IR = NULL)]   
 
-HS.sup.25 <- merge(HS.sup.25, traitement.indiciaire.mensuel, by=c("Matricule", "Année", "Mois"), all = TRUE)
+Taux.horaires <-  merge(Base.IHTS, Taux.horaires)[, .(Matricule, Année, Mois, Indice,
+                                                       `Traitement indiciaire annuel et IR`, `Taux horaire`, Max, Min, IHTS)]
 
-HS.sup.25 <- merge(HS.sup.25, Analyse.remunerations[ , .(Matricule, Année, traitement.indiciaire)], 
-                                                       by=c("Matricule", "Année"))
-
-HS.sup.25 <- unique(HS.sup.25, by=NULL)
-
-setnames(HS.sup.25, "traitement.indiciaire", "Traitement indiciaire annuel")
-
-nombre.Lignes.paie.HS.sup.25 <- nrow(HS.sup.25)
-
-ihts.anormales <- Paie[grepl(expression.rég.heures.sup,
-                                    Libellé,
-                                    ignore.case = TRUE,
-                                    perl=TRUE) == TRUE
-                       & Montant != 0
-                       & Catégorie == "A"
-                       & Type %chin% c("R", "I", "T", "A"),
-                       .(Matricule, Année, Mois, Statut, Grade, Heures.Sup., Libellé, Code, Type, Montant)]
-
-nombre.ihts.anormales <- nrow(ihts.anormales) 
-
-if (! is.null(HS.sup.25)) message("Heures sup controlées")
+Controle.HS <- Taux.horaires[ , .(Matricule, Année, Mois, Max, Min, IHTS)
+                            ][! duplicated(Taux.horaires)  , .(Tot.Max  = sum(Max, na.rm = TRUE),
+                                   Tot.Min  = sum(Min, na.rm = TRUE),
+                                   Tot.IHTS = sum(IHTS, na.rm = TRUE)), by = "Matricule,Année"]
 #'
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS anormales"),
-           nombre.Lignes.paie.HS.sup.25,   nombre.ihts.anormales)
+dépassement <- Controle.HS[Tot.IHTS > Tot.Max, uniqueN(Matricule)]
+dépassement.agent <- Controle.HS[Tot.IHTS > Tot.Max, .(Matricule, Tot.Max, Tot.IHTS), keyby = Année]
+
+if (dépassement) {
+  cat("Il y a", dépassement, "agent" %+% ifelse(dépassement, "s", ""), "qui perçoivent davantage que le maximum d'IHTS pouvant être liquidé.") 
+
+  kable(Controle.HS[Tot.IHTS > Tot.Max,
+                         .(`Coût en euros` = formatC(round(-sum(Tot.Max) + sum(Tot.IHTS)), big.mark = " ", format = "fg"),
+                           `Nombre d'agents` = uniqueN(Matricule)),
+                              keyby=Année],
+        align = "c")
+}
+
+#'
+#'[Lien vers la base de données dépassements des seuils de liquidation](Bases/Reglementation/Controle.HS.csv)     
+#'[Lien vers la base de données dépassements individuels des seuils de liquidation](Bases/Reglementation/dépassement.agent.csv)     
+#'[Lien vers la base de données calcul des taux horaires individuels](Bases/Reglementation/Taux.horaires.csv)    
+#'
+
+HS.sup.25 <- Base.IHTS[Heures.Sup. > 25]
+
+rm(Base.IHTS)
+
+setnames(HS.sup.25, "indic", "IHTS identifiée")
+
+nombre.Lignes.paie.HS.sup.25 <- nrow(HS.sup.25[`IHTS identifiée` == TRUE])
+
+ihts.cat.A <- filtrer_Paie("IHTS")[Montant != 0 
+                                   & Catégorie == "A"
+                                   & Type %chin% c("R", "I", "T", "A"),
+                                          .(Matricule, Année, Mois, Statut, Grade, Heures.Sup., Libellé, Code, Type, Montant)]
+
+nombre.ihts.cat.A <- nrow(ihts.cat.A) 
+
+message("Heures sup controlées")
+
+#'
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
+Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS cat. A"),
+           nombre.Lignes.paie.HS.sup.25,   nombre.ihts.cat.A)
 
 #'
 #'[Lien vers la base de données Heures supplémentaires en excès du seuil de 25h/mois](Bases/Reglementation/HS.sup.25.csv)     
 #'[Lien vers la base de données cumuls en excès des seuils annuels](Bases/Reglementation/Depassement.seuil.180h.csv)    
-#'[Lien vers la base de données IHTS anormales](Bases/Reglementation/ihts.anormales.csv)      
+#'[Lien vers la base de données IHTS anormales](Bases/Reglementation/ihts.cat.A.csv)      
 #'
 #'**Nota :**   
 #'HS en excès : au-delà de 25 heures par mois     
-#'IHTS anormales : attribuées à des fonctionnaires ou non-titulaires de catégorie A ou assimilés.     
+#'IHTS cat.A : attribuées à des fonctionnaires ou non-titulaires de catégorie A ou assimilés.     
 #'[Références juridiques en lien ](Docs/IHTS.pdf)   
 
 #### 5.7 ELUS ####
@@ -2423,13 +2497,16 @@ if (sauvegarder.bases.analyse) {
   sauv.bases(file.path(chemin.dossier.bases, "Reglementation"),
              env = envir,
              "personnels.iat.ifts",
-             "codes.ifts",
+             "codes.ifts ",
              "personnels.pfr.ifts",
              "codes.pfr",
              "HS.sup.25",
+             "Controle.HS",
+             "dépassement.agent",
+             "Taux.horaires",
              "Depassement.seuil.180h",
              "ifts.et.contractuel",
-             "ihts.anormales",
+             "ihts.cat.A",
              "lignes.contractuels.et.vacations",
              "lignes.fonctionnaires.et.vacations",
               "Paie_vac_contr",
