@@ -250,7 +250,7 @@ expression.rég.admin.g    <- "(?:^|\\s)adm\\w*\\.?\\b\\s?g\\w*\\.?\\b"
 # Les valeurs ci-après seront changées par le "préprocesseur" de l'interface graphique si les valeurs explicites des codes de paye
 
 source("prologue_codes.R", encoding = "UTF-8")
-
+source("versant.R", encoding = "UTF-8")
 # point d'indice majoré
 source("point.im.R", encoding = "UTF-8")
 source("plafonds.R", encoding = "UTF-8")

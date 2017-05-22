@@ -93,7 +93,7 @@ class standardPage : public common
 public :
     standardPage();
     FCheckBox
-      *tableCheckBox;
+      *tableCheckBox, *FPHCheckBox;
 
 private:
     FComboBox
@@ -114,6 +114,9 @@ private:
       standardMsg;
 
     QLabel *maxNLigneLabel;
+
+private slots:
+    void substituer_versant();
 
 };
 
