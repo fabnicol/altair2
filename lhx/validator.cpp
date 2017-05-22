@@ -893,7 +893,7 @@ inline void GCC_INLINE normaliser_accents(xmlChar* c)
     /* la représentation interne est UTF-8 donc les caractères accentués sont sur 2 octets : é = 0xc3a8 etc. */
 
 
-    while (c != 0)
+    while (c != nullptr)
     {
 #ifdef CONVERTIR_LATIN_1
             switch (*(c))
@@ -925,9 +925,10 @@ inline void GCC_INLINE normaliser_accents(xmlChar* c)
             }
 
 #else   //UTF-8
-
+        if (c == nullptr) break;
         if (*c == 0xc3)
         {
+            if (c + 1 == nullptr) break;
             switch (*(c + 1))
             {
                 case 0xa8 : // è
@@ -1105,8 +1106,12 @@ void* parse_info(info_t& info)
 
 #endif
 
+// --- SEGFAULT ICI : à éclaircir d'urgence (début)
+#if 0
         normaliser_accents(em);
         normaliser_accents(gr);
+#endif
+// --- SEGFAULT ICI : à éclaircir d'urgence (fin)
 
         if (regex_match((const char*)em , pat) || regex_match((const char*) VAR(Service), pat))
         {

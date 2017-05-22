@@ -35,8 +35,8 @@
 # termes.
 # 
 # 
-codes.traitement <- c("1010", "1007", "1017")
-codes.nbi <- c("1012", "101M")
+codes.traitement <- NA
+codes.nbi <- NA
 codes.pfi <- NA
 codes.pfr <- NA
 codes.ifts <- NA

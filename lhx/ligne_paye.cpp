@@ -548,6 +548,35 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
         bulletin_obligatoire_numerique("Mt", cur, l, info);
 
         ++l;
+
+        /* PériodeRef, obligatoire si rappel */
+
+        if (t == 8) // La catégorie de ligne de paye est "Rappel"
+        {
+            cur = cur->xmlChildrenNode;
+            if (cur == nullptr)
+            {
+                NA_ASSIGN(l);
+                cerr << ERROR_HTML_TAG "Pas de période de référence pour le rappel" " aux alentours du matricule " << info.Table[info.NCumAgentXml][Matricule] << ENDL;
+            }
+
+            bulletin_obligatoire("DateDebut", cur, l, info);
+
+            ++l;
+            info.drapeau_cont = false; // pas de noeud successeur
+            bulletin_obligatoire("DateFin", cur, l, info);
+            cur = cur->parent->next;
+            info.drapeau_cont = true; // noeud successeur existe
+
+
+        }
+        else
+        {
+            NA_ASSIGN(l);
+            NA_ASSIGN(++l);
+        }
+
+        ++l;
         // cur ne sera pas nul à ce point
 
         ++nbLignePaye;

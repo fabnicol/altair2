@@ -98,6 +98,8 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l_COMMUN(int i, uint32_t agent, int l
            << VAR(l + 2) << sep
            << VAR(l + 3) << sep
            << VAR(l + 4) << sep
+           << VAR(l + 5) << sep
+           << VAR(l + 6) << sep
            << VAR(l + INDEX_MAX_COLONNNES) << sep     // Il doit y avoir au plus INDEX_MAX_COLONNES + 1 types de colonnes de lignes de paye différents
            << type << sep
            << VAR(EmploiMetier) << sep
