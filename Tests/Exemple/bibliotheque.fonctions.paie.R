@@ -583,9 +583,9 @@ newpage <- function() {
 
 newline <- function() {
   if (PDF == TRUE) {
-    cat("\n\\newline\n")
+    return(" \\newline ")
   } else {
-    cat("<br>")
+    return("<br>")
   }
 }
 
@@ -621,11 +621,11 @@ filtre <- function(x) {
 }
 
 
-filtrer_Paie <- function(x, portée = NULL,  Base = Paie, Var = "Code") {
+filtrer_Paie <- function(x, portée = NULL,  Base = Paie, Var = "Code", indic = FALSE) {
 
   filtre_ <- filtre(x)
   
-  # En i, la variable Var ne peut pas être évaluée mais peut filtrer sur Paie[[Var]]
+  # En i, la variable Var ne peut pas être évaluée mais peut filtrer sur Paie[get(Var)...]
   # En j, évaluer Var
   # en by, utiliser dans c(...) directement
   
@@ -637,23 +637,44 @@ filtrer_Paie <- function(x, portée = NULL,  Base = Paie, Var = "Code") {
       
     } else {
       
-      P_  <- Base[Base[[Var]] %chin% filtre_]
+      P_  <- Base[get(Var) %chin% filtre_]
     }
     
   } else {
    
     if (is.na(codes[x, valeur])) {
       
-      P_  <- Base[ , indic := any(grepl(filtre_, Libellé, ignore.case=TRUE, perl=TRUE)),
+      if (indic) {
+        
+        P_  <- Base[ , indic := grepl(filtre_, Libellé, ignore.case=TRUE, perl=TRUE)
+                   ][ , indic0 := any(indic),
+                           by = c("Matricule", "Année", portée)][indic0 == TRUE]
+      } else {
+        
+        P_  <- Base[ , indic0 := any(grepl(filtre_, Libellé, ignore.case=TRUE, perl=TRUE)),
                      by = c("Matricule", "Année", portée)
-                 ][indic == TRUE][ , indic := NULL]
-      
+                   ][indic0 == TRUE]
+      }
+
     } else {
       
-      P_  <- Base[ , indic := any(eval(Var) %chin% filtre_),
+      if (indic) {
+        
+        P_  <- Base[ , indic := eval(Var) %chin% filtre_,
+                       
+                   ][ , indic0 := any(indic),
+                            by = c("Matricule", "Année", portée)
+                   ][indic0 == TRUE]
+      } else {
+        
+        P_  <- Base[ , indic0 := any(eval(Var) %chin% filtre_),
                      by = c("Matricule", "Année", portée)
-                 ][indic == TRUE][ , indic := NULL]
+                 ][indic0 == TRUE]
+      }
     }
+    
+    P_ <- P_[ , indic0 := NULL]  
+    
   }
   
   P_
