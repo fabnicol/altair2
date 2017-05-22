@@ -71,7 +71,7 @@ options(warn = -1, verbose = FALSE, OutDec = ",", datatable.verbose = FALSE, dat
 
 encodage.code.source <- "ISO-8859-1"
 currentDir           <- getwd()
-générer.rapport      <<- ! grepl("altair", basename(currentDir), ignore.case = TRUE) 
+générer.rapport      <<- ! grepl("altair|entrepot", basename(currentDir), ignore.case = TRUE) 
 
 # dans cet ordre
 
@@ -2000,7 +2000,9 @@ if (depassement) {
 
 CumHS <- Bulletins.paie[, .(`Cumul heures sup` = sum(Heures.Sup., na.rm = TRUE)), by = Année]
 
-CumBaseIHTS <- Base.IHTS[indic == TRUE, .(`Cumul Base IHTS année` = sum(Base[Type != "R" | (Année.rappel == Année & Mois.rappel < Mois)], na.rm = TRUE),
+
+
+CumBaseIHTS <- Base.IHTS[indic == TRUE , .(`Cumul Base IHTS année` = sum(Base[Type != "R" | (Année.rappel == Année & Mois.rappel < Mois)], na.rm = TRUE),
                                           `Cumul Régul.N-1` = sum(Base[Année.rappel < Année], na.rm = TRUE)), by = Année]
 
 CumHS <- merge(CumHS, CumBaseIHTS, all = TRUE)[, Différence := `Cumul heures sup` - `Cumul Base IHTS année` - shift(`Cumul Régul.N-1`, type = "lead", fill = 0)]
@@ -2011,23 +2013,31 @@ kable(CumHS, align = "c")
 #'[Lien vers la base des cumuls de nombre d'heures IHTS liquidées](Bases/Reglementation/Cum.HS.csv)     
 #'  
 
+Depassement.seuil.180h <- data.table()
+Dépassement.seuil.220h <- data.table()
+
+nb.agents.dépassement <- 0
+nb.agents.dépassement.220h <- 0
+
 if (VERSANT_FP == "FPH") {
-  Depassement.seuil.180h <- unique(Bulletins.paie[cumHSup > 180, 
+  Depassement.seuil.180h <- Bulletins.paie[ , `Cumul heures sup` := sum(Heures.Sup., na.rm = TRUE),
+                                                        keyby = .(Matricule, Année)
+                                                 ][ `Cumul heures sup` > 180, 
                                                   .(Matricule, 
                                                     Année,
-                                                    "Cumul heures sup" = cumHSup,
+                                                    `Cumul heures sup`,                        
                                                     Emploi,
                                                     Grade,
-                                                    Service)])
+                                                    Service)]
 
-    nb.agents.dépassement  <- uniqueN(Depassement.seuil.180h$Matricule)
+    nb.agents.dépassement <- uniqueN(Depassement.seuil.180h$Matricule)
 
     if  (nb.agents.dépassement)  {
   
       cat("Le seuil de 180 heures supplémentaires maximum est dépassé par ", 
           FR(nb.agents.dépassement), " agents.\n")
       
-      Dépassement.seuil.220h <- Depassement.seuil.180h["Cumul heures sup" > 220]
+      Dépassement.seuil.220h <- Depassement.seuil.180h[`Cumul heures sup` > 220]
       nb.agents.dépassement.220h <- uniqueN(Dépassement.seuil.220h$Matricule) 
       
       if  (nb.agents.dépassement.220h) cat(" Le seuil de 220 heures supplémentaires maximum est dépassé par ",
@@ -2036,7 +2046,11 @@ if (VERSANT_FP == "FPH") {
    }
 }
 
-HS.sup.25 <- Base.IHTS[Heures.Sup. > 25]
+seuil.HS <- switch (VERSANT_FP, 
+                        FPH = 15,
+                        FPT = 25)
+
+HS.sup.25 <- Base.IHTS[indic == TRUE & Heures.Sup. > seuil.HS]
 
 rm(Base.IHTS)
 
@@ -2062,12 +2076,12 @@ Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS cat. A"),
            nombre.Lignes.paie.HS.sup.25,   nombre.ihts.cat.A)
 
 #'
-#'[Lien vers la base de données Heures supplémentaires en excès du seuil de 25h/mois](Bases/Reglementation/HS.sup.25.csv)     
-#'[Lien vers la base de données cumuls en excès des seuils annuels](Bases/Reglementation/Depassement.seuil.180h.csv)    
-#'[Lien vers la base de données IHTS anormales](Bases/Reglementation/ihts.cat.A.csv)      
+#'[Lien vers la base de données Heures supplémentaires en excès du seuil de 15h (FPH) ou de 25h/mois (FPT)](Bases/Reglementation/HS.sup.25.csv)     
+#'[Lien vers la base de données cumuls en excès des seuils annuels de 180 et 220 h (FPH)](Bases/Reglementation/Depassement.seuil.180h.csv)    
+#'[Lien vers la base de données IHTS versées à des fonctionnaires de cat. A](Bases/Reglementation/ihts.cat.A.csv)      
 #'
 #'**Nota :**   
-#'HS en excès : au-delà de 25 heures par mois     
+#'HS en excès : au-delà de 25 heures par mois dans la FPT et 15 heures par mois dans la FPH, sauf pour certains emplois (18,3 heures par mois)     
 #'IHTS cat.A : attribuées à des fonctionnaires ou non-titulaires de catégorie A ou assimilés.     
 #'[Références juridiques en lien ](Docs/IHTS.pdf)   
 

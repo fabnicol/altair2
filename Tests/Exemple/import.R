@@ -579,7 +579,6 @@ if (redresser.heures) {
                            Montant.net.annuel.eqtp  = 365 / nb.jours * sum(Montant.net.eqtp, na.rm = TRUE),
                            Montant.net.annuel       = sum(Net.à.Payer, na.rm = TRUE),
                            permanent                = nb.jours >= 365,
-                           cumHSup                  = sum(Heures.Sup., na.rm = TRUE), 
                            indicatrice.quotité.pp   = indicatrice.quotité.pp[1]),
                  key=c("Matricule", "Année")]
   
@@ -619,6 +618,6 @@ if (redresser.heures) {
   # on peut désactiver ce test par désactiver.test.versant.fp <- T dans prologue.R
   
   if (is.na(VERSANT_FP))
-      VERSANT_FP <<-  if (grepl("AG.*HOSP", grades.categories$Grade, ignore.case = TRUE)) "FPH" else "FPT"
+     VERSANT_FP <<-  if (grepl("AG.*HOSP", grades.categories$Grade, ignore.case = TRUE)) "FPH" else "FPT"
   
   
