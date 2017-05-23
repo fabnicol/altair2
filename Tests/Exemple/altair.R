@@ -1207,11 +1207,14 @@ NBI.aux.non.titulaires <- Paie_NBI[Statut != "TITULAIRE" & Statut != "STAGIAIRE"
                                          c(colonnes, "NBI"),
                                              with = FALSE] 
            
-if (nombre.personnels.nbi.nontit <- uniqueN(NBI.aux.non.titulaires$Matricule))
+if (nombre.personnels.nbi.nontit <- uniqueN(NBI.aux.non.titulaires$Matricule)) {
     cat("Il existe ", 
       FR(nombre.personnels.nbi.nontit),
       "non titulaire" %s% nombre.personnels.nbi.nontit,
       " percevant une NBI.")
+} else {
+    cat("Pas de NBI apparemment attribuée à des non-titulaires")
+}
 
 
 #'   
@@ -1220,14 +1223,19 @@ if (nombre.personnels.nbi.nontit <- uniqueN(NBI.aux.non.titulaires$Matricule))
 
 # On calcule tout d'abord la somme de points de NBI par matricule et par année
 
-T1 <- Bulletins.paie[! is.na(quotité) & quotité > 0, .(nbi.cumul.indiciaire = sum(NBI, na.rm = TRUE)), by="Matricule,Année"][nbi.cumul.indiciaire > 0] 
+T1 <- Bulletins.paie[! is.na(quotité) & quotité > 0, 
+                        .(nbi.cumul.indiciaire = sum(NBI, na.rm = TRUE)),
+                            by="Matricule,Année"
+                    ][nbi.cumul.indiciaire > 0] 
+
+if (nrow(T1) == 0) cat("Aucune NBI n'a été attribuée")
 
 # On calcule ensuite, sur les traitements et éventuellement les indemnités, la somme des paiements au titre de la NBI, par matricule et par année
 # Attention ne pas prendre en compte les déductions, retenues et cotisations, ni les rappels. On compare en effet les payements bruts de base à la somme des points x valeur du point
 
 # La quotité ici considérée est non pas la quotité statistique mais la quotité admistrative plus favorable aux temps partiels.
 
-adm <- function(quotité) if (quotité == 0.8)  6/7 else { if (quotité == 0.9)  32/35 else quotité }
+adm <- function(quotité) ifelse(quotité == 0.8,  6/7, ifelse (quotité == 0.9,  32/35, quotité))
 
 T2 <- Paie_NBI[Type %chin% c("T", "I")
                   & ! is.na(NBI)
@@ -1246,6 +1254,8 @@ T <- merge(T1,
 cumuls.nbi <- T[ , .(cumul.annuel.indiciaire = sum(nbi.cumul.indiciaire, na.rm = TRUE),
                      cumul.annuel.montants   = sum(nbi.cumul.montants, na.rm = TRUE)),
                        keyby="Année"]
+
+if (nrow(cumuls.nbi) == 0) cat("Cumuls de NBI nuls.")
 
 # Les cumuls annuels rapportés cumuls indiciaires pour l'année ne doivent pas trop s'écarter de la valeur annuelle moyenne du point d'indice
 
@@ -1305,23 +1315,30 @@ Tableau.vertical2(c("Année", "Cumuls des NBI", "Montants versés (a)", "Point d
 
 # Calcul plus exact de liquidation
 
-lignes.nbi.anormales.mensuel <- T2[ , .(Montant.NBI.calculé = NBI * adm(quotité) * PointMensuelIM[Année - 2007, Mois],
-                                        Montant.NBI.payé = sum(Montant, na.rm = TRUE)), 
-                                           keyby="Matricule,Année,Mois"
-                                     ][ , Différence.payé.calculé := Montant.NBI.payé - Montant.NBI.calculé
-                                     ][abs(Différence.payé.calculé) > tolérance.nbi]
+montants.nbi.anormales.mensuel <- 0
+lignes.nbi.anormales.mensuel <- data.table()
 
-
-lignes.paie.nbi.anormales.mensuel <- merge(Paie[Type == "T" | Type == "I", .(Matricule, Année, Mois, Statut, 
-                                                                              Grade, Echelon, Catégorie, 
-                                                                              Emploi, Service, quotité,
-                                                                              NBI, Code, Libellé,
-                                                                              Base, Taux,Type, Montant)],
-                                                lignes.nbi.anormales.mensuel,
-                                                by=c("Matricule", "Année", "Mois"))
-
-nb.lignes.anormales.mensuel    <- nrow(lignes.nbi.anormales.mensuel)
-montants.nbi.anormales.mensuel <- lignes.nbi.anormales.mensuel[, sum(Différence.payé.calculé)]
+essayer(
+{  
+  lignes.nbi.anormales.mensuel <- T2[ , .(Montant.NBI.calculé = NBI * adm(quotité) * PointMensuelIM[Année - 2007, Mois],
+                                          Montant.NBI.payé = sum(Montant, na.rm = TRUE)), 
+                                             keyby="Matricule,Année,Mois"
+                                       ][ , Différence.payé.calculé := Montant.NBI.payé - Montant.NBI.calculé
+                                       ][abs(Différence.payé.calculé) > tolérance.nbi]
+  
+  
+  lignes.paie.nbi.anormales.mensuel <- merge(Paie[Type == "T" | Type == "I", .(Matricule, Année, Mois, Statut, 
+                                                                                Grade, Echelon, Catégorie, 
+                                                                                Emploi, Service, quotité,
+                                                                                NBI, Code, Libellé,
+                                                                                Base, Taux,Type, Montant)],
+                                                  lignes.nbi.anormales.mensuel,
+                                                  by=c("Matricule", "Année", "Mois"))
+  
+  nb.lignes.anormales.mensuel    <- nrow(lignes.nbi.anormales.mensuel)
+  montants.nbi.anormales.mensuel <- lignes.nbi.anormales.mensuel[, sum(Différence.payé.calculé)]
+},
+"La vérification de la proratisation de la NBI n'a pas pu être réalisée")
 
 Tableau(
   c("Différences > 1 euro : nombre de lignes",
@@ -1974,54 +1991,65 @@ colonnes <- c(étiquette.matricule,
 Base.IHTS <- filtrer_Paie("IHTS",
                           Base = Paie[Type %chin% c("I", "T", "R", "IR", "A"), ..colonnes],
                           portée = "Mois",
-                          indic = TRUE)[ , `:=` (Année.rappel = ifelse(is.na(Début), Année, as.numeric(substr(Début, 0, 4))),
-                                                 Mois.rappel  = ifelse(is.na(Début), Mois, as.numeric(substr(Début, 6, 7)))) ]
+                          indic = TRUE)[ , `:=` (Année.rappel = as.numeric(substr(Début, 0, 4)),
+                                                 Mois.rappel  = as.numeric(substr(Début, 6, 7))) ]
 
-Taux.horaires <- Base.IHTS[ ,.(`IR` = sum(Montant[Type == "IR"], na.rm = TRUE),
-                                IHTS.hors.rappels = sum(Montant[indic == TRUE 
-                                                                & (Type != "R" | (Année.rappel == Année & Mois.rappel == Mois))],
-                                                        na.rm = TRUE),
-                                IHTS.rappels = sum(Montant[indic == TRUE
-                                                           & Type == "R"
-                                                           & ((Année.rappel == Année & Mois.rappel < Mois) | Année.rappel < Année) ],
-                                                   na.rm = TRUE),
-                                IHTS.rappels.année.préc = sum(Montant[indic == TRUE 
-                                                                      & Type == "R" 
-                                                                      & Année.rappel < Année], 
-                                                              na.rm = TRUE), 
-                                Indice = Indice[1],
-                                Heures.Sup. = Heures.Sup.[1]), # ajouter NBI proratisée !
-                                       by = .(Matricule, Année, Mois)
+essayer(
+{
+  Taux.horaires <- Base.IHTS[ ,.(`IR` = sum(Montant[Type == "IR"], na.rm = TRUE),
+                                  IHTS.hors.rappels = sum(Montant[indic == TRUE 
+                                                                  & (Type != "R" | (Année.rappel == Année & Mois.rappel == Mois))],
+                                                          na.rm = TRUE),
+                                  IHTS.rappels = sum(Montant[indic == TRUE
+                                                             & Type == "R"
+                                                             & ((Année.rappel == Année & Mois.rappel < Mois) | Année.rappel < Année) ],
+                                                     na.rm = TRUE),
+                                  IHTS.rappels.année.préc = sum(Montant[indic == TRUE 
+                                                                        & Type == "R" 
+                                                                        & Année.rappel < Année], 
+                                                                na.rm = TRUE), 
+                                  Indice = Indice[1],
+                                  Heures.Sup. = Heures.Sup.[1]), # ajouter NBI proratisée !
+                                         by = .(Matricule, Année, Mois)
+    
+                            ][ , `Traitement indiciaire annuel et IR` := IR * 12 + Indice * PointIM[Année - 2007, Mois]
+                              
+                            ][ , `Taux horaire` := `Traitement indiciaire annuel et IR` / 1820 
+                              
+                            ][ ,  `:=` (`Taux horaire inf.14 H` = `Taux horaire` * 1.07,
+                                        `Taux horaire sup.14 H` = `Taux horaire` * 1.27,   
+                                        `Taux horaire nuit`     = `Taux horaire` * 2,     
+                                        `Taux horaire dim. j.f.`= `Taux horaire` * 5/3)  
+                              
+                            ][ ,   `:=` (Max = Heures.Sup. * `Taux horaire nuit`,
+                                         Min = Heures.Sup. * `Taux horaire inf.14 H`)
+                              
+                            ][ ,  `:=`(Indice = NULL,
+                                           IR = NULL)]   
   
-                          ][ , `Traitement indiciaire annuel et IR` := IR * 12 + Indice * PointIM[Année - 2007, Mois]
-                            
-                          ][ , `Taux horaire` := `Traitement indiciaire annuel et IR` / 1820 
-                            
-                          ][ ,  `:=` (`Taux horaire inf.14 H` = `Taux horaire` * 1.07,
-                                      `Taux horaire sup.14 H` = `Taux horaire` * 1.27,   
-                                      `Taux horaire nuit`     = `Taux horaire` * 2,     
-                                      `Taux horaire dim. j.f.`= `Taux horaire` * 5/3)  
-                            
-                          ][ ,   `:=` (Max = Heures.Sup. * `Taux horaire nuit`,
-                                       Min = Heures.Sup. * `Taux horaire inf.14 H`)
-                            
-                          ][ ,  `:=`(Indice = NULL,
-                                         IR = NULL)]   
+  Taux.horaires <-  merge(Base.IHTS, Taux.horaires)[, .(Matricule, Année, Mois, Indice,
+                                                         `Traitement indiciaire annuel et IR`,
+                                                         `Taux horaire`, Max, Min, 
+                                                          IHTS.hors.rappels, IHTS.rappels, IHTS.rappels.année.préc)]
+},
+  "La base des taux horaires d'heures supplémentaires n'a pas pu être générée")
 
-Taux.horaires <-  merge(Base.IHTS, Taux.horaires)[, .(Matricule, Année, Mois, Indice,
-                                                       `Traitement indiciaire annuel et IR`,
-                                                       `Taux horaire`, Max, Min, 
-                                                        IHTS.hors.rappels, IHTS.rappels, IHTS.rappels.année.préc)]
-
-Controle.HS <- Taux.horaires[ , .(Matricule, Année, Mois, Max, Min, IHTS.hors.rappels, IHTS.rappels)
-                            ][! duplicated(Taux.horaires)  ,
-                                  .(Tot.Max  = sum(Max, na.rm = TRUE),
-                                    Tot.Min  = sum(Min, na.rm = TRUE),
-                                     Tot.IHTS = sum(IHTS.hors.rappels + IHTS.rappels, na.rm = TRUE)), by = "Matricule,Année"]
+essayer(
+{
+  Controle.HS <- Taux.horaires[ , .(Matricule, Année, Mois, Max, Min, IHTS.hors.rappels, IHTS.rappels)
+                              ][! duplicated(Taux.horaires)  ,
+                                    .(Tot.Max  = sum(Max, na.rm = TRUE),
+                                      Tot.Min  = sum(Min, na.rm = TRUE),
+                                       Tot.IHTS = sum(IHTS.hors.rappels + IHTS.rappels, na.rm = TRUE)), by = "Matricule,Année"]
+},
+  "La base des cumuls d'IHTS par matricule et année n'a pas pu être générée")
 
 #'  
 #'&nbsp;*Tableau `r incrément()` : Paiements au-delà des seuils de liquidation pour l'exercice*   
 #'    
+
+essayer(
+{
 
 depassement <- Controle.HS[Tot.IHTS > Tot.Max, uniqueN(Matricule)]
 depassement.agent <- Controle.HS[Tot.IHTS > Tot.Max, .(Matricule, Tot.Max, Tot.IHTS), keyby = Année]
@@ -2039,6 +2067,8 @@ if (depassement) {
     Tableau.vertical2(c("Année", "Coût en euros", "Nombre d'agents"),
                          Année, V1, V2))         
 }
+},
+  "Le tableau des dépassements de coûts n'a pas pu être généré")
 
 #'
 #'[Lien vers la base de données dépassements des seuils de liquidation](Bases/Reglementation/Controle.HS.csv)     
@@ -2050,19 +2080,25 @@ if (depassement) {
 #'&nbsp;*Tableau `r incrément()` : Cumuls d'heures supplémentaires déclarées, liquidées et régularisée de l'année précédente, en heures*     
 #'    
 
-CumHS <- Bulletins.paie[, .(V1 = sum(Heures.Sup., na.rm = TRUE)), by = Année]
-
-CumBaseIHTS <- Base.IHTS[indic == TRUE , .(V2 = sum(Base[Type != "R" | (Année.rappel == Année & Mois.rappel < Mois)], na.rm = TRUE),
-                                           V3 = sum(Base[Année.rappel < Année], na.rm = TRUE)), by = Année]
-
-CumHS <- merge(CumHS, CumBaseIHTS, all = TRUE)[, Différence := V1 - V2 - shift(V3, type = "lead", fill = 0)]
-
-with(CumHS,
-
-  Tableau.vertical2(c("Année", "Cumul heures sup", "Cumul Base IHTS année", "Cumul Régul.N-1", "NBI sans base de liquidation"),
-                      Année,    V1,                 V2,                      V3,                Différence)
-
-)
+essayer(
+{
+  CumHS <- Bulletins.paie[, .(V1 = sum(Heures.Sup., na.rm = TRUE)), by = Année]
+  
+  CumBaseIHTS <- Base.IHTS[indic == TRUE , .(V2 = sum(Base[Type != "R" | (Année.rappel == Année & Mois.rappel < Mois)], na.rm = TRUE),
+                                             V3 = sum(Base[Année.rappel < Année], na.rm = TRUE)), by = Année]
+  
+  CumHS <- merge(CumHS, CumBaseIHTS, all = TRUE)[, Différence := V1 - V2 - shift(V3, type = "lead", fill = 0)]
+  
+  with(CumHS,
+  
+    Tableau.vertical2(c("Année", "Cumul heures sup", "Cumul Base IHTS année", "Cumul Régul.N-1", "NBI sans base de liquidation"),
+                        Année,    V1,                 V2,                      V3,                Différence)
+  
+  )
+},
+  "La base des cumuls d'IHTS par année, des régularisations et des NBI apparemment non liquidées n'a pas pu être générée")
+  
+  
 #'
 #'[Lien vers la base des cumuls de nombre d'heures IHTS liquidées](Bases/Reglementation/CumHS.csv)     
 #'  
