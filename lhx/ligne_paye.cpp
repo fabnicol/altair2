@@ -553,24 +553,26 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
 
         if (t == 8) // La catégorie de ligne de paye est "Rappel"
         {
-            cur = cur->xmlChildrenNode;
-            if (cur == nullptr)
+            if (cur->xmlChildrenNode == nullptr)
             {
-                NA_ASSIGN(l);
                 cerr << ERROR_HTML_TAG "Pas de période de référence pour le rappel" " aux alentours du matricule " << info.Table[info.NCumAgentXml][Matricule] << ENDL;
+                NA_ASSIGN(l);
+                NA_ASSIGN(++l);
             }
+            else
+            {
+                cur = cur->xmlChildrenNode;
+                // On ne tient pas rigueur du manque de qualité éventuelle
+                // tellement la norme est peu respectée
 
-            // On ne tient pas rigueur du manque de qualité éventuelle
-            // tellement la norme est peu respectée
+                bulletin_optionnel_char("DateDebut", cur, l, info);
 
-            bulletin_optionnel_char("DateDebut", cur, l, info);
-
-            ++l;
-            info.drapeau_cont = false; // pas de noeud successeur
-            bulletin_optionnel_char("DateFin", cur, l, info);
-            cur = cur->parent->next;
-            info.drapeau_cont = true; // noeud successeur existe
-
+                ++l;
+                info.drapeau_cont = false; // pas de noeud successeur
+                bulletin_optionnel_char("DateFin", cur, l, info);
+                cur = cur->parent->next;
+                info.drapeau_cont = true; // noeud successeur existe
+            }
         }
         else
         {
