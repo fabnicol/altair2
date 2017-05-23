@@ -49,7 +49,7 @@ codes.elus <- NA
 codes.astreintes <- NA
 types.irs  <- c("IR", "S")
 
-controle<-c("Z","Z","Z","MULTIBUDGET")  
+controle<-c("","","","")  
 
 codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "IFTS", "IAT", "IHTS", "VAC", "ELUS", "ASTREINTES", "IR_S"),
                     valeur = list(
