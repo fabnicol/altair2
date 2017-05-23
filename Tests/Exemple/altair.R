@@ -1213,7 +1213,7 @@ if (nombre.personnels.nbi.nontit <- uniqueN(NBI.aux.non.titulaires$Matricule)) {
       "non titulaire" %s% nombre.personnels.nbi.nontit,
       " percevant une NBI.")
 } else {
-    cat("Pas de NBI apparemment attribuée à des non-titulaires")
+    cat("Pas de NBI apparemment attribuée à des non-titulaires. ")
 }
 
 
@@ -1228,7 +1228,7 @@ T1 <- Bulletins.paie[! is.na(quotité) & quotité > 0,
                             by="Matricule,Année"
                     ][nbi.cumul.indiciaire > 0] 
 
-if (nrow(T1) == 0) cat("Aucune NBI n'a été attribuée")
+if (nrow(T1) == 0) cat("Aucune NBI n'a été attribuée. ")
 
 # On calcule ensuite, sur les traitements et éventuellement les indemnités, la somme des paiements au titre de la NBI, par matricule et par année
 # Attention ne pas prendre en compte les déductions, retenues et cotisations, ni les rappels. On compare en effet les payements bruts de base à la somme des points x valeur du point
@@ -1255,7 +1255,7 @@ cumuls.nbi <- T[ , .(cumul.annuel.indiciaire = sum(nbi.cumul.indiciaire, na.rm =
                      cumul.annuel.montants   = sum(nbi.cumul.montants, na.rm = TRUE)),
                        keyby="Année"]
 
-if (nrow(cumuls.nbi) == 0) cat("Cumuls de NBI nuls.")
+if (nrow(cumuls.nbi) == 0) cat("Cumuls de NBI nuls. ")
 
 # Les cumuls annuels rapportés cumuls indiciaires pour l'année ne doivent pas trop s'écarter de la valeur annuelle moyenne du point d'indice
 
@@ -1338,7 +1338,7 @@ essayer(
   nb.lignes.anormales.mensuel    <- nrow(lignes.nbi.anormales.mensuel)
   montants.nbi.anormales.mensuel <- lignes.nbi.anormales.mensuel[, sum(Différence.payé.calculé)]
 },
-"La vérification de la proratisation de la NBI n'a pas pu être réalisée")
+"La vérification de la proratisation de la NBI n'a pas pu être réalisée. ")
 
 Tableau(
   c("Différences > 1 euro : nombre de lignes",
@@ -1481,9 +1481,9 @@ nombre.fonctionnaires.et.vacations <- length(matricules.fonctionnaires.et.vacati
 if (nombre.fonctionnaires.et.vacations > 0) {
   cat("Il y a ",
       FR(nombre.fonctionnaires.et.vacations),
-      "fonctionnaire(s) effectuant des vacations pour son propre établissement. Les bulletins concernés sont donnés en lien." )
+      "fonctionnaire(s) effectuant des vacations pour son propre établissement. Les bulletins concernés sont donnés en lien. " )
 }  else  {
-  cat("Pas de vacation détectée.")
+  cat("Pas de vacation détectée. ")
 }
 
 #'[Matricules des fonctionnaires concernés](Bases/Reglementation/matricules.fonctionnaires.et.vacations.csv)       
@@ -1555,7 +1555,7 @@ if (exists("nombre.contractuels.et.vacations")) {
   matricules.SFT_IR.et.vacations <- unique(SFT_IR.et.vacations[ , .(Matricule, Nom, Statut)], by=NULL)
   
   nombre.SFT_IR.et.vacations     <- nrow(matricules.SFT_IR.et.vacations)
-  }, "Les tests sur les CEV et les versements de SFT ou d'IR n'ont pas été réalisés.")
+  }, "Les tests sur les CEV et les versements de SFT ou d'IR n'ont pas été réalisés. ")
   
 
 #'  
@@ -1611,7 +1611,7 @@ if (is.na(codes.ifts)) {
  codes.ifts  <- list("codes IFTS" = unique(Lignes_IFTS$Code))
 
   if (length(codes.ifts) == 0) {
-    cat("Il n'a pas été possible d'identifier les IFTS par méthode heuristique. Renseigner les codes de paye correspondants dans l'interface graphique.")
+    cat("Il n'a pas été possible d'identifier les IFTS par méthode heuristique. Renseigner les codes de paye correspondants dans l'interface graphique. ")
     résultat.ifts.manquant <- TRUE
   }
 }
@@ -1619,7 +1619,7 @@ if (is.na(codes.ifts)) {
 if (is.na(codes.iat)) {          
   codes.iat  <- list("codes IAT" = unique(filtrer_Paie("IAT", Base = Paie_IAT)$Code))
   if (length(codes.iat) == 0) {
-    cat("Il n'a pas été possible d'identifier les IAT par méthode heuristique. Renseigner les codes de paye correspondants dans l'interface graphique.")
+    cat("Il n'a pas été possible d'identifier les IAT par méthode heuristique. Renseigner les codes de paye correspondants dans l'interface graphique. ")
     résultat.iat.manquant <- TRUE
   }
 }
@@ -1722,7 +1722,10 @@ nombre.lignes.ifts.et.contractuel <- nrow(ifts.et.contractuel)
 #'    
 
 if (! résultat.ifts.manquant) {
-   Tableau(c("Nombre de lignes de paie de contractuels percevant des IFTS", "Nombre de lignes IFTS pour IB < 380"), nombre.lignes.ifts.et.contractuel, nombre.lignes.ifts.anormales)
+   Tableau(c("Nombre de lignes de paie de contractuels percevant des IFTS", 
+             "Nombre de lignes IFTS pour IB < 380"),
+           nombre.lignes.ifts.et.contractuel,
+           nombre.lignes.ifts.anormales)
 }
 
 #'
@@ -1754,10 +1757,12 @@ Lignes_PFR <- filtrer_Paie("PFR", Base = Paie_PFR)
 PFR.non.catA <- Paie_PFR[Catégorie != "A"]
 
 if ((N.PFR.non.catA <<- uniqueN(PFR.non.catA$Matricule)) > 0) {
+  
   cat(N.PFR.non.catA, "attributaires de la PFR ne sont pas identifiés en catégorie A.")
   kable(PFR.non.catA, align = 'r', row.names = FALSE)
   
 } else {
+  
   cat("Tous les attributaires de la PFR sont identifiés en catégorie A.")
 }
 
@@ -1783,7 +1788,6 @@ if (! résultat.ifts.manquant && ! résultat.pfr.manquant) {
   nombre.agents.cumulant.pfr.ifts <- uniqueN(personnels.pfr.ifts$Matricule)
   
   personnels.pfr.ifts <- personnels.pfr.ifts[order(Année, Mois, Matricule)]
-  
 }
 
 #'
@@ -2032,7 +2036,7 @@ essayer(
                                                          `Taux horaire`, Max, Min, 
                                                           IHTS.hors.rappels, IHTS.rappels, IHTS.rappels.année.préc)]
 },
-  "La base des taux horaires d'heures supplémentaires n'a pas pu être générée")
+  "La base des taux horaires d'heures supplémentaires n'a pas pu être générée. ")
 
 essayer(
 {
@@ -2042,7 +2046,7 @@ essayer(
                                       Tot.Min  = sum(Min, na.rm = TRUE),
                                        Tot.IHTS = sum(IHTS.hors.rappels + IHTS.rappels, na.rm = TRUE)), by = "Matricule,Année"]
 },
-  "La base des cumuls d'IHTS par matricule et année n'a pas pu être générée")
+  "La base des cumuls d'IHTS par matricule et année n'a pas pu être générée. ")
 
 #'  
 #'&nbsp;*Tableau `r incrément()` : Paiements au-delà des seuils de liquidation pour l'exercice*   
@@ -2068,7 +2072,7 @@ if (depassement) {
                          Année, V1, V2))         
 }
 },
-  "Le tableau des dépassements de coûts n'a pas pu être généré")
+  "Le tableau des dépassements de coûts n'a pas pu être généré. ")
 
 #'
 #'[Lien vers la base de données dépassements des seuils de liquidation](Bases/Reglementation/Controle.HS.csv)     
@@ -2085,7 +2089,8 @@ essayer(
   CumHS <- Bulletins.paie[, .(V1 = sum(Heures.Sup., na.rm = TRUE)), by = Année]
   
   CumBaseIHTS <- Base.IHTS[indic == TRUE , .(V2 = sum(Base[Type != "R" | (Année.rappel == Année & Mois.rappel < Mois)], na.rm = TRUE),
-                                             V3 = sum(Base[Année.rappel < Année], na.rm = TRUE)), by = Année]
+                                             V3 = sum(Base[Année.rappel < Année], na.rm = TRUE)),
+                           by = Année]
   
   CumHS <- merge(CumHS, CumBaseIHTS, all = TRUE)[, Différence := V1 - V2 - shift(V3, type = "lead", fill = 0)]
   
@@ -2096,7 +2101,7 @@ essayer(
   
   )
 },
-  "La base des cumuls d'IHTS par année, des régularisations et des NBI apparemment non liquidées n'a pas pu être générée")
+  "La base des cumuls d'IHTS par année, des régularisations et des NBI apparemment non liquidées n'a pas pu être générée. ")
   
   
 #'
@@ -2141,8 +2146,6 @@ seuil.HS <- switch (VERSANT_FP,
                         FPT = 25)
 
 HS.sup.25 <- Base.IHTS[indic == TRUE & Heures.Sup. > seuil.HS]
-
-rm(Base.IHTS)
 
 setnames(HS.sup.25, "indic", "IHTS identifiée")
 
@@ -2461,6 +2464,119 @@ Tableau.vertical2(c("Année", "Montant astreintes irrégulières (euros)"),
 #'[Lien vers les libellés et codes astreintes](Bases/Reglementation/libelles.astreintes.csv)     
 #'   
 
+Controle_astreintes_HS <- merge(Paie_astreintes[indic == TRUE,
+                                                  .(Matricule, Année, Mois, Catégorie, Emploi, Grade, NBI, Code, Libellé, quotité, Montant)],
+                              Base.IHTS[indic == TRUE ,.(Matricule, Année, Mois, Code, Libellé, Montant)],
+                              by = c("Matricule", "Année", "Mois"))  
+
+setnames(Controle_astreintes_HS, c("Code.x", "Libellé.x", "Montant.x"), c("Code.astreinte", "Libellé.astreinte", "Montant.astreinte"))
+setnames(Controle_astreintes_HS, c("Code.y", "Libellé.y", "Montant.y"), c("Code.IHTS", "Libellé.IHTS", "Montant.IHTS"))
+
+nb.agents.IHTS.astreintes <- uniqueN(Controle_astreintes_HS$Matricule)
+
+if (nrow(Controle_astreintes_HS)) {
+ cat("Des astreintes sont payées à", nb.agents.IHTS.astreintes, "personnels bénéficiaires d'IHTS.")
+}
+
+Cum_astreintes_HS <- rbind(Controle_astreintes_HS[, round(sum(Montant.astreinte), 1),
+                                                  by = "Année"],
+                                                  list("Total", Controle_astreintes_HS[, round(sum(Montant.astreinte), 1)]))
+
+#'  
+#'&nbsp;*Tableau `r incrément()` : Cumuls potentiellement irréguliers IHTS et astreintes*   
+#'  
+
+with(Cum_astreintes_HS,
+  
+Tableau.vertical2(c("Année", "Montant astreintes potentiellement irrégulières (euros)"),
+                  Année, V1)    
+
+)
+
+#'**Nota**     
+#'Les cumuls peuvent être réguliers s'il y a eu des interventions non compensées en période d'astreinte.      
+#'[Lien vers la base des cumuls astreintes/IHTS](Bases/Reglementation/Controle_astreintes_HS.csv)   
+#'    
+
+
+rm(Base.IHTS)
+  
+#### 5.12 RETRAITES ####
+
+#'
+#'## `r chapitre`.12 Contrôle des cotisations de retraite    
+#'  
+
+#'**Non titulaires**   
+#'    
+#'     
+
+
+cat("Les non titulaires ne doivent pas cotiser à la CNRACL. ")
+    
+Cotisations.irreg <- Paie[(Type == "D"  | Type == "C") 
+                           & Statut != "TITULAIRE" 
+                           & Statut != "STAGIAIRE" 
+                           & grepl("C.*N.*R.*A.*C.*L",
+                                   Libellé,
+                                   ignore.case = TRUE) 
+                           & Montant > 0,
+                               .(Matricule, Année, Mois, Type, Libellé, Montant)]
+
+#'  
+#'&nbsp;*Tableau `r incrément()` : Cotisations irrégulières à la CNRACL*     
+#'   
+
+if (! identical(Cotisations.irreg, logical(0)) & (nlignes <- nrow(Cotisations.irreg)) > 0) {
+ 
+  cat("Des cotisations CNRACL sont versées pour des agents non titulaires :",  nlignes, "ligne" %s% nlignes, "de paye.")
+}
+
+#'   
+#'       
+  
+
+Tableau(c("Cotisations salarié", "Cotisations employeur"),
+           Cotisations.irreg[Type == "D", sum(Montant, na.rm = TRUE)], Cotisations.irreg[Type == "C", sum(Montant, na.rm = TRUE)])                   
+
+
+#'   
+#'[Lien vers la base des cotisations irrégulières](Bases/Reglementation/Cotisations.irreg.csv)   
+#'   
+
+#'    
+#'**Titulaires**   
+#'    
+
+cat("Les titulaires ne doivent pas cotiser à l'IRCANTEC. ")
+
+Cotisations.irreg.ircantec <- Paie[(Type == "D"  | Type == "C") 
+                                   & Statut == "TITULAIRE" 
+                                   & grepl("I.*R.*C.*A.*N.*",
+                                           Libellé,
+                                           ignore.case = TRUE) 
+                                   & Montant > 0,
+                                       .(Matricule, Année, Mois, Type, Libellé, Montant)]
+
+#'  
+#'&nbsp;*Tableau `r incrément()` : Cotisations irrégulières à l'IRCANTEC*     
+#'   
+
+if (! identical(Cotisations.irreg.ircantec, logical(0)) & (nlignes <- nrow(Cotisations.irreg.ircantec)) > 0) {
+ 
+  cat("Des cotisations IRCANTEC sont versées pour des agents titulaires :",  nlignes, "ligne" %s% nlignes, "de paye.")
+}
+
+#'   
+#'       
+  
+Tableau(c("Cotisations salarié", "Cotisations employeur"),
+           Cotisations.irreg.ircantec[Type == "D", sum(Montant, na.rm = TRUE)], Cotisations.irreg.ircantec[Type == "C", sum(Montant, na.rm = TRUE)])    
+
+#'   
+#'[Lien vers la base des cotisations irrégulières](Bases/Reglementation/Cotisations.irreg.ircantec.csv)   
+#'   
+
 #### ANNEXE ####
 
 newpage()
@@ -2485,7 +2601,7 @@ if (afficher.table.événements) {
     kable(Evenements)
 }
 
-Evenements.ind <- setkey(Bulletins.paie[Evenement != "", 
+Evenements.ind <- setkey(Bulletins.paie[Evenement != "" & Evenement != "NA NA", 
                                        .(Evenement,
                                          Matricule,
                                          Nom,
@@ -2706,6 +2822,7 @@ if (sauvegarder.bases.analyse) {
              "ifts.et.contractuel",
              "ihts.cat.A",
              "Controle_astreintes",
+             "Controle_astreintes_HS",
              "libelles.astreintes",
              "PFR.non.catA",
              "lignes.contractuels.et.vacations",
@@ -2728,7 +2845,9 @@ if (sauvegarder.bases.analyse) {
              "cumul.lignes.paie",
              "cumul.total.lignes.paie",
              "controle.sft",
-             "Paie.sans.enfant.reduit")
+             "Paie.sans.enfant.reduit",
+             "Cotisations.irreg",
+             "Cotisations.irreg.ircantec")
   
   sauv.bases(file.path(chemin.dossier.bases, "Fiabilite"),
              env = envir,
