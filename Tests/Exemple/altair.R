@@ -1356,8 +1356,8 @@ NBI.cat[ , Contrôle := { a <- grepl("d(?:\\.|ir)\\w*\\s*\\bg(?:\\.|\\w*n)\\w*\\
 NBI.cat.irreg <- NBI.cat[Contrôle == "Rouge", 
                              Coût := { a <- adm(quotité)
                                       (NBI - ifelse(Catégorie == "A", 50, ifelse(Catégorie == "B", 30, 20))) *
-                                            PointIM[Année - 2007, Mois] * ifelse(is.na(a), 1, a)}
-                        ][! is.na(Coût)] 
+                                            PointMensuelIM[Année - 2007, Mois] * ifelse(is.na(a), 1, a)}
+                        ][! is.na(Coût)][ , Contrôle := NULL] 
   
 nombre.mat.NBI.irrég <- NBI.cat.irreg[ , uniqueN(Matricule)]
 coût.total <- NBI.cat.irreg[ , sum(Coût, na.rm = TRUE)]
@@ -1367,16 +1367,20 @@ coût.total <- NBI.cat.irreg[ , sum(Coût, na.rm = TRUE)]
 #'  
 
 Tableau(
-  c("Dépassements de NBI",
+  c("Nombre d'agents concernés",
     "Coût total des dépassements"),
   nombre.mat.NBI.irrég,
   round(coût.total, 1))
 
 #'   
 #'**Nota :**   
-#'Dépassements de NBI : > 50 pour catégorie A; > 30 pour catégorie B; > 20 pour catégorie C.     
-#'Directeurs généraux adjoints : > 80   
-#'Directeurs généraux adjoints : > 120         
+#'Coût annuel calculé pour la quotité de travail observée, limité aux dépassements des maxima ci-après.   
+#'Dépassements de NBI :     
+#' - plus de 50 points pour la catégorie A;   
+#' - plus de 30 points pour la catégorie B;   
+#' - plus de 20 points pour la catégorie C.     
+#'Directeurs généraux adjoints : plus de 80 points.   
+#'Directeurs généraux adjoints : plus de 120 points.           
 #'  
 
 #'   
@@ -2383,7 +2387,7 @@ libelles.astreintes <- unique(Paie_astreintes[indic == TRUE , .(Code, Libellé)]
 Controle_astreintes <- merge(Paie_astreintes[! is.na(NBI) 
                                              & NBI > 0
                                              & indic == TRUE,
-                                                  .(Matricule, Année, Mois, Catégorie, NBI, Code, Libellé, quotité, Montant)],
+                                                  .(Matricule, Année, Mois, Catégorie, Emploi, Grade, NBI, Code, Libellé, quotité, Montant)],
                               Paie_NBI[,.(Matricule, Année, Mois, Code, Libellé, Montant)],
                               by = c("Matricule", "Année", "Mois"))  
 

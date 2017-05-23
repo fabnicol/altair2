@@ -49,7 +49,7 @@ codes.elus <- NA
 codes.astreintes <- NA
 types.irs  <- c("IR", "S")
 
-controle<-c("","","","")  
+controle<-c("VILLE DE SAINT GAUDENS","21310483900013","MAIRIE SAINT GAUDENS","")  
 
 codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "IFTS", "IAT", "IHTS", "VAC", "ELUS", "ASTREINTES", "IR_S"),
                     valeur = list(
