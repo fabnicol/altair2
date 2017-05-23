@@ -224,6 +224,7 @@ modalité.autres                <- "AUTRES"         # notamment les remboursemen
 
 expression.rég.traitement     <- "(?:\\s|^)trait.*\\b"
 expression.rég.nbi        <- "(?:\\s|^)nbi|(?:n(?:(?=o)o\\w*|)\\.?\\s*\\b)?b(?:(?=o)o\\w*|)\\.?\\s*\\bi(?:(?=n)nd\\w*|)\\.?\\b"
+expression.rég.astreintes <- "astreinte"
 
 # --- Prime de fonctions informatiques
 # Schémas recherchés :
