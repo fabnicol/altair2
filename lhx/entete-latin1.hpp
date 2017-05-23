@@ -1,11 +1,11 @@
 // Copyright Cour des comptes, 2017
 // Contributeur :
-// Fabrice Nicol, années 2012 à 2017
+// Fabrice Nicol, années 2012 �  2017
 // fabrice.nicol@crtc.ccomptes.fr
 //
-// Ce logiciel est un programme informatique servant à extraire et analyser les fichiers de paye
+// Ce logiciel est un programme informatique servant �  extraire et analyser les fichiers de paye
 // produits au format spécifié par l'annexe de la convention-cadre nationale de dématérialisation
-// en vigueur à compter de l'année 2008.
+// en vigueur �  compter de l'année 2008.
 //
 // Ce logiciel est régi par la licence CeCILL soumise au droit français et
 // respectant les principes de diffusion des logiciels libres. Vous pouvez
@@ -20,17 +20,17 @@
 // titulaire des droits patrimoniaux et les concédants successifs.
 //
 // A cet égard l'attention de l'utilisateur est attirée sur les risques
-// associés au chargement, à l'utilisation, à la modification et/ou au
-// développement et à la reproduction du logiciel par l'utilisateur étant
-// donné sa spécificité de logiciel libre, qui peut le rendre complexe à
-// manipuler et qui le réserve donc à des développeurs et des professionnels
+// associés au chargement, �  l'utilisation, �  la modification et/ou au
+// développement et �  la reproduction du logiciel par l'utilisateur étant
+// donné sa spécificité de logiciel libre, qui peut le rendre complexe � 
+// manipuler et qui le réserve donc �  des développeurs et des professionnels
 // avertis possédant des connaissances informatiques approfondies. Les
-// utilisateurs sont donc invités à charger et tester l'adéquation du
-// logiciel à leurs besoins dans des conditions permettant d'assurer la
+// utilisateurs sont donc invités �  charger et tester l'adéquation du
+// logiciel �  leurs besoins dans des conditions permettant d'assurer la
 // sécurité de leurs systèmes et ou de leurs données et, plus généralement,
-// à l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
+// �  l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
 //
-// Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
+// Le fait que vous puissiez accéder �  cet en-tête signifie que vous avez
 // pris connaissance de la licence CeCILL, et que vous en avez accepté les
 // termes.
 //
@@ -42,7 +42,7 @@
 
 static const char* entete_char[]={"R", "Ann�e", "Mois", "Budget", "Employeur",  "Siret", "Etablissement", "Nom", "Pr�nom", "Matricule", "Service", "Nb.Enfants", "Statut", "Temps.de.travail",
                                   "Heures.Sup.", "Heures", "Indice", "Brut", "Net", "Net.�.Payer", "NBI",
-                                  "Libell�", "Code",   "Base", "Taux", "Nb.Unit�", "Montant", "Type",
+                                  "Libell�", "Code",   "Base", "Taux", "Nb.Unit�", "Montant", "D�but", "Fin", "Type",
                                   "Emploi", "Grade", "Echelon", "Cat�gorie", "Nir"};
 
 static const char* entete_char_bulletins[]={"R", "Ann�e", "Mois", "Budget", "Employeur", "Siret", "Etablissement", "Nom", "Pr�nom", "Matricule", "Service", "Nb.Enfants", "Statut", "Temps.de.travail",
