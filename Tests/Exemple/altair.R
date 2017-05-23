@@ -1340,8 +1340,8 @@ setkey(Bulletins.paie, Catégorie, Matricule, Année, Mois)
 
 NBI.cat <- Bulletins.paie[! is.na(NBI) & NBI > 0, .(Matricule, Année, Mois, Catégorie, NBI, quotité, Emploi, Grade)]
 
-NBI.cat[ , Contrôle := { a <- grepl("d(?:\\.|ir).*\\bg.*\\bs.*", paste(Emploi, Grade), ignore.case = TRUE, perl = TRUE)
-                         b <- grepl("d(?:\\.ir).*\\bg.*\\ba.*", paste(Emploi, Grade), ignore.case = TRUE, perl = TRUE)
+NBI.cat[ , Contrôle := { a <- grepl("d(?:\\.|ir)\\w*\\s*\\bg(?:\\.|\\w*n)\\w*\\s*\\bs\\w*", paste(Emploi, Grade), ignore.case = TRUE, perl = TRUE)
+                         b <- grepl("d(?:\\.ir)\\w*\\s*\\bg(?:\\.|\\w*n)\\w*\\s*\\ba(?:\\.|d)\\w*", paste(Emploi, Grade), ignore.case = TRUE, perl = TRUE)
                          ifelse ((NBI > 20 & Catégorie == "C")
                                  | (NBI > 30 & Catégorie == "B")
                                  | (NBI > 50 
@@ -2383,10 +2383,11 @@ libelles.astreintes <- unique(Paie_astreintes[indic == TRUE , .(Code, Libellé)]
 Controle_astreintes <- merge(Paie_astreintes[! is.na(NBI) 
                                              & NBI > 0
                                              & indic == TRUE,
-                                                  .(Matricule, Année, Mois, NBI, Code, Libellé, quotité, Montant)],
+                                                  .(Matricule, Année, Mois, Catégorie, NBI, Code, Libellé, quotité, Montant)],
                               Paie_NBI[,.(Matricule, Année, Mois, Code, Libellé, Montant)],
                               by = c("Matricule", "Année", "Mois"))  
 
+Controle_astreintes <- Controle_astreintes[Catégorie == "A" & grepl("d(?:\\.|ir)\\w*\\s*\\bg(?:\\.|\\w*n)\\w*\\s*\\bs\\w.*", paste(Emploi, Grade), perl = TRUE, ignore.case = TRUE)]
 setnames(Controle_astreintes, c("Code.x", "Libellé.x", "Montant.x"), c("Code.astreinte", "Libellé.astreinte", "Montant.astreinte"))
 setnames(Controle_astreintes, c("Code.y", "Libellé.y", "Montant.y"), c("Code.NBI", "Libellé.NBI", "Montant.NBI"))
 
@@ -2401,7 +2402,7 @@ Cum_astreintes <- rbind(Controle_astreintes[, round(sum(Montant.astreinte), 1),
                                             list("Total", Controle_astreintes[, round(sum(Montant.astreinte), 1)]))
 
 #'  
-#'&nbsp;*Tableau `r incrément()` : Cumuls irréguliers NBI et astreintes*   
+#'&nbsp;*Tableau `r incrément()` : Cumuls irréguliers NBI et astreintes (responsabilité supérieure)*   
 #'  
 
 with(Cum_astreintes,
@@ -2413,7 +2414,7 @@ Tableau.vertical2(c("Année", "Montant astreintes irrégulières (euros)"),
 
 #'**Nota**    
 #'Vérifier l'adéquation des libellés de paye d'astreinte dans le tableau en lien ci-après.      
-#'    
+#'Définition des fonctions de responsabilité supérieure : décrets du 27 décembre 2001 et du 28 décembre 200    
 #'[Lien vers la base des cumuls astreintes/NBI](Bases/Reglementation/Controle_astreintes.csv)
 #'[Lien vers les libellés et codes astreintes](Bases/Reglementation/libelles.astreintes.csv)     
 #'   
