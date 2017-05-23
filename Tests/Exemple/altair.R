@@ -1968,8 +1968,8 @@ colonnes <- c(étiquette.matricule,
 Base.IHTS <- filtrer_Paie("IHTS",
                           Base = Paie[Type %chin% c("I", "T", "R", "IR", "A"), ..colonnes],
                           portée = "Mois",
-                          indic = TRUE)[ , `:=` (Année.rappel = as.numeric(substr(Début, 0, 4)),
-                                                 Mois.rappel  = as.numeric(substr(Début, 6, 7))) ]
+                          indic = TRUE)[ , `:=` (Année.rappel = ifelse(is.na(Début), Année, as.numeric(substr(Début, 0, 4))),
+                                                 Mois.rappel  = ifelse(is.na(Début), Mois, as.numeric(substr(Début, 6, 7)))) ]
 
 Taux.horaires <- Base.IHTS[ ,.(`IR` = sum(Montant[Type == "IR"], na.rm = TRUE),
                                 IHTS.hors.rappels = sum(Montant[indic == TRUE 

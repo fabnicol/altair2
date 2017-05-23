@@ -560,14 +560,16 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
                 cerr << ERROR_HTML_TAG "Pas de période de référence pour le rappel" " aux alentours du matricule " << info.Table[info.NCumAgentXml][Matricule] << ENDL;
             }
 
-            bulletin_obligatoire("DateDebut", cur, l, info);
+            // On ne tient pas rigueur du manque de qualité éventuelle
+            // tellement la norme est peu respectée
+
+            bulletin_optionnel_char("DateDebut", cur, l, info);
 
             ++l;
             info.drapeau_cont = false; // pas de noeud successeur
-            bulletin_obligatoire("DateFin", cur, l, info);
+            bulletin_optionnel_char("DateFin", cur, l, info);
             cur = cur->parent->next;
             info.drapeau_cont = true; // noeud successeur existe
-
 
         }
         else
