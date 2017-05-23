@@ -616,8 +616,8 @@ essayer(smpt(Filtre_neutre),     "Le salaire moyen par tête n'a pas pu être ca
 
 #'   
 #+ Effet-de-noria-ensemble
-source("noria.R", encoding = encodage.code.source)
-noria()
+#source("noria.R", encoding = encodage.code.source)
+#noria()
 
 #'   
 #'**Effet de noria sur salaires nets et taux de remplacements**       
@@ -825,20 +825,20 @@ essayer(smpt(Filtre_cat_C),       "Le salaire moyen par tête des fonctionnaires
 
 #'     
 #'*Comparaisons nationales*    
-#'    
-#' | Décile \ euros   | 2011     | 2013   |  2014  |    
-#' |------------------|----------|--------|--------|  
-#' |    D1            | 15 972   |  16 296| 16 632 |  
-#' |    D2            | 16 896   |        |        |   
-#' |    D3            | 17 652   |        |        |    
-#' |    D4            | 18 360   |        |        |  
-#' |    D5 (médiane)  | 19 164   |  19 464| 19 884 |    
-#' |    D6            | 20 100   |        |        | 
-#' |    D7            | 21 216   |        |        |  
-#' |    D8            | 22 680   |        |        |  
-#' |    D9            | 24 996   |  25 176| 25 608 |     
-#' |    Moyenne       | 20 016   |  20 268| 20 676 |   
-#'   
+#' 
+#' | Décile \ euros   | 2011     | 2013   |  2014  | 
+#' |------------------|----------|--------|--------|
+#' |    D1            | 15 972   |  16 296| 16 632 |
+#' |    D2            | 16 896   |        |        |
+#' |    D3            | 17 652   |        |        |
+#' |    D4            | 18 360   |        |        |
+#' |    D5 (médiane)  | 19 164   |  19 464| 19 884 |
+#' |    D6            | 20 100   |        |        |
+#' |    D7            | 21 216   |        |        |
+#' |    D8            | 22 680   |        |        |
+#' |    D9            | 24 996   |  25 176| 25 608 |
+#' |    Moyenne       | 20 016   |  20 268| 20 676 |
+#' 
 
 
 
@@ -1148,19 +1148,21 @@ if (durée.sous.revue > 1) {
 
 #'**RMPP nette 2014 (salariés présents en 2013 et 2014 avec la même quotité) en EQTP**        
 #'    
-#'|  Organisme      RMPP net  |  2014  |    
-#'|:-------------------------:|-------:|   
-#'| Communes                   | 22 524 |   
-#'| CCAS et caisses des écoles | 21 420 |  
-#'| EPCI à fiscalité propre   | 24 864 |    
-#'| Autres structures intercommunales | 23 988 |     
-#'|   Départements            | 25 932 |   
-#'|   SDIS                    | 31 032 |   
-#'|  Régions                  | 24 240 |   
-#'| Autres collectivités locales  | 21 873  |    
-#'|  Ensemble (moyenne)       | 23 760 |    
+#' 
+#'|  Organisme      RMPP net          |  2014  | 
+#'|:---------------------------------:|-------:|
+#'| Communes                          | 22 524 |
+#'| CCAS et caisses des écoles        | 21 420 |
+#'| EPCI à fiscalité propre           | 24 864 |
+#'| Autres structures intercommunales | 23 988 |
+#'|   Départements                    | 25 932 |
+#'|   SDIS                            | 31 032 |
+#'|  Régions                          | 24 240 |
+#'| Autres collectivités locales      | 21 873 |
+#'|  Ensemble (moyenne)               | 23 760 |
+#' 
 #'   
-
+#'  
 #'*Champ : France. Salariés en équivalent-temps plein (EQTP) des collectivités territoriales (y compris bénéficiaires de contrats aidés, hors assistantes maternelles).*     			
 #'Conversion en euros courants, calcul CRC.  
 
