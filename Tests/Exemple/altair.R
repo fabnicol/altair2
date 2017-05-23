@@ -130,7 +130,7 @@ tableau.effectifs <- effectifs(période, Bulletins.paie, Analyse.remunerations, 
 
 #'  
 #  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau `r incrément()` : Effectifs*   
 #            
 kable(tableau.effectifs, row.names = TRUE, align='c')
 
@@ -1177,20 +1177,19 @@ newpage()
 #'
 ########### 5. TESTS STATUTAIRES ########################
 #'
-
-#### 5.1 NBI ET PFI ####
-
-#'# `r chapitre`. Tests réglementaires   
-#'## `r chapitre`.1 Contrôle des NBI et primes informatiques   
 #'   
 #'**Dans cette partie, l'ensemble de la base de paie est étudié.**  
 #'Les agents non actifs ou dont le poste est annexe sont réintroduits dans le périmètre.   
 
+#### 5.1 NBI ####
+
+#'# `r chapitre`. Tests réglementaires   
+#'## `r chapitre`.1 Contrôle des nouvelles bonifications indiciaires (NBI) 
+
 #+ tests-statutaires-nbi
 
-# --- Test n°1  : NBI accordée aux non titulaires
+# --- Test NBI accordée aux non titulaires
 #     Filtre    : Statut != "TITULAIRE" & Statut != "STAGIAIRE" & NBI != 0  grepl(expression.rég.nbi, Libellé)
-
 
 colonnes <-  c("Matricule",
                "Statut",
@@ -1200,9 +1199,9 @@ colonnes <-  c("Matricule",
                "Mois",
                "Montant")
 
-Matrice.NBI <- filtrer_Paie("NBI")
+Paie_NBI <- filtrer_Paie("NBI")
 
-NBI.aux.non.titulaires <- Matrice.NBI[Statut != "TITULAIRE" & Statut != "STAGIAIRE" & NBI != 0,
+NBI.aux.non.titulaires <- Paie_NBI[Statut != "TITULAIRE" & Statut != "STAGIAIRE" & NBI != 0,
                                          c(colonnes, "NBI"),
                                              with = FALSE] 
            
@@ -1212,42 +1211,10 @@ if (nombre.personnels.nbi.nontit <- uniqueN(NBI.aux.non.titulaires$Matricule))
       "non titulaire" %s% nombre.personnels.nbi.nontit,
       " percevant une NBI.")
 
-# --- Test n°2  : Prime de fonctions informatiques
-#     Filtre    : filtre expression rationnelle expression.rég.pfi dans Libellé.
-
-Matrice.PFI <- filtrer_Paie("PFI")
-
-personnels.prime.informatique <- Matrice.PFI[, ..colonnes]
-  
-if (nombre.personnels.pfi <- uniqueN(personnels.prime.informatique$Matricule)) {
-  
-  cat("Il existe ", 
-      FR(nombre.personnels.pfi),
-      "agent" %s% nombre.personnels.pfi,
-      " percevant une PFI.")
-}
-
-primes.informatiques.potentielles <- if (nombre.personnels.pfi == 0) "aucune" else unique(personnels.prime.informatique$Libellé)
-
-#'Primes informatiques : `r primes.informatiques.potentielles`
-#'  
-#'&nbsp;*Tableau `r incrément()`*   
-#'    
-
-Tableau(
-  c("Nombre de non tit. bénéficiant de NBI",
-    "Nombre de bénéficiaires de PFI"),
-  nombre.personnels.nbi.nontit,
-  nombre.personnels.pfi)
 
 #'   
 #'[Lien vers la base de données NBI aux non titulaires](Bases/Reglementation/NBI.aux.non.titulaires.csv)   
-#'[Lien vers la base de données Primes informatiques](Bases/Reglementation/personnels.prime.informatique.csv)   
 #'   
-#'**Nota :**   
-#'NBI: nouvelle bonification indiciaire   
-#'PFI: prime de fonctions informatiques   
-#'
 
 # On calcule tout d'abord la somme de points de NBI par matricule et par année
 
@@ -1260,7 +1227,7 @@ T1 <- Bulletins.paie[! is.na(quotité) & quotité > 0, .(nbi.cumul.indiciaire = 
 
 adm <- function(quotité) if (quotité == 0.8)  6/7 else { if (quotité == 0.9)  32/35 else quotité }
 
-T2 <- Matrice.NBI[Type %chin% c("T", "I")
+T2 <- Paie_NBI[Type %chin% c("T", "I")
                   & ! is.na(NBI)
                   & ! is.na(quotité)
                   & quotité > 0
@@ -1268,7 +1235,9 @@ T2 <- Matrice.NBI[Type %chin% c("T", "I")
                       nbi.cumul.montants := sum(Montant / adm(quotité), na.rm=TRUE), 
                            by="Matricule,Année"][nbi.cumul.montants != 0]
 
-T <- merge(T1, T2[, .(nbi.cumul.montants, Matricule, Année, Mois)], by=c("Matricule", "Année"))
+T <- merge(T1, 
+           T2[ , .(Matricule, Année, Mois, nbi.cumul.montants, Catégorie)], 
+           by=c("Matricule", "Année"))
 
 # On somme ensuite par année sur tous les matricules
 
@@ -1282,6 +1251,55 @@ lignes.nbi.anormales <- T[abs(abs(nbi.cumul.montants/nbi.cumul.indiciaire) - val
                             .(Matricule, Année, nbi.cumul.indiciaire, nbi.cumul.montants)]
 
 montants.nbi.anormales <- sum(lignes.nbi.anormales$nbi.cumul.montants, na.rm = TRUE)
+
+#'  
+#'&nbsp;*Tableau `r incrément()` : Rémunérations de NBI globalement anormales*    
+#'    
+
+Tableau(
+  c("Rémunérations de NBI globalement anormales, par agent et par exercice",
+    "Montants correspondants"),
+  nrow(lignes.nbi.anormales),
+  round(montants.nbi.anormales, 1))
+
+#'       
+#'[Lien vers la base de données NBI anormales](Bases/Fiabilite/lignes.nbi.anormales.csv)     
+#'   
+#'**Nota :**   
+#'*Est considéré comme manifestement anormal un total annuel de rémunérations NBI correspondant à un point d'indice net mensuel inférieur à la moyenne de l'année moins 1 euro ou supérieur à cette moyenne plus 1 euro.*    
+#'*Les rappels ne sont pas pris en compte dans les montants versés. Certains écarts peuvent être régularisés en les prenant en compte*     
+#'  
+#'    
+#'&nbsp;*Tableau `r incrément()` : Contrôle global de la liquidation des NBI*    
+#'    
+
+with(cumuls.nbi,
+
+Tableau.vertical2(c("Année", "Cumuls des NBI", "Montants versés (a)", "Point d'INM apparent", "Point d'INM moyen", "Contrôle"), 
+                  Année, 
+                  cumul.annuel.indiciaire,
+                  cumul.annuel.montants,
+                  a <- cumul.annuel.montants/cumul.annuel.indiciaire,
+                  b <- PointMensuelIMMoyen[Année - 2007],
+                  ifelse(abs(b - a) > 0.3, "Rouge", ifelse(abs(b - a) > 0.15, "Orange", "Vert")))
+
+)
+
+#'   
+#'*(a) Hors rappels sur rémunérations*   
+#'  
+
+#'   
+#'[Lien vers la base de données des cumuls annuels de NBI](Bases/Fiabilite/cumuls.nbi.csv)   
+#'   
+
+
+
+# --- Test Proratisation NBI
+
+#'  
+#'&nbsp;*Tableau `r incrément()` : Contrôle de proratisation/liquidation de la NBI*        
+#'  
 
 # Calcul plus exact de liquidation
 
@@ -1300,59 +1318,14 @@ lignes.paie.nbi.anormales.mensuel <- merge(Paie[Type == "T" | Type == "I", .(Mat
                                                 lignes.nbi.anormales.mensuel,
                                                 by=c("Matricule", "Année", "Mois"))
 
-#'  
-#'&nbsp;*Tableau `r incrément()`*   
-#'    
-
-Tableau(
-  c("Rémunérations de NBI globalement anormales, par agent et par exercice",
-    "Montants correspondants"),
-  nrow(lignes.nbi.anormales),
-  formatC(montants.nbi.anormales, big.mark = " ", format="f", digits=0))
-
-rm(T, T1, T2)
-
-#'   
-#'[Lien vers la base de données NBI anormales](Bases/Fiabilite/lignes.nbi.anormales.csv)   
-#'   
-#'**Nota :**   
-#'*Est considéré comme manifestement anormal un total annuel de rémunérations NBI correspondant à un point d'indice net mensuel inférieur à la moyenne de l'année moins 1 euro ou supérieur à cette moyenne plus 1 euro.*    
-#'*Les rappels ne sont pas pris en compte dans les montants versés. Certains écarts peuvent être régularisés en les prenant en compte*     
-#'
-#'  
-#'&nbsp;*Tableau `r incrément()`*   
-#'    
-attach(cumuls.nbi)
-
-Tableau.vertical2(c("Année", "Cumuls des NBI", "Montants versés (a)", "Point d'INM apparent", "Point d'INM moyen", "Contrôle"), 
-                  Année, 
-                  cumul.annuel.indiciaire,
-                  cumul.annuel.montants,
-                  a <- cumul.annuel.montants/cumul.annuel.indiciaire,
-                  b <- PointMensuelIMMoyen[Année - 2007],
-                  ifelse(abs(b - a) > 0.3, "Rouge", ifelse(abs(b - a) > 0.15, "Orange", "Vert")))
-#'
-#'*(a) Hors rappels sur rémunérations*   
-#'
-
-detach(cumuls.nbi)
-
-# --- Test n°3  : Proratisation NBI
-
-#'  
-#'&nbsp;*Tableau `r incrément()`*   
-#'      
-#'**Contrôle de proratisation/liquidation de la NBI**    
-#'  
-
-nb.lignes.anormales.mensuel <- nrow(lignes.nbi.anormales.mensuel)
+nb.lignes.anormales.mensuel    <- nrow(lignes.nbi.anormales.mensuel)
 montants.nbi.anormales.mensuel <- lignes.nbi.anormales.mensuel[, sum(Différence.payé.calculé)]
 
 Tableau(
   c("Différences > 1 euro : nombre de lignes",
     "Coût total des différences"),
   nrow(lignes.nbi.anormales.mensuel),
-  formatC(montants.nbi.anormales.mensuel, big.mark = " ", format="f", digits=0))
+  round(montants.nbi.anormales.mensuel))
 
 #'   
 #'[Lien vers les bulletins anormaux du contrôle de proratisation/liquidation de la NBI](Bases/Fiabilite/lignes.nbi.anormales.mensuel.csv)   
@@ -1361,14 +1334,91 @@ Tableau(
 #'[Lien vers les lignes de paye du contrôle de proratisation/liquidation de la NBI](Bases/Fiabilite/lignes.paie.nbi.anormales.mensuel.csv)   
 #'   
 
+# --- Test Catégorie statutaire et points de NBI
 
-#### 5.2 VACATIONS ####
-#'   
-#'[Lien vers la base de données des cumuls annuels de NBI](Bases/Fiabilite/cumuls.nbi.csv)   
-#'   
+setkey(Bulletins.paie, Catégorie, Matricule, Année, Mois)
+
+NBI.cat <- Bulletins.paie[! is.na(NBI) & NBI > 0, .(Matricule, Année, Mois, Catégorie, NBI, quotité, Emploi, Grade)]
+
+NBI.cat[ , Contrôle := { a <- grepl("d(?:\\.|ir).*\\bg.*\\bs.*", paste(Emploi, Grade), ignore.case = TRUE, perl = TRUE)
+                         b <- grepl("d(?:\\.ir).*\\bg.*\\ba.*", paste(Emploi, Grade), ignore.case = TRUE, perl = TRUE)
+                         ifelse ((NBI > 20 & Catégorie == "C")
+                                 | (NBI > 30 & Catégorie == "B")
+                                 | (NBI > 50 
+                                    & Catégorie == "A" 
+                                    & ! a 
+                                    & ! b)
+                                 | (NBI > 80 & b & !a)
+                                 | (NBI > 120 & a), "Rouge", "Vert")}]
+
+# Si la quotité est inconnue on la suppose égale à 1 (rare) pour l'évaluation du coût
+
+NBI.cat.irreg <- NBI.cat[Contrôle == "Rouge", 
+                             Coût := { a <- adm(quotité)
+                                      (NBI - ifelse(Catégorie == "A", 50, ifelse(Catégorie == "B", 30, 20))) *
+                                            PointIM[Année - 2007, Mois] * ifelse(is.na(a), 1, a)}
+                        ][! is.na(Coût)] 
+  
+nombre.mat.NBI.irrég <- NBI.cat.irreg[ , uniqueN(Matricule)]
+coût.total <- NBI.cat.irreg[ , sum(Coût, na.rm = TRUE)]
 
 #'  
-#'## `r chapitre`.2 Contrôle des vacations horaires pour les fonctionnaires      
+#'&nbsp;*Tableau `r incrément()` : Contrôle d'attribution de NBI par catégorie statutaire*        
+#'  
+
+Tableau(
+  c("Dépassements de NBI",
+    "Coût total des dépassements"),
+  nombre.mat.NBI.irrég,
+  round(coût.total, 1))
+
+#'   
+#'**Nota :**   
+#'Dépassements de NBI : > 50 pour catégorie A; > 30 pour catégorie B; > 20 pour catégorie C.     
+#'Directeurs généraux adjoints : > 80   
+#'Directeurs généraux adjoints : > 120         
+#'  
+
+#'   
+#'[Lien vers les NBI dépassant les seuils par catégorie statutaire](Bases/Reglementation/NBI.cat.irreg.csv)   
+#'   
+
+rm(T, T1, T2, NBI.cat, NBI.cat.irrég)
+
+#### 5.2 PFI ####
+
+# --- Test Prime de fonctions informatiques
+#     Filtre    : filtre expression rationnelle expression.rég.pfi dans Libellé.   
+
+#'  
+#'## `r chapitre`.2 Contrôle de la prime de fonctions informatiques (PFI)   
+
+Matrice.PFI <- filtrer_Paie("PFI")
+
+personnels.prime.informatique <- Matrice.PFI[, ..colonnes]
+  
+if (nombre.personnels.pfi <- uniqueN(personnels.prime.informatique$Matricule)) {
+  
+  cat("Il existe ", 
+      FR(nombre.personnels.pfi),
+      "agent" %s% nombre.personnels.pfi,
+      " percevant une PFI.")
+}
+
+primes.informatiques.potentielles <- if (nombre.personnels.pfi == 0) "aucune" else unique(personnels.prime.informatique$Libellé)
+
+#'Primes informatiques (PFI) : `r primes.informatiques.potentielles`    
+#'  
+
+#'   
+#'[Lien vers la base de données Primes informatiques](Bases/Reglementation/personnels.prime.informatique.csv)   
+#'   
+
+
+
+#### 5.3 VACATIONS ####
+#'  
+#'## `r chapitre`.3 Contrôle des vacations horaires pour les fonctionnaires      
 
 # Vacations et statut de fonctionnaire
 
@@ -1417,10 +1467,10 @@ if (nombre.fonctionnaires.et.vacations > 0) {
 #'[Lien vers les vacations payées à des fonctionnaires](Bases/Reglementation/lignes.fonctionnaires.et.vacations.csv)       
 #'[Lien vers les bulletins de paie correspondants](Bases/Reglementation/Paie_vac_fonct.csv)            
 
-####  5.3 CEV ####  
+####  5.4 CEV ####  
   
 #'
-#'## `r chapitre`.3 Contrôles sur les contractuels effectuant des vacations horaires    
+#'## `r chapitre`.4 Contrôles sur les contractuels effectuant des vacations horaires    
 
 #+ tests-statutaires-vacations-ri
 
@@ -1449,12 +1499,9 @@ if (nombre.fonctionnaires.et.vacations > 0) {
 
   nombre.Lignes.paie.RI.et.vacations           <- nrow(RI.et.vacations)
 
-#'
-#'**Contractuels effectuant des vacations horaires (CEV)**
-#'
 
 #'  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau `r incrément()` : Contractuels effectuant des vacations horaires (CEV)*   
 #'    
   
 if (exists("nombre.contractuels.et.vacations")) {
@@ -1487,12 +1534,9 @@ if (exists("nombre.contractuels.et.vacations")) {
   nombre.SFT_IR.et.vacations     <- nrow(matricules.SFT_IR.et.vacations)
   }, "Les tests sur les CEV et les versements de SFT ou d'IR n'ont pas été réalisés.")
   
-#'
-#'**CEV percevant le supplément familial de traitement ou l'indemnité de résidence**      
-#'
-  
+
 #'  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau `r incrément()` : CEV percevant le supplément familial de traitement ou l'indemnité de résidence*   
 #'    
   
   if (exists("nombre.SFT_IR.et.vacations")) {
@@ -1509,10 +1553,10 @@ if (exists("nombre.contractuels.et.vacations")) {
 #'[Lien vers les bulletins de paye correspondants](Bases/Reglementation/Paie_vac_sft_ir.csv)    
 #'   
   
-#### 5.4 IAT/IFTS ####  
+#### 5.5 IAT/IFTS ####  
   
 #'
-#'## `r chapitre`.4 Contrôle sur les indemnités IAT et IFTS      
+#'## `r chapitre`.5 Contrôle sur les indemnités IAT et IFTS      
 
 #+ IAT-et-IFTS
 
@@ -1575,7 +1619,7 @@ if (! résultat.ifts.manquant && ! résultat.iat.manquant) {
 
 #'
 #'  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau `r incrément()` : Cumul IAT/IFTS*   
 #'      
 if (nombre.agents.cumulant.iat.ifts) {
   if (length(codes.ifts) < 10) {
@@ -1650,9 +1694,8 @@ if (! résultat.ifts.manquant) {
 
 nombre.lignes.ifts.et.contractuel <- nrow(ifts.et.contractuel)
 
-#'
 #'  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau `r incrément()` : IFTS et contractuels*   
 #'    
 
 if (! résultat.ifts.manquant) {
@@ -1667,10 +1710,10 @@ if (! résultat.ifts.manquant) {
 #'IB < 380 : fonctionnaire percevant un indice brut inférieur à 380
 #'
 
-#### 5.5 PFR ####
+#### 5.6 PFR ####
 
 #'
-#'## `r chapitre`.5 Contrôle de la prime de fonctions et de résultats (PFR)   
+#'## `r chapitre`.6 Contrôle de la prime de fonctions et de résultats (PFR)   
 #'   
 
 #+ pfr
@@ -1722,13 +1765,15 @@ if (! résultat.ifts.manquant && ! résultat.pfr.manquant) {
 
 #'
 #'  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau `r incrément()` : Cumul PFR/IFTS*   
 #'      
 if (length(codes.pfr) < 6) {
+  
   Tableau(c("Codes PFR", "Agents cumulant PFR et IFTS"),
           sep.milliers = "",
           paste(unlist(codes.pfr), collapse = " "),
           nombre.agents.cumulant.pfr.ifts)
+  
 } else {
   
   cat("Codes PFR : ", paste(unlist(codes.pfr), collapse = " "), "\n")
@@ -1742,6 +1787,7 @@ if (length(codes.pfr) > 5) {
 
 #'    
 #'[Lien vers la base de données cumuls pfr/ifts](Bases/Reglementation/personnels.pfr.ifts.csv)    
+#'[Lien vers la base de données PFR non cat.A](Bases/Reglementation/PFR.non.catA.csv)   
 #'   
 
 # Attention keyby = et pas seulement by = !
@@ -1783,14 +1829,13 @@ rm(Paie_I)
 # SM/AT 20 100
 
 #'  
-#'&nbsp;*Tableau `r incrément()` : rappel des plafonds annuels de la PFR*   
+#'&nbsp;*Tableau `r incrément()` : Rappel des plafonds annuels de la PFR*   
 #'      
   
 Tableau(c("Adm. général", "Adm. HC", "Adm.", "Direct./Attaché princ.", "Secr. mairie/Attaché"),
         sapply(PFR.plafonds, 
                function(x) formatC(x, format = "fg", big.mark = " ")))
    
-  
 e <- c(expression.rég.admin.g, expression.rég.admin.hc, expression.rég.admin, expression.rég.attaché.p, expression.rég.attaché)
   
 test.PFR <- function(i, grade, cumul) { 
@@ -1834,7 +1879,7 @@ test.PFR <- function(i, grade, cumul) {
   beneficiaires.PFR.Variation <- beneficiaires.PFR.Variation[`Variation (%)` != 0.00]
 
 #'  
-#'&nbsp;*Tableau `r incrément()`* : Valeurs de l'agrégat annuel (PFR ou IFTS) pour les bénéficiaires de la PFR   
+#'&nbsp;*Tableau `r incrément()` : Valeurs de l'agrégat annuel (PFR ou IFTS) pour les bénéficiaires de la PFR*        
 #'          
 
   if (nrow(beneficiaires.PFR)) {
@@ -1848,7 +1893,7 @@ test.PFR <- function(i, grade, cumul) {
   }
   
 #'  
-#'&nbsp;*Tableau `r incrément()`* : Variations de l'agrégat mensuel moyen (PFR ou IFTS) pour les bénéficiaires de la PFR
+#'&nbsp;*Tableau `r incrément()` : Variations de l'agrégat mensuel moyen (PFR ou IFTS) pour les bénéficiaires de la PFR*   
 #'          
   if (nrow(beneficiaires.PFR.Variation)) {
     
@@ -1866,9 +1911,9 @@ test.PFR <- function(i, grade, cumul) {
 #'   
 #'[Références juridiques](Docs/Notices/PFR.pdf)   
   
-#### 5.6 HEURES SUP ####
+#### 5.7 HEURES SUP ####
 #'    
-#'## `r chapitre`.6 Contrôle sur les heures supplémentaires
+#'## `r chapitre`.7 Contrôle sur les heures supplémentaires
 
 # Sont repérées comme heures supplémentaires ou complémentaires les heures dont le libellé obéissent à
 # l'expression régulière expression.rég.heures.sup donnée par le fichier prologue.R
@@ -1969,22 +2014,25 @@ Controle.HS <- Taux.horaires[ , .(Matricule, Année, Mois, Max, Min, IHTS.hors.r
                                      Tot.IHTS = sum(IHTS.hors.rappels + IHTS.rappels, na.rm = TRUE)), by = "Matricule,Année"]
 
 #'  
-#'&nbsp;*Tableau `r incrément()`* : Paiements au-delà des seuils de liquidation pour l'exercice
+#'&nbsp;*Tableau `r incrément()` : Paiements au-delà des seuils de liquidation pour l'exercice*   
 #'    
 
 depassement <- Controle.HS[Tot.IHTS > Tot.Max, uniqueN(Matricule)]
 depassement.agent <- Controle.HS[Tot.IHTS > Tot.Max, .(Matricule, Tot.Max, Tot.IHTS), keyby = Année]
 
 if (depassement) {
+  
   cat("Il y a", depassement, "agent" %+% ifelse(depassement, "s", ""), "qui perçoivent davantage que le maximum d'IHTS pouvant être liquidé au titre de l'exercice.") 
 
-  kable(Controle.HS[Tot.IHTS > Tot.Max,
-                         .(`Coût en euros` = formatC(round(-sum(Tot.Max) + sum(Tot.IHTS)), big.mark = " ", format = "fg"),
-                           `Nombre d'agents` = uniqueN(Matricule)),
-                              keyby=Année],
-        align = "c")
+  Controle.HS <- Controle.HS[Tot.IHTS > Tot.Max,
+                         .(V1 = -sum(Tot.Max) + sum(Tot.IHTS),
+                           V2 = uniqueN(Matricule)),
+                              keyby=Année]
+  with(Controle.HS,
+  
+    Tableau.vertical2(c("Année", "Coût en euros", "Nombre d'agents"),
+                         Année, V1, V2))         
 }
-
 
 #'
 #'[Lien vers la base de données dépassements des seuils de liquidation](Bases/Reglementation/Controle.HS.csv)     
@@ -1992,25 +2040,25 @@ if (depassement) {
 #'[Lien vers la base de données calcul des taux horaires individuels](Bases/Reglementation/Taux.horaires.csv)    
 #'
 
-
-
 #'  
-#'&nbsp;*Tableau `r incrément()`* : : Cumuls d'heures supplémentaires déclarées, liquidées et régularisée de l'année précédente, en heures     
+#'&nbsp;*Tableau `r incrément()` : Cumuls d'heures supplémentaires déclarées, liquidées et régularisée de l'année précédente, en heures*     
 #'    
 
-CumHS <- Bulletins.paie[, .(`Cumul heures sup` = sum(Heures.Sup., na.rm = TRUE)), by = Année]
+CumHS <- Bulletins.paie[, .(V1 = sum(Heures.Sup., na.rm = TRUE)), by = Année]
 
+CumBaseIHTS <- Base.IHTS[indic == TRUE , .(V2 = sum(Base[Type != "R" | (Année.rappel == Année & Mois.rappel < Mois)], na.rm = TRUE),
+                                           V3 = sum(Base[Année.rappel < Année], na.rm = TRUE)), by = Année]
 
+CumHS <- merge(CumHS, CumBaseIHTS, all = TRUE)[, Différence := V1 - V2 - shift(V3, type = "lead", fill = 0)]
 
-CumBaseIHTS <- Base.IHTS[indic == TRUE , .(`Cumul Base IHTS année` = sum(Base[Type != "R" | (Année.rappel == Année & Mois.rappel < Mois)], na.rm = TRUE),
-                                          `Cumul Régul.N-1` = sum(Base[Année.rappel < Année], na.rm = TRUE)), by = Année]
+with(CumHS,
 
-CumHS <- merge(CumHS, CumBaseIHTS, all = TRUE)[, Différence := `Cumul heures sup` - `Cumul Base IHTS année` - shift(`Cumul Régul.N-1`, type = "lead", fill = 0)]
+  Tableau.vertical2(c("Année", "Cumul heures sup", "Cumul Base IHTS année", "Cumul Régul.N-1", "NBI sans base de liquidation"),
+                      Année,    V1,                 V2,                      V3,                Différence)
 
-kable(CumHS, align = "c")
-
+)
 #'
-#'[Lien vers la base des cumuls de nombre d'heures IHTS liquidées](Bases/Reglementation/Cum.HS.csv)     
+#'[Lien vers la base des cumuls de nombre d'heures IHTS liquidées](Bases/Reglementation/CumHS.csv)     
 #'  
 
 Depassement.seuil.180h <- data.table()
@@ -2069,7 +2117,7 @@ message("Heures sup controlées")
 
 #'
 #'  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau `r incrément()` : Heures supplémentaires au-delà des seuils*   
 #'    
 
 Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS cat. A"),
@@ -2085,10 +2133,10 @@ Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS cat. A"),
 #'IHTS cat.A : attribuées à des fonctionnaires ou non-titulaires de catégorie A ou assimilés.     
 #'[Références juridiques en lien ](Docs/IHTS.pdf)   
 
-#### 5.7 ELUS ####
+#### 5.8 ELUS ####
 
 #' 
-#'## `r chapitre`.7 Contrôle sur les indemnités des élus
+#'## `r chapitre`.8 Contrôle sur les indemnités des élus
 #'   
 
 remunerations.elu <- Analyse.remunerations[ indemnités.élu > minimum.positif,
@@ -2137,9 +2185,9 @@ if (générer.table.élus)   {
 #'[Lien vers la base de données Rémunérations des élus](Bases/Reglementation/remunerations.elu.csv)
 #'
 
-#### 5.8 COMPTE DE GESTION ####
+#### 5.9 COMPTE DE GESTION ####
 
-#'## `r chapitre`.8 Lien avec le compte de gestion
+#'## `r chapitre`.9 Lien avec le compte de gestion
  
 
 cumul.lignes.paie <- Paie[Type %chin% c("T", "I", "R", "IR", "S", "A", "AC") , 
@@ -2194,10 +2242,10 @@ rm(L)
 #'*Avertissement : les rappels comprennent également les rappels de cotisations et déductions diverses.*    
 #'   
 
-#### 5.9 SFT ####
+#### 5.10 SFT ####
 
 #'
-#'## `r chapitre`.9 Contrôle du supplément familial de traitement   
+#'## `r chapitre`.10 Contrôle du supplément familial de traitement   
 #'  
 
 ## La biblitothèque SFT est à revoir
@@ -2322,10 +2370,54 @@ message("Analyse du SFT")
 # data.table here overallocates memory hence inefficient !
 # Bulletins.paie[Nb.Enfants > 0 , SFT.controle := sft(Nb.Enfants, Indice, Heures, Année, Mois)]
     
+#### 5.11 ASTREINTES ####
 
+#'
+#'## `r chapitre`.11 Contrôle des astreintes
+#'  
 
+Paie_astreintes <- filtrer_Paie("ASTREINTES", portée = "Mois", indic = TRUE)
 
-   
+libelles.astreintes <- unique(Paie_astreintes[indic == TRUE , .(Code, Libellé)], by = NULL)
+
+Controle_astreintes <- merge(Paie_astreintes[! is.na(NBI) 
+                                             & NBI > 0
+                                             & indic == TRUE,
+                                                  .(Matricule, Année, Mois, NBI, Code, Libellé, quotité, Montant)],
+                              Paie_NBI[,.(Matricule, Année, Mois, Code, Libellé, Montant)],
+                              by = c("Matricule", "Année", "Mois"))  
+
+setnames(Controle_astreintes, c("Code.x", "Libellé.x", "Montant.x"), c("Code.astreinte", "Libellé.astreinte", "Montant.astreinte"))
+setnames(Controle_astreintes, c("Code.y", "Libellé.y", "Montant.y"), c("Code.NBI", "Libellé.NBI", "Montant.NBI"))
+
+nb.agents.NBI.astreintes <- uniqueN(Controle_astreintes$Matricule)
+
+if (nrow(Controle_astreintes)) {
+ cat("Des astreintes sont payées à", nb.agents.NBI.astreintes, "personnels bénéficiaires de NBI")
+}
+
+Cum_astreintes <- rbind(Controle_astreintes[, round(sum(Montant.astreinte), 1),
+                                                  by = "Année"],
+                                            list("Total", Controle_astreintes[, round(sum(Montant.astreinte), 1)]))
+
+#'  
+#'&nbsp;*Tableau `r incrément()` : Cumuls irréguliers NBI et astreintes*   
+#'  
+
+with(Cum_astreintes,
+  
+Tableau.vertical2(c("Année", "Montant astreintes irrégulières (euros)"),
+                  Année, V1)    
+
+)
+
+#'**Nota**    
+#'Vérifier l'adéquation des libellés de paye d'astreinte dans le tableau en lien ci-après.      
+#'    
+#'[Lien vers la base des cumuls astreintes/NBI](Bases/Reglementation/Controle_astreintes.csv)
+#'[Lien vers les libellés et codes astreintes](Bases/Reglementation/libelles.astreintes.csv)     
+#'   
+
 #### ANNEXE ####
 
 newpage()
@@ -2559,17 +2651,20 @@ if (sauvegarder.bases.analyse) {
   sauv.bases(file.path(chemin.dossier.bases, "Reglementation"),
              env = envir,
              "personnels.iat.ifts",
-             "codes.ifts ",
+             "codes.ifts",
              "personnels.pfr.ifts",
              "codes.pfr",
              "HS.sup.25",
              "Controle.HS",
              "depassement.agent",
              "Taux.horaires",
-             "Cum.HS",
+             "CumHS",
              "Depassement.seuil.180h",
              "ifts.et.contractuel",
              "ihts.cat.A",
+             "Controle_astreintes",
+             "libelles.astreintes",
+             "PFR.non.catA",
              "lignes.contractuels.et.vacations",
              "lignes.fonctionnaires.et.vacations",
               "Paie_vac_contr",
@@ -2581,6 +2676,7 @@ if (sauvegarder.bases.analyse) {
              "SFT_IR.et.vacations",
              "matricules.SFT_IR.et.vacations",
              "NBI.aux.non.titulaires",
+             "NBI.cat.irreg",
              "personnels.prime.informatique",
              "personnels.iat.ifts",
              "remunerations.elu",

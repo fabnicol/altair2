@@ -46,11 +46,12 @@ codes.iat  <- NA
 codes.ihts <- NA
 codes.vacataires <-NA
 codes.elus <- NA
+codes.astreintes <- NA
 types.irs  <- c("IR", "S")
 
 controle<-c("","","","")  
 
-codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "IFTS", "IAT", "IHTS", "VAC", "ELUS", "IR_S"),
+codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "IFTS", "IAT", "IHTS", "VAC", "ELUS", "ASTREINTES", "IR_S"),
                     valeur = list(
                                codes.traitement,
                                codes.nbi, 
@@ -61,6 +62,7 @@ codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "IFTS", "IAT", "
                                codes.ihts, 
                                codes.vacataires,
                                codes.elus,
+                               codes.astreintes,
                                types.irs),
                                
                     expression = c(expression.rég.traitement,
@@ -72,6 +74,7 @@ codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "IFTS", "IAT", "
                                    expression.rég.heures.sup, 
                                    expression.rég.vacataires,
                                    expression.rég.élus,
+                                   expression.rég.astreintes,
                                    ""))
 
 setkey(codes, type)
