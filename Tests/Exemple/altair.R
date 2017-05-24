@@ -2184,6 +2184,7 @@ Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS cat. A"),
 #'## `r chapitre`.8 Contrôle sur les indemnités des élus
 #'   
 
+
 remunerations.elu <- Analyse.remunerations[ indemnités.élu > minimum.positif,
                                             c(clé.fusion,
                                               "Année",
@@ -2464,39 +2465,51 @@ Tableau.vertical2(c("Année", "Montant astreintes irrégulières (euros)"),
 #'[Lien vers les libellés et codes astreintes](Bases/Reglementation/libelles.astreintes.csv)     
 #'   
 
-Controle_astreintes_HS <- merge(Paie_astreintes[indic == TRUE,
-                                                  .(Matricule, Année, Mois, Catégorie, Emploi, Grade, NBI, Code, Libellé, quotité, Montant)],
-                              Base.IHTS[indic == TRUE ,.(Matricule, Année, Mois, Code, Libellé, Montant)],
-                              by = c("Matricule", "Année", "Mois"))  
+Controle_astreintes_HS <- merge(Paie_astreintes[Type == "I" | Type == "R",
+                                                  .(Matricule, Année, Mois, Catégorie, Emploi, Grade, NBI, Code, Libellé, Type, quotité, indic, Montant)],
+                                unique(Base.IHTS[ ,.(Matricule, Année, Mois)], by = NULL),
+                                by = c("Matricule", "Année", "Mois"))  
 
-setnames(Controle_astreintes_HS, c("Code.x", "Libellé.x", "Montant.x"), c("Code.astreinte", "Libellé.astreinte", "Montant.astreinte"))
-setnames(Controle_astreintes_HS, c("Code.y", "Libellé.y", "Montant.y"), c("Code.IHTS", "Libellé.IHTS", "Montant.IHTS"))
+Controle_HS_astreintes <- merge(Base.IHTS[Type == "I" | Type == "R",
+                                                .(Matricule, Année, Mois, Code, Libellé, indic)],
+                                unique(Paie_astreintes[ ,.(Matricule, Année, Mois)], by = NULL),
+                                by = c("Matricule", "Année", "Mois"))
 
-nb.agents.IHTS.astreintes <- uniqueN(Controle_astreintes_HS$Matricule)
+setnames(Controle_astreintes_HS, "indic", "Astreinte")
+setnames(Controle_HS_astreintes, "indic", "IHTS")
 
-if (nrow(Controle_astreintes_HS)) {
+Controle_astreintes_HS_irreg <- merge(Controle_astreintes_HS,
+                                      unique(Controle_HS_astreintes[, .(Matricule, Année, Mois, Libellé, Code, IHTS)], by = NULL),
+                                      by=c("Matricule", "Année", "Mois", "Libellé", "Code"))[Astreinte == TRUE | IHTS == TRUE]
+
+nb.agents.IHTS.astreintes <- uniqueN(Controle_astreintes_HS_irreg$Matricule)
+
+if (nrow(Controle_astreintes_HS_irreg)) {
  cat("Des astreintes sont payées à", nb.agents.IHTS.astreintes, "personnels bénéficiaires d'IHTS.")
 }
 
-Cum_astreintes_HS <- rbind(Controle_astreintes_HS[, round(sum(Montant.astreinte), 1),
-                                                  by = "Année"],
-                                                  list("Total", Controle_astreintes_HS[, round(sum(Montant.astreinte), 1)]))
+Cum_astreintes_HS_irreg <- rbind(Controle_astreintes_HS_irreg[, .(round(sum(Montant[Astreinte == TRUE]), 1),
+                                                                  round(sum(Montant[IHTS == TRUE]), 1)),
+                                                                  keyby = "Année"],
+                                list("Total",
+                                     Controle_astreintes_HS_irreg[Astreinte == TRUE, round(sum(Montant), 1)],
+                                     Controle_astreintes_HS_irreg[IHTS == TRUE, round(sum(Montant), 1)]))
 
 #'  
 #'&nbsp;*Tableau `r incrément()` : Cumuls potentiellement irréguliers IHTS et astreintes*   
 #'  
 
-with(Cum_astreintes_HS,
+with(Cum_astreintes_HS_irreg,
   
-Tableau.vertical2(c("Année", "Montant astreintes potentiellement irrégulières (euros)"),
-                  Année, V1)    
+Tableau.vertical2(c("Année", "Montant astreintes potentiellement irrégulières (euros)", "Montant IHTS correspondantes"),
+                  Année, V1, V2)    
 
 )
 
-#'**Nota**     
+#'**Nota**:     
 #'Les cumuls peuvent être réguliers s'il y a eu des interventions non compensées en période d'astreinte.      
-#'[Lien vers la base des cumuls astreintes/IHTS](Bases/Reglementation/Controle_astreintes_HS.csv)   
-#'    
+#'[Lien vers la base des cumuls astreintes/IHTS](Bases/Reglementation/Controle_astreintes_HS_irreg.csv)   
+#'[Lien vers les cumuls annuels](Bases/Reglementation/Cum_astreintes_HS_irreg.csv)   
 
 
 rm(Base.IHTS)
@@ -2517,9 +2530,10 @@ cat("Les non titulaires ne doivent pas cotiser à la CNRACL. ")
 Cotisations.irreg <- Paie[(Type == "D"  | Type == "C") 
                            & Statut != "TITULAIRE" 
                            & Statut != "STAGIAIRE" 
-                           & grepl("C.*N.*R.*A.*C.*L",
+                           & grepl("C\\.?\\s*N\\.?\\s*R\\.?\\s*A\\.?\\s*C\\.?\\s*L",
                                    Libellé,
-                                   ignore.case = TRUE) 
+                                   ignore.case = TRUE,
+                                   perl = TRUE) 
                            & Montant > 0,
                                .(Matricule, Année, Mois, Type, Libellé, Montant)]
 
@@ -2552,9 +2566,9 @@ cat("Les titulaires ne doivent pas cotiser à l'IRCANTEC. ")
 
 Cotisations.irreg.ircantec <- Paie[(Type == "D"  | Type == "C") 
                                    & Statut == "TITULAIRE" 
-                                   & grepl("I.*R.*C.*A.*N.*",
+                                   & grepl("I\\.?\\s*R\\.?\\s*C\\.?\\s*A\\.?\\s*N\\.?\\s*",
                                            Libellé,
-                                           ignore.case = TRUE) 
+                                           ignore.case = TRUE, perl = TRUE) 
                                    & Montant > 0,
                                        .(Matricule, Année, Mois, Type, Libellé, Montant)]
 
@@ -2821,8 +2835,9 @@ if (sauvegarder.bases.analyse) {
              "Depassement.seuil.180h",
              "ifts.et.contractuel",
              "ihts.cat.A",
-             "Controle_astreintes",
-             "Controle_astreintes_HS",
+             "Controle_astreintes.csv",
+             "Controle_astreintes_HS_irreg",
+             "Cum_astreintes_HS_irreg",
              "libelles.astreintes",
              "PFR.non.catA",
              "lignes.contractuels.et.vacations",
