@@ -224,7 +224,7 @@ modalité.autres                <- "AUTRES"         # notamment les remboursemen
 
 expression.rég.traitement     <- "(?:\\s|^)trait.*\\b"
 expression.rég.nbi        <- "(?:\\s|^)nbi|(?:n(?:(?=o)o\\w*|)\\.?\\s*\\b)?b(?:(?=o)o\\w*|)\\.?\\s*\\bi(?:(?=n)nd\\w*|)\\.?\\b"
-expression.rég.astreintes <- "astreinte"
+expression.rég.astreintes <- "astr.*"
 
 # --- Prime de fonctions informatiques
 # Schémas recherchés :
@@ -240,7 +240,7 @@ expression.rég.ifts       <- "(?:^|\\s)ifts|i(?:(?=n)n\\w*|)\\.?\\s*\\bf\\w*\\.
 expression.rég.pfr        <- "(?:^|\\s)pfr|(?:p(?:(?=r)r\\w*|)|i(?:(?=n)n\\w*|))\\.?\\s*\\bfo?\\w*\\.?.*\\s+.*\\br\\w*s\\w*\\.?\\s*\\b"
 
 expression.rég.population <- "\\bASS(\\b|A).*"
-expression.rég.élus       <- "maire|pr[eé]sident|.*([eé]lu[s]?|adj.*maire|v\\w*.*\\s+pr[eé]sident|cons\\w*.*\\s+muni|cons\\w*.*\\s+commun)"
+expression.rég.élus       <- "ind.*[é,e]lu"
 
 expression.rég.attaché    <- "(?:^|\\s)att\\w*\\.?\\b|se\\w*\\.?\\bma\\w*\\.?\\b"
 expression.rég.attaché.p  <- "(?:^|\\s)att\\w*\\.?\\bpr\\w*\\.?\\b|dir\\w*\\.?\\b"
