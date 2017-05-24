@@ -1269,7 +1269,7 @@ montants.nbi.anormales <- sum(lignes.nbi.anormales$nbi.cumul.montants, na.rm = T
 #'    
 
 Tableau(
-  c("Rémunérations de NBI globalement anormales, par agent et par exercice",
+  c("Rémunérations de NBI globalement anormales",
     "Montants correspondants"),
   nrow(lignes.nbi.anormales),
   round(montants.nbi.anormales, 1))
@@ -2061,18 +2061,20 @@ depassement.agent <- Controle.HS[Tot.IHTS > Tot.Max, .(Matricule, Tot.Max, Tot.I
 if (depassement) {
   
   cat("Il y a", depassement, "agent" %+% ifelse(depassement, "s", ""), "qui perçoivent davantage que le maximum d'IHTS pouvant être liquidé au titre de l'exercice.") 
-
+}
   Controle.HS <- Controle.HS[Tot.IHTS > Tot.Max,
                          .(V1 = -sum(Tot.Max) + sum(Tot.IHTS),
                            V2 = uniqueN(Matricule)),
                               keyby=Année]
+},
+"Le tableau des dépassements de coûts n'a pas pu être généré. ")
+
   with(Controle.HS,
   
     Tableau.vertical2(c("Année", "Coût en euros", "Nombre d'agents"),
                          Année, V1, V2))         
-}
-},
-  "Le tableau des dépassements de coûts n'a pas pu être généré. ")
+
+
 
 #'
 #'[Lien vers la base de données dépassements des seuils de liquidation](Bases/Reglementation/Controle.HS.csv)     
@@ -2093,15 +2095,16 @@ essayer(
                            by = Année]
   
   CumHS <- merge(CumHS, CumBaseIHTS, all = TRUE)[, Différence := V1 - V2 - shift(V3, type = "lead", fill = 0)]
-  
+
+},
+"La base des cumuls d'IHTS par année, des régularisations et des IHTS apparemment non liquidées n'a pas pu être générée. ")
+
   with(CumHS,
   
-    Tableau.vertical2(c("Année", "Cumul heures sup", "Cumul Base IHTS année", "Cumul Régul.N-1", "NBI sans base de liquidation"),
+    Tableau.vertical2(c("Année", "Cumul heures sup", "Cumul Base IHTS année", "Cumul Régul.N-1", "heures sup sans base de liquidation IHTS"),
                         Année,    V1,                 V2,                      V3,                Différence)
   
   )
-},
-  "La base des cumuls d'IHTS par année, des régularisations et des NBI apparemment non liquidées n'a pas pu être générée. ")
   
   
 #'
