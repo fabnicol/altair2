@@ -542,9 +542,10 @@ bool Altair::updateProject(bool requestSave)
                  | interfaceStatus::tree;
 
     setCurrentFile(projectName);
-    
+
     if (parent->isDefaultSaveProjectChecked() || requestSave)
         writeProjectFile();
+
     
 # ifndef INSERT_DIRPAGE
            Abstract::initH("base", path_access("Tests/Exemple/Donnees/" AltairDir));
@@ -715,6 +716,7 @@ bool Altair::refreshProjectManager()
                                               | interfaceStatus::treeMask
                                               | interfaceStatus::tabMask
                                               | interfaceStatus::parseXmlMask) ;
+
 
     return (filesize !=  0);
 }
