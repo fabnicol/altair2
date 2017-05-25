@@ -133,7 +133,7 @@ codePage::codePage()
                                "pour la génération des rapports d'analyse.   ");
     appliquerCodes->setCheckable(true);
 
-    QStringList variables = {"traitement", "nbi", "pfi", "pfr", "ifts", "iat", "ihts", "vacataires", "elus"};
+    QStringList variables = {"traitement", "nbi", "pfi", "pfr", "ifts", "iat", "ihts", "vacataires", "astreintes"};
     
     short index = 0;
     
