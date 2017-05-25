@@ -2020,7 +2020,7 @@ essayer(
                               
                             ][ , `Taux horaire` := `Traitement indiciaire annuel et IR` / 1820 
                               
-                            ][ ,  `:=` (`Taux horaire inf.14 H` = `Taux horaire` * 1.07,
+                            ][ ,  `:=` (`Taux horaire inf.14 H` = `Taux horaire` * 1.25,
                                         `Taux horaire sup.14 H` = `Taux horaire` * 1.27,   
                                         `Taux horaire nuit`     = `Taux horaire` * 2,     
                                         `Taux horaire dim. j.f.`= `Taux horaire` * 5/3)  
