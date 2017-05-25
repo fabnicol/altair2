@@ -445,7 +445,7 @@ standardPage::standardPage()
            maxNLigneLineEdit->setDisabled(value);
         });
 
-    connect(FPHCheckBox, SIGNAL(clicked()), this, SLOT(substituer_versant()));
+    connect(FPHCheckBox, SIGNAL(toggled(bool)), this, SLOT(substituer_versant()));
 
     QGroupBox* archBox = new QGroupBox(tr("Archivage et Restauration"));
     QGroupBox* exportBox = new QGroupBox(tr("Exportation"));
@@ -509,6 +509,7 @@ standardPage::standardPage()
    // mainLayout->addSpacing(100);
 
     setLayout(mainLayout);
+    substituer_versant();
 }
 
 
