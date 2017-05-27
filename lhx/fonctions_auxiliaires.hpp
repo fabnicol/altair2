@@ -115,7 +115,7 @@ inline void reset_rank_signal()
 
 inline void GCC_INLINE effacer_char(xmlChar* c)
 {
-    for (int j = 0; *(c + j) != 0; ++j)
+    for (int j = 0; *(c + j) != 0 && *(c + j +1) != 0; ++j)
     {
         *(c + j) = *(c + j + 1);
     }
