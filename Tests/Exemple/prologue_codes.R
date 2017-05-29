@@ -48,7 +48,7 @@ codes.vacataires <-NA
 codes.astreintes <- NA
 types.irs  <- c("IR", "S")
 
-controle<-c("YYY, YYY8.2, YYY11, YYY9, YYY8, YYY10, YYY12","YYY","YYY","BUDGET PRINCIPAL, ASSAINISSEMENT, MULTI BUDGETS")  
+controle<-c("XXX","XXX","XXX","MULTIBUDGET")  
 
 codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "IFTS", "IAT", "IHTS", "VAC", "ASTREINTES", "IR_S"),
                     valeur = list(
