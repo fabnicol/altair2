@@ -943,6 +943,7 @@ void FListFrame::showContextMenu()
             Hash::Suppression[str] = isDeleteAction ;
 
             font.setStrikeOut(isDeleteAction);
+
             item->setFont(font);
             item->setTextColor(isDeleteAction ? "red" : "navy");
         }
@@ -989,7 +990,6 @@ void FListFrame::setStrikeOutFileNames(flags::colors color)
             return;
         }
 
-
         for (int k = 0; k < size_j; ++k)
         {
             QListWidgetItem *item = listWidget->item(k);
@@ -997,13 +997,12 @@ void FListFrame::setStrikeOutFileNames(flags::colors color)
             const QString str = Hash::Reference.at(j).at(k);
 
             bool suppression_partielle = false;
-            bool suppression_totale = true;
+    //        bool suppression_totale = Hash::Suppression[str] ;
 
             if (Hash::Suppression[Hash::Budget[str]]  || Hash::Suppression[Hash::Employeur[str]])
                 Hash::Suppression[str] = true;
 
             // on regarde si une partie du fichier est supprimée (siret/établissement)
-
 
             if (j < size - 3)
             {
@@ -1012,22 +1011,23 @@ void FListFrame::setStrikeOutFileNames(flags::colors color)
                       suppression_partielle  =  Hash::Suppression[Hash::Siret[str].at(l) + " " + Hash::Etablissement[str].at(l)]
                                              ||  suppression_partielle;
 
-                      if (! Hash::Suppression[Hash::Siret[str].at(l) + " " + Hash::Etablissement[str].at(l)]
-                              || Hash::Siret[str].at(l) == "Z"
-                              || Hash::Etablissement[str].at(l) == "Z"
-                              || Hash::Siret[str].at(l) == ""
-                              || Hash::Etablissement[str].at(l) == "")  // anonymes
-                                             suppression_totale = false;
+                    //  if (! Hash::Suppression[Hash::Siret[str].at(l) + " " + Hash::Etablissement[str].at(l)])
+//                              || Hash::Siret[str].at(l) == "Z"
+//                              || Hash::Etablissement[str].at(l) == "Z"
+//                              || Hash::Siret[str].at(l) == ""
+//                              || Hash::Etablissement[str].at(l) == "")  // anonymes
+                                 //            suppression_totale = false;
               }
 
-
                  suppression_partielle =  ! Hash::Suppression[Hash::Budget[str]]  && ! Hash::Suppression[Hash::Employeur[str]] && suppression_partielle;
-                 if (suppression_totale) Hash::Suppression[str] = true;
-                 else
+
+//                 if (suppression_totale)
+//                     Hash::Suppression[str] = true;
+//                 else
+                 if (suppression_partielle)
                      if (! Hash::Suppression[Hash::Budget[str]] && ! Hash::Suppression[Hash::Employeur[str]])
                          Hash::Suppression[str] = false;
             }
-
 
             if (Hash::Suppression[str])
                     {

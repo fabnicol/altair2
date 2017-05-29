@@ -2048,7 +2048,10 @@ essayer(
 },
   "La base des cumuls d'IHTS par matricule et année n'a pas pu être générée. ")
 
-#'  
+#'*Le seuil maximal de liquidation d'IHTS pour l'exercice est déterminé comme égal au nombres d'heures supplémentaires déclarées multipliées par le taux horaire des IHTS de nuit.*    
+#'*Les IHTS retenues sont celles qui ont été liquidées sur une base de liquidation, en paiements directs sur l'exercice ou en rappels.*    
+#'     
+#'     
 #'&nbsp;*Tableau `r incrément()` : Paiements au-delà des seuils de liquidation pour l'exercice*   
 #'    
 
@@ -2072,7 +2075,7 @@ if (depassement) {
   with(Controle.HS,
   
     Tableau.vertical2(c("Année", "Coût en euros", "Nombre d'agents"),
-                         Année, V1, V2))         
+                         Année, digits = 0, V1, V2))         
 
 
 
@@ -2080,9 +2083,16 @@ if (depassement) {
 #'[Lien vers la base de données dépassements des seuils de liquidation](Bases/Reglementation/Controle.HS.csv)     
 #'[Lien vers la base de données dépassements individuels des seuils de liquidation](Bases/Reglementation/depassement.agent.csv)     
 #'[Lien vers la base de données calcul des taux horaires individuels](Bases/Reglementation/Taux.horaires.csv)    
-#'
+#'       
+#'       
 
-#'  
+
+  
+#'*Le cumul des heures supplémentaires déclarées (colonne Heures.Sup. des bases) est, par année, comparé au cumul des bases de liquidation IHTS, pour l'année et en régularisation de l'année antérieure*    
+#'*Le volume d'heures supplémentaires déclarées et non liquidées sous forme d'IHTS peut correspondre à d'autres régimes d'heures supplémentaires (enseignants, élections) ou à des heures supplémentaires non effectuées (différence positive) ou sous-déclarées (différence négative)*   
+#'*Des différences supérieures aux volumes moyens des autres régimes d'heures supplémentaires indiquent une mauvaise fiabilité des déclarations d'heures supplémentaires et/ou des bases de liquidation IHTS*             
+#'           
+#'       
 #'&nbsp;*Tableau `r incrément()` : Cumuls d'heures supplémentaires déclarées, liquidées et régularisée de l'année précédente, en heures*     
 #'    
 
