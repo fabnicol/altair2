@@ -891,9 +891,9 @@ static inline void GCC_INLINE allouer_memoire_table(info_t& info)
 inline void GCC_INLINE normaliser_accents(xmlChar* c)
 {
     /* la représentation interne est UTF-8 donc les caractères accentués sont sur 2 octets : é = 0xc3a8 etc. */
+int i = 0;
 
-
-    while (c != nullptr)
+    while (c != nullptr && *c != 0)  // C++11 : on peut avoir c != nullptr et *c == 0.
     {
 #ifdef CONVERTIR_LATIN_1
             switch (*(c))
@@ -925,7 +925,7 @@ inline void GCC_INLINE normaliser_accents(xmlChar* c)
             }
 
 #else   //UTF-8
-        if (c == nullptr) break;
+
         if (*c == 0xc3)
         {
             if (c + 1 == nullptr) break;
@@ -1106,12 +1106,8 @@ void* parse_info(info_t& info)
 
 #endif
 
-// --- SEGFAULT ICI : à éclaircir d'urgence (début)
-#if 0
         normaliser_accents(em);
         normaliser_accents(gr);
-#endif
-// --- SEGFAULT ICI : à éclaircir d'urgence (fin)
 
         if (regex_match((const char*)em , pat) || regex_match((const char*) VAR(Service), pat))
         {
