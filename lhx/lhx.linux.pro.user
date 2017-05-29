@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.0.3, 2017-05-25T06:47:29. -->
+<!-- Written by QtCreator 4.2.82, 2017-05-27T17:56:14. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -288,7 +288,7 @@
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes">
      <value type="QString">LD_LIBRARY_PATH=/opt/lib64</value>
     </valuelist>
-    <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.Arguments">-m -d &quot;,&quot; -s &quot;;&quot; -E -rank /home/fab/.local/share/Altair/rank -D &quot;/home/fab/Dev/altair/Tests/Exemple/Donnees/R-Altair/&quot; --memshare 80 -j '1' -t -T 1000000 &quot;/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/Ville du PUY EN VELAY-21430157400015-01.xhl&quot; &quot;/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/Ville du PUY EN VELAY-21430157400015-02.xhl&quot; &quot;/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/Ville du PUY EN VELAY-21430157400015-03.xhl&quot; &quot;/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2/2009/Ville du PUY EN VELAY-21430157400015-04.xhl&quot;</value>
+    <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.Arguments">-f /home/fab/Dev/altair/lhx/cl</value>
     <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.Executable">/home/fab/Dev/altair/linux/lhx</value>
     <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.WorkingDirectory">%{buildDir}</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Exécuter /home/fab/Dev/altair/linux/lhx</value>
@@ -310,14 +310,14 @@
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">lhx.linux</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">lhx.linux2</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/jf/Dev/altair/Tests/Exemple/Donnees/entrepot/lhx/lhx.linux.pro</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/fab/Dev/altair/lhx/lhx.linux.pro</value>
     <value type="bool" key="QmakeProjectManager.QmakeRunConfiguration.UseLibrarySearchPath">true</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments"></value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">lhx.linux.pro</value>
     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory"></value>
-    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory.default"></value>
+    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory.default">/home/fab/Dev/altair/lhx.build</value>
     <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
