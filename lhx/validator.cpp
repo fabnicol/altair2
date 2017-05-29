@@ -891,7 +891,7 @@ static inline void GCC_INLINE allouer_memoire_table(info_t& info)
 inline void GCC_INLINE normaliser_accents(xmlChar* c)
 {
     /* la représentation interne est UTF-8 donc les caractères accentués sont sur 2 octets : é = 0xc3a8 etc. */
-int i = 0;
+
 
     while (c != nullptr && *c != 0)  // C++11 : on peut avoir c != nullptr et *c == 0.
     {
