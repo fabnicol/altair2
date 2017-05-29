@@ -478,6 +478,7 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
               // +1 pour éviter la confusion avec \0 des chaines vides
             if ((info.Table[info.NCumAgentXml][l] = (xmlChar*) xmlStrdup(drapeau[t])) == nullptr)
             {
+                LOCK_GUARD
                 if (verbeux) cerr << ERROR_HTML_TAG "Erreur dans l'allocation des drapeaux de catégories." << ENDL;
                 #ifdef STRICT
                    exit(-12);
@@ -555,7 +556,25 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
         {
             if (cur->xmlChildrenNode == nullptr)
             {
-                cerr << ERROR_HTML_TAG "Pas de période de référence pour le rappel" " aux alentours du matricule " << info.Table[info.NCumAgentXml][Matricule] << ENDL;
+                if (verbeux)
+                {
+                    LOCK_GUARD
+                    cerr << WARNING_HTML_TAG "Pas de période de référence pour le rappel" " pour le matricule " << info.Table[info.NCumAgentXml][Matricule] << "Ligne";
+                    long lineN = xmlGetLineNo(cur);
+                    if (lineN != 65535)
+                    {
+                        cerr << " " << lineN << ENDL;
+                    }
+                    else
+                    {
+                        if (info.ligne_debut.size() > info.NCumAgentXml
+                             && info.ligne_fin.size() > info.NCumAgentXml)
+                        {
+                                cerr << "s "  << info.ligne_debut.at(info.NCumAgentXml)[0] + 1
+                                     << " - " << info.ligne_fin.at(info.NCumAgentXml)[0] + 1 << ENDL;
+                        }
+                    }
+                }
                 NA_ASSIGN(l);
                 NA_ASSIGN(++l);
             }
@@ -701,7 +720,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info)
 
     if (cur == nullptr)
     {
-       
+       LOCK_GUARD
         cerr << ERROR_HTML_TAG "L'agent est non identifié pour le fichier : " << info.threads->argv[info.fichier_courant] << ENDL
                << ERROR_HTML_TAG  "Année " << info.Table[info.NCumAgentXml][Annee] << ENDL
                << ERROR_HTML_TAG  "Mois "  << info.Table[info.NCumAgentXml][Mois]  << ENDL;
