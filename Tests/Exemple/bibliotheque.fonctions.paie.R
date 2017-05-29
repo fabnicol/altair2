@@ -450,15 +450,22 @@ Tableau.vertical <- function(colnames, rownames, extra = "", ...)   # extra func
 Tableau.vertical2 <- function(colnames, rownames, ...)
 {
   tmp <- list(...)
+  N <- names(tmp[1])
+  if (!is.null(N) && N == "digits") {
+    digits = tmp[[1]]
+    tmp <- tmp[-1]
+  } else {
+    digits = 1
+  }
   
   res <- try(T <- data.frame(rownames, 
                   lapply(tmp, function(y) formatC(y, 
-                                                          big.mark=" ",
-                                                          width="12",
-                                                          format="f",
-                                                          digits=1,
-                                                          decimal.mark=",",
-                                                          preserve.width="common"))))
+                                                          big.mark = " ",
+                                                          width = "12",
+                                                          format = "f",
+                                                          digits = digits,
+                                                          decimal.mark =",",
+                                                          preserve.width ="common"))))
   if (inherits(res, 'try-error')) return("")
   
   names(T) <- colnames

@@ -43,7 +43,7 @@
 Analyse.remunerations.exercice <- Analyse.remunerations[Année == année]     
 
 
-#'# `r chapitre`. Rémunérations brutes : analyse pour l'exercice `r année`   
+#'# `r chapitre`. Rémunérations brutes : analyse pour l'exercice `r année`      
 #'## `r chapitre`.1 Masse salariale brute de l'ensemble des agents     
   
 masses.personnels <- Analyse.remunerations.exercice[Statut != "ELU",
