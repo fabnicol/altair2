@@ -249,15 +249,20 @@ off_t taille_fichier(const string& filename)
         return pages * page_size;
     }
 
-   #include <sys/sysinfo.h>
-
 
     size_t getFreeSystemMemory()
     {
-        struct sysinfo info;
-        sysinfo( &info );
-        return (size_t)( info.freeram + info.bufferram) * (size_t)info.mem_unit;
-        //info.freeram-info.bufferram
+        FILE *fp;
+        char buf[1024];
+        fp = fopen("/proc/meminfo", "r");
+        for(int i = 0; i < 3; i++) {
+          fgets(buf, 1024, fp);
+        }
+        char *p1 = strchr(buf, ':');
+        char *p2 = strchr(p1, 'k');
+        p1[p2 - p1] = '\0';
+        ++p1;
+        return (size_t)(strtoull(p1, NULL, 10));
     }
 
 

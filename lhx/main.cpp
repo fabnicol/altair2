@@ -826,7 +826,7 @@ int main(int argc, char **argv)
             LOCK_GUARD
             cerr << ENDL STATE_HTML_TAG << "Taille totale des " << count << " fichiers : " << memoire_xhl / 1048576 << " Mo."  ENDL;
             cerr << STATE_HTML_TAG
-                      << "Mémoire disponible " <<  ((memoire_disponible = getFreeSystemMemory()) / 1048576)
+                      << "Mémoire disponible " <<  ((memoire_disponible = getFreeSystemMemory()) / 1024)
                       << " / " << (getTotalSystemMemory()  / 1048576)
                       << " Mo."  ENDL;
                     
@@ -836,7 +836,9 @@ int main(int argc, char **argv)
     /* ajustement représente la part maximum de la mémoire disponible que l'on consacre au processus, compte tenu de la marge sous plafond (overhead) */
 
     unsigned long long memoire_utilisable = floor(ajustement * static_cast<float>(memoire_disponible));
-    cerr << STATE_HTML_TAG  << "Mémoire utilisable " <<  memoire_utilisable / 1048576   << " Mo."  ENDL;
+    cerr << STATE_HTML_TAG  << "Mémoire utilisable " <<  memoire_utilisable / 1024 << " Mo."  ENDL;
+
+    memoire_utilisable *= 1024;
 
     if (nsegments != 0)
     {
