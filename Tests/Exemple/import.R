@@ -237,6 +237,13 @@ Paie[ , Grade := toupper(Grade)]
 
 période                 <- début.période.sous.revue:fin.période.sous.revue
 durée.sous.revue        <- fin.période.sous.revue - début.période.sous.revue + 1
+nb.années <- uniqueN(Bulletins.paie$Année)
+
+if (durée.sous.revue != nb.années) {
+  
+  cat("Les exercices doivent être consécutifs. Or il y a", nb.années, "exercices, dans un intervalle de", durée.sous.revue, "années.")
+  stop("Sélectionner des exercices consécutifs. Fin du programme.")
+}
 
 if (! analyse.statique.totale) {
   
