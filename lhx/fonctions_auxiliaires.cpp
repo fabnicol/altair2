@@ -282,7 +282,7 @@ off_t taille_fichier(const string& filename)
         MEMORYSTATUSEX status;
         status.dwLength = sizeof(status);
         GlobalMemoryStatusEx(&status);
-        return status.ullAvailPhys;
+        return status.ullAvailPhys/1024;
     }
 
 #endif
