@@ -150,6 +150,7 @@ QMAKE_CXXFLAGS += -march=core-avx2 -Wextra
 
 
 INCLUDEPATH += ../Interface/gui /usr/include/libxml2
+
 LIBS = -L/usr/lib/lib64 -L/usr/lib/x86_64-linux-gnu -lxml2 -pthread
 
 
