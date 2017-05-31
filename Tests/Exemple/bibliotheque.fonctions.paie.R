@@ -633,7 +633,6 @@ filtrer_Paie <- function(x, portée = NULL,  Base = Paie, Var = "Code", indic = F
   filtre_ <- filtre(x)
   
   # En i, la variable Var ne peut pas être évaluée mais peut filtrer sur Paie[get(Var)...]
-  # En j, évaluer Var
   # en by, utiliser dans c(...) directement
   
   if (is.null(portée)) {
@@ -667,14 +666,14 @@ filtrer_Paie <- function(x, portée = NULL,  Base = Paie, Var = "Code", indic = F
       
       if (indic) {
         
-        P_  <- Base[ , indic := eval(Var) %chin% filtre_,
+        P_  <- Base[ , indic := get(Var) %chin% filtre_,
                        
                    ][ , indic0 := any(indic),
                             by = c("Matricule", "Année", portée)
                    ][indic0 == TRUE]
       } else {
         
-        P_  <- Base[ , indic0 := any(eval(Var) %chin% filtre_),
+        P_  <- Base[ , indic0 := any(get(Var) %chin% filtre_),
                      by = c("Matricule", "Année", portée)
                  ][indic0 == TRUE]
       }

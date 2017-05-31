@@ -58,7 +58,7 @@ masses.personnels <- Analyse.remunerations.exercice[Statut != "ELU",
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
-
+essayer({
 Tableau.vertical2(c("Agrégats",
                     "k&euro;"),
                   c("Brut annuel (bulletins)",
@@ -71,7 +71,7 @@ Tableau.vertical2(c("Agrégats",
                     masses.personnels$rémunération.indemnitaire.imposable,
                     masses.personnels$acomptes,
                     masses.personnels$rémunération.indemnitaire.imposable/masses.personnels$Montant.brut.annuel * 100))
-
+}, "")
 
 #'  
 #'**Définitions :**
@@ -89,7 +89,7 @@ Tableau.vertical2(c("Agrégats",
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
-
+essayer({
 Tableau.vertical2(c("Agrégats",
                     "k&euro;"),
                   c("Bulletins de paie ",
@@ -99,6 +99,7 @@ Tableau.vertical2(c("Agrégats",
                     masses.personnels$total.lignes.paie,
                     masses.personnels$Montant.brut.annuel -
                       masses.personnels$total.lignes.paie))
+}, "")
 
 #'
 #'à comparer aux soldes des comptes 641 et 648 du compte de gestion.
