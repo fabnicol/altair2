@@ -1603,9 +1603,9 @@ Paie_I <- Paie[Type == "I",
 
 
   
-Paie_IFTS <- filtrer_Paie("IFTS", portée = "Mois", Base = Paie_I, indic = TRUE)
-Paie_IAT  <- filtrer_Paie("IAT", portée = "Mois", Base = Paie_I, indic = TRUE)
-Lignes_IFTS <- Paie_IFTS[indic == TRUE]
+Paie_IFTS <- filtrer_Paie("IFTS", portée = "Mois", Base = Paie_I)
+Paie_IAT  <- filtrer_Paie("IAT", portée = "Mois", Base = Paie_I)
+Lignes_IFTS <- filtrer_Paie("IFTS", Base = Paie_IFTS)
 
 if (is.na(codes.ifts)) {          
  codes.ifts  <- list("codes IFTS" = unique(Lignes_IFTS$Code))
@@ -1622,29 +1622,6 @@ if (is.na(codes.iat)) {
     cat("Il n'a pas été possible d'identifier les IAT par méthode heuristique. Renseigner les codes de paye correspondants dans l'interface graphique. ")
     résultat.iat.manquant <- TRUE
   }
-}
-
-
-Paie_IAT.non.tit <- Paie_IAT[Statut != "TITULAIRE" & Statut != "STAGIAIRE" & indic == TRUE]
-
-if ((N.IAT.non.tit <<- uniqueN(Paie_IAT.non.tit$Matricule)) > 0) {
-  
-  cat(N.IAT.non.tit, "attributaire" %s% N.IAT.non.tit, " de l'IAT sont des non-titulaires. Vérifier l'existence d'une délibération le prévoyant expressément. ")
-  
-} else {
-  
-  cat("Tous les attributaires de l'IAT sont titulaires ou stagiaires. ")
-}
-
-Paie_IAT.irreg <- Paie_IAT[(Statut == "TITULAIRE" | Statut == "STAGIAIRE") & ( Catégorie == "A" | (Catégorie == "B" & Indice > 350)) & indic == TRUE]
-
-if ((N.IAT.irreg <<- uniqueN(Paie_IAT.irreg$Matricule)) > 0) {
-  
-  cat(N.IAT.irreg, "attributaire" %s% N.IAT.irreg, " de l'IAT sont des titulaires non éligibles (cat. A ou B d'IB > 380). ")
-  
-} else {
-  
-  cat("Tous les attributaires de l'IAT titulaires sont de catégorie C ou B d'IB <= 380. ")
 }
 
 nombre.agents.cumulant.iat.ifts <- 0
@@ -1689,13 +1666,10 @@ if (nombre.agents.cumulant.iat.ifts) {
 }
 
 #'   
-#'[Lien vers la base de données iat à des titulaires non éligibles](Bases/Reglementation/Paie_IAT.irreg.csv)         
-#'[Lien vers la base de données iat aux non-titulaires](Bases/Reglementation/Paie_IAT.non.tit.csv)            
-#'[Codes IFTS retenus](Bases/Reglementation/codes.ifts.csv)      
-#'[Lien vers la base de données cumuls iat/ifts](Bases/Reglementation/personnels.iat.ifts.csv)      
-#'     
-#'     
-#'### Contrôle sur les IFTS pour catégories B et non-titulaires      
+#'[Codes IFTS retenus](Bases/Reglementation/codes.ifts.csv)   
+#'[Lien vers la base de données cumuls iat/ifts](Bases/Reglementation/personnels.iat.ifts.csv)    
+#'
+#'### Contrôle sur les IFTS pour catégories B et contractuels
 
 #IFTS et IB >= 380 (IM >= 350)
 #'  
@@ -1743,18 +1717,12 @@ if (! résultat.ifts.manquant) {
 
 nombre.lignes.ifts.et.contractuel <- nrow(ifts.et.contractuel)
 
-if (! résultat.ifts.manquant && nombre.lignes.ifts.et.contractuel > 0) {
- 
-  cat("Les IFTS ne peuvent être attribuées à des non-tituliares que si uen délibration prévoit un tableau d'assimilation. ") 
-}
-
-#'     
-#'    
-#'&nbsp;*Tableau `r incrément()` : IFTS et non-titulaires*     
+#'  
+#'&nbsp;*Tableau `r incrément()` : IFTS et contractuels*   
 #'    
 
 if (! résultat.ifts.manquant) {
-   Tableau(c("Nombre de lignes de paie de non-titulaires percevant des IFTS", 
+   Tableau(c("Nombre de lignes de paie de contractuels percevant des IFTS", 
              "Nombre de lignes IFTS pour IB < 380"),
            nombre.lignes.ifts.et.contractuel,
            nombre.lignes.ifts.anormales)
@@ -1786,36 +1754,23 @@ nombre.agents.cumulant.pfr.ifts <- 0
 Paie_PFR <- filtrer_Paie("PFR", portée = "Mois", Base = Paie_I)
 Lignes_PFR <- filtrer_Paie("PFR", Base = Paie_PFR)
 
-
-PFR.non.tit  <- Paie_PFR[Statut != "TITULAIRE" & Statut != "STAGIAIRE" & indic == TRUE]
 PFR.non.catA <- Paie_PFR[Catégorie != "A"]
-
-if ((N.PFR.non.tit <<- uniqueN(PFR.non.tit$Matricule)) > 0) {
-  
-  cat(N.PFR.non.tit, "attributaire" %s% N.PFR.non.tit, " de la PFR sont des non-titulaires. ")
-  kable(PFR.non.tit, align = 'r', row.names = FALSE)
-  
-} else {
-  
-  cat("Tous les attributaires de la PFR sont titulaires ou stagiaires.")
-}
-
 
 if ((N.PFR.non.catA <<- uniqueN(PFR.non.catA$Matricule)) > 0) {
   
-  cat(N.PFR.non.catA, "attributaires de la PFR ne sont pas identifiés en catégorie A. ")
+  cat(N.PFR.non.catA, "attributaires de la PFR ne sont pas identifiés en catégorie A.")
   kable(PFR.non.catA, align = 'r', row.names = FALSE)
   
 } else {
   
-  cat("Tous les attributaires de la PFR sont identifiés en catégorie A. ")
+  cat("Tous les attributaires de la PFR sont identifiés en catégorie A.")
 }
 
 if (is.na(codes.pfr)) {
    codes.pfr  <- list("codes PFR" = unique(Lignes_PFR$Code))
 
   if (length(codes.pfr) == 0) {
-    cat("Il n'a pas été possible d'identifier la PFR par méthode heuristique. Renseigner les codes de paye correspondants dans l'interface graphique. ")
+    cat("Il n'a pas été possible d'identifier la PFR par méthode heuristique. Renseigner les codes de paye correspondants dans l'interface graphique.")
     résultat.pfr.manquant <- TRUE
   }
 }
@@ -1859,8 +1814,7 @@ if (length(codes.pfr) > 5) {
 
 #'    
 #'[Lien vers la base de données cumuls pfr/ifts](Bases/Reglementation/personnels.pfr.ifts.csv)    
-#'[Lien vers la base de données PFR non cat.A](Bases/Reglementation/PFR.non.catA.csv)      
-#'[Lien vers la base de données PFR non tit](Bases/Reglementation/PFR.non.tit.csv)       
+#'[Lien vers la base de données PFR non cat.A](Bases/Reglementation/PFR.non.catA.csv)   
 #'   
 
 # Attention keyby = et pas seulement by = !
@@ -2044,20 +1998,8 @@ Base.IHTS <- filtrer_Paie("IHTS",
                           indic = TRUE)[ , `:=` (Année.rappel = as.numeric(substr(Début, 0, 4)),
                                                  Mois.rappel  = as.numeric(substr(Début, 6, 7))) ]
 
-Base.IHTS.non.tit <- Base.IHTS[Statut != "TITULAIRE" & Statut != "STAGIAIRE" & indic == TRUE]
-
 essayer(
 {
-  
-  if ((N.IHTS.non.tit <<- uniqueN(Base.IHTS.non.tit$Matricule)) > 0) {
-    
-    cat(N.IHTS.non.tit, "attributaire" %s% N.IHTS.non.tit, " des IHTS sont des non-titulaires. Vérifier l'existence d'une délibération le prévoyant expressément. ")
-
-  } else {
-    
-    cat("Tous les attributaires des IHTS sont titulaires ou stagiaires. ")
-  }
-  
   Taux.horaires <- Base.IHTS[ ,.(`IR` = sum(Montant[Type == "IR"], na.rm = TRUE),
                                   IHTS.hors.rappels = sum(Montant[indic == TRUE 
                                                                   & (Type != "R" | (Année.rappel == Année & Mois.rappel == Mois))],
@@ -2136,11 +2078,12 @@ if (depassement) {
                          Année, digits = 0, V1, V2))         
 
 
-#'     
-#'[Lien vers la base de données des IHTS aux non-titulaires](Bases/Reglementation/Base.IHTS.non.tit.csv)           
+
+#'
 #'[Lien vers la base de données dépassements des seuils de liquidation](Bases/Reglementation/Controle.HS.csv)     
 #'[Lien vers la base de données dépassements individuels des seuils de liquidation](Bases/Reglementation/depassement.agent.csv)     
 #'[Lien vers la base de données calcul des taux horaires individuels](Bases/Reglementation/Taux.horaires.csv)    
+#'       
 #'       
 
 
@@ -2184,35 +2127,32 @@ Dépassement.seuil.220h <- data.table()
 nb.agents.dépassement <- 0
 nb.agents.dépassement.220h <- 0
 
-Depassement.seuil.180h <- Bulletins.paie[ , `Cumul heures sup` := sum(Heures.Sup., na.rm = TRUE),
-                                                      keyby = .(Matricule, Année)
-                                               ][ `Cumul heures sup` > 180, 
-                                                .(Matricule, 
-                                                  Année,
-                                                  `Cumul heures sup`,                        
-                                                  Emploi,
-                                                  Grade,
-                                                  Service)]
+if (VERSANT_FP == "FPH") {
+  Depassement.seuil.180h <- Bulletins.paie[ , `Cumul heures sup` := sum(Heures.Sup., na.rm = TRUE),
+                                                        keyby = .(Matricule, Année)
+                                                 ][ `Cumul heures sup` > 180, 
+                                                  .(Matricule, 
+                                                    Année,
+                                                    `Cumul heures sup`,                        
+                                                    Emploi,
+                                                    Grade,
+                                                    Service)]
 
-nb.agents.dépassement <- uniqueN(Depassement.seuil.180h$Matricule)
+    nb.agents.dépassement <- uniqueN(Depassement.seuil.180h$Matricule)
 
-if  (nb.agents.dépassement)  {
-  if (VERSANT_FP == "FPH") {  
-        cat("Le seuil de 180 heures supplémentaires maximum est dépassé par ", 
-            FR(nb.agents.dépassement), " agents.\n")
-  } 
+    if  (nb.agents.dépassement)  {
   
-  Depassement.seuil.220h <- Depassement.seuil.180h[`Cumul heures sup` > 220]
-  
-  nb.agents.dépassement.220h <- uniqueN(Depassement.seuil.220h$Matricule) 
-  
-  if (VERSANT_FP == "FPH" && nb.agents.dépassement.220h) {  
-     cat(" Le seuil de 220 heures supplémentaires maximum est dépassé par ",
-                                       FR(nb.agents.dépassement.220h), 
-                                       " agents.\n")
-  }
+      cat("Le seuil de 180 heures supplémentaires maximum est dépassé par ", 
+          FR(nb.agents.dépassement), " agents.\n")
+      
+      Dépassement.seuil.220h <- Depassement.seuil.180h[`Cumul heures sup` > 220]
+      nb.agents.dépassement.220h <- uniqueN(Dépassement.seuil.220h$Matricule) 
+      
+      if  (nb.agents.dépassement.220h) cat(" Le seuil de 220 heures supplémentaires maximum est dépassé par ",
+                                           FR(nb.agents.dépassement.220h), 
+                                           " agents.\n") 
+   }
 }
-
 
 seuil.HS <- switch (VERSANT_FP, 
                         FPH = 15,
@@ -2243,8 +2183,7 @@ Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS cat. A"),
 
 #'
 #'[Lien vers la base de données Heures supplémentaires en excès du seuil de 15h (FPH) ou de 25h/mois (FPT)](Bases/Reglementation/HS.sup.25.csv)     
-#'[Lien vers la base de données cumuls en excès des seuils annuels de 180 h (FPH)](Bases/Reglementation/Depassement.seuil.180h.csv)    
-#'[Lien vers la base de données cumuls en excès des seuils annuels de 220 h (FPH)](Bases/Reglementation/Depassement.seuil.220h.csv)   
+#'[Lien vers la base de données cumuls en excès des seuils annuels de 180 et 220 h (FPH)](Bases/Reglementation/Depassement.seuil.180h.csv)    
 #'[Lien vers la base de données IHTS versées à des fonctionnaires de cat. A](Bases/Reglementation/ihts.cat.A.csv)      
 #'
 #'**Nota :**   
@@ -2898,19 +2837,15 @@ if (sauvegarder.bases.analyse) {
   sauv.bases(file.path(chemin.dossier.bases, "Reglementation"),
              env = envir,
              "personnels.iat.ifts",
-             "Paie_IAT.non.tit",
-             "Paie_IAT.irreg",  
              "codes.ifts",
              "personnels.pfr.ifts",
              "codes.pfr",
              "HS.sup.25",
-             "Base.IHTS.non.tit",
              "Controle.HS",
              "depassement.agent",
              "Taux.horaires",
              "CumHS",
              "Depassement.seuil.180h",
-             "Depassement.seuil.220h",
              "ifts.et.contractuel",
              "ihts.cat.A",
              "Controle_astreintes.csv",
@@ -2918,7 +2853,6 @@ if (sauvegarder.bases.analyse) {
              "Cum_astreintes_HS_irreg",
              "libelles.astreintes",
              "PFR.non.catA",
-             "PFR.non.tit",
              "lignes.contractuels.et.vacations",
              "lignes.fonctionnaires.et.vacations",
               "Paie_vac_contr",

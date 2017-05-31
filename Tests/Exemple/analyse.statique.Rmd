@@ -151,6 +151,7 @@ Somme des rémunérations brutes versées aux personnels titulaires et stagiaires :
    
 
 ```{r }
+essayer({
 Tableau.vertical2(c("Agrégats",
                     "k&euro;"),
                   c("Brut annuel (bulletins)",
@@ -163,6 +164,7 @@ Tableau.vertical2(c("Agrégats",
                     masses.fonct[[2]],
                     masses.fonct[[4]],
                     masses.fonct[[2]]/masses.fonct[[1]] * 100))
+}, "")
 ```
 
 
@@ -182,6 +184,7 @@ Somme des rémunérations brutes versées aux personnels (fonctionnaires) :
    
 
 ```{r }
+essayer({
 Tableau.vertical2(c("Agrégats",
                     "k&euro;"),
                   c("Bulletins de paie ",
@@ -191,6 +194,8 @@ Tableau.vertical2(c("Agrégats",
                     masses.fonct[[3]],  # lignes
                     masses.fonct[[1]] -
                       masses.fonct[[3]]))
+
+},"")
 ```
 
 
