@@ -1586,7 +1586,7 @@ if (exists("nombre.contractuels.et.vacations")) {
 résultat.ifts.manquant <- FALSE
 résultat.iat.manquant  <- FALSE
 
-Paie_I <- Paie[Type == "I", 
+Paie_I <- Paie[Type == "I" | Type == "A" | Type == "R", 
                  .(Nom, 
                    Matricule, 
                    Année, 
@@ -2550,22 +2550,14 @@ Tableau.vertical2(c("Année", "Montant astreintes irrégulières (euros)"),
 #'[Lien vers les libellés et codes astreintes](Bases/Reglementation/libelles.astreintes.csv)     
 #'   
 
-Controle_astreintes_HS <- merge(Paie_astreintes[Type == "I" | Type == "R",
-                                                  .(Matricule, Année, Mois, Catégorie, Emploi, Grade, NBI, Code, Libellé, Type, quotité, indic, Montant)],
-                                unique(Base.IHTS[ ,.(Matricule, Année, Mois)], by = NULL),
-                                by = c("Matricule", "Année", "Mois"))  
 
-Controle_HS_astreintes <- merge(Base.IHTS[Type == "I" | Type == "R",
-                                                .(Matricule, Année, Mois, Code, Libellé, indic)],
-                                unique(Paie_astreintes[ ,.(Matricule, Année, Mois)], by = NULL),
-                                by = c("Matricule", "Année", "Mois"))
+setnames(Paie_astreintes, "indic", "indic_astr")
+setnames(Base.IHTS, "indic", "indic_IHTS")
 
-setnames(Controle_astreintes_HS, "indic", "Astreinte")
-setnames(Controle_HS_astreintes, "indic", "IHTS")
-
-Controle_astreintes_HS_irreg <- merge(Controle_astreintes_HS,
-                                      unique(Controle_HS_astreintes[, .(Matricule, Année, Mois, Libellé, Code, IHTS)], by = NULL),
-                                      by=c("Matricule", "Année", "Mois", "Libellé", "Code"))[Astreinte == TRUE | IHTS == TRUE]
+Controle_astreintes_HS_irreg <- merge(Paie_astreintes[ , .(Matricule, Année, Mois, Code, Libellé, Type,  Montant, indic_astr) ], 
+                              Base.IHTS[Type %chin% c("I", "A", "R"), .(Matricule, Année, Mois, Code, Libellé, Type, Montant, indic_IHTS)], 
+                              by=c("Matricule", "Année", "Mois", "Code", "Libellé", "Type", "Montant")
+                              )[indic_IHTS == TRUE | indic_astr == TRUE]
 
 nb.agents.IHTS.astreintes <- uniqueN(Controle_astreintes_HS_irreg$Matricule)
 
@@ -2573,12 +2565,12 @@ if (nrow(Controle_astreintes_HS_irreg)) {
  cat("Des astreintes sont payées à", nb.agents.IHTS.astreintes, "personnels bénéficiaires d'IHTS.")
 }
 
-Cum_astreintes_HS_irreg <- rbind(Controle_astreintes_HS_irreg[, .(round(sum(Montant[Astreinte == TRUE]), 1),
-                                                                  round(sum(Montant[IHTS == TRUE]), 1)),
+Cum_astreintes_HS_irreg <- rbind(Controle_astreintes_HS_irreg[, .(round(sum(Montant[indic_astr == TRUE]), 1),
+                                                                  round(sum(Montant[indic_IHTS == TRUE]), 1)),
                                                                   keyby = "Année"],
                                 list("Total",
-                                     Controle_astreintes_HS_irreg[Astreinte == TRUE, round(sum(Montant), 1)],
-                                     Controle_astreintes_HS_irreg[IHTS == TRUE, round(sum(Montant), 1)]))
+                                     Controle_astreintes_HS_irreg[indic_astr == TRUE, round(sum(Montant), 1)],
+                                     Controle_astreintes_HS_irreg[indic_IHTS == TRUE, round(sum(Montant), 1)]))
 
 #'  
 #'&nbsp;*Tableau `r incrément()` : Cumuls potentiellement irréguliers IHTS et astreintes*   
@@ -2995,4 +2987,8 @@ if (! générer.rapport)
 }
 
 message(getwd())
+
+
+
+
 
