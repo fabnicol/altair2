@@ -1201,7 +1201,7 @@ colonnes <-  c("Matricule",
                "Mois",
                "Montant")
 
-Paie_NBI <- filtrer_Paie("NBI")
+Paie_NBI <- filtrer_Paie("NBI")[Type %chin% c("T", "I", "R")]
 
 NBI.aux.non.titulaires <- Paie_NBI[Statut != "TITULAIRE" & Statut != "STAGIAIRE" & NBI != 0,
                                          c(colonnes, "NBI"),
@@ -1605,7 +1605,7 @@ Paie_I <- Paie[Type == "I",
   
 Paie_IFTS <- filtrer_Paie("IFTS", portée = "Mois", Base = Paie_I, indic = TRUE)
 Paie_IAT  <- filtrer_Paie("IAT", portée = "Mois", Base = Paie_I, indic = TRUE)
-Lignes_IFTS <- Paie_IFTS[indic == TRUE]
+Lignes_IFTS <- Paie_IFTS[indic == TRUE][ , indic := NULL]
 
 if (is.na(codes.ifts)) {          
  codes.ifts  <- list("codes IFTS" = unique(Lignes_IFTS$Code))
@@ -1649,9 +1649,17 @@ if ((N.IAT.irreg <<- uniqueN(Paie_IAT.irreg$Matricule)) > 0) {
 
 nombre.agents.cumulant.iat.ifts <- 0
 
+setnames(Paie_IAT, "indic", "indic_IAT")
+setnames(Paie_IFTS, "indic", "indic_IFTS")
+
 if (! résultat.ifts.manquant && ! résultat.iat.manquant) {
 
-  personnels.iat.ifts <- merge(Paie_IAT, Paie_IFTS)
+  personnels.iat.ifts <- merge(Paie_IAT,
+                               Paie_IFTS)[
+                                 ,.(Nom,	Matricule,	Année,	Mois,	Code,
+                                    Libellé,	Montant,	Type,	Emploi,	Grade,
+                                    Indice,	Statut,	Catégorie, indic_IAT, indic_IFTS)
+                                 ][indic_IAT == TRUE | indic_IFTS == TRUE]
   
   # on exclut les rappels !
   
@@ -1783,12 +1791,11 @@ nombre.agents.cumulant.pfr.ifts <- 0
 # Le cumul de la PR et de l'IFTS est régulier, de même que celui de la PR et de la PFR
 # le cumul de la PFR et de l'IFTS est irrrégulier
 
-Paie_PFR <- filtrer_Paie("PFR", portée = "Mois", Base = Paie_I)
-Lignes_PFR <- filtrer_Paie("PFR", Base = Paie_PFR)
+Paie_PFR <- filtrer_Paie("PFR", portée = "Mois", Base = Paie_I, indic = TRUE)
+Lignes_PFR <- Paie_PFR[indic == TRUE][ , indic := NULL]
 
-
-PFR.non.tit  <- Paie_PFR[Statut != "TITULAIRE" & Statut != "STAGIAIRE" & indic == TRUE]
-PFR.non.catA <- Paie_PFR[Catégorie != "A"]
+PFR.non.tit  <- Lignes_PFR[Statut != "TITULAIRE" & Statut != "STAGIAIRE"]
+PFR.non.catA <- Lignes_PFR[Catégorie != "A"]
 
 if ((N.PFR.non.tit <<- uniqueN(PFR.non.tit$Matricule)) > 0) {
   
@@ -1820,13 +1827,16 @@ if (is.na(codes.pfr)) {
   }
 }
 
+setnames(Paie_PFR, "indic", "indic_PFR")
+
 if (! résultat.ifts.manquant && ! résultat.pfr.manquant) {
   
   # on exclut les rappels !
   
   personnels.pfr.ifts <- merge(Paie_PFR, Paie_IFTS)[ ,.(Nom,	Matricule,	Année,	Mois,	Code,
                                                         Libellé,	Montant,	Type,	Emploi,	Grade,
-                                                        Indice,	Statut,	Catégorie)]
+                                                        Indice,	Statut,	Catégorie, indic_IFTS, indic_PFR)
+                                                   ][indic_PFR == TRUE | indic_IFTS == TRUE]
 
   nombre.mois.cumuls <- uniqueN(personnels.pfr.ifts[ , .(Matricule, Année, Mois)], by = NULL)
   
@@ -1835,8 +1845,8 @@ if (! résultat.ifts.manquant && ! résultat.pfr.manquant) {
   personnels.pfr.ifts <- personnels.pfr.ifts[order(Année, Mois, Matricule)]
 }
 
-#'
-#'  
+#'   
+#'    
 #'&nbsp;*Tableau `r incrément()` : Cumul PFR/IFTS*   
 #'      
 if (length(codes.pfr) < 6) {
@@ -1848,16 +1858,17 @@ if (length(codes.pfr) < 6) {
   
 } else {
   
-  cat("Codes PFR : ", paste(unlist(codes.pfr), collapse = " "), "\n")
+  cat("Codes PFR : ", paste(unlist(codes.pfr), collapse = " "))
   
 }
 
-if (length(codes.pfr) > 5) {
-  Tableau("Agents cumulant PFR et IFTS",
-          nombre.agents.cumulant.pfr.ifts)
-}
+#'     
+#'     
 
-#'    
+cat("Nombre d'agents cumulant PFR et IFTS : ", nombre.agents.cumulant.pfr.ifts)
+
+#'      
+#'      
 #'[Lien vers la base de données cumuls pfr/ifts](Bases/Reglementation/personnels.pfr.ifts.csv)    
 #'[Lien vers la base de données PFR non cat.A](Bases/Reglementation/PFR.non.catA.csv)      
 #'[Lien vers la base de données PFR non tit](Bases/Reglementation/PFR.non.tit.csv)       
@@ -2498,7 +2509,7 @@ message("Analyse du SFT")
 
 Paie_astreintes <- filtrer_Paie("ASTREINTES", portée = "Mois", indic = TRUE)
 
-libelles.astreintes <- unique(Paie_astreintes[indic == TRUE , .(Code, Libellé)], by = NULL)
+libelles.astreintes <- unique(Paie_astreintes[indic == TRUE, .(Code, Libellé)], by = NULL)
 
 Controle_astreintes <- merge(Paie_astreintes[! is.na(NBI) 
                                              & NBI > 0
