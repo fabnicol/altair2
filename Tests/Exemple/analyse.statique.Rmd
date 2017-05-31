@@ -64,6 +64,7 @@ masses.personnels <- Analyse.remunerations.exercice[Statut != "ELU",
    
 
 ```{r }
+essayer({
 Tableau.vertical2(c("Agrégats",
                     "k&euro;"),
                   c("Brut annuel (bulletins)",
@@ -76,6 +77,7 @@ Tableau.vertical2(c("Agrégats",
                     masses.personnels$rémunération.indemnitaire.imposable,
                     masses.personnels$acomptes,
                     masses.personnels$rémunération.indemnitaire.imposable/masses.personnels$Montant.brut.annuel * 100))
+}, "")
 ```
 
  
@@ -95,6 +97,7 @@ Somme des rémunérations brutes versées aux personnels (non élus) :
    
 
 ```{r }
+essayer({
 Tableau.vertical2(c("Agrégats",
                     "k&euro;"),
                   c("Bulletins de paie ",
@@ -104,6 +107,7 @@ Tableau.vertical2(c("Agrégats",
                     masses.personnels$total.lignes.paie,
                     masses.personnels$Montant.brut.annuel -
                       masses.personnels$total.lignes.paie))
+}, "")
 ```
 
 

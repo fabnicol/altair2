@@ -40,7 +40,7 @@
 codes.traitement <- NA
 codes.nbi <- NA
 codes.pfi <- NA
-codes.pfr <- NA
+codes.pfr <- c("0113")
 codes.ifts <- NA
 codes.iat  <- NA
 codes.ihts <- NA
@@ -48,7 +48,7 @@ codes.vacataires <-NA
 codes.astreintes <- NA
 types.irs  <- c("IR", "S")
 
-controle<-c("BAGNERES DE LUCHON","21310042300010","","BUDGET THERMES SAISONNIER")  
+controle<-c("Z","Z","","")  
 
 codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "IFTS", "IAT", "IHTS", "VAC", "ASTREINTES", "IR_S"),
                     valeur = list(
