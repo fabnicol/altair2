@@ -138,7 +138,7 @@ if (nrow(AR) > 0) {
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
-
+essayer({
 Tableau.vertical2(c("Agrégats",
                     "k&euro;"),
                   c("Brut annuel (bulletins)",
@@ -151,6 +151,7 @@ Tableau.vertical2(c("Agrégats",
                     masses.fonct[[2]],
                     masses.fonct[[4]],
                     masses.fonct[[2]]/masses.fonct[[1]] * 100))
+}, "")
 
 #'
 #'**Définitions :**
@@ -167,7 +168,7 @@ Tableau.vertical2(c("Agrégats",
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
-
+essayer({
 Tableau.vertical2(c("Agrégats",
                     "k&euro;"),
                   c("Bulletins de paie ",
@@ -178,6 +179,7 @@ Tableau.vertical2(c("Agrégats",
                     masses.fonct[[1]] -
                       masses.fonct[[3]]))
 
+},"")
 
 #'
 #'A comparer aux soldes des comptes 6411, 6419 et 648 du compte de gestion.

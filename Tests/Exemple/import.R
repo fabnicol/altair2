@@ -530,20 +530,20 @@ if (redresser.heures) {
                                                 & Heures > minimum.positif], na.rm = TRUE),
                  by="Sexe,Emploi"]
   
-  B <- Bulletins.paie[pop_calcul_médiane <= population_minimale_calcul_médiane 
-                 | Filtre_actif == FALSE | is.na(Filtre_actif) | is.na(pop_calcul_médiane), 
-                 .(Sexe, Statut)]
-                              
-  défaut_médiane <- function(X, Y)  {
-    
-    r <- M[Sexe == X
-            & Statut == Y,
-               Médiane_Sexe_Statut]
-    if (length(r) > 0) r[1] else 0
-  }
-  
-  
-  B[ , MHeures := défaut_médiane(Sexe, Statut), by = 1:NROW(B)] 
+  # B <- Bulletins.paie[pop_calcul_médiane <= population_minimale_calcul_médiane 
+  #                | Filtre_actif == FALSE | is.na(Filtre_actif) | is.na(pop_calcul_médiane), 
+  #                .(Sexe, Statut)]
+  #                             
+  # défaut_médiane <- function(X, Y)  {
+  #   
+  #   r <- M[Sexe == X
+  #           & Statut == Y,
+  #              Médiane_Sexe_Statut]
+  #   if (length(r) > 0) r[1] else 0
+  # }
+  # 
+  # 
+  # B[ , MHeures := défaut_médiane(Sexe, Statut), by = 1:NROW(B)] 
   # ou: B[, MHeures := mapply(défaut_médiane, B[["Sexe"]], B[["Statut"]], SIMPLIFY=TRUE, USE.NAMES=FALSE)]
   
   
