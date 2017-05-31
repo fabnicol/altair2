@@ -40,15 +40,15 @@
 codes.traitement <- NA
 codes.nbi <- NA
 codes.pfi <- NA
-codes.pfr <- c("0113","542N","571N","557N","557R","571N","571R")
-codes.ifts <- c("500N","541N","524N","558N","563N","170","527N","517N","515N","558A","558R","110","114","156","525","564","526N","561N","522N","560N","560A","562N","567N","573N","573R")
-codes.iat <- c("130","513N","508N","154","781N","781A","781R","509N","507N","513V")
+codes.pfr <- NA
+codes.ifts <- NA
+codes.iat  <- NA
 codes.ihts <- NA
 codes.vacataires <-NA
 codes.astreintes <- NA
 types.irs  <- c("IR", "S")
 
-controle<-c("SERVICE DEPARTEMENTAL INCENDIE SECOURS, SDIS","28310001400028","SERVICE DEPART.INC.SECOURS 31. - AUTRES","61BUDGET ANNEXE FORMATION, BUDGET PRINCIPAL")  
+controle<-c("Z","Z","Z","BUDGET PRINCIPAL")  
 
 codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "IFTS", "IAT", "IHTS", "VAC", "ASTREINTES", "IR_S"),
                     valeur = list(
