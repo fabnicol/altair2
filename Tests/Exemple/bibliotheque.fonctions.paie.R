@@ -654,12 +654,12 @@ filtrer_Paie <- function(x, portée = NULL,  Base = Paie, Var = "Code", indic = F
         
         P_  <- Base[ , indic := grepl(filtre_, Libellé, ignore.case=TRUE, perl=TRUE)
                    ][ , indic0 := any(indic),
-                           by = c("Matricule", "Année", portée)][indic0 == TRUE]
+                           by = c("Matricule", "Année", portée)][indic0 == TRUE][, indic0 := NULL]
       } else {
         
         P_  <- Base[ , indic0 := any(grepl(filtre_, Libellé, ignore.case=TRUE, perl=TRUE)),
                      by = c("Matricule", "Année", portée)
-                   ][indic0 == TRUE]
+                   ][indic0 == TRUE][, indic0 := NULL]
       }
 
     } else {
@@ -670,16 +670,16 @@ filtrer_Paie <- function(x, portée = NULL,  Base = Paie, Var = "Code", indic = F
                        
                    ][ , indic0 := any(indic),
                             by = c("Matricule", "Année", portée)
-                   ][indic0 == TRUE]
+                   ][indic0 == TRUE][, indic0 := NULL]
       } else {
         
         P_  <- Base[ , indic0 := any(get(Var) %chin% filtre_),
                      by = c("Matricule", "Année", portée)
-                 ][indic0 == TRUE]
+                 ][indic0 == TRUE][, indic0 := NULL]
       }
     }
     
-    P_ <- P_[ , indic0 := NULL]  
+    
     
   }
   
