@@ -432,13 +432,13 @@ if (redresser.heures) {
 } else {
   
   # on présume alors que les traitements sont correctement liquidés... il faudrait mettre un drapeau sur cette présomption  
-  system.time(
+
     Paie[ , indic := (Heures == 0 | is.na(Heures))
                & Indice != "" & !is.na(Indice) 
                & Statut != "ELU" & Grade != "V" & Grade!= "A"
                & Temps.de.travail != 0 & !is.na(Temps.de.travail)
                & Type == "T" & Montant > 0
-               & grepl(".*salaire|trait.*", Libellé, perl=TRUE, ignore.case=TRUE)])
+               & grepl(".*salaire|trait.*", Libellé, perl=TRUE, ignore.case=TRUE)]
     
   # attention ifelse pas if...else
   # La recherche binaire est 20 fois plus rapide que la recherche vscan (gain de 4s par million de lignes sur corei3)
@@ -591,6 +591,10 @@ if (redresser.heures) {
   
   message("Indicatrice RMPP calculée")
   
+  # Housecleaning
+  
+  Bulletins.paie[ , indic := NULL]
+  
   Paie <- merge(unique(Bulletins.paie[ , .(Matricule, 
                                            Année,
                                            Mois,
@@ -612,7 +616,7 @@ if (redresser.heures) {
                                            indicatrice.quotité.pp,
                                            permanent)], by = NULL),
                 Paie, 
-                by=c("Matricule","Année","Mois","Service", "Statut"))
+                by=c("Matricule","Année","Mois","Service", "Statut"))[, indic := NULL]
   
   matricules <- unique(Bulletins.paie[ , .(Année, Nom, Prénom, Matricule, Catégorie, Grade, Emploi)], by = NULL)
   
