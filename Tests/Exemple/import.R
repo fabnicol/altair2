@@ -37,8 +37,8 @@
 # 
 # 
 
-library(knitr)
-library(ggplot2)
+library(knitr, warn.conflicts = FALSE)
+library(ggplot2, warn.conflicts = FALSE)
 
 ## Pour les versions de data.table < 1.9.5 
 ##  if (séparateur.décimal.entrée != ".")
@@ -362,8 +362,12 @@ if (redresser.heures) {
              Paie[(Heures == 0 | is.na(Heures))
               & Indice != 0 & !is.na(Indice)
               & Statut != "ELU" & Grade != "V" & Grade!= "A"
-              & Temps.de.travail != 0 & !is.na(Temps.de.travail), `:=`(indic = TRUE,
-                                                                        Heures = round(Temps.de.travail * nb.heures.temps.complet / 100, 1))]
+              & Temps.de.travail != 0 & !is.na(Temps.de.travail), indic := TRUE]
+             
+             # "plonking"
+             
+             Paie[indic == TRUE , Heures := round(Temps.de.travail * nb.heures.temps.complet / 100, 1)]
+             
              #, times=1)
         
            } else {
@@ -424,8 +428,11 @@ if (redresser.heures) {
                      & Indice != "" & !is.na(Indice) 
                      & Statut != "ELU" & Grade != "V" & Grade!= "A"
                      & Temps.de.travail != 0 & !is.na(Temps.de.travail), 
-                     `:=`(indic = TRUE, 
-                          Heures = round(Temps.de.travail * nb.heures.temps.complet / 100, 1))]
+                     indic := TRUE]
+      
+      # plonking
+      
+      Bulletins.paie[indic == TRUE , Heures := round(Temps.de.travail * nb.heures.temps.complet / 100, 1)][]
       
       message("Correction (méthode 1), compte tenu des temps complets vérifiés, sur ", nredressements <<- nrow(Bulletins.paie[indic == TRUE]), " bulletins de paie")
       
@@ -632,3 +639,7 @@ if (redresser.heures) {
      VERSANT_FP <<-  if (grepl("AG.*HOSP", grades.categories$Grade, ignore.case = TRUE)) "FPH" else "FPT"
   
   
+
+  
+
+
