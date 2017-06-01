@@ -115,7 +115,7 @@ filtre.fonctionnaire <<- function (X) X[ !is.na(X)  & X > minimum.positif ]
 AR <- Analyse.remunerations.exercice[Statut == "TITULAIRE" | Statut == "STAGIAIRE", 
                                      ..colonnes.sélectionnées]
 
-attach(AR)
+attach(AR, warn.conflicts = FALSE)
 source("histogrammes.R", encoding = encodage.code.source)
 
 detach(AR)

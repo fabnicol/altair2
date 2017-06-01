@@ -38,7 +38,7 @@
 encodage.code.source <- "ISO-8859-1"
 initwd <- getwd()
 setOSWindows  <- Sys.info()["sysname"] != "Linux"
-
+currentDir <- initwd
 # On doit désactiver les sauts de page PDF ou alors filtrer les \newpage par le hack pour produire les docx
 
 PDF <<- FALSE
