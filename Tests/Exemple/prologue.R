@@ -46,7 +46,10 @@
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
 
 
-racine                         <- ifelse(setOSWindows, "R-Altaïr/", "R-Altair")
+
+setOSWindows                <- Sys.info()["sysname"] != "Linux"
+racine                      <- ifelse(setOSWindows, "R-Altaïr/", "R-Altair")
+
 
 # Toujours utiliser FALSE ou TRUE en plein lettres en raison de l'éloignement avec <- (bug de l'interpréteur pour T et F)
 
@@ -137,11 +140,10 @@ nom.bulletins               <- "Bulletins"
 # Attention, si l'on lance la génération de document pour la première fois sans répertoire Bases existant, on aura un write error.
 # pour les applications à ergonomie facilitée, prévoir de distribuer le logiciel avec un dossier Bases déjà généré.
 
-chemin.dossier              <- getwd()
+chemin.dossier              <- file.path(currentDir, "Tests/Exemple")
 chemin.clé                  <- file.path(chemin.dossier, "Donnees", racine)
 chemin.dossier.bases        <- file.path(chemin.clé, "Bases")
 chemin.dossier.outils       <- file.path(chemin.clé, "..", "..", "Outils")
-chemin.dossier.lib          <- file.path(chemin.clé, "..", "..", "lib")
 chemin.dossier.données      <- file.path(chemin.clé, "Donnees")
 
 # Outils

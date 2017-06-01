@@ -97,7 +97,7 @@ Analyse.remunerations <- Paie[ , .(Nir          = Nir[1],
 # Alternative classique mais moins rapide (en cas de problème avec data.table) :
 
 if (0) {
-attach(Analyse.remunerations)
+attach(Analyse.remunerations, warn.conflicts = FALSE)
   
   # <!--   
   

@@ -62,8 +62,8 @@
 
 #+ début
 
-library(compiler)
-library(data.table)
+library(compiler, warn.conflicts = FALSE)
+library(data.table, warn.conflicts = FALSE)
 invisible(setCompilerOptions(suppressAll = TRUE, optimize = 3))
 invisible(enableJIT(3))
 
@@ -87,6 +87,7 @@ if (corriger.environnement.système) {
 }
 
 source("bibliotheque.fonctions.paie.R", encoding = encodage.code.source)
+
 source("import.R", encoding = encodage.code.source)
 
 #'
@@ -125,7 +126,7 @@ message("Démographie...")
 
 # Rappel Analyse.variations.par.exercice comprend uniquement les actifs non annexes non assist. mat., non vacataires, non élus.
 
-library(altair)
+library(altair, warn.conflicts = FALSE)
 tableau.effectifs <- effectifs(période, Bulletins.paie, Analyse.remunerations, Analyse.variations)
 
 #'  
@@ -494,7 +495,7 @@ Analyse.variations <- Analyse.variations[nb.jours > seuil.troncature
                                                & Montant.net.annuel.eqtp  > minimum.positif 
                                                & ! is.na(Statut)] 
 
-attach(Analyse.variations)
+attach(Analyse.variations, warn.conflicts = FALSE)
 
 temp <- positive(moyenne.rémunération.annuelle.sur.période) / 1000
 
@@ -1320,7 +1321,7 @@ lignes.nbi.anormales.mensuel <- data.table()
 
 essayer(
 {  
-  lignes.nbi.anormales.mensuel <- T2[ , .(Montant.NBI.calculé = NBI * adm(quotité) * PointMensuelIM[Année - 2007, Mois],
+  lignes.nbi.anormales.mensuel <- T2[ , .(Montant.NBI.calculé = NBI[1] * adm(quotité[1]) * PointMensuelIM[Année - 2007, Mois],
                                           Montant.NBI.payé = sum(Montant, na.rm = TRUE)), 
                                              keyby="Matricule,Année,Mois"
                                        ][ , Différence.payé.calculé := Montant.NBI.payé - Montant.NBI.calculé
@@ -2388,7 +2389,7 @@ if (! utiliser.cplusplus.sft)
    
 } else {
   
-  library(sft)
+  library(sft, warn.conflicts = FALSE)
   sft <- function(Nb.Enfants,
                   Indice,
                   Echelon,
@@ -2975,20 +2976,24 @@ if (sauvegarder.bases.origine)
              "Bulletins.paie")
 
 
-if (! générer.rapport)
-{
+if (! générer.rapport) {
   if (setOSWindows) {
     system(paste("xcopy /E /Y /I Docs Donnees\\R-Altaïr\\Docs"))
   } else  { 
-    system(paste("cp -rf Docs", file.path(chemin.clé,"Docs")))
+    
+    chemin.dossier.docs <- file.path(chemin.clé, "Docs")
+    
+    if (! dir.exists(chemin.dossier.docs)) {
+       dir.create(chemin.dossier.docs, recursive = TRUE, mode="0777")
+    }
+    
+    system(paste0("cp -rf Docs \"", chemin.dossier.docs,"\""))
   }
   
   setwd(currentDir)
 }
 
 message(getwd())
-
-
 
 
 
