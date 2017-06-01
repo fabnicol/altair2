@@ -62,8 +62,8 @@
 
 #+ début
 
-library(compiler)
-library(data.table)
+library(compiler, warn.conflicts = FALSE)
+library(data.table, warn.conflicts = FALSE)
 invisible(setCompilerOptions(suppressAll = TRUE, optimize = 3))
 invisible(enableJIT(3))
 
@@ -125,7 +125,7 @@ message("Démographie...")
 
 # Rappel Analyse.variations.par.exercice comprend uniquement les actifs non annexes non assist. mat., non vacataires, non élus.
 
-library(altair)
+library(altair, warn.conflicts = FALSE)
 tableau.effectifs <- effectifs(période, Bulletins.paie, Analyse.remunerations, Analyse.variations)
 
 #'  
@@ -494,7 +494,7 @@ Analyse.variations <- Analyse.variations[nb.jours > seuil.troncature
                                                & Montant.net.annuel.eqtp  > minimum.positif 
                                                & ! is.na(Statut)] 
 
-attach(Analyse.variations)
+attach(Analyse.variations, warn.conflicts = FALSE)
 
 temp <- positive(moyenne.rémunération.annuelle.sur.période) / 1000
 
@@ -1289,7 +1289,7 @@ rm(T, T1, T2)
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
-attach(cumuls.nbi)
+attach(cumuls.nbi, warn.conflicts = FALSE)
 
 Tableau.vertical2(c("Année", "Cumuls des NBI", "Montants versés (a)", "Point d'INM apparent", "Point d'INM moyen", "Contrôle"), 
                   Année, 
@@ -2007,7 +2007,7 @@ if (! utiliser.cplusplus.sft)
    
 } else {
   
-  library(sft)
+  library(sft, warn.conflicts = FALSE)
   sft <- function(Nb.Enfants,
                   Indice,
                   Echelon,

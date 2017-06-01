@@ -48,7 +48,7 @@ codes.vacataires <-NA
 codes.astreintes <- NA
 types.irs  <- c("IR", "S")
 
-controle<-c("Z","Z","Z","BUDGET PRINCIPAL")  
+controle<-c("XXX, C.A DU PUY EN VELAY, COMMUNAUTE D AGGLOMERATION DU PUY-EN-VELAY","XXX - 24430001800037 - 24430001800102","XXX - COMMUNAUTE D AGGLOMERATION - GOLF - ABATTOIRS COMMUNAUTAIRE - GOLF DU PUY-EN-VELAY - ABATTOIR COMMUNAUTAIRE","MULTIBUDGET")  
 
 codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "IFTS", "IAT", "IHTS", "VAC", "ASTREINTES", "IR_S"),
                     valeur = list(

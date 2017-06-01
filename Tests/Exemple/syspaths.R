@@ -37,7 +37,7 @@
 # 
 # 
 # 
-setOSWindows            <- Sys.info()["sysname"] != "Linux"
+
 current <- getwd()
 if (setOSWindows) {
    if (basename(current) == "Exemple") 
