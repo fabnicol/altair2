@@ -40,7 +40,7 @@
 
 PDF <- TRUE
 
-source("rendre.R", encoding = encodage.code.source)
+source("rendre.R", encoding = "ISO-8859-1")
 
 rendre(to = "latex",
        args=c("-V", 

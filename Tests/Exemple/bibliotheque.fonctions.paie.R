@@ -392,8 +392,8 @@ Tableau.vertical <- function(colnames, rownames, extra = "", ...)   # extra func
     
     g <- function(f) {
         S <- rep("", lr)
-    
-        S[ceiling(lr/2)] <- as.character(prettyNum((h(f(rownames[lr]))/h(f(rownames[1])) - 1) * 100, digits = 3))
+        a <- as.character(prettyNum((h(f(rownames[lr]))/h(f(rownames[1])) - 1) * 100, digits = 3))
+        if  (length(a) > 0)  S[ceiling(lr/2)] <- a else S[ceiling(lr/2)] <- ""
     
         S
     }
