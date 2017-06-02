@@ -71,7 +71,7 @@ echo "****"
 echo "* Actualisation de jf..."
 echo "****"
   
-for i in altair.linux sft Docs Interface_linux linux "*.txt"  "*.R"  "*.sh"  "*.desktop" VERSION LICENCE "*.ico"  "*.bmp"  "*.png"  postinstall.sh altaïr.Rproj Tests
+for i in altair.linux sft Docs Interface_linux linux *.txt  *.R  *.sh  *.desktop VERSION LICENCE *.ico  *.bmp  *.png  postinstall.sh altaïr.Rproj Tests
 do
 sudo cp -rvf "/home/fab/Dev/altair/$i" /home/jf/Dev/altair
 sudo chown -R jf "/home/jf/Dev/altair/$i"
