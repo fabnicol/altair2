@@ -127,6 +127,12 @@ if test -f install.packages -a ! -f packages.installed; then
   sleep 2
 fi  
 
+# patch temporaire
+
+cp -f /home/fab/Dev/altair/prologue_rapport.R /home/jf/Dev/altair
+chown jf /home/jf/Dev/altair/prologue_rapport.R
+chgrp users /home/jf/Dev/altair/prologue_rapport.R
+chmod +rwx /home/jf/Dev/altair/prologue_rapport.R
 
 # création du dossier Bulletins sous jf
 
