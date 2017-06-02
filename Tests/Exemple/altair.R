@@ -61,21 +61,26 @@
 # Lorsque l'on n'étudie pas une base Xémélios, mettre étudier.tests.statutaires à FALSE
 
 #+ début
+  chemin.clé <- get("chemin.cle", envir = e)
+  chemin.dossier.bases        <- file.path(chemin.clé, "Bases")
+  chemin.dossier.outils       <- file.path(chemin.clé, "..", "..", "Outils")
+  chemin.dossier.données      <- file.path(chemin.clé, "Donnees")
+chemin.dossier              <- file.path(currentDir, "Tests/Exemple")
 
+  
 library(compiler, warn.conflicts = FALSE)
 library(data.table, warn.conflicts = FALSE)
 invisible(setCompilerOptions(suppressAll = TRUE, optimize = 3))
-invisible(enableJIT(3))
+invisible(enableJIT(0))
 
 options(warn = -1, verbose = FALSE, OutDec = ",", datatable.verbose = FALSE, datatable.integer64 = "numeric")
 
 encodage.code.source <- "ISO-8859-1"
 currentDir           <- getwd()
 générer.rapport      <<- ! grepl("altair|entrepot", basename(currentDir), ignore.case = TRUE) 
-
 # dans cet ordre
-
-try(setwd("Tests/Exemple"), silent = TRUE)
+if (! générer.rapport)
+   try(setwd("Tests/Exemple"), silent = TRUE)
 
 source("syspaths.R", encoding = encodage.code.source)
 source("prologue.R", encoding = "UTF-8")
