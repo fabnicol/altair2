@@ -51,7 +51,7 @@ rendre <- function(fw = fig.width,
           rm(list = ls(), envir = globalenv())
           render_env <- new.env(parent = globalenv())
           
-          render("altair.R",
+          render("altair_start.R",
                  encoding = "UTF-8",
                  output_format = output_format(knitr_options(opts_chunk = list(fig.width = fw, 
                                                                                fig.height = fh,
@@ -105,7 +105,7 @@ hack_md <- function() {
 ## fin de hack ##
 
 ## Les deux fonctions sont appelées successivement ce qui permet d'identifier V
-## Le hack est encore pire que le rpécédent puisqu'il n'est justifié que pour Office Writer et en raison d'un bug 
+## Le hack est encore pire que le précédent puisqu'il n'est justifié que pour Office Writer et en raison d'un bug 
 ## de celui ci relatif à la résolution des chemins ! Autant dire qu'il faudra surveiller l'évolution du problème
 
 ajuster_chemins_odt <- function(V) {
