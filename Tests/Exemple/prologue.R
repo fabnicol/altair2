@@ -230,6 +230,11 @@ expression.rég.traitement     <- "(?:\\s|^)trait.*\\b"
 expression.rég.nbi        <- "(?:\\s|^)nbi|(?:n(?:(?=o)o\\w*|)\\.?\\s*\\b)?b(?:(?=o)o\\w*|)\\.?\\s*\\bi(?:(?=n)nd\\w*|)\\.?\\b"
 expression.rég.astreintes <- "astr.*"
 
+# FPH
+
+expression.rég.pspec <- "pr.*\\b\\s*\\bsp..?ci.*"
+
+
 # --- Prime de fonctions informatiques
 # Schémas recherchés :
 #    pfi, p.f.i., p(r*).? *f(o*).? *inf(o*).?, i(nd*).? *f(o*).? *inf(o*).?
