@@ -2669,6 +2669,25 @@ Tableau(c("Cotisations salarié", "Cotisations employeur"),
 #'[Lien vers la base des cotisations irrégulières](Bases/Reglementation/Cotisations.irreg.ircantec.csv)   
 #'   
 
+#### 5.13 PRIMES FPH ####     
+
+#'   
+#'## `r chapitre`.13 Primes de la fonction publique hospitalière          
+#'  
+
+Paie_pspec <- filtrer_Paie("PRIME SPECIFIQUE")
+
+#'**Prime spécifique**   
+#'Il y a `r nb.agents.pspec` agents non-titulaires qui perçoivent la prime spécifique.    
+
+
+
+#'**Prime de technicité**   
+
+#'**Indemnité forfaitaire et tchnique**   
+
+
+
 #### ANNEXE ####
 
 newpage()
