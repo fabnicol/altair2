@@ -136,8 +136,7 @@ codePage::codePage()
     QStringList variables = {"traitement", "nbi", "pfi",
                              "pfr", "ifts", "iat",
                              "ihts", "vacataires", "astreintes",
-                             "prime specifique"} ;
-
+                             "prime specifique", "prime de service", "prime de technicite", "ift"} ;
 
 
     short index = 0;
