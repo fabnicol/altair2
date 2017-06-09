@@ -230,10 +230,13 @@ expression.rég.traitement     <- "(?:\\s|^)trait.*\\b"
 expression.rég.nbi        <- "(?:\\s|^)nbi|(?:n(?:(?=o)o\\w*|)\\.?\\s*\\b)?b(?:(?=o)o\\w*|)\\.?\\s*\\bi(?:(?=n)nd\\w*|)\\.?\\b"
 expression.rég.astreintes <- "astr.*"
 
-# FPH
+# --- FPH
 
-expression.rég.pspec <- "pr.*\\b\\s*\\bsp..?ci.*"
-
+expression.rég.pspec <- "pr\\.?\\w*\\b\\s*\\bsp..?ci.*"
+expression.rég.ift <- "(?:I\\.?F\\.?T\\.?[^S]*|ind\\.?\\w*\\s*forf\\.?\\w*\\s*(?:et\\s*|)tech.*)"
+expression.rég.ps <- "pr\\.?\\w*\\b\\s*\\bsp..?ci.*"
+expression.rég.ptech <- "pr\\.?\\w*\\b\\s*\\b(?:de\\s*|)tech.*"
+expression.rég.médecin <- "(?:m..?d\\.?(?:ecin|)|prat\\.?\\w*\\b\\s*\\bhos).*"
 
 # --- Prime de fonctions informatiques
 # Schémas recherchés :

@@ -22,7 +22,7 @@ for (rep in reps) {
   message("************************")
   message(file.path(chemin.dossier, "altair.R"))
   res <- try({
-      source(file.path(chemin.dossier, "altair.R"), encoding = "UTF-8")
+      source(file.path(chemin.dossier, "altair.R"), encoding = "UTF-8", echo = TRUE)
   })
   
   if (inherits(res, "try-error")) {
