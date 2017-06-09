@@ -2,7 +2,9 @@
 
 setOSWindows                <- Sys.info()["sysname"] != "Linux"
 racine                      <- ifelse(setOSWindows, "R-Altaïr/", "R-Altair")
-if (! générer.rapport) currentDir <- getwd() else currentDir <- initwd
+
+#if (! générer.rapport) currentDir <- getwd() else currentDir <- initwd
+currentDir <- getwd()
 chemin.dossier              <- file.path(currentDir, "Tests/Exemple")
 chemin.clé                  <- file.path(chemin.dossier, "Donnees", racine)
 
