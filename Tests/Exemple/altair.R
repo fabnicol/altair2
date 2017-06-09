@@ -2678,11 +2678,18 @@ Tableau(c("Cotisations salarié", "Cotisations employeur"),
 
 #'   
 #'## `r chapitre`.13 Primes de la fonction publique hospitalière          
-#'  
+#'    
+#'     
+#'*Les primes qui suivent ne peuvent être octroyées qu'à des fontionnaires.*    
+#'*Les tests portent sur les cas d'attribution à des non-titulaires (et autres statuts)*     
+#'      
 
 #'**Prime spécifique**   
 
 # décret n°88-1083 du 30 novembre 1988
+
+primes.spécifiques.potentielles <- ""
+personnels.prime.specifique.nt <- NULL
 
 if (VERSANT_FP == "FPH") {
   
@@ -2719,12 +2726,15 @@ if (VERSANT_FP == "FPH") {
 #'   
 
 #'   
-#'[Lien vers la base de données Prime spécifique NT](Bases/Reglementation/personnels.prime.specifique.csv)   
+#'[Lien vers la base de données Prime spécifique NT](Bases/Reglementation/personnels.prime.specifique.nt.csv)   
 #'   
 
 #'**Prime de technicité**   
 
 # décret n°91-870 du 5 septembre 1991 
+
+primes.tech.potentielles <- ""
+personnels.prime.tech.nt <- NULL
 
 if (VERSANT_FP == "FPH") {
   Paie_tech <- filtrer_Paie("PRIME DE TECHNICITE")
@@ -2768,6 +2778,9 @@ if (VERSANT_FP == "FPH") {
 
 # décret n°2013-102 du 29 janvier 2013  
 
+primes.ift.potentielles <- ""
+personnels.ift.nt <- NULL
+
 if (VERSANT_FP == "FPH") {
   Paie_ift <- filtrer_Paie("IFT")
   
@@ -2806,6 +2819,9 @@ if (VERSANT_FP == "FPH") {
 #'   
 
 #'**Prime de service**   
+
+primes.ift.potentielles <- 0
+personnels.ps.nt <- NULL
 
 if (VERSANT_FP == "FPH") {
   Paie_ps <- filtrer_Paie("PRIME DE SERVICE")

@@ -39,7 +39,11 @@
 # 
 
 PDF <- TRUE
-
+chemin.clé <- get("chemin.cle", envir = e)
+chemin.dossier.bases        <- file.path(chemin.clé, "Bases")
+chemin.dossier.outils       <- file.path(chemin.clé, "..", "..", "Outils")
+chemin.dossier.données      <- file.path(chemin.clé, "Donnees")
+chemin.dossier              <- file.path(currentDir, "Tests/Exemple")
 source("rendre.R", encoding = "ISO-8859-1")
 
 rendre(to = "latex",
