@@ -36,22 +36,24 @@
 # 
 # 
 
-
 codes.traitement <- NA
-codes.nbi <- NA
-codes.pfi <- NA
-codes.pfr <- NA
-codes.ifts <- NA
-codes.iat  <- NA
-codes.ihts <- NA
+codes.nbi        <- NA
+codes.pfi        <- NA
+codes.pfr        <- NA
+codes.ifts       <- NA
+codes.iat        <- NA
+codes.ihts       <- NA
 codes.vacataires <-NA
 codes.astreintes <- NA
-codes.pspec <- NA  
+codes.pspec      <- NA  
+codes.ift <- NA  
+codes.ps  <- NA  
+codes.ptech <- NA  
 types.irs  <- c("IR", "S")
 
-controle<-c("YYY","YYY","","MULTIBUDGET")  
+controle<-c("XXX","XXX","XXX","MULTIBUDGET")  
 
-codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "IFTS", "IAT", "IHTS", "VAC", "ASTREINTES", "PRIME SPECIFIQUE", "IR_S"),
+codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "IFTS", "IAT", "IHTS", "VAC", "ASTREINTES", "PRIME SPECIFIQUE", "IFT", "PRIME DE SERVICE", "PRIME DE TECHNICITE", "IR_S"),
                     valeur = list(
                                codes.traitement,
                                codes.nbi, 
@@ -63,6 +65,9 @@ codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "IFTS", "IAT", "
                                codes.vacataires,
                                codes.astreintes,
                                codes.pspec,
+                               codes.ift,
+                               codes.ps,
+                               codes.ptech,
                                types.irs),
                                
                     expression = c(expression.rég.traitement,
@@ -75,6 +80,9 @@ codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "IFTS", "IAT", "
                                    expression.rég.vacataires,
                                    expression.rég.astreintes,
                                    expression.rég.pspec,
+                                   expression.rég.ift,
+                                   expression.rég.ps,
+                                   expression.rég.ptech,
                                    ""))
 
 setkey(codes, type)
