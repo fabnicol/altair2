@@ -39,11 +39,7 @@
 # 
 
 PDF <- TRUE
-chemin.clé <- get("chemin.cle", envir = e)
-chemin.dossier.bases        <- file.path(chemin.clé, "Bases")
-chemin.dossier.outils       <- file.path(chemin.clé, "..", "..", "Outils")
-chemin.dossier.données      <- file.path(chemin.clé, "Donnees")
-chemin.dossier              <- file.path(currentDir, "Tests/Exemple")
+
 source("rendre.R", encoding = "ISO-8859-1")
 
 rendre(to = "latex",
@@ -58,29 +54,16 @@ rendre(to = "latex",
        output_file = "altair.pdf")
 
 file.rename("altair.pdf", "altaïr.pdf")
+file.copy("altaïr.pdf", chemin.clé)
 
-
-if (setOSWindows) {
-  
-  # Ne pas utiliser / ici
-  
-  system("xcopy /Y altaïr.pdf Donnees\\R-Altaïr")
-#  system("mkdir Donnees\\R-Altaïr\\Docs")
-  system("xcopy /E /Y /I Docs Donnees\\R-Altaïr\\Docs")
-  
-} else {
-  
-  system("cp -rf Docs Donnees/R-Altair")
-  system("cp -f  altaïr.pdf Donnees/R-Altair")
-  
+if (basename(chemin.clé) == racine) {
+  if (setOSWindows) {
+    
+    shell(paste("start acrord32.exe",  file.path(chemin.clé, "altaïr.pdf")))
+    
+  } else {
+          system(paste("okular", file.path(chemin.clé, "altaïr.pdf")))
+  }
 }
 
 
-if (setOSWindows) {
-  
-  shell("start acrord32.exe Donnees/R-Altaïr/altaïr.pdf")
-  
-} else {
-  
-  system("okular Donnees/R-Altair/altaïr.pdf")
-}
