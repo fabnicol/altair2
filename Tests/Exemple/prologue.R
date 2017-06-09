@@ -136,18 +136,6 @@ nom.bulletin.paie           <- paste0(racine, "Bulletins")
 nom.table                   <- "Table"
 nom.bulletins               <- "Bulletins"
 
-# DOSSIERS
-# Attention, si l'on lance la génération de document pour la première fois sans répertoire Bases existant, on aura un write error.
-# pour les applications à ergonomie facilitée, prévoir de distribuer le logiciel avec un dossier Bases déjà généré.
-
-if (! générer.rapport) {
-  chemin.dossier              <- file.path(currentDir, "Tests/Exemple")
-  chemin.clé                  <- file.path(chemin.dossier, "Donnees", racine)
-  chemin.dossier.bases        <- file.path(chemin.clé, "Bases")
-  chemin.dossier.outils       <- file.path(chemin.clé, "..", "..", "Outils")
-  chemin.dossier.données      <- file.path(chemin.clé, "Donnees")
-}
-
 # Outils
 
 if (setOSWindows) {

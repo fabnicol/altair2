@@ -61,12 +61,7 @@
 # Lorsque l'on n'étudie pas une base Xémélios, mettre étudier.tests.statutaires à FALSE
 
 #+ début
-  chemin.clé <- get("chemin.cle", envir = e)
-  chemin.dossier.bases        <- file.path(chemin.clé, "Bases")
-  chemin.dossier.outils       <- file.path(chemin.clé, "..", "..", "Outils")
-  chemin.dossier.données      <- file.path(chemin.clé, "Donnees")
-chemin.dossier              <- file.path(currentDir, "Tests/Exemple")
-
+  
   
 library(compiler, warn.conflicts = FALSE)
 library(data.table, warn.conflicts = FALSE)
@@ -123,7 +118,7 @@ incrémenter.chapitre()
 
 #'# `r chapitre`. Statistiques de population
 #'
-#'### `r chapitre`.1 Effectifs
+#'## `r chapitre`.1 Effectifs
 
 #+ effectifs
 
@@ -184,7 +179,7 @@ newpage()
 ########### 1.2 Pyramides ########################
 
 
-#'### `r chapitre`.2 Pyramide des âges, ensemble des personnels
+#'## `r chapitre`.2 Pyramide des âges, ensemble des personnels
 
 #' 
 #+fig.height=8, fig.width=7
@@ -218,7 +213,7 @@ newpage()
 ########### 1.3 Pyramides fonctionnaires ########################
 
 #'
-#'### `r chapitre`.3 Pyramide des âges des fonctionnaires  
+#'## `r chapitre`.3 Pyramide des âges des fonctionnaires  
 
 
 #' 
@@ -246,7 +241,7 @@ newpage()
 
 ########### 1.4 Pyramides non Tit ########################
 
-#'### `r chapitre`.4 Pyramide des âges, personnels non titulaires   
+#'## `r chapitre`.4 Pyramide des âges, personnels non titulaires   
 
 #+fig.height=8, fig.width=7
 essayer(produire_pyramides(c("NON_TITULAIRE"), "Pyramide des âges des non titulaires", 
@@ -270,9 +265,9 @@ print(e$res)
 
 newpage()
 
-########### 1.6 Pyramides Autres statut ########################
+########### 1.5 Pyramides Autres statut ########################
 
-#'### `r chapitre`.5 Pyramide des âges, autres statuts
+#'## `r chapitre`.5 Pyramide des âges, autres statuts
 
 
 #' 
@@ -309,7 +304,7 @@ newpage()
 
 ########### 1.6 Effectifs par durée ########################
 
-#'### `r chapitre`.6 Effectifs des personnels par durée de service
+#'## `r chapitre`.6 Effectifs des personnels par durée de service
 #'
 #'**Personnels en fonction (hors élus) des exercices `r début.période.sous.revue` à `r fin.période.sous.revue` inclus :**
 #'
@@ -3171,24 +3166,14 @@ if (sauvegarder.bases.origine)
              "Bulletins.paie")
 
 
-if (! générer.rapport) {
-  if (setOSWindows) {
-    system(paste("xcopy /E /Y /I Docs Donnees\\R-Altaïr\\Docs"))
-  } else  { 
-    
-    chemin.dossier.docs <- file.path(chemin.clé, "Docs")
-    
-    if (! dir.exists(chemin.dossier.docs)) {
-       dir.create(chemin.dossier.docs, recursive = TRUE, mode="0777")
-    }
-    
-    system(paste0("cp -rf Docs \"", chemin.dossier.docs,"\""))
-  }
-  
-  setwd(currentDir)
-}
+if (! dir.exists(chemin.dossier.docs)) 
+   dir.create(chemin.dossier.docs, recursive = TRUE, mode="0777")
 
-message(getwd())
+res <- file.copy("Docs", chemin.clé, recursive=TRUE)
 
+if (res) message("Dossier Docs copié dans", chemin.clé) else message("Dossier Docs n'a pas été copié dans", chemin.clé)
 
+setwd(currentDir)
+
+message("Dossier courant : ", getwd())
 
