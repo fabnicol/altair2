@@ -2684,30 +2684,35 @@ Tableau(c("Cotisations salarié", "Cotisations employeur"),
 
 # décret n°88-1083 du 30 novembre 1988
 
-Paie_pspec <- filtrer_Paie("PRIME SPECIFIQUE")
-
-personnels.prime.specifique.nt <- Paie_pspec[Statut != "TITULAIRE" & Statut != "STAGIAIRE" , ..colonnes]
+if (VERSANT_FP == "FPH") {
   
-if (nombre.personnels.pspec.nt <- uniqueN(personnels.prime.specifique.nt$Matricule)) {
+  Paie_pspec <- filtrer_Paie("PRIME SPECIFIQUE")
   
-  cat("Il existe ", 
-      FR(nombre.personnels.pspec.nt),
-      "agent" %s% nombre.personnels.pspec.nt,
-      " non titulaire" %s% nombre.personnels.pspec.nt, "percevant une prime spécifique.")
+  personnels.prime.specifique.nt <- Paie_pspec[Statut != "TITULAIRE" & Statut != "STAGIAIRE" , ..colonnes]
+    
+  if (nombre.personnels.pspec.nt <- uniqueN(personnels.prime.specifique.nt$Matricule)) {
+    
+    cat("Il existe ", 
+        FR(nombre.personnels.pspec.nt),
+        "agent" %s% nombre.personnels.pspec.nt,
+        " non titulaire" %s% nombre.personnels.pspec.nt, "percevant une prime spécifique.")
+  }
 }
 
 #'     
 #'     
 
-if (nombre.personnels.pspec.nt) {
+if (VERSANT_FP == "FPH") {
+  if (nombre.personnels.pspec.nt) {
+    
+    cat("Coût des anomalies ", 
+        personnels.prime.specifique.nt[ , sum(Montant, na.rm = TRUE)], "euros.")
+  }
   
-  cat("Coût des anomalies ", 
-      personnels.prime.specifique.nt[ , sum(Montant, na.rm = TRUE)], "euros.")
+  primes.spécifiques <- unique(Paie_pspec$Libellé)
+  
+  primes.spécifiques.potentielles <- if (length(primes.spécifiques) == 0) "aucune" else paste(primes.spécifiques, collapse = " ;")
 }
-
-primes.spécifiques <- unique(Paie_pspec$Libellé)
-
-primes.spécifiques.potentielles <- if (length(primes.spécifiques) == 0) "aucune" else paste(primes.spécifiques, collapse = " ;")
 
 #'   
 #'Primes spécifiques : `r primes.spécifiques.potentielles`    
@@ -2721,31 +2726,35 @@ primes.spécifiques.potentielles <- if (length(primes.spécifiques) == 0) "aucun
 
 # décret n°91-870 du 5 septembre 1991 
 
-Paie_tech <- filtrer_Paie("PRIME DE TECHNICITE")
-
-personnels.prime.tech.nt <- Paie_tech[Statut != "TITULAIRE" & Statut != "STAGIAIRE", ..colonnes]
+if (VERSANT_FP == "FPH") {
+  Paie_tech <- filtrer_Paie("PRIME DE TECHNICITE")
   
-if (nombre.personnels.tech.nt <- uniqueN(personnels.prime.tech.nt$Matricule)) {
-  
-  cat("Il existe ", 
-      FR(nombre.personnels.tech.nt),
-      "agent" %s% nombre.personnels.tech.nt,
-      "non titulaire"  %s% nombre.personnels.tech.nt, 
-       "percevant une prime de technicité.")
+  personnels.prime.tech.nt <- Paie_tech[Statut != "TITULAIRE" & Statut != "STAGIAIRE", ..colonnes]
+    
+  if (nombre.personnels.tech.nt <- uniqueN(personnels.prime.tech.nt$Matricule)) {
+    
+    cat("Il existe ", 
+        FR(nombre.personnels.tech.nt),
+        "agent" %s% nombre.personnels.tech.nt,
+        "non titulaire"  %s% nombre.personnels.tech.nt, 
+         "percevant une prime de technicité.")
+  }
 }
 
 #'    
 #'    
 
-if (nombre.personnels.tech.nt) {
+if (VERSANT_FP == "FPH") {
+  if (nombre.personnels.tech.nt) {
+    
+    cat("Coût des anomalies ", 
+        personnels.prime.tech.nt[ , sum(Montant, na.rm = TRUE)], "euros.")
+  }
   
-  cat("Coût des anomalies ", 
-      personnels.prime.tech.nt[ , sum(Montant, na.rm = TRUE)], "euros.")
+  primes.tech <- unique(Paie_tech$Libellé)   
+  
+  primes.tech.potentielles <- if (length(primes.tech) == 0) "aucune" else paste(primes.tech, collapse = " ;")    
 }
-
-primes.tech <- unique(Paie_tech$Libellé)   
-
-primes.tech.potentielles <- if (length(primes.tech) == 0) "aucune" else paste(primes.tech, collapse = " ;")    
 
 #'   
 #'Primes de technicité : `r primes.tech.potentielles`    
@@ -2759,30 +2768,34 @@ primes.tech.potentielles <- if (length(primes.tech) == 0) "aucune" else paste(pr
 
 # décret n°2013-102 du 29 janvier 2013  
 
-Paie_ift <- filtrer_Paie("IFT")
-
-personnels.ift.nt <- Paie_ift[Statut != "TITULAIRE" & Statut != "STAGIAIRE", ..colonnes]
+if (VERSANT_FP == "FPH") {
+  Paie_ift <- filtrer_Paie("IFT")
   
-if (nombre.personnels.ift.nt <- uniqueN(personnels.ift.nt)) {
-  
-  cat("Il existe ", 
-      FR(nombre.personnels.ift.nt),
-      "agent" %s% nombre.personnels.ift.nt,
-      "non titulaire" %s% nombre.personnels.ift.nt, "percevant une indemnité forfaitaire et technique.")
+  personnels.ift.nt <- Paie_ift[Statut != "TITULAIRE" & Statut != "STAGIAIRE", ..colonnes]
+    
+  if (nombre.personnels.ift.nt <- uniqueN(personnels.ift.nt)) {
+    
+    cat("Il existe ", 
+        FR(nombre.personnels.ift.nt),
+        "agent" %s% nombre.personnels.ift.nt,
+        "non titulaire" %s% nombre.personnels.ift.nt, "percevant une indemnité forfaitaire et technique.")
+  }
 }
 
 #'    
 #'    
 
-if (nombre.personnels.ift.nt) {
+if (VERSANT_FP == "FPH") {
+  if (nombre.personnels.ift.nt) {
+    
+    cat("Coût des anomalies ", 
+        personnels.ift.nt[ , sum(Montant, na.rm = TRUE)], "euros.")
+  }
   
-  cat("Coût des anomalies ", 
-      personnels.ift.nt[ , sum(Montant, na.rm = TRUE)], "euros.")
+  primes.ift <- unique(Paie_ift$Libellé)
+  
+  primes.ift.potentielles <- if (length(primes.ift) == 0) "aucune" else paste(primes.ift, collapse = " ;")
 }
-
-primes.ift <- unique(Paie_ift$Libellé)
-
-primes.ift.potentielles <- if (length(primes.ift) == 0) "aucune" else paste(primes.ift, collapse = " ;")
 
 #'   
 #'Indemnité forfaitaire et technique : `r primes.ift.potentielles`    
@@ -2794,41 +2807,42 @@ primes.ift.potentielles <- if (length(primes.ift) == 0) "aucune" else paste(prim
 
 #'**Prime de service**   
 
-Paie_ps <- filtrer_Paie("PRIME DE SERVICE")
-
-personnels.ps.nt <- Paie_ps[Statut == "NON_TITULAIRE" | Statut == "AUTRE_STATUT" | grepl(expression.rég.médecin, Grade, perl = TRUE, ignore.case = TRUE), ..colonnes]
+if (VERSANT_FP == "FPH") {
+  Paie_ps <- filtrer_Paie("PRIME DE SERVICE")
   
-if (nombre.personnels.ps.nt <- uniqueN(personnels.ps.nt)) {
-  
-  cat("Il existe ", 
-      FR(nombre.personnels.ps.nt),
-      "agent" %s% nombre.personnels.ift.nt,
-      "non titulaire" %s% nombre.personnels.ift.nt, "percevant une indemnité forfaitaire et technique.")
+  personnels.ps.nt <- Paie_ps[Statut == "NON_TITULAIRE" | Statut == "AUTRE_STATUT" | grepl(expression.rég.médecin, Grade, perl = TRUE, ignore.case = TRUE), ..colonnes]
+    
+  if (nombre.personnels.ps.nt <- uniqueN(personnels.ps.nt)) {
+    
+    cat("Il existe ", 
+        FR(nombre.personnels.ps.nt),
+        "agent" %s% nombre.personnels.ift.nt,
+        "non titulaire" %s% nombre.personnels.ift.nt, "percevant une indemnité forfaitaire et technique.")
+  }
 }
 
 #'    
 #'    
 
-if (nombre.personnels.ift.nt) {
+if (VERSANT_FP == "FPH") {
+  if (nombre.personnels.ift.nt) {
+    
+    cat("Coût des anomalies ", 
+        personnels.ps.nt[ , sum(Montant, na.rm = TRUE)], "euros.")
+  }
   
-  cat("Coût des anomalies ", 
-      personnels.ps.nt[ , sum(Montant, na.rm = TRUE)], "euros.")
+  primes.ift <- unique(Paie_ift$Libellé)
+  
+  primes.ift.potentielles <- if (length(primes.ift) == 0) "aucune" else paste(primes.ift, collapse = " ;")
 }
-
-primes.ift <- unique(Paie_ift$Libellé)
-
-primes.ift.potentielles <- if (length(primes.ift) == 0) "aucune" else paste(primes.ift, collapse = " ;")
 
 #'   
 #'Indemnité forfaitaire et technique : `r primes.ift.potentielles`    
 #'   
 
 #'   
-#'[Lien vers la base de données IFT NT](Bases/Reglementation/personnels.ift.nt.csv)   
+#'[Lien vers la base de données IFT NT](Bases/Reglementation/personnels.ps.nt.csv)   
 #'   
-
-
-
 
 #### ANNEXE ####
 
@@ -3109,7 +3123,8 @@ if (sauvegarder.bases.analyse) {
              "Cotisations.irreg.ircantec",
              "personnels.ift.nt",
              "personnels.prime.specifique.nt",
-             "personnels.prime.tech.nt")
+             "personnels.prime.tech.nt",
+             "personnels.ps.nt")
   
   sauv.bases(file.path(chemin.dossier.bases, "Fiabilite"),
              env = envir,
