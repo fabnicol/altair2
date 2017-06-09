@@ -51,7 +51,7 @@ rendre <- function(fw = fig.width,
           rm(list = ls(), envir = globalenv())
           render_env <- new.env(parent = globalenv())
           
-          render("altair_start.R",
+          render("altair.R",
                  encoding = "UTF-8",
                  output_format = output_format(knitr_options(opts_chunk = list(fig.width = fw, 
                                                                                fig.height = fh,
