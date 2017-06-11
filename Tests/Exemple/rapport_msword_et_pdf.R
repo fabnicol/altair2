@@ -39,8 +39,7 @@
 
 # encoder ce script en windows-1252
 
-source("prologue_rapport.R", encoding = "ISO-8859-1")
-
+source("syspaths.R", encoding = encodage.code.source)
 source("corps_rapport_pdf.R", encoding = encodage.code.source)  
 
   V <- hack_md()
@@ -70,18 +69,19 @@ source("corps_rapport_pdf.R", encoding = encodage.code.source)
     unlink("altair.md")
     unlink("altair_files", recursive = TRUE)  
  }
-  
 
-if (setOSWindows) {
-  
-  system("xcopy /Y altaïr.odt Donnees\\R-Altaïr")
-  system("xcopy /Y altaïr.docx Donnees\\R-Altaïr")
-  
-} else {
-  
-  system("cp -f altaïr.odt altaïr.docx Donnees/R-Altair")
+file.copy("altaïr.docx", chemin.clé)
+file.copy("altaïr.odt", chemin.clé)
+
+if (basename(chemin.clé) == racine) {
+  if (setOSWindows) {
+    
+    shell("start winword Donnees/R-Altaïr/altaïr.docx")
+    
+  } else {
+    
+    system("lowriter Donnees/R-Altair/altaïr.odt")
+  }
 }
-
-if (setOSWindows) shell("start winword Donnees/R-Altaïr/altaïr.docx") else system("/usr/bin/lowriter Donnees/R-Altair/altaïr.odt")  
   
-setwd(initwd)
+setwd(currentDir)

@@ -134,7 +134,7 @@ codePage::codePage()
     appliquerCodes->setCheckable(true);
 
     QStringList variables = {"traitement", "nbi", "pfi",
-                             "pfr", "ifts", "iat",
+                             "pfr", "psr", "ifts", "iat",
                              "ihts", "vacataires", "astreintes",
                              "prime specifique", "prime de service", "prime de technicite", "ift"} ;
 
