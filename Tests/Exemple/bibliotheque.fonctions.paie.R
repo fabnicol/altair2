@@ -54,11 +54,6 @@ file2utf8 <- function(nom, encodage.in = encodage.entrée)  {
  if (! err)  message("Conversion réussie") else stop("Erreur de copie fichier après encodage avec iconv")
 }
 
-essayer <- function(X, Y) {
-  
-  if (inherits(try(X), 'try-error')) cat(Y)
-  
-}
 
 
 #obsolète
@@ -616,8 +611,14 @@ FR <- function(x) formatC(x, big.mark = " ")
 
 essayer <- function(X, Y) {
     
-      if (inherits(try(X), 'try-error')) cat(Y)
-    
+  res <- try(X, silent = FALSE)    
+  
+  if (inherits(res, 'try-error')) {
+      cat(Y)
+    } else {
+      if (class(res) == "knitr_kable")
+        print (res)
+    }
 }
 
 '%s%' <- function(mot, N) if (N > 1) mot %+% "s"  else mot
