@@ -47,10 +47,6 @@
 
 
 
-setOSWindows                <- Sys.info()["sysname"] != "Linux"
-racine                      <- ifelse(setOSWindows, "R-Altaïr/", "R-Altair")
-
-
 # Toujours utiliser FALSE ou TRUE en plein lettres en raison de l'éloignement avec <- (bug de l'interpréteur pour T et F)
 
 extraire.années                <- FALSE
@@ -74,7 +70,6 @@ afficher.table.effectifs       <- FALSE
 générer.table.élus             <- TRUE
 tester.matricules              <- TRUE
 analyse.statique.totale        <- FALSE
-corriger.environnement.système <- (setOSWindows == TRUE)
 intégrer.localisation          <- FALSE   # Veut on gardet Budget Employeur Siret Etablissement ?
 afficher.cumuls.détaillés.lignes.paie <- FALSE
 afficher.table.écarts.sft      <- FALSE
@@ -196,7 +191,6 @@ encodage.sortie <- "ISO-8859-15"
 
 modalité.traitement            <- "TRAITEMENT"     # s'applique aussi aux NBI
 modalité.indemnitaire          <- "INDEMNITAIRE"   # hors vacations
-
 
 modalité.principal.contractuel <- "PRINCIPAL.CONTRACTUEL" # contractuels qui ne sont pas payés par référénece à un traitement indiciaire.
 modalité.élu                   <- "ELU"

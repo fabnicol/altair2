@@ -35,11 +35,11 @@
 # termes.
 # 
 # 
-encodage.code.source <- "ISO-8859-1"
-initwd <- getwd()
-setOSWindows  <- Sys.info()["sysname"] != "Linux"
-currentDir <- initwd
+
+source("prologue_source.R")
+
 générer.rapport <- TRUE
+
 # On doit désactiver les sauts de page PDF ou alors filtrer les \newpage par le hack pour produire les docx
 
 PDF <<- FALSE
@@ -51,17 +51,10 @@ if (setOSWindows) {
                       "../texlive/miktex/bin"),
                       file.path(Sys.getenv("R_HOME"), "../RStudio/bin/pandoc"),
                       sep=";")))
-  
-  setwd(file.path(Sys.getenv("R_HOME"), "../Tests/Exemple"))
-  
-} else {
-  
-  setwd("Tests/Exemple")
+ 
 }
 
-source("syspaths.R", encoding = encodage.code.source)
-library(data.table)
-source("prologue.R", encoding = "UTF-8")
-
 library(rmarkdown)
+
+
 # ne pas écrire altaïr.pdf... 

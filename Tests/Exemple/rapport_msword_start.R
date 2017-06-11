@@ -15,7 +15,7 @@ for (rep in reps) {
   setwd(chemin.dossier)
   
   res <- try({
-      source("rapport_pdf.R", encoding = "ISO-8859-1", echo = TRUE)
+      source("rapport_msword.R", encoding = "ISO-8859-1", echo = TRUE)
   })
   
   if (inherits(res, "try-error")) {

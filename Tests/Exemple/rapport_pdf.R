@@ -35,8 +35,8 @@
 # termes.
 # 
 # 
-source("prologue_rapport.R", encoding = "ISO-8859-1")
 
+source("syspaths.R", encoding = encodage.code.source)
 source("corps_rapport_pdf.R", encoding = encodage.code.source)
 
 if (! keep_md) {
@@ -45,4 +45,4 @@ if (! keep_md) {
   unlink("altair_files", recursive = TRUE)  
 }
 
-setwd(initwd)
+setwd(currentDir)
