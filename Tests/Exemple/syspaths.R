@@ -38,18 +38,10 @@
 # 
 # 
 
-current <- getwd()
-
-if (setOSWindows) {
-   if (basename(current) == "Exemple") 
-    .libPaths(file.path(current, "..", "..", "R/library"))
-}
-
 chemin.clé <- get("chemin.cle", envir = e)
 chemin.dossier.bases        <- file.path(chemin.clé, "Bases")
 chemin.dossier.outils       <- file.path(chemin.clé, "..", "..", "Outils")
 chemin.dossier.données      <- file.path(chemin.clé, "Donnees")
-chemin.dossier              <- file.path(currentDir, "Tests/Exemple")
 chemin.dossier.docs <- file.path(chemin.clé, "Docs")
 
 

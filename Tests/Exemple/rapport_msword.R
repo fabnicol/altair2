@@ -35,7 +35,8 @@
 # termes.
 # 
 # 
-source("prologue_rapport.R", encoding = "ISO-8859-1")
+
+source("syspaths.R", encoding = encodage.code.source)
 source ("rendre.R", encoding = encodage.code.source)
 
 envir <- rendre()
@@ -59,28 +60,19 @@ if (! keep_md) {
     unlink("altair_files", recursive = TRUE)  
 }
 
-if (setOSWindows) {
-  
-  system("xcopy /Y altaïr.docx Donnees\\R-Altaïr")
-  system("xcopy /Y altaïr.odt  Donnees\\R-Altaïr")
-  system("mkdir Donnees\\R-Altaïr\\Docs")
-  system("xcopy /E /Y Docs Donnees\\R-Altaïr\\Docs")
-  
-} else {
-  
-  system("cp -rf Docs Donnees/R-Altair")
-  system("cp -f altaïr.odt altaïr.docx Donnees/R-Altair")
+file.copy("altaïr.docx", chemin.clé)
+file.copy("altaïr.odt", chemin.clé)
+
+if (basename(chemin.clé) == racine) {
+  if (setOSWindows) {
+    
+    shell("start winword Donnees/R-Altaïr/altaïr.docx")
+    
+  } else {
+    
+    system("lowriter Donnees/R-Altair/altaïr.odt")
+  }
 }
 
 
-if (setOSWindows) {
-  
-  shell("start winword Donnees/R-Altaïr/altaïr.docx")
-  
-} else {
-  
-  system("lowriter Donnees/R-Altair/altaïr.odt")
-  
-}
-
-setwd(initwd)
+setwd(currentDir)

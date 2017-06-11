@@ -47,7 +47,7 @@
 #'![Image_Altair](altair.png)
 #'   
 #'   
-#'## Logiciel Altaïr version `r readLines(file.path(initwd, "VERSION"))`
+#'## Logiciel Altaïr version `r readLines(file.path(currentDir, "VERSION"))`
 
 # ---
 # Encodage obligatoire en UTF-8
@@ -64,27 +64,11 @@
   
   
 library(compiler, warn.conflicts = FALSE)
-library(data.table, warn.conflicts = FALSE)
+
 invisible(setCompilerOptions(suppressAll = TRUE, optimize = 3))
 invisible(enableJIT(0))
 
 options(warn = -1, verbose = FALSE, OutDec = ",", datatable.verbose = FALSE, datatable.integer64 = "numeric")
-
-encodage.code.source <- "ISO-8859-1"
-currentDir           <- getwd()
-générer.rapport      <<- ! grepl("altair|entrepot", basename(currentDir), ignore.case = TRUE) 
-# dans cet ordre
-if (! générer.rapport)
-   try(setwd("Tests/Exemple"), silent = TRUE)
-
-source("syspaths.R", encoding = encodage.code.source)
-source("prologue.R", encoding = "UTF-8")
-
-if (corriger.environnement.système) {
-  
-  invisible(Sys.setenv(PATH = paste0(Sys.getenv("PATH"), "c:\\Users\\Public\\Dev\\altair\\texlive\\miktex\\bin;")))
-  
-}
 
 source("bibliotheque.fonctions.paie.R", encoding = encodage.code.source)
 
@@ -401,14 +385,14 @@ invisible(lapply(années.analyse.statique, function(x) {
                  année <<- x
                  incrémenter.chapitre()
                  if (! générer.rapport) {
-                   
+
                    source('analyse.statique.R', encoding = "UTF-8") 
                    
                  } else {
                    if (setOSWindows)  {                 
-                      cat(knit_child(text = readLines(file.path(chemin.dossier,'analyse.statique.Rmd'), encoding = encodage.code.source), quiet=TRUE), sep = '\n')
+                      cat(knit_child(text = readLines(file.path(chemin.dossier,'analyse.statique.Rmd'), encoding = encodage.code.source), quiet = TRUE), sep = '\n')
                    } else {
-                     cat(knit_child(text = readLines(file.path(chemin.dossier,'analyse.statique.utf8.Rmd'), encoding = "UTF-8"), quiet=TRUE), sep = '\n')
+                     cat(knit_child(text = readLines(file.path(chemin.dossier,'analyse.statique.utf8.Rmd'), encoding = "UTF-8"), quiet = TRUE), sep = '\n')
                    }
                  }
                }))
@@ -3177,3 +3161,4 @@ setwd(currentDir)
 
 message("Dossier courant : ", getwd())
 
+rm(list = setdiff(ls(), script_env))
