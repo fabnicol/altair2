@@ -47,7 +47,8 @@ Analyse.remunerations.exercice <- Analyse.remunerations[Année == année]
 #'## `r chapitre`.1 Masse salariale brute de l'ensemble des agents     
   
 masses.personnels <- Analyse.remunerations.exercice[Statut != "ELU",
-                                                    .(Montant.brut.annuel = sum(Montant.brut.annuel, na.rm = TRUE),                                                                                       rémunération.indemnitaire.imposable = sum(rémunération.indemnitaire.imposable, na.rm = TRUE),
+                                                    .(Montant.brut.annuel = sum(Montant.brut.annuel, na.rm = TRUE),
+                                                      rémunération.indemnitaire.imposable = sum(rémunération.indemnitaire.imposable, na.rm = TRUE),
                                                       indemnités.élu = sum(indemnités.élu, na.rm = TRUE),
                                                       total.lignes.paie = sum(total.lignes.paie, na.rm = TRUE),
                                                       acomptes = sum(acomptes, na.rm = TRUE))]
@@ -71,7 +72,7 @@ Tableau.vertical2(c("Agrégats",
                     masses.personnels$rémunération.indemnitaire.imposable,
                     masses.personnels$acomptes,
                     masses.personnels$rémunération.indemnitaire.imposable/masses.personnels$Montant.brut.annuel * 100))
-}, "")
+}, "Le tableau des rémunérations brutes pour l'ensemble des personnels n'a pas pu être généré.")
 
 #'  
 #'**Définitions :**
@@ -99,7 +100,7 @@ Tableau.vertical2(c("Agrégats",
                     masses.personnels$total.lignes.paie,
                     masses.personnels$Montant.brut.annuel -
                       masses.personnels$total.lignes.paie))
-}, "")
+}, "Le tableau de cohérence pour l'ensemble des personnels n'a pas pu être généré.")
 
 #'
 #'à comparer aux soldes des comptes 641 et 648 du compte de gestion.
@@ -152,7 +153,7 @@ Tableau.vertical2(c("Agrégats",
                     masses.fonct[[2]],
                     masses.fonct[[4]],
                     masses.fonct[[2]]/masses.fonct[[1]] * 100))
-}, "")
+}, "Le tableau des rémunérations brutes pour les focntionnaires n'a pas pu être généré.")
 
 #'
 #'**Définitions :**
@@ -180,7 +181,7 @@ Tableau.vertical2(c("Agrégats",
                     masses.fonct[[1]] -
                       masses.fonct[[3]]))
 
-},"")
+}, "Le tableau de cohérence pour les fonctionnaires n'a pas pu être généré.")
 
 #'
 #'A comparer aux soldes des comptes 6411, 6419 et 648 du compte de gestion.
@@ -190,6 +191,7 @@ Tableau.vertical2(c("Agrégats",
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
+essayer({
 Résumé(c("Traitement indiciaire",
          "Primes",
          "Autres rémunérations",
@@ -204,26 +206,29 @@ Résumé(c("Traitement indiciaire",
                quotité.moyenne)],
        
        extra = "length")
+  
+}, "Le tableau des quartiles du SMPT n'a pas pu être généré.")
 
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
-
-Résumé(c("Total lignes hors rappels",
-         "Total brut",
-         "SMPT brut en EQTP",
-         "Part indemnitaire",
-         "Quotité",
-         "Effectif"),
-       AR[Grade != "V" & Grade != "A" & Statut != "ELU"
-          & Filtre_actif == TRUE
-          & Filtre_annexe == FALSE,
-          .(total.lignes.paie,
-             Montant.brut.annuel,
-             Montant.brut.annuel.eqtp,
-             part.rémunération.indemnitaire,
-             quotité.moyenne)],
-       extra = "length")
+essayer({
+  Résumé(c("Total lignes hors rappels",
+           "Total brut",
+           "SMPT brut en EQTP",
+           "Part indemnitaire",
+           "Quotité",
+           "Effectif"),
+         AR[Grade != "V" & Grade != "A" & Statut != "ELU"
+            & Filtre_actif == TRUE
+            & Filtre_annexe == FALSE,
+            .(total.lignes.paie,
+               Montant.brut.annuel,
+               Montant.brut.annuel.eqtp,
+               part.rémunération.indemnitaire,
+               quotité.moyenne)],
+         extra = "length")
+}, "Le tableau des quartiles du SMPT n'a pas pu être généré.")
 
 #'   
 #'*Hors vacataires identifiés, assistantes maternelles, élus locaux et pour les postes actifs non annexes*  
@@ -239,8 +244,10 @@ ARC <- data.table::data.table(NULL)
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-if (analyse.par.catégorie) {
 
+if (analyse.par.catégorie) {
+  
+essayer({
   ARA <- AR[Catégorie == "A" & Grade != "V" & Grade != "A" & Statut != "ELU" 
             & Filtre_actif == TRUE
             & Filtre_annexe == FALSE, ]
@@ -253,6 +260,8 @@ if (analyse.par.catégorie) {
                   rémunération.indemnitaire.imposable,
                   acomptes,
                   quotité.moyenne)])
+}, "Le tableau des quartiles pour la catégorie A n'a pas pu être généré.")
+  
 } else {
   cat("Pas de statistiques par catégorie.\n")
 }
@@ -263,15 +272,18 @@ if (analyse.par.catégorie) {
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 if (analyse.par.catégorie) {  
-  Résumé(c("Total rémunérations", 
-           "Total rémunérations EQTP", 
-           "Part indemnitaire",
-           "Quotité"),
-         ARA[ , .(Montant.brut.annuel,
-                  Montant.brut.annuel.eqtp,
-                  part.rémunération.indemnitaire,
-                  quotité.moyenne)])
-
+  
+  essayer({
+    Résumé(c("Total rémunérations", 
+             "Total rémunérations EQTP", 
+             "Part indemnitaire",
+             "Quotité"),
+           ARA[ , .(Montant.brut.annuel,
+                    Montant.brut.annuel.eqtp,
+                    part.rémunération.indemnitaire,
+                    quotité.moyenne)])
+  }, "Le tableau des quartiles pour la catégorie A n'a pas pu être généré.")
+  
 } else {
   cat("Pas de statistiques par catégorie.\n")
 }
@@ -285,18 +297,22 @@ if (analyse.par.catégorie) {
 #'    
 
 if (analyse.par.catégorie) {
-  ARB <- AR[Catégorie == "B" & Grade != "V" & Grade != "A" & Statut != "ELU"
-            & Filtre_actif == TRUE
-            & Filtre_annexe == FALSE, ]
   
-  Résumé(c("Traitement indiciaire",
-           "Primes",
-           "Autres rémunérations",
-           "Quotité"),
-         ARB[, .(traitement.indiciaire,
-                 rémunération.indemnitaire.imposable,
-                 acomptes,
-                 quotité.moyenne)])
+  essayer({  
+    ARB <- AR[Catégorie == "B" & Grade != "V" & Grade != "A" & Statut != "ELU"
+              & Filtre_actif == TRUE
+              & Filtre_annexe == FALSE, ]
+    
+    Résumé(c("Traitement indiciaire",
+             "Primes",
+             "Autres rémunérations",
+             "Quotité"),
+           ARB[, .(traitement.indiciaire,
+                   rémunération.indemnitaire.imposable,
+                   acomptes,
+                   quotité.moyenne)])
+  }, "Le tableau des quartiles pour la catégorie B n'a pas pu être généré.")
+  
 } else {
   cat("Pas de statistiques par catégorie.\n")
 }
@@ -307,14 +323,17 @@ if (analyse.par.catégorie) {
 
 if (analyse.par.catégorie) {
   
-  Résumé(c("Total rémunérations",
-           "Total rémunérations EQTP",
-           "Part de la rémunération indemnitaire",
-           "Quotité"),
-         ARB[, .(Montant.brut.annuel,
-                 Montant.brut.annuel.eqtp,
-                 part.rémunération.indemnitaire,
-                 quotité.moyenne)])
+  essayer({  
+    Résumé(c("Total rémunérations",
+             "Total rémunérations EQTP",
+             "Part de la rémunération indemnitaire",
+             "Quotité"),
+           ARB[, .(Montant.brut.annuel,
+                   Montant.brut.annuel.eqtp,
+                   part.rémunération.indemnitaire,
+                   quotité.moyenne)])
+  }, "Le tableau des quartiles pour la catégorie B n'a pas pu être généré.")
+  
 } else {
   cat("Pas de statistiques par catégorie.\n")
 }
@@ -330,18 +349,23 @@ if (analyse.par.catégorie) {
 #'    
 
 if (analyse.par.catégorie) {
-  ARC <- AR[Catégorie == "C" & Grade != "V" & Grade != "A" & Statut != "ELU" 
-            & Filtre_actif == TRUE
-            & Filtre_annexe == FALSE, ]
   
-  Résumé(c("Traitement indiciaire",
-           "Primes",
-           "Autres rémunérations",
-           "Quotité"),
-         ARC[ , .(traitement.indiciaire,
-                  rémunération.indemnitaire.imposable,
-                  acomptes,
-                  quotité.moyenne)])
+  essayer({  
+    ARC <- AR[Catégorie == "C" & Grade != "V" & Grade != "A" & Statut != "ELU" 
+              & Filtre_actif == TRUE
+              & Filtre_annexe == FALSE, ]
+    
+    Résumé(c("Traitement indiciaire",
+             "Primes",
+             "Autres rémunérations",
+             "Quotité"),
+           ARC[ , .(traitement.indiciaire,
+                    rémunération.indemnitaire.imposable,
+                    acomptes,
+                    quotité.moyenne)])
+    
+  }, "Le tableau des quartiles pour la catégorie C n'a pas pu être généré.")
+
 } else {
   cat("Pas de statistique par catégorie.\n")
 }
@@ -353,15 +377,21 @@ if (analyse.par.catégorie) {
 
 if (analyse.par.catégorie) {
   
-  Résumé(c("Total rémunérations",
-           "Total rémunérations EQTP",
-           "Part de la rémunération indemnitaire",
-           "Quotité"),
-         ARC[ , .(Montant.brut.annuel,
-                  Montant.brut.annuel.eqtp,
-                  part.rémunération.indemnitaire,
-                  quotité.moyenne) ])
+  essayer({
+    
+    Résumé(c("Total rémunérations",
+             "Total rémunérations EQTP",
+             "Part de la rémunération indemnitaire",
+             "Quotité"),
+           ARC[ , .(Montant.brut.annuel,
+                    Montant.brut.annuel.eqtp,
+                    part.rémunération.indemnitaire,
+                    quotité.moyenne) ])
+  
+    }, "Le tableau des quartiles pour la catégorie C n'a pas pu être généré.")
+  
 } else {
+  
   cat("Pas de statistiques par catégorie.\n")
 }
 
@@ -375,6 +405,8 @@ if (analyse.par.catégorie) {
 #'*Les assistantes maternelles et les vacataires sont ici inclus, pour les postes non annexes*   
 #'
 attach(Analyse.remunerations.exercice, warn.conflicts=FALSE)
+
+essayer({
 temp <- rémunération.indemnitaire.imposable.eqtp[Statut != "ELU"
                                                  & Statut != "TITULAIRE"
                                                  & Statut != "STAGIAIRE"
@@ -390,6 +422,8 @@ if (longueur.non.na(temp) > 0)
        main = "Rémunération annuelle totale des contractuels en " %+% année,
        col = "red",
        nclass = 50)
+}, "Le graphique de la rémunération indemnitaire des contractuels n'a pas pu être généré.")
+
 #'   
 #'**Nota :**
 #'Ne sont retenues que les rémunérations supérieures à 1 000 k&euro;.
@@ -424,27 +458,32 @@ AR <- Analyse.remunerations.exercice[Statut != "ELU"
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
+essayer({
+    Résumé(c("Primes",
+             "Autres rémunérations",
+             "Quotité",
+             "Effectif"),
+           AR[ , .(rémunération.indemnitaire.imposable,
+                   acomptes,
+                   quotité.moyenne)],
+           extra = "length")
 
-Résumé(c("Primes",
-         "Autres rémunérations",
-         "Quotité",
-         "Effectif"),
-       AR[ , .(rémunération.indemnitaire.imposable,
-               acomptes,
-               quotité.moyenne)],
-       extra = "length")
+  
+}, "Le tableau des quartiles pour la catégorie C n'a pas pu être généré.")
 
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
+essayer({
+  Résumé(c("Total rémunérations",
+           "Total rémunérations EQTP",
+           "Quotité",
+           "Effectif"),
+         AR[ , .(Montant.brut.annuel, Montant.brut.annuel.eqtp, quotité.moyenne)],
+         extra = "length")
+}, "Le tableau des quartiles pour la catégorie C n'a pas pu être généré.")
 
-Résumé(c("Total rémunérations",
-         "Total rémunérations EQTP",
-         "Quotité",
-         "Effectif"),
-       AR[ , .(Montant.brut.annuel, Montant.brut.annuel.eqtp, quotité.moyenne)],
-       extra = "length")
 #'
 
 
