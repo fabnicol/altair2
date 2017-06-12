@@ -27,9 +27,9 @@ for (rep in reps) {
       setwd(currentDir)
   }
   
-  rm(list=setdiff(ls(), script_env))
+#  rm(list=setdiff(ls(), script_env))
 }
 
-rm(list = ls())
+#rm(list = ls())
 
 

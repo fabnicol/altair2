@@ -1497,7 +1497,9 @@ if (nombre.fonctionnaires.et.vacations > 0) {
 #'obtenu cette autorisation. Le régime indemnitaire dont ils bénéficient pour leur activité principale ne s'étend pas en principe
 #'à l'activité accessoire. Une délibération peut toutefois prévoir, dans ce cas également, un ajustement du taux de calcul des vacations par référence à un régime indemnitaire.      
 
-  Paie_vac_contr <- Paie_vac[Statut %chin% c("NON_TITULAIRE",  "AUTRE_STATUT")]
+  Paie_vac_contr <- Paie_vac[Statut %chin% c("NON_TITULAIRE",  "AUTRE_STATUT"), 
+                                 .(Nom, Prénom, Matricule, Service, Statut, Catégorie, Grade, Echelon, Libellé, Type,
+                                   Heures, Heures.Sup., Nb.Enfants, Code, Base, Taux, Nb.Unité,  Montant)]
                                            
   matricules.contractuels.et.vacations <- unique(Paie_vac_contr[ , .(Matricule, Nom, Statut)], by=NULL)
 
@@ -1538,7 +1540,9 @@ if (exists("nombre.contractuels.et.vacations")) {
   
   essayer({ 
     
-  Paie_vac_sft_ir <- filtrer_Paie("IR_S", portée = "Mois", Var = "Type", Base = Paie_vac)[! Statut %chin% c("TITULAIRE", "STAGIAIRE")]  
+  Paie_vac_sft_ir <- filtrer_Paie("IR_S", portée = "Mois", Var = "Type", Base = Paie_vac)[! Statut %chin% c("TITULAIRE", "STAGIAIRE"), 
+                               .(Nom, Prénom, Matricule, Service, Statut, Catégorie, Grade, Echelon, Libellé, Type,
+                                 Heures, Heures.Sup., Nb.Enfants, Code, Base, Taux, Nb.Unité,  Montant)]  
 
   SFT_IR.et.vacations <- Paie_vac_sft_ir[Type %chin% c("IR", "S")]
   
@@ -1984,7 +1988,7 @@ test.PFR <- function(i, grade, cumul) {
 #'   
 #'[Lien vers la base de données variations agrégat PFR-IFTS](Bases/Remunerations/beneficiaires.PFR.Variation.csv)    
 #'   
-#'[Références juridiques](Docs/Notices/PFR.pdf)   
+
 
 #### 5.7 PSR ####
 
@@ -2452,10 +2456,7 @@ essayer(
                             ][ ,  `:=`(Indice = NULL,
                                            IR = NULL)]   
   
-  Taux.horaires <-  merge(Base.IHTS, Taux.horaires)[, .(Matricule, Année, Mois, Indice,
-                                                         `Traitement indiciaire annuel et IR`,
-                                                         `Taux horaire`, Max, Min, 
-                                                          IHTS.hors.rappels, IHTS.rappels, IHTS.rappels.année.préc)]
+ 
 },
   "La base des taux horaires d'heures supplémentaires n'a pas pu être générée. ")
 
@@ -2615,7 +2616,7 @@ essayer({
 #'**Nota :**   
 #'HS en excès : au-delà de 25 heures par mois dans la FPT et 15 heures par mois dans la FPH, sauf pour certains emplois (18,3 heures par mois)     
 #'IHTS cat.A : attribuées à des fonctionnaires ou non-titulaires de catégorie A ou assimilés.     
-#'[Références juridiques en lien ](Docs/IHTS.pdf)   
+
 
 #### 5.10 ELUS ####
 
@@ -3552,4 +3553,4 @@ setwd(currentDir)
 
 message("Dossier courant : ", getwd())
 
-rm(list = setdiff(ls(), script_env))
+#rm(list = setdiff(ls(), script_env))
