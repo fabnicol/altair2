@@ -142,18 +142,23 @@ public :
 
 private:
     QString prologue_codes_path;
+    QStringList variables;
     QList<FLineEdit*> listeCodes;
     QList<QString> listeLabels;
+    QList<QLabel*> listeDialogueLabels;
     QLabel *label;
     QString init_label_text ;
     QToolButton* appliquerCodes ;
     QGridLayout *vLayout = new QGridLayout;
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    QGroupBox *baseBox;
 
     inline int ajouterVariable(const QString& nom);
     bool reinitialiser_prologue();
 
 private slots:
     void substituer_valeurs_dans_script_R();
+    void activer_fph(bool);
 };
 
 

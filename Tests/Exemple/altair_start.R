@@ -1596,6 +1596,8 @@ Paie_I <- Paie[Type == "I" | Type == "A" | Type == "R",
 Paie_IFTS <- filtrer_Paie("IFTS", portée = "Mois", Base = Paie_I, indic = TRUE)
 Paie_IAT  <- filtrer_Paie("IAT", portée = "Mois", Base = Paie_I, indic = TRUE)
 Lignes_IFTS <- Paie_IFTS[indic == TRUE][ , indic := NULL]
+Lignes_IAT  <- Paie_IAT[indic == TRUE][ , indic := NULL]
+Lignes_IAT[ , IAT := TRUE]
 
 if (is.na(codes.ifts)) {          
  codes.ifts  <- list("codes IFTS" = unique(Lignes_IFTS$Code))
@@ -1892,8 +1894,7 @@ beneficiaires.PFR <- beneficiaires.PFR[Matricule %chin% matricules.PFR,
                     nb.mois = uniqueN(Mois),
                     Grade = Grade[1]),
                         keyby= .(Matricule, Année)]
-                           
-rm(Paie_I)
+                         
 
 # Plafonds annuels (plafonds mensuels reste à implémenter)
 # AG 58 800
@@ -1984,7 +1985,199 @@ test.PFR <- function(i, grade, cumul) {
 #'[Lien vers la base de données variations agrégat PFR-IFTS](Bases/Remunerations/beneficiaires.PFR.Variation.csv)    
 #'   
 #'[Références juridiques](Docs/Notices/PFR.pdf)   
+
+#### 5.7 PSR ####
+
+#'
+#'## `r chapitre`.7 Contrôle de la prime de service et de rendement (PSR)   
+#'   
+
+# décret n°2009-1558 du 15 décembre 2009    
   
+#+ psr
+
+résultat.psr.manquant <- FALSE
+nombre.agents.cumulant.pfr.ifts <- 0
+nombre.agents.cumulant.pfr.iat <- 0
+
+# L'expression régulière capte la PSR, non cumulable avec l'IFTS et l'IAT 
+
+Paie_PSR <- filtrer_Paie("PSR", portée = "Mois", Base = Paie_I, indic = TRUE)
+Lignes_PSR <- Paie_PSR[indic == TRUE][ , indic := NULL]
+
+PSR.non.tit  <- Lignes_PSR[Statut != "TITULAIRE" & Statut != "STAGIAIRE"]
+PSR.non.catAB <- Lignes_PSR[Catégorie == "C" | is.na(Catégorie) | grepl(".*(?:ing|tech|d.*g.*s.*t).*", Grade, ignore.case = TRUE, perl = TRUE) == FALSE]
+
+if ((N.PSR.non.tit <<- uniqueN(PSR.non.tit$Matricule)) > 0) {
+  
+  cat(N.PSR.non.tit, "attributaire" %s% N.PSR.non.tit, " de la PSR", ifelse(N.PSR.non.tit > 1, "sont", "est"), "non-titulaire" %s% N.PSR.non.tit %+%". ")
+  kable(PSR.non.tit, align = 'r', row.names = FALSE)
+  
+} else {
+  
+  cat("Tous les attributaires de la PSR sont titulaires ou stagiaires.")
+}
+
+if ((N.PSR.non.catAB <<- uniqueN(PSR.non.catAB$Matricule)) > 0) {
+  
+  cat(N.PSR.non.catAB, "attributaires de la PSR ne sont pas identifiés en catégorie A ou B comme ingénieur ou technicien. ")
+  kable(PSR.non.catAB, align = 'r', row.names = FALSE)
+  
+} else {
+  
+  cat("Tous les attributaires de la PSR sont identifiés en catégorie A ou B comme ingénieur ou technicien. ")
+}
+
+if (is.na(codes.psr)) {
+   codes.psr  <- list("codes PSR" = unique(Lignes_PSR$Code))
+
+  if (length(codes.psr) == 0) {
+    cat("Il n'a pas été possible d'identifier la PSR par méthode heuristique. Renseigner les codes de paye correspondants dans l'interface graphique. ")
+    résultat.psr.manquant <- TRUE
+  }
+}
+
+setnames(Paie_PSR, "indic", "indic_PSR")
+
+if (! résultat.ifts.manquant && ! résultat.psr.manquant) {
+  
+  # on exclut les rappels !
+ 
+  personnels.psr.ifts <- merge(Paie_PSR, Paie_IFTS)[ ,.(Nom,	Matricule,	Année,	Mois,	Code,
+                                                        Libellé,	Montant,	Type,	Emploi,	Grade,
+                                                        Indice,	Statut,	Catégorie, indic_IFTS, indic_PSR)
+                                                   ][indic_PSR == TRUE | indic_IFTS == TRUE]
+
+  nombre.mois.cumuls <- uniqueN(personnels.psr.ifts[ , .(Matricule, Année, Mois)], by = NULL)
+  
+  nombre.agents.cumulant.psr.ifts <- uniqueN(personnels.psr.ifts$Matricule)
+  
+  personnels.psr.ifts <- personnels.psr.ifts[order(Année, Mois, Matricule)]
+}
+
+if (! résultat.iat.manquant && ! résultat.psr.manquant) {
+  
+  # on exclut les rappels !
+  
+  personnels.psr.iat <- merge(Paie_PSR, Paie_IAT)[ ,.(Nom,	Matricule,	Année,	Mois,	Code,
+                                                        Libellé,	Montant,	Type,	Emploi,	Grade,
+                                                        Indice,	Statut,	Catégorie, indic_IAT, indic_PSR)
+                                                   ][indic_PSR == TRUE | indic_IAT == TRUE]
+
+  nombre.mois.cumuls <- uniqueN(personnels.psr.iat[ , .(Matricule, Année, Mois)], by = NULL)
+  
+  nombre.agents.cumulant.psr.iat <- uniqueN(personnels.psr.iat$Matricule)
+  
+  personnels.psr.iat <- personnels.psr.iat[order(Année, Mois, Matricule)]
+}
+
+#'   
+#'    
+#'&nbsp;*Tableau `r incrément()` : Cumul PSR/IFTS*   
+#'      
+if (length(codes.psr) < 6) {
+  
+  Tableau(c("Codes PSR", "Agents cumulant PSR et IFTS", "Agents cumulant PSR et IAT"),
+          sep.milliers = "",
+          paste(unlist(codes.psr), collapse = " "),
+          nombre.agents.cumulant.psr.ifts,
+          nombre.agents.cumulant.psr.iat)
+  
+} else {
+
+    Tableau(c("Agents cumulant PSR et IFTS", "Agents cumulant PSR et IAT"),
+          sep.milliers = " ",
+          nombre.agents.cumulant.psr.ifts,
+          nombre.agents.cumulant.psr.iat)
+  
+  cat("Codes PSR : ", paste(unlist(codes.pfr), collapse = " "))
+}
+
+#'      
+#'      
+#'[Lien vers la base de données cumuls psr/ifts](Bases/Reglementation/personnels.psr.ifts.csv)       
+#'[Lien vers la base de données cumuls psr/iat](Bases/Reglementation/personnels.psr.iat.csv)         
+#'[Lien vers la base de données PSR non cat.A ou B](Bases/Reglementation/PSR.non.catAB.csv)      
+#'[Lien vers la base de données PSR non tit](Bases/Reglementation/PSR.non.tit.csv)       
+#'   
+
+# Attention keyby = et pas seulement by = !
+
+Lignes_PSR[ , PSR := TRUE]
+
+beneficiaires.PSR <- merge(merge(Lignes_PSR, Lignes_IFTS, all = TRUE), Lignes_IAT, all = TRUE)
+
+beneficiaires.PSR[ , Régime := if (all(is.na(PSR))) { 
+                                     if (!is.na(IFTS) && any(IFTS)) "I" else if (! is.na(IAT) && any(IAT)) "A" else NA 
+                               } else {
+                                     if (all(is.na(IFTS)) && all(is.na(IAT))) "P" else  "C"
+                               },
+                     by = .(Matricule, Année, Mois)][ , `:=`(PSR = NULL, 
+                                                             IAT = NULL,  
+                                                             IFTS = NULL)]
+
+matricules.PSR <- unique(Lignes_PSR$Matricule)
+
+beneficiaires.PSR <- beneficiaires.PSR[Matricule %chin% matricules.PSR,
+                  .(Agrégat = sum(Montant, na.rm = TRUE),
+                    Régime = { c <- uniqueN(Mois[Régime == "C"])
+                    
+                               if (c == 0) {  
+                                 
+                                 "IFTS " %+% uniqueN(Mois[Régime == "I"]) %+% " mois-" %+% "IAT " %+% uniqueN(Mois[Régime == "A"]) %+% " mois-PSR " %+% uniqueN(Mois[Régime == "P"]) %+% " mois"
+                                 
+                               } else {
+                                 
+                                 "IFTS " %+% uniqueN(Mois[Régime == "I"]) %+% " mois-" %+% "IAT " %+% uniqueN(Mois[Régime == "A"]) %+% " mois-PSR " %+% uniqueN(Mois[Régime == "P"]) %+% " mois" %+% "-Cumul " %+% c %+% " mois"
+                               }},
+                    nb.mois = uniqueN(Mois),
+                    Grade = Grade[1]),
+                        keyby= .(Matricule, Année)]
+ 
+  beneficiaires.PSR.Variation <- beneficiaires.PSR[ , 
+                                    { 
+                                       L <- length(Année)
+                                       q <- Agrégat[L]/Agrégat[1] * nb.mois[1]/nb.mois[L]                   
+                                       .(Années = paste(Année, collapse = ", "), 
+                                         `Variation (%)` = round((q - 1) * 100, 1),
+                                         `Moyenne géométrique annuelle(%)` = round((q^(1/(L - 1)) - 1) * 100, 1)) 
+                                    }, by="Matricule"]
+  
+  beneficiaires.PSR.Variation <- beneficiaires.PSR.Variation[`Variation (%)` != 0.00]
+
+#'  
+#'&nbsp;*Tableau `r incrément()` : Valeurs de l'agrégat annuel (PSR ou IFTS ou  IAT) pour les bénéficiaires de la PSR*        
+#'          
+
+  if (nrow(beneficiaires.PSR)) {
+    
+    beneficiaires.PSR$Agrégat <- formatC(beneficiaires.PSR$Agrégat, big.mark = " ", format="fg")
+    
+    kable(beneficiaires.PSR, align = 'r', row.names = FALSE)
+    
+  } else {
+    cat("\nAucun bénéficiaire de la PSR détecté.\n")
+  }
+  
+#'  
+#'&nbsp;*Tableau `r incrément()` : Variations de l'agrégat mensuel moyen (PSR ou IFTS ou IAT) pour les bénéficiaires de la PSR*   
+#'          
+  if (nrow(beneficiaires.PSR.Variation)) {
+    
+    kable(beneficiaires.PSR.Variation, align = 'r', row.names = FALSE)
+    
+  } else {
+    cat("\nAucun tableau de variation.\n")
+  }
+  
+#'   
+#'[Lien vers la base de données agrégat PSR-IAT-IFTS](Bases/Remunerations/beneficiaires.PSR.csv)    
+#'    
+#'   
+#'[Lien vers la base de données variations agrégat PSR-IAT-IFTS](Bases/Remunerations/beneficiaires.PSR.Variation.csv)    
+#'   
+
+    
 #### 5.7 HEURES SUP ####
 #'    
 #'## `r chapitre`.7 Contrôle sur les heures supplémentaires
@@ -3077,7 +3270,9 @@ if (sauvegarder.bases.analyse) {
              "Anavar.synthese",
              "Analyse.variations.par.exercice",
              "beneficiaires.PFR",
-             "beneficiaires.PFR.Variation")
+             "beneficiaires.PSR",
+             "beneficiaires.PFR.Variation",
+             "beneficiaires.PSR.Variation")
 
   sauv.bases(file.path(chemin.dossier.bases, "Effectifs"),
              env = envir,
@@ -3092,7 +3287,9 @@ if (sauvegarder.bases.analyse) {
              "Paie_IAT.irreg",  
              "codes.ifts",
              "personnels.pfr.ifts",
+             "personnels.psr.ifts",
              "codes.pfr",
+             "codes.psr",
              "HS.sup.25",
              "Base.IHTS.non.tit",
              "Controle.HS",
@@ -3108,7 +3305,9 @@ if (sauvegarder.bases.analyse) {
              "Cum_astreintes_HS_irreg",
              "libelles.astreintes",
              "PFR.non.catA",
+             "PSR.non.catAB",
              "PFR.non.tit",
+             "PSR.non.tit",
              "lignes.contractuels.et.vacations",
              "lignes.fonctionnaires.et.vacations",
               "Paie_vac_contr",

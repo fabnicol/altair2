@@ -92,7 +92,7 @@ dirPage::dirPage()
 
 int codePage::ajouterVariable(const QString& nom)
 {
-   static int index; 
+
    const QString NOM = nom.toUpper();
    
    // Ajouter ici les FLineEdit en pile dans listeCodes
@@ -111,20 +111,21 @@ int codePage::ajouterVariable(const QString& nom)
    
    listeLabels << nom;
    
-   vLayout->addWidget(new QLabel("Codes " + NOM + " :  "), index, 0, Qt::AlignRight);
+   listeDialogueLabels << new QLabel("Codes " + NOM + " :  ");
+
+   vLayout->addWidget(listeDialogueLabels.last(), listeDialogueLabels.size() - 1, 0, Qt::AlignRight);
    
-   vLayout->addWidget(listeCodes[index], index, 1, Qt::AlignLeft);
+   vLayout->addWidget(listeCodes.last(), listeCodes.size() - 1, 1, Qt::AlignLeft);
    
-   ++index;
-   
-   return index;
+
+   return listeCodes.size();
  }   
 
 
 
 codePage::codePage()
 {
-    QGroupBox *baseBox = new QGroupBox;
+    baseBox = new QGroupBox;
     prologue_codes_path = path_access("Tests/Exemple/prologue_codes.R");
     appliquerCodes = new QToolButton;
     
@@ -133,11 +134,9 @@ codePage::codePage()
                                "pour la génération des rapports d'analyse.   ");
     appliquerCodes->setCheckable(true);
 
-    QStringList variables = {"traitement", "nbi", "pfi",
-                             "pfr", "psr", "ifts", "iat",
-                             "ihts", "vacataires", "astreintes",
-                             "prime specifique", "prime de service", "prime de technicite", "ift"} ;
-
+    variables << "traitement" << "nbi" << "pfi" <<
+                 "pfr" <<  "psr" << "ifts" << "iat" <<
+                 "ihts"<< "vacataires" << "astreintes";
 
     short index = 0;
     
@@ -152,7 +151,6 @@ codePage::codePage()
     
     baseBox->setLayout(vLayout);
     
-    QVBoxLayout* mainLayout = new QVBoxLayout;
     FRichLabel *mainLabel=new FRichLabel("Code de paye des tests");
     mainLayout->addWidget(mainLabel);
     mainLayout->addWidget(baseBox, 1, 0);
@@ -205,6 +203,36 @@ inline QString rempl_str(const QString &X, const QString &Y)
     return   "codes." + X + " <- " + Z;
 }
 
+void codePage::activer_fph(bool activer)
+{
+    const QStringList variables_fph = {"prime specifique", "prime de service", "prime de technicite", "ift"};
+
+    if (listeCodes.size() > variables.size())
+    {
+        for (int i = variables.size(); i < listeCodes.size() ; ++i)
+        {
+            listeCodes[i]->setVisible(activer);
+            listeDialogueLabels[i]->setVisible(activer);
+        }
+
+        repaint();
+        return;
+    }
+
+    if (! activer) return;
+
+    vLayout->removeWidget(label);
+    vLayout->removeWidget(appliquerCodes);
+
+    for (const QString &s : variables_fph) ajouterVariable(s);
+
+    short index = variables.size() + variables_fph.size();
+
+    vLayout->addWidget(label, index + 1, 1, Qt::AlignLeft);
+    vLayout->addWidget(appliquerCodes, index,1, Qt::AlignLeft);
+
+}
+
 void codePage::substituer_valeurs_dans_script_R()
 {
     reinitialiser_prologue();
@@ -220,7 +248,6 @@ void codePage::substituer_valeurs_dans_script_R()
     QIcon icon = (appliquerCodes->isChecked()) ?
                   icon1 :
                   icon0;
-     
 
     for (const FLineEdit* a: listeCodes)
     {
@@ -450,6 +477,7 @@ standardPage::standardPage()
         });
 
     connect(FPHCheckBox, SIGNAL(toggled(bool)), this, SLOT(substituer_versant()));
+
 
     QGroupBox* archBox = new QGroupBox(tr("Archivage et Restauration"));
     QGroupBox* exportBox = new QGroupBox(tr("Exportation"));
@@ -738,6 +766,8 @@ options::options(Altair* parent)
     connect(contentsWidget,
             SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)),
             this, SLOT(changePage(QListWidgetItem*,QListWidgetItem*)));
+
+    connect(standardTab->FPHCheckBox, SIGNAL(toggled(bool)), codeTab, SLOT(activer_fph(bool)));
 
     createIcons();
     contentsWidget->setCurrentRow(0);
