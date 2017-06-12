@@ -1,3 +1,4 @@
+debug.code                  <- TRUE
 setOSWindows                <- Sys.info()["sysname"] != "Linux"
 racine                      <- ifelse(setOSWindows, "R-Altaïr/", "R-Altair")
 currentDir                  <- getwd()
@@ -15,7 +16,8 @@ setwd(chemin.dossier)
 
 if (setOSWindows) {
    if (basename(currentDir) == "Exemple") 
-   .libPaths(file.path(currentDir, "..", "..", "R/library"))
+       .libPaths(file.path(currentDir, "..", "..", "R/library"))
+  
    invisible(Sys.setenv(PATH = paste0(Sys.getenv("PATH"), "c:\\Users\\Public\\Dev\\altair\\texlive\\miktex\\bin;")))
 }
 
