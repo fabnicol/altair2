@@ -3282,7 +3282,7 @@ Evenements.mat <- setcolorder(setkey(copy(Evenements.ind),
 #'## Codes et libellés de paye   
 #'         
 
-code.libelle <- unique(Paie[Montant != 0, .(Code, Libellé), by = "Type"], by = NULL)
+code.libelle <- unique(Paie[Montant != 0, .(Code, Libellé), by = "Type"][ , Libellé := toupper(Libellé)], by = NULL)
 code.libelle$Type <- remplacer_type(code.libelle$Type)
 
 setcolorder(code.libelle, c("Code", "Libellé", "Type"))
@@ -3553,4 +3553,5 @@ setwd(currentDir)
 
 message("Dossier courant : ", getwd())
 
-#rm(list = setdiff(ls(), script_env))
+if (! debug.code)
+   rm(list = setdiff(ls(), script_env))

@@ -1,5 +1,5 @@
 
-source("prologue_source.R")
+source("prologue_source.R", encoding = "UTF-8")
 
 for (rep in reps) {
   
@@ -27,9 +27,9 @@ for (rep in reps) {
       setwd(currentDir)
   }
   
-#  rm(list=setdiff(ls(), script_env))
+  if (! debug.code)  rm(list=setdiff(ls(), script_env))
 }
 
-#rm(list = ls())
+if (! debug.code) rm(list = ls())
 
 
