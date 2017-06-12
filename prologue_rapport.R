@@ -36,7 +36,7 @@
 # 
 # 
 
-source("prologue_source.R")
+source("prologue_source.R", encoding = "UTF-8")
 
 générer.rapport <- TRUE
 
