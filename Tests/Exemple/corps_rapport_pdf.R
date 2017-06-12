@@ -56,7 +56,7 @@ rendre(to = "latex",
 file.rename("altair.pdf", "altaïr.pdf")
 file.copy("altaïr.pdf", chemin.clé)
 
-if (basename(chemin.clé) == racine) {
+if (basename(chemin.clé) == basename(racine)) {
   if (setOSWindows) {
     
     shell(paste("start acrord32.exe",  file.path(chemin.clé, "altaïr.pdf")))
