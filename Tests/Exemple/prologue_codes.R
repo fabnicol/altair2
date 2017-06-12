@@ -40,7 +40,7 @@ codes.traitement <- NA
 codes.nbi        <- NA
 codes.pfi        <- NA
 codes.pfr        <- NA
-codes.psr        <- NA
+codes.psr <- c("3207")
 codes.ipf        <- NA
 codes.ifts       <- NA
 codes.iat        <- NA
@@ -53,7 +53,7 @@ codes.ps  <- NA
 codes.ptech <- NA  
 types.irs  <- c("IR", "S")
 
-controle<-c("","","","")  
+controle<-c("Z","Z","Z","BUDGET PRINCIPAL")  
 
 codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "PSR", "IPF", "IFTS", "IAT", "IHTS", "VAC", "ASTREINTES", "PRIME SPECIFIQUE", "IFT", "PRIME DE SERVICE", "PRIME DE TECHNICITE", "IR_S"),
                     valeur = list(
