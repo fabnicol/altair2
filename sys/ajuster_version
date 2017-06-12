@@ -121,7 +121,7 @@ start() {
 
         echo "****"
         
-        for i in altair.linux sft Docs Interface_linux linux *.txt'  *.R  *.sh  *.desktop VERSION LICENCE *.ico  *.bmp  *.png  postinstall.sh altaïr.Rproj Tests
+        for i in altair.linux sft Docs Interface_linux linux *.txt  *.R  *.sh  *.desktop VERSION LICENCE *.ico  *.bmp  *.png  postinstall.sh altaïr.Rproj Tests
         do
              cp -rvf "/home/fab/Dev/altair/$i" /home/jf/Dev/altair
              chown -R jf "/home/jf/Dev/altair/$i"
