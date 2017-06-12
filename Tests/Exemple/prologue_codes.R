@@ -40,6 +40,7 @@ codes.traitement <- NA
 codes.nbi        <- NA
 codes.pfi        <- NA
 codes.pfr        <- NA
+codes.psr        <- NA
 codes.ifts       <- NA
 codes.iat        <- NA
 codes.ihts       <- NA
@@ -53,12 +54,13 @@ types.irs  <- c("IR", "S")
 
 controle<-c("","","","")  
 
-codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "IFTS", "IAT", "IHTS", "VAC", "ASTREINTES", "PRIME SPECIFIQUE", "IFT", "PRIME DE SERVICE", "PRIME DE TECHNICITE", "IR_S"),
+codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "PSR", "IFTS", "IAT", "IHTS", "VAC", "ASTREINTES", "PRIME SPECIFIQUE", "IFT", "PRIME DE SERVICE", "PRIME DE TECHNICITE", "IR_S"),
                     valeur = list(
                                codes.traitement,
                                codes.nbi, 
                                codes.pfi,
                                codes.pfr, 
+                               codes.psr, 
                                codes.ifts, 
                                codes.iat,
                                codes.ihts, 
@@ -74,6 +76,7 @@ codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "IFTS", "IAT", "
                                    expression.rég.nbi,
                                    expression.rég.pfi,
                                    expression.rég.pfr, 
+                                   expression.rég.psr, 
                                    expression.rég.ifts, 
                                    expression.rég.iat,
                                    expression.rég.heures.sup, 

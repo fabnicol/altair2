@@ -37,7 +37,7 @@
 # 
 
 source("syspaths.R", encoding = encodage.code.source)
-source("corps_rapport_pdf.R", encoding = encodage.code.source)
+source("corps_rapport_pdf.R", encoding = encodage.code.source, echo = TRUE)
 
 if (! keep_md) {
   unlink("altair.ansi_pdf", recursive=TRUE)
