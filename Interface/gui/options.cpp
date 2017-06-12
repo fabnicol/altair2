@@ -135,7 +135,7 @@ codePage::codePage()
     appliquerCodes->setCheckable(true);
 
     variables << "traitement" << "nbi" << "pfi" <<
-                 "pfr" <<  "psr" << "ifts" << "iat" <<
+                 "pfr" <<  "ipf" << "psr" << "ifts" << "iat" <<
                  "ihts"<< "vacataires" << "astreintes";
 
     short index = 0;
