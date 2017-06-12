@@ -229,10 +229,11 @@ expression.rég.pfi        <- "(?:^|\\s)pfi|(?:p(?:(?=r)r\\w*|)|i(?:(?=n)nd\\w*|
 expression.rég.vacataires <- "HOR"
 
 expression.rég.heures.sup <- "(?:^|\\s)iht?[s]|i(?:(?=n)n\\w*|)\\.?\\s*\\bh(?:(?=o)o\\w*|)\\.?.*\\bs(?:(?=u)u\\w*|)\\.?\\b|h(?:(?=e)e\\w*|)\\.?\\s*\\b(?:(?=s)s\\w*)\\.?\\b"
-expression.rég.iat        <- "(?:^|\\s)iat|i(?:(?=n)n\\w*|)\\.?\\s*\\ba(?:(?=d)d\\w*|)\\.?\\s*\\b(?:et\\s*\\b)?t(?:(?=e)e\\w*|)\\.?\\b"
-expression.rég.ifts       <- "(?:^|\\s)ifts|i(?:(?=n)n\\w*|)\\.?\\s*\\bf\\w*\\.?\\s*\\bt(?:(?=r)r\\w*|)\\.?\\s*\\bs(?:(?=u)u\\w*|)\\.?\\b"
-expression.rég.pfr        <- "(?:^|\\s)pfr|(?:p(?:(?=r)r\\w*|))\\.?\\s*\\bfo?\\w*\\.?.*\\s+.*\\br\\w*s\\w*\\.?\\s*\\b"
-expression.rég.psr        <- "(?:^|\\s)psr|(?:p(?:(?=r)r\\w*|))\\.?\\s*\\bse?\\w*\\.?.*\\s+.*\\br\\w*n\\w*\\.?\\s*\\b"
+expression.rég.iat        <- "(?:^|\\s)i\\.?a\\.?t|i(?:(?=n)n\\w*|)\\.?\\s*\\ba(?:(?=d)d\\w*|)\\.?\\s*\\b(?:et\\s*\\b)?t(?:(?=e)e\\w*|)\\.?\\b"
+expression.rég.ifts       <- "(?:^|\\s)i\\.?f\\.?t\\.?s|i(?:(?=n)n\\w*|)\\.?\\s*\\bf\\w*\\.?\\s*\\bt(?:(?=r)r\\w*|)\\.?\\s*\\bs(?:(?=u)u\\w*|)\\.?\\b"
+expression.rég.pfr        <- "(?:^|\\s)p\\.?f\\.?r|(?:p(?:(?=r)r\\w*|))\\.?\\s*\\bfo?\\w*\\.?.*\\s+.*\\br\\w*s\\w*\\.?\\s*\\b"
+expression.rég.psr        <- "(?:^|\\s)p\\.?s\\.?r|(?:p(?:(?=r)r\\w*|))\\.?\\s*\\bse?\\w*\\.?.*\\s+.*\\br\\w*n\\w*\\.?\\s*\\b"
+expression.rég.ipf        <- "(?:^|\\s)i\\.?p\\.?f|(?:i(?:(?=n)n\\w*|))\\.?\\s*\\bpe?\\w*\\.?.*\\s+.*\\bf\\w*n\\w*\\.?\\s*\\b"
 
 expression.rég.population <- "\\bASS(\\b|A).*"
 expression.rég.élus       <- "ind.*[é,e]lu"

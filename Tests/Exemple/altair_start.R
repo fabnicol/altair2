@@ -2006,13 +2006,12 @@ Paie_PSR <- filtrer_Paie("PSR", portée = "Mois", Base = Paie_I, indic = TRUE)
 Lignes_PSR <- Paie_PSR[indic == TRUE][ , indic := NULL]
 
 PSR.non.tit  <- Lignes_PSR[Statut != "TITULAIRE" & Statut != "STAGIAIRE"]
-PSR.non.catAB <- Lignes_PSR[Catégorie == "C" | is.na(Catégorie) | grepl(".*(?:ing|tech|d.*g.*s.*t).*", Grade, ignore.case = TRUE, perl = TRUE) == FALSE]
+PSR.non.catAB <- Lignes_PSR[Catégorie == "C" | is.na(Catégorie) | grepl(".*(?:ing|tech|d.*g.*s.*t|v..?t|biol|phar).*", Grade, ignore.case = TRUE, perl = TRUE) == FALSE]
 
 if ((N.PSR.non.tit <<- uniqueN(PSR.non.tit$Matricule)) > 0) {
   
   cat(N.PSR.non.tit, "attributaire" %s% N.PSR.non.tit, " de la PSR", ifelse(N.PSR.non.tit > 1, "sont", "est"), "non-titulaire" %s% N.PSR.non.tit %+%". ")
-  kable(PSR.non.tit, align = 'r', row.names = FALSE)
-  
+
 } else {
   
   cat("Tous les attributaires de la PSR sont titulaires ou stagiaires.")
@@ -2020,16 +2019,16 @@ if ((N.PSR.non.tit <<- uniqueN(PSR.non.tit$Matricule)) > 0) {
 
 if ((N.PSR.non.catAB <<- uniqueN(PSR.non.catAB$Matricule)) > 0) {
   
-  cat(N.PSR.non.catAB, "attributaires de la PSR ne sont pas identifiés en catégorie A ou B comme ingénieur ou technicien. ")
-  kable(PSR.non.catAB, align = 'r', row.names = FALSE)
-  
+  cat(N.PSR.non.catAB, "attributaires de la PSR ne sont pas identifiés en catégorie A ou B comme ingénieur, vétérinaire, biologiste, pharmacien ou technicien. ")
+
 } else {
   
-  cat("Tous les attributaires de la PSR sont identifiés en catégorie A ou B comme ingénieur ou technicien. ")
+  cat("Tous les attributaires de la PSR sont identifiés en catégorie A ou B comme ingénieur, vétérinaire, biologiste, pharmacien ou technicien. ")
 }
 
 if (is.na(codes.psr)) {
-   codes.psr  <- list("codes PSR" = unique(Lignes_PSR$Code))
+  
+  codes.psr  <- list("codes PSR" = unique(Lignes_PSR$Code))
 
   if (length(codes.psr) == 0) {
     cat("Il n'a pas été possible d'identifier la PSR par méthode heuristique. Renseigner les codes de paye correspondants dans l'interface graphique. ")
@@ -2124,11 +2123,11 @@ beneficiaires.PSR <- beneficiaires.PSR[Matricule %chin% matricules.PSR,
                     
                                if (c == 0) {  
                                  
-                                 "IFTS " %+% uniqueN(Mois[Régime == "I"]) %+% " mois-" %+% "IAT " %+% uniqueN(Mois[Régime == "A"]) %+% " mois-PSR " %+% uniqueN(Mois[Régime == "P"]) %+% " mois"
+                                 "IFTS " %+% uniqueN(Mois[Régime == "I"]) %+% " -" %+% "IAT " %+% uniqueN(Mois[Régime == "A"]) %+% " -PSR " %+% uniqueN(Mois[Régime == "P"]) %+% " mois"
                                  
                                } else {
                                  
-                                 "IFTS " %+% uniqueN(Mois[Régime == "I"]) %+% " mois-" %+% "IAT " %+% uniqueN(Mois[Régime == "A"]) %+% " mois-PSR " %+% uniqueN(Mois[Régime == "P"]) %+% " mois" %+% "-Cumul " %+% c %+% " mois"
+                                 "IFTS " %+% uniqueN(Mois[Régime == "I"]) %+% " -" %+% "IAT " %+% uniqueN(Mois[Régime == "A"]) %+% " -PSR " %+% uniqueN(Mois[Régime == "P"]) %+% " -Cumul " %+% c %+% " mois"
                                }},
                     nb.mois = uniqueN(Mois),
                     Grade = Grade[1]),
@@ -2167,6 +2166,7 @@ beneficiaires.PSR <- beneficiaires.PSR[Matricule %chin% matricules.PSR,
     kable(beneficiaires.PSR.Variation, align = 'r', row.names = FALSE)
     
   } else {
+    
     cat("\nAucun tableau de variation.\n")
   }
   
@@ -2177,10 +2177,179 @@ beneficiaires.PSR <- beneficiaires.PSR[Matricule %chin% matricules.PSR,
 #'[Lien vers la base de données variations agrégat PSR-IAT-IFTS](Bases/Remunerations/beneficiaires.PSR.Variation.csv)    
 #'   
 
-    
-#### 5.7 HEURES SUP ####
+#### 5.8 IPF ####
+
+#'
+#'## `r chapitre`.8 Contrôle de l'indemnité de performance et de fonctions (IPF)   
+#'   
+
+# décret n°2010-1705 du 30 décembre 2010
+  
+#+ ipf
+
+résultat.ipf.manquant <- FALSE
+nombre.agents.cumulant.ipf.ifts <- 0
+
+# L'expression régulière capte l'IPF
+# le cumul de l'IPF et de l'IFTS est irrrégulier
+
+Paie_IPF <- filtrer_Paie("IPF", portée = "Mois", Base = Paie_I, indic = TRUE)
+Lignes_IPF <- Paie_IPF[indic == TRUE][ , indic := NULL]
+
+IPF.non.tit  <- Lignes_IPF[Statut != "TITULAIRE" & Statut != "STAGIAIRE"]
+IPF.non.catA <- Lignes_IPF[Catégorie != "A" | grepl("ing.*ch", Grade, ignore.case = TRUE) == FALSE]
+
+if ((N.IPF.non.tit <<- uniqueN(IPF.non.tit$Matricule)) > 0) {
+  
+  cat(N.IPF.non.tit, "attributaire" %s% N.IPF.non.tit, " de l'IPF", ifelse(N.IPF.non.tit > 1, "sont", "est"), "non-titulaire" %s% N.IPF.non.tit, ". ")
+
+} else {
+  
+  cat("Tous les attributaires de l'IPF sont titulaires ou stagiaires.")
+}
+
+if ((N.IPF.non.catA <<- uniqueN(IPF.non.catA$Matricule)) > 0) {
+  
+  cat(N.IPF.non.catA, "attributaires de l'IPF ne sont pas identifiés en catégorie A comme ingénieur en chef. ")
+
+} else {
+  
+  cat("Tous les attributaires de l'IPF sont identifiés en catégorie A. ")
+}
+
+if (is.na(codes.ipf)) {
+   codes.pfr  <- list("codes IPF" = unique(Lignes_IPF$Code))
+
+  if (length(codes.ipf) == 0) {
+    cat("Il n'a pas été possible d'identifier l'IPF par méthode heuristique. Renseigner les codes de paye correspondants dans l'interface graphique. ")
+    résultat.ipf.manquant <- TRUE
+  }
+}
+
+setnames(Paie_IPF, "indic", "indic_IPF")
+
+if (! résultat.ifts.manquant && ! résultat.ipf.manquant) {
+  
+  # on exclut les rappels !
+  
+  personnels.ipf.ifts <- merge(Paie_IPF, Paie_IFTS)[ ,.(Nom,	Matricule,	Année,	Mois,	Code,
+                                                        Libellé,	Montant,	Type,	Emploi,	Grade,
+                                                        Indice,	Statut,	Catégorie, indic_IFTS, indic_IPF)
+                                                   ][indic_IPF == TRUE | indic_IFTS == TRUE]
+
+  nombre.mois.cumuls <- uniqueN(personnels.ipf.ifts[ , .(Matricule, Année, Mois)], by = NULL)
+  
+  nombre.agents.cumulant.ipf.ifts <- uniqueN(personnels.ipf.ifts$Matricule)
+  
+  personnels.ipf.ifts <- personnels.ipf.ifts[order(Année, Mois, Matricule)]
+}
+
+#'   
 #'    
-#'## `r chapitre`.7 Contrôle sur les heures supplémentaires
+#'&nbsp;*Tableau `r incrément()` : Cumul IPF/IFTS*   
+#'      
+
+if (length(codes.ipf) < 6) {
+  
+  Tableau(c("Codes IPF", "Agents cumulant IPF et IFTS"),
+          sep.milliers = "",
+          paste(unlist(codes.ipf), collapse = " "),
+          nombre.agents.cumulant.ipf.ifts)
+  
+} else {
+  
+  cat("Codes PFR : ", paste(unlist(codes.ipf), collapse = " "))
+  
+}
+
+#'     
+#'     
+
+cat("Nombre d'agents cumulant IPF et IFTS : ", nombre.agents.cumulant.ipf.ifts)
+
+#'      
+#'      
+#'[Lien vers la base de données cumuls ipf/ifts](Bases/Reglementation/personnels.ipf.ifts.csv)    
+#'[Lien vers la base de données IPF non cat.A](Bases/Reglementation/IPF.non.catA.csv)      
+#'[Lien vers la base de données IPF non tit](Bases/Reglementation/IPF.non.tit.csv)       
+#'   
+
+# Attention keyby = et pas seulement by = !
+
+Lignes_IPF[ , IPF := TRUE]
+
+beneficiaires.IPF <- merge(Lignes_IPF, Lignes_IFTS, all = TRUE)
+
+beneficiaires.IPF[ , Régime := if (all(is.na(IPF))) { if (any(IFTS)) "I" else NA } else { if (all(is.na(IFTS))) "P" else "C" },
+                     by = .(Matricule, Année, Mois)][ , `:=`(IPF = NULL, 
+                                                             IFTS = NULL)]
+
+matricules.IPF <- unique(Lignes_IPF$Matricule)
+
+beneficiaires.IPF <- beneficiaires.IPF[Matricule %chin% matricules.IPF,
+                  .(Agrégat = sum(Montant, na.rm = TRUE),
+                    Régime = { c <- uniqueN(Mois[Régime == "C"])
+                    
+                               if (c == 0) {  
+                                 
+                                 "IFTS " %+% uniqueN(Mois[Régime == "I"]) %+% " mois-IPF " %+% uniqueN(Mois[Régime == "P"]) %+% " mois"
+                                 
+                               } else {
+                                 
+                                 "IFTS " %+% uniqueN(Mois[Régime == "I"]) %+% " mois-IPF " %+% uniqueN(Mois[Régime == "P"]) %+% " mois" %+% "-Cumul " %+% c %+% " mois"
+                               }},
+                    nb.mois = uniqueN(Mois),
+                    Grade = Grade[1]),
+                        keyby= .(Matricule, Année)]
+                         
+
+  beneficiaires.IPF.Variation <- beneficiaires.IPF[ , 
+                                    { 
+                                       L <- length(Année)
+                                       q <- Agrégat[L]/Agrégat[1] * nb.mois[1]/nb.mois[L]                   
+                                       .(Années = paste(Année, collapse = ", "), 
+                                         `Variation (%)` = round((q - 1) * 100, 1),
+                                         `Moyenne géométrique annuelle(%)` = round((q^(1/(L - 1)) - 1) * 100, 1)) 
+                                    }, by="Matricule"]
+  
+  beneficiaires.IPF.Variation <- beneficiaires.IPF.Variation[`Variation (%)` != 0.00]
+
+#'  
+#'&nbsp;*Tableau `r incrément()` : Valeurs de l'agrégat annuel (IPF ou IFTS) pour les bénéficiaires de l'IPF*        
+#'          
+
+  if (nrow(beneficiaires.IPF)) {
+    
+    beneficiaires.IPF$Agrégat <- formatC(beneficiaires.IPF$Agrégat, big.mark = " ", format="fg")
+    
+    kable(beneficiaires.IPF, align = 'r', row.names = FALSE)
+    
+  } else {
+    cat("\nAucun bénéficiaire de l'IPF détecté.\n")
+  }
+  
+#'  
+#'&nbsp;*Tableau `r incrément()` : Variations de l'agrégat mensuel moyen (IPF ou IFTS) pour les bénéficiaires de l'IPF*   
+#'          
+  if (nrow(beneficiaires.IPF.Variation)) {
+    
+    kable(beneficiaires.IPF.Variation, align = 'r', row.names = FALSE)
+    
+  } else {
+    cat("\nAucun tableau de variation.\n")
+  }
+  
+#'   
+#'[Lien vers la base de données agrégat IPF-IFTS](Bases/Remunerations/beneficiaires.IPF.csv)    
+#'    
+#'   
+#'[Lien vers la base de données variations agrégat IPF-IFTS](Bases/Remunerations/beneficiaires.IPF.Variation.csv)    
+#'   
+  
+  
+#### 5.9 HEURES SUP ####
+#'    
+#'## `r chapitre`.9 Contrôle sur les heures supplémentaires
 
 # Sont repérées comme heures supplémentaires ou complémentaires les heures dont le libellé obéissent à
 # l'expression régulière expression.rég.heures.sup donnée par le fichier prologue.R
@@ -2448,10 +2617,10 @@ essayer({
 #'IHTS cat.A : attribuées à des fonctionnaires ou non-titulaires de catégorie A ou assimilés.     
 #'[Références juridiques en lien ](Docs/IHTS.pdf)   
 
-#### 5.8 ELUS ####
+#### 5.10 ELUS ####
 
 #' 
-#'## `r chapitre`.8 Contrôle sur les indemnités des élus
+#'## `r chapitre`.10 Contrôle sur les indemnités des élus
 #'   
 
 
@@ -2501,9 +2670,9 @@ if (générer.table.élus)   {
 #'[Lien vers la base de données Rémunérations des élus](Bases/Reglementation/remunerations.elu.csv)
 #'
 
-#### 5.9 COMPTE DE GESTION ####
+#### 5.11 COMPTE DE GESTION ####
 
-#'## `r chapitre`.9 Lien avec le compte de gestion
+#'## `r chapitre`.11 Lien avec le compte de gestion
  
 
 cumul.lignes.paie <- Paie[Type %chin% c("T", "I", "R", "IR", "S", "A", "AC") , 
@@ -2560,10 +2729,10 @@ rm(L)
 #'*Avertissement : les rappels comprennent également les rappels de cotisations et déductions diverses.*    
 #'   
 
-#### 5.10 SFT ####
+#### 5.12 SFT ####
 
 #'
-#'## `r chapitre`.10 Contrôle du supplément familial de traitement   
+#'## `r chapitre`.12 Contrôle du supplément familial de traitement   
 #'  
 
 ## La biblitothèque SFT est à revoir
@@ -2693,10 +2862,10 @@ message("Analyse du SFT")
 # data.table here overallocates memory hence inefficient !
 # Bulletins.paie[Nb.Enfants > 0 , SFT.controle := sft(Nb.Enfants, Indice, Heures, Année, Mois)]
     
-#### 5.11 ASTREINTES ####
+#### 5.13 ASTREINTES ####
 
 #'
-#'## `r chapitre`.11 Contrôle des astreintes
+#'## `r chapitre`.13 Contrôle des astreintes
 #'  
 
 Paie_astreintes <- filtrer_Paie("ASTREINTES", portée = "Mois", indic = TRUE)
@@ -2785,10 +2954,10 @@ Tableau.vertical2(c("Année", "Montant astreintes potentiellement irrégulières
 
 rm(Base.IHTS)
   
-#### 5.12 RETRAITES ####
+#### 5.14 RETRAITES ####
 
 #'
-#'## `r chapitre`.12 Contrôle des cotisations de retraite    
+#'## `r chapitre`.14 Contrôle des cotisations de retraite    
 #'  
 
 #'**Non titulaires**   
@@ -2862,10 +3031,10 @@ Tableau(c("Cotisations salarié", "Cotisations employeur"),
 #'[Lien vers la base des cotisations irrégulières](Bases/Reglementation/Cotisations.irreg.ircantec.csv)   
 #'   
 
-#### 5.13 PRIMES FPH ####     
+#### 5.15 PRIMES FPH ####     
 
 #'   
-#'## `r chapitre`.13 Primes de la fonction publique hospitalière          
+#'## `r chapitre`.15 Primes de la fonction publique hospitalière          
 #'    
 #'     
 #'*Les primes qui suivent ne peuvent être octroyées qu'à des fontionnaires.*    
@@ -3271,8 +3440,10 @@ if (sauvegarder.bases.analyse) {
              "Analyse.variations.par.exercice",
              "beneficiaires.PFR",
              "beneficiaires.PSR",
+             "beneficiaires.IPF",
              "beneficiaires.PFR.Variation",
-             "beneficiaires.PSR.Variation")
+             "beneficiaires.PSR.Variation",
+             "beneficiaires.IPF.Variation")
 
   sauv.bases(file.path(chemin.dossier.bases, "Effectifs"),
              env = envir,
@@ -3287,9 +3458,12 @@ if (sauvegarder.bases.analyse) {
              "Paie_IAT.irreg",  
              "codes.ifts",
              "personnels.pfr.ifts",
+             "personnels.ipf.ifts",
              "personnels.psr.ifts",
+             "personnels.psr.iat",
              "codes.pfr",
              "codes.psr",
+             "codes.ipf",
              "HS.sup.25",
              "Base.IHTS.non.tit",
              "Controle.HS",
@@ -3306,14 +3480,16 @@ if (sauvegarder.bases.analyse) {
              "libelles.astreintes",
              "PFR.non.catA",
              "PSR.non.catAB",
+             "IPF.non.catA",
              "PFR.non.tit",
              "PSR.non.tit",
+             "IPF.non.tit",
              "lignes.contractuels.et.vacations",
              "lignes.fonctionnaires.et.vacations",
-              "Paie_vac_contr",
-              "Paie_vac_fonct",
-              "Paie_vac_sft_ir",
-              "lignes.ifts.anormales",
+             "Paie_vac_contr",
+             "Paie_vac_fonct",
+             "Paie_vac_sft_ir",
+             "lignes.ifts.anormales",
              "matricules.contractuels.et.vacations",
              "matricules.fonctionnaires.et.vacations",
              "SFT_IR.et.vacations",
