@@ -294,6 +294,9 @@ public:
   FComboBox(const char* str, int status, const QString &hashKey, const QStringList &description, const QString &commandLine,  QList<QIcon> *iconList=nullptr):
     FComboBox(QStringList(str),  status, hashKey, description, commandLine,  iconList){}
 
+  FComboBox(const QStringList &labelList, const QString &hashKey, const QStringList &description):
+      FComboBox(labelList, flags::status::defaultStatus|flags::commandLineType::noCommandLine, hashKey, description, "",  nullptr){}
+
   void setWidgetFromXml(const FStringList&);
   const FString setXmlFromWidget();
   void refreshWidgetDisplay();
