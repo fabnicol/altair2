@@ -111,7 +111,11 @@ void Altair::runWorkerDistributed(bool reset)
         w.toFront();
 
     if (w.hasNext())
-        runWorker(w.next().key());
+    {
+        const QString &subdir = w.next().key();
+        common::exporter_identification_controle(subdir);
+        runWorker(subdir);
+    }
 }
 
 // ne pas utiliser le polymorphisme en QString en raison d'un bug du compilateur
@@ -122,10 +126,10 @@ void Altair::runWorker(const QString& subdir)
     QStringList args0, args1;
     QString command;
     QStringList commandLine;
+    const QStringList &fileList = Hash::fileList.value(subdir);
 
+    commandLine = createCommandLineString(fileList);
 
-    commandLine = createCommandLineString(Hash::fileList.value(subdir));
-    
     if (commandLine.isEmpty()) return;
     
     args0 <<  "-m" << "-d" << "," << "-s" << ";" << "-E" << "-rank" << sharedir + "/rank";
@@ -151,8 +155,10 @@ void Altair::runWorker(const QString& subdir)
 
 
     QStringList temp;
-    foreach(const QString &str, Hash::Siret.keys())
+    foreach(const QString &str, fileList)
     {
+       // if (! Hash::Siret.keys().contains(str)) continue; useless
+
        for (int i = 0; i < Hash::Siret[str].size() && i < Hash::Etablissement[str].size(); ++i)
        {
         const QString siret = Hash::Siret[str].at(i);
@@ -414,7 +420,7 @@ void Altair::run()
 
     Hash::fileList.clear();
 
-    common::exporter_identification_controle();
+
             
     if  (v(exportMode).left(12) == "Distributive")
     {
@@ -468,11 +474,14 @@ void Altair::run()
           }
     }
 
-   if (! Hash::fileList.empty())
-         runWorkerDistributed(true);
-   }
+        if (! Hash::fileList.empty())
+        {
+           runWorkerDistributed(true);
+        }
+    }
     else
     {
+        common::exporter_identification_controle();
         runWorker();
     }
 }
