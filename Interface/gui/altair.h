@@ -193,7 +193,7 @@ private:
 
     void checkAnnumSpan();
 
-    void runWorkerDistributed(bool);
+    bool runWorkerDistributed(bool);
     void runWorker(const QString& = "");
 
 #if 0
