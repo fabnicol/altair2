@@ -43,7 +43,11 @@ chemin.dossier.bases        <- file.path(chemin.clé, "Bases")
 chemin.dossier.outils       <- file.path(chemin.clé, "..", "..", "Outils")
 chemin.dossier.données      <- file.path(chemin.clé, "Donnees")
 chemin.dossier.docs <- file.path(chemin.clé, "Docs")
-
+if (basename(chemin.clé) == basename(racine)) {
+    source("prologue_codes.R", encoding = "UTF-8")
+} else {
+    source(file.path(chemin.clé, "prologue_codes.R"), encoding = "UTF-8")
+}
 
 # DOSSIERS
 # Attention, si l'on lance la génération de document pour la première fois sans répertoire Bases existant, on aura un write error.

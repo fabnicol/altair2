@@ -301,6 +301,40 @@ public:
       }
   }
 
+  static QString aplatir(const QHash<QString, QStringList> &h, const QString &sep, const QString &subdir)
+  {
+      if (subdir.isEmpty()) return aplatir(h, sep);
+
+      QStringList strL;
+      for (auto && s : Hash::fileList[subdir])
+      {
+          QStringList M = h[s];
+          M.removeAll("");
+          M.removeDuplicates();
+          if (M.isEmpty()) continue;
+          for (auto &&u : M)
+             strL <<  u;
+      }
+
+      strL.removeDuplicates();
+      return strL.join(sep);
+  }
+
+  static QString aplatir(const QHash<QString, QString> &h, const QString &sep, const QString &subdir)
+  {
+      if (subdir.isEmpty()) return aplatir(h, sep);
+
+      QStringList strL;
+      for (auto && s : Hash::fileList[subdir])
+      {
+          strL << h[s];
+      }
+      strL.removeAll("");
+      strL.removeDuplicates();
+      return strL.join(sep);
+  }
+
+
   static QString aplatir(const QHash<QString, QStringList> &h, const QString &sep)
   {
       QStringList strL;
