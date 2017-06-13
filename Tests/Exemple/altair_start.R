@@ -3169,7 +3169,7 @@ if (VERSANT_FP == "FPH") {
 }
 
 #'   
-#'Indemnité forfaitaire et technique : `r primes.ift.potentielles`    
+#'Indemnités forfaitaire et technique : `r primes.ift.potentielles`    
 #'   
 
 #'   
@@ -3178,7 +3178,7 @@ if (VERSANT_FP == "FPH") {
 
 #'**Prime de service**   
 
-primes.ift.potentielles <- 0
+primes.ps.potentielles <- ""
 personnels.ps.nt <- NULL
 
 if (VERSANT_FP == "FPH") {
@@ -3190,8 +3190,8 @@ if (VERSANT_FP == "FPH") {
     
     cat("Il existe ", 
         FR(nombre.personnels.ps.nt),
-        "agent" %s% nombre.personnels.ift.nt,
-        "non titulaire" %s% nombre.personnels.ift.nt, "percevant une indemnité forfaitaire et technique.")
+        "agent" %s% nombre.personnels.ps.nt,
+        "non titulaire" %s% nombre.personnels.ps.nt, "percevant une prime de service.")
   }
 }
 
@@ -3199,23 +3199,23 @@ if (VERSANT_FP == "FPH") {
 #'    
 
 if (VERSANT_FP == "FPH") {
-  if (nombre.personnels.ift.nt) {
+  if (nombre.personnels.ps.nt) {
     
     cat("Coût des anomalies ", 
         personnels.ps.nt[ , sum(Montant, na.rm = TRUE)], "euros.")
   }
   
-  primes.ift <- unique(Paie_ift$Libellé)
+  primes.ps <- unique(Paie_ps$Libellé)
   
-  primes.ift.potentielles <- if (length(primes.ift) == 0) "aucune" else paste(primes.ift, collapse = " ;")
+  primes.ps.potentielles <- if (length(primes.ps) == 0) "aucune" else paste(primes.ps, collapse = " ;")
 }
 
 #'   
-#'Indemnité forfaitaire et technique : `r primes.ift.potentielles`    
+#'Primes de service : `r primes.ps.potentielles`    
 #'   
 
 #'   
-#'[Lien vers la base de données IFT NT](Bases/Reglementation/personnels.ps.nt.csv)   
+#'[Lien vers la base de données primes de service NT](Bases/Reglementation/personnels.ps.nt.csv)   
 #'   
 
 #### ANNEXE ####

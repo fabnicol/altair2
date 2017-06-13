@@ -216,9 +216,9 @@ expression.rég.astreintes <- "astr.*"
 # --- FPH
 
 expression.rég.pspec <- "pr\\.?\\w*\\b\\s*\\bsp..?ci.*"
-expression.rég.ift <- "(?:I\\.?F\\.?T\\.?[^S]*|ind\\.?\\w*\\s*forf\\.?\\w*\\s*(?:et\\s*|)tech.*)"
-expression.rég.ps <- "pr\\.?\\w*\\b\\s*\\bsp..?ci.*"
-expression.rég.ptech <- "pr\\.?\\w*\\b\\s*\\b(?:de\\s*|)tech.*"
+expression.rég.ift <- "(?:\\bI\\.?F\\.?T\\.?[^S]*\\b|\\bind\\.?\\w*\\s*forf\\.?\\w*\\s*(?:et\\s*|)tech.*)"
+expression.rég.ps <- "\\bpr\\.?\\w*\\b\\s*\\bsp..?ci.*"
+expression.rég.ptech <- "\\bpr\\.?\\w*\\b\\s*\\b(?:de\\s*|)tech.*"
 expression.rég.médecin <- "(?:m..?d\\.?(?:ecin|)|prat\\.?\\w*\\b\\s*\\bhos).*"
 
 # --- Prime de fonctions informatiques
@@ -247,7 +247,6 @@ expression.rég.admin.g    <- "(?:^|\\s)adm\\w*\\.?\\b\\s?g\\w*\\.?\\b"
 
 # Les valeurs ci-après seront changées par le "préprocesseur" de l'interface graphique si les valeurs explicites des codes de paye
 
-source("prologue_codes.R", encoding = "UTF-8")
 source("versant.R", encoding = "UTF-8")
 # point d'indice majoré
 source("point.im.R", encoding = "UTF-8")
