@@ -166,12 +166,12 @@ bool common::substituer(const QString& s, const QString& repl,  QString& file_st
 }
 
 
-void common::exporter_identification_controle(QString &file_str)
+void common::exporter_identification_controle(QString &file_str, const QString &subdir)
 {
-    const QString &employeur = Hash::aplatir(Hash::Employeur, ", ");
-    const QString &budget = Hash::aplatir(Hash::Budget, ", ");
-    const QString &siret = Hash::aplatir(Hash::Siret, " - ");
-    const QString &etablissement = Hash::aplatir(Hash::Etablissement, " - ");
+    const QString &employeur = Hash::aplatir(Hash::Employeur, ", ", subdir);
+    const QString &budget = Hash::aplatir(Hash::Budget, ", ", subdir);
+    const QString &siret = Hash::aplatir(Hash::Siret, " - ", subdir);
+    const QString &etablissement = Hash::aplatir(Hash::Etablissement, " - ", subdir);
 
     substituer("controle<-c\\(\"\",\"\",\"\",\"\"\\)", "controle<-c(\""
                                                  + employeur +"\",\""
@@ -181,12 +181,14 @@ void common::exporter_identification_controle(QString &file_str)
                file_str);
 }
 
-void common::exporter_identification_controle()
+void common::exporter_identification_controle(const QString &subdir)
 {
     const QString &prologue_code_path = path_access("Tests/Exemple/prologue_codes.R");
     QString file_str = readFile(prologue_code_path);
-    exporter_identification_controle(file_str);
-    renommer(dump(file_str), prologue_code_path);
+    exporter_identification_controle(file_str, subdir);
+
+    QString exportpath = (subdir.isEmpty())? prologue_code_path  : common::path_access("Tests/Exemple/Donnees/" AltairDir) + QDir::separator() + subdir + "/prologue_codes.R";
+    renommer(dump(file_str), exportpath);
 }
 
 QString common::readFile(const QString &path,  int start, int stop, int width)
