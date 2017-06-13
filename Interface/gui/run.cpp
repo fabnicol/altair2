@@ -104,7 +104,7 @@ QStringList Altair::createCommandLineString(const QStringList& files)
 }
 
 
-void Altair::runWorkerDistributed(bool reset)
+bool Altair::runWorkerDistributed(bool reset)
 {
     static QHashIterator<QString, QStringList> w(Hash::fileList);
     if (reset)
@@ -115,7 +115,9 @@ void Altair::runWorkerDistributed(bool reset)
         const QString &subdir = w.next().key();
         common::exporter_identification_controle(subdir);
         runWorker(subdir);
+        return true;
     }
+    else return false;
 }
 
 // ne pas utiliser le polymorphisme en QString en raison d'un bug du compilateur
@@ -495,34 +497,59 @@ void Altair::runRAltair()
 
     process.setProcessChannelMode(QProcess::MergedChannels);
 
-#ifdef MINIMAL
-    outputType="R";
-    emit(setProgressBar(0, 100));
-    QString  path_access_rapport_msword = path_access("Tests/Exemple/rapport_msword.R");
-    process.start(RAltairCommandStr + " " + path_access_rapport_msword);
-    if (process.waitForStarted())
+    if (v(enchainerRapports).isTrue())
     {
-        outputTextEdit->append(RAltairCommandStr + " " + path_access_rapport_msword);
-        outputTextEdit->append(tr(STATE_HTML_TAG \
-                    "Lancement du traitement des données ...Veuillez patienter.<br>"
-                    "Vous pouvez suivre l'exécution du traitement dans la console<br>"
-                    "(Configurer > Configurer l'interface > Afficher les messages)."));
+        //#ifdef MINIMAL
+            outputType="R";
+            emit(setProgressBar(0, 100));
+            QString  path_access_rapport;
+
+            if (v(rapportType) == "WORD et ODT")
+            {
+              path_access_rapport = path_access("Tests/Exemple/rapport_msword.R");
+            }
+            else
+            if (v(rapportType) == "PDF")
+            {
+              path_access_rapport = path_access("Tests/Exemple/rapport_pdf.R");
+            }
+            else
+            if (v(rapportType) == "WORD, ODT et PDF")
+            {
+              path_access_rapport = path_access("Tests/Exemple/rapport_msword_et_pdf.R");
+            }
+
+
+            RAltairCommandStr = "/usr/bin/Rscript";
+            process.setWorkingDirectory(path_access(""));
+            QDir::setCurrent(path_access(""));
+            process.start(RAltairCommandStr + " " + path_access_rapport);
+
+            if (process.waitForStarted())
+            {
+                outputTextEdit->append(RAltairCommandStr + " " + path_access_rapport);
+                outputTextEdit->append(tr(STATE_HTML_TAG \
+                            "Lancement du traitement des données ...Veuillez patienter.<br>"
+                            "Vous pouvez suivre l'exécution du traitement dans la console<br>"
+                            "(Configurer > Configurer l'interface > Afficher les messages)."));
+            }
+            else
+            {
+                QMessageBox::critical(this,
+                                      "Erreur",
+                                      "Echec du traitement des données."
+                                      "Recommencer en mode avancé ou en mode expert.",
+                                      "Fermer");
+            }
+
+        //#else
+          #ifdef DEBUG
+            outputTextEdit->append(tr(STATE_HTML_TAG "Ligne de commande : %1").arg(RAltairCommandStr));
+          #endif
     }
     else
-    {
-        QMessageBox::critical(this, 
-                              "Erreur", 
-                              "Echec du traitement des données."
-                              "Recommencer en mode avancé ou en mode expert.",
-                              "Fermer");
-    }
-
-#else
-  #ifdef DEBUG
-    outputTextEdit->append(tr(STATE_HTML_TAG "Ligne de commande : %1").arg(RAltairCommandStr));
-  #endif
     process.start(RAltairCommandStr, QStringList() << path_access("altaïr.Rproj"));
-#endif
+//#endif
 
 }
 
@@ -537,15 +564,7 @@ void Altair::processFinished(exitCode code)
                                                   + tr(": plantage de l'application."));
             return;
     
-        case exitCode::noAudioFiles :
-            outputTextEdit->append(ERROR_HTML_TAG  
-                                   + QString((outputType == "L") ?
-                                   " Décodage des bases " :
-                                   " Analyse des données ")
-                                   + tr(": Pas de fichier xhl."));
-            
-            progress->stop();
-            return;
+
     
         default :
             outputTextEdit->append(PROCESSING_HTML_TAG  + tr(" Terminé."));
@@ -570,7 +589,11 @@ void Altair::processFinished(exitCode code)
                                + " Mo)");
 
         if (v(exportMode).left(12) == "Distributive")
-            runWorkerDistributed(false);
+        {
+            bool res = runWorkerDistributed(false);
+            if (! res &&  v(enchainerRapports).isTrue())
+                runRAltair();
+        }
     }
 
 }
