@@ -403,7 +403,7 @@ standardPage::standardPage()
 
     /* Utiliser % devant l'option active la syntaxe `--option argument' plutôt que `--option=argument' */
 
-    FComboBox* exportWidget = new FComboBox(exportRange,
+    exportWidget = new FComboBox(exportRange,
                                  "exportMode",
                                  {"Données csv", 
                                   "Mode d'exportation"},
@@ -698,17 +698,42 @@ processPage::processPage()
     QGroupBox* logBox = new QGroupBox(tr("Log"));
     logBox->setLayout(v3Layout);
 
+    QGridLayout *v4Layout = new QGridLayout;
+    QGroupBox* rapportBox = new QGroupBox(tr("Rapports"));
+
+
+    QLabel* rapportTypeLabel = new QLabel("Type de rapport produit par défaut  ");
+    rapportTypeWidget = new FComboBox((QStringList() << "WORD et ODT" << "PDF" << "WORD, ODT et PDF"),
+                                 "rapportType",
+                                 {"Enchaînements",
+                                  "Type de rapport"});
+
+    rapportTypeWidget ->setToolTip(tr("Sélectionner le type de rapport produit \nen cas d'enchaînement automatique extraction-rapport :\n"
+                                      "MS Word .docx et LibreOffice .odt\n"
+                                      "Adobe .pdf ou les trois formats "
+                                      "en même temps"));
+
+    enchainerRapports = new FCheckBox("Enchaîner extraction et analyse",
+                                      "enchainerRapports",
+                                      {"Enchaînements",
+                                       "Enchaîner l'extraction des données et la production des rapports"},
+                                      {rapportTypeWidget, rapportTypeLabel});
+
+    v4Layout->addWidget(enchainerRapports, 0, 0, Qt::AlignLeft);
+    v4Layout->addWidget(rapportTypeLabel,  1, 0, Qt::AlignRight);
+    v4Layout->addWidget(rapportTypeWidget, 1, 1, Qt::AlignLeft);
+    rapportBox->setLayout(v4Layout);
+
     QVBoxLayout* mainLayout = new QVBoxLayout;
     FRichLabel *mainLabel=new FRichLabel("Paramètres de traitement");
     mainLayout->addWidget(mainLabel);
     mainLayout->addWidget(processTypeBox, 1, 0);
     mainLayout->addWidget(logBox, 2, 0);
-    mainLayout->addSpacing(250);
+    mainLayout->addWidget(rapportBox, 3, 0);
+    mainLayout->addSpacing(150);
 
     setLayout(mainLayout);
 }
-
-
 
 std::uint16_t options::RefreshFlag;
 
@@ -768,6 +793,10 @@ options::options(Altair* parent)
             this, SLOT(changePage(QListWidgetItem*,QListWidgetItem*)));
 
     connect(standardTab->FPHCheckBox, SIGNAL(toggled(bool)), codeTab, SLOT(activer_fph(bool)));
+    connect(standardTab->exportWidget, SIGNAL(currentIndexChanged(int)),
+                                       this,
+                                       SLOT(enchainerRapports(int)));
+
 
     createIcons();
     contentsWidget->setCurrentRow(0);
@@ -788,6 +817,10 @@ options::options(Altair* parent)
     setWindowIcon(QIcon(":/images/altair.png"));
 }
 
+void options::enchainerRapports(int index)
+{
+     processTab->enchainerRapports->setChecked(index > 1);
+}
 
 // implement a global clear() function for the FStringList of data in an FListFrame ; 
 // it will be used as Altair::clearData() too. Usage below is faulty.
