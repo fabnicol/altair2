@@ -519,8 +519,12 @@ void Altair::runRAltair()
               path_access_rapport = path_access("Tests/Exemple/rapport_msword_et_pdf.R");
             }
 
-
+#ifdef Q_OS_WIN
+            RAltairDirStr = path_access("R/bin/x64");
+            RAltairCommandStr = RAltairDirStr + QDir::separator() + "Rscript" + QString(systemSuffix);
+#else
             RAltairCommandStr = "/usr/bin/Rscript";
+#endif
             process.setWorkingDirectory(path_access(""));
             QDir::setCurrent(path_access(""));
             process.start(RAltairCommandStr + " " + path_access_rapport);
