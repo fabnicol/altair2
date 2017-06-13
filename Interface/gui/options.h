@@ -58,11 +58,13 @@ class processPage : public common
 public :
     processPage();
     FLineFrame *logFrame;
+    FCheckBox  *enchainerRapports;
 
 private:
     FComboBox
       *processTypeWidget,
-      *memoryUseWidget;
+      *memoryUseWidget,
+      *rapportTypeWidget;
     
 #   ifdef INSERT_MAXN
       FLineEdit
@@ -76,6 +78,7 @@ private:
     FCheckBox
       *logCheckBox,
       *consoleCheckBox;
+
 
     FString
       standardMsg;
@@ -94,6 +97,7 @@ public :
     standardPage();
     FCheckBox
       *tableCheckBox, *FPHCheckBox;
+    FComboBox* exportWidget;
 
 private:
     FComboBox
@@ -194,6 +198,7 @@ private:
 
 private slots:
     void changePage(QListWidgetItem *current, QListWidgetItem *previous);
+    void enchainerRapports(int index);
 
 
 };
