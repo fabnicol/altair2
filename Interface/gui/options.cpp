@@ -452,7 +452,7 @@ standardPage::standardPage()
                                   "créer la base des lignes et bulletins de paye"},
                                   "t",
                                  {optionalFieldBox, baseTypeLabel, baseTypeWidget,
-                                  maxNLigneLabel, maxNLigneLineEdit, FPHCheckBox});
+                                  maxNLigneLabel, maxNLigneLineEdit, FPHCheckBox, exportWidget, exportLabel});
 
     QStringList range3 = QStringList();
     for (int i = 1; i < 12; i++) range3 << QString::number(i);
@@ -508,7 +508,7 @@ standardPage::standardPage()
                                {"Données XML", "Exporter les bases XML"});
     
     v1Layout->addWidget(tableCheckBox,     1, 0, Qt::AlignLeft);
-    v1Layout->addWidget(FPHCheckBox,       1, 1, Qt::AlignLeft);
+    v1Layout->addWidget(FPHCheckBox,       2, 0, Qt::AlignLeft);
     v1Layout->addWidget(baseTypeLabel,     3, 0, Qt::AlignRight);
     v1Layout->addWidget(baseTypeWidget,    3, 1, Qt::AlignLeft);
     v1Layout->addWidget(exportLabel,       4, 0, Qt::AlignRight);
