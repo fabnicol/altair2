@@ -1231,29 +1231,32 @@ if (nrow(T1) == 0) cat("Aucune NBI n'a été attribuée ou les points de NBI n'o
 T2 <- T1[! is.na(quotité)
           & quotité > 0, 
                       .(nbi.cumul.montants = sum(Montant / adm(quotité), na.rm=TRUE),
+                        quotité = quotité[1],
                         nbi.cumul.indiciaire = NBI[1]), 
                            by=.(Matricule,Année,Mois)
          ][nbi.cumul.montants != 0]
 
-# On somme ensuite par année sur tous les matricules
 
 cumuls.nbi <- T2[ , .(cumul.annuel.indiciaire = sum(nbi.cumul.indiciaire, na.rm = TRUE),
                       cumul.annuel.montants   = sum(nbi.cumul.montants, na.rm = TRUE)),
-                         keyby="Matricule,Année"]
+                  keyby="Année"]
 
 if (nrow(cumuls.nbi) == 0) cat("Cumuls de NBI nuls. ")
 
+# On somme ensuite par année sur tous les matricules
 # Les cumuls annuels rapportés aux cumuls indiciaires pour l'année ne doivent pas trop s'écarter de la valeur annuelle moyenne du point d'indice
 
 lignes.nbi.anormales <- T2[ , test := abs(nbi.cumul.montants/nbi.cumul.indiciaire) - PointMensuelIM[Année - 2007, Mois]
-                                  ][abs(test) > 1]
+                          ][abs(test) > 1][ , cout.nbi.anormale := (nbi.cumul.montants - nbi.cumul.indiciaire * PointMensuelIM[Année - 2007, Mois]) * adm(quotité)]
+
+couts.nbi.anormales <- lignes.nbi.anormales[, sum(cout.nbi.anormale, na.rm = TRUE)]
 
 rappels.nbi <- lignes_NBI[Type == "R"
                            & ! is.na(NBI)
                            & NBI != 0
                            & ! is.na(quotité)
                            & quotité > 0, 
-                              .(nbi.cumul.montants.rappels = sum(Montant / adm(quotité), na.rm=TRUE))]
+                              sum(Montant / adm(quotité), na.rm=TRUE)]
 
 
 
@@ -1315,7 +1318,7 @@ lignes.nbi.anormales.mensuel <- data.table()
 
 essayer(
 {  
-  lignes.nbi.anormales.mensuel <- T2[Type != "R" , .(Montant.NBI.calculé = NBI[1] * adm(quotité[1]) * PointMensuelIM[Année - 2007, Mois],
+  lignes.nbi.anormales.mensuel <- lignes_NBI[Type != "R", .(Montant.NBI.calculé = NBI[1] * adm(quotité[1]) * PointMensuelIM[Année - 2007, Mois],
                                                       Montant.NBI.payé = sum(Montant, na.rm = TRUE)), 
                                                      keyby="Matricule,Année,Mois"
                                        ][ , Différence.payé.calculé := Montant.NBI.payé - Montant.NBI.calculé
@@ -1336,7 +1339,7 @@ essayer(
 "La vérification de la proratisation de la NBI n'a pas pu être réalisée. ")
 
 Tableau(
-  c("Différences > 1 euro : nombre de lignes",
+  c("Différences > " %+% tolérance.nbi %+% " euro : nombre de lignes",
     "Coût total des différences"),
   nrow(lignes.nbi.anormales.mensuel),
   round(montants.nbi.anormales.mensuel))
