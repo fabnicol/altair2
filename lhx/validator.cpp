@@ -410,17 +410,17 @@ static int parseFile(info_t& info)
         return SKIP_FILE;
 #else
         /* Il faudra sans doute ajuster les différences entre le parsing C et l'analyse Xml, qui vont diverger */
-         if (verbeux) cerr << PROCESSING_HTML_TAG "Reste du fichier omis.";
+         if (verbeux) cerr << PROCESSING_HTML_TAG "Reste du fichier omis";
          long lineN = xmlGetLineNo(cur);
-         if (lineN != 65535)
+         if (lineN != 65535 && lineN != -1)
          {
-             cerr << PROCESSING_HTML_TAG ", ligne  " << lineN << ENDL;
+             cerr <<  ", ligne  " << lineN << ENDL;
          }
          else
          {
              if (info.ligne_fin.size() > info.NCumAgentXml)
              {
-                     cerr << PROCESSING_HTML_TAG " un peu après la ligne "  << info.ligne_fin.at(info.NCumAgentXml)[0] + 1 << ENDL;
+                     cerr <<  " un peu après la ligne "  << info.ligne_fin.at(info.NCumAgentXml)[0] + 1 << ENDL;
              }
          }
 
@@ -448,17 +448,17 @@ static int parseFile(info_t& info)
 #else
 
             cur = cur_save->next;
-            if (verbeux) cerr << PROCESSING_HTML_TAG "La paire de balises DonneesIndiv vides est omise." ENDL;
+            if (verbeux) cerr << PROCESSING_HTML_TAG "La paire de balises DonneesIndiv vides est omise, ";
             long lineN = xmlGetLineNo(cur);
-            if (lineN != 65535)
+            if (lineN != 65535 && lineN != -1)
             {
-                cerr << PROCESSING_HTML_TAG "Ligne  " << lineN << ENDL;
+                cerr << "ligne  " << lineN << ENDL;
             }
             else
             {
                 if (info.ligne_fin.size() > info.NCumAgentXml)
                 {
-                        cerr << PROCESSING_HTML_TAG "Un peu après la ligne "  << info.ligne_fin.at(info.NCumAgentXml)[0] + 1 << ENDL;
+                        cerr << "un peu après la ligne "  << info.ligne_fin.at(info.NCumAgentXml)[0] + 1 << ENDL;
                 }
             }
             goto DI;
