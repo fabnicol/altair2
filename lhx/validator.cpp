@@ -382,6 +382,7 @@ static int parseFile(info_t& info)
     }
 
     bool skip_employeur = false;
+    bool siret_etablissement =  false;
 
     if (employeur_fichier && ! info.exclure_employeur.empty())
     {
@@ -394,6 +395,8 @@ static int parseFile(info_t& info)
         }
     }
 
+ DI :
+
     cur = atteindreNoeud("DonneesIndiv", cur);
 
     if (cur == nullptr || xmlIsBlankNode(cur))
@@ -404,15 +407,27 @@ static int parseFile(info_t& info)
 #ifdef STRICT
         if (log.is_open())
             log.close();
-        exit(-525);
+        return SKIP_FILE;
 #else
         /* Il faudra sans doute ajuster les différences entre le parsing C et l'analyse Xml, qui vont diverger */
-        return SKIP_FILE;
+         if (verbeux) cerr << PROCESSING_HTML_TAG "Reste du fichier omis.";
+         long lineN = xmlGetLineNo(cur);
+         if (lineN != 65535)
+         {
+             cerr << PROCESSING_HTML_TAG ", ligne  " << lineN << ENDL;
+         }
+         else
+         {
+             if (info.ligne_fin.size() > info.NCumAgentXml)
+             {
+                     cerr << PROCESSING_HTML_TAG " un peu après la ligne "  << info.ligne_fin.at(info.NCumAgentXml)[0] + 1 << ENDL;
+             }
+         }
+
+            goto out;
+
 #endif
     }
-
-
-    bool siret_etablissement =  false;
 
     while(cur != nullptr)
     {
@@ -424,18 +439,30 @@ static int parseFile(info_t& info)
         if (cur == nullptr || xmlIsBlankNode(cur))
         {
             cerr << ERROR_HTML_TAG "Pas de données individuelles de paye [non conformité à la norme]." ENDL;
-            if (mut.try_lock())
-            {
-               errorLineStack.emplace_back(afficher_environnement_xhl(info, cur));
-               mut.unlock();
-            }
+
 #ifdef STRICT
             if (log.is_open())
                 log.close();
             exit(-515);
-#else
-            /* Il faudra sans doute ajuster les différences entre le parsing C et l'analyse Xml, qui vont diverger */
             return SKIP_FILE;
+#else
+
+            cur = cur_save->next;
+            if (verbeux) cerr << PROCESSING_HTML_TAG "La paire de balises DonneesIndiv vides est omise." ENDL;
+            long lineN = xmlGetLineNo(cur);
+            if (lineN != 65535)
+            {
+                cerr << PROCESSING_HTML_TAG "Ligne  " << lineN << ENDL;
+            }
+            else
+            {
+                if (info.ligne_fin.size() > info.NCumAgentXml)
+                {
+                        cerr << PROCESSING_HTML_TAG "Un peu après la ligne "  << info.ligne_fin.at(info.NCumAgentXml)[0] + 1 << ENDL;
+                }
+            }
+            goto DI;
+
 #endif
         }
 
@@ -765,6 +792,9 @@ static int parseFile(info_t& info)
         if (cur == nullptr || xmlStrcmp(cur->name, (const xmlChar*) "DonneesIndiv")) break;   // on ne va pas envoyer un message d'absence de DonneesIndiv si on a fini la boucle...
     }
 
+
+out :
+
 #ifdef GENERATE_RANK_SIGNAL
         generate_rank_signal();
 #endif
@@ -776,7 +806,6 @@ static int parseFile(info_t& info)
             cerr << STATE_HTML_TAG << "Total : " <<  info.NCumAgentXml << " bulletins -- " << info.nbLigne <<" lignes cumulées." ENDL ENDL;
         }
     
-
 
     if (siret_etablissement )
             xmlFree(siret_fichier);
