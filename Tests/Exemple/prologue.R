@@ -216,8 +216,8 @@ expression.rég.astreintes <- "astr.*"
 # --- FPH
 
 expression.rég.pspec <- "pr\\.?\\w*\\b\\s*\\bsp..?ci.*"
-expression.rég.ift <- "(?:\\bI\\.?F\\.?T\\.?[^S]*\\b|\\bind\\.?\\w*\\s*forf\\.?\\w*\\s*(?:et\\s*|)tech.*)"
-expression.rég.ps <- "\\bpr\\.?\\w*\\b\\s*\\bs\\w+v"
+expression.rég.ift <- "(?:\\bind\\.?\\w*\\s*forf\\.?\\w*\\s*(?:et\\s*|)te.*)"
+expression.rég.ps <- "\\bpr\\.?\\w*\\b\\s*(?:de\\s*)\\bs\\w+v"
 expression.rég.ptech <- "\\bpr\\.?\\w*\\b\\s*\\b(?:de\\s*|)tech.*"
 expression.rég.médecin <- "(?:m..?d\\.?(?:ecin|)|prat\\.?\\w*\\b\\s*\\bhos).*"
 
