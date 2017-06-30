@@ -255,7 +255,6 @@ if (! analyse.statique.totale) {
 }
 
 
-
 # Le format est jour/mois/année avec deux chiffres-séparateur-deux chiffres-séparateur-4 chiffres.
 # Le séparateur peut être changé en un autre en modifiant le "/" dans date.format
 
@@ -377,47 +376,13 @@ if (redresser.heures) {
           #       Gain de 14 s à 15 s pour un gros fichier de 15 ML.  
            
                message("correction du temps de travail par recherche binaire")
-             # 
-             #   microbenchmark::microbenchmark({   
-             #      Unique <- lapply(Bulletins.paie, unique)
-             #       
-             #      `%-%`<- function(x, y) setdiff(Unique[[as.character(substitute(x))]], y)
-             #       
-             #      setkey(Paie, Heures, Statut, Grade) 
-             #       
-             #      Paie[..(c(0, NA_real_),
-             #              Statut %-% "ELU",
-             #              Grade  %-% c("V", "A")), 
-             #                `:=`(indic1 = TRUE), nomatch=0]  
-             #      
-             #      # On est obligé de segmenter la condition en deux pour éviter une explosion combinatoire
-             #      # Pour cela on pose une indicatrice auxiliaire plus tard effacée
-             #      
-             #      setkey(Paie, indic1, Indice, Temps.de.travail)
-             #      
-             #      Paie[..(TRUE,
-             #           Indice %-% c(0, NA_real_),
-             #           Temps.de.travail %-% c(0, NA_real_)),
-             #              `:=`(indic = TRUE, 
-             #                   Heures = round(Temps.de.travail * nb.heures.temps.complet / 100, 1)), nomatch=0]
-             #       
-             #      Paie[, indic1 := NULL]
-             # }, times=1)
-        
-             # alternative par la méthode duale des indicatrices sur j:   
-               
-              # microbenchmark::microbenchmark({   
-                 
+  
                  setkey(Paie, Heures) 
                  
                  Paie[.(c(0, NA_real_)), indic := ifelse(Statut != "ELU" & Grade  != "V" & Grade  != "A"  & Indice != 0  & is.na(Indice) & Temps.de.travail != 0 & !is.na(Temps.de.travail), TRUE, NA)
                          , nomatch=0]
                  
                  Paie[.(c(0, NA_real_)), Heures := indic * round(Temps.de.travail * nb.heures.temps.complet / 100, 1)]
-                 
-               
-              # }, times=1)
-               
                
            }
      }
@@ -537,23 +502,6 @@ if (redresser.heures) {
                                                 & Heures > minimum.positif], na.rm = TRUE),
                  by="Sexe,Emploi"]
   
-  # B <- Bulletins.paie[pop_calcul_médiane <= population_minimale_calcul_médiane 
-  #                | Filtre_actif == FALSE | is.na(Filtre_actif) | is.na(pop_calcul_médiane), 
-  #                .(Sexe, Statut)]
-  #                             
-  # défaut_médiane <- function(X, Y)  {
-  #   
-  #   r <- M[Sexe == X
-  #           & Statut == Y,
-  #              Médiane_Sexe_Statut]
-  #   if (length(r) > 0) r[1] else 0
-  # }
-  # 
-  # 
-  # B[ , MHeures := défaut_médiane(Sexe, Statut), by = 1:NROW(B)] 
-  # ou: B[, MHeures := mapply(défaut_médiane, B[["Sexe"]], B[["Statut"]], SIMPLIFY=TRUE, USE.NAMES=FALSE)]
-  
-  
   # L'écrêtement des quotités est une contrainte statistiquement discutable qui permet de "stresser" le modèle
   # Par défaut les quotités sont écrêtées pour pouvoir par la suite raisonner en définissant le temps plein comme quotité == 1
   
@@ -638,8 +586,3 @@ if (redresser.heures) {
   if (is.na(VERSANT_FP))
      VERSANT_FP <<-  if (grepl("AG.*HOSP", grades.categories$Grade, ignore.case = TRUE)) "FPH" else "FPT"
   
-  
-
-  
-
-
