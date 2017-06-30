@@ -45,7 +45,7 @@ codes.ipf        <- NA
 codes.ifts       <- NA
 codes.iat        <- NA
 codes.ihts       <- NA
-codes.vacataires <-NA
+codes.vacataires <- NA
 codes.astreintes <- NA
 codes.pspec      <- NA  
 codes.ift <- NA  
