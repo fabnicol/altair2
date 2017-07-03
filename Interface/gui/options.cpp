@@ -727,17 +727,13 @@ processPage::processPage()
     connect(rapportEntier, &FCheckBox::toggled, [this] { if (rapportEntier->isChecked())
                         {
                             Q("Basculement vers la version Expérimentale.<br>Cela peut prendre une ou deux minutes.")
-                            int res= system("cd /home/fab/Dev/altair && git checkout master-jf && if test \"$(git branch --no-color | grep '*')\" = '* master-jf' ;"
-                                     "then cd-; exit 0 0;"
-                                     "else cd -; exit 2; fi");
+                            int res= system("cd /home/fab/Dev/altair && git checkout master-jf");
                             if (res == 0) { Q("Basculement réalisé.") } else  { Q("Le basculement vers la version Expérimentale n'a pas pu être réalisé.") }
                         }
                         else
                         {
                             Q("Basculement vers la version standard.<br>Cela peut prendre une ou deux minutes.")
-                            int res= system("cd /home/fab/Dev/altair && git checkout release && if test \"$(git branch --no-color | grep '*')\" = '* release' ;"
-                                     "then cd-; exit 0 0;"
-                                     "else cd -; exit 2; fi");
+                            int res= system("cd /home/fab/Dev/altair && git checkout release");
                             if (res == 0) { Q("Basculement réalisé.") } else  { Q("Le basculement vers la version standard n'a pas pu être réalisé.") }
                         }
             });
