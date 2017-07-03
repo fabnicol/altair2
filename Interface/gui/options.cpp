@@ -727,6 +727,7 @@ processPage::processPage()
     connect(rapportEntier, &FCheckBox::toggled, [this] {
 
                  const std::string &root = path_access(".").toStdString();
+                 Q(QString(root.c_str()))
                  if (rapportEntier->isChecked())
                         {
                             Q("Basculement vers la version Expérimentale.<br>Cela peut prendre une ou deux minutes.")
