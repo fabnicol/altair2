@@ -728,8 +728,8 @@ processPage::processPage()
                         {
                             Q("Basculement vers la version Expérimentale.<br>Cela peut prendre une ou deux minutes.")
                             int res= system("cd /home/fab/Dev/altair && git checkout release && if test \"$(git branch --no-color | grep '*')\" = '* master-jf' ;"
-                                     "then cd-; return 0;"
-                                     "else cd -; return 2; fi");
+                                     "then cd-; exit 0 0;"
+                                     "else cd -; exit 2; fi");
                             if (res == 0) { Q("Basculement réalisé") } else  { Q("Le basculement vers la version Expérimentale n'a pas pu être réalisé.") }
                         }
                         else
