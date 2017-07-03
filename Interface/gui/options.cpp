@@ -724,7 +724,17 @@ processPage::processPage()
                                       {"Version expérimentale",
                                        "Produire les rapports expérimentaux (EQTP et rémunérations)"});
 
-    connect(rapportEntier, &FCheckBox::toggled, [this] { if (rapportEntier->isChecked()) system("cd /home/fab/Dev/altair && git checkout release && cd -") ;});
+    connect(rapportEntier, &FCheckBox::toggled, [this] { if (rapportEntier->isChecked())
+                        {
+                            Q("Basculement vers la version Expérimentale.")
+                            system("cd /home/fab/Dev/altair && git checkout release && cd -");
+                        }
+                        else
+                        {
+                            Q("Basculement vers la version standard.")
+                            system("cd /home/fab/Dev/altair && git checkout master-jf && cd -");
+                        }
+            });
 
     v4Layout->addWidget(enchainerRapports, 0, 0, Qt::AlignLeft);
     v4Layout->addWidget(rapportTypeLabel,  1, 0, Qt::AlignRight);
