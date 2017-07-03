@@ -724,10 +724,13 @@ processPage::processPage()
                                       {"Version expérimentale",
                                        "Produire les rapports expérimentaux (EQTP et rémunérations)"});
 
+    // La version expérimentale n'est accessible que sous compte administrateur
+
+    if (QCoreApplication::applicationDirPath() != "/home/fab/Dev/altair/Interface_linux/gui/x64") rapportEntier->setVisible(false);
+
     connect(rapportEntier, &FCheckBox::toggled, [this] {
 
                  const std::string &root = path_access(".").toStdString();
-                 Q(QString(root.c_str()))
                  if (rapportEntier->isChecked())
                         {
                             Q("Basculement vers la version Expérimentale.<br>Cela peut prendre une ou deux minutes.")
