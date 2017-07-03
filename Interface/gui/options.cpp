@@ -726,12 +726,12 @@ processPage::processPage()
 
     connect(rapportEntier, &FCheckBox::toggled, [this] { if (rapportEntier->isChecked())
                         {
-                            Q("Basculement vers la version Expérimentale.")
+                            Q("Basculement vers la version Expérimentale.<br>Cela peut prendre une ou deux minutes.")
                             system("cd /home/fab/Dev/altair && git checkout release && cd -");
                         }
                         else
                         {
-                            Q("Basculement vers la version standard.")
+                            Q("Basculement vers la version standard.<br>Cela peut prendre une ou deux minutes.")
                             system("cd /home/fab/Dev/altair && git checkout master-jf && cd -");
                         }
             });
