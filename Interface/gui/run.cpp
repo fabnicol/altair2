@@ -497,63 +497,63 @@ void Altair::runRAltair()
 
     process.setProcessChannelMode(QProcess::MergedChannels);
 
-    if (v(enchainerRapports).isTrue())
+    if (v(enchainerRapports).isFalse())
     {
-        //#ifdef MINIMAL
-            outputType="R";
-            emit(setProgressBar(0, 100));
-            QString  path_access_rapport;
+        process.start(RAltairCommandStr, QStringList() << path_access("altaïr.Rproj"));
+        return;
+    }
 
-            if (v(rapportType) == "WORD et ODT")
-            {
-              path_access_rapport = path_access("Tests/Exemple/rapport_msword.R");
-            }
-            else
-            if (v(rapportType) == "PDF")
-            {
-              path_access_rapport = path_access("Tests/Exemple/rapport_pdf.R");
-            }
-            else
-            if (v(rapportType) == "WORD, ODT et PDF")
-            {
-              path_access_rapport = path_access("Tests/Exemple/rapport_msword_et_pdf.R");
-            }
+        outputType="R";
+        emit(setProgressBar(0, 100));
+        QString  path_access_rapport;
+
+        if (v(rapportType) == "WORD et ODT")
+        {
+          path_access_rapport = path_access("Tests/Exemple/rapport_msword.R");
+        }
+        else
+        if (v(rapportType) == "PDF")
+        {
+          path_access_rapport = path_access("Tests/Exemple/rapport_pdf.R");
+        }
+        else
+        if (v(rapportType) == "WORD, ODT et PDF")
+        {
+          path_access_rapport = path_access("Tests/Exemple/rapport_msword_et_pdf.R");
+        }
 
 #ifdef Q_OS_WIN
-            RAltairDirStr = path_access("R/bin/x64");
-            RAltairCommandStr = RAltairDirStr + QDir::separator() + "Rscript" + QString(systemSuffix);
+        RAltairDirStr = path_access("R/bin/x64");
+        RAltairCommandStr = RAltairDirStr + QDir::separator() + "Rscript" + QString(systemSuffix);
 #else
-            RAltairCommandStr = "/usr/bin/Rscript";
+        RAltairCommandStr = "/usr/bin/Rscript";
 #endif
-            process.setWorkingDirectory(path_access(""));
-            QDir::setCurrent(path_access(""));
-            process.start(RAltairCommandStr + " " + path_access_rapport);
+        process.setWorkingDirectory(path_access(""));
+        QDir::setCurrent(path_access(""));
+        process.start(RAltairCommandStr + " " + path_access_rapport);
 
-            if (process.waitForStarted())
-            {
-                outputTextEdit->append(RAltairCommandStr + " " + path_access_rapport);
-                outputTextEdit->append(tr(STATE_HTML_TAG \
-                            "Lancement du traitement des données ...Veuillez patienter.<br>"
-                            "Vous pouvez suivre l'exécution du traitement dans la console<br>"
-                            "(Configurer > Configurer l'interface > Afficher les messages)."));
-            }
-            else
-            {
-                QMessageBox::critical(this,
-                                      "Erreur",
-                                      "Echec du traitement des données."
-                                      "Recommencer en mode avancé ou en mode expert.",
-                                      "Fermer");
-            }
+        if (process.waitForStarted())
+        {
+            outputTextEdit->append(RAltairCommandStr + " " + path_access_rapport);
+            outputTextEdit->append(tr(STATE_HTML_TAG \
+                        "Lancement du traitement des données ...Veuillez patienter.<br>"
+                        "Vous pouvez suivre l'exécution du traitement dans la console<br>"
+                        "(Configurer > Configurer l'interface > Afficher les messages)."));
+        }
+        else
+        {
+            QMessageBox::critical(this,
+                                  "Erreur",
+                                  "Echec du traitement des données."
+                                  "Recommencer en mode avancé ou en mode expert.",
+                                  "Fermer");
+        }
 
-        //#else
-          #ifdef DEBUG
-            outputTextEdit->append(tr(STATE_HTML_TAG "Ligne de commande : %1").arg(RAltairCommandStr));
-          #endif
-    }
-    else
-    process.start(RAltairCommandStr, QStringList() << path_access("altaïr.Rproj"));
-//#endif
+
+      #ifdef DEBUG
+        outputTextEdit->append(tr(STATE_HTML_TAG "Ligne de commande : %1").arg(RAltairCommandStr));
+      #endif
+
 
 }
 
@@ -592,12 +592,14 @@ void Altair::processFinished(exitCode code)
                                + QString::number(((float)fsSize)/(1024.0*1024.0), 'f', 2)
                                + " Mo)");
 
+        bool res = false;
         if (v(exportMode).left(12) == "Distributive")
         {
-            bool res = runWorkerDistributed(false);
-            if (! res &&  v(enchainerRapports).isTrue())
-                runRAltair();
+            res = runWorkerDistributed(false);
         }
+
+        if (! res &&  v(enchainerRapports).isTrue())
+            runRAltair();
     }
 
 }

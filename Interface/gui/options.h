@@ -58,7 +58,9 @@ class processPage : public common
 public :
     processPage();
     FLineFrame *logFrame;
+    FCheckBox  *rapportEntier;
     FCheckBox  *enchainerRapports;
+
 
 private:
     FComboBox
@@ -156,6 +158,7 @@ private:
     QGridLayout *vLayout = new QGridLayout;
     QVBoxLayout *mainLayout = new QVBoxLayout;
     QGroupBox *baseBox;
+
 
     inline int ajouterVariable(const QString& nom);
     bool reinitialiser_prologue();
