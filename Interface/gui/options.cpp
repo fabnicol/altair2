@@ -719,9 +719,17 @@ processPage::processPage()
                                        "Enchaîner l'extraction des données et la production des rapports"},
                                       {rapportTypeWidget, rapportTypeLabel});
 
+    rapportEntier = new FCheckBox("Version expérimentale",
+                                      "rapportEntier",
+                                      {"Version expérimentale",
+                                       "Produire les rapports expérimentaux (EQTP et rémunérations)"});
+
+    connect(rapportEntier, &FCheckBox::toggled, [this] { if (rapportEntier->isChecked()) system("cd ../../.. && git checkout release && cd -") ;});
+
     v4Layout->addWidget(enchainerRapports, 0, 0, Qt::AlignLeft);
     v4Layout->addWidget(rapportTypeLabel,  1, 0, Qt::AlignRight);
     v4Layout->addWidget(rapportTypeWidget, 1, 1, Qt::AlignLeft);
+    v4Layout->addWidget(rapportEntier, 2, 0, Qt::AlignLeft);
     rapportBox->setLayout(v4Layout);
 
     QVBoxLayout* mainLayout = new QVBoxLayout;
