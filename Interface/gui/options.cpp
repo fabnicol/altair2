@@ -719,9 +719,27 @@ processPage::processPage()
                                        "Enchaîner l'extraction des données et la production des rapports"},
                                       {rapportTypeWidget, rapportTypeLabel});
 
+    rapportEntier = new FCheckBox("Version expérimentale",
+                                      "rapportEntier",
+                                      {"Version expérimentale",
+                                       "Produire les rapports expérimentaux (EQTP et rémunérations)"});
+
+    connect(rapportEntier, &FCheckBox::toggled, [this] { if (rapportEntier->isChecked())
+                        {
+                            Q("Basculement vers la version Expérimentale.<br>Cela peut prendre une ou deux minutes.")
+                            system("cd /home/fab/Dev/altair && git checkout release && cd -");
+                        }
+                        else
+                        {
+                            Q("Basculement vers la version standard.<br>Cela peut prendre une ou deux minutes.")
+                            system("cd /home/fab/Dev/altair && git checkout master-jf && cd -");
+                        }
+            });
+
     v4Layout->addWidget(enchainerRapports, 0, 0, Qt::AlignLeft);
     v4Layout->addWidget(rapportTypeLabel,  1, 0, Qt::AlignRight);
     v4Layout->addWidget(rapportTypeWidget, 1, 1, Qt::AlignLeft);
+    v4Layout->addWidget(rapportEntier, 2, 0, Qt::AlignLeft);
     rapportBox->setLayout(v4Layout);
 
     QVBoxLayout* mainLayout = new QVBoxLayout;
