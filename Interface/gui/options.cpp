@@ -724,17 +724,27 @@ processPage::processPage()
                                       {"Version expérimentale",
                                        "Produire les rapports expérimentaux (EQTP et rémunérations)"});
 
-    connect(rapportEntier, &FCheckBox::toggled, [this] { if (rapportEntier->isChecked())
+    // La version expérimentale n'est accessible que sous compte administrateur
+
+    if (QCoreApplication::applicationDirPath() != "/home/fab/Dev/altair/Interface_linux/gui/x64") rapportEntier->setVisible(false);
+
+    connect(rapportEntier, &FCheckBox::toggled, [this] {
+
+                 const std::string &root = path_access(".").toStdString();
+                 if (rapportEntier->isChecked())
                         {
                             Q("Basculement vers la version Expérimentale.<br>Cela peut prendre une ou deux minutes.")
-                            system("cd /home/fab/Dev/altair && git checkout release && cd -");
+                            int res= system(std::string("cd " + root + " && git checkout -f master-jf").c_str());
+                            if (res == 0) { Q("Basculement réalisé.") } else  { Q("Le basculement vers la version Expérimentale n'a pas pu être réalisé.") }
                         }
                         else
                         {
                             Q("Basculement vers la version standard.<br>Cela peut prendre une ou deux minutes.")
-                            system("cd /home/fab/Dev/altair && git checkout master-jf && cd -");
+                            int res= system(std::string("cd " + root + " && git checkout -f release").c_str());
+                            if (res == 0) { Q("Basculement réalisé.") } else  { Q("Le basculement vers la version standard n'a pas pu être réalisé.") }
                         }
             });
+
 
     v4Layout->addWidget(enchainerRapports, 0, 0, Qt::AlignLeft);
     v4Layout->addWidget(rapportTypeLabel,  1, 0, Qt::AlignRight);

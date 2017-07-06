@@ -369,13 +369,15 @@ if (nrow(T1) == 0) cat("Aucune NBI n'a été attribuée ou les points de NBI n'o
 T2a <- T1[! is.na(quotité)
            & quotité > 0
            & Type == "R"
-         ][ , quotité := NULL
-         ][ , .(nbi.cum.rappels = sum(Montant, na.rm = TRUE)), 
+         ][ , nbi.cum.rappels := sum(Montant, na.rm = TRUE), 
                  by= .(Matricule, Année.rappel, Mois.rappel)
          ][Année.rappel >= début.période.sous.revue 
                  & Mois.rappel >=1 
-                 & Mois.rappel <= 12]
+                 & Mois.rappel <= 12
+         ][ , .(Matricule, Année, Mois, Année.rappel, Mois.rappel, nbi.cum.rappels)]
 
+setnames(T2a, "Année", "Année.R")
+setnames(T2a, "Mois", "Mois.R")
 setnames(T2a, "Année.rappel", "Année")
 setnames(T2a, "Mois.rappel", "Mois")
 
@@ -420,7 +422,7 @@ lignes.nbi.anormales.hors.rappels <- T2[nbi.cum.indiciaire > 0
 
 couts.nbi.anormales.hors.rappels <- lignes.nbi.anormales.hors.rappels[ , sum(cout.nbi.anormale, na.rm = TRUE)]
 
-rappels.nbi <- T2[ , sum(nbi.cum.rappels, na.rm = TRUE)]
+rappels.nbi <- T2a[ , sum(nbi.cum.rappels, na.rm = TRUE)]
 
 #'  
 #'&nbsp;*Tableau `r incrément()` : Contrôle de liquidation de la NBI*    
@@ -447,7 +449,7 @@ Tableau(
 
 #'       
 #'[Lien vers la base de données des anomalies de NBI](Bases/Fiabilite/lignes.nbi.anormales.csv)     
-#'[Lien vers la base de données des anomalies de NBI](Bases/Fiabilite/lignes.nbi.anormales.hors.rappels.csv)          
+#'[Lien vers la base de données des anomalies de NBI hors rappels](Bases/Fiabilite/lignes.nbi.anormales.hors.rappels.csv)          
 #'   
 #'**Nota :**   
 #'*Est considéré comme anomalie manifeste un total annuel de rémunérations NBI correspondant à un point d'indice net mensuel inférieur à la moyenne de l'année moins 1 euro ou supérieur à cette moyenne plus 1 euro.*    
