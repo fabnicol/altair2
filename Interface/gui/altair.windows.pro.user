@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.1.0, 2017-06-21T12:36:12. -->
+<!-- Written by QtCreator 4.3.1, 2017-07-06T15:42:29. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -59,8 +59,8 @@
  <data>
   <variable>ProjectExplorer.Project.Target.0</variable>
   <valuemap type="QVariantMap">
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">qt6-g++6.1</value>
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">qt6-g++6.1</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">qt6-g++6.2</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">qt6-g++6.2</value>
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{b712839f-b7bc-4348-8aea-34e871091bc8}</value>
    <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">1</value>
    <value type="int" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
