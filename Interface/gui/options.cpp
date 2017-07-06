@@ -734,13 +734,13 @@ processPage::processPage()
                  if (rapportEntier->isChecked())
                         {
                             Q("Basculement vers la version Expérimentale.<br>Cela peut prendre une ou deux minutes.")
-                            int res= system(std::string("cd " + root + " && git checkout master-jf").c_str());
+                            int res= system(std::string("cd " + root + " && git checkout -f master-jf").c_str());
                             if (res == 0) { Q("Basculement réalisé.") } else  { Q("Le basculement vers la version Expérimentale n'a pas pu être réalisé.") }
                         }
                         else
                         {
                             Q("Basculement vers la version standard.<br>Cela peut prendre une ou deux minutes.")
-                            int res= system(std::string("cd " + root + " && git checkout release").c_str());
+                            int res= system(std::string("cd " + root + " && git checkout -f release").c_str());
                             if (res == 0) { Q("Basculement réalisé.") } else  { Q("Le basculement vers la version standard n'a pas pu être réalisé.") }
                         }
             });
