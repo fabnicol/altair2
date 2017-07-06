@@ -412,6 +412,14 @@ lignes.nbi.anormales <- T2[nbi.cum.indiciaire > 0
 
 couts.nbi.anormales <- lignes.nbi.anormales[ , sum(cout.nbi.anormale, na.rm = TRUE)]
 
+lignes.nbi.anormales.hors.rappels <- T2[nbi.cum.indiciaire > 0 
+                            & nbi.cum.hors.rappels > 0,
+                              test := nbi.cum.hors.rappels/(adm.quotité * nbi.cum.indiciaire) - PointMensuelIM[Année - 2007, Mois]
+                          ][! is.na(test) & abs(test) > 1
+                          ][ , cout.nbi.anormale := nbi.cum.hors.rappels - nbi.cum.indiciaire * PointMensuelIM[Année - 2007, Mois] * adm.quotité]
+
+couts.nbi.anormales.hors.rappels <- lignes.nbi.anormales.hors.rappels[ , sum(cout.nbi.anormale, na.rm = TRUE)]
+
 rappels.nbi <- T2[ , sum(nbi.cum.rappels, na.rm = TRUE)]
 
 #'  
@@ -426,8 +434,20 @@ Tableau(
   round(couts.nbi.anormales, 1),
   round(rappels.nbi, 1))
 
+#'  
+#'&nbsp;*Tableau `r incrément()` : Contrôle de liquidation de la NBI, hors rappels*    
+#'    
+
+Tableau(
+  c("Lignes de NBI concernées (hors rappels)",
+    "Coûts correspondants"),
+  nrow(lignes.nbi.anormales.hors.rappels),
+  round(couts.nbi.anormales.hors.rappels, 1))
+
+
 #'       
 #'[Lien vers la base de données des anomalies de NBI](Bases/Fiabilite/lignes.nbi.anormales.csv)     
+#'[Lien vers la base de données des anomalies de NBI](Bases/Fiabilite/lignes.nbi.anormales.hors.rappels.csv)          
 #'   
 #'**Nota :**   
 #'*Est considéré comme anomalie manifeste un total annuel de rémunérations NBI correspondant à un point d'indice net mensuel inférieur à la moyenne de l'année moins 1 euro ou supérieur à cette moyenne plus 1 euro.*    
@@ -2595,6 +2615,7 @@ if (sauvegarder.bases.analyse) {
               "base.heures.nulles.salaire.nonnull",
               "base.quotite.indefinie.salaire.non.nul",
               "lignes.nbi.anormales",
+              "lignes.nbi.anormales.hors.rappels",
               "lignes.nbi.anormales.mensuel",
               "lignes.paie.nbi.anormales.mensuel",
               "cumuls.nbi",
