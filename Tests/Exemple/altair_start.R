@@ -411,6 +411,14 @@ lignes.nbi.anormales <- T2[nbi.cum.indiciaire > 0
 
 couts.nbi.anormales <- lignes.nbi.anormales[ , sum(cout.nbi.anormale, na.rm = TRUE)]
 
+lignes.nbi.anormales.hors.rappels <- T2[nbi.cum.indiciaire > 0 
+                            & nbi.cum.hors.rappels > 0,
+                              test := nbi.cum.hors.rappels/(adm.quotité * nbi.cum.indiciaire) - PointMensuelIM[Année - 2007, Mois]
+                          ][! is.na(test) & abs(test) > 1
+                          ][ , cout.nbi.anormale := nbi.cum.hors.rappels - nbi.cum.indiciaire * PointMensuelIM[Année - 2007, Mois] * adm.quotité]
+
+couts.nbi.anormales.hors.rappels <- lignes.nbi.anormales.hors.rappels[ , sum(cout.nbi.anormale, na.rm = TRUE)]
+
 rappels.nbi <- T2[ , sum(nbi.cum.rappels, na.rm = TRUE)]
 
 #'  
@@ -424,6 +432,17 @@ Tableau(
   nrow(lignes.nbi.anormales),
   round(couts.nbi.anormales, 1),
   round(rappels.nbi, 1))
+
+#'  
+#'&nbsp;*Tableau `r incrément()` : Contrôle de liquidation de la NBI, hors rappels*    
+#'    
+
+Tableau(
+  c("Lignes de NBI concernées (hors rappels)",
+    "Coûts correspondants"),
+  nrow(lignes.nbi.anormales.hors.rappels),
+  round(couts.nbi.anormales.hors.rappels, 1))
+
 
 #'       
 #'[Lien vers la base de données des anomalies de NBI](Bases/Fiabilite/lignes.nbi.anormales.csv)     
