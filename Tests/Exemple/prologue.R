@@ -81,6 +81,8 @@ if (! exists("PDF"))       PDF <- FALSE
 keep_md                        <- FALSE
 utiliser.cplusplus.sft         <- FALSE
 sécuriser.types.sortie         <- TRUE
+utiliser.variable.Heures.Sup. <- FALSE  # faire les tests de seuil IHTS sur la variable Heures.Sup. plutôt que sur la Base ou le  Nb.Unité
+
 
 seuil.troncature               <- 1 # jours
 taux.tolérance.homonymie       <- 2  # en %
