@@ -1603,6 +1603,9 @@ essayer(
     cat("Tous les attributaires des IHTS sont titulaires ou stagiaires. ")
   }
   
+# Taux.horaires donne des sommes annuelles pour les traitements et IHTS, afin de calculer les taux maxima "seuils"
+  
+  
   Taux.horaires <- Base.IHTS[ ,.(`IR` = sum(Montant[Type == "IR"], na.rm = TRUE),
                                   IHTS.hors.rappels = sum(Montant[indic == TRUE 
                                                                   & (Type != "R" | (Année.rappel == Année & Mois.rappel == Mois))],
@@ -1638,6 +1641,8 @@ essayer(
 },
   "La base des taux horaires d'heures supplémentaires n'a pas pu être générée. ")
 
+# On considère le taux horaire maximum de nuit et la somme des IHTS 
+
 essayer(
 {
   Controle.HS <- Taux.horaires[ , .(Matricule, Année, Mois, Max, Min, IHTS.hors.rappels, IHTS.rappels)
@@ -1654,6 +1659,8 @@ essayer(
 #'     
 #'&nbsp;*Tableau `r incrément()` : Paiements au-delà des seuils de liquidation pour l'exercice*   
 #'    
+
+# On considère le taux horaire maximum de nuit et la somme des IHTS et on teste su la somme des IHTS est supérieures à ce que donnerait l'application du taux de nuit
 
 essayer(
 {
