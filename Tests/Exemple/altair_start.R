@@ -406,9 +406,11 @@ if (nrow(cumuls.nbi) == 0) cat("Cumuls de NBI nuls. ")
 # On somme ensuite par année sur tous les matricules
 # Les cumuls annuels rapportés aux cumuls indiciaires pour l'année ne doivent pas trop s'écarter de la valeur annuelle moyenne du point d'indice
 
+# Techniquement, rajouter un by = .(Année, Mois) accélère la computation
+
 lignes.nbi.anormales <- T2[nbi.cum.indiciaire > 0 
                             & nbi.eqtp.tot > 0,
-                              test := nbi.eqtp.tot/nbi.cum.indiciaire - PointMensuelIM[Année - 2007, Mois]
+                              test := nbi.eqtp.tot/nbi.cum.indiciaire - PointMensuelIM[Année - 2007, Mois], by= .(Année, Mois)
                           ][! is.na(test) & abs(test) > 1
                           ][ , cout.nbi.anormale := (nbi.eqtp.tot - nbi.cum.indiciaire * PointMensuelIM[Année - 2007, Mois]) * adm.quotité]
 
@@ -416,7 +418,7 @@ couts.nbi.anormales <- lignes.nbi.anormales[ , sum(cout.nbi.anormale, na.rm = TR
 
 lignes.nbi.anormales.hors.rappels <- T2[nbi.cum.indiciaire > 0 
                             & nbi.cum.hors.rappels > 0,
-                              test := nbi.cum.hors.rappels/(adm.quotité * nbi.cum.indiciaire) - PointMensuelIM[Année - 2007, Mois]
+                              test := nbi.cum.hors.rappels/(adm.quotité * nbi.cum.indiciaire) - PointMensuelIM[Année - 2007, Mois], by= .(Année, Mois)
                           ][! is.na(test) & abs(test) > 1
                           ][ , cout.nbi.anormale := nbi.cum.hors.rappels - nbi.cum.indiciaire * PointMensuelIM[Année - 2007, Mois] * adm.quotité]
 
@@ -1573,6 +1575,7 @@ colonnes <- c(étiquette.matricule,
               "Heures",
               "Heures.Sup.",
               "Base",
+              "Nb.Unité",
               "Taux",
               "Montant",
               "Début",
@@ -1589,7 +1592,9 @@ Base.IHTS <- filtrer_Paie("IHTS",
                           indic = TRUE)[ , `:=` (Année.rappel = as.numeric(substr(Début, 0, 4)),
                                                  Mois.rappel  = as.numeric(substr(Début, 6, 7))) ]
 
-Base.IHTS.non.tit <- Base.IHTS[Statut != "TITULAIRE" & Statut != "STAGIAIRE" & indic == TRUE]
+lignes.IHTS <- Base.IHTS[indic == TRUE]
+
+Base.IHTS.non.tit <- lignes.IHTS[Statut != "TITULAIRE" & Statut != "STAGIAIRE"]
 
 essayer(
 {
@@ -1704,21 +1709,25 @@ if (depassement) {
 
 essayer(
 {
-  CumHS <- Bulletins.paie[, .(V1 = sum(Heures.Sup., na.rm = TRUE)), by = Année]
+  CumHS <- Bulletins.paie[ , .(V1 = sum(Heures.Sup., na.rm = TRUE)), by = Année]
   
-  CumBaseIHTS <- Base.IHTS[indic == TRUE , .(V2 = sum(Base[Type != "R" | (Année.rappel == Année & Mois.rappel < Mois)], na.rm = TRUE),
-                                             V3 = sum(Base[Année.rappel < Année], na.rm = TRUE)),
+  # Certaines bases de données indiquent le nombre d'heures sup dans la variable Base et d'autres dans la variable Nb.Unité
+  # En principe un rappel concerne un mois antérieur. Mais de nombreuses BD ont des rappels du même mois...
+  
+  CumBaseIHTS <- lignes.IHTS[ , .(V2 = ifelse( (a <- sum(Base[Type != "R" & Montant != 0], na.rm = TRUE))  == 0, sum(Nb.Unité[Type != "R"  & Montant != 0], na.rm = TRUE), a),
+                                             V3 = ifelse( (a <- sum(Base[Type == "R" & Année.rappel == Année & Mois.rappel <= Mois & Montant != 0], na.rm = TRUE)) == 0,  sum(Nb.Unité[Type == "R" & Année.rappel == Année & Mois.rappel <= Mois & Montant != 0], na.rm = TRUE), a),
+                                             V4 = ifelse( (a <- sum(Base[Année.rappel < Année & Montant != 0], na.rm = TRUE)) == 0,  sum(Nb.Unité[Année.rappel < Année & Montant != 0], na.rm = TRUE), a)),
                            by = Année]
   
-  CumHS <- merge(CumHS, CumBaseIHTS, all = TRUE)[, Différence := V1 - V2 - shift(V3, type = "lead", fill = 0)]
+  CumHS <- merge(CumHS, CumBaseIHTS, all = TRUE)[ , Différence :=  V2 + V3 + shift(V4, type = "lead", fill = 0) - V1]
 
 },
 "La base des cumuls d'IHTS par année, des régularisations et des IHTS apparemment non liquidées n'a pas pu être générée. ")
 
   with(CumHS,
   
-    Tableau.vertical2(c("Année", "Cumul heures sup", "Cumul Base IHTS année", "Cumul Régul.N-1", "heures sup sans base de liquidation IHTS"),
-                        Année,    V1,                 V2,                      V3,                Différence)
+    Tableau.vertical2(c("Année N", "Cumul heures sup N", "Cumul Base N", "Cumul Rappels N", "Cumul Rappels N-1", "Nb HS payées - HS déclarées"),
+                        Année,             V1,               V2,              V3,                V4,            Différence)
   
   )
   
@@ -1733,6 +1742,9 @@ Dépassement.seuil.220h <- data.table()
 nb.agents.dépassement <- 0
 nb.agents.dépassement.220h <- 0
 
+
+if (utiliser.variable.Heures.Sup.) {
+  
 Depassement.seuil.180h <- Bulletins.paie[ , `Cumul heures sup` := sum(Heures.Sup., na.rm = TRUE),
                                                       keyby = .(Matricule, Année)
                                                ][ `Cumul heures sup` > 180, 
@@ -1742,6 +1754,21 @@ Depassement.seuil.180h <- Bulletins.paie[ , `Cumul heures sup` := sum(Heures.Sup
                                                   Emploi,
                                                   Grade,
                                                   Service)]
+} else {
+  
+  Base.HS <- lignes.IHTS[ , `Cumul heures sup` := sum(Nb.Unité[(Type != "R" | Année.rappel == Année & Mois.rappel <= Mois) & Montant > 0], na.rm = TRUE),
+                               keyby = .(Matricule, Année)]
+  
+  Depassement.seuil.180h <- Base.HS[ `Cumul heures sup` > 180, 
+                                                .(Matricule, 
+                                                  Année,
+                                                  `Cumul heures sup`,                        
+                                                  Emploi,
+                                                  Grade,
+                                                  Service)]
+
+}
+
 
 nb.agents.dépassement <- uniqueN(Depassement.seuil.180h$Matricule)
 
@@ -1767,7 +1794,15 @@ seuil.HS <- switch (VERSANT_FP,
                         FPH = 15,
                         FPT = 25)
 
-HS.sup.25 <- Base.IHTS[indic == TRUE & Heures.Sup. > seuil.HS]
+if (utiliser.variable.Heures.Sup.) {
+   HS.sup.25 <- lignes.IHTS[Heures.Sup. > seuil.HS]
+} else {
+  # Ilfaudrait "récupérer" les rappels ultérieurs...
+   HS.sup.25 <- lignes.IHTS[Type != "R" & Montant > 0
+                           ][ , `Cumul heures sup` := sum(ifelse(Base == 0, Nb.Unité, Base), na.rm = TRUE),
+                                                      keyby = .(Matricule, Année, Mois)
+                           ][`Cumul heures sup` > seuil.HS]
+}
 
 setnames(HS.sup.25, "indic", "IHTS identifiée")
 
