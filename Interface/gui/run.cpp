@@ -497,7 +497,9 @@ void Altair::runRAltair()
 
     process.setProcessChannelMode(QProcess::MergedChannels);
 
-    if (v(enchainerRapports).isTrue())
+    // ne pas utiliser isFalse() car la valeur peut être non-spécifiée au lancement
+
+    if (! v(enchainerRapports).isTrue())
     {
         //#ifdef MINIMAL
             outputType="R";
@@ -566,6 +568,8 @@ void Altair::processFinished(exitCode code)
                                                              " Décodage des bases " :
                                                              " Analyse des données ")
                                                   + tr(": plantage de l'application."));
+
+            outputTextEdit->append(ERROR_HTML_TAG + QString("Ligne de commande : ") + RAltairCommandStr + " " + path_access("altaïr.Rproj"));
             return;
     
 
