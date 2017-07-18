@@ -109,8 +109,10 @@ incrémenter.chapitre()
 message("Démographie...")
 
 # Rappel Analyse.variations.par.exercice comprend uniquement les actifs non annexes non assist. mat., non vacataires, non élus.
+library("altair", lib.loc="/usr/lib64/R/library")
+detach("package:altair", unload=TRUE)
+library("altair", lib.loc="/usr/lib64/R/library")
 
-library(altair, warn.conflicts = FALSE)
 tableau.effectifs <- effectifs(période, Bulletins.paie, Analyse.remunerations, Analyse.variations)
 
 #'  
@@ -152,7 +154,10 @@ if (nb.heures.temps.complet > 1.1 * 151.67 || nb.heures.temps.complet < 0.9 * 15
 
 message("Statistiques de démographie réalisées.")
 
-e<-new.env()
+e <<-new.env()
+
+fichiers.pyramides <- list.files(file.path(currentDir, "data"), pattern = "*.RData", full.names  = TRUE)
+for (f in fichiers.pyramides) load(f, envir = e)
 
 # local = TRUE permet de conserver l'environnement e en sourçant
 
@@ -172,9 +177,9 @@ newpage()
   
 essayer(produire_pyramides(NULL, 
                            "Pyramide des âges des personnels",
-                           versant = VERSANT_FP),
+                           versant = VERSANT_FP,
+                           envir = e),
         "La pyramide des âges de l'ensemble des personnels n'a pas pu être générée.")
-
 
 newpage()
 
@@ -204,7 +209,8 @@ newpage()
 #+fig.height=8, fig.width=7
 essayer(produire_pyramides(c("TITULAIRE", "STAGIAIRE"), 
                            "Pyramide des âges des fonctionnaires",
-                           versant = "TIT_" %+% VERSANT_FP),
+                           versant = "TIT_" %+% VERSANT_FP,
+                           envir = e),
       "La pyramide des âges des fonctionnaires n'a pas pu être générée.")
 
 newpage()
@@ -229,7 +235,8 @@ newpage()
 
 #+fig.height=8, fig.width=7
 essayer(produire_pyramides(c("NON_TITULAIRE"), "Pyramide des âges des non titulaires", 
-                           versant = "NONTIT_" %+% VERSANT_FP),
+                           versant = "NONTIT_" %+% VERSANT_FP,
+                           envir = e),
         "La pyramide des âges des non titulaires n'a pas pu être générée." )
 
 newpage()
@@ -259,7 +266,8 @@ newpage()
 Filtre_bulletins <- setdiff(unique(Bulletins.paie$Statut), c("TITULAIRE", "NON_TITULAIRE", "STAGIAIRE")) 
 
 essayer(produire_pyramides(Filtre_bulletins,
-                           "Pyramide des âges des autres personnels"),
+                           "Pyramide des âges des autres personnels",
+                           envir = e),
         "La pyramide des âges des autres personnels n'a pas pu être générée.")
 
 newpage()
