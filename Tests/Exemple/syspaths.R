@@ -38,7 +38,7 @@
 # 
 # 
 
-chemin.clé <- get("chemin.cle", envir = e)
+chemin.clé <- get("chemin.cle", envir = env)
 chemin.dossier.bases        <- file.path(chemin.clé, "Bases")
 chemin.dossier.outils       <- file.path(chemin.clé, "..", "..", "Outils")
 chemin.dossier.données      <- file.path(chemin.clé, "Donnees")

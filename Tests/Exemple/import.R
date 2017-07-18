@@ -128,6 +128,8 @@ fichiers.bulletins <- list.files(chemin.clé, pattern = nom.bulletins %+% "(-)?[^
 
 if (! charger.bases) break
 
+
+
 T0 <- data.table::fread(fichiers.bulletins[1],
                         sep = séparateur.liste.entrée,
                         dec = séparateur.décimal.entrée,
