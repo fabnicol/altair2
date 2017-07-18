@@ -42,7 +42,8 @@ pyramides <- function(Bulletins.début.psr,
                       ages.début.psr, 
                       ages.fin.psr,
                       titre,
-                      versant) {
+                      versant,
+                      envir = .GlobalEnv) {
 
 e$res <- Résumé(c("Âge des personnels <br>au 31/12/" %+% début.période.sous.revue,
          "Effectif",
@@ -74,15 +75,15 @@ if (longueur.non.na(ages.début.psr) > 0 || longueur.non.na(ages.fin.psr) > 0) {
   
   if (! is.null(ages.fin.psr)) {
     
-    pyramide_ages(ages.début.psr, ages.fin.psr, titre) 
+    pyramide_ages(ages.début.psr, ages.fin.psr, titre, envir = envir) 
 
     if (versant != "")  {  
-          pyramide_ages(ages.fin.psr, date.fin = fin.période.sous.revue, versant = versant)
+          pyramide_ages(ages.fin.psr, date.fin = fin.période.sous.revue, versant = versant, envir = envir)
     } 
     
   } else {
     
-    pyramide_ages(après)
+    pyramide_ages(après, envir = envir)
     
   }
 
