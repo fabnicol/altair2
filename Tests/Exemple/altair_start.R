@@ -155,7 +155,12 @@ message("Statistiques de démographie réalisées.")
 e <- new.env()
 
 fichiers.pyr <- list.files(path= file.path(currentDir, "data"), pattern = "*.csv", full.names = TRUE)
-for (f in fichiers.pyr) assign(substr(basename(f), 1, 12), fread(f, sep = ";", header = TRUE, encoding = "Latin-1"), envir = .GlobalEnv)
+for (f in fichiers.pyr) {
+  base <- basename(f)
+  assign(substr(base, 1, attr(regexec("(.*)\\.csv", base)[[1]], "match.length")[2]),
+         fread(f, sep = ";", header = TRUE, encoding = "Latin-1"),
+         envir = .GlobalEnv)
+}
 
 # local = TRUE permet de conserver l'environnement e en sourçant
 
