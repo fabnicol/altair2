@@ -154,10 +154,15 @@ if (nb.heures.temps.complet > 1.1 * 151.67 || nb.heures.temps.complet < 0.9 * 15
 
 message("Statistiques de démographie réalisées.")
 
-e <<-new.env()
+e <- new.env()
 
-fichiers.pyramides <- list.files(file.path(currentDir, "data"), pattern = "*.RData", full.names  = TRUE)
-for (f in fichiers.pyramides) load(f, envir = e)
+fichiers.pyr <- list.files(path= file.path(currentDir, "data"), pattern = "*.csv", full.names = TRUE)
+for (f in fichiers.pyr) {
+  base <- basename(f)
+  assign(substr(base, 1, attr(regexec("(.*)\\.csv", base)[[1]], "match.length")[2]),
+         fread(f, sep = ";", header = TRUE, encoding = "Latin-1", dec = ",", colClasses = c("integer", "numeric", "numeric", "integer", "character")),
+         envir = .GlobalEnv)
+}
 
 # local = TRUE permet de conserver l'environnement e en sourçant
 
@@ -180,6 +185,7 @@ essayer(produire_pyramides(NULL,
                            versant = VERSANT_FP,
                            envir = e),
         "La pyramide des âges de l'ensemble des personnels n'a pas pu être générée.")
+
 
 newpage()
 

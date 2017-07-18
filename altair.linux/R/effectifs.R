@@ -506,8 +506,7 @@ année_comparaison <- function(versant, e) {
   p <- NULL
   
   for (a in fin.période.sous.revue:2010) {
-    p0 <- "pyr_" %+% a %+% "_" %+% tolower(versant)
-    if (exists(p0, envir = e)) {
+    if (exists(p0 <- "pyr_" %+% a %+% "_" %+% tolower(versant), envir = .GlobalEnv)) {
       année <- a
       p <- p0
       break
@@ -516,7 +515,7 @@ année_comparaison <- function(versant, e) {
   
   # --- sanity checks
   stopifnot(!is.null(p))
-  if (!is.null(p)) pyr <- get(p, envir = e) else pyr <- NULL
+  pyr <- get(p, .GlobalEnv)
   stopifnot(toupper(pyr[1, versant]) == versant)
   stopifnot(pyr[1, année.référence]  == année)
   
