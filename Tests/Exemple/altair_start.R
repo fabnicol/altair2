@@ -1279,9 +1279,11 @@ if (nrow(cumuls.nbi) == 0) cat("Cumuls de NBI nuls. ")
 # On somme ensuite par année sur tous les matricules
 # Les cumuls annuels rapportés aux cumuls indiciaires pour l'année ne doivent pas trop s'écarter de la valeur annuelle moyenne du point d'indice
 
+# Techniquement, rajouter un by = .(Année, Mois) accélère la computation
+
 lignes.nbi.anormales <- T2[nbi.cum.indiciaire > 0 
                             & nbi.eqtp.tot > 0,
-                              test := nbi.eqtp.tot/nbi.cum.indiciaire - PointMensuelIM[Année - 2007, Mois]
+                              test := nbi.eqtp.tot/nbi.cum.indiciaire - PointMensuelIM[Année - 2007, Mois], by= .(Année, Mois)
                           ][! is.na(test) & abs(test) > 1
                           ][ , cout.nbi.anormale := (nbi.eqtp.tot - nbi.cum.indiciaire * PointMensuelIM[Année - 2007, Mois]) * adm.quotité]
 
@@ -1289,7 +1291,7 @@ couts.nbi.anormales <- lignes.nbi.anormales[ , sum(cout.nbi.anormale, na.rm = TR
 
 lignes.nbi.anormales.hors.rappels <- T2[nbi.cum.indiciaire > 0 
                             & nbi.cum.hors.rappels > 0,
-                              test := nbi.cum.hors.rappels/(adm.quotité * nbi.cum.indiciaire) - PointMensuelIM[Année - 2007, Mois]
+                              test := nbi.cum.hors.rappels/(adm.quotité * nbi.cum.indiciaire) - PointMensuelIM[Année - 2007, Mois], by= .(Année, Mois)
                           ][! is.na(test) & abs(test) > 1
                           ][ , cout.nbi.anormale := nbi.cum.hors.rappels - nbi.cum.indiciaire * PointMensuelIM[Année - 2007, Mois] * adm.quotité]
 
@@ -2441,11 +2443,13 @@ colonnes <- c(étiquette.matricule,
               "Mois",
               "Statut",
               "Indice",
+              "NBI",
               "Libellé",
               étiquette.code,
               "Heures",
               "Heures.Sup.",
               "Base",
+              "Nb.Unité",
               "Taux",
               "Montant",
               "Début",
@@ -2462,7 +2466,43 @@ Base.IHTS <- filtrer_Paie("IHTS",
                           indic = TRUE)[ , `:=` (Année.rappel = as.numeric(substr(Début, 0, 4)),
                                                  Mois.rappel  = as.numeric(substr(Début, 6, 7))) ]
 
-Base.IHTS.non.tit <- Base.IHTS[Statut != "TITULAIRE" & Statut != "STAGIAIRE" & indic == TRUE]
+lignes.IHTS <- Base.IHTS[indic == TRUE][ , indic := NULL]
+
+Base.IHTS.non.tit <- lignes.IHTS[Statut != "TITULAIRE" & Statut != "STAGIAIRE"]
+
+lignes.IHTS.rappels <- lignes.IHTS[Type == "R" & Montant != 0
+         ][ , `:=`(ihts.cum.rappels = sum(Montant[Année.rappel == Année & Mois.rappel <= Mois], na.rm = TRUE),
+                   nihts.cum.rappels = ifelse((a <- sum(abs(Base[Année.rappel == Année & Mois.rappel <= Mois]) * sign(Montant), na.rm = TRUE)) == 0, sum(abs(Nb.Unité[Année.rappel == Année & Mois.rappel <= Mois])  * sign(Montant), na.rm = TRUE), a),
+                   ihts.cum.rappels.ant = sum(Montant[Année.rappel < Année], na.rm = TRUE),
+                   nihts.cum.rappels.ant = ifelse((a <- sum(abs(Base[Année.rappel < Année]) * sign(Montant), na.rm = TRUE)) == 0, sum(abs(Nb.Unité[Année.rappel < Année]) * sign(Montant), na.rm = TRUE), a)), 
+                 by= .(Matricule, Année.rappel, Mois.rappel)
+         ][Année.rappel >= début.période.sous.revue 
+                 & Mois.rappel >=1 
+                 & Mois.rappel <= 12
+         ][ , .(Matricule, Année, Mois, Année.rappel, Mois.rappel, ihts.cum.rappels, nihts.cum.rappels, ihts.cum.rappels.ant, nihts.cum.rappels.ant)]
+
+setnames(lignes.IHTS.rappels, "Année", "Année.R")
+setnames(lignes.IHTS.rappels, "Mois", "Mois.R")
+setnames(lignes.IHTS.rappels, "Année.rappel", "Année")
+setnames(lignes.IHTS.rappels, "Mois.rappel", "Mois")
+
+lignes.IHTS.hors.rappels <- lignes.IHTS[Type != "R" & Montant != 0, 
+                                       .(ihts.cum.hors.rappels = sum(Montant, na.rm = TRUE),
+                                         nihts.cum.hors.rappels = ifelse((a <- sum(abs(Base) * sign(Montant), na.rm = TRUE)) == 0, sum(abs(Nb.Unité) * sign(Montant), na.rm = TRUE), a)),
+                                           by= .(Matricule, Année, Mois)]
+
+lignes.IHTS.tot <- merge(lignes.IHTS.rappels, lignes.IHTS.hors.rappels, 
+                         all = TRUE,
+                         by = c("Matricule", "Année", "Mois"))[is.na(ihts.cum.rappels), ihts.cum.rappels := 0
+                     ][is.na(ihts.cum.hors.rappels), ihts.cum.hors.rappels := 0
+                     ][is.na(nihts.cum.rappels), nihts.cum.rappels := 0
+                     ][is.na(nihts.cum.hors.rappels), nihts.cum.hors.rappels := 0
+                     ][is.na(ihts.cum.rappels), ihts.cum.rappels := 0
+                     ][is.na(ihts.cum.rappels.ant), ihts.cum.rappels.ant := 0
+                     ][is.na(nihts.cum.rappels.ant), nihts.cum.rappels.ant := 0]
+
+lignes.IHTS.tot[ ,  `:=`(ihts.tot = ihts.cum.rappels + ihts.cum.hors.rappels + ihts.cum.rappels.ant,
+                         nihts.tot = nihts.cum.rappels + nihts.cum.hors.rappels + nihts.cum.rappels.ant)]
 
 essayer(
 {
@@ -2476,23 +2516,18 @@ essayer(
     cat("Tous les attributaires des IHTS sont titulaires ou stagiaires. ")
   }
   
+# Taux.horaires donne des sommes annuelles pour les traitements et IHTS, afin de calculer les taux maxima "seuils"
+# on prend en compte la NBI pour le calcul du taux (réponse ministérielle 23 mai 2006)   
+  
   Taux.horaires <- Base.IHTS[ ,.(`IR` = sum(Montant[Type == "IR"], na.rm = TRUE),
-                                  IHTS.hors.rappels = sum(Montant[indic == TRUE 
-                                                                  & (Type != "R" | (Année.rappel == Année & Mois.rappel == Mois))],
-                                                          na.rm = TRUE),
-                                  IHTS.rappels = sum(Montant[indic == TRUE
-                                                             & Type == "R"
-                                                             & ((Année.rappel == Année & Mois.rappel < Mois) | Année.rappel < Année) ],
-                                                     na.rm = TRUE),
-                                  IHTS.rappels.année.préc = sum(Montant[indic == TRUE 
-                                                                        & Type == "R" 
-                                                                        & Année.rappel < Année], 
-                                                                na.rm = TRUE), 
                                   Indice = Indice[1],
+                                  NBI = NBI[1],
                                   Heures.Sup. = Heures.Sup.[1]), # ajouter NBI proratisée !
-                                         by = .(Matricule, Année, Mois)
-    
-                            ][ , `Traitement indiciaire annuel et IR` := IR * 12 + Indice * PointIM[Année - 2007, Mois]
+                                         by = .(Matricule, Année, Mois)]
+  
+  Taux.horaires <- merge(Taux.horaires, lignes.IHTS.tot)
+  setkey(Taux.horaires, Année, Mois)
+  Taux.horaires <- Taux.horaires[ , `Traitement indiciaire annuel et IR` := IR * 12 + (Indice + NBI) * PointIM[Année - 2007, Mois]
                               
                             ][ , `Taux horaire` := `Traitement indiciaire annuel et IR` / 1820 
                               
@@ -2501,8 +2536,8 @@ essayer(
                                         `Taux horaire nuit`     = `Taux horaire` * 2,     
                                         `Taux horaire dim. j.f.`= `Taux horaire` * 5/3)  
                               
-                            ][ ,   `:=` (Max = Heures.Sup. * `Taux horaire nuit`,
-                                         Min = Heures.Sup. * `Taux horaire inf.14 H`)
+                            ][ ,   `:=` (Max = nihts.tot * `Taux horaire nuit`,
+                                         Min = nihts.tot * `Taux horaire inf.14 H`)
                               
                             ][ ,  `:=`(Indice = NULL,
                                            IR = NULL)]   
@@ -2511,15 +2546,7 @@ essayer(
 },
   "La base des taux horaires d'heures supplémentaires n'a pas pu être générée. ")
 
-essayer(
-{
-  Controle.HS <- Taux.horaires[ , .(Matricule, Année, Mois, Max, Min, IHTS.hors.rappels, IHTS.rappels)
-                              ][! duplicated(Taux.horaires)  ,
-                                    .(Tot.Max  = sum(Max, na.rm = TRUE),
-                                      Tot.Min  = sum(Min, na.rm = TRUE),
-                                       Tot.IHTS = sum(IHTS.hors.rappels + IHTS.rappels, na.rm = TRUE)), by = "Matricule,Année"]
-},
-  "La base des cumuls d'IHTS par matricule et année n'a pas pu être générée. ")
+# On considère le taux horaire maximum de nuit et la somme des IHTS 
 
 #'*Le seuil maximal de liquidation d'IHTS pour l'exercice est déterminé comme égal au nombres d'heures supplémentaires déclarées multipliées par le taux horaire des IHTS de nuit.*    
 #'*Les IHTS retenues sont celles qui ont été liquidées sur une base de liquidation, en paiements directs sur l'exercice ou en rappels.*    
@@ -2528,70 +2555,90 @@ essayer(
 #'&nbsp;*Tableau `r incrément()` : Paiements au-delà des seuils de liquidation pour l'exercice*   
 #'    
 
+# On considère le taux horaire maximum de nuit et la somme des IHTS et on teste su la somme des IHTS est supérieures à ce que donnerait l'application du taux de nuit
+
 essayer(
 {
-
-depassement <- Controle.HS[Tot.IHTS > Tot.Max, uniqueN(Matricule)]
-depassement.agent <- Controle.HS[Tot.IHTS > Tot.Max, .(Matricule, Tot.Max, Tot.IHTS), keyby = Année]
-
-if (depassement) {
+  depassement <- Taux.horaires[ihts.tot > Max, uniqueN(Matricule)]
+  depassement.agent <- Taux.horaires[ihts.tot > Max, 
+                           .(`Coût en euros` = -Max + ihts.tot,
+                             Matricule,
+                             Max,
+                             ihts.tot), keyby = Année]
   
-  cat("Il y a", depassement, "agent" %+% ifelse(depassement, "s", ""), "qui perçoivent davantage que le maximum d'IHTS pouvant être liquidé au titre de l'exercice.") 
-}
-  Controle.HS <- Controle.HS[Tot.IHTS > Tot.Max,
-                         .(V1 = -sum(Tot.Max) + sum(Tot.IHTS),
-                           V2 = uniqueN(Matricule)),
-                              keyby=Année]
+  depassement.agent.annee <- depassement.agent[ , .(`Coût en euros` = sum(`Coût en euros`, na.rm = TRUE),
+                                                     `Nombre d'agents` = uniqueN(Matricule)), keyby = Année]
+  
+  if (depassement) {
+    
+    cat("Il y a", depassement, "agent" %+% ifelse(depassement, "s", ""), "qui perçoivent davantage que le maximum d'IHTS pouvant être liquidé au titre du mois.") 
+  }
+    
 },
 "Le tableau des dépassements de coûts n'a pas pu être généré. ")
 
-  with(Controle.HS,
+  with(depassement.agent.annee,
   
     Tableau.vertical2(c("Année", "Coût en euros", "Nombre d'agents"),
-                         Année, digits = 0, V1, V2))         
+                         Année, digits = 0, `Coût en euros`, `Nombre d'agents`))         
 
 
 #'     
 #'[Lien vers la base de données des IHTS aux non-titulaires](Bases/Reglementation/Base.IHTS.non.tit.csv)           
-#'[Lien vers la base de données dépassements des seuils de liquidation](Bases/Reglementation/Controle.HS.csv)     
-#'[Lien vers la base de données dépassements individuels des seuils de liquidation](Bases/Reglementation/depassement.agent.csv)     
-#'[Lien vers la base de données calcul des taux horaires individuels](Bases/Reglementation/Taux.horaires.csv)    
+#'[Lien vers le tableau des dépassements individuels des seuils de liquidation](Bases/Reglementation/depassement.agent.annee.csv)         
+#'[Lien vers la base de données dépassements individuels des seuils de liquidation](Bases/Reglementation/depassement.agent.csv)         
+#'[Lien vers la base de données calcul des taux horaires individuels](Bases/Reglementation/Taux.horaires.csv)        
 #'       
 
 
   
-#'*Le cumul des heures supplémentaires déclarées (colonne Heures.Sup. des bases) est, par année, comparé au cumul des bases de liquidation IHTS, pour l'année et en régularisation de l'année antérieure*    
-#'*Le volume d'heures supplémentaires déclarées et non liquidées sous forme d'IHTS peut correspondre à d'autres régimes d'heures supplémentaires (enseignants, élections) ou à des heures supplémentaires non effectuées (différence positive) ou sous-déclarées (différence négative)*   
-#'*Des différences supérieures aux volumes moyens des autres régimes d'heures supplémentaires indiquent une mauvaise fiabilité des déclarations d'heures supplémentaires et/ou des bases de liquidation IHTS*             
+#'*Le cumul des heures supplémentaires déclarées (colonne Heures.Sup. des bases) est, par année, comparé au cumul des bases de liquidation IHTS, pour l'année et en régularisation l'année suivante au titre du même exercice*    
+#'*Le volume d'heures supplémentaires déclarées et non liquidées sous forme d'IHTS peut correspondre à d'autres régimes d'heures supplémentaires (enseignants, élections) ou à des heures supplémentaires non effectuées ou sous-déclarées*   
+#'*Des différences importantes peuvent indiquer une mauvaise fiabilité des déclarations d'heures supplémentaires et/ou des bases de liquidation IHTS*             
 #'           
 #'       
-#'&nbsp;*Tableau `r incrément()` : Cumuls d'heures supplémentaires déclarées, liquidées et régularisée de l'année précédente, en heures*     
+#'&nbsp;*Tableau `r incrément()` : Cumuls d'heures supplémentaires déclarées et des IHTS payées, en nombre d'heures*     
 #'    
 
 essayer(
 {
-  CumHS <- Bulletins.paie[, .(V1 = sum(Heures.Sup., na.rm = TRUE)), by = Année]
+  CumHS <- Bulletins.paie[ , .(toths = sum(Heures.Sup., na.rm = TRUE)), keyby = Année]
   
-  CumBaseIHTS <- Base.IHTS[indic == TRUE , .(V2 = sum(Base[Type != "R" | (Année.rappel == Année & Mois.rappel < Mois)], na.rm = TRUE),
-                                             V3 = sum(Base[Année.rappel < Année], na.rm = TRUE)),
-                           by = Année]
+  # Certaines bases de données indiquent le nombre d'heures sup dans la variable Base et d'autres dans la variable Nb.Unité
+  # En principe un rappel concerne un mois antérieur. Mais de nombreuses BD ont des rappels du même mois...
   
-  CumHS <- merge(CumHS, CumBaseIHTS, all = TRUE)[, Différence := V1 - V2 - shift(V3, type = "lead", fill = 0)]
+  CumBaseIHTS <- unique(lignes.IHTS.tot[, .(Matricule, Année, Mois, nihts.tot, nihts.cum.hors.rappels, nihts.cum.rappels, nihts.cum.rappels.ant)], by = NULL)
 
+  TotBaseIHTS <- CumBaseIHTS[ , .(totihts = sum(nihts.tot),
+                   totihts.hors.rappels = sum(nihts.cum.hors.rappels),
+                   totihts.rappels = sum(nihts.cum.rappels),
+                   totihts.rappels.ant = sum(nihts.cum.rappels.ant)),
+                           keyby = Année]
+  
+  CumHS <- merge(CumHS, TotBaseIHTS, all = TRUE, by = "Année")
 },
 "La base des cumuls d'IHTS par année, des régularisations et des IHTS apparemment non liquidées n'a pas pu être générée. ")
 
   with(CumHS,
   
-    Tableau.vertical2(c("Année", "Cumul heures sup", "Cumul Base IHTS année", "Cumul Régul.N-1", "heures sup sans base de liquidation IHTS"),
-                        Année,    V1,                 V2,                      V3,                Différence)
+    Tableau.vertical2(c("Année N", "Cumul HS N", "Cumul IHTS N", "dont du mois", "dont rappels N", "dont payés N+1"),
+                        Année,             toths,    totihts,   totihts.hors.rappels, totihts.rappels,  totihts.rappels.ant)
   
   )
+#'    
+#'    
   
+  if ((l <- length(v <- CumHS[toths < totihts, Année])) > 0) {
+    cat("Le nombre d'heures supplémentaires déclarées pour ")     
+    cat(v, sep = ", ")
+    cat(" est incohérent avec le nombre d'heures IHTS payées au titre de", ifelse(l > 1, "ces", "cet"), ifelse(l > 1, "exercices. ","exercice. "))
+  }
   
-#'
-#'[Lien vers la base des cumuls de nombre d'heures IHTS liquidées](Bases/Reglementation/CumHS.csv)     
-#'  
+#'    
+#'[Lien vers les données du tableau](Bases/Reglementation/CumHS.csv)     
+#'[Lien vers les cumuls IHTS par matricule](Bases/Reglementation/lignes.IHTS.tot.csv)       
+#'[Lien vers les lignes IHTS](Bases/Reglementation/lignes.IHTS.csv)              
+#'   
 
 Depassement.seuil.180h <- data.table()
 Dépassement.seuil.220h <- data.table()
@@ -2599,15 +2646,34 @@ Dépassement.seuil.220h <- data.table()
 nb.agents.dépassement <- 0
 nb.agents.dépassement.220h <- 0
 
-Depassement.seuil.180h <- Bulletins.paie[ , `Cumul heures sup` := sum(Heures.Sup., na.rm = TRUE),
-                                                      keyby = .(Matricule, Année)
-                                               ][ `Cumul heures sup` > 180, 
+
+if (utiliser.variable.Heures.Sup.) {
+  
+  Depassement.seuil.180h <- Bulletins.paie[ , Nihts.tot := sum(Heures.Sup., na.rm = TRUE),
+                                                        keyby = .(Matricule, Année)
+                                                 ][ Nihts.tot > 180, 
+                                                  .(Matricule, 
+                                                    Année,
+                                                    Nihts.tot,                        
+                                                    Emploi,
+                                                    Grade,
+                                                    Service)]
+} else {
+  
+  Depassement.seuil.180h <- merge(CumBaseIHTS[ , .(Nihts.tot = sum(nihts.tot)), by = .(Matricule, Année)
+                                             ][Nihts.tot > 180, 
                                                 .(Matricule, 
                                                   Année,
-                                                  `Cumul heures sup`,                        
-                                                  Emploi,
-                                                  Grade,
-                                                  Service)]
+                                                  Nihts.tot)],
+                                                 Bulletins.paie[Mois == 12 , .(
+                                                                  Matricule,
+                                                                  Année,
+                                                                  Emploi,
+                                                                  Grade,
+                                                                  Service)], all.x = TRUE)
+
+}
+
 
 nb.agents.dépassement <- uniqueN(Depassement.seuil.180h$Matricule)
 
@@ -2617,7 +2683,7 @@ if  (nb.agents.dépassement)  {
             FR(nb.agents.dépassement), " agents.\n")
   } 
   
-  Depassement.seuil.220h <- Depassement.seuil.180h[`Cumul heures sup` > 220]
+  Depassement.seuil.220h <- Depassement.seuil.180h[Nihts.tot > 220]
   
   nb.agents.dépassement.220h <- uniqueN(Depassement.seuil.220h$Matricule) 
   
@@ -2633,11 +2699,15 @@ seuil.HS <- switch (VERSANT_FP,
                         FPH = 15,
                         FPT = 25)
 
-HS.sup.25 <- Base.IHTS[indic == TRUE & Heures.Sup. > seuil.HS]
+if (utiliser.variable.Heures.Sup.) {
+  cat ("Les cumuls d'IHTS sont déterminés à partir de la variable Heures.Sup. ")
+   HS.sup.25 <- lignes.IHTS[Heures.Sup. > seuil.HS]
+} else {
+   cat ("Les cumuls d'IHTS sont déterminés à partir des paiements de l'année, rappels compris, et des rappels payés l'année suivante. ")      
+   HS.sup.25 <- CumBaseIHTS[nihts.tot > seuil.HS]
+}
 
-setnames(HS.sup.25, "indic", "IHTS identifiée")
-
-nombre.Lignes.paie.HS.sup.25 <- nrow(HS.sup.25[`IHTS identifiée` == TRUE])
+nombre.Lignes.paie.HS.sup.25 <- nrow(HS.sup.25)
 
 ihts.cat.A <- filtrer_Paie("IHTS")[Montant != 0 
                                    & Catégorie == "A"
@@ -2648,7 +2718,7 @@ nombre.ihts.cat.A <- nrow(ihts.cat.A)
 
 message("Heures sup controlées")
 
-#'
+#'  
 #'  
 #'&nbsp;*Tableau `r incrément()` : Heures supplémentaires au-delà des seuils*   
 #'    
@@ -2666,7 +2736,8 @@ essayer({
 #'
 #'**Nota :**   
 #'HS en excès : au-delà de 25 heures par mois dans la FPT et 15 heures par mois dans la FPH, sauf pour certains emplois (18,3 heures par mois)     
-#'IHTS cat.A : attribuées à des fonctionnaires ou non-titulaires de catégorie A ou assimilés.     
+#'IHTS cat.A : attribuées à des fonctionnaires ou non-titulaires de catégorie A ou assimilés.    
+#'Dans les tableaux en lien les grades, emplois et service sont ceux connus en fin d'année.    
 
 
 #### 5.10 ELUS ####
@@ -3518,8 +3589,10 @@ if (sauvegarder.bases.analyse) {
              "codes.ipf",
              "HS.sup.25",
              "Base.IHTS.non.tit",
-             "Controle.HS",
+             "lignes.IHTS",
+             "lignes.IHTS.tot",
              "depassement.agent",
+             "depassement.agent.annee",
              "Taux.horaires",
              "CumHS",
              "Depassement.seuil.180h",
