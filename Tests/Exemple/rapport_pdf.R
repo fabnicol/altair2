@@ -40,8 +40,8 @@ source("prologue_rapport.R", encoding = "ISO-8859-1")
 
 for (rep in reps) {
   
-  e <<- new.env()
-  assign("chemin.cle", rep, envir = e)
+  env <<- new.env()
+  assign("chemin.cle", rep, envir = env)
   message("************************")
   message("*")
   message(paste("* Analyse du dossier", rep))

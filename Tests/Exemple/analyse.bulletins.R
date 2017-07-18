@@ -52,11 +52,12 @@ extraire_paye <- function(an, L) {
 }
 
 
-produire_pyramides <- function(Filtre_bulletins, titre, versant = "") {
+produire_pyramides <- function(Filtre_bulletins, titre, versant = "", envir = .GlobalEnv) {
 
   
   année.fin.comp <- if (versant != "") {
-                      max(début.période.sous.revue, min(altair::année_comparaison(versant)$année, fin.période.sous.revue))
+                      max(début.période.sous.revue,
+                      min(altair::année_comparaison(versant, envir)$année, fin.période.sous.revue))
                   } else fin.période.sous.revue
   
   
@@ -77,7 +78,8 @@ produire_pyramides <- function(Filtre_bulletins, titre, versant = "") {
             ages.début.psr,
             ages.fin.psr,
             titre,
-            versant)
+            versant,
+            envir = envir)
    
   stub <- gsub(" ", "-", sub("â", "a", titre)) %+% "_"
   
