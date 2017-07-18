@@ -152,7 +152,10 @@ if (nb.heures.temps.complet > 1.1 * 151.67 || nb.heures.temps.complet < 0.9 * 15
 
 message("Statistiques de démographie réalisées.")
 
-e<-new.env()
+e <- new.env()
+
+fichiers.pyr <- list.files(path= file.path(currentDir, "data"), pattern = "*.csv", full.names = TRUE)
+for (f in fichiers.pyr) assign(substr(basename(f), 1, 12), fread(f, sep = ";", header = TRUE, encoding = "Latin-1"), envir = .GlobalEnv)
 
 # local = TRUE permet de conserver l'environnement e en sourçant
 
