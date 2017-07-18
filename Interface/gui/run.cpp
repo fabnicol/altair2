@@ -497,7 +497,7 @@ void Altair::runRAltair()
 
     process.setProcessChannelMode(QProcess::MergedChannels);
 
-    if (v(enchainerRapports).isFalse())
+    if (! v(enchainerRapports).isTrue())
     {
         process.start(RAltairCommandStr, QStringList() << path_access("altaïr.Rproj"));
         return;
