@@ -501,13 +501,12 @@ charges.eqtp <- function(Base = Paie, grade = NULL, classe = NULL,  service = NU
 #'         }
 #' @export
  
-année_comparaison <- function(versant, e) {
+année_comparaison <- function(versant) {
   
   p <- NULL
   
   for (a in fin.période.sous.revue:2010) {
-    p0 <- "pyr_" %+% a %+% "_" %+% tolower(versant)
-    if (exists(p0, envir = e)) {
+    if (exists(p0 <- "pyr_" %+% a %+% "_" %+% tolower(versant), envir = .GlobalEnv)) {
       année <- a
       p <- p0
       break
@@ -516,7 +515,7 @@ année_comparaison <- function(versant, e) {
   
   # --- sanity checks
   stopifnot(!is.null(p))
-  if (!is.null(p)) pyr <- get(p, envir = e) else pyr <- NULL
+  pyr <- get(p, .GlobalEnv)
   stopifnot(toupper(pyr[1, versant]) == versant)
   stopifnot(pyr[1, année.référence]  == année)
   
@@ -686,7 +685,6 @@ pyramidf <- function(data, Laxis=NULL, Raxis=NULL,
 #'                celle qu'aurait l'organisme si la distribution de ses âges était celle du versant mentionné de la fonction publique.
 #' @param couleur_H couleur utilisée pour représenter les hommes (partie droite de la pyramide). Par défaut \code{darkslateblue}
 #' @param couleur_F couleur utilisée pour représenter les femmes (partie gauche de la pyramide). Par défaut \code{firebrick4}
-#' @param envir environnement
 #' @return Une liste de deux vecteurs numériques représentant chacun des axes (gauche puis droit).
 #'         Un graphique comprenat une pyramide, une légende et éventuellement un titre.
 #' @examples
@@ -700,13 +698,12 @@ pyramide_ages <- function(Avant,
                           date.fin = fin.période.sous.revue,
                           versant = "",
                           couleur_H = "darkslateblue",
-                          couleur_F = "firebrick4",
-                          envir = .GlobalEnv) {
+                          couleur_F = "firebrick4") {
 
   
   if (versant != "") {
 
-    compar <- année_comparaison(versant, envir)
+    compar <- année_comparaison(versant)
     année.référence <- compar$année
     pyr <- compar$pyr
     
@@ -735,8 +732,7 @@ pyramide_ages <- function(Avant,
                   pyr,
                   "Comparaison avec les données nationales au 31 décembre " %+% année.référence,
                   "organisme " %+% date.fin,
-                  paste(leg, année.référence),
-                  envir = envir)
+                  paste(leg, année.référence))
 
     cat("Pour obtenir les effectifs nationaux, multiplier les abscisses des hommes par", formatC(round(1 / H.coef.forme), big.mark = " "),
         "et les abscisses des femmes par", formatC(round(1 / F.coef.forme), big.mark = " "))

@@ -497,7 +497,7 @@ void Altair::runRAltair()
 
     process.setProcessChannelMode(QProcess::MergedChannels);
 
-    // ne pas utiliser isFalse() car la valeur peut être non-spécifiée au lancement
+    if (! v(enchainerRapports).isTrue())
 
     if (! v(enchainerRapports).isTrue())
     {
