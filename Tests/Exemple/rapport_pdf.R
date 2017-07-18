@@ -62,9 +62,10 @@ for (rep in reps) {
       message("************************")
       setwd(currentDir)
   }
-  
+if (! debug.code)
  rm(list = setdiff(ls(), script_env))
 }
 
-rm(list = ls())
+if (! debug.code)
+    rm(list = ls())
 

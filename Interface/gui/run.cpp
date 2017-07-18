@@ -498,6 +498,11 @@ void Altair::runRAltair()
     process.setProcessChannelMode(QProcess::MergedChannels);
 
     // ne pas utiliser isFalse() car la valeur peut être non-spécifiée au lancement
+    const QString &outputDir = common::path_access("Tests/Exemple/Donnees/" AltairDir);
+
+    QDir(outputDir).remove("altaïr.pdf");
+    QDir(outputDir).remove("altaïr.odt");
+    QDir(outputDir).remove("altaïr.docx");
 
     if (! v(enchainerRapports).isTrue())
     {
