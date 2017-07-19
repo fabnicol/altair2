@@ -36,6 +36,20 @@ if test -f sys/install.modules -a $(uname -r | cut -d '.' -f 2) = 4; then
     fi 
 fi
 
+# Toute l'actualisation étant en mode git checkout et non pas en git pull
+# il faut effacer les résidus qui posent problème
+
+
+
+if test -f sys/install.data; then
+  git checkout -- data
+  cp -rf data /home/jf/Dev/altair
+  rm -f sys/Rlibrary/altair/data/*
+  rm -f altair.linux/data/*
+  rm -f altair/data/*
+fi  
+
+
 cd sys
 chmod -R +rwx *sh
 
@@ -55,6 +69,7 @@ fi
 
 # recompilation de la bibliothèque altair
 if test -f install.Rlibrary; then
+  rm -rf /usr/lib64/R/library/*
   cp -rf Rlibrary/*  /usr/lib64/R/library/ 
   echo "*************************************"
   echo "*                                   *"
@@ -63,6 +78,8 @@ if test -f install.Rlibrary; then
   echo "*************************************"
   sleep 2
 fi  
+
+
 
 if test -f install.kernel -a "$(uname -r)" != "4.10.8-ck"; then
 
