@@ -685,6 +685,7 @@ pyramidf <- function(data, Laxis=NULL, Raxis=NULL,
 #'                celle qu'aurait l'organisme si la distribution de ses âges était celle du versant mentionné de la fonction publique.
 #' @param couleur_H couleur utilisée pour représenter les hommes (partie droite de la pyramide). Par défaut \code{darkslateblue}
 #' @param couleur_F couleur utilisée pour représenter les femmes (partie gauche de la pyramide). Par défaut \code{firebrick4}
+#' @param envir environnement
 #' @return Une liste de deux vecteurs numériques représentant chacun des axes (gauche puis droit).
 #'         Un graphique comprenat une pyramide, une légende et éventuellement un titre.
 #' @examples
