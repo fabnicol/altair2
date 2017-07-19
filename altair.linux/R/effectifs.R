@@ -501,7 +501,7 @@ charges.eqtp <- function(Base = Paie, grade = NULL, classe = NULL,  service = NU
 #'         }
 #' @export
  
-année_comparaison <- function(versant, e) {
+année_comparaison <- function(versant) {
   
   p <- NULL
   
@@ -699,13 +699,12 @@ pyramide_ages <- function(Avant,
                           date.fin = fin.période.sous.revue,
                           versant = "",
                           couleur_H = "darkslateblue",
-                          couleur_F = "firebrick4",
-                          envir = .GlobalEnv) {
+                          couleur_F = "firebrick4") {
 
   
   if (versant != "") {
 
-    compar <- année_comparaison(versant, envir)
+    compar <- année_comparaison(versant)
     année.référence <- compar$année
     pyr <- compar$pyr
     
@@ -734,8 +733,7 @@ pyramide_ages <- function(Avant,
                   pyr,
                   "Comparaison avec les données nationales au 31 décembre " %+% année.référence,
                   "organisme " %+% date.fin,
-                  paste(leg, année.référence),
-                  envir = envir)
+                  paste(leg, année.référence))
 
     cat("Pour obtenir les effectifs nationaux, multiplier les abscisses des hommes par", formatC(round(1 / H.coef.forme), big.mark = " "),
         "et les abscisses des femmes par", formatC(round(1 / F.coef.forme), big.mark = " "))
