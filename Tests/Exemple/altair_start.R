@@ -1994,7 +1994,7 @@ test.PFR <- function(i, grade, cumul) {
     
   } else {
     
-    cat("\nLes plafonds annuels de la PFR de sont pas dépassés.\n")
+    cat("\nLes plafonds annuels de la PFR ne sont pas dépassés.\n")
   }
     
   beneficiaires.PFR.Variation <- beneficiaires.PFR[ , 

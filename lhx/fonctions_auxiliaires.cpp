@@ -255,9 +255,13 @@ off_t taille_fichier(const string& filename)
         FILE *fp;
         char buf[1024];
         fp = fopen("/proc/meminfo", "r");
-        for(int i = 0; i < 3; i++) {
-          fgets(buf, 1024, fp);
+        char *res;
+        for(int i = 0; i < 3; i++)
+        {
+          res = fgets(buf, 1024, fp);
+          if (res == nullptr) cerr << ERROR_HTML_TAG "Erreur dans getFreeSystemMemory()" ENDL;
         }
+
         char *p1 = strchr(buf, ':');
         char *p2 = strchr(p1, 'k');
         p1[p2 - p1] = '\0';
