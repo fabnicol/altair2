@@ -221,7 +221,7 @@ expression.rég.pspec <- "pr\\.?\\w*\\b\\s*\\bsp..?ci.*"
 expression.rég.ift <- "(?:\\bind\\.?\\w*\\s*forf\\.?\\w*\\s*(?:et\\s*|)te.*)"
 expression.rég.ps <- "\\bpr\\.?\\w*\\b\\s*(?:de\\s*)\\bs\\w+v"
 expression.rég.ptech <- "\\bpr\\.?\\w*\\b\\s*\\b(?:de\\s*|)tech.*"
-expression.rég.médecin <- "(?:m..?d\\.?(?:ecin|)|prat\\.?\\w*\\b\\s*\\bhos).*"
+expression.rég.médecin <- "(?:\\bm..?d(?:\\.|ecin)\\b\\s+|prat\\.?\\w*\\b\\s*\\bhos).*"
 
 # --- Prime de fonctions informatiques
 # Schémas recherchés :
