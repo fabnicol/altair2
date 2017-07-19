@@ -87,7 +87,7 @@ static inline xmlNodePtr GCC_INLINE atteindreNoeudArret(const char* noeud, xmlNo
 }
 #endif
 
-inline void warning_msg(const char* noeud, const info_t& info, const xmlNodePtr cur)
+inline void warning_msg(const char* noeud, const info_t& info, const xmlNodePtr GCC_UNUSED cur)
 {
        /* pour des raisons pratiques il peut être nécessaire de limiter le nombre de sorties de ce type */
 
