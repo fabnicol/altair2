@@ -182,8 +182,7 @@ newpage()
   
 essayer(produire_pyramides(NULL, 
                            "Pyramide des âges des personnels",
-                           versant = VERSANT_FP,
-                           envir = e),
+                           versant = VERSANT_FP),
         "La pyramide des âges de l'ensemble des personnels n'a pas pu être générée.")
 
 
@@ -215,8 +214,7 @@ newpage()
 #+fig.height=8, fig.width=7
 essayer(produire_pyramides(c("TITULAIRE", "STAGIAIRE"), 
                            "Pyramide des âges des fonctionnaires",
-                           versant = "TIT_" %+% VERSANT_FP,
-                           envir = e),
+                           versant = "TIT_" %+% VERSANT_FP),
       "La pyramide des âges des fonctionnaires n'a pas pu être générée.")
 
 newpage()
@@ -241,8 +239,7 @@ newpage()
 
 #+fig.height=8, fig.width=7
 essayer(produire_pyramides(c("NON_TITULAIRE"), "Pyramide des âges des non titulaires", 
-                           versant = "NONTIT_" %+% VERSANT_FP,
-                           envir = e),
+                           versant = "NONTIT_" %+% VERSANT_FP),
         "La pyramide des âges des non titulaires n'a pas pu être générée." )
 
 newpage()
@@ -272,8 +269,7 @@ newpage()
 Filtre_bulletins <- setdiff(unique(Bulletins.paie$Statut), c("TITULAIRE", "NON_TITULAIRE", "STAGIAIRE")) 
 
 essayer(produire_pyramides(Filtre_bulletins,
-                           "Pyramide des âges des autres personnels",
-                           envir = e),
+                           "Pyramide des âges des autres personnels"),
         "La pyramide des âges des autres personnels n'a pas pu être générée.")
 
 newpage()

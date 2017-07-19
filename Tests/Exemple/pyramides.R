@@ -75,15 +75,15 @@ if (longueur.non.na(ages.début.psr) > 0 || longueur.non.na(ages.fin.psr) > 0) {
   
   if (! is.null(ages.fin.psr)) {
     
-    pyramide_ages(ages.début.psr, ages.fin.psr, titre, envir = envir) 
+    pyramide_ages(ages.début.psr, ages.fin.psr, titre) 
 
     if (versant != "")  {  
-          pyramide_ages(ages.fin.psr, date.fin = fin.période.sous.revue, versant = versant, envir = envir)
+          pyramide_ages(ages.fin.psr, date.fin = fin.période.sous.revue, versant = versant)
     } 
     
   } else {
     
-    pyramide_ages(après, envir = envir)
+    pyramide_ages(après)
     
   }
 
