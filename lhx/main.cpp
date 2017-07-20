@@ -266,16 +266,20 @@ int main(int argc, char **argv)
 #endif
 
 
-              system("iconv"  exec  " -t utf-8 -f latin1 -c -s  aide.md > aide.utf8.md");
+              int res = system("iconv"  exec  " -t utf-8 -f latin1 -c -s  aide.md > aide.utf8.md");
+              if (res) cerr << "La conversion en UTF-8 par iconv a échoué" ENDL;
               if (commandline_tab[start] == "--pdf")
               {
-                 system("pandoc" exec  " -o aide_lhx.pdf  aide.utf8.md");
+                 res = system("pandoc" exec  " -o aide_lhx.pdf  aide.utf8.md");
+                 if (res) cerr << "La conversion en PDF par pandoc a échoué" ENDL;
               }
               else
               if (commandline_tab[start] == "--html")
               {
-                 system("pandoc"  exec  " -o aide_lhx.utf8.html  aide.utf8.md");
-                 system("iconv"  exec  " -f utf-8 -t latin1 -c -s  aide_lhx.utf8.html > aide_lhx.html");
+                 res = system("pandoc"  exec  " -o aide_lhx.utf8.html  aide.utf8.md");
+                 if (res) cerr << "La conversion en HTML par pandoc a échoué" ENDL;
+                 res = system("iconv"  exec  " -f utf-8 -t latin1 -c -s  aide_lhx.utf8.html > aide_lhx.html");
+                 if (res) cerr << "La conversion en latin1 par iconv a échoué" ENDL;
                  unlink("aide_lhx.utf8.html");
               }
               help.close();
