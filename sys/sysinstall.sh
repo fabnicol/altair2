@@ -42,7 +42,7 @@ fi
 
 
 if test -f sys/install.data; then
-  git checkout -- data
+  git checkout FETCH_HEAD -- data
   cp -rf data /home/jf/Dev/altair
   rm -f sys/Rlibrary/altair/data/*
   rm -f altair.linux/data/*

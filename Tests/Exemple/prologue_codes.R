@@ -37,20 +37,20 @@
 # 
 
 codes.traitement <- NA
-codes.nbi <- c("0020")
+codes.nbi        <- NA
 codes.pfi        <- NA
-codes.pfr <- c("2053","2055")
+codes.pfr        <- NA
 codes.psr        <- NA
 codes.ipf        <- NA
 codes.ifts       <- NA
 codes.iat        <- NA
-codes.ihts <- c("1000","1020","1007","1030","1010","1040")
+codes.ihts       <- NA
 codes.vacataires <- NA
-codes.astreintes <- c("1130","1225","1235","1256","1258","1140")
-codes.primespecifique <- c("0520")  
-codes.ift <- c("0815","0810")  
-codes.primedeservice <- c("2200")  
-codes.primedetechnicite <- c("0800")  
+codes.astreintes <- NA
+codes.primespecifique      <- NA  
+codes.ift <- NA  
+codes.primedeservice  <- NA  
+codes.primedetechnicite <- NA  
 types.irs  <- c("IR", "S")
 
 controle<-c("","","","")  
