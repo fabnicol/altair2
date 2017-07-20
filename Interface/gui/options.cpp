@@ -109,7 +109,7 @@ int codePage::ajouterVariable(const QString& nom)
    // Ajouter ici les labels correspondants dans liste Labels
    // Les labels doivent correspondre à une variable chaîne nommée codes.label dans prologue_codes.R
 
-   listeLabels << nom;
+   listeLabels << QString(nom).remove(' ');
 
    listeDialogueLabels << new QLabel("Codes " + NOM + " :  ");
 

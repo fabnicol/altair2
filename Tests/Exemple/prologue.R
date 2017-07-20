@@ -217,10 +217,10 @@ expression.rég.astreintes <- "astr.*"
 
 # --- FPH
 
-expression.rég.pspec <- "pr\\.?\\w*\\b\\s*\\bsp..?ci.*"
+expression.rég.primespecifique <- "pr\\.?\\w*\\b\\s*\\bsp..?ci.*"
 expression.rég.ift <- "(?:\\bind\\.?\\w*\\s*forf\\.?\\w*\\s*(?:et\\s*|)te.*)"
-expression.rég.ps <- "\\bpr\\.?\\w*\\b\\s*(?:de\\s*)\\bs\\w+v"
-expression.rég.ptech <- "\\bpr\\.?\\w*\\b\\s*\\b(?:de\\s*|)tech.*"
+expression.rég.primedeservice <- "\\bpr\\.?\\w*\\b\\s*(?:de\\s*)\\bs\\w+v"
+expression.rég.primedetechnicite <- "\\bpr\\.?\\w*\\b\\s*\\b(?:de\\s*|)tech.*"
 expression.rég.médecin <- "(?:\\bm..?d(?:\\.|ecin)\\b\\s+|prat\\.?\\w*\\b\\s*\\bhos).*"
 
 # --- Prime de fonctions informatiques
