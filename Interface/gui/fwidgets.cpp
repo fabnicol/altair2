@@ -175,7 +175,7 @@ inline void FAbstractWidget::FCore(const QVector<QWidget*>& w, FString defaultCo
     Hash::wrapper[hashKey] = new FStringList;
     *Hash::wrapper[hashKey]  << (QStringList() << QString());
 
-    Abstract::abstractWidgetList.append(this);
+    if (static_cast<flags::status>(commandLineType & static_cast<int>(flags::status::excludeMask)) != flags::status::excluded)  Abstract::abstractWidgetList.append(this);
 
     FAbstractConnection::meta_connect(this, this->enabledObjects, this->disabledObjects);
 
