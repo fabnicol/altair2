@@ -81,7 +81,7 @@ public:
                                                  commandLineMask=0xF,
                                               };
 
-    enum class status : std::uint16_t {
+    enum class status : std::uint32_t {
         untoggledCommandLine=0x10,
         toggledCommandLine=0x20,
         enabled=0x100,
@@ -96,7 +96,9 @@ public:
         commandLineToggleMask=0xF0,
         enabledMask=0xF00,
         widgetMask=0xF000,
-        statusMask=0xFFF0
+        statusMask=0xFFF0,
+        excluded = 0x10000,
+        excludeMask = 0xF0000
     };
 
     friend int operator | (int  x, flags::status y) {return x | static_cast<int>(y);}
