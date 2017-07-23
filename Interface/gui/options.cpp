@@ -720,6 +720,10 @@ processPage::processPage()
                                       {rapportTypeWidget, rapportTypeLabel});
 
     rapportEntier = new FCheckBox("Version expérimentale",
+                                      flags::status::enabledUnchecked
+                                    | flags::commandLineType::noCommandLine
+                                    | flags::status::excluded,  // exclu de la liste des widgets qui déclenche la ligne de commande
+                                                                //ou la l'importation/l'exportation de la valeur sur le projet XML.
                                     "rapportEntier",
                                     {"Version expérimentale",
                                      "Produire les rapports expérimentaux (EQTP et rémunérations)"});
