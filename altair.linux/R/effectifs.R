@@ -238,14 +238,24 @@ analyse.regexp <- function(Base, classe, agr) {
 #' @param agr Booléen (défaut FALSE). Si TRUE, l'expression régulière précédente conduit à agréger les grades décrits par le vecteur d'expressions régulières précédent : une ligne par composante du vecteur.
 #' @param libellés  Vecteur de libellés des agrégations de grades par expression régulière. Doit avoir la même dimension que le vecteur de regexp. 
 #' @param période Vecteur des années considérées.
+#' @param variation Booléen Insérer une colonne des variations (défaut FALSE).
+#' @param statut Restreindre le tableau au vecteur des statuts en paramètres. Expressions exactes. Tous statuts par défaut.
+#' @param catégorie Catégorie statutaire (vecteur de lettres parmi 'A', 'B', 'C'). Par défaut A, B, C ou indéterminée.  
 #' @return Un tableau des effectifs mis en forme avec les grades en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
 #' @examples
 #' eqtp.grade()
 #' @export
 
-# Bulletins : "Matricule", "Statut", "quotité", "Grade"
-
-eqtp.grade <- function(Base = Bulletins.paie, grade = NULL, classe = NULL,  service = NULL, libellés = NULL, agr = FALSE, période = NULL) {
+eqtp.grade <- function(Base = Bulletins.paie, 
+                       grade = NULL,
+                       classe = NULL,
+                       service = NULL,
+                       libellés = NULL, 
+                       agr = FALSE,
+                       période = NULL,
+                       variation = FALSE,
+                       statut = NULL,
+                       catégorie = NULL) {
 
   if (! is.null(libellés) && length(libellés) != length(classe)) {
       
@@ -267,18 +277,65 @@ eqtp.grade <- function(Base = Bulletins.paie, grade = NULL, classe = NULL,  serv
           Gr <- "Grade" 
   }
   
-  if (is.null(service)) {
+  if (is.null(catégorie)) {
+        
+      if (is.null(statut)) {
+        if (is.null(service)) {
+          
+            tableau.effectifs <- T[Statut != "ELU", .(eqtp.g = sum(quotité, na.rm = TRUE) / 12),
+                                                                   by=c("Année", Gr)
+                                                ][ , eqtp.grade := formatC(eqtp.g, digits=2, format = "f")]
+        } else {
+          
+            tableau.effectifs <- T[Statut != "ELU" & Service %chin% service, .(eqtp.g = sum(quotité, na.rm = TRUE) / 12),
+                                                                             by=c("Année", Gr)
+                                   ][ , eqtp.grade := formatC(eqtp.g, digits=2, format = "f")]
+        }
+      } else {
+        
+        if (is.null(service)) {
+          
+          tableau.effectifs <- T[Statut %chin% statut & Statut != "ELU", .(eqtp.g = sum(quotité, na.rm = TRUE) / 12),
+                                 by=c("Année", Gr)
+                                 ][ , eqtp.grade := formatC(eqtp.g, digits=2, format = "f")]
+        } else {
+          
+          tableau.effectifs <- T[Statut %chin% statut & Statut != "ELU" & Service %chin% service, .(eqtp.g = sum(quotité, na.rm = TRUE) / 12),
+                                 by=c("Année", Gr)
+                                 ][ , eqtp.grade := formatC(eqtp.g, digits=2, format = "f")]
+        }
+      }
     
-      tableau.effectifs <- T[Statut != "ELU", .(eqtp.g = sum(quotité, na.rm = TRUE) / 12),
-                                                             by=c("Année", Gr)
-                                          ][ , eqtp.grade := formatC(eqtp.g, digits=2, format = "f")]
   } else {
     
-      tableau.effectifs <- T[Statut != "ELU" & Service %chin% service, .(eqtp.g = sum(quotité, na.rm = TRUE) / 12),
-                                                                       by=c("Année", Gr)
-                             ][ , eqtp.grade := formatC(eqtp.g, digits=2, format = "f")]
-  }
+    if (is.null(statut)) {
+      if (is.null(service)) {
+        
+        tableau.effectifs <- T[Statut != "ELU" & Catégorie == catégorie, .(eqtp.g = sum(quotité, na.rm = TRUE) / 12),
+                               by=c("Année", Gr)
+                               ][ , eqtp.grade := formatC(eqtp.g, digits=2, format = "f")]
+      } else {
+        
+        tableau.effectifs <- T[Statut != "ELU" & Service %chin% service & Catégorie == catégorie, .(eqtp.g = sum(quotité, na.rm = TRUE) / 12),
+                               by=c("Année", Gr)
+                               ][ , eqtp.grade := formatC(eqtp.g, digits=2, format = "f")]
+      }
+    } else {
       
+      if (is.null(service)) {
+        
+        tableau.effectifs <- T[Statut %chin% statut & Statut != "ELU" & Catégorie == catégorie, .(eqtp.g = sum(quotité, na.rm = TRUE) / 12),
+                               by=c("Année", Gr)
+                               ][ , eqtp.grade := formatC(eqtp.g, digits=2, format = "f")]
+      } else {
+        
+        tableau.effectifs <- T[Statut %chin% statut & Statut != "ELU" & Service %chin% service & Catégorie == catégorie, .(eqtp.g = sum(quotité, na.rm = TRUE) / 12),
+                               by=c("Année", Gr)
+                               ][ , eqtp.grade := formatC(eqtp.g, digits=2, format = "f")]
+      }
+    }
+  }
+  
   if (! is.null(période)) tableau.effectifs <- tableau.effectifs[Année %in% période]
   
   totaux <- tableau.effectifs[, .(Total=formatC(sum(eqtp.g, na.rm = TRUE), digits=2, format="f")), keyby=Année]
@@ -287,7 +344,7 @@ eqtp.grade <- function(Base = Bulletins.paie, grade = NULL, classe = NULL,  serv
   if (agr) {
     
     tableau.effectifs <- dcast(tableau.effectifs, G ~ Année, value.var = "eqtp.grade", fill = 0)
-    if (! is.null(libellés)) tableau.effectifs$G <- libellés  
+    if (! is.null(libellés)) tableau.effectifs$G <- libellés[1:length(tableau.effectifs$G)]
     names(tableau.effectifs)[1] <- "Catégorie de Grades"
     
   } else {
@@ -309,8 +366,12 @@ eqtp.grade <- function(Base = Bulletins.paie, grade = NULL, classe = NULL,  serv
   d <- h(2)
   d <- ifelse(d == 0, NA, d)
   
-  tableau.effectifs[ , paste0("Variation ", début, "-", fin, " (%)") :=  round((h(ncol(tableau.effectifs))/d - 1)*100, 1)]
+  if (variation || agr) 
+    tableau.effectifs[ , paste0("Variation ", début, "-", fin, " (%)") :=  round((h(ncol(tableau.effectifs))/d - 1)*100, 1)]
+  
+  tableau.effectifs
 }
+
 
 #' Tableau des charges de personnel par grade.
 #'
