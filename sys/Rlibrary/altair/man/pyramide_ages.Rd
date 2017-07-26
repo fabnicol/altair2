@@ -39,6 +39,8 @@ celle qu'aurait l'organisme si la distribution de ses âges était celle du vers
 \item{couleur_H}{couleur utilisée pour représenter les hommes (partie droite de la pyramide). Par défaut \code{darkslateblue}}
 
 \item{couleur_F}{couleur utilisée pour représenter les femmes (partie gauche de la pyramide). Par défaut \code{firebrick4}}
+
+\item{envir}{environnement}
 }
 \value{
 Une liste de deux vecteurs numériques représentant chacun des axes (gauche puis droit).

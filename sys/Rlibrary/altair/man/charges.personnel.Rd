@@ -4,21 +4,11 @@
 \alias{charges.personnel}
 \title{Tableau des charges de personnel par grade.}
 \usage{
-charges.personnel(Base = Paie, grade = NULL, regexp = NULL,
-  libellés = NULL, agr = FALSE, période = NULL)
+charges.personnel(Base = Paie, grade = NULL, classe = NULL,
+  service = NULL, libellés = NULL, agr = FALSE, période = NULL)
 }
 \arguments{
-\item{Base}{Base des Paies, comportant pour l'ensemble de la période. Par défaut, base Paie.}
-
-\item{grade}{Vecteur de grades particuliers. Tous les grades en l'absence de spécification.}
-
-\item{regexp}{Vecteur de chaîne de caractères représentant des expressions régulières sur les grades. Tous les grades en l'absence de spécification. La casse est ignorée.}
-
-\item{libellés}{Vecteur de libellés des agrégations de grades par expression régulière. Doit avoir la même dimension que le vecteur de regexp.}
-
-\item{agr}{Booléen (défaut FALSE). Si TRUE, l'expression régulière précédente conduit à agréger les grades décrits par le vecteur d'expressions régulières précédent : une ligne par composante du vecteur.}
-
-\item{période}{Vecteur des années considérées.
+\item{Base}{Base des Paies, comportant pour l'ensemble de la période. Par défaut, base Paie, comportant 
 \enumerate{
   \item{ les variables charactère suivantes :
      \itemize{
@@ -30,6 +20,18 @@ charges.personnel(Base = Paie, grade = NULL, regexp = NULL,
    \item{ les variables numériques :
        \describe{
          \item{\code{Montant}}{réel}}}}}
+
+\item{grade}{Vecteur de grades particuliers. Tous les grades en l'absence de spécification.}
+
+\item{classe}{Liste de vecteurs de grades, chaque vecteur représentant une classe aggrégée, ou bien vecteur de chaîne de caractères représentant des expressions rationnelles sur les grades. Tous les grades en l'absence de spécification. La casse est ignorée pour les expressions rationnelles.}
+
+\item{service}{Services. Vecteur de chaînes de caractères exactes. Tous les services en l'absence de spécification.}
+
+\item{libellés}{Vecteur de libellés des agrégations de grades par expression rationnelle. Doit avoir la même dimension que le vecteur d'expressions rationnelles ou la liste de grades.}
+
+\item{agr}{Booléen (défaut FALSE). Si TRUE, l'expression régulière précédente conduit à agréger les grades décrits par le vecteur d'expressions régulières précédent : une ligne par composante du vecteur.}
+
+\item{période}{Vecteur des années considérées.}
 }
 \value{
 Un tableau des charges de personnel (coût employeur) mis en forme avec les grades en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
