@@ -50,6 +50,8 @@ for (rep in reps) {
 
   setwd(chemin.dossier)
   
+  invisible(lapply(c("altaïr.pdf", "altaïr.odt", "altaïr.docx"), function(x) file.remove(file.path(chemin.clé.racine, x))))
+  
   res <- try({
       source("rapport_msword_et_pdf_start.R", encoding = "ISO-8859-1", echo = TRUE)
   })
