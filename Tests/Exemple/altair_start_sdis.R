@@ -3522,6 +3522,30 @@ Tab5.EQTP.SPP.hors.SSM <- eqtp.grade(période = période,
                                       "Sapeurs et gradés"),
                                       agr = TRUE)
 
+Tab4.COUT.SPP.hors.SSM <- charges.eqtp(période = période,
+                                       classe = c(e.offsup,
+                                                  e.offsub,
+                                                  e.sousoff,
+                                                  e.gradsap),
+                                       service = autres.services,
+                                       libellés = c("Officiers supérieurs",
+                                                    "Officiers subalternes",
+                                                    "Sous-officiers",
+                                                    "Sapeurs et gradés"),
+                                       agr = TRUE)
+
+
+Tab4.COUT.SPP.SSM <- charges.eqtp(période = période,
+                                  classe = c(e.santé.offsup,
+                                             e.santé.offsub,
+                                             e.sousoff),
+                                   service = sssm,
+                                   libellés = c("Officiers supérieurs",
+                                                "Officiers subalternes",
+                                                "Sous-officiers"),
+                                   agr = TRUE)
+
+
 
 Tab5.EQTP.SPP.SSM    <- eqtp.grade(période = période,
                                     classe = c(e.santé.offsup,
@@ -3554,46 +3578,57 @@ grades.pats <- setdiff(unique(Bulletins.paie$Grade), unique(EQTP.SPP$Grade))
 Tab2.EQTP.PATS <- eqtp.grade(période = période,
                               grade = grades.pats)
 
-Tab2.EQTP.PATS.A <- eqtp.grade(période = période,
+Tab6.EQTP.PATS.A <- eqtp.grade(période = période,
                                 grade = grades.pats,
                                 catégorie = "A")
 
-Tab2.EQTP.PATS.B <- eqtp.grade(période = période,
+Tab6.EQTP.PATS.B <- eqtp.grade(période = période,
                                 grade = grades.pats,
                                 catégorie = "B")
 
-Tab2.EQTP.PATS.C <- eqtp.grade(période = période,
+Tab6.EQTP.PATS.C <- eqtp.grade(période = période,
                                 grade = grades.pats,
                                 catégorie = "C")
 
-Tab2.EQTP.PATS.ABC <- rbind(Tab2.EQTP.PATS.A[Grade == "Total"], Tab2.EQTP.PATS.B[Grade == "Total"], Tab2.EQTP.PATS.C[Grade == "Total"])
-Tab2.EQTP.PATS.ABC <- rbind(Tab2.EQTP.PATS.ABC, Tab2.EQTP.PATS.ABC[ , lapply(.SD, function(x) as.numeric(sub(",", ".", x)))][ , lapply(.SD, sum)])
-Tab2.EQTP.PATS.ABC[ , 1] <- c("A", "B", "C", "Total")
-setnames(Tab2.EQTP.PATS.ABC, "Grade", "Catégorie")
+Tab6.EQTP.PATS.ABC <- rbind(Tab6.EQTP.PATS.A[Grade == "Total"], Tab6.EQTP.PATS.B[Grade == "Total"], Tab6.EQTP.PATS.C[Grade == "Total"])
+Tab6.EQTP.PATS.ABC <- rbind(Tab6.EQTP.PATS.ABC, Tab6.EQTP.PATS.ABC[ , lapply(.SD, function(x) as.numeric(sub(",", ".", x)))][ , lapply(.SD, sum)])
+Tab6.EQTP.PATS.ABC[ , 1] <- c("A", "B", "C", "Total")
+setnames(Tab6.EQTP.PATS.ABC, "Grade", "Catégorie")
 
 #'    
-#'### Tableau des effectifs SPP en EQTP   
+#'### Tableau n°2 des effectifs SPP en EQTP   
 #'   
 
 kable(EQTP.SPP)
 
 #'   
-#'### Tableau n°2 : L’évolution 2011-2016 des effectifs de PATS      
+#'### Tableau n°2 bis : L’évolution 2011-2016 des effectifs de PATS      
 #'   
 
 kable(Tab2.EQTP.PATS)
 
-#'   
-#'### Tableau n°2 bis : L’évolution 2011-2016 des effectifs de PATS par catégorie     
-#'   
-
-kable(Tab2.EQTP.PATS.ABC)
-
 #'  
 #'[Lien vers le tableau des grades de PATS](Bases/SDIS/grades.pats.csv)      
 #'[Lien vers le tableau des EQTP de PATS](Bases/SDIS/Tab2.EQTP.PATS.csv)       
-#'[Lien vers le tableau des EQTP de PATS par catégorie](Bases/SDIS/Tab2.EQTP.PATS.ABC.csv)              
 #'  
+
+#'   
+#'### Tableau n°4 : L’évolution 2011-2016 du coût salarial par EQTP (SPP hors SSM)     
+#'   
+
+kable(Tab4.COUT.SPP.hors.SSM)
+
+#'   
+#'### Tableau n°4 bis : L’évolution 2011-2016 du coût salarial par EQTP (SSM)     
+#'   
+
+kable(Tab4.COUT.SPP.SSM)
+
+#'    
+#'[Lien vers le tableau des coûts salariaux SPP SSM](Bases/SDIS/Tab4.COUT.SPP.SSM.csv)      
+#'[Lien vers le tableau des coûts salariaux SPP hors SSM](Bases/SDIS/Tab4.COUT.SPP.hors.SSM.csv)       
+#'    
+
 
 #'   
 #'### Tableau n°5 : L’évolution 2011-2016 des effectifs de sapeurs-pompiers (SPP hors SSM)   
@@ -3607,6 +3642,16 @@ kable(Tab5.EQTP.SPP.hors.SSM)
 #'   
 
 kable(Tab5.EQTP.SPP.SSM)
+
+#'   
+#'### Tableau n°6 : L’évolution 2011-2016 des effectifs de PATS par catégorie     
+#'   
+
+kable(Tab6.EQTP.PATS.ABC)
+
+#'   
+#'[Lien vers le tableau des EQTP de PATS par catégorie](Bases/SDIS/Tab6.EQTP.PATS.ABC.csv)              
+#'  
 
 #'   
 #'### Tableau des effectifs en EQTP : Infirmiers, médecins, pharmaciens, vétérinaires SSM   
@@ -3955,6 +4000,8 @@ sauv.bases(file.path(chemin.dossier.bases, "SDIS"),
               "Tab5.EQTP.hors.SSM.contr",
               "Tab2.EQTP.PATS",
               "Tab2.EQTP.PATS.ABC",
+              "Tab4.COUT.SPP.hors.SSM",
+              "Tab4.COUT.SPP.SSM",
               "Tab5.EQTP.SPP.hors.SSM",
               "Tab5.EQTP.SPP.SSM",
               "Tab5.EQTP.SSM.contr",

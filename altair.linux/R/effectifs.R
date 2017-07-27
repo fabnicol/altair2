@@ -277,17 +277,19 @@ eqtp.grade <- function(Base = Bulletins.paie,
           Gr <- "Grade" 
   }
   
+  T <- T[Statut != "ELU"]
+  
   if (is.null(catégorie)) {
         
       if (is.null(statut)) {
         if (is.null(service)) {
           
-            tableau.effectifs <- T[Statut != "ELU", .(eqtp.g = sum(quotité, na.rm = TRUE) / 12),
+            tableau.effectifs <- T[ , .(eqtp.g = sum(quotité, na.rm = TRUE) / 12),
                                                                    by=c("Année", Gr)
                                                 ][ , eqtp.grade := formatC(eqtp.g, digits=2, format = "f")]
         } else {
           
-            tableau.effectifs <- T[Statut != "ELU" & Service %chin% service, .(eqtp.g = sum(quotité, na.rm = TRUE) / 12),
+            tableau.effectifs <- T[Service %chin% service, .(eqtp.g = sum(quotité, na.rm = TRUE) / 12),
                                                                              by=c("Année", Gr)
                                    ][ , eqtp.grade := formatC(eqtp.g, digits=2, format = "f")]
         }
@@ -295,12 +297,12 @@ eqtp.grade <- function(Base = Bulletins.paie,
         
         if (is.null(service)) {
           
-          tableau.effectifs <- T[Statut %chin% statut & Statut != "ELU", .(eqtp.g = sum(quotité, na.rm = TRUE) / 12),
+          tableau.effectifs <- T[Statut %chin% statut, .(eqtp.g = sum(quotité, na.rm = TRUE) / 12),
                                  by=c("Année", Gr)
                                  ][ , eqtp.grade := formatC(eqtp.g, digits=2, format = "f")]
         } else {
           
-          tableau.effectifs <- T[Statut %chin% statut & Statut != "ELU" & Service %chin% service, .(eqtp.g = sum(quotité, na.rm = TRUE) / 12),
+          tableau.effectifs <- T[Statut %chin% statut & Service %chin% service, .(eqtp.g = sum(quotité, na.rm = TRUE) / 12),
                                  by=c("Année", Gr)
                                  ][ , eqtp.grade := formatC(eqtp.g, digits=2, format = "f")]
         }
@@ -311,12 +313,12 @@ eqtp.grade <- function(Base = Bulletins.paie,
     if (is.null(statut)) {
       if (is.null(service)) {
         
-        tableau.effectifs <- T[Statut != "ELU" & Catégorie == catégorie, .(eqtp.g = sum(quotité, na.rm = TRUE) / 12),
+        tableau.effectifs <- T[Catégorie == catégorie, .(eqtp.g = sum(quotité, na.rm = TRUE) / 12),
                                by=c("Année", Gr)
                                ][ , eqtp.grade := formatC(eqtp.g, digits=2, format = "f")]
       } else {
         
-        tableau.effectifs <- T[Statut != "ELU" & Service %chin% service & Catégorie == catégorie, .(eqtp.g = sum(quotité, na.rm = TRUE) / 12),
+        tableau.effectifs <- T[Service %chin% service & Catégorie == catégorie, .(eqtp.g = sum(quotité, na.rm = TRUE) / 12),
                                by=c("Année", Gr)
                                ][ , eqtp.grade := formatC(eqtp.g, digits=2, format = "f")]
       }
@@ -324,12 +326,12 @@ eqtp.grade <- function(Base = Bulletins.paie,
       
       if (is.null(service)) {
         
-        tableau.effectifs <- T[Statut %chin% statut & Statut != "ELU" & Catégorie == catégorie, .(eqtp.g = sum(quotité, na.rm = TRUE) / 12),
+        tableau.effectifs <- T[Statut %chin% statut & Catégorie == catégorie, .(eqtp.g = sum(quotité, na.rm = TRUE) / 12),
                                by=c("Année", Gr)
                                ][ , eqtp.grade := formatC(eqtp.g, digits=2, format = "f")]
       } else {
         
-        tableau.effectifs <- T[Statut %chin% statut & Statut != "ELU" & Service %chin% service & Catégorie == catégorie, .(eqtp.g = sum(quotité, na.rm = TRUE) / 12),
+        tableau.effectifs <- T[Statut %chin% statut & Service %chin% service & Catégorie == catégorie, .(eqtp.g = sum(quotité, na.rm = TRUE) / 12),
                                by=c("Année", Gr)
                                ][ , eqtp.grade := formatC(eqtp.g, digits=2, format = "f")]
       }
@@ -426,13 +428,19 @@ charges.personnel <- function(Base = Paie, grade = NULL, classe = NULL,  service
   if (is.null(service)) {
     
     A <-T[Statut !=  "ELU", 
-              .(Coût = round(sum(Montant[Type != "AV" & Type != "RE" & Type != "D"], na.rm = TRUE))), 
+              .(Coût = round(sum(Montant[Type != "AV" & Type != "RE" & Type != "D" (Type != "R" | ! grepl("cot|ret|d[eé]du|R\\.?D\\.?S|C\\.?S\\.?G\\.?", 
+                                                                                                          Libellé,
+                                                                                                          ignore.case = TRUE,
+                                                                                                          perl = TRUE))], na.rm = TRUE))), 
                   keyby=c("Année", Gr)]
     
   } else {
     
     A <-T[Statut !=  "ELU" & Service %chin% service , 
-              .(Coût = round(sum(Montant[Type != "AV" & Type != "RE" & Type != "D"], na.rm = TRUE))), 
+              .(Coût = round(sum(Montant[Type != "AV" & Type != "RE" & Type != "D" (Type != "R" | ! grepl("cot|ret|d[eé]du|R\\.?D\\.?S|C\\.?S\\.?G\\.?", 
+                                                                                                          Libellé,
+                                                                                                          ignore.case = TRUE,
+                                                                                                          perl = TRUE))], na.rm = TRUE))), 
                   keyby=c("Année", Gr)]
     
     
@@ -495,15 +503,26 @@ charges.personnel <- function(Base = Paie, grade = NULL, classe = NULL,  service
 #' charges.eqtp()
 #' @export
 
-charges.eqtp <- function(Base = Paie, grade = NULL, classe = NULL,  service = NULL, libellés = NULL, agr = FALSE, période = NULL) {
+
+
+charges.eqtp <- function(Base = Paie, 
+                         grade = NULL,
+                         classe = NULL,
+                         service = NULL,
+                         libellés = NULL, 
+                         agr = FALSE,
+                         période = NULL,
+                         variation = FALSE,
+                         statut = NULL,
+                         catégorie = NULL)  {
+ 
+  if (! is.null(libellés) && length(libellés) != length(classe)) {
+    
+    message("Le vecteur des libellés doit avoir la même longueur que le vecteur des expressions régulières")
+    return(NULL)
+  }
   
   T <- analyse.regexp(Base, classe, agr)
-    
-   if (! is.null(libellés) && length(libellés) != length(classe)) {
-      
-      message("Le vecteur des libellés doit avoir la même longueur que le vecteur des expressions régulières")
-      return(NULL)
-    }
   
   if (agr) {
           
@@ -517,13 +536,59 @@ charges.eqtp <- function(Base = Paie, grade = NULL, classe = NULL,  service = NU
           Gr <- "Grade" 
   }
 
-  if (! is.null(service)) {
-    
-    T <- T[Service %chin% service]
-    
-  }
+  T <- T[Statut != "ELU"]
   
-  A <- T[ , .(Coût = round(sum(Montant[Type != "AV" & Type != "RE" & Type != "D"], na.rm = TRUE)),
+   if (is.null(catégorie)) {
+    
+    if (is.null(statut)) {
+      
+      if (! is.null(service)) {
+  
+            T <- T[Service %chin% service]    
+      }
+      
+    } else {
+      
+      if (is.null(service)) {
+        
+               T <- T[Statut %chin% statut] 
+      } else {
+        
+        T <- T[Statut %chin% statut & Service %chin% service] 
+      }
+      
+    }
+     
+   } else {
+     
+     if (is.null(statut)) {
+       
+       if (! is.null(service)) {
+         
+         T <- T[Catégorie == catégorie & Service %chin% service]    
+       }
+       
+     } else {
+       
+       if (is.null(service)) {
+         
+         T <- T[Catégorie == catégorie & Statut %chin% statut] 
+         
+       } else {
+         
+         T <- T[Catégorie == catégorie & Statut %chin% statut & Service %chin% service] 
+       }
+       
+     }
+   }
+  
+ # Ni un avantage en nature, ni une retenue, ni une déduction (salarié) ni un rappel de retenue/déduction.csg/crds/avantage nat. mais ok : remb. frais frais
+ # On sort les élus
+  
+  A <- T[ , .(Coût = round(sum(Montant[Type != "AV" & Type != "RE" & Type != "D" & (Type != "R" | ! grepl("ret|d[eé]du|R\\.?D\\.?S|C\\.?S\\.?G\\.?|av.*nat", 
+                                                                                                          Libellé,
+                                                                                                          ignore.case = TRUE,
+                                                                                                          perl = TRUE))], na.rm = TRUE),
               eqtp = sum(quotité[1], na.rm = TRUE) / 12),
                     keyby=c("Année", Gr, "Matricule", "Mois")
         ][ , .(Coût.moyen.cum = sum(Coût, na.rm = TRUE),
@@ -532,8 +597,6 @@ charges.eqtp <- function(Base = Paie, grade = NULL, classe = NULL,  service = NU
         ][ , Coût.moyen := if (is.na(eqtp.cum) || is.na(Coût.moyen.cum) || eqtp.cum == 0) 0 else round(Coût.moyen.cum / eqtp.cum), 
                    keyby = c("Année", Gr)]
 
-  
-  
   if (! is.null(période)) A <- A[Année %in% période]
   
   if (agr) {
@@ -546,7 +609,24 @@ charges.eqtp <- function(Base = Paie, grade = NULL, classe = NULL,  service = NU
     A <- dcast(A, Grade ~ Année, value.var = "Coût.moyen", fill = 0)
   }
   
+  
+  colnames(totaux) <- colnames(A)
+  
+  A <- rbind(A, totaux)
+  
+  début <- names(A)[2]
+  fin <- names(A)[ncol(tableau.effectifs)]
+  
+  h <- function(x)  as.numeric(gsub(",", ".", A[[x]]))
+  
+  d <- h(2)
+  d <- ifelse(d == 0, NA, d)
+  
+  if (variation || agr) 
+    A[ , paste0("Variation ", début, "-", fin, " (%)") :=  round((h(ncol(A))/d - 1)*100, 1)]
+  
   A
+  
 }
 
 
