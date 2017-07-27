@@ -58,7 +58,7 @@ chmod -R +rwx *sh
 
 # recompilation de la bibliothèque altair
 if test -f build.altair; then
-  R CMD INSTALL --byte-compile  -l  /usr/lib64/R/library/ altair.linux
+  R CMD INSTALL --byte-compile  -l  /usr/lib64/R/library/ ../altair.linux
   echo "*************************************"
   echo "*                                   *"
   echo "* Nouvelle bibliothèque altair      *"
