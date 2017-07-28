@@ -340,7 +340,7 @@ eqtp.grade <- function(Base = Bulletins.paie,
   
   if (! is.null(période)) tableau.effectifs <- tableau.effectifs[Année %in% période]
   
-  totaux <- tableau.effectifs[, .(Total=formatC(sum(eqtp.g, na.rm = TRUE), digits=2, format="f")), keyby=Année]
+  totaux <- tableau.effectifs[, .(Total = formatC(sum(eqtp.g, na.rm = TRUE), digits = 2, big.mark = " ", format = "f")), keyby = Année]
   totaux <- transpose(data.table(c("Total", totaux$Total)))
   
   if (agr) {
@@ -379,26 +379,27 @@ eqtp.grade <- function(Base = Bulletins.paie,
 #'
 #' Elabore un tableau des charges de personnel (coût) par grade et par année.
 #'
-#' @param Base Base des Paies, comportant pour l'ensemble de la période. Par défaut, base Paie, comportant 
+#' @param Base Base des bulletins de paye, comportant pour l'ensemble de la période
 #'        \enumerate{
 #'          \item{ les variables charactère suivantes :
 #'             \itemize{
-#'                 \item \code{Année}             
+#'                 \item \code{Année}
 #'                 \item \code{Matricule}
 #'                 \item \code{Statut}
-#'                 \item \code{Type}
 #'                 \item \code{Grade}}}
 #'           \item{ les variables numériques :
 #'               \describe{
-#'                 \item{\code{Montant}}{réel}}}}
-#'                 
-#' @param grade Vecteur de grades particuliers. Tous les grades en l'absence de spécification. 
-#' @param classe Liste de vecteurs de grades, chaque vecteur représentant une classe aggrégée, ou bien vecteur de chaîne de caractères représentant des expressions rationnelles sur les grades. Tous les grades en l'absence de spécification. La casse est ignorée pour les expressions rationnelles.
+#'                 \item{\code{quotité}}{réel entre 0 et 1}}}}.
+#' @param grade Grade particulier. Tous les grades en l'absence de spécification.
 #' @param service Services. Vecteur de chaînes de caractères exactes. Tous les services en l'absence de spécification.
-#' @param libellés  Vecteur de libellés des agrégations de grades par expression rationnelle. Doit avoir la même dimension que le vecteur d'expressions rationnelles ou la liste de grades.
+#' @param classe Liste de vecteurs de grades, chaque vecteur représentant une classe aggrégée, ou bien vecteur de chaîne de caractères représentant des expressions rationnelles sur les grades. Tous les grades en l'absence de spécification. La casse est ignorée pour les expressions rationnelles.
 #' @param agr Booléen (défaut FALSE). Si TRUE, l'expression régulière précédente conduit à agréger les grades décrits par le vecteur d'expressions régulières précédent : une ligne par composante du vecteur.
+#' @param libellés  Vecteur de libellés des agrégations de grades par expression régulière. Doit avoir la même dimension que le vecteur de regexp. 
 #' @param période Vecteur des années considérées.
-#' @return Un tableau des charges de personnel (coût employeur) mis en forme avec les grades en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
+#' @param variation Booléen Insérer une colonne des variations (défaut FALSE).
+#' @param statut Restreindre le tableau au vecteur des statuts en paramètres. Expressions exactes. Tous statuts par défaut.
+#' @param catégorie Catégorie statutaire (vecteur de lettres parmi 'A', 'B', 'C'). Par défaut A, B, C ou indéterminée.  
+#' @return Un tableau des effectifs mis en forme avec les grades en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
 #' @examples
 #' charges.personnel()
 #' @export
@@ -480,25 +481,28 @@ charges.personnel <- function(Base = Paie, grade = NULL, classe = NULL,  service
 #'
 #' Elabore un tableau des charges de personnel (coût) par grade et par année.
 #' 
-#' @param Base Base des Paies, comportant pour l'ensemble de la période. Par défaut, base Paie, comportant
+#' @param Base Base des bulletins de paye, comportant pour l'ensemble de la période
 #'        \enumerate{
 #'          \item{ les variables charactère suivantes :
 #'             \itemize{
-#'                 \item \code{Année}             
+#'                 \item \code{Année}
 #'                 \item \code{Matricule}
 #'                 \item \code{Statut}
-#'                 \item \code{Type}
 #'                 \item \code{Grade}}}
 #'           \item{ les variables numériques :
 #'               \describe{
-#'                 \item{\code{Montant}}{réel}}}}
-#' @param grade Vecteur de grades particuliers. Tous les grades en l'absence de spécification.
+#'                 \item{\code{quotité}}{réel entre 0 et 1}}}}.
+#' @param grade Grade particulier. Tous les grades en l'absence de spécification.
+#' @param service Services. Vecteur de chaînes de caractères exactes. Tous les services en l'absence de spécification.
 #' @param classe Liste de vecteurs de grades, chaque vecteur représentant une classe aggrégée, ou bien vecteur de chaîne de caractères représentant des expressions rationnelles sur les grades. Tous les grades en l'absence de spécification. La casse est ignorée pour les expressions rationnelles.
 #' @param agr Booléen (défaut FALSE). Si TRUE, l'expression régulière précédente conduit à agréger les grades décrits par le vecteur d'expressions régulières précédent : une ligne par composante du vecteur.
-#' @param libellés  Vecteur de libellés des agrégations de grades par expression régulière. Doit avoir la même dimension que le vecteur de regexp.
+#' @param libellés  Vecteur de libellés des agrégations de grades par expression régulière. Doit avoir la même dimension que le vecteur de regexp. 
 #' @param période Vecteur des années considérées.
-#'                 
-#' @return Un tableau des charges moyennes de personnel par EQTP (coût employeur) mis en forme avec les grades en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
+#' @param variation Booléen Insérer une colonne des variations (défaut FALSE).
+#' @param statut Restreindre le tableau au vecteur des statuts en paramètres. Expressions exactes. Tous statuts par défaut.
+#' @param catégorie Catégorie statutaire (vecteur de lettres parmi 'A', 'B', 'C'). Par défaut A, B, C ou indéterminée.  
+#' @param exclure.codes Codes de paye à exclure pour le calcul du coût salarial (vecteur de chaînes de caractères).  
+#' @return Un tableau des effectifs mis en forme avec les grades en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
 #' @examples
 #' charges.eqtp()
 #' @export
@@ -514,7 +518,9 @@ charges.eqtp <- function(Base = Paie,
                          période = NULL,
                          variation = FALSE,
                          statut = NULL,
-                         catégorie = NULL)  {
+                         catégorie = NULL,
+                         exclure.codes = NULL,
+                         quotité.nulle = FALSE)  {
  
   if (! is.null(libellés) && length(libellés) != length(classe)) {
     
@@ -536,7 +542,15 @@ charges.eqtp <- function(Base = Paie,
           Gr <- "Grade" 
   }
 
-  T <- T[Statut != "ELU"]
+  if (quotité.nulle) {
+     T <- T[Statut != "ELU" & quotité == 0]  
+    } else {
+     T <- T[Statut != "ELU" & quotité > 0]
+    }
+  
+  if (! is.null(exclure.codes)) T <- T[! Code %chin% exclure.codes]
+  
+  if (! is.null(période)) T <- T[Année %in% période]
   
    if (is.null(catégorie)) {
     
@@ -563,7 +577,11 @@ charges.eqtp <- function(Base = Paie,
      
      if (is.null(statut)) {
        
-       if (! is.null(service)) {
+       if (is.null(service)) {
+         
+         T <- T[Catégorie == catégorie]    
+         
+       } else {
          
          T <- T[Catégorie == catégorie & Service %chin% service]    
        }
@@ -585,48 +603,69 @@ charges.eqtp <- function(Base = Paie,
  # Ni un avantage en nature, ni une retenue, ni une déduction (salarié) ni un rappel de retenue/déduction.csg/crds/avantage nat. mais ok : remb. frais frais
  # On sort les élus
   
-  A <- T[ , .(Coût = round(sum(Montant[Type != "AV" & Type != "RE" & Type != "D" & (Type != "R" | ! grepl("ret|d[eé]du|R\\.?D\\.?S|C\\.?S\\.?G\\.?|av.*nat", 
+  A <- T[ , .(Coût = round(sum(Montant[Type %chin%  c("T", "IR", "S", "I", "A", "C") | (Type == "R" & ! grepl("cot|ret|d[eé]du|R\\.?D\\.?S|C\\.?S\\.?G\\.?|av.*nat", 
                                                                                                           Libellé,
                                                                                                           ignore.case = TRUE,
-                                                                                                          perl = TRUE))], na.rm = TRUE),
+                                                                                                          perl = TRUE))], na.rm = TRUE)),
+                
               eqtp = sum(quotité[1], na.rm = TRUE) / 12),
                     keyby=c("Année", Gr, "Matricule", "Mois")
         ][ , .(Coût.moyen.cum = sum(Coût, na.rm = TRUE),
                eqtp.cum = sum(eqtp, na.rm = TRUE)),
                    keyby = c("Année", Gr)
-        ][ , Coût.moyen := if (is.na(eqtp.cum) || is.na(Coût.moyen.cum) || eqtp.cum == 0) 0 else round(Coût.moyen.cum / eqtp.cum), 
-                   keyby = c("Année", Gr)]
-
-  if (! is.null(période)) A <- A[Année %in% période]
+        ]
   
-  if (agr) {
+  if (! quotité.nulle) {
+    A <- A[ , Coût.moyen.num := if (is.na(eqtp.cum) || is.na(Coût.moyen.cum) || eqtp.cum == 0) 0 else round(Coût.moyen.cum / eqtp.cum),
+                       keyby = c("Année", Gr)
+            ][ , Coût.moyen := formatC(round(Coût.moyen.num), big.mark = " ", format = "d")]
+    moyenne_ <- A[ , .(Moy.num = round(sum(Coût.moyen.cum, na.rm = TRUE)/sum(eqtp.cum, na.rm = TRUE))), keyby = Année
+                   ][ , Moy := formatC(Moy.num, big.mark = " ", format = "d")]
+    moyenne <- transpose(data.table(c("Moyenne", moyenne_$Moy)))
+    moyenne.num <- transpose(data.table(c("Moyenne", moyenne_$Moy.num)))
     
-    A <- dcast(A, G ~ Année, value.var = "Coût.moyen", fill = 0)
-    if (! is.null(libellés)) A$G <- libellés  
-    names(A)[1] <- "Catégorie de Grades"
+    
   } else {
     
-    A <- dcast(A, Grade ~ Année, value.var = "Coût.moyen", fill = 0)
+    A <- A[ , Coût.moyen.num := if (is.na(eqtp.cum) || is.na(Coût.moyen.cum)) 0 else round(Coût.moyen.cum),
+            keyby = c("Année", Gr)
+            ][ , Coût.moyen := formatC(round(Coût.moyen.num), big.mark = " ", format = "d")]
+    moyenne_ <- A[ , .(Moy.num = round(sum(Coût.moyen.cum, na.rm = TRUE))), keyby = Année
+                   ][ , Moy := formatC(Moy.num, big.mark = " ", format = "d")]
+    moyenne <- transpose(data.table(c("Total", moyenne_$Moy)))
+    moyenne.num <- transpose(data.table(c("Total", moyenne_$Moy.num)))
+    
+  }
+
+  if (agr) {
+    
+    B <- dcast(A, G ~ Année, value.var = "Coût.moyen", fill = 0)
+    B.num <- dcast(A, G ~ Année, value.var = "Coût.moyen.num", fill = 0)
+    if (! is.null(libellés)) B$G <- libellés[1:length(B$G)]
+    names(B)[1] <- "Catégorie de Grades"
+    
+  } else {
+    
+    B <- dcast(A, Grade ~ Année, value.var = "Coût.moyen", fill = 0)
+    B.num <- dcast(A, Grade ~ Année, value.var = "Coût.moyen.num", fill = 0)
   }
   
+  colnames(moyenne) <- colnames(B)
+  colnames(moyenne.num) <- colnames(B.num)
   
-  colnames(totaux) <- colnames(A)
+  B <- rbind(B, moyenne)
+  B.num <- rbind(B.num, moyenne.num)
   
-  A <- rbind(A, totaux)
+  début <- names(B)[2]
+  fin <- names(B)[ncol(B)]
   
-  début <- names(A)[2]
-  fin <- names(A)[ncol(tableau.effectifs)]
-  
-  h <- function(x)  as.numeric(gsub(",", ".", A[[x]]))
-  
-  d <- h(2)
+  d <- as.numeric(B.num[[2]])
   d <- ifelse(d == 0, NA, d)
   
   if (variation || agr) 
-    A[ , paste0("Variation ", début, "-", fin, " (%)") :=  round((h(ncol(A))/d - 1)*100, 1)]
+    B[ , paste0("Variation ", début, "-", fin, " (%)") :=  round((as.numeric(B.num[[ncol(B.num)]])/d - 1)*100, 1)]
   
-  A
-  
+  B
 }
 
 

@@ -1,5 +1,5 @@
 Package: altair
-Title: Fonctions utilisées pour l'analyse automatisée des bases de paye au format XML
+Title: Fonctions pour l'analyse des bases de paye au format XML
 Version: 0.1
 Authors@R: person("Fabrice", "Nicol", email = "fabrice.nicol@crtc.ccomptes.fr", role = c("aut", "cre"))
 Description: Analyse, traite et transforme les données des bases de
