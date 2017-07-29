@@ -66,7 +66,7 @@
 library(compiler, warn.conflicts = FALSE)
 
 invisible(setCompilerOptions(suppressAll = TRUE, optimize = 3))
-invisible(enableJIT(0))
+invisible(enableJIT(3))
 
 options(warn = -1, verbose = FALSE, OutDec = ",", datatable.verbose = FALSE, datatable.integer64 = "numeric")
 
@@ -3410,6 +3410,9 @@ dir.create(file.path(chemin.dossier.bases, "SDIS"), recursive = TRUE, mode="0777
 
 library(altair)
 
+##### Effectifs ####
+
+
 e.sapeur     <- "^.?sapeur"
 e.caporal    <- "^.?capo"
 e.sergent    <- "^.?serg"
@@ -3522,6 +3525,57 @@ Tab5.EQTP.SPP.hors.SSM <- eqtp.grade(période = période,
 
 grades.pats <- setdiff(unique(Bulletins.paie$Grade), unique(EQTP.SPP$Grade))
 
+
+Tab5.EQTP.SPP.SSM    <- eqtp.grade(période = période,
+                                   classe = c(e.santé.offsup,
+                                              e.santé.offsub,
+                                              e.sousoff),
+                                   service = sssm,
+                                   statut = c("STAGIAIRE", "TITULAIRE"),
+                                   libellés = c("Officiers supérieurs",
+                                                "Officiers subalternes",
+                                                "Sous-officiers"),
+                                   agr = TRUE)
+
+Tab5.EQTP.hors.SSM.contr <- eqtp.grade(période = période,
+                                       service = autres.services,
+                                       statut = c("AUTRE_STATUT", "NON_TITULAIRE"))
+
+Tab5.EQTP.SSM.contr <- eqtp.grade(période = période,
+                                  service = sssm,
+                                  statut = c("AUTRE_STATUT", "NON_TITULAIRE"),
+                                  agr = FALSE)
+
+EQTP.SANTE <- eqtp.grade(période = période,
+                         classe =  "infirm" %+% "|" %+% e.santé,
+                         service = sssm,
+                         #libellés = c("Infirmiers, médecins, pharmaciens et vétérinaires"),
+                         agr = FALSE)
+
+
+Tab2.EQTP.PATS <- eqtp.grade(période = période,
+                             grade = grades.pats)
+
+Tab6.EQTP.PATS.A <- eqtp.grade(période = période,
+                               grade = grades.pats,
+                               catégorie = "A")
+
+Tab6.EQTP.PATS.B <- eqtp.grade(période = période,
+                               grade = grades.pats,
+                               catégorie = "B")
+
+Tab6.EQTP.PATS.C <- eqtp.grade(période = période,
+                               grade = grades.pats,
+                               catégorie = "C")
+
+Tab6.EQTP.PATS.ABC <- rbind(Tab6.EQTP.PATS.A[Grade == "Total"], Tab6.EQTP.PATS.B[Grade == "Total"], Tab6.EQTP.PATS.C[Grade == "Total"])
+Tab6.EQTP.PATS.ABC <- rbind(Tab6.EQTP.PATS.ABC, Tab6.EQTP.PATS.ABC[ , lapply(.SD, function(x) as.numeric(sub(",", ".", x)))][ , lapply(.SD, sum)])
+Tab6.EQTP.PATS.ABC[ , 1] <- c("A", "B", "C", "Total")
+
+setnames(Tab6.EQTP.PATS.ABC, "Grade", "Catégorie")
+
+##### Couts ####
+
 Tab4.COUT.SPP.hors.SSM <- charges.eqtp(période = période,
                                        classe = c(e.offsup,
                                                   e.offsub,
@@ -3588,55 +3642,6 @@ Tab4.COUT.PATS.ABC[ , 1] <- c("A", "B", "C", "Moyenne")
 
 setnames(Tab4.COUT.PATS.ABC, "Grade", "Catégorie")
 
-
-Tab5.EQTP.SPP.SSM    <- eqtp.grade(période = période,
-                                   classe = c(e.santé.offsup,
-                                   e.santé.offsub,
-                                   e.sousoff),
-                                   service = sssm,
-                                   statut = c("STAGIAIRE", "TITULAIRE"),
-                                   libellés = c("Officiers supérieurs",
-                                   "Officiers subalternes",
-                                   "Sous-officiers"),
-                                   agr = TRUE)
-
-Tab5.EQTP.hors.SSM.contr <- eqtp.grade(période = période,
-                                       service = autres.services,
-                                       statut = c("AUTRE_STATUT", "NON_TITULAIRE"))
-
-Tab5.EQTP.SSM.contr <- eqtp.grade(période = période,
-                                  service = sssm,
-                                  statut = c("AUTRE_STATUT", "NON_TITULAIRE"),
-                                  agr = FALSE)
-
-EQTP.SANTE <- eqtp.grade(période = période,
-                         classe =  "infirm" %+% "|" %+% e.santé,
-                         service = sssm,
-                         #libellés = c("Infirmiers, médecins, pharmaciens et vétérinaires"),
-                         agr = FALSE)
-
-
-Tab2.EQTP.PATS <- eqtp.grade(période = période,
-                             grade = grades.pats)
-
-Tab6.EQTP.PATS.A <- eqtp.grade(période = période,
-                               grade = grades.pats,
-                               catégorie = "A")
-
-Tab6.EQTP.PATS.B <- eqtp.grade(période = période,
-                               grade = grades.pats,
-                               catégorie = "B")
-
-Tab6.EQTP.PATS.C <- eqtp.grade(période = période,
-                               grade = grades.pats,
-                               catégorie = "C")
-
-Tab6.EQTP.PATS.ABC <- rbind(Tab6.EQTP.PATS.A[Grade == "Total"], Tab6.EQTP.PATS.B[Grade == "Total"], Tab6.EQTP.PATS.C[Grade == "Total"])
-Tab6.EQTP.PATS.ABC <- rbind(Tab6.EQTP.PATS.ABC, Tab6.EQTP.PATS.ABC[ , lapply(.SD, function(x) as.numeric(sub(",", ".", x)))][ , lapply(.SD, sum)])
-Tab6.EQTP.PATS.ABC[ , 1] <- c("A", "B", "C", "Total")
-
-setnames(Tab6.EQTP.PATS.ABC, "Grade", "Catégorie")
-
 #'    
 #'### Tableau n°2 des effectifs SPP en EQTP   
 #'   
@@ -3649,7 +3654,8 @@ kable(EQTP.SPP)
 
 kable(Tab2.EQTP.PATS)
 
-#'  
+#'   
+#'[Lien vers le tableau des grades de PATS](Bases/SDIS/EQTP.SPP.csv)      
 #'[Lien vers le tableau des grades de PATS](Bases/SDIS/grades.pats.csv)      
 #'[Lien vers le tableau des EQTP de PATS](Bases/SDIS/Tab2.EQTP.PATS.csv)       
 #'  
@@ -3732,7 +3738,95 @@ kable(EQTP.SANTE)
 #'[Lien vers le tableau n°5 des EQTP contractuels hors SSM](Bases/SDIS/Tab5.EQTP.hors.SSM.contr.csv)      
 #'[Lien vers le tableau des EQTP des professions de santé](Bases/SDIS/EQTP.SANTE.csv)       
 #'
-#'
+
+
+##### Rémunération nette ####
+
+
+Tab14.Rému.SPP <- net.eqtp(période = période,
+                                       classe = c(e.offsup,
+                                                  e.offsub,
+                                                  e.sousoff,
+                                                  e.gradsap),
+              
+                                       libellés = c("Officiers supérieurs",
+                                                    "Officiers subalternes",
+                                                    "Sous-officiers",
+                                                    "Sapeurs et gradés"),
+                                       exclure.codes = c("0999", "2950"),
+                                       agr = TRUE)
+
+Tab14.Rému.SPP.quotnulle <- net.eqtp(période = période,
+                                         classe = c(e.offsup,
+                                                    e.offsub,
+                                                    e.sousoff,
+                                                    e.gradsap),
+                                         libellés = c("Officiers supérieurs",
+                                                      "Officiers subalternes",
+                                                      "Sous-officiers",
+                                                      "Sapeurs et gradés"),
+                                         exclure.codes = c("0999", "2950"),
+                                         agr = TRUE,
+                                         quotité.nulle = TRUE)
+                                     
+# Le code "0999" représente le salaire brut dans le contrôle  SDIS 31 à/c. 2014. Ce n'est pas une ligne de paye stricto sensu.
+# Le code "2950" représente le total des cotisations employeur dans le contrôle  SDIS 31 à/c. 2014. Ce n'est pas une ligne de paye stricto sensu.
+
+
+Tab14.Rému.PATS.A <- net.eqtp(période = période,
+                                 grade = grades.pats,
+                                 catégorie = "A",
+                                 exclure.codes =  c("0999", "2950"))
+
+Tab14.Rému.PATS.B <- net.eqtp(période = période,
+                                 grade = grades.pats,
+                                 catégorie = "B",
+                                 exclure.codes =  c("0999", "2950"))
+
+Tab14.Rému.PATS.C <- net.eqtp(période = période,
+                                 grade = grades.pats,
+                                 catégorie = "C",
+                                 exclure.codes =  c("0999", "2950"))
+
+Tab14.Rému.PATS <- net.eqtp(période = période,
+                               grade = grades.pats,
+                               exclure.codes =  c("0999", "2950"))
+
+Tab14.Rému.PATS.ABC <- rbind(Tab14.Rému.PATS.A[Grade == "Moyenne"], Tab14.Rému.PATS.B[Grade == "Moyenne"], Tab14.Rému.PATS.C[Grade == "Moyenne"])
+Tab14.Rému.PATS.ABC <- rbind(Tab14.Rému.PATS.ABC, Tab14.Rému.PATS[Grade == "Moyenne"])
+Tab14.Rému.PATS.ABC[ , 1] <- c("A", "B", "C", "Moyenne")
+
+setnames(Tab14.Rému.PATS.ABC, "Grade", "Catégorie")
+
+
+#'   
+#'### Tableau n°14 : Evolution des rémunérations nettes moyennes en EQTP pour les SPP (hors SFT)    
+#'   
+
+kable(Tab14.Rému.SPP)
+
+
+#'   
+#'### Tableau n°14 bis : Evolution des rémunérations nettes moyennes en EQTP pour les PATS (hors SFT)    
+#'   
+
+
+kable(Tab14.Rému.PATS.ABC)
+
+#'   
+#'### Tableau n°14 ter : Evolution des cumuls de rémunérations nettes (hors SFT), quotités nulles    
+#'   
+
+kable(Tab14.Rému.SPP.quotnulle)
+
+#'    
+#'[Lien vers le tableau des Rémunérations nettes moyennes SPP (hors SFT), SSSM compris ](Bases/SDIS/Tab14.Rému.SPP.csv)    
+#'[Lien vers le tableau des Rémunérations nettes SPP cumulées quotités nulles, hors SFT, SSSM compris ](Bases/SDIS/Tab14.Rému.SPP.quotnulle.csv)     
+#'[Lien vers le tableau des Rémunérations nettes PATS (hors SFT)](Bases/SDIS/Tab14.Rému.PATS.ABC.csv)                                  
+#'   
+
+
+
 #### ANNEXE ####
 
 newpage()
@@ -4067,7 +4161,11 @@ sauv.bases(file.path(chemin.dossier.bases, "SDIS"),
               "Tab5.EQTP.SPP.hors.SSM",
               "Tab5.EQTP.SPP.SSM",
               "Tab5.EQTP.SSM.contr",
-              "EQTP.SANTE")
+              "EQTP.SANTE",
+              "Tab14.Rému",
+              "Tab14.Rému.SPP",
+              "Tab14.Rému.PATS.ABC",
+              "Tab14.Rému.SPP.quotnulle")
 
   if (test.delta) 
     sauv.bases(file.path(chemin.dossier.bases, "Fiabilite"), env = envir, "Delta")
