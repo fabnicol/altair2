@@ -110,7 +110,8 @@ class MainWindow : public QMainWindow
    void on_openManagerWidgetButton_clicked(bool);
    void on_editProjectButton_clicked();
    void on_optionsButton_clicked();
-   void showMainWidget();
+   void displayFullScreen(bool);
+   void toggleFullScreen();
    void configure();
    void configureOptions();
    bool exportProject(QString str="");
