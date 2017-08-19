@@ -159,7 +159,7 @@ private:
     QHash <int,  QVector<QStringList>  > fileSizeDataBase;
 
     QIcon iconShowMaximized, iconShowNormal;
-    QRect geom;
+    //QRect geom;
 
     FProgressBar *progress;
     QVBoxLayout *mainLayout= new QVBoxLayout;
