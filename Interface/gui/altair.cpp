@@ -323,9 +323,9 @@ void  Altair::openProjectFileCommonCode()
 
     checkEmptyProjectName();
     setCurrentFile(projectName);
-    geom = parent->geometry();
+    //geom = parent->geometry();
     clearInterfaceAndParseProject();
-    parent->setGeometry(geom);
+    //parent->setGeometry(geom);
 
     // resetting interfaceStatus::parseXml bits to 0
     RefreshFlag = RefreshFlag & (~interfaceStatus::parseXml);
