@@ -409,7 +409,7 @@ void MainWindow::createActions()
 
   displayAction = new QAction(tr("&Plein écran/Réduire"), this);
   displayAction->setIcon(QIcon(":/images/show-maximized.png"));
-  connect(displayAction, SIGNAL(triggered()), this, SLOT(showMainWidget()));
+  connect(displayAction, SIGNAL(triggered()), this, SLOT(toggleFullScreen()));
 
   displayManagerAction = new QAction(tr("Ouvrir/Fermer le &gestionnaire de projet"), this);
   const QIcon iconViewList = QIcon(QString::fromUtf8( ":/images/manager.png"));
@@ -1993,7 +1993,7 @@ void MainWindow::configureOptions()
     connect(defaultFileManagerWidgetLayoutBox, SIGNAL(toggled(bool)), this, SLOT(on_displayFileTreeViewButton_clicked(bool)));
     connect(defaultProjectManagerWidgetLayoutBox, SIGNAL(toggled(bool)), this, SLOT(on_openManagerWidgetButton_clicked(bool)));
     
-    connect(defaultFullScreenLayoutBox, SIGNAL(toggled(bool)), this, SLOT(showMainWidget()));
+    connect(defaultFullScreenLayoutBox, SIGNAL(toggled(bool)), this, SLOT(displayFullScreen(bool)));
     connect(defaultMaximumConsoleOutputBox, &FCheckBox::toggled, [this]{v(limitConsoleOutput).toggle();});
     connect(defaultOutputTextEditBox, &FCheckBox::toggled, [this] {bottomDockWidget->setVisible(defaultOutputTextEditBox->isChecked());});
 
@@ -2041,7 +2041,23 @@ void MainWindow::adjustDisplay(bool projectFileStatus)
     }
 }
 
-void MainWindow::showMainWidget()
+void MainWindow::displayFullScreen(bool state)
+{
+
+  if (state)
+  {
+      setWindowState(Qt::WindowFullScreen);
+      displayAction->setIcon(QIcon(":/images/show-normal.png"));
+  }
+  else
+  {
+      setWindowState(Qt::WindowNoState);
+      standardDisplay();
+  }
+}
+
+
+void MainWindow::toggleFullScreen()
 {
   if (windowState() != Qt::WindowFullScreen)
   {
@@ -2054,7 +2070,6 @@ void MainWindow::showMainWidget()
       standardDisplay();
   }
 }
-
 
 void MainWindow::feedLHXConsoleWithHtml()
 {
