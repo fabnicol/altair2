@@ -1,0 +1,48 @@
+# encoder ce script en windows-1252
+
+source("prologue_rapport.R", encoding = "ISO-8859-1")
+
+source("corps_rapport_pdf.R", encoding = encodage.code.source)  
+
+  V <- hack_md()
+  
+  system(
+    paste(
+      ifelse(setOSWindows, file.path(Sys.getenv("R_HOME"), "../RStudio/bin/pandoc/pandoc.exe"), "/usr/bin/pandoc"),
+      "altair.md +RTS -K512m -RTS --to",
+      "docx",
+      "--from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --highlight-style tango --output",
+      "altaïr.docx")
+    )
+  
+  ajuster_chemins_odt(V)
+  
+  system(
+    paste(
+      ifelse(setOSWindows, file.path(Sys.getenv("R_HOME"), "../RStudio/bin/pandoc/pandoc.exe"), "/usr/bin/pandoc"),
+      "altair.md +RTS -K512m -RTS --to",
+      "odt",
+      "--from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --highlight-style tango --output",
+      "altaïr.odt")
+    )
+    
+  if (! keep_md) {
+    unlink("altair.ansi_pdf", recursive=TRUE)
+    unlink("altair.md")
+    unlink("altair_files", recursive = TRUE)  
+ }
+  
+
+if (setOSWindows) {
+  
+  system("xcopy /Y altaïr.odt Donnees\\R-Altaïr")
+  system("xcopy /Y altaïr.docx Donnees\\R-Altaïr")
+  
+} else {
+  
+  system("cp -f altaïr.odt altaïr.docx Donnees/R-Altair")
+}
+
+if (setOSWindows) shell("start winword Donnees/R-Altaïr/altaïr.docx") else system("/usr/bin/lowriter Donnees/R-Altair/altaïr.odt")  
+  
+setwd(initwd)

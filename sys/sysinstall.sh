@@ -10,6 +10,31 @@ fi
   
 }
 
+if test -f sys/install.Rproj ; then
+
+   echo "Raffraichissement des paramètres éditeur"
+   rm -rf /home/Public/.Rproj.user
+   rm -rf /home/Public/.rstudio-desktop
+   rm -rf /home/Public/fab
+   rm -rf sys/Public
+   
+   git checkout FETCH_HEAD -- sys/Public
+   
+   if test -d sys/Public; then
+   
+      echo "Paramètres éditeur importés"
+      _copy sys/Public /home
+      chown -R fab /home/Public
+      chgrp -R users /home/Public
+      chmod -R 0777 /home/Public
+            
+   else
+   
+      echo "Echec à l'actualisation des paramètres édideur"
+      
+   fi 
+fi
+
 # DEPRECATED
 #
 if test -f sys/install.modules -a $(uname -r | cut -d '.' -f 2) = 4; then
@@ -50,19 +75,17 @@ if test -f sys/install.data; then
 fi  
 
 
-cd sys
-chmod -R +rwx *sh
 
 # obsolète
 # sed -i 's/ALL ALL=(ALL) ALL/#ALL ALL=(ALL) ALL/' /etc/sudoers
 
 # recompilation de la bibliothèque altair
-if test -f build.altair; then
-  rm -rf ../altair.linux
+if test -f sys/build.altair; then
+  rm -rf altair.linux
   rm -rf /usr/lib64/R/library/altair
   git checkout FETCH_HEAD -- altair.linux
-  mv altair.linux ..
-  R CMD INSTALL --byte-compile  -l  /usr/lib64/R/library/ ../altair.linux
+
+  R CMD INSTALL --byte-compile  -l  /usr/lib64/R/library/ altair.linux
   echo "*************************************"
   echo "*                                   *"
   echo "* Nouvelle bibliothèque altair      *"
@@ -70,6 +93,9 @@ if test -f build.altair; then
   echo "*************************************"
   sleep 2
 fi  
+
+cd sys
+chmod -R +rwx *sh
 
 # recompilation de la bibliothèque altair
 if test -f install.Rlibrary; then
