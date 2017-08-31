@@ -3523,8 +3523,8 @@ Tab5.EQTP.SPP.hors.SSM <- eqtp.grade(période = période,
                                       "Sapeurs et gradés"),
                                       agr = TRUE)
 
-grades.pats <- setdiff(unique(Bulletins.paie$Grade), unique(EQTP.SPP$Grade))
-
+grades.spp  <- unique(EQTP.SPP$Grade)
+grades.pats <- setdiff(unique(Bulletins.paie$Grade), grades.spp)
 
 Tab5.EQTP.SPP.SSM    <- eqtp.grade(période = période,
                                    classe = c(e.santé.offsup,

@@ -1116,7 +1116,7 @@ void MainWindow::clean_process(const QString& path)
     }
     else
     {
-        altair->outputTextEdit->append(ERROR_HTML_TAG  "Le ettoyage de " + path + " a échoué.");
+        altair->outputTextEdit->append(ERROR_HTML_TAG  "Le nettoyage de " + path + " a échoué.");
         altair->outputTextEdit->repaint();
         altair->updateProject(true);
     }
