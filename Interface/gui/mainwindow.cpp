@@ -961,6 +961,7 @@ const vector <unsigned char>  MainWindow::nettoyer_donnees(vector <unsigned char
                        {
                            case  0x22  : //"
                                quote = ! quote;
+                               [[fallthrough]];
                                
                            case  0x20  :  // SP  ' '
                                out.emplace_back(*iter2);
@@ -1115,7 +1116,7 @@ void MainWindow::clean_process(const QString& path)
     }
     else
     {
-        altair->outputTextEdit->append(ERROR_HTML_TAG  "Le ettoyage de " + path + " a échoué.");
+        altair->outputTextEdit->append(ERROR_HTML_TAG  "Le nettoyage de " + path + " a échoué.");
         altair->outputTextEdit->repaint();
         altair->updateProject(true);
     }

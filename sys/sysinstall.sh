@@ -58,10 +58,6 @@ chmod -R +rwx *sh
 
 # recompilation de la bibliothèque altair
 if test -f build.altair; then
-  rm -rf ../altair.linux
-  rm -rf /usr/lib64/R/library/altair
-  git checkout FETCH_HEAD -- altair.linux
-  mv altair.linux ..
   R CMD INSTALL --byte-compile  -l  /usr/lib64/R/library/ ../altair.linux
   echo "*************************************"
   echo "*                                   *"
@@ -101,7 +97,7 @@ if test -f install.kernel -a "$(uname -r)" != "4.10.8-ck"; then
       umount /boot
       mount UUID="8b17d2d8-7905-4019-a9e7-a5d0fb961ea7" /boot
       rm -rf /boot/*
-      cp -f kernel/*-4.10.8* /boot
+      cp -f kernel/*4.10.8* /boot
       device=$(cat /proc/mounts | grep dev.*10.*home.*ext4 | cut -f1 -d' ' | cut -f1 -d1)
       grub-install --target i386-pc $device
       grub-mkconfig -o /boot/grub/grub.cfg
