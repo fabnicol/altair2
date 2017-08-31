@@ -961,6 +961,7 @@ const vector <unsigned char>  MainWindow::nettoyer_donnees(vector <unsigned char
                        {
                            case  0x22  : //"
                                quote = ! quote;
+                               [[fallthrough]];
                                
                            case  0x20  :  // SP  ' '
                                out.emplace_back(*iter2);
