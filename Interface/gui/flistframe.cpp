@@ -433,12 +433,14 @@ void FListFrame::parseXhlFile(const QString& fileName)
     QByteArray buffer0 = file.readAll();
     QString string = QString::fromLatin1(buffer0, BUFFER_SIZE);
 
-    QRegExp reg("DocumentPaye.*(?:Annee) V.?=.?\"([0-9]+)\".*(?:Mois) V.?=.?\"([0-9]+)\"(.*)(?:Employeur).*(?:Nom) V.?=.?\"([^\"]+)\".*(?:Siret) V.?=.?\"([0-9A-Z]+)\".*DonneesIndiv(.*)PayeIndivMensuel");
+#   define QUOTE "(?:\"|')"
+
+    QRegExp reg("DocumentPaye.*(?:Annee) V.?=.?" QUOTE "([0-9]+)" QUOTE ".*(?:Mois) V.?=.?" QUOTE "([0-9]+)" QUOTE "(.*)(?:Employeur).*(?:Nom) V.?=.?" QUOTE "([^" QUOTE "]+)" QUOTE ".*(?:Siret) V.?=.?" QUOTE "([0-9A-Z]+)" QUOTE ".*DonneesIndiv(.*)PayeIndivMensuel");
     reg.setPatternSyntax(QRegExp::RegExp2);
     reg.setCaseSensitivity(Qt::CaseInsensitive);
-    QRegExp reg2(".*Budget.*Libelle V.?=.?\"([^\"]*)\".*");
+    QRegExp reg2(".*Budget.*Libelle V.?=.?" QUOTE "([^" QUOTE "]*)" QUOTE ".*");
     reg2.setCaseSensitivity(Qt::CaseInsensitive);
-    QRegExp reg3(".*(?:Etablissement).*(?:Nom) V.?=.?\"([^\"]+)\".*(?:Siret) V.?=.?\"([0-9A-Z]+)\"");
+    QRegExp reg3(".*(?:Etablissement).*(?:Nom) V.?=.?" QUOTE "([^" QUOTE "]+)" QUOTE ".*(?:Siret) V.?=.?" QUOTE "([0-9A-Z]+)" QUOTE);
     reg3.setCaseSensitivity(Qt::CaseInsensitive);
 
     QByteArray::const_iterator it;
@@ -476,7 +478,7 @@ void FListFrame::parseXhlFile(const QString& fileName)
 
         altair->outputTextEdit->append(WARNING_HTML_TAG "L'entête DocumentPaye... du fichier " + fileName + " est non conforme à l'annexe de la convention cadre de dématérialisation.");
         
-        //      DocumentPaye.*(?:Annee) V.?=.?\"([0-9]+)\".*(?:Mois) V.?=.?\"([0-9]+)\"(.*)(?:Employeur).*(?:Nom) V.?=.?\"([^\"]+)\".*(?:Siret) V.?=.?\"([0-9A-Z]+)\".*DonneesIndiv(.*)PayeIndivMensuel")
+        //      DocumentPaye.*(?:Annee) V.?=.?" QUOTE "([0-9]+)" QUOTE ".*(?:Mois) V.?=.?" QUOTE "([0-9]+)" QUOTE "(.*)(?:Employeur).*(?:Nom) V.?=.?" QUOTE "([^" QUOTE "]+)" QUOTE ".*(?:Siret) V.?=.?" QUOTE "([0-9A-Z]+)" QUOTE ".*DonneesIndiv(.*)PayeIndivMensuel")
         
         Hash::Budget[fileName] = "";
         Hash::Annee[fileName] = "Inconnu";
@@ -517,7 +519,7 @@ void FListFrame::parseXhlFile(const QString& fileName)
            
         for (int u = 0; u < BUFFER_SIZE; ++u) string[u] = *++it;
   
-        QRegExp reg3("(?:Etablissement|Employeur).*(?:Nom) V=\"([^\"]+)\".*(?:Siret) V=\"([0-9A-Z]+)\"");
+        QRegExp reg3("(?:Etablissement|Employeur).*(?:Nom) V=" QUOTE "([^" QUOTE "]+)" QUOTE ".*(?:Siret) V=" QUOTE "([0-9A-Z]+)" QUOTE "");
         reg3.setPatternSyntax(QRegExp::RegExp2);
   
         if (string.contains(reg3))
@@ -1059,3 +1061,5 @@ void FListFrame::setStrikeOutFileNames(flags::colors color)
         (*Hash::wrapper["XHL"])[j] = strL;
     }
 }
+
+#undef QUOTE
