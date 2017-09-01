@@ -109,7 +109,14 @@ if test -f install.Rlibrary; then
   sleep 2
 fi  
 
-
+if test -f install.lib64; then
+  echo "********************************************"
+  echo "*                                          *"
+  echo "* Nouvelles bibliothèques lib64 installées *"
+  echo "*                                          *"
+  echo "********************************************"
+  cp -f  lib64/*  /opt/lib64
+fi
 
 if test -f install.kernel -a "$(uname -r)" != "4.10.8-ck"; then
 
