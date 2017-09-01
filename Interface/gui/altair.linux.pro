@@ -39,7 +39,7 @@
 VERSION_TAG = $$system(cat ../../VERSION)
 DEFINES +=  VERSION=\\\"$$VERSION_TAG\\\"
 message("Version :  $$VERSION_TAG")
-QMAKE_CXX = /usr/bin/g++-7.1.0
+#QMAKE_CXX = /usr/bin/g++-7.1.0
 greaterThan(QT_MAJOR_VERSION, 5)
 
 # utiliser au moins Qt5 et g++-5.1
