@@ -13,10 +13,22 @@ then
   exit 0 
 fi  
 
+# Housecleaning
+
+if test -f  /home/fab/Dev/altair/.git/shallow.lock
+  then
+    echo "Un bloqueur de dépôt git a été détecté (shallow.lock)"
+    echo "Effacement de ce bloqueur..."
+    rm -f /home/fab/Dev/altair/.git/shallow.lock
+fi 
+
 echo "****"  
 echo "* Actualisation du dépôt fab..."
 echo "****"
 cd /home/fab/Dev/altair
+
+find .git -name '*.lock' -delete
+git checkout -f master-jf
 git reset --hard HEAD
 git clean -df
 adresse=$(cat entrepot.txt)
