@@ -2492,12 +2492,13 @@ setnames(lignes.IHTS.rappels, "Mois.rappel", "Mois")
 
 lignes.IHTS.hors.rappels <- lignes.IHTS[Type != "R" & Montant != 0, 
                                        .(ihts.cum.hors.rappels = sum(Montant, na.rm = TRUE),
-                                         nihts.cum.hors.rappels = ifelse((a <- sum(abs(Base) * sign(Montant), na.rm = TRUE)) == 0, sum(abs(Nb.Unité) * sign(Montant), na.rm = TRUE), a)),
+                                         nihts.cum.hors.rappels = ifelse((a <- sum(abs(Base) * sign(Montant), na.rm = TRUE)) == 0, sum(abs(Nb.Unité) * sign(Montant), na.rm = TRUE), a),
+                                         quotité.moyenne),
                                            by= .(Matricule, Année, Mois)]
 
 lignes.IHTS.tot <- merge(lignes.IHTS.rappels, lignes.IHTS.hors.rappels, 
                          all = TRUE,
-                         by = c("Matricule", "Année", "Mois"))[is.na(ihts.cum.rappels), ihts.cum.rappels := 0
+                         by = c("Matricule", "Année", "Mois", "quotité.moyenne"))[is.na(ihts.cum.rappels), ihts.cum.rappels := 0
                      ][is.na(ihts.cum.hors.rappels), ihts.cum.hors.rappels := 0
                      ][is.na(nihts.cum.rappels), nihts.cum.rappels := 0
                      ][is.na(nihts.cum.hors.rappels), nihts.cum.hors.rappels := 0
@@ -2673,7 +2674,7 @@ if (utiliser.variable.Heures.Sup.) {
                                                     Service)]
 } else {
   
-  Depassement.seuil.180h <- merge(CumBaseIHTS[ , .(Nihts.tot = sum(nihts.tot)), by = .(Matricule, Année)
+  Depassement.seuil.180h <- merge(CumBaseIHTS[ , .(Nihts.tot = sum(nihts.tot), quotité.moyenne), by = .(Matricule, Année)
                                              ][Nihts.tot > 180 * quotité.moyenne, 
                                                 .(Matricule, 
                                                   Année,

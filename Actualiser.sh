@@ -49,6 +49,11 @@ git remote remove origin
 git remote add -t master origin $adresse
 fi
 
+# Remettre à zéro les indicateurs spécifiques d'actualisation
+
+rm sys/build.*
+rm sys/install.*
+
 git fetch -p -n --depth=1 origin master-jf
 
 for i in altair.linux sft data Docs Interface lhx Interface_linux linux '*.txt' '*.R' '*.sh' '*.desktop' VERSION LICENCE '*.ico' '*.bmp' '*.png'  postinstall.sh altaïr.Rproj 'Tests/Exemple' 'Tests/Exemple/Docs' sys
