@@ -51,8 +51,8 @@ fi
 
 # Remettre à zéro les indicateurs spécifiques d'actualisation
 
-rm sys/build.*
-rm sys/install.*
+rm -f sys/build.*
+rm -f sys/install.*
 
 git fetch -p -n --depth=1 origin master-jf
 
