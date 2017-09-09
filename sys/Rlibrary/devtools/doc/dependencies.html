@@ -4,7 +4,7 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
@@ -12,7 +12,7 @@
 
 <meta name="author" content="Jim Hester, Hadley Wickham" />
 
-<meta name="date" content="2016-06-02" />
+<meta name="date" content="2017-08-01" />
 
 <title>Devtools dependencies</title>
 
@@ -70,13 +70,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Devtools dependencies</h1>
 <h4 class="author"><em>Jim Hester, Hadley Wickham</em></h4>
-<h4 class="date"><em>2016-06-02</em></h4>
+<h4 class="date"><em>2017-08-01</em></h4>
 
 
 
 <div id="package-remotes" class="section level1">
 <h1>Package remotes</h1>
-<p>Devtools version 1.9 supports package dependency installation for packages not yet in a standard package repository such as <a href="http://cran.r-project.org">CRAN</a> or <a href="http://bioconductor.org">Bioconductor</a>.</p>
+<p>Devtools version 1.9 supports package dependency installation for packages not yet in a standard package repository such as <a href="https://cran.r-project.org">CRAN</a> or <a href="http://bioconductor.org">Bioconductor</a>.</p>
 <p>You can mark any regular dependency defined in the <code>Depends</code>, <code>Imports</code>, <code>Suggests</code> or <code>Enhances</code> fields as being installed from a remote location by adding the remote location to <code>Remotes</code> in your <code>DESCRIPTION</code> file. This will cause devtools to download and install them prior to installing your package (so they won’t be installed from CRAN).</p>
 <p>The remote dependencies specified in <code>Remotes</code> should be described in the following form.</p>
 <pre><code>Remotes: [type::]&lt;Repository&gt;, [type2::]&lt;Repository2&gt;</code></pre>
@@ -84,34 +84,37 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="github" class="section level3">
 <h3>Github</h3>
 <p>Because github is the most commonly used unofficial package distribution in R, it’s the default:</p>
-<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span class="fu">Remotes:</span> hadley/testthat</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span class="fu">Remotes:</span><span class="at"> hadley/testthat</span></code></pre></div>
 <p>You can also specify a specific hash, tag, or pull request (using the same syntax as <code>install_github()</code> if you want a particular commit. Otherwise the latest commit on the master branch is used.</p>
-<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span class="fu">Remotes:</span> hadley/httr@v0.4,
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span class="fu">Remotes:</span><span class="at"> hadley/httr@v0.4,</span>
   klutometis/roxygen<span class="co">#142,</span>
   hadley/testthat@c67018fa4970</code></pre></div>
 <p>A type of ‘github’ can be specified, but is not required</p>
-<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span class="fu">Remotes:</span> github::hadley/ggplot2</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span class="fu">Remotes:</span><span class="at"> github::hadley/ggplot2</span></code></pre></div>
 </div>
 <div id="other-sources" class="section level3">
 <h3>Other sources</h3>
 <p>All of the currently supported install sources are available, see the ‘See Also’ section in <code>?install</code> for a complete list.</p>
 <div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span class="co"># Git</span>
-<span class="fu">Remotes:</span> git::https://github.com/hadley/ggplot2.git
+<span class="fu">Remotes:</span><span class="at"> git::https://github.com/hadley/ggplot2.git</span>
 
 <span class="co"># Bitbucket</span>
-<span class="fu">Remotes:</span> bitbucket::sulab/mygene.r@default, dannavarro/lsr-package
+<span class="fu">Remotes:</span><span class="at"> bitbucket::sulab/mygene.r@default, dannavarro/lsr-package</span>
+
+<span class="co"># Bioconductor</span>
+<span class="fu">Remotes:</span><span class="at"> bioc::3.3/SummarizedExperiment</span><span class="co">#117513, bioc::release/Biobase</span>
 
 <span class="co"># SVN</span>
-<span class="fu">Remotes:</span> svn::https://github.com/hadley/stringr
+<span class="fu">Remotes:</span><span class="at"> svn::https://github.com/hadley/stringr</span>
 
 <span class="co"># URL</span>
-<span class="fu">Remotes:</span> url::https://github.com/hadley/stringr/archive/master.zip
+<span class="fu">Remotes:</span><span class="at"> url::https://github.com/hadley/stringr/archive/master.zip</span>
 
 <span class="co"># Local</span>
-<span class="fu">Remotes:</span> local::/pkgs/testthat
+<span class="fu">Remotes:</span><span class="at"> local::/pkgs/testthat</span>
 
 <span class="co"># Gitorious</span>
-<span class="fu">Remotes:</span> gitorious::r-mpc-package/r-mpc-package</code></pre></div>
+<span class="fu">Remotes:</span><span class="at"> gitorious::r-mpc-package/r-mpc-package</span></code></pre></div>
 </div>
 <div id="cran-submission" class="section level3">
 <h3>CRAN submission</h3>
@@ -126,7 +129,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

@@ -89,9 +89,12 @@ integer64	bit64-package
 is.double	bit64S3
 is.double.default	bit64S3
 is.double.integer64	bit64S3
+is.finite.integer64	format.integer64
+is.infinite.integer64	format.integer64
 is.integer.integer64	bit64-package
 is.integer64	bit64-package
 is.na.integer64	format.integer64
+is.nan.integer64	format.integer64
 is.sorted.integer64	is.sorted.integer64
 is.vector.integer64	bit64-package
 jamcache	cache
@@ -173,6 +176,7 @@ rbind.integer64	c.integer64
 remcache	cache
 rep.integer64	rep.integer64
 round.integer64	format.integer64
+scale.integer64	format.integer64
 seq.integer64	seq.integer64
 setcache	cache
 shellorder.integer64	ramsort.integer64
@@ -211,6 +215,7 @@ sortuni	sortnut
 sortuni.integer64	sortnut
 sqrt.integer64	format.integer64
 still.identical	cache
+str.integer64	bit64-package
 sum.integer64	sum.integer64
 summary.integer64	qtile
 table.integer64	table.integer64
