@@ -1,3 +1,6 @@
+cache_filesystem	cache_filesystem
+cache_memory	cache_memory
+cache_s3	cache_s3
 forget	forget
 has_cache	has_cache
 is.memoised	is.memoised
