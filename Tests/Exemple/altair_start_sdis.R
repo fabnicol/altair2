@@ -4006,7 +4006,110 @@ kable(data.table(ES_SPP_PATS),
 
 #'    
 #'[Lien vers le tableau mobilité](Bases/SDIS/ES_SPP_PATS.csv)    
+#'
+
+
 #'   
+#'Tableau n°12 : mobilité sortante des SPP    
+#'    
+
+
+MOBILITE_SORTANTE <- Base_sortie[toupper(Type_sortie) == "MUTATION", .(N = uniqueN(Matricule)),  by = .(Année, Grade)]
+MOBILITE_SORTANTE[grepl(e.offsup | e.offsub, ignore.case = TRUE, perl = TRUE) , Catégorie := "Officiers supérieurs"]
+MOBILITE_SORTANTE[grepl(e.sousoff, ignore.case = TRUE, perl = TRUE) , Catégorie := "Sous-officiers"]
+MOBILITE_SORTANTE[grepl(e.gradsap, ignore.case = TRUE, perl = TRUE) , Catégorie := "Sapeurs et gradés"]
+
+MOBILITE_SORTANTE[ ,  .(Nombre = sum(N)), by = .(Année,Catégorie)]
+
+MOBILITE_SORTANTE
+L <-  split(MOBILITE_SORTANTE, by = "Année")
+
+for (i in 1:length(L))
+  kable(L[[i]][ ,  Année := NULL], 
+        align = "r")
+
+
+#'    
+#'[Lien vers le tableau promotion des officier](Bases/SDIS/MOBILITE_SORTANTE.csv)    
+#'
+
+
+
+##########  Promotion #####################
+
+promotion <- f(regex) {
+  
+  PROMO_SPP_OFF <- CRC_BASE3[Mois == 12 & grepl(regex, Grade, ignore.case = FALSE, perl = TRUE),  .(Matricule, Anciennete_grade), keyby = .(Année, Grade)]
+  setnames(PROMO_SPP_OFF, "Grade", "Grade12")
+  
+  setnames(PROMO_SPP_OFF, "Grade", "Grade12")
+  for (i in 1:11) {
+    PROMO_SPP_OFF_M <- CRC_BASE3[Mois == i & grepl(regex, Grade, ignore.case = FALSE, perl = TRUE),  Matricule, keyby = .(Année, Grade)]
+    setnames(PROMO_SPP_OFF_M, "Grade", "Grade" %+% i)
+    PROMO_SPP_OFF <- merge(PROMO_SPP_OFF, PROMO_SPP_OFF_M, by = c("Année", "Matricule"), all.x = TRUE, all.y = FALSE)
+  }
+
+  PROMO_SPP_OFF[(! is.na(Grade1) & Grade1 != Grade12) | (! is.na(Grade2) & Grade2 != Grade12) | (! is.na(Grade3) & Grade3 != Grade12) | (! is.na(Grade4) & Grade4 != Grade12)
+                            | (! is.na(Grade5) & Grade5 != Grade12) | (! is.na(Grade6) & Grade6 != Grade12) | (! is.na(Grade7) & Grade7 != Grade12) | (! is.na(Grade8) & Grade8 != Grade12)
+                            | (! is.na(Grade9) & Grade9 != Grade12) | (! is.na(Grade10) & Grade10 != Grade12) | (! is.na(Grade11) & Grade11 != Grade12),
+                                    , .(agm = max(Anciennete_grade, na.rm = TRUE)),
+                                        keyby = .(Année, Grade12, Matricule)]
+}
+
+NPROMUS_MAT <- promotion(regex = e.offsup)
+
+NPROMUS <- NPROMUS_MAT[ ,.(`Nombre de promus du SDIS` =.uniqueN(Matricule), `Durée moyenne d’ancienneté des promus dans le grade précédent` = mean(agm, na.rm = TRUE)),
+                             keyby = .(Année, Grade12)]
+
+setnames(NPROMUS, "Grade12", "Grade")
+
+NPROMOUVABLES <- CRC_BASE3[Anciennete >= 5 , .(`Nombre de candidats promouvables du SDIS` = uniqueN(Matricule)), keyby = .(Année, Grade)]
+
+PROMO_SPP_OFF_MERGED <- merge(NPROMUS, NPROMOUVABLES, by= c("Année", "Grade"))
+
+#'   
+#'Tableau n°9 : promotion des officiers SPP    
+#'    
+
+kable(data.table(PROMO_SPP_OFF_MERGED), 
+      align = "r")
+      #col.names = c("Accès au grade de", 	"Nombre de promus du SDIS",	"Nombre de candidats promouvables du SDIS",	"Durée moyenne d’ancienneté des promus dans le grade précédent"))
+
+#'    
+#'[Lien vers le tableau promotion des officier](Bases/SDIS/PROMO_SPP_OFF_MERGED.csv)    
+#'
+
+nombre_par_durée <- fonction(seuil, T) {
+  
+  T[ , `:=`(`à la durée minimale` = uniqueN(Matricule[agm <= seuil]),
+            `à une durée supérieure` = uniqueN(Matricule[agm > seuil])),
+     keyby = Année]
+}
+
+NPROMUS_colonel       <- nombre_par_durée(promotion(regex = e.col), seuil = 5)[ , Grade := "Colonel"]
+NPROMUS_lieucol       <- nombre_par_durée(promotion(regex = e.lieutcol), seuil = 5)[ , Grade := "Lieutenant-colonel"]
+NPROMUS_commandant    <- nombre_par_durée(promotion(regex = e.commandant), seuil = 5)[ , Grade := "Commandant"]
+NPROMUS_capitaine     <- nombre_par_durée(promotion(regex = e.capitaine), seuil = 3)[ , Grade := "Capitaine"]
+NPROMUS_MAT_adjudant  <- nombre_par_durée(promotion(regex = e.adjudant), seuil = 6)[ , Grade := "Adjudant"]
+NPROMUS_MAT_sergent   <- nombre_par_durée(promotion(regex = e.sergent), seuil = 3)[ , Grade := "Sergent"]
+NPROMUS_MAT_caporal   <- nombre_par_durée(promotion(regex = e.caporal),seuil = 3)[ , Grade := "Capitaine"]
+
+PROMO_RYTHME <- rbind(NPROMUS_colonel, NPROMUS_lieucol, NPROMUS_commandant, NPROMUS_capitaine, NPROMUS_MAT_sergent, NPROMUS_MAT_caporal)
+L <- split(PROMO_RYTHME, by = "Année")
+
+#'   
+#'Tableau n°10 : rythme de promotion des promotion SPP    
+#'    
+
+for (i in 1:length(L))
+  kable(L[[i]][ ,  Année := NULL], 
+        align = "r")
+
+#'    
+#'[Lien vers le tableau promotion des officier](Bases/SDIS/PROMO_RYTHME.csv)    
+#'
+
+
 
 
 #### ANNEXE ####
@@ -4350,7 +4453,11 @@ sauv.bases(file.path(chemin.dossier.bases, "SDIS"),
               "Tab14.Rému.SPP.quotnulle",
               "Sorties.PATS",
               "Sorties.SPP",
-              "Sorties.total")
+              "Sorties.total",
+              "ES_SPP_PATS",
+              "PROMO_SPP_OFF_MERGED",
+              "PROMO_RYTHME",
+              "MOBILITE_SORTANTE")
 
   if (test.delta) 
     sauv.bases(file.path(chemin.dossier.bases, "Fiabilite"), env = envir, "Delta")
