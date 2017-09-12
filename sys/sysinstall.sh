@@ -10,6 +10,8 @@ fi
   
 }
 
+chown -R fab .
+
 if test -f sys/install.Rproj ; then
 
    echo "Raffraichissement des paramètres éditeur"
@@ -74,23 +76,44 @@ if test -f sys/install.data; then
   rm -f altair/data/*
 fi  
 
-
-
 # obsolète
 # sed -i 's/ALL ALL=(ALL) ALL/#ALL ALL=(ALL) ALL/' /etc/sudoers
 
-R_version=$(/usr/bin/R --version | grep "R version" | cut -f 3 -d' ') 
+if test -f /usr/local/lib64/R/bin/R; then
+ R_version=$(/usr/local/lib64/R/bin/R --version | grep "R version" | cut -f 3 -d' ') 
+else
+ R_version=""
+fi
 
-if test -f sys/install.R -a x$R_version != x$(cat R_VERSION); then
+mkdir -p /usr/local/lib64/R/library/
+
+cd /home/fab/Dev/altair/sys
+chmod -R +rwx *sh
+
+# recompilation de la bibliothèque altair
+if test -f install.Rlibrary; then
+
+  cp -rf Rlibrary/*  /usr/local/lib64/R/library/ 
+  echo "*************************************"
+  echo "*                                   *"
+  echo "* Nouvelle bibliothèque R installée *"
+  echo "*                                   *"
+  echo "*************************************"
+  sleep 2
+fi  
+
+cd ..
+
+if test -f sys/install.R -a x$R_version != x$(cat sys/R_VERSION); then
 
    echo "Actualisation de R par compilation..."
        
    if test -d sys/build; then
-   
+      emerge --unmerge dev-lang/R  
       cd sys/build
       tar xJf R.tar.xz
-      ./configure --enable-R-shlib --prefix=/usr
-      make -j8 
+      ./configure --enable-R-shlib --prefix=/usr/local
+      make -j8
       make install
       
       if test $? = 0; then
@@ -99,8 +122,8 @@ if test -f sys/install.R -a x$R_version != x$(cat R_VERSION); then
         echo "* Compilation de R terminée *"
         echo "*****************************"
 
-        R_version=$(R --version | grep "R version" | cut -f 3 -d' ') 
-        echo $R_version > R_VERSION
+        R_version=$(/usr/local/lib64/R/bin/R --version | grep "R version" | cut -f 3 -d' ') 
+        echo $R_version > /home/fab/Dev/altair/sys/R_VERSION
         git commit -am "installed R version $R_version"
                 
       else
@@ -111,7 +134,7 @@ if test -f sys/install.R -a x$R_version != x$(cat R_VERSION); then
         
       fi
       
-      cd ..     
+      cd /home/fab/Dev/altair     
       
    else
    
@@ -122,7 +145,7 @@ else
   
   echo "pas d'actualisation de R par compilation..."
   echo "R : **$R_version**"
-  echo "fichier de version :  **$(cat R_VERSION)**"
+  echo "fichier de version :  **$(cat sys/R_VERSION)**"
   
   sleep 2
 fi  
@@ -154,31 +177,13 @@ if test -f sys/install.packages -a ! -f sys/packages.installed; then
 fi  
 
 
-
-cd sys
-chmod -R +rwx *sh
-
-# recompilation de la bibliothèque altair
-if test -f install.Rlibrary; then
-  rm -rf /usr/lib64/R/library/*
-  cp -rf Rlibrary/*  /usr/lib64/R/library/ 
-  echo "*************************************"
-  echo "*                                   *"
-  echo "* Nouvelle bibliothèque R installée *"
-  echo "*                                   *"
-  echo "*************************************"
-  sleep 2
-fi  
-
-cd ..
-
 # recompilation de la bibliothèque altair
 if test -f sys/build.altair; then
   rm -rf altair.linux
-  rm -rf /usr/lib64/R/library/altair
+  rm -rf /usr/local/lib64/R/library/altair
   git checkout FETCH_HEAD -- altair.linux
-
-  R CMD INSTALL --byte-compile  -l  /usr/lib64/R/library/ altair.linux
+  
+  R CMD INSTALL --byte-compile  -l  /usr/local/lib64/R/library/ altair.linux
   echo "*************************************"
   echo "*                                   *"
   echo "* Nouvelle bibliothèque altair      *"
@@ -347,7 +352,9 @@ chmod -R 0777 /home/jf/.rstudio-desktop
 # correction d'un bug sur la version fab de m.sh (réimportation de /home/Public/fab/.Rproj.user à chaque ouverture de session)
 cp -vf ./autostart-scripts/m_fab.sh /home/fab/.config/autostart-scripts/m.sh
 git config --global --unset http.proxy
-cd -
+cd /home/fab/Dev/altair
+chown -R fab .
+
 
  
 
