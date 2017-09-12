@@ -79,6 +79,51 @@ fi
 # obsolète
 # sed -i 's/ALL ALL=(ALL) ALL/#ALL ALL=(ALL) ALL/' /etc/sudoers
 
+
+if test -f sys/install.packages -a ! -f sys/packages.installed; then
+
+   echo "Actualisation des paquets..."
+  
+   export PKGDIR="$PWD/sys/packages"
+   
+   if test -d sys/packages; then
+   
+      echo "Installation des paquets..."
+      emerge -K --nodeps  $(find $PKGDIR -name '*tbz2')
+      echo "Installation des paquets terminée..."
+      eix-update
+      touch sys/packages.installed
+      git add -f sys/packages.installed
+      git commit -am "packages.installed"
+
+   else
+   
+      echo "Echec de l'actualisation des paquets."
+      
+   fi 
+
+  sleep 2
+fi  
+
+
+
+cd sys
+chmod -R +rwx *sh
+
+# recompilation de la bibliothèque altair
+if test -f install.Rlibrary; then
+  rm -rf /usr/lib64/R/library/*
+  cp -rf Rlibrary/*  /usr/lib64/R/library/ 
+  echo "*************************************"
+  echo "*                                   *"
+  echo "* Nouvelle bibliothèque R installée *"
+  echo "*                                   *"
+  echo "*************************************"
+  sleep 2
+fi  
+
+cd ..
+
 # recompilation de la bibliothèque altair
 if test -f sys/build.altair; then
   rm -rf altair.linux
@@ -95,19 +140,6 @@ if test -f sys/build.altair; then
 fi  
 
 cd sys
-chmod -R +rwx *sh
-
-# recompilation de la bibliothèque altair
-if test -f install.Rlibrary; then
-  rm -rf /usr/lib64/R/library/*
-  cp -rf Rlibrary/*  /usr/lib64/R/library/ 
-  echo "*************************************"
-  echo "*                                   *"
-  echo "* Nouvelle bibliothèque R installée *"
-  echo "*                                   *"
-  echo "*************************************"
-  sleep 2
-fi  
 
 if test -f install.lib64; then
   echo "********************************************"
@@ -154,32 +186,7 @@ if test -f install.kernel -a "$(uname -r)" != "4.10.8-ck"; then
   sleep 2
 fi  
 
-if test -f install.packages -a ! -f packages.installed; then
 
-   echo "Actualisation des paquets..."
-   emerge --unmerge perl
-  
-   export PKGDIR=$PWD/packages
-   
-   if test -d packages; then
-   
-      echo "Installation des paquets..."
-      emerge -K $(find $PKGDIR -name '*tbz2')
-      echo "Installation des paquets terminée..."
-      eix-update
-      touch packages.installed
-      git add -f packages.installed
-      git commit -am "packages.installed"
-
-   else
-   
-      echo "Echec de l'actualisation des paquets."
-      
-   fi 
-
-
-  sleep 2
-fi  
 
 # patch temporaire
 
