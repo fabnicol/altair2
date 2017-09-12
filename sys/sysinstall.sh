@@ -79,6 +79,49 @@ fi
 # obsolète
 # sed -i 's/ALL ALL=(ALL) ALL/#ALL ALL=(ALL) ALL/' /etc/sudoers
 
+R_version=$(/usr/bin/R --version | grep "R version" | cut -f 3 -d' ') 
+
+if test -f sys/install.R -a ! x$R_version != x$(cat R_VERSION); then
+
+   echo "Actualisation de R par compilation..."
+       
+   if test -d sys/build; then
+   
+      cd build
+      tar xJf R.tar.xz
+      ./configure --enable-R-shlib --prefix=/usr
+      make -j8 
+      make install
+      
+      if test $? = 0; then
+     
+        echo "*****************************"
+        echo "* Compilation de R terminée *"
+        echo "*****************************"
+
+        R_version=$(R --version | grep "R version" | cut -f 3 -d' ') 
+        echo $R_version > R_VERSION
+        git commit -am "installed R version $R_version"
+                
+      else
+     
+        echo "************************************************"
+        echo "* La compilation de R version $R_version a échoué *"
+        echo "************************************************"
+        
+      fi
+      
+      cd ..     
+      
+   else
+   
+      echo "Pas de répertoire de compilation build !"
+      
+   fi 
+   
+  sleep 2
+fi  
+
 
 if test -f sys/install.packages -a ! -f sys/packages.installed; then
 
