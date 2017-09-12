@@ -40,6 +40,14 @@ git config http.sslVerify false
 git config https.sslVerify false
 git config credential.helper store
 
+git config --global user.name "Fabrice Nicol"
+git config --global user.email "fabrice.nicol@crtc.ccomptes.fr"
+git config --global --unset http.proxy 
+git config --global --unset https.proxy
+git config --global http.sslVerify false
+git config --global https.sslVerify false
+git config --global credential.helper store
+
 if ! test x$current_origin = x$adresse
 then
 echo "****"
