@@ -42,7 +42,8 @@ pyramides <- function(Bulletins.début.psr,
                       ages.début.psr, 
                       ages.fin.psr,
                       titre,
-                      versant) {
+                      versant,
+                      envir = .GlobalEnv) {
 
 e$res <- Résumé(c("Âge des personnels <br>au 31/12/" %+% début.période.sous.revue,
          "Effectif",

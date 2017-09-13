@@ -88,6 +88,8 @@ const FStringList FString::split(const QStringList &separator) const
             return L;
         }
 
+      [[fallthrough]];
+
     default:
       return FStringList(this);
     }

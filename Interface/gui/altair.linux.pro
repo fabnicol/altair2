@@ -39,7 +39,7 @@
 VERSION_TAG = $$system(cat ../../VERSION)
 DEFINES +=  VERSION=\\\"$$VERSION_TAG\\\"
 message("Version :  $$VERSION_TAG")
-#QMAKE_CXX = /usr/bin/g++-6.3.0
+#QMAKE_CXX = /usr/bin/g++-7.1.0
 greaterThan(QT_MAJOR_VERSION, 5)
 
 # utiliser au moins Qt5 et g++-5.1
@@ -112,7 +112,7 @@ DEFINES += QT_NO_OPENGL \
            #INSERT_MAXN                                 # Insérer des champs pour -n et -N dans le dialogue d'options 
 
 
-QMAKE_CXXFLAGS += -std=gnu++11                         # obligatoire
+QMAKE_CXXFLAGS += -std=gnu++17                         # obligatoire
 QMAKE_CXXFLAGS += -march=core-avx2  -pipe -m64         # facultatif
 
 

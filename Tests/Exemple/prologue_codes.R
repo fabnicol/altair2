@@ -45,12 +45,12 @@ codes.ipf        <- NA
 codes.ifts       <- NA
 codes.iat        <- NA
 codes.ihts       <- NA
-codes.vacataires <-NA
+codes.vacataires <- NA
 codes.astreintes <- NA
-codes.pspec      <- NA  
+codes.primespecifique      <- NA  
 codes.ift <- NA  
-codes.ps  <- NA  
-codes.ptech <- NA  
+codes.primedeservice  <- NA  
+codes.primedetechnicite <- NA  
 types.irs  <- c("IR", "S")
 
 controle<-c("YYY, YYY8.2, YYY9, YYY12, YYY10, YYY8, YYY11","YYY","YYY","BUDGET PRINCIPAL, ASSAINISSEMENT, MULTI BUDGETS")  
@@ -68,10 +68,10 @@ codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "PSR", "IPF", "I
                                codes.ihts, 
                                codes.vacataires,
                                codes.astreintes,
-                               codes.pspec,
+                               codes.primespecifique,
                                codes.ift,
-                               codes.ps,
-                               codes.ptech,
+                               codes.primedeservice,
+                               codes.primedetechnicite,
                                types.irs),
                                
                     expression = c(expression.rég.traitement,
@@ -85,10 +85,10 @@ codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "PSR", "IPF", "I
                                    expression.rég.heures.sup, 
                                    expression.rég.vacataires,
                                    expression.rég.astreintes,
-                                   expression.rég.pspec,
+                                   expression.rég.primespecifique,
                                    expression.rég.ift,
-                                   expression.rég.ps,
-                                   expression.rég.ptech,
+                                   expression.rég.primedeservice,
+                                   expression.rég.primedetechnicite,
                                    ""))
 
 setkey(codes, type)
