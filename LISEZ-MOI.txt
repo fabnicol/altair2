@@ -201,11 +201,7 @@ Autres répertoires
 ------------------
 
 Docs    : méthodologie statistique
-lib     : bibliothèques pour l'exécution des scripts R, pré-téléchargées du
-          réseau universitaire CRAN (http://cran.r-project.org/)
-Outils  : versions compilées d'utilitaires Unix pour Windows, téléchargées du 
-          site GNUWin32 (http://gnuwin32.sourceforge.net)
-R, RStudio, Git et texlive : voir fichier DEPENDANCES
+
 Tests\Exemple\Données\xhl\Anonyme et Anonyme2 : jeux de données anonymisées.
 
 Historique
@@ -240,4 +236,7 @@ Historique
 				Clonage d'une plateforme linux (Gentoo).
 				Documentation (encore partielle) utilisateur et développeur.
 				
- mars 2017  Déploiement de l'extracteur de données et de l'interface graphique.				
+     mars 2017  Déploiement de l'extracteur de données et de l'interface graphique.				
+septembre 2017  Finalisation de la version de production du modules de production des rapports.
+
+
