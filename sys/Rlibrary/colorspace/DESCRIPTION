@@ -32,4 +32,4 @@ Author: Ross Ihaka [aut],
 Maintainer: Achim Zeileis <Achim.Zeileis@R-project.org>
 Repository: CRAN
 Date/Publication: 2016-12-14 23:28:25
-Built: R 3.3.2; x86_64-pc-linux-gnu; 2017-04-04 22:42:06 UTC; unix
+Built: R 3.4.1; x86_64-pc-linux-gnu; 2017-09-13 01:14:12 UTC; unix

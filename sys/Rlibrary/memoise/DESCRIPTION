@@ -1,25 +1,28 @@
 Encoding: UTF-8
 Package: memoise
 Title: Memoisation of Functions
-Version: 1.0.0
+Version: 1.1.0
 Authors@R: c(
     person("Hadley", "Wickham", , "hadley@rstudio.com", role = "aut"),
     person("Jim", "Hester", , "jim.hester@rstudio.com", role = c("aut", "cre")),
-    person("Kirill", "Müller", , "krlmlr+r@mailbox.org", role = "aut"))
+    person("Kirill", "Müller", , "krlmlr+r@mailbox.org", role = "aut"),
+    person("Daniel", "Cook", , "danielecook@gmail.com", role = "aut"))
 Description: Cache the results of a function so that when you call it
     again with the same arguments it returns the pre-computed value.
 URL: https://github.com/hadley/memoise
 BugReports: https://github.com/hadley/memoise/issues
 Imports: digest (>= 0.6.3)
-Suggests: testthat
+Suggests: testthat, aws.s3, httr, covr
+Additional_repositories: http://cloudyr.github.io/drat
 License: MIT + file LICENSE
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 NeedsCompilation: no
-Packaged: 2016-01-28 19:30:15 UTC; jhester
+Packaged: 2017-04-20 17:35:47 UTC; jhester
 Author: Hadley Wickham [aut],
   Jim Hester [aut, cre],
-  Kirill Müller [aut]
+  Kirill Müller [aut],
+  Daniel Cook [aut]
 Maintainer: Jim Hester <jim.hester@rstudio.com>
 Repository: CRAN
-Date/Publication: 2016-01-29 05:58:01
-Built: R 3.3.1; ; 2016-10-19 19:45:13 UTC; unix
+Date/Publication: 2017-04-21 05:54:22 UTC
+Built: R 3.4.1; ; 2017-09-09 20:23:13 UTC; unix

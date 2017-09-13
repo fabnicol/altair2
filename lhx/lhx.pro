@@ -147,7 +147,7 @@ INCLUDEPATH += ../Interface/gui
 
 windows {
 
-  COMPILER_DIR = x86_64-6.1.0-release-posix-seh-rt_v5-rev0
+  COMPILER_DIR = mingw64
   DEFINES += SYSTEM_PATH_SEPARATOR=\"\';\'\"
   INCLUDEPATH += $$DEVROOT/$$COMPILER_DIR/include
   LIBS = -L$$DEVROOT/$$COMPILER_DIR/lib -lxml2.dll -pthread $$(SYSTEMROOT)/System32/psapi.dll

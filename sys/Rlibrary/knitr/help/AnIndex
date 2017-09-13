@@ -36,6 +36,7 @@ inline_expr	inline_expr
 kable	kable
 knit	knit
 knit2html	knit2html
+knit2pandoc	knit2pandoc
 knit2pdf	knit2pdf
 knit2wp	knit2wp
 knitr	knitr-package

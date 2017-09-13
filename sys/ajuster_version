@@ -9,6 +9,12 @@ need  NetworkManager
 start() {
 
   # Un peu de ménage
+  if test -f  /home/fab/Dev/altair/.git/shallow.lock
+  then
+    echo "Un bloqueur de dépôt git a été détecté (shallow.lock)"
+    echo "Effacement de ce bloqueur..."
+    rm -f /home/fab/Dev/altair/.git/shallow.lock
+  fi 
   
   for i in $(cut -d: -f1 /etc/passwd)
     do 
@@ -91,7 +97,7 @@ start() {
   
       git fetch -p -n --depth=1 origin master-jf | tee -a /home/Public/version.log
         
-        for i in altair.linux sft Docs Interface lhx Interface_linux linux '*.txt' '*.R' '*.sh' '*.desktop' VERSION LICENCE '*.ico' '*.bmp' '*.png'  postinstall.sh altaïr.Rproj 'Tests/Exemple' 'Tests/Exemple/Docs' sys
+        for i in altair.linux sft data Docs Interface lhx Interface_linux linux '*.txt' '*.R' '*.sh' '*.desktop' VERSION LICENCE '*.ico' '*.bmp' '*.png'  postinstall.sh altaïr.Rproj 'Tests/Exemple' 'Tests/Exemple/Docs' sys
         do
             git checkout FETCH_HEAD -- "$i" 
             git add .
@@ -121,7 +127,7 @@ start() {
 
         echo "****"
         
-        for i in altair.linux sft Docs Interface_linux linux *.txt  *.R  *.sh  *.desktop VERSION LICENCE *.ico  *.bmp  *.png  postinstall.sh altaïr.Rproj Tests
+        for i in altair.linux sft data Docs Interface_linux linux *.txt  *.R  *.sh  *.desktop VERSION LICENCE *.ico  *.bmp  *.png  postinstall.sh altaïr.Rproj Tests
         do
              cp -rvf "/home/fab/Dev/altair/$i" /home/jf/Dev/altair
              chown -R jf "/home/jf/Dev/altair/$i"
