@@ -352,9 +352,77 @@ chmod -R 0777 /home/jf/.rstudio-desktop
 # correction d'un bug sur la version fab de m.sh (réimportation de /home/Public/fab/.Rproj.user à chaque ouverture de session)
 cp -vf ./autostart-scripts/m_fab.sh /home/fab/.config/autostart-scripts/m.sh
 git config --global --unset http.proxy
+
 cd /home/fab/Dev/altair
 chown -R fab .
 
+git rev-parse --verify release
+
+if test $? != 0; then
+
+ echo "***"
+ echo "*** Création de la branche locale release... ***"
+ echo "***"
+ 
+ git checkout --orphan release
+ 
+ if test $? = 0; then
+    git fetch --depth=1 -f -p -n https://github.com/fabnicol/altair2.git release
+    #git fetch --depth=1 -f -p -n $(cat entrepot.txt) release
+    git rm -rf *
+    git clean -dfx
+    git checkout -f FETCH_HEAD
+    git checkout -b release 
+    git add -f .
+
+ fi
+ 
+ sleep 1
+ 
+else
+
+ echo "***"
+ echo "*** Actualisation de la branche locale release... ***"
+ echo "***"
+ 
+ git fetch --depth=1 -f -p -n $(cat entrepot.txt) release
+ git rm -rf *
+ git clean -dfx
+ git checkout -f FETCH_HEAD
+ git checkout -b release 
+ git add -f .
+  
+fi 
+
+echo "*** Opérations sur branche release : Terminé ***"
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 
  
 
