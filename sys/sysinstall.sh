@@ -79,8 +79,13 @@ fi
 # obsolète
 # sed -i 's/ALL ALL=(ALL) ALL/#ALL ALL=(ALL) ALL/' /etc/sudoers
 
-R_version=$(/usr/local/bin/R --version | grep "R version" | cut -f 3 -d' ') 
+if test -f /usr/local/lib64/R/bin/R; then
+ R_version=$(/usr/local/lib64/R/bin/R --version | grep "R version" | cut -f 3 -d' ') 
+else
+ R_version=""
+fi
 
+mkdir -p /usr/local/lib64/R/library/
 
 cd /home/fab/Dev/altair/sys
 chmod -R +rwx *sh
@@ -117,7 +122,7 @@ if test -f sys/install.R -a x$R_version != x$(cat sys/R_VERSION); then
         echo "* Compilation de R terminée *"
         echo "*****************************"
 
-        R_version=$(/usr/local/R --version | grep "R version" | cut -f 3 -d' ') 
+        R_version=$(/usr/local/lib64/R/bin/R --version | grep "R version" | cut -f 3 -d' ') 
         echo $R_version > /home/fab/Dev/altair/sys/R_VERSION
         git commit -am "installed R version $R_version"
                 
