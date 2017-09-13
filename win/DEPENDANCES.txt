@@ -1,3 +1,0 @@
-BUILD semi-statique de lhx : environ 1 Mo.
-
-Ne sont requises que les bibliothèqes libiconv-2.dll, libxml2-2.dll et zlib1.dll
