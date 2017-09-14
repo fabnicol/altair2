@@ -354,7 +354,6 @@ cp -vf ./autostart-scripts/m_fab.sh /home/fab/.config/autostart-scripts/m.sh
 git config --global --unset http.proxy
 
 cd /home/fab/Dev/altair
-chown -R fab .
 
 git rev-parse --verify release
 
@@ -393,6 +392,24 @@ else
  git add -f .
   
 fi 
+
+chown -R fab .
+rm -rf .Rproj.user/
+cp -rf /home/Public/fab/.Rproj.user .
+mkdir -p Tests/Exemple/Donnees/R-Altair
+
+# création du dossier Bulletins sous jf
+
+mkdir -p /home/jf/Dev/altair/Tests/Exemple/Donnees/Bulletins
+chgrp -R users /home/jf/Dev/altair/Tests/Exemple/Donnees/Bulletins
+chmod -R 0770 /home/jf/Dev/altair/Tests/Exemple/Donnees/Bulletins
+             
+# accès des données test
+if test ! -d /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2 ; then
+   mkdir -p /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl
+   cp -rf /home/Public/xhl/Anonyme2 /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl
+fi  
+
 
 echo "*** Opérations sur branche release : Terminé ***"
  
