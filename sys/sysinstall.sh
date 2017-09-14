@@ -106,7 +106,7 @@ cd ..
 if test -f sys/install.R; then
 
   
-   if test -f install.R.force -o x$R_version != x$(cat sys/R_VERSION) ; then
+   if test -f sys/install.R.force -o x$R_version != x$(cat sys/R_VERSION) ; then
 
      echo "Actualisation de R par compilation..."
        
@@ -387,12 +387,12 @@ else
  echo "***"
  echo "*** Actualisation de la branche locale release... ***"
  echo "***"
- 
+
+ git checkout -f release 
  git fetch --depth=1 -f -p -n $(cat entrepot.txt) release
  git rm -rf *
  git clean -dfx
- git checkout -f FETCH_HEAD
- git checkout -b release 
+ git checkout -f FETCH_HEAD 
  git add -f .
   
 fi 

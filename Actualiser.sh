@@ -28,7 +28,7 @@ echo "****"
 cd /home/fab/Dev/altair
 
 find .git -name '*.lock' -delete
-
+git checkout -f master-jf
 git reset --hard HEAD
 git clean -df
 adresse=$(cat entrepot.txt)
