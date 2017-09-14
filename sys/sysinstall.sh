@@ -366,14 +366,12 @@ if test $? != 0; then
  git checkout --orphan release
  
  if test $? = 0; then
-    git fetch --depth=1 -f -p -n https://github.com/fabnicol/altair2.git release
-    #git fetch --depth=1 -f -p -n $(cat entrepot.txt) release
+    git fetch --depth=1 -f -p -n $(cat entrepot.txt) release
     git rm -rf *
     git clean -dfx
     git checkout -f FETCH_HEAD
     git checkout -b release 
     git add -f .
-
  fi
  
  sleep 1
