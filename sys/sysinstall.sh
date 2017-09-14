@@ -373,9 +373,8 @@ if test $? != 0; then
  
  if test $? = 0; then
     git fetch --depth=1 -f -p -n $(cat entrepot.txt) release
-    git rm -rf *
-    git clean -dfx
     git checkout -f FETCH_HEAD
+    git branch -D release
     git checkout -b release 
     git add -f .
  fi

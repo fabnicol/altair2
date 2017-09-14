@@ -1,3 +1,7 @@
+cache_filesystem        Filesystem Cache
+cache_memory            In Memory Cache
+cache_s3                Amazon Web Services S3 Cache Amazon Web
+                        Services S3 backed cache, for remote caching.
 forget                  Forget past results. Resets the cache of a
                         memoised function.
 has_cache               Test whether a memoised function has been

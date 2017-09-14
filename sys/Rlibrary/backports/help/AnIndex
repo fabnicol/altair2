@@ -7,6 +7,7 @@ file.mtime	file.size
 file.size	file.size
 get0	get0
 hasName	hasName
+import	import
 lengths	lengths
 startsWith	startsWith
 strrep	strrep
