@@ -26,6 +26,9 @@ echo "****"
 echo "* Actualisation du dépôt fab..."
 echo "****"
 cd /home/fab/Dev/altair
+
+find .git -name '*.lock' -delete
+
 git reset --hard HEAD
 git clean -df
 adresse=$(cat entrepot.txt)
