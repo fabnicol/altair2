@@ -739,36 +739,17 @@ processPage::processPage()
         int current_git_branch = system(std::string("cd " + root + " && test \"$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)\" = \"master-jf\"").c_str());
 
                  if (rapportEntier->isChecked())
-                 {
-                     if (current_git_branch == 0)
-                     {
-                         // La branche courante est la branch Test
-                         return;
-                     }
-
-                     int res= system(std::string("cd " + root + " && git rev-parse --verify master-jf").c_str());
-                     if (res != 0)
-                     {
-                         Q("La branche Test n'est pas déployée.")
-                         return;
-                     }
-
-                     Q("Basculement vers la version Test.<br>Cela peut prendre une ou deux minutes.")
-                     res= system(std::string("cd " + root + " && git checkout -f master-jf").c_str());
-                     if (res == 0) { Q("Basculement réalisé.") } else  { Q("Le basculement vers la version Test n'a pas pu être réalisé.") }
-                 }
-                 else
-                 {
-                     int res= system(std::string("cd " + root + " && git rev-parse --verify release").c_str());
-                     if (res != 0)
-                     {
-                         Q("La version standard n'est pas déployée.")
-                         return;
-                     }
-                     Q("Basculement vers la version standard.<br>Cela peut prendre une ou deux minutes.")
-                     res = system(std::string("cd " + root + " && git checkout -f release").c_str());
-                     if (res == 0) { Q("Basculement réalisé.") } else  { Q("Le basculement vers la version standard n'a pas pu être réalisé.") }
-                 }
+                        {
+                            Q("Basculement vers la version Expérimentale.<br>Cela peut prendre une ou deux minutes.")
+                            int res= system(std::string("cd " + root + " && git checkout -f master-jf").c_str());
+                            if (res == 0) { Q("Basculement réalisé.") } else  { Q("Le basculement vers la version Expérimentale n'a pas pu être réalisé.") }
+                        }
+                        else
+                        {
+                            Q("Basculement vers la version standard.<br>Cela peut prendre une ou deux minutes.")
+                            int res= system(std::string("cd " + root + " && git checkout -f release").c_str());
+                            if (res == 0) { Q("Basculement réalisé.") } else  { Q("Le basculement vers la version standard n'a pas pu être réalisé.") }
+                        }
             });
 
 
@@ -789,9 +770,7 @@ processPage::processPage()
     setLayout(mainLayout);
 
     // provisoire
-    const std::string &root = path_access(".").toStdString();
-    int current_git_branch = system(std::string("cd " + root + " && test \"$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)\" = \"master-jf\"").c_str());
-    rapportEntier->setChecked(current_git_branch == 0);
+    //rapportEntier->setChecked(true);
 }
 
 std::uint16_t options::RefreshFlag;

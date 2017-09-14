@@ -81,6 +81,8 @@ if (! exists("PDF"))       PDF <- FALSE
 keep_md                        <- FALSE
 utiliser.cplusplus.sft         <- FALSE
 sécuriser.types.sortie         <- TRUE
+utiliser.variable.Heures.Sup. <- FALSE  # faire les tests de seuil IHTS sur la variable Heures.Sup. plutôt que sur la Base ou le  Nb.Unité
+
 
 seuil.troncature               <- 1 # jours
 taux.tolérance.homonymie       <- 2  # en %
@@ -215,11 +217,11 @@ expression.rég.astreintes <- "astr.*"
 
 # --- FPH
 
-expression.rég.pspec <- "pr\\.?\\w*\\b\\s*\\bsp..?ci.*"
+expression.rég.primespecifique <- "pr\\.?\\w*\\b\\s*\\bsp..?ci.*"
 expression.rég.ift <- "(?:\\bind\\.?\\w*\\s*forf\\.?\\w*\\s*(?:et\\s*|)te.*)"
-expression.rég.ps <- "\\bpr\\.?\\w*\\b\\s*(?:de\\s*)\\bs\\w+v"
-expression.rég.ptech <- "\\bpr\\.?\\w*\\b\\s*\\b(?:de\\s*|)tech.*"
-expression.rég.médecin <- "(?:m..?d\\.?(?:ecin|)|prat\\.?\\w*\\b\\s*\\bhos).*"
+expression.rég.primedeservice <- "\\bpr\\.?\\w*\\b\\s*(?:de\\s*)\\bs\\w+v"
+expression.rég.primedetechnicite <- "\\bpr\\.?\\w*\\b\\s*\\b(?:de\\s*|)tech.*"
+expression.rég.médecin <- "(?:\\bm..?d(?:\\.|ecin)\\b\\s+|prat\\.?\\w*\\b\\s*\\bhos).*"
 
 # --- Prime de fonctions informatiques
 # Schémas recherchés :
