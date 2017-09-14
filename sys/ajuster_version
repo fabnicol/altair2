@@ -9,12 +9,12 @@ need  NetworkManager
 start() {
 
   # Un peu de ménage
-  if test -f  /home/fab/Dev/altair/.git/shallow.lock
-  then
-    echo "Un bloqueur de dépôt git a été détecté (shallow.lock)"
-    echo "Effacement de ce bloqueur..."
-    rm -f /home/fab/Dev/altair/.git/shallow.lock
-  fi 
+
+  find /home/fab/Dev/altair/.git -name '*.lock' -delete
+  git checkout -f master-jf
+
+  rm -f /home/fab/Dev/altair/sys/install.*
+
   
   for i in $(cut -d: -f1 /etc/passwd)
     do 
@@ -74,7 +74,9 @@ start() {
       cd /home/fab/Dev/altair
       git reset --hard HEAD
       git clean -df
-	  chown -R fab .
+
+      chown -R fab .
+
       adresse=$(cat entrepot.txt)
   
       current_origin=$(git remote -v | grep origin | grep fetch | cut -f'2' | cut -f 1 -d' ')
@@ -107,20 +109,22 @@ start() {
             mkdir lhx    
         fi
 
-        if test -f sys/actualiser_sys -a -f sys/sysinstall.sh; then
+        if test -f sys/install.sys -a -f sys/sysinstall.sh; then
+
             /bin/bash sys/sysinstall.sh
+
             if test $? = 0; then
             echo "***"
                 echo "* Actualisation système effectuée"  | tee -a /home/Public/version.log
                 echo "***"
                 sleep 3
-                git rm -f sys/actualiser_sys
-                else
+            else
                 echo "=> Erreur d'actualisation système"
             fi
         fi
 
         git commit -am "Sauvegarde $(date)" | tee -a /home/Public/version.log
+
 	        
         echo "****"
         echo "* Actualisation de jf..." | tee -a /home/Public/version.log
@@ -177,10 +181,15 @@ start() {
         fi
         done
 
+
+chmod +x /home/fab/Dev/altair/postinstall.sh
+/bin/bash /home/fab/Dev/altair/postinstall.sh | tee -a /home/Public/version.log
+
 echo "****" 
 echo "* Fin de l'opération."  | tee -a /home/Public/version.log
 echo "****"
 echo  | tee -a /home/Public/version.log
+
 
 shutdown -h now
 
