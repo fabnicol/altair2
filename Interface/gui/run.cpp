@@ -533,7 +533,19 @@ void Altair::runRAltair()
         RAltairDirStr = path_access("R/bin/x64");
         RAltairCommandStr = RAltairDirStr + QDir::separator() + "Rscript" + QString(systemSuffix);
 #else
-        RAltairCommandStr = "/usr/bin/Rscript";
+
+        bool global_R = QFileInfo("/usr/bin/Rscript").exists();
+        bool local_R = QFileInfo("/usr/local/bin/Rscript").exists();
+        if (local_R)
+            RAltairCommandStr = "/usr/local/bin/Rscript";
+        else if(global_R)
+            RAltairCommandStr = "/usr/bin/Rscript";
+        else
+        {
+            Q("Rscript n'est pas installé. La génération automatique du rapport sans interface RStudio n'est pas possible");
+            return;
+        }
+
 #endif
         process.setWorkingDirectory(path_access(""));
         QDir::setCurrent(path_access(""));
