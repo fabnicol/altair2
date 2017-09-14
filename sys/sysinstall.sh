@@ -67,6 +67,7 @@ fi
 # il faut effacer les résidus qui posent problème
 
 
+
 if test -f sys/install.data; then
   git checkout FETCH_HEAD -- data
   cp -rf data /home/jf/Dev/altair
@@ -103,50 +104,43 @@ fi
 
 cd ..
 
-if test -f sys/install.R; then
+if test -f sys/install.R -a x$R_version != x$(cat sys/R_VERSION); then
 
-  
-   if test -f sys/install.R.force -o x$R_version != x$(cat sys/R_VERSION) ; then
-
-     echo "Actualisation de R par compilation..."
+   echo "Actualisation de R par compilation..."
        
-     if test -d sys/build; then
-
-         emerge --unmerge dev-lang/R  
-         cd sys/build
-         tar xJf R.tar.xz
-         ./configure --enable-R-shlib --prefix=/usr/local
-	 make uninstall
-         make -j8
-         make install
+   if test -d sys/build; then
+      emerge --unmerge dev-lang/R  
+      cd sys/build
+      tar xJf R.tar.xz
+      ./configure --enable-R-shlib --prefix=/usr/local
+      make -j8
+      make install
       
-       if test $? = 0; then
+      if test $? = 0; then
      
-         echo "*****************************"
-         echo "* Compilation de R terminée *"
-         echo "*****************************"
+        echo "*****************************"
+        echo "* Compilation de R terminée *"
+        echo "*****************************"
 
-         R_version=$(/usr/local/lib64/R/bin/R --version | grep "R version" | cut -f 3 -d' ') 
-         echo $R_version > /home/fab/Dev/altair/sys/R_VERSION
-         git commit -am "installed R version $R_version"
+        R_version=$(/usr/local/lib64/R/bin/R --version | grep "R version" | cut -f 3 -d' ') 
+        echo $R_version > /home/fab/Dev/altair/sys/R_VERSION
+        git commit -am "installed R version $R_version"
                 
-       else
+      else
      
-         echo "************************************************"
-         echo "* La compilation de R version $R_version a échoué *"
-         echo "************************************************"
+        echo "************************************************"
+        echo "* La compilation de R version $R_version a échoué *"
+        echo "************************************************"
         
-       fi
+      fi
       
-       cd /home/fab/Dev/altair     
+      cd /home/fab/Dev/altair     
       
-     else
+   else
    
-       echo "Pas de répertoire de compilation build !"
+      echo "Pas de répertoire de compilation build !"
       
-     fi 
-   fi  
-
+   fi 
 else
   
   echo "pas d'actualisation de R par compilation..."
@@ -373,8 +367,9 @@ if test $? != 0; then
  
  if test $? = 0; then
     git fetch --depth=1 -f -p -n $(cat entrepot.txt) release
+    git rm -rf *
+    git clean -dfx
     git checkout -f FETCH_HEAD
-    git branch -D release
     git checkout -b release 
     git add -f .
  fi
@@ -386,12 +381,12 @@ else
  echo "***"
  echo "*** Actualisation de la branche locale release... ***"
  echo "***"
-
- git checkout -f release 
+ 
  git fetch --depth=1 -f -p -n $(cat entrepot.txt) release
  git rm -rf *
  git clean -dfx
- git checkout -f FETCH_HEAD 
+ git checkout -f FETCH_HEAD
+ git checkout -b release 
  git add -f .
   
 fi 
