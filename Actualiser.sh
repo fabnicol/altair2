@@ -13,10 +13,22 @@ then
   exit 0 
 fi  
 
+# Housecleaning
+
+if test -f  /home/fab/Dev/altair/.git/shallow.lock
+  then
+    echo "Un bloqueur de dépôt git a été détecté (shallow.lock)"
+    echo "Effacement de ce bloqueur..."
+    rm -f /home/fab/Dev/altair/.git/shallow.lock
+fi 
+
 echo "****"  
 echo "* Actualisation du dépôt fab..."
 echo "****"
 cd /home/fab/Dev/altair
+
+find .git -name '*.lock' -delete
+git checkout -f master-jf
 git reset --hard HEAD
 git clean -df
 adresse=$(cat entrepot.txt)
@@ -31,6 +43,14 @@ git config http.sslVerify false
 git config https.sslVerify false
 git config credential.helper store
 
+git config --global user.name "Fabrice Nicol"
+git config --global user.email "fabrice.nicol@crtc.ccomptes.fr"
+git config --global --unset http.proxy 
+git config --global --unset https.proxy
+git config --global http.sslVerify false
+git config --global https.sslVerify false
+git config --global credential.helper store
+
 if ! test x$current_origin = x$adresse
 then
 echo "****"
@@ -40,9 +60,14 @@ git remote remove origin
 git remote add -t master origin $adresse
 fi
 
+# Remettre à zéro les indicateurs spécifiques d'actualisation
+
+rm -f sys/build.*
+rm -f sys/install.*
+
 git fetch -p -n --depth=1 origin master-jf
 
-for i in altair.linux sft Docs Interface lhx Interface_linux linux '*.txt' '*.R' '*.sh' '*.desktop' VERSION LICENCE '*.ico' '*.bmp' '*.png'  postinstall.sh altaïr.Rproj 'Tests/Exemple' 'Tests/Exemple/Docs' sys
+for i in altair.linux sft data Docs Interface lhx Interface_linux linux '*.txt' '*.R' '*.sh' '*.desktop' VERSION LICENCE '*.ico' '*.bmp' '*.png'  postinstall.sh altaïr.Rproj 'Tests/Exemple' 'Tests/Exemple/Docs' sys
 do
 git checkout FETCH_HEAD -- "$i" 
 git add .
@@ -53,8 +78,10 @@ then
  mkdir lhx    
 fi
 
-if test -f sys/actualiser_sys -a -f sys/sysinstall.sh; then
+if test -f sys/install.sys -a -f sys/sysinstall.sh; then
+
 sudo --preserve-env /bin/bash sys/sysinstall.sh
+
 if test $? = 0; then
    echo "***"
    echo "* Actualisation système effectuée"
@@ -71,7 +98,7 @@ echo "****"
 echo "* Actualisation de jf..."
 echo "****"
   
-for i in altair.linux sft Docs Interface_linux linux *.txt  *.R  *.sh  *.desktop VERSION LICENCE *.ico  *.bmp  *.png  postinstall.sh altaïr.Rproj Tests
+for i in altair.linux data Docs Interface_linux linux *.txt  *.R  *.sh  *.desktop  VERSION LICENCE *.ico  *.bmp  *.png  postinstall.sh altaïr.Rproj Tests
 do
 sudo cp -rvf "/home/fab/Dev/altair/$i" /home/jf/Dev/altair
 sudo chown -R jf "/home/jf/Dev/altair/$i"
