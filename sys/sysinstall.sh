@@ -352,9 +352,92 @@ chmod -R 0777 /home/jf/.rstudio-desktop
 # correction d'un bug sur la version fab de m.sh (réimportation de /home/Public/fab/.Rproj.user à chaque ouverture de session)
 cp -vf ./autostart-scripts/m_fab.sh /home/fab/.config/autostart-scripts/m.sh
 git config --global --unset http.proxy
-cd /home/fab/Dev/altair
-chown -R fab .
 
+cd /home/fab/Dev/altair
+
+git rev-parse --verify release
+
+if test $? != 0; then
+
+ echo "***"
+ echo "*** Création de la branche locale release... ***"
+ echo "***"
+ 
+ git checkout --orphan release
+ 
+ if test $? = 0; then
+    git fetch --depth=1 -f -p -n $(cat entrepot.txt) release
+    git rm -rf *
+    git clean -dfx
+    git checkout -f FETCH_HEAD
+    git checkout -b release 
+    git add -f .
+ fi
+ 
+ sleep 1
+ 
+else
+
+ echo "***"
+ echo "*** Actualisation de la branche locale release... ***"
+ echo "***"
+ 
+ git fetch --depth=1 -f -p -n $(cat entrepot.txt) release
+ git rm -rf *
+ git clean -dfx
+ git checkout -f FETCH_HEAD
+ git checkout -b release 
+ git add -f .
+  
+fi 
+
+chown -R fab .
+rm -rf .Rproj.user/
+cp -rf /home/Public/fab/.Rproj.user .
+mkdir -p Tests/Exemple/Donnees/R-Altair
+
+# création du dossier Bulletins sous jf
+
+mkdir -p /home/jf/Dev/altair/Tests/Exemple/Donnees/Bulletins
+chgrp -R users /home/jf/Dev/altair/Tests/Exemple/Donnees/Bulletins
+chmod -R 0770 /home/jf/Dev/altair/Tests/Exemple/Donnees/Bulletins
+             
+# accès des données test
+if test ! -d /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2 ; then
+   mkdir -p /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl
+   cp -rf /home/Public/xhl/Anonyme2 /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl
+fi  
+
+
+echo "*** Opérations sur branche release : Terminé ***"
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 
  
 
