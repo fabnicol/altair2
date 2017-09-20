@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<projet version="17.09-8">
+<projet version="17.09-16">
  <data>
   <XHL profondeur="2">
    <onglet><item></item></onglet>
@@ -88,7 +88,7 @@
    non
   </exportXML>
   <processType profondeur="0">
-   '8'
+   '4'
   </processType>
   <log profondeur="0">
    /home/fab/.local/share/Altair/altair.log
@@ -151,7 +151,7 @@
      
   </MatriculesC>
   <dossierBulletins profondeur="0">
-   /home/fab/Dev/altair/Tests/Exemple/Donnees/Bulletins
+   /home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/Bulletins
   </dossierBulletins>
  </systeme>
 </projet>
