@@ -624,7 +624,7 @@ charges.eqtp <- function(Base = Paie,
         ]
   
   if (! quotité.nulle) {
-    A <- A[ , Coût.moyen.num := if (is.na(eqtp.cum) || is.na(Coût.moyen.cum) || eqtp.cum == 0) 0 else round(Coût.moyen.cum / eqtp.cum),
+    A <- A[ , Coût.moyen.num := ifelse(is.na(eqtp.cum) | is.na(Coût.moyen.cum) | eqtp.cum == 0, 0, round(Coût.moyen.cum / eqtp.cum)),
                        keyby = c("Année", Gr)
             ][ , Coût.moyen := formatC(round(Coût.moyen.num), big.mark = " ", format = "d")]
     moyenne_ <- A[ , .(Moy.num = round(sum(Coût.moyen.cum, na.rm = TRUE)/sum(eqtp.cum, na.rm = TRUE))), keyby = Année
@@ -635,7 +635,7 @@ charges.eqtp <- function(Base = Paie,
     
   } else {
     
-    A <- A[ , Coût.moyen.num := if (is.na(eqtp.cum) || is.na(Coût.moyen.cum)) 0 else round(Coût.moyen.cum),
+    A <- A[ , Coût.moyen.num := ifelse(is.na(eqtp.cum) | is.na(Coût.moyen.cum), 0, round(Coût.moyen.cum)),
             keyby = c("Année", Gr)
             ][ , Coût.moyen := formatC(round(Coût.moyen.num), big.mark = " ", format = "d")]
     moyenne_ <- A[ , .(Moy.num = round(sum(Coût.moyen.cum, na.rm = TRUE))), keyby = Année
@@ -819,7 +819,7 @@ net.eqtp <- function(Base = Paie,
                   keyby = c("Année", Gr)]
   
   if (! quotité.nulle) {
-    A <- A[ , Net.moyen.num := if (is.na(eqtp.cum) || is.na(Net.moyen.cum) || eqtp.cum == 0) 0 else round(Net.moyen.cum / eqtp.cum),
+    A <- A[ , Net.moyen.num := ifelse(is.na(eqtp.cum) | is.na(Net.moyen.cum) | eqtp.cum == 0, 0, round(Net.moyen.cum / eqtp.cum)),
             keyby = c("Année", Gr)
             ][ , Net.moyen := formatC(round(Net.moyen.num), big.mark = " ", format = "d")]
     moyenne_ <- A[ , .(Moy.num = round(sum(Net.moyen.cum, na.rm = TRUE)/sum(eqtp.cum, na.rm = TRUE))), keyby = Année
@@ -830,7 +830,7 @@ net.eqtp <- function(Base = Paie,
     
   } else {
     
-    A <- A[ , Net.moyen.num := if (is.na(eqtp.cum) || is.na(Net.moyen.cum)) 0 else round(Net.moyen.cum),
+    A <- A[ , Net.moyen.num := ifelse(is.na(eqtp.cum) | is.na(Net.moyen.cum), 0, round(Net.moyen.cum)),
             keyby = c("Année", Gr)
             ][ , Net.moyen := formatC(round(Net.moyen.num), big.mark = " ", format = "d")]
     moyenne_ <- A[ , .(Moy.num = round(sum(Net.moyen.cum, na.rm = TRUE))), keyby = Année

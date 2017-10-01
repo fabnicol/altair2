@@ -3568,7 +3568,7 @@ Tab6.EQTP.PATS.C <- eqtp.grade(période = période,
                                grade = grades.pats,
                                catégorie = "C")
 
-Tab6.EQTP.PATS.ABC <- rbind(Tab6.EQTP.PATS.A[Grade == "Total"], Tab6.EQTP.PATS.B[Grade == "Total"], Tab6.EQTP.PATS.C[Grade == "Total"])
+Tab6.EQTP.PATS.ABC <- rbind(Tab6.EQTP.PATS.A[Grade == "Total"], Tab6.EQTP.PATS.B[Grade == "Total"], Tab6.EQTP.PATS.C[Grade == "Total"], fill = TRUE)
 Tab6.EQTP.PATS.ABC <- rbind(Tab6.EQTP.PATS.ABC, Tab6.EQTP.PATS.ABC[ , lapply(.SD, function(x) as.numeric(sub(",", ".", x)))][ , lapply(.SD, sum)])
 Tab6.EQTP.PATS.ABC[ , 1] <- c("A", "B", "C", "Total")
 
@@ -3677,7 +3677,7 @@ EQTP.services <-  lapply(list(grades.spp, grades.pats),
                           V <- sapply(liste.services, 
                                function(serv) {
                                  sum(sapply(serv,  function(x) {
-                                                     res <- try(eqtp.grade(période = 2016, service = x, grade = G)[Grade == "Total", `2016`])
+                                                     res <- try(eqtp.grade(période = 2016, service = x, grade = G)[Grade == "Total", "2016", with = FALSE])
                                                      if (inherits(res, "try-error")) res <- 0 
                                                      as.numeric(sub(",", ".", res))
                                                    }))})
@@ -3920,9 +3920,11 @@ flux.total <- function(type = "total", Base = CRC_ES) {
              Sorties.nettes = Sorties$Nombre - Sorties_Entrées$Nombre)[ , Flux.net := Entrées.nettes - Sorties.nettes]
 }
 
-Flux.total.PATS <- flux.total(type = "PATS")
-Flux.total.SPP  <- flux.total(type = "Professionnel")
-Flux.total      <- flux.total(type = "Volontaire")
+essayer({
+  Flux.total.PATS <- flux.total(type = "PATS")
+  Flux.total.SPP  <- flux.total(type = "Professionnel")
+  Flux.total      <- flux.total(type = "Volontaire")
+  }, "Flux non déterminés.")
 
 
 #################  Détail ###################
