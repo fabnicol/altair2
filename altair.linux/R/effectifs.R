@@ -157,11 +157,10 @@ for (i in 1:length(eff)) names(eff[[i]]) <- c("Effectifs",
                                                           "ETPT_annexe",
                                                           "ETPT_actif_nonannexe")
 
-effectifs.locale <- lapply(eff,
-                           function(x) formatC(x, big.mark = " ", format="f", digits=1, decimal.mark=","))
+effectifs.locale <- as.data.table(lapply(eff,
+                                   function(x) formatC(x, big.mark = " ", format="f", digits=1, decimal.mark=",")))
 
-tableau.effectifs <- as.data.frame(effectifs.locale,
-                                   row.names = c("Matricules gérés en base (a)",
+tableau.effectifs <- cbind(row.names = c("Matricules gérés en base (a)",
                                                  "&nbsp;&nbsp;&nbsp;dont présents 12 mois",
                                                  "&nbsp;&nbsp;&nbsp;dont fonctionnaires (b)",
                                                  "&nbsp;&nbsp;&nbsp;dont fonct. présents 12 mois",
@@ -182,9 +181,11 @@ tableau.effectifs <- as.data.frame(effectifs.locale,
                                                  "Total ETPT autre statut",
                                                  "Total ETPT postes non actifs (g)",
                                                  "Total ETPT postes actifs annexes (g)",
-                                                 "Total ETPT postes actifs non annexes (g)"))
+                                                 "Total ETPT postes actifs non annexes (g)"),
+                           effectifs.locale)
 
-names(tableau.effectifs) <-  as.character(période)
+setnames(tableau.effectifs, 1, "Effectifs")
+for (i in seq_along(période)) setnames(tableau.effectifs, i + 1, as.character(période[i]))
 
 return(tableau.effectifs)
 }

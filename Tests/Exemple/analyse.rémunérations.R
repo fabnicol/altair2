@@ -200,7 +200,9 @@ Analyse.variations.par.exercice <- Analyse.remunerations[Grade != "A"
                                                          & Statut != "ELU"
                                                          & Filtre_actif == TRUE
                                                          & Filtre_annexe == FALSE,
-                                                           c(clé.fusion, étiquette.année,
+                                                           c("Matricule", 
+                                                             "Année",
+                                                             "Nir",
                                                              "Montant.net.annuel.eqtp",
                                                              "Montant.brut.annuel.eqtp",
                                                              "rémunération.indemnitaire.imposable.eqtp",
