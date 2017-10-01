@@ -343,6 +343,11 @@ eqtp.grade <- function(Base = Bulletins.paie,
   totaux <- tableau.effectifs[, .(Total = formatC(sum(eqtp.g, na.rm = TRUE), digits = 2, big.mark = " ", format = "f")), keyby = Année]
   totaux <- transpose(data.table(c("Total", totaux$Total)))
   
+  if (nrow(tableau.effectifs) == 0) {
+    message("La base des effectifs est vide")
+    return(tableau.effectifs) 
+  }
+  
   if (agr) {
     
     tableau.effectifs <- dcast(tableau.effectifs, G ~ Année, value.var = "eqtp.grade", fill = 0)
@@ -350,15 +355,13 @@ eqtp.grade <- function(Base = Bulletins.paie,
     names(tableau.effectifs)[1] <- "Catégorie de Grades"
     
   } else {
-   
+    
     tableau.effectifs <- dcast(tableau.effectifs, Grade ~ Année, value.var = "eqtp.grade", fill = 0)  
     
   }
-  
   colnames(totaux) <- colnames(tableau.effectifs)
   
   tableau.effectifs <- rbind(tableau.effectifs, totaux)
-  
   
   début <- names(tableau.effectifs)[2]
   fin <- names(tableau.effectifs)[ncol(tableau.effectifs)]
@@ -453,6 +456,11 @@ charges.personnel <- function(Base = Paie, grade = NULL, classe = NULL,  service
                   keyby = Année]
   
   totaux <- transpose(data.table(c("Total", totaux$Total)))
+  
+  if (nrow(A) == 0) {
+    message("Base vide")
+    return(A)
+  }
   
   if (agr) {
     
@@ -637,6 +645,11 @@ charges.eqtp <- function(Base = Paie,
     
   }
 
+  if (nrow(A) == 0) {
+    message("Base vide")
+    return(A)
+  }
+  
   if (agr) {
     
     B <- dcast(A, G ~ Année, value.var = "Coût.moyen", fill = 0)
@@ -827,6 +840,12 @@ net.eqtp <- function(Base = Paie,
     
   }
   
+  if (nrow(A) == 0) {
+    message("Base vide")
+    return(A)
+  }
+  
+    
   if (agr) {
     
     B <- dcast(A, G ~ Année, value.var = "Net.moyen", fill = 0)
