@@ -36,94 +36,233 @@
 # 
 # 
 
-noria <- function() { }
+# Modélisation : en première année sous revue, est réputé absent le Matricule ayant une quotité non uniformément nulle sur l'année, qui n'a pas de quotité positive dans les trois premiers mois
+# Modélisation : en dernière année sous revue, est réputé absent le Matricule ayant une quotité non uniformément nulle sur l'année, qui n'a pas de quotité positive dans les trois derniers mois
+# Sont exclus les vacataires et assistantes maternelles détectées.
 
-if (0) {
+noria <- function(Tableau = tableau.effectifs, Base = Analyse.variations.par.exercice, champ = "brut", filtre = Filtre_neutre) { 
+  
+s <- list(0)
+ent <- list(0)
+nor <- rep(0, durée.sous.revue)
+se  <- rep(0, durée.sous.revue)
+de  <- rep(0, durée.sous.revue)
+
+tot.etpt <- as.numeric(sub(",", ".", Tableau[Effectifs == "Total ETPT/année (e)"]))[-1]
+
+if (any(deparse(filtre) != deparse(Filtre_neutre)))
+    Base <- Base[filtre() == TRUE]
+
+if (champ == "brut") masse.salariale.unitaire <<- "Montant.brut.annuel.eqtp" else masse.salariale.unitaire <<- "Montant.net.annuel.eqtp"
+
+
 entrants <- function(x)   {
   
-  A <- setdiff(Analyse.variations[Année == x, Matricule], 
-               Analyse.variations[Année == x -1, Matricule])
+  if (x == début.période.sous.revue) {
+    
+      A <- intersect(setdiff(unique(Bulletins.paie[Année == x  & Grade != "A" & Grade != "V" & quotité.moyenne != 0, Matricule]),
+                        unique(Bulletins.paie[Année == x & (Mois <= 3) & quotité != 0 & Grade != "A" & Grade != "V", Matricule])),
+                Analyse.variations.par.exercice[Année == x, unique(Matricule)])
+
+
+  } else {
+    
+      A <- setdiff(unique(Base[Année == x & quotité.moyenne != 0 & Grade != "A" & Grade != "V", Matricule]), 
+                   unique(Base[Année == x -1  & quotité.moyenne != 0 & Grade != "A" & Grade != "V", Matricule]))
   
+  }
   
+  LA <- uniqueN(A)
+    
   B <- unique(Bulletins.paie[Année == x 
+                             & filtre() == TRUE
                              & Matricule %chin% A, 
                              .(Année, quotité, Matricule, Mois, Statut)], by = NULL)
   
   eqtp.agent <- B[ , sum(quotité, na.rm=TRUE)] / 12
-  eqtp.fonct <- B[Statut == "TITULAIRE" | Statut == "STAGIAIRE", sum(quotité, na.rm=TRUE)] / 12
   
-  list(A, eqtp.agent, eqtp.fonct)
+  list(A, eqtp.agent,  LA)
 }
 
 sortants <- function(x)   {
   
-  A <- setdiff(Analyse.variations[Année == x-1, Matricule], 
-               Analyse.variations[Année == x, Matricule])
+  if (x == fin.période.sous.revue) {
+    
+    A <- intersect(setdiff(unique(Bulletins.paie[Année == x  & Grade != "A" & Grade != "V" & quotité.moyenne != 0, Matricule]),
+                      unique(Bulletins.paie[Année == x & (Mois >= 10) & quotité != 0 & Grade != "A" & Grade != "V", Matricule])),
+              Analyse.variations.par.exercice[Année == x, unique(Matricule)])
+    
+  } else {
+    
+    A <- setdiff(unique(Base[Année == x  & quotité.moyenne != 0 & Grade != "A" & Grade != "V", Matricule]), 
+                 unique(Base[Année == x + 1  & quotité.moyenne != 0 & Grade != "A" & Grade != "V", Matricule]))
+  }
   
-  B <- unique(Bulletins.paie[Année == x - 1
+  LA <- uniqueN(A)
+  
+  B <- unique(Bulletins.paie[Année == x 
+                             & filtre() == TRUE
                              & Matricule %chin% A,
                              .(Année, quotité, Matricule, Mois, Statut)], by = NULL)
   
   eqtp.agent <- B[ , sum(quotité, na.rm=TRUE)] / 12
-  eqtp.fonct <- B[Statut == "TITULAIRE" | Statut == "STAGIAIRE", sum(quotité, na.rm=TRUE)] / 12
   
-  list(A, eqtp.agent, eqtp.fonct)
+  list(A, eqtp.agent, LA)
 }
 
-
-s <- list(0)
-e <- list(0)
-noria <- rep(0, durée.sous.revue)
-remplacements <- rep(0, durée.sous.revue)
+# GVT négatif = (masse salariale moyenne unitaire des entrants - masse salariale moyenne unitaire des sortants) x nombre sortants
+# ici exprimée en rémunérations
 
 f <- function(x) {
-  y <- x - début.période.sous.revue
+  y <- x - début.période.sous.revue + 1
   
   s[[y]] <<- sortants(x)
-  e[[y]] <<- entrants(x)
+  ent[[y]] <<- entrants(x)
+  nsort <- s[[y]][[3]]
   
-  noria[y] <<- mean.default(Analyse.variations[Année == x 
-                                               & Matricule %chin% e[[y]][[1]], 
-                                               Montant.net.annuel.eqtp],
-                            na.rm = TRUE) - mean.default(Analyse.variations[Année == x- 1 
-                                                                            & Matricule %chin% s[[y]][[1]], 
-                                                                            Montant.net.annuel.eqtp],
-                                                         na.rm = TRUE)
+  B1 <- Base[Année == x 
+             & Matricule %chin% as.character(ent[[y]][[1]]), 
+                c("quotité.moyenne", masse.salariale.unitaire), 
+                  with = FALSE]
   
-  prettyNum(noria[y],
+  B2 <- Base[Année == x
+             & Matricule %chin% as.character(s[[y]][[1]]), 
+               c("quotité.moyenne", masse.salariale.unitaire),
+                   with = FALSE]
+  
+  nor[y] <<- (weighted.mean(B1[[2]],  B1[[1]], na.rm = TRUE)
+              - weighted.mean(B2[[2]], B2[[1]], na.rm = TRUE)) * nsort / tot.etpt[y] 
+  
+  formatC(as.numeric(nor[y]),
             big.mark = " ",
-            digits = 5,
-            format = "fg")
+            digits = 1,
+            format = "f")
 }
 
-g <- function(x) {
+
+# L'effet de la variation d'effectifs (schéma d'emploi, vacances infra-annuelles incluses) est : 
+#  se = (nombre entrants - nombre sortants) x masse salariale moyenne unitaire des entrants
+
+h <- function(x) {
+  y <- x - début.période.sous.revue + 1
   
-  y <- x - début.période.sous.revue
+  nent <- ent[[y]][[3]]
+  nsort <- s[[y]][[3]]
+
+  variation.effectifs <- nent - nsort
   
-  remplacements[y] <<- min(e[[y]][[2]], s[[y]][[2]], na.rm=TRUE)
+  B <- Base[Année == x & Matricule %chin% as.character(ent[[y]][[1]]), 
+                                              c(masse.salariale.unitaire,  "quotité.moyenne"),
+                                                 with = FALSE] 
   
-  prettyNum(noria[y] * remplacements[y] / (masse.salariale.nette[y] * 10),
+  C <- Base[Année == x & ! Matricule %chin% as.character(ent[[y]][[1]]) & ! Matricule %chin% as.character(s[[y]][[1]]), 
+            c(masse.salariale.unitaire,  "quotité.moyenne"),
+            with = FALSE] 
+  
+  masse.salariale.stable <- weighted.mean(C[[1]], C[[2]], na.rm = TRUE)
+  tot.etpt.stable <- sum(C[[2]], na.rm = TRUE)
+  
+  se[y] <<- (weighted.mean(B[[1]], B[[2]], na.rm = TRUE) * variation.effectifs + masse.salariale.stable) / (tot.etpt.stable + variation.effectifs) - masse.salariale.stable/tot.etpt.stable
+
+  
+  formatC(as.numeric(se[y]),
             big.mark = " ",
-            digits = 3,
-            format = "fg")
+            digits = 1,
+            format = "f")
 }
 
+
+t <- function(x) {
+  y <- x - début.période.sous.revue + 1
+  
+  nent <- ent[[y]][[3]]
+  nsort <- s[[y]][[3]]
+ 
+  B <- Base[Année == x & Matricule %chin% as.character(ent[[y]][[1]]), 
+            c(masse.salariale.unitaire,  "quotité.moyenne"),
+            with = FALSE] 
+  
+  C <- Base[Année == x & ! Matricule %chin% as.character(ent[[y]][[1]]) & ! Matricule %chin% as.character(s[[y]][[1]]), 
+            c(masse.salariale.unitaire,  "quotité.moyenne"),
+            with = FALSE] 
+  
+  masse.salariale.stable <- weighted.mean(C[[1]], C[[2]], na.rm = TRUE)
+  tot.etpt.stable <- sum(C[[2]], na.rm = TRUE)
+  
+  D <- Base[Année == x & Matricule %chin% as.character(s[[y]][[1]]), 
+          c(masse.salariale.unitaire,  "quotité.moyenne"),
+          with = FALSE] 
+
+  de[y] <<- (weighted.mean(B[[1]], B[[2]], na.rm = TRUE) * nent - weighted.mean(D[[1]], D[[2]], na.rm = TRUE) * nsort +  masse.salariale.stable) / tot.etpt[y] - masse.salariale.stable/tot.etpt.stable
+  
+  formatC(as.numeric(de[y]),
+          big.mark = " ",
+          digits = 1,
+          format = "f")
+}
 
 
 # B
 
+k <- function(x) {
+  y <- x - début.période.sous.revue + 1
+  formatC(as.numeric(de[y]-se[y]-nor[y]),
+            big.mark = " ",
+            digits = 1,
+            format = "f")
+  }
+
+sous.période <- période[1:durée.sous.revue]
+
 if (durée.sous.revue > 1) {
-  Tableau.vertical(c(étiquette.année,  "Noria EQTP (&euro;)", "En % de la MS N-1", "Remplacements EQTP", "Taux de remplacements (%)"),
-                   période[2:durée.sous.revue],
-                   extra = "no",
-                   f,
-                   g,
-                   function(x) prettyNum(remplacements[x - début.période.sous.revue], 
-                                         digits=0,
-                                         format="f"),
-                   function(x) prettyNum(remplacements[x - début.période.sous.revue] / effectifs[[as.character(x)]]["ETPT"] * 100,
-                                         digits=2,
-                                         format="f"))
+
+  noria <- c(sapply(sous.période, f),
+    formatC(sum(unlist(nor), na.rm = TRUE),
+            big.mark = "", digits = 1, format = "f"))
+  
+  entrants <- c(v <- sapply(1:durée.sous.revue, function(x) round(ent[[x]][[3]], 1)),
+    formatC(round(sum(v, na.rm = TRUE), 1),
+            big.mark = "", digits = 1, format = "f"))
+  
+  sortants <- c(v <- sapply(1:durée.sous.revue, function(x) round(s[[x]][[3]], 1)),
+    formatC(round(sum(v, na.rm = TRUE), 1),
+            big.mark = "", digits = 1, format = "f"))
+  
+  var.effectifs <- c(v <- sapply(1:durée.sous.revue, function(x) round(ent[[x]][[3]] - s[[x]][[3]], 1)),
+    formatC(round(sum(v, na.rm = TRUE), 1),
+            big.mark = "", digits = 1, format = "f"))
+  
+  effet.var <- c(sapply(sous.période, h),
+    formatC(sum(unlist(se), na.rm = TRUE),
+            big.mark = "", digits = 1, format = "f"))
+  
+  total.es <- c(sapply(sous.période, t),
+    formatC(sum(unlist(de), na.rm = TRUE), 
+            big.mark = "", digits = 1, format = "f"))
+  
+  vacances <- c(sapply(sous.période, k),
+    formatC(sum(unlist(de) - unlist(se) - unlist(nor), na.rm = TRUE), 
+            big.mark = "", digits = 1, format = "f"))
+
+  print(
+    Tableau.vertical2(colnames = c(étiquette.année, 
+                                    "Effet de noria",
+                                    "Entrants",
+                                    "Sortants",
+                                    "Variation effectifs",
+                                    "Effet variation effectifs",
+                                    "Effet de vacances",
+                                    "Total effet entrées-sorties"),
+                      
+                      rownames = c(as.character(sous.période), "Total"),
+                      noria,
+                      entrants,
+                      sortants,
+                      var.effectifs,
+                      effet.var,
+                      vacances,
+                      total.es))
+  
 } else {
   cat("L'effet de noria ne peut être calculé que pour des durées sous revue supérieures à un exercice.")
 }
@@ -131,53 +270,5 @@ if (durée.sous.revue > 1) {
 
 # C
 
-
-f <- function(x) {
-  y <- x - début.période.sous.revue
-  
-  noria[y] <<- sum(Analyse.variations[Année == x 
-                                      & (Statut == "TITULAIRE" | Statut == "STAGIAIRE") 
-                                      & Matricule %chin% e[[y]][[1]], 
-                                      Montant.net.annuel.eqtp],
-                   na.rm = TRUE) / e[[y]][[3]] -  sum(Analyse.variations[Année == x- 1
-                                                                         & (Statut == "TITULAIRE" | Statut == "STAGIAIRE") 
-                                                                         & Matricule %chin% s[[y]][[1]],
-                                                                         Montant.net.annuel.eqtp],
-                                                      na.rm = TRUE) / s[[y]][[3]]
-  
-  prettyNum(noria[y],
-            big.mark = " ",
-            digits = 5,
-            format = "fg")
 }
-
-g <- function(x) {
-  
-  y <- x - début.période.sous.revue
-  
-  remplacements[y] <<- min(e[[y]][[3]], s[[y]][[3]], na.rm=TRUE)
-  
-  prettyNum(noria[y] * remplacements[y] / (masse.salariale.nette[y] * 10),
-            big.mark = " ",
-            digits = 3,
-            format = "fg")
-}
-
-# D
-
-if (durée.sous.revue > 1) {
-  Tableau.vertical(c(étiquette.année,  "Noria EQTP (&euro;)", "En % de la  MSN N-1", "Remplacements EQTP", "Taux de remplacements (%)"),
-                   période[2:length(période)],
-                   extra = "no",
-                   f,
-                   g,
-                   function(x) prettyNum(remplacements[x - début.période.sous.revue], digits=0, format="f"),
-                   function(x) prettyNum(remplacements[x - début.période.sous.revue]/ effectifs[[as.character(x)]]["ETPT_fonct"] * 100, digits=2, format="f"))
-} else {
-  cat("L'effet de noria ne peut être calculé que pour des durées sous revue supérieures à un exercice.")
-}
-
-}
-
-
 
