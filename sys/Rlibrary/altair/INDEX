@@ -11,4 +11,5 @@ extraire.nir            Traitement du NIR (numéro d'inscription au
                         répertoire des personnes physiques).
 net.eqtp                Tableau des rémunérations nettes moyennes par
                         grade.
+noria                   Tableau du GVT négatif
 pyramide_ages           Pyramide des âges.
