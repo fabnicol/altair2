@@ -88,7 +88,7 @@ VPATH = .
 
 TEMPLATE = app
 
-DEFINES +=    VERSION=\\\"17.04\\\"
+DEFINES +=    VERSION=\\\"17.09\\\"
 
 DEFINES +=  WARNING_LIMIT=5  \         # nombre maximum d'avertissement par fichier
             MAX_NB_AGENTS=80000 \      # nombre maximum de bulletins par mois
@@ -152,6 +152,9 @@ QMAKE_CXXFLAGS += -march=core-avx2 -Wextra
 INCLUDEPATH += ../Interface/gui /usr/include/libxml2
 
 LIBS = -L/usr/lib/lib64 -L/usr/lib/x86_64-linux-gnu -lxml2 -pthread
+#/usr/local/lib64/libxml2.so -pthread
+#-L/usr/local/lib64   -lxml2 -pthread
+
 
 
 SOURCES += \ 
