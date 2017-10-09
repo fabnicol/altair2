@@ -2,14 +2,14 @@
 % Please edit documentation in R/noria.R
 \name{noria}
 \alias{noria}
-\title{Tableau du GVT négatif}
+\title{Décomposition de l'évolution des salaires, RMPP, SMPT et GVT}
 \usage{
 noria(Bulletins = Bulletins.paie, Base = Analyse.variations.par.exercice,
   classe = "", champ = "brut", filtre = "", fichier = "", dec = ",",
   sep = ";", encoding = "UTF-8", afficher.tableau = TRUE)
 }
 \arguments{
-\item{Bulletins}{Base mensuelle des Bulletins de paie, comportant pour l'ensemble de la période
+\item{Bulletins}{Base mensuelle des bulletins de paie, comportant pour l'ensemble de la période
 \enumerate{
   \item{ les variables charactère suivantes :
      \itemize{
@@ -22,7 +22,7 @@ noria(Bulletins = Bulletins.paie, Base = Analyse.variations.par.exercice,
        \describe{
          \item{\code{quotité}}{réel entre 0 et 1, quotité mensuelle}}}}}
 
-\item{Base}{de paye, ou extraction de cette base, comportant pour l'ensemble de la période
+\item{Base}{Base de paye, ou extraction de cette base, comportant pour l'ensemble de la période
 \enumerate{
   \item{ les variables charactère suivantes :
      \itemize{
@@ -32,9 +32,9 @@ noria(Bulletins = Bulletins.paie, Base = Analyse.variations.par.exercice,
          \item \code{Catégorie}}}
    \item{ les variables numériques :
        \describe{
-         \item{\code{quotité.moyenne}}{réel entre 0 et 1, quotité annuelle moyenne}
-         \item{\code{Montant.net.eqtp}}{salaire net moyen annuel}
-         \item{\code{Montant.brut.eqtp}}{salaire brut moyen annuel}}}}.}
+         \item{\code{quotité.moyenne}}{réel entre 0 et 1, quotité annuelle moyenne (somme des quotités divisée par 12).}
+         \item{\code{Montant.net.eqtp}}{salaire net moyen annuel EQTP}
+         \item{\code{Montant.brut.eqtp}}{salaire brut moyen annuel en EQTP}}}}.}
 
 \item{classe}{Valeur caractère définissant une sous-population.}
 
@@ -64,24 +64,140 @@ Si présent, fichier indique le chemin complet du fichier des entrées-sorties, 
 
 \item{encoding}{Paramètre \code{encoding} de la fonction \code{data.table::fread}.}
 
-\item{afficher.tableau}{Si TRUE, affiche deux tableaux correspondant à la valeur de retour sur la sortie standard.}
+\item{afficher.tableau}{Si TRUE, affiche quatre tableaux correspondant à la valeur de retour sur la sortie standard.}
 }
 \value{
-Un tableau du GVT négatif au format \code{data.table}, comportant les variables numériques suivantes (les totaux de colonnes figurent seulement dans l'affichage) :
+Si afficher.tableau = TRUE : 
+ \enumerate{
+       \item{
+       Affiche un tableau des entrées-sorties, comportant les variables numériques suivantes :
+              \describe{
+                \item{\code{Année}}{Années de la période sous revue, puis le libellé "Total".}
+                \item{\code{ETPT}}{ETPT calculés sur base de paye.}
+                \item{\code{ETPT entrants}}{ETPT des entrants de l'année, par année.}
+                \item{\code{ETPT sortants}}{ETPT des sortants de l'année, par année.}
+                \item{\code{Entrants}}{Entrants (effectifs physiques) de l'année, par année, puis Total.}
+                \item{\code{Sortants}}{Sortants (effectifs physiques) de l'année, par année, puis Total.}                 
+                \item{\code{Var. effectifs}}{différence du nombre d'entrants et de sortants, par année, puis Total.}
+                \item{\code{Taux de rotation}}{ratio égal à la moyenne du nombre d'entrants et de sortants rapportée à l'effectifs de l'année précédente. 
+                Cet effectif est estimé comme la somme des ETPT de l'année en cours, diminuée de la variation d'effectifs.}}}
+     \item{           
+Un deuxième tableau détaille l'effet des entrées sorties sur la masse des rémunérations brutes ou nettes :
+              \describe{
+                \item{\code{Année}}{Années de la période sous revue, puis le libellé "Total".}
+                \item{\code{Effet noria}}{Cumul des économies (si négatif) ou des coûts (si positif) sur salaires (nets ou bruts) dus au remplacement des sortants par les entrants, par année, puis Total.}
+                \item{\code{Effet var. effectifs}}{Cumul des économies (si négatif) ou des coûts (si positif) sur salaires (nets ou bruts) dus aux variations d'effectifs. \cr
+                Est positif si le nombre d'entrants excède le nombre de sortants, par année, puis Total.}
+                \item{\code{Effet vacances}}{Cumul des économies (si négatif) ou des coûts (si positif) sur salaires (nets ou bruts) dus aux vacances d'emplois. \cr
+                Est positif si les entrants intègrent l'organisme en moyenne plus tôt dans l'année que les sortants ne le quittent, par année, puis Total.}                                  
+                \item{\code{Total}}{Total des trois effets liés aux entrées-sorties (GVT négatif et variation d'effectifs vacances comprises)}}}
+   \item{             
+Un troisième tableau détaille la décomposition du salaire moyen par tête (SMPT) en ses composantes stables (RMPP) et variables (flux d'entrées-sorties)
+Les coefficients des colonnes comprises entre la colonne "RMPP" et la colonne "SMTP" sont des variations relatives exprimées en pourcentage.
+Pour passer de la colonne "RMPP" à la colonne "SMPT", il suffit de multiplier successivement par chaque coefficient sur la même ligne, augmenté de 1. 
+
+              \describe{
+                \item{\code{Année}}{Années de la période sous revue}
+                \item{\code{RMPP}}{Rémunération moyenne des personnes en place, présentes deux années complètes consécutives.\cr
+                 La vérification de la permanence de la quotité sur les deux années n'est pas implémentée.}
+                \item{\code{Entrée n - 1}}{Effet relatif en \% des entrées de personnels au cours de l'année précédente}
+                \item{\code{Noria}}{Effet de noria. Effet relatif en \% du remplacement des sortants par les entrants en faisant l'hypothèse que les entrants sont aussi nombreux que les sortants.}
+                \item{\code{Var. effectifs}}{Effet relatif en \% sur le salaire moyen distribué des variations d'effectifs.}
+                \item{\code{Effet vacances}}{Effet relatif en \%  sur le salaire moyen distribué de la différence entre le nombre d'entrants et le nombre de sortants.}                                  
+                \item{\code{Total E/S}}{Effet relatif en \%  sur le salaire moyen distribué des quatre effets précédents liés aux entrées-sorties.}
+                \item{\code{Ajustement}}{Correction à ajouter au coefficient Total E/S, dues aux approximations utilisées pour le calcul des effets d'entrées-sorties.}
+                \item{\code{SMPT}}{Salaire moyen par tête, résultant de l'application multiplicative des corefficients de variation précédents.}}}
+ \item{               
+Le retour de la fonction est un tableau du GVT négatif au format \code{data.table}, comportant les variables numériques suivantes (les totaux de colonnes figurent seulement dans l'affichage) : 
               \describe{
                 \item{\code{période}}{Années de la période sous revue, puis le libellé "Total".}
-                \item{\code{effet.noria}}{cumul des économies (si négatif) ou des coûts (si positif) sur salaires (nets ou bruts) dus au remplacement des sortants par les entrants, par année, puis Total.}
-                \item{\code{nent}}{nombre d'entrants, par année, puis Total.}
-                \item{\code{nsort}}{nombre de sortants, par année, puis Total.}
-                \item{\code{variation.effectifs}}{différence du nombre d'entrants et de sortants, par année, puis Total.}
-                \item{\code{taux.rotation}}{ratio égal à la moyenne du nombre d'entrants et de sortants rapportée à l'effectifs de l'année précédente. Cet effectif est estimé comme la somme des ETPT de l'année en cours, diminuée de la variation d'effectifs.}
-                \item{\code{effet.variation.effectifs}}{cumul des économies (si négatif) ou des coûts (si positif) sur salaires (nets ou bruts) dus aux variations d'effectifs. Est positif si le nombre d'entrants excède le nombre de sortants, par année, puis Total.}
-                \item{\code{effet.vacances}}{cumul des économies (si négatif) ou des coûts (si positif) sur salaires (nets ou bruts) dus aux vacances d'emplois. Est positif si les entrants intègrent l'organisme en moyenne plus tôt dans l'année que les sortants ne le quittent, par année, puis Total.}                                  
-                \item{\code{effet.total.entrées.sorties}}{cumul des effets précédents, par année, puis Total.}}
+                \item{\code{effet.noria}}{Cumul des économies (si négatif) ou des coûts (si positif) sur salaires (nets ou bruts) dus au remplacement des sortants par les entrants, par année, puis Total.}
+                \item{\code{nent}}{Nombre d'entrants, par année, puis Total.}
+                \item{\code{nsort}}{Nombre de sortants, par année, puis Total.}
+                \item{\code{variation.effectifs}}{Différence du nombre d'entrants et de sortants, par année, puis Total.}
+                \item{\code{taux.rotation}}{Ratio égal à la moyenne du nombre d'entrants et de sortants rapportée à l'effectifs de l'année précédente.\cr
+                 Cet effectif est estimé comme la somme des ETPT de l'année en cours, diminuée de la variation d'effectifs.}
+                \item{\code{effet.variation.effectifs}}{Cumul des économies (si négatif) ou des coûts (si positif) sur salaires (nets ou bruts) dus aux variations d'effectifs.\cr
+                 Est positif si le nombre d'entrants excède le nombre de sortants, par année, puis Total.}
+                \item{\code{effet.vacances}}{Cumul des économies (si négatif) ou des coûts (si positif) sur salaires (nets ou bruts) dus aux vacances d'emplois.\cr
+                 Est positif si les entrants intègrent l'organisme en moyenne plus tôt dans l'année que les sortants ne le quittent, par année, puis Total.}                                  
+                \item{\code{effet.total.entrées.sorties}}{Cumul des effets précédents, par année, puis Total.}}}}
 }
 \description{
-Elabore un tableau de la décomposition du GVT négatif (effet de noria, de variation d'effectifs et de vacances d'emploi)
+Elabore des tableaux permettant de relier l'évolution de la RMPP, du salaire moyen et des effets d'entrées-sorties.
 }
 \examples{
-noria(champ = "net", filtre = "A", classe = "SPP")
+ noria()
+
+ | Année | ETPT  | ETPT entrants | ETPT sortants | Entrants | Sortants | Var. effectifs | Taux de rotation \% |
+ |-------|-------|---------------|---------------|----------|----------|----------------|--------------------|
+ | 2011  | 789,6 |     14,8      |     10,0      |   30,0   |   23,0   |      7,0       |        3,6         |
+ | 2012  | 941,1 |     14,1      |     13,6      |   24,0   |   25,0   |     -1,0       |        2,7         |
+ | 2013  | 938,8 |     11,5      |     16,7      |   27,0   |   32,0   |     -5,0       |        3,4         |
+ | 2014  | 958,1 |     17,5      |     18,1      |   38,0   |   37,0   |      1,0       |        4,2         |
+
+ Lecture : 
+ L'organisme comptait 939 ETPT en 2013, dont 11,5 ETPT entrant et 16,7 ETPT sortants
+ correspondant respectivement à 27 entrants physiques et 32 sortants physiques. 
+ Le taux de rotation était de 3,4 \% au cours de cette année.
+ 
+ | Année | Effet noria | \% SMPT | Effet var. effectifs | \% SMPT | Effet vacances | \% SMPT |   Total    | \% SMPT |
+ |-------|-------------|--------|----------------------|--------|----------------|--------|------------|--------|
+ | 2011  |  -64 887,1  |  -0,2  |       97 655,0       |  0,4   |   -45 805,1    |  -0,2  | -13 037,1  |  -0,0  |
+ | 2012  |  -10 714,7  |  -0,0  |      -16 499,3       |  -0,0  |    90 945,2    |   0,3  |  63 731,2  |   0,2  |
+ | 2013  | -102 531,4  |  -0,3  |      -61 836,1       |  -0,2  |   -50 050,9    |  -0,1  | -214 418,3 |  -0,6  |
+ | 2014  |  -88 795,8  |  -0,3  |       11 441,7       |  0,0   |   -46 453,6    |  -0,1  | -123 807,6 |  -0,4  |
+ 
+ Lecture : 
+ L'effet de l'effet de noria en 2013 était de -0,3 \% en valeur relative en proportion de
+ la masse des rémunérations brutes 2013 (autrement dit en points de SMPT). 
+ Le total des effets d'entrées-sorties était de -0,6 point de SMPT,soit une économie 
+ sur rémunérations brutes versées de 123 806 euros.  
+ 
+ | Année |   RMPP   | Entrées n - 1 | Noria | Var. effectifs | Vacances | Total E/S | Ajustement |   SMPT   |
+ |-------|----------|---------------|-------|----------------|----------|-----------|------------|----------|
+ | 2011  | 34 849,0 |      0,00     | -0,24 |      0,36      |  -0,17   |   -0,05   |   -0,003   | 34 717,2 |
+ | 2012  | 35 910,5 |     -0,40     | -0,03 |     -0,05      |   0,27   |   -0,21   |   -0,007   | 35 568,7 |
+ | 2013  | 36 493,9 |     -0,63     | -0,30 |     -0,18      |  -0,15   |   -1,25   |    0,004   | 36 173,4 |
+ | 2014  | 36 576,0 |     -0,81     | -0,26 |      0,03      |  -0,13   |   -1,16   |   -0,005   | 35 956,1 |
+ 
+ Lecture :
+ Le salaire brut moyen 2013 serait égal à la RMPP (rémunération des personnes présentes tout au long de 2012 et 2013)
+ sans les effets d'entrées et de sorties en 2012 et 2013.
+ Ces effets interviennent en 2012 (seulement les entrées, première colonne) et en 2013 (colonnes suivantes).
+ L'effet relatif des entrées 2012 est de -0,4 \% : les entrants en 2012 encore présents en 2013 ont des salaires moins élevés 
+ que les présents-présents en moyenne.
+ L'effet de noria 2013 (emplacement des sortants 2013 par un même nombre d'entrants) est de -0,3 \% de variation relative :
+ les sortants avaient en moyenne des salaires plus élevés que les entrants.
+ L'effet relatif de la variation des effectifs 2013 est de -0,18 \% : il y a eu un peu plus de sortants que d'entrants.
+ L'effet des vacances d'emploi est de -0,15 \% : tous les sortants ne sont pas remplacés au moment de leur départ.
+ Le total de ces effets d'entrées-sorties est de -1,25 \%, auquel s'ajoute un redressement mathématique 
+ lié aux hypothèses de modélisation de 0,004 points de pourcentage.
+   
+ |   Année   | Var. RMPP | Var. effets E/S| Cumul | Var SMPT | 
+ |-----------|-----------|----------------|-------|----------| 
+ | 2011-2012 |   3,05    |     -0,58      | 2,45  |   2,45   | 
+ | 2012-2013 |   1,62    |      0,07      | 1,70  |   1,70   | 
+ | 2013-2014 |   0,22    |     -0,82      | -0,60 |  -0,60   | 
+ 
+ Lien avec les prévisions budgétaires et le GVT : 
+ Le GVT positif se déduit de la variation de la RMPP en retranchant l'effet, estimé par d'autres moyens,
+ des mesures catégorielles et générales. Le GVT négatif total, défini comme la somme de l'effet de noria
+ et des différents effets d'entrées-sorties (en n et n-1) est égal à la colonne "Variation des effets d'entrées-sorties".
+ 
+ 
+noria(champ = "net", classe = "SPP", filtre = "A")
+
+Lecture : Produit des tableaux analogues aux précédents pour la rémunération des agents SPP de catégorie A.
+
+
+}
+\references{
+Rapport annuel sur l'état de la fonction publique 2016 \url{https://www.fonction-publique.gouv.fr/files/files/statistiques/rapports_annuels/2016/DGAFP_RA2016_web_signet.pdf}
+   \tabular{cccc}{
+              \tab   RMPP  \tab Effet E/S  \tab  SMTP  \cr
+         brut  \tab   +3  \tab        -1,3 \tab +1,7  \cr
+         net   \tab   +2,7 \tab        -1,3 \tab +1,3 
+         }
+Voir aussi : outil 2BPSS, Minefi, Direction du budget  \url{http://www4.minefi.gouv.fr/budget/circpdf/2BPSS-05-5044.pdf}
 }
