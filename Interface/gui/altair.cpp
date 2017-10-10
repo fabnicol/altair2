@@ -3,9 +3,10 @@
 // Fabrice Nicol, années 2012 à 2017
 // fabrice.nicol@crtc.ccomptes.fr
 //
-// Ce logiciel est un programme informatique servant à extraire et analyser les fichiers de paye
-// produits au format spécifié par l'annexe de la convention-cadre nationale de dématérialisation
-// en vigueur à compter de l'année 2008.
+// Ce logiciel est un programme informatique servant à extraire et analyser
+// les fichiers de paye produits au format spécifié par l'annexe de la
+// convention-cadre nationale de dématérialisation en vigueur à compter de
+// l'année 2008.
 //
 // Ce logiciel est régi par la licence CeCILL soumise au droit français et
 // respectant les principes de diffusion des logiciels libres. Vous pouvez
@@ -34,7 +35,7 @@
 // pris connaissance de la licence CeCILL, et que vous en avez accepté les
 // termes.
 //
-//
+////////////////////////////////////////////////////////////////////////////
 
 #include <QFile>
 #include <sys/stat.h>
@@ -46,7 +47,6 @@
 #include "fstring.h"
 #include "altair.h"
 #include "options.h"
-#include "browser.h"
 #include "fstring.h"
 #include "tags.h"
 
@@ -55,7 +55,17 @@ std::uint16_t Altair::RefreshFlag = interfaceStatus::hasUnsavedOptions;
 qint64   Altair::totalSize[]={0,0};
 
 class Hash;
-
+QHash<QString, QString> Hash::Annee;
+QHash<QString, QString> Hash::Mois;
+QHash<QString, QString> Hash::Budget;
+QHash<QString, QStringList> Hash::Siret;
+QHash<QString, QStringList> Hash::Etablissement;
+QHash<QString, QString> Hash::Employeur;
+QHash<QString, bool>    Hash::Suppression;
+QVector<QStringList> Hash::Reference;
+QHash<QString, QStringList> Hash::fileList;
+QHash<QString, FStringList*> Hash::wrapper;
+QHash<QString,QStringList> Hash::description;
 
 void Altair::initialize()
 {
@@ -80,9 +90,6 @@ void Altair::initialize()
     }
             
     Hash::description["année"]=QStringList("Fichiers .xhl");
-#if 0
-    Abstract::initH("NBulletins");
-#endif
 }
 
 
@@ -134,31 +141,26 @@ Altair::Altair()
     refreshModel();
     refreshTreeView(true);
 
-    bool visibility =
-                        #ifdef MINIMAL
-                           false;
-                        #else
-                           true;
-                        #endif
+    bool visibility = true;
 
-    project=new FListFrame(this,
-                              fileTreeView,                   // files may be imported from this tree view
-                              importFiles,                     // FListFrame type
-                              "XHL",                          // superordinate xml tag
-                              {"Décodeur de fichiers XHL", ""},                   // project manager widget on-screen tag
-                              "g",                                  // command line label
-                              flags::commandLineType::altairCommandLine|flags::status::hasListCommandLine|flags::status::enabled,  // command line characteristic features
-                              {" ", " -g "},                       // command line separators
-                              {"item", "onglet"},                // subordinate xml tags
-                              common::TabWidgetTrait::NO_EMBEDDING_TAB_WIDGET);                      //tab icon
+    project = new FListFrame(fileTreeView,                     // files may be imported from this tree view
+                             importFiles,                     // FListFrame type
+                             "XHL",                          // superordinate xml tag
+                             {"Décodeur de fichiers XHL", ""},                   // project manager widget on-screen tag
+                             "g",                                   // command line label
+                             flags::commandLineType::altairCommandLine | flags::status::hasListCommandLine | flags::status::enabled,  // command line characteristic features
+                             {" ", " -g "},                       // command line separators
+                             {"item", "onglet"},                 // subordinate xml tags
+                             {"Siret", "Budget", "Employeur"},
+                             tools::TabWidgetTrait::NO_EMBEDDING_TAB_WIDGET);                      //tab icon
 
-    progress=new FProgressBar(this, &Altair::killProcess);
+    progress = new FProgressBar(this, &FDialog::killProcess);
 
     progress->setToolTip(tr("Décodage"));
 
     outputTextEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     outputTextEdit->setAcceptDrops(false);
-    //outputTextEdit->setMinimumHeight(200);
+
     outputTextEdit->setReadOnly(true);
 
     connect(&process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int)));
@@ -166,8 +168,8 @@ Altair::Altair()
     project->model=model;
     project->slotList=nullptr;
 
-    ///// Ce qui suit présupose que les connexions déclenchées par le click
-    // sont préalablement traitées par FListFrame (ce qui est le cas)
+/////// Ce qui suit présupose que les connexions déclenchées par le click
+/////// sont préalablement traitées par FListFrame (ce qui est le cas)
                 
     connect(project->importFromMainTree,
             &QToolButton::clicked,
@@ -179,7 +181,18 @@ Altair::Altair()
     });
 
 
-    /////
+    connect(project->fileListWidget, SIGNAL(forceCloseProject()), this, SLOT(closeProject()));
+    connect(project, SIGNAL(showProgressBar()), this, SIGNAL(showProgressBar()));
+    connect(project, SIGNAL(setProgressBar(int, int)), this, SIGNAL(setProgressBar(int, int)));
+    connect(project, SIGNAL(setProgressBar(int)), this, SIGNAL(setProgressBar(int)));
+    connect(project, SIGNAL(textAppend(const QString&)), this, SLOT(textAppend(const QString&)));
+    connect(project, SIGNAL(refreshRowPresentation(int)), this, SLOT(refreshRowPresentation(int)));
+    connect(project, SIGNAL(updateProject(bool)), this, SLOT(updateProject(bool)));
+    connect(project, SIGNAL(appRepaint()), this, SLOT(repaint()));
+    connect(this, &QDialog::customContextMenuRequested, [this] {  project->showContextMenu(); });
+
+
+////////////
 
 
     project->importFromMainTree->setVisible(visibility);
@@ -246,7 +259,7 @@ void Altair::importData()
                                      | QDir::Files
                                      | QDir::NoDotAndDotDot).isEmpty())
        {
-           outputTextEdit->append(PROCESSING_HTML_TAG "Analyse du disque optique...Veuillez patienter...");
+           textAppend(PROCESSING_HTML_TAG "Analyse du disque optique...Veuillez patienter...");
            fileTreeView->setCurrentIndex(model->index(cdROM));
 
            project->importFromMainTree->click();
@@ -262,8 +275,10 @@ void Altair::importData()
    {
        fileTreeView->setCurrentIndex(model->index(userdatadir));    
        project->importFromMainTree->click();
+
        // l'opération précédente semble annuler la possibilité de sélectionner les indices proprement
        // à nouveau. Peut-être un bug de Qt. On fait un reset suivi d'un reset.
+
        fileTreeView->reset();
        refreshTreeView();
        return;
@@ -276,8 +291,9 @@ void Altair::refreshRowPresentation()
 }
 
 
-void Altair::refreshRowPresentation(uint j)
+void Altair::refreshRowPresentation(int j)
 {
+
     if (Hash::wrapper.isEmpty()) return;
 
     QPalette palette;
@@ -313,8 +329,8 @@ void Altair::on_newProjectButton_clicked()
     if (projectFile.exists()) projectFile.remove();
 
     parent->saveProjectAs();
-    //clearInterfaceAndParseProject();
-    outputTextEdit->append(PARAMETER_HTML_TAG "Nouveau projet créé sous " + projectName);
+
+    textAppend(PARAMETER_HTML_TAG "Nouveau projet créé sous " + projectName);
 }
 
 void  Altair::openProjectFileCommonCode()
@@ -323,9 +339,8 @@ void  Altair::openProjectFileCommonCode()
 
     checkEmptyProjectName();
     setCurrentFile(projectName);
-    //geom = parent->geometry();
+
     clearInterfaceAndParseProject();
-    //parent->setGeometry(geom);
 
     // resetting interfaceStatus::parseXml bits to 0
     RefreshFlag = RefreshFlag & (~interfaceStatus::parseXml);
@@ -335,7 +350,7 @@ void  Altair::openProjectFileCommonCode()
 
 void Altair::on_openProjectButton_clicked()
 {
-    //if (! Hash::wrapper["XHL"]->isEmpty() && ! Hash::wrapper["XHL"]->at(0).isEmpty()) return;
+
     closeProject();
     projectName=QFileDialog::getOpenFileName(this,  tr("Ouvrir le projet"), userdatadir,  tr("projet altair (*.alt)"));
     if (projectName.isEmpty()) return;
@@ -345,7 +360,7 @@ void Altair::on_openProjectButton_clicked()
 
 void Altair::openProjectFile()
 {
-    //if (! Hash::wrapper["XHL"]->isEmpty() && ! Hash::wrapper["XHL"]->at(0).isEmpty()) return;
+
     closeProject();
     projectName=qobject_cast<QAction *>(sender())->data().toString();
 
@@ -386,7 +401,6 @@ void Altair::closeProject()
 
     QFile projectFile(projectName);
     projectFile.close();
-    //projectName=;
 }
 
 
@@ -396,9 +410,6 @@ void Altair::clearProjectData()
                      | interfaceStatus::mainTabs
                      | interfaceStatus::optionTabs
                      | interfaceStatus::tree;
-
-
-    project->deleteAllGroups();
 
     fileSizeDataBase[0].clear();
 
@@ -449,16 +460,17 @@ void Altair::clearProjectData()
 void Altair::on_helpButton_clicked()
 {
     QUrl url=QUrl::fromLocalFile(QCoreApplication::applicationDirPath() + "/../GUI.html");
-    outputTextEdit->append(STATE_HTML_TAG + QString("Ouverture de l'aide : ") + url.toDisplayString());
-    browser::showPage(url);
+    textAppend(STATE_HTML_TAG + QString("Ouverture de l'aide : ") + url.toDisplayString());
+    QDesktopServices::openUrl(url);
 }
+
 
 void Altair::displayTotalSize()
 {
     static qint64 comp;
     qint64 tot=Altair::totalSize[0];
     if (tot != comp && v(quiet).isFalse())
-        outputTextEdit->append(STATE_HTML_TAG "Taille des bases de paye :  " + QString::number(tot) + " B ("+QString::number(tot/(1024*1024))+" Mo)");
+        textAppend(STATE_HTML_TAG "Taille des bases de paye :  " + QString::number(tot) + " B ("+QString::number(tot/(1024*1024))+" Mo)");
     comp=tot;
 }
 
@@ -510,8 +522,6 @@ void Altair::updateIndexInfo()
 
     currentIndex = project->getCurrentIndex();
     row = project->getCurrentRow();
-
-    // row = -1 if nothing selected
 }
 
 
@@ -546,16 +556,11 @@ bool Altair::updateProject(bool requestSave)
     if (parent->isDefaultSaveProjectChecked() || requestSave)
         writeProjectFile();
 
-    
-# ifndef INSERT_DIRPAGE
-           Abstract::initH("base", path_access("Tests/Exemple/Donnees/" AltairDir));
-           Abstract::initH("lhxDir", path_access(System));
-# endif  
+    Abstract::initH("base", path_access("Tests/Exemple/Donnees/" AltairDir));
+    Abstract::initH("lhxDir", path_access(System));
 
     return refreshProjectManager();
 }
-
-/* Remember that the first two elements of the FAvstractWidgetList are DVD-A and DVD-V respectively, which cuts down parsing time */
 
 
 void Altair::setCurrentFile(const QString &fileName)
@@ -586,7 +591,7 @@ void Altair::assignWidgetValues()
 
         if (! keyList.contains(key))
         {
-            outputTextEdit->append(WARNING_HTML_TAG "Le Widget de clé "
+            textAppend(WARNING_HTML_TAG "Le Widget de clé "
                                    + key +
                                    " n'est pas référencé pas dans cette version des fichiers de projet Altaïr"
                                    + (Hash::wrapper["version"]->isEmpty() ? "." :
@@ -621,7 +626,7 @@ void Altair::assignWidgetValues()
 
             // version est lu dans le projet mais n'a pas de Widget
 
-            outputTextEdit->append(WARNING_HTML_TAG "Le nombre de Widget à identifier ("
+            textAppend(WARNING_HTML_TAG "Le nombre de Widget à identifier ("
                                    + QString::number(Abstract::abstractWidgetList.size())
                                    + ") est différent du nombre de clés lues dans le projet ("
                                    + QString::number(keyList.size() - 1) +").");
@@ -636,14 +641,14 @@ void Altair::assignWidgetValues()
             {
                auto h = w.next();
                if (! exclusion.contains(h.key()) && ! hashKeys.contains(h.key()))
-                       outputTextEdit->append(WARNING_HTML_TAG "Pas de Widget de clé " + h.key()
+                       textAppend(WARNING_HTML_TAG "Pas de Widget de clé " + h.key()
                                               + " pour cette version (" VERSION ") de l'interface Altaïr.");
             }
 
-            outputTextEdit->append(STATE_HTML_TAG "Version du projet : "
+            textAppend(STATE_HTML_TAG "Version du projet : "
                                    + (Hash::wrapper["version"]->isEmpty() ? "non référencée." :
                                       v(version)));
-            outputTextEdit->append(STATE_HTML_TAG "Version de l'interface : " VERSION);
+            textAppend(STATE_HTML_TAG "Version de l'interface : " VERSION);
 
     }
 
@@ -655,11 +660,6 @@ bool Altair::refreshProjectManager()
     checkEmptyProjectName();
     QFile file(projectName);
     bool result = true;
-
-//    if ((RefreshFlag&interfaceStatus::treeMask) == interfaceStatus::tree)
-//    {
-//      //  managerWidget->clear();
-//    }
 
     if ((RefreshFlag&interfaceStatus::saveTreeMask) == interfaceStatus::saveTree)
     {
@@ -692,7 +692,7 @@ bool Altair::refreshProjectManager()
 
             if (filesize == 0)
             {
-                outputTextEdit->append(WARNING_HTML_TAG " Pas de projet en cours (défaut.alt est vide).");
+                textAppend(WARNING_HTML_TAG " Pas de projet en cours (défaut.alt est vide).");
                 return false;
             }
 
@@ -756,37 +756,6 @@ void Altair::checkAnnumSpan()
     }
 }
 
-#if 0
-void Altair::normaliseMultiBudgetFiles(const QStringList& list)
-{
-
-    for (int i = 0; i < Hash::wrapper["XHL"]->size(); ++i)
-    {
-        for (const QString& str : Hash::wrapper["XHL"]->at(i))
-        {
-
-            if (Hash::Siret[str].size() == 1 || Hash::Etablissement[str].size() == 1 || ! Hash::SiretPos.contains(str)) continue;
-
-            for (int l = 0; l < Hash::Siret[str].size() && l < Hash::Etablissement[str].size(); ++l )
-            {
-                if (Hash::Suppression[Hash::Siret[str].at(l) + " " + Hash::Etablissement[str].at(l)])
-                    continue;
-                QFile file(str);
-                file.open(QIODevice::ReadOnly);
-
-                file.seek(Hash::SiretPos[str].at(l));
-
-                QByteArray array = file.read(Hash::SiretPos[str].at(l+1) - Hash::SiretPos[str].at(l));
-                QTemporaryFile tempfile(QDir::tempPath());
-                tempfile.open();
-                tempfile.write(array);
-                 (*Hash::wrapper["XHL"])[i] << tempfile.fileName();
-                tempfile.close();
-            }
-        }
-    }
-}
-#endif
 
 void Altair::dragEnterEvent(QDragEnterEvent *event)
 {
@@ -834,134 +803,4 @@ void Altair::dropEvent(QDropEvent *event)
         updateProject();
      }
 }
-
-
-void FProgressBar::stop()
-{
-    if (parent->process.state() == QProcess::Running
-        ||
-        (parent->process.exitStatus() == QProcess::NormalExit))
-        {
-            if (bar->value() < bar->maximum()) bar->setValue(bar->maximum());
-        }
-        else
-        {
-                showProgressBar();
-        }
-
-    timer->stop();
-    killButton->setDisabled(true);
-    internalState = State::Parsing;
-}
-
-
-void FProgressBar::computeLHXParsingProgressBar()
-{
-    if (parent->process.state() != QProcess::Running) return;
-
-    int level = std::min(maximum(), this->parent->fileRank);
-
-    if(QDir(v(base)).entryList({"*.csv"}, QDir::Files).count() > 0)
-    {
-           internalState = State::WritingReady;
-           return;
-    }
-
-    if (value() - level > 4/5* maximum())
-    {
-        parent->outputTextEdit->append((QString)PROCESSING_HTML_TAG + "Analyse des bases de données...");
-    }
-
-    setValue(level);
-
-}
-
-void FProgressBar::computeLHXWritingProgressBar(bool print_message)
-{
-    if (print_message)
-    {
-      parent->outputTextEdit->append((QString)PROCESSING_HTML_TAG + "Enregistrement des bases de données...");
-      bar->setValue(0);
-      bar->setRange(0, 100);
-    }
-
-    internalState = State::WritingStarted;
-
-    if (parent->fileRank >= 100) parent->fileRank = 0;
-
-    setValue(std::max(parent->fileRank, value()));
-
-#ifdef REPORT_DATABASE_PROGRESS
-        parent->outputTextEdit->append((QString)PROCESSING_HTML_TAG + QString::number() + " % des bases de données.");
-#endif
-
-}
-
-
-void FProgressBar::computeRProgressBar()
-{
-
-      setRange(0, 100);
-#ifdef DEBUG
-      parent->outputTextEdit->append((QString)PROCESSING_HTML_TAG + QString::number(static_cast<int>(parent->fileRank)) + " % de l'analyse des données.");
-#endif
-      setValue(parent->fileRank);
-
-      if (parent->fileRank == 100) setValue(startshift);
-
-}
-
-
-FProgressBar::FProgressBar(Altair* parent,
-                           SlotFunction  killFunction)
-{
-    bar->hide();
-    killButton->hide();
-
-    const QIcon iconKill = QIcon(QString::fromUtf8( ":/images/process-stop.png"));
-    killButton->setIcon(iconKill);
-    killButton->setIconSize(QSize(22,22));
-    killButton->setToolTip(tr("Arrêter le processus"));
-
-    layout->addWidget(killButton);
-    layout->addWidget(bar);
-
-    this->parent = parent;  // ne pas utiliser parent sans this-> dans les closures.
-
-    internalState = State::Parsing;
-
-    connect(timer,
-            &QTimer::timeout,
-            [&] {
-
-                 if (this->parent->outputType[0] == 'L')
-                 {
-                  switch (internalState)
-                  {
-                       case State::Parsing:
-                          computeLHXParsingProgressBar();
-                          break;
-
-                       case State::WritingReady:
-                          computeLHXWritingProgressBar(true);
-                          break;
-
-                       case State::WritingStarted:
-                          computeLHXWritingProgressBar(false);
-                          break;
-                  }
-                 }
-                 else
-                  computeRProgressBar();});
-
-    connect(&(this->parent->process), SIGNAL(started()), this, SLOT(showProgressBar()));
-    connect(killButton, &QToolButton::clicked, parent, killFunction);
-    connect(&this->parent->process, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(stop()));
-    connect(this->parent, SIGNAL(setProgressBar(int,int)), this, SLOT(setValue(int, int)));
-    connect(this->parent, SIGNAL(setProgressBar(int)), this, SLOT(setValue(int)));
-    connect(this->parent, &Altair::hideProgressBar, [this] { hide(); });
-    connect(this->parent, &Altair::showProgressBar, [this] { bar->reset(); bar->show(); killButton->show(); killButton->setEnabled(true);});
-}
-
-
 
