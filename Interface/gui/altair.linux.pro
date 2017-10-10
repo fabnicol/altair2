@@ -39,7 +39,7 @@
 VERSION_TAG = $$system(cat ../../VERSION)
 DEFINES +=  VERSION=\\\"$$VERSION_TAG\\\"
 message("Version :  $$VERSION_TAG")
-#QMAKE_CXX = /usr/bin/g++-7.1.0
+#QMAKE_CXX = /usr/bin/g++-7.2.0
 greaterThan(QT_MAJOR_VERSION, 5)
 
 # utiliser au moins Qt5 et g++-5.1
@@ -67,7 +67,7 @@ if (!isEmpty(CXX_VERSION)){
     error( "Le compilateur doit être GNU g++, dont la version doit être au moins 5.1" )
 }
 
-QMAKE_CFLAGS =
+
 
 CONFIG  += ordered static
 CONFIG(debug, debug|release) {
@@ -75,14 +75,14 @@ CONFIG(debug, debug|release) {
 
 } else {
   CONFIG += static
-  QMAKE_CXXFLAGS += -O3 -fomit-frame-pointer -fexpensive-optimizations
+  QMAKE_CXXFLAGS += -O3 -fomit-frame-pointer -fexpensive-optimizations -Wall -Wextra
   QMAKE_LFLAGS += -s -licui18n -licuuc -licudata
 }
 
+
 TEMPLATE = app
 
-QT       += core gui xml widgets printsupport
-            #webkitwidgets :   décommenter si STATIC n'est pas défini c-dessous. Nécessite libWebKitWidgets
+QT       += core gui xml widgets
 
 QT       -= opengl
 QT       -= openssl
@@ -90,7 +90,8 @@ QT       -= openssl
 TARGET = Altair
 
 VPATH = .
-
+INCLUDEPATH += ../../fwidgets_lib
+LIBS += libfwidgets_lib.a
 DEFINES += PROGRESSBAR_TIMEOUT=200    # Intervalle d'incrémentation de la barre de progression en millisecondes
                             # Un timeout plus élevé diminue l'overhead mais rend la la progression moins fluide.
                             # Le minimum (timeout = 0) donne des progressions fluides mais augmente de 10 % la durée d'exec.
@@ -101,15 +102,13 @@ DEFINES += MAXIMUM_CONSOLE_OUTPUT=800  \ # Pour limiter le volume de lignes de l
            #HEIGHT=700                   \# Hauteur par défaut de l'interface 
 
 DEFINES += COMMANDLINE_CONSOLE_OUTPUT          \        # Générer la ligne de commande en console (verbeux)
-           GUI_OUTPUT                                   # Balises d'identification des lignes de la console : mode GUI
+           GUI_OUTPUT      \                             # Balises d'identification des lignes de la console : mode GUI
+           HAVE_APPLICATION
 
 DEFINES += QT_NO_OPENGL \
-           STATIC\                                      # utiliser pour lancer le navigateur internet par défaut plustôt qu'un navigateur interne
            LOCAL_BINPATH \                              # chemins d'exécution définis par rapport l'emplacement de l'exécutable
            USE_RIGHT_CLICK  \                           # utiliser un clic droit sur les fichiers pour ajouter, supprimer etc.
            #REGEX_ANONYM   \                            # Utiliser en cas de problème avec l'analyse des données sensibles dans l'anonymisation
-           #INSERT_DIRPAGE   \                          # Utiliser un dialogue de configuration des répertoires          
-           #INSERT_MAXN                                 # Insérer des champs pour -n et -N dans le dialogue d'options 
 
 
 QMAKE_CXXFLAGS += -std=gnu++17                         # obligatoire
@@ -119,36 +118,22 @@ QMAKE_CXXFLAGS += -march=core-avx2  -pipe -m64         # facultatif
 SOURCES += \
     options.cpp \
     mainwindow.cpp \
-    fwidgets.cpp \
-    fstring.cpp \
-    flistframe.cpp \
     altair.cpp \
     common.cpp \
-    forms.cpp \
     main.cpp \
-    browser.cpp \
     xmlparser.cpp \
     highlighter.cpp \
     run.cpp \
-    flineframe.cpp
+
 
 HEADERS  += \
     options.h \
-    fwidgets.h \
-    fstring.h \
-    flistframe.h \
     common.h \
     altair.h \
     enums.h \
-    forms.h \
-    browser.h \
     altair.h \
     highlighter.h \
-    tags.h \
-    templates.h \
     altair-gui.h \
-    flineframe.hpp \
-    version.h
 
 
 RESOURCES += \
