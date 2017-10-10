@@ -177,8 +177,8 @@ Elabore des tableaux permettant de relier l'évolution de la RMPP, du salaire mo
  Lecture : 
  L'effet de l'effet de noria en 2013 était de -0,3 \% en valeur relative en proportion de
  la masse des rémunérations brutes 2013 (autrement dit en points de SMPT). 
- Le total des effets d'entrées-sorties était de -0,6 point de SMPT,soit une économie 
- sur rémunérations brutes versées de 123 806 euros.  
+ Le total des effets d'entrées-sorties était de -0,6 point de SMPT, soit une économie 
+ sur rémunérations brutes versées de 214 418,3 euros.  
  
  | Année |   RMPP   | Entrées n - 1 | Noria | Var. effectifs | Vacances | Total E/S | Ajustement |   SMPT   |
  |-------|----------|---------------|-------|----------------|----------|-----------|------------|----------|
