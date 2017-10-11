@@ -84,7 +84,7 @@ sécuriser.types.sortie         <- TRUE
 utiliser.variable.Heures.Sup. <- FALSE  # faire les tests de seuil IHTS sur la variable Heures.Sup. plutôt que sur la Base ou le  Nb.Unité
 
 
-seuil.troncature               <- 1 # jours
+seuil.troncature               <- 2 # jours
 taux.tolérance.homonymie       <- 2  # en %
 quantile.cut                   <- 1  # en %
 minimum.positif                <- 0.5
